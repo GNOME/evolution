@@ -478,6 +478,8 @@ properties_cmd (BonoboUIHandler *uih, void *user_data, const char *path)
 }
 
 
+#warning FIXME: reinstate this when radiobuttons are implemented
+#if 0
 /* Note: if the order of these is changed, make sure you change the indices
    used to access the widgets in calendar_control_activate(). */
 static GnomeUIInfo gnome_toolbar_view_buttons [] = {
@@ -500,73 +502,34 @@ static GnomeUIInfo gnome_toolbar_view_buttons [] = {
 #endif
 	GNOMEUIINFO_END
 };
+#endif
 
+BonoboUIVerb verbs [] = {
+	BONOBO_UI_VERB ("CalendarNew", new_calendar_cmd),
+	BONOBO_UI_VERB ("CalendarOpen", open_calendar_cmd),
+	BONOBO_UI_VERB ("CalendarSaveAs", save_as_calendar_cmd),
+	BONOBO_UI_VERB ("CalendarPrint", file_print_cb),
+	BONOBO_UI_VERB ("EditNewAppointment", new_appointment_cb),
+	BONOBO_UI_VERB ("CalendarPreferences", properties_cmd),
+	BONOBO_UI_VERB ("AboutCalendar", about_calendar_cmd),
 
-static GnomeUIInfo calendar_toolbar [] = {
-	GNOMEUIINFO_ITEM_STOCK (N_("New"), N_("Create a new appointment"),
-				new_appointment_cb, GNOME_STOCK_PIXMAP_NEW),
+	BONOBO_UI_VERB ("CalendarPrev", previous_clicked),
+	BONOBO_UI_VERB ("CalendarToday", today_clicked),
+	BONOBO_UI_VERB ("CalendarNext", next_clicked),
+	BONOBO_UI_VERB ("CalendarGoto", goto_clicked),
 
-	GNOMEUIINFO_SEPARATOR,
-
-	GNOMEUIINFO_ITEM_STOCK (N_("Print"), N_("Print this calendar"), tb_print_cb, GNOME_STOCK_PIXMAP_PRINT),
-
-	GNOMEUIINFO_SEPARATOR,
-
-	GNOMEUIINFO_ITEM_STOCK (N_("Prev"), N_("Go back in time"), previous_clicked, GNOME_STOCK_PIXMAP_BACK),
-	GNOMEUIINFO_ITEM_STOCK (N_("Today"), N_("Go to present time"), today_clicked, GNOME_STOCK_PIXMAP_HOME),
-	GNOMEUIINFO_ITEM_STOCK (N_("Next"), N_("Go forward in time"), next_clicked, GNOME_STOCK_PIXMAP_FORWARD),
-
-	GNOMEUIINFO_SEPARATOR,
-
-	GNOMEUIINFO_ITEM_STOCK (N_("Go to"), N_("Go to a specific date"), goto_clicked, GNOME_STOCK_PIXMAP_JUMP_TO),
-
-	GNOMEUIINFO_SEPARATOR,
-
-	GNOMEUIINFO_RADIOLIST (gnome_toolbar_view_buttons),
-
-	GNOMEUIINFO_END
+	BONOBO_UI_VERB_END
 };
-
-
-
-/* Performs signal connection as appropriate for interpreters or native bindings */
-static void
-do_ui_signal_connect (GnomeUIInfo *uiinfo, gchar *signal_name,
-		      GnomeUIBuilderData *uibdata)
-{
-	if (uibdata->is_interp)
-		gtk_signal_connect_full (GTK_OBJECT (uiinfo->widget),
-				signal_name, NULL, uibdata->relay_func,
-				uibdata->data ?
-				uibdata->data : uiinfo->user_data,
-				uibdata->destroy_func, FALSE, FALSE);
-
-	else if (uiinfo->moreinfo)
-		gtk_signal_connect (GTK_OBJECT (uiinfo->widget),
-				signal_name, uiinfo->moreinfo, uibdata->data ?
-				uibdata->data : uiinfo->user_data);
-}
-
 
 void
 calendar_control_activate (BonoboControl *control,
 			   GnomeCalendar *cal)
 {
-	Bonobo_UIHandler  remote_uih;
-	GtkWidget *toolbar, *toolbar_frame;
-	BonoboControl *toolbar_control;
-	GnomeUIBuilderData uibdata;
+	Bonobo_UIHandler remote_uih;
 	BonoboUIHandler *uih;
-	int behavior;
 
 	uih = bonobo_control_get_ui_handler (control);
 	g_assert (uih != NULL);
-
-	uibdata.connect_func = do_ui_signal_connect;
-	uibdata.data = cal;
-	uibdata.is_interp = FALSE;
-	uibdata.relay_func = NULL;
-	uibdata.destroy_func = NULL;
 
 	g_print ("In calendar_control_activate\n");
 
@@ -574,6 +537,7 @@ calendar_control_activate (BonoboControl *control,
 	bonobo_ui_handler_set_container (uih, remote_uih);
 	bonobo_object_release_unref (remote_uih, NULL);
 
+#if 0
 	toolbar = gtk_toolbar_new (GTK_ORIENTATION_HORIZONTAL,
 				   GTK_TOOLBAR_BOTH);
 	gnome_app_fill_toolbar_custom (GTK_TOOLBAR (toolbar),
@@ -614,52 +578,31 @@ calendar_control_activate (BonoboControl *control,
 				    behavior,
 				    GNOME_DOCK_TOP,
 				    1, 1, 0);
+#endif
+	
+	{ /* FIXME: sweeten this whole function */
+		char *fname;
+		xmlNode *ui;
+		Bonobo_UIContainer container;
+		BonoboUIComponent *component;
 
-	/* file menu */
-	bonobo_ui_handler_menu_new_item (uih, "/File/New/Calendar", N_("New Ca_lendar"),
-					 N_("Create a new calendar"),
-					 -1, BONOBO_UI_HANDLER_PIXMAP_NONE,
-					 NULL, 0, 0, new_calendar_cmd, cal);
-	bonobo_ui_handler_menu_new_item (uih, "/File/Open/Calendar", N_("Open Ca_lendar"),
-					 N_("Open a calendar"), -1,
-					 BONOBO_UI_HANDLER_PIXMAP_NONE, NULL,
-					 0, 0, open_calendar_cmd, cal);
-	bonobo_ui_handler_menu_new_item (uih, "/File/Save Calendar As",
-					 N_("Save Calendar As"),
-					 N_("Save Calendar As"),
-					 -1,
-					 BONOBO_UI_HANDLER_PIXMAP_NONE, NULL,
-					 0, 0, save_as_calendar_cmd, cal);
-	bonobo_ui_handler_menu_new_item (uih, "/File/Print", N_("Print..."),
-					 N_("Print this calendar"), -1,
-					 BONOBO_UI_HANDLER_PIXMAP_STOCK,
-					 GNOME_STOCK_PIXMAP_PRINT,
-					 'p', GDK_CONTROL_MASK,
-					 file_print_cb, cal);
+		component = bonobo_ui_compat_get_component (uih);
+		bonobo_ui_component_add_verb_list_with_data (
+			component, verbs, cal);
 
-	/* edit menu */
-	bonobo_ui_handler_menu_new_item (uih, "/Edit/New Appointment",
-					 N_("_New appointment..."), N_("Create a new appointment"),
-					 -1, BONOBO_UI_HANDLER_PIXMAP_STOCK,
-					 GNOME_STOCK_MENU_NEW, 0, 0,
-					 new_appointment_cb, cal);
+		container = bonobo_ui_compat_get_container (uih);
+		g_return_if_fail (container != CORBA_OBJECT_NIL);
+		
+		fname = bonobo_ui_util_get_ui_fname ("evolution-calendar.xml");
+		g_warning ("Attempting ui load from '%s'", fname);
+		
+		ui = bonobo_ui_util_new_ui (component, fname, "evolution-calendar");
+		
+		bonobo_ui_component_set_tree (component, container, "/", ui, NULL);
 
-	//bonobo_ui_handler_menu_new_separator (uih, "/Edit", -1);
-
-	bonobo_ui_handler_menu_new_item (uih, "/Edit/Preferences",
-					 N_("Preferences"), N_("Preferences"),
-					 -1, BONOBO_UI_HANDLER_PIXMAP_NONE, NULL,
-					 0, 0, properties_cmd, cal);
-	/* help menu */
-
-	bonobo_ui_handler_menu_new_item (uih,
-					 "/Help/About Calendar",
-					 N_("About Calendar"),
-					 N_("About Calendar"),
-					 -1,
-					 BONOBO_UI_HANDLER_PIXMAP_NONE, NULL,
-					 0, 0, about_calendar_cmd, cal);
-
+		g_free (fname);
+		xmlFreeNode (ui);
+	}
 }
 
 
@@ -671,7 +614,10 @@ calendar_control_deactivate (BonoboControl *control)
 
 	g_print ("In calendar_control_deactivate\n");
 
-	bonobo_ui_handler_dock_remove (uih, "/Toolbar");
+	bonobo_ui_component_rm (
+		bonobo_ui_compat_get_component (uih),
+		bonobo_ui_compat_get_container (uih), "/", NULL);
+
  	bonobo_ui_handler_unset_container (uih);
 }
 
@@ -691,6 +637,7 @@ new_calendar (char *full_name, char *geometry, gboolean hidden)
 {
 	GtkWidget   *toplevel;
 	int         xpos, ypos, width, height;
+
 
 	toplevel = gnome_calendar_new ();
 
@@ -764,7 +711,7 @@ init_calendar (void)
 	am_pm_flag = gnome_config_get_bool ("/calendar/Calendar/AM PM flag=0");
 	week_starts_on_monday = gnome_config_get_bool ("/calendar/Calendar/Week starts on Monday=0");
 
-	if (day_end < day_begin){
+	if (day_end < day_begin) {
 		day_begin = 8;
 		day_end   = 17;
 	}

@@ -1,3 +1,29 @@
+2000-09-07  Michael Meeks  <michael@helixcode.com>
+
+	* e-shell-view-menu.c: Re-hash pretty much the whole file
+
+	* ui.xml: Add.
+
+	* e-shell-view.c (e_shell_view_construct): connect unrealize & delete_event
+	to theit signals on the window (class_init): remove widget_class bits.
+
+2000-09-06  Michael Meeks  <michael@helixcode.com>
+
+	* e-shell.c (view_destroy_cb, destroy, e_shell_new_view, e_shell_quit): 
+	update to track object type change.
+
+	* e-shell.c (e_shell_restore_from_settings): ditto.
+
+	* main.c (idle_cb): ditto.
+
+	* e-shell-view.c (e_shell_view_new, e_shell_view_construct, setup_widgets): 
+	updated for BonoboApp.
+	(progress_bar_timeout_cb, start_progress_bar, stop_progress_bar),
+	(shell_view_interface_set_message_cb, shell_view_interface_unset_message_cb): 
+	emasculated for now.
+
+	* e-storage-set-view.c (popup_folder_menu): disable popup menu for now.
+
 2000-09-13  Ettore Perazzoli  <ettore@helixcode.com>
 
 	* e-shell-view.c (popdown_transient_folder_bar): New.

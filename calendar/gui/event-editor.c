@@ -1394,24 +1394,10 @@ create_toolbar (EventEditor *ee)
 {
 	EventEditorPrivate *priv;
 	BonoboUIHandlerToolbarItem *list;
-	GnomeDockItem *dock_item;
-	GtkWidget *toolbar_child;
 
 	priv = ee->priv;
 
 	bonobo_ui_handler_create_toolbar (priv->uih, "Toolbar");
-
-	/* Fetch the toolbar.  What a pain in the ass. */
-
-	dock_item = gnome_app_get_dock_item_by_name (GNOME_APP (priv->app), GNOME_APP_TOOLBAR_NAME);
-	g_assert (dock_item != NULL);
-
-	toolbar_child = gnome_dock_item_get_child (dock_item);
-	g_assert (toolbar_child != NULL && GTK_IS_TOOLBAR (toolbar_child));
-
-	/* Turn off labels as GtkToolbar sucks */
-	gtk_toolbar_set_style (GTK_TOOLBAR (toolbar_child), GTK_TOOLBAR_ICONS);
-
 	list = bonobo_ui_handler_toolbar_parse_uiinfo_list_with_data (toolbar, ee);
 	bonobo_ui_handler_toolbar_add_list (priv->uih, "/Toolbar", list);
 }
@@ -1446,6 +1432,7 @@ EventEditor *
 event_editor_construct (EventEditor *ee)
 {
 	EventEditorPrivate *priv;
+	GtkWidget *bonobo_win;
 
 	g_return_val_if_fail (ee != NULL, NULL);
 	g_return_val_if_fail (IS_EVENT_EDITOR (ee), NULL);
@@ -1468,6 +1455,24 @@ event_editor_construct (EventEditor *ee)
 	init_widgets (ee);
 
 	/* Construct the app */
+	bonobo_win = bonobo_win_new ("event-editor-dialog", "Event Editor");
+
+	/* FIXME: The sucking bit */
+	{
+		GtkWidget *contents;
+
+		contents = gnome_dock_get_client_area (
+			GNOME_DOCK (GNOME_APP (priv->app)->dock));
+		if (!contents) {
+			g_message ("event_editor_construct(): Could not get contents");
+			goto error;
+		}
+		gtk_widget_ref (contents);
+		gtk_container_remove (GTK_CONTAINER (contents->parent), contents);
+		bonobo_win_set_contents (BONOBO_WIN (bonobo_win), contents);
+		gtk_widget_destroy (priv->app);
+		priv->app = bonobo_win;
+	}
 
 	priv->uih = bonobo_ui_handler_new ();
 	if (!priv->uih) {
@@ -1475,7 +1480,7 @@ event_editor_construct (EventEditor *ee)
 		goto error;
 	}
 
-	bonobo_ui_handler_set_app (priv->uih, GNOME_APP (priv->app));
+	bonobo_ui_handler_set_app (priv->uih, BONOBO_WIN (priv->app));
 
 	create_menu (ee);
 	create_toolbar (ee);
@@ -1791,7 +1796,6 @@ set_all_day (GtkWidget *toggle, EventEditor *ee)
 
 	e_date_edit_set_show_time (E_DATE_EDIT (priv->start_time), !all_day);
 	e_date_edit_set_show_time (E_DATE_EDIT (priv->end_time), !all_day);
-
 	e_date_edit_set_time (E_DATE_EDIT (priv->end_time), mktime (&end_tm));
 }
 

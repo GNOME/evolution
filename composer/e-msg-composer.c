@@ -84,8 +84,10 @@ create_editor (EMsgComposer *composer)
 {
 	GtkWidget *control;
 
-	control = bonobo_widget_new_control (HTML_EDITOR_CONTROL_ID,
-					     bonobo_object_corba_objref (BONOBO_OBJECT (composer->uih)));
+	control = bonobo_widget_new_control (
+		HTML_EDITOR_CONTROL_ID,
+		bonobo_ui_compat_get_container (composer->uih));
+
 	if (control == NULL) {
 		g_error ("Cannot activate `%s'. Did you build gtkhtml with Bonobo and OAF support?", HTML_EDITOR_CONTROL_ID);
 		return NULL;
@@ -1189,7 +1191,7 @@ class_init (EMsgComposerClass *klass)
 	
 	widget_class->delete_event = delete_event;
 	
-	parent_class = gtk_type_class (gnome_app_get_type ());
+	parent_class = gtk_type_class (bonobo_win_get_type ());
 	
 	signals[SEND] =
 		gtk_signal_new ("send",
@@ -1251,7 +1253,7 @@ e_msg_composer_get_type (void)
 			(GtkClassInitFunc) NULL,
 		};
 		
-		type = gtk_type_unique (gnome_app_get_type (), &info);
+		type = gtk_type_unique (bonobo_win_get_type (), &info);
 	}
 	
 	return type;
@@ -1274,11 +1276,11 @@ e_msg_composer_construct (EMsgComposer *composer)
 	gtk_window_set_default_size (GTK_WINDOW (composer),
 				     DEFAULT_WIDTH, DEFAULT_HEIGHT);
 	
-	gnome_app_construct (GNOME_APP (composer), "e-msg-composer",
+	bonobo_win_construct (BONOBO_WIN (composer), "e-msg-composer",
 			     _("Compose a message"));
 	
 	composer->uih = bonobo_ui_handler_new ();
-	bonobo_ui_handler_set_app (composer->uih, GNOME_APP (composer));
+	bonobo_ui_handler_set_app (composer->uih, BONOBO_WIN (composer));
 	
 	vbox = gtk_vbox_new (FALSE, 0);
 	
@@ -1323,7 +1325,7 @@ e_msg_composer_construct (EMsgComposer *composer)
 	gtk_signal_connect (GTK_OBJECT (composer->attachment_bar), "changed",
 			    GTK_SIGNAL_FUNC (attachment_bar_changed_cb), composer);
 
-	gnome_app_set_contents (GNOME_APP (composer), vbox);
+	bonobo_win_set_contents (BONOBO_WIN (composer), vbox);
 	gtk_widget_show (vbox);
 
 	e_msg_composer_show_attachments (composer, FALSE);

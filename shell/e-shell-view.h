@@ -28,8 +28,7 @@
 #include <config.h>
 #endif
 
-#include <libgnomeui/gnome-app.h>
-#include <bonobo/bonobo-ui-handler.h>
+#include <bonobo/bonobo-app.h>
 
 #include "e-shell.h"
 
@@ -57,13 +56,13 @@ enum _EShellViewSubwindowMode {
 typedef enum _EShellViewSubwindowMode EShellViewSubwindowMode;
 
 struct _EShellView {
-	GnomeApp parent;
+	BonoboWin parent;
 
 	EShellViewPrivate *priv;
 };
 
 struct _EShellViewClass {
-	GnomeAppClass parent_class;
+	BonoboWinClass parent_class;
 
 	/* Signals.  */
 	void (* shortcut_bar_mode_changed) (EShellView *shell_view, EShellViewSubwindowMode new_mode);
@@ -72,9 +71,9 @@ struct _EShellViewClass {
 
 
 GtkType                  e_shell_view_get_type               (void);
-void                     e_shell_view_construct              (EShellView              *shell_view,
+EShellView              *e_shell_view_construct              (EShellView              *shell_view,
 							      EShell                  *shell);
-GtkWidget               *e_shell_view_new                    (EShell                  *shell);
+EShellView              *e_shell_view_new                    (EShell                  *shell);
 
 gboolean                 e_shell_view_display_uri            (EShellView              *shell_view,
 							      const char              *uri);

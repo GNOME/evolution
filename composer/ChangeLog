@@ -1,3 +1,7 @@
+2000-09-12  Michael Meeks  <michael@helixcode.com>
+
+	* e-msg-composer.c: Update for new UI handler.
+
 2000-09-12  Larry Ewing  <lewing@helixcode.com>
 
 	* e-msg-composer-attachment-bar.c (add_common): add a make sure

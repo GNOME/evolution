@@ -102,4 +102,6 @@
 
 		</submenu>
 	</menu>
+
+	<toolbar name="Toolbar" relief="none"/>
 </Root>

@@ -321,6 +321,8 @@ setup_local_storage (EShell *shell)
 	e_storage_set_add_storage (priv->storage_set, local_storage);
 	priv->local_storage = E_LOCAL_STORAGE (local_storage);
 
+	gtk_object_unref (GTK_OBJECT (local_storage));
+
 	return TRUE;
 }
 
@@ -405,12 +407,13 @@ view_destroy_cb (GtkObject *object,
 	g_assert (E_IS_SHELL_VIEW (object));
 
 	shell = E_SHELL (data);
-	shell->priv->views = g_list_remove (shell->priv->views, object);
+	shell->priv->views = g_list_remove (
+		shell->priv->views, object);
 
 	if (shell->priv->views == NULL) {
 		/* FIXME: This looks like a Bonobo bug to me.  */
 		bonobo_object_ref (BONOBO_OBJECT (shell));
-		gtk_signal_emit (GTK_OBJECT (shell), signals[NO_VIEWS_LEFT]);
+		gtk_signal_emit (GTK_OBJECT (shell), signals [NO_VIEWS_LEFT]);
 		bonobo_object_unref (BONOBO_OBJECT (shell));
 	}
 }
@@ -450,8 +453,10 @@ destroy (GtkObject *object)
 
 		view = E_SHELL_VIEW (p->data);
 
-		gtk_signal_disconnect_by_func (GTK_OBJECT (view),
-					       GTK_SIGNAL_FUNC (view_destroy_cb), shell);
+		gtk_signal_disconnect_by_func (
+			GTK_OBJECT (view),
+			GTK_SIGNAL_FUNC (view_destroy_cb), shell);
+		
 		gtk_object_destroy (GTK_OBJECT (view));
 	}
 
@@ -640,20 +645,20 @@ e_shell_new (const char *local_directory)
  * 
  * Create a new view for @uri.
  * 
- * Return value: The widget for the new view.
+ * Return value: The new view.
  **/
-GtkWidget *
+EShellView *
 e_shell_new_view (EShell *shell,
 		  const char *uri)
 {
-	GtkWidget *view;
+	EShellView *view;
 
 	g_return_val_if_fail (shell != NULL, NULL);
 	g_return_val_if_fail (E_IS_SHELL (shell), NULL);
 
 	view = e_shell_view_new (shell);
 
-	gtk_widget_show (view);
+	gtk_widget_show (GTK_WIDGET (view));
 	gtk_signal_connect (GTK_OBJECT (view), "destroy",
 			    GTK_SIGNAL_FUNC (view_destroy_cb), shell);
 
@@ -899,16 +904,16 @@ e_shell_restore_from_settings (EShell *shell)
 	retval = TRUE;
 
 	for (i = 0; i < num_views; i++) {
-		GtkWidget *view_widget;
+		EShellView *view;
 
 		prefix = g_strdup_printf ("=%s/config/Shell=/Views/%d/",
 					  priv->local_directory, i);
 
 		/* FIXME restore the URI here.  There should be an
                    e_shell_view_new_from_configuration() thingie.  */
-		view_widget = e_shell_new_view (shell, NULL);
+		view = e_shell_new_view (shell, NULL);
 
-		if (! e_shell_view_load_settings (E_SHELL_VIEW (view_widget), prefix))
+		if (! e_shell_view_load_settings (view, prefix))
 			retval = FALSE;
 
 		g_free (prefix);
@@ -941,9 +946,10 @@ e_shell_quit (EShell *shell)
 		EShellView *shell_view;
 
 		shell_view = E_SHELL_VIEW (p->data);
-		gtk_signal_disconnect_by_func (GTK_OBJECT (shell_view),
-					       GTK_SIGNAL_FUNC (view_destroy_cb), shell);
-		gtk_widget_destroy (GTK_WIDGET (shell_view));
+		gtk_signal_disconnect_by_func (
+			GTK_OBJECT (shell_view),
+			GTK_SIGNAL_FUNC (view_destroy_cb), shell);
+		gtk_object_destroy (GTK_OBJECT (shell_view));
 	}
 
 	g_list_free (priv->views);

@@ -120,7 +120,7 @@
 		</placeholder>
 	</menu>
 
-	<dockitem name="Toolbar">
+	<dockitem name="Toolbar" relief="none">
 
 		<toolitem name="MailGet" verb=""
 		_label="Get Mail" _descr="Send queued mail and retrieve new mail"

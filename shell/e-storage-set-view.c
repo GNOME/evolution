@@ -237,6 +237,7 @@ popup_folder_menu (EStorageSetView *storage_set_view,
 	BonoboUIHandler *uih;
 	EFolder *folder;
 
+#if 0	
 	priv = storage_set_view->priv;
 
 	uih = bonobo_ui_handler_new ();
@@ -265,6 +266,7 @@ popup_folder_menu (EStorageSetView *storage_set_view,
 	bonobo_ui_handler_do_popup_menu (uih);
 
 	bonobo_object_unref (BONOBO_OBJECT (uih));
+#endif
 }
 
 

@@ -1,3 +1,7 @@
+2000-09-07  Michael Meeks  <michael@helixcode.com>
+
+	* configure.in: Require Bonobo 0.19
+
 2000-09-13  Christopher James Lahey  <clahey@helixcode.com>
 
 	* configure.in: Added widgets/e-reflow/Makefile.  Replaced

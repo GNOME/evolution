@@ -32,6 +32,7 @@
 #include "e-shell-constants.h"
 
 #include "e-shell-view-menu.h"
+#include <bonobo.h>
 
 
 /* EShellView callbacks.  */
@@ -53,6 +54,7 @@ shortcut_bar_mode_changed_cb (EShellView *shell_view,
 	path = (const char *) data;
 	uih = e_shell_view_get_bonobo_ui_handler (shell_view);
 
+#warning FIXME: use node_set
 	bonobo_ui_handler_menu_set_toggle_state (uih, path, toggle_state);
 }
 
@@ -73,6 +75,7 @@ folder_bar_mode_changed_cb (EShellView *shell_view,
 	path = (const char *) data;
 	uih = e_shell_view_get_bonobo_ui_handler (shell_view);
 
+#warning FIXME: use node_set
 	bonobo_ui_handler_menu_set_toggle_state (uih, path, toggle_state);
 }
 
@@ -189,17 +192,19 @@ command_help (BonoboUIHandler *uih,
 }
 
 static void
-command_toggle_folder_bar (BonoboUIHandler *uih,
-			   void *data,
-			   const char *path)
+command_toggle_folder_bar (BonoboUIComponent           *component,
+			   const char                  *path,
+			   Bonobo_UIComponent_EventType type,
+			   const char                  *state,
+			   gpointer                     user_data)
 {
 	EShellView *shell_view;
 	EShellViewSubwindowMode mode;
 	gboolean show;
 
-	shell_view = E_SHELL_VIEW (data);
+	shell_view = E_SHELL_VIEW (user_data);
 
-	show = bonobo_ui_handler_menu_get_toggle_state (uih, path);
+	show = atoi (state);
 	if (show)
 		mode = E_SHELL_VIEW_SUBWINDOW_STICKY;
 	else
@@ -209,17 +214,20 @@ command_toggle_folder_bar (BonoboUIHandler *uih,
 }
 
 static void
-command_toggle_shortcut_bar (BonoboUIHandler *uih,
-			     void *data,
-			     const char *path)
+command_toggle_shortcut_bar (BonoboUIComponent           *component,
+			     const char                  *path,
+			     Bonobo_UIComponent_EventType type,
+			     const char                  *state,
+			     gpointer                     user_data)
+
 {
 	EShellView *shell_view;
 	EShellViewSubwindowMode mode;
 	gboolean show;
 
-	shell_view = E_SHELL_VIEW (data);
+	shell_view = E_SHELL_VIEW (user_data);
 
-	show = bonobo_ui_handler_menu_get_toggle_state (uih, path);
+	show = atoi (state);
 
 	if (show)
 		mode = E_SHELL_VIEW_SUBWINDOW_STICKY;
@@ -368,219 +376,53 @@ DEFINE_UNIMPLEMENTED (command_new_mail_message)
 DEFINE_UNIMPLEMENTED (command_new_contact)
 DEFINE_UNIMPLEMENTED (command_new_task_request)
 
-
-static void
-menu_create_file_new (BonoboUIHandler *uih,
-		      void *data)
-{
-	bonobo_ui_handler_menu_new_subtree (uih, "/File/New",
-					    _("_New"),
-					    NULL, -1,
-					    BONOBO_UI_HANDLER_PIXMAP_NONE, NULL,
-					    0, 0);
+BonoboUIVerb new_verbs [] = {
+	BONOBO_UI_VERB ("NewView", command_new_view),
+	BONOBO_UI_VERB ("NewFolder", command_new_folder),
+	BONOBO_UI_VERB ("NewShortcut", command_new_shortcut),
+	BONOBO_UI_VERB ("NewMailMessage", command_new_mail_message),
 
-	bonobo_ui_handler_menu_new_item (uih, "/File/New/View",
-					 _("_View"),
-					 NULL, -1,
-					 BONOBO_UI_HANDLER_PIXMAP_NONE, NULL,
-					 'v', GDK_CONTROL_MASK | GDK_SHIFT_MASK,
-					 command_new_view, data);
-	bonobo_ui_handler_menu_new_item (uih, "/File/New/View",
-					 _("_Folder"),
-					 NULL, -1,
-					 BONOBO_UI_HANDLER_PIXMAP_NONE, NULL,
-					 'f', GDK_CONTROL_MASK | GDK_SHIFT_MASK,
-					 command_new_folder, data);
-	bonobo_ui_handler_menu_new_item (uih, "/File/New/Evolution bar shortcut",
-					 _("Evolution bar _shortcut"),
-					 NULL, -1,
-					 BONOBO_UI_HANDLER_PIXMAP_NONE, NULL,
-					 's', GDK_CONTROL_MASK | GDK_SHIFT_MASK,
-					 command_new_shortcut, data);
+	BONOBO_UI_VERB ("NewAppointment", command_new_shortcut),
+	BONOBO_UI_VERB ("NewContact", command_new_contact),
+	BONOBO_UI_VERB ("NewTask", command_new_task_request),
 
-	bonobo_ui_handler_menu_new_separator (uih, "/File/New/Separator1", -1);
-	
-	bonobo_ui_handler_menu_new_item (uih, "/File/New/Mail message",
-					 _("_Mail message (FIXME)"),
-					 NULL, -1,
-					 BONOBO_UI_HANDLER_PIXMAP_NONE, NULL,
-					 'm', GDK_CONTROL_MASK | GDK_SHIFT_MASK,
-					 command_new_mail_message, data);
-	bonobo_ui_handler_menu_new_item (uih, "/File/New/Appointment",
-					 _("_Appointment (FIXME)"),
-					 NULL, -1,
-					 BONOBO_UI_HANDLER_PIXMAP_NONE, NULL,
-					 'a', GDK_CONTROL_MASK | GDK_SHIFT_MASK,
-					 command_new_shortcut, data);
-	bonobo_ui_handler_menu_new_item (uih, "/File/New/Contact",
-					 _("_Contact (FIXME)"),
-					 NULL, -1,
-					 BONOBO_UI_HANDLER_PIXMAP_NONE, NULL,
-					 'c', GDK_CONTROL_MASK | GDK_SHIFT_MASK,
-					 command_new_contact, data);
-	bonobo_ui_handler_menu_new_item (uih, "/File/New/Contact",
-					 _("_Task (FIXME)"),
-					 NULL, -1,
-					 BONOBO_UI_HANDLER_PIXMAP_NONE, NULL,
-					 't', GDK_CONTROL_MASK | GDK_SHIFT_MASK,
-					 command_new_task_request, data);
-}
+	BONOBO_UI_VERB_END
+};
+
+BonoboUIVerb file_verbs [] = {
+	BONOBO_UI_VERB ("FileGoToFolder", command_goto_folder),
+	BONOBO_UI_VERB ("FileCreateFolder", command_create_folder),
+	BONOBO_UI_VERB ("FileExit", command_quit),
+
+	BONOBO_UI_VERB_END
+};
+
+BonoboUIVerb help_verbs [] = {
+	BONOBO_UI_VERB_DATA ("HelpIndex", command_help, "index.html"),
+	BONOBO_UI_VERB_DATA ("HelpGetStarted", command_help, "usage-mainwindow.html"),
+	BONOBO_UI_VERB_DATA ("HelpUsingMail", command_help, "usage-mail.html"),
+	BONOBO_UI_VERB_DATA ("HelpUsingCalender", command_help, "usage-calender.html"),
+	BONOBO_UI_VERB_DATA ("HelpUsingContact", command_help, "usage-contact.html"),
+
+	BONOBO_UI_VERB_END
+};
 
 static void
-menu_create_file (BonoboUIHandler *uih,
-		  void *data)
+menu_do_misc (BonoboUIComponent *component,
+	      EShellView        *shell_view)
 {
-	bonobo_ui_handler_menu_new_subtree (uih, "/File",
-					    _("_File"),
-					    NULL, -1,
-					    BONOBO_UI_HANDLER_PIXMAP_NONE, NULL,
-					    0, 0);
-
-	menu_create_file_new (uih, data);
-
-	bonobo_ui_handler_menu_new_separator (uih, "/File/Separator1", -1);
-
-	bonobo_ui_handler_menu_new_item (uih, "/File/Go to folder",
-					 _("_Go to Folder..."),
-					 _("Display a different folder"),
-					 -1,
-					 BONOBO_UI_HANDLER_PIXMAP_NONE, NULL,
-					 0, 0,
-					 command_goto_folder, data);
-
-	bonobo_ui_handler_menu_new_item (uih, "/File/Create new folder",
-					 _("_Create New Folder..."),
-					 _("Create a new folder"),
-					 -1,
-					 BONOBO_UI_HANDLER_PIXMAP_NONE, NULL,
-					 0, 0,
-					 command_create_folder, data);
-
-	bonobo_ui_handler_menu_new_placeholder (uih, "/File/<Print Placeholder>");
-
-	bonobo_ui_handler_menu_new_separator (uih, "/File/Separator2", -1);
-
-	bonobo_ui_handler_menu_new_item (uih, "/File/Exit",
-					 _("E_xit..."),
-					 _("Create a new folder"),
-					 -1,
-					 BONOBO_UI_HANDLER_PIXMAP_STOCK,
-					 GNOME_STOCK_MENU_EXIT,
-					 0, 0,
-					 command_quit, data);
-}
-
-static void
-menu_create_edit (BonoboUIHandler *uih,
-		  void *data)
-{
-	bonobo_ui_handler_menu_new_subtree (uih, "/Edit",
-					    _("_Edit"),
-					    NULL, -1,
-					    BONOBO_UI_HANDLER_PIXMAP_NONE, NULL,
-					    0, 0);
-}
-
-static void
-menu_create_view (BonoboUIHandler *uih,
-		  void *data)
-{
-	bonobo_ui_handler_menu_new_subtree (uih, "/View",
-					    _("_View"),
-					    NULL, -1,
-					    BONOBO_UI_HANDLER_PIXMAP_NONE, NULL,
-					    0, 0);
-
-	bonobo_ui_handler_menu_new_toggleitem (uih, "/View/Show shortcut bar",
-					       _("Show _Shortcut Bar"),
-					       _("Show the shortcut bar"),
-					       -1,
-					       0, 0,
-					       command_toggle_shortcut_bar, data);
-	bonobo_ui_handler_menu_new_toggleitem (uih, "/View/Show folder bar",
-					       _("Show _Folder Bar"),
-					       _("Show the folder bar"),
-					       -1,
-					       0, 0,
-					       command_toggle_folder_bar, data);
-}
-
-static void
-menu_create_settings (BonoboUIHandler *uih,
-		      void *data)
-{
-	bonobo_ui_handler_menu_new_subtree (uih, "/Settings",
-					    _("_Settings"),
-					    NULL, -1,
-					    BONOBO_UI_HANDLER_PIXMAP_NONE, NULL,
-					    0, 0);
-}
-
-static void
-menu_create_help (BonoboUIHandler *uih,
-		  void *data)
-{
-	bonobo_ui_handler_menu_new_subtree (uih, "/Help",
-					    _("_Help"),
-					    NULL, -1,
-					    BONOBO_UI_HANDLER_PIXMAP_NONE, NULL,
-					    0, 0);
-
-	bonobo_ui_handler_menu_new_item (uih, "/Help/Help index",
-					 _("Help _Index"),
-					 NULL,
-					 -1,
-					 BONOBO_UI_HANDLER_PIXMAP_NONE, NULL,
-					 0, 0,
-					 command_help, "index.html");
-	bonobo_ui_handler_menu_new_item (uih, "/Help/Getting started",
-					 _("Getting _Started"),
-					 NULL,
-					 -1,
-					 BONOBO_UI_HANDLER_PIXMAP_NONE, NULL,
-					 0, 0,
-					 command_help, "usage-mainwindow.html");
-	bonobo_ui_handler_menu_new_item (uih, "/Help/Using the mailer",
-					 _("Using the _Mailer"),
-					 NULL,
-					 -1,
-					 BONOBO_UI_HANDLER_PIXMAP_NONE, NULL,
-					 0, 0,
-					 command_help, "usage-mail.html");
-	bonobo_ui_handler_menu_new_item (uih, "/Help/Using the calendar",
-					 _("Using the _Calendar"),
-					 NULL,
-					 -1,
-					 BONOBO_UI_HANDLER_PIXMAP_NONE, NULL,
-					 0, 0,
-					 command_help, "usage-calendar.html");
-	bonobo_ui_handler_menu_new_item (uih, "/Help/Using the contact manager",
-					 _("Using the C_ontact Manager"),
-					 NULL,
-					 -1,
-					 BONOBO_UI_HANDLER_PIXMAP_NONE, NULL,
-					 0, 0,
-					 command_help, "usage-contact.html");
-
-	bonobo_ui_handler_menu_new_separator (uih, "/Help/Separator1", -1);
-
-	bonobo_ui_handler_menu_new_item (uih, "/Help/Submit bug report",
-					 _("_Submit Bug Report"),
-					 _("Submit bug report using Bug Buddy"),
-					 -1,
-					 BONOBO_UI_HANDLER_PIXMAP_NONE, NULL,
-					 0, 0,
-					 command_run_bugbuddy, data);
-
-	bonobo_ui_handler_menu_new_separator (uih, "/Help/Separator2", -1);
-
-	bonobo_ui_handler_menu_new_item (uih, "/Help/About Evolution",
-					 _("_About Evolution..."),
-					 _("Show information about Evolution"),
-					 -1,
-					 BONOBO_UI_HANDLER_PIXMAP_NONE, NULL,
-					 0, 0,
-					 command_about_box, data);
+	bonobo_ui_component_add_listener (
+		component, "ViewShortcutBar",
+		command_toggle_shortcut_bar, shell_view);
+	bonobo_ui_component_add_listener (
+		component, "ViewFolderBar",
+		command_toggle_folder_bar, shell_view);
+	bonobo_ui_component_add_verb (
+		component, "HelpSubmitBug",
+		(BonoboUIVerbFn) command_run_bugbuddy, shell_view);
+	bonobo_ui_component_add_verb (
+		component, "HelpAbout",
+		(BonoboUIVerbFn) command_about_box, shell_view);
 }
 
 
@@ -592,20 +434,28 @@ void
 e_shell_view_menu_setup (EShellView *shell_view)
 {
 	BonoboUIHandler *uih;
+	Bonobo_UIContainer container;
+	BonoboUIComponent *component;
+	char *fname;
+	xmlNode *ui;
 
 	g_return_if_fail (shell_view != NULL);
 	g_return_if_fail (E_IS_SHELL_VIEW (shell_view));
 
 	uih = e_shell_view_get_bonobo_ui_handler (shell_view);
 
-	menu_create_file     (uih, shell_view);
-	menu_create_edit     (uih, shell_view);
-	menu_create_view     (uih, shell_view);
-	menu_create_settings (uih, shell_view);
+	component = bonobo_ui_compat_get_component (uih);
 
-	bonobo_ui_handler_menu_new_placeholder (uih, "/<Component Placeholder>");
-	
-	menu_create_help     (uih, shell_view);
+	bonobo_ui_component_add_verb_list_with_data (
+		component, file_verbs, shell_view);
+
+	bonobo_ui_component_add_verb_list_with_data (
+		component, new_verbs, shell_view);
+
+	bonobo_ui_component_add_verb_list_with_data (
+		component, help_verbs, shell_view);
+
+	menu_do_misc (component, shell_view);
 
 	gtk_signal_connect (GTK_OBJECT (shell_view), "shortcut_bar_mode_changed",
 			    GTK_SIGNAL_FUNC (shortcut_bar_mode_changed_cb),
@@ -615,9 +465,20 @@ e_shell_view_menu_setup (EShellView *shell_view)
 			    FOLDER_BAR_TOGGLE_PATH);
 
 	/* Initialize the toggles.  Yeah, this is, well, yuck.  */
-
 	folder_bar_mode_changed_cb   (shell_view, e_shell_view_get_folder_bar_mode (shell_view),
 				      FOLDER_BAR_TOGGLE_PATH);
 	shortcut_bar_mode_changed_cb (shell_view, e_shell_view_get_shortcut_bar_mode (shell_view),
 				      SHORTCUT_BAR_TOGGLE_PATH);
+
+	container = bonobo_ui_compat_get_container (uih);
+	g_return_if_fail (container != CORBA_OBJECT_NIL);
+
+	fname = bonobo_ui_util_get_ui_fname ("evolution.xml");
+	g_warning ("Attempting ui load from '%s'", fname);
+
+	ui = bonobo_ui_util_new_ui (component, fname, "evolution");
+
+	bonobo_ui_component_set_tree (component, container, "/", ui, NULL);
+	g_free (fname);
+	xmlFreeNode (ui);
 }

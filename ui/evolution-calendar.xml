@@ -49,7 +49,7 @@
 		</submenu>
 	</menu>
 
-	<dockitem name="Toolbar">
+	<dockitem name="Toolbar" relief="none">
 		<toolitem name="New" _label="New"
 		_decr="Create a new appointment" verb="EditNewAppointment"
 		pixtype="stock" pixname="New"/>

@@ -110,7 +110,7 @@ development_warning ()
 static gint
 idle_cb (gpointer data)
 {
-	GtkWidget *view;
+	EShellView *view;
 	char *evolution_directory;
 
 	evolution_directory = (char *) data;

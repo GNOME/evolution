@@ -1,3 +1,7 @@
+2000-09-07  Michael Meeks  <michael@helixcode.com>
+
+	* gui/component/addressbook.c: Radicaly update UI handler code.
+
 2000-09-13  Christopher James Lahey  <clahey@helixcode.com>
 
 	* gui/widgets/*, gui/minicard/*: Moved gui/minicard to

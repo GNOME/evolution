@@ -36,7 +36,7 @@
 		</placeholder>
 	</menu>
 
-	<dockitem name="Toolbar">
+	<dockitem name="Toolbar" relief="none">
 		<toolitem name="New" _label="New"
 		_decr="Create a new contact" verb="ContactNew"
 		pixtype="stock" pixname="New"/>
@@ -56,6 +56,8 @@
 		pixtype="stock" pixname="Trash"/>
 
 		<toolitem type="separator"/>
+
+		<control name="QuickSearch"/>
 
 	</dockitem>
 

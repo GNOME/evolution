@@ -41,10 +41,10 @@ register_ondemand (RuleContext *f, FilterRule *rule, gpointer data)
 	oc = g_new (struct fb_ondemand_closure, 1);
 	oc->rule = rule;
 	oc->fb = fb;
-	oc->path = g_strdup_printf ("/<Component Placeholder>/Folder/Filter-%s", rule->name);
+	oc->path = g_strdup_printf ("/*Component Placeholder*/Folder/Filter-%s", rule->name);
 
 	if (fb->filter_menu_paths == NULL)
-		bonobo_ui_handler_menu_new_separator (uih, "/<Component Placeholder>/Folder/separator1", -1);
+		bonobo_ui_handler_menu_new_separator (uih, "/*Component Placeholder*/Folder/separator1", -1);
 
 	text = g_strdup_printf (_("Run filter \"%s\""), rule->name);
 	fb->filter_menu_paths = g_slist_prepend (fb->filter_menu_paths, oc);
@@ -72,19 +72,53 @@ create_ondemand_hooks (FolderBrowser *fb, BonoboUIHandler *uih)
 	g_free (user);
 }
 
-static void
-remove_ondemand_hooks (FolderBrowser *fb, BonoboUIHandler *uih)
-{
-	GSList *iter;
-	struct fb_ondemand_closure *oc;
+/*
+ * Add with 'folder_browser'
+ */
+BonoboUIVerb verbs [] = {
+	BONOBO_UI_VERB ("PrintMessage", print_msg),
 
-	for (iter = fb->filter_menu_paths; iter; iter = iter->next) {
-		oc = (struct fb_ondemand_closure *) iter->data;
+	/* Settings Menu */
+	BONOBO_UI_VERB ("SetMailFilter", filter_edit),
+	BONOBO_UI_VERB ("VFolderEdit", vfolder_edit_vfolders),
+	BONOBO_UI_VERB ("SetMailConfig", providers_config),
+	BONOBO_UI_VERB ("SetForgetPwd", forget_passwords),
 
-		bonobo_ui_handler_menu_remove (uih, oc->path);
-	}
-}
+	/* Message Menu */
+	BONOBO_UI_VERB ("MessageOpenNewWnd", view_message),
+	BONOBO_UI_VERB ("MessageEdit", edit_message),
+	BONOBO_UI_VERB ("MessagePrint", print_msg),
+	BONOBO_UI_VERB ("MessageReplySndr", reply_to_sender),
+	BONOBO_UI_VERB ("MessageReplyAll", reply_to_all),
+	BONOBO_UI_VERB ("MessageForward", forward_msg),
+	BONOBO_UI_VERB ("MessageDelete", delete_msg),
+	BONOBO_UI_VERB ("MessageMove", move_msg),
+	BONOBO_UI_VERB ("MessageCopy", copy_msg),
 
+	BONOBO_UI_VERB ("MessageVFolderSubj", vfolder_subject),
+	BONOBO_UI_VERB ("MessageVFolderSndr", vfolder_sender),
+	BONOBO_UI_VERB ("MessageVFolderRecip", vfolder_recipient),
+
+	BONOBO_UI_VERB ("MessageFilterSubj", filter_subject),
+	BONOBO_UI_VERB ("MessageFilderSndr", filter_sender),
+	BONOBO_UI_VERB ("MessageFilderRecip", filter_recipient),
+
+	/* Folder Menu */
+	BONOBO_UI_VERB ("FolderMarkAllRead", mark_all_seen),
+	BONOBO_UI_VERB ("FolderDeleteAll", mark_all_deleted),
+	BONOBO_UI_VERB ("FolderExpunge", expunge_folder),
+	BONOBO_UI_VERB ("FolderConfig", configure_folder),
+
+	/* Toolbar specific */
+	BONOBO_UI_VERB ("MailGet", send_receieve_mail),
+	BONOBO_UI_VERB ("MailCompose", compose_msg),
+
+	BONOBO_UI_VERB_END
+};
+
+
+#warning FIXME: some clever person added this recently
+#if 0
 static void
 add_button_to_toolbar (GtkToolbar *toolbar,
 		       const char *label,
@@ -160,16 +194,15 @@ fill_toolbar (FolderBrowser *folder_browser,
 	gtk_toolbar_set_button_relief (toolbar, GTK_RELIEF_NONE);
 	gtk_widget_show_all (GTK_WIDGET (toolbar));
 }
+#endif
 
 static void
 control_activate (BonoboControl *control, BonoboUIHandler *uih,
 		  FolderBrowser *fb)
 {
-	Bonobo_UIHandler  remote_uih;
-	BonoboControl *toolbar_control;
-	GnomeDockItemBehavior behavior;
-	GtkWidget *toolbar, *toolbar_frame, *folder_browser;
-	char *toolbar_name = g_strdup_printf ("/Toolbar%d", fb->serial);
+	GtkWidget         *folder_browser;
+	Bonobo_UIHandler   remote_uih;
+	BonoboUIComponent *component;
 
 	remote_uih = bonobo_control_get_remote_ui_handler (control);
 	bonobo_ui_handler_set_container (uih, remote_uih);
@@ -177,192 +210,36 @@ control_activate (BonoboControl *control, BonoboUIHandler *uih,
 
 	folder_browser = bonobo_control_get_widget (control);
 
-	/* File Menu */
-	bonobo_ui_handler_menu_new_item (
-		uih, "/File/<Print Placeholder>/Print message...",
-		_("_Print Message"), NULL, -1,
-		BONOBO_UI_HANDLER_PIXMAP_STOCK, GNOME_STOCK_MENU_PRINT,
-		0, 0, (void *) print_msg, folder_browser);
-	bonobo_ui_handler_menu_new_separator (
-		uih, "/File/<Print Placeholder>/separator1", -1);
+	component = bonobo_ui_compat_get_component (uih);
+	bonobo_ui_component_add_verb_list_with_data (
+		component, verbs, folder_browser);
 
-	/* View Menu */
-	bonobo_ui_handler_menu_new_separator (
-		uih, "/View/separator1", -1);
-	bonobo_ui_handler_menu_new_toggleitem (
-		uih, "/View/Threaded", _("_Threaded Message List"),
-		NULL, -1, 0, 0, NULL, NULL);
-	bonobo_ui_handler_menu_set_toggle_state (
-		uih, "/View/Threaded", mail_config_thread_list());
-	bonobo_ui_handler_menu_set_callback (
-		uih, "/View/Threaded", message_list_toggle_threads,
-		FOLDER_BROWSER (folder_browser)->message_list, NULL);
-
-	/* Settings Menu */
-	bonobo_ui_handler_menu_new_item (
-		uih, "/Settings/Mail Filters...",
-		_("Mail _Filters..."), NULL, -1,
-		BONOBO_UI_HANDLER_PIXMAP_NONE, NULL, 0, 0,
-		filter_edit, folder_browser);
-	bonobo_ui_handler_menu_new_item (
-		uih, "/Settings/Virtual Folder Editor...",
-		_("_Virtual Folder Editor..."), NULL, -1,
-		BONOBO_UI_HANDLER_PIXMAP_NONE, NULL, 0, 0,
-		vfolder_edit_vfolders, folder_browser);
-	bonobo_ui_handler_menu_new_item (
-		uih, "/Settings/Mail Configuration...",
-		_("_Mail Configuration..."), NULL, -1,
-		BONOBO_UI_HANDLER_PIXMAP_NONE, NULL, 0, 0,
-		providers_config, folder_browser);
-	bonobo_ui_handler_menu_new_item (
-		uih, "/Settings/Forget Passwords",
-		_("Forget _Passwords"), NULL, -1,
-		BONOBO_UI_HANDLER_PIXMAP_NONE, NULL, 0, 0,
-		forget_passwords, folder_browser);
-
-	/* Message Menu */
-	/* Keep in sync with right-click menu in message-list.c:on_right_click*/
-	bonobo_ui_handler_menu_new_subtree (
-		uih, "/<Component Placeholder>/Message",
-		_("_Message"), NULL, -1,
-		BONOBO_UI_HANDLER_PIXMAP_NONE, NULL, 0, 0);
-	bonobo_ui_handler_menu_new_item (
-		uih, "/<Component Placeholder>/Message/Open in New Window", 
-		_("_Open in New Window"), NULL, -1,
-		BONOBO_UI_HANDLER_PIXMAP_NONE, NULL,
-		'o', GDK_CONTROL_MASK,
-		view_message, folder_browser);
-	bonobo_ui_handler_menu_new_item (
-		uih, "/<Component Placeholder>/Message/Edit Message",
-		_("_Edit Message"), NULL, -1,
-		BONOBO_UI_HANDLER_PIXMAP_NONE, NULL, 0, 0,
-		edit_message, folder_browser);
-	bonobo_ui_handler_menu_new_item (
-		uih, "/<Component Placeholder>/Message/Print Message",
-		_("_Print Message"), NULL, -1,
-		BONOBO_UI_HANDLER_PIXMAP_NONE, NULL, 0, 0,
-		(void *) print_msg, folder_browser);
-	bonobo_ui_handler_menu_new_separator (
-		uih, "/<Component Placeholder>/Message/separator1", -1);
-	bonobo_ui_handler_menu_new_item (
-		uih, "/<Component Placeholder>/Message/Reply to Sender",
-		_("Reply to _Sender"), NULL, -1,
-		BONOBO_UI_HANDLER_PIXMAP_NONE, NULL, 0, 0,
-		(void *) reply_to_sender, folder_browser);
-	bonobo_ui_handler_menu_new_item (
-		uih, "/<Component Placeholder>/Message/Reply to All",
-		_("Reply to _All"), NULL, -1,
-		BONOBO_UI_HANDLER_PIXMAP_NONE, NULL, 0, 0,
-		(void *) reply_to_all, folder_browser);
-	bonobo_ui_handler_menu_new_item (
-		uih, "/<Component Placeholder>/Message/Forward",
-		_("_Forward"), NULL, -1,
-		BONOBO_UI_HANDLER_PIXMAP_NONE, NULL, 0, 0,
-		(void *) forward_msg, folder_browser);
-	bonobo_ui_handler_menu_new_separator (
-		uih, "/<Component Placeholder>/Message/separator2", -1);
-	bonobo_ui_handler_menu_new_item (
-		uih, "/<Component Placeholder>/Message/Delete Message",
-		_("_Delete Message"), NULL, -1,
-		BONOBO_UI_HANDLER_PIXMAP_NONE, NULL, 0, 0,
-		(void *) delete_msg, folder_browser);
-	bonobo_ui_handler_menu_new_item (
-		uih, "/<Component Placeholder>/Message/Move Message",
-		_("_Move Message"), NULL, -1,
-		BONOBO_UI_HANDLER_PIXMAP_NONE, NULL, 0, 0,
-		(void *) move_msg, folder_browser);
-	bonobo_ui_handler_menu_new_item (
-		uih, "/<Component Placeholder>/Message/Copy Message",
-		_("_Copy Message"), NULL, -1,
-		BONOBO_UI_HANDLER_PIXMAP_NONE, NULL, 0, 0,
-		(void *) copy_msg, folder_browser);
-	bonobo_ui_handler_menu_new_separator (
-		uih, "/<Component Placeholder>/Message/separator3", -1);
-	bonobo_ui_handler_menu_new_item (
-		uih, "/<Component Placeholder>/Message/VFolder on Subject",
-		_("_VFolder on Subject"), NULL, -1,
-		BONOBO_UI_HANDLER_PIXMAP_NONE, NULL, 0, 0,
-		(void *) vfolder_subject, folder_browser);
-	bonobo_ui_handler_menu_new_item (
-		uih, "/<Component Placeholder>/Message/VFolder on Sender",
-		_("VFolder on Se_nder"), NULL, -1,
-		BONOBO_UI_HANDLER_PIXMAP_NONE, NULL, 0, 0,
-		(void *) vfolder_sender, folder_browser);
-	bonobo_ui_handler_menu_new_item (
-		uih, "/<Component Placeholder>/Message/VFolder on Recipients",
-		_("VFolder on _Recipients"), NULL, -1,
-		BONOBO_UI_HANDLER_PIXMAP_NONE, NULL, 0, 0,
-		(void *) vfolder_recipient, folder_browser);
-	bonobo_ui_handler_menu_new_separator (
-		uih, "/<Component Placeholder>/Message/separator4", -1);
-	bonobo_ui_handler_menu_new_item (
-		uih, "/<Component Placeholder>/Message/Filter on Subject",
-		_("_Filter on Subject"), NULL, -1,
-		BONOBO_UI_HANDLER_PIXMAP_NONE, NULL, 0, 0,
-		(void *) filter_subject, folder_browser);
-	bonobo_ui_handler_menu_new_item (
-		uih, "/<Component Placeholder>/Message/Filter on Sender",
-		_("Fi_lter on Sender"), NULL, -1,
-		BONOBO_UI_HANDLER_PIXMAP_NONE, NULL, 0, 0,
-		(void *) filter_sender, folder_browser);
-	bonobo_ui_handler_menu_new_item (
-		uih, "/<Component Placeholder>/Message/Filter on Recipients",
-		_("Filter on Rec_ipients"), NULL, -1,
-		BONOBO_UI_HANDLER_PIXMAP_NONE, NULL, 0, 0,
-		(void *) filter_recipient, folder_browser);
-
-	/* Folder Menu */
-	bonobo_ui_handler_menu_new_subtree (
-		uih, "/<Component Placeholder>/Folder",
-		_("F_older"), NULL, -1,
-		BONOBO_UI_HANDLER_PIXMAP_NONE, NULL, 0, 0);
-	bonobo_ui_handler_menu_new_item (
-		uih, "/<Component Placeholder>/Folder/Mark all as Read",
-		_("_Mark all as Read"), NULL, -1,
-		BONOBO_UI_HANDLER_PIXMAP_NONE, NULL, 0, 0,
-		mark_all_seen, folder_browser);
-	bonobo_ui_handler_menu_new_item (
-                uih, "/<Component Placeholder>/Folder/Delete all",
-		_("_Delete all"), NULL, -1,
-		BONOBO_UI_HANDLER_PIXMAP_NONE, NULL, 0, 0,
-		mark_all_deleted, folder_browser);
-	bonobo_ui_handler_menu_new_item (
-		uih, "/<Component Placeholder>/Folder/Expunge",
-		_("_Expunge"), NULL, -1,
-		BONOBO_UI_HANDLER_PIXMAP_NONE, NULL, 0, 0,
-		expunge_folder, folder_browser);
-	bonobo_ui_handler_menu_new_item (
-		uih, "/<Component Placeholder>/Folder/Configure Folder",
-		_("_Configure Folder"), NULL, -1,
-		BONOBO_UI_HANDLER_PIXMAP_NONE, NULL, 0, 0,
-		configure_folder, folder_browser);
+#warning FIXME set View/Threaded state to mail_config_thread_list ()
+	bonobo_ui_component_add_verb (
+		component, "ViewThreaded",
+		(BonoboUIVerbFn) message_list_toggle_threads,
+		FOLDER_BROWSER (folder_browser)->message_list);
 
 	create_ondemand_hooks (fb, uih);
 
-	toolbar = gtk_toolbar_new (GTK_ORIENTATION_HORIZONTAL,
-				   GTK_TOOLBAR_BOTH);
+	{ /* FIXME: sweeten this whole function */
+		char *fname;
+		xmlNode *ui;
+		Bonobo_UIContainer container;
 
-	fill_toolbar (FOLDER_BROWSER (folder_browser), GTK_TOOLBAR (toolbar));
+		container = bonobo_ui_compat_get_container (uih);
+		g_return_if_fail (container != CORBA_OBJECT_NIL);
+		
+		fname = bonobo_ui_util_get_ui_fname ("evolution-mail.xml");
+		g_warning ("Attempting ui load from '%s'", fname);
+		
+		ui = bonobo_ui_util_new_ui (component, fname, "evolution-mail");
+		
+		bonobo_ui_component_set_tree (component, container, "/", ui, NULL);
 
-	behavior = GNOME_DOCK_ITEM_BEH_EXCLUSIVE |
-                    GNOME_DOCK_ITEM_BEH_NEVER_VERTICAL;
-	if (!gnome_preferences_get_toolbar_detachable ())
-		behavior |= GNOME_DOCK_ITEM_BEH_LOCKED;
-
-	toolbar_frame = gtk_frame_new (NULL);
-	gtk_frame_set_shadow_type (GTK_FRAME (toolbar_frame), GTK_SHADOW_OUT);
-	gtk_container_add (GTK_CONTAINER (toolbar_frame), toolbar);
-	gtk_widget_show (toolbar_frame);
-
-	gtk_widget_show_all (toolbar_frame);
-
-	toolbar_control = bonobo_control_new (toolbar_frame);
-	bonobo_ui_handler_dock_add (uih, toolbar_name,
-				    bonobo_object_corba_objref (BONOBO_OBJECT (toolbar_control)),
-				    behavior,
-				    GNOME_DOCK_TOP,
-				    1, 1, 0);
-	g_free (toolbar_name);
+		g_free (fname);
+		xmlFreeNode (ui);
+	}
 }
 
 static void
@@ -370,30 +247,10 @@ control_deactivate (BonoboControl *control,
 		    BonoboUIHandler *uih,
 		    FolderBrowser *fb)
 {
-	char *toolbar_name = g_strdup_printf ("/Toolbar%d", fb->serial);
-
-	bonobo_ui_handler_menu_remove
-		(uih, "/File/<Print Placeholder>/separator1");
-	bonobo_ui_handler_menu_remove (
-		uih, "/File/<Print Placeholder>/Print message...");
-
-	bonobo_ui_handler_menu_remove (uih, "/View/separator1");
-	bonobo_ui_handler_menu_remove (uih, "/View/Threaded");
-
-	bonobo_ui_handler_menu_remove (uih, "/<Component Placeholder>/Folder");
-
-	bonobo_ui_handler_menu_remove (uih, "/<Component Placeholder>/Message");
-
-	bonobo_ui_handler_menu_remove (uih, "/Settings/Mail Filters...");
-	bonobo_ui_handler_menu_remove (uih, "/Settings/Virtual Folder Editor...");
-	bonobo_ui_handler_menu_remove (uih, "/Settings/Mail Configuration...");
-	bonobo_ui_handler_menu_remove (uih, "/Settings/Forget Passwords");
-
-	bonobo_ui_handler_dock_remove (uih, toolbar_name);
-	g_free (toolbar_name);
-
-	remove_ondemand_hooks (fb, uih);
-	mail_do_sync_folder (fb->folder);
+	g_warning ("Mail control deactivate");
+	bonobo_ui_component_rm (
+		bonobo_ui_compat_get_component (uih),
+		bonobo_ui_compat_get_container (uih), "/", NULL);
 }
 
 static void

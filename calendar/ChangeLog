@@ -1,3 +1,7 @@
+2000-09-07  Michael Meeks  <michael@helixcode.com>
+
+	* gui/calendar-commands.c: Re-write most UI handler code.
+
 2000-09-13  Federico Mena Quintero  <federico@helixcode.com>
 
 	* gui/calendar-model.c (obj_updated_cb): Removed an unused

@@ -30,13 +30,18 @@
 
 #include <bonobo/bonobo-object.h>
 
-#include "Evolution.h"
-#include "e-shortcuts.h"
-
 #ifdef __cplusplus
 extern "C" {
 #pragma }
 #endif /* __cplusplus */
+
+typedef struct _EShell        EShell;
+typedef struct _EShellPrivate EShellPrivate;
+typedef struct _EShellClass   EShellClass;
+
+#include "Evolution.h"
+#include "e-shortcuts.h"
+#include "e-shell-view.h"
 
 #define E_TYPE_SHELL			(e_shell_get_type ())
 #define E_SHELL(obj)			(GTK_CHECK_CAST ((obj), E_TYPE_SHELL, EShell))
@@ -45,9 +50,6 @@ extern "C" {
 #define E_IS_SHELL_CLASS(klass)		(GTK_CHECK_CLASS_TYPE ((obj), E_TYPE_SHELL))
 
 
-typedef struct _EShell        EShell;
-typedef struct _EShellPrivate EShellPrivate;
-typedef struct _EShellClass   EShellClass;
 
 struct _EShell {
 	BonoboObject parent;
@@ -68,7 +70,7 @@ void                 e_shell_construct                 (EShell          *shell,
 							const char      *local_directory);
 
 EShell              *e_shell_new                       (const char      *local_directory);
-GtkWidget           *e_shell_new_view                  (EShell          *shell,
+EShellView          *e_shell_new_view                  (EShell          *shell,
 							const char      *uri);
 
 const char          *e_shell_get_local_directory       (EShell          *shell);

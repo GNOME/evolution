@@ -37,6 +37,7 @@ SUBDIRS =			\
         calendar                \
         wombat                  \
         art                     \
+	ui			\
         default_user            \
         tools                   \
         po                      \

@@ -73,20 +73,13 @@ static void change_view_type (AddressbookView *view, AddressbookViewType view_ty
 static void
 control_deactivate (BonoboControl *control, BonoboUIHandler *uih)
 {
-	/* how to remove a menu item */
-	bonobo_ui_handler_menu_remove (uih, "/File/<Print Placeholder>/Print contacts...");
-	bonobo_ui_handler_menu_remove (uih, "/File/<Print Placeholder>/separator1");
-	bonobo_ui_handler_menu_remove (uih, "/File/TestSelectNames");
-	bonobo_ui_handler_menu_remove (uih, "/View/<sep>");
-	bonobo_ui_handler_menu_remove (uih, "/View/Toggle View"); 
-	bonobo_ui_handler_menu_remove (uih, "/Actions/New Contact"); 
-#ifdef HAVE_LDAP
-	bonobo_ui_handler_menu_remove (uih, "/Actions/New Directory Server");
-#endif
-	bonobo_ui_handler_menu_remove (uih, "/<Component Placeholder>/Tools");
-	bonobo_ui_handler_menu_remove (uih, "/<Component Placeholder>/Tools/Search");
-	/* remove our toolbar */
-	bonobo_ui_handler_dock_remove (uih, "/Toolbar");
+	Bonobo_UIContainer container = bonobo_ui_compat_get_container (uih);
+
+	g_return_if_fail (container != CORBA_OBJECT_NIL);
+
+	bonobo_ui_component_rm (
+		bonobo_ui_compat_get_component (uih),
+		container, "/", NULL);
 }
 
 static void
@@ -433,19 +426,6 @@ print_cb (BonoboUIHandler *uih, void *user_data, const char *path)
 	}
 }
 
-static GnomeUIInfo gnome_toolbar [] = {
-	GNOMEUIINFO_ITEM_STOCK (N_("New"), N_("Create a new contact"), new_contact_cb, GNOME_STOCK_PIXMAP_NEW),
-
-	GNOMEUIINFO_SEPARATOR,
-
-	GNOMEUIINFO_ITEM_STOCK (N_("Find"), N_("Find a contact"), search_cb, GNOME_STOCK_PIXMAP_SEARCH),
-	GNOMEUIINFO_ITEM_STOCK (N_("Print"), N_("Print contacts"), print_cb, GNOME_STOCK_PIXMAP_PRINT),
-	GNOMEUIINFO_ITEM_STOCK (N_("Delete"), N_("Delete a contact"), delete_contact_cb, GNOME_STOCK_PIXMAP_TRASH),
-	GNOMEUIINFO_SEPARATOR,
-	GNOMEUIINFO_END
-};
-
-
 static void
 search_entry_activated (GtkWidget* widget, gpointer user_data)
 {
@@ -491,47 +471,38 @@ make_quick_search_widget (GtkSignalFunc start_search_func,
 	return search_vbox;
 }
 
+BonoboUIVerb verbs [] = {
+	BONOBO_UI_VERB ("ContactsPrint", print_cb),
+	BONOBO_UI_VERB ("ViewAsTable", toggle_view_as_cb),
+	BONOBO_UI_VERB ("ViewNewContact", new_contact_cb),
+	BONOBO_UI_VERB ("ToolSearch", search_cb),
+
+	BONOBO_UI_VERB ("ContactNew", new_contact_cb),
+/*	BONOBO_UI_VERB ("ContactFind", find_contact_cb),*/
+	BONOBO_UI_VERB ("ContactDelete", delete_contact_cb),
+	
+	BONOBO_UI_VERB_END
+};
+
 static void
 control_activate (BonoboControl *control, BonoboUIHandler *uih,
 		  AddressbookView *view)
 {
 	Bonobo_UIHandler  remote_uih;
-	GtkWidget *toolbar, *toolbar_frame;
-	BonoboControl *toolbar_control;
-	GnomeDockItemBehavior behavior;
-	GtkWidget *hbox = gtk_hbox_new (FALSE, 0);
+	char *fname;
+	xmlNode *ui;
+	Bonobo_UIContainer container;
+	BonoboUIComponent *component;
 	GtkWidget *quick_search_widget;
+	BonoboControl *search_control;
 
 	remote_uih = bonobo_control_get_remote_ui_handler (control);
 	bonobo_ui_handler_set_container (uih, remote_uih);		
 	bonobo_object_release_unref (remote_uih, NULL);
 
-	bonobo_ui_handler_menu_new_separator (uih, "/View/<sep>", -1);
 
-	bonobo_ui_handler_menu_new_item (uih, "/File/<Print Placeholder>/Print contacts...",
-					 N_("_Print Contacts..."),
-					 NULL, -1,
-					 BONOBO_UI_HANDLER_PIXMAP_STOCK,
-					 GNOME_STOCK_MENU_PRINT,
-					 0, 0, print_cb,
-					 (gpointer) view);
-
-	bonobo_ui_handler_menu_new_separator (uih, "/File/<Print Placeholder>/separator1", -1);
-
-	bonobo_ui_handler_menu_new_item (uih, "/View/Toggle View",
-					 N_("As _Table"),
-					 NULL, -1,
-					 BONOBO_UI_HANDLER_PIXMAP_NONE, NULL,
-					 0, 0, toggle_view_as_cb,
-					 (gpointer)view);
-
-	bonobo_ui_handler_menu_new_item (uih, "/Actions/New Contact",
-					 N_("_New Contact"),       
-					 NULL, -1,
-					 BONOBO_UI_HANDLER_PIXMAP_NONE, NULL,
-					 0, 0, new_contact_cb,
-					 (gpointer)view);
-
+#warning FIXME; this needs to be sorted.
+#if 0
 #ifdef HAVE_LDAP
 	bonobo_ui_handler_menu_new_item (uih, "/Actions/New Directory Server",
 					 N_("N_ew Directory Server"),       
@@ -540,58 +511,40 @@ control_activate (BonoboControl *control, BonoboUIHandler *uih,
 					 0, 0, new_server_cb,
 					 (gpointer)view);
 #endif
+#endif
 
-	bonobo_ui_handler_menu_new_subtree (uih, "/<Component Placeholder>/Tools",
-					    _("_Tools"),
-					    NULL, -1,
-					    BONOBO_UI_HANDLER_PIXMAP_NONE, NULL,
-					    0, 0);
-
-	bonobo_ui_handler_menu_new_item (uih, "/<Component Placeholder>/Tools/Search",
-					 N_("_Search for contacts"),
-					 NULL, -1,
-					 BONOBO_UI_HANDLER_PIXMAP_STOCK, GNOME_STOCK_MENU_SEARCH,
-					 0, 0, search_cb,
-					 (gpointer)view);
-
-	toolbar = gtk_toolbar_new (GTK_ORIENTATION_HORIZONTAL,
-				   GTK_TOOLBAR_BOTH);
-
-	gnome_app_fill_toolbar_with_data (GTK_TOOLBAR (toolbar),
-					  gnome_toolbar, 
-					  NULL, view);
+	component = bonobo_ui_compat_get_component (uih);
 	
-	gtk_box_pack_start (GTK_BOX (hbox), toolbar, FALSE, TRUE, 0);
+	bonobo_ui_component_add_verb_list_with_data (
+		component, verbs, view);
+	
+	container = bonobo_ui_compat_get_container (uih);
+	g_return_if_fail (container != CORBA_OBJECT_NIL);
+	
+	bonobo_ui_container_freeze (container, NULL);
 
+	fname = bonobo_ui_util_get_ui_fname ("evolution-addressbook.xml");
+	g_warning ("Attempting ui load from '%s'", fname);
+		
+	ui = bonobo_ui_util_new_ui (component, fname, "evolution-addressbook");
+		
+	bonobo_ui_component_set_tree (component, container, "/", ui, NULL);
 
-	/* add the search_vbox to the hbox which will be our toolbar */
+	g_free (fname);
+	xmlFreeNode (ui);
+
 	quick_search_widget = make_quick_search_widget (
 		search_entry_activated, view);
-	
-	gtk_box_pack_start (GTK_BOX (hbox),
-			    quick_search_widget,
-			    FALSE, TRUE, 0);
+		
+	gtk_widget_show_all (quick_search_widget);
+	search_control = bonobo_control_new (quick_search_widget);
 
-	gtk_widget_show_all (hbox);
+	bonobo_ui_container_object_set (
+		container, "/Toolbar/QuickSearch",
+		bonobo_object_corba_objref (BONOBO_OBJECT (search_control)),
+		NULL);
 
-	toolbar_frame = gtk_frame_new (NULL);
-	gtk_frame_set_shadow_type (GTK_FRAME (toolbar_frame), GTK_SHADOW_OUT);
-	gtk_container_add (GTK_CONTAINER (toolbar_frame), hbox);
-	gtk_widget_show (toolbar_frame);
-
-	gtk_widget_show_all (toolbar_frame);
-
-	behavior = GNOME_DOCK_ITEM_BEH_EXCLUSIVE;
-	if (!gnome_preferences_get_toolbar_detachable ())
-		behavior |= GNOME_DOCK_ITEM_BEH_LOCKED;
-
-	toolbar_control = bonobo_control_new (toolbar_frame);
-	bonobo_ui_handler_dock_add (
-		uih, "/Toolbar",
-		bonobo_object_corba_objref (BONOBO_OBJECT (toolbar_control)),
-		behavior,
-		GNOME_DOCK_TOP,
-		1, 1, 0);
+	bonobo_ui_container_thaw (container, NULL);
 }
 
 static void
