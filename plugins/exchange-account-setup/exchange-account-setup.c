@@ -30,19 +30,46 @@
 #include <gconf/gconf-client.h>
 #include <camel/camel-provider.h>
 #include <camel/camel-url.h>
+#include <camel/camel-service.h>
 #include "mail/em-account-editor.h"
 #include "mail/em-config.h"
 #include "e-util/e-account.h"
+#include "widgets/misc/e-error.h"
 
 GtkWidget* org_gnome_exchange_settings(EPlugin *epl, EConfigHookItemFactoryData *data);
 GtkWidget *org_gnome_exchange_owa_url(EPlugin *epl, EConfigHookItemFactoryData *data);
 gboolean org_gnome_exchange_check_options(EPlugin *epl, EConfigHookPageCheckData *data);
+GtkWidget *org_gnome_exchange_auth_section (EPlugin *epl, EConfigHookItemFactoryData *data);
 
 /* NB: This should be given a better name, it is NOT a camel service, it is only a camel-exchange one */
 typedef gboolean (CamelProviderValidateUserFunc) (CamelURL *camel_url, const char *url, gboolean *remember_password, CamelException *ex);
+
 typedef struct {
         CamelProviderValidateUserFunc *validate_user;
 }CamelProviderValidate;
+
+CamelServiceAuthType camel_exchange_ntlm_authtype = {
+        /* i18n: "Secure Password Authentication" is an Outlookism */
+        N_("Secure Password"),
+
+        /* i18n: "NTLM" probably doesn't translate */
+        N_("This option will connect to the Exchange server using "
+           "secure password (NTLM) authentication."),
+
+        "",
+        TRUE
+};
+
+CamelServiceAuthType camel_exchange_password_authtype = {
+        N_("Plaintext Password"),
+
+        N_("This option will connect to the Exchange server using "
+           "standard plaintext password authentication."),
+
+        "Basic",
+        TRUE
+};
+
 
 /* only used in editor */
 GtkWidget *
@@ -353,4 +380,154 @@ org_gnome_exchange_check_options(EPlugin *epl, EConfigHookPageCheckData *data)
 	}
 
 	return status;
+}
+
+static void
+exchange_check_authtype (GtkWidget *w, EConfig *config)
+{
+	return;
+}
+
+static void 
+exchange_authtype_changed (GtkComboBox *dropdown, EConfig *config)
+{
+	EMConfigTargetAccount *target = (EMConfigTargetAccount *)config->target;
+	int id = gtk_combo_box_get_active(dropdown);
+	GtkTreeModel *model;
+	GtkTreeIter iter;
+	CamelServiceAuthType *authtype;
+	CamelURL *url;
+	const char *source_url;
+	char *url_string;
+
+	source_url = e_account_get_string (target->account,
+					   E_ACCOUNT_SOURCE_URL);
+	if (id == -1)
+		return;
+
+	url = camel_url_new (source_url, NULL);
+	model = gtk_combo_box_get_model(dropdown);
+	if (gtk_tree_model_iter_nth_child(model, &iter, NULL, id)) {
+		gtk_tree_model_get(model, &iter, 1, &authtype, -1);
+		if (authtype)
+			camel_url_set_authmech(url, authtype->authproto);
+		else
+			camel_url_set_authmech(url, NULL);
+	
+		url_string = camel_url_to_string(url, 0);
+		e_account_set_string(target->account, E_ACCOUNT_SOURCE_URL, url_string);
+		g_free(url_string);
+	}
+	camel_url_free(url);
+}
+
+GtkWidget *
+org_gnome_exchange_auth_section (EPlugin *epl, EConfigHookItemFactoryData *data)
+{
+	EMConfigTargetAccount *target_account;
+	const char *source_url; 
+	char *label_text;
+	CamelURL *url;
+	GtkWidget *hbox, *button, *auth_label, *vbox, *label_hide;
+	GtkComboBox *dropdown;
+	GtkTreeIter iter;
+	GtkListStore *store;
+	int i, active=0, auth_changed_id = 0;
+	GList *authtypes, *l, *ll;
+	
+	target_account = (EMConfigTargetAccount *)data->config->target;
+	source_url = e_account_get_string (target_account->account, 
+					   E_ACCOUNT_SOURCE_URL);
+	url = camel_url_new (source_url, NULL);
+	if (url == NULL
+	    || strcmp (url->protocol, "exchange") != 0) {
+		if (url)
+			camel_url_free (url);
+
+		return NULL;
+	}
+
+	if (data->old) {
+		camel_url_free(url);
+		return data->old;
+	}
+
+	vbox = gtk_vbox_new (FALSE, 6);
+
+	label_text = g_strdup_printf("<b>%s</b>", _("Authentication Type"));
+	auth_label = gtk_label_new (label_text);
+	g_free (label_text);
+	gtk_label_set_justify (GTK_LABEL (auth_label), GTK_JUSTIFY_LEFT);
+	gtk_misc_set_alignment (GTK_MISC (auth_label), 0, 0.5);
+	gtk_misc_set_padding (GTK_MISC (auth_label), 0, 0); 
+	gtk_label_set_use_markup (GTK_LABEL (auth_label), TRUE);
+
+	label_hide = gtk_label_new("\n");
+
+	hbox = gtk_hbox_new (FALSE, 6);
+
+	dropdown = (GtkComboBox * )gtk_combo_box_new ();
+
+	button = gtk_button_new_with_mnemonic (_("Ch_eck for Supported Types"));
+
+	authtypes = g_list_prepend (g_list_prepend (NULL, &camel_exchange_password_authtype),
+				    &camel_exchange_ntlm_authtype);
+	store = gtk_list_store_new(3, G_TYPE_STRING, G_TYPE_POINTER, G_TYPE_BOOLEAN);
+
+	for (i=0, l=authtypes; l; l=l->next, i++) {
+		CamelServiceAuthType *authtype = l->data;
+		int avail = TRUE;
+
+		if (authtypes) {
+			for (ll = authtypes; ll; ll = g_list_next(ll))
+				if (!strcmp(authtype->authproto, 
+					((CamelServiceAuthType *)ll->data)->authproto))
+					break;
+			avail = ll != NULL;
+		}
+		gtk_list_store_append (store, &iter);
+		gtk_list_store_set (store, &iter, 0, authtype->name, 1, 
+				    authtype, 2, !avail, -1);
+
+		if (url && url->authmech && !strcmp(url->authmech, authtype->authproto))
+			active = i;
+	}
+
+	gtk_combo_box_set_model (dropdown, (GtkTreeModel *)store);
+	gtk_combo_box_set_active (dropdown, -1);
+
+	if (auth_changed_id == 0) {
+		GtkCellRenderer *cell = gtk_cell_renderer_text_new();
+
+		gtk_cell_layout_pack_start ((GtkCellLayout *)dropdown, cell, TRUE);
+		gtk_cell_layout_set_attributes ((GtkCellLayout *)dropdown, cell, 
+						"text", 0, "strikethrough", 2, NULL);
+
+		auth_changed_id = g_signal_connect (dropdown, 
+						    "changed", 
+						    G_CALLBACK (exchange_authtype_changed), 
+						    data->config);
+		g_signal_connect (button, 
+				  "clicked", 
+				  G_CALLBACK(exchange_check_authtype), 
+				  data->config);
+	}
+
+	gtk_combo_box_set_active(dropdown, active);
+
+	gtk_box_pack_start (GTK_BOX (hbox), GTK_WIDGET (dropdown), FALSE, FALSE, 0);
+	gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, FALSE, 0);
+
+	gtk_box_pack_start (GTK_BOX (vbox), auth_label, TRUE, TRUE, 0);
+	gtk_box_pack_start (GTK_BOX (vbox), hbox, FALSE, FALSE, 0);
+	gtk_box_pack_start (GTK_BOX (vbox), label_hide, TRUE, TRUE, 0);
+	gtk_widget_show_all (vbox);
+
+	gtk_box_pack_start (GTK_BOX (data->parent), vbox, TRUE, TRUE, 0);	
+
+	if (url)
+		camel_url_free(url);
+	g_list_free (authtypes);
+
+	return vbox;
 }

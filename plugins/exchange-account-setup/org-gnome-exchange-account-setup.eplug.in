@@ -20,6 +20,9 @@
                 <item type="item_table"
                         path="10.receive/10.config/20.owa"
 			factory="org_gnome_exchange_owa_url"/>
+		<item type="section"
+			path="10.receive/30.auth/00.exchange_auth"
+			factory="org_gnome_exchange_auth_section"/>
       	</group>
 
         <group

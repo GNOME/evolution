@@ -1,3 +1,11 @@
+2005-02-07  Sushma Rai  <rsushma@novell.com>
+	
+	* org-gnome-exchange-account-setup.eplug.in: Added plugin for adding 
+	auth type section to editor.
+
+	* exchange-account-setup.c (org_gnome_exchange_auth_section): Adding
+	and handling authentication type for exchange account. 
+
 2005-01-28  Not Zed  <NotZed@Ximian.com>
 
 	** related to bug #71520.
