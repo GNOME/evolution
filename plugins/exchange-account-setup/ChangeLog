@@ -1,5 +1,11 @@
 2005-01-18  Sushma Rai  <rsushma@novell.com>
 
+	* exchange-ask-password.c (org_gnome_exchange_read_url):
+	Setting dummy host name, which will be reset to proper
+	hostname once the user is authenticated.
+
+2005-01-18  Sushma Rai  <rsushma@novell.com>
+
 	* org-gnome-exchange-account-setup.eplug.in: Moved two account
 	editor plugins unser same hook class. 
 

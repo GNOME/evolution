@@ -82,7 +82,6 @@ validate_exchange_user (void *data)
 					   E_ACCOUNT_SOURCE_URL); 
 	account_url = g_strdup (source_url);
 	provider = camel_provider_get (account_url, NULL);
-	g_free (account_url); account_url = NULL;
 	if (!provider) {
 		return FALSE;	/* This should never happen */
 	}
@@ -104,6 +103,7 @@ validate_exchange_user (void *data)
 				      E_ACCOUNT_TRANSPORT_URL, url_string);
 	}
 	camel_url_free (url);
+	g_free (account_url);
 	return valid;
 }
 
@@ -164,9 +164,10 @@ org_gnome_exchange_read_url(EPlugin *epl, EConfigHookItemFactoryData *data)
 {
 	EMConfigTargetAccount *target_account;
 	EConfig *config;
-	char *account_url = NULL, *exchange_url = NULL;
+	char *account_url = NULL, *exchange_url = NULL, *temp_url;
 	const char *source_url;
 	GtkWidget *owa_entry = NULL, *parent;
+	CamelURL *url;
 
 	config = data->config;
 	target_account = (EMConfigTargetAccount *)data->config->target;
@@ -175,14 +176,25 @@ org_gnome_exchange_read_url(EPlugin *epl, EConfigHookItemFactoryData *data)
 					   E_ACCOUNT_SOURCE_URL); 
 	account_url = g_strdup (source_url);
 	exchange_url = g_strrstr (account_url, "exchange");
-	g_free (account_url);
 
 	if (exchange_url) {
 		if (data->old) 
 			return data->old;
 
+		/* hack for making page check work when host is not there */
+		url = camel_url_new_with_base (NULL, account_url);
+		if (url->host == NULL) {
+			camel_url_set_host (url, "localhost");
+			temp_url = camel_url_to_string (url, 0);
+			e_account_set_string (target_account->account,
+					      E_ACCOUNT_SOURCE_URL, temp_url);
+			g_free (temp_url);
+		}
+		camel_url_free (url);
+
 		parent = data->parent;
 		owa_entry = add_owa_entry (parent, config, target_account);
 	}
+	g_free (account_url);
 	return owa_entry;
 }
