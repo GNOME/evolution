@@ -191,9 +191,11 @@ Calendar:
 Addressbook:
 
   - Addressbook conduit now working, experimentally, except for
-    extended character support (ie accented chars) (JP)
+    extended character support (ie accented chars.) (JP)
 
-  - Extended wombat functionality with getChanges call (JP)
+  - Extended wombat functionality with getChanges call. (JP)
+
+  - Full name and address dialogs in contact editor fixed. (Chris)
 
 Executive Summary: (iain)
 
