@@ -387,9 +387,13 @@ control_activate_cb (BonoboControl *control,
 	uic = bonobo_control_get_ui_component (control);
 	g_assert (uic != NULL);
 	
-	if (activate)
+	if (activate) {
+
 		control_activate (control, uic, view);
-	else {
+		if (activate && view->view && view->view->model)
+			e_addressbook_model_force_folder_bar_message (view->view->model);
+
+	} else {
 		bonobo_ui_component_unset_container (uic);
 		e_addressbook_view_discard_menus (view->view);
 	}

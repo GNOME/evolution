@@ -547,6 +547,12 @@ e_addressbook_model_can_stop (EAddressbookModel *model)
 	return model->search_in_progress;
 }
 
+void
+e_addressbook_model_force_folder_bar_message (EAddressbookModel *model)
+{
+	update_folder_bar_message (model);
+}
+
 int
 e_addressbook_model_card_count (EAddressbookModel *model)
 {

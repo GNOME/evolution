@@ -1,3 +1,13 @@
+2001-10-21  Jon Trowbridge  <trow@ximian.com>
+
+	* gui/component/addressbook.c (control_activate_cb): Call
+	e_addressbook_model_force_folder_bar_message when we activate the
+	component. (Fixes bug #11749)
+
+	* gui/widgets/e-addressbook-model.c
+	(e_addressbook_model_force_folder_bar_message): Added.  Forces
+	emission of a folder_bar_message.
+
 2001-10-20  Larry Ewing  <lewing@ximian.com>
 
 	* gui/component/select-names/e-select-names.c
