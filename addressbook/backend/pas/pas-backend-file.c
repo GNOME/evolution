@@ -26,6 +26,7 @@
 #include "pas-card-cursor.h"
 #include <ebook/e-card-simple.h>
 #include <e-util/e-sexp.h>
+#include <e-util/e-dbhash.h>
 #include <gal/util/e-util.h>
 #include <gal/widgets/e-unicode.h>
 
@@ -36,6 +37,7 @@ static PASBackendClass *pas_backend_file_parent_class;
 typedef struct _PASBackendFileCursorPrivate PASBackendFileCursorPrivate;
 typedef struct _PASBackendFileBookView PASBackendFileBookView;
 typedef struct _PASBackendFileSearchContext PASBackendFileSearchContext;
+typedef struct _PasBackendFileChangeContext PASBackendFileChangeContext;
 
 struct _PASBackendFilePrivate {
 	GList    *clients;
@@ -58,10 +60,23 @@ struct _PASBackendFileBookView {
 	gchar                       *search;
 	ESExp                       *search_sexp;
 	PASBackendFileSearchContext *search_context;
+	gchar                       *change_id;
+	PASBackendFileChangeContext *change_context;
 };
 
 struct _PASBackendFileSearchContext {
 	ECardSimple *card;
+};
+
+struct _PasBackendFileChangeContext {
+	DB *db;
+
+	GList *add_cards;
+	GList *add_ids;
+	GList *mod_cards;
+	GList *mod_ids;
+	GList *del_cards;
+	GList *del_ids;
 };
 
 static PASBackendFileBookView *
@@ -70,12 +85,21 @@ pas_backend_file_book_view_copy(const PASBackendFileBookView *book_view, void *c
 	PASBackendFileBookView *new_book_view;
 	new_book_view = g_new(PASBackendFileBookView, 1);
 	new_book_view->book_view = book_view->book_view;
+
 	new_book_view->search = g_strdup(book_view->search);
 	new_book_view->search_sexp = book_view->search_sexp;
 	if (new_book_view->search_sexp)
 		gtk_object_ref(GTK_OBJECT(new_book_view->search_sexp));
 	new_book_view->search_context = g_new(PASBackendFileSearchContext, 1);
 	new_book_view->search_context->card = book_view->search_context->card;
+
+	new_book_view->change_id = g_strdup(book_view->change_id);
+	new_book_view->change_context = g_new(PASBackendFileChangeContext, 1);
+	new_book_view->change_context->db = book_view->change_context->db;
+	new_book_view->change_context->add_cards = book_view->change_context->add_cards;
+	new_book_view->change_context->mod_cards = book_view->change_context->mod_cards;
+	new_book_view->change_context->del_cards = book_view->change_context->del_cards;
+
 	return new_book_view;
 }
 
@@ -86,6 +110,8 @@ pas_backend_file_book_view_free(PASBackendFileBookView *book_view, void *closure
 	if (book_view->search_sexp)
 		gtk_object_unref(GTK_OBJECT(book_view->search_sexp));
 	g_free(book_view->search_context);
+	g_free(book_view->change_id);
+	g_free(book_view->change_context);
 	g_free(book_view);
 }
 
@@ -485,49 +511,49 @@ pas_backend_file_search (PASBackendFile  	      *bf,
 	g_list_free (cards);
 }
 
-typedef enum {
-	VCardChangeNone,
-	VCardChangeAdded,
-	VCardChangeModified,
-	VCardChangeDeleted
-} VCardChangeType;
-
-static VCardChangeType
-vcard_change_type (const PASBackendFileBookView *view, char *vcard_string)
+static void
+pas_backend_file_changes_foreach_key (const char *key, gpointer user_data)
 {
-	ECard *card;
+	PASBackendFileChangeContext *ctx = user_data;
+	DB      *db = ctx->db;
+	DBT     id_dbt, vcard_dbt;
+	int     db_error = 0;
+	
+	string_to_dbt (key, &id_dbt);
+	db_error = db->get (db, &id_dbt, &vcard_dbt, 0);
+	
+	if (db_error == 1) {
+		char *id = id_dbt.data;
+		char *vcard_string = vcard_dbt.data;
 
-	card = e_card_new (vcard_string);
-	view->search_context->card = e_card_simple_new (card);
-	gtk_object_unref(GTK_OBJECT(card));
-
-	/* if it's not a valid vcard why is it in our db? :) */
-	if (!view->search_context->card)
-		return VCardChangeNone;
-
-	/* FIX ME, actually need to implement this */
-
-	gtk_object_unref(GTK_OBJECT(view->search_context->card));
-
-	return VCardChangeNone;
+		ctx->del_cards = g_list_append (ctx->del_cards, strdup(vcard_string));
+		ctx->del_ids = g_list_append (ctx->del_ids, strdup(id));
+	}
 }
 
 static void
-pas_backend_file_search_changes (PASBackendFile  	      *bf,
-				 PASBook         	      *book,
-				 const PASBackendFileBookView *cnstview)
+pas_backend_file_changes (PASBackendFile  	      *bf,
+			  PASBook         	      *book,
+			  const PASBackendFileBookView *cnstview)
 {
 	int     db_error = 0;
-	GList   *add_cards = NULL;
-	GList   *mod_cards = NULL;
-	GList   *del_cards = NULL;
 	DB      *db = bf->priv->file_db;
 	DBT     id_dbt, vcard_dbt;
+	char    *filename;
+	EDbHash *ehash;
+	GList *i, *v;
 	PASBackendFileBookView *view = (PASBackendFileBookView *)cnstview;
+	PASBackendFileChangeContext *ctx = cnstview->change_context;
 
 	if (!bf->priv->loaded)
 		return;
 
+	/* Find the changed ids */
+	filename = g_strdup ("test");
+	
+	ehash = e_dbhash_new (filename);
+	g_free (filename);
+	
 	db_error = db->seq(db, &id_dbt, &vcard_dbt, R_FIRST);
 
 	while (db_error == 0) {
@@ -535,20 +561,20 @@ pas_backend_file_search_changes (PASBackendFile  	      *bf,
 		/* don't include the version in the list of cards */
 		if (id_dbt.size != strlen(PAS_BACKEND_FILE_VERSION_NAME) + 1
 		    || strcmp (id_dbt.data, PAS_BACKEND_FILE_VERSION_NAME)) {
+			char *id = id_dbt.data;
 			char *vcard_string = vcard_dbt.data;
 
 			/* check what type of change has occurred, if any */
-			switch (vcard_change_type (view, vcard_string)) {
-			case VCardChangeNone:
+			switch (e_dbhash_compare (ehash, id, vcard_string)) {
+			case E_DBHASH_STATUS_SAME:
 				break;
-			case VCardChangeAdded:
-				add_cards = g_list_append (add_cards, strdup(vcard_string));
+			case E_DBHASH_STATUS_NOT_FOUND:
+				ctx->add_cards = g_list_append (ctx->add_cards, strdup(vcard_string));
+				ctx->add_ids = g_list_append (ctx->add_ids, strdup(id));
 				break;
-			case VCardChangeModified:
-				mod_cards = g_list_append (mod_cards, strdup(vcard_string));
-				break;
-			case VCardChangeDeleted:
-				del_cards = g_list_append (del_cards, strdup(vcard_string));
+			case E_DBHASH_STATUS_DIFFERENT:
+				ctx->mod_cards = g_list_append (ctx->mod_cards, strdup(vcard_string));
+				ctx->mod_ids = g_list_append (ctx->mod_ids, strdup(id));
 				break;
 			}
 		}
@@ -556,31 +582,55 @@ pas_backend_file_search_changes (PASBackendFile  	      *bf,
 		db_error = db->seq(db, &id_dbt, &vcard_dbt, R_NEXT);
 	}
 
-	if (db_error == -1) {
-		g_warning ("pas_backend_file_search_changes: error building list\n");
-	} else {
-		GList *l;
-		
-		pas_book_view_notify_add (view->book_view, add_cards);
-		pas_book_view_notify_change (view->book_view, mod_cards);
+	e_dbhash_foreach_key (ehash, (EDbHashFunc *)pas_backend_file_changes_foreach_key, view->change_context);
 
-		for (l = del_cards; l != NULL; l = l->next){
-			char *card = l->data;
-			pas_book_view_notify_remove (view->book_view, card);
+	/* Update the hash */
+	for (i = ctx->add_ids, v = ctx->add_cards; i != NULL; i = i->next, v = v->next){
+		char *id = i->data;
+		char *vcard = v->data;
+		e_dbhash_add (ehash, id, vcard);
+	}	
+	for (i = ctx->mod_ids, v = ctx->mod_cards; i != NULL; i = i->next, v = v->next){
+		char *id = i->data;
+		char *vcard = v->data;
+		e_dbhash_add (ehash, id, vcard);
+	}	
+	for (i = ctx->del_ids; i != NULL; i = i->next){
+		char *id = i->data;
+		e_dbhash_remove (ehash, id);
+	}	
+
+	e_dbhash_write (ehash);
+	e_dbhash_destroy (ehash);
+
+	/* Send the changes */
+	if (db_error == -1) {
+		g_warning ("pas_backend_file_changes: error building list\n");
+	} else {
+		pas_book_view_notify_add (view->book_view, ctx->add_cards);
+		pas_book_view_notify_change (view->book_view, ctx->mod_cards);
+
+		for (v = ctx->del_cards; v != NULL; v = v->next){
+			char *vcard = v->data;
+			pas_book_view_notify_remove (view->book_view, vcard);
 		}
 		
 		pas_book_view_notify_complete (view->book_view);
 	}
 
-	/*
-	** It's fine to do this now since the data has been handed off.
-	*/
-	g_list_foreach (add_cards, (GFunc)g_free, NULL);
-	g_list_foreach (mod_cards, (GFunc)g_free, NULL);
-	g_list_foreach (del_cards, (GFunc)g_free, NULL);
-	g_list_free (add_cards);
-	g_list_free (mod_cards);
-	g_list_free (del_cards);
+	/* It's fine to do this now since the data has been handed off. */
+	g_list_foreach (ctx->add_cards, (GFunc)g_free, NULL);
+	g_list_foreach (ctx->add_ids, (GFunc)g_free, NULL);
+	g_list_foreach (ctx->mod_cards, (GFunc)g_free, NULL);
+	g_list_foreach (ctx->mod_ids, (GFunc)g_free, NULL);
+	g_list_foreach (ctx->del_cards, (GFunc)g_free, NULL);
+	g_list_foreach (ctx->del_ids, (GFunc)g_free, NULL);
+	g_list_free (ctx->add_cards);
+	g_list_free (ctx->add_ids);
+	g_list_free (ctx->mod_cards);
+	g_list_free (ctx->mod_ids);
+	g_list_free (ctx->del_cards);
+	g_list_free (ctx->del_ids);
 }
 
 static char *
@@ -955,7 +1005,7 @@ pas_backend_file_process_get_changes (PASBackend *backend,
 	PASBookView       *book_view;
 	Evolution_Book    corba_book;
 	PASBackendFileBookView view;
-	PASBackendFileSearchContext ctx;
+	PASBackendFileChangeContext ctx;
 	EIterator *iterator;
 
 	g_return_if_fail (req->listener != NULL);
@@ -985,16 +1035,24 @@ pas_backend_file_process_get_changes (PASBackend *backend,
 		   book_view);
 
 	view.book_view = book_view;
-	view.search = req->search;
+	view.change_id = req->change_id;
+	view.change_context = &ctx;
+	ctx.db = NULL;
+	ctx.add_cards = NULL;
+	ctx.add_ids = NULL;
+	ctx.mod_cards = NULL;
+	ctx.mod_ids = NULL;
+	ctx.del_cards = NULL;
+	ctx.del_ids = NULL;
+	view.search = NULL;
 	view.search_sexp = NULL;
-	view.search_context = &ctx;
-	ctx.card = NULL;
+	view.search_context = NULL;
 
 	e_list_append(bf->priv->book_views, &view);
 
 	iterator = e_list_get_iterator(bf->priv->book_views);
 	e_iterator_last(iterator);
-	pas_backend_file_search_changes (bf, book, e_iterator_get(iterator));
+	pas_backend_file_changes (bf, book, e_iterator_get(iterator));
 	gtk_object_unref(GTK_OBJECT(iterator));
 
 	g_free(req->search);

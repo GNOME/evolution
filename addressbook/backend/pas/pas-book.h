@@ -38,6 +38,7 @@ typedef struct {
 	char                      *id;
 	char                      *vcard;
 	char                      *search;
+	char                      *change_id;
 	Evolution_BookViewListener listener;
 } PASRequest;
 

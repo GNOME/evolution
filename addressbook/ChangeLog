@@ -1,3 +1,20 @@
+2000-11-07  JP Rosevear  <jpr@helixcode.com>
+
+	* backend/pas/pas-book.h: Update PASRequest structure
+
+	* backend/pas/pas-book.c (impl_Evolution_Book_get_changes): update param name
+	(pas_book_queue_get_changes): Use PASRequest change_id slot
+
+	* backend/pas/pas-backend-file.c (pas_backend_file_book_view_copy): 
+	Properly copy change_id and change_context
+	(pas_backend_file_book_view_free): Free change_id/change_context
+	(pas_backend_file_changes_foreach_key): Callback to figure out the
+	deleted cards
+	(pas_backend_file_changes): Use new e-dbhash stuff to implement.
+	Write out updated hash
+
+	* backend/idl/addressbook.idl: Rename get_changes param
+
 2000-11-06  Christopher James Lahey  <clahey@helixcode.com>
 
 	* gui/component/addressbook.c: Switched from EAddressbookSearch to

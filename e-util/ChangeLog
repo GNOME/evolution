@@ -1,3 +1,11 @@
+2000-11-07  JP Rosevear  <jpr@helixcode.com>
+
+	* Makefile.am: Build e-dbhash.[hc]
+
+	* e-dbhash.[hc]: New routines to manage a db database on disk that
+	contains md5 hashed data and indexed by uids.  Provides comparison
+	functions and such so the caller does not have to do the md5 bits.
+
 200-10-30  Kjartan Maraas  <kmaraas@gnome.org>
 
 	* e-dialog-widgets.c: #include <string.h> to quench warning.

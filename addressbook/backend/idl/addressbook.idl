@@ -83,7 +83,7 @@ module Evolution {
 		 */
 		void get_book_view(in BookViewListener listener, in string query);
 
-		void get_changes(in BookViewListener listener, in string changeid);
+		void get_changes(in BookViewListener listener, in string change_id);
 
 		void check_connection ();
 

@@ -130,14 +130,14 @@ pas_book_queue_get_book_view (PASBook *book, const Evolution_BookViewListener li
 }
 
 static void
-pas_book_queue_get_changes (PASBook *book, const Evolution_BookViewListener listener, const char *search)
+pas_book_queue_get_changes (PASBook *book, const Evolution_BookViewListener listener, const char *change_id)
 {
 	PASRequest *req;
 	CORBA_Environment ev;
 
 	req           = g_new0 (PASRequest, 1);
 	req->op       = GetChanges;
-	req->search   = g_strdup(search);
+	req->change_id= g_strdup(change_id);
 	
 	CORBA_exception_init (&ev);
 
@@ -259,12 +259,12 @@ impl_Evolution_Book_get_book_view (PortableServer_Servant servant,
 static void
 impl_Evolution_Book_get_changes (PortableServer_Servant servant,
 				 const Evolution_BookViewListener listener,
-				 const CORBA_char *search,
+				 const CORBA_char *change_id,
 				 CORBA_Environment *ev)
 {
 	PASBook *book = PAS_BOOK (bonobo_object_from_servant (servant));
 
-	pas_book_queue_get_changes (book, listener, search);
+	pas_book_queue_get_changes (book, listener, change_id);
 }
 
 static void
