@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: nn\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-09-01 10:27+0000\n"
-"PO-Revision-Date: 2004-08-31 22:45+0000\n"
+"POT-Creation-Date: 2004-09-01 20:29+0000\n"
+"PO-Revision-Date: 2004-09-01 20:29+0000\n"
 "Last-Translator: Åsmund Skjæveland <aasmunds@fys.uio.no>\n"
 "Language-Team: Norwegian Nynorsk <i18n-nn@lister.ping.uio.no>\n"
 "MIME-Version: 1.0\n"
@@ -11983,19 +11983,19 @@ msgid "QUIT command failed"
 msgstr "QUIT-kommandoen feila"
 
 #: composer/e-msg-composer-attachment-bar.c:106
-#, fuzzy, c-format
+#, c-format
 msgid "%.0fK"
-msgstr "%.0fK"
+msgstr "%.0f KiB"
 
 #: composer/e-msg-composer-attachment-bar.c:109
-#, fuzzy, c-format
+#, c-format
 msgid "%.0fM"
-msgstr "%.0fM"
+msgstr "%.0f MiB"
 
 #: composer/e-msg-composer-attachment-bar.c:112
-#, fuzzy, c-format
+#, c-format
 msgid "%.0fG"
-msgstr "%.0fG"
+msgstr "%.0f GiB"
 
 #: composer/e-msg-composer-attachment-bar.c:298 mail/em-utils.c:436
 msgid "attachment"
@@ -12443,36 +12443,41 @@ msgid ""
 "sent is read, and to specify what Evolution should do when someone requests "
 "a receipt from you.</small>"
 msgstr ""
+"<small>Denne sida let deg velja om du vil ha ei kvittering når ei melding du "
+"har sendt vert lesen,\n"
+"og oppgje kva Evolution skal gjera når nokon andre ber om kvittering på at "
+"du har lest deira meldingar.</small>"
 
 #: designs/read_receipts/read.glade.h:6
 msgid "Always send back a read reciept"
-msgstr ""
+msgstr "Alltid send kvittering"
 
 #: designs/read_receipts/read.glade.h:7
 msgid "Ask me if I want to send back a read receipt"
-msgstr ""
+msgstr "Spør meg om eg vil senda kvittering"
 
 #: designs/read_receipts/read.glade.h:8
 msgid "Never send back a read receipt"
-msgstr ""
+msgstr "Aldri send kvittering"
 
 #: designs/read_receipts/read.glade.h:9
 msgid "Read Receipts"
-msgstr ""
+msgstr "Kvitteringar på lesne meldingar"
 
 #: designs/read_receipts/read.glade.h:10
 msgid "Request a read receipt for all messages I send"
-msgstr ""
+msgstr "Be om lesekvittering på alle meldingane eg sender"
 
 #: designs/read_receipts/read.glade.h:11
 msgid "Unless the message is sent to a mailing list, and not to me personally"
-msgstr ""
+msgstr "Bortsett frå viss meldinga er til e postliste og ikkje berre til meg"
 
 #: designs/read_receipts/read.glade.h:12
 msgid ""
 "When you receive an email with a read receipt request, what should Evolution "
 "do?"
 msgstr ""
+"Kva skal Evolution gjera når du får ei melding som ber om lesekvittering?"
 
 #: e-util/e-dialog-utils.c:267
 msgid ""
@@ -12489,11 +12494,11 @@ msgstr "Skriv over fil?"
 
 #: e-util/e-passwords.c:463
 msgid "_Remember this password"
-msgstr ""
+msgstr "_Hugs dette passordet"
 
 #: e-util/e-passwords.c:464
 msgid "_Remember this password for the remainder of this session"
-msgstr ""
+msgstr "_Hugs dette passordet ut økta"
 
 #. strptime format of a weekday, a date and a time,
 #. in 12-hour format, without seconds.
@@ -12501,7 +12506,7 @@ msgstr ""
 #. time, in 12-hour format, without seconds.
 #: e-util/e-time-utils.c:185 e-util/e-time-utils.c:398
 msgid "%a %m/%d/%Y %I:%M %p"
-msgstr "%a %m/%d/%Y %I:%M %p"
+msgstr "%a %d.%m.%Y %H.%M"
 
 #. strptime format of a weekday, a date and a time,
 #. in 24-hour format, without seconds.
@@ -12509,65 +12514,65 @@ msgstr "%a %m/%d/%Y %I:%M %p"
 #. time, in 24-hour format, without seconds.
 #: e-util/e-time-utils.c:190 e-util/e-time-utils.c:389
 msgid "%a %m/%d/%Y %H:%M"
-msgstr ""
+msgstr "%a %d.%m.%Y %H.%M"
 
 #. strptime format of a weekday, a date and a time,
 #. in 12-hour format, without minutes or seconds.
 #: e-util/e-time-utils.c:195
 msgid "%a %m/%d/%Y %I %p"
-msgstr "%a %m/%d/%Y %I %p"
+msgstr "%a %d.%m.%Y %H"
 
 #. strptime format of a weekday, a date and a time,
 #. in 24-hour format, without minutes or seconds.
 #: e-util/e-time-utils.c:200
 msgid "%a %m/%d/%Y %H"
-msgstr "%a %d/%m/%Y %H"
+msgstr "%a %d.%m.%Y %H"
 
 #. strptime format of a date and a time, in 12-hour format.
 #: e-util/e-time-utils.c:211
 msgid "%m/%d/%Y %I:%M:%S %p"
-msgstr "%m/%d/%Y %I:%M:%S %p"
+msgstr "%d.%m.%Y %H.%M.%S"
 
 #. strptime format of a date and a time, in 24-hour format.
 #: e-util/e-time-utils.c:215
 msgid "%m/%d/%Y %H:%M:%S"
-msgstr "%d/%m/%Y %H:%M:%S"
+msgstr "%d.%m.%Y %H.%M.%S"
 
 #. strptime format of a date and a time, in 12-hour format,
 #. without seconds.
 #: e-util/e-time-utils.c:220
 msgid "%m/%d/%Y %I:%M %p"
-msgstr "%m/%d/%Y %I:%M %p"
+msgstr "%d.%m.%Y %H.%M"
 
 #. strptime format of a date and a time, in 24-hour format,
 #. without seconds.
 #: e-util/e-time-utils.c:225
 msgid "%m/%d/%Y %H:%M"
-msgstr "%d/%m/%Y %H:%M"
+msgstr "%d.%m.%Y %H.%M"
 
 #. strptime format of a date and a time, in 12-hour format,
 #. without minutes or seconds.
 #: e-util/e-time-utils.c:230
 msgid "%m/%d/%Y %I %p"
-msgstr "%m/%d/%Y %I %p"
+msgstr "%d.%m.%Y %H"
 
 #. strptime format of a date and a time, in 24-hour format,
 #. without minutes or seconds.
 #: e-util/e-time-utils.c:235
 msgid "%m/%d/%Y %H"
-msgstr "%m/%d/%Y %H"
+msgstr "%d.%m.%Y %H"
 
 #. strptime format for a time of day, in 12-hour format.
 #. strftime format of a time in 12-hour format.
 #: e-util/e-time-utils.c:339 e-util/e-time-utils.c:438
 msgid "%I:%M:%S %p"
-msgstr "%I:%M:%S %p"
+msgstr "%H.%M.%S"
 
 #. strptime format for a time of day, in 24-hour format.
 #. strftime format of a time in 24-hour format.
 #: e-util/e-time-utils.c:343 e-util/e-time-utils.c:430
 msgid "%H:%M:%S"
-msgstr "%H:%M:%S"
+msgstr "%H.%M.%S"
 
 #. strptime format for time of day, without seconds,
 #. in 12-hour format.
@@ -12577,7 +12582,7 @@ msgstr "%H:%M:%S"
 #: e-util/e-time-utils.c:348 e-util/e-time-utils.c:435
 #: widgets/misc/e-dateedit.c:1414 widgets/misc/e-dateedit.c:1639
 msgid "%I:%M %p"
-msgstr "%I:%M %p"
+msgstr "%H.%M"
 
 #. strptime format for time of day, without seconds 24-hour format.
 #. strftime format of a time in 24-hour format,
@@ -12586,12 +12591,12 @@ msgstr "%I:%M %p"
 #: e-util/e-time-utils.c:352 e-util/e-time-utils.c:427
 #: widgets/misc/e-dateedit.c:1411 widgets/misc/e-dateedit.c:1636
 msgid "%H:%M"
-msgstr "%H:%M"
+msgstr "%H.%M"
 
 #. strptime format for hour and AM/PM, 12-hour format.
 #: e-util/e-time-utils.c:356
 msgid "%I %p"
-msgstr "%I %p"
+msgstr "%H"
 
 #: filter/filter-datespec.c:73
 #, c-format
@@ -12639,12 +12644,12 @@ msgstr[1] "%d månader sidan"
 #, c-format
 msgid "1 year ago"
 msgid_plural "%d years ago"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "1 år sidan"
+msgstr[1] "%d år sidan"
 
 #: filter/filter-datespec.c:280
 msgid "<click here to select a date>"
-msgstr "<klikk her for å velje ein dato>"
+msgstr "<klikk her for å velja ein dato>"
 
 #: filter/filter-datespec.c:283 filter/filter-datespec.c:294
 msgid "now"
@@ -12662,7 +12667,7 @@ msgstr "Vel ei tid å samanlikna med"
 #. filter:no-date primary
 #: filter/filter-errors.xml.h:2
 msgid "Missing date."
-msgstr "Manglar dato"
+msgstr "Dato manglar."
 
 #. filter:no-date secondary
 #: filter/filter-errors.xml.h:4
@@ -12672,7 +12677,7 @@ msgstr "Du må velja ein dato."
 #. filter:no-file primary
 #: filter/filter-errors.xml.h:6
 msgid "Missing file name."
-msgstr "Manglar filnamn."
+msgstr "Filnamn manglar."
 
 #. filter:no-file secondary
 #. filter:bad-file secondary
@@ -12709,12 +12714,12 @@ msgstr "Du gi dette filteret eit namn."
 #. filter:bad-name-notunique primary
 #: filter/filter-errors.xml.h:22
 msgid "Name \"{0}\" already used."
-msgstr ""
+msgstr "Namnet «{0}» er allereie brukt."
 
 #. filter:bad-name-notunique secondary
 #: filter/filter-errors.xml.h:24
 msgid "Please choose another name."
-msgstr ""
+msgstr "Vel eit anna namn."
 
 #: filter/filter-file.c:288
 msgid "Choose a file"
@@ -12751,11 +12756,11 @@ msgstr "<b>Dersom</b>"
 
 #: filter/filter-rule.c:854
 msgid "if all criteria are met"
-msgstr ""
+msgstr "dersom alle krava er oppfylte"
 
 #: filter/filter-rule.c:854
 msgid "if any criteria are met"
-msgstr ""
+msgstr "dersom nokon av krava er oppfylte"
 
 #: filter/filter-rule.c:856
 msgid "Execute actions"
@@ -12802,22 +12807,28 @@ msgid ""
 "The message's date will be compared against\n"
 "12:00am of the date specified."
 msgstr ""
+"Datoen på meldinga vil verta samanlikna med\n"
+"12.00 den valde datoen."
 
 #: filter/filter.glade.h:6
 msgid ""
 "The message's date will be compared against\n"
 "a time relative to when filtering occurs."
 msgstr ""
+"Datoen på meldinga vil verta samanlikna med\n"
+"eit tidspunkt relativt til når filtreringa skjer."
 
 #: filter/filter.glade.h:8
 msgid ""
 "The message's date will be compared against\n"
 "the current time when filtering occurs."
 msgstr ""
+"Datoen på meldinga vil verta samanlikna med\n"
+"tidspunktet filtreringa skjer."
 
 #: filter/filter.glade.h:11
 msgid "a time relative to the current time"
-msgstr "ei tid relativt til tida no"
+msgstr "eit tidspunkt relativt til no"
 
 #: filter/filter.glade.h:12
 #, fuzzy
@@ -12940,7 +12951,7 @@ msgstr "Språk"
 
 #: mail/em-composer-prefs.c:955
 msgid "Add signature script"
-msgstr ""
+msgstr "Legg til signaturskript"
 
 #: mail/em-composer-prefs.c:975
 msgid "Signature(s)"
@@ -12962,6 +12973,8 @@ msgid ""
 "On ${AbbrevWeekdayName}, ${Year}-${Month}-${Day} at ${24Hour}:${Minute} "
 "${TimeZone}, ${Sender} wrote:"
 msgstr ""
+"${AbbrevWeekdayName} den ${Day}.${Month}.${Year} Klokka ${24Hour}:${Minute} "
+"(${TimeZone}) skreiv ${Sender}:"
 
 #: mail/em-filter-editor.c:147
 msgid "_Filter Rules"
@@ -13541,6 +13554,8 @@ msgid ""
 "This message is not signed. There is no guarantee that this message is "
 "authentic."
 msgstr ""
+"Denne meldinga er ikkje signert. Det er ikkje mogleg å vita om meldinga er "
+"autentisk."
 
 #: mail/em-format-html-display.c:644 mail/em-format-html.c:583
 msgid "Valid signature"
@@ -13587,10 +13602,12 @@ msgid ""
 "This message is not encrypted.  Its content may be viewed in transit across "
 "the Internet."
 msgstr ""
+"Denne meldinga er ikkje kryptert. Innhaldet vil vera synleg når ho vert "
+"sendt over internett."
 
 #: mail/em-format-html-display.c:653 mail/em-format-html.c:592
 msgid "Encrypted, weak"
-msgstr ""
+msgstr "Kryptert, svak"
 
 #: mail/em-format-html-display.c:653
 msgid ""
@@ -13598,6 +13615,9 @@ msgid ""
 "be difficult, but not impossible for an outsider to view the content of this "
 "message in a practical amount of time."
 msgstr ""
+"Denne meldinga er kryptert med ein svak krypteringsalgoritme. Det er "
+"vanskeleg, men ikkje umogleg, for ein uvedkommande å bryta krypteringa og "
+"lesa meldinga på relativt kort tid."
 
 #: mail/em-format-html-display.c:654 mail/em-format-html.c:593
 msgid "Encrypted"
@@ -13608,10 +13628,12 @@ msgid ""
 "This message is encrypted.  It would be difficult for an outsider to view "
 "the content of this message."
 msgstr ""
+"Denne meldinga er kryptert. Det er svært vanskeleg for ein uvedkommande å "
+"bryta krypteringa og lesa meldinga."
 
 #: mail/em-format-html-display.c:655 mail/em-format-html.c:594
 msgid "Encrypted, strong"
-msgstr ""
+msgstr "Kryptert, sterkt"
 
 #: mail/em-format-html-display.c:655
 msgid ""
@@ -13619,6 +13641,9 @@ msgid ""
 "very difficult for an outsider to view the content of this message in a "
 "practical amount of time."
 msgstr ""
+"Denne meldinga er kryptert med ein sterk krypteringsalgoritme. Det er svært "
+"vanskeleg for ein uvedkommande å bryta krypteringa og lesa meldinga på "
+"relativt kort tid."
 
 #: mail/em-format-html-display.c:756 smime/gui/smime-ui.glade.h:47
 msgid "_View Certificate"
@@ -13630,7 +13655,7 @@ msgstr "Dette sertifikatet er ikkje mogleg å visa"
 
 #: mail/em-format-html-display.c:1006
 msgid "Completed on %B %d, %Y, %l:%M %p"
-msgstr ""
+msgstr "Fullført %d. %B %Y klokka %H.%M"
 
 #: mail/em-format-html-display.c:1014
 msgid "Overdue:"
@@ -13638,7 +13663,7 @@ msgstr "Over tida:"
 
 #: mail/em-format-html-display.c:1017
 msgid "by %B %d, %Y, %l:%M %p"
-msgstr ""
+msgstr "innan %d. %B %Y klokka %H.%M"
 
 #: mail/em-format-html-display.c:1056
 msgid "_View Inline"
@@ -13669,27 +13694,27 @@ msgstr ""
 #: mail/em-format-html.c:878
 #, c-format
 msgid "Pointer to FTP site (%s)"
-msgstr ""
+msgstr "Peikar til FTP-nettstad (%s)"
 
 #: mail/em-format-html.c:889
 #, c-format
 msgid "Pointer to local file (%s) valid at site \"%s\""
-msgstr ""
+msgstr "Peikar til lokal fil (%s) gyldig på nettstaden (%s)"
 
 #: mail/em-format-html.c:891
 #, c-format
 msgid "Pointer to local file (%s)"
-msgstr ""
+msgstr "Peikar til lokal fil (%s)"
 
 #: mail/em-format-html.c:912
 #, c-format
 msgid "Pointer to remote data (%s)"
-msgstr ""
+msgstr "Peikar til eksterne data (%s)"
 
 #: mail/em-format-html.c:923
 #, c-format
 msgid "Pointer to unknown external data (\"%s\" type)"
-msgstr ""
+msgstr "Peikar til ukjende eksterne data (type «%s»)"
 
 #: mail/em-format-html.c:1165
 msgid "Formatting message"
@@ -13730,12 +13755,12 @@ msgstr "E-postprogram"
 #. translators: strftime format for local time equivalent in Date header display, with day
 #: mail/em-format-html.c:1581
 msgid "<I> (%a, %R %Z)</I>"
-msgstr ""
+msgstr "<I>(%a %H.%M %Z)</I>"
 
 #. translators: strftime format for local time equivalent in Date header display, without day
 #: mail/em-format-html.c:1584
 msgid "<I> (%R %Z)</I>"
-msgstr ""
+msgstr "<I>(%H.%M %Z)</I>"
 
 #: mail/em-format-html.c:1594 mail/em-format-quote.c:321 mail/em-format.c:806
 #: mail/em-mailer-prefs.c:88 mail/message-list.etspec.h:2
@@ -13757,11 +13782,11 @@ msgstr "Kunne ikkje tolka S/MIME-meldinga: Ukjend feil"
 
 #: mail/em-format.c:1218
 msgid "Unsupported encryption type for multipart/encrypted"
-msgstr ""
+msgstr "Krypteringstypen er ikkje støtta i multipart/encrypted"
 
 #: mail/em-format.c:1379
 msgid "Could not parse MIME message. Displaying as source."
-msgstr ""
+msgstr "Klarte ikkje tolka MIME-melding. Viser som kjelde."
 
 #: mail/em-format.c:1398
 msgid "Unsupported signature format"
@@ -13785,7 +13810,7 @@ msgstr "Kvar gong"
 
 #: mail/em-mailer-prefs.c:101
 msgid "Once per day"
-msgstr ""
+msgstr "Ein gong om dagen"
 
 #: mail/em-mailer-prefs.c:102
 msgid "Once per week"
@@ -13854,6 +13879,8 @@ msgid ""
 "Unable to read settings from previous Evolution install, `evolution/config."
 "xmldb' does not exist or is corrupt."
 msgstr ""
+"Klarte ikkje å lesa innstillingane til tidlegare installasjon av Evolution. "
+"«evolution/config.xmldb» finst ikkje eller er uleseleg."
 
 #: mail/em-popup.c:700
 msgid "Save As..."
@@ -13862,7 +13889,7 @@ msgstr "Lagra som ..."
 #: mail/em-popup.c:718
 #, c-format
 msgid "untitled_image.%s"
-msgstr ""
+msgstr "bilete_utan_namn.%s"
 
 #: mail/em-popup.c:808
 msgid "Set as _Background"
@@ -13958,7 +13985,7 @@ msgstr "Kjenn att smilefjes automatisk"
 
 #: mail/evolution-mail.schemas.in.in.h:3
 msgid "Check incoming mail being junk"
-msgstr ""
+msgstr "Kontroller om ny e-post er skrot"
 
 #: mail/evolution-mail.schemas.in.in.h:4
 msgid "Citation highlight color"
