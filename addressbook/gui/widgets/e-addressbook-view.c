@@ -1530,13 +1530,13 @@ e_contact_print_destroy(gpointer data, GObject *where_object_was)
 }
 
 static void
-e_contact_print_button(GtkDialog *dialog, gint button, gpointer data)
+e_contact_print_button(GtkDialog *dialog, gint response, gpointer data)
 {
 	GnomePrintJob *master;
 	GnomePrintContext *pc;
 	EPrintable *printable = g_object_get_data(G_OBJECT(dialog), "printable");
 	GtkWidget *preview;
-	switch( button ) {
+	switch( response ) {
 	case GNOME_PRINT_DIALOG_RESPONSE_PRINT:
 		master = gnome_print_job_new(gnome_print_dialog_get_config ( GNOME_PRINT_DIALOG(dialog) ));
 		pc = gnome_print_job_get_context( master );
@@ -1674,7 +1674,7 @@ e_addressbook_view_print(EAddressbookView *view)
 		g_object_set_data (G_OBJECT (dialog), "printable", printable);
 		
 		g_signal_connect(dialog,
-				 "clicked", G_CALLBACK(e_contact_print_button), NULL);
+				 "response", G_CALLBACK(e_contact_print_button), NULL);
 
 		weak_data = g_new (EContactPrintDialogWeakData, 1);
 

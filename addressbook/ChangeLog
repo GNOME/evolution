@@ -1,5 +1,12 @@
 2003-05-11  Chris Toshok  <toshok@ximian.com>
 
+	[ fixes bug #42048 ]
+	* gui/widgets/e-addressbook-view.c (e_contact_print_button):
+	button => response.
+	(e_addressbook_view_print): connect to "response", not "clicked".
+
+2003-05-11  Chris Toshok  <toshok@ximian.com>
+
 	[ fixes bug #41245 ]
 	* gui/component/select-names/select-names.glade: fix
 	spacing/border widths as per HIG.
