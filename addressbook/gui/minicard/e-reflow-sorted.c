@@ -211,6 +211,7 @@ e_reflow_sorted_reorder_item(EReflowSorted *e_reflow_sorted, const gchar *id)
 		gtk_object_unref(GTK_OBJECT(item));
 		g_list_free_1(list);
 		e_reflow_sorted_add_item(reflow, item);
+		e_canvas_item_request_reflow(GNOME_CANVAS_ITEM(reflow));
 	}
 }
 
