@@ -126,7 +126,8 @@ new_view_on_running_shell (void)
 	CORBA_exception_init (&ev);
 
 	corba_object = oaf_activate_from_id (E_SHELL_OAFIID, 0, NULL, &ev);
-	if (ev._major != CORBA_NO_EXCEPTION) {
+	if (ev._major != CORBA_NO_EXCEPTION
+	    || CORBA_Object_is_nil (corba_object, &ev)) {
 		e_notice (NULL, GNOME_MESSAGE_BOX_ERROR,
 			  _("Cannot initialize the Evolution shell."));
 		return;

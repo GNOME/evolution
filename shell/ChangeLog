@@ -1,3 +1,9 @@
+2000-12-04  Ettore Perazzoli  <ettore@helixcode.com>
+
+	* main.c (new_view_on_running_shell): Don't crash if the object
+	returned from `oaf_activate_from_id' is NIL and the exception
+	isn't set.  Just handle this as a normal error condition.
+
 2000-12-04  Michael Meeks  <michael@helixcode.com>
 
 	* e-shell-view.c (get_control_for_uri): return NULL if we can't
