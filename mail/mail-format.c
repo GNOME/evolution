@@ -474,8 +474,7 @@ handle_text_plain_flowed (CamelMimePart *part, CamelMimeMessage *root,
 	GtkHTMLStreamHandle *stream;
 	CamelDataWrapper *wrapper =
 		camel_medium_get_content_object (CAMEL_MEDIUM (part));
-	char *text, *line, *p;
-	CamelStream *wrapper_output_stream, *buffer;
+	char *buf, *text, *line, *eol, *p;
 	int prevquoting = 0, quoting, len;
 	gboolean br_pending = FALSE;
 
@@ -483,18 +482,12 @@ handle_text_plain_flowed (CamelMimePart *part, CamelMimeMessage *root,
 	mail_html_write (html, stream,
 			 "\n<!-- text/plain, flowed -->\n<tt>\n");
 
-	/* Get the output stream of the data wrapper. */
-	wrapper_output_stream = camel_data_wrapper_get_output_stream (wrapper);
-	camel_stream_reset (wrapper_output_stream, NULL);
-	buffer = camel_stream_buffer_new (wrapper_output_stream,
-					  CAMEL_STREAM_BUFFER_READ);
-
-	do {
-		/* Read next chunk of text. */
-		line = camel_stream_buffer_read_line (
-			CAMEL_STREAM_BUFFER (buffer), NULL);
-		if (!line)
-			break;
+	buf = get_data_wrapper_text (wrapper);
+	for (line = buf; *line; line = eol + 1) {
+		/* Process next line */
+		eol = strchr (line, '\n');
+		if (eol)
+			*eol = '\0';
 
 		quoting = 0;
 		for (p = line; *p == '>'; p++)
@@ -531,10 +524,11 @@ handle_text_plain_flowed (CamelMimePart *part, CamelMimeMessage *root,
 		len = strlen (p);
 		if (len == 0 || p[len - 1] != ' ' || !strcmp (p, "-- "))
 			br_pending = TRUE;
-		g_free (line);
-	} while (!camel_stream_eos (buffer));
 
-	gtk_object_unref (GTK_OBJECT (buffer));
+		if (!eol)
+			break;
+	}
+	g_free (buf);
 
 	mail_html_write (html, stream, "</tt>\n");
 	mail_html_end (html, stream, TRUE, box);
@@ -678,35 +672,14 @@ handle_text_html (CamelMimePart *part, CamelMimeMessage *root, GtkBox *box)
 	GtkHTMLStreamHandle *stream;
 	CamelDataWrapper *wrapper =
 		camel_medium_get_content_object (CAMEL_MEDIUM (part));
-	CamelStream *wrapper_output_stream;
-	gchar tmp_buffer[4096];
-	gint nb_bytes_read;
-	gboolean empty_text = TRUE;
+	char *text;
 
 	mail_html_new (&html, &stream, root, FALSE);
 	mail_html_write (html, stream, "\n<!-- text/html -->\n");
 
-	/* Get the output stream of the data wrapper. */
-	wrapper_output_stream = camel_data_wrapper_get_output_stream (wrapper);
-	camel_stream_reset (wrapper_output_stream, NULL);
-
-	do {
-		/* Read next chunk of text. */
-		nb_bytes_read = camel_stream_read (wrapper_output_stream,
-						   tmp_buffer, 4096, NULL);
-
-		/* If there's any text, write it to the stream */
-		if (nb_bytes_read > 0) {
-			empty_text = FALSE;
-			
-			/* Write the buffer to the html stream */
-			gtk_html_write (html, stream, tmp_buffer,
-					nb_bytes_read);
-		}
-	} while (!camel_stream_eos (wrapper_output_stream));
-
-	if (empty_text)
-		mail_html_write (html, stream, "<b>(empty)</b>");
+	text = get_data_wrapper_text (wrapper);
+	mail_html_write (html, stream, text);
+	g_free (text);
 
 	mail_html_end (html, stream, FALSE, box);
 }

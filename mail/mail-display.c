@@ -39,11 +39,12 @@ save_data_eexist_cb (int reply, gpointer user_data)
 static void
 save_data_cb (GtkWidget *widget, gpointer user_data)
 {
-	CamelStream *output = CAMEL_STREAM (user_data);
+	CamelDataWrapper *data = user_data;
+	CamelStream *stream_fs;
 	GtkFileSelection *file_select = (GtkFileSelection *)
 		gtk_widget_get_ancestor (widget, GTK_TYPE_FILE_SELECTION);
-	char *name, buf[1024];
-	int fd, nread;
+	char *name;
+	int fd;
 	CamelException *ex;
 
 	name = gtk_file_selection_get_filename (file_select);
@@ -70,14 +71,12 @@ save_data_cb (GtkWidget *widget, gpointer user_data)
 		return;
 	}
 
+	stream_fs = camel_stream_fs_new_with_fd (fd);
 	ex = camel_exception_new ();
-	camel_stream_reset (output, ex);
-	while (!camel_exception_is_set (ex) && !camel_stream_eos (output)) {
-		nread = camel_stream_read (output, buf, sizeof (buf), ex);
-		if (nread > 0)
-			write (fd, buf, nread);
-	}
-	close (fd);
+	camel_data_wrapper_write_to_stream (data, stream_fs, ex);
+	if (!camel_exception_is_set (ex))
+		camel_stream_flush (stream_fs, ex);
+	gtk_object_unref (GTK_OBJECT (stream_fs));
 
 	if (camel_exception_is_set (ex)) {
 		char *msg;
@@ -95,15 +94,12 @@ static void
 save_data (const char *cid, CamelMimeMessage *message)
 {
 	CamelDataWrapper *data;
-	CamelStream *output;
 	GtkFileSelection *file_select;
 	char *filename;
 
 	g_return_if_fail (CAMEL_IS_MIME_MESSAGE (message));
 	data = gtk_object_get_data (GTK_OBJECT (message), cid);
 	g_return_if_fail (CAMEL_IS_DATA_WRAPPER (data));
-	output = camel_data_wrapper_get_output_stream (data);
-	g_return_if_fail (CAMEL_IS_STREAM (output));
 
 	file_select = GTK_FILE_SELECTION (gtk_file_selection_new ("Save Attachment"));
 	filename = gtk_object_get_data (GTK_OBJECT (data), "filename");
@@ -115,7 +111,7 @@ save_data (const char *cid, CamelMimeMessage *message)
 	g_free (filename);
 
 	gtk_signal_connect (GTK_OBJECT (file_select->ok_button), "clicked", 
-			    GTK_SIGNAL_FUNC (save_data_cb), output);
+			    GTK_SIGNAL_FUNC (save_data_cb), data);
 	gtk_signal_connect_object (GTK_OBJECT (file_select->cancel_button),
 				   "clicked",
 				   GTK_SIGNAL_FUNC (gtk_widget_destroy),
@@ -142,8 +138,6 @@ static void
 on_url_requested (GtkHTML *html, const char *url, GtkHTMLStreamHandle handle,
 		  gpointer user_data)
 {
-	char buf[1024];
-	int nread;
 	CamelMimeMessage *message = CAMEL_MIME_MESSAGE (user_data);
 
 	if (strncmp (url, "x-gnome-icon:", 13) == 0) {
@@ -153,8 +147,8 @@ on_url_requested (GtkHTML *html, const char *url, GtkHTMLStreamHandle handle,
 		 * hack needs to be replaced with something more
 		 * efficient anyway.
 		 */
-		char *path = gnome_pixmap_file (name);
-		int fd;
+		char *path = gnome_pixmap_file (name), buf[1024];
+		int fd, nread;
 
 		g_return_if_fail (path != NULL);
 		fd = open (path, O_RDONLY);
@@ -171,21 +165,17 @@ on_url_requested (GtkHTML *html, const char *url, GtkHTMLStreamHandle handle,
 	} else if (strncmp (url, "cid:", 4) == 0) {
 		const char *cid = url + 4;
 		CamelDataWrapper *data;
-		CamelStream *output;
+		CamelStream *stream_mem;
+		GByteArray *ba;
 
 		data = gtk_object_get_data (GTK_OBJECT (message), cid);
 		g_return_if_fail (CAMEL_IS_DATA_WRAPPER (data));
 
-		output = camel_data_wrapper_get_output_stream (data);
-		g_return_if_fail (CAMEL_IS_STREAM (output));
-
-		camel_stream_reset (output, NULL);
-		do {
-			nread = camel_stream_read (output, buf,
-						   sizeof (buf), NULL);
-			if (nread > 0)
-				gtk_html_write (html, handle, buf, nread);
-		} while (!camel_stream_eos (output));
+		ba = g_byte_array_new ();
+		stream_mem = camel_stream_mem_new_with_byte_array (ba);
+		camel_data_wrapper_write_to_stream (data, stream_mem, NULL);
+		gtk_html_write (html, handle, ba->data, ba->len);
+		gtk_object_unref (GTK_OBJECT (stream_mem));
 	} else
 		return;
 }

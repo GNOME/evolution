@@ -1,3 +1,10 @@
+2000-05-17  Dan Winship  <danw@helixcode.com>
+
+	* mail-display.c (save_data_cb, save_data, on_url_requested):
+	* mail-format.c (handle_text_plain_flowed, handle_text_html):
+	Use camel_data_wrapper_write_to_stream rather than
+	camel_data_wrapper_get_output_stream.
+
 2000-05-16  NotZed  <NotZed@HelixCode.com>
 
 	* mail-ops.c (filter_edit): Function to bring up the filter editor.
