@@ -1,3 +1,20 @@
+2004-01-16  JP Rosevear <jpr@ximian.com>
+
+	* gui/e-comp-editor-registry.h: convert to GObject
+
+	* gui/e-comp-editor-registry.c (registry_data_free): routine to
+	free the registry data
+	(dispose): destroy the registry data
+	(finalize): finalize it
+	(class_init): setup above
+	(init): create full hash table
+	(e_comp_editor_registry_add): weak ref the editor and strdup the
+	hash table key
+	(editor_destroy_cb): we get the registry data now, just remove it
+
+	* gui/dialogs/comp-editor.c (close_dialog): disconnect the signal
+	handlers, its a bit of a hack but it is a simple fix
+
 2004-01-16  Radek Doulik  <rodo@ximian.com>
 
 	* gui/print.c (print_calendar): don't set old orientation, preview
