@@ -1,3 +1,8 @@
+2002-04-04  JP Rosevear  <jpr@ximian.com>
+
+	* configure.in: Fix static linking on solaris which doesn't have a
+	static libresolv.
+
 2002-04-01  Chris Toshok  <toshok@ximian.com>
 
 	* libversit/vobject.c (newStrItem): only include if USE_STRTBL is
