@@ -1,3 +1,9 @@
+2001-01-12  Miguel de Icaza  <miguel@gnu.org>
+
+	* e-splash.c (e_splash_construct): Ok, talked to Ettore.  Going
+	back to TOPLEVEL non-POPUP.
+	(e_splash_construct): Remove nice toplevel window.
+
 2001-01-12  Ettore Perazzoli  <ettore@ximian.com>
 
 	* evolution-shell-component.c: Add member `copy_folder_fn' to
@@ -12,10 +18,6 @@
 
 	* evolution-shell-component.h: New type
 	`EvolutionShellComponentCopyFolderFn'.
-
-2001-01-12  Miguel de Icaza  <miguel@gnu.org>
-
-	* e-splash.c (e_splash_construct): Remove nice toplevel window.
 
 2001-01-12  Ettore Perazzoli  <ettore@helixcode.com>
 
