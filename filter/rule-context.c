@@ -42,11 +42,14 @@ static void rule_context_finalise(GtkObject * obj);
 #define _PRIVATE(x) (((RuleContext *)(x))->priv)
 
 struct _RuleContextPrivate {
+	int frozen;
 };
 
 static GtkObjectClass *parent_class;
 
 enum {
+	RULE_ADDED,
+	RULE_REMOVED,
 	LAST_SIGNAL
 };
 
@@ -89,6 +92,21 @@ rule_context_class_init (RuleContextClass * class)
 	class->save = save;
 	
 	/* signals */
+	signals[RULE_ADDED] =
+		gtk_signal_new("rule_added",
+			       GTK_RUN_LAST,
+			       object_class->type,
+			       GTK_SIGNAL_OFFSET (RuleContextClass, rule_added),
+			       gtk_marshal_NONE__POINTER,
+			       GTK_TYPE_NONE, 1, GTK_TYPE_POINTER);
+
+	signals[RULE_REMOVED] =
+		gtk_signal_new("rule_removed",
+			       GTK_RUN_LAST,
+			       object_class->type,
+			       GTK_SIGNAL_OFFSET (RuleContextClass, rule_removed),
+			       gtk_marshal_NONE__POINTER,
+			       GTK_TYPE_NONE, 1, GTK_TYPE_POINTER);
 	
 	gtk_object_class_add_signals(object_class, signals, LAST_SIGNAL);
 }
@@ -222,9 +240,15 @@ rule_context_set_error (RuleContext * f, char *error)
 int
 rule_context_load (RuleContext *f, const char *system, const char *user)
 {
+	int res;
+
 	d(printf("rule_context: loading %s %s\n", system, user));
-	
-	return ((RuleContextClass *) ((GtkObject *) f)->klass)->load (f, system, user);
+
+	f->priv->frozen++;
+	res= ((RuleContextClass *) ((GtkObject *) f)->klass)->load (f, system, user);
+	f->priv->frozen--;
+
+	return res;
 }
 
 static int
@@ -240,8 +264,8 @@ load (RuleContext *f, const char *system, const char *user)
 	
 	f->system = xmlParseFile (system);
 	if (f->system == NULL) {
-		rule_context_set_error (f, g_strdup_printf ("Unable to load system rules '%s': %s",
-							    system, g_strerror (errno)));
+		rule_context_set_error(f, g_strdup_printf ("Unable to load system rules '%s': %s",
+							   system, strerror(errno)));
 		return -1;
 	}
 	if (strcmp (f->system->root->name, "filterdescription")) {
@@ -400,6 +424,9 @@ void
 rule_context_add_rule (RuleContext *f, FilterRule *new)
 {
 	f->rules = g_list_append (f->rules, new);
+
+	if (f->priv->frozen == 0)
+		gtk_signal_emit((GtkObject *)f, signals[RULE_ADDED], new);
 }
 
 static void
@@ -455,6 +482,9 @@ void
 rule_context_remove_rule (RuleContext *f, FilterRule *rule)
 {
 	f->rules = g_list_remove (f->rules, rule);
+
+	if (f->priv->frozen == 0)
+		gtk_signal_emit((GtkObject *)f, signals[RULE_REMOVED], rule);
 }
 
 void

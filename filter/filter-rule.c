@@ -52,11 +52,13 @@ static void filter_rule_finalise (GtkObject * obj);
 #define _PRIVATE(x) (((FilterRule *)(x))->priv)
 
 struct _FilterRulePrivate {
+	int frozen;
 };
 
 static GtkObjectClass *parent_class;
 
 enum {
+	CHANGED,
 	LAST_SIGNAL
 };
 
@@ -103,6 +105,13 @@ filter_rule_class_init (FilterRuleClass * class)
 	class->get_widget = get_widget;
 	
 	/* signals */
+	signals[CHANGED] =
+		gtk_signal_new("changed",
+			       GTK_RUN_LAST,
+			       object_class->type,
+			       GTK_SIGNAL_OFFSET (FilterRuleClass, changed),
+			       gtk_marshal_NONE__NONE,
+			       GTK_TYPE_NONE, 0);
 	
 	gtk_object_class_add_signals (object_class, signals, LAST_SIGNAL);
 }
@@ -281,11 +290,19 @@ load_set (xmlNodePtr node, FilterRule *fr, RuleContext *f)
 int
 filter_rule_xml_decode (FilterRule *fr, xmlNodePtr node, RuleContext *f)
 {
+	int res;
+
 	g_assert (IS_FILTER_RULE (fr));
 	g_assert (IS_RULE_CONTEXT (f));
 	g_assert (node != NULL);
-	
-	return ((FilterRuleClass *) ((GtkObject *) fr)->klass)->xml_decode (fr, node, f);
+
+	fr->priv->frozen++;	
+	res = ((FilterRuleClass *) ((GtkObject *) fr)->klass)->xml_decode (fr, node, f);
+	fr->priv->frozen--;
+
+	filter_rule_emit_changed(fr);
+
+	return res;
 }
 
 static int
@@ -323,7 +340,8 @@ xml_decode (FilterRule *fr, xmlNodePtr node, RuleContext *f)
 			load_set (work, fr, f);
 		} else if (!strcmp (work->name, "title") || !strcmp (work->name, "_title")) {
 			if (!fr->name) {
-				gchar *str, *decstr;
+				char *str, *decstr;
+
 				str = xmlNodeGetContent (work);
 				decstr = e_utf8_xml1_decode (str);
 				if (str)
@@ -373,6 +391,8 @@ filter_rule_copy (FilterRule *dest, FilterRule *src)
 	g_assert (IS_FILTER_RULE (src));
 	
 	((FilterRuleClass *) ((GtkObject *) dest)->klass)->copy (dest, src);
+
+	filter_rule_emit_changed(dest);
 }
 
 void
@@ -382,6 +402,8 @@ filter_rule_add_part (FilterRule *fr, FilterPart *fp)
 	g_assert (IS_FILTER_PART (fp));
 	
 	fr->parts = g_list_append (fr->parts, fp);
+
+	filter_rule_emit_changed(fr);
 }
 
 void
@@ -391,6 +413,8 @@ filter_rule_remove_part (FilterRule *fr, FilterPart *fp)
 	g_assert (IS_FILTER_PART (fp));
 	
 	fr->parts = g_list_remove (fr->parts, fp);
+
+	filter_rule_emit_changed(fr);
 }
 
 void
@@ -408,6 +432,8 @@ filter_rule_replace_part (FilterRule *fr, FilterPart *fp, FilterPart *new)
 	} else {
 		fr->parts = g_list_append (fr->parts, new);
 	}
+
+	filter_rule_emit_changed(fr);
 }
 
 void
@@ -419,6 +445,15 @@ filter_rule_build_code (FilterRule *fr, GString *out)
 	((FilterRuleClass *) ((GtkObject *) fr)->klass)->build_code (fr, out);
 	
 	d(printf ("build_code: [%s](%d)", out->str, out->len));
+}
+
+void
+filter_rule_emit_changed(FilterRule *fr)
+{
+	g_assert (IS_FILTER_RULE (fr));
+
+	if (fr->priv->frozen == 0)
+		gtk_signal_emit((GtkObject *)fr, signals[CHANGED]);
 }
 
 static void

@@ -1,3 +1,27 @@
+2001-09-13    <NotZed@Ximian.com>
+
+	* filter-filter.c (filter_filter_add_action): 
+	(filter_filter_remove_action): 
+	(filter_filter_replace_action): Emit changed events.
+
+	* filter-rule.c (filter_rule_xml_decode): Emiot a rule changed event.
+	(filter_rule_copy): Emit a changed event.
+	(filter_rule_replace_part): "
+	(filter_rule_add_part): "
+	(filter_rule_remove_part): "
+	(filter_rule_xml_decode): Freeze around decoding, so we only emit changed when done.
+	(filter_rule_emit_changed): New function to emit changed events if not frozen.
+
+2001-09-13    <NotZed@Ximian.com>
+
+	* rule-context.c (rule_context_class_init): Added a 'rule_added'
+	and 'rule_removed' signal.
+	(rule_context_load): Set a (private) frozen flag while we're loading.
+	(rule_context_add_rule): Emit a rule_added signal if we're not
+	frozen.
+	(rule_context_remove_rule): Emit a rule_removed signal if we're
+	not frozen.
+
 2001-09-12  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* rule-editor.c (rule_edit): Clone the current rule before editing

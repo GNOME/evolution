@@ -152,12 +152,16 @@ void
 filter_filter_add_action (FilterFilter *fr, FilterPart *fp)
 {
 	fr->actions = g_list_append (fr->actions, fp);
+
+	filter_rule_emit_changed((FilterRule *)fr);
 }
 
 void
 filter_filter_remove_action (FilterFilter *fr, FilterPart *fp)
 {
 	fr->actions = g_list_remove (fr->actions, fp);
+
+	filter_rule_emit_changed((FilterRule *)fr);
 }
 
 void
@@ -171,6 +175,8 @@ filter_filter_replace_action (FilterFilter *fr, FilterPart *fp, FilterPart *new)
 	} else {
 		fr->actions = g_list_append (fr->actions, new);
 	}
+
+	filter_rule_emit_changed((FilterRule *)fr);
 }
 
 void

@@ -62,6 +62,8 @@ struct _RuleContextClass {
 	int (*save)(RuleContext *f, const char *user);
 
 	/* signals */
+	void (*rule_added)(RuleContext *f, FilterRule *rule);
+	void (*rule_removed)(RuleContext *f, FilterRule *rule);
 };
 
 typedef void (*RCPartFunc)(RuleContext *f, FilterPart *part);

@@ -71,6 +71,7 @@ struct _FilterRuleClass {
 	GtkWidget *(*get_widget)(FilterRule *fr, struct _RuleContext *f);
 	
 	/* signals */
+	void (*changed)(FilterRule *fr);
 };
 
 guint		filter_rule_get_type	(void);
@@ -100,9 +101,12 @@ void		filter_rule_build_code	(FilterRule *fr, GString *out);
 void		filter_rule_build_action(FilterRule *fr, GString *out);
 */
 
+void		filter_rule_emit_changed	(FilterRule *fr);
+
 /* static functions */
 FilterRule	*filter_rule_next_list		(GList *l, FilterRule *last, const char *source);
 FilterRule	*filter_rule_find_list		(GList *l, const char *name, const char *source);
+
 
 #endif /* ! _FILTER_RULE_H */
 
