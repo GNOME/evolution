@@ -1,5 +1,18 @@
 2001-07-02  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* mail-accounts.c (construct): Setup the Empty Trash On Exit
+	widgets.
+
+	* mail-config.c (config_read): Option to emtpy trash on exit.
+	(mail_config_write_on_exit): Same.
+	(mail_config_set_empty_trash_on_exit): Set the option.
+	(mail_config_get_empty_trash_on_exit): Get the option.
+
+	* component-factory.c (owner_unset_cb): Empty the trash folders if
+	the user set the "empty trash on exit" option.
+
+2001-07-02  Jeffrey Stedfast  <fejj@ximian.com>
+
 	* mail-callbacks.c (transfer_msg): Updated for the
 	mail_transfer_messages API.
 
@@ -34,34 +47,40 @@
 
 2001-07-02  Peter Williams  <peterw@ximian.com>
 
-	* mail-folder-cache.h: New file. Protoypes for the Mail Folder Cache, which
-	provides a place for all the disparate pieces of the mailer to save bits of
-	information about a folder. Centralizes the information display code.
+	* mail-folder-cache.h: New file. Protoypes for the Mail Folder
+	Cache, which provides a place for all the disparate pieces of the
+	mailer to save bits of information about a folder. Centralizes the
+	information display code.
 
 	* mail-folder-cache.c: New file. Implements the Mail Folder Cache.
 	
-	* Makefile.am (evolution_mail_SOURCES): Add the mail-folder-cache.{c,h}
+	* Makefile.am (evolution_mail_SOURCES): Add the
+	mail-folder-cache.{c,h}
 
-	* folder-browser-factory.c (fb_get_svi): Copy of that absurdly long-named
-	function in mail-display.c that gets the GNOME_Evolution_ShellView.
+	* folder-browser-factory.c (fb_get_svi): Copy of that absurdly
+	long-named function in mail-display.c that gets the
+	GNOME_Evolution_ShellView.
 	(control_activate): Set the ShellView for the folder cache.
 
-	* folder-browser.c (got_folder): Tell the folder browser about this folder.
+	* folder-browser.c (got_folder): Tell the folder browser about
+	this folder.
 
-	* mail-callbacks.c (create_folders): Tell the folder cache about the new
-	folders.
+	* mail-callbacks.c (create_folders): Tell the folder cache about
+	the new folders.
 
 	* mail-local.c (reconfigure_folder_reconfigure): Don't unhook our
 	events as we no longer hook them up.
 	(register_folder_registered): Tell the folder cache about this
 	folder's place in the local storage.
-	(register_folder_register): No longer hook events; the Folder Cache
-	will do this.
-	(local_folder_changed, local_folder_changed_proxy): Move to mail-folder-cache.c
+	(register_folder_register): No longer hook events; the Folder
+	Cache will do this.
+	(local_folder_changed, local_folder_changed_proxy): Move to
+	mail-folder-cache.c
 	(free_local_folder): No longer unhook events.
 
 	* mail-ops.c (do_update_subfolders_rec): Instead of setting the
-	folder status ourselves, inform the Folder Cache about the changes.
+	folder status ourselves, inform the Folder Cache about the
+	changes.
 
 	* mail-tools.c (mail_tool_uri_to_folder): Replace danw's cache
 	with the new Mail Folder Cache.

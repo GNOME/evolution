@@ -602,6 +602,12 @@ images_radio_toggled (GtkWidget *radio, gpointer data)
 }
 
 static void
+empty_trash_toggled (GtkWidget *toggle, gpointer data)
+{
+	mail_config_set_empty_trash_on_exit (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (toggle)));
+}
+
+static void
 forward_style_activated (GtkWidget *item, gpointer data)
 {
 	int style = GPOINTER_TO_INT (data);
@@ -750,6 +756,11 @@ construct (MailAccountsDialog *dialog)
 	gtk_option_menu_set_menu (dialog->charset, menu);
 	gtk_signal_connect (GTK_OBJECT (menu), "deactivate",
 			    GTK_SIGNAL_FUNC (charset_menu_deactivate), NULL);
+	
+	dialog->empty_trash = GTK_TOGGLE_BUTTON (glade_xml_get_widget (gui, "chkEmptyTrashOnExit"));
+	gtk_toggle_button_set_active (dialog->empty_trash, mail_config_get_empty_trash_on_exit ());
+	gtk_signal_connect (GTK_OBJECT (dialog->empty_trash), "toggled",
+			    GTK_SIGNAL_FUNC (empty_trash_toggled), dialog);
 	
 	/* now to fill in the clists */
 	dialog->accounts_row = -1;

@@ -106,14 +106,17 @@ void mail_config_write_on_exit (void);
 /* General Accessor functions */
 gboolean mail_config_is_configured            (void);
 
+gboolean mail_config_get_empty_trash_on_exit  (void);
+void     mail_config_set_empty_trash_on_exit  (gboolean value);
+
 gboolean mail_config_get_thread_list          (const char *uri);
 void     mail_config_set_thread_list          (const char *uri, gboolean value);
 
 gboolean mail_config_get_show_preview         (const char *uri);
 void     mail_config_set_show_preview         (const char *uri, gboolean value);
 
-gboolean mail_config_get_hide_deleted          (void);
-void     mail_config_set_hide_deleted          (gboolean value);
+gboolean mail_config_get_hide_deleted         (void);
+void     mail_config_set_hide_deleted         (gboolean value);
 
 gint     mail_config_get_paned_size           (void);
 void     mail_config_set_paned_size           (gint size);

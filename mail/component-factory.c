@@ -578,6 +578,9 @@ idle_quit (gpointer user_data)
 static void
 owner_unset_cb (EvolutionShellComponent *shell_component, gpointer user_data)
 {
+	if (mail_config_get_empty_trash_on_exit ())
+		empty_trash (NULL, NULL, NULL);
+	
 	unref_standard_folders ();
 	mail_importer_uninit ();
 	

@@ -82,7 +82,10 @@ struct _MailAccountsDialog {
 	GtkToggleButton *send_html;
 	GtkOptionMenu *forward_style;
 	GtkOptionMenu *charset;
-
+	
+	/* Other page */
+	GtkToggleButton *empty_trash;
+	
 	/* PGP page */
 	GnomeFileEntry *pgp_path;
 };

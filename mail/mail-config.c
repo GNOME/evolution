@@ -61,6 +61,7 @@ typedef struct {
 	gboolean prompt_empty_subject;
 	gboolean prompt_only_bcc;
 	gint seen_timeout;
+	gboolean empty_trash_on_exit;
 	
 	GSList *accounts;
 	GSList *news;
@@ -563,6 +564,14 @@ config_read (void)
 			config->default_charset = g_strdup (config->default_charset);
 	}
 	
+	/* Trash folders */
+	str = g_strdup_printf ("=%s/config/Mail=/Trash/empty_on_exit",
+			       evolution_dir);
+	config->empty_trash_on_exit = gnome_config_get_bool_with_default (str, &def);
+	if (def)
+		config->empty_trash_on_exit = FALSE;
+	g_free (str);
+	
 	gnome_config_sync ();
 }
 
@@ -807,6 +816,11 @@ mail_config_write_on_exit (void)
 	gnome_config_set_string (str, config->default_charset);
 	g_free (str);
 	
+	/* Trash folders */
+	str = g_strdup_printf ("=%s/config/Mail=/Trash/empty_on_exit", evolution_dir);
+	gnome_config_set_bool (str, config->empty_trash_on_exit);
+	g_free (str);
+	
 	/* Passwords */
 	gnome_config_private_clean_section ("/Evolution/Passwords");
 	sources = mail_config_get_sources ();
@@ -844,6 +858,18 @@ gboolean
 mail_config_is_configured (void)
 {
 	return config->accounts != NULL;
+}
+
+gboolean
+mail_config_get_empty_trash_on_exit (void)
+{
+	return config->empty_trash_on_exit;
+}
+
+void
+mail_config_set_empty_trash_on_exit (gboolean value)
+{
+	config->empty_trash_on_exit = value;
 }
 
 gboolean
