@@ -1,5 +1,8 @@
 2003-11-17  Not Zed  <NotZed@Ximian.com>
 
+	* em-folder-selection-button.c (set_contents): handle an
+	unparsable url without crashing.
+
 	* mail-tools.c (mail_tool_get_local_inbox): thin wrapper on
 	mail_component_get_local_inbox.
 

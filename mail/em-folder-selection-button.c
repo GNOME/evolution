@@ -20,7 +20,6 @@
  *
  */
 
-
 #ifdef HAVE_CONFIG_H
 #include <config.h>
 #endif
@@ -39,7 +38,6 @@
 
 #include "em-folder-selection-button.h"
 
-
 static void em_folder_selection_button_class_init (EMFolderSelectionButtonClass *klass);
 static void em_folder_selection_button_init (EMFolderSelectionButton *emfsb);
 static void em_folder_selection_button_destroy (GtkObject *obj);
@@ -47,7 +45,6 @@ static void em_folder_selection_button_finalize (GObject *obj);
 static void em_folder_selection_button_clicked (GtkButton *button);
 
 static GtkButtonClass *parent_class = NULL;
-
 
 struct _EMFolderSelectionButtonPrivate {
 	GtkWidget *icon;
@@ -65,7 +62,6 @@ enum {
 };
 
 static guint signals[LAST_SIGNAL] = { 0 };
-
 
 GType
 em_folder_selection_button_get_type (void)
@@ -127,12 +123,12 @@ set_contents (EMFolderSelectionButton *button)
 	const char *path;
 	CamelURL *url;
 	
-	if (priv->uri == NULL) {
+	if (priv->uri == NULL
+	    || (url = camel_url_new (priv->uri, NULL)) == NULL) {
 		set_contents_unselected (button);
 		return;
 	}
 	
-	url = camel_url_new (priv->uri, NULL);
 	path = url->fragment ? url->fragment : url->path;
 	
 	if (path == NULL) {
@@ -224,7 +220,6 @@ em_folder_selection_button_clicked (GtkButton *button)
 	gtk_widget_show (dialog);
 }
 
-
 GtkWidget *
 em_folder_selection_button_new (const char *title, const char *caption)
 {
@@ -235,7 +230,6 @@ em_folder_selection_button_new (const char *title, const char *caption)
 	
 	return GTK_WIDGET (button);
 }
-
 
 void
 em_folder_selection_button_set_selection (EMFolderSelectionButton *button, const char *uri)
@@ -251,7 +245,6 @@ em_folder_selection_button_set_selection (EMFolderSelectionButton *button, const
 	
 	set_contents (button);
 }
-
 
 const char *
 em_folder_selection_button_get_selection (EMFolderSelectionButton *button)
