@@ -1,5 +1,12 @@
 2001-08-03  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* camel-pgp-context.c (pgp_verify): Minor changes to the iconv
+	code so that it does the check in the return value of iconv() just
+	like the code in camel-mime-utils.c in case this fixes Bo Rosen's
+	gpg bugs (but I doubt this will change anything?).
+
+2001-08-03  Jeffrey Stedfast  <fejj@ximian.com>
+
 	* providers/smtp/camel-smtp-transport.c (smtp_connect): First
 	check to make sure that service->url->authmech is non-NULL before
 	passing it into strcmp to avoid a segfault.

@@ -998,14 +998,20 @@ pgp_verify (CamelCipherContext *ctx, CamelCipherHash hash, CamelStream *istream,
 		cd = iconv_open ("UTF-8", locale);
 		if (cd != (iconv_t) -1) {
 			const char *inbuf;
+			int ret;
 			
 			inbuf = diagnostics;
-			iconv (cd, &inbuf, &inlen, &outbuf, &outlen);
+			ret = iconv (cd, &inbuf, &inlen, &outbuf, &outlen);
+			if (ret >= 0) {
+				iconv (cd, NULL, 0, &outbuf, &outlen);
+			}
 			iconv_close (cd);
 			
 			*outbuf = '\0';
 		} else {
 			const char *inptr, *inend;
+			
+			g_warning ("CamelPgpContext::pgp_verify: cannot convert from %s to UTF-8", locale);
 			
 			inptr = diagnostics;
 			inend = inptr + inlen;
