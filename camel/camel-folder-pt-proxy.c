@@ -614,7 +614,7 @@ _async_set_name (gpointer param)
 	
 	folder = set_name_folder_param->folder;
 	
-	CF_CLASS (folder)->set_name (folder, set_name_folder_param->expunge);
+	CF_CLASS (folder)->set_name (folder, set_name_folder_param->name);
 	g_free (param);
 	_notify_availability (folder, 'a');
 

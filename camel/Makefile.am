@@ -14,16 +14,16 @@ INCLUDES = -I.. -I$(srcdir)/.. -I$(includedir)	\
 
 if HAVE_PTHREAD
 
-libcamel_pthread_SOURCES =	\
+pthread_SRC =	\
 	camel-folder-pt-proxy.c		
 
-libcamel_pthread_HEADERS =	\
+pthread_HDR =	\
 	camel-folder-pt-proxy.h		
 
 else
 
-libcamel_pthread_SOURCES =
-libcamel_pthread_HEADERS =
+libcamel_pthread_SRC =
+libcamel_pthread_HDR=
 
 endif
 
@@ -59,7 +59,7 @@ libcamel_la_SOURCES = 				\
 	md5-utils.c				\
 	string-utils.c				\
 	url-util.c				\
-	$(libcamel_pthread_SOURCES)
+	$(pthread_SRC)
 
 libcamelinclude_HEADERS =			\
 	camel.h					\
@@ -92,7 +92,7 @@ libcamelinclude_HEADERS =			\
 	md5-utils.h				\
 	string-utils.h				\
 	url-util.h				\
-	$(libcamel_pthread_HEADERS)
+	$(pthread_HDR)
 
 
 libcamel_la_LDFLAGS = -version-info 0:0:0 -rpath $(libdir)
