@@ -429,7 +429,7 @@ camel_imap_command (CamelImapStore *store, CamelFolder *folder, char **ret, char
 		char *r;
 		int s;
 
-		s = camel_imap_command (store, folder, &r, "SELECT %s", folder->full_name);
+		s = camel_imap_command_extended (store, folder, &r, "SELECT %s", folder->full_name);
 		if (s != CAMEL_IMAP_OK) {
 			*ret = r;
 			return s;
@@ -445,6 +445,7 @@ camel_imap_command (CamelImapStore *store, CamelFolder *folder, char **ret, char
 	va_end (ap);
 
 	fprintf (stderr, "sending : %s %s\r\n", cmdid, cmdbuf);
+	fflush (stderr);
 
 	if (camel_stream_printf (store->ostream, "%s %s\r\n", cmdid, cmdbuf) == -1) {
 		g_free (cmdbuf);
@@ -464,7 +465,8 @@ camel_imap_command (CamelImapStore *store, CamelFolder *folder, char **ret, char
 	}
 
 	fprintf(stderr, "received: %s\n", respbuf ? respbuf : "(null)");
-	
+	fflush (stderr);
+
 	status = camel_imap_status (cmdid, respbuf);
 	g_free (cmdid);
 
@@ -521,7 +523,7 @@ camel_imap_command_extended (CamelImapStore *store, CamelFolder *folder, char **
 		char *r;
 		int s;
 
-		s = camel_imap_command (store, folder, &r, "SELECT %s", folder->full_name);
+		s = camel_imap_command_extended (store, folder, &r, "SELECT %s", folder->full_name);
 		if (s != CAMEL_IMAP_OK) {
 			*ret = r;
 			return s;

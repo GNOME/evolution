@@ -1,3 +1,9 @@
+2000-06-19  Peter Williams  <peterw@curious-george.helixcode.com>
+
+	* providers/imap/camel-imap-store.c (camel_imap_command{,_extended}): When
+	SELECT'ing a folder for an IMAP command, use _extended to grab the entire
+	response (before we just used camel_imap_command and missed the OK codes)
+
 2000-06-18  Jeffrey Stedfast  <fejj@helixcode.com>
 
 	* providers/imap/camel-imap-folder.c (imap_summary_get_by_uid): 
