@@ -493,15 +493,12 @@ build_layout (ECellTextView *text_view, int row, const char *text, gint width)
 		PangoLayoutLine *line = pango_layout_get_line (layout, 0);
 		gchar *line_text = g_strdup (pango_layout_get_text (layout));
 		gchar *last_char = g_utf8_find_prev_char (line_text, line_text + line->length - 1);
-		gchar ellipsis[7];
-		int len = g_unichar_to_utf8 (8230, ellipsis);
-		ellipsis[len] = '\0';
 		while (last_char && pango_layout_get_line_count (layout) > 1) {
 			gchar *new_text;
 			last_char = g_utf8_find_prev_char (line_text, last_char);
 			if (last_char)
 				*last_char = '\0';
-			new_text = g_strconcat (line_text, ellipsis, NULL);
+			new_text = g_strconcat (line_text, "...", NULL);
 			pango_layout_set_text (layout, new_text, -1);
 			g_free (new_text);
 		}
@@ -533,8 +530,6 @@ generate_layout (ECellTextView *text_view, int model_col, int view_col, int row,
 
 	if (edit && edit->layout && edit->model_col == model_col && edit->row == row) {
 		g_object_ref (edit->layout);
-		if (width > 0)
-			pango_layout_set_width (edit->layout, width * PANGO_SCALE);
 		return edit->layout;
 	}
 
