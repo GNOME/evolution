@@ -1144,9 +1144,12 @@ mail_config_signature_run_script (const char *script)
 			camel_object_unref (stream);
 			
 			charset = gconf_client_get_string (config->gconf, "/apps/evolution/mail/composer/charset", NULL);
-			charenc = (CamelMimeFilter *) camel_mime_filter_charset_new_convert (charset, "utf-8");
-			camel_stream_filter_add (filtered_stream, charenc);
-			camel_object_unref (charenc);
+			if (charset && *charset) {
+				if ((charenc = (CamelMimeFilter *) camel_mime_filter_charset_new_convert (charset, "utf-8"))) {
+					camel_stream_filter_add (filtered_stream, charenc);
+					camel_object_unref (charenc);
+				}
+			}
 			g_free (charset);
 			
 			camel_stream_write_to_stream ((CamelStream *) filtered_stream, (CamelStream *) memstream);

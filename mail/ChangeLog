@@ -1,5 +1,9 @@
 2004-04-13  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* mail-config.c (mail_config_signature_run_script): If we get an
+	empty charset string from gconf, don't try to use the result to
+	create a charset filter. Real fix for bug #51924.
+
 	* mail-config.glade: Removed crackrock usage of GtkFixed as
 	fillter. Also HIGified some other stuff.
 
