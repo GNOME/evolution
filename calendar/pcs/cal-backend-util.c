@@ -53,7 +53,7 @@ cal_backend_util_fill_alarm_instances_seq (GNOME_Evolution_Calendar_CalAlarmInst
 }
 
 void
-cal_backend_mail_account_get (Bonobo_ConfigDatabase db,
+cal_backend_mail_account_get (EConfigListener *db,
 			      gint def,
 			      char **address,
 			      char **name)
@@ -64,17 +64,17 @@ cal_backend_mail_account_get (Bonobo_ConfigDatabase db,
 	*name = NULL;
 	
 	/* get the identity info */
-	path = g_strdup_printf ("/Mail/Accounts/identity_name_%d", def);
-	*name = bonobo_config_get_string (db, path, NULL);
+	path = g_strdup_printf ("/apps/Evolution/Mail/Accounts/identity_name_%d", def);
+	*name = e_config_listener_get_string_with_default (db, path, NULL, NULL);
 	g_free (path);
 	
-	path = g_strdup_printf ("/Mail/Accounts/identity_address_%d", def);
-	*address = bonobo_config_get_string (db, path, NULL);
+	path = g_strdup_printf ("/apps/Evolution/Mail/Accounts/identity_address_%d", def);
+	*address = e_config_listener_get_string_with_default (db, path, NULL, NULL);
 	g_free (path);
 }
 
 gboolean
-cal_backend_mail_account_get_default (Bonobo_ConfigDatabase db,
+cal_backend_mail_account_get_default (EConfigListener *db,
 				      char **address,
 				      char **name)
 {
@@ -83,8 +83,8 @@ cal_backend_mail_account_get_default (Bonobo_ConfigDatabase db,
 	*address = NULL;
 	*name = NULL;
 	
-	len = bonobo_config_get_long_with_default (db, "/Mail/Accounts/num", 0, NULL);
-	def = bonobo_config_get_long_with_default (db, "/Mail/Accounts/default_account", 0, NULL);
+	len = e_config_listener_get_long_with_default (db, "/apps/Evolution/Mail/Accounts/num", 0, NULL);
+	def = e_config_listener_get_long_with_default (db, "/apps/Evolution/Mail/Accounts/default_account", 0, NULL);
 
 	if (def < len)
 		cal_backend_mail_account_get (db, def, address, name);
@@ -95,12 +95,12 @@ cal_backend_mail_account_get_default (Bonobo_ConfigDatabase db,
 }
 
 gboolean
-cal_backend_mail_account_is_valid (Bonobo_ConfigDatabase db, char *user, char **name)
+cal_backend_mail_account_is_valid (EConfigListener *db, char *user, char **name)
 {
 	gchar *address;
 	glong len, i;
 	
-	len = bonobo_config_get_long_with_default (db, "/Mail/Accounts/num", 0, NULL);
+	len = e_config_listener_get_long_with_default (db, "/apps/Evolution/Mail/Accounts/num", 0, NULL);
 
 	for (i = 0; i < len; i++) {
 		cal_backend_mail_account_get (db, i, &address, name);

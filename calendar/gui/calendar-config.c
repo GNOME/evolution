@@ -115,8 +115,9 @@ calendar_config_get_timezone		(void)
 	if (timezone)
 		g_free (timezone);
 
-	timezone = e_config_listener_get_string_with_default (config, "/Calendar/Display/Timezone",
-								      "UTC", NULL);
+	timezone = e_config_listener_get_string_with_default (config,
+							      "/apps/Evolution/Calendar/Display/Timezone",
+							      "UTC", NULL);
 	if (!timezone)
 		timezone = g_strdup ("UTC");
 
@@ -130,9 +131,9 @@ void
 calendar_config_set_timezone		(gchar	     *timezone)
 {
 	if (timezone && timezone[0])
-		e_config_listener_set_string (config, "/Calendar/Display/Timezone", timezone);
+		e_config_listener_set_string (config, "/apps/Evolution/Calendar/Display/Timezone", timezone);
 	else
-		e_config_listener_set_string (config, "/Calendar/Display/Timezone", "UTC");
+		e_config_listener_set_string (config, "/apps/Evolution/Calendar/Display/Timezone", "UTC");
 }
 
 
@@ -146,7 +147,7 @@ calendar_config_get_24_hour_format	(void)
 	   to use 24-hour format, or strftime()/strptime() won't work. */
 	if (calendar_config_locale_supports_12_hour_format ()) {
 		return e_config_listener_get_boolean_with_default (
-			config, "/Calendar/Display/Use24HourFormat", FALSE, NULL);
+			config, "/apps/Evolution/Calendar/Display/Use24HourFormat", FALSE, NULL);
 	}
 
 	return TRUE;
@@ -156,7 +157,7 @@ calendar_config_get_24_hour_format	(void)
 void
 calendar_config_set_24_hour_format	(gboolean     use_24_hour)
 {
-	e_config_listener_set_boolean (config, "/Calendar/Display/Use24HourFormat", use_24_hour);
+	e_config_listener_set_boolean (config, "/apps/Evolution/Calendar/Display/Use24HourFormat", use_24_hour);
 }
 
 
@@ -164,14 +165,14 @@ calendar_config_set_24_hour_format	(gboolean     use_24_hour)
 gint
 calendar_config_get_week_start_day	(void)
 {
-	return e_config_listener_get_long_with_default (config, "/Calendar/Display/WeekStartDay", 1, NULL);
+	return e_config_listener_get_long_with_default (config, "/apps/Evolution/Calendar/Display/WeekStartDay", 1, NULL);
 }
 
 
 void
 calendar_config_set_week_start_day	(gint	      week_start_day)
 {
-	e_config_listener_set_long (config, "/Calendar/Display/WeekStartDay", week_start_day);
+	e_config_listener_set_long (config, "/apps/Evolution/Calendar/Display/WeekStartDay", week_start_day);
 }
 
 
@@ -179,28 +180,28 @@ calendar_config_set_week_start_day	(gint	      week_start_day)
 gint
 calendar_config_get_day_start_hour	(void)
 {
-	return e_config_listener_get_long_with_default (config, "/Calendar/Display/DayStartHour", 9, NULL);
+	return e_config_listener_get_long_with_default (config, "/apps/Evolution/Calendar/Display/DayStartHour", 9, NULL);
 }
 
 
 void
 calendar_config_set_day_start_hour	(gint	      day_start_hour)
 {
-	e_config_listener_set_long (config, "/Calendar/Display/DayStartHour", day_start_hour);
+	e_config_listener_set_long (config, "/apps/Evolution/Calendar/Display/DayStartHour", day_start_hour);
 }
 
 
 gint
 calendar_config_get_day_start_minute	(void)
 {
-	return e_config_listener_get_long_with_default (config, "/Calendar/Display/DayStartMinute", 0, NULL);
+	return e_config_listener_get_long_with_default (config, "/apps/Evolution/Calendar/Display/DayStartMinute", 0, NULL);
 }
 
 
 void
 calendar_config_set_day_start_minute	(gint	      day_start_min)
 {
-	e_config_listener_set_long (config, "/Calendar/Display/DayStartMinute", day_start_min);
+	e_config_listener_set_long (config, "/apps/Evolution/Calendar/Display/DayStartMinute", day_start_min);
 }
 
 
@@ -214,21 +215,21 @@ calendar_config_get_day_end_hour	(void)
 void
 calendar_config_set_day_end_hour	(gint	      day_end_hour)
 {
-	e_config_listener_set_long (config, "/Calendar/Display/DayEndHour", day_end_hour);
+	e_config_listener_set_long (config, "/apps/Evolution/Calendar/Display/DayEndHour", day_end_hour);
 }
 
 
 gint
 calendar_config_get_day_end_minute	(void)
 {
-	return e_config_listener_get_long_with_default (config, "/Calendar/Display/DayEndMinute", 0, NULL);
+	return e_config_listener_get_long_with_default (config, "/apps/Evolution/Calendar/Display/DayEndMinute", 0, NULL);
 }
 
 
 void
 calendar_config_set_day_end_minute	(gint	      day_end_min)
 {
-	e_config_listener_set_long (config, "/Calendar/Display/DayEndMinute", day_end_min);
+	e_config_listener_set_long (config, "/apps/Evolution/Calendar/Display/DayEndMinute", day_end_min);
 }
 
 
@@ -236,14 +237,14 @@ calendar_config_set_day_end_minute	(gint	      day_end_min)
 gint
 calendar_config_get_time_divisions	(void)
 {
-	return e_config_listener_get_long_with_default (config, "/Calendar/Display/TimeDivisions", 30, NULL);
+	return e_config_listener_get_long_with_default (config, "/apps/Evolution/Calendar/Display/TimeDivisions", 30, NULL);
 }
 
 
 void
 calendar_config_set_time_divisions	(gint	      divisions)
 {
-	e_config_listener_set_long (config, "/Calendar/Display/TimeDivisions", divisions);
+	e_config_listener_set_long (config, "/apps/Evolution/Calendar/Display/TimeDivisions", divisions);
 }
 
 
@@ -251,14 +252,14 @@ calendar_config_set_time_divisions	(gint	      divisions)
 gboolean
 calendar_config_get_dnav_show_week_no	(void)
 {
-	return e_config_listener_get_boolean_with_default (config, "/Calendar/DateNavigator/ShowWeekNumbers", FALSE, NULL);
+	return e_config_listener_get_boolean_with_default (config, "/apps/Evolution/Calendar/DateNavigator/ShowWeekNumbers", FALSE, NULL);
 }
 
 
 void
 calendar_config_set_dnav_show_week_no	(gboolean     show_week_no)
 {
-	e_config_listener_set_boolean (config, "/Calendar/DateNavigator/ShowWeekNumbers", show_week_no);
+	e_config_listener_set_boolean (config, "/apps/Evolution/Calendar/DateNavigator/ShowWeekNumbers", show_week_no);
 }
 
 
@@ -266,14 +267,14 @@ calendar_config_set_dnav_show_week_no	(gboolean     show_week_no)
 gint
 calendar_config_get_default_view	(void)
 {
-	return e_config_listener_get_long_with_default (config, "/Calendar/Display/View", 0, NULL);
+	return e_config_listener_get_long_with_default (config, "/apps/Evolution/Calendar/Display/View", 0, NULL);
 }
 
 
 void
 calendar_config_set_default_view	(gint	      view)
 {
-	e_config_listener_set_long (config, "/Calendar/Display/View", view);
+	e_config_listener_set_long (config, "/apps/Evolution/Calendar/Display/View", view);
 }
 
 
@@ -281,56 +282,58 @@ calendar_config_set_default_view	(gint	      view)
 gfloat
 calendar_config_get_hpane_pos		(void)
 {
-	return e_config_listener_get_float_with_default (config, "/Calendar/Display/HPanePosition", 1.0, NULL);
+	return e_config_listener_get_float_with_default (config,
+							 "/apps/Evolution/Calendar/Display/HPanePosition",
+							 1.0, NULL);
 }
 
 
 void
 calendar_config_set_hpane_pos		(gfloat	      hpane_pos)
 {
-	e_config_listener_set_float (config, "/Calendar/Display/HPanePosition", hpane_pos);
+	e_config_listener_set_float (config, "/apps/Evolution/Calendar/Display/HPanePosition", hpane_pos);
 }
 
 
 gfloat
 calendar_config_get_vpane_pos		(void)
 {
-	return e_config_listener_get_float_with_default (config, "/Calendar/Display/VPanePosition", 1.0, NULL);
+	return e_config_listener_get_float_with_default (config, "/apps/Evolution/Calendar/Display/VPanePosition", 1.0, NULL);
 }
 
 
 void
 calendar_config_set_vpane_pos		(gfloat	      vpane_pos)
 {
-	e_config_listener_set_float (config, "/Calendar/Display/VPanePosition", vpane_pos);
+	e_config_listener_set_float (config, "/apps/Evolution/Calendar/Display/VPanePosition", vpane_pos);
 }
 
 
 gfloat
 calendar_config_get_month_hpane_pos	(void)
 {
-	return e_config_listener_get_float_with_default (config, "/Calendar/Display/MonthHPanePosition", 0.0, NULL);
+	return e_config_listener_get_float_with_default (config, "/apps/Evolution/Calendar/Display/MonthHPanePosition", 0.0, NULL);
 }
 
 
 void
 calendar_config_set_month_hpane_pos	(gfloat	      hpane_pos)
 {
-	e_config_listener_set_float (config, "/Calendar/Display/MonthHPanePosition", hpane_pos);
+	e_config_listener_set_float (config, "/apps/Evolution/Calendar/Display/MonthHPanePosition", hpane_pos);
 }
 
 
 gfloat
 calendar_config_get_month_vpane_pos	(void)
 {
-	return  e_config_listener_get_float_with_default (config, "/Calendar/Display/MonthVPanePosition", 1.0, NULL);
+	return  e_config_listener_get_float_with_default (config, "/apps/Evolution/Calendar/Display/MonthVPanePosition", 1.0, NULL);
 }
 
 
 void
 calendar_config_set_month_vpane_pos	(gfloat	      vpane_pos)
 {
-	e_config_listener_set_float (config, "/Calendar/Display/MonthVPanePosition", vpane_pos);
+	e_config_listener_set_float (config, "/apps/Evolution/Calendar/Display/MonthVPanePosition", vpane_pos);
 }
 
 
@@ -338,14 +341,14 @@ calendar_config_set_month_vpane_pos	(gfloat	      vpane_pos)
 gboolean
 calendar_config_get_compress_weekend	(void)
 {
-	return e_config_listener_get_boolean_with_default (config, "/Calendar/Display/CompressWeekend", TRUE, NULL);
+	return e_config_listener_get_boolean_with_default (config, "/apps/Evolution/Calendar/Display/CompressWeekend", TRUE, NULL);
 }
 
 
 void
 calendar_config_set_compress_weekend	(gboolean     compress)
 {
-	e_config_listener_set_boolean (config, "/Calendar/Display/CompressWeekend", compress);
+	e_config_listener_set_boolean (config, "/apps/Evolution/Calendar/Display/CompressWeekend", compress);
 }
 
 
@@ -353,14 +356,14 @@ calendar_config_set_compress_weekend	(gboolean     compress)
 gboolean
 calendar_config_get_show_event_end	(void)
 {
-	return e_config_listener_get_boolean_with_default (config, "/Calendar/Display/ShowEventEndTime", TRUE, NULL);
+	return e_config_listener_get_boolean_with_default (config, "/apps/Evolution/Calendar/Display/ShowEventEndTime", TRUE, NULL);
 }
 
 
 void
 calendar_config_set_show_event_end	(gboolean     show_end)
 {
-	e_config_listener_set_boolean (config, "/Calendar/Display/ShowEventEndTime", show_end);
+	e_config_listener_set_boolean (config, "/apps/Evolution/Calendar/Display/ShowEventEndTime", show_end);
 }
 
 
@@ -377,7 +380,7 @@ calendar_config_get_working_days	(void)
 void
 calendar_config_set_working_days	(CalWeekdays  days)
 {
-	e_config_listener_set_long (config, "/Calendar/Display/WorkingDays", days);
+	e_config_listener_set_long (config, "/apps/Evolution/Calendar/Display/WorkingDays", days);
 }
 
 
@@ -385,14 +388,14 @@ calendar_config_set_working_days	(CalWeekdays  days)
 gboolean
 calendar_config_get_hide_completed_tasks	(void)
 {
-	return e_config_listener_get_boolean_with_default (config, "/Calendar/Tasks/HideCompletedTasks", FALSE, NULL);
+	return e_config_listener_get_boolean_with_default (config, "/apps/Evolution/Calendar/Tasks/HideCompletedTasks", FALSE, NULL);
 }
 
 
 void
 calendar_config_set_hide_completed_tasks	(gboolean	hide)
 {
-	e_config_listener_set_boolean (config, "/Calendar/Tasks/HideCompletedTasks", hide);
+	e_config_listener_set_boolean (config, "/apps/Evolution/Calendar/Tasks/HideCompletedTasks", hide);
 }
 
 
@@ -402,7 +405,7 @@ calendar_config_get_hide_completed_tasks_units	(void)
 	char *units;
 	CalUnits cu;
 
-	units = e_config_listener_get_string_with_default (config, "/Calendar/Tasks/HideCompletedTasksUnits", "days", NULL);
+	units = e_config_listener_get_string_with_default (config, "/apps/Evolution/Calendar/Tasks/HideCompletedTasksUnits", "days", NULL);
 
 	if (!strcmp (units, "minutes"))
 		cu = CAL_MINUTES;
@@ -433,7 +436,7 @@ calendar_config_set_hide_completed_tasks_units	(CalUnits	cu)
 		units = g_strdup ("days");
 	}
 
-	e_config_listener_set_string (config, "/Calendar/Tasks/HideCompletedTasksUnits", units);
+	e_config_listener_set_string (config, "/apps/Evolution/Calendar/Tasks/HideCompletedTasksUnits", units);
 
 	g_free (units);
 }
@@ -442,14 +445,14 @@ calendar_config_set_hide_completed_tasks_units	(CalUnits	cu)
 gint
 calendar_config_get_hide_completed_tasks_value	(void)
 {
-	return e_config_listener_get_long_with_default (config, "/Calendar/Tasks/HideCompletedTasksValue", 1, NULL);
+	return e_config_listener_get_long_with_default (config, "/apps/Evolution/Calendar/Tasks/HideCompletedTasksValue", 1, NULL);
 }
 
 
 void
 calendar_config_set_hide_completed_tasks_value	(gint		value)
 {
-	e_config_listener_set_long (config, "/Calendar/Tasks/HideCompletedTasksValue", value);
+	e_config_listener_set_long (config, "/apps/Evolution/Calendar/Tasks/HideCompletedTasksValue", value);
 }
 
 /**
@@ -463,7 +466,7 @@ calendar_config_set_hide_completed_tasks_value	(gint		value)
 gboolean
 calendar_config_get_confirm_delete (void)
 {
-	return e_config_listener_get_boolean_with_default (config, "/Calendar/Other/ConfirmDelete", TRUE, NULL);
+	return e_config_listener_get_boolean_with_default (config, "/apps/Evolution/Calendar/Other/ConfirmDelete", TRUE, NULL);
 }
 
 /**
@@ -476,7 +479,7 @@ calendar_config_get_confirm_delete (void)
 void
 calendar_config_set_confirm_delete (gboolean confirm)
 {
-	e_config_listener_set_boolean (config, "/Calendar/Other/ConfirmDelete", confirm);
+	e_config_listener_set_boolean (config, "/apps/Evolution/Calendar/Other/ConfirmDelete", confirm);
 }
 
 /**
@@ -490,7 +493,7 @@ calendar_config_set_confirm_delete (gboolean confirm)
 gboolean
 calendar_config_get_confirm_expunge (void)
 {
-	return e_config_listener_get_boolean_with_default (config, "/Calendar/Other/ConfirmExpunge", TRUE, NULL);
+	return e_config_listener_get_boolean_with_default (config, "/apps/Evolution/Calendar/Other/ConfirmExpunge", TRUE, NULL);
 }
 
 /**
@@ -503,7 +506,7 @@ calendar_config_get_confirm_expunge (void)
 void
 calendar_config_set_confirm_expunge (gboolean confirm)
 {
-	e_config_listener_set_boolean (config, "/Calendar/Other/ConfirmExpunge", confirm);
+	e_config_listener_set_boolean (config, "/apps/Evolution/Calendar/Other/ConfirmExpunge", confirm);
 }
 
 /* This sets all the common config settings for an ECalendar widget.
@@ -717,7 +720,7 @@ calendar_config_get_tasks_due_today_color (void)
 	if (color)
 		g_free (color);
 
-	color = e_config_listener_get_string_with_default (config, "/Calendar/Tasks/Colors/TasksDueToday", "blue", NULL);
+	color = e_config_listener_get_string_with_default (config, "/apps/Evolution/Calendar/Tasks/Colors/TasksDueToday", "blue", NULL);
 	return color;
 }
 
@@ -732,7 +735,7 @@ calendar_config_set_tasks_due_today_color (const char *color)
 {
 	g_return_if_fail (color != NULL);
 
-	e_config_listener_set_string (config, "/Calendar/Tasks/Colors/TasksDueToday", color);
+	e_config_listener_set_string (config, "/apps/Evolution/Calendar/Tasks/Colors/TasksDueToday", color);
 }
 
 /**
@@ -750,7 +753,7 @@ calendar_config_get_tasks_overdue_color (void)
 	if (color)
 		g_free (color);
 
-	color = e_config_listener_get_string_with_default (config, "/Calendar/Tasks/Colors/TasksOverdue", "red", NULL);
+	color = e_config_listener_get_string_with_default (config, "/apps/Evolution/Calendar/Tasks/Colors/TasksOverdue", "red", NULL);
 	return color;
 }
 
@@ -765,7 +768,7 @@ calendar_config_set_tasks_overdue_color (const char *color)
 {
 	g_return_if_fail (color != NULL);
 
-	e_config_listener_set_string (config, "/Calendar/Tasks/Colors/TasksOverdue", color);
+	e_config_listener_set_string (config, "/apps/Evolution/Calendar/Tasks/Colors/TasksOverdue", color);
 }
 
 /**
@@ -781,7 +784,7 @@ calendar_config_set_tasks_overdue_color (const char *color)
 gboolean
 calendar_config_get_use_default_reminder (void)
 {
-	return e_config_listener_get_boolean_with_default (config, "/Calendar/Other/UseDefaultReminder", FALSE, NULL);
+	return e_config_listener_get_boolean_with_default (config, "/apps/Evolution/Calendar/Other/UseDefaultReminder", FALSE, NULL);
 }
 
 /**
@@ -794,7 +797,7 @@ calendar_config_get_use_default_reminder (void)
 void
 calendar_config_set_use_default_reminder (gboolean value)
 {
-	e_config_listener_set_boolean (config, "/Calendar/Other/UseDefaultReminder", value);
+	e_config_listener_set_boolean (config, "/apps/Evolution/Calendar/Other/UseDefaultReminder", value);
 }
 
 /**
@@ -808,7 +811,7 @@ calendar_config_set_use_default_reminder (gboolean value)
 int
 calendar_config_get_default_reminder_interval (void)
 {
-	return e_config_listener_get_long_with_default (config, "/Calendar/Other/DefaultReminderInterval", 15, NULL);
+	return e_config_listener_get_long_with_default (config, "/apps/Evolution/Calendar/Other/DefaultReminderInterval", 15, NULL);
 }
 
 /**
@@ -821,7 +824,7 @@ calendar_config_get_default_reminder_interval (void)
 void
 calendar_config_set_default_reminder_interval (int interval)
 {
-	e_config_listener_set_long (config, "/Calendar/Other/DefaultReminderInterval", interval);
+	e_config_listener_set_long (config, "/apps/Evolution/Calendar/Other/DefaultReminderInterval", interval);
 }
 
 /**
@@ -838,7 +841,7 @@ calendar_config_get_default_reminder_units (void)
 	char *units;
 	CalUnits cu;
 
-	units = e_config_listener_get_string_with_default (config, "/Calendar/Other/DefaultReminderUnits", "minutes", NULL);
+	units = e_config_listener_get_string_with_default (config, "/apps/Evolution/Calendar/Other/DefaultReminderUnits", "minutes", NULL);
 
 	if (!strcmp (units, "days"))
 		cu = CAL_DAYS;
@@ -865,13 +868,13 @@ calendar_config_set_default_reminder_units (CalUnits units)
 {
 	switch (units) {
 	case CAL_DAYS :
-		e_config_listener_set_string (config, "/Calendar/Other/DefaultReminderUnits", "days");
+		e_config_listener_set_string (config, "/apps/Evolution/Calendar/Other/DefaultReminderUnits", "days");
 		break;
 	case CAL_HOURS :
-		e_config_listener_set_string (config, "/Calendar/Other/DefaultReminderUnits", "hours");
+		e_config_listener_set_string (config, "/apps/Evolution/Calendar/Other/DefaultReminderUnits", "hours");
 		break;
 	default :
-		e_config_listener_set_string (config, "/Calendar/Other/DefaultReminderUnits", "minutes");
+		e_config_listener_set_string (config, "/apps/Evolution/Calendar/Other/DefaultReminderUnits", "minutes");
 	}
 }
 
@@ -940,7 +943,7 @@ calendar_config_default_calendar_folder (void)
 {
 	char *uri;
 	
-	uri = e_config_listener_get_string_with_default (config, "/DefaultFolders/calendar_uri", NULL, NULL);
+	uri = e_config_listener_get_string_with_default (config, "/apps/Evolution/DefaultFolders/calendar_uri", NULL, NULL);
 	return uri;	
 }
 
@@ -949,7 +952,7 @@ calendar_config_default_tasks_folder (void)
 {
 	char *uri;
 	
-	uri = e_config_listener_get_string_with_default (config, "/DefaultFolders/tasks_uri", NULL, NULL);
+	uri = e_config_listener_get_string_with_default (config, "/apps/Evolution/DefaultFolders/tasks_uri", NULL, NULL);
 	return uri;	
 }
 

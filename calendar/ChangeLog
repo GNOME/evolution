@@ -1,3 +1,11 @@
+2002-11-03  Rodrigo Moya <rodrigo@ximian.com>
+
+	* pcs/cal-backend-util.[ch]: don't use BonoboConfig, but
+	EConfigListener.
+
+	* gui/calendar-config.c: use /apps/Evolution prefix for all
+	configuration keys.
+
 2002-10-31  Rodrigo Moya <rodrigo@ximian.com>
 
 	* cal-util/cal-component.[ch]:
