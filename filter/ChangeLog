@@ -1,3 +1,7 @@
+2004-11-29  Mengjie Yu  <meng-jie.yu@sun.com>
+
+	* filter-rule.c: (get_widget):add mnemonic widget in search box.
+
 2004-07-29  Carlos Garnacho Parro  <carlosg@gnome.org>
 
 	* filter-file.c: added the "use_filechooser" property to the 
