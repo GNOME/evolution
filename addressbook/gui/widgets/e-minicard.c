@@ -547,9 +547,11 @@ remodel( EMinicard *e_minicard )
 		e_minicard->fields = NULL;
 
 		for(field = E_CARD_SIMPLE_FIELD_FULL_NAME; field != E_CARD_SIMPLE_FIELD_LAST && count < 5; field++) {
-			if (e_card_simple_get(e_minicard->simple, field)) {
+			char *value = e_card_simple_get(e_minicard->simple, field);
+			if (value) { 
 				add_field(e_minicard, field);
 				count++;
+				g_free (value);
 			}
 		}
 	}

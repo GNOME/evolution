@@ -1,3 +1,13 @@
+2000-05-07    <toshok@the-dot-in.helixcode.com>
+
+	* gui/minicard/e-minicard.c (remodel): make sure to free the
+	return value of e_card_simple_get.
+
+	* gui/component/addressbook.c (teardown_table_view): destroy the
+	ECardSimple here, plug memory leak.
+	(create_table_view): use view->simple so we can destroy the
+	ECardSimple later on.
+
 2000-05-07  Chris Toshok  <toshok@helixcode.com>
 
 	* ename/e-name-western.c (e_name_western_extract_middle): comment

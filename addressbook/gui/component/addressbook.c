@@ -54,6 +54,7 @@ typedef struct {
 	GnomeCanvasItem *rect;
 	GtkWidget *table;
 	ETableModel *model;
+	ECardSimple *simple;
 	GtkAllocation last_alloc;
 	BonoboControl *control;
 	BonoboPropertyBag *properties;
@@ -654,6 +655,10 @@ teardown_table_view (AddressbookView *view)
 		gtk_object_unref (GTK_OBJECT (view->model));
 		view->model = NULL;
 	}
+	if (view->simple) {
+		gtk_object_destroy (GTK_OBJECT (view->simple));
+		view->simple = NULL;
+	}
 }
 
 static void
@@ -662,7 +667,8 @@ create_table_view (AddressbookView *view, char *initial_query)
 	ECell *cell_left_just;
 	ETableHeader *e_table_header;
 	int i;
-	ECardSimple *simple = e_card_simple_new(NULL);
+	
+	view->simple = e_card_simple_new(NULL);
 
 	view->model = e_addressbook_model_new();
 
@@ -690,7 +696,7 @@ create_table_view (AddressbookView *view, char *initial_query)
 	for (i = 0; i < E_CARD_SIMPLE_FIELD_LAST - 1; i++){
 		/* Create the column. */
 		ETableCol *ecol = e_table_col_new (
-						   i, e_card_simple_get_name(simple, i+1),
+						   i, e_card_simple_get_name(view->simple, i+1),
 						   80, 20, cell_left_just,
 						   g_str_compare, TRUE);
 		/* Add it to the header. */
