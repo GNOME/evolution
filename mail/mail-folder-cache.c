@@ -87,7 +87,6 @@ struct _folder_update {
 	unsigned int new:1;     /* new mail arrived? */
 
 	char *path;
-	char *name;
 	char *uri;
 	char *oldpath;
 	char *olduri;
@@ -136,7 +135,6 @@ static void
 free_update(struct _folder_update *up)
 {
 	g_free(up->path);
-	g_free(up->name);
 	g_free(up->uri);
 	if (up->store)
 		camel_object_unref(up->store);
@@ -377,7 +375,6 @@ setup_folder(CamelFolderInfo *fi, struct _store_info *si)
 	if (mfi) {
 		update_1folder(mfi, 0, fi);
 	} else {
-		/* always 'add it', but only 'add it' to non-local stores */
 		/*d(printf("Adding new folder: %s (%s) %d unread\n", fi->path, fi->url, fi->unread_message_count));*/
 		mfi = g_malloc0(sizeof(*mfi));
 		mfi->path = g_strdup(fi->path);
@@ -391,7 +388,6 @@ setup_folder(CamelFolderInfo *fi, struct _store_info *si)
 
 		up = g_malloc0(sizeof(*up));
 		up->path = g_strdup(mfi->path);
-		up->name = g_strdup(fi->name);
 		up->uri = g_strdup(fi->uri);
 		up->unread = (fi->unread==-1)?0:fi->unread;
 		up->store = si->store;
@@ -616,7 +612,6 @@ rename_folders(struct _store_info *si, const char *oldbase, const char *newbase,
 	g_free(old);
 
 	up->path = g_strdup(mfi->path);
-	up->name = g_strdup(fi->name);
 	up->uri = g_strdup(mfi->uri);
 	up->unread = fi->unread==-1?0:fi->unread;
 	up->store = si->store;

@@ -1,5 +1,12 @@
 2004-05-22  Not Zed  <NotZed@Ximian.com>
 
+	* mail-tools.c (mail_tool_uri_to_folder): put note_store back in.
+	Quick hack to fix the issue of folders being opened before we hook
+	onto folder_created.
+
+	* mail-folder-cache.c: remove 'name' from update struct, not used
+	anymore
+
 	** Another unread count bug, #58814.
 
 	* mail-vfolder.c (context_rule_added):
