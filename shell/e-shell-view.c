@@ -2448,7 +2448,7 @@ display_uri (EShellView *shell_view,
 	View *view;
 	gboolean retval;
 	const char *view_info;
-	char *real_uri;
+	char *real_uri = NULL;
 	char *allocated_uri = NULL;
 
 	priv = shell_view->priv;
@@ -2476,6 +2476,11 @@ display_uri (EShellView *shell_view,
 
 	if (strncmp (uri, E_SHELL_DEFAULTURI_PREFIX, E_SHELL_DEFAULTURI_PREFIX_LEN) == 0) {
 		allocated_uri = evolution_uri_for_default_uri (e_shell_view_get_shell (shell_view), uri);
+		if (allocated_uri == NULL) {
+			retval = FALSE;
+			goto end;
+		}
+
 		uri = allocated_uri;
 	}
 

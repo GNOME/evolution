@@ -2167,6 +2167,11 @@ parse_default_uri (EShell *shell,
 	else
 		component = g_strndup (component_start, p - component_start);
 
+	if (strchr (component, '/') != NULL) {
+		g_free (component);
+		return FALSE;
+	}
+
 	client = gconf_client_get_default ();
 
 	config_path = g_strdup_printf ("/apps/evolution/shell/default_folders/%s_path", component);

@@ -1,3 +1,11 @@
+2003-05-15  Ettore Perazzoli  <ettore@ximian.com>
+
+	* e-shell.c (parse_default_uri): Protect against the component
+	name having slashes in it.
+
+	* e-shell-view.c (display_uri): Protect against invalid "default:"
+	URIs.  [#43079]
+
 2003-05-15  Rodrigo Moya <rodrigo@ximian.com>
 
 	* main.c: #ifdef'ed wombat killing code, depending on whether
