@@ -2972,8 +2972,6 @@ e_week_view_on_editing_started (EWeekView *week_view,
 						span_num);
 	}
 
-	g_object_set (item, "handle_popup", TRUE, NULL);
-
 	g_signal_emit_by_name (week_view, "selection_changed");
 }
 

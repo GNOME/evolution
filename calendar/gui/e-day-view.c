@@ -5642,8 +5642,6 @@ e_day_view_on_editing_started (EDayView *day_view,
 		e_day_view_reshape_main_canvas_resize_bars (day_view);
 	}
 
-	g_object_set (item, "handle_popup", TRUE, NULL);
-
 	g_signal_emit_by_name (day_view, "selection_changed");
 }
 

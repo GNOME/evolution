@@ -1,3 +1,8 @@
+2003-12-08  Bolian Yin <bolian.yin@sun.com>
+
+	* gui/e-day-view.c (e_day_view_on_editing_started): remove setting property of "handle_popup".
+	* gui/e-week-view.c (e_week_view_on_editing_started): remove setting property of "handle_popup".
+
 2003-12-08 Carl Sun <carl.sun@sun.com>
 
         Fixes #46351
