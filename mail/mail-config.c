@@ -290,7 +290,8 @@ mail_config_write (void)
 	/* Configured switch */
 	str = g_strdup_printf ("=%s/config/General=/General/configured", 
 			       evolution_dir);
-	gnome_config_set_bool (str, TRUE);
+	config->configured = TRUE;
+	gnome_config_set_bool (str, config->configured);
 	g_free (str);
 	
 	/* Identities */
