@@ -17,12 +17,21 @@
 <!ENTITY importer-private-reference SYSTEM "importer/private-reference.sgml">
 <!ENTITY EvolutionImporter SYSTEM "importer/sgml/evolution-importer.sgml">
 <!ENTITY EvolutionImporterClient SYSTEM "importer/sgml/evolution-importer-client.sgml">
+<!ENTITY EvolutionImporterListener SYSTEM "importer/sgml/evolution-importer-listener.sgml">
+
+<!ENTITY evolution-services-public-reference SYSTEM "executive-summary/public-reference.sgml">
+<!ENTITY evolution-services-private-reference SYSTEM "executive-summary/private-reference.sgml">
+<!ENTITY ExecutiveSummaryComponent SYSTEM "executive-summary/sgml/executive-summary-component.sgml">
+<!ENTITY ExecutiveSummaryComponentFactory SYSTEM "executive-summary/sgml/executive-summary-component-factory.sgml">
+<!ENTITY ExecutiveSummaryComponentFactoryClient SYSTEM "executive-summary/sgml/executive-summary-component-factory-client.sgml">
+<!ENTITY ExecutiveSummaryHtmlView SYSTEM "executive-summary/sgml/executive-summary-html-view.sgml">
 
 <!ENTITY Evolution "<application>Evolution</application>">
 <!ENTITY Wombat "<application>Wombat</application>">
 <!ENTITY Camel "<application>Camel</application>">
 <!ENTITY PCS "<acronym>PCS</acronym>">
 <!ENTITY libical "<application>libical</application>">
+<!ENTITY Executive-Summary "<application>Executive Summary</application>">
 ]>
 
 <book id="index">
