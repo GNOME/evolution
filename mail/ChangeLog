@@ -1,3 +1,8 @@
+2004-11-01  Jeffrey Stedfast  <fejj@novell.com>
+
+	* em-account-editor.c: Change the labels back to the same as they
+	were in 2.0
+
 2004-10-28  Not Zed  <NotZed@Ximian.com>
 
 	* mail-folder-cache.c (real_flush_updates): 
