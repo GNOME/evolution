@@ -709,7 +709,9 @@ gpg_ctx_parse_status (struct _GpgCtx *gpg, CamelException *ex)
 		
 		passwd = camel_session_get_password (gpg->session, prompt, TRUE, NULL, userid, ex);
 		g_free (prompt);
-		g_free (userid);
+		
+		g_free (gpg->userid);
+		gpg->userid = userid;
 		
 		if (passwd == NULL) {
 			if (!camel_exception_is_set (ex))
@@ -726,6 +728,9 @@ gpg_ctx_parse_status (struct _GpgCtx *gpg, CamelException *ex)
 		gpg->bad_passwds = 0;
 	} else if (!strncmp (status, "BAD_PASSPHRASE ", 15)) {
 		gpg->bad_passwds++;
+		
+		camel_session_forget_password (gpg->session, NULL, gpg->userid, ex);
+		
 		if (gpg->bad_passwds == 3) {
 			camel_exception_set (ex, CAMEL_EXCEPTION_SERVICE_CANT_AUTHENTICATE,
 					     _("Failed to unlock secret key: 3 bad passphrases given."));
