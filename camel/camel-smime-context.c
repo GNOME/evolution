@@ -68,6 +68,41 @@ struct _CamelSMIMEContextPrivate {
 
 static CamelCipherContextClass *parent_class = NULL;
 
+/* used for decode content callback, for streaming decode */
+static void
+sm_write_stream(void *arg, const char *buf, unsigned long len)
+{
+	camel_stream_write((CamelStream *)arg, buf, len);
+}
+
+static PK11SymKey *
+sm_decrypt_key(void *arg, SECAlgorithmID *algid)
+{
+	printf("Decrypt key called\n");
+	return (PK11SymKey *)arg;
+}
+
+static char *
+sm_get_passwd(PK11SlotInfo *info, PRBool retry, void *arg)
+{
+	CamelSMIMEContext *context = arg;
+	char *pass, *nsspass = NULL;
+	char *prompt;
+	CamelException *ex;
+
+	ex = camel_exception_new();
+	prompt = g_strdup_printf(_("Enter security pass-phrase for `%s'"), PK11_GetTokenName(info));
+	pass = camel_session_get_password(((CamelCipherContext *)context)->session, prompt, FALSE, TRUE, NULL, PK11_GetTokenName(info), ex);
+	camel_exception_free(ex);
+	g_free(prompt);
+	if (pass) {
+		nsspass = PORT_Strdup(pass);
+		g_free(pass);
+	}
+	
+	return nsspass;
+}
+
 /**
  * camel_smime_context_new:
  * @session: session
@@ -108,10 +143,62 @@ camel_smime_context_set_sign_mode(CamelSMIMEContext *context, camel_smime_sign_t
 	context->priv->sign_mode = type;
 }
 
+/* TODO: This is suboptimal, but the only other solution is to pass around NSSCMSMessages */
 guint32
 camel_smime_context_describe_part(CamelSMIMEContext *context, CamelMimePart *part)
 {
-	return 0;
+	guint32 flags = 0;
+	CamelContentType *ct;
+	const char *tmp;
+
+	ct = camel_mime_part_get_content_type(part);
+
+	if (camel_content_type_is(ct, "multipart", "signed")) {
+		tmp = camel_content_type_param(ct, "protocol");
+		if (tmp && g_ascii_strcasecmp(tmp, ((CamelCipherContext *)context)->sign_protocol))
+			flags = CAMEL_SMIME_SIGNED;
+	} else if (camel_content_type_is(ct, "application", "x-pkcs7-mime")) {
+		CamelStreamMem *istream;
+		NSSCMSMessage *cmsg;
+		NSSCMSDecoderContext *dec;
+
+		/* FIXME: stream this to the decoder incrementally */
+		istream = (CamelStreamMem *)camel_stream_mem_new();
+		camel_data_wrapper_decode_to_stream(camel_medium_get_content_object((CamelMedium *)part), (CamelStream *)istream);
+		camel_stream_reset((CamelStream *)istream);
+
+		dec = NSS_CMSDecoder_Start(NULL, 
+					   NULL, NULL,
+					   sm_get_passwd, context,	/* password callback    */
+					   NULL, NULL); /* decrypt key callback */
+		
+		NSS_CMSDecoder_Update(dec, istream->buffer->data, istream->buffer->len);
+		camel_object_unref(istream);
+		
+		cmsg = NSS_CMSDecoder_Finish(dec);
+		if (cmsg) {
+			if (NSS_CMSMessage_IsSigned(cmsg)) {
+				printf("message is signed\n");
+				flags |= CAMEL_SMIME_SIGNED;
+			}
+			
+			if (NSS_CMSMessage_IsEncrypted(cmsg)) {
+				printf("message is encrypted\n");
+				flags |= CAMEL_SMIME_ENCRYPTED;
+			}
+#if 0
+			if (NSS_CMSMessage_ContainsCertsOrCrls(cmsg)) {
+				printf("message contains certs or crls\n");
+				flags |= CAMEL_SMIME_CERTS;
+			}
+#endif
+			NSS_CMSMessage_Destroy(cmsg);
+		} else {
+			printf("Message could not be parsed\n");
+		}
+	}
+
+	return flags;
 }
 
 static const char *
@@ -139,41 +226,6 @@ sm_id_to_hash(CamelCipherContext *context, const char *id)
 	}
 	
 	return CAMEL_CIPHER_HASH_DEFAULT;
-}
-
-/* used for decode content callback, for streaming decode */
-static void
-sm_write_stream(void *arg, const char *buf, unsigned long len)
-{
-	camel_stream_write((CamelStream *)arg, buf, len);
-}
-
-static PK11SymKey *
-sm_decrypt_key(void *arg, SECAlgorithmID *algid)
-{
-	printf("Decrypt key called\n");
-	return (PK11SymKey *)arg;
-}
-
-static char *
-sm_get_passwd(PK11SlotInfo *info, PRBool retry, void *arg)
-{
-	CamelSMIMEContext *context = arg;
-	char *pass, *nsspass = NULL;
-	char *prompt;
-	CamelException *ex;
-
-	ex = camel_exception_new();
-	prompt = g_strdup_printf(_("Enter security pass-phrase for `%s'"), PK11_GetTokenName(info));
-	pass = camel_session_get_password(((CamelCipherContext *)context)->session, prompt, FALSE, TRUE, NULL, PK11_GetTokenName(info), ex);
-	camel_exception_free(ex);
-	g_free(prompt);
-	if (pass) {
-		nsspass = PORT_Strdup(pass);
-		g_free(pass);
-	}
-	
-	return nsspass;
 }
 
 static NSSCMSMessage *
@@ -346,7 +398,10 @@ sm_sign(CamelCipherContext *context, const char *userid, CamelCipherHash hash, C
 
 	/* FIXME: stream this, we stream output at least */
 	istream = camel_stream_mem_new();
-	if (camel_cipher_canonical_to_stream(ipart, istream) == -1) {
+	if (camel_cipher_canonical_to_stream(ipart,
+					     CAMEL_MIME_FILTER_CANON_STRIP
+					     |CAMEL_MIME_FILTER_CANON_CRLF
+					     |CAMEL_MIME_FILTER_CANON_FROM, istream) == -1) {
 		camel_exception_setv(ex, CAMEL_EXCEPTION_SYSTEM,
 				     _("Could not generate signing data: %s"), g_strerror(errno));
 		goto fail;
@@ -466,11 +521,9 @@ sm_status_description(NSSCMSVerificationStatus status)
 }
 
 static CamelCipherValidity *
-sm_verify(CamelCipherContext *context, CamelCipherHash hash, CamelStream *istream, CamelMimePart *sigpart, CamelException *ex)
+sm_verify_cmsg(CamelCipherContext *context, NSSCMSMessage *cmsg, CamelMimePart *extpart, CamelException *ex)
 {
 	struct _CamelSMIMEContextPrivate *p = ((CamelSMIMEContext *)context)->priv;
-	NSSCMSDecoderContext *dec;
-	NSSCMSMessage *cmsg;
 	NSSCMSSignedData *sigd = NULL;
 	NSSCMSEnvelopedData *envd;
 	NSSCMSEncryptedData *encd;
@@ -483,22 +536,6 @@ sm_verify(CamelCipherContext *context, CamelCipherHash hash, CamelStream *istrea
 	NSSCMSVerificationStatus status;
 	CamelCipherValidity *valid;
 	GString *description;
-
-	dec = NSS_CMSDecoder_Start(NULL, 
-				   NULL, NULL, /* content callback     */
-				   sm_get_passwd, context,	/* password callback    */
-				   NULL, NULL); /* decrypt key callback */
-
-	/* FIXME: Stream?  not worth it?  sigs are small */
-	mem = (CamelStreamMem *)camel_stream_mem_new();
-	camel_data_wrapper_decode_to_stream(camel_medium_get_content_object((CamelMedium *)sigpart), (CamelStream *)mem);
-	(void)NSS_CMSDecoder_Update(dec, mem->buffer->data, mem->buffer->len);
-	camel_object_unref(mem);
-	cmsg = NSS_CMSDecoder_Finish(dec);
-	if (cmsg == NULL) {
-		camel_exception_setv(ex, 1, "Decoder failed");
-		return NULL;
-	}
 
 	description = g_string_new("");
 	valid = camel_cipher_validity_new();
@@ -522,6 +559,11 @@ sm_verify(CamelCipherContext *context, CamelCipherHash hash, CamelStream *istrea
 
 			/* need to build digests of the content */
 			if (!NSS_CMSSignedData_HasDigests(sigd)) {
+				if (extpart == NULL) {
+					camel_exception_setv(ex, 1, "Digests missing from enveloped data");
+					goto fail;
+				}
+
 				if ((poolp = PORT_NewArena(1024)) == NULL) {
 					camel_exception_setv(ex, 1, "out of memory");
 					goto fail;
@@ -536,12 +578,12 @@ sm_verify(CamelCipherContext *context, CamelCipherHash hash, CamelStream *istrea
 				}
 
 				mem = (CamelStreamMem *)camel_stream_mem_new();
-				camel_stream_write_to_stream(istream, (CamelStream *)mem);
+				camel_cipher_canonical_to_stream(extpart, CAMEL_MIME_FILTER_CANON_CRLF, (CamelStream *)mem);
 				NSS_CMSDigestContext_Update(digcx, mem->buffer->data, mem->buffer->len);
 				camel_object_unref(mem);
 
 				if (NSS_CMSDigestContext_FinishMultiple(digcx, poolp, &digests) != SECSuccess) {
-					camel_exception_setv(ex, 1, "Can	not calculate digests");
+					camel_exception_setv(ex, 1, "Cannot calculate digests");
 					goto fail;
 				}
 
@@ -572,7 +614,6 @@ sm_verify(CamelCipherContext *context, CamelCipherHash hash, CamelStream *istrea
 					g_string_printf(description, "Certficate only message, certificates imported and verified");
 				}
 			} else {
-
 				if (!NSS_CMSSignedData_HasDigests(sigd)) {
 					camel_exception_setv(ex, 1, "Can't find signature digests");
 					goto fail;
@@ -606,7 +647,6 @@ sm_verify(CamelCipherContext *context, CamelCipherHash hash, CamelStream *istrea
 			break;
 		case SEC_OID_PKCS7_ENVELOPED_DATA:
 			envd = (NSSCMSEnvelopedData *)NSS_CMSContentInfo_GetContent(cinfo);
-			/* do we need to look into the enveloped data for signatures too?? */
 			break;
 		case SEC_OID_PKCS7_ENCRYPTED_DATA:
 			encd = (NSSCMSEncryptedData *)NSS_CMSContentInfo_GetContent(cinfo);
@@ -622,18 +662,72 @@ sm_verify(CamelCipherContext *context, CamelCipherHash hash, CamelStream *istrea
 	camel_cipher_validity_set_description(valid, description->str);
 	g_string_free(description, TRUE);
 
-	NSS_CMSMessage_Destroy(cmsg);
 	return valid;
 
 fail:
-	NSS_CMSMessage_Destroy(cmsg);
 	camel_cipher_validity_free(valid);
 	g_string_free(description, TRUE);
 
-	if (poolp)
-		PORT_FreeArena(poolp, PR_FALSE);
-
 	return NULL;
+}
+
+static CamelCipherValidity *
+sm_verify(CamelCipherContext *context, CamelMimePart *ipart, CamelException *ex)
+{
+	NSSCMSDecoderContext *dec;
+	NSSCMSMessage *cmsg;
+	CamelStreamMem *mem;
+	CamelCipherValidity *valid;
+	CamelContentType *ct;
+	const char *tmp;
+	CamelMimePart *extpart, *sigpart;
+
+	ct = camel_mime_part_get_content_type(ipart);
+	if (camel_content_type_is(ct, "multipart", "signed")) {
+		CamelMultipart *mps = (CamelMultipart *)camel_medium_get_content_object((CamelMedium *)ipart);
+
+		tmp = camel_content_type_param(ct, "protocol");
+		extpart = camel_multipart_get_part(mps, CAMEL_MULTIPART_SIGNED_CONTENT);
+		sigpart = camel_multipart_get_part(mps, CAMEL_MULTIPART_SIGNED_SIGNATURE);
+		if (!CAMEL_IS_MULTIPART_SIGNED(mps)
+		    || tmp == NULL
+		    || g_ascii_strcasecmp(tmp, context->sign_protocol) != 0
+		    || extpart == NULL
+		    || sigpart == NULL) {
+			camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
+					      _("Cannot verify message signature: Incorrect message format"));
+			return NULL;
+		}
+	} else if (camel_content_type_is(ct, "application", "x-pkcs7-mime")) {
+		extpart = NULL;
+		sigpart = ipart;
+	} else {
+		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
+				      _("Cannot verify message signature: Incorrect message format"));
+		return NULL;
+	}
+
+	dec = NSS_CMSDecoder_Start(NULL, 
+				   NULL, NULL, /* content callback     */
+				   sm_get_passwd, context,	/* password callback    */
+				   NULL, NULL); /* decrypt key callback */
+
+	/* FIXME: we should stream this to the decoder */
+	mem = (CamelStreamMem *)camel_stream_mem_new();
+	camel_data_wrapper_decode_to_stream(camel_medium_get_content_object((CamelMedium *)sigpart), (CamelStream *)mem);
+	(void)NSS_CMSDecoder_Update(dec, mem->buffer->data, mem->buffer->len);
+	camel_object_unref(mem);
+	cmsg = NSS_CMSDecoder_Finish(dec);
+	if (cmsg == NULL) {
+		camel_exception_setv(ex, 1, "Decoder failed");
+		return NULL;
+	}
+
+	valid = sm_verify_cmsg(context, cmsg, extpart, ex);
+
+	NSS_CMSMessage_Destroy(cmsg);
+
+	return valid;
 }
 
 static int
@@ -812,14 +906,14 @@ fail:
 	return -1;
 }
 
-static CamelMimePart *
-sm_decrypt(CamelCipherContext *context, CamelMimePart *ipart, CamelException *ex)
+static CamelCipherValidity *
+sm_decrypt(CamelCipherContext *context, CamelMimePart *ipart, CamelMimePart *opart, CamelException *ex)
 {
 	NSSCMSDecoderContext *dec;
 	NSSCMSMessage *cmsg;
 	CamelStreamMem *istream;
 	CamelStream *ostream;
-	CamelMimePart *opart = NULL;
+	CamelCipherValidity *valid = NULL;
 
 	/* FIXME: This assumes the content is only encrypted.  Perhaps its ok for
 	   this api to do this ... */
@@ -856,15 +950,22 @@ sm_decrypt(CamelCipherContext *context, CamelMimePart *ipart, CamelException *ex
 	}
 #endif
 
-	NSS_CMSMessage_Destroy(cmsg);
-
-	opart = camel_mime_part_new();
 	camel_stream_reset(ostream);
 	camel_data_wrapper_construct_from_stream((CamelDataWrapper *)opart, ostream);
+
+	if (NSS_CMSMessage_IsSigned(cmsg)) {
+		valid = sm_verify_cmsg(context, cmsg, NULL, ex);
+	} else {
+		valid = camel_cipher_validity_new();
+		valid->encrypt.description = g_strdup(_("Encrypted content"));
+		valid->encrypt.status = CAMEL_CIPHER_VALIDITY_ENCRYPT_ENCRYPTED;
+	}
+
+	NSS_CMSMessage_Destroy(cmsg);
 fail:
 	camel_object_unref(ostream);
 
-	return opart;
+	return valid;
 }
 
 static int

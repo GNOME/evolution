@@ -51,6 +51,31 @@ typedef enum {
 	CAMEL_CIPHER_HASH_HAVAL5160
 } CamelCipherHash;
 
+enum _camel_cipher_validity_sign_t {
+	CAMEL_CIPHER_VALIDITY_SIGN_NONE,
+	CAMEL_CIPHER_VALIDITY_SIGN_GOOD,
+	CAMEL_CIPHER_VALIDITY_SIGN_BAD,
+	CAMEL_CIPHER_VALIDITY_SIGN_UNKNOWN,
+};
+
+enum _camel_cipher_validity_encrypt_t {
+	CAMEL_CIPHER_VALIDITY_ENCRYPT_NONE,
+	CAMEL_CIPHER_VALIDITY_ENCRYPT_WEAK,
+	CAMEL_CIPHER_VALIDITY_ENCRYPT_ENCRYPTED, /* encrypted, unknown strenght */
+	CAMEL_CIPHER_VALIDITY_ENCRYPT_STRONG,
+};
+
+struct _CamelCipherValidity {
+	struct {
+		enum _camel_cipher_validity_sign_t status;
+		char *description;
+	} sign;
+	struct {
+		enum _camel_cipher_validity_encrypt_t status;
+		char *description;
+	} encrypt;
+};
+
 typedef struct _CamelCipherContext {
 	CamelObject parent_object;
 	
@@ -73,15 +98,14 @@ typedef struct _CamelCipherContextClass {
 	int                   (*sign)      (CamelCipherContext *context, const char *userid, CamelCipherHash hash,
 					    struct _CamelMimePart *ipart, struct _CamelMimePart *opart, CamelException *ex);
 	
-	CamelCipherValidity * (*verify)    (CamelCipherContext *context, CamelCipherHash hash,
-					    struct _CamelStream *istream, struct _CamelMimePart *sigpart,
-					    CamelException *ex);
+	CamelCipherValidity * (*verify)    (CamelCipherContext *context, struct _CamelMimePart *ipart, CamelException *ex);
 	
 	int                   (*encrypt)   (CamelCipherContext *context, const char *userid,
 					    GPtrArray *recipients, struct _CamelMimePart *ipart, struct _CamelMimePart *opart,
 					    CamelException *ex);
 	
-	struct _CamelMimePart *(*decrypt)  (CamelCipherContext *context, struct _CamelMimePart *ipart, CamelException *ex);
+	CamelCipherValidity  *(*decrypt)  (CamelCipherContext *context, struct _CamelMimePart *ipart, struct _CamelMimePart *opart,
+					   CamelException *ex);
 	
 	int                   (*import_keys) (CamelCipherContext *context, struct _CamelStream *istream,
 					      CamelException *ex);
@@ -108,13 +132,12 @@ const char *	     camel_cipher_hash_to_id (CamelCipherContext *context, CamelCip
 /* cipher routines */
 int                  camel_cipher_sign (CamelCipherContext *context, const char *userid, CamelCipherHash hash,
 					struct _CamelMimePart *ipart, struct _CamelMimePart *opart, CamelException *ex);
-CamelCipherValidity *camel_cipher_verify (CamelCipherContext *context, CamelCipherHash hash,
-					  struct _CamelStream *istream, struct _CamelMimePart *sigpart,
-					  CamelException *ex);
+CamelCipherValidity *camel_cipher_verify (CamelCipherContext *context, struct _CamelMimePart *ipart, CamelException *ex);
 int                  camel_cipher_encrypt (CamelCipherContext *context, const char *userid,
 					   GPtrArray *recipients, struct _CamelMimePart *ipart, struct _CamelMimePart *opart,
 					   CamelException *ex);
-struct _CamelMimePart *camel_cipher_decrypt (CamelCipherContext *context, struct _CamelMimePart *ipart, CamelException *ex);
+CamelCipherValidity *camel_cipher_decrypt (CamelCipherContext *context, struct _CamelMimePart *ipart, struct _CamelMimePart *opart,
+					   CamelException *ex);
 
 /* key/certificate routines */
 int                  camel_cipher_import_keys (CamelCipherContext *context, struct _CamelStream *istream,
@@ -130,10 +153,11 @@ void                 camel_cipher_validity_set_valid (CamelCipherValidity *valid
 char                *camel_cipher_validity_get_description (CamelCipherValidity *validity);
 void                 camel_cipher_validity_set_description (CamelCipherValidity *validity, const char *description);
 void                 camel_cipher_validity_clear (CamelCipherValidity *validity);
+void		     camel_cipher_validity_envelope(CamelCipherValidity *valid, CamelCipherValidity *outer);
 void                 camel_cipher_validity_free (CamelCipherValidity *validity);
 
 /* utility functions */
-int		     camel_cipher_canonical_to_stream(CamelMimePart *part, CamelStream *ostream);
+int		     camel_cipher_canonical_to_stream(CamelMimePart *part, guint32 flags, CamelStream *ostream);
 
 #ifdef __cplusplus
 }

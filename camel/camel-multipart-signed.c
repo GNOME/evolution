@@ -670,6 +670,10 @@ camel_multipart_signed_sign(CamelMultipartSigned *mps, CamelCipherContext *conte
 CamelCipherValidity *
 camel_multipart_signed_verify(CamelMultipartSigned *mps, CamelCipherContext *context, CamelException *ex)
 {
+	abort();
+
+	return NULL;
+#if 0
 	CamelCipherValidity *valid;
 	CamelMimePart *sigpart;
 	CamelStream *constream;
@@ -720,6 +724,7 @@ camel_multipart_signed_verify(CamelMultipartSigned *mps, CamelCipherContext *con
 	camel_object_unref(constream);
 
 	return valid;
+#endif
 }
 
 

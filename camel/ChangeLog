@@ -1,3 +1,26 @@
+2003-11-10  Not Zed  <NotZed@Ximian.com>
+
+	* camel-smime-context.c (sm_verify_cmsg): split out the CMSMessage
+	verification code so it can be used from enveloped or externally
+	signed data.
+
+	* camel-cipher-context.c (camel_cipher_verify): only take a
+	mimepart, internally handle multiparts and the hash.
+
+2003-11-07  Not Zed  <NotZed@Ximian.com>
+
+	* camel-cipher-context.c: make ciphervalidity a public structure,
+	added encrypt status.
+	(camel_cipher_decrypt): changed to return a ciphervalidity.  fixed
+	implementations.
+	(camel_cipher_validity_*): Fixed implementations to match new
+	structure, some of this is now redundant.
+
+2003-11-06  Not Zed  <NotZed@Ximian.com>
+
+	* camel-smime-context.c (camel_smime_context_describe_part):
+	implement.
+
 2003-11-05  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* providers/smtp/camel-smtp-transport.c (connect_to_server): Don't

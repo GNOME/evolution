@@ -1225,9 +1225,9 @@ gpg_sign (CamelCipherContext *context, const char *userid, CamelCipherHash hash,
 	/* Note: see rfc2015 or rfc3156, section 5 */
 
 	/* FIXME: stream this, we stream output at least */
-	/*prepare_sign(content);*/
 	istream = camel_stream_mem_new();
-	if (camel_cipher_canonical_to_stream(ipart, istream) == -1) {
+	if (camel_cipher_canonical_to_stream(ipart, CAMEL_MIME_FILTER_CANON_STRIP|CAMEL_MIME_FILTER_CANON_CRLF|CAMEL_MIME_FILTER_CANON_FROM,
+					     istream) == -1) {
 		camel_exception_setv(ex, CAMEL_EXCEPTION_SYSTEM,
 				     _("Could not generate signing data: %s"), g_strerror(errno));
 		goto fail;
@@ -1346,32 +1346,54 @@ swrite (CamelMimePart *sigpart)
 }
 
 static CamelCipherValidity *
-gpg_verify (CamelCipherContext *context, CamelCipherHash hash,
-	    CamelStream *istream, CamelMimePart *sigpart,
-	    CamelException *ex)
+gpg_verify (CamelCipherContext *context, CamelMimePart *ipart, CamelException *ex)
 {
 	CamelCipherValidity *validity;
-	const char *diagnostics = NULL;
-	struct _GpgCtx *gpg;
+	const char *diagnostics = NULL, *tmp;
+	struct _GpgCtx *gpg = NULL;
 	char *sigfile = NULL;
 	gboolean valid;
-	
-	if (sigpart != NULL) {
-		/* We are going to verify a detached signature so save
-		   the signature to a temp file. */
-		sigfile = swrite (sigpart);
-		if (sigfile == NULL) {
-			camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
-					      _("Cannot verify message signature: "
-						"could not create temp file: %s"),
-					      g_strerror (errno));
-			return NULL;
-		}
+	CamelContentType *ct;
+	CamelMimePart *sigpart, *datapart;
+	CamelStream *istream = NULL;
+	CamelMultipart *mps;
+
+	ct = camel_mime_part_get_content_type(ipart);
+	tmp = camel_content_type_param(ct, "protocol");
+	mps = (CamelMultipart *)camel_medium_get_content_object((CamelMedium *)ipart);
+	if (!camel_content_type_is(ct, "multipart", "signed")
+	    || !CAMEL_IS_MULTIPART_SIGNED(mps)
+	    || tmp == NULL
+	    || g_ascii_strcasecmp(tmp, context->sign_protocol) != 0) {
+		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
+				      _("Cannot verify message signature: Incorrect message format"));
+		return NULL;
 	}
+
+	datapart = camel_multipart_get_part(mps, CAMEL_MULTIPART_SIGNED_CONTENT);
+	sigpart = camel_multipart_get_part(mps, CAMEL_MULTIPART_SIGNED_SIGNATURE);
+
+	if (sigpart == NULL || datapart == NULL) {
+		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
+				      _("Cannot verify message signature: Incorrect message format"));
+		goto exception;
+	}
+
+	sigfile = swrite (sigpart);
+	if (sigfile == NULL) {
+		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
+				      _("Cannot verify message signature: could not create temp file: %s"),
+				      g_strerror (errno));
+		goto exception;
+	}
+
+	istream = camel_stream_mem_new();
+	camel_cipher_canonical_to_stream(datapart, CAMEL_MIME_FILTER_CANON_CRLF, istream);
+	camel_stream_reset(istream);
 	
 	gpg = gpg_ctx_new (context->session);
 	gpg_ctx_set_mode (gpg, GPG_CTX_MODE_VERIFY);
-	gpg_ctx_set_hash (gpg, hash);
+	gpg_ctx_set_hash (gpg, camel_cipher_id_to_hash(context, camel_content_type_param(ct, "micalg")));
 	gpg_ctx_set_sigfile (gpg, sigfile);
 	gpg_ctx_set_istream (gpg, istream);
 	
@@ -1413,7 +1435,10 @@ gpg_verify (CamelCipherContext *context, CamelCipherHash hash,
  exception:
 	
 	gpg_ctx_free (gpg);
-		
+
+	if (istream)
+		camel_object_unref(istream);
+
 	if (sigfile) {
 		unlink (sigfile);
 		g_free (sigfile);
@@ -1436,7 +1461,7 @@ gpg_encrypt (CamelCipherContext *context, const char *userid, GPtrArray *recipie
 
 	ostream = camel_stream_mem_new();
 	istream = camel_stream_mem_new();
-	if (camel_cipher_canonical_to_stream(ipart, istream) == -1) {
+	if (camel_cipher_canonical_to_stream(ipart, CAMEL_MIME_FILTER_CANON_CRLF, istream) == -1) {
 		camel_exception_setv(ex, CAMEL_EXCEPTION_SYSTEM,
 				     _("Could not generate encrypting data: %s"), g_strerror(errno));
 		goto fail1;
@@ -1512,7 +1537,7 @@ gpg_encrypt (CamelCipherContext *context, const char *userid, GPtrArray *recipie
 
 	mpe = camel_multipart_encrypted_new();
 	ct = camel_content_type_new("multipart", "encrypted");
-	camel_content_type_set_param(ct, "protocol", context->sign_protocol);
+	camel_content_type_set_param(ct, "protocol", context->encrypt_protocol);
 	camel_data_wrapper_set_mime_type_field((CamelDataWrapper *)mpe, ct);
 	camel_content_type_unref(ct);
 	camel_multipart_set_boundary((CamelMultipart *)mpe, NULL);
@@ -1535,11 +1560,11 @@ fail1:
 	return res;
 }
 
-static CamelMimePart *
-gpg_decrypt (CamelCipherContext *context, CamelMimePart *ipart, CamelException *ex)
+static CamelCipherValidity *
+gpg_decrypt(CamelCipherContext *context, CamelMimePart *ipart, CamelMimePart *opart, CamelException *ex)
 {
 	struct _GpgCtx *gpg;
-	CamelMimePart *opart = NULL;
+	CamelCipherValidity *valid = NULL;
 	CamelStream *ostream, *istream;
 
 	istream = camel_stream_mem_new();
@@ -1588,20 +1613,21 @@ gpg_decrypt (CamelCipherContext *context, CamelMimePart *ipart, CamelException *
 		goto fail;
 	}
 
-	opart = camel_mime_part_new();
 	camel_stream_reset(ostream);
-	if (camel_data_wrapper_construct_from_stream((CamelDataWrapper *)opart, ostream) == -1) {
+	if (camel_data_wrapper_construct_from_stream((CamelDataWrapper *)opart, ostream) != -1) {
+		valid = camel_cipher_validity_new();
+		valid->encrypt.description = g_strdup(_("Encrypted content"));
+		valid->encrypt.status = CAMEL_CIPHER_VALIDITY_ENCRYPT_ENCRYPTED;
+	} else {
 		camel_exception_setv(ex, CAMEL_EXCEPTION_SYSTEM,
 				     _("Unable to parse message content"));
-		camel_object_unref(opart);
-		opart = NULL;
 	}
 fail:
 	camel_object_unref(ostream);
 	camel_object_unref(istream);
 	gpg_ctx_free (gpg);
-	
-	return opart;
+
+	return valid;
 }
 
 static int

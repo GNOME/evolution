@@ -42,9 +42,10 @@ typedef enum _camel_smime_sign_t {
 } camel_smime_sign_t;
 
 typedef enum _camel_smime_describe_t {
-	CAMEL_SMIME_SIGNED = 1,
-	CAMEL_SMIME_ENCRYPTED = 2,
-	CAMEL_SMIME_CERTS = 4,
+	CAMEL_SMIME_SIGNED = 1<<0,
+	CAMEL_SMIME_ENCRYPTED = 1<<1,
+	CAMEL_SMIME_CERTS = 1<<2,
+	CAMEL_SMIME_CRLS = 1<<3,
 } camel_smime_describe_t;
 
 typedef struct _CamelSMIMEContext CamelSMIMEContext;

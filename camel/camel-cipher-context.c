@@ -24,8 +24,10 @@
 #include <config.h>
 #endif
 
-#include <glib.h>
 #include <pthread.h>
+#include <string.h>
+
+#include <glib.h>
 
 #include "camel-cipher-context.h"
 #include "camel-stream.h"
@@ -132,8 +134,7 @@ camel_cipher_sign (CamelCipherContext *context, const char *userid, CamelCipherH
 }
 
 static CamelCipherValidity *
-cipher_verify (CamelCipherContext *context, CamelCipherHash hash, struct _CamelStream *istream,
-	       struct _CamelMimePart *sigpart, CamelException *ex)
+cipher_verify (CamelCipherContext *context, struct _CamelMimePart *sigpart, CamelException *ex)
 {
 	camel_exception_set (ex, CAMEL_EXCEPTION_SYSTEM,
 			     _("Verifying is not supported by this cipher"));
@@ -143,8 +144,7 @@ cipher_verify (CamelCipherContext *context, CamelCipherHash hash, struct _CamelS
 /**
  * camel_cipher_verify:
  * @context: Cipher Context
- * @istream: input stream
- * @sigstream: optional detached-signature stream
+ * @ipart: part to verify
  * @ex: exception
  *
  * Verifies the signature. If @istream is a clearsigned stream,
@@ -157,8 +157,7 @@ cipher_verify (CamelCipherContext *context, CamelCipherHash hash, struct _CamelS
  * execute at all.
  **/
 CamelCipherValidity *
-camel_cipher_verify (CamelCipherContext *context, CamelCipherHash hash, struct _CamelStream *istream,
-		     struct _CamelMimePart *sigpart, CamelException *ex)
+camel_cipher_verify (CamelCipherContext *context, struct _CamelMimePart *ipart, CamelException *ex)
 {
 	CamelCipherValidity *valid;
 	
@@ -166,7 +165,7 @@ camel_cipher_verify (CamelCipherContext *context, CamelCipherHash hash, struct _
 	
 	CIPHER_LOCK(context);
 	
-	valid = CCC_CLASS (context)->verify (context, hash, istream, sigpart, ex);
+	valid = CCC_CLASS (context)->verify (context, ipart, ex);
 	
 	CIPHER_UNLOCK(context);
 	
@@ -213,8 +212,8 @@ camel_cipher_encrypt (CamelCipherContext *context, const char *userid, GPtrArray
 	return retval;
 }
 
-static struct _CamelMimePart *
-cipher_decrypt(CamelCipherContext *context, struct _CamelMimePart *ipart, CamelException *ex)
+static CamelCipherValidity *
+cipher_decrypt(CamelCipherContext *context, struct _CamelMimePart *ipart, struct _CamelMimePart *opart, CamelException *ex)
 {
 	camel_exception_set (ex, CAMEL_EXCEPTION_SYSTEM,
 			     _("Decryption is not supported by this cipher"));
@@ -223,30 +222,29 @@ cipher_decrypt(CamelCipherContext *context, struct _CamelMimePart *ipart, CamelE
 
 /**
  * camel_cipher_decrypt:
- * @context: Cipher Context
- * @ciphertext: ciphertext stream (ie input stream)
- * @cleartext: cleartext stream (ie output stream)
- * @ex: exception
- *
- * Decrypts the ciphertext input stream and writes the resulting
- * cleartext to the output stream.
- *
- * Return value: 0 for success or -1 for failure.
+ * @context: 
+ * @ipart: 
+ * @opart: 
+ * @ex: 
+ * 
+ * Decrypts @ipart into @opart.
+ * 
+ * Return value: A validity/encryption status.
  **/
-struct _CamelMimePart *
-camel_cipher_decrypt (CamelCipherContext *context, struct _CamelMimePart *ipart, CamelException *ex)
+CamelCipherValidity *
+camel_cipher_decrypt(CamelCipherContext *context, struct _CamelMimePart *ipart, struct _CamelMimePart *opart, CamelException *ex)
 {
-	struct _CamelMimePart *opart;
+	CamelCipherValidity *valid;
 
 	g_return_val_if_fail (CAMEL_IS_CIPHER_CONTEXT (context), NULL);
 	
 	CIPHER_LOCK(context);
 	
-	opart = CCC_CLASS (context)->decrypt (context, ipart, ex);
+	valid = CCC_CLASS (context)->decrypt (context, ipart, opart, ex);
 	
 	CIPHER_UNLOCK(context);
 	
-	return opart;
+	return valid;
 }
 
 static int
@@ -341,20 +339,15 @@ camel_cipher_hash_to_id(CamelCipherContext *context, CamelCipherHash hash)
 }
 
 /* Cipher Validity stuff */
-struct _CamelCipherValidity {
-	gboolean valid;
-	gchar *description;
-};
 
 CamelCipherValidity *
 camel_cipher_validity_new (void)
 {
 	CamelCipherValidity *validity;
 	
-	validity = g_new (CamelCipherValidity, 1);
-	validity->valid = FALSE;
-	validity->description = NULL;
-	
+	validity = g_malloc(sizeof(*validity));
+	camel_cipher_validity_init(validity);
+
 	return validity;
 }
 
@@ -362,18 +355,15 @@ void
 camel_cipher_validity_init (CamelCipherValidity *validity)
 {
 	g_assert (validity != NULL);
-	
-	validity->valid = FALSE;
-	validity->description = NULL;
+
+	memset(validity, 0, sizeof(*validity));
 }
 
 gboolean
 camel_cipher_validity_get_valid (CamelCipherValidity *validity)
 {
-	if (validity == NULL)
-		return FALSE;
-	
-	return validity->valid;
+	return validity != NULL
+		&& validity->sign.status == CAMEL_CIPHER_VALIDITY_SIGN_GOOD;
 }
 
 void
@@ -381,7 +371,7 @@ camel_cipher_validity_set_valid (CamelCipherValidity *validity, gboolean valid)
 {
 	g_assert (validity != NULL);
 	
-	validity->valid = valid;
+	validity->sign.status = CAMEL_CIPHER_VALIDITY_SIGN_GOOD;
 }
 
 gchar *
@@ -390,7 +380,7 @@ camel_cipher_validity_get_description (CamelCipherValidity *validity)
 	if (validity == NULL)
 		return NULL;
 	
-	return validity->description;
+	return validity->sign.description;
 }
 
 void
@@ -398,18 +388,47 @@ camel_cipher_validity_set_description (CamelCipherValidity *validity, const gcha
 {
 	g_assert (validity != NULL);
 	
-	g_free (validity->description);
-	validity->description = g_strdup (description);
+	g_free(validity->sign.description);
+	validity->sign.description = g_strdup(description);
 }
 
 void
 camel_cipher_validity_clear (CamelCipherValidity *validity)
 {
 	g_assert (validity != NULL);
-	
-	validity->valid = FALSE;
-	g_free (validity->description);
-	validity->description = NULL;
+
+	g_free(validity->sign.description);
+	g_free(validity->encrypt.description);
+	camel_cipher_validity_init(validity);
+}
+
+/**
+ * camel_cipher_validity_envelope:
+ * @validity: 
+ * @outer: 
+ * 
+ * Calculate a conglomerate validity based on wrapping one secure part inside
+ * another one.
+ **/
+void
+camel_cipher_validity_envelope(CamelCipherValidity *valid, CamelCipherValidity *outer)
+{
+	if (valid->sign.status != CAMEL_CIPHER_VALIDITY_SIGN_NONE
+	    && valid->encrypt.status == CAMEL_CIPHER_VALIDITY_ENCRYPT_NONE
+	    && outer->sign.status == CAMEL_CIPHER_VALIDITY_SIGN_NONE
+	    && outer->encrypt.status != CAMEL_CIPHER_VALIDITY_ENCRYPT_NONE) {
+		/* case 1: only signed inside only encrypted -> merge both */
+		valid->encrypt.status = outer->encrypt.status;
+		valid->encrypt.description = g_strdup(outer->encrypt.description);
+	} else if (valid->sign.status == CAMEL_CIPHER_VALIDITY_SIGN_NONE
+		   && valid->encrypt.status != CAMEL_CIPHER_VALIDITY_ENCRYPT_NONE
+		   && outer->sign.status != CAMEL_CIPHER_VALIDITY_SIGN_NONE
+		   && outer->encrypt.status == CAMEL_CIPHER_VALIDITY_ENCRYPT_NONE) {
+		/* case 2: only encrypted inside only signed */
+		valid->sign.status = outer->sign.status;
+		valid->sign.description = g_strdup(outer->sign.description);
+	}
+	/* Otherwise, I dunno - what do you do? */
 }
 
 void
@@ -417,9 +436,9 @@ camel_cipher_validity_free (CamelCipherValidity *validity)
 {
 	if (validity == NULL)
 		return;
-	
-	g_free (validity->description);
-	g_free (validity);
+
+	camel_cipher_validity_clear(validity);
+	g_free(validity);
 }
 
 /* ********************************************************************** */
@@ -511,6 +530,7 @@ cc_prepare_sign(CamelMimePart *part)
 /**
  * camel_cipher_canonical_to_stream:
  * @part: Part to write.
+ * @flags: flags for the canonicalisation filter (CamelMimeFilterCanon)
  * @ostream: stream to write canonicalised output to.
  * 
  * Writes a part to a stream in a canonicalised format, suitable for signing/encrypting.
@@ -520,16 +540,17 @@ cc_prepare_sign(CamelMimePart *part)
  * Return value: -1 on error;
  **/
 int
-camel_cipher_canonical_to_stream(CamelMimePart *part, CamelStream *ostream)
+camel_cipher_canonical_to_stream(CamelMimePart *part, guint32 flags, CamelStream *ostream)
 {
 	CamelStreamFilter *filter;
 	CamelMimeFilter *canon;
 	int res = -1;
 
-	cc_prepare_sign(part);
+	if (flags & (CAMEL_MIME_FILTER_CANON_FROM|CAMEL_MIME_FILTER_CANON_STRIP))
+		cc_prepare_sign(part);
 
 	filter = camel_stream_filter_new_with_stream(ostream);
-	canon = camel_mime_filter_canon_new(CAMEL_MIME_FILTER_CANON_STRIP|CAMEL_MIME_FILTER_CANON_CRLF|CAMEL_MIME_FILTER_CANON_FROM);
+	canon = camel_mime_filter_canon_new(flags);
 	camel_stream_filter_add(filter, canon);
 	camel_object_unref(canon);
 

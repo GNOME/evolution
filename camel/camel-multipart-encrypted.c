@@ -205,6 +205,7 @@ camel_multipart_encrypted_decrypt (CamelMultipartEncrypted *mpe,
 {
 	CamelMimePart *version_part, *encrypted_part, *decrypted_part;
 	CamelContentType *mime_type;
+	CamelCipherValidity *valid;
 	CamelDataWrapper *wrapper;
 	const char *protocol;
 	char *content_type;
@@ -256,11 +257,16 @@ camel_multipart_encrypted_decrypt (CamelMultipartEncrypted *mpe,
 				     _("Failed to decrypt MIME part: invalid structure"));
 		return NULL;
 	}
-	
-	decrypted_part =  camel_cipher_decrypt(cipher, encrypted_part, ex);
-	if (decrypted_part) {
-		camel_object_ref (decrypted_part);
+
+	decrypted_part = camel_mime_part_new();
+	valid = camel_cipher_decrypt(cipher, encrypted_part, decrypted_part, ex);
+	if (valid) {
+		camel_object_ref(decrypted_part);
 		mpe->decrypted = decrypted_part;
+		camel_cipher_validity_free(valid);
+	} else {
+		camel_object_ref(decrypted_part);
+		decrypted_part = NULL;
 	}
 
 	return decrypted_part;
