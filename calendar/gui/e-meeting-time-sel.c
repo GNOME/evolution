@@ -347,6 +347,8 @@ e_meeting_time_selector_construct (EMeetingTimeSelector * mts, EMeetingModel *em
 	/* build the etable */
 	filename = g_strdup_printf ("%s/config/et-header-meeting-time-sel", evolution_dir);
 	mts->model = emm;
+	if (mts->model)
+		gtk_object_ref (GTK_OBJECT (mts->model));
 
 	gtk_signal_connect (GTK_OBJECT (mts->model), "model_rows_inserted",
 			    GTK_SIGNAL_FUNC (row_count_changed_cb), mts);
@@ -855,6 +857,9 @@ e_meeting_time_selector_destroy (GtkObject *object)
 
 	gdk_color_context_free (mts->color_context);
 	gdk_bitmap_unref (mts->stipple);
+
+	if (mts->model)
+		gtk_object_unref (GTK_OBJECT (mts->model));
 		
 	if (GTK_OBJECT_CLASS (parent_class)->destroy)
 		(*GTK_OBJECT_CLASS (parent_class)->destroy)(object);

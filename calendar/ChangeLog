@@ -1,3 +1,18 @@
+2001-12-06  Jon Trowbridge  <trow@ximian.com>
+
+	* gui/dialogs/event-editor.c (event_editor_destroy): Explicitly
+	destroy the EMeetingModel.  This is a hack to work around problems
+	with the reference counting; we are still leaking the
+	EMeetingModels.
+
+	* gui/e-meeting-time-sel.c (e_meeting_time_selector_construct):
+	Ref our EMeetingModel.
+	(e_meeting_time_selector_destroy): Unref the model.
+
+	* gui/e-meeting-model.c (destroy): Properly destroy
+	corba_select_names with a call to bonobo_object_release_unref.
+	(Fixes 14002)
+
 2001-12-05  Rodrigo Moya <rodrigo@ximian.com>
 
 	* gui/dialogs/event-page.glade: added entry for the LOCATION field
