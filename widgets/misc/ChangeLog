@@ -1,3 +1,19 @@
+2002-09-30  Ettore Perazzoli  <ettore@ximian.com>
+
+	[Add a small delay to the switching of pages in the multi-config
+	dialog.  This makes keyboard navigation slightly nicer, and also
+	happens to fix mysterious bug #28931.]
+
+	* e-multi-config-dialog.c: New constant SWITCH_PAGE_INTERVAL.  New
+	members set_page_timeout_id and set_page_timeout_page in
+	EMultiConfigDialogPrivate.
+	(init): Initialize new member variables.
+	(table_cursor_change_callback): Set up a timeout instead of
+	switching right away.
+	(set_page_timeout_callback): Timeout function to switch page after
+	a small delay.
+	(impl_destroy): Remove a pending timeout.
+
 2002-09-27  Ettore Perazzoli  <ettore@ximian.com>
 
 	* e-multi-config-dialog.c (create_page_container): Don't set up

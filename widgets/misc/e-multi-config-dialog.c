@@ -36,11 +36,11 @@
 
 #include <gdk-pixbuf/gdk-pixbuf.h>
 
-#define d(x)
-
 
 #define PARENT_TYPE gnome_dialog_get_type ()
 static GnomeDialogClass *parent_class = NULL;
+
+#define SWITCH_PAGE_INTERVAL 250
 
 
 
@@ -53,6 +53,9 @@ struct _EMultiConfigDialogPrivate {
 	GtkWidget *notebook;
 
 	int num_unapplied;
+
+	int set_page_timeout_id;
+	int set_page_timeout_page;
 };
 
 
@@ -147,6 +150,25 @@ page_changed_callback (EConfigPage *page,
 	update_buttons (dialog);
 }
 
+/* Timeout for switching pages (so it's more comfortable navigating with the
+   keyboard).  */
+
+static int
+set_page_timeout_callback (void *data)
+{
+	EMultiConfigDialog *multi_config_dialog;
+	EMultiConfigDialogPrivate *priv;
+
+	multi_config_dialog = E_MULTI_CONFIG_DIALOG (data);
+	priv = multi_config_dialog->priv;
+
+	gtk_notebook_set_page (GTK_NOTEBOOK (priv->notebook), priv->set_page_timeout_page);
+
+	priv->set_page_timeout_id = 0;
+	return FALSE;
+}
+
+
 
 /* Button handling.  */
 
@@ -200,7 +222,12 @@ table_cursor_change_callback (ETable *etable,
 	dialog = E_MULTI_CONFIG_DIALOG (data);
 	priv = dialog->priv;
 
-	gtk_notebook_set_page (GTK_NOTEBOOK (priv->notebook), row);
+	if (priv->set_page_timeout_id == 0)
+		priv->set_page_timeout_id = g_timeout_add (SWITCH_PAGE_INTERVAL,
+							   set_page_timeout_callback,
+							   dialog);
+
+	priv->set_page_timeout_page = row;
 }
 
 
@@ -214,6 +241,9 @@ impl_destroy (GtkObject *object)
 
 	dialog = E_MULTI_CONFIG_DIALOG (object);
 	priv = dialog->priv;
+
+	if (priv->set_page_timeout_id != 0)
+		g_source_remove (priv->set_page_timeout_id);
 
 	g_slist_free (priv->pages);
 
@@ -288,8 +318,6 @@ fill_in_pixbufs (EMultiConfigDialog *dialog, int row)
 	colors[0] = RGB_COLOR (canvas->style->bg [GTK_STATE_SELECTED]);
 	colors[1] = RGB_COLOR (canvas->style->bg [GTK_STATE_ACTIVE]);
 	colors[2] = RGB_COLOR (canvas->style->base [GTK_STATE_NORMAL]);
-
-	d(g_print ("%x %x", colors[1], canvas->style->bg [GTK_STATE_ACTIVE].green));
 
 	for (i = 0; i < 3; i++) {
 		GdkPixbuf *pixbuf = gdk_pixbuf_composite_color_simple (original,
@@ -399,11 +427,13 @@ init (EMultiConfigDialog *multi_config_dialog)
 			       FALSE /* auto_shrink */);
 
 	priv = g_new (EMultiConfigDialogPrivate, 1);
-	priv->pages              = NULL;
-	priv->list_e_table       = list_e_table;
-	priv->list_e_table_model = list_e_table_model;
-	priv->notebook           = notebook;
-	priv->num_unapplied      = 0;
+	priv->pages                 = NULL;
+	priv->list_e_table          = list_e_table;
+	priv->list_e_table_model    = list_e_table_model;
+	priv->notebook              = notebook;
+	priv->num_unapplied         = 0;
+	priv->set_page_timeout_id   = 0;
+	priv->set_page_timeout_page = 0;
 
 	multi_config_dialog->priv = priv;
 }
