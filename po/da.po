@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution beta\n"
 "POT-Creation-Date: 2000-05-27 20:01+0100\n"
-"PO-Revision-Date: 2000-05-27 23:38+0200\n"
+"PO-Revision-Date: 2000-05-29 23:38+0200\n"
 "Last-Translator: Keld Simonsen <keld@dkuug.dk>\n"
 "Language-Team: Danish <dansk@klid.dk>\n"
 "MIME-Version: 1.0\n"
@@ -416,7 +416,7 @@ msgstr "Omvendt på lige sider"
 msgid "Header/Footer"
 msgstr "Hoved/fod"
 
-#: composer/e-msg-composer-address-dialog.c:183 composer/e-msg-composer.c:533
+#: composer/e-msg-composer-address-dialog.c:183 composer/e-msg-composer.c:585
 msgid "Cut"
 msgstr "Klip"
 
@@ -424,7 +424,7 @@ msgstr "Klip"
 msgid "Cut selected item into clipboard"
 msgstr "Klip valgt punkt ud til klippebordet"
 
-#: composer/e-msg-composer-address-dialog.c:187 composer/e-msg-composer.c:534
+#: composer/e-msg-composer-address-dialog.c:187 composer/e-msg-composer.c:586
 msgid "Copy"
 msgstr "Kopiér"
 
@@ -433,7 +433,7 @@ msgid "Copy selected item into clipboard"
 msgstr "Kopiér valgt punkt til klippebordet"
 
 #: composer/e-msg-composer-address-dialog.c:191
-#: composer/e-msg-composer-address-dialog.c:199 composer/e-msg-composer.c:535
+#: composer/e-msg-composer-address-dialog.c:199 composer/e-msg-composer.c:587
 msgid "Paste"
 msgstr "Indsæt"
 
@@ -612,60 +612,60 @@ msgstr "Emne:"
 msgid "Enter the subject of the mail"
 msgstr "Indtast emnet for meddelelsen"
 
-#: composer/e-msg-composer.c:491
+#: composer/e-msg-composer.c:543
 msgid "Save in _folder..."
 msgstr "Gem i _mappe..."
 
-#: composer/e-msg-composer.c:491
+#: composer/e-msg-composer.c:543
 msgid "Save the message in a specified folder"
 msgstr "Gem meddelelsen i en specificeret mappe"
 
-#: composer/e-msg-composer.c:494 composer/e-msg-composer.c:531
+#: composer/e-msg-composer.c:546 composer/e-msg-composer.c:583
 #: mail/folder-browser-factory.c:36
 msgid "Send"
 msgstr "Send"
 
-#: composer/e-msg-composer.c:494
+#: composer/e-msg-composer.c:546
 msgid "Send the message"
 msgstr "Send meddelelsen"
 
-#: composer/e-msg-composer.c:502
+#: composer/e-msg-composer.c:554
 msgid "View _attachments"
 msgstr "Vis _bilag"
 
-#: composer/e-msg-composer.c:502
+#: composer/e-msg-composer.c:554
 msgid "View/hide attachments"
 msgstr "Vis/skjul bilag"
 
-#: composer/e-msg-composer.c:531
+#: composer/e-msg-composer.c:583
 msgid "Send this message"
 msgstr "Send denne meddelelse"
 
-#: composer/e-msg-composer.c:533
+#: composer/e-msg-composer.c:585
 msgid "Cut selected region into the clipboard"
 msgstr "Klip valgt område ud til klippebordet"
 
-#: composer/e-msg-composer.c:534
+#: composer/e-msg-composer.c:586
 msgid "Copy selected region into the clipboard"
 msgstr "Kopiér valgt område til klippebordet"
 
-#: composer/e-msg-composer.c:535
+#: composer/e-msg-composer.c:587
 msgid "Paste selected region into the clipboard"
 msgstr "Indsæt valgt område til klippebordet"
 
-#: composer/e-msg-composer.c:536
+#: composer/e-msg-composer.c:588
 msgid "Undo"
 msgstr "Fortryd"
 
-#: composer/e-msg-composer.c:536
+#: composer/e-msg-composer.c:588
 msgid "Undo last operation"
 msgstr "Fortryd sidste operation"
 
-#: composer/e-msg-composer.c:538
+#: composer/e-msg-composer.c:590
 msgid "Attach"
 msgstr "Vedhæft"
 
-#: composer/e-msg-composer.c:538
+#: composer/e-msg-composer.c:590
 msgid "Attach a file"
 msgstr "Vedhæft en fil"
 
@@ -730,18 +730,22 @@ msgid "_Expunge"
 msgstr "_Udslet"
 
 #: mail/folder-browser-factory.c:73
-msgid "_Filter Druid"
-msgstr "_Filter Druid"
+msgid "_Filter Druid ..."
+msgstr "_Filter Druid ..."
 
-#: mail/folder-browser-factory.c:186
+#: mail/folder-browser-factory.c:79
+msgid "_Vfolder Druid ..."
+msgstr "_Filter Druid ..."
+
+#: mail/folder-browser-factory.c:193
 msgid "We are sorry, Evolution's Folder Browser can not be initialized."
 msgstr "Beklager, Evolutions mappebladrer kan ikke initialiseres."
 
-#: mail/folder-browser.c:208
+#: mail/folder-browser.c:249
 msgid "The URI that the Folder Browser will display"
 msgstr "URI'en som mappebladreren vil vise"
 
-#: mail/folder-browser.c:211
+#: mail/folder-browser.c:252
 msgid "Whether a message preview should be shown"
 msgstr "Om en forkig-besked skal vises"
 
@@ -749,31 +753,31 @@ msgstr "Om en forkig-besked skal vises"
 msgid "Mail Component: I could not initialize Bonobo"
 msgstr "Postdelen: kunne ikke initialisere Bonobo"
 
-#: mail/message-list.c:464
+#: mail/message-list.c:476
 msgid "Priority"
 msgstr "Prioritet"
 
-#: mail/message-list.c:478
+#: mail/message-list.c:490
 msgid "From"
 msgstr "Fra"
 
-#: mail/message-list.c:485
+#: mail/message-list.c:497
 msgid "Subject"
 msgstr "Emne"
 
-#: mail/message-list.c:492
+#: mail/message-list.c:504
 msgid "Sent"
 msgstr "Sendt"
 
-#: mail/message-list.c:499
+#: mail/message-list.c:511
 msgid "Receive"
 msgstr "Modtag"
 
-#: mail/message-list.c:506
+#: mail/message-list.c:518
 msgid "To"
 msgstr "Til"
 
-#: mail/message-list.c:513
+#: mail/message-list.c:525
 msgid "Size"
 msgstr "Størrelse"
 
