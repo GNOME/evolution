@@ -274,11 +274,11 @@ impl_get_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 
 	switch (arg_id) {
 	case ARG_OPTION_CHOICE:
-		GTK_VALUE_ENUM (*arg) = esb->option_choice;
+		GTK_VALUE_ENUM (*arg) = e_search_bar_get_option_choice (esb);
 		break;
 
 	case ARG_TEXT:
-		GTK_VALUE_STRING (*arg) = e_utf8_gtk_editable_get_text(GTK_EDITABLE(esb->entry));
+		GTK_VALUE_STRING (*arg) = e_search_bar_get_text (esb);
 		break;
 
 	default:
@@ -475,3 +475,37 @@ e_search_bar_get_type (void)
 	return type;
 }
 
+/**
+ * e_search_bar_get_option_choice:
+ * @search_bar: A search bar.
+ * 
+ * Queries the currently selected item in the options menu of a search bar.
+ * 
+ * Return value: Identifier of the selected item in the options menu.
+ **/
+int
+e_search_bar_get_option_choice (ESearchBar *search_bar)
+{
+	g_return_val_if_fail (search_bar != NULL, -1);
+	g_return_val_if_fail (E_IS_SEARCH_BAR (search_bar), -1);
+
+	return search_bar->option_choice;
+}
+
+/**
+ * e_search_bar_get_text:
+ * @search_bar: A search bar.
+ * 
+ * Queries the text of the entry line in a search bar.
+ * 
+ * Return value: The text string that is in the entry line of the search bar.
+ * This must be freed using g_free().
+ **/
+char *
+e_search_bar_get_text (ESearchBar *search_bar)
+{
+	g_return_val_if_fail (search_bar != NULL, NULL);
+	g_return_val_if_fail (E_IS_SEARCH_BAR (search_bar), NULL);
+
+	return e_utf8_gtk_editable_get_text (GTK_EDITABLE (search_bar->entry));
+}

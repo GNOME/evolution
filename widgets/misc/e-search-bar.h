@@ -94,6 +94,9 @@ GtkWidget *e_search_bar_new        (ESearchBarItem *menu_items,
 
 void       e_search_bar_set_menu_sensitive(ESearchBar *search_bar, int id, gboolean state);
 
+int        e_search_bar_get_option_choice (ESearchBar *search_bar);
+char      *e_search_bar_get_text          (ESearchBar *search_bar);
+
 #ifdef __cplusplus
 }
 #endif /* __cplusplus */
