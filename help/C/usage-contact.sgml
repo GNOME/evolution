@@ -155,7 +155,8 @@
         Contact</guimenuitem></menuchoice>. This will open the
         in-depth search window, which lets you use multiple search
         criteria in the same way that email filters and <glossterm
-        linkend="vfolder">virtual folders</glossterm> do..  </para>
+        linkend="vfolder">virtual folders</glossterm> do.  
+      </para>
       <para>
         Click <guibutton>Add Criterion</guibutton> to increase the
         number of criteria you'd like to use in the search, and
