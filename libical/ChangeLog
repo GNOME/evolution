@@ -1,3 +1,11 @@
+2001-12-18  Damon Chaplin  <damon@ximian.com>
+
+	* src/libical/icalyacc.y: removed unused 'trigger:' production.
+
+	* configure.in (AC_OUTPUT): patch from Jeremy Katz <katzj@redhat.com>
+	to remove src/libicalss/Makefile and src/libicalvcal/Makefile, as we
+	don't ship those directories now.
+
 2001-12-10  Damon Chaplin  <damon@ximian.com>
 
 	* src/libical/icaltimezone.c (icaltimezone_get_display_name): if all
