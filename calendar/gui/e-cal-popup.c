@@ -29,7 +29,7 @@
 #include <glib.h>
 
 #include "e-cal-popup.h"
-#include "widgets/misc/e-source-selector.h"
+#include <libedataserverui/e-source-selector.h>
 
 #include "gui/e-calendar-view.h"
 #include "gui/e-cal-model.h"

@@ -31,7 +31,7 @@
 #include <gtk/gtkscrolledwindow.h>
 #include <gtk/gtkstock.h>
 #include <e-util/e-icon-factory.h>
-#include "widgets/misc/e-source-selector.h"
+#include <libedataserverui/e-source-selector.h>
 #include "select-source-dialog.h"
 
 static void

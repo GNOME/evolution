@@ -31,6 +31,7 @@
 #include <bonobo/bonobo-exception.h>
 #include <gconf/gconf-client.h>
 #include <libecal/e-cal.h>
+#include <libedataserverui/e-source-selector.h>
 #include <shell/e-user-creatable-items-handler.h>
 #include "e-cal-model.h"
 #include "e-tasks.h"
@@ -46,7 +47,6 @@
 #include "dialogs/comp-editor.h"
 #include "dialogs/copy-source-dialog.h"
 #include "dialogs/task-editor.h"
-#include "widgets/misc/e-source-selector.h"
 #include "widgets/misc/e-info-label.h"
 #include "widgets/misc/e-error.h"
 #include "e-util/e-icon-factory.h"

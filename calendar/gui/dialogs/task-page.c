@@ -35,8 +35,8 @@
 #include <libgnome/gnome-i18n.h>
 #include <glade/glade.h>
 #include <gal/widgets/e-categories.h>
+#include <libedataserverui/e-source-option-menu.h>
 #include <widgets/misc/e-dateedit.h>
-#include "widgets/misc/e-source-option-menu.h"
 #include "common/authentication.h"
 #include "e-util/e-dialog-widgets.h"
 #include "e-util/e-categories-config.h"
@@ -85,8 +85,6 @@ static const int classification_map[] = {
 
 
 
-static void task_page_class_init (TaskPageClass *class);
-static void task_page_init (TaskPage *tpage);
 static void task_page_finalize (GObject *object);
 
 static GtkWidget *task_page_get_widget (CompEditorPage *page);
@@ -97,21 +95,7 @@ static gboolean task_page_fill_timezones (CompEditorPage *page, GHashTable *time
 static void task_page_set_summary (CompEditorPage *page, const char *summary);
 static void task_page_set_dates (CompEditorPage *page, CompEditorPageDates *dates);
 
-static CompEditorPageClass *parent_class = NULL;
-
-
-
-/**
- * task_page_get_type:
- * 
- * Registers the #TaskPage class if necessary, and returns the type ID
- * associated to it.
- * 
- * Return value: The type ID of the #TaskPage class.
- **/
-
-E_MAKE_TYPE (task_page, "TaskPage", TaskPage, task_page_class_init, task_page_init,
-	     TYPE_COMP_EDITOR_PAGE);
+G_DEFINE_TYPE (TaskPage, task_page, TYPE_COMP_EDITOR_PAGE);
 
 /* Class initialization function for the task page */
 static void
@@ -122,8 +106,6 @@ task_page_class_init (TaskPageClass *class)
 
 	editor_page_class = (CompEditorPageClass *) class;
 	object_class = (GObjectClass *) class;
-
-	parent_class = g_type_class_ref(TYPE_COMP_EDITOR_PAGE);
 
 	editor_page_class->get_widget = task_page_get_widget;
 	editor_page_class->focus_main_widget = task_page_focus_main_widget;
@@ -186,8 +168,8 @@ task_page_finalize (GObject *object)
 	g_free (priv);
 	tpage->priv = NULL;
 
-	if (G_OBJECT_CLASS (parent_class)->finalize)
-		(* G_OBJECT_CLASS (parent_class)->finalize) (object);
+	if (G_OBJECT_CLASS (task_page_parent_class)->finalize)
+		(* G_OBJECT_CLASS (task_page_parent_class)->finalize) (object);
 }
 
 

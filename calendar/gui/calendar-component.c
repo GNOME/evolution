@@ -32,6 +32,7 @@
 #include <bonobo/bonobo-exception.h>
 #include <libical/icalvcal.h>
 #include <libecal/e-cal-time-util.h>
+#include <libedataserverui/e-source-selector.h>
 #include <shell/e-user-creatable-items-handler.h>
 #include "e-pub-utils.h"
 #include "e-calendar-view.h"
@@ -49,7 +50,6 @@
 #include "dialogs/comp-editor.h"
 #include "dialogs/copy-source-dialog.h"
 #include "dialogs/event-editor.h"
-#include "widgets/misc/e-source-selector.h"
 #include "widgets/misc/e-info-label.h"
 #include "widgets/misc/e-error.h"
 #include "e-util/e-icon-factory.h"

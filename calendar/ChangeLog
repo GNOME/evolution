@@ -1,3 +1,31 @@
+2004-10-13  JP Rosevear  <jpr@novell.com>
+
+	* gui/dialogs/task-page.c: ditto
+
+	* gui/calendar-component.h: remove e-source-selector include
+
+	* gui/tasks-component.h: ditto
+	
+	* gui/calendar-component.c: update include to libedataserverui for
+	source selector and option menus
+	
+	* gui/e-cal-popup.c: ditto
+
+	* gui/dialogs/url-editor-dialog.h: ditto
+
+	* gui/dialogs/select-source-dialog.c: ditto
+
+	* gui/tasks-component.c: ditto
+
+	* importers/icalendar-importer.c: ditto
+	
+	* gui/e-itip-control.c: ditto; use G_DEFINE_TYPE instead of
+	E_MAKE_TYPE
+	
+	* gui/dialogs/event-page.c: ditto	
+
+	* gui/dialogs/task-page.c: ditto
+	
 2004-10-12  Li Yuan  <li.yuan@sun.com>
 
 	* gui/e-day-view.c: (e_day_view_on_main_canvas_button_press):

@@ -35,7 +35,7 @@ G_BEGIN_DECLS
 #include <glade/glade.h>
 
 #include "cal-prefs-dialog.h"
-#include "widgets/misc/e-source-selector.h"
+#include <libedataserverui/e-source-selector.h>
 
 struct _UrlDialogData {
 	/* Glade XML data */
