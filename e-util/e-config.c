@@ -47,7 +47,7 @@
 
 #include <libgnome/gnome-i18n.h>
 
-#define d(x)
+#define d(x) 
 
 struct _EConfigFactory {
 	struct _EConfigFactory *next, *prev;
@@ -597,7 +597,7 @@ ec_rebuild(EConfig *emp)
 			} else
 				page = wn->widget;
 
-			d(printf("page %d:%s widget %p\n", pageno, item->path, w));
+			d(printf("page %d:%s widget %p\n", pageno, item->path, page));
 
 			if (wn->widget && wn->widget != page) {
 				d(printf("destroy old widget for page '%s'\n", item->path));
@@ -632,15 +632,23 @@ ec_rebuild(EConfig *emp)
 			if (item->factory) {
 				section = item->factory(emp, item, page, wn->widget, wn->context->data);
 				wn->frame = section;
-				itemno = 1;
+				if (section)
+					itemno = 1;
 
 				if (section
 				    && ((item->type == E_CONFIG_SECTION && !GTK_IS_BOX(section))
 					|| (item->type == E_CONFIG_SECTION_TABLE && !GTK_IS_TABLE(section))))
 					g_warning("EConfig section type is wrong");
-			} else if (wn->widget == NULL) {
+			} else {
 				GtkWidget *frame;
 				GtkWidget *label = NULL;
+
+				if (wn->frame) {
+					d(printf("Item %s, clearing generated section widget\n", wn->item->path));
+					gtk_widget_destroy(wn->frame);
+					wn->widget = NULL;
+					wn->frame = NULL;
+				}
 
 				if (item->label) {
 					char *txt = g_strdup_printf("<span weight=\"bold\">%s</span>", item->label);
@@ -654,8 +662,11 @@ ec_rebuild(EConfig *emp)
 
 				if (item->type == E_CONFIG_SECTION)
 					section = gtk_vbox_new(FALSE, 6);
-				else
+				else {
 					section = gtk_table_new(1, 1, FALSE);
+					gtk_table_set_col_spacings((GtkTable *)section, 6);
+					gtk_table_set_row_spacings((GtkTable *)section, 6);
+				}
 
 				frame = g_object_new(gtk_frame_get_type(),
 						     "shadow_type", GTK_SHADOW_NONE, 
@@ -668,8 +679,6 @@ ec_rebuild(EConfig *emp)
 				gtk_widget_show_all(frame);
 				gtk_box_pack_start((GtkBox *)page, frame, FALSE, FALSE, 0);
 				wn->frame = frame;
-			} else {
-				section = wn->widget;
 			}
 		nopage:
 			if (wn->widget && wn->widget != section) {
@@ -677,12 +686,18 @@ ec_rebuild(EConfig *emp)
 				gtk_widget_destroy(wn->widget);
 			}
 
+			d(printf("Item %s, setting section widget\n", wn->item->path));
+
 			sectionno++;
 			wn->widget = section;
 			sectionnode = wn;
 			break;
 		case E_CONFIG_ITEM:
 		case E_CONFIG_ITEM_TABLE:
+			/* generated sections never retain their widgets on a rebuild */
+			if (sectionnode->item->factory == NULL)
+				wn->widget = NULL;
+
 			/* ITEMs are called with the section parent.
 			   The type depends on the section type,
 			   either a GtkTable, or a GtkVBox */

@@ -1,3 +1,13 @@
+2004-12-06  Not Zed  <NotZed@Ximian.com>
+
+	* e-config.c (ec_rebuild): set the table spacings to 6 for
+	generated tables.
+
+2004-11-22  Not Zed  <NotZed@Ximian.com>
+
+	* e-config.c (ec_rebuild): if the table existed before and we have
+	no factory, destroy it always.
+
 2004-12-03  Not Zed  <NotZed@Ximian.com>
 
 	* e-config.c (ec_rebuild): revert the patch from chenthill, this
