@@ -74,7 +74,6 @@ void       e_tasks_setup_menus     (ETasks            *tasks,
 
 ECalendarTable *e_tasks_get_calendar_table (ETasks *tasks);
 
-
 /* This updates all the preference settings for all the ETasks widgets in use.
  */
 void	   e_tasks_update_all_config_settings	(void);

@@ -61,6 +61,15 @@ static void tasks_control_deactivate		(BonoboControl		*control,
 static void tasks_control_new_task_cmd		(BonoboUIComponent	*uic,
 						 gpointer		 data,
 						 const char		*path);
+static void tasks_control_cut_cmd               (BonoboUIComponent      *uic,
+						 gpointer                data,
+						 const gchar            *path);
+static void tasks_control_copy_cmd              (BonoboUIComponent      *uic,
+						 gpointer                data,
+						 const gchar            *path);
+static void tasks_control_paste_cmd             (BonoboUIComponent      *uic,
+						 gpointer                data,
+						 const gchar            *path);
 static void tasks_control_delete_cmd		(BonoboUIComponent	*uic,
 						 gpointer		 data,
 						 const char		*path);
@@ -215,6 +224,9 @@ selection_changed_cb (ETasks *tasks, int n_selected, gpointer data)
 
 static BonoboUIVerb verbs [] = {
 	BONOBO_UI_VERB ("TasksNewTask", tasks_control_new_task_cmd),
+	BONOBO_UI_VERB ("TasksCut", tasks_control_cut_cmd),
+	BONOBO_UI_VERB ("TasksCopy", tasks_control_copy_cmd),
+	BONOBO_UI_VERB ("TasksPaste", tasks_control_paste_cmd),
 	BONOBO_UI_VERB ("TasksDelete", tasks_control_delete_cmd),
 
 	BONOBO_UI_VERB_END
@@ -294,6 +306,45 @@ tasks_control_new_task_cmd		(BonoboUIComponent	*uic,
 
 	tasks = E_TASKS (data);
 	e_tasks_new_task (tasks);
+}
+
+static void
+tasks_control_cut_cmd                   (BonoboUIComponent      *uic,
+					 gpointer                data,
+					 const char             *path)
+{
+	ETasks *tasks;
+	ECalendarTable *cal_table;
+
+	tasks = E_TASKS (data);
+	cal_table = e_tasks_get_calendar_table (tasks);
+	e_calendar_table_cut_clipboard (tasks);
+}
+
+static void
+tasks_control_copy_cmd                  (BonoboUIComponent      *uic,
+					 gpointer                data,
+					 const char             *path)
+{
+	ETasks *tasks;
+	ECalendarTable *cal_table;
+
+	tasks = E_TASKS (data);
+	cal_table = e_tasks_get_calendar_table (tasks);
+	e_calendar_table_copy_clipboard (tasks);
+}
+
+static void
+tasks_control_paste_cmd                 (BonoboUIComponent      *uic,
+					 gpointer                data,
+					 const char             *path)
+{
+	ETasks *tasks;
+	ECalendarTable *cal_table;
+
+	tasks = E_TASKS (data);
+	cal_table = e_tasks_get_calendar_table (tasks);
+	e_calendar_table_paste_clipboard (cal_table);
 }
 
 static void

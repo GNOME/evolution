@@ -2016,16 +2016,16 @@ gnome_calendar_paste_clipboard (GnomeCalendar *gcal)
 
 	switch (priv->current_view_type) {
 	case GNOME_CAL_DAY_VIEW :
-		e_day_view_paste_clipboard (priv->day_view);
+		e_day_view_paste_clipboard (E_DAY_VIEW (priv->day_view));
 		break;
 	case GNOME_CAL_WORK_WEEK_VIEW :
-		e_day_view_paste_clipboard (priv->work_week_view);
+		e_day_view_paste_clipboard (E_DAY_VIEW (priv->work_week_view));
 		break;
 	case GNOME_CAL_WEEK_VIEW :
-		e_week_view_paste_clipboard (priv->week_view);
+		e_week_view_paste_clipboard (E_WEEK_VIEW (priv->week_view));
 		break;
 	case GNOME_CAL_MONTH_VIEW :
-		e_week_view_paste_clipboard (priv->month_view);
+		e_week_view_paste_clipboard (E_WEEK_VIEW (priv->month_view));
 		break;
 	}
 }

@@ -799,6 +799,88 @@ e_calendar_table_delete_selected (ECalendarTable *cal_table)
 		delete_selected_components (cal_table);
 }
 
+/**
+ * e_calendar_table_cut_clipboard:
+ * @cal_table: A calendar table.
+ *
+ * Cuts selected tasks in the given calendar table
+ */
+void
+e_calendar_table_cut_clipboard (ECalendarTable *cal_table)
+{
+	g_return_if_fail (E_IS_CALENDAR_TABLE (cal_table));
+
+	e_calendar_table_copy_clipboard (cal_table);
+	delete_selected_components (cal_table);
+}
+
+/* callback for e_table_selected_row_foreach */
+static void
+copy_row_cb (int model_row, gpointer data)
+{
+	ECalendarTable *cal_table;
+	CalComponent *comp;
+	gchar *comp_str;
+
+	cal_table = E_CALENDAR_TABLE (data);
+
+	comp = calendar_model_get_component (cal_table->model, model_row);
+	if (!comp)
+		return;
+
+
+	if (cal_table->clipboard_selection) {
+		g_free (cal_table->clipboard_selection);
+		cal_table->clipboard_selection = NULL;
+	}
+
+	comp_str = cal_component_get_as_string (comp);
+	cal_table->clipboard_selection = g_strdup (comp_str);
+
+	g_free (comp_str);
+}
+
+/**
+ * e_calendar_table_copy_clipboard:
+ * @cal_table: A calendar table.
+ *
+ * Copies selected tasks into the clipboard
+ */
+void
+e_calendar_table_copy_clipboard (ECalendarTable *cal_table)
+{
+	ETable *etable;
+
+	g_return_if_fail (E_IS_CALENDAR_TABLE (cal_table));
+
+	if (cal_table->clipboard_selection) {
+		g_free (cal_table->clipboard_selection);
+		cal_table->clipboard_selection = NULL;
+	}
+
+	etable = e_table_scrolled_get_table (E_TABLE_SCROLLED (cal_table->etable));
+	e_table_selected_row_foreach (etable, copy_row_cb, cal_table);
+
+	gtk_selection_owner_set (cal_table->invisible, clipboard_atom, GDK_CURRENT_TIME);
+}
+
+/**
+ * e_calendar_table_paste_clipboard:
+ * @cal_table: A calendar table.
+ *
+ * Pastes tasks currently in the clipboard into the given calendar table
+ */
+void
+e_calendar_table_paste_clipboard (ECalendarTable *cal_table)
+{
+	g_return_if_fail (E_IS_CALENDAR_TABLE (cal_table));
+
+	gtk_selection_convert (cal_table->invisible,
+			       clipboard_atom,
+			       GDK_SELECTION_TYPE_STRING,
+			       GDK_CURRENT_TIME);
+}
+
 /* Opens a task in the task editor */
 static void
 open_task (ECalendarTable *cal_table, CalComponent *comp)
@@ -929,64 +1011,25 @@ e_calendar_table_on_cut (GtkWidget *menuitem, gpointer data)
 	ECalendarTable *cal_table;
 
 	cal_table = E_CALENDAR_TABLE (data);
-
-	e_calendar_table_on_copy (menuitem, data);
-	delete_selected_components (cal_table);
-}
-
-static void
-copy_row_cb (int model_row, gpointer data)
-{
-	ECalendarTable *cal_table;
-	CalComponent *comp;
-	gchar *comp_str;
-
-	cal_table = E_CALENDAR_TABLE (data);
-
-	comp = calendar_model_get_component (cal_table->model, model_row);
-	if (!comp)
-		return;
-
-
-	if (cal_table->clipboard_selection) {
-		g_free (cal_table->clipboard_selection);
-		cal_table->clipboard_selection = NULL;
-	}
-
-	comp_str = cal_component_get_as_string (comp);
-	cal_table->clipboard_selection = g_strdup (comp_str);
-
-	g_free (comp_str);
+	e_calendar_table_cut_clipboard (cal_table);
 }
 
 static void
 e_calendar_table_on_copy (GtkWidget *menuitem, gpointer data)
 {
 	ECalendarTable *cal_table;
-	ETable *etable;
 
 	cal_table = E_CALENDAR_TABLE (data);
-
-	if (cal_table->clipboard_selection) {
-		g_free (cal_table->clipboard_selection);
-		cal_table->clipboard_selection = NULL;
-	}
-
-	etable = e_table_scrolled_get_table (E_TABLE_SCROLLED (cal_table->etable));
-	e_table_selected_row_foreach (etable, copy_row_cb, cal_table);
-
-	gtk_selection_owner_set (cal_table->invisible, clipboard_atom, GDK_CURRENT_TIME);
+	e_calendar_table_copy_clipboard (cal_table);
 }
 
 static void
 e_calendar_table_on_paste (GtkWidget *menuitem, gpointer data)
 {
-	ECalendarTable *cal_table = E_CALENDAR_TABLE (data);
+	ECalendarTable *cal_table;
 
-	gtk_selection_convert (cal_table->invisible,
-			       clipboard_atom,
-			       GDK_SELECTION_TYPE_STRING,
-			       GDK_CURRENT_TIME);
+	cal_table = E_CALENDAR_TABLE (data);
+	e_calendar_table_paste_clipboard (cal_table);
 }
 
 static gint

@@ -107,6 +107,11 @@ ETable *e_calendar_table_get_table (ECalendarTable *cal_table);
 
 void e_calendar_table_delete_selected (ECalendarTable *cal_table);
 
+/* Clipboard related functions */
+void       e_calendar_table_cut_clipboard       (ECalendarTable *cal_table);
+void       e_calendar_table_copy_clipboard      (ECalendarTable *cal_table);
+void       e_calendar_table_paste_clipboard     (ECalendarTable *cal_table);
+
 /* These load and save the state of the table (headers shown etc.) to/from
    the given file. */
 void	   e_calendar_table_load_state		(ECalendarTable *cal_table,

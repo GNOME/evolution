@@ -1,5 +1,16 @@
 2001-06-28  Rodrigo Moya <rodrigo@ximian.com>
 
+	* gui/e-calendar-table.[ch] (e_calendar_table_cut_clipboard),
+	(e_calendar_table_copy_clipboard),
+	(e_calendar_table_paste_clipboard): new functions for allowing the
+	execution of clipboard-related commands
+
+	* gui/tasks-control.c (tasks_control_cut_cmd),
+	(tasks_control_copy_cmd), (tasks_control_paste_cmd): added
+	callbacks for the new clipboard-related menu entries
+
+2001-06-28  Rodrigo Moya <rodrigo@ximian.com>
+
 	* gui/component-factory.c: removed not-uses-anymore parameter in
 	call to evolution_shell_component_new
 
