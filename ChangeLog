@@ -1,3 +1,16 @@
+2000-03-26  Chris Toshok  <toshok@laptoph.xtoph.org>
+
+	* addressbook/backend/pas/pas-backend-file.c
+	(pas_backend_file_process_create_card): add db calls to flesh out
+	the interface.  hardcoded id that needs to change, once we decide
+	how we're going to create it.
+	(pas_backend_file_process_remove_card): add db calls to flesh out
+	the interface.
+	(pas_backend_file_process_modify_card): likewise
+	(pas_backend_file_process_check_connection): likewise
+	(pas_backend_file_get_vcard): likewise
+	(pas_backend_file_load_uri): likewise
+
 2000-03-26  Christopher James Lahey  <clahey@helixcode.com>
 
 	* addressbook/backend/ebook/e-book.c: Set the card id properly
