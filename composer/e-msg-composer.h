@@ -95,6 +95,8 @@ struct _EMsgComposer {
 	gboolean has_changed   : 1;
 
 	gboolean in_signature_insert : 1;
+
+	gboolean enable_autosave : 1;
 };
 
 struct _EMsgComposerClass {
@@ -159,6 +161,7 @@ gchar *           e_msg_composer_guess_mime_type      (const gchar *file_name);
 void              e_msg_composer_set_changed          (EMsgComposer *composer);
 void              e_msg_composer_unset_changed        (EMsgComposer *composer);
 gboolean          e_msg_composer_is_dirty             (EMsgComposer *composer);
+void              e_msg_composer_set_enable_autosave  (EMsgComposer *composer, gboolean enabled);
 
 /* PGP */
 void              e_msg_composer_set_pgp_sign         (EMsgComposer     *composer,

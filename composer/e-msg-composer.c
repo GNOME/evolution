@@ -1207,7 +1207,8 @@ autosave_run_foreach_cb (gpointer key, gpointer value, gpointer data)
 {
 	EMsgComposer *composer = E_MSG_COMPOSER (value);
 	
-	autosave_save_draft (composer);
+	if (composer->enable_autosave)
+		autosave_save_draft (composer);
 }
 
 static gint
@@ -3840,5 +3841,15 @@ e_msg_composer_is_dirty (EMsgComposer *composer)
 	
 	return dirty;
 }
+
+void
+e_msg_composer_set_enable_autosave  (EMsgComposer *composer, gboolean enabled)
+{
+	g_return_if_fail (composer != NULL);
+	g_return_if_fail (E_IS_MSG_COMPOSER (composer));
+
+	composer->enable_autosave = enabled;
+}
+
 
 						       

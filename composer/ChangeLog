@@ -1,3 +1,10 @@
+2001-11-02    <NotZed@Ximian.com>
+
+	* e-msg-composer.c (e_msg_composer_set_enable_autosave): New
+	function, enable/disable autosave for the composer temporarily.
+	(autosave_run_foreach_cb): Only save if we have enable autosave
+	turned on.  In other cases we want to save it regardless.
+
 2001-10-30  Dan Winship  <danw@ximian.com>
 
 	* e-msg-composer.c (build_message): Add back the "remove
