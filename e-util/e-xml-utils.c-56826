@@ -44,3 +44,11 @@ e_xml_get_integer_prop_by_name(xmlNode *parent, xmlChar *prop_name)
 	else
 		return 0;
 }
+
+void
+e_xml_set_integer_prop_by_name(xmlNode *parent, xmlChar *prop_name, int value)
+{
+	xmlChar *value = g_strdup_printf("%d", value);
+	xmlSetProp(parent, prop_name, value);
+	g_free (value);
+}

@@ -27,5 +27,6 @@
 #include <gnome-xml/tree.h>
 xmlNode *e_xml_get_child_by_name(xmlNode *parent, xmlChar *child_name);
 int e_xml_get_integer_prop_by_name(xmlNode *parent, xmlChar *prop_name);
+void e_xml_set_integer_prop_by_name(xmlNode *parent, xmlChar *prop_name, int value);
 
 #endif /* __E_XML_UTILS__ */
