@@ -736,6 +736,30 @@ static void *epl_parent_class;
    pages.
 */
 
+static int
+epl_loadmodule(EPlugin *ep)
+{
+	if (epl->module == NULL) {
+		EPluginLibEnableFunc enable;
+		
+		if ((epl->module = g_module_open(epl->location, 0)) == NULL) {
+			g_warning("can't load plugin '%s'", g_module_error());
+			return -1;
+		}
+
+		if (g_module_symbol(epl->module, "e_plugin_lib_enable", (void *)&enable)) {
+			if (enable(epl, TRUE) != 0) {
+				ep->enabled = FALSE;
+				g_module_close(epl->module);
+				epl->module = NULL;
+				return -1;
+			}
+		}
+	}
+
+	return 0;
+}
+
 static void *
 epl_invoke(EPlugin *ep, const char *name, void *data)
 {
@@ -746,23 +770,8 @@ epl_invoke(EPlugin *ep, const char *name, void *data)
 		return NULL;
 	}
 
-	if (epl->module == NULL) {
-		EPluginLibEnableFunc enable;
-		
-		if ((epl->module = g_module_open(epl->location, 0)) == NULL) {
-			g_warning("can't load plugin '%s'", g_module_error());
-			return NULL;
-		}
-
-		if (g_module_symbol(epl->module, "e_plugin_lib_enable", (void *)&enable)) {
-			if (enable(epl, TRUE) != 0) {
-				ep->enabled = FALSE;
-				g_module_close(epl->module);
-				epl->module = NULL;
-				return NULL;
-			}
-		}
-	}
+	if (epl_loadmodule(ep) != 0)
+		return NULL;
 
 	if (!g_module_symbol(epl->module, name, (void *)&cb)) {
 		g_warning("Cannot resolve symbol '%s' in plugin '%s' (not exported?)", name, epl->location);
@@ -783,28 +792,46 @@ epl_construct(EPlugin *ep, xmlNodePtr root)
 	if (epl->location == NULL)
 		return -1;
 
+	/* If we're enabled, check for the load-on-startup property */
+	if (ep->enabled) {
+		xmlChar *tmp;
+
+		tmp = xmlGetProp(root, "load-on-startup");
+		if (tmp) {
+			xmlFree(tmp);
+			if (epl_loadmodule(ep) != 0)
+				return -1;
+		}
+	}
+
 	return 0;
 }
 
 static void
 epl_enable(EPlugin *ep, int state)
 {
+	EPluginLibEnableFunc enable;
+
 	((EPluginClass *)epl_parent_class)->enable(ep, state);
 
-	/* try and unload the module if the plugin will let us */
-	/* This may cause more problems than its worth ... so actual module removal disabled for now */
-	if (epl->module && !state) {
-		EPluginLibEnableFunc enable;
+	/* if we're disabling and it isn't loaded, nothing to do */
+	if (!state && epl->module == NULL)
+		return;
 
-		if (g_module_symbol(epl->module, "e_plugin_lib_enable", (void *)&enable)) {
-			if (enable(epl, FALSE) != 0)
-				return;
-		}
+	/* this will noop if we're disabling since we tested it above */
+	if (epl_loadmodule(ep) != 0)
+		return;
+
+	if (g_module_symbol(epl->module, "e_plugin_lib_enable", (void *)&enable)) {
+		if (enable(epl, state) != 0)
+			return;
+	}
 #if 0
+	if (!state) {
 		g_module_close(epl->module);
 		epl->module = NULL;
-#endif
 	}
+#endif
 }
 
 static void

@@ -1,3 +1,9 @@
+2004-11-18  Not Zed  <NotZed@Ximian.com>
+
+	* e-plugin.c (epl_loadmodule): split out module loadng code.
+	(epl_construct): if we're enabled, and load-on-startup is set,
+	load the module right away.  Not to be abused!
+
 2004-11-03  Not Zed  <NotZed@Ximian.com>
 
 	* e-plugin.c (e_plugin_list_plugins): added helper api to list all
