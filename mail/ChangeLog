@@ -1,3 +1,16 @@
+2000-10-17  Iain Holmes  <iain@helixcode.com>
+
+	* mail-config-gui.c (service_page_item_new): Disable the optionmenu
+	because it is empty.
+	(service_page_item_auth_fill): Enable the optionmenu as there's stuff
+	in it now.
+
+	* mail-callbacks.c (reply_to_sender): Call check_send_configuration
+	when we have the FolderBrowser because if it is done in mail_reply
+	(with passing NULL) it will only be able to continue if the mailer
+	has already been configured.
+	(reply_to_all): Same.
+
 2000-10-18  Not Zed  <NotZed@HelixCode.com>
 
 	* folder-browser.c (folder_browser_gui_init): No, we REALLY dont

@@ -755,7 +755,8 @@ service_page_item_auth_fill (MailDialogServicePage *page,
 	gtk_option_menu_set_menu (GTK_OPTION_MENU (spitem->auth_optionmenu), 
 				  menu);
 	gtk_option_menu_set_history (GTK_OPTION_MENU (spitem->auth_optionmenu), 0);
-	if (firstitem)
+	gtk_widget_set_sensitive (spitem->auth_optionmenu, TRUE);
+	if (firstitem) 
 		service_page_item_auth_activate (firstitem, spitem);
 }
 
@@ -929,6 +930,8 @@ service_page_item_new (MailDialogServicePage *page, MailService *mcs)
 		gtk_misc_set_alignment (GTK_MISC (label), 1, 0.5);
 
 		item->auth_optionmenu = gtk_option_menu_new ();
+		gtk_widget_set_sensitive (item->auth_optionmenu, FALSE);
+
 		gtk_table_attach (GTK_TABLE (table), 
 				  item->auth_optionmenu, 
 				  1, 2, row, row + 1, 
