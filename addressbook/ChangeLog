@@ -1,3 +1,8 @@
+2001-02-11  Jason Leach  <jasonleach@usa.net>
+
+	* gui/component/addressbook.c: Removed an ancient #include
+	<libgnorba/gnorba.h>
+
 2001-02-11  Gediminas Paulauskas <menesis@delfi.lt>
 
 	Really use xml-i18n-tools.
