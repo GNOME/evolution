@@ -2820,22 +2820,7 @@ gnome_calendar_cut_clipboard (GnomeCalendar *gcal)
 	location = get_focus_location (gcal);
 
 	if (location == FOCUS_CALENDAR) {
-		switch (priv->current_view_type) {
-		case GNOME_CAL_DAY_VIEW :
-			e_day_view_cut_clipboard (E_DAY_VIEW (priv->day_view));
-			break;
-		case GNOME_CAL_WORK_WEEK_VIEW :
-			e_day_view_cut_clipboard (E_DAY_VIEW (priv->work_week_view));
-			break;
-		case GNOME_CAL_WEEK_VIEW :
-			e_week_view_cut_clipboard (E_WEEK_VIEW (priv->week_view));
-			break;
-		case GNOME_CAL_MONTH_VIEW :
-			e_week_view_cut_clipboard (E_WEEK_VIEW (priv->month_view));
-			break;
-		default:
-			g_assert_not_reached ();
-		}
+		e_cal_view_cut_clipboard (E_CAL_VIEW (gnome_calendar_get_current_view_widget (gcal)));
 	} else if (location == FOCUS_TASKPAD)
 		e_calendar_table_cut_clipboard (E_CALENDAR_TABLE (priv->todo));
 	else
@@ -2853,22 +2838,7 @@ gnome_calendar_copy_clipboard (GnomeCalendar *gcal)
 	location = get_focus_location (gcal);
 
 	if (location == FOCUS_CALENDAR) {
-		switch (priv->current_view_type) {
-		case GNOME_CAL_DAY_VIEW :
-			e_day_view_copy_clipboard (E_DAY_VIEW (priv->day_view));
-			break;
-		case GNOME_CAL_WORK_WEEK_VIEW :
-			e_day_view_copy_clipboard (E_DAY_VIEW (priv->work_week_view));
-			break;
-		case GNOME_CAL_WEEK_VIEW :
-			e_week_view_copy_clipboard (E_WEEK_VIEW (priv->week_view));
-			break;
-		case GNOME_CAL_MONTH_VIEW :
-			e_week_view_copy_clipboard (E_WEEK_VIEW (priv->month_view));
-			break;
-		default:
-			g_assert_not_reached ();
-		}
+		e_cal_view_copy_clipboard (E_CAL_VIEW (gnome_calendar_get_current_view_widget (gcal)));
 	} else if (location == FOCUS_TASKPAD)
 		e_calendar_table_copy_clipboard (E_CALENDAR_TABLE (priv->todo));
 	else
@@ -2886,20 +2856,7 @@ gnome_calendar_paste_clipboard (GnomeCalendar *gcal)
 	location = get_focus_location (gcal);
 
 	if (location == FOCUS_CALENDAR) {
-		switch (priv->current_view_type) {
-		case GNOME_CAL_DAY_VIEW :
-			e_day_view_paste_clipboard (E_DAY_VIEW (priv->day_view));
-			break;
-		case GNOME_CAL_WORK_WEEK_VIEW :
-			e_day_view_paste_clipboard (E_DAY_VIEW (priv->work_week_view));
-			break;
-		case GNOME_CAL_WEEK_VIEW :
-			e_week_view_paste_clipboard (E_WEEK_VIEW (priv->week_view));
-			break;
-		case GNOME_CAL_MONTH_VIEW :
-			e_week_view_paste_clipboard (E_WEEK_VIEW (priv->month_view));
-			break;
-		}
+		e_cal_view_paste_clipboard (E_CAL_VIEW (gnome_calendar_get_current_view_widget (gcal)));
 	} else if (location == FOCUS_TASKPAD)
 		e_calendar_table_paste_clipboard (E_CALENDAR_TABLE (priv->todo));
 	else

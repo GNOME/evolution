@@ -1,5 +1,11 @@
 2003-07-22  Rodrigo Moya <rodrigo@ximian.com>
 
+	* gui/gnome-cal.c (gnome_calendar_copy_clipboard,
+	gnome_calendar_cut_clipboard, gnome_calendar_paste_clipboard):
+	removed missing calls to e_day/week_view_*_clipboard.
+
+2003-07-22  Rodrigo Moya <rodrigo@ximian.com>
+
 	* gui/e-cal-view.[ch]: added "get_selected_events",
 	and "update_query" virtual methods.
 	(e_cal_view_class_init): initialize new virtual methods.
