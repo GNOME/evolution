@@ -29,8 +29,10 @@
 #define OPENLDAP1
 #endif
 
+#if 0
 #ifdef OPENLDAP1
 #define LDAP_NAME_ERROR(x) NAME_ERROR(x)
+#endif
 #endif
 
 #ifdef OPENLDAP2
@@ -46,9 +48,12 @@
 
 #define LDAP_MAX_SEARCH_RESPONSES 100
 
-#define INETORGPERSON "inetOrgPerson"
-#define EVOLVEPERSON  "evolvePerson"
-
+/* the objectClasses we need */
+#define TOP                  "top"
+#define PERSON               "person"
+#define ORGANIZATIONALPERSON "organizationalPerson"
+#define INETORGPERSON        "inetOrgPerson"
+#define EVOLVEPERSON         "evolvePerson"
 
 static gchar *query_prop_to_ldap(gchar *query_prop);
 
@@ -68,6 +73,8 @@ struct _PASBackendLDAPPrivate {
 	GList    *book_views;
 
 	LDAP     *ldap;
+
+	EList    *supported_fields;
 
 	/* whether or not there's support for the objectclass we need
            to store all our additional fields */
@@ -269,17 +276,59 @@ view_destroy(GtkObject *object, gpointer data)
 }
 
 static void
-check_for_evolve_person (PASBackendLDAP *bl)
+add_to_supported_fields (PASBackendLDAP *bl, char **attrs, GHashTable *attr_hash)
 {
-#ifdef OPENLDAP2
+	int i;
+	for (i = 0; attrs[i]; i ++) {
+		char *query_prop = g_hash_table_lookup (attr_hash, attrs[i]);
+
+		if (query_prop) {
+			e_list_append (bl->priv->supported_fields, g_strdup(query_prop));
+
+			/* handle the list attributes here */
+			if (!strcmp (query_prop, "email")) {
+				e_list_append (bl->priv->supported_fields, g_strdup("email_2"));
+				e_list_append (bl->priv->supported_fields, g_strdup("email_3"));
+			}
+			else if (!strcmp (query_prop, "business_phone")) {
+				e_list_append (bl->priv->supported_fields, g_strdup("business_phone_2"));
+			}
+			else if (!strcmp (query_prop, "home_phone")) {
+				e_list_append (bl->priv->supported_fields, g_strdup("home_phone_2"));
+			}
+		}
+	}
+}
+
+static void
+add_oc_attributes_to_supported_fields (PASBackendLDAP *bl, LDAPObjectClass *oc)
+{
+	int i;
+	GHashTable *attr_hash = g_hash_table_new (g_str_hash, g_str_equal);
+
+	for (i = 0; i < num_prop_infos; i ++)
+		g_hash_table_insert (attr_hash, prop_info[i].ldap_attr, prop_info[i].query_prop);
+
+	if (oc->oc_at_oids_must)
+		add_to_supported_fields (bl, oc->oc_at_oids_must, attr_hash);
+
+	if (oc->oc_at_oids_may)
+		add_to_supported_fields (bl, oc->oc_at_oids_may, attr_hash);
+
+	g_hash_table_destroy (attr_hash);
+}
+
+static void
+check_schema_support (PASBackendLDAP *bl)
+{
 	char *attrs[2];
 	LDAPMessage *resp;
 	LDAP *ldap = bl->priv->ldap;
-#endif
 
 	bl->priv->evolvePersonChecked = TRUE;
 
-#ifdef OPENLDAP2
+	bl->priv->supported_fields = e_list_new ((EListCopyFunc)g_strdup, (EListFreeFunc)g_free, NULL);
+
 	attrs[0] = "objectClasses";
 	attrs[1] = NULL;
 
@@ -297,6 +346,7 @@ check_for_evolve_person (PASBackendLDAP *bl)
 				int code;
 				const char *err;
 				LDAPObjectClass *oc = ldap_str2objectclass (values[i], &code, &err, 0);
+
 				if (!oc)
 					continue;
 
@@ -304,16 +354,19 @@ check_for_evolve_person (PASBackendLDAP *bl)
 					if (!g_strcasecmp (oc->oc_names[j], EVOLVEPERSON)) {
 						g_print ("support found on ldap server for objectclass evolvePerson\n");
 						bl->priv->evolvePersonSupported = TRUE;
-						ldap_objectclass_free (oc);
-						goto done;
+
+						add_oc_attributes_to_supported_fields (bl, oc);
+					}
+					else if (!g_strcasecmp (oc->oc_names[j], INETORGPERSON)
+						 || !g_strcasecmp (oc->oc_names[j], ORGANIZATIONALPERSON)
+						 || !g_strcasecmp (oc->oc_names[j], PERSON)) {
+						add_oc_attributes_to_supported_fields (bl, oc);
 					}
 
 				ldap_objectclass_free (oc);
 			}
-		done:
 		}
 	}
-#endif
 }
 
 static void
@@ -327,12 +380,10 @@ pas_backend_ldap_connect (PASBackendLDAP *bl)
 
 	blpriv->ldap = ldap_open (blpriv->ldap_host, blpriv->ldap_port);
 #ifdef DEBUG
-#ifdef OPENLDAP2
 	{
 		int debug_level = ~0;
 		ldap_set_option (blpriv->ldap, LDAP_OPT_DEBUG_LEVEL, &debug_level);
 	}
-#endif
 #endif
 
 	if (NULL != blpriv->ldap) {
@@ -352,7 +403,7 @@ pas_backend_ldap_connect (PASBackendLDAP *bl)
 	/* check to see if evolvePerson is supported, if we can (me
            might not be able to if we can't authenticate.  if we
            can't, try again in auth_user.) */
-	check_for_evolve_person (bl);
+	check_schema_support (bl);
 }
 
 static void
@@ -656,14 +707,17 @@ add_objectclass_mod (PASBackendLDAP *bl, GPtrArray *mod_array)
 	objectclass_mod = g_new (LDAPMod, 1);
 	objectclass_mod->mod_op = LDAP_MOD_ADD;
 	objectclass_mod->mod_type = g_strdup ("objectClass");
-	objectclass_mod->mod_values = g_new (char*, bl->priv->evolvePersonSupported ? 3 : 2);
-	objectclass_mod->mod_values[0] = g_strdup (INETORGPERSON);
+	objectclass_mod->mod_values = g_new (char*, bl->priv->evolvePersonSupported ? 6 : 5);
+	objectclass_mod->mod_values[0] = g_strdup (TOP);
+	objectclass_mod->mod_values[1] = g_strdup (PERSON);
+	objectclass_mod->mod_values[2] = g_strdup (ORGANIZATIONALPERSON);
+	objectclass_mod->mod_values[3] = g_strdup (INETORGPERSON);
 	if (bl->priv->evolvePersonSupported) {
-		objectclass_mod->mod_values[1] = g_strdup (EVOLVEPERSON);
-		objectclass_mod->mod_values[2] = NULL;
+		objectclass_mod->mod_values[4] = g_strdup (EVOLVEPERSON);
+		objectclass_mod->mod_values[5] = NULL;
 	}
 	else {
-		objectclass_mod->mod_values[1] = NULL;
+		objectclass_mod->mod_values[4] = NULL;
 	}
 	g_ptr_array_add (mod_array, objectclass_mod);
 }
@@ -961,11 +1015,7 @@ modify_card_handler (PASBackend *backend, LDAPOp *op)
 			ldap_mods = (LDAPMod**)mod_array->pdata;
 
 			/* actually perform the ldap modify */
-#ifdef OPENLDAP2
 			ldap_error = ldap_modify_ext_s (ldap, id, ldap_mods, NULL, NULL);
-#else
-			ldap_error = ldap_modify (ldap, id, ldap_mods);
-#endif
 			if (ldap_error != LDAP_SUCCESS)
 				ldap_perror (ldap, "ldap_modify_s");
 		}
@@ -1844,7 +1894,6 @@ ldap_search_handler (PASBackend *backend, LDAPOp *op)
 		LDAP *ldap = bl->priv->ldap;
 		int ldap_err;
 
-#ifdef OPENLDAP2
 		ldap_err = ldap_search_ext (ldap, bl->priv->ldap_rootdn,
 					    bl->priv->ldap_scope,
 					    search_op->ldap_query,
@@ -1858,15 +1907,6 @@ ldap_search_handler (PASBackend *backend, LDAPOp *op)
 			pas_book_view_notify_status_message (view->book_view, ldap_err2string(ldap_err));
 			return TRUE; /* act synchronous in this case */
 		}
-#else
-		ldap->ld_sizelimit = LDAP_MAX_SEARCH_RESPONSES;
-		ldap->ld_deref = LDAP_DEREF_ALWAYS;
-		view->search_msgid = ldap_search (ldap, bl->priv->ldap_rootdn,
-						  bl->priv->ldap_scope,
-						  search_op->ldap_query,
-						  NULL, 0);
-		ldap_err = ldap->ld_errno;
-#endif
 
 		if (view->search_msgid == -1) {
 			pas_book_view_notify_status_message (view->book_view, ldap_err2string(ldap_err));
@@ -1988,7 +2028,7 @@ pas_backend_ldap_process_authenticate_user (PASBackend *backend,
 				    ldap_error_to_response (ldap_error));
 
 	if (!bl->priv->evolvePersonChecked)
-		check_for_evolve_person (bl);
+		check_schema_support (bl);
 }
 
 static void
@@ -1997,13 +2037,11 @@ pas_backend_ldap_process_get_supported_fields (PASBackend *backend,
 					       PASRequest *req)
 
 {
-	EList *fields = e_list_new ((EListCopyFunc)g_strdup, (EListFreeFunc)g_free, NULL);
-
-	printf ("in pas_backend_ldap_get_supported_fields\n");
+	PASBackendLDAP *bl = PAS_BACKEND_LDAP (backend);
 
 	pas_book_respond_get_supported_fields (book,
 					       GNOME_Evolution_Addressbook_BookListener_Success,
-					       fields);
+					       bl->priv->supported_fields);
 }
 
 static gboolean
@@ -2280,6 +2318,9 @@ pas_backend_ldap_destroy (GtkObject *object)
 
 	g_list_foreach (bl->priv->pending_ops, (GFunc)call_dtor, NULL);
 	g_list_free (bl->priv->pending_ops);
+
+	if (bl->priv->supported_fields)
+		gtk_object_unref (GTK_OBJECT (bl->priv->supported_fields));
 
 	g_free (bl->priv->uri);
 

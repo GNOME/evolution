@@ -1,5 +1,17 @@
 2001-03-02  Chris Toshok  <toshok@ximian.com>
 
+	* backend/pas/pas-backend-ldap.c (add_objectclass_mod): add
+	objectclasses for "person", "organizationalPerson", and "top" as
+	well, just to be complete.
+	(check_schema_support): rename check_for_evolve_person to this, to
+	reflect that we're doing more than just checking for that
+	objectClass.
+	(add_oc_attributes_to_supported_fields): new function.
+	(add_to_supported_fields): new function.
+	(pas_backend_ldap_destroy): unref supported_fields.
+
+2001-03-02  Chris Toshok  <toshok@ximian.com>
+
 	* gui/widgets/e-minicard-view.c (supported_fields_cb): new
 	function.
 	(e_minicard_view_event): split out the creation of the contact
