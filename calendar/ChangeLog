@@ -1,3 +1,8 @@
+2001-09-14  JP Rosevear  <jpr@ximian.com>
+
+	* conduits/calendar/e-calendar.conduit.in: remove translation
+	marker for now	
+
 2001-09-13  JP Rosevear  <jpr@ximian.com>
 
 	* cal-util/cal-component.h: use ical partstat, role, cutypes
