@@ -1,5 +1,12 @@
 2000-09-09  Jeffrey Stedfast  <fejj@helixcode.com>
 
+	* filter-driver.c (filter_driver_run): Erm, okay I misunderstood
+	what camel_folder_[un]hook_event() did - we don't even need this
+	crap in the filter driver so lets take it completely out and let
+	the caller handle this junk.
+
+2000-09-09  Jeffrey Stedfast  <fejj@helixcode.com>
+
 	* filter-driver.c (filter_driver_run): Updated to not emit the
 	folder_changed signal when a message is appended to the default
 	mailbox - lets leave that up to the caller so we don't queue up a
