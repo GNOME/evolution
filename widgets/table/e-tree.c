@@ -1042,6 +1042,7 @@ e_tree_set_cursor (ETree *e_tree, ETreePath path)
 
 #ifdef E_TREE_USE_TREE_SELECTION
 	e_tree_selection_model_select_single_path (E_TREE_SELECTION_MODEL(e_tree->priv->selection), path);
+	e_tree_selection_model_change_cursor (E_TREE_SELECTION_MODEL(e_tree->priv->selection), path);
 #else
 	path = e_tree_sorted_model_to_view_path(e_tree->priv->sorted, path);
 
