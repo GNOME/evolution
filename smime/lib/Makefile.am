@@ -20,6 +20,8 @@ INCLUDES =						\
 noinst_LTLIBRARIES = libessmime.la
 
 libessmime_la_SOURCES = 	\
+	e-asn1-object.c		\
+	e-asn1-object.h		\
 	e-cert.c		\
 	e-cert.h		\
 	e-cert-trust.c		\

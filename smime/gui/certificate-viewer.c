@@ -22,6 +22,8 @@
 
 #include "certificate-viewer.h"
 
+#include "e-asn1-object.h"
+
 #include <gtk/gtk.h>
 
 #include <libgnome/gnome-i18n.h>
@@ -32,6 +34,11 @@
 typedef struct {
 	GladeXML *gui;
 	GtkWidget *dialog;
+	GtkTreeStore *hierarchy_store, *fields_store;
+	GtkWidget *hierarchy_tree, *fields_tree;
+	GtkWidget *field_text;
+
+	GList *cert_chain;
 } CertificateViewerData;
 
 static void
@@ -39,25 +46,19 @@ free_data (gpointer data, GObject *where_the_object_was)
 {
 	CertificateViewerData *cvm = data;
 
+	g_list_foreach (cvm->cert_chain, (GFunc)g_object_unref, NULL);
+	g_list_free (cvm->cert_chain);
+
 	g_object_unref (cvm->gui);
 	g_free (cvm);
 }
 
-
-GtkWidget*
-certificate_viewer_show (ECert *cert)
+static void
+fill_in_general (CertificateViewerData *cvm_data, ECert *cert)
 {
-	CertificateViewerData *cvm_data;
-	CERTCertificate *mcert;
+	CERTCertificate *mcert = e_cert_get_internal_cert (cert);
 	GtkWidget *label;
 	const char *text;
-
-	mcert = e_cert_get_internal_cert (cert);
-
-	cvm_data = g_new0 (CertificateViewerData, 1);
-	cvm_data->gui = glade_xml_new (EVOLUTION_GLADEDIR "/" GLADE_FILE_NAME, NULL, NULL);
-
-	cvm_data->dialog = glade_xml_get_widget (cvm_data->gui, "certificate-viewer-dialog");
 
 	/* issued to */
 	if (e_cert_get_cn (cert)) {
@@ -114,6 +115,108 @@ certificate_viewer_show (ECert *cert)
 	text = e_cert_get_md5_fingerprint (cert);
 	label = glade_xml_get_widget (cvm_data->gui, "fingerprints-md5");
 	gtk_label_set_text (GTK_LABEL (label), text);
+}
+
+static void
+hierarchy_selection_changed (GtkTreeSelection *selection, CertificateViewerData *cvm_data)
+{
+	GtkTreeIter iter;
+	GtkTreeModel *model;
+
+	if (gtk_tree_selection_get_selected (selection,
+					     &model,
+					     &iter)) {
+		EASN1Object *asn1_object;
+		ECert *cert;
+
+		gtk_tree_model_get (model,
+				    &iter,
+				    1, &cert,
+				    -1);
+
+		if (!cert)
+			return;
+
+		/* XXX show the selected fields somehow */
+		asn1_object = e_asn1_object_new_from_cert (cert);
+	}	
+}
+
+static void
+fields_selection_changed (GtkTreeSelection *selection, CertificateViewerData *cvm_data)
+{
+}
+
+static void
+fill_in_details (CertificateViewerData *cvm_data, ECert *cert)
+{
+	GList *l;
+	GtkTreeIter *root = NULL;
+	GtkTreeSelection *selection;
+
+	/* hook up all the hierarchy tree foo */
+	cvm_data->hierarchy_store = gtk_tree_store_new (2, G_TYPE_STRING, G_TYPE_OBJECT);
+	cvm_data->hierarchy_tree = glade_xml_get_widget (cvm_data->gui, "cert-hierarchy-treeview");
+	gtk_tree_view_set_model (GTK_TREE_VIEW (cvm_data->hierarchy_tree),
+				 GTK_TREE_MODEL (cvm_data->hierarchy_store));
+
+	gtk_tree_view_insert_column_with_attributes (GTK_TREE_VIEW (cvm_data->hierarchy_tree),
+						     -1, "Cert", gtk_cell_renderer_text_new(),
+						     "text", 0, NULL);
+
+	selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (cvm_data->hierarchy_tree));
+	g_signal_connect (selection, "changed", G_CALLBACK (hierarchy_selection_changed), cvm_data);
+
+	/* hook up all the fields tree foo */
+	cvm_data->fields_store = gtk_tree_store_new (1, G_TYPE_STRING);
+	cvm_data->fields_tree = glade_xml_get_widget (cvm_data->gui, "cert-fields-treeview");
+	gtk_tree_view_set_model (GTK_TREE_VIEW (cvm_data->fields_tree),
+				 GTK_TREE_MODEL (cvm_data->fields_store));
+
+	gtk_tree_view_insert_column_with_attributes (GTK_TREE_VIEW (cvm_data->fields_tree),
+						     -1, "Field", gtk_cell_renderer_text_new(),
+						     "text", 0, NULL);
+
+	selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (cvm_data->fields_tree));
+	g_signal_connect (selection, "changed", G_CALLBACK (fields_selection_changed), cvm_data);
+
+	/* hook up all the field display foo */
+	cvm_data->field_text = glade_xml_get_widget (cvm_data->gui, "cert-field-value-textview");
+
+	/* initially populate the hierarchy from the cert's chain */
+	cvm_data->cert_chain = e_cert_get_chain (cert);
+	cvm_data->cert_chain = g_list_reverse (cvm_data->cert_chain);
+	for (l = cvm_data->cert_chain; l; l = l->next) {
+		ECert *c = l->data;
+		const char *str;
+		GtkTreeIter new_iter;
+
+		str = e_cert_get_cn (c);
+		if (!str)
+			str = e_cert_get_subject_name (c);
+
+		gtk_tree_store_insert (cvm_data->hierarchy_store, &new_iter, root, -1);
+		gtk_tree_store_set (cvm_data->hierarchy_store, &new_iter,
+				    0, str,
+				    1, c,
+				    -1);
+
+		root = &new_iter;
+	}
+}
+
+GtkWidget*
+certificate_viewer_show (ECert *cert)
+{
+	CertificateViewerData *cvm_data;
+
+	cvm_data = g_new0 (CertificateViewerData, 1);
+	cvm_data->gui = glade_xml_new (EVOLUTION_GLADEDIR "/" GLADE_FILE_NAME, NULL, NULL);
+
+	cvm_data->dialog = glade_xml_get_widget (cvm_data->gui, "certificate-viewer-dialog");
+
+	fill_in_general (cvm_data, cert);
+	fill_in_details (cvm_data, cert);
 
 	g_object_weak_ref (G_OBJECT (cvm_data->dialog), free_data, cvm_data);
 

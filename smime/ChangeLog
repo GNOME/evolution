@@ -1,5 +1,29 @@
 2003-12-03  Chris Toshok  <toshok@ximian.com>
 
+	* lib/Makefile.am (libessmime_la_SOURCES): add e-asn1-object.[ch]
+
+	* gui/smime-ui.glade: rename the ca trust dialog, and give it a
+	proper id.
+
+	* gui/certificate-manager.c (yourcerts_selection_changed): just
+	use @selection.
+	(contactcerts_selection_changed): same.
+	(authoritycerts_selection_changed): same.
+
+	* gui/certificate-viewer.c (free_data): free the cert chain.
+	(fill_in_general): move all the general tab stuff here.
+	(hierarchy_selection_changed): new function.  not finished.
+	(fields_selection_changed): new function, unimplemented.
+	(fill_in_details): new function, fill in the heirarchy and hook up
+	signals and stuff.
+	(certificate_viewer_show): call fill_in_general/fill_in_details.
+
+	* lib/e-cert.c (e_cert_get_chain): new function.
+
+	* lib/e-cert.h: add prototype for e_cert_get_chain.
+
+2003-12-03  Chris Toshok  <toshok@ximian.com>
+
 	* lib/e-cert-db.c (e_cert_db_class_init): grovel around at startup
 	time for mozilla's pkcs11 module so we can get the same default
 	set of root certs.

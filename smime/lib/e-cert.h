@@ -91,6 +91,8 @@ const char*          e_cert_get_serial_number    (ECert *cert);
 const char*          e_cert_get_sha1_fingerprint (ECert *cert);
 const char*          e_cert_get_md5_fingerprint  (ECert *cert);
 
+GList*               e_cert_get_chain     (ECert *cert);
+
 gboolean             e_cert_mark_for_deletion (ECert *cert);
 
 ECertType            e_cert_get_cert_type (ECert *cert);

@@ -139,7 +139,7 @@ import_your (GtkWidget *widget, CertificateManagerData *cfm)
 static void
 yourcerts_selection_changed (GtkTreeSelection *selection, CertificateManagerData *cfm)
 {
-	handle_selection_changed (gtk_tree_view_get_selection (GTK_TREE_VIEW(cfm->yourcerts_treeview)),
+	handle_selection_changed (selection,
 				  4,
 				  cfm->view_your_button,
 				  cfm->backup_your_button, /* yes yes, not really "edit", it's a hack :) */
@@ -290,7 +290,7 @@ delete_contact (GtkWidget *widget, CertificateManagerData *cfm)
 static void
 contactcerts_selection_changed (GtkTreeSelection *selection, CertificateManagerData *cfm)
 {
-	handle_selection_changed (gtk_tree_view_get_selection (GTK_TREE_VIEW(cfm->contactcerts_treeview)),
+	handle_selection_changed (selection,
 				  3,
 				  cfm->view_contact_button,
 				  cfm->edit_contact_button,
@@ -447,7 +447,7 @@ delete_ca (GtkWidget *widget, CertificateManagerData *cfm)
 static void
 authoritycerts_selection_changed (GtkTreeSelection *selection, CertificateManagerData *cfm)
 {
-	handle_selection_changed (gtk_tree_view_get_selection (GTK_TREE_VIEW(cfm->authoritycerts_treeview)),
+	handle_selection_changed (selection,
 				  1,
 				  cfm->view_ca_button,
 				  cfm->edit_ca_button,

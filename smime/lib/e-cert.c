@@ -409,6 +409,31 @@ e_cert_get_md5_fingerprint  (ECert *cert)
 	return cert->priv->md5_fingerprint;
 }
 
+GList*
+e_cert_get_chain (ECert *ecert)
+{
+	GList *l = NULL;
+
+	g_object_ref (ecert);
+
+	while (ecert) {
+		CERTCertificate *cert = e_cert_get_internal_cert (ecert);
+		CERTCertificate *next_cert;
+
+		l = g_list_append (l, ecert);
+
+		if (SECITEM_CompareItem(&cert->derIssuer, &cert->derSubject) == SECEqual)
+			break;
+
+		next_cert = CERT_FindCertIssuer (cert, PR_Now(), certUsageSSLClient);
+		if (!next_cert)
+			break;
+		ecert = e_cert_new (next_cert);
+	}
+
+	return l;
+}
+
 gboolean
 e_cert_mark_for_deletion (ECert *cert)
 {

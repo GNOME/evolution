@@ -1759,8 +1759,8 @@
   </child>
 </widget>
 
-<widget class="GtkDialog" id="dialog1">
-  <property name="title" translatable="yes">dialog1</property>
+<widget class="GtkDialog" id="ca-trust-dialog">
+  <property name="title" translatable="yes">Certificate Authority Trust</property>
   <property name="type">GTK_WINDOW_TOPLEVEL</property>
   <property name="window_position">GTK_WIN_POS_NONE</property>
   <property name="modal">False</property>
