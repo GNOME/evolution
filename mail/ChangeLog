@@ -1,3 +1,11 @@
+2000-11-06  Kjartan Maraas  <kmaraas@gnome.org>
+
+	* mail-autofilter.c: Fix up #include <config.h>
+	* mail-crypto.c: Same here.
+	* mail-search-dialog.c: Here too.
+	* main.c: Fix indentation of #ifdef
+	* message-thread.c: Fix include.
+	
 2000-11-06  Jeffrey Stedfast  <fejj@helixcode.com>
 
 	* mail-callbacks.c (delete_msg): Don't invert the flag.

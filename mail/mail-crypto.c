@@ -32,7 +32,7 @@
  *
  */
 
-#include "config.h"
+#include <config.h>
 
 #ifdef PGP_PROGRAM
 #include <stdlib.h>

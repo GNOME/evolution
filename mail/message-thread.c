@@ -20,6 +20,7 @@
  *  USA
  */
 
+#include <config.h>
 #include "camel/camel.h"
 #include <sys/types.h>
 #include <unistd.h>
