@@ -26,6 +26,11 @@
  ======================================================================*/
 
 
+#ifdef HAVE_CONFIG_H
+#include "config.h"
+#endif
+
+
 #include "icalcluster.h"
 #include <errno.h>
 #include <limits.h> /* For PATH_MAX */
@@ -33,11 +38,16 @@
 #include <unistd.h> /* for stat, getpid */
 #include <stdlib.h>
 #include <string.h>
+#include <fcntl.h> /* for fcntl */
+#include <unistd.h> /* for fcntl */
+
+icalerrorenum icalcluster_create_cluster(char *path);
 
 struct icalcluster_impl {
 	char *path;
 	icalcomponent* cluster;
 	int changed;
+	FILE* stream;
 };
 
 icalcluster* icalcluster_new_impl()
@@ -54,136 +64,24 @@ icalcluster* icalcluster_new_impl()
     return comp;
 }
 
-icalerrorenum icalcluster_create_cluster(char *path)
+char* read_from_file(char *s, size_t size, void *d)
 {
-
-    FILE* f;
-    int r;
-    icalcomponent *c;
-    struct icaltimetype tt;
-
-    icalerror_clear_errno();
-
-    f = fopen(path,"w");
-
-    if (f == 0){
-	icalerror_set_errno(ICAL_FILE_ERROR);
-	return ICAL_FILE_ERROR;
-    }
-
-    /* Create the root component in the cluster. This component holds
-       all of the other components and stores a count of
-       components. */
-
-    memset(&tt,0,sizeof(struct icaltimetype));
-
-    c = icalcomponent_vanew(
-	ICAL_VCALENDAR_COMPONENT,
-	icalproperty_new_xlicclustercount(0),
-	icalproperty_new_dtstart(tt), /* dtstart of earliest comp */
-	icalproperty_new_dtend(tt), /* dtend of latest comp, excl. recuring */
-	0
-	);
-	
-    if (c == 0){
-	fclose(f);
-	icalerror_set_errno(ICAL_INTERNAL_ERROR);
-	return ICAL_INTERNAL_ERROR;
-    }
-
-
-    /* Write the base component to the file */
-    r = fputs(icalcomponent_as_ical_string(c),f);
-	    
-    fclose(f);
-
-    icalcomponent_free(c);
-
-    if (r == EOF){
-	icalerror_set_errno(ICAL_FILE_ERROR);
-	return ICAL_FILE_ERROR;
-    }
-
-    return ICAL_NO_ERROR;
-}
-
-FILE* parser_file; /*HACK. Not Thread Safe */
-char* read_from_file(char *s, size_t size)
-{
-    char *c = fgets(s,size, parser_file);
+    char *c = fgets(s,size, (FILE*)d);
     return c;
 }
-
-icalerrorenum icalcluster_load(icalcluster* cluster, char* path)
-{
-    struct icalcluster_impl *impl = (struct icalcluster_impl*)cluster;
-    icalerrorenum error;
-    errno = 0;
- 
-    icalerror_check_arg_rz((cluster!=0),"cluster");
-    icalerror_check_arg_rz((path!=0),"path");
-
-    if(impl->path != 0 && strcmp(impl->path,path) == 0){
-	/* Already have the right cluster, so return */
-	return ICAL_NO_ERROR;
-    }
-
-    error = icalcluster_commit(cluster);
-    
-    if (error != ICAL_NO_ERROR){
-	icalerror_set_errno(error);
-	return error;
-    }
-    
-    free(impl->path);
-    
-    impl->path= (char*)strdup(path);
-
-    parser_file = fopen(impl->path,"r");
-    
-    /* HACK. Yeah, the following code is horrible....*/
-    if (parser_file ==0 || errno != 0){
-	
-	/* Try to create the cluster */
-	error = icalcluster_create_cluster(path);
-	
-	if (error == ICAL_NO_ERROR){
-	    /* Try to open the parser again. */
-	    errno = 0;
-	    parser_file = fopen(impl->path,"r");
-	    
-	    if (parser_file ==0 || errno != 0){
-		impl->cluster = 0;
-		icalerror_set_errno(ICAL_FILE_ERROR);
-		return ICAL_FILE_ERROR;
-	    }
-	} else {
-	    impl->cluster = 0;
-	    icalerror_set_errno(error); /* Redundant, actually */
-	    return error;
-	}
-    }
-    
-    impl->cluster = icalparser_parse(read_from_file);
-    
-    fclose(parser_file);
-    
-    if (impl->cluster == 0){
-	icalerror_set_errno(ICAL_PARSE_ERROR);
-	return ICAL_PARSE_ERROR;
-    }
-    
-    return ICAL_NO_ERROR;
-}
-
 
 icalcluster* icalcluster_new(char* path)
 {
     struct icalcluster_impl *impl = icalcluster_new_impl(); 
     struct stat sbuf;
     int createclusterfile = 0;
-    icalerrorenum error;
-    
+    icalerrorenum error = ICAL_NO_ERROR;
+    icalparser *parser;
+    struct icaltimetype tt;
+    off_t cluster_file_size;
+
+    memset(&tt,0,sizeof(struct icaltimetype));
+
     icalerror_clear_errno();
     icalerror_check_arg_rz( (path!=0), "path");
 
@@ -193,15 +91,18 @@ icalcluster* icalcluster_new(char* path)
 
     /*impl->path = strdup(path); icalcluster_load does this */
     impl->changed  = 0;
+
     impl->cluster = 0;
+
     impl->path = 0;
+    impl->stream = 0;
         
     /* Check if the path already exists and if it is a regular file*/
     if (stat(path,&sbuf) != 0){
 	
 	/* A file by the given name does not exist, or there was
            another error */
-	
+	cluster_file_size = 0;
 	if (errno == ENOENT) {
 	    /* It was because the file does not exist */
 	    createclusterfile = 1;
@@ -219,7 +120,8 @@ icalcluster* icalcluster_new(char* path)
 	    return 0;
 	} else {
 	    /* Lets assume that it is a file of the right type */
-	    createclusterfile = 0;
+          cluster_file_size = sbuf.st_size;
+          createclusterfile = 0;
 	}	
     }
     
@@ -233,8 +135,43 @@ icalcluster* icalcluster_new(char* path)
 	    return 0;
 	}
     }
+
+    impl->path = (char*)strdup(path);
+
+    errno = 0;
+    impl->stream = fopen(impl->path,"r");
     
-    error = icalcluster_load(impl,path);
+    if (impl->stream ==0 || errno != 0){
+	impl->cluster = 0;
+	icalerror_set_errno(ICAL_FILE_ERROR); /* Redundant, actually */
+	return 0;
+    }
+
+    icalcluster_lock(impl);
+
+    if(cluster_file_size > 0){
+      parser = icalparser_new();
+      icalparser_set_gen_data(parser,impl->stream);
+      impl->cluster = icalparser_parse(parser,read_from_file);
+      icalparser_free(parser);
+
+      if (icalcomponent_isa(impl->cluster) != ICAL_XROOT_COMPONENT){
+        /* The parser got a single component, so it did not put it in
+           an XROOT. */
+        icalcomponent *cl = impl->cluster;
+        impl->cluster = icalcomponent_new(ICAL_XROOT_COMPONENT);
+        icalcomponent_add_component(impl->cluster,cl);
+      }
+
+    } else {
+
+      impl->cluster = icalcomponent_new(ICAL_XROOT_COMPONENT);
+    }      
+
+    if (impl->cluster == 0){
+	icalerror_set_errno(ICAL_PARSE_ERROR);
+	return 0;
+    }
     
     if (error != ICAL_NO_ERROR){
 	return 0;
@@ -260,46 +197,134 @@ void icalcluster_free(icalcluster* cluster)
 	impl->path = 0;
     }
 
+    if(impl->stream != 0){
+	icalcluster_unlock(impl);
+	fclose(impl->stream);
+	impl->stream = 0;
+    }
+
     free(impl);
+}
+
+char* icalcluster_path(icalcluster* cluster)
+{
+    struct icalcluster_impl *impl = (struct icalcluster_impl*)cluster;
+    icalerror_check_arg_rz((cluster!=0),"cluster");
+
+    return impl->path;
+}
+
+
+int icalcluster_lock(icalcluster *cluster)
+{
+    struct icalcluster_impl *impl = (struct icalcluster_impl*)cluster;
+    struct flock lock;
+    int fd; 
+
+    icalerror_check_arg_rz((impl->stream!=0),"impl->stream");
+
+    fd  = fileno(impl->stream);
+
+    lock.l_type = F_WRLCK;     /* F_RDLCK, F_WRLCK, F_UNLCK */
+    lock.l_start = 0;  /* byte offset relative to l_whence */
+    lock.l_whence = SEEK_SET; /* SEEK_SET, SEEK_CUR, SEEK_END */
+    lock.l_len = 0;       /* #bytes (0 means to EOF) */
+
+    return (fcntl(fd, F_SETLKW, &lock)); 
+}
+
+int icalcluster_unlock(icalcluster *cluster)
+{
+    struct icalcluster_impl *impl = (struct icalcluster_impl*)cluster;
+    int fd;
+    struct flock lock;
+    icalerror_check_arg_rz((impl->stream!=0),"impl->stream");
+
+    fd  = fileno(impl->stream);
+
+    lock.l_type = F_WRLCK;     /* F_RDLCK, F_WRLCK, F_UNLCK */
+    lock.l_start = 0;  /* byte offset relative to l_whence */
+    lock.l_whence = SEEK_SET; /* SEEK_SET, SEEK_CUR, SEEK_END */
+    lock.l_len = 0;       /* #bytes (0 means to EOF) */
+
+    return (fcntl(fd, F_UNLCK, &lock)); 
+
+}
+
+icalerrorenum icalcluster_create_cluster(char *path)
+{
+
+    FILE* f;
+    int r;
+    icalcomponent *c;
+
+    icalerror_clear_errno();
+
+    f = fopen(path,"w");
+
+    if (f == 0){
+	icalerror_set_errno(ICAL_FILE_ERROR);
+	return ICAL_FILE_ERROR;
+    }
+
+    
+    /* This used to write data to the file... */
+
+	    
+    fclose(f);
+
+    return ICAL_NO_ERROR;
 }
 
 icalerrorenum icalcluster_commit(icalcluster* cluster)
 {
-    int ws; /* Size in char of file written to disk */
     FILE *f;
-
+    char tmp[PATH_MAX]; /* HACK Buffer overflow potential */
+    char *str;
+    icalparser *parser;
+    icalcomponent *c;
+    
     struct icalcluster_impl *impl = (struct icalcluster_impl*)cluster;
 
     icalerror_check_arg_re((impl!=0),"cluster",ICAL_BADARG_ERROR);
 
-    if (impl->changed != 0 ){
-	/* write the cluster to disk */
+    if (impl->changed == 0 ){
+	return ICAL_NO_ERROR;
+    }
+    
+#ifdef ICAL_SAFESAVES
+    snprintf(tmp,PATH_MAX,"%s-tmp",impl->path);
+#else	
+    strcpy(tmp,impl->path);
+#endif
+    
+    if ( (f = fopen(tmp,"w")) < 0 ){
+	icalerror_set_errno(ICAL_FILE_ERROR);
+	return ICAL_FILE_ERROR;
+    }
+    
+    for(c = icalcomponent_get_first_component(impl->cluster,ICAL_ANY_COMPONENT);
+	c != 0;
+	c = icalcomponent_get_next_component(impl->cluster,ICAL_ANY_COMPONENT)){
 
-	/* Construct a filename and write out the file */
-	
-	if ( (f = fopen(impl->path,"w")) != 0){
-
-	    char* str = icalcomponent_as_ical_string(impl->cluster);
-	    
-	    ws = fwrite(str,sizeof(char),strlen(str),f);
-	    
-	    if ( ws < strlen(str)){
-		fclose(f);
-		return ICAL_FILE_ERROR;
-	    }
-	    
+	str = icalcomponent_as_ical_string(c);
+    
+	if (  fwrite(str,sizeof(char),strlen(str),f) < strlen(str)){
 	    fclose(f);
-            impl->changed = 0;
-	    return ICAL_NO_ERROR;
-	} else {
-	    icalerror_set_errno(ICAL_FILE_ERROR);
 	    return ICAL_FILE_ERROR;
 	}
-
-    } 
-
+    }
+    
+    fclose(f);
+    impl->changed = 0;    
+        
+#ifdef ICAL_SAFESAVES
+    rename(tmp,impl->path); /* HACK, should check for error here */
+#endif
+    
     return ICAL_NO_ERROR;
-}
+    
+} 
 
 void icalcluster_mark(icalcluster* cluster){
 

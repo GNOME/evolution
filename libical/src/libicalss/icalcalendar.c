@@ -26,6 +26,11 @@
  ======================================================================*/
 
 
+#ifdef HAVE_CONFIG_H
+#include "config.h"
+#endif
+
+
 #include "icalcalendar.h"
 #include "icalcluster.h"
 #include <limits.h> 

@@ -1,1 +1,1 @@
-SUBDIRS = libical libicalss
+SUBDIRS = libical libicalss test

@@ -59,21 +59,22 @@
      END:VCALENDAR
 
 */
-char str[] = "BEGIN:VCALENDAR
-PRODID:\"-//RDU Software//NONSGML HandCal//EN\"
-VERSION:2.0
-BEGIN:VEVENT
-DTSTAMP:19980309T231000Z
-UID:guid-1.host1.com
-ORGANIZER;ROLE=CHAIR:MAILTO:mrbig@host.com
-ATTENDEE;RSVP=TRUE;ROLE=REQ-PARTICIPANT;CUTYPE=GROUP:MAILTO:employee-A@host.com
-DESCRIPTION:Project XYZ Review Meeting
-CATEGORIES:MEETING
-CREATED:19980309T130000Z
-SUMMARY:XYZ Project Review
-DTSTART;TZID=US-Eastern:19980312T083000
-DTEND;TZID=US-Eastern:19980312T093000
-END:VEVENT
+
+char str[] = "BEGIN:VCALENDAR\
+PRODID:\"-//RDU Software//NONSGML HandCal//EN\"\
+VERSION:2.0\
+BEGIN:VEVENT\
+DTSTAMP:19980309T231000Z\
+UID:guid-1.host1.com\
+ORGANIZER;ROLE=CHAIR:MAILTO:mrbig@host.com\
+ATTENDEE;RSVP=TRUE;ROLE=REQ-PARTICIPANT;CUTYPE=GROUP:MAILTO:employee-A@host.com\
+DESCRIPTION:Project XYZ Review Meeting\
+CATEGORIES:MEETING\
+CREATED:19980309T130000Z\
+SUMMARY:XYZ Project Review\
+DTSTART;TZID=US-Eastern:19980312T083000\
+DTEND;TZID=US-Eastern:19980312T093000\
+END:VEVENT\
 END:VCALENDAR";
 
 /* Creating iCal Components 
@@ -147,6 +148,9 @@ icalcomponent* create_new_component()
 
          If the routine returns a string ( "get" and "as_ical_string" )
 	     The library owns the returned memory. 
+
+	  There are more rules, so refer to the documentation for more 
+	  details. 
 
     */
 
@@ -512,18 +516,6 @@ void test_parameters()
     printf("Common Name: %s\n",icalparameter_get_cn(p));
 
     printf("As String: %s\n",icalparameter_as_ical_string(p));
-}
-
-
-int test_parser()
-{
-
-
-    icalcomponent *c = icalparser_parse_string(str);
-    printf("%s\n",icalcomponent_as_ical_string(c));
-    icalcomponent_free(c);
-    icalmemory_free_ring();
-    return 1;
 }
 
 

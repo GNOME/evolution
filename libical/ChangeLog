@@ -1,18 +1,20 @@
-2000-04-10  Damon Chaplin  <damon@helixcode.com>
+2000-03-17  Eric Busboom  <eric@agony.qualcomm.com>
 
-	* configure.in: added AC_PROG_MAKE_SET.
+	* icalstore.c Vastly improved icalstore_test. 
 
-2000-03-01  Ettore Perazzoli  <ettore@helixcode.com>
+2000-03-16  Eric Busboom  <eric@agony.qualcomm.com>
 
-	* src/libicalss/Makefile.am (INCLUDES): Include from
-	`$(top_srcdir)/src/libical'.
+	* icalcluster.c Added compile flag (ICAL_SAFESAVES) to switch how
+ 	icalcluster saves files during commits. When the flag is define,
+ 	it will write the data to a temorar file and rename the file to
+ 	the target file.
 
-2000-02-26  Seth Alves  <alves@hungry.com>
+	* storage.c Added seterate test suite for sotage components
 
-	* src/libical/icalitipy.y: renamed icalitip.y so automake bung is easy
+	* icalparser.c Created parser object, implemented line-oriented
+ 	parsering, and made message oriented parsing work in terms f line
+ 	oriented parsing.
 
-	* src/libical/icalitipl.l: renamed icalitip.l so automake bung is easy
+	* icalparser.c Fixed icalparser_get_line to remove \r in input.
+	
 
-	* src/libical/Makefile.am: added icalparser_yy to the start
-	of all the yacc/lex names to avoid namespace conflicts.
-	note that this forces the build to use bison/flex

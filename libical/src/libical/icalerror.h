@@ -36,6 +36,8 @@
    below */
 void icalerror_stop_here(void);
 
+void icalerror_crash_here(void);
+
 #ifdef ICAL_ERRORS_ARE_FATAL
 #undef NDEBUG
 #endif

@@ -25,7 +25,11 @@ if ($opt_i) {
 
   }    
 
-  print "/* Everything below this line is machine generated. Do not edit. */\n";
+  if($opt_p){
+    print "# Everything below this line is machine generated. Do not edit. \n";
+  } else {
+    print "/* Everything below this line is machine generated. Do not edit. */\n";
+  }
 
 }
 
@@ -114,8 +118,13 @@ while(<F>){
   my $set_code;
   my $pointer_check;
   my $new_pointer_check;
+  my $new_pointer_check_v;
+  my $xrange;
 
-  $new_pointer_check = "icalerror_check_arg_rz( (v!=0),\"v\");" if $type=~/char/;
+  if ($type=~/char/){
+    $new_pointer_check = "icalerror_check_arg_rz( (v!=0),\"v\");"; 
+    $new_pointer_check_v = "icalerror_check_arg_rv( (v!=0),\"v\");"; 
+  }
 
 
   if ($type=~/char/ ) {
@@ -177,7 +186,7 @@ $charorenum
 
 void icalparameter_set_${lc}(icalparameter* param, ${type} v)
 {
-   $new_pointer_check
+   $new_pointer_check_v
    icalerror_check_arg_rv( (param!=0), "param");
    icalerror_clear_errno();
    
@@ -215,8 +224,8 @@ EOM
 
 # $param 
 
-package ICal::Parameter::${ucf};
-\@ISA=qw(ICal::Parameter);
+package Net::ICal::Parameter::${ucf};
+\@ISA=qw(Net::ICal::Parameter);
 
 sub new
 {
@@ -226,14 +235,15 @@ sub new
 
    bless \$self, \$package;
 
-   my \$p = ICal::icalparameter_new(\$ICal::ICAL_${uc}_PARAMETER);
-
-   \$self->[0] = \$p;
+   my \$p;
 
    if (\$value) {
-      \$self->set(\$value);
+      \$p = Net::ICal::icalparameter_new_from_string(\$Net::ICal::ICAL_${uc}_PARAMETER,\$value);
+   } else {
+      \$p = Net::ICal::icalparameter_new(\$Net::ICal::ICAL_${uc}_PARAMETER);
    }
 
+   \$self->[0] = \$p;
 
    return \$self;
 }
@@ -243,19 +253,14 @@ sub get
    my \$self = shift;
    my \$impl = \$self->_impl();
 
-   return ICal::icalparameter_as_ical_string(\$impl);
+   return Net::ICal::icalparameter_as_ical_string(\$impl);
 
 }
 
 sub set
 {
-
-   my \$self = shift;
-   my \$v = shift;
-
-   my \$impl = \$self->_impl();
-
-   ICal::icalparameter_set_${lc}(\$impl,\$v) unless !\$v;
+   # This is hard to implement, so I've punted for now. 
+   die "Set is not implemented";
 }
 
 EOM

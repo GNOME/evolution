@@ -24,6 +24,11 @@
 
   ======================================================================*/
 
+
+#ifdef HAVE_CONFIG_H
+#include "config.h"
+#endif
+
 #include "icalenums.h"
 
 struct icalproperty_kind_map {
@@ -224,6 +229,7 @@ static struct icalvalue_kind_map value_map[] =
     { ICAL_TIME_VALUE, "TIME"},
     { ICAL_URI_VALUE, "URI"},
     { ICAL_UTCOFFSET_VALUE, "UTC-OFFSET"},
+    { ICAL_METHOD_VALUE, "METHOD"}, /* Not an RFC2445 type */
     { ICAL_GEO_VALUE, "FLOAT"}, /* Not an RFC2445 type */
     { ICAL_ATTACH_VALUE, "XATTACH"}, /* Not an RFC2445 type */
     { ICAL_DATETIMEDATE_VALUE, "XDATETIMEDATE"}, /* Not an RFC2445 type */
@@ -281,7 +287,8 @@ static struct icalcomponent_kind_map component_map[] =
 
     /* libical private components */
     { ICAL_XLICINVALID_COMPONENT, "X-LIC-UNKNOWN" },  
-    { ICAL_XROOT_COMPONENT, "ROOT" },  
+    { ICAL_ANY_COMPONENT, "ANY" },  
+    { ICAL_XROOT_COMPONENT, "XROOT" },  
 
     /* End of list */
     { ICAL_NO_COMPONENT, "" },
@@ -326,7 +333,7 @@ struct  icalproperty_kind_value_map {
 static struct icalproperty_kind_value_map propval_map[] = 
 {
     { ICAL_CALSCALE_PROPERTY, ICAL_TEXT_VALUE }, 
-    { ICAL_METHOD_PROPERTY, ICAL_TEXT_VALUE }, 
+    { ICAL_METHOD_PROPERTY, ICAL_METHOD_VALUE }, 
     { ICAL_PRODID_PROPERTY, ICAL_TEXT_VALUE }, 
     { ICAL_VERSION_PROPERTY, ICAL_TEXT_VALUE }, 
     { ICAL_CATEGORIES_PROPERTY, ICAL_TEXT_VALUE }, 
@@ -481,7 +488,7 @@ struct {
     {ICAL_3_1_INVPROPVAL_STATUS, 3,1,"Invalid property value."},
     {ICAL_3_2_INVPARAM_STATUS, 3,2,"Invalid property parameter."},
     {ICAL_3_3_INVPARAMVAL_STATUS, 3,3,"Invalid property parameter  value."},
-    {ICAL_3_4_INVCOMP_STATUS, 3,4,"Invalid calendar component  sequence."},
+    {ICAL_3_4_INVCOMP_STATUS, 3,4,"Invalid calendar component."},
     {ICAL_3_5_INVTIME_STATUS, 3,5,"Invalid date or time."},
     {ICAL_3_6_INVRULE_STATUS, 3,6,"Invalid rule."},
     {ICAL_3_7_INVCU_STATUS, 3,7,"Invalid Calendar User."},
@@ -496,8 +503,64 @@ struct {
     {ICAL_5_0_MAYBE_STATUS, 5,0,"Request MAY supported."},
     {ICAL_5_1_UNAVAIL_STATUS, 5,1,"Service unavailable."},
     {ICAL_5_2_NOSERVICE_STATUS, 5,2,"Invalid calendar service."},
-    {ICAL_5_3_NOSCHED_STATUS, 5,3,"No scheduling support for  user."}
+    {ICAL_5_3_NOSCHED_STATUS, 5,3,"No scheduling support for  user."},
+    {ICAL_UNKNOWN_STATUS, 0,0,"Error: Unknown request status"}
 };
+
+
+char* icalenum_reqstat_desc(icalrequeststatus stat)
+{
+
+    int i;
+
+    for (i=0; status_map[i].kind  != ICAL_UNKNOWN_STATUS; i++) {
+	if ( status_map[i].kind ==  stat) {
+	    return status_map[i].str;
+	}
+    }
+
+    return 0;
+}
+
+
+short icalenum_reqstat_major(icalrequeststatus stat)
+{
+    int i;
+
+    for (i=0; status_map[i].kind  != ICAL_UNKNOWN_STATUS; i++) {
+	if ( status_map[i].kind ==  stat) {
+	    return status_map[i].major;
+	}
+    }
+    return -1;
+}
+
+short icalenum_reqstat_minor(icalrequeststatus stat)
+{
+    int i;
+
+    for (i=0; status_map[i].kind  != ICAL_UNKNOWN_STATUS; i++) {
+	if ( status_map[i].kind ==  stat) {
+	    return status_map[i].minor;
+	}
+    }
+    return -1;
+}
+
+
+icalrequeststatus icalenum_num_to_reqstat(short major, short minor)
+{
+    int i;
+
+    for (i=0; status_map[i].kind  != ICAL_UNKNOWN_STATUS; i++) {
+	if ( status_map[i].major ==  major && status_map[i].minor ==  minor) {
+	    return status_map[i].kind;
+	}
+    }
+    return 0;
+}
+
+
 
 struct {icalproperty_method method; char* str;} method_map[] = {
     {ICAL_METHOD_PUBLISH,"PUBLISH"},
@@ -536,6 +599,11 @@ char* icalenum_method_to_string(icalproperty_method method)
 icalproperty_method icalenum_string_to_method(char* str)
 {
     int i;
+
+    while(*str == ' '){
+	str++;
+    }
+
 
     for (i=0; method_map[i].method  != ICAL_METHOD_NONE; i++) {
 	if ( strcmp(method_map[i].str, str) == 0) {

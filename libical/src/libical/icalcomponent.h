@@ -101,8 +101,12 @@ icalproperty** icalcomponent_get_component(icalcomponent* component,
 /* Working with embedded error properties */
 
 int icalcomponent_count_errors(icalcomponent* component);
+
+/* Remove all X-LIC-ERROR properties*/
 void icalcomponent_strip_errors(icalcomponent* component);
 
+/* Convert some X-LIC-ERROR properties into RETURN-STATUS properties*/
+void icalcomponent_convert_errors(icalcomponent* component);
 
 /* Internal operations. You don't see these... */
 icalcomponent* icalcomponent_get_parent(icalcomponent* component);

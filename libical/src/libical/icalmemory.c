@@ -35,14 +35,19 @@
  * several buffers active simultaneously, which is handy when creating
  * string representations of components. */
 
-
 #define ICALMEMORY_C
+
+#ifdef HAVE_CONFIG_H
+#include "config.h"
+#endif
+
 
 #include "icalmemory.h"
 #include "icalerror.h"
 
 #include <stdio.h> /* for printf (debugging) */
 #include <stdlib.h> /* for malloc, realloc */
+#include <string.h> /* for memset() */
 
 #define BUFFER_RING_SIZE 25
 #define MIN_BUFFER_SIZE 200

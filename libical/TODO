@@ -24,9 +24,5 @@ Error Handling
 
 RECUR values ignore integers in BYDAY clauses, ie 'FREQ=MONTHLY;BYDAY=-1SU'
 
-REQUEST-STATUS propery is broken. The parser treats the value as
-normal text, backslashing the ';' seperators. 
+Restrictions code does not catch lack of DTEND or DURATION
 
-Some of the X-LIC-ERROR types overlap with REQUEST-STATUS
-values. There should be a routine to turn property, parameter and
-value parse errors into REQUEST-STATUS

@@ -36,7 +36,7 @@ LAST-MODIFIED        DATE-TIME
 SEQUENCE             INTEGER
 X-LIC-ERROR	     TEXT
 X-LIC-CLUSTERCOUNT   INTEGER
-REQUEST-STATUS       TEXT
+REQUEST-STATUS       STRING
 ATTACH               ATTACH             # Non-std: URI or BINARY
 GEO                  GEO                # Non-std: Two FLOATS
 DTEND                DATE-TIME-DATE     # Non-std: DATE-TIME or DATE

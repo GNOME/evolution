@@ -18,8 +18,14 @@
 
  ======================================================================*/
 
+#ifdef HAVE_CONFIG_H
+#include "config.h"
+#endif
+
 #include "icalenums.h"
 #include "icalrestriction.h"
+
+#define TMP_BUF_SIZE 1024
 
 /* Define the structs for the restrictions. these data are filled out
 in machine generated code below */
@@ -48,7 +54,9 @@ icalrestriction_property_record icalrestriction_property_records[];
 
 /* The each row gives the result of comparing a restriction against a
    count. The columns in each row represent 0,1,2+. '-1' indicates
-   'invalid, 'don't care' or 'needs more analysis' */
+   'invalid, 'don't care' or 'needs more analysis' So, for
+   ICAL_RESTRICTION_ONE, if there is 1 of a property with that
+   restriction, it passes, but if there are 0 or 2+, it fails. */
 
 char compare_map[ICAL_RESTRICTION_UNKNOWN+1][3] = {
     { 1, 1, 1},/*ICAL_RESTRICTION_NONE*/
@@ -129,9 +137,9 @@ int icalrestriction_check_component(icalproperty_method method,
 
 
 	if (compare == 0){
-	    char temp[1024];
+	    char temp[TMP_BUF_SIZE];
 	    
-	    sprintf(temp, "Failed iTIP restrictions for property %s. Expected %s instances of the property and got %d",
+	    snprintf(temp, TMP_BUF_SIZE,"Failed iTIP restrictions for property %s. Expected %s instances of the property and got %d",
 		    icalenum_property_kind_to_string(kind),
 		    restr_string_map[restr], count);
 	    

@@ -131,6 +131,11 @@ icalvalue* icalvalue_new_recur(struct icalrecurrencetype v);
 struct icalrecurrencetype icalvalue_get_recur(icalvalue* value);
 void icalvalue_set_recur(icalvalue* value, struct icalrecurrencetype v);
 
+/* STRING # Non-std */
+icalvalue* icalvalue_new_string(char* v);
+char* icalvalue_get_string(icalvalue* value);
+void icalvalue_set_string(icalvalue* value, char* v);
+
 /* TEXT  */
 icalvalue* icalvalue_new_text(char* v);
 char* icalvalue_get_text(icalvalue* value);

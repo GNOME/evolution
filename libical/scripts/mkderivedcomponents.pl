@@ -1,7 +1,7 @@
 #!/usr/local/bin/perl
 
 use Getopt::Std;
-getopts('chsp');
+getopts('chspi:');
 
 
 # ARG 0 is components.txt
@@ -11,6 +11,8 @@ my @components;
 
 while (<PV>){
 
+  s/#.*//;
+
   chop;
 
   push(@components,$_);
@@ -19,7 +21,32 @@ while (<PV>){
 
 close PV;
 
-if ($opt_c or $opt_h){
+# Write the file inline by copying everything before a demarcation
+# line, and putting the generated data after the demarcation
+
+if ($opt_i) {
+
+  open(IN,$opt_i) || die "Can't open input file \"$opt_i\"";
+
+  while(<IN>){
+
+    if (/Do not edit/){
+      last;
+    }
+
+    print;
+
+  }    
+
+  if($opt_i){
+    print "# Everything below this line is machine generated. Do not edit. \n";
+  } else {
+    print "/* Everything below this line is machine generated. Do not edit. */\n";
+  }
+
+}
+
+if ($opt_c or $opt_h and !$opt_i){
 
 print <<EOM;
 /* -*- Mode: C -*-
@@ -55,7 +82,7 @@ EOM
 
 }
 
-if ($opt_p){
+if ($opt_p and !$opt_i){
 
 print <<EOM;
 
@@ -127,7 +154,7 @@ sub new
    my \$self = Net::ICal::Component::new_from_ref(\$c);
    Net::ICal::Component::_add_elements(\$self,\\\@_);
 
-   bless \$self, \$package;
+   # Self is blessed in new_from_ref
 
    return \$self; 
 

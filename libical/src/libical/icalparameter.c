@@ -28,6 +28,10 @@
 
  ======================================================================*/
 
+#ifdef HAVE_CONFIG_H
+#include "config.h"
+#endif
+
 #include "ical.h"
 #include "icalerror.h"
 #include <stdlib.h> /* for malloc() */
@@ -68,7 +72,6 @@ struct icalparameter_impl* icalparameter_new_impl(icalparameter_kind kind)
     if ( ( v = (struct icalparameter_impl*)
 	   malloc(sizeof(struct icalparameter_impl))) == 0) {
 	icalerror_set_errno(ICAL_NEWFAILED_ERROR);
-	errno = ENOMEM;
 	return 0;
     }
     
@@ -412,8 +415,11 @@ icalparameter* icalparameter_new_from_string(icalparameter_kind kind, char* val)
 	    else if(strcmp(val,"PROPERTY_PARSE_ERROR") == 0){ 
 		param = icalparameter_new_xlicerrortype(ICAL_XLICERRORTYPE_PROPERTYPARSEERROR);
 	    }
-	    else if(strcmp(val,"PARAMETER_PARSE_ERROR") == 0){ 
-		param = icalparameter_new_xlicerrortype(ICAL_XLICERRORTYPE_PARAMETERPARSEERROR);
+	    else if(strcmp(val,"PARAMETER_NAME_PARSE_ERROR") == 0){ 
+		param = icalparameter_new_xlicerrortype(ICAL_XLICERRORTYPE_PARAMETERNAMEPARSEERROR);
+	    }
+	    else if(strcmp(val,"PARAMETER_VALUE_PARSE_ERROR") == 0){ 
+		param = icalparameter_new_xlicerrortype(ICAL_XLICERRORTYPE_PARAMETERVALUEPARSEERROR);
 	    }
 	    else if(strcmp(val,"VALUE_PARSE_ERROR") == 0){ 
 		param = icalparameter_new_xlicerrortype(ICAL_XLICERRORTYPE_VALUEPARSEERROR);
@@ -423,6 +429,37 @@ icalparameter* icalparameter_new_from_string(icalparameter_kind kind, char* val)
 	    }
 	    break;
 	}
+
+	case ICAL_XLICCOMPARETYPE_PARAMETER:
+	{
+
+	    if(strcmp(val,"EQUAL") == 0){ 
+		param = icalparameter_new_xliccomparetype(ICAL_XLICCOMPARETYPE_EQUAL);
+	    }
+	    else if(strcmp(val,"NOTEQUAL") == 0){ 
+		param = icalparameter_new_xliccomparetype(ICAL_XLICCOMPARETYPE_NOTEQUAL);
+	    }
+	    else if(strcmp(val,"LESS") == 0){ 
+		param = icalparameter_new_xliccomparetype(ICAL_XLICCOMPARETYPE_LESS);
+	    }
+	    else if(strcmp(val,"GREATER") == 0){ 
+		param = icalparameter_new_xliccomparetype(ICAL_XLICCOMPARETYPE_GREATER);
+	    }
+	    else if(strcmp(val,"LESSEQUAL") == 0){ 
+		param = icalparameter_new_xliccomparetype(ICAL_XLICCOMPARETYPE_LESSEQUAL);
+	    }
+	    else if(strcmp(val,"GREATEREQUAL") == 0){ 
+		param = icalparameter_new_xliccomparetype(ICAL_XLICCOMPARETYPE_GREATEREQUAL);
+	    }
+	    else if(strcmp(val,"REGEX") == 0){ 
+		param = icalparameter_new_xliccomparetype(ICAL_XLICCOMPARETYPE_REGEX);
+	    } else {
+		param = 0;
+	    }
+	    break;
+	}
+	
+
 	case ICAL_X_PARAMETER:
 	{
 		param = icalparameter_new(ICAL_FBTYPE_PARAMETER);
@@ -767,7 +804,7 @@ icalparameter_as_ical_string (icalparameter* parameter)
 		    strcpy(tend,impl->string);break;
 		}
 		default:{
-		    strcpy(tend,"ERROR");break;
+		    strcpy(tend,"ERROR");
 		    icalerror_set_errno(ICAL_BADARG_ERROR);break;
 		}
 	    }
@@ -786,9 +823,13 @@ icalparameter_as_ical_string (icalparameter* parameter)
 		{
 		    strcpy(tend,"PROPERTY_PARSE_ERROR");break;
 		}
-		case ICAL_XLICERRORTYPE_PARAMETERPARSEERROR:
+		case ICAL_XLICERRORTYPE_PARAMETERNAMEPARSEERROR:
 		{
-		    strcpy(tend,"PARAMETER_PARSE_ERROR");break;
+		    strcpy(tend,"PARAMETER_NAME_PARSE_ERROR");break;
+		}
+		case ICAL_XLICERRORTYPE_PARAMETERVALUEPARSEERROR:
+		{
+		    strcpy(tend,"PARAMETER_VALUE_PARSE_ERROR");break;
 		}
 		case ICAL_XLICERRORTYPE_VALUEPARSEERROR:
 		{
@@ -1026,7 +1067,7 @@ char* icalparameter_get_altrep(icalparameter* param)
 
 void icalparameter_set_altrep(icalparameter* param, char* v)
 {
-   icalerror_check_arg_rz( (v!=0),"v");
+   icalerror_check_arg_rv( (v!=0),"v");
    icalerror_check_arg_rv( (param!=0), "param");
    icalerror_clear_errno();
    
@@ -1062,7 +1103,7 @@ char* icalparameter_get_cn(icalparameter* param)
 
 void icalparameter_set_cn(icalparameter* param, char* v)
 {
-   icalerror_check_arg_rz( (v!=0),"v");
+   icalerror_check_arg_rv( (v!=0),"v");
    icalerror_check_arg_rv( (param!=0), "param");
    icalerror_clear_errno();
    
@@ -1139,7 +1180,7 @@ char* icalparameter_get_delegatedfrom(icalparameter* param)
 
 void icalparameter_set_delegatedfrom(icalparameter* param, char* v)
 {
-   icalerror_check_arg_rz( (v!=0),"v");
+   icalerror_check_arg_rv( (v!=0),"v");
    icalerror_check_arg_rv( (param!=0), "param");
    icalerror_clear_errno();
    
@@ -1175,7 +1216,7 @@ char* icalparameter_get_delegatedto(icalparameter* param)
 
 void icalparameter_set_delegatedto(icalparameter* param, char* v)
 {
-   icalerror_check_arg_rz( (v!=0),"v");
+   icalerror_check_arg_rv( (v!=0),"v");
    icalerror_check_arg_rv( (param!=0), "param");
    icalerror_clear_errno();
    
@@ -1211,7 +1252,7 @@ char* icalparameter_get_dir(icalparameter* param)
 
 void icalparameter_set_dir(icalparameter* param, char* v)
 {
-   icalerror_check_arg_rz( (v!=0),"v");
+   icalerror_check_arg_rv( (v!=0),"v");
    icalerror_check_arg_rv( (param!=0), "param");
    icalerror_clear_errno();
    
@@ -1329,7 +1370,7 @@ char* icalparameter_get_fmttype(icalparameter* param)
 
 void icalparameter_set_fmttype(icalparameter* param, char* v)
 {
-   icalerror_check_arg_rz( (v!=0),"v");
+   icalerror_check_arg_rv( (v!=0),"v");
    icalerror_check_arg_rv( (param!=0), "param");
    icalerror_clear_errno();
    
@@ -1365,7 +1406,7 @@ char* icalparameter_get_language(icalparameter* param)
 
 void icalparameter_set_language(icalparameter* param, char* v)
 {
-   icalerror_check_arg_rz( (v!=0),"v");
+   icalerror_check_arg_rv( (v!=0),"v");
    icalerror_check_arg_rv( (param!=0), "param");
    icalerror_clear_errno();
    
@@ -1401,7 +1442,7 @@ char* icalparameter_get_member(icalparameter* param)
 
 void icalparameter_set_member(icalparameter* param, char* v)
 {
-   icalerror_check_arg_rz( (v!=0),"v");
+   icalerror_check_arg_rv( (v!=0),"v");
    icalerror_check_arg_rv( (param!=0), "param");
    icalerror_clear_errno();
    
@@ -1473,9 +1514,6 @@ icalparameter_range icalparameter_get_range(icalparameter* param)
 {
    icalerror_clear_errno();
     icalerror_check_arg( (param!=0), "param");
-     if ( ((struct icalparameter_impl*)param)->string != 0){
-        return ICAL_PARTSTAT_XNAME;
-        }
 
     return ((struct icalparameter_impl*)param)->data.v_range;
 
@@ -1514,9 +1552,6 @@ icalparameter_related icalparameter_get_related(icalparameter* param)
 {
    icalerror_clear_errno();
     icalerror_check_arg( (param!=0), "param");
-     if ( ((struct icalparameter_impl*)param)->string != 0){
-        return ICAL_PARTSTAT_XNAME;
-        }
 
     return ((struct icalparameter_impl*)param)->data.v_related;
 
@@ -1637,9 +1672,6 @@ int icalparameter_get_rsvp(icalparameter* param)
 {
    icalerror_clear_errno();
     icalerror_check_arg( (param!=0), "param");
-     if ( ((struct icalparameter_impl*)param)->string != 0){
-        return ICAL_ROLE_XNAME;
-        }
 
     return ((struct icalparameter_impl*)param)->data.v_rsvp;
 
@@ -1683,7 +1715,7 @@ char* icalparameter_get_sentby(icalparameter* param)
 
 void icalparameter_set_sentby(icalparameter* param, char* v)
 {
-   icalerror_check_arg_rz( (v!=0),"v");
+   icalerror_check_arg_rv( (v!=0),"v");
    icalerror_check_arg_rv( (param!=0), "param");
    icalerror_clear_errno();
    
@@ -1719,7 +1751,7 @@ char* icalparameter_get_tzid(icalparameter* param)
 
 void icalparameter_set_tzid(icalparameter* param, char* v)
 {
-   icalerror_check_arg_rz( (v!=0),"v");
+   icalerror_check_arg_rv( (v!=0),"v");
    icalerror_check_arg_rv( (param!=0), "param");
    icalerror_clear_errno();
    
@@ -1796,7 +1828,7 @@ char* icalparameter_get_x(icalparameter* param)
 
 void icalparameter_set_x(icalparameter* param, char* v)
 {
-   icalerror_check_arg_rz( (v!=0),"v");
+   icalerror_check_arg_rv( (v!=0),"v");
    icalerror_check_arg_rv( (param!=0), "param");
    icalerror_clear_errno();
    
@@ -1827,9 +1859,6 @@ icalparameter_xlicerrortype icalparameter_get_xlicerrortype(icalparameter* param
 {
    icalerror_clear_errno();
     icalerror_check_arg( (param!=0), "param");
-     if ( ((struct icalparameter_impl*)param)->string != 0){
-        return ICAL_VALUE_XNAME;
-        }
 
     return ((struct icalparameter_impl*)param)->data.v_xlicerrortype;
 
@@ -1868,9 +1897,6 @@ icalparameter_xliccomparetype icalparameter_get_xliccomparetype(icalparameter* p
 {
    icalerror_clear_errno();
     icalerror_check_arg( (param!=0), "param");
-     if ( ((struct icalparameter_impl*)param)->string != 0){
-        return ICAL_VALUE_XNAME;
-        }
 
     return ((struct icalparameter_impl*)param)->data.v_xliccomparetype;
 

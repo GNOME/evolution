@@ -1,29 +1,29 @@
 /* -*- Mode: C -*-
-  ======================================================================
-  FILE: icalstore.c
-  CREATOR: eric 28 November 1999
+    ======================================================================
+    FILE: icalstore.c
+    CREATOR: eric 28 November 1999
   
-  $Id$
-  $Locker$
+    $Id$
+    $Locker$
     
- (C) COPYRIGHT 1999 Eric Busboom
- http://www.softwarestudio.org
+    (C) COPYRIGHT 1999 Eric Busboom
+    http://www.softwarestudio.org
 
- The contents of this file are subject to the Mozilla Public License
- Version 1.0 (the "License"); you may not use this file except in
- compliance with the License. You may obtain a copy of the License at
- http://www.mozilla.org/MPL/
+    The contents of this file are subject to the Mozilla Public License
+    Version 1.0 (the "License"); you may not use this file except in
+    compliance with the License. You may obtain a copy of the License at
+    http://www.mozilla.org/MPL/
  
- Software distributed under the License is distributed on an "AS IS"
- basis, WITHOUT WARRANTY OF ANY KIND, either express or implied. See
- the License for the specific language governing rights and
- limitations under the License.
+    Software distributed under the License is distributed on an "AS IS"
+    basis, WITHOUT WARRANTY OF ANY KIND, either express or implied. See
+    the License for the specific language governing rights and
+    limitations under the License.
  
- The Original Code is eric. The Initial Developer of the Original
- Code is Eric Busboom
+    The Original Code is eric. The Initial Developer of the Original
+    Code is Eric Busboom
 
 
- ======================================================================*/
+    ======================================================================*/
 
 
 /*
@@ -51,14 +51,17 @@
 
 */
 
+#ifdef HAVE_CONFIG_H
+#include "config.h"
+#endif
+
+
 #include "ical.h"
 #include "icalstore.h"
 #include "pvl.h" 
 #include "icalerror.h"
 #include "icalparser.h"
 #include "icalcluster.h"
-
-#include "filelock.h"
 
 #include <limits.h>
 #include <dirent.h> /* for opendir() */
@@ -95,25 +98,23 @@ struct icalstore_impl* icalstore_new_impl()
     return comp;
 }
 
-
-
-void icalstore_lock_dir(char* dir)
+void icalstore_lock(char* dir)
 {
 }
 
 
-void icalstore_unlock_dir(char* dir)
+void icalstore_unlock(char* dir)
 {
 }
 
 /* Load the contents of the store directory into the store's internal directory list*/
 icalerrorenum icalstore_read_directory(struct icalstore_impl* impl)
 {
-   struct dirent *de;
-   DIR* dp;
-   char *str;
+    struct dirent *de;
+    DIR* dp;
+    char *str;
  
-   dp = opendir(impl->dir);
+    dp = opendir(impl->dir);
    
     if ( dp == 0) {
 	icalerror_set_errno(ICAL_FILE_ERROR);
@@ -166,7 +167,7 @@ icalstore* icalstore_new(char* dir)
 	return 0;
     }	    
 
-    icalstore_lock_dir(dir);
+    icalstore_lock(dir);
 
     impl = icalstore_new_impl();
 
@@ -192,7 +193,7 @@ void icalstore_free(icalstore* s)
     struct icalstore_impl *impl = (struct icalstore_impl*)s;
     char* str;
 
-    icalstore_unlock_dir(impl->dir);
+    icalstore_unlock(impl->dir);
 
     if(impl->dir !=0){
 	free(impl->dir);
@@ -298,10 +299,13 @@ icalerrorenum icalstore_next_cluster(icalstore* store)
 	return ICAL_NO_ERROR;
     }
 	    
-
     sprintf(path,"%s/%s",impl->dir,(char*)pvl_data(impl->directory_iterator));
 
-    return icalcluster_load(impl->cluster,path);
+    icalcluster_free(impl->cluster);
+
+    impl->cluster = icalcluster_new(path);
+
+    return icalerrno;
 }
 
 void icalstore_add_uid(icalstore* store, icalstore* comp)
@@ -310,8 +314,8 @@ void icalstore_add_uid(icalstore* store, icalstore* comp)
     icalproperty *uid;
     struct utsname unamebuf;
 
-    icalerror_check_arg_rz( (store!=0), "store");
-    icalerror_check_arg_rz( (comp!=0), "comp");
+    icalerror_check_arg_rv( (store!=0), "store");
+    icalerror_check_arg_rv( (comp!=0), "comp");
 
     uid = icalcomponent_get_first_property(comp,ICAL_UID_PROPERTY);
     
@@ -319,7 +323,7 @@ void icalstore_add_uid(icalstore* store, icalstore* comp)
 	
 	uname(&unamebuf);
 	
-	sprintf(uidstring,"%d-%s",getpid(),unamebuf.nodename);
+	sprintf(uidstring,"%d-%s",(int)getpid(),unamebuf.nodename);
 	
 	uid = icalproperty_new_uid(uidstring);
 	icalcomponent_add_property(comp,uid);
@@ -329,14 +333,20 @@ void icalstore_add_uid(icalstore* store, icalstore* comp)
     }
 }
 
+
+/* This assumes that the top level component is a VCALENDAR, and there
+   is an inner component of type VEVENT, VTODO or VJOURNAL. The inner
+   component must have a DTSTART property */
+
 icalerrorenum icalstore_add_component(icalstore* store, icalstore* comp)
 {
     struct icalstore_impl *impl;
     char clustername[PATH_MAX];
-    icalproperty *dt, *count, *lm;
+    icalproperty *dt, *count;
     icalvalue *v;
     struct icaltimetype tm;
     icalerrorenum error = ICAL_NO_ERROR;
+    icalcomponent *inner;
 
     impl = (struct icalstore_impl*)store;
     icalerror_check_arg_rz( (store!=0), "store");
@@ -346,20 +356,21 @@ icalerrorenum icalstore_add_component(icalstore* store, icalstore* comp)
     
     icalstore_add_uid(store,comp);
 
-    /* Determine which cluster this object belongs in */
+    /* Determine which cluster this object belongs in. This is a HACK */
 
-    dt = icalcomponent_get_first_property(comp,ICAL_DTSTART_PROPERTY);
-
-    if (dt == 0){
-	dt = icalcomponent_get_first_property(comp,ICAL_DTSTAMP_PROPERTY);
+    for(inner = icalcomponent_get_first_component(comp,ICAL_ANY_COMPONENT);
+	inner != 0;
+	inner = icalcomponent_get_next_component(comp,ICAL_ANY_COMPONENT)){
+  
+	dt = icalcomponent_get_first_property(inner,ICAL_DTSTART_PROPERTY);
+	
+	if (dt != 0){
+	    break; 
+	}	
     }
 
     if (dt == 0){
-	dt = icalcomponent_get_first_property(comp,ICAL_CREATED_PROPERTY);
-    }
-    
-    if (dt == 0){
-	icalerror_warn("The component does not have a DTSTART, DTSTAMP or a CREATED property, so it cannot be added to the store");
+	icalerror_warn("The component does not have a DTSTART property, so it cannot be added to the store");
 	icalerror_set_errno(ICAL_BADARG_ERROR);
 	return ICAL_BADARG_ERROR;
     }
@@ -368,9 +379,15 @@ icalerrorenum icalstore_add_component(icalstore* store, icalstore* comp)
 
     tm = icalvalue_get_datetime(v);
 
-    sprintf(clustername,"%s/%04d%02d",impl->dir,tm.year,tm.month);
+    snprintf(clustername,PATH_MAX,"%s/%04d%02d",impl->dir,tm.year,tm.month);
 
     /* Load the cluster and insert the object */
+
+    if(impl->cluster != 0 && 
+       strcmp(clustername,icalcluster_path(impl->cluster)) != 0 ){
+	icalcluster_free(impl->cluster);
+	impl->cluster = 0;
+    }
 
     if (impl->cluster == 0){
 	impl->cluster = icalcluster_new(clustername);
@@ -378,30 +395,12 @@ icalerrorenum icalstore_add_component(icalstore* store, icalstore* comp)
 	if (impl->cluster == 0){
 	    error = icalerrno;
 	}
-    } else {
-	error = icalcluster_load(impl->cluster,
-				 clustername);
-
     }
-
     
     if (error != ICAL_NO_ERROR){
 	icalerror_set_errno(error);
 	return error;
     }
-
-    /* Update or add the LAST-MODIFIED property */
-
-    lm = icalcomponent_get_first_property(comp,
-					  ICAL_LASTMODIFIED_PROPERTY);
-
-    if (lm == 0){
-	lm = icalproperty_new_lastmodified(icaltimetype_from_timet( time(0),1));
-	icalcomponent_add_property(comp,lm);
-    } else {
-	icalproperty_set_lastmodified(comp,icaltimetype_from_timet( time(0),1));
-    }
-
 
     /* Add the component to the cluster */
 
@@ -419,7 +418,7 @@ icalerrorenum icalstore_add_component(icalstore* store, icalstore* comp)
     }
 
     icalproperty_set_xlicclustercount(count,
-	icalproperty_get_xlicclustercount(count)+1);
+				      icalproperty_get_xlicclustercount(count)+1);
 
     
     icalcluster_mark(impl->cluster);
@@ -438,38 +437,38 @@ icalerrorenum icalstore_remove_component(icalstore* store, icalstore* comp)
     icalerror_check_arg_re((impl->cluster!=0),"Cluster pointer",ICAL_USAGE_ERROR);
 
 /* HACK The following code should be used to ensure that the component
-the caller is trying to remove is actually in the cluster, but it
-resets the internal iterators, which immediately ends any loops over
-the cluster the caller may have in progress 
+   the caller is trying to remove is actually in the cluster, but it
+   resets the internal iterators, which immediately ends any loops over
+   the cluster the caller may have in progress 
 
-    for(c = icalcluster_get_first_component(
-	    impl->cluster,
-	    ICAL_ANY_COMPONENT);
-	c != 0;
-	c = icalcluster_get_next_component(
-	    impl->cluster,
-	    ICAL_ANY_COMPONENT)){
+   for(c = icalcluster_get_first_component(
+   impl->cluster,
+   ICAL_ANY_COMPONENT);
+   c != 0;
+   c = icalcluster_get_next_component(
+   impl->cluster,
+   ICAL_ANY_COMPONENT)){
 
-	if (c == comp){
-	    found = 1;
-	}
+   if (c == comp){
+   found = 1;
+   }
 
-    }
+   }
 
-    if (found != 1){
-	icalerror_warn("icalstore_remove_component: component is not part of current cluster");
-	icalerror_set_errno(ICAL_USAGE_ERROR);
-	return ICAL_USAGE_ERROR;
-    }
+   if (found != 1){
+   icalerror_warn("icalstore_remove_component: component is not part of current cluster");
+   icalerror_set_errno(ICAL_USAGE_ERROR);
+   return ICAL_USAGE_ERROR;
+   }
 
 */
 
     icalcluster_remove_component(impl->cluster,
-				   comp);
+				 comp);
 
     icalcluster_mark(impl->cluster);
 
-   /* Decrement the clusters count value */
+    /* Decrement the clusters count value */
     count = icalcomponent_get_first_property(
 	icalcluster_get_component(impl->cluster),
 	ICAL_XLICCLUSTERCOUNT_PROPERTY);
@@ -480,7 +479,7 @@ the cluster the caller may have in progress
     }
 
     icalproperty_set_xlicclustercount(count,
-	icalproperty_get_xlicclustercount(count)-1);
+				      icalproperty_get_xlicclustercount(count)-1);
 
     return ICAL_NO_ERROR;
 }
@@ -507,6 +506,7 @@ icalcomponent* icalstore_make_gauge(icalcomponent* query);
 
    Here is an example:
 
+   BEGIN:XROOT
    BEGIN:VCOMPONENT
    BEGIN:VEVENT
    DTSTART;X-LIC-COMPARETYPE=LESS:19981025T020000
@@ -516,76 +516,79 @@ icalcomponent* icalstore_make_gauge(icalcomponent* query);
    LOCATION;X-LIC-COMPARETYPE=EQUAL:McNary's Pub
    END:VEVENT
    END:VCALENDAR
+   END:XROOT
 
    This gauge has two sub-components; one which will match a VEVENT
    based on start time, and organizer, and another that matches based
    on LOCATION. A target component will pass the test if it matched
-   either of the gauge.
+   either of the sub-components.
    
   */
 
-int icalstore_test(icalcomponent* comp, icalcomponent* gauge)
+
+int icalstore_test_recurse(icalcomponent* comp, icalcomponent* gauge)
 {
-    int pass = 0,localpass = 0;
-    icalcomponent *c;
+    int pass = 1,localpass = 0;
     icalproperty *p;
-    icalcomponent *child;    
+    icalcomponent *child,*subgauge; 
+    icalcomponent_kind gaugekind, compkind;
 
     icalerror_check_arg_rz( (comp!=0), "comp");
     icalerror_check_arg_rz( (gauge!=0), "gauge");
 
-    for(c = icalcomponent_get_first_component(gauge,ICAL_ANY_COMPONENT);
-	c != 0;
-	c = icalcomponent_get_next_component(gauge,ICAL_ANY_COMPONENT)){
+    gaugekind = icalcomponent_isa(gauge);
+    compkind = icalcomponent_isa(comp);
 
+    if( ! (gaugekind == compkind || gaugekind == ICAL_ANY_COMPONENT) ){
+	return 0;
+    }   
 
-	/* Test properties. For each property in the gauge, search through
-	   the component for a similar property. If one is found, compare
-	   the two properties value with the comparison specified in the
-	   gauge with the X-LIC-COMPARETYPE parameter */
-
-	for(p = icalcomponent_get_first_property(c,ICAL_ANY_PROPERTY);
-	    p != 0;
-	    p = icalcomponent_get_next_property(c,ICAL_ANY_PROPERTY)){
+    /* Test properties. For each property in the gauge, search through
+       the component for a similar property. If one is found, compare
+       the two properties value with the comparison specified in the
+       gauge with the X-LIC-COMPARETYPE parameter */
+    
+    for(p = icalcomponent_get_first_property(gauge,ICAL_ANY_PROPERTY);
+	p != 0;
+	p = icalcomponent_get_next_property(gauge,ICAL_ANY_PROPERTY)){
 	
-	    icalproperty* targetprop; 
-	    icalparameter* compareparam;
-	    icalparameter_xliccomparetype compare;
-	    int rel; /* The realtionship between the gauge and target values.*/
-
-	    /* Extract the comparison type from the gauge. If there is no
-	       comparison type, assume that it is "EQUAL" */
-
-	    compareparam = icalproperty_get_first_parameter(
-		p,
-		ICAL_XLICCOMPARETYPE_PARAMETER);
-
-	    if (compareparam!=0){
-		compare = icalparameter_get_xliccomparetype(compareparam);
-	    } else {
-		compare = ICAL_XLICCOMPARETYPE_EQUAL;
-	    }
-
-	    /* Find a property in the component that has the same type as
-	       the gauge property */
-
-	    targetprop = icalcomponent_get_first_property(comp,
-							  icalproperty_isa(p));
-
-
-	    if(targetprop == 0){
-		continue;
-	    }
-
+	icalproperty* targetprop; 
+	icalparameter* compareparam;
+	icalparameter_xliccomparetype compare;
+	int rel; /* The relationship between the gauge and target values.*/
+	
+	/* Extract the comparison type from the gauge. If there is no
+	   comparison type, assume that it is "EQUAL" */
+	
+	compareparam = icalproperty_get_first_parameter(
+	    p,
+	    ICAL_XLICCOMPARETYPE_PARAMETER);
+	
+	if (compareparam!=0){
+	    compare = icalparameter_get_xliccomparetype(compareparam);
+	} else {
+	    compare = ICAL_XLICCOMPARETYPE_EQUAL;
+	}
+	
+	/* Find a property in the component that has the same type
+	   as the gauge property. HACK -- multiples of a single
+	   property type in the gauge will match only the first
+	   instance in the component */
+	
+	targetprop = icalcomponent_get_first_property(comp,
+						      icalproperty_isa(p));
+	
+	if(targetprop != 0){
+	
 	    /* Compare the values of the gauge property and the target
 	       property */
-
+	    
 	    rel = icalvalue_compare(icalproperty_get_value(p),
 				    icalproperty_get_value(targetprop));
-		
+	    
 	    /* Now see if the comparison is equavalent to the comparison
 	       specified in the gauge */
-
+	    
 	    if (rel == compare){ 
 		localpass++; 
 	    } else if (compare == ICAL_XLICCOMPARETYPE_LESSEQUAL && 
@@ -599,26 +602,58 @@ int icalstore_test(icalcomponent* comp, icalcomponent* gauge)
 	    } else if (compare == ICAL_XLICCOMPARETYPE_NOTEQUAL && 
 		       ( rel == ICAL_XLICCOMPARETYPE_GREATER ||
 			 rel == ICAL_XLICCOMPARETYPE_LESS)) {
-		pass++;
+		localpass++;
 	    } else {
 		localpass = 0;
 	    }
-
-	    pass += localpass;
-	}
-
-
-	/* test subcomponents. Look for a child component that has a
-	   counterpart in the gauge. If one is found, recursively call
-	   icalstore_test */
-	
-	for(child = icalcomponent_get_first_component(comp,ICAL_ANY_COMPONENT);
-	    child != 0;
-	    child = icalcomponent_get_next_component(comp,ICAL_ANY_COMPONENT)){
-	
-	    pass += icalstore_test(child,gauge);
 	    
+	    pass = pass && (localpass>0);
 	}
+    }
+    
+    /* Test subcomponents. Look for a child component that has a
+       counterpart in the gauge. If one is found, recursively call
+       icalstore_test */
+    
+    for(subgauge = icalcomponent_get_first_component(gauge,ICAL_ANY_COMPONENT);
+	subgauge != 0;
+	subgauge = icalcomponent_get_next_component(gauge,ICAL_ANY_COMPONENT)){
+	
+	gaugekind = icalcomponent_isa(subgauge);
+
+	if (gaugekind == ICAL_ANY_COMPONENT){
+	    child = icalcomponent_get_first_component(comp,ICAL_ANY_COMPONENT);
+	} else {
+	    child = icalcomponent_get_first_component(comp,gaugekind);
+	}
+	
+	if(child !=0){
+	    localpass = icalstore_test_recurse(child,subgauge);
+	    pass = pass && localpass;
+	} else {
+	    pass = 0;
+	}
+    }
+    
+    return pass;   
+}
+
+/* guagecontainer is an XROOT component that holds several gauges. The
+   results of comparing against these gauges are ORed together in this
+   routine */
+int icalstore_test(icalcomponent* comp, icalcomponent* gaugecontainer)
+{
+    int pass = 0;
+    icalcomponent *gauge; 
+
+    icalerror_check_arg_rz( (comp!=0), "comp");
+    icalerror_check_arg_rz( (gauge!=0), "gauge");
+    
+    for(gauge = icalcomponent_get_first_component(gaugecontainer,ICAL_ANY_COMPONENT);
+	gauge != 0;
+	gauge = icalcomponent_get_next_component(gaugecontainer,ICAL_ANY_COMPONENT)){
+
+	pass += icalstore_test_recurse(comp, gauge);
     }
 
     return pass>0;
@@ -721,16 +756,21 @@ icalcomponent* icalstore_get_first_component(icalstore* store)
     
     sprintf(path,"%s/%s",impl->dir,(char*)pvl_data(impl->directory_iterator));
 
-   if (impl->cluster == 0){
+    /* If the next cluster we need is different than the current cluster, 
+       delete the current one and get a new one */
+
+    if(impl->cluster != 0 && strcmp(path,icalcluster_path(impl->cluster)) != 0 ){
+	icalcluster_free(impl->cluster);
+	impl->cluster = 0;
+    }
+    
+    if (impl->cluster == 0){
 	impl->cluster = icalcluster_new(path);
 
 	if (impl->cluster == 0){
 	    error = icalerrno;
 	}
-    } else {
-	error = icalcluster_load(impl->cluster,path);
-
-    }
+    } 
 
     if (error != ICAL_NO_ERROR){
 	icalerror_set_errno(error);
@@ -783,13 +823,13 @@ icalcomponent* icalstore_get_next_component(icalstore* store)
 		 ICAL_ANY_COMPONENT)){
 	    
 	    /* If there is a gauge defined and the component does not
-               pass the gauge, skip the rest of the loop */
+	       pass the gauge, skip the rest of the loop */
 	    if (impl->gauge != 0 && icalstore_test(c,impl->gauge) == 0){
 		continue;
 	    }
 
 	    /* Either there is no gauge, or the component passed the
-               gauge, so return it*/
+	       gauge, so return it*/
 
 	    return c;
 	}
@@ -815,3 +855,4 @@ icalcomponent* icalstore_get_next_component(icalstore* store)
 
 
 
+	

@@ -24,6 +24,11 @@
 
 ======================================================================*/
 
+
+#ifdef HAVE_CONFIG_H
+#include "config.h"
+#endif
+
 #include "ical.h"
 #include "pvl.h" /* "Pointer-to-void list" */
 #include <stdlib.h>  /* for malloc */
@@ -34,6 +39,8 @@
 #include <stdio.h> /* for fprintf */
 #include "icalmemory.h"
 #include "icalenums.h"
+
+#define MAX_TMP 1024
 
 
 /* icalproperty functions that only components get to use */
@@ -85,7 +92,6 @@ icalcomponent_new_impl (icalcomponent_kind kind)
 
     if ( ( comp = (struct icalcomponent_impl*)
 	   malloc(sizeof(struct icalcomponent_impl))) == 0) {
-	errno = ENOMEM;
 	icalerror_set_errno(ICAL_NEWFAILED_ERROR);
 	return 0;
     }
@@ -236,6 +242,12 @@ icalcomponent_as_ical_string (icalcomponent* component)
    char* tmp_buf;
    size_t buf_size = 1024;
    char* buf_ptr = 0;
+
+#ifdef ICAL_UNIX_NEWLINE    
+    char newline[] = "\n";
+#else
+    char newline[] = "\r\n";
+#endif
    
    icalcomponent *c;
    icalproperty *p;
@@ -255,7 +267,7 @@ icalcomponent_as_ical_string (icalcomponent* component)
 
    icalmemory_append_string(&buf, &buf_ptr, &buf_size, "BEGIN:");
    icalmemory_append_string(&buf, &buf_ptr, &buf_size, kind_string);
-   icalmemory_append_string(&buf, &buf_ptr, &buf_size, "\n");
+   icalmemory_append_string(&buf, &buf_ptr, &buf_size, newline);
    
 
    for(p = icalcomponent_get_first_property(component,ICAL_ANY_PROPERTY);
@@ -281,7 +293,7 @@ icalcomponent_as_ical_string (icalcomponent* component)
    icalmemory_append_string(&buf, &buf_ptr, &buf_size, "END:");
    icalmemory_append_string(&buf, &buf_ptr, &buf_size, 
 			    icalenum_component_kind_to_string(kind));
-   icalmemory_append_string(&buf, &buf_ptr, &buf_size, "\n");
+   icalmemory_append_string(&buf, &buf_ptr, &buf_size, newline);
 
    out_buf = icalmemory_tmp_copy(buf);
    free(buf);
@@ -680,8 +692,78 @@ void icalcomponent_strip_errors(icalcomponent* component)
 	
 	icalcomponent_strip_errors(c);
     }
-
 }
+
+
+void icalcomponent_convert_errors(icalcomponent* component)
+{
+    icalproperty *p, *next_p;
+    icalcomponent *c;
+
+    for(p = icalcomponent_get_first_property(component,ICAL_ANY_PROPERTY);
+	p != 0;
+	p = next_p){
+	
+	next_p = icalcomponent_get_next_property(component,ICAL_ANY_PROPERTY);
+
+	if(icalproperty_isa(p) == ICAL_XLICERROR_PROPERTY)
+	{
+	    struct icalreqstattype rst;
+	    char tmp[MAX_TMP];
+	    icalparameter *param  = icalproperty_get_first_parameter
+		(p,ICAL_XLICERRORTYPE_PARAMETER);
+
+	    rst.code = ICAL_UNKNOWN_STATUS;
+	    rst.desc = 0;
+
+	    switch(icalparameter_get_xlicerrortype(param)){
+
+		case  ICAL_XLICERRORTYPE_PARAMETERNAMEPARSEERROR: {
+		    rst.code = ICAL_3_2_INVPARAM_STATUS;
+		    break;
+		}
+		case  ICAL_XLICERRORTYPE_PARAMETERVALUEPARSEERROR: {
+		    rst.code = ICAL_3_3_INVPARAMVAL_STATUS;
+		    break;
+		}
+		case  ICAL_XLICERRORTYPE_PROPERTYPARSEERROR: {		    
+		    rst.code = ICAL_3_0_INVPROPNAME_STATUS;
+		    break;
+		}
+		case  ICAL_XLICERRORTYPE_VALUEPARSEERROR: {
+		    rst.code = ICAL_3_1_INVPROPVAL_STATUS;
+		    break;
+		}
+		case  ICAL_XLICERRORTYPE_COMPONENTPARSEERROR: {
+		    rst.code = ICAL_3_4_INVCOMP_STATUS;
+		    break;
+		}
+
+		default: {
+		}
+	    }
+	    if (rst.code != ICAL_UNKNOWN_STATUS){
+		
+		rst.debug = icalproperty_get_xlicerror(p);
+		icalcomponent_add_property(component,
+					   icalproperty_new_requeststatus(
+					       icalreqstattype_as_string(rst)
+					       )
+		    );
+		
+		icalcomponent_remove_property(component,p);
+	    }
+	}
+    }
+
+    for(c = icalcomponent_get_first_component(component,ICAL_ANY_COMPONENT);
+	c != 0;
+	c = icalcomponent_get_next_component(component,ICAL_ANY_COMPONENT)){
+	
+	icalcomponent_convert_errors(c);
+    }
+}
+
 
 icalcomponent* icalcomponent_get_parent(icalcomponent* component)
 {

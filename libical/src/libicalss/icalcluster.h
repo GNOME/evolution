@@ -37,9 +37,7 @@ typedef void icalcluster;
 icalcluster* icalcluster_new(char* path);
 void icalcluster_free(icalcluster* cluster);
 
-
-/* Load a new file into the cluster */
-icalerrorenum icalcluster_load(icalcluster* cluster, char* path);
+char* icalcluster_path(icalcluster* cluster);
 
 /* Return a reference to the internal component. */
 icalcomponent* icalcluster_get_component(icalcluster* cluster);
