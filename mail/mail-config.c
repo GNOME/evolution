@@ -2840,7 +2840,13 @@ get_new_signature_filename ()
 	for (i = 0; ; i ++) {
 		filename = g_strdup_printf ("%s/signatures/signature-%d", evolution_dir, i);
 		if (lstat (filename, &st_buf) == - 1 && errno == ENOENT) {
-			return filename;
+			gint fd;
+
+			fd = creat (filename, 0600);
+			if (fd >= 0) {
+				close (fd);
+				return filename;
+			}
 		}
 		g_free (filename);
 	}
@@ -2877,10 +2883,13 @@ static void
 delete_unused_signature_file (const gchar *filename)
 {
 	gint len;
+	gchar *signatures_dir;
+
+	signatures_dir = g_strconcat (evolution_dir, "/signatures", NULL);
 
 	/* remove signature file if it's in evolution dir and no other signature uses it */
-	len = strlen (evolution_dir);
-	if (filename && !strncmp (filename, evolution_dir, len)) {
+	len = strlen (signatures_dir);
+	if (filename && !strncmp (filename, signatures_dir, len)) {
 		GList *l;
 		gboolean only_one = TRUE;
 
@@ -2896,6 +2905,8 @@ delete_unused_signature_file (const gchar *filename)
 			unlink (filename);
 		}
 	}
+
+	g_free (signatures_dir);
 }
 
 void
