@@ -544,13 +544,14 @@ impl_upgradeFromVersion (PortableServer_Servant servant,
 			}
 			g_free (new_dir);
 		}
- 		e_source_list_sync (priv->source_list, NULL);
 
 		g_free (base_uri);
 
 		/* create the remote source group */
 		group = e_source_group_new (_("On The Web"), "webcal://");
 		e_source_list_add_group (priv->source_list, group, -1);
+
+ 		e_source_list_sync (priv->source_list, NULL);
 	}
 
 	/* create calendar for birthdays & anniversaries */
@@ -624,8 +625,8 @@ impl_createControls (PortableServer_Servant servant,
 	priv->calendar = (GnomeCalendar *) bonobo_control_get_widget (priv->view_control);
 
 	statusbar_widget = e_task_bar_new ();
-	gtk_widget_show (statusbar_widget);
 	e_activity_handler_attach_task_bar (priv->activity_handler, E_TASK_BAR (statusbar_widget));
+	gtk_widget_show (statusbar_widget);
 	statusbar_control = bonobo_control_new (statusbar_widget);
 
 	/* connect after setting the initial selections, or we'll get unwanted calls

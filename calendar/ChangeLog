@@ -1,3 +1,8 @@
+2004-01-12  Rodrigo Moya <rodrigo@ximian.com>
+
+	* gui/calendar-component.c (impl_upgradeFromVersion): sync the source
+	list after creating the remote source group.
+
 2004-01-12  JP Rosevear <jpr@ximian.com>
 
 	* Revert William McCann's patch of 2003-12-19 until we can get
