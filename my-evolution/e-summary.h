@@ -102,7 +102,7 @@ struct _ESummary {
 	GtkVBox parent;
 
 	ESummaryPrefs *preferences;
-	ESummaryPrefs *old_prefs;
+/*  	ESummaryPrefs *old_prefs; */
 
 	ESummaryMail *mail;
 	ESummaryCalendar *calendar;
@@ -127,7 +127,8 @@ struct _ESummaryClass {
 
 
 GtkType e_summary_get_type (void);
-GtkWidget *e_summary_new (const GNOME_Evolution_Shell shell);
+GtkWidget *e_summary_new (const GNOME_Evolution_Shell shell,
+			  ESummaryPrefs *prefs);
 
 void e_summary_print (BonoboUIComponent *component,
 		      gpointer user_data,

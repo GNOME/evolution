@@ -201,14 +201,11 @@ new_folder_cb (EvolutionStorageListener *listener,
 	GList *p;
 
 	/* Don't care about non mail */
-	g_print ("Folder->physicalUri: %s...", folder->physicalUri);
 	if (strcmp (folder->type, "mail") != 0 ||
 	    (strncmp (folder->physicalUri, "file://", 7) != 0 &&
 	    strncmp (folder->physicalUri, "vfolder", 7) != 0)) {
-		g_print ("rejected\n");
 		return;
 	}
-	g_print ("accepted\n");
 	mail = summary->mail;
 
 	mail_folder = g_new (ESummaryMailFolder, 1);

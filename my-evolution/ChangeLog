@@ -1,3 +1,25 @@
+2002-03-19  Iain Holmes  <iain@ximian.com>
+
+	* component-factory.c: Create a global_preferences structure.
+	(create_view): Pass in the global_preferences to the view.
+	(create_component): Initialise the preferences.
+
+	* e-summary-factory.[ch] (e_summary_factory_new_control): Take a prefs
+	structure and pass it to the view creation.
+	
+	* e-summary-mail: Remove some debug spew.
+
+	* e-summary-preferences.[ch]: Create a global_preferences structure.
+	(e_summary_preferences_init): just return the prefs instead of adding
+	a pointer to it.
+	(config_control_destroy_cb): Remove the old_prefs stuff.
+	(factory_fn): Ditto.
+
+	* e-summary.[ch] (e_summary_init): Don't initialise the preferences
+	here.
+	(e_summary_new): Take a preferences structure and keep a pointer to
+	it.
+
 2002-03-15  Iain Holmes  <iain@ximian.com>
 
 	* Makefile.am: Add the e-summary-shown.[ch] files.

@@ -49,9 +49,9 @@
 
 #include "evolution-config-control.h"
 
-
 #define FACTORY_ID "OAFIID:GNOME_Evolution_Summary_ConfigControlFactory"
 
+static ESummaryPrefs *global_preferences = NULL;
 
 static void
 make_initial_mail_list (ESummaryPrefs *prefs)
@@ -363,22 +363,22 @@ e_summary_preferences_copy (ESummaryPrefs *prefs)
 	return prefs_copy;
 }
 
-void
-e_summary_preferences_init (ESummary *summary)
+ESummaryPrefs *
+e_summary_preferences_init (void)
 {
 	ESummaryPrefs *prefs;
 
-	g_return_if_fail (summary != NULL);
-	g_return_if_fail (IS_E_SUMMARY (summary));
-
-	summary->preferences = g_new0 (ESummaryPrefs, 1);
-	summary->old_prefs = NULL;
-
-	if (e_summary_preferences_restore (summary->preferences) == TRUE) {
-		return;
+	if (global_preferences != NULL) {
+		return global_preferences;
+	}
+	
+	prefs = g_new0 (ESummaryPrefs, 1);
+	global_preferences = prefs;
+	
+	if (e_summary_preferences_restore (prefs) == TRUE) {
+		return prefs;
 	}
 
-	prefs = summary->preferences;
 	/* Defaults */
 	
 	/* Mail */
@@ -396,6 +396,8 @@ e_summary_preferences_init (ESummary *summary)
 
 	prefs->days = E_SUMMARY_CALENDAR_ONE_DAY;
 	prefs->show_tasks = E_SUMMARY_CALENDAR_ALL_TASKS;
+
+	return prefs;
 }
 
 struct _MailPage {
@@ -1204,11 +1206,6 @@ config_control_destroy_cb (EvolutionConfigControl *config_control,
 
 	pd = (PropertyData *) data;
 
-	if (pd->summary->old_prefs != NULL) {
-		e_summary_preferences_free (pd->summary->old_prefs);
-		pd->summary->old_prefs = NULL;
-	}
-
 	e_summary_preferences_save (pd->summary->preferences);
 	free_property_dialog (pd);
 }
@@ -1227,11 +1224,6 @@ factory_fn (BonoboGenericFactory *generic_factory,
 
 	gtk_object_ref (GTK_OBJECT (summary));
 	pd->summary = summary;
-
-	if (summary->old_prefs != NULL)
-		e_summary_preferences_free (summary->old_prefs);
-
-	summary->old_prefs = e_summary_preferences_copy (summary->preferences);
 
 	pd->xml = glade_xml_new (EVOLUTION_GLADEDIR "/my-evolution.glade", NULL);
 	g_return_val_if_fail (pd->xml != NULL, NULL);

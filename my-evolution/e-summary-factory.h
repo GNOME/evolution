@@ -24,9 +24,11 @@
 #define __E_SUMMARY_FACTORY_H__
 
 #include "e-summary-offline-handler.h"
+#include "e-summary.h"
 
 BonoboControl *e_summary_factory_new_control (const char *uri,
 					      const GNOME_Evolution_Shell shell,
-					      ESummaryOfflineHandler *handler);
+					      ESummaryOfflineHandler *handler,
+					      ESummaryPrefs *preferences);
 
 #endif

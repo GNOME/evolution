@@ -494,8 +494,6 @@ e_summary_init (ESummary *summary)
 	priv->protocol_hash = NULL;
 	priv->connections = NULL;
 
-	e_summary_preferences_init (summary);
-
 	CORBA_exception_init (&ev);
 	db = bonobo_get_object ("wombat:", "Bonobo/ConfigDatabase", &ev);
 	if (BONOBO_EX (&ev) || db == CORBA_OBJECT_NIL) {
@@ -529,13 +527,16 @@ E_MAKE_TYPE (e_summary, "ESummary", ESummary, e_summary_class_init,
 	     e_summary_init, PARENT_TYPE);
 
 GtkWidget *
-e_summary_new (const GNOME_Evolution_Shell shell)
+e_summary_new (const GNOME_Evolution_Shell shell,
+	       ESummaryPrefs *prefs)
 {
 	ESummary *summary;
 
 	summary = gtk_type_new (e_summary_get_type ());
 	summary->shell = shell;
-
+	/* Just get a pointer to the global preferences */
+	summary->preferences = prefs;
+	
 	e_summary_add_protocol_listener (summary, "evolution", e_summary_evolution_protocol_listener, summary);
 
 	e_summary_mail_init (summary, shell);

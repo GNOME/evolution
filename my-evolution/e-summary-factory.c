@@ -126,12 +126,13 @@ control_destroy_cb (BonoboControl *control,
 BonoboControl *
 e_summary_factory_new_control (const char *uri,
 			       const GNOME_Evolution_Shell shell,
-			       ESummaryOfflineHandler *handler)
+			       ESummaryOfflineHandler *handler,
+			       ESummaryPrefs *global_preferences)
 {
 	BonoboControl *control;
 	GtkWidget *summary;
 
-	summary = e_summary_new (shell);
+	summary = e_summary_new (shell, global_preferences);
 	if (summary == NULL) {
 		return NULL;
 	}

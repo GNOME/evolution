@@ -33,12 +33,14 @@
 
 #include "e-summary-factory.h"
 #include "e-summary-offline-handler.h"
+#include "e-summary.h"
 #include "component-factory.h"
 #include <gal/widgets/e-gui-utils.h>
 
 #define COMPONENT_ID "OAFIID:GNOME_Evolution_Summary_ShellComponent"
 
 static gint running_objects = 0;
+static ESummaryPrefs *global_preferences = NULL;
 
 static const EvolutionShellComponentFolderType folder_types[] = {
 	{ "summary", "evolution-today.png", N_("Summary"), N_("Folder containing the Evolution Summary"), FALSE, NULL, NULL },
@@ -70,7 +72,7 @@ create_view (EvolutionShellComponent *shell,
 	shell_client = evolution_shell_component_get_owner (shell);
 	corba_shell = bonobo_object_corba_objref (BONOBO_OBJECT (shell_client));
 	control = e_summary_factory_new_control (physical_uri, corba_shell,
-						 offline_handler);
+						 offline_handler, global_preferences);
 	if (!control)
 		return EVOLUTION_SHELL_COMPONENT_NOTFOUND;
 
@@ -118,6 +120,10 @@ create_component (void)
 
 	running_objects++;
 
+	if (global_preferences == NULL) {
+		global_preferences = e_summary_preferences_init ();
+	}
+	
 	shell_component = evolution_shell_component_new (folder_types,
 							 NULL,
 							 create_view,
