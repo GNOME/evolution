@@ -67,6 +67,7 @@ enum {
 	E_ENTRY_CHANGED,
 	E_ENTRY_ACTIVATE,
 	E_ENTRY_POPUP,
+	E_ENTRY_COMPLETION_POPUP,
 	E_ENTRY_LAST_SIGNAL
 };
 
@@ -529,7 +530,11 @@ e_entry_show_popup (EEntry *entry, gboolean visible)
 	}
 
 	e_completion_view_set_editable (E_COMPLETION_VIEW (entry->priv->completion_view), visible);
-	entry->priv->popup_is_visible = visible;
+
+	if (entry->priv->popup_is_visible != visible) {
+		entry->priv->popup_is_visible = visible;
+		gtk_signal_emit (GTK_OBJECT (entry), e_entry_signals[E_ENTRY_COMPLETION_POPUP], (gint) visible);
+	}
 }
 
 static void
@@ -549,7 +554,7 @@ e_entry_start_completion (EEntry *entry)
 
 	if (e_entry_is_empty (entry))
 		return;
-	
+
 	e_completion_begin_search (entry->priv->completion,
 				   e_entry_get_text (entry),
 				   entry->priv->last_completion_pos = e_entry_get_position (entry),
@@ -695,6 +700,18 @@ button_press_cb (GtkWidget *w, GdkEvent *ev, gpointer user_data)
 	unbrowse_cb (E_COMPLETION_VIEW (w), entry);
 }
 
+static void
+cancel_completion_cb (ETextModel *model, gpointer user_data)
+{
+	EEntry *entry = E_ENTRY (user_data);
+
+	/* If we get the signal from the underlying text model, unbrowse.
+	   This usually means that the text model itself has done some
+	   sort of completion, or has otherwise transformed its contents
+	   in some way that would render any previous completion invalid. */
+	unbrowse_cb (E_COMPLETION_VIEW (entry->priv->completion_view), entry);
+}
+
 static gint
 key_press_cb (GtkWidget *w, GdkEventKey *ev, gpointer user_data)
 {
@@ -771,6 +788,11 @@ e_entry_enable_completion_full (EEntry *entry, ECompletion *completion, gint del
 
 	entry->priv->completion_view_popup = gtk_window_new (GTK_WINDOW_POPUP);
 
+	gtk_signal_connect (GTK_OBJECT (entry->item->model),
+			    "cancel_completion",
+			    GTK_SIGNAL_FUNC (cancel_completion_cb),
+			    entry);
+
 	gtk_signal_connect (GTK_OBJECT (entry->priv->completion_view_popup),
 			    "key_press_event",
 			    GTK_SIGNAL_FUNC (key_press_cb),
@@ -786,9 +808,16 @@ e_entry_enable_completion_full (EEntry *entry, ECompletion *completion, gint del
 	gtk_container_add (GTK_CONTAINER (entry->priv->completion_view_popup), entry->priv->completion_view);
 	gtk_widget_show (entry->priv->completion_view);
 
-	e_completion_view_connect_keys (
-		E_COMPLETION_VIEW (entry->priv->completion_view),
-		GTK_WIDGET (entry->canvas));
+	e_completion_view_connect_keys (E_COMPLETION_VIEW (entry->priv->completion_view),
+					GTK_WIDGET (entry->canvas));
+}
+
+gboolean
+e_entry_completion_popup_is_visible (EEntry *entry)
+{
+	g_return_val_if_fail (E_IS_ENTRY (entry), FALSE);
+
+	return entry->priv->popup_is_visible;
 }
 
 /** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** **/
@@ -1124,26 +1153,37 @@ e_entry_class_init (GtkObjectClass *object_class)
 	klass->changed = NULL;
 	klass->activate = NULL;
 
-	e_entry_signals[E_ENTRY_CHANGED] = gtk_signal_new ("changed",
-							   GTK_RUN_LAST,
-							   object_class->type,
-							   GTK_SIGNAL_OFFSET (EEntryClass, changed),
-							   gtk_marshal_NONE__NONE,
-							   GTK_TYPE_NONE, 0);
+	e_entry_signals[E_ENTRY_CHANGED] =
+		gtk_signal_new ("changed",
+				GTK_RUN_LAST,
+				object_class->type,
+				GTK_SIGNAL_OFFSET (EEntryClass, changed),
+				gtk_marshal_NONE__NONE,
+				GTK_TYPE_NONE, 0);
 
-	e_entry_signals[E_ENTRY_ACTIVATE] = gtk_signal_new ("activate",
-							    GTK_RUN_LAST,
-							    object_class->type,
-							    GTK_SIGNAL_OFFSET (EEntryClass, activate),
-							    gtk_marshal_NONE__NONE,
-							    GTK_TYPE_NONE, 0);
+	e_entry_signals[E_ENTRY_ACTIVATE] =
+		gtk_signal_new ("activate",
+				GTK_RUN_LAST,
+				object_class->type,
+				GTK_SIGNAL_OFFSET (EEntryClass, activate),
+				gtk_marshal_NONE__NONE,
+				GTK_TYPE_NONE, 0);
 
-	e_entry_signals[E_ENTRY_POPUP] = gtk_signal_new ("popup",
-							 GTK_RUN_LAST,
-							 object_class->type,
-							 GTK_SIGNAL_OFFSET (EEntryClass, popup),
-							 gtk_marshal_NONE__POINTER_INT,
-							 GTK_TYPE_NONE, 2, GTK_TYPE_POINTER, GTK_TYPE_INT);
+	e_entry_signals[E_ENTRY_POPUP] =
+		gtk_signal_new ("popup",
+				GTK_RUN_LAST,
+				object_class->type,
+				GTK_SIGNAL_OFFSET (EEntryClass, popup),
+				gtk_marshal_NONE__POINTER_INT,
+				GTK_TYPE_NONE, 2, GTK_TYPE_POINTER, GTK_TYPE_INT);
+
+	e_entry_signals[E_ENTRY_COMPLETION_POPUP] =
+		gtk_signal_new ("completion_popup",
+				GTK_RUN_LAST,
+				object_class->type,
+				GTK_SIGNAL_OFFSET (EEntryClass, completion_popup),
+				gtk_marshal_NONE__INT,
+				GTK_TYPE_NONE, 1, GTK_TYPE_INT);
 
 
 	gtk_object_class_add_signals (object_class, e_entry_signals, E_ENTRY_LAST_SIGNAL);

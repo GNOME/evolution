@@ -31,6 +31,7 @@ enum {
 	E_TEXT_MODEL_CHANGED,
 	E_TEXT_MODEL_REPOSITION,
 	E_TEXT_MODEL_OBJECT_ACTIVATED,
+	E_TEXT_MODEL_CANCEL_COMPLETION,
 	E_TEXT_MODEL_LAST_SIGNAL
 };
 
@@ -124,6 +125,14 @@ e_text_model_class_init (ETextModelClass *klass)
 				gtk_marshal_NONE__INT,
 				GTK_TYPE_NONE, 1,
 				GTK_TYPE_INT);
+
+	e_text_model_signals[E_TEXT_MODEL_CANCEL_COMPLETION] =
+		gtk_signal_new ("cancel_completion",
+				GTK_RUN_LAST,
+				object_class->type,
+				GTK_SIGNAL_OFFSET (ETextModelClass, cancel_completion),
+				gtk_marshal_NONE__NONE,
+				GTK_TYPE_NONE, 0);
 	
 	gtk_object_class_add_signals (object_class, e_text_model_signals, E_TEXT_MODEL_LAST_SIGNAL);
 	
@@ -324,6 +333,14 @@ e_text_model_changed (ETextModel *model)
 
 	gtk_signal_emit (GTK_OBJECT (model),
 			 e_text_model_signals[E_TEXT_MODEL_CHANGED]);
+}
+
+void
+e_text_model_cancel_completion (ETextModel *model)
+{
+	g_return_if_fail (E_IS_TEXT_MODEL (model));
+	
+	gtk_signal_emit (GTK_OBJECT (model), e_text_model_signals[E_TEXT_MODEL_CANCEL_COMPLETION]);
 }
 
 void

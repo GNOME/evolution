@@ -68,6 +68,7 @@ struct _EEntryClass {
 	void (* changed)  (EEntry *entry);
 	void (* activate) (EEntry *entry);
 	void (* popup)    (EEntry *entry, GdkEventButton *ev, gint pos);
+	void (* completion_popup) (EEntry *entry, gint visible);
 };
 
 GtkType      e_entry_get_type          (void);
@@ -87,6 +88,7 @@ void         e_entry_set_editable      (EEntry *entry, gboolean editable);
 void         e_entry_enable_completion      (EEntry *entry, ECompletion *completion);
 void         e_entry_enable_completion_full (EEntry *entry, ECompletion *completion, gint autocomplete_delay,
 					     EEntryCompletionHandler handler);
+gboolean     e_entry_completion_popup_is_visible (EEntry *entry);
 
 END_GNOME_DECLS
 

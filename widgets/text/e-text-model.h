@@ -49,9 +49,10 @@ struct _ETextModelClass {
 	GtkObjectClass parent_class;
 
 	/* Signal */
-	void  (* changed)          (ETextModel *model);
-	void  (* reposition)       (ETextModel *model, ETextModelReposFn fn, gpointer repos_fn_data);
-	void  (* object_activated) (ETextModel *model, gint obj_num);
+	void  (* changed)           (ETextModel *model);
+	void  (* reposition)        (ETextModel *model, ETextModelReposFn fn, gpointer repos_fn_data);
+	void  (* object_activated)  (ETextModel *model, gint obj_num);
+	void  (* cancel_completion) (ETextModel *model);
 
 	/* Virtual methods */
 
@@ -75,6 +76,7 @@ GtkType     e_text_model_get_type (void);
 ETextModel *e_text_model_new (void);
 
 void        e_text_model_changed (ETextModel *model);
+void        e_text_model_cancel_completion (ETextModel *model);
 
 void        e_text_model_reposition        (ETextModel *model, ETextModelReposFn fn, gpointer repos_data);
 gint        e_text_model_validate_position (ETextModel *model, gint pos);
