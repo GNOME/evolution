@@ -415,6 +415,8 @@ start_import (const char *folderpath,
 
 	if (evolution_importer_client_load_file (icd->client, filename, folderpath) == FALSE) {
 		label = g_strdup_printf (_("Error loading %s"), filename);
+		e_notice (NULL, GNOME_MESSAGE_BOX_ERROR, label);
+
 		gtk_label_set_text (GTK_LABEL (icd->contents), label);
 		g_free (label);
 		while (gtk_events_pending ())
