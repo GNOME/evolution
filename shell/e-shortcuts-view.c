@@ -323,10 +323,10 @@ static GnomeUIInfo right_click_menu_uiinfo[] = {
 	{ GNOME_APP_UI_ITEM, N_("_New Group..."),
 	  N_("Create a new shortcut group"), create_new_group_cb, NULL,
 	  NULL, 0, 0, 0, 0 },
-	{ GNOME_APP_UI_ITEM, N_("_Remove This Group..."),
+	{ GNOME_APP_UI_ITEM, N_("_Remove this Group..."),
 	  N_("Remove this shortcut group"), destroy_group_cb, NULL,
 	  NULL, 0, 0, 0, 0 },
-	{ GNOME_APP_UI_ITEM, N_("Re_name This Group..."),
+	{ GNOME_APP_UI_ITEM, N_("Re_name this Group..."),
 	  N_("Rename this shortcut group"), rename_group_cb, NULL,
 	  NULL, 0, 0, 0, 0 },
 

@@ -1,5 +1,8 @@
 2001-07-06  Jason Leach  <jleach@ximian.com>
 
+	* e-shortcuts-view.c: Little UI tweak for right click menu,
+	pronouns shouldn't be capitalized ("This" in this case).
+
 	[Misc fixes and part of #2228, There should be no dialog boxes
 	during startup.]
 	
