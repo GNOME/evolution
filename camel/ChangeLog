@@ -1,3 +1,7 @@
+2003-10-16  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* camel-sasl-kerberos4.c: Fixed a #include.
+
 2003-10-09  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* camel-mime-utils.c (header_decode_date): Allow timezone offsets
