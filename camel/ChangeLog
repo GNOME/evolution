@@ -1,3 +1,18 @@
+2003-10-28  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* Fixes bug #35083
+
+	* providers/imap/camel-imap-store.c (connect_to_server): Same
+	here.
+
+	* providers/pop3/camel-pop3-store.c (connect_to_server): Same as
+	the smtp changes.
+
+	* providers/smtp/camel-smtp-transport.c (connect_to_server): If
+	HAVE_SSL is undefined, don't default to raw connections if the
+	option to connect via ssl is set. Instead set an exception and
+	return fail.
+
 2003-10-27  Frederic Crozat  <fcrozat@mandrakesoft.com>
 
 	* camel-mime-utils.c: (camel_header_decode_date):

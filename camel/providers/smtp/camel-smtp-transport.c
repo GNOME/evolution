@@ -253,20 +253,30 @@ connect_to_server (CamelService *service, int try_starttls, CamelException *ex)
 	
 	port = service->url->port ? service->url->port : SMTP_PORT;
 	
-#ifdef HAVE_SSL
 	if (transport->flags & CAMEL_SMTP_TRANSPORT_USE_SSL) {
+#ifdef HAVE_SSL
 		if (try_starttls) {
 			tcp_stream = camel_tcp_stream_ssl_new_raw (service->session, service->url->host, STARTTLS_FLAGS);
 		} else {
 			port = service->url->port ? service->url->port : 465;
 			tcp_stream = camel_tcp_stream_ssl_new (service->session, service->url->host, SSL_PORT_FLAGS);
 		}
+#else
+		if (!try_starttls)
+			port = service->url->port ? service->url->port : 465;
+		
+		camel_exception_setv (ex, CAMEL_EXCEPTION_SERVICE_UNAVAILABLE,
+				      _("Could not connect to %s (port %d): %s"),
+				      service->url->host, port,
+				      _("SSL unavailable"));
+		
+		camel_free_host (h);
+		
+		return FALSE;
+#endif /* HAVE_SSL */
 	} else {
 		tcp_stream = camel_tcp_stream_raw_new ();
 	}
-#else
-	tcp_stream = camel_tcp_stream_raw_new ();
-#endif /* HAVE_SSL */
 	
 	ret = camel_tcp_stream_connect (CAMEL_TCP_STREAM (tcp_stream), h, port);
 	camel_free_host (h);
