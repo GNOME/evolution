@@ -48,10 +48,6 @@ static const EvolutionShellComponentFolderType folder_types[] = {
 	{ NULL, NULL }
 };
 
-#ifdef HAVE_LDAP
-extern void setup_ldap_storage (EvolutionShellComponent *shell_component);
-#endif
-
 
 /* EvolutionShellComponent methods and signals.  */
 

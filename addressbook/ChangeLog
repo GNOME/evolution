@@ -1,3 +1,8 @@
+2000-08-10  Ettore Perazzoli  <ettore@helixcode.com>
+
+	* gui/component/addressbook-component.c: Remove prototype for
+	`setup_ldap_storage()', which shouldn't be here anyway.
+
 2000-08-10  Christopher James Lahey  <clahey@helixcode.com>
 
 	* gui/search/, gui/search/addresstypes.xml: New search dialog for
