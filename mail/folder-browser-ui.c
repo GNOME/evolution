@@ -381,6 +381,11 @@ folder_browser_ui_setup_view_menus (FolderBrowser *fb)
 	
 	fb->view_menus = gal_view_menus_new (fb->view_instance);
 	gal_view_menus_apply (fb->view_menus, fb->uicomp, NULL);
+	
+	/* Due to CORBA reentrancy, the view could be gone now. */
+	if (fb->view_instance == NULL)
+		return;
+
 	gtk_signal_connect (GTK_OBJECT (fb->view_instance), "display_view",
 			    display_view, fb);
 	display_view (fb->view_instance, gal_view_instance_get_current_view (fb->view_instance), fb);
