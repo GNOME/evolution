@@ -1,3 +1,14 @@
+2002-07-31  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* Makefile.am: Removed folder-browser-window from the build.
+
+	* folder-browser-window.[c,h]: Removed.
+
+	* mail-callbacks.c (view_digest): Removed.
+
+	* mail-display.c (mail_display_digest_clicked): Removed.
+	(on_link_clicked): Don't handle digest: urls anymore.
+
 2002-07-31  Ettore Perazzoli  <ettore@ximian.com>
 
 	* component-factory.c (create_component): Put "New Mail Message"

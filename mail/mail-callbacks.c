@@ -46,7 +46,6 @@
 #include <gtkhtml/gtkhtml.h>
 
 #include "mail.h"
-#include "folder-browser-window.h"
 #include "message-browser.h"
 #include "mail-callbacks.h"
 #include "mail-config.h"
@@ -3140,65 +3139,6 @@ configure_folder (BonoboUIComponent *uih, void *user_data, const char *path)
 	} else {
 		mail_local_reconfigure_folder (fb);
 	}
-}
-
-static void
-do_view_digest (CamelFolder *folder, const char *uid, CamelMimeMessage *message, void *data)
-{
-	FolderBrowser *folder_browser = FOLDER_BROWSER (data);
-	
-	if (FOLDER_BROWSER_IS_DESTROYED (folder_browser))
-		return;
-	
-	if (message) {
-		CamelFolder *digest;
-		CamelStore *store;
-		FolderBrowser *fb;
-		GtkWidget *window;
-		
-		store = camel_digest_store_new ("digest:/");
-		
-		digest = camel_digest_folder_new (store, message);
-		camel_object_unref (CAMEL_OBJECT (store));
-		if (!digest)
-			return;
-		
-		camel_folder_set_message_flags (folder, uid, CAMEL_MESSAGE_SEEN, CAMEL_MESSAGE_SEEN);
-		
-		fb = (FolderBrowser *) folder_browser_new (folder_browser->shell, NULL);
-		message_list_set_hidedeleted(fb->message_list, 0);
-		folder_browser_set_message_preview (fb, TRUE);
-		folder_browser_set_folder (fb, digest, "digest:/");
-		camel_object_unref (CAMEL_OBJECT (digest));
-		gtk_widget_show (GTK_WIDGET (fb));
-		
-		window = folder_browser_window_new (fb);
-		gtk_widget_show (window);
-	}
-}
-
-void
-view_digest (GtkWidget *widget, gpointer user_data)
-{
-	FolderBrowser *fb = FOLDER_BROWSER (user_data);
-	GPtrArray *uids;
-	int i;
-	
-	if (FOLDER_BROWSER_IS_DESTROYED (fb))
-		return;
-	
-	uids = g_ptr_array_new ();
-	message_list_foreach (fb->message_list, enumerate_msg, uids);
-	
-	if (uids->len > 10 && !are_you_sure (_("Are you sure you want to open all %d messages in separate windows?"), uids, fb))
-		return;
-	
-	/* FIXME: use mail_get_messages() */
-	for (i = 0; i < uids->len; i++) {
-		mail_get_message (fb->folder, uids->pdata [i], do_view_digest, fb, mail_thread_queued);
-		g_free (uids->pdata [i]);
-	}
-	g_ptr_array_free (uids, TRUE);
 }
 
 static void
