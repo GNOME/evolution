@@ -1,3 +1,8 @@
+2001-11-12  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* camel-store.c (camel_store_get_folder): Added a
+	g_return_val_if_fail for folder_name != NULL.
+
 2001-11-08  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* camel-pgp-context.c (crypto_exec_with_passwd): If any of the
