@@ -70,7 +70,7 @@ filter_editor_get_type (void)
 }
 
 static void
-object_destroy(FilterEditor *obj)
+object_destroy(GtkObject *obj)
 {
 	struct _FilterEditorPrivate *p = _PRIVATE(obj);
 
@@ -114,7 +114,6 @@ sensitise(FilterEditor *e)
 static void
 druid_option_selected(FilterDruid *f, struct filter_option *option, FilterEditor *e)
 {
-	printf("option selected: %p\n", option);
 	e->option_current = option;
 	sensitise(e);
 }
@@ -137,7 +136,6 @@ druid_dialogue_clicked(GnomeDialog *d, int button, FilterEditor *e)
 		}
 		break;
 	case 2:
-		printf("Finish!\n");
 		if (p->druid_druid->option_current) {
 #warning "what is going on here?"
 		        /* FIXME: should this be struct filter_option?? */
@@ -165,7 +163,6 @@ druid_dialogue_clicked(GnomeDialog *d, int button, FilterEditor *e)
 			filter_druid_set_rules(p->druid, e->useroptions, e->rules, or);
 		}
 	case 3:
-		printf("cancel!\n");
 		p->druid_dialogue = NULL;
 		gnome_dialog_close(d);
 		return;
@@ -199,7 +196,7 @@ add_or_edit(FilterEditor *e, struct filter_option *option)
 	}
 
 	dialogue = GNOME_DIALOG (gnome_dialog_new (option ? _("Edit Filter") : _("Create filter"), NULL));
-	p->druid_dialogue = dialogue;
+	p->druid_dialogue = GTK_WIDGET (dialogue);
 	{
 		const char *pixmaps[] = {
 			GNOME_STOCK_BUTTON_PREV,
@@ -255,16 +252,12 @@ add_or_edit(FilterEditor *e, struct filter_option *option)
 static void
 add_clicked(GtkWidget *w, FilterEditor *e)
 {
-	printf("add new ...\n");
-
 	add_or_edit(e, NULL);
 }
 
 static void
 edit_clicked(GtkWidget *w, FilterEditor *e)
 {
-	printf("add new ...\n");
-
 	add_or_edit(e, e->option_current);
 }
 
@@ -367,7 +360,7 @@ void
 filter_editor_set_rule_files(FilterEditor *e, const char *systemrules, const char *userrules)
 {
 	GList *rules, *options = NULL, *options2;
-	xmlDocPtr doc, out, optionset, filteroptions;
+	xmlDocPtr doc, out;
 
 	doc = xmlParseFile(systemrules);
 	if( doc == NULL ) {
@@ -383,9 +376,6 @@ filter_editor_set_rule_files(FilterEditor *e, const char *systemrules, const cha
 	if (out)
 		options = filter_load_optionset(out, rules);
 
-	printf("Loading system rules: %s = %p = %p\n", systemrules, doc, rules);
-	printf("Loading user rules: %s = %p = %p\n", userrules, out, options);
-	
 	filter_editor_set_rules(e, rules, options2, options);
 }
 

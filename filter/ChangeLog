@@ -1,5 +1,7 @@
 2000-07-05  Dan Winship  <danw@helixcode.com>
 
+	* remove some non-error case debugging messages.
+
 	* filtertypes.xml: Fix typos and update the "to-address" rule to
 	match To or Cc.
 	* vfoldertypes.xml: Fix typos.

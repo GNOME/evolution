@@ -324,10 +324,6 @@ filter_arg_edit_add(GtkWidget *w, struct filter_arg_edit *edata)
 	GtkWidget *listitem;
 	int i;
 
-	printf("adding new item\n");
-
-	printf("editing ...\n");
-
 	i = filter_arg_edit_value(edata->arg, -1);
 	if (i>=0) {
 		gtk_list_remove_items_no_unref(edata->list, edata->items);
@@ -367,10 +363,7 @@ fill_list(struct filter_arg_edit *edata)
 		gtk_object_set_data((GtkObject *)listitem, "arg_i", filter_arg_get_value(edata->arg, i));
 		items = g_list_append(items, listitem);
 		gtk_widget_show(GTK_WIDGET(listitem));
-		printf("adding item %d\n", i);
 	}
-	
-	printf("items re-added\n");
 	
 	edata->item_current = NULL;
 	edata->items = items;
@@ -420,8 +413,6 @@ filter_arg_edit_select(GtkWidget *w, GtkListItem *list, struct filter_arg_edit *
 {
 	edata->item_current = GTK_WIDGET (list);
 	edit_sensitise(edata);
-
-	printf ("node = %p\n", g_list_find(edata->items, edata->item_current));
 }
 
 static void
@@ -436,12 +427,10 @@ filter_arg_edit_clicked(GnomeDialog *d, int button, struct filter_arg_edit *edat
 {
 	struct _FilterArgPrivate *p = _PRIVATE(edata->arg);
 
-	printf("window finished\n");
 	if (button == 0) {
 		gtk_signal_emit(GTK_OBJECT(edata->arg), signals[CHANGED]);
 	} else {
 		/* cancel button, restore old values ... */
-		printf("cancel button\n");
 		while (edata->arg->values) {
 			filter_arg_remove(edata->arg, edata->arg->values->data);
 		}

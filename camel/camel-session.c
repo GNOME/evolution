@@ -244,15 +244,12 @@ camel_session_get_service (CamelSession *session, const char *url_string,
 	}
 	
 	/* Now look up the service in the provider's cache */
-	printf ("looking up service in cache: \"%s\"\n", camel_url_to_string (url, FALSE));
 	service = g_hash_table_lookup (provider->service_cache, url);
 	if (service != NULL) {
-		printf ("found!!\n");
 		camel_url_free (url);
 		gtk_object_ref (GTK_OBJECT (service));
 		return service;
 	}
-	printf ("not found, creating service\n");
 
 	service = camel_service_new (provider->object_types[type], session, url, ex);
 	if (service) {

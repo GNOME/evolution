@@ -193,17 +193,14 @@ filter_driver_new (const char *system, const char *user, FilterFolderFetcher fet
 
 	p->fetcher = fetcher;
 
-	printf("Loading system '%s'\nLoading user '%s'\n", system, user);
-
 #warning "fix leaks, free xml docs here"
 	desc = xmlParseFile(system);
 	p->rules = filter_load_ruleset(desc);
 
 	filt = xmlParseFile(user);
-	if (filt == NULL) {
-		g_warning("Couldn't load filter file %s!", user);
+	if (filt == NULL)
 		p->options = NULL;
-	} else
+	else
 		p->options = filter_load_optionset(filt, p->rules);
 
 	return new;
@@ -249,8 +246,6 @@ expand_variables(GString *out, char *source, GList *args, GHashTable *globals)
 	int len=0;
 	int ok = 0;
 
-	printf("expanding %s\n", source);
-
 	start = source;
 	while ( (newstart = strstr(start, "${"))
 		&& (end = strstr(newstart+2, "}")) ) {
@@ -261,27 +256,23 @@ expand_variables(GString *out, char *source, GList *args, GHashTable *globals)
 		}
 		memcpy(name, newstart+2, len);
 		name[len] = 0;
-		printf("looking for name '%s'\n", name);
 		argl = g_list_find_custom(args, name, (GCompareFunc) filter_find_arg);
 		if (argl) {
 			int i, count;
 
 			tmp = g_strdup_printf("%.*s", newstart-start, start);
-			printf("appending: %s\n", tmp);
 			g_string_append(out, tmp);
 			g_free(tmp);
 
 			arg = argl->data;
 			count = filter_arg_get_count(arg);
 			for (i=0;i<count;i++) {
-				printf("appending '%s'\n", filter_arg_get_value_as_string(arg, i));
 				g_string_append(out, " \"");
 				g_string_append(out, filter_arg_get_value_as_string(arg, i));
 				g_string_append(out, "\"");
 			}
 		} else if ( (val = g_hash_table_lookup(globals, name)) ) {
 			tmp = g_strdup_printf("%.*s", newstart-start, start);
-			printf("appending: %s\n", tmp);
 			g_string_append(out, tmp);
 			g_free(tmp);
 			g_string_append(out, " \"");
@@ -290,7 +281,6 @@ expand_variables(GString *out, char *source, GList *args, GHashTable *globals)
 		} else {
 			ok = 1;
 			tmp = g_strdup_printf("%.*s", end-start+1, start);
-			printf("appending: '%s'\n", tmp);
 			g_string_append(out, tmp);
 			g_free(tmp);
 		}
@@ -318,12 +308,8 @@ filter_driver_expand_option(FilterDriver *d, GString *s, GString *action, struct
 			struct filter_optionrule *or = optionl->data;
 			if (or->rule->type == FILTER_XML_MATCH
 			    || or->rule->type == FILTER_XML_EXCEPT) {
-				if (or->args) {
+				if (or->args)
 					arg = or->args->data;
-					if (arg) {
-						printf("arg = %s\n", arg->name);
-					}
-				}
 				expand_variables(s, or->rule->code, or->args, p->globals);
 			}
 			optionl = g_list_next(optionl);
@@ -345,11 +331,6 @@ filter_driver_expand_option(FilterDriver *d, GString *s, GString *action, struct
 		}
 		g_string_append(action, ")");
 	}
-
-	if (s)
-		printf("combined rule '%s'\n", s->str);
-	if (action)
-		printf("combined action '%s'\n", action->str);
 }
 
 static ESExpResult *
@@ -401,20 +382,15 @@ do_copy(struct _ESExp *f, int argc, struct _ESExpResult **argv, FilterDriver *d)
 			char *folder = argv[i]->value.string;
 			CamelFolder *outbox;
 
-			/* FIXME: this might have to find another store, based on
-			   the folder as a url??? */
-			printf("opening outpbox %s\n", folder);
 			outbox = open_folder(d, folder);
-			if (outbox == NULL) {
-				g_warning("Cannot open folder: %s", folder);
+			if (outbox == NULL)
 				continue;
-			}
 
 			m = p->matches;
 			while (m) {
 				CamelMimeMessage *mm;
 
-				printf("appending message %s\n", (char *)m->data);
+				printf("appending message %s to %s\n", (char *)m->data, folder);
 
 				mm = camel_folder_get_message(p->source, m->data, p->ex);
 				camel_folder_append_message(outbox, mm, p->ex);
@@ -425,7 +401,6 @@ do_copy(struct _ESExp *f, int argc, struct _ESExpResult **argv, FilterDriver *d)
 					g_hash_table_insert(p->processed, g_strdup(m->data), (void *)1);
 				}
 
-				printf(" %s\n", (char *)m->data);
 				m = m->next;
 			}
 		}
@@ -479,8 +454,6 @@ close_folder(void *key, void *value, void *data)
 	CamelFolder *f = value;
 	FilterDriver *d = data;
 	struct _FilterDriverPrivate *p = _PRIVATE(d);
-
-	printf("closing folder: %s\n", (char *) key);
 
 	g_free(key);
 	camel_folder_sync(f, FALSE, p->ex);
@@ -546,7 +519,6 @@ filter_driver_run(FilterDriver *d, CamelFolder *source, CamelFolder *inbox)
 		a = g_string_new("");
 		filter_driver_expand_option(d, s, a, fo);
 
-		printf("searching expression %s\n", s->str);
 		p->matches = camel_folder_search_by_expression  (p->source, s->str, p->ex);
 
 		/* remove uid's for which processing is complete ... */
@@ -554,16 +526,12 @@ filter_driver_run(FilterDriver *d, CamelFolder *source, CamelFolder *inbox)
 		while (m) {
 			GList *n = m->next;
 
-			printf("matched: %s\n", (char *) m->data);
-
 			if (g_hash_table_lookup(p->terminated, m->data)) {
-				printf("removing terminated message %s\n", (char *)m->data);
 				p->matches = g_list_remove_link(p->matches, m);
 			}
 			m = n;
 		}
 
-		printf("applying actions ... '%s'\n", a->str);
 		e_sexp_input_text(p->eval, a->str, strlen(a->str));
 		e_sexp_parse(p->eval);
 		r = e_sexp_eval(p->eval);

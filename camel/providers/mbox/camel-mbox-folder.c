@@ -211,9 +211,7 @@ mbox_init (CamelFolder *folder, CamelStore *parent_store,
 	/* if we have no index file, force it */
 	forceindex = stat(mbox_folder->index_file_path, &st) == -1;
 
-	printf("loading ibex\n");
 	mbox_folder->index = ibex_open(mbox_folder->index_file_path, O_CREAT|O_RDWR, 0600);
-	printf("loaded ibex\n");
 	if (mbox_folder->index == NULL) {
 		/* yes, this isn't fatal at all */
 		g_warning("Could not open/create index file: %s: indexing not performed",
@@ -221,7 +219,6 @@ mbox_init (CamelFolder *folder, CamelStore *parent_store,
 	}
 
 	/* no summary (disk or memory), and we're proverbially screwed */
-	printf("loading summary\n");
 	mbox_folder->summary = camel_mbox_summary_new (mbox_folder->summary_file_path,
 						       mbox_folder->folder_file_path, mbox_folder->index);
 	if (mbox_folder->summary == NULL
@@ -231,7 +228,6 @@ mbox_init (CamelFolder *folder, CamelStore *parent_store,
 				     "Could not create summary");
 		return;
 	}
-	printf("summary loaded\n");
 }
 
 static void

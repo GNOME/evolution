@@ -409,8 +409,6 @@ arg_address_get_value_as_string(FilterArg *argin, void *data)
 {
 	struct filter_arg_address *a = (struct filter_arg_address *)data;
 
-	printf("geting address as string : %s %s\n", a->email, a->name);
-
 	if (a->email == NULL
 	    || a->email[0] == '\0') {
 		if (a->name == NULL
@@ -697,8 +695,6 @@ static void
 arg_folder_values_add_xml(FilterArg *arg, xmlNodePtr node)
 {
 	xmlNodePtr n;
-
-	printf("adding folder values ...\n");
 
 	n = node->childs;
 	while (n) {

@@ -306,21 +306,15 @@ camel_folder_summary_load(CamelFolderSummary *s)
 
 	g_assert(s->summary_path);
 
-	printf("loading summary\n");
-
 	in = fopen(s->summary_path, "r");
 	if ( in == NULL ) {
 		return -1;
 	}
 
-	printf("loading header\n");
-
 	if ( ((CamelFolderSummaryClass *)((GtkObject *)s)->klass)->summary_header_load(s, in) == -1) {
 		fclose(in);
 		return -1;
 	}
-
-	printf("loading content\n");
 
 	/* now read in each message ... */
 	/* FIXME: check returns */
@@ -369,14 +363,8 @@ camel_folder_summary_save(CamelFolderSummary *s)
 
 	g_assert(s->summary_path);
 
-	printf("saving summary? '%s'\n", s->summary_path);
-
-	if ((s->flags & CAMEL_SUMMARY_DIRTY) == 0) {
-		printf("nup\n");
+	if ((s->flags & CAMEL_SUMMARY_DIRTY) == 0)
 		return 0;
-	}
-
-	printf("yep\n");
 
 	fd = open(s->summary_path, O_RDWR|O_CREAT, 0600);
 	if (fd == -1)

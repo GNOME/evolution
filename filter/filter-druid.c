@@ -270,8 +270,6 @@ fill_rules(GList *rules, struct filter_option *option, int type)
 
 			labeltext = filter_description_text(fr->description, NULL);
 
-			printf("adding rule %s\n", labeltext);
-			
 			hbox = gtk_hbox_new(FALSE, 3);
 			checkbox = gnome_pixmap_new_from_xpm_d(state?check_xpm:blank_xpm);
 			gtk_box_pack_start(GTK_BOX(hbox), checkbox, FALSE, FALSE, 0);
@@ -333,7 +331,6 @@ select_rule_child(GtkList *list, GtkWidget *child, FilterDruid *f)
 	gtk_object_set_data(GTK_OBJECT(child), "checkstate", (void *)state);
 
 	if (state) {
-		printf("adding rule %p\n", fr);
 		rule = filter_optionrule_new_from_rule(fr);
 		f->option_current->options = g_list_append(f->option_current->options, rule);
 	} else {
@@ -369,7 +366,6 @@ select_option_child(GtkList *list, GtkWidget *child, FilterDruid *f)
 	}
 
 	if (f->option_current) {
-		printf("freeing current option\n");
 		/* free option_current copy */
 		optionsl = f->option_current->options;
 		while (optionsl) {
@@ -385,8 +381,6 @@ select_option_child(GtkList *list, GtkWidget *child, FilterDruid *f)
 	if (child) {
 		op = gtk_object_get_data(GTK_OBJECT(child), "option");
 
-		printf("option = %p\n", op);
-		
 		/* clone the option */
 		new = g_malloc(sizeof(*new));
 		new->type = op->type;
@@ -411,7 +405,6 @@ select_option_child(GtkList *list, GtkWidget *child, FilterDruid *f)
 static void
 unselect_option_child(GtkList *list, GtkWidget *child, FilterDruid *f)
 {
-	printf("unselect option child\n");
 	select_option_child(list, NULL, f);
 }
 
@@ -419,8 +412,6 @@ static void
 arg_changed(FilterArg *arg, FilterDruid *f)
 {
 	FilterArg *orig;
-
-	printf("value changed!!!\n");
 
 	orig = gtk_object_get_data(GTK_OBJECT (arg), "origin");
 	if (orig) {
@@ -435,14 +426,11 @@ arg_changed(FilterArg *arg, FilterDruid *f)
 static void
 arg_link_clicked(GtkHTML *html, const char *url, FilterDruid *f)
 {
-	printf("url clicked: %s\n", url);
 	if (!strncmp(url, "arg:", 4)) {
 		FilterArg *arg;
 		void *dummy;
 
 		if ((sscanf(url+4, "%p %p", &dummy, &arg) == 2) && arg) {
-			printf("arg = %p\n", arg);
-
 			gtk_signal_connect(GTK_OBJECT (arg), "changed", arg_changed, f);
 			filter_arg_edit_values(arg);
 		}
@@ -453,8 +441,6 @@ static void
 option_name_changed(GtkEntry *entry, FilterDruid *f)
 {
 	struct filter_desc *desc;
-
-	printf("name changed: %s\n", gtk_entry_get_text(entry));
 
 	if (f->option_current) {
 		/* FIXME: lots of memory leaks */
@@ -475,8 +461,6 @@ dialogue_clicked(FilterDruid *d, int button, void *data)
 	GString *s = g_string_new("");
 	struct _FilterDruidPrivate *p = _PRIVATE(d);
 	int initial=0;
-
-	printf("button %d clicked ...\n", button);
 
 	g_string_free(s, TRUE);	
 
@@ -509,14 +493,9 @@ update_display(FilterDruid *f, int initial)
 {
 	struct _FilterDruidPrivate *p = _PRIVATE(f);
 
-	printf("rending page %d options\n", p->page);
-
 	switch (p->page) {
 	case 0:
-		printf("option_current = %p  <###################\n", f->option_current);
-
 		if (initial) {
-			printf("adding options\n");
 			gtk_signal_handler_block_by_data((GtkObject *)p->list0, f);
 			gtk_list_remove_items((GtkList *)p->list0, p->items0);
 			p->items0 = fill_options(f->options);
@@ -531,7 +510,6 @@ update_display(FilterDruid *f, int initial)
 	case 2:
 	case 3:
 		if (initial) {
-			printf("adding rules\n");
 			gtk_signal_handler_block_by_data((GtkObject *)p->list0, f);
 			gtk_list_remove_items((GtkList *)p->list0, p->items0);
 			p->items0 = fill_rules(f->rules, f->option_current, filter_types[p->page-1]);

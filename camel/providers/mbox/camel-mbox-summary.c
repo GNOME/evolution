@@ -31,12 +31,7 @@
 #include <stdlib.h>
 
 #define io(x)
-
-#if 0
-#  define d(x) (x)
-#else
-#  define d(x)
-#endif
+#define d(x)
 
 #define CAMEL_MBOX_SUMMARY_VERSION (0x1000)
 
@@ -293,8 +288,6 @@ summary_rebuild (CamelMboxSummary *mbs, off_t offset)
 	int fd;
 	int ok = 0;
 
-	printf ("(re)Building summary from %d (%s)\n", (int)offset, mbs->folder_path);
-
 	fd = open (mbs->folder_path, O_RDONLY);
 	if (fd == -1) {
 		printf ("%s failed to open: %s", mbs->folder_path, strerror (errno));
@@ -320,7 +313,6 @@ summary_rebuild (CamelMboxSummary *mbs, off_t offset)
 		} else {
 			gtk_object_unref (GTK_OBJECT (mp));
 			/* end of file - no content? */
-			printf("We ran out of file?\n");
 			return -1;
 		}
 	}
@@ -366,10 +358,8 @@ camel_mbox_summary_update (CamelMboxSummary *mbs, off_t offset)
 	if (ret != -1) {
 		if (camel_folder_summary_save((CamelFolderSummary *)mbs) == -1)
 			g_warning("Could not save summary: %s", strerror(errno));
-		printf("summary saved\n");
 		if (mbs->index)
 			ibex_save(mbs->index);
-		printf("ibex saved\n");
 	}
 #endif
 	return ret;
@@ -415,7 +405,6 @@ camel_mbox_summary_load (CamelMboxSummary *mbs, int forceindex)
 #endif
 		/* is the summary uptodate? */
 		if (st.st_size == mbs->folder_size && st.st_mtime == s->time) {
-			printf ("Summary time and date match mbox\n");
 			if (minstart < st.st_size) {
 				/* FIXME: Only clear the messages and reindex from this point forward */
 				printf ("REBUILDING SUMMARY: Index file is incomplete.\n");
@@ -446,13 +435,10 @@ camel_mbox_summary_load (CamelMboxSummary *mbs, int forceindex)
 	if (ret != -1) {
 		mbs->folder_size = st.st_size;
 		s->time = st.st_mtime;
-		printf ("saving summary\n");
 		if (camel_folder_summary_save (s) == -1)
 			g_warning("Could not save summary: %s", strerror (errno));
-		printf ("summary saved\n");
 		if (mbs->index)
 			ibex_save (mbs->index);
-		printf ("ibex saved\n");
 	}
 
 	return ret;
