@@ -1,5 +1,34 @@
 2001-08-03  Ettore Perazzoli  <ettore@ximian.com>
 
+	* e-storage-set-view.c (storage_sort_callback): Put the storage
+	named E_SUMMARY_STORAGE_NAME on top.
+
+	* e-shell.c: New member `summary_storage' in `EShellPrivate'.
+	(init): Init to NULL.
+	(destroy): Unref if not NULL.
+
+	* e-summary-storage.c: New.
+	* e-summary-storage.h: New.
+
+	* e-storage-set-view.c: New #define `ROOT_NODE_NAME', defined to
+	be "/RootNode".
+	(e_storage_set_view_set_show_folders): Use that instead of "My
+	Evolution".
+	(e_storage_set_view_construct): Hide the root node.  Use
+	`ROOT_NODE_NAME' instead of "My Evolution".
+
+	* e-shortcuts-view.c (icon_callback): No bad special hack for "My
+	Evolution" here.
+
+	* e-shell-view.c (update_window_icon): Remove kludgey
+	@is_my_evolution arg and stop doing special "My Evolution" things.
+	(update_folder_title_bar): Likewise.
+	(update_for_current_uri): Don't do special "My Evolution" things
+	here either.
+	(get_control_for_uri): Don't do the "My Evolution" hack here.
+
+2001-08-03  Ettore Perazzoli  <ettore@ximian.com>
+
 	* e-storage-set-view.c (tree_drag_data_received): Call
 	`gtk_drag_finish()' here.
 

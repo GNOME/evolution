@@ -43,12 +43,16 @@
 
 #include "e-shell-constants.h"
 #include "e-local-storage.h"
+#include "e-summary-storage.h"
 
+
 /*#define DEBUG_XML*/
 
 #define DRAG_RESISTANCE 3	/* FIXME hardcoded in ETable to this value as
 				 * well, and there is no way for us to use the
 				 * same value as it's not exported.  */
+
+#define ROOT_NODE_NAME "/RootNode"
 
 
 /* This is used on the source side to define the two basic types that we always
@@ -139,6 +143,14 @@ storage_sort_callback (ETreeMemory *etmm,
 
 	folder_path1 = e_tree_memory_node_get_data(etmm, node1);
 	folder_path2 = e_tree_memory_node_get_data(etmm, node2);
+
+	/* FIXME bad hack to put the "my evolution" and "local" storages on
+	   top.  */
+
+	if (strcmp (folder_path1, G_DIR_SEPARATOR_S E_SUMMARY_STORAGE_NAME) == 0)
+		return -1;
+	if (strcmp (folder_path2, G_DIR_SEPARATOR_S E_SUMMARY_STORAGE_NAME) == 0)
+		return +1;
 	
 	path1_local = ! strcmp (folder_path1, G_DIR_SEPARATOR_S E_LOCAL_STORAGE_NAME);
 	path2_local = ! strcmp (folder_path2, G_DIR_SEPARATOR_S E_LOCAL_STORAGE_NAME);
@@ -1526,9 +1538,7 @@ new_storage_cb (EStorageSet *storage_set,
 
 	path = g_strconcat (G_DIR_SEPARATOR_S, e_storage_get_name (storage), NULL);
 
-	node = e_tree_memory_node_insert (E_TREE_MEMORY(priv->etree_model),
-					  priv->root_node,
-					  -1, path);
+	node = e_tree_memory_node_insert (E_TREE_MEMORY(priv->etree_model), priv->root_node, -1, path);
 	e_tree_memory_sort_node (E_TREE_MEMORY(priv->etree_model), priv->root_node, storage_sort_callback, storage_set_view);
 
 	if (! add_node_to_hash (storage_set_view, path, node)) {
@@ -1848,8 +1858,7 @@ insert_storages (EStorageSetView *storage_set_view)
 		name = e_storage_get_name (storage);
 		path = g_strconcat ("/", name, NULL);
 
-		parent = e_tree_memory_node_insert (E_TREE_MEMORY(priv->etree_model), priv->root_node,
-						    -1, path);
+		parent = e_tree_memory_node_insert (E_TREE_MEMORY(priv->etree_model), priv->root_node, -1, path);
 		e_tree_memory_sort_node (E_TREE_MEMORY(priv->etree_model),
 					 priv->root_node,
 					 storage_sort_callback, storage_set_view);
@@ -1905,10 +1914,8 @@ e_storage_set_view_construct (EStorageSetView   *storage_set_view,
 	e_tree_memory_set_node_destroy_func (E_TREE_MEMORY (priv->etree_model), (GFunc) g_free, NULL);
 	e_tree_memory_set_expanded_default (E_TREE_MEMORY (priv->etree_model), TRUE);
 
-	priv->root_node = e_tree_memory_node_insert (E_TREE_MEMORY(priv->etree_model),
-						     NULL, -1,
-						     g_strdup ("/My Evolution"));
-	add_node_to_hash (storage_set_view, "/My Evolution", priv->root_node);
+	priv->root_node = e_tree_memory_node_insert (E_TREE_MEMORY(priv->etree_model), NULL, -1,
+						     g_strdup (ROOT_NODE_NAME));
 
 	extras = e_table_extras_new ();
 	cell = e_cell_text_new (NULL, GTK_JUSTIFY_LEFT);
@@ -1919,7 +1926,7 @@ e_storage_set_view_construct (EStorageSetView   *storage_set_view,
 	e_tree_construct_from_spec_file (E_TREE (storage_set_view), priv->etree_model, extras,
 					 EVOLUTION_ETSPECDIR "/e-storage-set-view.etspec", NULL);
 
-	e_tree_root_node_set_visible (E_TREE(storage_set_view), TRUE);
+	e_tree_root_node_set_visible (E_TREE(storage_set_view), FALSE);
 
 	gtk_object_unref (GTK_OBJECT (extras));
 
@@ -2030,7 +2037,8 @@ e_storage_set_view_set_show_folders (EStorageSetView *storage_set_view,
 	e_tree_memory_node_remove (E_TREE_MEMORY(priv->etree_model), priv->root_node);
 
 	/* now re-add the root node */
-	priv->root_node = e_tree_memory_node_insert (E_TREE_MEMORY(priv->etree_model), NULL, -1, g_strdup ("/My Evolution"));
+	priv->root_node = e_tree_memory_node_insert (E_TREE_MEMORY(priv->etree_model), NULL, -1,
+						     g_strdup (ROOT_NODE_NAME));
 
 	/* then reinsert the storages after setting the "show_folders"
 	   flag.  insert_storages will call insert_folders if

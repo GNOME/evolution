@@ -52,6 +52,7 @@
 #include "e-shortcuts.h"
 #include "e-storage-set.h"
 #include "e-splash.h"
+#include "e-summary-storage.h"
 #include "e-uri-schema-registry.h"
 
 #include "evolution-storage-set-view-factory.h"
@@ -74,6 +75,7 @@ struct _EShellPrivate {
 
 	EStorageSet *storage_set;
 	ELocalStorage *local_storage;
+	ESummaryStorage *summary_storage;
 
 	EShortcuts *shortcuts;
 	EFolderTypeRegistry *folder_type_registry;
@@ -452,6 +454,9 @@ setup_local_storage (EShell *shell)
 	e_storage_set_add_storage (priv->storage_set, local_storage);
 	priv->local_storage = E_LOCAL_STORAGE (local_storage);
 
+	priv->summary_storage = E_SUMMARY_STORAGE (e_summary_storage_new ());
+	e_storage_set_add_storage (priv->storage_set, priv->summary_storage);
+
 	return TRUE;
 }
 
@@ -646,6 +651,9 @@ destroy (GtkObject *object)
 	if (priv->local_storage != NULL)
 		gtk_object_unref (GTK_OBJECT (priv->local_storage));
 
+	if (priv->summary_storage != NULL)
+		gtk_object_unref (GTK_OBJECT (priv->summary_storage));
+
 	if (priv->shortcuts != NULL)
 		gtk_object_unref (GTK_OBJECT (priv->shortcuts));
 
@@ -749,6 +757,7 @@ init (EShell *shell)
 	priv->local_directory        = NULL;
 	priv->storage_set            = NULL;
 	priv->local_storage          = NULL;
+	priv->summary_storage        = NULL;
 	priv->shortcuts              = NULL;
 	priv->component_registry     = NULL;
 	priv->folder_type_registry   = NULL;

@@ -1281,8 +1281,7 @@ get_storage_set_path_from_uri (const char *uri)
 
 static void
 update_window_icon (EShellView *shell_view,
-		    EFolder *folder,
-		    gboolean is_my_evolution)
+		    EFolder *folder)
 {
 	EShellViewPrivate *priv;
 	const char *type;
@@ -1291,15 +1290,10 @@ update_window_icon (EShellView *shell_view,
 
 	priv = shell_view->priv;
 
-	if (folder == NULL) {
-		if (is_my_evolution) {
-			type = "My Evolution";
-		} else {
+	if (folder == NULL)
 			type = NULL;
-		}
-	} else {
+	else
 		type = e_folder_get_type_string (folder);
-	}
 
 	if (type == NULL) {
 		icon_path = NULL;
@@ -1324,8 +1318,7 @@ update_window_icon (EShellView *shell_view,
 
 static void
 update_folder_title_bar (EShellView *shell_view,
-			 EFolder *folder,
-			 gboolean is_my_evolution)
+			 EFolder *folder)
 {
 	EShellViewPrivate *priv;
 	EFolderTypeRegistry *folder_type_registry;
@@ -1335,15 +1328,10 @@ update_folder_title_bar (EShellView *shell_view,
 
 	priv = shell_view->priv;
 
-	if (folder == NULL) {
-		if (is_my_evolution) {
-			folder_type_name = "My Evolution";
-		} else {
-			folder_type_name = NULL;
-		}
-	} else {
+	if (folder == NULL)
+		folder_type_name = NULL;
+	else
 		folder_type_name = e_folder_get_type_string (folder);
-	}
 
 	if (folder_type_name == NULL) {
 		folder_name = NULL;
@@ -1353,11 +1341,8 @@ update_folder_title_bar (EShellView *shell_view,
 		folder_icon = e_folder_type_registry_get_icon_for_type (folder_type_registry,
 									folder_type_name,
 									TRUE);
-		if (is_my_evolution) {
-			folder_name = "My Evolution";
-		} else {
-			folder_name = e_folder_get_name (folder);
-		}
+
+		folder_name = e_folder_get_name (folder);
 	}
 
 	if (folder_icon)
@@ -1378,7 +1363,6 @@ update_for_current_uri (EShellView *shell_view)
 	char *folder_name;
 	const char *path;
 	char *window_title;
-	gboolean is_my_evolution = FALSE;
 
 	priv = shell_view->priv;
 
@@ -1391,23 +1375,16 @@ update_for_current_uri (EShellView *shell_view)
 
 	path = get_storage_set_path_from_uri (priv->uri);
 
-	if (priv->uri != NULL && strcmp (priv->uri, "evolution:/My Evolution") == 0) {
-		/* Special case for My Evolution */
-		folder_name = g_strdup (_("My Evolution"));
-		is_my_evolution = TRUE;
+	if (path == NULL)
 		folder = NULL;
-	} else {
-		if (path == NULL)
-			folder = NULL;
-		else
-			folder = e_storage_set_get_folder (e_shell_get_storage_set (priv->shell),
-							   path);
+	else
+		folder = e_storage_set_get_folder (e_shell_get_storage_set (priv->shell),
+						   path);
 		
-		if (folder == NULL)
-			folder_name = g_strdup (_("None"));
-		else
-			folder_name = e_utf8_to_gtk_string ((GtkWidget *) shell_view, e_folder_get_name (folder));
-	}
+	if (folder == NULL)
+		folder_name = g_strdup (_("None"));
+	else
+		folder_name = e_utf8_to_gtk_string ((GtkWidget *) shell_view, e_folder_get_name (folder));
 
 	if (SUB_VERSION[0] == '\0')
 		window_title = g_strdup_printf (_("%s - Evolution %s"), folder_name, VERSION);
@@ -1418,9 +1395,9 @@ update_for_current_uri (EShellView *shell_view)
 	g_free (window_title);
 	g_free (folder_name);
 	
-	update_folder_title_bar (shell_view, folder, is_my_evolution);
+	update_folder_title_bar (shell_view, folder);
 	
-	update_window_icon (shell_view, folder, is_my_evolution);
+	update_window_icon (shell_view, folder);
 
 	gtk_signal_handler_block_by_func (GTK_OBJECT (priv->storage_set_view),
 					  GTK_SIGNAL_FUNC (folder_selected_cb),
@@ -1711,21 +1688,15 @@ get_control_for_uri (EShellView *shell_view,
 	if (*path == '\0')
 		return NULL;
 
-	/* Hack for My Evolution */
-	if (strcmp (path, "/My Evolution") == 0) {
-		folder_type = "My Evolution";
-		physical_uri = "";
-	} else {
-		/* FIXME: This code needs to be made more robust.  */
+	/* FIXME: This code needs to be made more robust.  */
 		
-		slash = strchr (path + 1, G_DIR_SEPARATOR);
-		if (slash == NULL || slash[1] == '\0')
-			folder_type = get_type_for_storage (shell_view, path + 1, &physical_uri);
-		else
-			folder_type = get_type_for_folder (shell_view, path, &physical_uri);
-		if (folder_type == NULL)
-			return NULL;
-	}
+	slash = strchr (path + 1, G_DIR_SEPARATOR);
+	if (slash == NULL || slash[1] == '\0')
+		folder_type = get_type_for_storage (shell_view, path + 1, &physical_uri);
+	else
+		folder_type = get_type_for_folder (shell_view, path, &physical_uri);
+	if (folder_type == NULL)
+		return NULL;
 
 	folder_type_registry = e_shell_get_folder_type_registry (e_shell_view_get_shell (shell_view));
 
