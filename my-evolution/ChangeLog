@@ -1,3 +1,7 @@
+2002-04-16  Iain Holmes  <iain@ximian.com>
+
+	* e-summary-preferences.c: Change the kde url.
+
 2002-02-02  Ettore Perazzoli  <ettore@ximian.com>
 
 	[Fix a crash that can happen if you have opened multiple views of
