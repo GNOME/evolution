@@ -1,7 +1,5 @@
 <Root>
   <commands>
-    <cmd name="TasksNewTask" pixtype="pixbuf" _tip="Create a new task"/>
-
     <cmd name="TasksPrint" _tip="Print the list of tasks" pixtype="pixbuf" 
 	 accel="*Control*p"/>
     <cmd name="TasksPrintPreview" _tip="Previews the list of tasks to be printed" pixtype="pixbuf"/>
@@ -18,14 +16,6 @@
   
   <menu>
     <submenu name="File">
-      <submenu name="New">
-	<placeholder name="NewFirstItem">
-	  <menuitem name="NewTask" verb="TasksNewTask" _label="_Task"
-	            accel="*Control*n" pixtype="pixbuf"/>
-	  <separator/>
-	</placeholder>
-      </submenu>
-
       <placeholder name="Print">
 	<menuitem name="PrintPreview" verb="TasksPrintPreview"
 		  _label="Print Pre_view" pixtype="pixbuf"/>
@@ -54,12 +44,7 @@
 
     <placeholder name="ComponentActionsPlaceholder">
       <submenu name="Actions" _label="_Actions">
-	<menuitem name="NewTask" verb="CalendarNewTask" _label="Create a New _Task" pixtype="pixbuf"/>
-
-	<separator/>
-
 	<menuitem name="TasksExpunge" verb="" pixtype="pixbuf"/>
-
       </submenu>
     </placeholder>
 

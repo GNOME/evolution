@@ -1,5 +1,9 @@
 2002-03-14  JP Rosevear  <jpr@ximian.com>
 
+	* evolution-tasks.xml: remove duplicate new items in the file
+	and action menus
+
+2002-03-14  JP Rosevear  <jpr@ximian.com>	
 	* evolution-calendar.xml: remove duplicate new items in the file
 	and action menus
 
