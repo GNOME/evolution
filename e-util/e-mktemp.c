@@ -131,12 +131,14 @@ e_mktemp_cleanup (void)
 			dir = opendir (node->data);
 			if (dir) {
 				while ((dent = readdir (dir)) != NULL) {
-					/* yea...so if we contain
-					   subdirectories this won't work, but
-					   it shouldn't so we won't
-					   bother caring... */
-					if (strcmp (dent->d_name, ".") && strcmp (dent->d_name, ".."))
-						unlink (dent->d_name);
+					char *full_path;
+					
+					if (!strcmp (dent->d_name, ".") || !strcmp (dent->d_name, ".."))
+						continue;
+					
+					full_path = g_strdup_printf ("%s/%s", node->data, dent->d_name);
+					unlink (full_path);
+					g_free (full_path);
 				}
 				closedir (dir);
 			}
