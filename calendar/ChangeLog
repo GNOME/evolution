@@ -1,3 +1,27 @@
+2001-01-29  Federico Mena Quintero  <federico@ximian.com>
+
+	* gui/calendar-config.c: <gnome.h> trimming to reduce compilation
+	time.
+	* gui/calendar-summary.c: Likewise.
+	* gui/e-calendar-table.c: Likewise.
+	* gui/e-day-view-time-item.c: Likewise.
+	* gui/e-day-view.c: Likewise.
+	* gui/e-itip-control.c: Likewise.
+	* gui/e-meeting-edit.c: Likewise.
+	* gui/e-meeting-edit.h: Likewise.
+	* gui/e-tasks.c: Likewise.
+	* gui/e-week-view.c: Likewise.
+	* gui/event-editor.c: Likewise.
+	* gui/gnome-cal.c: Likewise.
+	* gui/goto.c: Likewise.
+	* gui/itip-utils.h: Likewise.
+	* gui/main.c: Likewise.
+	* gui/popup-menu.c: Likewise.
+	* gui/print.c: Likewise.
+	* gui/tasks-control-factory.c: Likewise.
+	* gui/tasks-control.c: Likewise.
+	* gui/tasks-migrate.c: Likewise.
+
 2001-01-25  Federico Mena Quintero  <federico@ximian.com>
 
 	* cal-util/timeutil.c: <gnome.h> trimming to reduce compilation time.

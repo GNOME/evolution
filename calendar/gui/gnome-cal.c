@@ -25,12 +25,10 @@
  */
 
 #include <config.h>
-#include <gnome.h>
 #include <unistd.h>
 #include <signal.h>
 #include <sys/wait.h>
 #include <fcntl.h>
-#include <gnome.h>
 #include <gal/e-paned/e-hpaned.h>
 #include <gal/e-paned/e-vpaned.h>
 #include <cal-util/timeutil.h>

@@ -25,7 +25,6 @@
  */
 
 #include <config.h>
-#include <gnome.h>
 #include <glade/glade.h>
 #include <e-util/e-dialog-widgets.h>
 #include <widgets/misc/e-dateedit.h>
@@ -3259,7 +3258,6 @@ static gboolean
 prompt_to_save_changes		(EventEditor	*ee)
 {
 	EventEditorPrivate *priv;
-	GtkWidget *dialog;
 
 	priv = ee->priv;
 

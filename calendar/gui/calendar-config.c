@@ -28,7 +28,6 @@
  */
 
 #include <config.h>
-#include <gnome.h>
 #include "component-factory.h"
 #include "calendar-config.h"
 

@@ -29,7 +29,6 @@
 #include <config.h>
 #include <math.h>
 #include <time.h>
-#include <gnome.h>
 #include <gdk/gdkx.h>
 #include <cal-util/timeutil.h>
 #include "dialogs/delete-comp.h"

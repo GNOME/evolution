@@ -23,6 +23,7 @@
 #ifndef DELETE_COMP_H
 #define DELETE_COMP_H
 
+#include <gtk/gtkwidget.h>
 #include <cal-util/cal-component.h>
 
 gboolean delete_component_dialog (CalComponent *comp, GtkWidget *widget);

@@ -22,11 +22,10 @@
  */
 
 #include <config.h>
-#include <gnome.h>
+#include <time.h>
 #include <bonobo.h>
 #include <glade/glade.h>
 #include <ical.h>
-#include <time.h>
 #include <Evolution-Composer.h>
 
 #include "e-itip-control.h"

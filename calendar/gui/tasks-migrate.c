@@ -23,7 +23,11 @@
 #include "config.h"
 #endif
 
-#include <gnome.h>
+#include <gtk/gtkwindow.h>
+#include <gtk/gtksignal.h>
+#include <libgnome/gnome-defs.h>
+#include <libgnome/gnome-i18n.h>
+#include <libgnomeui/gnome-dialog-util.h>
 #include <cal-client/cal-client.h>
 #include "component-factory.h"
 #include "tasks-migrate.h"

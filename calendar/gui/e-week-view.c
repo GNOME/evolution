@@ -29,7 +29,6 @@
 
 #include <config.h>
 #include <math.h>
-#include <gnome.h>
 #include <gdk-pixbuf/gdk-pixbuf.h>
 #include <gdk-pixbuf/gnome-canvas-pixbuf.h>
 #include "dialogs/delete-comp.h"

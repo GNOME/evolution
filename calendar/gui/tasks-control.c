@@ -23,7 +23,6 @@
  */
 
 #include <config.h>
-#include <gnome.h>
 #include <bonobo.h>
 #include <bonobo/bonobo-control.h>
 #include "e-tasks.h"

@@ -6,9 +6,11 @@
  */
 
 #include <config.h>
-#include <gnome.h>
-#include "popup-menu.h"
+#include <gtk/gtkmenuitem.h>
+#include <libgnome/gnome-defs.h>
+#include <libgnome/gnome-i18n.h>
 #include <gal/widgets/e-gui-utils.h>
+#include "popup-menu.h"
 
 
 void

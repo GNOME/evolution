@@ -24,7 +24,6 @@
  */
 
 #include <config.h>
-#include <gnome.h>
 #include <gal/util/e-util.h>
 #include <gal/e-table/e-table-scrolled.h>
 #include "dialogs/task-editor.h"

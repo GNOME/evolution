@@ -5,7 +5,7 @@
 #include <config.h>
 #include <ical.h>
 #include <string.h>
-#include <gnome.h>
+#include <glib.h>
 
 extern gchar *partstat_values[];
 extern gchar *role_values[];

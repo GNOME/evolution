@@ -29,7 +29,6 @@
  */
 
 #include <config.h>
-#include <gnome.h>
 #include <gal/widgets/e-gui-utils.h>
 #include "e-day-view-time-item.h"
 #include "calendar-config.h"

@@ -9,7 +9,6 @@
  */
 
 #include <config.h>
-#include <gnome.h>
 #include <glade/glade.h>
 #include "calendar-commands.h"
 #include "tag-calendar.h"

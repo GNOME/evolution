@@ -30,7 +30,6 @@
 
 #include <bonobo.h>
 
-#include <gnome.h>
 #include <liboaf/liboaf.h>
 
 #include <evolution-services/executive-summary-component.h>

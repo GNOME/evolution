@@ -24,7 +24,6 @@
 #define __E_MEETING_EDIT_H__
 
 #include <config.h>
-#include <gnome.h>
 #include <glade/glade.h>
 #include <cal-util/cal-component.h>
 #include <cal-client/cal-client.h>

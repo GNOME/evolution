@@ -21,7 +21,6 @@
  */
 
 #include <config.h>
-#include <gnome.h>
 #include <glade/glade.h>
 #include <ical.h>
 #include <widgets/meeting-time-sel/e-meeting-time-sel.h>

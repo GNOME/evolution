@@ -23,7 +23,8 @@
 #include <config.h>
 #include <sys/stat.h>
 #include <math.h>
-#include <gnome.h>
+#include <libgnome/gnome-paper.h>
+#include <libgnomeui/gnome-dialog.h>
 #include <libgnomeprint/gnome-print.h>
 #include <libgnomeprint/gnome-print-copies.h>
 #include <libgnomeprint/gnome-print-master.h>
