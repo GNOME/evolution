@@ -175,7 +175,7 @@ module Calendar {
 		 * object after this call, and call getObject to get the
 		 * updated version.
 		 */
-		void updateObject (in CalObjUID uid, in CalObj calobj)
+		void updateObjects (in CalObj calobj)
 			raises (InvalidObject);
 
 		/* Removes a component */

@@ -1,3 +1,27 @@
+2001-07-11  Damon Chaplin  <damon@ximian.com>
+
+	* idl/evolution-calendar.idl: renamed updateObject to updateObjects
+	and removed the UID argument, since it can add/update multiple objects
+	at once. (It can't yet, but it will!)
+
+	* pcs/cal.c: 
+	* pcs/cal-backend.[hc]: 
+	* pcs/cal-backend-file.c: renamed update_object to update_objects and
+	got rid of the UID arg.
+
+	* cal-client/cal-client.c (cal_client_update_objects): new function to
+	add/update multiple objects in one go, i.e for iTIP and for importing
+	calendars.
+
+	* gui/print.c (print_date_label): fixed type bug.
+
+	* gui/e-week-view.[hc]: 
+	* gui/e-week-view-event-item.c: draw the timezone icons if the event's
+	DTSTART or DTEND is in a different timezone to the current one.
+	Note that we may want to change this so it compares the UTC offsets
+	rather than the TZIDs, since currently it will draw the icons for all
+	events coming from iTIP requests from other clients.
+
 2001-07-11  Federico Mena Quintero  <federico@ximian.com>
 
 	Fixes bug #4380 as well as some leftovers from the days of struct

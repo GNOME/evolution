@@ -104,7 +104,7 @@ struct _CalBackendClass {
 		time_t start, time_t end, gboolean *object_found);
 
 	/* Object manipulation virtual methods */
-	gboolean (* update_object) (CalBackend *backend, const char *uid, const char *calobj);
+	gboolean (* update_objects) (CalBackend *backend, const char *calobj);
 	gboolean (* remove_object) (CalBackend *backend, const char *uid);
 
 	/* Timezone related virtual methods */
@@ -147,7 +147,7 @@ GNOME_Evolution_Calendar_CalComponentAlarms *cal_backend_get_alarms_for_object (
 	CalBackendGetAlarmsForObjectResult *result);
 
 
-gboolean cal_backend_update_object (CalBackend *backend, const char *uid, const char *calobj);
+gboolean cal_backend_update_objects (CalBackend *backend, const char *calobj);
 
 gboolean cal_backend_remove_object (CalBackend *backend, const char *uid);
 

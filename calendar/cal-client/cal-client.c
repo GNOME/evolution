@@ -301,7 +301,7 @@ free_timezone (gpointer key, gpointer value, gpointer data)
 {
 	/* Note that the key comes from within the icaltimezone value, so we
 	   don't free that. */
-	icaltimezone_free (value);
+	icaltimezone_free (value, TRUE);
 }
 
 /* Destroy handler for the calendar client */
@@ -1773,10 +1773,10 @@ append_timezone_string (gpointer key, gpointer value, gpointer data)
    To do that we check every TZID in the component to see if it is a builtin
    timezone. If it is, we see if it it in our cache. If it is in our cache,
    then we know the server already has it and we don't need to send it.
-   If it isn't in our cache, then we need to send it to the server, and we
-   can add it to the cache as well. If we need to send any timezones to the
-   server, then we have to create a complete VCALENDAR object, otherwise
-   we can just send a single VEVENT/VTODO as before. */
+   If it isn't in our cache, then we need to send it to the server.
+   If we need to send any timezones to the server, then we have to create a
+   complete VCALENDAR object, otherwise we can just send a single VEVENT/VTODO
+   as before. */
 static char*
 cal_client_get_component_as_string (CalClient *client,
 				    CalComponent *comp)
@@ -1831,8 +1831,6 @@ cal_client_get_component_as_string (CalClient *client,
 
 	g_hash_table_destroy (timezone_hash);
 
-	fprintf (stderr, "Object String:\n=======\n%s======\n", obj_string);
-
 	return obj_string;
 }
 
@@ -1855,7 +1853,6 @@ cal_client_update_object (CalClient *client, CalComponent *comp)
 	CORBA_Environment ev;
 	gboolean retval;
 	char *obj_string;
-	const char *uid;
 
 	g_return_val_if_fail (client != NULL, FALSE);
 	g_return_val_if_fail (IS_CAL_CLIENT (client), FALSE);
@@ -1869,12 +1866,10 @@ cal_client_update_object (CalClient *client, CalComponent *comp)
 
 	cal_component_commit_sequence (comp);
 
-	cal_component_get_uid (comp, &uid);
-
 	obj_string = cal_client_get_component_as_string (client, comp);
 
 	CORBA_exception_init (&ev);
-	GNOME_Evolution_Calendar_Cal_updateObject (priv->cal, (char *) uid, obj_string, &ev);
+	GNOME_Evolution_Calendar_Cal_updateObjects (priv->cal, obj_string, &ev);
 	g_free (obj_string);
 
 	if (ev._major == CORBA_USER_EXCEPTION &&
@@ -1891,6 +1886,66 @@ cal_client_update_object (CalClient *client, CalComponent *comp)
 	CORBA_exception_free (&ev);
 	return retval;
 }
+
+/**
+ * cal_client_update_objects:
+ * @client: A calendar client.
+ * @icalcomp: A toplevel VCALENDAR libical component.
+ *
+ * Asks a calendar to add or update one or more components, possibly including
+ * VTIMEZONE data.  Any existing components with the same UIDs will be
+ * replaced. The VTIMEZONE data will be compared to existing VTIMEZONEs in
+ * the calendar, and the VTIMEZONEs may possibly be renamed, as well as all
+ * references to them throughout the VCALENDAR.
+ *
+ * The client program should not assume that the objects are actually in the
+ * server's storage until it has received the "obj_updated" notification
+ * signal.
+ *
+ * Return value: TRUE on success, FALSE on specifying an invalid component.
+ **/
+gboolean
+cal_client_update_objects (CalClient *client, icalcomponent *icalcomp)
+{
+	CalClientPrivate *priv;
+	CORBA_Environment ev;
+	gboolean retval;
+	char *obj_string;
+
+	g_return_val_if_fail (client != NULL, FALSE);
+	g_return_val_if_fail (IS_CAL_CLIENT (client), FALSE);
+
+	priv = client->priv;
+	g_return_val_if_fail (priv->load_state == CAL_CLIENT_LOAD_LOADED,
+			      FALSE);
+
+	g_return_val_if_fail (icalcomp != NULL, FALSE);
+
+	retval = FALSE;
+
+	/* Libical owns this memory, using one of its temporary buffers. */
+	obj_string = icalcomponent_as_ical_string (icalcomp);
+
+	CORBA_exception_init (&ev);
+	GNOME_Evolution_Calendar_Cal_updateObjects (priv->cal, obj_string, &ev);
+
+	if (ev._major == CORBA_USER_EXCEPTION &&
+	    strcmp (CORBA_exception_id (&ev),
+		    ex_GNOME_Evolution_Calendar_Cal_InvalidObject) == 0)
+		goto out;
+	else if (ev._major != CORBA_NO_EXCEPTION) {
+		g_message ("cal_client_update_objects(): could not update the objects");
+		goto out;
+	}
+
+	retval = TRUE;
+
+ out:
+	CORBA_exception_free (&ev);
+	return retval;
+
+}
+
 
 /**
  * cal_client_remove_object:

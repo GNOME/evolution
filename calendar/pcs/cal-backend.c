@@ -146,7 +146,7 @@ cal_backend_class_init (CalBackendClass *class)
 	class->get_changes = NULL;
 	class->get_alarms_in_range = NULL;
 	class->get_alarms_for_object = NULL;
-	class->update_object = NULL;
+	class->update_objects = NULL;
 	class->remove_object = NULL;
 }
 
@@ -471,10 +471,9 @@ cal_backend_get_alarms_for_object (CalBackend *backend, const char *uid,
 }
 
 /**
- * cal_backend_update_object:
+ * cal_backend_update_objects:
  * @backend: A calendar backend.
- * @uid: Unique identifier of the object to update.
- * @calobj: String representation of the new calendar object.
+ * @calobj: String representation of the new calendar object(s).
  * 
  * Updates an object in a calendar backend.  It will replace any existing
  * object that has the same UID as the specified one.  The backend will in
@@ -484,15 +483,14 @@ cal_backend_get_alarms_for_object (CalBackend *backend, const char *uid,
  * with an unsupported type.
  **/
 gboolean
-cal_backend_update_object (CalBackend *backend, const char *uid, const char *calobj)
+cal_backend_update_objects (CalBackend *backend, const char *calobj)
 {
 	g_return_val_if_fail (backend != NULL, FALSE);
 	g_return_val_if_fail (IS_CAL_BACKEND (backend), FALSE);
-	g_return_val_if_fail (uid != NULL, FALSE);
 	g_return_val_if_fail (calobj != NULL, FALSE);
 
-	g_assert (CLASS (backend)->update_object != NULL);
-	return (* CLASS (backend)->update_object) (backend, uid, calobj);
+	g_assert (CLASS (backend)->update_objects != NULL);
+	return (* CLASS (backend)->update_objects) (backend, calobj);
 }
 
 /**

@@ -559,6 +559,7 @@ e_week_view_event_item_draw_icons (EWeekViewEventItem *wveitem,
 	GdkGC *gc;
 	gint num_icons = 0, icon_x_inc;
 	gboolean draw_reminder_icon = FALSE, draw_recurrence_icon = FALSE;
+	gboolean draw_timezone_icon = FALSE;
 	GSList *categories_list, *elem;
 
 	week_view = E_WEEK_VIEW (GTK_WIDGET (GNOME_CANVAS_ITEM (wveitem)->canvas)->parent);
@@ -578,6 +579,11 @@ e_week_view_event_item_draw_icons (EWeekViewEventItem *wveitem,
 
 	if (cal_component_has_recurrences (comp)) {
 		draw_recurrence_icon = TRUE;
+		num_icons++;
+	}
+
+	if (!cal_component_compare_event_timezone (comp, week_view->zone)) {
+		draw_timezone_icon = TRUE;
 		num_icons++;
 	}
 
@@ -605,6 +611,17 @@ e_week_view_event_item_draw_icons (EWeekViewEventItem *wveitem,
 		gdk_gc_set_clip_mask (gc, week_view->recurrence_mask);
 		gdk_draw_pixmap (drawable, gc,
 				 week_view->recurrence_icon,
+				 0, 0, icon_x, icon_y,
+				 E_WEEK_VIEW_ICON_WIDTH,
+				 E_WEEK_VIEW_ICON_HEIGHT);
+		icon_x += icon_x_inc;
+	}
+
+	if (draw_timezone_icon && icon_x + E_WEEK_VIEW_ICON_WIDTH <= x2) {
+		gdk_gc_set_clip_origin (gc, icon_x, icon_y);
+		gdk_gc_set_clip_mask (gc, week_view->timezone_mask);
+		gdk_draw_pixmap (drawable, gc,
+				 week_view->timezone_icon,
 				 0, 0, icon_x, icon_y,
 				 E_WEEK_VIEW_ICON_WIDTH,
 				 E_WEEK_VIEW_ICON_HEIGHT);

@@ -347,12 +347,11 @@ impl_Cal_get_alarms_for_object (PortableServer_Servant servant,
 	}
 }
 
-/* Cal::update_object method */
+/* Cal::update_objects method */
 static void
-impl_Cal_update_object (PortableServer_Servant servant,
-			const GNOME_Evolution_Calendar_CalObjUID uid,
-			const GNOME_Evolution_Calendar_CalObj calobj,
-			CORBA_Environment *ev)
+impl_Cal_update_objects (PortableServer_Servant servant,
+			 const GNOME_Evolution_Calendar_CalObj calobj,
+			 CORBA_Environment *ev)
 {
 	Cal *cal;
 	CalPrivate *priv;
@@ -360,7 +359,7 @@ impl_Cal_update_object (PortableServer_Servant servant,
 	cal = CAL (bonobo_object_from_servant (servant));
 	priv = cal->priv;
 
-	if (!cal_backend_update_object (priv->backend, uid, calobj))
+	if (!cal_backend_update_objects (priv->backend, calobj))
 		CORBA_exception_set (ev, CORBA_USER_EXCEPTION,
 				     ex_GNOME_Evolution_Calendar_Cal_InvalidObject,
 				     NULL);
@@ -592,7 +591,7 @@ cal_class_init (CalClass *klass)
 	epv->getFreeBusy = impl_Cal_get_free_busy;
 	epv->getAlarmsInRange = impl_Cal_get_alarms_in_range;
 	epv->getAlarmsForObject = impl_Cal_get_alarms_for_object;
-	epv->updateObject = impl_Cal_update_object;
+	epv->updateObjects = impl_Cal_update_objects;
 	epv->removeObject = impl_Cal_remove_object;
 	epv->getQuery = impl_Cal_get_query;
 }

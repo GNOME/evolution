@@ -2104,7 +2104,7 @@ print_date_label (GnomePrintContext *pc, CalComponent *comp,
 	cal_component_get_completed (comp, &datetime.value);
 	if (datetime.value)
 		complete = icaltime_as_timet_with_zone (*datetime.value, zone);
-	cal_component_free_icaltimetype (&datetime.value);
+	cal_component_free_icaltimetype (datetime.value);
 
 	buffer[0] = '\0';
 

@@ -60,6 +60,7 @@
 /* Images */
 #include "art/bell.xpm"
 #include "art/recur.xpm"
+#include "art/timezone-16.xpm"
 #include "art/jump.xpm"
 
 #define E_WEEK_VIEW_SMALL_FONT	\
@@ -541,6 +542,7 @@ e_week_view_realize (GtkWidget *widget)
 	/* Create the pixmaps. */
 	week_view->reminder_icon = gdk_pixmap_colormap_create_from_xpm_d (NULL, colormap, &week_view->reminder_mask, NULL, bell_xpm);
 	week_view->recurrence_icon = gdk_pixmap_colormap_create_from_xpm_d (NULL, colormap, &week_view->recurrence_mask, NULL, recur_xpm);
+	week_view->timezone_icon = gdk_pixmap_colormap_create_from_xpm_d (NULL, colormap, &week_view->timezone_mask, NULL, timezone_16_xpm);
 }
 
 
@@ -2455,6 +2457,10 @@ e_week_view_reshape_event_span (EWeekView *week_view,
 		if (cal_component_has_alarms (comp))
 			num_icons++;
 		if (cal_component_has_recurrences (comp))
+			num_icons++;
+
+		if (!cal_component_compare_event_timezone (comp,
+							   week_view->zone))
 			num_icons++;
 
 		cal_component_get_categories_list (comp, &categories_list);

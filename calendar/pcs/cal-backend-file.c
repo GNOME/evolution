@@ -89,8 +89,7 @@ static GNOME_Evolution_Calendar_CalComponentAlarms *cal_backend_file_get_alarms_
 	CalBackend *backend, const char *uid,
 	time_t start, time_t end, gboolean *object_found);
 
-static gboolean cal_backend_file_update_object (CalBackend *backend, const char *uid,
-					       const char *calobj);
+static gboolean cal_backend_file_update_objects (CalBackend *backend, const char *calobj);
 static gboolean cal_backend_file_remove_object (CalBackend *backend, const char *uid);
 
 static icaltimezone* cal_backend_file_get_timezone (CalBackend *backend, const char *tzid);
@@ -159,7 +158,7 @@ cal_backend_file_class_init (CalBackendFileClass *class)
 	backend_class->get_changes = cal_backend_file_get_changes;
 	backend_class->get_alarms_in_range = cal_backend_file_get_alarms_in_range;
 	backend_class->get_alarms_for_object = cal_backend_file_get_alarms_for_object;
-	backend_class->update_object = cal_backend_file_update_object;
+	backend_class->update_objects = cal_backend_file_update_objects;
 	backend_class->remove_object = cal_backend_file_remove_object;
 
 	backend_class->get_timezone = cal_backend_file_get_timezone;
@@ -1635,9 +1634,9 @@ notify_remove (CalBackendFile *cbfile, const char *uid)
 	}
 }
 
-/* Update_object handler for the file backend */
+/* Update_objects handler for the file backend. */
 static gboolean
-cal_backend_file_update_object (CalBackend *backend, const char *uid, const char *calobj)
+cal_backend_file_update_objects (CalBackend *backend, const char *calobj)
 {
 	CalBackendFile *cbfile;
 	CalBackendFilePrivate *priv;
@@ -1652,7 +1651,6 @@ cal_backend_file_update_object (CalBackend *backend, const char *uid, const char
 
 	g_return_val_if_fail (priv->icalcomp != NULL, FALSE);
 
-	g_return_val_if_fail (uid != NULL, FALSE);
 	g_return_val_if_fail (calobj != NULL, FALSE);
 
 	/* Pull the component from the string and ensure that it is sane */
@@ -1714,18 +1712,18 @@ cal_backend_file_update_object (CalBackend *backend, const char *uid, const char
 		return FALSE;
 	}
 
-	/* Check the UID for sanity's sake */
+	/* Get the UID, and check it isn't empty. */
 
 	cal_component_get_uid (comp, &comp_uid);
 
-	if (strcmp (uid, comp_uid) != 0) {
+	if (!comp_uid || !comp_uid[0]) {
 		gtk_object_unref (GTK_OBJECT (comp));
 		return FALSE;
 	}
 
 	/* Update the component */
 
-	old_comp = lookup_component (cbfile, uid);
+	old_comp = lookup_component (cbfile, comp_uid);
 
 	if (old_comp)
 		remove_component (cbfile, old_comp);
