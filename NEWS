@@ -49,7 +49,7 @@ Mail:
 
   - Cleaned up exiting by having remote stores sync folders (Peter)
 
-  - Attached binhex files do not cause infintie loops (Peter)
+  - Attached binhex files do not cause infinite loops (Peter)
 
   - Don't send BCC headers when sending via SMTP (Peter)
 
