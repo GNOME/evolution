@@ -1,3 +1,9 @@
+2001-07-16  Peter Williams  <peterw@ximian.com>
+
+	* mail-folder-cache.c (mail_folder_cache_set_folder_browser): DUH.
+	No need to update every folder if we set the folder browser to
+	NULL.
+
 2001-07-15  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-account-gui.c (mail_account_gui_save): Call

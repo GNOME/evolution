@@ -785,6 +785,11 @@ mail_folder_cache_set_folder_browser (FolderBrowser *fb)
 	if (fb) {
 		d(g_message("Reffing new browser %p", fb));
 		gtk_object_ref (GTK_OBJECT (fb));
+
+		LOCK_FOLDERS ();
+		d(g_message("Checking folders for this fb"));
+		g_hash_table_foreach (folders, check_for_fb_match, fb);
+		UNLOCK_FOLDERS ();
 	} else if (shell_view != CORBA_OBJECT_NIL) {
 		CORBA_Environment ev;
 
@@ -797,11 +802,6 @@ mail_folder_cache_set_folder_browser (FolderBrowser *fb)
 				   bonobo_exception_get_text (&ev));
 		CORBA_exception_free (&ev);
 	}
-
-	LOCK_FOLDERS ();
-	d(g_message("Checking folders for this fb"));
-	g_hash_table_foreach (folders, check_for_fb_match, fb);
-	UNLOCK_FOLDERS ();
 }
 		
 #if d(!)0
