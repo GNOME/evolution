@@ -604,8 +604,19 @@ engine_parse_namespace (CamelIMAP4Engine *engine, CamelException *ex)
 					goto exception;
 				}
 				
-				if (token.token != CAMEL_IMAP4_TOKEN_QSTRING || strlen (token.v.qstring) > 1) {
-					d(fprintf (stderr, "Expected to find a qstring token as second element in NAMESPACE pair\n"));
+				switch (token.token) {
+				case CAMEL_IMAP4_TOKEN_NIL:
+					node->sep = '\0';
+					break;
+				case CAMEL_IMAP4_TOKEN_QSTRING:
+					if (strlen (token.v.qstring) == 1) {
+						node->sep = *token.v.qstring;
+						break;
+					} else {
+						/* invalid, fall thru */
+					}
+				default:
+					d(fprintf (stderr, "Expected to find a nil or a valid qstring token as second element in NAMESPACE pair\n"));
 					camel_imap4_utils_set_unexpected_token_error (ex, engine, &token);
 					g_free (node->path);
 					g_free (node);
@@ -613,7 +624,6 @@ engine_parse_namespace (CamelIMAP4Engine *engine, CamelException *ex)
 					goto exception;
 				}
 				
-				node->sep = *token.v.qstring;
 				tail->next = node;
 				tail = node;
 				
