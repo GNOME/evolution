@@ -1,5 +1,5 @@
-#ifndef E_GUI_UTILS_H
-#define E_GUI_UTILS_H
+#ifndef GAL_GUI_UTILS_H
+#define GAL_GUI_UTILS_H
 
 #include <gtk/gtkmenu.h>
 #include <gtk/gtkwindow.h>
@@ -15,4 +15,4 @@ void e_container_foreach_leaf        (GtkContainer *container,
 gint e_container_change_tab_order    (GtkContainer *container,
 				      GList        *widgets);
 
-#endif /* E_GUI_UTILS_H */
+#endif /* GAL_GUI_UTILS_H */
