@@ -196,7 +196,7 @@ e_utf8_from_gtk_event_key (GtkWidget *widget, guint keyval, const gchar *string)
 
 		utf = g_new (gchar, 7);
 
-		unilen = g_unichar_to_utf8 (unival, utf);
+		unilen = e_unichar_to_utf8 (unival, utf);
 
 		utf[unilen] = '\0';
 	}
@@ -232,7 +232,7 @@ e_utf8_from_gtk_string_sized (GtkWidget *widget, const gchar *string, gint bytes
 			ib = string;
 			new = ob = g_new (unsigned char, bytes * 6 + 1);
 			for (i = 0; i < (bytes - 1); i += 2) {
-				ob += g_unichar_to_utf8 (ib[i] * 256 + ib[i + 1], ob);
+				ob += e_unichar_to_utf8 (ib[i] * 256 + ib[i + 1], ob);
 			}
 			*ob = '\0';
 			return new;
@@ -242,7 +242,7 @@ e_utf8_from_gtk_string_sized (GtkWidget *widget, const gchar *string, gint bytes
 			ib = (char *) string;
 			new = ob = g_new (unsigned char, bytes * 2 + 1);
 			for (i = 0; i < (bytes); i ++) {
-				ob += g_unichar_to_utf8 (ib[i], ob);
+				ob += e_unichar_to_utf8 (ib[i], ob);
 			}
 			*ob = '\0';
 			return new;
@@ -376,7 +376,7 @@ e_utf8_from_locale_string_sized (const gchar *string, gint bytes)
 		ib = (char *) string;
 		new = ob = g_new (unsigned char, bytes * 2 + 1);
 		for (i = 0; i < (bytes); i ++) {
-			ob += g_unichar_to_utf8 (ib[i], ob);
+			ob += e_unichar_to_utf8 (ib[i], ob);
 		}
 		*ob = '\0';
 		return new;
@@ -628,11 +628,11 @@ e_utf8_xml1_decode (const gchar *text)
 			/* Valid \U+XXXX\ sequence */
 			unsigned int unival;
 			unival = strtol (c + s + 3, NULL, 16);
-			d += g_unichar_to_utf8 (unival, d);
+			d += e_unichar_to_utf8 (unival, d);
 			s += 8;
 		} else if (c[s] > 127) {
 			/* fixme: We assume iso-8859-1 currently */
-			d += g_unichar_to_utf8 (c[s], d);
+			d += e_unichar_to_utf8 (c[s], d);
 			s += 1;
 		} else {
 			*d++ = c[s++];
@@ -680,7 +680,7 @@ e_utf8_xml1_encode (const gchar *text)
 }
 
 /**
- * g_unichar_to_utf8:
+ * e_unichar_to_utf8:
  * @c: a ISO10646 character code
  * @outbuf: output buffer, must have at least 6 bytes of space.
  *          If %NULL, the length will be computed and returned
@@ -692,7 +692,7 @@ e_utf8_xml1_encode (const gchar *text)
  **/
 
 gint
-g_unichar_to_utf8 (gint c, gchar *outbuf)
+e_unichar_to_utf8 (gint c, gchar *outbuf)
 {
   size_t len = 0;
   int first;
