@@ -1,3 +1,9 @@
+2002-06-27  Dan Winship  <danw@ximian.com>
+
+	* libversit/Makefile.am: Hack around a libtool/make problem that
+	was causing libversit.a to be rebuilt at "make install" time,
+	causing further relinking down the line.
+
 2002-06-18  JP Rosevear  <jpr@ximian.com>
 
 	* configure.in: check for libsoftokn3 if we couldn't link the
