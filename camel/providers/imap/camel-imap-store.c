@@ -933,6 +933,7 @@ subscribe_folder (CamelStore *store, const char *folder_name,
 	CAMEL_IMAP_STORE_LOCK(imap_store, command_lock);
 	response = camel_imap_command (imap_store, NULL, ex,
 				       "SUBSCRIBE %S", folder_name);
+	CAMEL_IMAP_STORE_UNLOCK(imap_store, command_lock);
 	if (response) {
 		g_hash_table_insert (imap_store->subscribed_folders,
 				     g_strdup (folder_name),
