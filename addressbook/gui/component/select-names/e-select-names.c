@@ -34,7 +34,6 @@
 #include <addressbook/gui/widgets/e-addressbook-table-adapter.h>
 #include <addressbook/util/eab-book-util.h>
 #include <addressbook/gui/component/addressbook-component.h>
-#include <addressbook/gui/component/addressbook-storage.h>
 #include <addressbook/gui/component/addressbook.h>
 #include <shell/evolution-shell-client.h>
 #include <shell/evolution-folder-selector-button.h>
@@ -133,6 +132,8 @@ static void
 addressbook_model_set_uri(ESelectNames *e_select_names, EABModel *model, const char *uri)
 {
 	EBook *book;
+	ESourceGroup *group;
+	ESource *source;
 
 	/* If uri == the current uri, then we don't have to do anything */
 	book = eab_model_get_ebook (model);
@@ -147,7 +148,16 @@ addressbook_model_set_uri(ESelectNames *e_select_names, EABModel *model, const c
 
 	g_object_ref(e_select_names);
 	g_object_ref(model);
-	addressbook_load_uri(book, uri, (EBookCallback) set_book, e_select_names);
+
+	/* FIXME: Store source UIDs in last_used etc. and use that to get sources */
+	group = e_source_group_new ("", uri);
+	source = e_source_new ("", "");
+	e_source_set_group (source, group);
+
+	addressbook_load_source (book, source, (EBookCallback) set_book, e_select_names);
+
+	g_object_unref (group);
+	g_object_unref (source);
 }
 
 static void *

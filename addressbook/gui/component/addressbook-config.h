@@ -25,12 +25,28 @@
 #ifndef __ADDRESSBOOK_CONFIG_H__
 #define __ADDRESSBOOK_CONFIG_H__
 
-#include "addressbook-storage.h"
 #include "evolution-config-control.h"
 
-EvolutionConfigControl *addressbook_config_control_new (void);
+typedef enum {
+	ADDRESSBOOK_LDAP_AUTH_NONE,
+	ADDRESSBOOK_LDAP_AUTH_SIMPLE_EMAIL,
+	ADDRESSBOOK_LDAP_AUTH_SIMPLE_BINDDN,
+} AddressbookLDAPAuthType;
 
-void  addressbook_config_create_new_source  (const char *new_source,
-					     GtkWidget  *parent);
+typedef enum {
+	ADDRESSBOOK_LDAP_SCOPE_ONELEVEL,
+	ADDRESSBOOK_LDAP_SCOPE_SUBTREE,
+	ADDRESSBOOK_LDAP_SCOPE_BASE,
+	ADDRESSBOOK_LDAP_SCOPE_LAST
+} AddressbookLDAPScopeType;
+
+typedef enum {
+	ADDRESSBOOK_LDAP_SSL_ALWAYS,
+	ADDRESSBOOK_LDAP_SSL_WHENEVER_POSSIBLE,
+	ADDRESSBOOK_LDAP_SSL_NEVER
+} AddressbookLDAPSSLType;
+
+void  addressbook_config_edit_source        (GtkWidget *parent, ESource *source);
+void  addressbook_config_create_new_source  (GtkWidget  *parent);
 
 #endif /* __ADDRESSBOOK_CONFIG_H__ */

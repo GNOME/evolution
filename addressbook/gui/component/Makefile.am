@@ -33,12 +33,8 @@ libevolution_addressbook_la_SOURCES = 	\
 	addressbook-component.h		\
 	addressbook-config.c		\
 	addressbook-config.h		\
-	addressbook-storage.c		\
-	addressbook-storage.h		\
 	addressbook.c			\
 	addressbook.h			\
-	new-addressbook.c		\
-	new-addressbook.h		\
 	component-factory.c
 
 #	$(top_builddir)/addressbook/printing/libecontactprint.la

@@ -102,13 +102,19 @@
 	      </child>
 
 	      <child>
-		<widget class="GtkHSeparator" id="hseparator12">
+		<widget class="GtkVBox" id="account-editor-general-ldap-vbox">
 		  <property name="visible">True</property>
+		  <property name="homogeneous">False</property>
+		  <property name="spacing">0</property>
+
+		  <child>
+		    <placeholder/>
+		  </child>
 		</widget>
 		<packing>
 		  <property name="padding">0</property>
-		  <property name="expand">False</property>
-		  <property name="fill">False</property>
+		  <property name="expand">True</property>
+		  <property name="fill">True</property>
 		</packing>
 	      </child>
 	    </widget>
@@ -278,7 +284,7 @@
 </widget>
 
 <widget class="GtkWindow" id="account-druid-window">
-  <property name="title" translatable="yes">Add LDAP Server</property>
+  <property name="title" translatable="yes">New Addressbook</property>
   <property name="type">GTK_WINDOW_TOPLEVEL</property>
   <property name="window_position">GTK_WIN_POS_NONE</property>
   <property name="modal">False</property>
@@ -295,7 +301,7 @@
 	<widget class="GnomeDruidPageEdge" id="druidpagestart1">
 	  <property name="visible">True</property>
 	  <property name="position">GNOME_EDGE_START</property>
-	  <property name="title" translatable="yes">LDAP Configuration Assistant</property>
+	  <property name="title" translatable="yes">Addressbook Creation Assistant</property>
 	  <property name="text" translatable="yes">This assistant will help you to access online directory services
 using LDAP (Lightweight Directory Access Protocol) servers. 
 
@@ -304,207 +310,16 @@ Adding a new LDAP server requires some specialized information about the server.
       </child>
 
       <child>
-	<widget class="GnomeDruidPageStandard" id="add-server-druid-info-page">
+	<widget class="GnomeDruidPageStandard" id="add-server-druid-folder-page">
 	  <property name="visible">True</property>
-	  <property name="title" translatable="yes">Step 1: Server Information</property>
+	  <property name="title" translatable="yes">Step 1: Folder Characteristics</property>
 
 	  <child internal-child="vbox">
-	    <widget class="GtkVBox" id="druid-vbox1">
-	      <property name="border_width">3</property>
+	    <widget class="GtkVBox" id="druid-vbox6">
+	      <property name="border_width">16</property>
 	      <property name="visible">True</property>
 	      <property name="homogeneous">False</property>
-	      <property name="spacing">3</property>
-
-	      <child>
-		<widget class="GtkVBox" id="account-druid-general-vbox">
-		  <property name="border_width">6</property>
-		  <property name="visible">True</property>
-		  <property name="homogeneous">False</property>
-		  <property name="spacing">6</property>
-
-		  <child>
-		    <widget class="GtkLabel" id="label158">
-		      <property name="visible">True</property>
-		      <property name="label" translatable="yes">The first step in configuring an LDAP server is to provide its name, and your log in
-information. Please ask your system administrator if you are unsure of this information.</property>
-		      <property name="use_underline">False</property>
-		      <property name="use_markup">False</property>
-		      <property name="justify">GTK_JUSTIFY_LEFT</property>
-		      <property name="wrap">False</property>
-		      <property name="selectable">False</property>
-		      <property name="xalign">7.45058e-09</property>
-		      <property name="yalign">0.5</property>
-		      <property name="xpad">3</property>
-		      <property name="ypad">0</property>
-		    </widget>
-		    <packing>
-		      <property name="padding">0</property>
-		      <property name="expand">False</property>
-		      <property name="fill">False</property>
-		    </packing>
-		  </child>
-
-		  <child>
-		    <widget class="GtkHSeparator" id="hseparator2">
-		      <property name="visible">True</property>
-		    </widget>
-		    <packing>
-		      <property name="padding">0</property>
-		      <property name="expand">False</property>
-		      <property name="fill">False</property>
-		    </packing>
-		  </child>
-		</widget>
-		<packing>
-		  <property name="padding">0</property>
-		  <property name="expand">True</property>
-		  <property name="fill">True</property>
-		</packing>
-	      </child>
-	    </widget>
-	  </child>
-	</widget>
-      </child>
-
-      <child>
-	<widget class="GnomeDruidPageStandard" id="add-server-druid-connecting-page">
-	  <property name="visible">True</property>
-	  <property name="title" translatable="yes">Step 2: Connecting to Server</property>
-
-	  <child internal-child="vbox">
-	    <widget class="GtkVBox" id="druid-vbox2">
-	      <property name="border_width">3</property>
-	      <property name="visible">True</property>
-	      <property name="homogeneous">False</property>
-	      <property name="spacing">3</property>
-
-	      <child>
-		<widget class="GtkVBox" id="account-druid-connecting-vbox">
-		  <property name="border_width">6</property>
-		  <property name="visible">True</property>
-		  <property name="homogeneous">False</property>
-		  <property name="spacing">6</property>
-
-		  <child>
-		    <widget class="GtkLabel" id="label174">
-		      <property name="visible">True</property>
-		      <property name="label" translatable="yes">Now, you must specify how you want to connect to the LDAP server. The SSL (Secure Sockets Layer)
-and TLS (Transport Layer Security) protocols are used by some servers to cryptographically protect
-your connection. Ask your system administrator if your LDAP server uses these protocols.</property>
-		      <property name="use_underline">False</property>
-		      <property name="use_markup">False</property>
-		      <property name="justify">GTK_JUSTIFY_LEFT</property>
-		      <property name="wrap">False</property>
-		      <property name="selectable">False</property>
-		      <property name="xalign">7.45058e-09</property>
-		      <property name="yalign">0.5</property>
-		      <property name="xpad">3</property>
-		      <property name="ypad">0</property>
-		    </widget>
-		    <packing>
-		      <property name="padding">0</property>
-		      <property name="expand">False</property>
-		      <property name="fill">False</property>
-		    </packing>
-		  </child>
-
-		  <child>
-		    <widget class="GtkHSeparator" id="hseparator3">
-		      <property name="visible">True</property>
-		    </widget>
-		    <packing>
-		      <property name="padding">0</property>
-		      <property name="expand">False</property>
-		      <property name="fill">False</property>
-		    </packing>
-		  </child>
-		</widget>
-		<packing>
-		  <property name="padding">0</property>
-		  <property name="expand">True</property>
-		  <property name="fill">True</property>
-		</packing>
-	      </child>
-	    </widget>
-	  </child>
-	</widget>
-      </child>
-
-      <child>
-	<widget class="GnomeDruidPageStandard" id="add-server-druid-searching-page">
-	  <property name="visible">True</property>
-	  <property name="title" translatable="yes">Step 3: Searching the Directory</property>
-
-	  <child internal-child="vbox">
-	    <widget class="GtkVBox" id="vbox23">
-	      <property name="border_width">3</property>
-	      <property name="visible">True</property>
-	      <property name="homogeneous">False</property>
-	      <property name="spacing">3</property>
-
-	      <child>
-		<widget class="GtkVBox" id="account-druid-searching-vbox">
-		  <property name="border_width">6</property>
-		  <property name="visible">True</property>
-		  <property name="homogeneous">False</property>
-		  <property name="spacing">6</property>
-
-		  <child>
-		    <widget class="GtkLabel" id="label254">
-		      <property name="visible">True</property>
-		      <property name="label" translatable="yes">The options on this page control how many entries should be included in your
-searches, and how long a search should take. Ask your system administrator if you
-need to change these options.</property>
-		      <property name="use_underline">False</property>
-		      <property name="use_markup">False</property>
-		      <property name="justify">GTK_JUSTIFY_LEFT</property>
-		      <property name="wrap">False</property>
-		      <property name="selectable">False</property>
-		      <property name="xalign">0.5</property>
-		      <property name="yalign">0.5</property>
-		      <property name="xpad">0</property>
-		      <property name="ypad">0</property>
-		    </widget>
-		    <packing>
-		      <property name="padding">0</property>
-		      <property name="expand">False</property>
-		      <property name="fill">False</property>
-		    </packing>
-		  </child>
-
-		  <child>
-		    <widget class="GtkHSeparator" id="hseparator7">
-		      <property name="visible">True</property>
-		    </widget>
-		    <packing>
-		      <property name="padding">0</property>
-		      <property name="expand">False</property>
-		      <property name="fill">False</property>
-		    </packing>
-		  </child>
-		</widget>
-		<packing>
-		  <property name="padding">0</property>
-		  <property name="expand">True</property>
-		  <property name="fill">True</property>
-		</packing>
-	      </child>
-	    </widget>
-	  </child>
-	</widget>
-      </child>
-
-      <child>
-	<widget class="GnomeDruidPageStandard" id="add-server-druid-display-name-page">
-	  <property name="visible">True</property>
-	  <property name="title" translatable="yes">Step 4: Display Name</property>
-
-	  <child internal-child="vbox">
-	    <widget class="GtkVBox" id="druid-vbox5">
-	      <property name="border_width">3</property>
-	      <property name="visible">True</property>
-	      <property name="homogeneous">False</property>
-	      <property name="spacing">3</property>
+	      <property name="spacing">6</property>
 
 	      <child>
 		<widget class="GtkVBox" id="vbox21">
@@ -516,7 +331,7 @@ need to change these options.</property>
 		  <child>
 		    <widget class="GtkLabel" id="label198">
 		      <property name="visible">True</property>
-		      <property name="label" translatable="yes">Specifying a display name is the last required step in configuring an LDAP server.</property>
+		      <property name="label" translatable="yes">Specifying a display name and group is the first step in setting up an addressbook.</property>
 		      <property name="use_underline">False</property>
 		      <property name="use_markup">False</property>
 		      <property name="justify">GTK_JUSTIFY_LEFT</property>
@@ -549,10 +364,10 @@ need to change these options.</property>
 		    <widget class="GtkTable" id="table15">
 		      <property name="border_width">3</property>
 		      <property name="visible">True</property>
-		      <property name="n_rows">1</property>
+		      <property name="n_rows">2</property>
 		      <property name="n_columns">2</property>
 		      <property name="homogeneous">False</property>
-		      <property name="row_spacing">3</property>
+		      <property name="row_spacing">6</property>
 		      <property name="column_spacing">3</property>
 
 		      <child>
@@ -571,8 +386,8 @@ need to change these options.</property>
 			<packing>
 			  <property name="left_attach">1</property>
 			  <property name="right_attach">2</property>
-			  <property name="top_attach">0</property>
-			  <property name="bottom_attach">1</property>
+			  <property name="top_attach">1</property>
+			  <property name="bottom_attach">2</property>
 			  <property name="y_options"></property>
 			</packing>
 		      </child>
@@ -595,6 +410,46 @@ need to change these options.</property>
 			<packing>
 			  <property name="left_attach">0</property>
 			  <property name="right_attach">1</property>
+			  <property name="top_attach">1</property>
+			  <property name="bottom_attach">2</property>
+			  <property name="x_options">fill</property>
+			  <property name="y_options"></property>
+			</packing>
+		      </child>
+
+		      <child>
+			<widget class="GtkLabel" id="label555">
+			  <property name="visible">True</property>
+			  <property name="label" translatable="yes">Group:</property>
+			  <property name="use_underline">False</property>
+			  <property name="use_markup">False</property>
+			  <property name="justify">GTK_JUSTIFY_LEFT</property>
+			  <property name="wrap">False</property>
+			  <property name="selectable">False</property>
+			  <property name="xalign">0</property>
+			  <property name="yalign">0.5</property>
+			  <property name="xpad">0</property>
+			  <property name="ypad">0</property>
+			</widget>
+			<packing>
+			  <property name="left_attach">0</property>
+			  <property name="right_attach">1</property>
+			  <property name="top_attach">0</property>
+			  <property name="bottom_attach">1</property>
+			  <property name="x_options">fill</property>
+			  <property name="y_options"></property>
+			</packing>
+		      </child>
+
+		      <child>
+			<widget class="GtkOptionMenu" id="druid-group-option-menu">
+			  <property name="visible">True</property>
+			  <property name="can_focus">True</property>
+			  <property name="history">-1</property>
+			</widget>
+			<packing>
+			  <property name="left_attach">1</property>
+			  <property name="right_attach">2</property>
 			  <property name="top_attach">0</property>
 			  <property name="bottom_attach">1</property>
 			  <property name="x_options">fill</property>
@@ -621,8 +476,7 @@ need to change these options.</property>
 		      <child>
 			<widget class="GtkLabel" id="label207">
 			  <property name="visible">True</property>
-			  <property name="label" translatable="yes">This is the name for this server that will appear in your Evolution folder list.
-It is for display purposes only. </property>
+			  <property name="label" translatable="yes">This is the name that will appear in your Evolution folder list. It is for display purposes only. </property>
 			  <property name="use_underline">False</property>
 			  <property name="use_markup">False</property>
 			  <property name="justify">GTK_JUSTIFY_LEFT</property>
@@ -718,12 +572,202 @@ searches, and for creating and editing contacts. </property>
       </child>
 
       <child>
+	<widget class="GnomeDruidPageStandard" id="add-server-druid-info-page">
+	  <property name="visible">True</property>
+	  <property name="title" translatable="yes">Step 2: Server Information</property>
+
+	  <child internal-child="vbox">
+	    <widget class="GtkVBox" id="druid-vbox1">
+	      <property name="border_width">3</property>
+	      <property name="visible">True</property>
+	      <property name="homogeneous">False</property>
+	      <property name="spacing">3</property>
+
+	      <child>
+		<widget class="GtkVBox" id="account-druid-general-vbox">
+		  <property name="border_width">6</property>
+		  <property name="visible">True</property>
+		  <property name="homogeneous">False</property>
+		  <property name="spacing">6</property>
+
+		  <child>
+		    <widget class="GtkLabel" id="label158">
+		      <property name="visible">True</property>
+		      <property name="label" translatable="yes">You have decided to configure an LDAP server. The first step in doing this is to provide its name and your
+log in information. Please ask your system administrator if you are unsure of this information.</property>
+		      <property name="use_underline">False</property>
+		      <property name="use_markup">False</property>
+		      <property name="justify">GTK_JUSTIFY_LEFT</property>
+		      <property name="wrap">False</property>
+		      <property name="selectable">False</property>
+		      <property name="xalign">7.45058e-09</property>
+		      <property name="yalign">0.5</property>
+		      <property name="xpad">3</property>
+		      <property name="ypad">0</property>
+		    </widget>
+		    <packing>
+		      <property name="padding">0</property>
+		      <property name="expand">False</property>
+		      <property name="fill">False</property>
+		    </packing>
+		  </child>
+
+		  <child>
+		    <widget class="GtkHSeparator" id="hseparator2">
+		      <property name="visible">True</property>
+		    </widget>
+		    <packing>
+		      <property name="padding">0</property>
+		      <property name="expand">False</property>
+		      <property name="fill">False</property>
+		    </packing>
+		  </child>
+		</widget>
+		<packing>
+		  <property name="padding">0</property>
+		  <property name="expand">True</property>
+		  <property name="fill">True</property>
+		</packing>
+	      </child>
+	    </widget>
+	  </child>
+	</widget>
+      </child>
+
+      <child>
+	<widget class="GnomeDruidPageStandard" id="add-server-druid-connecting-page">
+	  <property name="visible">True</property>
+	  <property name="title" translatable="yes">Step 3: Connecting to Server</property>
+
+	  <child internal-child="vbox">
+	    <widget class="GtkVBox" id="druid-vbox2">
+	      <property name="border_width">3</property>
+	      <property name="visible">True</property>
+	      <property name="homogeneous">False</property>
+	      <property name="spacing">3</property>
+
+	      <child>
+		<widget class="GtkVBox" id="account-druid-connecting-vbox">
+		  <property name="border_width">6</property>
+		  <property name="visible">True</property>
+		  <property name="homogeneous">False</property>
+		  <property name="spacing">6</property>
+
+		  <child>
+		    <widget class="GtkLabel" id="label174">
+		      <property name="visible">True</property>
+		      <property name="label" translatable="yes">Now, you must specify how you want to connect to the LDAP server. The SSL (Secure Sockets Layer)
+and TLS (Transport Layer Security) protocols are used by some servers to cryptographically protect
+your connection. Ask your system administrator if your LDAP server uses these protocols.</property>
+		      <property name="use_underline">False</property>
+		      <property name="use_markup">False</property>
+		      <property name="justify">GTK_JUSTIFY_LEFT</property>
+		      <property name="wrap">False</property>
+		      <property name="selectable">False</property>
+		      <property name="xalign">7.45058e-09</property>
+		      <property name="yalign">0.5</property>
+		      <property name="xpad">3</property>
+		      <property name="ypad">0</property>
+		    </widget>
+		    <packing>
+		      <property name="padding">0</property>
+		      <property name="expand">False</property>
+		      <property name="fill">False</property>
+		    </packing>
+		  </child>
+
+		  <child>
+		    <widget class="GtkHSeparator" id="hseparator3">
+		      <property name="visible">True</property>
+		    </widget>
+		    <packing>
+		      <property name="padding">0</property>
+		      <property name="expand">False</property>
+		      <property name="fill">False</property>
+		    </packing>
+		  </child>
+		</widget>
+		<packing>
+		  <property name="padding">0</property>
+		  <property name="expand">True</property>
+		  <property name="fill">True</property>
+		</packing>
+	      </child>
+	    </widget>
+	  </child>
+	</widget>
+      </child>
+
+      <child>
+	<widget class="GnomeDruidPageStandard" id="add-server-druid-searching-page">
+	  <property name="visible">True</property>
+	  <property name="title" translatable="yes">Step 4: Searching the Directory</property>
+
+	  <child internal-child="vbox">
+	    <widget class="GtkVBox" id="vbox23">
+	      <property name="border_width">3</property>
+	      <property name="visible">True</property>
+	      <property name="homogeneous">False</property>
+	      <property name="spacing">3</property>
+
+	      <child>
+		<widget class="GtkVBox" id="account-druid-searching-vbox">
+		  <property name="border_width">6</property>
+		  <property name="visible">True</property>
+		  <property name="homogeneous">False</property>
+		  <property name="spacing">6</property>
+
+		  <child>
+		    <widget class="GtkLabel" id="label254">
+		      <property name="visible">True</property>
+		      <property name="label" translatable="yes">The options on this page control how many entries should be included in your
+searches, and how long a search should take. Ask your system administrator if you
+need to change these options.</property>
+		      <property name="use_underline">False</property>
+		      <property name="use_markup">False</property>
+		      <property name="justify">GTK_JUSTIFY_LEFT</property>
+		      <property name="wrap">False</property>
+		      <property name="selectable">False</property>
+		      <property name="xalign">0.5</property>
+		      <property name="yalign">0.5</property>
+		      <property name="xpad">0</property>
+		      <property name="ypad">0</property>
+		    </widget>
+		    <packing>
+		      <property name="padding">0</property>
+		      <property name="expand">False</property>
+		      <property name="fill">False</property>
+		    </packing>
+		  </child>
+
+		  <child>
+		    <widget class="GtkHSeparator" id="hseparator7">
+		      <property name="visible">True</property>
+		    </widget>
+		    <packing>
+		      <property name="padding">0</property>
+		      <property name="expand">False</property>
+		      <property name="fill">False</property>
+		    </packing>
+		  </child>
+		</widget>
+		<packing>
+		  <property name="padding">0</property>
+		  <property name="expand">True</property>
+		  <property name="fill">True</property>
+		</packing>
+	      </child>
+	    </widget>
+	  </child>
+	</widget>
+      </child>
+
+      <child>
 	<widget class="GnomeDruidPageEdge" id="add-server-druid-finish-page">
 	  <property name="visible">True</property>
 	  <property name="position">GNOME_EDGE_FINISH</property>
 	  <property name="title" translatable="yes">Finished</property>
-	  <property name="text" translatable="yes">Congratulations, you are finished setting up this LDAP server. You
-are now ready to access this directory.
+	  <property name="text" translatable="yes">Congratulations, you are finished setting up this addressbook.
 
 Please click the &quot;Finish&quot; button to save the settings you have entered here.</property>
 	</widget>
@@ -983,7 +1027,7 @@ Please click the &quot;Finish&quot; button to save the settings you have entered
 	<widget class="GtkTable" id="table36">
 	  <property name="border_width">6</property>
 	  <property name="visible">True</property>
-	  <property name="n_rows">3</property>
+	  <property name="n_rows">4</property>
 	  <property name="n_columns">2</property>
 	  <property name="homogeneous">False</property>
 	  <property name="row_spacing">6</property>
@@ -1007,8 +1051,8 @@ Please click the &quot;Finish&quot; button to save the settings you have entered
 	    <packing>
 	      <property name="left_attach">0</property>
 	      <property name="right_attach">1</property>
-	      <property name="top_attach">0</property>
-	      <property name="bottom_attach">1</property>
+	      <property name="top_attach">1</property>
+	      <property name="bottom_attach">2</property>
 	      <property name="x_options">fill</property>
 	      <property name="y_options"></property>
 	    </packing>
@@ -1031,8 +1075,8 @@ Please click the &quot;Finish&quot; button to save the settings you have entered
 	    <packing>
 	      <property name="left_attach">0</property>
 	      <property name="right_attach">1</property>
-	      <property name="top_attach">1</property>
-	      <property name="bottom_attach">2</property>
+	      <property name="top_attach">2</property>
+	      <property name="bottom_attach">3</property>
 	      <property name="x_options">fill</property>
 	      <property name="y_options"></property>
 	    </packing>
@@ -1054,8 +1098,8 @@ Please click the &quot;Finish&quot; button to save the settings you have entered
 	    <packing>
 	      <property name="left_attach">1</property>
 	      <property name="right_attach">2</property>
-	      <property name="top_attach">0</property>
-	      <property name="bottom_attach">1</property>
+	      <property name="top_attach">1</property>
+	      <property name="bottom_attach">2</property>
 	      <property name="y_options"></property>
 	    </packing>
 	  </child>
@@ -1109,8 +1153,8 @@ Please click the &quot;Finish&quot; button to save the settings you have entered
 	    <packing>
 	      <property name="left_attach">1</property>
 	      <property name="right_attach">2</property>
-	      <property name="top_attach">1</property>
-	      <property name="bottom_attach">2</property>
+	      <property name="top_attach">2</property>
+	      <property name="bottom_attach">3</property>
 	      <property name="y_options"></property>
 	    </packing>
 	  </child>
@@ -1206,8 +1250,8 @@ Please click the &quot;Finish&quot; button to save the settings you have entered
 	    <packing>
 	      <property name="left_attach">0</property>
 	      <property name="right_attach">1</property>
-	      <property name="top_attach">2</property>
-	      <property name="bottom_attach">3</property>
+	      <property name="top_attach">3</property>
+	      <property name="bottom_attach">4</property>
 	      <property name="x_options">fill</property>
 	      <property name="y_options">fill</property>
 	    </packing>
@@ -1300,10 +1344,23 @@ Please click the &quot;Finish&quot; button to save the settings you have entered
 	    <packing>
 	      <property name="left_attach">1</property>
 	      <property name="right_attach">2</property>
-	      <property name="top_attach">2</property>
-	      <property name="bottom_attach">3</property>
+	      <property name="top_attach">3</property>
+	      <property name="bottom_attach">4</property>
 	      <property name="x_options">fill</property>
 	      <property name="y_options">fill</property>
+	    </packing>
+	  </child>
+
+	  <child>
+	    <widget class="GtkHSeparator" id="hseparator12">
+	      <property name="visible">True</property>
+	    </widget>
+	    <packing>
+	      <property name="left_attach">0</property>
+	      <property name="right_attach">2</property>
+	      <property name="top_attach">0</property>
+	      <property name="bottom_attach">1</property>
+	      <property name="x_options">fill</property>
 	    </packing>
 	  </child>
 	</widget>

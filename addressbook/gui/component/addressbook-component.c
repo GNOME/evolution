@@ -28,7 +28,7 @@
 #include "addressbook-component.h"
 
 #include "addressbook.h"
-#include "new-addressbook.h"
+#include "addressbook-config.h"
 
 #include "widgets/misc/e-source-selector.h"
 #include "addressbook/gui/widgets/eab-gui-util.h"
@@ -64,9 +64,8 @@ load_uri_for_selection (ESourceSelector *selector,
 	ESource *selected_source = e_source_selector_peek_primary_selection (E_SOURCE_SELECTOR (selector));
 
 	if (selected_source != NULL) {
-		char *uri = e_source_get_uri (selected_source);
-		bonobo_control_set_property (view_control, NULL, "folder_uri", TC_CORBA_string, uri, NULL);
-		g_free (uri);
+		bonobo_control_set_property (view_control, NULL, "source_uid", TC_CORBA_string,
+					     e_source_peek_uid (selected_source), NULL);
 	}
 }
 
@@ -100,9 +99,25 @@ add_popup_menu_item (GtkMenu *menu, const char *label, const char *pixmap,
 /* Folder popup menu callbacks */
 
 static void
-new_addressbook_cb (GtkWidget *widget, ESourceSelector *selector)
+new_addressbook_cb (GtkWidget *widget, AddressbookComponent *comp)
 {
-	new_addressbook_dialog (GTK_WINDOW (gtk_widget_get_toplevel (widget)));
+	addressbook_config_create_new_source (gtk_widget_get_toplevel (widget));
+}
+
+static void
+edit_addressbook_cb (GtkWidget *widget, AddressbookComponent *comp)
+{
+	AddressbookComponentPrivate *priv;
+	ESource *selected_source;
+
+	priv = comp->priv;
+
+	selected_source =
+		e_source_selector_peek_primary_selection (E_SOURCE_SELECTOR (priv->source_selector));
+	if (!selected_source)
+		return;
+
+	addressbook_config_edit_source (gtk_widget_get_toplevel (widget), selected_source);
 }
 
 static void
@@ -123,6 +138,7 @@ static void
 fill_popup_menu_callback (ESourceSelector *selector, GtkMenu *menu, AddressbookComponent *comp)
 {
 	add_popup_menu_item (menu, _("New Addressbook"), NULL, G_CALLBACK (new_addressbook_cb), comp);
+	add_popup_menu_item (menu, _("Properties..."), NULL, G_CALLBACK (edit_addressbook_cb), comp);
 	add_popup_menu_item (menu, _("Delete"), GTK_STOCK_DELETE, G_CALLBACK (delete_addressbook_cb), comp);
 	add_popup_menu_item (menu, _("Rename"), NULL, NULL, NULL);
 }
@@ -356,6 +372,10 @@ addressbook_component_init (AddressbookComponent *component)
 		g_free (new_dir);
 
 		g_free (base_uri);
+
+		/* Create the LDAP source group */
+		group = e_source_group_new (_("On LDAP Servers"), "ldap://");
+		e_source_list_add_group (priv->source_list, group, -1);
 	}
 
 	component->priv = priv;

@@ -63,9 +63,9 @@ static GdkPixbuf *progress_icon[2] = { NULL, NULL };
 
 #define d(x)
 
-#define PROPERTY_FOLDER_URI          "folder_uri"
+#define PROPERTY_SOURCE_UID          "source_uid"
 
-#define PROPERTY_FOLDER_URI_IDX      1
+#define PROPERTY_SOURCE_UID_IDX      1
 
 typedef struct {
 	gint refs;
@@ -77,7 +77,9 @@ typedef struct {
 	EvolutionActivityClient *activity;
 	BonoboControl *control;
 	BonoboPropertyBag *properties;
-	char *uri;
+	GConfClient *gconf_client;
+	ESourceList *source_list;
+	ESource *source;
 	char *passwd;
 	gboolean ignore_search_changes;
 	gboolean failed_to_load;
@@ -87,7 +89,7 @@ static void addressbook_view_ref (AddressbookView *);
 static void addressbook_view_unref (AddressbookView *);
 
 static void addressbook_authenticate (EBook *book, gboolean previous_failure,
-				      AddressbookSource *source, EBookCallback cb, gpointer closure);
+				      ESource *source, EBookCallback cb, gpointer closure);
 
 static void book_open_cb (EBook *book, EBookStatus status, gpointer closure);
 
@@ -402,12 +404,12 @@ control_activate_cb (BonoboControl *control,
 		/* if the book failed to load, we kick off another
 		   load here */
 
-		if (view->failed_to_load && view->uri) {
+		if (view->failed_to_load && view->source) {
 			EBook *book;
 
 			book = e_book_new ();
 
-			addressbook_load_uri (book, view->uri, book_open_cb, view);
+			addressbook_load_source (book, view->source, book_open_cb, view);
 		}
 	} else {
 		bonobo_ui_component_unset_container (uic, NULL);
@@ -441,8 +443,10 @@ addressbook_view_clear (AddressbookView *view)
 	g_free(view->passwd);
 	view->passwd = NULL;
 
-	g_free(view->uri);
-	view->uri = NULL;
+	if (view->source_list) {
+		g_object_unref (view->source_list);
+		view->source_list = NULL;
+	}
 
 	if (view->ecml_changed_id != 0) {
 		g_signal_handler_disconnect (get_master_list(),
@@ -485,43 +489,39 @@ book_open_cb (EBook *book, EBookStatus status, gpointer closure)
 		char *label_string;
 		GtkWidget *warning_dialog;
 		GtkWidget *href = NULL;
-		AddressbookSource *source = NULL;
+		gchar *uri;
 
 		view->failed_to_load = TRUE;
 
-		if (!strncmp (view->uri, "file:", 5)) {
+		uri = e_source_get_uri (view->source);
+
+		if (!strncmp (uri, "file:", 5)) {
 			label_string = 
 				_("We were unable to open this addressbook.  Please check that the\n"
 				  "path exists and that you have permission to access it.");
 		}
-		else {
-			source = addressbook_storage_get_source_by_uri (view->uri);
-
-			if (source) {
-				/* special case for ldap: contact folders so we can tell the user about openldap */
+		else if (!strncmp (uri, "ldap:", 5)) {
+			/* special case for ldap: contact folders so we can tell the user about openldap */
 #if HAVE_LDAP
-				label_string = 
-					_("We were unable to open this addressbook.  This either\n"
-					  "means you have entered an incorrect URI, or the LDAP server\n"
-					  "is unreachable.");
+			label_string = 
+				_("We were unable to open this addressbook.  This either\n"
+				  "means you have entered an incorrect URI, or the LDAP server\n"
+				  "is unreachable.");
 #else
-				label_string =
-					_("This version of Evolution does not have LDAP support\n"
-					  "compiled in to it.  If you want to use LDAP in Evolution\n"
-					  "you must compile the program from the CVS sources after\n"
-					  "retrieving OpenLDAP from the link below.\n");
-				href = gnome_href_new ("http://www.openldap.org/", "OpenLDAP at http://www.openldap.org/");
+			label_string =
+				_("This version of Evolution does not have LDAP support\n"
+				  "compiled in to it.  If you want to use LDAP in Evolution\n"
+				  "you must compile the program from the CVS sources after\n"
+				  "retrieving OpenLDAP from the link below.\n");
+			href = gnome_href_new ("http://www.openldap.org/", "OpenLDAP at http://www.openldap.org/");
 #endif
-			}
-			else {
-				/* other network folders */
-				label_string =
-					_("We were unable to open this addressbook.  This either\n"
-					  "means you have entered an incorrect URI, or the server\n"
-					  "is unreachable.");
-			}
+		} else {
+			/* other network folders */
+			label_string =
+				_("We were unable to open this addressbook.  This either\n"
+				  "means you have entered an incorrect URI, or the server\n"
+				  "is unreachable.");
 		}
-
 
         	warning_dialog = gtk_message_dialog_new (
 			 NULL /* XXX */,
@@ -543,6 +543,8 @@ book_open_cb (EBook *book, EBookStatus status, gpointer closure)
 					    href, FALSE, FALSE, 0);
 
 		gtk_widget_show_all (warning_dialog);
+
+		g_free (uri);
 	}
 }
 
@@ -564,9 +566,9 @@ get_prop (BonoboPropertyBag *bag,
 
 	switch (arg_id) {
 
-	case PROPERTY_FOLDER_URI_IDX:
-		if (view && view->uri)
-			BONOBO_ARG_SET_STRING (arg, view->uri);
+	case PROPERTY_SOURCE_UID_IDX:
+		if (view && view->source)
+			BONOBO_ARG_SET_STRING (arg, e_source_peek_uid (view->source));
 		else
 			BONOBO_ARG_SET_STRING (arg, "");
 		break;
@@ -578,15 +580,14 @@ get_prop (BonoboPropertyBag *bag,
 
 typedef struct {
 	EBookCallback cb;
-	char *clean_uri;
-	AddressbookSource *source;
+	ESource *source;
 	gpointer closure;
-} LoadUriData;
+} LoadSourceData;
 
 static void
-load_uri_auth_cb (EBook *book, EBookStatus status, gpointer closure)
+load_source_auth_cb (EBook *book, EBookStatus status, gpointer closure)
 {
-	LoadUriData *data = closure;
+	LoadSourceData *data = closure;
 
 	if (status != E_BOOK_ERROR_OK) {
 		if (status == E_BOOK_ERROR_CANCELLED) {
@@ -600,40 +601,65 @@ load_uri_auth_cb (EBook *book, EBookStatus status, gpointer closure)
 			g_signal_connect (dialog, "response", G_CALLBACK(gtk_widget_destroy), NULL);
 			gtk_widget_show (dialog);
 			data->cb (book, E_BOOK_ERROR_OK, data->closure);
-			g_free (data->clean_uri);
 			g_free (data);
 			return;
 		}
 		else {
-			e_passwords_forget_password ("Addressbook", data->clean_uri);
-			addressbook_authenticate (book, TRUE, data->source, load_uri_auth_cb, closure);
+			gchar *uri = e_source_get_uri (data->source);
+
+			e_passwords_forget_password ("Addressbook", uri);
+			addressbook_authenticate (book, TRUE, data->source, load_source_auth_cb, closure);
+
+			g_free (uri);
 			return;
 		}
 	}
 
 	data->cb (book, status, data->closure);
 
-	g_free (data->clean_uri);
+	g_object_unref (data->source);
 	g_free (data);
 }
 
+static gboolean
+get_remember_password (ESource *source)
+{
+	const gchar *value;
+
+	value = e_source_get_property (source, "remember_password");
+	if (value && !strcasecmp (value, "true"))
+		return TRUE;
+
+	return FALSE;
+}
+
 static void
-addressbook_authenticate (EBook *book, gboolean previous_failure, AddressbookSource *source,
+set_remember_password (ESource *source, gboolean value)
+{
+	e_source_set_property (source, "remember_password",
+			       value ? "true" : "false");
+}
+
+static void
+addressbook_authenticate (EBook *book, gboolean previous_failure, ESource *source,
 			  EBookCallback cb, gpointer closure)
 {
-	LoadUriData *load_uri_data = closure;
 	const char *password = NULL;
 	char *pass_dup = NULL;
-	char *semicolon;
+	const gchar *auth;
+	const gchar *user;
+	gchar *uri = e_source_get_uri (source);
 
-	load_uri_data->clean_uri = g_strdup (e_book_get_uri (book));
+	password = e_passwords_get_password ("Addressbook", uri);
 
-	semicolon = strchr (load_uri_data->clean_uri, ';');
+	auth = e_source_get_property (source, "auth");
 
-	if (semicolon)
-		*semicolon = '\0';
-
-	password = e_passwords_get_password ("Addressbook", load_uri_data->clean_uri);
+	if (auth && !strcmp ("ldap/simple-binddn", auth))
+		user = e_source_get_property (source, "binddn");
+	else
+		user = e_source_get_property (source, "email_addr");
+	if (!user)
+		user = "";
 
 	if (!password) {
 		char *prompt;
@@ -647,91 +673,82 @@ addressbook_authenticate (EBook *book, gboolean previous_failure, AddressbookSou
 			failed_auth = "";
 		}
 
+		prompt = g_strdup_printf (_("%sEnter password for %s (user %s)"),
+					  failed_auth, e_source_peek_name (source), user);
 
-		if (source->auth == ADDRESSBOOK_LDAP_AUTH_SIMPLE_BINDDN)
-			prompt = g_strdup_printf (_("%sEnter password for %s (user %s)"),
-						  failed_auth, source->name, source->binddn);
-		else
-			prompt = g_strdup_printf (_("%sEnter password for %s (user %s)"),
-						  failed_auth, source->name, source->email_addr);
-		remember = source->remember_passwd;
-		pass_dup = e_passwords_ask_password (prompt, "Addressbook", load_uri_data->clean_uri, prompt, TRUE,
+		remember = get_remember_password (source);
+		pass_dup = e_passwords_ask_password (prompt, "Addressbook", uri, prompt, TRUE,
 						     E_PASSWORDS_REMEMBER_FOREVER, &remember,
 						     NULL);
-		if (remember != source->remember_passwd) {
-			source->remember_passwd = remember;
-			addressbook_storage_write_sources ();
-		}
+		if (remember != get_remember_password (source))
+			set_remember_password (source, remember);
+
 		g_free (prompt);
 	}
 
 	if (password || pass_dup) {
-		char *user;
-
-		if (source->auth == ADDRESSBOOK_LDAP_AUTH_SIMPLE_BINDDN)
-			user = source->binddn;
-		else
-			user = source->email_addr;
-		if (!user)
-			user = "";
 		e_book_async_authenticate_user (book, user, password ? password : pass_dup,
-						addressbook_storage_auth_type_to_string (source->auth),
+						e_source_get_property (source, "auth"),
 						cb, closure);
 		g_free (pass_dup);
-		return;
 	}
 	else {
 		/* they hit cancel */
 		cb (book, E_BOOK_ERROR_CANCELLED, closure);
 	}
+
+	g_free (uri);
 }
 
 static void
-load_uri_cb (EBook *book, EBookStatus status, gpointer closure)
+load_source_cb (EBook *book, EBookStatus status, gpointer closure)
 {
-	LoadUriData *load_uri_data = closure;
+	LoadSourceData *load_source_data = closure;
 
 	if (status == E_BOOK_ERROR_OK && book != NULL) {
+		const gchar *auth;
+
+		auth = e_source_get_property (load_source_data->source, "auth");
 
 		/* check if the addressbook needs authentication */
 
-		load_uri_data->source = addressbook_storage_get_source_by_uri (e_book_get_uri (book));
-
-		if (load_uri_data->source &&
-		    load_uri_data->source->auth != ADDRESSBOOK_LDAP_AUTH_NONE) {
-
-			addressbook_authenticate (book, FALSE, load_uri_data->source,
-						  load_uri_auth_cb, closure);
+		if (auth && strcmp (auth, "none")) {
+			addressbook_authenticate (book, FALSE, load_source_data->source,
+						  load_source_auth_cb, closure);
 
 			return;
 		}
 	}
 	
-	load_uri_data->cb (book, status, load_uri_data->closure);
-	g_free (load_uri_data);
+	load_source_data->cb (book, status, load_source_data->closure);
+	g_object_unref (load_source_data->source);
+	g_free (load_source_data);
 }
 
 void
-addressbook_load_uri (EBook *book, const char *uri,
-		      EBookCallback cb, gpointer closure)
+addressbook_load_source (EBook *book, ESource *source,
+			 EBookCallback cb, gpointer closure)
 {
-	LoadUriData *load_uri_data = g_new0 (LoadUriData, 1);
+	LoadSourceData *load_source_data = g_new0 (LoadSourceData, 1);
 
-	load_uri_data->cb = cb;
-	load_uri_data->closure = closure;
+	load_source_data->cb = cb;
+	load_source_data->closure = closure;
+	load_source_data->source = g_object_ref (source);
 
-	e_book_async_load_uri (book, uri, load_uri_cb, load_uri_data);
+	e_book_async_load_source (book, source, load_source_cb, load_source_data);
 }
 
 void
 addressbook_load_default_book (EBookCallback cb, gpointer closure)
 {
-	LoadUriData *load_uri_data = g_new (LoadUriData, 1);
+	LoadSourceData *load_source_data = g_new (LoadSourceData, 1);
 
-	load_uri_data->cb = cb;
-	load_uri_data->closure = closure;
+	/* FIXME: We need to get the source for the default book */
 
-	e_book_async_get_default_addressbook (load_uri_cb, load_uri_data);
+	load_source_data->cb = cb;
+	load_source_data->closure = closure;
+
+	e_book_async_get_default_addressbook (load_source_cb, load_source_data);
 }
 
 static void
@@ -742,23 +759,28 @@ set_prop (BonoboPropertyBag *bag,
 	  gpointer           user_data)
 {
 	AddressbookView *view = user_data;
+	const gchar *uid;
 
 	switch (arg_id) {
 
-	case PROPERTY_FOLDER_URI_IDX:
-		if (view->uri) {
+	case PROPERTY_SOURCE_UID_IDX:
+		if (view->book) {
 			/* we've already had a uri set on this view, so unload it */
 			e_book_async_unload_uri (view->book); 
-			g_free (view->uri);
+			view->source = NULL;
 		} else {
 			view->book = e_book_new ();
 		}
 
 		view->failed_to_load = FALSE;
 
-		view->uri = g_strdup(BONOBO_ARG_GET_STRING (arg));
-		
-		addressbook_load_uri (view->book, view->uri, book_open_cb, view);
+		uid = BONOBO_ARG_GET_STRING (arg);
+		view->source = e_source_list_peek_source_by_uid (view->source_list, uid);
+
+		if (view->source)
+			addressbook_load_source (view->book, view->source, book_open_cb, view);
+		else
+			g_warning ("Could not find source by UID '%s'!", uid);
 
 		break;
 		
@@ -1097,9 +1119,9 @@ addressbook_new_control (void)
 	view->properties = bonobo_property_bag_new (get_prop, set_prop, view);
 
 	bonobo_property_bag_add (view->properties,
-				 PROPERTY_FOLDER_URI, PROPERTY_FOLDER_URI_IDX,
+				 PROPERTY_SOURCE_UID, PROPERTY_SOURCE_UID_IDX,
 				 BONOBO_ARG_STRING, NULL,
-				 _("URI of the contacts that the control will display"), 0);
+				 _("UID of the contacts source that the view will display"), 0);
 
 	bonobo_control_set_properties (view->control,
 				       bonobo_object_corba_objref (BONOBO_OBJECT (view->properties)),
@@ -1116,8 +1138,11 @@ addressbook_new_control (void)
 
 	g_signal_connect (view->view, "command_state_change",
 			  G_CALLBACK(update_command_state), view);
-	
-	view->uri = NULL;
+
+	view->gconf_client = gconf_client_get_default ();
+	view->source_list = e_source_list_new_for_gconf (view->gconf_client,
+							 "/apps/evolution/addressbook/sources");
+	view->source = NULL;
 
 	g_signal_connect (view->control, "activate",
 			  G_CALLBACK (control_activate_cb), view);

@@ -1,3 +1,118 @@
+2003-12-01  Hans Petter Jansson  <hpj@ximian.com>
+
+	* gui/component/Makefile.am (libevolution_addressbook_la_SOURCES):
+	Remove addressbook-storage.[ch] and new-addressbook.[ch].
+
+	* gui/component/addressbook-storage.[ch]: Removed from repository.
+
+	* gui/component/new-addressbook.[ch]: Removed from repository.
+
+	* gui/component/addressbook-component.c (load_uri_for_selection):
+	Set source_uid property on view control, not folder_uri.
+	(new_addressbook_cb): Call addressbook_config_create_new_source ().
+	(edit_addressbook_cb): Implement.
+	(fill_popup_menu_callback): Hook up edit_addressbook_cb ().
+	(addressbook_component_init): Create the LDAP source group.
+
+	* gui/component/addressbook-config.c (AddressbookSourceDialog):
+	Take out the NEW_ADVANCED_UI stuff and add ESource related vars.
+	(ldap_unparse_auth)
+	(ldap_parse_auth)
+	(ldap_unparse_scope)
+	(ldap_unparse_ssl)
+	(ldap_parse_ssl): Moved here from addressbook-storage.c.
+	(addressbook_dialog_get_source)
+	(addressbook_dialog_set_source)
+	(objectclasses_create_server_table)
+	(objectclasses_create_evolution_table)
+	(objectclasses_add_foreach)
+	(objectclasses_add)
+	(objectclasses_sever_double_click)
+	(objectclasses_remove_foreach)
+	(objectclasses_remove)
+	(objectclasses_evolution_double_click)
+	(objectclasses_restore_default)
+	(server_selection_model_changed)
+	(evolution_selection_model_changed)
+	(setup_objectclasses_tab): Nuke aging, unfinished NEW_ADVANCED_UI.
+	(add_source_clicked)
+	(edit_source_clicked)
+	(delete_server)
+	(delete_source_clicked)
+	(ldap_config_control_destroy_callback)
+	(ldap_config_control_apply_callback)
+	(sources_selection_changed)
+	(sources_table_row_activated)
+	(ldap_dialog_new)
+	(addressbook_dialog_create_sources_table)
+	(ldap_config_control_new)
+	(addressbook_config_control_new): Nuke config control.
+	(create_source_dir)
+	(dialog_to_source)
+	(dialog_to_temp_source)
+	(source_to_uri_parts)
+	(source_to_dialog)
+	(source_group_changed_cb)
+	(source_group_menu_add_groups)
+	(folder_page_forward)
+	(finish_page_back): Implement.
+	(addressbook_ldap_init): Take ESource instead of AddressbookSource.
+	(addressbook_ldap_auth): Don't take a source, not needed.
+	(addressbook_root_dse_query): Ditto.
+	(addressbook_source_dialog_destroy): Clean up destroy function.
+	(addressbook_add_server_druid_finish): Clean up, create ESource.
+	(general_tab_check): If it's not LDAP, these options don't matter.
+	(do_ldap_root_dse_query): Source no longer needed here.
+	(query_for_supported_bases): Use a temp source generated from
+	current dialog settings.
+	(display_name_page_prepare): Renamed to folder_page_prepare ().
+	(druid_display_name_page_modify_cb): Renamed to
+	druid_folder_page_modify_cb ().
+	(addressbook_add_server_druid): Set up source list, group selector.
+	Make LDAP pages optional, dependent on selected group. Use ESource.
+	(edit_dialog_store_change): Remove config control list stuff,
+	export settings to ESource.
+	(addressbook_edit_server_dialog): Renamed to
+	addressbook_config_edit_source (), which takes an ESource. Remove
+	config control list stuff, make LDAP pages show up only if we have
+	an LDAP source. Remove NEW_ADVANCED_UI cruft.
+	(addressbook_config_create_new_source): Just call
+	addressbook_add_server_druid ().
+
+	* gui/component/addressbook-config.h: Move LDAP enums here, from
+	addressbook-storage.h.
+
+	* gui/component/addressbook.c (control_activate_cb): uri -> source
+	(addressbook_view_clear): Unref source list.
+	(book_open_cb): Use ESource.
+	(load_uri_auth_cb): Renamed to load_source_auth_cb (), manipulate
+	ESource instead of URI.
+	(get_remember_password): Implement.
+	(set_remember_password): Implement.
+	(addressbook_authenticate): Use ESource properties.
+	(load_uri_cb): Renamed to load_source_cb (), ESource adaptation.
+	(addressbook_load_uri): Renamed to addressbook_load_source (), takes
+	ESource.
+	(addressbook_load_default_book): ESource adaptation.
+	(get_prop): folder_uri property -> source_uid property.
+	(set_prop): folder_uri property -> source_uid property. Find ESource
+	by UID.
+	(addressbook_new_control): Set up source_uid property and ESourceList.
+
+	* gui/component/component-factory.c (factory): Disable config control.
+
+	* gui/component/ldap-config.glade: Druid and notebook dialogs
+	generalized to deal with local sources as well as LDAP. This file
+	should probably be renamed...
+
+	* gui/component/select-names/e-select-names-manager.c
+	(load_completion_books): Use addressbook_load_source (). However, this
+	needs a bit more work to get source UIDs instead of URIs.
+
+	* gui/component/select-names/e-select-names.c
+	(addressbook_model_set_uri): Use addressbook_load_source (). However,
+	this needs a bit more work to get source UIDs instead of URIs.
+
 2003-11-26  JP Rosevear  <jpr@ximian.com>
 
 	* gui/widgets/Makefile.am: turn on deprecated gtk and libgnomeui

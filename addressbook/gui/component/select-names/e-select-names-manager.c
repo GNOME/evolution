@@ -399,9 +399,20 @@ load_completion_books (ESelectNamesManager *manager)
 
 	for (f = folders; f && f->physical_uri; f++) {
 		EBook *book = e_book_new ();
+		ESourceGroup *group;
+		ESource *source;
+
 		g_object_ref (manager); /* ref ourself before our async call */
 
-		addressbook_load_uri (book, f->physical_uri, (EBookCallback)open_book_cb, manager);
+		/* FIXME: Store source UIDs in folder list and use those to get sources */
+		group = e_source_group_new ("", f->physical_uri);
+		source = e_source_new ("", "");
+		e_source_set_group (source, group);
+
+		addressbook_load_source (book, source, (EBookCallback)open_book_cb, manager);
+
+		g_object_unref (group);
+		g_object_unref (source);
 	}
 	e_folder_list_free_items (folders);
 }

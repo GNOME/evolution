@@ -64,8 +64,11 @@ factory (BonoboGenericFactory *factory,
 	}
 	if (strcmp (component_id, ADDRESS_POPUP_ID) == 0)
 		return BONOBO_OBJECT (eab_popup_control_new ());
+#if 0
+	/* Config control is dead */
 	if (strcmp (component_id, LDAP_STORAGE_CONFIG_CONTROL_ID) == 0)
 		return BONOBO_OBJECT (addressbook_config_control_new ());
+#endif
 	if (strcmp (component_id, SELECT_NAMES_ID) == 0)
 		return BONOBO_OBJECT (e_select_names_bonobo_new ());
 #if HAVE_NSS
