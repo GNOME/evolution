@@ -215,11 +215,15 @@ stream_read (CamelStream *stream, char *buffer, size_t n)
 {
 	CamelStreamFs *stream_fs = CAMEL_STREAM_FS (stream);
 	CamelSeekableStream *seekable = CAMEL_SEEKABLE_STREAM (stream);
+	ssize_t nread;
 	
 	if (seekable->bound_end != CAMEL_STREAM_UNBOUND)
 		n = MIN (seekable->bound_end - seekable->position, n);
 	
-	return camel_read (stream_fs->fd, buffer, n);
+	if ((nread = camel_read (stream_fs->fd, buffer, n)) == 0)
+		stream->eos = TRUE;
+	
+	return nread;
 }
 
 static ssize_t

@@ -1,7 +1,12 @@
+2003-07-15  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* camel-stream-fs.c (stream_read): If we read 0 bytes, then set
+	eos to TRUE.
+
 2003-07-09  Jeffrey Stedfast  <fejj@ximian.com>
 
-	Get rid of the #ifdef ENABLE_THREADS since
-	we no longer plan to support/maintain this.
+	Get rid of the #ifdef ENABLE_THREADS since we no longer plan to
+	support/maintain this.
 
 	* providers/nntp/camel-nntp-store.c: Here.
 
