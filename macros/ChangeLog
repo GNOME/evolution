@@ -1,3 +1,8 @@
+2001-02-07  Kenneth Christiansen  <kenneth@gnu.org>
+
+	* autogen.sh: Added test for xml-i18n-tools if 
+	AM_PROG_XML_I18N_TOOLS is found.
+
 2001-01-05  Maciej Stachowiak  <mjs@eazel.com>
 
 	* autogen.sh: Added missing PROG.
