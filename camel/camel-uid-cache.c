@@ -153,6 +153,7 @@ GPtrArray *
 camel_uid_cache_get_new_uids (CamelUIDCache *cache, GPtrArray *uids)
 {
 	GPtrArray *new_uids;
+	gpointer old_uid, old_level;
 	char *uid;
 	int i;
 
@@ -161,9 +162,11 @@ camel_uid_cache_get_new_uids (CamelUIDCache *cache, GPtrArray *uids)
 
 	for (i = 0; i < uids->len; i++) {
 		uid = uids->pdata[i];
-		if (g_hash_table_lookup (cache->uids, uid))
+		if (g_hash_table_lookup_extended (cache->uids, uid,
+						  &old_uid, &old_level)) {
 			g_hash_table_remove (cache->uids, uid);
-		else
+			g_free (old_uid);
+		} else
 			g_ptr_array_add (new_uids, g_strdup (uid));
 		g_hash_table_insert (cache->uids, g_strdup (uid),
 				     GINT_TO_POINTER (cache->level));

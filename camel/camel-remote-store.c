@@ -106,10 +106,7 @@ camel_remote_store_class_init (CamelRemoteStoreClass *camel_remote_store_class)
 static void
 camel_remote_store_init (CamelObject *object)
 {
-	CamelStore *store = CAMEL_STORE (object);
 	CamelRemoteStore *remote_store = CAMEL_REMOTE_STORE (object);
-	
-	store->folders = g_hash_table_new (g_str_hash, g_str_equal);
 	
 	remote_store->istream = NULL;
 	remote_store->ostream = NULL;

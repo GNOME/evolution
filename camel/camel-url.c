@@ -169,6 +169,7 @@ camel_url_new_with_base (CamelURL *base, const char *url_string)
 				camel_url_decode (name);
 				g_datalist_set_data_full (&url->params, name,
 							  value, g_free);
+				g_free (name);
 			}
 		}
 		end = semi;
