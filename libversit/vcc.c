@@ -2030,8 +2030,8 @@ DLLEXPORT(VObject*) Parse_MIME_FromFileName(char *fname)
 	return o;
 	}
     else {
-	char msg[80];
-	sprintf(msg, "can't open file '%s' for reading\n", fname);
+	char msg[256];
+	snprintf(msg, sizeof(msg), "can't open file '%s' for reading\n", fname);
 	mime_error_(msg);
 	return 0;
 	}
