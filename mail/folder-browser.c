@@ -1217,9 +1217,6 @@ enum {
 	CAN_RESEND      = 128,
 };
 
-#define SEPARATOR  { "", NULL, (NULL), NULL,  0 }
-#define TERMINATOR { NULL, NULL, (NULL), NULL,  0 }
-
 #define MLIST_VFOLDER (3)
 #define MLIST_FILTER (8)
 
@@ -1237,7 +1234,7 @@ static EPopupMenu filter_menu[] = {
 	  GTK_SIGNAL_FUNC (vfolder_mlist),     NULL,
 	  SELECTION_SET | IS_MAILING_LIST },
 	
-	SEPARATOR,
+	E_POPUP_SEPARATOR,
 	
 	{ N_("Filter on Sub_ject"),            NULL,
 	  GTK_SIGNAL_FUNC (filter_subject),    NULL,
@@ -1252,7 +1249,7 @@ static EPopupMenu filter_menu[] = {
 	  GTK_SIGNAL_FUNC (filter_mlist),      NULL,
 	  SELECTION_SET | IS_MAILING_LIST },
 	
-	TERMINATOR
+	E_POPUP_TERMINATOR
 };
 
 
@@ -1266,7 +1263,7 @@ static EPopupMenu context_menu[] = {
 	{ N_("_Print"),                       NULL,
 	  GTK_SIGNAL_FUNC (print_msg),        NULL,  0 },
 	
-	SEPARATOR,
+	E_POPUP_SEPARATOR,
 	
 	{ N_("_Reply to Sender"),             NULL,
 	  GTK_SIGNAL_FUNC (reply_to_sender),  NULL,  0 },
@@ -1284,7 +1281,7 @@ static EPopupMenu context_menu[] = {
 	{ N_("Mark as _Important"),            NULL,
 	  GTK_SIGNAL_FUNC (mark_as_important), NULL, 0 },
 	
-	SEPARATOR,
+	E_POPUP_SEPARATOR,
 	
 	{ N_("_Move to Folder..."),           NULL,
 	  GTK_SIGNAL_FUNC (move_msg),         NULL,  0 },
@@ -1295,7 +1292,7 @@ static EPopupMenu context_menu[] = {
 	{ N_("_Undelete"),                    NULL,
 	  GTK_SIGNAL_FUNC (undelete_msg),     NULL, CAN_UNDELETE },
 	
-	SEPARATOR,
+	E_POPUP_SEPARATOR,
 	
 	{ N_("Add Sender to Address Book"),   NULL,
 	  GTK_SIGNAL_FUNC (addrbook_sender),  NULL,  0 },
@@ -1309,7 +1306,7 @@ static EPopupMenu context_menu[] = {
 	{ N_("Create Ru_le From Message"),    NULL,
 	  GTK_SIGNAL_FUNC (NULL), filter_menu,  SELECTION_SET },
 	
-	TERMINATOR
+	E_POPUP_TERMINATOR
 };
 
 
