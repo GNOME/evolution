@@ -371,7 +371,7 @@ do_copy (struct _ESExp *f, int argc, struct _ESExpResult **argv, CamelFilterDriv
 				break;
 			
 			p->copied = TRUE;
-			if (p->uid && p->source)
+			if (p->uid && p->source && camel_folder_has_summary_capability (p->source))
 				camel_folder_copy_message_to (p->source, p->uid, outbox, p->ex);
 			else
 				camel_folder_append_message (outbox, p->message, p->info, p->ex);
@@ -408,7 +408,7 @@ do_move (struct _ESExp *f, int argc, struct _ESExpResult **argv, CamelFilterDriv
 			p->copied = TRUE;
 			p->deleted = TRUE;  /* a 'move' is a copy & delete */
 			
-			if (p->uid && p->source)
+			if (p->uid && p->source && camel_folder_has_summary_capability (p->source))
 				camel_folder_copy_message_to (p->source, p->uid, outbox, p->ex);
 			else
 				camel_folder_append_message (outbox, p->message, p->info, p->ex);
@@ -833,7 +833,7 @@ camel_filter_driver_filter_message (CamelFilterDriver *driver, CamelMimeMessage 
 	p->info = info;
 	p->uid = uid;
 	p->source = source;
-
+	
 	/* camel_mime_message_set_identity (message, source_url); */
 	
 	node = (struct _filter_rule *)p->rules.head;
@@ -871,7 +871,7 @@ camel_filter_driver_filter_message (CamelFilterDriver *driver, CamelMimeMessage 
 		/* copy it to the default inbox */
 		filtered = TRUE;
 		camel_filter_driver_log (driver, FILTER_LOG_ACTION, "Copy to default folder");
-		if (p->uid && p->source)
+		if (p->uid && p->source && camel_folder_has_summary_capability (p->source))
 			camel_folder_copy_message_to (p->source, p->uid, p->defaultfolder, p->ex);
 		else
 			camel_folder_append_message (p->defaultfolder, p->message, p->info, p->ex);

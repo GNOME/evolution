@@ -1,3 +1,12 @@
+2001-03-25  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* camel-filter-driver.c (do_copy): Don't use copy_to if the source
+	folder doesn't support summary info's.
+	(do_move): Same.
+	(camel_filter_driver_filter_message): And again here.  I think
+	this will fix the problem of "colour" tags not staying with the
+	message when it's copied to a folder during the filter process.
+
 2001-03-24  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* camel-sasl-digest-md5.c (digest_response): Do charset conversion
