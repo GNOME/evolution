@@ -54,7 +54,7 @@ typedef enum {
 
 
 static GHashTable *header_name_table;
-
+static GHashTable *header_formatted_table;
 
 static CamelMediumClass *parent_class=NULL;
 
@@ -95,7 +95,10 @@ init_header_name_table()
 	g_hash_table_insert (header_name_table, "Content-Transfer-Encoding", (gpointer)HEADER_ENCODING);
 	g_hash_table_insert (header_name_table, "Content-MD5", (gpointer)HEADER_CONTENT_MD5);
 	g_hash_table_insert (header_name_table, "Content-Type", (gpointer)HEADER_CONTENT_TYPE);
-	
+
+	header_formatted_table = g_hash_table_new(g_strcase_hash, g_strcase_equal);
+	g_hash_table_insert(header_formatted_table, "Content-Type", (void *)1);
+	g_hash_table_insert(header_formatted_table, "Content-Disposition", (void *)1);
 }
 
 static void
@@ -483,15 +486,19 @@ write_to_stream(CamelDataWrapper *data_wrapper, CamelStream *stream)
 		struct _header_raw *h = mp->headers;
 		char *val;
 
+		/* fold/write the headers.   But dont fold headers that are already formatted
+		   (e.g. ones with parameter-lists, that we know about, and have created) */
 		while (h) {
 			val = h->value;
 			if (val == NULL) {
 				g_warning("h->value is NULL here for %s", h->name);
 				count = 0;
-			} else {
+			} else if (g_hash_table_lookup(header_formatted_table, val) == NULL) {
 				val = header_fold(val, strlen(h->name));
 				count = camel_stream_printf(stream, "%s%s%s\n", h->name, isspace(val[0]) ? ":" : ": ", val);
 				g_free(val);
+			} else {
+				count = camel_stream_printf(stream, "%s%s%s\n", h->name, isspace(val[0]) ? ":" : ": ", val);
 			}
 			if (count == -1)
 				return -1;

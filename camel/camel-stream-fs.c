@@ -32,6 +32,8 @@
 #include <errno.h>
 #include <string.h>
 
+#include "camel-session.h"	/* for camel_cancel_* */
+
 static CamelSeekableStreamClass *parent_class = NULL;
 
 /* Returns the class for a CamelStreamFS */

@@ -1,3 +1,15 @@
+2001-02-02  Not Zed  <NotZed@Ximian.com>
+
+	* camel-stream-fs.c: Add missing header for cancel check stuff.
+
+	* camel-session.c (camel_cancel_cancel): Fix a wrong cast.
+
+	* camel-mime-part.c (init_header_name_table): Setup a new table
+	header_formatted_table, that lists headers that we dont want to
+	fold (they've already been folded).
+	(write_to_stream): Check for already formatted headers, and dont
+	try and fold them.  This is a fix for bug #1097.
+
 2001-02-01  Not Zed  <NotZed@Ximian.com>
 
 	* camel-mime-utils.c (header_fold): If we are folding, drop the

@@ -639,7 +639,7 @@ void camel_cancel_cancel(CamelCancel *cc)
 	if (cc == NULL) {
 		if (cancel_active) {
 			CAMEL_ACTIVE_LOCK();
-			g_hash_table_foreach(cancel_active, (GHRFunc)cancel_thread, NULL);
+			g_hash_table_foreach(cancel_active, (GHFunc)cancel_thread, NULL);
 			CAMEL_ACTIVE_UNLOCK();
 		}
 	} else if ((cc->flags & CAMEL_CANCEL_CANCELLED) == 0) {
