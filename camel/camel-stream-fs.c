@@ -1,4 +1,4 @@
-/* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8; fill-column: 160 -*- */
+/* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /* camel-stream-fs.c : file system based stream */
 
 /*
@@ -109,10 +109,11 @@ camel_stream_fs_get_type (void)
  * camel_stream_fs_new_with_fd:
  * @fd: a file descriptor
  *
- * Returns a stream associated with the given file descriptor.
- * When the stream is destroyed, the file descriptor will be closed.
+ * Creates a new fs stream using the given file descriptor @fd as the
+ * backing store. When the stream is destroyed, the file descriptor
+ * will be closed.
  *
- * Return value: the stream
+ * Returns a new fs stream.
  **/
 CamelStream *
 camel_stream_fs_new_with_fd (int fd)

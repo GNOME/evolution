@@ -556,7 +556,7 @@ connect_to_server (CamelService *service, int ssl_mode, int try_starttls, CamelE
 	store->command = 0;
 	
 	/* Read the greeting, if any. FIXME: deal with PREAUTH */
-	if (camel_imap_store_recv_line (store, &buf, ex) < 0) {
+	if (camel_imap_store_readline (store, &buf, ex) < 0) {
 		if (store->istream) {
 			camel_object_unref (CAMEL_OBJECT (store->istream));
 			store->istream = NULL;
@@ -2223,11 +2223,13 @@ camel_imap_store_connected (CamelImapStore *store, CamelException *ex)
 
 /* FIXME: please god, when will the hurting stop? Thus function is so
    fucking broken it's not even funny. */
-int
-camel_imap_store_recv_line (CamelImapStore *store, char **dest, CamelException *ex)
+ssize_t
+camel_imap_store_readline (CamelImapStore *store, char **dest, CamelException *ex)
 {
 	CamelStreamBuffer *stream;
-	char *buf;
+	char linebuf[1024];
+	GByteArray *ba;
+	ssize_t nread;
 	
 	g_return_val_if_fail (CAMEL_IS_IMAP_STORE (store), -1);
 	g_return_val_if_fail (dest, -1);
@@ -2244,11 +2246,17 @@ camel_imap_store_recv_line (CamelImapStore *store, char **dest, CamelException *
 				     g_strerror (errno));
 		return -1;
 	}
+	
 	stream = CAMEL_STREAM_BUFFER (store->istream);
 	
-	buf = camel_stream_buffer_read_line (stream);
+	ba = g_byte_array_new ();
+	while ((nread = camel_stream_buffer_gets (stream, linebuf, sizeof (linebuf))) > 0) {
+		g_byte_array_append (ba, linebuf, nread);
+		if (linebuf[nread - 1] == '\n')
+			break;
+	}
 	
-	if (buf == NULL) {
+	if (nread <= 0) {
 		if (errno == EINTR)
 			camel_exception_set (ex, CAMEL_EXCEPTION_USER_CANCEL, _("Operation cancelled"));
 		else
@@ -2260,12 +2268,24 @@ camel_imap_store_recv_line (CamelImapStore *store, char **dest, CamelException *
 		return -1;
 	}
 	
-	*dest = buf;
-	
 #if d(!)0
-	if (camel_verbose_debug)
-		fprintf (stderr, "received: %s\n", *dest);
+	if (camel_verbose_debug) {
+		fprintf (stderr, "received: ");
+		fwrite (*dest, 1, nread, stderr);
+	}
 #endif
 	
-	return strlen (*dest);
+	/* camel-imap-command.c:imap_read_untagged expects the CRLFs
+           to be stripped off and be nul-terminated *sigh* */
+	nread = ba->len - 1;
+	ba->data[nread] = '\0';
+	if (ba->data[nread - 1] == '\r') {
+		ba->data[nread - 1] = '\0';
+		nread--;
+	}
+	
+	*dest = ba->data;
+	g_byte_array_free (ba, FALSE);
+	
+	return nread;
 }

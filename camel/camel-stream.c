@@ -1,4 +1,4 @@
-/* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8; fill-column: 160 -*- */
+/* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /* camel-stream.c : abstract class for a stream */
 
 /*
@@ -21,6 +21,7 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307
  * USA
  */
+
 
 #ifdef HAVE_CONFIG_H
 #include <config.h>
@@ -75,26 +76,27 @@ camel_stream_get_type (void)
 	return camel_stream_type;
 }
 
+
 /**
  * camel_stream_read:
  * @stream: a CamelStream.
- * @buffer: buffer where bytes pulled from the stream are stored.
+ * @buffer: output buffer
  * @n: max number of bytes to read.
  *
- * Read at most @n bytes from the @stream object and stores them
- * in the buffer pointed at by @buffer.
+ * Attempts to read up to @len bytes from @stream into @buf.
  *
- * Return value: number of bytes actually read, or -1 on error and
- * set errno.
+ * Returns the number of bytes actually read, or -1 on error and set
+ * errno.
  **/
 ssize_t
 camel_stream_read (CamelStream *stream, char *buffer, size_t n)
 {
 	g_return_val_if_fail (CAMEL_IS_STREAM (stream), -1);
 	g_return_val_if_fail (n == 0 || buffer, -1);
-
+	
 	return CS_CLASS (stream)->read (stream, buffer, n);
 }
+
 
 /**
  * camel_stream_write:
@@ -102,85 +104,88 @@ camel_stream_read (CamelStream *stream, char *buffer, size_t n)
  * @buffer: buffer to write.
  * @n: number of bytes to write
  *
- * Write @n bytes from the buffer pointed at by @buffer into @stream.
+ * Attempts to write up to @n bytes of @buffer into @stream.
  *
- * Return value: the number of bytes actually written to the stream,
- * or -1 on error.
+ * Returns the number of bytes written to the stream, or -1 on error
+ * along with setting errno.
  **/
 ssize_t
 camel_stream_write (CamelStream *stream, const char *buffer, size_t n)
 {
 	g_return_val_if_fail (CAMEL_IS_STREAM (stream), -1);
 	g_return_val_if_fail (n == 0 || buffer, -1);
-
+	
 	return CS_CLASS (stream)->write (stream, buffer, n);
 }
 
+
 /**
  * camel_stream_flush:
- * @stream: a CamelStream object
+ * @stream: stream
  *
- * Flushes the contents of the stream to its backing store. Only meaningful
- * on writable streams.
+ * Flushes any buffered data to the stream's backing store.  Only
+ * meaningful for writable streams.
  *
- * Return value: -1 on error.
+ * Returns 0 on success or -1 on fail along with setting errno.
  **/
 int
 camel_stream_flush (CamelStream *stream)
 {
 	g_return_val_if_fail (CAMEL_IS_STREAM (stream), -1);
-
+	
 	return CS_CLASS (stream)->flush (stream);
 }
+
 
 /**
  * camel_stream_close:
  * @stream: 
  * 
- * Close a stream.
+ * Closes the stream.
  * 
- * Return value: -1 on error.
+ * Returns 0 on success or -1 on error.
  **/
 int
 camel_stream_close (CamelStream *stream)
 {
 	g_return_val_if_fail (CAMEL_IS_STREAM (stream), -1);
-
+	
 	return CS_CLASS (stream)->close (stream);
 }
+
 
 /**
  * camel_stream_eos:
  * @stream: a CamelStream object
  *
- * Test if there are bytes left to read on the @stream object.
+ * Tests if there are bytes left to read on the @stream object.
  *
- * Return value: %TRUE if all the contents on the stream has been read, or
- * %FALSE if information is still available.
+ * Returns %TRUE on EOS or %FALSE otherwise.
  **/
 gboolean
 camel_stream_eos (CamelStream *stream)
 {
 	g_return_val_if_fail (CAMEL_IS_STREAM (stream), TRUE);
-
+	
 	return CS_CLASS (stream)->eos (stream);
 }
 
+
 /**
- * camel_stream_reset: reset a stream
+ * camel_stream_reset:
  * @stream: the stream object
  *
- * Reset a stream. That is, put it in a state where it can be read
+ * Resets the stream. That is, put it in a state where it can be read
  * from the beginning again. Not all streams in Camel are seekable,
  * but they must all be resettable.
  *
- * Return value: -1 on error.
+ * Returns 0 on success or -1 on error along with setting errno.
  **/
 int
 camel_stream_reset (CamelStream *stream)
 {
 	g_return_val_if_fail (CAMEL_IS_STREAM (stream), -1);
-
+	
 	return CS_CLASS (stream)->reset (stream);
 }
 
@@ -193,7 +198,7 @@ camel_stream_reset (CamelStream *stream)
  *
  * Writes the string to the stream.
  *
- * Return value: the number of characters output, -1 on error.
+ * Returns the number of characters written or -1 on error.
  **/
 ssize_t
 camel_stream_write_string (CamelStream *stream, const char *string)
@@ -201,14 +206,15 @@ camel_stream_write_string (CamelStream *stream, const char *string)
 	return camel_stream_write (stream, string, strlen (string));
 }
 
+
 /**
  * camel_stream_printf:
  * @stream: a stream object
  * @fmt: a printf-style format string
  *
- * This printfs the given data to @stream.
+ * Write formatted output to a stream.
  *
- * Return value: the number of characters output, -1 on error.
+ * Returns the number of characters written or -1 on error.
  **/
 ssize_t
 camel_stream_printf (CamelStream *stream, const char *fmt, ... )
@@ -216,30 +222,31 @@ camel_stream_printf (CamelStream *stream, const char *fmt, ... )
 	va_list args;
 	char *string;
 	ssize_t ret;
-
+	
 	g_return_val_if_fail (CAMEL_IS_STREAM (stream), -1);
-
+	
 	va_start (args, fmt);
 	string = g_strdup_vprintf (fmt, args);
 	va_end (args);
-
+	
 	if (!string)
 		return -1;
-
+	
 	ret = camel_stream_write (stream, string, strlen (string));
 	g_free (string);
 	return ret;
 }
+
 
 /**
  * camel_stream_write_to_stream:
  * @stream: Source CamelStream.
  * @output_stream: Destination CamelStream.
  *
- * Write all of a stream (until eos) into another stream, in a blocking
- * fashion.
+ * Write all of a stream (until eos) into another stream, in a
+ * blocking fashion.
  *
- * Return value: Returns -1 on error, or the number of bytes succesfully
+ * Returns -1 on error, or the number of bytes succesfully
  * copied across streams.
  **/
 ssize_t

@@ -1,5 +1,18 @@
 2002-05-24  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* providers/imap/camel-imap-command.c (imap_read_untagged): Use
+	the new readline function.
+
+	* providers/imap/camel-imap-store.c (connect_to_server): Use the
+	new camel_imap_store_readline() function which doesn't suck quite
+	as bad as the original camel_remote_store_recv_line() function.
+	(camel_imap_store_readline): New function to replace
+	camel_remote_store_recv_line(). This function is at least safe
+	with embedded nul chars. Not that any of our callers use it
+	*sigh*.
+
+2002-05-24  Jeffrey Stedfast  <fejj@ximian.com>
+
 	* providers/imap/camel-imap-store.c (connect_to_server): Added
 	some NULL protection fixes.
 

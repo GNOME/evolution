@@ -290,7 +290,7 @@ camel_imap_command_response (CamelImapStore *store, char **response,
 	CamelImapResponseType type;
 	char *respbuf;
 	
-	if (camel_imap_store_recv_line (store, &respbuf, ex) < 0) {
+	if (camel_imap_store_readline (store, &respbuf, ex) < 0) {
 		CAMEL_IMAP_STORE_UNLOCK (store, command_lock);
 		return CAMEL_IMAP_RESPONSE_ERROR;
 	}
@@ -457,10 +457,6 @@ imap_read_untagged (CamelImapStore *store, char *line, CamelException *ex)
 		 *     against any completely correct server.
 		 *   - WU-imapd 12.264 (at least) will cheerily pass
 		 *     NULs along if they are embedded in the message
-		 *   - The only cause of embedded NULs we've seen is an
-		 *     Evolution base64-encoder bug that sometimes
-		 *     inserts a NUL into the last line when it
-		 *     shouldn't.
 		 */
 		
 		s = d = str->str + 1;
@@ -493,7 +489,7 @@ imap_read_untagged (CamelImapStore *store, char *line, CamelException *ex)
 		g_ptr_array_add (data, str);
 		
 		/* Read the next line. */
-		if (camel_imap_store_recv_line (store, &line, ex) < 0)
+		if (camel_imap_store_readline (store, &line, ex) < 0)
 			goto lose;
 	}
 	
