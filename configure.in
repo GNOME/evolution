@@ -804,7 +804,7 @@ if test "x${with_nss_libs}" != "xno" -a "x${have_nss_includes}" != "xno"; then
 	LDFLAGS_save="$LDFLAGS"
 	
 	nsprlibs="-lnspr4 -lplc4 -lplds4 $PTHREAD_LIB"
-	nsslibs="-lnss3 -lnssckbi -lssl3 -lsmime3"
+	nsslibs="-lnss3 -lssl3 -lsmime3"
 	AC_CACHE_CHECK([for Mozilla nss libraries], moz_nss_libs,
 	[
 		LDFLAGS="$LDFLAGS -L$with_nspr_libs $nsprlibs -L$with_nss_libs $nsslibs"

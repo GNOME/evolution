@@ -1,3 +1,7 @@
+2001-08-08  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* configure.in: Don't link to libnssckbi3 when linking to nss.
+
 2001-08-08  JP Rosevear  <jpr@ximian.com>
 
 	* README: Update pilot information
