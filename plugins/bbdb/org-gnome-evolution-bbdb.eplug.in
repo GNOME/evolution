@@ -1,6 +1,16 @@
 <e-plugin-list>
-	<e-plugin id="org.gnome.evolution.bbdb" type="shlib" name="BBDB Functionality for Evolution" description="Automatically tracks contacts"
-		location="@PLUGINDIR@/liborg-gnome-evolution-bbdb.so">
+	<e-plugin
+	  type="shlib"
+	  id="org.gnome.evolution.bbdb"
+	  name="Automatic contacts"
+ 	  location="@PLUGINDIR@/liborg-gnome-evolution-bbdb.so">
+
+	  	<description>Automatically fills your addressbook with names
+		and email addresses as you reply to mails.  Also fills in IM
+		contact information from your buddy
+		lists.</description>
+
+		<author name="Nat Friedman" email="nat@novell.com"/>
 
 		<hook class="org.gnome.evolution.mail.events:1.0">
 			<event
