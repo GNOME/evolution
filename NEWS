@@ -1,16 +1,30 @@
-Development
------------
+Evolution 1.2.3, 2002-03-14
+---------------------------
 
-  * Calendar
-
-	- Various changes to allow the backend to alter the GUI and to
-          handle RECURRENCE-IDS	in events
+Bugzilla Bugs Fixed (see http://bugzilla.ximian.com/show_bug.cgi):
 
   * Mail
+
     #35123 -- The new/post button chooses a different default account
      35289    to the new message menu. (Leon Zhang)
     #33267 -- Filters on source account always match all messages when
               applied to a local folder. (Michael)
+
+Other fixes:
+
+  * Addressbook
+
+    - support icsCalendar property and corrected a problem with
+      fetching card properties via  select names
+
+  * Calendar
+
+    - Various changes to allow the backend to alter the GUI and to
+      handle RECURRENCE-IDS in events
+
+  * Misc.
+
+    - backported xml hash utilities
 
 Evolution 1.2.2, 2002-02-04
 ---------------------------
