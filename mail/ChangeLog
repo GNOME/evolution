@@ -445,7 +445,6 @@
 	(thread_messages_free): Remove the return, run as is.
 	(prune_empty): Plugged another small leak.
 
->>>>>>> 1.552
 2000-09-11  Jeffrey Stedfast  <fejj@helixcode.com>
 
 	* mail-callbacks.c (run_filter_ondemand): Updated to use the new
