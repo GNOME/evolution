@@ -1,5 +1,8 @@
 2001-01-22  Not Zed  <NotZed@Ximian.com>
 
+	* .cvsignore */*/.cvsignore: Added profiling temp
+	files.
+
 	* camel-folder-thread.c (camel_folder_thread_messages_new): When
 	removing phantom nodes, check for the end node too.
 

@@ -5,3 +5,7 @@ Makefile.in
 *.lo
 *.la
 *.o
+*.bb
+*.bbg
+*.da
+*.gcov

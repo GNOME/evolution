@@ -4,3 +4,7 @@ Makefile.in
 .deps
 *.lo
 *.la
+*.bb
+*.bbg
+*.da
+*.gcov

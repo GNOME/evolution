@@ -9,3 +9,7 @@ test1
 test2
 test3
 *.msg
+*.bb
+*.bbg
+*.da
+*.gcov

@@ -6,3 +6,7 @@ Makefile.in
 *.lo
 *.la
 test-newsrc
+*.bb
+*.bbg
+*.da
+*.gcov
