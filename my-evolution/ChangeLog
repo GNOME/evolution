@@ -1,3 +1,8 @@
+2001-07-09  Iain Holmes  <iain@ximian.com>
+
+	* e-summary-tasks.c (generate_html): Make the tasks switch to the
+	tasks folder when you click on them.
+
 2001-07-09  Kjartan Maraas  <kmaraas@gnome.org>
 
 	* e-summary-preferences.c: Added #include <config.h> to get
