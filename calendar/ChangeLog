@@ -1,5 +1,13 @@
 2004-08-31  Rodrigo Moya <rodrigo@novell.com>
 
+	Fixes #62392
+
+	* gui/alarm-notify/alarm-queue.c (display_notification): ref the
+	client's query object so that it doesn't disappear on us.
+	(tray_icon_destroyed_cb): unref the query previously ref'ed.
+
+2004-08-31  Rodrigo Moya <rodrigo@novell.com>
+
 	* gui/e-cal-model-tasks.c: include missing string.h, to avoid
 	problems in 64 bit builds.
 	

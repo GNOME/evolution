@@ -802,6 +802,7 @@ tray_icon_destroyed_cb (GtkWidget *tray, gpointer user_data)
 
 	g_object_unref (tray_data->comp);
 	g_object_unref (tray_data->client);
+	g_object_unref (tray_data->query);
 
 	tray_icons_list = g_list_remove (tray_icons_list, tray_data);
 	g_free (tray_data);
@@ -975,7 +976,6 @@ display_notification (time_t trigger, CompQueuedAlarms *cqa,
 	/* create the tray icon */
 	tooltips = gtk_tooltips_new ();
 
-	/* FIXME: Use stock image equivalent when it becomes available */
 	tray_icon = egg_tray_icon_new (qa->instance->auid);
 	pixbuf = e_icon_factory_get_icon  ("stock_appointment-reminder", E_ICON_SIZE_LARGE_TOOLBAR);
 	image = gtk_image_new_from_pixbuf (pixbuf);
@@ -1011,7 +1011,7 @@ display_notification (time_t trigger, CompQueuedAlarms *cqa,
 	tray_data->alarm_id = alarm_id;
 	tray_data->comp = e_cal_component_clone (comp);
 	tray_data->client = cqa->parent_client->client;
-	tray_data->query = cqa->parent_client->query;
+	tray_data->query = g_object_ref (cqa->parent_client->query);
 	tray_data->image = image;
 	tray_data->blink_state = FALSE;
 	g_object_ref (tray_data->client);
