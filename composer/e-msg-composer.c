@@ -2207,7 +2207,7 @@ destroy (GtkObject *object)
 	
 	composer = E_MSG_COMPOSER (object);
 
-	mail_config_signature_register_client ((MailConfigSignatureClient) sig_event_client, composer);
+	mail_config_signature_unregister_client ((MailConfigSignatureClient) sig_event_client, composer);
 
 	CORBA_exception_init (&ev);
 
