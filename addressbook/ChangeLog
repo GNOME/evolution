@@ -1,7 +1,14 @@
 2001-08-14  Christopher James Lahey  <clahey@ximian.com>
 
+	* gui/contact-editor/contact-editor.glade: Added focus targets
+	here.  Fixes part of Ximian bug #5843.
+
+2001-08-14  Christopher James Lahey  <clahey@ximian.com>
+
 	* gui/contact-editor/e-contact-editor.c (e_contact_editor_init):
 	Grab focus here.  Fixes Ximian bug #2265.
+
+2001-08-14  Christopher James Lahey  <clahey@ximian.com>
 
 	* gui/component/addressbook.c (addressbook_factory_new_control): 
 	(addressbook_query_changed): Fixed two const warnings here.

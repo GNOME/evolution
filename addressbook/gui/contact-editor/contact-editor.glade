@@ -512,58 +512,6 @@
 	</widget>
 
 	<widget>
-	  <class>GtkAccelLabel</class>
-	  <name>accellabel-fileas</name>
-	  <label>File As:</label>
-	  <justify>GTK_JUSTIFY_CENTER</justify>
-	  <wrap>False</wrap>
-	  <xalign>0</xalign>
-	  <yalign>0.5</yalign>
-	  <xpad>0</xpad>
-	  <ypad>0</ypad>
-	  <child>
-	    <left_attach>1</left_attach>
-	    <right_attach>3</right_attach>
-	    <top_attach>3</top_attach>
-	    <bottom_attach>4</bottom_attach>
-	    <xpad>0</xpad>
-	    <ypad>0</ypad>
-	    <xexpand>False</xexpand>
-	    <yexpand>False</yexpand>
-	    <xshrink>False</xshrink>
-	    <yshrink>False</yshrink>
-	    <xfill>True</xfill>
-	    <yfill>True</yfill>
-	  </child>
-	</widget>
-
-	<widget>
-	  <class>GtkAccelLabel</class>
-	  <name>accellabel-web</name>
-	  <label>Web page address:</label>
-	  <justify>GTK_JUSTIFY_LEFT</justify>
-	  <wrap>False</wrap>
-	  <xalign>0</xalign>
-	  <yalign>0.5</yalign>
-	  <xpad>0</xpad>
-	  <ypad>0</ypad>
-	  <child>
-	    <left_attach>1</left_attach>
-	    <right_attach>3</right_attach>
-	    <top_attach>8</top_attach>
-	    <bottom_attach>9</bottom_attach>
-	    <xpad>0</xpad>
-	    <ypad>0</ypad>
-	    <xexpand>False</xexpand>
-	    <yexpand>False</yexpand>
-	    <xshrink>False</xshrink>
-	    <yshrink>False</yshrink>
-	    <xfill>True</xfill>
-	    <yfill>True</yfill>
-	  </child>
-	</widget>
-
-	<widget>
 	  <class>GtkAlignment</class>
 	  <name>alignment3</name>
 	  <xalign>1</xalign>
@@ -1035,6 +983,7 @@
 	    <yalign>0.5</yalign>
 	    <xpad>0</xpad>
 	    <ypad>0</ypad>
+	    <focus_target>entry-phone1</focus_target>
 	  </widget>
 	</widget>
 
@@ -1651,6 +1600,60 @@
 	    <column_spacing>0</column_spacing>
 	  </widget>
 	</widget>
+
+	<widget>
+	  <class>GtkLabel</class>
+	  <name>label21</name>
+	  <label>File A_s:</label>
+	  <justify>GTK_JUSTIFY_CENTER</justify>
+	  <wrap>False</wrap>
+	  <xalign>0</xalign>
+	  <yalign>0.5</yalign>
+	  <xpad>0</xpad>
+	  <ypad>0</ypad>
+	  <focus_target>entry-file-as</focus_target>
+	  <child>
+	    <left_attach>1</left_attach>
+	    <right_attach>3</right_attach>
+	    <top_attach>3</top_attach>
+	    <bottom_attach>4</bottom_attach>
+	    <xpad>0</xpad>
+	    <ypad>0</ypad>
+	    <xexpand>False</xexpand>
+	    <yexpand>False</yexpand>
+	    <xshrink>False</xshrink>
+	    <yshrink>False</yshrink>
+	    <xfill>True</xfill>
+	    <yfill>False</yfill>
+	  </child>
+	</widget>
+
+	<widget>
+	  <class>GtkLabel</class>
+	  <name>label22</name>
+	  <label>_Web page address:</label>
+	  <justify>GTK_JUSTIFY_CENTER</justify>
+	  <wrap>False</wrap>
+	  <xalign>0</xalign>
+	  <yalign>0.5</yalign>
+	  <xpad>0</xpad>
+	  <ypad>0</ypad>
+	  <focus_target>entry-web</focus_target>
+	  <child>
+	    <left_attach>1</left_attach>
+	    <right_attach>3</right_attach>
+	    <top_attach>8</top_attach>
+	    <bottom_attach>9</bottom_attach>
+	    <xpad>0</xpad>
+	    <ypad>0</ypad>
+	    <xexpand>False</xexpand>
+	    <yexpand>False</yexpand>
+	    <xshrink>False</xshrink>
+	    <yshrink>False</yshrink>
+	    <xfill>True</xfill>
+	    <yfill>False</yfill>
+	  </child>
+	</widget>
       </widget>
 
       <widget>
@@ -1821,6 +1824,7 @@
 	  <yalign>0.5</yalign>
 	  <xpad>0</xpad>
 	  <ypad>0</ypad>
+	  <focus_target>dateedit-birthday</focus_target>
 	  <child>
 	    <left_attach>3</left_attach>
 	    <right_attach>4</right_attach>
@@ -1901,6 +1905,7 @@
 	  <yalign>0.5</yalign>
 	  <xpad>0</xpad>
 	  <ypad>0</ypad>
+	  <focus_target>dateedit-anniversary</focus_target>
 	  <child>
 	    <left_attach>3</left_attach>
 	    <right_attach>4</right_attach>
@@ -2114,6 +2119,7 @@
 	  <yalign>0.5</yalign>
 	  <xpad>0</xpad>
 	  <ypad>0</ypad>
+	  <focus_target>text-comments</focus_target>
 	  <child>
 	    <left_attach>1</left_attach>
 	    <right_attach>2</right_attach>
@@ -2258,6 +2264,7 @@
 	<widget>
 	  <class>Custom</class>
 	  <name>dateedit-birthday</name>
+	  <can_focus>True</can_focus>
 	  <creation_function>e_contact_editor_create_date</creation_function>
 	  <int1>0</int1>
 	  <int2>0</int2>
@@ -2281,6 +2288,7 @@
 	<widget>
 	  <class>Custom</class>
 	  <name>dateedit-anniversary</name>
+	  <can_focus>True</can_focus>
 	  <creation_function>e_contact_editor_create_date</creation_function>
 	  <int1>0</int1>
 	  <int2>0</int2>
