@@ -1,3 +1,8 @@
+2000-11-10  Christopher James Lahey  <clahey@helixcode.com>
+
+	* e-search-bar.c: Switched from using gtk_menu_item_new_with_label
+	for the menu header to using gnome_stock_menu_item.
+
 2000-11-08  Anna Marie Dirks  <anna@helixcode.com>
 	* e-search-bar.c: Fixed two spacing problems: first, changed
 	the spacing around the end of the text-entry widget so that 

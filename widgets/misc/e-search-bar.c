@@ -156,7 +156,7 @@ esb_pack_menubar(ESearchBar *esb, ESearchBarItem *items)
 	}
 	gtk_widget_show_all (menu);
 
-	menuitem = gtk_menu_item_new_with_label(_("Search"));
+	menuitem = gnome_stock_menu_item(GNOME_STOCK_MENU_SEARCH, _("Search"));
 	gtk_menu_item_set_submenu(GTK_MENU_ITEM(menuitem), menu);
 
 	gtk_widget_show (menuitem);
