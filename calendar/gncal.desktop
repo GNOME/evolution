@@ -1,7 +1,9 @@
 [Desktop Entry]
 Name=Calendar
 Name[es]=Calendario
+Name[fr]=Calendrier
 Comment=Calendar application
+Comment[fr]=Calendrier Gnome
 Exec=gncal
 Icon=
 Terminal=0
