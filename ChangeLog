@@ -1,3 +1,7 @@
+2001-01-01  Michael Meeks  <michael@helixcode.com>
+
+	* configure.in: Require bonobo 0.31
+
 2000-12-24  Not Zed  <NotZed@HelixCode.com>
 
 	* configure.in: If we find threads ok, then always turn on

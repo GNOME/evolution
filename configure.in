@@ -242,11 +242,11 @@ AC_SUBST(GNOME_PRINT_CFLAGS)
 dnl ******************************
 dnl Check for Bonobo
 dnl ******************************
-AC_MSG_CHECKING(for Bonobo >= 0.29)
+AC_MSG_CHECKING(for Bonobo >= 0.31)
 if gnome-config --libs bonobox > /dev/null 2>&1; then
 	vers=`gnome-config --modversion bonobo | sed -e "s/bonobo-//" | \
 		awk 'BEGIN { FS = "."; } { printf "%d", $1 * 1000 + $2;}'`
-	if test "$vers" -ge 29; then
+	if test "$vers" -ge 31; then
 		bonobo_ok=true
 	else
 		bonobo_ok=false
@@ -258,7 +258,7 @@ fi
 if $bonobo_ok; then
 	AC_MSG_RESULT($vers found)
 else
-	AC_MSG_ERROR(Bonobo 0.29 or newer is required to compile Evolution)
+	AC_MSG_ERROR(Bonobo 0.31 or newer is required to compile Evolution)
 fi
 
 dnl ******************************
