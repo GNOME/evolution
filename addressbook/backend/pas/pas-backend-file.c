@@ -925,7 +925,7 @@ pas_backend_file_process_get_vcard (PASBackend *backend,
 		card = vcard_dbt.data;
 		status = GNOME_Evolution_Addressbook_BookListener_Success;
 	} else {
-		card = NULL;
+		card = "";
 		status = GNOME_Evolution_Addressbook_BookListener_CardNotFound;
 	}
 
