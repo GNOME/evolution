@@ -1,3 +1,20 @@
+2001-05-28  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* camel-mime-utils.c (header_decode_param): Properly handle
+	correct and incorrect (for the common case, ie Outlook and
+	Netscape/Mozilla) rfc2184 values.
+	(header_decode_rfc2184_param): Get the param name and see if we
+	should expect a rfc2184 parameter value.
+	(rfc2184_decode): Decode a rfc2184 value.
+	(hex_decode): hex decode a string.
+	(header_decode_param_list): Handle rfc2184 encoded parameters (ie
+	parameters that have been split and perhaps encoded).
+	(header_param_list_format_append): Encode the value before seeing
+	if it will fit on the line. If the value does get encoded, be sure
+	to put a '*' before the equal-sign.
+	(header_encode_param): New function to rfc2184 encode a parameter
+	value (maybe it should be renamed?)
+
 2001-06-14  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* camel-mime-part.c (init_header_name_table): Don't try to format
