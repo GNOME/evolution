@@ -42,13 +42,11 @@
 
 
 #include <libebook/e-book.h>
-//#include <e-book-util.h>
 
 #include <importer/evolution-importer.h>
 #include <importer/GNOME_Evolution_Importer.h>
 #include <widgets/misc/e-source-selector.h>
-
-#include <e-util/e-path.h>
+#include <util/eab-book-util.h>
 
 #define COMPONENT_FACTORY_IID "OAFIID:GNOME_Evolution_Addressbook_VCard_ImporterFactory"
 #define COMPONENT_IID "OAFIID:GNOME_Evolution_Addressbook_VCard_Importer"
@@ -211,7 +209,18 @@ static void
 importer_destroy_cb (gpointer data,
 		     GObject *where_object_was)
 {
-	/* FIXME Implement */
+	VCardImporter *gci = data;
+
+	if (gci->primary)
+		g_object_unref (gci->primary);
+	
+	if (gci->book)
+		g_object_unref (gci->book);
+
+	g_list_foreach (gci->contactlist, (GFunc) g_object_unref, NULL);
+	g_list_free (gci->contactlist);
+
+	g_free (gci);
 }
 
 static gboolean
@@ -220,7 +229,8 @@ load_file_fn (EvolutionImporter *importer,
 	      void *closure)
 {
 	VCardImporter *gci;
-
+	char *contents;
+	
 	if (check_file_is_vcard (filename) == FALSE) {
 		return FALSE;
 	}
@@ -230,14 +240,22 @@ load_file_fn (EvolutionImporter *importer,
 	gci->iterator = NULL;
 	gci->ready = FALSE;
 	
-	/* Load the book and the cards */
+	/* Load the book */
 	gci->book = e_book_new ();
 	if (!gci->book) {
 		g_message (G_STRLOC ":Couldn't create EBook.");
 		return FALSE;
 	}
 	e_book_load_source (gci->book, gci->primary, TRUE, NULL);
-//	gci->cardlist = e_card_load_cards_from_file_with_default_charset(filename, "ISO-8859-1");
+
+	/* Load the file and the contacts */
+	if (!g_file_get_contents (filename, &contents, NULL, NULL)) {
+		g_message (G_STRLOC ":Couldn't read file.");
+		return FALSE;
+	}	
+	gci->contactlist = eab_contact_list_from_string (contents);
+	g_free (contents);
+
 	gci->ready = TRUE;
 
 	return TRUE;

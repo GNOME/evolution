@@ -1,5 +1,12 @@
 2004-02-06  JP Rosevear <jpr@ximian.com>
 
+	* importers/evolution-vcard-importer.c (importer_destroy_cb):
+	implement
+	(load_file_fn): use g_file_get_contents to get a string we can
+	convert to a contact list with eab_contact_list_from_string 
+
+2004-02-06  JP Rosevear <jpr@ximian.com>
+
 	* importers/GNOME_Evolution_Addressbook_LDIF_Importer.server.in.in:
 	shlib importer info
 
