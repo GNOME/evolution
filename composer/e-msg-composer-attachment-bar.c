@@ -608,12 +608,11 @@ attach_to_multipart (CamelMultipart *multipart,
 	CamelMimePart *part;
 	struct stat st;
 	int fd;
+	char *data;
 
 	part = camel_mime_part_new ();
 	fd = open (attachment->file_name, O_RDONLY);
 	if (fd != -1 && fstat (fd, &st) != -1) {
-		char *data;
-
 		data = g_malloc (st.st_size);
 		read (fd, data, st.st_size);
 		close (fd);
@@ -630,6 +629,16 @@ attach_to_multipart (CamelMultipart *multipart,
 	camel_mime_part_set_filename (part,
 				      g_basename (attachment->file_name));
 	camel_mime_part_set_description (part, attachment->description);
+
+	/* Kludge a bit on CTE. For now, we set QP for text/ and message/
+	 * and B64 for all else. FIXME.
+	 */
+
+	if (!strncasecmp (attachment->mime_type, "text/", 5) ||
+	    !strncasecmp (attachment->mime_type, "message/", 8))
+		camel_mime_part_set_encoding (part, CAMEL_MIME_PART_ENCODING_QUOTEDPRINTABLE);
+	else
+		camel_mime_part_set_encoding (part, CAMEL_MIME_PART_ENCODING_BASE64);
 
 	camel_multipart_add_part (multipart, part);
 	gtk_object_unref (GTK_OBJECT (part));

@@ -1,3 +1,8 @@
+2000-05-10  Dan Winship  <danw@helixcode.com>
+
+	* e-msg-composer-attachment-bar.c (attach_to_multipart): deal with
+	Content-Transfer-Encoding a little bit at least.
+
 2000-05-07  Mathieu Lacage <mathieu@gnu.org>
 
 	* e-msg-composer.c (create_editor): remove FIXME and hardcoded 
