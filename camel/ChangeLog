@@ -1,3 +1,11 @@
+2002-11-21  Not Zed  <NotZed@Ximian.com>
+
+	* providers/imap/camel-imap-store-summary.c
+	(camel_imap_store_summary_namespace_find_path): If we have a
+	namespace of "", then always match any path.
+	(camel_imap_store_summary_namespace_find_full): Same, for full
+	names. Should address #33309 & friends.
+
 2002-11-19  Radek Doulik  <rodo@ximian.com>
 
 	* camel-mime-filter-tohtml.c (html_convert): added

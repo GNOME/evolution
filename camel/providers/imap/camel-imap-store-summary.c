@@ -401,8 +401,9 @@ camel_imap_store_summary_namespace_find_path(CamelImapStoreSummary *s, const cha
 	ns = s->namespace;
 	while (ns) {
 		len = strlen(ns->path);
-		if (strncmp(ns->path, path, len) == 0
-		    && (path[len] == '/' || path[len] == 0))
+		if (len == 0
+		    || (strncmp(ns->path, path, len) == 0
+			&& (path[len] == '/' || path[len] == 0)))
 			break;
 		ns = NULL;
 	}
@@ -422,8 +423,9 @@ camel_imap_store_summary_namespace_find_full(CamelImapStoreSummary *s, const cha
 	while (ns) {
 		len = strlen(ns->full_name);
 		d(printf("find_full: comparing namespace '%s' to name '%s'\n", ns->full_name, full));
-		if (strncmp(ns->full_name, full, len) == 0
-		    && (full[len] == ns->sep || full[len] == 0))
+		if (len == 0
+		    || (strncmp(ns->full_name, full, len) == 0
+			&& (full[len] == ns->sep || full[len] == 0)))
 			break;
 		ns = NULL;
 	}
