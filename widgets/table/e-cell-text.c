@@ -49,6 +49,8 @@
 #include <ctype.h>
 #include <math.h>
 
+#define ECT_CLASS(c) (E_CELL_TEXT_CLASS(GTK_OBJECT((c))->klass))
+
 /* This defines a line of text */
 struct line {
 	char *text;	/* Line's text UTF-8, it is a pointer into the text->text string */
@@ -63,8 +65,6 @@ enum {
 
 	ARG_STRIKEOUT_COLUMN,
 	ARG_BOLD_COLUMN,
-	ARG_TEXT_FILTER_FUNC,
-	ARG_TEXT_FILTER_CLOSURE,
 	ARG_COLOR_COLUMN,
 };
 
@@ -210,6 +210,33 @@ static void ect_free_color (gchar *color_spec, GdkColor *color, GdkColormap *col
 static GdkColor* e_cell_text_get_color (ECellTextView *cell_view, gchar *color_spec);
 
 static ECellClass *parent_class;
+
+static char *
+ect_get_text (ECellText *cell, ETableModel *model, int col, int row)
+{
+	if (ECT_CLASS(cell)->get_text)
+		return ECT_CLASS(cell)->get_text (cell, model, col, row);
+	else
+		return NULL;
+}
+
+static void
+ect_free_text (ECellText *cell, char *text)
+{
+	if (ECT_CLASS(cell)->free_text)
+		ECT_CLASS(cell)->free_text (cell, text);
+}
+
+static char *
+ect_real_get_text (ECellText *cell, ETableModel *model, int col, int row)
+{
+	return e_table_model_value_at(model, col, row);
+}
+
+static void
+ect_real_free_text (ECellText *cell, char *text)
+{
+}
 
 static void
 ect_queue_redraw (ECellTextView *text_view, int view_col, int view_row)
@@ -900,28 +927,16 @@ ect_height (ECellView *ecell_view, int model_col, int view_col, int row)
 	ECellTextView *text_view = (ECellTextView *) ecell_view;
 	EFont *font;
 	ECellText *ect = E_CELL_TEXT(ecell_view->ecell);
+	gchar *string;
+	gint value;
 	
 	font = text_view->font;
-	if (ect->filter_func) {
-		gchar *string;
-		gint value;
 
-		string = (*ect->filter_func)(NULL, e_table_model_value_at (ecell_view->e_table_model, model_col, row), ect->filter_closure);
-		value = e_font_height (font) * number_of_lines(string) + TEXT_PAD;
+	string = ect_get_text(ect, ecell_view->e_table_model, model_col, row);
+	value = e_font_height (font) * number_of_lines(string) + TEXT_PAD;
+	ect_free_text(ect, string);
 
-		g_free(string);
-
-		return value;
-	} else {
-		gchar * string;
-		gint value;
-
-		string = e_table_model_value_at (ecell_view->e_table_model, model_col, row);
-
-		value = e_font_height (font) * number_of_lines (string) + TEXT_PAD;
-
-		return value;
-	}
+	return value;
 }
 
 /*
@@ -933,6 +948,7 @@ ect_enter_edit (ECellView *ecell_view, int model_col, int view_col, int row)
 	ECellTextView *text_view = (ECellTextView *) ecell_view;
 	CellEdit *edit;
 	ECellText *ect = E_CELL_TEXT(ecell_view->ecell);
+	char *temp;
 
 	edit = g_new (CellEdit, 1);
 	text_view->edit = edit;
@@ -974,11 +990,9 @@ ect_enter_edit (ECellView *ecell_view, int model_col, int view_col, int row)
 	edit->pointer_in = FALSE;
 	edit->default_cursor_shown = TRUE;
 	
-	if (ect->filter_func) {
-		edit->old_text = (*ect->filter_func)(NULL, e_table_model_value_at (ecell_view->e_table_model, model_col, row), ect->filter_closure);
-	} else {
-		edit->old_text = g_strdup (e_table_model_value_at (ecell_view->e_table_model, model_col, row));
-	}
+	temp = ect_get_text(ect, ecell_view->e_table_model, model_col, row);
+	edit->old_text = g_strdup (temp);
+	ect_free_text(ect, temp);
 	edit->cell.text = g_strdup (edit->old_text);
 
 #if 0
@@ -1025,11 +1039,7 @@ ect_print (ECellView *ecell_view, GnomePrintContext *context,
 	GnomeFont *font = gnome_font_new ("Helvetica", 12);
 	char *string;
 	ECellText *ect = E_CELL_TEXT(ecell_view->ecell);
-	if (ect->filter_func) {
-		string = (*ect->filter_func)(NULL, e_table_model_value_at (ecell_view->e_table_model, model_col, row), ect->filter_closure);
-	} else {
-		string = e_table_model_value_at (ecell_view->e_table_model, model_col, row);
-	}
+	string = ect_get_text(ect, ecell_view->e_table_model, model_col, row);
 	gnome_print_gsave(context);
 	if (gnome_print_moveto(context, 2, 2) == -1)
 				/* FIXME */;
@@ -1047,9 +1057,7 @@ ect_print (ECellView *ecell_view, GnomePrintContext *context,
 	gnome_print_setfont(context, font);
 	gnome_print_show(context, string);
 	gnome_print_grestore(context);
-	if (ect->filter_func) {
-		g_free(string);
-	}
+	ect_free_text(ect, string);
 }
 
 static gdouble
@@ -1314,13 +1322,6 @@ ect_set_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 		text->color_column = GTK_VALUE_INT (*arg);
 		break;
 
-	case ARG_TEXT_FILTER_FUNC:
-		text->filter_func = GTK_VALUE_POINTER (*arg);
-		break;
-
-	case ARG_TEXT_FILTER_CLOSURE:
-		text->filter_closure = GTK_VALUE_POINTER (*arg);
-		break;
 	default:
 		return;
 	}
@@ -1347,14 +1348,6 @@ ect_get_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 		GTK_VALUE_INT (*arg) = text->color_column;
 		break;
 
-	case ARG_TEXT_FILTER_FUNC:
-		GTK_VALUE_POINTER (*arg) = text->filter_func;
-		break;
-
-	case ARG_TEXT_FILTER_CLOSURE:
-		GTK_VALUE_POINTER (*arg) = text->filter_closure;
-		break;
-
 	default:
 		arg->type = GTK_TYPE_INVALID;
 		break;
@@ -1365,6 +1358,7 @@ static void
 e_cell_text_class_init (GtkObjectClass *object_class)
 {
 	ECellClass *ecc = (ECellClass *) object_class;
+	ECellTextClass *ectc = (ECellTextClass *) object_class;
 
 	object_class->destroy = ect_destroy;
 
@@ -1382,6 +1376,9 @@ e_cell_text_class_init (GtkObjectClass *object_class)
 	ecc->max_width = ect_max_width;
 	ecc->show_tooltip = ect_show_tooltip;
 
+	ectc->get_text = ect_real_get_text;
+	ectc->free_text = ect_real_free_text;
+
 	object_class->get_arg = ect_get_arg;
 	object_class->set_arg = ect_set_arg;
 
@@ -1393,10 +1390,6 @@ e_cell_text_class_init (GtkObjectClass *object_class)
 				 GTK_TYPE_INT, GTK_ARG_READWRITE, ARG_BOLD_COLUMN);
 	gtk_object_add_arg_type ("ECellText::color_column",
 				 GTK_TYPE_INT, GTK_ARG_READWRITE, ARG_COLOR_COLUMN);
-	gtk_object_add_arg_type ("ECellText::text_filter_func",
-				 GTK_TYPE_POINTER, GTK_ARG_READWRITE, ARG_TEXT_FILTER_FUNC);
-	gtk_object_add_arg_type ("ECellText::text_filter_closure",
-				 GTK_TYPE_POINTER, GTK_ARG_READWRITE, ARG_TEXT_FILTER_CLOSURE);
 
 	if (!clipboard_atom)
 		clipboard_atom = gdk_atom_intern ("CLIPBOARD", FALSE);
@@ -1405,14 +1398,33 @@ e_cell_text_class_init (GtkObjectClass *object_class)
 static void
 e_cell_text_init (ECellText *ect)
 {
+	ect->ellipsis = NULL;
+	ect->use_ellipsis = TRUE;
 	ect->strikeout_column = -1;
 	ect->bold_column = -1;
 	ect->color_column = -1;
-	ect->filter_func = NULL;
-	ect->filter_closure = NULL;
 }
 
 E_MAKE_TYPE(e_cell_text, "ECellText", ECellText, e_cell_text_class_init, e_cell_text_init, PARENT_TYPE);
+
+/**
+ * e_cell_text_construct:
+ * @cell: The cell to construct
+ * @fontname: font to be used to render on the screen
+ * @justify: Justification of the string in the cell
+ *
+ * constructs the ECellText.  To be used by subclasses and language
+ * bindings.
+ *
+ * Returns: The ECellText.
+ */
+ECell *
+e_cell_text_construct (ECellText *cell, const char *fontname, GtkJustification justify)
+{
+	cell->font_name = g_strdup (fontname);
+	cell->justify = justify;
+	return E_CELL(cell);
+}
 
 /**
  * e_cell_text_new:
@@ -1426,7 +1438,7 @@ E_MAKE_TYPE(e_cell_text, "ECellText", ECellText, e_cell_text_class_init, e_cell_
  * The ECellText object support a large set of properties that can be
  * configured through the Gtk argument system and allows the user to have
  * a finer control of the way the string is displayed.  The arguments supported
- * allow the control of strikeout, bold, color and a text filter.
+ * allow the control of strikeout, bold, and color.
  *
  * The arguments "strikeout_column", "bold_column" and "color_column" set
  * and return an integer that points to a column in the model that controls
@@ -1443,12 +1455,8 @@ e_cell_text_new (const char *fontname, GtkJustification justify)
 {
 	ECellText *ect = gtk_type_new (e_cell_text_get_type ());
 
-	ect->ellipsis = NULL;
-	ect->use_ellipsis = TRUE;
+	e_cell_text_construct(ect, fontname, justify);
 
-	ect->font_name = g_strdup (fontname);
-	ect->justify = justify;
-      
 	return (ECell *) ect;
 }
 
@@ -2342,6 +2350,7 @@ build_current_cell (CurrentCell *cell, ECellTextView *text_view, int model_col, 
 {
 	ECellView *ecell_view = (ECellView *) text_view;
 	ECellText *ect = E_CELL_TEXT (ecell_view->ecell);
+	char *temp;
 
 	cell->text_view = text_view;
 	cell->model_col = model_col;
@@ -2349,11 +2358,10 @@ build_current_cell (CurrentCell *cell, ECellTextView *text_view, int model_col, 
 	cell->row = row;
 	cell->breaks = NULL;
 
-	if (ect->filter_func) {
-		cell->text = (*ect->filter_func)(NULL, e_table_model_value_at (ecell_view->e_table_model, model_col, row), ect->filter_closure);
-	} else {
-		cell->text = g_strdup (e_table_model_value_at (ecell_view->e_table_model, model_col, row));
-	}
+	temp = ect_get_text(ect, ecell_view->e_table_model, model_col, row);
+	cell->text = g_strdup(temp);
+	ect_free_text(ect, temp);
+
 	cell->width = e_table_header_get_column (
 		((ETableItem *)ecell_view->e_table_item_view)->header,
 		view_col)->width - 8;
