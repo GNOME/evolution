@@ -270,7 +270,7 @@ em_folder_selector_set_selected (EMFolderSelector *emfs, const char *uri)
 const char *
 em_folder_selector_get_selected_uri (EMFolderSelector *emfs)
 {
-	const char *uri;
+	const char *uri, *name;
 	
 	if (!(uri = em_folder_tree_get_selected_uri (emfs->emft))) {
 		d(printf ("no selected folder?\n"));
@@ -278,18 +278,29 @@ em_folder_selector_get_selected_uri (EMFolderSelector *emfs)
 	}
 	
 	if (uri && emfs->name_entry) {
+		CamelProvider *provider;
+		CamelException ex;
 		CamelURL *url;
 		char *newpath;
 		
+		camel_exception_init (&ex);
+		provider = camel_session_get_provider (session, uri, &ex);
+		camel_exception_clear (&ex);
+		
+		name = gtk_entry_get_text (emfs->name_entry);
+		
 		url = camel_url_new (uri, NULL);
-		/* FIXME: if we try to create a toplevel folder on a
-		 * store that uses fragments, url->fragment will be
-		 * NULL and so the resultant url will be incorrect */
-		newpath = g_strdup_printf ("%s/%s", url->fragment ? url->fragment : url->path, gtk_entry_get_text (emfs->name_entry));
-		if (url->fragment)
+		if (provider && (provider->url_flags & CAMEL_URL_FRAGMENT_IS_PATH)) {
+			if (url->fragment)
+				newpath = g_strdup_printf ("%s/%s", url->fragment, name);
+			else
+				newpath = g_strdup (name);
+			
 			camel_url_set_fragment (url, newpath);
-		else
+		} else {
+			newpath = g_strdup_printf ("%s/%s", url->path ? url->path : "", name);
 			camel_url_set_path (url, newpath);
+		}
 		
 		g_free (emfs->selected_path);
 		emfs->selected_path = newpath;

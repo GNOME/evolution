@@ -461,9 +461,8 @@ model_drag_data_received (GtkTreeDragDest *drag_dest, GtkTreePath *dest_path, Gt
 	if ((folder = camel_store_get_folder (store, full_name, 0, &ex))) {
 		/* FIXME: would have been nicer if we could 'move'
 		 * messages and/or folders. but alas, gtktreeview
-		 * drag&drop sucks ass and doesn't give us the
-		 * context->action to check for GDK_ACTION_MOVE, so we
-		 * can't. Yay. */
+		 * drag&drop doesn't give us the context->action to
+		 * check for GDK_ACTION_MOVE, so we can't. Yay. */
 		gboolean move = FALSE;
 		
 		if (selection->target == gdk_atom_intern ("x-uid-list", FALSE)) {

@@ -1,3 +1,9 @@
+2003-12-03  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* em-folder-selector.c (em_folder_selector_get_selected_uri):
+	Fixed a FIXME by using the CamelProvider url flags to determine if
+	the url used url->fragment or url->path as the folder path.
+
 2003-12-03  JP Rosevear <jpr@ximian.com>
 
 	* em-folder-tree.c (em_folder_tree_destroy): remove the source
