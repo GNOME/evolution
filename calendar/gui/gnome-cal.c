@@ -1757,23 +1757,23 @@ client_cal_opened_cb (ECal *ecal, ECalendarStatus status, GnomeCalendar *gcal)
 		} else {
 			int i;
 
+			/* add the client to internal structure */
+			g_hash_table_insert (priv->clients, g_strdup (e_cal_get_uri (ecal)), ecal);
+			priv->clients_list = g_list_prepend (priv->clients_list, ecal);
+
+			/* add client to the views */
 			for (i = 0; i < GNOME_CAL_LAST_VIEW; i++) {
 				ECalModel *model;
 		
 				model = e_calendar_view_get_model (priv->views[i]);
 				e_cal_model_add_client (model, ecal);
 			}
-		}
-	} else {
-		if (ecal != priv->task_pad_client) {
-			priv->clients_list = g_list_remove (priv->clients_list, ecal);
-			g_signal_handlers_disconnect_matched (ecal, G_SIGNAL_MATCH_DATA,
-							      0, 0, NULL, NULL, gcal);
 
-			/* Do this last because it unrefs the client */
-			g_hash_table_remove (priv->clients, e_cal_get_uri (ecal));
+			/* update date navigator query */
+			update_query (gcal);
 		}
-	}
+	} else
+		g_object_unref (ecal);
 }
 
 static gboolean
@@ -2118,19 +2118,12 @@ gnome_calendar_add_event_source (GnomeCalendar *gcal, ESource *source)
 	client = auth_new_cal_from_source (source, E_CAL_SOURCE_TYPE_EVENT);
 	if (!client)
 		return FALSE;
-
-	str_uri = e_source_get_uri (source);
-	g_hash_table_insert (priv->clients, str_uri, client);
-	priv->clients_list = g_list_prepend (priv->clients_list, client);
 	
 	g_signal_connect (G_OBJECT (client), "backend_error", G_CALLBACK (backend_error_cb), gcal);
 	g_signal_connect (G_OBJECT (client), "categories_changed", G_CALLBACK (client_categories_changed_cb), gcal);
 	g_signal_connect (G_OBJECT (client), "backend_died", G_CALLBACK (backend_died_cb), gcal);
 
 	open_ecal (gcal, client, FALSE);
-
-	/* update date navigator query */
-	update_query (gcal);
 
 	return TRUE;
 }

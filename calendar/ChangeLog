@@ -1,5 +1,11 @@
 2004-02-04  Rodrigo Moya <rodrigo@ximian.com>
 
+	* gui/gnome-cal.c (gnome_calendar_add_event_source): don't update the
+	date navigator query nor the internal lists here...
+	(client_cal_opened_cb): do it here.
+
+2004-02-04  Rodrigo Moya <rodrigo@ximian.com>
+
 	* gui/main.c (launch_alarm_daemon_cb): display the exception message
 	on error.
 
