@@ -236,7 +236,12 @@ update_time (SchedulePage *spage, CalComponentDateTime *start_date, CalComponent
 	}
 
 	start_tt = *start_date->value;
-	end_tt = *end_date->value;
+	if (!end_date->value && start_tt.is_date) {
+		end_tt = start_tt;
+		icaltime_adjust (&end_tt, 1, 0, 0, 0);
+	} else {
+		end_tt = *end_date->value;
+	}	
 	
 	/* If the end zone is not the same as the start zone, we convert it. */
 	priv->zone = start_zone;
