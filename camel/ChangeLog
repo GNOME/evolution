@@ -1,3 +1,10 @@
+2002-09-23  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* camel-mime-filter-charset.c (complete): Handle EILSEQ by eating
+	bytes in the input buffer until conversion is successful. The old
+	behaviour aborted when it got EILSEQ and just dumped the raw data.
+	(filter): Same. Fixes bug #30873.
+
 2002-09-24  Not Zed  <NotZed@Ximian.com>
 
 	* camel-mime-utils.c (mail_list_magic[]): Changed the Mailing-List
