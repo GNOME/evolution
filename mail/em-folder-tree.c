@@ -1361,12 +1361,14 @@ emft_popup_properties_got_folder (char *uri, CamelFolder *folder, void *data)
 	GSList *list, *l;
 	gint32 count, i;
 	char *name;
-	int row = 1;
+	char countstr[16];
+	int row = 0, total=0, unread=0;
 	
 	if (folder == NULL)
 		return;
 	
-	camel_object_get (folder, NULL, CAMEL_FOLDER_PROPERTIES, &list, CAMEL_FOLDER_NAME, &name, NULL);
+	camel_object_get (folder, NULL, CAMEL_FOLDER_PROPERTIES, &list, CAMEL_FOLDER_NAME, &name,
+			  CAMEL_FOLDER_TOTAL, &total, CAMEL_FOLDER_UNREAD, &unread, NULL);
 	
 	dialog = gtk_dialog_new_with_buttons (_("Folder properties"), NULL,
 					      GTK_DIALOG_DESTROY_WITH_PARENT,
@@ -1378,20 +1380,46 @@ emft_popup_properties_got_folder (char *uri, CamelFolder *folder, void *data)
 	gtk_widget_show (w);
 	gtk_box_pack_start ((GtkBox *) ((GtkDialog *) dialog)->vbox, w, TRUE, TRUE, 6);
 	
-	table = gtk_table_new (g_slist_length (list) + 1, 2, FALSE);
+	table = gtk_table_new (g_slist_length (list) + 3, 2, FALSE);
 	gtk_widget_show (table);
 	gtk_container_add ((GtkContainer *) w, table);
-	
+
+	/* TODO: can this be done in a loop? */
 	label = gtk_label_new (_("Folder Name"));
 	gtk_widget_show (label);
 	gtk_misc_set_alignment ((GtkMisc *) label, 1.0, 0.5);
-	gtk_table_attach ((GtkTable *) table, label, 0, 1, 0, 1, GTK_FILL | GTK_EXPAND, 0, 3, 0);
+	gtk_table_attach ((GtkTable *) table, label, 0, 1, row, row+1, GTK_FILL | GTK_EXPAND, 0, 3, 0);
 	
 	label = gtk_label_new (name);
 	gtk_widget_show (label);
 	gtk_misc_set_alignment ((GtkMisc *) label, 0.0, 0.5);
-	gtk_table_attach ((GtkTable *) table, label, 1, 2, 0, 1, GTK_FILL | GTK_EXPAND, 0, 3, 0);
+	gtk_table_attach ((GtkTable *) table, label, 1, 2, row, row+1, GTK_FILL | GTK_EXPAND, 0, 3, 0);
+	row++;
+
+	label = gtk_label_new (_("Total messages"));
+	gtk_widget_show (label);
+	gtk_misc_set_alignment ((GtkMisc *) label, 1.0, 0.5);
+	gtk_table_attach ((GtkTable *) table, label, 0, 1, row, row+1, GTK_FILL | GTK_EXPAND, 0, 3, 0);
 	
+	sprintf(countstr, "%d", total);
+	label = gtk_label_new (countstr);
+	gtk_widget_show (label);
+	gtk_misc_set_alignment ((GtkMisc *) label, 0.0, 0.5);
+	gtk_table_attach ((GtkTable *) table, label, 1, 2, row, row+1, GTK_FILL | GTK_EXPAND, 0, 3, 0);
+	row++;
+
+	label = gtk_label_new (_("Unread messages"));
+	gtk_widget_show (label);
+	gtk_misc_set_alignment ((GtkMisc *) label, 1.0, 0.5);
+	gtk_table_attach ((GtkTable *) table, label, 0, 1, row, row+1, GTK_FILL | GTK_EXPAND, 0, 3, 0);
+	
+	sprintf(countstr, "%d", unread);
+	label = gtk_label_new (countstr);
+	gtk_widget_show (label);
+	gtk_misc_set_alignment ((GtkMisc *) label, 0.0, 0.5);
+	gtk_table_attach ((GtkTable *) table, label, 1, 2, row, row+1, GTK_FILL | GTK_EXPAND, 0, 3, 0);
+	row++;
+
 	/* build an arggetv/argv to retrieve/store the results */
 	count = g_slist_length (list);
 	arggetv = g_malloc0 (sizeof (*arggetv) + (count - CAMEL_ARGV_MAX) * sizeof (arggetv->argv[0]));
