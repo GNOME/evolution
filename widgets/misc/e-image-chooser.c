@@ -23,6 +23,7 @@
 #include <stdio.h>
 #include <string.h>
 
+#include <gtk/gtkalignment.h>
 #include <gtk/gtkframe.h>
 #include <gtk/gtkimage.h>
 #include <gtk/gtkbutton.h>
@@ -157,18 +158,23 @@ static void
 e_image_chooser_init (EImageChooser *chooser)
 {
 	EImageChooserPrivate *priv;
+	GtkWidget *alignment;
 
 	priv = chooser->priv = g_new0 (EImageChooserPrivate, 1);
 
+	alignment = gtk_alignment_new (0, 0, 0, 0);
 	priv->frame = gtk_frame_new ("");
 	priv->image = gtk_image_new ();
+
+	gtk_container_add (GTK_CONTAINER (alignment), priv->image);
+
 #if UI_CHANGE_OK
 	priv->browse_button = gtk_button_new_with_label (_("Choose Image"));
 #endif
 
 	gtk_frame_set_shadow_type (GTK_FRAME (priv->frame), GTK_SHADOW_NONE);
 
-	gtk_container_add (GTK_CONTAINER (priv->frame), priv->image);
+	gtk_container_add (GTK_CONTAINER (priv->frame), alignment);
 	gtk_box_set_homogeneous (GTK_BOX (chooser), FALSE);
 	gtk_box_pack_start (GTK_BOX (chooser), priv->frame, TRUE, TRUE, 0);
 #if UI_CHANGE_OK
@@ -246,8 +252,13 @@ set_image_from_data (EImageChooser *chooser,
 
 		printf ("new dimensions = (%d,%d)\n", new_width, new_height);
 
-		if (chooser->priv->image_height < new_height
-		    || chooser->priv->image_width < new_width) {
+		if (chooser->priv->image_height == 0
+		    && chooser->priv->image_width == 0) {
+			printf ("initial setting of an image.  no scaling\n");
+			scale = 1.0;
+		}
+		else if (chooser->priv->image_height < new_height
+			 || chooser->priv->image_width < new_width) {
 			/* we need to scale down */
 			printf ("we need to scale down\n");
 			if (new_height > new_width)
@@ -266,31 +277,40 @@ set_image_from_data (EImageChooser *chooser,
 
 		printf ("scale = %g\n", scale);
 
-		new_width *= scale;
-		new_height *= scale;
-		new_width = MIN (new_width, chooser->priv->image_width);
-		new_height = MIN (new_height, chooser->priv->image_height);
+		if (scale == 1.0) {
+			gtk_image_set_from_pixbuf (GTK_IMAGE (chooser->priv->image), pixbuf);
 
-		printf ("new scaled dimensions = (%d,%d)\n", new_width, new_height);
+			chooser->priv->image_width = new_width;
+			chooser->priv->image_height = new_height;
+		}
+		else {
+			new_width *= scale;
+			new_height *= scale;
+			new_width = MIN (new_width, chooser->priv->image_width);
+			new_height = MIN (new_height, chooser->priv->image_height);
 
-		scaled = gdk_pixbuf_scale_simple (pixbuf,
-						  new_width, new_height,
-						  GDK_INTERP_BILINEAR);
+			printf ("new scaled dimensions = (%d,%d)\n", new_width, new_height);
 
-		composite = gdk_pixbuf_new (GDK_COLORSPACE_RGB, TRUE, gdk_pixbuf_get_bits_per_sample (pixbuf),
-					    chooser->priv->image_width, chooser->priv->image_height);
+			scaled = gdk_pixbuf_scale_simple (pixbuf,
+							  new_width, new_height,
+							  GDK_INTERP_BILINEAR);
 
-		gdk_pixbuf_fill (composite, 0x00000000);
+			composite = gdk_pixbuf_new (GDK_COLORSPACE_RGB, TRUE, gdk_pixbuf_get_bits_per_sample (pixbuf),
+						    chooser->priv->image_width, chooser->priv->image_height);
 
-		gdk_pixbuf_copy_area (scaled, 0, 0, new_width, new_height,
-				      composite,
-				      chooser->priv->image_width / 2 - new_width / 2,
-				      chooser->priv->image_height / 2 - new_height / 2);
+			gdk_pixbuf_fill (composite, 0x00000000);
 
-		gtk_image_set_from_pixbuf (GTK_IMAGE (chooser->priv->image), composite);
+			gdk_pixbuf_copy_area (scaled, 0, 0, new_width, new_height,
+					      composite,
+					      chooser->priv->image_width / 2 - new_width / 2,
+					      chooser->priv->image_height / 2 - new_height / 2);
+
+			gtk_image_set_from_pixbuf (GTK_IMAGE (chooser->priv->image), composite);
+			gdk_pixbuf_unref (scaled);
+			gdk_pixbuf_unref (composite);
+		}
+
 		gdk_pixbuf_unref (pixbuf);
-		gdk_pixbuf_unref (scaled);
-		gdk_pixbuf_unref (composite);
 
 		rv = TRUE;
 	}
@@ -459,6 +479,7 @@ e_image_chooser_set_from_file (EImageChooser *chooser, const char *filename)
 	gsize data_length;
 
 	g_return_val_if_fail (E_IS_IMAGE_CHOOSER (chooser), FALSE);
+	g_return_val_if_fail (filename, FALSE);
 
 	if (!g_file_get_contents (filename, &data, &data_length, NULL)) {
 		return FALSE;
@@ -479,4 +500,29 @@ e_image_chooser_set_editable (EImageChooser *chooser, gboolean editable)
 	chooser->priv->editable = editable;
 
 	gtk_widget_set_sensitive (chooser->priv->browse_button, editable);
+}
+
+gboolean
+e_image_chooser_get_image_data (EImageChooser *chooser, char **data, gsize *data_length)
+{
+	g_return_val_if_fail (E_IS_IMAGE_CHOOSER (chooser), FALSE);
+	g_return_val_if_fail (data != NULL, FALSE);
+	g_return_val_if_fail (data_length != NULL, FALSE);
+
+	*data_length = chooser->priv->image_buf_size;
+	*data = g_malloc (*data_length);
+	memcpy (*data, chooser->priv->image_buf, *data_length);
+
+	return TRUE;
+}
+
+gboolean
+e_image_chooser_set_image_data (EImageChooser *chooser, char *data, gsize data_length)
+{
+	g_return_val_if_fail (E_IS_IMAGE_CHOOSER (chooser), FALSE);
+	g_return_val_if_fail (data != NULL, FALSE);
+
+	set_image_from_data (chooser, data, data_length);
+
+	return TRUE;
 }

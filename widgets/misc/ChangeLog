@@ -1,5 +1,16 @@
 2004-01-30  Chris Toshok  <toshok@ximian.com>
 
+	* e-image-chooser.c (e_image_chooser_init): add an alignment
+	around the image.  This might not be enough.  hrm.
+	(set_image_from_data): handle the case where there's no image
+	(image_height == image_width == 0).
+	(e_image_chooser_get_image_data): new function.
+	(e_image_chooser_set_image_data): new function.
+
+	* e-image-chooser.h: add prototypes for set/get_image_data.
+
+2004-01-30  Chris Toshok  <toshok@ximian.com>
+
 	* e-image-chooser.[ch]: abstract out the drag and droppable image
 	widget from the contact list editor and stick it here.  There's
 	some code for a "Browse..." button here but it's not enabled.
