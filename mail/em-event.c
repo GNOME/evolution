@@ -162,7 +162,9 @@ static const EEventHookTargetMask emeh_folder_masks[] = {
 	{ 0 }
 };
 
+
 static const EEventHookTargetMask emeh_message_masks[] = {
+	{ "replyall", EM_EVENT_MESSAGE_REPLY_ALL },
 	{ 0 }
 };
 

@@ -1,9 +1,15 @@
+2004-10-22  Nat Friedman  <nat@novell.com>
+
+	* em-event.c: Add a REPLY_ALL flag to the Message target.
+	* em-composer-utils.c (em_utils_reply_to_message): Set the
+	REPLY_ALL flag when appropriate.
+
 2004-10-21  Not Zed  <NotZed@Ximian.com>
 
 	* em-composer-utils.c (em_utils_reply_to_message): emit a
 	'message.replying' event with a message target.
 
-2004-10-21  Nat <nat@novell.com>
+2004-10-21  Nat Friedman <nat@novell.com>
 
 	* em-event.c (em_event_target_new_message): new target type for
 	message-related events.

@@ -1764,7 +1764,8 @@ em_utils_reply_to_message(CamelFolder *folder, const char *uid, CamelMimeMessage
 
 	/* EVENT: message.replying definition */
 	eme = em_event_peek();
-	target = em_event_target_new_message(eme, folder, message, uid, 0);
+	target = em_event_target_new_message(eme, folder, message, uid,
+					     mode == REPLY_MODE_ALL ? EM_EVENT_MESSAGE_REPLY_ALL : 0);
 	e_event_emit((EEvent *)eme, "message.replying", (EEventTarget *)target);
 	
 	account = guess_account (message, folder);

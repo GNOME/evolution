@@ -49,6 +49,11 @@ enum {
 	EM_EVENT_FOLDER_NEWMAIL = 1<< 0,
 };
 
+/* Flags that describe TARGET_MESSAGE */
+enum {
+	EM_EVENT_MESSAGE_REPLY_ALL = 1<< 0,
+};
+
 typedef struct _EMEventTargetFolder EMEventTargetFolder;
 
 struct _EMEventTargetFolder {
@@ -59,9 +64,9 @@ struct _EMEventTargetFolder {
 typedef struct _EMEventTargetMessage EMEventTargetMessage;
 
 struct _EMEventTargetMessage {
-	EEventTarget      target;
+	EEventTarget              target;
 	struct _CamelFolder      *folder;
-	char             *uid;
+	char                     *uid;
 	struct _CamelMimeMessage *message;
 };
 

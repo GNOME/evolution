@@ -15,6 +15,7 @@ Spell.h
 em-marshal.c
 em-marshal.h
 evolution-mail-1.5.schemas
+evolution-mail-2.2.schemas
 evolution-mail-1.5.schemas.in
 mail-config.gladep
 mail-errors.xml
