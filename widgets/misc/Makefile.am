@@ -3,6 +3,7 @@ INCLUDES =								\
 	-I$(top_srcdir)/a11y/widgets/					\
 	-DMAP_DIR=\""$(imagesdir)"\"					\
 	-DEVOLUTION_PRIVDATADIR=\""$(privdatadir)"\"			\
+	-DEVOLUTION_GLADEDIR=\""$(gladedir)"\"				\
 	-DG_LOG_DOMAIN=__FILE__						\
 	$(E_WIDGETS_CFLAGS)
 
@@ -18,6 +19,8 @@ else
 pilot_sources =
 pilot_headers =
 endif
+
+glade_DATA = e-send-options.glade
 
 widgetsinclude_HEADERS =			\
 	$(pilot_headers)			\
@@ -43,6 +46,7 @@ widgetsinclude_HEADERS =			\
 	e-search-bar.h				\
 	e-task-bar.h				\
 	e-task-widget.h				\
+	e-send-options.h			\
 	e-url-entry.h
 
 libemiscwidgets_la_SOURCES =			\
@@ -71,6 +75,7 @@ libemiscwidgets_la_SOURCES =			\
 	e-search-bar.c				\
 	e-task-bar.c				\
 	e-task-widget.c				\
+	e-send-options.c			\
 	e-url-entry.c
 
 MARSHAL_GENERATED = e-util-marshal.c e-util-marshal.h
