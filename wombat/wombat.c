@@ -16,7 +16,7 @@
 #endif
 
 #include "calendar/pcs/cal-factory.h"
-#include "calendar/pcs/cal-backend-imc.h"
+#include "calendar/pcs/cal-backend-file.h"
 
 /* The and addressbook calendar factories */
 
@@ -183,7 +183,7 @@ setup_pcs (int argc, char **argv)
 		return;
 	}
 
-	cal_factory_register_method (cal_factory, "file", CAL_BACKEND_IMC_TYPE);
+	cal_factory_register_method (cal_factory, "file", CAL_BACKEND_FILE_TYPE);
 
 	object = bonobo_object_corba_objref (BONOBO_OBJECT (cal_factory));
 
@@ -265,6 +265,11 @@ init_bonobo (int *argc, char **argv)
 int
 main (int argc, char **argv)
 {
+	{
+		char *c = malloc (10);
+		if (c)
+			free (c);
+	}
 	init_bonobo  (&argc, argv);
 	setup_vfs    (argc, argv);
 

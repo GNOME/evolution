@@ -1,3 +1,33 @@
+2000-08-07  Federico Mena Quintero  <federico@helixcode.com>
+
+	* cal-util/cal-component.c (cal_component_get_as_string): Doh,
+	libical owns the string's memory, so do not free it.
+
+	* cal-client/client-test.c (create_client): Connect to the destroy
+	signal of the client here.
+
+	* cal-client/test.ics: New test file, modified from Eric Busboom's
+	test file from RFC 2445.
+
+2000-08-05  Federico Mena Quintero  <federico@helixcode.com>
+
+	* cal-client/client-test.c (dump_component): This was gone for
+	some reason.
+	(main): Load a new test file.
+
+2000-08-04  Federico Mena Quintero  <federico@helixcode.com>
+
+	* cal-util/cal-component.c (cal_component_commit_sequence): New
+	function to commit changes to the SEQUENCE property.
+	(cal_component_get_as_string): Ensure that the sequence has been
+	committed.
+
+	* cal-client/cal-client.c (cal_client_get_object): Use
+	CalComponent instead of the old iCalObject.
+	(cal_client_update_object): Use iCalObject.  Commit the SEQUENCE
+	property before stringifying the object and piping it over to the
+	Wombat.
+
 2000-08-04  Seth Alves  <alves@hungry.com>
 
 	* conduits/todo/todo-conduit.c (conduit_get_gpilot_conduit): if
@@ -8,6 +38,16 @@
 2000-08-04  Michael Meeks  <michael@helixcode.com>
 
 	* gui/calendar-commands.c (calendar_control_activate): unref.
+
+2000-08-02  Federico Mena Quintero  <federico@helixcode.com>
+
+	* pcs/cal-backend-file.c (cal_backend_file_get_uid_by_pilot_id):
+	Added stub for now.
+	(cal_backend_file_update_pilot_id): Likewise.
+
+	* pcs/Makefile.am (libpcs_a_SOURCES): Removed cal-backend-imc.[ch]
+	from the list of sources.  The idea is to move vCalendar importing
+	to the GUI as a convenience function.
 
 2000-08-02  Seth Alves  <alves@hungry.com>
 

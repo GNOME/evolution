@@ -21,6 +21,7 @@
 
 #include <config.h>
 #include <ctype.h>
+#include <stdio.h>
 #include <gtk/gtksignal.h>
 #include "cal.h"
 #include "cal-backend.h"

@@ -25,7 +25,6 @@
 #include <libgnome/gnome-defs.h>
 #include <time.h>
 #include <glib.h>
-#include <cal-util/calobj.h>
 
 BEGIN_GNOME_DECLS
 
@@ -45,7 +44,9 @@ void cal_obj_instance_list_free (GList *list);
 /* Instance of an alarm trigger */
 typedef struct {
 	char *uid;			/* UID of object */
+#if 0
 	enum AlarmType type;		/* Type of alarm */
+#endif
 	time_t trigger;			/* Alarm trigger time */
 	time_t occur;			/* Occurrence time */
 } CalAlarmInstance;

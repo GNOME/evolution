@@ -32,9 +32,6 @@
 #include "cal-client.h"
 #include "cal-listener.h"
 
-#include "cal-util/icalendar-save.h"
-#include "cal-util/icalendar.h"
-
 
 
 /* Loading state for the calendar client */
@@ -272,6 +269,7 @@ cal_client_destroy (GtkObject *object)
 	priv->load_state = LOAD_STATE_NOT_LOADED;
 
 	g_free (priv);
+	client->priv = NULL;
 
 	if (GTK_OBJECT_CLASS (parent_class)->destroy)
 		(* GTK_OBJECT_CLASS (parent_class)->destroy) (object);
@@ -598,21 +596,22 @@ cal_client_get_n_objects (CalClient *client, CalObjType type)
 /**
  * cal_client_get_object:
  * @client: A calendar client.
- * @uid: Unique identifier for a calendar object.
- * @ico: Return value for the calendar object.
+ * @uid: Unique identifier for a calendar component.
+ * @comp: Return value for the calendar component object.
  *
- * Queries a calendar for a calendar object based on its unique identifier.
+ * Queries a calendar for a calendar component object based on its unique
+ * identifier.
  *
  * Return value: Result code based on the status of the operation.
  **/
 CalClientGetStatus
-cal_client_get_object (CalClient *client, const char *uid, iCalObject **ico)
+cal_client_get_object (CalClient *client, const char *uid, CalComponent **comp)
 {
 	CalClientPrivate *priv;
 	CORBA_Environment ev;
 	Evolution_Calendar_CalObj calobj_str;
 	CalClientGetStatus retval;
-	CalObjFindStatus status;
+	icalcomponent *icalcomp;
 
 	g_return_val_if_fail (client != NULL, CAL_CLIENT_GET_NOT_FOUND);
 	g_return_val_if_fail (IS_CAL_CLIENT (client), CAL_CLIENT_GET_NOT_FOUND);
@@ -621,10 +620,10 @@ cal_client_get_object (CalClient *client, const char *uid, iCalObject **ico)
 	g_return_val_if_fail (priv->load_state == LOAD_STATE_LOADED, CAL_CLIENT_GET_NOT_FOUND);
 
 	g_return_val_if_fail (uid != NULL, CAL_CLIENT_GET_NOT_FOUND);
-	g_return_val_if_fail (ico != NULL, CAL_CLIENT_GET_NOT_FOUND);
+	g_return_val_if_fail (comp != NULL, CAL_CLIENT_GET_NOT_FOUND);
 
 	retval = CAL_CLIENT_GET_NOT_FOUND;
-	*ico = NULL;
+	*comp = NULL;
 
 	CORBA_exception_init (&ev);
 	calobj_str = Evolution_Calendar_Cal_get_object (priv->cal, uid, &ev);
@@ -637,68 +636,36 @@ cal_client_get_object (CalClient *client, const char *uid, iCalObject **ico)
 		goto out;
 	}
 
-	status = ical_object_find_in_string (uid, calobj_str, ico);
+	icalcomp = icalparser_parse_string (calobj_str);
 	CORBA_free (calobj_str);
 
-	switch (status) {
-	case CAL_OBJ_FIND_SUCCESS:
-		retval = CAL_CLIENT_GET_SUCCESS;
-		break;
-
-	case CAL_OBJ_FIND_SYNTAX_ERROR:
+	if (!icalcomp) {
 		retval = CAL_CLIENT_GET_SYNTAX_ERROR;
-		break;
-
-	case CAL_OBJ_FIND_NOT_FOUND:
-		retval = CAL_CLIENT_GET_NOT_FOUND;
-		break;
-
-	default:
-		g_assert_not_reached ();
+		goto out;
 	}
+
+	*comp = cal_component_new ();
+	if (!cal_component_set_icalcomponent (*comp, icalcomp)) {
+		icalcomponent_free (icalcomp);
+		gtk_object_unref (GTK_OBJECT (*comp));
+		*comp = NULL;
+
+		retval = CAL_CLIENT_GET_SYNTAX_ERROR;
+		goto out;
+	}
+
+	retval = CAL_CLIENT_GET_SUCCESS;
 
  out:
 
 	CORBA_exception_free (&ev);
 	return retval;
-#if 0
-	icalcomponent* comp = NULL;
-	icalcomponent *subcomp;
-	iCalObject    *ical;
-
-	/* convert the string into an iCalObject */
-	(*ico) = NULL;
-	if (obj_str == NULL) return CAL_CLIENT_GET_SYNTAX_ERROR;
-	comp = icalparser_parse_string (obj_str);
-	free (obj_str);
-	if (!comp) return CAL_CLIENT_GET_SYNTAX_ERROR;
-	subcomp = icalcomponent_get_first_component (comp, ICAL_ANY_COMPONENT);
-	if (!subcomp) return CAL_CLIENT_GET_SYNTAX_ERROR;
-
-	while (subcomp) {
-		ical = ical_object_create_from_icalcomponent (subcomp);
-		if (ical->type != ICAL_EVENT &&
-		    ical->type != ICAL_TODO  &&
-		    ical->type != ICAL_JOURNAL) {
-			g_warning ("Skipping unsupported iCalendar component");
-		} else {
-			if (strcasecmp (ical->uid, uid) == 0) {
-				(*ico) = ical;
-				(*ico)->ref_count = 1;
-				return CAL_CLIENT_GET_SUCCESS;
-			}
-		}
-		subcomp = icalcomponent_get_next_component (comp,
-							   ICAL_ANY_COMPONENT);
-	}
-#endif
 }
 
-
-
-CalClientGetStatus cal_client_get_uid_by_pilot_id (CalClient *client,
-						   unsigned long pilot_id,
-						   char **uid)
+CalClientGetStatus
+cal_client_get_uid_by_pilot_id (CalClient *client,
+				unsigned long pilot_id,
+				char **uid)
 {
 	CalClientPrivate *priv;
 	CORBA_Environment ev;
@@ -897,6 +864,7 @@ cal_client_get_events_in_range (CalClient *client, time_t start, time_t end)
 	return events;
 }
 
+#if 0
 /* Translates the CORBA representation of an AlarmType */
 static enum AlarmType
 uncorba_alarm_type (Evolution_Calendar_AlarmType corba_type)
@@ -919,6 +887,7 @@ uncorba_alarm_type (Evolution_Calendar_AlarmType corba_type)
 		return ALARM_DISPLAY;
 	}
 }
+#endif
 
 /* Builds a GList of CalAlarmInstance structures from the CORBA sequence */
 static GList *
@@ -938,7 +907,9 @@ build_alarm_instance_list (Evolution_Calendar_CalAlarmInstanceSeq *seq)
 		ai = g_new (CalAlarmInstance, 1);
 
 		ai->uid = g_strdup (corba_ai->uid);
+#if 0
 		ai->type = uncorba_alarm_type (corba_ai->type);
+#endif
 		ai->trigger = corba_ai->trigger;
 		ai->occur = corba_ai->occur;
 
@@ -1056,22 +1027,23 @@ cal_client_get_alarms_for_object (CalClient *client, const char *uid,
 /**
  * cal_client_update_object:
  * @client: A calendar client.
- * @ico: A calendar object.
+ * @comp: A calendar component object.
  *
- * Asks a calendar to update an object.  Any existing object with the specified
- * UID will be replaced.  The client program should not assume that the object
- * is actually in the server's storage until it has received the "obj_updated"
- * notification signal.
+ * Asks a calendar to update a component.  Any existing component with the
+ * specified component's UID will be replaced.  The client program should not
+ * assume that the object is actually in the server's storage until it has
+ * received the "obj_updated" notification signal.
  *
- * Return value: TRUE on success, FALSE on specifying an invalid object.
+ * Return value: TRUE on success, FALSE on specifying an invalid component.
  **/
 gboolean
-cal_client_update_object (CalClient *client, iCalObject *ico)
+cal_client_update_object (CalClient *client, CalComponent *comp)
 {
 	CalClientPrivate *priv;
 	CORBA_Environment ev;
 	gboolean retval;
 	char *obj_string;
+	const char *uid;
 
 	g_return_val_if_fail (client != NULL, FALSE);
 	g_return_val_if_fail (IS_CAL_CLIENT (client), FALSE);
@@ -1079,15 +1051,17 @@ cal_client_update_object (CalClient *client, iCalObject *ico)
 	priv = client->priv;
 	g_return_val_if_fail (priv->load_state == LOAD_STATE_LOADED, FALSE);
 
-	g_return_val_if_fail (ico != NULL, FALSE);
-	g_return_val_if_fail (ico->uid != NULL, FALSE);
+	g_return_val_if_fail (comp != NULL, FALSE);
 
 	retval = FALSE;
 
-	obj_string = ical_object_to_string (ico);
+	cal_component_commit_sequence (comp);
+	obj_string = cal_component_get_as_string (comp);
+
+	cal_component_get_uid (comp, &uid);
 
 	CORBA_exception_init (&ev);
-	Evolution_Calendar_Cal_update_object (priv->cal, ico->uid, obj_string, &ev);
+	Evolution_Calendar_Cal_update_object (priv->cal, uid, obj_string, &ev);
 	g_free (obj_string);
 
 	if (ev._major == CORBA_USER_EXCEPTION &&

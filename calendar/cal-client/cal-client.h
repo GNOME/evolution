@@ -24,6 +24,7 @@
 
 #include <libgnome/gnome-defs.h>
 #include <gtk/gtkobject.h>
+#include <cal-util/cal-component.h>
 #include <cal-util/cal-util.h>
 
 BEGIN_GNOME_DECLS
@@ -85,7 +86,7 @@ int cal_client_get_n_objects (CalClient *client, CalObjType type);
 
 CalClientGetStatus cal_client_get_object (CalClient *client,
 					  const char *uid,
-					  iCalObject **ico);
+					  CalComponent **comp);
 
 CalClientGetStatus cal_client_get_uid_by_pilot_id (CalClient *client,
 						   unsigned long pilot_id,
@@ -105,7 +106,7 @@ gboolean cal_client_get_alarms_for_object (CalClient *client, const char *uid,
 					   time_t start, time_t end,
 					   GList **alarms);
 
-gboolean cal_client_update_object (CalClient *client, iCalObject *ico);
+gboolean cal_client_update_object (CalClient *client, CalComponent *comp);
 
 gboolean cal_client_remove_object (CalClient *client, const char *uid);
 

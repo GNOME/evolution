@@ -345,6 +345,7 @@ Cal_get_events_in_range (PortableServer_Servant servant,
 	return seq;
 }
 
+#if 0
 /* Translates an enum AlarmType to its CORBA representation */
 static Evolution_Calendar_AlarmType
 corba_alarm_type (enum AlarmType type)
@@ -367,6 +368,7 @@ corba_alarm_type (enum AlarmType type)
 		return Evolution_Calendar_DISPLAY;
 	}
 }
+#endif
 
 /* Builds a CORBA sequence of alarm instances from a CalAlarmInstance list. */
 static Evolution_Calendar_CalAlarmInstanceSeq *
@@ -393,7 +395,9 @@ build_alarm_instance_seq (GList *alarms)
 		corba_ai = &seq->_buffer[i];
 
 		corba_ai->uid = CORBA_string_dup (ai->uid);
+#if 0
 		corba_ai->type = corba_alarm_type (ai->type);
+#endif
 		corba_ai->trigger = ai->trigger;
 		corba_ai->occur = ai->occur;
 	}

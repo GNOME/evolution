@@ -184,6 +184,7 @@ cal_listener_destroy (GtkObject *object)
 	CORBA_exception_free (&ev);
 
 	g_free (priv);
+	listener->priv = NULL;
 
 	if (GTK_OBJECT_CLASS (parent_class)->destroy)
 		(* GTK_OBJECT_CLASS (parent_class)->destroy) (object);
