@@ -313,12 +313,11 @@ mail/mail-config.c
 mail/mail-config-druid.c
 mail/mail-config.glade
 mail/mail-crypto.c
+mail/mail-dialogs.glade
 mail/mail-errors.xml.h
 mail/mail-folder-cache.c
 mail/mail-mt.c
 mail/mail-ops.c
-mail/mail-search.glade
-mail/mail-security.glade
 mail/mail-send-recv.c
 mail/mail-session.c
 mail/mail-signature-editor.c
@@ -328,8 +327,6 @@ mail/message-list.c
 mail/message-list.etspec
 mail/message-tag-editor.c
 mail/message-tag-followup.c
-mail/message-tags.glade
-mail/subscribe-dialog.glade
 # Please keep this list in alphabetic order.
 shell/apps_evolution_shell.schemas.in.in
 shell/e-component-registry.c

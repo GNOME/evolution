@@ -1,3 +1,7 @@
+2004-06-18  Not Zed  <NotZed@Ximian.com>
+
+	* POTFILES.in: fix up for mail glade ifle changes.
+
 2004-06-18  Takeshi AIHANA <aihana@gnome.gr.jp>
 
 	* ja.po: Updated Japanese translation.
