@@ -1,3 +1,8 @@
+1999-09-14  Kjartan Maraas  <kmaraas@online.no>
+
+	* doc/C/gnomecal.sgml: Merge from HEAD. Synced with newest
+	user-guide.
+	
 1999-09-01  Miguel de Icaza  <miguel@gnu.org>
 
 	* eventedit.c (ee_create_buttons): Make the OK button the default
