@@ -330,11 +330,13 @@ static const char *
 get_message_uid (MessageList *message_list, ETreePath node)
 {
 	CamelMessageInfo *info;
-
-	g_return_val_if_fail (node != NULL, NULL);
-	info = e_tree_memory_node_get_data (E_TREE_MEMORY(message_list->model), node);
-
-	return camel_message_info_uid(info);
+	
+	g_assert (node != NULL);
+	info = e_tree_memory_node_get_data (E_TREE_MEMORY (message_list->model), node);
+	/* correct me if I'm wrong, but this should never be NULL, should it? */
+	g_assert (info != NULL);
+	
+	return camel_message_info_uid (info);
 }
 
 /* Gets the CamelMessageInfo for the message displayed at the given
@@ -343,8 +345,13 @@ get_message_uid (MessageList *message_list, ETreePath node)
 static CamelMessageInfo *
 get_message_info (MessageList *message_list, ETreePath node)
 {
-	g_return_val_if_fail (node != NULL, NULL);
-	return e_tree_memory_node_get_data (E_TREE_MEMORY (message_list->model), node);
+	CamelMessageInfo *info;
+	
+	g_assert (node != NULL);
+	info = e_tree_memory_node_get_data (E_TREE_MEMORY (message_list->model), node);
+	g_assert (info != NULL);
+	
+	return info;
 }
 
 /**
@@ -1296,18 +1303,19 @@ clear_tree (MessageList *ml)
 /* we try and find something that isn't deleted in our tree
    there is actually no assurance that we'll find somethign that will
    still be there next time, but its probably going to work most of the time */
-static char *find_next_undeleted(MessageList *ml)
+static char *
+find_next_undeleted (MessageList *ml)
 {
 	ETreePath node;
 	int last;
 	int vrow;
 	ETree *et = ml->tree;
 	CamelMessageInfo *info;
-
-	node = g_hash_table_lookup(ml->uid_nodemap, ml->cursor_uid);
+	
+	node = g_hash_table_lookup (ml->uid_nodemap, ml->cursor_uid);
 	if (node == NULL)
 		return NULL;
-
+	
 	info = get_message_info (ml, node);
 	if (info && (info->flags & CAMEL_MESSAGE_DELETED) == 0) {
 		return NULL;
@@ -1327,7 +1335,7 @@ static char *find_next_undeleted(MessageList *ml)
 		node = e_tree_node_at_row (et, vrow);
 		info = get_message_info (ml, node);
 		if (info && (info->flags & CAMEL_MESSAGE_DELETED) == 0) {
-			return g_strdup (camel_message_info_uid(info));
+			return g_strdup (camel_message_info_uid (info));
 		}
 		vrow ++;
 	}
@@ -1766,20 +1774,20 @@ build_flat_diff(MessageList *ml, CamelFolderChangeInfo *changes)
 	/* add new nodes? - just append to the end */
 	d(printf("Adding messages to view:\n"));
 	for (i=0;i<changes->uid_added->len;i++) {
-		info = camel_folder_get_message_info(ml->folder, changes->uid_added->pdata[i]);
+		info = camel_folder_get_message_info (ml->folder, changes->uid_added->pdata[i]);
 		if (info) {
 			d(printf(" %s\n", (char *)changes->uid_added->pdata[i]));
-			node = e_tree_memory_node_insert(E_TREE_MEMORY(ml->model), ml->tree_root, -1, info);
-			g_hash_table_insert(ml->uid_nodemap, (void *)camel_message_info_uid(info), node);
+			node = e_tree_memory_node_insert (E_TREE_MEMORY (ml->model), ml->tree_root, -1, info);
+			g_hash_table_insert (ml->uid_nodemap, (void *)camel_message_info_uid (info), node);
 		}
 	}
 
 	/* and update changes too */
 	d(printf("Changing messages to view:\n"));
-	for (i=0;i<changes->uid_changed->len;i++) {
-		ETreePath *node = g_hash_table_lookup(ml->uid_nodemap, changes->uid_changed->pdata[i]);
+	for (i = 0; i < changes->uid_changed->len; i++) {
+		ETreePath *node = g_hash_table_lookup (ml->uid_nodemap, changes->uid_changed->pdata[i]);
 		if (node)
-			e_tree_model_node_data_changed(ml->model, node);
+			e_tree_model_node_data_changed (ml->model, node);
 	}
 
 #ifdef TIMEIT
@@ -1800,55 +1808,55 @@ main_folder_changed (CamelObject *o, gpointer event_data, gpointer user_data)
 	CamelMessageInfo *info;
 	CamelFolder *folder = (CamelFolder *)o;
 	int i;
-
+	
 	printf("folder changed event, changes = %p\n", changes);
 	if (changes) {
 		printf("changed = %d added = %d removed = %d\n",
 		       changes->uid_changed->len, changes->uid_added->len, changes->uid_removed->len);
-
+		
 		/* check if the hidden state has changed, if so modify accordingly, then regenerate */
 		if (ml->hidedeleted) {
-			newchanges = camel_folder_change_info_new();
+			newchanges = camel_folder_change_info_new ();
 			
-			for (i=0;i<changes->uid_changed->len;i++) {
+			for (i = 0; i < changes->uid_changed->len; i++) {
 				ETreePath node = g_hash_table_lookup (ml->uid_nodemap, changes->uid_changed->pdata[i]);
-
-				info = camel_folder_get_message_info(folder, changes->uid_changed->pdata[i]);
+				
+				info = camel_folder_get_message_info (folder, changes->uid_changed->pdata[i]);
 				if (node != NULL && info != NULL && (info->flags & CAMEL_MESSAGE_DELETED) != 0) {
-					camel_folder_change_info_remove_uid(newchanges, changes->uid_changed->pdata[i]);
+					camel_folder_change_info_remove_uid (newchanges, changes->uid_changed->pdata[i]);
 				} else if (node == NULL && info != NULL && (info->flags & CAMEL_MESSAGE_DELETED) == 0) {
-					camel_folder_change_info_add_uid(newchanges, changes->uid_changed->pdata[i]);
+					camel_folder_change_info_add_uid (newchanges, changes->uid_changed->pdata[i]);
 				} else {
-					camel_folder_change_info_change_uid(newchanges, changes->uid_changed->pdata[i]);
+					camel_folder_change_info_change_uid (newchanges, changes->uid_changed->pdata[i]);
 				}
-				camel_folder_free_message_info(folder, info);
+				camel_folder_free_message_info (folder, info);
 			}
 			
 			if (newchanges->uid_added->len > 0 || newchanges->uid_removed->len > 0) {
-				for (i=0;i<changes->uid_added->len;i++)
-					camel_folder_change_info_add_uid(newchanges, changes->uid_added->pdata[i]);
-				for (i=0;i<changes->uid_removed->len;i++)
-					camel_folder_change_info_remove_uid(newchanges, changes->uid_removed->pdata[i]);
-				camel_folder_change_info_free(changes);
+				for (i = 0; i < changes->uid_added->len; i++)
+					camel_folder_change_info_add_uid (newchanges, changes->uid_added->pdata[i]);
+				for (i = 0; i < changes->uid_removed->len; i++)
+					camel_folder_change_info_remove_uid (newchanges, changes->uid_removed->pdata[i]);
+				camel_folder_change_info_free (changes);
 				changes = newchanges;
 			} else {
-				camel_folder_change_info_free(newchanges);
+				camel_folder_change_info_free (newchanges);
 			}
 		}
-
+		
 		if (changes->uid_added->len == 0 && changes->uid_removed->len == 0 && changes->uid_changed->len < 100) {
-			for (i=0;i<changes->uid_changed->len;i++) {
+			for (i = 0; i < changes->uid_changed->len; i++) {
 				ETreePath node = g_hash_table_lookup (ml->uid_nodemap, changes->uid_changed->pdata[i]);
 				if (node)
-					e_tree_model_node_data_changed(ml->model, node);
+					e_tree_model_node_data_changed (ml->model, node);
 			}
-
-			camel_folder_change_info_free(changes);
+			
+			camel_folder_change_info_free (changes);
 			return;
 		}
 	}
-
-	mail_regen_list(ml, ml->search, NULL, changes);
+	
+	mail_regen_list (ml, ml->search, NULL, changes);
 }
 
 static void
@@ -1971,14 +1979,14 @@ on_cursor_activated_idle (gpointer data)
 	MessageList *message_list = data;
 	ESelectionModel *esm = e_tree_get_selection_model (message_list->tree);
 	gint selected = e_selection_model_selected_count (esm);
-
+	
 	if (selected > 1) {
 		return TRUE;
 	} else {
 		printf ("emitting cursor changed signal, for uid %s\n", message_list->cursor_uid);
 		gtk_signal_emit (GTK_OBJECT (message_list),
 				 message_list_signals[MESSAGE_SELECTED], message_list->cursor_uid);
-
+		
 		message_list->idle_id = 0;
 		return FALSE;
 	}
@@ -1987,23 +1995,21 @@ on_cursor_activated_idle (gpointer data)
 static void
 on_cursor_activated_cmd (ETree *tree, int row, ETreePath path, gpointer user_data)
 {
-	MessageList *message_list;
+	MessageList *message_list = MESSAGE_LIST (user_data);
 	const char *new_uid;
 	
-	message_list = MESSAGE_LIST (user_data);
-
 	if (path == NULL)
 		new_uid = NULL;
 	else
-		new_uid = get_message_uid(message_list, path);
-
+		new_uid = get_message_uid (message_list, path);
+	
 	if (message_list->cursor_uid != NULL && new_uid != NULL && !strcmp (message_list->cursor_uid, new_uid))
 		return;
-
+	
 	message_list->cursor_row = row;
-	g_free(message_list->cursor_uid);
+	g_free (message_list->cursor_uid);
 	message_list->cursor_uid = g_strdup (new_uid);
-
+	
 	if (!message_list->idle_id) {
 		message_list->idle_id =
 			g_idle_add_full (G_PRIORITY_LOW, on_cursor_activated_idle,

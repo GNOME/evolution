@@ -1,8 +1,15 @@
 2001-08-13  Anna Marie Dirks <anna@ximian.com>
+
 	* mail-accounts.c: Changed the title of the Mail Settings
 	dialog from "Evolution Account Manager" to "Mail Settings" .
 	
 2001-08-13  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* message-list.c (get_message_uid): Do some g_assert()
+	action. Make sure that the node passed in is non-NULL and also
+	make sure that the CamelMessageInfo gotten from the ETree is
+	non-NULL.
+	(get_message_info): Same here.
 
 	* mail-callbacks.c (expunge_folder): Confirm that the user really
 	wants to expunge.
