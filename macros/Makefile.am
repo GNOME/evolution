@@ -14,6 +14,7 @@ MACROS=						\
   gnome-support.m4				\
   gnome-undelfs.m4				\
   gnome-vfs.m4					\
+  gnome-print-check.m4				\
   gnome-x-checks.m4				\
   gnome-xml-check.m4				\
   gnome-gettext.m4				\
