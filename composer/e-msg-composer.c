@@ -2755,7 +2755,7 @@ e_msg_composer_get_visible_flags (EMsgComposer *composer)
 static void
 map_default_cb (EMsgComposer *composer, gpointer user_data)
 {
-	GtkWidget *to;
+	GtkWidget *widget;
 	BonoboControlFrame *cf;
 	Bonobo_PropertyBag pb = CORBA_OBJECT_NIL;
 	CORBA_Environment ev;
@@ -2764,14 +2764,15 @@ map_default_cb (EMsgComposer *composer, gpointer user_data)
 	
 	/* If the 'To:' field is empty, focus it (This is ridiculously complicated) */
 	
-	to = e_msg_composer_hdrs_get_to_entry (E_MSG_COMPOSER_HDRS (composer->hdrs));
-	cf = bonobo_widget_get_control_frame (BONOBO_WIDGET (to));
+	widget = e_msg_composer_hdrs_get_to_entry (E_MSG_COMPOSER_HDRS (composer->hdrs));
+	cf = bonobo_widget_get_control_frame (BONOBO_WIDGET (widget));
 	pb = bonobo_control_frame_get_control_property_bag (cf, NULL);
 	text = bonobo_pbclient_get_string (pb, "text", NULL);
 	bonobo_object_release_unref (pb, NULL);
 	
 	if (!text || text[0] == '\0') {
-		gtk_widget_grab_focus (to);
+		printf ("grabbing focus in the To entry...\n");
+		gtk_widget_grab_focus (widget);
 		g_free (text);
 		return;
 	}
@@ -2782,8 +2783,7 @@ map_default_cb (EMsgComposer *composer, gpointer user_data)
 	subject = e_msg_composer_hdrs_get_subject (E_MSG_COMPOSER_HDRS (composer->hdrs));
 	
 	if (!subject || subject[0] == '\0') {
-		GtkWidget *widget;
-		
+		printf ("grabbing focus in the Subject entry...\n");
 		widget = e_msg_composer_hdrs_get_subject_entry (E_MSG_COMPOSER_HDRS (composer->hdrs));
 		gtk_widget_grab_focus (widget);
 		return;
@@ -2995,7 +2995,8 @@ create_composer (int visible_mask)
 	
 	setup_cut_copy_paste (composer);
 	
-	g_signal_connect (composer, "map", (GCallback) map_default_cb, NULL);
+	/*g_signal_connect (composer, "map", (GCallback) map_default_cb, NULL);*/
+	map_default_cb (composer, NULL);
 	
 	if (am == NULL)
 		am = autosave_manager_new ();

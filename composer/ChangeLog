@@ -1,3 +1,10 @@
+2003-04-08  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* e-msg-composer.c (map_default_cb): Added some debug printfs.
+	(create_composer): Call map_default_cb directly instead of having
+	it in a "map" callback. Ettore says we shouldn't be doing this
+	*shrug*. Still doesn't work tho.
+
 2003-04-07  Chris Toshok  <toshok@ximian.com>
 
 	[ fixes bug #39763 ]
