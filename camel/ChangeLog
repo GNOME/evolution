@@ -1,5 +1,10 @@
 2001-10-30    <NotZed@Ximian.com>
 
+	* camel-operation.c (camel_operation_new): Dont setup cancel_fd.
+	(camel_operation_cancel_fd): If cancel_fd not created, set it up.
+	(camel_operation_cancel): Set cancel flag before sending message.
+	(cancel_thread): Same.
+
 	* camel-filter-driver.c (camel_filter_driver_filter_mbox): Make
 	sure we unref the mimeparse when we're done (successfully).  This
 	was leaking an fd every get-mail! :(
