@@ -61,3 +61,47 @@ e_pilot_utf8_from_pchar (const char *string)
 	
 	return ustring;
 }
+
+ESource *
+e_pilot_get_sync_source (ESourceList *source_list)
+{
+	GSList *g;
+
+	g_return_val_if_fail (source_list != NULL, NULL);
+	g_return_val_if_fail (E_IS_SOURCE_LIST (source_list), NULL);
+
+	for (g = e_source_list_peek_groups (source_list); g; g = g->next) {
+		ESourceGroup *group = E_SOURCE_GROUP (g->data);
+		GSList *s;
+
+		for (s = e_source_group_peek_sources (group); s; s = s->next) {
+			ESource *source = E_SOURCE (s->data);
+			
+			if (e_source_get_property (source, "pilot-sync"))
+				return source;
+		}
+	}
+
+	return NULL;
+}
+
+void
+e_pilot_set_sync_source (ESourceList *source_list, ESource *source)
+{
+	GSList *g;
+	
+	g_return_if_fail (source_list != NULL);
+	g_return_if_fail (E_IS_SOURCE_LIST (source_list));
+
+	for (g = e_source_list_peek_groups (source_list); g; g = g->next) {
+		GSList *s;
+		for (s = e_source_group_peek_sources (E_SOURCE_GROUP (g->data));
+		     s; s = s->next) {
+			e_source_set_property (E_SOURCE (s->data), "pilot-sync", NULL);
+		}
+	}
+
+	if (source)
+		e_source_set_property (source, "pilot-sync", "true");
+	e_source_list_sync (source_list, NULL);
+}

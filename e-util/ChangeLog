@@ -1,3 +1,14 @@
+2004-08-01  JP Rosevear  <jpr@novell.com>
+
+	* e-pilot-util.c (e_pilot_get_sync_source): find the source with
+	the pilot-sync property
+	(e_pilot_set_sync_source): give the source the pilot-sync property
+	and make sure its the only one
+
+	* e-pilot-util.h: add prototypes
+
+	* Makefile.am (eutilincludedir): don't build pilot settings
+
 2004-07-20  Not Zed  <NotZed@Ximian.com>
 
 	* e-dialog-utils.c: include config.h.  See #61395.

@@ -95,13 +95,11 @@ libeutil_la_LIBADD = $(E_UTIL_LIBS)
 
 econdinclude_HEADERS =		\
 	e-pilot-map.h		\
-	e-pilot-settings.h	\
 	e-pilot-util.h
 
 pilot_sources = \
 	$(econdinclude_HEADERS)	\
 	e-pilot-map.c		\
-	e-pilot-settings.c	\
 	e-pilot-util.c
 
 if ENABLE_PILOT_CONDUITS
