@@ -1,3 +1,7 @@
+2001-03-06  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-config-druid.c: Updated to have a transport auth page.
+
 2001-03-01  Miguel de Icaza  <miguel@ximian.com>
 
 	* folder-browser.c (on_right_click):  Move the context menus to

@@ -73,12 +73,12 @@ struct _MailConfigDruid {
 	GtkSpinButton  *incoming_auto_check_min;
 	GtkCheckButton *incoming_check_settings;
 	
-	/* authentication */
-	gboolean have_auth_page;
-	GtkWidget *auth_text;
-	GtkOptionMenu *auth_type;
-	GtkEntry *password;
-	GtkCheckButton *save_password;
+	/* source authentication */
+	gboolean have_source_auth_page;
+	GtkWidget *source_auth_text;
+	GtkOptionMenu *source_auth_type;
+	GtkEntry *source_password;
+	GtkCheckButton *save_source_password;
 	
 	/* outgoing mail */
 	GtkWidget *outgoing_text;
@@ -86,6 +86,14 @@ struct _MailConfigDruid {
 	GtkEntry *outgoing_hostname;
 	GtkCheckButton *outgoing_requires_auth;
 	GtkCheckButton *outgoing_check_settings;
+	
+	/* transport authentication */
+	gboolean have_transport_auth_page;
+	GtkWidget *transport_auth_text;
+	GtkOptionMenu *transport_auth_type;
+	GtkEntry *transport_username;
+	GtkEntry *transport_password;
+	GtkCheckButton *save_transport_password;
 	
 	const CamelProvider *source_provider;
 	const CamelProvider *transport_provider;
@@ -105,31 +113,22 @@ GtkType mail_config_druid_get_type (void);
 MailConfigDruid *mail_config_druid_new (GNOME_Evolution_Shell shell);
 
 char *mail_config_druid_get_account_name (MailConfigDruid *druid);
-
 gboolean mail_config_druid_get_default_account (MailConfigDruid *druid);
 
 char *mail_config_druid_get_full_name (MailConfigDruid *druid);
-
 char *mail_config_druid_get_email_address (MailConfigDruid *druid);
-
 char *mail_config_druid_get_reply_to (MailConfigDruid *druid);
-
 char *mail_config_druid_get_organization (MailConfigDruid *druid);
-
 char *mail_config_druid_get_sigfile (MailConfigDruid *druid);
 
 char *mail_config_druid_get_source_url (MailConfigDruid *druid);
-
 gboolean mail_config_druid_get_keep_mail_on_server (MailConfigDruid *druid);
-
-gboolean mail_config_druid_get_save_password (MailConfigDruid *druid);
-
+gboolean mail_config_druid_get_save_source_password (MailConfigDruid *druid);
 gboolean mail_config_druid_get_auto_check (MailConfigDruid *druid);
-
 gint mail_config_druid_get_auto_check_minutes (MailConfigDruid *druid);
 
 char *mail_config_druid_get_transport_url (MailConfigDruid *druid);
-
+gboolean mail_config_druid_get_save_transport_password (MailConfigDruid *druid);
 gboolean mail_config_druid_get_transport_requires_auth (MailConfigDruid *druid);
 
 #ifdef __cplusplus

@@ -796,16 +796,16 @@ Click &quot;Next&quot; to begin. </text>
 
     <widget>
       <class>GnomeDruidPageStandard</class>
-      <name>druidAuthPage</name>
+      <name>druidSourceAuthPage</name>
       <signal>
 	<name>prepare</name>
-	<handler>authentication_prepare</handler>
-	<last_modification_time>Tue, 07 Nov 2000 22:31:02 GMT</last_modification_time>
+	<handler>source_auth_prepare</handler>
+	<last_modification_time>Tue, 06 Mar 2001 21:58:17 GMT</last_modification_time>
       </signal>
       <signal>
 	<name>next</name>
-	<handler>authentication_next</handler>
-	<last_modification_time>Tue, 07 Nov 2000 22:31:08 GMT</last_modification_time>
+	<handler>source_auth_next</handler>
+	<last_modification_time>Tue, 06 Mar 2001 21:58:08 GMT</last_modification_time>
       </signal>
       <title>Authentication</title>
       <title_color>255,255,255</title_color>
@@ -827,7 +827,7 @@ Click &quot;Next&quot; to begin. </text>
 
 	<widget>
 	  <class>GtkVBox</class>
-	  <name>vbox8</name>
+	  <name>vboxSourceAuth</name>
 	  <border_width>6</border_width>
 	  <homogeneous>False</homogeneous>
 	  <spacing>0</spacing>
@@ -839,7 +839,7 @@ Click &quot;Next&quot; to begin. </text>
 
 	  <widget>
 	    <class>Custom</class>
-	    <name>htmlAuthentication</name>
+	    <name>htmlSourceAuthentication</name>
 	    <creation_function>mail_config_create_html</creation_function>
 	    <int1>0</int1>
 	    <int2>0</int2>
@@ -883,7 +883,7 @@ Click &quot;Next&quot; to begin. </text>
 
 		<widget>
 		  <class>GtkLabel</class>
-		  <name>authentication-type-label</name>
+		  <name>lblSourceAuthType</name>
 		  <label>Authentication Type:</label>
 		  <justify>GTK_JUSTIFY_CENTER</justify>
 		  <wrap>False</wrap>
@@ -900,7 +900,7 @@ Click &quot;Next&quot; to begin. </text>
 
 		<widget>
 		  <class>GtkOptionMenu</class>
-		  <name>omenuAuthType</name>
+		  <name>omenuSourceAuthType</name>
 		  <can_focus>True</can_focus>
 		  <items></items>
 		  <initial_choice>0</initial_choice>
@@ -929,7 +929,7 @@ Click &quot;Next&quot; to begin. </text>
 
 		<widget>
 		  <class>GtkEntry</class>
-		  <name>txtAuthPasswd</name>
+		  <name>txtSourceAuthPasswd</name>
 		  <can_focus>True</can_focus>
 		  <editable>True</editable>
 		  <text_visible>False</text_visible>
@@ -980,7 +980,7 @@ Click &quot;Next&quot; to begin. </text>
 
 	      <widget>
 		<class>GtkCheckButton</class>
-		<name>chkAuthSavePasswd</name>
+		<name>chkSourceAuthSavePasswd</name>
 		<border_width>4</border_width>
 		<can_focus>True</can_focus>
 		<label>Remember my password</label>
@@ -1243,6 +1243,260 @@ Click &quot;Next&quot; to begin. </text>
 		    <fill>False</fill>
 		  </child>
 		</widget>
+	      </widget>
+	    </widget>
+	  </widget>
+	</widget>
+      </widget>
+    </widget>
+
+    <widget>
+      <class>GnomeDruidPageStandard</class>
+      <name>druidTransportAuthPage</name>
+      <signal>
+	<name>prepare</name>
+	<handler>transport_auth_prepare</handler>
+	<last_modification_time>Tue, 07 Nov 2000 22:31:02 GMT</last_modification_time>
+      </signal>
+      <signal>
+	<name>next</name>
+	<handler>transport_auth_next</handler>
+	<last_modification_time>Tue, 07 Nov 2000 22:31:08 GMT</last_modification_time>
+      </signal>
+      <title>Transport Authentication</title>
+      <title_color>255,255,255</title_color>
+      <background_color>25,25,112</background_color>
+      <logo_background_color>25,25,112</logo_background_color>
+      <logo_image>registration.png</logo_image>
+
+      <widget>
+	<class>GtkVBox</class>
+	<child_name>GnomeDruidPageStandard:vbox</child_name>
+	<name>druid-vbox4</name>
+	<homogeneous>False</homogeneous>
+	<spacing>0</spacing>
+	<child>
+	  <padding>0</padding>
+	  <expand>True</expand>
+	  <fill>True</fill>
+	</child>
+
+	<widget>
+	  <class>GtkVBox</class>
+	  <name>vboxTransportAuth</name>
+	  <border_width>6</border_width>
+	  <homogeneous>False</homogeneous>
+	  <spacing>0</spacing>
+	  <child>
+	    <padding>0</padding>
+	    <expand>True</expand>
+	    <fill>True</fill>
+	  </child>
+
+	  <widget>
+	    <class>Custom</class>
+	    <name>htmlTransportAuthentication</name>
+	    <creation_function>mail_config_create_html</creation_function>
+	    <int1>0</int1>
+	    <int2>0</int2>
+	    <last_modification_time>Thu, 02 Nov 2000 17:31:34 GMT</last_modification_time>
+	    <child>
+	      <padding>0</padding>
+	      <expand>True</expand>
+	      <fill>True</fill>
+	    </child>
+	  </widget>
+
+	  <widget>
+	    <class>GtkFrame</class>
+	    <name>frmTransportAuth</name>
+	    <label>Authentication</label>
+	    <label_xalign>0</label_xalign>
+	    <shadow_type>GTK_SHADOW_ETCHED_IN</shadow_type>
+	    <child>
+	      <padding>0</padding>
+	      <expand>True</expand>
+	      <fill>True</fill>
+	    </child>
+
+	    <widget>
+	      <class>GtkVBox</class>
+	      <name>vbox9</name>
+	      <homogeneous>False</homogeneous>
+	      <spacing>0</spacing>
+
+	      <widget>
+		<class>GtkHBox</class>
+		<name>hbox25</name>
+		<border_width>4</border_width>
+		<homogeneous>False</homogeneous>
+		<spacing>4</spacing>
+		<child>
+		  <padding>0</padding>
+		  <expand>False</expand>
+		  <fill>True</fill>
+		</child>
+
+		<widget>
+		  <class>GtkLabel</class>
+		  <name>lblTransportAuthType</name>
+		  <label>Authentication Type:</label>
+		  <justify>GTK_JUSTIFY_CENTER</justify>
+		  <wrap>False</wrap>
+		  <xalign>1</xalign>
+		  <yalign>0.5</yalign>
+		  <xpad>0</xpad>
+		  <ypad>0</ypad>
+		  <child>
+		    <padding>0</padding>
+		    <expand>False</expand>
+		    <fill>True</fill>
+		  </child>
+		</widget>
+
+		<widget>
+		  <class>GtkOptionMenu</class>
+		  <name>omenuTransportAuthType</name>
+		  <can_focus>True</can_focus>
+		  <items></items>
+		  <initial_choice>0</initial_choice>
+		  <child>
+		    <padding>0</padding>
+		    <expand>True</expand>
+		    <fill>True</fill>
+		  </child>
+		</widget>
+	      </widget>
+
+	      <widget>
+		<class>GtkTable</class>
+		<name>tableTransportAuth</name>
+		<border_width>4</border_width>
+		<rows>2</rows>
+		<columns>2</columns>
+		<homogeneous>False</homogeneous>
+		<row_spacing>4</row_spacing>
+		<column_spacing>4</column_spacing>
+		<child>
+		  <padding>0</padding>
+		  <expand>False</expand>
+		  <fill>True</fill>
+		</child>
+
+		<widget>
+		  <class>GtkLabel</class>
+		  <name>lblTransportUsername</name>
+		  <label>Username:</label>
+		  <justify>GTK_JUSTIFY_RIGHT</justify>
+		  <wrap>False</wrap>
+		  <xalign>1</xalign>
+		  <yalign>0.5</yalign>
+		  <xpad>0</xpad>
+		  <ypad>0</ypad>
+		  <child>
+		    <left_attach>0</left_attach>
+		    <right_attach>1</right_attach>
+		    <top_attach>0</top_attach>
+		    <bottom_attach>1</bottom_attach>
+		    <xpad>0</xpad>
+		    <ypad>0</ypad>
+		    <xexpand>False</xexpand>
+		    <yexpand>False</yexpand>
+		    <xshrink>False</xshrink>
+		    <yshrink>False</yshrink>
+		    <xfill>True</xfill>
+		    <yfill>False</yfill>
+		  </child>
+		</widget>
+
+		<widget>
+		  <class>GtkEntry</class>
+		  <name>txtTransportAuthUsername</name>
+		  <can_focus>True</can_focus>
+		  <editable>True</editable>
+		  <text_visible>False</text_visible>
+		  <text_max_length>0</text_max_length>
+		  <text></text>
+		  <child>
+		    <left_attach>1</left_attach>
+		    <right_attach>2</right_attach>
+		    <top_attach>0</top_attach>
+		    <bottom_attach>1</bottom_attach>
+		    <xpad>0</xpad>
+		    <ypad>0</ypad>
+		    <xexpand>True</xexpand>
+		    <yexpand>False</yexpand>
+		    <xshrink>False</xshrink>
+		    <yshrink>False</yshrink>
+		    <xfill>True</xfill>
+		    <yfill>False</yfill>
+		  </child>
+		</widget>
+
+		<widget>
+		  <class>GtkLabel</class>
+		  <name>lblTransportPasswd</name>
+		  <label>Password:</label>
+		  <justify>GTK_JUSTIFY_RIGHT</justify>
+		  <wrap>False</wrap>
+		  <xalign>1</xalign>
+		  <yalign>0.5</yalign>
+		  <xpad>0</xpad>
+		  <ypad>0</ypad>
+		  <child>
+		    <left_attach>0</left_attach>
+		    <right_attach>1</right_attach>
+		    <top_attach>1</top_attach>
+		    <bottom_attach>2</bottom_attach>
+		    <xpad>0</xpad>
+		    <ypad>0</ypad>
+		    <xexpand>False</xexpand>
+		    <yexpand>False</yexpand>
+		    <xshrink>False</xshrink>
+		    <yshrink>False</yshrink>
+		    <xfill>True</xfill>
+		    <yfill>False</yfill>
+		  </child>
+		</widget>
+
+		<widget>
+		  <class>GtkEntry</class>
+		  <name>txtTransportAuthPasswd</name>
+		  <can_focus>True</can_focus>
+		  <editable>True</editable>
+		  <text_visible>False</text_visible>
+		  <text_max_length>0</text_max_length>
+		  <text></text>
+		  <child>
+		    <left_attach>1</left_attach>
+		    <right_attach>2</right_attach>
+		    <top_attach>1</top_attach>
+		    <bottom_attach>2</bottom_attach>
+		    <xpad>0</xpad>
+		    <ypad>0</ypad>
+		    <xexpand>True</xexpand>
+		    <yexpand>False</yexpand>
+		    <xshrink>False</xshrink>
+		    <yshrink>False</yshrink>
+		    <xfill>True</xfill>
+		    <yfill>False</yfill>
+		  </child>
+		</widget>
+	      </widget>
+
+	      <widget>
+		<class>GtkCheckButton</class>
+		<name>chkTransportAuthSavePasswd</name>
+		<border_width>4</border_width>
+		<can_focus>True</can_focus>
+		<label>Remember my password</label>
+		<active>False</active>
+		<draw_indicator>True</draw_indicator>
+		<child>
+		  <padding>0</padding>
+		  <expand>False</expand>
+		  <fill>False</fill>
+		</child>
 	      </widget>
 	    </widget>
 	  </widget>
