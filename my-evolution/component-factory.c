@@ -113,7 +113,7 @@ static void
 owner_unset_cb (EvolutionShellComponent *shell_component,
 		gpointer user_data)
 {
-	bonobo_main_quit ();
+	/* noop */
 }
 
 static BonoboObject *
