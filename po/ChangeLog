@@ -1,3 +1,7 @@
+2004-01-30  Rodney Dawes  <dobey@ximian.com>
+
+	* POTFILES.in: Removed e-meeting-model.c
+
 2004-01-30  Francisco Javier F. Serrador  <serrador@cvs.gnome.org>
 
 	* es.po: Updated Spanish translation.

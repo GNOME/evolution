@@ -130,7 +130,6 @@ calendar/gui/e-day-view.c
 calendar/gui/e-itip-control.c
 calendar/gui/e-itip-control.glade
 calendar/gui/e-meeting-list-view.c
-calendar/gui/e-meeting-model.c
 calendar/gui/e-meeting-store.c
 calendar/gui/e-meeting-time-sel-item.c
 calendar/gui/e-meeting-time-sel.c
