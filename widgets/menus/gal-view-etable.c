@@ -18,10 +18,14 @@ static GalViewClass *gal_view_etable_parent_class;
 
 
 static void
-config_changed (ETableConfig *config, ETableState *state, GalViewEtable *view)
+config_changed (ETableConfig *config, GalViewEtable *view)
 {
+	ETableState *state;
 	if (view->state)
 		gtk_object_unref(GTK_OBJECT(view->state));
+	gtk_object_get (GTK_OBJECT (config),
+			"state", &state,
+			NULL);
 	view->state = e_table_state_duplicate(state);
 	gal_view_changed(GAL_VIEW(view));
 }
