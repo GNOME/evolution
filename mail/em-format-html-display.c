@@ -1085,11 +1085,15 @@ efhd_attachment_popup(GtkWidget *w, GdkEventButton *event, struct _attach_puri *
 	target->widget = w;
 
 	/* add our local menus */
-	efhd_menu_items[0].activate_data = info;
-	menus = g_slist_prepend(menus, &efhd_menu_items[0]);
-	item = &efhd_menu_items[info->shown?2:1];
-	item->activate_data = info;
-	menus = g_slist_prepend(menus, item);
+	if (info->handle) {
+		/* show/hide menus, only if we have an inline handler */
+		efhd_menu_items[0].activate_data = info;
+		menus = g_slist_prepend(menus, &efhd_menu_items[0]);
+		item = &efhd_menu_items[info->shown?2:1];
+		item->activate_data = info;
+		menus = g_slist_prepend(menus, item);
+	}
+
 	em_popup_add_items(emp, menus, (GDestroyNotify)g_slist_free);
 
 	menu = em_popup_create_menu_once(emp, target, target->mask, target->mask);
@@ -1211,8 +1215,10 @@ efhd_attachment_button(EMFormatHTML *efh, GtkHTMLEmbedded *eb, EMFormatHTMLPObje
 
 	if (info->handle)
 		g_signal_connect(button, "clicked", G_CALLBACK(efhd_attachment_show), info);
-	else
+	else {
+		gtk_widget_set_sensitive(button, FALSE);
 		GTK_WIDGET_UNSET_FLAGS(button, GTK_CAN_FOCUS);
+	}
 
 	hbox = gtk_hbox_new(FALSE, 2);
 	info->forward = gtk_image_new_from_stock(GTK_STOCK_GO_FORWARD, GTK_ICON_SIZE_BUTTON);

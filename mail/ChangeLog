@@ -1,5 +1,10 @@
 2004-03-23  Not Zed  <NotZed@Ximian.com>
 
+	* em-format-html-display.c (efhd_attachment_popup): dont add the
+	show/hide menu items if we can't ever show it inline.
+	(efhd_attachment_button): disable the ">" button if we can't view
+	the content inline.  See #52086.
+
 	* em-format-quote.c (emfq_format_attachment): format inline(d)
 	parts automatically into the reply.  Part of #55702.
 
