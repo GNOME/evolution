@@ -511,9 +511,10 @@ char *message_display_styles[] = {
 void 
 folder_browser_ui_add_message (FolderBrowser *fb)
 {
-	int state;
 	BonoboUIComponent *uic = fb->uicomp;
 	FolderBrowserSelectionState prev_state;
+	GConfClient *gconf;
+	int style;
 	
 	if (fb->sensitise_state) {
 		g_hash_table_destroy(fb->sensitise_state);
@@ -522,16 +523,19 @@ folder_browser_ui_add_message (FolderBrowser *fb)
 	
 	ui_add (fb, "message", message_verbs, message_pixcache);
 	
+	gconf = gconf_client_get_default ();
+	
 	/* Display Style */
-	state = fb->mail_display->display_style;
-	bonobo_ui_component_set_prop (uic, message_display_styles[state],
-				      "state", "1", NULL);
+	style = gconf_client_get_int (gconf, "/apps/evolution/mail/display/message_style", NULL);
+	style = style >= 0 && style < MAIL_CONFIG_DISPLAY_MAX ? style : 0;
+	bonobo_ui_component_set_prop (uic, message_display_styles[style], "state", "1", NULL);
 	bonobo_ui_component_add_listener (uic, "ViewNormal", folder_browser_set_message_display_style, fb);
 	bonobo_ui_component_add_listener (uic, "ViewFullHeaders", folder_browser_set_message_display_style, fb);
 	bonobo_ui_component_add_listener (uic, "ViewSource", folder_browser_set_message_display_style, fb);
-	/* FIXME: this kind of bypasses bonobo but seems the only way when we change components */
-	folder_browser_set_message_display_style (uic, strrchr (message_display_styles[state], '/') + 1,
-						  Bonobo_UIComponent_STATE_CHANGED, "1", fb);
+	if (fb->mail_display->display_style != style) {
+		fb->mail_display->display_style = style;
+		mail_display_redisplay (fb->mail_display, TRUE);
+	}
 	
 	/* Resend Message */
 	if (fb->folder && !folder_browser_is_sent (fb)) 
@@ -544,8 +548,7 @@ folder_browser_ui_add_message (FolderBrowser *fb)
 	
 	/* Charset picker */
 	e_charset_picker_bonobo_ui_populate (uic, "/menu/View", FB_DEFAULT_CHARSET,
-					     folder_browser_charset_changed,
-					     fb);
+					     folder_browser_charset_changed, fb);
 }
 
 void 

@@ -1,5 +1,13 @@
 2003-01-13  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* folder-browser-ui.c (folder_browser_ui_add_message): Check the
+	state of message_style in gconf and set the menus accordingly.
+
+	* folder-browser.c (folder_browser_destroy): Remove listener for
+	message_style change notification.
+	(folder_browser_gui_init): Connect a listener for changes to
+	message_style.
+
 	* mail-config.c (account_to_xml): Save the auto-check timeout
 	value.
 	(account_new_from_xml): Load the auto-check-timeout value.

@@ -213,6 +213,11 @@ folder_browser_destroy (GtkObject *object)
 		folder_browser->hide_deleted_notify_id = 0;
 	}
 	
+	if (folder_browser->message_style_notify_id != 0) {
+		gconf_client_notify_remove (gconf, folder_browser->message_style_notify_id);
+		folder_browser->message_style_notify_id = 0;
+	}
+	
 	/* wait for all outstanding async events against us */
 	mail_async_event_destroy (folder_browser->async_event);
 
@@ -1344,14 +1349,14 @@ folder_browser_set_message_display_style (BonoboUIComponent           *component
 	GConfClient *gconf;
 	int i;
 	
-	/* FIXME: we should listen for changes to this, so when it changes for one folder all folders get updated */
-	
 	if (type != Bonobo_UIComponent_STATE_CHANGED
 	    || atoi (state) == 0
 	    || fb->message_list == NULL)
 		return;
 	
 	gconf = gconf_client_get_default ();
+	
+	printf ("message display style: %s\n", path);
 	
 	for (i = 0; i < MAIL_CONFIG_DISPLAY_MAX; i++) {
 		if (strstr (message_display_styles[i], path)) {
@@ -2384,6 +2389,22 @@ hide_deleted_changed (GConfClient *client, guint cnxn_id, GConfEntry *entry, gpo
 }
 
 static void
+message_style_changed (GConfClient *client, guint cnxn_id, GConfEntry *entry, gpointer user_data)
+{
+	extern char *message_display_styles[];
+	FolderBrowser *fb = user_data;
+	const char *uipath;
+	int style;
+	
+	if (fb->uicomp) {
+		style = gconf_client_get_int (client, "/apps/evolution/mail/display/message_style", NULL);
+		style = style >= 0 && style < MAIL_CONFIG_DISPLAY_MAX ? style : 0;
+		uipath = message_display_styles[style];
+		bonobo_ui_component_set_prop (fb->uicomp, uipath, "state", "1", NULL);
+	}
+}
+
+static void
 folder_browser_gui_init (FolderBrowser *fb)
 {
 	extern RuleContext *search_context;
@@ -2452,6 +2473,13 @@ folder_browser_gui_init (FolderBrowser *fb)
 	
 	fb->show_preview_notify_id = gconf_client_notify_add (gconf, "/apps/evolution/mail/display/show_preview",
 							      show_preview_changed, fb, NULL, NULL);
+	
+	/* message display style */
+	gconf_client_add_dir (gconf, "/apps/evolution/mail/display/message_style",
+			      GCONF_CLIENT_PRELOAD_ONELEVEL, NULL);
+	
+	fb->message_style_notify_id = gconf_client_notify_add (gconf, "/apps/evolution/mail/display/message_style",
+							       message_style_changed, fb, NULL, NULL);
 	
 	/* paned size */
 	gconf_client_add_dir (gconf, "/apps/evolution/mail/display/paned_size",
