@@ -321,6 +321,7 @@ ml_tree_set_value_at (ETreeModel *etm, ETreePath *path, int col,
 	uid = e_tree_model_node_get_data (etm, path);
 	if (!uid)
 		return;
+
 	msg_info = camel_folder_get_message_info (message_list->folder, uid);
 	if (!msg_info)
 		return;
@@ -763,7 +764,7 @@ build_tree (MessageList *ml, ETreePath *parent, struct _container *c,
 	ETreePath *node;
 
 	while (c) {
-		node = e_tree_model_node_insert (tree, parent, 0, ml);
+		node = e_tree_model_node_insert (tree, parent, 0, NULL);
 		if (c->message) {
 			char *uid = g_strdup (c->message->uid);
 

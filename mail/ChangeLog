@@ -1,3 +1,9 @@
+2000-07-08  Jeffrey Stedfast  <fejj@helixcode.com>
+
+	* message-list.c (build_tree): Small fix to stop uid data from
+	being set on a message-list tree node when it didn't correspond
+	to an actual message.
+
 2000-07-08  Dan Winship  <danw@helixcode.com>
 
 	* message-list.c (get_message_info): Fix Jeff's FIXME: This does
