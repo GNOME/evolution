@@ -1210,6 +1210,7 @@ e_calendar_table_save_state (ECalendarTable	*cal_table,
 static void
 invisible_destroyed (GtkWidget *invisible, ECalendarTable *cal_table)
 {
+	gtk_object_unref (GTK_OBJECT (cal_table->invisible));
 	cal_table->invisible = NULL;
 }
 

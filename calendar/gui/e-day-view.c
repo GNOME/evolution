@@ -7515,6 +7515,7 @@ e_day_view_get_time_string_width	(EDayView	*day_view)
 static void
 invisible_destroyed (GtkWidget *invisible, EDayView *day_view)
 {
+	gtk_object_unref (GTK_OBJECT (day_view->invisible));
 	day_view->invisible = NULL;
 }
 

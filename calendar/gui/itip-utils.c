@@ -575,12 +575,15 @@ comp_description (CalComponent *comp)
                 return CORBA_string_dup (U_("Journal information"));
         case CAL_COMPONENT_FREEBUSY:
                 cal_component_get_dtstart (comp, &dt);
-                if (dt.value) {
+                if (dt.value)
                         start = get_label (dt.value);
-                        cal_component_get_dtend (comp, &dt);
-                        if (dt.value)
-                                end = get_label (dt.value);
-                }
+		cal_component_free_datetime (&dt);
+
+		cal_component_get_dtend (comp, &dt);
+		if (dt.value)
+			end = get_label (dt.value);
+		cal_component_free_datetime (&dt);
+
                 if (start != NULL && end != NULL) {
                         char *tmp, *tmp_utf;
                         tmp = g_strdup_printf (_("Free/Busy information (%s to %s)"), start, end);
@@ -1054,8 +1057,10 @@ itip_send_comp (CalComponentItipMethod method, CalComponent *send_comp,
 		CORBA_free (filename);
 	if (description != NULL)
 		CORBA_free (description);
-	if (attach_data != NULL)
+	if (attach_data != NULL) {
+		CORBA_free (attach_data->_buffer);
 		CORBA_free (attach_data);
+	}
 
 	return retval;
 }

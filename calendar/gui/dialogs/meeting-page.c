@@ -251,7 +251,7 @@ meeting_page_destroy (GtkObject *object)
 		gtk_object_unref (GTK_OBJECT (priv->comp));
 	
 	cleanup_attendees (priv->deleted_attendees);
-	g_ptr_array_free (priv->deleted_attendees, FALSE);
+	g_ptr_array_free (priv->deleted_attendees, TRUE);
 	
 	itip_addresses_free (priv->addresses);
 

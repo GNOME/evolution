@@ -4168,6 +4168,7 @@ e_week_view_get_time_string_width	(EWeekView	*week_view)
 static void
 invisible_destroyed (GtkWidget *invisible, EWeekView *week_view)
 {
+	gtk_object_unref (GTK_OBJECT (week_view->invisible));
 	week_view->invisible = NULL;
 }
 

@@ -409,6 +409,7 @@ append_row (ETableModel *etm, ETableModel *source, int row)
 	e_meeting_attendee_set_language (ia, g_strdup (e_table_model_value_at (source, E_MEETING_MODEL_LANGUAGE_COL, row)));
 
 	e_meeting_model_add_attendee (E_MEETING_MODEL (etm), ia);
+	gtk_object_unref (GTK_OBJECT (ia));
 }
 
 static void *
@@ -1821,6 +1822,8 @@ select_names_ok_cb (BonoboListener    *listener,
 			process_section (im, destv, roles[i]);
 			e_destination_freev (destv);
 		}		
+
+		g_free (string);
 	}
 }
 
