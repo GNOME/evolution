@@ -1,3 +1,9 @@
+2001-12-14  Kevin Breit  <mrproper@ximian.com>
+
+	* C/apx-gloss.sgml: Slight glossary changes in wording
+
+	* C/usage-mail.sgml: Indenting changes, minor reorganization.
+
 2001-12-05  Aaron Weber  <aaron@ximian.com>
 
 	* C/usage-calendar.sgml: added "meeting-announce" note ("Simple
