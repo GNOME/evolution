@@ -1059,17 +1059,20 @@ dnl KDE applnk directory
 dnl ********************
 AC_ARG_WITH(kde-applnk-path, [  --with-kde-applnk-path=PATH    Location of KDE applnk files],
             [with_kde_applnk_path="$withval"])
-AC_MSG_CHECKING(for the KDE applnk directory)
 if test -z "$with_kde_applnk_path"; then
 	with_kde_applnk_path="$prefix/share/applnk"
 fi
 if test -d "$with_kde_applnk_path" ; then
-	AC_MSG_RESULT("$with_kde_applnk_path" found)
 	AC_DEFINE(HAVE_KDE_APPLNK)
 	KDE_APPLNK_DIR="$with_kde_applnk_path"
 else
-	AC_MSG_RESULT(not found)
-	KDE_APPLNK_DIR=""
+	AC_PATH_PROG(KDECONFIG, kde-config)
+	if test -n "$KDECONFIG"; then
+		KDE_APPLNK_DIR=`$KDECONFIG --expandvars --install apps`
+		AC_DEFINE(HAVE_KDE_APPLNK)
+	else
+		KDE_APPLNK_DIR=""
+	fi
 fi
 AM_CONDITIONAL(HAVE_KDE_APPLNK, test x"$KDE_APPLNK_DIR" != x)
 AC_SUBST(KDE_APPLNK_DIR)

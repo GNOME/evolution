@@ -1,3 +1,10 @@
+2002-07-24  Ettore Perazzoli  <ettore@ximian.com>
+
+	[Patch by Frank Belew <frb@ximian.com>.]
+
+	* configure.in: If no --with-kde-applnk-path is given, try to
+	detect the directory using `kde-config'.
+
 2002-07-22  Dan Winship  <danw@ximian.com>
 
 	* acinclude.m4: Move EVO_CHECK_LIB into here, and also create
