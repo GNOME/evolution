@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution HEAD\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-08-13 14:55-0400\n"
+"POT-Creation-Date: 2004-08-18 03:09+0200\n"
 "PO-Revision-Date: 2004-08-08 15:11+0200\n"
 "Last-Translator: Laurent Dhima <laurenti@alblinux.net>\n"
 "Language-Team: Albanian <gnome-albanian-perkthyesit@lists.sourceforge.net>\n"
@@ -182,8 +182,6 @@ msgstr ""
 "Keni kryer ndryshime tek ky kontakt. Dëshironi t'i ruani këto ndryshime?"
 
 #: addressbook/addressbook-errors.xml.h:43
-#: addressbook/gui/contact-editor/e-contact-editor.c:2803
-#: addressbook/gui/contact-editor/e-contact-editor.c:2827
 msgid "_Discard"
 msgstr "_Anullo"
 
@@ -1063,6 +1061,7 @@ msgstr "_Ku:"
 msgid "Address"
 msgstr "Adresa"
 
+#. GRUT modified this item
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:103
 #: addressbook/gui/contact-editor/e-contact-editor-fullname.c:95
 #: addressbook/gui/contact-editor/e-contact-editor-im.c:141
@@ -1075,7 +1074,7 @@ msgstr "Adresa"
 #: addressbook/gui/widgets/e-minicard-view.c:498
 #: addressbook/gui/widgets/e-minicard.c:174
 msgid "Editable"
-msgstr "E ndryshueshme"
+msgstr "Pjesë e ndryshueshme"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:136
 msgid "United States"
@@ -1105,13 +1104,15 @@ msgstr "Andora"
 msgid "Angola"
 msgstr "Angola"
 
+#. GRUT modified this item
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:143
 msgid "Anguilla"
-msgstr "Anguilla"
+msgstr "Anguila"
 
+#. GRUT modified this item
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:144
 msgid "Antarctica"
-msgstr "Antarktida"
+msgstr "Antarktika"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:145
 msgid "Antigua And Barbuda"
@@ -1137,9 +1138,10 @@ msgstr "Australia"
 msgid "Austria"
 msgstr "Austria"
 
+#. GRUT modified this item
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:151
 msgid "Azerbaijan"
-msgstr "Azerbajxhan"
+msgstr "Azerbaijan"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:152
 msgid "Bahamas"
@@ -1149,9 +1151,10 @@ msgstr "Bahamas"
 msgid "Bahrain"
 msgstr "Bahrain"
 
+#. GRUT modified this item
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:154
 msgid "Bangladesh"
-msgstr "Bangladesh"
+msgstr "Bangladeshi"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:155
 msgid "Barbados"
@@ -1197,9 +1200,10 @@ msgstr "Botswana"
 msgid "Bouvet Island"
 msgstr "Ishulli Bouvet"
 
+#. GRUT modified this item
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:166
 msgid "Brazil"
-msgstr "Brazil"
+msgstr "Brazili"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:167
 msgid "British Indian Ocean Territory"
@@ -1313,9 +1317,10 @@ msgstr "Republika Çeke"
 msgid "Denmark"
 msgstr "Danimarka"
 
+#. GRUT modified this item
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:195
 msgid "Djibouti"
-msgstr "Xhibuti"
+msgstr "Xhibouti"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:196
 msgid "Dominica"
@@ -1381,9 +1386,10 @@ msgstr "Guiana Franceze"
 msgid "French Polynesia"
 msgstr "Polinezia Franceze"
 
+#. GRUT modified this item
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:212
 msgid "French Southern Territories"
-msgstr "Territoret Jugore Franceze"
+msgstr "Territoret e Francës Jugore"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:213
 msgid "Gabon"
@@ -1413,9 +1419,10 @@ msgstr "Gjibraltari"
 msgid "Greece"
 msgstr "Greqia"
 
+#. GRUT modified this item
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:220
 msgid "Greenland"
-msgstr "Greenland"
+msgstr "Grenlanda"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:221
 msgid "Grenada"
@@ -1445,9 +1452,10 @@ msgstr "Guinea"
 msgid "Guinea-bissau"
 msgstr "Guinea-bissau"
 
+#. GRUT modified this item
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:228
 msgid "Guyana"
-msgstr "Guajana"
+msgstr "Guijana"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:229
 msgid "Haiti"
@@ -1605,9 +1613,10 @@ msgstr "Madagaskar"
 msgid "Malawi"
 msgstr "Malawi"
 
+#. GRUT modified this item
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:268
 msgid "Malaysia"
-msgstr "Malajzia"
+msgstr "Malejzia"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:269
 msgid "Maldives"
@@ -1641,6 +1650,8 @@ msgstr "Mauritius"
 msgid "Mayotte"
 msgstr "Mayotte"
 
+#. GRUT modified this item
+#. GRUT modified this item
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:277
 msgid "Mexico"
 msgstr "Mexico"
@@ -1693,9 +1704,10 @@ msgstr "Nepali"
 msgid "Netherlands"
 msgstr "Hollanda"
 
+#. GRUT modified this item
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:290
 msgid "Netherlands Antilles"
-msgstr "Antillet Hollandeze"
+msgstr "Antilet Hollandeze"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:291
 msgid "New Caledonia"
@@ -1789,9 +1801,10 @@ msgstr "Porto Rico"
 msgid "Qatar"
 msgstr "Katari"
 
+#. GRUT modified this item
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:314
 msgid "Reunion"
-msgstr "Reunion"
+msgstr "Mbledhje"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:315
 msgid "Romania"
@@ -1809,9 +1822,10 @@ msgstr "Ruanda"
 msgid "Saint Kitts And Nevis"
 msgstr "Saint Kitts And Nevis"
 
+#. GRUT modified this item
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:319
 msgid "Saint Lucia"
-msgstr "Santa Lucia"
+msgstr "Shën Lucia"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:320
 msgid "Saint Vincent And The Grena-dines"
@@ -2029,9 +2043,10 @@ msgstr "Ishujt Virgin, U.S."
 msgid "Wallis And Futuna Islands"
 msgstr "Wallis And Futuna Islands"
 
+#. GRUT modified this item
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:374
 msgid "Western Sahara"
-msgstr "Saharaja Perëndimore"
+msgstr "Sahara Perëndimore"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:375
 msgid "Yemen"
@@ -2149,22 +2164,6 @@ msgstr ""
 msgid "Invalid contact."
 msgstr "Kontakt i pavlefshëm."
 
-#: addressbook/gui/contact-editor/e-contact-editor.c:2799
-msgid ""
-"The contact cannot be saved to the selected address book. Do you want to "
-"discard changes?"
-msgstr ""
-"Kontakti nuk mund të ruhet tek rubrika e zgjedhur. Dëshironi të anulloni "
-"ndryshimet?"
-
-#: addressbook/gui/contact-editor/e-contact-editor.c:2822
-msgid ""
-"You are moving the contact from one address book to another, but it cannot "
-"be removed from the source. Do you want to save a copy instead?"
-msgstr ""
-"Jeni duke lëvizur kontaktin nga një rubrikë në tjetrën, por ai nuk mund të "
-"fshihet nga burimi. Dëshironi përkundrazi të ruani një kopje?"
-
 #: addressbook/gui/contact-editor/e-contact-quick-add.c:280
 msgid "Contact Quick-Add"
 msgstr "Shtimi i shpejtë i një kontakti"
@@ -2267,17 +2266,19 @@ msgstr "Znj.sha"
 msgid "Mr."
 msgstr "Zt."
 
+#. GRUT modified this item
 #: addressbook/gui/contact-editor/fullname.glade.h:11
 msgid "Mrs."
-msgstr "Zt."
+msgstr "Znj."
 
 #: addressbook/gui/contact-editor/fullname.glade.h:12
 msgid "Ms."
 msgstr "Znj."
 
+#. GRUT modified this item
 #: addressbook/gui/contact-editor/fullname.glade.h:13
 msgid "Sr."
-msgstr "Sr."
+msgstr "Zt."
 
 #: addressbook/gui/contact-editor/fullname.glade.h:14
 msgid "_First:"
@@ -2590,9 +2591,10 @@ msgstr "Asistenti"
 msgid "Assistant Phone"
 msgstr "Telefoni asistentit"
 
+#. GRUT modified this item
 #: addressbook/gui/widgets/e-addressbook-view.etspec.h:3
 msgid "Business Fax"
-msgstr "Fax në zyrë"
+msgstr "Fax-i në zyrë"
 
 #: addressbook/gui/widgets/e-addressbook-view.etspec.h:4
 msgid "Business Phone"
@@ -2647,9 +2649,10 @@ msgstr "File si"
 msgid "Given Name"
 msgstr "Emri i dhënë"
 
+#. GRUT modified this item
 #: addressbook/gui/widgets/e-addressbook-view.etspec.h:17
 msgid "Home Fax"
-msgstr "Fax në shtëpi"
+msgstr "Fax-i në shtëpi"
 
 #: addressbook/gui/widgets/e-addressbook-view.etspec.h:18
 msgid "Home Phone"
@@ -2840,9 +2843,10 @@ msgstr "E-mail"
 msgid "Position"
 msgstr "Pozicioni"
 
+#. GRUT modified this item
 #: addressbook/gui/widgets/eab-contact-display.c:349
 msgid "Video Conferencing"
-msgstr "Konferencë Video"
+msgstr "Videokonferencë"
 
 #: addressbook/gui/widgets/eab-contact-display.c:350
 #: addressbook/gui/widgets/eab-contact-display.c:365
@@ -2861,10 +2865,11 @@ msgstr "punë"
 msgid "WWW"
 msgstr "WWW"
 
+#. GRUT modified this item
 #: addressbook/gui/widgets/eab-contact-display.c:363
 #: addressbook/gui/widgets/eab-contact-display.c:582
 msgid "Blog"
-msgstr "Ditar"
+msgstr "Ditari"
 
 #: addressbook/gui/widgets/eab-contact-display.c:370
 msgid "personal"
@@ -3050,7 +3055,7 @@ msgid "Error adding list"
 msgstr "Gabim gjatë shtimit të listës"
 
 #: addressbook/gui/widgets/eab-gui-util.c:170
-#: addressbook/gui/widgets/eab-gui-util.c:640
+#: addressbook/gui/widgets/eab-gui-util.c:643
 msgid "Error adding contact"
 msgstr "Gabim gjatë shtimit të kontaktit"
 
@@ -3067,20 +3072,26 @@ msgid "Error removing list"
 msgstr "Gabim gjatë eleminimit të listës"
 
 #: addressbook/gui/widgets/eab-gui-util.c:193
-#: addressbook/gui/widgets/eab-gui-util.c:598
+#: addressbook/gui/widgets/eab-gui-util.c:601
 msgid "Error removing contact"
 msgstr "Gabim gjatë eleminimit të kontaktit"
 
 #: addressbook/gui/widgets/eab-gui-util.c:275
-#, c-format
+#, fuzzy, c-format
 msgid ""
+"Opening %d contact will open %d new window as well.\n"
+"Do you really want to display this contact?"
+msgid_plural ""
 "Opening %d contacts will open %d new windows as well.\n"
 "Do you really want to display all of these contacts?"
-msgstr ""
+msgstr[0] ""
+"Hapja e %d kontakteve do të ketë si pasojë hapjen e %d dritareve të reja.\n"
+"Me të vërtetë dëshiron t'i shikosh të gjithë këto kontakte?"
+msgstr[1] ""
 "Hapja e %d kontakteve do të ketë si pasojë hapjen e %d dritareve të reja.\n"
 "Me të vërtetë dëshiron t'i shikosh të gjithë këto kontakte?"
 
-#: addressbook/gui/widgets/eab-gui-util.c:301
+#: addressbook/gui/widgets/eab-gui-util.c:304
 #, c-format
 msgid ""
 "%s already exists\n"
@@ -3089,44 +3100,44 @@ msgstr ""
 "%s ekziston\n"
 "Dëshiron t'a mbishkruash?"
 
-#: addressbook/gui/widgets/eab-gui-util.c:305
+#: addressbook/gui/widgets/eab-gui-util.c:308
 msgid "Overwrite"
 msgstr "Mbishkruaj"
 
 #. This is a filename. Translators take note.
-#: addressbook/gui/widgets/eab-gui-util.c:383
+#: addressbook/gui/widgets/eab-gui-util.c:386
 msgid "card.vcf"
 msgstr "card.vcf"
 
-#: addressbook/gui/widgets/eab-gui-util.c:545
+#: addressbook/gui/widgets/eab-gui-util.c:548
 msgid "list"
 msgstr "lista"
 
-#: addressbook/gui/widgets/eab-gui-util.c:694
+#: addressbook/gui/widgets/eab-gui-util.c:697
 msgid "Move contact to"
 msgstr "Lëvize kontaktin tek"
 
-#: addressbook/gui/widgets/eab-gui-util.c:696
+#: addressbook/gui/widgets/eab-gui-util.c:699
 msgid "Copy contact to"
 msgstr "Kopjo kontaktin tek"
 
-#: addressbook/gui/widgets/eab-gui-util.c:699
+#: addressbook/gui/widgets/eab-gui-util.c:702
 msgid "Move contacts to"
 msgstr "Lëviz kontaktet tek"
 
-#: addressbook/gui/widgets/eab-gui-util.c:701
+#: addressbook/gui/widgets/eab-gui-util.c:704
 msgid "Copy contacts to"
 msgstr "Kopjo kontaktet tek"
 
-#: addressbook/gui/widgets/eab-gui-util.c:704
+#: addressbook/gui/widgets/eab-gui-util.c:707
 msgid "Select target addressbook."
 msgstr "Zgjidh rubrikën objekt."
 
-#: addressbook/gui/widgets/eab-gui-util.c:927
+#: addressbook/gui/widgets/eab-gui-util.c:930
 msgid "Multiple VCards"
 msgstr "VCards shumëfishe"
 
-#: addressbook/gui/widgets/eab-gui-util.c:930
+#: addressbook/gui/widgets/eab-gui-util.c:933
 #, c-format
 msgid "VCard for %s"
 msgstr "VCard për %s"
@@ -5369,9 +5380,10 @@ msgstr "Data e përkujtimores është e gabuar"
 msgid "on"
 msgstr "në"
 
+#. GRUT modified this item
 #: calendar/gui/dialogs/recurrence-page.c:978
 msgid "first"
-msgstr "e para"
+msgstr "i pari"
 
 #: calendar/gui/dialogs/recurrence-page.c:979
 msgid "second"
@@ -5401,9 +5413,10 @@ msgstr "ditë"
 msgid "on the"
 msgstr "tek"
 
+#. GRUT modified this item
 #: calendar/gui/dialogs/recurrence-page.c:1356
 msgid "occurrences"
-msgstr "përkujtimore"
+msgstr "përkujtime"
 
 #: calendar/gui/dialogs/recurrence-page.c:2309
 msgid "Date/Time"
@@ -5514,12 +5527,13 @@ msgstr "E ulët"
 msgid "Normal"
 msgstr "Normal"
 
+#. GRUT modified this item
 #: calendar/gui/dialogs/task-details-page.glade.h:9
 #: calendar/gui/e-cal-component-preview.c:237
 #: calendar/gui/e-cal-model-tasks.c:346 calendar/gui/e-cal-model-tasks.c:649
 #: calendar/gui/e-calendar-table.c:470 calendar/gui/print.c:2340
 msgid "Not Started"
-msgstr "Për t'u filluar"
+msgstr "Nuk është filluar"
 
 #: calendar/gui/dialogs/task-details-page.glade.h:10
 msgid "P_ercent complete:"
@@ -5908,6 +5922,7 @@ msgstr "Hap faqen _web"
 msgid "_Save As..."
 msgstr "_Ruaje si..."
 
+#. GRUT modified this item
 #: calendar/gui/e-calendar-table.c:1046 calendar/gui/e-calendar-table.c:1088
 #: calendar/gui/e-calendar-view.c:1410 calendar/gui/e-calendar-view.c:1433
 #: calendar/gui/e-calendar-view.c:1516 ui/evolution-addressbook.xml.h:40
@@ -5915,7 +5930,7 @@ msgstr "_Ruaje si..."
 #: ui/evolution-contact-editor.xml.h:17 ui/evolution-mail-message.xml.h:125
 #: ui/evolution-tasks.xml.h:25
 msgid "_Print..."
-msgstr "_Printo..."
+msgstr "_Printim..."
 
 #: calendar/gui/e-calendar-table.c:1050 calendar/gui/e-calendar-table.c:1079
 #: calendar/gui/e-calendar-view.c:1438 calendar/gui/e-calendar-view.c:1482
@@ -6320,11 +6335,12 @@ msgstr ""
 "Aktiviteti është anulluar, sidoqoftë nuk gjendet në listën tuaj të "
 "aktiviteteve"
 
+#. GRUT modified this item
 #: calendar/gui/e-itip-control.c:1159 calendar/gui/itip-utils.c:442
 #: mail/mail-send-recv.c:410 mail/mail-send-recv.c:464
 #: ui/evolution-mail-global.xml.h:1
 msgid "Cancel"
-msgstr "Anulloje"
+msgstr "Anullo"
 
 #: calendar/gui/e-itip-control.c:1235
 #, c-format
@@ -7341,9 +7357,10 @@ msgstr "Afrikë/Accra"
 msgid "Africa/Addis_Ababa"
 msgstr "Afrikë/Addis_Ababa"
 
+#. GRUT modified this item
 #: calendar/zones.h:10
 msgid "Africa/Algiers"
-msgstr "Afrikë/Algiers"
+msgstr "Afrikë/Algjir"
 
 #: calendar/zones.h:11
 msgid "Africa/Asmera"
@@ -7601,9 +7618,10 @@ msgstr "Amerikë/Cambridge_Bay"
 msgid "America/Cancun"
 msgstr "Amerikë/Cancun"
 
+#. GRUT modified this item
 #: calendar/zones.h:75
 msgid "America/Caracas"
-msgstr "Amerikë/Caracas"
+msgstr "Amerikë/Karakas"
 
 #: calendar/zones.h:76
 msgid "America/Catamarca"
@@ -7625,9 +7643,10 @@ msgstr "Amerikë/Chicago"
 msgid "America/Chihuahua"
 msgstr "Amerikë/Chihuahua"
 
+#. GRUT modified this item
 #: calendar/zones.h:81
 msgid "America/Cordoba"
-msgstr "Amerikë/Cordoba"
+msgstr "Amerikë/Kordoba"
 
 #: calendar/zones.h:82
 msgid "America/Costa_Rica"
@@ -7869,9 +7888,10 @@ msgstr "Amerikë/Nome"
 msgid "America/Noronha"
 msgstr "Amerikë/Noronha"
 
+#. GRUT modified this item
 #: calendar/zones.h:142
 msgid "America/North_Dakota/Center"
-msgstr "Amerikë/North_Dakota/Center"
+msgstr "Amerikë/Dakota_Veriore/Qendër"
 
 #: calendar/zones.h:143
 msgid "America/Panama"
@@ -8013,41 +8033,50 @@ msgstr "Amerikë/Yakutat"
 msgid "America/Yellowknife"
 msgstr "Amerikë/Yellowknife"
 
+#. GRUT modified this item
 #: calendar/zones.h:178
 msgid "Antarctica/Casey"
-msgstr "Antarktida/Casey"
+msgstr "Antarktika/Casey"
 
+#. GRUT modified this item
 #: calendar/zones.h:179
 msgid "Antarctica/Davis"
-msgstr "Antarktida/Davis"
+msgstr "Antarktika/Davis"
 
+#. GRUT modified this item
 #: calendar/zones.h:180
 msgid "Antarctica/DumontDUrville"
-msgstr "Antarktida/DumontDUrville"
+msgstr "Antarktika/DumontDUrville"
 
+#. GRUT modified this item
 #: calendar/zones.h:181
 msgid "Antarctica/Mawson"
-msgstr "Antarktida/Mawson"
+msgstr "Antarktika/Mawson"
 
+#. GRUT modified this item
 #: calendar/zones.h:182
 msgid "Antarctica/McMurdo"
-msgstr "Antarktida/McMurdo"
+msgstr "Antarktika/McMurdo"
 
+#. GRUT modified this item
 #: calendar/zones.h:183
 msgid "Antarctica/Palmer"
-msgstr "Antarktida/Palmer"
+msgstr "Antarktika/Palmer"
 
+#. GRUT modified this item
 #: calendar/zones.h:184
 msgid "Antarctica/South_Pole"
-msgstr "Antarktida/South_Pole"
+msgstr "Antarktika/Poli_Jugor"
 
+#. GRUT modified this item
 #: calendar/zones.h:185
 msgid "Antarctica/Syowa"
-msgstr "Antarktida/Syowa"
+msgstr "Antarktika/Syowa"
 
+#. GRUT modified this item
 #: calendar/zones.h:186
 msgid "Antarctica/Vostok"
-msgstr "Antarktida/Vostok"
+msgstr "Antarktika/Vostok"
 
 #: calendar/zones.h:187
 msgid "Arctic/Longyearbyen"
@@ -8061,9 +8090,10 @@ msgstr "Azia/Aden"
 msgid "Asia/Almaty"
 msgstr "Azia/Almaty"
 
+#. GRUT modified this item
 #: calendar/zones.h:190
 msgid "Asia/Amman"
-msgstr "Azia/Amman"
+msgstr "Azia/Aman"
 
 #: calendar/zones.h:191
 msgid "Asia/Anadyr"
@@ -8081,9 +8111,10 @@ msgstr "Azia/Aqtobe"
 msgid "Asia/Ashgabat"
 msgstr "Azia/Ashgabat"
 
+#. GRUT modified this item
 #: calendar/zones.h:195
 msgid "Asia/Baghdad"
-msgstr "Azia/Baghdad"
+msgstr "Azia/Bagdad"
 
 #: calendar/zones.h:196
 msgid "Asia/Bahrain"
@@ -8109,9 +8140,10 @@ msgstr "Azia/Bishkek"
 msgid "Asia/Brunei"
 msgstr "Azia/Brunei"
 
+#. GRUT modified this item
 #: calendar/zones.h:202
 msgid "Asia/Calcutta"
-msgstr "Azia/Calcutta"
+msgstr "Azia/Kalkuta"
 
 #: calendar/zones.h:203
 msgid "Asia/Choibalsan"
@@ -8125,9 +8157,10 @@ msgstr "Azia/Chongqing"
 msgid "Asia/Colombo"
 msgstr "Azia/Colombo"
 
+#. GRUT modified this item
 #: calendar/zones.h:206
 msgid "Asia/Damascus"
-msgstr "Azia/Damascus"
+msgstr "Azia/Damaskus"
 
 #: calendar/zones.h:207
 msgid "Asia/Dhaka"
@@ -8269,9 +8302,10 @@ msgstr "Azia/Pontianak"
 msgid "Asia/Pyongyang"
 msgstr "Azia/Pyongyang"
 
+#. GRUT modified this item
 #: calendar/zones.h:242
 msgid "Asia/Qatar"
-msgstr "Azia/Qatar"
+msgstr "Azia/Katar"
 
 #: calendar/zones.h:243
 msgid "Asia/Qyzylorda"
@@ -8281,9 +8315,10 @@ msgstr "Azia/Qyzylorda"
 msgid "Asia/Rangoon"
 msgstr "Azia/Rangoon"
 
+#. GRUT modified this item
 #: calendar/zones.h:245
 msgid "Asia/Riyadh"
-msgstr "Azia/Riyadh"
+msgstr "Azia/Riyad"
 
 #: calendar/zones.h:246
 msgid "Asia/Saigon"
@@ -8321,9 +8356,10 @@ msgstr "Azia/Tashkent"
 msgid "Asia/Tbilisi"
 msgstr "Azia/Tbilisi"
 
+#. GRUT modified this item
 #: calendar/zones.h:255
 msgid "Asia/Tehran"
-msgstr "Azia/Tehran"
+msgstr "Azia/Teheran"
 
 #: calendar/zones.h:256
 msgid "Asia/Thimphu"
@@ -8337,9 +8373,10 @@ msgstr "Azia/Tokyo"
 msgid "Asia/Ujung_Pandang"
 msgstr "Azia/Ujung_Pandang"
 
+#. GRUT modified this item
 #: calendar/zones.h:259
 msgid "Asia/Ulaanbaatar"
-msgstr "Azia/Ulaanbaatar"
+msgstr "Azia/Ulanbatar"
 
 #: calendar/zones.h:260
 msgid "Asia/Urumqi"
@@ -8365,9 +8402,10 @@ msgstr "Azia/Yekaterinburg"
 msgid "Asia/Yerevan"
 msgstr "Azia/Yerevan"
 
+#. GRUT modified this item
 #: calendar/zones.h:266
 msgid "Atlantic/Azores"
-msgstr "Atlantike/Azores"
+msgstr "Atlantikë/Azores"
 
 #: calendar/zones.h:267
 msgid "Atlantic/Bermuda"
@@ -8397,9 +8435,10 @@ msgstr "Antlantike/Madeira"
 msgid "Atlantic/Reykjavik"
 msgstr "Antlantike/Reykjavik"
 
+#. GRUT modified this item
 #: calendar/zones.h:274
 msgid "Atlantic/South_Georgia"
-msgstr "Antlantike/South_Georgia"
+msgstr "Antlantikë/Georgia_Jugore"
 
 #: calendar/zones.h:275
 msgid "Atlantic/St_Helena"
@@ -8409,81 +8448,97 @@ msgstr "Antlantike/St_Helena"
 msgid "Atlantic/Stanley"
 msgstr "Antlantike/Stanley"
 
+#. GRUT modified this item
 #: calendar/zones.h:277
 msgid "Australia/Adelaide"
-msgstr "Australia/Adelaide"
+msgstr "Australi/Adelaide"
 
+#. GRUT modified this item
 #: calendar/zones.h:278
 msgid "Australia/Brisbane"
-msgstr "Australia/Brisbane"
+msgstr "Australi/Brisbane"
 
+#. GRUT modified this item
 #: calendar/zones.h:279
 msgid "Australia/Broken_Hill"
-msgstr "Australia/Broken_Hill"
+msgstr "Australi/Broken_Hill"
 
+#. GRUT modified this item
 #: calendar/zones.h:280
 msgid "Australia/Darwin"
-msgstr "Australia/Darwin"
+msgstr "Australi/Darwin"
 
+#. GRUT modified this item
 #: calendar/zones.h:281
 msgid "Australia/Hobart"
-msgstr "Australia/Hobart"
+msgstr "Australi/Hobart"
 
+#. GRUT modified this item
 #: calendar/zones.h:282
 msgid "Australia/Lindeman"
-msgstr "Australia/Lindeman"
+msgstr "Australi/Lindeman"
 
+#. GRUT modified this item
 #: calendar/zones.h:283
 msgid "Australia/Lord_Howe"
-msgstr "Australia/Lord_Howe"
+msgstr "Australi/Lord_Howe"
 
+#. GRUT modified this item
 #: calendar/zones.h:284
 msgid "Australia/Melbourne"
-msgstr "Australia/Melbourne"
+msgstr "Australi/Melbourne"
 
+#. GRUT modified this item
 #: calendar/zones.h:285
 msgid "Australia/Perth"
-msgstr "Australia/Perth"
+msgstr "Australi/Perth"
 
+#. GRUT modified this item
 #: calendar/zones.h:286
 msgid "Australia/Sydney"
-msgstr "Australia/Sydney"
+msgstr "Australi/Sydney"
 
 #: calendar/zones.h:287
 msgid "Europe/Amsterdam"
 msgstr "Europë/Amsterdam"
 
+#. GRUT modified this item
 #: calendar/zones.h:288
 msgid "Europe/Andorra"
-msgstr "Europë/Andorra"
+msgstr "Europë/Andora"
 
+#. GRUT modified this item
 #: calendar/zones.h:289
 msgid "Europe/Athens"
-msgstr "Europë/Athens"
+msgstr "Europë/Athina"
 
 #: calendar/zones.h:290
 msgid "Europe/Belfast"
 msgstr "Europë/Belfast"
 
+#. GRUT modified this item
 #: calendar/zones.h:291
 msgid "Europe/Belgrade"
-msgstr "Europë/Belgrade"
+msgstr "Europë/Beograd"
 
 #: calendar/zones.h:292
 msgid "Europe/Berlin"
 msgstr "Europë/Berlin"
 
+#. GRUT modified this item
 #: calendar/zones.h:293
 msgid "Europe/Bratislava"
-msgstr "Europë/Bratislava"
+msgstr "Europë/Bratisllava"
 
+#. GRUT modified this item
 #: calendar/zones.h:294
 msgid "Europe/Brussels"
-msgstr "Europë/Brussels"
+msgstr "Europë/Bruksel"
 
+#. GRUT modified this item
 #: calendar/zones.h:295
 msgid "Europe/Bucharest"
-msgstr "Europë/Bucharest"
+msgstr "Europë/Bukuresht"
 
 #: calendar/zones.h:296
 msgid "Europe/Budapest"
@@ -8493,9 +8548,10 @@ msgstr "Europë/Budapest"
 msgid "Europe/Chisinau"
 msgstr "Europë/Chisinau"
 
+#. GRUT modified this item
 #: calendar/zones.h:298
 msgid "Europe/Copenhagen"
-msgstr "Europë/Copenhagen"
+msgstr "Europë/Kopenhagen"
 
 #: calendar/zones.h:299
 msgid "Europe/Dublin"
@@ -8509,9 +8565,10 @@ msgstr "Europë/Gibraltar"
 msgid "Europe/Helsinki"
 msgstr "Europë/Helsinki"
 
+#. GRUT modified this item
 #: calendar/zones.h:302
 msgid "Europe/Istanbul"
-msgstr "Europë/Istanbul"
+msgstr "Europë/Stamboll"
 
 #: calendar/zones.h:303
 msgid "Europe/Kaliningrad"
@@ -8529,9 +8586,10 @@ msgstr "Europë/Lisbon"
 msgid "Europe/Ljubljana"
 msgstr "Europë/Ljubljana"
 
+#. GRUT modified this item
 #: calendar/zones.h:307
 msgid "Europe/London"
-msgstr "Europë/London"
+msgstr "Europë/Londër"
 
 #: calendar/zones.h:308
 msgid "Europe/Luxembourg"
@@ -8601,9 +8659,10 @@ msgstr "Europë/Simferopol"
 msgid "Europe/Skopje"
 msgstr "Europë/Shkupi"
 
+#. GRUT modified this item
 #: calendar/zones.h:325
 msgid "Europe/Sofia"
-msgstr "Europë/Sofia"
+msgstr "Europë/Sofje"
 
 #: calendar/zones.h:326
 msgid "Europe/Stockholm"
@@ -8625,9 +8684,10 @@ msgstr "Europë/Uzhgorod"
 msgid "Europe/Vaduz"
 msgstr "Europë/Vaduz"
 
+#. GRUT modified this item
 #: calendar/zones.h:331
 msgid "Europe/Vatican"
-msgstr "Europë/Vatican"
+msgstr "Europë/Vatikani"
 
 #: calendar/zones.h:332
 msgid "Europe/Vienna"
@@ -8645,9 +8705,10 @@ msgstr "Europë/Varshavë"
 msgid "Europe/Zagreb"
 msgstr "Europë/Zagreb"
 
+#. GRUT modified this item
 #: calendar/zones.h:336
 msgid "Europe/Zaporozhye"
-msgstr "Europë/Zaporozhye"
+msgstr "Europë/Zaporozhje"
 
 #: calendar/zones.h:337
 msgid "Europe/Zurich"
@@ -12421,9 +12482,10 @@ msgid ""
 "installed."
 msgstr ""
 
+#. GRUT modified this item
 #: data/evolution.desktop.in.in.h:1 shell/main.c:503
 msgid "Evolution"
-msgstr ""
+msgstr "Evolution"
 
 #: data/evolution.desktop.in.in.h:2
 #, fuzzy
@@ -12776,9 +12838,10 @@ msgstr ""
 msgid "Please choose another name."
 msgstr ""
 
+#. GRUT modified this item
 #: filter/filter-file.c:288
 msgid "Choose a file"
-msgstr ""
+msgstr "Zgjidh një file"
 
 #: filter/filter-label.c:121 mail/em-filter-i18n.h:26 mail/em-migrate.c:1011
 #: mail/mail-config.c:76 mail/mail-config.glade.h:93
@@ -13280,12 +13343,13 @@ msgstr "fillon me"
 msgid "Stop Processing"
 msgstr "Ndalo proçesimin"
 
+#. GRUT modified this item
 #: mail/em-filter-i18n.h:64 mail/em-format-html.c:1550
 #: mail/em-format-quote.c:305 mail/em-format.c:805 mail/em-mailer-prefs.c:87
 #: mail/message-list.etspec.h:13 mail/message-tag-followup.c:329
 #: smime/lib/e-cert.c:1131
 msgid "Subject"
-msgstr ""
+msgstr "Subjekti"
 
 #: mail/em-filter-i18n.h:65
 msgid "Unset Status"
@@ -13384,10 +13448,11 @@ msgstr ""
 msgid "_Move to Folder"
 msgstr ""
 
+#. GRUT modified this item
 #: mail/em-folder-tree.c:966 mail/em-folder-tree.c:2117
 #: mail/em-folder-view.c:803 mail/message-list.c:1703
 msgid "_Move"
-msgstr "_Lëvize"
+msgstr "_Lëviz"
 
 #: mail/em-folder-tree.c:968 mail/message-list.c:1705
 msgid "Cancel _Drag"
@@ -13954,9 +14019,10 @@ msgstr ""
 msgid "This store does not support subscriptions, or they are not enabled."
 msgstr "Ky arkiv nuk suporton regjistrimet, ose ato nuk janë aktive."
 
+#. GRUT modified this item
 #: mail/em-subscribe-editor.c:635
 msgid "Subscribed"
-msgstr "Nënshkruar"
+msgstr "I regjistruar"
 
 #: mail/em-subscribe-editor.c:639
 msgid "Folder"
@@ -14499,12 +14565,13 @@ msgstr ""
 msgid "Importing..."
 msgstr ""
 
+#. GRUT modified this item
 #: mail/importers/elm-importer.c:91
 #: mail/importers/evolution-mbox-importer.c:223
 #: mail/importers/evolution-outlook-importer.c:257
 #: mail/importers/netscape-importer.c:1253 mail/importers/pine-importer.c:119
 msgid "Please wait"
-msgstr ""
+msgstr "Ju lutem prisni"
 
 #: mail/importers/elm-importer.c:244
 msgid "Importing Elm data"
@@ -14516,9 +14583,10 @@ msgid ""
 "Would you like to import them into Evolution?"
 msgstr ""
 
+#. GRUT modified this item
 #: mail/importers/elm-importer.c:444
 msgid "Elm"
-msgstr ""
+msgstr "Elm"
 
 #: mail/importers/evolution-mbox-importer.c:116
 #: mail/importers/evolution-outlook-importer.c:130
@@ -15269,9 +15337,10 @@ msgstr "Firmat"
 msgid "Specify _filename:"
 msgstr ""
 
+#. GRUT modified this item
 #: mail/mail-config.glade.h:140
 msgid "Spell Checking"
-msgstr ""
+msgstr "Kontrolli i drejtshkrimit"
 
 #: mail/mail-config.glade.h:141
 msgid "Standard Unix mbox"
@@ -16233,9 +16302,10 @@ msgstr ""
 msgid "Enter Password for %s"
 msgstr ""
 
+#. GRUT modified this item
 #: mail/mail-session.c:209
 msgid "Enter Password"
-msgstr ""
+msgstr "Shkruaj fjalëkalimin"
 
 #: mail/mail-session.c:238
 msgid "User canceled operation."
@@ -16332,9 +16402,10 @@ msgstr ""
 msgid "Lower"
 msgstr "Inferior"
 
+#. GRUT modified this item
 #: mail/message-list.c:1013
 msgid "Higher"
-msgstr ""
+msgstr "Më i lartë"
 
 #: mail/message-list.c:1014
 msgid "Highest"
@@ -17659,9 +17730,10 @@ msgstr "Dërgoja një personi tjetër kontaktet e zgjedhur."
 msgid "Show contact preview window"
 msgstr "Shfaq dritaren e pamjes së parë të kontaktit"
 
+#. GRUT modified this item
 #: ui/evolution-addressbook.xml.h:27
 msgid "Stop"
-msgstr "Ndalo"
+msgstr "Ndal"
 
 #: ui/evolution-addressbook.xml.h:28
 msgid "Stop Loading"
@@ -18721,10 +18793,11 @@ msgstr "_Elemino gjithçka"
 msgid "_From Field"
 msgstr "Fusha _Nga"
 
+#. GRUT modified this item
 #: ui/evolution-message-composer.xml.h:46
 #: ui/evolution-signature-editor.xml.h:14
 msgid "_Insert"
-msgstr "_Shkruaj"
+msgstr "_Ndërfut"
 
 #: ui/evolution-message-composer.xml.h:47
 msgid "_Open..."
@@ -18774,9 +18847,10 @@ msgstr "Rifresko Listën e Kartelave"
 msgid "Remove folder from your list of subscribed folders"
 msgstr "Hiqe kartelën nga lista juaj e kartelave të regjistruara"
 
+#. GRUT modified this item
 #: ui/evolution-subscribe.xml.h:7
 msgid "Subscribe"
-msgstr "Regjistrohu"
+msgstr "Regjistrimi"
 
 #: ui/evolution-subscribe.xml.h:8
 msgid "Unsubscribe"
@@ -18866,9 +18940,11 @@ msgstr "Ndrysho dukshmërinë e panelit të instrumentëve"
 msgid "Create a new window displaying this folder"
 msgstr "Krijo një dritare të re për të shfaqur këtë kartelë"
 
+#. GRUT modified this item
+#. GRUT modified this item
 #: ui/evolution.xml.h:7
 msgid "E_xit"
-msgstr "D_il"
+msgstr "D_alja"
 
 #: ui/evolution.xml.h:8
 msgid "Evolution _FAQ"
@@ -18943,9 +19019,10 @@ msgstr "_Informacione mbi Evolution..."
 msgid "_Help"
 msgstr "_Ndihmë"
 
+#. GRUT modified this item
 #: ui/evolution.xml.h:31
 msgid "_Import..."
-msgstr "_Importo..."
+msgstr "_Importim..."
 
 #: ui/evolution.xml.h:32
 msgid "_New"
@@ -19231,9 +19308,11 @@ msgstr ""
 "Nëse vihet, një nënvijë në tekst tregon që gërma pasuese duhet përdorur si "
 "kyç për përshpejtues \"mnemonic\""
 
+#. GRUT modified this item
+#. GRUT modified this item
 #: widgets/misc/e-expander.c:205
 msgid "Spacing"
-msgstr "Hapësira"
+msgstr "Hapësira e ndërmjetme"
 
 #: widgets/misc/e-expander.c:206
 msgid "Space to put between the label and the child"
@@ -19363,6 +19442,20 @@ msgstr "%s (...)"
 #, c-format
 msgid "%s (%d%% complete)"
 msgstr "%s (%d%% plotësuar)"
+
+#~ msgid ""
+#~ "The contact cannot be saved to the selected address book. Do you want to "
+#~ "discard changes?"
+#~ msgstr ""
+#~ "Kontakti nuk mund të ruhet tek rubrika e zgjedhur. Dëshironi të anulloni "
+#~ "ndryshimet?"
+
+#~ msgid ""
+#~ "You are moving the contact from one address book to another, but it "
+#~ "cannot be removed from the source. Do you want to save a copy instead?"
+#~ msgstr ""
+#~ "Jeni duke lëvizur kontaktin nga një rubrikë në tjetrën, por ai nuk mund "
+#~ "të fshihet nga burimi. Dëshironi përkundrazi të ruani një kopje?"
 
 #~ msgid "_Add Group"
 #~ msgstr "_Shto një grup"
