@@ -690,13 +690,14 @@ static void
 account_changed (EAccountList *account_listener, EAccount *account)
 {
 	gboolean is_gw_account;
-	CamelURL *url;
-	char *relative_uri, *old_relative_uri;
-	const char *soap_port;
+	CamelURL *old_url, *new_url;
+	char *relative_uri;
+	const char *old_soap_port, *new_soap_port;
 	GwAccountInfo *existing_account_info;
-	const char *use_ssl;
-	const char *poa_address;
-
+	const char *old_use_ssl, *new_use_ssl;
+	gboolean old_ssl, new_ssl;
+	const char *old_poa_address, *new_poa_address;
+	
 	is_gw_account = is_groupwise_account (account);
 	
 	existing_account_info = lookup_account_info (account->uid);
@@ -726,44 +727,52 @@ account_changed (EAccountList *account_listener, EAccount *account)
 			account_removed (account_listener, account);
 			return;
 		}
+		old_ssl = new_ssl = FALSE;
 		/* some info of groupwise account is changed . update the sources with new info if required */
-		url = camel_url_new (existing_account_info->source_url, NULL);
-		poa_address = camel_url_get_param (url, "poa");
-		if (!poa_address || strlen (poa_address) ==0)
+		old_url = camel_url_new (existing_account_info->source_url, NULL);
+		old_poa_address = camel_url_get_param (old_url, "poa");
+		old_soap_port = camel_url_get_param (old_url, "soap_port");
+		old_use_ssl = camel_url_get_param (old_url, "soap_ssl");
+		if (old_use_ssl)
+			old_ssl = TRUE;
+		new_url = camel_url_new (account->source->url, NULL);
+
+		new_poa_address = camel_url_get_param (new_url, "poa");
+		if (!new_poa_address || strlen (new_poa_address) ==0)
 			return;
-		old_relative_uri = g_strdup_printf ("%s@%s/", url->user, poa_address);
-		camel_url_free (url);
+		new_soap_port = camel_url_get_param (new_url, "soap_port");
+		if (!new_soap_port || strlen (new_soap_port) == 0)
+			new_soap_port = "7181";
 
-		url = camel_url_new (account->source->url, NULL);
-
-		poa_address = camel_url_get_param (url, "poa");
-		if (!poa_address || strlen (poa_address) ==0)
-			return;
-		soap_port = camel_url_get_param (url, "soap_port");
-		if (!soap_port || strlen (soap_port) == 0)
-			soap_port = "7181";
-		use_ssl = camel_url_get_param (url, "soap_ssl");
-		if (use_ssl)
-			use_ssl = "always";
-
-		relative_uri =  g_strdup_printf ("%s@%s/", url->user, poa_address);
-	       
-		if (strcmp (existing_account_info->name, account->name) != 0 || strcmp (existing_account_info->source_url, account->source->url) != 0) {
+		new_use_ssl = camel_url_get_param (new_url, "soap_ssl");
+		if (new_use_ssl){
+			new_use_ssl = "always";
+			new_ssl = TRUE;
+		}
 			
-		
-			modify_esource ("/apps/evolution/calendar/sources", existing_account_info, account->name, url->user, relative_uri, soap_port, use_ssl);
-			modify_esource ("/apps/evolution/tasks/sources", existing_account_info, account->name, url->user, relative_uri, soap_port, use_ssl);
+		if ((old_poa_address && strcmp (old_poa_address, new_poa_address))
+		   ||  (old_soap_port && strcmp (old_soap_port, new_soap_port)) 
+		   ||  strcmp (old_url->user, new_url->user) 
+		   || ( old_ssl ^ new_ssl)) {
+			
+			account_removed (account_listener, account);
+			account_added (account_listener, account);
+		} else if (strcmp (existing_account_info->name, account->name)) {
+			
+			relative_uri =  g_strdup_printf ("%s@%s/", new_url->user, new_poa_address); 
+			modify_esource ("/apps/evolution/calendar/sources", existing_account_info, account->name, new_url->user, relative_uri, new_soap_port, new_use_ssl);
+			modify_esource ("/apps/evolution/tasks/sources", existing_account_info, account->name, new_url->user, relative_uri, new_soap_port, new_use_ssl);
 			modify_addressbook_sources (account, existing_account_info);
-			g_free (existing_account_info->name);
-			g_free (existing_account_info->source_url);
-			existing_account_info->name = g_strdup (account->name);
-			existing_account_info->source_url = g_strdup (account->source->url);
 			g_free (relative_uri);
-			g_free (old_relative_uri);
 			
 		}
-		camel_url_free (url);
 		
+		g_free (existing_account_info->name);
+		g_free (existing_account_info->source_url);
+		existing_account_info->name = g_strdup (account->name);
+		existing_account_info->source_url = g_strdup (account->source->url);
+		camel_url_free (old_url);
+		camel_url_free (new_url);
 	}
 		
 	
