@@ -1,8 +1,8 @@
 .deps
-.libs
-.pure
 Makefile
 Makefile.in
+.libs
+.deps
 *.lo
 *.la
-*.h
+temp-test

@@ -1,7 +1,8 @@
-*.o
 Makefile
 libmenus.la
 Makefile.in
 .deps
 .libs
 .pure
+*.o
+*.lo

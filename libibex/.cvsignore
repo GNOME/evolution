@@ -5,6 +5,5 @@ Makefile.in
 .deps
 *.lo
 *.la
-lookup
-mkindex
+testindex
 dumpindex
