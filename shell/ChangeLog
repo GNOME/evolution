@@ -1,3 +1,8 @@
+2003-07-24  Yuedong Du  <yuedong.du@sun.com>
+
+	* e-shell-offline-handler.c: (dialog_response_cb): fix crash when user escape the
+	dialog. see bug #46700.
+
 2003-07-23  Dan Winship  <danw@ximian.com>
 
 	* Makefile.am: Use EVO_MARSHAL_RULE
