@@ -1,3 +1,11 @@
+2004-08-06  JP Rosevear  <jpr@ximian.com>
+
+	* configure.in: bump version
+
+2004-08-03  JP Rosevear  <jpr@novell.com>
+
+	* configure.in: bump version
+
 2004-08-02  JP Rosevear  <jpr@novell.com>
 
 	* configure.in: bump version, requirements

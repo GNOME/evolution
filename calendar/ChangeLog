@@ -1,18 +1,31 @@
-2004-08-05  Parthasarathi S A   <sparthasarathi@novell.com>
-
-	Fix for bug #61673.
-	* calendar/gui/dialogs/save_comp.c(save_component_dialog):
-	  The function takes two arguments now, instead of one. The second
-	  argument is the pointer to the ECalComponent from which the component
-	  type can be determined. Based on the component type the corresponding
-	  error message is displayed.
-	* calendar/gui/dialogs/save_comp.h:
-	  Function definition updated for save_component_dialog.
-	* calendar/gui/dialogs/comp_editor.c(prompt_to_save_changes):
-	  passing the ECalComponent pointer to the 'save_component_dialog' function
-	* calendar/calendar-errors.xml: New error message string for task included
-	* calendar/calendar-errors.xml.h
-
+2004-08-06  JP Rosevear  <jpr@ximian.com>
+ 
+ 	Fixes #62021
+ 	
+ 	* gui/dialogs/event-page.c (source_changed_cb): set the default
+ 	timezone
+ 
+ 	* gui/e-itip-control.c (start_calendar_server): set the default
+ 	timezone
+ 
+ 	* gui/calendar-component.c (setup_create_ecal): set the default
+ 	timezone, as the component view is not alive and hence has not set
+ 	it
+ 
+ 	* gui/tasks-component.c (setup_create_ecal): ditto
+	
+2004-08-06  JP Rosevear  <jpr@ximian.com>
+ 
+ 	Fixes #62452
+ 	
+ 	* gui/e-itip-control.c (find_my_address): take option to retrieve
+ 	current status as well, actually look for the delegator in the
+ 	list so we can retrieve status there as well
+ 	(show_current_event): use find_my_address to get the status so we
+ 	properly handle not finding the address in the list of attendees
+ 	(show_current): pass extra param
+ 	(ok_clicked_cb): ditto
+	
 2004-08-05  Rodrigo Moya <rodrigo@novell.com>
 
 	Fixes #62030
@@ -27,45 +40,6 @@
 
 	* gui/alarm-notify/alarm.c (alarm_add): added missing argument
 	documentation.
-
-2004-08-03  JP Rosevear  <jpr@novell.com>
- 
-	* gui/gnome-cal.c (gnome_calendar_destroy): clean up all the
- 	default clients
- 	(default_client_cal_opened_cb): change the if statement to a
- 	switch to be consistent with the other code bits and set the
- 	default client for the source type
- 	(gnome_calendar_add_source): look at the default based on the
- 	source type
- 	(gnome_calendar_set_default_source): set the default for the
- 	source type
- 	(gnome_calendar_new_task): bail out if we have no ecal
- 
-	* gui/gnome-cal.c (set_timezone): set the timezone for all the
- 	default clients
- 
-	* gui/calendar-component.c (update_primary_task_selection): look
-	in the task source list, not the plain source list
-	
-2004-08-05  JP Rosevear  <jpr@novell.com>
-
-	* gui/tasks-control.c (tasks_control_sensitize_commands): kill
- 	warning by checking if there is a default client first (can happen
- 	when first starting up)
-	
-2004-08-05  JP Rosevear  <jpr@novell.com>
-
-	Fixes #62363
-	
-	* gui/calendar-component.c (create_new_event):
-	commit the sequence
-
-2004-08-04  Harish Krishnaswamy  <kharish@novell.com>
-
-	* gui/e-itip-control.c: (ok_clicked_cb): Handle decline request by
-	using update_item rather than remove_item, so the backend receives
-	the notification and can handle it. Also, do not rsvp if the backend
-	has the 'save_schedule' capability.
 
 2004-08-01  JP Rosevear  <jpr@novell.com>
  

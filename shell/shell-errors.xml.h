@@ -22,7 +22,8 @@ char *s = N_("The previous version of evolution stored its data in a different l
 	"\n"
 	"If you choose to remove this data, the entire contents of the \"evolution\" directory will be removed permanently.  If you choose to keep this data, then you may manually remove the contents of \"evolution\" at your convenience.\n"
 	"");
-char *s = N_("Keep");
+char *s = N_("_Remind Me Later");
+char *s = N_("_Keep Data");
 /* shell:upgrade-remove-1-4-confirm title */
 char *s = N_("Really delete old data?");
 /* shell:upgrade-remove-1-4-confirm primary */
