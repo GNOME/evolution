@@ -1,3 +1,10 @@
+2001-06-18  Dan Winship  <danw@ximian.com>
+
+	* test-service/Makefile.am (test_service_LDADD): Remove DB3_LDADD
+
+	* component/Makefile.am (evolution_executive_summary_LDADD):
+	Remove DB3_LDADD
+
 2001-06-04  Ettore Perazzoli  <ettore@ximian.com>
 
 	* component/Makefile.am (evolution_executive_summary_LDADD): Move

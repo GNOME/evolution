@@ -58,7 +58,6 @@ evolution_executive_summary_SOURCES =		\
 
 evolution_executive_summary_LDADD = 							\
 	$(top_builddir)/executive-summary/evolution-services/libevolution-services.la	\
-	$(DB3_LDADD)									\
 	$(top_builddir)/shell/libeshell.la						\
 	$(top_builddir)/widgets/misc/libemiscwidgets.a					\
 	$(top_builddir)/e-util/libeutil.la						\

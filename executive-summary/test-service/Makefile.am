@@ -14,8 +14,7 @@ test_service_SOURCES = 			\
 test_service_LDADD = 			\
 	$(top_builddir)/executive-summary/evolution-services/libevolution-services.la	\
 	$(BONOBO_VFS_GNOME_LIBS)							\
-	$(EXTRA_GNOME_LIBS)								\
-	$(DB3_LDADD)
+	$(EXTRA_GNOME_LIBS)
 
 #test_bonobo_service_SOURCES =		\
 #	test-bonobo.c
@@ -30,7 +29,6 @@ rdf_summary_SOURCES =			\
 
 rdf_summary_LDADD =									\
 	$(top_builddir)/executive-summary/evolution-services/libevolution-services.la	\
-	$(DB3_LDADD)									\
 	$(BONOBO_VFS_GNOME_LIBS)							\
 	$(EXTRA_GNOME_LIBS)
 
