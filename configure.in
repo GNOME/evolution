@@ -572,6 +572,7 @@ macros/Makefile
 intl/Makefile
 po/Makefile.in
 e-util/Makefile
+e-util/ename/Makefile
 libibex/Makefile
 camel/Makefile
 camel/providers/Makefile
@@ -589,7 +590,6 @@ widgets/meeting-time-sel/Makefile
 widgets/misc/Makefile
 widgets/shortcut-bar/Makefile
 addressbook/Makefile
-addressbook/ename/Makefile
 addressbook/conduit/Makefile
 addressbook/contact-editor/Makefile
 addressbook/printing/Makefile
