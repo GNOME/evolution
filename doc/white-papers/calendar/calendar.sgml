@@ -1,0 +1,49 @@
+<!doctype article PUBLIC "-//Davenport//DTD DocBook V3.0//EN" [
+<!entity Evolution "<productname>Evolution</productname>">
+]>
+
+<article class="whitepaper" id="calendar">
+
+  <artheader>
+    <title>&Evolution; Calendaring Framework</title>
+
+    <authorgroup>
+      <author>
+	<firstname>Federico</firstname>
+	<surname>Mena Quintero</surname>
+	<affiliation>
+	  <address>
+	    <email>federico@helixcode.com</email>
+	  </address>
+	</affiliation>
+      </author>
+    </authorgroup>
+
+    <copyright>
+      <year>2000</year>
+      <holder>Helix Code, Inc.</holder>
+    </copyright>
+
+    <abstract>
+      <para>
+	The &Evolution; groupware suite provides a framework for
+	developing calendaring applications, as well as a graphical
+	calendar client and a personal calendar server.  This white
+	paper describes the architecture of the &Evolution;
+	calendaring framework.
+      </para>
+    </abstract>
+  </artheader>
+
+  <!-- Introduction -->
+
+  <sect1 id="introduction">
+    <title>Introduction</title>
+
+    <para>
+      The &Evolution; groupware suite provides a framework for
+      developing calendaring applications.  This includes handling of
+      appointments, &ldquo;to do&rdquo; lists, and journal entries.
+    </para>
+  </sect1>
+</article>
