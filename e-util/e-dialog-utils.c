@@ -30,9 +30,17 @@
 
 #include <gdk/gdkx.h>
 
-#include <gtk/gtkfilesel.h>
 #include <gtk/gtkmain.h>
 #include <gtk/gtkplug.h>
+#include <gtk/gtkversion.h>
+
+#ifdef USE_GTKFILECHOOSER
+#include <gtk/gtkfilechooser.h>
+#include <gtk/gtkfilechooserdialog.h>
+#include <gtk/gtkstock.h>
+#else
+#include <gtk/gtkfilesel.h>
+#endif
 
 #include <libgnome/gnome-i18n.h>
 #include <libgnome/gnome-util.h>
@@ -242,7 +250,11 @@ save_ok (GtkWidget *widget, gpointer data)
 	int btn = GTK_RESPONSE_YES;
 	
 	fs = gtk_widget_get_toplevel (widget);
+#ifdef USE_GTKFILECHOOSER
+	path = gtk_file_chooser_get_filename (GTK_FILE_CHOOSER (fs));
+#else
 	path = gtk_file_selection_get_filename (GTK_FILE_SELECTION (fs));
+#endif
 	
 	if (g_file_test (path, G_FILE_TEST_IS_REGULAR)) {
 		GtkWidget *dlg;
@@ -265,25 +277,49 @@ save_ok (GtkWidget *widget, gpointer data)
 	gtk_main_quit ();
 }
 
+#ifdef USE_GTKFILECHOOSER
+static void
+filechooser_response (GtkWidget *fc, gint response_id, gpointer data)
+{
+	if (response_id == GTK_RESPONSE_ACCEPT)
+		save_ok (fc, data);
+	else
+		gtk_widget_destroy (fc);
+}
+#endif
+
 char *
 e_file_dialog_save (const char *title)
 {
-	GtkFileSelection *fs;
+	GtkWidget *selection;
 	char *path, *filename = NULL;
-	
-	fs = GTK_FILE_SELECTION (gtk_file_selection_new (title));
+
+#ifdef USE_GTKFILECHOOSER
+	selection = gtk_file_chooser_dialog_new (title,
+						 NULL,
+						 GTK_FILE_CHOOSER_ACTION_SAVE,
+						 GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
+						 GTK_STOCK_SAVE, GTK_RESPONSE_ACCEPT,
+						 NULL);
+	gtk_dialog_set_default_response (GTK_DIALOG (selection), GTK_RESPONSE_ACCEPT);
+	gtk_file_chooser_set_current_folder (GTK_FILE_CHOOSER (selection), g_get_home_dir ());
+
+	g_signal_connect (G_OBJECT (selection), "response", G_CALLBACK (filechooser_response), &filename);
+#else
+	selection = gtk_file_selection_new (title);
 	path = g_strdup_printf ("%s/", g_get_home_dir ());
-	gtk_file_selection_set_filename (fs, path);
+	gtk_file_selection_set_filename (GTK_FILE_SELECTION (selection), path);
 	g_free (path);
+
+	g_signal_connect (G_OBJECT (GTK_FILE_SELECTION (selection)->ok_button), "clicked", G_CALLBACK (save_ok), &filename);
+	g_signal_connect (G_OBJECT (GTK_FILE_SELECTION (selection)->cancel_button), "clicked", G_CALLBACK (gtk_main_quit), NULL);
+#endif
 	
-	g_signal_connect (fs->ok_button, "clicked", G_CALLBACK (save_ok), &filename);
-	g_signal_connect (fs->cancel_button, "clicked", G_CALLBACK (gtk_main_quit), NULL);
-	
-	gtk_widget_show (GTK_WIDGET (fs));
-	gtk_grab_add (GTK_WIDGET (fs));
+	gtk_widget_show (GTK_WIDGET (selection));
+	gtk_grab_add (GTK_WIDGET (selection));
 	gtk_main ();
 	
-	gtk_widget_destroy (GTK_WIDGET (fs));
+	gtk_widget_destroy (GTK_WIDGET (selection));
 	
 	return filename;
 }
