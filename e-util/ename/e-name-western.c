@@ -54,7 +54,7 @@ e_name_western_cleanup_string (char **str)
 
 	/* skip any spaces and commas at the start of the string */
 	p = *str;
-	while (isspace (*p) || *p == ',')
+	while (isspace ((unsigned char)*p) || *p == ',')
 		p ++;
 
 	/* make the copy we're going to return */
@@ -63,11 +63,11 @@ e_name_western_cleanup_string (char **str)
 	if ( strlen(newstr) > 0) {
 		/* now search from the back, skipping over any spaces and commas */
 		p = newstr + strlen (newstr) - 1;
-		while (isspace (*p) || *p == ',')
+		while (isspace ((unsigned char)*p) || *p == ',')
 			p --;
 		/* advance p to after the character that caused us to exit the
 		   previous loop, and end the string. */
-		if ((! isspace (*p)) && *p != ',')
+		if ((! isspace ((unsigned char)*p)) && *p != ',')
 			p ++;
 		*p = '\0';
 	}
@@ -90,10 +90,10 @@ e_name_western_get_words_at_idx (char *str, int idx, int num_words)
 	word_count = 0;
 	p = str + idx;
 	while (word_count < num_words && *p != '\0') {
-		while (! isspace (*p) && *p != '\0')
+		while (! isspace ((unsigned char)*p) && *p != '\0')
 			p ++;
 
-		while (isspace (*p) && *p != '\0')
+		while (isspace ((unsigned char)*p) && *p != '\0')
 			p ++;
 
 		word_count ++;
@@ -194,7 +194,7 @@ e_name_western_get_prefix_at_str (char *str)
 
 	/* Check for a second prefix. */
 	p = str + strlen (pfx1);
-	while (isspace (*p) && *p != '\0')
+	while (isspace ((unsigned char)*p) && *p != '\0')
 		p ++;
 
 	pfx2 = e_name_western_get_one_prefix_at_str (p);
@@ -258,7 +258,7 @@ e_name_western_extract_first (ENameWestern *name, ENameWesternIdxs *idxs)
 
 		/* Skip past white space. */
 		p = name->full + first_idx;
-		while (isspace (*p) && *p != '\0')
+		while (isspace ((unsigned char)*p) && *p != '\0')
 			p++;
 
 		if (*p == '\0')
@@ -311,7 +311,7 @@ e_name_western_extract_middle (ENameWestern *name, ENameWesternIdxs *idxs)
 	/*
 	 * Search for the first space (or the terminating \0)
 	 */
-	while (isspace (name->full [middle_idx]) &&
+	while (isspace ((unsigned char)name->full [middle_idx]) &&
 	       name->full [middle_idx] != '\0')
 		middle_idx ++;
 		
@@ -327,7 +327,7 @@ e_name_western_extract_middle (ENameWestern *name, ENameWesternIdxs *idxs)
 
 		middle_idx = idxs->nick_idx + strlen (name->nick) + 1;
 		
-		while (isspace (name->full [middle_idx]) &&
+		while (isspace ((unsigned char)name->full [middle_idx]) &&
 		       name->full [middle_idx] != '\0')
 			middle_idx ++;
 
@@ -464,7 +464,7 @@ e_name_western_extract_last (ENameWestern *name, ENameWesternIdxs *idxs)
 	}
 
 	/* Skip past the white space. */
-	while (isspace (name->full [idx]) && name->full [idx] != '\0')
+	while (isspace ((unsigned char)name->full [idx]) && name->full [idx] != '\0')
 		idx ++;
 
 	if (name->full [idx] == '\0')
@@ -498,13 +498,13 @@ e_name_western_get_preceding_word (char *str, int idx)
 
 	p = str + idx;
 
-	while (isspace (*p) && p > str)
+	while (isspace ((unsigned char)*p) && p > str)
 		p --;
 
-	while (! isspace (*p) && p > str)
+	while (! isspace ((unsigned char)*p) && p > str)
 		p --;
 
-	if (isspace (*p))
+	if (isspace ((unsigned char)*p))
 	    p ++;
 
 	word_len = (str + idx) - p;
@@ -635,7 +635,7 @@ e_name_western_reorder_asshole (ENameWestern *name, ENameWesternIdxs *idxs)
 
 	p = name->full + (prefix == NULL ? 0 : strlen (prefix));
 
-	while (isspace (*p) && *p != '\0')
+	while (isspace ((unsigned char)*p) && *p != '\0')
 		p ++;
 
 	last = g_malloc0 (comma - p + 1);
@@ -652,7 +652,7 @@ e_name_western_reorder_asshole (ENameWestern *name, ENameWesternIdxs *idxs)
 	 */
 	p = comma + 1;
 
-	while (isspace (*p) && *p != '\0')
+	while (isspace ((unsigned char)*p) && *p != '\0')
 		p ++;
 
 	if (suffix != NULL) {
@@ -667,7 +667,7 @@ e_name_western_reorder_asshole (ENameWestern *name, ENameWesternIdxs *idxs)
 		 * Walk backwards until we hit the space which
 		 * separates the suffix from firstmidnick.
 		 */
-		while (! isspace (*q) && q > comma)
+		while (! isspace ((unsigned char)*q) && q > comma)
 			q --;
 
 		if ((q - p + 1) > 0) {
@@ -796,7 +796,7 @@ e_name_western_fixup (ENameWestern *name, ENameWesternIdxs *idxs)
 			char *p;
 
 			p = sfx - 1;
-			while (isspace (*p) && p > name->last)
+			while (isspace ((unsigned char)*p) && p > name->last)
 				p --;
 			p ++;
 

@@ -1,3 +1,10 @@
+2002-10-23  Dan Winship  <danw@ximian.com>
+
+	* ename/e-name-western.c: Cast chars to unsigned char before
+	passing to ctype macros since they are not defined on negative
+	numbers. Fixes parsing problems with names with accented
+	characters on Solaris. (At least part of #32146)
+
 2002-09-25  Rodrigo Moya <rodrigo@ximian.com>
 
 	* e-component-listener.c (ping_component_callback): added a comment
