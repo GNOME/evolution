@@ -25,7 +25,7 @@
 #define _E_TREE_H_
 
 #include <gtk/gtktable.h>
-#include <gnome-xml/tree.h>
+#include <tree.h>
 #include <libgnomeui/gnome-canvas.h>
 
 #include <gal/widgets/e-printable.h>
@@ -34,7 +34,6 @@
 #include <gal/e-table/e-table-specification.h>
 #include <gal/e-table/e-table-state.h>
 #include <gal/e-table/e-tree-model.h>
-#include <libgnome/gnome-defs.h>
 
 #define E_TREE_USE_TREE_SELECTION
 
@@ -70,7 +69,6 @@ typedef struct {
 	gint        (*click)              (ETree *et, int row, ETreePath path, int col, GdkEvent *event);
 	gint        (*key_press)          (ETree *et, int row, ETreePath path, int col, GdkEvent *event);
 	gint        (*start_drag)         (ETree *et, int row, ETreePath path, int col, GdkEvent *event);
-	gint        (*state_change)       (ETree *et);
 
 	void  (*set_scroll_adjustments)   (ETree	 *tree,
 					   GtkAdjustment *hadjustment,
@@ -283,20 +281,8 @@ void            e_tree_load_expanded_state        (ETree                *et,
 int             e_tree_row_count                  (ETree                *et);
 GtkWidget      *e_tree_get_tooltip                (ETree                *et);
 
-typedef enum {
-	E_TREE_FIND_NEXT_BACKWARD = 0,
-	E_TREE_FIND_NEXT_FORWARD  = 1 << 0,
-	E_TREE_FIND_NEXT_WRAP     = 1 << 1
-} ETreeFindNextParams;
-
-gboolean        e_tree_find_next                  (ETree                *et,
-						   ETreeFindNextParams   params,
-						   ETreePathFunc         func,
-						   gpointer              data);
-
 /* This function is only needed in single_selection_mode. */
 void            e_tree_right_click_up             (ETree                *et);
-
 
 END_GNOME_DECLS
 

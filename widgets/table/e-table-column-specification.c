@@ -24,8 +24,8 @@
 #include <config.h>
 #include <stdlib.h>
 #include <gtk/gtksignal.h>
-#include <gnome-xml/parser.h>
-#include <gnome-xml/xmlmemory.h>
+#include <parser.h>
+#include <xmlmemory.h>
 #include "gal/util/e-xml-utils.h"
 #include "gal/util/e-util.h"
 #include "e-table-column-specification.h"
@@ -41,7 +41,6 @@ free_strings (ETableColumnSpecification *etcs)
 	g_free(etcs->pixbuf);
 	g_free(etcs->cell);
 	g_free(etcs->compare);
-	g_free(etcs->search);
 }
 
 static void
@@ -76,7 +75,6 @@ etcs_init (ETableColumnSpecification *specification)
 	
 	specification->cell          = NULL;
 	specification->compare       = NULL;
-	specification->search        = NULL;
 	specification->priority      = 0;
 }
 
@@ -107,7 +105,6 @@ e_table_column_specification_load_from_node (ETableColumnSpecification *etcs,
 
 	etcs->cell          = e_xml_get_string_prop_by_name (node, "cell");
 	etcs->compare       = e_xml_get_string_prop_by_name (node, "compare");
-	etcs->search        = e_xml_get_string_prop_by_name (node, "search");
 	etcs->priority      = e_xml_get_integer_prop_by_name_with_default (node, "priority", 0);
 
 	if (etcs->title == NULL)
@@ -135,7 +132,6 @@ e_table_column_specification_save_to_node (ETableColumnSpecification *specificat
 
 	e_xml_set_string_prop_by_name(node, "cell", specification->cell);
 	e_xml_set_string_prop_by_name(node, "compare", specification->compare);
-	e_xml_set_string_prop_by_name(node, "search", specification->search);
 	if (specification->priority != 0)
 		e_xml_set_integer_prop_by_name (node, "priority", specification->priority);
 

@@ -920,7 +920,7 @@ etsm_selected_count (ESelectionModel *selection)
 		ETreePath model_root;
 		model_root = e_tree_model_get_root(etsm->priv->model);
 		etsm_selected_count_recurse(etsm, etsm->priv->root, model_root, &count);
-		if (!e_tree_table_adapter_root_node_is_visible (etsm->priv->etta) && etsm_is_path_selected (etsm, e_tree_model_get_root(E_TREE_MODEL (etsm->priv->ets)))) {
+		if (!e_tree_table_adapter_root_node_is_visible (etsm->priv->etta) && etsm_is_path_selected (etsm, e_tree_model_get_root(etsm->priv->model))) {
 			count --;
 		}
 	}
@@ -1294,12 +1294,6 @@ e_tree_selection_model_change_cursor (ETreeSelectionModel *etsm, ETreePath path)
 	e_selection_model_cursor_activated(E_SELECTION_MODEL(etsm), row, etsm->priv->cursor_col);
 }
 
-ETreePath
-e_tree_selection_model_get_cursor (ETreeSelectionModel *etsm)
-{
-	return etsm->priv->cursor_path;
-}
-
 
 static void
 e_tree_selection_model_init (ETreeSelectionModel *etsm)
@@ -1319,8 +1313,6 @@ e_tree_selection_model_init (ETreeSelectionModel *etsm)
 	priv->selection_start_path            = NULL;
 
 	priv->cursor_save_id                  = NULL;
-
-	priv->frozen_count                    = 0;
 
 
 	priv->tree_model_pre_change_id        = 0;

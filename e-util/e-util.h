@@ -75,40 +75,6 @@ GtkType l##_get_type(void)\
 	return type;\
 }
 
-#define GET_STRING_ARRAY_FROM_ELLIPSIS(labels, first_string) \
-        { \
-		va_list args; \
-		int i; \
-		char *s; \
- \
-		va_start (args, (first_string)); \
- \
-		i = 0; \
-		for (s = (first_string); s; s = va_arg (args, char *)) \
-			i++; \
-		va_end (args); \
- \
-		(labels) = g_new (char *, i + 1); \
- \
-		va_start (args, (first_string)); \
-		i = 0; \
-		for (s = (first_string); s; s = va_arg (args, char *)) \
-		        (labels)[i++] = s; \
- \
-		va_end (args); \
-		(labels)[i] = NULL; \
-	}
-
-
-#define GET_DUPLICATED_STRING_ARRAY_FROM_ELLIPSIS(labels, first_string) \
-        { \
-                int i; \
-                GET_STRING_ARRAY_FROM_ELLIPSIS ((labels), (first_string)); \
-                for (i = 0; labels[i]; i++) \
-			labels[i] = g_strdup (labels[i]); \
-        }
-
-
 #if 1
 #  define E_OBJECT_CLASS_ADD_SIGNALS(oc,sigs,last) \
 	gtk_object_class_add_signals (oc, sigs, last)
@@ -152,7 +118,6 @@ void      e_filename_make_safe                                             (gcha
 gchar    *e_format_number                                                  (gint               number);
 gchar    *e_format_number_float                                            (gfloat             number);
 gboolean  e_create_directory                                               (gchar             *directory);
-gchar   **e_strdupv                                                        (const gchar      **str_array);
 
 
 typedef int (*ESortCompareFunc) (const void *first,
@@ -276,10 +241,6 @@ void      e_marshal_NONE__INT_POINTER_INT_POINTER                          (GtkO
 									    GtkSignalFunc      func,
 									    gpointer           func_data,
 									    GtkArg            *args);
-void      e_marshal_NONE__POINTER_POINTER_POINTER_POINTER                  (GtkObject         *object,
-									    GtkSignalFunc      func,
-									    gpointer           func_data,
-									    GtkArg            *args);
 void      e_marshal_INT__POINTER_POINTER                                   (GtkObject         *object,
 									    GtkSignalFunc      func,
 									    gpointer           func_data,
@@ -305,16 +266,6 @@ void      e_marshal_NONE__POINTER_INT_INT_INT                              (GtkO
 									    gpointer           func_data,
 									    GtkArg            *args);
 void      e_marshal_INT__OBJECT_POINTER                                    (GtkObject         *object,
-									    GtkSignalFunc      func,
-									    gpointer           func_data,
-									    GtkArg            *args);
-void      e_marshal_NONE__DOUBLE                                           (GtkObject         *object,
-									    GtkSignalFunc      func,
-									    gpointer           func_data,
-									    GtkArg            *args);
-
-#define e_marshal_BOOL__STRING_ENUM e_marshal_BOOL__STRING_INT
-void      e_marshal_BOOL__STRING_INT                                       (GtkObject         *object,
 									    GtkSignalFunc      func,
 									    gpointer           func_data,
 									    GtkArg            *args);

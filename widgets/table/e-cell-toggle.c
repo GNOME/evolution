@@ -30,21 +30,17 @@
 #include <libgnomeui/gnome-canvas.h>
 #include "e-cell-toggle.h"
 #include "gal/util/e-util.h"
-#include "gal/widgets/e-hsv-utils.h"
 #include "e-table-item.h"
 
 #define PARENT_TYPE e_cell_get_type ()
 
 typedef struct {
-	ECellView     cell_view;
-	GdkGC        *gc;
-	GnomeCanvas  *canvas;
-	GdkPixmap   **pixmap_cache;
+	ECellView    cell_view;
+	GdkGC       *gc;
+	GnomeCanvas *canvas;
 } ECellToggleView;
 
 static ECellClass *parent_class;
-
-#define CACHE_SEQ_COUNT 6
 
 /*
  * ECell::realize method
@@ -55,16 +51,11 @@ etog_new_view (ECell *ecell, ETableModel *table_model, void *e_table_item_view)
 	ECellToggleView *toggle_view = g_new0 (ECellToggleView, 1);
 	ETableItem *eti = E_TABLE_ITEM (e_table_item_view);
 	GnomeCanvas *canvas = GNOME_CANVAS_ITEM (eti)->canvas;
-	ECellToggle *etog = E_CELL_TOGGLE (ecell);
-	int i;
 
 	toggle_view->cell_view.ecell = ecell;
 	toggle_view->cell_view.e_table_model = table_model;
 	toggle_view->cell_view.e_table_item_view = e_table_item_view;
 	toggle_view->canvas = canvas;
-	toggle_view->pixmap_cache = g_new (GdkPixmap *, etog->n_states * CACHE_SEQ_COUNT);
-	for (i = 0; i < etog->n_states * CACHE_SEQ_COUNT; i++)
-		toggle_view->pixmap_cache[i] = NULL;
 
 	return (ECellView *) toggle_view;
 }
@@ -72,13 +63,6 @@ etog_new_view (ECell *ecell, ETableModel *table_model, void *e_table_item_view)
 static void
 etog_kill_view (ECellView *ecell_view)
 {
-	ECellToggle *etog = E_CELL_TOGGLE (ecell_view->ecell);
-	ECellToggleView *toggle_view = (ECellToggleView *) ecell_view;
-	int i;
-
-	for (i = 0; i < etog->n_states * CACHE_SEQ_COUNT; i++)
-		if (toggle_view->pixmap_cache[i])
-			gdk_pixmap_unref (toggle_view->pixmap_cache[i]);
 	g_free (ecell_view);
 }	
 
@@ -102,81 +86,6 @@ etog_unrealize (ECellView *ecv)
 	toggle_view->gc = NULL;
 }
 
-#define PIXMAP_CACHE(toggle_view, cache_seq, image_seq) ((toggle_view)->pixmap_cache[(cache_seq) * E_CELL_TOGGLE (((ECellView *) (toggle_view))->ecell)->n_states + (image_seq)])
-
-#define RGB_COLOR(color) (((color).red & 0xff00) << 8 | \
-			   ((color).green & 0xff00) | \
-			   ((color).blue & 0xff00) >> 8)
-
-static void
-check_cache (ECellToggleView *toggle_view, int image_seq, int cache_seq)
-{
-	ECellView *ecell_view = (ECellView *) toggle_view;
-	ECellToggle *etog = E_CELL_TOGGLE (ecell_view->ecell);
-
-	if (PIXMAP_CACHE (toggle_view, cache_seq, image_seq) == NULL) {
-		GdkPixbuf *image = etog->images[image_seq];
-		GdkPixbuf *flat;
-		guint32 color = 0xffffff;
-		int width = gdk_pixbuf_get_width (image);
-		int height = gdk_pixbuf_get_height (image);
-
-		PIXMAP_CACHE (toggle_view, cache_seq, image_seq) =
-			gdk_pixmap_new (toggle_view->canvas->layout.bin_window, width, height,
-					gtk_widget_get_visual (GTK_WIDGET (toggle_view->canvas))->depth);
-
-		
-		switch (cache_seq % 3) {
-		case 0:
-			color = RGB_COLOR (GTK_WIDGET (toggle_view->canvas)->style->bg [GTK_STATE_SELECTED]);
-			break;
-		case 1:
-			color = RGB_COLOR (GTK_WIDGET (toggle_view->canvas)->style->bg [GTK_STATE_ACTIVE]);
-			break;
-		case 2:
-			color = RGB_COLOR (GTK_WIDGET (toggle_view->canvas)->style->base [GTK_STATE_NORMAL]);
-			break;
-		}
-
-		if (cache_seq >= 3) {
-			double r, g, b, h, s, v;
-			r = ((color >> 16) & 0xff) / 255.0f;
-			g = ((color >> 8) & 0xff) / 255.0f;
-			b = (color & 0xff) / 255.0f;
-
-			e_rgb_to_hsv (r, g, b, &h, &s, &v);
-	
-			if (v - 0.05f < 0) {
-				v += 0.05f;
-			} else {
-				v -= 0.05f;
-			}
-
-			e_hsv_to_rgb (h, s, v, &r, &g, &b);
-
-			color = ((((int)(r * 255.0f)) & 0xff) << 16) +
-				((((int)(g * 255.0f)) & 0xff) << 8) +
-				(((int)(b * 255.0f)) & 0xff);
-		}
-
-		flat = gdk_pixbuf_composite_color_simple (image,
-							  width, height,
-							  GDK_INTERP_BILINEAR,
-							  255,
-							  1,
-							  color, color);
-
-		gdk_pixbuf_render_to_drawable (flat, PIXMAP_CACHE (toggle_view, cache_seq, image_seq),
-					       toggle_view->gc,
-					       0, 0,
-					       0, 0,
-					       width, height,
-					       GDK_RGB_DITHER_NORMAL,
-					       0, 0);
-		gdk_pixbuf_unref (flat);
-	}
-}
-
 /*
  * ECell::draw method
  */
@@ -187,11 +96,11 @@ etog_draw (ECellView *ecell_view, GdkDrawable *drawable,
 {
 	ECellToggle *toggle = E_CELL_TOGGLE (ecell_view->ecell);
 	gboolean selected;
+#if 0
 	ECellToggleView *toggle_view = (ECellToggleView *) ecell_view;
-	GdkPixmap *pixmap;
+#endif
 	GdkPixbuf *image;
 	int x, y, width, height;
-	int cache_seq;
 	
 	const int value = GPOINTER_TO_INT (
 		 e_table_model_value_at (ecell_view->e_table_model, model_col, row));
@@ -204,21 +113,7 @@ etog_draw (ECellView *ecell_view, GdkDrawable *drawable,
 		return;
 	}
 
-	if (flags & E_CELL_SELECTED) {
-		if (GTK_WIDGET_HAS_FOCUS (toggle_view->canvas))
-			cache_seq = 0;
-		else
-			cache_seq = 1;
-	} else
-		cache_seq = 2;
-
-	if (E_TABLE_ITEM (ecell_view->e_table_item_view)->alternating_row_colors && (row % 2) == 0)
-		cache_seq += 3;
-
-	check_cache (toggle_view, value, cache_seq);
-
-	pixmap = PIXMAP_CACHE (toggle_view, cache_seq, value);
-	image = toggle->images[value];
+	image = toggle->images [value];
 
 	if ((x2 - x1) < gdk_pixbuf_get_width (image)){
 		x = x1;
@@ -236,11 +131,44 @@ etog_draw (ECellView *ecell_view, GdkDrawable *drawable,
 		height = gdk_pixbuf_get_height (image);
 	}
 
-	gdk_draw_pixmap	 (drawable, toggle_view->gc,
-			  pixmap,
-			  0, 0,
-			  x, y,
-			  width, height);
+#if 0 /* do alpha */
+	if (gdk_pixbuf_get_has_alpha (image)) {
+		flat = gdk_pixbuf_composite_color_simple (
+			image,
+			gdk_pixbuf_get_width (image),
+			gdk_pixbuf_get_height (image),
+			GDK_INTERP_NEAREST,
+			255,
+			32,
+			0xffffff, 0xffffff);	
+		
+		gdk_pixbuf_render_to_drawable (flat, drawable,
+					       toggle_view->gc,
+					       0, 0,
+					       x, y,
+					       width, height,
+					       GDK_RGB_DITHER_NORMAL,
+					       0, 0);
+		gdk_pixbuf_unref (flat);
+	} else {
+		gdk_pixbuf_render_to_drawable (image, drawable,
+					       toggle_view->gc,
+					       0, 0,
+					       x, y,
+					       width, height,
+					       GDK_RGB_DITHER_NORMAL,
+					       0, 0);
+	}
+#else 
+	gdk_pixbuf_render_to_drawable_alpha (image, drawable,
+					     0, 0,
+					     x, y,
+					     width, height,
+					     GDK_PIXBUF_ALPHA_BILEVEL,
+					     128,
+					     GDK_RGB_DITHER_NORMAL,
+					     x, y);
+#endif
 }
 
 static void
@@ -322,21 +250,6 @@ etog_max_width (ECellView *ecell_view, int model_col, int view_col)
 }
 
 static void
-etog_style_set (ECellView *ecell_view, GtkStyle *previous_style)
-{
-	ECellToggle *toggle = E_CELL_TOGGLE (ecell_view->ecell);
-	ECellToggleView *toggle_view = (ECellToggleView *) ecell_view;
-	int i;
-
-	for (i = 0; i < toggle->n_states * CACHE_SEQ_COUNT; i++) {
-		if (toggle_view->pixmap_cache[i]) {
-			gdk_pixmap_unref (toggle_view->pixmap_cache[i]);
-			toggle_view->pixmap_cache[i] = NULL;
-		}
-	}
-}
-
-static void
 etog_destroy (GtkObject *object)
 {
 	ECellToggle *etog = E_CELL_TOGGLE (object);
@@ -346,9 +259,6 @@ etog_destroy (GtkObject *object)
 		gdk_pixbuf_unref (etog->images [i]);
 
 	g_free (etog->images);
-
-	etog->images = NULL;
-	etog->n_states = 0;
 
 	GTK_OBJECT_CLASS (parent_class)->destroy (object);
 }
@@ -368,21 +278,11 @@ e_cell_toggle_class_init (GtkObjectClass *object_class)
 	ecc->event      = etog_event;
 	ecc->height     = etog_height;
 	ecc->max_width  = etog_max_width;
-	ecc->style_set  = etog_style_set;
 
 	parent_class = gtk_type_class (PARENT_TYPE);
 }
 
-static void
-e_cell_toggle_init (GtkObject *object)
-{
-	ECellToggle *etog = (ECellToggle *) object;
-
-	etog->images = NULL;
-	etog->n_states = 0;
-}
-
-E_MAKE_TYPE(e_cell_toggle, "ECellToggle", ECellToggle, e_cell_toggle_class_init, e_cell_toggle_init, PARENT_TYPE);
+E_MAKE_TYPE(e_cell_toggle, "ECellToggle", ECellToggle, e_cell_toggle_class_init, NULL, PARENT_TYPE);
 
 /**
  * e_cell_toggle_construct:
@@ -410,7 +310,7 @@ e_cell_toggle_construct (ECellToggle *etog, int border, int n_states, GdkPixbuf 
 		gdk_pixbuf_ref (images [i]);
 
 		if (gdk_pixbuf_get_height (images [i]) > max_height)
-			max_height = gdk_pixbuf_get_height (images [i]);
+		  max_height = gdk_pixbuf_get_height (images [i]);
 	}
 
 	etog->height = max_height;
@@ -439,3 +339,5 @@ e_cell_toggle_new (int border, int n_states, GdkPixbuf **images)
 
 	return (ECell *) etog;
 }
+
+

@@ -68,7 +68,6 @@ enum {
 
 enum {
 	SELECTION_EVENT,
-	COLUMN_WIDTH_CHANGED,
 	LAST_SIGNAL
 };
 
@@ -570,12 +569,6 @@ disconnect_set_adjustment (EReflow *reflow)
 	}
 }
 
-static void
-column_width_changed (EReflow *reflow)
-{
-	gtk_signal_emit (GTK_OBJECT (reflow), signals[COLUMN_WIDTH_CHANGED], reflow->column_width);
-}
-
 
 
 
@@ -613,7 +606,6 @@ e_reflow_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 	case ARG_COLUMN_WIDTH:
 		if (reflow->column_width != GTK_VALUE_INT (*arg)) {
 			GtkAdjustment *adjustment = gtk_layout_get_hadjustment(GTK_LAYOUT(item->canvas));
-			double old_width = reflow->column_width;
 
 			reflow->column_width = GTK_VALUE_INT (*arg);
 			adjustment->step_increment = (reflow->column_width + E_REFLOW_FULL_GUTTER) / 2;
@@ -624,9 +616,6 @@ e_reflow_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 
 			reflow->need_column_resize = TRUE;
 			gnome_canvas_item_request_update(item);
-
-			if (old_width != reflow->column_width)
-				column_width_changed (reflow);
 		}
 		break;
 	}
@@ -885,7 +874,6 @@ e_reflow_event (GnomeCanvasItem *item, GdkEvent *event)
 					gtk_adjustment_changed(adjustment);
 					e_reflow_resize_children(item);
 					e_canvas_item_request_reflow(item);
-					column_width_changed (reflow);
 				}
 				reflow->need_column_resize = TRUE;
 				gnome_canvas_item_request_update(item);
@@ -1274,14 +1262,6 @@ e_reflow_class_init (EReflowClass *klass)
 				e_marshal_INT__OBJECT_POINTER,
 				GTK_TYPE_INT, 2, GTK_TYPE_OBJECT, GTK_TYPE_GDK_EVENT);
 
-	signals [COLUMN_WIDTH_CHANGED] =
-		gtk_signal_new ("column_width_changed",
-				GTK_RUN_LAST,
-				E_OBJECT_CLASS_TYPE (object_class),
-				GTK_SIGNAL_OFFSET (EReflowClass, column_width_changed),
-				e_marshal_NONE__DOUBLE,
-				GTK_TYPE_NONE, 1, GTK_TYPE_DOUBLE);
-
 	E_OBJECT_CLASS_ADD_SIGNALS (object_class, signals, LAST_SIGNAL);
 
 	object_class->set_arg  = e_reflow_set_arg;
@@ -1297,7 +1277,6 @@ e_reflow_class_init (EReflowClass *klass)
 	item_class->point      = e_reflow_point;
 
 	klass->selection_event = e_reflow_selection_event_real;
-	klass->column_width_changed = NULL;
 }
 
 static void

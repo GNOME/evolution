@@ -28,10 +28,9 @@
 #include <gal/e-table/e-table.h>
 #include <gal/e-table/e-tree.h>
 #include <libgnomeui/gnome-canvas.h>
-#include <gnome-xml/tree.h>
+#include <tree.h>
 #include <gal/e-table/e-table-header.h>
 #include <gal/e-table/e-table-sort-info.h>
-#include <libgnome/gnome-defs.h>
 
 BEGIN_GNOME_DECLS
 
@@ -85,13 +84,6 @@ typedef struct {
 	 */
 	ETableSortInfo  *sort_info;
 	
-	guint scroll_direction : 4;
-	int last_drop_x;
-	int last_drop_y;
-	int last_drop_time;
-	GdkDragContext *last_drop_context;
-	int scroll_idle_id;
-
 	/* For adding fields. */
 	ETableHeader    *full_header;
 	ETable          *table;

@@ -22,9 +22,9 @@
  */
 
 #include <config.h>
-#include <gnome-xml/tree.h>
-#include <gnome-xml/parser.h>
-#include <gnome-xml/xmlmemory.h>
+#include <tree.h>
+#include <parser.h>
+#include <xmlmemory.h>
 #include "gal-define-views-model.h"
 
 #define PARENT_TYPE e_table_model_get_type()

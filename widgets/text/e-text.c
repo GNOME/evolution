@@ -556,16 +556,14 @@ e_text_text_model_changed (ETextModel *model, EText *text)
 	text->text = e_text_model_get_text(model);
 	e_text_free_lines(text);
 
+	gtk_signal_emit (GTK_OBJECT (text), e_text_signals[E_TEXT_CHANGED]);
+
 	/* Make sure our selection doesn't extend past the bounds of our text. */
 	text->selection_start = CLAMP (text->selection_start, 0, model_len);
 	text->selection_end   = CLAMP (text->selection_end,   0, model_len);
 
 	text->needs_split_into_lines = 1;
-	text->needs_redraw = 1;
 	e_canvas_item_request_reflow (GNOME_CANVAS_ITEM(text));
-	gnome_canvas_item_request_update (GNOME_CANVAS_ITEM (text));
-
-	gtk_signal_emit (GTK_OBJECT (text), e_text_signals[E_TEXT_CHANGED]);
 }
 
 static void
@@ -952,111 +950,33 @@ text_draw_with_objects (ETextModel *model,
 	}
 }
 
-typedef void (*LineSplitterFn) (int line_num, const char *start, int length, gpointer user_data);
-
-#define IS_BREAK_CHAR(break_chars, c) (g_unichar_isspace (c) || ((break_chars) && g_utf8_strchr ((break_chars), (c))))
-
-static gint
-line_splitter (ETextModel *model, EFont *font, EFontStyle style,
-	       const char *break_characters,
-	       gboolean wrap_lines, double clip_width, gint max_lines,
-	       LineSplitterFn split_cb, gpointer user_data)
-{
-	const char *curr;
-	const char *text;
-	const char *linestart;
-	const char *last_breakpoint;
-	gint line_count = 0;
-
-	gunichar unival;
-
-	if (max_lines < 1)
-		max_lines = G_MAXINT;
-
-	text = e_text_model_get_text (model);
-	linestart = NULL;
-	last_breakpoint = text;
-
-	for (curr = text; curr && *curr && line_count < max_lines; curr = g_utf8_next_char (curr)) {
-
-		unival = g_utf8_get_char (curr);
-
-		if (linestart == NULL)
-			linestart = curr;
-
-		if (unival == '\n') { /* We always break on newline */
-
-			if (split_cb)
-				split_cb (line_count, linestart, curr - linestart, user_data);
-			++line_count;
-			linestart = NULL;
-
-		} else if (wrap_lines) {
-			
-			if (clip_width < text_width_with_objects (model, font, style, linestart, curr - linestart)
-			    && last_breakpoint > linestart) {
-				
-				if (split_cb)
-					split_cb (line_count, linestart, last_breakpoint - linestart, user_data);
-				++line_count;
-				linestart = NULL;
-				curr = last_breakpoint;
-
-			} else if (IS_BREAK_CHAR (break_characters, unival)
-				   && e_text_model_get_object_at_pointer (model, curr) == -1) { /* don't break mid-object */
-				last_breakpoint = curr;
-			}
-		}
-	}
-
-	/* Handle any leftover text. */
-	if (linestart) {
-		
-		if (clip_width < text_width_with_objects (model, font, style, linestart, strlen (linestart))
-		    && last_breakpoint > linestart) {
-
-			if (split_cb)
-				split_cb (line_count, linestart, last_breakpoint - linestart, user_data);
-
-			++line_count;
-			linestart = g_utf8_next_char (last_breakpoint);
-		}
-
-		if (split_cb)
-			split_cb (line_count, linestart, strlen (linestart), user_data);
-		++line_count;
-
-	}
-
-	if (line_count == 0) {
-		if (split_cb)
-			split_cb (0, text, strlen (text), user_data);
-		line_count ++;
-	}
-	
-	return line_count;
-}
-
-static void
-line_split_cb (int line_num, const char *start, int length, gpointer user_data)
-{
-	EText *text = user_data;
-	struct line *line = &((struct line *)text->lines)[line_num];
-
-	line->text = start;
-	line->length = length;
-}
-
+#define IS_BREAKCHAR(text,c) ((text)->break_characters && g_utf8_strchr ((text)->break_characters, (c)))
+/* Splits the text of the text item into lines */
 static void
 split_into_lines (EText *text)
 {
+	const char *p, *cp;
+	struct line *lines;
+	int len;
+	int line_num;
+	const char *laststart;
+	const char *lastend;
+	const char *linestart;
 	double clip_width;
+	gunichar unival;
+
 
 	if (text->text == NULL)
 		return;
 
 	/* Free old array of lines */
-	e_text_free_lines (text);
+	e_text_free_lines(text);
+
+	/* First, count the number of lines */
+
+	lastend = text->text;
+	laststart = text->text;
+	linestart = text->text;
 
 	clip_width = text->clip_width;
 	if (clip_width >= 0 && text->draw_borders) {
@@ -1065,19 +985,165 @@ split_into_lines (EText *text)
 			clip_width = 0;
 	}
 
-	/* First, count the number of lines */
-	text->num_lines = line_splitter (text->model, text->font, text->style,
-					 text->break_characters,
-					 text->line_wrap, text->clip_width, -1,
-					 NULL, NULL);
+	cp = text->text;
 
-	/* Allocate our array of lines */
-	text->lines = g_new0 (struct line, text->num_lines);
+	for (p = e_unicode_get_utf8 (cp, &unival); (unival && p); cp = p, p = e_unicode_get_utf8 (p, &unival)) {
+		if (text->line_wrap
+		    && (g_unichar_isspace (unival) || unival == '\n')
+		    && e_text_model_get_object_at_pointer (text->model, cp) == -1) { /* don't break mid-object */
+			if (laststart != lastend
+			    && clip_width < text_width_with_objects (text->model,
+								     text->font, text->style,
+								     linestart, cp - linestart)) {
+				text->num_lines ++;
+				
+				linestart = laststart;
+				laststart = p;
+				lastend = cp;
+			} else if (g_unichar_isspace (unival)) {
+				laststart = p;
+				lastend = cp;
+			}
+		} else if (text->line_wrap
+			   && IS_BREAKCHAR (text, unival)) {
+			
+			if (laststart != lastend
+			    && g_utf8_pointer_to_offset (linestart, cp) != 1
+			    && clip_width < text_width_with_objects (text->model,
+								     text->font, text->style,
+								     linestart, p - linestart)) {
+				text->num_lines ++;
+				
+				linestart = laststart;
+				laststart = p;
+				lastend = p;
+			} else {
+				laststart = p;
+				lastend = p;
+			}
+		}
 
-	text->num_lines = line_splitter (text->model, text->font, text->style,
-					 text->break_characters,
-					 text->line_wrap, text->clip_width, text->num_lines,
-					 line_split_cb, text);
+		if (unival == '\n') {
+			text->num_lines ++;
+
+			lastend = p;
+			laststart = p;
+			linestart = p;
+		} 
+	}
+
+	if ( text->line_wrap
+	     && p
+	     && laststart != lastend
+	     && clip_width < text_width_with_objects (text->model,
+						      text->font, text->style, 
+						      linestart, cp - linestart)) {
+		text->num_lines ++;
+	}
+
+	text->num_lines++;
+
+	if ( (!text->editing) && text->max_lines != -1 && text->num_lines > text->max_lines ) {
+		text->num_lines = text->max_lines;
+	}
+
+	/* Allocate array of lines and calculate split positions */
+
+	text->lines = lines = g_new0 (struct line, text->num_lines);
+	len = 0;
+	line_num = 1;
+	lastend = text->text;
+	laststart = text->text;
+
+	cp = text->text;
+
+	for (p = e_unicode_get_utf8 (cp, &unival); p && unival && line_num < text->num_lines; cp = p, p = e_unicode_get_utf8 (p, &unival)) {
+		gboolean handled = FALSE;
+
+		if (len == 0)
+			lines->text = cp;
+		if (text->line_wrap
+		    && (g_unichar_isspace (unival) || unival == '\n')
+		    && e_text_model_get_object_at_pointer (text->model, cp) == -1) { /* don't break mid-object */
+			if (clip_width < text_width_with_objects (text->model,
+								  text->font, text->style,
+								  lines->text, cp - lines->text)
+			    && laststart != lastend) {
+
+				lines->length = lastend - lines->text;
+
+				lines++;
+				line_num++;
+				len = cp - laststart;
+				lines->text = laststart;
+				laststart = p;
+				lastend = cp;
+			} else if (g_unichar_isspace (unival)) {
+				laststart = p;
+				lastend = cp;
+				len ++;
+			}
+			handled = TRUE;
+		} else if (text->line_wrap
+			   && IS_BREAKCHAR(text, unival) 
+			   && e_text_model_get_object_at_pointer (text->model, cp) == -1) {
+			if (laststart != lastend
+			    && g_utf8_pointer_to_offset (lines->text, cp) != 1
+			    && clip_width < text_width_with_objects (text->model,
+								     text->font, text->style,
+								     lines->text, p - lines->text)) {
+
+				lines->length = lastend - lines->text;
+
+				lines++;
+				line_num++;
+				len = p - laststart;
+				lines->text = laststart;
+				laststart = p;
+				lastend = p;
+			} else {
+				laststart = p;
+				lastend = p;
+				len ++;
+			}
+		} 
+		if (line_num >= text->num_lines)
+			break;
+		if (unival == '\n') {
+
+			lines->length = cp - lines->text;
+			
+			lines++;
+			line_num++;
+			len = 0;
+			lastend = p;
+			laststart = p;
+			handled = TRUE;
+		} 
+		if (!handled)
+			len++;
+	}
+
+	if ( line_num < text->num_lines && text->line_wrap ) {
+		if (clip_width < text_width_with_objects (text->model,
+							  text->font, text->style,
+							  lines->text, cp - lines->text)
+		    && laststart != lastend ) {
+
+			lines->length = lastend - lines->text;
+
+			lines++;
+			line_num++;
+			len = cp - laststart;
+			lines->text = laststart;
+			laststart = p;
+			lastend = cp;
+		}
+	} 
+	
+	if (len == 0)
+		lines->text = cp;
+	lines->length = strlen (lines->text);
 }
 
 /* Convenience function to set the text's GC's foreground color */
@@ -1187,6 +1253,7 @@ e_text_set_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 		break;
 
 	case ARG_TEXT:
+		text->num_lines = 1;
 		e_text_model_set_text(text->model, GTK_VALUE_STRING (*arg));
 		break;
 
@@ -3299,31 +3366,6 @@ e_text_event (GnomeCanvasItem *item, GdkEvent *event)
 /* fixme: */
 
 static int
-next_word (EText *text, int start)
-{
-	char *p;
-	int length;
-
-	length = strlen (text->text);
-
-	if (start >= length) {
-		return length;
-	} else {
-		p = g_utf8_next_char (text->text + start);
-
-		while (p && *p && g_unichar_validate (g_utf8_get_char (p))) {
-			gunichar unival = g_utf8_get_char (p);
-			if (g_unichar_isspace (unival)) {
-				return p - text->text;
-			} else 
-				p = g_utf8_next_char (p);
-		}
-	}
-			
-	return p - text->text;
-}
-
-static int
 _get_position(EText *text, ETextEventProcessorCommand *command)
 {
 	int length, obj_num;
@@ -3418,7 +3460,28 @@ _get_position(EText *text, ETextEventProcessorCommand *command)
 		break;
 
 	case E_TEP_FORWARD_WORD:
-		new_pos = next_word (text, text->selection_end);
+		new_pos = -1;
+		length = strlen (text->text);
+
+		if (text->selection_end >= length) {
+			new_pos = length;
+		} else {
+
+			p = g_utf8_next_char (text->text + text->selection_end);
+
+			while (p && *p && g_unichar_validate (g_utf8_get_char (p))) {
+				unival = g_utf8_get_char (p);
+				if (g_unichar_isspace (unival)) {
+					new_pos = p - text->text;
+					p = NULL;
+				} else 
+					p = g_utf8_next_char (p);
+			}
+		}
+			
+		if (new_pos == -1)
+			new_pos = p - text->text;
+
 		break;
 
 	case E_TEP_BACKWARD_WORD:
@@ -3590,50 +3653,6 @@ _insert(EText *text, char *string, int value)
 }
 
 static void
-capitalize (EText *text, int start, int end, ETextEventProcessorCaps type)
-{
-	gboolean first = TRUE;
-	const char *p = text->text + start;
-	const char *text_end = text->text + end;
-	char *new_text = g_new0 (char, g_utf8_strlen (text->text + start, start - end) * 6);
-	char *output = new_text;
-
-	while (p && *p && p < text_end && g_unichar_validate (g_utf8_get_char (p))) {
-		gunichar unival = g_utf8_get_char (p);
-		gunichar newval = unival;
-
-		switch (type) {
-		case E_TEP_CAPS_UPPER:
-			newval = g_unichar_toupper (unival);
-			break;
-		case E_TEP_CAPS_LOWER:
-			newval = g_unichar_tolower (unival);
-			break;
-		case E_TEP_CAPS_TITLE:
-			if (g_unichar_isalpha (unival)) {
-				if (first)
-					newval = g_unichar_totitle (unival);
-				else
-					newval = g_unichar_tolower (unival);
-				first = FALSE;
-			} else {
-				first = TRUE;
-			}
-			break;
-		}
-		g_unichar_to_utf8 (newval, output);
-		output = g_utf8_next_char (output);
-
-		p = g_utf8_next_char (p);
-	}
-	*output = 0;
-
-	e_text_model_delete (text->model, start, end - start);
-	e_text_model_insert (text->model, start, new_text);
-	g_free (new_text);
-}
-
-static void
 e_text_command(ETextEventProcessor *tep, ETextEventProcessorCommand *command, gpointer data)
 {
 	EText *text = E_TEXT(data);
@@ -3725,15 +3744,6 @@ e_text_command(ETextEventProcessor *tep, ETextEventProcessorCommand *command, gp
 	case E_TEP_UNGRAB:
 		gnome_canvas_item_ungrab (GNOME_CANVAS_ITEM(text), command->time);
 		scroll = FALSE;
-		break;
-	case E_TEP_CAPS:
-		if (text->selection_start == text->selection_end) {
-			capitalize (text, text->selection_start, next_word (text, text->selection_start), command->value);
-		} else {
-			int selection_start = MIN (text->selection_start, text->selection_end);
-			int selection_end = text->selection_start + text->selection_end - selection_start; /* Slightly faster than MAX */
-			capitalize (text, selection_start, selection_end, command->value);
-		}
 		break;
 	case E_TEP_NOP:
 		scroll = FALSE;

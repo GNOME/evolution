@@ -650,22 +650,6 @@ e_marshal_NONE__INT_POINTER_INT_POINTER (GtkObject * object, GtkSignalFunc func,
 	    GTK_VALUE_INT (args[2]), GTK_VALUE_POINTER (args[3]), func_data);
 }	
 
-typedef void (*GtkSignal_NONE__POINTER_POINTER_POINTER_POINTER) (GtkObject *,
-								 gpointer, gpointer, gpointer, gpointer,
-								 gpointer);
-
-void
-e_marshal_NONE__POINTER_POINTER_POINTER_POINTER (GtkObject         *object,
-						 GtkSignalFunc      func,
-						 gpointer           func_data,
-						 GtkArg            *args)
-{
-  GtkSignal_NONE__POINTER_POINTER_POINTER_POINTER rfunc;
-  rfunc = (GtkSignal_NONE__POINTER_POINTER_POINTER_POINTER) func;
-  (*rfunc) (object, GTK_VALUE_POINTER (args[0]), GTK_VALUE_POINTER (args[1]),
-	    GTK_VALUE_POINTER (args[2]), GTK_VALUE_POINTER (args[3]), func_data);
-}
-
 typedef int (*GtkSignal_INT__POINTER_POINTER) (GtkObject *,
 					       gpointer, gpointer, 
 					       gpointer user_data);
@@ -813,47 +797,6 @@ e_marshal_INT__OBJECT_POINTER (GtkObject *object,
 	*return_val = (*rfunc) (object,
 				GTK_VALUE_OBJECT  (args[0]),
 				GTK_VALUE_POINTER (args[1]),
-				func_data);
-}
-
-typedef void (*GtkSignal_NONE__DOUBLE) (GtkObject *,
-				       gdouble,
-				       gpointer user_data);
-void
-e_marshal_NONE__DOUBLE (GtkObject *object,
-			GtkSignalFunc func,
-			gpointer func_data,
-			GtkArg *args)
-{
-	GtkSignal_NONE__DOUBLE rfunc;
-
-	rfunc = (GtkSignal_NONE__DOUBLE) func;
-
-	(*rfunc) (object,
-		  GTK_VALUE_DOUBLE (args[0]),
-		  func_data);
-}
-
-typedef gboolean (*GtkSignal_BOOL__STRING_INT) (GtkObject *,
-						char *,
-						gint,
-						gpointer user_data);
-
-void
-e_marshal_BOOL__STRING_INT (GtkObject *object,
-			    GtkSignalFunc func,
-			    gpointer func_data,
-			    GtkArg *args)
-{
-	GtkSignal_BOOL__STRING_INT rfunc;
-	gboolean *return_val;
-
-	rfunc = (GtkSignal_BOOL__STRING_INT) func;
-	return_val = GTK_RETLOC_BOOL (args[2]);
-
-	*return_val = (*rfunc) (object,
-				GTK_VALUE_STRING  (args[0]),
-				GTK_VALUE_INT (args[1]),
 				func_data);
 }
 
@@ -1591,30 +1534,4 @@ e_strdup_append_strings (gchar *first_string, ...)
 	va_end (args2);
 
 	return buffer;
-}
-
-gchar **
-e_strdupv (const gchar **str_array)
-{
-	if (str_array) {
-		gint i;
-		gchar **retval;
-
-		i = 0;
-		while (str_array[i])
-			i++;
-          
-		retval = g_new (gchar*, i + 1);
-
-		i = 0;
-		while (str_array[i]) {
-			retval[i] = g_strdup (str_array[i]);
-			i++;
-		}
-		retval[i] = NULL;
-
-		return retval;
-	} else {
-		return NULL;
-	}
 }

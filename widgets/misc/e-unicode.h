@@ -31,9 +31,10 @@
 #include <gtk/gtkmenu.h>
 #include <gtk/gtkwidget.h>
 #include <libgnome/gnome-defs.h>
-#include <gnome-xml/tree.h>
 #include <gal/unicode/gunicode.h>
 #include <iconv.h>
+
+#include <tree.h>
 
 BEGIN_GNOME_DECLS
 

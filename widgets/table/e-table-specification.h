@@ -25,7 +25,7 @@
 #define _E_TABLE_SPECIFICATION_H_
 
 #include <gtk/gtkobject.h>
-#include <gnome-xml/tree.h>
+#include <tree.h>
 #include <gal/widgets/e-selection-model.h>
 #include <gal/e-table/e-table-state.h>
 #include <gal/e-table/e-table-column-specification.h>
@@ -55,7 +55,6 @@ typedef struct {
 	guint vertical_draw_grid : 1;
 	guint draw_focus : 1;
 	guint horizontal_scrolling : 1;
-	guint horizontal_resize : 1;
 	guint allow_grouping : 1;
 	GtkSelectionMode selection_mode;
 	ECursorMode cursor_mode;

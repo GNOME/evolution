@@ -30,8 +30,8 @@
 #include <unistd.h>
 #include <fcntl.h>
 
-#include <gnome-xml/parser.h>
-#include <gnome-xml/xmlmemory.h>
+#include <parser.h>
+#include <xmlmemory.h>
 
 #include <gtk/gtksignal.h>
 #include "gal/util/e-util.h"
@@ -53,7 +53,6 @@ enum {
 	NODE_INSERTED,
 	NODE_REMOVED,
 	NODE_DELETED,
-	NODE_REQUEST_COLLAPSE,
 	LAST_SIGNAL
 };
 
@@ -131,60 +130,51 @@ e_tree_model_class_init (GtkObjectClass *klass)
 				gtk_marshal_NONE__POINTER,
 				GTK_TYPE_NONE, 1, GTK_TYPE_POINTER);
 
-	e_tree_model_signals [NODE_REQUEST_COLLAPSE] =
-		gtk_signal_new ("node_request_collapse",
-				GTK_RUN_LAST,
-				E_OBJECT_CLASS_TYPE (klass),
-				GTK_SIGNAL_OFFSET (ETreeModelClass, node_request_collapse),
-				gtk_marshal_NONE__POINTER,
-				GTK_TYPE_NONE, 1, GTK_TYPE_POINTER);
-
 	E_OBJECT_CLASS_ADD_SIGNALS (klass, e_tree_model_signals, LAST_SIGNAL);
 
-	tree_class->get_root              = NULL;
+	tree_class->get_root             = NULL;
 
-	tree_class->get_parent            = NULL;
-	tree_class->get_first_child       = NULL;
-	tree_class->get_last_child        = NULL;
-	tree_class->get_next              = NULL;
-	tree_class->get_prev              = NULL;
+	tree_class->get_parent           = NULL;
+	tree_class->get_first_child      = NULL;
+	tree_class->get_last_child       = NULL;
+	tree_class->get_next             = NULL;
+	tree_class->get_prev             = NULL;
 
-	tree_class->is_root               = NULL;
-	tree_class->is_expandable         = NULL;
-	tree_class->get_children          = NULL;
-	tree_class->depth                 = NULL;
+	tree_class->is_root              = NULL;
+	tree_class->is_expandable        = NULL;
+	tree_class->get_children         = NULL;
+	tree_class->depth                = NULL;
 
-	tree_class->icon_at               = NULL;
+	tree_class->icon_at              = NULL;
 
-	tree_class->get_expanded_default  = NULL;
-	tree_class->column_count          = NULL;
+	tree_class->get_expanded_default = NULL;
+	tree_class->column_count         = NULL;
 
-	tree_class->has_save_id           = NULL;
-	tree_class->get_save_id           = NULL;
-	tree_class->has_get_node_by_id    = NULL;
-	tree_class->get_node_by_id        = NULL;
+	tree_class->has_save_id          = NULL;
+	tree_class->get_save_id          = NULL;
+	tree_class->has_get_node_by_id   = NULL;
+	tree_class->get_node_by_id       = NULL;
 
-	tree_class->has_change_pending    = NULL;
+	tree_class->has_change_pending   = NULL;
 
-	tree_class->value_at              = NULL;
-	tree_class->set_value_at          = NULL;
-	tree_class->is_editable           = NULL;
+	tree_class->value_at             = NULL;
+	tree_class->set_value_at         = NULL;
+	tree_class->is_editable          = NULL;
 
-	tree_class->duplicate_value       = NULL;
-	tree_class->free_value            = NULL;
-	tree_class->initialize_value      = NULL;
-	tree_class->value_is_empty        = NULL;
-	tree_class->value_to_string       = NULL;
+	tree_class->duplicate_value      = NULL;
+	tree_class->free_value           = NULL;
+	tree_class->initialize_value     = NULL;
+	tree_class->value_is_empty       = NULL;
+	tree_class->value_to_string      = NULL;
 
-	tree_class->pre_change            = NULL;
-	tree_class->no_change             = NULL;
-	tree_class->node_changed          = NULL;
-	tree_class->node_data_changed     = NULL;
-	tree_class->node_col_changed      = NULL;
-	tree_class->node_inserted         = NULL;
-	tree_class->node_removed          = NULL;
-	tree_class->node_deleted          = NULL;
-	tree_class->node_request_collapse = NULL;
+	tree_class->pre_change           = NULL;
+	tree_class->no_change            = NULL;
+	tree_class->node_changed         = NULL;
+	tree_class->node_data_changed    = NULL;
+	tree_class->node_col_changed     = NULL;
+	tree_class->node_inserted        = NULL;
+	tree_class->node_removed         = NULL;
+	tree_class->node_deleted         = NULL;
 }
 
 static void
@@ -348,24 +338,6 @@ e_tree_model_node_deleted  (ETreeModel *tree_model, ETreePath deleted_node)
 	gtk_signal_emit (GTK_OBJECT (tree_model),
 			 e_tree_model_signals [NODE_DELETED],
 			 deleted_node);
-}
-
-/**
- * e_tree_model_node_request_collapse:
- * @tree_model: 
- * @collapsed_node: 
- * 
- * 
- **/
-void
-e_tree_model_node_request_collapse  (ETreeModel *tree_model, ETreePath collapsed_node)
-{
-	g_return_if_fail (tree_model != NULL);
-	g_return_if_fail (E_IS_TREE_MODEL (tree_model));
-	
-	gtk_signal_emit (GTK_OBJECT (tree_model),
-			 e_tree_model_signals [NODE_REQUEST_COLLAPSE],
-			 collapsed_node);
 }
 
 
@@ -968,115 +940,6 @@ e_tree_model_node_traverse_preorder (ETreeModel *model, ETreePath path, ETreePat
 		e_tree_model_node_traverse_preorder (model, child, func, data);
 
 		child = next_child;
-	}
-}
-
-/**
- * e_tree_model_node_traverse_preorder:
- * @model: 
- * @path: 
- * @func: 
- * @data: 
- * 
- * 
- **/
-static ETreePath
-e_tree_model_node_real_traverse (ETreeModel *model, ETreePath path, ETreePath end_path, gboolean forward_direction, ETreePathFunc func, gpointer data)
-{
-	ETreePath child;
-
-	g_return_val_if_fail (model != NULL, NULL);
-	g_return_val_if_fail (E_IS_TREE_MODEL (model), NULL);
-	g_return_val_if_fail (path != NULL, NULL);
-
-	if (forward_direction)
-		child = e_tree_model_node_get_first_child (model, path);
-	else
-		child = e_tree_model_node_get_last_child (model, path);
-
-	while (child) {
-		ETreePath result;
-
-		if (forward_direction && (child == end_path || func (model, child, data)))
-			return child;
-
-		if ((result = e_tree_model_node_real_traverse (model, child, end_path, forward_direction, func, data)))
-			return result;
-
-		if (!forward_direction && (child == end_path || func (model, child, data)))
-			return child;
-
-		if (forward_direction)
-			child = e_tree_model_node_get_next (model, child);
-		else
-			child = e_tree_model_node_get_prev (model, child);
-	}
-	return NULL;
-}
-
-/**
- * e_tree_model_node_traverse_preorder:
- * @model: 
- * @path: 
- * @func: 
- * @data: 
- * 
- * 
- **/
-ETreePath
-e_tree_model_node_find (ETreeModel *model, ETreePath path, ETreePath end_path, gboolean forward_direction, ETreePathFunc func, gpointer data)
-{
-	ETreePath result;
-	ETreePath next;
-
-	g_return_val_if_fail (model != NULL, NULL);
-	g_return_val_if_fail (E_IS_TREE_MODEL (model), NULL);
-
-	/* Just search the whole tree in this case. */
-	if (path == NULL) {
-		ETreePath root;
-		root = e_tree_model_get_root (model);
-
-		if (forward_direction && (end_path == root || func (model, root, data)))
-			return root;
-
-		if ((result = e_tree_model_node_real_traverse (model, root, end_path, forward_direction, func, data)))
-			return result;
-
-		if (!forward_direction && (end_path == root || func (model, root, data)))
-			return root;
-
-		return NULL;
-	}
-
-	while (1) {
-
-		if (forward_direction) {
-			if ((result = e_tree_model_node_real_traverse (model, path, end_path, forward_direction, func, data)))
-				return result;
-			next = e_tree_model_node_get_next (model, path);
-		} else {
-			next = e_tree_model_node_get_prev (model, path);
-			if (next && (result = e_tree_model_node_real_traverse (model, next, end_path, forward_direction, func, data)))
-				return result;
-		}
-
-		while (next == NULL) {
-			path = e_tree_model_node_get_parent (model, path);
-
-			if (path == NULL)
-				return NULL;
-
-			if (forward_direction)
-				next = e_tree_model_node_get_next (model, path);
-			else
-				next = path;
-		}
-
-		if (end_path == next || func (model, next, data))
-			return next;
-
-		path = next;
 	}
 }
 

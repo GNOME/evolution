@@ -26,8 +26,8 @@
 #include <string.h>
 #include <gtk/gtksignal.h>
 #include <gtk/gtkobject.h>
-#include <gnome-xml/parser.h>
-#include <gnome-xml/xmlmemory.h>
+#include <parser.h>
+#include <xmlmemory.h>
 #include "gal/util/e-util.h"
 #include "gal/util/e-xml-utils.h"
 #include "e-table-state.h"

@@ -26,7 +26,8 @@
 
 #include <libgnome/gnome-defs.h>
 #include <glib.h>
-#include <gnome-xml/tree.h>
+
+#include <tree.h>
 
 BEGIN_GNOME_DECLS
 
