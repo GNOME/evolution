@@ -284,26 +284,29 @@ e_select_names_model_insert            (ESelectNamesModel *model,
 		gchar *temp = g_strdup_printf("%.*s%s%s", index, node->string, strings[0], node->string + index);
 		g_free(node->string);
 		node->string = temp;
-	}
-	for (i = 1; strings[i]; i++) {
-		ESelectNamesModelData *node = (void *) e_iterator_get(iterator);
-		gchar *temp = g_strdup_printf("%.*s", index, node->string);
-		gchar *temp2 = g_strdup_printf("%s%s", strings[0], node->string + index);
+		index += strlen(strings[0]);
 
-		g_free(node->string);
-		node->type = E_SELECT_NAMES_MODEL_DATA_TYPE_STRING_ADDRESS;
-		node->string = temp;
-		if (node->card)
-			gtk_object_unref(GTK_OBJECT(node->card));
-		node->card = NULL;
+		for (i = 1; strings[i]; i++) {
+			ESelectNamesModelData *node = (void *) e_iterator_get(iterator);
+			gchar *temp = g_strdup_printf("%.*s", index, node->string);
+			gchar *temp2 = g_strdup_printf("%s%s", strings[i], node->string + index);
 
-		node = g_new(ESelectNamesModelData, 1);
-		node->type = E_SELECT_NAMES_MODEL_DATA_TYPE_STRING_ADDRESS;
-		node->card = NULL;
-		node->string = temp2;
-		e_iterator_insert(iterator, node, 0);
-		g_free(node->string);
-		g_free(node);
+			g_free(node->string);
+			node->type = E_SELECT_NAMES_MODEL_DATA_TYPE_STRING_ADDRESS;
+			node->string = temp;
+			if (node->card)
+				gtk_object_unref(GTK_OBJECT(node->card));
+			node->card = NULL;
+
+			node = g_new(ESelectNamesModelData, 1);
+			node->type = E_SELECT_NAMES_MODEL_DATA_TYPE_STRING_ADDRESS;
+			node->card = NULL;
+			node->string = temp2;
+			e_iterator_insert(iterator, node, 0);
+			index = strlen(strings[i]);
+			g_free(node->string);
+			g_free(node);
+		}
 	}
 	e_select_names_model_changed(model);
 	gtk_object_unref(GTK_OBJECT(iterator));

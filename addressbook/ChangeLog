@@ -1,3 +1,8 @@
+2000-07-10  Peter Williams  <peterw@curious-george.helixcode.com>
+
+	* gui/component/select-names/e-select-names-model.c: (Clahey's fix)
+	Make multiple addresses be concatenated correctly.
+
 2000-07-09  Christopher James Lahey  <clahey@helixcode.com>
 
 	* gui/component/addressbook.c,
