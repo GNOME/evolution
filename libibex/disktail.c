@@ -28,11 +28,10 @@
 #include <sys/stat.h>
 #include <fcntl.h>
 #include <unistd.h>
+#include <string.h>
+#include <stdio.h>
 
 #include <glib.h>
-#include <string.h>
-
-#include <stdio.h>
 
 #include "block.h"
 #include "index.h"

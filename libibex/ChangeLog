@@ -1,3 +1,11 @@
+2001-03-26  Kjartan Maraas  <kmaraas@gnome.org>
+
+	* disktail.c: Header shuffling. Move glibc headers before
+	gnome stuff.
+	* testindex.c: Same here.
+	* wordindexmem.c: Added <string.h> and <stdlib.h> to quench
+	warnings from newer gcc.
+	
 2000-12-24  Not Zed  <NotZed@HelixCode.com>
 
 	* Merge from camel-mt-branch.

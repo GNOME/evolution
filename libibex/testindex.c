@@ -1,9 +1,9 @@
 /* Test code for libibex */
 
 #include <stdio.h>
-#include <glib.h>
 #include <errno.h>
 #include <string.h>
+#include <glib.h>
 #include "ibex_internal.h"
 
 #ifdef ENABLE_THREADS
