@@ -301,12 +301,38 @@ command_goto_folder (BonoboUIHandler *uih,
 								       _("Go to folder..."),
 								       default_folder, NULL);
 
+	gtk_window_set_transient_for (GTK_WINDOW (folder_selection_dialog), GTK_WINDOW (shell_view));
+
 	gtk_signal_connect (GTK_OBJECT (folder_selection_dialog), "folder_selected",
 			    GTK_SIGNAL_FUNC (folder_selection_dialog_folder_selected_cb), shell_view);
 	gtk_signal_connect (GTK_OBJECT (folder_selection_dialog), "cancelled",
 			    GTK_SIGNAL_FUNC (folder_selection_dialog_cancelled_cb), shell_view);
 
 	gtk_widget_show (folder_selection_dialog);
+}
+
+static void
+command_create_folder (BonoboUIHandler *uih,
+		       void *data,
+		       const char *path)
+{
+	GtkWidget *folder_selection_dialog;
+	EShellView *shell_view;
+	EShell *shell;
+	const char *current_uri;
+	const char *default_folder;
+
+	shell_view = E_SHELL_VIEW (data);
+	shell = e_shell_view_get_shell (shell_view);
+
+	current_uri = e_shell_view_get_current_uri (shell_view);
+
+	if (strncmp (current_uri, E_SHELL_URI_PREFIX, E_SHELL_URI_PREFIX_LEN) == 0)
+		default_folder = current_uri + E_SHELL_URI_PREFIX_LEN;
+	else
+		default_folder = NULL;
+
+	e_shell_show_folder_creation_dialog (shell, GTK_WINDOW (shell_view), default_folder);
 }
 
 
@@ -397,8 +423,10 @@ static GnomeUIInfo menu_file [] = {
 			       command_close_open_items),
 	GNOMEUIINFO_SEPARATOR,
 
-	GNOMEUIINFO_ITEM_NONE (N_("Go to folder..."), N_("Display a different folder"),
+	GNOMEUIINFO_ITEM_NONE (N_("_Go to folder..."), N_("Display a different folder"),
 			       command_goto_folder),
+	GNOMEUIINFO_ITEM_NONE (N_("_Create new folder..."), N_("Create a new folder"),
+			       command_create_folder),
 
 	GNOMEUIINFO_SEPARATOR,
 	

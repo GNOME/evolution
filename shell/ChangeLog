@@ -1,3 +1,10 @@
+2000-07-05  Ettore Perazzoli  <ettore@helixcode.com>
+
+	* e-shell-view-menu.c (command_goto_folder): Set the folder
+	selection dialog as transient for the shell view.
+	(command_create_folder): New, bound to the "Create folder"
+	command in the "File" menu.
+
 2000-07-01  Ettore Perazzoli  <ettore@helixcode.com>
 
 	* e-shell.c (impl_Shell_user_select_folder): New arg
