@@ -1,3 +1,31 @@
+2003-12-02  Not Zed  <NotZed@Ximian.com>
+
+	* evolution-mail.schemas: Added empty_trash prompt key.
+
+	* em-utils.c (em_utils_prompt_user): changed to take the gconf
+	'prompt again' key directly.  Fixed callers.
+	(em_utils_expunge_folder): prompt the user with an expunge
+	specific message.
+	(em_utils_empty_trash): have an empty-trash specific message for
+	prompting confirm.
+	(emu_confirm_expunge): removed, no longer needed.  Bug #38613.
+	(em_utils_expunge_folder): remove most line feeds, let the label
+	wrap them.
+	(em_utils_empty_trash): ditto.
+
+	* em-subscribe-editor.c (sub_folder_subscribed): update the ui
+	selection state after we're done.  maybe we should listen on the
+	model but this is easier.  Bug #50861.
+
+	* em-message-browser.c (emmb_activate): hook up our own verb list.
+	(emmb_message_verbs[], emmb_close): implement the close verb.
+	Bug #51558.
+
+	* em-format-html-display.c (efhd_attachment_popup): duh, actually
+	add the menu list we create.  Bug #49902.
+
+	* em-format.c (d): turn off debug, committed by accident.
+
 2003-12-01  Ettore Perazzoli  <ettore@ximian.com>
 
 	* mail-mt.c (do_op_status): Use data->activity_id, not local

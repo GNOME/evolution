@@ -183,10 +183,32 @@ emmb_set_message(EMFolderView *emfv, const char *uid)
 }
 
 static void
+emmb_close(BonoboUIComponent *uid, void *data, const char *path)
+{
+	EMMessageBrowser *emmb = data;
+
+	gtk_widget_destroy(gtk_widget_get_toplevel((GtkWidget *)emmb));
+}
+
+static BonoboUIVerb emmb_verbs[] = {
+	BONOBO_UI_UNSAFE_VERB ("MessageBrowserClose", emmb_close),
+	BONOBO_UI_VERB_END
+};
+
+static void
 emmb_activate(EMFolderView *emfv, BonoboUIComponent *uic, int state)
 {
-	emmb_parent->activate(emfv, uic, state);
+	if (state) {
+		emmb_parent->activate(emfv, uic, state);
 
-	if (state)
+		bonobo_ui_component_add_verb_list_with_data(uic, emmb_verbs, emfv);
 		bonobo_ui_component_set_prop(uic, "/commands/EditPaste", "sensitive", "0", NULL);
+	} else {
+		const BonoboUIVerb *v;
+		
+		for (v = &emmb_verbs[0]; v->cname; v++)
+			bonobo_ui_component_remove_verb(uic, v->cname);
+
+		emmb_parent->activate(emfv, uic, state);
+	}
 }

@@ -41,7 +41,7 @@ struct _GtkSelectionData;
 struct _GtkAdjustment;
 struct _EMsgComposer;
 
-gboolean em_utils_prompt_user (struct _GtkWindow *parent, int def, gboolean *again, const char *fmt, ...);
+gboolean em_utils_prompt_user(struct _GtkWindow *parent, int def, const char *promptkey, const char *fmt, ...);
 
 GPtrArray *em_utils_uids_copy (GPtrArray *uids);
 void em_utils_uids_free (GPtrArray *uids);

@@ -127,6 +127,7 @@ struct _EMSubscribeNode {
 
 static void sub_editor_busy(EMSubscribeEditor *se, int dir);
 static int sub_queue_fill_level(EMSubscribe *sub, EMSubscribeNode *node);
+static void sub_selection_changed(GtkTreeSelection *selection, EMSubscribe *sub);
 
 static void
 sub_node_free(char *key, EMSubscribeNode *node, EMSubscribe *sub)
@@ -197,7 +198,7 @@ sub_folder_subscribe (struct _mail_msg *mm)
 static void 
 sub_folder_subscribed (struct _mail_msg *mm)
 {
-	struct _zsubscribe_msg *m = (struct _zsubscribe_msg *) mm;
+	struct _zsubscribe_msg *m = (struct _zsubscribe_msg *)mm, *next;
 	GtkTreeIter iter;
 	GtkTreeModel *model;
 	EMSubscribeNode *node;
@@ -225,11 +226,14 @@ sub_folder_subscribed (struct _mail_msg *mm)
 			d(printf("node mismatch, or subscribe state changed failed\n"));
 	}
 
-	/* queue any further ones */
-	m = (struct _zsubscribe_msg *)e_dlist_remhead(&m->sub->subscribe);
-	if (m) {
-		m->sub->subscribe_id = m->msg.seq;
-		e_thread_put (mail_thread_new, (EMsg *)m);
+	/* queue any further ones, or if out, update the ui */
+	next = (struct _zsubscribe_msg *)e_dlist_remhead(&m->sub->subscribe);
+	if (next) {
+		next->sub->subscribe_id = next->msg.seq;
+		e_thread_put(mail_thread_new, (EMsg *)next);
+	} else {
+		/* should it go off the model instead? */
+		sub_selection_changed(gtk_tree_view_get_selection(m->sub->tree), m->sub);
 	}
 }
 

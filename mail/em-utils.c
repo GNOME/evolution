@@ -57,24 +57,29 @@ static EAccount *guess_account (CamelMimeMessage *message);
  * em_utils_prompt_user:
  * @parent: parent window
  * @def: default response
- * @again: continue prompting the user in the future
+ * @promptkey: gconf key to check if we should prompt the user or not.
  * @fmt: prompt format
  * @Varargs: varargs
  *
  * Convenience function to query the user with a Yes/No dialog and a
  * "Don't show this dialog again" checkbox. If the user checks that
- * checkbox, then @again is set to %FALSE, otherwise it is set to
+ * checkbox, then @promptkey is set to %FALSE, otherwise it is set to
  * %TRUE.
  *
  * Returns %TRUE if the user clicks Yes or %FALSE otherwise.
  **/
 gboolean
-em_utils_prompt_user (GtkWindow *parent, int def, gboolean *again, const char *fmt, ...)
+em_utils_prompt_user(GtkWindow *parent, int def, const char *promptkey, const char *fmt, ...)
 {
 	GtkWidget *mbox, *check = NULL;
 	va_list ap;
 	int button;
 	char *str;
+	GConfClient *gconf = mail_config_get_gconf_client();
+
+	if (promptkey
+	    && !gconf_client_get_bool(gconf, promptkey, NULL))
+		return TRUE;
 	
 	va_start (ap, fmt);
 	str = g_strdup_vprintf (fmt, ap);
@@ -84,20 +89,20 @@ em_utils_prompt_user (GtkWindow *parent, int def, gboolean *again, const char *f
 				       "%s", str);
 	g_free (str);
 	gtk_dialog_set_default_response ((GtkDialog *) mbox, def);
-	if (again) {
+	if (promptkey) {
 		check = gtk_check_button_new_with_label (_("Don't show this message again."));
 		gtk_box_pack_start ((GtkBox *)((GtkDialog *) mbox)->vbox, check, TRUE, TRUE, 10);
 		gtk_widget_show (check);
 	}
 	
 	button = gtk_dialog_run ((GtkDialog *) mbox);
-	if (again)
-		*again = !gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (check));
-	gtk_widget_destroy (mbox);
+	if (promptkey)
+		gconf_client_set_bool(gconf, promptkey, !gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(check)), NULL);
+
+	gtk_widget_destroy(mbox);
 	
 	return button == GTK_RESPONSE_YES;
 }
-
 
 /**
  * em_utils_uids_copy:
@@ -2197,29 +2202,6 @@ em_utils_message_to_html(CamelMimeMessage *message, const char *credits, guint32
 
 /* ********************************************************************** */
 
-static gboolean
-emu_confirm_expunge (GtkWidget *parent)
-{
-	gboolean res, show_again;
-	GConfClient *gconf;
-	
-	gconf = mail_config_get_gconf_client ();
-	
-	if (!gconf_client_get_bool (gconf, "/apps/evolution/mail/prompts/expunge", NULL))
-		return TRUE;
-	
-	/* FIXME: we need to get the parent GtkWindow from @parent... */
-	
-	res = em_utils_prompt_user (NULL, GTK_RESPONSE_NO, &show_again,
-				    _("This operation will permanently erase all messages marked as\n"
-				      "deleted. If you continue, you will not be able to recover these messages.\n"
-				      "\nReally erase these messages?"));
-	
-	gconf_client_set_bool (gconf, "/apps/evolution/mail/prompts/expunge", show_again, NULL);
-	
-	return res;
-}
-
 /**
  * em_utils_expunge_folder:
  * @parent: parent window
@@ -2230,7 +2212,15 @@ emu_confirm_expunge (GtkWidget *parent)
 void
 em_utils_expunge_folder (GtkWidget *parent, CamelFolder *folder)
 {
-	if (!emu_confirm_expunge(parent))
+	char *name;
+
+	camel_object_get(folder, NULL, CAMEL_OBJECT_DESCRIPTION, &name, 0);
+
+	if (!em_utils_prompt_user(parent, GTK_RESPONSE_NO, "/apps/evolution/mail/prompts/expunge",
+				  _("This operation will permanently remove all deleted messages "
+				    "in the folder `%s'. If you continue, you "
+				    "will not be able to recover these messages.\n"
+				    "\nReally erase these messages?"), name))
 		return;
 	
 	mail_expunge_folder(folder, NULL, NULL);
@@ -2251,8 +2241,12 @@ em_utils_empty_trash (GtkWidget *parent)
 	EAccount *account;
 	EIterator *iter;
 	CamelException ex;
-	
-	if (!emu_confirm_expunge (parent))
+
+	if (!em_utils_prompt_user(parent, GTK_RESPONSE_NO, "/apps/evolution/mail/prompts/empty_trash",
+				  _("This operation will permanently remove all deleted messages "
+				    "in all folders. If you continue, you will not be able to "
+				    "recover these messages.\n"
+				    "\nReally erase these messages?")))
 		return;
 	
 	camel_exception_init (&ex);

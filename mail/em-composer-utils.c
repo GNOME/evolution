@@ -103,19 +103,11 @@ composer_destroy_cb (gpointer user_data, GObject *deadbeef)
 static gboolean
 ask_confirm_for_unwanted_html_mail (EMsgComposer *composer, EABDestination **recipients)
 {
-	gboolean show_again, res;
-	GConfClient *gconf;
+	gboolean res;
 	GString *str;
 	int i;
 	
-	gconf = mail_config_get_gconf_client ();
-	
-	if (!gconf_client_get_bool (gconf, "/apps/evolution/mail/prompts/unwanted_html", NULL))
-		return TRUE;
-	
-	/* FIXME: this wording sucks */
-	str = g_string_new (_("You are sending an HTML-formatted message. Please make sure that\n"
-			      "the following recipients are willing and able to receive HTML mail:\n"));
+	str = g_string_new("");
 	for (i = 0; recipients[i] != NULL; ++i) {
 		if (!eab_destination_get_html_mail_pref (recipients[i])) {
 			const char *name;
@@ -125,12 +117,15 @@ ask_confirm_for_unwanted_html_mail (EMsgComposer *composer, EABDestination **rec
 			g_string_append_printf (str, "     %s\n", name);
 		}
 	}
-	
-	g_string_append (str, _("Send anyway?"));
-	res = em_utils_prompt_user ((GtkWindow *) composer, GTK_RESPONSE_YES, &show_again, "%s", str->str);
+
+	/* FIXME: this wording sucks */
+	res = em_utils_prompt_user((GtkWindow *) composer, GTK_RESPONSE_YES, "/apps/evolution/mail/prompts/unwanted_html",
+				   _("You are sending an HTML-formatted message. Please make sure that\n"
+				     "the following recipients are willing and able to receive HTML mail:\n"
+				     "%s"
+				     "Send anyway?"),
+				   str->str);
 	g_string_free (str, TRUE);
-	
-	gconf_client_set_bool (gconf, "/apps/evolution/mail/prompts/unwanted_html", show_again, NULL);
 	
 	return res;
 }
@@ -138,20 +133,8 @@ ask_confirm_for_unwanted_html_mail (EMsgComposer *composer, EABDestination **rec
 static gboolean
 ask_confirm_for_empty_subject (EMsgComposer *composer)
 {
-	gboolean show_again, res;
-	GConfClient *gconf;
-	
-	gconf = mail_config_get_gconf_client ();
-	
-	if (!gconf_client_get_bool (gconf, "/apps/evolution/mail/prompts/empty_subject", NULL))
-		return TRUE;
-	
-	res = em_utils_prompt_user ((GtkWindow *) composer, GTK_RESPONSE_YES, &show_again,
+	return em_utils_prompt_user((GtkWindow *)composer, GTK_RESPONSE_YES, "/apps/evolution/mail/prompts/empty_subject",
 				    _("This message has no subject.\nReally send?"));
-	
-	gconf_client_set_bool (gconf, "/apps/evolution/mail/prompts/empty_subject", show_again, NULL);
-	
-	return res;
 }
 
 static gboolean
@@ -159,12 +142,6 @@ ask_confirm_for_only_bcc (EMsgComposer *composer, gboolean hidden_list_case)
 {
 	gboolean show_again, res;
 	const char *first_text;
-	GConfClient *gconf;
-	
-	gconf = mail_config_get_gconf_client ();
-	
-	if (!gconf_client_get_bool (gconf, "/apps/evolution/mail/prompts/only_bcc", NULL))
-		return TRUE;
 	
 	/* If the user is mailing a hidden contact list, it is possible for
 	   them to create a message with only Bcc recipients without really
@@ -179,17 +156,12 @@ ask_confirm_for_only_bcc (EMsgComposer *composer, gboolean hidden_list_case)
 	} else {
 		first_text = _("This message contains only Bcc recipients.");
 	}
-	
-	res = em_utils_prompt_user ((GtkWindow *) composer, GTK_RESPONSE_YES, &show_again,
-				    "%s\n%s", first_text,
-				    _("It is possible that the mail server may reveal the recipients "
-				      "by adding an Apparently-To header.\nSend anyway?"));
-	
-	gconf_client_set_bool (gconf, "/apps/evolution/mail/prompts/only_bcc", show_again, NULL);
-	
-	return res;
-}
 
+	return em_utils_prompt_user ((GtkWindow *) composer, GTK_RESPONSE_YES, "/apps/evolution/mail/prompts/only_bcc",
+				     "%s\n%s", first_text,
+				     _("It is possible that the mail server may reveal the recipients "
+				       "by adding an Apparently-To header.\nSend anyway?"));
+}
 
 struct _send_data {
 	struct emcs_t *emcs;

@@ -954,6 +954,7 @@ efhd_attachment_popup(GtkWidget *w, GdkEventButton *event, struct _attach_puri *
 	item = &efhd_menu_items[info->shown?2:1];
 	item->activate_data = info;
 	menus = g_slist_prepend(menus, item);
+	em_popup_add_items(emp, menus, (GDestroyNotify)g_slist_free);
 
 	menu = em_popup_create_menu_once(emp, target, target->mask, target->mask);
 	if (event)
