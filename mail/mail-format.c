@@ -418,7 +418,7 @@ get_data_wrapper_text (CamelDataWrapper *data)
 	ba = g_byte_array_new ();
 	memstream = camel_stream_mem_new_with_byte_array (ba);
 
-	camel_data_wrapper_write_to_stream (data, memstream, NULL);
+	camel_data_wrapper_write_to_stream (data, memstream);
 	text = g_malloc (ba->len + 1);
 	memcpy (text, ba->data, ba->len);
 	text[ba->len] = '\0';
@@ -587,7 +587,7 @@ handle_text_enriched (CamelMimePart *part, CamelMimeMessage *root, GtkBox *box)
 
 	ba = g_byte_array_new ();
 	memstream = camel_stream_mem_new_with_byte_array (ba);
-	camel_data_wrapper_write_to_stream (wrapper, memstream, NULL);
+	camel_data_wrapper_write_to_stream (wrapper, memstream);
 	g_byte_array_append (ba, "", 1);
 
 	p = ba->data;
@@ -1029,7 +1029,7 @@ handle_via_bonobo (CamelMimePart *part, CamelMimeMessage *root, GtkBox *box)
 	/* Write the data to a CamelStreamMem... */
 	ba = g_byte_array_new ();
 	cstream = camel_stream_mem_new_with_byte_array (ba);
-	camel_data_wrapper_write_to_stream (wrapper, cstream, NULL);
+	camel_data_wrapper_write_to_stream (wrapper, cstream);
 
 	/* ...convert the CamelStreamMem to a BonoboStreamMem... */
 	bstream = bonobo_stream_mem_create (ba->data, ba->len, TRUE, FALSE);
@@ -1321,9 +1321,8 @@ mail_generate_forward (CamelMimeMessage *mime_message,
 	}
 
 	stream = camel_stream_fs_new_with_fd (fd);
-	camel_data_wrapper_write_to_stream (CAMEL_DATA_WRAPPER (mime_message),
-					    stream, NULL);
-	camel_stream_flush (stream, NULL);
+	camel_data_wrapper_write_to_stream (CAMEL_DATA_WRAPPER (mime_message), stream);
+	camel_stream_flush (stream);
 	gtk_object_unref (GTK_OBJECT (stream));
 
 	composer = E_MSG_COMPOSER (e_msg_composer_new ());

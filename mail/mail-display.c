@@ -45,7 +45,6 @@ save_data_cb (GtkWidget *widget, gpointer user_data)
 		gtk_widget_get_ancestor (widget, GTK_TYPE_FILE_SELECTION);
 	char *name;
 	int fd;
-	CamelException *ex;
 
 	name = gtk_file_selection_get_filename (file_select);
 
@@ -72,20 +71,14 @@ save_data_cb (GtkWidget *widget, gpointer user_data)
 	}
 
 	stream_fs = camel_stream_fs_new_with_fd (fd);
-	ex = camel_exception_new ();
-	camel_data_wrapper_write_to_stream (data, stream_fs, ex);
-	if (!camel_exception_is_set (ex))
-		camel_stream_flush (stream_fs, ex);
-	gtk_object_unref (GTK_OBJECT (stream_fs));
-
-	if (camel_exception_is_set (ex)) {
+	if (camel_data_wrapper_write_to_stream (data, stream_fs) == -1
+	    || camel_stream_flush (stream_fs) == -1) {
 		char *msg;
 
-		msg = g_strdup_printf ("Could not write data: %s",
-				       camel_exception_get_description (ex));
+		msg = g_strdup_printf ("Could not write data: %s", strerror(errno));
 		gnome_error_dialog_parented (msg, GTK_WINDOW (file_select));
 	}
-	camel_exception_free (ex);
+	gtk_object_unref (GTK_OBJECT (stream_fs));
 
 	gtk_widget_destroy (GTK_WIDGET (file_select));
 }
@@ -173,7 +166,7 @@ on_url_requested (GtkHTML *html, const char *url, GtkHTMLStreamHandle handle,
 
 		ba = g_byte_array_new ();
 		stream_mem = camel_stream_mem_new_with_byte_array (ba);
-		camel_data_wrapper_write_to_stream (data, stream_mem, NULL);
+		camel_data_wrapper_write_to_stream (data, stream_mem);
 		gtk_html_write (html, handle, ba->data, ba->len);
 		gtk_object_unref (GTK_OBJECT (stream_mem));
 	} else

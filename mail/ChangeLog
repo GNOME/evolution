@@ -1,3 +1,9 @@
+2000-05-19  NotZed  <NotZed@HelixCode.com>
+
+	* mail-format.c: Fixes for stream stuff.
+
+	* mail-display.c (save_data_cb): Remove exception stuff on streams.
+
 2000-05-19  Christopher James Lahey  <clahey@helixcode.com>
 
 	* message-list.c: Added initialize_value and value_is_empty
