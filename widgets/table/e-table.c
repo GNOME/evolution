@@ -1666,6 +1666,39 @@ e_table_drag_highlight (ETable *table,
 {
 	g_return_if_fail(table != NULL);
 	g_return_if_fail(E_IS_TABLE(table));
+
+	if (row != -1) {
+		int x, y, width, height;
+		if (col == -1) {
+			e_table_get_cell_geometry (table, row, 0, &x, &y, &width, &height);
+			x = 0;
+			width = GTK_WIDGET (table->table_canvas)->allocation.width;
+		} else {
+			e_table_get_cell_geometry (table, row, col, &x, &y, &width, &height);
+			x += GTK_LAYOUT(table->table_canvas)->hadjustment->value;
+		}
+		y += GTK_LAYOUT(table->table_canvas)->vadjustment->value;
+
+		if (table->drop_highlight == NULL) {
+			table->drop_highlight =
+				gnome_canvas_item_new (gnome_canvas_root (table->table_canvas),
+						       gnome_canvas_rect_get_type (),
+						       "fill_color", NULL,
+						       /*						       "outline_color", "black",
+						       "width_pixels", 1,*/
+						       "outline_color_gdk", &(GTK_WIDGET (table)->style->fg[GTK_STATE_NORMAL]),
+						       NULL);
+		}
+		gnome_canvas_item_set (table->drop_highlight,
+				       "x1", (double) x,
+				       "x2", (double) x + width - 1,
+				       "y1", (double) y,
+				       "y2", (double) y + height - 1,
+				       NULL);
+	} else {
+		gtk_object_destroy (GTK_OBJECT (table->drop_highlight));
+		table->drop_highlight = NULL;
+	}
 }
 
 void
@@ -1673,6 +1706,11 @@ e_table_drag_unhighlight (ETable *table)
 {
 	g_return_if_fail(table != NULL);
 	g_return_if_fail(E_IS_TABLE(table));
+
+	if (table->drop_highlight) {
+		gtk_object_destroy (GTK_OBJECT (table->drop_highlight));
+		table->drop_highlight = NULL;
+	}
 }
 
 void e_table_drag_dest_set   (ETable               *table,

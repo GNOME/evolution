@@ -123,6 +123,8 @@ struct ETreePriv {
 	ETreePath drop_path;
 	int drop_col;
 
+	GnomeCanvasItem *drop_highlight;
+
 	int drag_row;
 	ETreePath drag_path;
 	int drag_col;
@@ -249,8 +251,8 @@ et_destroy (GtkObject *object)
 static void
 e_tree_init (GtkObject *object)
 {
-	ETree *e_tree = E_TREE (object);
-	GtkTable *gtk_table = GTK_TABLE (object);
+	ETree *e_tree                                    = E_TREE (object);
+	GtkTable *gtk_table                              = GTK_TABLE (object);
 
 	GTK_WIDGET_SET_FLAGS (e_tree, GTK_CAN_FOCUS);
 
@@ -269,7 +271,7 @@ e_tree_init (GtkObject *object)
 	e_tree->priv->sorter                             = NULL;
 	e_tree->priv->reflow_idle_id                     = 0;
 
-	e_tree->priv->alternating_row_colors		 = 1;
+	e_tree->priv->alternating_row_colors             = 1;
 	e_tree->priv->horizontal_draw_grid               = 1;
 	e_tree->priv->vertical_draw_grid                 = 1;
 	e_tree->priv->draw_focus                         = 1;
@@ -282,6 +284,7 @@ e_tree_init (GtkObject *object)
 	e_tree->priv->drop_row                           = -1;
 	e_tree->priv->drop_path                          = NULL;
 	e_tree->priv->drop_col                           = -1;
+	e_tree->priv->drop_highlight                     = NULL;
 
 	e_tree->priv->drag_row                           = -1;
 	e_tree->priv->drag_path                          = NULL;
@@ -1592,6 +1595,29 @@ e_tree_drag_get_data (ETree         *tree,
 
 }
 
+#if 0
+static void
+e_tree_request_hightlight_redraw (ETree *tree)
+{
+	int row = tree->drop_highlight_row;
+	int col = tree->drop_highlight_col;
+
+	if (row != -1) {
+		int x, y, width, height;
+		if (col == -1) {
+			e_tree_get_cell_geometry (tree, row, 0, &x, &y, &width, &height);
+			x = 0;
+			width = tree->allocation.width;
+		} else {
+			e_tree_get_cell_geometry (tree, row, col, &x, &y, &width, &height);
+			x += GTK_LAYOUT(tree->priv->table_canvas)->hadjustment->value;
+		}
+		y += GTK_LAYOUT(tree->priv->table_canvas)->vadjustment->value;
+		gnome_canvas_request_redraw (tree->priv->table_canvas, x, y, x + width - 1, y + height - 1);
+	}
+}
+#endif
+
 /**
  * e_tree_drag_highlight:
  * @tree:
@@ -1599,14 +1625,48 @@ e_tree_drag_get_data (ETree         *tree,
  * @col:
  *
  * Set col to -1 to highlight the entire row.
+ * Set row to -1 to turn off the highlight.
  */
 void
 e_tree_drag_highlight (ETree *tree,
-			int     row,
-			int     col)
+		       int     row,
+		       int     col)
 {
 	g_return_if_fail(tree != NULL);
 	g_return_if_fail(E_IS_TREE(tree));
+
+	if (row != -1) {
+		int x, y, width, height;
+		if (col == -1) {
+			e_tree_get_cell_geometry (tree, row, 0, &x, &y, &width, &height);
+			x = 0;
+			width = GTK_WIDGET (tree->priv->table_canvas)->allocation.width;
+		} else {
+			e_tree_get_cell_geometry (tree, row, col, &x, &y, &width, &height);
+			x += GTK_LAYOUT(tree->priv->table_canvas)->hadjustment->value;
+		}
+		y += GTK_LAYOUT(tree->priv->table_canvas)->vadjustment->value;
+
+		if (tree->priv->drop_highlight == NULL) {
+			tree->priv->drop_highlight =
+				gnome_canvas_item_new (gnome_canvas_root (tree->priv->table_canvas),
+						       gnome_canvas_rect_get_type (),
+						       "fill_color", NULL,
+						       /*						       "outline_color", "black",
+						       "width_pixels", 1,*/
+						       "outline_color_gdk", &(GTK_WIDGET (tree)->style->fg[GTK_STATE_NORMAL]),
+						       NULL);
+		}
+		gnome_canvas_item_set (tree->priv->drop_highlight,
+				       "x1", (double) x,
+				       "x2", (double) x + width - 1,
+				       "y1", (double) y,
+				       "y2", (double) y + height - 1,
+				       NULL);
+	} else {
+		gtk_object_destroy (GTK_OBJECT (tree->priv->drop_highlight));
+		tree->priv->drop_highlight = NULL;
+	}
 }
 
 void
@@ -1614,6 +1674,11 @@ e_tree_drag_unhighlight (ETree *tree)
 {
 	g_return_if_fail(tree != NULL);
 	g_return_if_fail(E_IS_TREE(tree));
+
+	if (tree->priv->drop_highlight) {
+		gtk_object_destroy (GTK_OBJECT (tree->priv->drop_highlight));
+		tree->priv->drop_highlight = NULL;
+	}
 }
 
 void e_tree_drag_dest_set   (ETree               *tree,
@@ -1925,7 +1990,7 @@ et_drag_motion(GtkWidget *widget,
 			    y,
 			    &row,
 			    &col);
-	if (row != et->priv->drop_row && col != et->priv->drop_row) {
+	if (row != et->priv->drop_row && col != et->priv->drop_col) {
 		gtk_signal_emit (GTK_OBJECT (et),
 				 et_signals [TREE_DRAG_LEAVE],
 				 et->priv->drop_row,

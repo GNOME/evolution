@@ -94,6 +94,7 @@ typedef struct {
 
 	int drop_row;
 	int drop_col;
+	GnomeCanvasItem *drop_highlight;
 
 	int drag_row;
 	int drag_col;
