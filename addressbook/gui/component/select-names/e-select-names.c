@@ -122,6 +122,11 @@ search_result (EAddressbookModel *model, EBookViewStatus status, ESelectNames *e
 static void
 set_book(EBook *book, EBookStatus status, ESelectNames *esn)
 {
+	if (esn->search_id) {
+		g_signal_handler_disconnect(esn->model, esn->search_id);
+		esn->search_id = 0;
+	}
+
 	g_object_set(esn->model,
 		     "book", book,
 		     NULL);
@@ -151,9 +156,11 @@ addressbook_model_set_uri(ESelectNames *e_select_names, EAddressbookModel *model
 
 	book = e_book_new();
 
-	g_signal_connect (model,
-			  "search_result", G_CALLBACK (search_result),
-			  e_select_names);
+	if (e_select_names->search_id)
+		g_signal_handler_disconnect(model, e_select_names->search_id);
+	e_select_names->search_id = g_signal_connect (model,
+						      "search_result", G_CALLBACK (search_result),
+						      e_select_names);
 
 	g_object_ref(e_select_names);
 	g_object_ref(model);
@@ -520,8 +527,8 @@ e_select_names_init (ESelectNames *e_select_names)
 	if (e_select_names->status_message && !GTK_IS_LABEL (e_select_names->status_message))
 		e_select_names->status_message = NULL;
 	if (e_select_names->status_message) {
-		g_signal_connect (e_select_names->model, "status_message",
-				  G_CALLBACK (status_message), e_select_names);
+		e_select_names->status_id = g_signal_connect (e_select_names->model, "status_message",
+							      G_CALLBACK (status_message), e_select_names);
 		g_object_weak_ref (G_OBJECT (e_select_names->status_message), clear_widget, &e_select_names->status_message);
 	}
 
@@ -603,6 +610,18 @@ static void
 e_select_names_dispose (GObject *object)
 {
 	ESelectNames *e_select_names = E_SELECT_NAMES(object);
+
+	printf("eselectnames dispose\n");
+
+	if (e_select_names->status_id) {
+		g_signal_handler_disconnect(e_select_names->model, e_select_names->status_id);
+		e_select_names->status_id = 0;
+	}
+
+	if (e_select_names->search_id) {
+		g_signal_handler_disconnect(e_select_names->model, e_select_names->search_id);
+		e_select_names->search_id = 0;
+	}
 
 	if (e_select_names->gui) {
 		g_object_unref(e_select_names->gui);

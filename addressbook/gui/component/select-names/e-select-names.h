@@ -73,6 +73,10 @@ struct _ESelectNames
 	GtkWidget *status_message;
 	char *def;
 	ESelectNamesFolder *current_folder;
+
+	/* signal handlers */
+	gulong status_id;
+	gulong search_id;
 };
 
 struct _ESelectNamesClass

@@ -1,3 +1,13 @@
+2003-03-18  Not Zed  <NotZed@Ximian.com>
+
+	* gui/component/select-names/e-select-names.c (set_book,
+	addressbook_model_set_uri): disconnect/keep track of search result
+	signal id.
+	(e_select_names_init): Keep track of various signals, particularly
+	status signal.
+	(e_select_names_dispose): disconnect from any signals that are
+	still active.  Fixes crash for #38202.
+
 2003-03-13  Chris Toshok  <toshok@ximian.com>
 
 	* gui/contact-editor/e-contact-editor.c
