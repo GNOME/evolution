@@ -1,3 +1,7 @@
+2005-02-22  Marco Pesenti Gritti  <marco@gnome.org>
+
+	* configure.in: Depend on gnome-vfs >= 2.4
+
 2005-02-22  Rodney Dawes  <dobey@novell.com>
 
 	* data/Makefile.am (CLEANFILES): add new variable with the generated
