@@ -1,3 +1,8 @@
+2004-01-08  JP Rosevear <jpr@ximian.com>
+
+	* e-shell-startup-wizard.c (get_intelligent_importers): add a ')'
+	to create a valid query
+
 2004-01-08  Not Zed  <NotZed@Ximian.com>
 
 	* e-shell-startup-wizard.c (get_intelligent_importers): check that
