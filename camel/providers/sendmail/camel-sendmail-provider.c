@@ -31,9 +31,13 @@ static CamelProvider _sendmail_provider = {
 	(GtkType) 0,
 	PROVIDER_TRANSPORT,
 	0,
+
 	"sendmail",
-	"Camel sendmail provider",
-	"A provider to send mail via the sendmail program",
+	"Sendmail",
+
+	"For delivering mail by passing it to the \"sendmail\" program "
+	"on the local system.",
+
 	(GModule *) NULL
 };
 

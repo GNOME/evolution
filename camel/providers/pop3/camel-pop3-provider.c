@@ -33,9 +33,14 @@ static CamelProvider _pop3_provider = {
 	(GtkType) 0,
 	PROVIDER_STORE,
 	PROVIDER_REMOTE,
-	"POP3",
-	"Camel default POP3 provider",
-	"This is a provider that reads from a POP3 server.",
+
+	"pop",
+	"POP",
+
+	"For connecting to POP servers. The POP protocol can also be used "
+	"to retrieve mail from certain web mail providers and proprietary "
+	"email systems.",
+
 	(GModule *) NULL
 };
 

@@ -33,9 +33,13 @@ static CamelProvider _mbox_provider = {
 	(GtkType) 0,
 	PROVIDER_STORE,
 	0,
+
 	"mbox",
-	"Camel default mbox provider",
-	"This the first full fledged local mail provider",
+	"UNIX mbox-format mail files",
+
+	"For reading mail delivered by the local system, and for "
+	"storing mail on local disk.",
+
 	(GModule *) NULL
 };
 

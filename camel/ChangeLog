@@ -1,5 +1,14 @@
 2000-04-10  Dan Winship  <danw@helixcode.com>
 
+	* camel-provider.h: Clarify what provider.protocol, provider.name,
+	and provider.description should be.
+
+	* providers/mbox/camel-mbox-provider.c: 
+	* providers/pop3/camel-pop3-provider.c: 
+	* providers/sendmail/camel-sendmail-provider.c: 
+	* providers/smtp/camel-smtp-provider.c: update protocols, names,
+	and descriptions
+
 	* providers/mbox/camel-mbox-folder.c (_get_message_by_number):
 	implement get_message_by_number for the mail fetch code.
 

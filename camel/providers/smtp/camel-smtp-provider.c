@@ -33,9 +33,12 @@ static CamelProvider _smtp_provider = {
 	(GtkType) 0,
 	PROVIDER_TRANSPORT,
 	0,
+
+	"smtp",
 	"SMTP",
-	"Camel default SMTP provider",
-	"This is a provider that sends to a SMTP server.",
+
+	"For delivering mail by connecting to a remote mailhub using SMTP.",
+
 	(GModule *) NULL
 };
 
