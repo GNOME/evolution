@@ -224,15 +224,18 @@ e_vpaned_size_allocate (GtkWidget     *widget,
 	gdk_window_hide(paned->handle);
     }
 
-  child1_allocation.width = child2_allocation.width = MAX (1, (gint) allocation->width - border_width * 2);
-  child1_allocation.height = paned->child1_real_size;
+  child1_allocation.width = child2_allocation.width = MAX (1, ((int) allocation->width -
+							       border_width * 2));
+  child1_allocation.height = MAX (1, (int) paned->child1_real_size);
   child1_allocation.x = child2_allocation.x = border_width;
   child1_allocation.y = border_width;
 
   if (handle_shown)
-    child2_allocation.y = child1_allocation.y + child1_allocation.height + paned->handle_height;
+    child2_allocation.y = (child1_allocation.y + (int) child1_allocation.height +
+			   (int) paned->handle_height);
   else
-    child2_allocation.y = child1_allocation.y + child1_allocation.height;
+    child2_allocation.y = child1_allocation.y + (int) child1_allocation.height;
+
   child2_allocation.height = MAX(1, (gint) allocation->height - child2_allocation.y - border_width);
 
   /* Now allocate the childen, making sure, when resizing not to

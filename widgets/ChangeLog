@@ -1,0 +1,11 @@
+2000-08-30  Federico Mena Quintero  <federico@helixcode.com>
+
+	* widgets/e-paned/e-vpaned.c (e_vpaned_size_allocate): Ensure that
+	the child's allocation height is >= 1.
+
+	* widgets/e-paned/e-hpaned.c (e_hpaned_size_allocate): Ensure that
+	the child's allocation width is >= 1.
+
+2000-08-30  Federico Mena Quintero  <federico@helixcode.com>
+
+	* ChangeLog: Started a ChangeLog here.

@@ -88,7 +88,8 @@ typedef struct {
 	   The "clicked" signal handlers just return when this is set. */
 	gboolean     ignore_view_button_clicks;
 
-	void        *event_editor;
+	/* The signal handler id for our GtkCalendar "day_selected" handler. */
+	guint	     day_selected_id;
 
 	/* Alarm ID for the midnight refresh function */
 	gpointer midnight_alarm_refresh_id;

@@ -1,3 +1,15 @@
+Version 0.5, "insert-code-name-here", insert-date-here
+------------------------------------------------------
+
+Calendar:
+
+  - Uses only the new iCalendar standard internally; this means future
+    interoperability with new calendaring programs (JP, Federico).
+
+  - New ultra-cool date range selector, aka little calendar (Damon).
+
+  - Plenty of internal refactoring (JP, Damon, Federico).
+
 Version 0.4, "Alewife", 2000-08-14
 ----------------------------------
 
