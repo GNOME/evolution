@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-09-05 11:11+0200\n"
-"PO-Revision-Date: 2004-09-05 15:37+0200\n"
+"POT-Creation-Date: 2004-09-08 19:13+0200\n"
+"PO-Revision-Date: 2004-09-08 21:25+0200\n"
 "Last-Translator: Miloslav Trmac <mitr@volny.cz>\n"
 "Language-Team: Czech <cs@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -78,7 +78,10 @@ msgid ""
 "Check to make sure your password is spelled correctly and that you are using "
 "a supported login method. Remember that many passwords are case sensitive; "
 "your caps lock might be on."
-msgstr "Zkontrolujte, že vaše heslo je zadáno správně a že používáte podporovanou metodu přihlašování. Nezapomeňte, že u mnoha hesel se rozlišuje velikost písmen; možná máte zapnut caps lock."
+msgstr ""
+"Zkontrolujte, že vaše heslo je zadáno správně a že používáte podporovanou "
+"metodu přihlašování. Nezapomeňte, že u mnoha hesel se rozlišuje velikost "
+"písmen; možná máte zapnut caps lock."
 
 #. addressbook:ldap-search-base primary
 #: addressbook/addressbook-errors.xml.h:10
@@ -91,7 +94,10 @@ msgid ""
 "This LDAP server may use an older version of LDAP, which does not support "
 "this functionality or it may be misconfigured. Ask your administrator for "
 "supported search bases."
-msgstr "Tento server LDAP možná používá starší verzi LDAP, která tuto funkci nepodporuje, nebo je možná špatně nastaven. Zeptejte se vašeho správce na podporované základy vyhledávání."
+msgstr ""
+"Tento server LDAP možná používá starší verzi LDAP, která tuto funkci "
+"nepodporuje, nebo je možná špatně nastaven. Zeptejte se vašeho správce na "
+"podporované základy vyhledávání."
 
 #. addressbook:ldap-v3-schema primary
 #: addressbook/addressbook-errors.xml.h:14
@@ -10610,7 +10616,9 @@ msgstr ""
 msgid ""
 "Failed to connect to IMAP server %s in secure mode: Server does not support "
 "STARTTLS"
-msgstr "Nemohu se připojit k serveru IMAP %s v zabezpečeném režimu: Server nepodporuje STARTTLS"
+msgstr ""
+"Nemohu se připojit k serveru IMAP %s v zabezpečeném režimu: Server "
+"nepodporuje STARTTLS"
 
 #: camel/providers/imap4/camel-imap4-store.c:363
 #, c-format
@@ -13186,7 +13194,7 @@ msgid "Stop Processing"
 msgstr "Zastavit zpracování"
 
 #: mail/em-filter-i18n.h:64 mail/em-format-html.c:1550
-#: mail/em-format-quote.c:305 mail/em-format.c:805 mail/em-mailer-prefs.c:87
+#: mail/em-format-quote.c:305 mail/em-format.c:808 mail/em-mailer-prefs.c:87
 #: mail/message-list.etspec.h:13 mail/message-tag-followup.c:329
 #: smime/lib/e-cert.c:1131
 msgid "Subject"
@@ -13679,28 +13687,28 @@ msgstr "Odkaz na neznámá externí data (typ \"%s\")"
 msgid "Formatting message"
 msgstr "Formátuji zprávu"
 
-#: mail/em-format-html.c:1441 mail/em-format-quote.c:192 mail/em-format.c:800
+#: mail/em-format-html.c:1441 mail/em-format-quote.c:192 mail/em-format.c:803
 #: mail/em-mailer-prefs.c:82 mail/message-list.etspec.h:7
 #: mail/message-tag-followup.c:325
 msgid "From"
 msgstr "Od"
 
-#: mail/em-format-html.c:1441 mail/em-format-quote.c:192 mail/em-format.c:801
+#: mail/em-format-html.c:1441 mail/em-format-quote.c:192 mail/em-format.c:804
 #: mail/em-mailer-prefs.c:83
 msgid "Reply-To"
 msgstr "Odpovědět-komu"
 
-#: mail/em-format-html.c:1441 mail/em-format-quote.c:192 mail/em-format.c:802
+#: mail/em-format-html.c:1441 mail/em-format-quote.c:192 mail/em-format.c:805
 #: mail/em-mailer-prefs.c:84 mail/message-list.etspec.h:14
 msgid "To"
 msgstr "Komu"
 
-#: mail/em-format-html.c:1441 mail/em-format-quote.c:192 mail/em-format.c:803
+#: mail/em-format-html.c:1441 mail/em-format-quote.c:192 mail/em-format.c:806
 #: mail/em-mailer-prefs.c:85
 msgid "Cc"
 msgstr "Kopie"
 
-#: mail/em-format-html.c:1441 mail/em-format-quote.c:192 mail/em-format.c:804
+#: mail/em-format-html.c:1441 mail/em-format-quote.c:192 mail/em-format.c:807
 #: mail/em-mailer-prefs.c:86
 msgid "Bcc"
 msgstr "Skrytá kopie"
@@ -13721,41 +13729,41 @@ msgstr "<I> (%a, %R %Z)</I>"
 msgid "<I> (%R %Z)</I>"
 msgstr "<I> (%R %Z)</I>"
 
-#: mail/em-format-html.c:1594 mail/em-format-quote.c:321 mail/em-format.c:806
+#: mail/em-format-html.c:1594 mail/em-format-quote.c:321 mail/em-format.c:809
 #: mail/em-mailer-prefs.c:88 mail/message-list.etspec.h:2
 msgid "Date"
 msgstr "Datum"
 
-#: mail/em-format-html.c:1617 mail/em-format.c:807 mail/em-mailer-prefs.c:89
+#: mail/em-format-html.c:1617 mail/em-format.c:810 mail/em-mailer-prefs.c:89
 msgid "Newsgroups"
 msgstr "Diskusní skupiny"
 
-#: mail/em-format.c:1056
+#: mail/em-format.c:1059
 #, c-format
 msgid "%s attachment"
 msgstr "%s příloha"
 
-#: mail/em-format.c:1095 mail/em-format.c:1228
+#: mail/em-format.c:1098 mail/em-format.c:1231
 msgid "Could not parse S/MIME message: Unknown error"
 msgstr "Nemohu zpracovat zprávu S/MIME: Neznámá chyba"
 
-#: mail/em-format.c:1218
+#: mail/em-format.c:1221
 msgid "Unsupported encryption type for multipart/encrypted"
 msgstr "Nepodporovaný typ šifrování pro multipart/encrypted"
 
-#: mail/em-format.c:1379
+#: mail/em-format.c:1382
 msgid "Could not parse MIME message. Displaying as source."
 msgstr "Nemohu zpracovat zprávu MIME. Zobrazím ji jako zdrojový kód."
 
-#: mail/em-format.c:1398
+#: mail/em-format.c:1401
 msgid "Unsupported signature format"
 msgstr "Nepodporovaný formát podpisu"
 
-#: mail/em-format.c:1406
+#: mail/em-format.c:1409
 msgid "Error verifying signature"
 msgstr "Chyba při ověřování podpisu"
 
-#: mail/em-format.c:1406
+#: mail/em-format.c:1409
 msgid "Unknown error verifying signature"
 msgstr "Neznámá chyba při ověřování podpisu"
 
@@ -15581,7 +15589,9 @@ msgstr "Opravdu chcete odeslat zprávu bez předmětu?"
 msgid ""
 "Adding a meaningful Subject line to your messages will give your recipients "
 "an idea of what your mail is about."
-msgstr "Přidání smysluplného řádku s předmětem k vašim zprávám dá vašim příjemcům shrnutí, o čem je vaše zpráva."
+msgstr ""
+"Přidání smysluplného řádku s předmětem k vašim zprávám dá vašim příjemcům "
+"shrnutí, o čem je vaše zpráva."
 
 #. mail:ask-send-only-bcc-contact primary
 #. mail:ask-send-only-bcc primary
@@ -15631,7 +15641,9 @@ msgstr "Tato zpráva nemůže být odeslána, protože jste nezadali žádné p�
 msgid ""
 "Please enter a valid email address in the To: field. You can search for "
 "email addresses by clicking on the To: button next to the entry box."
-msgstr "Zadejte prosím do pole Komu: platnou e-mailovou adresu. E-mailové adresy můžete hledat kliknutím na tlačítko Komu: vedle vstupního pole."
+msgstr ""
+"Zadejte prosím do pole Komu: platnou e-mailovou adresu. E-mailové adresy "
+"můžete hledat kliknutím na tlačítko Komu: vedle vstupního pole."
 
 #. mail:ask-default-drafts primary
 #: mail/mail-errors.xml.h:38
@@ -17648,7 +17660,7 @@ msgstr "Podepisování"
 
 #: smime/lib/e-cert.c:870
 msgid "Non-repudiation"
-msgstr ""
+msgstr "Nepopření"
 
 #: smime/lib/e-cert.c:874
 msgid "Key Encipherment"
