@@ -46,15 +46,15 @@
 
 static CamelServiceClass *service_class = NULL;
 
-static void finalize (GtkObject *object);
+static void finalize (CamelObject *object);
 
 static gboolean cache_connect (CamelService *service, CamelException *ex);
 static gboolean cache_disconnect (CamelService *service, CamelException *ex);
 
 static CamelFolder *get_folder (CamelStore *store, const char *folder_name, 
 				gboolean create, CamelException *ex);
-static CamelFolder *delete_folder (CamelStore *store, const char *folder_name, 
-				   CamelException *ex);
+static void delete_folder (CamelStore *store, const char *folder_name, 
+			   CamelException *ex);
 static char *get_folder_name (CamelStore *store, const char *folder_name, 
 			      CamelException *ex);
 static char *get_root_folder_name (CamelStore *store, CamelException *ex);
@@ -64,18 +64,14 @@ static char *get_default_folder_name (CamelStore *store, CamelException *ex);
 static void
 camel_cache_store_class_init (CamelCacheStoreClass *camel_cache_store_class)
 {
-	GtkObjectClass *object_class =
-		GTK_OBJECT_CLASS (camel_cache_store_class);
 	CamelServiceClass *camel_service_class =
 		CAMEL_SERVICE_CLASS (camel_cache_store_class);
 	CamelStoreClass *camel_store_class =
 		CAMEL_STORE_CLASS (camel_cache_store_class);
 	
-	service_class = gtk_type_class (camel_service_get_type ());
+	service_class = CAMEL_SERVICE_CLASS (camel_type_get_global_classfuncs (camel_service_get_type ()));
 
 	/* virtual method overload */
-	object_class->finalize = finalize;
-
 	camel_service_class->connect = cache_connect;
 	camel_service_class->disconnect = cache_disconnect;
 
@@ -90,44 +86,38 @@ camel_cache_store_class_init (CamelCacheStoreClass *camel_cache_store_class)
 static void
 camel_cache_store_init (gpointer object, gpointer klass)
 {
-	CamelCacheStore *cache_store = CAMEL_CACHE_STORE (object);
 	CamelService *service = CAMEL_SERVICE (object);
 
 	service->url_flags = CAMEL_SERVICE_URL_NEED_PATH;
 }
 
 
-GtkType
+CamelType
 camel_cache_store_get_type (void)
 {
-	static GtkType camel_cache_store_type = 0;
+	static CamelType camel_cache_store_type = CAMEL_INVALID_TYPE;
 
-	if (!camel_cache_store_type) {
-		GtkTypeInfo camel_cache_store_info =	
-		{
-			"CamelCacheStore",
+	if (camel_cache_store_type == CAMEL_INVALID_TYPE) {
+		camel_cache_store_type = camel_type_register (
+			CAMEL_STORE_TYPE, "CamelCacheStore",
 			sizeof (CamelCacheStore),
 			sizeof (CamelCacheStoreClass),
-			(GtkClassInitFunc) camel_cache_store_class_init,
-			(GtkObjectInitFunc) camel_cache_store_init,
-				/* reserved_1 */ NULL,
-				/* reserved_2 */ NULL,
-			(GtkClassInitFunc) NULL,
-		};
-
-		camel_cache_store_type = gtk_type_unique (CAMEL_STORE_TYPE, &camel_cache_store_info);
+			(CamelObjectClassInitFunc) camel_cache_store_class_init,
+			NULL,
+			(CamelObjectInitFunc) camel_cache_store_init,
+			(CamelObjectFinalizeFunc) finalize);
 	}
 
 	return camel_cache_store_type;
 }
 
 static void
-finalize (GtkObject *object)
+finalize (CamelObject *object)
 {
 	CamelCacheStore *cache_store = CAMEL_CACHE_STORE (object);
 
-	gtk_object_unref (GTK_OBJECT (cache_store->local));
-	gtk_object_unref (GTK_OBJECT (cache_store->remote));
+	camel_object_unref (CAMEL_OBJECT (cache_store->local));
+	camel_object_unref (CAMEL_OBJECT (cache_store->remote));
 }
 
 
@@ -152,7 +142,8 @@ cache_connect (CamelService *service, CamelException *ex)
 	if (!camel_service_connect (CAMEL_SERVICE (cache_store->remote), ex))
 		return FALSE;
 	if (!camel_service_connect (CAMEL_SERVICE (cache_store->local), ex)) {
-		camel_service_disconnect (CAMEL_SERVICE (store->remote), NULL);
+		camel_service_disconnect (CAMEL_SERVICE (cache_store->remote),
+					  NULL);
 		return FALSE;
 	}
 
@@ -186,6 +177,7 @@ get_folder (CamelStore *store, const char *folder_name,
 	lf = camel_store_get_folder (cache_store->local, folder_name,
 				     TRUE, ex);
 	if (!lf) {
+		camel_object_unref (CAMEL_OBJECT (rf));
 		camel_exception_setv (ex, camel_exception_get_id (ex),
 				      "Could not create cache folder:\n%s",
 				      camel_exception_get_description (ex));

@@ -67,8 +67,7 @@
 #include <camel/camel-exception.h>
 #include <camel/camel-medium.h>
 
-static CamelFolderClass *parent_class;
-#define CF_CLASS(so) CAMEL_FOLDER_CLASS (GTK_OBJECT(so)->klass)
+#define CF_CLASS(so) CAMEL_FOLDER_CLASS (CAMEL_OBJECT_GET_CLASS(so))
 
 static void init (CamelFolder *folder, CamelStore *parent_store,
 		  CamelFolder *parent_folder, const gchar *name,
@@ -83,7 +82,7 @@ static void expunge (CamelFolder *folder, CamelException *ex);
 static gint get_message_count (CamelFolder *folder);
 
 static void append_message (CamelFolder *folder, CamelMimeMessage *message, 
-			    guint32 flags, CamelException *ex);
+			    const CamelMessageInfo *info, CamelException *ex);
 
 static guint32 get_message_flags (CamelFolder *folder, const char *uid);
 static void set_message_flags (CamelFolder *folder, const char *uid,
@@ -109,17 +108,13 @@ static GPtrArray *search_by_expression (CamelFolder *folder,
 static const CamelMessageInfo *get_message_info (CamelFolder *folder,
 						 const char *uid);
 
-static void finalize (GtkObject *object);
+static void finalize (CamelObject *object);
 
 static void
 camel_cache_folder_class_init (CamelCacheFolderClass *camel_cache_folder_class)
 {
 	CamelFolderClass *camel_folder_class =
 		CAMEL_FOLDER_CLASS (camel_cache_folder_class);
-	GtkObjectClass *gtk_object_class =
-		GTK_OBJECT_CLASS (camel_cache_folder_class);
-
-	parent_class = gtk_type_class (camel_folder_get_type ());
 
 	/* virtual method overload */
 	camel_folder_class->init = init;
@@ -140,29 +135,22 @@ camel_cache_folder_class_init (CamelCacheFolderClass *camel_cache_folder_class)
 	camel_folder_class->free_subfolder_names = free_subfolder_names;
 	camel_folder_class->search_by_expression = search_by_expression;
 	camel_folder_class->get_message_info = get_message_info;
-
-	gtk_object_class->finalize = finalize;
 }
 
-GtkType
+CamelType
 camel_cache_folder_get_type (void)
 {
-	static GtkType camel_cache_folder_type = 0;
+	static CamelType camel_cache_folder_type = CAMEL_INVALID_TYPE;
 
-	if (!camel_cache_folder_type) {
-		GtkTypeInfo camel_cache_folder_info =	
-		{
-			"CamelCacheFolder",
+	if (camel_cache_folder_type == CAMEL_INVALID_TYPE) {
+		camel_cache_folder_type = camel_type_register (
+			CAMEL_FOLDER_TYPE, "CamelCacheFolder",
 			sizeof (CamelCacheFolder),
 			sizeof (CamelCacheFolderClass),
-			(GtkClassInitFunc) camel_cache_folder_class_init,
-			(GtkObjectInitFunc) NULL,
-				/* reserved_1 */ NULL,
-				/* reserved_2 */ NULL,
-			(GtkClassInitFunc) NULL,
-		};
-
-		camel_cache_folder_type = gtk_type_unique (CAMEL_FOLDER_TYPE, &camel_cache_folder_info);
+			(CamelObjectClassInitFunc) camel_cache_folder_class_init,
+			NULL,
+			NULL,
+			(CamelObjectFinalizeFunc) finalize);
 	}
 
 	return camel_cache_folder_type;
@@ -188,7 +176,7 @@ cache_free_summary (CamelCacheFolder *cache_folder)
 }
 
 static void
-finalize (GtkObject *object)
+finalize (CamelObject *object)
 {
 	CamelCacheFolder *cache_folder = CAMEL_CACHE_FOLDER (object);
 
@@ -202,12 +190,10 @@ finalize (GtkObject *object)
 	if (cache_folder->uidmap)
 		camel_cache_map_destroy (cache_folder->uidmap);
 
-	gtk_object_unref (GTK_OBJECT (cache_folder->local));
-	gtk_object_unref (GTK_OBJECT (cache_folder->remote));
+	camel_object_unref (CAMEL_OBJECT (cache_folder->local));
+	camel_object_unref (CAMEL_OBJECT (cache_folder->remote));
 
 	g_free (cache_folder->mapfile);
-
-	GTK_OBJECT_CLASS (parent_class)->finalize (object);
 }
 
 
@@ -318,21 +304,23 @@ init (CamelFolder *folder, CamelStore *parent_store,
  * update the summary, and propagate the signal.
  */
 static void
-remote_folder_changed (CamelFolder *remote_folder, int type, gpointer data)
+remote_folder_changed (CamelObject *remote_folder, gpointer type,
+		       gpointer user_data)
 {
-	CamelCacheFolder *cache_folder = data;
+	CamelCacheFolder *cache_folder = user_data;
 
 	update (cache_folder, NULL);
-	gtk_signal_emit_by_name (GTK_OBJECT (cache_folder), "folder_changed",
-				 type);
+	camel_object_trigger_event (CAMEL_OBJECT (cache_folder),
+				    "folder_changed", type);
 }
 
 /* If the local folder changes, it's because we just cached a message
  * or expunged messages. Look for new messages and update the UID maps.
  */
 static void
-local_folder_changed (CamelFolder *local_folder, int type, gpointer data)
+local_folder_changed (CamelObject *local, gpointer type, gpointer data)
 {
+	CamelFolder *local_folder = CAMEL_FOLDER (local);
 	CamelCacheFolder *cache_folder = data;
 	CamelMimeMessage *msg;
 	GPtrArray *new_luids;
@@ -407,7 +395,7 @@ get_message_count (CamelFolder *folder)
 /* DONE */
 static void
 append_message (CamelFolder *folder, CamelMimeMessage *message, 
-		guint32 flags, CamelException *ex)
+		const CamelMessageInfo *info, CamelException *ex)
 {
 	CamelCacheFolder *cache_folder = (CamelCacheFolder *)folder;
 
@@ -415,7 +403,7 @@ append_message (CamelFolder *folder, CamelMimeMessage *message,
 	 * 100% reliable way to determine the UID assigned to the
 	 * remote message, so we can't.
 	 */
-	camel_folder_append_message (cache_folder->remote, message, flags, ex);
+	camel_folder_append_message (cache_folder->remote, message, info, ex);
 }
 
 /* DONE */
@@ -480,7 +468,7 @@ get_message (CamelFolder *folder, const gchar *uid, CamelException *ex)
 {
 	CamelCacheFolder *cache_folder = (CamelCacheFolder *)folder;
 	CamelMimeMessage *msg;
-	guint32 flags;
+	const CamelMessageInfo *info;
 	const char *luid;
 
 	/* Check if we have it cached first. */
@@ -499,7 +487,7 @@ get_message (CamelFolder *folder, const gchar *uid, CamelException *ex)
 	msg = camel_folder_get_message (cache_folder->remote, uid, ex);
 	if (!msg)
 		return NULL;
-	flags = camel_folder_get_message_flags (cache_folder->remote, uid);
+	info = camel_folder_get_message_info (cache_folder->remote, uid);
 
 	/* Add a header giving the remote UID and append it to the
 	 * local folder. (This should eventually invoke
@@ -508,7 +496,7 @@ get_message (CamelFolder *folder, const gchar *uid, CamelException *ex)
 	 */
 	camel_medium_add_header (CAMEL_MEDIUM (msg), "X-Evolution-Remote-UID",
 				 uid);
-	camel_folder_append_message (cache_folder->local, msg, flags, NULL);
+	camel_folder_append_message (cache_folder->local, msg, info, NULL);
 
 	return msg;
 }
@@ -608,20 +596,18 @@ camel_cache_folder_new (CamelStore *store, CamelFolder *parent,
 	CamelCacheFolder *cache_folder;
 	CamelFolder *folder;
 
-	cache_folder = gtk_type_new (CAMEL_CACHE_FOLDER_TYPE);
+	cache_folder = CAMEL_CACHE_FOLDER (camel_object_new (CAMEL_CACHE_FOLDER_TYPE));
 	folder = (CamelFolder *)cache_folder;
 
 	cache_folder->local = local;
-	gtk_object_ref (GTK_OBJECT (local));
-	gtk_signal_connect (GTK_OBJECT (local), "folder_changed",
-			    GTK_SIGNAL_FUNC (local_folder_changed),
-			    cache_folder);
+	camel_object_ref (CAMEL_OBJECT (local));
+	camel_object_hook_event (CAMEL_OBJECT (local), "folder_changed",
+				 local_folder_changed, cache_folder);
 
 	cache_folder->remote = remote;
-	gtk_object_ref (GTK_OBJECT (remote));
-	gtk_signal_connect (GTK_OBJECT (remote), "folder_changed",
-			    GTK_SIGNAL_FUNC (remote_folder_changed),
-			    cache_folder);
+	camel_object_ref (CAMEL_OBJECT (remote));
+	camel_object_hook_event (CAMEL_OBJECT (remote), "folder_changed",
+				 remote_folder_changed, cache_folder);
 
 	/* XXX */
 
@@ -634,7 +620,7 @@ camel_cache_folder_sync (CamelCacheFolder *cache_folder, CamelException *ex)
 	CamelMimeMessage *msg;
 	const char *ruid, *luid;
 	int lsize, i;
-	guint32 flags;
+	const CamelMessageInfo *info;
 
 	lsize = camel_folder_get_message_count (cache_folder->local);
 
@@ -652,13 +638,13 @@ camel_cache_folder_sync (CamelCacheFolder *cache_folder, CamelException *ex)
 						ruid, ex);
 		if (camel_exception_is_set (ex))
 			return;
-		flags = camel_folder_get_message_flags (cache_folder->remote,
-							ruid);
+		info = camel_folder_get_message_info (cache_folder->remote,
+						      ruid);
 
 		camel_medium_add_header (CAMEL_MEDIUM (msg),
 					 "X-Evolution-Remote-UID", ruid);
 		camel_folder_append_message (cache_folder->local, msg,
-					     flags, ex);
+					     info, ex);
 		if (camel_exception_is_set (ex))
 			return;
 	}

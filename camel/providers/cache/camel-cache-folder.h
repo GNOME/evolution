@@ -35,9 +35,9 @@ extern "C" {
 #include "camel-cache-map.h"
 
 #define CAMEL_CACHE_FOLDER_TYPE     (camel_cache_folder_get_type ())
-#define CAMEL_CACHE_FOLDER(obj)     (GTK_CHECK_CAST((obj), CAMEL_CACHE_FOLDER_TYPE, CamelCacheFolder))
-#define CAMEL_CACHE_FOLDER_CLASS(k) (GTK_CHECK_CLASS_CAST ((k), CAMEL_CACHE_FOLDER_TYPE, CamelCacheFolderClass))
-#define IS_CAMEL_CACHE_FOLDER(o)    (GTK_CHECK_TYPE((o), CAMEL_CACHE_FOLDER_TYPE))
+#define CAMEL_CACHE_FOLDER(obj)     (CAMEL_CHECK_CAST((obj), CAMEL_CACHE_FOLDER_TYPE, CamelCacheFolder))
+#define CAMEL_CACHE_FOLDER_CLASS(k) (CAMEL_CHECK_CLASS_CAST ((k), CAMEL_CACHE_FOLDER_TYPE, CamelCacheFolderClass))
+#define IS_CAMEL_CACHE_FOLDER(o)    (CAMEL_CHECK_TYPE((o), CAMEL_CACHE_FOLDER_TYPE))
 
 
 typedef struct {
@@ -77,8 +77,8 @@ CamelFolder *camel_cache_folder_new (CamelStore *store, CamelFolder *parent,
 void camel_cache_folder_sync (CamelCacheFolder *cache_folder,
 			      CamelException *ex);
 
-/* Standard Gtk function */
-GtkType camel_cache_folder_get_type (void);
+/* Standard Camel function */
+CamelType camel_cache_folder_get_type (void);
 
 #ifdef __cplusplus
 }

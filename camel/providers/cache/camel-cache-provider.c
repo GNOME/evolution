@@ -32,12 +32,13 @@ static CamelProvider cache_provider = {
 	"cache",
 	"Cache",
 
-	"For caching remote mail into a local store."
+	"For caching remote mail into a local store.",
 
 	"cache",
 
 	0,
 
+	{ 0, 0 },
 	{ 0, 0 }
 };
 
