@@ -76,6 +76,7 @@ typedef struct {
 	GtkWidget *malarm_group;
 	GtkWidget *malarm_address_group;
 	GtkWidget *malarm_addresses;
+	GtkWidget *malarm_addressbook;
 	GtkWidget *malarm_description;
 	GNOME_Evolution_Addressbook_SelectNames corba_select_names;
 
@@ -115,6 +116,7 @@ get_widgets (Dialog *dialog)
 
 	dialog->malarm_group = GW ("malarm-group");
 	dialog->malarm_address_group = GW ("malarm-address-group");
+	dialog->malarm_addressbook = GW ("malarm-addressbook");
 	dialog->malarm_description = GW ("malarm-description");
 	
 	dialog->palarm_group = GW ("palarm-group");
@@ -135,10 +137,25 @@ get_widgets (Dialog *dialog)
 		&& dialog->aalarm_attach
 		&& dialog->malarm_group
 		&& dialog->malarm_address_group
+		&& dialog->malarm_addressbook
 		&& dialog->malarm_description
 		&& dialog->palarm_group
 		&& dialog->palarm_program
 		&& dialog->palarm_args);
+}
+
+static void
+addressbook_clicked_cb (GtkWidget *widget, gpointer data)
+{
+	Dialog *dialog = data;
+	CORBA_Environment ev;
+	
+	CORBA_exception_init (&ev);
+
+	GNOME_Evolution_Addressbook_SelectNames_activateDialog (dialog->corba_select_names, 
+								section_name, &ev);
+	
+	CORBA_exception_free (&ev);
 }
 
 static gboolean
@@ -170,11 +187,8 @@ setup_select_names (Dialog *dialog)
 	gtk_widget_show (dialog->malarm_addresses);
 	gtk_box_pack_end_defaults (GTK_BOX (dialog->malarm_address_group), dialog->malarm_addresses);
 
-
-#if 0		
-	gtk_signal_connect (GTK_OBJECT (priv->addressbook), "clicked",
-			    GTK_SIGNAL_FUNC (addressbook_clicked_cb), edd);
-#endif
+	gtk_signal_connect (GTK_OBJECT (dialog->malarm_addressbook), "clicked",
+			    GTK_SIGNAL_FUNC (addressbook_clicked_cb), dialog);
 
 	return TRUE;
 }

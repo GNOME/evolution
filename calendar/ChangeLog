@@ -1,5 +1,12 @@
 2002-12-20  JP Rosevear  <jpr@ximian.com>
 
+	* gui/dialogs/alarm-options.glade: add Send To: button
+
+	* gui/dialogs/alarm-options.c (addressbook_clicked_cb): display dialog
+	(setup_select_names): attach above to Send To: button clicked signal
+
+2002-12-20  JP Rosevear  <jpr@ximian.com>
+
 	* gui/dialogs/alarm-options.c (get_widgets): get mail alarm
 	widgets
 	(setup_select_names): add the select names widget
