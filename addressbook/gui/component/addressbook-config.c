@@ -109,7 +109,8 @@ struct _AddressbookDialog {
 	GNOME_Evolution_Shell shell;
 
 	GtkWidget *sourcesTable;
-	ETableModel *sourcesModel;
+	GtkTreeModel *sourcesModel;
+	GtkTreeSelection *sourcesSelection;
 	GtkWidget *addSource;
 	GtkWidget *editSource;
 	GtkWidget *deleteSource;
@@ -178,7 +179,7 @@ struct _AddressbookSourceDialog {
 #endif
 
 	/* stuff for the account editor window */
-	int source_model_row;
+	GtkTreeIter *source_model_row;
 	GtkWidget *ok_button;
 	GtkWidget *apply_button;
 	GtkWidget *close_button;
@@ -356,6 +357,11 @@ addressbook_source_dialog_destroy (gpointer data, GObject *where_object_was)
 #undef IF_UNREF
 #endif
 
+	if (dialog->source_model_row) {
+		gtk_tree_iter_free (dialog->source_model_row);
+		dialog->source_model_row = NULL;
+	}
+
 	gtk_widget_destroy (GTK_WIDGET (dialog->gui));
 
 	g_free (dialog);
@@ -372,12 +378,18 @@ addressbook_add_server_druid_finish (GnomeDruidPage *druid_page, GtkWidget *gnom
 {
 	AddressbookSource *source = addressbook_dialog_get_source (sdialog);
 	AddressbookDialog *dialog = sdialog->addressbook_dialog;
+	GtkTreeIter iter;
 
 	printf ("in finish (%s,%s)\n", source->name, source->host);
 
-	e_table_memory_store_insert (E_TABLE_MEMORY_STORE (dialog->sourcesModel),
-				     -1, source, source->name, source->host);
+	gtk_list_store_append (GTK_LIST_STORE (dialog->sourcesModel), &iter);
 
+	gtk_list_store_set (GTK_LIST_STORE (dialog->sourcesModel), &iter,
+			    0, source->name,
+			    1, source->host,
+			    2, source,
+			    -1);
+			       
 	evolution_config_control_changed (dialog->config_control);
 
 	/* tear down the widgets */
@@ -1287,11 +1299,18 @@ edit_dialog_store_change (AddressbookSourceDialog *sdialog)
 	}
 
 	/* store the new source in the addressbook dialog */
-	old_source = e_table_memory_get_data (E_TABLE_MEMORY (dialog->sourcesModel), sdialog->source_model_row);
+	gtk_tree_model_get (dialog->sourcesModel,
+			    sdialog->source_model_row,
+			    2, &old_source,
+			    -1);
 	addressbook_source_free (old_source);
 
-	e_table_memory_store_change (E_TABLE_MEMORY_STORE (dialog->sourcesModel),
-				     sdialog->source_model_row, source, source->name, source->host);
+	gtk_list_store_set (GTK_LIST_STORE (dialog->sourcesModel),
+			    sdialog->source_model_row,
+			    0, source->name,
+			    1, source->host,
+			    2, source,
+			    -1);
 
 	/* and let the config control know about the change */
 	evolution_config_control_changed (dialog->config_control);
@@ -1324,15 +1343,23 @@ edit_dialog_ok_clicked (GtkWidget *item, AddressbookSourceDialog *sdialog)
 }
 
 static AddressbookSourceDialog*
-addressbook_edit_server_dialog (AddressbookDialog *dialog, int model_row)
+addressbook_edit_server_dialog (GtkTreeModel      *model,
+				GtkTreePath       *path,
+				GtkTreeIter       *model_row,
+				gpointer           data)
 {
-	AddressbookSource *source = e_table_memory_get_data (E_TABLE_MEMORY(dialog->sourcesModel), model_row);
+	AddressbookDialog *dialog = data;
+	AddressbookSource *source;
 	AddressbookSourceDialog *sdialog = g_new0 (AddressbookSourceDialog, 1);
 	GtkWidget *general_tab_help;
 	GtkWidget *fewer_options_button, *more_options_button;
 
+	gtk_tree_model_get (model, model_row,
+			    2, &source,
+			    -1);
+
 	sdialog->addressbook_dialog = dialog;
-	sdialog->source_model_row = model_row;
+	sdialog->source_model_row = gtk_tree_iter_copy (model_row);
 
 	sdialog->gui = glade_xml_new (EVOLUTION_GLADEDIR "/" GLADE_FILE_NAME, NULL, NULL);
 
@@ -1441,61 +1468,29 @@ add_source_clicked (GtkWidget *widget, AddressbookDialog *dialog)
 static void
 edit_source_clicked (GtkWidget *widget, AddressbookDialog *dialog)
 {
-	int i;
-	ESelectionModel *selection_model;
-	int row_count;
-	
-	selection_model = e_table_get_selection_model (e_table_scrolled_get_table (E_TABLE_SCROLLED(dialog->sourcesTable)));
-	row_count = e_selection_model_row_count (selection_model);
+	gtk_tree_selection_selected_foreach (dialog->sourcesSelection,
+					     (GtkTreeSelectionForeachFunc)addressbook_edit_server_dialog,
+					     dialog);
+}
 
-	for (i = 0; i < row_count; i ++) {
-		if (e_selection_model_is_row_selected (selection_model, i)) {
-			addressbook_edit_server_dialog (dialog, i);
-			break; /* single select so we're done now */
-		}
-	}
+static void
+delete_server (GtkTreeModel      *model,
+	       GtkTreePath       *path,
+	       GtkTreeIter       *model_row,
+	       gpointer           data)
+{
+	AddressbookDialog *dialog = data;
 
-#if 0
-	AddressbookSource *source;
-	AddressbookSourceDialog *sdialog;
-
-	source = gtk_clist_get_row_data (GTK_CLIST (dialog->clistSources), dialog->source_row);
-
-	sdialog = addressbook_config_source_with_gui (dialog->gui, source, dialog->page);
-	if (sdialog->id == 0) {
-		/* Ok was clicked */
-		source = addressbook_source_copy(sdialog->source);
-
-		gtk_clist_set_text (GTK_CLIST (dialog->clistSources), dialog->source_row, 0, source->name);
-		gtk_clist_set_text (GTK_CLIST (dialog->clistSources), dialog->source_row, 1, source->host);
-		gtk_clist_set_row_data (GTK_CLIST (dialog->clistSources), dialog->source_row, source);
-
-		evolution_config_control_changed (dialog->config_control);
-
-		update_sensitivity (dialog);
-	}
-#endif
+	gtk_list_store_remove (GTK_LIST_STORE (dialog->sourcesModel),
+			       model_row);
 }
 
 static void
 delete_source_clicked (GtkWidget *widget, AddressbookDialog *dialog)
 {
-	int i;
-	ESelectionModel *selection_model;
-	int row_count;
-	
-	selection_model = e_table_get_selection_model (e_table_scrolled_get_table (E_TABLE_SCROLLED(dialog->sourcesTable)));
-	row_count = e_selection_model_row_count (selection_model);
-
-	for (i = 0; i < row_count; i ++) {
-		if (e_selection_model_is_row_selected (selection_model, i)) {
-			AddressbookSource *source = e_table_memory_get_data (E_TABLE_MEMORY(dialog->sourcesModel), i);
-			e_table_memory_store_remove (E_TABLE_MEMORY_STORE (dialog->sourcesModel), i);
-			addressbook_source_free (source);
-
-			break; /* single select so we're done now */
-		}
-	}
+	gtk_tree_selection_selected_foreach (dialog->sourcesSelection,
+					     delete_server,
+					     dialog);
 
 	evolution_config_control_changed (dialog->config_control);
 }
@@ -1520,36 +1515,49 @@ ldap_config_control_apply_callback (EvolutionConfigControl *config_control,
 				    void *data)
 {
 	AddressbookDialog *dialog;
-	int i;
-	int count;
+	GtkTreeIter iter;
 
 	dialog = (AddressbookDialog *) data;
 
 	addressbook_storage_clear_sources();
 
-	count = e_table_model_row_count (E_TABLE_MODEL (dialog->sourcesModel));
+	if (! gtk_tree_model_get_iter_first (dialog->sourcesModel,
+					     &iter))
+		return;
 
-	for (i = 0; i < count; i ++) {
-		AddressbookSource *source = e_table_memory_get_data (E_TABLE_MEMORY (dialog->sourcesModel), i);
+	do {
+		AddressbookSource *source;
+
+		gtk_tree_model_get (dialog->sourcesModel,
+				    &iter,
+				    2, &source,
+				    -1);
+
 		addressbook_storage_add_source (addressbook_source_copy (source));
-	}
+	} while (gtk_tree_model_iter_next (dialog->sourcesModel, &iter));
 
 	addressbook_storage_write_sources();
 }
 
 static void
-sources_selection_changed (ESelectionModel *esm, AddressbookDialog *dialog)
+sources_selection_changed (GtkTreeSelection *selection, AddressbookDialog *dialog)
 {
-	gboolean sensitive = e_selection_model_selected_count (esm) == 1;
+	gboolean sensitive;
+	GtkTreeIter iter;
+
+	sensitive = gtk_tree_selection_get_selected (selection, NULL, &iter);
 
 	gtk_widget_set_sensitive (dialog->editSource, sensitive);
 	gtk_widget_set_sensitive (dialog->deleteSource, sensitive);
 }
 
 static void
-sources_table_double_click (ETable *et, int row, int col, GdkEvent *event, AddressbookDialog *dialog)
+sources_table_row_activated (GtkTreeView *tree_view, GtkTreePath *path,
+			     GtkTreeViewColumn *column, AddressbookDialog *dialog)
 {
-	addressbook_edit_server_dialog (dialog, row);
+	GtkTreeIter iter;
+	gtk_tree_model_get_iter (dialog->sourcesModel, &iter, path);
+	addressbook_edit_server_dialog (dialog->sourcesModel, NULL, &iter, dialog);
 }
 
 
@@ -1558,20 +1566,22 @@ ldap_dialog_new (GNOME_Evolution_Shell shell)
 {
 	AddressbookDialog *dialog;
 	GList *l;
-	ESelectionModel *esm;
 	ETable *et;
+	GtkWidget *scrolled;
 
 	dialog = g_new0 (AddressbookDialog, 1);
 
 	dialog->gui = glade_xml_new (EVOLUTION_GLADEDIR "/" GLADE_FILE_NAME, NULL, NULL);
 	dialog->shell = shell;
 
-	dialog->sourcesTable = glade_xml_get_widget (dialog->gui, "sourcesTable");
-	et = e_table_scrolled_get_table (E_TABLE_SCROLLED(dialog->sourcesTable));
-	g_signal_connect (et, "double_click",
-			  G_CALLBACK (sources_table_double_click), dialog);
+	scrolled = glade_xml_get_widget (dialog->gui, "sourcesTable");
+	dialog->sourcesTable = g_object_get_data (G_OBJECT (scrolled), "table");
+	dialog->sourcesModel = g_object_get_data (G_OBJECT (scrolled), "model");
+	dialog->sourcesSelection = g_object_get_data (G_OBJECT (scrolled), "selection");
+
+	g_signal_connect (dialog->sourcesTable, "row_activated",
+			  G_CALLBACK (sources_table_row_activated), dialog);
 	
-	dialog->sourcesModel = g_object_get_data (G_OBJECT (dialog->sourcesTable), "model");
 	
 	dialog->addSource = glade_xml_get_widget (dialog->gui, "addSource");
 	g_signal_connect (dialog->addSource, "clicked",
@@ -1591,18 +1601,23 @@ ldap_dialog_new (GNOME_Evolution_Shell shell)
 	l = addressbook_storage_get_sources ();
 	for (; l != NULL; l = l->next) {
 		AddressbookSource *source;
+		GtkTreeIter iter;
 
 		source = addressbook_source_copy ((AddressbookSource*)l->data);
 
-		e_table_memory_store_insert (E_TABLE_MEMORY_STORE (dialog->sourcesModel),
-					     -1, source, source->name, source->host);
+		gtk_list_store_append (GTK_LIST_STORE (dialog->sourcesModel), &iter);
+
+		gtk_list_store_set (GTK_LIST_STORE (dialog->sourcesModel), &iter,
+				    0, source->name,
+				    1, source->host,
+				    2, source,
+				    -1);
 	}
 
-	esm = e_table_get_selection_model (et);
-	g_signal_connect (esm, "selection_changed",
+	g_signal_connect (dialog->sourcesSelection, "changed",
 			  G_CALLBACK (sources_selection_changed), dialog);
 
-	sources_selection_changed (esm, dialog);
+	sources_selection_changed (dialog->sourcesSelection, dialog);
 
 	dialog->page = glade_xml_get_widget (dialog->gui, "addressbook-sources");
 
@@ -1611,28 +1626,42 @@ ldap_dialog_new (GNOME_Evolution_Shell shell)
 	return dialog;
 }
 
-static ETableMemoryStoreColumnInfo sources_table_columns[] = {
-	E_TABLE_MEMORY_STORE_STRING,
-	E_TABLE_MEMORY_STORE_STRING,
-	E_TABLE_MEMORY_STORE_TERMINATOR
-};
-
 GtkWidget*
 addressbook_dialog_create_sources_table (char *name, char *string1, char *string2, int num1, int num2)
 {
-	GtkWidget *table;
-	ETableModel *model;
+	GtkWidget *table, *scrolled;
+	GtkTreeSelection *selection;
+	GtkCellRenderer *renderer;
+	GtkListStore *model;
+	char *titles[2];
 
-	model = e_table_memory_store_new (sources_table_columns);
+	scrolled = gtk_scrolled_window_new (NULL, NULL);
+	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scrolled),
+					GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
 
-	table = e_table_scrolled_new_from_spec_file (model,
-						     NULL,
-						     EVOLUTION_ETSPECDIR "/addressbook-config.etspec",
-						     NULL);
+	model = gtk_list_store_new (3, G_TYPE_STRING, G_TYPE_STRING, G_TYPE_POINTER);
+	table = gtk_tree_view_new_with_model ((GtkTreeModel *) model);
 
-	g_object_set_data (G_OBJECT (table), "model", model);
+	renderer = gtk_cell_renderer_text_new ();
+	gtk_tree_view_insert_column_with_attributes ((GtkTreeView *) table, -1, _("Account Name"),
+						     renderer, "text", 0, NULL);
+	gtk_tree_view_insert_column_with_attributes ((GtkTreeView *) table, -1, _("Server Name"),
+						     renderer, "text", 1, NULL);
 
-	return table;
+	selection = gtk_tree_view_get_selection ((GtkTreeView *) table);
+	gtk_tree_selection_set_mode (selection, GTK_SELECTION_SINGLE);
+	gtk_tree_view_set_headers_visible ((GtkTreeView *) table, TRUE);
+
+	gtk_container_add (GTK_CONTAINER (scrolled), table);
+	
+	g_object_set_data (G_OBJECT (scrolled), "model", model);
+	g_object_set_data (G_OBJECT (scrolled), "selection", selection);
+	g_object_set_data (G_OBJECT (scrolled), "table", table);
+
+	gtk_widget_show (scrolled);
+	gtk_widget_show (table);
+
+	return scrolled;
 }
 #endif /* HAVE_LDAP */
 
@@ -1683,7 +1712,7 @@ addressbook_config_control_new (void)
 	if (! shell)
 		return NULL;
 
-	return BONOBO_OBJECT (ldap_config_control_new (shell));
+	return ldap_config_control_new (shell);
 }
 
 void

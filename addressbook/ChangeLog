@@ -1,5 +1,15 @@
 2003-01-09  Chris Toshok  <toshok@ximian.com>
 
+	* gui/component/Makefile.am: addressbook-config.etspec is gone.
+
+	* gui/component/addressbook-config.c: make the sources table be a
+	gtktreeview instead of an etable.
+
+	* gui/component/ldap-config.glade: remove all references to
+	gnome-hint.png
+
+2003-01-09  Chris Toshok  <toshok@ximian.com>
+
 	* gui/widgets/gal-view-minicard.c (column_width_changed): fix
 	parameter types here (this signal isn't generated from an ETable.)
 

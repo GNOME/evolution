@@ -100,14 +100,10 @@ glade_DATA = ldap-config.glade
 
 iconsdir = $(datadir)/evolution/images
 
-etspecdir = $(datadir)/evolution/etspec
-etspec_DATA = addressbook-config.etspec
-
 EXTRA_DIST = 				\
 	$(glade_DATA)			\
 	$(server_DATA)			\
-	$(server_in_files)		\
-	$(etspec_DATA)
+	$(server_in_files)
 
 if ENABLE_PURIFY
 PLINK = $(LIBTOOL) --mode=link $(PURIFY) $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(LDFLAGS) -o $@
