@@ -27,6 +27,11 @@
 #include "wordindex.h"
 
 struct ibex {
+	struct ibex *next;	/* for list of open ibex's */
+	struct ibex *prev;
+
+	int usecount;
+
 	char *name;
 	int flags;
 	int mode;
@@ -40,6 +45,8 @@ struct ibex {
 #endif
 	
 };
+
+#define IBEX_OPEN_THRESHOLD (5)
 
 #ifdef ENABLE_THREADS
 /*#define IBEX_LOCK(ib) (printf(__FILE__ "%d: %s: locking ibex\n", __LINE__, __FUNCTION__), g_mutex_lock(ib->lock))

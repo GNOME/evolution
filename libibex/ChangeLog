@@ -1,3 +1,18 @@
+2001-08-15  Not Zed  <NotZed@Ximian.com>
+
+	* ibex_block.c (ibex_use): New function to limit use of fd's.
+	Mark an ibex file in use, re-open if necessary, and close off
+	another (lru) if necessary.
+	(ibex_unuse): Mark an ibex as not in use.
+	(ibex_open): Delay opening of the actual block file till later,
+	and add the ibex to a global list.
+	(ibex_save): Use/unuse around operations.
+	(close_backend): Zero out blocks when closed.
+	(ibex_close): Remove the ibex from the global list before closing
+	it down.
+	(ibex_index_buffer, ibex_find, ibex_unindex, ibex_find_name):
+	Use/unuse around ops.
+
 2001-08-10  Not Zed  <NotZed@Ximian.com>
 
 	* wordindexmem.c (sync_cache_entry): NOOP if writing to a failed

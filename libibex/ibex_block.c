@@ -10,8 +10,89 @@
 #include "ibex_internal.h"
 
 #define d(x)
+#define o(x) x
 
 static void ibex_reset(ibex *ib);
+static int close_backend(ibex *ib);
+
+static struct _list ibex_list = { (struct _listnode *)&ibex_list.tail, 0, (struct _listnode *)&ibex_list.head };
+
+#ifdef ENABLE_THREADS
+#include <pthread.h>
+static pthread_mutex_t ibex_list_lock = PTHREAD_MUTEX_INITIALIZER;
+int ibex_opened;		/* count of actually opened ibexe's */
+#define IBEX_LIST_LOCK(ib) (pthread_mutex_lock(&ibex_list_lock))
+#define IBEX_LIST_UNLOCK(ib) (pthread_mutex_unlock(&ibex_list_lock))
+#else
+#define IBEX_LIST_LOCK(ib) 
+#define IBEX_LIST_UNLOCK(ib) 
+#endif
+
+/* check we are open properly */
+
+/* TODO: return errors? */
+static void ibex_use(ibex *ib)
+{
+	ibex *wb;
+
+	/* always lock list then ibex */
+	IBEX_LIST_LOCK(ib);
+	IBEX_LOCK(ib);
+
+	if (ib->blocks == NULL) {
+		o(printf("Delayed opening ibex '%s', total = %d\n", ib->name, ibex_opened+1));
+
+		ib->blocks = ibex_block_cache_open(ib->name, ib->flags, ib->mode);
+		if (ib->blocks) {
+			/* FIXME: the blockcache or the wordindex needs to manage the other one */
+			ib->words = ib->blocks->words;		
+		} else {
+			ib->words = NULL;
+			g_warning("ibex_use:open(): Error occured?: %s\n", strerror(errno));
+		}
+		if (ib->blocks != NULL)
+			ibex_opened++;
+	}
+
+	ib->usecount++;
+
+	/* this makes an 'lru' cache of used files */
+	ibex_list_remove((struct _listnode *)ib);
+	ibex_list_addtail(&ibex_list, (struct _listnode *)ib);
+
+	IBEX_UNLOCK(ib);
+
+	/* check for other ibex's we can close now to not over-use fd's.
+	   we can't do this first for locking issues */
+	if (ibex_opened > IBEX_OPEN_THRESHOLD) {
+		wb = (ibex *)ibex_list.head;
+		while (wb->next) {
+			wb = wb->next;
+			IBEX_LOCK(wb);
+			if (wb->usecount == 0 && wb->blocks != NULL) {
+				o(printf("Forcing close of obex '%s', total = %d\n", wb->name, ibex_opened-1));
+				close_backend(wb);
+				IBEX_UNLOCK(wb);
+				/* optimise the next scan? */
+				/*ibex_list_remove((struct _listnode *)wb);
+				  ibex_list_addtail(&ibex_list, (struct _listnode *)wb);*/
+				ibex_opened--;
+				break;
+			}
+			IBEX_UNLOCK(wb);
+		}
+	}
+
+	IBEX_LIST_UNLOCK(ib);
+}
+
+static void ibex_unuse(ibex *ib)
+{
+	IBEX_LOCK(ib);
+	ib->usecount--;
+	IBEX_UNLOCK(ib);
+}
+
 
 static signed char utf8_trans[] = {
 	'A', 'A', 'A', 'A', 'A', 'A', -1, 'C', 'E', 'E', 'E', 'E', 'I', 'I',
@@ -193,6 +274,7 @@ done:
 	g_free(word);
 	word = NULL;
 
+	ibex_use(ib);
 	IBEX_LOCK(ib);
 
 	if (ibex_block_cache_setjmp(ib->blocks) != 0) {
@@ -212,6 +294,7 @@ done:
 	}
 
 	IBEX_UNLOCK(ib);
+	ibex_unuse(ib);
 
 error:
 	for (i=0;i<wordlist->len;i++)
@@ -223,37 +306,63 @@ error:
 }
 
 
+/**
+ * ibex_open:
+ * @file: 
+ * @flags: 
+ * @mode: 
+ * 
+ * Open a new ibex file.  file, flags, and mode as for open(2)
+ * 
+ * Return value: A new ibex, or NULL on failure.
+ **/
 ibex *ibex_open (char *file, int flags, int mode)
 {
 	ibex *ib;
 
 	ib = g_malloc0(sizeof(*ib));
+	ib->blocks = NULL;
+	ib->usecount = 0;
+#if 0
 	ib->blocks = ibex_block_cache_open(file, flags, mode);
 	if (ib->blocks == 0) {
 		g_warning("create: Error occured?: %s\n", strerror(errno));
 		g_free(ib);
 		return NULL;
 	}
-
+	/* FIXME: the blockcache or the wordindex needs to manage the other one */
+	ib->words = ib->blocks->words;
+#endif
 	ib->name = g_strdup(file);
 	ib->flags = flags;
 	ib->mode = mode;
 
-	/* FIXME: the blockcache or the wordindex needs to manage the other one */
-	ib->words = ib->blocks->words;
-
 #ifdef ENABLE_THREADS
 	ib->lock = g_mutex_new();
 #endif
+
+	IBEX_LIST_LOCK(ib);
+	ibex_list_addtail(&ibex_list, (struct _listnode *)ib);
+	IBEX_LIST_UNLOCK(ib);
+
 	return ib;
 }
 
+/**
+ * ibex_save:
+ * @ib: 
+ * 
+ * Save (sync) an ibex file to disk.
+ * 
+ * Return value: -1 on failure.
+ **/
 int ibex_save (ibex *ib)
 {
 	int ret;
 
 	d(printf("syncing database\n"));
 
+	ibex_use(ib);
 	IBEX_LOCK(ib);
 
 	if (ibex_block_cache_setjmp(ib->blocks) != 0) {
@@ -272,6 +381,7 @@ int ibex_save (ibex *ib)
 	}
 
 	IBEX_UNLOCK(ib);
+	ibex_unuse(ib);
 
 	return ret;
 }
@@ -280,6 +390,9 @@ static int
 close_backend(ibex *ib)
 {
 	int ret;
+
+	if (ib->blocks == 0)
+		return 0;
 
 	if (ibex_block_cache_setjmp(ib->blocks) != 0) {
 		printf("Error closing!\n");
@@ -293,6 +406,7 @@ close_backend(ibex *ib)
 		ib->words->klass->close(ib->words);
 		/* FIXME: return */
 		ibex_block_cache_close(ib->blocks);
+		ib->blocks = NULL;
 		ret = 0;
 	}
 
@@ -315,13 +429,31 @@ ibex_reset(ibex *ib)
 	ib->words = ib->blocks->words;
 }
 
+/**
+ * ibex_close:
+ * @ib: 
+ * 
+ * Close (and save) an ibex file, restoring all resources used.
+ * 
+ * Return value: -1 on error.  In either case, ibex is no longer
+ * defined afterwards.
+ **/
 int ibex_close (ibex *ib)
 {
 	int ret;
 
 	d(printf("closing database\n"));
 
-	ret = close_backend(ib);
+	g_assert(ib->usecount == 0);
+
+	IBEX_LIST_LOCK(ib);
+	ibex_list_remove((struct _listnode *)ib);
+	IBEX_LIST_UNLOCK(ib);
+
+	if (ib->blocks != NULL)
+		ret = close_backend(ib);
+	else
+		ret = 0;
 
 	g_free(ib->name);
 
@@ -333,20 +465,40 @@ int ibex_close (ibex *ib)
 	return ret;
 }
 
+/**
+ * ibex_unindex:
+ * @ib: 
+ * @name: 
+ * 
+ * Remove a name from the index.
+ **/
 void ibex_unindex (ibex *ib, char *name)
 {
 	d(printf("trying to unindex '%s'\n", name));
 
+	ibex_use(ib);
 	IBEX_LOCK(ib);
+
 	if (ibex_block_cache_setjmp(ib->blocks) != 0) {
 		printf("Error unindexing!\n");
 		ibex_reset(ib);
 	} else {
 		ib->words->klass->unindex_name(ib->words, name);
 	}
+
 	IBEX_UNLOCK(ib);
+	ibex_unuse(ib);
 }
 
+/**
+ * ibex_find:
+ * @ib: 
+ * @word: 
+ * 
+ * Find all names containing @word.
+ * 
+ * Return value: 
+ **/
 GPtrArray *ibex_find (ibex *ib, char *word)
 {
 	char *normal;
@@ -356,17 +508,33 @@ GPtrArray *ibex_find (ibex *ib, char *word)
 	len = strlen(word);
 	normal = alloca(len+1);
 	ibex_normalise_word(word, word+len, normal);
+
+	ibex_use(ib);
 	IBEX_LOCK(ib);
+
 	if (ibex_block_cache_setjmp(ib->blocks) != 0) {
 		ibex_reset(ib);
 		ret = NULL;
 	} else {
 		ret = ib->words->klass->find(ib->words, normal);
 	}
+
 	IBEX_UNLOCK(ib);
+	ibex_unuse(ib);
+
 	return ret;
 }
 
+/**
+ * ibex_find_name:
+ * @ib: 
+ * @name: 
+ * @word: 
+ * 
+ * Return #TRUE if the specific @word is contained in @name.
+ * 
+ * Return value: 
+ **/
 gboolean ibex_find_name (ibex *ib, char *name, char *word)
 {
 	char *normal;
@@ -376,28 +544,49 @@ gboolean ibex_find_name (ibex *ib, char *name, char *word)
 	len = strlen(word);
 	normal = alloca(len+1);
 	ibex_normalise_word(word, word+len, normal);
+
+	ibex_use(ib);
 	IBEX_LOCK(ib);
+
 	if (ibex_block_cache_setjmp(ib->blocks) != 0) {
 		ibex_reset(ib);
 		ret = FALSE;
 	} else {
 		ret = ib->words->klass->find_name(ib->words, name, normal);
 	}
+
 	IBEX_UNLOCK(ib);
+	ibex_unuse(ib);
+
 	return ret;
 }
 
+/**
+ * ibex_contains_name:
+ * @ib: 
+ * @name: 
+ * 
+ * Returns true if the name @name is somewhere in the database.
+ * 
+ * Return value: 
+ **/
 gboolean ibex_contains_name(ibex *ib, char *name)
 {
 	gboolean ret;
 
+	ibex_use(ib);
 	IBEX_LOCK(ib);
+
 	if (ibex_block_cache_setjmp(ib->blocks) != 0) {
 		ibex_reset(ib);
 		ret = FALSE;
 	} else {
 		ret = ib->words->klass->contains_name(ib->words, name);
 	}
+
 	IBEX_UNLOCK(ib);
+	ibex_unuse(ib);
+
 	return ret;
 }
+
