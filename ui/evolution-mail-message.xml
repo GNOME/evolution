@@ -167,31 +167,6 @@
     <cmd name="ToolsVFolderSubject"
      _tip="Create a virtual folder for this subject"/>
 
-    <cmd name="SearchVFolderSearch"
-     _tip="Create a virtual folder based on this search"/>
-
-    <cmd name="SearchSaveSearch"
-     _tip="Save this search"/>
-
-    <cmd name="SearchClearSearch"
-     _tip="Erase the current search"
-      accel="*Control**Shift*B"/>
-
-    <cmd name="SearchSearch"
-     _tip="Search through the messages in this folder"
-      accel="*Control*B"/>
-
-    <cmd name="SearchAdvancedSearch"
-     _tip="Design an advanced search to run on the messages in this folder"/>
-
-    <cmd name="SearchSavedSearches"
-     _tip="Saved Searches"/>
-
-     <cmd name="SearchEditSavedSearches"
-     _tip="Edit Saved Searches"/> 
-    
-
-
     <cmd name="ViewFullHeaders"
      _tip="Show message with all email headers"
      type="radio" group="message_display"/>
@@ -351,35 +326,6 @@
         </placeholder>
       </placeholder>
     </submenu>
-
-   <placeholder name="ComponentSearchPlaceholder"> 
-    <submenu name="Search" _label="_Search">
-      <placeholder name="ComponentPlaceholder">
-       
-            <menuitem name="SearchSearch" verb="" _label="_Find Now"/>
-            <menuitem name="SearchClearSearch" verb="" _label="_Clear Search"/>
-            <menuitem name="SearchAdvancedSearch" verb="" _label="_Advanced Search..."/>
-           
-
-             <separator f="" name="storesearch"/> 
-            
-            <menuitem name="SeachSaveSearch" verb="" _label="_Save Search..."/> 
-            <menuitem name="SeachEditSavedSearches" verb="" _label="_Edit Saved Searches..."/> 
-
-            <separator f="" name="vfoldersearch"/> 
-               
-            <menuitem name="SearchVFolderSearch" _label="Create _Virtual Folder From Search..."/>
-            
-            <separator f="" name="savedsearches"/>
-
-            <menuitem name="SeachEditSavedSearches" verb="" _label="Family Mail"/>
-            <menuitem name="SeachEditSavedSearches" verb="" _label="Sue's Phone"/>
-       
-
-      </placeholder>
-    </submenu>
-   </placeholder>
-
   </menu>
 
   <dockitem name="Toolbar">
@@ -430,9 +376,3 @@
   </dockitem>
 
 </Root>
-
-
-
-
-
-

@@ -1,3 +1,11 @@
+2002-03-11  Anna Marie Dirks  <anna@ximian.com>
+
+	* evolution-mail-message.xml: doh. In my previous commit, a whole bunch
+	of changes that were supposed to be kept in my personal evo were added 
+	to HEAD. (Mainly, this was the addition of a "Search" menu.) I am 
+	reverting the wrong parts of that patch, and am committing only the
+	accelerators which that patch was supposed to add. Sorry. 
+
 2002-03-08  Radek Doulik  <rodo@ximian.com>
 
 	* evolution-signature-editor.xml: added FormatHTML
