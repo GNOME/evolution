@@ -1,3 +1,10 @@
+2004-01-22  Chris Toshok  <toshok@ximian.com>
+
+	[ fixes bug #52944 ]
+	* gui/component/addressbook-migrate.c (migrate_contacts): do some
+	massaging of contacts as we import them, to fix up the differences
+	between 1.4 and 1.5 vcards.
+
 2004-01-21  Nat Friedman <nat@novell.com>
 
 	* gui/contact-editor/contact-editor.glade: Added missing

@@ -232,6 +232,62 @@ migrate_contacts (EBook *old_book, EBook *new_book)
 	for (l = contacts; l; l = l->next) {
 		EContact *contact = l->data;
 		GError *e = NULL;
+		GList *attrs, *attr;
+
+		/* do some last minute massaging of the contact's attributes */
+
+		attrs = e_vcard_get_attributes (E_VCARD (contact));
+		for (attr = attrs; attr;) {
+			EVCardAttribute *a = attr->data;
+
+			/* evo 1.4 used the non-standard X-EVOLUTION-OFFICE attribute,
+			   evo 1.5 uses the third element in the ORG list attribute. */
+			if (!strcmp ("X-EVOLUTION-OFFICE", e_vcard_attribute_get_name (a))) {
+				GList *v = e_vcard_attribute_get_values (a);
+				GList *next_attr;
+
+				if (v && v->data)
+					e_contact_set (contact, E_CONTACT_OFFICE, v->data);
+
+				next_attr = attr->next;
+				e_vcard_remove_attribute (E_VCARD (contact), a);
+				attr = next_attr;
+			}
+			/* evo 1.4 didn't put TYPE=VOICE in for phone numbers.
+			   evo 1.5 does.
+
+			   so we search through the attribute params for
+			   either TYPE=VOICE or TYPE=FAX.  If we find
+			   either we do nothing.  If we find neither, we
+			   add TYPE=VOICE.
+			*/
+			else if (!strcmp ("TEL", e_vcard_attribute_get_name (a))) {
+				GList *params, *param;
+				gboolean found = FALSE;
+
+				params = e_vcard_attribute_get_params (a);
+				for (param = params; param; param = param->next) {
+					EVCardAttributeParam *p = param->data;
+					if (!strcmp (EVC_TYPE, e_vcard_attribute_param_get_name (p))) {
+						GList *v = e_vcard_attribute_param_get_values (p);
+						if (v && v->data)
+							if (!strcmp ("VOICE", v->data)
+							    || !strcmp ("FAX", v->data))
+								found = TRUE;
+					}
+				}
+
+				if (!found)
+					e_vcard_attribute_add_param_with_value (a,
+										e_vcard_attribute_param_new (EVC_TYPE),
+										"VOICE");
+				attr = attr->next;
+			}
+			else {
+				attr = attr->next;
+			}
+		}
+
 		if (!e_book_add_contact (new_book,
 					 contact,
 					 &e))
