@@ -250,9 +250,9 @@ evolution_db_version_minor=1
 evolution_db_version_patch=17
 
 evolution_db_version=${evolution_db_version_major}.${evolution_db_version_minor}.${evolution_db_version_patch}
-AC_DEFINE(EVOLUTION_DB_VERSION_MAJOR,$evolution_db_version_major)
-AC_DEFINE(EVOLUTION_DB_VERSION_MINOR,$evolution_db_version_minor)
-AC_DEFINE(EVOLUTION_DB_VERSION_PATCH,$evolution_db_version_patch)
+AC_DEFINE_UNQUOTED(EVOLUTION_DB_VERSION_MAJOR,$evolution_db_version_major)
+AC_DEFINE_UNQUOTED(EVOLUTION_DB_VERSION_MINOR,$evolution_db_version_minor)
+AC_DEFINE_UNQUOTED(EVOLUTION_DB_VERSION_PATCH,$evolution_db_version_patch)
 
 
 AC_ARG_WITH(db3,          [  --with-db3=PREFIX              Location of db3],

@@ -1,3 +1,8 @@
+2001-07-02  Peter Williams  <peterw@ximian.com>
+
+	* configure.in (evolution_db_version): s,AC_DEFINE,AC_DEFINE_UNQUOTED
+	to make these not totally useless.
+
 2001-07-01  Ettore Perazzoli  <ettore@ximian.com>
 
 	* Makefile.am (SUBDIRS): Build the composer after the addressbook,
