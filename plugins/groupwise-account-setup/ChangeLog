@@ -1,3 +1,9 @@
+2005-02-16  Not Zed  <NotZed@Ximian.com>
+
+	* groupwise-account-setup.c (org_gnome_gw_account_setup): return
+	NULL, not an invisible, so it doesn't interfere with account
+	editor.
+
 2005-02-23  JP Rosevear  <jpr@novell.com>
 
 	* org-gnome-gw-account-setup.eplug.in: add account wizard item
