@@ -226,14 +226,92 @@ add_popup_menu_item (GtkMenu *menu, const char *label, const char *pixmap,
 }
 
 static void
+delete_task_list_cb (GtkWidget *widget, TasksComponent *comp)
+{
+	GSList *selection, *l;
+	TasksComponentPrivate *priv;
+
+	priv = comp->priv;
+	
+	selection = e_source_selector_get_selection (E_SOURCE_SELECTOR (priv->source_selector));
+	if (!selection)
+		return;
+
+	for (l = selection; l; l = l->next) {
+		GtkWidget *dialog;
+		ESource *selected_source = l->data;
+
+		/* create the confirmation dialog */
+		dialog = gtk_message_dialog_new (
+			GTK_WINDOW (gtk_widget_get_toplevel (widget)),
+			GTK_DIALOG_MODAL,
+			GTK_MESSAGE_QUESTION,
+			GTK_BUTTONS_YES_NO,
+			_("Task List '%s' will be removed. Are you sure you want to continue?"),
+			e_source_peek_name (selected_source));
+		if (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_YES) {
+			if (e_source_selector_source_is_selected (E_SOURCE_SELECTOR (priv->source_selector),
+								  selected_source))
+				e_source_selector_unselect_source (E_SOURCE_SELECTOR (priv->source_selector),
+								   selected_source);
+
+			e_source_group_remove_source (e_source_peek_group (selected_source), selected_source);
+
+			/* FIXME: remove the tasks.ics file and the directory */
+		}
+
+		gtk_widget_destroy (dialog);
+	}
+
+	e_source_selector_free_selection (selection);
+}
+
+static void
 new_task_list_cb (GtkWidget *widget, TasksComponent *component)
 {
 }
 
 static void
+rename_task_list_cb (GtkWidget *widget, TasksComponent *comp)
+{
+	GSList *selection;
+	TasksComponentPrivate *priv;
+	ESource *selected_source;
+	GtkWidget *dialog, *entry;
+
+	priv = comp->priv;
+	
+	selection = e_source_selector_get_selection (E_SOURCE_SELECTOR (priv->source_selector));
+	if (!selection)
+		return;
+
+	selected_source = selection->data;
+
+	/* create the dialog to prompt the user for the new name */
+	dialog = gtk_message_dialog_new (gtk_widget_get_toplevel (widget),
+					 GTK_DIALOG_MODAL,
+					 GTK_MESSAGE_QUESTION,
+					 GTK_BUTTONS_OK_CANCEL,
+					 _("Rename this task list to"));
+	entry = gtk_entry_new ();
+	gtk_entry_set_text (GTK_ENTRY (entry), e_source_peek_name (selected_source));
+	gtk_widget_show (entry);
+	gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->vbox), entry, TRUE, FALSE, 6);
+
+	if (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_OK)
+		e_source_set_name (selected_source, gtk_entry_get_text (GTK_ENTRY (entry)));
+
+	gtk_widget_destroy (dialog);
+
+	e_source_selector_free_selection (selection);
+}
+
+static void
 fill_popup_menu_cb (ESourceSelector *selector, GtkMenu *menu, TasksComponent *component)
 {
-	add_popup_menu (menu, _("New Task List"), GTK_STOCK_NEW, G_CALLBACK (new_task_list_cb), component);
+	add_popup_menu_item (menu, _("New Task List"), GTK_STOCK_NEW, G_CALLBACK (new_task_list_cb), component);
+	add_popup_menu_item (menu, _("Delete"), GTK_STOCK_DELETE, G_CALLBACK (delete_task_list_cb), component);
+	add_popup_menu_item (menu, _("Rename"), NULL, G_CALLBACK (rename_task_list_cb), component);
 }
 
 static void

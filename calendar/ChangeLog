@@ -1,5 +1,12 @@
 2003-11-17  Rodrigo Moya <rodrigo@ximian.com>
 
+	* gui/tasks-component.c (fill_popup_menu_cb): added 'Delete' and
+	'Rename' menu items.
+	(delete_task_list_cb, rename_task_list_cb): callbacks for new
+	menu items.
+
+2003-11-17  Rodrigo Moya <rodrigo@ximian.com>
+
 	* gui/calendar-component.c (add_popup_menu_item): try first to
 	create the icon from the stock, and then from a file.
 	(fill_popup_menu_cb): set callback for 'Rename' menu item.
