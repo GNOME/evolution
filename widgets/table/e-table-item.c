@@ -2656,7 +2656,7 @@ eti_event (GnomeCanvasItem *item, GdkEvent *e)
 			if ((e->key.state & GDK_MOD1_MASK)
 			    && ((e->key.keyval == GDK_Down ) || (e->key.keyval == GDK_KP_Down))) {
 				gint view_col = model_to_view_col(eti, cursor_col);
-				if (eti_e_cell_event (eti, eti->cell_views [view_col], e, ((GdkEventKey *)e)->time, cursor_col, view_col, cursor_row,  E_CELL_CURSOR))
+				if (eti_e_cell_event (eti, eti->cell_views [view_col], e, ((GdkEventKey *)e)->time, cursor_col, view_col, model_to_view_row(eti, cursor_row),  E_CELL_CURSOR))
 					return TRUE;
 			} else
 			return_val = e_selection_model_key_press(E_SELECTION_MODEL (eti->selection), (GdkEventKey *) e);

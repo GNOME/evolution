@@ -33,7 +33,7 @@
 #include "gal/util/e-util.h"
 #include "e-table-item.h"
 #include "e-cell-popup.h"
-
+#include "gal/a11y/e-table/gal-a11y-e-cell-popup.h"
 
 #define E_CELL_POPUP_ARROW_WIDTH	16
 #define E_CELL_POPUP_ARROW_XPAD		3
@@ -140,6 +140,9 @@ e_cell_popup_class_init		(GtkObjectClass	*object_class)
 	ecc->get_bg_color = ecp_get_bg_color;
 
 	parent_class = g_type_class_ref (E_CELL_TYPE);
+	gal_a11y_e_cell_registry_add_cell_type (NULL,
+                                                E_CELL_POPUP_TYPE,
+                                                gal_a11y_e_cell_popup_new);
 }
 
 
