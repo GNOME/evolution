@@ -1,3 +1,8 @@
+2001-10-18  Ettore Perazzoli  <ettore@ximian.com>
+
+	* Makefile.am (evolution_SOURCES): Ooops.  Remove stale files
+	`e-shell-about-box.[ch]'.
+
 2001-10-17  Ettore Perazzoli  <ettore@ximian.com>
 
 	* e-shell.c (impl_Shell_selectUserFolder): Set the parent
