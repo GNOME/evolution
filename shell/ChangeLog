@@ -1,3 +1,9 @@
+2001-05-11  Dan Winship  <danw@ximian.com>
+
+	* e-local-storage.c (load_folder): Lots of people seem to have
+	"broken" local storage hierarchies. So ignore errors (like the old
+	code did) and just print a warning.
+
 2001-05-11  Chris Toshok  <toshok@ximian.com>
 
 	* evolution-storage-set-view-factory.c

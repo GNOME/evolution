@@ -155,8 +155,10 @@ load_folder (const char *physical_path, const char *path, gpointer data)
 	EFolder *folder;
 
 	folder = e_local_folder_new_from_path (physical_path);
-	if (folder == NULL)
-		return FALSE;
+	if (folder == NULL) {
+		g_warning ("No folder metadata in %s... ignoring", physical_path);
+		return TRUE;
+	}
 
 	new_folder (local_storage, path, folder);
 	return TRUE;
