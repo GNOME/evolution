@@ -1,3 +1,10 @@
+2003-07-11  Federico Mena Quintero  <federico@ximian.com>
+
+	* e-dateedit.c (e_date_edit_mnemonic_activate): Added a handler
+	for GtkWidget::mnemonic_activate().
+
+	* e-url-entry.c (mnemonic_activate): Likewise.
+
 2003-07-09  Federico Mena Quintero  <federico@ximian.com>
 
 	* e-url-entry.c (destroy): Chain to the parent handler.  Fixes #45236.
