@@ -250,7 +250,7 @@ name_style_query (ESelectNamesCompletion *comp, const gchar *field)
 			++count;
 			g_strstrip (strv[i]);
 			old = strv[i];
-			strv[i] = g_strdup_printf ("(contains \"%s\" \"%s\")", field, old);
+			strv[i] = g_strdup_printf ("(beginswith \"%s\" \"%s\")", field, old);
 			g_free (old);
 		}
 

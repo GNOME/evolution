@@ -1,3 +1,9 @@
+2002-09-20  Chris Toshok  <toshok@ximian.com>
+
+	[ Fixes #30483 ]
+	* gui/component/select-names/e-select-names-completion.c
+	(name_style_query): argh, contains => beginswith.
+
 2002-09-17  Chris Toshok  <toshok@ximian.com>
 
 	* gui/component/addressbook-component.c (add_creatable_item):
