@@ -1,3 +1,9 @@
+2001-04-20  Kjartan Maraas  <kmaraas@gnome.org>
+
+	* gui/component/e-address-popup.c: Pull up fix to
+	convert from utf8. Works only partially. See bugzilla
+	# 2256.
+	
 2001-04-18  Gediminas Paulauskas <menesis@delfi.lt>
 
 	* contact-editor/contact-editor.glade: changed icon to

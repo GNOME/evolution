@@ -31,6 +31,7 @@
 #include <bonobo/bonobo-property-bag.h>
 #include <bonobo/bonobo-generic-factory.h>
 #include <gal/widgets/e-popup-menu.h>
+#include <gal/widgets/e-unicode.h>
 #include <addressbook/backend/ebook/e-book.h>
 #include <addressbook/backend/ebook/e-book-util.h>
 #include <addressbook/contact-editor/e-contact-editor.h>
@@ -167,7 +168,9 @@ e_address_popup_refresh_names (EAddressPopup *pop)
 {
 	if (pop->name_widget) {
 		if (pop->name && *pop->name) {
-			gtk_label_set_text (GTK_LABEL (pop->name_widget), pop->name);
+			gchar *s = e_utf8_to_gtk_string (pop->name_widget, pop->name);
+			gtk_label_set_text (GTK_LABEL (pop->name_widget), s);
+			g_free (s);
 			gtk_widget_show (pop->name_widget);
 		} else {
 			gtk_widget_hide (pop->name_widget);
@@ -176,7 +179,9 @@ e_address_popup_refresh_names (EAddressPopup *pop)
 
 	if (pop->email_widget) {
 		if (pop->email && *pop->email) {
-			gtk_label_set_text (GTK_LABEL (pop->email_widget), pop->email);
+			gchar *s = e_utf8_to_gtk_string (pop->email_widget, pop->email);
+			gtk_label_set_text (GTK_LABEL (pop->email_widget), s);
+			g_free (s);
 			gtk_widget_show (pop->email_widget);
 		} else {
 			gtk_widget_hide (pop->email_widget);
