@@ -1670,10 +1670,10 @@
       </para>
 
 	<note id="pub-priv">
-	  <title>Public Key?  Private Key?  Whats the difference?</title>
+	  <title>Public Key?  Private Key?  What is the difference?</title>
 	  <para>
 	    GPG uses two keys: public and private.  You can give your
-	    public key to anyone from whom you want to recieve
+	    public key to anyone you want to recieve
 	    encrypted messages, or put it on a public key server so
 	    that people can look it up before contacting you.
 	    <emphasis>Never give your private key to anyone,

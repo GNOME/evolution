@@ -1,5 +1,7 @@
 2001-09-21  Kevin Breit  <battery841@mediaone.net>
 
+	* C/usage-mail.sgml: Some grammar changes suggested by my girlfriend Amanda...props to Amanda!
+
 	* C/usage-calendar.sgml: Verfied to make sure it was accurate against the calendar in functionality.  Also added info about RSVP, scheduling appointments, and the like!  Finally did this.
 
 2001-09-20  Aaron Weber  <aaron@ximian.com>
