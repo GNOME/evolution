@@ -5,4 +5,3 @@ Makefile
 *.lo
 *.la
 test-recur
-icalendar-test

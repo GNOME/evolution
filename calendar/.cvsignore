@@ -4,7 +4,3 @@ Makefile
 _libs
 .libs
 *.lo
-GnomeCal-stubs.c
-GnomeCal-skels.c
-GnomeCal-common.c
-GnomeCal.h
