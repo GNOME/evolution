@@ -44,4 +44,4 @@ libevolution_importerinclude_HEADERS = 	\
 gladedir = $(datadir)/evolution/glade
 glade_DATA = import.glade
 
-EXTRA_DIST = $(glade_DATA) $(oaf_DATA)
+EXTRA_DIST = $(glade_DATA) $(IDLS)
