@@ -1,7 +1,7 @@
 2002-02-15  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-account-gui.c (basename_from_uri): Ack, strip off the
-	leading '/' char and also only translate if it is a file: uri,
+	leading '/' char and also only translate if it is a local uri,
 	imap folders and other external folders will be named by the user
 	so no need to translate those.
 

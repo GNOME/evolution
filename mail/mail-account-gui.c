@@ -829,7 +829,7 @@ basename_from_uri (const char *uri)
 	g_assert (base != NULL);
 	
 	/* translate the basename: fixes bug #7160 */
-	if (!strncmp (uri, "file:", 5))
+	if (!strncmp (uri, "evolution:/local", 16))
 		return g_strdup (_(base + 1));
 	else
 		return g_strdup (base + 1);
