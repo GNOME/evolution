@@ -127,13 +127,12 @@ owner_unset_cb (EvolutionShellComponent *shell_component, gpointer user_data)
 {
 	FolderBrowser *fb;
 
-	/* Close each open folder to make them sync their state to
-	 * disk. We should do more cleanup than this, but then, we shouldn't
-	 * be just exiting here either. FIXME.
+	/* Sync each open folder. We should do more cleanup than this,
+	 * but then, we shouldn't be just exiting here either. FIXME.
 	 */
 	while (browsers) {
 		fb = browsers->data;
-		camel_folder_close (fb->folder, FALSE, NULL);
+		camel_folder_sync (fb->folder, FALSE, NULL);
 		browsers = browsers->next;
 	}
 

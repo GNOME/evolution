@@ -145,8 +145,6 @@ fetch_mail (GtkWidget *button, gpointer user_data)
 		folder = camel_store_get_folder (fb->folder->parent_store,
 						 strrchr (tmp_mbox, '/') + 1,
 						 FALSE, ex);
-		camel_folder_open (folder, FOLDER_OPEN_READ, ex);
-
 		if (camel_exception_get_id (ex) != CAMEL_EXCEPTION_NONE) {
 			mail_exception_dialog ("Unable to move mail", ex, fb);
 			goto cleanup;
@@ -168,7 +166,6 @@ fetch_mail (GtkWidget *button, gpointer user_data)
 
 		sourcefolder = camel_store_get_folder (store, "inbox",
 						       FALSE, ex);
-		camel_folder_open (sourcefolder, FOLDER_OPEN_READ, ex);
 		if (camel_exception_get_id (ex) != CAMEL_EXCEPTION_NONE) {
 			mail_exception_dialog ("Unable to get new mail", ex, fb);
 			goto cleanup;
@@ -185,9 +182,6 @@ fetch_mail (GtkWidget *button, gpointer user_data)
 			folder = camel_store_get_folder (fb->folder->parent_store,
 							 strrchr (tmp_mbox, '/') + 1,
 							 TRUE, ex);
-			
-			camel_folder_open(folder, FOLDER_OPEN_RW, ex);
-
 			if (camel_exception_get_id (ex) != CAMEL_EXCEPTION_NONE) {
 				mail_exception_dialog ("Unable to move mail", ex, fb);
 				goto cleanup;
@@ -218,7 +212,7 @@ fetch_mail (GtkWidget *button, gpointer user_data)
 				gtk_object_unref((GtkObject *)msg);
 			}
 			camel_folder_free_uids (sourcefolder, uids);
-			camel_folder_close (sourcefolder, TRUE, ex);
+			camel_folder_sync (sourcefolder, TRUE, ex);
 			if (camel_exception_is_set (ex))
 				mail_exception_dialog ("", ex, fb);
 			gtk_object_unref((GtkObject *)sourcefolder);
@@ -265,8 +259,7 @@ fetch_mail (GtkWidget *button, gpointer user_data)
 	if (url)
 		g_free (url);
 	if (folder) {
-		if (camel_folder_is_open (folder))
-			camel_folder_close (folder, TRUE, ex);
+		camel_folder_sync (folder, TRUE, ex);
 		gtk_object_unref (GTK_OBJECT (folder));
 	}
 	if (store) {

@@ -870,13 +870,6 @@ message_list_set_folder (MessageList *message_list, CamelFolder *camel_folder)
 		gtk_object_unref (GTK_OBJECT (message_list->folder));
 
 	message_list->folder = camel_folder;
-	
-	camel_folder_open (camel_folder, FOLDER_OPEN_RW, &ex);
-	if (camel_exception_get_id (&ex)) {
-		printf ("Unable to open folder: %s\n",
-			ex.desc?ex.desc:"unknown_reason");	  
-		return;
-	}
 
 	gtk_signal_connect((GtkObject *)camel_folder, "folder_changed", folder_changed, message_list);
 
