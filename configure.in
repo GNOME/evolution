@@ -669,7 +669,6 @@ composer/Makefile
 widgets/Makefile
 widgets/meeting-time-sel/Makefile
 widgets/misc/Makefile
-widgets/shortcut-bar/Makefile
 widgets/menus/Makefile
 addressbook/Makefile
 addressbook/conduit/Makefile
