@@ -50,6 +50,7 @@ guint		filter_folder_get_type	(void);
 FilterFolder	*filter_folder_new	(void);
 
 /* methods */
+void            filter_folder_set_value(FilterFolder *ff, const char *uri, const char *name);
 
 #endif /* ! _FILTER_FOLDER_H */
 

@@ -38,6 +38,8 @@
 
 static int load(RuleContext * f, const char *system, const char *user);
 static int save(RuleContext * f, const char *user);
+static int rename_uri(RuleContext *f, const char *olduri, const char *newuri, GCompareFunc cmp);
+static int delete_uri(RuleContext *f, const char *uri, GCompareFunc cmp);
 
 static void rule_context_class_init(RuleContextClass * class);
 static void rule_context_init(RuleContext * gspaper);
@@ -95,7 +97,9 @@ rule_context_class_init (RuleContextClass * class)
 	/* override methods */
 	class->load = load;
 	class->save = save;
-	
+	class->rename_uri = rename_uri;
+	class->delete_uri = delete_uri;
+
 	/* signals */
 	signals[RULE_ADDED] =
 		gtk_signal_new("rule_added",
@@ -647,3 +651,29 @@ rule_context_find_rank_rule (RuleContext *f, int rank, const char *source)
 	
 	return NULL;
 }
+
+static int
+delete_uri(RuleContext *f, const char *uri, GCompareFunc cmp)
+{
+	return 0;
+}
+
+int
+rule_context_delete_uri(RuleContext *f, const char *uri, GCompareFunc cmp)
+{
+	return ((RuleContextClass *) ((GtkObject *) f)->klass)->delete_uri(f, uri, cmp);
+}
+
+static int
+rename_uri(RuleContext *f, const char *olduri, const char *newuri, GCompareFunc cmp)
+{
+	return 0;
+}
+
+int
+rule_context_rename_uri(RuleContext *f, const char *olduri, const char *newuri, GCompareFunc cmp)
+{
+	return ((RuleContextClass *) ((GtkObject *) f)->klass)->rename_uri (f, olduri, newuri, cmp);
+}
+
+

@@ -36,6 +36,8 @@
 /* for getenv only, remove when getenv need removed */
 #include <stdlib.h>
 
+static int enable_undo;
+
 void rule_editor_add_undo(RuleEditor *re, int type, FilterRule *rule, int rank, int newrank);
 void rule_editor_play_undo(RuleEditor *re);
 
@@ -88,7 +90,10 @@ rule_editor_get_type(void)
 			(GtkArgSetFunc) NULL,
 			(GtkArgGetFunc) NULL
 		};
-		
+
+		/* TODO: Remove when it works (or never will) */
+		enable_undo = getenv("EVOLUTION_RULE_UNDO") != NULL;
+
 		type = gtk_type_unique (gnome_dialog_get_type (), &type_info);
 	}
 	
@@ -514,9 +519,7 @@ rule_editor_add_undo(RuleEditor *re, int type, FilterRule *rule, int rank, int n
 {
 	RuleEditorUndo *undo;
 
-	printf("Adding udno record: %d object %p '%s'\n", type, rule, rule->name);
-
-	if (!re->undo_active) {
+	if (!re->undo_active && !enable_undo) {
 		undo = g_malloc0(sizeof(*undo));
 		undo->rule = rule;
 		undo->type = type;
@@ -581,7 +584,7 @@ static void
 editor_clicked (GtkWidget *dialog, int button, RuleEditor *re)
 {
 	if (button != 0) {
-		if (getenv("EVOLUTION_RULE_UNDO"))
+		if (enable_undo)
 			rule_editor_play_undo(re);
 		else {
 			RuleEditorUndo *undo, *next;
@@ -624,7 +627,7 @@ rule_editor_construct (RuleEditor *re, RuleContext *context, GladeXML *gui, cons
 	gtk_signal_connect (GTK_OBJECT (re), "clicked", editor_clicked, re);
 	rule_editor_set_source (re, source);
 
-	if (getenv("EVOLUTION_RULE_UNDO")) {
+	if (enable_undo) {
 		gnome_dialog_append_buttons (GNOME_DIALOG (re), GNOME_STOCK_BUTTON_OK,
 					     GNOME_STOCK_BUTTON_CANCEL, NULL);
 	} else

@@ -134,6 +134,15 @@ filter_folder_new (void)
 	return o;
 }
 
+void
+filter_folder_set_value(FilterFolder *ff, const char *uri, const char *name)
+{
+	g_free(ff->uri);
+	ff->uri = g_strdup(uri);
+	g_free(ff->name);
+	ff->name = g_strdup(name);
+}
+
 static gboolean
 validate (FilterElement *fe)
 {

@@ -61,6 +61,9 @@ struct _RuleContextClass {
 	int (*load)(RuleContext *f, const char *system, const char *user);
 	int (*save)(RuleContext *f, const char *user);
 
+	int (*delete_uri)(RuleContext *f, const char *uri, GCompareFunc cmp);
+	int (*rename_uri)(RuleContext *f, const char *olduri, const char *newuri, GCompareFunc cmp);
+
 	/* signals */
 	void (*rule_added)(RuleContext *f, FilterRule *rule);
 	void (*rule_removed)(RuleContext *f, FilterRule *rule);
@@ -112,6 +115,10 @@ int		rule_context_get_rank_rule(RuleContext *f, FilterRule *rule, const char *so
 /* setup type for set parts */
 void		rule_context_add_part_set(RuleContext *f, const char *setname, int part_type, RCPartFunc append, RCNextPartFunc next);
 void		rule_context_add_rule_set(RuleContext *f, const char *setname, int rule_type, RCRuleFunc append, RCNextRuleFunc next);
+
+/* uri's disappear/renamed externally */
+int		rule_context_delete_uri(RuleContext *f, const char *uri, GCompareFunc cmp);
+int		rule_context_rename_uri(RuleContext *f, const char *olduri, const char *newuri, GCompareFunc cmp);
 
 #endif /* ! _RULE_CONTEXT_H */
 
