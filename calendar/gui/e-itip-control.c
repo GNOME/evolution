@@ -799,7 +799,7 @@ write_html (EItipControl *itip, const gchar *itip_desc, const gchar *itip_title,
 
 	/* Summary */
 	cal_component_get_summary (priv->comp, &text);
-	html = e_text_to_html (text.value ? text.value : _("<i>None</i>"), E_TEXT_TO_HTML_CONVERT_NL);
+	html = text.value ? e_text_to_html (text.value, E_TEXT_TO_HTML_CONVERT_NL) : _("<i>None</i>");
 	gtk_html_stream_printf (html_stream, "<b>%s</b><br>%s<br><br>",
 				_("Summary:"), html);
 	g_free (html);
