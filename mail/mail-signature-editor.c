@@ -34,6 +34,7 @@
 
 #include "e-msg-composer.h"
 #include "mail-signature-editor.h"
+#include "mail-config.h"
 
 /*
  * Signature editor
@@ -44,6 +45,7 @@ struct _ESignatureEditor {
 	GtkWidget *win;
 	GtkWidget *control;
 	GtkWidget *name_entry;
+	GtkWidget *info_frame;
 	
 	MailConfigSignature *sig;
 	gboolean html;
@@ -55,7 +57,7 @@ typedef struct _ESignatureEditor ESignatureEditor;
 #define E_SIGNATURE_EDITOR(o) ((ESignatureEditor *) o)
 
 #define DEFAULT_WIDTH 600
-#define DEFAULT_HEIGHT 500
+#define DEFAULT_HEIGHT 350
 
 enum { REPLY_YES = 0, REPLY_NO, REPLY_CANCEL };
 
@@ -298,6 +300,13 @@ format_html_cb (BonoboUIComponent           *component,
 	bonobo_widget_set_property (BONOBO_WIDGET (editor->control), "FormatHTML", editor->html, NULL);
 }
 
+static void
+check_hide_info_toggled (GtkWidget *widget, ESignatureEditor *editor)
+{
+	gtk_widget_hide (editor->info_frame);
+	mail_config_set_show_signature_info (FALSE);
+}
+
 void
 mail_signature_editor (MailConfigSignature *sig)
 {
@@ -305,7 +314,7 @@ mail_signature_editor (MailConfigSignature *sig)
 	ESignatureEditor *editor;
 	BonoboUIComponent *component;
 	BonoboUIContainer *container;
-	GtkWidget *vbox, *hbox, *label;
+	GtkWidget *vbox, *hbox, *label, *frame, *vbox1, *pixmap, *check;
 	gchar *title;
 	
 	if (!sig->filename || !*sig->filename)
@@ -316,11 +325,10 @@ mail_signature_editor (MailConfigSignature *sig)
 	editor->sig = sig;
 	editor->html = sig->html;
 
-	title       = g_strdup_printf ("Edit signature (%s)", sig->filename);
+	title       = g_strdup_printf ("Edit signature");
 	editor->win = bonobo_window_new ("e-sig-editor", title);
 	gtk_window_set_default_size (GTK_WINDOW (editor->win), DEFAULT_WIDTH, DEFAULT_HEIGHT);
 	gtk_window_set_policy (GTK_WINDOW (editor->win), FALSE, TRUE, FALSE);
-	gtk_window_set_modal (GTK_WINDOW (editor->win), TRUE);
 	g_free (title);
 	
 	container = bonobo_ui_container_new ();
@@ -353,16 +361,55 @@ mail_signature_editor (MailConfigSignature *sig)
 			    GTK_SIGNAL_FUNC (delete_event_cb), editor);
 
 	vbox = gtk_vbox_new (FALSE, 0);
-	hbox = gtk_hbox_new (FALSE, 0);
-	label = gtk_label_new (_("Signature name:"));
-	gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, TRUE, 4);
+	hbox = gtk_hbox_new (FALSE, 4);
+	vbox1 = gtk_vbox_new (FALSE, 3);
+	gtk_container_set_border_width (GTK_CONTAINER (vbox1), 3);
+	label = gtk_label_new (_("Type the name by which you would like to refer to this signature."));
+	gtk_misc_set_alignment (GTK_MISC (label), 0, 0);
+	gtk_box_pack_start (GTK_BOX (vbox1), label, FALSE, TRUE, 0);
+	label = gtk_label_new (_("Name:"));
+	gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, TRUE, 0);
 	editor->name_entry = gtk_entry_new ();
 	e_utf8_gtk_entry_set_text (GTK_ENTRY (editor->name_entry), sig->name);
 	gtk_signal_connect (GTK_OBJECT (editor->name_entry), "changed", GTK_SIGNAL_FUNC (sig_name_changed), editor);
 	gtk_box_pack_start_defaults (GTK_BOX (hbox), editor->name_entry);
-	gtk_box_pack_start (GTK_BOX (vbox), hbox, FALSE, TRUE, 3);
+	frame = gtk_frame_new (NULL);
+	gtk_frame_set_shadow_type (GTK_FRAME (frame), GTK_SHADOW_OUT);
+	gtk_box_pack_start (GTK_BOX (vbox1), hbox, FALSE, TRUE, 0);
+	gtk_container_add (GTK_CONTAINER (frame), vbox1);
+	gtk_box_pack_start (GTK_BOX (vbox), frame, FALSE, TRUE, 0);
 	gtk_widget_show_all (vbox);
 	gtk_box_pack_start_defaults (GTK_BOX (vbox), editor->control);
+
+	/* info frame */
+	if (mail_config_get_show_signature_info ()) {
+		editor->info_frame = gtk_frame_new (_("Signature hint"));
+		gtk_container_set_border_width (GTK_CONTAINER (editor->info_frame), 3);
+
+		hbox = gtk_hbox_new (FALSE, 3);
+		gtk_container_set_border_width (GTK_CONTAINER (hbox), 3);
+
+		pixmap = gnome_pixmap_new_from_file (EVOLUTION_IMAGES "/info-bulb.png");
+		gtk_box_pack_start (GTK_BOX (hbox), pixmap, FALSE, TRUE, 0);
+
+		vbox1 = gtk_vbox_new (FALSE, 3);
+		label = gtk_label_new (_("If you would like to use old signature, "
+					 "you may import it by opening the \"Insert\" "
+					 "menu, and select either the \"Text file\" "
+					 "or the \"HTML file\" item."));
+		gtk_label_set_line_wrap (GTK_LABEL (label), TRUE);
+		gtk_misc_set_alignment (GTK_MISC (label), 0, 0);
+		gtk_box_pack_start (GTK_BOX (vbox1), label, FALSE, TRUE, 0);
+		gtk_box_pack_start_defaults (GTK_BOX (hbox), vbox1);
+		check = gtk_check_button_new_with_label (_("Hide signature hints"));
+		gtk_signal_connect (GTK_OBJECT (check), "toggled", check_hide_info_toggled, editor);
+		gtk_box_pack_end (GTK_BOX (vbox1), check, FALSE, TRUE, 3);
+
+		gtk_container_add (GTK_CONTAINER (editor->info_frame), hbox);
+		gtk_widget_show_all (editor->info_frame);
+		gtk_box_pack_end (GTK_BOX (vbox), editor->info_frame, FALSE, TRUE, 0);
+	}
+	/* info frame end */
 
 	bonobo_window_set_contents (BONOBO_WINDOW (editor->win), vbox);
 	bonobo_widget_set_property (BONOBO_WIDGET (editor->control), "FormatHTML", editor->html, NULL);

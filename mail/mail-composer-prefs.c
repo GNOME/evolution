@@ -34,6 +34,7 @@
 #include <bonobo/bonobo-object-client.h>
 
 #include <gal/widgets/e-gui-utils.h>
+#include <gal/widgets/e-unicode.h>
 
 #include "widgets/misc/e-charset-picker.h"
 
@@ -247,9 +248,9 @@ mail_composer_prefs_new_signature (MailComposerPrefs *prefs, gboolean html)
 	sig = mail_config_signature_add (html);
 	
 	if (prefs) {
-		name [0] = e_utf8_to_gtk_string (prefs->sig_clist, sig->name);
-		row = gtk_clist_append (GTK_CLIST (prefs->sig_clist), name);
-		gtk_clist_set_row_data (GTK_CLIST (prefs->sig_clist), row, sig);
+		name [0] = e_utf8_to_gtk_string (GTK_WIDGET (prefs->sig_clist), sig->name);
+		row = gtk_clist_append (prefs->sig_clist, name);
+		gtk_clist_set_row_data (prefs->sig_clist, row, sig);
 		gtk_clist_select_row (GTK_CLIST (prefs->sig_clist), row, 0);
 		g_free (name [0]);
 		/*gtk_widget_grab_focus (prefs->sig_name);*/
@@ -290,11 +291,11 @@ sig_row_select (GtkCList *clist, int row, int col, GdkEvent *event, MailComposer
 	MailConfigSignature *sig;
 	
 	printf ("sig_row_select\n");
-	gtk_widget_set_sensitive ((GtkWidget *) prefs->sig_delete, TRUE);
-	gtk_widget_set_sensitive ((GtkWidget *) prefs->sig_edit, TRUE);
-	
 	sig = gtk_clist_get_row_data (prefs->sig_clist, row);
 	prefs->sig_row = row;
+	
+	gtk_widget_set_sensitive ((GtkWidget *) prefs->sig_delete, TRUE);
+	gtk_widget_set_sensitive ((GtkWidget *) prefs->sig_edit, sig->script == NULL);
 	
 	sig_load_preview (prefs, sig);
 }
@@ -316,7 +317,7 @@ sig_fill_clist (GtkCList *clist)
 	
 	gtk_clist_freeze (clist);
 	for (l = mail_config_get_signature_list (); l; l = l->next) {
-		name [0] = e_utf8_to_gtk_string (clist, ((MailConfigSignature *) l->data)->name);
+		name [0] = e_utf8_to_gtk_string (GTK_WIDGET (clist), ((MailConfigSignature *) l->data)->name);
 		row = gtk_clist_append (clist, name);
 		gtk_clist_set_row_data (clist, row, l->data);
 		g_free (name [0]);

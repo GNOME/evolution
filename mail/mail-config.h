@@ -308,6 +308,8 @@ void mail_config_signature_emit_event (MailConfigSigEvent event, MailConfigSigna
 void mail_config_write_account_sig (MailConfigAccount *account, gint i);
 void mail_config_signature_run_script (gchar *script);
 
+gboolean mail_config_get_show_signature_info (void);
+void     mail_config_set_show_signature_info (gboolean show);
 
 #ifdef __cplusplus
 }

@@ -4198,7 +4198,7 @@ Baltic (ISO-8859-4)
 	      <name>cmdSignatureAdd</name>
 	      <can_default>True</can_default>
 	      <can_focus>True</can_focus>
-	      <label>_Add...</label>
+	      <label>_Add</label>
 	      <relief>GTK_RELIEF_NORMAL</relief>
 	    </widget>
 
@@ -4207,7 +4207,7 @@ Baltic (ISO-8859-4)
 	      <name>cmdSignatureAddScript</name>
 	      <can_default>True</can_default>
 	      <can_focus>True</can_focus>
-	      <label>Add Sc_ript...</label>
+	      <label>Add Sc_ript</label>
 	      <relief>GTK_RELIEF_NORMAL</relief>
 	    </widget>
 
@@ -4216,7 +4216,7 @@ Baltic (ISO-8859-4)
 	      <name>cmdSignatureEdit</name>
 	      <can_default>True</can_default>
 	      <can_focus>True</can_focus>
-	      <label>_Edit...</label>
+	      <label>_Edit</label>
 	      <relief>GTK_RELIEF_NORMAL</relief>
 	    </widget>
 

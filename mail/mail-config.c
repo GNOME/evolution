@@ -130,6 +130,8 @@ typedef struct {
 	int signatures;
 	
 	MailConfigLabel labels[5];
+
+	gboolean signature_info;
 } MailConfig;
 
 static MailConfig *config = NULL;
@@ -968,6 +970,9 @@ config_read (void)
 									       label_defaults[i].color, NULL);
 	}
 	g_free (path);
+
+	config->signature_info = bonobo_config_get_boolean_with_default (config->db,
+	        "/Mail/Info/show_signature_editor_info", TRUE, NULL);
 }
 
 #define bonobo_config_set_string_wrapper(db, path, val, ev) bonobo_config_set_string (db, path, val ? val : "", ev)
@@ -1334,6 +1339,9 @@ mail_config_write_on_exit (void)
 	/* Message Preview */
 	if (config->preview_hash)
 		g_hash_table_foreach_remove (config->preview_hash, hash_save_state, "Preview");
+
+	/* signature editor info label */
+	bonobo_config_set_boolean (config->db, "/Mail/Info/show_signature_editor_info", config->signature_info, NULL);
 	
 	CORBA_exception_init (&ev);
 	Bonobo_ConfigDatabase_sync (config->db, &ev);
@@ -2965,4 +2973,16 @@ mail_config_signature_set_html (MailConfigSignature *sig, gboolean html)
 		mail_config_signature_write (sig);
 		mail_config_signature_emit_event (MAIL_CONFIG_SIG_EVENT_HTML_CHANGED, sig);
 	}
+}
+
+gboolean
+mail_config_get_show_signature_info (void)
+{
+	return config->signature_info;
+}
+
+void
+mail_config_set_show_signature_info (gboolean show)
+{
+	config->signature_info = show;
 }
