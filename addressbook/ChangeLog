@@ -1,3 +1,12 @@
+2001-12-15  JP Rosevear  <jpr@ximian.com>
+ 
+ 	* conduit/address-conduit.c (e_addr_context_destroy): don't free
+ 	the hash table keys, we didn't allocate them and free the change
+ 	objects and unref the associated cards
+ 	(local_record_from_uid): unref the temp card we create
+ 	(replace_record): ref the new card associated with the card change
+ 	and unref the old one
+
 2001-12-13  JP Rosevear  <jpr@ximian.com>
  
  	* conduit/address-conduit.c (local_record_from_ecard): Make sure
