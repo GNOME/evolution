@@ -51,6 +51,7 @@ typedef enum {
 	HEADER_CONTENT_ID,
 	HEADER_ENCODING,
 	HEADER_CONTENT_MD5,
+	HEADER_CONTENT_LOCATION,
 	HEADER_CONTENT_LANGUAGES,
 	HEADER_CONTENT_TYPE
 } CamelHeaderType;
@@ -97,6 +98,7 @@ init_header_name_table()
 	g_hash_table_insert (header_name_table, "Content-id", (gpointer)HEADER_CONTENT_ID);
 	g_hash_table_insert (header_name_table, "Content-Transfer-Encoding", (gpointer)HEADER_ENCODING);
 	g_hash_table_insert (header_name_table, "Content-MD5", (gpointer)HEADER_CONTENT_MD5);
+	g_hash_table_insert (header_name_table, "Content-Location", (gpointer)HEADER_CONTENT_LOCATION);
 	g_hash_table_insert (header_name_table, "Content-Type", (gpointer)HEADER_CONTENT_TYPE);
 
 	header_formatted_table = g_hash_table_new(g_strcase_hash, g_strcase_equal);
@@ -141,6 +143,7 @@ camel_mime_part_init (gpointer   object,  gpointer   klass)
 	camel_mime_part->disposition          = NULL;
 	camel_mime_part->content_id           = NULL;
 	camel_mime_part->content_MD5          = NULL;
+	camel_mime_part->content_location     = NULL;
 	camel_mime_part->content_languages    = NULL;
 	camel_mime_part->encoding             = CAMEL_MIME_PART_ENCODING_DEFAULT;
 }
@@ -154,6 +157,7 @@ camel_mime_part_finalize (CamelObject *object)
 	g_free (mime_part->description);
 	g_free (mime_part->content_id);
 	g_free (mime_part->content_MD5);
+	g_free (mime_part->content_location);
 	string_list_free (mime_part->content_languages);
 	header_disposition_unref(mime_part->disposition);
 	
@@ -220,6 +224,10 @@ process_header(CamelMedium *medium, const char *header_name, const char *header_
 	case HEADER_CONTENT_MD5:
 		g_free(mime_part->content_MD5);
 		mime_part->content_MD5 = g_strdup(header_value);
+		break;
+	case HEADER_CONTENT_LOCATION:
+		g_free(mime_part->content_location);
+		mime_part->content_location = header_location_decode(header_value);
 		break;
 	case HEADER_CONTENT_TYPE: 
 		if (mime_part->content_type)
@@ -402,6 +410,20 @@ const gchar *
 camel_mime_part_get_content_MD5 (CamelMimePart *mime_part)
 {
 	return mime_part->content_MD5;
+}
+
+/* **** Content-MD5: */
+
+void
+camel_mime_part_set_content_location (CamelMimePart *mime_part, const char *location)
+{
+	camel_medium_set_header (CAMEL_MEDIUM (mime_part), "Content-Location", location);
+}
+
+const gchar *
+camel_mime_part_get_content_location (CamelMimePart *mime_part)
+{
+	return mime_part->content_location;
 }
 
 /* **** Content-Transfer-Encoding: */

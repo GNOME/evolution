@@ -2842,6 +2842,32 @@ header_decode_date(const char *in, int *saveoffset)
 	return t;
 }
 
+char *
+header_location_decode(const char *in)
+{
+	const char *p;
+
+	/* Sigh. RFC2557 says:
+	 *   content-location =   "Content-Location:" [CFWS] URI [CFWS]
+	 *      where URI is restricted to the syntax for URLs as
+	 *      defined in Uniform Resource Locators [URL] until
+	 *      IETF specifies other kinds of URIs.
+	 *
+	 * But Netscape puts quotes around the URI when sending web
+	 * pages.
+	 */
+
+	header_decode_lwsp(&in);
+	if (*in == '"')
+		return header_decode_quoted_string(&in);
+	else {
+		for (p = in; *p && !is_lwsp(*p); p++)
+			;
+		return g_strndup(in, p - in);
+	}
+}
+
+
 /* extra rfc checks */
 #define CHECKS
 

@@ -175,6 +175,9 @@ void header_references_list_append_asis(struct _header_references **list, char *
 int header_references_list_size(struct _header_references **list);
 struct _header_references *header_references_dup(const struct _header_references *list);
 
+/* decode content-location */
+char *header_location_decode(const char *in);
+
 /* decode the mime-type header */
 void header_mime_decode(const char *in, int *maj, int *min);
 

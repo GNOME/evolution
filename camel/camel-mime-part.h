@@ -66,6 +66,7 @@ struct _CamelMimePart
 	CamelMimeDisposition *disposition;
 	gchar *content_id;
 	gchar *content_MD5;
+	gchar *content_location;
 	GList *content_languages;
 	CamelMimePartEncodingType encoding;
 	
@@ -101,6 +102,9 @@ const	  gchar *camel_mime_part_get_content_id		(CamelMimePart *mime_part);
 
 void		 camel_mime_part_set_content_MD5	(CamelMimePart *mime_part, const char *);
 const	  gchar *camel_mime_part_get_content_MD5	(CamelMimePart *mime_part);
+
+void		 camel_mime_part_set_content_location	(CamelMimePart *mime_part, const char *);
+const	  gchar *camel_mime_part_get_content_location	(CamelMimePart *mime_part);
 
 void	         camel_mime_part_set_encoding		(CamelMimePart *mime_part, CamelMimePartEncodingType type);
 CamelMimePartEncodingType camel_mime_part_get_encoding	(CamelMimePart *mime_part);

@@ -1,3 +1,12 @@
+2001-05-11  Dan Winship  <danw@ximian.com>
+
+	* camel-mime-utils.c (header_location_decode): Decode
+	Content-Location, either correctly or Netscape-generated-brokenly.
+
+	* camel-mime-part.c (camel_mime_part_set_content_location,
+	camel_mime_part_get_content_location, etc): Deal with
+	Content-Location header.
+
 2001-05-11  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* providers/smtp/camel-smtp-transport.c (smtp_auth): Don't check
