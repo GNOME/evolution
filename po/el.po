@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution 0.15.99\n"
 "POT-Creation-Date: 2001-10-06 14:27+0100\n"
-"PO-Revision-Date: 2001-10-06 15:43+0100\n"
+"PO-Revision-Date: 2001-10-06 15:55+0100\n"
 "Last-Translator: Simos Xenitellis <simos@hellug.gr>\n"
 "Language-Team: Greek <nls@tux.hellug.gr>\n"
 "MIME-Version: 1.0\n"
@@ -2423,9 +2423,8 @@ msgstr ""
 
 #: addressbook/gui/widgets/e-addressbook-reflow-adapter.c:266
 #: ui/evolution-message-composer.xml.h:13
-#, fuzzy
 msgid "Open"
-msgstr "¶νοι_γμα"
+msgstr "¶νοιγμα"
 
 #: addressbook/gui/widgets/e-addressbook-reflow-adapter.c:268
 #: addressbook/gui/widgets/e-addressbook-view.c:754
@@ -2858,9 +2857,8 @@ msgstr ""
 #: calendar/gui/calendar-model.c:1673
 #: calendar/gui/dialogs/task-details-page.glade.h:9
 #: calendar/gui/e-calendar-table.c:386 mail/message-list.c:651
-#, fuzzy
 msgid "Normal"
-msgstr "Από"
+msgstr "Κανονική"
 
 #: calendar/cal-util/cal-util.c:422 calendar/cal-util/cal-util.c:444
 #: calendar/gui/dialogs/task-details-page.glade.h:8
@@ -3176,9 +3174,8 @@ msgstr ""
 #: widgets/e-timezone-dialog/e-timezone-dialog.c:203
 #: widgets/misc/e-cell-date-edit.c:240 widgets/misc/e-dateedit.c:453
 #: widgets/misc/e-dateedit.c:1453 widgets/misc/e-dateedit.c:1568
-#, fuzzy
 msgid "None"
-msgstr "Σημείω_μα"
+msgstr "Κανένα"
 
 #: calendar/gui/calendar-model.c:1675
 msgid "Recurring"
@@ -3196,9 +3193,8 @@ msgstr ""
 
 #: calendar/gui/calendar-model.c:1683 calendar/gui/e-meeting-model.c:282
 #: calendar/gui/e-meeting-model.c:703
-#, fuzzy
 msgid "No"
-msgstr "_Νέο"
+msgstr "Όχι"
 
 #: calendar/gui/calendar-view-factory.c:149 views/calendar/galview.xml.h:1
 #, fuzzy
@@ -3250,9 +3246,8 @@ msgstr "Φάκελλος που περιέχει στοιχεία ημερολογίου"
 #: calendar/gui/component-factory.c:68 my-evolution/e-summary-tasks.c:235
 #: my-evolution/e-summary-tasks.c:251 shell/e-shortcuts.c:1059
 #: views/tasks/galview.xml.h:1
-#, fuzzy
 msgid "Tasks"
-msgstr "Εκκρεμό_τητα"
+msgstr "Εκκρεμότητες"
 
 #: calendar/gui/component-factory.c:69
 #, fuzzy
@@ -3276,9 +3271,8 @@ msgid "Create a new task"
 msgstr "Αποθήκευση στο φάκελλο..."
 
 #: calendar/gui/component-factory.c:588
-#, fuzzy
 msgid "New _Task"
-msgstr "Εκκρεμό_τητα"
+msgstr "Νέα Εκκρεμό_τητα"
 
 #: calendar/gui/control-factory.c:128
 #, fuzzy
@@ -3852,9 +3846,9 @@ msgid "Appointment - %s"
 msgstr "Ρ_αντεβού"
 
 #: calendar/gui/dialogs/comp-editor.c:529
-#, fuzzy, c-format
+#, c-format
 msgid "Task - %s"
-msgstr "Εκκρεμότητες"
+msgstr "Εκκρεμότητα - %s"
 
 #: calendar/gui/dialogs/comp-editor.c:532
 #, fuzzy, c-format
@@ -7380,9 +7374,8 @@ msgid "Warning: Modified Message"
 msgstr "Αποστολή παρόντος μηνύματος"
 
 #: composer/e-msg-composer.c:1347
-#, fuzzy
 msgid "Open file"
-msgstr "¶νοιγμα Φακέλλου"
+msgstr "¶νοιγμα αρχείου"
 
 #: composer/e-msg-composer.c:1496
 msgid "Insert File"
@@ -8972,9 +8965,8 @@ msgid "NNTP Server:"
 msgstr "Νέα Ομάδα"
 
 #: mail/mail-config.glade.h:49
-#, fuzzy
 msgid "News"
-msgstr "_Νέο"
+msgstr "Νέα"
 
 #: mail/mail-config.glade.h:51
 #, fuzzy
@@ -10112,9 +10104,8 @@ msgid "Variable"
 msgstr ""
 
 #: my-evolution/metar.c:64
-#, fuzzy
 msgid "North"
-msgstr "Σημείω_μα"
+msgstr "Βόρεια"
 
 #: my-evolution/metar.c:64
 msgid "North - NorthEast"
@@ -11566,9 +11557,8 @@ msgid ""
 msgstr ""
 
 #: shell/e-shell-folder-selection-dialog.c:360
-#, fuzzy
 msgid "New..."
-msgstr "_Νέο"
+msgstr "Νέο..."
 
 #: shell/e-shell-folder-title-bar.c:585 shell/e-shell-folder-title-bar.c:586
 msgid "(Untitled)"
@@ -11960,9 +11950,8 @@ msgid "Open the folder linked to this shortcut"
 msgstr ""
 
 #: shell/e-shortcuts-view.c:387 ui/evolution.xml.h:19
-#, fuzzy
 msgid "Open in New _Window"
-msgstr "¶νοιγμα σε Νέο Παράθυρο"
+msgstr "¶νοιγμα σε _Νέο Παράθυρο"
 
 #: shell/e-shortcuts-view.c:387
 #, fuzzy
@@ -12456,9 +12445,8 @@ msgid "New Appointment"
 msgstr "Ρ_αντεβού"
 
 #: ui/evolution-calendar.xml.h:22 ui/evolution-tasks.xml.h:10
-#, fuzzy
 msgid "New Task"
-msgstr "Εκκρεμό_τητα"
+msgstr "Νέα Εκκρεμότητα"
 
 #: ui/evolution-calendar.xml.h:24
 msgid "Previews the calendar to be printed"
@@ -12516,9 +12504,8 @@ msgid "_Publish Free/Busy Information"
 msgstr "Επισύναψη"
 
 #: ui/evolution-calendar.xml.h:43
-#, fuzzy
 msgid "_Task..."
-msgstr "Εκκρεμό_τητα"
+msgstr "Εκκρεμό_τητα..."
 
 #: ui/evolution-comp-editor.xml.h:2 ui/evolution-contact-editor.xml.h:1
 #: ui/evolution-contact-list-editor.xml.h:1
@@ -13360,9 +13347,8 @@ msgid "Insert text file..."
 msgstr ""
 
 #: ui/evolution-message-composer.xml.h:14
-#, fuzzy
 msgid "Open a file"
-msgstr "¶νοιγμα Φακέλλου"
+msgstr "¶νοιγμα αρχείου"
 
 #: ui/evolution-message-composer.xml.h:15
 msgid "PGP Encrypt"
@@ -13563,14 +13549,12 @@ msgid "Assign this task to others"
 msgstr ""
 
 #: ui/evolution-task-editor.xml.h:3
-#, fuzzy
 msgid "Cancel Task"
-msgstr "Εκκρεμό_τητα"
+msgstr "Ακύρωση Εκκρεμότητας"
 
 #: ui/evolution-task-editor.xml.h:4
-#, fuzzy
 msgid "Cancel this task"
-msgstr "Εκκρεμό_τητα"
+msgstr "Ακύρωση αυτής της εκκρεμότητας"
 
 #: ui/evolution-task-editor.xml.h:7
 msgid "Obtain the latest task information"
@@ -13610,7 +13594,6 @@ msgid "Tasks Settings..."
 msgstr "Ε_νέργειες"
 
 #: ui/evolution-tasks.xml.h:18
-#, fuzzy
 msgid "_Task"
 msgstr "Εκκρεμό_τητα"
 
@@ -13678,7 +13661,6 @@ msgid "Move this folder to another place"
 msgstr "Αποθήκευση του μηνύματος στον καθορισμένο φάκελλο"
 
 #: ui/evolution.xml.h:18
-#, fuzzy
 msgid "Open in New Window"
 msgstr "¶νοιγμα σε Νέο Παράθυρο"
 
@@ -13899,9 +13881,8 @@ msgid "%B %Y"
 msgstr ""
 
 #: widgets/misc/e-cell-date-edit.c:224 widgets/misc/e-dateedit.c:439
-#, fuzzy
 msgid "Now"
-msgstr "_Νέο"
+msgstr "Τώρα"
 
 #: widgets/misc/e-cell-date-edit.c:232 widgets/misc/e-dateedit.c:445
 #, fuzzy
@@ -13942,9 +13923,8 @@ msgid "Korean"
 msgstr ""
 
 #: widgets/misc/e-charset-picker.c:66
-#, fuzzy
 msgid "Turkish"
-msgstr "Εκκρεμό_τητα"
+msgstr "Τουρκικά"
 
 #: widgets/misc/e-charset-picker.c:67
 msgid "Unicode"
