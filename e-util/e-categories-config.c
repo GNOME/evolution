@@ -18,6 +18,7 @@
 #include "e-categories-master-list-wombat.h"
 
 typedef struct {
+	char *filename;
 	GdkPixmap *pixmap;
 	GdkBitmap *mask;
 } icon_data_t;
@@ -158,8 +159,8 @@ void
 e_categories_config_get_icon_for (const char *category, GdkPixmap **pixmap, GdkBitmap **mask)
 {
 	icon_data_t *icon_data;
-	char *tmp;
 	char *icon_file;
+	char *tmp;
 
 	g_return_if_fail (category != NULL);
 	g_return_if_fail (pixmap != NULL);
@@ -179,13 +180,59 @@ e_categories_config_get_icon_for (const char *category, GdkPixmap **pixmap, GdkB
 	tmp = g_strdup_printf ("General/Categories/%s/Icon", category);
 	icon_file = config_get_string (tmp);
 	g_free (tmp);
+
 	if (icon_file) {
-		g_free (icon_file);
+		/* add new pixmap from file to the list */
+		icon_data = g_new (icon_data_t, 1);
+		icon_data->filename = icon_file;
+		icon_data->pixmap = gdk_pixmap_create_from_xpm (NULL, &icon_data->mask, NULL, icon_file);
+		g_hash_table_insert (cat_icons, (gpointer) category, (gpointer) icon_data);
+
+		*pixmap = icon_data->pixmap;
+		if (*mask)
+			*mask = icon_data->mask;
+	}
+	else {
+		*pixmap = NULL;
+		if (mask != NULL)
+			*mask = NULL;
+	}
+}
+
+/**
+ * e_categories_config_get_icon_file_for
+ * @category: Category for which to get the icon file
+ */
+const char *
+e_categories_config_get_icon_file_for (const char *category)
+{
+	icon_data_t *icon_data;
+	char *icon_file;
+	char *tmp;
+
+	g_return_val_if_fail (category != NULL, NULL);
+
+	if (!initialized)
+		initialize_categories_config ();
+
+	icon_data = g_hash_table_lookup (cat_icons, category);
+	if (icon_data != NULL)
+		return (const char *) icon_data->filename;
+
+	/* not found, so look in the configuration */
+	tmp = g_strdup_printf ("General/Categories/%s/Icon", category);
+	icon_file = config_get_string (tmp);
+	g_free (tmp);
+
+	if (icon_file) {
+		/* add new pixmap from file to the list */
+		icon_data = g_new (icon_data_t, 1);
+		icon_data->filename = icon_file;
+		icon_data->pixmap = gdk_pixmap_create_from_xpm (NULL, &icon_data->mask, NULL, icon_file);
+		g_hash_table_insert (cat_icons, (gpointer) category, (gpointer) icon_data);
 	}
 
-	*pixmap = NULL;
-	if (mask != NULL)
-		*mask = NULL;
+	return (const char *) icon_file;
 }
 
 /**
@@ -211,11 +258,13 @@ e_categories_config_set_icon_for (const char *category, const char *pixmap_file)
 
 		gdk_pixmap_unref (icon_data->pixmap);
 		gdk_bitmap_unref (icon_data->mask);
+		g_free (icon_data->filename);
 		g_free (icon_data);
 	}
 
 	/* add new pixmap from file to the list */
 	icon_data = g_new (icon_data_t, 1);
+	icon_data->filename = g_strdup (pixmap_file);
 	icon_data->pixmap = gdk_pixmap_create_from_xpm (NULL, &icon_data->mask, NULL, pixmap_file);
 	g_hash_table_insert (cat_icons, (gpointer) category, (gpointer) icon_data);
 
@@ -242,8 +291,6 @@ e_categories_config_open_dialog_for_entry (GtkEntry *entry)
 	char *categories;
 	GnomeDialog *dialog;
 	int result;
-	GString *cat_icons;
-	GString *cat_colors;
 	ECategoriesMasterList *ecml;
 
 	g_return_if_fail (entry != NULL);
