@@ -684,6 +684,9 @@ fe_sort_folder (ETreeMemory *etmm, ETreePath left, ETreePath right, gpointer use
 	return strcasecmp (ftree_node_get_name (n_left), ftree_node_get_name (n_right));
 }
 
+
+static void fe_check_for_children (FolderETree *ftree, ETreePath path);
+
 /* scanning */
 static void
 fe_got_children (CamelStore *store, char *prefix, CamelFolderInfo *info, gpointer data)

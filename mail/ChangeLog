@@ -1,3 +1,9 @@
+2003-03-28  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* subscribe-dialog.c (fe_check_for_children): Declare a prototype
+	for this function prior to fe_got_children() so that
+	fe_got_children() can call us.
+
 2003-03-26  Dan Winship  <danw@ximian.com>
 
 	* mail-format.c (write_address): remove extra arg to
