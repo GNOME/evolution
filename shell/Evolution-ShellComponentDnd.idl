@@ -1,0 +1,92 @@
+/* -*- Mode: IDL; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
+/*
+ * Interface for the Evolution components.
+ *
+ * Authors:
+ *   Ettore Perazzoli <ettore@helixcode.com>
+ *
+ * Copyright (C) 2001 Ximian, Inc.
+ */
+
+#include <Bonobo.h>
+
+module GNOME {
+module Evolution {
+module ShellComponentDnd {
+	typedef short Action;
+	const Action ACTION_DEFAULT = 0;
+	const Action ACTION_COPY = 1 << 1;
+	const Action ACTION_MOVE = 1 << 2;
+	const Action ACTION_LINK = 1 << 3;
+	const Action ACTION_ASK = 1 << 4;
+	const Action ACTION_ANY = ACTION_COPY | ACTION_MOVE | ACTION_LINK | ACTION_ASK;
+
+	typedef Action ActionSet; // For readability.
+
+	struct Data {
+		short format;
+		short info;
+		sequence <octet> bytes;
+	};
+
+	exception NoData {};
+
+	interface SourceFolder {
+		struct Context {
+			string physical_uri;
+			string folder_type;
+			ActionSet possible_actions;
+			Action suggested_action;
+		};
+
+		/* The user started a drag from this object.  If the component
+		   receives this while still in the middle of an existing drag
+		   operation, it should stop the existing drag operation and
+		   start a new one.  */
+		void beginDrag (in string physical_uri,
+				in string folder_type,
+				out ActionSet possible_actions,
+				out Action suggested_action);
+
+		/* User released the mouse button and dropped the object
+		   somewhere, so we now want to get the data for the current
+		   context.  */
+		void getData (in Context source_context,
+			      in Action action,
+			      in string dnd_type,
+			      out Data data)
+			raises (NoData);
+
+		/* The target has finished processing the data, so we can
+		   delete it.  */
+		void deleteData (in Context source_context);
+
+		/* The drag is over.  */
+		void endDrag (in Context source_context);
+	};
+
+	interface DestinationFolder {
+		struct Context {
+			string dnd_type;
+			ActionSet possible_actions;
+			Action suggested_action;
+		};
+
+		/* The user is moving a dragged object over our folder.  This
+		   will return %FALSE if the specified object cannot be
+		   dropped; otherwise, it will return %TRUE and then set the
+		   @action we want to be performed when the drop happens.  */
+		boolean handleMotion (in Context destination_context,
+				      out Action default_action,
+				      out Action non_default_action);
+
+		/* Data is dropped.  We are given the data for the dropped
+		   object, and we are supposed to perform the operation
+		   requested.  */
+		boolean handleDrop (in Context destination_context,
+				    in Action action,
+				    in Data data);
+	};
+};
+};
+};

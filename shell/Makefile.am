@@ -22,6 +22,7 @@ IDLS = \
 	Evolution-Session.idl		\
 	Evolution-Shell.idl		\
 	Evolution-ShellComponent.idl	\
+	Evolution-ShellComponentDnd.idl	\
 	Evolution-ShellView.idl		\
 	Evolution-Storage.idl		\
 	Evolution-StorageSetView.idl	\

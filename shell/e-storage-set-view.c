@@ -699,12 +699,14 @@ table_drag_data_get (ETable *etable,
 									e_folder_get_type_string (folder));
 	g_assert (component_client != NULL);
 
+#if 0
 	evolution_shell_component_client_get_dnd_selection (component_client,
 							    e_folder_get_physical_uri (folder),
 							    info,
 							    &format, &selection, &selection_length);
 	if (selection == NULL)
 		return;
+#endif
 
 	gtk_selection_data_set (selection_data, selection_data->target,
 				format, selection, selection_length);

@@ -1,4 +1,21 @@
-2001-03-15  Pablo Saratxaga  <pabloàmandrakesoft.com>
+2001-03-19  Ettore Perazzoli  <ettore@ximian.com>
+
+	* e-storage-set-view.c (table_drag_data_get): Don't get the
+	selection through
+	`evolution_shell_component_client_get_dnd_selection()'.
+
+	* evolution-shell-component.c
+	(impl_ShellComponent_getDndSelection): Removed.
+	(class_init): Don't install.
+
+	* evolution-shell-component-client.c
+	(evolution_shell_component_client_get_dnd_selection): Removed.
+
+	* Evolution-ShellComponentDnd.idl: New file with the DnD stuff.
+
+	* Evolution-ShellComponent.idl: Removed the dnd stuff.
+
+2001-03-15  Pablo Saratxaga  <pablo@mandrakesoft.com>
 
 	* main.c: fixed a no-c-format tag
 

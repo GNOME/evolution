@@ -69,14 +69,6 @@ module Evolution {
 		void populateFolderContextMenu (in Bonobo::UIContainer uih,
 						in string physical_uri,
 						in string type);
-
-		typedef sequence<octet> Selection;
-		exception NoSelection {};
-
-		void getDndSelection (in string physical_uri, in short type,
-				      out short format,
-				      out Selection selection)
-			raises (NoSelection);
 	};
 
 	interface ShellComponentListener {

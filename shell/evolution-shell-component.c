@@ -367,53 +367,6 @@ impl_ShellComponent_populate_folder_context_menu (PortableServer_Servant servant
 	bonobo_object_unref (BONOBO_OBJECT (uic));
 }
 
-static void
-impl_ShellComponent_getDndSelection (PortableServer_Servant servant,
-				     const CORBA_char *physical_uri,
-				     const CORBA_short type,
-				     CORBA_short *format_return,
-				     GNOME_Evolution_ShellComponent_Selection **selection_return,
-				     CORBA_Environment *ev)
-{
-	BonoboObject *bonobo_object;
-	EvolutionShellComponent *shell_component;
-	EvolutionShellComponentPrivate *priv;
-	const char *selection;
-	int selection_length;
-	int format;
-
-	bonobo_object = bonobo_object_from_servant (servant);
-	shell_component = EVOLUTION_SHELL_COMPONENT (bonobo_object);
-	priv = shell_component->priv;
-
-	if (priv->get_dnd_selection_fn == NULL) {
-		CORBA_exception_set (ev, CORBA_USER_EXCEPTION,
-				     ex_GNOME_Evolution_ShellComponent_NoSelection, NULL);
-		return;
-	}
-
-	(* priv->get_dnd_selection_fn) (shell_component, physical_uri, type,
-					&format, &selection, &selection_length,
-					priv->closure);
-
-	if (selection == NULL) {
-		CORBA_exception_set (ev, CORBA_USER_EXCEPTION,
-				     ex_GNOME_Evolution_ShellComponent_NoSelection, NULL);
-	} else {
-		*format_return = format;
-
-		*selection_return = GNOME_Evolution_ShellComponent_Selection__alloc ();
-
-		(* selection_return)->_buffer = CORBA_octet_allocbuf (selection_length);
-		memcpy ((* selection_return)->_buffer, selection, selection_length);
-
-		(* selection_return)->_length = selection_length;
-		(* selection_return)->_maximum = selection_length;
-
-		CORBA_sequence_set_release (*selection_return, TRUE);
-	}
-}
-
 
 /* GtkObject methods.  */
 
@@ -495,7 +448,6 @@ class_init (EvolutionShellComponentClass *klass)
 	epv->createFolderAsync         = impl_ShellComponent_async_create_folder;
 	epv->removeFolderAsync         = impl_ShellComponent_async_remove_folder;
 	epv->populateFolderContextMenu = impl_ShellComponent_populate_folder_context_menu;
-	epv->getDndSelection           = impl_ShellComponent_getDndSelection;
 }
 
 static void
