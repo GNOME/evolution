@@ -1,3 +1,17 @@
+2001-07-09  Dan Winship  <danw@ximian.com>
+
+	* mail-format.c (mail_lookup_handler): Use
+	gnome_vfs_mime_get_short_list_applications rather than
+	gnome_vfs_mime_get_default_application.
+
+	* mail-display.c (pixmap_press): Construct the EPopupMenu array on
+	the fly, based on the number of applications available to open the
+	MIME type.
+	(launch_cb): Figure out which menu item was clicked, and invoke
+	the appropriate application. Ugh, messy, because of the EPopupMenu
+	interface. Probably should get rewritten some day. Also, make this
+	handle apps with expects_uris set too.
+
 2001-07-09  Peter Williams  <peterw@ximian.com>
 
 	* mail-config.c (mail_config_write): Change html_signature stuff over

@@ -243,16 +243,25 @@ static void
 launch_cb (GtkWidget *widget, gpointer user_data)
 {
 	CamelMimePart *part = gtk_object_get_data (user_data, "CamelMimePart");
+	MailMimeHandler *handler;
+	GList *apps, *children, *c;
 	GnomeVFSMimeApplication *app;
-	CamelContentType *content_type;
-	char *mime_type, *tmpl, *tmpdir, *filename, *argv[2];
+	char *tmpl, *tmpdir, *filename, *url, *argv[2];
 
-	content_type = camel_mime_part_get_content_type (part);
-	mime_type = header_content_type_simple (content_type);
-	app = gnome_vfs_mime_get_default_application (mime_type);
-	g_free (mime_type);
+	handler = mail_lookup_handler (gtk_object_get_data (user_data, "mime_type"));
+	g_return_if_fail (handler != NULL && handler->applications != NULL);
 
-	g_return_if_fail (app != NULL);
+	/* Yum. Too bad EPopupMenu doesn't allow per-item closures. */
+	children = gtk_container_children (GTK_CONTAINER (widget->parent));
+	g_return_if_fail (children != NULL && children->next != NULL && children->next->next != NULL);
+
+	for (c = children->next->next, apps = handler->applications; c && apps; c = c->next, apps = apps->next) {
+		if (c->data == widget)
+			break;
+	}
+	g_list_free (children);
+	g_return_if_fail (c != NULL && apps != NULL);
+	app = apps->data;
 
 	tmpl = g_strdup ("/tmp/evolution.XXXXXX");
 #ifdef HAVE_MKDTEMP
@@ -280,6 +289,12 @@ launch_cb (GtkWidget *widget, gpointer user_data)
 		g_free (tmpl);
 		g_free (filename);
 		return;
+	}
+
+	if (app->expects_uris == GNOME_VFS_MIME_APPLICATION_ARGUMENT_TYPE_URIS) {
+		url = g_strdup_printf ("file:%s", filename);
+		g_free (filename);
+		filename = url;
 	}
 
 	argv[0] = app->command;
@@ -326,18 +341,16 @@ button_press (GtkWidget *widget, CamelMimePart *part)
 static gboolean
 pixmap_press (GtkWidget *widget, GdkEventButton *event, EScrollFrame *user_data)
 {
-	EPopupMenu menu[] = {
-		{ N_("Save to Disk..."), NULL,
-		  GTK_SIGNAL_FUNC (save_cb), NULL, 0 },
-		{ N_("Open in %s..."), NULL,
-		  GTK_SIGNAL_FUNC (launch_cb), NULL, 1 },
-		{ N_("View Inline"), NULL,
-		  GTK_SIGNAL_FUNC (inline_cb), NULL, 2 },
-		{ NULL, NULL, NULL, 0 }
-	};
+	EPopupMenu *menu;
+	EPopupMenu save_item = { N_("Save to Disk..."), NULL,
+				 GTK_SIGNAL_FUNC (save_cb), NULL, 0 };
+	EPopupMenu view_item = { N_("View Inline"), NULL,
+				 GTK_SIGNAL_FUNC (inline_cb), NULL, 2 };
+	EPopupMenu open_item = { N_("Open in %s..."), NULL,
+				 GTK_SIGNAL_FUNC (launch_cb), NULL, 1 };
 	CamelMimePart *part;
 	MailMimeHandler *handler;
-	int mask = 0;
+	int mask = 0, i, nitems;
 
 #ifdef USE_OLD_DISPLAY_STYLE
 	if (event->button != 3) {
@@ -357,20 +370,18 @@ pixmap_press (GtkWidget *widget, GdkEventButton *event, EScrollFrame *user_data)
 	handler = mail_lookup_handler (gtk_object_get_data (GTK_OBJECT (widget),
 							    "mime_type"));
 
+	if (handler && handler->applications)
+		nitems = g_list_length (handler->applications) + 2;
+	else
+		nitems = 3;
+	menu = g_new0 (EPopupMenu, nitems + 1);
+
 	/* Save item */
+	memcpy (&menu[0], &save_item, sizeof (menu[0]));
 	menu[0].name = _(menu[0].name);
 
-	/* External view item */
-	if (handler && handler->application) {
-		menu[1].name = g_strdup_printf (_(menu[1].name),
-						handler->application->name);
-	} else {
-		menu[1].name = g_strdup_printf (_(menu[1].name),
-						_("External Viewer"));
-		mask |= 1;
-	}
-
 	/* Inline view item */
+	memcpy (&menu[1], &view_item, sizeof (menu[1]));
 	if (handler && handler->builtin) {
 		if (!mail_part_is_inline (part)) {
 			if (handler->component) {
@@ -388,20 +399,41 @@ pixmap_press (GtkWidget *widget, GdkEventButton *event, EScrollFrame *user_data)
 					name = prop->v._u.value_string;
 				else
 					name = "bonobo";
-				menu[2].name = g_strdup_printf (
+				menu[1].name = g_strdup_printf (
 					_("View Inline (via %s)"), name);
 			} else
-				menu[2].name = g_strdup (_(menu[2].name));
+				menu[1].name = g_strdup (_(menu[1].name));
 		} else
-			menu[2].name = g_strdup (_("Hide"));
+			menu[1].name = g_strdup (_("Hide"));
 	} else {
-		menu[2].name = g_strdup (_(menu[2].name));
+		menu[1].name = g_strdup (_(menu[1].name));
 		mask |= 2;
 	}
 
+	/* External views */
+	if (handler && handler->applications) {
+		GnomeVFSMimeApplication *app;
+		GList *apps;
+		int i;
+
+		apps = handler->applications;
+		for (i = 2; i < nitems; i++, apps = apps->next) {
+			app = apps->data;
+			memcpy (&menu[i], &open_item, sizeof (menu[i]));
+			menu[i].name = g_strdup_printf (_(menu[i].name), app->name);
+		}
+	} else {
+		memcpy (&menu[2], &open_item, sizeof (menu[2]));
+		menu[2].name = g_strdup_printf (_(menu[2].name),
+						_("External Viewer"));
+		mask |= 1;
+	}
+
 	e_popup_menu_run (menu, (GdkEvent *)event, mask, 0, widget);
-	g_free (menu[1].name);
-	g_free (menu[2].name);
+
+	for (i = 1; i < nitems; i++)
+		g_free (menu[i].name);
+	g_free (menu);
 	return TRUE;
 }	
 
@@ -674,7 +706,6 @@ static void *
 save_url (MailDisplay *md, const char *url)
 {
 	GHashTable *urls;
-	GByteArray *ba;
 	CamelMimePart *part;
 
 	urls = g_datalist_get_data (md->data, "part_urls");

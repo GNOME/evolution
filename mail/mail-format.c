@@ -395,8 +395,8 @@ mail_lookup_handler (const char *mime_type)
 	 * register it.
 	 */
 	handler = g_new0 (MailMimeHandler, 1);
-	handler->application =
-		gnome_vfs_mime_get_default_application (mime_type);
+	handler->applications =
+		gnome_vfs_mime_get_short_list_applications (mime_type);
 	handler->builtin =
 		g_hash_table_lookup (mime_function_table, mime_type);
 
@@ -439,7 +439,7 @@ mail_lookup_handler (const char *mime_type)
 	}
 
 	/* If we at least got an application, use that. */
-	if (handler->application) {
+	if (handler->applications) {
 		handler->generic = TRUE;
 		goto reg;
 	}
