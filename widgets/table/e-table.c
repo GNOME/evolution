@@ -1500,6 +1500,12 @@ e_table_right_click_up (ETable *table)
 	e_selection_model_right_click_up(E_SELECTION_MODEL(table->selection));
 }
 
+void
+e_table_commit_click_to_add (ETable *table)
+{
+	e_table_click_to_add_commit(E_TABLE_CLICK_TO_ADD(table->click_to_add));
+}
+
 static void
 et_get_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 {

@@ -327,6 +327,8 @@ void             e_table_invert_selection          (ETable               *table)
 /* This function is only needed in single_selection_mode. */
 void             e_table_right_click_up            (ETable               *table);
 
+void             e_table_commit_click_to_add       (ETable               *table);
+
 END_GNOME_DECLS
 
 #endif /* _E_TABLE_H_ */
