@@ -1,5 +1,110 @@
 2003-02-05  Dan Winship  <danw@ximian.com>
 
+	* gui/Makefile.am (INCLUDES): Remove cruft. Rename ICONSDIR to
+	IMAGESDIR.
+	(gladedir, etspecdir, serverdir): Remove definitions
+	(libevolution_calendar_la_LDFLAGS): Remove -export-dynamic, add
+	-module.
+	
+	* gui/calendar-config.c: #include <string.h>
+
+	* gui/calendar-component.c (add_creatable_item):
+	s/ICONSDIR/IMAGESDIR/
+
+	* gui/comp-util.c: #include <string.h>
+
+	* gui/e-alarm-list.c: #include e-time-utils.h
+	(row_deleted): Remove unused variable.
+	(e_alarm_list_append): Likewise.
+
+	* gui/e-date-time-list.c: #include e-time-utils.h, timeutil.h,
+	calendar-config.h
+	(row_deleted): Remove unused variable
+	(e_date_time_list_append): Likewise.
+
+	* gui/e-day-view.c (e_day_view_unrealize): Remove unused var
+	(e_day_view_style_set): Likewise.
+	(e_day_view_set_event_font_cb): Likewise.
+
+	* gui/e-day-view-time-item.c: #include <string.h>
+	(e_day_view_time_item_get_column_width): Remove unused variable.
+
+	* gui/e-itip-control.c: #include <unistd.h>
+	(url_requested_cb): s/ICONSDIR/IMAGESDIR/
+
+	* gui/e-week-view.c (e_week_view_unrealize): Remove unused variable
+	(e_week_view_style_set): Likewise
+
+	* gui/e-week-view-titles-item.c: #include string.h
+	* gui/itip-bonobo-control.c: Likewise
+	* gui/print.c: Likewise
+
+
+	* gui/alarm-notify/Makefile.am: Use privlibexecdir.
+	(INCLUDES): Remove cruft.
+	(gladedir, serversdir): Remove definitions
+	(evolution_alarm_notify_LDFLAGS): Remove no-longer-needed
+	-export-dynamic.
+
+	* gui/alarm-notify/alarm-notify-dialog.c (write_html_heading):
+	s/ICONSDIR/IMAGESDIR
+
+	* gui/alarm-notify/notify-main.c (main): Fix up gettext
+	initialization
+
+
+	* gui/dialogs/Makefile.am (INCLUDES): Remove cruft. Rename
+	ICONSDIR to IMAGESDIR.
+	(gladedir, etspecdir): Remove definitions
+
+	* gui/dialogs/alarm-page.c: #include gtktreeselection.h and
+	gtkcellrenderertext.h
+	(append_reminder): Remove unused variable.
+	(alarm_page_fill_component): Likewise.
+	(alarm_page_set_summary): Likewise.
+	(delete_clicked_cb): Likewise.
+
+	* gui/dialogs/comp-editor.c (make_icon_from_comp):
+	s/ICONSDIR/IMAGESDIR/
+
+	* gui/dialogs/event-page.c: #include <string.h>
+
+	* gui/dialogs/meeting-page.c (meeting_page_construct): Remove
+	unused variable.
+	(meeting_page_fill_widgets): Likewise
+
+	* gui/dialogs/recurrence-page.c: #include gtktreeselection.h and
+	gtkcellrenderertext.h
+	(append_exception): Remove unused variable
+	(fill_component): Likewise
+	(recurrence_page_set_summary): Likewise.
+	(exception_delete_cb): Likewise
+
+
+	* cal-client/Makefile.am (libcal_clientincludedir): Define in
+	terms of privincludedir
+
+	* cal-client/client-test.c (main): Fix up gettext initialization
+
+	* cal-client/cal-client.c (cal_client_construct): Likewise
+
+
+	* cal-util/Makefile.am (INCLUDES): Remove cruft.
+	(libcal_utilincludedir): Define in terms of privincludedir
+
+
+	* pcs/Makefile.am (INCLUDES): Remove cruft.
+	(pcsincludedir): Define in terms of privincludedir
+
+	* pcs/cal-backend-file.c (cal_backend_file_finalize): Remove
+	unused variable
+
+
+	* importers/Makefile.am: Update this some although it's not
+	currently being built
+
+2003-02-05  Dan Winship  <danw@ximian.com>
+
 	* gui/alarm-notify/notify-main.c (main):
 	s/glade_gnome_init/glade_init/
 
