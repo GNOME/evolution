@@ -1431,23 +1431,26 @@ remove_folder_get (struct _mail_msg *mm)
 {
 	struct _remove_folder_msg *m = (struct _remove_folder_msg *)mm;
 	CamelStore *store;
-	CamelURL *url;
+	CamelFolder *folder;
 	
 	m->removed = FALSE;
 	
 	camel_operation_register (mm->cancel);
-	
-	store = camel_session_get_store (session, m->uri, &mm->ex);
+
+	folder = mail_tool_uri_to_folder (m->uri, &mm->ex);
+
+	store = camel_folder_get_parent_store (folder);
 	if (!store)
 		goto done;
-	
-	url = camel_url_new (m->uri, NULL);
-	camel_store_delete_folder (store, url->path + 1, &mm->ex);
+
+	camel_store_delete_folder (store, camel_folder_get_full_name (folder), &mm->ex);
 	m->removed = !camel_exception_is_set (&mm->ex);
 	camel_object_unref (CAMEL_OBJECT (store));
-	camel_url_free (url);
 	
  done:
+	if (store)
+		camel_object_unref (CAMEL_OBJECT (store));
+
 	camel_operation_unregister (mm->cancel);
 }
 

@@ -49,6 +49,8 @@
 #include "evolution-shell-component.h"
 #include "evolution-storage-listener.h"
 
+#include "e-util/e-path.h"
+
 #include "camel/camel.h"
 #include "camel/camel-vee-store.h"
 #include "camel/camel-vee-folder.h"
@@ -250,7 +252,7 @@ mail_local_store_init (gpointer object, gpointer klass)
 }
 
 static void
-free_local_folder(MailLocalFolder *lf)
+free_local_folder (MailLocalFolder *lf)
 {
 	if (lf->folder) {
 		camel_object_unhook_event((CamelObject *)lf->folder,
@@ -523,6 +525,7 @@ register_folder_register(struct _mail_msg *mm)
 	name = g_strdup_printf ("%s:%s", meta->format, path);
 	store = camel_session_get_store (session, name, &mm->ex);
 	g_free (name);
+
 	if (!store) {
 		free_metainfo (meta);
 		camel_operation_unregister(mm->cancel);
@@ -630,17 +633,33 @@ local_storage_removed_folder_cb (EvolutionStorageListener *storage_listener,
 {
 	MailLocalStore *local_store = data;
 	MailLocalFolder *local_folder;
+	char *physical_path;
+	char *tmpname;
 
-	if (strncmp (path, "file://", 7) != 0 ||
-	    strncmp (path + 7, local_store->local_path,
+	physical_path = e_path_to_physical (local_store->local_path, path);
+
+	if (strncmp (physical_path, local_store->local_path,
 		     local_store->local_pathlen) != 0)
 		return;
 
-	local_folder = g_hash_table_lookup (local_store->folders, path + 8);
-	if (local_folder) {
-		g_hash_table_remove (local_store->folders, path);
-		free_local_folder(local_folder);
+	tmpname = strchr (physical_path, '/');
+	if (tmpname) {
+		while (*tmpname == '/')
+			tmpname++;
+		local_folder = g_hash_table_lookup (local_store->folders, tmpname);
+		camel_object_ref ((CamelObject *)local_store); /* When we go to free_local_folder() the
+								  local_store will be unref'd */
 	}
+	else
+		local_folder = NULL;
+
+	if (local_folder) {
+		g_hash_table_remove (local_store->folders, tmpname);
+
+		free_local_folder (local_folder);
+	}
+
+	g_free (physical_path);
 }
 
 static CamelProvider local_provider = {
@@ -719,7 +738,7 @@ mail_local_storage_startup (EvolutionShellClient *shellclient,
 
 	CORBA_exception_init (&ev);
 	GNOME_Evolution_Storage_addListener (local_store->corba_local_storage,
-					corba_local_storage_listener, &ev);
+					     corba_local_storage_listener, &ev);
 	if (ev._major != CORBA_NO_EXCEPTION) {
 		g_warning ("Cannot add a listener to the Local Storage.");
 		camel_object_unref (CAMEL_OBJECT (local_store));
@@ -730,7 +749,9 @@ mail_local_storage_startup (EvolutionShellClient *shellclient,
 }
 
 
-/* Local folder reconfiguration stuff */
+/*----------------------------------------------------------------------
+ * Local folder reconfiguration stuff
+ *----------------------------------------------------------------------*/
 
 /*
    open new
@@ -808,7 +829,7 @@ reconfigure_folder_reconfigure(struct _mail_msg *mm)
 
 	d(printf("reconfiguring folder: %s to type %s\n", m->fb->uri, m->newtype));
 
-	mail_status_start(_("Reconfiguring folder"));
+	mail_status (_("Reconfiguring folder"));
 
 	/* NOTE: This var is cleared by the folder_browser via the set_uri method */
 	m->fb->reconfigure = TRUE;
