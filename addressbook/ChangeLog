@@ -1,3 +1,10 @@
+2001-04-13  Christopher James Lahey  <clahey@ximian.com>
+
+	* gui/component/select-names/e-select-names-bonobo.c
+	(entry_get_property_fn): Get the ESelectNamesModel from the
+	widget's text model instead of storing it as a gtk_object_set_data
+	since it may change.
+
 2001-04-12  Jason Leach  <jasonleach@usa.net>
 
 	* backend/pas/pas-backend-file.c (INITIAL_VCARD): Update the Voice
