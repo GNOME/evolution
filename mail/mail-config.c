@@ -500,10 +500,10 @@ mail_config_set_transport (MailConfigService *transport)
 MailConfigService *
 mail_config_get_default_news (void)
 {
-	if (!config->sources)
+	if (!config->news)
 		return NULL;
 	
-	return (MailConfigService *)config->sources->data;
+	return (MailConfigService *)config->news->data;
 }
 
 GSList *
