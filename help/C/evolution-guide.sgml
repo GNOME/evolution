@@ -13,9 +13,11 @@
 <!ENTITY DEVEL-ACTION SYSTEM "devel-action.sgml">
 <!ENTITY DEVEL-SCRIPT SYSTEM "devel-script.sgml">
 <!ENTITY DEVEL-COMPONENT SYSTEM "devel-component.sgml">
+<!ENTITY APX-GLOSS SYSTEM "apx-gloss.sgml">
 <!ENTITY APX-BUGS SYSTEM "apx-bugs.sgml">
 <!ENTITY APX-AUTHORS SYSTEM "apx-authors.sgml">
 <!ENTITY APX-FDL SYSTEM "apx-fdl.sgml">
+
 ]>
 
 
@@ -65,7 +67,6 @@ standardize on second person, not 1st pers. plural.
       </para>
     </partintro>
 
-    &USAGE-SETUP;
     &USAGE-MAINWINDOW;
     &USAGE-MAIL;
     &USAGE-CONTACT;
@@ -101,8 +102,8 @@ standardize on second person, not 1st pers. plural.
         There are three levels of developing for
         <application>Evolution</application>.  You can write actions.
         You can write scripts.  And you can write full-fledged
-        Evolution components.  INSERT CONTENT: paragraph should describe the
-        differences.
+        Evolution components.  This paragraph will eventually
+        desfcribe what that means.
       </para>
     </partintro>
     
@@ -110,9 +111,20 @@ standardize on second person, not 1st pers. plural.
     &DEVEL-SCRIPT;
     &DEVEL-COMPONENT;
   </part>
-
+  &APX-GLOSS;
   &APX-BUGS;
   &APX-AUTHORS; 
   &APX-FDL;
 
 </book>
+
+
+
+
+
+
+
+
+
+
+

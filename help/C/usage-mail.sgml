@@ -1,6 +1,6 @@
 
     <chapter id="usage-mail"> 
-      <title>Evolution Mail: Witty Phrase to Come Later</title>
+      <title>Evolution Mail</title>
       <abstract>
 	<title> An Overview of the Evolution Mailer</title>
 	<para>
@@ -8,7 +8,24 @@
           <application>Evolution</application> mail is here to help
           you keep track of it.  <application>Evolution</application>
           email is like other email programs in all the ways you would
-          hope: (INSERT GOOD SIMILARITIES).
+          hope:
+         <itemizedlist>
+           <listitem>
+             <para>
+               Item: Description
+             </para>
+           </listitem>
+           <listitem>
+             <para>
+               Item: Description
+             </para>
+           </listitem>
+           <listitem>
+             <para>
+               Item: Description
+             </para>
+           </listitem>
+         </itemizedlist>.
         </para>
         <para>
           However, <application>Evolution</application> has some
@@ -28,7 +45,9 @@
         
 	<para>
            You can start reading email by clicking
-           <guibutton>Inbox</guibutton> in the shortcut bar.
+           <guibutton>Inbox</guibutton> in the shortcut bar.  By
+           default, the <interface>Inbox</interface> is open when you
+           start <application>Evolution</application>.
         </para>
       </abstract>
    
@@ -42,7 +61,7 @@
             <guilabel>Inbox</guilabel>, you will see a window like the
             one in <xref linkend="usage-mail-intro-fig">, with a
             message from Helix Code in the<interface> message
-            list</interface>.  A preview of the message is displayed
+            list</interface>.  The message is displayed
             below that, in the <interface>view pane</interface>.  If
             you find the<interface> view pane</interface> too small,
             you can double-click on the message in the
@@ -69,14 +88,16 @@
 	      <title>Evolution Mail</title>
 	      <screenshot>
 		<screeninfo>Evolution Mail</screeninfo>
-		<graphic fileref="mail-intro-pic" format="png" srccredit="Aaron Weber">
+		<graphic fileref="fig/mainwindow-pic" format="png" srccredit="Aaron Weber">
 	    </graphic>
 	    </screenshot>
 	  </figure>
    <!-- ==============End of Figure=================================== -->
           </para>
 	</sect2>
-	
+
+        &USAGE-SETUP;
+ 	
 	<sect2 id="usage-mail-getnsend-get">
 	  <title>Getting Mail</title>
 	  <para>
@@ -88,12 +109,12 @@
             <interface>Inbox</interface> and also in the
             <interface>Today View</interface>.
           </para>
+
 	  <para>
-             If you get an error message, you probably need to
-            change your network preferences.  To do that, you can run
-            the setup assistant again, have a look at <xref
-            linkend="config-prefs-network">, or ask your system
-            administrator.
+            If you get an error message, you probably need to change
+            your network preferences.  To learn how to do that, have a
+            look at <xref linkend="config-prefs-network">, or ask your
+            system administrator.
           </para>
 
 	  <sect3 id="usage-mail-getnsend-get-attach">
@@ -101,22 +122,24 @@
 	    <para>
               If you receive a file attached to an email,
               <application>Evolution</application> will ask where you
-              want to put it.  Once you've downloaded it, you can
-              open, move, copy, or execute those files just like any
-              others, using <application>Nautilus</application> or
-              your favorite shell or file manager.
+              want to put it.  Once you've downloaded a file, you can
+              open, move, copy, or execute it just like any other,
+              using <application>Nautilus</application> or your
+              favorite shell or file manager.
             </para>
+
 	    <para>
                <application>Evolution</application> can also display
                HTML-formatted mail, complete with graphics.  HTML
                formatting will display automatically, although you can
                turn it off if you prefer.
             </para>
+
 	    <para>
                It can also display <glossterm>live
                documents</glossterm>, which have scripted or
                executable contents&mdash; for example, a working
-               spreadsheet page or a chess game.
+               spreadsheet page or a chess game.  
             </para>
 	    <tip id="badidea-attachment">
 	      <title>Bad Idea</title>
@@ -181,8 +204,9 @@
            </para>
 
 	  <para>
-            There is more to sending mail, though.  In the
-            next few sections, we'll go over additional features,
+            There is quite a bit more to sending mail, though.  In the
+            next few sections, you'll see how
+            <application>Evolution</application> handles additional features,
             including mailing lists, attachments, and forwarding.
           </para>
 
@@ -237,15 +261,27 @@
               to send mail to several people without sharing the
               recipient list, you should use
               <guilabel>BCc:</guilabel>. "BCc" stands for "Blind
-              Carbon Copy", and means that addresses in the
-              <guilabel>BCc:</guilabel> field will receive copies of
-              the message, but they will not receive the list of the
-              other recipients' addresses, nor will other recipients
-              know that they have recieved the message.  When I send a
-              generic message to all my friends and I want them to
-              think I've written a personalized email to every one of
-              them, I put them all in the <guilabel>BCc:</guilabel>
-              list.
+              Carbon Copy", and means that people listed in the
+              <guilabel>BCc:</guilabel> are excluded from the
+              recipient list, although they will receive the message
+              and the list of addresses from the
+              <guilabel>To:</guilabel> and <guilabel>Cc:</guilabel>
+              fields.  
+
+              <example id="ex-mail-bcc">
+                 <title>Using the BCc: field</title>
+                 <para>
+                   Let's say Tim sends an email to a client, and wants
+                   his supervisor to know what he wrote.  He doesn't,
+                   however, want the client to start writing his
+                   supervisor about the project&mdash; it's Tim's job
+                   to deal with the client.  So Tim puts his
+                   supervisor's email address in the
+                   <guilabel>BCc:</guilabel> field.  That way, the
+                   client has one contact, and the boss stays in the
+                   loop.
+               </para>
+             </example>
             </para>
 	  </sect3>
 
@@ -289,21 +325,24 @@
               <guimenu>MENU</guimenu> menu.  This will allow you to
               choose one or several of the other message recipients in
               addition to the person who originally sent you the
-              message.  
+              message. If there are large numbers of people in the
+              <guilabel>Cc:</guilabel> or <guilabel>To:</guilabel>
+              fields, this can save substantial amounts of time.  In
+              addition, Reply-To makes it very easy to keep off-topic
+              conversation away from mailing lists and newsgroups.
               <example>
 		<title>Using the Reply-To feature</title>
 		<para>
-                  Returning to the previous example, the client can
-                  decide whether to reply just to Susan, just to Tim,
-                  or to both of them by selecting a menu item, rather
-                  than by cutting and pasting the email addresses.  If
-                  there are large numbers of people in the Cc: fields,
-                  this can save substantial amounts of time.
+                  Returning again to the email Susan sent to Tim and
+                  their client, you'll note that the Reply-To feature
+                  allows the client to decide whether to reply just to
+                  Susan, or to both Tim and Susan by selecting
+                  a menu item, rather than by cutting and pasting the
+                  email addresses. 
                 </para>
 	      </example>
             </para>
 	  </sect3>
-
 	  
 	  <sect3 id="usage-mail-getnsend-send-fancy">
 	    <title>Embellishing that email</title>
@@ -315,7 +354,6 @@
                 spreadhseets or chess games.  This section will tell
                 you how.
             </para>
-
 	    
 	    <sect4 id="usage-mail-getnsend-send-html">
 	      <title>Colors, pictures, and fonts with HTML Mail</title> 
@@ -340,7 +378,7 @@
                   role="html">&lt;BR&gt;Bold Text&lt;/BR&gt</markup>,
                   the the composer will assume you meant exactly that,
                   and not "make this text bold," as a HTML composition
-                  tool would.  For the technically inclined, that
+                  tool would.  For the very technically inclined, that
                   means that when the text <markup
                   role="html">&lt;BR&gt</markup> is sent as HTML, it
                   will be converted to the string
@@ -349,16 +387,18 @@
 	      </note>
 	      <para>
                 Some people do not have HTML-capable mail clients, or
-                prefer not to receive HTML-enhanced mail because it
-                is slower to download and display.  Some people refer
-                to HTML mail as "the root of all evil" and get very
-                angry if you send them HTML mail, which is why the
-                default in <application>Evolution</application> is
-                plain text.  If you have an address book entry for
-                someone who does not wish to receive HTML-enhanced
-                mail, you can note that preference in their address
-                card.  The mailer will automatically strip the HTML
-                tags from any messages you send to that address.
+                prefer not to receive HTML-enhanced mail because it is
+                slower to download and display.
+                <emphasis>Some</emphasis> people refer to HTML mail as
+                "the root of all evil" and get very angry if you send
+                them HTML mail, which is why the default in
+                <application>Evolution</application> is plain text.
+                If you choose to send HTML mail, but have an address
+                book entry for someone who does not wish to receive
+                HTML-enhanced mail, you can note that preference in
+                their address card.  The mailer will automatically
+                strip the HTML tags from any messages you send to that
+                address.
               </para>
 	    </sect4>
       
@@ -369,15 +409,15 @@
                 you can do so by <!--describe process here-->.  If
                 your recipients can read HTML mail, you can put an
                 image inside the mail by dragging the file into the
-                composer window, or by selecting (INSERT DESCRIPTION
-                HERE) (IS THIS CORRECT?).  Still, unless you know what
-                email client the recipient is using, it's best to send
-                a message or attachment in the simplest manner
-                possible.
+                composer window, or by selecting <guimenuitem>Menu
+                Item</guimenuitem> from the <guimenu>Menu</guimenu>
+                menu.  Still, unless you know what email client the
+                recipient is using, it's best to send a message or
+                attachment in the simplest manner possible.
               </para>
 	    </sect4>
 	    <sect4 id="usage-mail-getnsend-send-live">
-	      <title></title>
+	      <title>Live Documents</title>
 	      <para>
                 Later versions of <application>Evolution</application>
                 will allow you to enliven your email with almost any
@@ -529,7 +569,53 @@
             of what those terms mean)
           </para>
           <para>
-            (INSERT the way one creates a search and so forth)
+            To create a search, enter the word or phrase you're
+            looking for in the form field below the toolbar, and
+            choose a search type:
+            <itemizedlist>
+              <listitem>
+                <para>
+                  <guilabel>Body or subject contains:</guilabel> This
+                  will search message subjects and the messages
+                  themselves for the word or phrase you've entered in
+                  the search field.
+               </para>
+             </listitem>
+
+              <listitem>
+                <para>
+                  <guilabel>Body contains:</guilabel> This will search
+                   only in message text, not the subject lines.
+               </para>
+             </listitem>
+
+              <listitem>
+                <para>
+                  <guilabel>Subject contains:</guilabel> This will
+                  show you messages where the search text is in the
+                  subject line.  It will not search in the message body.
+               </para>
+             </listitem>
+
+              <listitem>
+                <para>
+                  <guilabel>Body does not contain:</guilabel> This
+                  finds every email message that does not have the
+                  search text in the message body.  It will still show
+                  messages that have the search text in the subject
+                  line, if it is not also in the body.
+               </para>
+             </listitem>
+
+              <listitem>
+                <para>
+                  <guilabel>Subject does not contain:</guilabel>This
+                  finds every mail whose subject does not
+                  contain the search text.
+               </para>
+             </listitem>
+            </itemizedlist>
+
           </para>
 	</sect2>
     
@@ -611,26 +697,59 @@
 	<sect2 id="usage-mail-organize-filters">
 	  <title>Staying organized: Mail Filters in Evolution</title>
 	  <para>
-            Filters sort your email for you as it arrives in your
-            Inbox, so you don't have to sort them all yourself.
-            People who subscribe to multiple mailing lists find
-            filters especially helpful to sort personal from
-            list-related mail.  To create a filter, go to your
-            <interface>Inbox</interface>.  Then select BLAH BLAH BLAH.
-            This will open the <interface>filters</interface> window.
+            Filters sort your email for you.  People who subscribe to
+            multiple mailing lists, or who often need to refer to
+            messages they have sent, find filters especially helpful
+            to seperate personal from list-related mail, but they're
+            good for anybody who gets more than a few messages a day.
+            To create a filter, go to your
+            <interface>Inbox</interface>.  Then select
+            <guimenuitem>Filter Druid</guimenuitem> from the
+            <guimenu>Tools</guimenu> menu. This will start the a
+            <glossterm> druid</glossterm>, which will allow you to
+            create filters.
           </para>
 
-          <para> 
-            The <interface>filters</interface> window contains the
-            following items: <!--DESCRIBE INTERFACE--> 
+          <para> The <interface>filter druid</interface> window
+            contains a window listing rules, and an option to create a
+            new rule.  To start filtering your mail, click
+            <guibutton>Add</guibutton> to add a filtering rule.
+            You'll decide when it should take place: 
+              <itemizedlist>
+		<listitem>
+                   <para>
+                     <guilabel>When mail arrives:</guilabel> new mail
+		     arrives in the Inbox, and you can filter it from
+		     here.
+                   </para>
+                 </listitem>
+                 <listitem>
+                   <para>
+                     <guilabel> When mail is sent:</guilabel> When you
+                     send mail, you can perform additional actions on
+                     it&mdash; perhaps you keep your Outbox sorted into
+                     subfolders.
+                 </para>
+              </listitem>
+            </itemizedlist>
           </para>
-	  
+
+	  <para>
+           Then, the filter druid will ask you which emails it should
+           act upon.  You can set criteria to include words or phrases
+           in the subject, To:, Cc: or body of the message.  Once
+           you've decided which messages to filter, the druid will ask
+           you the sort of action you wish to take.  More details and
+           screenshots should follow here.
+          </para>
+
+
 	  <note>
 	    <title>Two Notable Filter Features</title>
 	    <para>
               <itemizedlist>
-		<listitem><para>Any email that does not meet filter
-                action criteria remains in the Inbox. </para>
+		<listitem><para>Any incoming email that does not meet
+                filter action criteria remains in the Inbox. </para>
                 </listitem>
 		
 		<listitem><para>If you move a folder, your filters

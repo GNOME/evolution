@@ -1,3 +1,34 @@
+2000-05-26  Aaron Weber  <aaron@helixcode.com>
+
+	* C/fig/mainwindow-pic.png: new file
+	* C/fig/mail-druid-pic.png: new file
+	* C/fig: New directory, for figure graphics.
+
+	* C/apx-gloss.sgml: new file. glossary. thx. to kevin from chicago.
+	
+	* C/usage-setup.sgml: More accurate description of druid, and
+	moved to mail section-- see usage-mail.sgml entry.  This is a new
+	location for this entity, and it may move more later.
+	
+
+	* C/usage-mainwindow.sgml: altered description of starting
+	evolution. added screenshot for main-window picture. 
+
+	* C/usage-mail.sgml: added screenshots, added coverage of setup
+	druid and put it into get-and-send section, which is probably not
+	where it should stay.  Also started filter druid coverage and
+	clarified examples, esp. in Bcc: section.
+
+	* C/usage-contact.sgml: Clarified examples.
+
+	* C/preface.sgml: rewording of "what is" and "about book" sections.
+
+	* C/evolution-guide.sgml: added glossary entity APX-GLOSS, altered
+	phrasing in part intros, changed order of Setup-assistant section.
+
+	* C/config-prefs.sgml: changed wording, removed ref. to re-running
+	setup assistant.
+
 2000-05-18  Aaron Weber  <aaron@helixcode.com>
 
 	* C/evo_book_0.1.sgml: removed.	

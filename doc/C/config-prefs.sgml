@@ -2,10 +2,11 @@
     <chapter id="config-prefs">
       <title>Advanced Configuration with the Preferences Window</title>
       <para>
-        If you prefer not to use the setup assistant, select
+        To change your configuration settings, select
         <guimenuitem>Preferences</guimenuitem> from the
-        <guimenu>Settings</guimenu> menu, and work your way through
-        the page tabs it offers you.  They are:
+        <guimenu>Settings</guimenu> menu.  This will open the
+        preferences window, illustrated in <xref linkend="config-prefs-fig">.
+        Preferences are seperated into several categories:
         <itemizedlist>
           <listitem>
 	    <para>
@@ -17,37 +18,31 @@
 
 	  <listitem>
 	    <para>
-              <guilabel>Network</guilabel>, which allows you to
-              specify your network settings.  There are no default
-              values for this information.
-             </para>
-	  </listitem>
-
-	  <listitem>
-	    <para>
               <guilabel>Mail</guilabel>, which allows you to specify
-              attachment and HTML handling, forwarding behavior,
-              filters, and other <application>Evolution</application>
-              behaviors specific to email.  The default behaviors are
-              those approved by Jamie Zawinski.
+              your email server and protocols, as well as attachment
+              and HTML handling, forwarding behavior, filters, and
+              other <application>Evolution</application> behaviors
+              specific to email.  The default behaviors are those
+              approved by Jamie Zawinski.
             </para>
 	  </listitem>
  
 	  <listitem>
 	    <para>
                <guilabel>Contacts</guilabel>, which allows you to
-               specify behavior that is specific to your contact
-               manager.
+               control addressbook sharing as well as other funcctions
+               specific to your contact manager.
             </para>
 	  </listitem>
 
 	  <listitem>
 	    <para>
               <guilabel>Calendar</guilabel>, which allows you to set
-              the way that your calendar will behave and appear.  The
-              default view is by week and the default calendar is
-              Western.  Date format is determined by the system clock
-              and localization, and cannot be set here.
+              up calendar networking, as well as the way that your
+              calendar will behave and appear.  The default view is by
+              week and the default calendar is Western.  Time and
+              date are determined by the system clock and
+              localization, and cannot be set here.
             </para>
 	  </listitem>
  
@@ -60,9 +55,7 @@
 	  </listitem>
 	</itemizedlist>
       
-        The <interface>Preferences Dialog</interface> is shown in
-        <xref linkend="config-prefs-fig">.
-      </para>
+    </para>
 
       <!-- ==============Figure===================== -->
       <figure id="config-prefs-fig">

@@ -3,18 +3,23 @@
 
     <title>The Main Window: Evolution Basics</title>
       <para>
-	After <application>Evolution</application> starts up, you will
-	see the <interface>main window</interface>, which looks a lot
-	like in <xref linkend="usage-mainwindow-fig">. On the left of
-	the <interface>main window</interface> are the
-	<interface>shortcut bar</interface> and the
-	<interface>tree-view</interface>.  Just underneath the title
-	bar is a series of menus in the <interface>menu
-	bar</interface>, and below that, the <interface>tool
-	bar</interface> with buttons for different functions. The
-	largest part of the <interface>main window</interface> is
-	taken up by a welcome message.  <!-- para does not end here
-	but after fig! -->
+	
+        Start <application>Evolution</application> by selecting
+	<guimenuitem>Evolution</guimenuitem> from the
+	<guisubmenu>Applications</guisubmenu> of the <guimenu>Main
+	Panel Menu</guimenu>, or by typing
+	<command>evolution</command> at the command-line.After
+	<application>Evolution</application> starts up, you will see
+	the <interface>main window</interface>, which looks a lot like
+	in <xref linkend="usage-mainwindow-fig">. On the left of the
+	<interface>main window</interface> are the <interface>shortcut
+	bar</interface> and the <interface>tree-view</interface>.
+	Just underneath the title bar is a series of menus in the
+	<interface>menu bar</interface>, and below that, the
+	<interface>tool bar</interface> with buttons for different
+	functions. The largest part of the <interface>main
+	window</interface> is taken up by a welcome message.  <!--
+	para does not end here but after fig! -->
 
 <!-- ==============Figure=================================== -->
 
@@ -25,10 +30,10 @@ forth.  Can these things be labelled with little arrows & stuff?
  -->
 
 	<figure id="usage-mainwindow-fig">
-	<title>Evolution Main Window</title>
+	<title>Evolution Main Window and Inbox</title>
 	<screenshot>
 	  <screeninfo>Evolution Main Window</screeninfo>
-	  <graphic fileref="mainwindow-pic" format="png" srccredit="Aaron Weber">
+	  <graphic fileref="fig/mainwindow-pic" format="png" srccredit="Aaron Weber">
 	    </graphic>
 	</screenshot>
 	</figure>
@@ -189,14 +194,14 @@ forth.  Can these things be labelled with little arrows & stuff?
         </para>
 
 	<para>
-          (CHANGE that title! THIS SECTION BELONGS SOMEWHERE ELSE!)
           You can drag the folders inside the tree view to change
           their order or put one folder inside another.  To delete a
           folder, you can drag it into the trash folder.  The same
           goes for individual messages, appointments, and address
           cards, whether they're in the <interface>tree
           view</interface> or not: drag them where you want them, and
-          they will go there. (IS THIS TRUE?)
+          they will go there.
+<!--  ****This paragraph could use some work****  -->
         </para>
 	<para>
           You can also use the <guimenu>right-click menu</guimenu> to

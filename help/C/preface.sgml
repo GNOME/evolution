@@ -82,7 +82,7 @@
         by email, or to send email to a contact or appointment.
         <application>Evolution</application> makes displays faster and
         more efficient, so searches are faster and memory usage is
-        much lower.  People who get lots of mail will appreciate
+        lower.  People who get lots of mail will appreciate
         advanced features like <link
         linkend="usage-mail-organize-vFolders">vFolders</link>, which
         let you save searches as though they were ordinary mail
@@ -93,16 +93,20 @@
 
     <section id="aboutbook">
       <title>About This Book</title>
-
     <!-- ************** FOLLOWING PARAGRAPH FOR DRAFT ONLY ************* -->
       <para>
-        This is a DRAFT of the <application>Evolution</application>
-        User's Guide.  Please send comments on it to
-        <email>aaron@helixcode.com</email>.  Items that are known to
-        need action are indicated as such, often with notation like
-        (INSERT CONTENT HERE).  If you have content to add, please
-        contact me.  This paragraph will be removed in later versions
-        of the manual.
+        This version of the <application>Evolution</application>
+        User's Guide is a <emphasis>draft</emphasis>.  It is missing
+        huge chunks of information, and many of the features it
+        describes are unimplemented.  All the content is subject to
+        change, especially if you help.  Please send comments on the
+        guide to <email>aaron@helixcode.com</email>.  Items that are
+        known to need action are indicated as such, often with
+        notation like (INSERT CONTENT HERE).  If you would like to
+        work on the guide please contact me or see the GNOME
+        Documentation project <ulink
+        url="http://www.gnome.org/gdp">web site</ulink>.  This
+        paragraph will be removed in later versions of the manual.
       </para>
     <!-- ************* END DRAFT ONLY PARAGRAPH ************** -->
 
@@ -138,12 +142,18 @@
           It's listed below:
           <simplelist>
 	    <member><application>Applications</application></member>
-	    <member><command>Commands</command></member>
-	    <member><guilabel>Labels</guilabel>for menu items and buttons</member>
+	    <member><command>Commands</command> typed at the command line</member>
+	    <member><guilabel>Labels</guilabel> for menu items and buttons</member>
 	    <member>Other text treatments</member>
-	    <member>more info here</member>
+	    <member>Other text treatments</member>
 	  </simplelist>
         </para>
       </formalpara>
     </section>
   </preface>
+
+
+
+
+
+

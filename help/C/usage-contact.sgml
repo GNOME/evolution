@@ -45,7 +45,7 @@
         </para>
 	<para>
           Describe the interface.  Include the fact that the
-          whole book consists of a set of cards, organized into
+          whole address book consists of a set of cards, organized into
           folders.
         </para>
       </sect1>
@@ -194,7 +194,7 @@
       </sect1>
 
       <sect1 id="usage-contact-sharing">
-	<title>Sharing your cards (Or Keeping them to Yourself)</title>
+	<title>Sharing your Cards (and keeping them to yourself)</title>
 	<para>
            Cards can be shared over a network.  This is the sort of
            feature you'll want to use if your company has a list of
@@ -213,7 +213,11 @@
                 contacts there, so I know whom to call.  Since we also
                 share the calendars, I know that Deanna has already
                 scheduled a meeting with them next Thursday, and I can
-                just ask her to bring up my concerns at the meeting.
+                either go to the meeting myself or ask Deanna to
+                discuss my concerns for me.  Either way, I avoid
+                having to schedule yet another meeting with Company X,
+                which is good since everybody hates their products and
+                they're doomed to fail anyway.
              </para>
 	  </example>
 
@@ -225,9 +229,9 @@
            decide which folders you want to make accessible to others.
         </para>
 	<para>
-           To begin sharing a folder of address cards, select <!--
+           To begin sharing a folder of address cards, select (something) <!--
            DESCRIBE PROCESS HERE -->.  The
-           <interface>Sharing</interface> will pop up.  It contains:
+           <interface>Sharing</interface> window will pop up.  It contains:
            <!--DESCRIBE INTERFACE HERE-->
         </para>
       </sect1>
@@ -241,6 +245,7 @@
           mailing lists, you'll find that the contact manager is more
           than a mere address book.
         </para>
+
 	<sect2 id="contact-automation-basic">
 	  <title>Send me a card: Adding New Cards Quickly</title>
 	  <para>
