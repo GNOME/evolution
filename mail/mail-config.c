@@ -40,6 +40,8 @@ typedef struct {
 	gboolean view_source;
 	gint paned_size;
 	gboolean send_html;
+	gboolean citation_highlight;
+	guint32  citation_color;
 	gboolean prompt_empty_subject;
 	gint seen_timeout;
 	
@@ -193,7 +195,7 @@ mail_config_clear (void)
 		g_slist_free (config->news);
 		config->news = NULL;
 	}
-	
+
 	/* overkill? */
 	memset (config, 0, sizeof (MailConfig));
 }
@@ -335,6 +337,20 @@ config_read (void)
 		config->send_html = FALSE;
 	g_free (str);
 	
+	/* Citation */
+	str = g_strdup_printf ("=%s/config/Mail=/Display/citation_highlight", 
+			       evolution_dir);
+	config->citation_highlight = gnome_config_get_bool_with_default (str, &def);
+	if (def)
+		config->citation_highlight = TRUE;
+	g_free (str);
+	str = g_strdup_printf ("=%s/config/Mail=/Display/citation_color", 
+			       evolution_dir);
+	config->citation_color = gnome_config_get_int_with_default (str, &def);
+	if (def)
+		config->citation_color = 0x737373;
+	g_free (str);
+
 	/* Mark as seen timeout */
 	str = g_strdup_printf ("=%s/config/Mail=/Display/seen_timeout", 
 			       evolution_dir);
@@ -509,6 +525,16 @@ mail_config_write_on_exit (void)
 	gnome_config_set_bool (str, config->send_html);
 	g_free (str);
 	
+	/* Citation */
+	str = g_strdup_printf ("=%s/config/Mail=/Display/citation_highlight",
+			       evolution_dir);
+	gnome_config_set_bool (str, config->citation_highlight);
+	g_free (str);
+	str = g_strdup_printf ("=%s/config/Mail=/Display/citation_color", 
+			       evolution_dir);
+	gnome_config_set_int (str, config->citation_color);
+	g_free (str);
+
 	/* Empty Subject */
 	str = g_strdup_printf ("=%s/config/Mail=/Prompts/empty_subject", 
 			       evolution_dir);
@@ -591,6 +617,30 @@ void
 mail_config_set_send_html (gboolean send_html)
 {
 	config->send_html = send_html;
+}
+
+gboolean
+mail_config_get_citation_highlight (void)
+{
+	return config->citation_highlight;
+}
+
+void
+mail_config_set_citation_highlight (gboolean citation_highlight)
+{
+	config->citation_highlight = citation_highlight;
+}
+
+guint32
+mail_config_get_citation_color (void)
+{
+	return config->citation_color;
+}
+
+void
+mail_config_set_citation_color (guint32 citation_color)
+{
+	config->citation_color = citation_color;
 }
 
 gint

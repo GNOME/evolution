@@ -307,15 +307,12 @@ mail_tool_quote_message (CamelMimeMessage *message, const char *fmt, ...)
 		}
 		
 		if (is_html) {
-			if (credits) {
-				ret_text = g_strdup_printf ("<blockquote><i>\n%s\n%s\n"
-							    "</i></blockquote>\n",
-							    credits, text);
-			} else {
-				ret_text = g_strdup_printf ("<blockquote><i>\n%s\n"
-							    "</i></blockquote>\n",
-							    text);
-			}
+			ret_text = g_strdup_printf ("<blockquote><i><font color=\"%06x\">\n%s%s%s\n"
+						    "</font></i></blockquote>\n",
+						    mail_config_get_citation_color (),
+						    credits ? credits : "",
+						    credits ? "\n" : "",
+						    text);
 		} else {
 			gchar *s, *d, *quoted_text;
 			gint lines, len, offset = 0;
@@ -360,7 +357,10 @@ mail_tool_quote_message (CamelMimeMessage *message, const char *fmt, ...)
 			*d = '\0';
 			
 			/* Now convert that to HTML. */
-			ret_text = e_text_to_html (quoted_text, E_TEXT_TO_HTML_PRE);
+			ret_text = e_text_to_html_full (quoted_text, E_TEXT_TO_HTML_PRE
+							| (mail_config_get_citation_highlight ()
+							   ? E_TEXT_TO_HTML_MARK_CITATION : 0),
+							mail_config_get_citation_color ());
 			g_free (quoted_text);
 		}
 		

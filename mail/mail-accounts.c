@@ -373,6 +373,27 @@ send_html_toggled (GtkToggleButton *button, gpointer data)
 }
 
 static void
+citation_highlight_toggled (GtkToggleButton *button, gpointer data)
+{
+	mail_config_set_citation_highlight (gtk_toggle_button_get_active (button));
+}
+
+static void
+citation_color_set (GnomeColorPicker *cp, guint r, guint g, guint b, guint a)
+{
+	guint32 rgb;
+
+	rgb   = r >> 8;
+	rgb <<= 8;
+	rgb  |= g >> 8;
+	rgb <<= 8;
+	rgb  |= b >> 8;
+
+	mail_config_set_citation_color (rgb);
+}
+
+
+static void
 timeout_changed (GtkEntry *entry, gpointer data)
 {
 	MailAccountsDialog *dialog = data;
@@ -402,6 +423,14 @@ pgp_path_changed (GtkEntry *entry, gpointer data)
 	
 	mail_config_set_pgp_path (path && *path ? path : NULL);
 	mail_config_set_pgp_type (type);
+}
+
+static void
+set_color (GnomeColorPicker *cp)
+{
+	guint32 rgb = mail_config_get_citation_color ();
+
+	gnome_color_picker_set_i8 (cp, (rgb & 0xff0000) >> 16, (rgb & 0xff00) >> 8, rgb & 0xff, 0xff);
 }
 
 static void
@@ -470,6 +499,17 @@ construct (MailAccountsDialog *dialog)
 	gtk_signal_connect (GTK_OBJECT (dialog->send_html), "toggled",
 			    GTK_SIGNAL_FUNC (send_html_toggled), dialog);
 	
+	dialog->citation_highlight = GTK_CHECK_BUTTON (glade_xml_get_widget (gui, "chckHighlightCitations"));
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (dialog->citation_highlight),
+				      mail_config_get_citation_highlight ());
+	gtk_signal_connect (GTK_OBJECT (dialog->citation_highlight), "toggled",
+			    GTK_SIGNAL_FUNC (citation_highlight_toggled), dialog);
+
+	dialog->citation_color = GNOME_COLOR_PICKER (glade_xml_get_widget (gui, "colorpickerCitations"));
+	set_color (dialog->citation_color);
+	gtk_signal_connect (GTK_OBJECT (dialog->citation_color), "color_set",
+			    GTK_SIGNAL_FUNC (citation_color_set), dialog);
+
 	dialog->timeout = GTK_SPIN_BUTTON (glade_xml_get_widget (gui, "spinMarkTimeout"));
 	gtk_spin_button_set_value (GTK_SPIN_BUTTON (dialog->timeout),
 				   (1.0 * mail_config_get_mark_as_seen_timeout ()) / 1000.0);

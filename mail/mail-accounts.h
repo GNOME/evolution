@@ -65,6 +65,8 @@ struct _MailAccountsDialog {
 	
 	/* "Other" widgets */
 	GtkCheckButton *send_html;
+	GtkCheckButton *citation_highlight;
+	GnomeColorPicker *citation_color;
 	GtkSpinButton *timeout;
 	GnomeFileEntry *pgp_path;
 };

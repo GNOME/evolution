@@ -1,3 +1,15 @@
+2001-03-20  Radek Doulik  <rodo@ximian.com>
+
+	* mail-tools.c (mail_tool_quote_message): set color in html
+	citation
+
+	* mail-config.c: added citation highlighting configuration
+
+	* mail-tools.c (mail_tool_quote_message): use citation
+	highlighting
+
+	* mail-display.c (mail_text_write): use citation highlighting
+
 2001-03-20  Christopher James Lahey  <clahey@ximian.com>
 
 	* folder-browser.c (etree_key): Made this check if the control

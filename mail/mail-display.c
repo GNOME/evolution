@@ -885,10 +885,12 @@ mail_text_write (GtkHTML *html, GtkHTMLStream *stream,
 	buf = g_strdup_vprintf (format, ap);
 	va_end (ap);
 
-	htmltext = e_text_to_html (buf,
-				   E_TEXT_TO_HTML_CONVERT_URLS |
-				   E_TEXT_TO_HTML_CONVERT_NL |
-				   E_TEXT_TO_HTML_CONVERT_SPACES);
+	htmltext = e_text_to_html_full (buf,
+					E_TEXT_TO_HTML_CONVERT_URLS |
+					E_TEXT_TO_HTML_CONVERT_NL |
+					E_TEXT_TO_HTML_CONVERT_SPACES |
+					(mail_config_get_citation_highlight () ? E_TEXT_TO_HTML_MARK_CITATION : 0),
+					mail_config_get_citation_color ());
 	gtk_html_write (html, stream, "<tt>", 4);
 	gtk_html_write (html, stream, htmltext, strlen (htmltext));
 	gtk_html_write (html, stream, "</tt>", 5);

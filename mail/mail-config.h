@@ -93,6 +93,12 @@ void     mail_config_set_paned_size           (gint size);
 gboolean mail_config_get_send_html            (void);
 void     mail_config_set_send_html            (gboolean send_html);
 
+gboolean mail_config_get_citation_highlight   (void);
+void     mail_config_set_citation_highlight   (gboolean);
+
+guint32  mail_config_get_citation_color       (void);
+void     mail_config_set_citation_color       (guint32);
+
 gint     mail_config_get_mark_as_seen_timeout (void);
 void     mail_config_set_mark_as_seen_timeout (gint timeout);
 
