@@ -62,7 +62,7 @@ time_t time_month_begin (time_t t);
 time_t time_month_end (time_t t);
 
 /* These functions take a time value and return the beginning or end of the corresponding week,
- * respectively.
+ * respectively.  This takes into account the global week_starts_on_monday flag.
  */
 time_t time_week_begin (time_t t);
 time_t time_week_end (time_t t);
