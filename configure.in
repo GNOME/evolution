@@ -600,41 +600,6 @@ else
     esac
 fi
 
-dnl **********
-dnl GPGPGPGPGP
-dnl **********
-AC_PATH_PROG(GPGME_CONFIG, gpgme-config)
-if test -n "$GPGME_CONFIG"; then
-	AC_DEFINE(HAVE_LIBGPGME)
-	GPGME_CFLAGS=`$GPGME_CONFIG --cflags`
-	GPGME_LIBS=`$GPGME_CONFIG --libs`
-	msg_crypto="GNU PG (via libgpgme)"
-else
-	msg_crypto=None
-	AC_PATH_PROG(GPG, gpg)
-	if test -n "$GPG"; then
-		AC_DEFINE_UNQUOTED(GPG_PATH, "$GPG")
-		AC_DEFINE(PGP_PROGRAM, "GPG")
-		msg_crypto="GNU PG"
-	else
-		AC_PATH_PROG(PGP5, pgpv)
-		if test -n "$PGP5"; then
-			AC_DEFINE_UNQUOTED(PGP5_PATH, "$PGP5")
-			AC_DEFINE(PGP_PROGRAM, "PGP")
-			msg_crypto="PGP5"
-		else
-			AC_PATH_PROG(PGP, pgp)
-			if test -n "$PGP"; then
-				AC_DEFINE_UNQUOTED(PGP_PATH, "$PGP")
-				AC_DEFINE(PGP_PROGRAM, "PGP")
-				msg_crypto=PGP
-			fi
-		fi
-	fi
-fi
-AC_SUBST(GPGME_CFLAGS)
-AC_SUBST(GPGME_LIBS)
-
 dnl ******************************
 dnl Makefiles
 dnl ******************************

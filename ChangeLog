@@ -1,3 +1,7 @@
+2001-01-12  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* configure.in: Take out the PGP/GPG detection stuff.
+
 2001-01-12  Federico Mena Quintero  <federico@ximian.com>
 
 	* configure.in: Suggest what to do if gtk-doc is not found.
