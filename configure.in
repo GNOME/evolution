@@ -60,7 +60,7 @@ AC_MSG_ERROR(gnome-libs 1.0.59 or higher is required.)])
 CFLAGS=$CFLAGS_save
 LIBS=$LIBS_save
 
-ALL_LINGUAS="da el fr gl ja ko nl no ru sv tr uk"
+ALL_LINGUAS="da el fr gl hu ja ko nl no ru sv tr uk"
 
 AM_GNOME_GETTEXT
 
@@ -340,13 +340,6 @@ dnl ******
 dnl XML
 dnl ******
 GNOME_XML_CHECK
-xmlversion=`xml-config --version | sed 's/^libxml//'`
-xmlmajor=`echo $xmlversion | awk -F. '{print $1;}'`
-xmlminor=`echo $xmlversion | awk -F. '{print $2;}'`
-xmlpatch=`echo $xmlversion | awk -F. '{print $3;}'`
-if test "$xmlmajor" -ne 1 -o "$xmlminor" -ne 8 -o "$xmlpatch" -lt 7; then
-	AC_MSG_ERROR(gnome-xml 1.8.7 (or later, but not 2.0) is required to compile Evolution)
-fi
 
 AC_SUBST(CAPPLET_LIBS)
 
