@@ -954,7 +954,7 @@ efhd_write_image(EMFormat *emf, CamelStream *stream, EMFormatPURI *puri)
 	CamelDataWrapper *dw = camel_medium_get_content_object((CamelMedium *)puri->part);
 
 	/* TODO: identical to efh_write_image */
-	d(printf("writing image '%s'\n", puri->uri?puri->uri:puri->cid));
+	d(printf("writing image '%s'\n", puri->cid));
 	camel_data_wrapper_decode_to_stream(dw, stream);
 	camel_stream_close(stream);
 }

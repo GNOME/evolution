@@ -1085,7 +1085,7 @@ efh_write_image(EMFormat *emf, CamelStream *stream, EMFormatPURI *puri)
 {
 	CamelDataWrapper *dw = camel_medium_get_content_object((CamelMedium *)puri->part);
 
-	d(printf("writing image '%s'\n", puri->uri?puri->uri:puri->cid));
+	d(printf("writing image '%s'\n", puri->cid));
 	camel_data_wrapper_decode_to_stream(dw, stream);
 	camel_stream_close(stream);
 }
@@ -1094,12 +1094,10 @@ static void
 efh_image(EMFormatHTML *efh, CamelStream *stream, CamelMimePart *part, EMFormatHandler *info)
 {
 	EMFormatPURI *puri;
-	const char *location;
 
 	puri = em_format_add_puri((EMFormat *)efh, sizeof(EMFormatPURI), NULL, part, efh_write_image);
-	location = puri->uri?puri->uri:puri->cid;
-	d(printf("adding image '%s'\n", location));
-	camel_stream_printf(stream, "<img hspace=10 vspace=10 src=\"%s\">", location);
+	d(printf("adding image '%s'\n", puri->cid));
+	camel_stream_printf(stream, "<img hspace=10 vspace=10 src=\"%s\">", puri->cid);
 }
 
 static EMFormatHandler type_builtin_table[] = {
