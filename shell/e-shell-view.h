@@ -28,7 +28,7 @@
 #include <config.h>
 #endif
 
-#include <bonobo/bonobo-app.h>
+#include <bonobo/bonobo-win.h>
 
 #include "e-shell.h"
 

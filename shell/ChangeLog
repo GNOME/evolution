@@ -1,3 +1,7 @@
+2000-09-16  Ettore Perazzoli  <ettore@helixcode.com>
+
+	* e-shell-view.h: #include "bonobo-win.h", not "bonobo-app.h".
+
 2000-09-15  Dan Winship  <danw@helixcode.com>
 
 	* e-storage.c (get_path_for_physical_uri_foreach): foreach_data
