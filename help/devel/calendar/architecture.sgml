@@ -8,8 +8,10 @@
       that appear inside the Evolution shell.
     </para>
 
+    <!-- Model/View Separation -->
+
     <sect1 id="calendar-model-view">
-      <title>Model/view separation</title>
+      <title>Model/View Separation</title>
 
       <para>
 	Like other base components in Evolution, the calendar
@@ -37,6 +39,50 @@
 	to-do item) changes in the &PCS; it will notify all the
 	clients that are using the component's parent calendar.
       </para>
+    </sect1>
+
+    <!-- Personal Calendar Server -->
+
+    <sect1>
+      <title>Personal Calendar Server</title>
+
+      <para>
+	The personal calendar server, or &PCS;, provides centralized
+	management and storage of a user's personal calendar.
+	Multiple clients can connect to the &PCS; simultaneously to
+	query and modify the user's calendar in a synchronized
+	fashion.  The main features of the &PCS; are as follows:
+      </para>
+
+      <formalpara>
+	<title>Storage</title>
+
+	<para>
+	  The &PCS; is responsible for loading and saving calendars.
+	  Centralizing the loading and saving functionality allows
+	  multiple clients to use the same calendar at the same time
+	  without having to worry about each other.
+	</para>
+      </formalpara>
+
+      <formalpara>
+	<title>Basic Queries</title>
+
+	<para>
+	  The &PCS; provides functions to do basic queries on a
+	  calendar, for example, a client can ask the server for a
+	  list of all the appointments in the calendar, or for all the
+	  data for a specific appointment.
+	</para>
+      </formalpara>
+
+      <formalpara>
+	<title>Recurrence and Alarm Queries</title>
+
+	<para>
+	  
+	</para>
+      </formalpara>
     </sect1>
   </chapter>
 
