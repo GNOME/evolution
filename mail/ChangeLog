@@ -1,8 +1,12 @@
 2000-06-28  Dan Winship  <danw@helixcode.com>
 
+	* component-factory.c (create_folder): Refuse to create folders
+	not of type "mail", and correctly create an empty "mbox" folder
+	for new folders in /local.
+
 	* main.c (init_corba): Call od_assert_using_oaf() or
 	od_assert_using_goad() as appropriate to make sure people didn't
-	someone trick the build system.
+	somehow trick the build system.
 
 2000-06-28  Jeffrey Stedfast  <fejj@helixcode.com>
 
