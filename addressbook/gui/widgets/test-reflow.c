@@ -159,7 +159,7 @@ int main( int argc, char *argv[] )
 				    e_minicard_get_type(),
 				    "card", card,
 				    NULL);
-      e_reflow_add_item(E_REFLOW(reflow), item);
+      e_reflow_add_item(E_REFLOW(reflow), item, NULL);
     }
   gnome_canvas_set_scroll_region ( GNOME_CANVAS( canvas ),
 				   0, 0,

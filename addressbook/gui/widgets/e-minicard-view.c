@@ -34,6 +34,7 @@ static void e_minicard_view_destroy (GtkObject *object);
 static gboolean e_minicard_view_event (GnomeCanvasItem *item, GdkEvent *event);
 static void canvas_destroy (GtkObject *object, EMinicardView *view);
 static void disconnect_signals (EMinicardView *view);
+static void e_minicard_view_update_selection (EMinicardView *view);
 
 static EReflowSortedClass *parent_class = NULL;
 
@@ -112,6 +113,12 @@ e_minicard_view_class_init (EMinicardViewClass *klass)
 }
 
 static void
+selection_changed (ESelectionModel *selection, EMinicardView *view)
+{
+	e_minicard_view_update_selection (view);
+}
+
+static void
 e_minicard_view_init (EMinicardView *view)
 {
 	view->book = NULL;
@@ -124,6 +131,11 @@ e_minicard_view_init (EMinicardView *view)
 	view->status_message_id = 0;
 	view->canvas_destroy_id = 0;
 	view->first_get_view = TRUE;
+
+	view->selection = e_selection_model_simple_new();
+
+	gtk_signal_connect(GTK_OBJECT(view->selection), "selection_changed",
+			   GTK_SIGNAL_FUNC(selection_changed), view);
 	
 	gtk_object_set(GTK_OBJECT(view),
 		       "empty_message", _("\n\nThere are no items to show in this view\n\n"
@@ -134,15 +146,40 @@ e_minicard_view_init (EMinicardView *view)
 	E_REFLOW_SORTED(view)->string_func  = (EReflowStringFunc) e_minicard_get_card_id;
 }
 
+static gint
+card_selected (EMinicard *card, GdkEvent *event, EMinicardView *view)
+{
+	int i = 0;
+	GList *item;
+	for (item = E_REFLOW(view)->items; item->data != card; item = item->next, i++)
+		/* Empty for loop */;
+	switch(event->type) {
+	case GDK_BUTTON_PRESS:
+		e_selection_model_do_something(E_SELECTION_MODEL(view->selection), i, 0, event->button.state);
+		return TRUE;
+		break;
+	default:
+		e_selection_model_do_something(E_SELECTION_MODEL(view->selection), i, 0, 0);
+		return FALSE;
+		break;
+	}
+}
+
 static void
 create_card(EBookView *book_view, const GList *cards, EMinicardView *view)
 {
 	for (; cards; cards = g_list_next(cards)) {
+		int position;
 		GnomeCanvasItem *item = gnome_canvas_item_new(GNOME_CANVAS_GROUP(view),
 							      e_minicard_get_type(),
 							      "card", cards->data,
 							      NULL);
-		e_reflow_add_item(E_REFLOW(view), item);
+		gtk_signal_connect(GTK_OBJECT(item), "selected",
+				   GTK_SIGNAL_FUNC(card_selected), view);
+
+		e_reflow_add_item(E_REFLOW(view), item, &position);
+
+		e_selection_model_simple_insert_row(view->selection, position);
 	}
 }
 
@@ -152,12 +189,18 @@ modify_card(EBookView *book_view, const GList *cards, EMinicardView *view)
 	for (; cards; cards = g_list_next(cards)) {
 		ECard *card = cards->data;
 		gchar *id = e_card_get_id(card);
-		GnomeCanvasItem *item = e_reflow_sorted_get_item(E_REFLOW_SORTED(view), id);
+		GnomeCanvasItem *item = e_reflow_sorted_get_item(E_REFLOW_SORTED(view), id, NULL);
 		if (item && !GTK_OBJECT_DESTROYED(item)) {
+			int old_pos;
+			int new_pos;
+
 			gnome_canvas_item_set(item,
 					      "card", card,
 					      NULL);
-			e_reflow_sorted_reorder_item(E_REFLOW_SORTED(view), id);
+
+			e_reflow_sorted_reorder_item(E_REFLOW_SORTED(view), id, &old_pos, &new_pos);
+
+			e_selection_model_simple_move_row(view->selection, old_pos, new_pos);
 		}
 	}
 }
@@ -175,7 +218,9 @@ status_message (EBookView *book_view,
 static void
 remove_card(EBookView *book_view, const char *id, EMinicardView *view)
 {
-	e_reflow_sorted_remove_item(E_REFLOW_SORTED(view), id);
+	int position;
+	e_reflow_sorted_remove_item(E_REFLOW_SORTED(view), id, &position);
+	e_selection_model_simple_delete_row(view->selection, position);
 }
 
 static void
@@ -197,22 +242,26 @@ book_view_loaded (EBook *book, EBookStatus status, EBookView *book_view, gpointe
 		gtk_object_ref(GTK_OBJECT(view->book_view));
 	
 
-	view->create_card_id = gtk_signal_connect(GTK_OBJECT(view->book_view),
-						  "card_added",
-						  GTK_SIGNAL_FUNC(create_card),
-						  view);
-	view->remove_card_id = gtk_signal_connect(GTK_OBJECT(view->book_view),
-						  "card_removed",
-						  GTK_SIGNAL_FUNC(remove_card),
-						  view);
-	view->modify_card_id = gtk_signal_connect(GTK_OBJECT(view->book_view),
-						  "card_changed",
-						  GTK_SIGNAL_FUNC(modify_card),
-						  view);
-	view->status_message_id = gtk_signal_connect(GTK_OBJECT(view->book_view),
-						     "status_message",
-						     GTK_SIGNAL_FUNC(status_message),
-						     view);
+	view->create_card_id =
+		gtk_signal_connect(GTK_OBJECT(view->book_view),
+				   "card_added",
+				   GTK_SIGNAL_FUNC(create_card),
+				   view);
+	view->remove_card_id =
+		gtk_signal_connect(GTK_OBJECT(view->book_view),
+				   "card_removed",
+				   GTK_SIGNAL_FUNC(remove_card),
+				   view);
+	view->modify_card_id =
+		gtk_signal_connect(GTK_OBJECT(view->book_view),
+				   "card_changed",
+				   GTK_SIGNAL_FUNC(modify_card),
+				   view);
+	view->status_message_id =
+		gtk_signal_connect(GTK_OBJECT(view->book_view),
+				   "status_message",
+				   GTK_SIGNAL_FUNC(status_message),
+				   view);
 
 	g_list_foreach(E_REFLOW(view)->items, (GFunc) gtk_object_unref, NULL);
 	g_list_foreach(E_REFLOW(view)->items, (GFunc) gtk_object_destroy, NULL);
@@ -486,4 +535,18 @@ e_minicard_view_stop             (EMinicardView *view)
 	if (view->book_view)
 		gtk_object_unref(GTK_OBJECT(view->book_view));
 	view->book_view = NULL;
+}
+
+static void
+e_minicard_view_update_selection (EMinicardView *view)
+{
+	int i;
+	GList *item;
+
+	for (i = 0, item = E_REFLOW(view)->items; item; item = item->next, i++) {
+		if (E_IS_MINICARD(item->data))
+			gtk_object_set(GTK_OBJECT(item->data),
+				       "selected", e_selection_model_is_row_selected(E_SELECTION_MODEL(view->selection), i),
+				       NULL);
+	}
 }

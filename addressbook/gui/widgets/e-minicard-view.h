@@ -23,6 +23,7 @@
 
 #include <gnome.h>
 #include <gal/widgets/e-reflow-sorted.h>
+#include <gal/widgets/e-selection-model-simple.h>
 #include "addressbook/backend/ebook/e-book.h"
 
 #ifdef __cplusplus
@@ -67,6 +68,8 @@ struct _EMinicardView
 	EBook *book;
 	char *query;
 	EBookView *book_view;
+
+	ESelectionModelSimple *selection;
 
 	int get_view_idle;
 

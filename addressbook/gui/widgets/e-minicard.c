@@ -74,8 +74,16 @@ enum {
 	ARG_WIDTH,
 	ARG_HEIGHT,
 	ARG_HAS_FOCUS,
+	ARG_SELECTED,
 	ARG_CARD
 };
+
+enum {
+	SELECTED,
+	LAST_SIGNAL
+};
+
+static guint e_minicard_signals [LAST_SIGNAL] = {0, };
 
 GtkType
 e_minicard_get_type (void)
@@ -105,32 +113,46 @@ e_minicard_get_type (void)
 static void
 e_minicard_class_init (EMinicardClass *klass)
 {
-  GtkObjectClass *object_class;
-  GnomeCanvasItemClass *item_class;
+	GtkObjectClass *object_class;
+	GnomeCanvasItemClass *item_class;
 
-  object_class = (GtkObjectClass*) klass;
-  item_class = (GnomeCanvasItemClass *) klass;
+	object_class = (GtkObjectClass*) klass;
+	item_class = (GnomeCanvasItemClass *) klass;
 
-  parent_class = gtk_type_class (gnome_canvas_group_get_type ());
+	parent_class = gtk_type_class (gnome_canvas_group_get_type ());
   
-  gtk_object_add_arg_type ("EMinicard::width", GTK_TYPE_DOUBLE, 
-			   GTK_ARG_READWRITE, ARG_WIDTH); 
-  gtk_object_add_arg_type ("EMinicard::height", GTK_TYPE_DOUBLE, 
-			   GTK_ARG_READABLE, ARG_HEIGHT);
-  gtk_object_add_arg_type ("EMinicard::has_focus", GTK_TYPE_ENUM,
-			   GTK_ARG_READWRITE, ARG_HAS_FOCUS);
-  gtk_object_add_arg_type ("EMinicard::card", GTK_TYPE_OBJECT, 
-			   GTK_ARG_READWRITE, ARG_CARD);
+	gtk_object_add_arg_type ("EMinicard::width", GTK_TYPE_DOUBLE, 
+				 GTK_ARG_READWRITE, ARG_WIDTH); 
+	gtk_object_add_arg_type ("EMinicard::height", GTK_TYPE_DOUBLE, 
+				 GTK_ARG_READABLE, ARG_HEIGHT);
+	gtk_object_add_arg_type ("EMinicard::has_focus", GTK_TYPE_ENUM,
+				 GTK_ARG_READWRITE, ARG_HAS_FOCUS);
+	gtk_object_add_arg_type ("EMinicard::selected", GTK_TYPE_BOOL,
+				 GTK_ARG_READWRITE, ARG_SELECTED);
+	gtk_object_add_arg_type ("EMinicard::card", GTK_TYPE_OBJECT, 
+				 GTK_ARG_READWRITE, ARG_CARD);
+
+	e_minicard_signals [SELECTED] =
+		gtk_signal_new ("selected",
+				GTK_RUN_LAST,
+				object_class->type,
+				GTK_SIGNAL_OFFSET (EMinicardClass, selected),
+				gtk_marshal_INT__POINTER,
+				GTK_TYPE_INT, 1, GTK_TYPE_POINTER);
+
+	gtk_object_class_add_signals (object_class, e_minicard_signals, LAST_SIGNAL);
  
-  object_class->set_arg = e_minicard_set_arg;
-  object_class->get_arg = e_minicard_get_arg;
-  object_class->destroy = e_minicard_destroy;
-  object_class->finalize = e_minicard_finalize;
+	object_class->set_arg  = e_minicard_set_arg;
+	object_class->get_arg  = e_minicard_get_arg;
+	object_class->destroy  = e_minicard_destroy;
+	object_class->finalize = e_minicard_finalize;
   
-  /* GnomeCanvasItem method overrides */
-  item_class->realize     = e_minicard_realize;
-  item_class->unrealize   = e_minicard_unrealize;
-  item_class->event       = e_minicard_event;
+	/* GnomeCanvasItem method overrides */
+	item_class->realize    = e_minicard_realize;
+	item_class->unrealize  = e_minicard_unrealize;
+	item_class->event      = e_minicard_event;
+
+	klass->selected        = NULL;
 }
 
 static void
@@ -142,6 +164,7 @@ e_minicard_init (EMinicard *minicard)
 	minicard->width = 10;
 	minicard->height = 10;
 	minicard->has_focus = FALSE;
+	minicard->selected = FALSE;
   
 	minicard->card = NULL;
 	minicard->simple = e_card_simple_new(NULL);
@@ -152,6 +175,35 @@ e_minicard_init (EMinicard *minicard)
 
 	e_canvas_item_set_reflow_callback(GNOME_CANVAS_ITEM(minicard), e_minicard_reflow);
 }
+
+static void
+set_selected (EMinicard *minicard, gboolean selected)
+{
+	GtkWidget *canvas = GTK_WIDGET(GNOME_CANVAS_ITEM(minicard)->canvas);
+	if (selected) {
+		gnome_canvas_item_set (minicard->rect, 
+				       "outline_color_gdk", &canvas->style->bg[GTK_STATE_NORMAL],
+				       NULL);
+		gnome_canvas_item_set (minicard->header_rect, 
+				       "fill_color_gdk", &canvas->style->bg[GTK_STATE_SELECTED],
+				       NULL);
+		gnome_canvas_item_set (minicard->header_text, 
+				       "fill_color_gdk", &canvas->style->text[GTK_STATE_SELECTED],
+				       NULL);
+	} else {
+		gnome_canvas_item_set (minicard->rect, 
+				       "outline_color", NULL, 
+				       NULL);
+		gnome_canvas_item_set (minicard->header_rect, 
+				       "fill_color_gdk", &canvas->style->bg[GTK_STATE_NORMAL],
+				       NULL);
+		gnome_canvas_item_set (minicard->header_text, 
+				       "fill_color_gdk", &canvas->style->fg[GTK_STATE_NORMAL],
+				       NULL);
+	}
+	minicard->selected = selected;
+}
+
 
 static void
 e_minicard_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
@@ -187,6 +239,10 @@ e_minicard_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 		else
 			e_canvas_item_grab_focus(item);
 		break;
+	case ARG_SELECTED:
+		if (e_minicard->selected != GTK_VALUE_BOOL(*arg))
+			set_selected (e_minicard, GTK_VALUE_BOOL(*arg));
+		break;
 	case ARG_CARD:
 		if (e_minicard->card)
 			gtk_object_unref (GTK_OBJECT(e_minicard->card));
@@ -219,6 +275,9 @@ e_minicard_get_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 	  break;
 	case ARG_HAS_FOCUS:
 		GTK_VALUE_ENUM (*arg) = e_minicard->has_focus ? E_FOCUS_CURRENT : E_FOCUS_NONE;
+		break;
+	case ARG_SELECTED:
+		GTK_VALUE_BOOL (*arg) = e_minicard->selected;
 		break;
 	case ARG_CARD:
 		e_card_simple_sync_card(e_minicard->simple);
@@ -511,17 +570,10 @@ e_minicard_event (GnomeCanvasItem *item, GdkEvent *event)
 	case GDK_FOCUS_CHANGE:
 		{
 			GdkEventFocus *focus_event = (GdkEventFocus *) event;
-			if ( focus_event->in ) {
-				gnome_canvas_item_set( e_minicard->rect, 
-						       "outline_color_gdk", &canvas->style->bg[GTK_STATE_NORMAL], 
-						       NULL );
-				gnome_canvas_item_set( e_minicard->header_rect, 
-						       "fill_color_gdk", &canvas->style->bg[GTK_STATE_SELECTED],
-						       NULL );
-				gnome_canvas_item_set( e_minicard->header_text, 
-						       "fill_color_gdk", &canvas->style->text[GTK_STATE_SELECTED],
-						       NULL );
-				e_minicard->has_focus = TRUE;
+			if (focus_event->in) {
+				if (!e_minicard->selected) {
+					e_minicard_selected(e_minicard, event);
+				}
 			} else {
 				EBook *book = NULL;
 
@@ -550,25 +602,15 @@ e_minicard_event (GnomeCanvasItem *item, GdkEvent *event)
 					}
 					e_minicard->changed = FALSE;
 				}
-					
-				gnome_canvas_item_set( e_minicard->rect, 
-						       "outline_color", NULL, 
-						       NULL );
-				gnome_canvas_item_set( e_minicard->header_rect, 
-						       "fill_color_gdk", 
-						       &canvas->style->bg[GTK_STATE_NORMAL],
-						       NULL );
-				gnome_canvas_item_set( e_minicard->header_text, 
-						       "fill_color_gdk", 
-						       &canvas->style->fg[GTK_STATE_NORMAL],
-						       NULL );
 				e_minicard->has_focus = FALSE;
 			}
 		}
 		break;
 	case GDK_BUTTON_PRESS:
 		if (event->button.button == 1) {
+			int ret_val = e_minicard_selected(e_minicard, event);
 			e_canvas_item_grab_focus(item);
+			return ret_val;
 		} else if (event->button.button == 3) {
 			MinicardAndParent *mnp = g_new(MinicardAndParent, 1);
 			EPopupMenu menu[] = { {"Save as VCard", NULL, GTK_SIGNAL_FUNC(save_as), NULL, 0}, 
@@ -903,4 +945,14 @@ e_minicard_compare (EMinicard *minicard1, EMinicard *minicard2)
 	} else {
 		return 0;
 	}
+}
+
+int
+e_minicard_selected (EMinicard *minicard, GdkEvent *event)
+{
+	gint ret_val = 0;
+	gtk_signal_emit(GTK_OBJECT(minicard),
+			e_minicard_signals[SELECTED],
+			event, &ret_val);
+	return ret_val;
 }

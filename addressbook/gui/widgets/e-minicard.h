@@ -76,8 +76,10 @@ struct _EMinicard
 	guint needs_remodeling : 1;
 
 	guint changed : 1;
+
+	guint selected : 1;
 	
-	gboolean has_focus;
+	guint has_focus : 1;
 	
 	double width;
 	double height;
@@ -87,13 +89,15 @@ struct _EMinicardClass
 {
 	GnomeCanvasGroupClass parent_class;
 
-	void (* resize) (EMinicard *minicard);
+	gint (* selected) (EMinicard *minicard, GdkEvent *event);
 };
 
 
 GtkType    e_minicard_get_type    (void);
 char      *e_minicard_get_card_id (EMinicard *minicard);
 int        e_minicard_compare     (EMinicard *minicard1, EMinicard *minicard2);
+
+int        e_minicard_selected    (EMinicard *minicard, GdkEvent *event);
 
 #ifdef __cplusplus
 }
