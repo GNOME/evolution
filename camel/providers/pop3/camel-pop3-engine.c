@@ -293,7 +293,7 @@ camel_pop3_engine_iterate(CamelPOP3Engine *pe, CamelPOP3Command *pcwait)
 	/* LOCK */
 
 	if (camel_pop3_stream_line(pe->stream, &pe->line, &pe->linelen) == -1)
-		return -1;
+		goto ioerror;
 
 	p = pe->line;
 	switch (p[0]) {
@@ -339,7 +339,7 @@ camel_pop3_engine_iterate(CamelPOP3Engine *pe, CamelPOP3Command *pcwait)
 			break;
 
 		if (camel_stream_write((CamelStream *)pe->stream, pw->data, strlen(pw->data)) == -1)
-			return -1;
+			goto ioerror;
 
 		e_dlist_remove((EDListNode *)pw);
 
@@ -361,6 +361,25 @@ camel_pop3_engine_iterate(CamelPOP3Engine *pe, CamelPOP3Command *pcwait)
 		return 0;
 
 	return pe->current==NULL?0:1;
+ioerror:
+	/* we assume all outstanding commands are gunna fail now */
+	while ( (pw = (CamelPOP3Command*)e_dlist_remhead(&pe->active)) ) {
+		pw->state = CAMEL_POP3_COMMAND_ERR;
+		e_dlist_addtail(&pe->done, (EDListNode *)pw);
+	}
+
+	while ( (pw = (CamelPOP3Command*)e_dlist_remhead(&pe->queue)) ) {
+		pw->state = CAMEL_POP3_COMMAND_ERR;
+		e_dlist_addtail(&pe->done, (EDListNode *)pw);
+	}
+
+	if (pe->current) {
+		pe->current->state = CAMEL_POP3_COMMAND_ERR;
+		e_dlist_addtail(&pe->done, (EDListNode *)pe->current);
+		pe->current = NULL;
+	}
+
+	return -1;
 }
 
 CamelPOP3Command *

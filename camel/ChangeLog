@@ -1,3 +1,11 @@
+2004-07-22  Not Zed  <NotZed@Ximian.com>
+
+	** See bug #61761.
+
+	* providers/pop3/camel-pop3-engine.c (camel_pop3_engine_iterate):
+	if we get an io error, move every current/active and queued
+	command to the done queue and mark as failed.
+
 2004-07-19  Jeffrey Stedfast  <fejj@novell.com>
 
 	* providers/imap/camel-imap-store.c (get_subscribed_folders): Free
