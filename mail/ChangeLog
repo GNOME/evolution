@@ -1,7 +1,8 @@
 2001-08-19  Christopher James Lahey  <clahey@ximian.com>
 
 	* mail-callbacks.c (delete_msg): Made delete make the cursor go
-	backwards if the user is sorting by descending date.
+	backwards if the user is sorting by descending date.  Fixes Ximian
+	bug #6995.
 
 2001-08-19  Jeffrey Stedfast  <fejj@ximian.com>
 
