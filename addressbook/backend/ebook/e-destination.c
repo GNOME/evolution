@@ -729,6 +729,55 @@ e_destination_importv (const gchar *str)
 	return destv;
 }
 
+EDestination **
+e_destination_importv_list (EBook *book, ECard *list)
+{
+	EList *email_list;
+	EIterator *email_iter;
+	EDestination **destv;
+	gint j = 0;
+
+	if (!e_card_evolution_list (list))
+		return NULL;
+
+	gtk_object_get (GTK_OBJECT(list),
+			"email", &email_list,
+			NULL);
+
+	destv = g_new0 (EDestination *, e_list_length (email_list) +1);
+
+	email_iter = e_list_get_iterator (email_list);
+		
+	while (e_iterator_is_valid (email_iter)) {
+		const char *email = e_iterator_get (email_iter);
+
+		if (!strncmp (email, ECARD_UID_LINK_PREFIX, strlen (ECARD_UID_LINK_PREFIX))) {
+			/* it's a serialized uid */
+			ECard *card;
+			const char *uid;
+			uid = email + strlen (ECARD_UID_LINK_PREFIX);
+			card = e_book_get_card (book, uid);
+			if (card) {
+				EDestination *dest = e_destination_new ();
+				e_destination_set_card (dest, card, 0);
+				gtk_object_unref (GTK_OBJECT (card)); /* XXX ? */
+				destv[j++] = dest;
+			}
+		}
+		else {
+			/* it's an email address */
+			EDestination *dest = e_destination_new();
+			dest->priv->string_email = g_strdup (email);
+
+			if (dest) {
+				destv[j++] = dest;
+			}
+		}
+	}
+
+	return destv;
+}
+
 static void
 touch_cb (EBook *book, const gchar *addr, ECard *card, gpointer closure)
 {

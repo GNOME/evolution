@@ -125,6 +125,8 @@ float                 e_card_get_use_score                (ECard                
 void                  e_card_touch                        (ECard                      *card);
 
 /* Evolution List convenience functions */
+/*   used for encoding uids in email addresses */
+#define ECARD_UID_LINK_PREFIX "|X-EVOLUTION-UID="
 gboolean              e_card_evolution_list               (ECard                      *card);
 gboolean              e_card_evolution_list_show_addresses(ECard                      *card);
 

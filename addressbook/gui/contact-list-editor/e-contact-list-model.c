@@ -267,5 +267,5 @@ e_contact_list_model_get_email (EContactListModel *model, int row)
 	if (data->type == E_CONTACT_LIST_MODEL_ROW_EMAIL)
 		return g_strdup (data->string);
 	else
-		return g_strconcat ("|X-EVOLUTION-UID=", e_card_simple_get_id (data->simple), NULL);
+		return g_strconcat (ECARD_UID_LINK_PREFIX, e_card_simple_get_id (data->simple), NULL);
 }

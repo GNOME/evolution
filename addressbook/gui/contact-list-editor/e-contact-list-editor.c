@@ -804,11 +804,11 @@ fill_in_info(EContactListEditor *editor)
 		while (e_iterator_is_valid (email_iter)) {
 			const char *email = e_iterator_get (email_iter);
 
-			if (!strncmp (email, "X-EVOLUTION-UID=", strlen ("X-EVOLUTION-UID"))) {
+			if (!strncmp (email, ECARD_UID_LINK_PREFIX, strlen (ECARD_UID_LINK_PREFIX))) {
 				ECard *card;
 				const char *uid;
 				/* it's a serialized uid */
-				uid = email + strlen ("X-EVOLUTION-UID=");
+				uid = email + strlen (ECARD_UID_LINK_PREFIX);
 				card = e_book_get_card (editor->book, uid);
 				if (card) {
 					ECardSimple *simple = e_card_simple_new (card);

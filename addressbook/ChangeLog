@@ -1,3 +1,21 @@
+2001-07-01  Chris Toshok  <toshok@ximian.com>
+
+	* gui/contact-list-editor/e-contact-list-editor.c (fill_in_info):
+	use ECARD_UID_LINK_PREFIX.
+
+	* gui/contact-list-editor/e-contact-list-model.c
+	(e_contact_list_model_get_email): use ECARD_UID_LINK_PREFIX.
+
+	* backend/ebook/e-destination.h: add prototype for
+	e_destination_importv_list.
+
+	* backend/ebook/e-destination.c (e_destination_importv_list): new
+	function, take an ECard corresponding to an address list and
+	resolve any linked cards, returning an EDestination vector.
+
+	* backend/ebook/e-card.h (ECARD_UID_LINK_PREFIX): #define this here,
+	since we need to use it in a few places.
+
 2001-07-02  Christopher James Lahey  <clahey@ximian.com>
 
 	* backend/ebook/e-card.c, backend/ebook/e-card.h: Added

@@ -92,6 +92,7 @@ EDestination  *e_destination_import             (const gchar *str);
 
 gchar         *e_destination_exportv            (EDestination **);
 EDestination **e_destination_importv            (const gchar *str);
+EDestination **e_destination_importv_list       (EBook *book, ECard *list);
 
 void           e_destination_touch              (EDestination *);
 
