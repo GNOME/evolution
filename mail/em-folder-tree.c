@@ -2154,8 +2154,6 @@ emft_popup_copy_folder_selected (const char *uri, void *data)
 	
 	priv = cfd->emft->priv;
 	
-	d(printf ("%sing folder '%s' to '%s'\n", cfd->delete ? "move" : "copy", priv->selected_path, uri));
-	
 	camel_exception_init (&ex);
 
 	fromuri = em_folder_tree_get_selected_uri(cfd->emft);
@@ -2754,6 +2752,8 @@ emft_tree_button_press (GtkTreeView *treeview, GdkEventButton *event, EMFolderTr
 		return FALSE;
 	
 	/* select/focus the row that was right-clicked or double-clicked */
+	selection = gtk_tree_view_get_selection (treeview);
+	gtk_tree_selection_select_path(selection, tree_path);
 	gtk_tree_view_set_cursor (treeview, tree_path, NULL, FALSE);
 	
 	if (event->button == 1 && event->type == GDK_2BUTTON_PRESS) {
@@ -2765,9 +2765,10 @@ emft_tree_button_press (GtkTreeView *treeview, GdkEventButton *event, EMFolderTr
 	gtk_tree_path_free (tree_path);
 	
 	/* FIXME: we really need the folderinfo to build a proper menu */
-	selection = gtk_tree_view_get_selection (treeview);
-	if (!emft_selection_get_selected (selection, &model, &iter))
+	if (!emft_selection_get_selected (selection, &model, &iter)) {
+		printf("nothing selected!\n");
 		return FALSE;
+	}
 	
 	gtk_tree_model_get (model, &iter, COL_POINTER_CAMEL_STORE, &store,
 			    COL_STRING_URI, &uri, COL_STRING_FULL_NAME, &full_name,
@@ -2863,9 +2864,10 @@ emft_tree_selection_changed (GtkTreeSelection *selection, EMFolderTree *emft)
 void
 em_folder_tree_set_selected (EMFolderTree *emft, const char *uri)
 {
-	GList *l;
+	GList *l = NULL;
 
-	l = g_list_append(NULL, (void *)uri);
+	if (uri && uri[0])
+		l = g_list_append(l, (void *)uri);
 
 	em_folder_tree_set_selected_list(emft, l);
 	g_list_free(l);

@@ -1,3 +1,15 @@
+2004-10-05  Not Zed  <NotZed@Ximian.com>
+
+	* em-folder-tree.c (emft_popup_copy_folder_selected): remove old
+	debug which no longer works.
+
+	** See bug #66991 (related to #64377).
+
+	* em-folder-tree.c (em_folder_tree_set_selected): if we get a NULL
+	uri or "", just clear the list.
+	(emft_tree_button_press): select the new path as well as move the
+	cursor there, otherwise emft_tree_user_event clears the selection.
+
 2004-09-30  David Malcolm  <dmalcolm@redhat.com>
 
 	* em-migrate.c (upgrade_passwords_1_2): fix uninitialised pointer.
