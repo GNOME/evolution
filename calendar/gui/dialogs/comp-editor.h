@@ -99,6 +99,7 @@ void          comp_editor_focus            (CompEditor             *editor);
 
 void          comp_editor_notify_client_changed (CompEditor *editor, ECal *client);
 
+void comp_editor_sensitize_attachment_bar (CompEditor *editor, gboolean set);
 
 
 G_END_DECLS

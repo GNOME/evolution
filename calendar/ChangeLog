@@ -1,5 +1,17 @@
 2005-03-31  Chenthill Palanisamy  <pchenthill@novell.com>
 
+	Fixes #73879
+	* gui/dialogs/comp-editor.[ch]:
+	(comp_editor_sensitize_attachment_bar): Added a function
+	to sensitize/desensitize the attachment bar.
+	(comp_editor_notify_client_changed): When client changes
+	sensitize the attachment bar.
+	* gui/dialogs/event-editor.c: (event_editor_construct): 
+	* gui/dialogs/task-editor.c: (task_editor_construct): Sensitize
+	the attachment bar.
+
+2005-03-31  Chenthill Palanisamy  <pchenthill@novell.com>
+
 	Fixes #73969
 	* gui/e-calendar-view.c: (delete_event): Remove the
 	recurrence id property if its present.

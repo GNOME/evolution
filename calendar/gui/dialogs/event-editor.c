@@ -129,6 +129,7 @@ EventEditor *
 event_editor_construct (EventEditor *ee, ECal *client)
 {
 	EventEditorPrivate *priv;
+	gboolean read_only = FALSE;
 
 	priv = ee->priv;
 
@@ -147,6 +148,10 @@ event_editor_construct (EventEditor *ee, ECal *client)
 	comp_editor_append_page (COMP_EDITOR (ee),
 				 COMP_EDITOR_PAGE (priv->recur_page),
 				 _("Recurrence"));
+
+	if (!e_cal_is_read_only (client, &read_only, NULL))
+			read_only = TRUE;
+	comp_editor_sensitize_attachment_bar (COMP_EDITOR (ee), !read_only);
 	
 	if (priv->is_meeting) {
 		if (e_cal_get_static_capability (client, CAL_STATIC_CAPABILITY_REQ_SEND_OPTIONS))

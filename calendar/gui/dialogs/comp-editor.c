@@ -990,6 +990,20 @@ setup_widgets (CompEditor *editor)
 	
 }
 
+void
+comp_editor_sensitize_attachment_bar (CompEditor *editor, gboolean  set)
+{
+	CompEditorPrivate *priv;
+
+	g_return_if_fail (IS_COMP_EDITOR (editor));
+
+	priv = editor->priv;
+	
+	gtk_widget_set_sensitive (GTK_WIDGET (priv->attachment_bar),  set);
+	gtk_widget_set_sensitive (GTK_WIDGET (priv->attachment_scrolled_window),  set);
+	gtk_widget_set_sensitive (GTK_WIDGET (priv->attachment_expander),  set);
+}
+	
 /* Object initialization function for the calendar component editor */
 static void
 comp_editor_init (CompEditor *editor)
@@ -1769,6 +1783,7 @@ real_send_comp (CompEditor *editor, ECalComponentItipMethod method)
 	if (!e_cal_component_has_attachments (priv->comp)) {
 		if (itip_send_comp (method, priv->comp, priv->client,
 					NULL, NULL)) {
+#if 0
 			tmp_comp = priv->comp;
 			g_object_ref (tmp_comp);
 			comp_editor_edit_comp (editor, tmp_comp);
@@ -1776,6 +1791,7 @@ real_send_comp (CompEditor *editor, ECalComponentItipMethod method)
 			
 			comp_editor_set_changed (editor, TRUE);
 			save_comp (editor);
+#endif
 
 			return TRUE;
 		}
@@ -2014,7 +2030,7 @@ comp_editor_notify_client_changed (CompEditor *editor, ECal *client)
 
 	if (!e_cal_is_read_only (client, &read_only, NULL))
 		read_only = TRUE;
-
+	comp_editor_sensitize_attachment_bar (editor, !read_only);
 	gtk_dialog_set_response_sensitive (GTK_DIALOG (editor), GTK_RESPONSE_OK, !read_only);
 }
 

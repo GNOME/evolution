@@ -125,6 +125,7 @@ TaskEditor *
 task_editor_construct (TaskEditor *te, ECal *client, gboolean is_assigned)
 {
 	TaskEditorPrivate *priv;
+	gboolean read_only = FALSE;
 	
 	priv = te->priv;
 
@@ -144,6 +145,11 @@ task_editor_construct (TaskEditor *te, ECal *client, gboolean is_assigned)
 	comp_editor_append_page (COMP_EDITOR (te),
 				 COMP_EDITOR_PAGE (priv->task_details_page),
 				 _("Status"));
+	
+	if (!e_cal_is_read_only (client, &read_only, NULL))
+			read_only = TRUE;
+	comp_editor_sensitize_attachment_bar (COMP_EDITOR (te), !read_only);
+
 	if (priv->is_assigned) {
 		if (e_cal_get_static_capability (client, CAL_STATIC_CAPABILITY_REQ_SEND_OPTIONS))
 			task_page_show_options (priv->task_page);
