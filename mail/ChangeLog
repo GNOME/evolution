@@ -1,3 +1,8 @@
+2002-07-29  Ettore Perazzoli  <ettore@ximian.com>
+
+	* mail-session.c (request_password): Left-align the check button's
+	label.
+
 2002-07-29  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-account-gui.c (mail_account_gui_new): Get the "Reset

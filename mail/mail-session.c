@@ -271,6 +271,7 @@ request_password(struct _pass_msg *m)
 
 	check = gtk_check_button_new ();
 	check_label = gtk_label_new ("");
+	gtk_misc_set_alignment (GTK_MISC (check_label), 0.0, 0.5);
 	accel_key = gtk_label_parse_uline (GTK_LABEL (check_label),
 					   m->service_url ? _("_Remember this password") :
 					   _("_Remember this password for the remainder of this session"));
