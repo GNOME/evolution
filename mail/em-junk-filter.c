@@ -95,7 +95,7 @@ em_junk_sa_get_daemon_port ()
 }
 
 static int
-pipe_to_sa (CamelMimeMessage *msg, const char *in, char **argv)
+pipe_to_sa_with_error (CamelMimeMessage *msg, const char *in, char **argv, int rv_err)
 {
 	int result, status, errnosav, fds[2];
 	CamelStream *stream;
@@ -116,7 +116,7 @@ pipe_to_sa (CamelMimeMessage *msg, const char *in, char **argv)
 		errnosav = errno;
 		d(printf ("failed to create a pipe (for use with spamassassin: %s\n", strerror (errno)));
 		errno = errnosav;
-		return -1;
+		return rv_err;
 	}
 	
 	if (!(pid = fork ())) {
@@ -128,7 +128,7 @@ pipe_to_sa (CamelMimeMessage *msg, const char *in, char **argv)
 		if (dup2 (fds[0], STDIN_FILENO) == -1 ||
 		    dup2 (nullfd, STDOUT_FILENO) == -1 ||
 		    dup2 (nullfd, STDERR_FILENO) == -1)
-			_exit (255);
+			_exit (rv_err & 0377);
 		
 		setsid ();
 		
@@ -137,13 +137,13 @@ pipe_to_sa (CamelMimeMessage *msg, const char *in, char **argv)
 			fcntl (fd, F_SETFD, FD_CLOEXEC);
 		
 		execvp (argv[0], argv);
-		_exit (255);
+		_exit (rv_err & 0377);
 	} else if (pid < 0) {
 		errnosav = errno;
 		close (fds[0]);
 		close (fds[1]);
 		errno = errnosav;
-		return -1;
+		return rv_err;
 	}
 	
 	/* parent process */
@@ -178,7 +178,13 @@ pipe_to_sa (CamelMimeMessage *msg, const char *in, char **argv)
 	if (result != -1 && WIFEXITED (status))
 		return WEXITSTATUS (status);
 	else
-		return -1;
+		return rv_err;
+}
+
+static int
+pipe_to_sa (CamelMimeMessage *msg, const char *in, char **argv)
+{
+	return pipe_to_sa_with_error (msg, in, argv, -1);
 }
 
 static int
@@ -206,10 +212,9 @@ em_junk_sa_test_spamd_running (int port)
 static void
 em_junk_sa_test_spamassassin (void)
 {
-	char *argv[4] = {
-		"/bin/sh",
-		"-c",
-		"spamassassin --version",
+	char *argv [3] = {
+		"spamassassin",
+		"--version",
 		NULL,
 	};
 	
@@ -304,7 +309,7 @@ static gboolean
 em_junk_sa_check_junk (CamelMimeMessage *msg)
 {
 	char *argv[5], buf[12];
-	int i = 0;
+	int i = 0, rv;
 	
 	d(fprintf (stderr, "em_junk_sa_check_junk\n"));
 	
@@ -320,18 +325,15 @@ em_junk_sa_check_junk (CamelMimeMessage *msg)
 			argv[i++] = buf;
 		}
 	} else {
-		argv[i++] = "/bin/sh";
-		argv[i++] = "-c";
-		
+		argv [i++] = "spamassassin";
+		argv [i++] = "--exit-code";
 		if (em_junk_sa_get_local_only ())
-			argv[i++] = "spamassassin --exit-code --local";
-		else
-			argv[i++] = "spamassassin --exit-code";
+			argv [i++] = "--local";
 	}
 	
 	argv[i] = NULL;
-	
-	return pipe_to_sa (msg, NULL, argv);
+
+	return pipe_to_sa_with_error (msg, NULL, argv, 0) != 0;
 }
 
 static void

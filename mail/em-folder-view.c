@@ -598,6 +598,8 @@ emfv_popup_mark_nojunk (GtkWidget *w, EMFolderView *emfv)
 	
 	uids = message_list_get_selected(emfv->list);
 	em_folder_view_mark_selected(emfv, CAMEL_MESSAGE_JUNK, 0);
+	if (uids->len == 1)
+		message_list_select(emfv->list, MESSAGE_LIST_SELECT_NEXT, 0, 0, FALSE);
 	mail_mark_junk(emfv->folder, uids, FALSE);
 }
 
