@@ -1,3 +1,8 @@
+2002-01-17  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-format.c (try_uudecoding): Update to match new uudecode
+	interface (ie, no longer need a uulen state variable).
+
 2002-01-15  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-display.c (on_set_base): New callback to handle the

@@ -1375,8 +1375,8 @@ static char *
 try_uudecoding (char *start, CamelMimePart *mime_part,
 		guint offset, MailDisplay *md, GtkHTML *html, GtkHTMLStream *stream)
 {
-	int mode, len, state = 0;
-	char *filename, *estart, *p, *out, uulen = 0;
+	int mode, len, state = CAMEL_UUDECODE_STATE_INIT;
+	char *filename, *estart, *p, *out;
 	guint32 save = 0;
 	CamelMimePart *part;
 	
@@ -1402,7 +1402,7 @@ try_uudecoding (char *start, CamelMimePart *mime_part,
 	}
 	
 	out = g_malloc (p - estart);
-	len = uudecode_step (estart, p - estart, out, &state, &save, &uulen);
+	len = uudecode_step (estart, p - estart, out, &state, &save);
 	
 	part = fake_mime_part_from_data (out, len, "application/octet-stream",
 					 offset, md);
