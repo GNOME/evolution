@@ -756,7 +756,7 @@ e_msg_composer_hdrs_to_message_internal (EMsgComposerHdrs *hdrs,
 	
 	addr = e_msg_composer_hdrs_get_from (hdrs);
 	if (redirect) {
-		header = camel_address_format (CAMEL_ADDRESS (addr));
+		header = camel_address_encode (CAMEL_ADDRESS (addr));
 		camel_medium_set_header (CAMEL_MEDIUM (msg), "Resent-From", header);
 		g_free (header);
 	} else {

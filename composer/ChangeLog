@@ -1,3 +1,9 @@
+2002-07-19  Not Zed  <NotZed@Ximian.com>
+
+	* e-msg-composer-hdrs.c (e_msg_composer_hdrs_to_message_internal):
+	This should use address_encode, since its an rfc822 address, not
+	address_format which is for display.
+
 2002-07-17  Radek Doulik  <rodo@ximian.com>
 
 	* e-msg-composer.c (save): use "saved" gtkhtml command
