@@ -1,5 +1,12 @@
 2004-01-22  Rodney Dawes  <dobey@ximian.com>
 
+	* data/Makefile.am: Add rule to substitute BASE_VERSION in keys
+	* data/evolution.keys.in: Removed this file from CVS
+	* data/evolution.keys.in.in: Update to use BASE_VERSION and the
+	new addressbook vcard control that replaces the MiniCard control
+
+2004-01-22  Rodney Dawes  <dobey@ximian.com>
+
 	* configure.in: Don't require $LIBBONOBOUI_REQUIRED version of
 	libbonobo
 

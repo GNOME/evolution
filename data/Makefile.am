@@ -3,11 +3,15 @@ desktop_in_in_file = evolution.desktop.in.in
 desktop_file = $(desktop_in_in_file:.desktop.in.in=.desktop)
 %.desktop.in: %.desktop.in.in
 	sed -e "s|\@BASE_VERSION\@|$(BASE_VERSION)|" $< > $@
+
 @INTLTOOL_DESKTOP_RULE@
 
 keysdir = $(datadir)/mime-info
-keys_in_file = evolution.keys.in
-keys_file = $(keys_in_file:.keys.in=.keys) 
+keys_in_file = evolution.keys.in.in
+keys_file = $(keys_in_file:.keys.in.in=.keys) 
+%.keys.in: %.keys.in.in
+	sed -e "s|\@BASE_VERSION\@|$(BASE_VERSION)|" $< > $@
+
 @INTLTOOL_KEYS_RULE@
 
 mimedir = $(datadir)/mime-info
