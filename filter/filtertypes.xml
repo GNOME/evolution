@@ -600,7 +600,7 @@
   <code>(stop)</code>
  </part>
  <part name="colour">
-  <title>Assign Colour</title>
+  <title>Assign Color</title>
   <code>(set-colour ${colour})</code>
   <input type="colour" name="colour"/>
  </part>
