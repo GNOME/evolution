@@ -353,12 +353,12 @@ e_contact_print_button(GnomeDialog *dialog, gint button, gpointer data)
 		while (e_printable_data_left(printable)) {
 			if (gnome_print_gsave(pc) == -1)
 				/* FIXME */;
-			if (gnome_print_translate(pc, .5 * 72, .5 * 72) == -1)
+			if (gnome_print_translate(pc, 72, 72) == -1)
 				/* FIXME */;
 			e_printable_print_page(printable,
 					       pc,
-					       7.5 * 72,
-					       10.5 * 72,
+					       6.5 * 72,
+					       5 * 72,
 					       TRUE);
 			if (gnome_print_grestore(pc) == -1)
 				/* FIXME */;
@@ -377,12 +377,12 @@ e_contact_print_button(GnomeDialog *dialog, gint button, gpointer data)
 		while (e_printable_data_left(printable)) {
 			if (gnome_print_gsave(pc) == -1)
 				/* FIXME */;
-			if (gnome_print_translate(pc, .5 * 72, .5 * 72) == -1)
+			if (gnome_print_translate(pc, 72, 72) == -1)
 				/* FIXME */;
 			e_printable_print_page(printable,
 					       pc,
-					       7.5 * 72,
-					       10.5 * 72,
+					       6.5 * 72,
+					       9 * 72,
 					       TRUE);
 			if (gnome_print_grestore(pc) == -1)
 				/* FIXME */;
@@ -1020,6 +1020,7 @@ create_table_view (AddressbookView *view, char *initial_query)
 
 	gtk_object_set (GTK_OBJECT(view->table),
 			"click_to_add_message", _("* Click here to add a contact *"),
+			"drawgrid", TRUE,
 			NULL);
 
 	gtk_box_pack_start(GTK_BOX(view->vbox), view->table, TRUE, TRUE, 0);
