@@ -1,5 +1,16 @@
 2001-09-14  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* subscribe-dialog.c (store_data_new): Added a refcount variable
+	so set the refcount to 1.
+	(sd_got_store): Unref the store-data.
+	(store_data_async_get_store): Ref the store-data.
+	(store_data_ref): New function.
+	(store_data_unref): New function.
+	(subscribe_dialog_destroy): Instead of freeing the store-data
+	here, unref it instead. We may just have an async function
+	running. Set the callback function to NULL so that when the
+	(remaining) async functions finish, they become no-ops.
+
 	* mail-send-recv.c (build_dialogue): Revert my bar_destroy code
 	and replace it with dialog_destroy instead.
 

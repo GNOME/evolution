@@ -53,6 +53,8 @@
 #include "art/empty.xpm"
 #include "art/mark.xpm"
 
+#define d(x) x
+
 /* Things to test.
  * - Feature
  *   + How to check that it works.
@@ -1046,43 +1048,83 @@ typedef struct _StoreData StoreData;
 typedef void (*StoreDataStoreFunc) (StoreData *, CamelStore *, gpointer);
 
 struct _StoreData {
-	char                *uri;
-
-	FolderETree         *ftree;
-	CamelStore          *store;
-
-	int                  request_id;
-
-	GtkWidget           *widget;
-	StoreDataStoreFunc   store_func;
-	gpointer             store_data;
+	int refcount;
+	char *uri;
+	
+	FolderETree *ftree;
+	CamelStore *store;
+	
+	int request_id;
+	
+	GtkWidget *widget;
+	StoreDataStoreFunc store_func;
+	gpointer store_data;
 };
 
 static StoreData *
 store_data_new (const char *uri)
 {
 	StoreData *sd;
-
+	
 	sd = g_new0 (StoreData, 1);
+	sd->refcount = 1;
 	sd->uri = g_strdup (uri);
+	
 	return sd;
+}
+
+static void
+store_data_free (StoreData *sd)
+{
+	if (sd->request_id)
+		mail_msg_cancel (sd->request_id);
+	
+	if (sd->widget)
+		gtk_object_unref (GTK_OBJECT (sd->widget));
+	
+	if (sd->ftree)
+		gtk_object_unref (GTK_OBJECT (sd->ftree));
+	
+	if (sd->store)
+		camel_object_unref (CAMEL_OBJECT (sd->store));
+	
+	g_free (sd->uri);
+	g_free (sd);
+}
+
+static void
+store_data_ref (StoreData *sd)
+{
+	sd->refcount++;
+}
+
+static void
+store_data_unref (StoreData *sd)
+{
+	if (sd->refcount <= 1) {
+		store_data_free (sd);
+	} else {
+		sd->refcount--;
+	}
 }
 
 static void
 sd_got_store (char *uri, CamelStore *store, gpointer user_data)
 {
 	StoreData *sd = (StoreData *) user_data;
-
+	
 	sd->store = store;
-
+	
 	if (store) /* we can have exceptions getting the store... server is down, eg */
 		camel_object_ref (CAMEL_OBJECT (sd->store));
-
+	
 	/* uh, so we might have a problem if this operation is cancelled. Unsure. */
 	sd->request_id = 0;
-
+	
 	if (sd->store_func)
 		(sd->store_func) (sd, sd->store, sd->store_data);
+	
+	store_data_unref (sd);
 }
 
 static void
@@ -1092,15 +1134,16 @@ store_data_async_get_store (StoreData *sd, StoreDataStoreFunc func, gpointer use
 		printf ("Already loading store, nooping\n");
 		return;
 	}
-
+	
 	if (sd->store) {
 		/* um, is this the best behavior? */
 		func (sd, sd->store, user_data);
 		return;
 	}
-
+	
 	sd->store_func = func;
 	sd->store_data = user_data;
+	store_data_ref (sd);
 	sd->request_id = mail_get_store (sd->uri, sd_got_store, sd);
 }
 
@@ -1127,7 +1170,7 @@ store_data_get_widget (StoreData *sd)
 	GtkWidget *tree;
 
 	if (!sd->store) {
-		printf ("store data can't get widget before getting store.\n");
+		d(printf ("store data can't get widget before getting store.\n"));
 		return NULL;
 	}
 
@@ -1189,8 +1232,8 @@ sd_subscribe_folder_foreach (int model_row, gpointer closure)
 static void
 store_data_selection_set_subscription (StoreData *sd, gboolean subscribe)
 {
-	selection_closure  sc;
-	ETree             *tree;
+	selection_closure sc;
+	ETree *tree;
 	
 	sc.sd = sd;
 	if (subscribe)
@@ -1221,25 +1264,6 @@ static gboolean
 store_data_mid_request (StoreData *sd)
 {
 	return (gboolean) sd->request_id;
-}
-
-static void
-store_data_free (StoreData *sd)
-{
-	if (sd->request_id)
-		mail_msg_cancel (sd->request_id);
-
-	if (sd->widget)
-		gtk_object_unref (GTK_OBJECT (sd->widget));
-
-	if (sd->ftree)
-		gtk_object_unref (GTK_OBJECT (sd->ftree));
-
-	if (sd->store)
-		camel_object_unref ((CamelObject *) sd->store);
-
-	g_free (sd->uri);
-	g_free (sd);
 }
 
 /* ** yaay, SubscribeDialog ******************************************************* */
@@ -1504,17 +1528,22 @@ subscribe_dialog_destroy (GtkObject *object)
 {
 	SubscribeDialog *sc;
 	GList *iter;
-
+	
 	sc = SUBSCRIBE_DIALOG (object);
-
+	
 	for (iter = sc->priv->store_list; iter; iter = iter->next) {
-		if (store_data_mid_request (iter->data))
-			store_data_cancel_get_store (iter->data);
-		store_data_free (iter->data);
+		StoreData *data = iter->data;
+		
+		if (store_data_mid_request (data))
+			store_data_cancel_get_store (data);
+		
+		data->store_func = NULL;
+		
+		store_data_unref (data);
 	}
-
+	
 	g_list_free (sc->priv->store_list);
-
+	
 	gtk_object_unref (GTK_OBJECT (sc->priv->xml));
 
 	g_free (sc->priv);
