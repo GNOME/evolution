@@ -2010,9 +2010,20 @@ loc3=Paphos LCPH ------ ---
 
 [EU_FI]
 name=Finland
-loc0=Helsinki EFHK ------ ---
-loc1=Tampere EFTP ------ ---
-loc2=Turku EFTU ------ ---
+loc0=Helsinki-Malmi EFHF ------ ---
+loc1=Helsinki-Vantaa EFHK ------ ---
+loc2=Ivalo EFIV ------ ---
+loc3=Jyvaskyla EFJY ------ ---
+loc4=Kemi EFKE ------ ---
+loc5=Kruunupyy EFKK ------ ---
+loc6=Kuopio EFKU ------ ---
+loc7=Mariehamn EFMA ------ ---
+loc8=Oulu EFOU ------ ---
+loc9=Pori EFPO ------ ---
+loc10=Rovaniemi EFRO ------ ---
+loc11=Tampere EFTP ------ ---
+loc12=Turku EFTU ------ ---
+loc13=Vaasa EFVA ------ ---
 
 [EU_FR]
 name=France
