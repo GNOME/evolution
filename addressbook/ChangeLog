@@ -1,5 +1,11 @@
 2003-05-19  Chris Toshok  <toshok@ximian.com>
 
+	* backend/pas/pas-backend-ldap.c (func_beginswith): use the more
+	convoluted (but more correct) query if evolutionPerson is
+	supported.  Fixes #42825.
+
+2003-05-19  Chris Toshok  <toshok@ximian.com>
+
 	* backend/ebook/e-destination.c (use_default_book_cb): handle the
 	case where @book == NULL, which can happen if there was a problem
 	opening the default book.  Should fix #43005.
