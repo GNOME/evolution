@@ -1,3 +1,12 @@
+2001-10-29  Chris Toshok  <toshok@ximian.com>
+
+	* pcs/cal-factory.c (cal_factory_dump_active_backends): new
+	function.
+	(dump_backend): new function.
+
+	* pcs/cal-factory.h: add prototype for
+	cal_factory_dump_active_backends.
+
 2001-10-29  Federico Mena Quintero  <federico@ximian.com>
 
 	Fix bug #12163.

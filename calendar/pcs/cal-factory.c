@@ -794,3 +794,27 @@ cal_factory_get_n_backends (CalFactory *factory)
 	priv = factory->priv;
 	return g_hash_table_size (priv->backends);
 }
+
+/* Frees a uri/backend pair from the backends hash table */
+static void
+dump_backend (gpointer key, gpointer value, gpointer data)
+{
+	char *uri;
+	CalBackend *backend;
+
+	uri = key;
+	backend = value;
+
+	g_message ("  %s: %p", uri, backend);
+}
+
+void
+cal_factory_dump_active_backends   (CalFactory *factory)
+{
+	CalFactoryPrivate *priv;
+
+	g_message ("Active PCS backends");
+
+	priv = factory->priv;
+	g_hash_table_foreach (priv->backends, dump_backend, NULL);
+}

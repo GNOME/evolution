@@ -66,6 +66,7 @@ void        cal_factory_register_method (CalFactory *factory,
 					 const char *method,
 					 GtkType     backend_type);
 int         cal_factory_get_n_backends  (CalFactory *factory);
+void        cal_factory_dump_active_backends   (CalFactory *factory);
 
 END_GNOME_DECLS
 
