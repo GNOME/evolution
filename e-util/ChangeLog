@@ -1,3 +1,8 @@
+2001-10-26  JP Rosevear  <jpr@ximian.com>
+
+	* e-pilot-map.c (e_pilot_map_insert): free up old memory first
+	(e_pilot_map_destroy): free allocated memory when destroying
+
 2001-10-22  JP Rosevear  <jpr@ximian.com>
 
 	* e-pilot-map.c (map_set_node_timet): plug leak

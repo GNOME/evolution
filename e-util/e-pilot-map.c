@@ -152,6 +152,7 @@ e_pilot_map_insert (EPilotMap *map, guint32 pid, const char *uid, gboolean archi
 	guint32 *new_pid = g_new (guint32, 1);
 	EPilotMapPidNode *pnode = g_new0 (EPilotMapPidNode, 1);
 	EPilotMapUidNode *unode = g_new0 (EPilotMapUidNode, 1);
+	gpointer key, value;
 	
 	*new_pid = pid;
 	new_uid = g_strdup (uid);
@@ -161,6 +162,17 @@ e_pilot_map_insert (EPilotMap *map, guint32 pid, const char *uid, gboolean archi
 	
 	unode->pid = pid;
 	unode->archived = archived;
+
+	if (g_hash_table_lookup_extended (map->pid_map, new_pid, &key, &value)) {
+		g_hash_table_remove (map->pid_map, new_pid);
+		g_free (key);
+		g_free (value);
+	}
+	if (g_hash_table_lookup_extended (map->uid_map, new_uid, &key, &value)) {
+		g_hash_table_remove (map->uid_map, new_uid);
+		g_free (key);
+		g_free (value);
+	}
 	
 	g_hash_table_insert (map->pid_map, new_pid, pnode);
 	g_hash_table_insert (map->uid_map, new_uid, unode);
@@ -289,18 +301,22 @@ e_pilot_map_write (const char *filename, EPilotMap *map)
 	return 0;
 }
 
+static gboolean
+foreach_remove (gpointer key, gpointer value, gpointer data)
+{
+	g_free (key);
+	g_free (value);
+
+	return TRUE;
+}
+
 void 
 e_pilot_map_destroy (EPilotMap *map)
 {
+	g_hash_table_foreach_remove (map->pid_map, foreach_remove, NULL);
+	g_hash_table_foreach_remove (map->uid_map, foreach_remove, NULL);
+	
 	g_hash_table_destroy (map->pid_map);
 	g_hash_table_destroy (map->uid_map);
 	g_free (map);
 }
-
-
-
-
-
-
-
-
