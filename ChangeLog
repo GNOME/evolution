@@ -1,3 +1,10 @@
+2001-08-05  Ettore Perazzoli  <ettore@ximian.com>
+
+	[Fixes #5594, "killev doesn't kill all evolution processes".]
+
+	* tools/killev: Added bonobo-moniker-xmldb, gnome-gtkhtml-editor
+	and gnome-spell-component.
+
 2001-07-31  Ettore Perazzoli  <ettore@ximian.com>
 
 	* configure.in: Bump version number to 0.12.99.
