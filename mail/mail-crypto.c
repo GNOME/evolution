@@ -139,8 +139,11 @@ mail_crypto_pgp_mime_part_sign (CamelMimePart **mime_part, const char *userid, C
 	
 	context = camel_pgp_context_new (session, mail_config_get_pgp_type (),
 					 mail_config_get_pgp_path ());
-	camel_pgp_mime_part_sign (context, mime_part, userid, hash, ex);
-	camel_object_unref (CAMEL_OBJECT (context));
+	
+	if (context) {
+		camel_pgp_mime_part_sign (context, mime_part, userid, hash, ex);
+		camel_object_unref (CAMEL_OBJECT (context));
+	}
 }
 
 
