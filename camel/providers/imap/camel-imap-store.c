@@ -530,7 +530,7 @@ camel_imap_command (CamelImapStore *store, CamelFolder *folder, char **ret, char
 	if (folder && store->current_folder != folder && strncmp (fmt, "STATUS", 6) &&
 	    strncmp (fmt, "CREATE", 5) && strcmp (fmt, "CAPABILITY")) {
 		/* We need to select the correct mailbox first */
-		char *r, *folder_path;
+		char *r, *folder_path, *recent;
 		int s;
 
 		if (url && url->path && strcmp (folder->full_name, "INBOX"))
@@ -540,7 +540,7 @@ camel_imap_command (CamelImapStore *store, CamelFolder *folder, char **ret, char
 		
 		s = camel_imap_command_extended (store, folder, &r, "SELECT %s", folder_path);
 		g_free (folder_path);
-		if (s != CAMEL_IMAP_OK) {
+		if (!r || s != CAMEL_IMAP_OK) {
 			*ret = r;
 			return s;
 		} else {
@@ -548,7 +548,7 @@ camel_imap_command (CamelImapStore *store, CamelFolder *folder, char **ret, char
 #if 0
 			char *p;
 
-			p = strstr (result, "\n");
+			p = strstr (r, "\n");
 			while (p) {
 				if (*(p + 1) == '*')
 					p = strstr (p, "\n");
@@ -562,6 +562,18 @@ camel_imap_command (CamelImapStore *store, CamelFolder *folder, char **ret, char
 			}
 #endif
 		}
+#if 0
+		if ((recent = strstrcase (r, "RECENT"))) {
+			char *p;
+			
+			for (p = recent; p > r && *p != '*'; p--);
+			for ( ; *p && (*p < '0' || *p > '9') && p < recent; p++);
+
+			if (atoi (p) > 0)
+				gtk_signal_emit_by_name (GTK_OBJECT (folder), "folder_changed");
+		}
+#endif
+		g_free (r);
 
 		store->current_folder = folder;
 	}
@@ -649,7 +661,7 @@ camel_imap_command_extended (CamelImapStore *store, CamelFolder *folder, char **
 	    strncmp (fmt, "EXAMINE", 7) && strncmp (fmt, "STATUS", 6) &&
 	    strncmp (fmt, "CREATE", 6) && strcmp (fmt, "CAPABILITY")) {
 		/* We need to select the correct mailbox first */
-		char *r, *folder_path;
+		char *r, *folder_path, *recent;
 		int s;
 
 		if (url && url->path && strcmp (folder->full_name, "INBOX"))
@@ -659,10 +671,22 @@ camel_imap_command_extended (CamelImapStore *store, CamelFolder *folder, char **
 		
 		s = camel_imap_command_extended (store, folder, &r, "SELECT %s", folder_path);
 		g_free (folder_path);
-		if (s != CAMEL_IMAP_OK) {
+		if (!r || s != CAMEL_IMAP_OK) {
 			*ret = r;
 			return s;
 		}
+#if 0
+		if ((recent = strstrcase (r, "RECENT"))) {
+			char *p;
+			
+			for (p = recent; p > r && *p != '*'; p--);
+			for ( ; *p && (*p < '0' || *p > '9') && p < recent; p++);
+
+			if (atoi (p) > 0)
+				gtk_signal_emit_by_name (GTK_OBJECT (folder), "folder_changed");
+		}
+#endif	
+		g_free (r);
 
 		store->current_folder = folder;
 	}

@@ -1,3 +1,15 @@
+2000-07-12  Jeffrey Stedfast  <fejj@helixcode.com>
+
+	* providers/imap/camel-imap-folder.c (imap_set_message_flags): 
+	Updated to emit the message_changed signal.
+	(imap_delete_message): Updated to use imap_set_message_flags ().
+	(imap_move_message_to): Updated to use imap_set_message_flags ()
+	and to emit the folder_changed signal on the destination folder.
+	(imap_copy_message_to): Updated to emit the folder_changed signal 
+	on the destination folder.
+	(imap_append_message): Updated to emit the folder_changed signal 
+	on the destination folder.
+
 2000-07-11  Jeffrey Stedfast  <fejj@helixcode.com>
 
 	* camel-folder.c (camel_folder_append_message): Now takes a

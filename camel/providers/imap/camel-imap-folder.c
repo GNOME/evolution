@@ -350,6 +350,8 @@ imap_expunge (CamelFolder *folder, CamelException *ex)
 		return;
 	}
 	
+	gtk_signal_emit_by_name (GTK_OBJECT (folder), "folder_changed");
+	
 	g_free (result);
 }
 
@@ -538,6 +540,8 @@ imap_append_message (CamelFolder *folder, CamelMimeMessage *message, guint32 fla
 
 	g_free (result);
 	g_free (folder_path);
+
+	gtk_signal_emit_by_name (GTK_OBJECT (folder), "folder_changed");
 }
 
 static void
@@ -570,6 +574,8 @@ imap_copy_message_to (CamelFolder *source, const char *uid, CamelFolder *destina
 
 	g_free (result);
 	g_free (folder_path);
+
+	gtk_signal_emit_by_name (GTK_OBJECT (destination), "folder_changed");
 }
 
 /* FIXME: Duplication of code! */
@@ -614,7 +620,9 @@ imap_move_message_to (CamelFolder *source, const char *uid, CamelFolder *destina
 		return;
 	}
 
-	info->flags |= CAMEL_MESSAGE_DELETED | CAMEL_MESSAGE_FOLDER_FLAGGED;
+	imap_set_message_flags (source, uid, CAMEL_MESSAGE_DELETED, ~(info->flags), ex);
+
+	gtk_signal_emit_by_name (GTK_OBJECT (destination), "folder_changed");
 }
 
 static GPtrArray *
@@ -783,7 +791,7 @@ imap_delete_message (CamelFolder *folder, const gchar *uid, CamelException *ex)
 		return;
 	}
 
-	info->flags |= CAMEL_MESSAGE_DELETED | CAMEL_MESSAGE_FOLDER_FLAGGED;
+	imap_set_message_flags (folder, uid, CAMEL_MESSAGE_DELETED, ~(info->flags), ex);
 }
 
 static CamelMimeMessage *
@@ -1455,6 +1463,8 @@ imap_set_message_flags (CamelFolder *folder, const char *uid, guint32 flags, gui
 	}
 
 	info->flags = (info->flags & ~flags) | (set & flags) | CAMEL_MESSAGE_FOLDER_FLAGGED;
+
+	gtk_signal_emit_by_name (GTK_OBJECT (folder), "message_changed", uid);
 }
 
 static gboolean
@@ -1466,5 +1476,5 @@ imap_get_message_user_flag (CamelFolder *folder, const char *uid, const char *na
 static void
 imap_set_message_user_flag (CamelFolder *folder, const char *uid, const char *name, gboolean value, CamelException *ex)
 {
-	return;
+	gtk_signal_emit_by_name (GTK_OBJECT (folder), "message_changed", uid);
 }
