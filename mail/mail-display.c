@@ -272,11 +272,11 @@ pixmap_press (GtkWidget *ebox, GdkEventButton *event, gpointer user_data)
 {
 	EPopupMenu menu[] = {
 		{ N_("Save to Disk..."), NULL,
-		  GTK_SIGNAL_FUNC (save_cb), 0 },
+		  GTK_SIGNAL_FUNC (save_cb), NULL, 0 },
 		{ N_("Open in %s..."), NULL,
-		  GTK_SIGNAL_FUNC (launch_cb), 1 },
+		  GTK_SIGNAL_FUNC (launch_cb), NULL, 1 },
 		{ N_("View Inline"), NULL,
-		  GTK_SIGNAL_FUNC (inline_cb), 2 },
+		  GTK_SIGNAL_FUNC (inline_cb), NULL, 2 },
 		{ NULL, NULL, NULL, 0 }
 	};
 	CamelMimePart *part;

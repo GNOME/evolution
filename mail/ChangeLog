@@ -1,3 +1,9 @@
+2000-11-07	Jesse Pavel   <jpavel@helixcode.com>
+
+	* mail-display.c: (pixmap_press): modified some of the EPopupMenu
+	structures to account for differences in the popup menu API (as
+	informed by Jeff.)
+
 2000-11-07  Ettore Perazzoli  <ettore@helixcode.com>
 
 	* Makefile.am (INCLUDES): Add the composer dirs.
