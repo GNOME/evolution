@@ -11,6 +11,7 @@ gncal_SOURCES = \
 	calcs.h
 
 gncal_LDADD = \
+	$(GNOME_LIBDIR) \
 	$(GNOMEUI_LIBS) \
 	$(top_builddir)/support/libsupport.a \
 	$(INTLLIBS)
