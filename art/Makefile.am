@@ -181,7 +181,9 @@ images_DATA = \
 	splash.png			\
 	stock-edit-16.png		\
 	stock-edit-24.png		\
+	stock-junk-16.png		\
 	stock-junk-24.png		\
+	stock-notjunk-16.png		\
 	stock-notjunk-24.png		\
 	summary-settings.png		\
 	summary_preferences-16.png	\
