@@ -37,6 +37,7 @@
 #include <gtkhtml/htmlobject.h> /* XXX */
 #include <gtkhtml/htmltext.h> /* XXX */
 #include <gtkhtml/htmlinterval.h> /* XXX */
+#include <gtkhtml/gtkhtml-stream.h>
 
 #include "e-util/e-html-utils.h"
 #include "e-util/e-mktemp.h"
@@ -1322,11 +1323,13 @@ mail_error_write (GtkHTML *html, GtkHTMLStream *stream,
 	va_end (ap);
 
 	htmltext = e_text_to_html (buf, E_TEXT_TO_HTML_CONVERT_NL | E_TEXT_TO_HTML_CONVERT_URLS);
-	gtk_html_write (html, stream, "<blockquote><em><font color=red>", 32);
-	gtk_html_write (html, stream, htmltext, strlen (htmltext));
-	gtk_html_write (html, stream, "</font></em></blockquote>", 29);
-	g_free (htmltext);
 	g_free (buf);
+
+	gtk_html_stream_printf (stream, "<blockquote><em><font color=red>");
+	gtk_html_stream_write (stream, htmltext, strlen (htmltext));
+	gtk_html_stream_printf (stream, "</font></em></blockquote>");
+
+	g_free (htmltext);
 }
 
 static void

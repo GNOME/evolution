@@ -1,3 +1,8 @@
+2001-10-15  Larry Ewing  <lewing@ximian.com>
+
+	* mail-display.c (mail_error_write): don't write strings longer
+	than they actually are.
+
 2001-10-15  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* folder-browser.c (folder_browser_destroy): Remove the mark_seen
