@@ -1,3 +1,9 @@
+2003-05-19  Anna Marie Dirks  <anna@ximian.com>
+
+	* my-evolution.glade: 	* my-evolution.glade: HIG-ified this 
+	dialog by adding proper spacing/padding/stock buttons/etc. 
+	Fixes bugs #41131, #41133.
+
 2003-05-16  Ettore Perazzoli  <ettore@ximian.com>
 
 	* e-summary.c (destroy): Remove the weak pointer on priv->control.
