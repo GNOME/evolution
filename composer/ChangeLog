@@ -1,3 +1,13 @@
+2003-04-19  Chris Toshok  <toshok@ximian.com>
+
+	[ fixes #40694 ]
+	* e-msg-composer-hdrs.c (create_addressbook_entry): this can't
+	hurt - set the frame to autoactivate so if by some chance the
+	widget is focused the control will end up being activated.
+
+	* e-msg-composer.c (map_default_cb): activate the To: control
+	instead of focusing the widget.
+
 2003-04-18  Rodney Dawes  <dobey@ximian.com>
 
 	* Makefile.am:

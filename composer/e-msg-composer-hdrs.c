@@ -451,6 +451,8 @@ create_addressbook_entry (EMsgComposerHdrs *hdrs, const char *name)
 	cf = bonobo_widget_get_control_frame (BONOBO_WIDGET (control_widget));
 	pb = bonobo_control_frame_get_control_property_bag (cf, NULL);
 	
+	bonobo_control_frame_set_autoactivate (cf, TRUE);
+
 	bonobo_event_source_client_add_listener (
 		pb, addressbook_entry_changed,
 		"Bonobo/Property:change:entry_changed",

@@ -2774,7 +2774,9 @@ map_default_cb (EMsgComposer *composer, gpointer user_data)
 	
 	if (!text || text[0] == '\0') {
 		printf ("grabbing focus in the To entry...\n");
-		gtk_widget_grab_focus (widget);
+
+		bonobo_control_frame_control_activate (cf);
+
 		g_free (text);
 		return;
 	}
@@ -2997,8 +2999,7 @@ create_composer (int visible_mask)
 	
 	setup_cut_copy_paste (composer);
 	
-	/*g_signal_connect (composer, "map", (GCallback) map_default_cb, NULL);*/
-	map_default_cb (composer, NULL);
+	g_signal_connect (composer, "map", (GCallback) map_default_cb, NULL);
 	
 	if (am == NULL)
 		am = autosave_manager_new ();
