@@ -105,8 +105,8 @@ void      e_storage_set_view_enable_search	  (EStorageSetView *storage_set_view,
 						   gboolean         enable);
 
 void      e_storage_set_view_set_checkboxes_list  (EStorageSetView                  *storage_set_view,
-						   GList                            *checkboxes);
-GList    *e_storage_set_view_get_checkboxes_list  (EStorageSetView                  *storage_set_view);
+						   GSList                           *checkboxes);
+GSList   *e_storage_set_view_get_checkboxes_list  (EStorageSetView                  *storage_set_view);
 
 void      e_storage_set_view_set_allow_dnd  (EStorageSetView *storage_set_view,
 					     gboolean         allow_dnd);

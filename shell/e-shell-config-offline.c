@@ -32,7 +32,7 @@
 
 #include "Evolution.h"
 
-#include <bonobo/bonobo-exception.h>
+#include <gconf/gconf-client.h>
 
 #include <gal/widgets/e-scroll-frame.h>
 
@@ -65,42 +65,23 @@ static void
 config_control_apply_callback (EvolutionConfigControl *config_control,
 			       void *data)
 {
-#if 0
-	CORBA_Environment ev;
-	CORBA_sequence_CORBA_string *paths;
-	CORBA_any any;
+	GConfClient *gconf_client;
 	PageData *page_data;
-	GList *checked_paths;
-	GList *p;
-	int i;
+	GSList *checked_paths;
 
 	page_data = (PageData *) data;
 
 	checked_paths = e_storage_set_view_get_checkboxes_list (E_STORAGE_SET_VIEW (page_data->storage_set_view));
 
-	paths = CORBA_sequence_CORBA_string__alloc ();
-	paths->_maximum = paths->_length = g_list_length (checked_paths);
-	paths->_buffer = CORBA_sequence_CORBA_string_allocbuf (paths->_maximum);
+	gconf_client = gconf_client_get_default ();
 
-	CORBA_sequence_set_release (paths, TRUE);
+	gconf_client_set_list (gconf_client, "/apps/evolution/shell/offline/folder_paths",
+			       GCONF_VALUE_STRING, checked_paths, NULL);
 
-	for (p = checked_paths, i = 0; p != NULL; p = p->next, i ++)
-		paths->_buffer[i] = CORBA_string_dup ((const char *) p->data);
+	g_slist_foreach (checked_paths, (GFunc) g_free, NULL);
+	g_slist_free (checked_paths);
 
-	any._type = TC_CORBA_sequence_CORBA_string;
-	any._value = paths;
-
-	CORBA_exception_init (&ev);
-
-	Bonobo_ConfigDatabase_setValue (e_shell_get_config_db (page_data->shell),
-					"/OfflineFolders/paths", &any, &ev);
-	if (BONOBO_EX (&ev))
-		g_warning ("Cannot set /OfflineFolders/paths from ConfigDatabase -- %s", BONOBO_EX_ID (&ev));
-
-	CORBA_exception_free (&ev);
-
-	g_list_free (checked_paths);
-#endif
+	g_object_unref (gconf_client);
 }
 
 static void
@@ -120,46 +101,20 @@ static void
 init_storage_set_view_status_from_config (EStorageSetView *storage_set_view,
 					  EShell *shell)
 {
-#if 0
-	Bonobo_ConfigDatabase config_db;
-	CORBA_Environment ev;
-	CORBA_any *any;
-	CORBA_sequence_CORBA_string *sequence;
-	GList *list;
-	int i;
+	GConfClient *gconf_client;
+	GSList *list;
 
-	config_db = e_shell_get_config_db (shell);
-	g_assert (config_db != CORBA_OBJECT_NIL);
+	gconf_client = gconf_client_get_default ();
 
-	CORBA_exception_init (&ev);
-
-	any = Bonobo_ConfigDatabase_getValue (config_db, "/OfflineFolders/paths", "", &ev);
-	if (BONOBO_EX (&ev)) {
-		g_warning ("Cannot get /OfflineFolders/paths from ConfigDatabase -- %s", BONOBO_EX_ID (&ev));
-		CORBA_exception_free (&ev);
-		return;
-	}
-
-	if (! CORBA_TypeCode_equal (any->_type, TC_CORBA_sequence_CORBA_string, &ev) || BONOBO_EX (&ev)) {
-		g_warning ("/OfflineFolders/Paths in ConfigDatabase is not the expected type");
-		CORBA_free (any);
-		CORBA_exception_free (&ev);
-		return;
-	}
-
-	sequence = (CORBA_sequence_CORBA_string *) any->_value;
-
-	list = NULL;
-	for (i = 0; i < sequence->_length; i ++)
-		list = g_list_prepend (list, sequence->_buffer[i]);
+	list = gconf_client_get_list (gconf_client, "/apps/evolution/shell/offline/folder_paths",
+				      GCONF_VALUE_STRING, NULL);
 
 	e_storage_set_view_set_checkboxes_list (storage_set_view, list);
 
-	g_list_free (list);
-	CORBA_free (any);
+	g_slist_foreach (list, (GFunc) g_free, NULL);
+	g_slist_free (list);
 
-	CORBA_exception_free (&ev);
-#endif
+	g_object_unref (gconf_client);
 }
 
 static gboolean

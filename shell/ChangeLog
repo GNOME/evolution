@@ -1,3 +1,25 @@
+2002-11-25  Ettore Perazzoli  <ettore@ximian.com>
+
+	* evolution-storage-set-view.c
+	(impl_StorageSetView__set_checkedFolders): Updated to pass a
+	GSList to e_storage_set_view_set_checkboxes_list() [instead of a
+	GList].
+	(impl_StorageSetView__get_checkedFolders): Likewise with the
+	return value from e_storage_set_view_get_checkboxes_list().
+
+	* e-shell-config-offline.c (config_control_apply_callback): Filled
+	in, using GConf.
+	(init_storage_set_view_status_from_config): Likewise.
+
+	* e-storage-set-view.c (e_storage_set_view_get_checkboxes_list):
+	Return a GSList instead of a GList.
+	(essv_add_to_list): Update for the GSList.
+	(e_storage_set_view_set_checkboxes_list): Get a GSList instead of
+	a GList.
+
+	* apps_evolution_shell.schemas: Added
+	/schemas/apps/evolution/shell/offline/folder_paths.
+
 2002-11-20  Ettore Perazzoli  <ettore@ximian.com>
 
 	* main.c (idle_cb): Set displayed_any in the case when we are

@@ -131,6 +131,18 @@
       </locale>
     </schema>
 
+    <schema>
+      <key>/schemas/apps/evolution/shell/offline/folder_paths</key>
+      <applyto>/apps/evolution/shell/offline/folder_paths</applyto>
+      <owner>evolution</owner>
+      <type>list</type>
+      <list_type>string</list_type>
+      <default>[]</default>
+      <locale name="C">
+        <short>List of paths for the folders to be synchronized to disk for offline usage</short>
+      </locale>
+    </schema>
+
     <!-- View defaults -->
 
     <schema>

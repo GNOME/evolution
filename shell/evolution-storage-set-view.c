@@ -285,7 +285,7 @@ impl_StorageSetView__set_checkedFolders (PortableServer_Servant servant,
 	BonoboObject *bonobo_object;
 	EvolutionStorageSetView *storage_set_view;
 	EvolutionStorageSetViewPrivate *priv;
-	GList *path_list = NULL;
+	GSList *path_list = NULL;
 	int i;
 	
 	bonobo_object = bonobo_object_from_servant (servant);
@@ -296,13 +296,14 @@ impl_StorageSetView__set_checkedFolders (PortableServer_Servant servant,
 		if (strncmp (list->_buffer[i].evolutionUri, "evolution:", 10) != 0)
 			continue;
 
-		path_list = g_list_append (path_list, g_strdup (list->_buffer[i].evolutionUri + 10));
+		path_list = g_slist_append (path_list, g_strdup (list->_buffer[i].evolutionUri + 10));
 	}
 
 	e_storage_set_view_set_checkboxes_list (E_STORAGE_SET_VIEW (priv->storage_set_view_widget),
 						path_list);
 
-	e_free_string_list (path_list);
+	g_slist_foreach (path_list, (GFunc) g_free, NULL);
+	g_slist_free (path_list);
 }
 
 static GNOME_Evolution_FolderList *
@@ -314,8 +315,8 @@ impl_StorageSetView__get_checkedFolders (PortableServer_Servant servant,
 	EvolutionStorageSetViewPrivate *priv;
 	EStorageSet *storage_set;
 	GNOME_Evolution_FolderList *return_list;
-	GList *path_list;
-	GList *p;
+	GSList *path_list;
+	GSList *p;
 	int num_folders;
 	int i;
 
@@ -324,7 +325,7 @@ impl_StorageSetView__get_checkedFolders (PortableServer_Servant servant,
 	priv = storage_set_view->priv;
 
 	path_list = e_storage_set_view_get_checkboxes_list (E_STORAGE_SET_VIEW (priv->storage_set_view_widget));
-	num_folders = g_list_length (path_list);
+	num_folders = g_slist_length (path_list);
 
 	return_list = GNOME_Evolution_FolderList__alloc ();
 	return_list->_maximum = num_folders;
@@ -356,7 +357,8 @@ impl_StorageSetView__get_checkedFolders (PortableServer_Servant servant,
 		g_free (evolution_uri);
 	}
 
-	e_free_string_list (path_list);
+	g_slist_foreach (path_list, (GFunc) g_free, NULL);
+	g_slist_free (path_list);
 
 	CORBA_sequence_set_release (return_list, TRUE);
 	return return_list;

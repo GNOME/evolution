@@ -2350,7 +2350,7 @@ e_storage_set_view_enable_search (EStorageSetView *storage_set_view,
 
 void
 e_storage_set_view_set_checkboxes_list (EStorageSetView *storage_set_view,
-					GList           *checkboxes)
+					GSList          *checkboxes)
 {
 	gboolean changed = FALSE;
 	EStorageSetViewPrivate *priv = storage_set_view->priv;
@@ -2364,7 +2364,7 @@ e_storage_set_view_set_checkboxes_list (EStorageSetView *storage_set_view,
 
 	if (checkboxes) {
 		priv->checkboxes = g_hash_table_new (g_str_hash, g_str_equal);
-		for (; checkboxes; checkboxes = g_list_next (checkboxes)) {
+		for (; checkboxes; checkboxes = g_slist_next (checkboxes)) {
 			char *path = checkboxes->data;
 
 			if (g_hash_table_lookup (priv->checkboxes, path))
@@ -2387,21 +2387,22 @@ essv_add_to_list (gpointer	key,
 		  gpointer	value,
 		  gpointer	user_data)
 {
-	GList **list = user_data;
+	GSList **list = user_data;
 
-	*list = g_list_prepend (*list, g_strdup (key));
+	*list = g_slist_prepend (*list, g_strdup (key));
 }
 
-GList *
+GSList *
 e_storage_set_view_get_checkboxes_list (EStorageSetView *storage_set_view)
 {
-	GList *list = NULL;
+	GSList *list = NULL;
 
 	if (storage_set_view->priv->checkboxes) {
 		g_hash_table_foreach (storage_set_view->priv->checkboxes, essv_add_to_list, &list);
 
-		list = g_list_reverse (list);
+		list = g_slist_reverse (list);
 	}
+
 	return list;
 }
 
