@@ -58,6 +58,7 @@ eshellincludedir = $(includedir)/evolution/shell
 
 eshellinclude_HEADERS = 			\
 	Evolution.h				\
+	e-folder-list.h				\
 	e-folder-tree.h				\
 	evolution-activity-client.h		\
 	evolution-folder-selector-button.h	\
@@ -75,6 +76,7 @@ eshellinclude_HEADERS = 			\
 
 libeshell_la_SOURCES = 				\
 	$(IDL_GENERATED)			\
+	e-folder-list.c				\
 	e-folder-tree.c				\
 	e-shell-corba-icon-utils.c		\
 	e-shell-corba-icon-utils.h		\

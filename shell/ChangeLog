@@ -1,3 +1,11 @@
+2002-05-03  Christopher James Lahey  <clahey@ximian.com>
+
+	* Makefile.am (eshellinclude_HEADERS): Added e-folder-list.h.
+	(libeshell_la_SOURCES): Added e-folder-list.c.
+
+	* e-folder-list.c, e-folder-list.h: New widget for editing a list
+	of folder uris.
+
 2002-04-29  Christopher James Lahey  <clahey@ximian.com>
 
 	* e-storage-set-view.c (e_storage_set_view_set_checkboxes_list,
@@ -6,8 +14,9 @@
 
 2002-04-19  Anna Marie Dirks  <anna@ximian.com>
 
-	* glade/e-shell-config-default-folders.glade: Minor label tweaks; 
-	changed "Default folders" to "Default Folders", and added accelerators.
+	* glade/e-shell-config-default-folders.glade: Minor label tweaks;
+	changed "Default folders" to "Default Folders", and added
+	accelerators.
 
 2002-04-18  JP Rosevear  <jpr@ximian.com>
 
