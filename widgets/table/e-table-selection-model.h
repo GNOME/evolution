@@ -3,7 +3,7 @@
 #define _E_TABLE_SELECTION_MODEL_H_
 
 #include <gtk/gtkobject.h>
-#include <gal/widgets/e-selection-model.h>
+#include <gal/widgets/e-selection-model-array.h>
 #include <gal/e-table/e-table-model.h>
 #include <gal/e-table/e-table-defines.h>
 #include <gal/e-table/e-table-sorter.h>
@@ -19,7 +19,7 @@ extern "C" {
 #define E_IS_TABLE_SELECTION_MODEL_CLASS(k) (GTK_CHECK_CLASS_TYPE ((k), E_TABLE_SELECTION_MODEL_TYPE))
 
 typedef struct {
-	ESelectionModel base;
+	ESelectionModelArray base;
 
 	ETableModel  *model;
 
@@ -30,6 +30,8 @@ typedef struct {
 	guint model_rows_inserted_id;
 	guint model_rows_deleted_id;
 
+	guint model_changed_idle_id;
+
 	guint frozen : 1;
 	guint selection_model_changed : 1;
 	guint group_info_changed : 1;
@@ -39,7 +41,7 @@ typedef struct {
 } ETableSelectionModel;
 
 typedef struct {
-	ESelectionModelClass parent_class;
+	ESelectionModelArrayClass parent_class;
 } ETableSelectionModelClass;
 
 GtkType               e_table_selection_model_get_type            (void);

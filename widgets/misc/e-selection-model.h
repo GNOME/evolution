@@ -31,20 +31,6 @@ typedef struct {
 
 	ESorter *sorter;
 
-	gint row_count;
-        guint32 *selection;
-
-	gint cursor_row;
-	gint cursor_col;
-	gint selection_start_row;
-
-	guint model_changed_id;
-	guint model_row_inserted_id, model_row_deleted_id;
-
-	guint frozen : 1;
-	guint selection_model_changed : 1;
-	guint group_info_changed : 1;
-
 	GtkSelectionMode mode;
 	ECursorMode cursor_mode;
 } ESelectionModel;
@@ -52,58 +38,85 @@ typedef struct {
 typedef struct {
 	GtkObjectClass parent_class;
 
-	gint (*get_row_count)     (ESelectionModel *selection);
+	/* Virtual methods */
+	gboolean (*is_row_selected)     (ESelectionModel *esm, int row);
+	void     (*foreach)             (ESelectionModel *esm, EForeachFunc callback, gpointer closure);
+	void     (*clear)               (ESelectionModel *esm);
+	gint     (*selected_count)      (ESelectionModel *esm);
+	void     (*select_all)          (ESelectionModel *esm);
+	void     (*invert_selection)    (ESelectionModel *esm);
+	int      (*row_count)           (ESelectionModel *esm);
+
+	/* Protected virtual methods. */
+	void     (*change_one_row)      (ESelectionModel *esm, int row, gboolean on);
+	void     (*change_cursor)       (ESelectionModel *esm, int row, int col);
+	int      (*cursor_row)          (ESelectionModel *esm);
+	int      (*cursor_col)          (ESelectionModel *esm);
+
+	void     (*select_single_row)   (ESelectionModel *selection, int row);
+	void     (*toggle_single_row)   (ESelectionModel *selection, int row);
+	void     (*move_selection_end)  (ESelectionModel *selection, int row);
+	void     (*set_selection_end)   (ESelectionModel *selection, int row);
 
 	/*
 	 * Signals
 	 */
 
-	void (*cursor_changed)    (ESelectionModel *selection, int row, int col);
-	void (*cursor_activated)  (ESelectionModel *selection, int row, int col);
-	void (*selection_changed) (ESelectionModel *selection);
+	void     (*cursor_changed)      (ESelectionModel *esm, int row, int col);
+	void     (*cursor_activated)    (ESelectionModel *esm, int row, int col);
+	void     (*selection_changed)   (ESelectionModel *esm);
 
 } ESelectionModelClass;
 
+
 GtkType   e_selection_model_get_type            (void);
-gboolean  e_selection_model_is_row_selected     (ESelectionModel *selection,
+void      e_selection_model_do_something        (ESelectionModel *esm,
+						 guint            row,
+						 guint            col,
+						 GdkModifierType  state);
+void      e_selection_model_maybe_do_something  (ESelectionModel *esm,
+						 guint            row,
+						 guint            col,
+						 GdkModifierType  state);
+gint      e_selection_model_key_press           (ESelectionModel *esm,
+						 GdkEventKey     *key);
+
+/* Virtual functions */
+gboolean  e_selection_model_is_row_selected     (ESelectionModel *esm,
 						 gint             n);
-void      e_selection_model_foreach             (ESelectionModel *selection,
+void      e_selection_model_foreach             (ESelectionModel *esm,
 						 EForeachFunc     callback,
 						 gpointer         closure);
-void      e_selection_model_do_something        (ESelectionModel *selection,
-						 guint            row,
-						 guint            col,
-						 GdkModifierType  state);
-void      e_selection_model_maybe_do_something  (ESelectionModel *selection,
-						 guint            row,
-						 guint            col,
-						 GdkModifierType  state);
-gint      e_selection_model_key_press           (ESelectionModel *selection,
-						 GdkEventKey     *key);
-void      e_selection_model_clear               (ESelectionModel *selection);
-gint      e_selection_model_selected_count      (ESelectionModel *selection);
-void      e_selection_model_select_all          (ESelectionModel *selection);
-void      e_selection_model_invert_selection    (ESelectionModel *selection);
+void      e_selection_model_clear               (ESelectionModel *esm);
+gint      e_selection_model_selected_count      (ESelectionModel *esm);
+void      e_selection_model_select_all          (ESelectionModel *esm);
+void      e_selection_model_invert_selection    (ESelectionModel *esm);
+int       e_selection_model_row_count           (ESelectionModel *esm);
 
-/* Private Functions */
-void      e_selection_model_insert_rows         (ESelectionModel *esm,
-						 int              row,
-						 int              count);
-void      e_selection_model_delete_rows         (ESelectionModel *esm,
-						 int              row,
-						 int              count);
-void      e_selection_model_move_row            (ESelectionModel *esm,
-						 int              old_row,
-						 int              new_row);
+
+/* Private virtual Functions */
 void      e_selection_model_change_one_row      (ESelectionModel *esm,
 						 int              row,
 						 gboolean         on);
 void      e_selection_model_change_cursor       (ESelectionModel *esm,
+						 int              row,
+						 int              col);
+int       e_selection_model_cursor_row          (ESelectionModel *esm);
+int       e_selection_model_cursor_col          (ESelectionModel *esm);
+void      e_selection_model_select_single_row   (ESelectionModel *selection,
 						 int              row);
-gboolean  e_selection_model_confirm_row_count   (ESelectionModel *esm);
+void      e_selection_model_toggle_single_row   (ESelectionModel *selection,
+						 int              row);
+void      e_selection_model_move_selection_end  (ESelectionModel *selection,
+						 int              row);
+void      e_selection_model_set_selection_end   (ESelectionModel *selection,
+						 int              row);
 
-/* Virtual Function */
-gint      e_selection_model_get_row_count       (ESelectionModel *esm);
+/* Signals */
+void      e_selection_model_cursor_changed      (ESelectionModel *selection,
+						 int              row,
+						 int              col);
+void      e_selection_model_selection_changed   (ESelectionModel *selection);
 
 #ifdef __cplusplus
 }

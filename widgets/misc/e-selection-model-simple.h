@@ -2,7 +2,7 @@
 #ifndef _E_SELECTION_MODEL_SIMPLE_H_
 #define _E_SELECTION_MODEL_SIMPLE_H_
 
-#include <gal/widgets/e-selection-model.h>
+#include <gal/widgets/e-selection-model-array.h>
 
 #ifdef __cplusplus
 extern "C" {
@@ -15,13 +15,13 @@ extern "C" {
 #define E_IS_SELECTION_MODEL_SIMPLE_CLASS(k) (GTK_CHECK_CLASS_TYPE ((k), E_SELECTION_MODEL_SIMPLE_TYPE))
 
 typedef struct {
-	ESelectionModel parent;
+	ESelectionModelArray parent;
 
 	int row_count;
 } ESelectionModelSimple;
 
 typedef struct {
-	ESelectionModelClass parent_class;
+	ESelectionModelArrayClass parent_class;
 } ESelectionModelSimpleClass;
 
 GtkType                e_selection_model_simple_get_type       (void);
