@@ -301,6 +301,8 @@ composer_send_cb (EMsgComposer *composer, gpointer data)
 	
 	/* Get the message */
 	message = e_msg_composer_get_message (composer);
+	if (message == NULL)
+		return;
 	
 	/* Check for no recipients */
 	iaddr = camel_mime_message_get_recipients (message, CAMEL_RECIPIENT_TYPE_TO);
@@ -347,6 +349,8 @@ composer_postpone_cb (EMsgComposer *composer, gpointer data)
 	
 	/* Get the message */
 	message = e_msg_composer_get_message (composer);
+	if (message == NULL)
+		return;
 	
 	/* Check for no subject */
 	subject = camel_mime_message_get_subject (message);

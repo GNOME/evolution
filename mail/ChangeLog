@@ -1,3 +1,9 @@
+2001-02-25  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-callbacks.c (composer_postpone_cb): Abort if the message is
+	NULL (which is valid if an error occured).
+	(composer_send_cb): Same.
+
 2001-02-24  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* folder-browser.c: Toss the mail_tool_camel_lock* stuff.
