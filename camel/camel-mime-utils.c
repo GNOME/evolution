@@ -3104,10 +3104,12 @@ header_msgid_generate (void)
 {
 	gchar host [256], domain [768];
 	static gint count = 0;
+	gint hrv, drv;
 
-	gethostname (host, sizeof (host));
-	getdomainname (domain, sizeof (domain));
+	hrv = gethostname (host, sizeof (host));
+	drv = getdomainname (domain, sizeof (domain));
 
 	return g_strdup_printf ("%d.%d.%d.camel@%s.%s", (gint) time (NULL), getpid (), count++,
-				(host && *host) ? host : "unknown.host", (domain && *domain) ? domain : "unknown.domain");
+				(hrv == 0 && host && *host) ? host : "unknown.host",
+				(drv && domain && *domain) ? domain : "unknown.domain");
 }

@@ -1,3 +1,8 @@
+2000-11-22  Radek Doulik  <rodo@helixcode.com>
+
+	* camel-mime-utils.c (header_msgid_generate): check for return
+	values
+
 2000-11-21  Dan Winship  <danw@helixcode.com>
 
 	* camel-lock.c: 
