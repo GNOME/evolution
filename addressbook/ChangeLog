@@ -1,5 +1,11 @@
 2001-10-20  Christopher James Lahey  <clahey@ximian.com>
 
+	* gui/component/addressbook-component.c (owner_unset_cb):
+	Repeatedly call gtk_main_quit here as long as there is a main loop
+	around.  This is an ugly hack around Ximian bug #11760.
+
+2001-10-20  Christopher James Lahey  <clahey@ximian.com>
+
 	* gui/component/select-names/e-select-names.c: Added #include
 	<gal/widgets/e-unicode.h>.
 
