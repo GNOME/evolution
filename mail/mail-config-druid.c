@@ -125,9 +125,6 @@ identity_changed (GtkWidget *widget, gpointer data)
 	next_sensitive = mail_account_gui_identity_complete (mcw->gui, &incomplete);
 	
 	config_wizard_set_buttons_sensitive (mcw, TRUE, next_sensitive);
-	
-	if (!next_sensitive)
-		gtk_widget_grab_focus (incomplete);
 }
 
 static void
@@ -141,9 +138,7 @@ identity_prepare (MailConfigWizard *mcw)
 	if (!name) {
 		name = g_get_real_name ();
 		gtk_entry_set_text (mcw->gui->full_name, name ? name : "");
-		gtk_editable_select_region (GTK_EDITABLE (mcw->gui->full_name), 0, -1);
 	}
-	gtk_widget_grab_focus (GTK_WIDGET (mcw->gui->full_name));
 	identity_changed (NULL, mcw);
 }
 
@@ -193,9 +188,6 @@ source_changed (GtkWidget *widget, gpointer data)
 	next_sensitive = mail_account_gui_source_complete (mcw->gui, &incomplete);
 	
 	config_wizard_set_buttons_sensitive (mcw, TRUE, next_sensitive);
-	
-	if (!next_sensitive)
-		gtk_widget_grab_focus (incomplete);
 }
 
 static void
@@ -271,9 +263,6 @@ transport_changed (GtkWidget *widget, gpointer data)
 	next_sensitive = mail_account_gui_transport_complete (mcw->gui, &incomplete);
 	
 	config_wizard_set_buttons_sensitive (mcw, TRUE, next_sensitive);
-	
-	if (!next_sensitive)
-		gtk_widget_grab_focus (incomplete);
 }
 
 static void
@@ -354,8 +343,6 @@ management_changed (GtkWidget *widget, gpointer data)
 		return;
 	
 	management_check (mcw);
-	
-	gtk_widget_grab_focus (GTK_WIDGET (mcw->gui->account_name));
 }
 
 static void
