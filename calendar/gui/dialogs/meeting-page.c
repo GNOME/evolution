@@ -27,13 +27,16 @@
 #endif
 
 #include <liboaf/liboaf.h>
-#include <gtk/gtknotebook.h>
-#include <gtk/gtkradiobutton.h>
+#include <bonobo/bonobo-control.h>
+#include <bonobo/bonobo-widget.h>
 #include <gtk/gtksignal.h>
-#include <gtk/gtktable.h>
 #include <gtk/gtktogglebutton.h>
 #include <gtk/gtkvbox.h>
 #include <glade/glade.h>
+#include <gal/e-table/e-cell-combo.h>
+#include <gal/e-table/e-cell-text.h>
+#include <gal/e-table/e-table-simple.h>
+#include <gal/e-table/e-table-scrolled.h>
 #include <gal/widgets/e-unicode.h>
 #include <widgets/misc/e-dateedit.h>
 #include <widgets/meeting-time-sel/e-meeting-time-sel.h>
@@ -45,21 +48,72 @@
 
 #define SELECT_NAMES_OAFID "OAFIID:GNOME_Evolution_Addressbook_SelectNames"
 
+#define MEETING_PAGE_TABLE_SPEC						\
+	"<ETableSpecification click-to-add=\"true\" "			\
+	" _click-to-add-message=\"Click here to add an attendee\" "	\
+	" draw-grid=\"true\">"						\
+        "  <ETableColumn model_col= \"0\" _title=\"Attendee\" "	\
+	"   expansion=\"1.0\" minimum_width=\"10\" resizable=\"true\" "	\
+	"   cell=\"string\" compare=\"string\"/>"			                \
+        "  <ETableColumn model_col= \"1\" _title=\"Role\" "	\
+	"   expansion=\"1.0\" minimum_width=\"10\" resizable=\"true\" "	\
+	"   cell=\"roleedit\"   compare=\"string\"/>"		\
+        "  <ETableColumn model_col= \"2\" _title=\"RSVP\" "	\
+	"   expansion=\"2.0\" minimum_width=\"10\" resizable=\"true\" "	\
+	"   cell=\"rsvpedit\" compare=\"string\"/>"			                \
+        "  <ETableColumn model_col= \"3\" _title=\"Status\" "		\
+	"   expansion=\"2.0\" minimum_width=\"10\" resizable=\"true\" "	\
+	"   cell=\"statusedit\" compare=\"string\"/>"			                \
+	"  <ETableState>"						\
+	"    <column source=\"0\"/>"					\
+	"    <column source=\"1\"/>"					\
+	"    <column source=\"2\"/>"					\
+	"    <column source=\"3\"/>"					\
+	"    <grouping></grouping>"					\
+	"  </ETableState>"						\
+	"</ETableSpecification>"
+
+enum columns {
+	MEETING_ATTENDEE_COL,
+	MEETING_ROLE_COL,
+	MEETING_RSVP_COL,
+	MEETING_STATUS_COL,
+	MEETING_COLUMN_COUNT
+};
+
+struct attendee {
+	char *address;
+	char *member;
+
+	CalComponentCUType cutype;
+	CalComponentRole role;
+	CalComponentPartStat status;
+	gboolean rsvp;
+
+	char *delto;
+	char *delfrom;
+	char *sentby;
+	char *cn;
+	char *language;
+};
+
 /* Private part of the MeetingPage structure */
 struct _MeetingPagePrivate {
+	/* List of attendees */
+	GSList *attendees;
+	
 	/* Glade XML data */
 	GladeXML *xml;
 
 	/* Widgets from the Glade file */
 	GtkWidget *main;
+	GtkWidget *organizer;
+	GtkWidget *invite;
+	
+	/* E Table stuff */
+	ETableModel *model;
+	GtkWidget *etable;
 
-	EMeetingTimeSelector *selector;
-	GtkWidget *table;
-	
-	/* Other widgets */
-	GtkWidget *rb1[2];
-	GtkWidget *rb2[2];
-	
 	/* For handling the invite button */
 	GNOME_Evolution_Addressbook_SelectNames corba_select_names;
 
@@ -75,8 +129,8 @@ static void meeting_page_destroy (GtkObject *object);
 static GtkWidget *meeting_page_get_widget (CompEditorPage *page);
 static void meeting_page_fill_widgets (CompEditorPage *page, CalComponent *comp);
 static void meeting_page_fill_component (CompEditorPage *page, CalComponent *comp);
-static void meeting_page_set_summary (CompEditorPage *page, const char *summary);
-static void meeting_page_set_dates (CompEditorPage *page, CompEditorPageDates *dates);
+
+static int row_count (ETableModel *etm, void *data);
 
 static CompEditorPageClass *parent_class = NULL;
 
@@ -130,8 +184,8 @@ meeting_page_class_init (MeetingPageClass *class)
 	editor_page_class->get_widget = meeting_page_get_widget;
 	editor_page_class->fill_widgets = meeting_page_fill_widgets;
 	editor_page_class->fill_component = meeting_page_fill_component;
-	editor_page_class->set_summary = meeting_page_set_summary;
-	editor_page_class->set_dates = meeting_page_set_dates;
+	editor_page_class->set_summary = NULL;
+	editor_page_class->set_dates = NULL;
 
 	object_class->destroy = meeting_page_destroy;
 }
@@ -148,8 +202,11 @@ meeting_page_init (MeetingPage *mpage)
 	priv->xml = NULL;
 
 	priv->main = NULL;
-	priv->selector = NULL;
-
+	priv->invite = NULL;
+	
+	priv->model = NULL;
+	priv->etable = NULL;
+	
 	priv->updating = FALSE;
 }
 
@@ -208,8 +265,9 @@ meeting_page_fill_widgets (CompEditorPage *page, CalComponent *comp)
 {
 	MeetingPage *mpage;
 	MeetingPagePrivate *priv;
-	CalComponentDateTime dtstart, dtend;
-	struct icaltimetype start, end;
+	CalComponentOrganizer organizer;
+	GSList *attendees, *l;
+	
 	mpage = MEETING_PAGE (page);
 	priv = mpage->priv;
 
@@ -217,25 +275,39 @@ meeting_page_fill_widgets (CompEditorPage *page, CalComponent *comp)
 	
 	/* Clean the screen */
 	clear_widgets (mpage);
+
+	cal_component_get_organizer (comp, &organizer);
+	e_dialog_editable_set (priv->organizer, organizer.value);
+
+	cal_component_get_attendee_list (comp, &attendees);
+	for (l = attendees; l != NULL; l = l->next) {
+		CalComponentAttendee *att = l->data;
+		struct attendee *attendee = g_new0 (struct attendee, 1);
+
+		attendee->address = g_strdup (att->value);
+		attendee->member = g_strdup (att->member);
+		attendee->cutype= att->cutype;
+		attendee->role = att->role;
+		attendee->status = att->status;
+		attendee->rsvp = att->rsvp;
+		attendee->delto = g_strdup (att->delto);
+		attendee->delfrom = g_strdup (att->delfrom);
+		attendee->sentby = g_strdup (att->sentby);
+		attendee->cn = g_strdup (att->cn);
+		attendee->language = g_strdup (att->language);
+		
+		priv->attendees = g_slist_prepend (priv->attendees, attendee);
 	
-	/* Selector */
-	cal_component_get_dtstart (comp, &dtstart);
-	cal_component_get_dtend (comp, &dtend);
-	start = icaltime_as_zone (*dtstart.value, dtstart.tzid);
-	end = icaltime_as_zone (*dtend.value, dtend.tzid);
-	e_meeting_time_selector_set_meeting_time (priv->selector,
-						  start.year,
-						  start.month,
-						  start.day,
-						  start.hour,
-						  start.minute,
-						  end.year,
-						  end.month,
-						  end.day,
-						  end.hour,
-						  end.minute);
-	cal_component_free_datetime (&dtstart);
-	cal_component_free_datetime (&dtend);
+	}
+	priv->attendees = g_slist_reverse (priv->attendees);
+	cal_component_free_attendee_list (attendees);
+	
+	/* Table */
+	e_table_model_rows_inserted (priv->model, 0, row_count (priv->model, mpage));
+
+	/* So the comp editor knows we need to send if anything changes */
+	if (priv->attendees != NULL)
+		comp_editor_page_notify_needs_send (COMP_EDITOR_PAGE (mpage));
 
 	priv->updating = FALSE;
 }
@@ -244,66 +316,48 @@ meeting_page_fill_widgets (CompEditorPage *page, CalComponent *comp)
 static void
 meeting_page_fill_component (CompEditorPage *page, CalComponent *comp)
 {
-#if 0
 	MeetingPage *mpage;
 	MeetingPagePrivate *priv;
-	CalComponentDateTime date;
-	time_t t;
-	char *url;
+	CalComponentOrganizer organizer = {NULL, NULL, NULL, NULL};
+	GSList *attendees = NULL, *l;
+	gchar *str;
 	
 	mpage = MEETING_PAGE (page);
 	priv = mpage->priv;
 
-	/* Completed Date. */
-	date.value = g_new (struct icaltimetype, 1);
-	date.tzid = NULL;
-
-	t = e_date_edit_get_time (E_DATE_EDIT (priv->completed_date));
-	if (t != -1) {
-		*date.value = icaltime_from_timet (t, FALSE);
-		cal_component_set_completed (comp, date.value);
-	} else {
-		cal_component_set_completed (comp, NULL);
+	str = e_dialog_editable_get (priv->organizer);
+	if (str == NULL || strlen (str) == 0) {		
+		if (str != NULL)
+			g_free (str);
+		return;
 	}
-
-	g_free (date.value);
-
-	/* URL. */
-	url = e_dialog_editable_get (priv->url);
-	cal_component_set_url (comp, url);
-	if (url)
-		g_free (url);
-#endif
-}
-
-/* set_summary handler for the task page */
-static void
-meeting_page_set_summary (CompEditorPage *page, const char *summary)
-{
-#if 0
-	MeetingPage *mpage;
-	MeetingPagePrivate *priv;
-	gchar *s;
 	
-	mpage = MEETING_PAGE (page);
-	priv = mpage->priv;
-
-	s = e_utf8_to_gtk_string (priv->summary, summary);
-	gtk_label_set_text (GTK_LABEL (priv->summary), s);
-	g_free (s);
-#endif
-}
-
-static void
-meeting_page_set_dates (CompEditorPage *page, CompEditorPageDates *dates)
-{
-	MeetingPage *mpage;
-	MeetingPagePrivate *priv;
-
-	mpage = MEETING_PAGE (page);
-	priv = mpage->priv;
-
-//	comp_editor_date_label (dates, priv->date_time);
+	organizer.value = str;
+	cal_component_set_organizer (comp, &organizer);
+	g_free (str);
+	
+	for (l = priv->attendees; l != NULL; l = l->next) {
+		struct attendee *attendee = l->data;
+		CalComponentAttendee *att = g_new0 (CalComponentAttendee, 1);
+		
+		att->value = attendee->address;
+		att->member = attendee->member;
+		att->cutype= attendee->cutype;
+		att->role = attendee->role;
+		att->status = attendee->status;
+		att->rsvp = attendee->rsvp;
+		att->delto = attendee->delto;
+		att->delfrom = attendee->delfrom;
+		att->sentby = attendee->sentby;
+		att->cn = attendee->cn;
+		att->language = attendee->language;
+		
+		attendees = g_slist_prepend (attendees, att);
+		
+	}
+	attendees = g_slist_reverse (attendees);
+	cal_component_set_attendee_list (comp, attendees);
+	g_slist_free (attendees);
 }
 
 
@@ -323,77 +377,58 @@ get_widgets (MeetingPage *mpage)
 	gtk_widget_ref (priv->main);
 	gtk_widget_unparent (priv->main);
 
-	priv->selector = E_MEETING_TIME_SELECTOR (GW ("selector"));
-	priv->table = GW ("status-table");
+	priv->organizer = GW ("organizer");
+	priv->invite = GW ("invite");
 	
 #undef GW
 
-	return (priv->selector 
-		&& priv->table);
+	return (priv->invite
+		&& priv->organizer);
 }
 
-/* Creates the radio buttons in the given container */
 static void
-create_radio_buttons (GtkWidget *box, GtkWidget **button1, GtkWidget **button2)
+invite_entry_changed (BonoboListener    *listener,
+		      char              *event_name,
+		      CORBA_any         *arg,
+		      CORBA_Environment *ev,
+		      gpointer           user_data)
 {
-	GtkWidget *rb1, *rb2;
-	GSList *grp;
-
-	/* The radio buttions to change views */
-	rb1 = gtk_radio_button_new_with_label (NULL,
-					       "Show attendee scheduling");
-	gtk_widget_show (rb1);
-
-	grp = gtk_radio_button_group (GTK_RADIO_BUTTON (rb1));
-	rb2 = gtk_radio_button_new_with_label (grp, "Show attendee status");
-	gtk_widget_show (rb2);
-	
-	gtk_box_pack_start (GTK_BOX (box), rb1, FALSE, FALSE, 0);
-	gtk_box_pack_start (GTK_BOX (box), rb2, FALSE, FALSE, 0);
-
-	*button1 = rb1;
-	*button2 = rb2;
 }
 
-/* Callback used when the start or end date widgets change.  We check that the
- * start date < end date and we set the "all day task" button as appropriate.
- */
 static void
-date_changed_cb (EDateEdit *dedit, gpointer data)
+add_section (GNOME_Evolution_Addressbook_SelectNames corba_select_names, const char *name)
 {
-#if 0
-	MeetingPage *mpage;
-	MeetingPagePrivate *priv;
-	CompEditorPageDates dates;
+	Bonobo_Control corba_control;
+	CORBA_Environment ev;
+	GtkWidget *control_widget;
+	BonoboControlFrame *cf;
+	Bonobo_PropertyBag pb = CORBA_OBJECT_NIL;
+	CORBA_exception_init (&ev);
 
-	mpage = MEETING_PAGE (data);
-	priv = mpage->priv;
+	GNOME_Evolution_Addressbook_SelectNames_addSection (corba_select_names,
+							    name, name, &ev);
 
-	if (priv->updating)
+	corba_control =
+		GNOME_Evolution_Addressbook_SelectNames_getEntryBySection (
+			corba_select_names, name, &ev);
+
+	if (ev._major != CORBA_NO_EXCEPTION) {
+		CORBA_exception_free (&ev);
 		return;
+	}
 
-	dates.start = 0;
-	dates.end = 0;
-	dates.due = 0;
-	dates.complete = e_date_edit_get_time (E_DATE_EDIT (priv->completed_date));
-	
-	/* Notify upstream */
-	comp_editor_page_notify_dates_changed (COMP_EDITOR_PAGE (mpage), &dates);
-#endif
-}
+	CORBA_exception_free (&ev);
 
-/* This is called when any field is changed; it notifies upstream. */
-static void
-field_changed_cb (GtkWidget *widget, gpointer data)
-{
-	MeetingPage *mpage;
-	MeetingPagePrivate *priv;
-	
-	mpage = MEETING_PAGE (data);
-	priv = mpage->priv;
-	
-	if (!priv->updating)
-		comp_editor_page_notify_changed (COMP_EDITOR_PAGE (mpage));
+	control_widget = bonobo_widget_new_control_from_objref (
+		corba_control, CORBA_OBJECT_NIL);
+
+	cf = bonobo_widget_get_control_frame (BONOBO_WIDGET (control_widget));
+	pb = bonobo_control_frame_get_control_property_bag (cf, NULL);
+
+	bonobo_event_source_client_add_listener (
+		pb, invite_entry_changed,
+		"Bonobo/Property:change:entry_changed",
+		NULL, NULL);
 }
 
 static gboolean
@@ -411,6 +446,10 @@ get_select_name_dialog (MeetingPage *mpage)
 
 	priv->corba_select_names = oaf_activate_from_id (SELECT_NAMES_OAFID, 0, NULL, &ev);
 
+	add_section (priv->corba_select_names, "Required Participants");
+	add_section (priv->corba_select_names, "Optional Participants");
+	add_section (priv->corba_select_names, "Non-Participants");
+
 	/* OAF seems to be broken -- it can return a CORBA_OBJECT_NIL without
            raising an exception in `ev'.  */
 	if (ev._major != CORBA_NO_EXCEPTION || priv->corba_select_names == CORBA_OBJECT_NIL) {
@@ -422,6 +461,20 @@ get_select_name_dialog (MeetingPage *mpage)
 	CORBA_exception_free (&ev);
 
 	return TRUE;
+}
+
+/* This is called when any field is changed; it notifies upstream. */
+static void
+field_changed_cb (GtkWidget *widget, gpointer data)
+{
+	MeetingPage *mpage;
+	MeetingPagePrivate *priv;
+	
+	mpage = MEETING_PAGE (data);
+	priv = mpage->priv;
+	
+	if (!priv->updating)
+		comp_editor_page_notify_changed (COMP_EDITOR_PAGE (mpage));
 }
 
 /* Function called to invite more people */
@@ -440,40 +493,12 @@ invite_cb (GtkWidget *widget, gpointer data)
 	
 	CORBA_exception_init (&ev);
 
-	GNOME_Evolution_Addressbook_SelectNames_addSection (
-		priv->corba_select_names, "Required", "Required", &ev);
-
 	GNOME_Evolution_Addressbook_SelectNames_activateDialog (
-		priv->corba_select_names, "Test", &ev);
+		priv->corba_select_names, "Required Participants", &ev);
 
 	CORBA_exception_free (&ev);
-
-	if (!priv->updating)
-		comp_editor_page_notify_changed (COMP_EDITOR_PAGE (mpage));
 }
 
-static void
-page_toggle_cb (GtkWidget *widget, gpointer data)
-{
-	MeetingPage *mpage;
-	MeetingPagePrivate *priv;
-	gboolean active;
-	
-	mpage = MEETING_PAGE (data);
-	priv = mpage->priv;
-
-	active = GTK_TOGGLE_BUTTON (widget)->active;
-	if (active)
-		gtk_notebook_set_page (GTK_NOTEBOOK (priv->main), 0);
-	else
-		gtk_notebook_set_page (GTK_NOTEBOOK (priv->main), 1);
-
-	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->rb1[0]), active);
-	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->rb1[1]), !active);
-	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->rb2[0]), active);
-	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->rb2[1]), !active);
-}
-	
 /* Hooks the widget signals */
 static void
 init_widgets (MeetingPage *mpage)
@@ -482,22 +507,349 @@ init_widgets (MeetingPage *mpage)
 
 	priv = mpage->priv;
 
-	/* Selector */
-	gtk_signal_connect (GTK_OBJECT (priv->selector->invite_button), 
-			    "clicked", GTK_SIGNAL_FUNC (invite_cb), mpage);
+	/* Organizer */
+	gtk_signal_connect (GTK_OBJECT (priv->organizer), "changed",
+			    GTK_SIGNAL_FUNC (field_changed_cb), mpage);
 
-	/* Radio buttons */
-	gtk_signal_connect (GTK_OBJECT (priv->rb1[0]), "toggled", 
-			    GTK_SIGNAL_FUNC (page_toggle_cb), mpage);
-	gtk_signal_connect (GTK_OBJECT (priv->rb2[0]), "toggled", 
-			    GTK_SIGNAL_FUNC (page_toggle_cb), mpage);
+	/* Invite button */
+	gtk_signal_connect (GTK_OBJECT (priv->invite), "clicked", 
+			    GTK_SIGNAL_FUNC (invite_cb), mpage);
+}
+
+static CalComponentRole
+text_to_role (const char *role)
+{
+	if (!g_strcasecmp (role, "Chair"))
+		return CAL_COMPONENT_ROLE_CHAIR;
+	else if (!g_strcasecmp (role, "Required Participant"))
+		return CAL_COMPONENT_ROLE_REQUIRED;
+	else if (!g_strcasecmp (role, "Optional Participant"))
+		return CAL_COMPONENT_ROLE_OPTIONAL;
+	else if (!g_strcasecmp (role, "Non-Participant"))
+		return CAL_COMPONENT_ROLE_NON;
+	else
+		return CAL_COMPONENT_ROLE_UNKNOWN;
+}
+
+static char *
+role_to_text (CalComponentRole role) 
+{
+	switch (role) {
+	case CAL_COMPONENT_ROLE_CHAIR:
+		return "Chair";
+	case CAL_COMPONENT_ROLE_REQUIRED:
+		return "Required Participant";
+	case CAL_COMPONENT_ROLE_OPTIONAL:
+		return "Optional Participant";
+	case CAL_COMPONENT_ROLE_NON:
+		return "Non-Participant";
+	default:
+		return "Unknown";
+	}
+
+	return NULL;
+}
+
+static gboolean
+text_to_boolean (const char *role)
+{
+	if (!g_strcasecmp (role, "Yes"))
+		return TRUE;
+	else
+		return FALSE;
+}
+
+static char *
+boolean_to_text (gboolean b) 
+{
+	if (b)
+		return "Yes";
+	else
+		return "No";
+}
+
+static CalComponentPartStat
+text_to_partstat (const char *partstat)
+{
+	if (!g_strcasecmp (partstat, "Needs Action"))
+		return CAL_COMPONENT_PARTSTAT_NEEDSACTION;
+	else if (!g_strcasecmp (partstat, "Accepted"))
+		return CAL_COMPONENT_PARTSTAT_ACCEPTED;
+	else if (!g_strcasecmp (partstat, "Declined"))
+		return CAL_COMPONENT_PARTSTAT_DECLINED;
+	else if (!g_strcasecmp (partstat, "Tentative"))
+		return CAL_COMPONENT_PARTSTAT_TENTATIVE;
+	else if (!g_strcasecmp (partstat, "Delegated"))
+		return CAL_COMPONENT_PARTSTAT_DELEGATED;
+	else if (!g_strcasecmp (partstat, "Completed"))
+		return CAL_COMPONENT_PARTSTAT_COMPLETED;
+	else if (!g_strcasecmp (partstat, "In Process"))
+		return CAL_COMPONENT_PARTSTAT_INPROCESS;
+	else
+		return CAL_COMPONENT_PARTSTAT_UNKNOWN;
+}
+
+static char *
+partstat_to_text (CalComponentPartStat partstat) 
+{
+	switch (partstat) {
+	case CAL_COMPONENT_PARTSTAT_NEEDSACTION:
+		return "Needs Action";
+	case CAL_COMPONENT_PARTSTAT_ACCEPTED:
+		return "Accepted";
+	case CAL_COMPONENT_PARTSTAT_DECLINED:
+		return "Declined";
+	case CAL_COMPONENT_PARTSTAT_TENTATIVE:
+		return "Tentative";
+	case CAL_COMPONENT_PARTSTAT_DELEGATED:
+		return "Delegated";
+	case CAL_COMPONENT_PARTSTAT_COMPLETED:
+		return "Completed";
+	case CAL_COMPONENT_PARTSTAT_INPROCESS:
+		return "In Process";
+	case CAL_COMPONENT_PARTSTAT_UNKNOWN:
+	default:
+		return "Unknown";
+	}
+
+	return NULL;
+}
+
+static int
+column_count (ETableModel *etm, void *data)
+{
+	return MEETING_COLUMN_COUNT;
+}
+
+static int
+row_count (ETableModel *etm, void *data)
+{
+	MeetingPage *mpage;
+	MeetingPagePrivate *priv;
+
+	mpage = MEETING_PAGE (data);	
+	priv = mpage->priv;
+
+	return g_slist_length (priv->attendees);
+}
+
+static void
+append_row (ETableModel *etm, ETableModel *model, int row, void *data)
+{	
+	MeetingPage *mpage;
+	MeetingPagePrivate *priv;
+	struct attendee *attendee;
+	gint row_cnt;
 	
-#if 0
-	/* Completed Date */
-	gtk_signal_connect (GTK_OBJECT (priv->completed_date), "changed",
-			    GTK_SIGNAL_FUNC (date_changed_cb), mpage);
+	mpage = MEETING_PAGE (data);	
+	priv = mpage->priv;
 
-#endif
+	attendee = g_new0 (struct attendee, 1);
+	
+	attendee->address = g_strdup (e_table_model_value_at (model, MEETING_ATTENDEE_COL, row));
+	attendee->role = text_to_role (e_table_model_value_at (model, MEETING_ROLE_COL, row));
+	attendee->rsvp = text_to_boolean (e_table_model_value_at (model, MEETING_RSVP_COL, row));
+	attendee->status = text_to_partstat (e_table_model_value_at (model, MEETING_STATUS_COL, row));
+
+	priv->attendees = g_slist_append (priv->attendees, attendee);
+	
+	row_cnt = row_count (etm, data) - 1;
+	e_table_model_row_inserted (E_TABLE_MODEL (etm), row_cnt);
+
+	comp_editor_page_notify_needs_send (COMP_EDITOR_PAGE (mpage));
+	comp_editor_page_notify_changed (COMP_EDITOR_PAGE (mpage));
+}
+
+static void *
+value_at (ETableModel *etm, int col, int row, void *data)
+{
+	MeetingPage *mpage;
+	MeetingPagePrivate *priv;
+	struct attendee *attendee;
+
+	mpage = MEETING_PAGE (data);	
+	priv = mpage->priv;
+
+	attendee = g_slist_nth_data (priv->attendees, row);
+	
+	switch (col) {
+	case MEETING_ATTENDEE_COL:
+		return attendee->address;
+	case MEETING_ROLE_COL:
+		return role_to_text (attendee->role);
+	case MEETING_RSVP_COL:
+		return boolean_to_text (attendee->rsvp);
+	case MEETING_STATUS_COL:
+		return partstat_to_text (attendee->status);
+	}
+	
+	return NULL;
+}
+
+static void
+set_value_at (ETableModel *etm, int col, int row, const void *val, void *data)
+{
+	MeetingPage *mpage;
+	MeetingPagePrivate *priv;
+	struct attendee *attendee;
+
+	mpage = MEETING_PAGE (data);	
+	priv = mpage->priv;
+	
+	attendee = g_slist_nth_data (priv->attendees, row);
+	
+	switch (col) {
+	case MEETING_ATTENDEE_COL:
+		attendee->address = g_strdup (val);
+		break;
+	case MEETING_ROLE_COL:
+		attendee->role = text_to_role (val);
+		break;
+	case MEETING_RSVP_COL:
+		attendee->rsvp = text_to_boolean (val);
+		break;
+	case MEETING_STATUS_COL:
+		attendee->status = text_to_partstat (val);
+		break;
+	}
+
+	if (!priv->updating) {		
+		comp_editor_page_notify_needs_send (COMP_EDITOR_PAGE (mpage));
+		comp_editor_page_notify_changed (COMP_EDITOR_PAGE (mpage));
+	}
+}
+
+static gboolean
+is_cell_editable (ETableModel *etm, int col, int row, void *data)
+{
+	return TRUE;
+}
+
+static void *
+duplicate_value (ETableModel *etm, int col, const void *val, void *data)
+{
+	return g_strdup (val);
+}
+
+static void
+free_value (ETableModel *etm, int col, void *val, void *data)
+{
+	g_free (val);
+}
+
+static void *
+init_value (ETableModel *etm, int col, void *data)
+{
+	switch (col) {
+	case MEETING_ATTENDEE_COL:
+		return g_strdup ("");
+	case MEETING_ROLE_COL:
+		return g_strdup ("Required Participant");
+	case MEETING_RSVP_COL:
+		return g_strdup ("Yes");
+	case MEETING_STATUS_COL:
+		return g_strdup ("Needs Action");
+	}
+	
+	return g_strdup ("");
+}
+
+static gboolean
+value_is_empty (ETableModel *etm, int col, const void *val, void *data)
+{
+	if (col == 0) {
+		if (val && !g_strcasecmp (val, ""))
+			return TRUE;
+		else
+			return FALSE;
+	}
+	
+	return TRUE;
+}
+
+static char *
+value_to_string (ETableModel *etm, int col, const void *val, void *data)
+{
+	return g_strdup (val);
+}
+
+static void
+build_etable (MeetingPage *mpage)
+{
+	MeetingPagePrivate *priv;
+	ETableExtras *extras;
+	GList *strings;
+	ECell *popup_cell, *cell;
+	
+	priv = mpage->priv;
+	
+	extras = e_table_extras_new ();
+	
+	/* For role */
+	cell = e_cell_text_new (NULL, GTK_JUSTIFY_LEFT);
+	popup_cell = e_cell_combo_new ();
+	e_cell_popup_set_child (E_CELL_POPUP (popup_cell), cell);
+	gtk_object_unref (GTK_OBJECT (cell));
+	
+	strings = NULL;
+	strings = g_list_append (strings, "Chair");
+	strings = g_list_append (strings, "Required Participant");
+	strings = g_list_append (strings, "Optional Participant");
+	strings = g_list_append (strings, "Non-Participant");
+	strings = g_list_append (strings, "Unknown");
+
+	e_cell_combo_set_popdown_strings (E_CELL_COMBO (popup_cell), strings);
+	e_table_extras_add_cell (extras, "roleedit", popup_cell);
+
+	/* For rsvp */
+	cell = e_cell_text_new (NULL, GTK_JUSTIFY_LEFT);
+	popup_cell = e_cell_combo_new ();
+	e_cell_popup_set_child (E_CELL_POPUP (popup_cell), cell);
+	gtk_object_unref (GTK_OBJECT (cell));
+
+	strings = NULL;
+	strings = g_list_append (strings, "Yes");
+	strings = g_list_append (strings, "No");
+
+	e_cell_combo_set_popdown_strings (E_CELL_COMBO (popup_cell), strings);
+	e_table_extras_add_cell (extras, "rsvpedit", popup_cell);
+
+	/* For status */
+	cell = e_cell_text_new (NULL, GTK_JUSTIFY_LEFT);
+	popup_cell = e_cell_combo_new ();
+	e_cell_popup_set_child (E_CELL_POPUP (popup_cell), cell);
+	gtk_object_unref (GTK_OBJECT (cell));
+
+	strings = NULL;
+	strings = g_list_append (strings, "Needs Action");
+	strings = g_list_append (strings, "Accepted");
+	strings = g_list_append (strings, "Declined");
+	strings = g_list_append (strings, "Tentative");
+	strings = g_list_append (strings, "Delegated");
+
+	e_cell_combo_set_popdown_strings (E_CELL_COMBO (popup_cell), strings);
+	e_table_extras_add_cell (extras, "statusedit", popup_cell);
+
+
+	/* The table itself */
+	priv->model = e_table_simple_new (column_count,
+					  row_count,
+					  value_at,
+					  set_value_at,
+					  is_cell_editable,
+					  duplicate_value,
+					  free_value,
+					  init_value,
+					  value_is_empty,
+					  value_to_string,
+					  mpage);
+	gtk_object_set (GTK_OBJECT (priv->model),
+			"append_row", append_row,
+			NULL);
+	
+	priv->etable = e_table_scrolled_new (priv->model, extras, 
+					     MEETING_PAGE_TABLE_SPEC, NULL);
+	gtk_object_unref (GTK_OBJECT (extras));
 }
 
 
@@ -515,7 +867,6 @@ MeetingPage *
 meeting_page_construct (MeetingPage *mpage)
 {
 	MeetingPagePrivate *priv;
-	GtkWidget *vbox;
 	
 	priv = mpage->priv;
 
@@ -532,20 +883,12 @@ meeting_page_construct (MeetingPage *mpage)
 			   "Could not find all widgets in the XML file!");
 		return NULL;
 	}
-
-	/* Stuff for the second page */
-	vbox = gtk_vbox_new (FALSE, 2);
-	gtk_widget_show (vbox);
-	gtk_table_attach (GTK_TABLE (priv->table), vbox, 0, 1, 0, 1,
-			  GTK_EXPAND | GTK_FILL, GTK_FILL, 2, 0);
-
-	/* The radio buttions to change views on first page */
-	create_radio_buttons (priv->selector->attendees_title_bar_vbox, 
-			      &priv->rb1[0], &priv->rb1[1]);
-
-	/* The radio buttions to change views on second page */
-	create_radio_buttons (vbox, &priv->rb2[0], &priv->rb2[1]);
-
+	
+	/* The etable displaying attendees and their status */
+	build_etable (mpage);	
+	gtk_widget_show (priv->etable);
+	gtk_box_pack_start (GTK_BOX (priv->main), priv->etable, TRUE, TRUE, 2);
+	
 	/* Init the widget signals */
 	init_widgets (mpage);
 
@@ -572,16 +915,4 @@ meeting_page_new (void)
 	}
 
 	return mpage;
-}
-
-GtkWidget *meeting_page_create_selector (void);
-
-GtkWidget *
-meeting_page_create_selector (void)
-{
-	GtkWidget *sel;
-
-	sel = e_meeting_time_selector_new ();
-
-	return sel;
 }

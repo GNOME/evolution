@@ -34,6 +34,7 @@ static void comp_editor_page_class_init (CompEditorPageClass *class);
 
 enum {
 	CHANGED,
+	NEEDS_SEND,
 	SUMMARY_CHANGED,
 	DATES_CHANGED,
 	LAST_SIGNAL
@@ -92,6 +93,15 @@ comp_editor_page_class_init (CompEditorPageClass *class)
 				object_class->type,
 				GTK_SIGNAL_OFFSET (CompEditorPageClass,
 						   changed),
+				gtk_marshal_NONE__NONE,
+				GTK_TYPE_NONE, 0);
+
+	comp_editor_page_signals[NEEDS_SEND] =
+		gtk_signal_new ("needs_send",
+				GTK_RUN_FIRST,
+				object_class->type,
+				GTK_SIGNAL_OFFSET (CompEditorPageClass,
+						   needs_send),
 				gtk_marshal_NONE__NONE,
 				GTK_TYPE_NONE, 0);
 
@@ -189,6 +199,23 @@ comp_editor_page_fill_component (CompEditorPage *page, CalComponent *comp)
 }
 
 /**
+ * comp_editor_page_set_cal_client:
+ * @page: An editor page
+ * @client: A #CalClient object
+ * 
+ * Sets the #CalClient for the dialog page to use.
+ **/
+void
+comp_editor_page_set_cal_client (CompEditorPage *page, CalClient *client)
+{
+	g_return_if_fail (page != NULL);
+	g_return_if_fail (IS_COMP_EDITOR_PAGE (page));
+
+	if (CLASS (page)->set_cal_client != NULL)
+		(* CLASS (page)->set_cal_client) (page, client);
+}
+
+/**
  * comp_editor_page_set_summary:
  * @page: An editor page
  * @summary: The text of the new summary value
@@ -223,23 +250,6 @@ comp_editor_page_set_dates (CompEditorPage *page, CompEditorPageDates *dates)
 }
 
 /**
- * comp_editor_page_set_cal_client:
- * @page: An editor page
- * @client: A #CalClient object
- * 
- * Sets the #CalClient for the dialog page to use.
- **/
-void
-comp_editor_page_set_cal_client (CompEditorPage *page, CalClient *client)
-{
-	g_return_if_fail (page != NULL);
-	g_return_if_fail (IS_COMP_EDITOR_PAGE (page));
-
-	if (CLASS (page)->set_cal_client != NULL)
-		(* CLASS (page)->set_cal_client) (page, client);
-}
-
-/**
  * comp_editor_page_notify_changed:
  * @page: An editor page.
  * 
@@ -253,6 +263,21 @@ comp_editor_page_notify_changed (CompEditorPage *page)
 	g_return_if_fail (IS_COMP_EDITOR_PAGE (page));
 
 	gtk_signal_emit (GTK_OBJECT (page), comp_editor_page_signals[CHANGED]);
+}
+
+/**
+ * comp_editor_page_notify_needs_send:
+ * @page: 
+ * 
+ * 
+ **/
+void
+comp_editor_page_notify_needs_send (CompEditorPage *page)
+{
+	g_return_if_fail (page != NULL);
+	g_return_if_fail (IS_COMP_EDITOR_PAGE (page));
+
+	gtk_signal_emit (GTK_OBJECT (page), comp_editor_page_signals[NEEDS_SEND]);	
 }
 
 /**

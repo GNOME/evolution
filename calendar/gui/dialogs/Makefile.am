@@ -24,6 +24,8 @@ libcal_dialogs_a_SOURCES =	\
 	alarm-page.h		\
 	cal-prefs-dialog.c	\
 	cal-prefs-dialog.h	\
+	cancel-comp.c		\
+	cancel-comp.h		\
 	comp-editor.c		\
 	comp-editor.h		\
 	comp-editor-page.c	\
@@ -38,10 +40,14 @@ libcal_dialogs_a_SOURCES =	\
 	event-editor.h		\
 	event-page.c		\
 	event-page.h		\
+	meeting-page.c		\
+	meeting-page.h		\
 	recurrence-page.c	\
 	recurrence-page.h	\
 	save-comp.c		\
 	save-comp.h		\
+	send-comp.c		\
+	send-comp.h		\
 	task-editor.c		\
 	task-editor.h		\
 	task-details-page.c	\
@@ -55,6 +61,7 @@ glade_DATA =				\
 	cal-prefs-dialog.glade		\
 	e-timezone-dialog.glade		\
 	event-page.glade		\
+	meeting-page.glade		\
 	recurrence-page.glade		\
 	task-details-page.glade		\
 	task-page.glade

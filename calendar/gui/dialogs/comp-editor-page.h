@@ -54,9 +54,11 @@ typedef struct {
 
 	/* Notification signals */
 
-	void (* changed) (CompEditorPage *page);
+	void (* changed)    (CompEditorPage *page);
+	void (* needs_send) (CompEditorPage *page);
+
 	void (* summary_changed) (CompEditorPage *page, const char *summary);
-	void (* dates_changed) (CompEditorPage *page, const char *dates);
+	void (* dates_changed)   (CompEditorPage *page, const char *dates);
 
 	/* Virtual methods */
 
@@ -78,13 +80,14 @@ void       comp_editor_page_fill_widgets           (CompEditorPage      *page,
 						    CalComponent        *comp);
 void       comp_editor_page_fill_component         (CompEditorPage      *page,
 						    CalComponent        *comp);
+void       comp_editor_page_set_cal_client         (CompEditorPage      *page,
+						    CalClient		*client);
 void       comp_editor_page_set_summary            (CompEditorPage      *page,
 						    const char          *summary);
 void       comp_editor_page_set_dates              (CompEditorPage      *page,
 						    CompEditorPageDates *dates);
-void       comp_editor_page_set_cal_client         (CompEditorPage      *page,
-						    CalClient		*client);
 void       comp_editor_page_notify_changed         (CompEditorPage      *page);
+void       comp_editor_page_notify_needs_send      (CompEditorPage      *page);
 void       comp_editor_page_notify_summary_changed (CompEditorPage      *page,
 						    const char          *summary);
 void       comp_editor_page_notify_dates_changed   (CompEditorPage      *page,

@@ -1,3 +1,71 @@
+2001-06-19  JP Rosevear  <jpr@ximian.com>
+
+	* gui/dialogs/send-comp.c: itip/imip send dialog
+
+	* gui/dialogs/send-comp.h: new proto
+
+	* gui/dialogs/recurrence-page.c (recurrence_page_set_dates): only
+	use the weekday picker if visible
+
+	* gui/dialogs/meeting-page.c: just show the meeting list
+
+	* gui/dialogs/event-editor.c (event_editor_edit_comp): remove the
+	meeting page if no attendees
+	(schedule_meeting_cmd): schedule a meeting menu item
+	(refresh_meeting_cmd): refresh meeting request menu item
+	(cancel_meeting_cmd): ditto for cancel
+	(forward_cmd): send as attachment
+
+	* gui/dialogs/comp-editor.c (comp_editor_remove_page): remove page
+	from dialog
+	(comp_editor_show_page): show a given page
+	(comp_editor_get_current_comp): return a cal component
+	representing the current widget state
+	(comp_editor_save_comp): save the cal component
+	(comp_editor_delete_comp): delete the cal component
+	(comp_editor_send_comp): send the cal component
+	(comp_editor_merge_ui): merge xml in to the bonobo gui
+	(setup_widgets): use a bonobo window instead of a gtk window, add menus again
+	(save_as_cmd): save to file on disk - still broken
+	(save_close_cmd): close menu command
+	(save_close_cmd): save and close menu command
+
+	* gui/dialogs/comp-editor.h: new protos
+
+	* gui/dialogs/cancel-comp.c (cancel_component_dialog): itip/imip
+	cancellation dialog
+
+	* gui/dialogs/cancel-comp.h: new proto
+
+	* gui/dialogs/Makefile.am: build new files
+
+	* gui/dialogs/comp-editor-page.c
+	(comp_editor_page_notify_needs_send): emit needs_send signal
+
+	* gui/dialogs/comp-editor-page.h: new signal protos
+
+	* gui/itip-utils.c (itip_send_comp): new function to send cal
+	components
+
+	* gui/itip-utils.h: new proto
+
+	* gui/e-itip-control.c (pstream_load): trim using cal-component
+	wrapper stuff
+	(accept_button_clicked_cb): use itip_send_comp
+	(tentative_button_clicked_cb): ditto
+	(decline_button_clicked_cb): ditto
+
+	* gui/Makefile.am: compile select name idl stuff
+
+	* cal-util/cal-component.c (cal_component_get_organizer): get the organizer
+	(cal_component_set_organizer): set the organizer
+	(cal_component_get_recurid): get the recurrence id
+	(cal_component_set_recurid): set the recurrence id
+	(set_attendee_list): actually set the attendee list
+	(get_attendee_list): build the attendee list
+
+	* cal-util/cal-component.h: new protos
+
 2001-06-19  Damon Chaplin  <damon@ximian.com>
 
 	* gui/dialogs/task-details-page.glade: 

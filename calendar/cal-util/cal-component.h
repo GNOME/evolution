@@ -119,6 +119,19 @@ typedef struct {
 	} u;
 } CalComponentPeriod;
 
+/* The type of range */
+typedef enum {
+	CAL_COMPONENT_RANGE_SINGLE,
+	CAL_COMPONENT_RANGE_THISPRIOR,
+	CAL_COMPONENT_RANGE_THISFUTURE,
+} CalComponentRangeType;
+
+typedef struct {
+	CalComponentRangeType type;
+	
+	CalComponentDateTime *datetime;
+} CalComponentRange;
+
 /* Text properties */
 typedef struct {
 	/* Description string */
@@ -135,6 +148,57 @@ typedef enum {
 	CAL_COMPONENT_TRANSP_OPAQUE,
 	CAL_COMPONENT_TRANSP_UNKNOWN
 } CalComponentTransparency;
+
+/* Organizer & Attendee */
+typedef enum {
+	CAL_COMPONENT_CUTYPE_INDIVIDUAL,
+	CAL_COMPONENT_CUTYPE_GROUP,
+	CAL_COMPONENT_CUTYPE_RESOURCE,
+	CAL_COMPONENT_CUTYPE_ROOM,
+	CAL_COMPONENT_CUTYPE_UNKNOWN
+} CalComponentCUType;
+
+typedef enum {
+	CAL_COMPONENT_ROLE_CHAIR,
+	CAL_COMPONENT_ROLE_REQUIRED,
+	CAL_COMPONENT_ROLE_OPTIONAL,
+	CAL_COMPONENT_ROLE_NON,
+	CAL_COMPONENT_ROLE_UNKNOWN
+} CalComponentRole;
+
+typedef enum {
+	CAL_COMPONENT_PARTSTAT_NEEDSACTION,
+	CAL_COMPONENT_PARTSTAT_ACCEPTED,
+	CAL_COMPONENT_PARTSTAT_DECLINED,
+	CAL_COMPONENT_PARTSTAT_TENTATIVE,
+	CAL_COMPONENT_PARTSTAT_DELEGATED,
+	CAL_COMPONENT_PARTSTAT_COMPLETED,
+	CAL_COMPONENT_PARTSTAT_INPROCESS,
+	CAL_COMPONENT_PARTSTAT_UNKNOWN
+} CalComponentPartStat;
+	
+typedef struct {
+	const char *value;
+	
+	const char *member;
+	CalComponentCUType cutype;
+	CalComponentRole role;
+	CalComponentPartStat status;
+	gboolean rsvp;
+	
+	const char *delto;
+	const char *delfrom;
+	const char *sentby;
+	const char *cn;
+	const char *language;
+} CalComponentAttendee;
+	
+typedef struct {
+	const char *value;
+	const char *sentby;
+	const char *cn;
+	const char *language;
+} CalComponentOrganizer;
 
 /* Main calendar component object */
 
@@ -227,11 +291,17 @@ void cal_component_set_geo (CalComponent *comp, struct icalgeotype *geo);
 void cal_component_get_last_modified (CalComponent *comp, struct icaltimetype **t);
 void cal_component_set_last_modified (CalComponent *comp, struct icaltimetype *t);
 
+void cal_component_get_organizer (CalComponent *comp, CalComponentOrganizer *organizer);
+void cal_component_set_organizer (CalComponent *comp, CalComponentOrganizer *organizer);
+
 void cal_component_get_percent (CalComponent *comp, int **percent);
 void cal_component_set_percent (CalComponent *comp, int *percent);
 
 void cal_component_get_priority (CalComponent *comp, int **priority);
 void cal_component_set_priority (CalComponent *comp, int *priority);
+
+void cal_component_get_recurid (CalComponent *comp, CalComponentRange **recur_id);
+void cal_component_set_recurid (CalComponent *comp, CalComponentRange *recur_id);
 
 void cal_component_get_rdate_list (CalComponent *comp, GSList **period_list);
 void cal_component_set_rdate_list (CalComponent *comp, GSList *period_list);
@@ -259,6 +329,9 @@ void cal_component_set_transparency (CalComponent *comp, CalComponentTransparenc
 void cal_component_get_url (CalComponent *comp, const char **url);
 void cal_component_set_url (CalComponent *comp, const char *url);
 
+void cal_component_get_attendee_list (CalComponent *comp, GSList **attendee_list);
+void cal_component_set_attendee_list (CalComponent *comp, GSList *attendee_list);
+
 gboolean cal_component_event_dates_match (CalComponent *comp1, CalComponent *comp2);
 
 /* Functions to free returned values */
@@ -274,6 +347,7 @@ void cal_component_free_period_list (GSList *period_list);
 void cal_component_free_recur_list (GSList *recur_list);
 void cal_component_free_sequence (int *sequence);
 void cal_component_free_text_list (GSList *text_list);
+void cal_component_free_attendee_list (GSList *attendee_list);
 
 /* Alarms */
 

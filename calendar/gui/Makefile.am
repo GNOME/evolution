@@ -1,17 +1,24 @@
 ## CORBA stuff
 
 IDLS =                          \
-        $(srcdir)/../../composer/Evolution-Composer.idl
+	$(top_srcdir)/composer/Evolution-Composer.idl \
+	$(top_srcdir)/addressbook/gui/component/select-names/Evolution-Addressbook-SelectNames.idl
 
-IDL_GENERATED =                 \
-        Evolution-Composer.h              \
-        Evolution-Composer-common.c       \
-        Evolution-Composer-skels.c        \
-        Evolution-Composer-stubs.c
+IDL_GENERATED =                 			\
+e        Evolution-Composer.h              		\
+        Evolution-Composer-common.c       		\
+        Evolution-Composer-skels.c        		\
+        Evolution-Composer-stubs.c			\
+	Evolution-Addressbook-SelectNames.h		\
+	Evolution-Addressbook-SelectNames-common.c	\
+	Evolution-Addressbook-SelectNames-skels.c	\
+	Evolution-Addressbook-SelectNames-stubs.c
 
 $(IDL_GENERATED): $(IDLS) 
 	$(ORBIT_IDL) -I $(srcdir) -I $(datadir)/idl `$(GNOME_CONFIG) --cflags idl`   \
                 $(srcdir)/../../composer/Evolution-Composer.idl
+	$(ORBIT_IDL) -I $(srcdir) -I $(datadir)/idl `$(GNOME_CONFIG) --cflags idl`   \
+                $(top_srcdir)/addressbook/gui/component/select-names/Evolution-Addressbook-SelectNames.idl
 
 SUBDIRS = alarm-notify dialogs
 

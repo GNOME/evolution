@@ -42,6 +42,8 @@
 #include "e-itip-control.h"
 #include <cal-util/cal-component.h>
 #include <cal-client/cal-client.h>
+#include <e-util/e-time-utils.h>
+#include "calendar-config.h"
 #include "itip-utils.h"
 
 #define MAIL_COMPOSER_OAF_IID "OAFIID:GNOME_Evolution_Mail_Composer"
@@ -235,149 +237,12 @@ change_my_status (icalparameter_partstat status, EItipControlPrivate *priv)
 }
 
 static void
-send_itip_reply (EItipControlPrivate *priv)
-{
-	BonoboObjectClient *bonobo_server;
-	GNOME_Evolution_Composer composer_server;
-	CORBA_Environment ev;
-	GNOME_Evolution_Composer_RecipientList *to_list, *cc_list, *bcc_list;
-	GNOME_Evolution_Composer_Recipient *recipient;
-	CORBA_char *subject;
-	CalComponentText caltext;
-	CORBA_char *content_type, *filename, *description, *attach_data;
-	CORBA_boolean show_inline;
-	CORBA_char tempstr[200];
-	
-	CORBA_exception_init (&ev);
-
-	/* First, I obtain an object reference that represents the Composer. */
-	bonobo_server = bonobo_object_activate (MAIL_COMPOSER_OAF_IID, 0);
-
-	g_return_if_fail (bonobo_server != NULL);
-
-	composer_server = bonobo_object_corba_objref (BONOBO_OBJECT (bonobo_server));
-
-	/* Now I have to make a CORBA sequence that represents a recipient list with
-	   one item, for the organizer. */
-	to_list = GNOME_Evolution_Composer_RecipientList__alloc ();
-	to_list->_maximum = 1;
-	to_list->_length = 1; 
-	to_list->_buffer = CORBA_sequence_GNOME_Evolution_Composer_Recipient_allocbuf (1);
-
-	recipient = &(to_list->_buffer[0]);
-	recipient->name = CORBA_string_alloc (0);  /* FIXME: we may want an actual name here. */
-	recipient->name[0] = '\0';
-	recipient->address = CORBA_string_alloc (strlen (priv->organizer));
-	strcpy (recipient->address, priv->organizer);
-
-	cc_list = GNOME_Evolution_Composer_RecipientList__alloc ();
-	cc_list->_maximum = cc_list->_length = 0;
-	bcc_list = GNOME_Evolution_Composer_RecipientList__alloc ();
-	bcc_list->_maximum = bcc_list->_length = 0;
-
-	cal_component_get_summary (priv->cal_comp, &caltext);
-	subject = CORBA_string_alloc (strlen (caltext.value));
-	strcpy (subject, caltext.value);
-	
-	GNOME_Evolution_Composer_setHeaders (composer_server, to_list, cc_list, bcc_list, subject, &ev);
-	if (ev._major != CORBA_NO_EXCEPTION) {
-		g_printerr ("gui/e-meeting-edit.c: I couldn't set the composer headers via CORBA! Aagh.\n");
-		CORBA_exception_free (&ev);
-		return;
-	}
-
-	sprintf (tempstr, "text/calendar;METHOD=REPLY");
-	content_type = CORBA_string_alloc (strlen (tempstr));
-	strcpy (content_type, tempstr);
-	filename = CORBA_string_alloc (0);
-	filename[0] = '\0';
-	sprintf (tempstr, "Calendar attachment");
-	description = CORBA_string_alloc (strlen (tempstr));
-	strcpy (description, tempstr);
-	show_inline = FALSE;
-
-	/* I need to create an encapsulating iCalendar component, and stuff our reply event
-	   into it. */
-	{
-		icalcomponent *comp;
-		icalproperty *prop;
-		icalvalue *value;
-		gchar *ical_string;
-
-		comp = icalcomponent_new (ICAL_VCALENDAR_COMPONENT);
-		
-		prop = icalproperty_new (ICAL_PRODID_PROPERTY);
-		value = icalvalue_new_text ("-//HelixCode/Evolution//EN");
-		icalproperty_set_value (prop, value);
-		icalcomponent_add_property (comp, prop);
-
-		prop = icalproperty_new (ICAL_VERSION_PROPERTY);
-		value = icalvalue_new_text ("2.0");
-		icalproperty_set_value (prop, value);
-		icalcomponent_add_property (comp, prop);
-
-		prop = icalproperty_new (ICAL_METHOD_PROPERTY);
-		value = icalvalue_new_text ("REPLY");
-		icalproperty_set_value (prop, value);
-		icalcomponent_add_property (comp, prop);
-
-		icalcomponent_remove_component (priv->main_comp, priv->comp);
-		icalcomponent_add_component (comp, priv->comp);
-
-		ical_string = icalcomponent_as_ical_string (comp);
-		attach_data = CORBA_string_alloc (strlen (ical_string));
-		strcpy (attach_data, ical_string);
-
-		icalcomponent_remove_component (comp, priv->comp);
-		icalcomponent_add_component (priv->main_comp, priv->comp);
-		icalcomponent_free (comp);
-
-	}
-	
-	GNOME_Evolution_Composer_attachData (composer_server, 
-					     content_type, filename, description,
-					     show_inline, attach_data,
-					     &ev);
-	
-	if (ev._major != CORBA_NO_EXCEPTION) {
-		g_printerr ("gui/e-meeting-edit.c: I couldn't attach data to the composer via CORBA! Aagh.\n");
-		CORBA_exception_free (&ev);
-		return;
-	}
-
-	GNOME_Evolution_Composer_show (composer_server, &ev);
-
-	if (ev._major != CORBA_NO_EXCEPTION) {
-		g_printerr ("gui/e-meeting-edit.c: I couldn't show the composer via CORBA! Aagh.\n");
-		CORBA_exception_free (&ev);
-		return;
-	}
-	
-	CORBA_exception_free (&ev);
-
-	/* Here is where we free our graciously-allocated memory. */
-	if (CORBA_sequence_get_release (to_list) != FALSE)
-		CORBA_free (to_list->_buffer);
-
-	CORBA_free (to_list);
-	CORBA_free (cc_list);
-	CORBA_free (bcc_list);
-
-	CORBA_free (subject);
-	CORBA_free (content_type);
-	CORBA_free (filename);
-	CORBA_free (description);
-	CORBA_free (attach_data);
-
-}
-
-static void
 accept_button_clicked_cb (GtkWidget *widget, gpointer data)
 {
 	EItipControlPrivate *priv = data;
 
 	change_my_status (ICAL_PARTSTAT_ACCEPTED, priv);
-	send_itip_reply (priv);
+	itip_send_comp (CAL_COMPONENT_METHOD_REPLY, priv->cal_comp);
 	update_calendar (priv);
 	
 	return;
@@ -389,7 +254,7 @@ tentative_button_clicked_cb (GtkWidget *widget, gpointer data)
 	EItipControlPrivate *priv = data;
 
 	change_my_status (ICAL_PARTSTAT_TENTATIVE, priv);
-	send_itip_reply (priv);
+	itip_send_comp (CAL_COMPONENT_METHOD_REPLY, priv->cal_comp);
 	update_calendar (priv);
 	
 	return;
@@ -401,7 +266,7 @@ decline_button_clicked_cb (GtkWidget *widget, gpointer data)
 	EItipControlPrivate *priv = data;
 
 	change_my_status (ICAL_PARTSTAT_DECLINED, priv);
-	send_itip_reply (priv);
+	itip_send_comp (CAL_COMPONENT_METHOD_REPLY, priv->cal_comp);
 	
 	return;
 }
@@ -596,6 +461,7 @@ stream_read (Bonobo_Stream stream)
 		length += buffer->_length;
 
 		CORBA_free (buffer);
+#undef READ_CHUNK_SIZE
 	} while (1);
 
 	CORBA_free (buffer);
@@ -616,7 +482,13 @@ pstream_load (BonoboPersistStream *ps, const Bonobo_Stream stream,
 	      CORBA_Environment *ev)
 {
 	EItipControlPrivate *priv = data;
-	gint pos, length, length2;
+	CalComponentText text;
+	CalComponentDateTime datetime;
+	CalComponentOrganizer organizer;
+	icalproperty *prop;
+	GSList *list, *l;
+	time_t t;
+	gint pos = 0;
 	icalcompiter iter;
 	icalcomponent_kind comp_kind;
 	char message[256];
@@ -646,11 +518,10 @@ pstream_load (BonoboPersistStream *ps, const Bonobo_Stream stream,
 	iter = icalcomponent_begin_component (priv->main_comp, ICAL_ANY_COMPONENT);
 	priv->comp = icalcompiter_deref (&iter);
 
-#if 0
 	{   
 		FILE *fp;
 
-		fp = fopen ("evo.debug", "w");
+		fp = fopen ("/tmp/evo.debug", "w");
 
 		fputs ("The raw vCalendar data:\n\n", fp);
 		fputs (priv->vcalendar, fp);
@@ -663,7 +534,6 @@ pstream_load (BonoboPersistStream *ps, const Bonobo_Stream stream,
 
 		fclose (fp);
 	}
-#endif
 
 	if (priv->comp == NULL) {
 		g_printerr ("e-itip-control.c: I could not extract a proper component from\n"
@@ -690,7 +560,7 @@ pstream_load (BonoboPersistStream *ps, const Bonobo_Stream stream,
 		break;
 	default:
 		/* We don't know what this is, so bail. */
-		{
+	{
 		GtkWidget *dialog;
 
 		dialog = gnome_warning_dialog(_("I don't recognize this type of calendar component."));
@@ -700,215 +570,194 @@ pstream_load (BonoboPersistStream *ps, const Bonobo_Stream stream,
 		priv->vcalendar = NULL;
 
 		return;
-		}
+	}
 		break;
 	} /* End switch. */
 
+	
+	/* Fill in the gui */
+	cal_component_get_organizer (priv->cal_comp, &organizer);
+	priv->organizer = g_strdup (organizer.value);
+	gtk_entry_set_text (GTK_ENTRY (priv->organizer_entry), priv->organizer);
+	
+	cal_component_get_summary (priv->cal_comp, &text);
+	gtk_entry_set_text (GTK_ENTRY (priv->summary_entry), text.value);
 
-	/* Okay, good then; now I will pick apart the component to get
-	 all the things I'll show in my control. */
+	cal_component_get_description_list (priv->cal_comp, &list);
+	for (l = list; l != NULL; l = l->next) {
+		text = *((CalComponentText *)l->data);
+		
+		gtk_editable_insert_text (GTK_EDITABLE (priv->description_box),
+					  text.value, strlen (text.value), &pos);
+	}
+	cal_component_free_text_list (list);
+	
+	cal_component_get_dtstart (priv->cal_comp, &datetime);
+	t = icaltime_as_timet (*datetime.value);
+	e_time_format_date_and_time (localtime (&t), 
+				     calendar_config_get_24_hour_format (), 
+				     FALSE, FALSE, message, sizeof (message));
+	gtk_label_set_text (GTK_LABEL (priv->dtstart_label), message);
+	
+	cal_component_get_dtend (priv->cal_comp, &datetime);
+	t = icaltime_as_timet (*datetime.value);
+	e_time_format_date_and_time (localtime (&t), 
+				     calendar_config_get_24_hour_format (), 
+				     FALSE, FALSE, message, sizeof (message));
+	gtk_label_set_text (GTK_LABEL (priv->dtend_label), message);
+
+        /* Clear out any old-assed text that's been lying around in my message box. */
+	gtk_editable_delete_text (GTK_EDITABLE (priv->message_text), 0, -1);
+	
+#if 0
+	prop = icalcomponent_get_first_property (priv->comp, ICAL_ORGANIZER_PROPERTY);
+	if (prop) {
+		organizer = icalproperty_get_organizer (prop);
+		
+		/* Here I strip off the "MAILTO:" if it is present. */
+		new_text = strchr (organizer, ':');
+		if (new_text != NULL)
+			new_text++;
+		else
+			new_text = organizer;
+
+		priv->organizer = g_strdup (new_text);
+		gtk_entry_set_text (GTK_ENTRY (priv->organizer_entry), new_text);
+	}
+#endif
+
+	prop = icalcomponent_get_first_property (priv->main_comp, ICAL_METHOD_PROPERTY);
+	switch (icalproperty_get_method (prop)) {
+	case ICAL_METHOD_PUBLISH:
+	{
+		GtkWidget *button;
+
+		snprintf (message, 250, "%s has published calendar information, "
+			  "which you can add to your own calendar. "
+			  "No reply is necessary.", 
+			  priv->from_address);
+			
+		button =  gtk_button_new_with_label (_("Add to Calendar"));
+		gtk_box_pack_start (GTK_BOX (priv->button_box), button, FALSE, FALSE, 3);
+		gtk_widget_show (button);
+
+		gtk_signal_connect (GTK_OBJECT (button), "clicked",
+				    GTK_SIGNAL_FUNC (add_button_clicked_cb), priv);
+			
+		break;
+	}
+	case ICAL_METHOD_REQUEST:
+	{
+		/* I'll check if I have to rsvp. */
+		icalproperty *prop;
+		icalparameter *param;
+		int rsvp = FALSE;
+
+		prop = find_attendee (priv->comp, priv->my_address);
+		if (prop) {
+			param = get_icalparam_by_type (prop, ICAL_RSVP_PARAMETER);
+	
+			if (param) {
+				if (icalparameter_get_rsvp (param))
+					rsvp = TRUE;
+			}
+		}
+
+		snprintf (message, 250, "This is a meeting organized by %s, "
+			  "who indicated that you %s RSVP.",
+			  (priv->organizer ? priv->organizer : "an unknown person"), 
+			  (rsvp ? "should" : "don't have to") );
+
+		if (rsvp) {
+			GtkWidget *accept_button, *decline_button, *tentative_button;
+
+			accept_button = gtk_button_new_with_label (_(" Accept "));
+			decline_button = gtk_button_new_with_label (_(" Decline "));
+			tentative_button = gtk_button_new_with_label (_(" Tentative "));
+
+			gtk_box_pack_start (GTK_BOX (priv->button_box), decline_button, FALSE, FALSE, 3);
+			gtk_box_pack_end (GTK_BOX (priv->button_box), accept_button, FALSE, FALSE, 3);
+			gtk_box_pack_end (GTK_BOX (priv->button_box), tentative_button, FALSE, FALSE, 3);
+
+			gtk_signal_connect (GTK_OBJECT (accept_button), "clicked",
+					    GTK_SIGNAL_FUNC (accept_button_clicked_cb), priv);
+			gtk_signal_connect (GTK_OBJECT (tentative_button), "clicked",
+					    GTK_SIGNAL_FUNC (tentative_button_clicked_cb), priv);
+			gtk_signal_connect (GTK_OBJECT (decline_button), "clicked",
+					    GTK_SIGNAL_FUNC (decline_button_clicked_cb), priv);
+
+			gtk_widget_show (accept_button);
+			gtk_widget_show (tentative_button);
+			gtk_widget_show (decline_button);
+		}
+
+	}
+	break;
+	case ICAL_METHOD_REPLY:
 	{
 		icalproperty *prop;
-		const char *description, *summary;
-		const char *new_text;
-		const char *organizer;
-		struct icaltimetype dtstart, dtend;
-		time_t tstart, tend;
+		icalparameter *param;
+		gboolean success = FALSE;
 
-		prop = icalcomponent_get_first_property (priv->comp, ICAL_ORGANIZER_PROPERTY);
+		prop = find_attendee (priv->comp, priv->from_address);
 		if (prop) {
-			organizer = icalproperty_get_organizer (prop);
+			param = get_icalparam_by_type (prop, ICAL_PARTSTAT_PARAMETER);
+			if (param) {
+				success = TRUE;
+
+				priv->new_partstat = icalparameter_get_partstat (param);
+			}
+		}
+
+		if (!success) {
+			snprintf (message, 250, "%s sent a reply to a meeting request, but "
+				  "the reply is not properly formed.",
+				  priv->from_address);
+		}
+		else {
+			GtkWidget *button;
 		
-			/* Here I strip off the "MAILTO:" if it is present. */
-			new_text = strchr (organizer, ':');
-			if (new_text != NULL)
-				new_text++;
-			else
-				new_text = organizer;
-
-			priv->organizer = g_strdup (new_text);
-			gtk_entry_set_text (GTK_ENTRY (priv->organizer_entry), new_text);
-		}
-
-		prop = icalcomponent_get_first_property (priv->comp, ICAL_SUMMARY_PROPERTY);
-		if (prop) {
-			summary = icalproperty_get_summary (prop);
-			gtk_entry_set_text (GTK_ENTRY (priv->summary_entry), summary);
-		}
-
-		prop = icalcomponent_get_first_property (priv->comp, ICAL_DESCRIPTION_PROPERTY);
-		if (prop) {
-			description = icalproperty_get_summary (prop);
+			button =  gtk_button_new_with_label (_("Update Calendar"));
+			gtk_box_pack_start (GTK_BOX (priv->button_box), button, FALSE, FALSE, 3);
+			gtk_widget_show (button);
 	
-			pos = 0;
-			length = strlen (description);
-			length2 = strlen (gtk_editable_get_chars 
-						(GTK_EDITABLE (priv->description_box), 0, -1));
-		
-			if (length2 > 0)
-				gtk_editable_delete_text (GTK_EDITABLE (priv->description_box), 0, length2);
-		
-			gtk_editable_insert_text (GTK_EDITABLE (priv->description_box),
-						  description,
-						  length,
-						  &pos);
+			gtk_signal_connect (GTK_OBJECT (button), "clicked",
+					    GTK_SIGNAL_FUNC (update_reply_cb), priv);
+				
+			snprintf (message, 250, "%s responded to your request, replying with: %s",
+				  priv->from_address, partstat_values[priv->new_partstat]);
 		}
 
-		prop = icalcomponent_get_first_property (priv->comp, ICAL_DTSTART_PROPERTY);
-		dtstart = icalproperty_get_dtstart (prop);
-		prop = icalcomponent_get_first_property (priv->comp, ICAL_DTEND_PROPERTY);
-		dtend = icalproperty_get_dtend (prop);
-
-		tstart = icaltime_as_timet (dtstart);
-		tend = icaltime_as_timet (dtend);
-
-		gtk_label_set_text (GTK_LABEL (priv->dtstart_label), ctime (&tstart));
-		gtk_label_set_text (GTK_LABEL (priv->dtend_label), ctime (&tend));
-
-		/* Clear out any old-assed text that's been lying around in my message box. */
-		gtk_editable_delete_text (GTK_EDITABLE (priv->message_text), 0, -1);
-
-		prop = icalcomponent_get_first_property (priv->main_comp, ICAL_METHOD_PROPERTY);
-		switch (icalproperty_get_method (prop)) {
-		case ICAL_METHOD_PUBLISH:
-			{
+	}
+	break;
+	case ICAL_METHOD_CANCEL:
+		if (strcmp (priv->organizer, priv->from_address) != 0) {
+			snprintf (message, 250, "%s sent a cancellation request, but is not "
+				  "the organizer of the meeting.",
+				  priv->from_address);
+		} else {
 			GtkWidget *button;
 
-			snprintf (message, 250, "%s has published calendar information, "
-				 	  "which you can add to your own calendar. "
-				 	  "No reply is necessary.", 
-				 priv->from_address);
-			
-			button =  gtk_button_new_with_label (_("Add to Calendar"));
+			button =  gtk_button_new_with_label (_("Cancel Meeting"));
 			gtk_box_pack_start (GTK_BOX (priv->button_box), button, FALSE, FALSE, 3);
 			gtk_widget_show (button);
 
 			gtk_signal_connect (GTK_OBJECT (button), "clicked",
-					    GTK_SIGNAL_FUNC (add_button_clicked_cb), priv);
-			
-			break;
-			}
-		case ICAL_METHOD_REQUEST:
-			{
-			/* I'll check if I have to rsvp. */
-			icalproperty *prop;
-			icalparameter *param;
-			int rsvp = FALSE;
+					    GTK_SIGNAL_FUNC (cancel_meeting_cb), priv);
 
-			prop = find_attendee (priv->comp, priv->my_address);
-			if (prop) {
-				param = get_icalparam_by_type (prop, ICAL_RSVP_PARAMETER);
-	
-				if (param) {
-					if (icalparameter_get_rsvp (param))
-						rsvp = TRUE;
-				}
-			}
-
-			snprintf (message, 250, "This is a meeting organized by %s, "
-					  "who indicated that you %s RSVP.",
-				 (priv->organizer ? priv->organizer : "an unknown person"), 
-				 (rsvp ? "should" : "don't have to") );
-
-			if (rsvp) {
-				GtkWidget *accept_button, *decline_button, *tentative_button;
-
-				accept_button = gtk_button_new_with_label (_(" Accept "));
-				decline_button = gtk_button_new_with_label (_(" Decline "));
-				tentative_button = gtk_button_new_with_label (_(" Tentative "));
-
-				gtk_box_pack_start (GTK_BOX (priv->button_box), decline_button, FALSE, FALSE, 3);
-				gtk_box_pack_end (GTK_BOX (priv->button_box), accept_button, FALSE, FALSE, 3);
-				gtk_box_pack_end (GTK_BOX (priv->button_box), tentative_button, FALSE, FALSE, 3);
-
-				gtk_signal_connect (GTK_OBJECT (accept_button), "clicked",
-						    GTK_SIGNAL_FUNC (accept_button_clicked_cb), priv);
-				gtk_signal_connect (GTK_OBJECT (tentative_button), "clicked",
-						    GTK_SIGNAL_FUNC (tentative_button_clicked_cb), priv);
-				gtk_signal_connect (GTK_OBJECT (decline_button), "clicked",
-						    GTK_SIGNAL_FUNC (decline_button_clicked_cb), priv);
-
-				gtk_widget_show (accept_button);
-				gtk_widget_show (tentative_button);
-			        gtk_widget_show (decline_button);
-			}
-
-			}
-			break;
-		case ICAL_METHOD_REPLY:
-			{
-			icalproperty *prop;
-			icalparameter *param;
-			gboolean success = FALSE;
-
-			prop = find_attendee (priv->comp, priv->from_address);
-			if (prop) {
-				param = get_icalparam_by_type (prop, ICAL_PARTSTAT_PARAMETER);
-				if (param) {
-					success = TRUE;
-
-					priv->new_partstat = icalparameter_get_partstat (param);
-				}
-			}
-
-			if (!success) {
-				snprintf (message, 250, "%s sent a reply to a meeting request, but "
-						  "the reply is not properly formed.",
-					 priv->from_address);
-			}
-			else {
-				GtkWidget *button;
-		
-				button =  gtk_button_new_with_label (_("Update Calendar"));
-				gtk_box_pack_start (GTK_BOX (priv->button_box), button, FALSE, FALSE, 3);
-				gtk_widget_show (button);
-	
-				gtk_signal_connect (GTK_OBJECT (button), "clicked",
-						    GTK_SIGNAL_FUNC (update_reply_cb), priv);
-				
-				snprintf (message, 250, "%s responded to your request, replying with: %s",
-					 priv->from_address, partstat_values[priv->new_partstat]);
-			}
-
-			}
-			break;
-		case ICAL_METHOD_CANCEL:
-			{
-			if (strcmp (priv->organizer, priv->from_address) != 0) {
-				snprintf (message, 250, "%s sent a cancellation request, but is not "
-					  		"the organizer of the meeting.",
-					  priv->from_address);
-			}
-			else {
-				GtkWidget *button;
-
-				button =  gtk_button_new_with_label (_("Cancel Meeting"));
-				gtk_box_pack_start (GTK_BOX (priv->button_box), button, FALSE, FALSE, 3);
-				gtk_widget_show (button);
-
-				gtk_signal_connect (GTK_OBJECT (button), "clicked",
-						    GTK_SIGNAL_FUNC (cancel_meeting_cb), priv);
-
-				snprintf (message, 250, "%s sent a cancellation request. You can"
-							" delete this event from your calendar, if you wish.",
-					  priv->organizer);
-			}
-
-			}
-			break;
-		default:
-			snprintf (message, 250, "I haven't the slightest notion what this calendar "
-					  "object represents. Sorry.");
+			snprintf (message, 250, "%s sent a cancellation request. You can"
+				  " delete this event from your calendar, if you wish.",
+				  priv->organizer);
 		}
-
-		{
-		int pos = 0;
-
-		gtk_editable_insert_text (GTK_EDITABLE (priv->message_text), message,
-					  strlen (message), &pos);
-		}
+		break;
+	default:
+		snprintf (message, 250, "I haven't the slightest notion what this calendar "
+			  "object represents. Sorry.");
 	}
 
+	pos = 0;
+	gtk_editable_insert_text (GTK_EDITABLE (priv->message_text), 
+				  message, strlen (message), &pos);
 } /* pstream_load */
 
 /*

@@ -1726,10 +1726,12 @@ recurrence_page_set_dates (CompEditorPage *page, CompEditorPageDates *dates)
 	priv->weekday_day_mask = priv->weekday_day_mask | mask;
 	priv->weekday_blocked_day_mask = mask;
 
-	weekday_picker_set_days (priv->weekday_picker,
-				 priv->weekday_day_mask);
-	weekday_picker_set_blocked_days (priv->weekday_picker,
-					 priv->weekday_blocked_day_mask);
+	if (priv->weekday_picker != NULL) {
+		weekday_picker_set_days (WEEKDAY_PICKER (priv->weekday_picker),
+					 priv->weekday_day_mask);
+		weekday_picker_set_blocked_days (WEEKDAY_PICKER (priv->weekday_picker),
+						 priv->weekday_blocked_day_mask);
+	}
 }
 
 

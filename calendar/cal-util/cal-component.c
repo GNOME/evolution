@@ -43,6 +43,22 @@ struct _CalComponentPrivate {
 
 	icalproperty *status;
 
+	struct attendee {
+		icalproperty *prop;
+		icalparameter *cutype_param;
+		icalparameter *member_param;
+		icalparameter *role_param;
+		icalparameter *partstat_param;
+		icalparameter *rsvp_param;
+		icalparameter *delto_param;
+		icalparameter *delfrom_param;
+		icalparameter *sentby_param;
+		icalparameter *cn_param;
+		icalparameter *language_param;
+	};
+	
+	GSList *attendee_list;
+	
 	icalproperty *categories;
 
 	icalproperty *classification;
@@ -74,6 +90,15 @@ struct _CalComponentPrivate {
 	GSList *exdate_list; /* list of struct datetime */
 	GSList *exrule_list; /* list of icalproperty objects */
 
+	struct organizer {
+		icalproperty *prop;
+		icalparameter *sentby_param;
+		icalparameter *cn_param;
+		icalparameter *language_param;
+	};
+
+	struct organizer organizer;
+	
 	icalproperty *geo;
 	icalproperty *last_modified;
 	icalproperty *percent;
@@ -84,6 +109,14 @@ struct _CalComponentPrivate {
 		icalparameter *value_param;
 	};
 
+	struct recur_id {
+		struct datetime recur_time;
+		
+		icalparameter *range_param;
+	};
+
+	struct recur_id recur_id;
+	
 	GSList *rdate_list; /* list of struct period */
 
 	GSList *rrule_list; /* list of icalproperty objects */
@@ -404,6 +437,29 @@ cal_component_clone (CalComponent *comp)
 	return new_comp;
 }
 
+/* Scans an attendee property */
+static void
+scan_attendee (CalComponent *comp, GSList **attendee_list, icalproperty *prop) 
+{
+	struct attendee *attendee;
+	
+	attendee = g_new (struct attendee, 1);
+	attendee->prop = prop;
+
+	attendee->cutype_param = icalproperty_get_first_parameter (prop, ICAL_CUTYPE_PARAMETER);
+	attendee->member_param = icalproperty_get_first_parameter (prop, ICAL_MEMBER_PARAMETER);
+	attendee->role_param = icalproperty_get_first_parameter (prop, ICAL_ROLE_PARAMETER);
+	attendee->partstat_param = icalproperty_get_first_parameter (prop, ICAL_PARTSTAT_PARAMETER);
+	attendee->rsvp_param = icalproperty_get_first_parameter (prop, ICAL_RSVP_PARAMETER);
+	attendee->delto_param = icalproperty_get_first_parameter (prop, ICAL_DELEGATEDTO_PARAMETER);
+	attendee->delfrom_param = icalproperty_get_first_parameter (prop, ICAL_DELEGATEDFROM_PARAMETER);
+	attendee->sentby_param = icalproperty_get_first_parameter (prop, ICAL_SENTBY_PARAMETER);
+	attendee->cn_param = icalproperty_get_first_parameter (prop, ICAL_CN_PARAMETER);
+	attendee->language_param = icalproperty_get_first_parameter (prop, ICAL_LANGUAGE_PARAMETER);
+	
+	*attendee_list = g_slist_append (*attendee_list, attendee);
+}
+
 /* Scans a date/time and timezone pair property */
 static void
 scan_datetime (CalComponent *comp, struct datetime *datetime, icalproperty *prop)
@@ -432,6 +488,17 @@ scan_exdate (CalComponent *comp, icalproperty *prop)
 	priv->exdate_list = g_slist_append (priv->exdate_list, dt);
 }
 
+/* Scans and attendee property */
+static void
+scan_organizer (CalComponent *comp, struct organizer *organizer, icalproperty *prop) 
+{
+	organizer->prop = prop;
+
+	organizer->sentby_param = icalproperty_get_first_parameter (prop, ICAL_SENTBY_PARAMETER);
+	organizer->cn_param = icalproperty_get_first_parameter (prop, ICAL_CN_PARAMETER);
+	organizer->language_param = icalproperty_get_first_parameter (prop, ICAL_LANGUAGE_PARAMETER);
+}
+
 /* Scans an icalperiodtype property */
 static void
 scan_period (CalComponent *comp, GSList **list, icalproperty *prop)
@@ -443,6 +510,16 @@ scan_period (CalComponent *comp, GSList **list, icalproperty *prop)
 	period->value_param = icalproperty_get_first_parameter (prop, ICAL_VALUE_PARAMETER);
 
 	*list = g_slist_append (*list, period);
+}
+
+
+/* Scans an icalrecurtype property */
+static void
+scan_recur_id (CalComponent *comp, struct recur_id *recur_id, icalproperty *prop)
+{
+	scan_datetime (comp, &recur_id->recur_time, prop);
+
+	recur_id->range_param = icalproperty_get_first_parameter (prop, ICAL_RANGE_PARAMETER);
 }
 
 /* Scans an icalrecurtype property */
@@ -491,6 +568,10 @@ scan_property (CalComponent *comp, icalproperty *prop)
 	switch (kind) {
 	case ICAL_STATUS_PROPERTY:
 		priv->status = prop;
+		break;
+
+	case ICAL_ATTENDEE_PROPERTY:
+		scan_attendee (comp, &priv->attendee_list, prop);
 		break;
 
 	case ICAL_CATEGORIES_PROPERTY:
@@ -549,12 +630,20 @@ scan_property (CalComponent *comp, icalproperty *prop)
 		priv->last_modified = prop;
 		break;
 
+	case ICAL_ORGANIZER_PROPERTY:
+		scan_organizer (comp, &priv->organizer, prop);
+		break;
+
 	case ICAL_PERCENTCOMPLETE_PROPERTY:
 		priv->percent = prop;
 		break;
 
 	case ICAL_PRIORITY_PROPERTY:
 		priv->priority = prop;
+		break;
+
+	case ICAL_RECURRENCEID_PROPERTY:
+		scan_recur_id (comp, &priv->recur_id, prop);
 		break;
 
 	case ICAL_RDATE_PROPERTY:
@@ -1830,7 +1919,7 @@ cal_component_set_dtend (CalComponent *comp, CalComponentDateTime *dt)
 /**
  * cal_component_get_dtstamp:
  * @comp: A calendar component object.
- * @t: Return value for the date/timestamp.
+ * @t: A value for the date/timestamp.
  *
  * Queries the date/timestamp property of a calendar component object, which is
  * the last time at which the object was modified by a calendar user agent.
@@ -2531,6 +2620,145 @@ cal_component_set_last_modified (CalComponent *comp, struct icaltimetype *t)
 }
 
 /**
+ * cal_component_get_organizer:
+ * @comp:  A calendar component object
+ * @organizer: A value for the organizer
+ * 
+ * Queries the organizer property of a calendar component object
+ **/
+void
+cal_component_get_organizer (CalComponent *comp, CalComponentOrganizer *organizer)
+{
+	CalComponentPrivate *priv;
+
+	g_return_if_fail (comp != NULL);
+	g_return_if_fail (IS_CAL_COMPONENT (comp));
+	g_return_if_fail (organizer != NULL);
+
+	priv = comp->priv;
+	g_return_if_fail (priv->icalcomp != NULL);
+
+	if (priv->organizer.prop)
+		organizer->value = icalproperty_get_organizer (priv->organizer.prop);
+	else
+		organizer->value = NULL;
+
+	if (priv->organizer.sentby_param)
+		organizer->sentby = icalparameter_get_sentby (priv->organizer.sentby_param);
+	else
+		organizer->sentby = NULL;
+
+	if (priv->organizer.cn_param)
+		organizer->cn = icalparameter_get_sentby (priv->organizer.cn_param);
+	else
+		organizer->cn = NULL;
+
+	if (priv->organizer.language_param)
+		organizer->language = icalparameter_get_sentby (priv->organizer.language_param);
+	else
+		organizer->language = NULL;
+
+}
+
+/**
+ * cal_component_set_organizer:
+ * @comp:  A calendar component object.
+ * @organizer: Value for the organizer property
+ * 
+ * Sets the organizer of a calendar component object
+ **/
+void
+cal_component_set_organizer (CalComponent *comp, CalComponentOrganizer *organizer)
+{
+	CalComponentPrivate *priv;
+
+	g_return_if_fail (comp != NULL);
+	g_return_if_fail (IS_CAL_COMPONENT (comp));
+
+	priv = comp->priv;
+	g_return_if_fail (priv->icalcomp != NULL);
+
+	if (!organizer) {
+		if (priv->organizer.prop) {
+			icalcomponent_remove_property (priv->icalcomp, priv->organizer.prop);
+			icalproperty_free (priv->organizer.prop);
+
+			priv->organizer.prop = NULL;
+			priv->organizer.sentby_param = NULL;
+			priv->organizer.cn_param = NULL;
+			priv->organizer.language_param = NULL;
+		}
+
+		return;
+	}
+
+	g_return_if_fail (organizer->value != NULL);
+
+	if (priv->organizer.prop)
+		icalproperty_set_organizer (priv->organizer.prop, (char *) organizer->value);
+	else {
+		priv->organizer.prop = icalproperty_new_organizer ((char *) organizer->value);
+		icalcomponent_add_property (priv->icalcomp, priv->organizer.prop);
+	}
+
+	if (organizer->sentby) {
+		g_assert (priv->organizer.prop != NULL);
+
+		if (priv->organizer.sentby_param)
+			icalparameter_set_sentby (priv->organizer.sentby_param,
+						  (char *) organizer->sentby);
+		else {
+			priv->organizer.sentby_param = icalparameter_new_sentby (
+				(char *) organizer->sentby);
+			icalproperty_add_parameter (priv->organizer.prop,
+						    priv->organizer.sentby_param);
+		}
+	} else if (priv->organizer.sentby_param) {
+		icalproperty_remove_parameter (priv->organizer.prop, ICAL_SENTBY_PARAMETER);
+		icalparameter_free (priv->organizer.sentby_param);
+		priv->organizer.sentby_param = NULL;
+	}
+
+	if (organizer->cn) {
+		g_assert (priv->organizer.prop != NULL);
+
+		if (priv->organizer.cn_param)
+			icalparameter_set_cn (priv->organizer.cn_param,
+						  (char *) organizer->cn);
+		else {
+			priv->organizer.cn_param = icalparameter_new_cn (
+				(char *) organizer->cn);
+			icalproperty_add_parameter (priv->organizer.prop,
+						    priv->organizer.cn_param);
+		}
+	} else if (priv->organizer.cn_param) {
+		icalproperty_remove_parameter (priv->organizer.prop, ICAL_CN_PARAMETER);
+		icalparameter_free (priv->organizer.cn_param);
+		priv->organizer.cn_param = NULL;
+	}
+
+	if (organizer->language) {
+		g_assert (priv->organizer.prop != NULL);
+
+		if (priv->organizer.language_param)
+			icalparameter_set_language (priv->organizer.language_param,
+						  (char *) organizer->language);
+		else {
+			priv->organizer.language_param = icalparameter_new_language (
+				(char *) organizer->language);
+			icalproperty_add_parameter (priv->organizer.prop,
+						    priv->organizer.language_param);
+		}
+	} else if (priv->organizer.language_param) {
+		icalproperty_remove_parameter (priv->organizer.prop, ICAL_LANGUAGE_PARAMETER);
+		icalparameter_free (priv->organizer.language_param);
+		priv->organizer.language_param = NULL;
+	}
+
+
+}
+		
+/**
  * cal_component_get_percent:
  * @comp: A calendar component object.
  * @percent: Return value for the percent-complete property.  This should be
@@ -2658,6 +2886,54 @@ cal_component_set_priority (CalComponent *comp, int *priority)
 		priv->priority = icalproperty_new_priority (*priority);
 		icalcomponent_add_property (priv->icalcomp, priv->priority);
 	}
+}
+
+/**
+ * cal_component_get_recurid:
+ * @comp: A calendar component object.
+ * @recur_id: Return value for the recurrence id property
+ * 
+ * Queries the recurrence id property of a calendar component object
+ **/
+void 
+cal_component_get_recurid (CalComponent *comp, CalComponentRange **recur_id)
+{
+	CalComponentPrivate *priv;
+
+	g_return_if_fail (comp != NULL);
+	g_return_if_fail (IS_CAL_COMPONENT (comp));
+	g_return_if_fail (recur_id != NULL);
+
+	priv = comp->priv;
+	g_return_if_fail (priv->icalcomp != NULL);
+
+	get_datetime (&priv->recur_id.recur_time, 
+		      icalproperty_get_recurrenceid, 
+		      (*recur_id)->datetime);
+}
+
+/**
+ * cal_component_set_recurid:
+ * @comp: A calendar component object.
+ * @recur_id: Value for the recurrence id property.
+ * 
+ * Sets the recurrence id property of a calendar component object.
+ **/
+void
+cal_component_set_recurid (CalComponent *comp, CalComponentRange *recur_id)
+{
+	CalComponentPrivate *priv;
+
+	g_return_if_fail (comp != NULL);
+	g_return_if_fail (IS_CAL_COMPONENT (comp));
+
+	priv = comp->priv;
+	g_return_if_fail (priv->icalcomp != NULL);
+	
+	set_datetime (comp, &priv->recur_id.recur_time,
+		      icalproperty_new_recurrenceid,
+		      icalproperty_set_recurrenceid,
+		      recur_id->datetime);
 }
 
 /**
@@ -3212,6 +3488,312 @@ cal_component_set_url (CalComponent *comp, const char *url)
 	}
 }
 
+/* Gets a text list value */
+static void
+get_attendee_list (GSList *attendee_list, GSList **al)
+{
+	GSList *l;
+
+	*al = NULL;
+
+	if (!attendee_list)
+		return;
+
+	for (l = attendee_list; l; l = l->next) {
+		struct attendee *attendee;
+		CalComponentAttendee *a;
+
+		attendee = l->data;
+		g_assert (attendee->prop != NULL);
+
+		a = g_new0 (CalComponentAttendee, 1);
+		a->value = icalproperty_get_attendee (attendee->prop);
+
+		if (attendee->member_param)
+			a->member = icalparameter_get_member (attendee->member_param);
+		if (attendee->cutype_param) {
+			switch (icalparameter_get_cutype (attendee->cutype_param)) {
+			case ICAL_CUTYPE_INDIVIDUAL:
+				a->cutype = CAL_COMPONENT_CUTYPE_INDIVIDUAL;
+				break;
+			case ICAL_CUTYPE_GROUP:
+				a->cutype = CAL_COMPONENT_CUTYPE_GROUP;
+				break;
+			case ICAL_CUTYPE_RESOURCE:
+				a->cutype = CAL_COMPONENT_CUTYPE_RESOURCE;
+				break;
+			case ICAL_CUTYPE_ROOM:
+				a->cutype = CAL_COMPONENT_CUTYPE_ROOM;
+				break;
+			default:
+				a->cutype = CAL_COMPONENT_CUTYPE_UNKNOWN;
+			}
+		}
+			
+		if (attendee->role_param) {
+			switch (icalparameter_get_role (attendee->role_param)) {
+			case ICAL_ROLE_CHAIR:
+				a->role = CAL_COMPONENT_ROLE_CHAIR;
+				break;
+			case ICAL_ROLE_REQPARTICIPANT:
+				a->role = CAL_COMPONENT_ROLE_REQUIRED;
+				break;
+			case ICAL_ROLE_OPTPARTICIPANT:
+				a->role = CAL_COMPONENT_ROLE_OPTIONAL;
+				break;
+			case ICAL_ROLE_NONPARTICIPANT:
+				a->role = CAL_COMPONENT_ROLE_NON;
+				break;
+			default:
+				a->role = CAL_COMPONENT_ROLE_UNKNOWN;
+			}
+		}
+
+		if (attendee->partstat_param) {
+			switch (icalparameter_get_role (attendee->partstat_param)) {
+			case ICAL_PARTSTAT_NEEDSACTION:
+				a->status = CAL_COMPONENT_PARTSTAT_NEEDSACTION;
+				break;
+			case ICAL_PARTSTAT_ACCEPTED:
+				a->status = CAL_COMPONENT_PARTSTAT_ACCEPTED;
+				break;
+			case ICAL_PARTSTAT_DECLINED:
+				a->status = CAL_COMPONENT_PARTSTAT_DECLINED;
+				break;
+			case ICAL_PARTSTAT_TENTATIVE:
+				a->status = CAL_COMPONENT_PARTSTAT_TENTATIVE;
+				break;
+			case ICAL_PARTSTAT_DELEGATED:
+				a->status = CAL_COMPONENT_PARTSTAT_DELEGATED;
+				break;
+			case ICAL_PARTSTAT_COMPLETED:
+				a->status = CAL_COMPONENT_PARTSTAT_COMPLETED;
+				break;
+			case ICAL_PARTSTAT_INPROCESS:
+				a->status = CAL_COMPONENT_PARTSTAT_INPROCESS;
+				break;
+			default:
+				a->status = CAL_COMPONENT_PARTSTAT_UNKNOWN;
+			}
+		}
+
+		if (attendee->rsvp_param && icalparameter_get_rsvp (attendee->rsvp_param) == ICAL_RSVP_TRUE)
+			a->rsvp = TRUE;
+		else
+			a->rsvp = FALSE;
+
+		if (attendee->delfrom_param)
+			a->delfrom = icalparameter_get_sentby (attendee->delfrom_param);
+		if (attendee->delto_param)
+			a->delto = icalparameter_get_sentby (attendee->delto_param);
+		if (attendee->sentby_param)
+			a->sentby = icalparameter_get_sentby (attendee->sentby_param);
+		if (attendee->cn_param)
+			a->cn = icalparameter_get_sentby (attendee->cn_param);
+		if (attendee->language_param)
+			a->language = icalparameter_get_sentby (attendee->language_param);
+
+		*al = g_slist_prepend (*al, a);
+	}
+
+	*al = g_slist_reverse (*al);
+}
+
+
+/* Sets a text list value */
+static void
+set_attendee_list (CalComponent *comp,
+		   GSList **attendee_list,
+		   GSList *al)
+{
+	CalComponentPrivate *priv;
+	GSList *l;
+
+	priv = comp->priv;
+
+	/* Remove old attendees */
+
+	for (l = *attendee_list; l; l = l->next) {
+		struct attendee *attendee;
+
+		attendee = l->data;
+		g_assert (attendee->prop != NULL);
+
+		icalcomponent_remove_property (priv->icalcomp, attendee->prop);
+		icalproperty_free (attendee->prop);
+		g_free (attendee);
+	}
+
+	g_slist_free (*attendee_list);
+	*attendee_list = NULL;
+
+	/* Add in new attendees */
+
+	for (l = al; l; l = l->next) {
+		CalComponentAttendee *a;
+		struct attendee *attendee;
+		icalparameter_cutype ct;
+		icalparameter_role r;
+		icalparameter_partstat p;
+
+		a = l->data;
+		g_return_if_fail (a->value != NULL);
+
+		attendee = g_new0 (struct attendee, 1);
+
+		attendee->prop = icalproperty_new_attendee (a->value);
+		icalcomponent_add_property (priv->icalcomp, attendee->prop);
+
+		if (a->member) {
+			attendee->member_param = icalparameter_new_member (a->member);
+			icalproperty_add_parameter (attendee->prop, attendee->member_param);
+		}
+
+		switch (a->cutype) {
+			case CAL_COMPONENT_CUTYPE_INDIVIDUAL:
+				ct = ICAL_CUTYPE_INDIVIDUAL;
+				break;
+			case CAL_COMPONENT_CUTYPE_GROUP:
+				ct = ICAL_CUTYPE_GROUP;
+				break;
+			case CAL_COMPONENT_CUTYPE_RESOURCE:
+				ct = ICAL_CUTYPE_RESOURCE;
+				break;
+			case CAL_COMPONENT_CUTYPE_ROOM:
+				ct = ICAL_CUTYPE_ROOM;
+				break;
+			default:
+				ct = ICAL_CUTYPE_UNKNOWN;
+		}
+		attendee->cutype_param = icalparameter_new_cutype (ct);
+		icalproperty_add_parameter (attendee->prop, attendee->cutype_param);
+
+		switch (a->role) {
+			case CAL_COMPONENT_ROLE_CHAIR:
+				r = ICAL_ROLE_CHAIR;
+				break;
+			case CAL_COMPONENT_ROLE_REQUIRED:
+				r = ICAL_ROLE_REQPARTICIPANT;
+				break;
+			case CAL_COMPONENT_ROLE_OPTIONAL:
+				r = ICAL_ROLE_OPTPARTICIPANT;
+				break;
+			case CAL_COMPONENT_ROLE_NON:
+				r = ICAL_ROLE_NONPARTICIPANT;
+				break;
+			default:
+				r = ICAL_ROLE_NONE;
+		}
+		attendee->role_param = icalparameter_new_role (r);
+		icalproperty_add_parameter (attendee->prop, attendee->role_param);
+
+		switch (a->status) {
+			case CAL_COMPONENT_PARTSTAT_NEEDSACTION:
+				p = ICAL_PARTSTAT_NEEDSACTION;
+				break;
+			case CAL_COMPONENT_PARTSTAT_ACCEPTED:
+				p = ICAL_PARTSTAT_ACCEPTED;
+				break;
+			case CAL_COMPONENT_PARTSTAT_DECLINED:
+				p = ICAL_PARTSTAT_DECLINED;
+				break;
+			case CAL_COMPONENT_PARTSTAT_TENTATIVE:
+				p = ICAL_PARTSTAT_TENTATIVE;
+				break;
+			case CAL_COMPONENT_PARTSTAT_DELEGATED:
+				p = ICAL_PARTSTAT_DELEGATED;
+				break;
+			case CAL_COMPONENT_PARTSTAT_COMPLETED:
+				p = ICAL_PARTSTAT_COMPLETED;
+				break;
+			case CAL_COMPONENT_PARTSTAT_INPROCESS:
+				p = ICAL_PARTSTAT_INPROCESS;
+				break;
+			default:
+				p = ICAL_PARTSTAT_NONE;
+		}
+		attendee->partstat_param = icalparameter_new_partstat (p);
+		icalproperty_add_parameter (attendee->prop, attendee->partstat_param);
+
+		if (a->rsvp)
+			attendee->rsvp_param = icalparameter_new_rsvp (ICAL_RSVP_TRUE);
+		else
+			attendee->rsvp_param = icalparameter_new_rsvp (ICAL_RSVP_FALSE);
+		icalproperty_add_parameter (attendee->prop, attendee->rsvp_param);
+	
+		if (a->delfrom) {
+			attendee->delfrom_param = icalparameter_new_delegatedfrom (a->delfrom);
+			icalproperty_add_parameter (attendee->prop, attendee->delfrom_param);
+		}
+		if (a->delto) {
+			attendee->delto_param = icalparameter_new_delegatedto (a->delto);
+			icalproperty_add_parameter (attendee->prop, attendee->delfrom_param);
+		}
+		if (a->sentby) {
+			attendee->sentby_param = icalparameter_new_sentby (a->sentby);
+			icalproperty_add_parameter (attendee->prop, attendee->sentby_param);
+		}
+		if (a->cn) {
+			attendee->cn_param = icalparameter_new_cn (a->cn);
+			icalproperty_add_parameter (attendee->prop, attendee->cn_param);
+		}
+		if (a->language) {
+			attendee->language_param = icalparameter_new_language (a->cn);
+			icalproperty_add_parameter (attendee->prop, attendee->language_param);
+		}
+
+		*attendee_list = g_slist_prepend (*attendee_list, attendee);
+	}
+
+	*attendee_list = g_slist_reverse (*attendee_list);
+}
+
+/**
+ * cal_component_get_attendee_list: 
+ * @comp: A calendar component object. 
+ * @attendee_list: Return value for the attendee property.
+ * This should be freed using the cal_component_free_attendee_list ()
+ * function.
+ * 
+ * Queries the attendee properties of the calendar component object
+ **/
+void
+cal_component_get_attendee_list (CalComponent *comp, GSList **attendee_list)
+{
+	CalComponentPrivate *priv;
+	
+	g_return_if_fail (comp != NULL);
+	g_return_if_fail (IS_CAL_COMPONENT (comp));
+	g_return_if_fail (attendee_list != NULL);
+
+	priv = comp->priv;
+	g_return_if_fail (priv->icalcomp != NULL);
+
+	get_attendee_list (priv->attendee_list, attendee_list);
+}
+
+/**
+ * cal_component_set_attendee_list:
+ * @comp: A calendar component object. 
+ * @attendee_list: Values for attendee properties
+ * 
+ * Sets the attendees of a calendar component object
+ **/
+void
+cal_component_set_attendee_list (CalComponent *comp, GSList *attendee_list)
+{
+	CalComponentPrivate *priv;
+
+	g_return_if_fail (comp != NULL);
+	g_return_if_fail (IS_CAL_COMPONENT (comp));
+
+	priv = comp->priv;
+	g_return_if_fail (priv->icalcomp != NULL);
+
+	set_attendee_list (comp, &priv->attendee_list, attendee_list);
+}
+
+
 
 
 /**
@@ -3417,6 +3999,30 @@ cal_component_free_text_list (GSList *text_list)
 	}
 
 	g_slist_free (text_list);
+}
+
+/**
+ * cal_component_free_attendee_list:
+ * @attendee_list: 
+ * 
+ * 
+ **/
+void
+cal_component_free_attendee_list (GSList *attendee_list)
+{
+	GSList *l;
+
+	for (l = attendee_list; l; l = l->next) {
+		CalComponentAttendee *attendee;
+
+		g_assert (l->data != NULL);
+
+		attendee = l->data;
+		g_return_if_fail (attendee != NULL);
+		g_free (attendee);
+	}
+
+	g_slist_free (attendee_list);
 }
 
 

@@ -23,7 +23,10 @@
 #define COMP_EDITOR_H
 
 #include <gtk/gtk.h>
+#include <bonobo/bonobo-ui-engine.h>
+#include <bonobo/bonobo-ui-component.h>
 #include "cal-client.h"
+#include "../itip-utils.h"
 #include "comp-editor-page.h"
 
 BEGIN_GNOME_DECLS
@@ -47,19 +50,36 @@ typedef struct {
 
 typedef struct {
 	GtkObjectClass parent_class;
-} CompEditorClass;
 
-GtkType     comp_editor_get_type       (void);
-CompEditor *comp_editor_new            (void);
-void        comp_editor_append_page    (CompEditor     *editor,
-					CompEditorPage *page,
-					const char     *label);
-void        comp_editor_set_cal_client (CompEditor     *editor,
-					CalClient      *client);
-CalClient * comp_editor_get_cal_client (CompEditor     *editor);
-void        comp_editor_edit_comp      (CompEditor     *ee,
-					CalComponent   *comp);
-void        comp_editor_focus          (CompEditor     *editor);
+	/* Virtual functions */
+	void (* edit_comp) (CompEditor *page, CalComponent *comp);
+} CompEditorClass;
+GtkType       comp_editor_get_type         (void);
+CompEditor   *comp_editor_new              (void);
+void          comp_editor_append_page      (CompEditor             *editor,
+					    CompEditorPage         *page,
+					    const char             *label);
+void          comp_editor_remove_page      (CompEditor             *editor,
+					    CompEditorPage         *page);
+void          comp_editor_show_page        (CompEditor             *editor,
+					    CompEditorPage         *page);
+void          comp_editor_set_cal_client   (CompEditor             *editor,
+					    CalClient              *client);
+CalClient    *comp_editor_get_cal_client   (CompEditor             *editor);
+void          comp_editor_edit_comp        (CompEditor             *ee,
+					    CalComponent           *comp);
+CalComponent *comp_editor_get_current_comp (CompEditor             *editor);
+void          comp_editor_save_comp        (CompEditor             *editor);
+void          comp_editor_delete_comp      (CompEditor             *editor);
+void          comp_editor_send_comp        (CompEditor             *editor,
+					    CalComponentItipMethod  method);
+void          comp_editor_merge_ui         (CompEditor             *editor,
+					    const char             *filename,
+					    BonoboUIVerb           *verbs);
+void          comp_editor_focus            (CompEditor             *editor);
+
+
+
 
 
 

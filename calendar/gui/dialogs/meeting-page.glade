@@ -25,60 +25,75 @@
   <auto_shrink>False</auto_shrink>
 
   <widget>
-    <class>GtkNotebook</class>
+    <class>GtkVBox</class>
     <name>meeting-page</name>
-    <show_tabs>False</show_tabs>
-    <show_border>False</show_border>
-    <tab_pos>GTK_POS_TOP</tab_pos>
-    <scrollable>False</scrollable>
-    <tab_hborder>2</tab_hborder>
-    <tab_vborder>2</tab_vborder>
-    <popup_enable>False</popup_enable>
+    <border_width>5</border_width>
+    <homogeneous>False</homogeneous>
+    <spacing>4</spacing>
 
     <widget>
-      <class>Custom</class>
-      <name>selector</name>
-      <creation_function>meeting_page_create_selector</creation_function>
-      <int1>0</int1>
-      <int2>0</int2>
-      <last_modification_time>Mon, 04 Jun 2001 17:53:38 GMT</last_modification_time>
-    </widget>
-
-    <widget>
-      <class>GtkLabel</class>
-      <child_name>Notebook:tab</child_name>
-      <name>label1</name>
-      <label>label1</label>
-      <justify>GTK_JUSTIFY_CENTER</justify>
-      <wrap>False</wrap>
-      <xalign>0.5</xalign>
-      <yalign>0.5</yalign>
-      <xpad>0</xpad>
-      <ypad>0</ypad>
-    </widget>
-
-    <widget>
-      <class>GtkTable</class>
-      <name>status-table</name>
-      <border_width>2</border_width>
-      <rows>2</rows>
-      <columns>2</columns>
+      <class>GtkHBox</class>
+      <name>hbox1</name>
       <homogeneous>False</homogeneous>
-      <row_spacing>0</row_spacing>
-      <column_spacing>0</column_spacing>
+      <spacing>4</spacing>
+      <child>
+	<padding>0</padding>
+	<expand>False</expand>
+	<fill>False</fill>
+      </child>
+
+      <widget>
+	<class>GtkLabel</class>
+	<name>label1</name>
+	<label>Organizer</label>
+	<justify>GTK_JUSTIFY_CENTER</justify>
+	<wrap>False</wrap>
+	<xalign>0.5</xalign>
+	<yalign>0.5</yalign>
+	<xpad>0</xpad>
+	<ypad>0</ypad>
+	<child>
+	  <padding>0</padding>
+	  <expand>False</expand>
+	  <fill>False</fill>
+	</child>
+      </widget>
+
+      <widget>
+	<class>GtkEntry</class>
+	<name>organizer</name>
+	<can_focus>True</can_focus>
+	<editable>True</editable>
+	<text_visible>True</text_visible>
+	<text_max_length>0</text_max_length>
+	<text></text>
+	<child>
+	  <padding>0</padding>
+	  <expand>True</expand>
+	  <fill>True</fill>
+	</child>
+      </widget>
+
+      <widget>
+	<class>Placeholder</class>
+      </widget>
     </widget>
 
     <widget>
-      <class>GtkLabel</class>
-      <child_name>Notebook:tab</child_name>
-      <name>label2</name>
-      <label>label2</label>
-      <justify>GTK_JUSTIFY_CENTER</justify>
-      <wrap>False</wrap>
-      <xalign>0.5</xalign>
-      <yalign>0.5</yalign>
-      <xpad>0</xpad>
-      <ypad>0</ypad>
+      <class>Placeholder</class>
+    </widget>
+
+    <widget>
+      <class>GtkButton</class>
+      <name>invite</name>
+      <can_focus>True</can_focus>
+      <label>Invite Others</label>
+      <child>
+	<padding>0</padding>
+	<expand>False</expand>
+	<fill>False</fill>
+	<pack>GTK_PACK_END</pack>
+      </child>
     </widget>
   </widget>
 </widget>

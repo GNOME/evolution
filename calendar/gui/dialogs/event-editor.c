@@ -34,21 +34,41 @@
 #include "event-page.h"
 #include "alarm-page.h"
 #include "recurrence-page.h"
+#include "meeting-page.h"
+#include "cancel-comp.h"
 #include "event-editor.h"
 
 struct _EventEditorPrivate {
 	EventPage *event_page;
 	AlarmPage *alarm_page;
 	RecurrencePage *recur_page;
+	MeetingPage *meet_page;
+	
+	gboolean meeting_shown;
 };
 
 
 
 static void event_editor_class_init (EventEditorClass *class);
 static void event_editor_init (EventEditor *ee);
+static void event_editor_edit_comp (CompEditor *editor, CalComponent *comp);
 static void event_editor_destroy (GtkObject *object);
 
-static CompEditor *parent_class;
+static void schedule_meeting_cmd (GtkWidget *widget, gpointer data);
+static void refresh_meeting_cmd (GtkWidget *widget, gpointer data);
+static void cancel_meeting_cmd (GtkWidget *widget, gpointer data);
+static void forward_cmd (GtkWidget *widget, gpointer data);
+
+static BonoboUIVerb verbs [] = {
+	BONOBO_UI_UNSAFE_VERB ("ActionScheduleMeeting", schedule_meeting_cmd),
+	BONOBO_UI_UNSAFE_VERB ("ActionRefreshMeeting", refresh_meeting_cmd),
+	BONOBO_UI_UNSAFE_VERB ("ActionCancelMeeting", cancel_meeting_cmd),
+	BONOBO_UI_UNSAFE_VERB ("ActionForward", forward_cmd),
+
+	BONOBO_UI_VERB_END
+};
+
+static CompEditorClass *parent_class;
 
 
 
@@ -86,14 +106,18 @@ event_editor_get_type (void)
 
 /* Class initialization function for the event editor */
 static void
-event_editor_class_init (EventEditorClass *class)
+event_editor_class_init (EventEditorClass *klass)
 {
 	GtkObjectClass *object_class;
-
-	object_class = (GtkObjectClass *) class;
+	CompEditorClass *editor_class;
+	
+	object_class = (GtkObjectClass *) klass;
+	editor_class = (CompEditorClass *) klass;
 
 	parent_class = gtk_type_class (TYPE_COMP_EDITOR);
 
+	editor_class->edit_comp = event_editor_edit_comp;
+	
 	object_class->destroy = event_editor_destroy;
 }
 
@@ -120,7 +144,37 @@ event_editor_init (EventEditor *ee)
 	comp_editor_append_page (COMP_EDITOR (ee),
 				 COMP_EDITOR_PAGE (priv->recur_page),
 				 _("Recurrence"));
+
+	priv->meet_page = meeting_page_new ();
+	comp_editor_append_page (COMP_EDITOR (ee),
+				 COMP_EDITOR_PAGE (priv->meet_page),
+				 _("Meeting"));
+
+	priv->meeting_shown = TRUE;
 	
+	comp_editor_merge_ui (COMP_EDITOR (ee), EVOLUTION_DATADIR 
+			      "/gnome/ui/evolution-event-editor.xml",
+			      verbs);
+}
+
+static void
+event_editor_edit_comp (CompEditor *editor, CalComponent *comp)
+{
+	EventEditor *ee;
+	EventEditorPrivate *priv;
+	GSList *attendees = NULL;
+	
+	ee = EVENT_EDITOR (editor);
+	priv = ee->priv;
+	
+	cal_component_get_attendee_list (comp, &attendees);
+	if (attendees == NULL) {
+		comp_editor_remove_page (editor, COMP_EDITOR_PAGE (priv->meet_page));
+		priv->meeting_shown = FALSE;
+	}
+		
+	if (parent_class->edit_comp)
+		parent_class->edit_comp (editor, comp);
 }
 
 /* Destroy handler for the event editor */
@@ -153,3 +207,52 @@ event_editor_new (void)
 {
 	return EVENT_EDITOR (gtk_type_new (TYPE_EVENT_EDITOR));
 }
+
+static void
+schedule_meeting_cmd (GtkWidget *widget, gpointer data)
+{
+	EventEditor *ee = EVENT_EDITOR (data);
+	EventEditorPrivate *priv;
+
+	priv = ee->priv;
+
+	if (!priv->meeting_shown) {
+		comp_editor_append_page (COMP_EDITOR (ee),
+					 COMP_EDITOR_PAGE (priv->meet_page),
+					 _("Meeting"));
+		priv->meeting_shown = FALSE;
+	}
+	
+	comp_editor_show_page (COMP_EDITOR (ee),
+			       COMP_EDITOR_PAGE (priv->meet_page));
+}
+
+static void
+refresh_meeting_cmd (GtkWidget *widget, gpointer data)
+{
+	EventEditor *ee = EVENT_EDITOR (data);
+	
+	comp_editor_send_comp (COMP_EDITOR (ee), CAL_COMPONENT_METHOD_REFRESH);
+}
+
+static void
+cancel_meeting_cmd (GtkWidget *widget, gpointer data)
+{
+	EventEditor *ee = EVENT_EDITOR (data);
+	CalComponent *comp;
+	
+	comp = comp_editor_get_current_comp (COMP_EDITOR (ee));
+	if (cancel_component_dialog (comp)) {
+		comp_editor_send_comp (COMP_EDITOR (ee), CAL_COMPONENT_METHOD_CANCEL);
+		comp_editor_delete_comp (COMP_EDITOR (ee));
+	}
+}
+
+static void
+forward_cmd (GtkWidget *widget, gpointer data)
+{
+	EventEditor *ee = EVENT_EDITOR (data);
+	
+	comp_editor_send_comp (COMP_EDITOR (ee), CAL_COMPONENT_METHOD_PUBLISH);
+}
+
