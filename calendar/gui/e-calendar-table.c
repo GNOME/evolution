@@ -1,8 +1,9 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 
 /*
- * Author :
+ * Authors :
  *  Damon Chaplin <damon@ximian.com>
+ *  Rodrigo Moya <rodrigo@ximian.com>
  *
  * Copyright 2000, Ximian, Inc.
  * Copyright 2000, Ximian, Inc.
@@ -939,7 +940,6 @@ copy_row_cb (int model_row, gpointer data)
 	ECalendarTable *cal_table;
 	CalComponent *comp;
 	gchar *comp_str;
-	icalcomponent *new_comp;
 
 	cal_table = E_CALENDAR_TABLE (data);
 
@@ -949,26 +949,14 @@ copy_row_cb (int model_row, gpointer data)
 
 
 	if (cal_table->clipboard_selection) {
-		//new_comp = icalparser_parse_string (cal_table->clipboard_selection);
-		//if (!new_comp)
-		//	return;
-
-		//icalcomponent_add_component (new_comp,
-		//			     cal_component_get_icalcomponent (comp));
-		//g_free (cal_table->clipboard_selection);
-	}
-	else {
-		new_comp = icalparser_parse_string (
-			icalcomponent_as_ical_string (cal_component_get_icalcomponent (comp)));
-		if (!new_comp)
-			return;
+		g_free (cal_table->clipboard_selection);
+		cal_table->clipboard_selection = NULL;
 	}
 
-	comp_str = icalcomponent_as_ical_string (new_comp);
+	comp_str = cal_component_get_as_string (comp);
 	cal_table->clipboard_selection = g_strdup (comp_str);
 
-	free (comp_str);
-	icalcomponent_free (new_comp);
+	g_free (comp_str);
 }
 
 static void
@@ -1235,26 +1223,18 @@ selection_received (GtkWidget *invisible,
 	comp_str = (char *) selection_data->data;
 	icalcomp = icalparser_parse_string ((const char *) comp_str);
 	if (icalcomp) {
-		icalcomponent *tmp_comp;
 		char *uid;
+		CalComponent *comp;
 
-		/* there can be various components */
-		tmp_comp = icalcomponent_get_first_component (icalcomp, ICAL_ANY_COMPONENT);
-		while (tmp_comp != NULL) {
-			CalComponent *comp;
+		comp = cal_component_new ();
+		cal_component_set_icalcomponent (comp, icalcomp);
+		uid = cal_component_gen_uid ();
+		cal_component_set_uid (comp, (const char *) uid);
+		free (uid);
 
-			comp = cal_component_new ();
-			cal_component_set_icalcomponent (comp, icalcomp);
-			uid = cal_component_gen_uid ();
-			cal_component_set_uid (comp, (const char *) uid);
-			free (uid);
-
-			tmp_comp = icalcomponent_get_next_component (icalcomp, ICAL_ANY_COMPONENT);
-
-			cal_client_update_object (
-				calendar_model_get_cal_client (cal_table->model),
-				comp);
-			gtk_object_unref (GTK_OBJECT (comp));
-		}
+		cal_client_update_object (
+			calendar_model_get_cal_client (cal_table->model),
+			comp);
+		gtk_object_unref (GTK_OBJECT (comp));
 	}
 }

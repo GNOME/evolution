@@ -1,3 +1,8 @@
+2001-06-27  Rodrigo Moya <rodrigo@ximian.com>
+
+	* gui/e-calendar-table.c (selection_received): fixed
+	(e_calendar_table_on_copy): fixed
+
 2001-06-26  Federico Mena Quintero  <federico@ximian.com>
 
 	* idl/evolution-calendar.idl (CalAlarmInstance): Renamed the occur
