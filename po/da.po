@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution beta\n"
 "POT-Creation-Date: 2000-06-05 21:13+0200\n"
-"PO-Revision-Date: 2000-06-25 00:38+0200\n"
+"PO-Revision-Date: 2000-06-29 00:38+0200\n"
 "Last-Translator: Keld Simonsen <keld@dkuug.dk>\n"
 "Language-Team: Danish <dansk@klid.dk>\n"
 "MIME-Version: 1.0\n"
@@ -1623,7 +1623,7 @@ msgstr "Videresend som v_Calendar"
 msgid "%a %b %d %Y"
 msgstr "%a %d %b %Y"
 
-#: composer/e-msg-composer-address-dialog.c:183 composer/e-msg-composer.c:690
+#: composer/e-msg-composer-address-dialog.c:183 composer/e-msg-composer.c:752
 msgid "Cut"
 msgstr "Klip"
 
@@ -1631,7 +1631,7 @@ msgstr "Klip"
 msgid "Cut selected item into clipboard"
 msgstr "Klip valgt punkt ud til klippebordet"
 
-#: composer/e-msg-composer-address-dialog.c:187 composer/e-msg-composer.c:691
+#: composer/e-msg-composer-address-dialog.c:187 composer/e-msg-composer.c:753
 msgid "Copy"
 msgstr "Kopiér"
 
@@ -1640,7 +1640,7 @@ msgid "Copy selected item into clipboard"
 msgstr "Kopiér valgt punkt til klippebordet"
 
 #: composer/e-msg-composer-address-dialog.c:191
-#: composer/e-msg-composer-address-dialog.c:199 composer/e-msg-composer.c:692
+#: composer/e-msg-composer-address-dialog.c:199 composer/e-msg-composer.c:754
 msgid "Paste"
 msgstr "Indsæt"
 
@@ -1737,77 +1737,86 @@ msgstr "Emne:"
 msgid "Enter the subject of the mail"
 msgstr "Indtast emnet for meddelelsen"
 
-#: composer/e-msg-composer.c:492
-msgid "Open file"
-msgstr "Åbn fil"
+#: composer/e-msg-composer.c:459
+msgid "Save as..."
+msgstr "Gem som..."
 
-#: composer/e-msg-composer.c:502
+#: composer/e-msg-composer.c:470
+#, c-format
+msgid "Error saving file: %s"
+msgstr "Fejl ved gemning af fil: %s"
+
+#: composer/e-msg-composer.c:490
 #, c-format
 msgid "Error loading file: %s"
 msgstr "Fejl ved indlæsning af fil: %s"
 
-#: composer/e-msg-composer.c:543
+#: composer/e-msg-composer.c:539
+msgid "Open file"
+msgstr "Åbn fil"
+
+#: composer/e-msg-composer.c:605
 msgid "Discard this message?"
 msgstr "Fjern denne meddelelse"
 
-#: composer/e-msg-composer.c:648
+#: composer/e-msg-composer.c:710
 msgid "Save in _folder..."
 msgstr "Gem i _mappe..."
 
-#: composer/e-msg-composer.c:648
+#: composer/e-msg-composer.c:710
 msgid "Save the message in a specified folder"
 msgstr "Gem meddelelsen i en specificeret mappe"
 
-#: composer/e-msg-composer.c:651 composer/e-msg-composer.c:688
+#: composer/e-msg-composer.c:713 composer/e-msg-composer.c:750
 #: mail/folder-browser-factory.c:36
 msgid "Send"
 msgstr "Send"
 
-#: composer/e-msg-composer.c:651
+#: composer/e-msg-composer.c:713
 msgid "Send the message"
 msgstr "Send meddelelsen"
 
-#: composer/e-msg-composer.c:659
+#: composer/e-msg-composer.c:721
 msgid "View _attachments"
 msgstr "Vis _bilag"
 
-#: composer/e-msg-composer.c:659
+#: composer/e-msg-composer.c:721
 msgid "View/hide attachments"
 msgstr "Vis/skjul bilag"
 
-#: composer/e-msg-composer.c:688
+#: composer/e-msg-composer.c:750
 msgid "Send this message"
 msgstr "Send denne meddelelse"
 
-#: composer/e-msg-composer.c:690
+#: composer/e-msg-composer.c:752
 msgid "Cut selected region into the clipboard"
 msgstr "Klip valgt område ud til klippebordet"
 
-#: composer/e-msg-composer.c:691
+#: composer/e-msg-composer.c:753
 msgid "Copy selected region into the clipboard"
 msgstr "Kopiér valgt område til klippebordet"
 
-#: composer/e-msg-composer.c:692
+#: composer/e-msg-composer.c:754
 msgid "Paste selected region into the clipboard"
 msgstr "Indsæt valgt område til klippebordet"
 
-#: composer/e-msg-composer.c:693
+#: composer/e-msg-composer.c:755
 msgid "Undo"
 msgstr "Fortryd"
 
-#: composer/e-msg-composer.c:693
+#: composer/e-msg-composer.c:755
 msgid "Undo last operation"
 msgstr "Fortryd sidste operation"
 
-#: composer/e-msg-composer.c:695
+#: composer/e-msg-composer.c:757
 msgid "Attach"
 msgstr "Vedhæft"
 
-#: composer/e-msg-composer.c:695
+#: composer/e-msg-composer.c:757
 msgid "Attach a file"
 msgstr "Vedhæft en fil"
 
-#: composer/e-msg-composer.c:857
+#: composer/e-msg-composer.c:919
 msgid "Compose a message"
 msgstr "Skriv en meddelelse"
 
