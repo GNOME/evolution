@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Evolution\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-01-12 12:49+0800\n"
+"POT-Creation-Date: 2005-01-13 00:42+0800\n"
 "PO-Revision-Date: 2005-01-11 14:55+0800\n"
 "Last-Translator: Funda Wang <fundawang@linux.net.cn>\n"
 "Language-Team: zh_CN <i18n-translation@lists.linux.net.cn>\n"
@@ -1034,7 +1034,7 @@ msgstr "名片"
 #: calendar/gui/alarm-notify/alarm-notify.glade.h:12
 #: calendar/gui/dialogs/alarm-dialog.glade.h:27
 #: calendar/gui/dialogs/calendar-setup.glade.h:14 filter/filter.glade.h:16
-#: mail/em-account-editor.c:1816 plugins/calendar-http/calendar-http.c:263
+#: mail/em-account-editor.c:1817 plugins/calendar-http/calendar-http.c:263
 msgid "minutes"
 msgstr "分钟"
 
@@ -5303,7 +5303,7 @@ msgstr "开始时间(_S)："
 #: calendar/gui/dialogs/meeting-page.glade.h:5
 #: calendar/gui/e-cal-model-tasks.c:652 calendar/gui/e-itip-control.c:1104
 #: composer/e-msg-composer.c:2122 filter/filter-rule.c:878
-#: mail/em-account-editor.c:675 mail/em-account-editor.c:1267
+#: mail/em-account-editor.c:675 mail/em-account-editor.c:1268
 #: mail/em-account-prefs.c:431 mail/em-folder-view.c:961
 #: plugins/itip-formatter/itip-formatter.c:1365
 #: widgets/e-timezone-dialog/e-timezone-dialog.c:190
@@ -9868,24 +9868,24 @@ msgstr ""
 msgid "Select Folder"
 msgstr "选择文件夹"
 
-#: mail/em-account-editor.c:1808
+#: mail/em-account-editor.c:1809
 msgid "Automatically check for _new mail every"
 msgstr "自动检查新邮件的间隔(_N)"
 
 #. Most sections for this is auto-generated fromt the camel config
-#: mail/em-account-editor.c:2077 mail/em-account-editor.c:2155
+#: mail/em-account-editor.c:2078 mail/em-account-editor.c:2156
 msgid "Receiving Options"
 msgstr "接收选项"
 
-#: mail/em-account-editor.c:2078 mail/em-account-editor.c:2156
+#: mail/em-account-editor.c:2079 mail/em-account-editor.c:2157
 msgid "Checking for New Mail"
 msgstr "检查新邮件"
 
-#: mail/em-account-editor.c:2500 mail/mail-config.glade.h:34
+#: mail/em-account-editor.c:2501 mail/mail-config.glade.h:34
 msgid "Account Editor"
 msgstr "账户编辑器"
 
-#: mail/em-account-editor.c:2500 mail/mail-config.glade.h:80
+#: mail/em-account-editor.c:2501 mail/mail-config.glade.h:80
 msgid "Evolution Account Assistant"
 msgstr "Evolution 账户助手"
 
