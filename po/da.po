@@ -28,7 +28,7 @@ msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2004-12-03 20:29+0100\n"
-"PO-Revision-Date: 2004-12-03 20:31+0100\n"
+"PO-Revision-Date: 2004-12-03 23:15+0100\n"
 "Last-Translator: Martin Willemoes Hansen <mwh@sysrq.dk>\n"
 "Language-Team: Danish <dansk@klid.dk>\n"
 "MIME-Version: 1.0\n"
@@ -442,7 +442,7 @@ msgstr "Egenskaber for adressebog"
 #: addressbook/gui/component/addressbook-migrate.c:72
 #: calendar/gui/migration.c:141 mail/em-migrate.c:1160
 msgid "Migrating..."
-msgstr "Migrere..."
+msgstr "Migrerer..."
 
 #: addressbook/gui/component/addressbook-migrate.c:124
 #: calendar/gui/migration.c:188 mail/em-migrate.c:1201
