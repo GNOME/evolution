@@ -936,7 +936,7 @@ static char *
 message_list_get_layout (MessageList *message_list)
 {
 	/* Message status, From, Subject, Sent Date */
-	return g_strdup ("<ETableSpecification cursor-mode=\"line\">"
+	return g_strdup ("<ETableSpecification cursor-mode=\"line\" draw-grid=\"true\">"
 			 "<ETableColumn model_col= \"0\" pixbuf=\"status\" expansion=\"0.0\" minimum_width=\"18\" resizable=\"false\" cell=\"render_message_status\" compare=\"integer\" sortable=\"false\"/>"
 			 "<ETableColumn model_col= \"1\" pixbuf=\"flagged\" expansion=\"0.0\" minimum_width=\"20\" resizable=\"false\" cell=\"render_flagged\" compare=\"integer\"/>"
 			 "<ETableColumn model_col= \"2\" pixbuf=\"score\" expansion=\"0.0\" minimum_width=\"20\" resizable=\"false\" cell=\"render_score\" compare=\"integer\"/>"

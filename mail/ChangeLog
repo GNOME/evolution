@@ -1,3 +1,8 @@
+2000-11-02  Christopher James Lahey  <clahey@helixcode.com>
+
+	* message-list.c: Turn on draw grid for the main ETable (this may
+	not be working in ETable itself.)
+
 2000-11-01  Jeffrey Stedfast  <fejj@helixcode.com>
 
 	* mail-threads.c (mail_op_set_message): fmt argument should be
