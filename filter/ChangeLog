@@ -1,3 +1,14 @@
+2001-01-10  Jeffrey Stedfast  <fejj@helixcode.com>
+
+	* filter-option.c (get_widget): Attach to the "activate" signal -
+	this should now make it so that a filter-option will "remember"
+	what a user changed.
+
+	* filter-system-flag.c (get_widget): Don't reset fsf->value to the
+	first system flag, this should already be defaulted to the
+	appropriate flag. This should fix the problem of always defaulting
+	to the first menu option and thus "forgetting" the user's settings.
+
 2001-01-04  Jeffrey Stedfast  <fejj@helixcode.com>
 
 	* filter-system-flag.c: comment out some of the system flags as we

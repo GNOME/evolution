@@ -423,7 +423,7 @@
      (match-all (system-flag ${flag}))
     </code>
    </option>
-   <option value="is-not">
+   <option value="is not">
     <title>is not</title>
     <code>
      (match-all (not (system-flag ${flag})))

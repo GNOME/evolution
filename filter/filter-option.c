@@ -239,6 +239,14 @@ xml_decode (FilterElement *fe, xmlNodePtr node)
 	return 0;
 }
 
+static void
+option_changed (GtkWidget *widget, FilterElement *fe)
+{
+	FilterOption *fo = (FilterOption *)fe;
+	
+	fo->current = gtk_object_get_data (GTK_OBJECT (widget), "option");
+}
+
 static GtkWidget *
 get_widget (FilterElement *fe)
 {
@@ -246,6 +254,7 @@ get_widget (FilterElement *fe)
 	GtkWidget *menu;
 	GtkWidget *omenu;
 	GtkWidget *item;
+	GtkWidget *first = NULL;
 	GList *l = fo->options;
 	struct _filter_option *op;
 	int index = 0, current = 0;
@@ -253,12 +262,16 @@ get_widget (FilterElement *fe)
 	menu = gtk_menu_new ();
 	while (l) {
 		op = l->data;
-		item = gtk_menu_item_new_with_label (_(op->title));
+		item = gtk_menu_item_new_with_label (op->title);
 		gtk_object_set_data (GTK_OBJECT (item), "option", op);
+		gtk_signal_connect (GTK_OBJECT (item), "activate", option_changed, fe);
 		gtk_menu_append (GTK_MENU (menu), item);
 		gtk_widget_show (item);
 		if (op == fo->current) {
 			current = index;
+			first = item;
+		} else if (!first) {
+			first = item;
 		}
 		
 		l = g_list_next (l);
@@ -267,6 +280,10 @@ get_widget (FilterElement *fe)
 	
 	omenu = gtk_option_menu_new ();
 	gtk_option_menu_set_menu (GTK_OPTION_MENU (omenu), menu);
+	
+	if (first)
+		gtk_signal_emit_by_name (GTK_OBJECT (first), "activate", fe);
+	
 	gtk_option_menu_set_history (GTK_OPTION_MENU (omenu), current);
 	
 	return omenu;

@@ -69,12 +69,12 @@ struct _system_flag {
 };
 
 static struct _system_flag *
-find_option (const char *name)
+find_option (const char *value)
 {
 	struct _system_flag *flag;
 	
 	for (flag = system_flags; flag->title; flag++) {
-		if (!g_strcasecmp (name, flag->value))
+		if (!g_strcasecmp (value, flag->value))
 			return flag;
 	}
 	
@@ -215,26 +215,36 @@ static GtkWidget *
 get_widget (FilterElement *fe)
 {
 	FilterSystemFlag *fsf = (FilterSystemFlag *) fe;
-	GtkWidget *omenu, *menu, *item;
+	GtkWidget *omenu, *menu, *item, *first = NULL;
 	struct _system_flag *flag;
 	int index = 0, current = 0;
-	
-        fsf->value = system_flags[0].value;
 	
 	menu = gtk_menu_new ();
 	for (flag = system_flags; flag->title; flag++) {
 		item = gtk_menu_item_new_with_label (flag->title);
 		gtk_object_set_data (GTK_OBJECT (item), "flag", flag);
-		gtk_signal_connect (GTK_OBJECT (item), "select", item_selected, fe);
+		gtk_signal_connect (GTK_OBJECT (item), "activate", item_selected, fe);
+		
 		gtk_menu_append (GTK_MENU (menu), item);
+		
 		gtk_widget_show (item);
-		if (!strcmp (fsf->value, flag->value))
+		
+		if (fsf->value && !g_strcasecmp (fsf->value, flag->value)) {
 			current = index;
+			first = item;
+		} else if (!first) {
+			first = item;
+		}
+		
 		index++;
 	}
 	
 	omenu = gtk_option_menu_new ();
 	gtk_option_menu_set_menu (GTK_OPTION_MENU (omenu), menu);
+	
+	if (first)
+		gtk_signal_emit_by_name (GTK_OBJECT (first), "activate", fe);
+	
 	gtk_option_menu_set_history (GTK_OPTION_MENU (omenu), current);
 	
 	return omenu;
