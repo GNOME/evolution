@@ -1136,7 +1136,7 @@ fi
 
 EVO_SET_COMPILE_FLAGS(CERT_UI, glib-2.0 gobject-2.0 gthread-2.0,
                       $MANUAL_NSS_CFLAGS $MOZILLA_NSS_CFLAGS,
-	              $MOZILLA_L_DIR -lcertdb -lcryptohi -lsecutil -lnsspki -lpk11wrap -lnssdev -lnssb $MANUAL_NSS_LIBS $MOZILLA_NSS_LIBS)
+	              $MOZILLA_L_DIR $MANUAL_NSS_LIBS $MOZILLA_NSS_LIBS)
 AC_SUBST(CERT_UI_CFLAGS)
 AC_SUBST(CERT_UI_LIBS)
 
@@ -1431,7 +1431,6 @@ e-util/Makefile
 filter/Makefile
 help/Makefile
 help/C/Makefile
-libversit/Makefile
 shell/Makefile
 shell/evolution-nognome
 shell/glade/Makefile

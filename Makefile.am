@@ -29,7 +29,6 @@ endif
 SUBDIRS = 			\
         data                    \
         e-util                  \
-	libversit		\
 	a11y			\
         widgets                 \
         shell                   \

@@ -1,3 +1,10 @@
+2003-11-11  Chris Toshok  <toshok@ximian.com>
+
+	* Makefile.am (SUBDIRS): remove libversit from the build.
+
+	* configure.in (CERT_UI): change the libraries we link.
+	(AC_OUTPUT): remove libversit/Makefile
+
 2003-11-11  JP Rosevear <jpr@ximian.com>
 
 	* configure.in: determine the e-d-s version, version the gettext
