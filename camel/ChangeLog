@@ -1,3 +1,12 @@
+2001-08-16  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* providers/imap/camel-imap-folder.c (imap_sync_online): Don't
+	ever send "STORE FLAGS.SILENT ()" since Cyrus imapd doesn't like
+	this (and maybe others too?) so what we'll do instead is to send
+	"STORE -FLAGS.SILENT (\Seen \Answered \Deleted \Marked)" to clear
+	all the flags (since this is in essence what we want to do
+	anyway).
+
 2001-08-16  Peter Williams  <peterw@ximian.com>
 
 	* providers/imap/camel-imap-store.c (imap_connect_online): Fix this

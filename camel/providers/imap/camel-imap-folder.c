@@ -611,10 +611,11 @@ imap_sync_online (CamelFolder *folder, CamelException *ex)
 	CamelMessageInfo *info;
 	GPtrArray *matches;
 	char *set, *flaglist;
+	gboolean unset;
 	int i, j, max;
-
+	
 	CAMEL_IMAP_STORE_LOCK (store, command_lock);
-
+	
 	/* Find a message with changed flags, find all of the other
 	 * messages like it, sync them as a group, mark them as
 	 * updated, and continue.
@@ -628,19 +629,30 @@ imap_sync_online (CamelFolder *folder, CamelException *ex)
 			camel_folder_summary_info_free (folder->summary, info);
 			continue;
 		}
-
-		flaglist = imap_create_flag_list (info->flags);
+		
+		/* Note: Cyrus will not accept an empty-set of flags
+                   so... if this is true then we want to unset the
+                   previously set flags.*/
+		unset = info->flags == CAMEL_MESSAGE_FOLDER_FLAGGED;
+		
+		/* FIXME: since we don't know the previously set
+                   flags, if unset is TRUE then assume all were set? */
+		flaglist = imap_create_flag_list (unset ? CAMEL_IMAP_SERVER_FLAGS : info->flags);
+		
 		matches = get_matching (folder, info->flags & (CAMEL_IMAP_SERVER_FLAGS | CAMEL_MESSAGE_FOLDER_FLAGGED),
 					CAMEL_IMAP_SERVER_FLAGS | CAMEL_MESSAGE_FOLDER_FLAGGED, &set);
 		camel_folder_summary_info_free (folder->summary, info);
-
+		
+		/* Note: to `unset' flags, use -FLAGS.SILENT (<flag list>) */
 		response = camel_imap_command (store, folder, ex,
-					       "UID STORE %s FLAGS.SILENT %s",
-					       set, flaglist);
+					       "UID STORE %s %sFLAGS.SILENT %s",
+					       set, unset ? "-" : "", flaglist);
 		g_free (set);
 		g_free (flaglist);
+		
 		if (response)
 			camel_imap_response_free (store, response);
+		
 		if (!camel_exception_is_set (ex)) {
 			for (j = 0; j < matches->len; j++) {
 				info = matches->pdata[j];
@@ -650,18 +662,19 @@ imap_sync_online (CamelFolder *folder, CamelException *ex)
 			}
 			camel_folder_summary_touch (folder->summary);
 		}
+		
 		for (j = 0; j < matches->len; j++) {
 			info = matches->pdata[j];
 			camel_folder_summary_info_free (folder->summary, info);
 		}
 		g_ptr_array_free (matches, TRUE);
-
+		
 		if (camel_exception_is_set (ex)) {
 			CAMEL_IMAP_STORE_UNLOCK (store, command_lock);
 			return;
 		}
 	}
-
+	
 	/* Save the summary */
 	imap_sync_offline (folder, ex);
 
