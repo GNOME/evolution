@@ -1441,7 +1441,7 @@ efhd_bonobo_object(EMFormatHTML *efh, GtkHTMLEmbedded *eb, EMFormatHTMLPObject *
 	}
 	
 	persist = (Bonobo_PersistStream)Bonobo_Unknown_queryInterface(bonobo_widget_get_objref((BonoboWidget *)embedded),
-								      "IDL:Bonobo/PersistStream:1.0", NULL);
+								      "IDL:Bonobo/PersistStream:1.0", &ev);
 	if (persist == CORBA_OBJECT_NIL) {
 		gtk_object_sink((GtkObject *)embedded);
 		CORBA_exception_free(&ev);				

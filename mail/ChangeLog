@@ -1,3 +1,8 @@
+2004-01-16  JP Rosevear <jpr@ximian.com>
+
+	* em-format-html-display.c (efhd_bonobo_object): pass in an
+	exception to use
+
 2004-01-16  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* em-format-html.c (efh_format_address): Dump a struct
