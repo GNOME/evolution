@@ -186,6 +186,18 @@ typedef enum {
 	MSG_FORMAT_ALTERNATIVE,
 } MsgFormat;
 
+static gboolean
+is_8bit (guchar *text)
+{
+	guchar *c;
+	
+	for (c = text; *c; c++)
+		if (*c > (guchar) 127)
+			return TRUE;
+	
+	return FALSE;
+}
+
 /* This functions builds a CamelMimeMessage for the message that the user has
    composed in `composer'.  */
 static CamelMimeMessage *
@@ -198,6 +210,7 @@ build_message (EMsgComposer *composer)
 	CamelMultipart *body = NULL;
 	CamelMimePart *part;
 	gchar *from = NULL;
+	gboolean e8bit;
 	char *html = NULL, *plain = NULL, *fmt = NULL;
 	int i;
 	
@@ -234,6 +247,7 @@ build_message (EMsgComposer *composer)
 	}
 	
 	plain = get_text (composer->persist_stream_interface, "text/plain");
+	e8bit = is_8bit (plain);
 	fmt = format_text (plain);
 	g_free (plain);
 	
@@ -248,6 +262,9 @@ build_message (EMsgComposer *composer)
 		
 		part = camel_mime_part_new ();
 		camel_mime_part_set_content (part, fmt, strlen (fmt), "text/plain");
+		if (e8bit)
+			camel_mime_part_set_encoding (part, CAMEL_MIME_PART_ENCODING_8BIT);
+		
 		g_free (fmt);
 		camel_multipart_add_part (body, part);
 		camel_object_unref (CAMEL_OBJECT (part));
@@ -274,7 +291,9 @@ build_message (EMsgComposer *composer)
 			break;
 		case MSG_FORMAT_PLAIN:
 			camel_mime_part_set_content (part, fmt, strlen (fmt), "text/plain");
-			g_free(fmt);
+			if (e8bit)
+				camel_mime_part_set_encoding (part, CAMEL_MIME_PART_ENCODING_8BIT);
+			g_free (fmt);
 			break;
 		}
 		camel_multipart_add_part (multipart, part);

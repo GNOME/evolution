@@ -1,3 +1,9 @@
+2000-09-28  Jeffrey Stedfast  <fejj@helixcode.com>
+
+	* e-msg-composer.c (build_message): Check to see if the body has
+	8bit chars, if so - set the Content-Transfer-Encoding to 8bit.
+	Addresses Bugzilla bug #652.
+
 2000-09-25  Dan Winship  <danw@helixcode.com>
 
 	* e-msg-composer-hdrs.c (setup_headers): fix typo in tooltip.
