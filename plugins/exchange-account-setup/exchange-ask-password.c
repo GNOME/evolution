@@ -40,6 +40,9 @@
 int e_plugin_lib_enable (EPluginLib *ep, int enable);
 
 gboolean org_gnome_exchange_ask_password (EPlugin *epl, EConfigHookPageCheckData *data);
+GtkWidget *org_gnome_exchange_read_url(EPlugin *epl, EConfigHookItemFactoryData *data);
+
+char *owa_entry_text = NULL; 
 
 static gboolean
 validate_exchange_user (EConfig *ec, const char *pageid, void *data)
@@ -62,7 +65,7 @@ validate_exchange_user (EConfig *ec, const char *pageid, void *data)
 		return FALSE;	/* This should never happen */
 	}
 
-	valid = camel_provider_validate_user (provider, url, NULL);
+	valid = camel_provider_validate_user (owa_entry_text, provider, url, NULL);
 	if (valid) {
 		count ++;
 		url_string = camel_url_to_string (url, 0);
@@ -71,7 +74,31 @@ validate_exchange_user (EConfig *ec, const char *pageid, void *data)
 	return valid;
 }
 
-#if 0
+static void
+owa_entry_changed (GtkWidget *entry, void *data) 
+{
+	/* FIXME: return owa_entry_text instead of making it global */
+	owa_entry_text = gtk_entry_get_text (GTK_ENTRY (entry));
+}
+
+static GtkWidget *
+add_owa_entry (GtkWidget *parent)
+{
+	GtkWidget *section, *owa_entry;
+
+	section =  gtk_vbox_new (FALSE, 0);
+	gtk_widget_show (section);
+	gtk_box_pack_start (GTK_BOX (parent), section, FALSE, FALSE, 0);
+
+	owa_entry = gtk_entry_new ();
+	gtk_widget_show (owa_entry);
+	gtk_box_pack_start (GTK_BOX (section), owa_entry, FALSE, FALSE, 0);
+
+	g_signal_connect (owa_entry, "changed", G_CALLBACK(owa_entry_changed), NULL);
+	
+	return section;	/* FIXME: return entry */
+}
+
 int
 e_plugin_lib_enable (EPluginLib *ep, int enable)
 {
@@ -79,7 +106,45 @@ e_plugin_lib_enable (EPluginLib *ep, int enable)
 	}
 	return 0;
 }
-#endif
+
+GtkWidget *
+org_gnome_exchange_read_url(EPlugin *epl, EConfigHookItemFactoryData *data)
+{
+	EMConfigTargetAccount *target_account;
+	char *account_url = NULL, *exchange_url = NULL, *temp_url;
+	GtkWidget *owa_entry, *parent;
+	CamelURL *url=NULL;
+
+	target_account = (EMConfigTargetAccount *)data->config->target;
+	account_url = g_strdup (target_account->account->source->url);
+	exchange_url = g_strrstr (account_url, "exchange");
+
+	if (exchange_url) {
+		printf ("org_gnome_exchange_read_url \n");
+		if (data->old) {
+			return data->old;
+		}
+	
+		/* hack for making page check work when host is not there */
+		url = camel_url_new_with_base (NULL, account_url);
+		if (url->host == NULL) {
+			url->host = g_strdup("localhost"); 
+			/* FIXME: extract host name from url and use it*/
+			temp_url = camel_url_to_string (url, 0);
+			target_account->account->source->url = g_strdup(temp_url);
+			g_free (temp_url);
+		}
+
+		parent = data->parent;
+		owa_entry = add_owa_entry(parent);
+		g_free (account_url);
+		return owa_entry;
+	}
+	else {
+		g_free (account_url);
+		return NULL;
+	}
+}
 
 gboolean
 org_gnome_exchange_ask_password(EPlugin *epl, EConfigHookPageCheckData *data)

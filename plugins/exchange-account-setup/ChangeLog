@@ -1,3 +1,11 @@
+2005-01-10  Sushma Rai <rsushma@novell.com>
+	
+	* org-gnome-exchange-account-setup.eplug.in: Added plugin to read
+	OWA url entry to the account set up druid.
+
+	* exchange-ask-password.c: Create a entry for OWA URL and reads the
+	URL value.
+
 2005-01-09  Sushma Rai <rsushma@novell.com>
 	
 	* exchange-ask-password.c: Pops up password dialog and validates

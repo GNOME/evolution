@@ -22,22 +22,41 @@
 
    <e-plugin
     type="shlib"
+    id="org.gnome.evolution.plugin.exchange-read-url"
+    location="@PLUGINDIR@/liborg-gnome-exchange-account-settings.so"
+    load-on-startup="true"
+    name="Exchange OWA URL"
+    description="A pluign to read OWA url in account druid">
+
+    <hook class="org.gnome.evolution.mail.config:1.0">
+        <group
+                target="account"
+                id="org.gnome.evolution.mail.config.accountDruid">
+                <item type="section"
+                        path="10.receive/30.config"
+			label="OWA Url"/>
+		<item type="item"
+			path="10.receive/30.config/00.owa"
+			factory="org_gnome_exchange_read_url"/>
+        </group>
+    </hook>
+  </e-plugin>
+
+   <e-plugin
+    type="shlib"
     id="org.gnome.evolution.plugin.exchange-ask-password"
     location="@PLUGINDIR@/liborg-gnome-exchange-account-settings.so"
     load-on-startup="true"
-    name="Exchange Password Dialog"
+    name="Exchange User Authentication"
     description="A pluign to read password once the user enters identity information">
+
     <hook class="org.gnome.evolution.mail.config:1.0">
         <group
                 target="account"
                 id="org.gnome.evolution.mail.config.accountDruid"
                 check="org_gnome_exchange_ask_password">
-
-                <item
-                        path="90.dummy"/>
+                <item path="90.dummy"/>
         </group>
     </hook>
   </e-plugin>
- 
-
 </e-plugin-list>
