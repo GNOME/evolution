@@ -1,3 +1,9 @@
+2001-04-21  Jon Trowbridge  <trow@ximian.com>
+
+	* contact-editor/e-contact-quick-add.c (clicked_cb): Properly
+	convert to utf8. (Bug #2256)
+	(build_quick_add_dialog): Properly convert from utf8. (Bug #2256)
+
 2001-04-16  Jon Trowbridge  <trow@ximian.com>
 
 	* backend/ebook/e-destination.c (e_destination_get_name): Added.
