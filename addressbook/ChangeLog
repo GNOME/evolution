@@ -1,3 +1,9 @@
+2001-12-20  Zbigniew Chyla  <cyba@gnome.pl>
+
+	* evolution/addressbook/printing/e-contact-print.c (complete_sequence):
+	Do not assume that the first byte of file_as is the first letter, use
+	utf8 functions instead.
+
 2001-12-18  JP Rosevear  <jpr@ximian.com>
 
 	* conduit/address-conduit.c (check_for_slow_setting): go slow and
