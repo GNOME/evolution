@@ -526,6 +526,19 @@ unrealize (GtkWidget *widget)
 	gdk_flush ();
 }
 
+static  int
+delete_event (GtkWidget *widget,
+	      GdkEventAny *event)
+{
+	EShellView *shell_view;
+	EShell *shell;
+
+	shell_view = E_SHELL_VIEW (widget);
+
+	shell = e_shell_view_get_shell (shell_view);
+	e_shell_quit (shell);
+}
+
 
 /* Initialization.  */
 
@@ -540,7 +553,8 @@ class_init (EShellViewClass *klass)
 
 	object_class->destroy = destroy;
 
-	widget_class->unrealize = unrealize;
+	widget_class->unrealize    = unrealize;
+	widget_class->delete_event = delete_event;
 
 	parent_class = gtk_type_class (gnome_app_get_type ());
 

@@ -1,5 +1,9 @@
 2000-08-13  Ettore Perazzoli  <ettore@helixcode.com>
 
+	* e-shell-view.c (delete_event): New.  Make the parent shell quit.
+
+2000-08-13  Ettore Perazzoli  <ettore@helixcode.com>
+
 	* e-shell-view.c (shell_view_interface_set_message_cb): Removed
 	debugging message.
 	(shell_view_interface_unset_message_cb): Likewise.
