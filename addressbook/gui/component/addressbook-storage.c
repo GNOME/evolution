@@ -97,8 +97,10 @@ addressbook_storage_setup (EvolutionShellComponent *shell_component,
 	if (storage_path)
 		g_free (storage_path);
 	storage_path = g_concat_dir_and_file (evolution_homedir, ADDRESSBOOK_SOURCES_XML);
+#ifdef HAVE_LDAP
 	if (!load_source_data (storage_path))
 		deregister_storage ();
+#endif
 }
 
 #ifdef HAVE_LDAP
@@ -297,6 +299,7 @@ addressbook_storage_init_source_uri (AddressbookSource *source)
 static gboolean
 load_source_data (const char *file_path)
 {
+#ifdef HAVE_LDAP
 	xmlDoc *doc;
 	xmlNode *root;
 	xmlNode *child;
@@ -376,6 +379,7 @@ load_source_data (const char *file_path)
 		deregister_storage();
 
 	xmlFreeDoc (doc);
+#endif
 	return TRUE;
 }
 
