@@ -363,7 +363,7 @@ composer_send_queued_cb (CamelFolder *folder, CamelMimeMessage *msg, CamelMessag
 	ccd = send->ccd;
 	
 	if (queued) {
-		if (ccd->drafts_folder) {
+		if (ccd && ccd->drafts_folder) {
 			/* delete the old draft message */
 			camel_folder_set_message_flags (ccd->drafts_folder, ccd->drafts_uid,
 							CAMEL_MESSAGE_DELETED | CAMEL_MESSAGE_SEEN,
@@ -374,7 +374,7 @@ composer_send_queued_cb (CamelFolder *folder, CamelMimeMessage *msg, CamelMessag
 			ccd->drafts_uid = NULL;
 		}
 		
-		if (ccd->folder) {
+		if (ccd && ccd->folder) {
 			/* set any replied flags etc */
 			camel_folder_set_message_flags (ccd->folder, ccd->uid, ccd->flags, ccd->set);
 			camel_object_unref (ccd->folder);
@@ -614,7 +614,7 @@ save_draft_done (CamelFolder *folder, CamelMimeMessage *msg, CamelMessageInfo *i
 	
 	ccd = sdi->ccd;
 	
-	if (ccd->drafts_folder) {
+	if (ccd && ccd->drafts_folder) {
 		/* delete the original draft message */
 		camel_folder_set_message_flags (ccd->drafts_folder, ccd->drafts_uid,
 						CAMEL_MESSAGE_DELETED | CAMEL_MESSAGE_SEEN,
@@ -625,7 +625,7 @@ save_draft_done (CamelFolder *folder, CamelMimeMessage *msg, CamelMessageInfo *i
 		ccd->drafts_uid = NULL;
 	}
 	
-	if (ccd->folder) {
+	if (ccd && ccd->folder) {
 		/* set the replied flags etc */
 		camel_folder_set_message_flags (ccd->folder, ccd->uid, ccd->flags, ccd->set);
 		camel_object_unref (ccd->folder);
@@ -634,7 +634,7 @@ save_draft_done (CamelFolder *folder, CamelMimeMessage *msg, CamelMessageInfo *i
 		ccd->uid = NULL;
 	}
 	
-	if (appended_uid) {
+	if (ccd && appended_uid) {
 		camel_object_ref (folder);
 		ccd->drafts_folder = folder;
 		ccd->drafts_uid = g_strdup (appended_uid);
