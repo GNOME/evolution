@@ -1,3 +1,8 @@
+2000-05-05  Anders Carlsson  <andersca@gnu.org>
+
+	* test-mail.c (create_container): Use the OAFIID when using an 
+	OAF-enabled build of bonobo.
+
 2000-05-04  NotZed  <NotZed@HelixCode.com>
 
 	* message-list.c (message_list_set_folder): Get the whole message

@@ -57,9 +57,14 @@ create_container (void)
 	gtk_widget_show (GTK_WIDGET (window));
 
 	uih = bonobo_ui_handler_new ();
+
+#ifdef USING_OAF
+	control = bonobo_widget_new_control ("OAFIID:control:evolution-mail:833d5a71-a201-4a0e-b7e6-5475c5c4cb45",
+					     bonobo_object_corba_objref (BONOBO_OBJECT (uih)));
+#else
 	control = bonobo_widget_new_control ("control:evolution-mail",
 				     bonobo_object_corba_objref (BONOBO_OBJECT (uih)));
-
+#endif
 	
 	if (control == NULL){
 		printf ("Could not launch mail control\n");
@@ -91,3 +96,8 @@ main (int argc, char *argv [])
 	
 	return 0;
 }
+
+
+
+
+
