@@ -35,7 +35,6 @@
 #include <gtkhtml/htmlinterval.h> /* XXX */
 
 #include <e-util/e-html-utils.h>
-#include <e-util/e-searching-tokenizer.h>
 
 #include "mail-display.h"
 #include "mail-config.h"
