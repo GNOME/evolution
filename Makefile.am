@@ -26,6 +26,7 @@ SUBDIRS =			\
         data                    \
         e-util                  \
 	libical			\
+	libversit		\
         widgets                 \
         shell                   \
 	calendar		\

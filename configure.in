@@ -1260,6 +1260,7 @@ default_user/local/Tasks/Makefile
 default_user/local/Trash/Makefile
 e-util/Makefile
 e-util/ename/Makefile
+libversit/Makefile
 shell/Makefile
 shell/evolution-nognome
 shell/glade/Makefile
