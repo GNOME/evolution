@@ -308,7 +308,7 @@ command_open_folder_in_new_window (BonoboUIComponent *uih,
 				   gpointer          data,
 				   const char *path)
 {
-	EShellView *shell_view;
+	EShellView *shell_view, *new_view;
 	EShell *shell;
 	const char *current_uri;
 
@@ -316,7 +316,8 @@ command_open_folder_in_new_window (BonoboUIComponent *uih,
 	shell = e_shell_view_get_shell (shell_view);
 	current_uri = e_shell_view_get_current_uri (shell_view);
 
-	e_shell_create_view (shell, current_uri);
+	new_view = e_shell_create_view (shell, current_uri);
+	gtk_widget_show (GTK_WIDGET (new_view));
 }
 
 

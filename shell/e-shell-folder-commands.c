@@ -256,11 +256,15 @@ void
 e_shell_command_open_folder_in_other_window (EShell *shell,
 					     EShellView *shell_view)
 {
+	EShellView *view;
+
 	g_return_if_fail (shell != NULL);
 	g_return_if_fail (E_IS_SHELL (shell));
 	g_return_if_fail (shell_view != NULL && E_IS_SHELL_VIEW (shell_view));
 
-	e_shell_create_view (shell, e_shell_view_get_current_uri (shell_view));
+	view = e_shell_create_view (shell, e_shell_view_get_current_uri (shell_view));
+
+	gtk_widget_show (GTK_WIDGET (view));
 }
 
 

@@ -1,5 +1,32 @@
 2001-09-13  Ettore Perazzoli  <ettore@ximian.com>
 
+	[Fix #5990, Remembering Evolution window geometry.]
+
+	* e-shell.c (impl_Shell_createNewView): gtk_widget_show() the new
+	view returned by `e_shell_create_view()'.
+	(e_shell_restore_from_settings): Same here, after loading the
+	settings.
+
+	* e-shell-view.c (activate_shortcut_cb): gtk_widget_show() the new
+	view returned by `e_shell_create_view()'.
+
+	* e-shell-view-menu.c (command_open_folder_in_new_window):
+	gtk_widget_show() the view returned by `e_shell_create_view()'.
+
+	* e-shell-folder-commands.c
+	(e_shell_command_open_folder_in_other_window): gtk_widget_show()
+	the view returned by `e_shell_create_view()'.
+
+	* e-shell.c (e_shell_create_view): Don't show the view
+	automatically anymore.
+
+	* e-shell-view.c (e_shell_view_save_settings): Save the width and
+	height of the window.
+	(e_shell_view_load_settings): Restore the width and the height and
+	gtk_window_set_default_size() based on them.
+
+2001-09-13  Ettore Perazzoli  <ettore@ximian.com>
+
 	[Remove a bunch of debugging messages, as per #7741.]
 
 	* evolution-wizard.c (impl_GNOME_Evolution_Wizard_notifyAction):

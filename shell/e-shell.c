@@ -268,6 +268,8 @@ impl_Shell_createNewView (PortableServer_Servant servant,
 		return CORBA_OBJECT_NIL;
 	}
 
+	gtk_widget_show (GTK_WIDGET (shell_view));
+
 	shell_view_interface = e_shell_view_get_corba_interface (shell_view);
 	if (shell_view_interface == CORBA_OBJECT_NIL) {
 		CORBA_exception_set (ev, CORBA_USER_EXCEPTION,
@@ -1063,7 +1065,6 @@ e_shell_create_view (EShell *shell,
 
 	view = e_shell_view_new (shell);
 
-	gtk_widget_show (GTK_WIDGET (view));
 	gtk_signal_connect (GTK_OBJECT (view), "delete_event",
 			    GTK_SIGNAL_FUNC (view_delete_event_cb), shell);
 	gtk_signal_connect (GTK_OBJECT (view), "destroy",
@@ -1354,6 +1355,10 @@ e_shell_restore_from_settings (EShell *shell)
 
 		if (! e_shell_view_load_settings (view, i))
 			retval = FALSE;
+
+		/* This needs to be done after loading the settings as the
+		   default size is in the settings as well.  */
+		gtk_widget_show (GTK_WIDGET (view));
 	}
 
 	return retval;

@@ -597,10 +597,14 @@ activate_shortcut_cb (EShortcutsView *shortcut_view,
 
 	shell_view = E_SHELL_VIEW (data);
 
-	if (in_new_window)
-		e_shell_create_view (e_shell_view_get_shell (shell_view), uri);
-	else
+	if (in_new_window) {
+		EShellView *new_view;
+
+		new_view = e_shell_create_view (e_shell_view_get_shell (shell_view), uri);
+		gtk_widget_show (GTK_WIDGET (new_view));
+	} else {
 		e_shell_view_display_uri (shell_view, uri);
+	}
 }
 
 /* Callback when user chooses "Hide shortcut bar" via a right click */
@@ -2322,12 +2326,19 @@ e_shell_view_save_settings (EShellView *shell_view,
 
 	prefix = g_strdup_printf ("/Shell/Views/%d/", view_num);
 
+	key = g_strconcat (prefix, "Width", NULL);
+	bonobo_config_set_long (db, key, GTK_WIDGET (shell_view)->allocation.width, NULL);
+	g_free (key);
+
+	key = g_strconcat (prefix, "Height", NULL);
+	bonobo_config_set_long (db, key, GTK_WIDGET (shell_view)->allocation.height, NULL);
+	g_free (key);
+
 	key = g_strconcat (prefix, "CurrentShortcutsGroupNum", NULL);
 	bonobo_config_set_long (db, key, 
 	        e_shell_view_get_current_shortcuts_group_num (shell_view),
 		NULL);
 	g_free (key);
-
 
 	key = g_strconcat (prefix, "FolderBarShown", NULL);
 	bonobo_config_set_long (db, key, e_shell_view_folder_bar_shown (shell_view), NULL);
@@ -2346,7 +2357,6 @@ e_shell_view_save_settings (EShellView *shell_view,
 	bonobo_config_set_long (db, key,  
 	        e_paned_get_position (E_PANED (priv->view_hpaned)), NULL);
 	g_free (key);
-
 
 	key = g_strconcat (prefix, "DisplayedURI", NULL);
 	uri = e_shell_view_get_current_uri (shell_view);
@@ -2403,6 +2413,7 @@ e_shell_view_load_settings (EShellView *shell_view,
 	EShellViewPrivate *priv;
 	EShortcutBar *shortcut_bar;
 	int num_groups, group, val;
+	long width, height;
 	char *stringval, *prefix, *filename, *key;
 
 	g_return_val_if_fail (shell_view != NULL, FALSE);
@@ -2416,6 +2427,16 @@ e_shell_view_load_settings (EShellView *shell_view,
 	g_return_val_if_fail (db != CORBA_OBJECT_NIL, FALSE);
 
 	prefix = g_strdup_printf ("/Shell/Views/%d/", view_num);
+
+	key = g_strconcat (prefix, "Width", NULL);
+	width = bonobo_config_get_long (db, key, NULL);
+	g_free (key);
+
+	key = g_strconcat (prefix, "Height", NULL);
+	height = bonobo_config_get_long (db, key, NULL);
+	g_free (key);
+
+	gtk_window_set_default_size (GTK_WINDOW (shell_view), width, height);
 
 	key = g_strconcat (prefix, "CurrentShortcutsGroupNum", NULL);
 	val = bonobo_config_get_long (db, key, NULL);
@@ -2472,10 +2493,8 @@ e_shell_view_load_settings (EShellView *shell_view,
 	filename = g_strdup_printf ("%s/config/storage-set-view-expanded:view_%d",
 				    e_shell_get_local_directory (priv->shell),
 				    view_num);
-
 	e_tree_load_expanded_state (E_TREE (priv->storage_set_view),
 				    filename);
-
 	g_free (filename);
 
 	return TRUE;
