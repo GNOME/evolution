@@ -1,5 +1,11 @@
 2001-10-29  Federico Mena Quintero  <federico@ximian.com>
 
+	* gui/main.c (launch_alarm_daemon): Launch the alarm daemon as
+	soon as the calendar component is started.  Fixes bug #13867;
+	we can't really do much better than this.
+
+2001-10-29  Federico Mena Quintero  <federico@ximian.com>
+
 	* gui/tasks-control.c (pixmaps): Fix the verb names for the
 	pixmaps in the Edit menu; they were out of synch with the XML
 	UI description.

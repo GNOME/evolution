@@ -91,6 +91,35 @@ component_editor_factory_init (void)
 		g_error (_("Could not create the component editor factory"));
 }
 
+/* Does a simple activation and unreffing of the alarm notification service so
+ * that the daemon will be launched if it is not running yet.
+ */
+static void
+launch_alarm_daemon (void)
+{
+	CORBA_Environment ev;
+	GNOME_Evolution_Calendar_AlarmNotify an;
+
+	CORBA_exception_init (&ev);
+	an = oaf_activate_from_id ("OAFIID:GNOME_Evolution_Calendar_AlarmNotify", 0, NULL, &ev);
+
+	if (ev._major != CORBA_NO_EXCEPTION) {
+		g_message ("add_alarms(): Could not activate the alarm notification service");
+		CORBA_exception_free (&ev);
+		return;
+	}
+	CORBA_exception_free (&ev);
+
+	/* Just get rid of it; what we are interested in is that it gets launched */
+
+	CORBA_exception_init (&ev);
+	bonobo_object_release_unref (an, &ev);
+	if (ev._major != CORBA_NO_EXCEPTION)
+		g_message ("add_alarms(): Could not unref the alarm notification service");
+
+	CORBA_exception_free (&ev);
+}
+
 int
 main (int argc, char **argv)
 {
@@ -121,6 +150,8 @@ main (int argc, char **argv)
 	itip_control_factory_init ();
 	tasks_control_factory_init ();
 	component_editor_factory_init ();
+
+	launch_alarm_daemon ();
 
 	bonobo_main ();
 
