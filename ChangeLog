@@ -1,3 +1,12 @@
+2000-07-09  Christopher James Lahey  <clahey@helixcode.com>
+
+	* widgets/e-text/e-entry.c: Removed some border padding and set
+	the "draw_borders" argument of the contained GtkText.
+
+	* widgets/e-text/e-text.c, widget/e-text/e-text.h: Added a
+	"draw_borders" argument which, if set, makes the EText look more
+	like a GtkEntry.
+
 2000-07-09  Tuomas Kuosmanen  <tigert@gimp.org>
 
 	* art/evolution-contacts.png: updated so it has better contrast

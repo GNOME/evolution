@@ -27,7 +27,6 @@
 #define MIN_ENTRY_WIDTH  150
 #define INNER_BORDER     2
 
-
 #define PARENT_TYPE gtk_table_get_type ()
 
 static GtkObjectClass *parent_class;
@@ -75,8 +74,8 @@ canvas_size_allocate (GtkWidget *widget, GtkAllocation *alloc,
 		e_entry->canvas,
 		0, 0, alloc->width, alloc->height);
 	gtk_object_set (GTK_OBJECT (e_entry->item),
-			"clip_width", (double) alloc->width - 2 * INNER_BORDER,
-			"clip_height", (double) alloc->height - 2 * INNER_BORDER,
+			"clip_width", (double) alloc->width,
+			"clip_height", (double) alloc->height,
 			NULL);
 }
 
@@ -110,10 +109,8 @@ e_entry_init (GtkObject *object)
 						     "clip", TRUE,
 						     "fill_clip_rectangle", TRUE,
 						     "anchor", GTK_ANCHOR_NW,
+						     "draw_borders", TRUE,
 						     NULL));
-	e_canvas_item_move_absolute(GNOME_CANVAS_ITEM(e_entry->item),
-				    INNER_BORDER,
-				    INNER_BORDER);
 
 	gtk_table_attach_defaults(gtk_table, GTK_WIDGET(e_entry->canvas),
 				  0, 1, 0, 1);
@@ -340,7 +337,7 @@ et_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 		break;
 	}
 }
-	
+
 static void
 e_entry_class_init (GtkObjectClass *object_class)
 {

@@ -30,6 +30,8 @@
 
 #include "e-text-event-processor-emacs-like.h"
 
+#define BORDER_INDENT 4
+
 enum {
 	E_TEXT_CHANGED,
 	E_TEXT_ACTIVATE,
@@ -80,7 +82,8 @@ enum {
 	ARG_BREAK_CHARACTERS,
 	ARG_MAX_LINES,
 	ARG_WIDTH,
-	ARG_HEIGHT
+	ARG_HEIGHT,
+	ARG_DRAW_BORDERS,
 };
 
 
@@ -269,6 +272,8 @@ e_text_class_init (ETextClass *klass)
 				 GTK_TYPE_DOUBLE, GTK_ARG_READWRITE, ARG_WIDTH);
 	gtk_object_add_arg_type ("EText::height",
 				 GTK_TYPE_DOUBLE, GTK_ARG_READABLE, ARG_HEIGHT);
+	gtk_object_add_arg_type ("EText::draw_borders",
+				 GTK_TYPE_BOOL, GTK_ARG_READWRITE, ARG_DRAW_BORDERS);
 
 	if (!clipboard_atom)
 		clipboard_atom = gdk_atom_intern ("CLIPBOARD", FALSE);
@@ -674,6 +679,7 @@ calc_line_widths (EText *text)
 	struct line *lines;
 	int i;
 	int j;
+	gdouble clip_width;
 
 	/* Make sure line has been split */
 	if (text->text && text->num_lines == 0)
@@ -681,6 +687,14 @@ calc_line_widths (EText *text)
 
 	lines = text->lines;
 	text->max_width = 0;
+
+	clip_width = text->clip_width;
+	if (clip_width >= 0 && text->draw_borders) {
+		clip_width -= 6;
+		if (clip_width < 0)
+			clip_width = 0;
+	}
+
 
 	if (!lines)
 		return;
@@ -698,12 +712,12 @@ calc_line_widths (EText *text)
 			if (text->clip && 
 			    text->use_ellipsis &&
 			    ! text->editing &&
-			    lines->width > text->clip_width &&
-			    text->clip_width >= 0) {
+			    lines->width > clip_width &&
+			    clip_width >= 0) {
 				if (text->font) {
 					lines->ellipsis_length = 0;
 					for (j = 0; j < lines->length; j++ ) {
-						if (gdk_text_width (text->font, lines->text, j) + text->ellipsis_width <= text->clip_width)
+						if (gdk_text_width (text->font, lines->text, j) + text->ellipsis_width <= clip_width)
 							lines->ellipsis_length = j;
 						else
 							break;
@@ -747,6 +761,7 @@ split_into_lines (EText *text)
 	char *laststart;
 	char *lastend;
 	char *linestart;
+	double clip_width;
 
 	/* Free old array of lines */
 	e_text_free_lines(text);
@@ -760,13 +775,20 @@ split_into_lines (EText *text)
 	laststart = text->text;
 	linestart = text->text;
 
+	clip_width = text->clip_width;
+	if (clip_width >= 0 && text->draw_borders) {
+		clip_width -= 6;
+		if (clip_width < 0)
+			clip_width = 0;
+	}
+
 	for (p = text->text; *p; p++) {
 		if (text->line_wrap && (*p == ' ' || *p == '\n')) {
 			if ( laststart != lastend
 			     && gdk_text_width(text->font,
 					       linestart,
 					       p - linestart)
-			     > text->clip_width ) {
+			     > clip_width ) {
 				text->num_lines ++;
 				linestart = laststart;
 				laststart = p + 1;
@@ -781,7 +803,7 @@ split_into_lines (EText *text)
 			     && gdk_text_width(text->font,
 					       linestart,
 					       p + 1 - linestart)
-			     > text->clip_width ) {
+			     > clip_width ) {
 				text->num_lines ++;
 				linestart = laststart;
 				laststart = p + 1;
@@ -804,7 +826,7 @@ split_into_lines (EText *text)
 		     && gdk_text_width(text->font,
 				       linestart,
 				       p - linestart)
-		     > text->clip_width ) {
+		     > clip_width ) {
 			text->num_lines ++;
 		}
 	} 
@@ -831,7 +853,7 @@ split_into_lines (EText *text)
 			if ( gdk_text_width(text->font,
 					    lines->text,
 					    p - lines->text)
-			     > text->clip_width 
+			     > clip_width 
 			     && laststart != lastend ) {
 				lines->length = lastend - lines->text;
 				lines++;
@@ -852,7 +874,7 @@ split_into_lines (EText *text)
 			     && gdk_text_width(text->font,
 					       lines->text,
 					       p + 1 - lines->text)
-			     > text->clip_width ) {
+			     > clip_width ) {
 				lines->length = lastend - lines->text;
 				lines++;
 				line_num++;
@@ -885,7 +907,7 @@ split_into_lines (EText *text)
 		if ( gdk_text_width(text->font,
 				    lines->text,
 				    p - lines->text)
-		     > text->clip_width 
+		     > clip_width 
 		     && laststart != lastend ) {
 			lines->length = lastend - lines->text;
 			lines++;
@@ -1212,6 +1234,16 @@ e_text_set_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 			text->needs_calc_line_widths = 1;
 		needs_reflow = 1;
 		break;
+		
+	case ARG_DRAW_BORDERS:
+		if (text->draw_borders != GTK_VALUE_BOOL (*arg)) {
+			text->draw_borders = GTK_VALUE_BOOL (*arg);
+			text->needs_calc_height = 1;
+			text->needs_redraw = 1;
+			needs_reflow = 1;
+			needs_update = 1;
+		}
+		break;
 
 	default:
 		return;
@@ -1348,6 +1380,10 @@ e_text_get_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 		GTK_VALUE_DOUBLE (*arg) = text->clip && text->clip_height != -1 ? text->clip_height : text->height / text->item.canvas->pixels_per_unit;
 		break;
 
+	case ARG_DRAW_BORDERS:
+		GTK_VALUE_BOOL (*arg) = text->draw_borders;
+		break;
+
 	default:
 		arg->type = GTK_TYPE_INVALID;
 		break;
@@ -1371,6 +1407,7 @@ e_text_reflow (GnomeCanvasItem *item, int flags)
 		int x;
 		int i;
 		struct line *lines;
+		gdouble clip_width;
 		calc_line_widths(text);
 		text->needs_calc_line_widths = 0;
 		text->needs_calc_height = 1;
@@ -1396,8 +1433,15 @@ e_text_reflow (GnomeCanvasItem *item, int flags)
 			text->xofs_edit = x;
 		}
 
-		if (2 + x - text->clip_width > text->xofs_edit) {
-			text->xofs_edit = 2 + x - text->clip_width;
+		clip_width = text->clip_width;
+		if (clip_width >= 0 && text->draw_borders) {
+			clip_width -= 6;
+			if (clip_width < 0)
+				clip_width = 0;
+		}
+
+		if (2 + x - clip_width > text->xofs_edit) {
+			text->xofs_edit = 2 + x - clip_width;
 		}
 		
 		if ((text->font->ascent + text->font->descent) * i < text->yofs_edit)
@@ -1593,11 +1637,14 @@ get_line_xpos (EText *text, struct line *line)
 		break;
 
 	default:
+		if (text->draw_borders)
+			x += BORDER_INDENT;
 		/* For GTK_JUSTIFY_LEFT, we don't have to do anything.  We do not support
 		 * GTK_JUSTIFY_FILL, yet.
 		 */
 		break;
 	}
+
 
 	return x;
 }
@@ -1637,6 +1684,37 @@ e_text_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 	canvas = GNOME_CANVAS_ITEM(text)->canvas;
 
 	fg_gc = GTK_WIDGET(canvas)->style->fg_gc[text->has_selection ? GTK_STATE_SELECTED : GTK_STATE_ACTIVE];
+	
+	if (text->draw_borders) {
+		gdouble thisx = 0, thisy = 0;
+		gdouble thiswidth, thisheight;
+		GtkWidget *widget = GTK_WIDGET(item->canvas);
+		gtk_paint_flat_box (widget->style, drawable,
+				    GTK_WIDGET_STATE(widget), GTK_SHADOW_NONE,
+				    NULL, widget, "entry_bg", 
+				    0, 0, -1, -1);
+
+		gtk_object_get(GTK_OBJECT(text),
+			       "width", &thiswidth,
+			       "height", &thisheight,
+			       NULL);
+		if (text->editing) {
+			thisx += 1;
+			thisy += 1;
+			thiswidth -= 2;
+			thisheight -= 2;
+		}
+		gtk_paint_shadow (widget->style, drawable,
+				  GTK_STATE_NORMAL, GTK_SHADOW_IN,
+				  NULL, widget, "entry",
+				  thisx - x, thisy - y, thiswidth, thisheight);
+		
+		if (text->editing) {
+			gtk_paint_focus (widget->style, drawable, 
+					 NULL, widget, "entry",
+					 - x, - y, thiswidth + 1, thisheight + 1);
+		}
+	}
 
 	if (!text->text || !text->font)
 		return;
@@ -1659,6 +1737,9 @@ e_text_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 		clip_rect = &rect;
 	}
 	ypos = text->cy + text->font->ascent;
+	if (text->draw_borders)
+		ypos += BORDER_INDENT;
+
 	if (text->editing)
 		ypos -= text->yofs_edit;
 
@@ -2345,7 +2426,12 @@ _do_tooltip (gpointer data)
 					      NULL);
 
 
-	e_canvas_item_move_absolute(tooltip_text, 1, 1);
+
+	if (text->draw_borders)
+		e_canvas_item_move_absolute(tooltip_text, 1 + BORDER_INDENT, 1 + BORDER_INDENT);
+	else
+		e_canvas_item_move_absolute(tooltip_text, 1, 1);
+
 
 	calc_height(E_TEXT(tooltip_text));
 	calc_line_widths(E_TEXT(tooltip_text));
@@ -2422,15 +2508,16 @@ _do_tooltip (gpointer data)
 #endif
 
 	gnome_canvas_item_set(rect,
-			      "x2", (double) tooltip_width + 4,
-			      "y2", (double) tooltip_height + 4,
+			      "x2", (double) tooltip_width + 4 + (text->draw_borders ? BORDER_INDENT * 2 : 0),
+			      "y2", (double) tooltip_height + 4 + (text->draw_borders ? BORDER_INDENT * 2 : 0),
 			      NULL);
 	
 	gtk_widget_set_usize (text->tooltip_window,
-			      tooltip_width + 4,
-			      tooltip_height + 4);
+			      tooltip_width + 4 + (text->draw_borders ? BORDER_INDENT * 2 : 0),
+			      tooltip_height + 4 + (text->draw_borders ? BORDER_INDENT * 2 : 0));
 	gnome_canvas_set_scroll_region (GNOME_CANVAS(canvas), 0.0, 0.0,
-					tooltip_width, (double)tooltip_height);
+					tooltip_width + (text->draw_borders ? BORDER_INDENT * 2 : 0), 
+					(double)tooltip_height + (text->draw_borders ? BORDER_INDENT * 2 : 0));
 	gtk_widget_show (canvas);
 	gtk_widget_realize (text->tooltip_window);
 	gtk_signal_connect (GTK_OBJECT(text->tooltip_window), "event",
@@ -2889,6 +2976,7 @@ e_text_command(ETextEventProcessor *tep, ETextEventProcessorCommand *command, gp
 		int x;
 		int i;
 		struct line *lines = text->lines;
+		gdouble clip_width;
 		if ( !lines )
 			return;
 
@@ -2908,8 +2996,15 @@ e_text_command(ETextEventProcessor *tep, ETextEventProcessorCommand *command, gp
 			text->xofs_edit = x;
 		}
 
-		if (2 + x - text->clip_width > text->xofs_edit) {
-			text->xofs_edit = 2 + x - text->clip_width;
+		clip_width = text->clip_width;
+		if (clip_width >= 0 && text->draw_borders) {
+			clip_width -= 6;
+			if (clip_width < 0)
+				clip_width = 0;
+		}
+
+		if (2 + x - clip_width > text->xofs_edit) {
+			text->xofs_edit = 2 + x - clip_width;
 		}
 		
 		if ((text->font->ascent + text->font->descent) * i < text->yofs_edit)
