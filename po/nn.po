@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: nn\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2004-07-26 21:13+0200\n"
-"PO-Revision-Date: 2004-07-26 21:12+0200\n"
+"PO-Revision-Date: 2004-07-26 22:27+0200\n"
 "Last-Translator: Åsmund Skjæveland <aasmunds@fys.uio.no>\n"
 "Language-Team: Norwegian Nynorsk <i18n-nn@lister.ping.uio.no>\n"
 "MIME-Version: 1.0\n"
@@ -225,8 +225,7 @@ msgstr "Evolution-adresseboka har avslutta uventa."
 
 #. addressbook:backend-died secondary
 #: addressbook/addressbook-errors.xml.h:55
-msgid ""
-"Your contacts for {0} will not be available until Evolution is restarted."
+msgid "Your contacts for {0} will not be available until Evolution is restarted."
 msgstr ""
 
 #: addressbook/conduit/address-conduit.c:275
@@ -343,8 +342,7 @@ msgstr "Opprett ei ny oppgåve"
 
 #: addressbook/gui/component/addressbook-component.c:184
 msgid "Failed upgrading Addressbook settings or folders."
-msgstr ""
-"Klarte ikkje å oppgradera innstillingane eller mappene til adresseboka."
+msgstr "Klarte ikkje å oppgradera innstillingane eller mappene til adresseboka."
 
 #: addressbook/gui/component/addressbook-migrate.c:72
 #: calendar/gui/migration.c:141 mail/em-migrate.c:1160
@@ -436,8 +434,7 @@ msgstr ""
 #: addressbook/gui/component/addressbook-view.c:633
 #, c-format
 msgid "Address book '%s' will be removed. Are you sure you want to continue?"
-msgstr ""
-"Adresseboka «%s» vil verta fjerna. Er du sikker på at du vil halda fram?"
+msgstr "Adresseboka «%s» vil verta fjerna. Er du sikker på at du vil halda fram?"
 
 #: addressbook/gui/component/addressbook-view.c:715
 #: addressbook/gui/widgets/e-addressbook-view.c:1124
@@ -483,8 +480,7 @@ msgstr "Plasseringa til det loddrette panelet i hovudvisinga"
 msgid ""
 "The number of characters that must be typed before evolution will attempt to "
 "autocomplete"
-msgstr ""
-"Talet på teikn som må vera skrivne for at Evolution skal prøva å autofullføra"
+msgstr "Talet på teikn som må vera skrivne for at Evolution skal prøva å autofullføra"
 
 #: addressbook/gui/component/apps_evolution_addressbook.schemas.in.in.h:4
 msgid "URI for the folder last used in the select names dialog"
@@ -593,8 +589,7 @@ msgid "Email address"
 msgstr "E-postadresse"
 
 #: addressbook/gui/component/ldap-config.glade.h:21
-msgid ""
-"Evolution will use this email address to authenticate you with the server."
+msgid "Evolution will use this email address to authenticate you with the server."
 msgstr ""
 "Evolution kjem til å bruka denne e-postaddressa til å autentisera deg mot "
 "tenaren."
@@ -3495,8 +3490,7 @@ msgid "Export in asynchronous mode "
 msgstr "Eksporter i asynkron modus"
 
 #: addressbook/tools/evolution-addressbook-export.c:63
-msgid ""
-"The number of cards in one output file in asychronous mode,default size 100."
+msgid "The number of cards in one output file in asychronous mode,default size 100."
 msgstr "Talet på kort i ei utfil i asynkron modus, standard storleik er 100."
 
 #: addressbook/tools/evolution-addressbook-export.c:63
@@ -3504,8 +3498,7 @@ msgid "NUMBER"
 msgstr "TAL"
 
 #: addressbook/tools/evolution-addressbook-export.c:91
-msgid ""
-"Command line arguments error, please use --help option to see the usage."
+msgid "Command line arguments error, please use --help option to see the usage."
 msgstr "Feil i kommandolinjeargumenta. Bruk --help for å sjå ein hjelpetekst."
 
 #: addressbook/tools/evolution-addressbook-export.c:105
@@ -3576,8 +3569,7 @@ msgstr "Er du sikker på at du vil sletta dette møtet?"
 
 #. calendar:prompt-delete-meeting secondary
 #: calendar/calendar-errors.xml.h:10
-msgid ""
-"All information on this meeting will be deleted and can not be restored."
+msgid "All information on this meeting will be deleted and can not be restored."
 msgstr ""
 "All informasjonen om dette møtet vil verta sletta, og kan ikkje "
 "gjenopprettast."
@@ -3640,8 +3632,7 @@ msgstr "Er du sikker på at du vil sletta avtalen «{0}»?"
 #. calendar:prompt-delete-titled-appointment secondary
 #. calendar:prompt-delete-appointment secondary
 #: calendar/calendar-errors.xml.h:34 calendar/calendar-errors.xml.h:38
-msgid ""
-"All information on this appointment will be deleted and can not be restored."
+msgid "All information on this appointment will be deleted and can not be restored."
 msgstr ""
 
 #. calendar:prompt-delete-appointment primary
@@ -3662,8 +3653,7 @@ msgstr "Er du sikker på at du vil sletta journaloppføringa «{0}»?"
 #. calendar:prompt-delete-named-journal secondary
 #. calendar:prompt-delete-journal secondary
 #: calendar/calendar-errors.xml.h:50 calendar/calendar-errors.xml.h:54
-msgid ""
-"All information in this journal will be deleted and can not be restored."
+msgid "All information in this journal will be deleted and can not be restored."
 msgstr ""
 
 #. calendar:prompt-delete-appointments primary
@@ -3733,10 +3723,8 @@ msgstr "Vil du senda ein møteinvitasjon til deltakarane?"
 #. calendar:prompt-meeting-invite secondary
 #: calendar/calendar-errors.xml.h:78
 #, fuzzy
-msgid ""
-"Email invitations will be sent to all participants and allow them to RSVP."
-msgstr ""
-"E-post-invitasjonar vil verta sendt til alle deltakarane, og vil be om svar."
+msgid "Email invitations will be sent to all participants and allow them to RSVP."
+msgstr "E-post-invitasjonar vil verta sendt til alle deltakarane, og vil be om svar."
 
 #: calendar/calendar-errors.xml.h:80 calendar/calendar-errors.xml.h:86
 #: calendar/calendar-errors.xml.h:92 calendar/calendar-errors.xml.h:98
@@ -4221,8 +4209,7 @@ msgstr "%d. %b"
 #: calendar/gui/calendar-component.c:370
 #, c-format
 msgid "Calendar '%s' will be removed. Are you sure you want to continue?"
-msgstr ""
-"Kalenderen «%s» vil verta fjerna. Er du sikker på at du vil halda fram?"
+msgstr "Kalenderen «%s» vil verta fjerna. Er du sikker på at du vil halda fram?"
 
 #: calendar/gui/calendar-component.c:426
 msgid "New Calendar"
@@ -4853,8 +4840,7 @@ msgstr "Journalopføringa er endra."
 #: calendar/gui/dialogs/changed-comp.c:101
 #, c-format
 msgid "%s  You have made changes. Forget those changes and update the editor?"
-msgstr ""
-"%s  Du har gjort endringar. Forkast desse endringane og oppdater redigering?"
+msgstr "%s  Du har gjort endringar. Forkast desse endringane og oppdater redigering?"
 
 #: calendar/gui/dialogs/changed-comp.c:103
 #, c-format
@@ -5337,10 +5323,8 @@ msgid "You are modifying a recurring task, what would you like to modify?"
 msgstr "Du endrar ei oppgåve som skal gjerast fleire gongar. Kva vil du endra?"
 
 #: calendar/gui/dialogs/recur-comp.c:59
-msgid ""
-"You are modifying a recurring journal entry, what would you like to modify?"
-msgstr ""
-"Du endrar ei journaloppføring som står fleire gongar. Kva vil du endra?"
+msgid "You are modifying a recurring journal entry, what would you like to modify?"
+msgstr "Du endrar ei journaloppføring som står fleire gongar. Kva vil du endra?"
 
 #: calendar/gui/dialogs/recur-comp.c:85
 msgid "This Instance Only"
@@ -5360,8 +5344,7 @@ msgstr "Alle instansane"
 
 #: calendar/gui/dialogs/recurrence-page.c:511
 msgid "This appointment contains recurrences that Evolution cannot edit."
-msgstr ""
-"Denne avtalen skal gjenta seg på ein måte som Evolution ikkje kan redigera."
+msgstr "Denne avtalen skal gjenta seg på ein måte som Evolution ikkje kan redigera."
 
 #: calendar/gui/dialogs/recurrence-page.c:806
 msgid "Recurrence date is invalid"
@@ -6316,8 +6299,7 @@ msgid ""
 msgstr ""
 
 #: calendar/gui/e-itip-control.c:1121
-msgid ""
-"The task has been cancelled, however it could not be found in your task lists"
+msgid "The task has been cancelled, however it could not be found in your task lists"
 msgstr ""
 
 #: calendar/gui/e-itip-control.c:1134 calendar/gui/itip-utils.c:442
@@ -6479,8 +6461,7 @@ msgstr "Fri/ledig forespørsel"
 #: calendar/gui/e-itip-control.c:1380
 #, c-format
 msgid "<b>%s</b> has replied to a free/busy request."
-msgstr ""
-"<b>%s</b> har svart på ein førespurnad etter ledig/oppteken-informasjon."
+msgstr "<b>%s</b> har svart på ein førespurnad etter ledig/oppteken-informasjon."
 
 #: calendar/gui/e-itip-control.c:1381
 msgid "Free/Busy Reply"
@@ -6522,8 +6503,7 @@ msgstr ""
 
 #: calendar/gui/e-itip-control.c:1867
 msgid "Attendee status could not be updated because of an invalid status!\n"
-msgstr ""
-"Deltakarstatusen kan ikkje oppdaterast på grunn av ein ugyldig status!\n"
+msgstr "Deltakarstatusen kan ikkje oppdaterast på grunn av ein ugyldig status!\n"
 
 #: calendar/gui/e-itip-control.c:1884
 msgid "Attendee status updated\n"
@@ -6531,8 +6511,7 @@ msgstr "Deltakarstatus oppdatert\n"
 
 #: calendar/gui/e-itip-control.c:1887
 msgid "Attendee status can not be updated because the item no longer exists"
-msgstr ""
-"Deltakarstatus kan ikkje oppdaterast, for oppføringa finst ikkje lenger."
+msgstr "Deltakarstatus kan ikkje oppdaterast, for oppføringa finst ikkje lenger."
 
 #: calendar/gui/e-itip-control.c:1914
 msgid "Removal Complete"
@@ -9237,8 +9216,7 @@ msgstr "Kan ikkje stadfesta signaturen på meldinga: Feil format på meldinga"
 #: camel/camel-gpg-context.c:1477
 #, c-format
 msgid "Cannot verify message signature: could not create temp file: %s"
-msgstr ""
-"Kan ikkje stadfesta signaturen på meldinga: Kan ikkje laga mellombels fil: %s"
+msgstr "Kan ikkje stadfesta signaturen på meldinga: Kan ikkje laga mellombels fil: %s"
 
 #: camel/camel-gpg-context.c:1565
 #, c-format
@@ -10204,8 +10182,7 @@ msgstr "Passord"
 #: camel/providers/imap/camel-imap-provider.c:95
 #: camel/providers/imapp/camel-imapp-provider.c:67
 msgid "This option will connect to the IMAP server using a plaintext password."
-msgstr ""
-"Dette valet let deg kopla til ein IMAP-tenar med eit klartekst-passord."
+msgstr "Dette valet let deg kopla til ein IMAP-tenar med eit klartekst-passord."
 
 #: camel/providers/groupwise/camel-gw-listener.c:316
 #: camel/providers/groupwise/camel-gw-listener.c:339
@@ -10331,8 +10308,7 @@ msgstr ""
 
 #: camel/providers/imap/camel-imap-folder.c:2482
 #, c-format
-msgid ""
-"Unexpected server response: Identical UIDs provided for messages %d and %d"
+msgid "Unexpected server response: Identical UIDs provided for messages %d and %d"
 msgstr ""
 
 #: camel/providers/imap/camel-imap-folder.c:2658
@@ -10520,8 +10496,7 @@ msgstr "Mappa «%s» finst ikkje"
 #: camel/providers/imap/camel-imap-store.c:2259
 #: camel/providers/imap4/camel-imap4-store.c:796
 #, c-format
-msgid ""
-"The folder name \"%s\" is invalid because it contains the character \"%c\""
+msgid "The folder name \"%s\" is invalid because it contains the character \"%c\""
 msgstr "Mappenamnet «%s» er ugyldig. Det inneheld teiknet «%c»"
 
 #: camel/providers/imap/camel-imap-store.c:1939
@@ -10634,14 +10609,12 @@ msgstr "Kan ikkje kopiera meldingane frå mappa «%s» til mappa «%s»: Ukjent"
 #: camel/providers/imap4/camel-imap4-folder.c:947
 #, c-format
 msgid "Cannot move messages from folder `%s' to folder `%s': Bad command"
-msgstr ""
-"Kan ikkje flytta meldingane frå mappa «%s» til mappa «%s»: Ugyldig kommando"
+msgstr "Kan ikkje flytta meldingane frå mappa «%s» til mappa «%s»: Ugyldig kommando"
 
 #: camel/providers/imap4/camel-imap4-folder.c:951
 #, c-format
 msgid "Cannot copy messages from folder `%s' to folder `%s': Bad command"
-msgstr ""
-"Kan ikkje kopiera meldingane frå mappa «%s» til mappa «%s»: Ugyldig kommando"
+msgstr "Kan ikkje kopiera meldingane frå mappa «%s» til mappa «%s»: Ugyldig kommando"
 
 #: camel/providers/imap4/camel-imap4-provider.c:53
 msgid "IMAPv4rev1"
@@ -10654,10 +10627,8 @@ msgstr ""
 "EKSPERIMENTELL!!"
 
 #: camel/providers/imap4/camel-imap4-provider.c:72
-msgid ""
-"This option will connect to the IMAPv4rev1 server using a plaintext password."
-msgstr ""
-"Dette valet let deg kopla til IMAPv4rev1-tenaren med eit klartekst-passord."
+msgid "This option will connect to the IMAPv4rev1 server using a plaintext password."
+msgstr "Dette valet let deg kopla til IMAPv4rev1-tenaren med eit klartekst-passord."
 
 #: camel/providers/imap4/camel-imap4-store.c:271
 #, c-format
@@ -10670,8 +10641,7 @@ msgstr ""
 
 #: camel/providers/imap4/camel-imap4-store.c:383
 #, c-format
-msgid ""
-"Cannot authenticate to IMAP server %s using the %s authentication mechanism"
+msgid "Cannot authenticate to IMAP server %s using the %s authentication mechanism"
 msgstr ""
 
 #: camel/providers/imap4/camel-imap4-store.c:428
@@ -11409,8 +11379,7 @@ msgid "Unable to save grouplist file for %s: %s"
 msgstr "Kan ikkje lagra gruppeliste-fila for %s: %s"
 
 #: camel/providers/nntp/camel-nntp-provider.c:43
-msgid ""
-"Show folders in short notation (e.g. c.o.linux rather than comp.os.linux)"
+msgid "Show folders in short notation (e.g. c.o.linux rather than comp.os.linux)"
 msgstr ""
 
 #: camel/providers/nntp/camel-nntp-provider.c:45
@@ -11873,8 +11842,7 @@ msgstr "IMAP-kommando feila: %s"
 #: camel/providers/smtp/camel-smtp-transport.c:476
 #, c-format
 msgid "SMTP server %s does not support requested authentication type %s."
-msgstr ""
-"SMTP-tenaren «%s» støttar ikkje den etterspurde autentiseringstypen %s."
+msgstr "SMTP-tenaren «%s» støttar ikkje den etterspurde autentiseringstypen %s."
 
 #: camel/providers/smtp/camel-smtp-transport.c:514
 #, fuzzy, c-format
@@ -12169,8 +12137,7 @@ msgid "Attach file(s)"
 msgstr "Legg ved fil"
 
 #: composer/e-msg-composer.c:704
-msgid ""
-"Cannot sign outgoing message: No signing certificate set for this account"
+msgid "Cannot sign outgoing message: No signing certificate set for this account"
 msgstr ""
 
 #: composer/e-msg-composer.c:711
@@ -12931,8 +12898,7 @@ msgid "Composer Preferences"
 msgstr "Redigerarinstillingar"
 
 #: mail/GNOME_Evolution_Mail.server.in.in.h:3
-msgid ""
-"Configure mail preferences, including security and message display, here"
+msgid "Configure mail preferences, including security and message display, here"
 msgstr "Set opp e-postinnstillingar, inkludert tryggleik og meldingsvising"
 
 #: mail/GNOME_Evolution_Mail.server.in.in.h:4
@@ -13275,7 +13241,7 @@ msgstr "Sett status"
 # TRN: Det skal ikkje vera KiB?
 #: mail/em-filter-i18n.h:57
 msgid "Size (kB)"
-msgstr "Storleik (kB)"
+msgstr "Storleik (KiB)"
 
 #: mail/em-filter-i18n.h:58
 msgid "sounds like"
@@ -14337,8 +14303,7 @@ msgid "Prompt the user when he or she tries to expunge a folder."
 msgstr ""
 
 #: mail/evolution-mail.schemas.in.in.h:56
-msgid ""
-"Prompt the user when he or she tries to send a message without a Subject."
+msgid "Prompt the user when he or she tries to send a message without a Subject."
 msgstr ""
 
 #: mail/evolution-mail.schemas.in.in.h:57
@@ -14354,8 +14319,7 @@ msgstr ""
 msgid ""
 "Prompt when user tries to send HTML mail to recipients that may not want to "
 "receive HTML mail."
-msgstr ""
-"S_pør ved sending av HTML-meldingar til kontaktar som ikkje vil ha slike"
+msgstr "S_pør ved sending av HTML-meldingar til kontaktar som ikkje vil ha slike"
 
 #: mail/evolution-mail.schemas.in.in.h:60
 #, fuzzy
@@ -15567,8 +15531,7 @@ msgstr "Last aldri bilete frå _nettet"
 
 #: mail/mail-config.glade.h:174
 msgid "_Prompt when sending HTML messages to contacts that don't want them"
-msgstr ""
-"S_pør ved sending av HTML-meldingar til kontaktar som ikkje vil ha slike"
+msgstr "S_pør ved sending av HTML-meldingar til kontaktar som ikkje vil ha slike"
 
 #: mail/mail-config.glade.h:175
 msgid "_Prompt when sending messages with an empty subject line"
@@ -15734,8 +15697,7 @@ msgstr "Autentisering"
 msgid ""
 "This server does not support this type of authentication and may not support "
 "authentication at all."
-msgstr ""
-"SMTP-tenaren «%s» støttar ikkje den etterspurde autentiseringstypen %s."
+msgstr "SMTP-tenaren «%s» støttar ikkje den etterspurde autentiseringstypen %s."
 
 #. mail:camel-service-auth-failed primary
 #: mail/mail-errors.xml.h:6
@@ -15817,8 +15779,7 @@ msgstr ""
 
 #. mail:send-no-recipients primary
 #: mail/mail-errors.xml.h:34
-msgid ""
-"This message cannot be sent because you have not specified any Recipients"
+msgid "This message cannot be sent because you have not specified any Recipients"
 msgstr ""
 
 #. mail:send-no-recipients secondary
@@ -16821,8 +16782,7 @@ msgid ""
 msgstr ""
 
 #: shell/apps_evolution_shell.schemas.in.in.h:9
-msgid ""
-"List of paths for the folders to be synchronized to disk for offline usage"
+msgid "List of paths for the folders to be synchronized to disk for offline usage"
 msgstr ""
 
 #: shell/apps_evolution_shell.schemas.in.in.h:10
@@ -17044,8 +17004,7 @@ msgstr "«.» og «..» er resverte mappenamn."
 
 #: shell/e-shell-window-commands.c:66
 msgid "The GNOME Pilot tools do not appear to be installed on this system."
-msgstr ""
-"GNOME Pilot-verktøya ser ikkje ut til å vera installerte på denne maskinen."
+msgstr "GNOME Pilot-verktøya ser ikkje ut til å vera installerte på denne maskinen."
 
 #: shell/e-shell-window-commands.c:74
 #, c-format
@@ -17080,8 +17039,7 @@ msgstr "Arbeid fråkopla"
 #: shell/e-shell-window.c:337
 #, fuzzy
 msgid "Evolution is currently online.  Click on this button to work offline."
-msgstr ""
-"Ximian Evolution er tilkopla. Klikk på denne knappen for å arbeida fråkopla."
+msgstr "Ximian Evolution er tilkopla. Klikk på denne knappen for å arbeida fråkopla."
 
 #: shell/e-shell-window.c:344
 #, fuzzy
@@ -17091,8 +17049,7 @@ msgstr "Ximian Evolution held på å kopla frå."
 #: shell/e-shell-window.c:350
 #, fuzzy
 msgid "Evolution is currently offline.  Click on this button to work online."
-msgstr ""
-"Ximian Evolution er fråkopla. Klikk på denne knappen for å arbeida tilkopla."
+msgstr "Ximian Evolution er fråkopla. Klikk på denne knappen for å arbeida tilkopla."
 
 #: shell/e-shell-window.c:637
 #, fuzzy, c-format
@@ -17676,8 +17633,7 @@ msgid "You have certificates from these organizations that identify you:"
 msgstr ""
 
 #: smime/gui/smime-ui.glade.h:43
-msgid ""
-"You have certificates on file that identify these certificate authorities:"
+msgid "You have certificates on file that identify these certificate authorities:"
 msgstr ""
 
 #: smime/gui/smime-ui.glade.h:44
@@ -18042,11 +17998,9 @@ msgstr "Vel alle"
 msgid "Select all contacts"
 msgstr "Vel alle kontatene"
 
-# TRN: "send a mess"?
 #: ui/evolution-addressbook.xml.h:23
-#, fuzzy
 msgid "Send a message to the selected contacts."
-msgstr "Send ei melding til den valde kontakten."
+msgstr "Send ei melding til dei valde kontaktane."
 
 #: ui/evolution-addressbook.xml.h:24
 msgid "Send message to contact"
@@ -18494,8 +18448,7 @@ msgid "Hide _Read Messages"
 msgstr "Skjul _lesne meldingar"
 
 #: ui/evolution-mail-list.xml.h:8
-msgid ""
-"Hide deleted messages rather than displaying them with a line through them"
+msgid "Hide deleted messages rather than displaying them with a line through them"
 msgstr "Gøym dei sletta meldingane i staden for å visa dei gjennomstreka"
 
 #: ui/evolution-mail-list.xml.h:9
@@ -19655,8 +19608,7 @@ msgstr ""
 #. setup a dummy error
 #: widgets/misc/e-error.c:421
 #, c-format
-msgid ""
-"<span weight=\"bold\">Internal error, unknown error '%s' requested</span>"
+msgid "<span weight=\"bold\">Internal error, unknown error '%s' requested</span>"
 msgstr ""
 
 #: widgets/misc/e-expander.c:181
@@ -19823,56 +19775,3 @@ msgstr "%s (...)"
 msgid "%s (%d%% complete)"
 msgstr "%s (%d%% ferdig)"
 
-#~ msgid "New Contacts Group"
-#~ msgstr "Ny kontaktgruppe"
-
-#~ msgid "Contacts Grou_p"
-#~ msgstr "Kontaktgru_ppe"
-
-#~ msgid "Create a new contacts group"
-#~ msgstr "Lag ei ny kontaktgruppe"
-
-#~ msgid "Add Contacts Group"
-#~ msgstr "Legg til kontaktgruppe"
-
-#~ msgid "Download limit:"
-#~ msgstr "Nedlastingsgrense:"
-
-#~ msgid "Only locations within starting point"
-#~ msgstr "Berre stader innanfor utgangspunktet"
-
-#~ msgid "Search base only"
-#~ msgstr "Berre søkebase"
-
-#~ msgid "Search base:"
-#~ msgstr "Søkebase:"
-
-#~ msgid "Search scope:"
-#~ msgstr "Søkeområde:"
-
-#~ msgid "Starting point and locations within it"
-#~ msgstr "Utgangspunktet og stader innanfor det"
-
-#~ msgid "Timeout:"
-#~ msgstr "Tidsavbrot:"
-
-#~ msgid "_Email address:"
-#~ msgstr "_E-postadresse:"
-
-#~ msgid "_Log in:"
-#~ msgstr "_Logg inn:"
-
-#~ msgid "Add Tasks Group"
-#~ msgstr "Legg til oppgåvegruppe"
-
-#, fuzzy
-#~ msgid "New tasks group"
-#~ msgstr "Ny oppgåve"
-
-#, fuzzy
-#~ msgid "Tasks Gro_up"
-#~ msgstr "Oppgåvelistegruppe"
-
-#, fuzzy
-#~ msgid "Create a new tasks group"
-#~ msgstr "Opprett ei ny oppgåve"
