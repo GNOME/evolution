@@ -310,7 +310,7 @@ e_delegate_dialog_get_delegate_name		(EDelegateDialog  *edd)
 
 	priv = edd->priv;
 
-	bonobo_widget_get_property (BONOBO_WIDGET (priv->entry), "text", &string, NULL);
+	bonobo_widget_get_property (BONOBO_WIDGET (priv->entry), "destinations", &string, NULL);
 	destv = e_destination_importv (string);
 	
 	g_message ("importv: [%s]", string);
