@@ -1,3 +1,8 @@
+2001-06-01  Peter Williams  <peterw@ximian.com>
+
+	* Makefile.am (dumpindex_LDADD): Add GAL_LIBS here too.
+	(testindex_LDADD): And here.
+
 2001-04-25  Dan Winship  <danw@ximian.com>
 
 	* Makefile.am (libibex_la_LIBADD): Add GAL_LIBS for gunicode stuff

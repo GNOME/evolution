@@ -28,7 +28,7 @@ INCLUDES = \
 noinst_PROGRAMS = dumpindex testindex
 
 dumpindex_SOURCES = dumpindex.c
-dumpindex_LDADD = libibex.la $(THREADS_LIBS)
+dumpindex_LDADD = libibex.la $(GAL_LIBS) $(THREADS_LIBS)
 
 testindex_SOURCES = testindex.c
-testindex_LDADD = libibex.la $(THREADS_LIBS) -lm
+testindex_LDADD = libibex.la $(GAL_LIBS) $(THREADS_LIBS) -lm
