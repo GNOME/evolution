@@ -1,3 +1,8 @@
+2000-04-21  Seth Alves  <alves@hungry.com>
+
+	* gui/calendar-commands.c (calendar_control_activate): moved
+	"About Calendar" into the View menu so it shows up.
+
 2000-04-20  Seth Alves  <alves@hungry.com>
 
 	* gui/gnome-cal.c (gnome_calendar_changed_cb): new function: callback
