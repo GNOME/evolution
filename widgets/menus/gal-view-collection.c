@@ -328,6 +328,8 @@ gal_view_collection_save              (GalViewCollection *collection)
 	xmlNode *root;
 	char *filename;
 
+	e_create_directory(collection->local_dir);
+
 	doc = xmlNewDoc("1.0");
 	root = xmlNewNode(NULL, "GalViewCollection");
 	xmlDocSetRootElement(doc, root);
@@ -360,7 +362,6 @@ gal_view_collection_save              (GalViewCollection *collection)
 		e_xml_set_string_prop_by_name(child, "id", item->id);
 		e_xml_set_string_prop_by_name(child, "title", item->title);
 		e_xml_set_string_prop_by_name(child, "type", item->type);
-
 	}
 	filename = g_concat_dir_and_file(collection->local_dir, "galview.xml");
 	xmlSaveFile(filename, doc);
