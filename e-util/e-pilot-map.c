@@ -20,11 +20,13 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
  */
 
+#include <string.h> /* memset(), strcmp() */
 #include <stdlib.h>
-#include <time.h>
-#include <gnome.h>
 #include <gnome-xml/parser.h>
-#include <e-pilot-map.h>
+#include <libgnome/gnome-defs.h>
+#include <libgnome/gnome-util.h>
+
+#include "e-pilot-map.h"
 
 typedef struct 
 {

@@ -8,10 +8,10 @@
  */
 
 #include <config.h>
-#include <gtk/gtk.h>
 
 #include "e-list-iterator.h"
 #include "e-list.h"
+
 
 static void        e_list_iterator_init       (EListIterator *list);
 static void        e_list_iterator_class_init (EListIteratorClass *klass);

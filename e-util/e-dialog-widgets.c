@@ -21,6 +21,7 @@
  */
 
 #include <config.h>
+
 #include <math.h>
 #include <string.h>
 #include <time.h>
@@ -31,8 +32,10 @@
 #include <gtk/gtksignal.h>
 #include <gtk/gtkspinbutton.h>
 #include <libgnomeui/gnome-dateedit.h>
-#include "e-dialog-widgets.h"
+#include <libgnomeui/gnome-propertybox.h>
 #include <gal/widgets/e-unicode.h>
+
+#include "e-dialog-widgets.h"
 
 
 

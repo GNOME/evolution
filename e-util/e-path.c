@@ -23,6 +23,7 @@
 
 #include <string.h>
 #include <glib.h>
+
 #include "e-path.h"
 
 #define SUBFOLDER_DIR_NAME     "subfolders"

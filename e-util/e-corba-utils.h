@@ -23,7 +23,6 @@
 #ifndef E_CORBA_UTILS_H
 #define E_CORBA_UTILS_H
 
-#include <glib.h>
 #include <orb/orbit.h>
 
 const CORBA_char *e_safe_corba_string (const char *s);

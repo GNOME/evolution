@@ -22,10 +22,10 @@
 
 #include <stdlib.h>
 #include <time.h>
-#include <gnome.h>
 #include <gnome-xml/parser.h>
 #include <pi-util.h>
-#include <e-pilot-util.h>
+
+#include "e-pilot-util.h"
 
 char *
 e_pilot_utf8_to_pchar (const char *string)

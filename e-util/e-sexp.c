@@ -67,7 +67,6 @@
         Execute a sequence.  The last function return is the return type.
 */
 
-#include <glib.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>

@@ -1,17 +1,16 @@
 
-
-#include <glib.h>
 #include <sys/time.h>
 #include <sys/types.h>
 #include <unistd.h>
 #include <errno.h>
 #include <string.h>
-
 #include <stdio.h>
 
-#include "e-msgport.h"
-
 #include <pthread.h>
+
+#include <glib.h>
+
+#include "e-msgport.h"
 
 #define m(x)			/* msgport debug */
 #define t(x) 			/* thread debug */
@@ -357,7 +356,7 @@ void e_thread_destroy(EThread *e)
 			info = e->id_list->data;
 			if (!info->busy) {
 				e->id_list = g_list_remove(e->id_list, info);
-				printf("cleaning up pool thread %d\n", info->id);
+				printf("cleaning up pool thread %ld\n", info->id);
 				pthread_mutex_unlock(&e->mutex);
 				if (pthread_cancel(info->id) == 0)
 					pthread_join(info->id, 0);

@@ -4,11 +4,11 @@
 #ifndef _E_SEXP_H
 #define _E_SEXP_H
 
-#include <glib.h>
 #include <setjmp.h>
+#include <glib.h>
 
 #ifdef E_SEXP_IS_GTK_OBJECT
-#include <gtk/gtk.h>
+#include <gtk/gtkobject.h>
 #endif
 
 #ifdef E_SEXP_IS_GTK_OBJECT

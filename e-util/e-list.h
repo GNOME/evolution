@@ -13,9 +13,9 @@
 typedef struct _EList EList;
 typedef struct _EListClass EListClass;
 
-#include <time.h>
-#include <gtk/gtk.h>
 #include <stdio.h>
+#include <time.h>
+#include <gtk/gtkobject.h>
 #include <e-util/e-list-iterator.h>
 
 #define E_TYPE_LIST            (e_list_get_type ())

@@ -8,7 +8,6 @@
  */
 
 #include <config.h>
-#include <gtk/gtk.h>
 
 #include "e-list.h"
 #include "e-list-iterator.h"

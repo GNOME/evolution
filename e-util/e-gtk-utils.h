@@ -24,7 +24,8 @@
 #ifndef E_GTK_UTILS_H
 #define E_GTK_UTILS_H
 
-#include <gtk/gtk.h>
+#include <gtk/gtkobject.h>
+#include <gtk/gtkradiobutton.h>
 
 void  e_gtk_signal_connect_full_while_alive  (GtkObject          *object,
 					      const char         *name,

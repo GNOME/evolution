@@ -20,8 +20,11 @@
 
 */
 
-#include "e-memory.h"
+#include <string.h> /* memset() */
+#include <stdlib.h> /* alloca() */
 #include <glib.h>
+
+#include "e-memory.h"
 
 #define s(x)			/* strv debug */
 

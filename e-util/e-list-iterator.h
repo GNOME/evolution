@@ -13,9 +13,10 @@
 typedef struct _EListIterator EListIterator;
 typedef struct _EListIteratorClass EListIteratorClass;
 
-#include <time.h>
-#include <gtk/gtk.h>
 #include <stdio.h>
+#include <time.h>
+#include <gtk/gtkobject.h>
+
 #include <e-util/e-iterator.h>
 #include <e-util/e-list.h>
 

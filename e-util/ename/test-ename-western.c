@@ -1,6 +1,7 @@
-#include <gnome.h>
 #include <ctype.h>
-
+#include <stdio.h>
+#include <glib.h>
+#include <libgnome/gnome-defs.h>
 #include <ename/e-name-western.h>
 
 static void

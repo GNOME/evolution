@@ -8,8 +8,8 @@
  */
 
 #include <config.h>
-#include <gtk/gtk.h>
 
+#include <gtk/gtksignal.h>
 #include "e-iterator.h"
 
 #define ECI_CLASS(object) (E_ITERATOR_CLASS(GTK_OBJECT((object))->klass))

@@ -25,7 +25,6 @@
 
 #include <time.h>
 #include <glade/glade.h>
-#include <libgnomeui/gnome-propertybox.h>
 
 
 

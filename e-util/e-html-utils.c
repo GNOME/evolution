@@ -19,12 +19,13 @@
  * Boston, MA 02111-1307, USA.
  */
 
-#include "e-html-utils.h"
 #include <ctype.h>
 #include <stdio.h>
 #include <string.h>
 #include <glib.h>
 #include <unicode.h>
+
+#include "e-html-utils.h"
 
 static char *
 check_size (char **buffer, int *buffer_size, char *out, int len)

@@ -9,11 +9,15 @@
  * (C) 2000 Helix Code, Inc.
  */
 #include <config.h>
+
 #include <gtk/gtksignal.h>
-#include <gnome.h>
-#include "e-gui-utils.h"
+#include <gtk/gtkalignment.h>
+#include <libgnome/gnome-defs.h>
+#include <libgnome/gnome-util.h>
 #include <gdk-pixbuf/gdk-pixbuf.h>
 #include <gdk-pixbuf/gnome-canvas-pixbuf.h>
+
+#include "e-gui-utils.h"
 
 GtkWidget *e_create_image_widget(gchar *name,
 				 gchar *string1, gchar *string2,

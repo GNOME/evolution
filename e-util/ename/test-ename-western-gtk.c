@@ -1,4 +1,5 @@
-#include <gnome.h>
+#include <libgnomeui/gnome-app.h>
+#include <libgnomeui/gnome-init.h>
 #include <gal/widgets/e-unicode.h>
 #include <ename/e-name-western.h>
 

@@ -10,9 +10,9 @@
 #ifndef __E_ITERATOR_H__
 #define __E_ITERATOR_H__
 
-#include <time.h>
-#include <gtk/gtk.h>
 #include <stdio.h>
+#include <time.h>
+#include <gtk/gtkobject.h>
 
 #define E_TYPE_ITERATOR            (e_iterator_get_type ())
 #define E_ITERATOR(obj)            (GTK_CHECK_CAST ((obj), E_TYPE_ITERATOR, EIterator))

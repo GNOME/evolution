@@ -18,6 +18,7 @@
 #undef _XOPEN_SOURCE
 #undef __USE_XOPEN
 
+#include <string.h>
 #include <ctype.h>
 #include <glib.h>
 #include <libgnome/gnome-defs.h>
