@@ -43,8 +43,8 @@ ecd_get_text(ECellText *cell, ETableModel *model, int col, int row)
 	time_t nowdate = time(NULL);
 	time_t yesdate;
 	struct tm then, now, yesterday;
-	char buf[26];
-	char *temp, *ret_val;
+	char buf[100];
+	char *temp;
 	gboolean done = FALSE;
 
 	if (date == 0) {
@@ -55,7 +55,7 @@ ecd_get_text(ECellText *cell, ETableModel *model, int col, int row)
 	localtime_r (&nowdate, &now);
 
 	if (nowdate - date < 60 * 60 * 8 && nowdate > date) {
-		e_strftime_fix_am_pm (buf, 26, _("%l:%M %p"), &then);
+		e_utf8_strftime_fix_am_pm (buf, 100, _("%l:%M %p"), &then);
 		done = TRUE;
 	}
 
@@ -63,7 +63,7 @@ ecd_get_text(ECellText *cell, ETableModel *model, int col, int row)
 		if (then.tm_mday == now.tm_mday &&
 		    then.tm_mon == now.tm_mon &&
 		    then.tm_year == now.tm_year) {
-			e_strftime_fix_am_pm (buf, 26, _("Today %l:%M %p"), &then);
+			e_utf8_strftime_fix_am_pm (buf, 100, _("Today %l:%M %p"), &then);
 			done = TRUE;
 		}
 	}
@@ -73,15 +73,7 @@ ecd_get_text(ECellText *cell, ETableModel *model, int col, int row)
 		if (then.tm_mday == yesterday.tm_mday &&
 		    then.tm_mon == yesterday.tm_mon &&
 		    then.tm_year == yesterday.tm_year) {
-#if 0
-			if (nowdate - date < 60 * 60 * 12) {
-				e_strftime_fix_am_pm (buf, 26, _("Late Yesterday %l:%M %p"), &then);
-			} else {
-#endif
-				e_strftime_fix_am_pm (buf, 26, _("Yesterday %l:%M %p"), &then);
-#if 0
-			}
-#endif
+			e_utf8_strftime_fix_am_pm (buf, 100, _("Yesterday %l:%M %p"), &then);
 			done = TRUE;
 		}
 	}
@@ -93,7 +85,7 @@ ecd_get_text(ECellText *cell, ETableModel *model, int col, int row)
 			if (then.tm_mday == yesterday.tm_mday &&
 			    then.tm_mon == yesterday.tm_mon &&
 			    then.tm_year == yesterday.tm_year) {
-				e_strftime_fix_am_pm (buf, 26, _("%a %l:%M %p"), &then);
+				e_utf8_strftime_fix_am_pm (buf, 100, _("%a %l:%M %p"), &then);
 				done = TRUE;
 				break;
 			}
@@ -101,26 +93,17 @@ ecd_get_text(ECellText *cell, ETableModel *model, int col, int row)
 	}
 	if (!done) {
 		if (then.tm_year == now.tm_year) {
-			e_strftime_fix_am_pm (buf, 26, _("%b %d %l:%M %p"), &then);
+			e_utf8_strftime_fix_am_pm (buf, 100, _("%b %d %l:%M %p"), &then);
 		} else {
-			e_strftime_fix_am_pm (buf, 26, _("%b %d %Y"), &then);
+			e_utf8_strftime_fix_am_pm (buf, 100, _("%b %d %Y"), &then);
 		}
 	}
-#if 0
-#ifdef CTIME_R_THREE_ARGS
-	ctime_r (&date, buf, 26);
-#else
-	ctime_r (&date, buf);
-#endif
-#endif
 	temp = buf;
 	while ((temp = strstr (temp, "  "))) {
 		memmove (temp, temp + 1, strlen (temp));
 	}
 	temp = e_strdup_strip (buf);
-	ret_val = e_utf8_from_locale_string (temp);
-	g_free (temp);
-	return ret_val;
+	return temp;
 }
 
 static void

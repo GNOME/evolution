@@ -768,6 +768,27 @@ size_t e_strftime(char *s, size_t max, const char *fmt, const struct tm *tm)
 #endif
 }
 
+size_t 
+e_utf8_strftime(char *s, size_t max, const char *fmt, const struct tm *tm)
+{
+	size_t sz;
+	char *locale_fmt = g_locale_from_utf8(fmt, -1, NULL, &sz, NULL);
+	size_t ret = e_strftime(s, max, locale_fmt, tm);
+	char *buf = g_locale_to_utf8(s, ret, NULL, &sz, NULL);
+	if (sz >= max) {
+		char *tmp = buf + max - 1;
+		tmp = g_utf8_find_prev_char(buf, tmp);
+		if (tmp)
+			sz = tmp - buf;
+		else
+			sz = 0;
+	}
+	memcpy(s, buf, sz);
+	s[sz] = '\0';
+	g_free(locale_fmt);
+	g_free(buf);
+	return sz;
+}
 
 /**
  * Function to do a last minute fixup of the AM/PM stuff if the locale
@@ -828,6 +849,28 @@ size_t e_strftime_fix_am_pm(char *s, size_t max, const char *fmt, const struct t
 		}
 	}
 	return(ret);
+}
+
+size_t 
+e_utf8_strftime_fix_am_pm(char *s, size_t max, const char *fmt, const struct tm *tm)
+{
+	size_t sz;
+	char *locale_fmt = g_locale_from_utf8(fmt, -1, NULL, &sz, NULL);
+	size_t ret = e_strftime_fix_am_pm(s, max, locale_fmt, tm);
+	char *buf = g_locale_to_utf8(s, ret, NULL, &sz, NULL);
+	if (sz >= max) {
+		char *tmp = buf + max - 1;
+		tmp = g_utf8_find_prev_char(buf, tmp);
+		if (tmp)
+			sz = tmp - buf;
+		else
+			sz = 0;
+	}
+	memcpy(s, buf, sz);
+	s[sz] = '\0';
+	g_free(locale_fmt);
+	g_free(buf);
+	return sz;
 }
 
 /**

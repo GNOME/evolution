@@ -196,6 +196,16 @@ size_t   e_strftime		(char              *s,
 				 const char        *fmt,
 				 const struct tm   *tm);
 
+size_t   e_utf8_strftime_fix_am_pm  (char             *s,
+				     size_t            max,
+				     const char       *fmt,
+				     const struct tm  *tm);
+
+size_t   e_utf8_strftime	(char              *s,
+				 size_t             max,
+				 const char        *fmt,
+				 const struct tm   *tm);
+
 /* String to/from double conversion functions */
 gdouble   e_flexible_strtod     (const gchar       *nptr,
 				 gchar            **endptr);
