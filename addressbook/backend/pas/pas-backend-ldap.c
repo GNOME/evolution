@@ -70,6 +70,7 @@
 #define PERSON               "person"
 #define ORGANIZATIONALPERSON "organizationalPerson"
 #define INETORGPERSON        "inetOrgPerson"
+#define CALENTRY             "calEntry"
 #define EVOLUTIONPERSON      "evolutionPerson"
 
 static gchar *query_prop_to_ldap(gchar *query_prop);
@@ -96,6 +97,7 @@ struct _PASBackendLDAPPrivate {
 	/* whether or not there's support for the objectclass we need
            to store all our additional fields */
 	gboolean evolutionPersonSupported;
+	gboolean calEntrySupported;
 	gboolean evolutionPersonChecked;
 
 	gboolean writable;
@@ -258,8 +260,8 @@ struct prop_info {
 	E_STRING_PROP (E_CARD_SIMPLE_FIELD_FILE_AS,     "file_as", "fileAs"),
 	E_STRING_PROP (E_CARD_SIMPLE_FIELD_CATEGORIES,  "categories", "categories"),
 
-	E_STRING_PROP (E_CARD_SIMPLE_FIELD_CALURI,      "caluri", "calendarURI"),
-	E_STRING_PROP (E_CARD_SIMPLE_FIELD_FBURL,       "fburl", "freeBusyURI")
+	STRING_PROP (E_CARD_SIMPLE_FIELD_CALURI,      "caluri", "calCalURI"),
+	STRING_PROP (E_CARD_SIMPLE_FIELD_FBURL,       "fburl", "calFBURL"),
 
 /*  	E_CARD_SIMPLE_FIELD_NAME_OR_ORG, */
 
@@ -406,6 +408,11 @@ check_schema_support (PASBackendLDAP *bl)
 						g_print ("support found on ldap server for objectclass evolutionPerson\n");
 						bl->priv->evolutionPersonSupported = TRUE;
 
+						add_oc_attributes_to_supported_fields (bl, oc);
+					}
+					else if (!g_strcasecmp (oc->oc_names[j], CALENTRY)) {
+						g_print ("support found on ldap server for objectclass calEntry\n");
+						bl->priv->calEntrySupported = TRUE;
 						add_oc_attributes_to_supported_fields (bl, oc);
 					}
 					else if (!g_strcasecmp (oc->oc_names[j], INETORGPERSON)
@@ -810,57 +817,62 @@ build_mods_from_ecards (PASBackendLDAP *bl, ECardSimple *current, ECardSimple *n
 static void
 add_objectclass_mod (PASBackendLDAP *bl, GPtrArray *mod_array, GList *existing_objectclasses)
 {
+#define FIND_INSERT(oc) \
+	if (!g_list_find_custom (existing_objectclasses, (oc), (GCompareFunc)g_strcasecmp)) \
+	         g_ptr_array_add (objectclasses, g_strdup ((oc)))
+#define INSERT(oc) \
+		 g_ptr_array_add (objectclasses, g_strdup ((oc)))
+
 	LDAPMod *objectclass_mod;
+	GPtrArray *objectclasses = g_ptr_array_new();
 
 	if (existing_objectclasses) {
-		int i = 0;
-
 		objectclass_mod = g_new (LDAPMod, 1);
 		objectclass_mod->mod_op = LDAP_MOD_ADD;
 		objectclass_mod->mod_type = g_strdup ("objectClass");
-		objectclass_mod->mod_values = g_new (char*, bl->priv->evolutionPersonSupported ? 6 : 5);
 
 		/* yes, this is a linear search for each of our
                    objectclasses, but really, how many objectclasses
                    are there going to be in any sane ldap entry? */
-#define FIND_INSERT(oc) \
-	if (!g_list_find_custom (existing_objectclasses, (oc), (GCompareFunc)g_strcasecmp)) \
-	         objectclass_mod->mod_values[i++] = g_strdup ((oc));
-
 		FIND_INSERT (TOP);
 		FIND_INSERT (PERSON);
 		FIND_INSERT (ORGANIZATIONALPERSON);
 		FIND_INSERT (INETORGPERSON);
+		if (bl->priv->calEntrySupported)
+			FIND_INSERT (CALENTRY);
 		if (bl->priv->evolutionPersonSupported)
 			FIND_INSERT (EVOLUTIONPERSON);
-		objectclass_mod->mod_values[i] = NULL;
 
-		if (i) {
+		if (objectclasses->len) {
+			g_ptr_array_add (objectclasses, NULL);
+			objectclass_mod->mod_values = (char**)objectclasses->pdata;
 			g_ptr_array_add (mod_array, objectclass_mod);
+			g_ptr_array_free (objectclasses, FALSE);
 		}
 		else {
+			g_ptr_array_free (objectclasses, TRUE);
 			g_free (objectclass_mod->mod_type);
-			g_free (objectclass_mod->mod_values);
 			g_free (objectclass_mod);
 		}
+
 	}
 	else {
 		objectclass_mod = g_new (LDAPMod, 1);
 		objectclass_mod->mod_op = LDAP_MOD_ADD;
 		objectclass_mod->mod_type = g_strdup ("objectClass");
-		objectclass_mod->mod_values = g_new (char*, bl->priv->evolutionPersonSupported ? 6 : 5);
-		objectclass_mod->mod_values[0] = g_strdup (TOP);
-		objectclass_mod->mod_values[1] = g_strdup (PERSON);
-		objectclass_mod->mod_values[2] = g_strdup (ORGANIZATIONALPERSON);
-		objectclass_mod->mod_values[3] = g_strdup (INETORGPERSON);
-		if (bl->priv->evolutionPersonSupported) {
-			objectclass_mod->mod_values[4] = g_strdup (EVOLUTIONPERSON);
-			objectclass_mod->mod_values[5] = NULL;
-		}
-		else {
-			objectclass_mod->mod_values[4] = NULL;
-		}
+
+		INSERT(TOP);
+		INSERT(PERSON);
+		INSERT(ORGANIZATIONALPERSON);
+		INSERT(INETORGPERSON);
+		if (bl->priv->calEntrySupported)
+			INSERT(CALENTRY);
+		if (bl->priv->evolutionPersonSupported)
+			INSERT(EVOLUTIONPERSON);
+		g_ptr_array_add (objectclasses, NULL);
+		objectclass_mod->mod_values = (char**)objectclasses->pdata;
 		g_ptr_array_add (mod_array, objectclass_mod);
+		g_ptr_array_free (objectclasses, FALSE);
 	}
 }
 
