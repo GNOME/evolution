@@ -1,3 +1,8 @@
+2001-04-16  Ettore Perazzoli  <ettore@ximian.com>
+
+	* importers/Makefile.am (INCLUDES): Add `$(EXTRA_GNOME_CFLAGS)'
+	here.
+
 2001-04-17  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-callbacks.c: Pulled up fixes for opening file selection
