@@ -68,7 +68,7 @@ development_warning (void)
 		"Evolution" VERSION,
 		GNOME_STOCK_BUTTON_OK,
 		NULL);
-
+/* xgettext:no-c-format */
 	label = gtk_label_new (
 		_(
 		  "Hi.  Thanks for taking the time to download this PREVIEW RELEASE\n"

@@ -1,3 +1,8 @@
+2001-03-07  Kjartan Maraas  <kmaraas@gnome.org>
+
+	* configure.in: Don't try to generate a Makefile in
+	camel/providers/vee as it's empty.
+	
 2001-03-05  JP Rosevear  <jpr@ximian.com>
 
 	* README: Update pilot instructions
