@@ -114,7 +114,7 @@
       <default>toolbar</default>
       <locale name="C">
         <short>Window button style</short>
-        <long>The style of the window buttons.  Can be "text", "icons", "both", "toolbar".  If "toolbar" is set, the style of the buutons is determined by the GNOME toolbar setting.</long>
+        <long>The style of the window buttons.  Can be "text", "icons", "both", "toolbar".  If "toolbar" is set, the style of the buttons is determined by the GNOME toolbar setting.</long>
       </locale>
     </schema>
 
