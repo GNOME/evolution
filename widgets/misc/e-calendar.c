@@ -3,6 +3,7 @@
 /*
  * Author :
  *  Damon Chaplin <damon@ximian.com>
+ *  Bolian Yin <bolian.yin@sun.com>
  *
  * Copyright 2000, Ximian, Inc.
  *
@@ -86,11 +87,16 @@ static gint e_calendar_drag_motion	(GtkWidget      *widget,
 static void e_calendar_drag_leave	(GtkWidget      *widget,
 					 GdkDragContext *context,
 					 guint           time);
+static gboolean e_calendar_button_has_focus (ECalendar	*cal);
+static gboolean e_calendar_focus (GtkWidget *widget,
+ 				  GtkDirectionType direction);
 
 static void e_calendar_on_prev_pressed	(ECalendar	*cal);
 static void e_calendar_on_prev_released	(ECalendar	*cal);
+static void e_calendar_on_prev_clicked	(ECalendar	*cal);
 static void e_calendar_on_next_pressed	(ECalendar	*cal);
 static void e_calendar_on_next_released	(ECalendar	*cal);
+static void e_calendar_on_next_clicked	(ECalendar	*cal);
 
 static void e_calendar_start_auto_move	(ECalendar	*cal,
 					 gboolean	 moving_forward);
@@ -124,6 +130,7 @@ e_calendar_class_init (ECalendarClass *class)
  	widget_class->size_allocate	   = e_calendar_size_allocate;
 	widget_class->drag_motion	   = e_calendar_drag_motion;
 	widget_class->drag_leave	   = e_calendar_drag_leave;
+ 	widget_class->focus                = e_calendar_focus;
 }
 
 
@@ -133,8 +140,6 @@ e_calendar_init (ECalendar *cal)
 	GnomeCanvasGroup *canvas_group;
 	PangoFontDescription *small_font_desc;
 	GtkWidget *button, *pixmap;
-
-	GTK_WIDGET_UNSET_FLAGS (cal, GTK_CAN_FOCUS);
 
 	/* Create the small font. */
 
@@ -154,7 +159,6 @@ e_calendar_init (ECalendar *cal)
 
 	/* Create the arrow buttons to move to the previous/next month. */
 	button = gtk_button_new ();
-	GTK_WIDGET_UNSET_FLAGS (button, GTK_CAN_FOCUS);
 	gtk_button_set_relief (GTK_BUTTON (button), GTK_RELIEF_NONE);
 	gtk_widget_show (button);
 	gtk_signal_connect_object (GTK_OBJECT (button), "pressed",
@@ -162,6 +166,9 @@ e_calendar_init (ECalendar *cal)
 				   GTK_OBJECT (cal));
 	gtk_signal_connect_object (GTK_OBJECT (button), "released",
 				   G_CALLBACK (e_calendar_on_prev_released),
+				   GTK_OBJECT (cal));
+	gtk_signal_connect_object (GTK_OBJECT (button), "clicked",
+				   G_CALLBACK (e_calendar_on_prev_clicked),
 				   GTK_OBJECT (cal));
 
 	pixmap = gtk_arrow_new (GTK_ARROW_LEFT, GTK_SHADOW_NONE);
@@ -174,7 +181,6 @@ e_calendar_init (ECalendar *cal)
 						NULL);
 
 	button = gtk_button_new ();
-	GTK_WIDGET_UNSET_FLAGS (button, GTK_CAN_FOCUS);
 	gtk_button_set_relief (GTK_BUTTON (button), GTK_RELIEF_NONE);
 	gtk_widget_show (button);
 	gtk_signal_connect_object (GTK_OBJECT (button), "pressed",
@@ -182,6 +188,9 @@ e_calendar_init (ECalendar *cal)
 				   GTK_OBJECT (cal));
 	gtk_signal_connect_object (GTK_OBJECT (button), "released",
 				   G_CALLBACK (e_calendar_on_next_released),
+				   GTK_OBJECT (cal));
+	gtk_signal_connect_object (GTK_OBJECT (button), "clicked",
+				   G_CALLBACK (e_calendar_on_next_clicked),
 				   GTK_OBJECT (cal));
 
 	pixmap = gtk_arrow_new (GTK_ARROW_RIGHT, GTK_SHADOW_NONE);
@@ -431,6 +440,12 @@ e_calendar_on_prev_pressed	(ECalendar	*cal)
 	e_calendar_start_auto_move (cal, FALSE);
 }
 
+static void
+e_calendar_on_prev_clicked	(ECalendar	*cal)
+{
+	e_calendar_item_set_first_month (cal->calitem, cal->calitem->year,
+					 cal->calitem->month - 1);
+}
 
 static void
 e_calendar_on_next_pressed	(ECalendar	*cal)
@@ -438,6 +453,12 @@ e_calendar_on_next_pressed	(ECalendar	*cal)
 	e_calendar_start_auto_move (cal, TRUE);
 }
 
+static void
+e_calendar_on_next_clicked	(ECalendar	*cal)
+{
+	e_calendar_item_set_first_month (cal->calitem, cal->calitem->year,
+					 cal->calitem->month + 1);
+}
 
 static void
 e_calendar_start_auto_move	(ECalendar	*cal,
@@ -549,3 +570,99 @@ e_calendar_drag_leave (GtkWidget      *widget,
 #endif
 }
 
+static gboolean
+e_calendar_button_has_focus (ECalendar	*cal)
+{
+	GtkWidget *prev_widget, *next_widget;
+	gboolean ret_val;
+
+	g_return_val_if_fail (E_IS_CALENDAR (cal), FALSE);
+
+	prev_widget = GNOME_CANVAS_WIDGET(cal->prev_item)->widget;
+	next_widget = GNOME_CANVAS_WIDGET(cal->next_item)->widget;
+	ret_val = GTK_WIDGET_HAS_FOCUS (prev_widget) ||
+		GTK_WIDGET_HAS_FOCUS (next_widget);
+	return ret_val;
+}
+
+static gboolean
+e_calendar_focus (GtkWidget *widget, GtkDirectionType direction)
+{
+#define E_CALENDAR_FOCUS_CHILDREN_NUM 3
+	ECalendar *cal;
+	GnomeCanvas *canvas;
+	GnomeCanvasItem *children[E_CALENDAR_FOCUS_CHILDREN_NUM];
+	gint focused_index = -1;
+	gint index;
+
+	g_return_val_if_fail (widget != NULL, FALSE);
+	g_return_val_if_fail (E_IS_CALENDAR (widget), FALSE);
+	cal = E_CALENDAR (widget);
+	canvas = GNOME_CANVAS (widget);
+
+	if (!GTK_WIDGET_CAN_FOCUS (widget))
+		return FALSE;
+
+	children[0] = GNOME_CANVAS_ITEM (cal->calitem);
+	children[1] = cal->prev_item;
+	children[2] = cal->next_item;
+
+	/* get current focused item, if e-calendar has had focus */
+	if (GTK_WIDGET_HAS_FOCUS (widget) || e_calendar_button_has_focus (cal))
+		for (index = 0; canvas->focused_item && index < E_CALENDAR_FOCUS_CHILDREN_NUM; ++index) {
+			if (children[index] == canvas->focused_item) {
+				focused_index = index;
+				break;
+			}
+		}
+
+	if (focused_index == -1)
+		if (direction == GTK_DIR_TAB_FORWARD)
+			focused_index = 0;
+		else
+			focused_index = E_CALENDAR_FOCUS_CHILDREN_NUM - 1;
+	else
+		if (direction == GTK_DIR_TAB_FORWARD)
+			++focused_index;
+		else
+			--focused_index;
+
+	if (focused_index < 0 ||
+	    focused_index >= E_CALENDAR_FOCUS_CHILDREN_NUM)
+		/* move out of e-calendar */
+		return FALSE;
+	gnome_canvas_item_grab_focus (children[focused_index]);
+	if (GNOME_IS_CANVAS_WIDGET (children[focused_index])) {
+		GtkWidget *widget;
+		widget = GNOME_CANVAS_WIDGET (children[focused_index])->widget;
+		gtk_widget_grab_focus (widget);
+	}
+	return TRUE;
+}
+
+void
+e_calendar_set_focusable (ECalendar *cal, gboolean focusable)
+{
+	GtkWidget *prev_widget, *next_widget;
+
+	g_return_if_fail (E_IS_CALENDAR (cal));
+
+	prev_widget = GNOME_CANVAS_WIDGET(cal->prev_item)->widget;
+	next_widget = GNOME_CANVAS_WIDGET(cal->next_item)->widget;
+
+	if (focusable) {
+		GTK_WIDGET_SET_FLAGS (cal, GTK_CAN_FOCUS);
+		GTK_WIDGET_SET_FLAGS (prev_widget, GTK_CAN_FOCUS);
+		GTK_WIDGET_SET_FLAGS (next_widget, GTK_CAN_FOCUS);
+	}
+	else {
+		if (GTK_WIDGET_HAS_FOCUS (cal) || e_calendar_button_has_focus (cal)) {
+			GtkWidget *toplevel = gtk_widget_get_toplevel (GTK_WIDGET (cal));
+			if (toplevel)
+				gtk_widget_grab_focus (toplevel);
+		}
+		GTK_WIDGET_UNSET_FLAGS (cal, GTK_CAN_FOCUS);
+		GTK_WIDGET_UNSET_FLAGS (prev_widget, GTK_CAN_FOCUS);
+		GTK_WIDGET_UNSET_FLAGS (next_widget, GTK_CAN_FOCUS);
+	}
+}

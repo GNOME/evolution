@@ -1180,6 +1180,7 @@ e_date_edit_show_date_popup	(EDateEdit	*dedit)
 
         position_date_popup (dedit);
 	gtk_widget_show (priv->cal_popup);
+	gdk_keyboard_grab (priv->cal_popup->window, TRUE, GDK_CURRENT_TIME);
 	gtk_widget_grab_focus (priv->cal_popup);
 	gtk_grab_add (priv->cal_popup);
 	gdk_pointer_grab (priv->cal_popup->window, TRUE,
@@ -1365,6 +1366,7 @@ hide_date_popup			(EDateEdit	*dedit)
 	gtk_widget_hide (dedit->priv->cal_popup);
 	gtk_grab_remove (dedit->priv->cal_popup);
 	gdk_pointer_ungrab (GDK_CURRENT_TIME);
+	gdk_keyboard_ungrab (GDK_CURRENT_TIME);
 }
 
 

@@ -45,6 +45,7 @@ typedef enum
 {
 	E_CALENDAR_ITEM_COLOR_TODAY_BOX,
 	E_CALENDAR_ITEM_COLOR_SELECTION_FG,
+	E_CALENDAR_ITEM_COLOR_SELECTION_BG_FOCUSED,
 	E_CALENDAR_ITEM_COLOR_SELECTION_BG,
 	E_CALENDAR_ITEM_COLOR_PREV_OR_NEXT_MONTH_FG,
 	
@@ -174,6 +175,7 @@ struct _ECalendarItem
 	   top-left calendar month view. Note that -1 is used for the last days
 	   from the previous month. The days are real month days. */
 	gboolean selecting;
+	GDate *selecting_axis;
 	gboolean selection_dragging_end;
 	gboolean selection_from_full_week;
 	gboolean selection_set;

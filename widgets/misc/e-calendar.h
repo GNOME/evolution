@@ -93,6 +93,7 @@ void	   e_calendar_get_border_size	(ECalendar	*cal,
 					 gint		*left,
 					 gint		*right);
 
+void       e_calendar_set_focusable (ECalendar *cal, gboolean focusable);
 
 #ifdef __cplusplus
 }

@@ -3,6 +3,7 @@
 /* 
  * Author : 
  *  Damon Chaplin <damon@ximian.com>
+ *  Bolian Yin <bolian.yin@sun.com>
  *
  * Copyright 2000, Ximian, Inc.
  *
@@ -41,6 +42,7 @@
 #include <gtk/gtkmenuitem.h>
 #include <gtk/gtklabel.h>
 #include <gtk/gtksignal.h>
+#include <gdk/gdkkeysyms.h>
 #include <libgnome/gnome-i18n.h>
 #include <gal/util/e-util.h>
 
@@ -92,6 +94,8 @@ static void e_calendar_item_get_arg	(GtkObject	 *o,
 static void e_calendar_item_set_arg	(GtkObject	 *o,
 					 GtkArg		 *arg,
 					 guint		  arg_id);
+static gboolean e_calendar_item_focus (GtkWidget *widget,
+				       GtkDirectionType direction);
 static void e_calendar_item_realize	(GnomeCanvasItem *item);
 static void e_calendar_item_unrealize	(GnomeCanvasItem *item);
 static void e_calendar_item_unmap	(GnomeCanvasItem *item);
@@ -130,6 +134,13 @@ static double e_calendar_item_point	(GnomeCanvasItem *item,
 					 int		  cx,
 					 int		  cy,
 					 GnomeCanvasItem **actual_item);
+static void e_calendar_item_stop_selecting (ECalendarItem *calitem,
+					    guint32 time);
+static void e_calendar_item_selection_add_days (ECalendarItem *calitem,
+						gint n_days,
+						gboolean multi_selection);
+static gint e_calendar_item_key_press_event (ECalendarItem *item,
+					     GdkEvent *event);
 static gint e_calendar_item_event	(GnomeCanvasItem *item,
 					 GdkEvent	 *event);
 static void e_calendar_item_bounds (GnomeCanvasItem *item, double *x1, double *y1,
@@ -205,13 +216,14 @@ static gint e_calendar_item_get_inclusive_days	(ECalendarItem	*calitem,
 static void e_calendar_item_ensure_valid_day	(ECalendarItem	*calitem,
 						 gint		*month_offset,
 						 gint		*day);
-static gboolean e_calendar_item_ensure_days_visible (ECalendarItem	*calitem,
-						     gint		 start_year,
-						     gint		 start_month,
-						     gint		 start_day,
-						     gint		 end_year,
-						     gint		 end_month,
-						     gint		 end_day);
+static gboolean e_calendar_item_ensure_days_visible (ECalendarItem *calitem,
+						     gint start_year,
+						     gint start_month,
+						     gint start_day,
+						     gint end_year,
+						     gint end_month,
+						     gint end_day,
+						     gboolean emission);
 static void e_calendar_item_show_popup_menu	(ECalendarItem	*calitem,
 						 GdkEventButton	*event,
 						 gint		 month_offset);
@@ -225,6 +237,10 @@ static void e_calendar_item_position_menu	(GtkMenu            *menu,
 static void e_calendar_item_date_range_changed	(ECalendarItem	*calitem);
 static void e_calendar_item_queue_signal_emission	(ECalendarItem	*calitem);
 static gboolean e_calendar_item_signal_emission_idle_cb	(gpointer data);
+static void e_calendar_item_set_selection_if_emission (ECalendarItem	*calitem,
+						       GDate		*start_date,
+						       GDate		*end_date,
+						       gboolean emission);
 
 /* Our arguments. */
 enum {
@@ -273,11 +289,13 @@ static void
 e_calendar_item_class_init (ECalendarItemClass *class)
 {
 	GtkObjectClass  *object_class;
+	GtkWidgetClass *widget_class;
 	GnomeCanvasItemClass *item_class;
 
 	parent_class = g_type_class_ref(gnome_canvas_item_get_type());
 
 	object_class = (GtkObjectClass *) class;
+	widget_class = (GtkWidgetClass *) class;
 	item_class = (GnomeCanvasItemClass *) class;
 
 	gtk_object_add_arg_type ("ECalendarItem::year",
@@ -363,6 +381,7 @@ e_calendar_item_class_init (ECalendarItemClass *class)
 	object_class->get_arg = e_calendar_item_get_arg;
 	object_class->set_arg = e_calendar_item_set_arg;
 
+	widget_class->focus = e_calendar_item_focus;
 	/* GnomeCanvasItem method overrides */
 	item_class->realize     = e_calendar_item_realize;
 	item_class->unrealize   = e_calendar_item_unrealize;
@@ -416,6 +435,9 @@ e_calendar_item_init (ECalendarItem *calitem)
 	calitem->x2 = 0.0;
 	calitem->y2 = 0.0;
 
+	calitem->selecting = FALSE;
+	calitem->selecting_axis = NULL;
+
 	calitem->selection_set = FALSE;
 
 	calitem->selection_changed = FALSE;
@@ -467,6 +489,8 @@ e_calendar_item_destroy		(GtkObject *o)
 		calitem->week_number_font_desc = NULL;
 	}
 
+	if (calitem->selecting_axis)
+		g_free (calitem->selecting_axis);
 	if (GTK_OBJECT_CLASS (parent_class)->destroy)
 		(* GTK_OBJECT_CLASS (parent_class)->destroy) (o);
 }
@@ -693,6 +717,18 @@ e_calendar_item_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 	}
 }
 
+static gboolean
+e_calendar_item_focus (GtkWidget *widget, GtkDirectionType direction)
+{
+	ECalendarItem *calitem;
+
+	g_return_val_if_fail (widget != NULL, FALSE);
+	g_return_val_if_fail (E_IS_CALENDAR_ITEM (widget), FALSE);
+	calitem = E_CALENDAR_ITEM (widget);
+
+	GTK_WIDGET_CLASS (parent_class)->focus (widget, direction);
+	return TRUE;
+}
 
 static void
 e_calendar_item_realize		(GnomeCanvasItem *item)
@@ -716,6 +752,10 @@ e_calendar_item_realize		(GnomeCanvasItem *item)
 	calitem->colors[E_CALENDAR_ITEM_COLOR_SELECTION_FG].red   = 65535;
 	calitem->colors[E_CALENDAR_ITEM_COLOR_SELECTION_FG].green = 65535;
 	calitem->colors[E_CALENDAR_ITEM_COLOR_SELECTION_FG].blue  = 65535;
+
+	calitem->colors[E_CALENDAR_ITEM_COLOR_SELECTION_BG_FOCUSED].red   = 4700;
+	calitem->colors[E_CALENDAR_ITEM_COLOR_SELECTION_BG_FOCUSED].green = 4700;
+	calitem->colors[E_CALENDAR_ITEM_COLOR_SELECTION_BG_FOCUSED].blue  = 65535;
 
 	calitem->colors[E_CALENDAR_ITEM_COLOR_SELECTION_BG].red   = 47000;
 	calitem->colors[E_CALENDAR_ITEM_COLOR_SELECTION_BG].green = 47000;
@@ -1254,7 +1294,7 @@ e_calendar_item_draw_day_numbers (ECalendarItem	*calitem,
 	gint num_chars, digit;
 	gint week_num, mon, days_from_week_start;
 	gint years[3], months[3], days_in_month[3];
-	gboolean today, selected, has_focus = FALSE, drop_target = FALSE;
+	gboolean today, selected, has_focus, drop_target = FALSE;
 	gboolean bold, draw_day, finished = FALSE;
 	gint today_year, today_month, today_mday, month_offset;
 	gchar buffer[2];
@@ -1403,6 +1443,12 @@ e_calendar_item_draw_day_numbers (ECalendarItem	*calitem,
 					day_style = calitem->styles[(month_offset + 1) * 32 + day_num];
 
 				/* Get the colors & style to use for the day.*/
+				if ((GTK_WIDGET_HAS_FOCUS(item->canvas)) &&
+				    item->canvas->focused_item == item)
+					has_focus = TRUE;
+				else
+					has_focus = FALSE;
+
 				if (calitem->style_callback)
 					(*calitem->style_callback)
 						(calitem,
@@ -1586,6 +1632,128 @@ e_calendar_item_point (GnomeCanvasItem *item, double x, double y,
 	return 0.0;
 }
 
+static void
+e_calendar_item_stop_selecting (ECalendarItem *calitem, guint32 time)
+{
+	if (!calitem->selecting)
+		return;
+
+	gnome_canvas_item_ungrab (GNOME_CANVAS_ITEM (calitem), time);
+
+	calitem->selecting = FALSE;
+
+	/* If the user selects the grayed dates before the first month or
+	   after the last month, we move backwards or forwards one month.
+	   The set_month() call should take care of updating the selection. */
+	if (calitem->selection_end_month_offset == -1)
+		e_calendar_item_set_first_month (calitem, calitem->year,
+						 calitem->month - 1);
+	else if (calitem->selection_start_month_offset == calitem->rows * calitem->cols)
+		e_calendar_item_set_first_month (calitem, calitem->year,
+						 calitem->month + 1);
+
+	calitem->selection_changed = TRUE;
+	if (calitem->selecting_axis) {
+		g_free (calitem->selecting_axis);
+		calitem->selecting_axis = NULL;
+	}
+
+	e_calendar_item_queue_signal_emission (calitem);
+	gnome_canvas_item_request_update (GNOME_CANVAS_ITEM (calitem));
+}
+
+static void
+e_calendar_item_selection_add_days (ECalendarItem *calitem, gint n_days,
+				    gboolean multi_selection)
+{
+	GDate gdate_start, gdate_end;
+
+	g_return_if_fail (E_IS_CALENDAR_ITEM (calitem));
+
+	if (!e_calendar_item_get_selection (calitem, &gdate_start, &gdate_end))
+		return;
+	if (multi_selection && calitem->max_days_selected > 1) {
+		gint days_between;
+
+		days_between = g_date_days_between (&gdate_start, &gdate_end);
+		if (!calitem->selecting_axis) {
+			calitem->selecting_axis = g_new (GDate, 1);
+			*(calitem->selecting_axis) = gdate_start;
+		}
+		if ((days_between != 0 &&
+		     g_date_compare (calitem->selecting_axis, &gdate_end) == 0) ||
+		    (days_between == 0 && n_days < 0)) {
+			if (days_between - n_days > calitem->max_days_selected - 1)
+				n_days =  days_between + 1 - calitem->max_days_selected;
+			g_date_add_days (&gdate_start, n_days);
+		}
+		else {
+			if (days_between + n_days > calitem->max_days_selected - 1)
+				n_days = calitem->max_days_selected - 1 - days_between;
+			g_date_add_days (&gdate_end, n_days);
+		}
+
+		if (g_date_compare (&gdate_end, &gdate_start) < 0) {
+			GDate tmp_date;
+			tmp_date = gdate_start;
+			gdate_start = gdate_end;
+			gdate_end = tmp_date;
+		}
+	}
+	else {
+		/* clear "selecting_axis", it is only for mulit-selecting */
+		if (calitem->selecting_axis) {
+			g_free (calitem->selecting_axis);
+			calitem->selecting_axis = NULL;
+		}
+		g_date_add_days (&gdate_start, n_days);
+		gdate_end = gdate_start;
+	}
+
+	calitem->selecting = TRUE;
+
+	e_calendar_item_set_selection_if_emission (calitem,
+						   &gdate_start, &gdate_end,
+						   FALSE);
+}
+
+static gint
+e_calendar_item_key_press_event (ECalendarItem *calitem, GdkEvent *event)
+{
+	guint keyval = event->key.keyval;
+	gboolean multi_selection = FALSE;
+
+	if (event->key.state & GDK_CONTROL_MASK ||
+	    event->key.state & GDK_MOD1_MASK)
+		return FALSE;
+
+	multi_selection = event->key.state & GDK_SHIFT_MASK;
+	switch (keyval) {
+	case GDK_Up:
+		e_calendar_item_selection_add_days (calitem, -7,
+						    multi_selection);
+		break;
+	case GDK_Down:
+		e_calendar_item_selection_add_days (calitem, 7,
+						    multi_selection);
+		break;
+	case GDK_Left:
+		e_calendar_item_selection_add_days (calitem, -1,
+						    multi_selection);
+		break;
+	case GDK_Right:
+		e_calendar_item_selection_add_days (calitem, 1,
+						    multi_selection);
+		break;
+	case GDK_space:
+	case GDK_Return:
+		e_calendar_item_stop_selecting (calitem, event->key.time);
+		break;
+	default:
+		return FALSE;
+	}
+	return TRUE;
+}
 
 static gint
 e_calendar_item_event (GnomeCanvasItem *item, GdkEvent *event)
@@ -1601,6 +1769,10 @@ e_calendar_item_event (GnomeCanvasItem *item, GdkEvent *event)
 		return e_calendar_item_button_release (calitem, event);
 	case GDK_MOTION_NOTIFY:
 		return e_calendar_item_motion (calitem, event);
+	case GDK_FOCUS_CHANGE:
+		gnome_canvas_item_request_update (item);
+	case GDK_KEY_PRESS:
+		return e_calendar_item_key_press_event (calitem, event);
 	default:
 		break;
 	}
@@ -1752,7 +1924,11 @@ e_calendar_item_get_day_style		(ECalendarItem	*calitem,
 
 	if (selected) {
 		*fg_color = &calitem->colors[E_CALENDAR_ITEM_COLOR_SELECTION_FG];
-		*bg_color = &calitem->colors[E_CALENDAR_ITEM_COLOR_SELECTION_BG];
+		if (has_focus)
+			*bg_color = &calitem->colors[E_CALENDAR_ITEM_COLOR_SELECTION_BG_FOCUSED];
+		else
+			*bg_color = &calitem->colors[E_CALENDAR_ITEM_COLOR_SELECTION_BG];
+
 	}
 }
 
@@ -1840,33 +2016,11 @@ e_calendar_item_button_press	(ECalendarItem	*calitem,
 	return TRUE;
 }
 
-
 static gboolean
 e_calendar_item_button_release	(ECalendarItem	*calitem,
 				 GdkEvent	*event)
 {
-	if (!calitem->selecting)
-		return FALSE;
-
-	gnome_canvas_item_ungrab (GNOME_CANVAS_ITEM (calitem),
-				  event->button.time);
-
-	calitem->selecting = FALSE;
-
-	/* If the user selects the grayed dates before the first month or
-	   after the last month, we move backwards or forwards one month.
-	   The set_month() call should take care of updating the selection. */
-	if (calitem->selection_end_month_offset == -1)
-		e_calendar_item_set_first_month (calitem, calitem->year,
-						 calitem->month - 1);
-	else if (calitem->selection_start_month_offset == calitem->rows * calitem->cols)
-		e_calendar_item_set_first_month (calitem, calitem->year,
-						 calitem->month + 1);
-
-	calitem->selection_changed = TRUE;
-	e_calendar_item_queue_signal_emission (calitem);
-	gnome_canvas_item_request_update (GNOME_CANVAS_ITEM (calitem));
-
+	e_calendar_item_stop_selecting (calitem, event->button.time);
 	return FALSE;
 }
 
@@ -2727,10 +2881,11 @@ e_calendar_item_get_selection		(ECalendarItem	*calitem,
 }
 
 
-void
-e_calendar_item_set_selection	(ECalendarItem	*calitem,
-				 GDate		*start_date,
-				 GDate		*end_date)
+static void
+e_calendar_item_set_selection_if_emission (ECalendarItem	*calitem,
+					   GDate		*start_date,
+					   GDate		*end_date,
+					   gboolean emission)
 {
 	gint start_year, start_month, start_day;
 	gint end_year, end_month, end_day;
@@ -2739,13 +2894,6 @@ e_calendar_item_set_selection	(ECalendarItem	*calitem,
 	gboolean need_update;
 
 	g_return_if_fail (E_IS_CALENDAR_ITEM (calitem));
-
-	/* If the user is in the middle of a selection, we must abort it. */
-	if (calitem->selecting) {
-		gnome_canvas_item_ungrab (GNOME_CANVAS_ITEM (calitem),
-					  GDK_CURRENT_TIME);
-		calitem->selecting = FALSE;
-	}
 
 	/* If start_date is NULL, we clear the selection without changing the
 	   month shown. */
@@ -2759,9 +2907,9 @@ e_calendar_item_set_selection	(ECalendarItem	*calitem,
 
 	if (end_date == NULL)
 		end_date = start_date;
-	
+
 	g_return_if_fail (g_date_compare (start_date, end_date) <= 0);
-	
+
 	start_year = g_date_get_year (start_date);
 	start_month = g_date_get_month (start_date) - 1;
 	start_day = g_date_get_day (start_date);
@@ -2775,7 +2923,8 @@ e_calendar_item_set_selection	(ECalendarItem	*calitem,
 							   start_day,
 							   end_year,
 							   end_month,
-							   end_day);
+							   end_day,
+							   emission);
 
 	new_start_month_offset = (start_year - calitem->year) * 12
 		+ start_month - calitem->month;
@@ -2794,7 +2943,8 @@ e_calendar_item_set_selection	(ECalendarItem	*calitem,
 	    || calitem->selection_end_day != new_end_day) {
 		need_update = TRUE;
 		calitem->selection_changed = TRUE;
-		e_calendar_item_queue_signal_emission (calitem);
+		if (emission)
+			e_calendar_item_queue_signal_emission (calitem);
 		calitem->selection_set = TRUE;
 		calitem->selection_start_month_offset = new_start_month_offset;
 		calitem->selection_start_day = new_start_day;
@@ -2810,6 +2960,22 @@ e_calendar_item_set_selection	(ECalendarItem	*calitem,
 		gnome_canvas_item_request_update (GNOME_CANVAS_ITEM (calitem));
 }
 
+void
+e_calendar_item_set_selection (ECalendarItem	*calitem,
+			       GDate		*start_date,
+			       GDate		*end_date)
+{
+	/* If the user is in the middle of a selection, we must abort it. */
+	if (calitem->selecting) {
+		gnome_canvas_item_ungrab (GNOME_CANVAS_ITEM (calitem),
+					  GDK_CURRENT_TIME);
+		calitem->selecting = FALSE;
+	}
+
+	e_calendar_item_set_selection_if_emission (calitem,
+						   start_date, end_date,
+						   TRUE);
+}
 
 /* This tries to ensure that the given time range is visible. If the range
    given is longer than we can show, only the start of it will be visible.
@@ -2822,7 +2988,8 @@ e_calendar_item_ensure_days_visible	(ECalendarItem	*calitem,
 					 gint		 start_day,
 					 gint		 end_year,
 					 gint		 end_month,
-					 gint		 end_day)
+					 gint		 end_day,
+					 gboolean emission)
 {
 	gint current_end_year, current_end_month;
 	gint months_shown, months;
@@ -2903,7 +3070,7 @@ e_calendar_item_ensure_days_visible	(ECalendarItem	*calitem,
 		}
 	}
 
-	if (need_update)
+	if (need_update && emission)
 		e_calendar_item_date_range_changed (calitem);
 
 	return need_update;
