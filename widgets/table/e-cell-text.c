@@ -1113,12 +1113,33 @@ ect_free_state (ECellView *ecell_view, int model_col, int view_col, int row, voi
 	g_free (save_state);
 }
 
+#define FONT_NAME "Sans Regular"
+
+static GnomeFont *
+get_font_for_size (double h)
+{
+	GnomeFontFace *face;
+	GnomeFont *font;
+	double asc, desc, size;
+
+	face = gnome_font_face_find (FONT_NAME);
+
+	asc = gnome_font_face_get_ascender (face);
+	desc = abs (gnome_font_face_get_descender (face));
+	size = h * 1000 / (asc + desc);
+
+	font = gnome_font_find_closest (FONT_NAME, size);
+
+	g_object_unref (face);
+	return font;
+}
+
 static void
 ect_print (ECellView *ecell_view, GnomePrintContext *context, 
 	   int model_col, int view_col, int row,
 	   double width, double height)
 {
-	GnomeFont *font = gnome_font_find ("Helvetica", 12);
+	GnomeFont *font = get_font_for_size (16);
 	char *string;
 	ECellText *ect = E_CELL_TEXT(ecell_view->ecell);
 	string = e_cell_text_get_text(ect, ecell_view->e_table_model, model_col, row);
@@ -1135,11 +1156,13 @@ ect_print (ECellView *ecell_view, GnomePrintContext *context,
 				/* FIXME */;
 	if (gnome_print_clip(context) == -1)
 				/* FIXME */;
-	gnome_print_moveto(context, 2, (height - gnome_font_get_ascender(font) + gnome_font_get_descender(font)) / 2);
+	gnome_print_moveto(context, 2, (height - gnome_font_get_ascender(font) - gnome_font_get_descender(font)) / 2);
+
 	gnome_print_setfont(context, font);
 	gnome_print_show(context, string);
 	gnome_print_grestore(context);
 	e_cell_text_free_text(ect, string);
+	g_object_unref (font);
 }
 
 static gdouble
