@@ -32,6 +32,7 @@ evolution_netscape_importer_SOURCES =	\
 evolution_netscape_importer_LDADD =				\
 	$(top_builddir)/shell/importer/libevolution-importer.la \
 	$(top_builddir)/e-util/libeutil.la			\
+	$(BONOBO_CONF_LIBS)					\
 	$(BONOBO_GNOME_LIBS)					\
 	$(EXTRA_GNOME_LIBS)
 
@@ -41,6 +42,7 @@ evolution_elm_importer_SOURCES =	\
 evolution_elm_importer_LDADD =					\
 	$(top_builddir)/shell/importer/libevolution-importer.la \
 	$(top_builddir)/e-util/libeutil.la			\
+	$(BONOBO_CONF_LIBS)					\
 	$(BONOBO_GNOME_LIBS)					\
 	$(EXTRA_GNOME_LIBS)
 
@@ -53,6 +55,7 @@ evolution_pine_importer_LDADD =					\
 	$(top_builddir)/e-util/libeutil.la			\
 	$(top_builddir)/e-util/ename/libename.la		\
 	$(top_builddir)/libversit/libversit.la			\
+	$(BONOBO_CONF_LIBS)					\
 	$(BONOBO_GNOME_LIBS)					\
 	$(EXTRA_GNOME_LIBS)
 
@@ -65,6 +68,7 @@ evolution_gnomecard_importer_LDADD =				\
         $(top_builddir)/e-util/libeutil.la      		\
         $(top_builddir)/e-util/ename/libename.la        	\
         $(top_builddir)/libversit/libversit.la  		\
+	$(BONOBO_CONF_LIBS)					\
         $(BONOBO_GNOME_LIBS)            			\
         $(EXTRA_GNOME_LIBS)
 

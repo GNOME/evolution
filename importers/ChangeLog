@@ -1,3 +1,8 @@
+2001-07-03  Damon Chaplin  <damon@ximian.com>
+
+	* Makefile.am: added $(BONOBO_CONF_LIBS) to all the LDADDs, to get
+	it to compile. Not entirely sure it is correct.
+
 2001-06-18  Dan Winship  <danw@ximian.com>
 
 	* Makefile.am (evolution_netscape_importer_LDADD): 
