@@ -35,7 +35,7 @@
 	    <term><guilabel>Display</guilabel></term>
 	    <listitem>
 	      <para>
-		Allows you to edit how email is handled and displayed.
+		Allows you to edit how email appears.
 	      </para>
 	    </listitem>
 	  </varlistentry>
@@ -43,7 +43,7 @@
 	    <term><guilabel>Composer</guilabel></term>
 	    <listitem>
 	      <para>
-		Customizes the composer's behavior.
+		Customizes the behavior of the email message composer.
 	      </para>
 	    </listitem>
 	  </varlistentry>
@@ -51,8 +51,9 @@
 	    <term><guilabel>Other</guilabel></term>
 	    <listitem>
 	      <para>
-		Configures miscellanious aspects of <application>Evolution</application>
-		such as character sets.
+		Configures miscellanious aspects of
+		<application>Evolution</application> such as character
+		set and encryption tools.
 	      </para>
 	    </listitem>
 	  </varlistentry>
@@ -72,237 +73,310 @@
       <!-- ==============End of Figure================-->
 
 
-      <sect2 id="config-prefs-mail-identity">
-      <title>Identity Settings</title> 
+    <sect2 id="config-prefs-mail-identity">
+      <title>Working with the Accounts Tab</title> 
       <para>
-         If you have only one email account, or send email from only
-         one address, you will only need to configure one identity. If
-         you want, however, you can have multiple identities.  This
-         can be useful if you want to keep personal and professional
-         email separate, or if you wear several hats at work.
-         
+         <application>Ximian Evolution</application> allows you to
+         maintain multiple accounts, or identities.  This is useful
+         want to keep personal and professional email separate, or if
+         you wear several hats at work. When you are writing an email
+         message, you can which account to use by selecting from the
+         drop-down list next to the <guilabel>From</guilabel> entry in
+         the message composer.
        </para>
-       <para>
-         To add a new identity, simply click
-         <guibutton>Add</guibutton>. To alter an existing identity,
-         click on it in the <guilabel>Identity</guilabel> tab of the
-         <interface>Preferences</interface> window, and then click
-         <guibutton>Edit</guibutton>.
-      </para>
 
+       <para>
+         Clicking <guibutton>Get Mail</guibutton> will refresh any
+         IMAP, <systemitem><filename>mh</filename></systemitem>, or
+         <systemitem><filename>mbox</filename></systemitem> listings
+         and check and download mail from all POP servers.  In other
+         words, <guibutton>Get Mail</guibutton> gets your mail, no
+         matter how many sources you have, or what types they are.  If
+         you don't want to check mail for a given account, select it
+         in the <guilabel>Accounts</guilabel> tab and click the
+         <guibutton>Disable</guibutton> button.
+       </para>
+       
       <para>
-         <application>Evolution</application> will then present you
-         with a dialog box containing four fields:
-          <itemizedlist>
+         To add a new account, simply click <guibutton>Add</guibutton>
+         to open the mail configuration assistant. To alter an
+         existing identity, select it in the
+         <interface>Preferences</interface> window, and then click
+         <guibutton>Edit</guibutton> to open the account editor
+         dialog.
+      </para>
+     <para>
+         The account editor dialog has six sections:
+          <variablelist>
+
+	  <varlistentry> 
+	    <term>Identity:</term>
            <listitem>
 	    <para>
-              <guilabel>Full Name:</guilabel> by default, this is the
-              same name as the full name described in your user
-              account on your computer.  You can select another if you
-              wish.
+              Here, enter the name,
+              email address, and other identifying information for the
+              account.
             </para>
 	  </listitem>
+	  </varlistentry>
+	  <varlistentry> 
+	    <term>Receiving Mail</term>
            <listitem>
 	    <para>
-              <guilabel>Email address:</guilabel> Enter your email
-              address in this space.
-            </para>
+             Here, select the way you will be getting mail: you may
+             download mail from a server (<glossterm
+             linkend="pop">POP</glossterm> or <glossterm
+             linkend="imap">IMAP</glossterm>) or access it from files
+             on your local system.  If you use a server, it may permit
+             or require you to use a Secure Socket Layer (SSL)
+             connection.  To turn SSL connections on, just click the
+             <guibutton>Use Secure Connection (SSL)</guibutton>
+             button.
+	  </para>
 	  </listitem>
+	  </varlistentry>
+	  <varlistentry> 
+	    <term>Receiving Options</term>
            <listitem>
 	    <para>
-              <guilabel>Organization:</guilabel> If you send email as
-              a representative of a company or other organization,
-              enter its name here.
+              Here, decide whether you'd like to check for mail
+              automatically, and set other options related to the
+              behavior of your server.  If you use POP mail, you can
+              decide whether to leave mail on the server, and if you
+              use IMAP, you can set folder subscription options here.
             </para>
 	  </listitem>
+	  </varlistentry>
+	  <varlistentry> 
+	    <term>Sending Mail</term>
            <listitem>
 	    <para>
-              <guilabel>Signature file:</guilabel> You may choose a
-              small text file to be appended to every message that you
-              send.  Typically, signature files include address or
-              other contact information, or a favorite quotation.
-              It's good form to keep it to four lines at the maximum.
+              In this section, you will choose and configure a method
+              for sending mail.  You may choose <glossterm
+              linkend="smtp">SMTP</glossterm> or <glossterm
+              linkend="sendmail">sendmail</glossterm>.
+             </para>
+	  </listitem>
+	  </varlistentry>
+	  <varlistentry> 
+	    <term>Special Folders</term>
+           <listitem>
+	    <para>
+              Here, you can decide where this account will store the
+              messages that it has sent, and the messages that you
+              save as drafts.
             </para>
 	  </listitem>
-	</itemizedlist>
+	  </varlistentry>
+	  <varlistentry> 
+	    <term>Security</term>
+           <listitem>
+	    <para>
+              In this section, you will set the security options for
+              this account. Enter your PGP Key ID and decide how
+              frequently to encrypt and sign your messages.
+            </para>
+	  </listitem>
+	  </varlistentry>
+	</variablelist>
       </para>
     </sect2>
 
-    <sect2 id="config-prefs-mail-network">
-      <title>Network Settings</title> 
+    <sect2 id="config-prefs-mail-display">
+      <title>Mail Display Options</title>
       <para>
-        In order to send mail with
-        <application>Evolution</application>, you need to connect to
-        your network.  To do that, you'll need to know your user name
-        and password, what sort of mail sending and receiving
-        protocols your network uses, and the names of the servers
-        you'll be using.  If you're switching from another groupware
-        or email program, you can almost certainly use the same
-        settings as you did with that program. Network-related
-        settings are in the <guilabel>Mail Sources</guilabel> and
-        <guilabel>Mail Transport</guilabel> tabs.
+        In this tab you can decide how you would like
+        <application>Ximian Evolution</application> to display your
+        mail: how to display citations, how long to wait before
+        marking a message as read, and so forth.
       </para>
- 
-      <sect3 id="config-prefs-network-sources">
-	<title>Mail Sources</title>
-	<para>
-          The <interface>Mail Sources</interface> tab allows you to
-          add, edit, or delete methods of retrieving mail from
-          servers.  Clicking on <guibutton>Add</guibutton> or
-          <guibutton>Edit</guibutton> will bring up a dialog box to
-          offer you the following options:
-           <variablelist>
-	    <varlistentry>
-	      <term><guilabel>Mail source type:</guilabel></term>
-	      <listitem>
-		<para>
-                  Select from <glossterm
-                  linkend="imap">IMAP</glossterm> or <glossterm
-                  linkend="pop">POP</glossterm> servers, or Unix-style
-                  <systemitem><filename>mbox</filename></systemitem>
-                  or <systemitem><filename>mh</filename></systemitem>
-                  files.
-                </para>
-	      </listitem>
-	    </varlistentry>
-	    <varlistentry>
-	      <term> <guilabel>Server:</guilabel></term>
-	      <listitem>
-		<para>
-                  Enter the name of the mail source server in this
-                  field. Your POP server may or may not be the same as your
-                  <glossterm linkend="smtp">SMTP</glossterm> server.
-                </para>
-	      </listitem>
-	    </varlistentry>
-	    <varlistentry>
-	      <term><guilabel>Username:</guilabel></term>
-	      <listitem>
-		<para>
-                  Enter the user name for the account you have on the
-                  server - this should the part of your email address
-                  before the @.  If you use
-                  <systemitem><filename>mbox</filename></systemitem>
-                  or <systemitem><filename>mh</filename></systemitem>
-                  files as your mail source, you do not need to enter
-                  a username.
-                </para>
-	      </listitem>
-	    </varlistentry>
-	    <varlistentry>
-	      <term><guilabel>Authentication:</guilabel></term>
-	      <listitem>
-		<para>
-                  Tell <application>Evolution</application> how to
-                  verify your identity with the server.  Your options
-                  vary depending upon the type of server you are
-                  using, and the ways it is configured.  Given the
-                  name of a server,
-                  <application>Evolution</application> can detect what
-                  sorts of authentication it offers.
-               </para>
-	      </listitem>
-	    </varlistentry>
-	    <varlistentry>
-	      <term><guilabel>Test Settings</guilabel></term>
-	      <listitem>
-		<para>
-                  Click this button to have
-                  <application>Evolution</application> check to see if
-                  mail sources are configured correctly.
-                </para>
-	      </listitem>
-	    </varlistentry>
-	  </variablelist>
-          </para>
-	<note>
-	  <title>Encrypting Your Transmission</title>
-	  <para>
-	    Some servers require that the connection used to download email is encrypted.  <application>Evolution</application> supports encrypting the connection to servers.  To enable this, just click <guibutton>Use Secure Connection(SSL)</guibutton> in the Recieving Mail tab of the Account Editor.
-	  </para>
-	</note>
-          <para>
-            If you have several mail sources, clicking <guibutton>Get
-            Mail</guibutton> will refresh any IMAP,
-            <systemitem><filename>mh</filename></systemitem>, or
-            <systemitem><filename>mbox</filename></systemitem>
-            listings and check and download mail from all POP servers.
-            In other words, <guibutton>Get Mail</guibutton> gets your
-            mail, no matter how many sources you have, or what types
-            they are.  You can disable checking mail on accounts in their
-            properties.
-          </para>
-          <tip>
-            <title>Sharing Mailboxes with Other Mail Programs</title>
+     <para>
+        This is also where you can decide how you would like
+        <application>Ximian Evolution</application> to handle inline
+        images in HTML mail that you get. There is a detailed
+        discussion of the issues surrounding these options in <xref
+        linkend="usage-mail-getnsend-get-attach-html">.
+     </para>
+     <para>
+       To hange the font which <application>Ximian
+        Evolution</application> uses to display mail, do the
+        following:
+       <orderedlist numeration="arabic">
+	  <listitem>
             <para>
-              If you want to use <application>Evolution</application>
-              and another email client, such as
-              <application>Mutt</application>, at the same time,
-              here's how:
-              <orderedlist numeration="arabic">
-                <listitem>
-                   <para>
-                      Download your mail in the other application as
-                      you would normally.
-                   </para>
-                  </listitem>
-                <listitem>
-                   <para>
-                      In <application>Evolution</application>
-                      <menuchoice><guimenu>Tools</guimenu><guimenuitem>Mail
-                      Settings</guimenuitem></menuchoice>, and pick the account
-                      you'd like to use to share mail. You may want to
-                      create a new account just for this source of
-                      mail.
-                   </para>
-               </listitem>                     
-               <listitem>
-                   <para>
-                      Under the <guilabel>Receiving Mail</guilabel>
-                      tab, select the type of mail file that your
-                      other mail application uses, and then enter the
-                      full path to that file.
-                   </para>
-                  </listitem>
-                <listitem>
-                   <para>
-                      Click the <guibutton>OK</guibutton> button.
-                   </para>
-                  </listitem>
-                </orderedlist>
-               </para>
-            </tip>
-        </sect3>
+              Open the Control Center by selecting <menuchoice>
+		<guimenu>System</guimenu>
+		<guimenuitem>Settings</guimenuitem> </menuchoice> from
+		the menu panel.
+            </para>
+	  </listitem>
+	  <listitem>
+	    <para>
+               Select the HTML Viewer settings tool.
+            </para>
+	  </listitem>
+	  <listitem>
+	    <para>Choose the font and font size you would like to use.
+            </para>
+	  </listitem>
+	</orderedlist>
 
-      <sect3 id="config-prefs-mail-network-transports">
-	<title>Mail Transports</title>
+       Alternately, open a terminal and run the
+       <command>gtkhtml-properties-capplet</command> command. This
+       will open the GNOME HTML Display Properties tool, and you can
+       select a font and other attributes of your HTML display,
+       including that in <application>Ximian Evolution</application>.
+     </para>
+     </sect2>
+
+    <sect2 id="config-prefs-mail-composer">
+      <title>Message Composer Preferences</title>
+      
+      <para>
+        Mercifully, there are only four preferences you can prefer in
+        the message composer preferences dialog:
+         <variablelist>
+	  <varlistentry>
+	    <term>Send mail in HTML format by default </term>
+	    <listitem>
+	      <para>
+                 If you would like all email messages that you compose
+                 to begin in HTML format, leave this box checked. You
+                 can convert messages between HTML and plain text by
+                 selecting the <menuchoice> <guimenu>Format</guimenu>
+                 <guimenuitem>HTML</guimenuitem> </menuchoice> toggle
+                 in the message composer.
+               </para>
+	    </listitem>
+	  </varlistentry>
+
+	  <varlistentry>
+	    <term>Default Forward style</term>
+	    <listitem>
+	      <para>
+                  Select from: 
+                  <simplelist>
+                   <member><guilabel>Attachment:</guilabel> the
+                  message you forward appended to the message you send
+                  as a seperate file.</member>
+
+                  <member> <guilabel>Inline:</guilabel> The message
+                  you forward is included at the end of the message
+                  you send.</member>
+
+		  <member> 
+                     <guilabel>Quoted:</guilabel> The message
+                     you forward is included at the end of the message
+                     you send, and a greater-than symbol (&gt;) is
+                     inserted at the beginning of each line to
+                     indicate that it is quoted.
+                   </member>
+		</simplelist>
+               </para>
+	    </listitem>
+	  </varlistentry>
+
+	  <varlistentry>
+	    <term>Prompt when sending messages with an empty subject</term>
+	    <listitem>
+	      <para>
+                 The composer will warn you if you try to send a
+                 message without a subject.
+               </para>
+	    </listitem>
+	  </varlistentry>
+
+	  <varlistentry>
+	    <term>Prompt when sending messages with only Bcc recipients defined</term>
+	    <listitem>
+	      <para>
+                 The composer will warn you if you try to send a
+                 message that has only <guilabel>Bcc</guilabel>
+                 recipients. This is important because some mail
+                 servers will fail to honor blind carbon copy if you
+                 do not have at least one recipient that is visible to
+                 all readers.
+               </para>
+	    </listitem>
+	  </varlistentry>
+	</variablelist>
+      </para>
+    </sect2>
+     <sect2 id="config-prefs-mail-other">
+	<title>Other Mail Preferences</title>
 	<para>
-           The <interface>Mail Transports</interface> tab lets you choose
-           how you will send mail.  <application>Evolution</application> currently supports two
-           mail transport options: <glossterm linkend="smtp">SMTP</glossterm>, which
-           uses a remote mail server, and
-           <glossterm linkend="sendmail">sendmail</glossterm>, which uses the
-           <application>sendmail</application> program on your local
-           system.  <application>Sendmail</application> is more
-           difficult to configure, but offers more flexibility than
-           <glossterm>SMTP</glossterm>.
+          Not everything fits neatly into categories.  This tab
+          contains some miscellaneous configuration options that
+          didn't fit anywhere else.
+          <variablelist>
+
+	  <varlistentry>
+	    <term> 
+	      <guilabel>PGP binary path</guilabel>
+	    </term>
+	    <listitem>
+	      <para>
+                The complete path to your external encryption tool On
+                most Linux systems, this will be
+                <systemitem><filename>/usr/bin/gpg</filename></systemitem>.
+	      </para>
+	    </listitem>
+	  </varlistentry>
+
+	  <varlistentry>
+	    <term> 
+	      <guilabel>Remember PGP Passphrase until Exit</guilabel>
+	    </term>
+	    <listitem>
+	      <para> Check this box if you want <application>Ximian
+                Evolution</application> to remember your PGP
+                passphrase for as long as it is running.  You will
+                still have to enter your passphrase again each time
+                you start <application>Ximian Evolution</application>.
+	      </para>
+	    </listitem>
+	  </varlistentry>
+
+	  <varlistentry>
+	    <term>
+	      <guilabel>Default Character Encoding</guilabel>
+	    </term>
+	    <listitem> <para> Choose a default character encoding for
+	      your messages.
+	      </para>
+              </listitem>
+             </varlistentry>
+
+	  <varlistentry>
+	    <term>
+	      <guilabel>Empty Trash Folders on Exit</guilabel>
+	    </term>
+	    <listitem> <para> If you would like to expunge all deleted
+	      mail when you quit <application>Ximian
+	      Evolution</application>, check this box.
+	      </para>
+              </listitem>
+             </varlistentry>
+
+	  <varlistentry>
+	    <term>
+	      <guilabel>Log filter actions to:</guilabel>
+	    </term>
+	    <listitem> <para> If you like, you can have
+	      <application>Ximian Evolution</application> write all
+	      its message filter actions to a log file. Select a log
+	      file here.
+	      </para>
+              </listitem>
+             </varlistentry>
+           </variablelist>
         </para>
-	<para>
-            To use <guilabel>SMTP</guilabel>, you'll need to enter the
-            name of your SMTP server.  It may have the same name as
-            your mail source server.
-         </para>
-         <para>
-            <application>Evolution</application> can attempt to
-            determine if you have entered a valid server name.  To
-            have it do so, click the <guilabel>Test
-            Settings</guilabel> button.
-         </para>
-	</sect3>
       </sect2>
+    </sect1>
+
 
 <!-- NOT FOR 1.0, see usage-mail.sgml
-      <sect2 id="config-prefs-network-news">          
+      <sect1 id="config-prefs-news">          
           <title>News Servers</title>
           <para>
             Newsgroups are so much like mailing lists that there's no
@@ -323,67 +397,7 @@
           </para>
      </sect2>
 -->
-     <sect2 id="config-prefs-mail-other">
-	<title>Other Mail Preferences</title>
-	<para>
-          Not everything fits neatly into categories.  This tab
-          contains some miscellaneous configurations that don't have
-          too much to do with each other.
-          <variablelist>
 
-	  <varlistentry>
-	    <term> 
-	      <guilabel>Send messages in HTML format</guilabel>
-	    </term>
-	    <listitem>
-	      <para>
-		If you check this box, you will send
-		messages as HTML by default.  If you leave it unchecked, your
-		messages will be sent without HTML formatting unless you select 
-		<menuchoice> <guimenu>Format</guimenu> <guimenuitem>HTML</guimenuitem>
-		</menuchoice> in the message composer.
-		See <xref linkend="usage-mail-getnsend-send-html">
-		  for more information about HTML mail.
-	      </para>
-	    </listitem>
-	  </varlistentry>
-	  <varlistentry>
-	    <term> 
-	      <guilabel>Mark Messages as Read After</guilabel>
-	    </term>
-	    <listitem>
-	      <para> 
-		When you click on a message,
-		<application>Evolution</application> will wait a
-		moment before marking it as read. You can set the
-		delay, in milliseconds, here.
-	      </para>
-	    </listitem>
-	  </varlistentry>
-	  <varlistentry>
-	    <term>
-	      <guilabel>Folder Format</guilabel>
-	    </term>
-	    <listitem> 
-	      <para> 
-		By default,
-		<application>Evolution</application> saves its mail
-		in the
-		<systemitem><filename>mbox</filename></systemitem>
-		format. You can switch to the
-		<systemitem><filename>mh</filename></systemitem>
-		format if you like.  Note that this is an advanced
-		feature and may cause you to lose some messages, so
-		you should probably make a backup of your
-		<systemitem><filename>evolution</filename></systemitem>
-		directory first. In addition, it will take quite
-		some time if you have a large mailbox.
-	      </para></listitem>
-             </varlistentry>
-           </variablelist>
-        </para>
-      </sect2>
-    </sect1>
 
     <sect1 id="config-prefs-cal">
        <title>Configuring the Calendar</title>

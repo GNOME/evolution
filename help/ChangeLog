@@ -1,3 +1,22 @@
+2001-09-15  Aaron Weber  <aaron@ximian.com>
+
+	* C/usage-mail.sgml: linked to a now-obsolete section. changed link.
+
+	* C/config-prefs.sgml: Man, this needed so much more than style
+	revision-- the whole mail section had to be redone. Yech.
+
+	* C/usage-mail.sgml: moved "sharing mail" tip from config-prefs.
+
+	* C/config-prefs.sgml: style.
+
+2001-09-13  Aaron Weber  <aaron@ximian.com>
+
+	* C/usage-calendar.sgml: Add more info on tasks features.
+
+2001-09-11  Aaron Weber  <aaron@ximian.com>
+
+	* C/evolution.sgml: Validation issues.
+
 2001-09-10  Aaron Weber  <aaron@ximian.com>
 
 	* C/usage-contact.sgml: Contact lists.

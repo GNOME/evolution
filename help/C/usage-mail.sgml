@@ -233,12 +233,56 @@
     <note id="badmailsettings">
       <title>Can't Check Mail?</title>
       <para>
-	If you get an error message instead of mail, you probably need to check
-	your network settings.  To learn how to do that,
-	 have a look at <xref linkend="config-prefs-mail-network">, or
-	 ask your system administrator.
+	If you get an error message instead of mail, you probably need
+	to check your network settings.  To learn how to do that, have
+	a look at <xref linkend="config-prefs-mail">, or ask your
+	system administrator.
        </para>
      </note>
+
+
+
+          <tip>
+            <title>Sharing Mailboxes with Other Mail Programs</title>
+            <para>
+              If you want to use <application>Evolution</application>
+              and another email client, such as
+              <application>Mutt</application>, at the same time,
+              here's how:
+              <orderedlist numeration="arabic">
+                <listitem>
+                   <para>
+                      Download your mail in the other application as
+                      you would normally.
+                   </para>
+                  </listitem>
+                <listitem>
+                   <para>
+                      In <application>Evolution</application>
+                      <menuchoice><guimenu>Tools</guimenu><guimenuitem>Mail
+                      Settings</guimenuitem></menuchoice>, and pick the account
+                      you'd like to use to share mail. You may want to
+                      create a new account just for this source of
+                      mail.
+                   </para>
+               </listitem>                     
+               <listitem>
+                   <para>
+                      Under the <guilabel>Receiving Mail</guilabel>
+                      tab, select the type of mail file that your
+                      other mail application uses, and then enter the
+                      full path to that file.
+                   </para>
+                  </listitem>
+                <listitem>
+                   <para>
+                      Click the <guibutton>OK</guibutton> button.
+                   </para>
+                  </listitem>
+                </orderedlist>
+               </para>
+            </tip>
+
 
 <!-- NOT FOR 1.0
        <sect2 id="usage-mail-getnsend-get-news">
@@ -323,7 +367,7 @@
       </sect3>
 
       <sect3 id="usage-mail-getnsend-get-attach-html">
-      <title>Images in HTML Mail</title>
+      <title>Inline Images in HTML Mail</title>
       <para>
          When someone sends you HTML mail that includes an image in
          the body of the message&mdash; like the welcome message in
