@@ -43,8 +43,12 @@ init_bonobo (int argc, char **argv)
 int
 main (int argc, char **argv)
 {
+	bindtextdomain (PACKAGE, EVOLUTION_LOCALEDIR);
+	textdomain (PACKAGE);
+	
 	init_corba (&argc, argv);
 
+	
 	init_bonobo (argc, argv);
 
 	/* FIXME: Messy names here.  This file should be `main.c'.  `addressbook.c' should

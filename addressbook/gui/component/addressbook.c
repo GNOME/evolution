@@ -272,7 +272,7 @@ make_quick_search_widget (GtkSignalFunc start_search_func,
 	gtk_box_pack_start (GTK_BOX (search_vbox), search_entry,
 			    FALSE, TRUE, 3);
 	gtk_box_pack_start (GTK_BOX (search_vbox),
-			    gtk_label_new("Quick Search"),
+			    gtk_label_new(_("Quick Search")),
 			    FALSE, TRUE, 0);
 
 	return search_vbox;

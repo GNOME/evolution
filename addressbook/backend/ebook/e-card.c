@@ -3041,14 +3041,14 @@ card_to_string (Card *crd)
 	
 	string = g_string_new ("");
 	
-	add_CardStrProperty_to_string (string, _ ("Card: "), &crd->fname);
+	add_CardStrProperty_to_string (string, _("Card: "), &crd->fname);
 	if (crd->name.prop.used) {
-		addProp_to_string (string, _ ("\nName: "));
-		add_strProp_to_string (string, _ ("\n  Prefix:     "), crd->name.prefix);
-		add_strProp_to_string (string, _ ("\n  Given:      "), crd->name.given);
-		add_strProp_to_string (string, _ ("\n  Additional: "), crd->name.additional);
-		add_strProp_to_string (string, _ ("\n  Family:     "), crd->name.family);
-		add_strProp_to_string (string, _ ("\n  Suffix:     "), crd->name.suffix);
+		addProp_to_string (string, _("\nName: "));
+		add_strProp_to_string (string, _("\n  Prefix:     "), crd->name.prefix);
+		add_strProp_to_string (string, _("\n  Given:      "), crd->name.given);
+		add_strProp_to_string (string, _("\n  Additional: "), crd->name.additional);
+		add_strProp_to_string (string, _("\n  Family:     "), crd->name.family);
+		add_strProp_to_string (string, _("\n  Suffix:     "), crd->name.suffix);
 		g_string_append_c (string, '\n');
 	}
 	
@@ -3062,7 +3062,7 @@ card_to_string (Card *crd)
 		char *date_str;
 		
 		date_str = card_bday_str (crd->bday);
-		add_strProp_to_string (string, _ ("\nBirth Date: "), date_str);
+		add_strProp_to_string (string, _("\nBirth Date: "), date_str);
 		free (date_str);
 	}
 	
@@ -3073,15 +3073,15 @@ card_to_string (Card *crd)
 			CardDelAddr *deladdr = (CardDelAddr *) node->data;
 			
 			if (deladdr->prop.used) {
-				addProp_to_string (string, _ ("\nAddress:"));
+				addProp_to_string (string, _("\nAddress:"));
 				add_strAddrType (string, deladdr->type);
-				add_strProp_to_string (string, _ ("\n  Postal Box:  "), deladdr->po);
-				add_strProp_to_string (string, _ ("\n  Ext:         "),deladdr->ext);
-				add_strProp_to_string (string, _ ("\n  Street:      "),deladdr->street);
-				add_strProp_to_string (string, _ ("\n  City:        "), deladdr->city);
-				add_strProp_to_string (string, _ ("\n  Region:      "), deladdr->region);
-				add_strProp_to_string (string, _ ("\n  Postal Code: "), deladdr->code);
-				add_strProp_to_string (string, _ ("\n  Country:     "), deladdr->country);
+				add_strProp_to_string (string, _("\n  Postal Box:  "), deladdr->po);
+				add_strProp_to_string (string, _("\n  Ext:         "),deladdr->ext);
+				add_strProp_to_string (string, _("\n  Street:      "),deladdr->street);
+				add_strProp_to_string (string, _("\n  City:        "), deladdr->city);
+				add_strProp_to_string (string, _("\n  Region:      "), deladdr->region);
+				add_strProp_to_string (string, _("\n  Postal Code: "), deladdr->code);
+				add_strProp_to_string (string, _("\n  Country:     "), deladdr->country);
 			}
 		}
 		
@@ -3094,7 +3094,7 @@ card_to_string (Card *crd)
 		for (node = crd->dellabel.l; node; node = node->next) {
 			CardDelLabel *dellabel = (CardDelLabel *) node->data;
 			
-			add_strProp_to_string (string, _ ("\nDelivery Label: "),
+			add_strProp_to_string (string, _("\nDelivery Label: "),
 					    dellabel->data);
 			add_strAddrType (string, dellabel->type);
 		}
@@ -3106,10 +3106,10 @@ card_to_string (Card *crd)
 		
 		if (crd->phone.l->next) {
 			sep = "  ";
-			g_string_append (string, _ ("\nTelephones:\n"));
+			g_string_append (string, _("\nTelephones:\n"));
 		} else {
 			sep = " ";
-			g_string_append (string, _ ("\nTelephone:"));
+			g_string_append (string, _("\nTelephone:"));
 		}
 		
 		for (node = crd->phone.l; node; node = node->next) {
@@ -3133,10 +3133,10 @@ card_to_string (Card *crd)
 		
 		if (crd->email.l->next) {
 			sep = "  ";
-			g_string_append (string, _ ("\nE-mail:\n"));
+			g_string_append (string, _("\nE-mail:\n"));
 		} else {
 			sep = " ";
-			g_string_append (string, _ ("\nE-mail:"));
+			g_string_append (string, _("\nE-mail:"));
 		}
 		
 		
@@ -3155,13 +3155,13 @@ card_to_string (Card *crd)
 		  g_string_append_c (string, '\n');
 	}
 
-	add_CardStrProperty_to_string (string, _ ("\nMailer: "), &crd->mailer);
+	add_CardStrProperty_to_string (string, _("\nMailer: "), &crd->mailer);
 	
 	if (crd->timezn.prop.used) {
 		char *str;
 		
 		str = card_timezn_str (crd->timezn);
-		add_strProp_to_string (string, _ ("\nTime Zone: "), str);
+		add_strProp_to_string (string, _("\nTime Zone: "), str);
 		free (str);
 	}
 	
@@ -3169,11 +3169,11 @@ card_to_string (Card *crd)
 		char *str;
 		
 		str = card_geopos_str (crd->geopos);
-		add_strProp_to_string (string, _ ("\nGeo Location: "), str);
+		add_strProp_to_string (string, _("\nGeo Location: "), str);
 		free (str);
 	}
 	
-        add_CardStrProperty_to_string (string, _ ("\nBusiness Role: "), &crd->role);
+        add_CardStrProperty_to_string (string, _("\nBusiness Role: "), &crd->role);
 	
 /*	if (crd->logo.prop.used) {
 		addPropSizedValue (string, _ ("\nLogo: "), 
@@ -3185,17 +3185,17 @@ card_to_string (Card *crd)
 	  addstringectProp (string, card_convert_to_stringect (crd->agent));*/
 	
 	if (crd->org.prop.used) {
-		addProp_to_string (string, _ ("\nOrg: "));
-		add_strProp_to_string (string, _ ("\n  Name:  "), crd->org.name);
-		add_strProp_to_string (string, _ ("\n  Unit:  "), crd->org.unit1);
-		add_strProp_to_string (string, _ ("\n  Unit2: "), crd->org.unit2);
-		add_strProp_to_string (string, _ ("\n  Unit3: "), crd->org.unit3);
-		add_strProp_to_string (string, _ ("\n  Unit4: "), crd->org.unit4);
+		addProp_to_string (string, _("\nOrg: "));
+		add_strProp_to_string (string, _("\n  Name:  "), crd->org.name);
+		add_strProp_to_string (string, _("\n  Unit:  "), crd->org.unit1);
+		add_strProp_to_string (string, _("\n  Unit2: "), crd->org.unit2);
+		add_strProp_to_string (string, _("\n  Unit3: "), crd->org.unit3);
+		add_strProp_to_string (string, _("\n  Unit4: "), crd->org.unit4);
 		g_string_append_c (string, '\n');
 	}
 	
-        add_CardStrProperty_to_string (string, _ ("\nCategories: "), &crd->categories);
-        add_CardStrProperty_to_string (string, _ ("\nComment: "), &crd->comment);
+        add_CardStrProperty_to_string (string, _("\nCategories: "), &crd->categories);
+        add_CardStrProperty_to_string (string, _("\nComment: "), &crd->comment);
 	
 /*	if (crd->sound.prop.used) {
 		if (crd->sound.type != SOUND_PHONETIC)
@@ -3208,10 +3208,10 @@ card_to_string (Card *crd)
 		add_SoundType (string, crd->sound.type);
 	}*/
 	
-        add_CardStrProperty_to_string (string, _ ("\nUnique String: "), &crd->uid);
+        add_CardStrProperty_to_string (string, _("\nUnique String: "), &crd->uid);
 	
 	if (crd->key.prop.used) {
-		add_strProp_to_string (string, _ ("\nPublic Key: "), crd->key.data);
+		add_strProp_to_string (string, _("\nPublic Key: "), crd->key.data);
 		add_strKeyType (string, crd->key.type);
 	}
 	

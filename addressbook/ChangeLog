@@ -1,3 +1,12 @@
+2000-10-30  Kjartan Maraas  <kmaraas@gnome.org>
+
+	* backend/e-book/e-card.c: Fixed marking of strings
+	for translation. Use "_(" instead of "_ (".
+	* gui/component/addressbook-factory.c: Add missing
+	calls to bindtextdomain() and textdomain noticed by
+	Dan Winship.
+	* gui/component/addressbook.c: Marked string for translation.
+	
 2000-10-27  Christopher James Lahey  <clahey@helixcode.com>
 
 	* backend/pas/Makefile.am, gui/search/Makefile.am,
