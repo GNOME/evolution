@@ -136,7 +136,9 @@ do_fetch_mail (gpointer in_data, gpointer op_data, CamelException *ex)
 	if (!strncmp (input->source_url, "imap:", 5)) {
 		folder = mail_tool_get_inbox (input->source_url, ex);
 		if (folder) {
-			camel_folder_refresh_info (folder, ex);
+			camel_folder_sync (folder, FALSE, ex);
+			if (!camel_exception_is_set (ex))
+				camel_folder_refresh_info (folder, ex);
 			camel_object_unref (CAMEL_OBJECT (folder));
 		}
 		

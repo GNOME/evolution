@@ -1,3 +1,8 @@
+2000-10-29  Dan Winship  <danw@helixcode.com>
+
+	* mail-ops.c (do_fetch_mail): Sync the folder before refreshing so
+	we don't lose flag settings.
+
 2000-10-27  Jeffrey Stedfast  <fejj@helixcode.com>
 
 	* mail-callbacks.c (composer_send_cb): Check to make sure that the
