@@ -17,13 +17,10 @@
 
 #include "e-itip-control.h"
 
-/*
- * Bonobo::PersistStream
- *
- * These two functions implement the Bonobo::PersistStream load and
- * save methods which allow data to be loaded into and out of the
- * BonoboObject.
- */
+
+#define DEFAULT_WIDTH 300
+#define DEFAULT_HEIGHT 200
+
 
 typedef struct _EItipControlPrivate EItipControlPrivate;
 
@@ -37,7 +34,7 @@ struct _EItipControlPrivate {
 
 
 static void
-control_destroy_cb (GtkObject *object,
+itip_control_destroy_cb (GtkObject *object,
 		    gpointer data)
 {
 	EItipControlPrivate *priv = data;
@@ -46,6 +43,21 @@ control_destroy_cb (GtkObject *object,
 	g_free (priv);
 }
 	
+static void
+itip_control_size_request_cb (GtkWidget *widget, GtkRequisition *requisition)
+{
+	requisition->width = DEFAULT_WIDTH;
+	requisition->height = DEFAULT_HEIGHT;
+}
+
+
+/*
+ * Bonobo::PersistStream
+ *
+ * These two functions implement the Bonobo::PersistStream load and
+ * save methods which allow data to be loaded into and out of the
+ * BonoboObject.
+ */
 
 static char *
 stream_read (Bonobo_Stream stream)
@@ -194,7 +206,9 @@ e_itip_control_factory (BonoboGenericFactory *Factory, void *closure)
 	gtk_text_set_editable (GTK_TEXT (priv->text_box), FALSE);
 
 	gtk_signal_connect (GTK_OBJECT (priv->main_frame), "destroy",
-			    GTK_SIGNAL_FUNC (control_destroy_cb), priv);
+			    GTK_SIGNAL_FUNC (itip_control_destroy_cb), priv);
+	gtk_signal_connect (GTK_OBJECT (priv->main_frame), "size_request",
+			    GTK_SIGNAL_FUNC (itip_control_size_request_cb), priv);
 
 	gtk_widget_show (priv->text_box);
 	gtk_widget_show (priv->main_frame);

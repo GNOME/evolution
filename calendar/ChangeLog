@@ -1,3 +1,25 @@
+2000-10-10  Jesse Pavel  <jpavel@helixcode.com>
+
+	* gui/e-itip-control.c: set a default size for the control.
+
+2000-10-10  Jesse Pavel  <jpavel@helixcode.com>
+
+	* gui/evolution-calendar.oafinfo: Added information about the
+	text/calendar MIME type, so that the evolution-calendar is called
+	to deal with iMIP attachments.
+
+	* gui/e-itip-control.[ch]: These files implement a Bonobo
+	control that will eventually deal with iMIP/iTIP messages from
+	the mailer. Right now, it's not working.
+
+	* gui/e-itip-control.glade: The Glade GUI for the above-mentioned
+	control.
+
+	* gui/Makefile.am: added references to the files I created.
+
+	* gui/main.c: called the initialization function of the Bonobo
+	control factory.
+
 2000-10-11  Tuomas Kuosmanen  <tigert@helixcode.com>
 
 	* gui/task-assigned-to.xpm gui/task-assigned.xpm 
@@ -69,6 +91,7 @@
 
 	* conduits/todo/calendar-conduit.h: same as above
 
+>>>>>>> 1.609
 2000-10-09  JP Rosevear  <jpr@helixcode.com>
 
 	* conduits/*: Adjust to using gnome-pilot-sync-abs conduit which
