@@ -560,7 +560,7 @@ popup_menu_placement_callback (GtkMenu *menu, int *x, int *y, gboolean *push_in,
 	if (selection == NULL)
 		return;
 	
-	image = gnome_icon_list_get_icon_pixbuf_item (icon_list, (gint)selection->data);
+	image = gnome_icon_list_get_icon_pixbuf_item (icon_list, GPOINTER_TO_INT(selection->data));
 	if (image == NULL)
 		return;
 	

@@ -1,3 +1,8 @@
+2005-01-08  Not Zed  <NotZed@Ximian.com>
+
+	* e-msg-composer-attachment-bar.c (popup_menu_placement_callback):
+	use cast macro to cast index.
+
 2004-10-08  Jeffrey Stedfast  <fejj@novell.com>
 
 	* e-msg-composer.c (build_message): g_strdup() the gpg/smime keys
