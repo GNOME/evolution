@@ -234,6 +234,14 @@ model_row_changed_cb (ETableModel *etm, int row, gpointer user_data)
 }
 
 static void
+model_cell_changed_cb (ETableModel *etm, int col, int row, gpointer user_data)
+{
+	ECalView *cal_view = E_CAL_VIEW (user_data);
+
+	e_cal_view_update_query (cal_view);
+}
+
+static void
 model_rows_changed_cb (ETableModel *etm, int row, int count, gpointer user_data)
 {
 	ECalView *cal_view = E_CAL_VIEW (user_data);
@@ -391,6 +399,8 @@ e_cal_view_init (ECalView *cal_view, ECalViewClass *klass)
 			  G_CALLBACK (model_changed_cb), cal_view);
 	g_signal_connect (G_OBJECT (cal_view->priv->model), "model_row_changed",
 			  G_CALLBACK (model_row_changed_cb), cal_view);
+	g_signal_connect (G_OBJECT (cal_view->priv->model), "model_cell_changed",
+			  G_CALLBACK (model_cell_changed_cb), cal_view);
 	g_signal_connect (G_OBJECT (cal_view->priv->model), "model_rows_inserted",
 			  G_CALLBACK (model_rows_changed_cb), cal_view);
 	g_signal_connect (G_OBJECT (cal_view->priv->model), "model_rows_deleted",
@@ -421,7 +431,9 @@ e_cal_view_destroy (GtkObject *object)
 
 	if (cal_view->priv) {
 		if (cal_view->priv->model) {
-			g_signal_handlers_disconnect_by_func (cal_view->priv->model, model_changed_cb, cal_view);
+			g_signal_handlers_disconnect_matched (cal_view->priv->model,
+							      G_SIGNAL_MATCH_DATA,
+							      0, 0, NULL, NULL, cal_view);
 			g_object_unref (cal_view->priv->model);
 			cal_view->priv->model = NULL;
 		}
@@ -497,6 +509,7 @@ e_cal_view_set_model (ECalView *cal_view, ECalModel *model)
 	g_object_ref (cal_view->priv->model);
 	g_signal_connect (G_OBJECT (cal_view->priv->model), "model_changed", G_CALLBACK (model_changed_cb), cal_view);
 	g_signal_connect (G_OBJECT (cal_view->priv->model), "model_row_changed", G_CALLBACK (model_row_changed_cb), cal_view);
+	g_signal_connect (G_OBJECT (cal_view->priv->model), "model_cell_changed", G_CALLBACK (model_cell_changed_cb), cal_view);
 	g_signal_connect (G_OBJECT (cal_view->priv->model), "model_rows_inserted", G_CALLBACK (model_rows_changed_cb), cal_view);
 	g_signal_connect (G_OBJECT (cal_view->priv->model), "model_rows_deleted", G_CALLBACK (model_rows_changed_cb), cal_view);
 
