@@ -740,31 +740,31 @@ static void do_op_status(struct _mail_msg *mm)
 	char *out, *p, *o, c;
 	int pc;
 	EvolutionActivityClient *activity;
-
-	g_assert(mail_gui_thread == pthread_self());
-
-	MAIL_MT_LOCK(mail_msg_lock);
-
-	msg = g_hash_table_lookup(mail_msg_active, m->data);
+	
+	g_assert (mail_gui_thread == pthread_self ());
+	
+	MAIL_MT_LOCK (mail_msg_lock);
+	
+	msg = g_hash_table_lookup (mail_msg_active, m->data);
 	if (msg == NULL) {
-		MAIL_MT_UNLOCK(mail_msg_lock);
+		MAIL_MT_UNLOCK (mail_msg_lock);
 		return;
 	}
-
+	
 	data = msg->priv;
-
-	out = alloca(strlen(m->what)*2+1);
+	
+	out = alloca (strlen (m->what) * 2 + 1);
 	o = out;
 	p = m->what;
 	while ((c = *p++)) {
-		if (c=='%')
+		if (c == '%')
 			*o++ = '%';
 		*o++ = c;
 	}
 	*o = 0;
-
+	
 	pc = m->pc;
-
+	
 	/* so whats all this crap about:
 	 * When we call activity_client, we have a chance of coming
 	 * back to code that will call mail_msg_new or one of many
@@ -774,60 +774,73 @@ static void do_op_status(struct _mail_msg *mm)
 	 * ... of course we have to be careful in the free function to
 	 * keep track of it too.
 	 */
-	if (data->activity == NULL) {
+	if (data->activity == NULL && global_shell_client) {
 		char *clientid, *what;
 		int display;
-
+		
 		/* its being created/removed?  well leave it be */
 		if (data->activity_state == 1 || data->activity_state == 3) {
-			MAIL_MT_UNLOCK(mail_msg_lock);
+			MAIL_MT_UNLOCK (mail_msg_lock);
 			return;
 		} else {
 			data->activity_state = 1;
-
+			
 			if (progress_icon[0] == NULL)
-				progress_icon[0] = gdk_pixbuf_new_from_xpm_data((const char **)mail_new_xpm);
-
-			MAIL_MT_UNLOCK(mail_msg_lock);
-			clientid = g_strdup_printf("%p", msg);
+				progress_icon[0] = gdk_pixbuf_new_from_xpm_data ((const char **)mail_new_xpm);
+			
+			MAIL_MT_UNLOCK (mail_msg_lock);
+			clientid = g_strdup_printf ("%p", msg);
 			if (msg->ops->describe_msg)
-				what = msg->ops->describe_msg(msg, FALSE);
+				what = msg->ops->describe_msg (msg, FALSE);
 			else
 				what = _("Working");
-			activity = evolution_activity_client_new(global_shell_client, clientid,
-								 progress_icon, what, TRUE, &display);
+			
+			if (global_shell_client) {
+				activity = evolution_activity_client_new (global_shell_client, clientid,
+									  progress_icon, what, TRUE,
+									  &display);
+			} else {
+				activity = NULL;
+			}
+			
 			if (msg->ops->describe_msg)
-				g_free(what);
-			g_free(clientid);
-			MAIL_MT_LOCK(mail_msg_lock);
+				g_free (what);
+			g_free (clientid);
+			
+			MAIL_MT_LOCK (mail_msg_lock);
 			if (data->activity_state == 3) {
-				MAIL_MT_UNLOCK(mail_msg_lock);
-				gtk_object_unref((GtkObject *)activity);
-				camel_operation_unref(msg->cancel);
-				camel_exception_clear(&msg->ex);
-				g_free(msg->priv);
-				g_free(msg);
+				MAIL_MT_UNLOCK (mail_msg_lock);
+				if (activity)
+					gtk_object_unref (GTK_OBJECT (activity));
+				camel_operation_unref (msg->cancel);
+				camel_exception_clear (&msg->ex);
+				g_free (msg->priv);
+				g_free (msg);
 			} else {
 				data->activity_state = 2;
 				data->activity = activity;
-				MAIL_MT_UNLOCK(mail_msg_lock);
+				MAIL_MT_UNLOCK (mail_msg_lock);
 			}
 			return;
 		}
 	}
-
+	
 	activity = data->activity;
-	gtk_object_ref((GtkObject *)activity);
-	MAIL_MT_UNLOCK(mail_msg_lock);
-	evolution_activity_client_update(activity, out, (double)(pc/100.0));
-	gtk_object_unref((GtkObject *)activity);
+	if (activity) {
+		gtk_object_ref (GTK_OBJECT (activity));
+		MAIL_MT_UNLOCK (mail_msg_lock);
+		
+		evolution_activity_client_update (activity, out, (double)(pc/100.0));
+		gtk_object_unref (GTK_OBJECT (activity));
+	}
 }
 
-static void do_op_status_free(struct _mail_msg *mm)
+static void
+do_op_status_free (struct _mail_msg *mm)
 {
 	struct _op_status_msg *m = (struct _op_status_msg *)mm;
 
-	g_free(m->what);
+	g_free (m->what);
 }
 
 struct _mail_msg_op op_status_op = {
@@ -838,12 +851,12 @@ struct _mail_msg_op op_status_op = {
 };
 
 static void
-mail_operation_status(struct _CamelOperation *op, const char *what, int pc, void *data)
+mail_operation_status (struct _CamelOperation *op, const char *what, int pc, void *data)
 {
 	struct _op_status_msg *m;
-
+	
 	d(printf("got operation statys: %s %d%%\n", what, pc));
-
+	
 	m = mail_msg_new(&op_status_op, NULL, sizeof(*m));
 	m->op = op;
 	m->what = g_strdup(what);

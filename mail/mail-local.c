@@ -223,10 +223,10 @@ mail_local_store_class_init (MailLocalStoreClass *mail_local_store_class)
 		CAMEL_STORE_CLASS (mail_local_store_class);
 	CamelServiceClass *camel_service_class =
 		CAMEL_SERVICE_CLASS (mail_local_store_class);
-
+	
 	/* virtual method overload */
 	camel_service_class->get_name = get_name;
-
+	
 	/* Don't cache folders */
 	camel_store_class->hash_folder_name = NULL;
 	camel_store_class->compare_folder_name = NULL;
@@ -237,8 +237,8 @@ mail_local_store_class_init (MailLocalStoreClass *mail_local_store_class)
 	camel_store_class->free_folder_info = camel_store_free_folder_info_full;
 	camel_store_class->delete_folder = delete_folder;
 	camel_store_class->rename_folder = rename_folder;
-
-	local_parent_class = (CamelStoreClass *)camel_type_get_global_classfuncs(camel_store_get_type ());
+	
+	local_parent_class = (CamelStoreClass *)camel_type_get_global_classfuncs (camel_store_get_type ());
 }
 
 static void

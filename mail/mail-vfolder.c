@@ -49,8 +49,7 @@ static GList *source_folders;	/* list of source folders */
 /* Ditto below */
 EvolutionStorage *vfolder_storage;
 
-/* GROSS HACK: for passing to other parts of the program */
-EvolutionShellClient *global_shell_client = NULL;
+extern EvolutionShellClient *global_shell_client;
 
 /* more globals ... */
 extern char *evolution_dir;
@@ -265,19 +264,16 @@ vfolder_remove_cb (EvolutionStorage *storage,
 void
 vfolder_create_storage (EvolutionShellComponent *shell_component)
 {
-	EvolutionShellClient *shell_client;
 	GNOME_Evolution_Shell corba_shell;
 	EvolutionStorage *storage;
 	char *user, *system;
 	
-	shell_client = evolution_shell_component_get_owner (shell_component);
-	if (shell_client == NULL) {
+	if (global_shell_client == NULL) {
 		g_warning ("We have no shell!?");
 		return;
 	}
-	global_shell_client = shell_client;
 	
-	corba_shell = bonobo_object_corba_objref (BONOBO_OBJECT (shell_client));
+	corba_shell = bonobo_object_corba_objref (BONOBO_OBJECT (global_shell_client));
 	
 	storage = evolution_storage_new (_("VFolders"), NULL, NULL);
 	if (evolution_storage_register_on_shell (storage, corba_shell) != EVOLUTION_STORAGE_OK) {

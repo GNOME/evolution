@@ -1,3 +1,18 @@
+2001-08-19  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-mt.c (do_op_status): Allow the activity to be NULL if there
+	isn't a global_shell_client so that we don't try and report status
+	updates when the shell is destroyed.
+
+	* mail-config.c (add_shortcut_entry): Return if there isn't a
+	global_shell_client.
+
+	* component-factory.c (owner_set_cb): set the global_shell_client
+	here and connect to the destroy signal.
+
+	* mail-vfolder.c (vfolder_create_storage): Use an extern
+	global_shell_client.
+
 2001-08-19  Christopher James Lahey  <clahey@ximian.com>
 
 	* mail-callbacks.c (delete_msg): Made delete make the cursor go

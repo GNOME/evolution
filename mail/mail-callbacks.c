@@ -629,10 +629,11 @@ mail_generate_reply (CamelFolder *folder, CamelMimeMessage *message, const char 
 	camel_internet_address_get (sender, 0, &name, &address);
 	date = camel_mime_message_get_date (message, NULL);
 	
-	format = e_utf8_from_locale_string (_("On %a, %Y-%m-%d at %H:%M, %%s wrote:"));
-	strftime (date_str, sizeof (date_str), format, localtime (&date));
-	g_free (format);
+	strftime (date_str, sizeof (date_str), _("On %a, %Y-%m-%d at %H:%M, %%s wrote:"),
+		  localtime (&date));
+	format = e_utf8_from_locale_string (date_str);
 	text = mail_tool_quote_message (message, date_str, name && *name ? name : address);
+	g_free (format);
 	
 	if (text) {
 		e_msg_composer_set_body_text (composer, text);

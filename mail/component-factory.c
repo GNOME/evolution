@@ -61,6 +61,8 @@ char *default_outbox_folder_uri;
 CamelFolder *outbox_folder = NULL;
 char *evolution_dir;
 
+EvolutionShellClient *global_shell_client = NULL;
+
 #define COMPONENT_FACTORY_ID "OAFIID:GNOME_Evolution_Mail_ShellComponentFactory"
 #define SUMMARY_FACTORY_ID   "OAFIID:GNOME_Evolution_Mail_ExecutiveSummaryComponentFactory"
 
@@ -127,7 +129,7 @@ create_view (EvolutionShellComponent *shell_component,
 	
 	shell_client = evolution_shell_component_get_owner (shell_component);
 	corba_shell = bonobo_object_corba_objref (BONOBO_OBJECT (shell_client));
-
+	
 	if (g_strcasecmp (folder_type, "mail") == 0) {
 		const char *noselect;
 		CamelURL *url;
@@ -592,6 +594,12 @@ got_folder (char *uri, CamelFolder *folder, void *data)
 }
 
 static void
+shell_client_destroy (GtkObject *object)
+{
+	global_shell_client = NULL;
+}
+
+static void
 owner_set_cb (EvolutionShellComponent *shell_component,
 	      EvolutionShellClient *shell_client,
 	      const char *evolution_homedir,
@@ -603,16 +611,19 @@ owner_set_cb (EvolutionShellComponent *shell_component,
 	const GSList *news;
 #endif
 	int i;
-
-	g_print ("evolution-mail: Yeeeh! We have an owner!\n");	/* FIXME */
-
+	
+	/* FIXME: should we ref this? */
+	global_shell_client = shell_client;
+	gtk_signal_connect (GTK_OBJECT (shell_client), "destroy",
+			    shell_client_destroy, NULL);
+	
 	evolution_dir = g_strdup (evolution_homedir);
 	mail_session_init ();
 	
 	storages_hash = g_hash_table_new (NULL, NULL);
-
+	
 	vfolder_create_storage (shell_component);
-
+	
 	corba_shell = bonobo_object_corba_objref (BONOBO_OBJECT (shell_client));
 	
 	accounts = mail_config_get_accounts ();
