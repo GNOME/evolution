@@ -1,0 +1,2 @@
+#define E_CERT_SELECTOR_SIGNER 0
+
