@@ -589,7 +589,7 @@ e_day_view_top_item_draw_long_event (EDayViewTopItem *dvtitem,
 
 		category = (char *) elem->data;
 		e_categories_config_get_icon_for (category, &pixmap, &mask);
-		if (pixmap == NULL || mask == NULL)
+		if (pixmap == NULL)
 			continue;
 
 		if (icon_x <= max_icon_x) {

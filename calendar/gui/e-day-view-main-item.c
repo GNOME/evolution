@@ -668,7 +668,7 @@ e_day_view_main_item_draw_day_event (EDayViewMainItem *dvmitem,
 
 			category = (char *) elem->data;
 			e_categories_config_get_icon_for (category, &pixmap, &mask);
-			if (pixmap == NULL || mask == NULL)
+			if (pixmap == NULL)
 				continue;
 
 			max_icon_w = item_x + item_w - icon_x
