@@ -262,7 +262,7 @@ get_widget (FilterElement *fe)
 	menu = gtk_menu_new ();
 	while (l) {
 		op = l->data;
-		item = gtk_menu_item_new_with_label (op->title);
+		item = gtk_menu_item_new_with_label (_(op->title));
 		gtk_object_set_data (GTK_OBJECT (item), "option", op);
 		gtk_signal_connect (GTK_OBJECT (item), "activate", option_changed, fe);
 		gtk_menu_append (GTK_MENU (menu), item);
