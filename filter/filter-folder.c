@@ -204,7 +204,13 @@ button_clicked (GtkButton *button, FilterFolder *ff)
 #ifdef SHELL
 	const char *allowed_types[] = { "mail", NULL };
 	char *def, *physical_uri, *evolution_uri;
+	static gboolean is_active = FALSE;
 	gchar *s;
+	
+	if (is_active)
+		return;
+	
+	is_active = TRUE;
 	
 	def = ff->uri ? ff->uri : "";
 	
@@ -227,6 +233,8 @@ button_clicked (GtkButton *button, FilterFolder *ff)
 		g_free (physical_uri);
 	}
 	g_free (evolution_uri);
+	
+	is_active = FALSE;
 #else
 	GnomeDialog *gd;
 	GtkEntry *entry;

@@ -1,5 +1,9 @@
 2000-12-11  Jeffrey Stedfast  <fejj@helixcode.com>
 
+	* filter-folder.c (button_clicked): Added a kludge, 'is_active'
+	which is a static variable that holds whether or not there is an
+	active shell folder dialog up or not.
+
 	* vfolder-editor.c (rule_delete): Autoselect the rule that ends up
 	in the same position (or the one above it if the list is shorter
 	than the position).
