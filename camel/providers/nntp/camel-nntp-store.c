@@ -390,6 +390,7 @@ nntp_folder_info_from_store_info (CamelNNTPStore *store, gboolean short_notation
 	CamelURL *base_url = ((CamelService *) store)->url;
 	CamelFolderInfo *fi = g_malloc0(sizeof(*fi));
 	CamelURL *url;
+	char *path;
 	
 	fi->full_name = g_strdup (si->path);
 	
@@ -399,16 +400,9 @@ nntp_folder_info_from_store_info (CamelNNTPStore *store, gboolean short_notation
 		fi->name = g_strdup (si->path);
 	
 	fi->unread = -1;
-	/* fi->path is the 'canonicalised' path used by the UI (folder-tree). Not
-	 * as important these days, but folders used to get added to the tree based
-	 * on its path rather than the structure of the CamelFolderInfo's.
-	 *
-	 * must be delimited by '/' which also means that if the user doesn't want
-	 * a flat list of newsgroups, you'll have to replace '.' with '/' for
-	 * full_name too. */	
-	/*camel_folder_info_build_path(fi, '/');*/
-	fi->path = g_strdup_printf ("/%s", si->path);
-	url = camel_url_new_with_base (base_url, fi->path);
+	path = alloca(strlen(fi->full_name)+2);
+	sprintf(path, "/%s", fi->full_name);
+	url = camel_url_new_with_base (base_url, path);
 	fi->uri = camel_url_to_string (url, CAMEL_URL_HIDE_ALL);
 	camel_url_free (url);
 	
@@ -421,7 +415,8 @@ nntp_folder_info_from_name (CamelNNTPStore *store, gboolean short_notation, cons
 	CamelFolderInfo *fi = g_malloc0(sizeof(*fi));
 	CamelURL *base_url = ((CamelService *)store)->url;
 	CamelURL *url;
-	
+	char *path;
+
 	fi->full_name = g_strdup (name);
 	
 	if (short_notation)
@@ -431,9 +426,9 @@ nntp_folder_info_from_name (CamelNNTPStore *store, gboolean short_notation, cons
 	
 	fi->unread = -1;
 	
-	fi->path = g_strdup_printf ("/%s", name);
-	
-	url = camel_url_new_with_base (base_url, fi->path);
+	path = alloca(strlen(fi->full_name)+2);
+	sprintf(path, "/%s", fi->full_name);
+	url = camel_url_new_with_base (base_url, path);
 	fi->uri = camel_url_to_string (url, CAMEL_URL_HIDE_ALL);
 	camel_url_free (url);
 	

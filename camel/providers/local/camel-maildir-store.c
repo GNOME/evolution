@@ -232,7 +232,6 @@ static CamelFolderInfo *camel_folder_info_new(const char *url, const char *full,
 	fi->name = g_strdup(name);
 	fi->unread = -1;
 	fi->total = -1;
-	camel_folder_info_build_path(fi, '/');
 
 	if (!strcmp(full, "."))
 		fi->flags |= CAMEL_FOLDER_SYSTEM;

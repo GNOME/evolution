@@ -333,7 +333,6 @@ delete_folder(CamelStore *store, const char *folder_name, CamelException *ex)
 	fi->name = g_path_get_basename(folder_name);
 	fi->uri = g_strdup_printf("mbox:%s#%s",((CamelService *) store)->url->path, folder_name);
 	fi->unread = -1;
-	camel_folder_info_build_path(fi, '/');
 	
 	camel_object_trigger_event(store, "folder_deleted", fi);
 	
@@ -705,7 +704,6 @@ scan_dir(CamelStore *store, CamelURL *url, GHashTable *visited, CamelFolderInfo 
 			fi->uri = camel_url_to_string (url, 0);
 			fi->name = short_name;
 			fi->full_name = full_name;
-			fi->path = g_strdup_printf("/%s", full_name);
 			fi->unread = -1;
 			fi->total = -1;
 
@@ -815,7 +813,6 @@ get_folder_info(CamelStore *store, const char *top, guint32 flags, CamelExceptio
 	fi->full_name = g_strdup(top);
 	fi->unread = -1;
 	fi->total = -1;
-	fi->path = g_strdup_printf("/%s", top);
 	
 	subdir = g_strdup_printf("%s.sbd", path);
 	if (stat(subdir, &st) == 0) {

@@ -149,7 +149,6 @@ change_folder(CamelStore *store, const char *name, guint32 flags, int count)
 	fi->flags = CAMEL_FOLDER_VIRTUAL;
 	if (!(flags & CHANGE_DELETE))
 		fi->flags |= CAMEL_FOLDER_NOCHILDREN;
-	camel_folder_info_build_path(fi, '/');
 	camel_object_trigger_event(store, (flags&CHANGE_DELETE)?"folder_deleted":"folder_created", fi);
 	camel_folder_info_free(fi);
 }
@@ -272,7 +271,6 @@ vee_get_folder_info(CamelStore *store, const char *top, guint32 flags, CamelExce
 			info->name = g_strdup(((CamelFolder *)folder)->name);
 			info->unread = camel_folder_get_unread_message_count((CamelFolder *)folder);
 			info->flags = CAMEL_FOLDER_NOCHILDREN|CAMEL_FOLDER_VIRTUAL;
-			camel_folder_info_build_path(info, '/');
 			g_hash_table_insert(infos_hash, info->full_name, info);
 
 			if (res == NULL)
@@ -329,7 +327,6 @@ vee_get_folder_info(CamelStore *store, const char *top, guint32 flags, CamelExce
 		info->name = g_strdup(_("Unmatched"));
 		info->unread = -1;
 		info->flags = CAMEL_FOLDER_NOCHILDREN|CAMEL_FOLDER_NOINFERIORS|CAMEL_FOLDER_SYSTEM|CAMEL_FOLDER_VIRTUAL;
-		camel_folder_info_build_path(info, '/');
 
 		if (res == NULL)
 			res = info;

@@ -350,7 +350,6 @@ folder_info_new (CamelStore *store, CamelURL *url, const char *root, const char 
 	fi->uri = camel_url_to_string (url, 0);
 	fi->full_name = g_strdup(path);
 	fi->name = g_strdup(base?base+1:path);
-	camel_folder_info_build_path(fi, '/');
 	fill_fi(store, fi, flags);
 
 	d(printf("New folderinfo:\n '%s'\n '%s'\n '%s'\n", fi->full_name, fi->uri, fi->path));

@@ -543,7 +543,6 @@ folders_build_info(CamelURL *base, struct _list_info *li)
 	fi->uri = camel_url_to_string(base, CAMEL_URL_HIDE_ALL);
 	fi->name = g_strdup(name);
 	fi->full_name = full_name;
-	fi->path = g_strdup(path);
 	fi->unread = -1;
 	fi->total = -1;
 	fi->flags = li->flags;

@@ -231,7 +231,6 @@ static void free_folder_info (CamelStore *store, CamelFolderInfo *fi)
 		g_free(fi->uri);
 		g_free(fi->name);
 		g_free(fi->full_name);
-		g_free(fi->path);
 		g_free(fi);
 	}
 }
@@ -246,7 +245,6 @@ camel_folder_info_new(const char *url, const char *full, const char *name, int u
 	fi->full_name = g_strdup(full);
 	fi->name = g_strdup(name);
 	fi->unread = unread;
-	camel_folder_info_build_path(fi, '/');
 
 	d(printf("Adding spoold info: '%s' '%s' '%s' '%s'\n", fi->path, fi->name, fi->full_name, fi->url));
 
@@ -466,8 +464,6 @@ get_folder_info_mbox(CamelStore *store, const char *top, guint32 flags, CamelExc
 			camel_object_unref(folder);
 		} else
 			fi->unread = -1;
-
-		camel_folder_info_build_path(fi, '/');
 	}
 
 	return fi;

@@ -50,7 +50,6 @@ typedef struct _CamelFolderInfo {
 	char *uri;
 	char *name;
 	char *full_name;
-	char *path;
 
 	guint32 flags;
 	guint32 unread;
@@ -102,13 +101,7 @@ struct _CamelStore
 	CamelObjectBag *folders;
 
 	int flags;
-
-	/* FIXME: This is a temporary measure until IMAP namespaces are properly implemented,
-	   after that, all external folder api's will assume a dir separator of '/' */
-	/* This is always a copy of IMAP_STORE()->dir_sep, or '/' */
-	char dir_sep;
 };
-
 
 /* open mode for folder */
 #define CAMEL_STORE_FOLDER_CREATE (1<<0)
@@ -214,8 +207,6 @@ void             camel_store_free_folder_info_nop  (CamelStore *store,
 						    CamelFolderInfo *fi);
 
 void             camel_folder_info_free            (CamelFolderInfo *fi);
-void             camel_folder_info_build_path      (CamelFolderInfo *fi,
-						    char separator);
 CamelFolderInfo *camel_folder_info_build           (GPtrArray *folders,
 						    const char *namespace,
 						    char separator,

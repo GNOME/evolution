@@ -138,8 +138,6 @@ camel_store_init (void *o)
 	/* set vtrash and vjunk on by default */
 	store->flags = CAMEL_STORE_VTRASH | CAMEL_STORE_VJUNK;
 
-	store->dir_sep = '/';
-	
 	store->priv = g_malloc0 (sizeof (*store->priv));
 	store->priv->folder_lock = e_mutex_new (E_MUTEX_REC);
 }
@@ -459,7 +457,7 @@ camel_store_rename_folder (CamelStore *store, const char *old_namein, const char
 			     strcmp(folder->full_name, old_name) == 0)
 			    || ((namelen > oldlen)
 				&& strncmp(folder->full_name, old_name, oldlen) == 0
-				&& folder->full_name[oldlen] == store->dir_sep)) {
+				&& folder->full_name[oldlen] == '/')) {
 				d(printf("Found subfolder of '%s' == '%s'\n", old_name, folder->full_name));
 				CAMEL_FOLDER_LOCK(folder, lock);
 			} else {
@@ -730,7 +728,6 @@ add_special_info (CamelStore *store, CamelFolderInfo *info, const char *name, co
 		g_free (vinfo->full_name);
 		g_free (vinfo->name);
 		g_free (vinfo->uri);
-		g_free (vinfo->path);
 	} else {
 		/* There wasn't a Trash/Junk folder so create a new folder entry */
 		vinfo = g_new0 (CamelFolderInfo, 1);
@@ -751,7 +748,6 @@ add_special_info (CamelStore *store, CamelFolderInfo *info, const char *name, co
 	vinfo->uri = uri;
 	if (!unread_count)
 		vinfo->unread = -1;
-	vinfo->path = g_strdup_printf ("/%s", vinfo->full_name);
 }
 
 static void
@@ -889,36 +885,8 @@ camel_folder_info_free (CamelFolderInfo *fi)
 		camel_folder_info_free (fi->child);
 		g_free (fi->name);
 		g_free (fi->full_name);
-		g_free (fi->path);
 		g_free (fi->uri);
 		g_free (fi);
-	}
-}
-
-/**
- * camel_folder_info_build_path:
- * @fi: folder info
- * @separator: directory separator
- *
- * Sets the folder info path based on the folder's full name and
- * directory separator.
- **/
-void
-camel_folder_info_build_path (CamelFolderInfo *fi, char separator)
-{
-	const char *full_name;
-	char *p;
-	
-	full_name = fi->full_name;
-	while (*full_name == separator)
-		full_name++;
-	
-	fi->path = g_strdup_printf ("/%s", full_name);
-	if (separator != '/') {
-		for (p = fi->path; *p; p++) {
-			if (*p == separator)
-				*p = '/';
-		}
 	}
 }
 
@@ -996,10 +964,6 @@ camel_folder_info_build (GPtrArray *folders, const char *namespace,
 			name = fi->full_name;
 		if (*name == separator)
 			name++;
-
-		/* set the path if it isn't already set */
-		if (!fi->path)
-			camel_folder_info_build_path (fi, separator);
 
 		p = strrchr (name, separator);
 		if (p) {
@@ -1079,7 +1043,6 @@ static CamelFolderInfo *folder_info_clone_rec(CamelFolderInfo *fi, CamelFolderIn
 	info->uri = g_strdup(fi->uri);
 	info->name = g_strdup(fi->name);
 	info->full_name = g_strdup(fi->full_name);
-	info->path = g_strdup(fi->path);
 	info->unread = fi->unread;
 	info->flags = fi->flags;
 	

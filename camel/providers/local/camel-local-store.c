@@ -469,7 +469,6 @@ delete_folder(CamelStore *store, const char *folder_name, CamelException *ex)
 	fi->uri = g_strdup_printf ("%s:%s#%s", ((CamelService *) store)->url->protocol,
 				   CAMEL_LOCAL_STORE(store)->toplevel_dir, folder_name);
 	fi->unread = -1;
-	camel_folder_info_build_path(fi, '/');
 	
 	camel_object_trigger_event (store, "folder_deleted", fi);
 	
