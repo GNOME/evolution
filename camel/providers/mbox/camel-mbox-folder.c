@@ -38,7 +38,6 @@
 #include "camel-mbox-store.h"
 #include "string-utils.h"
 #include "camel-log.h"
-#include "camel-stream-buffered-fs.h"
 #include "camel-mbox-summary.h"
 #include "camel-mbox-parser.h"
 #include "camel-mbox-utils.h"

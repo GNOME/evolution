@@ -46,7 +46,6 @@ typedef struct _CamelSimpleDataWrapperStream CamelSimpleDataWrapperStream;
 typedef struct _CamelStore CamelStore;
 typedef struct _CamelStream CamelStream;
 typedef struct _CamelStreamBuffer CamelStreamBuffer;
-typedef struct _CamelStreamBufferedFs CamelStreamBufferedFs;
 typedef struct _CamelStreamDataWrapper CamelStreamDataWrapper;
 typedef struct _CamelStreamFs CamelStreamFs;
 typedef struct _CamelStreamMem CamelStreamMem;
