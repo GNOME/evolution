@@ -1,3 +1,22 @@
+2003-04-15  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* camel-gpg-context.c (gpg_verify): The gpg child process exiting
+	does not necessarily mean that we've ready everything that we can
+	from its pipes, so don't use gpg_ctx_op_exited() as a loop-exit
+	condition. If for some reason the gpg child process does exit (due
+	to an error), gpg_ctx_op_step() will eventually fail (as soon as
+	it has finished reading any data in the pipes) and cause the loop
+	to be terminated anyway. This fixes truncation of the gpg --verify
+	stderr output that Evolution displays as the "validity report"
+	(for lack of a better description).
+	(gpg_ctx_op_step): Removed some debugging printf's
+	(gpg_ctx_get_diagnostics): Use a bitfield to decide if we've
+	already flushed the diagnostics stream, much simpler (plus we have
+	plenty of bits to spare so might as well use them).
+	(gpg_ctx_new): Fixed another logic bug which determined whether or
+	not we should convert the gpg output from the locale charset into
+	UTF-8.
+
 2003-04-10  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* providers/smtp/camel-smtp-transport.c: Turn off debugging if

@@ -282,7 +282,9 @@ struct _GpgCtx {
 	unsigned int validsig:1;
 	unsigned int trust:3;
 	
-	unsigned int padding:18;
+	unsigned int diagflushed:1;
+	
+	unsigned int padding:17;
 };
 
 static struct _GpgCtx *
@@ -334,8 +336,9 @@ gpg_ctx_new (CamelSession *session)
 	
 	stream = camel_stream_mem_new ();
 	gpg->diagbuf = CAMEL_STREAM_MEM (stream)->buffer;
+	gpg->diagflushed = FALSE;
 	
-	if ((charset = e_iconv_locale_charset ()) && !strcasecmp (charset, "UTF-8")) {
+	if ((charset = e_iconv_locale_charset ()) && strcasecmp (charset, "UTF-8") != 0) {
 		CamelMimeFilterCharset *filter;
 		CamelStreamFilter *fstream;
 		
@@ -426,7 +429,8 @@ gpg_ctx_set_ostream (struct _GpgCtx *gpg, CamelStream *ostream)
 static const char *
 gpg_ctx_get_diagnostics (struct _GpgCtx *gpg)
 {
-	if (!gpg->diagbuf->len || gpg->diagbuf->data[gpg->diagbuf->len - 1] != '\0') {
+	if (!gpg->diagflushed) {
+		gpg->diagflushed = TRUE;
 		camel_stream_flush (gpg->diagnostics);
 		if (gpg->diagbuf->len == 0)
 			return NULL;
@@ -1063,9 +1067,7 @@ gpg_ctx_op_step (struct _GpgCtx *gpg, CamelException *ex)
 			goto exception;
 		
 		if (nread > 0) {
-			printf ("pre-diag: %.*s\n", nread, buffer);
 			camel_stream_write (gpg->diagnostics, buffer, nread);
-			printf ("post-diag: %.*s\n", gpg->diagbuf->len, gpg->diagbuf->data);
 		} else {
 			gpg->seen_eof2 = TRUE;
 		}
@@ -1390,7 +1392,7 @@ gpg_verify (CamelCipherContext *context, CamelCipherHash hash,
 		goto exception;
 	}
 	
-	while (!gpg_ctx_op_complete (gpg) && !gpg_ctx_op_exited (gpg)) {
+	while (!gpg_ctx_op_complete (gpg)) {
 		if (camel_operation_cancel_check (NULL)) {
 			camel_exception_set (ex, CAMEL_EXCEPTION_USER_CANCEL,
 					     _("Cancelled."));
