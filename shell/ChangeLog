@@ -1,5 +1,12 @@
 2001-06-24  Ettore Perazzoli  <ettore@ximian.com>
 
+	* Makefile.am: s/\.oafinfo/.oaf/g.
+
+	* GNOME_Evolution_TestComponent.oafinfo: Renamed to
+	`GNOME_Evolution_TestComponent.oaf'.
+
+2001-06-24  Ettore Perazzoli  <ettore@ximian.com>
+
 	* e-shell.c: New member `iid' in EShellPrivate.
 	(init): Init to NULL.
 	(e_shell_construct): Set it to the value of the @iid argument.

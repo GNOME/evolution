@@ -184,7 +184,7 @@ install-test-component: evolution-test-component
 	$(mkinstalldirs) $(DESTDIR)$(bindir)
 	$(LIBTOOL) --mode=install $(INSTALL_PROGRAM) evolution-test-component $(DESTDIR)$(bindir)/evolution-test-component
 	$(mkinstalldirs) $(DESTDIR)$(oafdir)
-	$(INSTALL_DATA) $(srcdir)/GNOME_Evolution_TestComponent.oafinfo $(DESTDIR)$(oafdir)/GNOME_Evolution_TestComponent.oafinfo
+	$(INSTALL_DATA) $(srcdir)/GNOME_Evolution_TestComponent.oaf $(DESTDIR)$(oafdir)/GNOME_Evolution_TestComponent.oaf
 
 # Misc stuff
 
@@ -202,7 +202,7 @@ EXTRA_DIST = 					\
 	$(oaf_in_files)				\
 	$(oaf_DATA)				\
 	$(etspec_DATA)				\
-	GNOME_Evolution_TestComponent.oafinfo
+	GNOME_Evolution_TestComponent.oaf
 
 # Purify support
 
