@@ -1,3 +1,12 @@
+2001-10-30  Damon Chaplin  <damon@ximian.com>
+
+	* e-cell-date-edit.c (e_cell_date_edit_set_popup_values): try to parse
+	just a date first, and if that works we assume it is a DATE value,
+	so we clear the time field in the popup.
+	(e_cell_date_edit_on_ok_clicked): if the time field is empty, use a
+	DATE value.
+	Also removed some debug messages.
+
 2001-10-30    <NotZed@Ximian.com>
 
 	* e-filter-bar.c (set_option): Set the item to the option_base on

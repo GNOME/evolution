@@ -455,12 +455,19 @@ e_cell_date_edit_set_popup_values	(ECellDateEdit	*ecde)
 	GDate date;
 	ECalendarItem *calitem;
 	char buffer[64];
+	gboolean is_date = TRUE;
 
 	ecol = e_table_header_get_column (eti->header, ecp->popup_view_col);
 	cell_text = e_cell_text_get_text (ecell_text, ecv->e_table_model,
 					  ecol->col_idx, ecp->popup_row);
 
-	status = e_time_parse_date_and_time (cell_text, &date_tm);
+	/* Try to parse just a date first. If the value is only a date, we
+	   use a DATE value. */
+	status = e_time_parse_date (cell_text, &date_tm);
+	if (status == E_TIME_PARSE_INVALID) {
+		is_date = FALSE;
+		status = e_time_parse_date_and_time (cell_text, &date_tm);
+	}
 
 	/* If there is no date and time set, or the date is invalid, we clear
 	   the selections, else we select the appropriate date & time. */
@@ -470,8 +477,12 @@ e_cell_date_edit_set_popup_values	(ECellDateEdit	*ecde)
 		e_calendar_item_set_selection (calitem, NULL, NULL);
 		gtk_list_unselect_all (GTK_LIST (ecde->time_list));
 	} else {
-		e_time_format_time (&date_tm, ecde->use_24_hour_format, FALSE,
-				    buffer, sizeof (buffer));
+		if (is_date) {
+			buffer[0] = '\0';
+		} else {
+			e_time_format_time (&date_tm, ecde->use_24_hour_format,
+					    FALSE, buffer, sizeof (buffer));
+		}
 		gtk_entry_set_text (GTK_ENTRY (ecde->time_entry), buffer);
 
 		g_date_clear (&date, 1);
@@ -479,7 +490,11 @@ e_cell_date_edit_set_popup_values	(ECellDateEdit	*ecde)
 				date_tm.tm_year + 1900);
 		e_calendar_item_set_selection (calitem, &date, &date);
 
-		e_cell_date_edit_select_matching_time (ecde, buffer);
+		if (is_date) {
+			gtk_list_unselect_all (GTK_LIST (ecde->time_list));
+		} else {
+			e_cell_date_edit_select_matching_time (ecde, buffer);
+		}
 	}
 
 	e_cell_text_free_text (ecell_text, cell_text);
@@ -632,8 +647,6 @@ e_cell_date_edit_key_press		(GtkWidget	*popup_window,
 					 GdkEventKey	*event,
 					 ECellDateEdit	*ecde)
 {
-	g_print ("In e_cell_date_edit_key_press\n");
-
 	/* If the Escape key is pressed we hide the popup. */
 	if (event->keyval != GDK_Escape)
 		return FALSE;
@@ -701,6 +714,7 @@ e_cell_date_edit_on_ok_clicked		(GtkWidget	*button,
 	struct tm date_tm;
 	char buffer[64], *text;
 	ETimeParseStatus status;
+	gboolean is_date = FALSE;
 
 	calitem = E_CALENDAR_ITEM (E_CALENDAR (ecde->calendar)->calitem);
 	day_selected = e_calendar_item_get_selection (calitem, &start_date,
@@ -711,6 +725,8 @@ e_cell_date_edit_on_ok_clicked		(GtkWidget	*button,
 	if (status == E_TIME_PARSE_INVALID) {
 		e_cell_date_edit_show_time_invalid_warning (ecde);
 		return;
+	} else if (status == E_TIME_PARSE_NONE) {
+		is_date = TRUE;
 	}
 
 	if (day_selected) {
@@ -721,7 +737,7 @@ e_cell_date_edit_on_ok_clicked		(GtkWidget	*button,
 		mktime (&date_tm);
 		e_time_format_date_and_time (&date_tm,
 					     ecde->use_24_hour_format,
-					     TRUE, FALSE,
+					     !is_date, FALSE,
 					     buffer, sizeof (buffer));
 	} else {
 		buffer[0] = '\0';
@@ -773,8 +789,6 @@ e_cell_date_edit_on_now_clicked		(GtkWidget	*button,
 	time_t t;
 	char buffer[64];
 
-	g_print ("In e_cell_date_edit_on_now_clicked\n");
-
 	if (ecde->time_callback) {
 		tmp_tm = (*ecde->time_callback) (ecde, ecde->time_callback_data);
 	} else {
@@ -795,8 +809,6 @@ static void
 e_cell_date_edit_on_none_clicked	(GtkWidget	*button,
 					 ECellDateEdit	*ecde)
 {
-	g_print ("In e_cell_date_edit_on_none_clicked\n");
-
 	e_cell_date_edit_update_cell (ecde, "");
 	e_cell_date_edit_hide_popup (ecde);
 }
@@ -809,8 +821,6 @@ e_cell_date_edit_on_today_clicked	(GtkWidget	*button,
 	struct tm tmp_tm;
 	time_t t;
 	char buffer[64];
-
-	g_print ("In e_cell_date_edit_on_today_clicked\n");
 
 	if (ecde->time_callback) {
 		tmp_tm = (*ecde->time_callback) (ecde, ecde->time_callback_data);
@@ -865,8 +875,6 @@ e_cell_date_edit_on_time_selected	(GtkList	*list,
 {
 	GtkWidget *listitem, *label;
 	char *list_item_text;
-
-	g_print ("In e_cell_date_edit_on_time_selected\n");
 
 	if (!list->selection)
 		return;
