@@ -1,3 +1,12 @@
+2004-06-10  Rodrigo Moya <rodrigo@novell.com>
+
+	Fixes #58799
+
+	* gui/e-calendar-view.c (e_calendar_view_delete_selected_occurrence):
+	Use the timezone for getting the RECUR-ID from the instance start
+	date if available. Also, use dates only as the recurrence ID, and
+	do nothing if not a recurrent appointment.
+
 2004-06-09  JP Rosevear  <jpr@novell.com>
 
 	* gui/gnome-cal.c (get_times_for_views): calculate the work week,
