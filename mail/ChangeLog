@@ -1,3 +1,22 @@
+2000-08-24  Peter Williams  <peterw@helixcode.com>
+
+	* mail-callbacks.c (mark_all_seen): Don't call camel_folder_get_uids
+	here. IMAP, for example, will try to communicate with the IMAP
+	server during that call.
+
+	* mail-ops.c (cleanup_fetch_mail): Tell the user
+	which URL has no new mail, as they may be checking
+	more than one source.
+	(mail_do_flag_all_messages): New function. Flags all of
+	the messages in a folder. Something of a hack. This merely
+	extends the flag_messages operation; it doesn't implement
+	a new one.
+	(do_flag_messages et al): Fetch the uids if we need to;
+	use camel_folder_free_uids if necessary, etc.
+	
+	* mail-tools.c (mail_tool_move_folder_contents): Add
+	messages to tell the user what's going on.
+
 2000-08-24  Christopher James Lahey  <clahey@helixcode.com>
 
 	* folder-browser-factory.c: Fixed some warnings in the uihandler

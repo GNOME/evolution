@@ -161,8 +161,12 @@ cleanup_fetch_mail (gpointer in_data, gpointer op_data, CamelException *ex)
 
 	if (data->empty && !camel_exception_is_set (ex)) {
 		GtkWidget *dialog;
+		gchar *str;
 
-		dialog = gnome_ok_dialog (_("There is no new mail."));
+		str = g_strdup_printf (_("There is no new mail at %s."),
+				       input->source_url);
+		dialog = gnome_ok_dialog (str);
+		g_free (str);
 		mail_dialog_run_and_close (GNOME_DIALOG (dialog));
 	}
 
@@ -615,6 +619,7 @@ typedef struct flag_messages_input_s
 	gboolean invert;
 	guint32 mask;
 	guint32 set;
+	gboolean flag_all;
 }
 flag_messages_input_t;
 
@@ -653,7 +658,7 @@ setup_flag_messages (gpointer in_data, gpointer op_data, CamelException *ex)
 		return;
 	}
 
-	if (input->uids == NULL) {
+	if (!input->flag_all && input->uids == NULL) {
 		camel_exception_set (ex, CAMEL_EXCEPTION_INVALID_PARAM,
 				     "No messages to flag have been specified.");
 		return;
@@ -670,6 +675,8 @@ do_flag_messages (gpointer in_data, gpointer op_data, CamelException *ex)
 
 	mail_tool_camel_lock_up ();
 	camel_folder_freeze (input->source);
+	if (input->uids == NULL) 
+		input->uids = camel_folder_get_uids (input->source);
 	mail_tool_camel_lock_down ();
 
 	for (i = 0; i < input->uids->len; i++) {
@@ -686,10 +693,15 @@ do_flag_messages (gpointer in_data, gpointer op_data, CamelException *ex)
 						 input->mask, input->set);
 		}
 
-		g_free (input->uids->pdata[i]);
+		if (input->flag_all == FALSE)
+			g_free (input->uids->pdata[i]);
 	}
 
 	mail_tool_camel_lock_up ();
+	if (input->flag_all) {
+		camel_folder_free_uids (input->source, input->uids);
+		input->uids = NULL;
+	}
 	camel_folder_thaw (input->source);
 	mail_tool_camel_lock_down ();
 }
@@ -701,7 +713,9 @@ cleanup_flag_messages (gpointer in_data, gpointer op_data,
 	flag_messages_input_t *input = (flag_messages_input_t *) in_data;
 
 	camel_object_unref (CAMEL_OBJECT (input->source));
-	g_ptr_array_free (input->uids, TRUE);
+
+	if (input->uids)
+		g_ptr_array_free (input->uids, TRUE);
 }
 
 static const mail_operation_spec op_flag_messages = {
@@ -725,6 +739,24 @@ mail_do_flag_messages (CamelFolder *source, GPtrArray *uids,
 	input->invert = invert;
 	input->mask = mask;
 	input->set = set;
+	input->flag_all = FALSE;
+
+	mail_operation_queue (&op_flag_messages, input, TRUE);
+}
+
+void
+mail_do_flag_all_messages (CamelFolder *source, gboolean invert,
+			   guint32 mask, guint32 set)
+{
+	flag_messages_input_t *input;
+
+	input = g_new (flag_messages_input_t, 1);
+	input->source = source;
+	input->uids = NULL;
+	input->invert = invert;
+	input->mask = mask;
+	input->set = set;
+	input->flag_all = TRUE;
 
 	mail_operation_queue (&op_flag_messages, input, TRUE);
 }

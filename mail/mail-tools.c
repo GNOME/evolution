@@ -260,6 +260,8 @@ mail_tool_move_folder_contents (CamelFolder *source, CamelFolder *dest, gboolean
 
 	/* Get all uids of source */
 
+	mail_op_set_message ("Examining %s", source->full_name);
+
 	uids = camel_folder_get_uids (source);
 	printf ("mail_tool_move_folder: got %d messages in source\n", uids->len);
 
@@ -305,6 +307,11 @@ mail_tool_move_folder_contents (CamelFolder *source, CamelFolder *dest, gboolean
 	for (i = 0; i < uids->len; i++) {
 		CamelMimeMessage *msg;
 		const CamelMessageInfo *info;
+
+		/* Info */
+
+		mail_op_set_message ("Retrieving message %d of %d", i, uids->len);
+
 		/* Get the message */
 
 		msg = camel_folder_get_message (source, uids->pdata[i], ex);
@@ -314,6 +321,8 @@ mail_tool_move_folder_contents (CamelFolder *source, CamelFolder *dest, gboolean
 		}
 		
 		/* Append it to dest */
+
+		mail_op_set_message ("Writing message %d of %d", i, uids->len);
 
 		info = camel_folder_get_message_info (source, uids->pdata[i]);
 		camel_folder_append_message (dest, msg, info, ex);
@@ -339,6 +348,8 @@ mail_tool_move_folder_contents (CamelFolder *source, CamelFolder *dest, gboolean
 		camel_uid_cache_destroy (cache);
 	} else
 		camel_folder_free_uids (source, uids);
+
+	mail_op_set_message ("Saving changes to %s", source->full_name);
 
 	camel_folder_sync (source, TRUE, ex);
 

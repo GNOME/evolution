@@ -453,14 +453,12 @@ mark_all_seen (BonoboUIHandler *uih, void *user_data, const char *path)
 {
         FolderBrowser *fb = FOLDER_BROWSER(user_data);
         MessageList *ml = fb->message_list;
-        GPtrArray *uids;
 
 	if (ml->folder == NULL)
 		return;
 
-        uids = camel_folder_get_uids (ml->folder);
-	mail_do_flag_messages (ml->folder, uids, FALSE,
-			       CAMEL_MESSAGE_SEEN, CAMEL_MESSAGE_SEEN);
+	mail_do_flag_all_messages (ml->folder, FALSE,
+				   CAMEL_MESSAGE_SEEN, CAMEL_MESSAGE_SEEN);
 }
 
 void
