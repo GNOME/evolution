@@ -1871,7 +1871,7 @@ signature_cb (GtkWidget *w, EMsgComposer *composer)
 	old_sig = composer->signature;
 	old_auto = composer->auto_signature;
 	
-	if (idx < len - 2) {
+	if (idx < len) {
 		if (idx == 0) {			                /* none */
 			composer->signature = NULL;
 			composer->auto_signature = FALSE;
