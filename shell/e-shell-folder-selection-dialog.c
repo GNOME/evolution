@@ -27,6 +27,7 @@
 
 #include <libgnomeui/gnome-stock.h>
 #include <libgnomeui/gnome-dialog.h>
+#include <libgnomeui/gnome-messagebox.h>
 #include <libgnome/gnome-i18n.h>
 
 #include "e-util/e-gui-utils.h"
