@@ -832,16 +832,16 @@ stream_getsockopt (CamelTcpStream *stream, CamelSockOptData *data)
 	if (data->option == CAMEL_SOCKOPT_NONBLOCKING) {
 		int flags;
 		
-		flags = fcntl (((CamelTcpStreamSSL *)stream)->priv->sockfd, F_GETFL);
+		flags = fcntl (((CamelTcpStreamSSL *) stream)->priv->sockfd, F_GETFL);
 		if (flags == -1)
 			return -1;
 		
-		data->value.non_blocking = flags & O_NONBLOCK;
+		data->value.non_blocking = flags & O_NONBLOCK ? TRUE : FALSE;
 		
 		return 0;
 	}
 	
-	return getsockopt (((CamelTcpStreamSSL *)stream)->priv->sockfd,
+	return getsockopt (((CamelTcpStreamSSL *) stream)->priv->sockfd,
 			   get_sockopt_level (data),
 			   optname,
 			   (void *) &data->value,
@@ -859,20 +859,20 @@ stream_setsockopt (CamelTcpStream *stream, const CamelSockOptData *data)
 	if (data->option == CAMEL_SOCKOPT_NONBLOCKING) {
 		int flags, set;
 		
-		flags = fcntl (((CamelTcpStreamSSL *)stream)->priv->sockfd, F_GETFL);
+		flags = fcntl (((CamelTcpStreamSSL *) stream)->priv->sockfd, F_GETFL);
 		if (flags == -1)
 			return -1;
 		
-		set = data->value.non_blocking ? 1 : 0;
-		flags = (flags & ~O_NONBLOCK) | (set & O_NONBLOCK);
+		set = data->value.non_blocking ? O_NONBLOCK : 0;
+		flags = (flags & ~O_NONBLOCK) | set;
 		
-		if (fcntl (((CamelTcpStreamSSL *)stream)->priv->sockfd, F_SETFL, flags) == -1)
+		if (fcntl (((CamelTcpStreamSSL *) stream)->priv->sockfd, F_SETFL, flags) == -1)
 			return -1;
 		
 		return 0;
 	}
 	
-	return setsockopt (((CamelTcpStreamSSL *)stream)->priv->sockfd,
+	return setsockopt (((CamelTcpStreamSSL *) stream)->priv->sockfd,
 			   get_sockopt_level (data),
 			   optname,
 			   (void *) &data->value,

@@ -1,5 +1,8 @@
 2002-08-28  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* camel-tcp-stream-openssl.c (stream_setsockopt): Fixed `set' to
+	hold the correct value when setting the flags.
+
 	* camel-tcp-stream-raw.c (stream_setsockopt): Fixed `set' to hold
 	the correct value when setting the flags.
 
