@@ -25,13 +25,11 @@
 #include <config.h>
 #endif
 
-#include <gtk/gtkframe.h>
-#include <gtk/gtkmenuitem.h>
-#include <gtk/gtkoptionmenu.h>
-#include <libgnome/gnome-defs.h>
+#include <gtk/gtk.h>
 #include <libgnome/gnome-i18n.h>
 
 #include "filter-editor.h"
+#include "filter-filter.h"
 
 #define d(x)
 
@@ -109,7 +107,7 @@ filter_editor_new (FilterContext *fc, const char **source_names)
 	GladeXML *gui;
 	GtkWidget *w;
 	
-	gui = glade_xml_new (FILTER_GLADEDIR "/filter.glade", "rule_editor");
+	gui = glade_xml_new (FILTER_GLADEDIR "/filter.glade", "rule_editor", NULL);
 	filter_editor_construct (fe, fc, gui, source_names);
 	
         w = glade_xml_get_widget (gui, "rule_frame");
@@ -143,15 +141,15 @@ filter_editor_construct (FilterEditor *fe, FilterContext *fc, GladeXML *gui, con
 	
 	for (i = 0; source_names[i]; i++) {
 		item = gtk_menu_item_new_with_label (_(source_names[i]));
-		g_object_set_data_full (item, "source", g_strdup (source_names[i]), g_free);
+		g_object_set_data_full (G_OBJECT (item), "source", g_strdup (source_names[i]), g_free);
 		gtk_menu_append (GTK_MENU (menu), item);
 		gtk_widget_show (item);
-		g_signal_connect (item, "activate", select_source, fe);
+		g_signal_connect (item, "activate", GTK_SIGNAL_FUNC (select_source), fe);
 	}
 	gtk_option_menu_set_menu (GTK_OPTION_MENU (omenu), menu);
 	gtk_widget_show (omenu);
 	
-	rule_editor_construct ((RuleEditor *)fe, (RuleContext *)fc, gui, source_names[0]);
+	rule_editor_construct ((RuleEditor *) fe, (RuleContext *) fc, gui, source_names[0]);
 }
 
 static FilterRule *

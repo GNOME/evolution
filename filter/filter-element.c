@@ -101,7 +101,7 @@ filter_element_init (FilterElement *fe)
 }
 
 static void
-filter_element_finalise (GtkObject *obj)
+filter_element_finalise (GObject *obj)
 {
 	FilterElement *o = (FilterElement *)obj;
 	
