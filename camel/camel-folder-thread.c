@@ -538,7 +538,7 @@ camel_folder_thread_messages_new(CamelFolder *folder, GPtrArray *uids)
 
 	/* remove any phantom nodes, this could possibly be put in group_root_set()? */
 	c = (CamelFolderThreadNode *)&head;
-	while (c->next) {
+	while (c && c->next) {
 		CamelFolderThreadNode *scan, *newtop;
 
 		child = c->next;

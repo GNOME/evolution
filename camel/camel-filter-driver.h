@@ -48,11 +48,11 @@ struct _CamelFilterDriverClass {
 /* FIXME: this maybe should change... */
 /* type of status for a status report */
 enum camel_filter_status_t {
-	FILTER_STATUS_NONE,
-	FILTER_STATUS_START,	/* start of new message processed */
-	FILTER_STATUS_ACTION,	/* an action performed */
-	FILTER_STATUS_PROGRESS,	/* (an) extra update(s), if its taking longer to process */
-	FILTER_STATUS_END,	/* end of message */
+	CAMEL_FILTER_STATUS_NONE,
+	CAMEL_FILTER_STATUS_START,	/* start of new message processed */
+	CAMEL_FILTER_STATUS_ACTION,	/* an action performed */
+	CAMEL_FILTER_STATUS_PROGRESS,	/* (an) extra update(s), if its taking longer to process */
+	CAMEL_FILTER_STATUS_END,	/* end of message */
 };
 
 typedef CamelFolder * (*CamelFilterGetFolderFunc) (CamelFilterDriver *, const char *uri, void *data, CamelException *ex);

@@ -493,7 +493,7 @@ close_folder (void *key, void *value, void *data)
 	CamelFilterDriver *driver = data;
 	struct _CamelFilterDriverPrivate *p = _PRIVATE (driver);
 	
-	report_status(driver, FILTER_STATUS_PROGRESS, g_hash_table_size(p->folders) * 100 / p->closed, "Syncing folders");
+	report_status(driver, CAMEL_FILTER_STATUS_PROGRESS, g_hash_table_size(p->folders) * 100 / p->closed, "Syncing folders");
 	p->closed++;
 
 	g_free (key);
@@ -615,11 +615,11 @@ camel_filter_driver_filter_mbox (CamelFilterDriver *driver, const char *mbox, Ca
 		if (st.st_size > 0)
 			pc = (int)(100.0 * ((double)camel_mime_parser_tell (mp) / (double)st.st_size));
 		
-		report_status (driver, FILTER_STATUS_START, pc, "Getting message %d (%d%% of file)", i, pc);
+		report_status (driver, CAMEL_FILTER_STATUS_START, pc, "Getting message %d (%d%% of file)", i, pc);
 		
 		msg = camel_mime_message_new ();
 		if (camel_mime_part_construct_from_parser (CAMEL_MIME_PART (msg), mp) == -1) {
-			report_status (driver, FILTER_STATUS_END, 100, "Failed message %d", i);
+			report_status (driver, CAMEL_FILTER_STATUS_END, 100, "Failed message %d", i);
 			camel_exception_set (ex, CAMEL_EXCEPTION_SYSTEM, "Cannot open message");
 			camel_object_unref (CAMEL_OBJECT (msg));
 			goto fail;
@@ -628,11 +628,11 @@ camel_filter_driver_filter_mbox (CamelFilterDriver *driver, const char *mbox, Ca
 		camel_filter_driver_filter_message (driver, msg, NULL, source_url, ex);
 		camel_object_unref (CAMEL_OBJECT (msg));
 		if (camel_exception_is_set (ex)) {
-			report_status (driver, FILTER_STATUS_END, 100, "Failed message %d", i);
+			report_status (driver, CAMEL_FILTER_STATUS_END, 100, "Failed message %d", i);
 			goto fail;
 		}
 		
-		report_status (driver, FILTER_STATUS_END, pc, "Finished message %d", i);
+		report_status (driver, CAMEL_FILTER_STATUS_END, pc, "Finished message %d", i);
 		i++;
 		
 		/* skip over the FROM_END state */
@@ -640,11 +640,11 @@ camel_filter_driver_filter_mbox (CamelFilterDriver *driver, const char *mbox, Ca
 	}
 
 	if (p->defaultfolder) {
-		report_status(driver, FILTER_STATUS_PROGRESS, 100, "Syncing folder");
+		report_status(driver, CAMEL_FILTER_STATUS_PROGRESS, 100, "Syncing folder");
 		camel_folder_sync(p->defaultfolder, FALSE, ex);
 	}
 
-	report_status (driver, FILTER_STATUS_END, 100, "Complete");
+	report_status (driver, CAMEL_FILTER_STATUS_END, 100, "Complete");
 	
 fail:
 	g_free (source_url);
@@ -678,11 +678,11 @@ camel_filter_driver_filter_folder (CamelFilterDriver *driver, CamelFolder *folde
 	for (i = 0; i < uids->len; i++) {
 		int pc = (100 * i)/uids->len;
 
-		report_status (driver, FILTER_STATUS_START, pc, "Getting message %d of %d", i+1, uids->len);
+		report_status (driver, CAMEL_FILTER_STATUS_START, pc, "Getting message %d of %d", i+1, uids->len);
 		
 		message = camel_folder_get_message (folder, uids->pdata[i], ex);
 		if (camel_exception_is_set (ex)) {
-			report_status (driver, FILTER_STATUS_END, 100, "Failed at message %d of %d", i+1, uids->len);
+			report_status (driver, CAMEL_FILTER_STATUS_END, 100, "Failed at message %d of %d", i+1, uids->len);
 			break;
 		}
 		
@@ -697,7 +697,7 @@ camel_filter_driver_filter_folder (CamelFilterDriver *driver, CamelFolder *folde
 			camel_folder_free_message_info (folder, info);
 
 		if (camel_exception_is_set (ex)) {
-			report_status (driver, FILTER_STATUS_END, 100, "Failed at message %d of %d", i+1, uids->len);
+			report_status (driver, CAMEL_FILTER_STATUS_END, 100, "Failed at message %d of %d", i+1, uids->len);
 			break;
 		}
 		
@@ -713,12 +713,12 @@ camel_filter_driver_filter_folder (CamelFilterDriver *driver, CamelFolder *folde
 
 	
 	if (p->defaultfolder) {
-		report_status(driver, FILTER_STATUS_PROGRESS, 100, "Syncing folder");
+		report_status(driver, CAMEL_FILTER_STATUS_PROGRESS, 100, "Syncing folder");
 		camel_folder_sync (p->defaultfolder, FALSE, ex);
 	}
 
 	if (i == uids->len)
-		report_status (driver, FILTER_STATUS_END, 100, "Complete");
+		report_status (driver, CAMEL_FILTER_STATUS_END, 100, "Complete");
 	
 	
 	g_free (source_url);
