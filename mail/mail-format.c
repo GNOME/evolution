@@ -41,57 +41,56 @@ struct mail_format_data {
 	GtkHTMLStream *stream;
 };
 
-static void handle_text_plain            (CamelMimePart *part,
-					  const char *mime_type,
-					  struct mail_format_data *mfd);
-static void handle_text_plain_flowed     (CamelMimePart *part,
-					  const char *mime_type,
-					  struct mail_format_data *mfd);
-static void handle_text_enriched         (CamelMimePart *part,
-					  const char *mime_type,
-					  struct mail_format_data *mfd);
-static void handle_text_html             (CamelMimePart *part,
-					  const char *mime_type,
-					  struct mail_format_data *mfd);
-static void handle_image                 (CamelMimePart *part,
-					  const char *mime_type,
-					  struct mail_format_data *mfd);
-static void handle_multipart_mixed       (CamelMimePart *part,
-					  const char *mime_type,
-					  struct mail_format_data *mfd);
-static void handle_multipart_related     (CamelMimePart *part,
-					  const char *mime_type,
-					  struct mail_format_data *mfd);
-static void handle_multipart_alternative (CamelMimePart *part,
-					  const char *mime_type,
-					  struct mail_format_data *mfd);
-static void handle_multipart_appledouble (CamelMimePart *part,
-					  const char *mime_type,
-					  struct mail_format_data *mfd);
-static void handle_audio                 (CamelMimePart *part,
-					  const char *mime_type,
-					  struct mail_format_data *mfd);
-static void handle_message_rfc822        (CamelMimePart *part,
-					  const char *mime_type,
-					  struct mail_format_data *mfd);
-static void handle_message_external_body (CamelMimePart *part,
-					  const char *mime_type,
-					  struct mail_format_data *mfd);
+static gboolean handle_text_plain            (CamelMimePart *part,
+					      const char *mime_type,
+					      struct mail_format_data *mfd);
+static gboolean handle_text_plain_flowed     (char *text,
+					      struct mail_format_data *mfd);
+static gboolean handle_text_enriched         (CamelMimePart *part,
+					      const char *mime_type,
+					      struct mail_format_data *mfd);
+static gboolean handle_text_html             (CamelMimePart *part,
+					      const char *mime_type,
+					      struct mail_format_data *mfd);
+static gboolean handle_image                 (CamelMimePart *part,
+					      const char *mime_type,
+					      struct mail_format_data *mfd);
+static gboolean handle_multipart_mixed       (CamelMimePart *part,
+					      const char *mime_type,
+					      struct mail_format_data *mfd);
+static gboolean handle_multipart_related     (CamelMimePart *part,
+					      const char *mime_type,
+					      struct mail_format_data *mfd);
+static gboolean handle_multipart_alternative (CamelMimePart *part,
+					      const char *mime_type,
+					      struct mail_format_data *mfd);
+static gboolean handle_multipart_appledouble (CamelMimePart *part,
+					      const char *mime_type,
+					      struct mail_format_data *mfd);
+static gboolean handle_audio                 (CamelMimePart *part,
+					      const char *mime_type,
+					      struct mail_format_data *mfd);
+static gboolean handle_message_rfc822        (CamelMimePart *part,
+					      const char *mime_type,
+					      struct mail_format_data *mfd);
+static gboolean handle_message_external_body (CamelMimePart *part,
+					      const char *mime_type,
+					      struct mail_format_data *mfd);
 
-static void handle_unknown_type          (CamelMimePart *part,
-					  const char *mime_type,
-					  struct mail_format_data *mfd);
-static void handle_via_bonobo            (CamelMimePart *part,
-					  const char *mime_type,
-					  struct mail_format_data *mfd);
+static gboolean handle_unknown_type          (CamelMimePart *part,
+					      const char *mime_type,
+					      struct mail_format_data *mfd);
+static gboolean handle_via_bonobo            (CamelMimePart *part,
+					      const char *mime_type,
+					      struct mail_format_data *mfd);
 
 /* writes the header info for a mime message into an html stream */
 static void write_headers (CamelMimeMessage *message,
 			   struct mail_format_data *mfd);
 
 /* dispatch html printing via mimetype */
-static void call_handler_function (CamelMimePart *part,
-				   struct mail_format_data *mfd);
+static gboolean call_handler_function (CamelMimePart *part,
+				       struct mail_format_data *mfd);
 
 static void free_urls (gpointer data);
 
@@ -172,8 +171,9 @@ get_cid (CamelMimePart *part, struct mail_format_data *mfd)
 /* We're maintaining a hashtable of mimetypes -> functions;
  * Those functions have the following signature...
  */
-typedef void (*mime_handler_fn) (CamelMimePart *part, const char *mime_type,
-				 struct mail_format_data *mfd);
+typedef gboolean (*mime_handler_fn) (CamelMimePart *part,
+				     const char *mime_type,
+				     struct mail_format_data *mfd);
 
 static GHashTable *mime_function_table, *mime_fallback_table;
 
@@ -299,13 +299,13 @@ lookup_handler (const char *mime_type, gboolean *generic)
 	return handler_function;
 }
 
-static void
+static gboolean
 call_handler_function (CamelMimePart *part, struct mail_format_data *mfd)
 {
 	CamelDataWrapper *wrapper;
 	char *mime_type;
 	mime_handler_fn handler_function = NULL;
-	gboolean generic;
+	gboolean generic, output;
 
 	wrapper = camel_medium_get_content_object (CAMEL_MEDIUM (part));
 	mime_type = camel_data_wrapper_get_mime_type (wrapper);
@@ -313,11 +313,12 @@ call_handler_function (CamelMimePart *part, struct mail_format_data *mfd)
 
 	handler_function = lookup_handler (mime_type, &generic);
 	if (handler_function)
-		(*handler_function) (part, mime_type, mfd);
+		output = (*handler_function) (part, mime_type, mfd);
 	else
-		handle_unknown_type (part, mime_type, mfd);
+		output = handle_unknown_type (part, mime_type, mfd);
 
 	g_free (mime_type);
+	return output;
 }
 
 static void
@@ -420,21 +421,32 @@ write_headers (CamelMimeMessage *message, struct mail_format_data *mfd)
 }
 
 
-
+/* Return the contents of a text-based data wrapper, or NULL if it
+ * contains only whitespace.
+ */
 static char *
 get_data_wrapper_text (CamelDataWrapper *data)
 {
 	CamelStream *memstream;
 	GByteArray *ba;
-	char *text;
+	char *text, *end;
 
 	ba = g_byte_array_new ();
 	memstream = camel_stream_mem_new_with_byte_array (ba);
 
 	camel_data_wrapper_write_to_stream (data, memstream);
-	text = g_malloc (ba->len + 1);
-	memcpy (text, ba->data, ba->len);
-	text[ba->len] = '\0';
+
+	for (text = ba->data, end = ba->data + ba->len; text < end; text++) {
+		if (!isspace ((unsigned char)*text))
+			break;
+	}
+
+	if (text < end) {
+		text = g_malloc (ba->len + 1);
+		memcpy (text, ba->data, ba->len);
+		text[ba->len] = '\0';
+	} else
+		text = NULL;
 
 	gtk_object_unref (GTK_OBJECT (memstream));
 	return text;
@@ -444,7 +456,7 @@ get_data_wrapper_text (CamelDataWrapper *data)
  *                     Mime handling functions
  *----------------------------------------------------------------------*/
 
-static void
+static gboolean
 handle_text_plain (CamelMimePart *part, const char *mime_type,
 		   struct mail_format_data *mfd)
 {
@@ -454,42 +466,38 @@ handle_text_plain (CamelMimePart *part, const char *mime_type,
 	GMimeContentField *type;
 	const char *format;
 
+	text = get_data_wrapper_text (wrapper);
+	if (!text)
+		return FALSE;
+
 	/* Check for RFC 2646 flowed text. */
 	type = camel_mime_part_get_content_type (part);
 	format = gmime_content_field_get_parameter (type, "format");
-	if (format && !g_strcasecmp (format, "flowed")) {
-		handle_text_plain_flowed (part, mime_type, mfd);
-		return;
-	}
+	if (format && !g_strcasecmp (format, "flowed"))
+		return handle_text_plain_flowed (text, mfd);
 
 	mail_html_write (mfd->html, mfd->stream,
 			 "\n<!-- text/plain -->\n<pre>\n");
 
-	text = get_data_wrapper_text (wrapper);
-	if (text && *text) {
-		htmltext = e_text_to_html (text, E_TEXT_TO_HTML_CONVERT_URLS);
-		mail_html_write (mfd->html, mfd->stream, "%s", htmltext);
-		g_free (htmltext);
-	}
+	htmltext = e_text_to_html (text, E_TEXT_TO_HTML_CONVERT_URLS);
 	g_free (text);
+	mail_html_write (mfd->html, mfd->stream, "%s", htmltext);
+	g_free (htmltext);
 
 	mail_html_write (mfd->html, mfd->stream, "</pre>\n");
+	return TRUE;
 }
 
-static void
-handle_text_plain_flowed (CamelMimePart *part, const char *mime_type,
-			  struct mail_format_data *mfd)
+static gboolean
+handle_text_plain_flowed (char *buf, struct mail_format_data *mfd)
 {
-	CamelDataWrapper *wrapper =
-		camel_medium_get_content_object (CAMEL_MEDIUM (part));
-	char *buf, *text, *line, *eol, *p;
+	char *text, *line, *eol, *p;
 	int prevquoting = 0, quoting, len;
 	gboolean br_pending = FALSE;
 
 	mail_html_write (mfd->html, mfd->stream,
 			 "\n<!-- text/plain, flowed -->\n<tt>\n");
 
-	buf = get_data_wrapper_text (wrapper);
 	for (line = buf; *line; line = eol + 1) {
 		/* Process next line */
 		eol = strchr (line, '\n');
@@ -539,6 +547,7 @@ handle_text_plain_flowed (CamelMimePart *part, const char *mime_type,
 	g_free (buf);
 
 	mail_html_write (mfd->html, mfd->stream, "</tt>\n");
+	return TRUE;
 }
 
 static void
@@ -548,7 +557,7 @@ free_byte_array (GtkWidget *widget, gpointer user_data)
 }
 
 /* text/enriched (RFC 1896) or text/richtext (included in RFC 1341) */
-static void
+static gboolean
 handle_text_enriched (CamelMimePart *part, const char *mime_type,
 		      struct mail_format_data *mfd)
 {
@@ -556,9 +565,8 @@ handle_text_enriched (CamelMimePart *part, const char *mime_type,
 	CamelDataWrapper *wrapper =
 		camel_medium_get_content_object (CAMEL_MEDIUM (part));
 	GString *string;
-	CamelStream *memstream;
 	GByteArray *ba;
-	char *p, *xed;
+	char *text, *p, *xed;
 	int len, nofill = 0;
 	gboolean enriched;
 
@@ -595,6 +603,10 @@ handle_text_enriched (CamelMimePart *part, const char *mime_type,
 		g_hash_table_insert (translations, "np", "<hr>");
 	}
 
+	text = get_data_wrapper_text (wrapper);
+	if (!text)
+		return FALSE;
+
 	if (!g_strcasecmp (mime_type, "text/richtext")) {
 		enriched = FALSE;
 		mail_html_write (mfd->html, mfd->stream,
@@ -608,13 +620,7 @@ handle_text_enriched (CamelMimePart *part, const char *mime_type,
 	/* This is not great code, but I don't feel like fixing it right
 	 * now. I mean, it's just text/enriched...
 	 */
-
-	ba = g_byte_array_new ();
-	memstream = camel_stream_mem_new_with_byte_array (ba);
-	camel_data_wrapper_write_to_stream (wrapper, memstream);
-	g_byte_array_append (ba, "", 1);
-
-	p = ba->data;
+	p = text;
 	string = g_string_sized_new (2 * strlen (p));
 
 	while (p) {
@@ -695,7 +701,7 @@ handle_text_enriched (CamelMimePart *part, const char *mime_type,
 				p++;
 		}
 	}
-	gtk_object_unref (GTK_OBJECT (memstream));
+	g_free (text);
 
 	ba = g_byte_array_new ();
 	g_byte_array_append (ba, (const guint8 *)string->str,
@@ -709,9 +715,11 @@ handle_text_enriched (CamelMimePart *part, const char *mime_type,
 	mail_html_write (mfd->html, mfd->stream,
 			 "<iframe src=\"%s\" frameborder=0 scrolling=no>"
 			 "</iframe>", xed);
+
+	return TRUE;
 }
 
-static void
+static gboolean
 handle_text_html (CamelMimePart *part, const char *mime_type,
 		  struct mail_format_data *mfd)
 {
@@ -719,17 +727,19 @@ handle_text_html (CamelMimePart *part, const char *mime_type,
 	mail_html_write (mfd->html, mfd->stream,
 			 "<iframe src=\"%s\" frameborder=0 scrolling=no>"
 			 "</iframe>", get_cid (part, mfd));
+	return TRUE;
 }
 
-static void
+static gboolean
 handle_image (CamelMimePart *part, const char *mime_type,
 	      struct mail_format_data *mfd)
 {
 	mail_html_write (mfd->html, mfd->stream, "<img src=\"%s\">",
 			 get_cid (part, mfd));
+	return TRUE;
 }
 
-static void
+static gboolean
 handle_multipart_mixed (CamelMimePart *part, const char *mime_type,
 			struct mail_format_data *mfd)
 {
@@ -737,23 +747,26 @@ handle_multipart_mixed (CamelMimePart *part, const char *mime_type,
 		camel_medium_get_content_object (CAMEL_MEDIUM (part));
 	CamelMultipart *mp;
 	int i, nparts;
+	gboolean output = FALSE;
 
-	g_return_if_fail (CAMEL_IS_MULTIPART (wrapper));
+	g_return_val_if_fail (CAMEL_IS_MULTIPART (wrapper), FALSE);
 	mp = CAMEL_MULTIPART (wrapper);
 
 	nparts = camel_multipart_get_number (mp);	
 	for (i = 0; i < nparts; i++) {
-		if (i != 0)
+		if (i != 0 && output)
 			mail_html_write (mfd->html, mfd->stream, "<hr>\n");
 
 		part = camel_multipart_get_part (mp, i);
 
-		call_handler_function (part, mfd);
+		output = call_handler_function (part, mfd);
 	}
+
+	return TRUE;
 }
 
 /* As seen in RFC 2387! */
-static void
+static gboolean
 handle_multipart_related (CamelMimePart *part, const char *mime_type,
 			  struct mail_format_data *mfd)
 {
@@ -765,7 +778,7 @@ handle_multipart_related (CamelMimePart *part, const char *mime_type,
 	const char *start;
 	int i, nparts;
 
-	g_return_if_fail (CAMEL_IS_MULTIPART (wrapper));
+	g_return_val_if_fail (CAMEL_IS_MULTIPART (wrapper), FALSE);
 	mp = CAMEL_MULTIPART (wrapper);
 	nparts = camel_multipart_get_number (mp);	
 
@@ -794,7 +807,7 @@ handle_multipart_related (CamelMimePart *part, const char *mime_type,
 
 		if (!display_part) {
 			/* Oops. Hrmph. */
-			handle_multipart_mixed (part, mime_type, mfd);
+			return handle_multipart_mixed (part, mime_type, mfd);
 		}
 	} else {
 		/* No start parameter, so it defaults to the first part. */
@@ -811,7 +824,7 @@ handle_multipart_related (CamelMimePart *part, const char *mime_type,
 	}
 
 	/* Now, display the displayed part. */
-	call_handler_function (display_part, mfd);
+	return call_handler_function (display_part, mfd);
 }
 
 /* RFC 2046 says "display the last part that you are able to display". */
@@ -838,7 +851,7 @@ find_preferred_alternative (CamelMultipart *multipart)
 	return preferred_part;
 }
 
-static void
+static gboolean
 handle_multipart_alternative (CamelMimePart *part, const char *mime_type,
 			      struct mail_format_data *mfd)
 {
@@ -847,18 +860,18 @@ handle_multipart_alternative (CamelMimePart *part, const char *mime_type,
 	CamelMultipart *multipart;
 	CamelMimePart *mime_part;
 
-	g_return_if_fail (CAMEL_IS_MULTIPART (wrapper));
+	g_return_val_if_fail (CAMEL_IS_MULTIPART (wrapper), FALSE);
 	multipart = CAMEL_MULTIPART (wrapper);
 
 	mime_part = find_preferred_alternative (multipart);	
 	if (mime_part)
-		call_handler_function (mime_part, mfd);
+		return call_handler_function (mime_part, mfd);
 	else
-		handle_unknown_type (part, mime_type, mfd);
+		return handle_unknown_type (part, mime_type, mfd);
 }
 
 /* RFC 1740 */
-static void
+static gboolean
 handle_multipart_appledouble (CamelMimePart *part, const char *mime_type,
 			      struct mail_format_data *mfd)
 {
@@ -866,7 +879,7 @@ handle_multipart_appledouble (CamelMimePart *part, const char *mime_type,
 		camel_medium_get_content_object (CAMEL_MEDIUM (part));
 	CamelMultipart *multipart;
 
-	g_return_if_fail (CAMEL_IS_MULTIPART (wrapper));
+	g_return_val_if_fail (CAMEL_IS_MULTIPART (wrapper), FALSE);
 	multipart = CAMEL_MULTIPART (wrapper);
 
 	/* The first part is application/applefile and is not useful
@@ -874,7 +887,7 @@ handle_multipart_appledouble (CamelMimePart *part, const char *mime_type,
 	 * likely it's application/octet-stream though.
 	 */
 	part = camel_multipart_get_part (multipart, 1);
-	call_handler_function (part, mfd);
+	return call_handler_function (part, mfd);
 }
 
 static const char *
@@ -980,7 +993,7 @@ handle_mystery (CamelMimePart *part, struct mail_format_data *mfd,
 	mail_html_write (mfd->html, mfd->stream, "</td></tr></table>");
 }
 
-static void
+static gboolean
 handle_audio (CamelMimePart *part, const char *mime_type,
 	      struct mail_format_data *mfd)
 {
@@ -997,24 +1010,28 @@ handle_audio (CamelMimePart *part, const char *mime_type,
 	handle_mystery (part, mfd, get_cid (part, mfd), "gnome-audio2.png",
 			id, "play it");
 	g_free (id);
+
+	return TRUE;
 }
 
-static void
+static gboolean
 handle_message_rfc822 (CamelMimePart *part, const char *mime_type,
 		       struct mail_format_data *mfd)
 {
 	CamelDataWrapper *wrapper =
 		camel_medium_get_content_object (CAMEL_MEDIUM (part));
 
-	g_return_if_fail (CAMEL_IS_MIME_MESSAGE (wrapper));
+	g_return_val_if_fail (CAMEL_IS_MIME_MESSAGE (wrapper), FALSE);
 
 	mail_html_write (mfd->html, mfd->stream, "<blockquote>");
 	mail_format_mime_message (CAMEL_MIME_MESSAGE (wrapper),
 				  mfd->html, mfd->stream, mfd->root);
 	mail_html_write (mfd->html, mfd->stream, "</blockquote>");
+
+	return TRUE;
 }
 
-static void
+static gboolean
 handle_message_external_body (CamelMimePart *part, const char *mime_type,
 			      struct mail_format_data *mfd)
 {
@@ -1120,9 +1137,10 @@ handle_message_external_body (CamelMimePart *part, const char *mime_type,
 
 	g_free (desc);
 	g_free (url);
+	return TRUE;
 }
 
-static void
+static gboolean
 handle_undisplayable (CamelMimePart *part, const char *mime_type,
 		      struct mail_format_data *mfd)
 {
@@ -1137,9 +1155,11 @@ handle_undisplayable (CamelMimePart *part, const char *mime_type,
 	handle_mystery (part, mfd, get_cid (part, mfd), "gnome-question.png",
 			id, "save it to disk");
 	g_free (id);
+
+	return TRUE;
 }
 
-static void
+static gboolean
 handle_unknown_type (CamelMimePart *part, const char *mime_type,
 		     struct mail_format_data *mfd)
 {
@@ -1149,14 +1169,14 @@ handle_unknown_type (CamelMimePart *part, const char *mime_type,
 	type = mail_identify_mime_part (part);
 	if (type) {
 		mime_handler_fn handler_function;
-		gboolean generic;
+		gboolean generic, output;
 
 		handler_function = lookup_handler (type, &generic);
 		if (handler_function &&
 		    handler_function != handle_unknown_type) {
-			(*handler_function) (part, type, mfd);
+			output = (*handler_function) (part, type, mfd);
 			g_free (type);
-			return;
+			return output;
 		}
 	} else
 		type = g_strdup (mime_type);
@@ -1164,9 +1184,11 @@ handle_unknown_type (CamelMimePart *part, const char *mime_type,
 	/* OK. Give up. */
 	handle_undisplayable (part, type, mfd);
 	g_free (type);
+
+	return TRUE;
 }
 
-static void
+static gboolean
 handle_via_bonobo (CamelMimePart *part, const char *mime_type,
 		   struct mail_format_data *mfd)
 {
@@ -1181,6 +1203,8 @@ handle_via_bonobo (CamelMimePart *part, const char *mime_type,
 	handle_undisplayable (part, mime_type, mfd);
 
 	mail_html_write (mfd->html, mfd->stream, "</object>");
+
+	return TRUE;
 }
 
 static char *
