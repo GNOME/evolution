@@ -23,6 +23,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <glib.h>
+#include <libgnome/gnome-defs.h>
 #include <libgnome/gnome-i18n.h>
 #include <libgnome/gnome-util.h>
 #include "cal-util.h"
@@ -456,7 +457,7 @@ cal_util_generate_alarms_for_comp (CalComponent *comp,
 
 	alarms = g_new (CalComponentAlarms, 1);
 	alarms->comp = comp;
-	g_object_ref (G_OBJECT (alarms->comp));
+	gtk_object_ref (GTK_OBJECT (alarms->comp));
 	alarms->alarms = g_slist_sort (aod.triggers, compare_alarm_instance);
 
 	return alarms;

@@ -23,6 +23,8 @@
 
 #include <config.h>
 
+#include <bonobo.h>
+#include <bonobo-conf/bonobo-config-database.h>
 #include <cal-client/cal-client-types.h>
 #include <cal-client/cal-client.h>
 #include <cal-util/timeutil.h>
@@ -37,7 +39,6 @@
 #include <e-pilot-map.h>
 #include <e-pilot-settings.h>
 #include <e-pilot-util.h>
-#include <e-config-listener.h>
 
 GnomePilotConduit * conduit_get_gpilot_conduit (guint32);
 void conduit_destroy_gpilot_conduit (GnomePilotConduit*);
@@ -85,7 +86,7 @@ struct _ECalLocalRecord {
 static void
 calconduit_destroy_record (ECalLocalRecord *local)
 {
-	g_object_unref (local->comp);
+	gtk_object_unref (GTK_OBJECT (local->comp));
 	free_Appointment (local->appt);
 	g_free (local->appt);	
 	g_free (local);
@@ -306,9 +307,9 @@ e_calendar_context_destroy (ECalConduitContext *ctxt)
 		e_cal_gui_destroy (ctxt->gui);
 
 	if (ctxt->client != NULL)
-		g_object_unref (ctxt->client);
- 	if (ctxt->default_comp != NULL)
- 		gtk_object_unref (GTK_OBJECT (ctxt->default_comp));	
+		gtk_object_unref (GTK_OBJECT (ctxt->client));
+	if (ctxt->default_comp != NULL)
+		gtk_object_unref (GTK_OBJECT (ctxt->default_comp));
 	if (ctxt->uids != NULL)
 		cal_obj_uid_list_free (ctxt->uids);
 	
@@ -408,8 +409,8 @@ start_calendar_server (ECalConduitContext *ctxt)
 
 	ctxt->client = cal_client_new ();
 
-	g_signal_connect (ctxt->client, "cal_opened",
-			  G_CALLBACK (start_calendar_server_cb), &success);
+	gtk_signal_connect (GTK_OBJECT (ctxt->client), "cal_opened",
+			    start_calendar_server_cb, &success);
 
 	if (!cal_client_open_default_calendar (ctxt->client, FALSE))
 		return -1;
@@ -440,14 +441,24 @@ get_timezone (CalClient *client, const char *tzid)
 static icaltimezone *
 get_default_timezone (void)
 {
-	EConfigListener *listener;
+	Bonobo_ConfigDatabase db;
 	icaltimezone *timezone = NULL;
 	char *location;
+	CORBA_Environment ev;
 
-	listener = e_config_listener_new ();
+	CORBA_exception_init (&ev);
+	
+	db = bonobo_get_object ("wombat:", "Bonobo/ConfigDatabase", &ev);
+	
+	if (BONOBO_EX (&ev) || db == CORBA_OBJECT_NIL) {
+		CORBA_exception_free (&ev);
+		return NULL;
+ 	}
 
-	location = e_config_listener_get_string_with_default (listener,
-		"/apps/evolution/calendar/display/timezone", "UTC", NULL);
+	CORBA_exception_free (&ev);
+
+	location = bonobo_config_get_string_with_default (db,
+		"/Calendar/Display/Timezone", "UTC", NULL);
 	if (!location || !location[0]) {
 		g_free (location);
 		location = g_strdup ("UTC");
@@ -456,7 +467,7 @@ get_default_timezone (void)
 	timezone = icaltimezone_get_builtin_timezone (location);
 	g_free (location);
 
-	g_object_unref (listener);
+	bonobo_object_release_unref (db, NULL);
 
 	return timezone;	
 }
@@ -739,7 +750,7 @@ local_record_from_comp (ECalLocalRecord *local, CalComponent *comp, ECalConduitC
 	g_return_if_fail (comp != NULL);
 
 	local->comp = comp;
-	g_object_ref (comp);
+	gtk_object_ref (GTK_OBJECT (comp));
 	
 	cal_component_get_uid (local->comp, &uid);
 	local->local.ID = e_pilot_map_lookup_pid (ctxt->map, uid, TRUE);
@@ -975,13 +986,13 @@ local_record_from_uid (ECalLocalRecord *local,
 
 	if (status == CAL_CLIENT_GET_SUCCESS) {
 		local_record_from_comp (local, comp, ctxt);
-		g_object_unref (comp);
+		gtk_object_unref (GTK_OBJECT (comp));
 	} else if (status == CAL_CLIENT_GET_NOT_FOUND) {
 		comp = cal_component_new ();
 		cal_component_set_new_vtype (comp, CAL_COMPONENT_EVENT);
 		cal_component_set_uid (comp, uid);
 		local_record_from_comp (local, comp, ctxt);
-		g_object_unref (comp);
+		gtk_object_unref (GTK_OBJECT (comp));
 	} else {
 		INFO ("Object did not exist");
 	}	
@@ -1324,7 +1335,7 @@ pre_sync (GnomePilotConduit *conduit,
 		cal_component_get_uid (ccc->comp, &uid);
 		if (e_pilot_map_lookup_pid (ctxt->map, uid, FALSE) == 0) {
 			ctxt->changed = g_list_remove (ctxt->changed, ccc);
-			g_object_unref (ccc->comp);
+			gtk_object_unref (GTK_OBJECT (ccc->comp));
 			g_free (ccc);
 		}
 	}
@@ -1601,7 +1612,7 @@ add_record (GnomePilotConduitSyncAbs *conduit,
 
 	g_free (uid);	
 
-	g_object_unref (comp);
+	gtk_object_unref (GTK_OBJECT (comp));
 	
 	return retval;
 }
@@ -1621,7 +1632,7 @@ replace_record (GnomePilotConduitSyncAbs *conduit,
 	     print_local (local), print_remote (remote));
 
 	new_comp = comp_from_remote_record (conduit, remote, local->comp, ctxt->timezone);
-	g_object_unref (local->comp);
+	gtk_object_unref (GTK_OBJECT (local->comp));
 	local->comp = new_comp;
 	update_comp (conduit, local->comp, ctxt);
 
@@ -1779,6 +1790,16 @@ revert_settings  (GnomePilotConduit *conduit, ECalConduitContext *ctxt)
 	ctxt->new_cfg = calconduit_dupe_configuration (ctxt->cfg);
 }
 
+static ORBit_MessageValidationResult
+accept_all_cookies (CORBA_unsigned_long request_id,
+		    CORBA_Principal *principal,
+		    CORBA_char *operation)
+{
+	/* allow ALL cookies */
+	return ORBIT_MESSAGE_ALLOW_ALL;
+}
+
+
 GnomePilotConduit *
 conduit_get_gpilot_conduit (guint32 pilot_id)
 {
@@ -1786,6 +1807,21 @@ conduit_get_gpilot_conduit (guint32 pilot_id)
 	ECalConduitContext *ctxt;
 
 	LOG ("in calendar's conduit_get_gpilot_conduit\n");
+
+	/* we need to find wombat with oaf, so make sure oaf
+	   is initialized here.  once the desktop is converted
+	   to oaf and gpilotd is built with oaf, this can go away */
+	if (!oaf_is_initialized ()) {
+		char *argv[ 1 ] = {"hi"};
+		oaf_init (1, argv);
+
+		if (bonobo_init (CORBA_OBJECT_NIL,
+				 CORBA_OBJECT_NIL,
+				 CORBA_OBJECT_NIL) == FALSE)
+			g_error (_("Could not initialize Bonobo"));
+
+		ORBit_set_request_validation_handler (accept_all_cookies);
+	}
 
 	retval = gnome_pilot_conduit_sync_abs_new ("DatebookDB", 0x64617465);
 	g_assert (retval != NULL);

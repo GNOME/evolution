@@ -1,12 +1,13 @@
 IDLS = $(top_srcdir)/addressbook/gui/component/select-names/Evolution-Addressbook-SelectNames.idl
 
-IDL_GENERATED_H =                 			\
-	Evolution-Addressbook-SelectNames.h
-IDL_GENERATED = $(IDL_GENERATED_H)
+IDL_GENERATED =                 			\
+	Evolution-Addressbook-SelectNames.h		\
+	Evolution-Addressbook-SelectNames-common.c	\
+	Evolution-Addressbook-SelectNames-skels.c	\
+	Evolution-Addressbook-SelectNames-stubs.c
 
-$(IDL_GENERATED_H): $(IDLS)
-	$(ORBIT_IDL) -I $(srcdir) $(IDL_INCLUDES)	\
-		--nostubs --noskels --nocommon		\
+$(IDL_GENERATED): $(IDLS)
+	$(ORBIT_IDL) -I $(srcdir) -I $(datadir)/idl `$(GNOME_CONFIG) --cflags idl`   \
                 $(top_srcdir)/addressbook/gui/component/select-names/Evolution-Addressbook-SelectNames.idl
 
 BUILT_SOURCES = $(IDL_GENERATED)
@@ -23,16 +24,17 @@ INCLUDES = 								\
 	-I$(top_srcdir)/shell						\
 	-I$(top_srcdir)/addressbook/backend				\
 	-I$(top_builddir)/addressbook/backend				\
+	-I$(includedir)							\
 	-DEVOLUTION_DATADIR=\""$(datadir)"\"				\
 	-DEVOLUTION_GLADEDIR=\""$(gladedir)"\"				\
-	-DEVOLUTION_IMAGESDIR=\""$(imagesdir)"\"			\
+	-DEVOLUTION_ICONSDIR=\""$(iconsdir)"\"				\
 	-DEVOLUTION_ETSPECDIR=\""$(etspecdir)"\"			\
-	-DEVOLUTION_UIDIR=\""$(evolutionuidir)"\"			\
+        -DGNOMELOCALEDIR=\""$(localedir)"\"				\
 	$(EVOLUTION_CALENDAR_CFLAGS)
 
-noinst_LTLIBRARIES = libcal-dialogs.la
+noinst_LIBRARIES = libcal-dialogs.a
 
-libcal_dialogs_la_SOURCES =	\
+libcal_dialogs_a_SOURCES =	\
 	$(IDL_GENERATED)	\
 	alarm-options.c		\
 	alarm-options.h		\
@@ -77,6 +79,9 @@ libcal_dialogs_la_SOURCES =	\
 	task-page.c		\
 	task-page.h
 
+iconsdir = $(datadir)/images/evolution
+
+gladedir = $(datadir)/evolution/glade
 glade_DATA =				\
 	alarm-options.glade		\
 	alarm-page.glade		\
@@ -89,6 +94,7 @@ glade_DATA =				\
 	task-details-page.glade		\
 	task-page.glade
 
+etspecdir = $(datadir)/evolution/etspec/
 etspec_DATA = meeting-page.etspec
 
 CLEANFILES = $(BUILT_SOURCES)

@@ -14,7 +14,7 @@ duplicated effort (and to make sure that you aren't basing your work
 on interfaces that are expected to change).
 
 There are mailing list archives available at
-http://lists.ximian.com/archives/public/evolution/     and
+http://lists.ximian.com/archives/public/evolution/ and
 http://lists.ximian.com/archives/public/evolution-hackers/
 
 There is also an #evolution IRC channel on irc.gnome.org.
@@ -26,6 +26,7 @@ evolution" at the command line), and in the --help strings (run
 "evolution --help" at the command line).
 
 The rest of this file is dedicated to building Evolution.
+
 
 PROBLEMS BUILDING EVOLUTION
 ---------------------------
@@ -55,8 +56,6 @@ to make it any easier until then.
 
 GENERAL PRINCIPLES
 ------------------
-
-[FIXME: This section is badly out of date.]
 
 First you have to decide whether you want to install Evolution (and
 its dependencies) into the same prefix as the rest of your GNOME
@@ -98,30 +97,61 @@ ${prefix}/bin in your PATH and ${prefix}/lib in your LD_LIBRARY_PATH.
 DEPENDENCIES
 ------------
 
-In order to compile Evolution, you need all the GNOME 2.0 (or later)
-core libraries to be installed on your system.
+The following required libraries are available in GNOME CVS, under the
+given names.  Most (but not all) of them are also available as
+tarballs on ftp.gnome.org or one of the Ximian mirrors listed at
+http://ximian.com/mirrors.html. 
 
-Evolution also requires libgnomeprint and libgnomeprintui 2.2 (which
-are part of GNOME 2.2); so if you are compiling against a GNOME 2.0
-development platform, you will also need to install these libraries.
-If you are compiling against GNOME 2.2, you don't need to do so.
-libgnomeprint and libgnomeprintui are available from
-ftp://ftp.gnome.org/pub/GNOME/sources.
+If installing from packages, remember that you need both the runtime
+and -devel packages for each library.
 
-In addition to the GNOME development libraries, Evolution depends on
-the following packages:
+ - GNU intltool 0.18 
 
- - gal - 1.99.2 or later
+ - scrollkeeper - 0.1.4 or later 
 
- - gtkhtml - 3.0.1 or later 
+ - gnome-xml - 1.8.17 or later in the 1.0 series, but not from the 2.0
+   series (If you get this from GNOME CVS, use the tag "LIB_XML_1_BRANCH".)
 
- - libsoup - 1.99.12 or later
+ - gnome-print - 0.35 or later 
 
-All these libraries are available from
-ftp://ftp.gnome.or/pub/GNOME/sources , or can be fetched from GNOME
-CVS (just check out the trunk).
+ - gdk-pixbuf - 0.18.0 or later 
 
-Other dependencies:
+ - ORBit - 0.5.8 or later  (If you get this from GNOME CVS, use the
+   tag "orbit-stable-0-5".)
+
+ - oaf - 0.6.10 or later (If you get this from GNOME CVS, use the tag
+   "oaf-stable-0-6")
+
+   *** If you are using oaf from CVS, you should use the flag
+   *** "--disable-more-warnings" when you configure, or it may fail to
+   *** build.
+
+ - gnome-vfs - 1.0.5 or later (If you get this from GNOME CVS, use
+   the tag "gnome-vfs-1-0")
+
+   *** If you are using gnome-vfs from CVS, you should use the flag
+   *** "--disable-more-warnings" when configuring, or it may fail to
+   *** build.
+
+ - libglade - 0.14 or later 
+
+ - bonobo - 1.0.3 or later 
+
+   *** Note that bonobo must be installed with the same --prefix as
+   *** either gnome-libs or evolution for the Makefiles to work
+   *** properly.
+
+ - bonobo-conf - 1.0.16 or later 
+
+ - gal (GNOME Application Library) - 0.21 or later 
+
+ - gtkhtml - 1.1.5 or later 
+
+ - SOUP - 0.7.x 
+
+   *** If you are compiling from CVS, grab the soup-0-7 branch.
+
+Other non-GNOME Dependencies:
 
  - Berkeley's libdb - 3.1.17
 

@@ -25,11 +25,15 @@
 #include <bonobo/bonobo-ui-component.h>
 #include <glade/glade.h>
 
+#include "addressbook/gui/component/select-names/e-select-names-manager.h"
 #include "addressbook/backend/ebook/e-book.h"
 #include "addressbook/backend/ebook/e-card.h"
 #include "addressbook/backend/ebook/e-card-simple.h"
 
-G_BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#pragma }
+#endif /* __cplusplus */
 
 /* EContactEditor - A dialog displaying information about a contact.
  *
@@ -40,11 +44,11 @@ G_BEGIN_DECLS
  * card         ECard *         RW              The card currently being edited
  */
 
-#define E_TYPE_CONTACT_EDITOR			(e_contact_editor_get_type ())
-#define E_CONTACT_EDITOR(obj)			(G_TYPE_CHECK_INSTANCE_CAST ((obj), E_TYPE_CONTACT_EDITOR, EContactEditor))
-#define E_CONTACT_EDITOR_CLASS(klass)		(G_TYPE_CHECK_CLASS_CAST ((klass), E_TYPE_CONTACT_EDITOR, EContactEditorClass))
-#define E_IS_CONTACT_EDITOR(obj)		(G_TYPE_CHECK_INSTANCE_TYPE ((obj), E_TYPE_CONTACT_EDITOR))
-#define E_IS_CONTACT_EDITOR_CLASS(klass)	(G_TYPE_CHECK_CLASS_TYPE ((obj), E_TYPE_CONTACT_EDITOR))
+#define E_CONTACT_EDITOR_TYPE			(e_contact_editor_get_type ())
+#define E_CONTACT_EDITOR(obj)			(GTK_CHECK_CAST ((obj), E_CONTACT_EDITOR_TYPE, EContactEditor))
+#define E_CONTACT_EDITOR_CLASS(klass)		(GTK_CHECK_CLASS_CAST ((klass), E_CONTACT_EDITOR_TYPE, EContactEditorClass))
+#define E_IS_CONTACT_EDITOR(obj)		(GTK_CHECK_TYPE ((obj), E_CONTACT_EDITOR_TYPE))
+#define E_IS_CONTACT_EDITOR_CLASS(klass)	(GTK_CHECK_CLASS_TYPE ((obj), E_CONTACT_EDITOR_TYPE))
 
 
 typedef struct _EContactEditor       EContactEditor;
@@ -73,6 +77,8 @@ struct _EContactEditor
 	GList *email_list;
 	GList *phone_list;
 	GList *address_list;
+
+	ESelectNamesManager *select_names_contacts;
 
 	ECardName *name;
 	char *company;
@@ -121,7 +127,7 @@ EContactEditor *e_contact_editor_new                (EBook          *book,
 						     ECard          *card,
 						     gboolean        is_new_card,
 						     gboolean        editable);
-GType           e_contact_editor_get_type           (void);
+GtkType         e_contact_editor_get_type           (void);
 
 void            e_contact_editor_show               (EContactEditor *editor);
 void            e_contact_editor_close              (EContactEditor *editor);
@@ -131,6 +137,9 @@ gboolean        e_contact_editor_confirm_delete     (GtkWindow      *parent);
 
 gboolean        e_contact_editor_request_close_all  (void);
 
-G_END_DECLS
+#ifdef __cplusplus
+}
+#endif /* __cplusplus */
+
 
 #endif /* __E_CONTACT_EDITOR_H__ */

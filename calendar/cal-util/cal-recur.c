@@ -23,7 +23,6 @@
 #include <config.h>
 #include <stdlib.h>
 #include <string.h>
-#include <libgnome/gnome-i18n.h>
 #include <cal-util/cal-recur.h>
 #include <cal-util/timeutil.h>
 
@@ -3981,36 +3980,3 @@ cal_recur_set_rule_end_date	(icalproperty	*prop,
 	icalproperty_add_parameter (prop, param);
 }
 
-const char *cal_recur_nth[31] = {
-	N_("1st"),
-	N_("2nd"),
-	N_("3rd"),
-	N_("4th"),
-	N_("5th"),
-	N_("6th"),
-	N_("7th"),
-	N_("8th"),
-	N_("9th"),
-	N_("10th"),
-	N_("11th"),
-	N_("12th"),
-	N_("13th"),
-	N_("14th"),
-	N_("15th"),
-	N_("16th"),
-	N_("17th"),
-	N_("18th"),
-	N_("19th"),
-	N_("20th"),
-	N_("21st"),
-	N_("22nd"),
-	N_("23rd"),
-	N_("24th"),
-	N_("25th"),
-	N_("26th"),
-	N_("27th"),
-	N_("28th"),
-	N_("29th"),
-	N_("30th"),
-	N_("31st")
-};

@@ -8,10 +8,15 @@
  * Copyright 2001, Ximian, Inc.
  */
 
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
+
 #include <string.h>
 #include <libgnomeui/gnome-dialog.h>
 #include <libgnome/gnome-i18n.h>
 #include <gdk-pixbuf/gdk-pixbuf.h>
+#include <gal/widgets/e-unicode.h>
 #include <gal/widgets/e-categories.h>
 #include "e-categories-config.h"
 #include "e-categories-master-list-wombat.h"
@@ -102,7 +107,7 @@ e_categories_config_get_icon_for (const char *category, GdkPixmap **pixmap, GdkB
 	/* load the icon in our list */
 	pixbuf = g_hash_table_lookup (icons_table, icon_file);
 	if (!pixbuf) {
-		pixbuf = gdk_pixbuf_new_from_file (icon_file, NULL);
+		pixbuf = gdk_pixbuf_new_from_file (icon_file);
 		if (!pixbuf) {
 			*pixmap = NULL;
 			if (mask != NULL)
@@ -173,30 +178,34 @@ e_categories_config_set_icon_for (const char *category, const char *icon_file)
 void
 e_categories_config_open_dialog_for_entry (GtkEntry *entry)
 {
-	GtkDialog *dialog;
-	const char *text;
 	char *categories;
+	GnomeDialog *dialog;
 	int result;
-	
+
 	g_return_if_fail (entry != NULL);
 	g_return_if_fail (GTK_IS_ENTRY (entry));
-	
+
 	if (!initialized)
 		initialize_categories_config ();
-	
-	text = gtk_entry_get_text (GTK_ENTRY (entry));
-	dialog = GTK_DIALOG (e_categories_new (text));
-	
-	g_object_set (dialog, "ecml", ecmlw, NULL);
-	
+
+	categories = e_utf8_gtk_entry_get_text (GTK_ENTRY (entry));
+	dialog = GNOME_DIALOG (e_categories_new (categories));
+
+	gtk_object_set (GTK_OBJECT (dialog),
+			"ecml", ecmlw,
+			NULL);
+
 	/* run the dialog */
-	result = gtk_dialog_run (dialog);
-	
-	if (result == GTK_RESPONSE_OK) {
-		g_object_get (dialog, "categories", &categories, NULL);
-		gtk_entry_set_text (GTK_ENTRY (entry), categories);
+	result = gnome_dialog_run (dialog);
+	g_free (categories);
+
+	if (result == 0) {
+		gtk_object_get (GTK_OBJECT (dialog),
+				"categories", &categories,
+				NULL);
+		e_utf8_gtk_entry_set_text (GTK_ENTRY (entry), categories);
 		g_free (categories);
 	}
-	
+
 	gtk_object_destroy (GTK_OBJECT (dialog));
 }

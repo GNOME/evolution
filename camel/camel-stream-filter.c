@@ -376,7 +376,7 @@ do_eos (CamelStream *stream)
 {
 	CamelStreamFilter *filter = (CamelStreamFilter *)stream;
 	struct _CamelStreamFilterPrivate *p = _PRIVATE(filter);
-	
+
 	if (p->filteredlen > 0)
 		return FALSE;
 	

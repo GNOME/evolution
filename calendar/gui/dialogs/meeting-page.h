@@ -28,15 +28,15 @@
 #include "../itip-utils.h"
 #include "comp-editor-page.h"
 
-G_BEGIN_DECLS
+BEGIN_GNOME_DECLS
 
 
 
 #define TYPE_MEETING_PAGE            (meeting_page_get_type ())
-#define MEETING_PAGE(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), TYPE_MEETING_PAGE, MeetingPage))
-#define MEETING_PAGE_CLASS(klass)    (G_TYPE_CHECK_CLASS_CAST ((klass), TYPE_MEETING_PAGE, MeetingPageClass))
-#define IS_MEETING_PAGE(obj)         (G_TYPE_CHECK_INSTANCE_TYPE ((obj), TYPE_MEETING_PAGE))
-#define IS_MEETING_PAGE_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((obj), TYPE_MEETING_PAGE))
+#define MEETING_PAGE(obj)            (GTK_CHECK_CAST ((obj), TYPE_MEETING_PAGE, MeetingPage))
+#define MEETING_PAGE_CLASS(klass)    (GTK_CHECK_CLASS_CAST ((klass), TYPE_MEETING_PAGE, MeetingPageClass))
+#define IS_MEETING_PAGE(obj)         (GTK_CHECK_TYPE ((obj), TYPE_MEETING_PAGE))
+#define IS_MEETING_PAGE_CLASS(klass) (GTK_CHECK_CLASS_TYPE ((obj), TYPE_MEETING_PAGE))
 
 typedef struct _MeetingPagePrivate MeetingPagePrivate;
 
@@ -62,6 +62,6 @@ CalComponent *meeting_page_get_cancel_comp   (MeetingPage   *mpage);
 
 
 
-G_END_DECLS
+END_GNOME_DECLS
 
 #endif

@@ -33,11 +33,8 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <errno.h>
-#include <string.h>
-#include <unistd.h>
 
 #include <bonobo/bonobo-generic-factory.h>
-#include <bonobo/bonobo-main.h>
 
 #include "evolution-shell-component.h"
 #include "evolution-shell-component-dnd.h"
@@ -82,7 +79,7 @@ static const EvolutionShellComponentFolderType folder_types[] = {
 	{ NULL }
 };
 
-#define IS_CONTACT_TYPE(x)  (g_ascii_strcasecmp((x), "contacts") == 0 || g_ascii_strcasecmp ((x), "contacts/ldap") == 0 || g_ascii_strcasecmp((x), "contacts/public") == 0)
+#define IS_CONTACT_TYPE(x)  (g_strcasecmp((x), "contacts") == 0 || g_strcasecmp ((x), "contacts/ldap") == 0 || g_strcasecmp((x), "contacts/public") == 0)
 
 /* EvolutionShellComponent methods and signals.  */
 
@@ -99,8 +96,8 @@ create_view (EvolutionShellComponent *shell_component,
 	if (!IS_CONTACT_TYPE (type))
 		return EVOLUTION_SHELL_COMPONENT_UNSUPPORTEDTYPE;
 
-	control = addressbook_new_control ();
-	bonobo_control_set_property (control, NULL, "folder_uri", TC_CORBA_string, physical_uri, NULL);
+	control = addressbook_factory_new_control ();
+	bonobo_control_set_property (control, "folder_uri", physical_uri, NULL);
 
 	*control_return = control;
 
@@ -135,9 +132,11 @@ remove_folder (EvolutionShellComponent *shell_component,
 	       void *closure)
 {
 	CORBA_Environment ev;
-	char *db_path, *summary_path, *subdir_path;
+	char *addressbook_db_path, *addressbook_db_summary, *subdir_path;
 	struct stat sb;
 	int rv;
+	GnomeVFSURI *dir_uri, *data_uri, *summary_uri;
+	GnomeVFSResult data_result, summary_result;
 
 	CORBA_exception_init(&ev);
 
@@ -164,7 +163,7 @@ remove_folder (EvolutionShellComponent *shell_component,
 		return;
 	}
 
-	subdir_path = g_build_filename (physical_uri + 7, "subfolders", NULL);
+	subdir_path = g_concat_dir_and_file (physical_uri + 7, "subfolders");
 	rv = stat (subdir_path, &sb);
 	g_free (subdir_path);
 	if (rv != -1) {
@@ -174,29 +173,43 @@ remove_folder (EvolutionShellComponent *shell_component,
 		CORBA_exception_free(&ev);
 		return;
 	}
+	
+	addressbook_db_path = g_concat_dir_and_file (physical_uri + 7, "addressbook.db");
+	addressbook_db_summary = g_concat_dir_and_file (physical_uri + 7, "addressbook.db.summary");
+	
+	data_uri = gnome_vfs_uri_new (addressbook_db_path);
+	summary_uri = gnome_vfs_uri_new (addressbook_db_summary);
 
-	db_path = g_build_filename (physical_uri + 7, "addressbook.db", NULL);
-	summary_path = g_build_filename (physical_uri + 7, "addressbook.db.summary", NULL);
-	rv = unlink (db_path);
+	g_free (addressbook_db_path);
+	g_free (addressbook_db_summary);
 
-	if (rv == 0 || (rv == -1 && errno == ENOENT))
-		rv = unlink (summary_path);
-
-	if (rv == 0 || (rv == -1 && errno == ENOENT)) {
+	if (!data_uri || !summary_uri) {
 		GNOME_Evolution_ShellComponentListener_notifyResult (listener,
-								     GNOME_Evolution_ShellComponentListener_OK,
-								     &ev);
+				GNOME_Evolution_ShellComponentListener_INVALID_URI,
+				&ev);
+		CORBA_exception_free (&ev);
+		return;
 	}
-	else {
-		GNOME_Evolution_ShellComponentListener_notifyResult (listener,
-								     GNOME_Evolution_ShellComponentListener_PERMISSION_DENIED,
-								     &ev);
+	
+	data_result = gnome_vfs_unlink_from_uri (data_uri);
+	summary_result = gnome_vfs_unlink_from_uri (summary_uri);
+	if ((data_result == GNOME_VFS_OK || data_result == GNOME_VFS_ERROR_NOT_FOUND) && (summary_result == GNOME_VFS_OK || summary_result == GNOME_VFS_ERROR_NOT_FOUND))
+	{
+		 GNOME_Evolution_ShellComponentListener_notifyResult (listener,
+				 GNOME_Evolution_ShellComponentListener_OK,
+				 &ev);
+	} else {
+		 GNOME_Evolution_ShellComponentListener_notifyResult (listener,
+				 GNOME_Evolution_ShellComponentListener_PERMISSION_DENIED,
+				 &ev);
 	}
-
-	g_free (db_path);
-	g_free (summary_path);
-
-	CORBA_exception_free(&ev);
+	
+	if (data_uri)
+		gnome_vfs_uri_unref (data_uri);
+	if (summary_uri)
+		gnome_vfs_uri_unref (summary_uri);
+	
+	CORBA_exception_free (&ev);
 }
 
 /* ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** */
@@ -378,7 +391,16 @@ owner_set_cb (EvolutionShellComponent *shell_component,
 	if (global_shell_client == NULL)
 		global_shell_client = shell_client;
 
+	addressbook_config_register_factory (bonobo_object_corba_objref (BONOBO_OBJECT (shell_client)));
+
 	addressbook_storage_setup (shell_component, evolution_homedir);
+}
+
+static gboolean
+gtk_main_quit_cb (gpointer closure)
+{
+	gtk_main_quit ();
+	return TRUE;
 }
 
 static void
@@ -387,9 +409,9 @@ owner_unset_cb (EvolutionShellComponent *shell_component,
 		gpointer user_data)
 {
 	owner_count --;
-
-	if (owner_count == 0)
-		global_shell_client = NULL;
+	if (owner_count == 0) {
+		g_idle_add (gtk_main_quit_cb, NULL);
+	}
 }
 
 /* FIXME We should perhaps take the time to figure out if the book is editable. */
@@ -520,8 +542,8 @@ add_creatable_item (EvolutionShellComponent *shell_component,
 		icon_path = NULL;
 		icon = NULL;
 	} else {
-		icon_path = g_build_filename (EVOLUTION_IMAGESDIR, icon_name, NULL);
-		icon = gdk_pixbuf_new_from_file (icon_path, NULL);
+		icon_path = g_concat_dir_and_file (EVOLUTION_ICONSDIR, icon_name);
+		icon = gdk_pixbuf_new_from_file (icon_path);
 	}
 
 	evolution_shell_component_add_user_creatable_item (shell_component,
@@ -569,12 +591,12 @@ create_component (void)
 			    _("Create a new contact list"), 'l',
 			    "contact-list-16.png");
 
-	g_signal_connect (shell_component, "owner_set",
-			  G_CALLBACK (owner_set_cb), NULL);
-	g_signal_connect (shell_component, "owner_unset",
-			  G_CALLBACK (owner_unset_cb), NULL);
-	g_signal_connect (shell_component, "user_create_new_item",
-			  G_CALLBACK (user_create_new_item_cb), NULL);
+	gtk_signal_connect (GTK_OBJECT (shell_component), "owner_set",
+			    GTK_SIGNAL_FUNC (owner_set_cb), NULL);
+	gtk_signal_connect (GTK_OBJECT (shell_component), "owner_unset",
+			    GTK_SIGNAL_FUNC (owner_unset_cb), NULL);
+	gtk_signal_connect (GTK_OBJECT (shell_component), "user_create_new_item",
+			    GTK_SIGNAL_FUNC (user_create_new_item_cb), NULL);
 
 	return BONOBO_OBJECT (shell_component);
 }
@@ -584,12 +606,15 @@ ensure_completion_uris_exist()
 {
 	/* Initialize the completion uris if they aren't set yet.  The
 	   default set is just the local Contacts folder. */
-	EConfigListener *db;
+	Bonobo_ConfigDatabase db;
+	CORBA_Environment ev;
 	char *val;
 
-	db = e_book_get_config_database ();
+	CORBA_exception_init (&ev);
+	
+	db = addressbook_config_database (&ev);
 		
-	val = e_config_listener_get_string (db, "/apps/evolution/addressbook/completion/uris");
+	val = bonobo_config_get_string (db, "/Addressbook/Completion/uris", &ev);
 
 	if (!val) {
 		EFolderListItem f[2];
@@ -597,7 +622,7 @@ ensure_completion_uris_exist()
 		/* in the case where the user is running for the first
 		   time, populate the list with the local contact
 		   folder */
-		dirname = g_build_filename (g_get_home_dir (), "evolution/local/Contacts", NULL);
+		dirname = gnome_util_prepend_user_home("evolution/local/Contacts");
 		uri = g_strdup_printf ("file://%s", dirname);
 			
 		f[0].uri = "evolution:/local/Contacts";
@@ -610,17 +635,33 @@ ensure_completion_uris_exist()
 
 		g_free (dirname);
 		g_free (uri);
-		e_config_listener_set_string (db, "/apps/evolution/addressbook/completion/uris", val);
+		bonobo_config_set_string (db, "/Addressbook/Completion/uris", val, &ev);
+
+		g_free (val);
 	}
 
-	g_free (val);
+	CORBA_exception_free (&ev);
 }
 
 
-/* FIXME this is wrong.  */
-BonoboObject *
-addressbook_component_init (void)
+/* FIXME this should probably be renamed as we don't use factories anymore.  */
+void
+addressbook_component_factory_init (void)
 {
+	BonoboObject *object;
+	int result;
+
+	object = create_component ();
+
+	/* FIXME: Handle errors better?  */
+
+	result = oaf_active_server_register (GNOME_EVOLUTION_ADDRESSBOOK_COMPONENT_ID,
+					     bonobo_object_corba_objref (object));
+	if (result == OAF_REG_ERROR)
+		g_error ("Cannot register -- %s", GNOME_EVOLUTION_ADDRESSBOOK_COMPONENT_ID);
+
+	/* XXX this could probably go someplace else, but I'll leave
+	   it here for now since it's a component init time
+	   operation. */
 	ensure_completion_uris_exist ();
-	return create_component ();
 }

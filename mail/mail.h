@@ -29,11 +29,44 @@
 #include "mail-callbacks.h"
 #include "mail-config.h"
 #include "mail-config-druid.h"
-#include "mail-display-stream.h"
+/*#include "folder-browser.h"*/
 #include "mail-session.h"
 #include "mail-types.h"
 
 extern char *evolution_dir;
+
+/* mail-format */
+GByteArray *mail_format_get_data_wrapper_text (CamelDataWrapper *data,
+					       MailDisplay *mail_display);
+
+void mail_format_mime_message (CamelMimeMessage *mime_message,
+			       MailDisplay *md, GtkHTML *html, GtkHTMLStream *stream);
+void mail_format_raw_message (CamelMimeMessage *mime_message,
+			      MailDisplay *md, GtkHTML *html, GtkHTMLStream *stream);
+gboolean mail_content_loaded (CamelDataWrapper *wrapper,
+			      MailDisplay *display,
+			      gboolean redisplay,
+			      const gchar *url,
+			      GtkHTML *html,
+			      GtkHTMLStream *handle);
+
+typedef gboolean (*MailMimeHandlerFn) (CamelMimePart *part,
+				       const char *mime_type,
+				       MailDisplay *md, GtkHTML *html, GtkHTMLStream *stream);
+typedef struct {
+	OAF_ServerInfo *component;
+	GList *applications;
+	MailMimeHandlerFn builtin;
+	guint generic   : 1;
+	guint is_bonobo : 1;
+} MailMimeHandler;
+MailMimeHandler *mail_lookup_handler (const char *mime_type);
+
+gboolean mail_part_is_inline (CamelMimePart *part);
+gboolean mail_part_is_displayed_inline (CamelMimePart *part, MailDisplay *md);
+void     mail_part_toggle_displayed (CamelMimePart *part, MailDisplay *md);
+
+char *mail_get_message_body (CamelDataWrapper *data, gboolean want_plain, gboolean cite);
 
 /* mail-identify */
 char *mail_identify_mime_part (CamelMimePart *part, MailDisplay *md);
@@ -42,7 +75,7 @@ char *mail_identify_mime_part (CamelMimePart *part, MailDisplay *md);
 void mail_add_storage (CamelStore *store, const char *name, const char *uri);
 void mail_load_storage_by_uri (GNOME_Evolution_Shell shell, const char *uri, const char *name);
 /*takes a GSList of MailConfigServices */
-void mail_load_storages (GNOME_Evolution_Shell shell, EAccountList *sources);
+void mail_load_storages (GNOME_Evolution_Shell shell, const GSList *sources);
 
 void mail_hash_storage (CamelService *store, EvolutionStorage *storage);
 EvolutionStorage *mail_lookup_storage (CamelStore *store);

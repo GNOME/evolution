@@ -23,13 +23,10 @@
 #ifndef _E_MULTI_CONFIG_DIALOG_H_
 #define _E_MULTI_CONFIG_DIALOG_H_
 
-#ifdef HAVE_CONFIG_H
-#include <config.h>
-#endif
-
 #include "e-config-page.h"
 
-#include <gtk/gtkdialog.h>
+#include <gtk/gtkwindow.h>
+
 #include <gdk-pixbuf/gdk-pixbuf.h>
 
 #ifdef __cplusplus
@@ -38,10 +35,10 @@ extern "C" {
 #endif /* __cplusplus */
 
 #define E_TYPE_MULTI_CONFIG_DIALOG			(e_multi_config_dialog_get_type ())
-#define E_MULTI_CONFIG_DIALOG(obj)			(G_TYPE_CHECK_INSTANCE_CAST ((obj), E_TYPE_MULTI_CONFIG_DIALOG, EMultiConfigDialog))
-#define E_MULTI_CONFIG_DIALOG_CLASS(klass)		(G_TYPE_CHECK_CLASS_CAST ((klass), E_TYPE_MULTI_CONFIG_DIALOG, EMultiConfigDialogClass))
-#define E_IS_MULTI_CONFIG_DIALOG(obj)			(G_TYPE_CHECK_INSTANCE_TYPE ((obj), E_TYPE_MULTI_CONFIG_DIALOG))
-#define E_IS_MULTI_CONFIG_DIALOG_CLASS(klass)		(G_TYPE_CHECK_CLASS_TYPE ((obj), E_TYPE_MULTI_CONFIG_DIALOG))
+#define E_MULTI_CONFIG_DIALOG(obj)			(GTK_CHECK_CAST ((obj), E_TYPE_MULTI_CONFIG_DIALOG, EMultiConfigDialog))
+#define E_MULTI_CONFIG_DIALOG_CLASS(klass)		(GTK_CHECK_CLASS_CAST ((klass), E_TYPE_MULTI_CONFIG_DIALOG, EMultiConfigDialogClass))
+#define E_IS_MULTI_CONFIG_DIALOG(obj)			(GTK_CHECK_TYPE ((obj), E_TYPE_MULTI_CONFIG_DIALOG))
+#define E_IS_MULTI_CONFIG_DIALOG_CLASS(klass)		(GTK_CHECK_CLASS_TYPE ((obj), E_TYPE_MULTI_CONFIG_DIALOG))
 
 
 typedef struct _EMultiConfigDialog        EMultiConfigDialog;
@@ -49,13 +46,13 @@ typedef struct _EMultiConfigDialogPrivate EMultiConfigDialogPrivate;
 typedef struct _EMultiConfigDialogClass   EMultiConfigDialogClass;
 
 struct _EMultiConfigDialog {
-	GtkDialog parent;
+	GnomeDialog parent;
 
 	EMultiConfigDialogPrivate *priv;
 };
 
 struct _EMultiConfigDialogClass {
-	GtkDialogClass parent_class;
+	GnomeDialogClass parent_class;
 };
 
 
