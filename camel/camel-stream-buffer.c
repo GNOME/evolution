@@ -247,12 +247,13 @@ stream_read (CamelStream *stream, char *buffer, size_t n)
 			} else {
 				bytes_read = camel_stream_read(sbf->stream, sbf->buf, sbf->size);
 				if (bytes_read>0) {
+					size_t bytes_used = bytes_read > n ? n : bytes_read;
 					sbf->ptr = sbf->buf;
 					sbf->end = sbf->buf+bytes_read;
-					memcpy(bptr, sbf->ptr, n);
-					sbf->ptr += n;
-					bptr += n;
-					n -= bytes_read;
+					memcpy(bptr, sbf->ptr, bytes_used);
+					sbf->ptr += bytes_used;
+					bptr += bytes_used;
+					n -= bytes_used;
 				}
 			}
 		} else {

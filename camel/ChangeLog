@@ -1,3 +1,14 @@
+2000-11-27  Dan Winship  <danw@helixcode.com>
+
+	* providers/imap/camel-imap-command.c (imap_read_untagged): Make
+	this gratuitously more complicated. No wait, I mean, fix bugs. Now
+	fully handles NULs in the data stream (which "can't happen" but
+	do) and also handles responses containing multiple literals. Also
+	does less copying than the original code.
+
+	* camel-stream-buffer.c (stream_read): Fix a bug that could make
+	it lose sync and/or overrun buffers.
+
 2000-11-27  JP Rosevear  <jpr@helixcode.com>
 
 	* providers/local/.cvsignore: shush

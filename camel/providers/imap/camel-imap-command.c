@@ -228,78 +228,119 @@ imap_read_response (CamelImapStore *store, CamelException *ex)
 }
 
 /* Given a line that is the start of an untagged response, read and
- * return the complete response. (This will be a no-op if the line
- * in question doesn't end with a literal.)
- *
- * FIXME: this won't deal with multiple literals in a single response.
+ * return the complete response, which may include an arbitrary number
+ * of literals.
  */
 static char *
 imap_read_untagged (CamelImapStore *store, char *line, CamelException *ex)
 {
-	int fulllen, length, left, i;
+	int fulllen, length, ldigits, nread, i;
 	GPtrArray *data;
-	char *end, *p;
-	int n;
+	GString *str;
+	char *end, *p, *s, *d;
 
 	p = strrchr (line, '{');
 	if (!p)
 		return line;
 
-	length = strtoul (p + 1, &end, 10);
-	if (*end != '}' || *(end + 1) || end == p + 1)
-		return line;
-
-	fulllen = length + strlen (line) + 1;
-
-	/* OK. We have a literal. @length is the length including CRLF
-	 * pairs, which camel_remote_store_recv_line won't return.
-	 */
 	data = g_ptr_array_new ();
-	g_ptr_array_add (data, line);
-	left = length;
-	while (1) {
-		if ((n = camel_remote_store_recv_line (CAMEL_REMOTE_STORE (store), &line, ex)) < 0) {
-			for (i = 0; i < data->len; i++)
-				g_free (data->pdata[i]);
-			g_ptr_array_free (data, TRUE);
-			return NULL;
-		}
-		g_ptr_array_add (data, line);
+	fulllen = 0;
 
-		if (left <= 0)
+	while (1) {
+		str = g_string_new (line);
+		g_free (line);
+		fulllen += str->len;
+		g_ptr_array_add (data, str);
+
+		p = strrchr (str->str, '{');
+		if (!p)
 			break;
-		
-		left -= n + 2;
-		
-		/* The output string will have only LF, not CRLF, so
-		 * decrement the length by one.
+
+		length = strtoul (p + 1, &end, 10);
+		if (*end != '}' || *(end + 1) || end == p + 1)
+			break;
+		ldigits = end - (p + 1);
+
+		/* Read the literal */
+		str = g_string_sized_new (length + 2);
+		str->str[0] = '\n';
+		nread = camel_stream_read (CAMEL_REMOTE_STORE (store)->istream,
+					   str->str + 1, length);
+		if (nread < length) {
+			camel_exception_setv (ex, CAMEL_EXCEPTION_SERVICE_UNAVAILABLE,
+					      _("Server response ended too soon."));
+			camel_service_disconnect (CAMEL_SERVICE (store),
+						  FALSE, NULL);
+			goto lose;
+		}
+		str->str[length] = '\0';
+
+		/* Fix up the literal, turning CRLFs into LF. Also, if
+		 * we find any embedded NULs, strip them. This is
+		 * dubious, but:
+		 *   - The IMAP grammar says you can't have NULs here
+		 *     anyway, so this will not affect our behavior
+		 *     against any completely correct server.
+		 *   - WU-imapd 12.264 (at least) will cheerily pass
+		 *     NULs along if they are embedded in the message
+		 *   - The only cause of embedded NULs we've seen is an
+		 *     Evolution base64-encoder bug that sometimes
+		 *     inserts a NUL into the last line when it
+		 *     shouldn't.
 		 */
-		length--;
+
+		s = d = str->str + 1;
+		end = str->str + 1 + length;
+		while (s < end) {
+			while (*s == '\0' && s < end) {
+				s++;
+				length--;
+			}
+			if (*s == '\r' && *(s + 1) == '\n') {
+				s++;
+				length--;
+			}
+			*d++ = *s++;
+		}
+		*d = '\0';
+		str->len = length + 1;
+
+		/* p points to the "{" in the line that starts the
+		 * literal. The length of the CR-less response must be
+		 * less than or equal to the length of the response
+		 * with CRs, therefore overwriting the old value with
+		 * the new value cannot cause an overrun. However, we
+		 * don't want it to be shorter either, because then the
+		 * GString's length would be off...
+		 */
+		sprintf (p, "{%0*d}", ldigits, str->len);
+
+		fulllen += str->len;
+		g_ptr_array_add (data, str);
+
+		/* Read the next line. */
+		if (camel_remote_store_recv_line (CAMEL_REMOTE_STORE (store),
+						  &line, ex) < 0)
+			goto lose;
 	}
-	
-	/* Add the length of the post-literal line. */
-	fulllen += n;
-	
-	/* p points to the "{" in the line that starts the literal.
-	 * The length of the CR-less response must be less than or
-	 * equal to the length of the response with CRs, therefore
-	 * overwriting the old value with the new value cannot cause
-	 * an overrun.
-	 */
-	sprintf (p, "{%d}", length);
 
 	/* Now reassemble the data. */
 	p = line = g_malloc (fulllen + 1);
 	for (i = 0; i < data->len; i++) {
-		length = strlen (data->pdata[i]);
-		memcpy (p, data->pdata[i], length);
-		g_free (data->pdata[i]);
-		p += length;
-		*p++ = '\n';
+		str = data->pdata[i];
+		memcpy (p, str->str, str->len);
+		p += str->len;
+		g_string_free (str, TRUE);
 	}
 	*p = '\0';
 	g_ptr_array_free (data, TRUE);
 	return line;
+
+ lose:
+	for (i = 0; i < data->len; i++)
+		g_string_free (data->pdata[i], TRUE);
+	g_ptr_array_free (data, TRUE);
+	return NULL;
 }
 
 
