@@ -1,3 +1,8 @@
+2001-08-11  Kjartan Maraas  <kmaraas@gnome.org>
+
+	* POTFILES.in: Added more missing files.
+	* no.po: Updated accordingly.
+		
 2001-08-11  Zbigniew Chyla  <cyba@gnome.pl>
 
 	* pl.po: Updated Polish translation.

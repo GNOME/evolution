@@ -41,6 +41,8 @@ addressbook/gui/widgets/e-minicard-view.c
 addressbook/gui/widgets/e-minicard.c
 addressbook/gui/widgets/gal-view-factory-minicard.c
 addressbook/printing/e-contact-print.glade
+addressbook/printing/e-contact-print.c
+addressbook/printing/e-contact-print-envelope.c
 calendar/cal-util/timeutil.c
 calendar/conduits/calendar/calendar-conduit.c
 calendar/conduits/todo/todo-conduit.c
@@ -65,6 +67,7 @@ calendar/gui/dialogs/changed-comp.c
 calendar/gui/dialogs/comp-editor-util.c
 calendar/gui/dialogs/comp-editor.c
 calendar/gui/dialogs/delete-comp.c
+calendar/gui/dialogs/e-delegate-dialog.glade
 calendar/gui/dialogs/e-timezone-dialog.c
 calendar/gui/dialogs/e-timezone-dialog.glade
 calendar/gui/dialogs/event-editor.c
