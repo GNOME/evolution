@@ -284,7 +284,7 @@ e_marshal_INT__INT_POINTER_INT_POINTER (GtkObject * object,
 {
 	GtkSignal_INT__INT_POINTER_INT_POINTER rfunc;
 	gint *return_val;
-	return_val = GTK_RETLOC_INT (args[3]);
+	return_val = GTK_RETLOC_INT (args[4]);
 	rfunc = (GtkSignal_INT__INT_POINTER_INT_POINTER) func;
 	*return_val = (*rfunc) (object,
 				GTK_VALUE_INT     (args[0]),
@@ -486,7 +486,7 @@ e_marshal_BOOL__INT_POINTER_INT_POINTER_INT_INT_INT (GtkObject * object,
 {
   GtkSignal_BOOL__INT_POINTER_INT_POINTER_INT_INT_INT rfunc;
   gboolean *return_val;
-  return_val = GTK_RETLOC_BOOL (args[6]);
+  return_val = GTK_RETLOC_BOOL (args[7]);
   rfunc = (GtkSignal_BOOL__INT_POINTER_INT_POINTER_INT_INT_INT) func;
   *return_val = (*rfunc) (object,
 			  GTK_VALUE_INT (args[0]),
