@@ -1,5 +1,9 @@
 2000-07-01  Jeffrey Stedfast  <fejj@helixcode.com>
 
+	* providers/imap/camel-imap-folder.c (imap_get_message): Fixed
+	the bug that would sometimes leave part of the server response
+	tacked on to the end of the message.
+
 	* camel-folder.c: Renamed _by_uid methods. Since we no longer
 	have get-by-number methods, no need to have the _by_uid 
 	extensions. 

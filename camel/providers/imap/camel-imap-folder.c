@@ -752,7 +752,7 @@ imap_get_message (CamelFolder *folder, const gchar *uid, CamelException *ex)
 	/*CamelMimeFilter *filter;*/
 	CamelMimeMessage *msg;
 	/*CamelMimePart *part;*/
-	gchar *result, *header, *body, *mesg, *p;
+	gchar *result, *header, *body, *mesg, *p, *q;
 	int id, status, part_len;
 
 	status = camel_imap_command_extended (CAMEL_IMAP_STORE (folder->parent_store), folder,
@@ -783,10 +783,14 @@ imap_get_message (CamelFolder *folder, const gchar *uid, CamelException *ex)
 		return camel_mime_message_new ();
 	}
 
+	/* calculate the new part-length */
+	for (q = p; *q && (q - p) <= part_len; q++) {
+		if (*q == '\n')
+			part_len--;
+	}
+	
 	header = g_strndup (p, part_len);
-	for (p = header + strlen (header) - 1; p > header && *p != ')'; p--);
-	if (p != header)
-		*p = '\0';
+
 	g_free (result);
 	printf ("*** We got the header ***\n");
 
@@ -821,13 +825,18 @@ imap_get_message (CamelFolder *folder, const gchar *uid, CamelException *ex)
 		return camel_mime_message_new ();
 	}
 
+	/* calculate the new part-length */
+	for (q = p; *q && (q - p) <= part_len; q++) {
+		if (*q == '\n')
+			part_len--;
+	}
+
 	body = g_strndup (p, part_len);
-	for (p = body + strlen (body) - 1; p > body && *p != ')'; p--);
-	*p = '\0';
+
 	g_free (result);
 	printf ("*** We got the body ***\n");
 
-	mesg = g_strdup_printf ("%s%s", header, body);
+	mesg = g_strdup_printf ("%s\n%s", header, body);
 	g_free (header);
 	g_free (body);
 	printf ("*** We got the mesg ***\n");
