@@ -32,14 +32,13 @@
 #include <gtk/gtksignal.h>
 #include "e-msg-composer-select-file.h"
 
-
-struct _FileSelectionInfo {
+
+typedef struct _FileSelectionInfo {
 	GtkWidget *widget;
 	GtkToggleButton *inline_checkbox;
 	gboolean multiple;
 	GPtrArray *selected_files;
-};
-typedef struct _FileSelectionInfo FileSelectionInfo;
+} FileSelectionInfo;
 
 static void
 confirm (FileSelectionInfo *info)
@@ -94,12 +93,11 @@ cancel (FileSelectionInfo *info)
 	gtk_main_quit ();
 }
 
-
+
 /* Callbacks.  */
 
 static void
-ok_clicked_cb (GtkWidget *widget,
-	       void *data)
+ok_clicked_cb (GtkWidget *widget, void *data)
 {
 	FileSelectionInfo *info;
 	
@@ -108,8 +106,7 @@ ok_clicked_cb (GtkWidget *widget,
 }
 
 static void
-cancel_clicked_cb (GtkWidget *widget,
-		   void *data)
+cancel_clicked_cb (GtkWidget *widget, void *data)
 {
 	FileSelectionInfo *info;
 	
@@ -118,9 +115,7 @@ cancel_clicked_cb (GtkWidget *widget,
 }
 
 static int
-delete_event_cb (GtkWidget *widget,
-		 GdkEventAny *event,
-		 void *data)
+delete_event_cb (GtkWidget *widget, GdkEventAny *event, void *data)
 {
 	FileSelectionInfo *info;
 	
@@ -130,7 +125,15 @@ delete_event_cb (GtkWidget *widget,
 	return TRUE;
 }
 
-
+static void
+composer_hide_cb (GtkWidget *widget, gpointer user_data)
+{
+	FileSelectionInfo *info;
+	
+	info = (FileSelectionInfo *) user_data;
+	cancel (info);
+}
+
 /* Setup.  */
 
 static FileSelectionInfo *
@@ -170,6 +173,9 @@ create_file_selection (EMsgComposer *composer, gboolean multiple)
 	gtk_signal_connect (GTK_OBJECT (widget), "delete_event",
 			    GTK_SIGNAL_FUNC (delete_event_cb), info);
 	
+	gtk_signal_connect (GTK_OBJECT (composer), "hide",
+			    GTK_SIGNAL_FUNC (composer_hide_cb), info);
+	
 	inline_checkbox = gtk_check_button_new_with_label (_("Suggest automatic display of attachment"));
 	box = gtk_widget_get_ancestor (GTK_FILE_SELECTION (widget)->selection_entry, GTK_TYPE_BOX);
 	gtk_box_pack_end (GTK_BOX (box), inline_checkbox, FALSE, FALSE, 4);
@@ -191,7 +197,7 @@ file_selection_info_destroy_notify (void *data)
 	info = (FileSelectionInfo *) data;
 	
 	if (info->widget != NULL)
-		gtk_widget_destroy (GTK_OBJECT (info->widget));
+		gtk_widget_destroy (GTK_WIDGET (info->widget));
 	
 	if (info->selected_files) {
 		for (i = 0; i < info->selected_files->len; i++)

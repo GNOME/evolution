@@ -3,6 +3,8 @@
 	* e-msg-composer-select-file.c (confirm): If multiple-selection is
 	enabled but nothing is slected, fall back to using the filename in
 	the entry box as the "selected" file.
+	(create_file_selection): If the composer gets hidden (ie it's
+	being "sent") then cancel the file selection dialog.
 
 2001-12-11  Jeffrey Stedfast  <fejj@ximian.com>
 
