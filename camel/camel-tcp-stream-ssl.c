@@ -556,11 +556,13 @@ enable_ssl (CamelTcpStreamSSL *ssl, PRFileDesc *fd)
 	return ssl_fd;
 }
 
+#define CONNECT_TIMEOUT PR_TicksPerSecond () * 120
+
 static int
 stream_connect (CamelTcpStream *stream, struct hostent *host, int port)
 {
 	CamelTcpStreamSSL *ssl = CAMEL_TCP_STREAM_SSL (stream);
-	PRIntervalTime timeout = PR_INTERVAL_MIN;
+	PRIntervalTime timeout = CONNECT_TIMEOUT;
 	PRNetAddr netaddr;
 	PRFileDesc *fd;
 	
@@ -611,7 +613,7 @@ stream_connect (CamelTcpStream *stream, struct hostent *host, int port)
 				poll.in_flags = PR_POLL_WRITE | PR_POLL_EXCEPT;
 				poll.out_flags = 0;
 				
-				timeout = PR_INTERVAL_MIN;
+				timeout = CONNECT_TIMEOUT;
 				
 				if (PR_Poll (&poll, 1, timeout) == PR_FAILURE) {
 					set_errno (PR_GetError ());
