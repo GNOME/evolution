@@ -1,3 +1,15 @@
+2002-07-02  Rodrigo Moya <rodrigo@ximian.com>
+
+	Fixes #16034
+
+	* gui/e-day-view.c (e_day_view_reshape_long_event):
+	(e_day_view_reshape_day_event):
+	* gui/e-day-view-main-item.c (e_day_view_main_item_draw_day_event):
+	* gui/e-week-view.c (e_week_view_reshape_event_span):
+	* gui/e-week-view-event-item.c (e_week_view_event_item_draw_icons):
+	Don't assume all categories have icons when allocating space for
+	the icons.
+
 2002-07-02  Ettore Perazzoli  <ettore@ximian.com>
 
 	* gui/component-factory.c (add_creatable_item): New arg @tooltip.

@@ -589,7 +589,15 @@ e_week_view_event_item_draw_icons (EWeekViewEventItem *wveitem,
 	}
 
 	cal_component_get_categories_list (comp, &categories_list);
-	num_icons += g_slist_length (categories_list);
+	for (elem = categories_list; elem; elem = elem->next) {
+		char *category;
+		GdkPixmap *pixmap = NULL;
+		GdkBitmap *mask = NULL;
+
+		category = (char *) elem->data;
+		if (e_categories_config_get_icon_for (category, &pixmap, &mask))
+			num_icons++;
+	}
 
 	icon_x_inc = E_WEEK_VIEW_ICON_WIDTH + E_WEEK_VIEW_ICON_X_PAD;
 
@@ -636,8 +644,7 @@ e_week_view_event_item_draw_icons (EWeekViewEventItem *wveitem,
 		GdkBitmap *mask = NULL;
 
 		category = (char *) elem->data;
-		e_categories_config_get_icon_for (category, &pixmap, &mask);
-		if (pixmap == NULL)
+		if (!e_categories_config_get_icon_for (category, &pixmap, &mask))
 			continue;
 
 		if (icon_x + E_WEEK_VIEW_ICON_WIDTH <= x2) {

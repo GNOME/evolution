@@ -5082,7 +5082,7 @@ e_day_view_reshape_long_event (EDayView *day_view,
 	}
 
 	if (show_icons) {
-		GSList *categories_list;
+		GSList *categories_list, *elem;
 
 		if (cal_component_has_alarms (comp))
 			num_icons++;
@@ -5092,7 +5092,15 @@ e_day_view_reshape_long_event (EDayView *day_view,
 			num_icons++;
 
 		cal_component_get_categories_list (comp, &categories_list);
-		num_icons += g_slist_length (categories_list);
+		for (elem = categories_list; elem; elem = elem->next) {
+			char *category;
+			GdkPixmap *pixmap = NULL;
+			GdkBitmap *mask = NULL;
+
+			category = (char *) elem->data;
+			if (e_categories_config_get_icon_for (category, &pixmap, &mask))
+				num_icons++;
+		}
 		cal_component_free_categories_list (categories_list);
 	}
 
@@ -5221,7 +5229,7 @@ e_day_view_reshape_day_event (EDayView *day_view,
 		if (day_view->resize_drag_pos == E_DAY_VIEW_POS_NONE
 		    || day_view->resize_event_day != day
 		    || day_view->resize_event_num != event_num) {
-			GSList *categories_list;
+			GSList *categories_list, *elem;
 
 			if (cal_component_has_alarms (comp))
 				num_icons++;
@@ -5231,7 +5239,15 @@ e_day_view_reshape_day_event (EDayView *day_view,
 				num_icons++;
 
 			cal_component_get_categories_list (comp, &categories_list);
-			num_icons += g_slist_length (categories_list);
+			for (elem = categories_list; elem; elem = elem->next) {
+				char *category;
+				GdkPixmap *pixmap = NULL;
+				GdkBitmap *mask = NULL;
+
+				category = (char *) elem->data;
+				if (e_categories_config_get_icon_for (category, &pixmap, &mask))
+					num_icons++;
+			}
 			cal_component_free_categories_list (categories_list);
 		}
 

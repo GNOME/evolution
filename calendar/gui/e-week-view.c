@@ -2614,7 +2614,7 @@ e_week_view_reshape_event_span (EWeekView *week_view,
 	/* Calculate how many icons we need to show. */
 	num_icons = 0;
 	if (show_icons) {
-		GSList *categories_list;
+		GSList *categories_list, *elem;
 
 		if (cal_component_has_alarms (comp))
 			num_icons++;
@@ -2624,7 +2624,15 @@ e_week_view_reshape_event_span (EWeekView *week_view,
 			num_icons++;
 
 		cal_component_get_categories_list (comp, &categories_list);
-		num_icons += g_slist_length (categories_list);
+		for (elem = categories_list; elem; elem = elem->next) {
+			char *category;
+			GdkPixmap *pixmap = NULL;
+			GdkBitmap *mask = NULL;
+
+			category = (char *) elem->data;
+			if (e_categories_config_get_icon_for (category, &pixmap, &mask))
+				num_icons++;
+		}
 
 		cal_component_free_categories_list (categories_list);
 	}
