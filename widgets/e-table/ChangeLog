@@ -1,5 +1,19 @@
 2000-02-24  Christopher James Lahey  <clahey@helixcode.com>
 
+	* e-table-item.c: Made keyboard focus navigation work across
+	groups.
+
+	* e-table-header.c: Made e_table_header_col_diff not crash if you
+	give it a column less than 0 (it truncates negative column values
+	to 0.)
+
+	* e-table-group.c, e-table-group.h: Added e_table_group_get_header
+	to get the ETableHeader for this ETableGroup.
+
+	* e-table-group-container.c: Made shift tab work.
+
+2000-02-24  Christopher James Lahey  <clahey@helixcode.com>
+
 	* e-table-item.c: Made changing focus work.
 
 2000-02-24  Christopher James Lahey  <clahey@helixcode.com>

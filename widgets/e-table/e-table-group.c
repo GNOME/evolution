@@ -205,6 +205,15 @@ e_table_group_resize (ETableGroup *e_table_group)
 			 etg_signals [RESIZE]);
 }
 
+ETableHeader *
+e_table_group_get_header (ETableGroup *etg)
+{
+	g_return_val_if_fail (etg != NULL, NULL);
+	g_return_val_if_fail (E_IS_TABLE_GROUP (etg), NULL);
+
+	return etg->header;
+}
+
 static int
 etg_event (GnomeCanvasItem *item, GdkEvent *event)
 {

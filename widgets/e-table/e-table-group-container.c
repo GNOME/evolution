@@ -416,6 +416,10 @@ etgc_event (GnomeCanvasItem *item, GdkEvent *event)
 				ETableGroup *child = child_node->child;
 				if (e_table_group_get_focus(child)) {
 					old_col = e_table_group_get_focus_column(child);
+					if ( old_col == -1 )
+						old_col = 0;
+					if ( start_col == -1 )
+						start_col = e_table_header_count(e_table_group_get_header(child)) - 1;
 
 					if (direction == E_FOCUS_END)
 						list = list->prev;

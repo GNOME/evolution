@@ -1083,7 +1083,7 @@ eti_event (GnomeCanvasItem *item, GdkEvent *e)
 	default:
 		return_val = FALSE;
 	}
-	return TRUE;
+	return return_val;
 }
 
 /*

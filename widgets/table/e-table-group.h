@@ -71,6 +71,7 @@ void             e_table_group_set_focus (ETableGroup      *etg,
 					  gint              view_col);
 gboolean         e_table_group_get_focus (ETableGroup      *etg);
 gint             e_table_group_get_focus_column (ETableGroup      *etg);
+ETableHeader    *e_table_group_get_header (ETableGroup     *etg);
 ETableCol       *e_table_group_get_ecol  (ETableGroup      *etg);
 
 ETableGroup     *e_table_group_new       (GnomeCanvasGroup *parent,

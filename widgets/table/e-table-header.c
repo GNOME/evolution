@@ -1,3 +1,4 @@
+/* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
  * E-table-col-head.c: TableColHead implementation
  *
@@ -328,13 +329,14 @@ e_table_header_col_diff (ETableHeader *eth, int start_col, int end_col)
 	g_return_val_if_fail (E_IS_TABLE_HEADER (eth), 0);
 
 	{
-		const int max_col = eth->col_count;
+		if ( start_col < 0 )
+			start_col = 0;
+		if ( end_col > eth->col_count )
+			end_col = eth->col_count - 1;
 		
 		total = 0;
 		for (col = start_col; col < end_col; col++){
 			
-			if (col == max_col)
-				break;
 			total += eth->columns [col]->width;
 		}
 	}
