@@ -1,5 +1,10 @@
 2004-06-10  Rodrigo Moya <rodrigo@novell.com>
 
+	* gui/e-calendar-table.c (e_calendar_table_init): don't set
+	the "bg_color_column" property on the ECellToggle class.
+
+2004-06-10  Rodrigo Moya <rodrigo@novell.com>
+
 	Fixes #58799
 
 	* gui/e-calendar-view.c (e_calendar_view_delete_selected_occurrence):

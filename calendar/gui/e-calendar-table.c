@@ -474,9 +474,6 @@ e_calendar_table_init (ECalendarTable *cal_table)
 		}
 
 	cell = e_cell_toggle_new (0, E_CALENDAR_MODEL_NUM_ICONS, icon_pixbufs);
-	g_object_set (G_OBJECT (cell),
-		      "bg_color_column", E_CAL_MODEL_FIELD_COLOR,
-		      NULL);
 	e_table_extras_add_cell(extras, "icon", cell);
 	e_table_extras_add_pixbuf(extras, "icon", icon_pixbufs[0]);
 
