@@ -800,13 +800,17 @@ camel_imap_command_extended (CamelImapStore *store, CamelFolder *folder, char **
 		g_ptr_array_add (data, respbuf);
 		len += strlen (respbuf) + 1;
 
-		if (folder && *respbuf == '*' && (ptr = e_strstrcase (respbuf, "RECENT"))) {
-			char *rcnt;
+		if (*respbuf == '*' && (ptr = strstr (respbuf, "RECENT"))) {
+			char *rcnt, *ercnt;
 
-			for (rcnt = respbuf; rcnt < ptr && (*rcnt < '0' || *rcnt > '9'); rcnt++);
-
-			if (rcnt < ptr)
-				recent = atoi (rcnt);
+			d(fprintf (stderr, "*** We found a 'RECENT' flag: %s", respbuf));
+			/* Make sure it's in the form: "* %d RECENT" */
+			rcnt = respbuf + 2;
+			if (*rcnt > '0' || *rcnt < '9') {
+				for (ercnt = rcnt; ercnt < ptr && *ercnt != ' '; ercnt++);
+				if (ercnt + 1 == ptr)
+					recent = atoi (rcnt);
+			}
 		}
 	}
 

@@ -1,3 +1,9 @@
+2000-07-21  Jeffrey Stedfast  <fejj@helixcode.com>
+
+	* providers/imap/camel-imap-store.c (camel_imap_command_extended): Rewrote
+	the code to check for "* %d RECENT". Still needs to be modified, but should
+	no longer cause an infinite loop by detecting mis-detecting RECENT messages.
+
 2000-07-20  Jeffrey Stedfast  <fejj@helixcode.com>
 
 	* providers/imap/camel-imap-folder.c (imap_get_summary): 
