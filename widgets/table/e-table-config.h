@@ -52,6 +52,8 @@ typedef struct {
 typedef struct {
 	GtkObject parent;
 
+	char *header;
+
 	/*
 	 * Our various dialog boxes
 	 */

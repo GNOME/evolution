@@ -1299,7 +1299,7 @@ ethi_popup_customize_view(GtkWidget *widget, EthiHeaderInfo *info)
 			return;
 
 		ethi->config = e_table_config_new (
-				_("Configuring view: FIXME"),
+				_("Customize Current View"),
 				spec, state);
 		gtk_signal_connect (
 			GTK_OBJECT (ethi->config), "destroy",

@@ -69,6 +69,7 @@ config_destroy (GtkObject *object)
 	gtk_object_destroy (GTK_OBJECT (config->state));
 	gtk_object_unref (GTK_OBJECT (config->source_state));
 	gtk_object_unref (GTK_OBJECT (config->source_spec));
+	g_free (config->header);
 
 	g_slist_free (config->column_names);
 	config->column_names = NULL;
@@ -725,6 +726,9 @@ setup_gui (ETableConfig *config)
 	config->dialog_toplevel = glade_xml_get_widget (
 		gui, "e-table-config");
 
+	if (config->header)
+		gtk_window_set_title (GTK_WINDOW (config->dialog_toplevel), config->header);
+
 	gtk_widget_hide (GNOME_PROPERTY_BOX(config->dialog_toplevel)->help_button);
 
 	gtk_notebook_set_show_tabs (
@@ -785,6 +789,7 @@ e_table_config_construct (ETableConfig        *config,
 	
 	config->source_spec = spec;
 	config->source_state = state;
+	config->header = g_strdup (header);
 
 	gtk_object_ref (GTK_OBJECT (config->source_spec));
 	gtk_object_ref (GTK_OBJECT (config->source_state));
