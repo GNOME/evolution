@@ -1,5 +1,9 @@
 2000-10-05  Iain Holmes  <iain@helixcode.com>
 
+	* mail-summary.c: Don't watch for the message-changed signal.
+
+2000-10-05  Iain Holmes  <iain@helixcode.com>
+
 	* component-factory.c (component_factory_init): Setup the summary
 	factory as well.
 	(summary_fn): New function to create the ExecutiveSummaryComponent.

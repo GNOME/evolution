@@ -121,8 +121,5 @@ create_summary_view (ExecutiveSummaryComponent *component,
 	camel_object_hook_event (folder, "folder_changed",
 				 (CamelObjectEventHookFunc) folder_changed_cb,
 				 summary);
-	camel_object_hook_event (folder, "message_changed",
-				 (CamelObjectEventHookFunc) folder_changed_cb,
-				 summary);
 	return ret_html;
 }
