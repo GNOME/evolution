@@ -125,7 +125,7 @@ load_icon (const char *icon_name, int size, int scale)
 				
 				/* if the icon exists in this directory, we can [use/scale] it */
 				g_string_truncate (path, baselen);
-				g_string_append_printf (path, "%s/%s", dent->d_name, icon_name);
+				g_string_append_printf (path, "%s/%s.png", dent->d_name, icon_name);
 				if ((unscaled = gdk_pixbuf_new_from_file (path->str, NULL)))
 					break;
 			}
@@ -134,7 +134,7 @@ load_icon (const char *icon_name, int size, int scale)
 			closedir (dir);
 		} else {
 			g_free (filename);
-			filename = g_strdup_printf (EVOLUTION_ICONSDIR "/%dx%d/%s", size, size, icon_name);
+			filename = g_strdup_printf (EVOLUTION_ICONSDIR "/%dx%d/%s.png", size, size, icon_name);
 			unscaled = gdk_pixbuf_new_from_file (filename, NULL);
 		}
 	}
