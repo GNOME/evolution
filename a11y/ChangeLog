@@ -1,3 +1,11 @@
+2003-12-05  Bolian Yin <bolian.yin@sun.com>
+                                                                                
+        * calendar/ea-cal-view-event.c (ea_cal_view_event_new): shortcut when cal_view is NULL.
+        * calendar/ea-cal-view.c: Change an action name.
+        * calendar/ea-calendar.c (ea_calendar_focus_watcher): add check for event atk object.
+        * calendar/ea-week-view.c (ea_week_view_get_n_children): correct impl.
+          (get_visible_text_item_count): removed.
+                                                                                
 2003-12-06  JP Rosevear <jpr@ximian.com>
 
 	* */Makefile.am: Remove hard coded disable deprecated flags

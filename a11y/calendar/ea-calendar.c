@@ -112,14 +112,15 @@ ea_calendar_focus_watcher (GSignalInvocationHint *ihint,
 
 		canvas_item = GNOME_CANVAS_ITEM (object);
 		if (event->type == GDK_FOCUS_CHANGE) {
-			if (event->focus_change.in)
+			if (event->focus_change.in) {
 				ea_event =
 					ea_calendar_helpers_get_accessible_for (canvas_item);
-			else
-				/* focus out */
-				ea_event = NULL;
-			atk_focus_tracker_notify (ea_event);
+				if (!ea_event)
+					/* not canvas item we want */
+					return TRUE;
 
+			}
+			atk_focus_tracker_notify (ea_event);
 		}
 	}
 	else if (E_IS_DAY_VIEW (object)) {

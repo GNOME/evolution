@@ -38,8 +38,6 @@ static gint         ea_week_view_get_n_children      (AtkObject *obj);
 static AtkObject*   ea_week_view_ref_child           (AtkObject *obj,
 						      gint i);
 
-static void get_visible_text_item_count (GnomeCanvasItem *item, gpointer data);
-
 static gpointer parent_class = NULL;
 
 GType
@@ -195,15 +193,33 @@ ea_week_view_get_n_children (AtkObject *accessible)
 	EWeekView *week_view;
 	GnomeCanvasGroup *canvas_group;
 	gint i, count = 0;
+	gint event_index;
 
 	g_return_val_if_fail (EA_IS_WEEK_VIEW (accessible), -1);
 
 	if (!GTK_ACCESSIBLE (accessible)->widget)
 		return -1;
 	week_view = E_WEEK_VIEW (GTK_ACCESSIBLE (accessible)->widget);
-	canvas_group = GNOME_CANVAS_GROUP (GNOME_CANVAS (week_view->main_canvas)->root);
-	g_list_foreach (canvas_group->item_list, (GFunc)get_visible_text_item_count,
-			&count);
+
+	for (event_index = 0; event_index < week_view->events->len;
+	     ++event_index) {
+		EWeekViewEvent *event;
+		EWeekViewEventSpan *span;
+
+		event = &g_array_index (week_view->events,
+					EWeekViewEvent, event_index);
+		if (!event)
+			continue;
+		span = &g_array_index (week_view->spans, EWeekViewEventSpan,
+				       event->spans_index + 0);
+
+		if (!span)
+			continue;
+
+		/* at least one of the event spans is visible, count it */
+		if (span->text_item)
+			++count;
+	}
 
 	/* add the number of visible jump buttons */
 	for (i = 0; i < E_WEEK_VIEW_MAX_WEEKS * 7; i++) {
@@ -246,10 +262,13 @@ ea_week_view_ref_child (AtkObject *accessible, gint index)
 
 		event = &g_array_index (week_view->events,
 					EWeekViewEvent, event_index);
+		if (!event)
+			continue;
+
 		span = &g_array_index (week_view->spans, EWeekViewEventSpan,
 				       event->spans_index + span_num);
 
-		if (!event || !span)
+		if (!span)
 			continue;
 
 		current_day = span->start_day;
@@ -283,12 +302,4 @@ ea_week_view_ref_child (AtkObject *accessible, gint index)
 		index, (void *)atk_object);
 #endif
 	return atk_object;
-}
-
-static void get_visible_text_item_count (GnomeCanvasItem *item, gpointer data)
-{
-	gint *count = (gint *)data;
-
-	if (item && E_IS_TEXT (item))
-		++(*count);
 }

@@ -303,7 +303,7 @@ ea_cal_view_dates_change_cb (GnomeCalendar *gcal, gpointer data)
 
 static const char * action_name [CAL_VIEW_ACTION_NUM] = {
 	"New Appointment",
-	"New Event",
+	"New All Day Event",
 	"New Meeting",
 	"Go to Today",
 	"Go to Date"
@@ -346,7 +346,7 @@ action_interface_do_action (AtkAction *action, gint index)
 		 e_calendar_view_new_appointment (cal_view);
 		 break;
 	 case 1:
-		 /* New Event */
+		 /* New All Day Event */
 		 e_calendar_view_get_selected_time_range (cal_view,
 						     &dtstart, &dtend);
 		 e_calendar_view_new_appointment_for (cal_view,

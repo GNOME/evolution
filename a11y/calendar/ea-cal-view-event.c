@@ -138,6 +138,9 @@ ea_cal_view_event_new (GObject *obj)
 
 	g_return_val_if_fail (E_IS_TEXT (obj), NULL);
 	cal_view = ea_calendar_helpers_get_cal_view_from (GNOME_CANVAS_ITEM (obj));
+	if (!cal_view)
+		return NULL;
+
 	if (E_IS_WEEK_VIEW (cal_view)) {
 		gint event_num, span_num;
 		EWeekViewEvent *week_view_event;
