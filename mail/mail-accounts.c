@@ -739,7 +739,7 @@ mail_accounts_tab_construct (MailAccountsTab *prefs)
 	prefs->gui = gui;
 	
 	/* get our toplevel widget */
-#ifdef ENABLE_NEWS
+#ifdef ENABLE_NNTP
 	toplevel = glade_xml_get_widget (gui, "toplevel_notebook");
 #else
 	toplevel = glade_xml_get_widget (gui, "toplevel");
