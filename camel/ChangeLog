@@ -1,3 +1,8 @@
+2001-07-09  Not Zed  <NotZed@Ximian.com>
+
+	* providers/local/camel-maildir-summary.c (maildir_summary_sync):
+	Oops, e_poolv_set free's it for us, so dont double-free here.
+
 2001-07-06  Not Zed  <NotZed@Ximian.com>
 
 	* camel-vee-folder.c (camel_vee_folder_finalise): Changed so we

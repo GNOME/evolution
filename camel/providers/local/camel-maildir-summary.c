@@ -741,7 +741,6 @@ maildir_summary_sync(CamelLocalSummary *cls, gboolean expunge, CamelFolderChange
 #else
 # ifdef DOEPOOLV
 					info->strings = e_poolv_set(info->strings, CAMEL_MAILDIR_INFO_FILENAME, newname, TRUE);
-					g_free(newname);
 # else
 					g_free(mdi->filename);
 					mdi->filename = newname;
