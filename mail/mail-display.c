@@ -862,8 +862,10 @@ on_url_requested (GtkHTML *html, const char *url, GtkHTMLStream *handle,
 	g_return_if_fail (urls != NULL);
 
 	user_data = g_hash_table_lookup (urls, url);
-	if (user_data == NULL)
+	if (user_data == NULL) {
+		gtk_html_end (html, handle, GTK_HTML_STREAM_ERROR);
 		return;
+	}
 
 	if (strncmp (url, "cid:", 4) == 0) {
 		CamelMedium *medium = user_data;

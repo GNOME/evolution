@@ -450,6 +450,8 @@ mail_account_gui_build_extra_conf (MailAccountGui *gui, const char *url_string)
 
 	if (!gui->source.provider) {
 		gtk_widget_set_sensitive (main_vbox, FALSE);
+		if (url)
+			camel_url_free (url);
 		return;
 	} else
 		gtk_widget_set_sensitive (main_vbox, TRUE);
@@ -597,6 +599,8 @@ mail_account_gui_build_extra_conf (MailAccountGui *gui, const char *url_string)
 
  done:
 	gtk_widget_show_all (main_vbox);
+	if (url)
+		camel_url_free (url);
 }
 
 static void
@@ -737,6 +741,7 @@ setup_service (MailAccountGuiService *gsvc, MailConfigService *service)
 
 		has_auth = TRUE;
 	}
+	camel_url_free (url);
 	
 	gtk_toggle_button_set_active (gsvc->remember, service->save_passwd);
 
@@ -1178,5 +1183,10 @@ mail_account_gui_destroy (MailAccountGui *gui)
 	gtk_object_unref (GTK_OBJECT (gui->xml));
 	if (gui->extra_config)
 		g_hash_table_destroy (gui->extra_config);
+	g_free (gui->drafts_folder.name);
+	g_free (gui->drafts_folder.uri);
+	g_free (gui->sent_folder.name);
+	g_free (gui->sent_folder.uri);
+	g_free (gui);
 }
 

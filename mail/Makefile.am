@@ -115,10 +115,7 @@ evolution_mail_LDADD = 					\
 	$(top_builddir)/shell/importer/libevolution-importer.la	\
 	$(top_builddir)/widgets/menus/libmenus.la	\
 	$(BONOBO_VFS_GNOME_LIBS)			\
-	$(EXTRA_GNOME_LIBS)				\
-	$(GTKHTML_LIBS)					\
-	$(THREADS_LIBS)					\
-	$(UNICODE_LIBS)
+	$(GTKHTML_LIBS)
 
 evolution_mail_LDFLAGS =				\
 	-export-dynamic

@@ -1,3 +1,21 @@
+2001-04-13  Dan Winship  <danw@ximian.com>
+
+	* Makefile.am (evolution_mail_LDADD): Remove some redundant LIBS
+	variables... purify complained that the command line was too
+	long. :-}
+
+	* mail-account-gui.c: Plug leaks.
+
+	* mail-display.c (on_url_requested): close the html stream on
+	error too.
+
+	* mail-ops.c (fetch_mail_fetch): Move a line around that probably
+	doesn't affect anything, but it's correct.
+
+	* session.c (auth_callback): Plug leak.
+
+	* mail-send-recv.c (receive_status): Initialize "now".
+
 2001-04-13  Christopher James Lahey  <clahey@ximian.com>
 
 	* message-list.c (on_cursor_activated_cmd): Only activate the

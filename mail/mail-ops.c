@@ -334,9 +334,8 @@ fetch_mail_fetch(struct _mail_msg *mm)
 					/* if we are not to delete the messages, save the UID cache */
 					if (!fm->delete && !camel_exception_is_set (&mm->ex))
 						camel_uid_cache_save (cache);
-					
-					camel_uid_cache_destroy (cache);
 				}
+				camel_uid_cache_destroy (cache);
 				camel_folder_free_uids (folder, folder_uids);
 			} else {
 				filter_folder_filter (mm);
