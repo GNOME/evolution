@@ -1649,7 +1649,7 @@ mail_account_gui_save (MailAccountGui *gui)
 	save_service (&gui->transport, NULL, account->transport);
 	
 	/* Check to make sure that the Drafts folder uri is "valid" before assigning it */
-	url = source_url ? camel_url_new (gui->drafts_folder.uri, NULL) : NULL;
+	url = source_url && gui->drafts_folder.uri ? camel_url_new (gui->drafts_folder.uri, NULL) : NULL;
 	if (mail_config_get_account_by_source_url (gui->drafts_folder.uri) ||
 	    (url && provider->url_equal (source_url, url))) {
 		g_free (account->drafts_folder_name);
@@ -1668,7 +1668,7 @@ mail_account_gui_save (MailAccountGui *gui)
 		camel_url_free (url);
 	
 	/* Check to make sure that the Sent folder uri is "valid" before assigning it */
-	url = camel_url_new (gui->drafts_folder.uri, NULL);
+	url = source_url && gui->sent_folder.uri ? camel_url_new (gui->sent_folder.uri, NULL) : NULL;
 	if (mail_config_get_account_by_source_url (gui->sent_folder.uri) ||
 	    (url && provider->url_equal (source_url, url))) {
 		g_free (account->sent_folder_name);
