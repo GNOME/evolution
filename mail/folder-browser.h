@@ -52,12 +52,13 @@ struct  _FolderBrowser {
 	int          unread_count; /* last known unread message count */
 	
 	/* async loading stuff */
-	char	    *loading_uid;/* what uid am i loading now */
-	char	    *pending_uid; /* what uid should i load next */
-	char	    *new_uid;	/* place to save the next uid during idle timeout */
-	char	    *loaded_uid; /* what we have loaded */
-	guint	     loading_id, seen_id;
-
+	char	    *loading_uid;  /* what uid am i loading now */
+	char	    *pending_uid;  /* what uid should i load next */
+	char	    *new_uid;      /* place to save the next uid during idle timeout */
+	char	    *loaded_uid;   /* what we have loaded */
+	guint	     loading_id;
+	guint        seen_id;
+	
 	/* a folder we are expunging, dont use other than to compare the pointer value */
 	CamelFolder *expunging;
 	
@@ -68,9 +69,9 @@ struct  _FolderBrowser {
 	EFilterBar  *search;
 	FilterRule  *search_full; /* if we have a full search active */
 	
-	gboolean     preview_shown;
-	gboolean     threaded;
-	gboolean     pref_master;
+	guint32 preview_shown  : 1;
+	guint32 threaded       : 1;
+	guint32 pref_master    : 1;
 	
 	FolderBrowserSelectionState selection_state;
 	GSList *sensitize_changes;
@@ -89,7 +90,7 @@ struct  _FolderBrowser {
 	struct _MailAsyncEvent *async_event;
 	
 	int get_id;		/* for getting folder op */
-
+	
 	/* info used by popup for filter/vfolder */
 	struct _popup_filter_data *popup;
 };
@@ -124,6 +125,8 @@ void       folder_browser_clear_search         (FolderBrowser         *fb);
 void       folder_browser_cut                  (GtkWidget *widget, FolderBrowser *fb);
 void       folder_browser_copy                 (GtkWidget *widget, FolderBrowser *fb);
 void       folder_browser_paste                (GtkWidget *widget, FolderBrowser *fb);
+
+void       folder_browser_reload               (FolderBrowser *fb);
 
 /* callbacks for functions on the folder-browser */
 void vfolder_subject   (GtkWidget *w, FolderBrowser *fb);

@@ -1,3 +1,17 @@
+2002-08-27  Jeffrey Stedfast  <fejj@ximian.com>
+
+	Fixes for bug #4480
+
+	* folder-browser-factory.c (control_activate): Call
+	folder_browser_reload() instead of refreshing the folder
+	ourselves.
+
+	* folder-browser.c (folder_browser_reload): New convenience
+	function. If the folder-browser's folder is already loaded,
+	refresh the contents, otherwise if the folder has not been loaded
+	- try loading the folder again (it may have failed to open last
+	time for some reason?).
+
 2002-08-27  Peter Williams  <peterw@ximian.com>
 
 	* mail-format.c (handle_text_plain_flowed): Fix bug #29493.

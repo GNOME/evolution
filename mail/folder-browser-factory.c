@@ -94,12 +94,11 @@ control_activate (BonoboControl     *control,
 	folder_browser_ui_add_message (fb);
 
 	/*bonobo_ui_component_thaw (uic, NULL);*/
-
-	folder_browser_set_shell_view(fb, fb_get_svi (control));
-
-	if (fb->folder)
-		mail_refresh_folder (fb->folder, NULL, NULL);
-
+	
+	folder_browser_set_shell_view (fb, fb_get_svi (control));
+	
+	folder_browser_reload (fb);
+	
 	e_search_bar_set_ui_component (E_SEARCH_BAR (fb->search), uic);
 }
 
