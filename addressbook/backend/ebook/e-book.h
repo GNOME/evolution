@@ -59,6 +59,8 @@ gboolean  e_book_load_uri                 (EBook                 *book,
 void      e_book_unload_uri               (EBook                 *book);
 char     *e_book_get_static_capabilities  (EBook                 *book);
 
+EList    *e_book_get_supported_fields     (EBook                 *book);
+
 /* User authentication. */
 void      e_book_authenticate_user        (EBook                 *book,
 					   const char            *user,

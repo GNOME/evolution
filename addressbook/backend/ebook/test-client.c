@@ -89,9 +89,35 @@ add_card_cb (EBook *book, EBookStatus status, const gchar *id, gpointer closure)
 }
 
 static void
+auth_user_cb (EBook *book, EBookStatus status, gpointer closure)
+{
+	EList *fields;
+
+	printf ("user authenticated\n");
+
+	fields = e_book_get_supported_fields (book);
+	if (fields) {
+		EIterator *iter = e_list_get_iterator (fields);
+
+		printf ("Supported fields:\n");
+
+		for (; e_iterator_is_valid (iter); e_iterator_next (iter)) {
+			printf (" %s\n", (char*)e_iterator_get (iter));
+		}
+
+		gtk_object_unref(GTK_OBJECT(fields));
+	}
+	else {
+		printf ("No supported fields?\n");
+	}
+
+	e_book_add_vcard(book, cardstr, add_card_cb, NULL);
+}
+
+static void
 book_open_cb (EBook *book, EBookStatus status, gpointer closure)
 {
-	e_book_add_vcard(book, cardstr, add_card_cb, NULL);
+	e_book_authenticate_user (book, "username", "password", auth_user_cb, NULL);
 }
 
 static guint
