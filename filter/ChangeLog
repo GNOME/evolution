@@ -1,3 +1,8 @@
+2000-08-11  Not Zed  <NotZed@HelixCode.com>
+
+	* filter-driver.c (do_colour): Use proper accessor function
+	instead of poking the structure.
+
 2000-08-10  Christopher James Lahey  <clahey@helixcode.com>
 
 	* filter-driver.c, filter-folder.c, rule-context.c,

@@ -332,16 +332,11 @@ do_colour(struct _ESExp *f, int argc, struct _ESExpResult **argv, FilterDriver *
 	int i;
 	char *uid;
 	struct _FilterDriverPrivate *p = _PRIVATE(d);
-	CamelMessageInfo *info;
 
 	if (argc>0 && argv[0]->type == ESEXP_RES_STRING) {
 		for (i=0 ; i<p->matches->len; i++) {
 			uid = p->matches->pdata[i];
-			info = (CamelMessageInfo *)camel_folder_get_message_info(p->source, uid);
-			if (info) {
-				printf("assinging colour %s to %s\n", argv[0]->value.string, info->uid);
-				camel_tag_set(&info->user_tags, "colour", argv[0]->value.string);
-			}
+			camel_folder_set_message_user_tag(p->source, uid, "colour", argv[0]->value.string);
 		}
 	}
 
