@@ -1,3 +1,8 @@
+2004-11-25  Chenthill Palanisamy <pchenthill@novell.com>
+
+	* e-config.c (ec_rebuild): Set the row and column spacings as
+	tweleve while creating the table to make it HIG compliant.
+       	
 2004-11-19  Not Zed  <NotZed@Ximian.com>
 
 	* e-plugin.c (ep_load): if the plugin fails to load just disable

@@ -652,8 +652,11 @@ ec_rebuild(EConfig *emp)
 
 				if (item->type == E_CONFIG_SECTION)
 					section = gtk_vbox_new(FALSE, 6);
-				else
+				else {
 					section = gtk_table_new(1, 1, FALSE);
+					gtk_table_set_row_spacings (section, 12);
+					gtk_table_set_col_spacings (section, 12);
+				}
 
 				frame = g_object_new(gtk_frame_get_type(),
 						     "shadow_type", GTK_SHADOW_NONE, 
