@@ -328,6 +328,9 @@ certificate_viewer_show (ECert *cert)
 
 	cvm_data->dialog = glade_xml_get_widget (cvm_data->gui, "certificate-viewer-dialog");
 
+	gtk_widget_realize (cvm_data->dialog);
+	gtk_container_set_border_width (GTK_CONTAINER (GTK_DIALOG (cvm_data->dialog)->action_area), 12);
+
 	title = g_strdup_printf (_("Certificate Viewer: %s"), e_cert_get_window_title (cert));
 
 	gtk_window_set_title (GTK_WINDOW (cvm_data->dialog),
