@@ -17,7 +17,10 @@ Calendar:
 
   - Plenty of internal refactoring (JP, Damon, Federico).
 
-  - Pilot working, mostly on pcs infrastructure and some todo work (JP)
+  - Pilot synch work, mostly on pcs infrastructure and some todo work (JP)
+    <EXPERIMENTAL>
+
+  - Pilot synch work, mostly on pcs infrastructure and some todo work (JP)
     <EXPERIMENTAL>
 
 Addressbook:
