@@ -1,3 +1,8 @@
+2002-11-11  Aaron Weber  <aaron@ximian.com>
+
+	* C/config-prefs.xml: fix bug 27336, which is about how the Search
+	Base option description is wrong.
+
 2002-11-04  Aaron Weber  <aaron@ximian.com>
 
 	* C/*.sgml: All sgml files replaced with xml files. XML files

@@ -766,9 +766,10 @@ smtp.omniport.com:143
 	      Select 
 	      <menuchoice>
 		<guimenu>Tools</guimenu>
-		<guimenuitem>Addressbook Sources</guimenuitem>
+		<guimenuitem>Settings</guimenuitem>
 	      </menuchoice>
-	      from the menu.
+	      and click the <guibutton>Directory Servers</guibutton>
+	      shortcut button.
 	    </para>
 	  </listitem>
 	  <listitem>
@@ -819,13 +820,14 @@ smtp.omniport.com:143
 		    </para>
 		  </listitem>
 		</varlistentry>
-		<varlistentry>
-		  <term><glossterm linkend="search-base">Search base</glossterm></term>
+
+	        <varlistentry>
+		  <term><glossterm linkend="search-base">Search Base</glossterm></term>
 		  <listitem>
 		    <para>
-		      The base entry to use for all your searches.
-		      Contact your administrator for information about
-		      the correct settings.
+                    The base entry to use for all your
+                    searches. Contact your administrator for
+                    information about the correct settings.
 		    </para>
 		  </listitem>
 		</varlistentry>
@@ -836,15 +838,6 @@ smtp.omniport.com:143
 		      How broad the search is in the directory.  The
 		      following options are available:
 		      <variablelist>
-			<varlistentry>
-			  <term>Base</term>
-			  <listitem>
-			    <para>
-			      Searches just the Search Base.  Most of the time,
-			      not very useful.
-			    </para>
-			  </listitem>
-			</varlistentry>
 			<varlistentry>
 			  <term>One</term>
 			  <listitem>
