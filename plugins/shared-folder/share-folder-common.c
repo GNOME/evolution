@@ -83,6 +83,10 @@ shared_folder_commit (EPlugin *ep, EConfigTarget *target)
 void 
 shared_folder_abort (EPlugin *ep, EConfigTarget *target)
 {
+	if (common) {
+		share_folder (common);
+		g_object_run_dispose (common);
+	}
 	printf ("aborttttttt**********\n");
 }
 
@@ -347,8 +351,6 @@ org_gnome_shared_folder_factory (EPlugin *ep, EConfigHookItemFactoryData *hook_d
 			cnc = NULL;
 			id = NULL;
 		}
-		
-		g_free (folderuri);
 		
 		if (cnc && id)
 			sharing_tab = share_folder_new (cnc, id);
