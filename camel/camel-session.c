@@ -43,6 +43,13 @@ camel_session_class_init (CamelSessionClass *camel_session_class)
 
 
 
+static void
+camel_session_init (CamelSession *session)
+{
+	store_provider_list = g_hash_table_new (g_str_hash, g_str_equal);
+	transport_provider_list = g_hash_table_new (g_str_hash, g_str_equal);
+}
+
 
 
 GtkType
@@ -57,7 +64,7 @@ camel_session_get_type (void)
 			sizeof (CamelSession),
 			sizeof (CamelSessionClass),
 			(GtkClassInitFunc) camel_session_class_init,
-			(GtkObjectInitFunc) NULL,
+			(GtkObjectInitFunc) camel_session_init,
 				/* reserved_1 */ NULL,
 				/* reserved_2 */ NULL,
 			(GtkClassInitFunc) NULL,
@@ -69,3 +76,56 @@ camel_session_get_type (void)
 	return camel_session_type;
 }
 
+
+/**
+ * camel_session_set_provider: set the default provider for a protocol
+ * @session: session object for wich the provider will the default
+ * @provider: provider object
+ * 
+ * Set the default implementation for a protocol. The protocol
+ * is determined by provider->protocol field (See CamelProtocol).
+ * It overrides the default provider for this protocol.
+ * 
+ **/
+void 
+camel_session_set_provider (CamelSession *session, CamelProvider *provider)
+{
+	GHashTable *table;
+
+	g_assert(session);
+	g_assert(provider);
+	
+	if (provider->provider_type == PROVIDER_STORE)
+		table = session->store_provider_list;
+	else
+		table = session->transport_provider_list;
+	
+	g_hash_table_insert (table, (gpointer)(provider->protocol), (gpointer)(provider));
+	
+}
+
+
+
+
+
+/**
+ * camel_session_get_store_from_provider: create a folder instance for a given provider
+ * @session: session object the folder will be initialized with
+ * @provider: provider folder to instantiate
+ * 
+ * 
+ * 
+ * Return value: the newly instantiated folder
+ **/
+CamelStore *
+camel_session_get_store_from_provider (CamelSession *session, CamelProvider *provider)
+{
+	CamelStore *store;
+
+	g_assert(session);
+	g_assert(provider);
+
+	store = gtk_object_new (provider->object_type, NULL);
+#warning add session initialisation on object 
+	return store;
+}

@@ -32,7 +32,7 @@ extern "C" {
 #endif /* __cplusplus }*/
 
 #include <gtk/gtk.h>
-
+#include "camel-provider.h"
 
 #define CAMEL_SESSION_TYPE     (camel_session_get_type ())
 #define CAMEL_SESSION(obj)     (GTK_CHECK_CAST((obj), CAMEL_SESSION_TYPE, CamelSession))
@@ -46,6 +46,9 @@ typedef struct _CamelSession CamelSession;
 struct _CamelSession
 {
 	GtkObject parent_object;
+	GHashTable *store_provider_list; /* providers are identified by their protocol */
+	GHashTable *transport_provider_list; 
+	
 	
 };
 
@@ -53,7 +56,7 @@ struct _CamelSession
 
 typedef struct {
 	GtkObjectClass parent_class;
-
+	
 	/* Virtual methods */	
 
 } CamelSessionClass;
@@ -66,6 +69,7 @@ GtkType camel_session_get_type (void);
 
 
 
+void camel_session_set_provider (CamelSession *session, CamelProvider *provider);
 
 
 #ifdef __cplusplus

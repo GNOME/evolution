@@ -40,10 +40,10 @@ typedef enum {
 typedef struct {
 	GtkType object_type;        /* used to create instance of the provider */
 	ProviderType provider_type; /* is a store or a transport */ 
-	GString *protocol;          /* name of the protocol ("imap"/"smtp"/"mh" ...) */
-	GString *provider_name;     /* name of the provider ("Raymond the imap provider") */
-	GString *description;       /* Useful when multiple providers are available for a same protocol */
-} CameProvider;
+	gchar *protocol;          /* name of the protocol ("imap"/"smtp"/"mh" ...) */
+	gchar *provider_name;     /* name of the provider ("Raymond the imap provider") */
+	gchar *description;       /* Useful when multiple providers are available for a same protocol */
+} CamelProvider;
 
 
 

@@ -1,5 +1,13 @@
 1999-04-25  bertrand <Bertrand.Guiheneuf@inria.fr>
 
+	* camel/camel-session.c (camel_session_set_provider): 
+	new method to set the default provider for a protocol.
+	(camel_session_get_store_from_provider): 
+	new method to instantiate a folder from a provider.
+
+	* camel/camel-provider.h: s/GString/gchar/g
+	+ typo fix.
+
 	* camel/camel-provider.[ch]:
 	basic provider structure. Have to write the
 	code for dynamic loading.
