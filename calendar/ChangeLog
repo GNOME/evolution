@@ -1,5 +1,10 @@
 2000-12-22  JP Rosevear  <jpr@helixcode.com>
 
+	* gui/dialogs/delete-comp.c (delete_component_dialog): Clean up 
+	translatable strings for translators, fixes bug 993
+	
+2000-12-22  JP Rosevear  <jpr@helixcode.com>
+
 	* gui/goto.c (create_ecal): Make sure the current month is shown
 	when the dialog pops up.
 

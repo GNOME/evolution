@@ -54,15 +54,15 @@ delete_component_dialog (CalComponent *comp)
 
 	switch (vtype) {
 	case CAL_COMPONENT_EVENT:
-		type = _("appointment");
+		type = _("Are you sure you want to delete the appointment");
 		break;
 
 	case CAL_COMPONENT_TODO:
-		type = _("task");
+		type = _("Are you sure you want to delete the task");
 		break;
 
 	case CAL_COMPONENT_JOURNAL:
-		type = _("journal entry");
+		type = _("Are you sure you want to delete the journal entry");
 		break;
 
 	default:
@@ -71,10 +71,9 @@ delete_component_dialog (CalComponent *comp)
 	}
 
 	if (summary.value)
-		str = g_strdup_printf (_("Are you sure you want to delete the %s `%s'?"),
-				       type, summary.value);
+		str = g_strdup_printf ("%s `%s'?", type, summary.value);
 	else
-		str = g_strdup_printf (_("Are you sure you want to delete this %s?"), type);
+		str = g_strdup_printf ("%s?", type);
 
 	dialog = gnome_question_dialog_modal (str, NULL, NULL);
 	g_free (str);
