@@ -3765,24 +3765,24 @@ msgstr "天数"
 
 #: calendar/gui/calendar-commands.c:470
 msgid "%A %d %B %Y"
-msgstr "%Y年%-m月%-d日%A"
+msgstr "%Y年%m月%d日%A"
 
 #. strftime format %a = abbreviated weekday name, %d = day of month,
 #. %b = abbreviated month name. Don't use any other specifiers.
 #: calendar/gui/calendar-commands.c:473 calendar/gui/e-day-view-top-item.c:266
 #: calendar/gui/e-day-view.c:1360 calendar/gui/e-week-view-main-item.c:325
 msgid "%a %d %b"
-msgstr "%-m月%-d日%A"
+msgstr "%m月%d日%A"
 
 #: calendar/gui/calendar-commands.c:475 calendar/gui/calendar-commands.c:480
 #: calendar/gui/calendar-commands.c:482
 msgid "%a %d %b %Y"
-msgstr "%Y年%-m月%-d日%A"
+msgstr "%Y年%m月%d日%A"
 
 #: calendar/gui/calendar-commands.c:493 calendar/gui/calendar-commands.c:500
 #: calendar/gui/calendar-commands.c:506 calendar/gui/calendar-commands.c:508
 msgid "%d %B %Y"
-msgstr "%Y年%-m月%-d日"
+msgstr "%Y年%m月%d日"
 
 #. strftime format %d = day of month, %B = full
 #. month name. You can change the order but don't
@@ -3790,7 +3790,7 @@ msgstr "%Y年%-m月%-d日"
 #: calendar/gui/calendar-commands.c:498
 #: calendar/gui/e-week-view-main-item.c:333 calendar/gui/print.c:1509
 msgid "%d %B"
-msgstr "%-m月%-d日"
+msgstr "%m月%d日"
 
 #: calendar/gui/calendar-commands.c:887
 msgid ""
@@ -5324,13 +5324,13 @@ msgstr "任务排序"
 #: calendar/gui/e-cell-date-edit-text.c:118 e-util/e-time-utils.c:167
 #: e-util/e-time-utils.c:380
 msgid "%a %m/%d/%Y %H:%M:%S"
-msgstr "%Y年%-m月%-d日%A%-H:%M:%S"
+msgstr "%Y年%m月%d日%A%H:%M:%S"
 
 #. strftime format of a weekday, a date and a time, 12-hour.
 #: calendar/gui/e-cell-date-edit-text.c:121 e-util/e-time-utils.c:162
 #: e-util/e-time-utils.c:389
 msgid "%a %m/%d/%Y %I:%M:%S %p"
-msgstr "%Y/%-m/%-d %A %p%-H:%M:%S"
+msgstr "%Y/%m/%d %A %p%H:%M:%S"
 
 #: calendar/gui/e-cell-date-edit-text.c:126
 #, c-format
@@ -5353,14 +5353,14 @@ msgstr "%02i 分钟分割"
 #: calendar/gui/e-day-view-top-item.c:262 calendar/gui/e-day-view.c:1343
 #: calendar/gui/e-week-view-main-item.c:316 calendar/gui/print.c:1525
 msgid "%A %d %B"
-msgstr "%B%-d日%A"
+msgstr "%B%d日%A"
 
 #. strftime format %d = day of month, %b = abbreviated month name.
 #. Don't use any other specifiers.
 #: calendar/gui/e-day-view-top-item.c:270 calendar/gui/e-day-view.c:1376
 #: calendar/gui/e-week-view-main-item.c:339
 msgid "%d %b"
-msgstr "%B%-d日"
+msgstr "%B%d日"
 
 #. String to use in 12-hour time format for times in the morning.
 #: calendar/gui/e-day-view.c:591 calendar/gui/e-week-view.c:315
@@ -5934,7 +5934,7 @@ msgstr "正在处理"
 #: calendar/gui/e-meeting-time-sel-item.c:458
 #: calendar/gui/e-meeting-time-sel.c:2098
 msgid "%A, %B %d, %Y"
-msgstr "%Y年%-m月%-d日%A"
+msgstr "%Y年%m月%d日%A"
 
 #. This is a strftime() format string %a = abbreviated weekday
 #. name, %m = month number, %d = month day, %Y = full year.
@@ -5942,14 +5942,14 @@ msgstr "%Y年%-m月%-d日%A"
 #: calendar/gui/e-meeting-time-sel.c:2131 e-util/e-time-utils.c:190
 #: e-util/e-time-utils.c:283 e-util/e-time-utils.c:371
 msgid "%a %m/%d/%Y"
-msgstr "%Y年%-m月%-d日%A"
+msgstr "%Y年%m月%d日%A"
 
 #. This is a strftime() format string %m = month number,
 #. %d = month day, %Y = full year.
 #: calendar/gui/e-meeting-time-sel-item.c:466 e-util/e-time-utils.c:225
 #: e-util/e-time-utils.c:286 widgets/misc/e-dateedit.c:1593
 msgid "%m/%d/%Y"
-msgstr "%Y年%-m月%-d日"
+msgstr "%Y年%m月%d日"
 
 #: calendar/gui/e-meeting-time-sel.c:407 designs/OOA/ooa.glade.h:11
 msgid "Out of Office"
@@ -6270,20 +6270,20 @@ msgstr "六"
 #. Day
 #: calendar/gui/print.c:1875
 msgid "Selected day (%a %b %d %Y)"
-msgstr "选中的日期 (%Y年%-m月%-d日%A)"
+msgstr "选中的日期 (%Y年%m月%d日%A)"
 
 #: calendar/gui/print.c:1900 calendar/gui/print.c:1904
 msgid "%a %b %d"
-msgstr "%-m月%-d日%A"
+msgstr "%m月%d日%A"
 
 #: calendar/gui/print.c:1901
 msgid "%a %d %Y"
-msgstr "%Y年%-d日%A"
+msgstr "%Y年%d日%A"
 
 #: calendar/gui/print.c:1905 calendar/gui/print.c:1907
 #: calendar/gui/print.c:1908
 msgid "%a %b %d %Y"
-msgstr "%Y年%-m月%-d日%A"
+msgstr "%Y年%m月%d日%A"
 
 #: calendar/gui/print.c:1912
 #, c-format
@@ -6293,7 +6293,7 @@ msgstr "选中的周(%s - %s)"
 #. Month
 #: calendar/gui/print.c:1920
 msgid "Selected month (%b %Y)"
-msgstr "选中的月(%Y年%-m月)"
+msgstr "选中的月(%Y年%m月)"
 
 #. Year
 #: calendar/gui/print.c:1927
@@ -10783,30 +10783,30 @@ msgstr "同步类别："
 #. in 12-hour format, without seconds.
 #: e-util/e-time-utils.c:172 e-util/e-time-utils.c:385
 msgid "%a %m/%d/%Y %I:%M %p"
-msgstr "%Y/%-m/%-d %A %p %-I:%M"
+msgstr "%Y/%m/%d %A %p %I:%M"
 
 #. strptime format of a weekday, a date and a time,
 #. in 24-hour format, without seconds.
 #: e-util/e-time-utils.c:177 e-util/e-time-utils.c:376
 msgid "%a %m/%d/%Y %H:%M"
-msgstr "%Y/%-m/%-d %A %-H:%M"
+msgstr "%Y/%m/%d %A %H:%M"
 
 #. strptime format of a weekday, a date and a time,
 #. in 12-hour format, without minutes or seconds.
 #: e-util/e-time-utils.c:182
 msgid "%a %m/%d/%Y %I %p"
-msgstr "%Y/%-m/%-d %A %p %I点"
+msgstr "%Y/%m/%d %A %p %I点"
 
 #. strptime format of a weekday, a date and a time,
 #. in 24-hour format, without minutes or seconds.
 #: e-util/e-time-utils.c:187
 msgid "%a %m/%d/%Y %H"
-msgstr "%Y/%-m/%-d %A %-H点"
+msgstr "%Y/%m/%d %A %H点"
 
 #. strptime format of a date and a time, in 12-hour format.
 #: e-util/e-time-utils.c:198
 msgid "%m/%d/%Y %I:%M:%S %p"
-msgstr "%Y/%-m/%-d %p %-I:%M:%S"
+msgstr "%Y/%m/%d %p %I:%M:%S"
 
 #. strptime format of a date and a time, in 24-hour format.
 #: e-util/e-time-utils.c:202
@@ -10823,42 +10823,42 @@ msgstr "%Y/%m/%d %H:%M %p"
 #. without seconds.
 #: e-util/e-time-utils.c:212
 msgid "%m/%d/%Y %H:%M"
-msgstr "%Y/%-m/%-d %-H:%M"
+msgstr "%Y/%m/%d %H:%M"
 
 #. strptime format of a date and a time, in 12-hour format,
 #. without minutes or seconds.
 #: e-util/e-time-utils.c:217
 msgid "%m/%d/%Y %I %p"
-msgstr "%Y/%-m/%-d %p %-I点"
+msgstr "%Y/%m/%d %p %I点"
 
 #. strptime format of a date and a time, in 24-hour format,
 #. without minutes or seconds.
 #: e-util/e-time-utils.c:222
 msgid "%m/%d/%Y %H"
-msgstr "%Y/%-m/%-d %-H点"
+msgstr "%Y/%m/%d %H点"
 
 #. strptime format for a time of day, in 12-hour format.
 #: e-util/e-time-utils.c:326 e-util/e-time-utils.c:425
 msgid "%I:%M:%S %p"
-msgstr "%p %-I:%M:%S"
+msgstr "%p %I:%M:%S"
 
 #. strptime format for a time of day, in 24-hour format.
 #: e-util/e-time-utils.c:330 e-util/e-time-utils.c:417
 msgid "%H:%M:%S"
-msgstr "%-H:%M:%S"
+msgstr "%H:%M:%S"
 
 #. strptime format for time of day, without seconds,
 #. in 12-hour format.
 #: e-util/e-time-utils.c:335 e-util/e-time-utils.c:422
 #: widgets/misc/e-dateedit.c:1415 widgets/misc/e-dateedit.c:1628
 msgid "%I:%M %p"
-msgstr "%p %-I:%M"
+msgstr "%p %I:%M"
 
 #. strptime format for time of day, without seconds 24-hour format.
 #: e-util/e-time-utils.c:339 e-util/e-time-utils.c:414
 #: widgets/misc/e-dateedit.c:1412 widgets/misc/e-dateedit.c:1625
 msgid "%H:%M"
-msgstr "%-H:%M"
+msgstr "%H:%M"
 
 #. strptime format for hour and AM/PM, 12-hour format.
 #: e-util/e-time-utils.c:343
@@ -12178,7 +12178,7 @@ msgstr "未知的发件人"
 
 #: mail/mail-callbacks.c:1193
 msgid "On %a, %Y-%m-%d at %H:%M, %%s wrote:"
-msgstr "在%Y年%-m月%-d日的%-H:%M，%%s写道："
+msgstr "在%Y年%m月%d日的%H:%M，%%s写道："
 
 #: mail/mail-callbacks.c:1700 mail/message-browser.c:132
 msgid "Move message(s) to"
@@ -13016,7 +13016,7 @@ msgstr "延误："
 
 #: mail/mail-display.c:2007
 msgid "by %B %d, %Y, %l:%M %P"
-msgstr "到 %-m月%-d日%A，%-H:%M"
+msgstr "到 %m月%d日%A，%H:%M"
 
 #: mail/mail-display.c:2371
 msgid "Open Link in Browser"
@@ -13580,23 +13580,23 @@ msgstr "?"
 
 #: mail/message-list.c:1079
 msgid "Today %l:%M %p"
-msgstr "今天 %-H:%M"
+msgstr "今天 %H:%M"
 
 #: mail/message-list.c:1088
 msgid "Yesterday %l:%M %p"
-msgstr "昨天 %-H:%M"
+msgstr "昨天 %H:%M"
 
 #: mail/message-list.c:1100
 msgid "%a %l:%M %p"
-msgstr "%A %-H:%M"
+msgstr "%A %H:%M"
 
 #: mail/message-list.c:1108
 msgid "%b %d %l:%M %p"
-msgstr "%-m月%-d日 %-H:%M"
+msgstr "%m月%d日 %H:%M"
 
 #: mail/message-list.c:1110
 msgid "%b %d %Y"
-msgstr "%Y年%-m月%-d日"
+msgstr "%Y年%m月%d日"
 
 #: mail/message-list.c:2649
 msgid "Generating message list"
@@ -23566,11 +23566,11 @@ msgstr "无约会。"
 
 #: my-evolution/e-summary-calendar.c:406
 msgid "%k:%M %d %B"
-msgstr "%-m月%-d日%-H:%M"
+msgstr "%m月%d日%H:%M"
 
 #: my-evolution/e-summary-calendar.c:408
 msgid "%l:%M%P %d %B"
-msgstr "%-m月%-d日%-H:%M"
+msgstr "%m月%d日%H:%M"
 
 #: my-evolution/e-summary-calendar.c:426
 msgid "No description"
@@ -23642,7 +23642,7 @@ msgstr "KBOS"
 
 #: my-evolution/e-summary.c:204
 msgid "%A, %B %e %Y"
-msgstr "%Y年%-m月%-d日%A"
+msgstr "%Y年%m月%d日%A"
 
 #: my-evolution/e-summary.c:533
 msgid "Please wait..."

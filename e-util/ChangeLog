@@ -1,3 +1,9 @@
+2003-08-20  Suresh Chandrasekharan <suresh.chandrasekharan@sun.com>
+	
+	* e-time-utils.c (parse_with_strptime): Fixes #43558 Appointment
+	Editor always gives time validation error for apptmnts in non
+	UTF-8/non ASCII locales.
+
 2003-08-11  Not Zed  <NotZed@Ximian.com>
 
 	* e-msgport.c (e_thread_put): check pthread_create return code
