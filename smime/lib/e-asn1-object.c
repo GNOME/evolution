@@ -79,6 +79,21 @@ static GObjectClass *parent_class;
 static void
 e_asn1_object_dispose (GObject *object)
 {
+	EASN1Object *obj = E_ASN1_OBJECT (object);
+	if (obj->priv) {
+
+		if (obj->priv->display_name)
+			g_free (obj->priv->display_name);
+
+		if (obj->priv->value)
+			g_free (obj->priv->value);
+
+		g_list_foreach (obj->priv->children, (GFunc)g_object_unref, NULL);
+		g_list_free (obj->priv->children);
+
+		g_free (obj->priv);
+		obj->priv = NULL;
+	}
 }
 
 static void
@@ -97,6 +112,8 @@ static void
 e_asn1_object_init (EASN1Object *asn1)
 {
 	asn1->priv = g_new0 (EASN1ObjectPrivate, 1);
+
+	asn1->priv->valid_container = TRUE;
 }
 
 GType
@@ -296,30 +313,17 @@ e_asn1_object_new_from_der (char *data, guint32 len)
 }
 
 EASN1Object*
-e_asn1_object_new_from_cert (ECert *cert)
-{
-	char *data;
-	guint32 len;
-	EASN1Object *obj;
-
-	if (!e_cert_get_raw_der (cert, &data, &len))
-		return NULL;
-
-	obj = g_object_new (E_TYPE_ASN1_OBJECT, NULL);	
-	if (!build_from_der (obj, data, data + len)) {
-		g_object_unref (obj);
-		return NULL;
-	}
-
-	return obj;
-}
-
-EASN1Object*
 e_asn1_object_new (void)
 {
 	return E_ASN1_OBJECT (g_object_new (E_TYPE_ASN1_OBJECT, NULL));
 }
 
+
+void
+e_asn1_object_set_valid_container (EASN1Object *obj, gboolean flag)
+{
+	obj->priv->valid_container = flag;
+}
 
 gboolean
 e_asn1_object_is_valid_container (EASN1Object *obj)
@@ -349,10 +353,30 @@ e_asn1_object_get_children (EASN1Object *obj)
 	return children;
 }
 
+void
+e_asn1_object_append_child (EASN1Object *parent, EASN1Object *child)
+{
+	parent->priv->children = g_list_append (parent->priv->children, g_object_ref (child));
+}
+
+void
+e_asn1_object_set_display_name (EASN1Object *obj, const char *name)
+{
+	g_free (obj->priv->display_name);
+	obj->priv->display_name = g_strdup (name);
+}
+
 const char*
 e_asn1_object_get_display_name (EASN1Object *obj)
 {
 	return obj->priv->display_name;
+}
+
+void
+e_asn1_object_set_display_value (EASN1Object *obj, const char *value)
+{
+	g_free (obj->priv->value);
+	obj->priv->value = g_strdup (value);
 }
 
 const char*

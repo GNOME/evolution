@@ -1,3 +1,48 @@
+2003-12-04  Chris Toshok  <toshok@ximian.com>
+
+	* lib/e-cert.h: add prototype for e_cert_get_asn1_struct.
+	
+	* lib/e-cert.c (e_cert_dispose): unref the asn1 object.
+	(get_int_value): copy and massage from mozilla source.
+	(process_version): same.
+	(process_serial_number_der): same.
+	(get_default_oid_format): same.
+	(get_oid_text): same.
+	(process_raw_bytes): same.
+	(process_sec_algorithm_id): same.
+	(process_subject_public_key_info): same.
+	(process_ns_cert_type_extensions): same.
+	(process_key_usage_extensions): same.
+	(process_extension_data): same.
+	(process_single_extension): same.
+	(process_extensions): same.
+	(process_name): same.
+	(create_tbs_certificate_asn1_struct): same.
+	(create_asn1_struct): same.
+	(e_cert_get_asn1_struct): new function.
+
+	* lib/e-asn1-object.c (e_asn1_object_dispose): free the display
+	name, value, and children.
+	(e_asn1_object_init): assume it's a valid container unless we hear
+	otherwise.
+	(e_asn1_object_new_from_cert): nuke.
+	(e_asn1_object_set_valid_container): implement.
+	(e_asn1_object_append_child): same.
+	(e_asn1_object_set_display_name): same.
+	(e_asn1_object_set_display_value): same.
+
+	* lib/e-asn1-object.h: add prototypes for
+	e_asn1_object_set_valid_container, e_asn1_object_set_display_name,
+	e_asn1_object_set_display_value, and e_asn1_object_append_child.
+
+	* gui/certificate-viewer.c (populate_fields_tree): populate the
+	tree from the asn structure.
+	(hierarchy_selection_changed): blow away the old fields_tree
+	content and populate it again.
+	(fields_selection_changed): implement, set the text view's
+	contents to the asn1 object's display_value.
+	(fill_in_details): expand all nodes in the hierarchy tree.
+
 2003-12-03  Chris Toshok  <toshok@ximian.com>
 
 	* lib/Makefile.am (libessmime_la_SOURCES): add e-asn1-object.[ch]

@@ -25,8 +25,6 @@
 
 #include <glib-object.h>
 
-#include "e-cert.h"
-
 #include <nspr.h>
 
 #define E_TYPE_ASN1_OBJECT            (e_asn1_object_get_type ())
@@ -41,9 +39,32 @@ typedef struct _EASN1ObjectClass EASN1ObjectClass;
 typedef struct _EASN1ObjectPrivate EASN1ObjectPrivate;
 
 enum {
-  E_ASN1_OBJECT_TYPE_APPLICATION,
-  E_ASN1_OBJECT_TYPE_CONTEXT_SPECIFIC,
-  E_ASN1_OBJECT_TYPE_PRIVATE
+	/*
+	 *  Identifiers for the possible types of object.
+	 */
+	E_ASN1_OBJECT_TYPE_END_CONTENTS     = 0,
+	E_ASN1_OBJECT_TYPE_BOOLEAN          = 1,
+	E_ASN1_OBJECT_TYPE_INTEGER          = 2,
+	E_ASN1_OBJECT_TYPE_BIT_STRING       = 3,
+	E_ASN1_OBJECT_TYPE_OCTET_STRING     = 4,
+	E_ASN1_OBJECT_TYPE_NULL             = 5, 
+	E_ASN1_OBJECT_TYPE_OBJECT_ID        = 6,
+	E_ASN1_OBJECT_TYPE_ENUMERATED       = 10,
+	E_ASN1_OBJECT_TYPE_UTF8_STRING      = 12,
+	E_ASN1_OBJECT_TYPE_SEQUENCE         = 16,
+	E_ASN1_OBJECT_TYPE_SET              = 17,
+	E_ASN1_OBJECT_TYPE_PRINTABLE_STRING = 19,
+	E_ASN1_OBJECT_TYPE_T61_STRING       = 20,
+	E_ASN1_OBJECT_TYPE_IA5_STRING       = 22,
+	E_ASN1_OBJECT_TYPE_UTC_TIME         = 23,
+	E_ASN1_OBJECT_TYPE_GEN_TIME         = 24,
+	E_ASN1_OBJECT_TYPE_VISIBLE_STRING   = 26,
+	E_ASN1_OBJECT_TYPE_UNIVERSAL_STRING = 28, 
+	E_ASN1_OBJECT_TYPE_BMP_STRING       = 30,
+	E_ASN1_OBJECT_TYPE_HIGH_TAG_NUMBER  = 31,
+	E_ASN1_OBJECT_TYPE_CONTEXT_SPECIFIC = 32,
+	E_ASN1_OBJECT_TYPE_APPLICATION      = 33,
+	E_ASN1_OBJECT_TYPE_PRIVATE          = 34,
 };
 
 struct _EASN1Object {
@@ -63,18 +84,21 @@ struct _EASN1ObjectClass {
 	void (*_ecert_reserved4) (void);
 };
 
-EASN1Object     *e_asn1_object_new_from_cert      (ECert *cert);
 EASN1Object     *e_asn1_object_new_from_der       (char *data, guint32 len);
 EASN1Object     *e_asn1_object_new                (void);
 
-gboolean         e_asn1_object_is_valid_container (EASN1Object *obj);
-PRUint32         e_asn1_object_get_asn1_type      (EASN1Object *obj);
-PRUint32         e_asn1_object_get_asn1_tag       (EASN1Object *obj);
-GList           *e_asn1_object_get_children       (EASN1Object *obj);
-const char      *e_asn1_object_get_display_name   (EASN1Object *obj);
-const char      *e_asn1_object_get_display_value  (EASN1Object *obj);
+void             e_asn1_object_set_valid_container (EASN1Object *obj, gboolean flag);
+gboolean         e_asn1_object_is_valid_container  (EASN1Object *obj);
+PRUint32         e_asn1_object_get_asn1_type       (EASN1Object *obj);
+PRUint32         e_asn1_object_get_asn1_tag        (EASN1Object *obj);
+GList           *e_asn1_object_get_children        (EASN1Object *obj);
+void             e_asn1_object_append_child        (EASN1Object *parent, EASN1Object *child);
+void             e_asn1_object_set_display_name    (EASN1Object *obj, const char *name);
+const char      *e_asn1_object_get_display_name    (EASN1Object *obj);
+void             e_asn1_object_set_display_value   (EASN1Object *obj, const char *value);
+const char      *e_asn1_object_get_display_value   (EASN1Object *obj);
 
-void             e_asn1_object_get_data           (EASN1Object *obj, char **data, guint32 *len);
+void             e_asn1_object_get_data            (EASN1Object *obj, char **data, guint32 *len);
 
 GType            e_asn1_object_get_type (void);
 

@@ -118,6 +118,32 @@ fill_in_general (CertificateViewerData *cvm_data, ECert *cert)
 }
 
 static void
+populate_fields_tree (CertificateViewerData *cvm_data, EASN1Object *asn1, GtkTreeIter *root)
+{
+	GtkTreeIter new_iter;
+
+	/* first insert a node for the current asn1 */
+	gtk_tree_store_insert (cvm_data->fields_store, &new_iter, root, -1);
+	gtk_tree_store_set (cvm_data->fields_store, &new_iter,
+			    0, e_asn1_object_get_display_name (asn1),
+			    1, asn1,
+			    -1);
+
+	if (e_asn1_object_is_valid_container (asn1)) {
+		GList *children = e_asn1_object_get_children (asn1);
+		if (children) {
+			GList *l;
+			for (l = children; l; l = l->next) {
+				EASN1Object *subasn1 = l->data;
+				populate_fields_tree (cvm_data, subasn1, &new_iter);
+			}
+		}
+		g_list_foreach (children, (GFunc)g_object_unref, NULL);
+		g_list_free (children);
+	}
+}
+
+static void
 hierarchy_selection_changed (GtkTreeSelection *selection, CertificateViewerData *cvm_data)
 {
 	GtkTreeIter iter;
@@ -137,14 +163,51 @@ hierarchy_selection_changed (GtkTreeSelection *selection, CertificateViewerData 
 		if (!cert)
 			return;
 
-		/* XXX show the selected fields somehow */
-		asn1_object = e_asn1_object_new_from_cert (cert);
+		/* display the cert's ASN1 structure */
+		asn1_object = e_cert_get_asn1_struct (cert);
+
+		/* wipe out the old model */
+		cvm_data->fields_store = gtk_tree_store_new (2, G_TYPE_STRING, G_TYPE_POINTER);
+		gtk_tree_view_set_model (GTK_TREE_VIEW (cvm_data->fields_tree),
+					 GTK_TREE_MODEL (cvm_data->fields_store));
+
+		/* populate the fields from the newly selected cert */
+		populate_fields_tree (cvm_data, asn1_object, NULL);
+		gtk_tree_view_expand_all (GTK_TREE_VIEW (cvm_data->fields_tree));
+		g_object_unref (asn1_object);
+
+		/* and blow away the field value */
+		gtk_text_buffer_set_text (gtk_text_view_get_buffer (GTK_TEXT_VIEW (cvm_data->field_text)),
+					  "", 0);
 	}	
 }
 
 static void
 fields_selection_changed (GtkTreeSelection *selection, CertificateViewerData *cvm_data)
 {
+	GtkTreeIter iter;
+	GtkTreeModel *model;
+
+	if (gtk_tree_selection_get_selected (selection,
+					     &model,
+					     &iter)) {
+		EASN1Object *asn1_object;
+		const char *value;
+
+		gtk_tree_model_get (model,
+				    &iter,
+				    1, &asn1_object,
+				    -1);
+
+		value = e_asn1_object_get_display_value (asn1_object);
+
+		if (value)
+			gtk_text_buffer_set_text (gtk_text_view_get_buffer (GTK_TEXT_VIEW (cvm_data->field_text)),
+						  value, strlen (value));
+		else
+			gtk_text_buffer_set_text (gtk_text_view_get_buffer (GTK_TEXT_VIEW (cvm_data->field_text)),
+						  "", 0);
+	}
 }
 
 static void
@@ -168,10 +231,7 @@ fill_in_details (CertificateViewerData *cvm_data, ECert *cert)
 	g_signal_connect (selection, "changed", G_CALLBACK (hierarchy_selection_changed), cvm_data);
 
 	/* hook up all the fields tree foo */
-	cvm_data->fields_store = gtk_tree_store_new (1, G_TYPE_STRING);
 	cvm_data->fields_tree = glade_xml_get_widget (cvm_data->gui, "cert-fields-treeview");
-	gtk_tree_view_set_model (GTK_TREE_VIEW (cvm_data->fields_tree),
-				 GTK_TREE_MODEL (cvm_data->fields_store));
 
 	gtk_tree_view_insert_column_with_attributes (GTK_TREE_VIEW (cvm_data->fields_tree),
 						     -1, "Field", gtk_cell_renderer_text_new(),
@@ -203,6 +263,8 @@ fill_in_details (CertificateViewerData *cvm_data, ECert *cert)
 
 		root = &new_iter;
 	}
+
+	gtk_tree_view_expand_all (GTK_TREE_VIEW (cvm_data->hierarchy_tree));
 }
 
 GtkWidget*
