@@ -1,3 +1,9 @@
+2001-10-30  Damon Chaplin  <damon@ximian.com>
+
+	* zoneinfo/*.ics: Regenerated all VTIMEZONEs, to be compatable with
+	Outlook Web Access. They now only include 2 RRULEs components or
+	1 simple DTSTART component.
+
 2001-10-29  Damon Chaplin  <damon@ximian.com>
 
 	* src/libical/Makefile.am: renamed the library to libical-evolution.la,
