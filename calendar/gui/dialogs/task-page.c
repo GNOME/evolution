@@ -116,6 +116,7 @@ static void task_page_init (TaskPage *tpage);
 static void task_page_destroy (GtkObject *object);
 
 static GtkWidget *task_page_get_widget (CompEditorPage *page);
+static void task_page_focus_main_widget (CompEditorPage *page);
 static void task_page_fill_widgets (CompEditorPage *page, CalComponent *comp);
 static void task_page_fill_component (CompEditorPage *page, CalComponent *comp);
 static void task_page_set_summary (CompEditorPage *page, const char *summary);
@@ -170,6 +171,7 @@ task_page_class_init (TaskPageClass *class)
 	parent_class = gtk_type_class (TYPE_COMP_EDITOR_PAGE);
 
 	editor_page_class->get_widget = task_page_get_widget;
+	editor_page_class->focus_main_widget = task_page_focus_main_widget;
 	editor_page_class->fill_widgets = task_page_fill_widgets;
 	editor_page_class->fill_component = task_page_fill_component;
 	editor_page_class->set_summary = task_page_set_summary;
@@ -247,6 +249,19 @@ task_page_get_widget (CompEditorPage *page)
 	priv = tpage->priv;
 
 	return priv->main;
+}
+
+/* focus_main_widget handler for the task page */
+static void
+task_page_focus_main_widget (CompEditorPage *page)
+{
+	TaskPage *tpage;
+	TaskPagePrivate *priv;
+
+	tpage = TASK_PAGE (page);
+	priv = tpage->priv;
+
+	gtk_widget_grab_focus (priv->summary);
 }
 
 /* Fills the widgets with default values */

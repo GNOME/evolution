@@ -134,6 +134,7 @@ comp_editor_page_class_init (CompEditorPageClass *class)
 	class->dates_changed = NULL;
 
 	class->get_widget = NULL;
+	class->focus_main_widget = NULL;
 	class->fill_widgets = NULL;
 	class->fill_component = NULL;
 	class->set_summary = NULL;
@@ -185,6 +186,24 @@ comp_editor_page_get_widget (CompEditorPage *page)
 
 	g_assert (CLASS (page)->get_widget != NULL);
 	return (* CLASS (page)->get_widget) (page);
+}
+
+/**
+ * comp_editor_page_focus_main_widget:
+ * @page: An editor page.
+ * 
+ * Makes an editor page focus its main widget.  This is used by the component
+ * editor when it first pops up so that it can focus the main widget in the
+ * first page.
+ **/
+void
+comp_editor_page_focus_main_widget (CompEditorPage *page)
+{
+	g_return_if_fail (page != NULL);
+	g_return_if_fail (IS_COMP_EDITOR_PAGE (page));
+
+	g_assert (CLASS (page)->focus_main_widget != NULL);
+	(* CLASS (page)->focus_main_widget) (page);
 }
 
 /**

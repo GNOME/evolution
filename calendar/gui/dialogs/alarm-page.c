@@ -77,6 +77,7 @@ static void alarm_page_init (AlarmPage *apage);
 static void alarm_page_destroy (GtkObject *object);
 
 static GtkWidget *alarm_page_get_widget (CompEditorPage *page);
+static void alarm_page_focus_main_widget (CompEditorPage *page);
 static void alarm_page_fill_widgets (CompEditorPage *page, CalComponent *comp);
 static void alarm_page_fill_component (CompEditorPage *page, CalComponent *comp);
 static void alarm_page_set_summary (CompEditorPage *page, const char *summary);
@@ -131,6 +132,7 @@ alarm_page_class_init (AlarmPageClass *class)
 	parent_class = gtk_type_class (TYPE_COMP_EDITOR_PAGE);
 
 	editor_page_class->get_widget = alarm_page_get_widget;
+	editor_page_class->focus_main_widget = alarm_page_focus_main_widget;
 	editor_page_class->fill_widgets = alarm_page_fill_widgets;
 	editor_page_class->fill_component = alarm_page_fill_component;
 	editor_page_class->set_summary = alarm_page_set_summary;
@@ -239,6 +241,19 @@ alarm_page_get_widget (CompEditorPage *page)
 	priv = apage->priv;
 
 	return priv->main;
+}
+
+/* focus_main_widget handler for the alarm page */
+static void
+alarm_page_focus_main_widget (CompEditorPage *page)
+{
+	AlarmPage *apage;
+	AlarmPagePrivate *priv;
+
+	apage = ALARM_PAGE (page);
+	priv = apage->priv;
+
+	gtk_widget_grab_focus (priv->action);
 }
 
 /* Fills the widgets with default values */

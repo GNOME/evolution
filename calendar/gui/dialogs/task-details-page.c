@@ -71,6 +71,7 @@ static void task_details_page_init (TaskDetailsPage *tdpage);
 static void task_details_page_destroy (GtkObject *object);
 
 static GtkWidget *task_details_page_get_widget (CompEditorPage *page);
+static void task_details_page_focus_main_widget (CompEditorPage *page);
 static void task_details_page_fill_widgets (CompEditorPage *page, CalComponent *comp);
 static void task_details_page_fill_component (CompEditorPage *page, CalComponent *comp);
 static void task_details_page_set_summary (CompEditorPage *page, const char *summary);
@@ -126,6 +127,7 @@ task_details_page_class_init (TaskDetailsPageClass *class)
 	parent_class = gtk_type_class (TYPE_COMP_EDITOR_PAGE);
 
 	editor_page_class->get_widget = task_details_page_get_widget;
+	editor_page_class->focus_main_widget = task_details_page_focus_main_widget;
 	editor_page_class->fill_widgets = task_details_page_fill_widgets;
 	editor_page_class->fill_component = task_details_page_fill_component;
 	editor_page_class->set_summary = task_details_page_set_summary;
@@ -192,6 +194,19 @@ task_details_page_get_widget (CompEditorPage *page)
 	priv = tdpage->priv;
 
 	return priv->main;
+}
+
+/* focus_main_widget handler for the task page */
+static void
+task_details_page_focus_main_widget (CompEditorPage *page)
+{
+	TaskDetailsPage *tdpage;
+	TaskDetailsPagePrivate *priv;
+
+	tdpage = TASK_DETAILS_PAGE (page);
+	priv = tdpage->priv;
+
+	gtk_widget_grab_focus (priv->organizer);
 }
 
 /* Fills the widgets with default values */
@@ -278,7 +293,6 @@ task_details_page_fill_component (CompEditorPage *page, CalComponent *comp)
 	TaskDetailsPagePrivate *priv;
 	struct icaltimetype icaltime;
 	GSList list;
-	CalComponentDateTime date;
 	CalComponentOrganizer organizer;
 	CalComponentAttendee attendee;
 	char *url;

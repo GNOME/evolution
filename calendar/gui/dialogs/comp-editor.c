@@ -264,6 +264,7 @@ comp_editor_append_page (CompEditor *editor,
 	CompEditorPrivate *priv;
 	GtkWidget *page_widget;
 	GtkWidget *label_widget;
+	gboolean is_first_page;
 	
 	g_return_if_fail (editor != NULL);
 	g_return_if_fail (IS_COMP_EDITOR (editor));
@@ -289,6 +290,8 @@ comp_editor_append_page (CompEditor *editor,
 	
 	label_widget = gtk_label_new (label);
 
+	is_first_page = (priv->pages == NULL);
+
 	priv->pages = g_list_append (priv->pages, page);
 	gtk_notebook_append_page (priv->notebook, page_widget, label_widget);
 
@@ -301,6 +304,12 @@ comp_editor_append_page (CompEditor *editor,
 			    GTK_SIGNAL_FUNC (page_summary_changed_cb), editor);
 	gtk_signal_connect (GTK_OBJECT (page), "dates_changed",
 			    GTK_SIGNAL_FUNC (page_dates_changed_cb), editor);
+
+	/* The first page is the main page of the editor, so we ask it to focus
+	 * its main widget.
+	 */
+	if (is_first_page)
+		comp_editor_page_focus_main_widget (page);
 }
 
 /**

@@ -174,6 +174,7 @@ static void recurrence_page_init (RecurrencePage *rpage);
 static void recurrence_page_destroy (GtkObject *object);
 
 static GtkWidget *recurrence_page_get_widget (CompEditorPage *page);
+static void recurrence_page_focus_main_widget (CompEditorPage *page);
 static void recurrence_page_fill_widgets (CompEditorPage *page, CalComponent *comp);
 static void recurrence_page_fill_component (CompEditorPage *page, CalComponent *comp);
 static void recurrence_page_set_summary (CompEditorPage *page, const char *summary);
@@ -230,6 +231,7 @@ recurrence_page_class_init (RecurrencePageClass *class)
 	parent_class = gtk_type_class (TYPE_COMP_EDITOR_PAGE);
 
 	editor_page_class->get_widget = recurrence_page_get_widget;
+	editor_page_class->focus_main_widget = recurrence_page_focus_main_widget;
 	editor_page_class->fill_widgets = recurrence_page_fill_widgets;
 	editor_page_class->fill_component = recurrence_page_fill_component;
 	editor_page_class->set_summary = recurrence_page_set_summary;
@@ -343,6 +345,26 @@ recurrence_page_get_widget (CompEditorPage *page)
 	priv = rpage->priv;
 
 	return priv->main;
+}
+
+/* focus_main_widget handler for the recurrence page */
+static void
+recurrence_page_focus_main_widget (CompEditorPage *page)
+{
+	RecurrencePage *rpage;
+	RecurrencePagePrivate *priv;
+
+	rpage = RECURRENCE_PAGE (page);
+	priv = rpage->priv;
+
+	if (e_dialog_toggle_get (priv->none))
+		gtk_widget_grab_focus (priv->none);
+	else if (e_dialog_toggle_get (priv->simple))
+		gtk_widget_grab_focus (priv->simple);
+	else if (e_dialog_toggle_get (priv->custom))
+		gtk_widget_grab_focus (priv->custom);
+	else
+		g_assert_not_reached ();
 }
 
 /* Fills the widgets with default values */

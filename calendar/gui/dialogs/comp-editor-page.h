@@ -66,6 +66,7 @@ typedef struct {
 	/* Virtual methods */
 
 	GtkWidget *(* get_widget) (CompEditorPage *page);
+	void (* focus_main_widget) (CompEditorPage *page);
 
 	void (* fill_widgets) (CompEditorPage *page, CalComponent *comp);
 	void (* fill_component) (CompEditorPage *page, CalComponent *comp);
@@ -77,6 +78,7 @@ typedef struct {
 
 GtkType    comp_editor_page_get_type               (void);
 GtkWidget *comp_editor_page_get_widget             (CompEditorPage      *page);
+void       comp_editor_page_focus_main_widget      (CompEditorPage      *page);
 void       comp_editor_page_fill_widgets           (CompEditorPage      *page,
 						    CalComponent        *comp);
 void       comp_editor_page_fill_component         (CompEditorPage      *page,

@@ -1,5 +1,38 @@
 2001-07-04  Federico Mena Quintero  <federico@ximian.com>
 
+	Fixes bug #4018 and what would be the analogous bugs for the other
+	component editors.
+
+	* gui/dialogs/comp-editor-page.h (CompEditorPageClass): New
+	virtual method "::focus_main_widget()".
+
+	* gui/dialogs/comp-editor-page.c
+	(comp_editor_page_focus_main_widget): New function.
+
+	* gui/dialogs/comp-editor.c (comp_editor_append_page): If we are
+	inserting the main page, ask it to focus its main widget.
+
+	* gui/dialogs/alarm-page.c (alarm_page_focus_main_widget):
+	Implemented.
+
+	* gui/dialogs/event-page.c (event_page_focus_main_widget):
+	Implemented.
+	#include "e-util/e-categories-config.h".
+
+	* gui/dialogs/meeting-page.c (meeting_page_focus_main_widget):
+	Implemented.
+
+	* gui/dialogs/recurrence-page.c
+	(recurrence_page_focus_main_widget): Implemented.
+
+	* gui/dialogs/task-details-page.c
+	(task_details_page_focus_main_widget): Implemented.
+
+	* gui/dialogs/task-page.c (task_page_focus_main_widget):
+	Implemented.
+
+2001-07-04  Federico Mena Quintero  <federico@ximian.com>
+
 	* gui/calendar-commands.c (clear_folder_bar_label): New function.
 	(calendar_control_activate): Clear the folder bar label; we really
 	don't have anything interesting to display.

@@ -31,6 +31,7 @@
 #include <glade/glade.h>
 #include <gal/widgets/e-unicode.h>
 #include <gal/widgets/e-categories.h>
+#include "e-util/e-categories-config.h"
 #include "e-util/e-dialog-widgets.h"
 #include "widgets/misc/e-dateedit.h"
 #include "cal-util/timeutil.h"
@@ -85,6 +86,7 @@ static void event_page_init (EventPage *epage);
 static void event_page_destroy (GtkObject *object);
 
 static GtkWidget *event_page_get_widget (CompEditorPage *page);
+static void event_page_focus_main_widget (CompEditorPage *page);
 static void event_page_fill_widgets (CompEditorPage *page, CalComponent *comp);
 static void event_page_fill_component (CompEditorPage *page, CalComponent *comp);
 static void event_page_set_summary (CompEditorPage *page, const char *summary);
@@ -139,6 +141,7 @@ event_page_class_init (EventPageClass *class)
 	parent_class = gtk_type_class (TYPE_COMP_EDITOR_PAGE);
 
 	editor_page_class->get_widget = event_page_get_widget;
+	editor_page_class->focus_main_widget = event_page_focus_main_widget;
 	editor_page_class->fill_widgets = event_page_fill_widgets;
 	editor_page_class->fill_component = event_page_fill_component;
 	editor_page_class->set_summary = event_page_set_summary;
@@ -223,6 +226,19 @@ event_page_get_widget (CompEditorPage *page)
 	priv = epage->priv;
 
 	return priv->main;
+}
+
+/* focus_main_widget handler for the event page */
+static void
+event_page_focus_main_widget (CompEditorPage *page)
+{
+	EventPage *epage;
+	EventPagePrivate *priv;
+
+	epage = EVENT_PAGE (page);
+	priv = epage->priv;
+
+	gtk_widget_grab_focus (priv->summary);
 }
 
 /* Checks if the event's time starts and ends at midnight, and sets the 
