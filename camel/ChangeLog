@@ -1,5 +1,11 @@
 2001-04-02  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* camel-pgp-context.c (camel_pgp_sign): mutex lock & unlock the context.
+	(camel_pgp_clearsign): Same.
+	(camel_pgp_verify): Same.
+	(camel_pgp_encrypt): Same.
+	(camel_pgp_decrypt): And finally here...
+
 	* camel-pgp-context.h: Update the function prototypes to match
 	those found in camel-pgp-context.c.
 

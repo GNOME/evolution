@@ -49,12 +49,25 @@
 
 #include <iconv.h>
 
+#ifdef ENABLE_THREADS
+#include <pthread.h>
+#define PGP_LOCK(ctx)   g_mutex_lock (((CamelPgpContext *) ctx)->priv->lock)
+#define PGP_UNLOCK(ctx) g_mutex_unlock (((CamelPgpContext *) ctx)->priv->lock);
+#else
+#define PGP_LOCK(ctx)
+#define PGP_UNLOCK(ctx)
+#endif
+
 #define d(x)
 
 struct _CamelPgpContextPrivate {
 	CamelSession *session;
 	CamelPgpType type;
 	char *path;
+	
+#ifdef ENABLE_THREADS
+	GMutex *lock;
+#endif
 };
 
 static CamelObjectClass *parent_class;
@@ -498,6 +511,8 @@ camel_pgp_sign (CamelPgpContext *context, const char *userid, CamelPgpHashType h
 	char passwd_fd[32];
 	int retval, i;
 	
+	PGP_LOCK(context);
+	
 	/* get the plaintext in a form we can use */
 	plaintext = g_byte_array_new ();
 	stream = camel_stream_mem_new ();
@@ -631,6 +646,8 @@ camel_pgp_sign (CamelPgpContext *context, const char *userid, CamelPgpHashType h
 		g_free (ciphertext);
 		pgp_forget_passphrase (context->priv->session, context->priv->type, userid);
 		
+		PGP_UNLOCK(context);
+		
 		return -1;
 	}
 	
@@ -638,6 +655,8 @@ camel_pgp_sign (CamelPgpContext *context, const char *userid, CamelPgpHashType h
 	
 	camel_stream_write (ostream, ciphertext, strlen (ciphertext));
 	g_free (ciphertext);
+	
+	PGP_UNLOCK(context);
 	
 	return 0;
 	
@@ -649,6 +668,8 @@ camel_pgp_sign (CamelPgpContext *context, const char *userid, CamelPgpHashType h
 		pgp_forget_passphrase (context->priv->session, context->priv->type, userid);
 		g_free (passphrase);
 	}
+	
+	PGP_UNLOCK(context);
 	
 	return -1;
 }
@@ -681,6 +702,8 @@ camel_pgp_clearsign (CamelPgpContext *context, const char *userid, CamelPgpHashT
 	int passwd_fds[2];
 	char passwd_fd[32];
 	int retval, i;
+	
+	PGP_LOCK(context);
 	
 	/* get the plaintext in a form we can use */
 	plaintext = g_byte_array_new ();
@@ -820,6 +843,8 @@ camel_pgp_clearsign (CamelPgpContext *context, const char *userid, CamelPgpHashT
 	camel_stream_write (ostream, ciphertext, strlen (ciphertext));
 	g_free (ciphertext);
 	
+	PGP_UNLOCK(context);
+	
 	return 0;
 	
  exception:
@@ -830,6 +855,8 @@ camel_pgp_clearsign (CamelPgpContext *context, const char *userid, CamelPgpHashT
 		pgp_forget_passphrase (context->priv->session, context->priv->type, userid);
 		g_free (passphrase);
 	}
+	
+	PGP_UNLOCK(context);
 	
 	return -1;
 }
@@ -886,6 +913,8 @@ camel_pgp_verify (CamelPgpContext *context, CamelStream *istream,
 	int passwd_fds[2];
 	char *sigfile = NULL;
 	int retval, i, clearlen;
+	
+	PGP_LOCK(context);
 	
 	/* get the plaintext in a form we can use */
 	plaintext = g_byte_array_new ();
@@ -1023,11 +1052,15 @@ camel_pgp_verify (CamelPgpContext *context, CamelStream *istream,
 	g_free (diagnostics);
 	g_free (cleartext);
 	
+	PGP_UNLOCK(context);
+	
 	return valid;
 	
  exception:
 	
 	g_byte_array_free (plaintext, TRUE);
+	
+	PGP_UNLOCK(context);
 	
 	return NULL;
 }
@@ -1062,6 +1095,8 @@ camel_pgp_encrypt (CamelPgpContext *context, gboolean sign, const char *userid, 
 	int passwd_fds[2];
 	char passwd_fd[32];
 	char *passphrase = NULL;
+	
+	PGP_LOCK(context);
 	
 	/* get the plaintext in a form we can use */
 	plaintext = g_byte_array_new ();
@@ -1239,6 +1274,8 @@ camel_pgp_encrypt (CamelPgpContext *context, gboolean sign, const char *userid, 
 		if (sign)
 			pgp_forget_passphrase (context->priv->session, context->priv->type, userid);
 		
+		PGP_UNLOCK(context);
+		
 		return -1;
 	}
 	
@@ -1246,6 +1283,8 @@ camel_pgp_encrypt (CamelPgpContext *context, gboolean sign, const char *userid, 
 	
 	camel_stream_write (ostream, ciphertext, strlen (ciphertext));
 	g_free (ciphertext);
+	
+	PGP_UNLOCK(context);
 	
 	return 0;
 	
@@ -1257,6 +1296,8 @@ camel_pgp_encrypt (CamelPgpContext *context, gboolean sign, const char *userid, 
 		g_free (passphrase);
 		pgp_forget_passphrase (context->priv->session, context->priv->type, userid);
 	}
+	
+	PGP_UNLOCK(context);
 	
 	return -1;
 }
@@ -1288,6 +1329,8 @@ camel_pgp_decrypt (CamelPgpContext *context, CamelStream *istream,
 	int passwd_fds[2];
 	char passwd_fd[32];
 	int retval, i;
+	
+	PGP_LOCK(context);
 	
 	/* get the ciphertext in a form we can use */
 	ciphertext = g_byte_array_new ();
@@ -1376,6 +1419,8 @@ camel_pgp_decrypt (CamelPgpContext *context, CamelStream *istream,
 		
 		pgp_forget_passphrase (context->priv->session, context->priv->type, NULL);
 		
+		PGP_UNLOCK(context);
+		
 		return -1;
 	}
 	
@@ -1383,6 +1428,8 @@ camel_pgp_decrypt (CamelPgpContext *context, CamelStream *istream,
 	
 	camel_stream_write (ostream, plaintext, plainlen);
 	g_free (plaintext);
+	
+	PGP_UNLOCK(context);
 	
 	return 0;
 	
@@ -1394,6 +1441,8 @@ camel_pgp_decrypt (CamelPgpContext *context, CamelStream *istream,
 		pgp_forget_passphrase (context->priv->session, context->priv->type, NULL);
 		g_free (passphrase);
 	}
+	
+	PGP_UNLOCK(context);
 	
 	return -1;
 }
