@@ -5,31 +5,43 @@ Bugzilla Bugs Fixed (see http://bugzilla.ximian.com/show_bug.cgi):
 
   * Calendar
 
-    #32613 -- "New Appointment" uses local calendar instead of default
-	      calendar (Rodrigo)
-
-    #32371 -- Crash on close/save on calender (Rodrigo)
-
-    #11434 -- Closing event/task editor & committing fields (Rodrigo)
-
+    #11434 -- Closing event/task editor & committing fields.  (Rodrigo)
     #16036 -- The work week view goes stupid whrn you scroll through
-	      the months (JP)
-
-    #31812 -- "Day begins" in Settings should respect 12/24 time pref
-	      (JP)
-
-    #31774 -- Reselecting options for reminder crashes calendar
-	      (Rodrigo)
-
-    #19159 -- Application "evolution-alarm-notify" has crashed
-	      (Rodrigo)
-
+	      the months.  (JP)
+    #19159 -- Application "evolution-alarm-notify" has crashed.
+              (Rodrigo)
+    #25153 -- Crash on iCalendar entry.  (Rodrigo)
+    #28951 -- CDO doesn't understand UNTIL=date in RRULE.  (JP)
+    #31774 -- Reselecting options for reminder crashes calendar.
+              (Rodrigo)
+    #31812 -- "Day begins" in Settings should respect 12/24 time pref.
+              (JP)
+    #32613 -- "New Appointment" uses local calendar instead of default
+	      calendar.  (Rodrigo)
     #32276 -- My custom task view crashes task and calender views
-	      every time (JP)
+              every time.  (JP)
+    #32371 -- Crash on close/save on calender.  (Rodrigo)
 
-    #25153 -- Crash on iCalendar entry (Rodrigo)
+  * Shell
 
-    #28951 -- CDO doesn't understand UNTIL=date in RRULE (JP)
+    #25891 -- Crash when notifying a CORBA exception.  (Ettore)
+    #27735 -- Missing Cancel button in "Open Other User's Folder"
+    	      dialog.  (Ettore)
+    #30950 -- Crash when trying to delete a toplevel folder bar node.
+              (Ettore)
+    #31303 -- X locked when opening a folder bar node that requires a
+              password.  (Ettore)
+    #31564 -- 8-bit characters not respected in the "Open Other User's
+              Folder" dialog.  (Ettore)
+    #32032 -- Autocompletion folder list doesn't respect 8-bit
+              characters.  (Ettore)
+
+  * Summary
+
+    #31581 -- Gnotices news feed doesn't work.  (Ettore)
+    #31607 -- Calendar and Tasks not listed.  (Ettore)
+    #31616 -- Calendar and Tasks not listed.  (Ettore)
+    #31639 -- Crash when changing preferences.  (Ettore)
 
   * GtkHTML
 
@@ -40,8 +52,11 @@ Other fixes:
   * Calendar
 
     - Make sure configuration info can be applied in units changed for
-      task hide option	(JP)
+      task hide option.  (JP)
 
+  * Shell
+
+    - Fix settings dialog size for smaller fonts.  (Ettore)
 
 Evolution 1.1.2, 2002-10-07
 ---------------------------
