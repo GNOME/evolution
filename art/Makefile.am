@@ -76,6 +76,7 @@ images_DATA = \
 	ldap-mini.png			\
 	ldap-settings.png		\
 	ldap.png			\
+	mail.png			\
 	mail-accounts-settings.png	\
 	mail-config-druid-account-name.png \
 	mail-config-druid-identity.png	\
