@@ -1,3 +1,7 @@
+2001-08-09  Chris Toshok  <toshok@ximian.com>
+
+	* addressbook-sources.xml: remove the description field.
+
 2001-08-07  Chris Toshok  <toshok@ximian.com>
 
 	* addressbook-sources.xml: giving up for now.  removed netcenter.
