@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution 1.5.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-08-13 14:55-0400\n"
-"PO-Revision-Date: 2004-08-14 00:14+0900\n"
+"POT-Creation-Date: 2004-08-14 21:05+0900\n"
+"PO-Revision-Date: 2004-08-14 21:08+0900\n"
 "Last-Translator: Changwoo Ryu <cwryu@debian.org>\n"
 "Language-Team: GNOME Korea <gnome-kr-hackers@lists.kldp.net>\n"
 "MIME-Version: 1.0\n"
@@ -18,29 +18,29 @@ msgstr ""
 
 #: a11y/addressbook/ea-addressbook-view.c:94
 #: a11y/addressbook/ea-addressbook-view.c:103
-#: a11y/addressbook/ea-minicard-view.c:119
+#: a11y/addressbook/ea-minicard-view.c:120
 msgid "evolution addressbook"
 msgstr "evolution 주소록"
 
 # FIXME: bad msgid
 # "current addressbook folder {has,have} %d folder(s)
-#: a11y/addressbook/ea-minicard-view.c:101
+#: a11y/addressbook/ea-minicard-view.c:102
 msgid "current addressbook folder "
 msgstr "현재 주소록 폴더에는 "
 
-#: a11y/addressbook/ea-minicard-view.c:102
+#: a11y/addressbook/ea-minicard-view.c:103
 msgid "have "
 msgstr "카드가 "
 
-#: a11y/addressbook/ea-minicard-view.c:102
+#: a11y/addressbook/ea-minicard-view.c:103
 msgid "has "
 msgstr "카드가 "
 
-#: a11y/addressbook/ea-minicard-view.c:104
+#: a11y/addressbook/ea-minicard-view.c:105
 msgid " cards"
 msgstr "개 있습니다"
 
-#: a11y/addressbook/ea-minicard-view.c:104
+#: a11y/addressbook/ea-minicard-view.c:105
 msgid " card"
 msgstr "개 있습니다"
 
@@ -3133,7 +3133,7 @@ msgstr "명령 선택"
 #: addressbook/gui/widgets/eab-popup-control.c:576
 #, c-format
 msgid "Create a new contact \"%s\""
-msgstr "새로운 연락처 \"%s\"을(를) 만듭니다"
+msgstr "새로운 \"%s\" 연락처를 만듭니다"
 
 #: addressbook/gui/widgets/eab-popup-control.c:592
 #, c-format
@@ -4245,7 +4245,7 @@ msgstr "달력을 업그레이드하는 데 실패했습니다."
 #: calendar/gui/calendar-component.c:931
 #, c-format
 msgid "Unable to open the calendar '%s' for creating events and meetings"
-msgstr "행사와 회의를 만드는 데 달력 '%s'을(를) 열 수 없습니다"
+msgstr "행사와 회의를 만드는 데 '%s' 달력을 열 수 없습니다"
 
 # event -> 행사, Microsoft Office XP 참고
 #: calendar/gui/calendar-component.c:947
@@ -4783,9 +4783,8 @@ msgid "_Add Calendar"
 msgstr "달력 더하기(_A)"
 
 #: calendar/gui/dialogs/calendar-setup.glade.h:7
-#, fuzzy
 msgid "_Add Task List"
-msgstr "작업 목록 더하기"
+msgstr "작업 목록 더하기(_A)"
 
 #: calendar/gui/dialogs/calendar-setup.glade.h:9
 msgid "_Refresh:"
@@ -5054,7 +5053,7 @@ msgstr "끝 시각이 틀렸습니다"
 #: calendar/gui/dialogs/event-page.c:1605
 #, c-format
 msgid "Unable to open the calendar '%s'."
-msgstr "달력 '%s'을(를) 열 수 없습니다."
+msgstr "'%s' 달력을 열 수 없습니다."
 
 # "Sh_ow a reminder" <NN> <minute(s)/hour(s)/day(s)> "before every appointment"
 # Reminder -> 미리 알림, Microsoft Office XP
@@ -5717,7 +5716,7 @@ msgstr "알 수 없는 시작 옵션에 대한 %s"
 #: calendar/gui/e-cal-component-preview.c:71 mail/em-folder-view.c:2385
 #, c-format
 msgid "Click to open %s"
-msgstr "URL %s을(를) 열려면 누르십시오"
+msgstr "%s URL을 열려면 누르십시오"
 
 #: calendar/gui/e-cal-component-preview.c:156 filter/filter-rule.c:794
 msgid "Untitled"
@@ -7201,7 +7200,7 @@ msgstr "인쇄 설정"
 #: calendar/gui/tasks-component.c:314
 #, c-format
 msgid "Task List '%s' will be removed. Are you sure you want to continue?"
-msgstr "작업 목록 '%s'을(를) 지웁니다. 정말로 계속하시겠습니까?"
+msgstr "'%s' 작업 목록을 지웁니다. 정말로 계속하시겠습니까?"
 
 #: calendar/gui/tasks-component.c:372
 msgid "New Task List"
@@ -7227,7 +7226,7 @@ msgstr "작업을 업그레이드하는 데 실패했습니다."
 #: calendar/gui/tasks-component.c:758
 #, c-format
 msgid "Unable to open the task list '%s' for creating events and meetings"
-msgstr "행사와 회의를 만드는 데 쓸 작업 목록 '%s'을(를) 열 수 없습니다"
+msgstr "행사와 회의를 만드는 데 쓸 '%s' 작업 목록을 열 수 없습니다"
 
 #: calendar/gui/tasks-component.c:773
 msgid "There is no calendar available for creating tasks"
@@ -9043,7 +9042,7 @@ msgstr "(user-flag)에 잘못된 인자"
 #: camel/camel-filter-search.c:549
 #, c-format
 msgid "Failed to create create child process '%s': %s"
-msgstr "하위 프로셋 '%s'을(를) 만드는 데 실패했습니다: %s"
+msgstr "'%s' 하위 프로세스를 만드는 데 실패했습니다: %s"
 
 #. A filter search is a search through your filters, ie. your filters is the corpus being searched thru.
 #: camel/camel-filter-search.c:671 camel/camel-filter-search.c:679
@@ -9258,7 +9257,8 @@ msgstr "잠금 도우미 프로그램을 실행할 수 없습니다: %s"
 #: camel/camel-lock-client.c:191 camel/camel-lock-client.c:214
 #, c-format
 msgid "Could not lock '%s': protocol error with lock-helper"
-msgstr "'%s을(를) 잠글 수 없습니다: lock-helper에 프로토콜 오류가 발생했습니다"
+msgstr ""
+"'%s'을(를) 잠글 수 없습니다: lock-helper에 프로토콜 오류가 발생했습니다"
 
 #: camel/camel-lock-client.c:204
 #, c-format
@@ -10206,7 +10206,6 @@ msgid "Automatically synchronize remote mail locally"
 msgstr "로컬에서 자동으로 원격 메일과 동기화합니다"
 
 #: camel/providers/groupwise/camel-groupwise-provider.c:69
-#, fuzzy
 msgid "Address Book and Calendar"
 msgstr "주소록 및 달력"
 
@@ -10221,9 +10220,8 @@ msgid "Post Office Agent SOAP Port:"
 msgstr "Post Office Agent SOAP 포트:"
 
 #: camel/providers/groupwise/camel-groupwise-provider.c:78
-#, fuzzy
 msgid "Use Secure Connection (SSL)"
-msgstr "보안 연결 (SSL) 사용(_U):"
+msgstr "보안 연결 (SSL) 사용:"
 
 #: camel/providers/groupwise/camel-groupwise-provider.c:92
 msgid "Novell GroupWise"
@@ -10516,7 +10514,7 @@ msgstr "\"%s\" 명령으로 연결할 수 없습니다: %s"
 #: camel/providers/imap/camel-imap-store.c:1268
 #, c-format
 msgid "IMAP server %s does not support requested authentication type %s"
-msgstr "IMAP 서버 %s은(는) 요청한 인증 방법 %s을(를) 지원하지 않습니다"
+msgstr "%s IMAP 서버는 요청한 %s 인증 방법을 지원하지 않습니다"
 
 #: camel/providers/imap/camel-imap-store.c:1278
 #: camel/providers/smtp/camel-smtp-transport.c:486
@@ -10912,12 +10910,12 @@ msgstr ""
 #: camel/providers/local/camel-spool-store.c:116
 #, c-format
 msgid "Store root %s is not an absolute path"
-msgstr "저장고 최상위 폴더 %s은(는) 절대 경로가 아닙니다"
+msgstr "저장고 최상위 폴더 %s 폴더는 절대 경로가 아닙니다"
 
 #: camel/providers/local/camel-local-store.c:149
 #, c-format
 msgid "Store root %s is not a regular directory"
-msgstr "저장고 최상위 폴더 %s은(는) 일반 디렉토리가 아닙니다"
+msgstr "저장고 최상위 폴더 %s 폴더는 일반 디렉토리가 아닙니다"
 
 #: camel/providers/local/camel-local-store.c:158
 #: camel/providers/local/camel-local-store.c:166
@@ -11303,7 +11301,7 @@ msgstr ""
 #: camel/providers/local/camel-spool-store.c:180
 #, c-format
 msgid "`%s' is not a mailbox file."
-msgstr "`%s'은(는) 메일박스 파일이 아닙니다."
+msgstr "`%s' 파일은 메일박스 파일이 아닙니다."
 
 #: camel/providers/local/camel-spool-store.c:197
 msgid "Store does not support an INBOX"
@@ -13598,7 +13596,7 @@ msgstr "링크 위치 복사(_C)"
 #: mail/em-folder-view.c:2380
 #, c-format
 msgid "Click to mail %s"
-msgstr "메일을 %s(으)로 보내려면 누르십시오"
+msgstr "메일을 %s 주소로 보내려면 누르십시오"
 
 #. message-search popup match count string
 #: mail/em-format-html-display.c:410
@@ -16055,9 +16053,9 @@ msgid ""
 "    \"{1}\"\n"
 "And have been updated."
 msgstr ""
-"다음 가상폴더:\n"
+"다음:\n"
 "{0}\n"
-"은(는) 다음 지워진 폴더를 사용합니다:\n"
+"가상폴더는 다음 지워진 폴더를 사용합니다:\n"
 "    \"{1}\"\n"
 "업데이트했습니다."
 
@@ -16075,9 +16073,9 @@ msgid ""
 "    \"{1}\"\n"
 "And have been updated."
 msgstr ""
-"다음 필터 규칙:\n"
+"다음:\n"
 "{0}\n"
-"은(는) 다음 지워진 폴더를 사용합니다:\n"
+"필터 규칙은 다음 지워진 폴더를 사용합니다:\n"
 "    \"{1}\"\n"
 "업데이트했습니다."
 
@@ -16748,7 +16746,7 @@ msgstr "가져오기 선택"
 #: shell/e-shell-importer.c:451 shell/e-shell-importer.c:1056
 #, c-format
 msgid "File %s does not exist"
-msgstr "파일 %s은(는) 없습니다."
+msgstr "%s 파일이 없습니다."
 
 #: shell/e-shell-importer.c:459
 msgid "Importing"
@@ -17215,13 +17213,12 @@ msgstr ""
 
 # Reminder -> 미리 알림, Microsoft Office XP
 #: shell/shell-errors.xml.h:25
-#, fuzzy
 msgid "_Remind Me Later"
-msgstr "미리 알림!!"
+msgstr "나중에 알림(_R)"
 
 #: shell/shell-errors.xml.h:26
 msgid "_Keep Data"
-msgstr ""
+msgstr "데이터 유지(_K)"
 
 #. shell:upgrade-remove-1-4-confirm title
 #. shell:upgrade-remove-1-4-confirm primary
@@ -17808,7 +17805,7 @@ msgstr "메세지의 제목 기본값."
 #: tools/killev.c:61
 #, c-format
 msgid "Could not execute '%s': %s\n"
-msgstr "'%s'을(를) 실행할 수 없습니다: %s\n"
+msgstr "'%s' 프로그램을 실행할 수 없습니다: %s\n"
 
 #: tools/killev.c:76
 #, c-format
@@ -19593,12 +19590,3 @@ msgstr "%s (...)"
 #, c-format
 msgid "%s (%d%% complete)"
 msgstr "%s (%d%% 완료)"
-
-#~ msgid "_Add Group"
-#~ msgstr "그룹 더하기(_A)"
-
-#~ msgid "Use ssl"
-#~ msgstr "SSL 사용"
-
-#~ msgid "Keep"
-#~ msgstr "유지"
