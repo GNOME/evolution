@@ -1,5 +1,10 @@
 2001-06-29  Iain Holmes  <iain@ximian.com>
 
+	* e-summary.c (e_summary_draw): Resurrect the hack to stop GtkHTML from
+	returning to the top when it's redrawn.
+
+2001-06-29  Iain Holmes  <iain@ximian.com>
+
 	* e-summary-preferences.c (property_box_destroy_cb): Hook up the saving.
 	(str_list_from_vector): Fix memory corruption.
 	(e_summary_preferences_save): Write the preferences out to disk.

@@ -101,6 +101,7 @@ void
 e_summary_draw (ESummary *summary)
 {
 	GString *string;
+	GtkHTMLStream *stream;
 	char *html;
 	char date[256];
 	time_t t;
@@ -136,8 +137,12 @@ e_summary_draw (ESummary *summary)
 	g_string_append (string, html);
 
 	g_string_append (string, HTML_5);
-	gtk_html_load_from_string (GTK_HTML (summary->priv->html), string->str,
-				   strlen (string->str));
+
+	stream = gtk_html_begin (GTK_HTML (summary->priv->html));
+	GTK_HTML (summary->priv->html)->engine->newPage = FALSE;
+	gtk_html_write (GTK_HTML (summary->priv->html), stream, string->str, strlen (string->str));
+	gtk_html_end (GTK_HTML (summary->priv->html), stream, GTK_HTML_STREAM_OK);
+
 	g_string_free (string, TRUE);
 }
 
