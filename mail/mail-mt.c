@@ -40,8 +40,6 @@
 #define d(x) 
 
 static void set_stop(int sensitive);
-static void mail_enable_stop(void);
-static void mail_disable_stop(void);
 static void mail_operation_status(struct _CamelOperation *op, const char *what, int pc, void *data);
 
 #ifdef LOG_LOCKS
@@ -799,7 +797,7 @@ struct _mail_msg_op set_busy_op = {
 	NULL,
 };
 
-static void mail_enable_stop(void)
+void mail_enable_stop(void)
 {
 	struct _mail_msg *m;
 
@@ -812,7 +810,7 @@ static void mail_enable_stop(void)
 	MAIL_MT_UNLOCK(status_lock);
 }
 
-static void mail_disable_stop(void)
+void mail_disable_stop(void)
 {
 	struct _mail_msg *m;
 

@@ -25,6 +25,8 @@
 struct _MailDisplay {
 	GtkVBox parent;
 	
+	struct _MailDisplayPrivate *priv;
+
 	EScrollFrame *scroll;
 	GtkHTML *html;
 	/* GtkHTMLStream *stream; */
@@ -44,7 +46,7 @@ struct _MailDisplay {
            relative URL Content-Location on a leaf part in order to
            construct the full URL */
 	struct _location_url_stack *urls;
-	
+
 	GHashTable *related;	/* related parts not displayed yet */
 	
 	/* Sigh.  This shouldn't be needed.  I haven't figured out why it is

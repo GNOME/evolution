@@ -102,6 +102,10 @@ typedef void *(*MailMainFunc)();
 
 void *mail_call_main(mail_call_t type, MailMainFunc func, ...);
 
+/* use with caution.  only works with active message's anyway */
+void mail_enable_stop(void);
+void mail_disable_stop(void);
+
 /* a message port that receives messages in the gui thread, used for sending port */
 extern EMsgPort *mail_gui_port;
 /* a message port that receives messages in the gui thread, used for the reply port */

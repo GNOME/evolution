@@ -1,3 +1,23 @@
+2002-07-29  Not Zed  <NotZed@Ximian.com>
+
+	* mail-display.c (mail_display_init): setup private data.
+	(mail_display_destroy): cancel any outstanding fetches, and free
+	private data.
+	(mail_display_set_message): Cancel any outstanding fetches.
+	(fetch_cancelled): 
+	(fetch_next): 
+	(fetch_remote): 
+	(fetch_data): 
+	(fetch_free): 
+	(fetch_cancel): 
+	(fetch_done): Implement, used to use soup to download remote
+	images.
+	(load_http): Removed.
+	(on_url_requested): When requesting a http* url, use the
+	fetch_remote call above.
+
+	* mail-display.h (struct _MailDisplay): Added priv(ate) member.
+
 2002-07-29  Ettore Perazzoli  <ettore@ximian.com>
 
 	* mail-session.c (request_password): Left-align the check button's

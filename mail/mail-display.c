@@ -40,6 +40,7 @@
 #include <gtkhtml/htmltext.h>
 #include <gtkhtml/htmlinterval.h>
 #include <gtkhtml/gtkhtml-stream.h>
+#include <libsoup/soup-message.h>
 
 #include "e-util/e-html-utils.h"
 #include "e-util/e-mktemp.h"
@@ -58,6 +59,50 @@
 #include "mail.h"
 
 #include "art/empty.xpm"
+
+#define d(x)
+
+struct _MailDisplayPrivate {
+
+	/* because we want to control resource usage, we need our own queues, etc */
+	EDList fetch_active;
+	EDList fetch_queue;
+
+	/* used to try and make some sense with progress reporting */
+	int fetch_total;
+	int fetch_total_done;
+
+	/* bit hackish, 'fake' an async message and processing,
+	   so we can use that to get cancel and report progress */
+	struct _mail_msg *fetch_msg ;
+	GIOChannel *fetch_cancel_channel;
+	guint fetch_cancel_watch;
+};
+
+/* max number of connections to download images */
+#define FETCH_MAX_CONNECTIONS (4)
+
+/* for asynchronously downloading remote content */
+struct _remote_data {
+	struct _remote_data *next;
+	struct _remote_data *prev;
+
+	MailDisplay *md;	/* not ref'd */
+
+	SoupMessage *msg;
+	char *uri;
+	GtkHTML *html;
+	GtkHTMLStream *stream;
+	size_t length;
+	size_t total;
+};
+
+static void fetch_remote(MailDisplay *md, const char *uri, GtkHTML *html, GtkHTMLStream *stream);
+static void fetch_cancel(MailDisplay *md);
+static void fetch_next(MailDisplay *md);
+static void fetch_data(SoupMessage *req, void *data);
+static void fetch_free(struct _remote_data *rd);
+static void fetch_done(SoupMessage *req, void *data);
 
 #define PARENT_TYPE (gtk_vbox_get_type ())
 
@@ -1096,47 +1141,6 @@ on_object_requested (GtkHTML *html, GtkHTMLEmbedded *eb, gpointer data)
 
 	return FALSE;
 }
- 
-static void
-load_http (MailDisplay *md, gpointer data)
-{
-	char *url = data;
-	GHashTable *urls;
-	GnomeVFSHandle *handle;
-	GnomeVFSFileSize read;
-	GnomeVFSResult result;
-	GByteArray *ba;
-	char buf[8192];
-	size_t total = 0;
-	
-	urls = g_datalist_get_data (md->data, "data_urls");
-	ba = g_hash_table_lookup (urls, url);
-	g_return_if_fail (ba != NULL);
-
-	if (gnome_vfs_open (&handle, url, GNOME_VFS_OPEN_READ) != GNOME_VFS_OK) {
-#if 0
-		printf ("failed to open %s\n", url);
-#endif
-		g_free (url);
-		return;
-	}
-
-	while ((result = gnome_vfs_read (handle, buf, sizeof (buf), &read)) == GNOME_VFS_OK) {
-		printf ("%s: read %d bytes\n", url, (int) read); 
-		g_byte_array_append (ba, buf, read);
-		total += read;
-	}
-	gnome_vfs_close (handle);
-	
-	printf ("gnome_vfs_read result is %d; read %d total bytes\n", result, total);
-	
-#if 0
-	if (!ba->len)
-		printf ("no data in %s\n", url);
-#endif
-
-	g_free (url);
-}
 
 static void
 ebook_callback (EBook *book, const gchar *addr, ECard *card, gpointer data)
@@ -1224,10 +1228,7 @@ on_url_requested (GtkHTML *html, const char *url, GtkHTMLStream *handle,
 	if (strncmp (url, "http:", 5) == 0 || strncmp (url, "https:", 6) == 0) {
 		if (mail_config_get_http_mode () == MAIL_CONFIG_HTTP_ALWAYS ||
 		    g_datalist_get_data (md->data, "load_images")) {
-			ba = g_byte_array_new ();
-			g_hash_table_insert (urls, g_strdup (url), ba);
-			mail_display_stream_write_when_loaded (md, ba, url, load_http, html, handle,
-							       g_strdup (url));
+			fetch_remote(md, url, html, handle);
 		} else if (mail_config_get_http_mode () == MAIL_CONFIG_HTTP_SOMETIMES &&
 			   !g_datalist_get_data (md->data, "checking_from")) {
 			const CamelInternetAddress *from = camel_mime_message_get_from (md->current_message);
@@ -1242,6 +1243,158 @@ on_url_requested (GtkHTML *html, const char *url, GtkHTMLStream *handle,
 			else
 				gtk_html_end (html, handle, GTK_HTML_STREAM_ERROR);
 		}
+	}
+}
+
+/* for processing asynchronous url fetch cancels */
+static struct _mail_msg_op fetch_fake_op = {
+	NULL, NULL, NULL, NULL,
+};
+
+static gboolean fetch_cancelled(GIOChannel *source, GIOCondition cond, void *data)
+{
+	fetch_cancel((MailDisplay *)data);
+
+	return FALSE;
+}
+
+static void fetch_next(MailDisplay *md)
+{
+	struct _remote_data *rd;
+	struct _MailDisplayPrivate *p = md->priv;
+	SoupMessage *msg;
+	SoupContext *ctx;
+
+	/* if we're called and no more work to do, clean up, otherwise, setup */
+	if (e_dlist_empty(&p->fetch_active) && e_dlist_empty(&p->fetch_queue)) {
+		if (p->fetch_msg) {
+			p->fetch_total = 0;
+			mail_disable_stop();
+			camel_operation_end(p->fetch_msg->cancel);
+			camel_operation_unregister(p->fetch_msg->cancel);
+			mail_msg_free(p->fetch_msg);
+			p->fetch_msg = NULL;
+			g_source_remove(p->fetch_cancel_watch);
+			g_io_channel_unref(p->fetch_cancel_channel);
+		}
+	} else {
+		if (p->fetch_msg == NULL) {
+			p->fetch_total_done = 0;
+			p->fetch_msg = mail_msg_new(&fetch_fake_op, NULL, sizeof(*p->fetch_msg));
+			camel_operation_register(p->fetch_msg->cancel);
+			camel_operation_start(p->fetch_msg->cancel, _("Downloading images"));
+			p->fetch_cancel_channel = g_io_channel_unix_new(camel_operation_cancel_fd(p->fetch_msg->cancel));
+			p->fetch_cancel_watch = g_io_add_watch(p->fetch_cancel_channel, G_IO_IN, fetch_cancelled, md);
+			mail_enable_stop();
+		}
+	}	
+
+	while (e_dlist_length(&p->fetch_active) < FETCH_MAX_CONNECTIONS
+	       && (rd = (struct _remote_data *)e_dlist_remhead(&p->fetch_queue))) {
+
+		ctx = soup_context_get(rd->uri);
+		rd->msg = msg = soup_message_new(ctx, SOUP_METHOD_GET);
+		soup_context_unref(ctx);
+		soup_message_set_flags(msg, SOUP_MESSAGE_OVERWRITE_CHUNKS);
+		soup_message_add_handler(msg, SOUP_HANDLER_BODY_CHUNK, fetch_data, rd);
+		soup_message_queue(msg, fetch_done, rd);
+
+		e_dlist_addtail(&p->fetch_active, (EDListNode *)rd);
+	}
+}
+
+static void fetch_remote(MailDisplay *md, const char *uri, GtkHTML *html, GtkHTMLStream *stream)
+{
+	struct _remote_data *rd;
+
+	rd = g_malloc0(sizeof(*rd));
+	rd->md = md;		/* dont ref */
+	rd->uri = g_strdup(uri);
+	rd->html = html;
+	gtk_object_ref((GtkObject *)html);
+	rd->stream = stream;
+
+	md->priv->fetch_total++;
+	e_dlist_addtail(&md->priv->fetch_queue, (EDListNode *)rd);
+
+	fetch_next(md);
+}
+
+static void fetch_data(SoupMessage *req, void *data)
+{
+	struct _remote_data *rd = data, *wd;
+	struct _MailDisplayPrivate *p = rd->md->priv;
+	int count;
+	double complete;
+
+	/* we could just hook into the header function for this, but i'm lazy today */
+	if (rd->total == 0) {
+		const char *cl = soup_message_get_header(req->response_headers, "content-length");
+		if (cl)
+			rd->total = strtoul(cl, 0, 10);
+		else
+			rd->total = 0;
+	}
+	rd->length += req->response.length;
+
+	gtk_html_write(rd->html, rd->stream, req->response.body, req->response.length);
+
+	/* update based on total active + finished totals */
+	complete = 0.0;
+	wd = (struct _remote_data *)p->fetch_active.head;
+	count = e_dlist_length(&p->fetch_active);
+	while (wd->next) {
+		if (wd->total)
+			complete += (double)wd->length / wd->total / count;
+		wd = wd->next;
+	}
+
+	d(printf("%s: %f total %f (%d,%d)\n", rd->uri, complete, (p->fetch_total_done + complete ) * 100.0 / p->fetch_total, p->fetch_total, p->fetch_total_done));
+
+	camel_operation_progress(p->fetch_msg->cancel, (p->fetch_total_done + complete ) * 100.0 / p->fetch_total);
+}
+
+static void fetch_free(struct _remote_data *rd)
+{
+	gtk_object_unref((GtkObject *)rd->html);
+	g_free(rd->uri);
+	g_free(rd);	
+}
+
+static void fetch_done(SoupMessage *req, void *data)
+{
+	struct _remote_data *rd = data;
+	MailDisplay *md = rd->md;
+
+	if (SOUP_MESSAGE_IS_ERROR(req)) {
+		d(printf("Loading '%s' failed!\n", rd->uri));
+		gtk_html_end(rd->html, rd->stream, GTK_HTML_STREAM_ERROR);
+	} else {
+		d(printf("Loading '%s' complete!\n", rd->uri));
+		gtk_html_end(rd->html, rd->stream, GTK_HTML_STREAM_OK);
+	}
+
+	e_dlist_remove((EDListNode *)rd);
+	fetch_free(rd);
+	md->priv->fetch_total_done++;
+
+	fetch_next(md);
+}
+
+static void fetch_cancel(MailDisplay *md)
+{
+	struct _remote_data *rd;
+
+	/* first, clean up all the ones we haven't finished yet */
+	while ((rd = (struct _remote_data *)e_dlist_remhead(&md->priv->fetch_queue))) {
+		gtk_html_end(rd->html, rd->stream, GTK_HTML_STREAM_ERROR);
+		fetch_free(rd);
+	}
+
+	/* cancel the rest, cancellation will free it/etc */
+	while (!e_dlist_empty(&md->priv->fetch_active)) {
+		rd = (struct _remote_data *)md->priv->fetch_active.head;
+		soup_message_cancel(rd->msg);
 	}
 }
 
@@ -1585,6 +1738,8 @@ mail_display_redisplay (MailDisplay *md, gboolean reset_scroll)
 {
 	if (GTK_OBJECT_DESTROYED (md))
 		return;
+
+	fetch_cancel(md);
 	
 	md->last_active = NULL;
 	md->redisplay_counter++;
@@ -1614,6 +1769,7 @@ mail_display_set_message (MailDisplay *md, CamelMedium *medium, const char *foll
 	
 	/* Clean up from previous message. */
 	if (md->current_message) {
+		fetch_cancel(md);
 		camel_object_unref (CAMEL_OBJECT (md->current_message));
 		g_datalist_clear (md->data);
 	}
@@ -1687,18 +1843,23 @@ mail_display_init (GtkObject *object)
 	mail_display->display_style     = mail_config_get_message_display_style ();
 
 	mail_display->printing          = FALSE;
+
+	mail_display->priv = g_malloc0(sizeof(*mail_display->priv));
+	e_dlist_init(&mail_display->priv->fetch_active);
+	e_dlist_init(&mail_display->priv->fetch_queue);
 }
 
 static void
 mail_display_destroy (GtkObject *object)
 {
 	MailDisplay *mail_display = MAIL_DISPLAY (object);
-	
+
 	gtk_object_unref (GTK_OBJECT (mail_display->html));
 	
 	if (mail_display->current_message) {
 		camel_object_unref (mail_display->current_message);
 		g_datalist_clear (mail_display->data);
+		fetch_cancel(mail_display);
 	}
 	
 	g_free (mail_display->charset);
@@ -1712,6 +1873,8 @@ mail_display_destroy (GtkObject *object)
 		gtk_timeout_remove (mail_display->idle_id);
 	
 	gtk_widget_unref (mail_display->invisible);
+
+	g_free(mail_display->priv);
 	
 	mail_display_parent_class->destroy (object);
 }
