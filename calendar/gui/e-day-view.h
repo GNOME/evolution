@@ -38,8 +38,9 @@ extern "C" {
  * EDayView - displays the Day & Work-Week views of the calendar.
  */
 
-/* The maximum number of days shown. We use 7 since we only show 1 week max. */
-#define E_DAY_VIEW_MAX_DAYS		7
+/* The maximum number of days shown. We use the week view for anything more
+   than about 9 days. */
+#define E_DAY_VIEW_MAX_DAYS		10
 
 /* This is used as a special code to signify a long event instead of the day
    of a normal event. */
@@ -88,6 +89,21 @@ extern "C" {
 
 /* The gap between rows in the top canvas. */
 #define E_DAY_VIEW_TOP_CANVAS_Y_GAP	2
+
+
+/* These are used to get/set the working days in the week. The bit-flags are
+   combined together. The bits must be from 0 (Sun) to 6 (Sat) to match the
+   day values used by localtime etc. */
+typedef enum
+{
+	E_DAY_VIEW_SUNDAY	= 1 << 0,
+	E_DAY_VIEW_MONDAY	= 1 << 1,
+	E_DAY_VIEW_TUESDAY	= 1 << 2,
+	E_DAY_VIEW_WEDNESDAY	= 1 << 3,
+	E_DAY_VIEW_THURSDAY	= 1 << 4,
+	E_DAY_VIEW_FRIDAY	= 1 << 5,
+	E_DAY_VIEW_SATURDAY	= 1 << 6
+} EDayViewDays;
 
 
 /* These are used to specify the type of an appointment. They match those
@@ -195,7 +211,12 @@ struct _EDayView
 	time_t lower;
 	time_t upper;
 
-	/* The number of days we are showing. Usually 1 or 5. Maybe 6 or 7. */
+	/* Whether we are showing the work-week view. */
+	gboolean work_week_view;
+
+	/* The number of days we are showing. Usually 1 or 5, but can be up
+	   to E_DAY_VIEW_MAX_DAYS, e.g. when the user selects a range of
+	   days in the mini calendar. */
 	gint days_shown;
 
 	/* The start of each day & an extra element to hold the last time. */
@@ -221,6 +242,9 @@ struct _EDayView
 	gboolean long_events_need_reshape;
 	gboolean need_reshape[E_DAY_VIEW_MAX_DAYS];
 
+	/* The id of our idle function to reload all events. */
+	gint reload_events_idle_id;
+
 	/* The number of minutes per row. 5, 10, 15, 30 or 60. */
 	gint mins_per_row;
 
@@ -243,6 +267,9 @@ struct _EDayView
 	gint first_minute_shown;
 	gint last_hour_shown;
 	gint last_minute_shown;
+
+	/* Bitwise combination of working days. Defaults to Mon-Fri. */
+	EDayViewDays working_days;
 
 	/* The start and end of the work day, rounded to the nearest row. */
 	gint work_day_start_hour;
@@ -433,6 +460,21 @@ void       e_day_view_get_selected_time_range	(EDayView	*day_view,
 						 time_t		*start_time,
 						 time_t		*end_time);
 
+/* This is called when one event has been added or updated. */
+void       e_day_view_update_event		(EDayView	*day_view,
+						 const gchar	*uid);
+
+/* This removes all the events associated with the given uid. Note that for
+   recurring events there may be more than one. If any events are found and
+   removed we need to layout the events again. */
+void	   e_day_view_remove_event		(EDayView	*day_view,
+						 const gchar	*uid);
+
+/* Whether we are displaying a work-week, in which case the display always
+   starts on the first day of the working week. */
+gboolean   e_day_view_get_work_week_view	(EDayView	*day_view);
+void	   e_day_view_set_work_week_view	(EDayView	*day_view,
+						 gboolean	 work_week_view);
 
 /* The number of days shown in the EDayView, from 1 to 7. This is normally
    either 1 or 5 (for the Work-Week view). */
@@ -445,6 +487,12 @@ void	   e_day_view_set_days_shown		(EDayView	*day_view,
 gint	   e_day_view_get_mins_per_row		(EDayView	*day_view);
 void	   e_day_view_set_mins_per_row		(EDayView	*day_view,
 						 gint		 mins_per_row);
+
+/* This specifies the working days in the week. The value is a bitwise
+   combination of day flags. Defaults to Mon-Fri. */
+EDayViewDays e_day_view_get_working_days	(EDayView	*day_view);
+void	   e_day_view_set_working_days		(EDayView	*day_view,
+						 EDayViewDays	 days);
 
 
 

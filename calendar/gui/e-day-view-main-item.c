@@ -187,8 +187,9 @@ e_day_view_main_item_draw (GnomeCanvasItem *canvas_item, GdkDrawable *drawable,
 	gint day, grid_y1, grid_y2;
 	gint work_day_start_row, work_day_end_row;
 	gint work_day_start_y, work_day_end_y;
-	gint work_day_x, work_day_w;
+	gint day_x, day_w, work_day;
 	gint start_row, end_row, rect_x, rect_y, rect_width, rect_height;
+	struct tm *day_start;
 
 #if 0
 	g_print ("In e_day_view_main_item_draw %i,%i %ix%i\n",
@@ -212,20 +213,34 @@ e_day_view_main_item_draw (GnomeCanvasItem *canvas_item, GdkDrawable *drawable,
 	work_day_end_row = e_day_view_convert_time_to_row (day_view, day_view->work_day_end_hour, day_view->work_day_end_minute);
 	work_day_end_y = work_day_end_row * day_view->row_height - y;
 
-	work_day_x = day_view->day_offsets[0] - x;
-	work_day_w = width - work_day_x;
-	gdk_gc_set_foreground (gc, &day_view->colors[E_DAY_VIEW_COLOR_BG_NOT_WORKING]);
-	gdk_draw_rectangle (drawable, gc, TRUE,
-			    work_day_x, 0 - y,
-			    work_day_w, work_day_start_y - (0 - y));
-	gdk_gc_set_foreground (gc, &day_view->colors[E_DAY_VIEW_COLOR_BG_WORKING]);
-	gdk_draw_rectangle (drawable, gc, TRUE,
-			    work_day_x, work_day_start_y,
-			    work_day_w, work_day_end_y - work_day_start_y);
-	gdk_gc_set_foreground (gc, &day_view->colors[E_DAY_VIEW_COLOR_BG_NOT_WORKING]);
-	gdk_draw_rectangle (drawable, gc, TRUE,
-			    work_day_x, work_day_end_y,
-			    work_day_w, height - work_day_end_y);
+	for (day = 0; day < day_view->days_shown; day++) {
+		day_start = localtime (&day_view->day_starts[day]);
+
+		work_day = day_view->working_days & (1 << day_start->tm_wday);
+
+		day_x = day_view->day_offsets[day] - x;
+		day_w = day_view->day_widths[day];
+
+		if (work_day) {
+			gdk_gc_set_foreground (gc, &day_view->colors[E_DAY_VIEW_COLOR_BG_NOT_WORKING]);
+			gdk_draw_rectangle (drawable, gc, TRUE,
+					    day_x, 0 - y,
+					    day_w, work_day_start_y - (0 - y));
+			gdk_gc_set_foreground (gc, &day_view->colors[E_DAY_VIEW_COLOR_BG_WORKING]);
+			gdk_draw_rectangle (drawable, gc, TRUE,
+					    day_x, work_day_start_y,
+					    day_w, work_day_end_y - work_day_start_y);
+			gdk_gc_set_foreground (gc, &day_view->colors[E_DAY_VIEW_COLOR_BG_NOT_WORKING]);
+			gdk_draw_rectangle (drawable, gc, TRUE,
+					    day_x, work_day_end_y,
+					    day_w, height - work_day_end_y);
+		} else {
+			gdk_gc_set_foreground (gc, &day_view->colors[E_DAY_VIEW_COLOR_BG_NOT_WORKING]);
+			gdk_draw_rectangle (drawable, gc, TRUE,
+					    day_x, 0,
+					    day_w, height);
+		}
+	}
 
 	/* Paint the selection background. */
 	if (GTK_WIDGET_HAS_FOCUS (day_view)

@@ -193,7 +193,7 @@ e_week_view_main_item_draw (GnomeCanvasItem  *canvas_item,
 	if (!g_date_valid (&date))
 		g_date_set_dmy (&date, 27, 12, 1999);
 
-	num_days = week_view->display_month ? E_WEEK_VIEW_MAX_WEEKS * 7 : 7;
+	num_days = week_view->multi_week_view ? week_view->weeks_shown * 7 : 7;
 	for (day = 0; day < num_days; day++) {
 		e_week_view_get_day_position (week_view, day,
 					      &day_x, &day_y,
@@ -246,6 +246,8 @@ e_week_view_main_item_draw_day (EWeekViewMainItem *wvmitem,
 	selected_bg_gc = style->bg_gc[GTK_STATE_SELECTED];
 	gc = week_view->main_gc;
 
+	g_return_if_fail (gc != NULL);
+
 	month = g_date_month (date);
 	day_of_month = g_date_day (date);
 	line_y = y + E_WEEK_VIEW_DATE_T_PAD + font->ascent
@@ -256,7 +258,7 @@ e_week_view_main_item_draw_day (EWeekViewMainItem *wvmitem,
 	   month starts (defaults are white for odd - January, March, ... and
 	   light gray for even). In the week view the background is always the
 	   same color, the color used for the odd months in the month view. */
-	if (week_view->display_month && (month % 2 == 0))
+	if (week_view->multi_week_view && (month % 2 == 0))
 		bg_color = &week_view->colors[E_WEEK_VIEW_COLOR_EVEN_MONTHS];
 	else
 		bg_color = &week_view->colors[E_WEEK_VIEW_COLOR_ODD_MONTHS];
@@ -283,7 +285,7 @@ e_week_view_main_item_draw_day (EWeekViewMainItem *wvmitem,
 	    || week_view->selection_end_day < day)
 		selected = FALSE;
 	if (selected) {
-		if (week_view->display_month)
+		if (week_view->multi_week_view)
 			gdk_draw_rectangle (drawable, selected_bg_gc, TRUE,
 					    x + 2, y + 1,
 					    width - 5,
@@ -302,7 +304,7 @@ e_week_view_main_item_draw_day (EWeekViewMainItem *wvmitem,
 	   the 1st of each month, otherwise use "10". */
 	show_day_name = FALSE;
 	show_month_name = FALSE;
-	if (!week_view->display_month) {
+	if (!week_view->multi_week_view) {
 		show_day_name = TRUE;
 		show_month_name = TRUE;
 	} else if (day == 0 || day_of_month == 1) {
@@ -342,7 +344,7 @@ e_week_view_main_item_draw_day (EWeekViewMainItem *wvmitem,
 			 buffer);
 
 	/* Draw the line under the date. */
-	if (!week_view->display_month) {
+	if (!week_view->multi_week_view) {
 		gdk_draw_line (drawable, fg_gc,
 			       x + E_WEEK_VIEW_DATE_LINE_L_PAD, line_y,
 			       right_edge, line_y);

@@ -28,10 +28,10 @@
 #include "workweekview.xpm"
 #include "weekview.xpm"
 #include "monthview.xpm"
-
 #if 0
 #include "yearview.xpm"
 #endif
+
 
 /* The username, used to set the `owner' field of the event */
 char *user_name;
@@ -322,7 +322,12 @@ static void
 show_day_view_clicked (BonoboUIHandler *uih, void *user_data, const char *path)
 {
 	GnomeCalendar *gcal = GNOME_CALENDAR (user_data);
-	gnome_calendar_set_view (gcal, "dayview");
+
+	/* If we are setting up a view internally we just ignore the clicks. */
+	if (gcal->ignore_view_button_clicks)
+		return;
+
+	gnome_calendar_set_view (gcal, "dayview", FALSE);
 	gtk_widget_grab_focus (gcal->day_view);
 }
 
@@ -330,7 +335,12 @@ static void
 show_work_week_view_clicked (BonoboUIHandler *uih, void *user_data, const char *path)
 {
 	GnomeCalendar *gcal = GNOME_CALENDAR (user_data);
-	gnome_calendar_set_view (gcal, "workweekview");
+
+	/* If we are setting up a view internally we just ignore the clicks. */
+	if (gcal->ignore_view_button_clicks)
+		return;
+
+	gnome_calendar_set_view (gcal, "workweekview", FALSE);
 	gtk_widget_grab_focus (gcal->work_week_view);
 }
 
@@ -338,7 +348,12 @@ static void
 show_week_view_clicked (BonoboUIHandler *uih, void *user_data, const char *path)
 {
 	GnomeCalendar *gcal = GNOME_CALENDAR (user_data);
-	gnome_calendar_set_view (gcal, "weekview");
+
+	/* If we are setting up a view internally we just ignore the clicks. */
+	if (gcal->ignore_view_button_clicks)
+		return;
+
+	gnome_calendar_set_view (gcal, "weekview", FALSE);
 	gtk_widget_grab_focus (gcal->week_view);
 }
 
@@ -346,19 +361,15 @@ static void
 show_month_view_clicked (BonoboUIHandler *uih, void *user_data, const char *path)
 {
 	GnomeCalendar *gcal = GNOME_CALENDAR (user_data);
-	gnome_calendar_set_view (gcal, "monthview");
+
+	/* If we are setting up a view internally we just ignore the clicks. */
+	if (gcal->ignore_view_button_clicks)
+		return;
+
+	gnome_calendar_set_view (gcal, "monthview", FALSE);
 	gtk_widget_grab_focus (gcal->month_view);
 }
 
-#if 0
-static void
-show_year_view_clicked (BonoboUIHandler *uih, void *user_data, const char *path)
-{
-	GnomeCalendar *gcal = GNOME_CALENDAR (user_data);
-	gnome_calendar_set_view (gcal, "yearview");
-	gtk_widget_grab_focus (gcal->year_view);
-}
-#endif
 
 static void
 new_calendar_cmd (BonoboUIHandler *uih, void *user_data, const char *path)
@@ -487,6 +498,8 @@ properties_cmd (BonoboUIHandler *uih, void *user_data, const char *path)
 }
 
 
+/* Note: if the order of these is changed, make sure you change the indices
+   used to access the widgets in calendar_control_activate(). */
 static GnomeUIInfo gnome_toolbar_view_buttons [] = {
 	GNOMEUIINFO_RADIOITEM (N_("Day"),    N_("Show 1 day"),
 			       show_day_view_clicked,
@@ -564,8 +577,6 @@ calendar_control_activate (BonoboControl *control,
 	BonoboControl *toolbar_control;
 	GnomeUIBuilderData uibdata;
 	BonoboUIHandler *uih;
-	gchar *page_name;
-	gint button, i;
 	int behavior;
 
 	uih = bonobo_control_get_ui_handler (control);
@@ -591,30 +602,15 @@ calendar_control_activate (BonoboControl *control,
 
 	/*gtk_toolbar_append_space (GTK_TOOLBAR (toolbar));*/
 
-	for (i = 0; i < GNOME_CALENDAR_NUM_VIEWS; i++)
-		cal->view_toolbar_buttons[i] = gnome_toolbar_view_buttons[i].widget;
-
 	/* Note that these indices should correspond with the button indices
-	   in gnome_toolbar_view_buttons. */
-	page_name = gnome_calendar_get_current_view_name (cal);
-	if (!strcmp (page_name, "dayview")) {
-		button = 0;
-	} else if (!strcmp (page_name, "workweekview")) {
-		button = 1;
-	} else if (!strcmp (page_name, "weekview")) {
-		button = 2;
-	} else if (!strcmp (page_name, "monthview")) {
-		button = 3;
-#if 0
-	} else if (!strcmp (page_name, "yearview")) {
-		button = 4;
-#endif
-	} else {
-		g_warning ("Unknown calendar view: %s", page_name);
-		button = 0;
-	}
+	   in the gnome_toolbar_view_buttons UIINFO struct. */
+	cal->day_button       = gnome_toolbar_view_buttons[0].widget;
+	cal->work_week_button = gnome_toolbar_view_buttons[1].widget;
+	cal->week_button      = gnome_toolbar_view_buttons[2].widget;
+	cal->month_button     = gnome_toolbar_view_buttons[3].widget;
 
-	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (cal->view_toolbar_buttons[button]), TRUE);
+	/* This makes the appropriate radio button in the toolbar active. */
+	gnome_calendar_update_view_buttons (cal);
 
 	gtk_widget_show_all (toolbar);
 
@@ -730,7 +726,8 @@ new_calendar (char *full_name, char *geometry, char *page, gboolean hidden)
 	}
 
 	if (page)
-		gnome_calendar_set_view (GNOME_CALENDAR (toplevel), page);
+		gnome_calendar_set_view (GNOME_CALENDAR (toplevel), page,
+					 FALSE);
 
 	gtk_signal_connect (GTK_OBJECT (toplevel), "delete_event",
 			    GTK_SIGNAL_FUNC(calendar_close_event), toplevel);

@@ -42,13 +42,27 @@ static void gnome_calendar_class_init (GnomeCalendarClass *class);
 static void gnome_calendar_init (GnomeCalendar *gcal);
 static void gnome_calendar_destroy (GtkObject *object);
 
-static void gnome_calendar_update_view_times (GnomeCalendar *gcal,
-					      GtkWidget *page);
-static void gnome_calendar_update_gtk_calendar (GnomeCalendar *gcal);
-static void gnome_calendar_on_day_selected (GtkCalendar   *calendar,
-					    GnomeCalendar *gcal);
-static void gnome_calendar_on_month_changed (GtkCalendar   *calendar,
-					     GnomeCalendar *gcal);
+static void gnome_calendar_set_view_internal	(GnomeCalendar	*gcal,
+						 char		*page_name,
+						 gboolean	 range_selected);
+static void gnome_calendar_set_pane_positions	(GnomeCalendar	*gcal);
+static void gnome_calendar_update_view_times (GnomeCalendar *gcal);
+static void gnome_calendar_update_date_navigator (GnomeCalendar *gcal);
+
+static void gnome_calendar_on_date_navigator_style_set (GtkWidget *widget,
+							GtkStyle  *previous_style,
+							GnomeCalendar *gcal);
+static void gnome_calendar_on_date_navigator_size_allocate (GtkWidget     *widget,
+							    GtkAllocation *allocation,
+							    GnomeCalendar *gcal);
+static void gnome_calendar_on_date_navigator_date_range_changed (ECalendarItem *calitem,
+								 GnomeCalendar *gcal);
+static void gnome_calendar_on_date_navigator_selection_changed (ECalendarItem    *calitem,
+								GnomeCalendar    *gcal);
+static gboolean gnome_calendar_get_days_shown	(GnomeCalendar	*gcal,
+						 GDate		*start_date,
+						 gint		*days_shown);
+
 
 static GtkVBoxClass *parent_class;
 
@@ -98,6 +112,19 @@ gnome_calendar_init (GnomeCalendar *gcal)
 {
 	gcal->object_editor_hash = g_hash_table_new (g_str_hash, g_str_equal);
 	gcal->alarms = g_hash_table_new (g_str_hash, g_str_equal);
+
+	gcal->current_view_type = GNOME_CALENDAR_VIEW_NOT_SET;
+	gcal->range_selected = FALSE;
+
+	/* Set the default pane positions. These will eventually come from
+	   gconf settings. They are multiples of calendar month widths &
+	   heights in the date navigator. */
+	gcal->hpane_pos = 1.0;
+	gcal->vpane_pos = 1.0;
+	gcal->hpane_pos_month_view = 0.0;
+	gcal->vpane_pos_month_view = 1.0;
+
+	gcal->ignore_view_button_clicks = FALSE;
 }
 
 /* Used from g_hash_table_foreach(); frees an object alarms entry */
@@ -157,56 +184,51 @@ gnome_calendar_destroy (GtkObject *object)
 static void
 setup_widgets (GnomeCalendar *gcal)
 {
-	GtkWidget *vpane, *w;
+	GtkWidget *w;
 
-	/* The Main Notebook. */
-	gcal->main_notebook = gtk_notebook_new ();
-	gtk_notebook_set_show_border (GTK_NOTEBOOK (gcal->main_notebook),
-				      FALSE);
-	gtk_notebook_set_show_tabs (GTK_NOTEBOOK (gcal->main_notebook), FALSE);
-	gtk_widget_show (gcal->main_notebook);
-	gtk_box_pack_start (GTK_BOX (gcal), gcal->main_notebook,
-			    TRUE, TRUE, 0);
-
-	/* The First Page of the Main Notebook, containing a HPaned with the
-	   Sub-Notebook on the left and the GtkCalendar and ToDo list on the
-	   right. */
+	/* The main HPaned, with the notebook of calendar views on the left
+	   and the ECalendar and ToDo list on the right. */
 	gcal->hpane = e_hpaned_new ();
 	gtk_widget_show (gcal->hpane);
-	gtk_notebook_append_page (GTK_NOTEBOOK (gcal->main_notebook),
-				  gcal->hpane, gtk_label_new (""));
+	gtk_box_pack_start (GTK_BOX (gcal), gcal->hpane, TRUE, TRUE, 0);
 
-	/* The Sub-Notebook, to contain the Day, Work-Week & Week views. */
-	gcal->sub_notebook = gtk_notebook_new ();
-	gtk_notebook_set_show_border (GTK_NOTEBOOK (gcal->sub_notebook),
-				      FALSE);
-	gtk_notebook_set_show_tabs (GTK_NOTEBOOK (gcal->sub_notebook), FALSE);
-	gtk_widget_show (gcal->sub_notebook);
-	e_paned_pack1 (E_PANED (gcal->hpane), gcal->sub_notebook,
-			 TRUE, TRUE);
+	/* The Notebook containing the 4 calendar views. */
+	gcal->notebook = gtk_notebook_new ();
+	gtk_notebook_set_show_border (GTK_NOTEBOOK (gcal->notebook), FALSE);
+	gtk_notebook_set_show_tabs (GTK_NOTEBOOK (gcal->notebook), FALSE);
+	gtk_widget_show (gcal->notebook);
+	e_paned_pack1 (E_PANED (gcal->hpane), gcal->notebook, TRUE, TRUE);
 
 	/* The VPaned widget, to contain the GtkCalendar & ToDo list. */
-	vpane = e_vpaned_new ();
-	gtk_widget_show (vpane);
-	e_paned_pack2 (E_PANED (gcal->hpane), vpane, FALSE, TRUE);
+	gcal->vpane = e_vpaned_new ();
+	gtk_widget_show (gcal->vpane);
+	e_paned_pack2 (E_PANED (gcal->hpane), gcal->vpane, FALSE, TRUE);
 
-	/* The GtkCalendar. */
-	w = gtk_calendar_new ();
-	gcal->gtk_calendar = GTK_CALENDAR (w);
+	/* The ECalendar. */
+	w = e_calendar_new ();
+	gcal->date_navigator = E_CALENDAR (w);
 	gtk_widget_show (w);
-	e_paned_pack1 (E_PANED (vpane), w, FALSE, TRUE);
-	gcal->day_selected_id = gtk_signal_connect (GTK_OBJECT (gcal->gtk_calendar),
-						    "day_selected",
-						    (GtkSignalFunc) gnome_calendar_on_day_selected,
-						    gcal);
-	gtk_signal_connect (GTK_OBJECT (gcal->gtk_calendar), "month_changed",
-			    GTK_SIGNAL_FUNC (gnome_calendar_on_month_changed),
+	e_paned_pack1 (E_PANED (gcal->vpane), w, FALSE, TRUE);
+	gtk_signal_connect (GTK_OBJECT (gcal->date_navigator),
+			    "style_set",
+			    GTK_SIGNAL_FUNC (gnome_calendar_on_date_navigator_style_set),
+			    gcal);
+	gtk_signal_connect_after (GTK_OBJECT (gcal->date_navigator),
+				  "size_allocate",
+				  (GtkSignalFunc) gnome_calendar_on_date_navigator_size_allocate,
+				  gcal);
+	gtk_signal_connect (GTK_OBJECT (gcal->date_navigator->calitem),
+			    "selection_changed",
+			    (GtkSignalFunc) gnome_calendar_on_date_navigator_selection_changed,
+			    gcal);
+	gtk_signal_connect (GTK_OBJECT (gcal->date_navigator->calitem),
+			    "date_range_changed",
+			    GTK_SIGNAL_FUNC (gnome_calendar_on_date_navigator_date_range_changed),
 			    gcal);
 
 	/* The ToDo list. */
-
 	gcal->todo = e_calendar_table_new ();
-	e_paned_pack2 (E_PANED (vpane), gcal->todo, TRUE, TRUE);
+	e_paned_pack2 (E_PANED (gcal->vpane), gcal->todo, TRUE, TRUE);
 	gtk_widget_show (gcal->todo);
 	e_calendar_table_set_cal_client (E_CALENDAR_TABLE (gcal->todo),
 					 gcal->client);
@@ -217,16 +239,18 @@ setup_widgets (GnomeCalendar *gcal)
 	e_day_view_set_calendar (E_DAY_VIEW (gcal->day_view), gcal);
 	e_day_view_set_cal_client (E_DAY_VIEW (gcal->day_view), gcal->client);
 	gtk_widget_show (gcal->day_view);
-	gtk_notebook_append_page (GTK_NOTEBOOK (gcal->sub_notebook),
+	gtk_notebook_append_page (GTK_NOTEBOOK (gcal->notebook),
 				  gcal->day_view, gtk_label_new (""));
 
 	/* The Work Week View. */
 	gcal->work_week_view = e_day_view_new ();
+	e_day_view_set_work_week_view (E_DAY_VIEW (gcal->work_week_view),
+				       TRUE);
 	e_day_view_set_days_shown (E_DAY_VIEW (gcal->work_week_view), 5);
 	e_day_view_set_calendar (E_DAY_VIEW (gcal->work_week_view), gcal);
 	e_day_view_set_cal_client (E_DAY_VIEW (gcal->work_week_view), gcal->client);
 	gtk_widget_show (gcal->work_week_view);
-	gtk_notebook_append_page (GTK_NOTEBOOK (gcal->sub_notebook),
+	gtk_notebook_append_page (GTK_NOTEBOOK (gcal->notebook),
 				  gcal->work_week_view, gtk_label_new (""));
 
 	/* The Week View. */
@@ -234,29 +258,23 @@ setup_widgets (GnomeCalendar *gcal)
 	e_week_view_set_calendar (E_WEEK_VIEW (gcal->week_view), gcal);
 	e_week_view_set_cal_client (E_WEEK_VIEW (gcal->week_view), gcal->client);
 	gtk_widget_show (gcal->week_view);
-	gtk_notebook_append_page (GTK_NOTEBOOK (gcal->sub_notebook),
+	gtk_notebook_append_page (GTK_NOTEBOOK (gcal->notebook),
 				  gcal->week_view, gtk_label_new (""));
 
 	/* The Month View. */
 	gcal->month_view = e_week_view_new ();
 	e_week_view_set_calendar (E_WEEK_VIEW (gcal->month_view), gcal);
+	e_week_view_set_multi_week_view (E_WEEK_VIEW (gcal->month_view), TRUE);
 	e_week_view_set_cal_client (E_WEEK_VIEW (gcal->month_view), gcal->client);
-	e_week_view_set_display_month (E_WEEK_VIEW (gcal->month_view), TRUE);
 	gtk_widget_show (gcal->month_view);
-	gtk_notebook_append_page (GTK_NOTEBOOK (gcal->main_notebook),
+	gtk_notebook_append_page (GTK_NOTEBOOK (gcal->notebook),
 				  gcal->month_view, gtk_label_new (""));
 }
 
 static GtkWidget *
 get_current_page (GnomeCalendar *gcal)
 {
-	GtkWidget *page;
-
-	page = GTK_NOTEBOOK (gcal->main_notebook)->cur_page->child;
-	if (page == gcal->hpane)
-		return GTK_NOTEBOOK (gcal->sub_notebook)->cur_page->child;
-	else
-		return page;
+	return GTK_NOTEBOOK (gcal->notebook)->cur_page->child;
 }
 
 char *
@@ -291,29 +309,29 @@ gnome_calendar_goto (GnomeCalendar *gcal, time_t new_time)
 	gcal->selection_start_time = time_day_begin (new_time);
 	gcal->selection_end_time = time_add_day (gcal->selection_start_time,
 						 1);
-	gnome_calendar_update_view_times (gcal, NULL);
-	gnome_calendar_update_gtk_calendar (gcal);
+	gnome_calendar_update_view_times (gcal);
+	gnome_calendar_update_date_navigator (gcal);
 }
 
 
 static void
-gnome_calendar_update_view_times (GnomeCalendar *gcal,
-				  GtkWidget *page)
+gnome_calendar_update_view_times (GnomeCalendar *gcal)
 {
-	if (page == NULL)
-		page = get_current_page (gcal);
+	GtkWidget *page;
 
-	if (page == gcal->day_view
-	    || page == gcal->work_week_view)
-		e_day_view_set_selected_time_range (E_DAY_VIEW (page),
-						    gcal->selection_start_time,
-						    gcal->selection_end_time);
-	else if (page == gcal->week_view
-		 || page == gcal->month_view)
-		e_week_view_set_selected_time_range (E_WEEK_VIEW (page),
-						     gcal->selection_start_time,
-						     gcal->selection_end_time);
-	else {
+	page = get_current_page (gcal);
+
+	if (page == gcal->day_view || page == gcal->work_week_view) {
+		e_day_view_set_selected_time_range
+			(E_DAY_VIEW (page),
+			 gcal->selection_start_time,
+			 gcal->selection_end_time);
+	} else if (page == gcal->week_view || page == gcal->month_view) {
+		e_week_view_set_selected_time_range
+			(E_WEEK_VIEW (page),
+			 gcal->selection_start_time,
+			 gcal->selection_end_time);
+	} else {
 		g_warning ("My penguin is gone!");
 		g_assert_not_reached ();
 	}
@@ -350,8 +368,8 @@ gnome_calendar_direction (GnomeCalendar *gcal, int direction)
 	gcal->selection_start_time = start_time;
 	gcal->selection_end_time = end_time;
 
-	gnome_calendar_update_view_times (gcal, NULL);
-	gnome_calendar_update_gtk_calendar (gcal);
+	gnome_calendar_update_view_times (gcal);
+	gnome_calendar_update_date_navigator (gcal);
 }
 
 void
@@ -378,8 +396,11 @@ gnome_calendar_dayjump (GnomeCalendar *gcal, time_t time)
 	g_return_if_fail (gcal != NULL);
 	g_return_if_fail (GNOME_IS_CALENDAR (gcal));
 
-	gnome_calendar_set_view (gcal, "dayview");
-	gnome_calendar_goto (gcal, time);
+	gcal->selection_start_time = time_day_begin (time);
+	gcal->selection_end_time = time_add_day (gcal->selection_start_time,
+						 1);
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (gcal->day_button),
+				      TRUE);
 }
 
 void
@@ -389,47 +410,128 @@ gnome_calendar_goto_today (GnomeCalendar *gcal)
 	g_return_if_fail (GNOME_IS_CALENDAR (gcal));
 
 	gnome_calendar_goto (gcal, time (NULL));
+
+	gtk_widget_grab_focus (get_current_page (gcal));
 }
 
 
 /* This sets which view is currently shown. It also updates the selection time
    of the view so it shows the appropriate days. */
 void
-gnome_calendar_set_view (GnomeCalendar *gcal, char *page_name)
+gnome_calendar_set_view		(GnomeCalendar	*gcal,
+				 char		*page_name,
+				 gboolean	 range_selected)
 {
-	GtkWidget *page;
-	int main_page = 0, sub_page = -1;
-
 	g_return_if_fail (gcal != NULL);
 	g_return_if_fail (GNOME_IS_CALENDAR (gcal));
 	g_return_if_fail (page_name != NULL);
 
-	if (strcmp (page_name, "dayview") == 0) {
-		page = gcal->day_view;
-		sub_page = 0;
-	} else if (strcmp (page_name, "workweekview") == 0) {
-		page = gcal->work_week_view;
-		sub_page = 1;
-	} else if (strcmp (page_name, "weekview") == 0) {
-		page = gcal->week_view;
-		sub_page = 2;
-	} else if (strcmp (page_name, "monthview") == 0) {
-		page = gcal->month_view;
-		main_page = 1;
+	gnome_calendar_set_view_internal (gcal, page_name, range_selected);
+	gnome_calendar_update_view_times (gcal);
+	gnome_calendar_update_date_navigator (gcal);
+}
+
+
+/* This sets the view without changing the selection or updating the date
+   navigator. If a range of dates isn't selected it will also reset the number
+   of days/weeks shown to the default (i.e. 1 day for the day view or 5 weeks
+   for the month view). */
+static void
+gnome_calendar_set_view_internal	(GnomeCalendar	*gcal,
+					 char		*page_name,
+					 gboolean	 range_selected)
+{
+	int view;
+	gboolean round_selection = FALSE;
+
+	g_print ("In gnome_calendar_set_view_internal: %s\n", page_name);
+
+	if (!strcmp (page_name, "dayview")) {
+		view = GNOME_CALENDAR_VIEW_DAY;
+		if (!range_selected)
+			e_day_view_set_days_shown
+				(E_DAY_VIEW (gcal->day_view), 1);
+	} else if (!strcmp (page_name, "workweekview")) {
+		view = GNOME_CALENDAR_VIEW_WORK_WEEK;
+	} else if (!strcmp (page_name, "weekview")) {
+		view = GNOME_CALENDAR_VIEW_WEEK;
+		round_selection = TRUE;
+	} else if (!strcmp (page_name, "monthview")) {
+		view = GNOME_CALENDAR_VIEW_MONTH;
+		if (!range_selected)
+			e_week_view_set_weeks_shown
+				(E_WEEK_VIEW (gcal->month_view), 5);
+		round_selection = TRUE;
 	} else {
 		g_warning ("Unknown calendar view: %s", page_name);
 		return;
 	}
 
-	gnome_calendar_update_view_times (gcal, page);
+	gcal->current_view_type = view;
+	gcal->range_selected = range_selected;
 
-	if (sub_page != -1)
-		gtk_notebook_set_page (GTK_NOTEBOOK (gcal->sub_notebook),
-				       sub_page);
-	gtk_notebook_set_page (GTK_NOTEBOOK (gcal->main_notebook), main_page);
+	gtk_notebook_set_page (GTK_NOTEBOOK (gcal->notebook), view);
 
-	gnome_calendar_update_gtk_calendar (gcal);
+	gnome_calendar_set_pane_positions (gcal);
+
+	/* For the week & month views we want the selection in the date
+	   navigator to be rounded to the nearest week when the arrow buttons
+	   are pressed to move to the previous/next month. */
+	gtk_object_set (GTK_OBJECT (gcal->date_navigator->calitem),
+			"round_selection_when_moving", round_selection,
+			NULL);
 }
+
+
+static void
+gnome_calendar_set_pane_positions	(GnomeCalendar	*gcal)
+{
+	gint top_border, bottom_border, left_border, right_border;
+	gint col_width, row_height;
+	gfloat right_pane_width, top_pane_height;
+
+	/* Get the size of the calendar month width & height. */
+	e_calendar_get_border_size (gcal->date_navigator,
+				    &top_border, &bottom_border,
+				    &left_border, &right_border);
+	gtk_object_get (GTK_OBJECT (gcal->date_navigator->calitem),
+			"row_height", &row_height,
+			"column_width", &col_width,
+			NULL);
+
+	if (gcal->current_view_type == GNOME_CALENDAR_VIEW_MONTH
+	    && !gcal->range_selected) {
+		right_pane_width = gcal->hpane_pos_month_view;
+		top_pane_height = gcal->vpane_pos_month_view;
+	} else {
+		right_pane_width = gcal->hpane_pos;
+		top_pane_height = gcal->vpane_pos;
+	}
+
+	/* We add the borders before multiplying due to the way we are using
+	   the EPaned quantum feature. */
+	if (right_pane_width < 0.001)
+		right_pane_width = 0.0;
+	else
+		right_pane_width = right_pane_width * (col_width
+			+ left_border + right_border) + 0.5;
+	if (top_pane_height < 0.001)
+		top_pane_height = 0.0;
+	else
+		top_pane_height = top_pane_height * (row_height
+			+ top_border + bottom_border) + 0.5;
+
+	g_print ("right width:%g top height:%g\n", right_pane_width,
+		 top_pane_height);
+
+	e_paned_set_position (E_PANED (gcal->hpane), -1);
+	e_paned_set_position (E_PANED (gcal->vpane), -1);
+	/* We add one to each dimension since we can't use 0. */
+	gtk_widget_set_usize (gcal->vpane, right_pane_width + 1, -2);
+	gtk_widget_set_usize (GTK_WIDGET (gcal->date_navigator),
+			      -2, top_pane_height + 1);
+}
+
 
 #ifndef NO_WARNINGS
 /* Sends a mail notification of an alarm trigger */
@@ -811,7 +913,7 @@ static void
 gnome_calendar_update_all (GnomeCalendar *cal)
 {
 	load_alarms (cal);
-	gnome_calendar_tag_calendar (cal, cal->gtk_calendar);
+	gnome_calendar_tag_calendar (cal, cal->date_navigator);
 }
 
 /* Removes any queued alarms for the specified UID */
@@ -873,7 +975,7 @@ gnome_calendar_object_updated_cb (GtkWidget *cal_client,
 	remove_alarms_for_object (gcal, uid);
 	add_alarms_for_object (gcal, uid);
 
-	gnome_calendar_tag_calendar (gcal, gcal->gtk_calendar);
+	gnome_calendar_tag_calendar (gcal, gcal->date_navigator);
 }
 
 
@@ -884,7 +986,7 @@ gnome_calendar_object_removed_cb (GtkWidget *cal_client,
 {
 	remove_alarms_for_object (gcal, uid);
 
-	gnome_calendar_tag_calendar (gcal, gcal->gtk_calendar);
+	gnome_calendar_tag_calendar (gcal, gcal->date_navigator);
 }
 
 
@@ -904,7 +1006,7 @@ gnome_calendar_new (char *title)
 
 	setup_widgets (gcal);
 
-	gnome_calendar_set_view (gcal, "dayview");
+	gnome_calendar_set_view (gcal, "dayview", FALSE);
 
 	gtk_signal_connect (GTK_OBJECT (gcal->client), "obj_updated",
 			    gnome_calendar_object_updated_cb, gcal);
@@ -1134,90 +1236,92 @@ calendar_notify (time_t activation_time, CalendarAlarm *which, void *data)
 
 #endif
 
-/* Marks the specified range in a GtkCalendar */
-static void
-mark_gtk_calendar_day (GtkCalendar *calendar, time_t start, time_t end)
+struct calendar_tag_closure
 {
+	ECalendarItem *calitem;
+	time_t start_time;
+	time_t end_time;
+};
+
+/* Marks the specified range in a GtkCalendar */
+static gboolean
+gnome_calendar_tag_calendar_cb (CalComponent *comp,
+				time_t istart,
+				time_t iend,
+				gpointer data)
+{
+	struct calendar_tag_closure *c = data;
 	time_t t;
 
-	t = time_day_begin (start);
+	t = time_day_begin (istart);
 
 	do {
 		struct tm tm;
 
 		tm = *localtime (&t);
-		gtk_calendar_mark_day (calendar, tm.tm_mday);
+
+		e_calendar_item_mark_day (c->calitem, tm.tm_year + 1900,
+					  tm.tm_mon, tm.tm_mday,
+					  E_CALENDAR_ITEM_MARK_BOLD);
 
 		t = time_day_end (t);
-	} while (t < end);
+	} while (t < iend);
+
+	return TRUE;
 }
 
 /*
  * Tags the dates with appointments in a GtkCalendar based on the
  * GnomeCalendar contents
  */
-struct calendar_tag_closure
-{
-	GtkCalendar *gtk_cal;
-	time_t month_begin;
-	time_t month_end;
-};
-
-static gboolean
-gnome_calendar_tag_calendar_cb (CalComponent *comp, time_t istart, time_t iend, gpointer data)
-{
-	struct calendar_tag_closure *c = data;
-	time_t start, end;
-
-	start = MAX (istart, c->month_begin);
-	end = MIN (iend, c->month_end);
-	
-	if (start > end)
-		return TRUE;
-	
-	/* Clip the occurrence's start and end times to the month's limits */
-	mark_gtk_calendar_day (c->gtk_cal, start, end);
-	
-	return TRUE;
-}
-
 void
-gnome_calendar_tag_calendar (GnomeCalendar *cal, GtkCalendar *gtk_cal)
+gnome_calendar_tag_calendar (GnomeCalendar *gcal, ECalendar *ecal)
 {
 	struct calendar_tag_closure c;
+	gint start_year, start_month, start_day;
+	gint end_year, end_month, end_day;
+	struct tm start_tm = { 0 }, end_tm = { 0 };
 
-	g_return_if_fail (cal != NULL);
-	g_return_if_fail (GNOME_IS_CALENDAR (cal));
-	g_return_if_fail (gtk_cal != NULL);
-	g_return_if_fail (GTK_IS_CALENDAR (gtk_cal));
+	g_return_if_fail (gcal != NULL);
+	g_return_if_fail (GNOME_IS_CALENDAR (gcal));
+	g_return_if_fail (ecal != NULL);
+	g_return_if_fail (E_IS_CALENDAR (ecal));
 
-	/* If the GtkCalendar isn't visible, we just return. */
-	if (!GTK_WIDGET_VISIBLE (cal->gtk_calendar))
+	/* If the ECalendar isn't visible, we just return. */
+	if (!GTK_WIDGET_VISIBLE (ecal))
 		return;
 
-	c.gtk_cal = gtk_cal;
-	
-	c.month_begin = time_from_day (gtk_cal->year, gtk_cal->month, 1);
-	if (c.month_begin == -1) {
-		g_message ("gnome_calendar_tag_calendar(): Generated invalid month begin!");
-		return;
-	}
+	e_calendar_item_get_date_range	(ecal->calitem,
+					 &start_year, &start_month, &start_day,
+					 &end_year, &end_month, &end_day);
 
-	c.month_end = time_month_end (c.month_begin);
-	if (c.month_end == -1) {
-		g_message ("gnome_calendar_tag_calendar(): Generated invalid month end!");
-		return;
-	}
+	start_tm.tm_year = start_year - 1900;
+	start_tm.tm_mon = start_month;
+	start_tm.tm_mday = start_day;
+	start_tm.tm_hour = 0;
+	start_tm.tm_min = 0;
+	start_tm.tm_sec = 0;
+	start_tm.tm_isdst = -1;
 
-	gtk_calendar_freeze (gtk_cal);
-	gtk_calendar_clear_marks (gtk_cal);
+	end_tm.tm_year = end_year - 1900;
+	end_tm.tm_mon = end_month;
+	end_tm.tm_mday = end_day;
+	end_tm.tm_hour = 0;
+	end_tm.tm_min = 0;
+	end_tm.tm_sec = 0;
+	end_tm.tm_isdst = -1;
 
-	cal_client_generate_instances (cal->client, CALOBJ_TYPE_EVENT, 
-				       c.month_begin, c.month_end,
+	e_calendar_item_clear_marks (ecal->calitem);
+
+	c.calitem = ecal->calitem;
+	c.start_time = mktime (&start_tm);
+	c.end_time = mktime (&end_tm);
+
+	cal_client_generate_instances (gcal->client, CALOBJ_TYPE_EVENT, 
+				       c.start_time, c.end_time,
 				       gnome_calendar_tag_calendar_cb, &c);
-
-	gtk_calendar_thaw (gtk_cal);
 }
+
 
 /* This is called when the day begin & end times, the AM/PM flag, or the
    week_starts_on_monday flags are changed.
@@ -1227,13 +1331,14 @@ gnome_calendar_time_format_changed (GnomeCalendar *gcal)
 {
 	g_return_if_fail (gcal != NULL);
 	g_return_if_fail (GNOME_IS_CALENDAR (gcal));
-
+#if 0
 	gtk_calendar_display_options (gcal->gtk_calendar,
 				      (week_starts_on_monday
 				       ? (gcal->gtk_calendar->display_flags
 					  | GTK_CALENDAR_WEEK_START_MONDAY)
 				       : (gcal->gtk_calendar->display_flags
 					  & ~GTK_CALENDAR_WEEK_START_MONDAY)));
+#endif
 }
 
 /* This is called when any of the color settings are changed.
@@ -1261,8 +1366,9 @@ gnome_calendar_set_selected_time_range (GnomeCalendar *gcal,
 	gcal->selection_start_time = start_time;
 	gcal->selection_end_time = end_time;
 
-	gnome_calendar_update_gtk_calendar (gcal);
+	gnome_calendar_update_date_navigator (gcal);
 }
+
 
 /* Callback used when an event editor requests that an object be saved */
 static void
@@ -1274,6 +1380,7 @@ save_event_object_cb (EventEditor *ee, CalComponent *comp, gpointer data)
 	if (!cal_client_update_object (gcal->client, comp))
 		g_message ("save_event_object_cb(): Could not update the object!");
 }
+
 
 /* Callback used when an event editor finishes editing an object */
 static void
@@ -1327,7 +1434,6 @@ gnome_calendar_edit_object (GnomeCalendar *gcal, CalComponent *comp)
 		 */
 
 		g_hash_table_insert (gcal->object_editor_hash, g_strdup (uid), ee);
-
 
 		gtk_signal_connect (GTK_OBJECT (ee), "save_event_object",
 				    GTK_SIGNAL_FUNC (save_event_object_cb),
@@ -1411,77 +1517,268 @@ gnome_calendar_get_current_time_range (GnomeCalendar *gcal,
 
 
 
-/* This updates the month shown and the day selected in the calendar, if
+/* This updates the month shown and the days selected in the calendar, if
    necessary. */
 static void
-gnome_calendar_update_gtk_calendar (GnomeCalendar *gcal)
+gnome_calendar_update_date_navigator (GnomeCalendar *gcal)
 {
-	GDate date;
-	guint current_year, current_month, current_day;
-	guint new_year, new_month, new_day;
-	gboolean set_day = FALSE;
+	GDate start_date, end_date;
+	gint days_shown;
 
-	/* If the GtkCalendar isn't visible, we just return. */
-	if (!GTK_WIDGET_VISIBLE (gcal->gtk_calendar))
+	/* If the ECalendar isn't visible, we just return. */
+	if (!GTK_WIDGET_VISIBLE (gcal->date_navigator))
 		return;
 
-	gtk_calendar_get_date (gcal->gtk_calendar, &current_year,
-			       &current_month, &current_day);
+	if (gnome_calendar_get_days_shown (gcal, &start_date, &days_shown)) {
+		end_date = start_date;
+		g_date_add_days (&end_date, days_shown - 1);
 
-	g_date_clear (&date, 1);
-	g_date_set_time (&date, gcal->selection_start_time);
-	new_year = g_date_year (&date);
-	new_month = g_date_month (&date) - 1;
-	new_day = g_date_day (&date);
-
-	/* Block the "day_selected" signal while we update the calendar. */
-	gtk_signal_handler_block (GTK_OBJECT (gcal->gtk_calendar),
-				  gcal->day_selected_id);
-
-	/* If the year & month don't match, update it. */
-	if (new_year != current_year || new_month != current_month) {
-		/* FIXME: GtkCalendar bug workaround. If we select a month
-		   which has less days than the currently selected day, it
-		   causes a problem next time we set the day. */
-		if (current_day > 28) {
-			gtk_calendar_select_day (gcal->gtk_calendar, 28);
-			set_day = TRUE;
-		}
-		gtk_calendar_select_month (gcal->gtk_calendar, new_month,
-					   new_year);
+		e_calendar_item_set_selection (gcal->date_navigator->calitem,
+					       &start_date, &end_date);
 	}
-
-	/* If the day doesn't match, update it. */
-	if (new_day != current_day || set_day)
-		gtk_calendar_select_day (gcal->gtk_calendar, new_day);
-
-	gtk_signal_handler_unblock (GTK_OBJECT (gcal->gtk_calendar),
-				    gcal->day_selected_id);
 }
 
-static void
-gnome_calendar_on_day_selected (GtkCalendar   *calendar,
-				GnomeCalendar *gcal)
+
+static gboolean
+gnome_calendar_get_days_shown	(GnomeCalendar	*gcal,
+				 GDate		*start_date,
+				 gint		*days_shown)
 {
-	gint y, m, d;
+	GtkWidget *page;
+
+	page = get_current_page (gcal);
+
+	if (page == gcal->day_view || page == gcal->work_week_view) {
+		g_date_clear (start_date, 1);
+		g_date_set_time (start_date, E_DAY_VIEW (page)->lower);
+		*days_shown = e_day_view_get_days_shown (E_DAY_VIEW (page));
+		return TRUE;
+	} else if (page == gcal->week_view || page == gcal->month_view) {
+		*start_date = E_WEEK_VIEW (page)->first_day_shown;
+		if (e_week_view_get_multi_week_view (E_WEEK_VIEW (page)))
+			*days_shown = e_week_view_get_weeks_shown (E_WEEK_VIEW (page)) * 7;
+		else
+			*days_shown = 7;
+		return TRUE;
+	} else {
+		g_warning ("gnome_calendar_get_days_shown - Invalid page");
+		return FALSE;
+	}
+}
+
+
+static void
+gnome_calendar_on_date_navigator_selection_changed (ECalendarItem    *calitem,
+						    GnomeCalendar    *gcal)
+{
+	GDate start_date, end_date, new_start_date, new_end_date;
+	gint days_shown, new_days_shown;
+	gint start_year, start_month, start_day;
+	gint end_year, end_month, end_day;
+	gboolean starts_on_week_start_day = FALSE;
 	struct tm tm;
 
-	gtk_calendar_get_date (calendar, &y, &m, &d);
+	g_print ("In gnome_calendar_on_date_navigator_selection_changed\n");
 
-	tm.tm_year = y - 1900;
-	tm.tm_mon  = m;
-	tm.tm_mday = d;
-	tm.tm_hour = 5; /* for daylight savings time fix */
-	tm.tm_min  = 0;
-	tm.tm_sec  = 0;
+	if (!gnome_calendar_get_days_shown (gcal, &start_date, &days_shown))
+		return;
 
-	gnome_calendar_goto (gcal, mktime (&tm));
+	end_date = start_date;
+	g_date_add_days (&end_date, days_shown - 1);
+
+	e_calendar_item_get_selection	(calitem, &new_start_date,
+					 &new_end_date);
+
+	/* If the selection hasn't changed just return. */
+	if (!g_date_compare (&start_date, &new_start_date)
+	    && !g_date_compare (&end_date, &new_end_date))
+		return;
+
+	new_days_shown = g_date_julian (&new_end_date)
+		- g_date_julian (&new_start_date) + 1;
+
+	/* FIXME: This assumes weeks start on Monday for now. */
+	if (g_date_weekday (&new_start_date) - 1 == 0)
+		starts_on_week_start_day = TRUE;
+
+	/* Switch views as appropriate, and change the number of days or weeks
+	   shown. */
+	if (new_days_shown > 9) {
+		e_week_view_set_weeks_shown (E_WEEK_VIEW (gcal->month_view),
+					     (new_days_shown + 6) / 7);
+		e_week_view_set_first_day_shown (E_WEEK_VIEW (gcal->month_view),
+						 &new_start_date);
+		gnome_calendar_set_view_internal (gcal, "monthview", TRUE);
+		gnome_calendar_update_date_navigator (gcal);
+	} else if (new_days_shown == 7 && starts_on_week_start_day) {
+		e_week_view_set_first_day_shown (E_WEEK_VIEW (gcal->week_view),
+						 &new_start_date);
+		gnome_calendar_set_view_internal (gcal, "weekview", TRUE);
+		gnome_calendar_update_date_navigator (gcal);
+	} else {
+		start_year = g_date_year (&new_start_date);
+		start_month = g_date_month (&new_start_date) - 1;
+		start_day = g_date_day (&new_start_date);
+		end_year = g_date_year (&new_end_date);
+		end_month = g_date_month (&new_end_date) - 1;
+		end_day = g_date_day (&new_end_date);
+
+		tm.tm_year = start_year - 1900;
+		tm.tm_mon  = start_month;
+		tm.tm_mday = start_day;
+		tm.tm_hour = 0;
+		tm.tm_min  = 0;
+		tm.tm_sec  = 0;
+		tm.tm_isdst = -1;
+		gcal->selection_start_time = mktime (&tm);
+
+		tm.tm_year = end_year - 1900;
+		tm.tm_mon  = end_month;
+		tm.tm_mday = end_day + 1; /* mktime() will normalize this. */
+		tm.tm_hour = 0;
+		tm.tm_min  = 0;
+		tm.tm_sec  = 0;
+		tm.tm_isdst = -1;
+		gcal->selection_end_time = mktime (&tm);
+
+		e_day_view_set_days_shown (E_DAY_VIEW (gcal->day_view),
+					   new_days_shown);
+		gnome_calendar_set_view (gcal, "dayview", TRUE);
+	}
+
+	gnome_calendar_update_view_buttons (gcal);
+	gtk_widget_grab_focus (get_current_page (gcal));
 }
 
 
 static void
-gnome_calendar_on_month_changed (GtkCalendar   *calendar,
-				 GnomeCalendar *gcal)
+gnome_calendar_on_date_navigator_date_range_changed (ECalendarItem *calitem,
+						     GnomeCalendar *gcal)
 {
-	gnome_calendar_tag_calendar (gcal, gcal->gtk_calendar);
+	gnome_calendar_tag_calendar (gcal, gcal->date_navigator);
+}
+
+
+static void
+gnome_calendar_on_date_navigator_style_set (GtkWidget     *widget,
+					    GtkStyle      *previous_style,
+					    GnomeCalendar *gcal)
+{
+	ECalendar *ecal;
+	gint row_height, col_width;
+	gint top_border, bottom_border, left_border, right_border;
+
+	g_return_if_fail (E_IS_CALENDAR (widget));
+	g_return_if_fail (GNOME_IS_CALENDAR (gcal));
+
+	ecal = E_CALENDAR (widget);
+
+	e_calendar_get_border_size (gcal->date_navigator,
+				    &top_border, &bottom_border,
+				    &left_border, &right_border);
+	gtk_object_get (GTK_OBJECT (ecal->calitem),
+			"row_height", &row_height,
+			"column_width", &col_width,
+			NULL);
+
+	/* The EPaned quantum feature works better if we add on the calendar
+	   borders to the quantum size. Otherwise if you shrink the date
+	   navigator you get left with the border widths/heights which looks
+	   bad. EPaned should be more flexible really. */
+	col_width += left_border + right_border;
+	row_height += top_border + bottom_border;
+
+	/* We don't have to use the EPaned quantum feature. We could just let
+	   the calendar expand to fill the allocated space, showing as many
+	   months as will fit. But for that to work nicely the EPaned should
+	   resize the widgets as the bar is dragged. Otherwise the user has
+	   to mess around to get the number of months that they want. */
+#if 1
+	gtk_object_set (GTK_OBJECT (gcal->hpane),
+			"quantum", (guint) col_width,
+			NULL);
+	gtk_object_set (GTK_OBJECT (gcal->vpane),
+			"quantum", (guint) row_height,
+			NULL);
+#endif
+
+	gnome_calendar_set_pane_positions (gcal);
+}
+
+
+static void
+gnome_calendar_on_date_navigator_size_allocate (GtkWidget     *widget,
+						GtkAllocation *allocation,
+						GnomeCalendar *gcal)
+{
+	gint width, height, row_height, col_width;
+	gint top_border, bottom_border, left_border, right_border;
+	gfloat hpane_pos, vpane_pos;
+
+	g_print ("In gnome_calendar_on_date_navigator_size_allocate %ix%i\n",
+		 allocation->width, allocation->height);
+
+	if (gcal->current_view_type != GNOME_CALENDAR_VIEW_NOT_SET) {
+		e_calendar_get_border_size (gcal->date_navigator,
+					    &top_border, &bottom_border,
+					    &left_border, &right_border);
+		gtk_object_get (GTK_OBJECT (gcal->date_navigator->calitem),
+				"row_height", &row_height,
+				"column_width", &col_width,
+				NULL);
+
+		/* We subtract one from each dimension since we added 1 in
+		   gnome_calendar_set_view_internal(). */
+		width = allocation->width - 1;
+		height = allocation->height - 1;
+
+		/* We add the border sizes to work around the EPaned
+		   quantized feature. */
+		col_width += left_border + right_border;
+		row_height += top_border + bottom_border;
+
+		hpane_pos = (gfloat) width / col_width;
+		vpane_pos = (gfloat) height / row_height;
+
+		if (gcal->current_view_type == GNOME_CALENDAR_VIEW_MONTH
+		    && !gcal->range_selected) {
+			gcal->hpane_pos_month_view = hpane_pos;
+			gcal->vpane_pos_month_view = vpane_pos;
+		} else {
+			gcal->hpane_pos = hpane_pos;
+			gcal->vpane_pos = vpane_pos;
+		}
+
+		g_print ("  hpane_pos:%g vpane_pos:%g\n", hpane_pos, vpane_pos);
+
+	}
+}
+
+
+/* This makes the appropriate radio button in the toolbar active.
+   It sets the ignore_view_button_clicks flag so the "clicked" signal handlers
+   just return without doing anything. */
+void
+gnome_calendar_update_view_buttons	(GnomeCalendar	*gcal)
+{
+	GtkWidget *page, *button;
+
+	page = get_current_page (gcal);
+
+	if (page == gcal->day_view)
+		button = gcal->day_button;
+	else if (page == gcal->work_week_view)
+		button = gcal->work_week_button;
+	else if (page == gcal->week_view)
+		button = gcal->week_button;
+	else if (page == gcal->month_view)
+		button = gcal->month_button;
+	else {
+		g_warning ("Unknown calendar view");
+		button = gcal->day_button;
+	}
+
+	gcal->ignore_view_button_clicks = TRUE;
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (button), TRUE);
+	gcal->ignore_view_button_clicks = FALSE;
 }

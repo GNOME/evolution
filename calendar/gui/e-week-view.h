@@ -37,8 +37,9 @@ extern "C" {
  * EWeekView - displays the Week & Month views of the calendar.
  */
 
-/* The maximum number of weeks we show. 5 is usually enough for 1 month. */
-#define E_WEEK_VIEW_MAX_WEEKS		5
+/* The maximum number of weeks we show. 5 is usually enough for 1 month,
+   but we allow 6 for longer selections. */
+#define E_WEEK_VIEW_MAX_WEEKS		6
 
 /* The size of the reminder & recurrence icons, and padding around them. */
 #define E_WEEK_VIEW_ICON_WIDTH		16
@@ -177,6 +178,9 @@ struct _EWeekView
 	gboolean events_need_layout;
 	gboolean events_need_reshape;
 
+	/* The id of our idle function to reload all events. */
+	gint reload_events_idle_id;
+
 	/* An array of EWeekViewEventSpan elements. Each event has its own
 	   space within this array, and uses the spans_index and num_spans
 	   fields of the EWeekViewEvent struct to access it. */
@@ -191,8 +195,13 @@ struct _EWeekView
 	/* The first day shown in the view. */
 	GDate first_day_shown;
 
-	/* If we are displaying 1 week or 1 month. */
-	gboolean display_month;
+	/* If we are displaying multiple weeks in rows. If this is FALSE only
+	   one week is shown, with a different layout. */
+	gboolean multi_week_view;
+
+	/* How many weeks we are showing. This is only relevant if
+	   display_month is TRUE. */
+	gint weeks_shown;
 
 	/* If Sat & Sun are compressed. Only applicable in month view, since
 	   they are always compressed into 1 cell in the week view. */
@@ -233,15 +242,17 @@ struct _EWeekView
 	gint abbr_month_widths[12];
 	gint max_abbr_month_width;
 
-	/* The size of the main grid of days and of the cells. Note that the
-	   offsets arrays have one more element than the widths/heights arrays
-	   since they also contain the right/bottom edge. */
+	/* The size of the main grid of days and of the cells. A row
+	   corresponds to a compressed day, so normal days usually take
+	   up 2 rows. Note that the offsets arrays have one more element
+	   than the widths/heights arrays since they also contain the
+	   right/bottom edge. */
 	gint rows;
 	gint columns;
 	gint col_widths[7];
 	gint col_offsets[8];
-	gint row_heights[10];
-	gint row_offsets[11];
+	gint row_heights[E_WEEK_VIEW_MAX_WEEKS * 2];
+	gint row_offsets[E_WEEK_VIEW_MAX_WEEKS * 2 + 1];
 
 	/* This specifies which times we are showing for the events, depending
 	   on how much room is available. */
@@ -312,25 +323,37 @@ GtkWidget* e_week_view_new			(void);
 void       e_week_view_set_calendar		(EWeekView	*week_view,
 						 GnomeCalendar	*calendar);
 
+/* The first day shown. Note that it will be rounded down to the start of a
+   week when set. The returned value will be invalid if no date has been set
+   yet. */
+void	   e_week_view_get_first_day_shown	(EWeekView	*week_view,
+						 GDate		*date);
+void	   e_week_view_set_first_day_shown	(EWeekView	*week_view,
+						 GDate		*date);
+
 void       e_week_view_set_cal_client		(EWeekView	*week_view,
 						 CalClient	*client);
 
-/* This sets the selected time range. The EWeekView will show the corresponding
+/* The selected time range. The EWeekView will show the corresponding
    month and the days between start_time and end_time will be selected.
    To select a single day, use the same value for start_time & end_time. */
+void       e_week_view_get_selected_time_range	(EWeekView	*week_view,
+						 time_t		*start_time,
+						 time_t		*end_time);
 void	   e_week_view_set_selected_time_range	(EWeekView	*week_view,
 						 time_t		 start_time,
 						 time_t		 end_time);
 
-/* Returns the selected time range. */
-void       e_week_view_get_selected_time_range	(EWeekView	*week_view,
-						 time_t		*start_time,
-						 time_t		*end_time);
 
 /* Whether to display 1 week or 1 month (5 weeks). It defaults to 1 week. */
-gboolean   e_week_view_get_display_month	(EWeekView	*week_view);
-void       e_week_view_set_display_month	(EWeekView	*week_view,
-						 gboolean	 display_month);
+gboolean   e_week_view_get_multi_week_view	(EWeekView	*week_view);
+void       e_week_view_set_multi_week_view	(EWeekView	*week_view,
+						 gboolean	 multi_week_view);
+
+/* The number of weeks shown in the multi-week view. */
+gint	   e_week_view_get_weeks_shown		(EWeekView	*week_view);
+void	   e_week_view_set_weeks_shown		(EWeekView	*week_view,
+						 gint		 weeks_shown);
 
 /* Whether the weekend (Sat/Sun) should be compressed into 1 cell in the Month
    view. In the Week view they are always compressed. */
