@@ -1,3 +1,13 @@
+2002-01-02  JP Rosevear  <jpr@ximian.com>
+
+	* e-dialog-utils.c (e_gnome_dialog_set_parent): util function
+	moved from mail-callbacks, also destroys the dialog if the parent
+	is destroyed
+	(e_gnome_warning_dialog_parented): similarly
+	(e_gnome_ok_cancel_dialog_parented): ditto
+
+	* e-dialog-utils.h: new protos
+
 2001-12-17  JP Rosevear  <jpr@ximian.com>
 
 	* e-pilot-map.c (e_pilot_map_clear): clear all info from the map

@@ -31,8 +31,6 @@
 #include <errno.h>
 #include <time.h>
 #include <libgnome/gnome-paper.h>
-#include <libgnomeui/gnome-dialog.h>
-#include <libgnomeui/gnome-dialog-util.h>
 #include <libgnomeui/gnome-stock.h>
 #include <libgnome/gnome-paper.h>
 #include <libgnomeprint/gnome-print-master.h>
@@ -42,6 +40,7 @@
 #include <gal/e-table/e-table.h>
 #include <gal/widgets/e-gui-utils.h>
 #include <gal/widgets/e-unicode.h>
+#include <e-util/e-dialog-utils.h>
 #include <filter/filter-editor.h>
 #include "mail.h"
 #include "message-browser.h"
@@ -72,48 +71,6 @@
 #endif
 
 #define FB_WINDOW(fb) GTK_WINDOW (gtk_widget_get_ancestor (GTK_WIDGET (fb), GTK_TYPE_WINDOW))
-
-/* These e_gnome_dialog* functions are to handle the brokenness that is gnome-dialog */
-static void
-e_gnome_dialog_parent_destroyed (GtkWidget *parent, GtkWidget *dialog)
-{
-	gnome_dialog_close (GNOME_DIALOG (dialog));
-}
-
-static void
-e_gnome_dialog_set_parent (GnomeDialog *dialog, GtkWindow *parent)
-{
-	gnome_dialog_set_parent (dialog, parent);
-	gtk_signal_connect_while_alive (GTK_OBJECT (parent), "destroy",
-					e_gnome_dialog_parent_destroyed,
-					dialog, GTK_OBJECT (dialog));
-}
-
-static GtkWidget *
-e_gnome_warning_dialog_parented (const char *warning, GtkWindow *parent)
-{
-	GtkWidget *dialog;
-	
-	dialog = gnome_warning_dialog_parented (warning, parent);
-	gtk_signal_connect (GTK_OBJECT (parent), "destroy",
-			    e_gnome_dialog_parent_destroyed, dialog);
-	
-	return dialog;
-}
-
-static GtkWidget *
-e_gnome_ok_cancel_dialog_parented (const char *message, GnomeReplyCallback callback,
-				   gpointer data, GtkWindow *parent)
-{
-	GtkWidget *dialog;
-	
-	dialog = gnome_ok_cancel_dialog_parented (message, callback, data, parent);
-	gtk_signal_connect (GTK_OBJECT (parent), "destroy",
-			    e_gnome_dialog_parent_destroyed, dialog);
-	
-	return dialog;
-}
-
 
 struct post_send_data {
 	CamelFolder *folder;

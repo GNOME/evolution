@@ -1,3 +1,8 @@
+2002-01-02  JP Rosevear  <jpr@ximian.com>
+
+	* mail-callbacks.c: remove e_gnome_dialog util functions and use
+	e-util ones instead
+
 2001-12-21  Jeffrey Stedfast  <fejj@ximian.com>
 
 	The idea here is that if we consistantly name the movemail file
