@@ -3,6 +3,9 @@
 	* itip-formatter.c (find_cal_opened_cb): move the adjust item work
 	here when we actually have the calendar
 	(pitip_free): implement a free function
+	(find_cal_opened_cb): check the methods instead of the show
+	selector member
+	(find_cal_opened_cb): default to true for the rsvp setting
 
 2005-01-03  JP Rosevear  <jpr@novell.com>
 	

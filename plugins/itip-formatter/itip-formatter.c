@@ -100,8 +100,6 @@ typedef struct {
 	char *uid;
 
 	char *sexp;
-	
-	gboolean show_selector;
 
 	int count;
 } EItipControlFindData;
@@ -200,6 +198,57 @@ find_my_address (FormatItipPObject *pitip, icalcomponent *ical_comp, icalparamet
 	pitip->my_address = my_alt_address;
 	if (status)
 		*status = ICAL_PARTSTAT_NEEDSACTION;
+}
+
+static ECalComponent *
+get_real_item (FormatItipPObject *pitip)
+{
+	ECalComponent *comp;
+	icalcomponent *icalcomp;
+	gboolean found = FALSE;
+	const char *uid;
+
+	e_cal_component_get_uid (pitip->comp, &uid);
+
+	found = e_cal_get_object (pitip->current_ecal, uid, NULL, &icalcomp, NULL);
+	if (!found)
+		return NULL;
+
+	comp = e_cal_component_new ();
+	if (!e_cal_component_set_icalcomponent (comp, icalcomp)) {
+		g_object_unref (comp);
+		icalcomponent_free (icalcomp);
+		return NULL;
+	}
+
+	return comp;
+}
+
+static void
+adjust_item (FormatItipPObject *pitip, ECalComponent *comp)
+{
+	ECalComponent *real_comp;
+	
+	real_comp = get_real_item (pitip);
+	if (real_comp != NULL) {
+		ECalComponentText text;
+		const char *string;
+		GSList *l;
+		
+		e_cal_component_get_summary (real_comp, &text);
+		e_cal_component_set_summary (comp, &text);
+		e_cal_component_get_location (real_comp, &string);
+		e_cal_component_set_location (comp, string);
+		e_cal_component_get_description_list (real_comp, &l);
+		e_cal_component_set_description_list (comp, l);
+		e_cal_component_free_text_list (l);
+		
+		g_object_unref (real_comp);
+	} else {
+		ECalComponentText text = {_("Unknown"), NULL};
+		
+		e_cal_component_set_summary (comp, &text);
+	}
 }
 
 static void
@@ -382,11 +431,11 @@ find_cal_opened_cb (ECal *ecal, ECalendarStatus status, gpointer data)
 
  cleanup:
 	if (fd->count == 0) {
-		if (fd->show_selector && !pitip->current_ecal) {
+		if ((pitip->method == ICAL_METHOD_PUBLISH || pitip->method ==  ICAL_METHOD_REQUEST) 
+		    && !pitip->current_ecal) {
 			ESource *source = NULL;
 			char *uid;
 
-			/* FIXME Should we take into account any sources we failed to open? */
 			switch (pitip->type) {
 			case E_CAL_SOURCE_TYPE_EVENT:
 				uid = calendar_config_get_primary_calendar ();
@@ -413,6 +462,7 @@ find_cal_opened_cb (ECal *ecal, ECalendarStatus status, gpointer data)
 
 			/* The only method that RSVP makes sense for is REQUEST */
 			/* FIXME Default to the suggestion for RSVP for my attendee */
+			itip_view_set_rsvp (ITIP_VIEW (pitip->view), TRUE);
 			itip_view_set_show_rsvp (ITIP_VIEW (pitip->view), pitip->method == ICAL_METHOD_REQUEST ? TRUE : FALSE );
 			
 			itip_view_remove_lower_info_item (ITIP_VIEW (pitip->view), pitip->progress_info_id);
@@ -436,7 +486,7 @@ find_cal_opened_cb (ECal *ecal, ECalendarStatus status, gpointer data)
 }
 
 static void
-find_server (FormatItipPObject *pitip, ECalComponent *comp, gboolean show_selector)
+find_server (FormatItipPObject *pitip, ECalComponent *comp)
 {
 	EItipControlFindData *fd = NULL;
 	GSList *groups, *l;
@@ -469,7 +519,6 @@ find_server (FormatItipPObject *pitip, ECalComponent *comp, gboolean show_select
 				fd = g_new0 (EItipControlFindData, 1);
 				fd->pitip = pitip;
 				fd->uid = g_strdup (uid);
-				fd->show_selector = show_selector;
 				
 				if (pitip->start_time && pitip->end_time) {
 					start = isodate_from_time_t (pitip->start_time);
@@ -709,57 +758,6 @@ update_attendee_status (FormatItipPObject *pitip)
  cleanup:
 	if (comp != NULL)
 		g_object_unref (comp);
-}
-
-static ECalComponent *
-get_real_item (FormatItipPObject *pitip)
-{
-	ECalComponent *comp;
-	icalcomponent *icalcomp;
-	gboolean found = FALSE;
-	const char *uid;
-
-	e_cal_component_get_uid (pitip->comp, &uid);
-
-	found = e_cal_get_object (pitip->current_ecal, uid, NULL, &icalcomp, NULL);
-	if (!found)
-		return NULL;
-
-	comp = e_cal_component_new ();
-	if (!e_cal_component_set_icalcomponent (comp, icalcomp)) {
-		g_object_unref (comp);
-		icalcomponent_free (icalcomp);
-		return NULL;
-	}
-
-	return comp;
-}
-
-static void
-adjust_item (FormatItipPObject *pitip, ECalComponent *comp)
-{
-	ECalComponent *real_comp;
-	
-	real_comp = get_real_item (pitip);
-	if (real_comp != NULL) {
-		ECalComponentText text;
-		const char *string;
-		GSList *l;
-		
-		e_cal_component_get_summary (real_comp, &text);
-		e_cal_component_set_summary (comp, &text);
-		e_cal_component_get_location (real_comp, &string);
-		e_cal_component_set_location (comp, string);
-		e_cal_component_get_description_list (real_comp, &l);
-		e_cal_component_set_description_list (comp, l);
-		e_cal_component_free_text_list (l);
-		
-		g_object_unref (real_comp);
-	} else {
-		ECalComponentText text = {_("Unknown"), NULL};
-		
-		e_cal_component_set_summary (comp, &text);
-	}
 }
 
 static void
@@ -1156,8 +1154,8 @@ format_itip_object (EMFormatHTML *efh, GtkHTMLEmbedded *eb, EMFormatHTMLPObject 
 
 	g_signal_connect (pitip->view, "response", G_CALLBACK (view_response_cb), pitip);
 
-	/* FIXME Show selector should be handled in the itip view */
-	find_server (pitip, pitip->comp, TRUE);
+	/* FIXME Do we always need to search for the server? */
+	find_server (pitip, pitip->comp);
 	
 	return TRUE;
 }
