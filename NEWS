@@ -9,6 +9,7 @@ Bugzilla bugs fixed (see http://bugzilla.ximian.com/show_bug.cgi):
              layout. (Toshok)
     #40841 - Ctrl-v was being used for both "Save As VCard" and
              "Paste" (Toshok)
+    #40727 - email autocompletion not listing all names (Toshok)
     #40715 - Merge email address dialog non functional when adding
              contact that already exists. (Toshok)
     #40403 - can't edit contact lists (Toshok)
