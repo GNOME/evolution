@@ -24,27 +24,16 @@
 				accel="*Control**Shift*s"/>
 
 				<separator/>
-
-				<menuitem name="Mail" verb="NewMailMessage"
-				_label="_Mail message (FIXME)"
-				accel="*Control**Shift*m"/>
-
-				<menuitem name="Appointment" verb="NewAppointment"
-				_label="_Appointment (FIXME)"
-				accel="*Control**Shift*a"/>
-
-				<menuitem name="Contact" verb="NewContact"
-				_label="_Contact (FIXME)"
-				accel="*Control**Shift*c"/>
-
-				<menuitem name="Task" verb="NewTask"
-				_label="_Task (FIXME)"
-				accel="*Control**Shift*t"/>
+				<placeholder name="NewItems"/>
 			</submenu>
 
 			<placeholder name="FileOps"/>
 
 			<separator/>
+
+			<menuitem name="FileImporter" verb=""
+			_label="_Import file"
+			_tip="Import an external file format" accel="*Control*i"/>
 
 			<menuitem name="FileGoToFolder" verb=""
 			_label="_Go to Folder..."
