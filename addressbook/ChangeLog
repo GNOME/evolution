@@ -1,3 +1,8 @@
+2004-06-03  Jeffrey Stedfast  <fejj@novell.com>
+
+	* conduit/address-conduit.c (set_status_cleared): Protect against
+	a NULL uid. Fixes bug #57619.
+
 2004-06-02  Hans Petter Jansson  <hpj@ximian.com>
 
 	* gui/component/addressbook-migrate.c

@@ -473,7 +473,7 @@ next_changed_item (EAddrConduitContext *ctxt, GList *changes)
 	EBookChange *ebc;
 	GList *l;
 	
-	for (l = changes; l != NULL; l = l->next) {
+	for (l = changes; l != NULL; l = l->next) {		
 		ebc = l->data;
 		
 		if (g_hash_table_lookup (ctxt->changed_hash, e_contact_get_const (ebc->contact, E_CONTACT_UID)))
@@ -1283,9 +1283,12 @@ set_status_cleared (GnomePilotConduitSyncAbs *conduit,
 		    EAddrLocalRecord *local,
 		    EAddrConduitContext *ctxt)
 {
+	const char *uid;
+	
 	LOG (g_message ( "set_status_cleared: clearing status\n" ));
 	
-	g_hash_table_remove (ctxt->changed_hash, e_contact_get_const (local->contact, E_CONTACT_UID));
+	if ((uid = e_contact_get_const (local->contact, E_CONTACT_UID)))
+		g_hash_table_remove (ctxt->changed_hash, uid);
 	
         return 0;
 }
