@@ -178,6 +178,10 @@ static gboolean e_week_view_on_jump_button_event (GnomeCanvasItem *item,
 static gboolean e_week_view_key_press (GtkWidget *widget, GdkEventKey *event);
 static gboolean e_week_view_do_key_press (GtkWidget *widget,
 					  GdkEventKey *event);
+static void e_week_view_on_key_up (EWeekView *week_view, GdkEventKey *event);
+static void e_week_view_on_key_down (EWeekView *week_view, GdkEventKey *event);
+static void e_week_view_on_key_left (EWeekView *week_view, GdkEventKey *event);
+static void e_week_view_on_key_right (EWeekView *week_view, GdkEventKey *event);
 static gboolean e_week_view_popup_menu (GtkWidget *widget);
 
 static gboolean e_week_view_update_event_cb (EWeekView *week_view,
@@ -3331,6 +3335,24 @@ e_week_view_do_key_press (GtkWidget *widget, GdkEventKey *event)
 	}
 #endif
 
+	/*Navigation through days with arrow keys*/
+	switch (event->keyval) {
+	case GDK_Up:
+		e_week_view_on_key_up (week_view, event);
+		return TRUE;
+	case GDK_Down:
+		e_week_view_on_key_down (week_view, event);
+		return TRUE;	
+	case GDK_Left:
+		e_week_view_on_key_left (week_view, event);
+		return TRUE;
+	case GDK_Right:
+		e_week_view_on_key_right (week_view, event);
+		return TRUE;
+	default:
+		break;
+	}
+
 	if (week_view->selection_start_day == -1)
 		return FALSE;
 
@@ -3388,6 +3410,179 @@ e_week_view_do_key_press (GtkWidget *widget, GdkEventKey *event)
 	g_object_unref (comp);
 
 	return TRUE;
+}
+
+static void 
+e_week_view_on_key_up (EWeekView *week_view, GdkEventKey *event)
+{
+	gint selection_start_day, selection_end_day;
+ 
+	selection_start_day = week_view->selection_start_day;
+	selection_end_day = week_view->selection_end_day;
+
+	if (selection_start_day == -1) { 
+		selection_start_day = 0;	  
+		selection_end_day = 0;
+	}
+		
+	if (week_view->multi_week_view) {
+		if (selection_end_day < 7) {
+			g_date_subtract_days (&(week_view->first_day_shown), 7);
+		} else
+			selection_end_day -= 7;			
+	}
+	else {
+		if (selection_start_day == selection_end_day) {
+			if (selection_end_day == 0) {
+				g_date_subtract_days (&(week_view->first_day_shown), 7);
+				selection_end_day = 6;
+			} else
+				selection_end_day--;
+		} else {
+			selection_end_day =
+				(selection_start_day + selection_end_day)/2;
+		}
+	} 
+
+	week_view->selection_start_day = selection_end_day;
+	week_view->selection_end_day = selection_end_day;
+
+	gtk_widget_queue_draw (week_view->main_canvas);
+}
+
+static void 
+e_week_view_on_key_down (EWeekView *week_view, GdkEventKey *event)
+{
+	gint selection_start_day, selection_end_day;
+ 
+	selection_start_day = week_view->selection_start_day;
+	selection_end_day = week_view->selection_end_day;
+
+	if (selection_start_day == -1) { 
+		selection_start_day = 0;	  
+		selection_end_day = 0;
+	}
+		
+	if (week_view->multi_week_view) {
+		if ((selection_end_day+7) / 7 >= week_view->weeks_shown) {
+			g_date_add_days (&(week_view->first_day_shown), 7);
+		} else
+			selection_end_day += 7;			
+	}
+	else {
+		if (selection_start_day == selection_end_day) {
+			if (selection_end_day == 6) {
+				g_date_add_days (&(week_view->first_day_shown), 7);
+				selection_end_day = 0;
+			} else
+				selection_end_day++;
+		} else {
+			selection_end_day =
+				(selection_start_day + selection_end_day)/2;
+		}
+	} 
+
+	week_view->selection_start_day = selection_end_day;
+	week_view->selection_end_day = selection_end_day;
+
+	gtk_widget_queue_draw (week_view->main_canvas);
+}
+
+static void 
+e_week_view_on_key_left (EWeekView *week_view, GdkEventKey *event)
+{
+	gint selection_start_day, selection_end_day;
+ 
+	selection_start_day = week_view->selection_start_day;
+	selection_end_day = week_view->selection_end_day;
+
+	if (selection_start_day == -1) { 
+		selection_start_day = 0;	  
+		selection_end_day = 0;
+	}
+		
+	if (week_view->multi_week_view) {
+		if (selection_end_day == 0) {
+			g_date_subtract_days (&(week_view->first_day_shown), 7);
+			selection_end_day = 6;
+		} else
+			selection_end_day -= 1;			
+	}
+	else {
+			switch (selection_end_day) {
+			case 0: 
+			case 1:
+			case 2:
+				g_date_subtract_days (&(week_view->first_day_shown), 7);
+				selection_end_day += 3;
+				break;
+			case 3: 
+			case 4:
+			case 5:
+				selection_end_day -= 3;
+				break;
+			case 6:
+				selection_end_day -= 4;
+				break;
+			default:
+				break;
+			}
+	} 
+
+	week_view->selection_start_day = selection_end_day;
+	week_view->selection_end_day = selection_end_day;
+
+	gtk_widget_queue_draw (week_view->main_canvas);
+
+}
+
+static void 
+e_week_view_on_key_right (EWeekView *week_view, GdkEventKey *event)
+{
+
+	gint selection_start_day, selection_end_day;
+ 
+	selection_start_day = week_view->selection_start_day;
+	selection_end_day = week_view->selection_end_day;
+
+	if (selection_start_day == -1) { 
+		selection_start_day = 0;	  
+		selection_end_day = 0;
+	}
+		
+	if (week_view->multi_week_view) {
+		if (selection_end_day == week_view->weeks_shown*7 -1 ) {
+			g_date_add_days (&(week_view->first_day_shown), 7);
+			selection_end_day -= 6;
+		} else
+			selection_end_day++;			
+	}
+	else {
+			switch (selection_end_day) {
+			case 0: 
+			case 1:
+			case 2:				
+				selection_end_day += 3;
+				break;
+			case 3: 
+			case 4:
+			case 5:
+				g_date_add_days (&(week_view->first_day_shown), 7);
+				selection_end_day -= 3;
+				break;
+			case 6:
+				g_date_add_days (&(week_view->first_day_shown), 7);
+				selection_end_day -= 4;
+				break;
+			default:
+				break;
+			}
+	} 
+
+	week_view->selection_start_day = selection_end_day;
+	week_view->selection_end_day = selection_end_day;
+
+	gtk_widget_queue_draw (week_view->main_canvas);
 }
 
 static gboolean
