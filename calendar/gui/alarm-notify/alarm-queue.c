@@ -1310,7 +1310,7 @@ alarm_queue_add_client (ECal *client)
 
 	ca->uid_alarms_hash = g_hash_table_new (g_str_hash, g_str_equal);
 
-	if (e_cal_get_load_state (client) != E_CAL_LOAD_LOADED) {
+	if (e_cal_get_load_state (client) == E_CAL_LOAD_LOADED) {
 		load_alarms_for_today (ca);
 		load_missed_alarms (ca);
 	} else {

@@ -1,3 +1,11 @@
+2004-08-28  JP Rosevear  <jpr@novell.com>
+
+	* gui/e-itip-control.c (rsvp_clicked_cb): get the active state
+	(insert_rsvp): set inital rsvp state
+
+	* gui/alarm-notify/alarm-queue.c (alarm_queue_add_client): load
+	immediately if they are loaded
+
 2004-08-27  Rodrigo Moya <rodrigo@novell.com>
 
 	* gui/alarm-notify/alarm-queue.c (load_alarms): use the
