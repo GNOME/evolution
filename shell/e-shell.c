@@ -1098,7 +1098,8 @@ e_shell_go_offline (EShell *shell,
 		    EShellWindow *action_window)
 {
 	EShellPrivate *priv;
-
+	GConfClient *client;
+	
 	g_return_if_fail (shell != NULL);
 	g_return_if_fail (E_IS_SHELL (shell));
 	g_return_if_fail (action_window != NULL);
@@ -1108,7 +1109,9 @@ e_shell_go_offline (EShell *shell,
 
 	if (priv->line_status != E_SHELL_LINE_STATUS_ONLINE)
 		return;
-
+	client = gconf_client_get_default ();
+	gconf_client_set_bool (client, "/apps/evolution/shell/start_offline", TRUE, NULL);
+	g_object_unref (client);
 	priv->offline_handler = e_shell_offline_handler_new (shell);
 
 	g_signal_connect (priv->offline_handler, "offline_procedure_started",
@@ -1134,7 +1137,7 @@ e_shell_go_online (EShell *shell,
 	GSList *component_infos;
 	GSList *p;
 	ESEvent *ese;
-
+	GConfClient *client;
 	g_return_if_fail (shell != NULL);
 	g_return_if_fail (E_IS_SHELL (shell));
 	g_return_if_fail (action_window == NULL || E_IS_SHELL_WINDOW (action_window));
@@ -1167,7 +1170,9 @@ e_shell_go_online (EShell *shell,
 	priv->line_status = E_SHELL_LINE_STATUS_ONLINE;
 	e_passwords_set_online (TRUE);
 	g_signal_emit (shell, signals[LINE_STATUS_CHANGED], 0, priv->line_status);
-
+	client = gconf_client_get_default ();
+	gconf_client_set_bool (client, "/apps/evolution/shell/start_offline", FALSE, NULL);
+	g_object_unref (client);
 	ese = es_event_peek();
 	e_event_emit((EEvent *)ese, "state.changed", (EEventTarget *)es_event_target_new_state(ese, TRUE));
 }

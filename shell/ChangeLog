@@ -1,3 +1,9 @@
+2004-12-23  Sivaiah Nallaagatla <snallagatla@novell.com>
+                                                                                                                             
+        * e-shell.c (e_shell_go_offline)
+        (e_shell_go_online) : set start_offline gconf key
+        when ever offline state is changed. 
+
 2004-12-21  JP Rosevear  <jpr@novell.com>
 
 	* e-corba-config-page.c: Convert to G_DEFINE_TYPE
