@@ -1672,13 +1672,14 @@ e_meeting_time_selector_dump (EMeetingTimeSelector *mts)
 						 EMeetingTimeSelectorPeriod,
 						 period_num);
 
-			g_date_strftime (buffer, 128, "%A, %B %d, %Y",
-					 &period->start.date);
+			/* These are just for debugging so don't need i18n. */
+			g_date_strftime (buffer, sizeof (buffer),
+					 "%A, %B %d, %Y", &period->start.date);
 			g_print ("  Start: %s %i:%02i\n", buffer,
 				 period->start.hour, period->start.minute);
 
-			g_date_strftime (buffer, 128, "%A, %B %d, %Y",
-					 &period->end.date);
+			g_date_strftime (buffer, sizeof (buffer),
+					 "%A, %B %d, %Y", &period->end.date);
 			g_print ("  End  : %s %i:%02i\n", buffer,
 				 period->end.hour, period->end.minute);
 		}
@@ -1697,7 +1698,9 @@ e_meeting_time_selector_dump_time (EMeetingTimeSelectorTime *mtstime)
 
 	gchar buffer2[128];
 
-	g_date_strftime (buffer, 128, "%A, %B %d, %Y", &mtstime->date);
+	/* This is just for debugging so doesn't need i18n. */
+	g_date_strftime (buffer, sizeof (buffer), "%A, %B %d, %Y",
+			 &mtstime->date);
 	sprintf (buffer2, " at %i:%02i", (gint) mtstime->hour,
 		 (gint) mtstime->minute);
 	strcat (buffer, buffer2);
@@ -1713,7 +1716,8 @@ e_meeting_time_selector_dump_date (GDate *date)
 {
 	static gchar buffer[128];
 
-	g_date_strftime (buffer, 128, "%A, %B %d, %Y", date);
+	/* This is just for debugging so doesn't need i18n. */
+	g_date_strftime (buffer, sizeof (buffer), "%A, %B %d, %Y", date);
 	return buffer;
 }
 
@@ -2411,71 +2415,92 @@ e_meeting_time_selector_get_meeting_time_positions (EMeetingTimeSelector *mts,
 static void
 e_meeting_time_selector_recalc_date_format (EMeetingTimeSelector *mts)
 {
+	/* An array of dates, one for each month in the year 2000. They must
+	   all be Sundays. */
+	static const int days[12] = { 23, 20, 19, 23, 21, 18,
+				      23, 20, 17, 22, 19, 24 };
 	GDate date;
-	gint max_date_width, base_width, max_weekday_width, max_month_width;
-	gint weekday, month;
+	gint max_date_width, longest_weekday_width, longest_month_width, width;
+	gint day, weekday, longest_weekday, month, longest_month;
 	gchar buffer[128];
 	GdkFont *font;
 
 	font = GTK_WIDGET (mts)->style->font;
 
-	/* Check if we will be able to display the full date strings. */
-	mts->date_format = E_MEETING_TIME_SELECTOR_DATE_SHORT;
-	g_date_clear (&date, 1);
-	g_date_set_dmy (&date, 20, 1, 2000);
-
 	/* Calculate the maximum date width we can fit into the display. */
 	max_date_width = mts->day_width - 2;
 
-	/* First compute the width of the date string without the day or
-	   month names. */
-	g_date_strftime (buffer, 128, ",  %d, %Y", &date);
-	base_width = gdk_string_width (font, buffer);
-
-	/* If that doesn't fit just return. We have to use the short format.
-	   If that doesn't fit it will just be clipped. */
-	if (gdk_string_width (font, buffer) > max_date_width)
-		return;
-
-	/* Now find the biggest weekday name. We start on any day and just
-	   go through seven days. */
-	max_weekday_width = 0;
-	for (weekday = 1; weekday <= 7; weekday++) {
-		g_date_strftime (buffer, 128, "%A", &date);
-		max_weekday_width = MAX (max_weekday_width, 
-					 gdk_string_width (font, buffer));
+	/* Find the biggest full weekday name. We start on a particular
+	   Monday and go through seven days. */
+	longest_weekday_width = 0;
+	g_date_clear (&date, 1);
+	g_date_set_dmy (&date, 3, 1, 2000);	/* Monday 3rd Jan 2000. */
+	for (day = G_DATE_MONDAY; day <= G_DATE_SUNDAY; day++) {
+		g_date_strftime (buffer, sizeof (buffer), "%A", &date);
+		width = gdk_string_width (font, buffer);
+		if (width > longest_weekday_width) {
+			longest_weekday = day;
+			longest_weekday_width = width;
+		}
 		g_date_add_days (&date, 1);
 	}
 
 	/* Now find the biggest month name. */
-	max_month_width = 0;
-	for (month = 1; month <= 12; month++) {
+	longest_month_width = 0;
+	for (month = G_DATE_JANUARY; month <= G_DATE_DECEMBER; month++) {
 		g_date_set_month (&date, month);
-		g_date_strftime (buffer, 128, "%B", &date);
-		max_month_width = MAX (max_month_width, 
-				       gdk_string_width (font, buffer));
+		g_date_strftime (buffer, sizeof (buffer), "%B", &date);
+		width = gdk_string_width (font, buffer);
+		if (width > longest_month_width) {
+			longest_month = month;
+			longest_month_width = width;
+		}
 	}
 
-	/* See if we can use the full date. */
-	if (base_width + max_month_width + max_weekday_width <= max_date_width) {
+	/* See if we can use the full date. We want to use a date with a
+	   month day > 20 and also the longest weekday. We use a
+	   pre-calculated array of days for each month and add on the
+	   weekday (which is 1 (Mon) to 7 (Sun). */
+	g_date_set_dmy (&date, days[longest_month - 1] + longest_weekday,
+			longest_month, 2000);
+	/* This is a strftime() format string %A = full weekday name,
+	   %B = full month name, %d = month day, %Y = full year. */
+	g_date_strftime (buffer, sizeof (buffer), _("%A, %B %d, %Y"), &date);
+
+	g_print ("longest_month: %i longest_weekday: %i date: %s\n",
+		 longest_month, longest_weekday, buffer);
+	
+	if (gdk_string_width (font, buffer) < max_date_width) {
 		mts->date_format = E_MEETING_TIME_SELECTOR_DATE_FULL;
 		return;
 	}
 
 	/* Now try it with abbreviated weekday names. */
-	g_date_strftime (buffer, 128, " %x", &date);
-	base_width = gdk_string_width (font, buffer);
-
-	max_weekday_width = 0;
-	for (weekday = 1; weekday <= 7; weekday++) {
-		g_date_strftime (buffer, 128, "%a", &date);
-		max_weekday_width = MAX (max_weekday_width, 
-					 gdk_string_width (font, buffer));
+	longest_weekday_width = 0;
+	g_date_set_dmy (&date, 3, 1, 2000);	/* Monday 3rd Jan 2000. */
+	for (day = G_DATE_MONDAY; day <= G_DATE_SUNDAY; day++) {
+		g_date_strftime (buffer, sizeof (buffer), "%a", &date);
+		width = gdk_string_width (font, buffer);
+		if (width > longest_weekday_width) {
+			longest_weekday = weekday;
+			longest_weekday_width = width;
+		}
 		g_date_add_days (&date, 1);
 	}
 
-	if (base_width + max_weekday_width <= max_date_width)
+	g_date_set_dmy (&date, days[longest_month - 1] + longest_weekday,
+			longest_month, 2000);
+	/* This is a strftime() format string %a = abbreviated weekday name,
+	   %m = month number, %d = month day, %Y = full year. */
+	g_date_strftime (buffer, sizeof (buffer), _("%a %m/%d/%Y"), &date);
+
+	g_print ("longest_month: %i longest_weekday: %i date: %s\n",
+		 longest_month, longest_weekday, buffer);
+	
+	if (gdk_string_width (font, buffer) < max_date_width)
 		mts->date_format = E_MEETING_TIME_SELECTOR_DATE_ABBREVIATED_DAY;
+	else
+		mts->date_format = E_MEETING_TIME_SELECTOR_DATE_SHORT;
 }
 
 
@@ -3052,16 +3077,18 @@ e_meeting_time_selector_update_attendees_list_positions (EMeetingTimeSelector *m
 		gnome_canvas_item_set
 			(attendee->text_item,
 			 "font_gdk", font,
-			 "y", (gdouble) (row * mts->row_height + 1
-					 + E_MEETING_TIME_SELECTOR_TEXT_Y_PAD),
 			 "clip_width", (gdouble) item_width,
 			 "clip_height", (gdouble) (font->ascent
 						   + font->descent),
 			 NULL);
 
+		e_canvas_item_move_absolute (attendee->text_item,
+					     E_MEETING_TIME_SELECTOR_ICON_COLUMN_WIDTH
+					     + E_MEETING_TIME_SELECTOR_TEXT_X_PAD,
+					     row * mts->row_height + 1 + E_MEETING_TIME_SELECTOR_TEXT_Y_PAD);
+
 		gnome_canvas_item_show (attendee->text_item);
 	}
-
 }
 
 

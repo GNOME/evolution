@@ -420,7 +420,7 @@ e_meeting_time_selector_item_paint_day_top (EMeetingTimeSelectorItem *mts_item,
 	GdkGC *gc;
 	GdkFont *font;
 	gint y, grid_x;
-	gchar buffer[128];
+	gchar buffer[128], *format;
 	gint hour, hour_x, hour_y;
 	GdkRectangle clip_rect;
 
@@ -458,11 +458,20 @@ e_meeting_time_selector_item_paint_day_top (EMeetingTimeSelectorItem *mts_item,
 	   next day. */
 	font = GTK_WIDGET (mts)->style->font;
 	if (mts->date_format == E_MEETING_TIME_SELECTOR_DATE_FULL)
-		g_date_strftime (buffer, 128, "%A, %B %d, %Y", date);
+		/* This is a strftime() format string %A = full weekday name,
+		   %B = full month name, %d = month day, %Y = full year. */
+		format = _("%A, %B %d, %Y");
 	else if (mts->date_format == E_MEETING_TIME_SELECTOR_DATE_ABBREVIATED_DAY)
-		g_date_strftime (buffer, 128, "%a %x", date);
+		/* This is a strftime() format string %a = abbreviated weekday
+		   name, %m = month number, %d = month day, %Y = full year. */
+		format = _("%a %m/%d/%Y");
 	else
-		g_date_strftime (buffer, 128, "%x", date);
+		/* This is a strftime() format string %m = month number,
+		   %d = month day, %Y = full year. */
+		format = _("%m/%d/%Y");
+
+	g_date_strftime (buffer, sizeof (buffer), format, date);
+
 	clip_rect.x = x;
 	clip_rect.y = -scroll_y;
 	clip_rect.width = mts->day_width - 2;

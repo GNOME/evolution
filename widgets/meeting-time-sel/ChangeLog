@@ -1,3 +1,11 @@
+2000-09-25  Damon Chaplin  <damon@helixcode.com>
+
+	* e-meeting-time-sel-item.c: 
+	* e-meeting-time-sel.c: fixed use of date strings to support i18n
+	better.
+	(e_meeting_time_selector_update_attendees_list_positions): updated to
+	use e_canvas_item_move_absolute() to position the EText items.
+
 2000-09-18  Christopher James Lahey  <clahey@helixcode.com>
 
 	* Makefile.am: Added $(EXTRA_GNOME_CFLAGS) and
