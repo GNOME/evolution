@@ -1303,6 +1303,43 @@ eti_event (GnomeCanvasItem *item, GdkEvent *e)
 		}
 		break;
 	}
+	
+	case GDK_BUTTON_RELEASE: {
+		double x1, y1;
+		int col, row;
+
+		switch (e->button.button) {
+		case 1: /* Fall through. */
+		case 2:
+			gnome_canvas_item_w2i (item, &e->button.x, &e->button.y);
+
+			
+			if (!find_cell (eti, e->button.x, e->button.y, &col, &row, &x1, &y1))
+				return TRUE;
+			
+			if (eti->cursor_row == view_to_model_row(eti, row) && eti->cursor_col == col){
+
+				ecol = e_table_header_get_column (eti->header, col);
+				ecell_view = eti->cell_views [col];
+				
+				/*
+				 * Adjust the event positions
+				 */
+				e->button.x = x1;
+				e->button.y = y1;
+				
+				e_cell_event (ecell_view, e, ecol->col_idx, col, row);
+			}
+			break;
+		case 3:
+		case 4:
+		case 5:
+			return FALSE;
+			break;
+			
+		}
+		break;
+	}
 
 	case GDK_2BUTTON_PRESS: {
 		double x1, y1;
