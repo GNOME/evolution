@@ -661,8 +661,10 @@ use_default_drafts_cb (int reply, gpointer data)
 	extern CamelFolder *drafts_folder;
 	CamelFolder **folder = data;
 	
-	if (reply == 0)
+	if (reply == 0) {
 		*folder = drafts_folder;
+		camel_object_ref (CAMEL_OBJECT (*folder));
+	}
 }
 
 static void
@@ -705,8 +707,10 @@ composer_save_draft_cb (EMsgComposer *composer, int quit, gpointer data)
 			if (!folder)
 				return;
 		}
-	} else
+	} else {
 		folder = drafts_folder;
+		camel_object_ref (CAMEL_OBJECT (folder));
+	}
 	
 	msg = e_msg_composer_get_message_draft (composer);
 	
@@ -719,6 +723,7 @@ composer_save_draft_cb (EMsgComposer *composer, int quit, gpointer data)
 	sdi->quit = quit;
 	
 	mail_append_mail (folder, msg, info, save_draft_done, sdi);
+	camel_object_unref (CAMEL_OBJECT (folder));
 	camel_object_unref (CAMEL_OBJECT (msg));
 }
 

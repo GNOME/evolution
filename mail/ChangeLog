@@ -1,5 +1,8 @@
 2002-01-08  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* mail-callbacks.c (composer_save_draft_cb): Do proper refcounting
+	on the draft folder.
+
 	* message-list.c (message_list_select): When performing a
 	wraparound, check to see if the first (or last depending on
 	direction) message fits the selection criteria before telling
