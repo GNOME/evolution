@@ -363,6 +363,40 @@ async_folder_cb (BonoboListener *listener,
 
 	(* closure->callback) (closure->storage, result, closure->data);
 	bonobo_object_unref (BONOBO_OBJECT (listener));
+
+	g_object_unref (closure->storage);
+	g_free (closure);
+}
+
+
+struct async_create_open_closure {
+	EStorage *storage;
+	char *path, *type, *description;
+	EStorageResultCallback callback;
+	void *data;
+};
+
+static void
+async_create_open_cb (EStorage *storage, EStorageResult result,
+		      const char *path, void *data)
+{
+	struct async_create_open_closure *closure = data;
+
+	if (result != E_STORAGE_OK) {
+		(* closure->callback) (closure->storage, result,
+				       closure->data);
+	} else {
+		e_storage_async_create_folder (closure->storage,
+					       closure->path, closure->type,
+					       closure->description,
+					       closure->callback,
+					       closure->data);
+	}
+
+	g_object_unref (closure->storage);
+	g_free (closure->path);
+	g_free (closure->type);
+	g_free (closure->description);
 	g_free (closure);
 }
 
@@ -385,18 +419,39 @@ async_create_folder (EStorage *storage, const char *path,
 
 	p = strrchr (path, '/');
 	if (p && p != path) {
-		char *parent_path;
 		EFolder *parent;
+		char *parent_path;
 
 		parent_path = g_strndup (path, p - path);
 		parent = e_storage_get_folder (storage, parent_path);
 		parent_uri = e_folder_get_physical_uri (parent);
+
+		if (e_folder_get_has_subfolders (parent)) {
+			struct async_create_open_closure *open_closure;
+
+			/* Force the parent folder to resolve its
+			 * children before creating the new folder.
+			 */
+			open_closure = g_new (struct async_create_open_closure, 1);
+			open_closure->storage = storage;
+			g_object_ref (storage);
+			open_closure->path = g_strdup (path);
+			open_closure->type = g_strdup (type);
+			open_closure->description = g_strdup (description);
+			open_closure->callback = callback;
+			open_closure->data = data;
+			e_storage_async_open_folder (storage, parent_path,
+						     async_create_open_cb,
+						     open_closure);
+			return;
+		}
 	} else
 		parent_uri = "";
 
 	closure = g_new (struct async_folder_closure, 1);
 	closure->callback = callback;
 	closure->storage = storage;
+	g_object_ref (storage);
 	closure->data = data;
 	listener = bonobo_listener_new (async_folder_cb, closure);
 	corba_listener = bonobo_object_corba_objref (BONOBO_OBJECT (listener));
@@ -410,6 +465,7 @@ async_create_folder (EStorage *storage, const char *path,
 	if (ev._major != CORBA_NO_EXCEPTION) {
 		(* callback) (storage, E_STORAGE_GENERICERROR, data);
 		bonobo_object_unref (BONOBO_OBJECT (listener));
+		g_object_unref (storage);
 		g_free (closure);
 	}
 	CORBA_exception_free (&ev);
@@ -445,6 +501,7 @@ async_remove_folder (EStorage *storage,
 	closure = g_new (struct async_folder_closure, 1);
 	closure->callback = callback;
 	closure->storage = storage;
+	g_object_ref (storage);
 	closure->data = data;
 	listener = bonobo_listener_new (async_folder_cb, closure);
 	corba_listener = bonobo_object_corba_objref (BONOBO_OBJECT (listener));
@@ -458,6 +515,7 @@ async_remove_folder (EStorage *storage,
 	if (ev._major != CORBA_NO_EXCEPTION) {
 		(* callback) (storage, E_STORAGE_GENERICERROR, data);
 		bonobo_object_unref (BONOBO_OBJECT (listener));
+		g_object_unref (storage);
 		g_free (closure);
 	}
 	CORBA_exception_free (&ev);
@@ -489,6 +547,7 @@ async_xfer_folder (EStorage *storage,
 	closure = g_new (struct async_folder_closure, 1);
 	closure->callback = callback;
 	closure->storage = storage;
+	g_object_ref (storage);
 	closure->data = data;
 	listener = bonobo_listener_new (async_folder_cb, closure);
 	corba_listener = bonobo_object_corba_objref (BONOBO_OBJECT (listener));
@@ -501,6 +560,7 @@ async_xfer_folder (EStorage *storage,
 	if (ev._major != CORBA_NO_EXCEPTION) {
 		(* callback) (storage, E_STORAGE_GENERICERROR, data);
 		bonobo_object_unref (BONOBO_OBJECT (listener));
+		g_object_unref (storage);
 		g_free (closure);
 	}
 	CORBA_exception_free (&ev);
@@ -545,6 +605,7 @@ async_open_cb (BonoboListener *listener, const char *event_name,
 			p = p->next;
 	}
 
+	g_object_unref (orig_closure->storage);
 	g_free (orig_closure->path);
 	g_free (orig_closure);
 }
@@ -563,13 +624,6 @@ async_open_folder_idle (gpointer data)
 
 	corba_storage = E_CORBA_STORAGE (storage);
 	priv = corba_storage->priv;
-	if (priv == NULL) {
-		(* closure->callback) (storage, E_STORAGE_GENERICERROR,
-				       closure->path, closure->data);
-		g_free (closure->path);
-		g_free (closure);
-		return FALSE;
-	}
 
 	for (p = priv->pending_opens; p; p = p->next) {
 		old_closure = p->data;
@@ -590,6 +644,7 @@ async_open_folder_idle (gpointer data)
 		(* closure->callback) (storage, E_STORAGE_GENERICERROR,
 				       closure->path, closure->data);
 		bonobo_object_unref (BONOBO_OBJECT (listener));
+		g_object_unref (closure->storage);
 		g_free (closure->path);
 		g_free (closure);
 	}
@@ -610,6 +665,7 @@ async_open_folder (EStorage *storage,
 	closure = g_new (struct async_open_closure, 1);
 	closure->callback = callback;
 	closure->storage = storage;
+	g_object_ref (storage);
 	closure->data = data;
 	closure->path = g_strdup (path);
 
@@ -664,6 +720,7 @@ async_folder_discovery_cb (BonoboListener *listener,
 	(* callback) (closure->storage, result, path, closure->data);
 
 	bonobo_object_unref (BONOBO_OBJECT (listener));
+	g_object_unref (closure->storage);
 	g_free (closure);
 }
 
@@ -687,6 +744,7 @@ async_discover_shared_folder (EStorage *storage,
 	closure = g_new (struct async_folder_closure, 1);
 	closure->callback = (EStorageResultCallback)callback;
 	closure->storage = storage;
+	g_object_ref (storage);
 	closure->data = data;
 	listener = bonobo_listener_new (async_folder_discovery_cb, closure);
 	corba_listener = bonobo_object_corba_objref (BONOBO_OBJECT (listener));
@@ -698,6 +756,7 @@ async_discover_shared_folder (EStorage *storage,
 	if (ev._major != CORBA_NO_EXCEPTION) {
 		(* callback) (storage, E_STORAGE_GENERICERROR, NULL, data);
 		bonobo_object_unref (BONOBO_OBJECT (listener));
+		g_object_unref (storage);
 		g_free (closure);
 	}
 	CORBA_exception_free (&ev);
@@ -742,6 +801,7 @@ async_remove_shared_folder (EStorage *storage,
 	closure = g_new (struct async_folder_closure, 1);
 	closure->callback = callback;
 	closure->storage = storage;
+	g_object_ref (storage);
 	closure->data = data;
 	listener = bonobo_listener_new (async_folder_cb, closure);
 	corba_listener = bonobo_object_corba_objref (BONOBO_OBJECT (listener));
@@ -753,6 +813,7 @@ async_remove_shared_folder (EStorage *storage,
 	if (ev._major != CORBA_NO_EXCEPTION) {
 		(* callback) (storage, E_STORAGE_GENERICERROR, data);
 		bonobo_object_unref (BONOBO_OBJECT (listener));
+		g_object_unref (storage);
 		g_free (closure);
 	}
 	CORBA_exception_free (&ev);
