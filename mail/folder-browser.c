@@ -1225,13 +1225,18 @@ folder_browser_toggle_threads (BonoboUIComponent           *component,
 			       gpointer                     user_data)
 {
 	FolderBrowser *fb = user_data;
-	
+	int prev_state;
+
 	if (type != Bonobo_UIComponent_STATE_CHANGED
 	    || fb->message_list == NULL)
 		return;
 	
 	mail_config_set_thread_list (fb->uri, atoi (state));
 	message_list_set_threaded (fb->message_list, atoi (state));
+
+	prev_state = fb->selection_state;
+	fb->selection_state = FB_SELSTATE_UNDEFINED;
+	folder_browser_ui_set_selection_state (fb, prev_state);	
 }
 
 void

@@ -170,7 +170,6 @@ static EPixmap global_pixcache [] = {
 	E_PIXMAP_END
 };
 
-
 enum {
 	IS_DRAFTS_FOLDER          = (1 << 0),
 	IS_OUTBOX_FOLDER          = (1 << 1),
@@ -180,13 +179,21 @@ enum {
 	IS_INCOMING_FOLDER        = (1 << 3),
 	
 	IS_ANY_FOLDER             = (IS_OUTGOING_FOLDER | IS_INCOMING_FOLDER),
-	
+
 	SELECTION_NONE            = (1 << 4),
 	SELECTION_SINGLE          = (1 << 5),
 	SELECTION_MULTIPLE        = (1 << 6),
 	
 	SELECTION_ANYTHING        = (SELECTION_SINGLE | SELECTION_MULTIPLE),
+
+	IS_THREADED		  = (1 << 7),
+	NOT_THREADED		  = (1<<8),
+	ANY_THREADED		  = (IS_THREADED|NOT_THREADED),
 };
+
+#define IS_1MESSAGE (IS_ANY_FOLDER | SELECTION_SINGLE | ANY_THREADED)
+#define IS_0MESSAGE (IS_ANY_FOLDER | SELECTION_ANYTHING | SELECTION_NONE | ANY_THREADED)
+#define IS_NMESSAGE (IS_ANY_FOLDER | SELECTION_ANYTHING | ANY_THREADED)
 
 struct _UINode {
 	const char *name;
@@ -194,67 +201,69 @@ struct _UINode {
 };
 
 struct _UINode default_ui_nodes[] = {
-	{ "ViewLoadImages",  IS_ANY_FOLDER | SELECTION_SINGLE },
-	{ "ViewFullHeaders", IS_ANY_FOLDER | SELECTION_ANYTHING|SELECTION_NONE },
-	{ "ViewNormal",      IS_ANY_FOLDER | SELECTION_ANYTHING|SELECTION_NONE },
-	{ "ViewSource",      IS_ANY_FOLDER | SELECTION_ANYTHING|SELECTION_NONE },
+	{ "ViewLoadImages",  IS_1MESSAGE },
+	{ "ViewFullHeaders", IS_0MESSAGE },
+	{ "ViewNormal",      IS_0MESSAGE },
+	{ "ViewSource",      IS_0MESSAGE },
 	
-	{ "AddSenderToAddressbook",   IS_INCOMING_FOLDER | SELECTION_SINGLE },
+	{ "AddSenderToAddressbook",   IS_INCOMING_FOLDER | SELECTION_SINGLE | ANY_THREADED },
 	
-	{ "MessageResend",            IS_SENT_FOLDER | SELECTION_SINGLE },
+	{ "MessageResend",            IS_SENT_FOLDER | SELECTION_SINGLE | ANY_THREADED },
 	
 	/* actions that work on exactly 1 message */
-	{ "MessagePostReply",         IS_ANY_FOLDER | SELECTION_SINGLE },
-	{ "MessageReplyAll",          IS_ANY_FOLDER | SELECTION_SINGLE },
-	{ "MessageReplyList",         IS_ANY_FOLDER | SELECTION_SINGLE },
-	{ "MessageReplySender",       IS_ANY_FOLDER | SELECTION_SINGLE },
-	{ "MessageForwardInline",     IS_ANY_FOLDER | SELECTION_SINGLE },
-	{ "MessageForwardQuoted",     IS_ANY_FOLDER | SELECTION_SINGLE },
-	{ "MessageRedirect",          IS_ANY_FOLDER | SELECTION_SINGLE },
-	{ "MessageSearch",            IS_ANY_FOLDER | SELECTION_SINGLE },
+	{ "MessagePostReply",         IS_1MESSAGE },
+	{ "MessageReplyAll",          IS_1MESSAGE },
+	{ "MessageReplyList",         IS_1MESSAGE },
+	{ "MessageReplySender",       IS_1MESSAGE },
+	{ "MessageForwardInline",     IS_1MESSAGE },
+	{ "MessageForwardQuoted",     IS_1MESSAGE },
+	{ "MessageRedirect",          IS_1MESSAGE },
+	{ "MessageSearch",            IS_1MESSAGE },
 	
-	{ "PrintMessage",             IS_ANY_FOLDER | SELECTION_SINGLE },
-	{ "PrintPreviewMessage",      IS_ANY_FOLDER | SELECTION_SINGLE },
+	{ "PrintMessage",             IS_1MESSAGE },
+	{ "PrintPreviewMessage",      IS_1MESSAGE },
 	
-	{ "ToolsFilterMailingList",   IS_ANY_FOLDER | SELECTION_SINGLE },
-	{ "ToolsFilterRecipient",     IS_ANY_FOLDER | SELECTION_SINGLE },
-	{ "ToolsFilterSender",        IS_ANY_FOLDER | SELECTION_SINGLE },
-	{ "ToolsFilterSubject",       IS_ANY_FOLDER | SELECTION_SINGLE },
+	{ "ToolsFilterMailingList",   IS_1MESSAGE },
+	{ "ToolsFilterRecipient",     IS_1MESSAGE },
+	{ "ToolsFilterSender",        IS_1MESSAGE },
+	{ "ToolsFilterSubject",       IS_1MESSAGE },
 	
-	{ "ToolsVFolderMailingList",  IS_ANY_FOLDER | SELECTION_SINGLE },
-	{ "ToolsVFolderRecipient",    IS_ANY_FOLDER | SELECTION_SINGLE },
-	{ "ToolsVFolderSender",       IS_ANY_FOLDER | SELECTION_SINGLE },
-	{ "ToolsVFolderSubject",      IS_ANY_FOLDER | SELECTION_SINGLE },
+	{ "ToolsVFolderMailingList",  IS_1MESSAGE },
+	{ "ToolsVFolderRecipient",    IS_1MESSAGE },
+	{ "ToolsVFolderSender",       IS_1MESSAGE },
+	{ "ToolsVFolderSubject",      IS_1MESSAGE },
 	
 	/* actions that work on >= 1 message */
-	{ "MessageApplyFilters",      IS_ANY_FOLDER | SELECTION_ANYTHING },
-	{ "MessageCopy",              IS_ANY_FOLDER | SELECTION_ANYTHING },
-	{ "MessageMove",              IS_ANY_FOLDER | SELECTION_ANYTHING },
-	{ "MessageDelete",            IS_ANY_FOLDER | SELECTION_ANYTHING },
-	{ "MessageUndelete",          IS_ANY_FOLDER | SELECTION_ANYTHING },
-	{ "MessageMarkAsRead",        IS_ANY_FOLDER | SELECTION_ANYTHING },
-	{ "MessageMarkAsUnRead",      IS_ANY_FOLDER | SELECTION_ANYTHING },
-	{ "MessageMarkAsImportant",   IS_ANY_FOLDER | SELECTION_ANYTHING },
-	{ "MessageMarkAsUnimportant", IS_ANY_FOLDER | SELECTION_ANYTHING },
-	{ "MessageFollowUpFlag",      IS_ANY_FOLDER | SELECTION_ANYTHING },
-	{ "MessageOpen",              IS_ANY_FOLDER | SELECTION_ANYTHING },
-	{ "MessageSaveAs",            IS_ANY_FOLDER | SELECTION_ANYTHING },
-	{ "MessageForward",           IS_ANY_FOLDER | SELECTION_ANYTHING },
-	{ "MessageForwardAttached",   IS_ANY_FOLDER | SELECTION_ANYTHING },
+	{ "MessageApplyFilters",      IS_NMESSAGE },
+	{ "MessageCopy",              IS_NMESSAGE },
+	{ "MessageMove",              IS_NMESSAGE },
+	{ "MessageDelete",            IS_NMESSAGE },
+	{ "MessageUndelete",          IS_NMESSAGE },
+	{ "MessageMarkAsRead",        IS_NMESSAGE },
+	{ "MessageMarkAsUnRead",      IS_NMESSAGE },
+	{ "MessageMarkAsImportant",   IS_NMESSAGE },
+	{ "MessageMarkAsUnimportant", IS_NMESSAGE },
+	{ "MessageFollowUpFlag",      IS_NMESSAGE },
+	{ "MessageOpen",              IS_NMESSAGE },
+	{ "MessageSaveAs",            IS_NMESSAGE },
+	{ "MessageForward",           IS_NMESSAGE },
+	{ "MessageForwardAttached",   IS_NMESSAGE },
 	
-	{ "EditCut",                  IS_ANY_FOLDER | SELECTION_ANYTHING },
-	{ "EditCopy",                 IS_ANY_FOLDER | SELECTION_ANYTHING },
-	{ "EditPaste",                IS_ANY_FOLDER | SELECTION_ANYTHING },
-	{ "ViewHideSelected",         IS_ANY_FOLDER | SELECTION_ANYTHING },
+	{ "EditCut",                  IS_NMESSAGE },
+	{ "EditCopy",                 IS_NMESSAGE },
+	{ "EditPaste",                IS_NMESSAGE },
+	{ "EditSelectThread",	      IS_ANY_FOLDER | SELECTION_ANYTHING | IS_THREADED },
+
+	{ "ViewHideSelected",         IS_NMESSAGE },
 	
 	/* FIXME: should these be single-selection? */
-	{ "MailNext",                 IS_ANY_FOLDER | SELECTION_ANYTHING },
-	{ "MailNextFlagged",          IS_ANY_FOLDER | SELECTION_ANYTHING },
-	{ "MailNextUnread",           IS_ANY_FOLDER | SELECTION_ANYTHING },
-	{ "MailNextThread",           IS_ANY_FOLDER | SELECTION_ANYTHING },
-	{ "MailPrevious",             IS_ANY_FOLDER | SELECTION_ANYTHING },
-	{ "MailPreviousFlagged",      IS_ANY_FOLDER | SELECTION_ANYTHING },
-	{ "MailPreviousUnread",       IS_ANY_FOLDER | SELECTION_ANYTHING },
+	{ "MailNext",                 IS_NMESSAGE },
+	{ "MailNextFlagged",          IS_NMESSAGE },
+	{ "MailNextUnread",           IS_NMESSAGE },
+	{ "MailNextThread",           IS_NMESSAGE },
+	{ "MailPrevious",             IS_NMESSAGE },
+	{ "MailPreviousFlagged",      IS_NMESSAGE },
+	{ "MailPreviousUnread",       IS_NMESSAGE },
 };
 
 static int num_default_ui_nodes = sizeof (default_ui_nodes) / sizeof (default_ui_nodes[0]);
@@ -398,8 +407,8 @@ folder_browser_ui_message_list_focus (FolderBrowser *fb)
 	
 	bonobo_ui_component_set_prop (fb->uicomp, "/commands/EditInvertSelection",
 				      "sensitive", "1", NULL);
-	bonobo_ui_component_set_prop (fb->uicomp, "/commands/EditSelectThread",
-				      "sensitive", "1", NULL);
+/*	bonobo_ui_component_set_prop (fb->uicomp, "/commands/EditSelectThread",
+	"sensitive", "1", NULL);*/
 }
 
 void
@@ -409,8 +418,8 @@ folder_browser_ui_message_list_unfocus (FolderBrowser *fb)
 	
 	bonobo_ui_component_set_prop (fb->uicomp, "/commands/EditInvertSelection",
 				      "sensitive", "0", NULL);
-	bonobo_ui_component_set_prop (fb->uicomp, "/commands/EditSelectThread",
-				      "sensitive", "0", NULL);
+	/*bonobo_ui_component_set_prop (fb->uicomp, "/commands/EditSelectThread",
+	  "sensitive", "0", NULL);*/
 }
 
 static void
@@ -628,6 +637,11 @@ folder_browser_ui_set_selection_state (FolderBrowser *fb, FolderBrowserSelection
 		enable_mask |= IS_SENT_FOLDER;
 		outgoing = TRUE;
 	}
+
+	if (fb->message_list->threaded)
+		enable_mask |= IS_THREADED;
+	else
+		enable_mask |= NOT_THREADED;
 	
 	if (outgoing == FALSE)
 		enable_mask |= IS_INCOMING_FOLDER;

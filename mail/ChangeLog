@@ -1,3 +1,16 @@
+2002-08-08  Not Zed  <NotZed@Ximian.com>
+
+	* folder-browser.c (folder_browser_toggle_threads): Force a
+	refresh of the menu sensitivity when the thread state changes.
+
+2002-08-07  Not Zed  <NotZed@Ximian.com>
+
+	* folder-browser-ui.c: Added EditSelectThread to only enable
+	threaded mode if threaded is on.  For #19941.  Added some macro's
+	to simplify the table.
+	(folder_browser_ui_set_selection_state): Implement IS_THREADED
+	mask.
+
 2002-08-07  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-callbacks.c (composer_send_queued_cb): Delete the Draft
