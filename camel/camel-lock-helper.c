@@ -39,6 +39,8 @@
 
 #include <time.h>
 
+#include <string.h>
+
 #define SETEUID_SAVES (1)
 
 /* we try and include as little as possible */

@@ -1,3 +1,17 @@
+2001-10-03    <NotZed@Ximian.com>
+
+	* camel-search-private.c (camel_search_build_match_regex): Added
+	MATCH_NEWLINE flag, -> REG_NEWLINE.
+
+	* camel-lock-helper.c: Include <string.h> to kill some warnings.
+
+	* camel-filter-search.c (get_full_header): Put \n's between each
+	line we generate.
+	(header_full_regex): Dont drop the first argument to the command
+	-> empty matches!
+	(header_full_regex): Set match_newline for building regex.
+	(body_regex): And here too.  These all fix #9877.
+
 2001-10-03  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* camel-store.c (camel_store_delete_folder): Call

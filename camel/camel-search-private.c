@@ -99,6 +99,8 @@ camel_search_build_match_regex (regex_t *pattern, camel_search_flags_t type, int
 	flags = REG_EXTENDED|REG_NOSUB;
 	if (type & CAMEL_SEARCH_MATCH_ICASE)
 		flags |= REG_ICASE;
+	if (type & CAMEL_SEARCH_MATCH_NEWLINE)
+		flags |= REG_NEWLINE;
 	err = regcomp (pattern, match->str, flags);
 	if (err != 0) {
 		/* regerror gets called twice to get the full error string 

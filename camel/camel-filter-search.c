@@ -206,9 +206,7 @@ header_regex (struct _ESExp *f, int argc, struct _ESExpResult **argv, FilterMess
 	
 	if (argc > 1 && argv[0]->type == ESEXP_RES_STRING
 	    && (contents = camel_medium_get_header (CAMEL_MEDIUM (fms->message), argv[0]->value.string))
-	    && camel_search_build_match_regex (&pattern, CAMEL_SEARCH_MATCH_REGEX |
-					       CAMEL_SEARCH_MATCH_ICASE, argc-1, argv+1,
-					       fms->ex) == 0) {
+	    && camel_search_build_match_regex(&pattern, CAMEL_SEARCH_MATCH_REGEX|CAMEL_SEARCH_MATCH_ICASE, argc-1, argv+1, fms->ex) == 0) {
 		r->value.bool = regexec (&pattern, contents, 0, NULL, 0) == 0;
 		regfree (&pattern);
 	} else
@@ -233,6 +231,7 @@ get_full_header (CamelMimeMessage *message)
 			else
 				g_string_append (str, ": ");
 			g_string_append (str, h->value);
+			g_string_append_c(str, '\n');
 		}
 	}
 	
@@ -249,8 +248,8 @@ header_full_regex (struct _ESExp *f, int argc, struct _ESExpResult **argv, Filte
 	regex_t pattern;
 	char *contents;
 	
-	if (camel_search_build_match_regex (&pattern, CAMEL_SEARCH_MATCH_REGEX |
-					    CAMEL_SEARCH_MATCH_ICASE, argc-1, argv+1, fms->ex) == 0) {
+	if (camel_search_build_match_regex(&pattern, CAMEL_SEARCH_MATCH_REGEX|CAMEL_SEARCH_MATCH_ICASE|CAMEL_SEARCH_MATCH_NEWLINE,
+					   argc, argv, fms->ex) == 0) {
 		contents = get_full_header (fms->message);
 		r->value.bool = regexec (&pattern, contents, 0, NULL, 0) == 0;
 		g_free (contents);
@@ -297,8 +296,8 @@ body_regex (struct _ESExp *f, int argc, struct _ESExpResult **argv, FilterMessag
 	ESExpResult *r = e_sexp_result_new(f, ESEXP_RES_BOOL);
 	regex_t pattern;
 	
-	if (camel_search_build_match_regex (&pattern, CAMEL_SEARCH_MATCH_ICASE |
-					    CAMEL_SEARCH_MATCH_REGEX, argc, argv, fms->ex) == 0) {
+	if (camel_search_build_match_regex(&pattern, CAMEL_SEARCH_MATCH_ICASE|CAMEL_SEARCH_MATCH_REGEX|CAMEL_SEARCH_MATCH_NEWLINE,
+					   argc, argv, fms->ex) == 0) {
 		r->value.bool = camel_search_message_body_contains ((CamelDataWrapper *)fms->message, &pattern);
 		regfree (&pattern);
 	} else
