@@ -40,6 +40,7 @@
 #include <glade/glade.h>
 #include <gnome.h>
 #include <libgnorba/gnorba.h>
+#include <gtkhtml/gtkhtml.h>
 
 #include <camel/camel.h>
 
@@ -596,19 +597,18 @@ menu_view_attachments_activate_cb (BonoboUIHandler *uih,
 	e_msg_composer_show_attachments (E_MSG_COMPOSER (data), state);
 }
 
+#if 0
 static void
 insert_file_ok_cb (GtkWidget *widget, void *user_data)
 {
 	GtkFileSelection *fs;
+	GdkAtom selection_atom = GDK_NONE;
 	char *name;
 	EMsgComposer *composer;
 	struct stat sb;
-
-#if 0
 	int fd;
 	guint8 *buffer;
 	size_t bufsz, actual;
-#endif
 
 	fs = GTK_FILE_SELECTION (gtk_widget_get_ancestor (widget,
 							  GTK_TYPE_FILE_SELECTION));
@@ -645,7 +645,6 @@ insert_file_ok_cb (GtkWidget *widget, void *user_data)
 		return;
 	}
 
-#if 0
 	if ((fd = open (name, O_RDONLY)) < 0) {
 		GtkWidget *dlg;
 
@@ -671,10 +670,12 @@ insert_file_ok_cb (GtkWidget *widget, void *user_data)
 				GtkWidget *dlg;
 				gint result;
 
-				dlg = gnome_question_dialog_modal_parented( _("The file is very large (more than 100K).\n"
-									      "Are you sure you wish to insert it?"),
-									    NULL,
-									    GTK_WINDOW (fs));
+				dlg = gnome_dialog_new( _("The file is very large (more than 100K).\n"
+							  "Are you sure you wish to insert it?"),
+							GNOME_STOCK_BUTTON_YES,
+							GNOME_STOCK_BUTTON_NO,
+							NULL);
+				gnome_dialog_set_parent (GNOME_DIALOG (dlg), GTK_WINDOW (fs));
 				result = gnome_dialog_run_and_close (GNOME_DIALOG (dlg));
 				gtk_widget_destroy (GTK_WIDGET (dlg));
 				
@@ -705,48 +706,42 @@ insert_file_ok_cb (GtkWidget *widget, void *user_data)
 
 	buffer[actual] = '\0';
 
+	if (selection_atom == GDK_NONE)
+		selection_atom = gdk_atom_intern ("TEMP_PASTE", FALSE);
+	gtk_object_set_data (GTK_OBJECT (fs), "ev_file_buffer", buffer);
+	gtk_selection_owner_set (GTK_WIDGET (fs), selection_atom, GDK_CURRENT_TIME);
+	/*gtk_html_paste (composer->send_html);*/
+
  cleanup:
 	close( fd );
 	g_free( buffer );
-#endif
-
-	{
-		Bonobo_PersistStream persist;
-		BonoboStream *stream;
-		CORBA_Environment ev;
-
-		CORBA_exception_init (&ev);
-
-		persist = (Bonobo_PersistStream)
-			bonobo_object_client_query_interface (
-			    bonobo_widget_get_server (BONOBO_WIDGET(composer->editor)),
-			    "IDL:Bonobo/PersistStream:1.0",
-			    &ev);
-		g_assert (persist != CORBA_OBJECT_NIL);
-
-		stream = bonobo_stream_fs_create (name);
-		Bonobo_PersistStream_load (persist, (Bonobo_Stream)bonobo_object_corba_objref (BONOBO_OBJECT (stream)), "text/html", &ev);
-
-		if (ev._major != CORBA_NO_EXCEPTION) {
-			/* FIXME. Some error message. */
-			return;
-		}
-		if (ev._major != CORBA_SYSTEM_EXCEPTION)
-			CORBA_Object_release (persist, &ev);
-
-		Bonobo_Unknown_unref (persist, &ev);
-		CORBA_exception_free (&ev);
-		bonobo_object_unref (BONOBO_OBJECT(stream));
-	}
-
 	gtk_widget_destroy (GTK_WIDGET(fs));
 }
 
+static void fs_selection_get (GtkWidget *widget, GtkSelectionData *sdata,
+			      guint info, guint time)
+{
+	gchar *buffer;
+	GdkAtom encoding;
+	gint format;
+	guchar *ctext;
+	gint length;
+
+	buffer = gtk_object_get_data (GTK_OBJECT (widget), "ev_file_buffer");
+	if (gdk_string_to_compound_text (buffer, &encoding, &format, &ctext,
+					 &length) == Success)
+		gtk_selection_data_set (sdata, encoding, format, ctext, length);
+	g_free (buffer);
+	gtk_object_remove_data (GTK_OBJECT (widget), "ev_file_buffer");
+}
+
+#endif
 static void
 menu_file_insert_file_cb (BonoboUIHandler *uih,
 		void *data,
 		const char *path)
 {
+#if 0
 	EMsgComposer *composer;
 	GtkFileSelection *fs;
 
@@ -754,7 +749,7 @@ menu_file_insert_file_cb (BonoboUIHandler *uih,
 
 	fs = GTK_FILE_SELECTION (gtk_file_selection_new ("Choose File"));
 	/* FIXME: remember the location or something */
-	gtk_file_selection_set_filename( fs, g_get_home_dir() );
+	/*gtk_file_selection_set_filename( fs, g_get_home_dir() );*/
 	gtk_signal_connect (GTK_OBJECT (fs->ok_button), "clicked",
 			    GTK_SIGNAL_FUNC (insert_file_ok_cb), data);
 	gtk_signal_connect_object (GTK_OBJECT (fs->cancel_button), 
@@ -762,6 +757,9 @@ menu_file_insert_file_cb (BonoboUIHandler *uih,
 				   GTK_SIGNAL_FUNC (gtk_widget_destroy), 
 				   GTK_OBJECT (fs));
 	gtk_widget_show (GTK_WIDGET(fs));
+#else
+	g_message ("Insert file is unimplemented! oh no!");
+#endif
 }
 
 static void
@@ -832,7 +830,7 @@ create_menubar_file (EMsgComposer *composer,
 	bonobo_ui_handler_menu_new_separator (uih, "/File/Separator1", -1);
 
 	bonobo_ui_handler_menu_new_item (uih, "/File/Insert text file",
-					 _("_Insert text file..."),
+					 _("_Insert text file... (FIXME)"),
 					 _("Insert a file as text into the message"),
 					 -1,
 					 BONOBO_UI_HANDLER_PIXMAP_NONE, NULL,

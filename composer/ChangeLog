@@ -1,3 +1,9 @@
+2000-07-25  Peter Williams  <peterw@helixcode.com>
+
+	* e-msg-composer.c (menu_file_insert_file_cb): Mark this function
+	as FIXME because we're waiting for the HTML Editor Control to
+	support paste commands. Also some updates for when that happens.
+
 2000-07-24  Dan Winship  <danw@helixcode.com>
 
 	* e-msg-composer.c: Remove GOAD support.
