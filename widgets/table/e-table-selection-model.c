@@ -239,6 +239,9 @@ e_table_selection_model_init (ETableSelectionModel *selection)
 	selection->selection = NULL;
 	selection->row_count = -1;
 	selection->model = NULL;
+	selection->selection_start_row = 0;
+	selection->cursor_row = -1;
+	selection->cursor_col = -1;
 }
 
 static void
@@ -521,6 +524,14 @@ e_table_selection_model_select_all (ETableSelectionModel *selection)
 	for (i = 0; i < (selection->row_count + 31) / 32; i ++) {
 		selection->selection[i] = ONES;
 	}
+	
+	selection->cursor_col = 0;
+	selection->cursor_row = 0;
+	selection->selection_start_row = 0;
+	gtk_signal_emit (GTK_OBJECT (selection),
+			 e_table_selection_model_signals [CURSOR_CHANGED], 0, 0);
+	gtk_signal_emit (GTK_OBJECT (selection),
+			 e_table_selection_model_signals [SELECTION_CHANGED]);
 }
 
 void
@@ -542,4 +553,12 @@ e_table_selection_model_invert_selection (ETableSelectionModel *selection)
 	for (i = 0; i < (selection->row_count + 31) / 32; i ++) {
 		selection->selection[i] = ~selection->selection[i];
 	}
+	
+	selection->cursor_col = -1;
+	selection->cursor_row = -1;
+	selection->selection_start_row = 0;
+	gtk_signal_emit (GTK_OBJECT (selection),
+			 e_table_selection_model_signals [CURSOR_CHANGED], -1, -1);
+	gtk_signal_emit (GTK_OBJECT (selection),
+			 e_table_selection_model_signals [SELECTION_CHANGED]);
 }
