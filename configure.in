@@ -45,6 +45,12 @@ AM_GNOME_GETTEXT
 GNOME_X_CHECKS
 
 
+dnl **************************************************
+dnl * pas-backend-file stuff.
+dnl * check for db_185.h.  if it's there, we use it.
+dnl * otherwise, we use db.h (since it'll be 185).
+dnl **************************************************
+AC_CHECK_HEADERS(db_185.h)
 
 dnl **************************************************
 dnl * Posix thread support

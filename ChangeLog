@@ -1,5 +1,8 @@
 2000-03-26  Chris Toshok  <toshok@laptoph.xtoph.org>
 
+	* configure.in: check for db_185.h (present in newer db
+	distributions.)
+
 	* addressbook/backend/pas/pas-backend-file.c
 	(pas_backend_file_create_unique_id): new function.
 	(pas_backend_file_process_create_card): call
