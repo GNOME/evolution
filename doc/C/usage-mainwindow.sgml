@@ -138,11 +138,11 @@
 	</listitem>
 	</varlistentry>
 -->
-
-	    </variablelist>
-	  </para>
-	</sect2>
-  <sect2 id="usage-mainwindow-folderbar">
+	  
+	</variablelist>
+      </para>
+    </sect2>
+    <sect2 id="usage-mainwindow-folderbar">
     <title>Folders and The Folder Bar</title>
     <para>
       The <interface>folder bar</interface> is a more comprehensive
@@ -235,21 +235,79 @@
 
     <para>
        If you get any serious amount of mail, you'll want more folders
-       than just your Inbox.  To create a new folder, select
-       <menuchoice> <guimenu>File</guimenu>
-       <guisubmenu>New</guisubmenu>
-       <guimenuitem>Folder</guimenuitem></menuchoice>
-       <keycombo action="simul">
-         <keycap>Shift</keycap>
-	 <keycap>Ctrl</keycap>
-	 <keycap>E</keycap>
-       </keycombo>.  You'll be
-       asked where you want to put it, and what kind of folder it
-       should be.  You can choose from three types:
-       <guilabel>Mail</guilabel>, for storing mail,
-       <guilabel>Calendar</guilabel> for storing calendars, and
-       <guilabel>Contacts</guilabel> for storing contacts.
-    </para>
+       than just your Inbox.  
+	To create a new folder:
+	<orderedlist numeration="arabic">
+	  <listitem>
+	    <para>
+	      Select
+	      <menuchoice> <guimenu>File</guimenu>
+		<guisubmenu>New</guisubmenu>
+		<guimenuitem>Folder</guimenuitem></menuchoice>
+	      <keycombo action="simul">
+		<keycap>Shift</keycap>
+		<keycap>Ctrl</keycap>
+		<keycap>E</keycap>
+	      </keycombo>.
+	    </para>
+	  </listitem>
+	  <listitem>
+	    <para>
+	      Select the name of the folder in the <guilabel>Folder
+		Name</guilabel> field.
+	    </para>
+	  </listitem>
+	  <listitem>
+	    <para>
+	      Select the folder type.  The available options are.
+
+	      <itemizedlist>
+		<listitem>
+		  <para>
+		    Calendar
+		  </para>
+		</listitem>
+		<listitem>
+		  <para>
+		    Contacts
+		  </para>
+		</listitem>
+		<listitem>
+		  <para>
+		    Mail
+		  </para>
+		</listitem>
+		<listitem>
+		  <para>
+		    Mail Storage
+		  </para>
+		</listitem>
+		<listitem>
+		  <para>
+		    My Evolution
+		  </para>
+		</listitem>
+		<listitem>
+		  <para>
+		    Tasks
+		  </para>
+		</listitem>
+		<listitem>
+		  <para>
+		    vTrash
+		  </para>
+		</listitem>
+	      </itemizedlist>
+
+	    </para>
+	  </listitem>
+	  <listitem>
+	    <para>
+	      Select the folder for the new folder to go in.
+	    </para>
+	  </listitem>
+	</orderedlist>
+      </para>
     
     <sect3 id="subfolders">
     <title>Subfolders</title>
@@ -316,7 +374,8 @@
 	</para>
       </sect3>
       </sect2>
-	  <sect2 id="usage-mainwindow-menubar">
+
+    <sect2 id="usage-mainwindow-menubar">
     <title>The Menu Bar</title>
     <para>
       The <interface>menu bar</interface>'s contents will always

@@ -1,5 +1,9 @@
 2001-07-05  Kevin Breit  <battery841@mediaone.net>
 
+	* C/usage-mainwindow.sgml: Added orderedlists.
+
+	* C/usage-exec-summary.sgml: Added orderedlists.
+
 	* C/usage-contact.sgml: Added orderedlists.
 
 	* C/usage-mail-org.sgml: Added orderedlists.
