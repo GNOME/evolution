@@ -38,6 +38,7 @@
 
 #include "camel-mime-utils.h"
 
+#if 0
 int strdup_count = 0;
 int malloc_count = 0;
 int free_count = 0;
@@ -45,9 +46,10 @@ int free_count = 0;
 #define g_strdup(x) (strdup_count++, g_strdup(x))
 #define g_malloc(x) (malloc_count++, g_malloc(x))
 #define g_free(x) (free_count++, g_free(x))
+#endif
 
 /* for all warnings ... */
-#define w(x)
+#define w(x) x
 
 #define d(x)
 #define d2(x)

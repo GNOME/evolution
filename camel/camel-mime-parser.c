@@ -50,6 +50,7 @@
 
 #define STRUCT_ALIGN 4
 
+#if 0
 extern int strdup_count;
 extern int malloc_count;
 extern int free_count;
@@ -57,7 +58,7 @@ extern int free_count;
 #define g_strdup(x) (strdup_count++, g_strdup(x))
 #define g_malloc(x) (malloc_count++, g_malloc(x))
 #define g_free(x) (free_count++, g_free(x))
-
+#endif
 
 #ifdef MEMPOOL
 typedef struct _MemPoolNode {
@@ -1027,7 +1028,8 @@ folder_scan_header(struct _header_scan_state *s, int *lastone)
 	int len;
 	struct _header_scan_stack *part, *overpart = s->parts;
 	struct _header_scan_stack *h;
-	register char *inptr, *inend;
+	char *inend;
+	register char *inptr;
 
 	h(printf("scanning first bit\n"));
 
@@ -1056,10 +1058,11 @@ retry:
 	while ((len = folder_read(s))>0 && len >= s->atleast) { /* ensure we have at least enough room here */
 		inptr = s->inptr;
 		inend = s->inend-s->atleast;
-		start = inptr;
 
 		while (inptr<=inend) {
 			/*printf("  '%.20s'\n", inptr);*/
+
+			start = inptr;
 
 			if (!s->midline
 			    && (part = folder_boundary_check(s, inptr, lastone))) {
@@ -1074,8 +1077,10 @@ retry:
 				;
 
 			/* check against the real buffer end, not our 'atleast limited' end */
-			if (inptr> s->inend) {
-				inptr-=2;
+			/* also make sure we have at least 1 char lookahead, so even if we found a \n at
+			   the end, well, make out we didn't, and re-scan it next pass */
+			if (inptr>=s->inend) {
+				inptr--;
 				s->midline = TRUE;
 			} else {
 				s->midline = FALSE;
@@ -1087,31 +1092,29 @@ retry:
 				 s->outbuf[0], isprint(s->outbuf[0])?s->outbuf[0]:'.',
 				 s->outbuf[1], isprint(s->outbuf[1])?s->outbuf[1]:'.'));
 
-			if (!s->midline) {
-				if (!(inptr[0] == ' ' || inptr[0] == '\t')) {
-					if (s->outbuf[0] == '\n'
-					    || (s->outbuf[0] == '\r' && s->outbuf[1]=='\n')) {
-						goto header_done;
-					}
-
-					/* we always have at least _1_ char here ... */
-					if (s->outptr[-1] == '\n')
-						s->outptr--;
-					s->outptr[0] = 0;
-
-					d(printf("header %.10s at %d\n", s->outbuf, s->header_start));
-
-					header_raw_append_parse(&h->headers, s->outbuf, s->header_start);
-
-					if (inptr[0]=='\n'
-					    || (inptr[0] == '\r' && inptr[1]=='\n')) {
-						inptr++;
-						goto header_done;
-					}
-					s->outptr = s->outbuf;
-					s->header_start = -1;
+			if (!s->midline
+			    && !(inptr[0] == ' ' || inptr[0] == '\t')) {
+				if (s->outbuf[0] == '\n'
+				    || (s->outbuf[0] == '\r' && s->outbuf[1]=='\n')) {
+					goto header_done;
 				}
-				start = inptr;
+
+				/* we always have at least _1_ char here ... */
+				if (s->outptr[-1] == '\n')
+					s->outptr--;
+				s->outptr[0] = 0;
+				
+				d(printf("header %.10s at %d\n", s->outbuf, s->header_start));
+				
+				header_raw_append_parse(&h->headers, s->outbuf, s->header_start);
+				
+				if (inptr[0]=='\n'
+				    || (inptr[0] == '\r' && inptr[1]=='\n')) {
+					inptr++;
+					goto header_done;
+				}
+				s->outptr = s->outbuf;
+				s->header_start = -1;
 			}
 		}
 		s->inptr = inptr;
@@ -1171,7 +1174,8 @@ static struct _header_scan_stack *
 folder_scan_content(struct _header_scan_state *s, int *lastone, char **data, int *length)
 {
 	int atleast = s->atleast;
-	register char *inptr, *inend;
+	register char *inptr;
+	char *inend;
 	char *start;
 	int len;
 	struct _header_scan_stack *part, *overpart = s->parts;
@@ -1218,8 +1222,9 @@ retry:
 			/* goto the next line */
 			while ((*inptr++)!='\n')
 				;
+
 			/* check against the real buffer end, not our 'atleast limited' end */
-			if (inptr>= s->inend) {
+			if (inptr> s->inend) {
 				inptr--;
 				s->midline = TRUE;
 			} else {

@@ -25,7 +25,6 @@
 
 #include <config.h>
 #include <string.h>
-#include <glib.h>
 #include "camel-mime-part.h"
 #include <stdio.h>
 #include "gmime-content-field.h"

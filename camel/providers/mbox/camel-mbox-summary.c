@@ -1056,11 +1056,19 @@ int camel_mbox_summary_check(CamelMboxSummary *s)
 
 static void camel_mbox_summary_add(CamelMboxSummary *s, CamelMboxMessageInfo *info)
 {
+	CamelMboxMessageInfo *old;
+
+retry:
 	if (info->info.uid == NULL) {
 		info->info.uid = g_strdup_printf("%u", s->nextuid++);
 	}
-	if (g_hash_table_lookup(s->message_uid, info->info.uid)) {
-		g_error("Trying to insert message with clashing uid's");
+	if (( old = g_hash_table_lookup(s->message_uid, info->info.uid) )) {
+#warning do something fatal with a fatal error.
+		/* err, once i work out why it keeps getting called so often */
+		d(g_warning("Trying to insert message with clashing uid's new %s exist %s", info->info.uid, old->info.uid));
+		g_free(info->info.uid);
+		info->info.uid = NULL;
+		goto retry;
 	}
 	d(printf("adding %s\n", info->info.uid));
 	g_ptr_array_add(s->messages, info);

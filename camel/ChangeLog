@@ -1,4 +1,22 @@
-2000-05-05    <notzed@the-dot-in.helixcode.com>
+2000-05-05  NotZed  <NotZed@HelixCode.com>
+
+	* camel-folder-summary.c: And same here ...
+
+	* camel-mime-utils.c: Defined out some memory profiling stuff I
+	left there by mistake.
+
+	* camel-mime-parser.c (folder_scan_content): Apply the fix from
+	the header scanner to here too.
+	(folder_scan_header): Only check for end of header if we have
+	space for it (didn't end the read with a newline)
+	(folder_scan_header): inptr is the only real thing we need
+	registerised for performance.  Try to help the compiler be smart
+	about it ..
+	(folder_scan_header): Simplified the save header case a tad.
+
+	Commented out some memory profiling stuff.
+
+2000-05-05    <notzed@helixcode.com>
 
 	* camel-mime-utils.c (header_decode_mailbox): Plug a memory leak.
 	(header_decode_text): Fixed memory leaks with g_string_append().

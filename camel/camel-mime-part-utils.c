@@ -23,7 +23,6 @@
  */
 #include <config.h>
 #include <string.h>
-#include <glib.h>
 #include "gmime-content-field.h"
 #include "string-utils.h"
 #include "camel-mime-part-utils.h"

@@ -35,7 +35,7 @@
 
 #define d(x)
 
-#if 1
+#if 0
 extern int strdup_count, malloc_count, free_count;
 #endif
 
@@ -862,10 +862,6 @@ content_info_load(CamelFolderSummary *s, FILE *in)
 
 	ci = g_malloc0(s->content_info_size);
 
-/*	bs->pos = decode_int(in);
-	bs->bodypos = bs->pos + decode_int(in);
-	bs->endpos = bs->pos + decode_int(in);*/
-
 	camel_folder_summary_decode_token(in, &type);
 	camel_folder_summary_decode_token(in, &subtype);
 	ct = header_content_type_new(type, subtype);
@@ -896,10 +892,6 @@ content_info_save(CamelFolderSummary *s, FILE *out, CamelMessageContentInfo *ci)
 {
 	struct _header_content_type *ct;
 	struct _header_param *hp;
-
-/*	camel_folder_summary_encode_uint32(out, bs->pos);
-	camel_folder_summary_encode_uint32(out, bs->bodypos - bs->pos);
-	camel_folder_summary_encode_uint32(out, bs->endpos - bs->pos);*/
 
 	ct = ci->type;
 	if (ct) {
@@ -1053,6 +1045,8 @@ int main(int argc, char **argv)
 	CamelFolderSummary *s;
 	char *buffer;
 	int len;
+	extern int strdup_count, malloc_count, free_count;
+	ibex *index;
 
 	gtk_init(&argc, &argv);
 
@@ -1081,6 +1075,8 @@ int main(int argc, char **argv)
 
 	fd = open(argv[1], O_RDONLY);
 
+	index = ibex_open("index.ibex", O_CREAT|O_RDWR, 0600);
+
 	mp = camel_mime_parser_new();
 	camel_mime_parser_scan_from(mp, TRUE);
 /*	camel_mime_parser_set_header_regex(mp, "^(content-[^:]*|subject|from|to|date):");*/
@@ -1088,6 +1084,7 @@ int main(int argc, char **argv)
 
 	s = camel_folder_summary_new();
 	camel_folder_summary_set_build_content(s, TRUE);
+/*	camel_folder_summary_set_index(s, index);*/
 
 	while (camel_mime_parser_step(mp, &buffer, &len) == HSCAN_FROM) {
 		/*printf("Parsing message ...\n");*/
@@ -1097,6 +1094,10 @@ int main(int argc, char **argv)
 			break;
 		}
 	}
+
+	gtk_object_unref(mp);
+	gtk_object_unref(s);
+
 	printf("summarised %d messages\n", camel_folder_summary_count(s));
 #if 0
 	printf("g_strdup count = %d\n", strdup_count);
