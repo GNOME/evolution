@@ -1,3 +1,8 @@
+1998-12-09  Martin Baulig  <martin@home-of-linux.org>
+
+	* aclocal-include.m4 (AM_ACLOCAL_INCLUDE): Make this work
+	with more than one directory.
+
 1998-12-08  Martin Baulig  <martin@home-of-linux.org>
 
 	* gnome-libgtop-sysdeps.m4: Moved into the LibGTop module.

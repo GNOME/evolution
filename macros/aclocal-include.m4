@@ -7,4 +7,4 @@
 
 dnl AM_ACLOCAL_INCLUDE(macrodir)
 AC_DEFUN([AM_ACLOCAL_INCLUDE],
-[ACLOCAL="$ACLOCAL -I $1"])
+[for k in $1 ; do ACLOCAL="$ACLOCAL -I $k" ; done])
