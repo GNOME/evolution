@@ -65,7 +65,7 @@ calendar_day_selected (GtkCalendar *calendar, GncalDayPanel *dpanel)
 
 	gtk_calendar_get_date (calendar, &y, &m, &d);
 
-	tm.tm_year = y;
+	tm.tm_year = y - 1900;
 	tm.tm_mon  = m;
 	tm.tm_mday = d;
 	tm.tm_hour = 0;

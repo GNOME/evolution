@@ -1,7 +1,13 @@
 1998-04-21  Miguel de Icaza  <miguel@nuclecu.unam.mx>
 
+	* gncal-day-panel.c (calendar_day_selected): Fix, years for mktime
+	should substract 1900 and gtk_calendar stores years relative to
+	year 0. 
+
 	* gncal-week-view.c (gncal_week_view_new): Make the week view
 	descend from VBox so that we can add a label to it.
+	(gncal_week_view_set): Display the ending day of the week
+	correctly.
 
 	Added a label that displays the week range. 
 

@@ -175,8 +175,8 @@ gncal_week_view_update (GncalWeekView *wview, iCalObject *ico, int flags)
 void
 gncal_week_view_set (GncalWeekView *wview, time_t start_of_week)
 {
-	struct tm tm, start;
-	time_t day_start, day_end;
+	struct tm tm;
+	time_t day_start, day_end, week_start, week_end;
 	int i;
 
 	g_return_if_fail (wview != NULL);
@@ -187,15 +187,14 @@ gncal_week_view_set (GncalWeekView *wview, time_t start_of_week)
 	/* back up to start of week (Monday) */
 
 	tm.tm_mday -= (tm.tm_wday == 0) ? 6 : (tm.tm_wday - 1);
-
+	
 	/* Start of day */
 
 	tm.tm_hour = 0;
 	tm.tm_min  = 0;
 	tm.tm_sec  = 0;
 
-	day_start = mktime (&tm);
-	start = tm;
+	day_start = week_start = mktime (&tm);
 	
 	/* Calendar */
 
@@ -218,11 +217,16 @@ gncal_week_view_set (GncalWeekView *wview, time_t start_of_week)
 	{
 		char buf [80];
 		int len;
+		struct tm *t;
 		
-		strftime (buf, sizeof (buf), "%A %d %Y - ", &start);
+		week_end = time_add_day (week_start, 6);
+		t = localtime (&week_start);
+		
+		strftime (buf, sizeof (buf), "%A %d %Y - ", t);
 		len = strlen (buf);
-		
-		strftime (buf + len, sizeof (buf) - len, "%A %d %Y", &tm);
+
+	        t = localtime (&week_end);
+		strftime (buf + len, sizeof (buf) - len, "%A %d %Y", t);
 		gtk_label_set (GTK_LABEL (wview->label), buf);
 		
 	}

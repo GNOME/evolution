@@ -74,7 +74,8 @@ void
 gnome_calendar_goto (GnomeCalendar *gcal, time_t new_time)
 {
 	GtkWidget *current = get_current_page (gcal);
-	g_assert (new_time != -1);
+
+	g_return_if_fail (new_time != -1);
 
 	if (current == gcal->day_view)
 		gncal_day_panel_set (GNCAL_DAY_PANEL (gcal->day_view), new_time);
