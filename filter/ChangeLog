@@ -1,3 +1,9 @@
+2004-03-29  Rodney Dawes  <dobey@ximian.com>
+
+	* filter-filter.c (get_widget):
+	* filter-rule.c (get_widget): Fix packing of the hbox that contains
+	the actual input widgets to expand and fill
+
 2004-03-26  Not Zed  <NotZed@Ximian.com>
 
 	* filter-option.c (filter_option_add): return the added option.

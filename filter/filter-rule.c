@@ -783,7 +783,7 @@ get_widget (FilterRule *fr, struct _RuleContext *f)
 	gtk_widget_show (label);
 
 	hbox = gtk_hbox_new (FALSE, 12);
-	gtk_box_pack_start (GTK_BOX (vbox), hbox, FALSE, FALSE, 0);
+	gtk_box_pack_start (GTK_BOX (vbox), hbox, TRUE, TRUE, 0);
 	gtk_widget_show (hbox);
 
 	label = gtk_label_new ("");

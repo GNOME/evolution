@@ -495,7 +495,7 @@ get_widget (FilterRule *fr, RuleContext *rc)
 	gtk_widget_show (label);
 
 	hbox = gtk_hbox_new (FALSE, 12);
-	gtk_box_pack_start (GTK_BOX (widget), hbox, FALSE, FALSE, 0);
+	gtk_box_pack_start (GTK_BOX (widget), hbox, TRUE, TRUE, 0);
 	gtk_widget_show (hbox);
 
 	label = gtk_label_new ("");
