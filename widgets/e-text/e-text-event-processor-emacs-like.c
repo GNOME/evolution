@@ -57,7 +57,7 @@ static const ETextEventProcessorCommand control_keys[26] =
 	{ E_TEP_START_OF_LINE,      E_TEP_DELETE, 0, "" }, /* u */
 	{ E_TEP_SELECTION,          E_TEP_PASTE, 0, "" }, /* v */
 	{ E_TEP_BACKWARD_WORD,      E_TEP_DELETE, 0, "" }, /* w */
-	{ E_TEP_SELECTION,          E_TEP_PASTE, 0, "" }, /* x */
+	{ E_TEP_SELECTION,          E_TEP_DELETE, 0, "" }, /* x */
 	{ E_TEP_SELECTION, E_TEP_NOP, 0, "" },           /* y */
 	{ E_TEP_SELECTION, E_TEP_NOP, 0, "" }           /* z */
 };
@@ -142,6 +142,7 @@ e_text_event_processor_emacs_like_event (ETextEventProcessor *tep, ETextEventPro
 {
 	ETextEventProcessorCommand command;
 	ETextEventProcessorEmacsLike *tep_el = E_TEXT_EVENT_PROCESSOR_EMACS_LIKE(tep);
+	command.action = E_TEP_NOP;
 	switch (event->type) {
 	case GDK_BUTTON_PRESS:
 		if (event->button.button == 1) {
@@ -151,24 +152,39 @@ e_text_event_processor_emacs_like_event (ETextEventProcessor *tep, ETextEventPro
 				command.action = E_TEP_MOVE;
 			command.position = E_TEP_VALUE;
 			command.value = event->button.position;
+			command.time = event->button.time;
 			tep_el->mouse_down = TRUE;
 		}
 		break;
 	case GDK_BUTTON_RELEASE:
 		if (event->button.button == 1) {
+			command.time = event->button.time;
 			tep_el->mouse_down = FALSE;
+		} else if (event->button.button == 2) {
+			command.action = E_TEP_MOVE;
+			command.position = E_TEP_VALUE;
+			command.value = event->button.position;
+			command.time = event->button.time;
+			gtk_signal_emit_by_name (GTK_OBJECT (tep), "command", &command);			
+
+			command.action = E_TEP_GET_SELECTION;
+			command.position = E_TEP_SELECTION;
+			command.value = 0;
+			command.time = event->button.time;
 		}
 		break;
 	case GDK_MOTION_NOTIFY:
 		if (tep_el->mouse_down) {
 			command.action = E_TEP_SELECT;
 			command.position = E_TEP_VALUE;
+			command.time = event->motion.time;
 			command.value = event->motion.position;
 		}
 		break;
 	case GDK_KEY_PRESS: 
 		{
 			ETextEventProcessorEventKey key = event->key;
+			command.time = event->key.time;
 			if (key.state & GDK_SHIFT_MASK)
 				command.action = E_TEP_SELECT;
 			else
@@ -232,6 +248,8 @@ e_text_event_processor_emacs_like_event (ETextEventProcessor *tep, ETextEventPro
 					command.position = E_TEP_FORWARD_WORD;
 				} else if (key.state & GDK_SHIFT_MASK) {
 					command.action = E_TEP_COPY;
+					command.position = E_TEP_SELECTION;
+					gtk_signal_emit_by_name (GTK_OBJECT (tep), "command", &command);
 				
 					command.action = E_TEP_DELETE;
 					command.position = E_TEP_SELECTION;
@@ -276,6 +294,12 @@ e_text_event_processor_emacs_like_event (ETextEventProcessor *tep, ETextEventPro
 					}
 
 					if (key.keyval == 'x') {
+						command.action = E_TEP_COPY;
+						command.position = E_TEP_SELECTION;
+						gtk_signal_emit_by_name (GTK_OBJECT (tep), "command", &command);
+						
+						command.action = E_TEP_DELETE;
+						command.position = E_TEP_SELECTION;
 					}
 					
 					break;
@@ -302,6 +326,7 @@ e_text_event_processor_emacs_like_event (ETextEventProcessor *tep, ETextEventPro
 			}
 			break;
 		case GDK_KEY_RELEASE:
+			command.time = event->key.time;
 			command.action = E_TEP_NOP;
 			break;
 		default:

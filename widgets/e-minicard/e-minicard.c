@@ -279,7 +279,7 @@ e_minicard_realize (GnomeCanvasItem *item)
 						  "y", e_minicard->height,
 						  "width", e_minicard->width - 4.0,
 						  "fieldname", "Email:",
-						  "field", "clahey@helixcode.com",
+						  "field", "clahey@address.com",
 						  NULL );
 		e_minicard->fields = g_list_append( e_minicard->fields, new_item);
 		
@@ -349,6 +349,11 @@ e_minicard_event (GnomeCanvasItem *item, GdkEvent *event)
 	  }
       }
       break;
+    case GDK_BUTTON_PRESS:
+	    if (event->button.button == 1) {
+		    gnome_canvas_item_grab_focus(item);
+	    }
+	    break;
     case GDK_KEY_PRESS:
 	    if (event->key.length == 1 && event->key.string[0] == '\t') {
 		    GList *list;

@@ -161,7 +161,12 @@ struct _EText {
 
 	ETextEventProcessor *tep;       /* Text Event Processor */
 
-	GtkWidget *invisible;           /* For selection handling. */
+	GtkWidget *invisible;           /* For selection handling */
+	gboolean has_selection;         /* TRUE if we have the selection */
+	gchar *primary_selection;       /* Primary selection text */
+	gint primary_length;            /* Primary selection text length */
+	gchar *clipboard_selection;     /* Clipboard selection text */
+	gint clipboard_length;          /* Clipboard selection text length*/
 };
 
 struct _ETextClass {

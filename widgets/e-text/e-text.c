@@ -24,6 +24,7 @@
 #include <libart_lgpl/art_affine.h>
 #include <libart_lgpl/art_rgb.h>
 #include <libart_lgpl/art_rgb_bitmap_affine.h>
+#include <gtk/gtkinvisible.h>
 
 #include "e-text-event-processor-emacs-like.h"
 
@@ -76,6 +77,10 @@ enum {
 
 
 enum {
+	E_SELECTION_PRIMARY,
+	E_SELECTION_CLIPBOARD
+};
+enum {
   TARGET_STRING,
   TARGET_TEXT,
   TARGET_COMPOUND_TEXT
@@ -104,11 +109,15 @@ static void e_text_command(ETextEventProcessor *tep, ETextEventProcessorCommand 
 
 static guint32 e_text_get_event_time (EText *text);
 
+static void e_text_get_selection(EText *text, GdkAtom selection, guint32 time);
+static void e_text_supply_selection (EText *text, guint time, GdkAtom selection, guchar *data, gint length);
+
 static ETextSuckFont *e_suck_font (GdkFont *font);
 static void e_suck_font_free (ETextSuckFont *suckfont);
 
 
 static GnomeCanvasItemClass *parent_class;
+static GdkAtom clipboard_atom = GDK_NONE;
 
 
 
@@ -221,6 +230,11 @@ e_text_class_init (ETextClass *klass)
 	gtk_object_add_arg_type ("EText::ellipsis",
 				 GTK_TYPE_STRING, GTK_ARG_READWRITE, ARG_ELLIPSIS);
 
+	if (!clipboard_atom)
+		clipboard_atom = gdk_atom_intern ("CLIPBOARD", FALSE);
+
+
+
 	klass->resize = NULL;
 	klass->change = NULL;
 
@@ -275,6 +289,14 @@ e_text_init (EText *text)
 	text->button_down = FALSE;
 	
 	text->tep = NULL;
+
+	text->invisible = NULL;
+	text->has_selection = FALSE;
+
+	text->primary_selection = NULL;
+	text->primary_length = 0;
+	text->clipboard_selection = NULL;
+	text->clipboard_length = 0;
 }
 
 /* Destroy handler for the text item */
@@ -1145,6 +1167,8 @@ e_text_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 	text = E_TEXT (item);
 	canvas = GNOME_CANVAS_ITEM(text)->canvas;
 
+	fg_gc = GTK_WIDGET(canvas)->style->fg_gc[text->has_selection ? GTK_STATE_SELECTED : GTK_STATE_ACTIVE];
+
 	if (!text->text || !text->font)
 		return;
 
@@ -1156,7 +1180,7 @@ e_text_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 		rect.height = text->clip_cheight;
 		
 		gdk_gc_set_clip_rectangle (text->gc, &rect);
-		gdk_gc_set_clip_rectangle (GTK_WIDGET(canvas)->style->fg_gc[GTK_STATE_SELECTED], &rect);
+		gdk_gc_set_clip_rectangle (fg_gc, &rect);
 		clip_rect = &rect;
 	}
 	lines = text->lines;
@@ -1194,7 +1218,9 @@ e_text_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 					sel_rect.height = text->font->ascent + text->font->descent;
 					gtk_paint_flat_box(GTK_WIDGET(item->canvas)->style,
 							   drawable,
-							   GTK_STATE_SELECTED,
+							   text->has_selection ?
+							   GTK_STATE_SELECTED :
+							   GTK_STATE_ACTIVE,
 							   GTK_SHADOW_NONE,
 							   clip_rect,
 							   GTK_WIDGET(item->canvas),
@@ -1210,7 +1236,6 @@ e_text_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 						       ypos - y,
 						       lines->text,
 						       sel_start - start_char);
-					fg_gc = GTK_WIDGET(canvas)->style->fg_gc[GTK_STATE_SELECTED];
 					gdk_draw_text (drawable,
 						       text->font,
 						       fg_gc,
@@ -1287,7 +1312,7 @@ e_text_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 
 	if (text->clip) {
 		gdk_gc_set_clip_rectangle (text->gc, NULL);
-		gdk_gc_set_clip_rectangle (GTK_WIDGET(GNOME_CANVAS_ITEM(text)->canvas)->style->fg_gc[GTK_STATE_SELECTED], NULL);
+		gdk_gc_set_clip_rectangle (fg_gc, NULL);
 	}
 }
 
@@ -1515,6 +1540,34 @@ e_text_bounds (GnomeCanvasItem *item, double *x1, double *y1, double *x2, double
 	*y2 = *y1 + height;
 }
 
+static void
+_get_xy_from_position (EText *text, gint position, gint *xp, gint *yp)
+{
+	if (xp || yp) {
+		struct line *lines;
+		int x, y;
+		int j;
+		x = get_line_xpos (text, lines);
+		y = text->cy;
+		for (j = 0, lines = text->lines; j < text->num_lines; lines++, j++) {
+			if (lines->text > text->text + position)
+				break;
+			y += text->font->ascent + text->font->descent;
+		}
+		lines --;
+		y -= text->font->descent;
+		
+		x += gdk_text_width (text->font,
+				     lines->text,
+				     position - (lines->text - text->text));
+		x -= text->xofs_edit;
+		if (xp)
+			*xp = x;
+		if (yp)
+			*yp = y;
+	}
+}
+
 static gint
 _get_position_from_xy (EText *text, gint x, gint y)
 {
@@ -1523,11 +1576,10 @@ _get_position_from_xy (EText *text, gint x, gint y)
 	int xpos;
 	struct line *lines;
 	j = 0;
-	while (y > ypos)
-		{
-			ypos += text->font->ascent + text->font->descent;
-			j ++;
-		}
+	while (y > ypos) {
+		ypos += text->font->ascent + text->font->descent;
+		j ++;
+	}
 	j--;
 	if (j >= text->num_lines)
 		j = text->num_lines - 1;
@@ -1543,8 +1595,9 @@ _get_position_from_xy (EText *text, gint x, gint y)
 					       lines->text + i,
 					       1);
 		xpos += charwidth / 2;
-		if (xpos > x)
+		if (xpos > x) {
 			break;
+		}
 		xpos += (charwidth + 1) / 2;
 	}
 	return lines->text + i - text->text;
@@ -1619,7 +1672,7 @@ e_text_event (GnomeCanvasItem *item, GdkEvent *event)
 	EText *text = E_TEXT(item);
 	ETextEventProcessorEvent e_tep_event;
 
-	gint return_val;
+	gint return_val = 0;
 
 	e_tep_event.type = event->type;
 	switch (event->type) {
@@ -1730,6 +1783,7 @@ _get_position(EText *text, ETextEventProcessorCommand *command)
 {
 	int i;
 	int length;
+	int x, y;
 	
 	switch (command->position) {
 		
@@ -1793,7 +1847,13 @@ _get_position(EText *text, ETextEventProcessorCommand *command)
 		return i;
 
 	case E_TEP_FORWARD_LINE:
+		_get_xy_from_position(text, text->selection_end, &x, &y);
+		y += text->font->ascent + text->font->descent;
+		return _get_position_from_xy(text, x, y);
 	case E_TEP_BACKWARD_LINE:
+		_get_xy_from_position(text, text->selection_end, &x, &y);
+		y -= text->font->ascent + text->font->descent;
+		return _get_position_from_xy(text, x, y);
 
 	case E_TEP_FORWARD_PARAGRAPH:
 	case E_TEP_BACKWARD_PARAGRAPH:
@@ -1845,6 +1905,7 @@ static void
 e_text_command(ETextEventProcessor *tep, ETextEventProcessorCommand *command, gpointer data)
 {
 	EText *text = E_TEXT(data);
+	int sel_start, sel_end;
 	switch (command->action) {
 	case E_TEP_MOVE:
 		text->selection_start = _get_position(text, command);
@@ -1852,6 +1913,11 @@ e_text_command(ETextEventProcessor *tep, ETextEventProcessorCommand *command, gp
 		break;
 	case E_TEP_SELECT:
 		text->selection_end = _get_position(text, command);
+		sel_start = MIN(text->selection_start, text->selection_end);
+		sel_end = MAX(text->selection_start, text->selection_end);
+		if (sel_start != sel_end) {
+			e_text_supply_selection (text, command->time, GDK_SELECTION_PRIMARY, text->text + sel_start, sel_end - sel_start);
+		}
 		break;
 	case E_TEP_DELETE:
 		if (text->selection_end == text->selection_start) {
@@ -1871,10 +1937,17 @@ e_text_command(ETextEventProcessor *tep, ETextEventProcessorCommand *command, gp
 		recalc_bounds (text);
 		break;
 	case E_TEP_COPY:
-		if (text->selection_end != text->selection_start) {
+		sel_start = MIN(text->selection_start, text->selection_end);
+		sel_end = MAX(text->selection_start, text->selection_end);
+		if (sel_start != sel_end) {
+			e_text_supply_selection (text, command->time, clipboard_atom, text->text + sel_start, sel_end - sel_start);
 		}
 		break;
 	case E_TEP_PASTE:
+		e_text_get_selection (text, clipboard_atom, command->time);
+		break;
+	case E_TEP_GET_SELECTION:
+		e_text_get_selection (text, GDK_SELECTION_PRIMARY, command->time);
 		break;
 	case E_TEP_ACTIVATE:
 		break;
@@ -1911,6 +1984,178 @@ e_text_command(ETextEventProcessor *tep, ETextEventProcessorCommand *command, gp
 
 	gnome_canvas_item_request_update (GNOME_CANVAS_ITEM(text));
 }
+
+static void
+_selection_clear_event (GtkInvisible *invisible,
+			GdkEventSelection *event,
+			EText *text)
+{
+	if (event->selection == GDK_SELECTION_PRIMARY) {
+		g_free (text->primary_selection);
+		text->primary_selection = NULL;
+		text->primary_length = 0;
+		gtk_object_unref (GTK_OBJECT(invisible));
+
+		text->has_selection = FALSE;
+		gnome_canvas_item_request_update (GNOME_CANVAS_ITEM(text));
+
+	} else if (event->selection == clipboard_atom) {
+		g_free (text->clipboard_selection);
+		text->clipboard_selection = NULL;
+		text->clipboard_length = 0;
+		gtk_object_unref (GTK_OBJECT(invisible));
+	}
+}
+
+static void
+_selection_get (GtkInvisible *invisible,
+		GtkSelectionData *selection_data,
+		guint info,
+		guint time_stamp,
+		EText *text)
+{
+	switch (info) {
+	case E_SELECTION_PRIMARY:
+		gtk_selection_data_set (selection_data, GDK_SELECTION_TYPE_STRING,
+					8, text->primary_selection, text->primary_length);
+		break;
+	case E_SELECTION_CLIPBOARD:
+		gtk_selection_data_set (selection_data, GDK_SELECTION_TYPE_STRING,
+					8, text->clipboard_selection, text->clipboard_length);
+		break;
+	}
+}
+
+static void
+_selection_received (GtkInvisible *invisible,
+		     GtkSelectionData *selection_data,
+		     guint time,
+		     EText *text)
+{
+	if (selection_data->length < 0 || selection_data->type != GDK_SELECTION_TYPE_STRING) {
+		gtk_object_unref (GTK_OBJECT(invisible));
+		return;
+	} else {
+		ETextEventProcessorCommand command;
+		command.action = E_TEP_INSERT;
+		command.position = E_TEP_SELECTION;
+		command.string = selection_data->data;
+		command.value = selection_data->length;
+		command.time = time;
+		e_text_command(text->tep, &command, text);
+		gtk_object_unref (GTK_OBJECT(invisible));
+	}
+}
+
+static void _invisible_destroy (GtkInvisible *invisible,
+				EText *text)
+{
+	text->invisible = NULL;
+}
+
+static void e_text_supply_selection (EText *text, guint time, GdkAtom selection, guchar *data, gint length)
+{
+	gboolean successful;
+	GtkWidget *invisible;
+
+	if (text->invisible) {
+		invisible = text->invisible;
+		gtk_object_ref (GTK_OBJECT(invisible));
+	} else {
+		invisible = gtk_invisible_new();
+		text->invisible = invisible;
+
+		gtk_selection_add_target (invisible,
+					  GDK_SELECTION_PRIMARY,
+					  GDK_SELECTION_TYPE_STRING,
+					  E_SELECTION_PRIMARY);
+		gtk_selection_add_target (invisible,
+					  clipboard_atom,
+					  GDK_SELECTION_TYPE_STRING,
+					  E_SELECTION_CLIPBOARD);
+
+		gtk_signal_connect (GTK_OBJECT(invisible), "selection_get",
+				    GTK_SIGNAL_FUNC (_selection_get), 
+				    text);
+		gtk_signal_connect (GTK_OBJECT(invisible), "selection_clear_event",
+				    GTK_SIGNAL_FUNC (_selection_clear_event),
+				    text);
+		gtk_signal_connect (GTK_OBJECT(invisible), "selection_received",
+				    GTK_SIGNAL_FUNC (_selection_received),
+				    text);
+
+		gtk_signal_connect (GTK_OBJECT(invisible), "destroy",
+				    GTK_SIGNAL_FUNC (_invisible_destroy),
+				    text);
+	}
+
+	if (selection == GDK_SELECTION_PRIMARY ) {
+		if (text->primary_selection) {
+			gtk_object_unref (GTK_OBJECT(invisible));
+			g_free (text->primary_selection);
+		}
+		text->primary_selection = g_strndup(data, length);
+		text->primary_length = length;
+	} else if (selection == clipboard_atom) {
+		if (text->clipboard_selection) {
+			gtk_object_unref (GTK_OBJECT(invisible));
+			g_free (text->clipboard_selection);
+		}
+		text->clipboard_selection = g_strndup(data, length);
+		text->clipboard_length = length;
+	}
+
+	successful = gtk_selection_owner_set (invisible,
+					      selection,
+					      time);
+	
+	if (selection == GDK_SELECTION_PRIMARY)
+		text->has_selection = successful;
+
+	if (!successful)
+		gtk_object_unref(GTK_OBJECT(invisible));
+}
+
+static void
+e_text_get_selection(EText *text, GdkAtom selection, guint32 time)
+{
+	GtkWidget *invisible;
+	if (text->invisible) {
+		invisible = text->invisible;
+		gtk_object_ref (GTK_OBJECT(invisible));
+	} else {
+		invisible = gtk_invisible_new();
+		text->invisible = invisible;
+
+		gtk_selection_add_target (invisible,
+					  GDK_SELECTION_PRIMARY,
+					  GDK_SELECTION_TYPE_STRING,
+					  E_SELECTION_PRIMARY);
+		gtk_selection_add_target (invisible,
+					  clipboard_atom,
+					  GDK_SELECTION_TYPE_STRING,
+					  E_SELECTION_CLIPBOARD);
+
+		gtk_signal_connect (GTK_OBJECT(invisible), "selection_get",
+				    GTK_SIGNAL_FUNC (_selection_get), 
+				    text);
+		gtk_signal_connect (GTK_OBJECT(invisible), "selection_clear_event",
+				    GTK_SIGNAL_FUNC (_selection_clear_event),
+				    text);
+		gtk_signal_connect (GTK_OBJECT(invisible), "selection_received",
+				    GTK_SIGNAL_FUNC (_selection_received),
+				    text);
+
+		gtk_signal_connect (GTK_OBJECT(invisible), "destroy",
+				    GTK_SIGNAL_FUNC (_invisible_destroy),
+				    text);
+	}
+	gtk_selection_convert(invisible,
+			      selection,
+			      GDK_SELECTION_TYPE_STRING,
+			      time);
+}
+
 #if 0
 static void
 e_text_real_copy_clipboard (EText *text)
@@ -2011,7 +2256,7 @@ e_suck_font (GdkFont *font)
 	GdkColor black, white;
 	GdkImage *image;
 	GdkGC *gc;
-	guchar *bitmap, *line;
+	guchar *line;
 	int width, height;
 	int black_pixel, pixel;
 

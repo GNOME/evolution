@@ -79,6 +79,7 @@ enum _ETextEventProcessorCommandAction {
 	E_TEP_INSERT,
 	E_TEP_COPY,
 	E_TEP_PASTE,
+	E_TEP_GET_SELECTION,
 	E_TEP_SET_SELECT_BY_WORD,
 	E_TEP_ACTIVATE,
 
@@ -90,6 +91,7 @@ struct _ETextEventProcessorCommand {
 	ETextEventProcessorCommandAction action;
 	int value;
 	char *string;
+	guint32 time;
 };
 
 struct _ETextEventProcessorEventButton {

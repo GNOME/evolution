@@ -126,7 +126,6 @@ e_minicard_label_class_init (EMinicardLabelClass *klass)
 static void
 e_minicard_label_init (EMinicardLabel *minicard_label)
 {
-  GnomeCanvasGroup *group = GNOME_CANVAS_GROUP( minicard_label );
   minicard_label->width = 10;
   minicard_label->height = 10;
   minicard_label->rect = NULL;
@@ -215,7 +214,6 @@ e_minicard_label_get_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 static void
 e_minicard_label_realize (GnomeCanvasItem *item)
 {
-        double ascent, descent;
 	EMinicardLabel *e_minicard_label;
 	GnomeCanvasGroup *group;
 
@@ -339,7 +337,46 @@ e_minicard_label_event (GnomeCanvasItem *item, GdkEvent *event)
 	  }
       }
       break;
-    default:
+    case GDK_BUTTON_PRESS:
+    case GDK_BUTTON_RELEASE: 
+    case GDK_MOTION_NOTIFY: {
+	    GnomeCanvasItem *field;
+	    ArtPoint p;
+	    double inv[6], affine[6];
+	    gboolean return_val;
+
+	    field = e_minicard_label->field;
+	    art_affine_identity (affine);
+	    
+	    if (field->xform != NULL) {
+		    if (field->object.flags & GNOME_CANVAS_ITEM_AFFINE_FULL) {
+			    art_affine_multiply (affine, affine, field->xform);
+		    } else {
+			    affine[4] += field->xform[0];
+			    affine[5] += field->xform[1];
+		    }
+	    }
+	    
+	    art_affine_invert (inv, affine);
+	    if (event->type == GDK_MOTION_NOTIFY) {
+		    p.x = event->motion.x;
+		    p.y = event->motion.y;
+		    art_affine_point (&p, &p, inv);
+		    event->motion.x = p.x;
+		    event->motion.y = p.y;
+	    } else {
+		    p.x = event->button.x;
+		    p.y = event->button.y;
+		    art_affine_point (&p, &p, inv);
+		    event->button.x = p.x;
+		    event->button.y = p.y;
+	    }
+	    
+	    gtk_signal_emit_by_name(GTK_OBJECT(e_minicard_label->field), "event", event, &return_val);
+	    return return_val;
+	    break;
+    }
+   default:
       break;
     }
   
