@@ -12,6 +12,6 @@ privincludedir=@privincludedir@
 Name: evolution-calendar
 Description: libraries needed for Evolution calendar backends
 Version: @VERSION@
-Requires: libgnome-2.0 libbonobo-2.0 gal-2.0 >= @GAL_REQUIRED@ gnome-vfs-2.0
+Requires: libgnome-2.0 libbonobo-2.0 gal-2.2 >= @GAL_REQUIRED@ gnome-vfs-2.0
 Libs: -L${privlibdir} -lpcs -lcal-util -lcal-client -lical-evolution -leutil
 Cflags: -I${privincludedir}

@@ -1,3 +1,10 @@
+2003-09-04  Dan Winship  <danw@ximian.com>
+
+	* camel.pc.in (Requires): 
+	* evolution-addressbook.pc.in (Requires): 
+	* evolution-calendar.pc.in (Requires): 
+	* evolution-shell.pc.in (Requires): Require gal-2.2
+
 2003-08-27  Bolian Yin <bolian.yin@sun.com>
 
 	* configure.in: add a11y/widgets/Makefile
