@@ -1,3 +1,8 @@
+2000-05-08  Matt Loper  <matt@helixcode.com>
+
+	* shortcuts.xml: Removed unused shortcuts which point to
+	unimplemented folders.
+
 2000-05-08  Christopher James Lahey  <clahey@helixcode.com>
 
 	* local/Contacts/Makefile.am: Install `addressbook.db'.
