@@ -1,3 +1,18 @@
+1999-09-18  bertrand  <Bertrand.Guiheneuf@aful.org>
+
+	* camel/camel-folder-pt-proxy.c (_op_exec_or_plan_for_exec): 
+	new func. Try to exec an operation in a thread
+	or queue it if a thread is already busy.
+
+	* camel/camel-op-queue.c (camel_op_queue_set_service_availability): 
+	(camel_op_queue_get_service_availability): 
+	new funcs. 
+
+	* camel/camel-op-queue.c (camel_op_new): 
+	(camel_op_free): 
+	new funcs. Uses glib mem chunks.
+	
+
 1999-09-17  bertrand  <Bertrand.Guiheneuf@aful.org>
 
 	* camel/camel-folder-pt-proxy.c (_init_with_store): 

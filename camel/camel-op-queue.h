@@ -34,7 +34,7 @@ extern "C" {
 typedef void (CamelOpFunc)(gpointer param);
 
 typedef struct {
-	CamelOpFunc *op_func;
+	CamelOpFunc *func;
 	gpointer param;
 
 } CamelOp;
@@ -44,7 +44,8 @@ typedef struct
 {
 	GList *ops_head;
 	GList *ops_tail;
-	gint pending_ops;
+	gboolean service_available;
+
 } CamelOpQueue;
 
 
@@ -53,6 +54,12 @@ CamelOpQueue *camel_op_queue_new ();
 void camel_op_queue_push_op (CamelOpQueue *queue, CamelOp *op);
 CamelOp *camel_op_queue_pop_op (CamelOpQueue *queue);
 gboolean camel_op_queue_run_next_op (CamelOpQueue *queue);
+gboolean camel_op_queue_get_service_availability (CamelOpQueue *queue);
+CamelOp *camel_op_new ();
+
+CamelOp *camel_op_new ();
+void camel_op_free (CamelOp *op);
+
 
 #ifdef __cplusplus
 }

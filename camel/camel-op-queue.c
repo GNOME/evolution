@@ -21,7 +21,8 @@
 
 #include "camel-op-queue.h"
 
-
+#define NB_OP_CHUNKS 20
+static GMemChunk *op_chunk=NULL;
 
 /**
  * camel_op_queue_new: create a new operation queue
@@ -34,6 +35,11 @@ CamelOpQueue *
 camel_op_queue_new ()
 {
 	CamelOpQueue *op_queue;
+	if (!op_chunk)
+		op_chunk = g_mem_chunk_create (CamelOp, 
+					       NB_OP_CHUNKS,
+					       G_ALLOC_AND_FREE);
+	
 	op_queue = g_new (CamelOpQueue, 1);
 	op_queue->ops_tail = NULL;
 	op_queue->ops_head = NULL;
@@ -104,7 +110,64 @@ camel_op_queue_run_next_op (CamelOpQueue *queue)
 	if (!op) return FALSE;
 
 	/* run the operation */
-	op->op_func (op->param);	
+	op->func (op->param);	
 
 	return FALSE;
 }
+
+/**
+ * camel_op_queue_set_service_availability: set the service availability for an operation queue
+ * @queue: queue object
+ * @available: availability flag
+ * 
+ * set the service availability
+ **/
+void
+camel_op_queue_set_service_availability (CamelOpQueue *queue, gboolean available)
+{
+	queue->service_available = available;	
+}
+
+/**
+ * camel_op_queue_get_service_availability: determine if an operation queue service is available 
+ * @queue: queue object
+ * 
+ * Determine if the service associated to an operation queue is available.
+ * 
+ * Return value: service availability.
+ **/
+gboolean
+camel_op_queue_get_service_availability (CamelOpQueue *queue)
+{
+	return queue->service_available;
+}
+
+/**
+ * camel_op_new: return a new CamelOp object 
+ * 
+ * The obtained object must be destroyed with 
+ * camel_op_free ()
+ * 
+ * Return value: the newly allocated CamelOp object
+ **/
+CamelOp *
+camel_op_new ()
+{
+	return g_chunk_new (CamelOp, op_chunk);
+}
+
+/**
+ * camel_op_free: free a CamelOp object allocated with camel_op_new
+ * @op: CamelOp object to free
+ * 
+ * Free a CamelOp object allocated with camel_op_new ()
+ * this routine won't work with CamelOp objects allocated 
+ * with other allocators.
+ **/
+void 
+camel_op_free (CamelOp *op)
+{
+	g_chunk_free (op, op_chunk);
+}
+
+

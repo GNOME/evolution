@@ -138,8 +138,6 @@ camel_folder_proxy_class_init (CamelFolderPtProxyClass *camel_folder_pt_proxy_cl
 static void
 camel_folder_proxy_init (CamelFolderPtProxy *folder_pt_proxy)
 {
-
-	
 	folder_pt_proxy->op_queue = camel_op_queue_new ();
 
 }
@@ -187,9 +185,17 @@ _finalize (GtkObject *object)
 
 
 static void 
-_plan_op_for_exec (CamelOp *op)
+_op_exec_or_plan_for_exec (CamelFolderPtProxy *proxy_folder, CamelOp *op)
 {
-		
+	CamelOpQueue *op_queue;
+	pthread_t thread;
+	
+	op_queue = proxy_folder->op_queue;
+
+	if (op_queue->service_available) {
+		op_queue->service_available = FALSE;
+		pthread_create (&thread, NULL , (thread_call_func)(op->func), op->param);
+	}
 
 }
 
@@ -229,6 +235,7 @@ _init_with_store (CamelFolder *folder, CamelStore *parent_store)
 	_InitStoreParam *param;
 	pthread_t init_store_thread;
 	int filedes[2];
+	CamelOp *op;
 
 #warning Notify io_channel initialization should be elsewhere
 	/* it can not be in camel_folder_proxy_init 
@@ -244,18 +251,17 @@ _init_with_store (CamelFolder *folder, CamelStore *parent_store)
 	proxy_folder->pipe_client_fd = filedes [0];
 	proxy_folder->pipe_server_fd = filedes [1];
 	proxy_folder->notify_source =  g_io_channel_unix_new (filedes [0]);
-
+	
+	op = camel_op_new ();
 	/* param will be freed in _async_init_with_store */
 	param = g_new (_InitStoreParam, 1);
 	param->folder = folder;
 	param->parent_store = parent_store;
 	
-	/* 
-	 * call _async_init_with_store in a separate thread 
-	 * the thread may block on a mutex, but not the main
-	 * thread.
-	 */
-	pthread_create (&init_store_thread, NULL , (thread_call_func)_async_init_with_store, param);
+	op->func = async_init_with_store;
+	op->param =  param;
+	
+	
 	
 }
 
