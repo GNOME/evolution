@@ -1,3 +1,9 @@
+2004-05-26  Kidd Wang  <kidd.wang@sun.com>
+
+	* gui/e-week-view.c: (e_week_view_event_move),
+	(e_week_view_change_event_time): In week view all-day events should
+	keep all-dayness when moved around.
+
 2004-05-25  Larry Ewing  <lewing@ximian.com>
 
 	* gui/dialogs/calendar-setup.c: remove now unused functions.

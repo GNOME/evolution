@@ -181,7 +181,7 @@ static gboolean e_week_view_on_text_item_event (GnomeCanvasItem *item,
 static gboolean e_week_view_event_move (ECalendarView *cal_view, ECalViewMoveDirection direction);
 static gint e_week_view_get_day_offset_of_event (EWeekView *week_view, time_t event_time);
 static void e_week_view_scroll_a_step (EWeekView *week_view, ECalViewMoveDirection direction);
-static void e_week_view_change_event_time (EWeekView *week_view, time_t start_dt, time_t end_dt);
+static void e_week_view_change_event_time (EWeekView *week_view, time_t start_dt, time_t end_dt, gboolean is_all_day);
 static gboolean e_week_view_on_jump_button_event (GnomeCanvasItem *item,
 						  GdkEvent *event,
 						  EWeekView *week_view);
@@ -3126,6 +3126,7 @@ static gboolean e_week_view_event_move (ECalendarView *cal_view, ECalViewMoveDir
 	time_t start_dt, end_dt;
 	struct icaltimetype start_time,end_time;
 	EWeekView *week_view = E_WEEK_VIEW (cal_view);
+	gboolean is_all_day = FALSE;
 
 	event_num = week_view->editing_event_num;
 	span_num = week_view->editing_span_num;
@@ -3136,10 +3137,15 @@ static gboolean e_week_view_event_move (ECalendarView *cal_view, ECalViewMoveDir
 		return FALSE;
 
 	event = &g_array_index (week_view->events, EWeekViewEvent, event_num);
+
 	start_dt = event->start;
 	end_dt = event->end;
-	start_time = icaltime_from_timet (start_dt, 0);
-	end_time = icaltime_from_timet (end_dt, 0);
+	start_time = icalcomponent_get_dtstart (event->comp_data->icalcomp);
+	end_time = icalcomponent_get_dtend (event->comp_data->icalcomp);
+
+	if (start_time.is_date && end_time.is_date)
+		is_all_day = TRUE;
+
 	current_end_day = e_week_view_get_day_offset_of_event (week_view,end_dt); 
 
 	switch (direction) {
@@ -3161,8 +3167,10 @@ static gboolean e_week_view_event_move (ECalendarView *cal_view, ECalViewMoveDir
 	
 	icaltime_adjust	(&start_time ,adjust_days,0,0,0);
 	icaltime_adjust	(&end_time ,adjust_days,0,0,0);
-	start_dt = icaltime_as_timet (start_time);
-	end_dt = icaltime_as_timet (end_time);
+	start_dt = icaltime_as_timet_with_zone (start_time,
+		e_calendar_view_get_timezone (E_CALENDAR_VIEW (week_view)));
+	end_dt = icaltime_as_timet_with_zone (end_time,
+		e_calendar_view_get_timezone (E_CALENDAR_VIEW (week_view)));
 
 	current_start_day = e_week_view_get_day_offset_of_event (week_view,start_dt);
 	current_end_day = e_week_view_get_day_offset_of_event (week_view,end_dt);
@@ -3180,7 +3188,7 @@ static gboolean e_week_view_event_move (ECalendarView *cal_view, ECalViewMoveDir
 		}
 	}
 	
-	e_week_view_change_event_time (week_view, start_dt, end_dt);
+	e_week_view_change_event_time (week_view, start_dt, end_dt, is_all_day);
 	return TRUE;
 }
 
@@ -3219,7 +3227,7 @@ e_week_view_scroll_a_step (EWeekView *week_view, ECalViewMoveDirection direction
 }
 
 static void
-e_week_view_change_event_time (EWeekView *week_view, time_t start_dt, time_t end_dt)
+e_week_view_change_event_time (EWeekView *week_view, time_t start_dt, time_t end_dt, gboolean is_all_day)
 {
 	EWeekViewEvent *event;
 	gint event_num;
@@ -3249,10 +3257,10 @@ e_week_view_change_event_time (EWeekView *week_view, time_t start_dt, time_t end
 	   and end times. */
 	date.tzid = icaltimezone_get_tzid (e_calendar_view_get_timezone (E_CALENDAR_VIEW (week_view)));
 	
-	*date.value = icaltime_from_timet_with_zone (start_dt, FALSE,
+	*date.value = icaltime_from_timet_with_zone (start_dt, is_all_day,
 						     e_calendar_view_get_timezone (E_CALENDAR_VIEW (week_view)));
 	e_cal_component_set_dtstart (comp, &date);
-	*date.value = icaltime_from_timet_with_zone (end_dt, FALSE,
+	*date.value = icaltime_from_timet_with_zone (end_dt, is_all_day,
 						     e_calendar_view_get_timezone (E_CALENDAR_VIEW (week_view)));
 	e_cal_component_set_dtend (comp, &date);
 
