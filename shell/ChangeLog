@@ -1,5 +1,15 @@
 2001-10-12  Ettore Perazzoli  <ettore@ximian.com>
 
+	* e-shell-folder-commands.c
+	(folder_selection_dialog_folder_selected_callback): Don't free the
+	folder_command_data here.  It is supposed to be freed in the async
+	callback.  The leak that Dan supposedly fixed was probably only
+	due to the fact that the component that was supposed to perform
+	the xfer didn't report a result.  Now that xfer actually works, it
+	was triggering the crash instead.  [Fixes #9769.]
+
+2001-10-12  Ettore Perazzoli  <ettore@ximian.com>
+
 	* e-shell-offline-handler.c (prepare_for_offline): Only invoke
 	`progress_listener_servant_free()', no need to also do `__fini()'
 	on it as `__fini()' is also called by the former.  [Fixes #12329.]

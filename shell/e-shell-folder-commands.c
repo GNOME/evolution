@@ -204,7 +204,6 @@ folder_selection_dialog_folder_selected_callback (EShellFolderSelectionDialog *f
 					 folder_command_data);
 
 	gtk_widget_destroy (GTK_WIDGET (folder_selection_dialog));
-	folder_command_data_free (folder_command_data);
 }
 
 static void
