@@ -306,7 +306,7 @@ camel_pgp_mime_part_sign (CamelPgpContext *context, CamelMimePart **mime_part, c
 	signed_part = camel_mime_part_new ();
 	camel_mime_part_set_content (signed_part, CAMEL_STREAM_MEM (sigstream)->buffer->data,
 				     CAMEL_STREAM_MEM (sigstream)->buffer->len,
-				     "application/pgp-signature");
+				     "application/pgp-signature; name=signature.asc");
 	camel_object_unref (CAMEL_OBJECT (sigstream));
 	
 	/* construct the container multipart/signed */
@@ -480,7 +480,7 @@ camel_pgp_mime_part_encrypt (CamelPgpContext *context, CamelMimePart **mime_part
 	encrypted_part = camel_mime_part_new ();
 	camel_mime_part_set_content (encrypted_part, CAMEL_STREAM_MEM (ciphertext)->buffer->data,
 				     CAMEL_STREAM_MEM (ciphertext)->buffer->len,
-				     "application/octet-stream");
+				     "application/octet-stream; name=encrypted.asc");
 	camel_object_unref (CAMEL_OBJECT (ciphertext));
 	camel_mime_part_set_encoding (encrypted_part, CAMEL_MIME_PART_ENCODING_7BIT);
 	

@@ -1,3 +1,12 @@
+2001-11-16  Jeffrey Stedfast  <fejj@ximian.com>
+
+	Since some mail clients like Outlook are broken, we need to set a
+	name parameter on pgp signed and encrypted parts.
+
+	* camel-pgp-mime.c (camel_pgp_mime_part_encrypt): Set a name
+	parameter.
+	(camel_pgp_mime_part_sign): Same.
+
 2001-11-14  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* providers/imap/camel-imap-command.c

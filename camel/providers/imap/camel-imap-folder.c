@@ -1204,19 +1204,19 @@ imap_copy_online (CamelFolder *source, GPtrArray *uids,
 {
 	CamelImapStore *store = CAMEL_IMAP_STORE (source->parent_store);
 	int count;
-
+	
 	/* Sync message flags if needed. */
 	imap_sync_online (source, ex);
 	if (camel_exception_is_set (ex))
 		return;
-
+	
 	count = camel_folder_summary_count (destination->summary);
-
+	
 	/* Now copy the messages */
 	do_copy (source, uids, destination, ex);
 	if (camel_exception_is_set (ex))
 		return;
-
+	
 	/* Make the destination notice its new messages */
 	if (store->current_folder != destination ||
 	    camel_folder_summary_count (destination->summary) == count)
