@@ -12,6 +12,7 @@
 #include "gnome-month-item.h"
 
 
+#define DEFAULT_FONT "-*-helvetica-medium-r-normal--10-*-*-*-p-*-*-*"
 
 
 /* Number of days in a month, for normal and leap years */
@@ -767,13 +768,13 @@ gnome_month_item_init (GnomeMonthItem *mitem)
 
 	/* Load the default fonts */
 
-	mitem->head_font = gdk_font_load ("-*-helvetica-medium-r-normal--10-*-*-*-p-*-iso8859-1");
+	mitem->head_font = gdk_font_load (DEFAULT_FONT);
 	if (!mitem->head_font) {
 		mitem->head_font = gdk_font_load ("fixed");
 		g_assert (mitem->head_font != NULL);
 	}
 
-	mitem->day_font = gdk_font_load ("-adobe-helvetica-medium-r-normal--10-*-72-72-p-*-iso8859-1");
+	mitem->day_font = gdk_font_load (DEFAULT_FONT);
 	if (!mitem->day_font) {
 		mitem->day_font = gdk_font_load ("fixed");
 		g_assert (mitem->day_font != NULL);

@@ -87,11 +87,14 @@ prop_apply_colors (void)
 {
 	int i;
 	char *cspec;
+	gushort r, g, b;
 
 	for (i = 0; i < COLOR_PROP_LAST; i++) {
-		gnome_color_picker_get_i16 (GNOME_COLOR_PICKER (color_pickers[i]),
-					    &color_props[i].r, &color_props[i].g, &color_props[i].b, NULL);
-
+		gnome_color_picker_get_i16 (GNOME_COLOR_PICKER (color_pickers[i]), &r, &g, &b, NULL);
+		color_props[i].r = r;
+		color_props[i].g = g;
+		color_props[i].b = b;
+		
 		cspec = build_color_spec (color_props[i].r, color_props[i].g, color_props[i].b);
 		gnome_config_set_string (color_props[i].key, cspec);
 	}
@@ -338,7 +341,7 @@ canvas_size_allocate (GtkWidget *widget, GtkAllocation *allocation, gpointer dat
 static char *
 color_spec_from_picker (int num)
 {
-	int r, g, b;
+	gushort r, g, b;
 
 	gnome_color_picker_get_i16 (GNOME_COLOR_PICKER (color_pickers[num]), &r, &g, &b, NULL);
 

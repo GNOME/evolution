@@ -522,7 +522,7 @@ year_view_init (YearView *yv)
 	yv->heading = gnome_canvas_item_new (gnome_canvas_root (GNOME_CANVAS (yv)),
 					     gnome_canvas_text_get_type (),
 					     "anchor", GTK_ANCHOR_N,
-					     "font", "-*-helvetica-bold-r-normal--14-*-*-*-*-*-iso8859-1",
+					     "font", HEADING_FONT,
 					     "fill_color", "black",
 					     NULL);
 
@@ -538,7 +538,7 @@ year_view_init (YearView *yv)
 						       gnome_canvas_text_get_type (),
 						       "text", buf,
 						       "anchor", GTK_ANCHOR_N,
-						       "font", "-*-helvetica-bold-r-normal--12-*-*-*-*-*-iso8859-1",
+						       "font", TITLE_FONT,
 						       "fill_color", "black",
 						       NULL);
 
@@ -548,6 +548,8 @@ year_view_init (YearView *yv)
 		gnome_canvas_item_set (yv->mitems[i],
 				       "anchor", GTK_ANCHOR_NW,
 				       "start_on_monday", week_starts_on_monday,
+				       "heading_font", DAY_HEADING_FONT,
+				       "day_font", NORMAL_DAY_FONT,
 				       NULL);
 		setup_month_item (yv, i);
 	}
@@ -642,7 +644,7 @@ year_view_update (YearView *yv, iCalObject *object, int flags)
 	year_view_set (yv, time_year_begin (time_from_day (yv->year, 0, 1)));
 }
 
-/* Unmarks the old day that was marked as current and marks the current day */
+/* Unmarks the old day that was marked as current and marks the current day if appropriate */
 static void
 mark_current_day (YearView *yv)
 {

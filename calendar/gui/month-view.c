@@ -10,6 +10,7 @@
 #include "month-view.h"
 #include "main.h"
 #include "mark.h"
+#include "timeutil.h"
 
 
 #define SPACING 4		/* Spacing between title and calendar */
@@ -70,7 +71,7 @@ month_view_init (MonthView *mv)
 	mv->title = gnome_canvas_item_new (gnome_canvas_root (GNOME_CANVAS (mv)),
 					   gnome_canvas_text_get_type (),
 					   "anchor", GTK_ANCHOR_N,
-					   "font", "-*-helvetica-bold-r-normal--18-*-*-*-p-*-iso8859-1",
+					   "font", HEADING_FONT,
 					   "fill_color", "black",
 					   NULL);
 
@@ -82,10 +83,12 @@ month_view_init (MonthView *mv)
 			       "anchor", GTK_ANCHOR_NW,
 			       "day_anchor", GTK_ANCHOR_NE,
 			       "start_on_monday", week_starts_on_monday,
-			       "heading_height", 18.0,
-			       "heading_font", "-*-helvetica-bold-r-normal--12-*-*-*-*-*-iso8859-1",
-			       "day_font", "-*-helvetica-bold-r-normal--14-*-*-*-*-*-iso8859-1",
+			       "heading_padding", 2.0,
+			       "heading_font", BIG_DAY_HEADING_FONT,
+			       "day_font", BIG_NORMAL_DAY_FONT,
 			       NULL);
+
+	mv->old_current_index = -1;
 }
 
 GtkWidget *
@@ -99,6 +102,7 @@ month_view_new (GnomeCalendar *calendar, time_t month)
 	mv = gtk_type_new (month_view_get_type ());
 	mv->calendar = calendar;
 
+	month_view_colors_changed (mv);
 	month_view_set (mv, month);
 	return GTK_WIDGET (mv);
 }
@@ -166,6 +170,45 @@ month_view_update (MonthView *mv, iCalObject *object, int flags)
 	/* FIXME */
 }
 
+/* Unmarks the old day that was marked as current and marks the current day if appropriate */
+static void
+mark_current_day (MonthView *mv)
+{
+	time_t t;
+	struct tm *tm;
+	GnomeCanvasItem *item;
+
+	/* Unmark the old day */
+
+	if (mv->old_current_index != -1) {
+		item = gnome_month_item_num2child (GNOME_MONTH_ITEM (mv->mitem),
+						   GNOME_MONTH_ITEM_DAY_LABEL + mv->old_current_index);
+		gnome_canvas_item_set (item,
+				       "fill_color", color_spec_from_prop (COLOR_PROP_DAY_FG),
+				       "font", BIG_NORMAL_DAY_FONT,
+				       NULL);
+
+		mv->old_current_index = -1;
+	}
+
+	/* Mark the new day */
+
+	t = time (NULL);
+	tm = localtime (&t);
+
+	if (((tm->tm_year + 1900) == mv->year) && (tm->tm_mon == mv->month)) {
+		mv->old_current_index = gnome_month_item_day2index (GNOME_MONTH_ITEM (mv->mitem), tm->tm_mday);
+		g_assert (mv->old_current_index != -1);
+
+		item = gnome_month_item_num2child (GNOME_MONTH_ITEM (mv->mitem),
+						   GNOME_MONTH_ITEM_DAY_LABEL + mv->old_current_index);
+		gnome_canvas_item_set (item,
+				       "fill_color", color_spec_from_prop (COLOR_PROP_CURRENT_DAY_FG),
+				       "font", BIG_CURRENT_DAY_FONT,
+				       NULL);
+	}
+}
+
 void
 month_view_set (MonthView *mv, time_t month)
 {
@@ -178,6 +221,10 @@ month_view_set (MonthView *mv, time_t month)
 	/* Title */
 
 	tm = localtime (&month);
+
+	mv->year = tm->tm_year + 1900;
+	mv->month = tm->tm_mon;
+	
 	strftime (buf, 100, "%B %Y", tm);
 
 	gnome_canvas_item_set (mv->title,
@@ -187,11 +234,13 @@ month_view_set (MonthView *mv, time_t month)
 	/* Month item */
 
 	gnome_canvas_item_set (mv->mitem,
-			       "year", tm->tm_year + 1900,
-			       "month", tm->tm_mon,
+			       "year", mv->year,
+			       "month", mv->month,
 			       NULL);
 
 	/* FIXME: update events */
+
+	mark_current_day (mv);
 }
 
 void
@@ -204,7 +253,7 @@ month_view_time_format_changed (MonthView *mv)
 			       "start_on_monday", week_starts_on_monday,
 			       NULL);
 
-	/* FIXME: update events */
+	month_view_set (mv, time_month_begin (time_from_day (mv->year, mv->month, 1)));
 }
 
 void
@@ -213,6 +262,6 @@ month_view_colors_changed (MonthView *mv)
 	g_return_if_fail (mv != NULL);
 	g_return_if_fail (IS_MONTH_VIEW (mv));
 
-	unmark_month_item (GNOME_MONTH_ITEM (mv->mitem));
-	/* FIXME */
+	colorify_month_item (GNOME_MONTH_ITEM (mv->mitem), default_color_func, NULL);
+	mark_current_day (mv);
 }

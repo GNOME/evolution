@@ -1,3 +1,33 @@
+1998-10-01  Federico Mena Quintero  <federico@nuclecu.unam.mx>
+
+	* month-view.c (month_view_init): Use the font #defines.
+	(month_view_new): Set the colors of the month view upon creation.
+	(mark_current_day): New function to mark the current day in the
+	month view.
+	(month_view_set): Mark the current day.
+	(month_view_colors_changed): Mark the current day and colorify the
+	month item appropriately.
+
+	* month-view.h: Added year and month fields to the MonthView
+	structure.
+
+	* main.c: Renamed the Appointments color property, since it will
+	be used by the month view as well.
+
+	* goto.c (update): Set the current day's font and color.
+
+	* year-view.c (year_view_init): Set the fonts of the month items
+	when creating them.
+
+	* mark.h: Added new #defines for HEADING_FONT and TITLE_FONT.
+
+	* year-view.c (year_view_init): Use the new font #defines.
+
+	* prop.c (prop_apply_colors): Fixed to work with the
+	I-am-paranoid-and-I-need-to-size-my-ints changes to
+	GnomeColorPicker.
+	(color_spec_from_picker): Likewise.
+
 1998-09-30  Federico Mena Quintero  <federico@nuclecu.unam.mx>
 
 	* goto.c (create_days): Colorify the month item and prepare it for

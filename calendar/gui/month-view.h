@@ -31,6 +31,11 @@ struct _MonthView {
 
 	GnomeCalendar *calendar;	/* The calendar we are associated to */
 
+	int year;			/* The year of the month we are displaying */
+	int month;			/* The month we are displaying */
+
+	int old_current_index;		/* The index of the day marked as current, or -1 if none */
+
 	GnomeCanvasItem *title;		/* The title heading with the month/year */
 	GnomeCanvasItem *mitem;		/* The canvas month item used by this month view */
 };

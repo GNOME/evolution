@@ -14,8 +14,14 @@
 
 /* These are the fonts used for the montly calendars */
 
-#define NORMAL_DAY_FONT  "-adobe-helvetica-medium-r-normal--10-*-72-72-p-*-iso8859-1"
-#define CURRENT_DAY_FONT "-adobe-helvetica-bold-r-normal--12-*-72-72-p-*-iso8859-1"
+#define HEADING_FONT         "-*-helvetica-bold-r-normal--14-*-*-*-p-*-*-*"
+#define TITLE_FONT           "-*-helvetica-bold-r-normal--12-*-*-*-p-*-*-*"
+#define DAY_HEADING_FONT     "-*-helvetica-medium-r-normal--10-*-*-*-p-*-*-*"
+#define NORMAL_DAY_FONT      "-*-helvetica-medium-r-normal--10-*-*-*-p-*-*-*"
+#define CURRENT_DAY_FONT     "-*-helvetica-bold-r-normal--12-*-*-*-p-*-*-*"
+#define BIG_DAY_HEADING_FONT "-*-helvetica-bold-r-normal--14-*-*-*-p-*-*-*"
+#define BIG_NORMAL_DAY_FONT  "-*-helvetica-medium-r-normal--14-*-*-*-p-*-*-*"
+#define BIG_CURRENT_DAY_FONT "-*-helvetica-bold-r-normal--14-*-*-*-p-*-*-*"
 
 
 /* Functions of this type are used by the marking functions to fetch color specifications.  Such

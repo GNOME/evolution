@@ -49,7 +49,7 @@ struct color_prop color_props[] = {
 	{ 0x3e72, 0x35ec, 0x8ba2, "Outline:",              "/calendar/Colors/outline" },
 	{ 0xffff, 0xffff, 0xffff, "Headings:",             "/calendar/Colors/headings" },
 	{ 0xf26c, 0xecec, 0xbbe7, "Empty days:",           "/calendar/Colors/empty_bg" },
-	{ 0xfc1e, 0xf87f, 0x5f80, "Appointment days:",     "/calendar/Colors/mark_bg" },
+	{ 0xfc1e, 0xf87f, 0x5f80, "Appointments:",         "/calendar/Colors/mark_bg" },
 	{ 0xd364, 0xc6b7, 0x7969, "Highlighted day:",      "/calendar/Colors/prelight_bg" },
 	{ 0x01f0, 0x01f0, 0x01f0, "Day numbers:",          "/calendar/Colors/day_fg" },
 	{ 0x0000, 0x0000, 0xffff, "Current day's number:", "/calendar/Colors/current_fg" }
