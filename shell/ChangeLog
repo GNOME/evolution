@@ -1,3 +1,10 @@
+2003-03-25  Not Zed  <NotZed@Ximian.com>
+
+	* e-shell-settings-dialog.c (set_dialog_size): Use
+	set_default_size instead of size_request so we allow the user to
+	resize the window.  Also try using 60x30 rather than 72x35 as the
+	approximate font cell size.  For bug #39706.
+
 2003-03-25  Dan Winship  <danw@ximian.com>
 
 	* e-folder-dnd-bridge.c: Update for e_notice move.
