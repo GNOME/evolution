@@ -1604,21 +1604,19 @@ loc8=Zell\\ Am\\ See LOWZ ------ ---
 
 [EU_BE]
 name=Belgium
-loc0=Antwerpen EBAW ------ ---
+loc0=Antwerpen/Deurne EBAW ------ ---
 loc1=Beauvechain EBBE ------ ---
 loc2=Brasschaat EBBT ------ ---
-loc3=Brussels/National EBBR ------ ---
-loc4=Charleroi/Brussels\\ South EBCI ------ ---
+loc3=Brussels-National\\ Airport EBBR ------ ---
+loc4=Charleroi-Brussels\\ South EBCI ------ ---
 loc5=Chievres EBCV ------ ---
 loc6=Elsenborn EBLB ------ ---
 loc7=Florennes EBFS ------ ---
-loc8=Goetsenhoven EBTN ------ ---
-loc9=Kleine\\ Brogel EBBL ------ ---
-loc10=Koksijde EBFN ------ ---
-loc11=Liege EBLG ------ ---
-loc12=Oostende EBOS ------ ---
-loc13=Sint-Truiden EBST ------ ---
-loc14=? EBDT ------ ---
+loc8=Kleine\\ Brogel EBBL ------ ---
+loc9=Koksijde EBFN ------ ---
+loc10=Liege EBLG ------ ---
+loc11=Oostende EBOS ------ ---
+loc12=Schaffen EBDT ------ ---
 
 [EU_BA]
 name=Bosnia-Herzegovina

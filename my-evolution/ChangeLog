@@ -1,5 +1,10 @@
 2001-09-04  Iain Holmes  <iain@ximian.com>
 
+	* Locations: Applied patch from Evert Verhellen to fix the Belgium 
+	stations
+
+2001-09-04  Iain Holmes  <iain@ximian.com>
+
 	* my-evolution.glade: Fix some accelerator clashes
 
 2001-09-04  Iain Holmes  <iain@ximian.com>
