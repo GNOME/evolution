@@ -95,6 +95,7 @@
  *   + IMAP accounts always show INBOX
  * - Shell interactions
  *   + Folders are properly created / delete from folder tree when subscribed / unsubscribed
+ *   + Folders with spaces in names / 8bit chars
  *   + Toplevel as well as subfolders
  *   + Mail Folder Cache doesn't complain
  * - No ETable wackiness
@@ -763,28 +764,23 @@ fe_done_subscribing (const char *full_name, const char *name, gboolean subscribe
 	ftree_op_data *closure = (ftree_op_data *) user_data;
 
 	if (success) {
-		gchar *path;
+		CamelURL *url;
 
-		/* path = the path component of our uri.
-		 * If the URI is properly encoded there should be no problem
-		 * with this.
-		 */
-
-		path = strstr (ftree_node_get_uri (closure->data), "//") + 3;
-		path = strchr (path, '/');
+		url = camel_url_new (ftree_node_get_uri (closure->data), NULL);
 
 		if (subscribe) {
 			closure->data->flags |= FTREE_NODE_SUBSCRIBED;
 			recursive_add_folder (closure->ftree->e_storage,
-					      path, name,
+					      url->path, name,
 					      ftree_node_get_uri (closure->data));
 		} else {
 			closure->data->flags &= ~FTREE_NODE_SUBSCRIBED;
 
 			/* FIXME: recursively remove folder as well? Possible? */
-			evolution_storage_removed_folder (closure->ftree->e_storage, path);
+			evolution_storage_removed_folder (closure->ftree->e_storage, url->path);
 		}
 
+		camel_url_free (url);
 		e_tree_model_node_data_changed (E_TREE_MODEL (closure->ftree), closure->path);
 	}
 
