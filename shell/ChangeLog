@@ -1,4 +1,13 @@
 2003-04-21  Anna Marie Dirks  <anna@ximian.com>
+
+	* glade/e-shell-folder-creation-dialog.glade: Misc HIG-related tweaks,
+	mostly spacing and padding related. Fixes 41008. 
+
+	* e-shell-folder-creation-dialog.c (add_storage_set_view): Added
+	appropriate spacing to the main vbox of the folder creation dialog.
+	Partially fixes 41008.
+
+2003-04-21  Anna Marie Dirks  <anna@ximian.com>
 	
 	* glade/e-shell-config-default-folders.glade: Added appropriate
 	spacing/padding to the default folder pages of the settings dialog. 

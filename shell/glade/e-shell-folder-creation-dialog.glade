@@ -4,6 +4,7 @@
 <glade-interface>
 
 <widget class="GtkDialog" id="create_folder_dialog">
+  <property name="border_width">6</property>
   <property name="visible">True</property>
   <property name="title" translatable="yes"></property>
   <property name="type">GTK_WINDOW_TOPLEVEL</property>
@@ -19,7 +20,7 @@
     <widget class="GtkVBox" id="dialog-vbox1">
       <property name="visible">True</property>
       <property name="homogeneous">False</property>
-      <property name="spacing">8</property>
+      <property name="spacing">12</property>
 
       <child internal-child="action_area">
 	<widget class="GtkHButtonBox" id="dialog-action_area1">
@@ -67,8 +68,8 @@
 	  <child>
 	    <widget class="GtkLabel" id="folder_name_label">
 	      <property name="visible">True</property>
-	      <property name="label" translatable="yes">Folder name:</property>
-	      <property name="use_underline">False</property>
+	      <property name="label" translatable="yes">Folder _name:</property>
+	      <property name="use_underline">True</property>
 	      <property name="use_markup">False</property>
 	      <property name="justify">GTK_JUSTIFY_CENTER</property>
 	      <property name="wrap">False</property>
@@ -108,8 +109,8 @@
 	  <child>
 	    <widget class="GtkLabel" id="folder_type_label">
 	      <property name="visible">True</property>
-	      <property name="label" translatable="yes">Folder type:</property>
-	      <property name="use_underline">False</property>
+	      <property name="label" translatable="yes">Folder _type:</property>
+	      <property name="use_underline">True</property>
 	      <property name="use_markup">False</property>
 	      <property name="justify">GTK_JUSTIFY_CENTER</property>
 	      <property name="wrap">False</property>
