@@ -1,3 +1,12 @@
+2003-07-10  Harry Lu <harry.lu@sun.com>
+
+	Fixes #46075.
+
+	* gui/e-date-time-list.c (compare_datetime): new function to compare
+	two CalComponentDateTime instances.
+	(e_date_time_list_append): check whether the date already exists
+	before adding it to the list.
+
 2003-07-07  Antonio Xu <antonio.xu@sun.com>
 
 	Fixes #45767
