@@ -218,6 +218,9 @@ fetch_mail (GtkWidget *button, gpointer user_data)
 				gtk_object_unref((GtkObject *)msg);
 			}
 			camel_folder_free_uids (sourcefolder, uids);
+			camel_folder_close (sourcefolder, TRUE, ex);
+			if (camel_exception_is_set (ex))
+				mail_exception_dialog ("", ex, fb);
 			gtk_object_unref((GtkObject *)sourcefolder);
 		} else {
 			printf("we can search on this folder, performing search!\n");
