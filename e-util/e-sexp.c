@@ -491,6 +491,8 @@ e_sexp_term_eval(struct _ESExp *f, struct _ESExpTerm *t)
 	struct _ESExpResult *r, *r1;
 	int i;
 
+	g_return_val_if_fail(t != NULL, NULL);
+
 	r(printf("eval term :\n"));
 	r(parse_dump_term(t, 0));
 
