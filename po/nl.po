@@ -11,6 +11,7 @@
 # Kees van den Broek <kvdb@NOSPAMkvdb.net>, 2003.
 # Tino Meinen <a.t.meinen@chello.nl>, 2004
 # Daniel van Eeden <daniel_e@dds.nl>, 2004
+# Elros Cyriatan <cyriatan@fastmail.fm>, 2004
 # ---------------------------------------
 # TODO
 # -Snelkoppelingen moeten nog worden gemaakt en gecontroleerd
@@ -29,14 +30,15 @@
 # permission was denied -? toestemming is geweigerd/hiertoe geen recht(en) heeft
 # send -? versturen/verzenden
 # sync -? sync/synchroniseren/actualiseren
+# enveloped -? omhuld
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: Evolution\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-09-12 19:12+0200\n"
-"PO-Revision-Date: 2004-09-13 05:00+0200\n"
-"Last-Translator: Tino Meinen <a.t.meinen@chello.nl>\n"
+"POT-Creation-Date: 2004-09-15 03:13+0200\n"
+"PO-Revision-Date: 2004-09-15 10:56+0200\n"
+"Last-Translator: Elros Cyriatan <cyriatan@fastmail.fm>\n"
 "Language-Team: Dutch <vertaling@nl.linux.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -5210,7 +5212,7 @@ msgstr "_Begintijd:"
 #: mail/em-account-prefs.c:427 mail/em-folder-view.c:933
 #: mail/mail-account-gui.c:1571 mail/mail-account-gui.c:1968
 #: mail/mail-config.glade.h:103
-#: widgets/e-timezone-dialog/e-timezone-dialog.c:192
+#: widgets/e-timezone-dialog/e-timezone-dialog.c:193
 #: widgets/misc/e-cell-date-edit.c:257 widgets/misc/e-dateedit.c:443
 #: widgets/misc/e-dateedit.c:1480 widgets/misc/e-dateedit.c:1595
 msgid "None"
@@ -7871,7 +7873,7 @@ msgstr "Amerika/Montserrat"
 msgid "America/Nassau"
 msgstr "Amerika/Nassau"
 
-#: calendar/zones.h:138
+#: calendar/zones.h:138 widgets/e-timezone-dialog/e-timezone-dialog.glade.h:4
 msgid "America/New_York"
 msgstr "Amerika/New_York"
 
@@ -9814,26 +9816,23 @@ msgstr "Geen signedData in handtekening"
 
 #: camel/camel-smime-context.c:576
 msgid "Digests missing from enveloped data"
-msgstr ""
+msgstr "Samenvattingen ontbreken in omhulde gegevens"
 
 #: camel/camel-smime-context.c:589 camel/camel-smime-context.c:599
-#, fuzzy
 msgid "Cannot calculate digests"
-msgstr "Kan de map niet aanmaken: %s: %s"
+msgstr "Kan samenvattingen niet berekenen"
 
 #: camel/camel-smime-context.c:604
-#, fuzzy
 msgid "Cannot set message digests"
-msgstr "Kan bericht: %s niet verkrijgen: %s"
+msgstr "Kan berichtsamenvattingen niet instellen"
 
 #: camel/camel-smime-context.c:614 camel/camel-smime-context.c:619
 msgid "Certificate import failed"
 msgstr "Certificaatimport mislukt"
 
 #: camel/camel-smime-context.c:628
-#, fuzzy
 msgid "Certificate only message, cannot verify certificates"
-msgstr "Bericht met enke een certificaat, kan certificaten niet verifieeren"
+msgstr "Bericht met enkel een certificaat, kan certificaten niet verifiëren"
 
 #: camel/camel-smime-context.c:631
 msgid "Certificate only message, certificates imported and verified"
@@ -9841,9 +9840,8 @@ msgstr ""
 "Bericht met enkel certificaat, certificaten geimporteerd en geverifieerd"
 
 #: camel/camel-smime-context.c:635
-#, fuzzy
 msgid "Cannot find signature digests"
-msgstr "Geldige handtekening"
+msgstr "Kan ondertekeningsamenvattingen niet vinden"
 
 #: camel/camel-smime-context.c:651
 #, c-format
@@ -9860,47 +9858,41 @@ msgid "Cannot find certificate for `%s'"
 msgstr "Kan geen certificaat voor '%s' vinden"
 
 #: camel/camel-smime-context.c:811
-#, fuzzy
 msgid "Cannot find common bulk encryption algorithm"
-msgstr "Kan geen algemeen bulkalgoritme vinden"
+msgstr "Kan geen algemeen bulkcoderingsalgoritme vinden"
 
 #. PORT_GetError(); ??
 #: camel/camel-smime-context.c:820
 msgid "Cannot allocate slot for encryption bulk key"
-msgstr ""
+msgstr "Kan geen slot toewijzen voor bulkcoderingssleutel"
 
 #: camel/camel-smime-context.c:831
 msgid "Cannot create CMS Message"
 msgstr "Kan geen CMS-bericht aanmaken"
 
 #: camel/camel-smime-context.c:837
-#, fuzzy
 msgid "Cannot create CMS EnvelopedData"
-msgstr "Kan bericht niet opnemen"
+msgstr "Kan geen CMS EnvelopedData maken"
 
 #: camel/camel-smime-context.c:843
-#, fuzzy
 msgid "Cannot attach CMS EnvelopedData"
-msgstr "Kan bestand %s niet bijvoegen: %s"
+msgstr "Kan CMS EnvelopedData niet bijvoegen"
 
 #: camel/camel-smime-context.c:849
-#, fuzzy
 msgid "Cannot attach CMS data object"
-msgstr "Kan bestand %s niet bijvoegen: %s"
+msgstr "Kan CMS-gegevensobject niet bijvoegen"
 
 #: camel/camel-smime-context.c:858
-#, fuzzy
 msgid "Cannot create CMS RecipientInfo"
-msgstr "Kan bericht niet opnemen"
+msgstr "Kan geen CMS RecipientInfo maken"
 
 #: camel/camel-smime-context.c:863
 msgid "Cannot add CMS RecipientInfo"
 msgstr "Kan geen CMS ontvangersinfo toevoegen"
 
 #: camel/camel-smime-context.c:888
-#, fuzzy
 msgid "Failed to add data to encoder"
-msgstr "Kon de gebruikersnaam niet naar de server versturen"
+msgstr "Kon gegevens niet toevoegen aan codeerder"
 
 #: camel/camel-smime-context.c:975
 #, c-format
@@ -10318,7 +10310,7 @@ msgstr "Onverwacht antwoord van IMAP-server: %s"
 #: camel/providers/imap/camel-imap-command.c:399
 #, c-format
 msgid "IMAP command failed: %s"
-msgstr "IMAP-commando mislukt: %s"
+msgstr "IMAP-opdracht mislukt: %s"
 
 #: camel/providers/imap/camel-imap-command.c:457
 msgid "Server response ended too soon."
@@ -10435,7 +10427,7 @@ msgstr "Verbinden met server"
 
 #: camel/providers/imap/camel-imap-provider.c:50
 msgid "Use custom command to connect to server"
-msgstr "Gebruik een aangepast commando om met de server te verbinden"
+msgstr "Gebruik een aangepaste opdracht om met de server te verbinden"
 
 #: camel/providers/imap/camel-imap-provider.c:52
 msgid "Command:"
@@ -10536,7 +10528,7 @@ msgstr "SSL-onderhandelingen mislukt"
 #: camel/providers/imap/camel-imap-store.c:844
 #, c-format
 msgid "Could not connect with command \"%s\": %s"
-msgstr "Kon niet verbinden met commando \"%s\": %s"
+msgstr "Kon niet verbinden met opdracht \"%s\": %s"
 
 #: camel/providers/imap/camel-imap-store.c:1268
 #, c-format
@@ -10637,14 +10629,14 @@ msgid "IMAP4 server %s unexpectedly disconnected: %s"
 msgstr "De verbinding is onverwacht verbroken door IMAP4-server %s: %s"
 
 #: camel/providers/imap4/camel-imap4-folder.c:359
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot sync flags to folder `%s': Unknown"
-msgstr "Kan map niet verkrijgen `%s': %s"
+msgstr "Kan mapeigenschappen niet synchroniseren met map `%s': Onbekend"
 
 #: camel/providers/imap4/camel-imap4-folder.c:365
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot sync flags to folder `%s': Bad command"
-msgstr "Kan de map `%s' niet selecteren: Ongelidg commando"
+msgstr "Kan mapeigenschappen niet synchroniseren met map `%s': Ongeldige opdracht"
 
 #: camel/providers/imap4/camel-imap4-folder.c:502
 #, c-format
@@ -10689,12 +10681,15 @@ msgstr "Kan de berichten van map `%s' niet kopiëren naar map `%s': Onbekend"
 #: camel/providers/imap4/camel-imap4-folder.c:947
 #, c-format
 msgid "Cannot move messages from folder `%s' to folder `%s': Bad command"
-msgstr "Kan de berichten van map `%s' niet verplaatsen naar map `%s': Opdracht onjuist"
+msgstr ""
+"Kan de berichten van map `%s' niet verplaatsen naar map `%s': Opdracht "
+"onjuist"
 
 #: camel/providers/imap4/camel-imap4-folder.c:951
 #, c-format
 msgid "Cannot copy messages from folder `%s' to folder `%s': Bad command"
-msgstr "Kan de berichten van map `%s' niet kopiëren naar map `%s': Opdracht onjuist"
+msgstr ""
+"Kan de berichten van map `%s' niet kopiëren naar map `%s': Opdracht onjuist"
 
 #: camel/providers/imap4/camel-imap4-provider.c:53
 msgid "IMAPv4rev1"
@@ -10706,11 +10701,10 @@ msgstr ""
 "Voor het lezen en opslaan van post op IMAPv4rev1 servers. EXPERIMENTEEL !!"
 
 #: camel/providers/imap4/camel-imap4-provider.c:72
-#, fuzzy
 msgid ""
 "This option will connect to the IMAPv4rev1 server using a plaintext password."
 msgstr ""
-"Deze optie zal bij het verbinden met de IMAP-server het wachtwoord versturen "
+"Deze optie zal bij het verbinden met de IMAPv4rev1-server het wachtwoord versturen "
 "als platte tekst."
 
 #: camel/providers/imap4/camel-imap4-store.c:257
@@ -10741,9 +10735,9 @@ msgid "Cannot authenticate to IMAP server %s using %s"
 msgstr "Authenticatie op IMAP-server %s middels %s mislukt"
 
 #: camel/providers/imap4/camel-imap4-store.c:701
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot get folder `%s' on IMAP server %s: Unknown"
-msgstr "Kan map niet verkrijgen `%s': %s"
+msgstr "Kan map `%s' niet verkrijgen van IMAP-server `%s': Onbekend"
 
 #: camel/providers/imap4/camel-imap4-store.c:815
 #, c-format
@@ -10753,7 +10747,7 @@ msgstr "Kan de map `%s' niet aanmaken: Ongeldige mailbox naam"
 #: camel/providers/imap4/camel-imap4-store.c:821
 #, c-format
 msgid "Cannot create folder `%s': Bad command"
-msgstr "Kan de map `%s' niet aanmaken: Ongeldig commando"
+msgstr "Kan de map `%s' niet aanmaken: Ongeldige opdracht"
 
 #: camel/providers/imap4/camel-imap4-store.c:852
 #, c-format
@@ -10786,38 +10780,38 @@ msgid "Cannot rename folder `%s' to `%s': Bad command"
 msgstr "Kan map `%s' niet hernoemen naar `%s': Opdracht onjuist"
 
 #: camel/providers/imap4/camel-imap4-store.c:1221
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot get %s information for pattern `%s' on IMAP server %s: %s"
-msgstr "Authenticatie op IMAP-server %s middels %s mislukt"
+msgstr "Kan geen %s informatie verkrijgen voor patroon `%s' van IMAP-server %s: %s"
 
 #: camel/providers/imap4/camel-imap4-store.c:1223
 msgid "Bad command"
 msgstr "Ongeldige opdracht"
 
 #: camel/providers/imap4/camel-imap4-store.c:1299
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot subscribe to folder `%s': Invalid mailbox name"
-msgstr "Kon map: %s niet verwijderen: Naam mailbox ongeldig"
+msgstr "Kan niet inschrijven voor map `%s': Ongeldige postbusnaam"
 
 #: camel/providers/imap4/camel-imap4-store.c:1304
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot subscribe to folder `%s': Bad command"
-msgstr "Kan map niet aanmaken: `%s': %s"
+msgstr "Kan niet inschrijven voor map `%s': Slechte opdracht"
 
 #: camel/providers/imap4/camel-imap4-store.c:1364
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot unsubscribe from folder `%s': Invalid mailbox name"
-msgstr "Kon de naam van de map: %s niet wijzigen: ongeldige bewerking"
+msgstr "Kan niet uitschrijven bij map `%s': Ongeldige postbusnaam"
 
 #: camel/providers/imap4/camel-imap4-store.c:1369
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot unsubscribe from folder `%s': Bad command"
-msgstr "Kan map niet aanmaken: `%s': %s"
+msgstr "Kan niet uitschrijven bij map `%s': Slechte opdracht"
 
 #: camel/providers/imap4/camel-imap4-utils.c:250
-#, fuzzy, c-format
+#, c-format
 msgid "Unexpected token in response from IMAP server %s: "
-msgstr "Onverwacht antwoord van IMAP-server: %s"
+msgstr "Onverwacht antwoord van IMAP-server %s: "
 
 #: camel/providers/imap4/camel-imap4-utils.c:273
 msgid "No data"
@@ -11426,9 +11420,9 @@ msgstr "Interne foute: uid in ongeldig formaat: %s"
 #: camel/providers/nntp/camel-nntp-folder.c:331
 #: camel/providers/nntp/camel-nntp-folder.c:373
 #: camel/providers/nntp/camel-nntp-folder.c:375
-#, fuzzy, c-format
+#, c-format
 msgid "Posting failed: %s"
-msgstr "Bewerking mislukt: %s"
+msgstr "Plaatsen mislukt: %s"
 
 #: camel/providers/nntp/camel-nntp-folder.c:393
 msgid "You cannot post NNTP messages while working offline!"
@@ -11577,14 +11571,14 @@ msgid "%s: Scanning new messages"
 msgstr "%s: nieuwe berichten doorzoeken"
 
 #: camel/providers/nntp/camel-nntp-summary.c:225
-#, fuzzy, c-format
+#, c-format
 msgid "Unexpected server response from xover: %s"
-msgstr "Onverwacht antwoord van IMAP-server: %s"
+msgstr "Onverwacht serverantwoord van xover: %s"
 
 #: camel/providers/nntp/camel-nntp-summary.c:328
-#, fuzzy, c-format
+#, c-format
 msgid "Unexpected server response from head: %s"
-msgstr "Onverwacht antwoord van GnuPG: %s"
+msgstr "Onverwacht serverantwoord van head: %s"
 
 #: camel/providers/nntp/camel-nntp-summary.c:368
 msgid "Use cancel"
@@ -11672,9 +11666,9 @@ msgid "Could not connect to POP server %s (port %d): %s"
 msgstr "Kon niet verbinden met POP-server %s (poort %d): %s"
 
 #: camel/providers/pop3/camel-pop3-store.c:214
-#, fuzzy, c-format
+#, c-format
 msgid "Failed to read a valid greeting from POP server %s (port %d)"
-msgstr "Identificatie op POP-server %s mislukt: %s"
+msgstr "Lezen mislukt van geldige begroeting van POP-server %s (poort %d)"
 
 #: camel/providers/pop3/camel-pop3-store.c:232
 #: camel/providers/pop3/camel-pop3-store.c:261
@@ -12212,13 +12206,17 @@ msgstr "Bestand(en) bijvoegen"
 #: composer/e-msg-composer.c:704
 msgid ""
 "Cannot sign outgoing message: No signing certificate set for this account"
-msgstr "Kan uitgaand bericht niet ondertekenen: Geen ondertekeningscertificaat voor dit account"
+msgstr ""
+"Kan uitgaand bericht niet ondertekenen: Geen ondertekeningscertificaat voor "
+"dit account"
 
 #: composer/e-msg-composer.c:711
 msgid ""
 "Cannot encrypt outgoing message: No encryption certificate set for this "
 "account"
-msgstr "Kan uitgaand bericht niet versleutelen: Geen encryptie-certificaat ingesteld voor dit account"
+msgstr ""
+"Kan uitgaand bericht niet versleutelen: Geen encryptie-certificaat ingesteld "
+"voor dit account"
 
 #: composer/e-msg-composer.c:1268
 msgid "Could not open file"
@@ -12308,7 +12306,10 @@ msgstr "Mappen kunnen niet worden toegevoegd aan berichten."
 msgid ""
 "To attach the contents of this directory, either attach the files in this "
 "directory individually, or create an archive of the directory and attach it."
-msgstr "Om de inhoud van deze map toe te voegen, moet u ofwel alle bestanden in de map afzonderlijk bijvoegen, of een archief maken van de map en deze bijvoegen."
+msgstr ""
+"Om de inhoud van deze map toe te voegen, moet u ofwel alle bestanden in de "
+"map afzonderlijk bijvoegen, of een archief maken van de map en deze "
+"bijvoegen."
 
 # terugvinden
 #. mail-composer:attach-nomessages primary
@@ -12347,7 +12348,10 @@ msgstr "Wilt u de onafgemaakte berichten herstellen?"
 msgid ""
 "Evolution quit unexpectedly while you were composing a new message. "
 "Recovering the message will allow you to continue where you left off."
-msgstr "Evolution is onverwacht afgebroken terwijl u een bericht aan het opstellen was. Het herstellen van het bericht stelt u in staat verder te gaan waar u gebleven was."
+msgstr ""
+"Evolution is onverwacht afgebroken terwijl u een bericht aan het opstellen "
+"was. Het herstellen van het bericht stelt u in staat verder te gaan waar u "
+"gebleven was."
 
 #: composer/mail-composer-errors.xml.h:21
 msgid "Don't Recover"
@@ -12359,15 +12363,13 @@ msgstr "Herstellen"
 
 #. mail-composer:no-autosave primary
 #: composer/mail-composer-errors.xml.h:24
-#, fuzzy
 msgid "Could not save to autosave file \"{0}\"."
-msgstr "Kon handtekening-bestand niet opslaan: %s"
+msgstr "Kon niet opslaan naar auto-opslaan bestand \"{0}\"."
 
 #. mail-composer:no-autosave secondary
 #: composer/mail-composer-errors.xml.h:26
-#, fuzzy
 msgid "Error saving to autosave because \"{1}\"."
-msgstr "Fout bij opslaan van snelkoppelingen."
+msgstr "Fout bij opslaan naar auto-opslaan vanwege \"{1}\"."
 
 #. mail-composer:exit-unsaved title
 #: composer/mail-composer-errors.xml.h:28
@@ -12379,7 +12381,9 @@ msgstr "Waarschuwing: Veranderd Bericht"
 msgid ""
 "Are you sure you want to discard the message, titled '{0}', you are "
 "composing?"
-msgstr "Weet u zeker dat u het bericht met titel {0} dat u aan het opstellen bent, wilt weggooien?"
+msgstr ""
+"Weet u zeker dat u het bericht met titel {0} dat u aan het opstellen bent, "
+"wilt weggooien?"
 
 #. mail-composer:exit-unsaved secondary
 #: composer/mail-composer-errors.xml.h:32
@@ -12387,7 +12391,11 @@ msgid ""
 "Closing this composer window will discard the message permanently, unless "
 "you choose to save the message in your Drafts folder. This will allow you to "
 "continue the message at a later date."
-msgstr "Het afsluiten van het opstelvenster heeft tot gevolg dat het bericht wordt weggegooid, tenzij u besluit het bericht op te slaan in de kladmap. Dit geeft u de mogelijkheid om op een later tijdstip verder te gaan met het bericht."
+msgstr ""
+"Het afsluiten van het opstelvenster heeft tot gevolg dat het bericht wordt "
+"weggegooid, tenzij u besluit het bericht op te slaan in de kladmap. Dit "
+"geeft u de mogelijkheid om op een later tijdstip verder te gaan met het "
+"bericht."
 
 #: composer/mail-composer-errors.xml.h:34
 msgid "Save Message"
@@ -12434,17 +12442,15 @@ msgstr "Kon de adresselectie niet activeren."
 
 #. mail-composer:no-editor-control secondary
 #: composer/mail-composer-errors.xml.h:54
-#, fuzzy
 msgid ""
 "Unable to activate the HTML editor control.\n"
 "\n"
 "Please make sure that you have the correct version of gtkhtml and libgtkhtml "
 "installed."
 msgstr ""
-"Kon het venster voor het opstellen van het bericht niet maken:\n"
-"Niet in staat de HTML bewerkingscomponent te activeren.\n"
-"Controleer alstublieft de geïnstalleerde versie  van\n"
-"gtkhtml en libgtkhtml.\n"
+"Niet in staat de HTML-bewerkingscomponent te activeren.\n"
+"\n"
+"Controleer alstublieft dat u de juiste versie van gtkhtml en libgtkhtml geïnstalleerd heeft."
 
 #: data/evolution.desktop.in.in.h:1 shell/main.c:503
 msgid "Evolution"
@@ -13697,7 +13703,9 @@ msgstr "Niet versleuteld"
 msgid ""
 "This message is not encrypted.  Its content may be viewed in transit across "
 "the Internet."
-msgstr "Dit bericht is niet versleuteld.  De inhoud kan mogelijk door anderen bekeken worden tijdens de weg die het over het internet aflegt."
+msgstr ""
+"Dit bericht is niet versleuteld.  De inhoud kan mogelijk door anderen "
+"bekeken worden tijdens de weg die het over het internet aflegt."
 
 #: mail/em-format-html-display.c:653 mail/em-format-html.c:592
 msgid "Encrypted, weak"
@@ -13923,7 +13931,8 @@ msgid ""
 "\n"
 "Please be patient while Evolution migrates your folders..."
 msgstr ""
-"De locatie en hiërarchie van de Evolution mailbox mappen is gewijzigd sinds Evolution 1.x.\n"
+"De locatie en hiërarchie van de Evolution mailbox mappen is gewijzigd sinds "
+"Evolution 1.x.\n"
 "\n"
 "Een ogenblik geduld, uw mappen worden door Evolution gemigreerd..."
 
@@ -14225,7 +14234,10 @@ msgstr "Lijst van aangepaste koppen en of ze ingeschakeld zijn."
 msgid ""
 "List of labels known to the mail component of Evolution. The list contains "
 "strings containing name:color where color uses the HTML hex encoding."
-msgstr "Lijst met labels die bij het mail onderdeel van Evolution bekend zijn. De lijst bestaat uit tekenreeksen met naam:kleur waarbij kleur in HTML hex-codering is."
+msgstr ""
+"Lijst met labels die bij het mail onderdeel van Evolution bekend zijn. De "
+"lijst bestaat uit tekenreeksen met naam:kleur waarbij kleur in HTML hex-"
+"codering is."
 
 #: mail/evolution-mail.schemas.in.in.h:35
 msgid "List of mime types to check for bonobo component viewers"
@@ -14430,7 +14442,8 @@ msgstr "Terminal-lettertype"
 
 #: mail/evolution-mail.schemas.in.in.h:79
 msgid "The last time empty trash was run, in days since the epoch."
-msgstr "De vorige keer dat de prullenbak werd geleegd, in dagen sinds de epoch."
+msgstr ""
+"De vorige keer dat de prullenbak werd geleegd, in dagen sinds de epoch."
 
 #: mail/evolution-mail.schemas.in.in.h:80
 msgid "The terminal font for mail display"
@@ -15695,7 +15708,9 @@ msgstr "Ongeldige authenticatie"
 msgid ""
 "This server does not support this type of authentication and may not support "
 "authentication at all."
-msgstr "Deze server ondersteunt dit type aanmeldingscontrole niet en ondersteunt mogelijk geheel geen aanmeldingscontrole."
+msgstr ""
+"Deze server ondersteunt dit type aanmeldingscontrole niet en ondersteunt "
+"mogelijk geheel geen aanmeldingscontrole."
 
 #. mail:camel-service-auth-failed primary
 #: mail/mail-errors.xml.h:6
@@ -15725,7 +15740,8 @@ msgid ""
 "{0}\n"
 "Send anyway?"
 msgstr ""
-"Controleer of de volgende geadresseerden HTML e-mail kunnen en willen ontvangen:\n"
+"Controleer of de volgende geadresseerden HTML e-mail kunnen en willen "
+"ontvangen:\n"
 "{0}\n"
 "Toch verzenden?"
 
@@ -15745,7 +15761,9 @@ msgstr "Weet u zeker dat u een bericht zonder onderwerp wilt versturen?"
 msgid ""
 "Adding a meaningful Subject line to your messages will give your recipients "
 "an idea of what your mail is about."
-msgstr "Het toevoegen van een onderwerp aan uw bericht zal de geadresseerden een hint geven waar uw bericht over gaat."
+msgstr ""
+"Het toevoegen van een onderwerp aan uw bericht zal de geadresseerden een "
+"hint geven waar uw bericht over gaat."
 
 #. mail:ask-send-only-bcc-contact primary
 #. mail:ask-send-only-bcc primary
@@ -15764,9 +15782,13 @@ msgid ""
 "your message. To avoid this, you should add at least one To: or CC: "
 "recipient. "
 msgstr ""
-"De contactlijst waarnaar u verzendt is zo ingesteld dat de geadresseerden onzichtbaar zijn.\n"
+"De contactlijst waarnaar u verzendt is zo ingesteld dat de geadresseerden "
+"onzichtbaar zijn.\n"
 "\n"
-"Veel emailsystemen voegen een 'Apparently-To' header toe aan berichten die alleen BCC-geadresseerden bevatten. Deze header zal, indien toegevoegd, de gehele adreslijst in uw bericht tonen. Om dit te vermijden moet u tenminste één geadresseerde geven in het veld \"Aan:\" of \"CC:\"."
+"Veel emailsystemen voegen een 'Apparently-To' header toe aan berichten die "
+"alleen BCC-geadresseerden bevatten. Deze header zal, indien toegevoegd, de "
+"gehele adreslijst in uw bericht tonen. Om dit te vermijden moet u tenminste "
+"één geadresseerde geven in het veld \"Aan:\" of \"CC:\"."
 
 #. mail:ask-send-only-bcc secondary
 #: mail/mail-errors.xml.h:31
@@ -15775,20 +15797,28 @@ msgid ""
 "BCC recipients. This header, if added, will list all of your recipients to "
 "your message anyway. To avoid this, you should add at least one To: or CC: "
 "recipient."
-msgstr "Veel emailsystemen voegen een 'Apparently-To' header toe aan berichten die alleen BCC-geadresseerden bevatten.  Deze header zal, indien toegevoegd, toch alle geadresserden in uw bericht tonen.  Om dit te vermijden moet u tenminste één geadresseerde geven in het veld \"Aan:\" of \"CC:\"."
+msgstr ""
+"Veel emailsystemen voegen een 'Apparently-To' header toe aan berichten die "
+"alleen BCC-geadresseerden bevatten.  Deze header zal, indien toegevoegd, "
+"toch alle geadresserden in uw bericht tonen.  Om dit te vermijden moet u "
+"tenminste één geadresseerde geven in het veld \"Aan:\" of \"CC:\"."
 
 #. mail:send-no-recipients primary
 #: mail/mail-errors.xml.h:34
 msgid ""
 "This message cannot be sent because you have not specified any Recipients"
-msgstr "Dit bericht kan niet worden verzonden omdat u geen geadresseerden heeft opgegeven"
+msgstr ""
+"Dit bericht kan niet worden verzonden omdat u geen geadresseerden heeft "
+"opgegeven"
 
 #. mail:send-no-recipients secondary
 #: mail/mail-errors.xml.h:36
 msgid ""
 "Please enter a valid email address in the To: field. You can search for "
 "email addresses by clicking on the To: button next to the entry box."
-msgstr "Geef een geldig emailadres in het veld \"Aan:\". U kunt zoeken naar een emailadres door te klikken op de knop \"Aan:\" naast het invoerveld."
+msgstr ""
+"Geef een geldig emailadres in het veld \"Aan:\". U kunt zoeken naar een "
+"emailadres door te klikken op de knop \"Aan:\" naast het invoerveld."
 
 #. mail:ask-default-drafts primary
 #: mail/mail-errors.xml.h:38
@@ -15800,7 +15830,9 @@ msgstr "Standaard kladmap gebruiken?"
 msgid ""
 "Unable to open the drafts folder for this account.  Use the system drafts "
 "folder instead?"
-msgstr "Kan de kladmap voor dit account niet openen.  Wilt u in plaats daarvan gebruik maken van de systeem-kladmap?"
+msgstr ""
+"Kan de kladmap voor dit account niet openen.  Wilt u in plaats daarvan "
+"gebruik maken van de systeem-kladmap?"
 
 #: mail/mail-errors.xml.h:41
 msgid "Use _Default"
@@ -15832,7 +15864,9 @@ msgstr "_Leegmaken"
 msgid ""
 "Are you sure you want to permanently remove all the deleted messages in all "
 "folders?"
-msgstr "Weet u zeker dat u alle verwijderde berichten van alle mappen permanent wilt weggooien?"
+msgstr ""
+"Weet u zeker dat u alle verwijderde berichten van alle mappen permanent wilt "
+"weggooien?"
 
 #: mail/mail-errors.xml.h:51
 msgid "_Empty Trash"
@@ -15849,7 +15883,9 @@ msgstr "Er staan nog berichten in de wachtrij. Wilt u toch afsluiten?"
 msgid ""
 "If you quit, these messages will not be sent until Evolution is started "
 "again."
-msgstr "Als u nu afsluit, zullen deze berichten pas worden verzonden wanneer Evolution opnieuw wordt opgestart."
+msgstr ""
+"Als u nu afsluit, zullen deze berichten pas worden verzonden wanneer "
+"Evolution opnieuw wordt opgestart."
 
 #. mail:camel-exception primary
 #: mail/mail-errors.xml.h:57
@@ -15865,8 +15901,10 @@ msgid ""
 "The message is stored in the Outbox folder.  Check the message for errors "
 "and resend."
 msgstr ""
-"Het bericht werd verzonden via het externe programma \"sendmail\".  Sendmail gaf de volgende foutmelding: status 67: mail niet verzonden.\n"
-"Het bericht op opgeslagen in de Outbox. Controleer het bericht op fouten en verzend opnieuw."
+"Het bericht werd verzonden via het externe programma \"sendmail\".  Sendmail "
+"gaf de volgende foutmelding: status 67: mail niet verzonden.\n"
+"Het bericht op opgeslagen in de Outbox. Controleer het bericht op fouten en "
+"verzend opnieuw."
 
 #. mail:async-error primary
 #: mail/mail-errors.xml.h:62
@@ -15896,11 +15934,8 @@ msgstr "Wachtwoord geven."
 
 #. mail:filter-load-error primary
 #: mail/mail-errors.xml.h:86
-#, fuzzy
 msgid "Error loading filter definitions."
-msgstr ""
-"Fout bij het laden van filterinformatie:\n"
-"%s"
+msgstr "Fout bij het laden van filterdefinities."
 
 #. mail:no-save-path primary
 #: mail/mail-errors.xml.h:90
@@ -15917,12 +15952,8 @@ msgstr "Kan niet in bestand \"{0}\" opslaan."
 
 #. mail:no-create-path secondary
 #: mail/mail-errors.xml.h:96
-#, fuzzy
 msgid "Cannot create the save directory, because \"{1}\""
-msgstr ""
-"Kon de directory niet aanmaken\n"
-"%s\n"
-"Fout: %s"
+msgstr "Kan de map niet opslaan, vanwege \"{1}\""
 
 #. mail:no-create-tmp-path primary
 #: mail/mail-errors.xml.h:98
@@ -15956,7 +15987,9 @@ msgstr "Kan systeemmap \"{0}\" niet verwijderen."
 msgid ""
 "System folders are required for Ximian Evolution to function correctly and "
 "cannot be renamed, moved, or deleted."
-msgstr "Systeemmappen zijn vereist om Ximian Evolution correct te laten functioneren en kunnen niet worden hernoemd, verplaatst of verwijderd."
+msgstr ""
+"Systeemmappen zijn vereist om Ximian Evolution correct te laten functioneren "
+"en kunnen niet worden hernoemd, verplaatst of verwijderd."
 
 #. mail:no-rename-special-folder primary
 #: mail/mail-errors.xml.h:118
@@ -15978,7 +16011,9 @@ msgstr "De map \"{0}\" en alle submappen echt verwijderen?"
 msgid ""
 "If you delete the folder, all of its contents and its subfolders contents "
 "will be deleted permanently."
-msgstr "Indien u deze map verwijdert zal de gehele inhoud inclusief alle submappen permanent worden verwijderd."
+msgstr ""
+"Indien u deze map verwijdert zal de gehele inhoud inclusief alle submappen "
+"permanent worden verwijderd."
 
 #. mail:no-rename-folder-exists primary
 #. mail:no-rename-folder primary
@@ -16062,7 +16097,8 @@ msgstr "Weet u zeker dat u deze account wilt verwijderen?"
 #. mail:ask-delete-account secondary
 #: mail/mail-errors.xml.h:168
 msgid "If you proceed, the account information will be deleted permanently."
-msgstr "Indien u verdergaat, zal de account-informatie permanent worden verwijderd."
+msgstr ""
+"Indien u verdergaat, zal de account-informatie permanent worden verwijderd."
 
 #: mail/mail-errors.xml.h:169
 msgid "Don't delete"
@@ -16119,7 +16155,9 @@ msgstr "Kan vMap \"{0}\" niet bewerken omdat deze niet bestaat."
 msgid ""
 "This folder may have been added implictly, go to the virtual folder editor "
 "to add it explictly, if required."
-msgstr "Deze map is mogelijk impliciet toegevoegd. Ga, indien nodig, naar de virtuele map-editor om haar expliciet toe te voegen."
+msgstr ""
+"Deze map is mogelijk impliciet toegevoegd. Ga, indien nodig, naar de "
+"virtuele map-editor om haar expliciet toe te voegen."
 
 #. mail:vfolder-notunique primary
 #: mail/mail-errors.xml.h:190
@@ -16214,7 +16252,8 @@ msgid ""
 msgstr ""
 "Een niet-lege map op \"{1}\" bestaat al.\n"
 "\n"
-"U kunt er voor kiezen deze map te negeren, te overschrijven of de inhoud bij te voegen, of om af te sluiten.\n"
+"U kunt er voor kiezen deze map te negeren, te overschrijven of de inhoud bij "
+"te voegen, of om af te sluiten.\n"
 
 #: mail/mail-errors.xml.h:230
 msgid "Ignore"
@@ -16240,7 +16279,9 @@ msgstr "Kan geen verbinding krijgen met de GroupWise-server."
 msgid ""
 "\n"
 "Please check your account settings and try again.\n"
-msgstr "\nControleer uw account-instellingen en probeer opnieuw.\n"
+msgstr ""
+"\n"
+"Controleer uw account-instellingen en probeer opnieuw.\n"
 
 # bezig met %s pingen
 # %s wordt nu gepingd
@@ -16516,14 +16557,14 @@ msgid "Setting up vfolder: %s"
 msgstr "Bezig met aanmaken vfolder: %s"
 
 #: mail/mail-vfolder.c:235
-#, fuzzy, c-format
+#, c-format
 msgid "Updating vFolders for '%s:%s'"
-msgstr "Actualiseren vfolders voor uri: %s"
+msgstr "Actualiseren vfolders voor '%s:%s'"
 
 #: mail/mail-vfolder.c:242
-#, fuzzy, c-format
+#, c-format
 msgid "Updating vFolders for '%s'"
-msgstr "Actualiseren vfolders voor uri: %s"
+msgstr "Actualiseren vfolders voor '%s'"
 
 #: mail/mail-vfolder.c:942
 msgid "vFolders"
@@ -16987,25 +17028,36 @@ msgstr "Bug-buddy is niet geïnstalleerd."
 msgid "Bug buddy could not be run."
 msgstr "Bug-buddy kon niet worden gestart."
 
-#: shell/e-shell-window-commands.c:323
+#. The translator-credits string is for translators to list
+#. * per language credits for translation, displayed in the
+#. * about box
+#: shell/e-shell-window-commands.c:424
+msgid "translator-credits"
+msgstr "Arjan Scherpenisse\nGerard Oskamp\nDennis Smit\nAlmer S. Tigelaar\nDirk-Jan C. Binnema\n"
+"Mendel Mobach\nVincent van Adrighem\nMendel Mobach\nKees van den Broek\nTino Meinen\n"
+"Elros Cyriatan\nDaniel van Eeden"
+
+#: shell/e-shell-window-commands.c:438
 msgid "Groupware Suite"
 msgstr "Groupware suite"
 
-#: shell/e-shell-window-commands.c:563
+#: shell/e-shell-window-commands.c:678
 msgid "_Work Online"
 msgstr "Werk Online"
 
-#: shell/e-shell-window-commands.c:576 ui/evolution.xml.h:39
+#: shell/e-shell-window-commands.c:691 ui/evolution.xml.h:39
 msgid "_Work Offline"
 msgstr "Offline _werken"
 
-#: shell/e-shell-window-commands.c:589 ui/evolution.xml.h:25
+#: shell/e-shell-window-commands.c:704 ui/evolution.xml.h:25
 msgid "Work Offline"
 msgstr "Werk zonder netwerk"
 
 #: shell/e-shell-window.c:337
 msgid "Evolution is currently online.  Click on this button to work offline."
-msgstr "Evolution is nu verbonden met het netwerk.  Klik op deze knop om zonder netwerkverbinding te werken."
+msgstr ""
+"Evolution is nu verbonden met het netwerk.  Klik op deze knop om zonder "
+"netwerkverbinding te werken."
 
 #: shell/e-shell-window.c:344
 msgid "Evolution is in the process of going offline."
@@ -17196,11 +17248,13 @@ msgstr ""
 "Als u een stabiele versie van Evolution wilt gebruiken, kunt u beter deze\n"
 "versie verwijderen en versie %s installeren.\n"
 "\n"
-"Wilt u, als u bugs tegenkomt, deze alstublieft rapporteren aan bugzilla.ximian.com.\n"
+"Wilt u, als u bugs tegenkomt, deze alstublieft rapporteren aan bugzilla."
+"ximian.com.\n"
 "Dit produkt komt zonder enige garantie en is niet bedoeld voor mensen\n"
 "die licht ontvlambaar en agressief zijn.\n"
 "\n"
-"Wij hopen dat u met veel plezier gebruik zult maken van de resultaten van ons\n"
+"Wij hopen dat u met veel plezier gebruik zult maken van de resultaten van "
+"ons\n"
 "harde werk en wachten in spanning op uw bijdrage!\n"
 
 #: shell/main.c:250
@@ -17264,9 +17318,11 @@ msgid ""
 "You will need to make more space available in your home directory before you "
 "can continue."
 msgstr ""
-"Het bijwerken van uw gegevens en instellingen heeft {0} schijfruimte nodig, maar u heeft slechts {1} tot uw beschikking.\n"
+"Het bijwerken van uw gegevens en instellingen heeft {0} schijfruimte nodig, "
+"maar u heeft slechts {1} tot uw beschikking.\n"
 "\n"
-"U zult meer ruimte in uw persoonlijke map beschikbaar moeten maken voordat u kunt doorgaan."
+"U zult meer ruimte in uw persoonlijke map beschikbaar moeten maken voordat u "
+"kunt doorgaan."
 
 #. shell:upgrade-failed primary
 #: shell/shell-errors.xml.h:8
@@ -17287,7 +17343,8 @@ msgid ""
 msgstr ""
 "{1}\n"
 "\n"
-"Indien u besluit door te gaan heeft u mogelijk geen toegang meer tot bepaalde delen van uw oude gegevens.\n"
+"Indien u besluit door te gaan heeft u mogelijk geen toegang meer tot "
+"bepaalde delen van uw oude gegevens.\n"
 
 #: shell/shell-errors.xml.h:15
 msgid "Continue"
@@ -17311,7 +17368,10 @@ msgid ""
 msgstr ""
 "De vorige versie van Evolution bewaarde de gegevens op een andere locatie.\n"
 "\n"
-"Indien u besluit deze data te verwijderen zal de gehele inhoud van de map \"evolution\" permanent worden verwijderd. Indien u besluit deze data te behouden kunt u later handmatig, naar wens, de inhoud van de map \"evolution\" verwijderen.\n"
+"Indien u besluit deze data te verwijderen zal de gehele inhoud van de map "
+"\"evolution\" permanent worden verwijderd. Indien u besluit deze data te "
+"behouden kunt u later handmatig, naar wens, de inhoud van de map \"evolution"
+"\" verwijderen.\n"
 
 #: shell/shell-errors.xml.h:25
 msgid "_Remind Me Later"
@@ -17340,11 +17400,15 @@ msgid ""
 "Once deleted, you cannot downgrade to the previous version of Evolution "
 "without manual intervention.\n"
 msgstr ""
-"De gehele inhoud van de map \"evolution\" staat op het punt permanent te worden verwijderd.\n"
+"De gehele inhoud van de map \"evolution\" staat op het punt permanent te "
+"worden verwijderd.\n"
 "\n"
-"U wordt aangeraden zelf te controleren dat al uw mail, contacten en kalendergegevens aanwezig zijn en dat deze versie van Evolution correct functioneert, voordat u deze oude gegevens verwijdert.\n"
+"U wordt aangeraden zelf te controleren dat al uw mail, contacten en "
+"kalendergegevens aanwezig zijn en dat deze versie van Evolution correct "
+"functioneert, voordat u deze oude gegevens verwijdert.\n"
 "\n"
-"Eenmaal verwijderd, kunt u niet naar een vorige versie van Evolution teruggaan zonder handmatige inteventie.\n"
+"Eenmaal verwijderd, kunt u niet naar een vorige versie van Evolution "
+"teruggaan zonder handmatige inteventie.\n"
 
 #. shell:noshell title
 #. shell:noshell-reason title
@@ -17401,6 +17465,9 @@ msgid ""
 "then you trust the authenticity of this certificate unless otherwise "
 "indicated here"
 msgstr ""
+"Omdat u de certificaat authoriteit vertrouwt die dit certificaat "
+"heeft uitgegeven, vertrouwt u de geldigheid van dit certificaat; "
+"tenzij het hier anders is aangegeven"
 
 #: smime/gui/cert-trust-dialog.c:149
 msgid ""
@@ -17408,6 +17475,9 @@ msgid ""
 "certificate, then you do not trust the authenticity of this certificate "
 "unless otherwise indicated here"
 msgstr ""
+"Omdat u de certificaat authoriteit niet vertrouwt die dit certificaat "
+"heeft uitgegeven, vertrouwt u de geldigheid van dit certificaat niet; "
+"tenzij het hier anders is aangegeven"
 
 #: smime/gui/certificate-manager.c:134 smime/gui/certificate-manager.c:142
 #: smime/gui/certificate-manager.c:375 smime/gui/certificate-manager.c:383
@@ -19352,8 +19422,8 @@ msgstr "Met _Verloopdatum"
 msgid "With _Status"
 msgstr "Met Status"
 
-#: widgets/e-timezone-dialog/e-timezone-dialog.c:197
-#: widgets/e-timezone-dialog/e-timezone-dialog.c:635
+#: widgets/e-timezone-dialog/e-timezone-dialog.c:198
+#: widgets/e-timezone-dialog/e-timezone-dialog.c:640
 msgid "UTC"
 msgstr "GMT"
 
@@ -19365,11 +19435,11 @@ msgstr "<b>Tijdzones</b>"
 msgid "<b>_Selection</b>"
 msgstr "<b>_Selectie</b>"
 
-#: widgets/e-timezone-dialog/e-timezone-dialog.glade.h:4
+#: widgets/e-timezone-dialog/e-timezone-dialog.glade.h:5
 msgid "Select a Time Zone"
 msgstr "Selecteer een tijdzone"
 
-#: widgets/e-timezone-dialog/e-timezone-dialog.glade.h:5
+#: widgets/e-timezone-dialog/e-timezone-dialog.glade.h:6
 msgid ""
 "Use the left mouse button to zoom in on an area of the map and select a time "
 "zone.\n"
@@ -19530,7 +19600,8 @@ msgstr "Evolution zoekopdracht"
 #, c-format
 msgid ""
 "<span weight=\"bold\">Internal error, unknown error '%s' requested</span>"
-msgstr "<span weight=\"bold\">Interne fout, onbekende fout '%s' gevraagd</span>"
+msgstr ""
+"<span weight=\"bold\">Interne fout, onbekende fout '%s' gevraagd</span>"
 
 #: widgets/misc/e-expander.c:181
 msgid "Expanded"
@@ -19774,10 +19845,6 @@ msgstr "%s (%d%% voltooid)"
 #~ msgid "<b>Organizer</b>"
 #~ msgstr "<b>Organisator</b>"
 
-#, fuzzy
-#~ msgid "_Organizer:"
-#~ msgstr "Coordinator"
-
 #~ msgid "New tasks group"
 #~ msgstr "Nieuwe taken-groep"
 
@@ -19901,10 +19968,6 @@ msgstr "%s (%d%% voltooid)"
 #~ msgid "Add A_ttendee"
 #~ msgstr "_Aanwezige toevoegen"
 
-#, fuzzy
-#~ msgid "Add attendees from addressbook."
-#~ msgstr "Afzender aan adresboe_k toevoegen"
-
 #~ msgid "Exceptions"
 #~ msgstr "Uitzonderingen"
 
@@ -19965,10 +20028,6 @@ msgstr "%s (%d%% voltooid)"
 #~ msgid "Attendee status could not be updated!\n"
 #~ msgstr "Aanwezigheidstatus kon niet worden bijgewerkt!\n"
 
-#, fuzzy
-#~ msgid "Add attendees from addressbook"
-#~ msgstr "Afzender aan adresboe_k toevoegen"
-
 #~ msgid "_Options"
 #~ msgstr "_Opties"
 
@@ -19984,18 +20043,6 @@ msgstr "%s (%d%% voltooid)"
 #~ msgstr ""
 #~ "Fout bij openen %s:\n"
 #~ "%s"
-
-#, fuzzy
-#~ msgid "Can't find certificate for `%s'"
-#~ msgstr "Kon certificaat voor \"%s\" niet vinden."
-
-#, fuzzy
-#~ msgid "Can't create CMS Message"
-#~ msgstr "Regel aanmaken van bericht"
-
-#, fuzzy
-#~ msgid "Can't create encoder context"
-#~ msgstr "Kon geen S/MIME decode context maken"
 
 #~ msgid ""
 #~ "Could not create composer window:\n"
@@ -20103,10 +20150,6 @@ msgstr "%s (%d%% voltooid)"
 #~ msgid "searching-tab"
 #~ msgstr "Zoeken-tab"
 
-#, fuzzy
-#~ msgid "Webcam:"
-#~ msgstr "Website:"
-
 #~ msgid "Calendar Properties"
 #~ msgstr "Kalender eigenschappen"
 
@@ -20151,10 +20194,6 @@ msgstr "%s (%d%% voltooid)"
 #~ msgid "Could not get group: %s"
 #~ msgstr "Kon de groep: %s niet verkrijgen"
 
-#, fuzzy
-#~ msgid "Could not get messages: unspecified error"
-#~ msgstr "Kan berichten niet verkrijgen: ongespecificeerde fout"
-
 #~ msgid "Unknown server response: %s"
 #~ msgstr "Onbekend server-antwoord: %s"
 
@@ -20185,16 +20224,6 @@ msgstr "%s (%d%% voltooid)"
 
 #~ msgid "Error retrieving schema information"
 #~ msgstr "Fout bij het laden van schema informatie"
-
-#, fuzzy
-#~ msgid "Job title:"
-#~ msgstr "_Functie:"
-
-#, fuzzy
-#~ msgid ""
-#~ "The following entries are invalid:\n"
-#~ "\n"
-#~ msgstr "De volgende verbindingen zijn op 't moment actief:"
 
 #~ msgid "Could not find widget for a field: `%s'"
 #~ msgstr "Kon geen widget vinden voor een veld: `%s'"
@@ -20333,14 +20362,6 @@ msgstr "%s (%d%% voltooid)"
 
 #~ msgid "Evolution Addressbook folder viewer"
 #~ msgstr "Evolution adresboek mapweergave"
-
-#, fuzzy
-#~ msgid "Address 2:"
-#~ msgstr "Adres _2:"
-
-#, fuzzy
-#~ msgid "Blog:"
-#~ msgstr "Blog"
 
 #~ msgid "Evolution Calendar viewer"
 #~ msgstr "Evolution kalenderweergave"
@@ -20660,16 +20681,8 @@ msgstr "%s (%d%% voltooid)"
 #~ msgid "_Public Calendar URL:"
 #~ msgstr "_Publieke kalender URL:"
 
-# , fuzzy
-#~ msgid "_This is the mailing address"
-#~ msgstr "_Dit is het e-mail-adres"
-
 #~ msgid "_Video Conferencing URL:"
 #~ msgstr "_Video conferentie URL:"
-
-# , fuzzy
-#~ msgid "_Web page address:"
-#~ msgstr "Homepage:"
 
 #~ msgid "Account Name"
 #~ msgstr "Accountnaam"
@@ -21005,11 +21018,6 @@ msgstr "%s (%d%% voltooid)"
 #~ msgid "[script]"
 #~ msgstr "[script]"
 
-# meervoudsvorm?
-#, fuzzy
-#~ msgid "_minute(s)"
-#~ msgstr "minuten"
-
 #~ msgid "_Search for Contacts"
 #~ msgstr "_Zoek naar Contacten"
 
@@ -21329,14 +21337,6 @@ msgstr "%s (%d%% voltooid)"
 #~ "Kon bestand `%s' niet openen:\n"
 #~ "%s"
 
-#, fuzzy
-#~ msgid ""
-#~ "Could not create directory `%s':\n"
-#~ "%s"
-#~ msgstr ""
-#~ "Kon de directory %s niet aanmaken:\n"
-#~ "%s"
-
 #~ msgid ""
 #~ "Could not create file `%s':\n"
 #~ "%s"
@@ -21349,18 +21349,6 @@ msgstr "%s (%d%% voltooid)"
 
 #~ msgid "On this Computer"
 #~ msgstr "Op deze computer"
-
-#, fuzzy
-#~ msgid "Could not create temporary mbox store: %s"
-#~ msgstr "Kon tijdelijke directory niet maken: %s"
-
-#, fuzzy
-#~ msgid "Could not create temporary mbox folder: %s"
-#~ msgstr "Kon tijdelijke bestand '%s' niet maken: %s"
-
-#, fuzzy
-#~ msgid "Could not copy messages to temporary mbox folder: %s"
-#~ msgstr "Kon de tijdelijke map niet sluiten: %s"
 
 #~ msgid "Importing %s as %s"
 #~ msgstr "Importeren %s als %s"
@@ -21505,10 +21493,6 @@ msgstr "%s (%d%% voltooid)"
 #~ msgid "Select a File (step 2 of 3)"
 #~ msgstr "Een bestand selecteren (stap 2 van 3)"
 
-#, fuzzy
-#~ msgid "Map It"
-#~ msgstr "Mayport"
-
 #~ msgid "Home Address"
 #~ msgstr "Huisadres"
 
@@ -21517,10 +21501,6 @@ msgstr "%s (%d%% voltooid)"
 
 #~ msgid "Other Address"
 #~ msgstr "Ander adres"
-
-#, fuzzy
-#~ msgid "Could not open '%s': %s"
-#~ msgstr "Kon '%s' niet hernoemen: %s"
 
 #~ msgid "Session not initialised"
 #~ msgstr "Sessie niet geïnitialiseerd"
@@ -21590,26 +21570,6 @@ msgstr "%s (%d%% voltooid)"
 #~ msgid "Could not create a directory for the new addressbook."
 #~ msgstr "Kon geen map aanmaken voor het nieuwe adresboek."
 
-#, fuzzy
-#~ msgid "Could not create directory for new calendar"
-#~ msgstr "Kon directory %s niet maken: %s"
-
-#, fuzzy
-#~ msgid "Birthdays"
-#~ msgstr "Geboortedat_um:"
-
-#, fuzzy
-#~ msgid "Spam"
-#~ msgstr "Buien"
-
-#, fuzzy
-#~ msgid "Failed to migrate `%s': %s"
-#~ msgstr "Bufferen van bericht %s mislukt: %s"
-
-#, fuzzy
-#~ msgid "Rename"
-#~ msgstr "_Hernoemen"
-
 #~ msgid "Edit LDAP Server"
 #~ msgstr "LDAP server bewerken"
 
@@ -21632,38 +21592,6 @@ msgstr "%s (%d%% voltooid)"
 #~ msgid "Yugoslavia"
 #~ msgstr "Joegoslavië"
 
-#, fuzzy
-#~ msgid "Rename this calendar to"
-#~ msgstr "Druk deze Kalender af"
-
-#, fuzzy
-#~ msgid "<b>Alarm Action</b>"
-#~ msgstr "Kalenderinformatie"
-
-#, fuzzy
-#~ msgid "<b>Classification</b>"
-#~ msgstr "Classificatie"
-
-#, fuzzy
-#~ msgid "<b>Su_mmary</b>"
-#~ msgstr "<b>Begint:</b> "
-
-#, fuzzy
-#~ msgid "Could not create cache for new calendar"
-#~ msgstr "Kon directory %s niet maken: %s"
-
-#, fuzzy
-#~ msgid "A group must be selected"
-#~ msgstr "Er moet een organisator ingesteld worden."
-
-#, fuzzy
-#~ msgid "Could not create directory for new task list"
-#~ msgstr "Kon directory %s niet maken: %s"
-
-#, fuzzy
-#~ msgid "<b>Progress</b>"
-#~ msgstr "Voortgang"
-
 #~ msgid "The method required to load `%s' is not supported"
 #~ msgstr "De methode die nodig is om `%s' te laden wordt niet ondersteund"
 
@@ -21675,14 +21603,6 @@ msgstr "%s (%d%% voltooid)"
 
 #~ msgid "The method required to open `%s' is not supported"
 #~ msgstr "De methode die nodig is om `%s' te openen word niet ondersteund"
-
-#, fuzzy
-#~ msgid "Adding %s"
-#~ msgstr "\"%s\" wordt verzonden"
-
-#, fuzzy
-#~ msgid "Rename this task list to"
-#~ msgstr "Hernoem deze snelkoppeling"
 
 #~ msgid "Important mail (local)"
 #~ msgstr "Belangrijke e-mail (lokaal)"
@@ -21732,10 +21652,6 @@ msgstr "%s (%d%% voltooid)"
 
 #~ msgid "Folder Settings"
 #~ msgstr "Mapinstellingen"
-
-#, fuzzy
-#~ msgid "New _Calendar"
-#~ msgstr "Nieuw Caledonië"
 
 #~ msgid "_Forward Message"
 #~ msgstr "Bericht _doorsturen"
@@ -21788,10 +21704,6 @@ msgstr "%s (%d%% voltooid)"
 #~ msgid "Send anyway?"
 #~ msgstr "Toch versturen?"
 
-#, fuzzy
-#~ msgid "Folder _name"
-#~ msgstr "Map_naam:"
-
 #~ msgid ""
 #~ "This message is digitally signed. Click the lock icon for more "
 #~ "information."
@@ -21804,10 +21716,6 @@ msgstr "%s (%d%% voltooid)"
 
 #~ msgid "This folder cannot contain messages."
 #~ msgstr "Deze map kan geen berichten bevatten."
-
-#, fuzzy
-#~ msgid "Select destination to move folder into"
-#~ msgstr "Selecteer een doelmap voor deze belangrijke data"
 
 #~ msgid ""
 #~ "Cannot transfer folder:\n"
@@ -21934,28 +21842,8 @@ msgstr "%s (%d%% voltooid)"
 #~ msgid "Test type"
 #~ msgstr "Test type"
 
-#, fuzzy
-#~ msgid "import"
-#~ msgstr "Importeren"
-
-#, fuzzy
-#~ msgid "Create a new all-day event"
-#~ msgstr "Maak een nieuwe dag-omvattende afspraak"
-
 #~ msgid "New _Appointment"
 #~ msgstr "Nieuwe _Afspraak"
-
-#, fuzzy
-#~ msgid "New _Meeting"
-#~ msgstr "Nieuwe bijeenkomst"
-
-#, fuzzy
-#~ msgid "New _Task"
-#~ msgstr "Nieuwe taak"
-
-#, fuzzy
-#~ msgid "Open a new Evolution window"
-#~ msgstr "Evolution Venster"
 
 #~ msgid "Toggle"
 #~ msgstr "Verander"
@@ -21963,52 +21851,8 @@ msgstr "%s (%d%% voltooid)"
 #~ msgid "Clear"
 #~ msgstr "Wissen"
 
-#, fuzzy
-#~ msgid "e_book_cancel: there is no current operation"
-#~ msgstr "Stop de huidige e-mail operatie"
-
-#, fuzzy
-#~ msgid "Address List"
-#~ msgstr "Adres"
-
-#, fuzzy
-#~ msgid "Home Address Label"
-#~ msgstr "Adres label"
-
-#, fuzzy
-#~ msgid "Work Address Label"
-#~ msgstr "Adres label"
-
-#, fuzzy
-#~ msgid "Other Address Label"
-#~ msgstr "Adres label"
-
-#, fuzzy
-#~ msgid "Email List"
-#~ msgstr "E-mail 2"
-
-#, fuzzy
-#~ msgid "Email 1"
-#~ msgstr "E-mail 3"
-
-#, fuzzy
-#~ msgid "Wants HTML Mail"
-#~ msgstr "Heeft liever HTML"
-
-#, fuzzy
-#~ msgid "ICQ Id List"
-#~ msgstr "Is nieuwe lijst"
-
 #~ msgid "Organizational Unit"
 #~ msgstr "Organisatie"
-
-#, fuzzy
-#~ msgid "Photo"
-#~ msgstr "Porto"
-
-#, fuzzy
-#~ msgid "Logo"
-#~ msgstr "Togo"
 
 #~ msgid "Category List"
 #~ msgstr "Categorie lijst"
@@ -22022,10 +21866,6 @@ msgstr "%s (%d%% voltooid)"
 #~ msgid "ICS Calendar"
 #~ msgstr "ICS Kalender"
 
-#, fuzzy
-#~ msgid "Spouse's Name"
-#~ msgstr "Echtgeno(o)t(e)"
-
 #~ msgid "Birth Date"
 #~ msgstr "Geboortedatum"
 
@@ -22034,10 +21874,6 @@ msgstr "%s (%d%% voltooid)"
 
 #~ msgid "List Show Addresses"
 #~ msgstr "Lijst adressen weergeven"
-
-#, fuzzy
-#~ msgid "Evolution LDIF importer factory"
-#~ msgstr "Evolution LDIF import assistent"
 
 #~ msgid "Searching..."
 #~ msgstr "Bezig met zoeken..."
@@ -22051,44 +21887,8 @@ msgstr "%s (%d%% voltooid)"
 #~ msgid "Reconnecting to LDAP server..."
 #~ msgstr "Verbinding met LDAP server wordt opnieuw opgezet..."
 
-#, fuzzy
-#~ msgid "Adding contact to LDAP server..."
-#~ msgstr "Kaart wordt toegevoegd aan LDAP server..."
-
-#, fuzzy
-#~ msgid "Removing contact from LDAP server..."
-#~ msgstr "Kaart wordt verwijderd van LDAP server..."
-
-#, fuzzy
-#~ msgid "Modifying contact from LDAP server..."
-#~ msgstr "Kaart van LDAP server wordt aangepast..."
-
 #~ msgid "Receiving LDAP search results..."
 #~ msgstr "LDAP zoekresultaten worden ingelezen..."
-
-#, fuzzy
-#~ msgid "Repository is offline"
-#~ msgstr "Opslagplaats offline"
-
-#, fuzzy
-#~ msgid "No such calendar"
-#~ msgstr "Map `%s' bestaat niet."
-
-#, fuzzy
-#~ msgid "Object not found"
-#~ msgstr "Object kan niet worden gevonden\n"
-
-#, fuzzy
-#~ msgid "URI not loaded"
-#~ msgstr "EBook niet geladen\n"
-
-#, fuzzy
-#~ msgid "Operation has been cancelled"
-#~ msgstr "Operatie geannuleerd"
-
-#, fuzzy
-#~ msgid "Authentication failed"
-#~ msgstr "Aanmelding mislukt"
 
 #~ msgid "Untitled appointment"
 #~ msgstr "Afspraak zonder titel"
@@ -22157,14 +21957,6 @@ msgstr "%s (%d%% voltooid)"
 #~ "contains? verwacht dat argument 1 een kleuze is uit \"any\",\"summary\","
 #~ "\"description\""
 
-#, fuzzy
-#~ msgid "has-alarms? expects at least 1 argument"
-#~ msgstr "has-categories? verwacht op zijn minst 1 argument"
-
-#, fuzzy
-#~ msgid "has-alarms? excepts argument to be a boolean"
-#~ msgstr "contains? verwacht dat argument 2 een string is"
-
 #~ msgid "has-categories? expects at least 1 argument"
 #~ msgstr "has-categories? verwacht op zijn minst 1 argument"
 
@@ -22205,10 +21997,6 @@ msgstr "%s (%d%% voltooid)"
 #~ msgstr "_Certificaat-ID:"
 
 #~ msgid "Evolution Addressbook local/LDAP backend"
-#~ msgstr "Evolution adresboek lokaal / LDAP-backend"
-
-#, fuzzy
-#~ msgid "Evolution Addressbook local backend"
 #~ msgstr "Evolution adresboek lokaal / LDAP-backend"
 
 #~ msgid "Primary"
