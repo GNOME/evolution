@@ -954,7 +954,7 @@ the workaround described in the note below.
       <application>Ximian Evolution</application>. It displays all your
       appointments, address cards, and email in a tree that's a lot
       like a <glossterm linkend="filetree">file
-      tree</glossterm>-- it starts small at the top, and branches
+      tree</glossterm>&mdash; it starts small at the top, and branches
       downward. On most computers, there will be three or four
       folders at the base.  First, of course, is the
       <guilabel>Summary</guilabel>, a customizable summary of your
@@ -1201,8 +1201,8 @@ the workaround described in the note below.
           <term> <guimenu>Actions</guimenu>:</term>
           <listitem><para>
 	    Holds actions which maybe applied to a message.  Normally,
-	    if there is only one target for the action -- for
-	    example, replying to a message -- you can find it in
+	    if there is only one target for the action &mdash; for
+	    example, replying to a message &mdash; you can find it in
 	    the <guimenu>Actions</guimenu> menu.
           </para></listitem>
         </varlistentry>
@@ -1491,8 +1491,9 @@ Shows you your calendar. Tasks are displayed below calendar appointments.
       <para>
 	The month pane is a small view of your calendar by month.  To
 	display more months here, drag the column border to the left.
-	If you select a range of days in the month pane they will be
-	displayed <guilabel>Appointment List</guilabel>.
+	To view a specific series of days, select them in the month 
+	view and they will display all the planned events in the 
+	<interface>Appointment List</interface>. 
       </para>
 
       <para>

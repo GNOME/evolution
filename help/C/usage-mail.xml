@@ -569,9 +569,9 @@
 
       <para>
         To mark a folder for offline use, select <menuchoice>
-        <guimenu>Settings</guimenu>
-        <guimenuitem>Preferences</guimenuitem> </menuchoice> and then
-        click the <guilabel>Folders</guilabel> icon. In the
+        <guimenu>Tools</guimenu>
+        <guimenuitem>Settings</guimenuitem> </menuchoice> and then
+        click the <guilabel>Folder Settings</guilabel> icon. In the
         <guilabel>Offline Folders</guilabel> tab, click the check-box
         next to the folders that you would like to use while you are
         offline. 
@@ -632,10 +632,10 @@
         </para>
         <para>
             To hide the display of files you've attached to the
-            message, select <menuchoice>
-            <guimenu>View</guimenu> <guimenuitem>Hide
+            message, unselect <menuchoice>
+            <guimenu>View</guimenu> <guimenuitem>Show
             Attachments</guimenuitem> </menuchoice>; to show them
-            again, choose <guimenuitem>Show Attachments</guimenuitem>.
+            again, select <guimenuitem>Show Attachments</guimenuitem>.
         </para>
         <para>
             When you send the message, a copy of the attached file
@@ -741,8 +741,8 @@
           <para>
             Alternately, you can click on the
             <guibutton>To:</guibutton>, <guibutton>Cc:</guibutton>, or
-            <guibutton>Bcc:</guibutton> buttons to get a list --
-            potentially a very long one -- of the email addresses
+            <guibutton>Bcc:</guibutton> buttons to get a list &mdash;
+            potentially a very long one &mdash; of the email addresses
             in your contact manager.  Select addresses and click on
             the arrows to move them into the appropriate address
             columns.
@@ -987,10 +987,10 @@
 		selected, the style will apply to whatever you type
 		next.  The buttons are:
 		<itemizedlist mark="none">
-		  <listitem><para>Push <guibutton>B</guibutton> for bold text</para></listitem>
-		  <listitem><para>Push <guibutton>I</guibutton> for italics</para></listitem>
-		  <listitem><para>Push <guibutton>U</guibutton> to underline</para></listitem>
-		  <listitem><para>Push <guibutton>S</guibutton> for a strikethrough.</para></listitem>
+		  <listitem><para>Push <guiicon>bold A</guiicon> for bold text</para></listitem>
+		  <listitem><para>Push <guiicon>italic A</guiicon> for italics</para></listitem>
+		  <listitem><para>Push <guiicon>underlined A</guiicon> to underline</para></listitem>
+		  <listitem><para>Push <guiicon>striked A</guiicon> for a strikethrough.</para></listitem>
 		</itemizedlist>
 	      </para>
 	    </listitem>
@@ -1032,7 +1032,9 @@
                   selected, the color will apply to whatever you type
                   next.  You can select a background color or image by
                   right-clicking on the message background and
-                  selecting <guilabel>Page</guilabel>.
+                  selecting <menuchoice> <guimenuitem>Style</guimenuitem> 
+                  <guimenuitem>Page Style</guimenuitem>
+                   </menuchoice>.
                </para>
             </listitem>
           </varlistentry>
@@ -1267,7 +1269,7 @@
 		  Insert
 		  </guimenu>
 		  <guimenuitem>
-		    HTML Template
+		    Template
 		  </guimenuitem>
 		</menuchoice>
 	      </para>
@@ -1342,7 +1344,7 @@ action="simul"><keycap>Ctrl</keycap><keycap>J</keycap></keycombo>.  If
           you prefer to forward the message <glossterm
           linkend="inline">inline</glossterm>
           instead of attached, select <menuchoice>
-          <guimenu>Actions</guimenu> <guimenuitem>Forward
+          <guimenu>Actions</guimenu><guisubmenu>Forward</guisubmenu><guimenuitem>
           Inline</guimenuitem> </menuchoice> from the menu.  Choose an
           addressee as you would when sending a new message; the
           subject will already be entered, although you can alter it
@@ -1427,7 +1429,7 @@ action="simul"><keycap>Ctrl</keycap><keycap>J</keycap></keycombo>.  If
     </para>
     <para>
       If you click on the attachment button and click the
-      <guibutton>View Inline</guibutton>, <application>Ximian
+      <guimenuitem>View Inline</guimenuitem>, <application>Ximian
       Evolution</application> will show you information about the
       meeting, and let you respond to the meeting in several ways.
       Select the response that you would like, and then click the
@@ -1720,10 +1722,10 @@ action="simul"><keycap>Ctrl</keycap><keycap>J</keycap></keycombo>.  If
         by typing <command>gpg --list-keys</command>.  You should see
         something similar to this:
         <programlisting>
-	    /home/you/.gnupg/pubring.gpg
-	    ----------------------------
-	    pub 1024D/32j38dk2 2001-06-20 you &lt;you@your-address.com&gt;
-	    sub 1024g/289sklj3 2001-06-20 [expires: 2002-11-14]
+        /home/you/.gnupg/pubring.gpg
+        ----------------------------
+        pub 1024D/32j38dk2 2001-06-20 you &lt;you@your-address.com&gt;
+        sub 1024g/289sklj3 2001-06-20 [expires: 2002-11-14]
 	</programlisting>
       </para>
       <para>
