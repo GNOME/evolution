@@ -1,8 +1,10 @@
 2001-02-23  Not Zed  <NotZed@Ximian.com>
 
 	* filtertypes.xml: Added mailing list matching rules.
+	renamed mailing list options to be more meaningful.
 
 	* vfoldertypes.xml: Added mailing list rules.
+	renamed mailing list options to be more meaningful.
 
 2001-02-11  Gediminas Paulauskas <menesis@delfi.lt>
 
