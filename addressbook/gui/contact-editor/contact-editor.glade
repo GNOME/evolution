@@ -326,13 +326,13 @@
 
 	  <child>
 	    <widget class="GtkTable" id="table-contact-editor-general">
-	      <property name="border_width">7</property>
+	      <property name="border_width">6</property>
 	      <property name="visible">True</property>
 	      <property name="n_rows">14</property>
 	      <property name="n_columns">8</property>
 	      <property name="homogeneous">False</property>
-	      <property name="row_spacing">4</property>
-	      <property name="column_spacing">4</property>
+	      <property name="row_spacing">6</property>
+	      <property name="column_spacing">6</property>
 
 	      <child>
 		<widget class="GtkEntry" id="entry-phone1">
@@ -886,13 +886,13 @@
 		  <child>
 		    <widget class="GtkLabel" id="label-phone1">
 		      <property name="visible">True</property>
-		      <property name="label" translatable="yes">Business</property>
-		      <property name="use_underline">False</property>
+		      <property name="label" translatable="yes">_Business:</property>
+		      <property name="use_underline">True</property>
 		      <property name="use_markup">False</property>
 		      <property name="justify">GTK_JUSTIFY_CENTER</property>
 		      <property name="wrap">False</property>
 		      <property name="selectable">False</property>
-		      <property name="xalign">0</property>
+		      <property name="xalign">1</property>
 		      <property name="yalign">0.5</property>
 		      <property name="xpad">0</property>
 		      <property name="ypad">0</property>
@@ -917,13 +917,13 @@
 		  <child>
 		    <widget class="GtkLabel" id="label-phone2">
 		      <property name="visible">True</property>
-		      <property name="label" translatable="yes">Home</property>
-		      <property name="use_underline">False</property>
+		      <property name="label" translatable="yes">_Home:</property>
+		      <property name="use_underline">True</property>
 		      <property name="use_markup">False</property>
 		      <property name="justify">GTK_JUSTIFY_CENTER</property>
 		      <property name="wrap">False</property>
 		      <property name="selectable">False</property>
-		      <property name="xalign">0</property>
+		      <property name="xalign">1</property>
 		      <property name="yalign">0.5</property>
 		      <property name="xpad">0</property>
 		      <property name="ypad">0</property>
@@ -948,13 +948,13 @@
 		  <child>
 		    <widget class="GtkLabel" id="label-phone3">
 		      <property name="visible">True</property>
-		      <property name="label" translatable="yes">Business Fax</property>
-		      <property name="use_underline">False</property>
+		      <property name="label" translatable="yes">Business fa_x:</property>
+		      <property name="use_underline">True</property>
 		      <property name="use_markup">False</property>
 		      <property name="justify">GTK_JUSTIFY_CENTER</property>
 		      <property name="wrap">False</property>
 		      <property name="selectable">False</property>
-		      <property name="xalign">0</property>
+		      <property name="xalign">1</property>
 		      <property name="yalign">0.5</property>
 		      <property name="xpad">0</property>
 		      <property name="ypad">0</property>
@@ -979,13 +979,13 @@
 		  <child>
 		    <widget class="GtkLabel" id="label-phone4">
 		      <property name="visible">True</property>
-		      <property name="label" translatable="yes">Mobile</property>
-		      <property name="use_underline">False</property>
+		      <property name="label" translatable="yes">_Mobile:</property>
+		      <property name="use_underline">True</property>
 		      <property name="use_markup">False</property>
 		      <property name="justify">GTK_JUSTIFY_LEFT</property>
 		      <property name="wrap">False</property>
 		      <property name="selectable">False</property>
-		      <property name="xalign">0</property>
+		      <property name="xalign">1</property>
 		      <property name="yalign">0.5</property>
 		      <property name="xpad">0</property>
 		      <property name="ypad">0</property>
@@ -1010,13 +1010,13 @@
 		  <child>
 		    <widget class="GtkLabel" id="label-email1">
 		      <property name="visible">True</property>
-		      <property name="label" translatable="yes">Primary Email</property>
-		      <property name="use_underline">False</property>
+		      <property name="label" translatable="yes">Primary _email:</property>
+		      <property name="use_underline">True</property>
 		      <property name="use_markup">False</property>
 		      <property name="justify">GTK_JUSTIFY_CENTER</property>
 		      <property name="wrap">False</property>
 		      <property name="selectable">False</property>
-		      <property name="xalign">0</property>
+		      <property name="xalign">1</property>
 		      <property name="yalign">0.5</property>
 		      <property name="xpad">0</property>
 		      <property name="ypad">0</property>
@@ -1041,13 +1041,13 @@
 		  <child>
 		    <widget class="GtkLabel" id="label-address">
 		      <property name="visible">True</property>
-		      <property name="label" translatable="yes">Business</property>
-		      <property name="use_underline">False</property>
+		      <property name="label" translatable="yes"> B_usiness:</property>
+		      <property name="use_underline">True</property>
 		      <property name="use_markup">False</property>
 		      <property name="justify">GTK_JUSTIFY_CENTER</property>
 		      <property name="wrap">False</property>
 		      <property name="selectable">False</property>
-		      <property name="xalign">0</property>
+		      <property name="xalign">1</property>
 		      <property name="yalign">0.5</property>
 		      <property name="xpad">0</property>
 		      <property name="ypad">0</property>
@@ -1076,7 +1076,7 @@
 		  <child>
 		    <widget class="GtkCheckButton" id="checkbutton-mailingaddress">
 		      <property name="visible">True</property>
-		      <property name="label" translatable="yes">This is the _mailing address</property>
+		      <property name="label" translatable="yes">_This is the mailing address</property>
 		      <property name="use_underline">True</property>
 		      <property name="relief">GTK_RELIEF_NORMAL</property>
 		      <property name="active">False</property>
@@ -1134,7 +1134,7 @@
 		      <property name="justify">GTK_JUSTIFY_CENTER</property>
 		      <property name="wrap">False</property>
 		      <property name="selectable">False</property>
-		      <property name="xalign">0</property>
+		      <property name="xalign">1</property>
 		      <property name="yalign">0.5</property>
 		      <property name="xpad">0</property>
 		      <property name="ypad">0</property>
@@ -1261,7 +1261,7 @@
 		  <property name="justify">GTK_JUSTIFY_CENTER</property>
 		  <property name="wrap">False</property>
 		  <property name="selectable">False</property>
-		  <property name="xalign">0</property>
+		  <property name="xalign">1</property>
 		  <property name="yalign">0.5</property>
 		  <property name="xpad">0</property>
 		  <property name="ypad">0</property>
@@ -1281,7 +1281,7 @@
 		<widget class="GtkButton" id="button-fulladdr">
 		  <property name="visible">True</property>
 		  <property name="can_focus">True</property>
-		  <property name="label" translatable="yes">Add_ress...</property>
+		  <property name="label" translatable="yes">A_ddress...</property>
 		  <property name="use_underline">True</property>
 		  <property name="relief">GTK_RELIEF_NORMAL</property>
 		</widget>
@@ -1298,13 +1298,13 @@
 	      <child>
 		<widget class="GtkLabel" id="accellabel-fileas">
 		  <property name="visible">True</property>
-		  <property name="label" translatable="yes">File A_s:</property>
+		  <property name="label" translatable="yes">File a_s:</property>
 		  <property name="use_underline">True</property>
 		  <property name="use_markup">False</property>
 		  <property name="justify">GTK_JUSTIFY_CENTER</property>
 		  <property name="wrap">False</property>
 		  <property name="selectable">False</property>
-		  <property name="xalign">0</property>
+		  <property name="xalign">1</property>
 		  <property name="yalign">0.5</property>
 		  <property name="xpad">0</property>
 		  <property name="ypad">0</property>
@@ -1329,7 +1329,7 @@
 		  <property name="justify">GTK_JUSTIFY_CENTER</property>
 		  <property name="wrap">False</property>
 		  <property name="selectable">False</property>
-		  <property name="xalign">0</property>
+		  <property name="xalign">1</property>
 		  <property name="yalign">0.5</property>
 		  <property name="xpad">0</property>
 		  <property name="ypad">0</property>
@@ -1357,7 +1357,7 @@
 		    <widget class="GtkButton" id="button-categories">
 		      <property name="visible">True</property>
 		      <property name="can_focus">True</property>
-		      <property name="label" translatable="yes">Ca_tegories...</property>
+		      <property name="label" translatable="yes">_Categories...</property>
 		      <property name="use_underline">True</property>
 		      <property name="relief">GTK_RELIEF_NORMAL</property>
 		    </widget>
@@ -1506,13 +1506,13 @@
 
 	  <child>
 	    <widget class="GtkTable" id="table-contact-editor-details">
-	      <property name="border_width">7</property>
+	      <property name="border_width">6</property>
 	      <property name="visible">True</property>
 	      <property name="n_rows">9</property>
 	      <property name="n_columns">6</property>
 	      <property name="homogeneous">False</property>
-	      <property name="row_spacing">4</property>
-	      <property name="column_spacing">4</property>
+	      <property name="row_spacing">6</property>
+	      <property name="column_spacing">6</property>
 
 	      <child>
 		<widget class="GtkLabel" id="label-department">
@@ -1523,7 +1523,7 @@
 		  <property name="justify">GTK_JUSTIFY_CENTER</property>
 		  <property name="wrap">False</property>
 		  <property name="selectable">False</property>
-		  <property name="xalign">0</property>
+		  <property name="xalign">1</property>
 		  <property name="yalign">0.5</property>
 		  <property name="xpad">0</property>
 		  <property name="ypad">0</property>
@@ -1548,7 +1548,7 @@
 		  <property name="justify">GTK_JUSTIFY_CENTER</property>
 		  <property name="wrap">False</property>
 		  <property name="selectable">False</property>
-		  <property name="xalign">0</property>
+		  <property name="xalign">1</property>
 		  <property name="yalign">0.5</property>
 		  <property name="xpad">0</property>
 		  <property name="ypad">0</property>
@@ -1573,7 +1573,7 @@
 		  <property name="justify">GTK_JUSTIFY_CENTER</property>
 		  <property name="wrap">False</property>
 		  <property name="selectable">False</property>
-		  <property name="xalign">0</property>
+		  <property name="xalign">1</property>
 		  <property name="yalign">0.5</property>
 		  <property name="xpad">0</property>
 		  <property name="ypad">0</property>
@@ -1598,7 +1598,7 @@
 		  <property name="justify">GTK_JUSTIFY_CENTER</property>
 		  <property name="wrap">False</property>
 		  <property name="selectable">False</property>
-		  <property name="xalign">0</property>
+		  <property name="xalign">1</property>
 		  <property name="yalign">0.5</property>
 		  <property name="xpad">0</property>
 		  <property name="ypad">0</property>
@@ -1623,7 +1623,7 @@
 		  <property name="justify">GTK_JUSTIFY_CENTER</property>
 		  <property name="wrap">False</property>
 		  <property name="selectable">False</property>
-		  <property name="xalign">0</property>
+		  <property name="xalign">1</property>
 		  <property name="yalign">0.5</property>
 		  <property name="xpad">0</property>
 		  <property name="ypad">0</property>
@@ -1648,7 +1648,7 @@
 		  <property name="justify">GTK_JUSTIFY_CENTER</property>
 		  <property name="wrap">False</property>
 		  <property name="selectable">False</property>
-		  <property name="xalign">0</property>
+		  <property name="xalign">1</property>
 		  <property name="yalign">0.5</property>
 		  <property name="xpad">0</property>
 		  <property name="ypad">0</property>
@@ -1673,7 +1673,7 @@
 		  <property name="justify">GTK_JUSTIFY_CENTER</property>
 		  <property name="wrap">False</property>
 		  <property name="selectable">False</property>
-		  <property name="xalign">0</property>
+		  <property name="xalign">1</property>
 		  <property name="yalign">0.5</property>
 		  <property name="xpad">0</property>
 		  <property name="ypad">0</property>
@@ -1692,13 +1692,13 @@
 	      <child>
 		<widget class="GtkLabel" id="label-manager">
 		  <property name="visible">True</property>
-		  <property name="label" translatable="yes">_Manager's Name:</property>
+		  <property name="label" translatable="yes">_Manager's name:</property>
 		  <property name="use_underline">True</property>
 		  <property name="use_markup">False</property>
 		  <property name="justify">GTK_JUSTIFY_CENTER</property>
 		  <property name="wrap">False</property>
 		  <property name="selectable">False</property>
-		  <property name="xalign">0</property>
+		  <property name="xalign">1</property>
 		  <property name="yalign">0.5</property>
 		  <property name="xpad">0</property>
 		  <property name="ypad">0</property>
@@ -1723,7 +1723,7 @@
 		  <property name="justify">GTK_JUSTIFY_CENTER</property>
 		  <property name="wrap">False</property>
 		  <property name="selectable">False</property>
-		  <property name="xalign">0</property>
+		  <property name="xalign">1</property>
 		  <property name="yalign">0.5</property>
 		  <property name="xpad">0</property>
 		  <property name="ypad">0</property>
@@ -2096,9 +2096,10 @@
 
 	  <child>
 	    <widget class="GtkVBox" id="vbox3">
+	      <property name="border_width">6</property>
 	      <property name="visible">True</property>
 	      <property name="homogeneous">False</property>
-	      <property name="spacing">0</property>
+	      <property name="spacing">6</property>
 
 	      <child>
 		<widget class="GtkHBox" id="hbox1">
@@ -2163,13 +2164,13 @@ of that information here.</property>
 
 		  <child>
 		    <widget class="GtkTable" id="table-contact-editor-collaboration">
-		      <property name="border_width">7</property>
+		      <property name="border_width">6</property>
 		      <property name="visible">True</property>
 		      <property name="n_rows">2</property>
 		      <property name="n_columns">2</property>
 		      <property name="homogeneous">False</property>
-		      <property name="row_spacing">4</property>
-		      <property name="column_spacing">4</property>
+		      <property name="row_spacing">6</property>
+		      <property name="column_spacing">6</property>
 
 		      <child>
 			<widget class="GtkLabel" id="label-caluri">
@@ -2180,7 +2181,7 @@ of that information here.</property>
 			  <property name="justify">GTK_JUSTIFY_CENTER</property>
 			  <property name="wrap">False</property>
 			  <property name="selectable">False</property>
-			  <property name="xalign">0</property>
+			  <property name="xalign">1</property>
 			  <property name="yalign">0.5</property>
 			  <property name="xpad">0</property>
 			  <property name="ypad">0</property>
@@ -2205,7 +2206,7 @@ of that information here.</property>
 			  <property name="justify">GTK_JUSTIFY_CENTER</property>
 			  <property name="wrap">False</property>
 			  <property name="selectable">False</property>
-			  <property name="xalign">0</property>
+			  <property name="xalign">1</property>
 			  <property name="yalign">0.5</property>
 			  <property name="xpad">0</property>
 			  <property name="ypad">0</property>
