@@ -321,9 +321,8 @@ em_folder_tree_destroy (GtkObject *obj)
 	}
 	
 	if (priv->save_state_id != 0) {
-		em_folder_tree_save_state (emft);
 		g_source_remove (priv->save_state_id);
-		priv->save_state_id = 0;
+		em_folder_tree_save_state (emft);
 	}
 
 	priv->treeview = NULL;
