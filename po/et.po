@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Evolution pre-2.0\n"
 "POT-Creation-Date: 2004-08-19 11:10+0200\n"
-"PO-Revision-Date: 2004-09-08 08:21+0300\n"
+"PO-Revision-Date: 2004-09-09 17:01+0300\n"
 "Last-Translator: Priit Laes <amd@tt.ee>\n"
 "Language-Team: Estonian <gnome-et@linux.ee>\n"
 "MIME-Version: 1.0\n"
@@ -116,7 +116,6 @@ msgid "Could not remove addressbook."
 msgstr "Aadressiraamatut ei suudetud kustutada."
 
 #. addressbook:remove-addressbook secondary
-#. mail:session-message-error secondary
 #: addressbook/addressbook-errors.xml.h:22
 #: addressbook/addressbook-errors.xml.h:26
 #: addressbook/addressbook-errors.xml.h:34
@@ -7265,14 +7264,12 @@ msgid "Create a new task"
 msgstr "Uue ülesande lisamine"
 
 #: calendar/gui/tasks-component.c:1055
-#, fuzzy
 msgid "New assigned task"
-msgstr "Omista ülesanne"
+msgstr "Uus määratud ülesanne"
 
 #: calendar/gui/tasks-component.c:1056
-#, fuzzy
 msgid "Assigne_d Task"
-msgstr "Omista ülesanne"
+msgstr "_Määratud ülesanne"
 
 #: calendar/gui/tasks-component.c:1057
 msgid "Create a new assigned task"
@@ -13097,7 +13094,7 @@ msgstr "tundmatu saatja"
 #  * variables, see em-composer-utils.c:1514
 #: mail/em-composer-utils.c:1549
 msgid "On ${AbbrevWeekdayName}, ${Year}-${Month}-${Day} at ${24Hour}:${Minute} ${TimeZone}, ${Sender} wrote:"
-msgstr "Ühel kenal  päeval (${WeekdayName},  ${ Day}. ${MonthName} ${Year} ${24Hour}:${Minute}${TimeZone}), kirjutas ${Sender}:"
+msgstr "Ühel kenal  päeval (${WeekdayName},  ${ Day}. ${MonthName} ${Year}, ${24Hour}:${Minute}${TimeZone}), kirjutas ${Sender}:"
 
 #: mail/em-filter-editor.c:147
 msgid "_Filter Rules"
