@@ -1439,7 +1439,6 @@ et_real_construct (ETable *e_table, ETableModel *etm, ETableExtras *ete,
 		g_object_ref(ete);
 	else {
 		ete = e_table_extras_new();
-		g_object_ref(ete);
 	}
 
 	e_table->domain = g_strdup (specification->domain);

@@ -248,7 +248,6 @@ e_table_specification_load_from_node (ETableSpecification *specification,
 		if (!strcmp (children->name, "ETableColumn")) {
 			ETableColumnSpecification *col_spec = e_table_column_specification_new ();
 
-			g_object_ref (col_spec);
 			e_table_column_specification_load_from_node (col_spec, children);
 			list = g_list_append (list, col_spec);
 		} else if (specification->state == NULL && !strcmp (children->name, "ETableState")) {

@@ -136,8 +136,10 @@ e_table_spec_to_full_header (ETableSpecification *spec,
 		ETableCol *col = et_col_spec_to_col (
 			spec->columns[column], ete, spec->domain);
 
-		if (col)
+		if (col) {
 			e_table_header_add_column (nh, col, -1);
+			g_object_unref (col);
+		}
 	}
 
 	return nh;
