@@ -32,6 +32,7 @@
 #include <string.h>
 #include <sys/stat.h>
 #include <unistd.h>
+#include <gal/util/e-util.h>
 #include "camel-session.h"
 #include "camel-store.h"
 #include "camel-transport.h"
