@@ -1,9 +1,0 @@
-<ETableSpecification cursor-mode="line" no-headers="true">
-        <ETableColumn model_col="0" pixbuf="subscribed-image" expansion="0.0" minimum_width="16" resizable="false" cell="cell_toggle" compare="integer"/>
-        <ETableColumn model_col="1" _title="Folder" expansion="1.0" minimum_width="20" resizable="true" cell="cell_tree" compare="string"/>
-	<ETableState>
-		<column source="0"/>
-		<column source="1"/>
-	        <grouping></grouping>
-	</ETableState>
-</ETableSpecification>
