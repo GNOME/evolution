@@ -1,3 +1,8 @@
+2003-04-23  Not Zed  <NotZed@Ximian.com>
+
+	* camel-session.c (get_service): oops, the service owns the url
+	after we construct it.
+
 2003-04-22  Not Zed  <NotZed@Ximian.com>
 
 	** Should fix #41629, #41448, et al.

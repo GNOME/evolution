@@ -437,8 +437,6 @@ get_service (CamelSession *session, const char *url_string,
 		camel_object_bag_add(provider->service_cache[type], url, service);
 	}
 
-	camel_url_free(url);
-
 	return service;
 }
 
