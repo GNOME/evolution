@@ -1,3 +1,7 @@
+1999-10-24  Jacob Berkman  <jberkman@andrew.cmu.edu>
+
+	* gnome-ghttp-check.m4: this should be a better fix
+
 1999-10-21  Jacob Berkman  <jberkman@andrew.cmu.edu>
 
 	* gnome-ghttp-check.m4: use a temp value until we know that
