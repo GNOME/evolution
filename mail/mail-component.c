@@ -268,15 +268,10 @@ static void
 set_prop(BonoboPropertyBag *bag, const BonoboArg *arg, guint arg_id, CORBA_Environment *ev, gpointer user_data)
 {
 	EMFolderView *view  = (EMFolderView *)bonobo_control_get_widget (user_data);
-	const gchar *uri;
 
 	switch (arg_id) {
 	case PROPERTY_FOLDER_URI_IDX:
-		uri = BONOBO_ARG_GET_STRING (arg);
-		
-		g_warning ("XXX setting uri blah=\"%s\"\n", uri);
-
-		em_folder_view_set_folder_uri (view, uri);
+		em_folder_view_set_folder_uri (view, BONOBO_ARG_GET_STRING (arg));
 		break;
 	default:
 		g_warning ("Unhandled arg %d\n", arg_id);

@@ -1,3 +1,7 @@
+2004-02-20  Dan Winship  <danw@ximian.com>
+
+	* mail-component.c (set_prop): Remove the debug message here.
+
 2004-02-20  Not Zed  <NotZed@Ximian.com>
 
 	* mail-vfolder.c (mail_vfolder_add_uri): fix for vfolder-rule api
