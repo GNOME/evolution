@@ -42,6 +42,7 @@
 
 #include "camel-service.h"
 #include "camel-stream-fs.h"
+#include "camel-stream-mem.h"
 #include "camel-mime-message.h"
 
 #include "e-util/e-sexp.h"
@@ -645,7 +646,7 @@ pipe_to_system (struct _ESExp *f, int argc, struct _ESExpResult **argv, CamelFil
 	int result, status, fds[4], i;
 	CamelMimeMessage *message;
 	CamelMimeParser *parser;
-	CamelStream *stream;
+	CamelStream *stream, *mem;
 	pid_t pid;
 	
 	if (argc < 1 || argv[0]->value.string[0] == '\0')
@@ -692,9 +693,9 @@ pipe_to_system (struct _ESExp *f, int argc, struct _ESExpResult **argv, CamelFil
 		
 		maxfd = sysconf (_SC_OPEN_MAX);
 		if (maxfd > 0) {
-			for (i = 0; i < maxfd; i++) {
-				if (i != STDIN_FILENO && i != STDOUT_FILENO && i != STDERR_FILENO)
-					close (i);
+			for (fd = 0; fd < maxfd; fd++) {
+				if (fd != STDIN_FILENO && fd != STDOUT_FILENO && fd != STDERR_FILENO)
+					close (fd);
 			}
 		}
 		
@@ -726,15 +727,23 @@ pipe_to_system (struct _ESExp *f, int argc, struct _ESExpResult **argv, CamelFil
 	camel_stream_flush (stream);
 	camel_object_unref (stream);
 	
+	stream = camel_stream_fs_new_with_fd (fds[2]);
+	mem = camel_stream_mem_new ();
+	camel_stream_write_to_stream (stream, mem);
+	camel_object_unref (stream);
+	camel_stream_reset (mem);
+	
 	parser = camel_mime_parser_new ();
-	camel_mime_parser_init_with_fd (parser, fds[2]);
+	camel_mime_parser_init_with_stream (parser, mem);
 	camel_mime_parser_scan_from (parser, FALSE);
+	camel_object_unref (mem);
 	
 	message = camel_mime_message_new ();
 	if (camel_mime_part_construct_from_parser ((CamelMimePart *) message, parser) == -1) {
 		camel_exception_setv (p->ex, CAMEL_EXCEPTION_SYSTEM,
-				     _("Invalid message stream received from %s"),
-				      argv[0]->value.string);
+				     _("Invalid message stream received from %s: %s"),
+				      argv[0]->value.string,
+				      g_strerror (camel_mime_parser_errno (parser)));
 		camel_object_unref (message);
 		message = NULL;
 	} else {

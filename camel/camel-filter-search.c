@@ -519,18 +519,22 @@ run_command (struct _ESExp *f, int argc, struct _ESExpResult **argv, FilterMessa
 	if (!(pid = fork ())) {
 		/* child process */
 		GPtrArray *args;
-		int maxfd, i;
+		int maxfd, fd, i;
 		
-		if (dup2 (in_fds[0], STDIN_FILENO) < 0)
+		fd = open ("/dev/null", O_WRONLY);
+		
+		if (dup2 (in_fds[0], STDIN_FILENO) < 0 ||
+		    dup2 (fd, STDOUT_FILENO) < 0 ||
+		    dup2 (fd, STDERR_FILENO) < 0)
 			_exit (255);
 		
 		setsid ();
 		
 		maxfd = sysconf (_SC_OPEN_MAX);
 		if (maxfd > 0) {
-			for (i = 0; i < maxfd; i++) {
-				if (i != STDIN_FILENO && i != STDOUT_FILENO && i != STDERR_FILENO)
-					close (i);
+			for (fd = 0; fd < maxfd; fd++) {
+				if (fd != STDIN_FILENO && fd != STDOUT_FILENO && fd != STDERR_FILENO)
+					close (fd);
 			}
 		}
 		

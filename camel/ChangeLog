@@ -1,7 +1,14 @@
 2003-02-20  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* camel-filter-search.c (run_command): Redirect program's stdout
+	and stderr to /dev/null
+
 	* camel-filter-driver.c (pipe_to_system): Redirect the program's
 	stderr to /dev/null
+	(pipe_to_system): Write the pipe to a mem stream and use the mem
+	stream in the parser. Also, when setting an exception get the
+	errno from the parser so we can give more info about the error to
+	the user.
 
 2003-02-19  Jeffrey Stedfast  <fejj@ximian.com>
 
