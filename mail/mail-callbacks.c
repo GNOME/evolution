@@ -829,7 +829,7 @@ mail_generate_reply (CamelFolder *folder, CamelMimeMessage *message, const char 
 	
 	composer = e_msg_composer_new ();
 	e_msg_composer_add_message_attachments (composer, message, FALSE);
-
+	
 	if (!composer)
 		return NULL;
 	
@@ -917,7 +917,6 @@ mail_generate_reply (CamelFolder *folder, CamelMimeMessage *message, const char 
 				dest = e_destination_new ();
 				e_destination_set_name (dest, name);
 				e_destination_set_email (dest, reply_addr);
-				g_message (">>>>>>>>>> [%s] [%s]", name, reply_addr);
 				to = g_list_append (to, dest);
 				g_hash_table_insert (rcpt_hash, (char *) reply_addr, GINT_TO_POINTER (1));
 			}
@@ -2130,13 +2129,15 @@ providers_config (BonoboUIComponent *uih, void *user_data, const char *path)
 	
 	if (!accounts_dialog) {
 		accounts_dialog = mail_accounts_dialog_new (fb->shell);
-		gnome_dialog_set_parent (GNOME_DIALOG (accounts_dialog), FB_WINDOW (fb));
+		gtk_widget_set_parent (GTK_WIDGET (accounts_dialog), GTK_WIDGET (fb));
+		gtk_widget_set_parent_window (GTK_WIDGET (accounts_dialog), FB_WINDOW (fb));
 		gtk_signal_connect (GTK_OBJECT (accounts_dialog), "destroy",
 				    accounts_dialog_close, NULL);
 		gnome_dialog_set_close (GNOME_DIALOG (accounts_dialog), TRUE);
 		gtk_widget_show (GTK_WIDGET (accounts_dialog));
 	} else {
 		gdk_window_raise (GTK_WIDGET (accounts_dialog)->window);
+		gtk_widget_grab_focus (GTK_WIDGET (accounts_dialog));
 	}
 }
 

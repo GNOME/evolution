@@ -1,3 +1,8 @@
+2001-10-18  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-callbacks.c (providers_config): Don't make the mail
+	settings dialog modal.
+
 2001-10-17  Ettore Perazzoli  <ettore@ximian.com>
 
 	* mail-account-gui.c (folder_picker_clicked): Pass the toplevel to
