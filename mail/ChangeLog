@@ -1,3 +1,7 @@
+2001-02-11  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-callbacks.c (forward_inlined): Don't leak memory.
+
 2001-02-10  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-callbacks.c (list_add_addresses): Check the full list of

@@ -1562,7 +1562,9 @@ static struct _mail_msg_op get_messages_op = {
 };
 
 void
-mail_get_messages(CamelFolder *folder, GPtrArray *uids, void (*done) (CamelFolder *folder, GPtrArray *uids, GPtrArray *msgs, void *data), void *data)
+mail_get_messages(CamelFolder *folder, GPtrArray *uids,
+		  void (*done) (CamelFolder *folder, GPtrArray *uids, GPtrArray *msgs, void *data),
+		  void *data)
 {
 	struct _get_messages_msg *m;
 
@@ -1608,7 +1610,7 @@ runcleanup(GIOChannel *source, GIOCondition cond, void *d)
 {
 	struct _op_data *o = d;
 
-	printf("ggot notification, blup\n");
+	printf("got notification, blup\n");
 
 	o->op->cleanup(o->in, o->out, o->ex);
 

@@ -79,7 +79,7 @@ void mail_reply            (CamelFolder *folder, CamelMimeMessage *msg, const ch
 void composer_send_cb      (EMsgComposer *composer, gpointer data);
 void composer_postpone_cb  (EMsgComposer *composer, gpointer data);
 
-void forward_messages	   (CamelFolder *folder, GPtrArray *uids, int inline);
+void forward_messages	   (CamelFolder *folder, GPtrArray *uids, gboolean inline);
 
 void mail_print_preview_msg (MailDisplay *md);
 void mail_print_msg         (MailDisplay *md);

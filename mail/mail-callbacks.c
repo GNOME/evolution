@@ -753,8 +753,8 @@ do_forward_attach(CamelFolder *folder, GPtrArray *messages, CamelMimePart *part,
 	}
 }
 
-void
-forward_messages(CamelFolder *folder, GPtrArray *uids, int doinline)
+static void
+forward_messages (CamelFolder *folder, GPtrArray *uids, gboolean doinline)
 {
 	if (doinline && uids->len == 1) {
 		mail_get_message(folder, uids->pdata[0], do_forward_inline, NULL, mail_thread_new);
@@ -766,15 +766,17 @@ forward_messages(CamelFolder *folder, GPtrArray *uids, int doinline)
 void
 forward_inlined (GtkWidget *widget, gpointer user_data)
 {
+	FolderBrowser *fb = FOLDER_BROWSER (user_data);
 	GPtrArray *uids;
-	FolderBrowser *fb = (FolderBrowser *)user_data;
-
+	
 	if (!check_send_configuration (fb))
 		return;
-
-	uids = g_ptr_array_new();
-	g_ptr_array_add(uids, g_strdup (fb->message_list->cursor_uid));
-	forward_messages(fb->message_list->folder, uids, TRUE);
+	
+	uids = g_ptr_array_new ();
+	g_ptr_array_add (uids, g_strdup (fb->message_list->cursor_uid));
+	forward_messages (fb->message_list->folder, uids, TRUE);
+	g_free (uids->pdata[0]);
+	g_ptr_array_free (uids, TRUE);
 }
 
 void
