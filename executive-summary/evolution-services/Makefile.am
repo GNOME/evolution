@@ -6,6 +6,7 @@ INCLUDES = \
 	-I$(top_srcdir)					\
 	-I$(top_builddir)/shell				\
 	-I$(top_srcdir)/shell				\
+	$(EXTRA_GNOME_CFLAGS)				\
 	$(GNOME_VFS_CFLAGS)				\
 	$(UNICODE_CFLAGS)				\
 	$(GTKHTML_CFLAGS)				\

@@ -10,6 +10,7 @@ INCLUDES = \
 	-I$(top_srcdir)/executive-summary/evolution-services	\
 	-I$(top_builddir)/executive-summary/widdets		\
 	-I$(top_srcdir)/executive-summary/widgets		\
+	$(EXTRA_GNOME_CFLAGS)					\
 	$(GNOME_VFS_CFLAGS)					\
 	$(UNICODE_CFLAGS)					\
 	$(GTKHTML_CFLAGS)					\
