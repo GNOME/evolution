@@ -1,3 +1,9 @@
+2000-08-23  Federico Mena Quintero  <federico@helixcode.com>
+
+	* gui/e-calendar-table.c (e_calendar_table_init): Updated
+	function.
+	(e_calendar_table_open_task): Updated function.
+
 2000-08-21  Federico Mena Quintero  <federico@helixcode.com>
 
 	* gui/calendar-model.c (calendar_model_duplicate_value): Updated

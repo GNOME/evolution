@@ -28,8 +28,7 @@
  */
 
 #include <config.h>
-#include <gdk/gdkkeysyms.h>
-#include <libgnomeui/gnome-popup-menu.h>
+#include <gnome.h>
 #include <e-table/e-table-scrolled.h>
 #include <e-table/e-cell-checkbox.h>
 #include <e-table/e-cell-toggle.h>
@@ -144,10 +143,17 @@ e_calendar_table_class_init (ECalendarTableClass *class)
 	"<grouping> </grouping>"			\
 	"</ETableSpecification>"
 
-#define e_cell_time_new		e_cell_text_new
-#define e_cell_time_compare	g_str_compare
-#define e_cell_geo_pos_new	e_cell_text_new
-#define e_cell_geo_pos_compare	g_str_compare
+/* Creates a text column for the table header */
+static void
+create_column (ETableHeader *header, ETableModel *model, int id, const char *text)
+{
+	ECell *cell;
+	ETableCol *column;
+
+	cell = e_cell_text_new (model, NULL, GTK_JUSTIFY_LEFT);
+	column = e_table_col_new (id, text, 1.0, 10, cell, g_str_compare, TRUE);
+	e_table_header_add_column (header, column, CAL_COMPONENT_FIELD_CATEGORIES);
+}
 
 static void
 e_calendar_table_init (ECalendarTable *cal_table)
@@ -164,6 +170,7 @@ e_calendar_table_init (ECalendarTable *cal_table)
 	gint nfailed;
 
 	/* Allocate the colors we need. */
+
 	colormap = gtk_widget_get_colormap (GTK_WIDGET (cal_table));
 
 	cal_table->colors[E_CALENDAR_TABLE_COLOR_OVERDUE].red   = 65535;
@@ -176,6 +183,7 @@ e_calendar_table_init (ECalendarTable *cal_table)
 	if (nfailed)
 		g_warning ("Failed to allocate all colors");
 
+	/* Create the model */
 
 	cal_table->model = calendar_model_new ();
 	model = E_TABLE_MODEL (cal_table->model);
@@ -184,114 +192,56 @@ e_calendar_table_init (ECalendarTable *cal_table)
 	gtk_object_ref (GTK_OBJECT (header));
 	gtk_object_sink (GTK_OBJECT (header));
 
+	/* Create the header columns */
 
-	cell = e_cell_text_new (model, NULL, GTK_JUSTIFY_LEFT);
-	column = e_table_col_new (ICAL_OBJECT_FIELD_COMMENT, _("Comment"),
-				  1.0, 10, cell, g_str_compare, TRUE);
-	e_table_header_add_column (header, column, ICAL_OBJECT_FIELD_COMMENT);
+	create_column (header, model, CAL_COMPONENT_FIELD_CATEGORIES, _("Categories"));
+	create_column (header, model, CAL_COMPONENT_FIELD_CLASSIFICATION, _("Classification"));
+	create_column (header, model, CAL_COMPONENT_FIELD_COMPLETED, _("Completion date"));
+	create_column (header, model, CAL_COMPONENT_FIELD_DTEND, _("End date"));
+	create_column (header, model, CAL_COMPONENT_FIELD_DTSTART, _("Start date"));
+	create_column (header, model, CAL_COMPONENT_FIELD_DUE, _("Due date"));
+	create_column (header, model, CAL_COMPONENT_FIELD_GEO, _("Geographical position"));
+	create_column (header, model, CAL_COMPONENT_FIELD_PERCENT, _("Percent complete"));
+	create_column (header, model, CAL_COMPONENT_FIELD_PRIORITY, _("Priority"));
 
-	cell = e_cell_time_new (model, NULL, GTK_JUSTIFY_LEFT);
-	column = e_table_col_new (ICAL_OBJECT_FIELD_COMPLETED, _("Completed"),
-				  1.0, 10, cell, e_cell_time_compare, TRUE);
-	e_table_header_add_column (header, column, ICAL_OBJECT_FIELD_COMPLETED);
-
-	cell = e_cell_time_new (model, NULL, GTK_JUSTIFY_LEFT);
-	column = e_table_col_new (ICAL_OBJECT_FIELD_CREATED, _("Created"),
-				  1.0, 10, cell, e_cell_time_compare, TRUE);
-	e_table_header_add_column (header, column, ICAL_OBJECT_FIELD_CREATED);
-
-	cell = e_cell_text_new (model, NULL, GTK_JUSTIFY_LEFT);
-	column = e_table_col_new (ICAL_OBJECT_FIELD_DESCRIPTION, _("Description"),
-				  1.0, 10, cell, g_str_compare, TRUE);
-	e_table_header_add_column (header, column, ICAL_OBJECT_FIELD_DESCRIPTION);
-
-	cell = e_cell_time_new (model, NULL, GTK_JUSTIFY_LEFT);
-	column = e_table_col_new (ICAL_OBJECT_FIELD_DTSTAMP, _("Timestamp"),
-				  1.0, 10, cell, e_cell_time_compare, TRUE);
-	e_table_header_add_column (header, column, ICAL_OBJECT_FIELD_DTSTAMP);
-
-	cell = e_cell_time_new (model, NULL, GTK_JUSTIFY_LEFT);
-	column = e_table_col_new (ICAL_OBJECT_FIELD_DTSTART, _("Start Date"),
-				  1.0, 10, cell, e_cell_time_compare, TRUE);
-	e_table_header_add_column (header, column, ICAL_OBJECT_FIELD_DTSTART);
-
-	cell = e_cell_time_new (model, NULL, GTK_JUSTIFY_LEFT);
-	column = e_table_col_new (ICAL_OBJECT_FIELD_DTEND, _("End Date"),
-				  1.0, 10, cell, e_cell_time_compare, TRUE);
-	e_table_header_add_column (header, column, ICAL_OBJECT_FIELD_DTEND);
-
-	cell = e_cell_geo_pos_new (model, NULL, GTK_JUSTIFY_LEFT);
-	column = e_table_col_new (ICAL_OBJECT_FIELD_GEO, _("Geographical Position"),
-				  1.0, 10, cell, e_cell_geo_pos_compare, TRUE);
-	e_table_header_add_column (header, column, ICAL_OBJECT_FIELD_GEO);
-
-	cell = e_cell_time_new (model, NULL, GTK_JUSTIFY_LEFT);
-	column = e_table_col_new (ICAL_OBJECT_FIELD_LAST_MOD, _("Last Modification Date"),
-				  1.0, 10, cell, e_cell_time_compare, TRUE);
-	e_table_header_add_column (header, column, ICAL_OBJECT_FIELD_LAST_MOD);
-
-	cell = e_cell_text_new (model, NULL, GTK_JUSTIFY_LEFT);
-	column = e_table_col_new (ICAL_OBJECT_FIELD_LOCATION, _("Location"),
-				  1.0, 10, cell, g_str_compare, TRUE);
-	e_table_header_add_column (header, column, ICAL_OBJECT_FIELD_LOCATION);
-
-	cell = e_cell_text_new (model, NULL, GTK_JUSTIFY_LEFT);
-	column = e_table_col_new (ICAL_OBJECT_FIELD_ORGANIZER, _("Organizer"),
-				  1.0, 10, cell, g_str_compare, TRUE);
-	e_table_header_add_column (header, column, ICAL_OBJECT_FIELD_ORGANIZER);
-
-	cell = e_cell_text_new (model, NULL, GTK_JUSTIFY_LEFT);
-	column = e_table_col_new (ICAL_OBJECT_FIELD_PERCENT, _("% Complete"),
-				  1.0, 10, cell, g_str_compare, TRUE);
-	e_table_header_add_column (header, column, ICAL_OBJECT_FIELD_PERCENT);
-
-	cell = e_cell_text_new (model, NULL, GTK_JUSTIFY_LEFT);
-	column = e_table_col_new (ICAL_OBJECT_FIELD_PRIORITY, _("Priority"),
-				  1.0, 10, cell, g_str_compare, TRUE);
-	e_table_header_add_column (header, column, ICAL_OBJECT_FIELD_PRIORITY);
-
-	/* FIXME: This should really be 'Subject' in the big view. */
 	cell = e_cell_text_new (model, NULL, GTK_JUSTIFY_LEFT);
 	gtk_object_set (GTK_OBJECT (cell),
-			"strikeout_column", ICAL_OBJECT_FIELD_COMPLETE,
-			"bold_column", ICAL_OBJECT_FIELD_OVERDUE,
-			"color_column", ICAL_OBJECT_FIELD_COLOR,
+			"strikeout_column", CAL_COMPONENT_FIELD_COMPLETE,
+			"bold_column", CAL_COMPONENT_FIELD_OVERDUE,
+			"color_column", CAL_COMPONENT_FIELD_COLOR,
 			NULL);
-	column = e_table_col_new (ICAL_OBJECT_FIELD_SUMMARY, _("TaskPad"),
+	column = e_table_col_new (CAL_COMPONENT_FIELD_SUMMARY, _("Summary"),
 				  1.0, 10, cell, g_str_compare, TRUE);
-	e_table_header_add_column (header, column, ICAL_OBJECT_FIELD_SUMMARY);
+	e_table_header_add_column (header, column, CAL_COMPONENT_FIELD_SUMMARY);
 
-	cell = e_cell_text_new (model, NULL, GTK_JUSTIFY_LEFT);
-	column = e_table_col_new (ICAL_OBJECT_FIELD_URL, _("URL"),
-				  1.0, 10, cell, g_str_compare, TRUE);
-	e_table_header_add_column (header, column, ICAL_OBJECT_FIELD_URL);
+	create_column (header, model, CAL_COMPONENT_FIELD_SUMMARY, _("Summary"));
+	create_column (header, model, CAL_COMPONENT_FIELD_TRANSPARENCY, _("Transparency"));
+	create_column (header, model, CAL_COMPONENT_FIELD_URL, _("URL"));
 
-	cell = e_cell_text_new (model, NULL, GTK_JUSTIFY_LEFT);
-	column = e_table_col_new (ICAL_OBJECT_FIELD_HAS_ALARMS, _("Reminder"),
-				  1.0, 10, cell, g_str_compare, TRUE);
-	e_table_header_add_column (header, column, ICAL_OBJECT_FIELD_HAS_ALARMS);
+	/* FIXME: we don't have the HAS_ALARMS field */
 
-	/* Create pixmaps. */
-	if (!icon_pixbufs[0]) {
+	/* Create pixmaps */
+
+	if (!icon_pixbufs[0])
 		for (i = 0; i < E_CALENDAR_MODEL_NUM_ICONS; i++) {
 			icon_pixbufs[i] = gdk_pixbuf_new_from_xpm_data (
 				(const char **) icon_xpm_data[i]);
 		}
-	}
 
 	cell = e_cell_toggle_new (0, 4, icon_pixbufs);
-	column = e_table_col_new_with_pixbuf (ICAL_OBJECT_FIELD_ICON,
+	column = e_table_col_new_with_pixbuf (CAL_COMPONENT_FIELD_ICON,
 					      icon_pixbufs[0], 0.0, 16, cell,
 					      g_int_compare, FALSE);
-	e_table_header_add_column (header, column, ICAL_OBJECT_FIELD_ICON);
+	e_table_header_add_column (header, column, CAL_COMPONENT_FIELD_ICON);
 
 	cell = e_cell_checkbox_new ();
 	pixbuf = gdk_pixbuf_new_from_xpm_data ((const char **) check_filled_xpm);
-	column = e_table_col_new_with_pixbuf (ICAL_OBJECT_FIELD_COMPLETE,
+	column = e_table_col_new_with_pixbuf (CAL_COMPONENT_FIELD_COMPLETE,
 					      pixbuf, 0.0, 16, cell,
 					      g_int_compare, FALSE);
-	e_table_header_add_column (header, column, ICAL_OBJECT_FIELD_COMPLETE);
+	e_table_header_add_column (header, column, CAL_COMPONENT_FIELD_COMPLETE);
 
+	/* Create the table */
 
 	table = e_table_scrolled_new (header, model, E_CALENDAR_TABLE_SPEC);
 	gtk_object_set (GTK_OBJECT (table),
@@ -466,17 +416,16 @@ static void
 e_calendar_table_open_task (ECalendarTable *cal_table,
 			    gint row)
 {
-	iCalObject *ico;
+	CalComponent *comp;
 
 #if 0
 	task_editor_new ();
 	/* FIXME: Set iCalObject to edit. */
 #endif
 
-	ico = calendar_model_get_cal_object (cal_table->model, row);
+	comp = calendar_model_get_cal_object (cal_table->model, row);
 
-	gncal_todo_edit (calendar_model_get_cal_client (cal_table->model),
-			 ico);
+	gncal_todo_edit (calendar_model_get_cal_client (cal_table->model), comp);
 }
 
 

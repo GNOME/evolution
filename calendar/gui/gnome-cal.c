@@ -1205,6 +1205,7 @@ static gboolean
 gnome_calendar_tag_calendar_cb (CalComponent *comp, time_t istart, time_t iend, gpointer data)
 {
 	struct calendar_tag_closure *c = data;
+	time_t start, end;
 
 	start = MAX (istart, c->month_begin);
 	end = MIN (iend, c->month_end);
