@@ -6,3 +6,4 @@ Makefile.in
 *.lo
 *.la
 test-title-bar
+test-calendar

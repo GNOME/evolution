@@ -1,3 +1,9 @@
+2000-07-25  Damon Chaplin  <damon@helixcode.com>
+
+	* e-calendar-item.h: 
+	* e-calendar.[hc]: new widget and canvas item to replace GtkCalendar.
+	Not quite finished yet.
+
 2000-07-21  Ettore Perazzoli  <ettore@helixcode.com>
 
 	* e-title-bar.c (e_title_bar_set_title): We have a `EClippedLabel',
