@@ -1,5 +1,11 @@
 2002-04-29  Larry Ewing  <lewing@ximian.com>
 
+	* mail-composer-prefs.c (mail_composer_prefs_construct): clean up
+	propmanager initialization code.
+
+	* mail-preferences.c (mail_preferences_construct): small clean
+	ups to propmanager code.
+
 	* mail-config-factory.c (config_control_factory_cb): handle
 	requests for the font manager control.
 

@@ -110,13 +110,11 @@ mail_composer_prefs_destroy (GtkObject *obj)
 		(* GTK_OBJECT_CLASS (parent_class)->destroy) (obj);
 }
 
-#if 0
 static void
 colorpicker_set_color (GnomeColorPicker *color, guint32 rgb)
 {
 	gnome_color_picker_set_i8 (color, (rgb & 0xff0000) >> 16, (rgb & 0xff00) >> 8, rgb & 0xff, 0xff);
 }
-#endif 
 
 static guint32
 colorpicker_get_color (GnomeColorPicker *color)
@@ -517,6 +515,9 @@ mail_composer_prefs_construct (MailComposerPrefs *prefs)
 	GtkWidget *toplevel, *widget, *menu;
 	GladeXML *gui;
 	int style;
+	char *names[][2] = {{"live_spell_check", "chkEnableSpellChecking"},
+			    {"gtk_html_prop_keymap_option", "omenuShortcutsType"},
+			    {NULL, NULL}};
 	
 	gui = glade_xml_new (EVOLUTION_GLADEDIR "/mail-config.glade", "composer_tab");
 	prefs->gui = gui;
@@ -554,20 +555,13 @@ mail_composer_prefs_construct (MailComposerPrefs *prefs)
 	option_menu_connect (prefs->charset, prefs);
 	
 	/* Spell Checking */
-	/* FIXME: do stuff with these */
-	{
-		char *names[][2] = {{"live_spell_check", "chkEnableSpellChecking"},
-				    {"gtk_html_prop_keymap_option", "omenuShortcutsType"},
-				    {NULL, NULL}};
-		
-		prefs->pman = GTK_HTML_PROPMANAGER (gtk_html_propmanager_new (NULL));
-		gtk_object_ref (GTK_OBJECT (prefs->pman));
-		gtk_object_sink (GTK_OBJECT (prefs->pman));
+	prefs->pman = GTK_HTML_PROPMANAGER (gtk_html_propmanager_new (NULL));
+	gtk_signal_connect (GTK_OBJECT (prefs->pman), "changed", toggle_button_toggled, prefs);
+	gtk_object_ref (GTK_OBJECT (prefs->pman));
 
-		gtk_html_propmanager_set_names (prefs->pman, names);
-		gtk_html_propmanager_set_gui (prefs->pman, gui, NULL);
-		gtk_signal_connect (GTK_OBJECT (prefs->pman), "changed", toggle_button_toggled, prefs);
-	}
+	gtk_html_propmanager_set_names (prefs->pman, names);
+	gtk_html_propmanager_set_gui (prefs->pman, gui, NULL);
+
 	/*
 	prefs->colour = GNOME_COLOR_PICKER (glade_xml_get_widget (gui, "colorpickerSpellCheckColor"));
 	prefs->language = GTK_COMBO (glade_xml_get_widget (gui, "cmboSpellCheckLanguage"));

@@ -195,7 +195,11 @@ mail_preferences_construct (MailPreferences *prefs)
 	const char *text;
 	GladeXML *gui;
 	int i;
-	
+	char *names[][2] = {{"anim_check", "chkShowAnimatedImages"},
+			    {"magic_check", "chkAutoDetectLinks"},
+			    {"gtk_html_prop_keymap_option", "omenuShortcutsType"},
+			    {NULL, NULL}};
+		
 	gui = glade_xml_new (EVOLUTION_GLADEDIR "/mail-config.glade", "preferences_tab");
 	prefs->gui = gui;
 	
@@ -289,22 +293,12 @@ mail_preferences_construct (MailPreferences *prefs)
 	gtk_signal_connect (GTK_OBJECT (prefs->images_always), "toggled",
 			    toggle_button_toggled, prefs);
 	
-	/* Some GtkHTML settings */
-	{
-		char *names[][2] = {{"anim_check", "chkShowAnimatedImages"},
-				    {"magic_check", "chkAutoDetectLinks"},
-				    {"gtk_html_prop_keymap_option", "omenuShortcutsType"},
-				    {NULL, NULL}};
-
-		prefs->pman = GTK_HTML_PROPMANAGER (gtk_html_propmanager_new (prefs->gconf));
-		gtk_object_ref (GTK_OBJECT (prefs->pman));
-		gtk_object_sink (GTK_OBJECT (prefs->pman));
-
-		gtk_html_propmanager_set_names (prefs->pman, names);
-		gtk_html_propmanager_set_gui (prefs->pman, gui, NULL);
-		gtk_signal_connect (GTK_OBJECT (prefs->pman), "changed", toggle_button_toggled, prefs);
-
-	}		
+	prefs->pman = GTK_HTML_PROPMANAGER (gtk_html_propmanager_new (prefs->gconf));
+	gtk_signal_connect (GTK_OBJECT (prefs->pman), "changed", toggle_button_toggled, prefs);
+	gtk_object_ref (GTK_OBJECT (prefs->pman));
+	
+	gtk_html_propmanager_set_names (prefs->pman, names);
+	gtk_html_propmanager_set_gui (prefs->pman, gui, NULL);
 
 	prefs->prompt_unwanted_html = GTK_TOGGLE_BUTTON (glade_xml_get_widget (gui, "chkPromptWantHTML"));
 	gtk_toggle_button_set_active (prefs->prompt_unwanted_html, mail_config_get_confirm_unwanted_html ());
