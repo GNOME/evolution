@@ -560,7 +560,7 @@ editor_closed_cb (EContactEditor *ce, gpointer data)
 static void
 supported_fields_cb (EBook *book, EBookStatus status, EList *fields, EMinicard *e_minicard)
 {
-	e_minicard->editor = e_contact_editor_new (e_minicard->card, FALSE, fields);
+	e_minicard->editor = e_contact_editor_new (e_minicard->card, FALSE, fields, FALSE);
 
 	if (book != NULL) {
 		gtk_signal_connect (GTK_OBJECT (e_minicard->editor), "add_card",

@@ -396,7 +396,7 @@ supported_fields_cb (EBook *book, EBookStatus status, EList *fields, ECard *card
 {
 	EContactEditor *ce;
 
-	ce = e_contact_editor_new (card, FALSE, fields);
+	ce = e_contact_editor_new (card, FALSE, fields, FALSE);
 
 	gtk_signal_connect (GTK_OBJECT (ce), "add_card",
 			    GTK_SIGNAL_FUNC (add_card_cb), book);

@@ -39,7 +39,8 @@ static GnomeDialogClass *parent_class = NULL;
 /* The arguments we take */
 enum {
 	ARG_0,
-	ARG_NAME
+	ARG_NAME,
+	ARG_IS_READ_ONLY
 };
 
 GtkType
@@ -80,6 +81,9 @@ e_contact_editor_fullname_class_init (EContactEditorFullnameClass *klass)
 
 	gtk_object_add_arg_type ("EContactEditorFullname::name", GTK_TYPE_POINTER, 
 				 GTK_ARG_READWRITE, ARG_NAME);
+
+	gtk_object_add_arg_type ("EContactEditorFullname::is_read_only", GTK_TYPE_BOOL, 
+				 GTK_ARG_READWRITE, ARG_IS_READ_ONLY);
  
 	object_class->set_arg = e_contact_editor_fullname_set_arg;
 	object_class->get_arg = e_contact_editor_fullname_get_arg;
@@ -145,6 +149,24 @@ e_contact_editor_fullname_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 		e_contact_editor_fullname->name = e_card_name_copy(GTK_VALUE_POINTER (*arg));
 		fill_in_info(e_contact_editor_fullname);
 		break;
+	case ARG_IS_READ_ONLY: {
+		int i;
+		char *entry_names[] = {
+			"combo-title",
+			"combo-suffix",
+			"entry-first",
+			"entry-middle",
+			"entry-last",
+			NULL
+		};
+		e_contact_editor_fullname->is_read_only = GTK_VALUE_BOOL (*arg) ? TRUE : FALSE;
+		for (i = 0; entry_names[i] != NULL; i ++) {
+			gtk_widget_set_sensitive (glade_xml_get_widget(e_contact_editor_fullname->gui,
+								       entry_names[i]),
+						  !e_contact_editor_fullname->is_read_only);
+		}
+		break;
+	}
 	}
 }
 
@@ -159,6 +181,9 @@ e_contact_editor_fullname_get_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 	case ARG_NAME:
 		extract_info(e_contact_editor_fullname);
 		GTK_VALUE_POINTER (*arg) = e_card_name_copy(e_contact_editor_fullname->name);
+		break;
+	case ARG_IS_READ_ONLY:
+		GTK_VALUE_BOOL (*arg) = e_contact_editor_fullname->is_read_only ? TRUE : FALSE;
 		break;
 	default:
 		arg->type = GTK_TYPE_INVALID;

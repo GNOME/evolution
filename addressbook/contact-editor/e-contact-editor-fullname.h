@@ -56,6 +56,9 @@ struct _EContactEditorFullname
 	/* item specific fields */
 	ECardName *name;
 	GladeXML *gui;
+
+	/* Whether the dialog will accept modifications */
+	guint is_read_only : 1;
 };
 
 struct _EContactEditorFullnameClass

@@ -57,6 +57,7 @@ static void _email_arrow_pressed (GtkWidget *widget, GdkEventButton *button, ECo
 static void _phone_arrow_pressed (GtkWidget *widget, GdkEventButton *button, EContactEditor *editor);
 static void _address_arrow_pressed (GtkWidget *widget, GdkEventButton *button, EContactEditor *editor);
 static void enable_writable_fields(EContactEditor *editor);
+static void set_read_only(EContactEditor *editor);
 static void fill_in_info(EContactEditor *editor);
 static void extract_info(EContactEditor *editor);
 static void set_fields(EContactEditor *editor);
@@ -72,6 +73,7 @@ enum {
 	ARG_0,
 	ARG_CARD,
 	ARG_IS_NEW_CARD,
+	ARG_IS_READ_ONLY,
 	ARG_WRITABLE_FIELDS
 };
 
@@ -121,6 +123,8 @@ e_contact_editor_class_init (EContactEditorClass *klass)
 			   GTK_ARG_READWRITE, ARG_IS_NEW_CARD);
   gtk_object_add_arg_type ("EContactEditor::writable_fields", GTK_TYPE_POINTER,
 			   GTK_ARG_READWRITE, ARG_WRITABLE_FIELDS);
+  gtk_object_add_arg_type ("EContactEditor::is_read_only", GTK_TYPE_BOOL,
+			   GTK_ARG_READWRITE, ARG_IS_READ_ONLY);
 
   contact_editor_signals[ADD_CARD] =
 	  gtk_signal_new ("add_card",
@@ -493,8 +497,13 @@ full_name_clicked(GtkWidget *button, EContactEditor *editor)
 {
 	GnomeDialog *dialog = GNOME_DIALOG(e_contact_editor_fullname_new(editor->name));
 	int result;
+
+	gtk_object_set (GTK_OBJECT (dialog),
+			"is_read_only", editor->is_read_only,
+			NULL);
 	gtk_widget_show(GTK_WIDGET(dialog));
 	result = gnome_dialog_run (dialog);
+
 	if (result == 0) {
 		ECardName *name;
 		GtkWidget *fname_widget;
@@ -531,6 +540,9 @@ full_addr_clicked(GtkWidget *button, EContactEditor *editor)
 	address = e_card_simple_get_delivery_address(editor->simple, editor->address_choice);
 
 	dialog = GNOME_DIALOG(e_contact_editor_address_new(address));
+	gtk_object_set (GTK_OBJECT (dialog),
+			"is_read_only", editor->is_read_only,
+			NULL);
 	gtk_widget_show(GTK_WIDGET(dialog));
 
 	result = gnome_dialog_run (dialog);
@@ -1025,7 +1037,10 @@ e_contact_editor_destroy (GtkObject *object) {
 }
 
 EContactEditor *
-e_contact_editor_new (ECard *card, gboolean is_new_card, EList *fields)
+e_contact_editor_new (ECard *card,
+		      gboolean is_new_card,
+		      EList *fields,
+		      gboolean is_read_only)
 {
 	EContactEditor *ce;
 
@@ -1035,6 +1050,7 @@ e_contact_editor_new (ECard *card, gboolean is_new_card, EList *fields)
 			"card", card,
 			"is_new_card", is_new_card,
 			"writable_fields", fields,
+			"is_read_only", is_read_only,
 			NULL);
 
 	gtk_widget_show (ce->app);
@@ -1063,6 +1079,16 @@ e_contact_editor_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 		editor->is_new_card = GTK_VALUE_BOOL (*arg) ? TRUE : FALSE;
 		break;
 
+	case ARG_IS_READ_ONLY: {
+		gboolean new_value = GTK_VALUE_BOOL (*arg) ? TRUE : FALSE;
+		gboolean changed = (editor->is_read_only != new_value);
+
+		editor->is_read_only = new_value;
+
+		if (changed)
+			set_read_only (editor);
+		break;
+	}
 	case ARG_WRITABLE_FIELDS:
 		if (editor->writable_fields)
 			gtk_object_unref(GTK_OBJECT(editor->writable_fields));
@@ -1094,6 +1120,16 @@ e_contact_editor_get_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 		GTK_VALUE_BOOL (*arg) = e_contact_editor->is_new_card ? TRUE : FALSE;
 		break;
 
+	case ARG_IS_READ_ONLY:
+		GTK_VALUE_BOOL (*arg) = e_contact_editor->is_read_only ? TRUE : FALSE;
+		break;
+
+	case ARG_WRITABLE_FIELDS:
+		if (e_contact_editor->writable_fields)
+			GTK_VALUE_POINTER (*arg) = e_list_duplicate (e_contact_editor->writable_fields);
+		else
+			GTK_VALUE_POINTER (*arg) = NULL;
+		break;
 	default:
 		arg->type = GTK_TYPE_INVALID;
 		break;
@@ -1402,7 +1438,7 @@ _phone_arrow_pressed (GtkWidget *widget, GdkEventButton *button, EContactEditor 
 		editor->phone_choice[which - 1] = result;
 		set_fields(editor);
 		gtk_widget_set_sensitive (glade_xml_get_widget (editor->gui, label), TRUE);
-		gtk_widget_set_sensitive (glade_xml_get_widget (editor->gui, entry), TRUE);
+		gtk_widget_set_sensitive (glade_xml_get_widget (editor->gui, entry), !editor->is_read_only);
 	}
 
 	g_free(label);
@@ -1435,8 +1471,8 @@ _email_arrow_pressed (GtkWidget *widget, GdkEventButton *button, EContactEditor 
 
 		/* make sure the buttons/entry is/are sensitive */
 		gtk_widget_set_sensitive (glade_xml_get_widget (editor->gui, "label-email1"), TRUE);
-		gtk_widget_set_sensitive (glade_xml_get_widget (editor->gui, "entry-email1"), TRUE);
-		gtk_widget_set_sensitive (glade_xml_get_widget (editor->gui, "checkbutton-htmlmail"), TRUE);
+		gtk_widget_set_sensitive (glade_xml_get_widget (editor->gui, "entry-email1"), !editor->is_read_only);
+		gtk_widget_set_sensitive (glade_xml_get_widget (editor->gui, "checkbutton-htmlmail"), !editor->is_read_only);
 	}
 }
 
@@ -1465,8 +1501,8 @@ _address_arrow_pressed (GtkWidget *widget, GdkEventButton *button, EContactEdito
 
 		/* make sure the buttons/entry is/are sensitive */
 		gtk_widget_set_sensitive (glade_xml_get_widget (editor->gui, "label-address"), TRUE);
-		gtk_widget_set_sensitive (glade_xml_get_widget (editor->gui, "button-fulladdr"), TRUE);
-		gtk_widget_set_sensitive (glade_xml_get_widget (editor->gui, "text-address"), TRUE);
+		gtk_widget_set_sensitive (glade_xml_get_widget (editor->gui, "button-fulladdr"), !editor->is_read_only);
+		gtk_widget_set_sensitive (glade_xml_get_widget (editor->gui, "text-address"), !editor->is_read_only);
 	}
 }
 
@@ -1665,52 +1701,56 @@ disable_widget_foreach (char *key, GtkWidget *widget, gpointer closure)
 static struct {
 	char *widget_name;
 	ECardSimpleField field_id;
+	gboolean desensitize_for_read_only;
 } widget_field_mappings[] = {
-	{ "entry-web", E_CARD_SIMPLE_FIELD_URL },
+	{ "entry-web", E_CARD_SIMPLE_FIELD_URL, TRUE },
 	{ "accellabel-web", E_CARD_SIMPLE_FIELD_URL },
 
-	{ "entry-jobtitle", E_CARD_SIMPLE_FIELD_TITLE },
+	{ "entry-jobtitle", E_CARD_SIMPLE_FIELD_TITLE, TRUE },
 	{ "label-jobtitle", E_CARD_SIMPLE_FIELD_TITLE },
 
-	{ "entry-company", E_CARD_SIMPLE_FIELD_ORG },
+	{ "entry-company", E_CARD_SIMPLE_FIELD_ORG, TRUE },
 	{ "label-company", E_CARD_SIMPLE_FIELD_ORG },
 
-	{ "combo-file-as", E_CARD_SIMPLE_FIELD_FILE_AS },
-	{ "entry-file-as", E_CARD_SIMPLE_FIELD_FILE_AS },
+	{ "combo-file-as", E_CARD_SIMPLE_FIELD_FILE_AS, TRUE },
+	{ "entry-file-as", E_CARD_SIMPLE_FIELD_FILE_AS, TRUE },
 	{ "accellabel-fileas", E_CARD_SIMPLE_FIELD_FILE_AS },
 
 	{ "label-department", E_CARD_SIMPLE_FIELD_ORG_UNIT },
-	{ "entry-department", E_CARD_SIMPLE_FIELD_ORG_UNIT },
+	{ "entry-department", E_CARD_SIMPLE_FIELD_ORG_UNIT, TRUE },
 
 	{ "label-office", E_CARD_SIMPLE_FIELD_OFFICE },
-	{ "entry-office", E_CARD_SIMPLE_FIELD_OFFICE },
+	{ "entry-office", E_CARD_SIMPLE_FIELD_OFFICE, TRUE },
 
 	{ "label-profession", E_CARD_SIMPLE_FIELD_ROLE },
-	{ "entry-profession", E_CARD_SIMPLE_FIELD_ROLE },
+	{ "entry-profession", E_CARD_SIMPLE_FIELD_ROLE, TRUE },
 
 	{ "label-manager", E_CARD_SIMPLE_FIELD_MANAGER },
-	{ "entry-manager", E_CARD_SIMPLE_FIELD_MANAGER },
+	{ "entry-manager", E_CARD_SIMPLE_FIELD_MANAGER, TRUE },
 
 	{ "label-assistant", E_CARD_SIMPLE_FIELD_ASSISTANT },
-	{ "entry-assistant", E_CARD_SIMPLE_FIELD_ASSISTANT },
+	{ "entry-assistant", E_CARD_SIMPLE_FIELD_ASSISTANT, TRUE },
 
 	{ "label-nickname", E_CARD_SIMPLE_FIELD_NICKNAME },
-	{ "entry-nickname", E_CARD_SIMPLE_FIELD_NICKNAME },
+	{ "entry-nickname", E_CARD_SIMPLE_FIELD_NICKNAME, TRUE },
 
 	{ "label-spouse", E_CARD_SIMPLE_FIELD_SPOUSE },
-	{ "entry-spouse", E_CARD_SIMPLE_FIELD_SPOUSE },
+	{ "entry-spouse", E_CARD_SIMPLE_FIELD_SPOUSE, TRUE },
 
 	{ "label-birthday", E_CARD_SIMPLE_FIELD_BIRTH_DATE },
-	{ "dateedit-birthday", E_CARD_SIMPLE_FIELD_BIRTH_DATE },
+	{ "dateedit-birthday", E_CARD_SIMPLE_FIELD_BIRTH_DATE, TRUE },
 
 	{ "label-anniversary", E_CARD_SIMPLE_FIELD_ANNIVERSARY },
-	{ "dateedit-anniversary", E_CARD_SIMPLE_FIELD_ANNIVERSARY },
+	{ "dateedit-anniversary", E_CARD_SIMPLE_FIELD_ANNIVERSARY, TRUE },
 
 	{ "label-comments", E_CARD_SIMPLE_FIELD_NOTE },
-	{ "text-comments", E_CARD_SIMPLE_FIELD_NOTE },
+	{ "text-comments", E_CARD_SIMPLE_FIELD_NOTE, TRUE },
 
 	{ "button-fullname", E_CARD_SIMPLE_FIELD_FULL_NAME },
-	{ "entry-fullname", E_CARD_SIMPLE_FIELD_FULL_NAME }
+	{ "entry-fullname", E_CARD_SIMPLE_FIELD_FULL_NAME, TRUE },
+
+	{ "button-categories", E_CARD_SIMPLE_FIELD_CATEGORIES, TRUE },
+	{ "entry-categories", E_CARD_SIMPLE_FIELD_CATEGORIES, TRUE }
 };
 static int num_widget_field_mappings = sizeof(widget_field_mappings) / sizeof (widget_field_mappings[0]);
 
@@ -1792,13 +1832,13 @@ enable_writable_fields(EContactEditor *editor)
                    enabled. */
 		if (!strcmp (field, e_card_simple_get_ecard_field (card, e_card_simple_map_email_to_field(editor->email_choice)))) {
 			gtk_widget_set_sensitive (glade_xml_get_widget (editor->gui, "label-email1"), TRUE);
-			gtk_widget_set_sensitive (glade_xml_get_widget (editor->gui, "entry-email1"), TRUE);
+			gtk_widget_set_sensitive (glade_xml_get_widget (editor->gui, "entry-email1"), !editor->is_read_only);
 			gtk_widget_set_sensitive (glade_xml_get_widget (editor->gui, "checkbutton-htmlmail"), TRUE);
 		}
 		else if (!strcmp (field, e_card_simple_get_ecard_field (card, e_card_simple_map_address_to_field(editor->address_choice)))) {
 			gtk_widget_set_sensitive (glade_xml_get_widget (editor->gui, "label-address"), TRUE);
-			gtk_widget_set_sensitive (glade_xml_get_widget (editor->gui, "button-fulladdr"), TRUE);
-			gtk_widget_set_sensitive (glade_xml_get_widget (editor->gui, "text-address"), TRUE);
+			gtk_widget_set_sensitive (glade_xml_get_widget (editor->gui, "button-fulladdr"), !editor->is_read_only);
+			gtk_widget_set_sensitive (glade_xml_get_widget (editor->gui, "text-address"), !editor->is_read_only);
 		}
 		else for (i = 0; i < 4; i ++) {
 			if (!strcmp (field, e_card_simple_get_ecard_field (card, e_card_simple_map_phone_to_field(editor->phone_choice[i])))) {
@@ -1806,7 +1846,7 @@ enable_writable_fields(EContactEditor *editor)
 				gtk_widget_set_sensitive (glade_xml_get_widget (editor->gui, widget_name), TRUE);
 				g_free (widget_name);
 				widget_name = g_strdup_printf ("entry-phone%d", i+1);
-				gtk_widget_set_sensitive (glade_xml_get_widget (editor->gui, widget_name), TRUE);
+				gtk_widget_set_sensitive (glade_xml_get_widget (editor->gui, widget_name), !editor->is_read_only);
 				g_free (widget_name);
 			}
 		}
@@ -1821,6 +1861,52 @@ enable_writable_fields(EContactEditor *editor)
 		gtk_widget_set_sensitive (glade_xml_get_widget(editor->gui,
 							       widget_field_mappings[i].widget_name), enabled);
 	}
+
+	g_hash_table_destroy (dropdown_hash);
+	g_hash_table_destroy (supported_hash);
+}
+
+static void
+set_read_only (EContactEditor *editor)
+{
+	int i;
+	char *label, *entry;
+	/* set the sensitivity of all the non-dropdown entry/texts/dateedits */
+	for (i = 0; i < num_widget_field_mappings; i ++) {
+		if (widget_field_mappings[i].desensitize_for_read_only)
+			gtk_widget_set_sensitive (glade_xml_get_widget(editor->gui,
+								       widget_field_mappings[i].widget_name), !editor->is_read_only);
+	}
+
+	/* handle the phone dropdown entries */
+	for (i = 0; i < 4; i ++) {
+		label = g_strdup_printf ("label-phone%d", i+1);
+		entry = g_strdup_printf ("entry-phone%d", i+1);
+
+		if (GTK_WIDGET_IS_SENSITIVE (glade_xml_get_widget (editor->gui, label)))
+			gtk_widget_set_sensitive (glade_xml_get_widget(editor->gui,
+								       entry), !editor->is_read_only);
+
+		g_free (label);
+		g_free (entry);
+	}
+
+	/* handle the email dropdown entry */
+	label = "label-email1";
+	entry = "entry-email1";
+	if (GTK_WIDGET_IS_SENSITIVE (glade_xml_get_widget (editor->gui, label))) {
+		gtk_widget_set_sensitive (glade_xml_get_widget(editor->gui,
+							       entry), !editor->is_read_only);
+		gtk_widget_set_sensitive (glade_xml_get_widget(editor->gui,
+							       "checkbutton-htmlmail"), !editor->is_read_only);
+	}
+
+	/* handle the address dropdown entry */
+	label = "label-address";
+	entry = "text-address";
+	if (GTK_WIDGET_IS_SENSITIVE (glade_xml_get_widget (editor->gui, label)))
+		gtk_widget_set_sensitive (glade_xml_get_widget(editor->gui,
+							       entry), !editor->is_read_only);
 }
 
 static void

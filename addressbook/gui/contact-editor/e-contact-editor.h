@@ -86,6 +86,9 @@ struct _EContactEditor
 	/* Whether we are editing a new card or an existing one */
 	guint is_new_card : 1;
 
+	/* Whether the contact editor will accept modifications */
+	guint is_read_only : 1;
+
 	EList *writable_fields;
 };
 
@@ -103,7 +106,8 @@ struct _EContactEditorClass
 
 EContactEditor *e_contact_editor_new             (ECard          *card,
 						  gboolean        is_new_card,
-						  EList          *writable_fields);
+						  EList          *writable_fields,
+						  gboolean        is_read_only);
 GtkType         e_contact_editor_get_type        (void);
 void            e_contact_editor_raise           (EContactEditor *editor);
 

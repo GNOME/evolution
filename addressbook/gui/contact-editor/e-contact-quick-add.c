@@ -124,7 +124,7 @@ ce_book_found_fields (EBook *book, EBookStatus status, EList *fields, gpointer u
 		return;
 	}
 
-	contact_editor = e_contact_editor_new (card, TRUE, fields);
+	contact_editor = e_contact_editor_new (card, TRUE, fields, FALSE /* XXX */);
 
 	gtk_signal_connect (GTK_OBJECT (contact_editor),
 			    "add_card",

@@ -39,7 +39,8 @@ static GnomeDialogClass *parent_class = NULL;
 /* The arguments we take */
 enum {
 	ARG_0,
-	ARG_ADDRESS
+	ARG_ADDRESS,
+	ARG_IS_READ_ONLY
 };
 
 GtkType
@@ -80,6 +81,8 @@ e_contact_editor_address_class_init (EContactEditorAddressClass *klass)
 
 	gtk_object_add_arg_type ("EContactEditorAddress::address", GTK_TYPE_POINTER, 
 				 GTK_ARG_READWRITE, ARG_ADDRESS);
+	gtk_object_add_arg_type ("EContactEditorAddress::is_read_only", GTK_TYPE_BOOL, 
+				 GTK_ARG_READWRITE, ARG_IS_READ_ONLY);
  
 	object_class->set_arg = e_contact_editor_address_set_arg;
 	object_class->get_arg = e_contact_editor_address_get_arg;
@@ -146,6 +149,24 @@ e_contact_editor_address_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 		e_contact_editor_address->address = e_card_delivery_address_copy(GTK_VALUE_POINTER (*arg));
 		fill_in_info(e_contact_editor_address);
 		break;
+	case ARG_IS_READ_ONLY: {
+		int i;
+		char *entry_names[] = {
+			"entry-street",
+			"entry-city",
+			"entry-ext",
+			"entry-po",
+			"entry-region",
+			"combo-country",
+			"entry-code",
+			NULL
+		};
+		e_contact_editor_address->is_read_only = GTK_VALUE_BOOL (*arg) ? TRUE : FALSE;
+		for (i = 0; entry_names[i] != NULL; i ++) {
+			gtk_widget_set_sensitive (glade_xml_get_widget(e_contact_editor_address->gui, entry_names[i]), !e_contact_editor_address->is_read_only);
+		}
+		break;
+	}
 	}
 }
 
@@ -160,6 +181,9 @@ e_contact_editor_address_get_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 	case ARG_ADDRESS:
 		extract_info(e_contact_editor_address);
 		GTK_VALUE_POINTER (*arg) = e_card_delivery_address_copy(e_contact_editor_address->address);
+		break;
+	case ARG_IS_READ_ONLY:
+		GTK_VALUE_BOOL (*arg) = e_contact_editor_address->is_read_only ? TRUE : FALSE;
 		break;
 	default:
 		arg->type = GTK_TYPE_INVALID;

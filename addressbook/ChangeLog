@@ -1,3 +1,61 @@
+2001-03-12  Chris Toshok  <toshok@ximian.com>
+
+	* gui/widgets/e-minicard.c (supported_fields_cb): add is_read_only
+	param.
+
+	* gui/widgets/e-minicard-view.c (supported_fields_cb): add
+	is_read_only param.
+
+	* gui/widgets/e-addressbook-view.c (supported_fields_cb): add
+	is_read_only param.
+
+	* gui/component/select-names/e-select-names-text-model.c
+	(e_select_names_text_model_activate_obj): add is_read_only param.
+	also, include a little policy here and make it TRUE, as the user
+	shouldn't be editting in this context anyway (imo).
+
+	* gui/component/addressbook.c (supported_fields_cb): add
+	is_read_only param.
+
+	* contact-editor/test-editor.c (main): add is_read_only param.
+
+	* contact-editor/e-contact-editor.c (set_read_only): new function,
+	that either enables or disables all the text fields, combo boxes,
+	and some buttons, depending on the state of is_read_only.
+	(e_contact_editor_class_init): add read/write arg "is_read_only".
+	(full_name_clicked): set the is_read_only of the fullname dialog
+	to the editor's.
+	(full_addr_clicked): same.
+	(e_contact_editor_new): add is_read_only param, that gets set
+	along with the other params.
+	(e_contact_editor_set_arg): add setter for is_read_only.
+	(e_contact_editor_get_arg): add getter for is_read_only.
+	(_phone_arrow_pressed): change TRUE to !editor->is_read_only for
+	entry.
+	(_email_arrow_pressed): same.
+	(_address_arrow_pressed): same.
+	(enable_writable_fields): same.
+
+	* contact-editor/e-contact-editor-fullname.c
+	(e_contact_editor_fullname_class_init): add read/write arg
+	"is_read_only".
+	(e_contact_editor_fullname_set_arg): add setter for is_read_only
+	that enables/disables all the entries/combos.
+	(e_contact_editor_fullname_get_arg): add getter for is_read_only.
+
+	* contact-editor/e-contact-editor-fullname.h (struct
+	_EContactEditorFullname): add is_read_only flag.
+
+	* contact-editor/e-contact-editor-address.c
+	(e_contact_editor_address_class_init): add read/write arg
+	"is_read_only".
+	(e_contact_editor_address_set_arg): add setter for is_read_only
+	that disables/enables all the entries/combos.
+	(e_contact_editor_address_get_arg): add getter for is_read_only.
+
+	* contact-editor/e-contact-editor-address.h (struct
+	_EContactEditorAddress): add is_read_only flag.
+
 2001-03-13  Iain Holmes  <iain@ximian.com>
 
 	* backend/ebook/Makefile.am: Change the importer includes around a bit.

@@ -55,6 +55,9 @@ struct _EContactEditorAddress
 	
 	/* item specific fields */
 	ECardDeliveryAddress *address;
+
+	guint is_read_only : 1;
+
 	GladeXML *gui;
 };
 
