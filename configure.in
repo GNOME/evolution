@@ -1,7 +1,7 @@
 # Process this file with autoconf to produce a configure script.
 AC_PREREQ(2.52)
 
-AC_INIT(evolution, 1.5.94, http://bugzilla.ximian.com/enter_bug.cgi?product=Evolution)
+AC_INIT(evolution, 2.1.0, http://bugzilla.ximian.com/enter_bug.cgi?product=Evolution)
 AC_CONFIG_SRCDIR(README)
 AM_INIT_AUTOMAKE(AC_PACKAGE_NAME, AC_PACKAGE_VERSION)
 
@@ -15,6 +15,39 @@ ACLOCAL="$ACLOCAL $ACLOCAL_FLAGS"
 
 dnl Initialize maintainer mode
 AM_MAINTAINER_MODE
+
+dnl *************************************************************************************************
+dnl Base Version
+dnl
+dnl This is for api/versioning tracking for things like bonobo .server files
+dnl
+dnl This should always be the major/minor of the stable version or stable version to be
+dnl *************************************************************************************************
+BASE_VERSION=2.2
+AC_SUBST(BASE_VERSION)
+AC_DEFINE_UNQUOTED(BASE_VERSION, "$BASE_VERSION", [Base version (Major.Minor)])
+
+dnl *************************************************************************************************
+dnl Updgrade Revision
+dnl
+dnl This is for triggering migration calls between varying versions.
+dnl
+dnl This should be reset to 0 whenever BASE_VERSION changes
+dnl *************************************************************************************************
+UPGRADE_REVISION=0
+AC_SUBST(UPGRADE_REVISION)
+AC_DEFINE_UNQUOTED(UPGRADE_REVISION, "$UPGRADE_REVISION", [The number of times we've upgraded since the BASE_VERSION release])
+
+dnl *************************************************************************************************
+dnl Development mode
+dnl 
+dnl The controls whether things like the development warning in shell/main.c are displayed.
+dnl
+dnl This should be set to 0 for stable releases and 1 for unstable releases
+dnl *************************************************************************************************
+DEVELOPMENT=1
+AC_SUBST(UPGRADE_REVISION)
+AC_DEFINE(DEVELOPMENT, [If we are in development mode or not])
 
 AC_ISC_POSIX
 AC_PROG_CC
@@ -1186,14 +1219,6 @@ dnl --- evolution-test flags
 EVO_SET_COMPILE_FLAGS(EVOLUTION_TEST, libgnome-2.0 libgnomeui-2.0 libbonobo-2.0 libbonoboui-2.0 >= $BONOBOUI_REQUIRED)
 AC_SUBST(EVOLUTION_TEST_CFLAGS)
 AC_SUBST(EVOLUTION_TEST_LIBS)
-
-BASE_VERSION=`echo $VERSION | awk -F. '{print $1 "." $2;}'`
-AC_SUBST(BASE_VERSION)
-AC_DEFINE_UNQUOTED(BASE_VERSION, "$BASE_VERSION", [Base version (Major.Minor)])
-
-UPGRADE_REVISION=12
-AC_SUBST(UPGRADE_REVISION)
-AC_DEFINE_UNQUOTED(UPGRADE_REVISION, "$UPGRADE_REVISION", [The number of times we've upgraded since the BASE_VERSION release])
 
 dnl *******************
 dnl Special directories
