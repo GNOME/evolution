@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<contactservers>
+  <contactserver>
+      <name>Bigfoot</name>
+      <description>Bigfoot</description>
+      <uri>ldap://ldap.bigfoot.com/</uri>
+  </contactserver>
+  <contactserver>
+      <name>Netcenter</name>
+      <description>Netcenter Member Directory</description>
+      <uri>ldap://memberdir.netscape.com/ou=member_directory,o=netcenter.com</uri>
+  </contactserver>
+</contactservers>

@@ -1,3 +1,15 @@
+2000-07-05  Chris Toshok  <toshok@helixcode.com>
+
+	* shortcuts.xml: remove the Internet Directories group.
+
+	* Makefile.am (default_DATA): add ldapservers.xml.
+
+	* local/Makefile.am (SUBDIRS): remove Directories.
+
+	* ldapservers.xml: new ldap metadata.
+	
+	* local/Directories/*: remove directories.
+
 2000-06-01  Ettore Perazzoli  <ettore@helixcode.com>
 
 	* local/Inbox/mbox: Removed `<blockquote>' from the main text so
