@@ -1,3 +1,7 @@
+2022-10-24  Jeffrey Stedfast  <fejj@helixcode.com>
+
+	* filter-driver.c: Fixed NULL in fprintf.
+
 2000-10-24  Jeffrey Stedfast  <fejj@helixcode.com>
 
 	* filter-rule.c (xml_encode): If the source wasn't set, default to
