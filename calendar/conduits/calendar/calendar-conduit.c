@@ -415,7 +415,8 @@ local_record_from_comp (ECalLocalRecord *local, CalComponent *comp, ECalConduitC
 	CalComponentDateTime dt;
 	time_t dt_time;
 	CalComponentClassification classif;
-
+	int i;
+	
 	LOG ("local_record_from_comp\n");
 
 	g_return_if_fail (local != NULL);
@@ -461,6 +462,44 @@ local_record_from_comp (ECalLocalRecord *local, CalComponent *comp, ECalConduitC
 		local->appt->event = 0;
 	} else {
 		local->appt->event = 1;
+	}
+
+	/* Recurrence Rules */
+	local->appt->repeatType = repeatNone;
+
+	if (cal_component_has_rrules (comp)) {
+		GSList *list;
+		struct icalrecurrencetype *recur;
+		
+		cal_component_get_rrule_list (comp, &list);
+		recur = list->data;
+		
+		switch (recur->freq) {
+		case ICAL_DAILY_RECURRENCE:
+			local->appt->repeatType = repeatDaily;
+			break;
+		case ICAL_WEEKLY_RECURRENCE:
+			local->appt->repeatType = repeatWeekly;
+			for (i = 0; i<= 7 && recur->by_day[i] != SHRT_MAX; i++)
+				local->appt->repeatDays[0] = 0;
+			break;
+		case ICAL_MONTHLY_RECURRENCE:
+			if (recur->by_month_day[0] != SHRT_MAX) {
+				local->appt->repeatType = repeatMonthlyByDate;
+			}
+			break;
+		case ICAL_YEARLY_RECURRENCE:
+			local->appt->repeatType = repeatYearly;
+			break;
+		default:
+			break;
+		}
+
+		if (local->appt->repeatType != repeatNone) {
+			local->appt->repeatFrequency = recur->interval;
+		}
+		
+		cal_component_free_recur_list (list);
 	}
 
 	cal_component_get_classification (comp, &classif);

@@ -1,3 +1,32 @@
+2000-10-16  JP Rosevear  <jpr@helixcode.com>
+
+	* cal-client/cal-client.h: Remove pilot cruft.  All pilot stuff
+	is in the conduits now and uses the logging facility.
+
+	* pcs/cal-backend-file.c: ditto
+
+	* pcs/cal-backend.h: ditto
+
+	* pcs/cal-backend.c: ditto
+
+	* pcs/cal.c: ditto
+
+	* pcs/cal.h: ditto
+
+	* idl/evolution-calendar.idl: ditto
+
+	* cal-util/cal-component.h: ditto
+
+	* cal-util/cal-component.c: ditto
+
+	* cal-client/cal-client.c: ditto
+
+	* conduits/calendar/calendar-conduit.c (local_record_from_comp):
+	Take a stab at storing recurrence stuff on the pilot properly
+
+	* pcs/cal-backend.c (cal_backend_update_object): Don't log the
+	event until after the update in case its a new item
+
 2000-10-16  Tuomas Kuosmanen  <tigert@helixcode.com>
 
 	* gui/dayview.xpm, gui/workweekview.xpm, gui/weekview.xpm

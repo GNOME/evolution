@@ -97,9 +97,6 @@ struct _CalComponentPrivate {
 	icalproperty *transparency;
 	icalproperty *url;
 
-	icalproperty *pilot_id;
-	icalproperty *pilot_status;
-	
 	/* Whether we should increment the sequence number when piping the
 	 * object over the wire.
 	 */
@@ -569,13 +566,6 @@ scan_property (CalComponent *comp, icalproperty *prop)
 
 	case ICAL_URL_PROPERTY:
 		priv->url = prop;
-		break;
-
-	case ICAL_X_PROPERTY:
-		if (!strcmp (icalproperty_get_x_name (prop), "X-PILOT-ID"))
-			priv->pilot_id = prop;
-		if (!strcmp (icalproperty_get_x_name (prop), "X-PILOT-STATUS"))
-			priv->pilot_status = prop;
 		break;
 
 	default:
@@ -3005,166 +2995,7 @@ cal_component_set_url (CalComponent *comp, const char *url)
 	}
 }
 
-/**
- * cal_component_get_pilot_id:
- * @comp: A calendar component object.
- * @pilot_id: Return value for the pilot ID.
- *
- * Queries the pilot id of a calendar component object, if any.
- **/
-void
-cal_component_get_pilot_id (CalComponent *comp, unsigned long **pilot_id)
-{
-	CalComponentPrivate *priv;
-
-	g_return_if_fail (comp != NULL);
-	g_return_if_fail (IS_CAL_COMPONENT (comp));
-
-	priv = comp->priv;
-	g_return_if_fail (priv->icalcomp != NULL);
-	
-	/* Pilot id might want to be recordid_t */
-	if (priv->pilot_id) {
-		icalvalue  *value;
-		char *text;		
-		
-		value = icalproperty_get_value (priv->pilot_id);
-		text = icalvalue_get_text (value);
-		
-		*pilot_id = g_new (unsigned long, 1);
-		**pilot_id = strtoul (text, NULL, 0);
-	} else {
-		*pilot_id = NULL;
-	}
-}
-
-/**
- * cal_component_set_pilot_id:
- * @comp: A calendar component object.
- * @pilot_id: Return value for the pilot ID.
- *
- * Sets the pilot id of a clanedar component object.
- **/
-void
-cal_component_set_pilot_id (CalComponent *comp, unsigned long *pilot_id)
-{
-	CalComponentPrivate *priv;
-	icalvalue *value;
-	char text[256];
-	
-	g_return_if_fail (comp != NULL);
-	g_return_if_fail (IS_CAL_COMPONENT (comp));
-
-	priv = comp->priv;
-	g_return_if_fail (priv->icalcomp != NULL);
-
-	/* pilot_id maybe should be recordid_t */
-	if (!pilot_id) {
-		if (priv->pilot_id) {
-			icalcomponent_remove_property (priv->icalcomp, 
-						       priv->pilot_id);
-			icalproperty_free (priv->pilot_id);
-			priv->pilot_id = NULL;
-		}
-
-		return;
-	}
-
-	/* iCalendar spec does not support unsigned longs directly */
-	g_snprintf (text, 256, "%lu", *pilot_id);
-	value = icalvalue_new_text (text);
-
-	if (!priv->pilot_id) {
-		priv->pilot_id = icalproperty_new (ICAL_X_PROPERTY);
-		icalproperty_set_x_name (priv->pilot_id, "X-PILOT-ID");
-		icalcomponent_add_property (priv->icalcomp, priv->pilot_id);
-	}
-
-	icalproperty_set_value (priv->pilot_id, value);
-}
-
-/**
- * cal_component_get_pilot_status:
- * @comp: A calendar component object.
- * @pilot_status: Return value for the pilot sync status.
- *
- * Queries the pilot status of a calendar component object, if any.
- **/
-void
-cal_component_get_pilot_status (CalComponent *comp, 
-				unsigned long **pilot_status)
-{
-	CalComponentPrivate *priv;
-	
-	g_return_if_fail (comp != NULL);
-	g_return_if_fail (IS_CAL_COMPONENT (comp));
-
-	priv = comp->priv;
-	g_return_if_fail (priv->icalcomp != NULL);
-	
-	/* Pilot id might want to be recordid_t */
-	if (priv->pilot_status) {
-		icalvalue  *value;
-		char *text;		
-		
-		value = icalproperty_get_value (priv->pilot_status);
-		text = icalvalue_get_text (value);
-
-		*pilot_status = g_new (unsigned long, 1);		
-		**pilot_status = strtoul (text, NULL, 0);
-	} else {
-		*pilot_status = NULL;
-	}
-}
-
-/**
- * cal_component_set_pilot_id:
- * @comp: A calendar component object.
- * @pilot_id: Return value for the pilot ID.
- *
- * Sets the pilot id of a clanedar component object.
- **/
-void
-cal_component_set_pilot_status (CalComponent *comp, 
-				unsigned long *pilot_status)
-{
-	CalComponentPrivate *priv;
-	icalvalue *value;
-	char text[256];
-	
-	g_return_if_fail (comp != NULL);
-	g_return_if_fail (IS_CAL_COMPONENT (comp));
-
-	priv = comp->priv;
-	g_return_if_fail (priv->icalcomp != NULL);
-
-	if (!pilot_status) {
-		if (priv->pilot_status) {
-			icalcomponent_remove_property (priv->icalcomp, 
-						       priv->pilot_status);
-			icalproperty_free (priv->pilot_status);
-			priv->pilot_status = NULL;
-		}
-
-		return;
-	}
-
-	/* iCalendar spec does not support unsigned longs directly */
-	g_snprintf (text, 256, "%lu", *pilot_status);
-	value = icalvalue_new_text (text);
-
-	if (!priv->pilot_status) {
-		priv->pilot_status = icalproperty_new (ICAL_X_PROPERTY);
-		icalproperty_set_x_name (priv->pilot_status, "X-PILOT-STATUS");
-		icalcomponent_add_property (priv->icalcomp, priv->pilot_status);
-	}
-
-	icalproperty_set_value (priv->pilot_status, value);
-}
-
-
 
-
 
 /**
  * cal_component_free_categories_list:

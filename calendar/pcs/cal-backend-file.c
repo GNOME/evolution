@@ -44,13 +44,6 @@ struct _CalBackendFilePrivate {
 	 */
 	GHashTable *comp_uid_hash;
 
-	/* All the uids in the calendar, hashed by pilot ID.  The
-	 * hash key *is* the pilot id returned by cal_component_get_pilot_id();
-	 * it is not copied, so don't free it when you remove an object from 
-	 * the hash table.
-	 */
-	GHashTable *comp_pilot_hash;
-
 	/* All event, to-do, and journal components in the calendar; they are
 	 * here just for easy access (i.e. so that you don't have to iterate
 	 * over the comp_uid_hash).  If you need *all* the components in the
@@ -88,12 +81,6 @@ static gboolean cal_backend_file_get_alarms_for_object (CalBackend *backend, con
 static gboolean cal_backend_file_update_object (CalBackend *backend, const char *uid,
 					       const char *calobj);
 static gboolean cal_backend_file_remove_object (CalBackend *backend, const char *uid);
-static char *cal_backend_file_get_uid_by_pilot_id (CalBackend *backend, unsigned long int pilot_id);
-static void cal_backend_file_update_pilot_id (CalBackend *backend,
-					      const char *uid,
-					      unsigned long int pilot_id,
-					      unsigned long int pilot_status);
-
 
 static CalBackendClass *parent_class;
 
@@ -158,8 +145,6 @@ cal_backend_file_class_init (CalBackendFileClass *class)
 	backend_class->get_alarms_for_object = cal_backend_file_get_alarms_for_object;
 	backend_class->update_object = cal_backend_file_update_object;
 	backend_class->remove_object = cal_backend_file_remove_object;
-	backend_class->get_uid_by_pilot_id = cal_backend_file_get_uid_by_pilot_id;
-	backend_class->update_pilot_id = cal_backend_file_update_pilot_id;
 }
 
 /* Object initialization function for the file backend */
@@ -279,11 +264,6 @@ cal_backend_file_destroy (GtkObject *object)
 				      free_cal_component, NULL);
 		g_hash_table_destroy (priv->comp_uid_hash);
 		priv->comp_uid_hash = NULL;
-	}
-
-	if (priv->comp_pilot_hash) {
-		g_hash_table_destroy (priv->comp_pilot_hash);
-		priv->comp_pilot_hash = NULL;
 	}
 
 	g_list_free (priv->events);
@@ -477,7 +457,6 @@ add_component (CalBackendFile *cbfile, CalComponent *comp, gboolean add_to_tople
 	CalBackendFilePrivate *priv;
 	GList **list;
 	const char *uid;
-	unsigned long *pilot_id;
 	
 	priv = cbfile->priv;
 
@@ -506,12 +485,6 @@ add_component (CalBackendFile *cbfile, CalComponent *comp, gboolean add_to_tople
 	cal_component_get_uid (comp, &uid);
 	g_hash_table_insert (priv->comp_uid_hash, (char *)uid, comp);
 
-	/* Update the pilot list, if there is a pilot id */
-	cal_component_get_pilot_id (comp, &pilot_id);	
-	if (pilot_id)
-		g_hash_table_insert (priv->comp_pilot_hash, 
-				     pilot_id, (char *)uid);
-
 	*list = g_list_prepend (*list, comp);
 
 	/* Put the object in the toplevel component if required */
@@ -536,7 +509,6 @@ remove_component (CalBackendFile *cbfile, CalComponent *comp)
 	CalBackendFilePrivate *priv;
 	icalcomponent *icalcomp;
 	const char *uid;
-	unsigned long *pilot_id;
 	GList **list, *l;
 
 	priv = cbfile->priv;
@@ -552,9 +524,6 @@ remove_component (CalBackendFile *cbfile, CalComponent *comp)
 
 	cal_component_get_uid (comp, &uid);
 	g_hash_table_remove (priv->comp_uid_hash, uid);
-	cal_component_get_pilot_id (comp, &pilot_id);
-	if (pilot_id)
-		g_hash_table_remove (priv->comp_pilot_hash, pilot_id);
 	
 	switch (cal_component_get_vtype (comp)) {
 	case CAL_COMPONENT_EVENT:
@@ -686,7 +655,6 @@ cal_backend_file_load (CalBackend *backend, GnomeVFSURI *uri)
 	priv->icalcomp = icalcomp;
 
 	priv->comp_uid_hash = g_hash_table_new (g_str_hash, g_str_equal);
-	priv->comp_pilot_hash = g_hash_table_new (g_int_hash, g_int_equal);
 	scan_vcalendar (cbfile);
 
 	/* Clean up */
@@ -734,7 +702,6 @@ cal_backend_file_create (CalBackend *backend, GnomeVFSURI *uri)
 
 	g_assert (priv->comp_uid_hash == NULL);
 	priv->comp_uid_hash = g_hash_table_new (g_str_hash, g_str_equal);
-	priv->comp_pilot_hash = g_hash_table_new (g_int_hash, g_int_equal);
 
 	/* Clean up */
 	if (priv->uri)
@@ -1104,10 +1071,6 @@ cal_backend_file_update_object (CalBackend *backend, const char *uid, const char
 		remove_component (cbfile, old_comp);
 
 	add_component (cbfile, comp, TRUE);
-#if 0
-	/* FIXME */
-	new_ico->pilot_status = ICAL_PILOT_SYNC_MOD;
-#endif
 
 	mark_dirty (cbfile);
 
@@ -1143,46 +1106,5 @@ cal_backend_file_remove_object (CalBackend *backend, const char *uid)
 	notify_remove (cbfile, uid);
 
 	return TRUE;
-}
-
-/* Get_uid_by_pilot_id handler for the file backend */
-static char *
-cal_backend_file_get_uid_by_pilot_id (CalBackend *backend, unsigned long pilot_id)
-{
-	CalBackendFile *cbfile;
-	CalBackendFilePrivate *priv;
-	char *uid;
-
-	cbfile = CAL_BACKEND_FILE (backend);
-	priv = cbfile->priv;
-
-	uid = g_hash_table_lookup (priv->comp_pilot_hash, &pilot_id);
-
-	return g_strdup (uid);
-}
-
-/* Update_pilot_id handler for the file backend */
-static void
-cal_backend_file_update_pilot_id (CalBackend *backend,
-				  const char *uid,
-				  unsigned long pilot_id,
-				  unsigned long pilot_status)
-{
-	CalBackendFile *cbfile;
-	CalBackendFilePrivate *priv;
-	CalComponent *comp;
-
-	cbfile = CAL_BACKEND_FILE (backend);
-	priv = cbfile->priv;
-
-	g_return_if_fail (priv->icalcomp != NULL);
-	g_return_if_fail (uid != NULL);
-
-	comp = lookup_component (cbfile, uid);
-	if (!comp)
-		return;
-
-	cal_component_set_pilot_id (comp, &pilot_id);
-	cal_component_set_pilot_status (comp, &pilot_status);
 }
 

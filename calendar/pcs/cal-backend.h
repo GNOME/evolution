@@ -80,9 +80,6 @@ struct _CalBackendClass {
 					    GList **alarms);
 	gboolean (* update_object) (CalBackend *backend, const char *uid, const char *calobj);
 	gboolean (* remove_object) (CalBackend *backend, const char *uid);
-	char *(* get_uid_by_pilot_id) (CalBackend *backend, unsigned long int pilot_id);
-	void (* update_pilot_id) (CalBackend *backend, const char *uid,
-				  unsigned long int pilot_id, unsigned long int pilot_status);
 };
 
 GtkType cal_backend_get_type (void);
@@ -118,12 +115,6 @@ gboolean cal_backend_update_object (CalBackend *backend, const char *uid, const 
 gboolean cal_backend_remove_object (CalBackend *backend, const char *uid);
 
 void cal_backend_last_client_gone (CalBackend *backend);
-
-char *cal_backend_get_uid_by_pilot_id (CalBackend *backend, unsigned long int pilot_id);
-
-void cal_backend_update_pilot_id (CalBackend *backend, const char *uid,
-				  unsigned long int pilot_id,
-				  unsigned long int pilot_status);
 
 
 
