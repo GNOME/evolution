@@ -192,8 +192,6 @@ static gboolean
 elm_can_import (EvolutionIntelligentImporter *ii,
 		void *closure)
 {
-	ElmImporter *importer = closure;
-	FILE *prefs_handle;
 	char *key, *maildir;
 	gboolean exists;
 
@@ -208,10 +206,28 @@ elm_can_import (EvolutionIntelligentImporter *ii,
 	}
 	gnome_config_pop_prefix ();
 
+	/* Elm uses ~/Mail
+	   Alas, so does MH and KMail. */
 	maildir = gnome_util_prepend_user_home ("Mail");
 	exists = g_file_exists (maildir);
-	g_free (maildir);
 
+	if (exists) {
+		char *mh, *mhdir;
+		/* Check for some other files to work out what it is. */
+
+		/* MH? */
+		mh = g_concat_dir_and_file (maildir, "context");
+		mhdir = g_concat_dir_and_file (maildir, "inbox");
+		if (g_file_exists (mh) &&
+		    g_file_test (mhdir, G_FILE_TEST_ISDIR)) {
+			exists = FALSE; /* Probably MH */
+		}
+		
+		g_free (mh);
+		g_free (mhdir);
+	}
+
+	g_free (maildir);
 	return exists;
 }
 
