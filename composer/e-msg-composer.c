@@ -86,6 +86,7 @@
 #include "camel/camel.h"
 #include "camel/camel-charset-map.h"
 #include "camel/camel-session.h"
+#include "camel/camel-multipart-signed.h"
 
 #include "mail/mail.h"
 #include "mail/mail-crypto.h"
@@ -492,7 +493,9 @@ build_message (EMsgComposer *composer)
 		if (composer->pgp_sign) {
 			CamelInternetAddress *from = NULL;
 			const char *pgpid;
-			
+			CamelMultipartSigned *mps;
+			CamelCipherContext *context;
+
 			camel_exception_init (&ex);
 			
 			if (hdrs->account && hdrs->account->pgp_key && *hdrs->account->pgp_key) {
@@ -503,17 +506,24 @@ build_message (EMsgComposer *composer)
 				camel_internet_address_get (from, 0, NULL, &pgpid);
 			}
 			
-			printf ("build_message(): pgpid = '%s'\n", pgpid);
-			
-			mail_crypto_pgp_mime_part_sign (&part, pgpid, CAMEL_CIPHER_HASH_SHA1, &ex);
-			
+			context = (CamelCipherContext *)camel_pgp_context_new(session, mail_config_get_pgp_type(), mail_config_get_pgp_path());
+			if (context == NULL) {
+				camel_exception_setv(&ex, 1, _("Could not create a PGP signature context"));
+				goto exception;
+			}
+			mps = camel_multipart_signed_new();
+			camel_multipart_signed_sign(mps, context, part, pgpid, CAMEL_CIPHER_HASH_SHA1, &ex);
+			camel_medium_set_content_object(CAMEL_MEDIUM (part), (CamelDataWrapper *)mps);
+			camel_object_unref((CamelObject *)mps);
+			camel_object_unref((CamelObject *)context);
+
 			if (from)
 				camel_object_unref (CAMEL_OBJECT (from));
 			
 			if (camel_exception_is_set (&ex))
 				goto exception;
 		}
-		
+
 		if (composer->pgp_encrypt) {
 			/* FIXME: recipients should be an array of key ids rather than email addresses */
 			const CamelInternetAddress *addr;
