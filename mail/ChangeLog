@@ -1,3 +1,13 @@
+2001-10-22  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-stream-gtkhtml.c (mail_stream_gtkhtml_new): New class that
+	wraps writing to a GtkHTML stream so that we don't have to write
+	to an intermediate GByteArray.
+
+	* mail-display.c (on_url_requested): Use the new Camel->GtkHTML
+	stream - this means we don't have to chew up nearly as much
+	memory...yay!
+
 2001-10-22  Ettore Perazzoli  <ettore@ximian.com>
 
 	* mail-mt.c (do_op_status): Don't free `clientid' as it's

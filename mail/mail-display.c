@@ -45,6 +45,7 @@
 
 #include "e-searching-tokenizer.h"
 #include "folder-browser-factory.h"
+#include "mail-stream-gtkhtml.h"
 #include "mail-display.h"
 #include "mail-config.h"
 #include "mail-ops.h"
@@ -1043,7 +1044,6 @@ on_url_requested (GtkHTML *html, const char *url, GtkHTMLStream *handle,
 	if (medium) {
 		CamelContentType *content_type;
 		CamelDataWrapper *data;
-		CamelStream *stream_mem;
 		
 		g_return_if_fail (CAMEL_IS_MEDIUM (medium));
 		
@@ -1055,18 +1055,17 @@ on_url_requested (GtkHTML *html, const char *url, GtkHTMLStream *handle,
 		
 		if (header_content_type_is (content_type, "text", "*")) {
 			ba = mail_format_get_data_wrapper_text (data, md);
+			if (ba) {
+				gtk_html_write (html, handle, ba->data, ba->len);
+				
+				g_byte_array_free (ba, TRUE);
+			}
 		} else {
-			ba = g_byte_array_new ();
-			stream_mem = camel_stream_mem_new ();
-			camel_stream_mem_set_byte_array (CAMEL_STREAM_MEM (stream_mem), ba);
-			camel_data_wrapper_write_to_stream (data, stream_mem);
-			camel_object_unref (CAMEL_OBJECT (stream_mem));
-		}
-		
-		if (ba) {
-			gtk_html_write (html, handle, ba->data, ba->len);
+			CamelStream *html_stream;
 			
-			g_byte_array_free (ba, TRUE);
+			html_stream = mail_stream_gtkhtml_new (html, handle);
+			camel_data_wrapper_write_to_stream (data, html_stream);
+			camel_object_unref (CAMEL_OBJECT (html_stream));
 		}
 		
 		gtk_html_end (html, handle, GTK_HTML_STREAM_OK);
@@ -1075,7 +1074,7 @@ on_url_requested (GtkHTML *html, const char *url, GtkHTMLStream *handle,
 
 	urls = g_datalist_get_data (md->data, "data_urls");
 	g_return_if_fail (urls != NULL);
-
+	
 	/* See if it's some piece of cached data */
 	ba = g_hash_table_lookup (urls, url);
 	if (ba) {
