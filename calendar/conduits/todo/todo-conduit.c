@@ -734,6 +734,8 @@ pre_sync (GnomePilotConduit *conduit,
 				del_records++;
 				break;
 			}
+		} else if (ccc->type == CAL_CLIENT_CHANGE_DELETED) {
+			e_pilot_map_remove_by_uid (ctxt->map, uid);
 		}
 	}
 
@@ -882,7 +884,7 @@ for_each_modified (GnomePilotConduitSyncAbs *conduit,
 	g_return_val_if_fail (local != NULL, 0);
 
 	if (*local == NULL) {
-		LOG ("beginning for_each_modified: beginning\n");
+		LOG ("for_each_modified beginning\n");
 		
 		iterator = ctxt->changed;
 		

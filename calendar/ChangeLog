@@ -1,3 +1,10 @@
+2001-10-26  JP Rosevear  <jpr@ximian.com>
+
+	* conduits/todo/todo-conduit.c (pre_sync): remove the uid from the
+	map if was archived and is now deleted
+
+	* conduits/calendar/calendar-conduit.c: ditto
+
 2001-10-26  Rodrigo Moya <rodrigo@ximian.com>
 
 	* gui/e-calendar_table.c (delete_selected_components):
