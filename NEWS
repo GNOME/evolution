@@ -1,3 +1,108 @@
+Evolution 2.1.4, 2004-01-24
+----------------------------
+
+Bugzilla bugs fixed (see http://bugzilla.ximian.com/show_bug.cgi):
+
+ * Mail
+
+   #46287 - Space key should work for checkbox (JP)
+   #57090 - Junk Button Sensitivity needs changes (Radek)
+   #69122 - Make subject || sender contains the default search (Michael)
+   #60664 - message view does not follow theme change (Michael)
+   #55831 - missing warning dialog about opening a lot of selected mails (Michael)
+   #66943 - Crash when saving draft (Michael)
+   #70768 - 'Mark All as Read' marks all the mails which are not in current query as read (Michael)
+   #71105 - When trying to rename a folder containing a slash "/" and spaces, evil stuff happens (Michael)
+   #65178 - newly created folder on local maildir doesn't show until evolution restart (Michael) 
+   #71029 - receiving settings not stored (Michael)
+   #70990 - NNTP without username broken (Michael)
+   #70018 - Signatures don't work (Michael)
+   #68352 - Add post message keybinding (Rodney)
+
+ * Calendar
+
+   #71407 - Input Protect Read-Only Calendars (Rodrigo)
+   #65820 - Evolution Calendar weekday names message needs translator comment (JP)
+
+ * Addressbook
+
+   #70622 - crash (JP)
+   #71448 - Deleting many contacts is incredibly slow (Siva)
+   #41210 - spacing/padding of "Contact Quick Add" dialog (Rodney)
+   #60852 - "Add address" popup dialog UI is ugly/wrong size, and button is resizable (Rodney)
+   #41228 - spacing/padding of "duplicate contact detected" dialog (Rodney)
+   #70922 - Email address types should show "Other" when importing vcards (Siva)
+   #61973 - add TTYTDD translator comment (JP)
+
+ * Plugins
+
+   #71384 - 'Forward' button is disabled while configuring mail id (Sushma)
+   #29985 - Accepted meetings should have a replied-to icon (JP)
+
+ * Miscellaneous
+
+   #46404 - not remembering printer definition (JP)
+
+Other bugs
+
+ * Address Book
+
+    - set full name appropriately when quick adding (Hans)
+    - fix creation of local addressbooks (Siva)
+    - a11y fixes (Hao Sheng)
+
+ * Mail
+
+    - Add items to folder properties correctly (Jeff)
+    - Add async descriptions (Jeff)
+		
+ * Calendar
+
+    - for detached instances, disable recurrence UI (Rodrigo)
+    - use receive_objects for importing (Rodrigo)
+    - change free/busy prefs title (Nat)
+    - handle attachment errors better (Harish)
+    - fix possible day view resize crash (Michael)
+	
+ * Shell
+
+    - fix offline handler crash (JP)
+    - close import wizard on Esc (Mengjie Yu)
+
+ * S/MIME
+
+    - don't remove tree node if deleting cert failed (Michael)
+
+  * Plugins
+
+    - Add addressbook file config plugin so local calendar get set up right (Siva)
+    - In BBDB check the buddy account name not alias (Nat)
+    - In weather calendar fix units spelling (David Trowbridge)
+    - In weather calendar use single metric/imperial specification (David Trowbridge)
+    - Add default source plugin so its easy to set for the user (Siva)
+    - Make exchange account setup simpler (Sushma)
+    - In groupwise account setup simplify the settings for soap only (Siva)
+    - Add groupwise status tracking plugin so the user can see the information they requested (Chen)
+    - In itip-formatter extract the decoded text so non-ascii works (JP)
+    - In itip-formatter handle utc dtstart/dtend correctly (JP)
+    - In new-mail-notify fix DBUS event handling (Miguel Angel Lopez Hernandez)
+    - In groupwise sendoptions, make sure the global send options actually work (Chen)
+    - In groupwise shared folder, improve UI (Vivek)
+    - In groupwise shared folder, add a wizard for shared folder notifications (Vivek)
+
+Updated translations:
+	- es (Francisco Javier F. Serrador)
+	- de (Hendrik Richter, Frank Arnold)
+	- it (Marco Ciampa)
+	- nl (Vincent van Adrighem)
+	- lt (Zygimantas Berucka)
+	- nb (Kjartan Maraas)
+	- no (Kjartan Maraas)
+	- et (Priit Laes)
+	- el (Nikos Charonitakis)
+	- ja (Takeshi AIHANA)
+	- en_CA (Adam Weinberger)
+
 Evolution 2.1.3, 2004-01-10
 ----------------------------
 
