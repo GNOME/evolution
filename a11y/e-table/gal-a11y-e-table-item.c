@@ -49,6 +49,8 @@ static gboolean gal_a11y_e_table_item_ref_selection (GalA11yETableItem *a11y,
 						     ESelectionModel *selection);
 static gboolean gal_a11y_e_table_item_unref_selection (GalA11yETableItem *a11y);
 
+static gpointer *eti_reinit_data (AtkTable *table, ETableItem *item);
+
 #if 0
 static void
 unref_accessible (gpointer user_data, GObject *obj_loc)
@@ -265,7 +267,7 @@ cell_destroyed (gpointer data)
 	g_return_if_fail (GAL_A11Y_IS_E_CELL (data));
 	cell = GAL_A11Y_E_CELL (data);
 		
-	item =	atk_gobject_accessible_for_object (GAL_A11Y_E_CELL(data)->item);
+	item = GAL_A11Y_E_TABLE_ITEM (atk_gobject_accessible_for_object (G_OBJECT (GAL_A11Y_E_CELL(data)->item)));
 
 	g_return_if_fail (item && GAL_A11Y_IS_E_TABLE_ITEM (item));
 
@@ -1294,7 +1296,7 @@ eti_a11y_cursor_changed_cb (ESelectionModel *selection,
 
         cell = atk_table_ref_at (ATK_TABLE (a11y), row, col);
 	if (cell != NULL) {
-		gal_a11y_e_cell_add_state(cell, ATK_STATE_FOCUSED, FALSE);
+		gal_a11y_e_cell_add_state (GAL_A11Y_E_CELL (cell), ATK_STATE_FOCUSED, FALSE);
 
         	if (ATK_IS_OBJECT (cell))
                 	g_signal_emit_by_name  (a11y,
