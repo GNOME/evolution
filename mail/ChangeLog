@@ -1,3 +1,15 @@
+2003-09-23  Jeffrey Stedfast  <fejj@ximian.com>
+
+	Fix for bug #48791 (and also fixes a FIXME)
+
+	* em-format.c (emf_init): Setup a gconf listener for changes to
+	the charset setting.
+	(gconf_charset_changed): Update the cached gconf charset value.
+	(emf_finalise): Free the EMFormatPrivate data, unref the gconf
+	client, disconnect the charset notify id, and free the cached
+	gconf charset value.
+	(em_format_format_text): Use the cached gconf charset value.
+
 2003-09-22  Not Zed  <NotZed@Ximian.com>
 
 	** See bug #32996

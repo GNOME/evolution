@@ -55,6 +55,12 @@
 
 #define d(x)
 
+struct _EMFormatPrivate {
+	GConfClient *gconf;
+	guint charset_id;
+	char *gconf_charset;
+};
+
 static void emf_builtin_init(EMFormatClass *);
 static const char *emf_snoop_part(CamelMimePart *part);
 
@@ -70,10 +76,29 @@ static guint emf_signals[EMF_LAST_SIGNAL];
 static GObjectClass *emf_parent;
 
 static void
+gconf_charset_changed (GConfClient *client, guint cnxn_id,
+		       GConfEntry *entry, gpointer user_data)
+{
+	struct _EMFormatPrivate *priv = ((EMFormat *) user_data)->priv;
+	
+	g_free (priv->gconf_charset);
+	priv->gconf_charset = gconf_client_get_string (priv->gconf, "/apps/evolution/mail/format/charset", NULL);
+}
+
+static void
 emf_init(GObject *o)
 {
+	struct _EMFormatPrivate *priv;
 	EMFormat *emf = (EMFormat *)o;
-
+	
+	priv = emf->priv = g_new (struct _EMFormatPrivate, 1);
+	priv->gconf = gconf_client_get_default ();
+	gconf_client_add_dir (priv->gconf, "/apps/evolution/mail/format/charset", 			      
+			      GCONF_CLIENT_PRELOAD_ONELEVEL, NULL);
+	priv->charset_id = gconf_client_notify_add (priv->gconf, "/apps/evolution/mail/format/charset",
+						    gconf_charset_changed, NULL, NULL, emf);
+	priv->gconf_charset = gconf_client_get_string (priv->gconf, "/apps/evolution/mail/format/charset", NULL);
+	
 	emf->inline_table = g_hash_table_new(NULL, NULL);
 	e_dlist_init(&emf->header_list);
 	em_format_default_headers(emf);
@@ -82,8 +107,15 @@ emf_init(GObject *o)
 static void
 emf_finalise(GObject *o)
 {
+	struct _EMFormatPrivate *priv = ((EMFormat *) o)->priv;
 	EMFormat *emf = (EMFormat *)o;
-
+	
+	gconf_client_notify_remove (priv->gconf, priv->charset_id);
+	priv->charset_id = 0;
+	g_object_unref (priv->gconf);
+	g_free (priv->gconf_charset);
+	g_free (priv);
+	
 	if (emf->session)
 		camel_object_unref(emf->session);
 
@@ -92,9 +124,9 @@ emf_finalise(GObject *o)
 
 	em_format_clear_headers(emf);
 	g_free(emf->charset);
-
+	
 	/* FIXME: check pending jobs */
-
+	
 	((GObjectClass *)emf_parent)->finalize(o);
 }
 
@@ -798,8 +830,7 @@ em_format_format_text(EMFormat *emf, CamelStream *stream, CamelDataWrapper *dw)
 	CamelStreamFilter *filter_stream;
 	CamelMimeFilterCharset *filter;
 	const char *charset = NULL;
-	char *fallback_charset = NULL;
-
+	
 	if (emf->charset) {
 		charset = emf->charset;
 	} else if (dw->mime_type
@@ -824,24 +855,18 @@ em_format_format_text(EMFormat *emf, CamelStream *stream, CamelDataWrapper *dw)
 		camel_stream_flush((CamelStream *)filter_stream);
 		camel_object_unref(filter_stream);
 		
-		charset = fallback_charset = g_strdup(camel_mime_filter_windows_real_charset(windows));
+		charset = camel_mime_filter_windows_real_charset (windows);
 		camel_object_unref(windows);
 	} else if (charset == NULL) {
-		/* FIXME: remove gconf query every time */
-		GConfClient *gconf = gconf_client_get_default();
-
-		charset = fallback_charset = gconf_client_get_string(gconf, "/apps/evolution/mail/format/charset", NULL);
-		g_object_unref(gconf);
+		charset = emf->priv->gconf_charset;
 	}
-
+	
 	filter_stream = camel_stream_filter_new_with_stream(stream);
 	
 	if ((filter = camel_mime_filter_charset_new_convert(charset, "UTF-8"))) {
 		camel_stream_filter_add(filter_stream, (CamelMimeFilter *) filter);
 		camel_object_unref(filter);
 	}
-	
-	g_free(fallback_charset);
 	
 	camel_data_wrapper_decode_to_stream(dw, (CamelStream *)filter_stream);
 	camel_stream_flush((CamelStream *)filter_stream);

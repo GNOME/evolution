@@ -95,7 +95,9 @@ struct _EMFormatHeader {
 
 struct _EMFormat {
 	GObject parent;
-
+	
+	struct _EMFormatPrivate *priv;
+	
 	struct _CamelMedium *message; /* the current message */
 
 	EDList header_list;	/* if empty, then all */
