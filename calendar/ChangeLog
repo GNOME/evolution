@@ -1,3 +1,10 @@
+2004-02-18  Rodrigo Moya <rodrigo@ximian.com>
+
+	* gui/alarm-notify/alarm-notify.c: no need to keep reference counts.
+	(destroy_loaded_client_cb): remove the client from the queue also.
+
+	* gui/alarm-notify/alarm-queue.c: no need to keep reference counts.
+
 2004-02-17  Rodrigo Moya <rodrigo@ximian.com>
 
 	* gui/alarm-notify/notify-main.c: (init_session): just set the

@@ -41,11 +41,6 @@ typedef struct {
 	 */
 	EUri *uri;
 
-	/* Number of times clients have requested this URI to be added to the
-	 * alarm notification system.
-	 */
-	int refcount;
-
 	/* the ID of the retry timeout function
 	 */
 	int timeout_id;
@@ -118,6 +113,8 @@ destroy_loaded_client_cb (gpointer key, gpointer value, gpointer data)
 	str_uri = key;
 	lc = value;
 	
+	alarm_queue_remove_client (lc->client);
+
 	g_free (str_uri);
 	g_object_unref (G_OBJECT (lc->client));
 	e_uri_free (lc->uri);
@@ -328,12 +325,6 @@ AlarmNotify_removeCalendar (PortableServer_Servant servant,
 		return;
 	}
 
-	g_assert (lc->refcount > 0);
-
-	lc->refcount--;
-	if (lc->refcount > 0)
-		return;
-
 	g_hash_table_remove (priv->uri_client_hash, str_uri);
 
 	g_free (orig_str);
@@ -440,7 +431,6 @@ alarm_notify_add_calendar (AlarmNotify *an, const char *str_uri, gboolean load_a
 
 	if (g_hash_table_lookup_extended (priv->uri_client_hash, str_uri, &s_ptr, &lc_ptr)) {
 		lc = lc_ptr;
-		lc->refcount++;
 
 		e_uri_free (uri);
 	} else {
@@ -458,7 +448,6 @@ alarm_notify_add_calendar (AlarmNotify *an, const char *str_uri, gboolean load_a
 			if (cal_client_open_calendar (client, str_uri, FALSE)) {
 				lc->client = client;
 				lc->uri = uri;
-				lc->refcount = 1;
 				lc->timeout_id = -1;
 				g_hash_table_insert (priv->uri_client_hash,
 						     g_strdup (str_uri), lc);

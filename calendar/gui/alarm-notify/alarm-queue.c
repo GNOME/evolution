@@ -63,9 +63,6 @@ typedef struct {
 	/* Monitored client */
 	CalClient *client;
 
-	/* Number of times this client has been registered */
-	int refcount;
-
 	/* Hash table of component UID -> CompQueuedAlarms.  If an element is
 	 * present here, then it means its cqa->queued_alarms contains at least
 	 * one queued alarm.  When all the alarms for a component have been
@@ -660,7 +657,6 @@ struct notify_dialog_closure {
 static void
 on_dialog_obj_updated_cb (CalClient *client, const char *uid, gpointer data)
 {
-	struct notify_dialog_closure *c = data;
 }
 
 static void
@@ -1099,17 +1095,14 @@ alarm_queue_add_client (CalClient *client)
 	g_return_if_fail (IS_CAL_CLIENT (client));
 
 	ca = lookup_client (client);
-	if (ca) {
-		ca->refcount++;
+	if (ca)
 		return;
-	}
 
 	ca = g_new (ClientAlarms, 1);
 
 	ca->client = client;
 	g_object_ref (ca->client);
 
-	ca->refcount = 1;
 	g_hash_table_insert (client_alarms_hash, client, ca);
 
 	ca->uid_alarms_hash = g_hash_table_new (g_str_hash, g_str_equal);
@@ -1149,12 +1142,6 @@ alarm_queue_remove_client (CalClient *client)
 
 	ca = lookup_client (client);
 	g_return_if_fail (ca != NULL);
-
-	g_assert (ca->refcount > 0);
-	ca->refcount--;
-
-	if (ca->refcount > 0)
-		return;
 
 	remove_client_alarms (ca);
 
