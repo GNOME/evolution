@@ -1,3 +1,8 @@
+2002-07-24  Dan Winship  <danw@ximian.com>
+
+	* conduit/Makefile.am (libeaddress_conduit_la_LIBADD):
+	s/libversit_lt/libversit/
+
 2002-07-22  Dan Winship  <danw@ximian.com>
 
 	* backend/pas/Makefile.am: Split pas-backend-file and
