@@ -1173,7 +1173,9 @@ static void
 ets_proxy_node_request_collapse (ETreeModel *etm, ETreePath node, ETreeSorted *ets)
 {
 	ETreeSortedPath *path = find_path(ets, node);
-	e_tree_model_node_request_collapse(E_TREE_MODEL(ets), path);
+	if (path) {
+		e_tree_model_node_request_collapse(E_TREE_MODEL(ets), path);
+	}
 }
 
 static void

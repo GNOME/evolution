@@ -943,6 +943,8 @@ e_tree_table_adapter_load_expanded_state (ETreeTableAdapter *etta, const char *f
 	xmlNode *child;
 	int vers;
 	gboolean model_default, saved_default;
+	int size;
+	ETreePath path;
 
 	g_return_if_fail(etta != NULL);
 
@@ -970,6 +972,8 @@ e_tree_table_adapter_load_expanded_state (ETreeTableAdapter *etta, const char *f
 		return;
 	}
 
+	e_table_model_pre_change(E_TABLE_MODEL(etta));
+
 	for (child = root->xmlChildrenNode; child; child = child->next) {
 		char *id;
 
@@ -982,13 +986,22 @@ e_tree_table_adapter_load_expanded_state (ETreeTableAdapter *etta, const char *f
 
 		if (!strcmp(id, "")) {
 			g_free(id);
-			return;
+			continue;
 		}
 
 		add_expanded_node(etta, id, !model_default);
 	}
+	
 
 	xmlFreeDoc (doc);
+
+	path = e_tree_model_get_root (etta->priv->source);
+	size = array_size_from_path(etta, path);
+	etta_expand_to(etta, size);
+	etta->priv->n_map = size;
+	fill_array_from_path(etta, etta->priv->map_table, path);
+
+	e_table_model_changed (E_TABLE_MODEL (etta));
 }
 
 void         e_tree_table_adapter_root_node_set_visible (ETreeTableAdapter *etta, gboolean visible)
