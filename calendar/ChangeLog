@@ -462,6 +462,10 @@ Fri Apr  3 22:31:54 1998  Tom Tromey  <tromey@cygnus.com>
 	(calendar_compare_by_dtstart): Provide a generic sorting routine
 	for calendar objects.
 
+1998-04-01 Miguel de Icaza <miguel@kernel.org>
+
+	* Start from scratch
+	
 Tue Mar 31 23:46:50 1998  Tom Tromey  <tromey@cygnus.com>
 
 	* timeutil.c (format_simple_hour): `buf' now static.
