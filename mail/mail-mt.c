@@ -5,6 +5,7 @@
 #include <stdio.h>
 #include <unistd.h>
 #include <pthread.h>
+#include <errno.h>
 
 #include <glib.h>
 
@@ -94,25 +95,25 @@ void *mail_msg_new(mail_msg_op_t *ops, EMsgPort *reply_port, size_t size)
 		log_init = TRUE;
 		log_ops = getenv("EVOLUTION_MAIL_LOG_OPS") != NULL;
 		log_locks = getenv("EVOLUTION_MAIL_LOG_LOCKS") != NULL;
-		log = fopen("evolution-mail-ops.log", "w+");
-		if (log) {
-			setvbuf(log, NULL, _IOLBF, 0);
-			fprintf(log, "Started evolution-mail: %s\n", ctime(&now));
-			g_warning("Logging mail operations to evolution-mail-ops.log");
-		} else {
-			g_warning ("Could not open log file: %s", g_strerror (errno));
-			log_ops = log_locks = FALSE;
+		if (log_ops || log_locks) {
+			log = fopen("evolution-mail-ops.log", "w+");
+			if (log) {
+				setvbuf(log, NULL, _IOLBF, 0);
+				fprintf(log, "Started evolution-mail: %s\n", ctime(&now));
+				g_warning("Logging mail operations to evolution-mail-ops.log");
+
+				if (log_ops)
+					fprintf(log, "Logging async operations\n");
+
+				if (log_locks) {
+					fprintf(log, "Logging lock operations, mail_gui_thread = %ld\n\n", mail_gui_thread);
+					fprintf(log, "%ld: lock mail_msg_lock\n", pthread_self());
+				}
+			} else {
+				g_warning ("Could not open log file: %s", strerror(errno));
+				log_ops = log_locks = FALSE;
+			}
 		}
-#ifdef LOG_OPS
-		if (log_ops)
-			fprintf(log, "Logging async operations\n");
-#endif
-#ifdef LOG_LOCKS
-		if (log_locks) {
-			fprintf(log, "Logging lock operations, mail_gui_thread = %ld\n\n", mail_gui_thread);
-			fprintf(log, "%ld: lock mail_msg_lock\n", pthread_self());
-		}
-#endif
 	}
 #endif
 	msg = g_malloc0(size);

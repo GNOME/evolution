@@ -1,3 +1,9 @@
+2001-10-23    <NotZed@Ximian.com>
+
+	* mail-mt.c: Added missing errno.h
+	(mail_msg_new): Fix the logic a bit, dont try to open the log file
+	unless logging is actually requested.
+
 2001-10-23  Dan Winship  <danw@ximian.com>
 
 	* mail-mt.c (mail_msg_new): If the fopen() fails (eg, because
