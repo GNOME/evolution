@@ -311,6 +311,9 @@ e_text_init (EText *text)
 	text->primary_length = 0;
 	text->clipboard_selection = NULL;
 	text->clipboard_length = 0;
+
+	text->pointer_in = FALSE;
+	text->default_cursor_shown = TRUE;
 }
 
 /* Destroy handler for the text item */
@@ -1031,6 +1034,9 @@ e_text_realize (GnomeCanvasItem *item)
 		(* parent_class->realize) (item);
 
 	text->gc = gdk_gc_new (item->canvas->layout.bin_window);
+	
+	text->i_cursor = gdk_cursor_new (GDK_XTERM);
+	text->default_cursor = gdk_cursor_new (GDK_LEFT_PTR);
 }
 
 /* Unrealize handler for the text item */
@@ -1043,6 +1049,9 @@ e_text_unrealize (GnomeCanvasItem *item)
 
 	gdk_gc_unref (text->gc);
 	text->gc = NULL;
+
+	gdk_cursor_destroy (text->i_cursor);
+	gdk_cursor_destroy (text->default_cursor);
 
 	if (parent_class->unrealize)
 		(* parent_class->unrealize) (item);
@@ -1700,6 +1709,12 @@ e_text_event (GnomeCanvasItem *item, GdkEvent *event)
 			if (focus_event->in) {
 				if(!text->editing) {
 					text->editing = TRUE;
+					if ( text->pointer_in ) {
+						if ( text->default_cursor_shown ) {
+							gdk_window_set_cursor(GTK_WIDGET(item->canvas)->window, text->i_cursor);
+							text->default_cursor_shown = FALSE;
+						}
+					}
 					text->selection_start = 0;
 					text->selection_end = 0;
 					text->select_by_word = FALSE;
@@ -1712,6 +1727,10 @@ e_text_event (GnomeCanvasItem *item, GdkEvent *event)
 				}
 			} else {
 				text->editing = FALSE;
+				if ( ! text->default_cursor_shown ) {
+					gdk_window_set_cursor(GTK_WIDGET(item->canvas)->window, text->default_cursor);
+					text->default_cursor_shown = TRUE;
+				}
 				if (text->timeout_id) {
 					g_source_remove(text->timeout_id);
 					text->timeout_id = 0;
@@ -1765,6 +1784,14 @@ e_text_event (GnomeCanvasItem *item, GdkEvent *event)
 			if (event->type == GDK_BUTTON_PRESS && text->timer) {
 				g_timer_reset(text->timer);
 			}
+			if (event->type == GDK_BUTTON_PRESS) {
+				gnome_canvas_item_grab (item, 
+							GDK_BUTTON_RELEASE_MASK | GDK_POINTER_MOTION_MASK,
+							text->i_cursor,
+							button.time);
+			} else {
+				gnome_canvas_item_ungrab (item, button.time);
+			}
 		} else if (text->editable && event->type == GDK_BUTTON_RELEASE) {
 			gnome_canvas_item_grab_focus (item);
 			return 1;
@@ -1782,6 +1809,24 @@ e_text_event (GnomeCanvasItem *item, GdkEvent *event)
 			text->lastx = motion.x;
 			text->lasty = motion.y;
 			text->last_state = motion.state;
+		}
+		break;
+	case GDK_ENTER_NOTIFY:
+		text->pointer_in = TRUE;
+		if (text->editing) {
+			if ( text->default_cursor_shown ) {
+				gdk_window_set_cursor(GTK_WIDGET(item->canvas)->window, text->i_cursor);
+				text->default_cursor_shown = FALSE;
+			}
+		}
+		break;
+	case GDK_LEAVE_NOTIFY:
+		text->pointer_in = FALSE;
+		if (text->editing) {
+			if ( ! text->default_cursor_shown ) {
+				gdk_window_set_cursor(GTK_WIDGET(item->canvas)->window, text->default_cursor);
+				text->default_cursor_shown = TRUE;
+			}
 		}
 		break;
 	default:

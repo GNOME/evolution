@@ -167,6 +167,12 @@ struct _EText {
 	gint primary_length;            /* Primary selection text length */
 	gchar *clipboard_selection;     /* Clipboard selection text */
 	gint clipboard_length;          /* Clipboard selection text length*/
+
+	guint pointer_in : 1;
+	guint default_cursor_shown : 1;
+
+	GdkCursor *default_cursor;
+	GdkCursor *i_cursor;
 };
 
 struct _ETextClass {

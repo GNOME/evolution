@@ -71,6 +71,14 @@ struct _EReflow
 	gdouble start_x;
 	gint which_column_dragged;
 	double temp_column_width;
+	double previous_temp_column_width;
+
+	guint need_height_update : 1;
+	guint need_column_resize : 1;
+
+	guint default_cursor_shown : 1;
+	GdkCursor *arrow_cursor;
+	GdkCursor *default_cursor;
 };
 
 struct _EReflowClass

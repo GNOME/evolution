@@ -335,12 +335,14 @@ e_minicard_label_event (GnomeCanvasItem *item, GdkEvent *event)
       break;
     case GDK_BUTTON_PRESS:
     case GDK_BUTTON_RELEASE: 
-    case GDK_MOTION_NOTIFY: {
+    case GDK_MOTION_NOTIFY:
+    case GDK_ENTER_NOTIFY:
+    case GDK_LEAVE_NOTIFY: {
 	    GnomeCanvasItem *field;
 	    ArtPoint p;
 	    double inv[6], affine[6];
 	    gboolean return_val;
-
+	    
 	    field = e_minicard_label->field;
 	    art_affine_identity (affine);
 	    
@@ -354,26 +356,40 @@ e_minicard_label_event (GnomeCanvasItem *item, GdkEvent *event)
 	    }
 	    
 	    art_affine_invert (inv, affine);
-	    if (event->type == GDK_MOTION_NOTIFY) {
+	    switch(event->type) {
+	    case GDK_MOTION_NOTIFY:
 		    p.x = event->motion.x;
 		    p.y = event->motion.y;
 		    art_affine_point (&p, &p, inv);
 		    event->motion.x = p.x;
 		    event->motion.y = p.y;
-	    } else {
+		    break;
+	    case GDK_BUTTON_PRESS:
+	    case GDK_BUTTON_RELEASE:
 		    p.x = event->button.x;
 		    p.y = event->button.y;
 		    art_affine_point (&p, &p, inv);
 		    event->button.x = p.x;
 		    event->button.y = p.y;
+		    break;
+	    case GDK_ENTER_NOTIFY:
+	    case GDK_LEAVE_NOTIFY:
+		    p.x = event->crossing.x;
+		    p.y = event->crossing.y;
+		    art_affine_point (&p, &p, inv);
+		    event->crossing.x = p.x;
+		    event->crossing.y = p.y;
+		    break;
+	    default:
+		    break;
 	    }
 	    
 	    gtk_signal_emit_by_name(GTK_OBJECT(e_minicard_label->field), "event", event, &return_val);
 	    return return_val;
 	    break;
     }
-   default:
-      break;
+    default:
+	    break;
     }
   
   if (GNOME_CANVAS_ITEM_CLASS( parent_class )->event)

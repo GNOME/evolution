@@ -21,6 +21,7 @@
  */
 
 #include <gnome.h>
+#include <math.h>
 #include "e-reflow.h"
 #include "e-canvas-utils.h"
 static void e_reflow_init		(EReflow		 *card);
@@ -132,6 +133,13 @@ e_reflow_init (EReflow *reflow)
   reflow->idle = 0;
 
   reflow->column_drag = FALSE;
+
+  reflow->need_height_update = FALSE;
+  reflow->need_column_resize = FALSE;
+
+  reflow->default_cursor_shown = TRUE;
+  reflow->arrow_cursor = NULL;
+  reflow->default_cursor = NULL;
 }
 
 static void
@@ -146,8 +154,7 @@ e_reflow_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 	switch (arg_id){
 	case ARG_HEIGHT:
 	  e_reflow->height = GTK_VALUE_DOUBLE (*arg);
-	  _update_reflow(e_reflow);
-	  gnome_canvas_item_request_update (item);
+	  _queue_reflow(e_reflow);
 	  break;
 	}
 }
@@ -185,6 +192,9 @@ e_reflow_realize (GnomeCanvasItem *item)
 	if (GNOME_CANVAS_ITEM_CLASS(parent_class)->realize)
 		(* GNOME_CANVAS_ITEM_CLASS(parent_class)->realize) (item);
 	
+	e_reflow->arrow_cursor = gdk_cursor_new (GDK_SB_H_DOUBLE_ARROW);
+	e_reflow->default_cursor = gdk_cursor_new (GDK_LEFT_PTR);
+
 	for(list = e_reflow->items; list; list = g_list_next(list)) {
 		GnomeCanvasItem *item = GNOME_CANVAS_ITEM(list->data);
 		gtk_signal_connect(GTK_OBJECT(item),
@@ -196,7 +206,7 @@ e_reflow_realize (GnomeCanvasItem *item)
 				      NULL);
 	}
 
-	_update_reflow( e_reflow );
+	_queue_reflow( e_reflow );
 	
 	if (!item->canvas->aa) {
 	}
@@ -213,6 +223,9 @@ e_reflow_unrealize (GnomeCanvasItem *item)
     {
     }
   
+  gdk_cursor_destroy (e_reflow->arrow_cursor);
+  gdk_cursor_destroy (e_reflow->default_cursor);
+
   g_list_free (e_reflow->items);
   g_list_free (e_reflow->columns);
 
@@ -221,9 +234,9 @@ e_reflow_unrealize (GnomeCanvasItem *item)
 }
 
 static gint
-e_reflow_pick_line (EReflow *e_reflow, gint x)
+e_reflow_pick_line (EReflow *e_reflow, double x)
 {
-	x += 6;
+	x += 9;
 	x /= e_reflow->column_width + 16;
 	return x;
 }
@@ -269,15 +282,23 @@ e_reflow_event (GnomeCanvasItem *item, GdkEvent *event)
     case GDK_BUTTON_PRESS:
 	    {
 		    GdkEventButton *button = (GdkEventButton *) event;
-		    int n_x;
+		    double n_x;
 		    n_x = button->x;
-		    n_x += 3;
-		    n_x %= (int)(e_reflow->column_width + 16);
-		    if ( button->y >= 7 && button->y <= e_reflow->height - 7 && n_x < 4 ) {
+		    n_x += 9;
+		    n_x = fmod(n_x,(e_reflow->column_width + 16));
+		    if ( button->y >= 7 && button->y <= e_reflow->height - 7 && n_x < 16 ) {
 			    e_reflow->which_column_dragged = e_reflow_pick_line(e_reflow, button->x);
-			    e_reflow->start_x = button->x;
+			    e_reflow->start_x = e_reflow->which_column_dragged * (e_reflow->column_width + 16) - 1;
 			    e_reflow->temp_column_width = e_reflow->column_width;
 			    e_reflow->column_drag = TRUE;
+
+			    gnome_canvas_item_grab (item, 
+						    GDK_BUTTON_RELEASE_MASK | GDK_POINTER_MOTION_MASK,
+						    e_reflow->arrow_cursor,
+						    button->time);
+
+			    e_reflow->previous_temp_column_width = -1;
+			    e_reflow->need_column_resize = TRUE;
 			    gnome_canvas_item_request_update(item);
 			    return TRUE;
 		    }
@@ -294,8 +315,8 @@ e_reflow_event (GnomeCanvasItem *item, GdkEvent *event)
 		    gtk_adjustment_set_value(adjustment, adjustment->value + e_reflow_pick_line(e_reflow, adjustment->value) * (e_reflow->temp_column_width - e_reflow->column_width));
 		    e_reflow->column_width = e_reflow->temp_column_width;
 		    e_reflow->column_drag = FALSE;
-		    _update_reflow(e_reflow);
-		    gnome_canvas_item_request_update(item);
+		    _queue_reflow(e_reflow);
+		    gnome_canvas_item_ungrab (item, button->time);
 		    return TRUE;
 	    }
 	    break;
@@ -308,9 +329,58 @@ e_reflow_event (GnomeCanvasItem *item, GdkEvent *event)
 			    (motion->x - e_reflow->start_x)/(e_reflow->which_column_dragged - e_reflow_pick_line(e_reflow, adjustment->value));
 		    if (e_reflow->temp_column_width < 50)
 			    e_reflow->temp_column_width = 50;
-		    if (old_width != e_reflow->temp_column_width)
+		    if (old_width != e_reflow->temp_column_width) {
+			    e_reflow->need_column_resize = TRUE;
 			    gnome_canvas_item_request_update(item);
+		    }
 		    return TRUE;
+	    } else {
+		    GdkEventMotion *motion = (GdkEventMotion *) event;
+		    double n_x;
+		    n_x = motion->x;
+		    n_x += 9;
+		    n_x = fmod(n_x,(e_reflow->column_width + 16));
+		    if ( motion->y >= 7 && motion->y <= e_reflow->height - 7 && n_x < 16 ) {
+			    if ( e_reflow->default_cursor_shown ) {
+				    gdk_window_set_cursor(GTK_WIDGET(item->canvas)->window, e_reflow->arrow_cursor);
+				    e_reflow->default_cursor_shown = FALSE;
+			    }
+		    } else 
+			    if ( ! e_reflow->default_cursor_shown ) {
+				    gdk_window_set_cursor(GTK_WIDGET(item->canvas)->window, e_reflow->default_cursor);
+				    e_reflow->default_cursor_shown = TRUE;
+			    }
+			    
+	    }
+	    break;
+    case GDK_ENTER_NOTIFY:
+	    if (!e_reflow->column_drag) {
+		    GdkEventCrossing *crossing = (GdkEventCrossing *) event;
+		    double n_x;
+		    n_x = crossing->x;
+		    n_x += 9;
+		    n_x = fmod(n_x,(e_reflow->column_width + 16));
+		    if ( crossing->y >= 7 && crossing->y <= e_reflow->height - 7 && n_x < 16 ) {
+			    if ( e_reflow->default_cursor_shown ) {
+				    gdk_window_set_cursor(GTK_WIDGET(item->canvas)->window, e_reflow->arrow_cursor);
+				    e_reflow->default_cursor_shown = FALSE;
+			    }
+		    }
+	    }
+	    break;
+    case GDK_LEAVE_NOTIFY:
+	    if (!e_reflow->column_drag) {
+		    GdkEventCrossing *crossing = (GdkEventCrossing *) event;
+		    double n_x;
+		    n_x = crossing->x;
+		    n_x += 9;
+		    n_x = fmod(n_x,(e_reflow->column_width + 16));
+		    if ( !( crossing->y >= 7 && crossing->y <= e_reflow->height - 7 && n_x < 16 ) ) {
+			    if ( ! e_reflow->default_cursor_shown ) {
+				    gdk_window_set_cursor(GTK_WIDGET(item->canvas)->window, e_reflow->default_cursor);
+				    e_reflow->default_cursor_shown = TRUE;
+			    }
+		    }
 	    }
 	    break;
     default:
@@ -344,7 +414,7 @@ static void e_reflow_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 				    int x, int y, int width, int height)
 {
 	int x_rect, y_rect, width_rect, height_rect;
-	gint running_width;
+	gdouble running_width;
 	EReflow *e_reflow = E_REFLOW(item);
 	int i;
 	double column_width;
@@ -417,25 +487,73 @@ static void e_reflow_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 static void
 e_reflow_update (GnomeCanvasItem *item, double affine[6], ArtSVP *clip_path, gint flags)
 {
+	EReflow *e_reflow;
 	double x0, x1, y0, y1;
+
+	e_reflow = E_REFLOW (item);
 
 	if (GNOME_CANVAS_ITEM_CLASS(parent_class)->update)
 		GNOME_CANVAS_ITEM_CLASS(parent_class)->update (item, affine, clip_path, flags);
 
-	x0 = item->x1;
-	y0 = item->y1;
-	x1 = item->x2;
-	y1 = item->y2;
-	if ( x0 > 0 )
-		x0 = 0;
-	if ( y0 > 0 )
-		y0 = 0;
-	if ( x1 < E_REFLOW(item)->width )
-		x1 = E_REFLOW(item)->width;
-	if ( x1 < E_REFLOW(item)->height )
-		x1 = E_REFLOW(item)->height;
+	if (e_reflow->need_height_update) {
+		x0 = item->x1;
+		y0 = item->y1;
+		x1 = item->x2;
+		y1 = item->y2;
+		if ( x0 > 0 )
+			x0 = 0;
+		if ( y0 > 0 )
+			y0 = 0;
+		if ( x1 < E_REFLOW(item)->width )
+			x1 = E_REFLOW(item)->width;
+		if ( x1 < E_REFLOW(item)->height )
+			x1 = E_REFLOW(item)->height;
 
-	gnome_canvas_update_bbox(item, x0, y0, x1, y1);
+		gnome_canvas_request_redraw(item->canvas, x0, y0, x1, y1);
+		e_reflow->need_height_update = FALSE;
+	} else if (e_reflow->need_column_resize) {
+		int x_rect, y_rect, width_rect, height_rect;
+		int start_line = e_reflow_pick_line(e_reflow,
+						    gtk_layout_get_hadjustment(GTK_LAYOUT(item->canvas))->value); 
+		gdouble running_width;
+		int i;
+		double column_width;
+		
+		if ( e_reflow->previous_temp_column_width != -1 ) {
+			running_width = start_line * (e_reflow->column_width + 16);
+			column_width = e_reflow->previous_temp_column_width;
+			running_width -= start_line * (column_width + 16);
+			running_width += 7 + column_width + 7;
+			y_rect = 7;
+			width_rect = 2;
+			height_rect = e_reflow->height - 14;
+			
+			for ( i = 0; i < e_reflow->column_count - 1; i++) {
+				x_rect = running_width;
+				gnome_canvas_request_redraw(item->canvas, x_rect, y_rect, x_rect + width_rect, y_rect + height_rect);
+				running_width += 2 + 7 + column_width + 7;
+			}
+		}
+		
+		if ( e_reflow->temp_column_width != -1 ) {
+			running_width = start_line * (e_reflow->column_width + 16);
+			column_width = e_reflow->temp_column_width;
+			running_width -= start_line * (column_width + 16);
+			running_width += 7 + column_width + 7;
+			y_rect = 7;
+			width_rect = 2;
+			height_rect = e_reflow->height - 14;
+			
+			for ( i = 0; i < e_reflow->column_count - 1; i++) {
+				x_rect = running_width;
+				gnome_canvas_request_redraw(item->canvas, x_rect, y_rect, x_rect + width_rect, y_rect + height_rect);
+				running_width += 2 + 7 + column_width + 7;
+			}
+		}
+		
+		e_reflow->previous_temp_column_width = e_reflow->temp_column_width;
+		e_reflow->need_column_resize = FALSE;
+	}
 }
 
 static double
@@ -452,11 +570,11 @@ e_reflow_point (GnomeCanvasItem *item,
 		return 0;
 
 	if (y >= 7 && y <= e_reflow->height - 7) {
-		int n_x;
+	        float n_x;
 		n_x = x;
-		n_x += 3;
-		n_x %= (int)(e_reflow->column_width + 16);
-		if (n_x < 4) {
+		n_x += 9.0;
+		n_x = fmod(n_x, (e_reflow->column_width + 16));
+		if (n_x < 16.0) {
 			*actual_item = item;
 			return 0;
 		}
@@ -467,7 +585,7 @@ e_reflow_point (GnomeCanvasItem *item,
 static void
 _reflow( EReflow *e_reflow )
 {
-	int running_height;
+	gdouble running_height;
 	GList *list;
 	double item_height;
 
@@ -514,8 +632,8 @@ _update_reflow( EReflow *e_reflow )
 {
 	if ( GTK_OBJECT_FLAGS( e_reflow ) & GNOME_CANVAS_ITEM_REALIZED ) {
 
-		gint old_width;
-		gint running_width;
+		gdouble old_width;
+		gdouble running_width;
 
 		_reflow (e_reflow);
 		
@@ -528,7 +646,7 @@ _update_reflow( EReflow *e_reflow )
 			GList *list;
 			GList *next_column;
 			gdouble item_height;
-			gint running_height;
+			gdouble running_height;
 
 			running_height = 7;
 			
@@ -579,6 +697,8 @@ _idle_reflow(gpointer data)
 {
 	EReflow *e_reflow = E_REFLOW(data);
 	_update_reflow(e_reflow);
+	e_reflow->need_height_update = TRUE;
+	gnome_canvas_item_request_update(GNOME_CANVAS_ITEM(e_reflow));
 	e_reflow->idle = 0;
 	return FALSE;
 }
