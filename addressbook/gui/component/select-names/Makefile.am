@@ -54,6 +54,9 @@ libeselectnames_la_SOURCES = 			\
 	e-select-names-bonobo.h			\
 	e-select-names-completion.c		\
 	e-select-names-completion.h		\
+	e-select-names-config.c			\
+	e-select-names-config.h			\
+	e-select-names-config-keys.h		\
 	e-select-names-manager.c		\
 	e-select-names-manager.h		\
 	e-select-names-model.c			\

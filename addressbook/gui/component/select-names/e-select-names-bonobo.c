@@ -489,27 +489,13 @@ impl_SelectNames_activate_dialog (PortableServer_Servant servant,
 				  const CORBA_char *section_id,
 				  CORBA_Environment *ev)
 {
-#if 0				/* FIXME */
 	ESelectNamesBonobo *select_names;
 	ESelectNamesBonoboPrivate *priv;
-	EvolutionShellClient *shell_client;
-	GNOME_Evolution_Shell shell;
 
 	select_names = E_SELECT_NAMES_BONOBO (bonobo_object (servant));
 	priv = select_names->priv;
 
-	shell = bonobo_activation_activate_from_id  (
-		"OAFIID:GNOME_Evolution_Shell:" BASE_VERSION,
-		Bonobo_ACTIVATION_FLAG_EXISTING_ONLY,
-		NULL, ev);
-	if (BONOBO_EX (ev))
-		return;
-
-	shell_client = evolution_shell_client_new (shell);
-	e_select_names_manager_activate_dialog (priv->manager, shell_client,
-						section_id);
-	g_object_unref (shell_client);
-#endif
+	e_select_names_manager_activate_dialog (priv->manager, section_id);
 }
 
 

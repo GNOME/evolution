@@ -16,6 +16,7 @@
 #include <gal/e-text/e-entry.h>
 
 #include <libgnome/gnome-i18n.h>
+#include "e-select-names-config.h"
 #include "e-select-names-manager.h"
 #include "e-select-names-marshal.h"
 #include "e-select-names-model.h"
@@ -372,7 +373,6 @@ e_select_names_manager_discard_saved_models (ESelectNamesManager *manager)
 
 /* ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** */
 
-
 static void
 open_book_cb (EBook *book, EBookStatus status, ESelectNamesManager *manager)
 {
@@ -391,93 +391,67 @@ open_book_cb (EBook *book, EBookStatus status, ESelectNamesManager *manager)
 }
 
 static void
-load_completion_books (ESelectNamesManager *manager)
+update_completion_books (ESelectNamesManager *manager)
 {
-#if 0
-	EFolderListItem *folders = e_folder_list_parse_xml (manager->cached_folder_list);
-	EFolderListItem *f;
+	GSList *completion_uids, *l;
 
-	for (f = folders; f && f->physical_uri; f++) {
-		EBook *book = e_book_new ();
-		ESourceGroup *group;
+	/* Get the selection in gconf */
+	completion_uids  = e_select_names_config_get_completion_books ();
+
+	/* Add all the completion books */
+	for (l = completion_uids; l; l = l->next) {
+		char *uid = l->data;
 		ESource *source;
+		
+		source = e_source_list_peek_source_by_uid (manager->source_list, uid);
+		if (source) {
+			EBook *book;
 
-		g_object_ref (manager); /* ref ourself before our async call */
+			book = e_book_new ();			
 
-		/* FIXME: Store source UIDs in folder list and use those to get sources */
-		group = e_source_group_new ("", f->physical_uri);
-		source = e_source_new ("", "");
-		e_source_set_group (source, group);
-
-		addressbook_load_source (book, source, (EBookCallback)open_book_cb, manager);
-
-		g_object_unref (group);
-		g_object_unref (source);
+			addressbook_load_source (book, source, (EBookCallback)open_book_cb, manager);			
+		}
+		
+		g_free (uid);
 	}
-	e_folder_list_free_items (folders);
-#endif
+	g_slist_free (completion_uids);
 }
 
 static void
-read_completion_settings_from_db (ESelectNamesManager *manager, EConfigListener *db)
+config_completion_books_changed_cb (GConfClient *client, guint id, GConfEntry *entry, gpointer data)
 {
-	char *val;
-	long ival;
-
-	val = e_config_listener_get_string (db, "/apps/evolution/addressbook/completion/uris");
-
-	if (val) {
-		g_free (manager->cached_folder_list);
-		manager->cached_folder_list = val;
-		load_completion_books(manager);
-	}
-
-	ival = e_config_listener_get_long (db, "/apps/evolution/addressbook/completion/minimum_query_length");
-	if (ival <= 0) ival = DEFAULT_MINIMUM_QUERY_LENGTH;
-
-	manager->minimum_query_length = ival;
-}
-
-static void
-db_listener (EConfigListener *db, const char *key,
-	     ESelectNamesManager *manager)
-{
+	ESelectNamesManager *manager = data;
 	GList *l;
-
-	if (!strcmp (key, "/apps/evolution/addressbook/completion/uris")) {
-		char *val = e_config_listener_get_string (db, key);
-
-		if (!val)
-			return;
-
-		if (!manager->cached_folder_list || strcmp (val, manager->cached_folder_list)) {
-			for (l = manager->entries; l; l = l->next) {
-				ESelectNamesManagerEntry *entry = l->data;
-				e_select_names_completion_clear_books (E_SELECT_NAMES_COMPLETION (entry->comp));
-			}
-
-			g_list_foreach (manager->completion_books, (GFunc)g_object_unref, NULL);
-			g_list_free (manager->completion_books);
-			manager->completion_books = NULL;
-
-			g_free (manager->cached_folder_list);
-			manager->cached_folder_list = val;
-			load_completion_books (manager);
-		}
+	
+	for (l = manager->entries; l; l = l->next) {
+		ESelectNamesManagerEntry *entry = l->data;
+		e_select_names_completion_clear_books (E_SELECT_NAMES_COMPLETION (entry->comp));
 	}
-	else if (!strcmp (key, "/apps/evolution/addressbook/completion/minimum_query_length")) {
-		long ival = e_config_listener_get_long (db, key);
 
-		if (ival <= 0)
-			ival = DEFAULT_MINIMUM_QUERY_LENGTH;
+	g_slist_foreach (manager->completion_uids, (GFunc)g_free, NULL);
+	g_slist_free (manager->completion_uids);
 
-		manager->minimum_query_length = ival;
+	g_list_foreach (manager->completion_books, (GFunc)g_object_unref, NULL);
+	g_list_free (manager->completion_books);
+	manager->completion_books = NULL;
 
-		for (l = manager->entries; l; l = l->next) {
-			ESelectNamesManagerEntry *entry = l->data;
-			e_select_names_completion_set_minimum_query_length (E_SELECT_NAMES_COMPLETION(entry->comp),
-									    manager->minimum_query_length);
-		}
+	update_completion_books (manager);
+}
+
+static void
+config_min_query_length_changed_cb (GConfClient *client, guint id, GConfEntry *entry, gpointer data)
+{
+	ESelectNamesManager *manager = data;
+	GList *l;
+	
+	manager->minimum_query_length = e_select_names_config_get_min_query_length ();
+	if (manager->minimum_query_length <= 0)
+		manager->minimum_query_length = DEFAULT_MINIMUM_QUERY_LENGTH;
+	
+	for (l = manager->entries; l; l = l->next) {
+		ESelectNamesManagerEntry *entry = l->data;
+		e_select_names_completion_set_minimum_query_length (E_SELECT_NAMES_COMPLETION(entry->comp),
+								    manager->minimum_query_length);
 	}
 }
 
@@ -490,15 +464,6 @@ ESelectNamesManager *
 e_select_names_manager_new (void)
 {
 	ESelectNamesManager *manager = g_object_new (E_TYPE_SELECT_NAMES_MANAGER, NULL);
-	EConfigListener *db;
-
-	db = eab_get_config_database();
-
-	manager->listener_id = g_signal_connect (db,
-						 "key_changed",
-						 G_CALLBACK (db_listener), manager);
-
-	read_completion_settings_from_db (manager, db);
 
 	return manager;
 }
@@ -654,10 +619,25 @@ e_select_names_manager_activate_dialog (ESelectNamesManager *manager,
 static void
 e_select_names_manager_init (ESelectNamesManager *manager)
 {
+	guint not;
+	
 	manager->sections = NULL;
 	manager->entries  = NULL;
+
+	manager->source_list =  e_source_list_new_for_gconf_default ("/apps/evolution/addressbook/sources");
+	
+	manager->completion_uids  = e_select_names_config_get_completion_books ();
 	manager->completion_books  = NULL;
-	manager->cached_folder_list  = NULL;
+
+	manager->minimum_query_length = e_select_names_config_get_min_query_length ();
+
+	update_completion_books (manager);
+
+	not = e_select_names_config_add_notification_completion_books (config_completion_books_changed_cb, manager);
+	manager->notifications = g_list_append (manager->notifications, GUINT_TO_POINTER (not));
+
+	not = e_select_names_config_add_notification_min_query_length (config_min_query_length_changed_cb, manager);
+	manager->notifications = g_list_append (manager->notifications, GUINT_TO_POINTER (not));
 }
 
 static void
@@ -684,22 +664,35 @@ e_select_names_manager_dispose (GObject *object)
 		manager->entries = NULL;
 	}
 
+	if (manager->source_list) {
+		g_object_unref (manager->source_list);
+		manager->source_list = NULL;
+	}
+	
+	if (manager->completion_uids) {
+		GSList *l;
+		
+		for (l = manager->completion_uids; l; l = l->next)
+			g_free (l->data);
+		g_slist_free (manager->completion_uids);
+		manager->completion_uids = NULL;
+	}
+
 	if (manager->completion_books) {
 		g_list_foreach (manager->completion_books, (GFunc) g_object_unref, NULL);
 		g_list_free (manager->completion_books);
 		manager->completion_books = NULL;
 	}
 
-	if (manager->listener_id) {
-		g_signal_handler_disconnect (eab_get_config_database(), manager->listener_id);
-		manager->listener_id = 0;
+	if (manager->notifications) {
+		GList *l;
+		
+		for (l = manager->notifications; l; l = l->next)
+			e_select_names_config_remove_notification (GPOINTER_TO_UINT (l->data));
+		g_list_free (manager->notifications);
+		manager->notifications = NULL;
 	}
-
-	if (manager->cached_folder_list) {
-		g_free (manager->cached_folder_list);
-		manager->cached_folder_list = NULL;
-	}
-
+	
 	if (G_OBJECT_CLASS (parent_class)->dispose)
 		G_OBJECT_CLASS (parent_class)->dispose (object);
 }

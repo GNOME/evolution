@@ -26,15 +26,14 @@
 #include <glade/glade.h>
 #include <gal/e-table/e-table.h>
 #include <gal/e-table/e-table-scrolled.h>
+#include <libedataserver/e-source-list.h>
+#include <widgets/misc/e-source-option-menu.h>
 
 #include "e-addressbook-model.h"
 
 #include "e-select-names-model.h"
 
-#ifdef __cplusplus
-extern "C" {
-#pragma }
-#endif /* __cplusplus */
+G_BEGIN_DECLS
 
 /* ESelectNames - A dialog displaying information about a contact.
  *
@@ -57,6 +56,8 @@ typedef struct _ESelectNamesFolder ESelectNamesFolder;
 struct _ESelectNames
 {
 	GtkDialog parent;
+	
+	ESourceList *source_list;
 	
 	/* item specific fields */
 	GladeXML *gui;
@@ -95,9 +96,6 @@ void       e_select_names_add_section  (ESelectNames         *e_select_names,
 void       e_select_names_set_default  (ESelectNames         *e_select_names,
 					const char           *id);
 
-#ifdef __cplusplus
-}
-#endif /* __cplusplus */
-
+G_END_DECLS
 
 #endif /* __E_SELECT_NAMES_H__ */

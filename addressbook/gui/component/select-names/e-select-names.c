@@ -36,6 +36,7 @@
 #include <addressbook/gui/component/addressbook-component.h>
 #include <addressbook/gui/component/addressbook.h>
 
+#include "e-select-names-config.h"
 #include "e-select-names.h"
 #include "e-select-names-table-model.h"
 #include <gal/widgets/e-categories-master-list-option-menu.h>
@@ -106,7 +107,6 @@ e_select_names_class_init (ESelectNamesClass *klass)
 }
 
 GtkWidget *e_addressbook_create_ebook_table(char *name, char *string1, char *string2, int num1, int num2);
-GtkWidget *e_addressbook_create_folder_selector(char *name, char *string1, char *string2, int num1, int num2);
 
 static void
 search_result (EABModel *model, EBookViewStatus status, ESelectNames *esn)
@@ -126,36 +126,37 @@ set_book(EBook *book, EBookStatus status, ESelectNames *esn)
 	g_object_unref(esn);
 }
 
+static ESource *
+find_first_source (ESourceList *source_list)
+{
+	GSList *groups, *sources, *l, *m;
+			
+	groups = e_source_list_peek_groups (source_list);
+	for (l = groups; l; l = l->next) {
+		ESourceGroup *group = l->data;
+				
+		sources = e_source_group_peek_sources (group);
+		for (m = sources; m; m = m->next) {
+			ESource *source = m->data;
+
+			return source;
+		}				
+	}
+
+	return NULL;
+}
+
 static void
-addressbook_model_set_uri(ESelectNames *e_select_names, EABModel *model, const char *uri)
+addressbook_model_set_source (ESelectNames *e_select_names, EABModel *model, ESource *source)
 {
 	EBook *book;
-	ESourceGroup *group;
-	ESource *source;
-
-	/* If uri == the current uri, then we don't have to do anything */
-	book = eab_model_get_ebook (model);
-	if (book) {
-		const gchar *current_uri = e_book_get_uri (book);
-		if (current_uri && !strcmp (uri, current_uri)) {
-			return;
-		}
-	}
 
 	book = e_book_new();
 
 	g_object_ref(e_select_names);
 	g_object_ref(model);
 
-	/* FIXME: Store source UIDs in last_used etc. and use that to get sources */
-	group = e_source_group_new ("", uri);
-	source = e_source_new ("", "");
-	e_source_set_group (source, group);
-
 	addressbook_load_source (book, source, (EBookCallback) set_book, e_select_names);
-
-	g_object_unref (group);
-	g_object_unref (source);
 }
 
 static void *
@@ -331,23 +332,12 @@ e_addressbook_create_ebook_table(char *name, char *string1, char *string2, int n
 	return table;
 }
 
-GtkWidget *
-e_addressbook_create_folder_selector(char *name, char *string1, char *string2, int num1, int num2)
-{
-	return gtk_label_new ("FIXME");
-}
-
-#if 0				/* FIXME */
 static void
-folder_selected (EvolutionFolderSelectorButton *button, GNOME_Evolution_Folder *folder,
-		 ESelectNames *e_select_names)
+source_selected (ESourceOptionMenu *menu, ESource *source, ESelectNames *e_select_names)
 {
-	addressbook_model_set_uri(e_select_names, e_select_names->model, folder->physicalUri);
-
-	e_config_listener_set_string (eab_get_config_database(),
-				      "/apps/evolution/addressbook/select_names/last_used_uri", folder->physicalUri);
+	addressbook_model_set_source (e_select_names, e_select_names->model, source);
+	e_select_names_config_set_last_completion_book (e_source_peek_uid (source));
 }
-#endif
 
 static void
 update_query (GtkWidget *widget, ESelectNames *e_select_names)
@@ -479,11 +469,25 @@ static void
 e_select_names_init (ESelectNames *e_select_names)
 {
 	GladeXML *gui;
-	GtkWidget *widget, *button;
-
+	GtkWidget *widget, *button, *table, *esom;
+	ESource *source = NULL;
+	char *uid;
+	
+	/* FIXME What to do on error/NULL ? */
+	e_select_names->source_list = e_source_list_new_for_gconf_default ("/apps/evolution/addressbook/sources");
+	
 	gui = glade_xml_new (EVOLUTION_GLADEDIR "/select-names.glade", NULL, NULL);
 	e_select_names->gui = gui;
 
+	/* Add the source menu */
+	esom = e_source_option_menu_new (e_select_names->source_list);
+	g_signal_connect (esom, "source_selected", G_CALLBACK (source_selected), e_select_names);
+	gtk_widget_show (esom);
+
+	table = glade_xml_get_widget (gui, "show_contacts_table");
+	gtk_table_attach (GTK_TABLE (table), esom, 1, 2, 0, 1, GTK_FILL, GTK_FILL, 0, 0);
+
+	/* Set up the rest of the widgets */
 	e_select_names->children = g_hash_table_new(g_str_hash, g_str_equal);
 	e_select_names->child_count = 0;
 	e_select_names->def = NULL;
@@ -559,19 +563,25 @@ e_select_names_init (ESelectNames *e_select_names)
 		g_signal_connect(button, "clicked",
 				 G_CALLBACK(update_query), e_select_names);
 
-	button = glade_xml_get_widget (gui, "folder-selector");
-#if 0				/* FIXME */
-	if (button && EVOLUTION_IS_FOLDER_SELECTOR_BUTTON (button))
-		g_signal_connect(button, "selected",
-				 G_CALLBACK(folder_selected), e_select_names);
-#endif
-	gtk_widget_show (button);
-
 	g_signal_connect (e_table_scrolled_get_table (e_select_names->table), "double_click",
 			  G_CALLBACK (add_address), e_select_names);
 	g_signal_connect (e_table_scrolled_get_table (e_select_names->table), "selection_change",
 			  G_CALLBACK (selection_change), e_select_names);
 	selection_change (e_table_scrolled_get_table (e_select_names->table), e_select_names);
+
+	/* Select a source for to display initially */
+	uid = e_select_names_config_get_last_completion_book ();
+	if (uid) {
+		source = e_source_list_peek_source_by_uid (e_select_names->source_list, uid);
+		g_free (uid);
+	}
+	
+	if (!source)	
+		source = find_first_source (e_select_names->source_list);
+
+	/* FIXME What if we still can't find a source? */
+	e_source_option_menu_select (E_SOURCE_OPTION_MENU (esom), source);
+
 }
 
 static void e_select_names_child_free(char *key, ESelectNamesChild *child, ESelectNames *e_select_names)
@@ -590,6 +600,11 @@ e_select_names_dispose (GObject *object)
 {
 	ESelectNames *e_select_names = E_SELECT_NAMES(object);
 
+	if (e_select_names->source_list) {
+		g_object_unref (e_select_names->source_list);
+		e_select_names->source_list = NULL;
+	}
+	
 	if (e_select_names->status_id) {
 		g_signal_handler_disconnect(e_select_names->model, e_select_names->status_id);
 		e_select_names->status_id = 0;
@@ -637,35 +652,8 @@ GtkWidget*
 e_select_names_new (void)
 {
 	ESelectNames *e_select_names;
-	const char *selector_types[] = { "contacts/*", NULL };
-	char *contacts_uri;
-	GtkWidget *button;
-	EConfigListener *db;
-
+	
 	e_select_names = g_object_new (E_TYPE_SELECT_NAMES, NULL);
-
-	db = eab_get_config_database ();
-	contacts_uri = e_config_listener_get_string_with_default (
-		db, "/apps/evolution/addressbook/select_names/last_used_uri",
-		NULL, NULL);
-#if notyet
-	if (!contacts_uri)
-		contacts_uri = g_strdup (e_book_get_default_book_uri ());
-#endif
-
-	button = glade_xml_get_widget (e_select_names->gui, "folder-selector");
-
-#if 0				/* FIXME */
-	evolution_folder_selector_button_construct (EVOLUTION_FOLDER_SELECTOR_BUTTON (button),
-						    shell_client,
-						    _("Find contact in"),
-						    contacts_uri,
-						    selector_types);
-#endif
-
-	addressbook_model_set_uri(e_select_names, e_select_names->model, contacts_uri);
-
-	g_free (contacts_uri);
 
 	return GTK_WIDGET (e_select_names);
 }

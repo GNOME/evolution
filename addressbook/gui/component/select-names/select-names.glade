@@ -2,6 +2,7 @@
 <!DOCTYPE glade-interface SYSTEM "http://glade.gnome.org/glade-2.0.dtd">
 
 <glade-interface>
+<requires lib="gnome"/>
 
 <widget class="GtkDialog" id="dialog-top">
   <property name="border_width">12</property>
@@ -307,7 +308,7 @@ select one from the list below:</property>
 	      <property name="shadow_type">GTK_SHADOW_ETCHED_IN</property>
 
 	      <child>
-		<widget class="GtkTable" id="table5">
+		<widget class="GtkTable" id="show_contacts_table">
 		  <property name="border_width">6</property>
 		  <property name="visible">True</property>
 		  <property name="n_rows">2</property>
@@ -387,24 +388,6 @@ select one from the list below:</property>
 		      <property name="right_attach">2</property>
 		      <property name="top_attach">1</property>
 		      <property name="bottom_attach">2</property>
-		      <property name="y_options">fill</property>
-		    </packing>
-		  </child>
-
-		  <child>
-		    <widget class="Custom" id="folder-selector">
-		      <property name="visible">True</property>
-		      <property name="creation_function">e_addressbook_create_folder_selector</property>
-		      <property name="int1">0</property>
-		      <property name="int2">0</property>
-		      <property name="last_modification_time">Mon, 15 Jul 2002 02:21:32 GMT</property>
-		    </widget>
-		    <packing>
-		      <property name="left_attach">1</property>
-		      <property name="right_attach">2</property>
-		      <property name="top_attach">0</property>
-		      <property name="bottom_attach">1</property>
-		      <property name="x_options">fill</property>
 		      <property name="y_options">fill</property>
 		    </packing>
 		  </child>

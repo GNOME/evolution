@@ -1,3 +1,49 @@
+2003-12-05  JP Rosevear <jpr@ximian.com>
+
+	* gui/component/select-names/select-names.glade: no more custom
+	widget for the selection of the search source
+
+	* gui/component/select-names/e-select-names.h: add member
+
+	* gui/component/select-names/e-select-names.etspec: update model
+	column
+
+	* gui/component/select-names/e-select-names.c (find_first_source):
+	find the first source in the list
+	(addressbook_model_set_source): we have the source to set directly
+	now
+	(source_selected): listen for the source item to change
+	(e_select_names_init): create a source option menu and hook it up
+	(e_select_names_dispose): destroy the source list
+	(e_select_names_new): do away with the config setup here
+
+	* gui/component/select-names/e-select-names-manager.h: update
+	members
+
+	* gui/component/select-names/e-select-names-manager.c
+	(update_completion_books): add books based on source uid
+	(config_completion_books_changed_cb): handle the completion list
+	changing
+	(config_min_query_length_changed_cb): handle minimum query length
+	changing
+	(e_select_names_manager_new): we don't do the settings stuff here
+	any more
+	(e_select_names_manager_init): do the initial set up here for the
+	book loaded and listen for changes
+	(e_select_names_manager_dispose): destroy the new stuff
+
+	* gui/component/select-names/e-select-names-config.[hc]: config
+	information
+
+	* gui/component/select-names/e-select-names-config-keys.h: the
+	config keys
+
+	* gui/component/select-names/e-select-names-bonobo.c
+	(impl_SelectNames_activate_dialog): do away with the shell client
+	stuff
+
+	* gui/component/select-names/Makefile.am: build new files
+
 2003-12-05  Chris Toshok  <toshok@ximian.com>
 
 	* gui/widgets/e-addressbook-model.c (book_view_loaded): call
