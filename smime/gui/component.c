@@ -46,8 +46,8 @@ smime_pk11_passwd (ECertDB *db, PK11SlotInfo* slot, gboolean retry, char **passw
 	g_free (slot_name);
 
 	*passwd = e_passwords_ask_password (_("Enter password"), NULL, NULL,
-					    prompt, TRUE,
-					    E_PASSWORDS_DO_NOT_REMEMBER, NULL,
+					    prompt,
+					    E_PASSWORDS_REMEMBER_NEVER|E_PASSWORDS_SECRET, NULL,
 					    NULL);
 
 	g_free (prompt);
@@ -68,8 +68,8 @@ smime_pk11_change_passwd (ECertDB *db, char **old_passwd, char **passwd, gpointe
 		prompt = _("Enter new password for certificate database");
 
 		*passwd = e_passwords_ask_password (_("Enter new password"), NULL, NULL,
-						    prompt, TRUE,
-						    E_PASSWORDS_DO_NOT_REMEMBER, NULL,
+						    prompt,
+						    E_PASSWORDS_REMEMBER_NEVER|E_PASSWORDS_SECRET, NULL,
 						    NULL);
 	}
 	else {

@@ -217,8 +217,8 @@ prompt_for_password (char *title, char *prompt, SECItem *pwd)
 {
 	char *passwd;
 
-	passwd = e_passwords_ask_password (title, NULL, NULL, prompt, TRUE,
-					   E_PASSWORDS_DO_NOT_REMEMBER, NULL,
+	passwd = e_passwords_ask_password (title, NULL, NULL, prompt,
+					   E_PASSWORDS_REMEMBER_NEVER|E_PASSWORDS_SECRET, NULL,
 					   NULL);
 
 	if (passwd) {

@@ -1,3 +1,8 @@
+2004-08-10  Not Zed  <NotZed@Ximian.com>
+
+	* gui/component.c (smime_pk11_passwd, smime_pk11_change_passwd): 
+	* lib/e-pkcs12.c (prompt_for_password): api change in e_passwords.
+
 2004-08-02  Jeffrey Stedfast  <fejj@novell.com>
 
 	* lib/e-pkcs12.c (prompt_for_password): Fixed to work for both LE
