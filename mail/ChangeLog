@@ -1,5 +1,8 @@
 2000-08-11  Peter Williams  <peterw@helixcode.com>
 
+	* mail-threads.c (read_msg): Fix the new FORWARD_EVENT handler
+	(didn't free msg, didn't write newline in the debug)
+
 	* mail-local.c (local_reconfigure_folder): Make the dialog
 	modal.
 

@@ -915,10 +915,11 @@ read_msg (GIOChannel * source, GIOCondition condition, gpointer userdata)
 		 */
 
 	case FORWARD_EVENT:
-		DEBUG (("*** Message -- FORWARD_EVENT %p", msg->event_hook));
+		DEBUG (("*** Message -- FORWARD_EVENT %p\n", msg->event_hook));
 
 		g_assert (msg->event_hook);
 		(msg->event_hook) (msg->event_obj, msg->event_event_data, msg->event_user_data);
+		g_free (msg);
 		break;
 
 	case FINISHED:
