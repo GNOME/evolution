@@ -519,7 +519,7 @@ composer_get_message (EMsgComposer *composer, gboolean post, gboolean save_html_
 		camel_medium_set_header (CAMEL_MEDIUM (message), "X-Evolution-Account", account->name);
 		camel_medium_set_header (CAMEL_MEDIUM (message), "X-Evolution-Transport", account->transport->url);
 		camel_medium_set_header (CAMEL_MEDIUM (message), "X-Evolution-Fcc", account->sent_folder_uri);
-		if (account->id->organization)
+		if (account->id->organization && *account->id->organization)
 			camel_medium_set_header (CAMEL_MEDIUM (message), "Organization", account->id->organization);
 	}
 	

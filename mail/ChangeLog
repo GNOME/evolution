@@ -1,3 +1,8 @@
+2003-04-22  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-callbacks.c (composer_get_message): Only add the
+	Organization: header if it is non-empty. Fixes bug #41730.
+
 2003-04-18  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-composer-prefs.c (spell_set_ui): Protect against a NULL
