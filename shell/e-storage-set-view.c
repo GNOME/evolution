@@ -211,6 +211,82 @@ get_pixmap_and_mask_for_folder (EStorageSetView *storage_set_view,
 }
 
 
+/* Folder context menu.  */
+/* FIXME: This should be moved somewhere else, so that also the sortcut code
+   can share it.  */
+
+static void
+folder_context_menu_activate_cb (BonoboUIHandler *uih,
+				 void *data,
+				 const char *path)
+{
+	EStorageSetView *storage_set_view;
+	EStorageSetViewPrivate *priv;
+
+	storage_set_view = E_STORAGE_SET_VIEW (data);
+	priv = storage_set_view->priv;
+
+	gtk_signal_emit (GTK_OBJECT (storage_set_view), signals[FOLDER_SELECTED],
+			 priv->selected_row_path);
+
+	/* Make sure we don't restore the previously selected row after the
+           menu is popped down.  */
+	priv->selected_row_path_before_click = NULL;
+}
+
+static void
+populate_folder_context_menu_with_common_items (EStorageSetView *storage_set_view,
+						BonoboUIHandler *uih)
+{
+	bonobo_ui_handler_menu_new_item (uih, "/Activate",
+					 _("_View"), _("View the selected folder"),
+					 0, BONOBO_UI_HANDLER_PIXMAP_NONE,
+					 NULL, 0, 0,
+					 folder_context_menu_activate_cb,
+					 storage_set_view);
+}
+
+static void
+popup_folder_menu (EStorageSetView *storage_set_view,
+		   GdkEventButton *event)
+{
+	EvolutionShellComponentClient *handler;
+	EStorageSetViewPrivate *priv;
+	EFolderTypeRegistry *folder_type_registry;
+	BonoboUIHandler *uih;
+	EFolder *folder;
+
+	priv = storage_set_view->priv;
+
+	uih = bonobo_ui_handler_new ();
+	bonobo_ui_handler_create_popup_menu (uih);
+
+	folder = e_storage_set_get_folder (priv->storage_set, priv->selected_row_path);
+	if (folder == NULL) {
+		/* Uh!?  */
+		return;
+	}
+
+	folder_type_registry = e_storage_set_get_folder_type_registry (priv->storage_set);
+	g_assert (folder_type_registry != NULL);
+
+	handler = e_folder_type_registry_get_handler_for_type (folder_type_registry,
+							       e_folder_get_type_string (folder));
+	g_assert (handler != NULL);
+
+	evolution_shell_component_client_populate_folder_context_menu (handler,
+								       uih,
+								       e_folder_get_physical_uri (folder),
+								       e_folder_get_type_string (folder));
+
+	populate_folder_context_menu_with_common_items (storage_set_view, uih);
+
+	bonobo_ui_handler_do_popup_menu (uih);
+
+	bonobo_object_unref (BONOBO_OBJECT (uih));
+}
+
+
 /* GtkObject methods.  */
 
 static void
@@ -313,6 +389,36 @@ motion_notify_event (GtkWidget *widget,
 	return TRUE;
 }
 
+static void
+handle_left_button_selection (EStorageSetView *storage_set_view,
+			      GtkWidget *widget,
+			      GdkEventButton *event)
+{
+	EStorageSetViewPrivate *priv;
+
+	priv = storage_set_view->priv;
+
+	gtk_signal_emit (GTK_OBJECT (widget), signals[FOLDER_SELECTED],
+			 priv->selected_row_path);
+	priv->selected_row_path = NULL;
+}
+
+static void
+handle_right_button_selection (EStorageSetView *storage_set_view,
+			       GtkWidget *widget,
+			       GdkEventButton *event)
+{
+	EStorageSetViewPrivate *priv;
+
+	priv = storage_set_view->priv;
+
+	popup_folder_menu (storage_set_view, event);
+
+	if (priv->selected_row_path_before_click != NULL)
+		e_storage_set_view_set_current_folder (storage_set_view,
+						       priv->selected_row_path_before_click);
+}
+
 static int
 button_release_event (GtkWidget *widget,
 		      GdkEventButton *event)
@@ -332,9 +438,10 @@ button_release_event (GtkWidget *widget,
 		gdk_flush ();
 
 		if (priv->selected_row_path != NULL) {
-			gtk_signal_emit (GTK_OBJECT (widget), signals[FOLDER_SELECTED],
-					 priv->selected_row_path);
-			priv->selected_row_path = NULL;
+			if (priv->drag_button == 1)
+				handle_left_button_selection (storage_set_view, widget, event);
+			else
+				handle_right_button_selection (storage_set_view, widget, event);
 		}
 	}
 
@@ -643,6 +750,7 @@ static void
 init (EStorageSetView *storage_set_view)
 {
 	EStorageSetViewPrivate *priv;
+	GtkCList *clist;
 
 	/* Avoid GtkCTree's broken focusing behavior.  FIXME: Other ways?  */
 	GTK_WIDGET_UNSET_FLAGS (storage_set_view, GTK_CAN_FOCUS);
@@ -660,6 +768,10 @@ init (EStorageSetView *storage_set_view)
 	priv->button_y                       = 0;
 
 	storage_set_view->priv = priv;
+
+	/* Set up the right mouse button so that it also selects.  */
+	clist = GTK_CLIST (storage_set_view);
+	clist->button_actions[2] |= GTK_BUTTON_SELECTS;
 }
 
 

@@ -1013,7 +1013,7 @@ e_shell_view_save_settings (EShellView *shell_view,
 	SET (int, "FolderBarMode",      e_shell_view_get_folder_bar_mode (shell_view))
 	SET (int, "ShortcutBarMode",    e_shell_view_get_shortcut_bar_mode (shell_view));
 	SET (int, "HPanedPosition",     e_paned_get_position (E_PANED (priv->hpaned)));
-	SET (int, "ViewHPanedPosition", e_paned_get_position (priv->view_hpaned));
+	SET (int, "ViewHPanedPosition", e_paned_get_position (E_PANED (priv->view_hpaned)));
 
 	uri = e_shell_view_get_current_uri (shell_view);
 	if (uri != NULL) {

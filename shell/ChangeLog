@@ -1,4 +1,22 @@
-2000-07-20  Ettore Perazzoli  <ettore@helixcode.com>
+2000-07-21  Ettore Perazzoli  <ettore@helixcode.com>
+
+	* e-storage-set-view.c (popup_folder_menu): New.  Create a
+	BonoboUIHandler-managed pop-up menu, let the component fill it in
+	with `::populate_folder_context_menu', and display it.  Then
+	destroy it with the associated BonoboUIHandler.
+	(handle_right_button_selection): New.
+	(handle_left_button_selection): New.  This pops up the right-click
+	menu.
+	(button_release_event): Use them.
+	(init): Set the `GTK_BUTTON_SELECTS' flag for button #3's actions.
+
+	* evolution-shell-component-client.c
+	(evolution_shell_component_client_populate_folder_context_menu):
+	New.
+	(evolution_shell_component_client_async_create_folder): Added
+	preconditions.
+
+	* e-shell-view.c (e_shell_view_save_settings): Add missing cast.
 
 	* evolution-shell-component.c: New member
 	`populate_folder_context_menu' in

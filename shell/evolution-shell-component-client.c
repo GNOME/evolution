@@ -477,6 +477,12 @@ evolution_shell_component_client_async_create_folder (EvolutionShellComponentCli
 	Evolution_ShellComponent corba_shell_component;
 	CORBA_Environment ev;
 
+	g_return_if_fail (shell_component_client != NULL);
+	g_return_if_fail (EVOLUTION_IS_SHELL_COMPONENT_CLIENT (shell_component_client));
+	g_return_if_fail (physical_uri != NULL);
+	g_return_if_fail (type != NULL);
+	g_return_if_fail (callback != NULL);
+
 	priv = shell_component_client->priv;
 
 	if (priv->callback != NULL) {
@@ -507,6 +513,39 @@ evolution_shell_component_client_async_remove_folder (EvolutionShellComponentCli
 						      EvolutionShellComponentClientCallback callback,
 						      void *data)
 {
+	/* FIXME to do. */
+}
+
+void
+evolution_shell_component_client_populate_folder_context_menu (EvolutionShellComponentClient *shell_component_client,
+							       BonoboUIHandler *uih,
+							       const char *physical_uri,
+							       const char *type)
+{
+	Bonobo_UIHandler corba_uih;
+	EvolutionShellComponentClientPrivate *priv;
+	Evolution_ShellComponent corba_shell_component;
+	CORBA_Environment ev;
+
+	g_return_if_fail (shell_component_client != NULL);
+	g_return_if_fail (EVOLUTION_IS_SHELL_COMPONENT_CLIENT (shell_component_client));
+	g_return_if_fail (physical_uri != NULL);
+	g_return_if_fail (type != NULL);
+
+	priv = shell_component_client->priv;
+
+	CORBA_exception_init (&ev);
+
+	corba_shell_component = bonobo_object_corba_objref (BONOBO_OBJECT (shell_component_client));
+	corba_uih = bonobo_object_corba_objref (BONOBO_OBJECT (uih));
+
+	Evolution_ShellComponent_populate_folder_context_menu (corba_shell_component,
+							       corba_uih,
+							       physical_uri,
+							       type,
+							       &ev);
+
+	CORBA_exception_free (&ev);
 }
 
 
