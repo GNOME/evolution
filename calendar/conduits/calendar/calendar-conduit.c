@@ -339,6 +339,85 @@ is_all_day (CalClient *client, CalComponentDateTime *dt_start, CalComponentDateT
 	return FALSE;
 }
 
+static gboolean
+process_multi_day (ECalConduitContext *ctxt, CalClientChange *ccc, GList **multi_uid, GList **multi_ccc)
+{
+	CalComponentDateTime dt_start, dt_end;
+	icaltimezone *tz_start, *tz_end;
+	time_t event_start, event_end, day_end;
+	struct icaltimetype *old_start_value, *old_end_value;
+	gboolean last = FALSE;
+	gboolean ret = TRUE;
+
+	*multi_ccc = NULL;
+	*multi_uid = NULL;
+	
+	if (ccc->type == CAL_CLIENT_CHANGE_DELETED)
+		return FALSE;
+	
+	cal_component_get_dtstart (ccc->comp, &dt_start);
+	tz_start = get_timezone (ctxt->client, dt_start.tzid);
+	event_start = icaltime_as_timet_with_zone (*dt_start.value, tz_start);
+	cal_component_get_dtend (ccc->comp, &dt_end);
+	tz_end = get_timezone (ctxt->client, dt_end.tzid);
+	event_end = icaltime_as_timet_with_zone (*dt_end.value, tz_end);
+
+	day_end = time_day_end_with_zone (event_start, ctxt->timezone);
+			
+	if (day_end < event_end) {
+		const char *uid;
+				
+		cal_component_get_uid (ccc->comp, &uid);
+		cal_client_remove_object (ctxt->client, uid);
+		ccc->type = CAL_CLIENT_CHANGE_DELETED;
+	} else {
+		ret = FALSE;
+		goto cleanup;
+	}
+
+	old_start_value = dt_start.value;
+ 	old_end_value = dt_end.value;
+	while (!last) {
+		CalComponent *clone = cal_component_clone (ccc->comp);
+		char *new_uid = cal_component_gen_uid ();
+		struct icaltimetype start_value, end_value;
+		CalClientChange *c = g_new0 (CalClientChange, 1);
+		
+		if (day_end >= event_end) {
+			day_end = event_end;
+			last = TRUE;
+		}
+		
+		cal_component_set_uid (clone, new_uid);
+		
+		start_value = icaltime_from_timet_with_zone (event_start, FALSE, tz_start);
+		dt_start.value = &start_value;
+		end_value = icaltime_from_timet_with_zone (day_end, FALSE, tz_end);
+		dt_end.value = &end_value;
+		cal_component_set_dtstart (clone, &dt_start);
+		cal_component_set_dtend (clone, &dt_end);
+
+		cal_client_update_object (ctxt->client, clone);
+
+		c->comp = clone;
+		c->type = CAL_CLIENT_CHANGE_ADDED;
+		
+		*multi_ccc = g_list_prepend (*multi_ccc, c);
+		*multi_uid = g_list_prepend (*multi_uid, new_uid);
+
+		event_start = day_end;
+		day_end = time_day_end_with_zone (event_start, ctxt->timezone);
+	}
+	dt_start.value = old_start_value;
+	dt_end.value = old_end_value;
+
+ cleanup:
+	cal_component_free_datetime (&dt_start);
+	cal_component_free_datetime (&dt_end);
+
+	return ret;
+}
+
 static short
 nth_weekday (int pos, icalrecurrencetype_weekday weekday)
 {
@@ -485,8 +564,6 @@ local_record_from_comp (ECalLocalRecord *local, CalComponent *comp, ECalConduitC
 		dt_time = icaltime_as_timet_with_zone (*dt_start.value, 
 						       get_timezone (ctxt->client, dt_start.tzid));
 		local->appt->begin = *localtime (&dt_time);
-	} else {
-		WARN ("No starting time!");
 	}
 	
 	if (dt_start.value && dt_end.value) {
@@ -886,11 +963,30 @@ pre_sync (GnomePilotConduit *conduit,
 
 	for (l = ctxt->changed; l != NULL; l = l->next) {
 		CalClientChange *ccc = l->data;
+		GList *multi_uid = NULL, *multi_ccc = NULL;
+		
+		/* Handle Multi-day events */
+		if (process_multi_day (ctxt, ccc, &multi_uid, &multi_ccc)) {
+			const char *uid;
+			ctxt->uids = g_list_concat (ctxt->uids, multi_uid);
+			ctxt->changed = g_list_concat (ctxt->changed, multi_ccc);
+
+			cal_component_get_uid (ccc->comp, &uid);
+			if (e_pilot_map_lookup_pid (ctxt->map, uid) == 0) {
+				ctxt->changed = g_list_remove (ctxt->changed, ccc);
+				gtk_object_unref (GTK_OBJECT (ccc->comp));
+				g_free (ccc);
+			}
+		}
+	}
+	
+	for (l = ctxt->changed; l != NULL; l = l->next) {
+		CalClientChange *ccc = l->data;
 		const char *uid;
 		
 		cal_component_get_uid (ccc->comp, &uid);
 		if (!e_pilot_map_uid_is_archived (ctxt->map, uid)) {
-			
+
 			g_hash_table_insert (ctxt->changed_hash, g_strdup (uid), ccc);
 
 			switch (ccc->type) {
@@ -906,7 +1002,7 @@ pre_sync (GnomePilotConduit *conduit,
 			}
 		}
 	}
-
+	
 	/* Set the count information */
 	num_records = cal_client_get_n_objects (ctxt->client, CALOBJ_TYPE_EVENT);
 	gnome_pilot_conduit_sync_abs_set_num_local_records(abs_conduit, num_records);

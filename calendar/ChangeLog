@@ -1,5 +1,13 @@
 2001-10-15  JP Rosevear  <jpr@ximian.com>
 
+	* conduits/calendar/calendar-conduit.c (process_multi_day):
+	function to break up multi day events into single events for both
+	evo and the pilot and create new CalClientChange structures
+	(pre_sync): call above function, and adjust changed list if
+	necessary
+
+2001-10-15  JP Rosevear  <jpr@ximian.com>
+
 	* conduits/calendar/calendar-conduit.c (is_all_day): util function
 	to determine if event is all day
 	(local_record_from_comp): use new util function
