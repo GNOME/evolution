@@ -2559,13 +2559,11 @@ composer_dispose(GObject *object)
 static void
 destroy (GtkObject *object)
 {
-	EMsgComposer *composer;
+	EMsgComposer *composer = (EMsgComposer *)object;
 	CORBA_Environment ev;
 	ESignatureList *signatures;
 	EMsgComposerPrivate *p = _PRIVATE(composer);
 
-	composer = E_MSG_COMPOSER (object);
-	
 	CORBA_exception_init (&ev);
 
 	if (p->menu) {
