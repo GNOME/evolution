@@ -120,8 +120,11 @@ static void
 select_first_unread (CamelFolder *folder, int type, gpointer data)
 {
 	FolderBrowser *fb = data;
+	ETable *table = E_TABLE_SCROLLED (fb->message_list->etable)->table;
+	int mrow;
 
-	message_list_select (fb->message_list, 0, MESSAGE_LIST_SELECT_NEXT,
+	mrow = e_table_view_to_model_row (table, 0);
+	message_list_select (fb->message_list, mrow, MESSAGE_LIST_SELECT_NEXT,
 			     0, CAMEL_MESSAGE_SEEN);
 }
 

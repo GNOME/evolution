@@ -1,3 +1,13 @@
+2000-08-07  Dan Winship  <danw@helixcode.com>
+
+	* message-list.c (message_list_select): Clarify that the input row
+	is a model row, and swap it to a view row when finding the
+	next/previous row.
+	(idle_select_row): Select view row 0, not model row 0.
+
+	* mail-ops.c (select_first_unread): Start from view row 0, not
+	model row 0.
+
 2000-08-07  Jeffrey Stedfast  <fejj@helixcode.com>
 
 	* mail-format.c (mail_get_message_body): Renamed from reply_body()

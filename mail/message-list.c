@@ -102,7 +102,7 @@ get_message_info (MessageList *message_list, int row)
 /**
  * message_list_select:
  * @message_list: a MessageList
- * @base_row: the row to start from
+ * @base_row: the (model) row to start from
  * @direction: the direction to search in
  * @flags: a set of flag values
  * @mask: a mask for comparing against @flags
@@ -121,19 +121,21 @@ message_list_select (MessageList *message_list, int base_row,
 		     guint32 flags, guint32 mask)
 {
 	const CamelMessageInfo *info;
-	int last;
+	int vrow, mrow, last;
+	ETableScrolled *ets = E_TABLE_SCROLLED (message_list->etable);
 
 	if (direction == MESSAGE_LIST_SELECT_PREVIOUS)
 		last = 0;
 	else
 		last = e_table_model_row_count (message_list->table_model);
 
-	while (base_row != last) {
-		base_row += direction;
-		info = get_message_info (message_list, base_row);
+	vrow = e_table_model_to_view_row (ets->table, base_row);
+	while (vrow != last) {
+		vrow += direction;
+		mrow = e_table_view_to_model_row (ets->table, vrow);
+		info = get_message_info (message_list, mrow);
 		if (info && (info->flags & mask) == flags) {
-			e_table_scrolled_set_cursor_row (E_TABLE_SCROLLED (message_list->etable),
-							 base_row);
+			e_table_scrolled_set_cursor_row (ets, mrow);
 			return;
 		}
 	}
@@ -939,15 +941,21 @@ on_cursor_change_cmd (ETableScrolled *table, int row, gpointer user_data)
 	info = get_message_info (message_list, row);
 	message_list->cursor_uid = info ? info->uid : NULL;
 
-	if (!message_list->idle_id)
-		message_list->idle_id = g_idle_add_full (G_PRIORITY_LOW, on_cursor_change_idle, message_list, NULL);
+	if (!message_list->idle_id) {
+		message_list->idle_id =
+			g_idle_add_full (G_PRIORITY_LOW, on_cursor_change_idle,
+					 message_list, NULL);
+	}
 }
 
 /* FIXME: this is all a kludge. */
 static gint
 idle_select_row (gpointer user_data)
 {
-	e_table_scrolled_set_cursor_row (user_data, 0);
+	ETableScrolled *ets = user_data;
+	int mrow = e_table_view_to_model_row (ets->table, 0);
+
+	e_table_scrolled_set_cursor_row (ets, mrow);
 	return FALSE;
 }
 
