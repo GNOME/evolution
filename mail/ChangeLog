@@ -2,6 +2,8 @@
 
 	* mail-format.c (write_field_row_begin): add column with &nbsp;
 	between header name and value
+	(write_field_row_begin): hmm, use just bold &nbsp; as it looks
+	better
 
 2001-06-18  Jeffrey Stedfast  <fejj@ximian.com>
 
