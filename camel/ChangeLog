@@ -1,3 +1,12 @@
+2004-08-03  Jeffrey Stedfast  <fejj@novell.com>
+
+	* providers/imap4/camel-imap4-store.c (imap4_construct): Pass a
+	reconnect func.
+
+	* providers/imap4/camel-imap4-engine.c
+	(camel_imap4_engine_iterate): Reconnect if needed.
+	(camel_imap4_engine_new): Now takes a reconnect func.
+
 2004-07-30  Jeffrey Stedfast  <fejj@novell.com>
 
 	* providers/imap4/camel-imap4-engine.c

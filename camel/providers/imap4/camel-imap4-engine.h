@@ -143,8 +143,13 @@ enum {
 	CAMEL_IMAP4_ENGINE_MAXLEN_TOKEN
 };
 
+typedef gboolean (* CamelIMAP4ReconnectFunc) (CamelIMAP4Engine *engine, CamelException *ex);
+
 struct _CamelIMAP4Engine {
 	CamelObject parent_object;
+	
+	CamelIMAP4ReconnectFunc reconnect;
+	gboolean reconnecting;
 	
 	CamelSession *session;
 	CamelService *service;
@@ -182,7 +187,7 @@ struct _CamelIMAP4EngineClass {
 
 CamelType camel_imap4_engine_get_type (void);
 
-CamelIMAP4Engine *camel_imap4_engine_new (CamelService *service);
+CamelIMAP4Engine *camel_imap4_engine_new (CamelService *service, CamelIMAP4ReconnectFunc reconnect);
 
 /* returns 0 on success or -1 on error */
 int camel_imap4_engine_take_stream (CamelIMAP4Engine *engine, CamelStream *stream, CamelException *ex);

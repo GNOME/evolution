@@ -167,7 +167,7 @@ camel_imap4_engine_finalize (CamelObject *object)
  * Returns a new imap4 engine
  **/
 CamelIMAP4Engine *
-camel_imap4_engine_new (CamelService *service)
+camel_imap4_engine_new (CamelService *service, CamelIMAP4ReconnectFunc reconnect)
 {
 	CamelIMAP4Engine *engine;
 	
@@ -177,6 +177,7 @@ camel_imap4_engine_new (CamelService *service)
 	engine->session = service->session;
 	engine->url = service->url;
 	engine->service = service;
+	engine->reconnect = reconnect;
 	
 	return engine;
 }
@@ -1231,6 +1232,25 @@ camel_imap4_engine_iterate (CamelIMAP4Engine *engine)
 	
 	if (e_dlist_empty (&engine->queue))
 		return 0;
+	
+	/* This sucks... it would be nicer if we didn't have to check the stream's disconnected status */
+	if ((engine->state == CAMEL_IMAP4_ENGINE_DISCONNECTED || engine->istream->disconnected) && !engine->reconnecting) {
+		CamelException rex;
+		gboolean connected;
+		
+		camel_exception_init (&rex);
+		engine->reconnecting = TRUE;
+		connected = engine->reconnect (engine, &rex);
+		engine->reconnecting = FALSE;
+		
+		if (!connected) {
+			/* pop the first command and act as tho it failed (which, technically, it did...) */
+			ic = (CamelIMAP4Command *) e_dlist_remhead (&engine->queue);
+			ic->status = CAMEL_IMAP4_COMMAND_ERROR;
+			camel_exception_xfer (&ic->ex, &rex);
+			return -1;
+		}
+	}
 	
 	/* check to see if we need to pre-queue a SELECT, if so do it */
 	engine_prequeue_folder_select (engine);

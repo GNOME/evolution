@@ -53,6 +53,7 @@ static void imap4_construct (CamelService *service, CamelSession *session,
 			     CamelException *ex);
 static char *imap4_get_name (CamelService *service, gboolean brief);
 static gboolean imap4_connect (CamelService *service, CamelException *ex);
+static gboolean imap4_reconnect (CamelIMAP4Engine *engine, CamelException *ex);
 static gboolean imap4_disconnect (CamelService *service, gboolean clean, CamelException *ex);
 static GList *imap4_query_auth_types (CamelService *service, CamelException *ex);
 
@@ -166,7 +167,7 @@ imap4_construct (CamelService *service, CamelSession *session, CamelProvider *pr
 		return;
 	
 	store->storage_path = camel_session_get_storage_path (session, service, ex);
-	store->engine = camel_imap4_engine_new (service);
+	store->engine = camel_imap4_engine_new (service, imap4_reconnect);
 }
 
 static char *
