@@ -1,3 +1,14 @@
+2002-12-12  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-accounts.c (account_delete_clicked): Get rid of the ETable
+	#ifdef's - we won't ever be using ETable.
+	(account_default_clicked): Same.
+	(account_able_clicked): Here too.
+	(mail_accounts_load): And here.
+	(mail_accounts_treeview_new): Renamed from etable_new since we
+	won't ever be using an etable.
+	(mail_accounts_tab_construct): And finally here.
+
 2002-12-12  Not Zed  <NotZed@Ximian.com>
 
 	* folder-browser.c (my_folder_browser_init): cast a-warning a-way.
