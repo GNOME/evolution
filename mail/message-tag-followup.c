@@ -110,6 +110,7 @@ message_tag_followup_init (MessageTagFollowUp *editor)
 	editor->value = NULL;
 	
 	editor->type = NULL;
+	editor->none = NULL;
 	editor->target_date = NULL;
 	editor->completed = NULL;
 	editor->clear = NULL;
@@ -149,8 +150,14 @@ static void
 set_widget_values (MessageTagFollowUp *followup)
 {
 	time_t completed;
+	GtkWidget *item;
+	GList *items;
+	
+	items = GTK_MENU_SHELL (followup->type)->children;
+	item = g_list_nth_data (items, followup->tag->type);
 	
 	gtk_option_menu_set_history (followup->type, followup->tag->type);
+	gtk_signal_emit_by_name (GTK_OBJECT (followup->type), "activate", followup);
 	
 	e_date_edit_set_time (followup->target_date, followup->tag->target_date);
 	
@@ -212,6 +219,9 @@ message_tag_followup_encode (struct _FollowUpTag *tag)
 {
 	g_return_val_if_fail (tag != NULL, NULL);
 	
+	if (tag->type == FLAG_NONE)
+		return NULL;
+	
 	return g_strdup_printf ("%s:%lx:%lx", available_flags[tag->type].name,
 				(unsigned long) tag->target_date,
 				(unsigned long) tag->completed);
@@ -222,7 +232,10 @@ clear_clicked (GtkButton *button, gpointer user_data)
 {
 	MessageTagFollowUp *followup = user_data;
 	
-	/* FIXME: set dropdown == None?? */
+	gtk_widget_show (followup->none);
+	gtk_option_menu_set_history (followup->type, FLAG_NONE);
+	gtk_signal_emit_by_name (GTK_OBJECT (followup->none), "activate", followup);
+	
 	e_date_edit_set_time (followup->target_date, time (NULL));
 	gtk_toggle_button_set_active (followup->completed, FALSE);
 }
@@ -239,11 +252,14 @@ completed_toggled (GtkToggleButton *button, gpointer user_data)
 }
 
 static void
-type_changed (GtkMenuItem *item, gpointer user_data)
+type_changed (GtkWidget *item, gpointer user_data)
 {
 	MessageTagFollowUp *followup = user_data;
 	
 	followup->tag->type = GPOINTER_TO_INT (gtk_object_get_data (GTK_OBJECT (item), "value"));
+	
+	if (item != followup->none)
+		gtk_widget_hide (followup->none);
 }
 
 static void
@@ -291,8 +307,8 @@ construct (MessageTagEditor *editor)
 	followup->type = GTK_OPTION_MENU (glade_xml_get_widget (gui, "followup_type"));
 	gtk_option_menu_remove_menu (followup->type);
 	menu = gtk_menu_new ();
-	for (i = 0; i < FLAG_NONE; i++) {
-		item = gtk_menu_item_new_with_label (available_flags[i].i18n_name);
+	for (i = 0; i <= FLAG_NONE; i++) {
+		item = gtk_menu_item_new_with_label (_(available_flags[i].i18n_name));
 		gtk_object_set_data (GTK_OBJECT (item), "value",
 				     GINT_TO_POINTER (available_flags[i].value));
 		gtk_signal_connect (GTK_OBJECT (item), "activate",
@@ -300,7 +316,10 @@ construct (MessageTagEditor *editor)
 		gtk_menu_append (GTK_MENU (menu), item);
 		gtk_widget_show (item);
 	}
+	followup->none = item;
 	gtk_option_menu_set_menu (followup->type, menu);
+	gtk_signal_emit_by_name (GTK_OBJECT (item), "activate", followup);
+	gtk_option_menu_set_history (followup->type, FLAG_NONE);
 	
 	followup->target_date = E_DATE_EDIT (glade_xml_get_widget (gui, "target_date"));
 	e_date_edit_set_time (followup->target_date, time (NULL));

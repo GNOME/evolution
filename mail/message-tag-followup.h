@@ -70,6 +70,8 @@ struct _MessageTagFollowUp {
 	char *value;
 	
 	GtkOptionMenu *type;
+	GtkWidget *none;
+	
 	EDateEdit *target_date;
 	GtkToggleButton *completed;
 	GtkButton *clear;

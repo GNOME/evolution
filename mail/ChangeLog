@@ -1,3 +1,12 @@
+2002-02-09  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* message-tag-followup.c (set_widget_values): Set the correct
+	drop-down menu item.
+	(message_tag_followup_encode): Return NULL if the type is NONE.
+	(clear_clicked): Set the drop-down menu to None.
+	(type_changed): Hide the None menu item.
+	(construct): Create a None menu item and set it as the default.
+
 2002-02-08  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* message-tag-followup.[c,h]: New flag-for-followup tag editor
