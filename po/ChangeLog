@@ -1,3 +1,7 @@
+2003-10-30  JP Rosevear <jpr@ximian.com>
+
+	* POTFILES.in: remove dead file
+
 2003-10-30  Åsmund Skjæveland  <aasmunds@fys.uio.no>
 
 	* nn.po: Updated Norwegian Nynorsk translation.
