@@ -55,6 +55,7 @@ AM_GNOME_GETTEXT
 
 GNOME_X_CHECKS
 
+AC_CHECK_FUNCS(mkstemp)
 
 dnl **************************************************
 dnl * pas-backend-file stuff.
