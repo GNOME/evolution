@@ -7,6 +7,13 @@
 
 2005-02-21  Not Zed  <NotZed@Ximian.com>
 
+	** See bug #34153 and no doubt duplicates
+
+	* mail-component.c (impl_requestQuit): use the VISIBLE count not
+	the TOTAL count to check if there are unsent emails.
+
+2005-02-21  Not Zed  <NotZed@Ximian.com>
+
 	** See bug #71528.
 
 	* em-migrate.c (remove_system_searches, em_migrate_1_4): remove

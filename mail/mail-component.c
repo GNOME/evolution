@@ -636,14 +636,16 @@ impl_requestQuit(PortableServer_Servant servant, CORBA_Environment *ev)
 {
 	/*MailComponent *mc = MAIL_COMPONENT(bonobo_object_from_servant(servant));*/
 	CamelFolder *folder;
+	guint32 unsent;
 
 	if (!e_msg_composer_request_close_all())
 		return FALSE;
 	
 	folder = mc_default_folders[MAIL_COMPONENT_FOLDER_OUTBOX].folder;
 	if (folder != NULL
-	    && camel_folder_get_message_count(folder) != 0
 	    && camel_session_is_online(session)
+	    && camel_object_get(folder, NULL, CAMEL_FOLDER_VISIBLE, &unsent, 0) == 0
+	    && unsent > 0
 	    && e_error_run(NULL, "mail:exit-unsaved", NULL) != GTK_RESPONSE_YES)
 		return FALSE;
 
