@@ -1,3 +1,13 @@
+2001-10-01  Damon Chaplin  <damon@ximian.com>
+
+	* e-summary-calendar.c (generate_html): used time_add_day/week/month
+	_with_zone() functions rather than the old versions.
+
+	* e-summary.c (alarm_fn): use time_day_end_with_zone ().
+
+	* e-summary-tasks.c (generate_html): removed day_begin and day_end
+	since they aren't used, and the calls to time_day_begin/end().
+
 2001-10-02  Iain Holmes  <iain@ximian.com>
 
 	* e-summary-calendar.c (uids_to_array): Handle recurrances correctly.

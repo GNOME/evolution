@@ -215,11 +215,9 @@ generate_html (gpointer data)
 	GList *uids, *l;
 	GString *string;
 	char *tmp;
-	time_t t, day_begin, day_end;
+	time_t t;
 
 	t = time (NULL);
-	day_begin = time_day_begin (t);
-	day_end = time_day_end (t);
 
 	uids = cal_client_get_uids (tasks->client, CALOBJ_TYPE_TODO);
 	if (summary->preferences->show_tasks == E_SUMMARY_CALENDAR_TODAYS_TASKS && uids != NULL) {

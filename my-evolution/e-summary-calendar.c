@@ -302,18 +302,18 @@ generate_html (gpointer data)
 		break;
 
 	case E_SUMMARY_CALENDAR_FIVE_DAYS:
-		f = time_add_day (t, 5);
+		f = time_add_day_with_zone (t, 5, summary->tz);
 		end = time_day_end_with_zone (f, summary->tz);
 		break;
 	
 	case E_SUMMARY_CALENDAR_ONE_WEEK:
-		f = time_add_week (t, 1);
+		f = time_add_week_with_zone (t, 1, summary->tz);
 		end = time_day_end_with_zone (f, summary->tz);
 		break;
 
 	case E_SUMMARY_CALENDAR_ONE_MONTH:
 	default:
-		f = time_add_month (t, 1);
+		f = time_add_month_with_zone (t, 1, summary->tz);
 		end = time_day_end_with_zone (f, summary->tz);
 		break;
 	}

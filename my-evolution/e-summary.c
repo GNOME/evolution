@@ -449,7 +449,7 @@ alarm_fn (gpointer alarm_id,
 
 	summary = data;
 	t = time (NULL);
-	day_end = time_day_end (t);
+	day_end = time_day_end_with_zone (t, summary->tz);
 	summary->priv->alarm = alarm_add (day_end, alarm_fn, summary, NULL);
 
 	e_summary_reconfigure (summary);
