@@ -924,10 +924,6 @@ transfer_messages_transfer (struct _mail_msg *mm)
 {
 	struct _transfer_msg *m = (struct _transfer_msg *)mm;
 	CamelFolder *dest;
-	char *desc;
-	void (*func) (CamelFolder *, GPtrArray *, 
-		      CamelFolder *, 
-		      CamelException *);
 
 	dest = mail_tool_uri_to_folder (m->dest_uri, m->dest_flags, &mm->ex);
 	if (camel_exception_is_set (&mm->ex))
@@ -939,39 +935,10 @@ transfer_messages_transfer (struct _mail_msg *mm)
 		return;
 	}
 
-	if (m->delete) {
-		func = camel_folder_move_messages_to;
-		desc = _("Moving");
-	} else {
-		func = camel_folder_copy_messages_to;
-		desc = _("Copying");
-	}
-	
 	camel_folder_freeze (m->source);
 	camel_folder_freeze (dest);
 	
-	if (CAMEL_IS_VTRASH_FOLDER (dest)) {
-		if (m->delete) {
-			int i;
-			
-			/* Just mark all the messages as deleted */
-			for (i = 0; i < m->uids->len; i++)
-				camel_folder_delete_message (m->source, m->uids->pdata[i]);
-		} else {
-			/* no-op - can't copy messages to*/
-		}
-	} else {
-		if (dest == m->source) {
-			int i;
-			
-			/* Undelete the messages if they are marked as deleted */
-			for (i = 0; i < m->uids->len; i++)
-				camel_folder_set_message_flags (m->source, m->uids->pdata[i],
-								CAMEL_MESSAGE_DELETED, 0);
-		} else {
-			(func) (m->source, m->uids, dest, &mm->ex);
-		}
-	}
+	camel_folder_transfer_messages_to (m->source, m->uids, dest, m->delete, &mm->ex);
 	
 	camel_folder_thaw (m->source);
 	camel_folder_thaw (dest);

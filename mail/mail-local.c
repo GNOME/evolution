@@ -686,7 +686,7 @@ mail_local_folder_reconfigure (MailLocalFolder *mlf, const char *new_format, int
 	camel_folder_freeze(mlf->real_folder);
 
 	uids = camel_folder_get_uids(fromfolder);
-	camel_folder_move_messages_to(fromfolder, uids, mlf->real_folder, ex);
+	camel_folder_transfer_messages_to(fromfolder, uids, mlf->real_folder, TRUE, ex);
 	camel_folder_free_uids(fromfolder, uids);
 	if (camel_exception_is_set(ex))
 		goto cleanup;

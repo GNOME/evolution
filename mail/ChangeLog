@@ -1,3 +1,13 @@
+2002-05-10  Dan Winship  <danw@ximian.com>
+
+	* mail-ops.c (transfer_messages_transfer): Simplify. Use
+	transfer_messages_to instead of picking between copy and move.
+	Remove vtrash special-casing since it's all in
+	camel-vtrash-folder.c now. Remove duplicate source == dest check.
+
+	* mail-local.c (mail_local_folder_reconfigure): Use
+	transfer_messages_to instead of copy_messages_to.
+
 2002-05-09  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-account-gui.c (mail_account_gui_save): Make sure that even
