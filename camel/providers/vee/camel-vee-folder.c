@@ -376,7 +376,7 @@ static GPtrArray *
 vee_search_by_expression(CamelFolder *folder, const char *expression, CamelException *ex)
 {
 	GList *node;
-	GPtrArray *matches, *result;
+	GPtrArray *matches, *result = g_ptr_array_new ();
 	char *expr;
 	CamelVeeFolder *vf = (CamelVeeFolder *)folder;
 	struct _CamelVeeFolderPrivate *p = _PRIVATE(vf);
@@ -387,7 +387,7 @@ vee_search_by_expression(CamelFolder *folder, const char *expression, CamelExcep
 		CamelFolder *f = node->data;
 		int i;
 
-		matches = camel_folder_search_by_expression(f, vf->expression, ex);
+		matches = camel_folder_search_by_expression(f, expression, ex);
 		for (i = 0; i < matches->len; i++) {
 			char *uid = matches->pdata[i];
 			g_ptr_array_add(result, g_strdup_printf("%p:%s", f, uid));
