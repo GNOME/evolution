@@ -1,3 +1,7 @@
+2003-12-01  JP Rosvear <jpr@ximian.com>
+
+	* conduit/Makefile.am: version the .conduit file
+
 2003-12-01  Hans Petter Jansson  <hpj@ximian.com>
 
 	* gui/component/Makefile.am (libevolution_addressbook_la_SOURCES):
