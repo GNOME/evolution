@@ -1659,16 +1659,14 @@ name_fragment_match (const gchar *a, const gchar *b)
 gboolean
 e_card_name_match_string (const ECardName *name, const gchar *str)
 {
-	gchar *cpy, *name_str;
+	gchar *name_str;
 	gchar **strv, **namev;
 	gint i, j, match_count;
-	gboolean matched = FALSE;
 
 	g_return_val_if_fail (name != NULL, FALSE);
 	g_return_val_if_fail (str != NULL, FALSE);
 
-	cpy = g_strdup (str);
-	strv = g_strsplit (cpy, " ", 0);
+	strv = g_strsplit (str, " ", 0);
 	for (i=0; strv[i]; ++i)
 		g_strstrip (strv[i]);
 
@@ -1679,35 +1677,38 @@ e_card_name_match_string (const ECardName *name, const gchar *str)
 
 	match_count = 0;
 	i = j = 0;
+
 	while (strv[i] && namev[j]) {
-		gint k1, k2;
+		gint k;
+		gboolean first_match = FALSE, second_match = FALSE;
 
-		for (k1=0; strv[i+k1]; ++k1) {
-			if (name_fragment_match (strv[i+k1], namev[j]))
+		for (k=0; strv[i + k]; ++k) {
+			if (name_fragment_match (strv[i + k], namev[j])) {
+				first_match = TRUE;
 				break;
+			}
 		}
 
-		for (k2=0; namev[j+k2]; ++k2) {
-			if (name_fragment_match (strv[i], namev[j+k2]))
-				break;
+		if (!first_match) {
+			for (k=0; namev[j + k]; ++k) {
+				if (name_fragment_match (strv[i], namev[j + k])) {
+					second_match = TRUE;
+					break;
+				}
+			}
 		}
 
-		if (strv[i+k1] == NULL && namev[j+k2] == NULL) {
-			matched = FALSE;
-			goto cleanup_and_return;
-		}
+		if (! (first_match || second_match))
+			break;
 
 		++match_count;
 		
-		if (k1 < k2) {
-			i += k1+1;
+		if (first_match) {
+			i += k + 1;
 			++j;
-		} else if (k2 < k1) {
+		} else {
 			++i;
-			j += k2+1;
-		} else if (k1 == k2) {
-			i += k1+1;
-			j += k2+1;
+			j += k + 1;
 		}
 	}
 
@@ -1717,17 +1718,12 @@ e_card_name_match_string (const ECardName *name, const gchar *str)
 	   either "Miguel de Icaza" as well as Miguel's shiftless
 	   brother "Roger de Icaza".  In this sort of a case, the match
 	   threshold should go up to 3. */
-	if (match_count >= 2)
-		matched = TRUE;
 
-	
- cleanup_and_return:
-	g_free (strv);
-	g_free (cpy);
-	g_free (namev);
+	g_strfreev (strv);
+	g_strfreev (namev);
 	g_free (name_str);
 
-	return matched;
+	return match_count >= 2;
 }
 
 ECardArbitrary *
