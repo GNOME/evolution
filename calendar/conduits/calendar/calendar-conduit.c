@@ -1264,7 +1264,7 @@ comp_from_remote_record (GnomePilotConduitSyncAbs *conduit,
 	
 	cal_component_set_transparency (comp, CAL_COMPONENT_TRANSP_NONE);
 
-	if (remote->attr & dlpRecAttrSecret)
+	if (remote->secret)
 		cal_component_set_classification (comp, CAL_COMPONENT_CLASS_PRIVATE);
 	else
 		cal_component_set_classification (comp, CAL_COMPONENT_CLASS_PUBLIC);

@@ -1,3 +1,13 @@
+2003-04-01  JP Rosevear  <jpr@ximian.com>
+
+	Fix for #17231 (Evo portion)
+	
+	* conduits/todo/todo-conduit.c (comp_from_remote_record): test for
+	secret flag properly
+
+	* conduits/calendar/calendar-conduit.c (comp_from_remote_record):
+	ditto
+
 2003-04-01  Rodrigo Moya <rodrigo@ximian.com>
 
 	* importers/icalendar-importer.c (load_file_fn, vcal_load_file_fn):
