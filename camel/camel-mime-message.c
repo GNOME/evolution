@@ -32,7 +32,14 @@
 #include "camel-stream-mem.h"
 #include "string-utils.h"
 #include "hash-table-utils.h"
+
+#include "camel-stream-filter.h"
+#include "camel-stream-null.h"
+#include "camel-mime-filter-charset.h"
+#include "camel-mime-filter-bestenc.h"
+
 #include <stdio.h>
+#include <string.h>
 
 #define d(x)
 
@@ -116,7 +123,8 @@ camel_mime_message_init (gpointer object, gpointer klass)
 	mime_message->from = NULL;
 	mime_message->date = CAMEL_MESSAGE_DATE_CURRENT;
 	mime_message->date_offset = 0;
-	mime_message->date_str = NULL;
+	mime_message->date_received = CAMEL_MESSAGE_DATE_CURRENT;
+	mime_message->date_received_offset = 0;
 }
 
 static void           
@@ -124,13 +132,16 @@ camel_mime_message_finalize (CamelObject *object)
 {
 	CamelMimeMessage *message = CAMEL_MIME_MESSAGE (object);
 	
-	g_free (message->date_str);
-	g_free (message->subject);
-	g_free (message->reply_to);
-	g_free (message->from);
+	g_free(message->subject);
 
-	g_hash_table_foreach (message->recipients, unref_recipient, NULL);
-	g_hash_table_destroy (message->recipients);
+	if (message->reply_to)
+		camel_object_unref((CamelObject *)message->reply_to);
+
+	if (message->from)
+		camel_object_unref((CamelObject *)message->from);
+
+	g_hash_table_foreach(message->recipients, unref_recipient, NULL);
+	g_hash_table_destroy(message->recipients);
 }
 
 
@@ -157,8 +168,6 @@ static void unref_recipient (gpointer key, gpointer value, gpointer user_data)
 	camel_object_unref (CAMEL_OBJECT (value));
 }
 
-
-
 CamelMimeMessage *
 camel_mime_message_new (void) 
 {
@@ -168,12 +177,13 @@ camel_mime_message_new (void)
 	return mime_message;
 }
 
-
 /* **** Date: */
 
 void
 camel_mime_message_set_date(CamelMimeMessage *message,  time_t date, int offset)
 {
+	char *datestr;
+
 	g_assert(message);
 	if (date == CAMEL_MESSAGE_DATE_CURRENT) {
 		struct tm *local;
@@ -191,232 +201,175 @@ camel_mime_message_set_date(CamelMimeMessage *message,  time_t date, int offset)
 	}
 	message->date = date;
 	message->date_offset = offset;
-	g_free(message->date_str);
-	message->date_str = header_format_date(date, offset);
 
-	CAMEL_MEDIUM_CLASS(parent_class)->set_header((CamelMedium *)message, "Date", message->date_str);
+	datestr = header_format_date(date, offset);
+	CAMEL_MEDIUM_CLASS(parent_class)->set_header((CamelMedium *)message, "Date", datestr);
+	g_free(datestr);
 }
 
-void
-camel_mime_message_get_date(CamelMimeMessage *message,  time_t *date, int *offset)
+time_t
+camel_mime_message_get_date(CamelMimeMessage *msg, int *offset)
 {
-	if (message->date == CAMEL_MESSAGE_DATE_CURRENT)
-		camel_mime_message_set_date(message, CAMEL_MESSAGE_DATE_CURRENT, 0);
-	if (date)
-		*date = message->date;
 	if (offset)
-		*offset = message->date_offset;
+		*offset = msg->date_offset;
+
+	return msg->date;
 }
 
-char *
-camel_mime_message_get_date_string (CamelMimeMessage *message)
+time_t
+camel_mime_message_get_date_received(CamelMimeMessage *msg, int *offset)
 {
-	if (message->date == CAMEL_MESSAGE_DATE_CURRENT)
-		camel_mime_message_set_date (message, CAMEL_MESSAGE_DATE_CURRENT, 0);
-	return message->date_str;
-}
+	if (msg->date_received == CAMEL_MESSAGE_DATE_CURRENT) {
+		const char *received;
 
-const gchar *
-camel_mime_message_get_received_date (CamelMimeMessage *message)
-{
-	/* FIXME: is this the received date? and if so then get_sent_date must be wrong */
-	if (message->date == CAMEL_MESSAGE_DATE_CURRENT)
-		camel_mime_message_set_date (message, CAMEL_MESSAGE_DATE_CURRENT, 0);
-	return message->date_str;
-}
+		received = camel_medium_get_header((CamelMedium *)msg, "received");
+		if (received)
+			received = strrchr(received, ';');
+		if (received)
+			msg->date_received = header_decode_date(received + 1, &msg->date_received_offset);
+	}
 
-const gchar *
-camel_mime_message_get_sent_date (CamelMimeMessage *message)
-{
-	/* FIXME: is this the sent date? and if so then get_received_date must be wrong */
-	if (message->date == CAMEL_MESSAGE_DATE_CURRENT)
-		camel_mime_message_set_date (message, CAMEL_MESSAGE_DATE_CURRENT, 0);
-	return message->date_str;
+	if (offset)
+		*offset = msg->date_received_offset;
+
+	return msg->date_received;
 }
 
 /* **** Reply-To: */
 
 void
-camel_mime_message_set_reply_to (CamelMimeMessage *mime_message, const gchar *reply_to)
+camel_mime_message_set_reply_to (CamelMimeMessage *msg, const CamelInternetAddress *reply_to)
 {
-	CamelInternetAddress *cia;
 	char *addr;
 	
-	g_assert (mime_message);
-	
-	/* FIXME: check format of string, handle it nicer ... */
-	
-	g_free (mime_message->reply_to);
-	mime_message->reply_to = g_strstrip (g_strdup (reply_to));
-	
-	cia = camel_internet_address_new ();
-	camel_address_decode (CAMEL_ADDRESS (cia), mime_message->reply_to);
-	addr = camel_address_encode (CAMEL_ADDRESS (cia));
-	
-	CAMEL_MEDIUM_CLASS (parent_class)->set_header (CAMEL_MEDIUM (mime_message), "Reply-To", addr);
-	camel_object_unref (CAMEL_OBJECT (cia));
-	g_free (addr);
+	g_assert(msg);
+
+	if (msg->reply_to) {
+		camel_object_unref((CamelObject *)msg->reply_to);
+		msg->reply_to = NULL;
+	}
+
+	if (reply_to == NULL) {
+		CAMEL_MEDIUM_CLASS(parent_class)->remove_header(CAMEL_MEDIUM(msg), "Reply-To");
+		return;
+	}
+
+	msg->reply_to = (CamelInternetAddress *)camel_address_new_clone((CamelAddress *)reply_to);
+	addr = camel_address_encode((CamelAddress *)msg->reply_to);
+	CAMEL_MEDIUM_CLASS(parent_class)->set_header(CAMEL_MEDIUM(msg), "Reply-To", addr);
+	g_free(addr);
 }
 
-const gchar *
-camel_mime_message_get_reply_to (CamelMimeMessage *mime_message)
+const CamelInternetAddress *
+camel_mime_message_get_reply_to(CamelMimeMessage *mime_message)
 {
 	g_assert (mime_message);
+
+	/* TODO: ref for threading? */
 
 	return mime_message->reply_to;
 }
 
+/* **** Subject: */
+
 void
-camel_mime_message_set_subject (CamelMimeMessage *mime_message,
-				const gchar *subject)
+camel_mime_message_set_subject(CamelMimeMessage *mime_message, const char *subject)
 {
 	char *text;
 	
-	g_assert (mime_message);
+	g_assert(mime_message);
 	
-	g_free (mime_message->subject);
+	g_free(mime_message->subject);
 	mime_message->subject = g_strstrip (g_strdup (subject));
-	text = header_encode_string ((unsigned char *) mime_message->subject);
-	CAMEL_MEDIUM_CLASS (parent_class)->set_header (CAMEL_MEDIUM (mime_message), "Subject", text);
+	text = header_encode_string((unsigned char *)mime_message->subject);
+	CAMEL_MEDIUM_CLASS(parent_class)->set_header(CAMEL_MEDIUM (mime_message), "Subject", text);
 	g_free (text);
 }
 
-const gchar *
-camel_mime_message_get_subject (CamelMimeMessage *mime_message)
+const char *
+camel_mime_message_get_subject(CamelMimeMessage *mime_message)
 {
-	g_assert (mime_message);
+	g_assert(mime_message);
 
 	return mime_message->subject;
 }
 
 /* *** From: */
+
+/* Thought: Since get_from/set_from are so rarely called, it is probably not useful
+   to cache the from (and reply_to) addresses as InternetAddresses internally, we
+   could just get it from the headers and reprocess every time. */
 void
-camel_mime_message_set_from (CamelMimeMessage *mime_message, const gchar *from)
+camel_mime_message_set_from(CamelMimeMessage *msg, const CamelInternetAddress *from)
 {
-	CamelInternetAddress *cia;
 	char *addr;
 	
-	g_assert (mime_message);
-	
-	/* FIXME: check format of string, handle it nicer ... */
-	
-	g_free (mime_message->from);
-	mime_message->from = g_strstrip (g_strdup (from));
-	
-	cia = camel_internet_address_new ();
-	camel_address_decode (CAMEL_ADDRESS (cia), mime_message->from);
-	
-	addr = camel_address_encode (CAMEL_ADDRESS (cia));
-	CAMEL_MEDIUM_CLASS (parent_class)->set_header (CAMEL_MEDIUM (mime_message), "From", addr);
-	camel_object_unref (CAMEL_OBJECT (cia));
-	g_free (addr);
+	g_assert(msg);
+
+	if (msg->from) {
+		camel_object_unref((CamelObject *)msg->from);
+		msg->from = NULL;
+	}
+
+	if (from == NULL || camel_address_length((CamelAddress *)from) == 0) {
+		CAMEL_MEDIUM_CLASS(parent_class)->remove_header(CAMEL_MEDIUM(msg), "From");
+		return;
+	}
+
+	msg->from = (CamelInternetAddress *)camel_address_new_clone((CamelAddress *)from);
+	addr = camel_address_encode((CamelAddress *)msg->from);
+	CAMEL_MEDIUM_CLASS (parent_class)->set_header(CAMEL_MEDIUM(msg), "From", addr);
+	g_free(addr);
 }
 
-const gchar *
-camel_mime_message_get_from (CamelMimeMessage *mime_message)
+const CamelInternetAddress *
+camel_mime_message_get_from(CamelMimeMessage *mime_message)
 {
 	g_assert (mime_message);
+
+	/* TODO: we should really ref this for multi-threading to work */
 
 	return mime_message->from;
 }
 
-/*  ****  */
+/*  **** To: Cc: Bcc: */
 
 void
-camel_mime_message_add_recipient (CamelMimeMessage *mime_message, 
-				  const gchar *type, 
-				  const gchar *name, const char *address)
+camel_mime_message_set_recipients(CamelMimeMessage *mime_message, const char *type, const CamelInternetAddress *r)
 {
-	CamelInternetAddress *addr;
 	char *text;
-
-	g_assert (mime_message);
-
-	addr = g_hash_table_lookup (mime_message->recipients, type);
-	if (addr == NULL) {
-		g_warning ("trying to add a non-valid receipient type: %s = %s %s", type, name, address);
-		return;
-	}
-
-	camel_internet_address_add (addr, name, address);
-
-	/* FIXME: maybe this should be delayed till we're ready to write out? */
-	text = camel_address_encode (CAMEL_ADDRESS (addr));
-	CAMEL_MEDIUM_CLASS (parent_class)->set_header (CAMEL_MEDIUM (mime_message), type, text);
-	g_free (text);
-}
-
-void
-camel_mime_message_remove_recipient_address (CamelMimeMessage *mime_message,
-					     const gchar *type,
-					     const gchar *address)
-{
 	CamelInternetAddress *addr;
-	int index;
-	char *text;
 
-	g_assert (mime_message);
+	g_assert(mime_message);
 
 	addr = g_hash_table_lookup(mime_message->recipients, type);
 	if (addr == NULL) {
-		g_warning("trying to remove a non-valid receipient type: %s = %s", type, address);
-		return;
-	}
-	
-	index = camel_internet_address_find_address(addr, address, NULL);
-	if (index == -1) {
-		g_warning("trying to remove address for nonexistand address: %s", address);
+		g_warning("trying to set a non-valid receipient type: %s", type);
 		return;
 	}
 
-	camel_address_remove (CAMEL_ADDRESS (addr), index);
-
-	/* FIXME: maybe this should be delayed till we're ready to write out? */
-	text = camel_address_encode (CAMEL_ADDRESS (addr));
-	CAMEL_MEDIUM_CLASS (parent_class)->set_header (CAMEL_MEDIUM (mime_message), type, text);
-	g_free (text);
-}
-
-void
-camel_mime_message_remove_recipient_name (CamelMimeMessage *mime_message,
-					  const gchar *type,
-					  const gchar *name)
-{
-	CamelInternetAddress *addr;
-	int index;
-	char *text;
-
-	g_assert (mime_message);
-
-	addr = g_hash_table_lookup(mime_message->recipients, type);
-	if (addr == NULL) {
-		g_warning("trying to remove a non-valid receipient type: %s = %s", type, name);
-		return;
-	}
-	index = camel_internet_address_find_name(addr, name, NULL);
-	if (index == -1) {
-		g_warning("trying to remove address for nonexistand name: %s", name);
+	if (r == NULL || camel_address_length((CamelAddress *)r) == 0) {
+		camel_address_remove((CamelAddress *)addr, -1);
+		CAMEL_MEDIUM_CLASS(parent_class)->remove_header(CAMEL_MEDIUM(mime_message), type);
 		return;
 	}
 
-	camel_address_remove (CAMEL_ADDRESS (addr), index);
+	/* note this does copy, and not append (cat) */
+	camel_address_copy((CamelAddress *)addr, (const CamelAddress *)r);
 
-	/* FIXME: maybe this should be delayed till we're ready to write out? */
-	text = camel_address_encode (CAMEL_ADDRESS (addr));
-	CAMEL_MEDIUM_CLASS (parent_class)->set_header (CAMEL_MEDIUM (mime_message), type, text);
-	g_free (text);
+	/* and sync our headers */
+	text = camel_address_encode(CAMEL_ADDRESS(addr));
+	CAMEL_MEDIUM_CLASS(parent_class)->set_header(CAMEL_MEDIUM(mime_message), type, text);
+	g_free(text);
 }
 
 const CamelInternetAddress *
-camel_mime_message_get_recipients (CamelMimeMessage *mime_message, 
-				   const gchar *type)
+camel_mime_message_get_recipients(CamelMimeMessage *mime_message, const char *type)
 {
-	g_assert (mime_message);
+	g_assert(mime_message);
 	
 	return g_hash_table_lookup(mime_message->recipients, type);
 }
-
-
 
 /* mime_message */
 static int
@@ -464,10 +417,11 @@ write_to_stream (CamelDataWrapper *data_wrapper, CamelStream *stream)
 
 	/* force mandatory headers ... */
 	if (mm->from == NULL) {
+		/* FIXME: should we just abort?  Should we make one up? */
 		g_warning("No from set for message");
-		camel_mime_message_set_from(mm, "");
+		camel_medium_set_header((CamelMedium *)mm, "From", "");
 	}
-	if (mm->date_str == NULL) {
+	if (!camel_medium_get_header((CamelMedium *)mm, "Date")) {
 		g_warning("Application did not set date, using 'now'");
 		camel_mime_message_set_date(mm, CAMEL_MESSAGE_DATE_CURRENT, 0);
 	}
@@ -484,23 +438,6 @@ write_to_stream (CamelDataWrapper *data_wrapper, CamelStream *stream)
 	return CAMEL_DATA_WRAPPER_CLASS (parent_class)->write_to_stream (data_wrapper, stream);
 }
 
-static char *
-format_address(const char *text)
-{
-	struct _header_address *addr;
-	char *ret;
-	
-	addr = header_address_decode (text);
-	if (addr) {
-		ret = header_address_list_format (addr);
-		header_address_list_clear (&addr);
-	} else {
-		ret = g_strdup (text);
-	}
-	
-	return ret;
-}
-
 /* FIXME: check format of fields. */
 static gboolean
 process_header (CamelMedium *medium, const char *header_name, const char *header_value)
@@ -509,36 +446,39 @@ process_header (CamelMedium *medium, const char *header_name, const char *header
 	CamelMimeMessage *message = CAMEL_MIME_MESSAGE (medium);
 	CamelInternetAddress *addr;
 
-	header_type = (CamelHeaderType) g_hash_table_lookup (header_name_table, header_name);
+	header_type = (CamelHeaderType)g_hash_table_lookup(header_name_table, header_name);
 	switch (header_type) {
 	case HEADER_FROM:
-		g_free (message->from);
-		message->from = format_address (header_value);
+		if (message->from)
+			camel_object_unref((CamelObject *)message->from);
+		message->from = camel_internet_address_new();
+		camel_address_decode((CamelAddress *)message->from, header_value);
 		break;
 	case HEADER_REPLY_TO:
-		g_free (message->reply_to);
-		message->reply_to = format_address (header_value);
+		if (message->reply_to)
+			camel_object_unref((CamelObject *)message->reply_to);
+		message->reply_to = camel_internet_address_new();
+		camel_address_decode((CamelAddress *)message->reply_to, header_value);
 		break;
 	case HEADER_SUBJECT:
-		g_free (message->subject);
-		message->subject = g_strstrip (header_decode_string (header_value));
+		g_free(message->subject);
+		message->subject = g_strstrip(header_decode_string(header_value));
 		break;
 	case HEADER_TO:
 	case HEADER_CC:
 	case HEADER_BCC:
 		addr = g_hash_table_lookup (message->recipients, header_name);
 		if (header_value)
-			camel_address_decode (CAMEL_ADDRESS (addr), header_value);
+			camel_address_decode(CAMEL_ADDRESS (addr), header_value);
 		else
-			camel_address_remove (CAMEL_ADDRESS (addr), -1);
+			camel_address_remove(CAMEL_ADDRESS (addr), -1);
 		break;
 	case HEADER_DATE:
-		g_free (message->date_str);
-		message->date_str = g_strdup (header_value);
 		if (header_value) {
-			message->date = header_decode_date (header_value, &message->date_offset);
+			message->date = header_decode_date(header_value, &message->date_offset);
 		} else {
 			message->date = CAMEL_MESSAGE_DATE_CURRENT;
+			message->date_offset = 0;
 		}
 		break;
 	default:
@@ -571,168 +511,243 @@ remove_header(CamelMedium *medium, const char *header_name)
 	parent_class->parent_class.remove_header (medium, header_name);
 }
 
+typedef gboolean (*CamelPartFunc)(CamelMimeMessage *, CamelMimePart *, void *data);
+
 static gboolean
-multipart_has_8bit_parts (CamelMultipart *multipart)
+message_foreach_part_rec(CamelMimeMessage *msg, CamelMimePart *part, CamelPartFunc callback, void *data)
 {
-	gboolean has_8bit = FALSE;
-	int i, nparts;
-	
-	nparts = camel_multipart_get_number (multipart);
-	
-	for (i = 0; i < nparts && !has_8bit; i++) {
-		GMimeContentField *content;
-		CamelMimePart *mime_part;
-		
-		mime_part = camel_multipart_get_part (multipart, i);
-		content = camel_mime_part_get_content_type (mime_part);
-		
-		if (gmime_content_field_is_type (content, "multipart", "*")) {
-			CamelDataWrapper *wrapper;
-			CamelMultipart *mpart;
-			
-			wrapper = camel_medium_get_content_object (CAMEL_MEDIUM (mime_part));
-			mpart = CAMEL_MULTIPART (wrapper);
-			
-			has_8bit = multipart_has_8bit_parts (mpart);
-		} else {
-			/* see if this part is 8bit */
-			has_8bit = camel_mime_part_get_encoding (mime_part) == CAMEL_MIME_PART_ENCODING_8BIT;
+	CamelDataWrapper *containee;
+	int parts, i;
+	int go = TRUE;
+
+	if (callback(msg, part, data) == FALSE)
+		return FALSE;
+
+	containee = camel_medium_get_content_object(CAMEL_MEDIUM(part));
+
+	if (containee == NULL)
+		return go;
+
+	/* using the object types is more accurate than using the mime/types */
+	if (CAMEL_IS_MULTIPART(containee)) {
+		parts = camel_multipart_get_number(CAMEL_MULTIPART(containee));
+		for (i=0;go && i<parts;i++) {
+			CamelMimePart *part = camel_multipart_get_part(CAMEL_MULTIPART(containee), i);
+
+			go = message_foreach_part_rec(msg, part, callback, data);
 		}
+	} else if (CAMEL_IS_MIME_MESSAGE(containee)) {
+		go = message_foreach_part_rec(msg, (CamelMimePart *)containee, callback, data);
 	}
-	
-	return has_8bit;
+
+	return go;
+}
+
+/* dont make this public yet, it might need some more thinking ... */
+/* MPZ */
+static void
+camel_mime_message_foreach_part(CamelMimeMessage *msg, CamelPartFunc callback, void *data)
+{
+	message_foreach_part_rec(msg, (CamelMimePart *)msg, callback, data);
+}
+
+static gboolean
+check_8bit(CamelMimeMessage *msg, CamelMimePart *part, void *data)
+{
+	int *has8bit = data;
+
+	/* check this part, and stop as soon as we are done */
+	*has8bit = camel_mime_part_get_encoding(part) == CAMEL_MIME_PART_ENCODING_8BIT;
+	return !(*has8bit);
 }
 
 gboolean
-camel_mime_message_has_8bit_parts (CamelMimeMessage *mime_message)
+camel_mime_message_has_8bit_parts(CamelMimeMessage *msg)
 {
-	GMimeContentField *content;
-	gboolean has_8bit = FALSE;
-	
-	content = camel_mime_part_get_content_type (CAMEL_MIME_PART (mime_message));
-	
-	if (gmime_content_field_is_type (content, "multipart", "*")) {
-		CamelDataWrapper *wrapper;
-		CamelMultipart *multipart;
-		
-		wrapper = camel_medium_get_content_object (CAMEL_MEDIUM (CAMEL_MIME_PART (mime_message)));
-		multipart = CAMEL_MULTIPART (wrapper);
-		
-		has_8bit = multipart_has_8bit_parts (multipart);
+	int has8bit = FALSE;
+
+	camel_mime_message_foreach_part(msg, check_8bit, &has8bit);
+
+	return has8bit;
+}
+
+/* finds the best charset and transfer encoding for a given part */
+static CamelMimePartEncodingType
+find_best_encoding(CamelMimePart *part, CamelBestencRequired required, CamelBestencEncoding enctype, char **charsetp)
+{
+	const char *charsetin = NULL;
+	char *charset = NULL;
+	CamelStream *null;
+	CamelStreamFilter *filter;
+	CamelMimeFilterCharset *charenc = NULL;
+	CamelMimeFilterBestenc *bestenc;
+	int idb, idc = -1;
+	gboolean istext;
+	unsigned int flags;
+	CamelMimePartEncodingType encoding;
+	CamelDataWrapper *content;
+
+	/* we use all these weird stream things so we can do it with streams, and
+	   not have to read the whole lot into memory - although i have a feeling
+	   it would make things a fair bit simpler to do so ... */
+
+	printf("starting to check part\n");
+
+	content = camel_medium_get_content_object((CamelMedium *)part);
+	if (content == NULL) {
+		/* charset might not be right here, but it'll get the right stuff
+		   if it is ever set */
+		*charsetp = NULL;
+		return CAMEL_MIME_PART_ENCODING_DEFAULT;
+	}
+
+	istext = gmime_content_field_is_type(part->content_type, "text", "*");
+	if (istext) {
+		flags = CAMEL_BESTENC_GET_CHARSET|CAMEL_BESTENC_GET_ENCODING;
 	} else {
-		/* single-part message so just check this part */
-		has_8bit = camel_mime_part_get_encoding (CAMEL_MIME_PART (mime_message)) == CAMEL_MIME_PART_ENCODING_8BIT;
+		flags = CAMEL_BESTENC_GET_ENCODING;
+	}
+
+	/* when building the message, any encoded parts are translated already */
+	flags |= CAMEL_BESTENC_LF_IS_CRLF;
+
+	/* first a null stream, so any filtering is thrown away; we only want the sideeffects */
+	null = (CamelStream *)camel_stream_null_new();
+	filter = camel_stream_filter_new_with_stream(null);
+
+	/* if we're not looking for the best charset, then use the one we have */
+	if (istext && (required & CAMEL_BESTENC_GET_CHARSET) == 0
+	    && (charsetin = gmime_content_field_get_parameter(part->content_type, "charset"))) {
+		/* if libunicode doesn't support it, we dont really have utf8 anyway, so
+		   we dont need a converter */
+		charenc = camel_mime_filter_charset_new_convert("UTF-8", charsetin);
+		if (charenc != NULL)
+			idc = camel_stream_filter_add(filter, (CamelMimeFilter *)charenc);
+		charsetin = NULL;
+	}
+
+	bestenc = camel_mime_filter_bestenc_new(flags);
+	idb = camel_stream_filter_add(filter, (CamelMimeFilter *)bestenc);
+	printf("writing to checking stream\n");
+	camel_data_wrapper_write_to_stream(content, (CamelStream *)filter);
+	camel_stream_filter_remove(filter, idb);
+	if (idc != -1) {
+		camel_stream_filter_remove(filter, idc);
+		camel_object_unref((CamelObject *)charenc);
+		charenc = NULL;
+	}
+
+	if (istext)
+		charsetin = camel_mime_filter_bestenc_get_best_charset(bestenc);
+
+	printf("charsetin = %s\n", charsetin);
+
+	/* if we have US-ASCII, or we're not doing text, we dont need to bother with the rest */
+	if (charsetin != NULL && (required & CAMEL_BESTENC_GET_CHARSET) != 0) {
+		charset = g_strdup(charsetin);
+
+		printf("have charset, trying conversion/etc\n");
+
+		/* now the 'bestenc' can has told us what the best encoding is, we can use that to create
+		   a charset conversion filter as well, and then re-add the bestenc to filter the
+		   result to find the best encoding to use as well */
+		
+		charenc = camel_mime_filter_charset_new_convert("UTF-8", charset);
+
+		/* eek, libunicode doesn't undertand this charset anyway, then the 'utf8' we
+		   thought we had is really the native format, in which case, we just treat
+		   it as binary data (and take the result we have so far) */
+		   
+		if (charenc != NULL) {
+
+			/* otherwise, try another pass, converting to the real charset */
+
+			camel_mime_filter_reset((CamelMimeFilter *)bestenc);
+			camel_mime_filter_bestenc_set_flags(bestenc, CAMEL_BESTENC_GET_ENCODING|CAMEL_BESTENC_LF_IS_CRLF);
+
+			camel_stream_filter_add(filter, (CamelMimeFilter *)charenc);
+			camel_stream_filter_add(filter, (CamelMimeFilter *)bestenc);
+
+			/* and write it to the new stream */
+			camel_data_wrapper_write_to_stream(content, (CamelStream *)filter);
+
+			camel_object_unref((CamelObject *)charenc);
+		}
 	}
 	
-	return has_8bit;
-}
+	encoding = camel_mime_filter_bestenc_get_best_encoding(bestenc, enctype);
 
-static int
-best_encoding (const guchar *text)
-{
-	guchar *ch;
-	int count = 0;
-	int total;
-	
-	for (ch = (guchar *) text; *ch; ch++)
-		if (*ch > (guchar) 127)
-			count++;
-	
-	total = (int) (ch - text);
-	
-	if ((float) count <= total * 0.17)
-		return CAMEL_MIME_PART_ENCODING_QUOTEDPRINTABLE;
+	camel_object_unref((CamelObject *)filter);
+	camel_object_unref((CamelObject *)bestenc);
+	camel_object_unref((CamelObject *)null);
+
+	printf("done, best encoding = %d\n", encoding);
+
+	if (charsetp)
+		*charsetp = charset;
 	else
-		return CAMEL_MIME_PART_ENCODING_BASE64;
+		g_free(charset);
+
+	return encoding;
 }
 
-static void
-multipart_encode_8bit_parts (CamelMultipart *multipart)
+struct _enc_data {
+	CamelBestencRequired required;
+	CamelBestencEncoding enctype;
+};
+
+static gboolean
+best_encoding(CamelMimeMessage *msg, CamelMimePart *part, void *datap)
 {
-	int i, nparts;
-	
-	nparts = camel_multipart_get_number (multipart);
-	
-	for (i = 0; i < nparts; i++) {
-		GMimeContentField *content;
-		CamelMimePart *mime_part;
-		
-		mime_part = camel_multipart_get_part (multipart, i);
-		content = camel_mime_part_get_content_type (mime_part);
-		
-		if (gmime_content_field_is_type (content, "multipart", "*")) {
-			/* ...and the search for Spock continues */
-			CamelDataWrapper *wrapper;
-			CamelMultipart *mpart;
-			
-			wrapper = camel_medium_get_content_object (CAMEL_MEDIUM (mime_part));
-			mpart = CAMEL_MULTIPART (wrapper);
-			
-			multipart_encode_8bit_parts (mpart);
-		} else {
-			/* re-encode this if necessary */
-			gboolean is_8bit;
-			
-			is_8bit = camel_mime_part_get_encoding (mime_part) == CAMEL_MIME_PART_ENCODING_8BIT;
-			if (is_8bit) {
-				CamelStream *stream;
-				GByteArray *array;
-				guchar *content;
-				
-				array = g_byte_array_new ();
-				stream = camel_stream_mem_new_with_byte_array (array);
-				camel_data_wrapper_write_to_stream (CAMEL_DATA_WRAPPER (mime_part), stream);
-				g_byte_array_append (array, "", 1);
-				
-				content = array->data;
-				g_byte_array_free (array, FALSE);
-				
-				camel_mime_part_set_encoding (mime_part, best_encoding (content));
-				g_free (content);
-				camel_object_unref (CAMEL_OBJECT (stream));
+	struct _enc_data *data = datap;
+	char *charset;
+	CamelMimePartEncodingType encoding;
+
+	/* we only care about actual content objects */
+	if (!CAMEL_IS_MULTIPART(part) && !CAMEL_IS_MIME_MESSAGE(part)) {
+
+		encoding = find_best_encoding(part, data->required, data->enctype, &charset);
+		/* we always set the encoding, if we got this far.  GET_CHARSET implies
+		   also GET_ENCODING */
+		camel_mime_part_set_encoding(part, encoding);
+
+		if ((data->required & CAMEL_BESTENC_GET_CHARSET) != 0) {
+			if (gmime_content_field_is_type(part->content_type, "text", "*")) {
+				char *newct;
+
+				/* FIXME: ick, the part content_type interface needs fixing bigtime */
+				gmime_content_field_set_parameter(part->content_type, "charset", charset?charset:"us-ascii");
+				newct = header_content_type_format(part->content_type->content_type);
+				if (newct) {
+					printf("Setting content-type to %s\n", newct);
+
+					camel_mime_part_set_content_type(part, newct);
+					g_free(newct);
+				}
 			}
 		}
 	}
+
+	return TRUE;
+}
+
+void
+camel_mime_message_set_best_encoding(CamelMimeMessage *msg, CamelBestencRequired required, CamelBestencEncoding enctype)
+{
+	struct _enc_data data;
+
+	if ((required & (CAMEL_BESTENC_GET_ENCODING|CAMEL_BESTENC_GET_CHARSET)) == 0)
+		return;
+
+	data.required = required;
+	data.enctype = enctype;
+
+	camel_mime_message_foreach_part(msg, best_encoding, &data);
 }
 
 void
 camel_mime_message_encode_8bit_parts (CamelMimeMessage *mime_message)
 {
-	GMimeContentField *content;
-	
-	content = camel_mime_part_get_content_type (CAMEL_MIME_PART (mime_message));
-	
-	if (gmime_content_field_is_type (content, "multipart", "*")) {
-		/* search for Spock */
-		CamelDataWrapper *wrapper;
-		CamelMultipart *multipart;
-		
-		wrapper = camel_medium_get_content_object (CAMEL_MEDIUM (CAMEL_MIME_PART (mime_message)));
-		multipart = CAMEL_MULTIPART (wrapper);
-		
-		multipart_encode_8bit_parts (multipart);
-	} else {
-		/* re-encode if we need to */
-		gboolean is_8bit;
-		
-		is_8bit = camel_mime_part_get_encoding (CAMEL_MIME_PART (mime_message)) == CAMEL_MIME_PART_ENCODING_8BIT;
-		if (is_8bit) {
-			/* FIXME: is there a better way of doing this? */
-			CamelStream *stream;
-			GByteArray *array;
-			guchar *content;
-			
-			array = g_byte_array_new ();
-			stream = camel_stream_mem_new_with_byte_array (array);
-			camel_data_wrapper_write_to_stream (CAMEL_DATA_WRAPPER (CAMEL_MIME_PART (mime_message)), stream);
-			g_byte_array_append (array, "", 1);
-			
-			content = array->data;
-			g_byte_array_free (array, FALSE);
-						
-			camel_mime_part_set_encoding (CAMEL_MIME_PART (mime_message), best_encoding (content));
-			g_free (content);
-			camel_object_unref (CAMEL_OBJECT (stream));
-		}
-	}
+	camel_mime_message_set_best_encoding(mime_message, CAMEL_BESTENC_GET_ENCODING, CAMEL_BESTENC_7BIT);
 }
+

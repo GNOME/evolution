@@ -21,8 +21,15 @@
 #include "camel-mime-utils.h"
 #include "camel-internet-address.h"
 
+#include <stdio.h>
+
+#define d(x) x
+
 static int    internet_decode		(CamelAddress *, const char *raw);
 static char * internet_encode		(CamelAddress *);
+static int    internet_unformat		(CamelAddress *, const char *raw);
+static char * internet_format		(CamelAddress *);
+static int    internet_cat		(CamelAddress *dest, const CamelAddress *source);
 static void   internet_remove		(CamelAddress *, int index);
 
 static void camel_internet_address_class_init (CamelInternetAddressClass *klass);
@@ -44,7 +51,10 @@ camel_internet_address_class_init(CamelInternetAddressClass *klass)
 
 	address->decode = internet_decode;
 	address->encode = internet_encode;
+	address->unformat = internet_unformat;
+	address->format = internet_format;
 	address->remove = internet_remove;
+	address->cat = internet_cat;
 }
 
 static void
@@ -74,7 +84,8 @@ static int
 internet_decode	(CamelAddress *a, const char *raw)
 {
 	struct _header_address *ha, *n;
-	
+	int count = a->addresses->len;
+
 	/* Should probably use its own decoder or something */
 	ha = header_address_decode(raw);
 	if (ha) {
@@ -96,7 +107,7 @@ internet_decode	(CamelAddress *a, const char *raw)
 		header_address_list_clear(&ha);
 	}
 	
-	return 0;
+	return a->addresses->len - count;
 }
 
 static char *
@@ -113,25 +124,124 @@ internet_encode	(CamelAddress *a)
 	
 	for (i = 0;i < a->addresses->len; i++) {
 		struct _address *addr = g_ptr_array_index(a->addresses, i);
-		char *name = header_encode_phrase(addr->name);
-		
+		char *enc;
+
 		if (i != 0)
 			g_string_append(out, ", ");
-		
-		if (name) {
-			if (*name) {
-				g_string_sprintfa(out, "%s <%s>", name, addr->address);
-			} else if (addr->address)
-				g_string_sprintfa(out, "%s", addr->address);
-			g_free(name);
-		} else
-			g_string_sprintfa(out, "%s", addr->address);
+
+		enc = camel_internet_address_encode_address(addr->name, addr->address);
+		g_string_sprintfa(out, "%s", enc);
+		g_free(enc);
 	}
 	
 	ret = out->str;
 	g_string_free(out, FALSE);
 	
 	return ret;
+}
+
+static int
+internet_unformat(CamelAddress *a, const char *raw)
+{
+	char *buffer, *p, *name, *addr;
+	int c;
+	int count = a->addresses->len;
+
+	if (raw == NULL)
+		return 0;
+
+	d(printf("unformatting address: %s\n", raw));
+
+	/* we copy, so we can modify as we go */
+	buffer = g_strdup(raw);
+
+	/* this can be simpler than decode, since there are much fewer rules */
+	p = buffer;
+	name = NULL;
+	addr = p;
+	do {
+		c = (unsigned char)*p++;
+		switch (c) {
+			/* HMMM.  Not sure we need this, we dont quote the names anyway ... */
+		case '"':
+			while (*p && *p != '"')
+				p++;
+			break;
+		case '<':
+			if (name == NULL)
+				name = addr;
+			addr = p;
+			addr[-1] = 0;
+			while (*p && *p != '>')
+				p++;
+			if (*p == 0)
+				break;
+			p++;
+			/* falls through */
+		case ',':
+			p[-1] = 0;
+			/* falls through */
+		case 0:
+			if (name)
+				name = g_strstrip(name);
+			addr = g_strstrip(addr);
+			if (addr[0]) {
+				d(printf("found address: %s <%s>\n", name, addr));
+				camel_internet_address_add((CamelInternetAddress *)a, name, addr);
+			}
+			name = NULL;
+			addr = p;
+			break;
+		}
+	} while (c);
+
+	g_free(buffer);
+
+	return a->addresses->len - count;
+}
+
+static char *
+internet_format	(CamelAddress *a)
+{
+	int i;
+	GString *out;
+	char *ret;
+	
+	if (a->addresses->len == 0)
+		return NULL;
+	
+	out = g_string_new("");
+	
+	for (i = 0;i < a->addresses->len; i++) {
+		struct _address *addr = g_ptr_array_index(a->addresses, i);
+		char *enc;
+
+		if (i != 0)
+			g_string_append(out, ", ");
+
+		enc = camel_internet_address_format_address(addr->name, addr->address);
+		g_string_sprintfa(out, "%s", enc);
+		g_free(enc);
+	}
+	
+	ret = out->str;
+	g_string_free(out, FALSE);
+	
+	return ret;
+}
+
+static int    internet_cat		(CamelAddress *dest, const CamelAddress *source)
+{
+	int i;
+
+	g_assert(IS_CAMEL_INTERNET_ADDRESS(source));
+
+	for (i=0;i<source->addresses->len;i++) {
+		struct _address *addr = g_ptr_array_index(source->addresses, i);
+		camel_internet_address_add((CamelInternetAddress *)dest, addr->name, addr->address);
+	}
+
+	return i;
 }
 
 static void
@@ -207,9 +317,8 @@ camel_internet_address_get	(const CamelInternetAddress *a, int index, const char
 	struct _address *addr;
 
 	g_assert(IS_CAMEL_INTERNET_ADDRESS(a));
-	g_return_val_if_fail(index >= 0, -1);
 
-	if (index >= ((CamelAddress *)a)->addresses->len)
+	if (index < 0 || index >= ((CamelAddress *)a)->addresses->len)
 		return FALSE;
 
 	addr = g_ptr_array_index( ((CamelAddress *)a)->addresses, index);
@@ -279,4 +388,56 @@ camel_internet_address_find_address(CamelInternetAddress *a, const char *address
 		}
 	}
 	return -1;
+}
+
+/**
+ * camel_internet_address_encode_address:
+ * @name: 
+ * @addr: 
+ * 
+ * Encode a single address ready for internet usage.
+ * 
+ * Return value: The encoded address.
+ **/
+char *
+camel_internet_address_encode_address(const char *real, const char *addr)
+{
+	char *name = header_encode_phrase(real);
+	char *ret = NULL;
+
+	g_assert(addr);
+
+	if (name && name[0])
+		ret = g_strdup_printf("%s <%s>", name, addr);
+	else
+		ret = g_strdup_printf("%s", addr);
+
+	g_free(name);
+
+	return ret;
+}
+
+/**
+ * camel_internet_address_format_address:
+ * @name: 
+ * @addr: 
+ * 
+ * Function to format a single address, suitable for display.
+ * 
+ * Return value: 
+ **/
+char *
+camel_internet_address_format_address(const char *name, const char *addr)
+{
+	char *ret = NULL;
+
+	g_assert(addr);
+
+#warning "If name contains a quote, then we're thrown for six ... "
+	if (name && name[0])
+		ret = g_strdup_printf("%s <%s>", name, addr);
+	else
+		ret = g_strdup_printf("%s", addr);
+
+	return ret;
 }

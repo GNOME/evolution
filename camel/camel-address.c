@@ -73,10 +73,40 @@ camel_address_get_type (void)
 CamelAddress *
 camel_address_new (void)
 {
-	CamelAddress *new = CAMEL_ADDRESS ( camel_object_new (camel_address_get_type ()));
+	CamelAddress *new = CAMEL_ADDRESS(camel_object_new(camel_address_get_type()));
 	return new;
 }
 
+/**
+ * camel_address_new_clone:
+ * @in: 
+ * 
+ * Clone an existing address type.
+ * 
+ * Return value: 
+ **/
+CamelAddress *
+camel_address_new_clone(const CamelAddress *in)
+{
+	CamelAddress *new = CAMEL_ADDRESS(camel_object_new(CAMEL_OBJECT_GET_TYPE(in)));
+
+	camel_address_cat(new, in);
+	return new;
+}
+
+/**
+ * camel_address_length:
+ * @a: 
+ * 
+ * Return the number of addresses stored in the address @a.
+ * 
+ * Return value: 
+ **/
+int
+camel_address_length(CamelAddress *a)
+{
+	return a->addresses->len;
+}
 
 /**
  * camel_address_decode:
@@ -110,6 +140,82 @@ camel_address_encode	(CamelAddress *a)
 	g_return_val_if_fail(IS_CAMEL_ADDRESS(a), NULL);
 
 	return CAMEL_ADDRESS_CLASS (CAMEL_OBJECT_GET_CLASS (a))->encode(a);
+}
+
+/**
+ * camel_address_unformat:
+ * @a: 
+ * @raw: 
+ * 
+ * Attempt to convert a previously formatted and/or edited
+ * address back into internal form.
+ * 
+ * Return value: -1 if it could not be parsed, or the number
+ * of valid addresses found.
+ **/
+int
+camel_address_unformat(CamelAddress *a, const char *raw)
+{
+	g_return_val_if_fail(IS_CAMEL_ADDRESS(a), -1);
+
+	return CAMEL_ADDRESS_CLASS (CAMEL_OBJECT_GET_CLASS (a))->unformat(a, raw);
+}
+
+/**
+ * camel_address_format:
+ * @a: 
+ * 
+ * Format an address in a format suitable for display.
+ * 
+ * Return value: The formatted address.
+ **/
+char *
+camel_address_format	(CamelAddress *a)
+{
+	if (a == NULL)
+		return NULL;
+
+	g_return_val_if_fail(IS_CAMEL_ADDRESS(a), NULL);
+
+	return CAMEL_ADDRESS_CLASS (CAMEL_OBJECT_GET_CLASS (a))->format(a);
+}
+
+/**
+ * camel_address_cat:
+ * @dest: 
+ * @source: 
+ * 
+ * Concatenate one address onto another.  The addresses must
+ * be of the same type.
+ * 
+ * Return value: 
+ **/
+int
+camel_address_cat	(CamelAddress *dest, const CamelAddress *source)
+{
+	g_return_val_if_fail(IS_CAMEL_ADDRESS(dest), -1);
+	g_return_val_if_fail(IS_CAMEL_ADDRESS(source), -1);
+
+	return CAMEL_ADDRESS_CLASS(CAMEL_OBJECT_GET_CLASS(dest))->cat(dest, source);
+}
+
+/**
+ * camel_address_copy:
+ * @dest: 
+ * @source: 
+ * 
+ * Copy an address contents.
+ * 
+ * Return value: 
+ **/
+int
+camel_address_copy	(CamelAddress *dest, const CamelAddress *source)
+{
+	g_return_val_if_fail(IS_CAMEL_ADDRESS(dest), -1);
+	g_return_val_if_fail(IS_CAMEL_ADDRESS(source), -1);
+
+	camel_address_remove(dest, -1);
+	return camel_address_cat(dest, source);
 }
 
 /**

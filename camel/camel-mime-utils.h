@@ -96,6 +96,9 @@ void header_address_list_clear(struct _header_address **);
 
 struct _header_address *header_address_decode(const char *in);
 struct _header_address *header_mailbox_decode(const char *in);
+/* for mailing */
+char *header_address_list_encode(struct _header_address *a);
+/* for display */
 char *header_address_list_format(struct _header_address *a);
 
 /* structured header prameters */

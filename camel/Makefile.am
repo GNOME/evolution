@@ -25,6 +25,7 @@ libcamel_la_SOURCES = 				\
 	camel-folder.c				\
 	camel-internet-address.c		\
 	camel-medium.c				\
+	camel-mime-filter-bestenc.c		\
 	camel-mime-filter-basic.c		\
 	camel-mime-filter-charset.c		\
 	camel-mime-filter-crlf.c		\
@@ -52,6 +53,7 @@ libcamel_la_SOURCES = 				\
 	camel-stream-filter.c			\
 	camel-stream-fs.c			\
 	camel-stream-mem.c			\
+	camel-stream-null.c			\
 	camel-stream.c				\
 	camel-transport.c			\
 	camel-uid-cache.c			\
@@ -76,6 +78,7 @@ libcamelinclude_HEADERS =			\
 	camel-folder.h				\
 	camel-internet-address.h		\
 	camel-medium.h				\
+	camel-mime-filter-bestenc.h		\
 	camel-mime-filter-basic.h		\
 	camel-mime-filter-charset.h		\
 	camel-mime-filter-crlf.h		\
@@ -103,6 +106,7 @@ libcamelinclude_HEADERS =			\
 	camel-stream-filter.h			\
 	camel-stream-fs.h			\
 	camel-stream-mem.h			\
+	camel-stream-null.h			\
 	camel-stream.h				\
 	camel-transport.h			\
 	camel-types.h				\

@@ -141,6 +141,7 @@ struct _CamelFolderSummaryClass {
 	/* create/save/load an individual message info */
 	CamelMessageInfo * (*message_info_new)(CamelFolderSummary *, struct _header_raw *);
 	CamelMessageInfo * (*message_info_new_from_parser)(CamelFolderSummary *, CamelMimeParser *);
+	CamelMessageInfo * (*message_info_new_from_message)(CamelFolderSummary *, CamelMimeMessage *);
 	CamelMessageInfo * (*message_info_load)(CamelFolderSummary *, FILE *);
 	int		   (*message_info_save)(CamelFolderSummary *, FILE *, CamelMessageInfo *);
 	void		   (*message_info_free)(CamelFolderSummary *, CamelMessageInfo *);
@@ -148,6 +149,7 @@ struct _CamelFolderSummaryClass {
 	/* save/load individual content info's */
 	CamelMessageContentInfo * (*content_info_new)(CamelFolderSummary *, struct _header_raw *);
 	CamelMessageContentInfo * (*content_info_new_from_parser)(CamelFolderSummary *, CamelMimeParser *);
+	CamelMessageContentInfo * (*content_info_new_from_message)(CamelFolderSummary *, CamelMimePart *);
 	CamelMessageContentInfo * (*content_info_load)(CamelFolderSummary *, FILE *);
 	int		          (*content_info_save)(CamelFolderSummary *, FILE *, CamelMessageContentInfo *);
 	void		          (*content_info_free)(CamelFolderSummary *, CamelMessageContentInfo *);
@@ -177,6 +179,14 @@ void camel_folder_summary_add(CamelFolderSummary *, CamelMessageInfo *info);
 /* build/add raw summary items */
 CamelMessageInfo *camel_folder_summary_add_from_header(CamelFolderSummary *, struct _header_raw *);
 CamelMessageInfo *camel_folder_summary_add_from_parser(CamelFolderSummary *, CamelMimeParser *);
+CamelMessageInfo *camel_folder_summary_add_from_message(CamelFolderSummary *, CamelMimeMessage *);
+
+/* Just build raw summary items */
+CamelMessageInfo *camel_folder_summary_info_new_from_header(CamelFolderSummary *, struct _header_raw *);
+CamelMessageInfo *camel_folder_summary_info_new_from_parser(CamelFolderSummary *, CamelMimeParser *);
+CamelMessageInfo *camel_folder_summary_info_new_from_message(CamelFolderSummary *, CamelMimeMessage *);
+
+void camel_folder_summary_info_free(CamelFolderSummary *, CamelMessageInfo *);
 
 /* removes a summary item, doesn't fix content offsets */
 void camel_folder_summary_remove(CamelFolderSummary *s, CamelMessageInfo *info);
@@ -194,19 +204,18 @@ CamelMessageInfo *camel_folder_summary_uid(CamelFolderSummary *, const char *uid
 void camel_folder_summary_offset_content(CamelMessageContentInfo *content, off_t offset);
 
 /* summary formatting utils */
-char *camel_folder_summary_format_address (struct _header_raw *h, const char *name);
-char *camel_folder_summary_format_string (struct _header_raw *h, const char *name);
+char *camel_folder_summary_format_address(struct _header_raw *h, const char *name);
+char *camel_folder_summary_format_string(struct _header_raw *h, const char *name);
 
 /* summary file loading/saving helper functions */
 int camel_folder_summary_encode_fixed_int32(FILE *, gint32);
 int camel_folder_summary_decode_fixed_int32(FILE *, gint32 *);
-
 int camel_folder_summary_encode_uint32(FILE *, guint32);
 int camel_folder_summary_decode_uint32(FILE *, guint32 *);
-
 int camel_folder_summary_encode_time_t(FILE *out, time_t value);
 int camel_folder_summary_decode_time_t(FILE *in, time_t *dest);
-
+int camel_folder_summary_encode_off_t(FILE *out, off_t value);
+int camel_folder_summary_decode_off_t(FILE *in, off_t *dest);
 int camel_folder_summary_encode_string(FILE *, char *);
 int camel_folder_summary_decode_string(FILE *, char **);
 

@@ -57,12 +57,15 @@ struct _CamelMimeMessage
 	/* header fields */
 	time_t date;
 	int date_offset;	/* GMT offset */
-	char *date_str;		/* cached copy of date string */
 
-	gchar *subject;
-	gchar *reply_to;
+	/* cached internal copy */
+	time_t date_received;
+	int date_received_offset;	/* GMT offset */
 
-	gchar *from;
+	char *subject;
+
+	CamelInternetAddress *reply_to;
+	CamelInternetAddress *from;
 
 	GHashTable *recipients;	/* hash table of CamelInternetAddress's */
 };
@@ -84,33 +87,21 @@ CamelType camel_mime_message_get_type (void);
 CamelMimeMessage * camel_mime_message_new                  (void);
 
 
-void               camel_mime_message_set_date		   (CamelMimeMessage *mime_message,  time_t date, int offset);
-void               camel_mime_message_get_date		   (CamelMimeMessage *mime_message,  time_t *date, int *offset);
-char		  *camel_mime_message_get_date_string	   (CamelMimeMessage *mime_message);
+void            camel_mime_message_set_date		(CamelMimeMessage *mime_message, time_t date, int offset);
 
-const gchar *      camel_mime_message_get_received_date    (CamelMimeMessage *mime_message);
-const gchar *      camel_mime_message_get_sent_date        (CamelMimeMessage *mime_message);
-void               camel_mime_message_set_reply_to         (CamelMimeMessage *mime_message, 
-							    const gchar *reply_to);
-const gchar *      camel_mime_message_get_reply_to         (CamelMimeMessage *mime_message);
-void               camel_mime_message_set_subject          (CamelMimeMessage *mime_message, 
-							    const gchar *subject);
-const gchar *      camel_mime_message_get_subject          (CamelMimeMessage *mime_message);
-void               camel_mime_message_set_from             (CamelMimeMessage *mime_message, 
-							    const gchar *from);
-const gchar *      camel_mime_message_get_from             (CamelMimeMessage *mime_message);
+time_t          camel_mime_message_get_date		(CamelMimeMessage *mime_message, int *offset);
+time_t          camel_mime_message_get_date_received	(CamelMimeMessage *mime_message, int *offset);
 
+void            camel_mime_message_set_reply_to         (CamelMimeMessage *mime_message, const CamelInternetAddress *reply_to);
+const CamelInternetAddress *camel_mime_message_get_reply_to         (CamelMimeMessage *mime_message);
+void        	camel_mime_message_set_subject          (CamelMimeMessage *mime_message, 
+							 const char *subject);
+const char *	camel_mime_message_get_subject          (CamelMimeMessage *mime_message);
+void        	camel_mime_message_set_from             (CamelMimeMessage *mime_message, const CamelInternetAddress *from);
+const CamelInternetAddress *camel_mime_message_get_from             (CamelMimeMessage *mime_message);
 
-void		camel_mime_message_add_recipient (CamelMimeMessage *mime_message,
-						  const char *type, const char *name, const char *address);
-void		camel_mime_message_remove_recipient_address (CamelMimeMessage *mime_message, 
-							     const char *type, const char *address);
-void		camel_mime_message_remove_recipient_name (CamelMimeMessage *mime_message, 
-							  const char *type, const char *name);
-
-const CamelInternetAddress *camel_mime_message_get_recipients (CamelMimeMessage *mime_message, 
-							       const char *type);
-
+const CamelInternetAddress *camel_mime_message_get_recipients (CamelMimeMessage *mime_message, const char *type);
+void			    camel_mime_message_set_recipients (CamelMimeMessage *mime_message, const char *type, const CamelInternetAddress *r);
 
 /* utility functions */
 gboolean camel_mime_message_has_8bit_parts    (CamelMimeMessage *mime_message);

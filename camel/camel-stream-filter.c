@@ -21,8 +21,8 @@
 
 #include "camel-stream-filter.h"
 
-#define d(x)
-/*#include <stdio.h>*/
+#define d(x) x
+#include <stdio.h>
 
 struct _filter {
 	struct _filter *next;
@@ -106,7 +106,6 @@ camel_stream_filter_finalize(CamelObject *o)
 	camel_object_unref((CamelObject *)filter->source);
 }
 
-
 CamelType
 camel_stream_filter_get_type (void)
 {
@@ -125,7 +124,6 @@ camel_stream_filter_get_type (void)
 	return type;
 }
 
-
 /**
  * camel_stream_filter_new:
  *
@@ -143,7 +141,6 @@ camel_stream_filter_new_with_stream(CamelStream *stream)
 
 	return new;
 }
-
 
 /**
  * camel_stream_filter_add:

@@ -31,10 +31,13 @@ static CamelObjectClass *parent_class = NULL;
 /* Returns the class for a CamelStream */
 #define CS_CLASS(so) CAMEL_STREAM_CLASS(CAMEL_OBJECT_GET_CLASS(so))
 
-static int stream_flush   (CamelStream *stream);
-static int stream_close   (CamelStream *stream);
-static gboolean stream_eos (CamelStream *stream);
-
+/* default implementations, do very little */
+static ssize_t   stream_read       (CamelStream *stream, char *buffer, size_t n) { return 0; }
+static ssize_t   stream_write      (CamelStream *stream, const char *buffer, size_t n) { return n; }
+static int       stream_close      (CamelStream *stream) { return 0; }
+static int       stream_flush      (CamelStream *stream) { return 0; }
+static gboolean  stream_eos        (CamelStream *stream) { return stream->eos; }
+static int       stream_reset      (CamelStream *stream) { return 0; }
 
 static void
 camel_stream_class_init (CamelStreamClass *camel_stream_class)
@@ -42,9 +45,12 @@ camel_stream_class_init (CamelStreamClass *camel_stream_class)
 	parent_class = camel_type_get_global_classfuncs( CAMEL_OBJECT_TYPE );
 
 	/* virtual method definition */
-	camel_stream_class->flush = stream_flush;
+	camel_stream_class->read = stream_read;
+	camel_stream_class->write = stream_write;
 	camel_stream_class->close = stream_close;
+	camel_stream_class->flush = stream_flush;
 	camel_stream_class->eos = stream_eos;
+	camel_stream_class->reset = stream_reset;
 }
 
 CamelType
@@ -107,14 +113,6 @@ camel_stream_write (CamelStream *stream, const char *buffer, size_t n)
 	return CS_CLASS (stream)->write (stream, buffer, n);
 }
 
-
-static int
-stream_flush (CamelStream *stream)
-{
-	/* nothing */
-	return 0;
-}
-
 /**
  * camel_stream_flush:
  * @stream: a CamelStream object
@@ -130,14 +128,6 @@ camel_stream_flush (CamelStream *stream)
 	g_return_val_if_fail (CAMEL_IS_STREAM (stream), -1);
 
 	return CS_CLASS (stream)->flush (stream);
-}
-
-
-static int
-stream_close (CamelStream *stream)
-{
-	/* nothing */
-	return 0;
 }
 
 /**
@@ -156,13 +146,6 @@ camel_stream_close (CamelStream *stream)
 	return CS_CLASS (stream)->close (stream);
 }
 
-
-static gboolean
-stream_eos (CamelStream *stream)
-{
-	return stream->eos;
-}
-
 /**
  * camel_stream_eos:
  * @stream: a CamelStream object
@@ -179,7 +162,6 @@ camel_stream_eos (CamelStream *stream)
 
 	return CS_CLASS (stream)->eos (stream);
 }
-
 
 /**
  * camel_stream_reset: reset a stream

@@ -204,35 +204,21 @@ void main(void)
 #include <unicode.h>
 #include <glib.h>
 
-unsigned int
-camel_charset_mask(unsigned int c)
+void camel_charset_init(CamelCharset *c)
 {
-	if (c>0xffff)
-		return 0;
-
-	return charset_mask(c);
+	c->mask = ~0;
+	c->level = 0;
 }
 
-/* gets the best charset from the mask of chars in it */
-const char *
-camel_charset_best_mask(unsigned int mask)
+void
+camel_charset_step(CamelCharset *c, const char *in, int len)
 {
-	int i;
-
-	for (i=0;i<sizeof(camel_charinfo)/sizeof(camel_charinfo[0]);i++) {
-		if (camel_charinfo[i].bit & mask)
-			return camel_charinfo[i].name;
-	}
-	return "UTF-8";
-}
-
-/* finds the minimum charset for this string NULL means US-ASCII */
-const char *
-camel_charset_best(const char *in, int len)
-{
-	unsigned int mask = ~0;
-	int level = 0;
+	register unsigned int mask;
+	register int level;
 	const char *inptr = in, *inend = in+len;
+
+	mask = c->mask;
+	level = c->level;
 
 	/* check what charset a given string will fit in */
 	while (inptr < inend) {
@@ -245,7 +231,7 @@ camel_charset_best(const char *in, int len)
 		}
 		inptr = newinptr;
 		if (c<=0xffff) {
-			mask |= camel_charset_mask(c);
+			mask |= charset_mask(c);
 		
 			if (c>=128 && c<256)
 				level = MAX(level, 1);
@@ -257,12 +243,43 @@ camel_charset_best(const char *in, int len)
 		}
 	}
 
-	if (level == 1)
+	c->mask = mask;
+	c->level = level;
+}
+
+/* gets the best charset from the mask of chars in it */
+static const char *
+camel_charset_best_mask(unsigned int mask)
+{
+	int i;
+
+	for (i=0;i<sizeof(camel_charinfo)/sizeof(camel_charinfo[0]);i++) {
+		if (camel_charinfo[i].bit & mask)
+			return camel_charinfo[i].name;
+	}
+	return "UTF-8";
+}
+
+const char *camel_charset_best_name(CamelCharset *charset)
+{
+	if (charset->level == 1)
 		return "ISO-8859-1";
-	else if (level == 2)
-		return camel_charset_best_mask(mask);
+	else if (charset->level == 2)
+		return camel_charset_best_mask(charset->mask);
 	else
 		return NULL;
+
+}
+
+/* finds the minimum charset for this string NULL means US-ASCII */
+const char *
+camel_charset_best(const char *in, int len)
+{
+	CamelCharset charset;
+
+	camel_charset_init(&charset);
+	camel_charset_step(&charset, in, len);
+	return camel_charset_best_name(&charset);
 }
 
 

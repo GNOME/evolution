@@ -21,8 +21,18 @@
 #ifndef _CAMEL_CHARSET_MAP_H
 #define _CAMEL_CHARSET_MAP_H
 
-unsigned int camel_charset_mask(unsigned int c);
+typedef struct _CamelCharset CamelCharset;
+
+struct _CamelCharset {
+	unsigned int mask;
+	int level;
+};
+
+void camel_charset_init(CamelCharset *);
+void camel_charset_step(CamelCharset *, const char *in, int len);
+const char *camel_charset_best_name(CamelCharset *);
+
+/* helper function */
 const char *camel_charset_best(const char *in, int len);
-const char *camel_charset_best_mask(unsigned int mask);
 
 #endif /* ! _CAMEL_CHARSET_MAP_H */

@@ -48,4 +48,8 @@ gboolean		camel_internet_address_get	(const CamelInternetAddress *, int, const c
 int			camel_internet_address_find_name(CamelInternetAddress *, const char *, const char **);
 int			camel_internet_address_find_address(CamelInternetAddress *, const char *, const char **);
 
+/* utility functions, for network/display formatting */
+char *			camel_internet_address_encode_address(const char *name, const char *addr);
+char *			camel_internet_address_format_address(const char *real, const char *addr);
+
 #endif /* ! _CAMEL_INTERNET_ADDRESS_H */

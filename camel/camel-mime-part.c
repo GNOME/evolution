@@ -653,45 +653,38 @@ construct_from_stream(CamelDataWrapper *dw, CamelStream *s)
 	return ret;
 }
 
+/* this must be kept in sync with the header */
+static const char *encodings[] = {
+	"",
+	"7bit",
+	"8bit",
+	"base64",
+	"quoted-printable",
+	"binary"
+};
 
-const gchar *
+const char *
 camel_mime_part_encoding_to_string (CamelMimePartEncodingType encoding)
 {
-	switch (encoding) {
-	case CAMEL_MIME_PART_ENCODING_DEFAULT:
-	case CAMEL_MIME_PART_ENCODING_7BIT:
-		return "7bit";
-	case CAMEL_MIME_PART_ENCODING_8BIT:
-		return "8bit";
-	case CAMEL_MIME_PART_ENCODING_BASE64:
-		return "base64";
-	case CAMEL_MIME_PART_ENCODING_QUOTEDPRINTABLE:
-		return "quoted-printable";
-	default:
-		break;
-	}
-	return "";
+	if (encoding >= sizeof(encodings)/sizeof(encodings[0]))
+		encoding = 0;
+
+	return encodings[encoding];
 }
-
-
 
 /* FIXME I am not sure this is the correct way to do this.  */
 CamelMimePartEncodingType
 camel_mime_part_encoding_from_string (const gchar *string)
 {
-	if (string == NULL)
-		return CAMEL_MIME_PART_ENCODING_DEFAULT;
-	else if (strcasecmp (string, "7bit") == 0)
-		return CAMEL_MIME_PART_ENCODING_7BIT;
-	else if (strcasecmp (string, "8bit") == 0)
-		return CAMEL_MIME_PART_ENCODING_8BIT;
-	else if (strcasecmp (string, "base64") == 0)
-		return CAMEL_MIME_PART_ENCODING_BASE64;
-	else if (strcasecmp (string, "quoted-printable") == 0)
-		return CAMEL_MIME_PART_ENCODING_QUOTEDPRINTABLE;
-	else
-		/* FIXME?  Spit a warning?  */
-		return CAMEL_MIME_PART_ENCODING_DEFAULT;
+	int i;
+
+	if (string != NULL) {
+		for (i=0;i<sizeof(encodings)/sizeof(encodings[0]);i++)
+			if (!strcasecmp(string, encodings[i]))
+				return i;
+	}
+
+	return CAMEL_MIME_PART_ENCODING_DEFAULT;
 }
 
 

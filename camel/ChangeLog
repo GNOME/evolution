@@ -1,3 +1,234 @@
+2000-11-07  Not Zed  <NotZed@HelixCode.com>
+
+	* camel-mime-filter-bestenc.c (complete): Implement a complete()
+	function, now we need one.
+	(filter): Upgraded to match rfrc2045 properly.  Checks also for
+	length of line and valid CRLF sequences.
+	(camel_mime_filter_bestenc_get_best_encoding): Do the work of
+	working out what is the best encoding given what we found about
+	the stream.
+
+	* camel-mime-part.c (camel_mime_part_encoding_to_string): Use a
+	lookup table to get the encoding naem, and add the binary type.
+	(camel_mime_part_encoding_from_string): Likewise for the reverse.
+
+	* camel-mime-part.h: Added the binary encoding type, see rfc2045.
+
+	* camel-mime-utils.c (header_param_list_format_append): Dont put a
+	space before ;'s in parameter lists, makes them more
+	readable/consistent.
+
+	* camel-mime-message.c (multipart_has_8bit_parts): Cleaned up the
+	old stuff, well removed it.
+	(camel_mime_message_set_best_encoding): Added another argument
+	that lets you select what you want to set the best of.  i.e. for
+	smtp transport we only need 7 bit, and dont need to optimise the
+	charset (although of course, we should always).
+	(find_best_encoding): Implement this feature, if we are not
+	getting the best charset, use the one we have.
+	(best_encoding): Set the charset on the part appropriately.  Sigh,
+	the interfaces for this are nonexistant.
+	(find_best_encoding): Tell the bestenc filter that lf should be
+	treated as crlf for the purposes of determining encodings.
+
+2000-11-06  Not Zed  <NotZed@HelixCode.com>
+
+	* camel-charset-map.c (camel_charset_init): Init function for an
+	iterative charset determinator.
+	(camel_charset_step): Iterate another buffer.
+	(camel_charset_mask): Removed, since it couldn't have worked.
+	(camel_charset_best): Use the iterative interface to do the work.
+	(camel_charset_best_name): Get the best name for a charset so far.
+
+	* camel-mime-filter-bestenc.c: New class, a stream
+	filter that can be used to memory-efficiently determine the best
+	encoding and/or charset to use for a given stream of bytes.
+
+	* Makefile.am (libcamelinclude_HEADERS): Added stream-null*.
+	(libcamel_la_SOURCES): Added bestenc*
+
+	* camel-stream-null.c: New class, a null-stream, that always
+	succeeds, and never has any contents.
+
+	* camel-stream.c: Minor pointless changes.  Was going to do
+	something else but changed my mind.  Added trivial default
+	implementations for all callbacks.
+
+	* camel-mime-message.h: Cleaned up some old cruft.
+
+	* camel-folder-summary.c (camel_folder_summary_format_address):
+	address_list_format() no longer encodes, so we dont need to decode
+	it.
+
+	* camel-address.c (camel_address_unformat): New function, attempts
+	to reverse the formatting process on display addresses.
+	(camel_address_length): New function to get the number of
+	addresses, without having to peek the structure.
+
+	* camel-mime-message.c (camel_mime_message_set_from): Fix a typo.
+	(camel_mime_message_finalize): Only unref from/reply_to if we have
+	it.
+	(camel_mime_message_set_recipients): New function - set the
+	recipients as a CamelInternetAddress.  This function effectively
+	deprecates the older recipient setting functions.
+	(camel_mime_message_add_recipient): What the hell, i'll bite the
+	bullet.  Terminate this function.  The old api was ambiguious and
+	inefficient and didn't work right anyway.
+	(camel_mime_message_remove_recipient_address): And this one.
+	(camel_mime_message_remove_recipient_name): And this one too.
+	(camel_mime_message_set_recipients): If we set an empty header,
+	then remove it from the header list.  Allow a null receipient
+	object to clear a header.
+	(camel_mime_message_set_from): Likewise, if setting an empty from
+	address.
+	(camel_mime_message_encode_8bit_parts): Eeek!!
+	camel_stream_mem_new_with_byte_array owns the byte_array we give
+	it, so make sure we dont free any of it!
+	(camel_mime_message_encode_8bit_parts):  Infact, i'll just rewrite
+	the whole lot, its a bit of a mess.  Should really rename it and
+	make it a little more useful too, lets see ...
+	(best_encoding): This has a string interface?  Oh boy.
+	(camel_mime_message_foreach_part): New experimental function to
+	iterate over all message parts.  Might not remain.
+	(camel_mime_message_has_8bit_parts): New implementation using
+	foreach_part.  Fixed a couple of problems.
+	(find_best_encoding): New function, that finds the best encoding
+	for a given part (will probably be moved to camel-mime-part), and
+	also the best charset to use if it is a text part.  Since one
+	affects the other it is a two pass process, but uses streams and
+	not memory to achieve this.
+	(camel_mime_message_set_best_encoding): Uses the function above to
+	configure an entire message for the best encoding possible given
+	transport constraints.
+	(camel_mime_message_encode_8bit_parts): Reimplemented to use the
+	function above to perform the work.
+
+	* camel-internet-address.c
+	(camel_internet_address_format_address): Dont put <> around a lone
+	address with no real name.
+	(camel_internet_address_encode_address): Similarly.
+	(internet_decode): Actually return the count of decoded addresses.
+	(internet_unformat): Implement the unformatting routine.
+
+2000-11-05  Not Zed  <NotZed@HelixCode.com>
+
+	* providers/smtp/camel-smtp-transport.c (_send_to): Changed to get
+	the internetaddress directly, rather than having to parse it
+	itself.
+
+	* camel-address.c (camel_address_format): Added a new function
+	which will format address, suitable for display.
+	(camel_address_cat): Concatentate 1 camel address onto another.
+	It is upto the caller to ensure the addresses are of compatible
+	types.
+	(camel_address_new_clone): New function to create a new address by
+	copying an existing one of the same type.
+	(camel_address_copy): New helper function to copy an address.
+
+	* camel-mime-message.h (struct _CamelMimeMessage): Removed cached
+	copy of date string.
+	(struct _CamelMimeMessage): Added date_received info.
+
+	* camel-mime-message.c (camel_mime_message_get_date_string):
+	Removed.  Nothing uses it anyway, and it is redundant.
+	(camel_mime_message_finalize): No more date_str.
+	(camel_mime_message_init): No more date_str, initialise
+	date_received*
+	(write_to_stream): Change the check for a date header.
+	(process_header): No longer track the date_str.
+	(camel_mime_message_get_received_date): Removed.  totally invalid
+	anyway.
+	(camel_mime_message_get_sent_date): Removed.  Redundant.  The only
+	'date' is the sent date, the received date is just made up.
+	(camel_mime_message_get_date): Args changed to be more consistent
+	with utility functions.
+	(camel_mime_message_get_date): Dont set the date when we're asked
+	for it (if its not set by the time its written, it'll be set
+	then).
+	(camel_mime_message_get_date_received): Actually do 'the right
+	thing' here, if we have a received header, use that to determine
+	the received date.  And return the data in the same format as
+	get_date.
+	(camel_mime_message_set_from): Changed the api to better match
+	what we should be doing.  Pass a camelinternetaddress, etc.
+	(camel_mime_message_set_reply_to): Cahnged similarly to take an
+	internetaddress.
+	(camel_mime_message_get_reply_to): Likewise.
+	(camel_mime_message_finalize): Unref the from/reply_to objects.
+	(format_address): Removed, no longer needed.
+	(process_header): Changed to store the from/reply_to as
+	internetaddress's.
+	(write_to_stream): Set the from header directly to empty, if we
+	dont have one.  Maybe we should just abort, and/or create one
+	based on the current user.
+
+	* camel-mime-utils.c (header_address_list_format): Renamed to
+	header_address_list_encode, which is what it is actually doing.
+	(header_address_list_format_append): Similarly.
+	(encoding_map[]): Removed, no longer used.
+	(header_address_list_encode_append): Take another arg, do we
+	encode the address (for internet), or not (for display - utf8
+	only).
+	(header_address_list_format): Re-added this function, but now it
+	generates a display version only.  Surprise surprise, that is all
+	anythign needs to generate anyway.  Sigh.
+
+	* camel-internet-address.c (camel_internet_address_get): Return
+	false if we get an invalid index only.
+	(camel_internet_address_encode_address): Helper function to encode
+	a single address for mailing.
+	(internet_encode): Use the above function to format it.
+	(camel_internet_address_format_address): Format a single address
+	for display.
+	(internet_format): Implement the display version.
+	(camel_internet_address_class_init): Init the internet_format
+	virtual function.
+	(internet_cat): Implement virtual function to concatenate
+	addresses.
+
+	* camel-folder-summary.c
+	(camel_folder_summary_info_new_from_header): new function, only
+	build the summary info, dont add it.
+	(camel_folder_summary_info_new_from_parser): Likewise, for new
+	info from parser.
+	(camel_folder_summary_add_from_parser): Cahnged to call function
+	above to build info.
+	(camel_folder_summary_add_from_header): Changed to call function
+	above, to build info.
+	(camel_folder_summary_info_free): New function to free the summary
+	message info.
+	(camel_folder_summary_clear): Changed to clal above to free info.
+	(camel_folder_summary_remove): Likewise.
+	(camel_folder_summary_add): Cleaned up the clashing uid
+	re-assignment logic a little bit.
+	(camel_folder_summary_decode_uint32): Fixed a typo, 01 != -1.
+	(camel_folder_summary_decode_time_t): Return -1 on error.
+	(camel_folder_summary_encode_off_t): New function to encode an
+	off_t type.
+	(camel_folder_summary_decode_off_t): And likewise for the reverse.
+	(CAMEL_FOLDER_SUMMARY_VERSION): Bumped the summary version, since
+	we're now encoding time/off_t's right.
+	(summary_header_save): Use time_t encoder to save the timestamp.
+	(summary_header_load): Likewise for decoding the timestamp.
+	(content_info_load): Decode off_t types directly, now we can.
+	(content_info_save): And likewise for encoding.
+	(camel_folder_summary_add_from_message): New function, create a
+	summary item from an existing message and add it.
+	(camel_folder_summary_info_new_from_message): New function, create
+	a summary item from an existing message.
+	(summary_build_content_info_message): New function to do the dirty
+	work of building the conent info/indexing, from a message source.
+	(format_recipients): Format an internetaddress suitable for the
+	summary.
+	(message_info_new_from_message): Build a new summary item from a
+	mime message.
+	(content_info_new_from_message): Build a new conent info from a
+	mime part.
+	(camel_folder_summary_class_init): Init the new class functions.
+	(message_info_new_from_message): Fixed for message api change.
+
+	Added documentation to the functions.
+	
 2000-11-03  Radek Doulik  <rodo@helixcode.com>
 
 	* camel-mime-utils.c (header_msgid_generate): new function,

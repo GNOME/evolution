@@ -347,23 +347,19 @@ _send_to (CamelTransport *transport, CamelMedium *message,
 	  GList *recipients, CamelException *ex)
 {
 	CamelSmtpTransport *smtp_transport = CAMEL_SMTP_TRANSPORT (transport);
-	CamelInternetAddress *cia;
-	char *recipient, *sender;
+	const CamelInternetAddress *cia;
+	char *recipient;
 	const char *addr;
 	gboolean has_8bit_parts;
 	GList *r;
 	
-	sender = g_strdup (camel_mime_message_get_from (CAMEL_MIME_MESSAGE (message)));
-	if (!sender) {
+	cia = camel_mime_message_get_from(CAMEL_MIME_MESSAGE (message));
+	if (!cia) {
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
 				      "Cannot send message: "
 				      "sender address not defined.");
 		return FALSE;
 	}
-	
-	cia = camel_internet_address_new ();
-	camel_address_decode (CAMEL_ADDRESS (cia), sender);
-	g_free (sender);
 	
 	if (!camel_internet_address_get (cia, 0, NULL, &addr)) {
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,

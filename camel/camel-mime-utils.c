@@ -1081,12 +1081,6 @@ header_decode_string(const char *in)
 	return header_decode_text(in, strlen(in));
 }
 
-static char *encoding_map[] = {
-	"US-ASCII",
-	"ISO-8859-1",
-	"UTF-8"
-};
-
 /* FIXME: needs a way to cache iconv opens for different charsets? */
 static void
 rfc2047_encode_word(GString *outstring, const char *in, int len, const char *type, unsigned short safemask)
@@ -2215,7 +2209,7 @@ header_param_list_format_append(GString *out, struct _header_param *p)
 			len = 0;
 		}
 
-		g_string_sprintfa(out, " ; %s=", p->name);
+		g_string_sprintfa(out, "; %s=", p->name);
 
 		for (ch = p->value; *ch; ch++) {
 			if (is_tspecial(*ch))
@@ -2874,26 +2868,37 @@ void header_address_list_clear(struct _header_address **l)
 	*l = NULL;
 }
 
+/* if encode is true, then the result is suitable for mailing, otherwise
+   the result is suitable for display only (and may not even be re-parsable) */
 static void
-header_address_list_format_append(GString *out, struct _header_address *a)
+header_address_list_encode_append(GString *out, int encode, struct _header_address *a)
 {
 	char *text;
 
 	while (a) {
 		switch (a->type) {
 		case HEADER_ADDRESS_NAME:
-			text = header_encode_phrase (a->name);
+			if (encode)
+				text = header_encode_phrase (a->name);
+			else
+				text = a->name;
 			if (text && *text)
 				g_string_sprintfa(out, "%s <%s>", text, a->v.addr);
 			else
 				g_string_append(out, a->v.addr);
-			g_free (text);
+			if (encode)
+				g_free(text);
 			break;
 		case HEADER_ADDRESS_GROUP:
-			text = header_encode_string(a->name);
-			g_string_sprintfa(out, "%s:\n ", text);
-			header_address_list_format_append(out, a->v.members);
+			if (encode)
+				text = header_encode_phrase(a->name);
+			else
+				text = a->name;
+			g_string_sprintfa(out, "%s: ", text);
+			header_address_list_encode_append(out, encode, a->v.members);
 			g_string_sprintfa(out, ";");
+			if (encode)
+				g_free(text);
 			break;
 		default:
 			g_warning("Invalid address type");
@@ -2905,7 +2910,23 @@ header_address_list_format_append(GString *out, struct _header_address *a)
 	}
 }
 
-/* FIXME: need a 'display friendly' version, as well as a 'rfc friendly' version? */
+char *
+header_address_list_encode(struct _header_address *a)
+{
+	GString *out;
+	char *ret;
+
+	if (a == NULL)
+		return NULL;
+
+	out = g_string_new("");
+
+	header_address_list_encode_append(out, TRUE, a);
+	ret = out->str;
+	g_string_free(out, FALSE);
+	return ret;
+}
+
 char *
 header_address_list_format(struct _header_address *a)
 {
@@ -2917,7 +2938,7 @@ header_address_list_format(struct _header_address *a)
 
 	out = g_string_new("");
 
-	header_address_list_format_append(out, a);
+	header_address_list_encode_append(out, FALSE, a);
 	ret = out->str;
 	g_string_free(out, FALSE);
 	return ret;

@@ -43,14 +43,26 @@ struct _CamelAddressClass {
 	int   (*decode)		(CamelAddress *, const char *raw);
 	char *(*encode)		(CamelAddress *);
 
+	int   (*unformat)	(CamelAddress *, const char *raw);
+	char *(*format)		(CamelAddress *);
+
+	int   (*cat)		(CamelAddress *, const CamelAddress *);
+
 	void  (*remove)		(CamelAddress *, int index);
 };
 
 guint		camel_address_get_type	(void);
 CamelAddress   *camel_address_new	(void);
+CamelAddress   *camel_address_new_clone	(const CamelAddress *);
+int		camel_address_length	(CamelAddress *);
 
 int	        camel_address_decode	(CamelAddress *, const char *);
 char	       *camel_address_encode	(CamelAddress *);
+int	        camel_address_unformat	(CamelAddress *, const char *);
+char	       *camel_address_format	(CamelAddress *);
+
+int		camel_address_cat	(CamelAddress *, const CamelAddress *);
+int		camel_address_copy	(CamelAddress *, const CamelAddress *);
 
 void		camel_address_remove	(CamelAddress *, int index);
 

@@ -29,6 +29,7 @@
 #include "camel-folder-summary.h"
 
 #include <camel/camel-mime-message.h>
+#include <camel/camel-multipart.h>
 
 #include <camel/camel-mime-filter.h>
 #include <camel/camel-mime-filter-index.h>
@@ -36,6 +37,8 @@
 #include <camel/camel-mime-filter-save.h>
 #include <camel/camel-mime-filter-basic.h>
 #include <camel/camel-mime-message.h>
+#include <camel/camel-stream-mem.h>
+
 #include "hash-table-utils.h"
 
 /* this should probably be conditional on it existing */
@@ -48,7 +51,7 @@
 extern int strdup_count, malloc_count, free_count;
 #endif
 
-#define CAMEL_FOLDER_SUMMARY_VERSION (8)
+#define CAMEL_FOLDER_SUMMARY_VERSION (9)
 
 struct _CamelFolderSummaryPrivate {
 	GHashTable *filter_charset;	/* CamelMimeFilterCharset's indexed by source charset */
@@ -76,17 +79,20 @@ static int summary_header_save(CamelFolderSummary *, FILE *);
 
 static CamelMessageInfo * message_info_new(CamelFolderSummary *, struct _header_raw *);
 static CamelMessageInfo * message_info_new_from_parser(CamelFolderSummary *, CamelMimeParser *);
+static CamelMessageInfo * message_info_new_from_message(CamelFolderSummary *s, CamelMimeMessage *msg);
 static CamelMessageInfo * message_info_load(CamelFolderSummary *, FILE *);
 static int		  message_info_save(CamelFolderSummary *, FILE *, CamelMessageInfo *);
 static void		  message_info_free(CamelFolderSummary *, CamelMessageInfo *);
 
 static CamelMessageContentInfo * content_info_new(CamelFolderSummary *, struct _header_raw *);
 static CamelMessageContentInfo * content_info_new_from_parser(CamelFolderSummary *, CamelMimeParser *);
+static CamelMessageContentInfo * content_info_new_from_message(CamelFolderSummary *s, CamelMimePart *mp);
 static CamelMessageContentInfo * content_info_load(CamelFolderSummary *, FILE *);
 static int		         content_info_save(CamelFolderSummary *, FILE *, CamelMessageContentInfo *);
 static void		         content_info_free(CamelFolderSummary *, CamelMessageContentInfo *);
 
 static CamelMessageContentInfo * summary_build_content_info(CamelFolderSummary *s, CamelMimeParser *mp);
+static CamelMessageContentInfo * summary_build_content_info_message(CamelFolderSummary *s, CamelMessageInfo *msginfo, CamelMimePart *object);
 
 static void camel_folder_summary_class_init (CamelFolderSummaryClass *klass);
 static void camel_folder_summary_init       (CamelFolderSummary *obj);
@@ -104,12 +110,14 @@ camel_folder_summary_class_init (CamelFolderSummaryClass *klass)
 
 	klass->message_info_new  = message_info_new;
 	klass->message_info_new_from_parser = message_info_new_from_parser;
+	klass->message_info_new_from_message = message_info_new_from_message;
 	klass->message_info_load = message_info_load;
 	klass->message_info_save = message_info_save;
 	klass->message_info_free = message_info_free;
 
 	klass->content_info_new  = content_info_new;
 	klass->content_info_new_from_parser = content_info_new_from_parser;
+	klass->content_info_new_from_message = content_info_new_from_message;
 	klass->content_info_load = content_info_load;
 	klass->content_info_save = content_info_save;
 	klass->content_info_free = content_info_free;
@@ -204,12 +212,30 @@ camel_folder_summary_new (void)
 }
 
 
+/**
+ * camel_folder_summary_set_filename:
+ * @s: 
+ * @name: 
+ * 
+ * Set the filename where the summary will be loaded to/saved from.
+ **/
 void camel_folder_summary_set_filename(CamelFolderSummary *s, const char *name)
 {
 	g_free(s->summary_path);
 	s->summary_path = g_strdup(name);
 }
 
+/**
+ * camel_folder_summary_set_index:
+ * @s: 
+ * @index: 
+ * 
+ * Set the index used to index body content.  If the index is NULL, or
+ * not set (the default), no indexing of body content will take place.
+ *
+ * Also see :set_build_content(), which must be enabled to perform
+ * body indexing.
+ **/
 void camel_folder_summary_set_index(CamelFolderSummary *s, ibex *index)
 {
 	struct _CamelFolderSummaryPrivate *p = _PRIVATE(s);
@@ -217,17 +243,46 @@ void camel_folder_summary_set_index(CamelFolderSummary *s, ibex *index)
 	p->index = index;
 }
 
+/**
+ * camel_folder_summary_set_build_content:
+ * @s: 
+ * @state: 
+ * 
+ * Set a flag to tell the summary to build the content info summary
+ * (CamelMessageInfo.content).  The default is not to build content info
+ * summaries.
+ *
+ * This flag must also be set to on to perform indexing, see :set_index().
+ **/
 void camel_folder_summary_set_build_content(CamelFolderSummary *s, gboolean state)
 {
 	s->build_content = state;
 }
 
+/**
+ * camel_folder_summary_count:
+ * @s: 
+ * 
+ * Get the number of summary items stored in this summary.
+ * 
+ * Return value: The number of items int he summary.
+ **/
 int
 camel_folder_summary_count(CamelFolderSummary *s)
 {
 	return s->messages->len;
 }
 
+/**
+ * camel_folder_summary_index:
+ * @s: 
+ * @i: 
+ * 
+ * Retrieve a summary item by index number.
+ * 
+ * Return value: The summary item, or NULL if the index @i is out
+ * of range.
+ **/
 CamelMessageInfo *
 camel_folder_summary_index(CamelFolderSummary *s, int i)
 {
@@ -236,12 +291,31 @@ camel_folder_summary_index(CamelFolderSummary *s, int i)
 	return NULL;
 }
 
+/**
+ * camel_folder_summary_uid:
+ * @s: 
+ * @uid: 
+ * 
+ * Retrieve a summary item by uid.
+ * 
+ * Return value: The summary item, or NULL if the uid @uid
+ * is not available.
+ **/
 CamelMessageInfo *
 camel_folder_summary_uid(CamelFolderSummary *s, const char *uid)
 {
 	return g_hash_table_lookup(s->messages_uid, uid);
 }
 
+/**
+ * camel_folder_summary_next_uid:
+ * @s: 
+ * 
+ * Generate a new unique uid value as an integer.  This
+ * may be used to create a unique sequence of numbers.
+ * 
+ * Return value: The next unique uid value.
+ **/
 guint32 camel_folder_summary_next_uid(CamelFolderSummary *s)
 {
 	guint32 uid = s->nextuid++;
@@ -251,11 +325,30 @@ guint32 camel_folder_summary_next_uid(CamelFolderSummary *s)
 	return uid;
 }
 
+/**
+ * camel_folder_summary_set_uid:
+ * @s: 
+ * @uid: The next minimum uid to assign.  To avoid clashing
+ * uid's, set this to the uid of a given messages + 1.
+ * 
+ * Set the next minimum uid available.  This can be used to
+ * ensure new uid's do not clash with existing uid's.
+ **/
 void camel_folder_summary_set_uid(CamelFolderSummary *s, guint32 uid)
 {
+	/* TODO: sync to disk? */
 	s->nextuid = MAX(s->nextuid, uid);
 }
 
+/**
+ * camel_folder_summary_next_uid_string:
+ * @s: 
+ * 
+ * Retrieve the next uid, but as a formatted string.
+ * 
+ * Return value: The next uid as an unsigned integer string.
+ * This string must be freed by the caller.
+ **/
 char *
 camel_folder_summary_next_uid_string(CamelFolderSummary *s)
 {
@@ -339,6 +432,15 @@ perform_content_info_save(CamelFolderSummary *s, FILE *out, CamelMessageContentI
 	return 0;
 }
 
+/**
+ * camel_folder_summary_save:
+ * @s: 
+ * 
+ * Writes the summary to disk.  The summary is only written if changes
+ * have occured.
+ * 
+ * Return value: Returns -1 on error.
+ **/
 int
 camel_folder_summary_save(CamelFolderSummary *s)
 {
@@ -387,20 +489,31 @@ camel_folder_summary_save(CamelFolderSummary *s)
 	return 0;
 }
 
+/**
+ * camel_folder_summary_add:
+ * @s: 
+ * @info: 
+ * 
+ * Adds a new @info record to the summary.  If @info->uid is NULL, then a new
+ * uid is automatically re-assigned by calling :next_uid_string().
+ *
+ * The @info record should have been generated by calling one of the
+ * info_new_*() functions, as it will be free'd based on the summary
+ * class.
+ **/
 void camel_folder_summary_add(CamelFolderSummary *s, CamelMessageInfo *info)
 {
 	if (info == NULL)
 		return;
-retry:
-	if (info->uid == NULL) {
+
+	if (info->uid == NULL)
 		info->uid = camel_folder_summary_next_uid_string(s);
-	}
-	if (g_hash_table_lookup(s->messages_uid, info->uid)) {
+
+	while (g_hash_table_lookup(s->messages_uid, info->uid)) {
 		g_warning("Trying to insert message with clashing uid (%s).  new uid re-assigned", info->uid);
 		g_free(info->uid);
-		info->uid = NULL;
+		info->uid = camel_folder_summary_next_uid_string(s);
 		info->flags |= CAMEL_MESSAGE_FOLDER_FLAGGED;
-		goto retry;
 	}
 
 	g_ptr_array_add(s->messages, info);
@@ -408,17 +521,102 @@ retry:
 	s->flags |= CAMEL_SUMMARY_DIRTY;
 }
 
+/**
+ * camel_folder_summary_add_from_header:
+ * @s: 
+ * @h: 
+ * 
+ * Build a new info record based on a set of headers, and add it to the
+ * summary.
+ *
+ * Note that this function should not be used if build_content_info has
+ * been specified for this summary.
+ * 
+ * Return value: The newly added record.
+ **/
 CamelMessageInfo *camel_folder_summary_add_from_header(CamelFolderSummary *s, struct _header_raw *h)
 {
-	CamelMessageInfo *info = NULL;
+	CamelMessageInfo *info = camel_folder_summary_info_new_from_header(s, h);
 
-	info = ((CamelFolderSummaryClass *)(CAMEL_OBJECT_GET_CLASS(s))) -> message_info_new(s, h);
 	camel_folder_summary_add(s, info);
 
 	return info;
 }
 
+/**
+ * camel_folder_summary_add_from_parser:
+ * @s: 
+ * @mp: 
+ * 
+ * Build a new info record based on the current position of a CamelMimeParser.
+ *
+ * The parser should be positioned before the start of the message to summarise.
+ * This function may be used if build_contnet_info or an index has been
+ * specified for the summary.
+ * 
+ * Return value: The newly added record.
+ **/
 CamelMessageInfo *camel_folder_summary_add_from_parser(CamelFolderSummary *s, CamelMimeParser *mp)
+{
+	CamelMessageInfo *info = camel_folder_summary_info_new_from_parser(s, mp);
+
+	camel_folder_summary_add(s, info);
+
+	return info;
+}
+
+/**
+ * camel_folder_summary_add_from_message:
+ * @s: 
+ * @msg: 
+ * 
+ * Add a summary item from an existing message.
+ * 
+ * Return value: 
+ **/
+CamelMessageInfo *camel_folder_summary_add_from_message(CamelFolderSummary *s, CamelMimeMessage *msg)
+{
+	CamelMessageInfo *info = camel_folder_summary_info_new_from_message(s, msg);
+
+	camel_folder_summary_add(s, info);
+
+	return info;
+}
+
+/**
+ * camel_folder_summary_info_new_from_header:
+ * @s: 
+ * @h: 
+ * 
+ * Create a new info record from a header.
+ * 
+ * Return value: Guess?  This info record MUST be freed using
+ * camel_folder_summary_info_free(), camel_message_info_free() will not work.
+ **/
+CamelMessageInfo *camel_folder_summary_info_new_from_header(CamelFolderSummary *s, struct _header_raw *h)
+{
+	return ((CamelFolderSummaryClass *)(CAMEL_OBJECT_GET_CLASS(s))) -> message_info_new(s, h);
+}
+
+/**
+ * camel_folder_summary_info_new_from_parser:
+ * @s: 
+ * @mp: 
+ * 
+ * Create a new info record from a parser.  If the parser cannot
+ * determine a uid, then a new one is automatically assigned.
+ *
+ * If indexing is enabled, then the content will be indexed based
+ * on this new uid.  In this case, the message info MUST be
+ * added using :add().
+ *
+ * Once complete, the parser will be positioned at the end of
+ * the message.
+ *
+ * Return value: Guess?  This info record MUST be freed using
+ * camel_folder_summary_info_free(), camel_message_info_free() will not work.
+ **/
+CamelMessageInfo *camel_folder_summary_info_new_from_parser(CamelFolderSummary *s, CamelMimeParser *mp)
 {
 	CamelMessageInfo *info = NULL;
 	char *buffer;
@@ -432,7 +630,16 @@ CamelMessageInfo *camel_folder_summary_add_from_parser(CamelFolderSummary *s, Ca
 
 		camel_mime_parser_unstep(mp);
 
-		camel_folder_summary_add(s, info);
+		/* assign a unique uid, this is slightly 'wrong' as we do not really
+		 * know if we are going to store this in the summary, but no matter */
+		if (info->uid == NULL)
+			info->uid = camel_folder_summary_next_uid_string(s);
+
+		while (g_hash_table_lookup(s->messages_uid, info->uid)) {
+			g_free(info->uid);
+			info->uid = camel_folder_summary_next_uid_string(s);
+			info->flags |= CAMEL_MESSAGE_FOLDER_FLAGGED;
+		}
 
 		if (p->index) {
 			if (p->filter_index == NULL)
@@ -453,6 +660,46 @@ CamelMessageInfo *camel_folder_summary_add_from_parser(CamelFolderSummary *s, Ca
 	return info;
 }
 
+/**
+ * camel_folder_summary_info_new_from_message:
+ * @: 
+ * @: 
+ * 
+ * Create a summary item from a message.
+ * 
+ * Return value: 
+ **/
+CamelMessageInfo *camel_folder_summary_info_new_from_message(CamelFolderSummary *s, CamelMimeMessage *msg)
+{
+	CamelMessageInfo *info;
+	struct _CamelFolderSummaryPrivate *p = _PRIVATE(s);
+
+	info = ((CamelFolderSummaryClass *)(CAMEL_OBJECT_GET_CLASS(s)))->message_info_new_from_message(s, msg);
+
+	/* assign a unique uid, this is slightly 'wrong' as we do not really
+	 * know if we are going to store this in the summary, but no matter */
+	if (info->uid == NULL)
+		info->uid = camel_folder_summary_next_uid_string(s);
+
+	while (g_hash_table_lookup(s->messages_uid, info->uid)) {
+		g_free(info->uid);
+		info->uid = camel_folder_summary_next_uid_string(s);
+		info->flags |= CAMEL_MESSAGE_FOLDER_FLAGGED;
+	}
+
+	if (p->index)
+		ibex_unindex(p->index, info->uid);
+
+	/* build the content info, if we're supposed to */
+	if (s->build_content) {
+		info->content = summary_build_content_info_message(s, info, (CamelMimePart *)msg);
+		if (info->content->pos != -1)
+			info->size = info->content->endpos - info->content->pos;
+	}
+
+	return info;
+}
+
 static void
 perform_content_info_free(CamelFolderSummary *s, CamelMessageContentInfo *ci)
 {
@@ -467,12 +714,46 @@ perform_content_info_free(CamelFolderSummary *s, CamelMessageContentInfo *ci)
 	}
 }
 
+/**
+ * camel_folder_summary_info_free:
+ * @s: 
+ * @mi: 
+ * 
+ * Free the message info @mi, and all associated memory.
+ **/
+void camel_folder_summary_info_free(CamelFolderSummary *s, CamelMessageInfo *mi)
+{
+	CamelMessageContentInfo *ci;
+
+	g_assert(mi);
+	g_assert(s);
+
+	ci = mi->content;
+
+	((CamelFolderSummaryClass *)(CAMEL_OBJECT_GET_CLASS(s)))->message_info_free(s, mi);		
+	if (s->build_content && ci) {
+		perform_content_info_free(s, ci);
+	}
+}
+
+/**
+ * camel_folder_summary_touch:
+ * @s: 
+ * 
+ * Mark the summary as changed, so that a save will save it.
+ **/
 void
 camel_folder_summary_touch(CamelFolderSummary *s)
 {
 	s->flags |= CAMEL_SUMMARY_DIRTY;
 }
 
+/**
+ * camel_folder_summary_clear:
+ * @s: 
+ * 
+ * Empty the summary contents.
+ **/
 void
 camel_folder_summary_clear(CamelFolderSummary *s)
 {
@@ -481,15 +762,8 @@ camel_folder_summary_clear(CamelFolderSummary *s)
 	if (camel_folder_summary_count(s) == 0)
 		return;
 
-	for (i=0;i<camel_folder_summary_count(s);i++) {
-		CamelMessageInfo *mi = camel_folder_summary_index(s, i);
-		CamelMessageContentInfo *ci = mi->content;
-
-		((CamelFolderSummaryClass *)(CAMEL_OBJECT_GET_CLASS(s)))->message_info_free(s, mi);		
-		if (s->build_content && ci) {
-			perform_content_info_free(s, ci);
-		}
-	}
+	for (i=0;i<camel_folder_summary_count(s);i++)
+		camel_folder_summary_info_free(s, camel_folder_summary_index(s, i));
 
 	g_ptr_array_set_size(s->messages, 0);
 	g_hash_table_destroy(s->messages_uid);
@@ -497,19 +771,28 @@ camel_folder_summary_clear(CamelFolderSummary *s)
 	s->flags |= CAMEL_SUMMARY_DIRTY;
 }
 
+/**
+ * camel_folder_summary_remove:
+ * @s: 
+ * @info: 
+ * 
+ * Remove a specific @info record from the summary.
+ **/
 void camel_folder_summary_remove(CamelFolderSummary *s, CamelMessageInfo *info)
 {
-	CamelMessageContentInfo *ci = info->content;
-
 	g_hash_table_remove(s->messages_uid, info->uid);
 	g_ptr_array_remove(s->messages, info);
-	((CamelFolderSummaryClass *)(CAMEL_OBJECT_GET_CLASS(s)))->message_info_free(s, info);
-	if (s->build_content && ci) {
-		perform_content_info_free(s, ci);
-	}
+	camel_folder_summary_info_free(s, info);
 	s->flags |= CAMEL_SUMMARY_DIRTY;
 }
 
+/**
+ * camel_folder_summary_remove_uid:
+ * @s: 
+ * @uid: 
+ * 
+ * Remove a specific info record from the summary, by @uid.
+ **/
 void camel_folder_summary_remove_uid(CamelFolderSummary *s, const char *uid)
 {
         CamelMessageInfo *oldinfo;
@@ -521,6 +804,13 @@ void camel_folder_summary_remove_uid(CamelFolderSummary *s, const char *uid)
         }
 }
 
+/**
+ * camel_folder_summary_remove_index:
+ * @s: 
+ * @index: 
+ * 
+ * Remove a specific info record from the summary, by index.
+ **/
 void camel_folder_summary_remove_index(CamelFolderSummary *s, int index)
 {
         CamelMessageInfo *oldinfo;
@@ -530,6 +820,15 @@ void camel_folder_summary_remove_index(CamelFolderSummary *s, int index)
 		camel_folder_summary_remove(s, oldinfo);
 }
 
+/**
+ * camel_folder_summary_encode_uint32:
+ * @out: 
+ * @value: 
+ * 
+ * Utility function to save an uint32 to a file.
+ * 
+ * Return value: -1 on error.
+ **/
 int
 camel_folder_summary_encode_uint32(FILE *out, guint32 value)
 {
@@ -547,6 +846,16 @@ camel_folder_summary_encode_uint32(FILE *out, guint32 value)
 	return fputc(value | 0x80, out);
 }
 
+/**
+ * camel_folder_summary_decode_uint32:
+ * @in: 
+ * @dest: 
+ * 
+ * Retrieve an encoded uint32 from a file.
+ * 
+ * Return value: -1 on error.  @*dest will contain the
+ * decoded value.
+ **/
 int
 camel_folder_summary_decode_uint32(FILE *in, guint32 *dest)
 {
@@ -559,7 +868,7 @@ camel_folder_summary_decode_uint32(FILE *in, guint32 *dest)
         }
 	if (v == EOF) {
 		*dest = value>>7;
-		return 01;
+		return -1;
 	}
 	*dest = value | (v&0x7f);
 
@@ -568,6 +877,16 @@ camel_folder_summary_decode_uint32(FILE *in, guint32 *dest)
         return 0;
 }
 
+/**
+ * camel_folder_summary_encode_fixed_int32:
+ * @out: 
+ * @value: 
+ * 
+ * Encode a gint32, performing no compression, but converting
+ * to network order.
+ * 
+ * Return value: -1 on error.
+ **/
 int
 camel_folder_summary_encode_fixed_int32(FILE *out, gint32 value)
 {
@@ -579,6 +898,15 @@ camel_folder_summary_encode_fixed_int32(FILE *out, gint32 value)
 	return 0;
 }
 
+/**
+ * camel_folder_summary_decode_fixed_int32:
+ * @in: 
+ * @dest: 
+ * 
+ * Retrieve a gint32.
+ * 
+ * Return value: -1 on error.
+ **/
 int
 camel_folder_summary_decode_fixed_int32(FILE *in, gint32 *dest)
 {
@@ -592,6 +920,15 @@ camel_folder_summary_decode_fixed_int32(FILE *in, gint32 *dest)
 	}
 }
 
+/**
+ * camel_folder_summary_encode_time_t:
+ * @out: 
+ * @value: 
+ * 
+ * Encode a time_t value to the file.
+ * 
+ * Return value: -1 on error.
+ **/
 int
 camel_folder_summary_encode_time_t(FILE *out, time_t value)
 {
@@ -604,6 +941,15 @@ camel_folder_summary_encode_time_t(FILE *out, time_t value)
 	return 0;
 }
 
+/**
+ * camel_folder_summary_decode_time_t:
+ * @in: 
+ * @dest: 
+ * 
+ * Decode a time_t value.
+ * 
+ * Return value: -1 on error.
+ **/
 int
 camel_folder_summary_decode_time_t(FILE *in, time_t *dest)
 {
@@ -616,6 +962,55 @@ camel_folder_summary_decode_time_t(FILE *in, time_t *dest)
 		i--;
 	}
 	*dest = save;
+	if (v == EOF)
+		return -1;
+	return 0;
+}
+
+/**
+ * camel_folder_summary_encode_off_t:
+ * @out: 
+ * @value: 
+ * 
+ * Encode an off_t type.
+ * 
+ * Return value: 
+ **/
+int
+camel_folder_summary_encode_off_t(FILE *out, off_t value)
+{
+	int i;
+
+	for (i=sizeof(off_t)-1;i>=0;i--) {
+		if (fputc((value >> (i*8)) & 0xff, out) == -1)
+			return -1;
+	}
+	return 0;
+}
+
+/**
+ * camel_folder_summary_decode_off_t:
+ * @in: 
+ * @dest: 
+ * 
+ * Decode an off_t type.
+ * 
+ * Return value: 
+ **/
+int
+camel_folder_summary_decode_off_t(FILE *in, off_t *dest)
+{
+	off_t save = 0;
+	unsigned int v;
+	int i = sizeof(off_t) - 1;
+
+        while ( i>=0 && (v = fgetc(in)) != EOF) {
+		save |= v << (i*8);
+		i--;
+	}
+	*dest = save;
+	if (v == EOF)
+		return -1;
 	return 0;
 }
 
@@ -668,6 +1063,17 @@ token_search_cmp(char *key, char **index)
 }
 #endif
 
+/**
+ * camel_folder_summary_encode_token:
+ * @out: 
+ * @str: 
+ * 
+ * Encode a string value, but use tokenisation and compression
+ * to reduce the size taken for common mailer words.  This
+ * can still be used to encode normal strings as well.
+ * 
+ * Return value: -1 on error.
+ **/
 int
 camel_folder_summary_encode_token(FILE *out, char *str)
 {
@@ -711,6 +1117,15 @@ camel_folder_summary_encode_token(FILE *out, char *str)
 	return 0;
 }
 
+/**
+ * camel_folder_summary_decode_token:
+ * @in: 
+ * @str: 
+ * 
+ * Decode a token value.
+ * 
+ * Return value: -1 on error.
+ **/
 int
 camel_folder_summary_decode_token(FILE *in, char **str)
 {
@@ -756,6 +1171,15 @@ camel_folder_summary_decode_token(FILE *in, char **str)
 	return 0;
 }
 
+/**
+ * camel_folder_summary_encode_string:
+ * @out: 
+ * @str: 
+ * 
+ * Encode a normal string and save it in the output file.
+ * 
+ * Return value: -1 on error.
+ **/
 int
 camel_folder_summary_encode_string(FILE *out, char *str)
 {
@@ -775,6 +1199,15 @@ camel_folder_summary_encode_string(FILE *out, char *str)
 }
 
 
+/**
+ * camel_folder_summary_decode_string:
+ * @in: 
+ * @str: 
+ * 
+ * Decode a normal string from the input file.
+ * 
+ * Return value: -1 on error.
+ **/
 int
 camel_folder_summary_decode_string(FILE *in, char **str)
 {
@@ -809,6 +1242,13 @@ camel_folder_summary_decode_string(FILE *in, char **str)
 	return 0;
 }
 
+/**
+ * camel_folder_summary_offset_content:
+ * @content: 
+ * @offset: 
+ * 
+ * Offset the content info @content by @offset characters.
+ **/
 void
 camel_folder_summary_offset_content(CamelMessageContentInfo *content, off_t offset)
 {
@@ -848,7 +1288,8 @@ my_list_size(struct _node **list)
 static int
 summary_header_load(CamelFolderSummary *s, FILE *in)
 {
-	gint32 version, flags, nextuid, count, utime;
+	gint32 version, flags, nextuid, count;
+	time_t time;
 
 	fseek(in, 0, SEEK_SET);
 
@@ -857,14 +1298,14 @@ summary_header_load(CamelFolderSummary *s, FILE *in)
 	if (camel_folder_summary_decode_fixed_int32(in, &version) == -1
 	    || camel_folder_summary_decode_fixed_int32(in, &flags) == -1
 	    || camel_folder_summary_decode_fixed_int32(in, &nextuid) == -1
-	    || camel_folder_summary_decode_fixed_int32(in, &utime) == -1
+	    || camel_folder_summary_decode_time_t(in, &time) == -1
 	    || camel_folder_summary_decode_fixed_int32(in, &count) == -1) {
 		return -1;
 	}
 
 	s->nextuid = nextuid;
 	s->flags = flags;
-	s->time = (time_t) utime;
+	s->time = time;
 	s->saved_count = count;
 	if (s->version != version) {
 		g_warning("Summary header version mismatch");
@@ -883,7 +1324,7 @@ summary_header_save(CamelFolderSummary *s, FILE *out)
 	camel_folder_summary_encode_fixed_int32(out, s->version);
 	camel_folder_summary_encode_fixed_int32(out, s->flags);
 	camel_folder_summary_encode_fixed_int32(out, s->nextuid);
-	camel_folder_summary_encode_fixed_int32(out, s->time);
+	camel_folder_summary_encode_time_t(out, s->time);
 	return camel_folder_summary_encode_fixed_int32(out, camel_folder_summary_count(s));
 }
 
@@ -928,20 +1369,79 @@ static CamelMessageContentInfo * content_info_new_from_parser(CamelFolderSummary
 	return ci;
 }
 
+static char *
+format_recipients(const CamelInternetAddress *addr)
+{
+	const char *namep, *addrp;
+	char *ret;
+	int i;
+	GString *out;
+
+	if (addr == NULL)
+		return NULL;
+
+	out = g_string_new("");
+
+	for (i=0;camel_internet_address_get(addr, i, &namep, &addrp);i++) {
+		if (i>0)
+			g_string_append(out, ", ");
+		if (namep)
+			g_string_sprintfa(out, "%s <%s>", namep, addrp);
+		else
+			g_string_sprintfa(out, "<%s>", addrp);
+	}
+	/* well, this is probably more memory efficient, unfortunately */
+	ret = g_strdup(out->str);
+	g_string_free(out, TRUE);
+
+	return ret;
+}
+
+static CamelMessageInfo * message_info_new_from_message(CamelFolderSummary *s, CamelMimeMessage *msg)
+{
+	CamelMessageInfo *mi;
+
+	mi = g_malloc0(s->message_info_size);
+
+	mi->subject = g_strdup(camel_mime_message_get_subject(msg));
+	mi->from = camel_address_format((CamelAddress *)camel_mime_message_get_from(msg));
+	mi->to = format_recipients(camel_mime_message_get_recipients(msg, "to"));
+	mi->cc = format_recipients(camel_mime_message_get_recipients(msg, "cc"));
+	mi->user_flags = NULL;
+	mi->user_tags = NULL;
+	mi->date_sent = camel_mime_message_get_date(msg, NULL);
+	mi->date_received = camel_mime_message_get_date_received(msg, NULL);
+	mi->message_id = header_msgid_decode(camel_medium_get_header((CamelMedium *)msg, "message-id"));
+	/* if we have a references, use that, otherwise, see if we have an in-reply-to
+	   header, with parsable content, otherwise *shrug* */
+	mi->references = header_references_decode(camel_medium_get_header((CamelMedium *)msg, "message-id"));
+	if (mi->references == NULL)
+		mi->references = header_references_decode(camel_medium_get_header((CamelMedium *)msg, "message-id"));
+
+	return mi;
+}
+
+static CamelMessageContentInfo * content_info_new_from_message(CamelFolderSummary *s, CamelMimePart *mp)
+{
+	CamelMessageContentInfo *ci;
+
+	ci = ((CamelFolderSummaryClass *)(CAMEL_OBJECT_GET_CLASS(s)))->content_info_new(s, mp->headers);
+
+	return ci;
+}
+
+#warning "These should be made private again, easy to fix (used in filter-driver)"
 char *
 camel_folder_summary_format_address(struct _header_raw *h, const char *name)
 {
 	struct _header_address *addr;
 	const char *text;
-	char *ret, *tmp;
+	char *ret;
 
 	text = header_raw_find (&h, name, NULL);
 	addr = header_address_decode (text);
 	if (addr) {
-		/* FIXME: perhaps decoding would be best done in header_address_list_format */
-		tmp = header_address_list_format (addr);
-		ret = header_decode_string (tmp);
-		g_free (tmp);
+		ret = header_address_list_format (addr);
 		header_address_list_clear (&addr);
 	} else {
 		ret = g_strdup (text);
@@ -1127,20 +1627,16 @@ content_info_load(CamelFolderSummary *s, FILE *in)
 {
 	CamelMessageContentInfo *ci;
 	char *type, *subtype;
-	guint32 count, i, upos, ubodypos, uendpos;
+	guint32 count, i;
 	struct _header_content_type *ct;
 
 	io(printf("Loading content info\n"));
 
 	ci = g_malloc0(s->content_info_size);
 
-	camel_folder_summary_decode_uint32(in, &upos);
-	camel_folder_summary_decode_uint32(in, &ubodypos);
-	camel_folder_summary_decode_uint32(in, &uendpos);
-
-	ci->pos = (off_t) upos;
-        ci->bodypos = (off_t) ubodypos;
-	ci->endpos = (off_t) uendpos;
+	camel_folder_summary_decode_off_t(in, &ci->pos);
+	camel_folder_summary_decode_off_t(in, &ci->bodypos);
+	camel_folder_summary_decode_off_t(in, &ci->endpos);
 	
 	camel_folder_summary_decode_token(in, &type);
 	camel_folder_summary_decode_token(in, &subtype);
@@ -1175,9 +1671,9 @@ content_info_save(CamelFolderSummary *s, FILE *out, CamelMessageContentInfo *ci)
 
 	io(printf("Saving content info\n"));
 
-	camel_folder_summary_encode_uint32(out, ci->pos);
-	camel_folder_summary_encode_uint32(out, ci->bodypos);
-	camel_folder_summary_encode_uint32(out, ci->endpos);
+	camel_folder_summary_encode_off_t(out, ci->pos);
+	camel_folder_summary_encode_off_t(out, ci->bodypos);
+	camel_folder_summary_encode_off_t(out, ci->endpos);
 
 	ct = ci->type;
 	if (ct) {
@@ -1334,6 +1830,66 @@ summary_build_content_info(CamelFolderSummary *s, CamelMimeParser *mp)
 	return info;
 }
 
+/* build the content-info, from a message */
+static CamelMessageContentInfo *
+summary_build_content_info_message(CamelFolderSummary *s, CamelMessageInfo *msginfo, CamelMimePart *object)
+{
+	CamelDataWrapper *containee;
+	int parts, i;
+	struct _CamelFolderSummaryPrivate *p = _PRIVATE(s);
+	CamelMessageContentInfo *info = NULL, *child;
+
+	info = ((CamelFolderSummaryClass *)(CAMEL_OBJECT_GET_CLASS(s)))->content_info_new_from_message(s, object);
+	
+	containee = camel_medium_get_content_object(CAMEL_MEDIUM(object));
+
+	if (containee == NULL)
+		return info;
+
+	/* TODO: I find it odd that get_part and get_content_object do not
+	   add a reference, probably need fixing for multithreading */
+
+	/* using the object types is more accurate than using the mime/types */
+	if (CAMEL_IS_MULTIPART(containee)) {
+		parts = camel_multipart_get_number(CAMEL_MULTIPART(containee));
+		for (i=0;i<parts;i++) {
+			CamelMimePart *part = camel_multipart_get_part(CAMEL_MULTIPART(containee), i);
+			g_assert(part);
+			child = summary_build_content_info_message(s, msginfo, part);
+			if (child) {
+				child->parent = info;
+				my_list_append((struct _node **)&info->childs, (struct _node *)child);
+			}
+		}
+	} else if (CAMEL_IS_MIME_MESSAGE(containee)) {
+		/* for messages we only look at its contents */
+		child = summary_build_content_info_message(s, msginfo, (CamelMimePart *)containee);
+		if (child) {
+			child->parent = info;
+			my_list_append((struct _node **)&info->childs, (struct _node *)child);
+		}
+	} else if (p->index
+		   && gmime_content_field_is_type(CAMEL_DATA_WRAPPER(containee)->mime_type, "text", "*")) {
+		/* index all text parts if we're indexing */
+		CamelStreamMem *mem = (CamelStreamMem *)camel_stream_mem_new();
+
+		camel_data_wrapper_write_to_stream(containee, (CamelStream *)mem);
+		ibex_index_buffer(p->index, msginfo->uid, mem->buffer->data, mem->buffer->len, NULL);
+		camel_object_unref((CamelObject *)mem);
+	}
+
+	return info;
+}
+
+/**
+ * camel_flag_get:
+ * @list: 
+ * @name: 
+ * 
+ * Find the state of the flag @name in @list.
+ * 
+ * Return value: The state of the flag (TRUE or FALSE).
+ **/
 gboolean
 camel_flag_get(CamelFlag **list, const char *name)
 {
@@ -1347,6 +1903,14 @@ camel_flag_get(CamelFlag **list, const char *name)
 	return FALSE;
 }
 
+/**
+ * camel_flag_set:
+ * @list: 
+ * @name: 
+ * @value: 
+ * 
+ * Set the state of a flag @name in the list @list to @value.
+ **/
 void
 camel_flag_set(CamelFlag **list, const char *name, gboolean value)
 {
@@ -1374,6 +1938,14 @@ camel_flag_set(CamelFlag **list, const char *name, gboolean value)
 	}
 }
 
+/**
+ * camel_flag_list_size:
+ * @list: 
+ * 
+ * Get the length of the flag list.
+ * 
+ * Return value: The number of TRUE flags in the list.
+ **/
 int
 camel_flag_list_size(CamelFlag **list)
 {
@@ -1388,6 +1960,12 @@ camel_flag_list_size(CamelFlag **list)
 	return count;
 }
 
+/**
+ * camel_flag_list_free:
+ * @list: 
+ * 
+ * Free the memory associated with the flag list @list.
+ **/
 void
 camel_flag_list_free(CamelFlag **list)
 {
@@ -1414,6 +1992,14 @@ const char	*camel_tag_get(CamelTag **list, const char *name)
 	return NULL;
 }
 
+/**
+ * camel_tag_set:
+ * @list: 
+ * @name: 
+ * @value: 
+ * 
+ * Set the tag @name in the tag list @list to @value.
+ **/
 void		camel_tag_set(CamelTag **list, const char *name, const char *value)
 {
 	CamelTag *tag, *tmp;
@@ -1445,6 +2031,14 @@ void		camel_tag_set(CamelTag **list, const char *name, const char *value)
 	}
 }
 
+/**
+ * camel_tag_list_size:
+ * @list: 
+ * 
+ * Get the number of tags present in the tag list @list.
+ * 
+ * Return value: The number of tags.
+ **/
 int		camel_tag_list_size(CamelTag **list)
 {
 	int count=0;
@@ -1458,6 +2052,12 @@ int		camel_tag_list_size(CamelTag **list)
 	return count;
 }
 
+/**
+ * camel_tag_list_free:
+ * @list: 
+ * 
+ * Free the tag list @list.
+ **/
 void		camel_tag_list_free(CamelTag **list)
 {
 	CamelTag *tag, *tmp;
@@ -1515,6 +2115,7 @@ camel_message_info_dup_to(const CamelMessageInfo *from, CamelMessageInfo *to)
 		tag = tag->next;
 	}
 
+	/* No, this is impossible without knowing the class of summary we came from */
 	/* FIXME some day */
 	to->content = NULL;
 }
@@ -1524,6 +2125,10 @@ camel_message_info_dup_to(const CamelMessageInfo *from, CamelMessageInfo *to)
  * @mi: the message info
  *
  * Frees a CamelMessageInfo and its contents.
+ *
+ * Can only be used to free CamelMessageInfo's created with
+ * camel_message_info_dup_to.
+ *
  **/
 void
 camel_message_info_free(CamelMessageInfo *mi)
