@@ -51,7 +51,7 @@ funny_trigger_cb (gpointer alarm_id, time_t trigger, gpointer data)
 	struct tm *tm;
 
 	tm = localtime (&trigger);
-	strftime (str, sizeof (str), "%Y/%m/%d %H:%M:%S", tm);
+	strftime (str, sizeof (str), "%x %X", tm);
 
 	msg = g_strdup_printf (_("It is %s.  The Unix time is %ld right now.  We just thought "
 				 "you may like to know."), str, (long) trigger);
