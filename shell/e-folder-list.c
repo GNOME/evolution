@@ -465,7 +465,7 @@ e_folder_list_init (EFolderList *efl)
 }
 
 EFolderListItem *
-e_folder_list_parse_xml (char *xml)
+e_folder_list_parse_xml (const char *xml)
 {
 	xmlDoc *doc;
 	xmlNode *root;
@@ -553,7 +553,7 @@ e_folder_list_free_items (EFolderListItem *items)
 }
 
 GtkWidget*
-e_folder_list_new (EvolutionShellClient *client, char *xml)
+e_folder_list_new (EvolutionShellClient *client, const char *xml)
 {
 	GtkWidget *widget = GTK_WIDGET (g_object_new (e_folder_list_get_type (), NULL));
 
@@ -562,7 +562,7 @@ e_folder_list_new (EvolutionShellClient *client, char *xml)
 }
 
 GtkWidget*
-e_folder_list_construct (EFolderList *efl, EvolutionShellClient *client, char *xml)
+e_folder_list_construct (EFolderList *efl, EvolutionShellClient *client, const char *xml)
 {
 	g_object_ref (client);
 	efl->priv->client = client;
@@ -621,7 +621,7 @@ e_folder_list_get_items (EFolderList *efl)
 }
 
 void
-e_folder_list_set_xml (EFolderList *efl, char *xml)
+e_folder_list_set_xml (EFolderList *efl, const char *xml)
 {
 	EFolderListItem *items;
 
@@ -644,7 +644,7 @@ e_folder_list_get_xml (EFolderList *efl)
 }
 
 void
-e_folder_list_set_option_menu_strings_from_array (EFolderList *efl, gchar **strings)
+e_folder_list_set_option_menu_strings_from_array (EFolderList *efl, const char **strings)
 {
 	e_option_menu_set_strings_from_array (efl->priv->option_menu, strings);
 	if (strings && *strings)
@@ -654,15 +654,22 @@ e_folder_list_set_option_menu_strings_from_array (EFolderList *efl, gchar **stri
 }
 
 void
-e_folder_list_set_option_menu_strings (EFolderList *efl, gchar *first_label, ...)
+e_folder_list_set_option_menu_strings (EFolderList *efl, const char *first_label, ...)
 {
-	char **array;
+	GPtrArray *labels;
+	va_list args;
+	char *s;
 
-	GET_STRING_ARRAY_FROM_ELLIPSIS (array, first_label);
+	labels = g_ptr_array_new ();
 
-	e_folder_list_set_option_menu_strings_from_array (efl, array);
+	va_start (args, first_label);
+	for (s = (char *)first_label; s; s = va_arg (args, char *))
+		g_ptr_array_add (labels, s);
+	va_end (args);
 
-	g_free (array);
+	e_folder_list_set_option_menu_strings_from_array (efl, (const char **)labels->pdata);
+
+	g_ptr_array_free (labels, TRUE);
 }
 
 int

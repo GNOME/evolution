@@ -1,3 +1,8 @@
+2003-04-09  Dan Winship  <danw@ximian.com>
+
+	* e-folder-list.c: Update for e_option_menu prototype
+	constification
+
 2003-04-08  Ettore Perazzoli  <ettore@ximian.com>
 
 	* e-setup.c (setup_bonobo_conf_private_directory): Removed.

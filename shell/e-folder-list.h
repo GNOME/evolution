@@ -77,31 +77,31 @@ typedef struct {
 } EFolderListItem;
 
 
-EFolderListItem *e_folder_list_parse_xml                           (char                  *xml);
+EFolderListItem *e_folder_list_parse_xml                           (const char            *xml);
 char            *e_folder_list_create_xml                          (EFolderListItem       *items);
 void             e_folder_list_free_items                          (EFolderListItem       *items);
 
 /* Standard functions */
 GtkType          e_folder_list_get_type                            (void);
 GtkWidget       *e_folder_list_new                                 (EvolutionShellClient  *client,
-								    char                  *xml);
+								    const char            *xml);
 GtkWidget       *e_folder_list_construct                           (EFolderList           *efl,
 								    EvolutionShellClient  *client,
-								    char                  *xml);
+								    const char            *xml);
 
 /* data access functions */
 void             e_folder_list_set_items                           (EFolderList           *efl,
 								    EFolderListItem       *items);
 EFolderListItem *e_folder_list_get_items                           (EFolderList           *efl);
 void             e_folder_list_set_xml                             (EFolderList           *efl,
-								    char                  *xml);
+								    const char            *xml);
 char            *e_folder_list_get_xml                             (EFolderList           *efl);
 
 /* Option Menu functions */
 void             e_folder_list_set_option_menu_strings_from_array  (EFolderList           *efl,
-								    gchar                **strings);
+								    const char           **strings);
 void             e_folder_list_set_option_menu_strings             (EFolderList           *efl,
-								    gchar                 *first_label,
+								    const char            *first_label,
 								    ...);
 int              e_folder_list_get_option_menu_value               (EFolderList           *efl);
 void             e_folder_list_set_option_menu_value               (EFolderList           *efl,
