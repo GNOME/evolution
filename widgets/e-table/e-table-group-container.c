@@ -324,6 +324,13 @@ child_double_click (ETableGroup *etg, int row,
 }
 
 static gint
+child_right_click (ETableGroup *etg, int row, int col, GdkEvent *event,
+		   ETableGroupContainer *etgc)
+{
+	return e_table_group_right_click (E_TABLE_GROUP (etgc), row, col, event);
+}
+
+static gint
 child_key_press (ETableGroup *etg, int row, int col, GdkEvent *event,
 		 ETableGroupContainer *etgc)
 {
@@ -385,6 +392,8 @@ etgc_add (ETableGroup *etg, gint row)
 			    GTK_SIGNAL_FUNC (child_cursor_change), etgc);
 	gtk_signal_connect (GTK_OBJECT (child), "double_click",
 			    GTK_SIGNAL_FUNC (child_double_click), etgc);
+	gtk_signal_connect (GTK_OBJECT (child), "right_click",
+			    GTK_SIGNAL_FUNC (child_right_click), etgc);
 	gtk_signal_connect (GTK_OBJECT (child), "key_press",
 			    GTK_SIGNAL_FUNC (child_key_press), etgc);
 	child_node->child = child;

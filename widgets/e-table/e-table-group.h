@@ -46,6 +46,7 @@ typedef struct {
 	void        (*row_selection)  (ETableGroup *etg, int row, gboolean selected);
 	void        (*cursor_change)  (ETableGroup *etg, int row);
 	void        (*double_click)   (ETableGroup *etg, int row);
+	gint        (*right_click)    (ETableGroup *etg, int row, int col, GdkEvent *event);
 	gint        (*key_press)      (ETableGroup *etg, int row, int col, GdkEvent *event);
 
 	/* Virtual functions. */
@@ -107,6 +108,10 @@ void             e_table_group_cursor_change (ETableGroup      *etg,
 					      gint              row);
 void             e_table_group_double_click  (ETableGroup      *etg,
 					      gint              row);
+gint             e_table_group_right_click   (ETableGroup      *etg,
+					      gint              row,
+					      gint              col,
+					      GdkEvent         *event);
 gint             e_table_group_key_press     (ETableGroup      *etg,
 					      gint              row,
 					      gint              col,

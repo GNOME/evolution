@@ -153,7 +153,7 @@ etsv_add       (ETableSubsetVariable *etssv,
 	i = etss->n_map;
 	if (etsv->sort_idle_id == 0) {
 		i = 0;
-		while (etsv_compare(etsv, etss->map_table[i], row) < 0)
+		while (i < etss->n_map && etsv_compare(etsv, etss->map_table[i], row) < 0)
 			i++;
 		memmove(etss->map_table + i + 1, etss->map_table + i, (etss->n_map - i) * sizeof(int));
 	}

@@ -31,6 +31,7 @@ enum {
 	ROW_SELECTION,
 	CURSOR_CHANGE,
 	DOUBLE_CLICK,
+	RIGHT_CLICK,
 	KEY_PRESS,
 	LAST_SIGNAL
 };
@@ -273,6 +274,21 @@ e_table_group_double_click (ETableGroup *e_table_group, gint row)
 }
 
 gint
+e_table_group_right_click (ETableGroup *e_table_group, gint row, gint col, GdkEvent *event)
+{
+	gint return_val = 0;
+
+	g_return_val_if_fail (e_table_group != NULL, 0);
+	g_return_val_if_fail (E_IS_TABLE_GROUP (e_table_group), 0);
+
+	gtk_signal_emit (GTK_OBJECT (e_table_group),
+			 etg_signals [RIGHT_CLICK],
+			 row, col, event, &return_val);
+
+	return return_val;
+}
+
+gint
 e_table_group_key_press (ETableGroup *e_table_group, gint row, gint col, GdkEvent *event)
 {
 	gint return_val = 0;
@@ -338,6 +354,7 @@ etg_class_init (GtkObjectClass *object_class)
 	klass->row_selection = NULL;
 	klass->cursor_change = NULL;
 	klass->double_click = NULL;
+	klass->right_click = NULL;
 	klass->key_press = NULL;
 	
 	klass->add = NULL;
@@ -378,6 +395,14 @@ etg_class_init (GtkObjectClass *object_class)
 				GTK_SIGNAL_OFFSET (ETableGroupClass, double_click),
 				gtk_marshal_NONE__INT,
 				GTK_TYPE_NONE, 1, GTK_TYPE_INT);
+
+	etg_signals [RIGHT_CLICK] =
+		gtk_signal_new ("right_click",
+				GTK_RUN_LAST,
+				object_class->type,
+				GTK_SIGNAL_OFFSET (ETableGroupClass, right_click),
+				e_marshal_INT__INT_INT_POINTER,
+				GTK_TYPE_INT, 3, GTK_TYPE_INT, GTK_TYPE_INT, GTK_TYPE_POINTER);
 
 	etg_signals [KEY_PRESS] =
 		gtk_signal_new ("key_press",

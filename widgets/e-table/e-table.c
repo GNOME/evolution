@@ -42,6 +42,7 @@ enum {
 	ROW_SELECTION,
 	CURSOR_CHANGE,
 	DOUBLE_CLICK,
+	RIGHT_CLICK,
 	KEY_PRESS,
 	LAST_SIGNAL
 };
@@ -208,6 +209,16 @@ group_double_click (ETableGroup *etg, int row, ETable *et)
 }
 
 static gint
+group_right_click (ETableGroup *etg, int row, int col, GdkEvent *event, ETable *et)
+{
+	int return_val;
+	gtk_signal_emit (GTK_OBJECT (et),
+			 et_signals [RIGHT_CLICK],
+			 row, col, event, &return_val);
+	return return_val;
+}
+
+static gint
 group_key_press (ETableGroup *etg, int row, int col, GdkEvent *event, ETable *et)
 {
 	int return_val;
@@ -242,6 +253,8 @@ changed_idle (gpointer data)
 				    GTK_SIGNAL_FUNC (group_cursor_change), et);
 		gtk_signal_connect (GTK_OBJECT (et->group), "double_click",
 				    GTK_SIGNAL_FUNC (group_double_click), et);
+		gtk_signal_connect (GTK_OBJECT (et->group), "right_click",
+				    GTK_SIGNAL_FUNC (group_right_click), et);
 		gtk_signal_connect (GTK_OBJECT (et->group), "key_press",
 				    GTK_SIGNAL_FUNC (group_key_press), et);
 		e_table_fill_table (et, et->model);
@@ -328,6 +341,8 @@ e_table_setup_table (ETable *e_table, ETableHeader *full_header, ETableHeader *h
 			    GTK_SIGNAL_FUNC(group_cursor_change), e_table);
 	gtk_signal_connect (GTK_OBJECT (e_table->group), "double_click",
 			    GTK_SIGNAL_FUNC(group_double_click), e_table);
+	gtk_signal_connect (GTK_OBJECT (e_table->group), "right_click",
+			    GTK_SIGNAL_FUNC(group_right_click), e_table);
 	gtk_signal_connect (GTK_OBJECT (e_table->group), "key_press",
 			    GTK_SIGNAL_FUNC(group_key_press), e_table);
 	
@@ -744,6 +759,7 @@ e_table_class_init (GtkObjectClass *object_class)
 	klass->row_selection = NULL;
 	klass->cursor_change = NULL;
 	klass->double_click = NULL;
+	klass->right_click = NULL;
 	klass->key_press = NULL;
 
 	et_signals [ROW_SELECTION] =
@@ -769,6 +785,14 @@ e_table_class_init (GtkObjectClass *object_class)
 				GTK_SIGNAL_OFFSET (ETableClass, double_click),
 				gtk_marshal_NONE__INT,
 				GTK_TYPE_NONE, 1, GTK_TYPE_INT);
+
+	et_signals [RIGHT_CLICK] =
+		gtk_signal_new ("right_click",
+				GTK_RUN_LAST,
+				object_class->type,
+				GTK_SIGNAL_OFFSET (ETableClass, right_click),
+				e_marshal_INT__INT_INT_POINTER,
+				GTK_TYPE_INT, 3, GTK_TYPE_INT, GTK_TYPE_INT, GTK_TYPE_POINTER);
 
 	et_signals [KEY_PRESS] =
 		gtk_signal_new ("key_press",

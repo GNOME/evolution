@@ -32,6 +32,7 @@ enum {
 	ROW_SELECTION,
 	CURSOR_CHANGE,
 	DOUBLE_CLICK,
+	RIGHT_CLICK,
 	KEY_PRESS,
 	LAST_SIGNAL
 };
@@ -1187,33 +1188,48 @@ eti_event (GnomeCanvasItem *item, GdkEvent *e)
 		double x1, y1;
 		int col, row;
 
-		if (e->button.button == 5 ||
-		    e->button.button == 4)
-			return FALSE;
+		switch (e->button.button) {
+		case 1: /* Fall through. */
+		case 2:
+			gnome_canvas_item_w2i (item, &e->button.x, &e->button.y);
 
-		gnome_canvas_item_w2i (item, &e->button.x, &e->button.y);
-
-		if (!find_cell (eti, e->button.x, e->button.y, &col, &row, &x1, &y1))
-			return TRUE;
-
-		if (eti->cursor_row == row && eti->cursor_col == col){
-
-			ecol = e_table_header_get_column (eti->header, col);
-			ecell_view = eti->cell_views [col];
-
-			/*
-			 * Adjust the event positions
-			 */
-			e->button.x = x1; 
-			e->button.y = y1;
 			
-			e_cell_event (ecell_view, e, ecol->col_idx, col, row);
-		} else {
-			/*
-			 * Focus the cell, and select the row
-			 */
-			e_table_item_leave_edit (eti);
-			e_table_item_focus (eti, col, row);
+			if (!find_cell (eti, e->button.x, e->button.y, &col, &row, &x1, &y1))
+				return TRUE;
+			
+			if (eti->cursor_row == row && eti->cursor_col == col){
+				
+				ecol = e_table_header_get_column (eti->header, col);
+				ecell_view = eti->cell_views [col];
+				
+				/*
+				 * Adjust the event positions
+				 */
+				e->button.x = x1; 
+				e->button.y = y1;
+				
+				e_cell_event (ecell_view, e, ecol->col_idx, col, row);
+			} else {
+				/*
+				 * Focus the cell, and select the row
+				 */
+				e_table_item_leave_edit (eti);
+				e_table_item_focus (eti, col, row);
+			}
+			break;
+		case 3:
+			gnome_canvas_item_w2i (item, &e->button.x, &e->button.y);
+			if (!find_cell (eti, e->button.x, e->button.y, &col, &row, &x1, &y1))
+				return TRUE;
+			
+			gtk_signal_emit (GTK_OBJECT (eti), eti_signals [RIGHT_CLICK],
+					 row, col, e, &return_val);
+			break;
+		case 4:
+		case 5:
+			return FALSE;
+			break;
+			
 		}
 		break;
 	}
@@ -1387,6 +1403,7 @@ eti_class_init (GtkObjectClass *object_class)
 	eti_class->row_selection = eti_row_selection;
 	eti_class->cursor_change = NULL;
 	eti_class->double_click  = NULL;
+	eti_class->right_click   = NULL;
 	eti_class->key_press     = NULL;
 
 	gtk_object_add_arg_type ("ETableItem::ETableHeader", GTK_TYPE_OBJECT,
@@ -1436,6 +1453,14 @@ eti_class_init (GtkObjectClass *object_class)
 				GTK_SIGNAL_OFFSET (ETableItemClass, double_click),
 				gtk_marshal_NONE__INT,
 				GTK_TYPE_NONE, 1, GTK_TYPE_INT);
+
+	eti_signals [RIGHT_CLICK] =
+		gtk_signal_new ("right_click",
+				GTK_RUN_LAST,
+				object_class->type,
+				GTK_SIGNAL_OFFSET (ETableItemClass, right_click),
+				e_marshal_INT__INT_INT_POINTER,
+				GTK_TYPE_INT, 3, GTK_TYPE_INT, GTK_TYPE_INT, GTK_TYPE_POINTER);
 
 	eti_signals [KEY_PRESS] =
 		gtk_signal_new ("key_press",

@@ -1,3 +1,11 @@
+2000-06-06  Christopher James Lahey  <clahey@helixcode.com>
+
+	* e-table-group-container.c, e-table-group-leaf.c,
+	e-table-group.c, e-table-group.h, e-table-item.c, e-table-item.h,
+	e-table.c, e-table.h: Added a right click signal.
+
+	* e-table-sorted-variable.c: Fixed a buffer overrun.
+
 2000-06-02  Christopher James Lahey  <clahey@helixcode.com>
 
 	* e-table-sorted-variable.c: Fixed the multiple copies of rows in
