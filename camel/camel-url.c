@@ -116,19 +116,8 @@ camel_url_new (const char *url_string, CamelException *ex)
 	if (at && (!slash || at < slash)) {
 		colon = strchr (url_string, ':');
 		if (colon && colon < at) {
-			/* assume password is base64 encoded */
-			int state = 0; int save = 0;
-			char *passwd;
-			int len;
-			
-			passwd = g_strndup (colon + 1, at - colon - 1);
-			camel_url_decode (passwd);
-			
-			len = strlen (passwd);
-			url->passwd = g_malloc (len);
-			len = base64_decode_step (passwd, len, url->passwd, &state, &save);
-			
-			url->passwd[len] = '\0';
+			url->passwd = g_strndup (colon + 1, at - colon - 1);
+			camel_url_decode (url->passwd);
 		} else {
 			url->passwd = NULL;
 			colon = at;
@@ -199,19 +188,8 @@ camel_url_to_string (CamelURL *url, gboolean show_passwd)
 	if (url->authmech)
 		authmech = camel_url_encode (url->authmech, TRUE, ":@/");
 	
-	if (show_passwd && url->passwd) {
-		int state = 0, save = 0;
-		int len;
-		char *pass;
-		
-		len = strlen (url->passwd);
-		pass = g_malloc ((int)(len * 4 / 3) + 4);
-		len = base64_encode_close (url->passwd, len, FALSE, pass, &state, &save);
-		pass[len] = '\0';
-		
-		passwd = camel_url_encode (pass, TRUE, "/");
-		g_free (pass);
-	}
+	if (show_passwd && url->passwd)
+		passwd = camel_url_encode (url->passwd, TRUE, "@/");
 	
 	if (url->host)
 		host = camel_url_encode (url->host, TRUE, ":/");
