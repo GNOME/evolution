@@ -42,7 +42,7 @@
 #include <gal/widgets/e-unicode.h>
 #include <gtkhtml/gtkhtml.h>
 #include <gtkhtml/gtkhtml-stream.h>
-#include <ical.h>
+#include <libical/ical.h>
 #include <cal-util/cal-component.h>
 #include <cal-util/timeutil.h>
 #include <cal-client/cal-client.h>

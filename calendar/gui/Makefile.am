@@ -52,8 +52,7 @@ INCLUDES =						\
 	-I$(top_srcdir)/calendar			\
 	-I$(top_srcdir)/calendar/cal-client		\
 	-I$(top_builddir)/calendar/cal-client		\
-	-I$(top_srcdir)/libical/src/libical		\
-	-I$(top_builddir)/libical/src/libical		\
+	-I$(top_srcdir)/libical/src			\
 	-I$(top_srcdir)/addressbook/backend		\
 	-I$(top_builddir)/addressbook/backend		\
 	-I$(top_srcdir)/widgets				\

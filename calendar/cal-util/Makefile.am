@@ -7,8 +7,7 @@ INCLUDES =						\
 	-I. 						\
 	-I.. 						\
 	-I$(top_builddir)				\
-	-I$(top_srcdir)/libical/src/libical		\
-	-I$(top_builddir)/libical/src/libical		\
+	-I$(top_srcdir)/libical/src			\
 	$(EVOLUTION_CALENDAR_CFLAGS)
 
 #

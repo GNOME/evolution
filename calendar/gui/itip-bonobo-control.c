@@ -32,7 +32,7 @@
 #include <bonobo/bonobo-stream-client.h>
 #include <bonobo/bonobo-context.h>
 #include <bonobo/bonobo-exception.h>
-#include <ical.h>
+#include <libical/ical.h>
 
 #include "e-itip-control.h"
 #include "itip-bonobo-control.h"

@@ -24,7 +24,7 @@
 
 #include <ctype.h>
 #include <string.h>
-#include <ical.h>
+#include <libical/ical.h>
 #include <glib.h>
 #include <gtk/gtklabel.h>
 #include <libgnome/gnome-i18n.h>

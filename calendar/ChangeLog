@@ -1,9 +1,48 @@
+2003-10-09  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* cal-client/Makefile.am: INCLUDE path fixes for changes made to
+	libical build.
+
+	* cal-util/Makefile.am: INCLUDE path fixes for changes made to
+	libical build.
+
+	* cal-util/*.[c,h]: #include <libical/ical.h> instead of <ical.h>
+
+	* gui/Makefile.am: INCLUDE path fixes for changes made to libical
+	build.
+
+	* gui/*.[c,h]: #include <libical/ical.h> instead of <ical.h>
+
+	* gui/alarm-notify/Makefile.am: INCLUDE path fixes for changes
+	made to libical build.
+
+	* gui/alarm-notify/config-data.h: #include <libical/ical.h>
+	instead of <ical.h>
+
+	* gui/dialogs/Makefile.am: INCLUDE path fixes for changes made to
+	libical build.
+
+	* gui/dialogs/comp-editor-util.c: #include <libical/ical.h>
+	instead of <ical.h>
+
+	* gui/dialogs/e-delegate-dialog.c: #include <libical/ical.h>
+	instead of <ical.h>
+
+	* importers/Makefile.am: INCLUDE path fixes for changes made to
+	libical build.
+
+	* pcs/Makefile.am: INCLUDE path fixes for changes made to libical
+	build.
+
+	* pcs/cal.c: #include <libical/ical.h> instead of <ical.h>
+
 2003-10-08  Harry Lu  <harry.lu@sun.com>
 
 	* gui/dialogs/alarm-options.glade: Make repeat-quantity and
 	repeat-value of alarm option dialog numeric only.
-	* gui/dialogs/task-details-page.glade: Make percent-complete
-	of task details dialog numeric only.
+
+	* gui/dialogs/task-details-page.glade: Make percent-complete of
+	task details dialog numeric only.
 
 2003-09-30  Mike Kestner <mkestner@ximian.com>
 

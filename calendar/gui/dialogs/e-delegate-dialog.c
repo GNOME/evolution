@@ -29,7 +29,7 @@
 #include <gtk/gtkentry.h>
 #include <gtk/gtklabel.h>
 #include <gnome.h>
-#include <ical.h>
+#include <libical/ical.h>
 #include <glade/glade.h>
 #include <gal/util/e-util.h>
 #include <widgets/misc/e-map.h>

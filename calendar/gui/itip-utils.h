@@ -2,7 +2,7 @@
 #ifndef ITIP_UTILS_HEADER
 #define ITIP_UTILS_HEADER
 
-#include <ical.h>
+#include <libical/ical.h>
 #include <string.h>
 #include <glib.h>
 #include <cal-client/cal-client.h>

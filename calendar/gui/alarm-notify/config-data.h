@@ -22,7 +22,7 @@
 #define CONFIG_DATA_H
 
 #include <glib.h>
-#include <ical.h>
+#include <libical/ical.h>
 #include <e-util/e-config-listener.h>
 
 EConfigListener *config_data_get_listener (void);

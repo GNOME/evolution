@@ -22,7 +22,7 @@
 #ifndef CAL_UTIL_H
 #define CAL_UTIL_H
 
-#include <ical.h>
+#include <libical/ical.h>
 #include <time.h>
 #include <glib.h>
 #include <cal-util/cal-component.h>

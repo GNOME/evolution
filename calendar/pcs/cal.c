@@ -20,8 +20,11 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
  */
 
+#ifdef HAVE_CONFIG_H
 #include <config.h>
-#include <ical.h>
+#endif
+
+#include <libical/ical.h>
 #include <bonobo/bonobo-exception.h>
 #include "cal.h"
 #include "cal-backend.h"

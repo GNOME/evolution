@@ -32,7 +32,7 @@
 #include <gtk/gtkwidget.h>
 #include <gal/widgets/e-unicode.h>
 #include <gal/util/e-util.h>
-#include <ical.h>
+#include <libical/ical.h>
 #include <Evolution-Composer.h>
 #include <e-util/e-dialog-utils.h>
 #include <e-util/e-time-utils.h>
