@@ -1,3 +1,9 @@
+2005-01-12  JP Rosevear  <jpr@novell.com>
+
+	Fixes #61973
+	
+	* gui/widgets/e-addressbook-view.etspec: add translator comment for TTYTDD 
+
 2005-01-11  Not Zed  <NotZed@Ximian.com>
 
 	* util/eab-book-util.c (eab_name_and_email_query): cast length

@@ -27,6 +27,13 @@
   <ETableColumn model_col="30" _title="Primary Phone"     expansion="1.0" minimum_width="75" resizable="true" cell="string" compare="string"/>
   <ETableColumn model_col="31" _title="Radio"             expansion="1.0" minimum_width="75" resizable="true" cell="string" compare="string"/>
   <ETableColumn model_col="32" _title="Telex"             expansion="1.0" minimum_width="75" resizable="true" cell="string" compare="string"/>
+
+<!-- Translators: This is a vcard standard and stands for the type of
+    phone used by the hearing impaired. TTY stands for "teletype"
+    (familiar from Unix device names), and TDD is "Telecommunications
+    Device for Deaf". However, you probably want to leave this
+    abbreviation unchanged unless you know that there is actually a
+    different and established translation for this in your language. -->	
   <ETableColumn model_col="33" _title="TTYTDD"            expansion="1.0" minimum_width="75" resizable="true" cell="string" compare="string"/>
 
   <ETableColumn model_col="34" _title="Organization"      expansion="1.0" minimum_width="75" resizable="true" cell="string" compare="string"/>
