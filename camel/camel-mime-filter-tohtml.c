@@ -254,7 +254,7 @@ html_convert (CamelMimeFilter *filter, char *in, size_t inlen, size_t prespace,
 		while (inptr < inend && *inptr != '\n')
 			inptr++;
 
-		if (*inptr != '\n' && !flush)
+		if (inptr >= inend && !flush)
 			break;
 
 		html->column = 0;

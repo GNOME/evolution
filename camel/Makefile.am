@@ -63,6 +63,7 @@ libcamel_la_SOURCES = 				\
 	camel-mime-filter-index.c		\
 	camel-mime-filter-linewrap.c		\
 	camel-mime-filter-save.c		\
+	camel-mime-filter-windows.c		\
 	camel-mime-filter.c			\
 	camel-mime-message.c			\
 	camel-mime-parser.c			\
@@ -161,6 +162,7 @@ libcamelinclude_HEADERS =			\
 	camel-mime-filter-index.h		\
 	camel-mime-filter-linewrap.h		\
 	camel-mime-filter-save.h		\
+	camel-mime-filter-windows.h		\
 	camel-mime-filter.h			\
 	camel-mime-message.h			\
 	camel-mime-parser.h			\

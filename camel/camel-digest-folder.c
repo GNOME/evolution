@@ -221,7 +221,7 @@ camel_digest_folder_new (CamelStore *parent_store, CamelMimeMessage *message)
 		return NULL;
 	
 	/* Make sure we have a multipart/digest subpart or at least some message/rfc822 attachments... */
-	if (!header_content_type_is (CAMEL_MIME_PART (message)->content_type, "multipart", "digest")) {
+	if (!header_content_type_is (CAMEL_DATA_WRAPPER (message)->mime_type, "multipart", "digest")) {
 		if (!multipart_contains_message_parts (CAMEL_MULTIPART (wrapper)))
 			return NULL;
 	}

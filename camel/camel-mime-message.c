@@ -122,8 +122,6 @@ camel_mime_message_init (gpointer object, gpointer klass)
 	CamelMimeMessage *mime_message = (CamelMimeMessage *)object;
 	int i;
 	
-	camel_data_wrapper_set_mime_type (CAMEL_DATA_WRAPPER (object), "message/rfc822");
-
 	mime_message->recipients =  g_hash_table_new (camel_strcase_hash, camel_strcase_equal);
 	for (i=0;recipient_names[i];i++) {
 		g_hash_table_insert(mime_message->recipients, recipient_names[i], camel_internet_address_new());
@@ -540,8 +538,8 @@ process_header (CamelMedium *medium, const char *header_name, const char *header
 		break;
 	case HEADER_SUBJECT:
 		g_free (message->subject);
-		if (((CamelMimePart *) message)->content_type) {
-			charset = header_content_type_param (((CamelMimePart *) message)->content_type, "charset");
+		if (((CamelDataWrapper *) message)->mime_type) {
+			charset = header_content_type_param (((CamelDataWrapper *) message)->mime_type, "charset");
 			charset = e_iconv_charset_name (charset);
 		} else
 			charset = NULL;
@@ -673,17 +671,17 @@ camel_mime_message_has_8bit_parts (CamelMimeMessage *msg)
 static CamelMimePartEncodingType
 find_best_encoding (CamelMimePart *part, CamelBestencRequired required, CamelBestencEncoding enctype, char **charsetp)
 {
-		const char *charsetin = NULL;
+	CamelMimeFilterCharset *charenc = NULL;
+	CamelMimePartEncodingType encoding;
+	CamelMimeFilterBestenc *bestenc;
+	unsigned int flags, callerflags;
+	CamelDataWrapper *content;
+	CamelStreamFilter *filter;
+	const char *charsetin = NULL;
 	char *charset = NULL;
 	CamelStream *null;
-	CamelStreamFilter *filter;
-	CamelMimeFilterCharset *charenc = NULL;
-	CamelMimeFilterBestenc *bestenc;
 	int idb, idc = -1;
 	gboolean istext;
-	unsigned int flags, callerflags;
-	CamelMimePartEncodingType encoding;
-	CamelDataWrapper *content;
 	
 	/* we use all these weird stream things so we can do it with streams, and
 	   not have to read the whole lot into memory - although i have a feeling
@@ -699,7 +697,7 @@ find_best_encoding (CamelMimePart *part, CamelBestencRequired required, CamelBes
 		return CAMEL_MIME_PART_ENCODING_DEFAULT;
 	}
 	
-	istext = header_content_type_is (part->content_type, "text", "*");
+	istext = header_content_type_is (((CamelDataWrapper *) part)->mime_type, "text", "*");
 	if (istext) {
 		flags = CAMEL_BESTENC_GET_CHARSET | CAMEL_BESTENC_GET_ENCODING;
 		enctype |= CAMEL_BESTENC_TEXT;
@@ -717,12 +715,10 @@ find_best_encoding (CamelMimePart *part, CamelBestencRequired required, CamelBes
 	null = (CamelStream *)camel_stream_null_new ();
 	filter = camel_stream_filter_new_with_stream (null);
 	
-	/* if we're not looking for the best charset, then use the one we have */
-	if (istext && (required & CAMEL_BESTENC_GET_CHARSET) == 0
-	    && (charsetin = header_content_type_param (part->content_type, "charset"))) {
-		/* if libunicode doesn't support it, we dont really have utf8 anyway, so
-		   we dont need a converter */
-		charenc = camel_mime_filter_charset_new_convert ("UTF-8", charsetin);
+	/* if we're looking for the best charset, then we need to convert to UTF-8 */
+	if (istext && (required & CAMEL_BESTENC_GET_CHARSET) != 0
+	    && (charsetin = header_content_type_param (content->mime_type, "charset"))) {
+		charenc = camel_mime_filter_charset_new_convert (charsetin, "UTF-8");
 		if (charenc != NULL)
 			idc = camel_stream_filter_add (filter, (CamelMimeFilter *)charenc);
 		charsetin = NULL;
@@ -731,35 +727,33 @@ find_best_encoding (CamelMimePart *part, CamelBestencRequired required, CamelBes
 	bestenc = camel_mime_filter_bestenc_new (flags);
 	idb = camel_stream_filter_add (filter, (CamelMimeFilter *)bestenc);
 	d(printf("writing to checking stream\n"));
-	camel_data_wrapper_write_to_stream (content, (CamelStream *)filter);
+	camel_data_wrapper_decode_to_stream (content, (CamelStream *)filter);
 	camel_stream_filter_remove (filter, idb);
 	if (idc != -1) {
 		camel_stream_filter_remove (filter, idc);
-		camel_object_unref ((CamelObject *)charenc);
+		camel_object_unref (charenc);
 		charenc = NULL;
 	}
 	
-	if (istext)
+	if (istext && (required & CAMEL_BESTENC_GET_CHARSET) != 0) {
 		charsetin = camel_mime_filter_bestenc_get_best_charset (bestenc);
-	
-	d(printf("charsetin = %s\n", charsetin ? charsetin : "(null)"));
-	
-	/* if we have US-ASCII, or we're not doing text, we dont need to bother with the rest */
-	if (charsetin != NULL && (required & CAMEL_BESTENC_GET_CHARSET) != 0) {
+		d(printf("best charset = %s\n", charsetin ? charsetin : "(null)"));
 		charset = g_strdup (charsetin);
 		
+		charsetin = header_content_type_param (content->mime_type, "charset");
+	} else {
+		charset = NULL;
+	}
+	
+	/* if we have US-ASCII, or we're not doing text, we dont need to bother with the rest */
+	if (istext && charsetin && charset && (required & CAMEL_BESTENC_GET_CHARSET) != 0) {
 		d(printf("have charset, trying conversion/etc\n"));
 		
-		/* now the 'bestenc' can has told us what the best encoding is, we can use that to create
+		/* now that 'bestenc' has told us what the best encoding is, we can use that to create
 		   a charset conversion filter as well, and then re-add the bestenc to filter the
 		   result to find the best encoding to use as well */
 		
-		charenc = camel_mime_filter_charset_new_convert ("UTF-8", charset);
-		
-		/* eek, libunicode doesn't undertand this charset anyway, then the 'utf8' we
-		   thought we had is really the native format, in which case, we just treat
-		   it as binary data (and take the result we have so far) */
-		
+		charenc = camel_mime_filter_charset_new_convert (charsetin, charset);
 		if (charenc != NULL) {
 			/* otherwise, try another pass, converting to the real charset */
 			
@@ -773,15 +767,15 @@ find_best_encoding (CamelMimePart *part, CamelBestencRequired required, CamelBes
 			/* and write it to the new stream */
 			camel_data_wrapper_write_to_stream (content, (CamelStream *)filter);
 			
-			camel_object_unref ((CamelObject *)charenc);
+			camel_object_unref (charenc);
 		}
 	}
 	
 	encoding = camel_mime_filter_bestenc_get_best_encoding (bestenc, enctype);
 	
-	camel_object_unref ((CamelObject *)filter);
-	camel_object_unref ((CamelObject *)bestenc);
-	camel_object_unref ((CamelObject *)null);
+	camel_object_unref (filter);
+	camel_object_unref (bestenc);
+	camel_object_unref (null);
 	
 	d(printf("done, best encoding = %d\n", encoding));
 	
@@ -818,13 +812,13 @@ best_encoding (CamelMimeMessage *msg, CamelMimePart *part, void *datap)
 		camel_mime_part_set_encoding (part, encoding);
 		
 		if ((data->required & CAMEL_BESTENC_GET_CHARSET) != 0) {
-			if (header_content_type_is (part->content_type, "text", "*")) {
+			if (header_content_type_is (((CamelDataWrapper *) part)->mime_type, "text", "*")) {
 				char *newct;
 				
 				/* FIXME: ick, the part content_type interface needs fixing bigtime */
-				header_content_type_set_param (part->content_type, "charset",
+				header_content_type_set_param (((CamelDataWrapper *) part)->mime_type, "charset",
 							       charset ? charset : "us-ascii");
-				newct = header_content_type_format (part->content_type);
+				newct = header_content_type_format (((CamelDataWrapper *) part)->mime_type);
 				if (newct) {
 					d(printf("Setting content-type to %s\n", newct));
 					

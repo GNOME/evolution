@@ -549,9 +549,9 @@ construct_from_parser(CamelMultipart *multipart, struct _CamelMimeParser *mp)
 	CamelMimePart *bodypart;
 	char *buf;
 	size_t len;
-
+	
 	g_assert(camel_mime_parser_state(mp) == HSCAN_MULTIPART);
-		
+	
 	/* FIXME: we should use a came-mime-mutlipart, not jsut a camel-multipart, but who cares */
 	d(printf("Creating multi-part\n"));
 		

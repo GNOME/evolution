@@ -1,3 +1,104 @@
+2003-08-08  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* tests/message/test4.c: New test suite for the mime parser (which
+	is where the below 2 fixes were noticed).
+
+	* camel-mime-parser.c (folder_boundary_check): Calculate 'len' by
+	subtracting the boundary start from inend rather than 'atleast'.
+	(folder_scan_content): Calculate 'inend' differently depending on
+	the EOF state.
+
+2003-08-08  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* camel-mime-filter-tohtml.c (html_convert): Rather than checking
+	*inptr == '\n', check inptr >= inend - this gets rid of an Invalid
+	Read report from valgrind.
+
+	* camel-mime-part.c (write_to_stream): Don't necessarily re-encode
+	just because the encodings differ. Need to look into making it so
+	that message/rfc822 and multipart parts ignore the
+	Content-Transfer-Encoding header and just keep their 'encoding'
+	bits set to DEFAULT.
+
+2003-08-05  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* providers/imap/camel-imap-folder.c (get_content): Updated.
+
+	* camel-mime-message.c (camel_mime_message_init): Don't override
+	the mime_type here.
+	(process_header): Updated to use CamelDataWrapper's mime_type
+	field.
+	(find_best_encoding): Same.
+	(best_encoding): Here too.
+
+	* camel-digest-folder.c (camel_digest_folder_new): Updated for
+	CamelMimePart::content_type change.
+
+	* camel-mime-part.c (camel_mime_part_init): Override our parent
+	class's default mime_type.
+	(camel_mime_part_finalize): Don't need to unref the content_type
+	anymore.
+	(process_header): Updated to use CamelDataWrapper's mime_type
+	field.
+	(camel_mime_part_set_filename): Same.
+	(camel_mime_part_get_filename): Same.
+	(camel_mime_part_get_content_type): Same.
+	(set_content_object): Here too.
+	(write_to_stream): Updated.
+	(construct_from_parser): Updated.
+
+	* camel-mime-part.h: Remove the content_type field.
+
+2003-07-31  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* tests/lib/messages.c (test_message_compare_content): If the
+	chunks differ, perform a hexdump on the data being compared so
+	that we may analyse it easier.
+
+	* camel-multipart-signed.c (write_to_stream): Return ssize_t.
+
+	* camel-mime-utils.h: Added the CamelMimePartEncodingType enum
+	here.
+
+	* camel-mime-part.h: Removed the CamelMimePartEncodingType enum
+	from here.
+
+	* camel-mime-part.c (write_to_stream): Updated to return
+	ssize_t. Also minor changes to only re-encode the content stream
+	if the charset or encoding changed (this way we write it out in
+	the original raw form if nothing changed).
+
+	* camel-mime-part-utils.c
+	(simple_data_wrapper_construct_from_parser): Drastically
+	simplify. We no longer scan html content to try and find the
+	charset, nor do we care about converting the content to UTF-8 and
+	handling broken windows charsets.
+
+	* camel-mime-message.c (find_best_encoding): Use
+	decode_to_stream() here. Also updated to not assume the content
+	charset is UTF-8 since it is very likely not the case anymore
+	since data-wrappers no longer are converted to UTF-8 at parse
+	time.
+
+	* camel-folder-summary.c (summary_build_content_info_message): Use
+	decode_to_stream instead here too.
+
+	* camel-folder-search.c (match_words_1message): Use
+	decode_to_stream instead of write_to_stream so we can search the
+	contents.
+
+	* camel-data-wrapper.c (camel_data_wrapper_init): Set the default
+	encoding to DEFAULT.
+	(write_to_stream): Updated to return ssize_t
+	(camel_data_wrapper_decode_to_stream): New virtual function to
+	decode a data wrapper to a stream (results in nearly identical
+	behaviour to the old write_to_stream method).
+	(decode_to_stream): Default implementation of above virtual
+	method. Decodes base64/qp/etc streams.
+
+	* camel-data-wrapper.h: Removed the rawtext bit and added an
+	encoding member.
+
 2003-08-01  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* tests/smime/pgp-mime.c: Same.

@@ -1,8 +1,11 @@
+#include <stdio.h>
 #include <string.h>
+#include <ctype.h>
 
 #include "messages.h"
 #include "camel-test.h"
 
+#include <camel/camel-multipart.h>
 #include <camel/camel-mime-message.h>
 #include <camel/camel-stream-fs.h>
 #include <camel/camel-stream-mem.h>
@@ -120,6 +123,36 @@ test_message_read_file(const char *name)
 	return msg2;
 }
 
+static void
+hexdump (const unsigned char *in, int inlen)
+{
+	const unsigned char *inptr = in, *start = inptr;
+	const unsigned char *inend = in + inlen;
+	int octets;
+	
+	while (inptr < inend) {
+		octets = 0;
+		while (inptr < inend && octets < 16) {
+			printf ("%.2X ", *inptr++);
+			octets++;
+		}
+		
+		while (octets < 16) {
+			printf ("   ");
+			octets++;
+		}
+		
+		printf ("       ");
+		
+		while (start < inptr) {
+			fputc (isprint ((int) *start) ? *start : '.', stdout);
+			start++;
+		}
+		
+		fputc ('\n', stdout);
+	}
+}
+
 int
 test_message_compare_content(CamelDataWrapper *dw, const char *text, int len)
 {
@@ -131,13 +164,62 @@ test_message_compare_content(CamelDataWrapper *dw, const char *text, int len)
 		return 0;
 
 	content = (CamelStreamMem *)camel_stream_mem_new();
-	camel_data_wrapper_write_to_stream(dw, (CamelStream *)content);
-
+	camel_data_wrapper_decode_to_stream(dw, (CamelStream *)content);
+	
+	if (content->buffer->len != len) {
+		printf ("original text:\n");
+		hexdump (text, len);
+		
+		printf ("new text:\n");
+		hexdump (content->buffer->data, content->buffer->len);
+	}
+	
 	check_msg(content->buffer->len == len, "buffer->len = %d, len = %d", content->buffer->len, len);
 	check_msg(memcmp(content->buffer->data, text, content->buffer->len) == 0, "len = %d", len);
 
 	check_unref(content, 1);
 
+	return 0;
+}
+
+int
+test_message_compare (CamelMimeMessage *msg)
+{
+	CamelMimeMessage *msg2;
+	CamelStreamMem *mem1, *mem2;
+	
+	mem1 = (CamelStreamMem *) camel_stream_mem_new ();
+	camel_data_wrapper_write_to_stream ((CamelDataWrapper *) msg, (CamelStream *) mem1);
+	camel_stream_reset ((CamelStream *) mem1);
+	
+	msg2 = camel_mime_message_new ();
+	camel_data_wrapper_construct_from_stream ((CamelDataWrapper *) msg2, (CamelStream *) mem1);
+	camel_stream_reset ((CamelStream *) mem1);
+	
+	mem2 = (CamelStreamMem *) camel_stream_mem_new ();
+	camel_data_wrapper_write_to_stream ((CamelDataWrapper *) msg2, (CamelStream *) mem2);
+	camel_stream_reset ((CamelStream *) mem2);
+	
+	camel_object_unref (msg2);
+	
+	if (mem1->buffer->len != mem2->buffer->len) {
+		CamelDataWrapper *content;
+		
+		printf ("mem1 stream:\n%.*s\n", mem1->buffer->len, mem1->buffer->data);
+		printf ("mem2 stream:\n%.*s\n\n", mem2->buffer->len, mem2->buffer->data);
+		
+		content = camel_medium_get_content_object ((CamelMedium *) msg);
+	}
+	
+	check_msg (mem1->buffer->len == mem2->buffer->len,
+		   "mem1->buffer->len = %d, mem2->buffer->len = %d",
+		   mem1->buffer->len, mem2->buffer->len);
+	
+	check_msg (memcmp (mem1->buffer->data, mem2->buffer->data, mem1->buffer->len) == 0, "msg/stream compare");
+	
+	camel_object_unref (mem1);
+	camel_object_unref (mem2);
+	
 	return 0;
 }
 

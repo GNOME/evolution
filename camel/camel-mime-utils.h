@@ -42,6 +42,18 @@ extern "C" {
 #define CAMEL_UUDECODE_STATE_END    (1 << 17)
 #define CAMEL_UUDECODE_STATE_MASK   (CAMEL_UUDECODE_STATE_BEGIN | CAMEL_UUDECODE_STATE_END)
 
+/* note, if you change this, make sure you change the 'encodings' array in camel-mime-part.c */
+typedef enum _CamelMimePartEncodingType {
+	CAMEL_MIME_PART_ENCODING_DEFAULT,
+	CAMEL_MIME_PART_ENCODING_7BIT,
+	CAMEL_MIME_PART_ENCODING_8BIT,
+	CAMEL_MIME_PART_ENCODING_BASE64,
+	CAMEL_MIME_PART_ENCODING_QUOTEDPRINTABLE,
+	CAMEL_MIME_PART_ENCODING_BINARY,
+	CAMEL_MIME_PART_ENCODING_UUENCODE,
+	CAMEL_MIME_PART_NUM_ENCODINGS
+} CamelMimePartEncodingType;
+
 /* a list of references for this message */
 struct _header_references {
 	struct _header_references *next;

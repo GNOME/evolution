@@ -860,7 +860,7 @@ match_words_1message (CamelDataWrapper *object, struct _camel_search_words *word
 		CamelStreamMem *mem = (CamelStreamMem *)camel_stream_mem_new ();
 
 		/* FIXME: The match should be part of a stream op */
-		camel_data_wrapper_write_to_stream (containee, CAMEL_STREAM (mem));
+		camel_data_wrapper_decode_to_stream (containee, CAMEL_STREAM (mem));
 		camel_stream_write (CAMEL_STREAM (mem), "", 1);
 		for (i=0;i<words->len;i++) {
 			/* FIXME: This is horridly slow, and should use a real search algorithm */

@@ -2193,7 +2193,7 @@ summary_build_content_info_message(CamelFolderSummary *s, CamelMessageInfo *msgi
 		}
 		idx_id = camel_stream_filter_add(p->filter_stream, (CamelMimeFilter *)p->filter_index);
 
-		camel_data_wrapper_write_to_stream(containee, (CamelStream *)p->filter_stream);
+		camel_data_wrapper_decode_to_stream(containee, (CamelStream *)p->filter_stream);
 		camel_stream_flush((CamelStream *)p->filter_stream);
 
 		camel_stream_filter_remove(p->filter_stream, idx_id);

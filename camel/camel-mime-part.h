@@ -31,7 +31,7 @@
 #ifdef __cplusplus
 extern "C" {
 #pragma }
-#endif /* __cplusplus }*/
+#endif /* __cplusplus */
 
 #include <camel/camel-medium.h>
 #include <camel/camel-mime-utils.h>
@@ -42,26 +42,10 @@ extern "C" {
 #define CAMEL_MIME_PART_CLASS(k) (CAMEL_CHECK_CLASS_CAST ((k), CAMEL_MIME_PART_TYPE, CamelMimePartClass))
 #define CAMEL_IS_MIME_PART(o)    (CAMEL_CHECK_TYPE((o), CAMEL_MIME_PART_TYPE))
 
-/* note, if you change this, make sure you change the 'encodings' array in camel-mime-part.c */
-enum _CamelMimePartEncodingType {
-        CAMEL_MIME_PART_ENCODING_DEFAULT,
-        CAMEL_MIME_PART_ENCODING_7BIT,
-        CAMEL_MIME_PART_ENCODING_8BIT,
-        CAMEL_MIME_PART_ENCODING_BASE64,
-        CAMEL_MIME_PART_ENCODING_QUOTEDPRINTABLE,
-        CAMEL_MIME_PART_ENCODING_BINARY,
-	CAMEL_MIME_PART_ENCODING_UUENCODE,
-        CAMEL_MIME_PART_NUM_ENCODINGS
-};
-typedef enum _CamelMimePartEncodingType CamelMimePartEncodingType;
-
-
 /* Do not change these values directly, you would regret it one day */
-struct _CamelMimePart
-{
+struct _CamelMimePart {
 	CamelMedium parent_object;
-
-	CamelContentType *content_type;
+	
 	struct _header_raw *headers; /* mime headers */
 	
 	/* All fields here are -** PRIVATE **- */
@@ -88,23 +72,23 @@ CamelType camel_mime_part_get_type (void);
 /* public methods */
 CamelMimePart *  camel_mime_part_new                    (void);
 
-void	         camel_mime_part_set_description	(CamelMimePart *mime_part, const gchar *description);
-const     gchar *camel_mime_part_get_description	(CamelMimePart *mime_part);
+void	         camel_mime_part_set_description	(CamelMimePart *mime_part, const char *description);
+const     char  *camel_mime_part_get_description	(CamelMimePart *mime_part);
 
-void	         camel_mime_part_set_disposition	(CamelMimePart *mime_part, const gchar *disposition);
-const     gchar *camel_mime_part_get_disposition	(CamelMimePart *mime_part);
+void	         camel_mime_part_set_disposition	(CamelMimePart *mime_part, const char *disposition);
+const     char  *camel_mime_part_get_disposition	(CamelMimePart *mime_part);
 
-void	         camel_mime_part_set_filename		(CamelMimePart *mime_part, const gchar *filename);
-const	  gchar *camel_mime_part_get_filename		(CamelMimePart *mime_part);
+void	         camel_mime_part_set_filename		(CamelMimePart *mime_part, const char *filename);
+const	  char  *camel_mime_part_get_filename		(CamelMimePart *mime_part);
 
 void             camel_mime_part_set_content_id		(CamelMimePart *mime_part, const char *contentid);
-const	  gchar *camel_mime_part_get_content_id		(CamelMimePart *mime_part);
+const	  char  *camel_mime_part_get_content_id		(CamelMimePart *mime_part);
 
 void		 camel_mime_part_set_content_MD5	(CamelMimePart *mime_part, const char *);
-const	  gchar *camel_mime_part_get_content_MD5	(CamelMimePart *mime_part);
+const	  char  *camel_mime_part_get_content_MD5	(CamelMimePart *mime_part);
 
 void		 camel_mime_part_set_content_location	(CamelMimePart *mime_part, const char *);
-const	  gchar *camel_mime_part_get_content_location	(CamelMimePart *mime_part);
+const	  char  *camel_mime_part_get_content_location	(CamelMimePart *mime_part);
 
 void	         camel_mime_part_set_encoding		(CamelMimePart *mime_part, CamelMimePartEncodingType type);
 CamelMimePartEncodingType camel_mime_part_get_encoding	(CamelMimePart *mime_part);
@@ -113,11 +97,11 @@ void	 	 camel_mime_part_set_content_languages	(CamelMimePart *mime_part, GList *
 const	  GList *camel_mime_part_get_content_languages	(CamelMimePart *mime_part);
 
 /* FIXME: what about content-type parameters?   what about major/minor parts? */
-void               camel_mime_part_set_content_type 	(CamelMimePart *mime_part, const gchar *content_type);
+void               camel_mime_part_set_content_type 	(CamelMimePart *mime_part, const char *content_type);
 CamelContentType  *camel_mime_part_get_content_type	(CamelMimePart *mime_part);
 
-const     gchar *         camel_mime_part_encoding_to_string   (CamelMimePartEncodingType encoding);
-CamelMimePartEncodingType camel_mime_part_encoding_from_string (const gchar *string);
+const     char *          camel_mime_part_encoding_to_string   (CamelMimePartEncodingType encoding);
+CamelMimePartEncodingType camel_mime_part_encoding_from_string (const char *string);
 
 /* construction */
 int		camel_mime_part_construct_from_parser  (CamelMimePart *, CamelMimeParser *);

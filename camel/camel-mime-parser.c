@@ -1,5 +1,6 @@
+/* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
- *  Copyright (C) 2000 Ximian Inc.
+ *  Copyright (C) 2000-2003 Ximian Inc.
  *
  *  Authors: Michael Zucchi <notzed@ximian.com>
  *
@@ -1128,13 +1129,13 @@ static struct _header_scan_stack *
 folder_boundary_check(struct _header_scan_state *s, const char *boundary, int *lastone)
 {
 	struct _header_scan_stack *part;
-	int len = s->atleast;	/* make sure we dont access past the buffer */
-	
+	int len = s->inend - boundary; /* make sure we dont access past the buffer */
+
 	h(printf("checking boundary marker upto %d bytes\n", len));
 	part = s->parts;
 	while (part) {
 		h(printf("  boundary: %s\n", part->boundary));
-		h(printf("   against: '%.*s'\n", s->atleast, boundary));
+		h(printf("   against: '%.*s'\n", part->boundarylen, boundary));
 		if (part->boundary
 		    && part->boundarylen <= len
 		    && memcmp(boundary, part->boundary, part->boundarylen)==0) {
@@ -1384,7 +1385,10 @@ folder_scan_content(struct _header_scan_state *s, int *lastone, char **data, siz
 
 		while ((len = folder_read(s))>0 && len >= s->atleast) { /* ensure we have at least enough room here */
 			inptr = s->inptr;
-			inend = s->inend-s->atleast+1;
+			if (s->eof)
+				inend = s->inend;
+			else
+				inend = s->inend-s->atleast+1;
 			start = inptr;
 
 			c(printf("inptr = %p, inend = %p\n", inptr, inend));
