@@ -373,6 +373,7 @@ transport_changed (GtkWidget *widget, gpointer data)
 	
 	if (gui->page != MAIL_CONFIG_WIZARD_PAGE_TRANSPORT)
 		return;
+	
 	next_sensitive = mail_account_gui_transport_complete (gui->gui, &incomplete);
 	
 	evolution_wizard_set_buttons_sensitive (gui->wizard, TRUE, next_sensitive, TRUE, NULL);
@@ -799,6 +800,8 @@ get_fn (EvolutionWizard *wizard,
 				    "changed", transport_changed, gui);
 		gtk_signal_connect (GTK_OBJECT (gui->gui->transport.username),
 				    "changed", transport_changed, gui);
+		gtk_signal_connect (GTK_OBJECT (gui->gui->transport_needs_auth),
+				    "toggled", transport_changed, gui);
 
 		gtk_signal_connect (GTK_OBJECT (gui->gui->account_name),
 				    "activate", management_activate_cb, gui);

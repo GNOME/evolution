@@ -345,7 +345,7 @@ mail_account_gui_transport_complete (MailAccountGui *gui, GtkWidget **incomplete
 	/* FIXME? */
 	if (gtk_toggle_button_get_active (gui->transport_needs_auth) &&
 	    CAMEL_PROVIDER_ALLOWS (gui->transport.provider, CAMEL_URL_PART_USER)) {
-		char *text = gtk_entry_get_text (gui->transport.username);
+		const char *text = gtk_entry_get_text (gui->transport.username);
 		
 		if (!text || !*text) {
 			if (incomplete)

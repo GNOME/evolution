@@ -481,7 +481,7 @@ composer_get_message (EMsgComposer *composer, gboolean post, gboolean save_html_
 	/* see which ones are visible/present, etc */
 	if (recipients) {
 		for (i = 0; recipients[i] != NULL; i++) {
-			const char *addr = e_destination_get_address (recipients[i]);
+			const char *addr = e_destination_get_email (recipients[i]);
 			
 			if (addr && addr[0]) {
 				num++;
@@ -498,7 +498,7 @@ composer_get_message (EMsgComposer *composer, gboolean post, gboolean save_html_
 	recipients_bcc = e_msg_composer_get_bcc (composer);
 	if (recipients_bcc) {
 		for (i = 0; recipients_bcc[i] != NULL; i++) {
-			const char *addr = e_destination_get_address (recipients_bcc[i]);
+			const char *addr = e_destination_get_email (recipients_bcc[i]);
 			
 			if (addr && addr[0])
 				num_bcc++;
