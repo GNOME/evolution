@@ -1145,7 +1145,6 @@ try_part_urls (struct _load_content_msg *m)
 {
 	GHashTable *urls;
 	CamelMedium *medium;
-	GByteArray *ba;
 
 	urls = g_datalist_get_data (m->display->data, "part_urls");
 	g_return_val_if_fail (urls != NULL, FALSE);
@@ -1154,24 +1153,19 @@ try_part_urls (struct _load_content_msg *m)
 	medium = g_hash_table_lookup (urls, m->url);
 	if (medium) {
 		CamelDataWrapper *data;
-		CamelStream *stream_mem;
-
+		CamelStream *html_stream;
+		
 		g_return_val_if_fail (CAMEL_IS_MEDIUM (medium), FALSE);
-
+		
 		data = camel_medium_get_content_object (medium);
 		if (!mail_content_loaded (data, m->display, FALSE, m->url, m->handle)) {
 			g_warning ("This code should not be reached\n");
 			return TRUE;
 		}
-
-		ba = g_byte_array_new ();
-		stream_mem = camel_stream_mem_new_with_byte_array (ba);
-		camel_data_wrapper_write_to_stream (data, stream_mem);
-		/* printf ("-- begin --\n");
-		   printf (ba->data);
-		   printf ("-- end --\n"); */
-		gtk_html_write (m->display->html, m->handle, ba->data, ba->len);
-		camel_object_unref (CAMEL_OBJECT (stream_mem));
+		
+		html_stream = mail_stream_gtkhtml_new (m->display->html, m->handle);
+		camel_data_wrapper_write_to_stream (data, html_stream);
+		camel_object_unref (CAMEL_OBJECT (html_stream));
 
 		gtk_html_end (m->display->html, m->handle, GTK_HTML_STREAM_OK);
 		return TRUE;
@@ -1301,7 +1295,7 @@ mail_html_write (GtkHTML *html, GtkHTMLStream *stream,
 {
 	char *buf;
 	va_list ap;
-
+	
 	va_start (ap, format);
 	buf = g_strdup_vprintf (format, ap);
 	va_end (ap);
@@ -1316,24 +1310,24 @@ mail_text_write (GtkHTML *html, GtkHTMLStream *stream,
 {
 	char *buf, *htmltext;
 	va_list ap;
-
+	
 	va_start (ap, format);
 	buf = g_strdup_vprintf (format, ap);
 	va_end (ap);
-
-	htmltext = e_text_to_html_full (buf,
-					E_TEXT_TO_HTML_CONVERT_URLS |
+	
+	htmltext = e_text_to_html_full (buf, E_TEXT_TO_HTML_CONVERT_URLS |
 					E_TEXT_TO_HTML_CONVERT_ADDRESSES |
 					E_TEXT_TO_HTML_CONVERT_NL |
 					E_TEXT_TO_HTML_CONVERT_SPACES |
 					(mail_config_get_citation_highlight () ? E_TEXT_TO_HTML_MARK_CITATION : 0),
 					mail_config_get_citation_color ());
-
+	
+	g_free (buf);
+	
 	gtk_html_write (html, stream, "<tt>", 4);
 	gtk_html_write (html, stream, htmltext, strlen (htmltext));
 	gtk_html_write (html, stream, "</tt>", 5);
 	g_free (htmltext);
-	g_free (buf);
 }
 
 void
@@ -1342,18 +1336,18 @@ mail_error_write (GtkHTML *html, GtkHTMLStream *stream,
 {
 	char *buf, *htmltext;
 	va_list ap;
-
+	
 	va_start (ap, format);
 	buf = g_strdup_vprintf (format, ap);
 	va_end (ap);
-
+	
 	htmltext = e_text_to_html (buf, E_TEXT_TO_HTML_CONVERT_NL | E_TEXT_TO_HTML_CONVERT_URLS);
 	g_free (buf);
-
+	
 	gtk_html_stream_printf (stream, "<em><font color=red>");
 	gtk_html_stream_write (stream, htmltext, strlen (htmltext));
 	gtk_html_stream_printf (stream, "</font></em>");
-
+	
 	g_free (htmltext);
 }
 

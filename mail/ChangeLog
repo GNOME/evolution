@@ -1,3 +1,16 @@
+2001-10-22  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-display.h (mail_html_write_string): New fun macro.
+
+	* mail-format.c (write_one_text_plain_chunk): Use gtk_html_write
+	instead of mail_html_write so we avoid strdup'ing the text.
+	(handle_text_plain_flowed): Use the mail_html_write_string macro.
+	(handle_message_rfc822): Here too.
+	(mail_format_raw_message): We can do it here also...
+	(attachment_header): We can do it a little bit here...
+	(write_address): A microscopic bit here...
+	(write_hr): same.
+
 2001-10-22  Anna Marie Dirks  <anna@ximian.com>
 
 	* mail-config.glade: Added several new accelerators to the edit account
@@ -20,6 +33,7 @@
 	* mail-display.c (on_url_requested): Use the new Camel->GtkHTML
 	stream - this means we don't have to chew up nearly as much
 	memory...yay!
+	(try_part_urls): Here too.
 
 2001-10-22  Ettore Perazzoli  <ettore@ximian.com>
 

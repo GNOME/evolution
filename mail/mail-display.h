@@ -74,6 +74,8 @@ void           mail_display_set_charset (MailDisplay *mail_display,
 void           mail_display_load_images (MailDisplay *mail_display);
 
 
+#define mail_html_write_string(html, stream, string) gtk_html_write (html, stream, string, strlen (string))
+
 void           mail_html_write          (GtkHTML *html,
 					 GtkHTMLStream *stream,
 					 const char *format, ...);

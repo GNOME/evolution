@@ -210,8 +210,8 @@ mail_format_raw_message (CamelMimeMessage *mime_message, MailDisplay *md)
 				  TRUE, NULL, NULL))
 		return;
 	
-	mail_html_write (md->html, md->stream,
-			 "<table cellspacing=0 cellpadding=10 width=\"100%%\"><tr><td><tt>\n");
+	mail_html_write_string (md->html, md->stream,
+				"<table cellspacing=0 cellpadding=10 width=\"100%\"><tr><td><tt>\n");
 	
 	bytes = mail_format_get_data_wrapper_text (CAMEL_DATA_WRAPPER (mime_message), md);
 	if (bytes) {
@@ -220,11 +220,11 @@ mail_format_raw_message (CamelMimeMessage *mime_message, MailDisplay *md)
 				       E_TEXT_TO_HTML_CONVERT_SPACES | E_TEXT_TO_HTML_ESCAPE_8BIT);
 		g_byte_array_free (bytes, TRUE);
 		
-		gtk_html_write (md->html, md->stream, html, strlen (html));
+		mail_html_write_string (md->html, md->stream, html);
 		g_free (html);
 	}
 	
-	mail_html_write (md->html, md->stream, "</tt></td></tr></table>");
+	mail_html_write_string (md->html, md->stream, "</tt></td></tr></table>");
 }
 
 static const char *
@@ -649,9 +649,9 @@ attachment_header (CamelMimePart *part, const char *mime_type, MailDisplay *md)
 		g_free (htmlinfo);
 	}
 	
-	mail_html_write (md->html, md->stream,
-			 "</font></td></tr><tr><td height=10><table height=10 cellspacing=0 cellpadding=0>"
-			 "<tr><td></td></tr></table></td></tr></table>\n");
+	mail_html_write_string (md->html, md->stream, "</font></td></tr><tr>"
+				"<td height=10><table height=10 cellspacing=0 cellpadding=0>"
+				"<tr><td></td></tr></table></td></tr></table>\n");
 }
 
 static gboolean
@@ -838,7 +838,7 @@ write_address (MailDisplay *md, const CamelInternetAddress *addr, const char *fi
 		}
 		
 		if (i)
-			mail_html_write (md->html, md->stream, ", ");
+			mail_html_write_string (md->html, md->stream, ", ");
 		
 		if (have_email || have_name) {
 			if (!have_email) {
@@ -873,7 +873,8 @@ write_address (MailDisplay *md, const CamelInternetAddress *addr, const char *fi
 		
 		i++;
 	}
-	mail_html_write (md->html, md->stream, "</td></tr>");
+	
+	mail_html_write_string (md->html, md->stream, "</td></tr>");
 }
 
 /* order of these must match write_header code */
@@ -1008,10 +1009,10 @@ write_headers (CamelMimeMessage *message, MailDisplay *md)
 			write_default_header(message, md, i, 0);
 	}
 	
-	mail_html_write (md->html, md->stream,
-			 "</table></td></tr></table></td></tr></table></font></td>"
-			 "<td><table width=10 cellpadding=0 cellspacing=0><tr><td></td></tr></table></td></tr>"
-			 "</table>\n");
+	mail_html_write_string (md->html, md->stream,
+				"</table></td></tr></table></td></tr></table></font></td>"
+				"<td><table width=10 cellpadding=0 cellspacing=0><tr><td>"
+				"</td></tr></table></td></tr></table>\n");
 }
 
 static void
@@ -1095,9 +1096,9 @@ mail_format_get_data_wrapper_text (CamelDataWrapper *wrapper, MailDisplay *mail_
 static void
 write_hr (MailDisplay *md)
 {
-	mail_html_write (md->html, md->stream,
-			 "<table cellspacing=0 cellpadding=10 width=\"100%%\"><tr><td width=\"100%%\">"
-			 "<hr noshadow size=1></td></tr></table>\n");
+	mail_html_write_string (md->html, md->stream,
+				"<table cellspacing=0 cellpadding=10 width=\"100%\"><tr><td width=\"100%\">"
+				"<hr noshadow size=1></td></tr></table>\n");
 }
 
 /*----------------------------------------------------------------------*
@@ -1119,10 +1120,11 @@ struct {
 static void
 write_one_text_plain_chunk (const char *text, int len, MailDisplay *md)
 {
-	mail_html_write (md->html, md->stream, "<table cellspacing=0 cellpadding=10 width=\"100%%\"><tr><td>\n");
-	mail_text_write (md->html, md->stream, "%.*s", len, text);
-	mail_html_write (md->html, md->stream, "</td></tr></table>\n");
-}	
+	mail_html_write_string (md->html, md->stream,
+			       "<table cellspacing=0 cellpadding=10 width=\"100%\"><tr><td>\n");
+	gtk_html_write  (md->html, md->stream, text, len);
+	mail_html_write_string (md->html, md->stream, "</td></tr></table>\n");
+}
 
 static gboolean
 handle_text_plain (CamelMimePart *part, const char *mime_type,
@@ -1204,11 +1206,11 @@ handle_text_plain_flowed (char *buf, MailDisplay *md)
 	char *text, *line, *eol, *p;
 	int prevquoting = 0, quoting, len, br_pending = 0;
 	guint32 citation_color = mail_config_get_citation_color ();
-
-	mail_html_write (md->html, md->stream,
-			 "\n<!-- text/plain, flowed -->\n"
-			 "<table cellspacing=0 cellpadding=10 width=\"100%%\"><tr><td>\n<tt>\n");
-
+	
+	mail_html_write_string (md->html, md->stream,
+				"\n<!-- text/plain, flowed -->\n"
+				"<table cellspacing=0 cellpadding=10 width=\"100%\"><tr><td>\n<tt>\n");
+	
 	for (line = buf; *line; line = eol + 1) {
 		/* Process next line */
 		eol = strchr (line, '\n');
@@ -1227,23 +1229,23 @@ handle_text_plain_flowed (char *buf, MailDisplay *md)
 					br_pending--;
 			}
 			while (quoting > prevquoting) {
-				mail_html_write (md->html, md->stream,
-						 "<blockquote>");
+				mail_html_write_string (md->html, md->stream,
+							"<blockquote>");
 				prevquoting++;
 			}
 			while (quoting < prevquoting) {
-				mail_html_write (md->html, md->stream,
-						 "</blockquote>");
+				mail_html_write_string (md->html, md->stream,
+							"</blockquote>");
 				prevquoting--;
 			}
 			if (quoting == 0) {
-				mail_html_write (md->html, md->stream,
-						 "</font>\n");
+				mail_html_write_string (md->html, md->stream,
+							"</font>\n");
 				if (br_pending)
 					br_pending--;
 			}
 		}
-
+		
 		if (*p == ' ')
 			p++;
 		len = strlen (p);
@@ -1251,28 +1253,28 @@ handle_text_plain_flowed (char *buf, MailDisplay *md)
 			br_pending++;
 			continue;
 		}
-
+		
 		while (br_pending) {
-			mail_html_write (md->html, md->stream, "<br>\n");
+			mail_html_write_string (md->html, md->stream, "<br>\n");
 			br_pending--;
 		}
-
+		
 		/* replace '<' with '&lt;', etc. */
 		text = e_text_to_html (p, E_TEXT_TO_HTML_CONVERT_SPACES |
 				       E_TEXT_TO_HTML_CONVERT_URLS);
 		if (text && *text)
-			mail_html_write (md->html, md->stream, "%s", text);
+			mail_html_write_string (md->html, md->stream, text);
 		g_free (text);
-
+		
 		if (p[len - 1] != ' ' || !strcmp (p, "-- "))
 			br_pending++;
-
+		
 		if (!eol)
 			break;
 	}
 	g_free (buf);
 
-	mail_html_write (md->html, md->stream, "</tt>\n</td></tr></table>\n");
+	mail_html_write_string (md->html, md->stream, "</tt>\n</td></tr></table>\n");
 
 	return TRUE;
 }
@@ -1549,12 +1551,12 @@ handle_text_enriched (CamelMimePart *part, const char *mime_type,
 	
 	if (!g_strcasecmp (mime_type, "text/richtext")) {
 		enriched = FALSE;
-		mail_html_write (md->html, md->stream,
-				 "\n<!-- text/richtext -->\n");
+		mail_html_write_string (md->html, md->stream,
+					"\n<!-- text/richtext -->\n");
 	} else {
 		enriched = TRUE;
-		mail_html_write (md->html, md->stream,
-				 "\n<!-- text/enriched -->\n");
+		mail_html_write_string (md->html, md->stream,
+					"\n<!-- text/enriched -->\n");
 	}
 	
 	/* This is not great code, but I don't feel like fixing it right
@@ -1661,7 +1663,7 @@ handle_text_html (CamelMimePart *part, const char *mime_type,
 {
 	const char *location;
 	
-	mail_html_write (md->html, md->stream, "\n<!-- text/html -->\n");
+	mail_html_write_string (md->html, md->stream, "\n<!-- text/html -->\n");
 	
 	/* FIXME: deal with relative URLs */
 	location = get_location (part, md);
@@ -1793,13 +1795,13 @@ handle_multipart_signed (CamelMimePart *part, const char *mime_type,
 				 "<td><table width=3 cellspacing=0 cellpadding=0><tr><td></td></tr></table></td>"
 				 "<td><font size=-1>", url);
 		
-		mail_html_write (md->html, md->stream, "%s",
-				 U_("This message is digitally signed. "
-				    "Click the lock icon for more information."));
-
-		mail_html_write (md->html, md->stream,
-				 "</font></td></tr><tr><td height=10><table height=10 cellspacing=0 cellpadding=0>"
-				 "<tr><td></td></tr></table></td></tr></table>\n");
+		mail_html_write_string (md->html, md->stream, 
+					U_("This message is digitally signed. "
+					   "Click the lock icon for more information."));
+		
+		mail_html_write_string (md->html, md->stream,
+					"</font></td></tr><tr><td height=10><table height=10 cellspacing=0 cellpadding=0>"
+					"<tr><td></td></tr></table></td></tr></table>\n");
 	} else {
 		CamelCipherValidity *valid = NULL;
 		CamelException ex;
@@ -1838,14 +1840,13 @@ handle_multipart_signed (CamelMimePart *part, const char *mime_type,
 		}
 		
 		if (message) {
-			mail_html_write (md->html, md->stream,
-					 "<font size=-1 %s>",
+			mail_html_write (md->html, md->stream, "<font size=-1 %s>",
 					 good ? "" : "color=red");
 			mail_text_write (md->html, md->stream, "%s", message);
-			mail_html_write (md->html, md->stream, "</font>");
+			mail_html_write_string (md->html, md->stream, "</font>");
 		}
 		
-		mail_html_write (md->html, md->stream, "</td></tr></table>");
+		mail_html_write_string (md->html, md->stream, "</td></tr></table>");
 		camel_exception_clear (&ex);
 		camel_cipher_validity_free (valid);
 	}
@@ -1993,10 +1994,10 @@ handle_message_rfc822 (CamelMimePart *part, const char *mime_type,
 	
 	g_return_val_if_fail (CAMEL_IS_MIME_MESSAGE (wrapper), FALSE);
 	
-	mail_html_write (md->html, md->stream, "<blockquote>");
+	mail_html_write_string (md->html, md->stream, "<blockquote>");
 	mail_format_mime_message (CAMEL_MIME_MESSAGE (wrapper), md);
-	mail_html_write (md->html, md->stream, "</blockquote>");
-
+	mail_html_write_string (md->html, md->stream, "</blockquote>");
+	
 	return TRUE;
 }
 
