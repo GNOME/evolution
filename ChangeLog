@@ -1,7 +1,11 @@
 2004-11-03  JP Rosevear  <jpr@novell.com>
 
+	* configure.in: fix the logic
+	
+2004-11-03  JP Rosevear  <jpr@novell.com>
+
 	* configure.in: handle plain --enable-plugins and
-	--enable-plugins=yes by making it the equivalent of "all"
+	--enable-plugins=yes by making it the equivalent of "all"		
 
 2004-11-03  Not Zed  <NotZed@Ximian.com>
 

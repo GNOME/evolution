@@ -1346,7 +1346,7 @@ if test x"$enable_plugins" = "xno"; then
 	plugins_enabled=""
 	msg_plugins="no"
 else
-	if test x"$enable_plugins" = "xyes" | test x"$enable_plugins" = "xall"; then
+	if test x"$enable_plugins" = "xyes" -o x"$enable_plugins" = "xall"; then
 		plugins_enabled="$plugins_all"
 		msg_plugins="yes (all)"
 	else
