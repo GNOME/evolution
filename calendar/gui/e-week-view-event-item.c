@@ -550,7 +550,7 @@ e_week_view_draw_time	(EWeekView	*week_view,
 		time_x += week_view->small_digit_width * 2;
 
 		/* Draw the 'am'/'pm' suffix, if 12-hour format. */
-		if (!week_view->use_24_hour_format) {
+		if (!e_cal_view_get_use_24_hour_format (E_CAL_VIEW (week_view))) {
 			pango_layout_set_text (layout, suffix, -1);
 			gdk_draw_layout (drawable, gc,
 					 time_x,

@@ -85,6 +85,7 @@ icaltimezone       *e_cal_model_get_timezone (ECalModel *model);
 void                e_cal_model_set_timezone (ECalModel *model, icaltimezone *zone);
 
 void                e_cal_model_set_default_category (ECalModel *model, const gchar *default_cat);
+gboolean            e_cal_model_get_use_24_hour_format (ECalModel *model);
 void                e_cal_model_set_use_24_hour_format (ECalModel *model, gboolean use24);
 
 CalClient          *e_cal_model_get_default_client (ECalModel *model);

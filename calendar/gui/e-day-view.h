@@ -282,9 +282,6 @@ struct _EDayView
 	gint work_day_end_hour;
 	gint work_day_end_minute;
 
-	/* Whether we use 12-hour of 24-hour format. */
-	gboolean use_24_hour_format;
-
 	/* Whether we use show event end times in the main canvas. */
 	gboolean show_event_end_times;
 
@@ -505,11 +502,6 @@ void	   e_day_view_set_working_day		(EDayView	*day_view,
 						 gint		 start_minute,
 						 gint		 end_hour,
 						 gint		 end_minute);
-
-/* Whether we use 12-hour or 24-hour format. */
-gboolean   e_day_view_get_24_hour_format	(EDayView	*day_view);
-void	   e_day_view_set_24_hour_format	(EDayView	*day_view,
-						 gboolean	 use_24_hour);
 
 /* Whether we display event end times in the main canvas. */
 gboolean   e_day_view_get_show_event_end_times	(EDayView	*day_view);

@@ -364,7 +364,7 @@ e_day_view_time_item_draw (GnomeCanvasItem *canvas_item,
 				       long_line_x1, row_y,
 				       long_line_x2, row_y);
 
-			if (day_view->use_24_hour_format) {
+			if (e_cal_view_get_use_24_hour_format (E_CAL_VIEW (day_view))) {
 				g_snprintf (buffer, sizeof (buffer), "%i:%02i",
 					    display_hour, minute);
 			} else {
@@ -416,7 +416,7 @@ e_day_view_time_item_draw (GnomeCanvasItem *canvas_item,
 				/* In 12-hour format we display 'am' or 'pm'
 				   instead of '00'. */
 				if (minute == 0
-				    && !day_view->use_24_hour_format) {
+				    && !e_cal_view_get_use_24_hour_format (E_CAL_VIEW (day_view))) {
 					strcpy (buffer, suffix);
 				} else {
 					g_snprintf (buffer, sizeof (buffer),

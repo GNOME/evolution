@@ -155,7 +155,7 @@ new_calendar_cb (GtkWidget *widget, ESourceSelector *selector)
 static void
 fill_popup_menu_callback (ESourceSelector *selector, GtkMenu *menu, CalendarComponent *comp)
 {
-	add_popup_menu_item (menu, _("_New Calendar"), NULL, G_CALLBACK (new_calendar_cb), selector);
+	add_popup_menu_item (menu, _("New Calendar"), NULL, G_CALLBACK (new_calendar_cb), selector);
 }
 
 static void

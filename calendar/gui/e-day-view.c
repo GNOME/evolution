@@ -1648,7 +1648,7 @@ e_day_view_update_event_label (EDayView *day_view,
 						    &end_suffix,
 						    &end_suffix_width);
 
-		if (day_view->use_24_hour_format) {
+		if (e_cal_view_get_use_24_hour_format (E_CAL_VIEW (day_view))) {
 			if (day_view->show_event_end_times) {
 				/* 24 hour format with end time. */
 				text = g_strdup_printf
@@ -2321,40 +2321,6 @@ e_day_view_set_working_day		(EDayView	*day_view,
 
 	gtk_widget_queue_draw (day_view->main_canvas);
 }
-
-
-/* Whether we use 12-hour of 24-hour format. */
-gboolean
-e_day_view_get_24_hour_format	(EDayView	*day_view)
-{
-	g_return_val_if_fail (E_IS_DAY_VIEW (day_view), FALSE);
-
-	return day_view->use_24_hour_format;
-}
-
-
-void
-e_day_view_set_24_hour_format	(EDayView	*day_view,
-				 gboolean	 use_24_hour)
-{
-	g_return_if_fail (E_IS_DAY_VIEW (day_view));
-
-	if (day_view->use_24_hour_format == use_24_hour)
-		return;
-
-	day_view->use_24_hour_format = use_24_hour;
-
-	/* We need to update all the text in the events since they may contain
-	   the time in the old format. */
-	e_day_view_foreach_event (day_view, e_day_view_set_show_times_cb,
-				  NULL);
-
-	/* FIXME: We need to re-layout the top canvas since the time
-	   format affects the sizes. */
-	gtk_widget_queue_draw (day_view->time_canvas);
-	gtk_widget_queue_draw (day_view->top_canvas);
-}
-
 
 /* Whether we display event end times in the main canvas. */
 gboolean
@@ -7182,7 +7148,7 @@ e_day_view_convert_time_to_display	(EDayView	*day_view,
 	/* Calculate the actual hour number to display. For 12-hour
 	   format we convert 0-23 to 12-11am/12-11pm. */
 	*display_hour = hour;
-	if (day_view->use_24_hour_format) {
+	if (e_cal_view_get_use_24_hour_format (E_CAL_VIEW (day_view))) {
 		*suffix = "";
 		*suffix_width = 0;
 	} else {
@@ -7209,7 +7175,7 @@ e_day_view_get_time_string_width	(EDayView	*day_view)
 
 	time_width = day_view->digit_width * 4 + day_view->colon_width;
 
-	if (!day_view->use_24_hour_format)
+	if (!e_cal_view_get_use_24_hour_format (E_CAL_VIEW (day_view)))
 		time_width += MAX (day_view->am_string_width,
 				   day_view->pm_string_width);
 

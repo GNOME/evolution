@@ -476,7 +476,7 @@ e_day_view_top_item_draw_long_event (EDayViewTopItem *dvtitem,
 		e_day_view_convert_time_to_display (day_view, hour,
 						    &display_hour,
 						    &suffix, &suffix_width);
-		if (day_view->use_24_hour_format) {
+		if (e_cal_view_get_use_24_hour_format (E_CAL_VIEW (day_view))) {
 			g_snprintf (buffer, sizeof (buffer), "%i:%02i",
 				    display_hour, minute);
 		} else {
@@ -525,7 +525,7 @@ e_day_view_top_item_draw_long_event (EDayViewTopItem *dvtitem,
 							    &display_hour,
 							    &suffix,
 							    &suffix_width);
-			if (day_view->use_24_hour_format) {
+			if (e_cal_view_get_use_24_hour_format (E_CAL_VIEW (day_view))) {
 				g_snprintf (buffer, sizeof (buffer),
 					    "%i:%02i", display_hour, minute);
 			} else {

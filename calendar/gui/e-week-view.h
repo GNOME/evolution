@@ -218,9 +218,6 @@ struct _EWeekView
 	/* The first day of the week, 0 (Monday) to 6 (Sunday). */
 	gint week_start_day;
 
-	/* Whether we use 12-hour of 24-hour format. */
-	gboolean use_24_hour_format;
-
 	/* The first day of the week we display, 0 (Monday) to 6 (Sunday).
 	   This will usually be week_start_day, but if the weekend is
 	   compressed, and week_start_day is Sunday we have to use Saturday. */
@@ -382,11 +379,6 @@ void	   e_week_view_set_show_event_end_times	(EWeekView	*week_view,
 gint	   e_week_view_get_week_start_day	(EWeekView	*week_view);
 void	   e_week_view_set_week_start_day	(EWeekView	*week_view,
 						 gint		 week_start_day);
-
-/* Whether we use 12-hour or 24-hour format. */
-gboolean   e_week_view_get_24_hour_format	(EWeekView	*week_view);
-void	   e_week_view_set_24_hour_format	(EWeekView	*week_view,
-						 gboolean	 use_24_hour);
 
 void       e_week_view_delete_occurrence        (EWeekView      *week_view);
 

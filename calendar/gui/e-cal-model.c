@@ -974,6 +974,17 @@ e_cal_model_set_default_category (ECalModel *model, const gchar *default_cat)
 }
 
 /**
+ * e_cal_model_get_use_24_hour_format
+ */
+gboolean
+e_cal_model_get_use_24_hour_format (ECalModel *model)
+{
+	g_return_val_if_fail (E_IS_CAL_MODEL (model), FALSE);
+
+	return model->priv->use_24_hour_format;
+}
+
+/**
  * e_cal_model_set_use_24_hour_format
  */
 void

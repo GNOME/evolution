@@ -593,6 +593,37 @@ e_cal_view_set_default_category (ECalView *cal_view, const char *category)
 	cal_view->priv->default_category = g_strdup (category);
 }
 
+/**
+ * e_cal_view_get_use_24_hour_format:
+ * @cal_view: A calendar view.
+ *
+ * Gets whether the view is using 24 hour times or not.
+ *
+ * Returns: the 24 hour setting.
+ */
+gboolean
+e_cal_view_get_use_24_hour_format (ECalView *cal_view)
+{
+	g_return_val_if_fail (E_IS_CAL_VIEW (cal_view), FALSE);
+
+	return e_cal_model_get_use_24_hour_format (cal_view->priv->model);
+}
+
+/**
+ * e_cal_view_set_use_24_hour_format
+ * @cal_view: A calendar view.
+ * @use_24_hour: Whether to use 24 hour times or not.
+ *
+ * Sets the 12/24 hour times setting for the given view.
+ */
+void
+e_cal_view_set_use_24_hour_format (ECalView *cal_view, gboolean use_24_hour)
+{
+	g_return_if_fail (E_IS_CAL_VIEW (cal_view));
+
+	e_cal_model_set_use_24_hour_format (cal_view->priv->model, use_24_hour);
+}
+
 void
 e_cal_view_set_status_message (ECalView *cal_view, const gchar *message)
 {

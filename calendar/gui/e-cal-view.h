@@ -98,6 +98,8 @@ icaltimezone  *e_cal_view_get_timezone (ECalView *cal_view);
 void           e_cal_view_set_timezone (ECalView *cal_view, icaltimezone *zone);
 const char    *e_cal_view_get_default_category (ECalView *cal_view);
 void           e_cal_view_set_default_category (ECalView *cal_view, const char *category);
+gboolean       e_cal_view_get_use_24_hour_format (ECalView *view);
+void           e_cal_view_set_use_24_hour_format (ECalView *view, gboolean use_24_hour);
 
 void           e_cal_view_set_status_message (ECalView *cal_view, const gchar *message);
 

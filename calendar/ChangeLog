@@ -1,3 +1,33 @@
+2003-10-29  Rodrigo Moya <rodrigo@ximian.com>
+
+	* gui/calendar-component.c (fill_popup_menu_callback): fixed
+	typo in menu item label.
+
+	* gui/e-cal-model.[ch] (e_cal_model_get_use_24_hour_format): new
+	function.
+
+	* gui/e-cal-view.[ch]: no need to keep the 'use_24_hour' setting,
+	it's already in the model.
+	(e_cal_view_get_use_24_hour_format,
+	e_cal_view_set_use_24_hour_format): new functions.
+
+	* gui/e-day-view.[ch] (e_day_view_get_24_hour_format,
+	(e_day_view_set_24_hour_format): removed.
+	(e_day_view_convert_time_to_display, e_day_view_update_event_label,
+	e_day_view_get_time_string_width): use the ECalView's function to
+	get the 24 hour format.
+
+	* gui/e-week-view.[ch] (e_week_view_get_24_hour_format,
+	e_week_view_set_24_hour_format): removed.
+	(e_week_view_convert_time_to_display,
+	e_week_view_get_time_string_width): use the ECalView's function
+	to get the 24 hour format.
+
+	* gui/e-day-view-top-item.c (e_day_view_top_item_draw_long_event):
+	* gui/e-day-view-time-item.c (e_day_view_time_item_draw):
+	* gui/e-week-view-event-item.c (e_week_view_draw_time):
+	don't use the view's use_24_hour_format, but the ECalView method.
+
 2003-10-28  Rodrigo Moya <rodrigo@ximian.com>
 
 	* gui/calendar-component.c (impl_createControls): connect to

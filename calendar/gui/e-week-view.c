@@ -1705,36 +1705,6 @@ e_week_view_set_week_start_day	(EWeekView	*week_view,
 						 &week_view->first_day_shown);
 }
 
-
-/* Whether we use 12-hour or 24-hour format. */
-gboolean
-e_week_view_get_24_hour_format	(EWeekView	*week_view)
-{
-	g_return_val_if_fail (E_IS_WEEK_VIEW (week_view), FALSE);
-
-	return week_view->use_24_hour_format;
-}
-
-
-void
-e_week_view_set_24_hour_format	(EWeekView	*week_view,
-				 gboolean	 use_24_hour)
-{
-	g_return_if_fail (E_IS_WEEK_VIEW (week_view));
-
-	if (week_view->use_24_hour_format == use_24_hour)
-		return;
-
-	week_view->use_24_hour_format = use_24_hour;
-
-	/* We need to re-layout the events since the time format affects the
-	   sizes. */
-	e_week_view_recalc_cell_sizes (week_view);
-	week_view->events_need_reshape = TRUE;
-	e_week_view_check_layout (week_view);
-	gtk_widget_queue_draw (week_view->main_canvas);
-}
-
 static gboolean
 e_week_view_recalc_display_start_day	(EWeekView	*week_view)
 {
@@ -3614,7 +3584,7 @@ e_week_view_convert_time_to_display	(EWeekView	*week_view,
 	/* Calculate the actual hour number to display. For 12-hour
 	   format we convert 0-23 to 12-11am/12-11pm. */
 	*display_hour = hour;
-	if (week_view->use_24_hour_format) {
+	if (e_cal_view_get_use_24_hour_format (E_CAL_VIEW (week_view))) {
 		*suffix = "";
 		*suffix_width = 0;
 	} else {
@@ -3646,7 +3616,7 @@ e_week_view_get_time_string_width	(EWeekView	*week_view)
 		time_width = week_view->digit_width * 4
 			+ week_view->colon_width;
 
-	if (!week_view->use_24_hour_format)
+	if (!e_cal_view_get_use_24_hour_format (E_CAL_VIEW (week_view)))
 		time_width += MAX (week_view->am_string_width,
 				   week_view->pm_string_width);
 
