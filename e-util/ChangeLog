@@ -1,3 +1,9 @@
+2000-08-19  Lauris Kaplinski  lauris@helixcode.com
+
+	* e-font.h:
+	* e-font.c: Thin wrapper around GdkFont to deal with UTF-8 directly
+	Also handles bold/italic styling
+
 2000-08-14  Peter Williams  <peterw@helixcode.com>
 
 	* e-sexp.c (scanner_config): Add "-" to be an acceptable

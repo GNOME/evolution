@@ -123,7 +123,13 @@ my_row_count (ETableModel *etc, void *data)
 static void *
 my_value_at (ETableModel *etc, int col, int row, void *data)
 {
+	static guchar t[] = {'A', 0xc3, 0x84, 0xc3, 0x95, 0xc3, 0x94, 0xc3, 0xb5, 0x00};
+
+#if 0
 	if (col == 1) return "toshok@helixcode.com";
+#else
+	if (col == 1) return t;
+#endif
         else if (col == 2) return "Chris Toshok";
         else if (col == 3) return "43 Vicksburg, SF";
         else if (col == 4) return "415-867-5309";
