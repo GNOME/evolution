@@ -3,54 +3,20 @@
 	* gui/contact-editor/e-contact-editor.c (show_help_cb):
 	Point at the correct XML file for documentation
 
-2004-09-13 Sivaiah Nallagatla <snallagatla@novell.com>
+2004-09-09  Sivaiah Nallagatla  <snallagatla@novell.com>
 
-       * gui/contact-editor/e-contact-editor.c
-       (sensitize_address) : check for _LABEL
-       type address fields also in supported fileds
-       while sensitizing the address fields
+	Part of fix for #59582.
 
-2004-09-03  JP Rosevear  <jpr@novell.com>
- 
- 	Fixes #63191
- 	
- 	* gui/contact-list-editor/contact-list-editor.glade: set the title
- 	properly
-	
+	* gui/contact-editor/e-contact-editor.c 
+	(sensitize_address): check for _LABEL type address fields also in
+	supported fileds while sensitizing the address fields.
+
 2004-09-08  Not Zed  <NotZed@Ximian.com>
 
 	** See bug #64080.
 
 	* gui/component/Makefile.am (libevolution_addressbook_la_LIBADD):
 	link addressbook to camel.
-
-2004-09-04 Sivaiah Nallagatla <snallagatla@novell.com>
-
-	* gui/widgets/e-addressbook-view.h : add
-	new widget variable contact_dsiplay_window to _EABView strcut
-	to store. Remove unused scrolled varible
-	* gui/widgets/e-addressbook-view.c (eab_view_init)
-	(eab_view_dispose) : initialize and unref the new widget
-	added 
-	(eab_view_new) : remove the loca variable scrlled_window 
-	instead use eav->contact_display_window
-	(eab_view_show_contact_preview) : show/hide contact_display_window 
-	instead of contact_display
-	Fixes #64024 
-
-
-2004-08-27  Not Zed  <NotZed@Ximian.com>
-
-	** See bug #62856 (workaround).
-
-	* gui/component/addressbook.c (addressbook_authenticate): add
-	online flag to password request.
-
-	** See bug #64011.
-
-	* gui/component/addressbook-view.c (edit_addressbook_cb): Remove
-	double ;; in declaration section (c99 extension).  From Vincent
-	Noel <vnoel@cox.net>.
 
 2004-08-26  Hans Petter Jansson  <hpj@ximian.com>
 

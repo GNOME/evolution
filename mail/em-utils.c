@@ -1433,11 +1433,10 @@ em_utils_part_to_html(CamelMimePart *part, ssize_t *len, EMFormat *source)
 
 /**
  * em_utils_message_to_html:
- * @message:
+ * @message: 
+ * @source:
  * @credits: 
  * @flags: EMFormatQuote flags
- * @len:
- * @source:
  *
  * Convert a message to html, quoting if the @credits attribution
  * string is given.
@@ -1463,7 +1462,6 @@ em_utils_message_to_html(CamelMimeMessage *message, const char *credits, guint32
 		GConfClient *gconf;
 		char *charset;
 		
-		/* FIXME: we should be getting this from the current view, not the global setting. */
 		gconf = gconf_client_get_default ();
 		charset = gconf_client_get_string (gconf, "/apps/evolution/mail/display/charset", NULL);
 		em_format_set_default_charset ((EMFormat *) emfq, charset);

@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: it\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2004-08-13 14:55-0400\n"
-"PO-Revision-Date: 2004-09-13 02:06+0200\n"
+"PO-Revision-Date: 2004-07-22 12:18+0200\n"
 "Last-Translator: Marco Ciampa <ciampix@libero.it>\n"
 "Language-Team: Italian <tp@lists.linux.it>\n"
 "MIME-Version: 1.0\n"
@@ -2898,7 +2898,7 @@ msgstr "Backend occupato"
 #. E_BOOK_ERROR_REPOSITORY_OFFLINE
 #: addressbook/gui/widgets/eab-gui-util.c:52
 msgid "Repository offline"
-msgstr "Deposito fuori linea"
+msgstr "Deposito non in linea"
 
 #. E_BOOK_ERROR_NO_SUCH_BOOK
 #: addressbook/gui/widgets/eab-gui-util.c:53
@@ -8951,16 +8951,17 @@ msgstr "Sincronizzazione con il server"
 
 #: camel/camel-disco-folder.c:41
 msgid "Copy folder content locally for offline operation"
-msgstr "Copia il contenuto della cartella localmente per le operazioni fuori linea"
+msgstr ""
+"Copia il contenuto della cartella localmente per la modalità non in linea"
 
 #: camel/camel-disco-folder.c:103
 msgid "Downloading new messages for offline mode"
-msgstr "Scaricamento nuovi messaggi per la modalità fuori linea"
+msgstr "Scaricamento nuovi messaggi per la modalità non in linea"
 
 #: camel/camel-disco-folder.c:466
 #, c-format
 msgid "Preparing folder '%s' for offline"
-msgstr "Preparazione cartella '%s' per l'accesso fuori linea"
+msgstr "Preparazione cartella '%s' per l'accesso fuorilinea"
 
 #: camel/camel-disco-store.c:404
 msgid "You must be working online to complete this operation"
@@ -11459,7 +11460,9 @@ msgstr "Fallito la spedizione della posta: %s"
 
 #: camel/providers/nntp/camel-nntp-folder.c:393
 msgid "You cannot post NNTP messages while working offline!"
-msgstr "È impossibile spedire messaggi NNTP durante una sessione di lavoro fuori linea!"
+msgstr ""
+"È impossibile spedire messaggi NNTP durante una sessione di lavoro non in "
+"linea!"
 
 #: camel/providers/nntp/camel-nntp-folder.c:404
 msgid "You cannot copy messages from a NNTP folder!"
@@ -16260,7 +16263,7 @@ msgstr "_Aggiungi"
 msgid ""
 "Could not connect to {0}. Groupwise account setup is incomplete. You may "
 "need to setup  the account again"
-msgstr "Impossibile connettersi a {0}. L'impostazione dell'account groupwise è incompleta. Potrebbe essere necessario reimpostare nuovamente l'account"
+msgstr ""
 
 #: mail/mail-folder-cache.c:795
 #, c-format
@@ -16715,36 +16718,44 @@ msgid "Subject does not contain"
 msgstr "L'oggetto non contiene"
 
 #: shell/GNOME_Evolution_Shell.server.in.in.h:1
+#, fuzzy
 msgid "Evolution Shell"
-msgstr "Shell di Evolution"
+msgstr "Posta di Evolution"
 
 #: shell/GNOME_Evolution_Test.server.in.in.h:1
+#, fuzzy
 msgid "Evolution Test"
-msgstr "Test di Evolution"
+msgstr "Interrogazione di Evolution"
 
 #: shell/GNOME_Evolution_Test.server.in.in.h:2
+#, fuzzy
 msgid "Evolution Test component"
-msgstr "Componente del test di Evolution"
+msgstr "Componente delle attività di Evolution"
 
 #: shell/apps_evolution_shell.schemas.in.in.h:1
+#, fuzzy
 msgid "480"
-msgstr "480"
+msgstr "80%"
 
 #: shell/apps_evolution_shell.schemas.in.in.h:2
+#, fuzzy
 msgid "Default width of the folder bar pane"
-msgstr "Larghezza predefinita del pannello delle cartelle"
+msgstr "Larghezza predefinita della finestra di composizione"
 
 #: shell/apps_evolution_shell.schemas.in.in.h:3
+#, fuzzy
 msgid "Default window height"
-msgstr "Altezza predefinita finestra"
+msgstr "Priorità predefinita:"
 
 #: shell/apps_evolution_shell.schemas.in.in.h:4
+#, fuzzy
 msgid "Default window width"
-msgstr "Larghezza predefinita finestra"
+msgstr "Priorità predefinita:"
 
 #: shell/apps_evolution_shell.schemas.in.in.h:5
+#, fuzzy
 msgid "Evolution configuration version"
-msgstr "Versione della configurazione di Evolution"
+msgstr "Controllo di configurazione del calendario di Evolution."
 
 #: shell/apps_evolution_shell.schemas.in.in.h:6
 #, fuzzy
@@ -16756,58 +16767,62 @@ msgstr ""
 msgid ""
 "If set to true, Evolution will start up in offline mode instead of online "
 "mode."
-msgstr "Se impostato, Evolution partirà in modalità fuori linea invece che in linea."
+msgstr ""
 
 #: shell/apps_evolution_shell.schemas.in.in.h:8
 msgid ""
 "If set to true, the warning dialog in development versions of Evolution is "
 "not displayed."
-msgstr "Se impostato, la finestra di dialogo di avvertimento sulla versione di sviluppo di Evolution, non verrà mostrata."
+msgstr ""
 
 #: shell/apps_evolution_shell.schemas.in.in.h:9
+#, fuzzy
 msgid "Last upgraded Evolution configuration version"
-msgstr "Versione dell'ultimo aggiornamento della configurazione di Evolution"
+msgstr "Controllo di configurazione del calendario di Evolution."
 
 #: shell/apps_evolution_shell.schemas.in.in.h:10
 msgid ""
 "List of paths for the folders to be synchronized to disk for offline usage"
-msgstr "Elenco dei percorsi delle cartelle che devono essere sincronizzate al disco per l'uso fuori linea"
+msgstr ""
 
 #: shell/apps_evolution_shell.schemas.in.in.h:11
 msgid "Toolbar is visible"
-msgstr "La barra degli strumenti è visibile"
+msgstr ""
 
 #: shell/apps_evolution_shell.schemas.in.in.h:12
 msgid "Whether Evolution should start up in offline mode"
-msgstr "Partenza di Evolution in modalità fuori linea"
+msgstr ""
 
 #: shell/apps_evolution_shell.schemas.in.in.h:13
 msgid "Whether the toolbar should be visible."
-msgstr "Barra degli strumenti visibile"
+msgstr ""
 
 #: shell/apps_evolution_shell.schemas.in.in.h:14
 msgid "Whether to skip the development warning dialog"
-msgstr "Evita di visualizzare la finestra di avvertimento versione di sviluppo"
+msgstr ""
 
 #: shell/e-active-connection-dialog.glade.h:1
+#, fuzzy
 msgid "<b>Active Connections</b>"
-msgstr "<b>Connessioni attive</b>"
+msgstr "<b>Autenticazione</b>"
 
 #: shell/e-active-connection-dialog.glade.h:2
+#, fuzzy
 msgid "Active Connections"
-msgstr "Connessioni attive"
+msgstr "Esegui le azioni"
 
 #: shell/e-active-connection-dialog.glade.h:3
 msgid "Click OK to close these connections and go offline"
-msgstr "Fare clic su OK per chiudere le connessioni ed andare in modalità fuori linea"
+msgstr ""
 
 #: shell/e-shell-folder-title-bar.c:592 shell/e-shell-folder-title-bar.c:593
+#, fuzzy
 msgid "(Untitled)"
-msgstr "(Senza nome)"
+msgstr "Senza nome"
 
 #: shell/e-shell-importer.c:146
 msgid "Choose the type of importer to run:"
-msgstr "Scegliere il tipo di importatore da eseguire:"
+msgstr ""
 
 #: shell/e-shell-importer.c:149
 msgid ""
@@ -16819,8 +16834,9 @@ msgid ""
 msgstr ""
 
 #: shell/e-shell-importer.c:155
+#, fuzzy
 msgid "Choose the destination for this import"
-msgstr "Scegli la destinazione per quest'importazione"
+msgstr "Annulla la riunione su questo argomento"
 
 #: shell/e-shell-importer.c:158 shell/e-shell-startup-wizard.c:748
 msgid "Please select the information that you would like to import:"
@@ -16835,36 +16851,36 @@ msgid ""
 msgstr ""
 
 #: shell/e-shell-importer.c:229 shell/e-shell-importer.c:260
-#, c-format
+#, fuzzy, c-format
 msgid ""
 "Importing %s\n"
 "Importing item %d."
-msgstr ""
-"Importazione di %s\n"
-"Importazione voce %d."
+msgstr "Importazione dati Pine"
 
 #: shell/e-shell-importer.c:333
+#, fuzzy
 msgid "Select importer"
-msgstr "Scegli importatore"
+msgstr "Scegli cartella"
 
 #: shell/e-shell-importer.c:451 shell/e-shell-importer.c:1056
-#, c-format
+#, fuzzy, c-format
 msgid "File %s does not exist"
-msgstr "Il file %s non esiste"
+msgstr "La cartella `%s' non esiste."
 
 #: shell/e-shell-importer.c:459
+#, fuzzy
 msgid "Importing"
-msgstr "Importazione in corso"
+msgstr "Importazione in corso..."
 
 #: shell/e-shell-importer.c:467
-#, c-format
+#, fuzzy, c-format
 msgid "Importing %s.\n"
-msgstr "Importazione in corso di %s.\n"
+msgstr "Importazione in corso di `%s'"
 
 #: shell/e-shell-importer.c:477 shell/e-shell-importer.c:478
-#, c-format
+#, fuzzy, c-format
 msgid "Error loading %s"
-msgstr "Errore nel caricamento di %s"
+msgstr "Errore nell'aggiungere l'elenco"
 
 #: shell/e-shell-importer.c:495
 #, c-format
@@ -16874,28 +16890,34 @@ msgid ""
 msgstr ""
 
 #: shell/e-shell-importer.c:570
+#, fuzzy
 msgid "Automatic"
-msgstr "Automatico"
+msgstr "_Autopick"
 
 #: shell/e-shell-importer.c:626
+#, fuzzy
 msgid "F_ilename:"
-msgstr "Nome del f_ile:"
+msgstr "Nome del file:"
 
 #: shell/e-shell-importer.c:631
+#, fuzzy
 msgid "Select a file"
-msgstr "Scegli un file"
+msgstr "Scegli cartella"
 
 #: shell/e-shell-importer.c:643
+#, fuzzy
 msgid "File _type:"
-msgstr "Tipo di _file:"
+msgstr "Nome del file:"
 
 #: shell/e-shell-importer.c:682
+#, fuzzy
 msgid "Import data and settings from _older programs"
-msgstr "Importare dati e impostazioni da vecchi pr_ogrammi"
+msgstr "Importare dati da altre applicazioni"
 
 #: shell/e-shell-importer.c:685
+#, fuzzy
 msgid "Import a _single file"
-msgstr "Importazione di un _singolo file"
+msgstr "Importazione casella di posta"
 
 #: shell/e-shell-importer.c:753 shell/e-shell-startup-wizard.c:571
 msgid ""
@@ -16904,38 +16926,43 @@ msgid ""
 msgstr ""
 
 #: shell/e-shell-importer.c:757
+#, fuzzy
 msgid "Starting Intelligent Importers"
-msgstr "Esecuzione programmi di importazione intelligente"
+msgstr "Importatore intelligente del calendario di Evolution"
 
 #: shell/e-shell-importer.c:883 shell/e-shell-startup-wizard.c:698
-#, c-format
+#, fuzzy, c-format
 msgid "From %s:"
-msgstr "Da %s:"
+msgstr "Da:"
 
 #: shell/e-shell-importer.c:1074
-#, c-format
+#, fuzzy, c-format
 msgid "No importer available for file %s"
-msgstr "Nessun programma di importazione disponibile per il file %s"
+msgstr "Nessun fornitore disponibile per il protocollo `%s'"
 
 #: shell/e-shell-importer.c:1086
+#, fuzzy
 msgid "Unable to execute importer"
-msgstr "Impossibile eseguire il programma di importazione"
+msgstr "Esecuzione di gpg non riuscita."
 
 #: shell/e-shell-importer.c:1200
+#, fuzzy
 msgid "_Import"
-msgstr "_Importa"
+msgstr "Importa"
 
 #: shell/e-shell-offline-handler.c:594
 msgid "Closing connections..."
-msgstr "Chiusura connessioni..."
+msgstr ""
 
 #: shell/e-shell-settings-dialog.c:326
+#, fuzzy
 msgid "Evolution Settings"
-msgstr "Impostazioni di Evolution"
+msgstr "Cambia le impostazioni di Evolution"
 
 #: shell/e-shell-startup-wizard.c:575
+#, fuzzy
 msgid "Starting import"
-msgstr "Inizio importazione"
+msgstr "Inizio:"
 
 #: shell/e-shell-startup-wizard.c:795
 msgid ""
@@ -16947,33 +16974,43 @@ msgid ""
 msgstr ""
 
 #: shell/e-shell-utils.c:116
+#, fuzzy
 msgid "No folder name specified."
-msgstr "Non è stato fornito un nome cartella."
+msgstr "Non è stato fornito un nome di file."
 
 #: shell/e-shell-utils.c:123
+#, fuzzy
 msgid "Folder name cannot contain the Return character."
-msgstr "Il nome della cartella non può contenere il carattere di ritorno a capo."
+msgstr ""
+"Il nome della cartella \"%s\" non è valido perché contiene il carattere \"%c"
+"\""
 
 #: shell/e-shell-utils.c:129
+#, fuzzy
 msgid "Folder name cannot contain the character \"/\"."
-msgstr "Il nome della cartella non può contenere il carattere \"/\"."
+msgstr ""
+"Il nome della cartella \"%s\" non è valido perché contiene il carattere \"%c"
+"\""
 
 #: shell/e-shell-utils.c:135
+#, fuzzy
 msgid "Folder name cannot contain the character \"#\"."
-msgstr "Il nome della cartella non può contenere il carattere \"#\"."
+msgstr ""
+"Il nome della cartella \"%s\" non è valido perché contiene il carattere \"%c"
+"\""
 
 #: shell/e-shell-utils.c:141
 msgid "'.' and '..' are reserved folder names."
-msgstr "'.' e '..' sono nomi di cartelle riservati."
+msgstr ""
 
 #: shell/e-shell-window-commands.c:67
 msgid "The GNOME Pilot tools do not appear to be installed on this system."
-msgstr "Non sembra che il pacchetto Gnome Pilot sia installato sul sistema."
+msgstr ""
 
 #: shell/e-shell-window-commands.c:75
-#, c-format
+#, fuzzy, c-format
 msgid "Error executing %s."
-msgstr "Errore nell'esecuzione di %s."
+msgstr "Errore nell'esecuzione del filtro: %s: %s"
 
 #: shell/e-shell-window-commands.c:124
 msgid "Bug buddy is not installed."
@@ -16988,16 +17025,17 @@ msgid "Groupware Suite"
 msgstr ""
 
 #: shell/e-shell-window-commands.c:563
+#, fuzzy
 msgid "_Work Online"
-msgstr "_In linea"
+msgstr "_Non in linea"
 
 #: shell/e-shell-window-commands.c:576 ui/evolution.xml.h:39
 msgid "_Work Offline"
-msgstr "_Fuori linea"
+msgstr "_Non in linea"
 
 #: shell/e-shell-window-commands.c:589 ui/evolution.xml.h:25
 msgid "Work Offline"
-msgstr "Fuori linea"
+msgstr "Non in linea"
 
 #: shell/e-shell-window.c:337
 msgid "Evolution is currently online.  Click on this button to work offline."
@@ -17012,54 +17050,62 @@ msgid "Evolution is currently offline.  Click on this button to work online."
 msgstr ""
 
 #: shell/e-shell-window.c:637
-#, c-format
+#, fuzzy, c-format
 msgid "Switch to %s"
-msgstr "Passa a %s"
+msgstr "Posta a %s"
 
 #: shell/e-shell.c:585
+#, fuzzy
 msgid "Uknown system error."
-msgstr "Errore di sistema sconosciuto."
+msgstr "Errore sconosciuto"
 
 #: shell/e-shell.c:789 shell/e-shell.c:790
-#, c-format
+#, fuzzy, c-format
 msgid "%ld KB"
-msgstr "%ld KB"
+msgstr "%d %B"
 
 #: shell/e-shell.c:1212
+#, fuzzy
 msgid "Invalid arguments"
-msgstr "Argomenti non validi"
+msgstr "Argomenti non validi per (selezione utente)"
 
 #: shell/e-shell.c:1214
 msgid "Cannot register on OAF"
-msgstr "Impossibile registrare su OAF"
+msgstr ""
 
 #: shell/e-shell.c:1216
+#, fuzzy
 msgid "Configuration Database not found"
-msgstr "Configurazione database non trovata"
+msgstr "Contatto non trovato"
 
 #: shell/e-shell.c:1218
+#, fuzzy
 msgid "Generic error"
-msgstr "Errore generico"
+msgstr "Altro errore"
 
 #: shell/e-user-creatable-items-handler.c:691
+#, fuzzy
 msgid "New"
-msgstr "Nuovo"
+msgstr "_Nuovo"
 
 #: shell/evolution-startup-wizard.glade.h:2
+#, fuzzy
 msgid "Evolution Setup Assistant"
-msgstr "Assistente all'impostazione di Evolution"
+msgstr "Guida agli account di Evolution"
 
 #: shell/evolution-startup-wizard.glade.h:3
+#, fuzzy
 msgid "Importing Files"
-msgstr "Importazione file"
+msgstr "Importazione in corso di `%s'"
 
 #: shell/evolution-startup-wizard.glade.h:4
+#, fuzzy
 msgid "Timezone "
-msgstr "Fuso orario"
+msgstr "F_uso orario: "
 
 #: shell/evolution-startup-wizard.glade.h:5
 msgid "Welcome"
-msgstr "Benvenuti"
+msgstr ""
 
 #: shell/evolution-startup-wizard.glade.h:6
 msgid ""
@@ -17069,11 +17115,6 @@ msgid ""
 "\n"
 "Please click the \"Forward\" button to continue. "
 msgstr ""
-"Benvenuti a Evolution. Le prossime schermate vi consentiranno\n"
-"di connettere Evolution agli account di posta e di importare\n"
-"file da altre applicazioni. \n"
-"\n"
-"Premere il tasto \"Avanti\" per continuare. "
 
 #: shell/evolution-startup-wizard.glade.h:11
 msgid ""
@@ -17084,44 +17125,53 @@ msgid ""
 msgstr ""
 
 #: shell/evolution-test-component.c:140
+#, fuzzy
 msgid "New Test"
-msgstr "Nuovo test"
+msgstr "Nuova attività"
 
 #: shell/evolution-test-component.c:141
+#, fuzzy
 msgid "_Test"
-msgstr "_Test"
+msgstr "Test"
 
 #: shell/evolution-test-component.c:142
+#, fuzzy
 msgid "Create a new test item"
-msgstr "Crea una nuova voce di test"
+msgstr "Crea una nuova attività"
 
 #: shell/importer/import.glade.h:1
 msgid "Click \"Import\" to begin importing the file into Evolution. "
-msgstr "Premere \"Importa\" per cominciare ad importare il file in Evolution. "
+msgstr ""
 
 #: shell/importer/import.glade.h:2
+#, fuzzy
 msgid "Evolution Import Assistant"
-msgstr "Assitente alle importazioni di Evolution"
+msgstr "Guida agli account di Evolution"
 
 #: shell/importer/import.glade.h:3
+#, fuzzy
 msgid "Import File"
-msgstr "File da importare"
+msgstr "File sorgente"
 
 #: shell/importer/import.glade.h:4
+#, fuzzy
 msgid "Import Location"
 msgstr "Posizione"
 
 #: shell/importer/import.glade.h:5
+#, fuzzy
 msgid "Importer Type"
-msgstr "Tipo di importazione"
+msgstr "Importa"
 
 #: shell/importer/import.glade.h:6
+#, fuzzy
 msgid "Select Importers"
-msgstr "Scegli i programmi di importazione"
+msgstr "Scegli cartella"
 
 #: shell/importer/import.glade.h:7
+#, fuzzy
 msgid "Select a File"
-msgstr "Scegli un file"
+msgstr "Scegli cartella"
 
 #: shell/importer/import.glade.h:8
 msgid ""
@@ -17131,18 +17181,21 @@ msgid ""
 msgstr ""
 
 #: shell/importer/intelligent.c:193
+#, fuzzy
 msgid "Importers"
-msgstr "Importatori"
+msgstr "Importa"
 
 #: shell/importer/intelligent.c:195 smime/gui/smime-ui.glade.h:28
 msgid "Import"
 msgstr "Importa"
 
 #: shell/importer/intelligent.c:199
+#, fuzzy
 msgid "Don't import"
-msgstr "Non importare"
+msgstr "Non cancellare"
 
 #: shell/importer/intelligent.c:203
+#, fuzzy
 msgid "Don't ask me again"
 msgstr "Non chiedere più in futuro."
 
@@ -18955,15 +19008,15 @@ msgstr "Firma questo messaggio con il certificato di firma S/MIME"
 
 #: ui/evolution-message-composer.xml.h:32
 msgid "Toggles whether the BCC field is displayed"
-msgstr "Commuta la visualizzazione del campo BCC"
+msgstr "Mostra / nascondi il campo BCC"
 
 #: ui/evolution-message-composer.xml.h:33
 msgid "Toggles whether the CC field is displayed"
-msgstr "Commuta la visualizzazione del campo CC"
+msgstr "Mostra / nascondi il campo CC"
 
 #: ui/evolution-message-composer.xml.h:34
 msgid "Toggles whether the From chooser is displayed"
-msgstr "Commuta la visualizzazione del campo di selezione Da"
+msgstr "Mostra / nascondi il campo di selezione Da"
 
 #: ui/evolution-message-composer.xml.h:35
 msgid "Toggles whether the Post-To field is displayed"
@@ -19638,3 +19691,58 @@ msgstr "%s (...)"
 #, c-format
 msgid "%s (%d%% complete)"
 msgstr "%s (%d%% completata)"
+
+#~ msgid "_Add Group"
+#~ msgstr "_Aggiungi gruppo..."
+
+#~ msgid "Ximian Evolution (Unstable)"
+#~ msgstr "Ximian Evolution (instabile)"
+
+#~ msgid "Remember this password"
+#~ msgstr "Ricorda questa password"
+
+#~ msgid "Remember this password for the remainder of this session"
+#~ msgstr "Ricorda questa password per il resto della sessione"
+
+#, fuzzy
+#~ msgid "Keep"
+#~ msgstr "Beep"
+
+#~ msgid "New Contacts Group"
+#~ msgstr "Nuovo gruppo contatti"
+
+#~ msgid "Contacts Grou_p"
+#~ msgstr "Grup_po contatti"
+
+#~ msgid "Create a new contacts group"
+#~ msgstr "Crea un nuovo gruppo contatti"
+
+#~ msgid "Add Contacts Group"
+#~ msgstr "Aggiungi gruppo contatti"
+
+#~ msgid "_Add Contacts Group"
+#~ msgstr "_Aggiungi gruppo contatti"
+
+#~ msgid "Add Tasks Group"
+#~ msgstr "Aggiungi gruppo attività"
+
+#~ msgid "L_ocation:"
+#~ msgstr "P_osizione:"
+
+#~ msgid "<b>Organizer</b>"
+#~ msgstr "<b>Organizzatore</b>"
+
+#~ msgid "_Organizer:"
+#~ msgstr "_Organizzatore:"
+
+#~ msgid "New tasks group"
+#~ msgstr "Nuovo gruppo attività"
+
+#~ msgid "Tasks Gro_up"
+#~ msgstr "Gr_uppo attività"
+
+#~ msgid "Create a new tasks group"
+#~ msgstr "Crea un nuovo gruppo attività"
+
+#~ msgid "Got BYE response"
+#~ msgstr "Ottenuta risposta BYE (arrivederci)"
