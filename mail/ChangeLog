@@ -1,10 +1,15 @@
 2001-10-17  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* subscribe-dialog.h (subscribe_dialog_show): Helper macro.
+
+	* subscribe-dialog.c (subscribe_dialog_run_and_close): Removed.
+
 	* mail-callbacks.c (check_send_configuration): Don't use
 	gnome_dialog_run_and_close() here, we can easily get away with
 	just using a gtk_widget_show().
 	(providers_config): Don't use a gnome_dialog_run_and_close() here
-	either.
+	either. No longer need to use e_gnome_dialog utils.
+	(manage_subscriptions): Don't run_and_close().
 
 2001-10-17    <NotZed@Ximian.com>
 

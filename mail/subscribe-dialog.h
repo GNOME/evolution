@@ -41,10 +41,11 @@
 #define IS_SUBSCRIBE_DIALOG_CLASS(k) (GTK_CHECK_CLASS_TYPE ((k), SUBSCRIBE_DIALOG_TYPE))
 
 typedef struct _SubscribeDialogPrivate SubscribeDialogPrivate;
-struct  _SubscribeDialog {
-	GtkObject               parent;
 
-	GtkWidget              *app;
+struct _SubscribeDialog {
+	GtkObject parent;
+
+	GtkWidget *app;
 	SubscribeDialogPrivate *priv;
 };
 
@@ -55,6 +56,8 @@ typedef struct {
 
 GtkType    subscribe_dialog_get_type         (void);
 GtkObject *subscribe_dialog_new              (void);
-void       subscribe_dialog_run_and_close    (SubscribeDialog *dialog);
+
+/* helper macro */
+#define subscribe_dialog_show(dialog) gtk_widget_show (SUBSCRIBE_DIALOG (dialog)->app)
 
 #endif /* _SUBSCRIBE_DIALOG_H_ */

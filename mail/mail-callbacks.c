@@ -2128,7 +2128,7 @@ providers_config (BonoboUIComponent *uih, void *user_data, const char *path)
 	
 	if (!accounts_dialog) {
 		accounts_dialog = mail_accounts_dialog_new (fb->shell);
-		e_gnome_dialog_set_parent (GNOME_DIALOG (accounts_dialog), FB_WINDOW (fb));
+		gnome_dialog_set_parent (GNOME_DIALOG (accounts_dialog), FB_WINDOW (fb));
 		gtk_signal_connect (GTK_OBJECT (accounts_dialog), "destroy",
 				    accounts_dialog_close, NULL);
 		gnome_dialog_set_close (GNOME_DIALOG (accounts_dialog), TRUE);
@@ -2229,6 +2229,7 @@ static GtkObject *subscribe_dialog = NULL;
 static void
 subscribe_dialog_destroy (GtkWidget *widget, gpointer user_data)
 {
+	gtk_object_unref (subscribe_dialog);
 	subscribe_dialog = NULL;
 }
 
@@ -2237,11 +2238,12 @@ manage_subscriptions (BonoboUIComponent *uih, void *user_data, const char *path)
 {
 	if (!subscribe_dialog) {
 		subscribe_dialog = subscribe_dialog_new ();
-		gtk_signal_connect (GTK_OBJECT (subscribe_dialog), "destroy",
+		gtk_signal_connect (GTK_OBJECT (SUBSCRIBE_DIALOG (subscribe_dialog)->app), "destroy",
 				    subscribe_dialog_destroy, NULL);
 		
-		subscribe_dialog_run_and_close (SUBSCRIBE_DIALOG (subscribe_dialog));
-		gtk_object_unref (GTK_OBJECT (subscribe_dialog));
+		gnome_dialog_set_close (GNOME_DIALOG (SUBSCRIBE_DIALOG (subscribe_dialog)->app), TRUE);
+		
+		subscribe_dialog_show (subscribe_dialog);
 	} else {
 		gdk_window_raise (SUBSCRIBE_DIALOG (subscribe_dialog)->app->window);
 	}

@@ -1593,11 +1593,10 @@ static void
 subscribe_dialog_construct (GtkObject *object)
 {
 	SubscribeDialog *sc = SUBSCRIBE_DIALOG (object);
-
+	
 	/* Load the XML */
-
 	sc->priv->xml            = glade_xml_new (EVOLUTION_GLADEDIR "/subscribe-dialog.glade", NULL);
-
+	
 	sc->app                  = glade_xml_get_widget (sc->priv->xml, "Manage Subscriptions");
 	sc->priv->hbox           = glade_xml_get_widget (sc->priv->xml, "tree_box");
 	sc->priv->search_entry   = glade_xml_get_widget (sc->priv->xml, "search_entry");
@@ -1606,32 +1605,29 @@ subscribe_dialog_construct (GtkObject *object)
 	sc->priv->sub_button     = glade_xml_get_widget (sc->priv->xml, "subscribe_button");
 	sc->priv->unsub_button   = glade_xml_get_widget (sc->priv->xml, "unsubscribe_button");
 	sc->priv->refresh_button = glade_xml_get_widget (sc->priv->xml, "refresh_button");
-
+	
 	/* create default view */
-
 	sc->priv->default_widget = sc_create_default_widget();
 	sc->priv->current_widget = sc->priv->default_widget;
 	gtk_box_pack_start (GTK_BOX (sc->priv->hbox), sc->priv->default_widget, TRUE, TRUE, 0);
 	gtk_widget_show (sc->priv->default_widget);
-
+	
 	gtk_widget_set_sensitive (sc->priv->all_radio, FALSE);
 	gtk_widget_set_sensitive (sc->priv->filter_radio, FALSE);
 	gtk_widget_set_sensitive (sc->priv->search_entry, FALSE);
 	gtk_widget_set_sensitive (sc->priv->sub_button, FALSE);
 	gtk_widget_set_sensitive (sc->priv->unsub_button, FALSE);
 	gtk_widget_set_sensitive (sc->priv->refresh_button, FALSE);
-
+	
 	/* hook up some signals */
-
 	gtk_signal_connect (GTK_OBJECT (sc->priv->search_entry), "activate", sc_search_activated, sc);
 	gtk_signal_connect (GTK_OBJECT (sc->priv->sub_button), "clicked", sc_subscribe_pressed, sc);
 	gtk_signal_connect (GTK_OBJECT (sc->priv->unsub_button), "clicked", sc_unsubscribe_pressed, sc);
 	gtk_signal_connect (GTK_OBJECT (sc->priv->refresh_button), "clicked", sc_refresh_pressed, sc);
 	gtk_signal_connect (GTK_OBJECT (sc->priv->all_radio), "toggled", sc_all_toggled, sc);
 	gtk_signal_connect (GTK_OBJECT (sc->priv->filter_radio), "toggled", sc_filter_toggled, sc);
-
+	
 	/* Get the list of stores */
-
 	populate_store_list (sc);
 }
 
@@ -1639,17 +1635,11 @@ GtkObject *
 subscribe_dialog_new (void)
 {
 	SubscribeDialog *subscribe_dialog;
-
+	
 	subscribe_dialog = gtk_type_new (SUBSCRIBE_DIALOG_TYPE);
 	subscribe_dialog_construct (GTK_OBJECT (subscribe_dialog));
-
+	
 	return GTK_OBJECT (subscribe_dialog);
 }
 
 E_MAKE_TYPE (subscribe_dialog, "SubscribeDialog", SubscribeDialog, subscribe_dialog_class_init, subscribe_dialog_init, PARENT_TYPE);
-
-void
-subscribe_dialog_run_and_close (SubscribeDialog *dialog)
-{
-	gnome_dialog_run_and_close (GNOME_DIALOG (dialog->app));
-}
