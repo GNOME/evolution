@@ -1,3 +1,8 @@
+2003-11-05  Larry Ewing  <lewing@ximian.com>
+
+	* gui/migration.c (process_old_dir): add a unimplemented warning
+	so we at least avoid relocation errors.
+
 2003-11-04  Rodrigo Moya <rodrigo@ximian.com>
 
 	* gui/calendar-component.c (fill_popup_menu_callback): added more

@@ -27,6 +27,14 @@
 #include "migration.h"
 
 static gboolean
+process_old_dir (ESourceGroup *source_group, const char *path,
+		 const char *filename, const char *name, const char *base_uri)
+{
+	g_warning ("process_old_dir is unimplemented");
+	return FALSE;
+}
+
+static gboolean
 process_calendar_dir (ESourceGroup *source_group, const char *path,
 		      const char *filename, const char *name, const char *base_uri)
 {
