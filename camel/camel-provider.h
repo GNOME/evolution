@@ -184,6 +184,14 @@ typedef struct {
 	char *translation_domain;
 } CamelProvider;
 
+typedef struct _CamelProviderModule CamelProviderModule;
+
+struct _CamelProviderModule {
+	char *path;
+	GSList *types;
+	int loaded:1;
+};
+
 GHashTable *camel_provider_init (void);
 void camel_provider_load (CamelSession *session, const char *path, CamelException *ex);
 

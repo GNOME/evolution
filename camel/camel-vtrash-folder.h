@@ -32,9 +32,6 @@ extern "C" {
 #include <camel/camel-folder.h>
 #include <camel/camel-vee-folder.h>
 
-#define CAMEL_VTRASH_NAME "Trash"
-#define CAMEL_VJUNK_NAME "Junk"
-
 #define CAMEL_VTRASH_FOLDER(obj)         CAMEL_CHECK_CAST (obj, camel_vtrash_folder_get_type (), CamelVTrashFolder)
 #define CAMEL_VTRASH_FOLDER_CLASS(klass) CAMEL_CHECK_CLASS_CAST (klass, camel_vtrash_folder_get_type (), CamelVTrashFolderClass)
 #define CAMEL_IS_VTRASH_FOLDER(obj)      CAMEL_CHECK_TYPE (obj, camel_vtrash_folder_get_type ())
@@ -42,9 +39,19 @@ extern "C" {
 typedef struct _CamelVTrashFolder      CamelVTrashFolder;
 typedef struct _CamelVTrashFolderClass CamelVTrashFolderClass;
 
+#define CAMEL_VTRASH_NAME "Trash"
+#define CAMEL_VJUNK_NAME "Junk"
+
+enum _camel_vtrash_folder_t {
+	CAMEL_VTRASH_FOLDER_TRASH,
+	CAMEL_VTRASH_FOLDER_JUNK,
+	CAMEL_VTRASH_FOLDER_LAST
+};
+
 struct _CamelVTrashFolder {
 	CamelVeeFolder parent;
-	
+
+	guint32 bit;
 };
 
 struct _CamelVTrashFolderClass {
@@ -54,7 +61,7 @@ struct _CamelVTrashFolderClass {
 
 CamelType       camel_vtrash_folder_get_type    (void);
 
-CamelFolder    *camel_vtrash_folder_new		(CamelStore *parent_store, const char *name);
+CamelFolder    *camel_vtrash_folder_new		(CamelStore *parent_store, enum _camel_vtrash_folder_t type);
 
 #ifdef __cplusplus
 }

@@ -31,7 +31,17 @@
 #include <string.h>
 
 /* Returns the class for a CamelFolder */
-#define CF_CLASS(so) CAMEL_FOLDER_CLASS (CAMEL_OBJECT_GET_CLASS(so))
+#define CF_CLASS(so) ((CamelFolderClass *)((CamelObject *)(so))->klass)
+
+static struct {
+	const char *name;
+	const char *expr;
+	guint32 bit;
+	guint32 flags;
+} vdata[] = {
+	{ CAMEL_VTRASH_NAME, "(match-all (system-flag \"Deleted\"))", CAMEL_MESSAGE_DELETED, CAMEL_FOLDER_IS_TRASH },
+	{ CAMEL_VJUNK_NAME, "(match-all (system-flag \"Junk\"))", CAMEL_MESSAGE_JUNK, CAMEL_FOLDER_IS_JUNK },
+};
 
 static CamelVeeFolderClass *camel_vtrash_folder_parent;
 
@@ -56,9 +66,7 @@ camel_vtrash_folder_class_init (CamelVTrashFolderClass *klass)
 static void
 camel_vtrash_folder_init (CamelVTrashFolder *vtrash)
 {
-	CamelFolder *folder = CAMEL_FOLDER (vtrash);
-
-	folder->folder_flags |= CAMEL_FOLDER_IS_TRASH;
+	/*CamelFolder *folder = CAMEL_FOLDER (vtrash);*/
 }
 
 CamelType
@@ -83,7 +91,7 @@ camel_vtrash_folder_get_type (void)
 /**
  * camel_vtrash_folder_new:
  * @parent_store: the parent CamelVeeStore
- * @name: the vfolder name
+ * @type: type of vfolder, CAMEL_VTRASH_FOLDER_TRASH or CAMEL_VTRASH_FOLDER_JUNK currently.
  * @ex: a CamelException
  *
  * Create a new CamelVeeFolder object.
@@ -91,16 +99,21 @@ camel_vtrash_folder_get_type (void)
  * Return value: A new CamelVeeFolder widget.
  **/
 CamelFolder *
-camel_vtrash_folder_new (CamelStore *parent_store, const char *name)
+camel_vtrash_folder_new (CamelStore *parent_store, enum _camel_vtrash_folder_t type)
 {
-	CamelFolder *vtrash;
+	CamelVTrashFolder *vtrash;
 	
-	vtrash = (CamelFolder *)camel_object_new (camel_vtrash_folder_get_type ());
-	camel_vee_folder_construct (CAMEL_VEE_FOLDER (vtrash), parent_store, name,
-				    CAMEL_STORE_FOLDER_PRIVATE | CAMEL_STORE_FOLDER_CREATE | CAMEL_STORE_VEE_FOLDER_AUTO);
-	camel_vee_folder_set_expression((CamelVeeFolder *)vtrash, "(match-all (system-flag \"Deleted\"))");
+	g_assert(type < CAMEL_VTRASH_FOLDER_LAST);
 
-	return vtrash;
+	vtrash = (CamelVTrashFolder *)camel_object_new(camel_vtrash_folder_get_type());
+	camel_vee_folder_construct(CAMEL_VEE_FOLDER (vtrash), parent_store, vdata[type].name,
+				   CAMEL_STORE_FOLDER_PRIVATE|CAMEL_STORE_FOLDER_CREATE|CAMEL_STORE_VEE_FOLDER_AUTO);
+
+	((CamelFolder *)vtrash)->folder_flags |= vdata[type].flags;
+	camel_vee_folder_set_expression((CamelVeeFolder *)vtrash, vdata[type].expr);
+	vtrash->bit = vdata[type].bit;
+
+	return (CamelFolder *)vtrash;
 }
 
 static void
@@ -143,6 +156,7 @@ vtrash_transfer_messages_to (CamelFolder *source, GPtrArray *uids,
 	GHashTable *batch = NULL;
 	const char *tuid;
 	struct _transfer_data *md;
+	guint32 sbit = ((CamelVTrashFolder *)source)->bit;
 
 	/* This is a special case of transfer_messages_to: Either the
 	 * source or the destination is a vtrash folder (but not both
@@ -157,13 +171,11 @@ vtrash_transfer_messages_to (CamelFolder *source, GPtrArray *uids,
 		if (!delete_originals)
 			return;
 
-		/* Move to trash is the same as deleting the message */
+		/* Move to trash is the same as setting the message flag */
 		for (i = 0; i < uids->len; i++)
-			camel_folder_delete_message (source, uids->pdata[i]);
+			camel_folder_set_message_flags(source, uids->pdata[i], sbit, ~0);
 		return;
 	}
-
-	g_return_if_fail (CAMEL_IS_VTRASH_FOLDER (source));
 
 	/* Moving/Copying from the trash to the original folder = undelete.
 	 * Moving/Copying from the trash to a different folder = move/copy.
@@ -179,8 +191,8 @@ vtrash_transfer_messages_to (CamelFolder *source, GPtrArray *uids,
 		}
 		
 		if (dest == mi->folder) {
-			/* Just undelete the original message */
-			camel_folder_set_message_flags (source, uids->pdata[i], CAMEL_MESSAGE_DELETED, 0);
+			/* Just unset the flag on the original message */
+			camel_folder_set_message_flags (source, uids->pdata[i], sbit, 0);
 		} else {
 			if (batch == NULL)
 				batch = g_hash_table_new(NULL, NULL);

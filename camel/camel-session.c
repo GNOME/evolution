@@ -47,7 +47,7 @@
 
 #define d(x)
 
-#define CS_CLASS(so) CAMEL_SESSION_CLASS (CAMEL_OBJECT_GET_CLASS (so))
+#define CS_CLASS(so) ((CamelSessionClass *)((CamelObject *)so)->klass)
 
 static void register_provider (CamelSession *session, CamelProvider *provider);
 static GList *list_providers (CamelSession *session, gboolean load);
@@ -254,16 +254,16 @@ static void
 ensure_loaded (gpointer key, gpointer value, gpointer user_data)
 {
 	CamelSession *session = user_data;
-	char *name = key;
-	char *path = value;
+	CamelProviderModule *m = value;
+	CamelException ex;
 
-	if (!g_hash_table_lookup (session->providers, name)) {
-		CamelException ex;
+	if (m->loaded)
+		return;
 
-		camel_exception_init (&ex);
-		camel_provider_load (session, path, &ex);
-		camel_exception_clear (&ex);
-	}
+	m->loaded = 1;
+	camel_exception_init(&ex);
+	camel_provider_load(session, m->path, &ex);
+	camel_exception_clear(&ex);
 }
 
 static gint
@@ -333,11 +333,12 @@ get_provider (CamelSession *session, const char *url_string, CamelException *ex)
 	provider = g_hash_table_lookup (session->providers, protocol);
 	if (!provider) {
 		/* See if there's one we can load. */
-		char *path;
+		CamelProviderModule *m;
 
-		path = g_hash_table_lookup (session->modules, protocol);
-		if (path) {
-			camel_provider_load (session, path, ex);
+		m = g_hash_table_lookup (session->modules, protocol);
+		if (m && !m->loaded) {
+			m->loaded = 1;
+			camel_provider_load (session, m->path, ex);
 			if (camel_exception_is_set (ex)) {
 				g_free (protocol);
 				return NULL;
@@ -407,7 +408,7 @@ get_service (CamelSession *session, const char *url_string,
 		camel_url_free (url);
 		return NULL;
 	}
-	
+
 	/* If the provider doesn't use paths but the URL contains one,
 	 * ignore it.
 	 */
@@ -429,7 +430,7 @@ get_service (CamelSession *session, const char *url_string,
 			camel_object_bag_add(provider->service_cache[type], url, service);
 		}
 	}
-done:
+
 	camel_url_free (url);
 
 	return service;

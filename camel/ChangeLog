@@ -1,3 +1,37 @@
+2004-02-05  Not Zed  <NotZed@Ximian.com>
+
+	** See bug #53553.
+	
+	* camel-provider.c (camel_provider_init): changed to return a
+	hashtable of url protocols to CamelProviderModule structs, rather
+	than simple strings.
+
+	* camel-session.c (get_provider): if we load a provider module,
+	mark it as loaded.
+	(ensure_loaded): Check the module loaded flag before trying to
+	load it.
+
+	* providers/local/libcamellocal.urls: Remove spoold from the list,
+	since it doesn't exist anymore.  Actually fixes #53553, the rest
+	is to robustify the code.
+
+2004-02-05  Not Zed  <NotZed@Ximian.com>
+
+	* camel-session.c (CS_CLASS): dont typecheck cast.
+
+	* camel-store.c (camel_vjunk_folder_new): removed, use
+	vtrash_new(junk).
+	(setup_special): changed to get_special, with a type now, and
+	dont add vtrash folders to the sources.
+	(get_trash, get_junk): down to 1 liners, call get_special
+
+	* camel-vtrash-folder.c (CF_CLASS): dont use cast typecheck macros
+	here, makes debugging easier and removes redundant checks.
+	(camel_vtrash_folder_init): dont set flags here.
+	(camel_vtrash_folder_new): takes a new argument, type, for junk
+	folders too, removed name arg (taken from type).
+	(vtrash_transfer_messages_to): parameterise flag processing.
+
 2004-02-04  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* providers/imap/camel-imap-store.c: Get rid of some unnecessary

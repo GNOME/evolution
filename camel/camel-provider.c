@@ -65,7 +65,8 @@ camel_provider_init (void)
 	DIR *dir;
 	struct dirent *d;
 	char *p, *name, buf[80];
-	
+	CamelProviderModule *m;
+
 	providers = g_hash_table_new (camel_strcase_hash, camel_strcase_equal);
 	
 	dir = opendir (CAMEL_PROVIDERDIR);
@@ -93,17 +94,24 @@ camel_provider_init (void)
 		
 		p = strrchr (name, '.');
 		strcpy (p, ".so");
+
+		m = g_malloc0(sizeof(*m));
+		m->path = name;
+
 		while ((fgets (buf, sizeof (buf), fp))) {
 			buf[sizeof (buf) - 1] = '\0';
 			p = strchr (buf, '\n');
 			if (p)
 				*p = '\0';
 			
-			if (*buf)
-				g_hash_table_insert (providers, g_strdup (buf), g_strdup (name));
+			if (*buf) {
+				char *protocol = g_strdup(buf);
+
+				m->types = g_slist_prepend(m->types, protocol);
+				g_hash_table_insert(providers, protocol, m);
+			}
 		}
-		
-		g_free (name);
+
 		fclose (fp);
 	}
 

@@ -517,53 +517,35 @@ camel_store_get_inbox (CamelStore *store, CamelException *ex)
 	return folder;
 }
 
-/* FIXME: derive vjunk folder object from vee_folder */
-#include "camel-vee-store.h"
 static CamelFolder *
-camel_vjunk_folder_new (CamelStore *parent_store, const char *name)
+get_special(CamelStore *store, enum _camel_vtrash_folder_t type)
 {
-	CamelFolder *vjunk;
-	
-	vjunk = (CamelFolder *)camel_object_new (camel_vee_folder_get_type ());
-	vjunk->folder_flags |= CAMEL_FOLDER_IS_JUNK;
-	camel_vee_folder_construct (CAMEL_VEE_FOLDER (vjunk), parent_store, name,
-				    CAMEL_STORE_FOLDER_PRIVATE | CAMEL_STORE_FOLDER_CREATE | CAMEL_STORE_VEE_FOLDER_AUTO);
-	camel_vee_folder_set_expression((CamelVeeFolder *)vjunk, "(match-all (system-flag \"Junk\"))");
-
-	return vjunk;
-}
-
-static void
-setup_special(CamelStore *store, CamelFolder *folder)
-{
-	GPtrArray *folders = camel_object_bag_list(store->folders);
+	CamelFolder *folder;
+	GPtrArray *folders;
 	int i;
 
+	folder = camel_vtrash_folder_new(store, type);
+	folders = camel_object_bag_list(store->folders);
 	for (i=0;i<folders->len;i++) {
-		camel_vee_folder_add_folder((CamelVeeFolder *)folder, (CamelFolder *)folders->pdata[i]);
+		if (!CAMEL_IS_VTRASH_FOLDER(folders->pdata[i]))
+			camel_vee_folder_add_folder((CamelVeeFolder *)folder, (CamelFolder *)folders->pdata[i]);
 		camel_object_unref(folders->pdata[i]);
 	}
 	g_ptr_array_free(folders, TRUE);
+
+	return folder;
 }
 
 static CamelFolder *
 get_trash(CamelStore *store, CamelException *ex)
 {
-	CamelFolder *folder = camel_vtrash_folder_new(store, CAMEL_VTRASH_NAME);
-
-	setup_special(store, folder);
-
-	return folder;
+	return get_special(store, CAMEL_VTRASH_FOLDER_TRASH);
 }
 
 static CamelFolder *
 get_junk(CamelStore *store, CamelException *ex)
 {
-	CamelFolder *folder = camel_vjunk_folder_new(store, CAMEL_VJUNK_NAME);
-
-	setup_special(store, folder);
-
-	return folder;
+	return get_special(store, CAMEL_VTRASH_FOLDER_JUNK);
 }
 
 /** 

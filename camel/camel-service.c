@@ -102,7 +102,7 @@ static void
 camel_service_finalize (CamelObject *object)
 {
 	CamelService *service = CAMEL_SERVICE (object);
-	
+
 	if (service->status == CAMEL_SERVICE_CONNECTED) {
 		CamelException ex;
 		

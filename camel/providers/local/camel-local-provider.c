@@ -192,7 +192,12 @@ local_url_equal(const void *v, const void *v2)
 void camel_provider_module_init(CamelSession * session)
 {
 	char *path;
-	
+	static int init = 0;
+
+	if (init)
+		abort();
+	init = 1;
+
 	mh_conf_entries[0].value = "";  /* default path */
 	mh_provider.object_types[CAMEL_PROVIDER_STORE] = camel_mh_store_get_type ();
 	mh_provider.url_hash = local_url_hash;
