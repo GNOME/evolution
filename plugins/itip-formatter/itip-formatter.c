@@ -742,7 +742,7 @@ update_item (FormatItipPObject *pitip, ItipViewResponse response)
 			}
 		}
 				
-		e_cal_component_set_attachment_list (clone_comp, attachments);
+		e_cal_component_set_attachment_list (clone_comp, new_attachments);
 	}
 
 	if (!e_cal_receive_objects (pitip->current_ecal, pitip->top_level, &error)) {
