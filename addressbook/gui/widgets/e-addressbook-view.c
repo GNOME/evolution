@@ -56,6 +56,7 @@
 #include "e-card-merging.h"
 
 #include "e-contact-editor.h"
+#include <ctype.h>
 
 static void e_addressbook_view_init		(EAddressbookView		 *card);
 static void e_addressbook_view_class_init	(EAddressbookViewClass	 *klass);
@@ -352,8 +353,76 @@ typedef struct {
 static void
 jump_to_letter(GtkWidget *button, LetterClosure *closure)
 {
-	if (closure->view->widget && E_IS_MINICARD_VIEW_WIDGET(closure->view->widget))
-		e_minicard_view_widget_jump_to_letter(E_MINICARD_VIEW_WIDGET(closure->view->widget), closure->letter);
+	char *query;
+	switch (closure->letter) {
+	case '1':
+		query = g_strdup ("(not (or "
+				  "(beginswith \"file_as\" \"a\") "
+				  "(beginswith \"file_as\" \"b\") "
+				  "(beginswith \"file_as\" \"c\") "
+				  "(beginswith \"file_as\" \"d\") "
+				  "(beginswith \"file_as\" \"e\") "
+				  "(beginswith \"file_as\" \"f\") "
+				  "(beginswith \"file_as\" \"g\") "
+				  "(beginswith \"file_as\" \"h\") "
+				  "(beginswith \"file_as\" \"i\") "
+				  "(beginswith \"file_as\" \"j\") "
+				  "(beginswith \"file_as\" \"k\") "
+				  "(beginswith \"file_as\" \"l\") "
+				  "(beginswith \"file_as\" \"m\") "
+				  "(beginswith \"file_as\" \"n\") "
+				  "(beginswith \"file_as\" \"o\") "
+				  "(beginswith \"file_as\" \"p\") "
+				  "(beginswith \"file_as\" \"q\") "
+				  "(beginswith \"file_as\" \"r\") "
+				  "(beginswith \"file_as\" \"s\") "
+				  "(beginswith \"file_as\" \"t\") "
+				  "(beginswith \"file_as\" \"u\") "
+				  "(beginswith \"file_as\" \"v\") "
+				  "(beginswith \"file_as\" \"w\") "
+				  "(beginswith \"file_as\" \"x\") "
+				  "(beginswith \"file_as\" \"y\") "
+				  "(beginswith \"file_as\" \"z\") "
+
+				  "(beginswith \"file_as\" \"A\") "
+				  "(beginswith \"file_as\" \"B\") "
+				  "(beginswith \"file_as\" \"C\") "
+				  "(beginswith \"file_as\" \"D\") "
+				  "(beginswith \"file_as\" \"E\") "
+				  "(beginswith \"file_as\" \"F\") "
+				  "(beginswith \"file_as\" \"G\") "
+				  "(beginswith \"file_as\" \"H\") "
+				  "(beginswith \"file_as\" \"I\") "
+				  "(beginswith \"file_as\" \"J\") "
+				  "(beginswith \"file_as\" \"K\") "
+				  "(beginswith \"file_as\" \"L\") "
+				  "(beginswith \"file_as\" \"M\") "
+				  "(beginswith \"file_as\" \"N\") "
+				  "(beginswith \"file_as\" \"O\") "
+				  "(beginswith \"file_as\" \"P\") "
+				  "(beginswith \"file_as\" \"Q\") "
+				  "(beginswith \"file_as\" \"R\") "
+				  "(beginswith \"file_as\" \"S\") "
+				  "(beginswith \"file_as\" \"T\") "
+				  "(beginswith \"file_as\" \"U\") "
+				  "(beginswith \"file_as\" \"V\") "
+				  "(beginswith \"file_as\" \"W\") "
+				  "(beginswith \"file_as\" \"X\") "
+				  "(beginswith \"file_as\" \"Y\") "
+				  "(beginswith \"file_as\" \"Z\") "
+				  "))");
+		break;
+	default:
+		query = g_strdup_printf ("(or "
+					 "(beginswith \"file_as\" \"%c\")"
+					 "(beginswith \"file_as\" \"%c\")"
+					 ")", closure->letter, toupper (closure->letter));
+		break;
+	}
+	gtk_object_set (GTK_OBJECT (closure->view),
+			"query", query,
+			NULL);
+	g_free (query);
 }
 
 static void
