@@ -2899,7 +2899,7 @@ e_calendar_item_signal_emission_idle_cb	(gpointer data)
 
 	/* We ref the calitem & check in case it gets destroyed, since we
 	   were getting a free memory write here. */
-	gtk_object_ref (calitem);
+	gtk_object_ref (GTK_OBJECT (calitem));
 
 	if (calitem->date_range_changed) {
 		calitem->date_range_changed = FALSE;
@@ -2915,7 +2915,7 @@ e_calendar_item_signal_emission_idle_cb	(gpointer data)
 				 e_calendar_item_signals[SELECTION_CHANGED]);
 	}
 
-	gtk_object_unref (calitem);
+	gtk_object_unref (GTK_OBJECT (calitem));
 
 	GDK_THREADS_LEAVE ();
 	return FALSE;

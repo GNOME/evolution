@@ -78,7 +78,6 @@ struct _ESearchBar
 	GtkWidget *dropdown_holder;	/* holds the dropdown */
 	GtkWidget *option_menu;
 	GtkWidget *suboption_menu;
-	GtkWidget *dropdown_menu;
 	GtkWidget *activate_button;
 	GtkWidget *clear_button;
 	GtkWidget *entry_box;

@@ -1,3 +1,15 @@
+2002-07-24  Ettore Perazzoli  <ettore@ximian.com>
+
+	* e-calendar-item.c (e_calendar_item_signal_emission_idle_cb): Add
+	missing cast.
+	(e_calendar_item_signal_emission_idle_cb): Likewise.
+
+	* e-search-bar.c (init): Don't initialize dropdown_menu here
+	anymore since we got rid of it.
+
+	* e-search-bar.h (struct _ESearchBar): Removed member
+	dropdown_menu.
+
 2002-07-22  Peter Williams  <peterw@ximian.com>
 
 	* e-filter-bar.c (do_advanced): Break out the code for creating

@@ -857,7 +857,6 @@ init (ESearchBar *esb)
 	
 	esb->option_menu      = NULL;
 	esb->suboption_menu   = NULL;
-	esb->dropdown_menu    = NULL;
 	esb->activate_button  = NULL;
 	esb->clear_button     = NULL;
 	esb->entry_box        = NULL;
