@@ -263,7 +263,17 @@ e_map_finalize (GtkObject *object)
 	gtk_object_unref (GTK_OBJECT (priv->vadj));
 	priv->vadj = NULL;
 
-	/* TODO: Unref pixbufs here */
+	if (priv->map_pixbuf)
+	{
+		gdk_pixbuf_unref (priv->map_pixbuf);
+		priv->map_pixbuf = NULL;
+	}
+
+	if (priv->map_render_pixbuf)
+	{
+		gdk_pixbuf_unref (priv->map_render_pixbuf);
+		priv->map_render_pixbuf = NULL;
+	}
 
 	g_free (priv);
 	view->priv = NULL;
@@ -993,20 +1003,6 @@ load_map_background (EMap *view, gchar *name)
 }
 
 
-#define SET_PIXEL_RGB(pixbuf, x, y, rgba) \
-  *(gdk_pixbuf_get_pixels (pixbuf) + \
-    ((gint) (y) * gdk_pixbuf_get_rowstride (pixbuf)) + \
-    ((gint) (x) * 3)) = ((rgba) >> 24) & 0xff; \
-\
-  *(gdk_pixbuf_get_pixels (pixbuf) + \
-    ((gint) (y) * gdk_pixbuf_get_rowstride (pixbuf)) + \
-    ((gint) (x) * 3) + 1) = ((rgba) >> 16) & 0xff; \
-\
-  *(gdk_pixbuf_get_pixels (pixbuf) + \
-    ((gint) (y) * gdk_pixbuf_get_rowstride (pixbuf)) + \
-    ((gint) (x) * 3) + 2) = ((rgba) >> 8) & 0xff
-
-
 static void
 update_render_pixbuf (EMap *map, ArtFilterLevel interp, gboolean render_overlays)
 {
@@ -1049,10 +1045,13 @@ update_render_pixbuf (EMap *map, ArtFilterLevel interp, gboolean render_overlays
 
 	/* Scale the original map into the rendering pixbuf */
 
-	gdk_pixbuf_scale (priv->map_pixbuf, priv->map_render_pixbuf, 0, 0,	/* Dest (x, y) */
-			  width, height, 0, 0,	/* Offset (x, y) */
-			  zoom, zoom,	/* Scale (x, y) */
-			  interp);
+	if (width > 1 && height > 1)
+	{
+		gdk_pixbuf_scale (priv->map_pixbuf, priv->map_render_pixbuf, 0, 0,  /* Dest (x, y) */
+				  width, height, 0, 0,	                            /* Offset (x, y) */
+				  zoom, zoom,	                                    /* Scale (x, y) */
+				  interp);
+	}
 	
 	if (render_overlays)
 	{
@@ -1116,6 +1115,34 @@ request_paint_area (EMap *view, GdkRectangle *area)
 #endif
 }
 
+static void
+put_pixel_with_clipping (GdkPixbuf *pixbuf, gint x, gint y, guint rgba)
+{
+	gint    width, height;
+	gint    rowstride, n_channels;
+	guchar *pixels, *pixel;
+
+	width      = gdk_pixbuf_get_width      (pixbuf);
+	height     = gdk_pixbuf_get_height     (pixbuf);
+	rowstride  = gdk_pixbuf_get_rowstride  (pixbuf);
+	n_channels = gdk_pixbuf_get_n_channels (pixbuf);
+	pixels     = gdk_pixbuf_get_pixels     (pixbuf);
+
+	if (x < 0 || x >= width || y < 0 || y >= height)
+		return;
+
+	pixel = pixels + (y * rowstride) + (x * n_channels);
+
+	*pixel       = (rgba >> 24);
+	*(pixel + 1) = (rgba >> 16) & 0x000000ff;
+	*(pixel + 2) = (rgba >>  8) & 0x000000ff;
+
+	if (n_channels > 3)
+	{
+		*(pixel + 3) = rgba & 0x000000ff;
+	}
+}
+
 
 /* Redraw point in client pixbuf */
 
@@ -1131,34 +1158,27 @@ update_render_point (EMap *map, EMapPoint *point)
 	pb = priv->map_render_pixbuf;
 	if (!pb) return;
 
-	width = gdk_pixbuf_get_width (pb);
+	width  = gdk_pixbuf_get_width (pb);
 	height = gdk_pixbuf_get_height (pb);
 
 	e_map_world_to_window (map, point->longitude, point->latitude, &px, &py);
 	px += priv->xofs;
 	py += priv->yofs;
 
-	if (px < width && px >= 0 && py < height && py >= 0)
-	{
-		/* Area */
-		
-		SET_PIXEL_RGB (pb, px, py, point->rgba);
-		if (px > 0) SET_PIXEL_RGB (pb, px - 1, py, point->rgba);
-		if (px < width - 1) SET_PIXEL_RGB (pb, px + 1, py, point->rgba);
-		if (py > 0) SET_PIXEL_RGB (pb, px, py - 1, point->rgba);
-		if (py < height - 1) SET_PIXEL_RGB (pb, px, py + 1, point->rgba);
+	put_pixel_with_clipping (pb, px,     py,     point->rgba);
+	put_pixel_with_clipping (pb, px - 1, py,     point->rgba);
+	put_pixel_with_clipping (pb, px + 1, py,     point->rgba);
+	put_pixel_with_clipping (pb, px,     py - 1, point->rgba);
+	put_pixel_with_clipping (pb, px,     py + 1, point->rgba);
 
-		/* Outline */
-
-		if (px > 1) SET_PIXEL_RGB (pb, px - 2, py, 0x000000ff);
-		if (px < width - 2) SET_PIXEL_RGB (pb, px + 2, py, 0x000000ff);
-		if (py > 1) SET_PIXEL_RGB (pb, px, py - 2, 0x000000ff);
-		if (py < height - 2) SET_PIXEL_RGB (pb, px, py + 2, 0x000000ff);
-		if (px > 0 && py > 0) SET_PIXEL_RGB (pb, px - 1, py - 1, 0x000000ff);
-		if (px > 0 && py < height - 1) SET_PIXEL_RGB (pb, px - 1, py + 1, 0x000000ff);
-		if (px < width - 1 && py > 0) SET_PIXEL_RGB (pb, px + 1, py - 1, 0x000000ff);
-		if (px < width - 1 && py < height - 1) SET_PIXEL_RGB (pb, px + 1, py + 1, 0x000000ff);
-	}
+	put_pixel_with_clipping (pb, px - 2, py,     0x000000ff);
+	put_pixel_with_clipping (pb, px + 2, py,     0x000000ff);
+	put_pixel_with_clipping (pb, px,     py - 2, 0x000000ff);
+	put_pixel_with_clipping (pb, px,     py + 2, 0x000000ff);
+	put_pixel_with_clipping (pb, px - 1, py - 1, 0x000000ff);
+	put_pixel_with_clipping (pb, px - 1, py + 1, 0x000000ff);
+	put_pixel_with_clipping (pb, px + 1, py - 1, 0x000000ff);
+	put_pixel_with_clipping (pb, px + 1, py + 1, 0x000000ff);
 }
 
 
