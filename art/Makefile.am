@@ -12,6 +12,7 @@ images_DATA = \
 	configure_16_folder.xpm		\
 	configure_16_mail.xpm		\
 	contact-is-a-list.png		\
+	connect_to_url-16.xpm		\
 	copy_16_message.xpm		\
 	edit.xpm			\
 	empty.gif			\
@@ -31,6 +32,7 @@ images_DATA = \
 	inbox-full-16.png		\
 	meeting-request.png 		\
 	alarm.png			\
+	meeting.xpm			\
 	meeting-request.png		\
 	move_message.xpm		\
 	offline.png			\
@@ -102,6 +104,7 @@ images_DATA = \
 	myweather-suncloud.png		\
 	myweather-clouds.png		\
 	new_appointment.xpm		\
+	new_all_day_event.png		\
 	new_contact.xpm			\
 	new-message.xpm			\
 	new_task-16.png			\

@@ -1,3 +1,11 @@
+2002-02-08  JP Rosevear  <jpr@ximian.com>
+
+	* connect_to_url-16.xpm: new icon
+
+	* new_all_day_event.png: ditto
+
+	* Makefile.am: install and dist new images
+
 2001-12-11  Jon Trowbridge  <trow@ximian.com>
 
 	* mail-need-reply.xpm: A new icon that sucks less.  We still need
