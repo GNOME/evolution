@@ -34,7 +34,7 @@ typedef enum {
 	PRINT_VIEW_YEAR
 } PrintView;
 
-void print_calendar (GnomeCalendar *gcal, time_t at, printview_t default_view);
+void print_calendar (GnomeCalendar *gcal, gboolean preview, time_t at, PrintView default_view);
 
 
 

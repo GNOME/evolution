@@ -82,10 +82,9 @@ evolution_calendar_SOURCES =			\
 	mark.h					\
 	popup-menu.c				\
 	popup-menu.h				\
+	print.c					\
+	print.h					\
 	prop.c
-
-#	print.c					\
-#	print.h					\
 
 # FIXME We should make a libeshell library instead of this gross hack.
 SHELL_OBJS =					\

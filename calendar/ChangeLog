@@ -1,5 +1,23 @@
 2000-06-02  Federico Mena Quintero  <federico@helixcode.com>
 
+	* gui/calendar-commands.c (print): New function to call the print
+	engine.
+	(calendar_toolbar): Added the Print button.
+	(calendar_control_activate): Added the File/Print item.
+
+	* gui/e-day-view.c (e_day_view_get_selected_time_range): Allow
+	start_time and end_time to be NULL.
+
+	* gui/e-week-view.c (e_week_view_get_selected_time_range):
+	Likewise.
+
+	* gui/print.c (range_selector_new): Show the range selector
+	widgets.  Use the correct radio group for all of them!
+	(print_calendar): Do the dialog box here.  We may want to split
+	this function later into smaller chunks.
+
+2000-06-02  Federico Mena Quintero  <federico@helixcode.com>
+
 	* gui/event-editor.c (tb_save_and_close_cb): Implemented.
 	(toolbar): Added an icon for the Save and Close command.
 	(save_ical_object): Recompute the title of the window here.  Maybe

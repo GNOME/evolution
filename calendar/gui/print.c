@@ -27,6 +27,7 @@
 #include <libgnomeprint/gnome-print.h>
 #include <libgnomeprint/gnome-print-copies.h>
 #include <libgnomeprint/gnome-print-master.h>
+#include <libgnomeprint/gnome-print-master-preview.h>
 #include <libgnomeprint/gnome-print-preview.h>
 #include <libgnomeprint/gnome-printer-profile.h>
 #include <libgnomeprint/gnome-printer-dialog.h>
@@ -35,10 +36,9 @@
 #include "calendar-commands.h"
 #include "gnome-cal.h"
 #include "layout.h"
+#include "print.h"
 
 
-
-static void show_print_dialogue(void);
 
 /* copied from gnome-month-item.c  this should be shared?? */
 
@@ -1003,7 +1003,7 @@ static GtkWidget *
 range_selector_new (GtkWidget *dialog, time_t at, int *view)
 {
 	GtkWidget *box;
-	GtkWidge *radio;
+	GtkWidget *radio;
 	GSList *group;
 	char text[1024];
 	struct tm tm;
@@ -1024,7 +1024,7 @@ range_selector_new (GtkWidget *dialog, time_t at, int *view)
 	/* Week */
 
 	week_begin = time_week_begin (at);
-	week_end = time_add_day (time_time_week_end (at), -1);
+	week_end = time_add_day (time_week_end (at), -1);
 
 	week_begin_tm = *localtime (&week_begin);
 	week_end_tm = *localtime (&week_end);
@@ -1071,103 +1071,105 @@ range_selector_new (GtkWidget *dialog, time_t at, int *view)
 	}
 
 	radio = gtk_radio_button_new_with_label (group, text);
+	group = gtk_radio_button_group (GTK_RADIO_BUTTON (radio));
 	gtk_box_pack_start (GTK_BOX (box), radio, FALSE, FALSE, 0);
 
 	/* Month */
 
 	strftime (text, sizeof (text), _("Current month (%a %Y)"), &tm);
 	radio = gtk_radio_button_new_with_label (group, text);
+	group = gtk_radio_button_group (GTK_RADIO_BUTTON (radio));
 	gtk_box_pack_start (GTK_BOX (box), radio, FALSE, FALSE, 0);
 
 	/* Year */
 
 	strftime (text, sizeof (text), _("Current year (%Y)"), &tm);
 	radio = gtk_radio_button_new_with_label (group, text);
+	group = gtk_radio_button_group (GTK_RADIO_BUTTON (radio));
 	gtk_box_pack_start (GTK_BOX (box), radio, FALSE, FALSE, 0);
 
 	/* Select default */
 
-	e_dialog_widget_hook_value (dialog, radio, view, print_view_map);
-}
+	e_dialog_widget_hook_value (dialog, radio, view, (gpointer) print_view_map);
 
-/* Shows the print dialog.  The new values are returned in the at and view
- * variables.
- */
-static enum GnomePrintButtons
-print_dialog (GnomeCalendar *gcal, time_t *at, PrintView *view, GnomePrinter **printer)
-{
-	GnomePrintDialog *pd;
-	GtkWidget *range;
-	int int_view;
-	enum GnomePrintButtons retval;
-
-	pd = gnome_print_dialog_new (_("Print Calendar"),
-				     GNOME_PRINT_DIALOG_RANGE | GNOME_PRINT_DIALOG_COPIES);
-
-	int_view = *view;
-
-	range = range_selector_new (GTK_WIDGET (pd), *at, &int_view);
-	gnome_print_dialog_construct_range_custom (pd, range);
-
-	gnome_dialog_set_default (GNOME_DIALOG (pd), GNOME_PRINT_PRINT);
-
-	/* Run! */
-
-	retval = gnome_dialog_run (GNOME_DIALOG (pd));
-
-	switch (retval) {
-	case GNOME_PRINT_PRINT:
-	case GNOME_PRINT_PREVIEW:
-		e_dialog_get_values (GTK_WIDGET (pd));
-		*view = int_view;
-
-		*printer = gnome_print_dialog_get_printer (pd);
-		break;
-
-	default:
-		retval = GNOME_PRINT_CANCEL;
-		break;
-	}
-
-	gnome_dialog_close (GNOME_DIALOG (pd));
-	return retval;
+	gtk_widget_show_all (box);
+	return box;
 }
 
 void
-print_calendar (GnomeCalendar *gcal, time_t at, PrintView default_view)
+print_calendar (GnomeCalendar *gcal, gboolean preview, time_t at, PrintView default_view)
 {
 	GnomePrinter *printer;
 	GnomePrintMaster *gpm;
 	GnomePrintContext *pc;
-
-	switch (print_dialog (gcal, &at, &default_view, &printer)) {
-	case GNOME_PRINT_PRINT:
-		break;
-
-	case GNOME_PRINT_PREVIEW:
-		/* FIXME */
-		break;
-
-	default:
-		return;
-	}
-
-	g_assert (printer != NULL);
-
-	gpm = gnome_print_master_new ();
-	gnome_print_master_set_printer (gpm, printer);
-
+	int copies, collate;
 	const GnomePaper *paper_info;
 	double l, r, t, b, todo, header;
 	char buf[100];
 	time_t when;
-	char *paper = "A4";
-	GnomePrintMaster *gpm = gnome_print_master_new ();
 
-	pc = gnome_print_master_get_context (gpm);
-	paper_info = gnome_paper_with_name (paper);
+	g_return_if_fail (gcal != NULL);
+	g_return_if_fail (GNOME_IS_CALENDAR (gcal));
+
+	printer = NULL;
+	copies = 1;
+	collate = FALSE;
+
+	if (!preview) {
+		GtkWidget *gpd;
+		GtkWidget *range;
+		int view;
+
+		gpd = gnome_print_dialog_new (_("Print Calendar"),
+					      GNOME_PRINT_DIALOG_RANGE | GNOME_PRINT_DIALOG_COPIES);
+
+		view = (int) default_view;
+		range = range_selector_new (gpd, at, &view);
+		gnome_print_dialog_construct_range_custom (GNOME_PRINT_DIALOG (gpd), range);
+
+		gnome_dialog_set_default (GNOME_DIALOG (gpd), GNOME_PRINT_PRINT);
+
+		/* Run dialog */
+
+		switch (gnome_dialog_run (GNOME_DIALOG (gpd))) {
+		case GNOME_PRINT_PRINT:
+			break;
+
+		case GNOME_PRINT_PREVIEW:
+			preview = TRUE;
+			break;
+
+		case -1:
+			return;
+
+		default:
+			gnome_dialog_close (GNOME_DIALOG (gpd));
+			return;
+		}
+
+		e_dialog_get_values (gpd);
+		default_view = (PrintView) view;
+
+		gnome_print_dialog_get_copies (GNOME_PRINT_DIALOG (gpd), &copies, &collate);
+		printer = gnome_print_dialog_get_printer (GNOME_PRINT_DIALOG (gpd));
+
+		gnome_dialog_close (GNOME_DIALOG (gpd));
+	}
+
+	/* FIXME: allow configuration of paper size */
+
+	gpm = gnome_print_master_new ();
+
+	paper_info = gnome_paper_with_name (gnome_paper_name_default ());
 	gnome_print_master_set_paper (gpm, paper_info);
 
+	if (printer)
+		gnome_print_master_set_printer (gpm, printer);
+
+	gnome_print_master_set_copies (gpm, copies, collate);
+
+	pc = gnome_print_master_get_context (gpm);
+	
 	l = gnome_paper_lmargin (paper_info);
 	r = gnome_paper_pswidth (paper_info) - gnome_paper_rmargin (paper_info);
 	t = gnome_paper_psheight (paper_info) - gnome_paper_tmargin (paper_info);
@@ -1175,7 +1177,7 @@ print_calendar (GnomeCalendar *gcal, time_t at, PrintView default_view)
 
 	/* depending on the view, do a different output */
 	switch (default_view) {
-	case VIEW_DAY: {
+	case PRINT_VIEW_DAY: {
 		int i, days = 1;
 
 		for (i = 0; i < days; i++) {
@@ -1201,7 +1203,8 @@ print_calendar (GnomeCalendar *gcal, time_t at, PrintView default_view)
 		}
 		break;
 	}
-	case VIEW_WEEK:
+
+	case PRINT_VIEW_WEEK:
 		header = t - 70;
 		print_week_summary (pc, gcal, at, l, r, header, b);
 
@@ -1230,7 +1233,7 @@ print_calendar (GnomeCalendar *gcal, time_t at, PrintView default_view)
 		gnome_print_showpage (pc);
 		break;
 
-	case VIEW_MONTH:
+	case PRINT_VIEW_MONTH:
 		header = t - 70;
 		gnome_print_rotate (pc, 90);
 		gnome_print_translate (pc, 0, -gnome_paper_pswidth (paper_info));
@@ -1252,7 +1255,7 @@ print_calendar (GnomeCalendar *gcal, time_t at, PrintView default_view)
 		gnome_print_showpage (pc);
 		break;
 
-	case VIEW_YEAR:
+	case PRINT_VIEW_YEAR:
 #if 0
 		/* landscape */
 		gnome_print_rotate(pc, 90);
@@ -1278,61 +1281,14 @@ print_calendar (GnomeCalendar *gcal, time_t at, PrintView default_view)
 	}
 
 	gnome_print_master_close (gpm);
-	gnome_print_master_print (gpm);
+
+	if (preview) {
+		GnomePrintMasterPreview *gpmp;
+
+		gpmp = gnome_print_master_preview_new (gpm, _("Print Preview"));
+		gtk_widget_show (GTK_WIDGET (gpmp));
+	} else
+		gnome_print_master_print (gpm);
+
+	gtk_object_unref (GTK_OBJECT (gpm));
 }
-
-#if 0
-
-/*
-  Load the printing dialogue box
-*/
-static void
-show_print_dialogue(void)
-{
-	GtkWidget *print_dialogue;
-	GtkWidget *printer_widget;
-	GtkWidget *paper_widget;
-	GtkWidget *print_copies;
-	GtkWidget *table;
-
-	print_dialogue =
-		gnome_dialog_new(_("Print Calendar"),
-				 GNOME_STOCK_BUTTON_OK,
-				 _("Preview"),
-				 GNOME_STOCK_BUTTON_CANCEL,
-				 NULL);
-
-	table = gtk_table_new(2, 2, FALSE);
-	gtk_container_add(GTK_CONTAINER(GNOME_DIALOG (print_dialogue)->vbox), GTK_WIDGET (table));
-	gtk_widget_show(table);
-
-	printer_widget = gnome_printer_widget_new ();
-	gtk_table_attach((GtkTable *)table, printer_widget, 1, 2, 0, 2, 0, 0, 4, 4);
-        gtk_widget_show(printer_widget);
-
-#if 0
-	frame = gtk_frame_new("Select Paper");
-	paper_widget = gnome_paper_selector_new ();
-	gtk_table_attach(table, frame, 0, 1, 0, 1, 0, 0, 4, 4);
-	gtk_container_add(frame, GTK_WIDGET (paper_widget));
-        gtk_widget_show(paper_widget);
-        gtk_widget_show(frame);
-#else
-	paper_widget = gnome_paper_selector_new ();
-	gtk_table_attach((GtkTable *)table, paper_widget, 0, 1, 0, 1, GTK_SHRINK, GTK_SHRINK, 4, 4);
-        gtk_widget_show(paper_widget);
-#endif
-	print_copies = gnome_print_copies_new ();
-	gtk_table_attach((GtkTable *)table, print_copies, 0, 1, 1, 2, 0, 0, 4, 4);
-        gtk_widget_show(print_copies);
-
-#if 0
-	frame = gtk_frame_new("Print Range");
-	gtk_table_attach_defaults(table, frame, 0, 1, 1, 2);
-        gtk_widget_show(frame);
-#endif
-
-	gnome_dialog_run_and_close (GNOME_DIALOG (print_dialogue));
-}
-
-#endif

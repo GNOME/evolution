@@ -22,6 +22,7 @@
 #include <cal-util/timeutil.h>
 #include "gnome-cal.h"
 #include "calendar-commands.h"
+#include "print.h"
 
 #include "dayview.xpm"
 #include "workweekview.xpm"
@@ -222,6 +223,51 @@ display_objedit_today (BonoboUIHandler *uih, void *user_data, const char *path)
 
 	gnome_calendar_edit_object (gcal, ico);
 	ical_object_unref (ico);
+}
+
+/* Prints the calendar at its current view and time range */
+static void
+print (GnomeCalendar *gcal, gboolean preview)
+{
+	time_t start;
+	const char *view;
+	PrintView print_view;
+
+	gnome_calendar_get_current_time_range (gcal, &start, NULL);
+	view = gnome_calendar_get_current_view_name (gcal);
+
+	if (strcmp (view, "dayview") == 0)
+		print_view = PRINT_VIEW_DAY;
+	else if (strcmp (view, "workweekview") == 0 || strcmp (view, "weekview") == 0)
+		print_view = PRINT_VIEW_WEEK;
+	else if (strcmp (view, "monthview") == 0)
+		print_view = PRINT_VIEW_MONTH;
+	else {
+		g_assert_not_reached ();
+		print_view = PRINT_VIEW_DAY;
+	}
+
+	print_calendar (gcal, preview, start, print_view);
+}
+
+/* Toolbar/Print callback */
+static void
+tb_print_cb (GtkWidget *widget, gpointer data)
+{
+	GnomeCalendar *gcal;
+
+	gcal = GNOME_CALENDAR (data);
+	print (gcal, FALSE);
+}
+
+/* File/Print callback */
+static void
+file_print_cb (BonoboUIHandler *uih, void *data, const char *path)
+{
+	GnomeCalendar *gcal;
+
+	gcal = GNOME_CALENDAR (data);
+	print (gcal, FALSE);
 }
 
 void
@@ -494,8 +540,12 @@ static GnomeUIInfo gnome_toolbar_view_buttons [] = {
 };
 
 
-static GnomeUIInfo gnome_toolbar [] = {
+static GnomeUIInfo calendar_toolbar [] = {
 	GNOMEUIINFO_ITEM_STOCK (N_("New"), N_("Create a new appointment"), display_objedit, GNOME_STOCK_PIXMAP_NEW),
+
+	GNOMEUIINFO_SEPARATOR,
+
+	GNOMEUIINFO_ITEM_STOCK (N_("Print"), N_("Print this calendar"), tb_print_cb, GNOME_STOCK_PIXMAP_PRINT),
 
 	GNOMEUIINFO_SEPARATOR,
 
@@ -561,7 +611,7 @@ calendar_control_activate (BonoboControl *control,
 	toolbar = gtk_toolbar_new (GTK_ORIENTATION_HORIZONTAL,
 				   GTK_TOOLBAR_BOTH);
 	gnome_app_fill_toolbar_custom (GTK_TOOLBAR (toolbar),
-				       gnome_toolbar, &uibdata, 
+				       calendar_toolbar, &uibdata, 
 				       /*app->accel_group*/ NULL);
 
 	/*gtk_toolbar_append_space (GTK_TOOLBAR (toolbar));*/
@@ -617,6 +667,12 @@ calendar_control_activate (BonoboControl *control,
 					 -1,
 					 BONOBO_UI_HANDLER_PIXMAP_NONE, NULL,
 					 0, 0, save_as_calendar_cmd, cal);
+	bonobo_ui_handler_menu_new_item (uih, "/File/Print", N_("Print..."),
+					 N_("Print this calendar"), -1,
+					 BONOBO_UI_HANDLER_PIXMAP_STOCK,
+					 GNOME_STOCK_PIXMAP_PRINT,
+					 'p', GDK_CONTROL_MASK,
+					 file_print_cb, cal);
 	bonobo_ui_handler_menu_new_item (uih, "/File/Close", N_("_Close Calendar"),
 					 N_("Close current calendar"),
 					 -1, BONOBO_UI_HANDLER_PIXMAP_NONE, NULL,

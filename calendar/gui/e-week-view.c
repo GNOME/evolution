@@ -847,8 +847,11 @@ e_week_view_get_selected_time_range	(EWeekView	*week_view,
 		end_day = 0;
 	}
 
-	*start_time = week_view->day_starts[start_day];
-	*end_time = week_view->day_starts[end_day + 1];
+	if (start_time)
+		*start_time = week_view->day_starts[start_day];
+
+	if (end_time)
+		*end_time = week_view->day_starts[end_day + 1];
 }
 
 

@@ -1566,6 +1566,7 @@ e_day_view_get_selected_time_range	(EDayView	*day_view,
 					 time_t		*end_time)
 {
 	gint start_col, start_row, end_col, end_row;
+	time_t start, end;
 
 	start_col = day_view->selection_start_day;
 	start_row = day_view->selection_start_row;
@@ -1582,13 +1583,19 @@ e_day_view_get_selected_time_range	(EDayView	*day_view,
 	/* Check if the selection is only in the top canvas, in which case
 	   we can simply use the day_starts array. */
 	if (day_view->selection_in_top_canvas) {
-		*start_time = day_view->day_starts[start_col];
-		*end_time = day_view->day_starts[end_col + 1];
+		start = day_view->day_starts[start_col];
+		end = day_view->day_starts[end_col + 1];
 	} else {
 		/* Convert the start col + row into a time. */
-		*start_time = e_day_view_convert_grid_position_to_time (day_view, start_col, start_row);
-		*end_time = e_day_view_convert_grid_position_to_time (day_view, end_col, end_row + 1);
+		start = e_day_view_convert_grid_position_to_time (day_view, start_col, start_row);
+		end = e_day_view_convert_grid_position_to_time (day_view, end_col, end_row + 1);
 	}
+
+	if (start_time)
+		*start_time = start;
+
+	if (end_time)
+		*end_time = end;
 }
 
 
