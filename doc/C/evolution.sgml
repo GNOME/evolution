@@ -12,6 +12,7 @@
 <!ENTITY CONFIG-PREFS SYSTEM "config-prefs.sgml">
 <!ENTITY CONFIG-SYNC SYSTEM "config-sync.sgml">
 <!ENTITY MENUREF SYSTEM "menuref.sgml">
+<!ENTITY FAQ SYSTEM "evolution-faq.sgml">
 <!ENTITY APX-GLOSS SYSTEM "apx-gloss.sgml">
 <!ENTITY APX-BUGS SYSTEM "apx-bugs.sgml">
 <!ENTITY APX-AUTHORS SYSTEM "apx-authors.sgml">
@@ -33,7 +34,7 @@ implemented. -->
       <author><firstname>Kevin</firstname><surname>Breit</surname></author>
     </authorgroup>
     <copyright>
-      <year>2000</year>
+      <year>2001</year>
       <holder> Ximian, Inc., </holder>
     </copyright>
     
@@ -63,7 +64,7 @@ implemented. -->
     </legalnotice>
 
    <releaseinfo>
-      This is version 0.10 of the Evolution manual.
+      This is version 0.11 of the Evolution manual.
    </releaseinfo>
 
   </bookinfo>
@@ -126,7 +127,7 @@ implemented. -->
     </partintro>
     &MENUREF;
   </part>
- 
+  &FAQ;
   &APX-GLOSS;
   &APX-BUGS;
   &APX-AUTHORS; 
