@@ -83,6 +83,7 @@
 #include "em-subscribe-editor.h"
 #include "message-list.h"
 
+#include "mail-component.h"
 #include "mail-ops.h"
 
 #include "evolution-shell-component-utils.h" /* Pixmap stuff, sigh */
@@ -542,9 +543,7 @@ emfb_forget_passwords(BonoboUIComponent *uid, void *data, const char *path)
 static void
 emfb_mail_compose(BonoboUIComponent *uid, void *data, const char *path)
 {
-	EMFolderBrowser *emfb = data;
-	
-	em_utils_compose_new_message ((GtkWidget *) emfb);
+	em_utils_compose_new_message ();
 }
 
 static void
@@ -560,7 +559,7 @@ emfb_mail_post(BonoboUIComponent *uid, void *data, const char *path)
 	char *url;
 	
 	url = mail_tools_folder_to_url (emfv->folder);
-	em_utils_post_to_url ((GtkWidget *) emfv, url);
+	em_utils_post_to_url (url);
 	g_free (url);
 }
 

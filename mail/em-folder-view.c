@@ -60,6 +60,7 @@
 
 #include "em-format-html-display.h"
 #include "em-format-html-print.h"
+#include "em-folder-selection.h"
 #include "em-folder-view.h"
 #include "em-message-browser.h"
 #include "message-list.h"
@@ -293,7 +294,7 @@ em_folder_view_open_selected(EMFolderView *emfv)
 
 	if (em_utils_folder_is_drafts(emfv->folder, emfv->folder_uri)
 	    || em_utils_folder_is_outbox(emfv->folder, emfv->folder_uri)) {
-		em_utils_edit_messages((GtkWidget *)emfv, emfv->folder, uids);
+		em_utils_edit_messages (emfv->folder, uids);
 	} else {
 		/* TODO: have an em_utils_open_messages call? */
 
@@ -420,7 +421,7 @@ emfv_popup_resend(GtkWidget *w, EMFolderView *emfv)
 		return;
 	
 	uids = message_list_get_selected(emfv->list);
-	em_utils_edit_messages((GtkWidget *)emfv, emfv->folder, uids);
+	em_utils_edit_messages (emfv->folder, uids);
 }
 
 static void
@@ -465,7 +466,7 @@ emfv_popup_forward(GtkWidget *w, EMFolderView *emfv)
 		return;
 
 	uids = message_list_get_selected(emfv->list);
-	em_utils_forward_messages((GtkWidget *)emfv, emfv->folder, uids);
+	em_utils_forward_messages (emfv->folder, uids);
 }
 
 static void
@@ -573,7 +574,7 @@ emfv_popup_move(GtkWidget *w, EMFolderView *emfv)
 	d->uids = message_list_get_selected(emfv->list);
 	d->delete = TRUE;
 
-	em_select_folder((GtkWidget *)emfv, _("Select folder"), NULL, NULL, emfv_popup_move_cb, d);
+	em_select_folder ((GtkWindow *) emfv, _("Select folder"), NULL, NULL, emfv_popup_move_cb, d);
 }
 
 static void
@@ -587,7 +588,7 @@ emfv_popup_copy(GtkWidget *w, EMFolderView *emfv)
 	d->uids = message_list_get_selected(emfv->list);
 	d->delete = FALSE;
 
-	em_select_folder((GtkWidget *)emfv, _("Select folder"), NULL, NULL, emfv_popup_move_cb, d);
+	em_select_folder ((GtkWindow *) emfv, _("Select folder"), NULL, NULL, emfv_popup_move_cb, d);
 }
 
 static void
@@ -929,7 +930,7 @@ emfv_message_forward_attached (BonoboUIComponent *uic, void *data, const char *p
 		return;
 	
 	uids = message_list_get_selected (emfv->list);
-	em_utils_forward_attached ((GtkWidget *) emfv, emfv->folder, uids);
+	em_utils_forward_attached (emfv->folder, uids);
 }
 
 static void
@@ -942,7 +943,7 @@ emfv_message_forward_inline (BonoboUIComponent *uic, void *data, const char *pat
 		return;
 	
 	uids = message_list_get_selected (emfv->list);
-	em_utils_forward_inline ((GtkWidget *) emfv, emfv->folder, uids);
+	em_utils_forward_inline (emfv->folder, uids);
 }
 
 static void
@@ -955,7 +956,7 @@ emfv_message_forward_quoted (BonoboUIComponent *uic, void *data, const char *pat
 		return;
 	
 	uids = message_list_get_selected (emfv->list);
-	em_utils_forward_quoted ((GtkWidget *) emfv, emfv->folder, uids);
+	em_utils_forward_quoted (emfv->folder, uids);
 }
 
 static void
@@ -969,7 +970,7 @@ emfv_message_redirect (BonoboUIComponent *uic, void *data, const char *path)
 	if (!em_utils_check_user_can_send_mail ((GtkWidget *) emfv))
 		return;
 	
-	em_utils_redirect_message_by_uid ((GtkWidget *) emfv, emfv->folder, emfv->list->cursor_uid);
+	em_utils_redirect_message_by_uid (emfv->folder, emfv->list->cursor_uid);
 }
 
 static void
@@ -983,7 +984,7 @@ emfv_message_post_reply (BonoboUIComponent *uic, void *data, const char *path)
 	if (!em_utils_check_user_can_send_mail ((GtkWidget *) emfv))
 		return;
 	
-	em_utils_post_reply_to_message_by_uid ((GtkWidget *) emfv, emfv->folder, emfv->list->cursor_uid);
+	em_utils_post_reply_to_message_by_uid (emfv->folder, emfv->list->cursor_uid);
 }
 
 static void
@@ -1034,10 +1035,10 @@ emfv_message_reply(EMFolderView *emfv, int mode)
 
 		html_engine_save_buffer_free(state);
 
-		em_utils_reply_to_message((GtkWidget *)emfv, msg, mode);
+		em_utils_reply_to_message (msg, mode);
 		camel_object_unref(msg);
 	} else {
-		em_utils_reply_to_message_by_uid ((GtkWidget *) emfv, emfv->folder, emfv->list->cursor_uid, mode);
+		em_utils_reply_to_message_by_uid (emfv->folder, emfv->list->cursor_uid, mode);
 	}
 
 	/*g_object_unref(clip);*/
@@ -1743,7 +1744,7 @@ static void
 emfv_format_link_clicked(EMFormatHTMLDisplay *efhd, const char *uri, EMFolderView *emfv)
 {
 	if (!strncasecmp (uri, "mailto:", 7)) {
-		em_utils_compose_new_message_with_mailto ((GtkWidget *) efhd, uri);
+		em_utils_compose_new_message_with_mailto (uri);
 	} else if (*uri == '#') {
 		gtk_html_jump_to_anchor (((EMFormatHTML *) efhd)->html, uri + 1);
 	} else if (!strncasecmp (uri, "thismessage:", 12)) {

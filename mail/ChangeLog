@@ -1,3 +1,54 @@
+2003-10-27  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* Fixes bug #49816
+
+	* em-popup.c (emp_part_popup_reply_sender): No need to pass a
+	parent window arg anymore.
+	(emp_part_popup_reply_list): Same.
+	(emp_part_popup_reply_all): Here too.
+	(emp_part_popup_forward): Same.
+	(emp_uri_popup_address_send): Here too.
+
+	* em-folder-browser.c (emfb_mail_compose): No need to pass a
+	parent window arg anymore.
+	(emfb_mail_post): Same.
+
+	* em-folder-view.c (emfv_message_reply): Don't pass a parent
+	window argument anymore.
+	(emfv_popup_forward): Same.
+	(emfv_popup_resend): Same here.
+	(em_folder_view_open_selected): Same.
+	(emfv_message_forward_attached): Here too.
+	(emfv_message_forward_inline): And here.
+	(emfv_message_forward_quoted): Same.
+	(emfv_message_redirect): Here too.
+	(emfv_message_post_reply): And here.
+	(emfv_format_link_clicked): ANd finally here.
+
+	* em-utils.c (create_new_composer): Don't set_transient_for()
+	anymore.
+	(em_utils_compose_new_message): No longer takes a parent window
+	argument.
+	(em_utils_forward_attached): No longer takes a parent window arg.
+	(em_utils_forward_inline): Same.
+	(em_utils_forward_quoted): Same.
+	(em_utils_forward_message): Same.
+	(em_utils_forward_messages): Here too.
+	(redirect_get_composer): Don't set_transient_for() here either.
+	(em_utils_redirect_message): No longer takes a parent window arg.
+	(em_utils_redirect_message_by_uid): Same.
+	(reply_get_composer): Don't set_transient_for() here.
+	(em_utils_reply_to_message): No longer takes a parent window arg.
+	(em_utils_reply_to_message_by_uid): Same.
+	(post_reply_to_message): Don't set_transient_for() here.
+	(em_utils_post_reply_to_message_by_uid): No longer takes a parent
+	window arg.
+	(em_utils_compose_new_message_with_mailto): Don't
+	set_transient_for() here.
+	(em_utils_post_to_url): Same.
+	(em_utils_edit_message): No longer takes a parent window arg.
+	(em_utils_edit_messages): Same.
+
 2003-10-24  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* em-account-prefs.[c,h]: Re-Namespaced mail-accounts.c

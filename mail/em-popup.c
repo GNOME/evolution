@@ -601,34 +601,39 @@ emp_part_popup_set_background(GtkWidget *w, EMPopupTarget *t)
 }
 
 static void
-emp_part_popup_reply_sender(GtkWidget *w, EMPopupTarget *t)
+emp_part_popup_reply_sender (GtkWidget *w, EMPopupTarget *t)
 {
-	em_utils_reply_to_message(t->widget,
-				  (CamelMimeMessage *)camel_medium_get_content_object((CamelMedium *)t->data.part.part),
-				  REPLY_MODE_SENDER);
+	CamelMimeMessage *message;
+	
+	message = (CamelMimeMessage *) camel_medium_get_content_object ((CamelMedium *) t->data.part.part);
+	em_utils_reply_to_message (message, REPLY_MODE_SENDER);
 }
 
 static void
-emp_part_popup_reply_list(GtkWidget *w, EMPopupTarget *t)
+emp_part_popup_reply_list (GtkWidget *w, EMPopupTarget *t)
 {
-	em_utils_reply_to_message(t->widget,
-				  (CamelMimeMessage *)camel_medium_get_content_object((CamelMedium *)t->data.part.part),
-				  REPLY_MODE_LIST);
+	CamelMimeMessage *message;
+	
+	message = (CamelMimeMessage *) camel_medium_get_content_object ((CamelMedium *) t->data.part.part);
+	em_utils_reply_to_message (message, REPLY_MODE_LIST);
 }
 
 static void
-emp_part_popup_reply_all(GtkWidget *w, EMPopupTarget *t)
+emp_part_popup_reply_all (GtkWidget *w, EMPopupTarget *t)
 {
-	em_utils_reply_to_message(t->widget,
-				  (CamelMimeMessage *)camel_medium_get_content_object((CamelMedium *)t->data.part.part),
-				  REPLY_MODE_ALL);
+	CamelMimeMessage *message;
+	
+	message = (CamelMimeMessage *) camel_medium_get_content_object ((CamelMedium *) t->data.part.part);
+	em_utils_reply_to_message (message, REPLY_MODE_ALL);
 }
 
 static void
-emp_part_popup_forward(GtkWidget *w, EMPopupTarget *t)
+emp_part_popup_forward (GtkWidget *w, EMPopupTarget *t)
 {
-	em_utils_forward_message(t->widget,
-				 (CamelMimeMessage *)camel_medium_get_content_object((CamelMedium *)t->data.part.part));
+	CamelMimeMessage *message;
+	
+	message = (CamelMimeMessage *) camel_medium_get_content_object ((CamelMedium *) t->data.part.part);
+	em_utils_forward_message (message);
 }
 
 static EMPopupItem emp_standard_object_popups[] = {
@@ -660,9 +665,9 @@ emp_uri_popup_link_open(GtkWidget *w, EMPopupTarget *t)
 }
 
 static void
-emp_uri_popup_address_send(GtkWidget *w, EMPopupTarget *t)
+emp_uri_popup_address_send (GtkWidget *w, EMPopupTarget *t)
 {
-	em_utils_compose_new_message_with_mailto(t->widget, t->data.uri);
+	em_utils_compose_new_message_with_mailto (t->data.uri);
 }
 
 static void

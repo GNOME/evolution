@@ -285,14 +285,11 @@ em_utils_edit_filters (GtkWidget *parent)
 /* Composing messages... */
 
 static EMsgComposer *
-create_new_composer (GtkWidget *parent)
+create_new_composer (void)
 {
 	EMsgComposer *composer;
 	
 	composer = e_msg_composer_new ();
-	
-	if (parent != NULL)
-		e_dialog_set_transient_for ((GtkWindow *) composer, parent);
 	
 	em_composer_utils_setup_default_callbacks (composer);
 	
@@ -301,24 +298,22 @@ create_new_composer (GtkWidget *parent)
 
 /**
  * em_utils_compose_new_message:
- * @parent: parent window
  *
  * Opens a new composer window as a child window of @parent's toplevel
  * window.
  **/
 void
-em_utils_compose_new_message (GtkWidget *parent)
+em_utils_compose_new_message (void)
 {
 	GtkWidget *composer;
 	
-	composer = (GtkWidget *) create_new_composer (parent);
+	composer = (GtkWidget *) create_new_composer ();
 	
 	gtk_widget_show (composer);
 }
 
 /**
  * em_utils_compose_new_message_with_mailto:
- * @parent: parent window
  * @url: mailto url
  *
  * Opens a new composer window as a child window of @parent's toplevel
@@ -326,7 +321,7 @@ em_utils_compose_new_message (GtkWidget *parent)
  * according to the values in the mailto url.
  **/
 void
-em_utils_compose_new_message_with_mailto (GtkWidget *parent, const char *url)
+em_utils_compose_new_message_with_mailto (const char *url)
 {
 	EMsgComposer *composer;
 	
@@ -335,9 +330,6 @@ em_utils_compose_new_message_with_mailto (GtkWidget *parent, const char *url)
 	else
 		composer = e_msg_composer_new ();
 	
-	if (parent != NULL)
-		e_dialog_set_transient_for ((GtkWindow *) composer, parent);
-	
 	em_composer_utils_setup_default_callbacks (composer);
 	
 	gtk_widget_show ((GtkWidget *) composer);
@@ -345,7 +337,6 @@ em_utils_compose_new_message_with_mailto (GtkWidget *parent, const char *url)
 
 /**
  * em_utils_post_to_url:
- * @parent: parent window
  * @url: mailto url
  *
  * Opens a new composer window as a child window of @parent's toplevel
@@ -353,14 +344,11 @@ em_utils_compose_new_message_with_mailto (GtkWidget *parent, const char *url)
  * mail to the folder specified by @url.
  **/
 void
-em_utils_post_to_url (GtkWidget *parent, const char *url)
+em_utils_post_to_url (const char *url)
 {
 	EMsgComposer *composer;
 	
 	composer = e_msg_composer_new_post ();
-	
-	if (parent != NULL)
-		e_dialog_set_transient_for ((GtkWindow *) composer, parent);
 	
 	if (url != NULL)
 		e_msg_composer_hdrs_set_post_to ((EMsgComposerHdrs *) ((EMsgComposer *) composer)->hdrs, url);
@@ -376,7 +364,7 @@ em_utils_post_to_url (GtkWidget *parent, const char *url)
 /* Editing messages... */
 
 static void
-edit_message (GtkWidget *parent, CamelMimeMessage *message, CamelFolder *drafts, const char *uid)
+edit_message (CamelMimeMessage *message, CamelFolder *drafts, const char *uid)
 {
 	EMsgComposer *composer;
 	
@@ -390,18 +378,17 @@ edit_message (GtkWidget *parent, CamelMimeMessage *message, CamelFolder *drafts,
 
 /**
  * em_utils_edit_message:
- * @parent: parent window
  * @message: message to edit
  *
  * Opens a composer filled in with the headers/mime-parts/etc of
  * @message.
  **/
 void
-em_utils_edit_message (GtkWidget *parent, CamelMimeMessage *message)
+em_utils_edit_message (CamelMimeMessage *message)
 {
 	g_return_if_fail (CAMEL_IS_MIME_MESSAGE (message));
 	
-	edit_message (parent, message, NULL, NULL);
+	edit_message (message, NULL, NULL);
 }
 
 static void
@@ -415,25 +402,24 @@ edit_messages (CamelFolder *folder, GPtrArray *uids, GPtrArray *msgs, void *user
 	for (i = 0; i < msgs->len; i++) {
 		camel_medium_remove_header (CAMEL_MEDIUM (msgs->pdata[i]), "X-Mailer");
 		
-		edit_message ((GtkWidget *) user_data, msgs->pdata[i], folder, uids->pdata[i]);
+		edit_message (msgs->pdata[i], folder, uids->pdata[i]);
 	}
 }
 
 /**
  * em_utils_edit_messages:
- * @parent: parent window
  * @folder: folder containing messages to edit
  * @uids: uids of messages to edit
  *
  * Opens a composer for each message to be edited.
  **/
 void
-em_utils_edit_messages (GtkWidget *parent, CamelFolder *folder, GPtrArray *uids)
+em_utils_edit_messages (CamelFolder *folder, GPtrArray *uids)
 {
 	g_return_if_fail (CAMEL_IS_FOLDER (folder));
 	g_return_if_fail (uids != NULL);
 	
-	mail_get_messages (folder, uids, edit_messages, parent);
+	mail_get_messages (folder, uids, edit_messages, NULL);
 }
 
 /* Forwarding messages... */
@@ -446,7 +432,7 @@ forward_attached (CamelFolder *folder, GPtrArray *messages, CamelMimePart *part,
 	if (part == NULL)
 		return;
 	
-	composer = create_new_composer ((GtkWidget *) user_data);
+	composer = create_new_composer ();
 	e_msg_composer_set_headers (composer, NULL, NULL, NULL, NULL, subject);
 	e_msg_composer_attach (composer, part);
 	
@@ -458,7 +444,6 @@ forward_attached (CamelFolder *folder, GPtrArray *messages, CamelMimePart *part,
 
 /**
  * em_utils_forward_attached:
- * @parent: parent window
  * @folder: folder containing messages to forward
  * @uids: uids of messages to forward
  *
@@ -469,16 +454,16 @@ forward_attached (CamelFolder *folder, GPtrArray *messages, CamelMimePart *part,
  * forwarded as a simple message/rfc822 attachment.
  **/
 void
-em_utils_forward_attached (GtkWidget *parent, CamelFolder *folder, GPtrArray *uids)
+em_utils_forward_attached (CamelFolder *folder, GPtrArray *uids)
 {
 	g_return_if_fail (CAMEL_IS_FOLDER (folder));
 	g_return_if_fail (uids != NULL);
 	
-	mail_build_attachment (folder, uids, forward_attached, parent);
+	mail_build_attachment (folder, uids, forward_attached, NULL);
 }
 
 static void
-forward_non_attached (GtkWidget *parent, GPtrArray *messages, int style)
+forward_non_attached (GPtrArray *messages, int style)
 {
 	CamelMimeMessage *message;
 	CamelDataWrapper *wrapper;
@@ -498,10 +483,10 @@ forward_non_attached (GtkWidget *parent, GPtrArray *messages, int style)
 		message = messages->pdata[i];
 		subject = mail_tool_generate_forward_subject (message);
 		
-		text = em_utils_message_to_html(message, _("-------- Forwarded Message --------"), flags);
+		text = em_utils_message_to_html (message, _("-------- Forwarded Message --------"), flags);
 		
 		if (text) {
-			composer = create_new_composer (parent);
+			composer = create_new_composer ();
 			e_msg_composer_set_headers (composer, NULL, NULL, NULL, NULL, subject);
 			e_msg_composer_set_body_text (composer, text);
 			
@@ -524,35 +509,33 @@ forward_non_attached (GtkWidget *parent, GPtrArray *messages, int style)
 static void
 forward_inline (CamelFolder *folder, GPtrArray *uids, GPtrArray *messages, void *user_data)
 {
-	forward_non_attached ((GtkWidget *) user_data, messages, MAIL_CONFIG_FORWARD_INLINE);
+	forward_non_attached (messages, MAIL_CONFIG_FORWARD_INLINE);
 }
 
 /**
  * em_utils_forward_inline:
- * @parent: parent window
  * @folder: folder containing messages to forward
  * @uids: uids of messages to forward
  *
  * Forwards each message in the 'inline' form, each in its own composer window.
  **/
 void
-em_utils_forward_inline (GtkWidget *parent, CamelFolder *folder, GPtrArray *uids)
+em_utils_forward_inline (CamelFolder *folder, GPtrArray *uids)
 {
 	g_return_if_fail (CAMEL_IS_FOLDER (folder));
 	g_return_if_fail (uids != NULL);
 	
-	mail_get_messages (folder, uids, forward_inline, parent);
+	mail_get_messages (folder, uids, forward_inline, NULL);
 }
 
 static void
 forward_quoted (CamelFolder *folder, GPtrArray *uids, GPtrArray *messages, void *user_data)
 {
-	forward_non_attached ((GtkWidget *) user_data, messages, MAIL_CONFIG_FORWARD_QUOTED);
+	forward_non_attached (messages, MAIL_CONFIG_FORWARD_QUOTED);
 }
 
 /**
  * em_utils_forward_quoted:
- * @parent: parent window
  * @folder: folder containing messages to forward
  * @uids: uids of messages to forward
  *
@@ -560,12 +543,12 @@ forward_quoted (CamelFolder *folder, GPtrArray *uids, GPtrArray *messages, void 
  * a "> "), each in its own composer window.
  **/
 void
-em_utils_forward_quoted (GtkWidget *parent, CamelFolder *folder, GPtrArray *uids)
+em_utils_forward_quoted (CamelFolder *folder, GPtrArray *uids)
 {
 	g_return_if_fail (CAMEL_IS_FOLDER (folder));
 	g_return_if_fail (uids != NULL);
 	
-	mail_get_messages (folder, uids, forward_quoted, parent);
+	mail_get_messages (folder, uids, forward_quoted, NULL);
 }
 
 /**
@@ -576,7 +559,7 @@ em_utils_forward_quoted (GtkWidget *parent, CamelFolder *folder, GPtrArray *uids
  * Forwards a message in the user's configured default style.
  **/
 void
-em_utils_forward_message (GtkWidget *parent, CamelMimeMessage *message)
+em_utils_forward_message (CamelMimeMessage *message)
 {
 	GPtrArray *messages;
 	CamelMimePart *part;
@@ -597,15 +580,15 @@ em_utils_forward_message (GtkWidget *parent, CamelMimeMessage *message)
 		
 		subject = mail_tool_generate_forward_subject (message);
 		
-		forward_attached (NULL, messages, part, subject, parent);
+		forward_attached (NULL, messages, part, subject, NULL);
 		camel_object_unref (part);
 		g_free (subject);
 		break;
 	case MAIL_CONFIG_FORWARD_INLINE:
-		forward_non_attached(parent, messages, MAIL_CONFIG_FORWARD_INLINE);
+		forward_non_attached (messages, MAIL_CONFIG_FORWARD_INLINE);
 		break;
 	case MAIL_CONFIG_FORWARD_QUOTED:
-		forward_non_attached(parent, messages, MAIL_CONFIG_FORWARD_QUOTED);
+		forward_non_attached (messages, MAIL_CONFIG_FORWARD_QUOTED);
 		break;
 	}
 	
@@ -614,7 +597,6 @@ em_utils_forward_message (GtkWidget *parent, CamelMimeMessage *message)
 
 /**
  * em_utils_forward_messages:
- * @parent: parent window
  * @folder: folder containing messages to forward
  * @uids: uids of messages to forward
  *
@@ -622,7 +604,7 @@ em_utils_forward_message (GtkWidget *parent, CamelMimeMessage *message)
  * style.
  **/
 void
-em_utils_forward_messages (GtkWidget *parent, CamelFolder *folder, GPtrArray *uids)
+em_utils_forward_messages (CamelFolder *folder, GPtrArray *uids)
 {
 	GConfClient *gconf;
 	int mode;
@@ -633,13 +615,13 @@ em_utils_forward_messages (GtkWidget *parent, CamelFolder *folder, GPtrArray *ui
 	switch (mode) {
 	case MAIL_CONFIG_FORWARD_ATTACHED:
 	default:
-		em_utils_forward_attached (parent, folder, uids);
+		em_utils_forward_attached (folder, uids);
 		break;
 	case MAIL_CONFIG_FORWARD_INLINE:
-		em_utils_forward_inline (parent, folder, uids);
+		em_utils_forward_inline (folder, uids);
 		break;
 	case MAIL_CONFIG_FORWARD_QUOTED:
-		em_utils_forward_quoted (parent, folder, uids);
+		em_utils_forward_quoted (folder, uids);
 		break;
 	}
 }
@@ -647,7 +629,7 @@ em_utils_forward_messages (GtkWidget *parent, CamelFolder *folder, GPtrArray *ui
 /* Redirecting messages... */
 
 static EMsgComposer *
-redirect_get_composer (GtkWidget *parent, CamelMimeMessage *message)
+redirect_get_composer (CamelMimeMessage *message)
 {
 	EMsgComposer *composer;
 	EAccount *account;
@@ -662,9 +644,6 @@ redirect_get_composer (GtkWidget *parent, CamelMimeMessage *message)
 	
 	composer = e_msg_composer_new_redirect (message, account ? account->name : NULL);
 	
-	if (parent != NULL)
-		e_dialog_set_transient_for ((GtkWindow *) composer, parent);
-	
 	em_composer_utils_setup_default_callbacks (composer);
 	
 	return composer;
@@ -672,21 +651,20 @@ redirect_get_composer (GtkWidget *parent, CamelMimeMessage *message)
 
 /**
  * em_utils_redirect_message:
- * @parent: parent window
  * @message: message to redirect
  *
  * Opens a composer to redirect @message (Note: only headers will be
  * editable). Adds Resent-From/Resent-To/etc headers.
  **/
 void
-em_utils_redirect_message (GtkWidget *parent, CamelMimeMessage *message)
+em_utils_redirect_message (CamelMimeMessage *message)
 {
 	EMsgComposer *composer;
 	CamelDataWrapper *wrapper;
 	
 	g_return_if_fail (CAMEL_IS_MIME_MESSAGE (message));
 	
-	composer = redirect_get_composer (parent, message);
+	composer = redirect_get_composer (message);
 	
 	wrapper = camel_medium_get_content_object (CAMEL_MEDIUM (message));
 	if (CAMEL_IS_MULTIPART (wrapper))
@@ -703,12 +681,11 @@ redirect_msg (CamelFolder *folder, const char *uid, CamelMimeMessage *message, v
 	if (message == NULL)
 		return;
 	
-	em_utils_redirect_message ((GtkWidget *) user_data, message);
+	em_utils_redirect_message (message);
 }
 
 /**
  * em_utils_redirect_message_by_uid:
- * @parent: parent window
  * @folder: folder containing message to be redirected
  * @uid: uid of message to be redirected
  *
@@ -716,12 +693,12 @@ redirect_msg (CamelFolder *folder, const char *uid, CamelMimeMessage *message, v
  * be editable). Adds Resent-From/Resent-To/etc headers.
  **/
 void
-em_utils_redirect_message_by_uid (GtkWidget *parent, CamelFolder *folder, const char *uid)
+em_utils_redirect_message_by_uid (CamelFolder *folder, const char *uid)
 {
 	g_return_if_fail (CAMEL_IS_FOLDER (folder));
 	g_return_if_fail (uid != NULL);
 	
-	mail_get_message (folder, uid, redirect_msg, parent, mail_thread_new);
+	mail_get_message (folder, uid, redirect_msg, NULL, mail_thread_new);
 }
 
 /* Replying to messages... */
@@ -810,7 +787,7 @@ em_utils_camel_address_to_destination (CamelInternetAddress *iaddr)
 }
 
 static EMsgComposer *
-reply_get_composer (GtkWidget *parent, CamelMimeMessage *message, EAccount *account,
+reply_get_composer (CamelMimeMessage *message, EAccount *account,
 		    CamelInternetAddress *to, CamelInternetAddress *cc)
 {
 	const char *message_id, *references;
@@ -823,9 +800,6 @@ reply_get_composer (GtkWidget *parent, CamelMimeMessage *message, EAccount *acco
 	g_return_val_if_fail (cc == NULL || CAMEL_IS_INTERNET_ADDRESS (cc), NULL);
 	
 	composer = e_msg_composer_new ();
-	
-	if (parent != NULL)
-		e_dialog_set_transient_for ((GtkWindow *) composer, parent);
 	
 	/* construct the tov/ccv */
 	tov = em_utils_camel_address_to_destination (to);
@@ -1086,14 +1060,13 @@ composer_set_body (EMsgComposer *composer, CamelMimeMessage *message)
 
 /**
  * em_utils_reply_to_message:
- * @parent: parent window
  * @message: message to reply to
  * @mode: reply mode
  *
  * Creates a new composer ready to reply to @message.
  **/
 void
-em_utils_reply_to_message (GtkWidget *parent, CamelMimeMessage *message, int mode)
+em_utils_reply_to_message (CamelMimeMessage *message, int mode)
 {
 	CamelInternetAddress *to = NULL, *cc = NULL;
 	EMsgComposer *composer;
@@ -1113,7 +1086,7 @@ em_utils_reply_to_message (GtkWidget *parent, CamelMimeMessage *message, int mod
 		break;
 	}
 	
-	composer = reply_get_composer (parent, message, account, to, cc);
+	composer = reply_get_composer (message, account, to, cc);
 	e_msg_composer_add_message_attachments (composer, message, TRUE);
 	
 	if (to != NULL)
@@ -1130,24 +1103,21 @@ em_utils_reply_to_message (GtkWidget *parent, CamelMimeMessage *message, int mod
 	e_msg_composer_unset_changed (composer);
 }
 
-struct rtm_t {
-	GtkWidget *parent;
-	int mode;
-};
-
 static void
 reply_to_message (CamelFolder *folder, const char *uid, CamelMimeMessage *message, void *user_data)
 {
 	CamelInternetAddress *to = NULL, *cc = NULL;
-	struct rtm_t *rtm = user_data;
 	EMsgComposer *composer;
 	EAccount *account;
 	guint32 flags;
+	int mode;
+	
+	mode = GPOINTER_TO_INT (user_data);
 	
 	account = guess_account (message);
 	flags = CAMEL_MESSAGE_ANSWERED | CAMEL_MESSAGE_SEEN;
 	
-	switch (rtm->mode) {
+	switch (mode) {
 	case REPLY_MODE_SENDER:
 		get_reply_sender (message, &to);
 		break;
@@ -1161,7 +1131,7 @@ reply_to_message (CamelFolder *folder, const char *uid, CamelMimeMessage *messag
 		break;
 	}
 	
-	composer = reply_get_composer (rtm->parent, message, account, to, cc);
+	composer = reply_get_composer (message, account, to, cc);
 	e_msg_composer_add_message_attachments (composer, message, TRUE);
 	
 	if (to != NULL)
@@ -1180,7 +1150,6 @@ reply_to_message (CamelFolder *folder, const char *uid, CamelMimeMessage *messag
 
 /**
  * em_utils_reply_to_message_by_uid:
- * @parent: parent window
  * @folder: folder containing message to reply to
  * @uid: message uid
  * @mode: reply mode
@@ -1189,18 +1158,12 @@ reply_to_message (CamelFolder *folder, const char *uid, CamelMimeMessage *messag
  * @folder and @uid.
  **/
 void
-em_utils_reply_to_message_by_uid (GtkWidget *parent, CamelFolder *folder, const char *uid, int mode)
+em_utils_reply_to_message_by_uid (CamelFolder *folder, const char *uid, int mode)
 {
-	struct rtm_t *rtm;
-	
 	g_return_if_fail (CAMEL_IS_FOLDER (folder));
 	g_return_if_fail (uid != NULL);
 	
-	rtm = g_malloc (sizeof (struct rtm_t));
-	rtm->parent = parent;
-	rtm->mode = mode;
-	
-	mail_get_message (folder, uid, reply_to_message, rtm, mail_thread_new);
+	mail_get_message (folder, uid, reply_to_message, GINT_TO_POINTER (mode), mail_thread_new);
 }
 
 /* Posting replies... */
@@ -1211,7 +1174,6 @@ post_reply_to_message (CamelFolder *folder, const char *uid, CamelMimeMessage *m
 	/* FIXME: would be nice if this shared more code with reply_get_composer() */
 	const char *message_id, *references;
 	CamelInternetAddress *to = NULL;
-	GtkWidget *parent = user_data;
 	EABDestination **tov = NULL;
 	EMsgComposer *composer;
 	char *subject, *url;
@@ -1224,9 +1186,6 @@ post_reply_to_message (CamelFolder *folder, const char *uid, CamelMimeMessage *m
 	get_reply_sender (message, &to);
 	
 	composer = e_msg_composer_new_post ();
-	
-	if (parent != NULL)
-		e_dialog_set_transient_for ((GtkWindow *) composer, parent);
 	
 	/* construct the tov/ccv */
 	tov = em_utils_camel_address_to_destination (to);
@@ -1285,7 +1244,6 @@ post_reply_to_message (CamelFolder *folder, const char *uid, CamelMimeMessage *m
 
 /**
  * em_utils_post_reply_to_message_by_uid:
- * @parent: parent window
  * @folder: folder containing message to reply to
  * @uid: message uid
  * @mode: reply mode
@@ -1294,18 +1252,18 @@ post_reply_to_message (CamelFolder *folder, const char *uid, CamelMimeMessage *m
  * referenced by @folder and @uid.
  **/
 void
-em_utils_post_reply_to_message_by_uid (GtkWidget *parent, CamelFolder *folder, const char *uid)
+em_utils_post_reply_to_message_by_uid (CamelFolder *folder, const char *uid)
 {
 	g_return_if_fail (CAMEL_IS_FOLDER (folder));
 	g_return_if_fail (uid != NULL);
 	
-	mail_get_message (folder, uid, post_reply_to_message, parent, mail_thread_new);
+	mail_get_message (folder, uid, post_reply_to_message, NULL, mail_thread_new);
 }
 
 /* Saving messages... */
 
 static GtkFileSelection *
-emu_get_save_filesel(GtkWidget *parent, const char *title, const char *name)
+emu_get_save_filesel (GtkWidget *parent, const char *title, const char *name)
 {
 	GtkFileSelection *filesel;
 	char *gdir, *mname = NULL, *filename;
