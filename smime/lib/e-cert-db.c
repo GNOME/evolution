@@ -78,6 +78,7 @@
 #include "ssl.h"
 #include "p12plcy.h"
 #include "pk11func.h"
+#include "nssckbi.h"
 #include "secmod.h"
 #include "certdb.h"
 #include "plstr.h"
@@ -213,44 +214,73 @@ initialize_nss (void)
 static void
 install_loadable_roots (void)
 {
-	gboolean has_roots;
-	PK11SlotList *list;
-
-	has_roots = FALSE;
-	list = PK11_GetAllTokens(CKM_INVALID_MECHANISM, PR_FALSE, PR_FALSE, NULL);
-	if (list) {
-		PK11SlotListElement *le;
-
-		for (le = list->head; le; le = le->next) {
-			if (PK11_HasRootCerts(le->slot)) {
-				has_roots = TRUE;
-				break;
+	SECMODModuleList *list = SECMOD_GetDefaultModuleList ();
+	SECMODListLock *lock = SECMOD_GetDefaultModuleListLock ();
+	SECMODModule *RootsModule = NULL;
+	int i;
+	
+	SECMOD_GetReadLock (lock);
+	while (!RootsModule && list) {
+		SECMODModule *module = list->module;
+		
+		for (i = 0; i < module->slotCount; i++) {
+			PK11SlotInfo *slot = module->slots[i];
+			if (PK11_IsPresent (slot)) {
+				if (PK11_HasRootCerts(slot)) {
+					RootsModule = module;
+					break;
+				}
+			}
+		}
+		
+		list = list->next;
+	}
+	SECMOD_ReleaseReadLock (lock);
+	
+	if (RootsModule) {
+		/* Check version, and unload module if it is too old */
+		CK_INFO info;
+		if (PK11_GetModInfo (RootsModule, &info) != SECSuccess) {
+			/* Do not use this module */
+			RootsModule = NULL;
+		} else {
+			/* NSS_BUILTINS_LIBRARY_VERSION_MAJOR and NSS_BUILTINS_LIBRARY_VERSION_MINOR
+			 * define the version we expect to have.
+			 * Later version are fine.
+			 * Older versions are not ok, and we will replace with our own version.
+			 */ 
+			if ((info.libraryVersion.major < NSS_BUILTINS_LIBRARY_VERSION_MAJOR)
+			    || (info.libraryVersion.major == NSS_BUILTINS_LIBRARY_VERSION_MAJOR
+				&& info.libraryVersion.minor < NSS_BUILTINS_LIBRARY_VERSION_MINOR)) {
+				PRInt32 modType;
+				
+				SECMOD_DeleteModule (RootsModule->commonName, &modType);
+				
+				RootsModule = NULL;
 			}
 		}
 	}
-
-	if (!has_roots) {
+	
+	if (!RootsModule) {
 		/* grovel in various places for mozilla's built-in
 		   cert module.
-
+		   
 		   XXX yes this is gross.  *sigh*
 		*/
 		char *paths_to_check[] = {
 			"/usr/lib",
 			"/usr/lib/mozilla",
 		};
-		int i;
-
+		
 		for (i = 0; i < G_N_ELEMENTS (paths_to_check); i ++) {
-			char *dll_path = g_module_build_path (paths_to_check [i],
-							      "nssckbi");
-
+			char *dll_path = g_module_build_path (paths_to_check [i], "nssckbi");
+			
 			if (g_file_test (dll_path, G_FILE_TEST_EXISTS)) {
 				SECMOD_AddNewModule("Mozilla Root Certs",dll_path, 0, 0);
 				g_free (dll_path);
 				break;
 			}
-
+			
 			g_free (dll_path);
 		}
 	}
