@@ -2,7 +2,6 @@
 #define CALENDAR_COMMANDS_H
 
 #include <bonobo/bonobo-control.h>
-#include <cal-util/calobj.h>
 #include "gnome-cal.h"
 
 /* This enum and the following array define the color preferences */
@@ -57,7 +56,9 @@ extern gint todo_current_sort_column;
 extern gint todo_current_sort_type;
 
 /* alarm stuff */
+#if 0
 extern CalendarAlarm alarm_defaults[4];
+#endif
 extern gboolean beep_on_display;
 extern gboolean enable_aalarm_timeout;
 extern guint audio_alarm_timeout;

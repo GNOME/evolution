@@ -62,7 +62,9 @@ static GtkWidget *snooze_cb;
 static GtkWidget *snooze_spin;
 
 /* prototypes */
+#if 0
 static void prop_apply_alarms (void);
+#endif
 static void create_alarm_page (void);
 static void to_cb_changed (GtkWidget* object, gpointer data);
 static void snooze_cb_changed (GtkWidget* object, gpointer data);
@@ -187,7 +189,9 @@ prop_apply (GtkWidget *w, int page)
 		break;
 		
 	case PROP_ALARMS:
+#if 0
 		prop_apply_alarms ();
+#endif
 		break;
 
 	case -1:
@@ -889,7 +893,8 @@ prop_store_alarm_default_values (CalendarAlarm* alarm)
 	gnome_config_pop_prefix ();
 	gnome_config_sync ();
 }
-	
+
+#if 0
 static void
 prop_apply_alarms ()
 {
@@ -910,6 +915,7 @@ prop_apply_alarms ()
 
 	gnome_config_sync();
 }
+#endif
 
 static void
 to_cb_changed (GtkWidget *object, gpointer data)

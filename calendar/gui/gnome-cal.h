@@ -10,11 +10,11 @@
 #define GNOME_CALENDAR_APP_H
 
 #include <time.h>
-#include <libgnome/gnome-defs.h>
 #include <gtk/gtkcalendar.h>
 #include <gtk/gtkvbox.h>
-#include <cal-client/cal-client.h>
+#include <libgnome/gnome-defs.h>
 #include <bonobo.h>
+#include <cal-client/cal-client.h>
 
 BEGIN_GNOME_DECLS
 
@@ -102,7 +102,7 @@ void	   gnome_calendar_set_selected_time_range (GnomeCalendar *gcal,
 						   time_t	  end_time);
 
 void       gnome_calendar_edit_object           (GnomeCalendar *gcal,
-						 iCalObject    *ico);
+						 CalComponent  *comp);
 
 /* Returns the selected time range for the current view. Note that this may be
    different from the fields in the GnomeCalendar, since the view may clip

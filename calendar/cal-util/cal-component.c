@@ -338,6 +338,39 @@ cal_component_new (void)
 	return CAL_COMPONENT (gtk_type_new (CAL_COMPONENT_TYPE));
 }
 
+/**
+ * cal_component_clone:
+ * @comp: A calendar component object.
+ * 
+ * Creates a new calendar component object by copying the information from
+ * another one.
+ * 
+ * Return value: A newly-created calendar component with the same values as the
+ * original one.
+ **/
+CalComponent *
+cal_component_clone (CalComponent *comp)
+{
+	CalComponentPrivate *priv;
+	CalComponent *new_comp;
+	icalcomponent *new_icalcomp;
+
+	g_return_val_if_fail (comp != NULL, NULL);
+	g_return_val_if_fail (IS_CAL_COMPONENT (comp), NULL);
+
+	priv = comp->priv;
+	g_return_val_if_fail (priv->need_sequence_inc == FALSE, NULL);
+
+	new_comp = cal_component_new ();
+
+	if (priv->icalcomp) {
+		new_icalcomp = icalcomponent_new_clone (priv->icalcomp);
+		cal_component_set_icalcomponent (new_comp, new_icalcomp);
+	}
+
+	return new_comp;
+}
+
 /* Scans the categories property */
 static void
 scan_categories (CalComponent *comp, icalproperty *prop)
@@ -715,6 +748,8 @@ cal_component_get_icalcomponent (CalComponent *comp)
 	g_return_val_if_fail (IS_CAL_COMPONENT (comp), NULL);
 
 	priv = comp->priv;
+	g_return_val_if_fail (priv->need_sequence_inc == FALSE, NULL);
+
 	return priv->icalcomp;
 }
 

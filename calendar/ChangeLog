@@ -1,5 +1,14 @@
 2000-08-07  Federico Mena Quintero  <federico@helixcode.com>
 
+	* cal-util/cal-component.c (cal_component_clone): New function.
+	(cal_component_get_icalcomponent): Ensure that the SEQUENCE
+	property does not need incrementing.
+
+	* gui/dialogs/alarm-notify-dialog.c (alarm_notify_dialog): Use
+	CalComponent.  Deal with an empty summary property.
+
+2000-08-07  Federico Mena Quintero  <federico@helixcode.com>
+
 	* cal-util/cal-component.c (cal_component_get_as_string): Doh,
 	libical owns the string's memory, so do not free it.
 

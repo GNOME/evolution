@@ -26,7 +26,6 @@
 #include <fcntl.h>
 #include <signal.h>
 #include <sys/time.h>
-#include <cal-util/calobj.h>
 #include "alarm.h"
 
 

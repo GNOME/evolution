@@ -24,7 +24,7 @@
 
 #include <time.h>
 #include <glib.h>
-#include <cal-util/calobj.h>
+#include <cal-util/cal-component.h>
 
 
 
@@ -36,7 +36,7 @@ typedef enum {
 
 typedef void (* AlarmNotifyFunc) (AlarmNotifyResult result, int snooze_mins, gpointer data);
 
-gboolean alarm_notify_dialog (time_t trigger, time_t occur, iCalObject *ico,
+gboolean alarm_notify_dialog (time_t trigger, time_t occur, CalComponent *comp,
 			      AlarmNotifyFunc func, gpointer func_data);
 
 

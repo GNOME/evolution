@@ -42,15 +42,14 @@ typedef struct {
 	/* UI handler */
 	BonoboUIHandler *uih;
 
-	/* Calendar object we are editing; this is an internal copy and is not
-	 * one of the read-only objects from the parent calendar.
+	/* Calendar component we are editing; this is an internal copy and is
+	 * not one of the read-only objects from the parent calendar.
 	 */
-	iCalObject *ico;
+	CalComponent *comp;
 
 	/* Widgets from the Glade file */
 
 	GtkWidget *app;
-
 } TaskEditorPrivate;
 
 

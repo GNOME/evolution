@@ -83,14 +83,14 @@ const guint MAX_SNOOZE_SECS = 3600;
 gboolean enable_snooze = 0;
 guint snooze_secs = 60;
 
-/*extern CalendarAlarm alarm_defaults[4];*/
+#if 0
 CalendarAlarm alarm_defaults[4] = {
         { ALARM_MAIL, 0, 15, ALARM_MINUTES },
         { ALARM_PROGRAM, 0, 15, ALARM_MINUTES },
         { ALARM_DISPLAY, 0, 15, ALARM_MINUTES },
         { ALARM_AUDIO, 0, 15, ALARM_MINUTES }
 };
-
+#endif
 
 static void calendar_iterate_free_cache_entry	(gpointer	key,
 						 gpointer	value,
@@ -114,6 +114,7 @@ range_check_hour (int hour)
 	return hour;
 }
 
+#if 0
 static void
 init_default_alarms (void)
 {
@@ -158,7 +159,7 @@ init_default_alarms (void)
 		gnome_config_pop_prefix ();
 	}
 }
-
+#endif
 	
 static void
 about_calendar_cmd (BonoboUIHandler *uih, void *user_data, const char *path)
@@ -871,8 +872,9 @@ init_calendar (void)
 	if (snooze_secs > MAX_SNOOZE_SECS)
 		snooze_secs = MAX_SNOOZE_SECS;
 
+#if 0
 	init_default_alarms ();
-	
+#endif
 
 	/* Done */
 

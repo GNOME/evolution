@@ -20,10 +20,7 @@
  */
 
 #include <config.h>
-#include <gtk/gtklabel.h>
-#include <gtk/gtksignal.h>
-#include <gtk/gtkspinbutton.h>
-#include <gtk/gtkwindow.h>
+#include <gnome.h>
 #include <glade/glade.h>
 #include "alarm-notify-dialog.h"
 
@@ -119,8 +116,11 @@ edit_clicked_cb (GtkWidget *widget, gpointer data)
 
 /**
  * alarm_notify_dialog:
+ * @trigger: Trigger time for the alarm.
+ * @occur: Occurrence time for the event.
+ * @comp: Calendar component object which corresponds to the alarm.
  * @func: Function to be called when a dialog action is invoked.
- * @data: Closure data for @func.
+ * @func_data: Closure data for @func.
  * 
  * Runs the alarm notification dialog.  The specified @func will be used to
  * notify the client about result of the actions in the dialog.
@@ -128,17 +128,19 @@ edit_clicked_cb (GtkWidget *widget, gpointer data)
  * Return value: TRUE on success, FALSE if the dialog could not be created.
  **/
 gboolean
-alarm_notify_dialog (time_t trigger, time_t occur, iCalObject *ico,
+alarm_notify_dialog (time_t trigger, time_t occur, CalComponent *comp,
 		     AlarmNotifyFunc func, gpointer func_data)
 {
 	AlarmNotify *an;
 	char buf[256];
 	struct tm tm_trigger;
 	struct tm tm_occur;
+	CalComponentText summary;
 
 	g_return_val_if_fail (trigger != -1, FALSE);
 	g_return_val_if_fail (occur != -1, FALSE);
-	g_return_val_if_fail (ico != NULL, FALSE);
+	g_return_val_if_fail (comp != NULL, FALSE);
+	g_return_val_if_fail (IS_CAL_COMPONENT (comp), FALSE);
 	g_return_val_if_fail (func != NULL, FALSE);
 
 	an = g_new0 (AlarmNotify, 1);
@@ -191,7 +193,12 @@ alarm_notify_dialog (time_t trigger, time_t occur, iCalObject *ico,
 
 	/* Summary */
 
-	gtk_label_set_text (GTK_LABEL (an->summary), ico->summary);
+	cal_component_get_summary (comp, &summary);
+
+	if (summary.value)
+		gtk_label_set_text (GTK_LABEL (an->summary), summary.value);
+	else
+		gtk_label_set_text (GTK_LABEL (an->summary), _("No summary available."));
 
 	/* Connect actions */
 
