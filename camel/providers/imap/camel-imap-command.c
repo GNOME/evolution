@@ -154,7 +154,7 @@ imap_read_response (CamelImapStore *store, CamelException *ex)
 		/* If it starts with a number, we might deal with
 		 * it ourselves.
 		 */
-		word = imap_next_word (respbuf + 2);
+		word = imap_next_word (respbuf);
 		number = strtoul (word, &p, 10);
 		if (p != word && store->current_folder) {
 			word = imap_next_word (p);

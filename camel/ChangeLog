@@ -1,6 +1,13 @@
 2000-10-16  Jeffrey Stedfast  <fejj@helixcode.com>
 
 	* providers/imap/camel-imap-command.c
+	(imap_read_response): Don't imap_next_word(respbuf + 2), instead
+	use imap_next_word(respbuf) or else we'll skip over the second
+	token.
+
+2000-10-16  Jeffrey Stedfast  <fejj@helixcode.com>
+
+	* providers/imap/camel-imap-command.c
 	(camel_imap_response_extract): Don't free 'resp' as it doesn't
 	point to the beginning of the allocated data, instead free
 	response->untagged->pdata[i]. Also, if '*resp' is equal to a space
