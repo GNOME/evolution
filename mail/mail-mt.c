@@ -17,7 +17,6 @@
 #include <libgnome/gnome-i18n.h>
 #include <gal/widgets/e-gui-utils.h>
 
-#include "folder-browser-factory.h"
 #include "e-util/e-msgport.h"
 #include "camel/camel-operation.h"
 
@@ -996,27 +995,13 @@ mail_operation_status (struct _CamelOperation *op, const char *what, int pc, voi
 /* ******************** */
 
 static void
-set_stop(int sensitive)
+set_stop (int sensitive)
 {
-	EList *controls;
-	EIterator *it;
 	static int last = FALSE;
-
+	
 	if (last == sensitive)
 		return;
-
-	controls = folder_browser_factory_get_control_list ();
-	for (it = e_list_get_iterator (controls); e_iterator_is_valid (it); e_iterator_next (it)) {
-		BonoboControl *control;
-		BonoboUIComponent *uic;
-
-		control = BONOBO_CONTROL (e_iterator_get (it));
-		uic = bonobo_control_get_ui_component (control);
-		if (uic == CORBA_OBJECT_NIL || bonobo_ui_component_get_container(uic) == CORBA_OBJECT_NIL)
-			continue;
-
-		bonobo_ui_component_set_prop(uic, "/commands/MailStop", "sensitive", sensitive?"1":"0", NULL);
-	}
-	g_object_unref(it);
+	
+	/*bonobo_ui_component_set_prop (uic, "/commands/MailStop", "sensitive", sensitive ? "1" : "0", NULL);*/
 	last = sensitive;
 }

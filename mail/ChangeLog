@@ -1,5 +1,8 @@
 2003-11-14  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* mail-mt.c (set_stop): Removed most of the code. This is
+	basically now a nop. Need to somehow get the uic and fix this.
+
 	* folder-browser-factory.[c,h]: Removed.
 
 	* mail-component.c (folder_selected_cb): Don't create a new view
