@@ -1,3 +1,8 @@
+2002-10-04  Dan Winship  <danw@ximian.com>
+
+	* evolution.xml: Remove "..." from "Remove Other User's Folder"
+	since it doesn't pop up a dialog. #31576.
+
 2002-09-30  Aaron Weber  <aaron@ximian.com>
 
 	* evolution-mail-message.xml: setup/set up

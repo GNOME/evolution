@@ -125,7 +125,7 @@
 
       <menuitem name="FileRemoveOtherUsersFolder"
 		verb="FileRemoveOtherUsersFolder"
-		_label="_Remove Other User's Folder..."
+		_label="_Remove Other User's Folder"
 		_tip="Remove a folder added with &quot;Open Other User's Folder&quot;"/>
 
       <separator f="" name="eshell4"/>
