@@ -2476,7 +2476,7 @@ _do_tooltip (gpointer data)
 				      "y1", (double) 0,
 				      "x2", (double) max_width + 4,
 				      "y2", (double) text->height + 4,
-				      "fill_color", "yellow",
+				      "fill_color", "light gray",
 				      NULL);
 
 	/* Ref the font so that it is not destroyed
