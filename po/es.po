@@ -9867,7 +9867,7 @@ msgstr "Nubes dispersas"
 
 #: my-evolution/metar.c:47
 msgid "Few clouds"
-msgstr "Algún nube"
+msgstr "Algunas nubes"
 
 #: my-evolution/metar.c:48
 msgid "Overcast"
