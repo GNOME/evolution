@@ -4,7 +4,6 @@
 
 #include <gtk/gtkobject.h>
 #include <gnome-xml/tree.h>
-#include <bonobo/bonobo-ui-component.h>
 
 #define GAL_VIEW_TYPE        (gal_view_get_type ())
 #define GAL_VIEW(o)          (GTK_CHECK_CAST ((o), GAL_VIEW_TYPE, GalView))
