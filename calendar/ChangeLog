@@ -1,3 +1,12 @@
+2001-11-30  Damon Chaplin  <damon@ximian.com>
+
+	* gui/e-itip-control.c (remove_item): only show the dialog if we
+	created it. Hopefully fixes bug #15774.
+	Also ifdef'ed out a lot of code that isn't currently used, including
+	code to use a label which is never created. The unused code was there
+	to support handling multiple iTIP objects in a message, but was never
+	updated when we switched to use HTML for the control. Fixes bug #16232.
+
 2001-11-28  Federico Mena Quintero  <federico@ximian.com>
 
 	* gui/gnome-cal.c (gnome_calendar_new_task): Set the category of
