@@ -1,3 +1,7 @@
+2004-10-22  Harish K  <kharish@novell.com>
+
+	* configure.in: Added mark-calendar-offline plugin
+
 2004-10-22  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* configure.in: Added folder-unsubscribe plugin
