@@ -1240,7 +1240,6 @@ emftm_drag_data_received_async__free (struct _mail_msg *mm)
 	struct _DragDataReceivedAsync *m = (struct _DragDataReceivedAsync *) mm;
 	
 	g_object_unref (m->context);
-	g_object_unref (m->selection);
 	camel_object_unref (m->store);
 	g_free (m->full_name);
 }
@@ -1286,7 +1285,6 @@ em_folder_tree_model_drag_data_received (EMFolderTreeModel *model, GdkDragContex
 	full_name = path[0] == '/' ? path + 1 : path;
 	
 	g_object_ref (context);
-	g_object_ref (selection);
 	camel_object_ref (store);
 	
 	m = mail_msg_new (&drag_data_received_async_op, NULL, sizeof (struct _DragDataReceivedAsync));
