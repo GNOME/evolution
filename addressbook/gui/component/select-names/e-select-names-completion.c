@@ -67,6 +67,7 @@ struct _ESelectNamesCompletionPrivate {
 
 	gchar *cached_query_text;
 	GList *cached_cards;
+	gboolean cache_complete;
 
 	gboolean match_contact_lists;
 	gboolean primary_only;
@@ -300,7 +301,7 @@ match_name (ESelectNamesCompletion *comp, EDestination *dest)
 
 	if (match <= E_CARD_MATCH_NONE)
 		return NULL;
-	
+
 	score = match_len * 3; /* three points per match character */
 
 #if 0
@@ -897,6 +898,11 @@ e_select_names_completion_seq_complete_cb (EBookView *book_view, gpointer user_d
 			return;
 	}
 
+	if (comp->priv->cached_query_text
+	    && !comp->priv->cache_complete
+	    && !strcmp (comp->priv->cached_query_text, comp->priv->query_text))
+		comp->priv->cache_complete = TRUE;
+
 	g_free (comp->priv->query_text);
 	comp->priv->query_text = NULL;
 
@@ -983,6 +989,7 @@ e_select_names_completion_start_query (ESelectNamesCompletion *comp, const gchar
 
 		g_free (comp->priv->cached_query_text);
 		comp->priv->cached_query_text = g_strdup (query_text);
+		comp->priv->cache_complete = FALSE;
 
 		sexp = book_query_sexp (comp);
 		if (sexp && *sexp) {
@@ -1046,6 +1053,7 @@ e_select_names_completion_do_query (ESelectNamesCompletion *comp, const gchar *q
 		fprintf (out, "cached: %s\n", comp->priv->cached_query_text);
 
 	can_reuse_cached_cards = (comp->priv->cached_query_text
+				  && comp->priv->cache_complete
 				  && (!comp->priv->can_fail_due_to_too_many_hits || comp->priv->cached_cards != NULL)
 				  && (strlen (comp->priv->cached_query_text) <= strlen (clean))
 				  && !g_utf8_strncasecmp (comp->priv->cached_query_text, clean, strlen (comp->priv->cached_query_text)));

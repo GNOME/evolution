@@ -1,5 +1,14 @@
 2001-12-16  Jon Trowbridge  <trow@ximian.com>
 
+	* gui/component/select-names/e-select-names-completion.c: Added
+	'cache_complete' flag to ESelectNamesCompletionPrivate.
+	(e_select_names_completion_seq_complete_cb): Set cache_complete
+	to TRUE if our query wasn't interrupted.
+	(e_select_names_completion_start_query): Set cache_complete to
+	FALSE at the beginning of a potentially-cached query.
+	(e_select_names_completion_do_query): Only reuse cached cards
+	if cache_complete is TRUE.  (Fixes bug #10241)
+
 	* gui/component/select-names/e-select-names-bonobo.c
 	(impl_destroy): Disconnect from manager's 'changed' and 'ok'
 	signals.
