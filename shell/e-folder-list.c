@@ -442,6 +442,10 @@ e_folder_list_init (EFolderList *efl)
 	g_signal_connect (selection_model, "cursor_changed",
 			  G_CALLBACK (cursor_changed), efl);
 
+	/* XXX libglade2 seems to not show custom widgets even when
+	   they're flagged Visible.*/
+	gtk_widget_show_all (efl->priv->scrolled_table);
+
 	efl->priv->possible_types = NULL;
 	set_frame_label (efl);
 }

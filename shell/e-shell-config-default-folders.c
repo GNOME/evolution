@@ -144,6 +144,10 @@ setup_folder_selector (EvolutionDefaultFolderConfig *dfc,
 	g_signal_connect (button, "selected",
 			  G_CALLBACK (folder_selected),
 			  dfc);
+
+	/* XXX libglade2 seems to not show custom widgets even when
+	   they're flagged Visible.*/
+	gtk_widget_show (button);
 }
 
 GtkWidget*

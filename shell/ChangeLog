@@ -1,5 +1,13 @@
 2002-11-16  Chris Toshok  <toshok@ximian.com>
 
+	* e-folder-list.c (e_folder_list_init): force the scrolled table
+	to be shown, apparently a bug in libglade2.
+
+	* e-shell-config-default-folders.c (setup_folder_selector): same,
+	but with the evolution-folder-selector-button's.
+
+2002-11-16  Chris Toshok  <toshok@ximian.com>
+
 	* e-shell-settings-dialog.c (load_pages): init the corba exception
 	before loading each config page, so previous errors don't make
 	subsequence pages to fail to load.
