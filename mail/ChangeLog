@@ -1,3 +1,8 @@
+2001-07-24  Jason Leach  <jleach@ximian.com>
+
+	* mail-config.c (config_read): get_boolean_with_default for the
+	"Mark as read" timeout, not get_long_with_default.  Fixes #5176.
+
 2001-07-24  Peter Williams  <peterw@ximian.com>
 
 	* mail-folder-cache.c (make_folder_name): Don't display "(0 unsent)" if

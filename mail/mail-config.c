@@ -483,8 +483,8 @@ config_read (void)
 		config->db, "/Mail/Display/citation_color", 0x737373, NULL);
 	
 	/* Mark as seen toggle */
-	config->do_seen_timeout = bonobo_config_get_long_with_default (config->db,
-		"/Mail/Display/do_seen_timeout", TRUE, NULL);
+	config->do_seen_timeout = bonobo_config_get_boolean_with_default (
+		config->db, "/Mail/Display/do_seen_timeout", TRUE, NULL);
 
 	/* Mark as seen timeout */
 	config->seen_timeout = bonobo_config_get_long_with_default (config->db,
