@@ -140,9 +140,6 @@ typedef struct {
 
 	ECursorMode cursor_mode;
 
-	int drag_get_data_row;
-	int drag_get_data_col;
-
 	int drop_row;
 	int drop_col;
 	GnomeCanvasItem *drop_highlight;

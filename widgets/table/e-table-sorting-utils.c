@@ -43,8 +43,8 @@ etsu_compare(ETableModel *source, ETableSortInfo *sort_info, ETableHeader *full_
 		col = e_table_header_get_column_by_col_idx(full_header, column.column);
 		if (col == NULL)
 			col = e_table_header_get_column (full_header, e_table_header_count (full_header) - 1);
-		comp_val = (*col->compare)(e_table_model_value_at (source, col->col_idx, row1),
-					   e_table_model_value_at (source, col->col_idx, row2));
+		comp_val = (*col->compare)(e_table_model_value_at (source, col->compare_col, row1),
+					   e_table_model_value_at (source, col->compare_col, row2));
 		ascending = column.ascending;
 		if (comp_val != 0)
 			break;
@@ -133,7 +133,7 @@ e_table_sorting_utils_sort(ETableModel *source, ETableSortInfo *sort_info, ETabl
 		if (col == NULL)
 			col = e_table_header_get_column (full_header, e_table_header_count (full_header) - 1);
 		for (i = 0; i < rows; i++) {
-			closure.vals[map_table[i] * cols + j] = e_table_model_value_at (source, col->col_idx, map_table[i]);
+			closure.vals[map_table[i] * cols + j] = e_table_model_value_at (source, col->compare_col, map_table[i]);
 		}
 		closure.compare[j] = col->compare;
 		closure.ascending[j] = column.ascending;
@@ -167,7 +167,7 @@ e_table_sorting_utils_affects_sort  (ETableSortInfo *sort_info,
 		tablecol = e_table_header_get_column_by_col_idx(full_header, column.column);
 		if (tablecol == NULL)
 			tablecol = e_table_header_get_column (full_header, e_table_header_count (full_header) - 1);
-		if (col == tablecol->col_idx)
+		if (col == tablecol->compare_col)
 			return TRUE;
 	}
 	return FALSE;
@@ -229,8 +229,8 @@ etsu_tree_compare(ETreeModel *source, ETableSortInfo *sort_info, ETableHeader *f
 		col = e_table_header_get_column_by_col_idx(full_header, column.column);
 		if (col == NULL)
 			col = e_table_header_get_column (full_header, e_table_header_count (full_header) - 1);
-		comp_val = (*col->compare)(e_tree_model_value_at (source, path1, col->col_idx),
-					   e_tree_model_value_at (source, path2, col->col_idx));
+		comp_val = (*col->compare)(e_tree_model_value_at (source, path1, col->compare_col),
+					   e_tree_model_value_at (source, path2, col->compare_col));
 		ascending = column.ascending;
 		if (comp_val != 0)
 			break;
@@ -281,7 +281,7 @@ e_table_sorting_utils_tree_sort(ETreeModel *source, ETableSortInfo *sort_info, E
 			col = e_table_header_get_column (full_header, e_table_header_count (full_header) - 1);
 
 		for (i = 0; i < count; i++) {
-			closure.vals[i * cols + j] = e_tree_model_value_at (source, map_table[i], col->col_idx);
+			closure.vals[i * cols + j] = e_tree_model_value_at (source, map_table[i], col->compare_col);
 		}
 		closure.ascending[j] = column.ascending;
 		closure.compare[j] = col->compare;

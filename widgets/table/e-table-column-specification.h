@@ -42,6 +42,7 @@ extern "C" {
 typedef struct {
 	GtkObject base;
 	int model_col;
+	int compare_col;
 	char *title;
 	char *pixbuf;
 

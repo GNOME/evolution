@@ -34,7 +34,8 @@ static GtkObjectClass *parent_class;
 
 enum {
 	ARG_0,
-	ARG_SORTABLE
+	ARG_SORTABLE,
+	ARG_COMPARE_COL
 };
 
 static void
@@ -62,6 +63,9 @@ etc_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 	case ARG_SORTABLE:
 		etc->sortable = GTK_VALUE_BOOL(*arg);
 		break;
+	case ARG_COMPARE_COL:
+		etc->compare_col = GTK_VALUE_INT(*arg);
+		break;
 	}
 }
 
@@ -73,6 +77,9 @@ etc_get_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 	switch (arg_id){
 	case ARG_SORTABLE:
 		GTK_VALUE_BOOL(*arg) = etc->sortable;
+		break;
+	case ARG_COMPARE_COL:
+		GTK_VALUE_INT(*arg) = etc->compare_col;
 		break;
 	default:
 		arg->type = GTK_TYPE_INVALID;
@@ -90,6 +97,8 @@ e_table_col_class_init (GtkObjectClass *object_class)
 
 	gtk_object_add_arg_type ("ETableCol::sortable",
 				 GTK_TYPE_BOOL, GTK_ARG_READWRITE, ARG_SORTABLE);  
+	gtk_object_add_arg_type ("ETableCol::compare_col",
+				 GTK_TYPE_INT, GTK_ARG_READWRITE, ARG_COMPARE_COL);
 }
 
 static void
@@ -148,6 +157,7 @@ e_table_col_new (int col_idx, const char *text, double expansion, int min_width,
 	etc->is_pixbuf = FALSE;
 
 	etc->col_idx = col_idx;
+	etc->compare_col = col_idx;
 	etc->text = g_strdup (text);
 	etc->pixbuf = NULL;
 	etc->expansion = expansion;
@@ -208,6 +218,7 @@ e_table_col_new_with_pixbuf (int col_idx, const char *text, GdkPixbuf *pixbuf, d
 	etc->is_pixbuf = TRUE;
 
 	etc->col_idx = col_idx;
+	etc->compare_col = col_idx;
 	etc->text = g_strdup(text);
 	etc->pixbuf = pixbuf;
 	etc->expansion = expansion;

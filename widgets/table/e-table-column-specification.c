@@ -66,6 +66,7 @@ static void
 etcs_init (ETableColumnSpecification *specification)
 {
 	specification->model_col     = 0;
+	specification->compare_col   = 0;
 	specification->title         = g_strdup("");
 	specification->pixbuf        = NULL;
 	
@@ -97,6 +98,7 @@ e_table_column_specification_load_from_node (ETableColumnSpecification *etcs,
 	free_strings(etcs);
 
 	etcs->model_col     = e_xml_get_integer_prop_by_name (node, "model_col");
+	etcs->compare_col   = e_xml_get_integer_prop_by_name_with_default (node, "compare_col", etcs->model_col);
 	etcs->title         = e_xml_get_string_prop_by_name (node, "_title");
 	etcs->pixbuf        = e_xml_get_string_prop_by_name (node, "pixbuf");
 
@@ -125,6 +127,8 @@ e_table_column_specification_save_to_node (ETableColumnSpecification *specificat
 		node = xmlNewNode(NULL, "ETableColumn");
 
 	e_xml_set_integer_prop_by_name(node, "model_col", specification->model_col);
+	if (specification->compare_col != specification->model_col)
+		e_xml_set_integer_prop_by_name(node, "compare_col", specification->compare_col);
 	e_xml_set_string_prop_by_name(node, "_title", specification->title);
 	e_xml_set_string_prop_by_name(node, "pixbuf", specification->pixbuf);
 

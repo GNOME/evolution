@@ -489,8 +489,6 @@ e_table_init (GtkObject *object)
 	e_table->click_to_add_message   = NULL;
 	e_table->domain                 = NULL;
 
-	e_table->drag_get_data_row      = -1;
-	e_table->drag_get_data_col      = -1;
 	e_table->drop_row               = -1;
 	e_table->drop_col               = -1;
 	e_table->site                   = NULL;
@@ -1519,7 +1517,10 @@ e_table_construct (ETable *e_table, ETableModel *etm, ETableExtras *ete,
 	g_return_val_if_fail(spec_str != NULL, NULL);
 
 	specification = e_table_specification_new();
-	e_table_specification_load_from_string(specification, spec_str);
+	if (!e_table_specification_load_from_string(specification, spec_str)) {
+		gtk_object_unref(GTK_OBJECT(specification));
+		return NULL;
+	}
 	if (state_str) {
 		state = e_table_state_new();
 		e_table_state_load_from_string(state, state_str);
@@ -2338,8 +2339,6 @@ e_table_drag_get_data (ETable         *table,
 	g_return_if_fail(table != NULL);
 	g_return_if_fail(E_IS_TABLE(table));
 
-	table->drag_get_data_row = row;
-	table->drag_get_data_col = col;
 	gtk_drag_get_data(GTK_WIDGET(table),
 			  context,
 			  target,
@@ -2392,8 +2391,10 @@ e_table_drag_highlight (ETable *table,
 				       "y2", (double) y + height - 1,
 				       NULL);
 	} else {
-		gtk_object_destroy (GTK_OBJECT (table->drop_highlight));
-		table->drop_highlight = NULL;
+		if (table->drop_highlight) {
+			gtk_object_destroy (GTK_OBJECT (table->drop_highlight));
+			table->drop_highlight = NULL;
+		}
 	}
 }
 

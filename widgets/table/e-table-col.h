@@ -63,6 +63,7 @@ typedef struct {
 	unsigned int      sortable:1;
 	unsigned int      groupable:1;
 	int               col_idx;
+	int               compare_col;
 	int               priority;
 
 	GtkJustification  justification;

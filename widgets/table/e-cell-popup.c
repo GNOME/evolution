@@ -264,17 +264,18 @@ ecp_draw (ECellView *ecv, GdkDrawable *drawable,
 	GtkWidget *canvas = GTK_WIDGET (GNOME_CANVAS_ITEM (ecv->e_table_item_view)->canvas);
 	GtkShadowType shadow;
 	GdkRectangle rect;
-	gboolean show_popup_arrow = FALSE;
+	gboolean show_popup_arrow;
 
 	/* Display the popup arrow if we are the cursor cell, or the popup
 	   is shown for this cell. */
-	if (flags & E_CELL_CURSOR) {
-		show_popup_arrow = TRUE;
-		ecp->popup_arrow_shown = TRUE;
-	} else if (ecp->popup_shown && ecp->popup_view_col == view_col
-		   && ecp->popup_row == row && ecp->popup_model == ((ECellView *) ecp_view)->e_table_model) {
-		show_popup_arrow = TRUE;
-	}
+	show_popup_arrow = e_table_model_is_cell_editable (ecv->e_table_model, model_col, row) &&
+		(flags & E_CELL_CURSOR ||
+		 (ecp->popup_shown && ecp->popup_view_col == view_col
+		  && ecp->popup_row == row
+		  && ecp->popup_model == ((ECellView *) ecp_view)->e_table_model));
+
+	if (flags & E_CELL_CURSOR)
+		ecp->popup_arrow_shown = show_popup_arrow;
 
 #if 0
 	g_print ("In ecp_draw row:%i col: %i %i,%i %i,%i Show Arrow:%i\n",
@@ -329,7 +330,8 @@ ecp_event (ECellView *ecv, GdkEvent *event, int model_col, int view_col,
 
 	switch (event->type) {
 	case GDK_BUTTON_PRESS:
-		if (flags & E_CELL_CURSOR
+		if (e_table_model_is_cell_editable (ecv->e_table_model, model_col, row) &&
+		    flags & E_CELL_CURSOR
 		    && ecp->popup_arrow_shown) {
 			width = e_table_header_col_diff (eti->header, view_col,
 							 view_col + 1);
@@ -344,10 +346,9 @@ ecp_event (ECellView *ecv, GdkEvent *event, int model_col, int view_col,
 			}
 		}
 		break;
-	case GDK_BUTTON_RELEASE:
-		break;
 	case GDK_KEY_PRESS:
-		if (event->key.state & GDK_MOD1_MASK
+		if (e_table_model_is_cell_editable (ecv->e_table_model, model_col, row) &&
+		    event->key.state & GDK_MOD1_MASK
 		    && event->key.keyval == GDK_Down) {
 			g_print ("## Alt-Down pressed\n");
 			return e_cell_popup_do_popup (ecp_view, event, row, view_col);
