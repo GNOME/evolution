@@ -1,3 +1,12 @@
+2003-12-19  Hans Petter Jansson  <hpj@ximian.com>
+
+	* gui/component/addressbook-component.c (find_first_source): Impl.
+	from calendar.
+	(save_primary_selection): Implement, similar to calendar.
+	(load_primary_selection): Implement, similar to calendar.
+	(primary_source_selection_changed_callback): Save selection.
+	(impl_createControls): Load selection.
+
 2003-12-18  Hans Petter Jansson  <hpj@ximian.com>
 
 	* gui/contact-editor/e-contact-editor.c (widget_changed):

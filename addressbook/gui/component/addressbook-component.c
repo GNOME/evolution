@@ -74,6 +74,71 @@ load_uri_for_selection (ESourceSelector *selector,
 	}
 }
 
+static ESource *
+find_first_source (ESourceList *source_list)
+{
+	GSList *groups, *sources, *l, *m;
+			
+	groups = e_source_list_peek_groups (source_list);
+	for (l = groups; l; l = l->next) {
+		ESourceGroup *group = l->data;
+				
+		sources = e_source_group_peek_sources (group);
+		for (m = sources; m; m = m->next) {
+			ESource *source = m->data;
+
+			return source;
+		}				
+	}
+
+	return NULL;
+}
+
+static void
+save_primary_selection (AddressbookComponent *addressbook_component)
+{
+	AddressbookComponentPrivate *priv;
+	ESource *source;
+
+	priv = addressbook_component->priv;
+	
+	source = e_source_selector_peek_primary_selection (E_SOURCE_SELECTOR (priv->source_selector));
+	if (!source)
+		return;
+
+	/* Save the selection for next time we start up */
+	gconf_client_set_string (priv->gconf_client,
+				 "/apps/evolution/addressbook/display/primary_addressbook",
+				 e_source_peek_uid (source), NULL);
+}
+
+static void
+load_primary_selection (AddressbookComponent *addressbook_component)
+{
+	AddressbookComponentPrivate *priv;
+	ESource *source;
+	char *uid;
+
+	priv = addressbook_component->priv;
+
+	uid = gconf_client_get_string (priv->gconf_client,
+				       "/apps/evolution/addressbook/display/primary_addressbook",
+				       NULL);
+	if (uid) {
+		source = e_source_list_peek_source_by_uid (priv->source_list, uid);
+		g_free (uid);
+	
+		e_source_selector_set_primary_selection (E_SOURCE_SELECTOR (priv->source_selector), source);
+	} else {
+		ESource *source;
+		
+		/* Try to create a default if there isn't one */
+		source = find_first_source (priv->source_list);
+		if (source)
+			e_source_selector_set_primary_selection (E_SOURCE_SELECTOR (priv->source_selector), source);
+	}
+}
+
 static void
 add_popup_menu_item (GtkMenu *menu, const char *label, const char *pixmap,
 		     GCallback callback, gpointer user_data)
@@ -137,6 +202,7 @@ primary_source_selection_changed_callback (ESourceSelector *selector,
 					   BonoboControl *view_control)
 {
 	load_uri_for_selection (selector, view_control);
+	save_primary_selection (addressbook_component_peek ());
 }
 
 static void
@@ -187,6 +253,8 @@ impl_createControls (PortableServer_Servant servant,
 	g_signal_connect_object (selector, "fill_popup_menu",
 				 G_CALLBACK (fill_popup_menu_callback),
 				 G_OBJECT (addressbook_component), 0);
+
+	load_primary_selection (addressbook_component);
 	load_uri_for_selection (E_SOURCE_SELECTOR (selector), view_control);
 
 	statusbar_widget = e_task_bar_new ();
