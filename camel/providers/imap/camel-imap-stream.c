@@ -43,9 +43,9 @@ camel_imap_stream_class_init (CamelImapStreamClass *camel_imap_stream_class)
 {
 	CamelStreamClass *camel_stream_class =
 		CAMEL_STREAM_CLASS (camel_imap_stream_class);
-
+	
 	parent_class = CAMEL_STREAM_CLASS(camel_type_get_global_classfuncs (camel_stream_get_type ()));
-
+	
 	/* virtual method overload */
 	camel_stream_class->read  = stream_read;
 	camel_stream_class->reset = stream_reset;
@@ -56,7 +56,7 @@ static void
 camel_imap_stream_init (gpointer object, gpointer klass)
 {
 	CamelImapStream *imap_stream = CAMEL_IMAP_STREAM (object);
-
+	
 	imap_stream->cache = NULL;
 	imap_stream->cache_ptr = NULL;
 }
@@ -65,7 +65,7 @@ CamelType
 camel_imap_stream_get_type (void)
 {
 	static CamelType camel_imap_stream_type = CAMEL_INVALID_TYPE;
-
+	
 	if (camel_imap_stream_type == CAMEL_INVALID_TYPE) {
 		camel_imap_stream_type = camel_type_register (camel_stream_get_type (), "CamelImapStream",
 							      sizeof (CamelImapStream),
@@ -75,7 +75,7 @@ camel_imap_stream_get_type (void)
 							      (CamelObjectInitFunc) camel_imap_stream_init,
 							      (CamelObjectFinalizeFunc) finalize);
 	}
-
+	
 	return camel_imap_stream_type;
 }
 
@@ -83,9 +83,9 @@ CamelStream *
 camel_imap_stream_new (CamelImapFolder *folder, char *command)
 {
 	CamelImapStream *imap_stream;
-
+	
 	imap_stream = CAMEL_IMAP_STREAM(camel_object_new (camel_imap_stream_get_type ()));
-
+	
 	imap_stream->folder = folder;
 	camel_object_ref (CAMEL_OBJECT (imap_stream->folder));
 	
@@ -98,10 +98,10 @@ static void
 finalize (CamelObject *object)
 {
 	CamelImapStream *imap_stream = CAMEL_IMAP_STREAM (object);
-
+	
 	g_free (imap_stream->cache);
 	g_free (imap_stream->command);
-
+	
 	if (imap_stream->folder)
 		camel_object_unref (CAMEL_OBJECT (imap_stream->folder));
 }
@@ -113,7 +113,7 @@ stream_read (CamelStream *stream, char *buffer, size_t n)
 	
 	/* do we want to do any IMAP specific parsing in here? If not, maybe rename to camel-stream-cache? */
 	CamelImapStream *imap_stream = CAMEL_IMAP_STREAM (stream);
-
+	
 	if (!imap_stream->cache) {
 		/* We need to send the IMAP command since this is our first fetch */
 		CamelFolder *folder = CAMEL_FOLDER (imap_stream->folder);
@@ -136,30 +136,44 @@ stream_read (CamelStream *stream, char *buffer, size_t n)
 		
 		/* we don't need the folder anymore... */
 		camel_object_unref (CAMEL_OBJECT (imap_stream->folder));
-
+		
 		/* parse out the message part */
-		for (p = result; *p && *p != '{' && *p != '\n'; p++);
-		if (*p != '{') {
+		for (p = result; *p && *p != '{' && *p != '"' && *p != '\n'; p++);
+		switch (*p) {
+		case '"':
+			/* a quoted string - section 4.3 */
+			p++;
+			for (q = p; *q && *q != '"' && *q != '\n'; q++);
+			part_len = (gint) (q - p);
+			
+			break;
+		case '{':
+			/* a literal string - section 4.3 */
+			part_len = atoi (p + 1);
+			for ( ; *p && *p != '\n'; p++);
+			if (*p != '\n') {
+				g_free (result);
+				return -1;
+			}
+			
+			/* calculate the new part-length */
+			for (q = p; *q && (q - p) <= part_len; q++) {
+				if (*q == '\n')
+					part_len--;
+			}
+			
+			/* FIXME: This is a hack for IMAP daemons that send us a UID at the end of each FETCH */
+			for ( ; q > p && *(q-1) != '\n'; q--, part_len--);
+			part_len++;
+			
+			break;
+		default:
+			/* Bad input */
 			g_free (result);
 			return -1;
 		}
 		
-		part_len = atoi (p + 1);
-		for ( ; *p && *p != '\n'; p++);
-		if (*p != '\n') {
-			g_free (result);
-			return -1;
-		}
-		
-		/* calculate the new part-length */
-		for (q = p; *q && (q - p) <= part_len; q++) {
-			if (*q == '\n')
-				part_len--;
-		}
-		/* FIXME: This is a hack for IMAP daemons that send us a UID at the end of each FETCH */
-		for (q--, part_len--; q > p && *(q-1) != '\n'; q--, part_len--);
-
-		imap_stream->cache = g_strndup (p, part_len + 1);
+		imap_stream->cache = g_strndup (p, part_len);
 		g_free (result);
 		
 		imap_stream->cache_ptr = imap_stream->cache;
@@ -174,7 +188,7 @@ stream_read (CamelStream *stream, char *buffer, size_t n)
 	} else {
 		nread = -1;
 	}
-
+	
 	return nread;
 }
 
@@ -184,7 +198,7 @@ stream_reset (CamelStream *stream)
 	CamelImapStream *imap_stream = CAMEL_IMAP_STREAM (stream);
 	
 	imap_stream->cache_ptr = imap_stream->cache;
-
+	
 	return 1;
 }
 
@@ -192,6 +206,6 @@ static gboolean
 stream_eos (CamelStream *stream)
 {
 	CamelImapStream *imap_stream = CAMEL_IMAP_STREAM (stream);
-
+	
 	return (imap_stream->cache_ptr && strlen (imap_stream->cache_ptr));
 }

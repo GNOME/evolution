@@ -1,3 +1,12 @@
+2000-08-28  Jeffrey Stedfast  <fejj@helixcode.com>
+
+	* providers/imap/camel-imap-folder.c (imap_get_message): Fixed the
+	hack around quoted string responses - should now handle them
+	according to the specifications in the RFC
+	
+	* providers/imap/camel-imap-stream.c (stream_read): Updated to
+	match the code currently used in camel-imap-folder.c
+
 2000-08-28  Ettore Perazzoli  <ettore@helixcode.com>
 
 	* providers/mbox/camel-mbox-summary.c (camel_mbox_summary_sync):
