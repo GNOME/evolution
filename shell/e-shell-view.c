@@ -831,7 +831,7 @@ new_folder_cb (EStorageSet *storage_set,
 
 			uri = g_strdup (priv->delayed_selection);
 			cleanup_delayed_selection (shell_view);
-			e_shell_view_display_uri (shell_view, uri, TRUE);
+			e_shell_view_display_uri (shell_view, uri, FALSE);
 			g_free (uri);
 		}
 	}

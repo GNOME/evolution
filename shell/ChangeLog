@@ -1,5 +1,10 @@
 2002-09-04  Ettore Perazzoli  <ettore@ximian.com>
 
+	* e-shell-view.c (new_folder_cb): Pass FALSE as @queue to
+	e_shell_view_display_uri() here.
+
+2002-09-04  Ettore Perazzoli  <ettore@ximian.com>
+
 	* e-shell-view.c (e_shell_view_get_current_component_id): If the
 	current_folder_type is NULL, just return NULL instead of passing
 	it to e_folder_type_registry_get_handler_for_type() [and generate
