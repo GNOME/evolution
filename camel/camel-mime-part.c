@@ -30,6 +30,9 @@
 #include <string.h>
 #include <stdio.h>
 #include <ctype.h>
+
+#include <gal/util/e-iconv.h>
+
 #include "hash-table-utils.h"
 #include "camel-mime-parser.h"
 #include "camel-stream-mem.h"
@@ -213,7 +216,7 @@ process_header(CamelMedium *medium, const char *header_name, const char *header_
 	case HEADER_DESCRIPTION: /* raw header->utf8 conversion */
 		g_free (mime_part->description);
 		if (mime_part->content_type)
-			charset = camel_charset_to_iconv(header_content_type_param(mime_part->content_type, "charset"));
+			charset = e_iconv_charset_name(header_content_type_param(mime_part->content_type, "charset"));
 		else
 			charset = NULL;
 		mime_part->description = g_strstrip (header_decode_string (header_value, charset));

@@ -178,7 +178,7 @@ camel_uid_cache_get_new_uids (CamelUIDCache *cache, GPtrArray *uids)
 		struct _uid_state *state;
 		
 		uid = uids->pdata[i];
-		if (g_hash_table_lookup_extended (cache->uids, uid, &old_uid, &state)) {
+		if (g_hash_table_lookup_extended (cache->uids, uid, (void **)&old_uid, (void **)&state)) {
 			g_hash_table_remove (cache->uids, uid);
 			g_free (old_uid);
 		} else {
@@ -210,7 +210,7 @@ camel_uid_cache_save_uid (CamelUIDCache *cache, const char *uid)
 	
 	g_return_if_fail (uid != NULL);
 	
-	if (g_hash_table_lookup_extended (cache->uids, uid, &old_uid, &state)) {
+	if (g_hash_table_lookup_extended (cache->uids, uid, (void **)&old_uid, (void **)&state)) {
 		state->save = TRUE;
 		state->level = cache->level;
 	} else {

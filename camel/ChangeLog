@@ -1,3 +1,8 @@
+2001-10-11    <NotZed@Ximian.com>
+
+	* camel-charset-map.[ch]: Removed charset/locale charset lookup
+	and iconv_open/close functions, moved to gal.  Fixed all callers.
+
 2001-10-11  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* camel-tcp-stream-ssl.c (ssl_cert_is_saved): Same.

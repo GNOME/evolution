@@ -30,20 +30,11 @@ struct _CamelCharset {
 	int level;
 };
 
-void camel_charset_map_init (void);
-
 void camel_charset_init(CamelCharset *);
 void camel_charset_step(CamelCharset *, const char *in, int len);
 const char *camel_charset_best_name(CamelCharset *);
 
 /* helper function */
 const char *camel_charset_best(const char *in, int len);
-
-const char *camel_charset_locale_name (void);
-
-const char *camel_charset_to_iconv (const char *name);
-
-iconv_t camel_charset_iconv_open(const char *to, const char *from);
-void camel_charset_iconv_close(iconv_t ic);
 
 #endif /* ! _CAMEL_CHARSET_MAP_H */

@@ -48,6 +48,7 @@
 
 #include <glib.h>
 #include <gal/unicode/gunicode.h>
+#include <gal/util/e-iconv.h>
 
 #include "camel-mime-utils.h"
 #include "camel-charset-map.h"
@@ -1109,7 +1110,7 @@ rfc2047_decode_word(const char *in, int len)
 			memcpy (encname, in + 2, tmplen);
 			encname[tmplen] = '\0';
 			
-			charset = camel_charset_to_iconv (encname);
+			charset = e_iconv_charset_name (encname);
 			
 			inbuf = decword;
 			
@@ -1118,7 +1119,7 @@ rfc2047_decode_word(const char *in, int len)
 			outbuf = outbase;
 			
 		retry:
-			ic = camel_charset_iconv_open ("UTF-8", charset);
+			ic = e_iconv_open ("UTF-8", charset);
 			if (ic != (iconv_t)-1) {
 				ret = iconv (ic, &inbuf, &inlen, &outbuf, &outlen);
 				if (ret >= 0) {
@@ -1126,13 +1127,13 @@ rfc2047_decode_word(const char *in, int len)
 					*outbuf = 0;
 					decoded = g_strdup (outbase);
 				}
-				camel_charset_iconv_close (ic);
+				e_iconv_close (ic);
 			} else {
 				w(g_warning ("Cannot decode charset, header display may be corrupt: %s: %s",
 					     charset, g_strerror (errno)));
 				
 				if (!retried) {
-					charset = camel_charset_locale_name ();
+					charset = e_iconv_locale_charset ();
 					if (!charset)
 						charset = "iso-8859-1";
 					
@@ -1192,7 +1193,7 @@ append_8bit (GString *out, const char *inbuf, int inlen, const char *charset)
 	int outlen;
 	iconv_t ic;
 	
-	ic = camel_charset_iconv_open ("UTF-8", charset);
+	ic = e_iconv_open ("UTF-8", charset);
 	if (ic == (iconv_t) -1)
 		return FALSE;
 
@@ -1202,14 +1203,14 @@ append_8bit (GString *out, const char *inbuf, int inlen, const char *charset)
 	if (iconv(ic, &inbuf, &inlen, &outbuf, &outlen) == -1) {
 		w(g_warning("Conversion to '%s' failed: %s", charset, strerror(errno)));
 		g_free(outbase);
-		camel_charset_iconv_close(ic);
+		e_iconv_close(ic);
 		return FALSE;
 	}
 
 	*outbuf = 0;
 	g_string_append(out, outbase);
 	g_free(outbase);
-	camel_charset_iconv_close(ic);
+	e_iconv_close(ic);
 
 	return TRUE;
 	
@@ -1223,7 +1224,7 @@ header_decode_text (const char *in, int inlen, const char *default_charset)
 	const char *inptr, *inend, *start, *chunk, *locale_charset;
 	char *dword = NULL;
 
-	locale_charset = camel_charset_locale_name();
+	locale_charset = e_iconv_locale_charset();
 
 	out = g_string_new("");
 	inptr = in;
@@ -1303,7 +1304,7 @@ rfc2047_encode_word(GString *outstring, const char *in, int len, const char *typ
 	ascii = alloca (bufflen);
 	
 	if (strcasecmp (type, "UTF-8") != 0)
-		ic = camel_charset_iconv_open (type, "UTF-8");
+		ic = e_iconv_open (type, "UTF-8");
 	
 	while (inlen) {
 		int convlen, i, proclen;
@@ -1381,7 +1382,7 @@ rfc2047_encode_word(GString *outstring, const char *in, int len, const char *typ
 	}
 
 	if (ic != (iconv_t) -1)
-		camel_charset_iconv_close(ic);
+		e_iconv_close(ic);
 }
 
 
@@ -1939,7 +1940,7 @@ rfc2184_decode (const char *in, int len)
 		return NULL;
 	
 	encoding = g_strndup (in, inptr - in);
-	charset = camel_charset_to_iconv (encoding);
+	charset = e_iconv_charset_name (encoding);
 	g_free (encoding);
 	
 	inptr = memchr (inptr + 1, '\'', inend - inptr - 1);
@@ -1956,7 +1957,7 @@ rfc2184_decode (const char *in, int len)
 		inbuf = decword = hex_decode (inptr, inend - inptr);
 		inlen = strlen (inbuf);
 		
-		ic = camel_charset_iconv_open("UTF-8", charset);
+		ic = e_iconv_open("UTF-8", charset);
 		if (ic != (iconv_t) -1) {
 			int ret;
 			
@@ -1971,7 +1972,7 @@ rfc2184_decode (const char *in, int len)
 				decoded = outbase;
 			}
 			
-			camel_charset_iconv_close(ic);
+			e_iconv_close(ic);
 		} else {
 			decoded = decword;
 		}
@@ -2110,8 +2111,8 @@ header_decode_param (const char **in, char **paramp, char **valuep, int *is_rfc2
 		inbuf = value;
 		inlen = strlen (inbuf);
 		
-		charset = camel_charset_locale_name ();
-		ic = camel_charset_iconv_open ("UTF-8", charset ? charset : "ISO-8859-1");
+		charset = e_iconv_locale_charset();
+		ic = e_iconv_open ("UTF-8", charset ? charset : "ISO-8859-1");
 		if (ic != (iconv_t) -1) {
 			int ret;
 			
@@ -2124,7 +2125,7 @@ header_decode_param (const char **in, char **paramp, char **valuep, int *is_rfc2
 				*outbuf = '\0';
 			}
 			
-			camel_charset_iconv_close (ic);
+			e_iconv_close (ic);
 			
 			g_free (value);
 			value = outbase;

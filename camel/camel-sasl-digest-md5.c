@@ -33,7 +33,7 @@
 #include "camel-mime-utils.h"
 #include "camel-charset-map.h"
 #include <e-util/md5-utils.h>
-
+#include <gal/util/e-iconv.h>
 
 #define d(x)
 
@@ -698,11 +698,11 @@ digest_response (struct _DigestResponse *resp)
 		const char *buf;
 		iconv_t cd;
 		
-		charset = camel_charset_locale_name ();
+		charset = e_iconv_locale_charset();
 		if (!charset)
 			charset = "iso-8859-1";
 		
-		cd = camel_charset_iconv_open (resp->charset, charset);
+		cd = e_iconv_open (resp->charset, charset);
 		
 		len = strlen (resp->username);
 		outlen = 2 * len; /* plenty of space */
@@ -720,7 +720,7 @@ digest_response (struct _DigestResponse *resp)
 		}
 		
 		if (cd != (iconv_t) -1)
-			camel_charset_iconv_close (cd);
+			e_iconv_close (cd);
 		
 		g_byte_array_append (buffer, username, strlen (username));
 		g_free (username);

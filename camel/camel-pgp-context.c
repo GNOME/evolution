@@ -52,6 +52,7 @@
 
 #include <iconv.h>
 #include <gal/unicode/gunicode.h>
+#include <gal/util/e-iconv.h>
 
 #define d(x)
 
@@ -999,11 +1000,11 @@ pgp_verify (CamelCipherContext *ctx, CamelCipherHash hash, CamelStream *istream,
 		
 		desc = outbuf = g_new (unsigned char, outlen + 1);
 		
-		locale = camel_charset_locale_name ();
+		locale = e_iconv_locale_charset();
 		if (!locale)
 			locale = "iso-8859-1";
 		
-		cd = camel_charset_iconv_open ("UTF-8", locale);
+		cd = e_iconv_open ("UTF-8", locale);
 		if (cd != (iconv_t) -1) {
 			const char *inbuf;
 			int ret;
@@ -1013,7 +1014,7 @@ pgp_verify (CamelCipherContext *ctx, CamelCipherHash hash, CamelStream *istream,
 			if (ret >= 0) {
 				iconv (cd, NULL, 0, &outbuf, &outlen);
 			}
-			camel_charset_iconv_close (cd);
+			e_iconv_close (cd);
 			
 			*outbuf = '\0';
 		} else {

@@ -31,6 +31,8 @@
 #include <unistd.h>
 #include <errno.h>
 
+#include <gal/util/e-iconv.h>
+
 #include "string-utils.h"
 #include "camel-mime-part-utils.h"
 #include "camel-mime-message.h"
@@ -80,7 +82,7 @@ check_html_charset(char *buffer, int length)
 			    && (val = camel_html_parser_attr(hp, "content"))
 			    && (ct = header_content_type_decode(val))) {
 				charset = header_content_type_param(ct, "charset");
-				charset = camel_charset_to_iconv (charset);
+				charset = e_iconv_charset_name (charset);
 				header_content_type_unref(ct);
 			}
 			break;
@@ -105,7 +107,7 @@ static GByteArray *convert_buffer(GByteArray *in, const char *to, const char *fr
 
 	d(printf("converting buffer from %s to %s: '%.*s'\n", from, to, (int)in->len, in->data));
 
-	ic = camel_charset_iconv_open(to, from);
+	ic = e_iconv_open(to, from);
 	if (ic == (iconv_t) -1) {
 		g_warning("Cannot convert from '%s' to '%s': %s", from, to, strerror(errno));
 		return NULL;
@@ -146,7 +148,7 @@ static GByteArray *convert_buffer(GByteArray *in, const char *to, const char *fr
 		break;
 	} while (1);
 
-	camel_charset_iconv_close(ic);
+	e_iconv_close(ic);
 
 	return out;
 }
@@ -188,7 +190,7 @@ simple_data_wrapper_construct_from_parser (CamelDataWrapper *dw, CamelMimeParser
 	ct = camel_mime_parser_content_type(mp);
 	if (header_content_type_is(ct, "text", "*")) {
 		charset = header_content_type_param(ct, "charset");
-		charset = camel_charset_to_iconv (charset);
+		charset = e_iconv_charset_name(charset);
 		
 		if (fdec) {
 			d(printf("Adding CRLF conversion filter\n"));

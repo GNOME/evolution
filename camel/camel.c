@@ -65,8 +65,6 @@ camel_init (const char *configdir, gboolean nss_init)
 	if (getenv ("CAMEL_VERBOSE_DEBUG"))
 		camel_verbose_debug = TRUE;
 	
-	camel_charset_map_init ();
-	
 #ifdef HAVE_NSS
 	if (nss_init) {
 		PR_Init (PR_SYSTEM_THREAD, PR_PRIORITY_NORMAL, 10);

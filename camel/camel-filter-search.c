@@ -34,6 +34,8 @@
 #include <string.h>
 #include <ctype.h>
 
+#include <gal/util/e-iconv.h>
+
 #include "e-util/e-sexp.h"
 
 #include "camel-mime-message.h"
@@ -129,7 +131,7 @@ check_header (struct _ESExp *f, int argc, struct _ESExpResult **argv, FilterMess
 			else {
 				ct = camel_mime_part_get_content_type(CAMEL_MIME_PART(fms->message));
 				if (ct)
-					charset = camel_charset_to_iconv(header_content_type_param(ct, "charset"));
+					charset = e_iconv_charset_name(header_content_type_param(ct, "charset"));
 			}
 		}
 
