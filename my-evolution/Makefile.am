@@ -4,8 +4,7 @@ INCLUDES =							\
 	-I$(top_builddir)/shell					\
 	-I$(top_srcdir)/calendar				\
 	-I$(top_builddir)/calendar/cal-client			\
-	-I$(top_srcdir)/libical/src/libical			\
-	-I$(top_builddir)/libical/src/libical			\
+	-I$(top_srcdir)/libical/src				\
 	-DEVOLUTION_GLADEDIR=\""$(gladedir)"\"			\
 	-DEVOLUTION_DATADIR=\""$(datadir)"\"			\
 	-DEVOLUTION_IMAGESDIR=\""$(imagesdir)"\"		\

@@ -38,7 +38,7 @@
 
 #include <gconf/gconf-client.h>
 
-#include <ical.h>
+#include <libical/ical.h>
 
 #define MAX_RELOAD_TRIES 10
 

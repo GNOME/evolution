@@ -33,7 +33,7 @@
 #include "e-summary-weather.h"
 #include "e-summary-tasks.h"
 
-#include <ical.h>
+#include <libical/ical.h>
 
 #include <Evolution.h>
 
