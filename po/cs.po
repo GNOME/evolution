@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-06-14 14:19+0200\n"
-"PO-Revision-Date: 2004-06-14 19:16+0200\n"
+"POT-Creation-Date: 2004-06-16 03:11+0200\n"
+"PO-Revision-Date: 2004-06-16 12:54+0200\n"
 "Last-Translator: Miloslav Trmac <mitr@volny.cz>\n"
 "Language-Team: Czech <cs@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -749,8 +749,7 @@ msgstr "<b>Práce</b>"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:11
 #: addressbook/gui/contact-editor/e-contact-editor.c:178
-#: addressbook/gui/widgets/eab-contact-display.c:334
-#: addressbook/gui/widgets/eab-contact-display.c:353
+#: addressbook/gui/widgets/eab-contact-display.c:331
 msgid "AIM"
 msgstr "AIM"
 
@@ -926,8 +925,8 @@ msgstr ""
 "odstranit tento kontakt?"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:96
-#: addressbook/gui/widgets/eab-contact-display.c:343
-#: addressbook/gui/widgets/eab-contact-display.c:364
+#: addressbook/gui/widgets/eab-contact-display.c:350
+#: addressbook/gui/widgets/eab-contact-display.c:365
 msgid "Address"
 msgstr "Adresa"
 
@@ -1915,31 +1914,28 @@ msgstr "Zimbabwe"
 
 #: addressbook/gui/contact-editor/e-contact-editor.c:179
 #: addressbook/gui/contact-editor/e-contact-editor-im.c:64
-#: addressbook/gui/widgets/eab-contact-display.c:337
-#: addressbook/gui/widgets/eab-contact-display.c:356
+#: addressbook/gui/widgets/eab-contact-display.c:334
 msgid "Jabber"
 msgstr "Jabber"
 
 #: addressbook/gui/contact-editor/e-contact-editor.c:180
-#: addressbook/gui/widgets/eab-contact-display.c:339
-#: addressbook/gui/widgets/eab-contact-display.c:358
+#: addressbook/gui/widgets/eab-contact-display.c:336
 msgid "Yahoo"
 msgstr "Yahoo"
 
 #: addressbook/gui/contact-editor/e-contact-editor.c:181
-#: addressbook/gui/widgets/eab-contact-display.c:338
-#: addressbook/gui/widgets/eab-contact-display.c:357
+#: addressbook/gui/widgets/eab-contact-display.c:335
 msgid "MSN"
 msgstr "MSN"
 
 #: addressbook/gui/contact-editor/e-contact-editor.c:182
 #: addressbook/gui/contact-editor/e-contact-editor-im.c:67
-#: addressbook/gui/widgets/eab-contact-display.c:336
-#: addressbook/gui/widgets/eab-contact-display.c:355
+#: addressbook/gui/widgets/eab-contact-display.c:333
 msgid "ICQ"
 msgstr "ICQ"
 
 #: addressbook/gui/contact-editor/e-contact-editor.c:183
+#: addressbook/gui/widgets/eab-contact-display.c:332
 msgid "GroupWise"
 msgstr "GroupWise"
 
@@ -2031,7 +2027,7 @@ msgstr "Služba"
 
 #: addressbook/gui/contact-editor/e-contact-editor-im.c:127
 #: calendar/gui/dialogs/cal-prefs-dialog.c:578
-#: calendar/gui/e-cal-list-view.etspec.h:2
+#: calendar/gui/e-cal-list-view.etspec.h:3
 msgid "Location"
 msgstr "Místo"
 
@@ -2292,80 +2288,75 @@ msgid "map"
 msgstr "mapa"
 
 #: addressbook/gui/widgets/eab-contact-display.c:259
-#: addressbook/gui/widgets/eab-contact-display.c:525
+#: addressbook/gui/widgets/eab-contact-display.c:526
 msgid "List Members"
 msgstr "Členové seznamu"
 
-#: addressbook/gui/widgets/eab-contact-display.c:321
-#: addressbook/gui/widgets/eab-contact-display.c:323
+#: addressbook/gui/widgets/eab-contact-display.c:322
+#: addressbook/gui/widgets/eab-contact-display.c:324
 msgid "E-mail"
 msgstr "E-mail"
 
-#: addressbook/gui/widgets/eab-contact-display.c:332
+#: addressbook/gui/widgets/eab-contact-display.c:345
 #: addressbook/gui/widgets/e-addressbook-view.etspec.h:27
 msgid "Organization"
 msgstr "Organizace"
 
-#: addressbook/gui/widgets/eab-contact-display.c:333
+#: addressbook/gui/widgets/eab-contact-display.c:346
 msgid "Position"
 msgstr "Pozice"
 
-#: addressbook/gui/widgets/eab-contact-display.c:335
-#: addressbook/gui/widgets/eab-contact-display.c:354
-msgid "Groupwise"
-msgstr "Groupwise"
-
-#: addressbook/gui/widgets/eab-contact-display.c:340
+#: addressbook/gui/widgets/eab-contact-display.c:347
 msgid "Video Conferencing"
 msgstr "Videokonference:"
 
-#: addressbook/gui/widgets/eab-contact-display.c:341
-#: addressbook/gui/widgets/eab-contact-display.c:362
+#: addressbook/gui/widgets/eab-contact-display.c:348
+#: addressbook/gui/widgets/eab-contact-display.c:363
 msgid "Phone"
 msgstr "Telefon"
 
-#: addressbook/gui/widgets/eab-contact-display.c:342
+#: addressbook/gui/widgets/eab-contact-display.c:349
 msgid "Fax"
 msgstr "Fax"
 
-#: addressbook/gui/widgets/eab-contact-display.c:346
+#: addressbook/gui/widgets/eab-contact-display.c:353
 msgid "work"
 msgstr "pracovní"
 
-#: addressbook/gui/widgets/eab-contact-display.c:359
+#: addressbook/gui/widgets/eab-contact-display.c:360
 msgid "WWW"
 msgstr "WWW"
 
-#: addressbook/gui/widgets/eab-contact-display.c:360
-#: addressbook/gui/widgets/eab-contact-display.c:579
+#: addressbook/gui/widgets/eab-contact-display.c:361
+#: addressbook/gui/widgets/eab-contact-display.c:580
 msgid "Blog"
 msgstr "Blog"
 
-#: addressbook/gui/widgets/eab-contact-display.c:363
+#: addressbook/gui/widgets/eab-contact-display.c:364
 #: addressbook/gui/widgets/e-addressbook-view.etspec.h:23
 msgid "Mobile Phone"
 msgstr "Mobilní telefon"
 
-#: addressbook/gui/widgets/eab-contact-display.c:367
+#: addressbook/gui/widgets/eab-contact-display.c:368
 msgid "personal"
 msgstr "osobní"
 
-#: addressbook/gui/widgets/eab-contact-display.c:374
+#: addressbook/gui/widgets/eab-contact-display.c:375
 #: addressbook/gui/widgets/e-addressbook-view.etspec.h:25
 msgid "Note"
 msgstr "Poznámka"
 
-#: addressbook/gui/widgets/eab-contact-display.c:540
+#: addressbook/gui/widgets/eab-contact-display.c:541
 msgid "Job Title"
 msgstr "Název pozice"
 
-#: addressbook/gui/widgets/eab-contact-display.c:544
+#: addressbook/gui/widgets/eab-contact-display.c:545
 #: addressbook/gui/widgets/e-addressbook-view.etspec.h:10
 #: smime/lib/e-cert.c:826
 msgid "Email"
 msgstr "E-mail"
 
-#: addressbook/gui/widgets/eab-contact-display.c:571
+#: addressbook/gui/widgets/eab-contact-display.c:572
 msgid "Home page"
 msgstr "Pager domů"
 
@@ -2747,7 +2738,7 @@ msgstr "Pokročilé..."
 
 #: addressbook/gui/widgets/e-addressbook-view.c:238
 #: calendar/gui/dialogs/meeting-page.etspec.h:11
-#: calendar/gui/e-calendar-table.etspec.h:12
+#: calendar/gui/e-calendar-table.etspec.h:13
 #: calendar/gui/e-meeting-list-view.c:227
 #: calendar/gui/e-meeting-time-sel.etspec.h:11
 msgid "Type"
@@ -2877,6 +2868,8 @@ msgid "Car Phone"
 msgstr "Telefon do auta"
 
 #: addressbook/gui/widgets/e-addressbook-view.etspec.h:8
+#: calendar/gui/e-calendar-table.etspec.h:3
+#: calendar/gui/e-cal-list-view.etspec.h:1
 msgid "Categories"
 msgstr "Kategorie"
 
@@ -4659,24 +4652,24 @@ msgstr "_Začátek:"
 msgid "None"
 msgstr "žádný"
 
-#: calendar/gui/dialogs/meeting-page.c:420
+#: calendar/gui/dialogs/meeting-page.c:422
 msgid "The organizer selected no longer has an account."
 msgstr "Vybraný organizátor už nemá účet."
 
-#: calendar/gui/dialogs/meeting-page.c:426
+#: calendar/gui/dialogs/meeting-page.c:428
 msgid "An organizer is required."
 msgstr "Je požadován organizátor."
 
-#: calendar/gui/dialogs/meeting-page.c:441
+#: calendar/gui/dialogs/meeting-page.c:443
 msgid "At least one attendee is required."
 msgstr "Je požadován alespoň jeden účastník."
 
-#: calendar/gui/dialogs/meeting-page.c:651
+#: calendar/gui/dialogs/meeting-page.c:677
 msgid "_Delegate To..."
 msgstr "_Postoupit komu..."
 
 #. FIXME: need to disable for undeletable folders
-#: calendar/gui/dialogs/meeting-page.c:655
+#: calendar/gui/dialogs/meeting-page.c:681
 #: calendar/gui/e-calendar-table.c:1039 calendar/gui/e-calendar-table.c:1057
 #: calendar/gui/e-calendar-view.c:1360 calendar/gui/e-calendar-view.c:1392
 #: mail/em-folder-tree.c:2584 mail/em-folder-view.c:919
@@ -4729,7 +4722,7 @@ msgid "RSVP"
 msgstr "RSVP"
 
 #: calendar/gui/dialogs/meeting-page.etspec.h:10
-#: calendar/gui/e-calendar-table.etspec.h:9
+#: calendar/gui/e-calendar-table.etspec.h:10
 #: calendar/gui/e-meeting-list-view.c:248
 #: calendar/gui/e-meeting-time-sel.etspec.h:10 mail/message-list.etspec.h:12
 msgid "Status"
@@ -5288,7 +5281,7 @@ msgid "Free"
 msgstr "Volný"
 
 #: calendar/gui/e-calendar-table.c:427 calendar/gui/e-cal-model-calendar.c:166
-#: calendar/gui/e-meeting-time-sel.c:399
+#: calendar/gui/e-meeting-time-sel.c:401
 msgid "Busy"
 msgstr "Obsazený"
 
@@ -5371,7 +5364,7 @@ msgid "_Delete Selected Tasks"
 msgstr "_Odstranit vybrané úkoly"
 
 #: calendar/gui/e-calendar-table.c:1350
-#: calendar/gui/e-calendar-table.etspec.h:3
+#: calendar/gui/e-calendar-table.etspec.h:4
 msgid "Click to add a task"
 msgstr "Úkol přidáte kliknutím zde"
 
@@ -5380,33 +5373,33 @@ msgstr "Úkol přidáte kliknutím zde"
 msgid "% Complete"
 msgstr "% hotovo"
 
-#: calendar/gui/e-calendar-table.etspec.h:4 camel/camel-filter-driver.c:1178
+#: calendar/gui/e-calendar-table.etspec.h:5 camel/camel-filter-driver.c:1178
 #: camel/camel-filter-driver.c:1270 mail/mail-send-recv.c:615
 msgid "Complete"
 msgstr "Dokončeno"
 
-#: calendar/gui/e-calendar-table.etspec.h:5
+#: calendar/gui/e-calendar-table.etspec.h:6
 msgid "Completion date"
 msgstr "Datum dokončení"
 
-#: calendar/gui/e-calendar-table.etspec.h:6
+#: calendar/gui/e-calendar-table.etspec.h:7
 msgid "Due date"
 msgstr "Termín dokončení"
 
-#: calendar/gui/e-calendar-table.etspec.h:7
+#: calendar/gui/e-calendar-table.etspec.h:8
 msgid "Priority"
 msgstr "Naléhavost"
 
-#: calendar/gui/e-calendar-table.etspec.h:8
+#: calendar/gui/e-calendar-table.etspec.h:9
 msgid "Start date"
 msgstr "Začátek"
 
-#: calendar/gui/e-calendar-table.etspec.h:10
-#: calendar/gui/e-cal-list-view.etspec.h:4 mail/mail-security.glade.h:5
+#: calendar/gui/e-calendar-table.etspec.h:11
+#: calendar/gui/e-cal-list-view.etspec.h:5 mail/mail-security.glade.h:5
 msgid "Summary"
 msgstr "Přehled"
 
-#: calendar/gui/e-calendar-table.etspec.h:11
+#: calendar/gui/e-calendar-table.etspec.h:12
 msgid "Task sort"
 msgstr "Třídění úkolů"
 
@@ -5482,11 +5475,11 @@ msgstr "_Jít na datum..."
 msgid "_Settings..."
 msgstr "Na_stavení..."
 
-#: calendar/gui/e-cal-list-view.etspec.h:1
+#: calendar/gui/e-cal-list-view.etspec.h:2
 msgid "End Date"
 msgstr "Konečné datum"
 
-#: calendar/gui/e-cal-list-view.etspec.h:3
+#: calendar/gui/e-cal-list-view.etspec.h:4
 msgid "Start Date"
 msgstr "Začátek"
 
@@ -5496,7 +5489,7 @@ msgstr "Začátek"
 #: calendar/gui/e-meeting-list-view.c:122
 #: calendar/gui/e-meeting-list-view.c:136 calendar/gui/e-meeting-store.c:115
 #: calendar/gui/e-meeting-store.c:150 calendar/gui/e-meeting-store.c:215
-#: camel/camel-gpg-context.c:1704 camel/camel-gpg-context.c:1755
+#: camel/camel-gpg-context.c:1705 camel/camel-gpg-context.c:1756
 #: camel/camel-tcp-stream-openssl.c:631
 #: camel/providers/imap4/camel-imap4-engine.c:1379
 #: camel/providers/imap4/camel-imap4-engine.c:1406
@@ -6125,7 +6118,7 @@ msgid "Needs Action"
 msgstr "Potřeba akce"
 
 #: calendar/gui/e-meeting-list-view.c:160 calendar/gui/e-meeting-store.c:183
-#: calendar/gui/e-meeting-store.c:206 calendar/gui/e-meeting-time-sel.c:398
+#: calendar/gui/e-meeting-store.c:206 calendar/gui/e-meeting-time-sel.c:400
 msgid "Tentative"
 msgstr "Předběžné"
 
@@ -6138,73 +6131,73 @@ msgstr "Delegováno"
 msgid "In Process"
 msgstr "Probíhá"
 
-#: calendar/gui/e-meeting-time-sel.c:400 designs/OOA/ooa.glade.h:11
+#: calendar/gui/e-meeting-time-sel.c:402 designs/OOA/ooa.glade.h:11
 msgid "Out of Office"
 msgstr "Mimo kancelář"
 
-#: calendar/gui/e-meeting-time-sel.c:401
+#: calendar/gui/e-meeting-time-sel.c:403
 msgid "No Information"
 msgstr "Žádné informace"
 
-#: calendar/gui/e-meeting-time-sel.c:417
+#: calendar/gui/e-meeting-time-sel.c:419
 msgid "Add attendees from addressbook"
 msgstr "Přidat účastníky z adresáře"
 
-#: calendar/gui/e-meeting-time-sel.c:440
+#: calendar/gui/e-meeting-time-sel.c:442
 msgid "_Options"
 msgstr "_Volby"
 
-#: calendar/gui/e-meeting-time-sel.c:457
+#: calendar/gui/e-meeting-time-sel.c:459
 msgid "Show _only working hours"
 msgstr "Zobrazovat pouze _pracovní hodiny"
 
-#: calendar/gui/e-meeting-time-sel.c:467
+#: calendar/gui/e-meeting-time-sel.c:469
 msgid "Show _zoomed out"
 msgstr "Zobrazovat z_menšené"
 
-#: calendar/gui/e-meeting-time-sel.c:482
+#: calendar/gui/e-meeting-time-sel.c:484
 msgid "_Update free/busy"
 msgstr "_Aktualizovat volný/obsazený čas"
 
-#: calendar/gui/e-meeting-time-sel.c:497
+#: calendar/gui/e-meeting-time-sel.c:499
 msgid "_<<"
 msgstr "_<<"
 
-#: calendar/gui/e-meeting-time-sel.c:515
+#: calendar/gui/e-meeting-time-sel.c:517
 msgid "_Autopick"
 msgstr "_Automatický výběr"
 
-#: calendar/gui/e-meeting-time-sel.c:530
+#: calendar/gui/e-meeting-time-sel.c:532
 msgid ">_>"
 msgstr ">_>"
 
-#: calendar/gui/e-meeting-time-sel.c:547
+#: calendar/gui/e-meeting-time-sel.c:549
 msgid "_All people and resources"
 msgstr "_Všichni lidé a zdroje"
 
-#: calendar/gui/e-meeting-time-sel.c:556
+#: calendar/gui/e-meeting-time-sel.c:558
 msgid "All _people and one resource"
 msgstr "Všichni _lidé a jeden zdroj"
 
-#: calendar/gui/e-meeting-time-sel.c:565
+#: calendar/gui/e-meeting-time-sel.c:567
 msgid "_Required people"
 msgstr "_Nezbytní lidé"
 
-#: calendar/gui/e-meeting-time-sel.c:574
+#: calendar/gui/e-meeting-time-sel.c:576
 msgid "Required people and _one resource"
 msgstr "Nezbytní lidé a _jeden zdroj"
 
-#: calendar/gui/e-meeting-time-sel.c:593
+#: calendar/gui/e-meeting-time-sel.c:595
 msgid "Meeting _start time:"
 msgstr "_Začátek schůzky:"
 
-#: calendar/gui/e-meeting-time-sel.c:613
+#: calendar/gui/e-meeting-time-sel.c:615
 msgid "Meeting _end time:"
 msgstr "_Konec schůzky:"
 
 #. This is a strftime() format string %A = full weekday name,
 #. %B = full month name, %d = month day, %Y = full year.
-#: calendar/gui/e-meeting-time-sel.c:2060
+#: calendar/gui/e-meeting-time-sel.c:2077
 #: calendar/gui/e-meeting-time-sel-item.c:452
 msgid "%A, %B %d, %Y"
 msgstr "%A, %B %d, %Y"
@@ -6215,7 +6208,7 @@ msgstr "%A, %B %d, %Y"
 #. name, %m = month number, %d = month day, %Y = full year.
 #. strptime format of a weekday and a date.
 #. strftime format of a weekday and a date.
-#: calendar/gui/e-meeting-time-sel.c:2093
+#: calendar/gui/e-meeting-time-sel.c:2110
 #: calendar/gui/e-meeting-time-sel-item.c:456 e-util/e-time-utils.c:203
 #: e-util/e-time-utils.c:296 e-util/e-time-utils.c:384
 msgid "%a %m/%d/%Y"
@@ -8674,8 +8667,8 @@ msgstr ""
 "uživatele: \"%s\""
 
 #: camel/camel-gpg-context.c:791 camel/camel-gpg-context.c:1283
-#: camel/camel-gpg-context.c:1440 camel/camel-gpg-context.c:1531
-#: camel/camel-gpg-context.c:1638 camel/providers/nntp/camel-nntp-store.c:1231
+#: camel/camel-gpg-context.c:1441 camel/camel-gpg-context.c:1532
+#: camel/camel-gpg-context.c:1639 camel/providers/nntp/camel-nntp-store.c:1231
 #: camel/providers/nntp/camel-nntp-store.c:1329 mail/mail-ops.c:705
 #: mail/mail-send-recv.c:611
 msgid "Cancelled."
@@ -8715,16 +8708,16 @@ msgstr "Nemohu GPG %s: %s\n"
 msgid "Could not generate signing data: %s"
 msgstr "Nemohu vygenerovat data podpisu: %s"
 
-#: camel/camel-gpg-context.c:1276 camel/camel-gpg-context.c:1703
-#: camel/camel-gpg-context.c:1754
+#: camel/camel-gpg-context.c:1276 camel/camel-gpg-context.c:1704
+#: camel/camel-gpg-context.c:1755
 #, c-format
 msgid "Failed to execute gpg: %s"
 msgstr "Nemohu spustit gpg: %s"
 
-#: camel/camel-gpg-context.c:1300 camel/camel-gpg-context.c:1433
-#: camel/camel-gpg-context.c:1524 camel/camel-gpg-context.c:1547
-#: camel/camel-gpg-context.c:1631 camel/camel-gpg-context.c:1655
-#: camel/camel-gpg-context.c:1725 camel/camel-gpg-context.c:1776
+#: camel/camel-gpg-context.c:1300 camel/camel-gpg-context.c:1434
+#: camel/camel-gpg-context.c:1525 camel/camel-gpg-context.c:1548
+#: camel/camel-gpg-context.c:1632 camel/camel-gpg-context.c:1656
+#: camel/camel-gpg-context.c:1726 camel/camel-gpg-context.c:1777
 msgid "Failed to execute gpg."
 msgstr "Nemohu spustit gpg."
 
@@ -8732,31 +8725,31 @@ msgstr "Nemohu spustit gpg."
 msgid "This is a digitally signed message part"
 msgstr "Toto je digitálně podepsaná část zprávy"
 
-#: camel/camel-gpg-context.c:1400 camel/camel-gpg-context.c:1409
-#: camel/camel-smime-context.c:721 camel/camel-smime-context.c:732
-#: camel/camel-smime-context.c:739
+#: camel/camel-gpg-context.c:1400 camel/camel-gpg-context.c:1406
+#: camel/camel-gpg-context.c:1412 camel/camel-smime-context.c:721
+#: camel/camel-smime-context.c:732 camel/camel-smime-context.c:739
 msgid "Cannot verify message signature: Incorrect message format"
 msgstr "Nemohu ověřit podpis zprávy: Nesprávný formát zprávy"
 
-#: camel/camel-gpg-context.c:1416
+#: camel/camel-gpg-context.c:1420
 #, c-format
 msgid "Cannot verify message signature: could not create temp file: %s"
 msgstr "Nemohu ověřit podpis zprávy: nemohu vytvořit dočasný soubor: %s"
 
-#: camel/camel-gpg-context.c:1507
+#: camel/camel-gpg-context.c:1508
 #, c-format
 msgid "Could not generate encrypting data: %s"
 msgstr "Nemohu vygenerovat data šifrování: %s"
 
-#: camel/camel-gpg-context.c:1565
+#: camel/camel-gpg-context.c:1566
 msgid "This is a digitally encrypted message part"
 msgstr "Toto je digitálně šifrovaná část zprávy"
 
-#: camel/camel-gpg-context.c:1662 camel/camel-smime-context.c:994
+#: camel/camel-gpg-context.c:1663 camel/camel-smime-context.c:994
 msgid "Encrypted content"
 msgstr "Šifrovaný obsah"
 
-#: camel/camel-gpg-context.c:1681
+#: camel/camel-gpg-context.c:1682
 msgid "Unable to parse message content"
 msgstr "Nemohu zpracovat obsah zprávy"
 
@@ -11623,16 +11616,16 @@ msgstr[2] "<b>%d</b> přiložených souborů"
 msgid "Hide _Attachment Bar (drop attachments here)"
 msgstr "Skrýt lištu _příloh (sem pouštějte přílohy)"
 
-#: composer/e-msg-composer.c:2330 composer/e-msg-composer.c:3224
+#: composer/e-msg-composer.c:2330 composer/e-msg-composer.c:3208
 msgid "Show _Attachment Bar (drop attachments here)"
 msgstr "Zobrazit lištu _příloh (sem pouštějte přílohy)"
 
-#: composer/e-msg-composer.c:2347 composer/e-msg-composer.c:3113
-#: composer/e-msg-composer.c:3114
+#: composer/e-msg-composer.c:2347 composer/e-msg-composer.c:3100
+#: composer/e-msg-composer.c:3101
 msgid "Compose a message"
 msgstr "Napsat zprávu"
 
-#: composer/e-msg-composer.c:4270
+#: composer/e-msg-composer.c:4254
 msgid ""
 "<b>(The composer contains a non-text message body, which cannot be edited.)"
 "<b>"
@@ -11874,7 +11867,8 @@ msgid ""
 msgstr ""
 "Nemohu aktivovat ovládací prvek editoru HTML.\n"
 "\n"
-"Ujistěte se prosím, že máte nainstalovánu správnou verzi gtkhtml a libgtkhtml."
+"Ujistěte se prosím, že máte nainstalovánu správnou verzi gtkhtml a "
+"libgtkhtml."
 
 #: data/evolution.desktop.in.in.h:1
 msgid "The Ximian Evolution Groupware Suite"
@@ -12553,15 +12547,18 @@ msgstr "Podpisy"
 msgid "-------- Forwarded Message --------"
 msgstr "-------- Přeposlaná zpráva --------"
 
-#: mail/em-composer-utils.c:1501
+#: mail/em-composer-utils.c:1500
 msgid "an unknown sender"
 msgstr "neznámý odesílatel"
 
-#. translators: attribution string used when quoting messages,
-#. it must contain a single single %%+05d followed by a single '%%s'
-#: mail/em-composer-utils.c:1511
-msgid "On %a, %Y-%m-%d at %H:%M %%+05d, %%s wrote:"
-msgstr "V %a %d. %m. %Y v %H:%M %%+05d píše %%s:"
+#. Note to translators: this is the attribution string used when quoting messages.
+#. * each ${Variable} gets replaced with a value. To see a full list of available
+#. * variables, see em-composer-utils.c:1514
+#: mail/em-composer-utils.c:1547
+msgid ""
+"On ${AbbrevWeekdayName}, ${Year}-${Month}-${Day} at ${24Hour}:${Minute} "
+"${TimeZone}, ${Sender} wrote:"
+msgstr "${Sender} píše v ${AbbrevWeekdayName} %{Day}. ${Month}. ${Year} v ${24Hour}:${Minute} ${TimeZone}:"
 
 #: mail/em-folder-browser.c:129
 msgid "Create _Virtual Folder From Search..."
@@ -13027,7 +13024,7 @@ msgstr "Formátuji zprávu"
 
 #. pseudo-header
 #: mail/em-format-html.c:1523 mail/em-format-quote.c:309
-#: mail/em-mailer-prefs.c:930
+#: mail/em-mailer-prefs.c:939
 msgid "Mailer"
 msgstr "Program elektronické pošty"
 
