@@ -288,11 +288,10 @@ migrate_ical (ECal *old_ecal, ECal *new_ecal)
 }
 
 static gboolean
-migrate_ical_folder (char *old_path, ESourceGroup *dest_group, char *source_name, ECalSourceType type)
+migrate_ical_folder_to_source (char *old_path, ESource *new_source, ECalSourceType type)
 {
 	ECal *old_ecal = NULL, *new_ecal = NULL;
 	ESource *old_source;
-	ESource *new_source;
 	ESourceGroup *group;
 	char *old_uri = g_strdup_printf ("file://%s", old_path);
 	GError *error = NULL;
@@ -300,14 +299,9 @@ migrate_ical_folder (char *old_path, ESourceGroup *dest_group, char *source_name
 	
 	group = e_source_group_new ("", old_uri);
 	old_source = e_source_new ("", "");
-	e_source_set_group (old_source, group);
-	g_object_unref (group);
+	e_source_group_add_source (group, old_source, -1);
 
-	new_source = e_source_new (source_name, source_name);
-	e_source_set_relative_uri (new_source, e_source_peek_uid (new_source));
-	e_source_group_add_source (dest_group, new_source, -1);
-
-	dialog_set_folder_name (source_name);
+	dialog_set_folder_name (e_source_peek_name (new_source));
 
 	old_ecal = e_cal_new (old_source, type);
 	if (!e_cal_open (old_ecal, TRUE, &error)) {
@@ -325,15 +319,38 @@ migrate_ical_folder (char *old_path, ESourceGroup *dest_group, char *source_name
 
 	retval = migrate_ical (old_ecal, new_ecal);
 
- finish:
+finish:
 	g_clear_error (&error);
 	g_object_unref (old_ecal);
+	g_object_unref (group);
 	if (new_ecal)
 		g_object_unref (new_ecal);
 	g_free (old_uri);
 
 	return retval;	
 }
+
+static gboolean
+migrate_ical_folder (char *old_path, ESourceGroup *dest_group, char *source_name, ECalSourceType type)
+{
+	ESource *new_source;
+	gboolean retval;
+	
+	new_source = e_source_new (source_name, source_name);
+	e_source_set_relative_uri (new_source, e_source_peek_uid (new_source));
+	e_source_group_add_source (dest_group, new_source, -1);
+
+	retval = migrate_ical_folder_to_source (old_path, new_source, type);
+
+	g_object_unref (new_source);
+
+	return retval;
+}
+
+
+#define WEBCAL_BASE_URI "webcal://"
+#define CONTACT_BASE_URI "contact://"
+#define PERSONAL_RELATIVE_URI "system"
 
 static ESourceGroup *
 create_calendar_contact_source (ESourceList *source_list)
@@ -342,7 +359,7 @@ create_calendar_contact_source (ESourceList *source_list)
 	ESource *source;
 	
 	/* Create the contacts group */
-	group = e_source_group_new (_("Contacts"), "contacts://");
+	group = e_source_group_new (_("Contacts"), CONTACT_BASE_URI);
 	e_source_group_set_readonly (group, TRUE);
 	e_source_list_add_group (source_list, group, -1);
 	
@@ -353,131 +370,163 @@ create_calendar_contact_source (ESourceList *source_list)
 	return group;
 }
 
-static gboolean
+static void
 create_calendar_sources (CalendarComponent *component,
 			 ESourceList   *source_list,
 			 ESourceGroup **on_this_computer,
+			 ESource **personal_source,
 			 ESourceGroup **on_the_web,
 			 ESourceGroup **contacts)
 {
 	GSList *groups;
+	ESourceGroup *group;
+	ESource *source = NULL;
+	char *base_uri, *base_uri_proto;
+	
+	base_uri = g_build_filename (calendar_component_peek_base_directory (component),
+				     "/calendar/local/",
+				     NULL);
+
+	base_uri_proto = g_strconcat ("file://", base_uri, NULL);
 
 	groups = e_source_list_peek_groups (source_list);
 	if (groups) {
 		/* groups are already there, we need to search for things... */
-		g_warning ("can't migrate when existing groups are present");
-		return FALSE;
+		GSList *g;
+
+		for (g = groups; g; g = g->next) {
+
+			group = E_SOURCE_GROUP (g->data);
+
+			if (!*on_this_computer && !strcmp (base_uri_proto, e_source_group_peek_base_uri (group)))
+				*on_this_computer = g_object_ref (group);
+			else if (!*on_the_web && !strcmp (WEBCAL_BASE_URI, e_source_group_peek_base_uri (group)))
+				*on_the_web = g_object_ref (group);
+			else if (!*contacts && !strcmp (CONTACT_BASE_URI, e_source_group_peek_base_uri (group)))
+				*contacts = g_object_ref (group);
+		}
+	}
+
+	if (*on_this_computer) {
+		/* make sure "Personal" shows up as a source under
+		   this group */
+		GSList *sources = e_source_group_peek_sources (*on_this_computer);
+		GSList *s;
+		for (s = sources; s; s = s->next) {
+			ESource *source = E_SOURCE (s->data);
+			if (!strcmp (PERSONAL_RELATIVE_URI, e_source_peek_relative_uri (source))) {
+				*personal_source = g_object_ref (source);
+				break;
+			}
+		}
 	} else {
-		ESourceGroup *group;
-		ESource *source;
-		char *base_uri, *base_uri_proto, *new_dir;
-
-		/* Create the local source group */
-		base_uri = g_build_filename (calendar_component_peek_base_directory (component),
-					     "/calendar/local/OnThisComputer/",
-					     NULL);
-
-		base_uri_proto = g_strconcat ("file://", base_uri, NULL);
-
+		/* create the local source group */
 		group = e_source_group_new (_("On This Computer"), base_uri_proto);
 		e_source_list_add_group (source_list, group, -1);
 
-		if (on_this_computer)
-			*on_this_computer = group;
-		else
-			g_object_unref (group);
-		
-		g_free (base_uri_proto);
-
-		/* Create default calendar */
-		new_dir = g_build_filename (base_uri, "Personal/", NULL);
-		if (!e_mkdir_hier (new_dir, 0700)) {
-			source = e_source_new (_("Personal"), "Personal");
-			e_source_set_relative_uri (source, e_source_peek_uid (source));
-			e_source_group_add_source (group, source, -1);
-			g_object_unref (source);
-		}
-		g_free (new_dir);
-
-		g_free (base_uri);
-
-		/* Create the web group */
-		group = e_source_group_new (_("On The Web"), "webcal://");
-		e_source_list_add_group (source_list, group, -1);
-
-		if (on_the_web)
-			*on_the_web = group;
-		else
-			g_object_unref (group);
-		
-		/* Create the contact group */
-		group = create_calendar_contact_source (source_list);
-		if (contacts)
-			*contacts = group;
-		else
-			g_object_unref (group);
+		*on_this_computer = group;
 	}
 
-	return TRUE;
+	if (!source) {
+		/* Create the default Person addressbook */
+		source = e_source_new (_("Personal"), PERSONAL_RELATIVE_URI);
+		e_source_group_add_source (*on_this_computer, source, -1);
+
+		*personal_source = source;
+	}
+
+	if (!*on_the_web) {
+		/* Create the Webcal source group */
+		group = e_source_group_new (_("On The Web"), WEBCAL_BASE_URI);
+		e_source_list_add_group (source_list, group, -1);
+
+		*on_the_web = group;
+	}
+
+	if (!*contacts) {
+		group = create_calendar_contact_source (source_list);
+
+		*contacts = group;
+	}
+	
+	g_free (base_uri_proto);
+	g_free (base_uri);
 }
 
-static gboolean
+static void
 create_task_sources (TasksComponent *component,
-		    ESourceList   *source_list,
-		    ESourceGroup **on_this_computer)
+		     ESourceList   *source_list,
+		     ESourceGroup **on_this_computer,
+		     ESource **personal_source)
 {
 	GSList *groups;
+	ESourceGroup *group;
+	ESource *source = NULL;
+	char *base_uri, *base_uri_proto;
+	
+	base_uri = g_build_filename (tasks_component_peek_base_directory (component),
+				     "/tasks/local/",
+				     NULL);
+
+	base_uri_proto = g_strconcat ("file://", base_uri, NULL);
 
 	groups = e_source_list_peek_groups (source_list);
 	if (groups) {
 		/* groups are already there, we need to search for things... */
-		g_warning ("can't migrate when existing groups are present");
-		return FALSE;
+		GSList *g;
+
+		for (g = groups; g; g = g->next) {
+
+			group = E_SOURCE_GROUP (g->data);
+
+			if (!*on_this_computer && !strcmp (base_uri_proto, e_source_group_peek_base_uri (group)))
+				*on_this_computer = g_object_ref (group);
+		}
+	}
+
+	if (*on_this_computer) {
+		/* make sure "Personal" shows up as a source under
+		   this group */
+		GSList *sources = e_source_group_peek_sources (*on_this_computer);
+		GSList *s;
+		for (s = sources; s; s = s->next) {
+			ESource *source = E_SOURCE (s->data);
+			if (!strcmp (PERSONAL_RELATIVE_URI, e_source_peek_relative_uri (source))) {
+				*personal_source = g_object_ref (source);
+				break;
+			}
+		}
 	} else {
-		ESourceGroup *group;
-		ESource *source;
-		char *base_uri, *base_uri_proto, *new_dir;
-
 		/* create the local source group */
-		base_uri = g_build_filename (tasks_component_peek_base_directory (component),
-					     "/tasks/local/OnThisComputer/",
-					     NULL);
-
-		base_uri_proto = g_strconcat ("file://", base_uri, NULL);
-
 		group = e_source_group_new (_("On This Computer"), base_uri_proto);
 		e_source_list_add_group (source_list, group, -1);
 
-		if (on_this_computer)
-			*on_this_computer = group;
-		else
-			g_object_unref (group);
-		
-		g_free (base_uri_proto);
-
-		/* Create default task list */
-		new_dir = g_build_filename (base_uri, "Personal/", NULL);
-		if (!e_mkdir_hier (new_dir, 0700)) {
-			source = e_source_new (_("Personal"), "Personal");
-			e_source_set_relative_uri (source, e_source_peek_uid (source));
-			e_source_group_add_source (group, source, -1);
-			g_object_unref (source);
-		}
-		g_free (new_dir);
-
-		g_free (base_uri);
+		*on_this_computer = group;
 	}
 
-	return TRUE;
+	if (!source) {
+		/* Create the default Person addressbook */
+		source = e_source_new (_("Personal"), PERSONAL_RELATIVE_URI);
+		e_source_group_add_source (*on_this_computer, source, -1);
+
+		*personal_source = source;
+	}
+
+	g_free (base_uri_proto);
+	g_free (base_uri);
 }
 
 gboolean
 migrate_calendars (CalendarComponent *component, int major, int minor, int revision)
 {
+	ESourceGroup *on_this_computer = NULL, *on_the_web = NULL, *contacts = NULL;
+	ESource *personal_source = NULL;
 	gboolean retval = TRUE;
 
-	if (major == 0 && minor == 0 && revision == 0)
-		return create_calendar_sources (component, calendar_component_peek_source_list (component), NULL, NULL, NULL);
+	/* we call this unconditionally now - create_groups either
+	   creates the groups/sources or it finds the necessary
+	   groups/sources. */
+	create_calendar_sources (component, calendar_component_peek_source_list (component), &on_this_computer, &personal_source, &on_the_web, &contacts);
 
 	if (major == 1) {
 		xmlDocPtr config_doc = NULL;
@@ -509,27 +558,26 @@ migrate_calendars (CalendarComponent *component, int major, int minor, int revis
 		}
 
 		if (minor <= 4) {
-			ESourceGroup *on_this_computer;
 			GSList *migration_dirs, *l;
 			char *path, *local_cal_folder;
 
 			setup_progress_dialog (FALSE);
-
-			if (!create_calendar_sources (component, calendar_component_peek_source_list (component), &on_this_computer, NULL, NULL))
-				return FALSE;
 
 			path = g_build_filename (g_get_home_dir (), "evolution", "local", NULL);
 			migration_dirs = e_folder_map_local_folders (path, "calendar");
 			local_cal_folder = g_build_filename (path, "Calendar", NULL);
 			g_free (path);
 
+			if (personal_source)
+				migrate_ical_folder_to_source (local_cal_folder, personal_source, E_CAL_SOURCE_TYPE_EVENT);
+
 			for (l = migration_dirs; l; l = l->next) {
 				char *source_name;
 			
-				if (!strcmp (l->data, local_cal_folder))
-					source_name = g_strdup (_("Personal"));
-				else
-					source_name = get_source_name (on_this_computer, (char*)l->data);
+				if (personal_source && !strcmp ((char*)l->data, local_cal_folder))
+					continue;
+
+				source_name = get_source_name (on_this_computer, (char*)l->data);
 
 				if (!migrate_ical_folder (l->data, on_this_computer, source_name, E_CAL_SOURCE_TYPE_EVENT))
 					retval = FALSE;
@@ -561,11 +609,15 @@ migrate_calendars (CalendarComponent *component, int major, int minor, int revis
 gboolean
 migrate_tasks (TasksComponent *component, int major, int minor, int revision)
 {
+	ESourceGroup *on_this_computer = NULL;
+	ESource *personal_source = NULL;
 	gboolean retval = TRUE;
 
-	if (major == 0 && minor == 0 && revision == 0)
-		return create_task_sources (component, tasks_component_peek_source_list (component), NULL);
-
+	/* we call this unconditionally now - create_groups either
+	   creates the groups/sources or it finds the necessary
+	   groups/sources. */
+	create_task_sources (component, tasks_component_peek_source_list (component), &on_this_computer, &personal_source);
+	
 	if (major == 1) {
 		xmlDocPtr config_doc = NULL;
 		char *conf_file;
@@ -596,27 +648,26 @@ migrate_tasks (TasksComponent *component, int major, int minor, int revision)
 		}
 
 		if (minor <= 4) {
-			ESourceGroup *on_this_computer;
 			GSList *migration_dirs, *l;
 			char *path, *local_task_folder;
 
 			setup_progress_dialog (TRUE);
 			
-			if (!create_task_sources (component, tasks_component_peek_source_list (component), &on_this_computer))
-				return FALSE;
-			
 			path = g_build_filename (g_get_home_dir (), "evolution", "local", NULL);
 			migration_dirs = e_folder_map_local_folders (path, "tasks");
 			local_task_folder = g_build_filename (path, "Tasks", NULL);
-			g_free (path);
-			
+			g_free (path);			
+
+			if (personal_source)
+				migrate_ical_folder_to_source (local_task_folder, personal_source, E_CAL_SOURCE_TYPE_TODO);
+
 			for (l = migration_dirs; l; l = l->next) {
 				char *source_name;
 			
-				if (!strcmp (l->data, local_task_folder))
-					source_name = g_strdup (_("Personal"));
-				else
-					source_name = get_source_name (on_this_computer, (char*)l->data);
+				if (personal_source && !strcmp ((char*)l->data, local_task_folder))
+					continue;
+
+				source_name = get_source_name (on_this_computer, (char*)l->data);
 
 				if (!migrate_ical_folder (l->data, on_this_computer, source_name, E_CAL_SOURCE_TYPE_TODO))
 					retval = FALSE;
@@ -631,6 +682,11 @@ migrate_tasks (TasksComponent *component, int major, int minor, int revision)
 			dialog_close ();
 		}		
 	}
+
+	if (on_this_computer)
+		g_object_unref (on_this_computer);
+	if (personal_source)
+		g_object_unref (personal_source);
 	
         return retval;
 }
