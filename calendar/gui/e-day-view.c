@@ -5522,6 +5522,36 @@ e_day_view_stop_editing_event (EDayView *day_view)
 }
 
 
+/* Cancels the current edition by resetting the appointment's text to its original value */
+static void
+cancel_editing (EDayView *day_view)
+{
+	int day, event_num;
+	EDayViewEvent *event;
+	CalComponentText summary;
+
+	day = day_view->editing_event_day;
+	event_num = day_view->editing_event_num;
+
+	g_assert (day != -1);
+
+	if (day == E_DAY_VIEW_LONG_EVENT)
+		event = &g_array_index (day_view->long_events, EDayViewEvent, event_num);
+	else
+		event = &g_array_index (day_view->events[day], EDayViewEvent, event_num);
+
+	/* Reset the text to what was in the component */
+
+	cal_component_get_summary (event->comp, &summary);
+	gtk_object_set (GTK_OBJECT (event->canvas_item),
+			"text", summary.value ? summary.value : "",
+			NULL);
+
+	/* Stop editing */
+	e_day_view_stop_editing_event (day_view);
+}
+
+
 static gboolean
 e_day_view_on_text_item_event (GnomeCanvasItem *item,
 			       GdkEvent *event,
@@ -5538,6 +5568,10 @@ e_day_view_on_text_item_event (GnomeCanvasItem *item,
 			   other events getting to the EText item. */
 			gtk_signal_emit_stop_by_name (GTK_OBJECT (item),
 						      "event");
+			return TRUE;
+		} else if (event->key.keyval == GDK_Escape) {
+			cancel_editing (day_view);
+			gtk_signal_emit_stop_by_name (GTK_OBJECT (item), "event");
 			return TRUE;
 		}
 		break;

@@ -1,5 +1,14 @@
 2001-10-27  Federico Mena Quintero  <federico@ximian.com>
 
+	* gui/e-day-view.c (e_day_view_on_text_item_event): Cancel editing
+	if the user presses Escape.
+
+	* gui/e-week-view.c (e_week_view_on_text_item_event): Likewise.
+
+	* gui/cal-search-bar.c: #include <string.h>
+
+2001-10-27  Federico Mena Quintero  <federico@ximian.com>
+
 	* gui/e-day-view.c (e_day_view_on_editing_stopped): Delete
 	appointments with empty summaries.  Fixes Ximian bug #780.
 

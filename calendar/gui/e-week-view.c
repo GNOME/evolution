@@ -2886,6 +2886,34 @@ e_week_view_stop_editing_event (EWeekView *week_view)
 }
 
 
+/* Cancels the current edition by resetting the appointment's text to its original value */
+static void
+cancel_editing (EWeekView *week_view)
+{
+	int event_num, span_num;
+	EWeekViewEvent *event;
+	EWeekViewEventSpan *span;
+	CalComponentText summary;
+
+	event_num = week_view->editing_event_num;
+	span_num = week_view->editing_span_num;
+
+	g_assert (event_num != -1);
+
+	event = &g_array_index (week_view->events, EWeekViewEvent, event_num);
+	span = &g_array_index (week_view->spans, EWeekViewEventSpan, event->spans_index + span_num);
+
+	/* Reset the text to what was in the component */
+
+	cal_component_get_summary (event->comp, &summary);
+	gtk_object_set (GTK_OBJECT (span->text_item),
+			"text", summary.value ? summary.value : "",
+			NULL);
+
+	/* Stop editing */
+	e_week_view_stop_editing_event (week_view);
+}
+
 static gboolean
 e_week_view_on_text_item_event (GnomeCanvasItem *item,
 				GdkEvent *gdkevent,
@@ -2909,6 +2937,10 @@ e_week_view_on_text_item_event (GnomeCanvasItem *item,
 			   other events getting to the EText item. */
 			gtk_signal_emit_stop_by_name (GTK_OBJECT (item),
 						      "event");
+			return TRUE;
+		} else if (gdkevent->key.keyval == GDK_Escape) {
+			cancel_editing (week_view);
+			gtk_signal_emit_stop_by_name (GTK_OBJECT (item), "event");
 			return TRUE;
 		}
 		break;
