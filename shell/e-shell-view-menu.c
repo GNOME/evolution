@@ -82,6 +82,19 @@ folder_bar_mode_changed_cb (EShellView *shell_view,
 
 
 /* Command callbacks.  */
+
+static void
+command_close (BonoboUIComponent *uih,
+	       void *data,
+	       const char *path)
+{
+	EShellView *shell_view;
+
+	shell_view = E_SHELL_VIEW (data);
+
+	gtk_object_destroy (GTK_OBJECT (shell_view));
+}
+
 static void
 command_quit (BonoboUIComponent *uih,
 	      void *data,
@@ -423,6 +436,7 @@ BonoboUIVerb file_verbs [] = {
 	BONOBO_UI_VERB ("FileImporter", show_import_wizard),
 	BONOBO_UI_VERB ("FileGoToFolder", command_goto_folder),
 	BONOBO_UI_VERB ("FileCreateFolder", command_create_folder),
+	BONOBO_UI_VERB ("FileClose", command_close),
 	BONOBO_UI_VERB ("FileExit", command_quit),
 
 	BONOBO_UI_VERB_END

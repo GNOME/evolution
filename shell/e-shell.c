@@ -525,12 +525,21 @@ view_destroy_cb (GtkObject *object,
 		 gpointer data)
 {
 	EShell *shell;
+	int nviews;
 
 	g_assert (E_IS_SHELL_VIEW (object));
 
 	shell = E_SHELL (data);
-	shell->priv->views = g_list_remove (
-		shell->priv->views, object);
+
+	nviews = g_list_length (shell->priv->views);
+
+	/* If this is our last view, save settings now because in the
+	   callback for no_views_left shell->priv->views will be NULL
+	   and settings won't be saved because of that */
+	if (nviews - 1 == 0)
+		e_shell_save_settings (shell);
+
+	shell->priv->views = g_list_remove (shell->priv->views, object);
 
 	if (shell->priv->views == NULL) {
 		/* FIXME: This looks like a Bonobo bug to me.  */

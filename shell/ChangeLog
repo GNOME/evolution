@@ -1,3 +1,13 @@
+2001-01-24  Jason Leach  <jasonleach@usa.net>
+
+	(Fix #1252: Need a File->Close way to close a view)
+	
+	* e-shell-view-menu.c (command_close): New function, destroys the
+	current view.
+
+	* e-shell.c (view_destroy_cb): Make sure shell settings get saved
+	when the last view is destroyed.
+	
 2001-01-24  Kjartan Maraas  <kmaraas@gnome.org>
 
 	* importer/GNOME_Evolution_Importer.idl: Fix missing ';'.
