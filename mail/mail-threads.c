@@ -1119,6 +1119,7 @@ update_active_views (void)
 
 		CORBA_exception_free (&ev);
 	}
+	gtk_object_unref(GTK_OBJECT(it));
 }
 
 static void 

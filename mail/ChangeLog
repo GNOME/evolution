@@ -1,3 +1,8 @@
+2000-12-14  Christopher James Lahey  <clahey@helixcode.com>
+
+	* mail-threads.c (update_active_views): Unref the iterator when
+	we're done with it.
+
 2000-12-14  Larry Ewing  <lewing@helixcode.com>
 
 	* mail-display.c (mail_display_new): call
