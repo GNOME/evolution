@@ -1,5 +1,8 @@
 2004-04-08  Not Zed  <NotZed@Ximian.com>
 
+	* e-info-label.c (e_info_label_set_info): ugh, fix some last
+	minute changes which broke shit.
+
 	* e-info-label.[ch]: A widget to show component info for the
 	current component/view.
 

@@ -143,29 +143,27 @@ e_info_label_set_info(EInfoLabel *el, const char *location, const char *info)
 {
 	char *tmp;
 
-	if (el->location == NULL)
+	if (el->location == NULL) {
 		el->location = e_clipped_label_new(location, PANGO_WEIGHT_BOLD, 1.0);
-	else 
-		e_clipped_label_set_text((EClippedLabel *)el->location, location);
-
-	if (el->info == NULL)
 		el->info = gtk_label_new(NULL);
+
+		gtk_misc_set_alignment((GtkMisc *)el->location, 0.0, 0.0);
+		gtk_misc_set_padding((GtkMisc *)el->location, 0, 6);
+		gtk_misc_set_alignment((GtkMisc *)el->info, 0.0, 1.0);
+		gtk_misc_set_padding((GtkMisc *)el->info, 0, 6);
+
+		gtk_widget_show(el->location);
+		gtk_widget_show(el->info);
+
+		gtk_box_pack_start((GtkBox *)el, (GtkWidget *)el->location, TRUE, TRUE, 0);
+		gtk_box_pack_end((GtkBox *)el, (GtkWidget *)el->info, FALSE, TRUE, 6);
+		gtk_widget_set_state((GtkWidget *)el, GTK_STATE_ACTIVE);
+	} else {
+		e_clipped_label_set_text((EClippedLabel *)el->location, location);
+	}
 
 	tmp = g_strdup_printf("<span size=\"smaller\">%s</span>", info);
 	gtk_label_set_markup((GtkLabel *)el->info, tmp);
 	g_free(tmp);
-
-	gtk_misc_set_alignment((GtkMisc *)el->location, 0.0, 0.0);
-	gtk_misc_set_padding((GtkMisc *)el->location, 0, 6);
-	gtk_misc_set_alignment((GtkMisc *)el->info, 0.0, 1.0);
-	gtk_misc_set_padding((GtkMisc *)el->info, 0, 6);
-
-	gtk_widget_show(el->location);
-	gtk_widget_show(el->info);
-
-	gtk_box_pack_start((GtkBox *)el, (GtkWidget *)el->location, TRUE, TRUE, 0);
-	gtk_box_pack_end((GtkBox *)el, (GtkWidget *)el->info, FALSE, TRUE, 6);
-
-	gtk_widget_set_state((GtkWidget *)el, GTK_STATE_ACTIVE);
 }
 
