@@ -4,6 +4,10 @@ glade_DATA =					\
 	e-msg-composer-address-dialog.glade	\
 	e-msg-composer-attachment.glade
 
+libcomposerincludedir = $(includedir)/composer
+
+lib_LTLIBRARIES = libcomposer.la
+
 INCLUDES =					\
 	-I$(top_srcdir)				\
 	-I$(top_builddir)			\
@@ -15,25 +19,23 @@ INCLUDES =					\
 CPPFLAGS =					\
 	-DE_GLADEDIR=\"$(gladedir)\"
 
-bin_PROGRAMS =					\
-	evolution-msg-composer
-
-evolution_msg_composer_SOURCES =		\
+libcomposer_la_SOURCES = 			\
 	e-msg-composer-address-dialog.c		\
-	e-msg-composer-address-dialog.h		\
 	e-msg-composer-address-entry.c		\
-	e-msg-composer-address-entry.h		\
 	e-msg-composer-attachment-bar.c		\
-	e-msg-composer-attachment-bar.h		\
 	e-msg-composer-attachment.c		\
-	e-msg-composer-attachment.h		\
 	e-msg-composer-hdrs.c			\
-	e-msg-composer-hdrs.h			\
-	e-msg-composer.c			\
-	e-msg-composer.h			\
-	main.c
+	e-msg-composer.c			
 
-evolution_msg_composer_LDADD = 			\
+libcomposerinclude_HEADERS = 			\
+	e-msg-composer-address-dialog.h		\
+	e-msg-composer-address-entry.h		\
+	e-msg-composer-attachment-bar.h		\
+	e-msg-composer-attachment.h		\
+	e-msg-composer-hdrs.h			\
+	e-msg-composer.h			
+
+## libcomposer_LDADD =	 			\
 	$(top_builddir)/camel/libcamel.la	\
 	$(BONOBO_GNOME_LIBS)			\
 	$(GNOME_LIBDIR)				\
