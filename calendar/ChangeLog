@@ -1,3 +1,10 @@
+2000-10-16  Tuomas Kuosmanen  <tigert@helixcode.com>
+
+	* gui/dayview.xpm, gui/workweekview.xpm, gui/weekview.xpm
+	gui/monthview.xpm gui/yearview.xpm: Updated icons, let me know
+	if you like these or not, I might work on these some more but 
+	I wanted to put these versions up anyway to get feedback..
+
 2000-10-15  Dan Winship  <danw@helixcode.com>
 
 	* gui/Makefile.am: Remove CPPFLAGS def since the -D there was
