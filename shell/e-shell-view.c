@@ -345,9 +345,6 @@ destroy (GtkObject *object)
 	g_hash_table_foreach (priv->uri_to_control, hash_forall_destroy_control, NULL);
 	g_hash_table_destroy (priv->uri_to_control);
 
-	if (priv->shell != NULL)
-		bonobo_object_unref (BONOBO_OBJECT (priv->shell));
-	
 	g_free (priv->uri);
 
 	g_free (priv);
@@ -436,7 +433,6 @@ e_shell_view_construct (EShellView *shell_view,
 
 	gnome_app_construct (GNOME_APP (shell_view), "evolution", "Evolution");
 
-	bonobo_object_ref (BONOBO_OBJECT (shell));
 	priv->shell = shell;
 
 	setup_widgets (shell_view);
