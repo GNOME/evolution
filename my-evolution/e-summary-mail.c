@@ -223,6 +223,9 @@ e_summary_mail_get_info (const char *uri)
 {
 	CORBA_Environment ev;
 
+	if (folder_store == NULL)
+		return;
+
 	g_return_if_fail (folder_store->folder_info != CORBA_OBJECT_NIL);
 
 	CORBA_exception_init (&ev);
