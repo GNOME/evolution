@@ -24,6 +24,7 @@
 #include "gal/widgets/e-canvas-vbox.h"
 #include "e-table.h"
 #include "e-table-header-item.h"
+#include "e-table-header-utils.h"
 #include "e-table-subset.h"
 #include "e-table-item.h"
 #include "e-table-group.h"
@@ -707,6 +708,10 @@ et_state_to_header (ETable *e_table, ETableHeader *full_header, ETableState *sta
 	g_return_val_if_fail (state, NULL);
 	
 	nh = e_table_header_new ();
+
+	gtk_object_set(GTK_OBJECT(nh),
+		       "width_extras", e_table_header_width_extras(GTK_WIDGET(e_table)->style),
+		       NULL);
 
 	for (column = 0; column < state->col_count; column++) {
 		int col;

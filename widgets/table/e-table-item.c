@@ -1474,6 +1474,11 @@ _do_tooltip (ETableItem *eti)
 	int x = 0, y = 0;
 	int i;
 
+	if (eti->tooltip->window) {
+		gtk_widget_destroy (eti->tooltip->window);
+		eti->tooltip->window = NULL;
+	}
+
 	if (eti_editing (eti))
 		return FALSE;
 
@@ -1723,6 +1728,11 @@ eti_event (GnomeCanvasItem *item, GdkEvent *e)
 			       "cursor_col", &cursor_col,
 			       NULL);
 
+		if (eti->tooltip->window) {
+			gtk_widget_destroy (eti->tooltip->window);
+			eti->tooltip->window = NULL;
+		}
+
 		if (cursor_col == -1)
 			return FALSE;
 
@@ -1764,6 +1774,10 @@ eti_event (GnomeCanvasItem *item, GdkEvent *e)
 		case GDK_Tab:
 		case GDK_KP_Tab:
 		case GDK_ISO_Left_Tab:
+			/* Let tab send you to the next widget. */
+			return_val = FALSE;
+			break;
+#if 0
 			if ((e->key.state & GDK_SHIFT_MASK) != 0){
 				/* shift tab */
 				if (cursor_col != view_to_model_col(eti, 0))
@@ -1790,6 +1804,7 @@ eti_event (GnomeCanvasItem *item, GdkEvent *e)
 				e_table_item_enter_edit (eti, model_to_view_col(eti, cursor_col), model_to_view_row(eti, cursor_row));
 			}
 			break;
+#endif
 
 		case GDK_Return:
 		case GDK_KP_Enter:

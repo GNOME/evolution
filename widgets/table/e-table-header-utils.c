@@ -41,7 +41,7 @@
  *
  * Return value: The height of the button, in pixels.
  **/
-int
+double
 e_table_header_compute_height (ETableCol *ecol, GtkStyle *style, GdkFont *font)
 {
 	int ythick;
@@ -68,6 +68,14 @@ e_table_header_compute_height (ETableCol *ecol, GtkStyle *style, GdkFont *font)
 	height += 2 * (ythick + HEADER_PADDING);
 
 	return height;
+}
+
+double
+e_table_header_width_extras (GtkStyle *style)
+{
+	g_return_val_if_fail (style != NULL, -1);
+
+	return 2 * (style->klass->xthickness + HEADER_PADDING);
 }
 
 /* Creates a pixmap that is a composite of a background color and the upper-left

@@ -24,6 +24,7 @@ struct _ETableHeader {
 	int col_count;
 	int width;
 	int nominal_width;
+	int width_extras;
 
 	ETableSortInfo *sort_info;
 	int sort_info_group_change_id;

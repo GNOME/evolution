@@ -19,6 +19,7 @@ enum {
 	ARG_0,
 	ARG_SORT_INFO,
 	ARG_WIDTH,
+	ARG_WIDTH_EXTRAS,
 };
 
 enum {
@@ -169,6 +170,10 @@ eth_set_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 		eth->nominal_width = GTK_VALUE_DOUBLE (*arg);
 		enqueue(eth, -1, GTK_VALUE_DOUBLE (*arg));
 		break;
+	case ARG_WIDTH_EXTRAS:
+		eth->width_extras = GTK_VALUE_DOUBLE (*arg);
+		enqueue(eth, -1, eth->nominal_width);
+		break;
 	case ARG_SORT_INFO:
 		if (eth->sort_info) {
 			if (eth->sort_info_group_change_id)
@@ -201,6 +206,9 @@ eth_get_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 	case ARG_WIDTH:
 		GTK_VALUE_DOUBLE (*arg) = eth->nominal_width;
 		break;
+	case ARG_WIDTH_EXTRAS:
+		GTK_VALUE_DOUBLE (*arg) = eth->width_extras;
+		break;
 	default:
 		arg->type = GTK_TYPE_INVALID;
 		break;
@@ -219,6 +227,8 @@ e_table_header_class_init (GtkObjectClass *object_class)
 
 	gtk_object_add_arg_type ("ETableHeader::width", GTK_TYPE_DOUBLE, 
 				 GTK_ARG_READWRITE, ARG_WIDTH); 
+	gtk_object_add_arg_type ("ETableHeader::width_extras", GTK_TYPE_DOUBLE, 
+				 GTK_ARG_READWRITE, ARG_WIDTH_EXTRAS); 
 	gtk_object_add_arg_type ("ETableHeader::sort_info", GTK_TYPE_OBJECT, 
 				 GTK_ARG_READWRITE, ARG_SORT_INFO); 
 
@@ -250,16 +260,18 @@ e_table_header_class_init (GtkObjectClass *object_class)
 static void
 e_table_header_init (ETableHeader *eth)
 {
-	eth->col_count = 0;
-	eth->width = 0;
+	eth->col_count                 = 0;
+	eth->width                     = 0;
 
-	eth->sort_info = NULL;
+	eth->sort_info                 = NULL;
 	eth->sort_info_group_change_id = 0;
 
-	eth->columns = NULL;
+	eth->columns                   = NULL;
 	
-	eth->change_queue = NULL;
-	eth->change_tail = NULL;
+	eth->change_queue              = NULL;
+	eth->change_tail               = NULL;
+
+	eth->width_extras              = 0;
 }
 
 /**
@@ -606,7 +618,7 @@ eth_set_size (ETableHeader *eth, int idx, int size)
 	 * total usable expansion on the right. 
 	 */
 	for (; i < eth->col_count; i++) {
-		min_width += eth->columns[i]->min_width;
+		min_width += eth->columns[i]->min_width + eth->width_extras;
 		if (eth->columns[i]->resizeable) {
 			expansion += eth->columns[i]->expansion;
 			expandable_count ++;
@@ -638,13 +650,13 @@ eth_set_size (ETableHeader *eth, int idx, int size)
 
 	/* If you try to resize smaller than the minimum width, it
 	 * uses the minimum. */
-	if (size < eth->columns[idx]->min_width)
-		size = eth->columns[idx]->min_width;
+	if (size < eth->columns[idx]->min_width + eth->width_extras)
+		size = eth->columns[idx]->min_width + eth->width_extras;
 
 	/* If all the extra space will be used up in this column, use
 	 * all the expansion and set all others to 0.
 	 */
-	if (size >= total_extra + eth->columns[idx]->min_width) {
+	if (size >= total_extra + eth->columns[idx]->min_width + eth->width_extras) {
 		eth->columns[idx]->expansion = expansion;
 		for (i = idx + 1; i < eth->col_count; i++) {
 			eth->columns[i]->expansion = 0;
@@ -656,7 +668,7 @@ eth_set_size (ETableHeader *eth, int idx, int size)
 	old_expansion = expansion;
 	old_expansion -= eth->columns[idx]->expansion;
 	/* Set the new expansion so that it will generate the desired size. */
-	eth->columns[idx]->expansion = expansion * (((double)(size - eth->columns[idx]->min_width))/((double)total_extra));
+	eth->columns[idx]->expansion = expansion * (((double)(size - (eth->columns[idx]->min_width + eth->width_extras)))/((double)total_extra));
 	/* The expansion left for the columns on the right. */
 	expansion -= eth->columns[idx]->expansion;
 
@@ -677,7 +689,7 @@ eth_set_size (ETableHeader *eth, int idx, int size)
 	}
 
 	/* Remove from total_extra the amount used for this column. */
-	total_extra -= size - eth->columns[idx]->min_width;
+	total_extra -= size - (eth->columns[idx]->min_width + eth->width_extras);
 	for (i = idx + 1; i < eth->col_count; i++) {
 		if (eth->columns[idx]->resizeable) {
 			/* old_expansion != 0 by (2) */
@@ -733,11 +745,11 @@ eth_calc_widths (ETableHeader *eth)
 	extra = eth->width - 1;
 	expansion = 0;
 	for (i = 0; i < eth->col_count; i++) {
-		extra -= eth->columns[i]->min_width;
+		extra -= eth->columns[i]->min_width + eth->width_extras;
 		if (eth->columns[i]->resizeable && eth->columns[i]->expansion > 0)
 			last_resizable = i;
 		expansion += eth->columns[i]->resizeable ? eth->columns[i]->expansion : 0;
-		eth->columns[i]->width = eth->columns[i]->min_width;
+		eth->columns[i]->width = eth->columns[i]->min_width + eth->width_extras;
 	}
 	if (eth->sort_info)
 		extra -= e_table_sort_info_grouping_get_count(eth->sort_info) * GROUP_INDENT;
