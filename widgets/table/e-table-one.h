@@ -33,7 +33,7 @@ G_BEGIN_DECLS
 #define E_TABLE_ONE_CLASS(k)    (G_TYPE_CHECK_CLASS_CAST((k), E_TABLE_ONE_TYPE, ETableOneClass))
 #define E_IS_TABLE_ONE(o)       (G_TYPE_CHECK_INSTANCE_TYPE ((o), E_TABLE_ONE_TYPE))
 #define E_IS_TABLE_ONE_CLASS(k) (G_TYPE_CHECK_CLASS_TYPE ((k), E_TABLE_ONE_TYPE))
-#define E_TABLE_ONE_GET_CLASS(o) (G_TYPE_CHECK_CLASS_CAST((o), E_TABLE_ONE_TYPE, ETableOneClass))
+#define E_TABLE_ONE_GET_CLASS(o) (G_TYPE_INSTANCE_GET_CLASS ((obj), E_TABLE_ONE_TYPE, ETableOneClass))
 
 typedef struct {
 	ETableModel   parent;
