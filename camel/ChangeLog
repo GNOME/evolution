@@ -1,5 +1,13 @@
 2000-07-27  Jeffrey Stedfast  <fejj@helixcode.com>
 
+	* providers/imap/camel-imap-folder.c (camel_imap_folder_changed):
+	Fixed my routine to only fetch new headers, my IDs were off by 1
+	on the high end, so when it would fetch the last newly arrived
+	message it would fail and end up fetching all of the summaries
+	because of the corruption.
+
+2000-07-27  Jeffrey Stedfast  <fejj@helixcode.com>
+
 	* camel-url.c (camel_url_to_string): If the path doesn't begin
 	with a / and there is a host, prepend a / to the path.
 

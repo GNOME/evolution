@@ -1380,7 +1380,7 @@ camel_imap_folder_changed (CamelFolder *folder, gint recent, CamelException *ex)
 			imap_folder->summary_hash = g_hash_table_new (g_str_hash, g_str_equal);
 		}
 
-		last = imap_folder->summary->len + 1;
+		last = imap_folder->summary->len;
 
 		for (i = last; i < last + recent; i++) {
 			info = imap_get_message_info_internal (folder, i);
