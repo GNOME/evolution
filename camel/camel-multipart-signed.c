@@ -84,6 +84,7 @@ camel_multipart_signed_class_init (CamelMultipartSignedClass *camel_multipart_si
 	/* virtual method overload */
 	camel_data_wrapper_class->construct_from_stream = construct_from_stream;
 	camel_data_wrapper_class->write_to_stream = write_to_stream;
+	camel_data_wrapper_class->decode_to_stream = write_to_stream;
 	camel_data_wrapper_class->set_mime_type_field = set_mime_type_field;
 
 	mpclass->add_part = signed_add_part;

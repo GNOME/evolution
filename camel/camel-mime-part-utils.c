@@ -57,15 +57,12 @@
 static void
 simple_data_wrapper_construct_from_parser (CamelDataWrapper *dw, CamelMimeParser *mp)
 {
-	char *encoding, *buf;
+	char *buf;
 	GByteArray *buffer;
 	CamelStream *mem;
 	size_t len;
 	
 	d(printf ("simple_data_wrapper_construct_from_parser()\n"));
-	
-	/* first, work out conversion, if any, required, we dont care about what we dont know about */
-	encoding = header_content_encoding_decode (camel_mime_parser_header (mp, "Content-Transfer-Encoding", NULL));
 	
 	/* read in the entire content */
 	buffer = g_byte_array_new ();
@@ -79,11 +76,6 @@ simple_data_wrapper_construct_from_parser (CamelDataWrapper *dw, CamelMimeParser
 	mem = camel_stream_mem_new_with_byte_array (buffer);
 	camel_data_wrapper_construct_from_stream (dw, mem);
 	camel_object_unref (mem);
-	
-	if (encoding) {
-		dw->encoding = camel_mime_part_encoding_from_string (encoding);
-		g_free (encoding);
-	}
 }
 
 /* This replaces the data wrapper repository ... and/or could be replaced by it? */
@@ -92,8 +84,11 @@ camel_mime_part_construct_content_from_parser (CamelMimePart *dw, CamelMimeParse
 {
 	CamelDataWrapper *content = NULL;
 	CamelContentType *ct;
-	
+	char *encoding;
+
 	ct = camel_mime_parser_content_type (mp);
+
+	encoding = header_content_encoding_decode (camel_mime_parser_header (mp, "Content-Transfer-Encoding", NULL));
 	
 	switch (camel_mime_parser_state (mp)) {
 	case HSCAN_HEADER:
@@ -129,9 +124,14 @@ camel_mime_part_construct_content_from_parser (CamelMimePart *dw, CamelMimeParse
 	}
 	
 	if (content) {
+		if (encoding)
+			content->encoding = camel_mime_part_encoding_from_string (encoding);
+
 		/* would you believe you have to set this BEFORE you set the content object???  oh my god !!!! */
 		camel_data_wrapper_set_mime_type_field (content, camel_mime_part_get_content_type (dw));
 		camel_medium_set_content_object ((CamelMedium *)dw, content);
 		camel_object_unref (content);
 	}
+
+	g_free (encoding);
 }

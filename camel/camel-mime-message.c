@@ -107,6 +107,7 @@ camel_mime_message_class_init (CamelMimeMessageClass *camel_mime_message_class)
 
 	/* virtual method overload */
 	camel_data_wrapper_class->write_to_stream = write_to_stream;
+	camel_data_wrapper_class->decode_to_stream = write_to_stream;
 
 	camel_medium_class->add_header = add_header;
 	camel_medium_class->set_header = set_header;

@@ -100,6 +100,7 @@ const	  GList *camel_mime_part_get_content_languages	(CamelMimePart *mime_part);
 void               camel_mime_part_set_content_type 	(CamelMimePart *mime_part, const char *content_type);
 CamelContentType  *camel_mime_part_get_content_type	(CamelMimePart *mime_part);
 
+/* FIXME: move to camel-mime-utils, and rename CamelEncodingType or CamelTransferEncoding */
 const     char *          camel_mime_part_encoding_to_string   (CamelMimePartEncodingType encoding);
 CamelMimePartEncodingType camel_mime_part_encoding_from_string (const char *string);
 

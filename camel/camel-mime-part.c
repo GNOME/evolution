@@ -164,7 +164,7 @@ camel_mime_part_init (gpointer object, gpointer klass)
 	mime_part->content_MD5          = NULL;
 	mime_part->content_location     = NULL;
 	mime_part->content_languages    = NULL;
-	mime_part->encoding             = CAMEL_MIME_PART_ENCODING_DEFAULT;
+	mime_part->encoding = CAMEL_MIME_PART_ENCODING_DEFAULT;
 }
 
 
@@ -238,7 +238,6 @@ process_header(CamelMedium *medium, const char *header_name, const char *header_
 		mime_part->content_id = header_contentid_decode (header_value);
 		break;
 	case HEADER_ENCODING:
-		/* FIXME: ignore this if we are a multipart or a message/rfc822 part */
 		text = header_token_decode (header_value);
 		mime_part->encoding = camel_mime_part_encoding_from_string (text);
 		g_free (text);

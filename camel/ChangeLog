@@ -1,3 +1,24 @@
+2003-08-15  Not Zed  <NotZed@Ximian.com>
+
+	** See bug #47634.
+
+	* tests/lib/messages.c (test_message_compare): check
+	write_to_stream returns.
+	(message_dump_rec): helper to dump message structure.
+
+	* camel-mime-part-utils.c
+	(simple_data_wrapper_construct_from_parser): dont set content
+	encoding here.
+	(camel_mime_part_construct_content_from_parser): set it here
+	instead, on every part.  basically same as setting the
+	mime_type_field always.
+
+	* camel-multipart-signed.c (camel_multipart_signed_class_init): 
+	* camel-mime-message.c (camel_mime_message_class_init): 
+	* camel-multipart.c (camel_multipart_class_init): override
+	decode_to_stream to always do the same as write_to_stream, since
+	we can never be encoded.
+
 2003-08-15  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* providers/imap/camel-imap-wrapper.c (imap_wrapper_hydrate):

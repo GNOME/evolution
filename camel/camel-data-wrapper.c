@@ -177,6 +177,7 @@ decode_to_stream (CamelDataWrapper *data_wrapper, CamelStream *stream)
 	ssize_t ret;
 	
 	if (data_wrapper->stream == NULL) {
+		g_warning("data_wrapper->stream is NULL in decode_to_stream()");
 		return -1;
 	}
 	

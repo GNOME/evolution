@@ -95,6 +95,7 @@ camel_multipart_class_init (CamelMultipartClass *camel_multipart_class)
 
 	/* virtual method overload */
 	camel_data_wrapper_class->write_to_stream = write_to_stream;
+	camel_data_wrapper_class->decode_to_stream = write_to_stream;
 	camel_data_wrapper_class->is_offline = is_offline;
 }
 
