@@ -1,3 +1,10 @@
+2001-05-24  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* e-msg-composer.c (e_msg_composer_new_with_message): Populate the
+	extra_hdr_* arrays with any non-special-case headers.
+	(is_special_header): New convenience function to determine if a
+	header is a "special" header or not.
+
 2001-05-24  Radek Doulik  <rodo@ximian.com>
 
 	* e-msg-composer.c (menu_edit_delete_all_cb): new callback

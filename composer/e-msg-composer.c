@@ -2131,6 +2131,50 @@ handle_multipart (EMsgComposer *composer, CamelMultipart *multipart, int depth)
 	}
 }
 
+/* FIXME: are there any other headers?? */
+/* This is a list of headers that we DO NOT want to append to the
+ * extra_hdr_* arrays.
+ *
+ * Note: a '*' char can be used for a simple wilcard match.
+ * is_special_header() will use g_strNcasecmp() with the first '*'
+ * char being the end of the match string. If no '*' is present, then
+ * it will be assumed that the header must be an exact match.
+ */
+static char *special_headers[] = {
+	"Subject",
+	"Date",
+	"From",
+	"To",
+	"Cc",
+	"Bcc",
+	"Received",
+	"Message-Id",
+	"X-Evolution*",
+	"Content-*",
+	"MIME-Version",
+	NULL
+};
+
+static gboolean
+is_special_header (const char *hdr_name)
+{
+	int i;
+	
+	for (i = 0; special_headers[i]; i++) {
+		char *p;
+		
+		if ((p = strchr (special_headers[i], '*'))) {
+			if (!g_strncasecmp (special_headers[i], hdr_name, p - special_headers[i]))
+				return TRUE;
+		} else {
+			if (!g_strcasecmp (special_headers[i], hdr_name))
+				return TRUE;
+		}
+	}
+	
+	return FALSE;
+}
+
 /**
  * e_msg_composer_new_with_message:
  *
@@ -2144,6 +2188,7 @@ e_msg_composer_new_with_message (CamelMimeMessage *msg)
 	const CamelInternetAddress *to, *cc, *bcc;
 	GList *To = NULL, *Cc = NULL, *Bcc = NULL;
 	CamelContentType *content_type;
+	struct _header_raw *headers;
 	const gchar *subject;
 	EMsgComposer *new;
 	guint len, i;
@@ -2207,6 +2252,17 @@ e_msg_composer_new_with_message (CamelMimeMessage *msg)
 	free_recipients (To);
 	free_recipients (Cc);
 	free_recipients (Bcc);
+	
+	/* set extra headers */
+	headers = CAMEL_MIME_PART (msg)->headers;
+	while (headers) {
+		if (!is_special_header (headers->name)) {
+			g_ptr_array_add (new->extra_hdr_names, g_strdup (headers->name));
+			g_ptr_array_add (new->extra_hdr_values, g_strdup (headers->value));
+		}
+		
+		headers = headers->next;
+	}
 	
 	content_type = camel_mime_part_get_content_type (CAMEL_MIME_PART (msg));
 	if (header_content_type_is (content_type, "multipart", "alternative")) {
