@@ -1,5 +1,9 @@
 2001-07-31  Ettore Perazzoli  <ettore@ximian.com>
 
+	* configure.in: Bump version number to 0.12.0.
+
+2001-07-31  Ettore Perazzoli  <ettore@ximian.com>
+
 	* NEWS: Added info about the shell changes and slightly changed
 	the formatting for the addressbook ones.
 
