@@ -1,3 +1,9 @@
+1999-01-20  Martin Baulig  <martin@home-of-linux.org>
+
+	* acinclude.m4 (ac_result): Unset CATOBJEXT so
+	that the macros and Makefiles correctly handle
+	disabling NLS when no gettext is found.
+
 1999-01-19  Raja R Harinath  <harinath@cs.umn.edu>
 
 	* gnome-cxx-check.m4 (GNOME_CHECK_CXX): Rewrite to be saner.  
