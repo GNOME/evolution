@@ -1,3 +1,9 @@
+2000-06-27  Christopher James Lahey  <clahey@helixcode.com>
+
+	* providers/smtp/camel-smtp-transport.c: Don't close the filter
+	stream when done with it (this causes the source stream to close);
+	Instead, just flush it when done.
+
 2000-06-27  Michael Zucchi  <zucchi@zedzone.mmc.com.au>
 
 	* camel-folder-search.c (search_header_contains): Make header

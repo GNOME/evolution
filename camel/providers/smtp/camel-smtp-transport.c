@@ -671,7 +671,7 @@ smtp_data (CamelSmtpTransport *transport, CamelMedium *message, CamelException *
 	}
         
 	camel_stream_filter_remove (filtered_stream, id);
-	camel_stream_close (CAMEL_STREAM(filtered_stream));
+	camel_stream_flush (CAMEL_STREAM(filtered_stream));
 	gtk_object_unref (GTK_OBJECT(filtered_stream));
 
 	/* terminate the message body */
