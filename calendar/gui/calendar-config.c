@@ -582,6 +582,8 @@ calendar_config_configure_e_calendar_table	(ECalendarTable	*cal_table)
 {
 	CalendarModel *model;
 	gboolean use_24_hour;
+	char *location;
+	icaltimezone *zone;
 
 	g_return_if_fail (E_IS_CALENDAR_TABLE (cal_table));
 
@@ -589,6 +591,10 @@ calendar_config_configure_e_calendar_table	(ECalendarTable	*cal_table)
 
 	model = e_calendar_table_get_model (cal_table);
 	calendar_model_set_use_24_hour_format (model, use_24_hour);
+
+	location = calendar_config_get_timezone ();
+	zone = icaltimezone_get_builtin_timezone (location);
+	calendar_model_set_timezone (model, zone);
 
 	calendar_config_configure_e_cell_date_edit (cal_table->dates_cell);
 
@@ -636,12 +642,12 @@ on_timezone_set			(GnomeDialog	*dialog,
 				 int		 button,
 				 ETimezoneDialog *etd)
 {
-	char *zone;
+	char *display_name;
 
-	zone = e_timezone_dialog_get_timezone (etd);
+	e_timezone_dialog_get_timezone (etd, &display_name);
 
-	if (zone && zone[0]) {
-		calendar_config_set_timezone (zone);
+	if (display_name && display_name[0]) {
+		calendar_config_set_timezone (display_name);
 
 		calendar_config_write ();
 		update_all_config_settings ();

@@ -511,6 +511,8 @@ e_day_view_init (EDayView *day_view)
 	day_view->work_week_view = FALSE;
 	day_view->days_shown = 1;
 
+	day_view->zone = NULL;
+
 	day_view->mins_per_row = 30;
 	day_view->date_format = E_DAY_VIEW_DATE_FULL;
 	day_view->rows_in_top_display = 0;
@@ -1483,8 +1485,8 @@ query_obj_updated_cb (CalQuery *query, const char *uid,
 	/* Add the occurrences of the event. */
 	cal_recur_generate_instances (comp, day_view->lower,
 				      day_view->upper,
-				      e_day_view_add_event,
-				      day_view);
+				      e_day_view_add_event, day_view,
+				      cal_client_resolve_tzid, day_view->client);
 	gtk_object_unref (GTK_OBJECT (comp));
 
 	e_day_view_check_layout (day_view);
@@ -2496,6 +2498,48 @@ e_day_view_set_show_event_end_times	(EDayView	*day_view,
 }
 
 
+/* The current timezone. */
+icaltimezone*
+e_day_view_get_timezone			(EDayView	*day_view)
+{
+	g_return_val_if_fail (E_IS_DAY_VIEW (day_view), NULL);
+
+	return day_view->zone;
+}
+
+
+void
+e_day_view_set_timezone			(EDayView	*day_view,
+					 icaltimezone	*zone)
+{
+	icaltimezone *old_zone;
+	struct icaltimetype tt;
+	time_t lower;
+
+	g_return_if_fail (E_IS_DAY_VIEW (day_view));
+
+	old_zone = day_view->zone;
+	if (old_zone == zone)
+		return;
+
+	day_view->zone = zone;
+
+	/* If our time hasn't been set yet, just return. */
+	if (day_view->lower == 0 && day_view->upper == 0)
+		return;
+
+	/* Recalculate the new start of the first day. We just use exactly
+	   the same time, but with the new timezone. */
+	tt = icaltime_from_timet_with_zone (day_view->lower, FALSE,
+					    old_zone);
+
+	lower = icaltime_as_timet_with_zone (tt, zone);
+
+	e_day_view_recalc_day_starts (day_view, lower);
+	update_query (day_view);
+}
+
+
 /* This is a callback used to update all day event labels. */
 static gboolean
 e_day_view_set_show_times_cb		(EDayView	*day_view,
@@ -3413,7 +3457,7 @@ e_day_view_on_delete_occurrence (GtkWidget *widget, gpointer data)
 	/* We must duplicate the CalComponent, or we won't know it has changed
 	   when we get the "update_event" callback. */
 	comp = cal_component_clone (event->comp);
-	cal_comp_util_add_exdate (comp, icaltime_from_timet (event->start, FALSE));
+	cal_comp_util_add_exdate (comp, event->start, day_view->zone);
 
 	if (!cal_client_update_object (day_view->client, comp))
 		g_message ("e_day_view_on_delete_occurrence(): Could not update the object!");
@@ -3525,7 +3569,7 @@ e_day_view_on_unrecur_appointment (GtkWidget *widget, gpointer data)
 	   instance. */
 
 	comp = cal_component_clone (event->comp);
-	cal_comp_util_add_exdate (comp, icaltime_from_timet (event->start, FALSE));
+	cal_comp_util_add_exdate (comp, event->start, day_view->zone);
 
 	/* For the unrecurred instance we duplicate the original object,
 	   create a new uid for it, get rid of the recurrence rules, and set
@@ -3538,12 +3582,15 @@ e_day_view_on_unrecur_appointment (GtkWidget *widget, gpointer data)
 	cal_component_set_exrule_list (new_comp, NULL);
 
 	date.value = &itt;
-	date.tzid = NULL;
+	date.tzid = icaltimezone_get_tzid (day_view->zone);
 
-	*date.value = icaltime_from_timet (event->start, FALSE);
+	*date.value = icaltime_from_timet_with_zone (event->start, FALSE,
+						     day_view->zone);
 	cal_component_set_dtstart (new_comp, &date);
-	*date.value = icaltime_from_timet (event->end, FALSE);
+	*date.value = icaltime_from_timet_with_zone (event->end, FALSE,
+						     day_view->zone);
 	cal_component_set_dtend (new_comp, &date);
+
 
 	/* Now update both CalComponents. Note that we do this last since at
 	 * present the updates happen synchronously so our event may disappear.
@@ -4064,15 +4111,19 @@ e_day_view_finish_long_event_resize (EDayView *day_view)
 	comp = cal_component_clone (event->comp);
 
 	date.value = &itt;
-	date.tzid = NULL;
+	/* FIXME: Should probably keep the timezone of the original start
+	   and end times. */
+	date.tzid = icaltimezone_get_tzid (day_view->zone);
 
 	if (day_view->resize_drag_pos == E_DAY_VIEW_POS_LEFT_EDGE) {
 		dt = day_view->day_starts[day_view->resize_start_row];
-		*date.value = icaltime_from_timet (dt, FALSE);
+		*date.value = icaltime_from_timet_with_zone (dt, FALSE,
+							     day_view->zone);
 		cal_component_set_dtstart (comp, &date);
 	} else {
 		dt = day_view->day_starts[day_view->resize_end_row + 1];
-		*date.value = icaltime_from_timet (dt, FALSE);
+		*date.value = icaltime_from_timet_with_zone (dt, FALSE,
+							     day_view->zone);
 		cal_component_set_dtend (comp, &date);
 	}
 
@@ -4110,15 +4161,19 @@ e_day_view_finish_resize (EDayView *day_view)
 	comp = cal_component_clone (event->comp);
 
 	date.value = &itt;
-	date.tzid = NULL;
+	/* FIXME: Should probably keep the timezone of the original start
+	   and end times. */
+	date.tzid = icaltimezone_get_tzid (day_view->zone);
 
 	if (day_view->resize_drag_pos == E_DAY_VIEW_POS_TOP_EDGE) {
 		dt = e_day_view_convert_grid_position_to_time (day_view, day, day_view->resize_start_row);
-		*date.value = icaltime_from_timet (dt, FALSE);
+		*date.value = icaltime_from_timet_with_zone (dt, FALSE,
+							     day_view->zone);
 		cal_component_set_dtstart (comp, &date);
 	} else {
 		dt = e_day_view_convert_grid_position_to_time (day_view, day, day_view->resize_end_row + 1);
-		*date.value = icaltime_from_timet (dt, FALSE);
+		*date.value = icaltime_from_timet_with_zone (dt, FALSE,
+							     day_view->zone);
 		cal_component_set_dtend (comp, &date);
 	}
 
@@ -4226,7 +4281,7 @@ e_day_view_add_event (CalComponent *comp,
 	EDayView *day_view;
 	EDayViewEvent event;
 	gint day, offset;
-	struct tm start_tm, end_tm;
+	struct icaltimetype start_tt, end_tt;
 
 	day_view = E_DAY_VIEW (data);
 
@@ -4242,8 +4297,10 @@ e_day_view_add_event (CalComponent *comp,
 	g_return_val_if_fail (start < day_view->upper, TRUE);
 	g_return_val_if_fail (end > day_view->lower, TRUE);
 
-	start_tm = *(localtime (&start));
-	end_tm = *(localtime (&end));
+	start_tt = icaltime_from_timet_with_zone (start, FALSE,
+						  day_view->zone);
+	end_tt = icaltime_from_timet_with_zone (end, FALSE,
+						day_view->zone);
 
 	event.comp = comp;
 	gtk_object_ref (GTK_OBJECT (comp));
@@ -4255,8 +4312,8 @@ e_day_view_add_event (CalComponent *comp,
 	   display. */
 	offset = day_view->first_hour_shown * 60
 		+ day_view->first_minute_shown;
-	event.start_minute = start_tm.tm_hour * 60 + start_tm.tm_min - offset;
-	event.end_minute = end_tm.tm_hour * 60 + end_tm.tm_min - offset;
+	event.start_minute = start_tt.hour * 60 + start_tt.minute - offset;
+	event.end_minute = end_tt.hour * 60 + end_tt.minute - offset;
 
 	event.start_row_or_col = -1;
 	event.num_columns = -1;
@@ -4836,12 +4893,14 @@ e_day_view_key_press (GtkWidget *widget, GdkEventKey *event)
 	e_day_view_get_selected_time_range (day_view, &dtstart, &dtend);
 
 	dt.value = &itt;
-	dt.tzid = NULL;
+	dt.tzid = icaltimezone_get_tzid (day_view->zone);
 
-	*dt.value = icaltime_from_timet (dtstart, FALSE);
+	*dt.value = icaltime_from_timet_with_zone (dtstart, FALSE,
+						   day_view->zone);
 	cal_component_set_dtstart (comp, &dt);
 
-	*dt.value = icaltime_from_timet (dtend, FALSE);
+	*dt.value = icaltime_from_timet_with_zone (dtend, FALSE,
+						   day_view->zone);
 	cal_component_set_dtend (comp, &dt);
 
 	/* We add the event locally and start editing it. When we get the
@@ -5383,7 +5442,7 @@ e_day_view_convert_grid_position_to_time (EDayView *day_view,
 					  gint col,
 					  gint row)
 {
-	struct tm *tmp_tm;
+	struct icaltimetype tt;
 	time_t val;
 	gint minutes;
 
@@ -5397,15 +5456,15 @@ e_day_view_convert_grid_position_to_time (EDayView *day_view,
 	if (minutes == 60 * 24)
 		return day_view->day_starts[col + 1];
 
-	/* We convert the start of the day to a struct tm, then set the
-	   hour and minute, then convert it back to a time_t. */
-	tmp_tm = localtime (&day_view->day_starts[col]);
+	/* Create an icaltimetype and convert to a time_t. */
+	tt = icaltime_from_timet_with_zone (day_view->day_starts[col],
+					    FALSE, day_view->zone);
+	tt.hour = minutes / 60;
+	tt.minute = minutes % 60;
+	tt.second = 0;
+	tt.is_daylight = -1;
 
-	tmp_tm->tm_hour = minutes / 60;
-	tmp_tm->tm_min = minutes % 60;
-	tmp_tm->tm_isdst = -1;
-
-	val = mktime (tmp_tm);
+	val = icaltime_as_timet_with_zone (tt, day_view->zone);
 	return val;
 }
 
@@ -5416,7 +5475,7 @@ e_day_view_convert_time_to_grid_position (EDayView *day_view,
 					  gint *col,
 					  gint *row)
 {
-	struct tm *tmp_tm;
+	struct icaltimetype tt;
 	gint day, minutes;
 
 	*col = *row = 0;
@@ -5432,11 +5491,12 @@ e_day_view_convert_time_to_grid_position (EDayView *day_view,
 		}
 	}
 
-	/* To find the row we need to convert the time to a struct tm,
+	/* To find the row we need to convert the time to an icaltimetype,
 	   calculate the offset in minutes from the top of the display and
 	   divide it by the mins per row setting. */
-	tmp_tm = localtime (&time);
-	minutes = tmp_tm->tm_hour * 60 + tmp_tm->tm_min;
+	tt = icaltime_from_timet_with_zone (time, FALSE, day_view->zone);
+
+	minutes = tt.hour * 60 + tt.minute;
 	minutes -= day_view->first_hour_shown * 60
 		+ day_view->first_minute_shown;
 
@@ -6354,16 +6414,20 @@ e_day_view_on_top_canvas_drag_data_received  (GtkWidget          *widget,
 			comp = cal_component_clone (event->comp);
 
 			date.value = &itt;
-			date.tzid = NULL;
+			/* FIXME: Should probably keep the timezone of the
+			   original start and end times. */
+			date.tzid = icaltimezone_get_tzid (day_view->zone);
 
 			dt = day_view->day_starts[day] + start_offset * 60;
-			*date.value = icaltime_from_timet (dt, FALSE);
+			*date.value = icaltime_from_timet_with_zone (dt, FALSE,
+								     day_view->zone);
 			cal_component_set_dtstart (comp, &date);
 			if (end_offset == -1 || end_offset == 0)
 				dt = day_view->day_starts[day + num_days];
 			else
 				dt = day_view->day_starts[day + num_days - 1] + end_offset * 60;
-			*date.value = icaltime_from_timet (dt, FALSE);
+			*date.value = icaltime_from_timet_with_zone (dt, FALSE,
+								     day_view->zone);
 			cal_component_set_dtend (comp, &date);
 
 			gtk_drag_finish (context, TRUE, TRUE, time);
@@ -6458,13 +6522,15 @@ e_day_view_on_main_canvas_drag_data_received  (GtkWidget          *widget,
 			comp = cal_component_clone (event->comp);
 
 			date.value = &itt;
-			date.tzid = NULL;
+			date.tzid = icaltimezone_get_tzid (day_view->zone);
 
 			dt = e_day_view_convert_grid_position_to_time (day_view, day, row) + start_offset * 60;
-			*date.value = icaltime_from_timet (dt, FALSE);
+			*date.value = icaltime_from_timet_with_zone (dt, FALSE,
+								     day_view->zone);
 			cal_component_set_dtstart (comp, &date);
 			dt = e_day_view_convert_grid_position_to_time (day_view, day, row + num_rows) - end_offset * 60;
-			*date.value = icaltime_from_timet (dt, FALSE);
+			*date.value = icaltime_from_timet_with_zone (dt, FALSE,
+								     day_view->zone);
 			cal_component_set_dtend (comp, &date);
 
 			gtk_drag_finish (context, TRUE, TRUE, time);
@@ -6595,10 +6661,14 @@ selection_received (GtkWidget *invisible,
 	if (icalcomp) {
 		e_day_view_get_selected_time_range (day_view, &dtstart, &dtend);
 
-		itime = icaltime_from_timet (dtstart, FALSE);
+		itime = icaltime_from_timet_with_zone (dtstart, FALSE,
+						       day_view->zone);
+		/* FIXME: Need to set TZID. */
 		icalcomponent_set_dtstart (icalcomp, itime);
 
-		itime = icaltime_from_timet (dtend, FALSE);
+		itime = icaltime_from_timet_with_zone (dtend, FALSE,
+						       day_view->zone);
+		/* FIXME: Need to set TZID. */
 		icalcomponent_set_dtend (icalcomp, itime);
 
 		comp = cal_component_new ();

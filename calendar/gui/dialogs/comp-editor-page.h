@@ -26,6 +26,7 @@
 #include <libgnome/gnome-defs.h>
 #include <gtk/gtkwidget.h>
 #include <cal-util/cal-component.h>
+#include "cal-client.h"
 
 BEGIN_GNOME_DECLS
 
@@ -38,14 +39,17 @@ BEGIN_GNOME_DECLS
 #define IS_COMP_EDITOR_PAGE_CLASS(klass) (GTK_CHECK_CLASS_TYPE ((obj), TYPE_COMP_EDITOR_PAGE))
 
 typedef struct {
-	time_t start;
-	time_t end;
-	time_t due;
-	time_t complete;
+	struct icaltimetype *start;
+	struct icaltimetype *end;
+	struct icaltimetype *due;
+	struct icaltimetype *complete;
 } CompEditorPageDates;
 
 typedef struct {
 	GtkObject object;
+
+	/* Some of the pages need the CalClient to access timezone data. */
+	CalClient *client;
 } CompEditorPage;
 
 typedef struct {
@@ -77,6 +81,8 @@ void       comp_editor_page_fill_widgets           (CompEditorPage      *page,
 						    CalComponent        *comp);
 void       comp_editor_page_fill_component         (CompEditorPage      *page,
 						    CalComponent        *comp);
+void       comp_editor_page_set_cal_client         (CompEditorPage      *page,
+						    CalClient           *client);
 void       comp_editor_page_set_summary            (CompEditorPage      *page,
 						    const char          *summary);
 void       comp_editor_page_set_dates              (CompEditorPage      *page,

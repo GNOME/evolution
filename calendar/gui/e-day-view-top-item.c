@@ -192,7 +192,8 @@ e_day_view_top_item_draw (GnomeCanvasItem *canvas_item,
 	GdkFont *font;
 	gint canvas_width, canvas_height, left_edge, day, date_width, date_x;
 	gint item_height, event_num;
-	struct tm *day_start;
+	struct tm day_start = { 0 };
+	struct icaltimetype day_start_tt;
 
 #if 0
 	g_print ("In e_day_view_top_item_draw %i,%i %ix%i\n",
@@ -267,7 +268,11 @@ e_day_view_top_item_draw (GnomeCanvasItem *canvas_item,
 	/* Draw the date. Set a clipping rectangle so we don't draw over the
 	   next day. */
 	for (day = 0; day < day_view->days_shown; day++) {
-		day_start = localtime (&day_view->day_starts[day]);
+		day_start_tt = icaltime_from_timet_with_zone (day_view->day_starts[day], FALSE, day_view->zone);
+		day_start.tm_year = day_start_tt.year - 1900;
+		day_start.tm_mon = day_start_tt.month - 1;
+		day_start.tm_mday = day_start_tt.day;
+		day_start.tm_isdst = -1;
 
 		if (day_view->date_format == E_DAY_VIEW_DATE_FULL)
 			/* strftime format %A = full weekday name, %d = day of month,
@@ -284,7 +289,7 @@ e_day_view_top_item_draw (GnomeCanvasItem *canvas_item,
 		else
 			format = "%d";
 
-		strftime (buffer, sizeof (buffer), format, day_start);
+		strftime (buffer, sizeof (buffer), format, &day_start);
 			
 		clip_rect.x = day_view->day_offsets[day] - x;
 		clip_rect.y = 2 - y;

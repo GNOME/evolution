@@ -73,6 +73,7 @@ static gboolean cal_backend_file_is_loaded (CalBackend *backend);
 
 static int cal_backend_file_get_n_objects (CalBackend *backend, CalObjType type);
 static char *cal_backend_file_get_object (CalBackend *backend, const char *uid);
+static char *cal_backend_file_get_timezone_object (CalBackend *backend, const char *tzid);
 static CalObjType cal_backend_file_get_type_by_uid (CalBackend *backend, const char *uid);
 static GList *cal_backend_file_get_uids (CalBackend *backend, CalObjType type);
 static GList *cal_backend_file_get_objects_in_range (CalBackend *backend, CalObjType type,
@@ -148,6 +149,7 @@ cal_backend_file_class_init (CalBackendFileClass *class)
 	backend_class->is_loaded = cal_backend_file_is_loaded;
 	backend_class->get_n_objects = cal_backend_file_get_n_objects;
 	backend_class->get_object = cal_backend_file_get_object;
+	backend_class->get_timezone_object = cal_backend_file_get_timezone_object;
 	backend_class->get_type_by_uid = cal_backend_file_get_type_by_uid;
 	backend_class->get_uids = cal_backend_file_get_uids;
 	backend_class->get_objects_in_range = cal_backend_file_get_objects_in_range;
@@ -812,6 +814,40 @@ cal_backend_file_get_object (CalBackend *backend, const char *uid)
 	return cal_component_get_as_string (comp);
 }
 
+/* Get_object handler for the file backend */
+static char *
+cal_backend_file_get_timezone_object (CalBackend *backend, const char *tzid)
+{
+	CalBackendFile *cbfile;
+	CalBackendFilePrivate *priv;
+	icaltimezone *icaltz;
+	icalcomponent *icalcomp;
+	char *ical_string;
+
+	cbfile = CAL_BACKEND_FILE (backend);
+	priv = cbfile->priv;
+
+	g_return_val_if_fail (tzid != NULL, NULL);
+
+	g_return_val_if_fail (priv->icalcomp != NULL, NULL);
+	g_assert (priv->comp_uid_hash != NULL);
+
+	icaltz = icalcomponent_get_timezone (priv->icalcomp, tzid);
+	if (!icaltz)
+		return NULL;
+
+	icalcomp = icaltimezone_get_component (icaltz);
+	if (!icalcomp)
+		return NULL;
+
+	ical_string = icalcomponent_as_ical_string (icalcomp);
+	/* We dup the string; libical owns that memory. */
+	if (ical_string)
+	  return g_strdup (ical_string);
+	else
+	  return NULL;
+}
+
 static CalObjType
 cal_backend_file_get_type_by_uid (CalBackend *backend, const char *uid)
 {
@@ -910,6 +946,20 @@ add_instance (CalComponent *comp, time_t start, time_t end, gpointer data)
 	return FALSE;
 }
 
+
+/* FIXME */
+static icaltimezone*
+resolve_tzid (const char *tzid, gpointer data)
+{
+	icalcomponent *vcalendar_comp = data;
+
+	if (!strcmp (tzid, "UTC"))
+		return icaltimezone_get_utc_timezone ();
+	else
+		return icalcomponent_get_timezone (vcalendar_comp, tzid);
+}
+
+
 /* Populates a hash table with the UIDs of the components that occur or recur
  * within a specific time range.
  */
@@ -920,9 +970,17 @@ get_instances_in_range (GHashTable *uid_hash, GList *components, time_t start, t
 
 	for (l = components; l; l = l->next) {
 		CalComponent *comp;
+		icalcomponent *icalcomp, *vcalendar_comp;
 
 		comp = CAL_COMPONENT (l->data);
-		cal_recur_generate_instances (comp, start, end, add_instance, uid_hash);
+
+		/* Get the parent VCALENDAR component, so we can resolve
+		   TZIDs. */
+		icalcomp = cal_component_get_icalcomponent (comp);
+		vcalendar_comp = icalcomponent_get_parent (icalcomp);
+		g_assert (vcalendar_comp != NULL);
+
+		cal_recur_generate_instances (comp, start, end, add_instance, uid_hash, resolve_tzid, vcalendar_comp);
 	}
 }
 
@@ -1346,7 +1404,7 @@ generate_alarms_for_comp (CalComponent *comp, time_t start, time_t end)
 	aod.end = end;
 	aod.triggers = NULL;
 	aod.n_triggers = 0;
-	cal_recur_generate_instances (comp, alarm_start, alarm_end, add_alarm_occurrences_cb, &aod);
+	cal_recur_generate_instances (comp, alarm_start, alarm_end, add_alarm_occurrences_cb, &aod, resolve_tzid, NULL);
 
 	/* We add the ABSOLUTE triggers separately */
 	generate_absolute_triggers (comp, &aod);
@@ -1564,7 +1622,7 @@ cal_backend_file_update_object (CalBackend *backend, const char *uid, const char
 {
 	CalBackendFile *cbfile;
 	CalBackendFilePrivate *priv;
-	icalcomponent *icalcomp;
+	icalcomponent *icalcomp, *vcalendar_comp = NULL;
 	icalcomponent_kind kind;
 	CalComponent *old_comp;
 	CalComponent *comp;
@@ -1580,16 +1638,51 @@ cal_backend_file_update_object (CalBackend *backend, const char *uid, const char
 
 	/* Pull the component from the string and ensure that it is sane */
 
+	fprintf (stderr, "cal_backend_file: Parsing string:\n%s\n", calobj);
 	icalcomp = icalparser_parse_string ((char *) calobj);
 
 	if (!icalcomp)
 		return FALSE;
 
+	fprintf (stderr, "cal_backend_file: Parsed OK.\n");
+
 	kind = icalcomponent_isa (icalcomp);
 
-	if (!(kind == ICAL_VEVENT_COMPONENT
-	      || kind == ICAL_VTODO_COMPONENT
-	      || kind == ICAL_VJOURNAL_COMPONENT)) {
+	if (kind == ICAL_VCALENDAR_COMPONENT) {
+		int num_found = 0;
+		icalcomponent_kind child_kind;
+		icalcomponent *subcomp;
+
+		fprintf (stderr, "cal_backend_file: VCALENDAR found\n");
+
+		/* We have a VCALENDAR containing the VEVENT/VTODO and the
+		   related timezone data, so we have to step through it to
+		   find the actual VEVENT/VTODO component. */
+		vcalendar_comp = icalcomp;
+
+		subcomp = icalcomponent_get_first_component (vcalendar_comp,
+							     ICAL_ANY_COMPONENT);
+		while (subcomp) {
+			child_kind = icalcomponent_isa (subcomp);
+			if (kind == ICAL_VEVENT_COMPONENT
+			    || kind == ICAL_VTODO_COMPONENT
+			    || kind == ICAL_VJOURNAL_COMPONENT) {
+				icalcomp = subcomp;
+				num_found++;
+			}
+			subcomp = icalcomponent_get_next_component (vcalendar_comp,
+								    ICAL_ANY_COMPONENT);
+		}
+
+		/* If we didn't find exactly 1 VEVENT/VTODO it is an error. */
+		if (num_found != 1) {
+			icalcomponent_free (icalcomp);
+			return FALSE;
+		}
+
+	} else if (!(kind == ICAL_VEVENT_COMPONENT
+		     || kind == ICAL_VTODO_COMPONENT
+		     || kind == ICAL_VJOURNAL_COMPONENT)) {
 		/* We don't support this type of component */
 		icalcomponent_free (icalcomp);
 		return FALSE;
@@ -1618,7 +1711,19 @@ cal_backend_file_update_object (CalBackend *backend, const char *uid, const char
 	if (old_comp)
 		remove_component (cbfile, old_comp);
 
-	add_component (cbfile, comp, TRUE);
+	if (kind == ICAL_VCALENDAR_COMPONENT) {
+		/* If we have a VCALENDAR component with child VTIMEZONEs and
+		   the VEVENT/VTODO, we have to merge it into the existing
+		   VCALENDAR, resolving any conflicting TZIDs. */
+		icalcomponent_merge_component (priv->icalcomp, vcalendar_comp);
+
+		/* Now we add the component to our local cache, but we pass
+		   FALSE as the last argument, since we have already added
+		   the libical component when merging above.*/
+		add_component (cbfile, comp, FALSE);
+	} else {
+		add_component (cbfile, comp, TRUE);
+	}
 
 	mark_dirty (cbfile);
 

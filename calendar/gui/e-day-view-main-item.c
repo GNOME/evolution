@@ -192,7 +192,8 @@ e_day_view_main_item_draw (GnomeCanvasItem *canvas_item, GdkDrawable *drawable,
 	gint work_day_start_y, work_day_end_y;
 	gint day_x, day_w, work_day;
 	gint start_row, end_row, rect_x, rect_y, rect_width, rect_height;
-	struct tm *day_start;
+	struct icaltimetype day_start_tt;
+	gint weekday;
 
 #if 0
 	g_print ("In e_day_view_main_item_draw %i,%i %ix%i\n",
@@ -213,9 +214,10 @@ e_day_view_main_item_draw (GnomeCanvasItem *canvas_item, GdkDrawable *drawable,
 	work_day_end_y = work_day_end_row * day_view->row_height - y;
 
 	for (day = 0; day < day_view->days_shown; day++) {
-		day_start = localtime (&day_view->day_starts[day]);
-
-		work_day = day_view->working_days & (1 << day_start->tm_wday);
+		day_start_tt = icaltime_from_timet_with_zone (day_view->day_starts[day], FALSE, day_view->zone);
+		weekday = icaltime_day_of_week (day_start_tt) - 1;
+		
+		work_day = day_view->working_days & (1 << weekday);
 
 		day_x = day_view->day_offsets[day] - x;
 		day_w = day_view->day_widths[day];

@@ -138,6 +138,7 @@ cal_backend_class_init (CalBackendClass *class)
 	class->is_loaded = NULL;
 	class->get_n_objects = NULL;
 	class->get_object = NULL;
+	class->get_timezone_object = NULL;
 	class->get_type_by_uid = NULL;
 	class->get_uids = NULL;
 	class->get_objects_in_range = NULL;
@@ -278,6 +279,28 @@ cal_backend_get_object (CalBackend *backend, const char *uid)
 
 	g_assert (CLASS (backend)->get_object != NULL);
 	return (* CLASS (backend)->get_object) (backend, uid);
+}
+
+/**
+ * cal_backend_get_timezone_object:
+ * @backend: A calendar backend.
+ * @tzid: Unique identifier for a calendar VTIMEZONE object.
+ *
+ * Queries a calendar backend for a VTIMEZONE calendar object based on its
+ * unique TZID identifier.
+ *
+ * Return value: The string representation of a VTIMEZONE component, or NULL
+ * if no VTIMEZONE object had the specified TZID.
+ **/
+char *
+cal_backend_get_timezone_object (CalBackend *backend, const char *tzid)
+{
+	g_return_val_if_fail (backend != NULL, NULL);
+	g_return_val_if_fail (IS_CAL_BACKEND (backend), NULL);
+	g_return_val_if_fail (tzid != NULL, NULL);
+
+	g_assert (CLASS (backend)->get_timezone_object != NULL);
+	return (* CLASS (backend)->get_timezone_object) (backend, tzid);
 }
 
 /**

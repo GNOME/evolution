@@ -156,10 +156,12 @@ generate_occurrences	(icalcomponent	*icalcomp)
 		   in one of the calendar views. */
 #if 0
 		cal_recur_generate_instances (comp, 982022400, 982108800,
-					      occurrence_cb, &occurrences);
+					      occurrence_cb, &occurrences,
+					      NULL, NULL);
 #else
 		cal_recur_generate_instances (comp, -1, -1,
-					      occurrence_cb, &occurrences);
+					      occurrence_cb, &occurrences,
+					      NULL, NULL);
 #endif
 
 		/* Print the component again so we can see the

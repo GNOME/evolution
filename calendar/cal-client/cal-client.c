@@ -58,6 +58,10 @@ struct _CalClientPrivate {
 
 	/* The WombatClient */
 	WombatClient *w_client;
+
+	/* A cache of timezones retrieved from the server, to avoid getting
+	   them repeatedly for each get_object() call. */
+	GHashTable *timezones;
 };
 
 
@@ -180,6 +184,7 @@ cal_client_init (CalClient *client)
 	priv->load_state = CAL_CLIENT_LOAD_NOT_LOADED;
 	priv->uri = NULL;
 	priv->factory = CORBA_OBJECT_NIL;
+	priv->timezones = g_hash_table_new (g_str_hash, g_str_equal);
 
 	/* create the WombatClient */
 	priv->w_client = wombat_client_new (
@@ -291,6 +296,14 @@ destroy_cal (CalClient *client)
 
 }
 
+static void
+free_timezone (gpointer key, gpointer value, gpointer data)
+{
+	/* Note that the key comes from within the icaltimezone value, so we
+	   don't free that. */
+	icaltimezone_free (value);
+}
+
 /* Destroy handler for the calendar client */
 static void
 cal_client_destroy (GtkObject *object)
@@ -315,6 +328,10 @@ cal_client_destroy (GtkObject *object)
 		g_free (priv->uri);
 		priv->uri = NULL;
 	}
+
+	g_hash_table_foreach (priv->timezones, free_timezone, NULL);
+	g_hash_table_destroy (priv->timezones);
+	priv->timezones = NULL;
 
 	g_free (priv);
 	client->priv = NULL;
@@ -803,6 +820,109 @@ cal_client_get_object (CalClient *client, const char *uid, CalComponent **comp)
 	CORBA_exception_free (&ev);
 	return retval;
 }
+
+CalClientGetStatus
+cal_client_get_timezone (CalClient *client,
+			 const char *tzid,
+			 icaltimezone **zone)
+{
+	CalClientPrivate *priv;
+	CORBA_Environment ev;
+	GNOME_Evolution_Calendar_CalObj comp_str;
+	CalClientGetStatus retval;
+	icalcomponent *icalcomp;
+	icaltimezone *tmp_zone;
+
+	g_return_val_if_fail (client != NULL, CAL_CLIENT_GET_NOT_FOUND);
+	g_return_val_if_fail (IS_CAL_CLIENT (client), CAL_CLIENT_GET_NOT_FOUND);
+
+	priv = client->priv;
+	g_return_val_if_fail (priv->load_state == CAL_CLIENT_LOAD_LOADED,
+			      CAL_CLIENT_GET_NOT_FOUND);
+
+	g_return_val_if_fail (zone != NULL, CAL_CLIENT_GET_NOT_FOUND);
+
+	/* If tzid is NULL or "" we return NULL, since it is a 'local time'. */
+	if (!tzid || !tzid[0]) {
+		*zone = NULL;
+		return CAL_CLIENT_GET_SUCCESS;
+	}
+
+	/* If it is UTC, we return the special UTC timezone. */
+	if (!strcmp (tzid, "UTC")) {
+		*zone = icaltimezone_get_utc_timezone ();
+		return CAL_CLIENT_GET_SUCCESS;
+	}
+
+	/* See if we already have it in the cache. */
+	tmp_zone = g_hash_table_lookup (priv->timezones, tzid);
+	if (tmp_zone) {
+		*zone = tmp_zone;
+		return CAL_CLIENT_GET_SUCCESS;
+	}
+
+	retval = CAL_CLIENT_GET_NOT_FOUND;
+	*zone = NULL;
+
+	/* We don't already have it, so we try to get it from the server. */
+	CORBA_exception_init (&ev);
+	comp_str = GNOME_Evolution_Calendar_Cal_getTimezoneObject (priv->cal, (char *) tzid, &ev);
+
+	if (ev._major == CORBA_USER_EXCEPTION
+	    && strcmp (CORBA_exception_id (&ev), ex_GNOME_Evolution_Calendar_Cal_NotFound) == 0)
+		goto out;
+	else if (ev._major != CORBA_NO_EXCEPTION) {
+		g_message ("cal_client_get_timezone(): could not get the object");
+		goto out;
+	}
+
+	icalcomp = icalparser_parse_string (comp_str);
+	CORBA_free (comp_str);
+
+	if (!icalcomp) {
+		retval = CAL_CLIENT_GET_SYNTAX_ERROR;
+		goto out;
+	}
+
+	tmp_zone = icaltimezone_new ();
+	if (!tmp_zone) {
+		/* FIXME: Needs better error code - out of memory. Or just
+		   abort like GTK+ does? */
+		retval = CAL_CLIENT_GET_NOT_FOUND;
+		goto out;
+	}
+
+	if (!icaltimezone_set_component (tmp_zone, icalcomp)) {
+		retval = CAL_CLIENT_GET_SYNTAX_ERROR;
+		goto out;
+	}
+
+	/* Now add it to the cache, to avoid the server call in future. */
+	g_hash_table_insert (priv->timezones, icaltimezone_get_tzid (tmp_zone),
+			     tmp_zone);
+
+	*zone = tmp_zone;
+	retval = CAL_CLIENT_GET_SUCCESS;
+
+ out:
+
+	CORBA_exception_free (&ev);
+	return retval;
+}
+
+/* Resolves TZIDs for the recurrence generator. */
+icaltimezone*
+cal_client_resolve_tzid (const char *tzid, CalClient *client)
+{
+	icaltimezone *zone = NULL;
+	CalClientGetStatus status;
+
+	/* FIXME: Handle errors. */
+	status = cal_client_get_timezone (client, tzid, &zone);
+
+	return zone;
+}
+
 
 /* Builds an UID list out of a CORBA UID sequence */
 static GList *
@@ -1310,7 +1430,7 @@ cal_client_generate_instances (CalClient *client, CalObjType type,
 		CalComponent *comp;
 
 		comp = l->data;
-		cal_recur_generate_instances (comp, start, end, add_instance, &instances);
+		cal_recur_generate_instances (comp, start, end, add_instance, &instances, (CalRecurResolveTimezoneFn) cal_client_resolve_tzid, client);
 		gtk_object_unref (GTK_OBJECT (comp));
 	}
 
@@ -1570,6 +1690,135 @@ cal_client_get_alarms_for_object (CalClient *client, const char *uid,
 	return retval;
 }
 
+typedef struct _ForeachTZIDCallbackData ForeachTZIDCallbackData;
+struct _ForeachTZIDCallbackData {
+	CalClient *client;
+	GHashTable *timezone_hash;
+};
+
+/* This adds the VTIMEZONE given by the TZID parameter to the GHashTable in
+   data. */
+static void
+foreach_tzid_callback (icalparameter *param, void *cbdata)
+{
+	ForeachTZIDCallbackData *data = cbdata;
+	CalClientPrivate *priv;
+	const char *tzid;
+	icaltimezone *zone;
+	icalcomponent *vtimezone_comp;
+	char *vtimezone_as_string;
+
+	priv = data->client->priv;
+
+	/* Get the TZID string from the parameter. */
+	tzid = icalparameter_get_tzid (param);
+	if (!tzid)
+		return;
+
+	/* Check if it is in our cache. If it is, it must already be on the
+	   server so return. */
+	if (g_hash_table_lookup (priv->timezones, tzid))
+		return;
+
+	/* Check if we've already added it to the GHashTable. */
+	if (g_hash_table_lookup (data->timezone_hash, tzid))
+		return;
+
+	/* Check if it is a builtin timezone. If it isn't, return. */
+	zone = icaltimezone_get_builtin_timezone_from_tzid (tzid);
+	if (!zone)
+		return;
+
+	/* Convert it to a string and add it to the hash. */
+	vtimezone_comp = icaltimezone_get_component (zone);
+	if (!vtimezone_comp)
+		return;
+
+	vtimezone_as_string = icalcomponent_as_ical_string (vtimezone_comp);
+
+	g_hash_table_insert (data->timezone_hash, (char*) tzid,
+			     g_strdup (vtimezone_as_string));
+}
+
+/* This appends the value string to the GString given in data. */
+static void
+append_timezone_string (gpointer key, gpointer value, gpointer data)
+{
+	GString *vcal_string = data;
+
+	g_string_append (vcal_string, value);
+	g_free (value);
+}
+
+
+/* This converts the VEVENT/VTODO to a string. It checks if we need to send
+   any builtin timezones to the server along with the object.
+   To do that we check every TZID in the component to see if it is a builtin
+   timezone. If it is, we see if it it in our cache. If it is in our cache,
+   then we know the server already has it and we don't need to send it.
+   If it isn't in our cache, then we need to send it to the server, and we
+   can add it to the cache as well. If we need to send any timezones to the
+   server, then we have to create a complete VCALENDAR object, otherwise
+   we can just send a single VEVENT/VTODO as before. */
+static char*
+cal_client_get_component_as_string (CalClient *client,
+				    CalComponent *comp)
+{
+	GHashTable *timezone_hash;
+	GString *vcal_string;
+	int initial_vcal_string_len;
+	ForeachTZIDCallbackData cbdata;
+	char *obj_string;
+
+	CalClientPrivate *priv;
+
+	priv = client->priv;
+
+	timezone_hash = g_hash_table_new (g_str_hash, g_str_equal);
+
+	/* Add any builtin timezones needed to the hash. We use a hash since
+	   we only want to add each timezone once at most. */
+	cbdata.client = client;
+	cbdata.timezone_hash = timezone_hash;
+	icalcomponent_foreach_tzid (cal_component_get_icalcomponent (comp),
+				    foreach_tzid_callback, &cbdata);
+
+	/* Create the start of a VCALENDAR, to add the VTIMEZONES to,
+	   and remember its length so we know if any VTIMEZONEs get added. */
+	vcal_string = g_string_new (NULL);
+	g_string_append (vcal_string,
+			 "BEGIN:VCALENDAR\n"
+			 "PRODID:-//Ximian//NONSGML Evolution Calendar//EN\n"
+			 "VERSION:2.0\n");
+	initial_vcal_string_len = vcal_string->len;
+
+	/* Now concatenate all the timezone strings. This also frees the
+	   timezone strings as it goes. */
+	g_hash_table_foreach (timezone_hash, append_timezone_string,
+			      vcal_string);
+
+	/* Get the string for the VEVENT/VTODO. */
+	obj_string = cal_component_get_as_string (comp);
+
+	/* If there were any timezones to send, create a complete VCALENDAR,
+	   else just send the VEVENT/VTODO string. */
+	if (vcal_string->len == initial_vcal_string_len) {
+		g_string_free (vcal_string, TRUE);
+	} else {
+		g_string_append (vcal_string, obj_string);
+		g_string_append (vcal_string, "END:VCALENDAR\n");
+		g_free (obj_string);
+		obj_string = vcal_string->str;
+		g_string_free (vcal_string, FALSE);
+	}
+
+	g_hash_table_destroy (timezone_hash);
+
+	fprintf (stderr, "Object String:\n=======\n%s======\n", obj_string);
+
+	return obj_string;
+}
+
 /**
  * cal_client_update_object:
  * @client: A calendar client.
@@ -1602,9 +1851,10 @@ cal_client_update_object (CalClient *client, CalComponent *comp)
 	retval = FALSE;
 
 	cal_component_commit_sequence (comp);
-	obj_string = cal_component_get_as_string (comp);
 
 	cal_component_get_uid (comp, &uid);
+
+	obj_string = cal_client_get_component_as_string (client, comp);
 
 	CORBA_exception_init (&ev);
 	GNOME_Evolution_Calendar_Cal_updateObject (priv->cal, (char *) uid, obj_string, &ev);

@@ -67,9 +67,9 @@ struct _ETimezoneEntryClass {
 guint      e_timezone_entry_get_type		(void);
 GtkWidget* e_timezone_entry_new			(void);
 
-char*	   e_timezone_entry_get_timezone	(ETimezoneEntry	*tentry);
-void	   e_timezone_entry_set_timezone	(ETimezoneEntry	*tentry,
-						 char		*timezone);
+icaltimezone*   e_timezone_entry_get_timezone	(ETimezoneEntry	*tentry);
+void		e_timezone_entry_set_timezone	(ETimezoneEntry	*tentry,
+						 icaltimezone	*zone);
 
 END_GNOME_DECLS
 

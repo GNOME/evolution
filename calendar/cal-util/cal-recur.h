@@ -35,6 +35,9 @@ typedef gboolean (* CalRecurInstanceFn) (CalComponent *comp,
 					 time_t        instance_end,
 					 gpointer      data);
 
+typedef icaltimezone* (* CalRecurResolveTimezoneFn)	(const char   *tzid,
+							 gpointer      data);
+
 /*
  * Calls the given callback function for each occurrence of the event that
  * intersects the range between the given start and end times (the end time is
@@ -45,12 +48,18 @@ typedef gboolean (* CalRecurInstanceFn) (CalComponent *comp,
  *
  * Both start and end can be -1, in which case we start at the events first
  * instance and continue until it ends, or forever if it has no enddate.
+ *
+ * The tz_cb is used to resolve references to timezones. It is passed a TZID
+ * and should return the icaltimezone* corresponding to that TZID. We need to
+ * do this as we access timezones in different ways on the client & server.
  */
 void	cal_recur_generate_instances	(CalComponent		*comp,
 					 time_t			 start,
 					 time_t			 end,
 					 CalRecurInstanceFn	 cb,
-					 gpointer                cb_data);
+					 gpointer                cb_data,
+					 CalRecurResolveTimezoneFn tz_cb,
+					 gpointer		   tz_cb_data);
 
 END_GNOME_DECLS
 

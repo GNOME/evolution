@@ -390,14 +390,16 @@ cal_prefs_dialog_show_config	(CalPrefsDialog	*prefs)
 	CalPrefsDialogPrivate *priv;
 	CalWeekdays working_days;
 	gint mask, day, week_start_day, time_divisions;
-	char *zone;
+	char *zone_name;
+	icaltimezone *zone;
 
 	priv = prefs->priv;
 
 	/* Timezone. */
-	zone = calendar_config_get_timezone ();
+	zone_name = calendar_config_get_timezone ();
+	zone = icaltimezone_get_builtin_timezone (zone_name);
 	e_timezone_entry_set_timezone (E_TIMEZONE_ENTRY (priv->timezone),
-				       zone ? zone : "");
+				       zone);
 
 	/* Working Days. */
 	working_days = calendar_config_get_working_days ();
@@ -482,13 +484,13 @@ cal_prefs_dialog_update_config	(CalPrefsDialog	*prefs)
 	CalPrefsDialogPrivate *priv;
 	CalWeekdays working_days;
 	gint mask, day, week_start_day, time_divisions, hour, minute;
-	char *zone;
+	icaltimezone *zone;
 
 	priv = prefs->priv;
 
 	/* Timezone. */
 	zone = e_timezone_entry_get_timezone (E_TIMEZONE_ENTRY (priv->timezone));
-	calendar_config_set_timezone (zone);
+	calendar_config_set_timezone (icaltimezone_get_location (zone));
 
 	/* Working Days. */
 	working_days = 0;

@@ -18,6 +18,7 @@
 #include <libgnomeui/gnome-dialog.h>
 #include <glade/glade.h>
 #include "calendar-commands.h"
+#include "calendar-config.h"
 #include "tag-calendar.h"
 #include "goto.h"
 
@@ -83,16 +84,47 @@ ecal_event (ECalendarItem *calitem, gpointer user_data)
 {
 	GoToDialog *dlg = user_data;
 	GDate start_date, end_date;
-	struct tm tm;
+	struct icaltimetype tt = icaltime_null_time ();
 	time_t et;
 	
 	e_calendar_item_get_selection (calitem, &start_date, &end_date);
-	g_date_to_struct_tm (&start_date, &tm);
-	et = mktime (&tm);
-	
+
+	tt.year = g_date_year (&start_date);
+	tt.month = g_date_month (&start_date);
+	tt.day = g_date_day (&start_date);
+
+	et = icaltime_as_timet_with_zone (tt, gnome_calendar_get_timezone (dlg->gcal));
+
 	gnome_calendar_goto (dlg->gcal, et);
 
 	gnome_dialog_close (GNOME_DIALOG (dlg->dialog));
+}
+
+/* Returns the current time, for the ECalendarItem. */
+static struct tm
+get_current_time (ECalendarItem *calitem, gpointer data)
+{
+	char *location;
+	icaltimezone *zone;
+	struct tm tmp_tm = { 0 };
+	struct icaltimetype tt;
+
+	/* Get the current timezone. */
+	location = calendar_config_get_timezone ();
+	zone = icaltimezone_get_builtin_timezone (location);
+
+	tt = icaltime_from_timet_with_zone (time (NULL), FALSE, zone);
+
+	/* Now copy it to the struct tm and return it. */
+	tmp_tm.tm_year  = tt.year - 1900;
+	tmp_tm.tm_mon   = tt.month - 1;
+	tmp_tm.tm_mday  = tt.day;
+	tmp_tm.tm_hour  = tt.hour;
+	tmp_tm.tm_min   = tt.minute;
+	tmp_tm.tm_sec   = tt.second;
+	tmp_tm.tm_isdst = -1;
+
+	return tmp_tm;
 }
 
 /* Creates the ecalendar */
@@ -109,6 +141,9 @@ create_ecal (GoToDialog *dlg)
 	gtk_box_pack_start (GTK_BOX (dlg->vbox), GTK_WIDGET (dlg->ecal), TRUE, TRUE, 0);
 
 	e_calendar_item_set_first_month (calitem, dlg->year_val, dlg->month_val);
+	e_calendar_item_set_get_time_callback (calitem,
+					       get_current_time,
+					       dlg, NULL);
 	
 	ecal_date_range_changed (calitem, dlg);
 }
@@ -171,7 +206,7 @@ goto_dialog (GnomeCalendar *gcal)
 {
 	GtkWidget *menu;
 	time_t start_time;
-	struct tm tm;
+	struct icaltimetype tt;
 	int b;
 
 	if (dlg) {
@@ -196,10 +231,10 @@ goto_dialog (GnomeCalendar *gcal)
 	dlg->gcal = gcal;
 
 	gnome_calendar_get_selected_time_range (dlg->gcal, &start_time, NULL);
-	tm = *localtime (&start_time);
-	dlg->year_val = tm.tm_year + 1900;
-	dlg->month_val = tm.tm_mon;
-	dlg->day_val = tm.tm_mday;
+	tt = icaltime_from_timet_with_zone (start_time, FALSE, gnome_calendar_get_timezone (gcal));
+	dlg->year_val = tt.year;
+	dlg->month_val = tt.month - 1;
+	dlg->day_val = tt.day;
 
 	menu = gtk_option_menu_get_menu (GTK_OPTION_MENU (dlg->month));
 	gtk_option_menu_set_history (GTK_OPTION_MENU (dlg->month), dlg->month_val);

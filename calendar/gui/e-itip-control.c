@@ -502,6 +502,7 @@ write_label_piece (time_t t, char *buffer, int size, char *stext, char *etext)
 	struct tm *tmp_tm;
 	int len;
 	
+	/* FIXME: Convert to an appropriate timezone. */
 	tmp_tm = localtime (&t);
 	if (stext != NULL)
 		strcat (buffer, stext);
@@ -522,6 +523,7 @@ set_date_label (GtkWidget *lbl, CalComponent *comp)
 	time_t start = 0, end = 0, complete = 0, due = 0;
 	static char buffer[1024];
 
+	/* FIXME: timezones. */
 	cal_component_get_dtstart (comp, &datetime);
 	if (datetime.value)
 		start = icaltime_as_timet (*datetime.value);
@@ -905,6 +907,7 @@ send_freebusy (EItipControl *itip)
 
 	priv = itip->priv;
 	
+	/* FIXME: timezones. */
 	cal_component_get_dtstart (priv->comp, &datetime);
 	start = icaltime_as_timet (*datetime.value);
 	cal_component_get_dtend (priv->comp, &datetime);

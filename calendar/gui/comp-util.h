@@ -25,6 +25,6 @@
 
 #include <cal-util/cal-component.h>
 
-void cal_comp_util_add_exdate (CalComponent *comp, struct icaltimetype itt);
+void cal_comp_util_add_exdate (CalComponent *comp, time_t t, icaltimezone *zone);
 
 #endif

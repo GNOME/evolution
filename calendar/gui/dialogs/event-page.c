@@ -232,22 +232,20 @@ static void
 check_all_day (EventPage *epage)
 {
 	EventPagePrivate *priv;
-	time_t ev_start, ev_end;
-	gboolean all_day = FALSE;
+	gboolean all_day = FALSE, start_set, end_set;
+	gint start_hour, start_minute, end_hour, end_minute;
 
 	priv = epage->priv;
 
-	/* Currently we just return if the date is not set or not valid.
-	   I'm not entirely sure this is the corrent thing to do. */
-	ev_start = e_date_edit_get_time (E_DATE_EDIT (priv->start_time));
-	g_assert (ev_start != -1);
+	start_set = e_date_edit_get_time_of_day (E_DATE_EDIT (priv->start_time),
+						 &start_hour, &start_minute);
 
-	ev_end = e_date_edit_get_time (E_DATE_EDIT (priv->end_time));
-	g_assert (ev_end != -1);
+	end_set = e_date_edit_get_time_of_day (E_DATE_EDIT (priv->end_time),
+					       &end_hour, &end_minute);
 
 	/* all day event checkbox */
-	if (time_day_begin (ev_start) == ev_start 
-	    && time_day_begin (ev_end) == ev_end)
+	if ((!start_set || (start_hour == 0 && start_minute == 0))
+	    && (!end_set || (end_hour == 0 && end_minute == 0)))
 		all_day = TRUE;
 
 	gtk_signal_handler_block_by_data (GTK_OBJECT (priv->all_day_event),
@@ -265,11 +263,8 @@ static void
 clear_widgets (EventPage *epage)
 {
 	EventPagePrivate *priv;
-	time_t now;
 
 	priv = epage->priv;
-
-	now = time (NULL);
 
 	/* Summary, description */
 	e_dialog_editable_set (priv->summary, NULL);
@@ -280,8 +275,8 @@ clear_widgets (EventPage *epage)
 					  epage);
 	gtk_signal_handler_block_by_data (GTK_OBJECT (priv->end_time), epage);
 
-	e_date_edit_set_time (E_DATE_EDIT (priv->start_time), now);
-	e_date_edit_set_time (E_DATE_EDIT (priv->end_time), now);
+	e_date_edit_set_time (E_DATE_EDIT (priv->start_time), 0);
+	e_date_edit_set_time (E_DATE_EDIT (priv->end_time), 0);
 
 	gtk_signal_handler_unblock_by_data (GTK_OBJECT (priv->start_time),
 					    epage);
@@ -306,10 +301,14 @@ event_page_fill_widgets (CompEditorPage *page, CalComponent *comp)
 	EventPagePrivate *priv;
 	CalComponentText text;
 	CalComponentClassification cl;
-	CalComponentDateTime d;
+	CalComponentDateTime start_date, end_date;
 	GSList *l;
-	time_t dtstart, dtend;
 	const char *categories;
+	CalClientGetStatus status;
+	struct icaltimetype *start_tt, *end_tt;
+	icaltimezone *start_zone = NULL, *end_zone = NULL;
+
+	g_return_if_fail (page->client != NULL);
 
 	epage = EVENT_PAGE (page);
 	priv = epage->priv;
@@ -334,40 +333,63 @@ event_page_fill_widgets (CompEditorPage *page, CalComponent *comp)
 
 	/* Start and end times */
 
+	cal_component_get_dtstart (comp, &start_date);
+	status = cal_client_get_timezone (page->client, start_date.tzid,
+					  &start_zone);
+	/* FIXME: Handle error better. */
+	if (status != CAL_CLIENT_GET_SUCCESS)
+		g_warning ("Couldn't get timezone from server: %s",
+			   start_date.tzid ? start_date.tzid : "");
+
+	cal_component_get_dtend (comp, &end_date);
+	status = cal_client_get_timezone (page->client, end_date.tzid, &end_zone);
+	/* FIXME: Handle error better. */
+	if (status != CAL_CLIENT_GET_SUCCESS)
+	  g_warning ("Couldn't get timezone from server: %s",
+		     end_date.tzid ? end_date.tzid : "");
+
 	/* All-day events are inclusive, i.e. if the end date shown is 2nd Feb
 	   then the event includes all of the 2nd Feb. We would normally show
 	   3rd Feb as the end date, since it really ends at midnight on 3rd,
 	   so we have to subtract a day so we only show the 2nd. */
-	cal_component_get_dtstart (comp, &d);
-	dtstart = icaltime_as_timet (*d.value);
-	cal_component_free_datetime (&d);
-
-	cal_component_get_dtend (comp, &d);
-	dtend = icaltime_as_timet (*d.value);
-	cal_component_free_datetime (&d);
-
-	if (time_day_begin (dtstart) == dtstart 
-	    && time_day_begin (dtend) == dtend)
-		dtend = time_add_day (dtend, -1);
+	start_tt = start_date.value;
+	end_tt = end_date.value;
+	if (start_tt->hour == 0 && start_tt->minute == 0 && start_tt->second == 0
+	    && end_tt->hour == 0 && end_tt->minute == 0 && end_tt->second == 0)
+		icaltime_adjust (end_tt, 1, 0, 0, 0);
 
 	gtk_signal_handler_block_by_data (GTK_OBJECT (priv->start_time),
 					  epage);
 	gtk_signal_handler_block_by_data (GTK_OBJECT (priv->end_time), epage);
 
-	e_date_edit_set_time (E_DATE_EDIT (priv->start_time), dtstart);
-	e_date_edit_set_time (E_DATE_EDIT (priv->end_time), dtend);
+	e_date_edit_set_date (E_DATE_EDIT (priv->start_time), start_tt->year,
+			      start_tt->month, start_tt->day);
+	e_date_edit_set_time_of_day (E_DATE_EDIT (priv->start_time),
+				     start_tt->hour, start_tt->minute);
+
+	e_date_edit_set_date (E_DATE_EDIT (priv->end_time), end_tt->year,
+			      end_tt->month, end_tt->day);
+	e_date_edit_set_time_of_day (E_DATE_EDIT (priv->end_time),
+				     end_tt->hour, end_tt->minute);
 
 	gtk_signal_handler_unblock_by_data (GTK_OBJECT (priv->start_time),
 					    epage);
 	gtk_signal_handler_unblock_by_data (GTK_OBJECT (priv->end_time),
 					    epage);
 
+	cal_component_free_datetime (&start_date);
+	cal_component_free_datetime (&end_date);
+
 	check_all_day (epage);
 
-	/* FIXME: Get the timezones from the event and put them in the
-	   widgets. Set sync_timezones to TRUE if both timezones are the same.
-	*/
-	priv->sync_timezones = TRUE;
+	/* Set the timezones, and set sync_timezones to TRUE if both timezones
+	   are the same. */
+	e_timezone_entry_set_timezone (E_TIMEZONE_ENTRY (priv->start_timezone),
+				       start_zone);
+	e_timezone_entry_set_timezone (E_TIMEZONE_ENTRY (priv->end_timezone),
+				       end_zone);
+	priv->sync_timezones = (start_zone == end_zone) ? TRUE : FALSE;
+
 
 	/* Classification */
 
@@ -413,10 +435,10 @@ event_page_fill_component (CompEditorPage *page, CalComponent *comp)
 	EventPagePrivate *priv;
 	CalComponentDateTime date;
 	struct icaltimetype icaltime;
-	time_t t;
-	gboolean all_day_event;
+	gboolean all_day_event, date_set;
 	char *cat, *str;
 	CalComponentClassification classif;
+	icaltimezone *zone;
 
 	epage = EVENT_PAGE (page);
 	priv = epage->priv;
@@ -463,27 +485,50 @@ event_page_fill_component (CompEditorPage *page, CalComponent *comp)
 	date.value = &icaltime;
 	date.tzid = NULL;
 
-	t = e_date_edit_get_time (E_DATE_EDIT (priv->start_time));
-	if (t != -1) {
-		*date.value = icaltime_from_timet (t, FALSE);
-		cal_component_set_dtstart (comp, &date);
-	} else {
-		/* FIXME: What do we do here? */
-	}
+	icaltime.is_utc = 0;
+	/* FIXME: We should use is_date at some point. */
+	icaltime.is_date = 0;
+	icaltime.is_daylight = 0;
+	icaltime.second = 0;
+
+	date_set = e_date_edit_get_date (E_DATE_EDIT (priv->start_time),
+					 &icaltime.year,
+					 &icaltime.month,
+					 &icaltime.day);
+	e_date_edit_get_time_of_day (E_DATE_EDIT (priv->start_time),
+				     &icaltime.hour,
+				     &icaltime.minute);
+	g_assert (date_set);
+	zone = e_timezone_entry_get_timezone (E_TIMEZONE_ENTRY (priv->start_timezone));
+	if (zone)
+		date.tzid = icaltimezone_get_tzid (zone);
+	cal_component_set_dtstart (comp, &date);
 
 	/* If the all_day toggle is set, the end date is inclusive of the
 	   entire day on which it points to. */
 	all_day_event = e_dialog_toggle_get (priv->all_day_event);
-	t = e_date_edit_get_time (E_DATE_EDIT (priv->end_time));
-	if (t != -1) {
-		if (all_day_event)
-			t = time_day_end (t);
 
-		*date.value = icaltime_from_timet (t, FALSE);
-		cal_component_set_dtend (comp, &date);
-	} else {
-		/* FIXME: What do we do here? */
+	date_set = e_date_edit_get_date (E_DATE_EDIT (priv->end_time),
+					 &icaltime.year,
+					 &icaltime.month,
+					 &icaltime.day);
+	e_date_edit_get_time_of_day (E_DATE_EDIT (priv->end_time),
+				     &icaltime.hour,
+				     &icaltime.minute);
+	g_assert (date_set);
+
+	if (all_day_event) {
+		icaltime.hour = 0;
+		icaltime.minute = 0;
+		icaltime.second = 0;
+		icaltime_adjust (&icaltime, 1, 0, 0, 0);
 	}
+
+	zone = e_timezone_entry_get_timezone (E_TIMEZONE_ENTRY (priv->end_timezone));
+	if (zone)
+	  date.tzid = icaltimezone_get_tzid (zone);
+	cal_component_set_dtend (comp, &date);
+
 
 	/* Categories */
 
@@ -606,9 +651,11 @@ date_changed_cb (EDateEdit *dedit, gpointer data)
 {
 	EventPage *epage;
 	EventPagePrivate *priv;
-	time_t start, end;
-	struct tm tm_start, tm_end;
 	CompEditorPageDates dates;
+	struct icaltimetype start_tt = icaltime_null_time();
+	struct icaltimetype end_tt = icaltime_null_time();
+	int cmp;
+	gboolean date_set;
 	
 	epage = EVENT_PAGE (data);
 	priv = epage->priv;
@@ -617,49 +664,67 @@ date_changed_cb (EDateEdit *dedit, gpointer data)
 		return;
 
 	/* Ensure that start < end */
-	start = e_date_edit_get_time (E_DATE_EDIT (priv->start_time));
-	g_assert (start != -1);
-	end = e_date_edit_get_time (E_DATE_EDIT (priv->end_time));
-	g_assert (end != -1);
+	date_set = e_date_edit_get_date (E_DATE_EDIT (priv->start_time),
+					 &start_tt.year,
+					 &start_tt.month,
+					 &start_tt.day);
+	e_date_edit_get_time_of_day (E_DATE_EDIT (priv->start_time),
+				     &start_tt.hour,
+				     &start_tt.minute);
+	g_assert (date_set);
 
-	if (start >= end) {
-		tm_start = *localtime (&start);
-		tm_end = *localtime (&end);
+	date_set = e_date_edit_get_date (E_DATE_EDIT (priv->end_time),
+					 &end_tt.year,
+					 &end_tt.month,
+					 &end_tt.day);
+	e_date_edit_get_time_of_day (E_DATE_EDIT (priv->end_time),
+				     &end_tt.hour,
+				     &end_tt.minute);
+	g_assert (date_set);
 
-		if (start == end && tm_start.tm_hour == 0
-		    && tm_start.tm_min == 0 && tm_start.tm_sec == 0) {
+	cmp = icaltime_compare (start_tt, end_tt);
+	if (cmp >= 0) {
+		if (cmp == 0 && start_tt.hour == 0
+		    && start_tt.minute == 0
+		    && start_tt.second == 0) {
 			/* If the start and end times are the same, but both
 			 * are on day boundaries, then that is OK since it 
 			 * means we have an all-day event lasting 1 day.  So
 			 * we do nothing here.
 			 */
 		} else if (GTK_WIDGET (dedit) == priv->start_time) {
-			/* Modify the end time */
+			/* Modify the end time, to be the start + 1 hour. */
 
-			tm_end.tm_year = tm_start.tm_year;
-			tm_end.tm_mon  = tm_start.tm_mon;
-			tm_end.tm_mday = tm_start.tm_mday;
-			tm_end.tm_hour = tm_start.tm_hour + 1;
-			tm_end.tm_min  = tm_start.tm_min;
-			tm_end.tm_sec  = tm_start.tm_sec;
+			end_tt = start_tt;
+			icaltime_adjust (&end_tt, 0, 1, 0, 0);
 
 			gtk_signal_handler_block_by_data (GTK_OBJECT (priv->end_time), epage);
-			end = mktime (&tm_end);
-			e_date_edit_set_time (E_DATE_EDIT (priv->end_time), end);
+
+			e_date_edit_set_date (E_DATE_EDIT (priv->end_time),
+					      end_tt.year,
+					      end_tt.month,
+					      end_tt.day);
+			e_date_edit_set_time_of_day (E_DATE_EDIT (priv->end_time),
+						     end_tt.hour,
+						     end_tt.minute);
+
 			gtk_signal_handler_unblock_by_data (GTK_OBJECT (priv->end_time), epage);
 		} else if (GTK_WIDGET (dedit) == priv->end_time) {
-			/* Modify the start time */
+			/* Modify the start time, to be the end - 1 hour. */
 
-			tm_start.tm_year = tm_end.tm_year;
-			tm_start.tm_mon  = tm_end.tm_mon;
-			tm_start.tm_mday = tm_end.tm_mday;
-			tm_start.tm_hour = tm_end.tm_hour - 1;
-			tm_start.tm_min  = tm_end.tm_min;
-			tm_start.tm_sec  = tm_end.tm_sec;
+			start_tt = end_tt;
+			icaltime_adjust (&start_tt, 0, -1, 0, 0);
 
 			gtk_signal_handler_block_by_data (GTK_OBJECT (priv->start_time), epage);
-			start = mktime (&tm_start);
-			e_date_edit_set_time (E_DATE_EDIT (priv->start_time), start);
+
+			e_date_edit_set_date (E_DATE_EDIT (priv->start_time),
+					      start_tt.year,
+					      start_tt.month,
+					      start_tt.day);
+			e_date_edit_set_time_of_day (E_DATE_EDIT (priv->start_time),
+						     start_tt.hour,
+						     start_tt.minute);
+
 			gtk_signal_handler_unblock_by_data (GTK_OBJECT (priv->start_time), epage);
 		} else
 			g_assert_not_reached ();
@@ -669,10 +734,10 @@ date_changed_cb (EDateEdit *dedit, gpointer data)
 	check_all_day (epage);
 
 	/* Notify upstream */
-	dates.start = start;
-	dates.end = end;
-	dates.due = 0;
-	dates.complete = 0;
+	dates.start = &start_tt;
+	dates.end = &end_tt;
+	dates.due = NULL;
+	dates.complete = NULL;
 	comp_editor_page_notify_dates_changed (COMP_EDITOR_PAGE (epage),
 					       &dates);
 }
@@ -686,7 +751,7 @@ start_timezone_changed_cb (GtkWidget *widget, gpointer data)
 {
 	EventPage *epage;
 	EventPagePrivate *priv;
-	char *zone;
+	icaltimezone *zone;
 
 	epage = EVENT_PAGE (data);
 	priv = epage->priv;
@@ -706,7 +771,7 @@ end_timezone_changed_cb (GtkWidget *widget, gpointer data)
 {
 	EventPage *epage;
 	EventPagePrivate *priv;
-	char *start_zone, *end_zone;
+	icaltimezone *start_zone, *end_zone;
 	
 	epage = EVENT_PAGE (data);
 	priv = epage->priv;
@@ -714,7 +779,7 @@ end_timezone_changed_cb (GtkWidget *widget, gpointer data)
 	start_zone = e_timezone_entry_get_timezone (E_TIMEZONE_ENTRY (priv->start_timezone));
 	end_zone = e_timezone_entry_get_timezone (E_TIMEZONE_ENTRY (priv->end_timezone));
 
-	priv->sync_timezones = (strcmp (start_zone, end_zone)) ? FALSE : TRUE;
+	priv->sync_timezones = (start_zone == end_zone) ? TRUE : FALSE;
 }
 
 /* Callback: all day event button toggled.
@@ -727,11 +792,12 @@ all_day_event_toggled_cb (GtkWidget *toggle, gpointer data)
 {
 	EventPage *epage;
 	EventPagePrivate *priv;
-	struct tm start_tm, end_tm;
-	time_t start_t, end_t;
 	gboolean all_day;
 	CompEditorPageDates dates;
-	
+	struct icaltimetype start_tt = icaltime_null_time();
+	struct icaltimetype end_tt = icaltime_null_time();
+	gboolean date_set;
+
 	epage = EVENT_PAGE (data);
 	priv = epage->priv;
 
@@ -755,51 +821,58 @@ all_day_event_toggled_cb (GtkWidget *toggle, gpointer data)
 	/*
 	 * Start time.
 	 */
-	start_t = e_date_edit_get_time (E_DATE_EDIT (priv->start_time));
-	g_assert (start_t != -1);
-
-	start_tm = *localtime (&start_t);
+	date_set = e_date_edit_get_date (E_DATE_EDIT (priv->start_time),
+					 &start_tt.year,
+					 &start_tt.month,
+					 &start_tt.day);
+	e_date_edit_get_time_of_day (E_DATE_EDIT (priv->start_time),
+				     &start_tt.hour,
+				     &start_tt.minute);
+	g_assert (date_set);
 
 	if (all_day) {
 		/* Round down to the start of the day. */
-		start_tm.tm_hour = 0;
-		start_tm.tm_min  = 0;
-		start_tm.tm_sec  = 0;
+		start_tt.hour = 0;
+		start_tt.minute  = 0;
+		start_tt.second  = 0;
 	} else {
 		/* Set to the start of the working day. */
-		start_tm.tm_hour = calendar_config_get_day_start_hour ();
-		start_tm.tm_min  = calendar_config_get_day_start_minute ();
-		start_tm.tm_sec  = 0;
+		start_tt.hour = calendar_config_get_day_start_hour ();
+		start_tt.minute  = calendar_config_get_day_start_minute ();
+		start_tt.second  = 0;
 	}
 
 	/*
 	 * End time.
 	 */
-	end_t = e_date_edit_get_time (E_DATE_EDIT (priv->end_time));
-	g_assert (end_t != -1);
-
-	end_tm = *localtime (&end_t);
+	date_set = e_date_edit_get_date (E_DATE_EDIT (priv->end_time),
+					 &end_tt.year,
+					 &end_tt.month,
+					 &end_tt.day);
+	e_date_edit_get_time_of_day (E_DATE_EDIT (priv->end_time),
+				     &end_tt.hour,
+				     &end_tt.minute);
+	g_assert (date_set);
 
 	if (all_day) {
 		/* Round down to the start of the day. */
-		end_tm.tm_hour = 0;
-		end_tm.tm_min  = 0;
-		end_tm.tm_sec  = 0;
+		end_tt.hour = 0;
+		end_tt.minute  = 0;
+		end_tt.second  = 0;
 	} else {
 		/* If the event end is now on or before the event start day,
-		 * make it end one hour after the start. mktime() will fix any
-		 * overflows.
-		 */
-		if (end_tm.tm_year < start_tm.tm_year
-		    || (end_tm.tm_year == start_tm.tm_year
-			&& end_tm.tm_mon < start_tm.tm_mon)
-		    || (end_tm.tm_year == start_tm.tm_year
-			&& end_tm.tm_mon == start_tm.tm_mon
-			&& end_tm.tm_mday <= start_tm.tm_mday)) {
-			end_tm.tm_year = start_tm.tm_year;
-			end_tm.tm_mon = start_tm.tm_mon;
-			end_tm.tm_mday = start_tm.tm_mday;
-			end_tm.tm_hour = start_tm.tm_hour + 1;
+		 * make it end one hour after the start. */
+		if (end_tt.year < start_tt.year
+		    || (end_tt.year == start_tt.year
+			&& end_tt.month < start_tt.month)
+		    || (end_tt.year == start_tt.year
+			&& end_tt.month == start_tt.month
+			&& end_tt.day <= start_tt.day)) {
+			end_tt.year = start_tt.year;
+			end_tt.month = start_tt.month;
+			end_tt.day = start_tt.day;
+			end_tt.hour = start_tt.hour;
+			icaltime_adjust (&end_tt, 0, 1, 0, 0);
 		}
 	}
 
@@ -808,10 +881,15 @@ all_day_event_toggled_cb (GtkWidget *toggle, gpointer data)
 	gtk_signal_handler_block_by_data (GTK_OBJECT (priv->end_time),
 					  epage);
 
-	start_t = mktime (&start_tm);
-	end_t = mktime (&end_tm);
-	e_date_edit_set_time (E_DATE_EDIT (priv->start_time), start_t);
-	e_date_edit_set_time (E_DATE_EDIT (priv->end_time), end_t);
+	e_date_edit_set_date (E_DATE_EDIT (priv->start_time), start_tt.year,
+			      start_tt.month, start_tt.day);
+	e_date_edit_set_time_of_day (E_DATE_EDIT (priv->start_time),
+				     start_tt.hour, start_tt.minute);
+
+	e_date_edit_set_date (E_DATE_EDIT (priv->end_time), end_tt.year,
+			      end_tt.month, end_tt.day);
+	e_date_edit_set_time_of_day (E_DATE_EDIT (priv->end_time),
+				     end_tt.hour, end_tt.minute);
 
 	gtk_signal_handler_unblock_by_data (GTK_OBJECT (priv->start_time),
 					    epage);
@@ -822,9 +900,10 @@ all_day_event_toggled_cb (GtkWidget *toggle, gpointer data)
 	e_date_edit_set_show_time (E_DATE_EDIT (priv->end_time), !all_day);
 
 	/* Notify upstream */
-	dates.start = start_t;
-	dates.end = end_t;
-	dates.due = 0;
+	dates.start = &start_tt;
+	dates.end = &end_tt;
+	dates.due = NULL;
+	dates.complete = NULL;
 	comp_editor_page_notify_dates_changed (COMP_EDITOR_PAGE (epage),
 					       &dates);
 }
@@ -867,6 +946,15 @@ init_widgets (EventPage *epage)
 	EventPagePrivate *priv;
 
 	priv = epage->priv;
+
+	/* Make sure the EDateEdit widgets use our timezones to get the
+	   current time. */
+	e_date_edit_set_get_time_callback (E_DATE_EDIT (priv->start_time),
+					   (EDateEditGetTimeCallback) comp_editor_get_current_time,
+					   epage, NULL);
+	e_date_edit_set_get_time_callback (E_DATE_EDIT (priv->end_time),
+					   (EDateEditGetTimeCallback) comp_editor_get_current_time,
+					   epage, NULL);
 
 	/* Summary */
 	gtk_signal_connect (GTK_OBJECT (priv->summary), "changed",

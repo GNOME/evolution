@@ -257,7 +257,9 @@ static void cal_recur_generate_instances_of_rule (CalComponent	*comp,
 						  time_t	 start,
 						  time_t	 end,
 						  CalRecurInstanceFn cb,
-						  gpointer       cb_data);
+						  gpointer       cb_data,
+						  CalRecurResolveTimezoneFn  tz_cb,
+						  gpointer	 tz_cb_data);
 
 static CalRecurrence * cal_recur_from_icalproperty (icalproperty *prop,
 						    gboolean exception);
@@ -465,11 +467,15 @@ static gint cal_obj_date_only_compare_func (const void *arg1,
 
 
 static gboolean cal_recur_ensure_end_dates	(CalComponent	*comp,
-						 gboolean	 refresh);
+						 gboolean	 refresh,
+						 CalRecurResolveTimezoneFn tz_cb,
+						 gpointer	 tz_cb_data);
 static gboolean cal_recur_ensure_rule_end_date	(CalComponent	*comp,
 						 icalproperty	*prop,
 						 gboolean	 exception,
-						 gboolean	 refresh);
+						 gboolean	 refresh,
+						 CalRecurResolveTimezoneFn tz_cb,
+						 gpointer	 tz_cb_data);
 static gboolean cal_recur_ensure_rule_end_date_cb	(CalComponent	*comp,
 							 time_t		 instance_start,
 							 time_t		 instance_end,
@@ -598,7 +604,9 @@ cal_recur_generate_instances (CalComponent		*comp,
 			      time_t			 start,
 			      time_t			 end,
 			      CalRecurInstanceFn	 cb,
-			      gpointer                   cb_data)
+			      gpointer                   cb_data,
+			      CalRecurResolveTimezoneFn  tz_cb,
+			      gpointer			 tz_cb_data)
 {
 #if 0
 	g_print ("In cal_recur_generate_instances comp: %p\n", comp);
@@ -606,7 +614,7 @@ cal_recur_generate_instances (CalComponent		*comp,
 	g_print ("  end  : %li - %s", end, ctime (&end));
 #endif
 	cal_recur_generate_instances_of_rule (comp, NULL, start, end,
-					      cb, cb_data);
+					      cb, cb_data, tz_cb, tz_cb_data);
 }
 
 
@@ -630,7 +638,9 @@ cal_recur_generate_instances_of_rule (CalComponent	 *comp,
 				      time_t		  start,
 				      time_t		  end,
 				      CalRecurInstanceFn  cb,
-				      gpointer            cb_data)
+				      gpointer            cb_data,
+				      CalRecurResolveTimezoneFn  tz_cb,
+				      gpointer			 tz_cb_data)
 {
 	CalComponentDateTime dtstart, dtend;
 	time_t dtstart_time, dtend_time;
@@ -640,6 +650,7 @@ cal_recur_generate_instances_of_rule (CalComponent	 *comp,
 	CalObjTime chunk_start, chunk_end;
 	gint days, seconds, year;
 	gboolean single_rule;
+	icaltimezone *start_zone = NULL, *end_zone = NULL;
 
 	g_return_if_fail (comp != NULL);
 	g_return_if_fail (cb != NULL);
@@ -657,15 +668,25 @@ cal_recur_generate_instances_of_rule (CalComponent	 *comp,
 		goto out;
 	}
 
-	dtstart_time = icaltime_as_timet (*dtstart.value);
+	if (dtstart.tzid && tz_cb)
+		start_zone = (*tz_cb) (dtstart.tzid, tz_cb_data);
+	if (dtend.tzid && tz_cb)
+		end_zone = (*tz_cb) (dtend.tzid, tz_cb_data);
+
+	dtstart_time = icaltime_as_timet_with_zone (*dtstart.value,
+						    start_zone);
 	if (start == -1)
 		start = dtstart_time;
 
 	/* FIXME: DURATION could be used instead, couldn't it? - Damon */
-	if (dtend.value)
-		dtend_time = icaltime_as_timet (*dtend.value);
-	else
-		dtend_time = time_day_end (dtstart_time);
+	if (!dtend.value) {
+		*dtend.value = *dtstart.value;
+		dtend.value->hour = 0;
+		dtend.value->minute = 0;
+		dtend.value->second = 0;
+		icaltime_adjust (dtend.value, 1, 0, 0, 0);
+	}
+	dtend_time = icaltime_as_timet_with_zone (*dtend.value, end_zone);
 
 	/* If there is no recurrence, just call the callback if the event
 	   intersects the given interval. */
@@ -690,7 +711,7 @@ cal_recur_generate_instances_of_rule (CalComponent	 *comp,
 		single_rule = FALSE;
 
 		/* Make sure all the enddates for the rules are set. */
-		cal_recur_ensure_end_dates (comp, FALSE);
+		cal_recur_ensure_end_dates (comp, FALSE, tz_cb, tz_cb_data);
 
 		cal_component_get_rrule_property_list (comp, &rrules);
 		cal_component_get_rdate_list (comp, &rdates);
@@ -3576,6 +3597,7 @@ cal_object_time_from_time (CalObjTime *cotime,
 	time_t tmp_time_t;
 
 	tmp_time_t = t;
+	/* FIXME */
 	tmp_tm = localtime (&tmp_time_t);
 
 	cotime->year     = tmp_tm->tm_year + 1900;
@@ -3619,7 +3641,9 @@ cal_obj_time_to_string		(CalObjTime	*cotime)
    or EXRULE. */
 static gboolean
 cal_recur_ensure_end_dates (CalComponent	*comp,
-			    gboolean		 refresh)
+			    gboolean		 refresh,
+			    CalRecurResolveTimezoneFn  tz_cb,
+			    gpointer		 tz_cb_data)
 {
 	GSList *rrules, *exrules, *elem;
 	gboolean changed = FALSE;
@@ -3628,14 +3652,16 @@ cal_recur_ensure_end_dates (CalComponent	*comp,
 	cal_component_get_rrule_property_list (comp, &rrules);
 	for (elem = rrules; elem; elem = elem->next) {
 		changed |= cal_recur_ensure_rule_end_date (comp, elem->data,
-							   FALSE, refresh);
+							   FALSE, refresh,
+							   tz_cb, tz_cb_data);
 	}
 
 	/* Do the EXRULEs. */
 	cal_component_get_exrule_property_list (comp, &exrules);
 	for (elem = exrules; elem; elem = elem->next) {
 		changed |= cal_recur_ensure_rule_end_date (comp, elem->data,
-							   TRUE, refresh);
+							   TRUE, refresh,
+							   tz_cb, tz_cb_data);
 	}
 
 	return changed;
@@ -3654,7 +3680,9 @@ static gboolean
 cal_recur_ensure_rule_end_date (CalComponent			*comp,
 				icalproperty			*prop,
 				gboolean			 exception,
-				gboolean			 refresh)
+				gboolean			 refresh,
+				CalRecurResolveTimezoneFn	 tz_cb,
+				gpointer			 tz_cb_data)
 {
 	struct icalrecurrencetype rule;
 	CalRecurEnsureEndDateData cb_data;
@@ -3680,7 +3708,7 @@ cal_recur_ensure_rule_end_date (CalComponent			*comp,
 	cb_data.instances = 0;
 	cal_recur_generate_instances_of_rule (comp, prop, -1, -1,
 					      cal_recur_ensure_rule_end_date_cb,
-					      &cb_data);
+					      &cb_data, tz_cb, tz_cb_data);
 
 	/* Store the end date in the "X-EVOLUTION-ENDDATE" parameter of the
 	   rule. */

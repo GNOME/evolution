@@ -254,19 +254,16 @@ static void
 clear_widgets (TaskPage *tpage)
 {
 	TaskPagePrivate *priv;
-	time_t now;
 
 	priv = tpage->priv;
-
-	now = time (NULL);
 
 	/* Summary, description */
 	e_dialog_editable_set (priv->summary, NULL);
 	e_dialog_editable_set (priv->description, NULL);
 
 	/* Start, due times */
-	e_date_edit_set_time (E_DATE_EDIT (priv->start_date), now);
-	e_date_edit_set_time (E_DATE_EDIT (priv->due_date), now);
+	e_date_edit_set_time (E_DATE_EDIT (priv->start_date), 0);
+	e_date_edit_set_time (E_DATE_EDIT (priv->due_date), 0);
 
 	/* Classification */
 	e_dialog_radio_set (priv->classification_public,
@@ -341,12 +338,13 @@ task_page_fill_widgets (CompEditorPage *page, CalComponent *comp)
 	CalComponentText text;
 	CalComponentDateTime d;
 	CalComponentClassification cl;
+	CalClientGetStatus get_tz_status;
 	GSList *l;
-	time_t t;
 	int *priority_value, *percent;
 	icalproperty_status status;
 	TaskEditorPriority priority;
 	const char *categories;
+	icaltimezone *zone;
 
 	tpage = TASK_PAGE (page);
 	priv = tpage->priv;
@@ -372,20 +370,50 @@ task_page_fill_widgets (CompEditorPage *page, CalComponent *comp)
 	/* Due Date. */
 	cal_component_get_due (comp, &d);
 	if (d.value) {
-		t = icaltime_as_timet (*d.value);
+		struct icaltimetype *due_tt = d.value;
+		e_date_edit_set_date (E_DATE_EDIT (priv->due_date),
+				      due_tt->year, due_tt->month,
+				      due_tt->day);
+		e_date_edit_set_time_of_day (E_DATE_EDIT (priv->due_date),
+					     due_tt->hour, due_tt->minute);
 	} else {
-		t = -1;
+		e_date_edit_set_time (E_DATE_EDIT (priv->due_date), -1);
 	}
-	e_date_edit_set_time (E_DATE_EDIT (priv->due_date), t);
+
+	get_tz_status = cal_client_get_timezone (page->client, d.tzid, &zone);
+	/* FIXME: Handle error better. */
+	if (get_tz_status != CAL_CLIENT_GET_SUCCESS)
+		g_warning ("Couldn't get timezone from server: %s",
+			   d.tzid ? d.tzid : "");
+	e_timezone_entry_set_timezone (E_TIMEZONE_ENTRY (priv->due_timezone),
+				       zone);
+
+	cal_component_free_datetime (&d);
+
 
 	/* Start Date. */
 	cal_component_get_dtstart (comp, &d);
 	if (d.value) {
-		t = icaltime_as_timet (*d.value);
+		struct icaltimetype *start_tt = d.value;
+		e_date_edit_set_date (E_DATE_EDIT (priv->start_date),
+				      start_tt->year, start_tt->month,
+				      start_tt->day);
+		e_date_edit_set_time_of_day (E_DATE_EDIT (priv->start_date),
+					     start_tt->hour, start_tt->minute);
 	} else {
-		t = -1;
+		e_date_edit_set_time (E_DATE_EDIT (priv->start_date), -1);
 	}
-	e_date_edit_set_time (E_DATE_EDIT (priv->start_date), t);
+
+	get_tz_status = cal_client_get_timezone (page->client, d.tzid, &zone);
+	/* FIXME: Handle error better. */
+	if (get_tz_status != CAL_CLIENT_GET_SUCCESS)
+		g_warning ("Couldn't get timezone from server: %s",
+			   d.tzid ? d.tzid : "");
+	e_timezone_entry_set_timezone (E_TIMEZONE_ENTRY (priv->start_timezone),
+				       zone);
+
+	cal_component_free_datetime (&d);
+
 
 	/* Percent Complete. */
 	cal_component_get_percent (comp, &percent);
@@ -460,12 +488,14 @@ task_page_fill_component (CompEditorPage *page, CalComponent *comp)
 	TaskPage *tpage;
 	TaskPagePrivate *priv;
 	CalComponentDateTime date;
-	time_t t;
+	struct icaltimetype icaltime;
 	icalproperty_status status;
 	TaskEditorPriority priority;
 	int priority_value, percent;
 	char *cat;
 	char *str;
+	gboolean date_set;
+	icaltimezone *zone;
 
 	tpage = TASK_PAGE (page);
 	priv = tpage->priv;
@@ -509,22 +539,44 @@ task_page_fill_component (CompEditorPage *page, CalComponent *comp)
 
 	/* Dates */
 
-	date.value = g_new (struct icaltimetype, 1);
+	date.value = &icaltime;
 	date.tzid = NULL;
 
+	icaltime.is_utc = 0;
+	/* FIXME: We should use is_date at some point. */
+	icaltime.is_date = 0;
+	icaltime.is_daylight = 0;
+	icaltime.second = 0;
+
 	/* Due Date. */
-	t = e_date_edit_get_time (E_DATE_EDIT (priv->due_date));
-	if (t != -1) {
-		*date.value = icaltime_from_timet (t, FALSE);
+	date_set = e_date_edit_get_date (E_DATE_EDIT (priv->due_date),
+					 &icaltime.year,
+					 &icaltime.month,
+					 &icaltime.day);
+	e_date_edit_get_time_of_day (E_DATE_EDIT (priv->due_date),
+				     &icaltime.hour,
+				     &icaltime.minute);
+	if (date_set) {
+		zone = e_timezone_entry_get_timezone (E_TIMEZONE_ENTRY (priv->due_timezone));
+		if (zone)
+			date.tzid = icaltimezone_get_tzid (zone);
 		cal_component_set_due (comp, &date);
 	} else {
 		cal_component_set_due (comp, NULL);
 	}
 
 	/* Start Date. */
-	t = e_date_edit_get_time (E_DATE_EDIT (priv->start_date));
-	if (t != -1) {
-		*date.value = icaltime_from_timet (t, FALSE);
+	date_set = e_date_edit_get_date (E_DATE_EDIT (priv->start_date),
+					 &icaltime.year,
+					 &icaltime.month,
+					 &icaltime.day);
+	e_date_edit_get_time_of_day (E_DATE_EDIT (priv->start_date),
+				     &icaltime.hour,
+				     &icaltime.minute);
+	if (date_set) {
+		zone = e_timezone_entry_get_timezone (E_TIMEZONE_ENTRY (priv->start_timezone));
+		if (zone)
+			date.tzid = icaltimezone_get_tzid (zone);
 		cal_component_set_dtstart (comp, &date);
 	} else {
 		cal_component_set_dtstart (comp, NULL);
@@ -583,8 +635,8 @@ task_page_set_dates (CompEditorPage *page, CompEditorPageDates *dates)
 
 	priv->updating = TRUE;
 	
-	if (dates->complete != 0) {
-		if (dates->complete == -1) {
+	if (dates->complete) {
+		if (icaltime_is_null_time (*dates->complete)) {
 			/* If the 'Completed Date' is set to 'None',
 			   we set the status to 'Not Started' and the
 			   percent-complete to 0.  The task may
@@ -698,6 +750,9 @@ date_changed_cb (EDateEdit *dedit, gpointer data)
 	TaskPage *tpage;
 	TaskPagePrivate *priv;
 	CompEditorPageDates dates;
+	gboolean date_set;
+	struct icaltimetype start_tt = icaltime_null_time();
+	struct icaltimetype due_tt = icaltime_null_time();
 
 	tpage = TASK_PAGE (data);
 	priv = tpage->priv;
@@ -705,10 +760,30 @@ date_changed_cb (EDateEdit *dedit, gpointer data)
 	if (priv->updating)
 		return;
 
-	dates.start = e_date_edit_get_time (E_DATE_EDIT (priv->start_date));
-	dates.end = 0;
-	dates.due = e_date_edit_get_time (E_DATE_EDIT (priv->due_date));
-	dates.complete = 0;
+	date_set = e_date_edit_get_date (E_DATE_EDIT (priv->start_date),
+					 &start_tt.year,
+					 &start_tt.month,
+					 &start_tt.day);
+	e_date_edit_get_time_of_day (E_DATE_EDIT (priv->start_date),
+				     &start_tt.hour,
+				     &start_tt.minute);
+	if (!date_set)
+		start_tt = icaltime_null_time ();
+
+	date_set = e_date_edit_get_date (E_DATE_EDIT (priv->due_date),
+					 &due_tt.year,
+					 &due_tt.month,
+					 &due_tt.day);
+	e_date_edit_get_time_of_day (E_DATE_EDIT (priv->due_date),
+				     &due_tt.hour,
+				     &due_tt.minute);
+	if (!date_set)
+		due_tt = icaltime_null_time ();
+
+	dates.start = &start_tt;
+	dates.end = NULL;
+	dates.due = &due_tt;
+	dates.complete = NULL;
 	
 	/* Notify upstream */
 	comp_editor_page_notify_dates_changed (COMP_EDITOR_PAGE (tpage),
@@ -747,17 +822,24 @@ field_changed_cb (GtkWidget *widget, gpointer data)
 }
 
 static void
-complete_date_changed (TaskPage *tpage, time_t complete)
+complete_date_changed (TaskPage *tpage, gboolean complete)
 {
 	TaskPagePrivate *priv;
 	CompEditorPageDates dates;
+	icaltimezone *zone;
+	struct icaltimetype completed_tt = icaltime_null_time();
 
 	priv = tpage->priv;
 
-	dates.start = 0;
-	dates.end = 0;
-	dates.due = 0;	
-	dates.complete = complete;
+	/* Get the current time in UTC. */
+	zone = icaltimezone_get_utc_timezone ();
+	completed_tt = icaltime_from_timet_with_zone (time (NULL), FALSE, zone);
+	completed_tt.is_utc = TRUE;
+
+	dates.start = NULL;
+	dates.end = NULL;
+	dates.due = NULL;	
+	dates.complete = &completed_tt;
 	
 	/* Notify upstream */
 	comp_editor_page_notify_dates_changed (COMP_EDITOR_PAGE (tpage),
@@ -780,13 +862,13 @@ status_changed (GtkMenu	*menu, TaskPage *tpage)
 	status = e_dialog_option_menu_get (priv->status, status_map);
 	if (status == ICAL_STATUS_NEEDSACTION) {
 		e_dialog_spin_set (priv->percent_complete, 0);
-		complete_date_changed (tpage, -1);
+		complete_date_changed (tpage, FALSE);
 	} else if (status == ICAL_STATUS_INPROCESS) {
 		e_dialog_spin_set (priv->percent_complete, 50);
-		complete_date_changed (tpage, -1);
+		complete_date_changed (tpage, FALSE);
 	} else if (status == ICAL_STATUS_COMPLETED) {
 		e_dialog_spin_set (priv->percent_complete, 100);
-		complete_date_changed (tpage, time (NULL) - (time (NULL) % 60));
+		complete_date_changed (tpage, TRUE);
 	}
 
 	priv->updating = FALSE;
@@ -800,7 +882,7 @@ percent_complete_changed (GtkAdjustment	*adj, TaskPage *tpage)
 	TaskPagePrivate *priv;
 	gint percent;
 	icalproperty_status status;
-	time_t date_completed;
+	gboolean complete;
 
 	priv = tpage->priv;
 
@@ -811,10 +893,10 @@ percent_complete_changed (GtkAdjustment	*adj, TaskPage *tpage)
 
 	percent = e_dialog_spin_get_int (priv->percent_complete);
 	if (percent == 100) {
-		date_completed = time (NULL);
+		complete = TRUE;
 		status = ICAL_STATUS_COMPLETED;
 	} else {
-		date_completed = -1;
+		complete = FALSE;
 
 		if (percent == 0)
 			status = ICAL_STATUS_NEEDSACTION;
@@ -823,7 +905,7 @@ percent_complete_changed (GtkAdjustment	*adj, TaskPage *tpage)
 	}
 
 	e_dialog_option_menu_set (priv->status, status, status_map);
-	complete_date_changed (tpage, date_completed);
+	complete_date_changed (tpage, complete);
 
 	priv->updating = FALSE;
 
@@ -839,6 +921,14 @@ init_widgets (TaskPage *tpage)
 
 	priv = tpage->priv;
 
+	/* Make sure the EDateEdit widgets use our timezones to get the
+	   current time. */
+	e_date_edit_set_get_time_callback (E_DATE_EDIT (priv->start_date),
+					   (EDateEditGetTimeCallback) comp_editor_get_current_time,
+					   tpage, NULL);
+	e_date_edit_set_get_time_callback (E_DATE_EDIT (priv->due_date),
+					   (EDateEditGetTimeCallback) comp_editor_get_current_time,
+					   tpage, NULL);
 	
 	/* Summary */
 	gtk_signal_connect (GTK_OBJECT (priv->summary), "changed",

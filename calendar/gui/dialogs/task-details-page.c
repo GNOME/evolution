@@ -32,6 +32,7 @@
 #include <gal/widgets/e-unicode.h>
 #include <widgets/misc/e-dateedit.h>
 #include "e-util/e-dialog-widgets.h"
+#include "../calendar-config.h"
 #include "../e-timezone-entry.h"
 #include "comp-editor-util.h"
 #include "task-details-page.h"
@@ -50,7 +51,6 @@ struct _TaskDetailsPagePrivate {
 	GtkWidget *date_time;
 	
 	GtkWidget *completed_date;
-	GtkWidget *completed_timezone;
 
 	GtkWidget *url;
 
@@ -149,7 +149,6 @@ task_details_page_init (TaskDetailsPage *tdpage)
 	priv->summary = NULL;
 	priv->date_time = NULL;
 	priv->completed_date = NULL;
-	priv->completed_timezone = NULL;
 	priv->url = NULL;
 
 	priv->updating = FALSE;
@@ -277,29 +276,45 @@ task_details_page_fill_component (CompEditorPage *page, CalComponent *comp)
 {
 	TaskDetailsPage *tdpage;
 	TaskDetailsPagePrivate *priv;
+	struct icaltimetype icaltime;
 	GSList list;
 	CalComponentDateTime date;
 	CalComponentOrganizer organizer;
 	CalComponentAttendee attendee;
-	time_t t;
 	char *url;
+	gboolean date_set;
 	
 	tdpage = TASK_DETAILS_PAGE (page);
 	priv = tdpage->priv;
 
-	/* Completed Date. */
-	date.value = g_new (struct icaltimetype, 1);
-	date.tzid = NULL;
+	/* COMPLETED must be in UTC. */
+	icaltime.is_utc = 1;
+	icaltime.is_date = 0;
+	icaltime.is_daylight = 0;
 
-	t = e_date_edit_get_time (E_DATE_EDIT (priv->completed_date));
-	if (t != -1) {
-		*date.value = icaltime_from_timet (t, FALSE);
-		cal_component_set_completed (comp, date.value);
+	/* Completed Date. */
+	date_set = e_date_edit_get_date (E_DATE_EDIT (priv->completed_date),
+					 &icaltime.year,
+					 &icaltime.month,
+					 &icaltime.day);
+	e_date_edit_get_time_of_day (E_DATE_EDIT (priv->completed_date),
+				     &icaltime.hour,
+				     &icaltime.minute);
+	if (date_set) {
+		/* COMPLETED must be in UTC, so we assume that the date in the
+		   dialog is in the current timezone, and we now convert it
+		   to UTC. FIXME: We should really use one timezone for the
+		   entire time the dialog is shown. Otherwise if the user
+		   changes the timezone, the COMPLETED date may get changed
+		   as well. */
+		char *location = calendar_config_get_timezone ();
+		icaltimezone *zone = icaltimezone_get_builtin_timezone (location);
+		icaltimezone_convert_time (&icaltime, zone,
+					   icaltimezone_get_utc_timezone ());
+		cal_component_set_completed (comp, &icaltime);
 	} else {
 		cal_component_set_completed (comp, NULL);
 	}
-
-	g_free (date.value);
 
 	/* URL. */
 	url = e_dialog_editable_get (priv->url);
@@ -359,9 +374,30 @@ task_details_page_set_dates (CompEditorPage *page, CompEditorPageDates *dates)
 	priv = tdpage->priv;
 
 	comp_editor_date_label (dates, priv->date_time);
-	if (dates->complete != 0)
-	        e_date_edit_set_time (E_DATE_EDIT (priv->completed_date),
-				      dates->complete);
+
+	if (dates->complete) {
+		if (icaltime_is_null_time (*dates->complete)) {
+			e_date_edit_set_time (E_DATE_EDIT (priv->completed_date), -1);
+		} else {
+			struct icaltimetype *tt = dates->complete;
+
+			/* Convert it from UTC to local time to display.
+			   FIXME: We should really use one timezone for the
+			   entire time the dialog is shown. Otherwise if the
+			   user changes the timezone, the COMPLETED date may
+			   get changed as well. */
+			char *location = calendar_config_get_timezone ();
+			icaltimezone *zone = icaltimezone_get_builtin_timezone (location);
+			icaltimezone_convert_time (tt,
+						   icaltimezone_get_utc_timezone (),
+						   zone);
+
+			e_date_edit_set_date (E_DATE_EDIT (priv->completed_date),
+					      tt->year, tt->month, tt->day);
+			e_date_edit_set_time_of_day (E_DATE_EDIT (priv->completed_date),
+						     tt->hour, tt->minute);
+		}
+	}
 }
 
 
@@ -387,7 +423,6 @@ get_widgets (TaskDetailsPage *tdpage)
 	priv->date_time = GW ("date-time");
 
 	priv->completed_date = GW ("completed-date");
-	priv->completed_timezone = GW ("completed-timezone");
 
 	priv->url = GW ("url");
 
@@ -403,7 +438,6 @@ get_widgets (TaskDetailsPage *tdpage)
 	return (priv->summary
 		&& priv->date_time
 		&& priv->completed_date
-		&& priv->completed_timezone
 		&& priv->url
 		&& priv->organizer
 		&& priv->organizer_lbl
@@ -422,6 +456,8 @@ date_changed_cb (EDateEdit *dedit, gpointer data)
 	TaskDetailsPage *tdpage;
 	TaskDetailsPagePrivate *priv;
 	CompEditorPageDates dates;
+	struct icaltimetype completed_tt = icaltime_null_time();
+	gboolean date_set;
 
 	tdpage = TASK_DETAILS_PAGE (data);
 	priv = tdpage->priv;
@@ -429,10 +465,20 @@ date_changed_cb (EDateEdit *dedit, gpointer data)
 	if (priv->updating)
 		return;
 
-	dates.start = 0;
-	dates.end = 0;
-	dates.due = 0;
-	dates.complete = e_date_edit_get_time (E_DATE_EDIT (priv->completed_date));
+	date_set = e_date_edit_get_date (E_DATE_EDIT (priv->completed_date),
+					 &completed_tt.year,
+					 &completed_tt.month,
+					 &completed_tt.day);
+	e_date_edit_get_time_of_day (E_DATE_EDIT (priv->completed_date),
+				     &completed_tt.hour,
+				     &completed_tt.minute);
+	if (!date_set)
+		completed_tt = icaltime_null_time ();
+
+	dates.start = NULL;
+	dates.end = NULL;
+	dates.due = NULL;
+	dates.complete = &completed_tt;
 	
 	/* Notify upstream */
 	comp_editor_page_notify_dates_changed (COMP_EDITOR_PAGE (tdpage), &dates);
@@ -460,12 +506,15 @@ init_widgets (TaskDetailsPage *tdpage)
 
 	priv = tdpage->priv;
 
+	/* Make sure the EDateEdit widgets use our timezones to get the
+	   current time. */
+	e_date_edit_set_get_time_callback (E_DATE_EDIT (priv->completed_date),
+					   (EDateEditGetTimeCallback) comp_editor_get_current_time,
+					   tdpage, NULL);
+
 	/* Completed Date */
 	gtk_signal_connect (GTK_OBJECT (priv->completed_date), "changed",
 			    GTK_SIGNAL_FUNC (date_changed_cb), tdpage);
-
-	gtk_signal_connect (GTK_OBJECT (priv->completed_timezone), "changed",
-			    GTK_SIGNAL_FUNC (field_changed_cb), tdpage);
 
 	/* URL */
 	gtk_signal_connect (GTK_OBJECT (priv->url), "changed",

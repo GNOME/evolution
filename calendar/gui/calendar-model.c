@@ -75,6 +75,9 @@ struct _CalendarModelPrivate {
 
 	/* A balanced tree of the categories used by all the tasks/events. */
 	GTree *categories;
+
+	/* The current timezone. */
+	icaltimezone *zone;
 };
 
 enum {
@@ -201,6 +204,8 @@ calendar_model_init (CalendarModel *model)
 	priv->use_24_hour_format = TRUE;
 
 	priv->categories = g_tree_new ((GCompareFunc)strcmp);
+
+	priv->zone = NULL;
 }
 
 /* Called from g_hash_table_foreach_remove(), frees a stored UID->index
@@ -317,13 +322,26 @@ static char*
 get_time_t (CalendarModel *model, time_t *t, gboolean show_midnight)
 {
 	static char buffer[64];
-	struct tm *tmp_tm;
+	struct tm tmp_tm;
+	struct icaltimetype tt;
 
 	if (*t <= 0) {
 		buffer[0] = '\0';
 	} else {
-		tmp_tm = localtime (t);
-		e_time_format_date_and_time (tmp_tm,
+		tt = icaltime_from_timet_with_zone (*t, FALSE,
+						    model->priv->zone);
+		tmp_tm.tm_year = tt.year - 1900;
+		tmp_tm.tm_mon = tt.month - 1;
+		tmp_tm.tm_mday = tt.day;
+		tmp_tm.tm_hour = tt.hour;
+		tmp_tm.tm_min = tt.minute;
+		tmp_tm.tm_sec = tt.second;
+		tmp_tm.tm_isdst = -1;
+
+		/* Call mktime() to set the weekday. */
+		mktime (&tmp_tm);
+
+		e_time_format_date_and_time (&tmp_tm,
 					     model->priv->use_24_hour_format,
 					     show_midnight, FALSE,
 					     buffer, sizeof (buffer));
@@ -383,12 +401,15 @@ get_completed	(CalendarModel *model,
 	struct icaltimetype *completed;
 	time_t t;
 
+	/* FIXME: COMPLETED is in UTC, but we probably want to show it in
+	   the current timezone. */
+
 	cal_component_get_completed (comp, &completed);
 
 	if (!completed)
 		t = 0;
 	else {
-		t = icaltime_as_timet (*completed);
+		t = icaltime_as_timet_with_zone (*completed, icaltimezone_get_utc_timezone ());
 		cal_component_free_icaltimetype (completed);
 	}
 
@@ -840,6 +861,8 @@ show_date_warning (CalendarModel *model)
 	struct tm *tmp_tm;
 
 	t = time (NULL);
+	/* We are only using this as an example, so the timezone doesn't
+	   matter. */
 	tmp_tm = localtime (&t);
 
 	if (model->priv->use_24_hour_format)
@@ -972,6 +995,9 @@ set_completed (CalendarModel *model, CalComponent *comp, const char *value)
 	struct tm tmp_tm;
 	time_t t;
 
+	/* FIXME: COMPLETED is in UTC, but we probably want to show it in
+	   the current timezone. */
+
 	status = e_time_parse_date_and_time (value, &tmp_tm);
 
 	if (status == E_TIME_PARSE_INVALID) {
@@ -991,7 +1017,6 @@ set_datetime (CalendarModel *model, CalComponent *comp, const char *value,
 {
 	ETimeParseStatus status;
 	struct tm tmp_tm;
-	time_t t;
 
 	status = e_time_parse_date_and_time (value, &tmp_tm);
 
@@ -1001,12 +1026,18 @@ set_datetime (CalendarModel *model, CalComponent *comp, const char *value,
 		(* set_func) (comp, NULL);
 	} else {
 		CalComponentDateTime dt;
-		struct icaltimetype itt;
+		struct icaltimetype itt = icaltime_null_time ();
 
-		t = mktime (&tmp_tm);
-		itt = icaltime_from_timet (t, FALSE);
+		itt.year = tmp_tm.tm_year + 1900;
+		itt.month = tmp_tm.tm_mon + 1;
+		itt.day = tmp_tm.tm_mday;
+		itt.hour = tmp_tm.tm_hour;
+		itt.minute = tmp_tm.tm_min;
+		itt.second = tmp_tm.tm_sec;
+
 		dt.value = &itt;
-		dt.tzid = NULL;
+		/* We assume it is being set to the current timezone. */
+		dt.tzid = icaltimezone_get_tzid (model->priv->zone);
 
 		(* set_func) (comp, &dt);
 	}
@@ -2304,4 +2335,25 @@ calendar_model_get_categories		(CalendarModel	*model)
 	g_return_val_if_fail (IS_CALENDAR_MODEL (model), NULL);
 
 	return model->priv->categories;
+}
+
+
+/* The current timezone. */
+icaltimezone*
+calendar_model_get_timezone		(CalendarModel	*model)
+{
+	g_return_val_if_fail (IS_CALENDAR_MODEL (model), NULL);
+
+	return model->priv->zone;
+}
+
+
+void
+calendar_model_set_timezone		(CalendarModel	*model,
+					 icaltimezone	*zone)
+{
+	g_return_if_fail (IS_CALENDAR_MODEL (model));
+
+	if (model->priv->zone != zone)
+		model->priv->zone = zone;
 }

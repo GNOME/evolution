@@ -1,3 +1,42 @@
+2001-07-03  Damon Chaplin  <damon@ximian.com>
+
+	* cal-client/cal-client.[hc]
+	* cal-util/cal-component.c
+	* cal-util/cal-recur.[hc]
+	* cal-util/test-recur.c
+	* cal-util/timeutil.c
+	* gui/calendar-config.c
+	* gui/calendar-model.[hc]
+	* gui/comp-util.[hc]
+	* gui/e-calendar-table.c
+	* gui/e-day-view-main-item.c
+	* gui/e-day-view-top-item.c
+	* gui/e-day-view.[hc]
+	* gui/e-itip-control.c
+	* gui/e-timezone-entry.[hc]
+	* gui/e-week-view.[hc]
+	* gui/gnome-cal.[hc]
+	* gui/goto.c
+	* gui/tag-calendar.[hc]
+	* gui/dialogs/cal-prefs-dialog.c
+	* gui/dialogs/comp-editor-page.[hc]
+	* gui/dialogs/comp-editor-util.[hc]
+	* gui/dialogs/comp-editor.c
+	* gui/dialogs/e-timezone-dialog.[hc]
+	* gui/dialogs/event-page.c
+	* gui/dialogs/meeting-page.c
+	* gui/dialogs/recurrence-page.c
+	* gui/dialogs/task-details-page.c
+	* gui/dialogs/task-details-page.glade
+	* gui/dialogs/task-page.c
+	* idl/evolution-calendar.idl
+	* pcs/cal-backend-file.c
+	* pcs/cal-backend.c
+	* pcs/cal-backend.h
+	* pcs/cal.c
+	* pcs/query.c: timezone changes everywhere. There's still quite a
+	few things to update, and its not working well at present.
+
 2001-07-02  JP Rosevear  <jpr@ximian.com>
 
 	* gui/calendar-commands.c (publish_freebusy_cmd): publish

@@ -271,6 +271,7 @@ e_week_view_init (EWeekView *week_view)
 
 	week_view->spans = NULL;
 
+	week_view->zone = NULL;
 	week_view->multi_week_view = FALSE;
 	week_view->weeks_shown = 6;
 	week_view->rows = 6;
@@ -988,8 +989,8 @@ query_obj_updated_cb (CalQuery *query, const char *uid,
 	cal_recur_generate_instances (comp,
 				      week_view->day_starts[0],
 				      week_view->day_starts[num_days],
-				      e_week_view_add_event,
-				      week_view);
+				      e_week_view_add_event, week_view,
+				      cal_client_resolve_tzid, week_view->client);
 
 	gtk_object_unref (GTK_OBJECT (comp));
 
@@ -1332,7 +1333,7 @@ e_week_view_set_first_day_shown		(EWeekView	*week_view,
 	gint weekday, day_offset, num_days;
 	gboolean update_adjustment_value = FALSE;
 	guint32 old_selection_start_julian = 0, old_selection_end_julian = 0;
-	struct tm start_tm;
+	struct icaltimetype start_tt = icaltime_null_time ();
 	time_t start_time;
 
 	g_return_if_fail (E_IS_WEEK_VIEW (week_view));
@@ -1369,8 +1370,14 @@ e_week_view_set_first_day_shown		(EWeekView	*week_view,
 	if (!g_date_valid (&week_view->first_day_shown)
 	    || g_date_compare (&week_view->first_day_shown, &base_date)) {
 		week_view->first_day_shown = base_date;
-		g_date_to_struct_tm (&base_date, &start_tm);
-		start_time = mktime (&start_tm);
+
+		start_tt.year = g_date_year (&base_date);
+		start_tt.month = g_date_month (&base_date);
+		start_tt.day = g_date_day (&base_date);
+
+		start_time = icaltime_as_timet_with_zone (start_tt,
+							  week_view->zone);
+
 		e_week_view_recalc_day_starts (week_view, start_time);
 		update_query (week_view);
 	}
@@ -1642,6 +1649,51 @@ e_week_view_set_24_hour_format	(EWeekView	*week_view,
 	e_week_view_check_layout (week_view);
 	gtk_widget_queue_draw (week_view->main_canvas);
 }
+
+
+/* The current timezone. */
+icaltimezone*
+e_week_view_get_timezone		(EWeekView	*week_view)
+{
+	g_return_val_if_fail (E_IS_WEEK_VIEW (week_view), NULL);
+
+	return week_view->zone;
+}
+
+
+void
+e_week_view_set_timezone		(EWeekView	*week_view,
+					 icaltimezone	*zone)
+{
+	icaltimezone *old_zone;
+	struct icaltimetype tt = icaltime_null_time ();
+	time_t lower;
+
+	g_return_if_fail (E_IS_WEEK_VIEW (week_view));
+
+	old_zone = week_view->zone;
+	if (old_zone == zone)
+		return;
+
+	week_view->zone = zone;
+
+	/* If we don't have a valid date set yet, just return. */
+	if (!g_date_valid (&week_view->first_day_shown))
+		return;
+
+	/* Recalculate the new start of the first week. We just use exactly
+	   the same time, but with the new timezone. */
+	tt.year = g_date_year (&week_view->first_day_shown);
+	tt.month = g_date_month (&week_view->first_day_shown);
+	tt.day = g_date_day (&week_view->first_day_shown);
+	tt.is_daylight = -1;
+
+	lower = icaltime_as_timet_with_zone (tt, zone);
+
+	e_week_view_recalc_day_starts (week_view, lower);
+	update_query (week_view);
+}
+
 
 void
 e_week_view_cut_clipboard (EWeekView *week_view)
@@ -2186,7 +2238,7 @@ e_week_view_add_event (CalComponent *comp,
 	EWeekView *week_view;
 	EWeekViewEvent event;
 	gint num_days;
-	struct tm start_tm, end_tm;
+	struct icaltimetype start_tt, end_tt;
 
 	week_view = E_WEEK_VIEW (data);
 
@@ -2203,8 +2255,10 @@ e_week_view_add_event (CalComponent *comp,
 	g_return_val_if_fail (start < week_view->day_starts[num_days], TRUE);
 	g_return_val_if_fail (end > week_view->day_starts[0], TRUE);
 
-	start_tm = *(localtime (&start));
-	end_tm = *(localtime (&end));
+	start_tt = icaltime_from_timet_with_zone (start, FALSE,
+						  week_view->zone);
+	end_tt = icaltime_from_timet_with_zone (end, FALSE,
+						week_view->zone);
 
 	event.comp = comp;
 	gtk_object_ref (GTK_OBJECT (event.comp));
@@ -2213,8 +2267,8 @@ e_week_view_add_event (CalComponent *comp,
 	event.spans_index = 0;
 	event.num_spans = 0;
 
-	event.start_minute = start_tm.tm_hour * 60 + start_tm.tm_min;
-	event.end_minute = end_tm.tm_hour * 60 + end_tm.tm_min;
+	event.start_minute = start_tt.hour * 60 + start_tt.minute;
+	event.end_minute = end_tt.hour * 60 + end_tt.minute;
 	if (event.end_minute == 0 && start != end)
 		event.end_minute = 24 * 60;
 
@@ -2583,7 +2637,7 @@ e_week_view_on_adjustment_changed (GtkAdjustment *adjustment,
 {
 	GDate date;
 	gint week_offset;
-	struct tm tm;
+	struct icaltimetype start_tt = icaltime_null_time ();
 	time_t lower, start, end;
 	guint32 old_first_day_julian, new_first_day_julian;
 
@@ -2608,9 +2662,11 @@ e_week_view_on_adjustment_changed (GtkAdjustment *adjustment,
 	week_view->first_day_shown = date;
 
 	/* Convert it to a time_t. */
-	g_date_to_struct_tm (&date, &tm);
-	lower = mktime (&tm);
-	lower = time_day_begin (lower);
+	start_tt.year = g_date_year (&date);
+	start_tt.month = g_date_month (&date);
+	start_tt.day = g_date_day (&date);
+
+	lower = icaltime_as_timet_with_zone (start_tt, week_view->zone);
 
 	e_week_view_recalc_day_starts (week_view, lower);
 	update_query (week_view);
@@ -3019,11 +3075,13 @@ e_week_view_key_press (GtkWidget *widget, GdkEventKey *event)
 	dtend = week_view->day_starts[week_view->selection_end_day + 1];
 
 	date.value = &itt;
-	date.tzid = NULL;
+	date.tzid = icaltimezone_get_tzid (week_view->zone);
 
-	*date.value = icaltime_from_timet (dtstart, FALSE);
+	*date.value = icaltime_from_timet_with_zone (dtstart, FALSE,
+						     week_view->zone);
 	cal_component_set_dtstart (comp, &date);
-	*date.value = icaltime_from_timet (dtend, FALSE);
+	*date.value = icaltime_from_timet_with_zone (dtend, FALSE,
+						     week_view->zone);
 	cal_component_set_dtend (comp, &date);
 
 	/* We add the event locally and start editing it. We don't send the
@@ -3245,7 +3303,7 @@ e_week_view_on_delete_occurrence (GtkWidget *widget, gpointer data)
 	   when we get the "update_event" callback. */
 
 	comp = cal_component_clone (event->comp);
-	cal_comp_util_add_exdate (comp, icaltime_from_timet (event->start, TRUE));
+	cal_comp_util_add_exdate (comp, event->start, week_view->zone);
 
 	if (!cal_client_update_object (week_view->client, comp))
 		g_message ("e_week_view_on_delete_occurrence(): Could not update the object!");
@@ -3358,7 +3416,7 @@ e_week_view_on_unrecur_appointment (GtkWidget *widget, gpointer data)
 	/* For the recurring object, we add a exception to get rid of the
 	   instance. */
 	comp = cal_component_clone (event->comp);
-	cal_comp_util_add_exdate (comp, icaltime_from_timet (event->start, TRUE));
+	cal_comp_util_add_exdate (comp, event->start, week_view->zone);
 
 	/* For the unrecurred instance we duplicate the original object,
 	   create a new uid for it, get rid of the recurrence rules, and set
@@ -3371,11 +3429,13 @@ e_week_view_on_unrecur_appointment (GtkWidget *widget, gpointer data)
 	cal_component_set_exrule_list (new_comp, NULL);
 
 	date.value = &itt;
-	date.tzid = NULL;
+	date.tzid = icaltimezone_get_tzid (week_view->zone);
 
-	*date.value = icaltime_from_timet (event->start, TRUE);
+	*date.value = icaltime_from_timet_with_zone (event->start, FALSE,
+						     week_view->zone);
 	cal_component_set_dtstart (new_comp, &date);
-	*date.value = icaltime_from_timet (event->end, TRUE);
+	*date.value = icaltime_from_timet_with_zone (event->end, FALSE,
+						     week_view->zone);
 	cal_component_set_dtend (new_comp, &date);
 
 	/* Now update both CalComponents. Note that we do this last since at
@@ -3527,11 +3587,13 @@ selection_received (GtkWidget *invisible,
 	icalcomp = icalparser_parse_string ((const char *) comp_str);
 	if (icalcomp) {
 		dtstart = week_view->day_starts[week_view->selection_start_day];
-		itime = icaltime_from_timet (dtstart, FALSE);
+		itime = icaltime_from_timet_with_zone (dtstart, FALSE,
+						       week_view->zone);
 		icalcomponent_set_dtstart (icalcomp, itime);
 
 		dtend = week_view->day_starts[week_view->selection_end_day + 1];
-		itime = icaltime_from_timet (dtend, FALSE);
+		itime = icaltime_from_timet_with_zone (dtend, FALSE,
+						       week_view->zone);
 		icalcomponent_set_dtend (icalcomp, itime);
 
 		comp = cal_component_new ();

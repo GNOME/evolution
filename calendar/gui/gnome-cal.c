@@ -133,6 +133,9 @@ struct _GnomeCalendarPrivate {
 	 * editor hash table.
 	 */
 	guint in_destroy : 1;
+
+	/* Our current timezone. */
+	icaltimezone *zone;
 };
 
 
@@ -343,6 +346,37 @@ search_bar_menu_activated_cb (ESearchBar *search_bar, int item, gpointer data)
 	}
 }
 
+/* Returns the current time, for the ECalendarItem. */
+static struct tm
+get_current_time (ECalendarItem *calitem, gpointer data)
+{
+	GnomeCalendar *cal = data;
+	char *location;
+	icaltimezone *zone;
+	struct tm tmp_tm = { 0 };
+	struct icaltimetype tt;
+
+	g_return_val_if_fail (cal != NULL, tmp_tm);
+	g_return_val_if_fail (GNOME_IS_CALENDAR (cal), tmp_tm);
+
+	/* Get the current timezone. */
+	location = calendar_config_get_timezone ();
+	zone = icaltimezone_get_builtin_timezone (location);
+
+	tt = icaltime_from_timet_with_zone (time (NULL), FALSE, zone);
+
+	/* Now copy it to the struct tm and return it. */
+	tmp_tm.tm_year  = tt.year - 1900;
+	tmp_tm.tm_mon   = tt.month - 1;
+	tmp_tm.tm_mday  = tt.day;
+	tmp_tm.tm_hour  = tt.hour;
+	tmp_tm.tm_min   = tt.minute;
+	tmp_tm.tm_sec   = tt.second;
+	tmp_tm.tm_isdst = -1;
+
+	return tmp_tm;
+}
+
 static void
 setup_widgets (GnomeCalendar *gcal)
 {
@@ -386,6 +420,9 @@ setup_widgets (GnomeCalendar *gcal)
 	e_calendar_item_set_days_start_week_sel (priv->date_navigator->calitem, 9);
 	e_calendar_item_set_max_days_sel (priv->date_navigator->calitem, 42);
 	gtk_widget_show (w);
+	e_calendar_item_set_get_time_callback (priv->date_navigator->calitem,
+					       (ECalendarItemGetTimeCallback) get_current_time,
+					       gcal, NULL);
 
 	e_paned_pack1 (E_PANED (priv->vpane), w, FALSE, TRUE);
 	gtk_signal_connect (GTK_OBJECT (priv->date_navigator),
@@ -473,6 +510,8 @@ gnome_calendar_init (GnomeCalendar *gcal)
 
 	priv->view_collection = NULL;
 	priv->view_menus = NULL;
+
+	priv->zone = NULL;
 }
 
 /* Used from g_hash_table_foreach(); frees an UID string */
@@ -1315,6 +1354,7 @@ gnome_calendar_update_config_settings (GnomeCalendar *gcal,
 	gint week_start_day, time_divisions;
 	gint start_hour, start_minute, end_hour, end_minute;
 	gboolean use_24_hour, show_event_end, compress_weekend;
+	char *location;
 
 	g_return_if_fail (GNOME_IS_CALENDAR (gcal));
 
@@ -1387,6 +1427,14 @@ gnome_calendar_update_config_settings (GnomeCalendar *gcal,
 	calendar_config_configure_e_calendar (E_CALENDAR (priv->date_navigator));
 
 	calendar_config_configure_e_calendar_table (E_CALENDAR_TABLE (priv->todo));
+
+	location = calendar_config_get_timezone ();
+	priv->zone = icaltimezone_get_builtin_timezone (location);
+
+	e_day_view_set_timezone (E_DAY_VIEW (priv->day_view), priv->zone);
+	e_day_view_set_timezone (E_DAY_VIEW (priv->work_week_view), priv->zone);
+	e_week_view_set_timezone (E_WEEK_VIEW (priv->week_view), priv->zone);
+	e_week_view_set_timezone (E_WEEK_VIEW (priv->month_view), priv->zone);
 
 	if (initializing) {
 		priv->hpane_pos = calendar_config_get_hpane_pos ();
@@ -1537,6 +1585,7 @@ gnome_calendar_new_appointment_for (GnomeCalendar *cal,
 				    time_t dtstart, time_t dtend,
 				    gboolean all_day)
 {
+	GnomeCalendarPrivate *priv;
 	struct icaltimetype itt;
 	CalComponentDateTime dt;
 	CalComponent *comp;
@@ -1544,21 +1593,24 @@ gnome_calendar_new_appointment_for (GnomeCalendar *cal,
 	g_return_if_fail (cal != NULL);
 	g_return_if_fail (GNOME_IS_CALENDAR (cal));
 
-	if (all_day){
-		dtstart = time_day_begin (dtstart);
-		dtend = time_day_end (dtend);
-	}
+	priv = cal->priv;
 
 	dt.value = &itt;
-	dt.tzid = NULL;
+	dt.tzid = icaltimezone_get_tzid (priv->zone);
 
 	comp = cal_component_new ();
 	cal_component_set_new_vtype (comp, CAL_COMPONENT_EVENT);
 
-	itt = icaltime_from_timet (dtstart, FALSE);
+	itt = icaltime_from_timet_with_zone (dtstart, FALSE, priv->zone);
+	if (all_day)
+		itt.hour = itt.minute = itt.second = 0;
 	cal_component_set_dtstart (comp, &dt);
 
-	itt = icaltime_from_timet (dtend, FALSE);
+	itt = icaltime_from_timet_with_zone (dtend, FALSE, priv->zone);
+	if (all_day) {
+		itt.hour = itt.minute = itt.second = 0;
+		icaltime_adjust (&itt, 1, 0, 0, 0);
+	}
 	cal_component_set_dtend (comp, &dt);
 
 	cal_component_commit_sequence (comp);
@@ -1705,10 +1757,7 @@ gnome_calendar_on_date_navigator_selection_changed (ECalendarItem    *calitem,
 	GnomeCalendarPrivate *priv;
 	GDate start_date, end_date, new_start_date, new_end_date;
 	gint days_shown, new_days_shown;
-	gint start_year, start_month, start_day;
-	gint end_year, end_month, end_day;
 	gboolean starts_on_week_start_day;
-	struct tm tm;
 
 	priv = gcal->priv;
 
@@ -1750,30 +1799,35 @@ gnome_calendar_on_date_navigator_selection_changed (ECalendarItem    *calitem,
 		set_view (gcal, GNOME_CAL_WEEK_VIEW, TRUE, FALSE);
 		gnome_calendar_update_date_navigator (gcal);
 	} else {
+		gint start_year, start_month, start_day;
+		gint end_year, end_month, end_day;
+		struct icaltimetype tt;
+
 		start_year = g_date_year (&new_start_date);
-		start_month = g_date_month (&new_start_date) - 1;
+		start_month = g_date_month (&new_start_date);
 		start_day = g_date_day (&new_start_date);
 		end_year = g_date_year (&new_end_date);
-		end_month = g_date_month (&new_end_date) - 1;
+		end_month = g_date_month (&new_end_date);
 		end_day = g_date_day (&new_end_date);
 
-		tm.tm_year = start_year - 1900;
-		tm.tm_mon  = start_month;
-		tm.tm_mday = start_day;
-		tm.tm_hour = 0;
-		tm.tm_min  = 0;
-		tm.tm_sec  = 0;
-		tm.tm_isdst = -1;
-		priv->selection_start_time = mktime (&tm);
+		tt.year = start_year;
+		tt.month  = start_month;
+		tt.day = start_day;
+		tt.hour = 0;
+		tt.minute  = 0;
+		tt.second  = 0;
+		tt.is_daylight = -1;
+		priv->selection_start_time = icaltime_as_timet_with_zone (tt, priv->zone);
 
-		tm.tm_year = end_year - 1900;
-		tm.tm_mon  = end_month;
-		tm.tm_mday = end_day + 1; /* mktime() will normalize this. */
-		tm.tm_hour = 0;
-		tm.tm_min  = 0;
-		tm.tm_sec  = 0;
-		tm.tm_isdst = -1;
-		priv->selection_end_time = mktime (&tm);
+		tt.year = end_year;
+		tt.month  = end_month;
+		tt.day = end_day;
+		tt.hour = 0;
+		tt.minute  = 0;
+		tt.second  = 0;
+		tt.is_daylight = -1;
+		icaltime_adjust (&tt, 1, 0, 0, 0);
+		priv->selection_end_time = icaltime_as_timet_with_zone (tt, priv->zone);
 
 		e_day_view_set_days_shown (E_DAY_VIEW (priv->day_view), new_days_shown);
 		gnome_calendar_set_view (gcal, GNOME_CAL_DAY_VIEW, TRUE, FALSE);
@@ -2033,3 +2087,15 @@ gnome_calendar_paste_clipboard (GnomeCalendar *gcal)
 		break;
 	}
 }
+
+
+/* Get the current timezone. */
+icaltimezone*
+gnome_calendar_get_timezone	(GnomeCalendar	*gcal)
+{
+	g_return_val_if_fail (gcal != NULL, NULL);
+	g_return_val_if_fail (GNOME_IS_CALENDAR (gcal), NULL);
+
+	return gcal->priv->zone;
+}
+

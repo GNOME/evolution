@@ -28,6 +28,12 @@ module Calendar {
 	/* Sequence of unique identifiers */
 	typedef sequence<CalObjUID> CalObjUIDSeq;
 
+	/* A VTIMEZONE component, represented as an iCalendar string. */
+	typedef string CalTimezoneObj;
+
+	/* A unique identifier for a VTIMEZONE component, i.e. its TZID. */
+	typedef string CalTimezoneObjUID;
+
 	/* A unique identifier for an alarm subcomponent */
 	typedef string CalAlarmUID;
 
@@ -123,6 +129,10 @@ module Calendar {
 		CalObj getObject (in CalObjUID uid)
 			raises (NotFound);
 
+		/* Gets a VTIMEZONE component based on its TZID */
+		CalTimezoneObj getTimezoneObject (in CalTimezoneObjUID tzid)
+			raises (NotFound);
+
 		/* Gets a list of UIDs based on component type */
 		CalObjUIDSeq getUIDs (in CalObjType type);
 
@@ -153,7 +163,17 @@ module Calendar {
 
 
 		/* Updates a component by adding it if it does not exist or by
-		 * changing an existing one.  
+		 * changing an existing one. This can be a simple VEVENT/VTODO
+		 * object if no timezone data is needed for the component or
+		 * it hasn't changed. To add or change the associated VTIMEZONE
+		 * data the calobj should be a VCALENDAR component with
+		 * VTIMEZONE and VEVENT/VTODO subcomponents. The VTIMEZONE data
+		 * will be merged into the calendar, possibly by renaming TZIDs
+		 * (though not for builtin VTIMEZONEs), so don't rely on the
+		 * TZIDs being the same in the new object on the server.
+		 * The client should probably immediately free its copy of the
+		 * object after this call, and call getObject to get the
+		 * updated version.
 		 */
 		void updateObject (in CalObjUID uid, in CalObj calobj)
 			raises (InvalidObject);

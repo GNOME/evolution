@@ -40,6 +40,7 @@
 #include <gal/e-table/e-cell-combo.h>
 #include <widgets/misc/e-cell-date-edit.h>
 #include "e-calendar-table.h"
+#include "calendar-config.h"
 #include "calendar-model.h"
 #include "dialogs/delete-comp.h"
 #include "dialogs/task-editor.h"
@@ -107,6 +108,8 @@ static void selection_get                       (GtkWidget *invisible,
 						 ECalendarTable *cal_table);
 static void invisible_destroyed                 (GtkWidget *invisible,
 						 ECalendarTable *cal_table);
+static struct tm e_calendar_table_get_current_time (ECellDateEdit *ecde,
+						    gpointer data);
 
 
 /* The icons to represent the task. */
@@ -395,6 +398,10 @@ e_calendar_table_init (ECalendarTable *cal_table)
 	gtk_object_unref (GTK_OBJECT (cell));
 	e_table_extras_add_cell (extras, "dateedit", popup_cell);
 	cal_table->dates_cell = E_CELL_DATE_EDIT (popup_cell);
+
+	e_cell_date_edit_set_get_time_callback (E_CELL_DATE_EDIT (popup_cell),
+						e_calendar_table_get_current_time,
+						cal_table, NULL);
 
 
 	/*
@@ -1280,4 +1287,34 @@ selection_received (GtkWidget *invisible,
 			comp);
 		gtk_object_unref (GTK_OBJECT (comp));
 	}
+}
+
+
+/* Returns the current time, for the ECellDateEdit items.
+   FIXME: Should probably use the timezone of the item rather than the
+   current timezone, though that may be difficult to get from here. */
+static struct tm
+e_calendar_table_get_current_time (ECellDateEdit *ecde, gpointer data)
+{
+	char *location;
+	icaltimezone *zone;
+	struct tm tmp_tm = { 0 };
+	struct icaltimetype tt;
+
+	/* Get the current timezone. */
+	location = calendar_config_get_timezone ();
+	zone = icaltimezone_get_builtin_timezone (location);
+
+	tt = icaltime_from_timet_with_zone (time (NULL), FALSE, zone);
+
+	/* Now copy it to the struct tm and return it. */
+	tmp_tm.tm_year  = tt.year - 1900;
+	tmp_tm.tm_mon   = tt.month - 1;
+	tmp_tm.tm_mday  = tt.day;
+	tmp_tm.tm_hour  = tt.hour;
+	tmp_tm.tm_min   = tt.minute;
+	tmp_tm.tm_sec   = tt.second;
+	tmp_tm.tm_isdst = -1;
+
+	return tmp_tm;
 }

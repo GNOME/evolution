@@ -25,12 +25,14 @@
 #endif
 
 #include <cal-util/timeutil.h>
+#include "calendar-config.h"
 #include "tag-calendar.h"
 
 
 
 struct calendar_tag_closure {
 	ECalendarItem *calitem;
+	icaltimezone *zone;
 	time_t start_time;
 	time_t end_time;
 };
@@ -44,7 +46,9 @@ prepare_tag (ECalendar *ecal, struct calendar_tag_closure *c)
 {
 	gint start_year, start_month, start_day;
 	gint end_year, end_month, end_day;
-	struct tm start_tm = { 0 }, end_tm = { 0 };
+	struct icaltimetype start_tt = icaltime_null_time ();
+	struct icaltimetype end_tt = icaltime_null_time ();
+	char *location;
 
 	e_calendar_item_clear_marks (ecal->calitem);
 
@@ -54,25 +58,26 @@ prepare_tag (ECalendar *ecal, struct calendar_tag_closure *c)
 					     &end_year, &end_month, &end_day))
 	    return FALSE;
 
-	start_tm.tm_year = start_year - 1900;
-	start_tm.tm_mon = start_month;
-	start_tm.tm_mday = start_day;
-	start_tm.tm_hour = 0;
-	start_tm.tm_min = 0;
-	start_tm.tm_sec = 0;
-	start_tm.tm_isdst = -1;
+	start_tt.year = start_year;
+	start_tt.month = start_month + 1;
+	start_tt.day = start_day;
+	start_tt.is_daylight = -1;
 
-	end_tm.tm_year = end_year - 1900;
-	end_tm.tm_mon = end_month;
-	end_tm.tm_mday = end_day + 1;
-	end_tm.tm_hour = 0;
-	end_tm.tm_min = 0;
-	end_tm.tm_sec = 0;
-	end_tm.tm_isdst = -1;
+	end_tt.year = end_year;
+	end_tt.month = end_month + 1;
+	end_tt.day = end_day;
+	end_tt.is_daylight = -1;
+
+	icaltime_adjust (&end_tt, 1, 0, 0, 0);
 
 	c->calitem = ecal->calitem;
-	c->start_time = mktime (&start_tm);
-	c->end_time = mktime (&end_tm);
+
+	/* FIXME. It may be better if the timezone is passed in. */
+	location = calendar_config_get_timezone ();
+	c->zone = icaltimezone_get_builtin_timezone (location);
+
+	c->start_time = icaltime_as_timet_with_zone (start_tt, c->zone);
+	c->end_time = icaltime_as_timet_with_zone (end_tt, c->zone);
 
 	return TRUE;
 }
@@ -85,21 +90,16 @@ tag_calendar_cb (CalComponent *comp,
 		 gpointer data)
 {
 	struct calendar_tag_closure *c = data;
-	time_t t;
+	struct icaltimetype start_tt, end_tt;
 
-	t = time_day_begin (istart);
-
-	do {
-		struct tm tm;
-
-		tm = *localtime (&t);
-
-		e_calendar_item_mark_day (c->calitem, tm.tm_year + 1900,
-					  tm.tm_mon, tm.tm_mday,
-					  E_CALENDAR_ITEM_MARK_BOLD);
-
-		t = time_day_end (t);
-	} while (t < iend);
+	start_tt = icaltime_from_timet_with_zone (istart, FALSE, c->zone);
+	end_tt = icaltime_from_timet_with_zone (iend, FALSE, c->zone);
+	e_calendar_item_mark_days (c->calitem,
+				   start_tt.year, start_tt.month - 1,
+				   start_tt.day,
+				   end_tt.year, end_tt.month - 1,
+				   end_tt.day,
+				   E_CALENDAR_ITEM_MARK_BOLD);
 
 	return TRUE;
 }
@@ -149,7 +149,7 @@ tag_calendar_by_client (ECalendar *ecal, CalClient *client)
  * component that occur within the calendar's current time range.
  **/
 void
-tag_calendar_by_comp (ECalendar *ecal, CalComponent *comp)
+tag_calendar_by_comp (ECalendar *ecal, CalComponent *comp, CalClient *client)
 {
 	struct calendar_tag_closure c;
 
@@ -168,5 +168,7 @@ tag_calendar_by_comp (ECalendar *ecal, CalComponent *comp)
 #if 0
 	g_print ("DateNavigator generating instances\n");
 #endif
-	cal_recur_generate_instances (comp, c.start_time, c.end_time, tag_calendar_cb, &c);
+	cal_recur_generate_instances (comp, c.start_time, c.end_time,
+				      tag_calendar_cb, &c,
+				      cal_client_resolve_tzid, client);
 }

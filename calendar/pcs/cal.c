@@ -424,6 +424,35 @@ impl_Cal_get_query (PortableServer_Servant servant,
 	return query_copy;
 }
 
+/* Cal::get_timezone_object method */
+static GNOME_Evolution_Calendar_CalObj
+impl_Cal_get_timezone_object (PortableServer_Servant servant,
+			      const GNOME_Evolution_Calendar_CalTimezoneObjUID tzid,
+			      CORBA_Environment *ev)
+{
+	Cal *cal;
+	CalPrivate *priv;
+	char *calobj;
+
+	cal = CAL (bonobo_object_from_servant (servant));
+	priv = cal->priv;
+
+	calobj = cal_backend_get_timezone_object (priv->backend, tzid);
+
+	if (calobj) {
+		CORBA_char *calobj_copy;
+
+		calobj_copy = CORBA_string_dup (calobj);
+		g_free (calobj);
+		return calobj_copy;
+	} else {
+		CORBA_exception_set (ev, CORBA_USER_EXCEPTION,
+				     ex_GNOME_Evolution_Calendar_Cal_NotFound,
+				     NULL);
+		return NULL;
+	}
+}
+
 /**
  * cal_construct:
  * @cal: A calendar client interface.
@@ -556,6 +585,7 @@ cal_class_init (CalClass *klass)
 	epv->_get_uri = impl_Cal_get_uri;
 	epv->countObjects = impl_Cal_get_n_objects;
 	epv->getObject = impl_Cal_get_object;
+	epv->getTimezoneObject = impl_Cal_get_timezone_object;
 	epv->getUIDs = impl_Cal_get_uids;
 	epv->getChanges = impl_Cal_get_changes;
 	epv->getObjectsInRange = impl_Cal_get_objects_in_range;

@@ -41,7 +41,7 @@
 #include <widgets/misc/e-dateedit.h>
 #include <widgets/meeting-time-sel/e-meeting-time-sel.h>
 #include <e-util/e-dialog-widgets.h>
-#include "../Evolution-Addressbook-SelectNames.h"
+#include <addressbook/gui/component/select-names/Evolution-Addressbook-SelectNames.h>
 #include "comp-editor-util.h"
 #include "meeting-page.h"
 

@@ -24,6 +24,7 @@
 #endif
 
 #include <string.h>
+#include <ical.h>
 #include <glib.h>
 #include <libgnome/gnome-defs.h>
 #include <libgnome/gnome-i18n.h>
@@ -39,50 +40,77 @@
  * @comp: The component to extract the dates from
  * 
  * Extracts the dates from the calendar component into the
- * CompEditorPageDates structure
+ * CompEditorPageDates structure. Note that it returns pointers to static
+ * structs, so these will be overwritten in the next call.
  **/
 void
 comp_editor_dates (CompEditorPageDates *dates, CalComponent *comp)
 {
-	CalComponentDateTime dt;
-	struct icaltimetype *completed;
+	static struct icaltimetype start;
+	static struct icaltimetype end;
+	static struct icaltimetype due;
+	static struct icaltimetype complete;
 
-	dates->start = 0;
-	dates->end = 0;
-	dates->due = 0;
-	dates->complete = 0;
+	CalComponentDateTime dt;
+	struct icaltimetype *comp_complete;
+
+
+	dates->start = NULL;
+	dates->end = NULL;
+	dates->due = NULL;
+	dates->complete = NULL;
 	
 	cal_component_get_dtstart (comp, &dt);
-	if (dt.value)
-		dates->start = icaltime_as_timet (*dt.value);
+	if (dt.value) {
+		start = *dt.value;
+		dates->start = &start;
+	}
+	cal_component_free_datetime (&dt);
 
 	cal_component_get_dtend (comp, &dt);
-	if (dt.value)
-		dates->end = icaltime_as_timet (*dt.value);
+	if (dt.value) {
+		end = *dt.value;
+		dates->end = &end;
+	}
+	cal_component_free_datetime (&dt);
 
 	cal_component_get_due (comp, &dt);
-	if (dt.value)
-		dates->due = icaltime_as_timet (*dt.value);
-
-	cal_component_get_completed (comp, &completed);
-	if (completed) {
-		dates->complete = icaltime_as_timet (*completed);
-		cal_component_free_icaltimetype (completed);
+	if (dt.value) {
+		due = *dt.value;
+		dates->due = &due;
 	}
+	cal_component_free_datetime (&dt);
+
+	cal_component_get_completed (comp, &comp_complete);
+	if (comp_complete) {
+		complete = *comp_complete;
+		dates->complete = &complete;
+	}
+	cal_component_free_icaltimetype (comp_complete);
 }
 
 static void
-write_label_piece (time_t t, char *buffer, int size, char *stext, char *etext)
+write_label_piece (struct icaltimetype *tt, char *buffer, int size,
+		   char *stext, char *etext)
 {
-	struct tm *tmp_tm;
+	struct tm tmp_tm;
 	int len;
 	
-	tmp_tm = localtime (&t);
+	/* FIXME: May want to convert the time to an appropriate zone. */
+
 	if (stext != NULL)
 		strcat (buffer, stext);
 
+	tmp_tm.tm_year = tt->year - 1900;
+	tmp_tm.tm_mon = tt->month - 1;
+	tmp_tm.tm_mday = tt->day;
+	tmp_tm.tm_hour = tt->hour;
+	tmp_tm.tm_min = tt->minute;
+	tmp_tm.tm_sec = tt->second;
+	tmp_tm.tm_isdst = -1;
+
 	len = strlen (buffer);
-	e_time_format_date_and_time (tmp_tm,
+	e_time_format_date_and_time (&tmp_tm,
 				     calendar_config_get_24_hour_format (), 
 				     FALSE, FALSE,
 				     &buffer[len], size - len);
@@ -101,25 +129,36 @@ write_label_piece (time_t t, char *buffer, int size, char *stext, char *etext)
 void
 comp_editor_date_label (CompEditorPageDates *dates, GtkWidget *label)
 {
-	static char buffer[1024];
+	char buffer[1024];
+	gboolean start_set = FALSE, end_set = FALSE;
+	gboolean complete_set = FALSE, due_set = FALSE;
 
 	buffer[0] = '\0';
 
-	if (dates->start > 0)
+	if (dates->start && !icaltime_is_null_time (*dates->start))
+		start_set = TRUE;
+	if (dates->end && !icaltime_is_null_time (*dates->end))
+		end_set = TRUE;
+	if (dates->complete && !icaltime_is_null_time (*dates->complete))
+		complete_set = TRUE;
+	if (dates->due && !icaltime_is_null_time (*dates->due))
+		due_set = TRUE;
+
+	if (start_set)
 		write_label_piece (dates->start, buffer, 1024, NULL, NULL);
 
-	if (dates->end > 0 && dates->start > 0)
+	if (start_set && end_set)
 		write_label_piece (dates->end, buffer, 1024, _(" to "), NULL);
 
-	if (dates->complete > 0) {
-		if (dates->start > 0)
+	if (complete_set) {
+		if (start_set)
 			write_label_piece (dates->complete, buffer, 1024, _(" (Completed "), ")");
 		else
 			write_label_piece (dates->complete, buffer, 1024, _("Completed "), NULL);
 	}
 	
-	if (dates->due > 0 && dates->complete == 0) {
-		if (dates->start > 0)
+	if (due_set && dates->complete == NULL) {
+		if (start_set)
 			write_label_piece (dates->due, buffer, 1024, _(" (Due "), ")");
 		else
 			write_label_piece (dates->due, buffer, 1024, _("Due "), NULL);
@@ -150,4 +189,35 @@ comp_editor_new_date_edit (gboolean show_date, gboolean show_time)
 	calendar_config_configure_e_date_edit (dedit);
 
 	return GTK_WIDGET (dedit);
+}
+
+
+/* Returns the current time, for EDateEdit widgets and ECalendar items in the
+   dialogs.
+   FIXME: Should probably use the timezone from somewhere in the component
+   rather than the current timezone. */
+struct tm
+comp_editor_get_current_time (GtkObject *object, gpointer data)
+{
+	char *location;
+	icaltimezone *zone;
+	struct icaltimetype tt;
+	struct tm tmp_tm = { 0 };
+
+	/* Get the current timezone. */
+	location = calendar_config_get_timezone ();
+	zone = icaltimezone_get_builtin_timezone (location);
+
+	tt = icaltime_from_timet_with_zone (time (NULL), FALSE, zone);
+
+	/* Now copy it to the struct tm and return it. */
+	tmp_tm.tm_year  = tt.year - 1900;
+	tmp_tm.tm_mon   = tt.month - 1;
+	tmp_tm.tm_mday  = tt.day;
+	tmp_tm.tm_hour  = tt.hour;
+	tmp_tm.tm_min   = tt.minute;
+	tmp_tm.tm_sec   = tt.second;
+	tmp_tm.tm_isdst = -1;
+
+	return tmp_tm;
 }

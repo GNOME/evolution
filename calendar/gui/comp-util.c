@@ -37,7 +37,7 @@
  * component object.
  **/
 void
-cal_comp_util_add_exdate (CalComponent *comp, struct icaltimetype itt)
+cal_comp_util_add_exdate (CalComponent *comp, time_t t, icaltimezone *zone)
 {
 	GSList *list;
 	CalComponentDateTime *cdt;
@@ -49,8 +49,8 @@ cal_comp_util_add_exdate (CalComponent *comp, struct icaltimetype itt)
 
 	cdt = g_new (CalComponentDateTime, 1);
 	cdt->value = g_new (struct icaltimetype, 1);
-	*cdt->value = itt;
-	cdt->tzid = NULL;
+	*cdt->value = icaltime_from_timet_with_zone (t, TRUE, zone);
+	cdt->tzid = icaltimezone_get_tzid (zone);
 
 	list = g_slist_append (list, cdt);
 	cal_component_set_exdate_list (comp, list);

@@ -29,6 +29,8 @@
 
 
 static void comp_editor_page_class_init (CompEditorPageClass *class);
+static void comp_editor_page_init (CompEditorPage *page);
+static void comp_editor_page_destroy (GtkObject *object);
 
 /* Signal IDs */
 
@@ -65,7 +67,7 @@ comp_editor_page_get_type (void)
 			sizeof (CompEditorPage),
 			sizeof (CompEditorPageClass),
 			(GtkClassInitFunc) comp_editor_page_class_init,
-			(GtkObjectInitFunc) NULL,
+			(GtkObjectInitFunc) comp_editor_page_init,
 			NULL, /* reserved_1 */
 			NULL, /* reserved_2 */
 			(GtkClassInitFunc) NULL
@@ -136,9 +138,35 @@ comp_editor_page_class_init (CompEditorPageClass *class)
 	class->fill_component = NULL;
 	class->set_summary = NULL;
 	class->set_dates = NULL;
+
+	object_class->destroy = comp_editor_page_destroy;
 }
 
 
+
+static void
+comp_editor_page_init (CompEditorPage *page)
+{
+	page->client = NULL;
+}
+
+
+static void
+comp_editor_page_destroy (GtkObject *object)
+{
+	CompEditorPage *page;
+
+	g_return_if_fail (object != NULL);
+	g_return_if_fail (IS_COMP_EDITOR_PAGE (object));
+
+	page = COMP_EDITOR_PAGE (object);
+
+	if (page->client) {
+		gtk_object_ref (GTK_OBJECT (page->client));
+		page->client = NULL;
+	}
+}
+
 
 /**
  * comp_editor_page_get_widget:
@@ -195,6 +223,27 @@ comp_editor_page_fill_component (CompEditorPage *page, CalComponent *comp)
 
 	if (CLASS (page)->fill_component != NULL)
 		(* CLASS (page)->fill_component) (page, comp);
+}
+
+/**
+ * comp_editor_page_set_cal_client:
+ * @page: An editor page
+ * @client: A #CalClient object
+ *
+ * Sets the #CalClient for the dialog page to use.
+ **/
+void
+comp_editor_page_set_cal_client (CompEditorPage *page, CalClient *client)
+{
+	g_return_if_fail (page != NULL);
+        g_return_if_fail (IS_COMP_EDITOR_PAGE (page));
+
+	if (page->client)
+		gtk_object_unref (GTK_OBJECT (client));
+
+	page->client = client;
+	if (page->client)
+		gtk_object_ref (GTK_OBJECT (client));
 }
 
 /**

@@ -11,6 +11,7 @@
 #include <string.h>
 #include <ctype.h>
 #include <glib.h>
+#include <ical.h>
 #include "timeutil.h"
 
 
@@ -39,8 +40,8 @@ isodate_from_time_t (time_t t)
 	struct tm *tm;
 	char isotime[40];
 
-	tm = localtime (&t);
-	strftime (isotime, sizeof (isotime)-1, "%Y%m%dT%H%M%S", tm);
+	tm = gmtime (&t);
+	strftime (isotime, sizeof (isotime)-1, "%Y%m%dT%H%M%SZ", tm);
 	return g_strdup (isotime);
 }
 
@@ -51,6 +52,7 @@ isodate_from_time_t (time_t t)
  * Converts an ISO 8601 time string into a time_t value.
  * 
  * Return value: Time_t corresponding to the specified ISO string.
+ * Note that we only allow UTC times at present.
  **/
 time_t
 time_from_isodate (const char *str)
@@ -59,6 +61,7 @@ time_from_isodate (const char *str)
 	struct tm my_tm;
 	time_t t;
 	int i;
+        char *old_tz;
 
 	g_return_val_if_fail (str != NULL, -1);
 
@@ -93,16 +96,10 @@ time_from_isodate (const char *str)
 
 	my_tm.tm_isdst = -1;
 
+        old_tz = set_tz ("UTC");
 	t = mktime (&my_tm);
+	unset_tz (old_tz);
 
-	if (len == 16) {
-#if defined(HAVE_TM_GMTOFF)
-		t += my_tm.tm_gmtoff;
-#elif defined(HAVE_TIMEZONE)
-		t -= timezone;
-#endif
-	}
-	    
 	return t;
 }
 

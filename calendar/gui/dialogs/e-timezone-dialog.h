@@ -56,9 +56,20 @@ ETimezoneDialog* e_timezone_dialog_construct		(ETimezoneDialog  *etd);
 
 ETimezoneDialog* e_timezone_dialog_new			(void);
 
-char*		 e_timezone_dialog_get_timezone		(ETimezoneDialog  *etd);
+/* Returns the TZID of the timezone set, and optionally its displayed name.
+   The TZID may be NULL, in which case the builtin timezone with the city name
+   of display_name should be used. If display_name is also NULL or "", then it
+   is assumed to be a 'local time'. */
+char*		 e_timezone_dialog_get_timezone		(ETimezoneDialog  *etd,
+							 char		 **display_name);
+
+/* Sets the TZID and displayed name of the timezone. The TZID may be NULL for
+   a 'local time' (i.e. display_name is NULL or "") or if it is a builtin
+   timezone which hasn't been loaded yet. (This is done so we don't load
+   timezones until we really need them.) */
 void		 e_timezone_dialog_set_timezone		(ETimezoneDialog  *etd,
-							 char		  *timezone);
+							 char		  *tzid,
+							 char		  *display_name);
 
 GtkWidget*	 e_timezone_dialog_get_toplevel		(ETimezoneDialog  *etd);
 

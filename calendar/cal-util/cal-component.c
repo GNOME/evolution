@@ -883,7 +883,7 @@ ensure_mandatory_properties (CalComponent *comp)
 		struct icaltimetype t;
 
 		tim = time (NULL);
-		t = icaltime_from_timet (tim, FALSE);
+		t = icaltime_from_timet_with_zone (tim, FALSE, icaltimezone_get_utc_timezone ());
 
 		priv->dtstamp = icalproperty_new_dtstamp (t);
 		icalcomponent_add_property (priv->icalcomp, priv->dtstamp);
@@ -1822,8 +1822,12 @@ get_datetime (struct datetime *datetime,
 	} else
 		dt->value = NULL;
 
+	/* If the icaltimetype has is_utc set, we set "UTC" as the TZID.
+	   This makes the timezone code simpler. */
 	if (datetime->tzid_param)
 		dt->tzid = icalparameter_get_tzid (datetime->tzid_param);
+	else if (dt->value && dt->value->is_utc)
+		dt->tzid = "UTC";
 	else
 		dt->tzid = NULL;
 }
@@ -1853,6 +1857,10 @@ set_datetime (CalComponent *comp, struct datetime *datetime,
 
 	g_return_if_fail (dt->value != NULL);
 
+	/* If the TZID is set to "UTC", we set the is_utc flag. */
+	if (dt->tzid && !strcmp (dt->tzid, "UTC"))
+		dt->value->is_utc = 1;
+
 	if (datetime->prop)
 		(* prop_set_func) (datetime->prop, *dt->value);
 	else {
@@ -1860,7 +1868,8 @@ set_datetime (CalComponent *comp, struct datetime *datetime,
 		icalcomponent_add_property (priv->icalcomp, datetime->prop);
 	}
 
-	if (dt->tzid) {
+	/* If the TZID is set to "UTC", we don't want to save the TZID. */
+	if (dt->tzid && strcmp (dt->tzid, "UTC")) {
 		g_assert (datetime->prop != NULL);
 
 		if (datetime->tzid_param)

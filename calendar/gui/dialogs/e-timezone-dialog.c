@@ -37,6 +37,11 @@
 #define E_TIMEZONE_DIALOG_MAP_POINT_SELECTED_2_RGBA 0x000000ff
 
 struct _ETimezoneDialogPrivate {
+	/* The TZID of the timezone. May be NULL for a 'local time' (i.e. when
+	   the displayed name is "") or for builtin timezones which we haven't
+	   loaded yet. */
+	char *tzid;
+
 	/* Glade XML data */
 	GladeXML *xml;
 
@@ -131,6 +136,7 @@ e_timezone_dialog_init (ETimezoneDialog *etd)
 	priv = g_new0 (ETimezoneDialogPrivate, 1);
 	etd->priv = priv;
 
+	priv->tzid = NULL;
 	priv->point_selected = NULL;
 	priv->point_hover = NULL;
 	priv->timeout_id = 0;
@@ -148,6 +154,9 @@ e_timezone_dialog_destroy (GtkObject *object)
 
 	etd = E_TIMEZONE_DIALOG (object);
 	priv = etd->priv;
+
+	g_free (priv->tzid);
+	priv->tzid = NULL;
 
 	if (priv->timeout_id) {
 		g_source_remove (priv->timeout_id);
@@ -460,6 +469,9 @@ on_map_button_pressed (GtkWidget *w, GdkEventButton *event, gpointer data)
 		
 		gtk_entry_set_text (GTK_ENTRY (GTK_COMBO (priv->timezone_combo)->entry),
 				    get_zone_from_point (etd, priv->point_selected));
+
+		g_free (priv->tzid);
+		priv->tzid = NULL;
 	}
 	
 	return TRUE;
@@ -508,8 +520,13 @@ get_zone_from_point (ETimezoneDialog *etd,
 }
 
 
+/* Returns the TZID of the timezone set, and optionally its displayed name.
+   The TZID may be NULL, in which case the builtin timezone with the city name
+   of display_name should be used. If display_name is also NULL or "", then it
+   is assumed to be a 'local time'. */
 char*
-e_timezone_dialog_get_timezone		(ETimezoneDialog  *etd)
+e_timezone_dialog_get_timezone		(ETimezoneDialog  *etd,
+					 char		 **display_name)
 {
 	ETimezoneDialogPrivate *priv;
 
@@ -518,13 +535,21 @@ e_timezone_dialog_get_timezone		(ETimezoneDialog  *etd)
 
 	priv = etd->priv;
 
-	return gtk_entry_get_text (GTK_ENTRY (GTK_COMBO (priv->timezone_combo)->entry));
+	if (display_name)
+		*display_name = gtk_entry_get_text (GTK_ENTRY (GTK_COMBO (priv->timezone_combo)->entry));
+
+	return priv->tzid;
 }
 
 
+/* Sets the TZID and displayed name of the timezone. The TZID may be NULL for
+   a 'local time' (i.e. display_name is NULL or "") or if it is a builtin
+   timezone which hasn't been loaded yet. (This is done so we don't load
+   timezones until we really need them.) */
 void
 e_timezone_dialog_set_timezone		(ETimezoneDialog  *etd,
-					 char		  *timezone)
+					 char		  *tzid,
+					 char		  *display_name)
 {
 	ETimezoneDialogPrivate *priv;
 
@@ -533,8 +558,13 @@ e_timezone_dialog_set_timezone		(ETimezoneDialog  *etd,
 
 	priv = etd->priv;
 
+	if (priv->tzid)
+		g_free (priv->tzid);
+
+	priv->tzid = g_strdup (tzid);
+
 	gtk_entry_set_text (GTK_ENTRY (GTK_COMBO (priv->timezone_combo)->entry),
-			    timezone);
+			    display_name ? display_name : "");
 
 	find_selected_point (etd);
 }
@@ -605,5 +635,12 @@ find_selected_point (ETimezoneDialog *etd)
 static void
 on_combo_changed (GtkEditable *entry, ETimezoneDialog *etd)
 {
+	ETimezoneDialogPrivate *priv;
+
+	priv = etd->priv;
+
 	find_selected_point (etd);
+
+	g_free (priv->tzid);
+	priv->tzid = NULL;
 }

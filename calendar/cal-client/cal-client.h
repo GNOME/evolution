@@ -110,6 +110,10 @@ CalClientGetStatus cal_client_get_object (CalClient *client,
 					  const char *uid,
 					  CalComponent **comp);
 
+CalClientGetStatus cal_client_get_timezone (CalClient *client,
+					    const char *tzid,
+					    icaltimezone **zone);
+
 GList *cal_client_get_uids (CalClient *client, CalObjType type);
 GList *cal_client_get_changes (CalClient *client, CalObjType type, const char *change_id);
 
@@ -136,6 +140,10 @@ gboolean cal_client_update_object (CalClient *client, CalComponent *comp);
 gboolean cal_client_remove_object (CalClient *client, const char *uid);
 
 CalQuery *cal_client_get_query (CalClient *client, const char *sexp);
+
+/* Resolves TZIDs for the recurrence generator. */
+icaltimezone *cal_client_resolve_tzid (const char *tzid, CalClient *client);
+
 
 
 

@@ -80,6 +80,11 @@ gboolean	calendar_model_get_use_24_hour_format (CalendarModel *model);
 void		calendar_model_set_use_24_hour_format (CalendarModel *model,
 						       gboolean	      use_24_hour_format);
 
+/* The current timezone. */
+icaltimezone*	calendar_model_get_timezone	    (CalendarModel *model);
+void		calendar_model_set_timezone	    (CalendarModel *model,
+						     icaltimezone  *zone);
+
 GTree*		calendar_model_get_categories	  (CalendarModel   *model);
 
 void		calendar_model_set_default_category (CalendarModel	*model,
