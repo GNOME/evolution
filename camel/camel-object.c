@@ -37,6 +37,7 @@
 
 #define d(x)
 #define b(x) 			/* object bag */
+#define h(x) 			/* hooks */
 
 /* I just mashed the keyboard for these... */
 #define CAMEL_OBJECT_MAGIC           	 0x77A344ED
@@ -1098,6 +1099,8 @@ setup:
 	hooks->list_length++;
 	camel_object_unget_hooks(obj);
 
+	h(printf("%p hook event '%s' %p %p = %d\n", vo, name, func, data, id));
+
 	return id;
 }
 
@@ -1116,6 +1119,8 @@ camel_object_remove_event(void *vo, unsigned int id)
 			  id, obj->klass->name);
 		return;
 	}
+
+	h(printf("%p remove event %d\n", vo, id));
 
 	/* scan hooks for this event, remove it, or flag it if we're busy */
 	hooks = camel_object_get_hooks(obj);
@@ -1160,6 +1165,8 @@ camel_object_unhook_event(void *vo, const char * name, CamelObjectEventHookFunc 
 			  name, obj->klass->name);
 		return;
 	}
+
+	h(printf("%p unhook event '%s' %p %p\n", vo, name, func, data));
 
 	/* scan hooks for this event, remove it, or flag it if we're busy */
 	hooks = camel_object_get_hooks(obj);
