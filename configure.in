@@ -557,6 +557,7 @@ camel/providers/sendmail/Makefile
 camel/providers/smtp/Makefile
 camel/providers/vee/Makefile
 camel/providers/imap/Makefile
+camel/providers/mh/Makefile
 composer/Makefile
 widgets/Makefile
 widgets/e-paned/Makefile
