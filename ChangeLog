@@ -1,5 +1,9 @@
 2000-02-09  NotZed  <notzed@zedzone.helixcode.com>
 
+	* camel/camel-simple-data-wrapper-stream.c (read): Increment the
+	copy source address to match the data read offset.
+	(seek): Actually implement the seek.
+
 	* camel/camel-mime-part-utils.c
 	(camel_mime_part_store_stream_in_buffer): If we get a -1 read,
 	DONT update the total bytes, and try and truncate the array in

@@ -50,7 +50,7 @@ read (CamelStream *stream,
 
 	len = MIN (n, array->len - wrapper_stream->current_position);
 	if (len > 0) {
-		memcpy (buffer, array->data, len);
+		memcpy (buffer, wrapper_stream->current_position + array->data, len);
 		wrapper_stream->current_position += len;
 		return len;
 	} else {
@@ -161,12 +161,17 @@ seek (CamelSeekableStream *stream,
 		new_position = wrapper_stream->current_position + offset;
 		break;
 	case CAMEL_STREAM_END:
-		new_position = wrapper_stream->wrapper->byte_array->len;
+		new_position = wrapper_stream->wrapper->byte_array->len - offset;
 		break;
 	default:
 		g_warning ("Unknown CamelStreamSeekPolicy %d.", policy);
 		return -1;
 	}
+
+	if (new_position<0)
+		new_position = 0;
+	else if (new_position>=wrapper_stream->wrapper->byte_array->len)
+		new_position = wrapper_stream->wrapper->byte_array->len-1;
 
 	wrapper_stream->current_position = new_position;
 	return new_position;
