@@ -1,3 +1,20 @@
+2000-06-22  Peter Williams  <peterw@curious-george.helixcode.com>
+	* mail-threads.c: Make the dialog boxes for error and
+	question non-modal. They're modal relative to the dispatch
+	thread, but before they would also eg lock up the toolbar
+	buttons (while the menus, managed by another process, were
+	active -- a weird effect).
+	
+2000-06-22  Peter Williams  <peterw@curious-george.helixcode.com>
+
+	* mail-threads.[ch]: Extra argument to mail_operation_try:
+	'cleanup', a function to be called in the main thread after
+	the dispatcher thread exits. gtk_object_destroy's et al may
+	attempt to unmap windows so we can't do them in the dispatcher
+	thread :-(
+
+	* test-thread.c: Updated with demo of new argument working.
+
 2000-06-22  Peter Williams  <peterw@helixcode.com>
 
 	* test-thread.c (op_5): New tests for the get_password

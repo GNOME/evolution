@@ -41,7 +41,8 @@
  **/
 
 typedef struct closure_s {
-	void (*func)( gpointer );
+	void (*callback)( gpointer );
+	void (*cleanup)( gpointer );
 	gpointer data;
 	
 	gchar *prettyname;
@@ -56,7 +57,10 @@ typedef struct com_msg_s {
 	enum com_msg_type_e { STARTING, PERCENTAGE, HIDE_PBAR, SHOW_PBAR, MESSAGE, PASSWORD, ERROR, FINISHED } type;
 	gfloat percentage;
 	gchar *message;
-	
+
+	void (*func)( gpointer );
+	gpointer userdata;
+
 	/* Password stuff */
 	gchar **reply;
 	gboolean secret;
@@ -145,8 +149,10 @@ static void check_compipe( void );
 static gboolean read_msg( GIOChannel *source, GIOCondition condition, gpointer userdata );
 static void remove_next_pending( void );
 static void show_error( com_msg_t *msg );
+static void show_error_clicked( void );
 static void get_password( com_msg_t *msg );
 static void get_password_cb( gchar *string, gpointer data );
+static void get_password_clicked( GnomeDialog *dialog, gint button, gpointer user_data );
 
 /* Pthread code */
 /* FIXME: support other thread types!!!! */
@@ -177,6 +183,7 @@ choke on this: no thread type defined
  * mail_operation_try:
  * @description: A user-friendly string describing the operation.
  * @callback: the function to call in another thread to start the operation
+ * @cleanup: the function to call in the main thread when the callback is finished
  * @user_data: extra data passed to the callback
  *
  * Runs a mail operation asynchronously. If no other operation is running,
@@ -192,13 +199,15 @@ choke on this: no thread type defined
  **/
 
 gboolean
-mail_operation_try( const gchar *description, void (*callback)( gpointer ), gpointer user_data )
+mail_operation_try( const gchar *description, void (*callback)( gpointer ), 
+		    void (*cleanup)( gpointer ), gpointer user_data )
 {
 	closure_t *clur;
 	g_assert( callback );
 
 	clur = g_new( closure_t, 1 );
-	clur->func = callback;
+	clur->callback = callback;
+	clur->cleanup = cleanup;
 	clur->data = user_data;
 	clur->prettyname = g_strdup( description );
 
@@ -541,9 +550,11 @@ static void *dispatch_func( void *data )
 	msg.message = clur->prettyname;
 	write( WRITER, &msg, sizeof( msg ) );
 
-	(clur->func)( clur->data );
+	(clur->callback)( clur->data );
 
 	msg.type = FINISHED;
+	msg.func = clur->cleanup; /* NULL is ok */
+	msg.userdata = clur->data;
 	write( WRITER, &msg, sizeof( msg ) );
 
 	g_free( clur->prettyname );
@@ -592,28 +603,35 @@ static gboolean read_msg( GIOChannel *source, GIOCondition condition, gpointer u
 	case STARTING:
 		gtk_label_set_text( GTK_LABEL( queue_window_message ), msg->message );
 		gtk_progress_bar_update( GTK_PROGRESS_BAR( queue_window_progress ), 0.0 );
+		g_free( msg );
 		break;
 	case PERCENTAGE:
 		gtk_progress_bar_update( GTK_PROGRESS_BAR( queue_window_progress ), msg->percentage );
+		g_free( msg );
 		break;
 	case HIDE_PBAR:
 		gtk_widget_hide( GTK_WIDGET( queue_window_progress ) );
+		g_free( msg );
 		break;
 	case SHOW_PBAR:
 		gtk_widget_show( GTK_WIDGET( queue_window_progress ) );
+		g_free( msg );
 		break;
 	case MESSAGE:
 		gtk_label_set_text( GTK_LABEL( queue_window_message ),
 				    msg->message );
 		g_free( msg->message );
+		g_free( msg );
 		break;
 	case PASSWORD:
 		g_assert( msg->reply );
 		g_assert( msg->success );
 		get_password( msg );
+		/* don't free msg! done later */
 		break;
 	case ERROR:
 		show_error( msg );
+		g_free( msg );
 		break;
 
 		/* Don't fall through; dispatch_func does the FINISHED
@@ -621,6 +639,9 @@ static gboolean read_msg( GIOChannel *source, GIOCondition condition, gpointer u
 		 */
 
 	case FINISHED:
+		if( msg->func )
+			(msg->func)( msg->userdata );
+
 		if( op_queue == NULL ) {
 			/* All done! */
 			gtk_widget_hide( queue_window );
@@ -640,6 +661,7 @@ static gboolean read_msg( GIOChannel *source, GIOCondition condition, gpointer u
 			/* Run run run little process */
 			dispatch( clur );
 		}
+		g_free( msg );
 		break;
 	default:
 		g_warning( _("Corrupted message from dispatching thread?") );
@@ -647,31 +669,7 @@ static gboolean read_msg( GIOChannel *source, GIOCondition condition, gpointer u
 	}
 
 	GDK_THREADS_LEAVE();
-	g_free( msg );
 	return TRUE;
-}
-
-/**
- * show_error:
- *
- * Show the error dialog and wait for user OK
- **/
-
-static void show_error( com_msg_t *msg )
-{
-	GtkWidget *err_dialog;
-
-	err_dialog = gnome_error_dialog( msg->message );
-	g_free( msg->message );
-
-	G_LOCK( modal_lock );
-
-	modal_may_proceed = FALSE;
-	gnome_dialog_run_and_close( GNOME_DIALOG( err_dialog ) );
-	modal_may_proceed = TRUE;
-
-	g_cond_signal( modal_cond );
-	G_UNLOCK( modal_lock );
 }
 
 /**
@@ -702,6 +700,42 @@ static void remove_next_pending( void )
 }
 
 /**
+ * show_error:
+ *
+ * Show the error dialog and wait for user OK
+ **/
+
+static void show_error( com_msg_t *msg )
+{
+	GtkWidget *err_dialog;
+
+	err_dialog = gnome_error_dialog( msg->message );
+	gnome_dialog_set_close( GNOME_DIALOG(err_dialog), TRUE );
+	gtk_signal_connect( GTK_OBJECT( err_dialog ), "clicked", (GtkSignalFunc) show_error_clicked, NULL );
+	g_free( msg->message );
+
+	G_LOCK( modal_lock );
+
+	modal_may_proceed = FALSE;
+	/*gnome_dialog_run_and_close( GNOME_DIALOG( err_dialog ) );*/
+	gtk_widget_show( GTK_WIDGET( err_dialog ) );
+}
+
+/**
+ * show_error_clicked:
+ *
+ * Called when the user makes hits okay to the error dialog --
+ * the dispatch thread is allowed to continue.
+ **/
+
+static void show_error_clicked( void )
+{
+	modal_may_proceed = TRUE;
+	g_cond_signal( modal_cond );
+	G_UNLOCK( modal_lock );
+}
+
+/**
  * get_password:
  *
  * Ask for a password and put the answer in *(msg->reply)
@@ -710,12 +744,12 @@ static void remove_next_pending( void )
 static void get_password( com_msg_t *msg )
 {
 	GtkWidget *dialog;
-	gint ret;
 
 	dialog = gnome_request_dialog( msg->secret, msg->message, NULL,
 				       0, get_password_cb, msg,
 				       NULL );
-
+	gnome_dialog_set_close( GNOME_DIALOG(dialog), TRUE );
+	gtk_signal_connect( GTK_OBJECT( dialog ), "clicked", get_password_clicked, msg );
 
 	G_LOCK( modal_lock );
 
@@ -724,25 +758,14 @@ static void get_password( com_msg_t *msg )
 	if( dialog == NULL ) {
 		*(msg->success) = FALSE;
 		*(msg->reply) = g_strdup( _("Could not create dialog box.") );
-		goto done;
+		modal_may_proceed = TRUE;
+		g_cond_signal( modal_cond );
+		G_UNLOCK( modal_lock );
+	} else {
+		*(msg->reply) = NULL;
+		/*ret = gnome_dialog_run_and_close( GNOME_DIALOG(dialog) );*/
+		gtk_widget_show( GTK_WIDGET( dialog ) );
 	}
-
-	*(msg->reply) = NULL;
-	ret = gnome_dialog_run_and_close( GNOME_DIALOG(dialog) );
-
-	/* The -1 check doesn't seem to work too well. */
-	if( /*ret == -1 ||*/ *(msg->reply) == NULL ) {
-		*(msg->success) = FALSE;
-		*(msg->reply) = g_strdup( _("User cancelled query.") );
-		goto done;
-	}
-
-	*(msg->success) = TRUE;
-
- done:
-	modal_may_proceed = TRUE;
-	g_cond_signal( modal_cond );
-	G_UNLOCK( modal_lock );
 }
 
 static void get_password_cb( gchar *string, gpointer data )
@@ -753,4 +776,23 @@ static void get_password_cb( gchar *string, gpointer data )
                 *(msg->reply) = g_strdup( string );
         else
                 *(msg->reply) = NULL;
+}
+
+static void get_password_clicked( GnomeDialog *dialog, gint button, gpointer user_data )
+{
+	com_msg_t *msg = (com_msg_t *) user_data;
+
+	if( button == 1 || *(msg->reply) == NULL ) {
+		*(msg->success) = FALSE;
+		*(msg->reply) = g_strdup( _("User cancelled query.") );
+		goto done;
+	}
+
+	*(msg->success) = TRUE;
+
+ done:
+	g_free( msg );
+	modal_may_proceed = TRUE;
+	g_cond_signal( modal_cond );
+	G_UNLOCK( modal_lock );
 }

@@ -29,6 +29,7 @@
 
 gboolean mail_operation_try( const gchar *description, 
 			     void (*callback)( gpointer ), 
+			     void (*cleanup)( gpointer ),
 			     gpointer user_data );
 
 /* User interface hooks for the other thread */

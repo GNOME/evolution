@@ -13,6 +13,7 @@ static void op_2( gpointer userdata );
 static void op_3( gpointer userdata );
 static void op_4( gpointer userdata );
 static void op_5( gpointer userdata );
+static void done( gpointer userdata );
 static gboolean queue_ops( void );
 
 static gboolean queue_ops( void )
@@ -22,13 +23,13 @@ static gboolean queue_ops( void )
 
 	g_message( "Top of queue_ops" );
 
-	mail_operation_try( "The Crawling Progress Bar of Doom", op_1, NULL );
-	mail_operation_try( "The Mysterious Message Setter", op_2, NULL );
-	mail_operation_try( "The Error Dialog of No Return", op_3, NULL );
+	mail_operation_try( "The Crawling Progress Bar of Doom", op_1, done, "op1 finished" );
+	mail_operation_try( "The Mysterious Message Setter", op_2, done, "op2 finished" );
+	mail_operation_try( "The Error Dialog of No Return", op_3, done, "op3 finished" );
 
 	for( i = 0; i < 3; i++ ) {
 		sprintf( buf, "Queue Filler %d", i );
-		mail_operation_try( buf, op_4, GINT_TO_POINTER( i ) );
+		mail_operation_try( buf, op_4, NULL, GINT_TO_POINTER( i ) );
 	}
 
 	g_message( "Waiting for finish..." );
@@ -36,18 +37,18 @@ static gboolean queue_ops( void )
 
 	g_message( "Ops done -- queue some more!" );
 
-	mail_operation_try( "Progress Bar Redux", op_1, NULL );
+	mail_operation_try( "Progress Bar Redux", op_1, NULL, NULL );
 
 	g_message( "Waiting for finish again..." );
 	mail_operation_wait_for_finish();
 
 	g_message( "Ops done -- more, more!" );
 
-	mail_operation_try( "Dastardly Password Stealer", op_5, NULL );
+	mail_operation_try( "Dastardly Password Stealer", op_5, NULL, NULL );
 
 	for( i = 0; i < 3; i++ ) {
 		sprintf( buf, "Queue Filler %d", i );
-		mail_operation_try( buf, op_4, GINT_TO_POINTER( i ) );
+		mail_operation_try( buf, op_4, NULL, GINT_TO_POINTER( i ) );
 	}
 
 	g_message( "Waiting for finish AGAIN..." );
@@ -123,6 +124,11 @@ static void op_5( gpointer userdata )
 		mail_op_set_message( "\"%s\", you said?", pass );
 
 	sleep( 1 );
+}
+
+static void done( gpointer userdata )
+{
+	g_message( "Operation done: %s", (gchar *) userdata );
 }
 
 int main( int argc, char **argv )
