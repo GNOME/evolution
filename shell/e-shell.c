@@ -1485,9 +1485,10 @@ e_shell_component_maybe_crashed   (EShell *shell,
 		parent_window = GTK_WINDOW (shell_view);
 
 	e_notice (parent_window, GNOME_MESSAGE_BOX_ERROR,
-		  _("Ooops!  The views for `%s' have died unexpectedly.  :-(\n"
-		    "This probably means that the %s component has crashed."),
-		  uri, type_name);
+		  _("The Evolution component that handles folders of type \"%s\"\n"
+		    "has unexpectedly quit. You will need to quit Evolution and restart\n"
+		    "in order to access that data again."),
+		  type_name);
 
 	if (shell_view)
 		bonobo_window_deregister_dead_components (BONOBO_WINDOW (shell_view));

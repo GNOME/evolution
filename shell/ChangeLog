@@ -1,5 +1,10 @@
 2001-10-02  Ettore Perazzoli  <ettore@ximian.com>
 
+	* e-shell.c (e_shell_component_maybe_crashed): Make the crash
+	message less dorky.  [#10264]
+
+2001-10-02  Ettore Perazzoli  <ettore@ximian.com>
+
 	[Don't allow dragging from a folder to one of its descendants or
 	onto itself, when the operation is GDK_DRAG_MOVE.  This fixes bugs
 	like #8737.]
