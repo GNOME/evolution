@@ -1,5 +1,14 @@
 1999-11-25  Miguel de Icaza  <miguel@gnu.org>
 
+	* e-table-item.c (eti_realize_cell_views): New routine: Realizes
+	the cell views
+	(eti_unrealize_cell_views): New routine: unrealizes the cell views.
+
+	* e-table-item.h: Move cell_views array here.
+
+	* table-test.c (value_at): Fix return value.
+	(main): use new invocation method.
+
 	* e-table-header-item.c (ethi_realize): Realize cells.
 
 	* e-table-item.c (eti_header_dim_changed): redraw before and after.
