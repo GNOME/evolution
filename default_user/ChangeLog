@@ -1,3 +1,7 @@
+2000-05-08  Christopher James Lahey  <clahey@helixcode.com>
+
+	* local/Contacts/Makefile.am: Install `addressbook.db'.
+
 000-05-06  Ettore Perazzoli  <ettore@helixcode.com>
 
 	* default_user/local/Inbox/Makefile.am: Install `mbox'.
