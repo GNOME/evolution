@@ -142,7 +142,7 @@ get_field (char **start,
 
 	/* if start is just \n then we need the next line */
 	if (**start == '\n') {
-		g_warning ("Need next line");
+		d(g_warning ("Need next line"));
 		if (fgets (line, 4096, handle) == NULL) {
 			g_warning ("Hmmm, no next line");
 			return NULL;
@@ -181,7 +181,7 @@ get_field (char **start,
 		*start = end + 1;
 	}
 
-	g_warning ("Found %s", field);
+	d(g_warning ("Found %s", field));
 	return field;
 }
 
@@ -243,13 +243,13 @@ import_addressfile (EBook *book,
 
 		start = line;
 		nick = get_field (&start, handle);
-		g_print ("Nick: %s\n", nick);
+		d(g_print ("Nick: %s\n", nick));
 
 		fullname = get_field (&start, handle);
-		g_print ("Fullname: %s\n", fullname);
+		d(g_print ("Fullname: %s\n", fullname));
 
 		address = get_field (&start, handle);
-		g_print ("Address: %s\n", address);
+		d(g_print ("Address: %s\n", address));
 
 		if (*address == '(') {
 			char nextline[4096];
@@ -273,30 +273,22 @@ import_addressfile (EBook *book,
 				    *(bracket + 1) == '\t') {
 
 					*(bracket + 1) = 0;
-					g_print ("More addresses: %s\n", nextline);
-#if 0
-					e_list_append (emaillist, g_strdup (nextline));
-#endif
+					d(g_print ("More addresses: %s\n", nextline));
 					start = bracket + 2;
 					break;
 				} else {
-					g_print ("More addresses: %s\n", nextline);
-#if 0
-					e_list_append (emaillist, g_strdup (nextline));
-#endif
+					d(g_print ("More addresses: %s\n", nextline));
 				}
 			}
 		} else {
 			email = parse_address (address);
-
-			g_print ("Real address: %s", email);
 		}
 
 		fcc = get_field (&start, handle);
-		g_print ("FCC: %s\n", fcc);
+		d(g_print ("FCC: %s\n", fcc));
 
 		comment = get_field (&start, handle);
-		g_print ("Comment: %s\n", comment);
+		d(g_print ("Comment: %s\n", comment));
 
 		if (distrib == FALSE) {
 			/* This was not a distribution list...
@@ -321,6 +313,12 @@ import_addressfile (EBook *book,
 			e_book_add_card (importer->book, simple->card, NULL, NULL);
 		}
 		
+		g_free (nick);
+		g_free (email);
+		g_free (address);
+		g_free (comment);
+		g_free (fcc);
+		g_free (fullname);
 	}
 	
 	fclose (handle);

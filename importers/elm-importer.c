@@ -69,6 +69,9 @@ typedef struct {
 	gboolean do_mail;
 	GtkWidget *alias;
 	gboolean do_alias;
+
+	GtkWidget *ask;
+	gboolean ask_again;
 } ElmImporter;
 
 typedef struct {
@@ -80,6 +83,46 @@ typedef struct {
 static GHashTable *elm_prefs = NULL;
 
 static void import_next (ElmImporter *importer);
+
+static void
+elm_store_settings (ElmImporter *importer)
+{
+	char *evolution_dir, *key;
+
+	evolution_dir = gnome_util_prepend_user_home ("evolution");
+	key = g_strdup_printf ("=%s/config/Elm-Importer=/settings/",
+			       evolution_dir);
+	g_free (evolution_dir);
+
+	gnome_config_push_prefix (key);
+	g_free (key);
+
+	gnome_config_set_bool ("mail", importer->do_mail);
+	gnome_config_set_bool ("alias", importer->do_alias);
+
+	gnome_config_set_bool ("ask-again", importer->ask_again);
+	gnome_config_pop_prefix ();
+}
+
+static void
+elm_restore_settings (ElmImporter *importer)
+{
+	char *evolution_dir, *key;
+
+	evolution_dir = gnome_util_prepend_user_home ("evolution");
+	key = g_strdup_printf ("=%s/config/Elm-Importer=/settings/",
+			       evolution_dir);
+	g_free (evolution_dir);
+
+	gnome_config_push_prefix (key);
+	g_free (key);
+
+	importer->do_mail = gnome_config_get_bool ("mail=True");
+	importer->do_alias = gnome_config_get_bool ("alias=True");
+
+	importer->ask_again = gnome_config_get_bool ("ask-again=False");
+	gnome_config_pop_prefix ();
+}
 
 static void
 importer_cb (EvolutionImporterListener *listener,
@@ -185,7 +228,6 @@ parse_elm_rc (const char *elmrc)
 			linestart = line;
 		}
 
-		g_print ("linestart = '%s'", linestart);
 		end = strstr (linestart, " = ");
 		if (end == NULL) {
 			g_warning ("Broken line");
@@ -227,23 +269,38 @@ elm_can_import (EvolutionIntelligentImporter *ii,
 		void *closure)
 {
 	ElmImporter *importer = closure;
-	char *key, *elmdir, *maildir, *evolution_dir, *alias;
+	char *key, *elmdir, *maildir, *evolution_dir, *aliasfile;
 	char *elmrc;
 	gboolean exists, mailexists, aliasexists;
+	gboolean mail, alias;
 
 	evolution_dir = gnome_util_prepend_user_home ("evolution");
 	/* Already imported */
-	key = g_strdup_printf ("=%s/config/Importers=/importers/", evolution_dir);
+	key = g_strdup_printf ("=%s/config/Importers=/elm-importers/", evolution_dir);
 	g_free (evolution_dir);
 
 	gnome_config_push_prefix (key);
 	g_free (key);
 
-	if (gnome_config_get_bool (KEY) == TRUE) {
+	mail = gnome_config_get_bool ("mail-imported");
+	alias = gnome_config_get_bool ("alias-importer");
+
+	if (alias && mail) {
 		gnome_config_pop_prefix ();
 		return FALSE;
 	}
 	gnome_config_pop_prefix ();
+
+	importer->do_mail = !mail;
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (importer->mail),
+				      importer->do_mail);
+	importer->do_alias = !alias;
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (importer->alias),
+				      importer->do_alias);
+
+	if (importer->ask_again == TRUE) {
+		return FALSE;
+	}
 
 	elmdir = gnome_util_prepend_user_home (".elm");
 	exists = g_file_exists (elmdir);
@@ -270,25 +327,12 @@ elm_can_import (EvolutionIntelligentImporter *ii,
 
 	g_free (maildir);
 
-	g_print ("\nChecking for %s\n", elmdir);
 	mailexists = g_file_exists (elmdir);
 	g_free (elmdir);
 
-	importer->do_mail = mailexists;
-	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (importer->mail),
-				      importer->do_mail);
-	gtk_widget_set_sensitive (importer->mail, mailexists);
-
-	alias = gnome_util_prepend_user_home (".elm/aliases");
-	aliasexists = g_file_exists (alias);
-	g_free (alias);
-
-	importer->do_alias = aliasexists;
-	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (importer->alias),
-				      importer->do_alias);
-#ifdef WE_HAVE_WORKING_ALIAS_IMPORTING
-	gtk_widget_set_sensitive (importer->alias, aliasexists);
-#endif
+	aliasfile = gnome_util_prepend_user_home (".elm/aliases");
+	aliasexists = g_file_exists (aliasfile);
+	g_free (aliasfile);
 
 	exists = (aliasexists || mailexists);
 
@@ -318,8 +362,8 @@ import_next (ElmImporter *importer)
 
 static void
 scan_dir (ElmImporter *importer,
-	  const char *dirname,
-	  const char *orig_parent)
+	  const char *orig_parent,
+	  const char *dirname)
 {
 	DIR *maildir;
 	struct stat buf;
@@ -371,7 +415,7 @@ scan_dir (ElmImporter *importer,
 			importer->dir_list = g_list_append (importer->dir_list, pf);
 
 			subdir = g_concat_dir_and_file (orig_parent, current->d_name);
-			scan_dir (importer, fullname, subdir);
+			scan_dir (importer, subdir, fullname);
 			g_free (subdir);
 		}
 		
@@ -387,25 +431,55 @@ elm_create_structure (EvolutionIntelligentImporter *ii,
 	ElmImporter *importer = closure;
 	char *maildir, *key, *evolution_dir;
 
-	maildir = gnome_util_prepend_user_home ("Mail");
-	scan_dir (importer, maildir, "/");
-	g_free (maildir);
+	/* Reference our object so when the shell release_unrefs us
+	   we will still exist and not go byebye */
+	bonobo_object_ref (BONOBO_OBJECT (ii));
 
-	/* Import them */
-	import_next (importer);
-
+	elm_store_settings (importer);
 	evolution_dir = gnome_util_prepend_user_home ("evolution");
-	key = g_strdup_printf ("=%s/config/Importers=/importers/", evolution_dir);
+	key = g_strdup_printf ("=%s/config/Importers=/elm-importers/", evolution_dir);
 	g_free (evolution_dir);
-
 	gnome_config_push_prefix (key);
 	g_free (key);
-	
-	gnome_config_set_bool (KEY, TRUE);
+
+	if (importer->do_alias == TRUE) {
+		/* Do the aliases */
+	}
+
+	if (importer->do_mail == TRUE) {
+		char *elmdir;
+		gnome_config_set_bool ("mail-importer", TRUE);
+
+		maildir = elm_get_rc_value ("maildir");
+		if (maildir == NULL) {
+			maildir = g_strdup ("Mail");
+		} else {
+			maildir = g_strdup (maildir);
+		}
+		
+		if (!g_path_is_absolute (maildir)) {
+			elmdir = gnome_util_prepend_user_home (maildir);
+		} else {
+			elmdir = g_strdup (maildir);
+		}
+		
+		g_free (maildir);
+
+		scan_dir (importer, "/", maildir);
+		g_free (maildir);
+		
+		/* Import them */
+		import_next (importer);
+	}
+
 	gnome_config_pop_prefix ();
-	
+
 	gnome_config_sync ();
 	gnome_config_drop_all ();
+
+	if (importer->do_mail == FALSE) {
+		bonobo_object_unref (BONOBO_OBJECT (ii));
+	}
 }
 
 static void
@@ -416,6 +490,7 @@ elm_destroy_cb (GtkObject *object,
 	g_print ("Mail - %s\n", importer->do_mail ? "Yes" : "No");
 	g_print ("Alias - %s\n", importer->do_alias ? "Yes" : "No");
 
+	elm_store_settings (importer);
 	gtk_main_quit ();
 }
 
@@ -431,7 +506,7 @@ checkbox_toggle_cb (GtkToggleButton *tb,
 static BonoboControl *
 create_checkboxes_control (ElmImporter *importer)
 {
-	GtkWidget *container, *vbox;
+	GtkWidget *container, *vbox, *sep;
 	BonoboControl *control;
 
 	container = gtk_frame_new (_("Import"));
@@ -448,15 +523,27 @@ create_checkboxes_control (ElmImporter *importer)
 			    GTK_SIGNAL_FUNC (checkbox_toggle_cb),
 			    &importer->do_alias);
 
+	sep = gtk_hseparator_new ();
+
+	importer->ask = gtk_check_button_new_with_label (_("Don't ask me again"));
+	gtk_signal_connect (GTK_OBJECT (importer->ask), "toggled",
+			    GTK_SIGNAL_FUNC (checkbox_toggle_cb),
+			    &importer->ask_again);
+
 	gtk_box_pack_start (GTK_BOX (vbox), importer->mail, FALSE, FALSE, 0);
 	gtk_box_pack_start (GTK_BOX (vbox), importer->alias, FALSE, FALSE, 0);
+	gtk_box_pack_start (GTK_BOX (vbox), sep, FALSE, FALSE, 0);
+	gtk_box_pack_start (GTK_BOX (vbox), importer->ask, FALSE, FALSE, 0);
 
 	/* Disable the things that can't be done */
 	gtk_widget_set_sensitive (importer->alias, FALSE);
 
-	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (importer->mail), TRUE);
-	importer->do_mail = TRUE;
-	importer->do_alias = FALSE;
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (importer->mail), 
+				      importer->do_mail);
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (importer->alias),
+				      importer->do_alias);
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (importer->ask), 
+				      importer->ask_again);
 
 	gtk_widget_show_all (container);
 	control = bonobo_control_new (container);
@@ -471,10 +558,12 @@ factory_fn (BonoboGenericFactory *_factory,
 	BonoboControl *control;
 	ElmImporter *elm;
 	CORBA_Environment ev;
-	char *message = N_("Evolution has found Elm mail files in ~/Mail.\n"
+	char *message = N_("Evolution has found Elm mail files\n"
 			   "Would you like to import them into Evolution?");
 
 	elm = g_new0 (ElmImporter, 1);
+	elm_restore_settings (elm);
+
 	CORBA_exception_init (&ev);
 	elm->importer = oaf_activate_from_id (MBOX_IMPORTER_IID, 0, NULL, &ev);
 	if (ev._major != CORBA_NO_EXCEPTION) {

@@ -143,7 +143,6 @@ netscape_get_integer (const char *strname)
 	char *intstr;
 
 	intstr = g_hash_table_lookup (user_prefs, strname);
-	g_print ("Request: %s %s.\n", strname, intstr);
 	if (intstr == NULL) {
 		return 0;
 	} else {
@@ -158,7 +157,6 @@ netscape_get_boolean (const char *strname)
 
 	boolstr = g_hash_table_lookup (user_prefs, strname);
 
-	g_print ("Request: %s %s.\n", strname, boolstr);
 	if (boolstr == NULL) {
 		return FALSE;
 	} else {
@@ -195,7 +193,7 @@ netscape_get_key (const char *line)
 	key = g_strdup (start);
 	g_free (line_dup);
 
-	g_warning ("Found key: %s", key);
+	d(g_warning ("Found key: %s", key));
 	return key;
 
  die:
@@ -245,7 +243,7 @@ netscape_get_value (const char *line)
 	value = g_strdup (start);
 	g_free (line_dup);
 
-	g_warning ("Found value: %s", value);
+	d(g_warning ("Found value: %s", value));
 	return value;
 
  die:
@@ -396,7 +394,6 @@ netscape_import_accounts (NetscapeImporter *importer)
 				char *serverstr, *name, *url;
 				const char *username;
 
-				g_warning ("i: %d", i);
 				/* Create a server for each of these */
 				serverstr = g_strdup_printf ("mail.imap.server.%s.", servers[i]);
 				name = g_strconcat (serverstr, "userName", NULL);
@@ -409,7 +406,6 @@ netscape_import_accounts (NetscapeImporter *importer)
 				else
 					url = g_strconcat ("imap://", servers[i], NULL);
 
-				g_warning ("URL: %s", url);
 				imapsource.url = CORBA_string_dup (url);
 				
 				imapsource.keep_on_server = netscape_get_boolean ("mail.leave_on_server");
@@ -550,7 +546,7 @@ netscape_import_file (NetscapeImporter *importer,
 	CORBA_Object objref;
 
 	/* Do import */
-	g_warning ("Importing %s as %s\n", path, folderpath);
+	d(g_warning ("Importing %s as %s\n", path, folderpath));
 
 	CORBA_exception_init (&ev);
 	
@@ -566,7 +562,7 @@ netscape_import_file (NetscapeImporter *importer,
 	importer->listener = evolution_importer_listener_new (importer_cb, 
 							      importer);
 	objref = bonobo_object_corba_objref (BONOBO_OBJECT (importer->listener));
-	g_print ("%s:Processing...\n", __FUNCTION__);
+	d(g_print ("%s:Processing...\n", __FUNCTION__));
 	CORBA_exception_init (&ev);
 	GNOME_Evolution_Importer_processItem (importer->importer, 
 					      objref, &ev);

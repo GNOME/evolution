@@ -1,3 +1,22 @@
+2001-05-14  Iain Holmes  <iain@ximian.com>
+
+	* elm-importer.c (elm_store_settings): Store the elm settings.
+	(elm_restore_settings): Restore all the settings.
+	(elm_can_import): Check the importer settings, handle the don't ask me
+	again stuff.
+	(scan_dir): Switch the arguments to match the other importers.
+	(destroy_cb): Store the settings.
+	(elm_create_structure): Set all the settings, handle the new location
+	of the elm mail.
+	(create_checkboxes_control): Add a "Don't ask me again" box.
+
+2001-05-09  Iain Holmes  <iain@ximian.com>
+
+	* pine-importer.c (import_addressfile): Free memory leaks. 
+	Fix spewage.
+
+	* netscape-importer.c: Fix spewage.
+
 2001-05-09  Iain Holmes  <iain@ximian.com>
 
 	* elm-importer.c (elm_can_import): Check the elm rc file for the mail dir.
