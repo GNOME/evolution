@@ -1,5 +1,7 @@
 2004-05-04  Larry Ewing  <lewing@ximian.com>
 
+	* gui/dialogs/calendar-setup.c: fix logic error.
+
 	* gui/dialogs/calendar-setup.c (source_to_dialog): convert units.
 	(dialog_to_source): convert time units.
 

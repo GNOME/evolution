@@ -432,15 +432,15 @@ set_refresh_time (SourceDialog *source_dialog) {
 	time = refresh_str ? atoi (refresh_str) : 30;
 
 	if (source_dialog->refresh_optionmenu) {
-		if (time && time % 10080) {
+		if (time && !(time % 10080)) {
 			/* weeks */
 			item_num = 3;
 			time /= 10080;
-		} else if (time && time % 1440) {
+		} else if (time && !(time % 1440)) {
 			/* days */
 			item_num = 2;
 			time /= 1440;
-		} else if (time && time % 60) {
+		} else if (time && !(time % 60)) {
 			/* days */
 			item_num = 1;
 			time /= 60;
