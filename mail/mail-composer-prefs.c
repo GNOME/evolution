@@ -566,7 +566,7 @@ spell_get_language_str (MailComposerPrefs *prefs)
 	rv = str->str;
 	g_string_free (str, FALSE);
 
-	return rv;
+	return rv ? rv : g_strdup ("");
 }
 
 static void
@@ -589,7 +589,7 @@ static void
 spell_save_orig (MailComposerPrefs *prefs)
 {
 	g_free (prefs->language_str_orig);
-	prefs->language_str_orig = g_strdup (prefs->language_str);
+	prefs->language_str_orig = g_strdup (prefs->language_str ? prefs->language_str : "");
 	prefs->spell_error_color_orig = prefs->spell_error_color;
 }
 
@@ -605,9 +605,11 @@ static void
 spell_load_values (MailComposerPrefs *prefs)
 {
 	GConfValue *val;
+	gchar *def_lang;
 
+	def_lang = g_strdup (_("en"));
 	g_free (prefs->language_str);
-	prefs->language_str = g_strdup (_("en"));
+	prefs->language_str = g_strdup (def_lang);
 	prefs->spell_error_color.red   = 0xffff;
 	prefs->spell_error_color.green = 0;
 	prefs->spell_error_color.blue  = 0;
@@ -617,7 +619,12 @@ spell_load_values (MailComposerPrefs *prefs)
 	GET (int, "/spell_error_color_blue",  prefs->spell_error_color.blue,,);
 	GET (string, "/language", prefs->language_str, g_free (prefs->language_str), g_strdup);
 
+	if (prefs->language_str == NULL)
+		prefs->language_str = g_strdup (def_lang);
+
 	spell_save_orig (prefs);
+
+	g_free (def_lang);
 }
 
 #define SET(t,x,prop) \
@@ -633,8 +640,9 @@ spell_save_values (MailComposerPrefs *prefs, gboolean force)
 		SET (int, "/spell_error_color_green", prefs->spell_error_color.green);
 		SET (int, "/spell_error_color_blue",  prefs->spell_error_color.blue);
 	}
+
 	if (force || !STR_EQUAL (prefs->language_str, prefs->language_str_orig)) {
-		SET (string, "/language", prefs->language_str);
+		SET (string, "/language", prefs->language_str ? prefs->language_str : "");
 	}
 
 	gconf_client_suggest_sync (prefs->gconf, NULL);
