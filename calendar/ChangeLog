@@ -1,3 +1,10 @@
+2004-05-03  JP Rosevear  <jpr@ximian.com>
+
+	Fixes #57894
+	
+	* gui/gnome-cal.c (gnome_calendar_new_task): make sure we use the
+	default component of the correct model
+
 2004-04-30  Rodney Dawes  <dobey@ximian.com>
 
 	* gui/alarm-notify/alarm-notify-dialog.c (alarm_notify_dialog):

@@ -2390,6 +2390,7 @@ gnome_calendar_new_task		(GnomeCalendar *gcal)
 {
 	GnomeCalendarPrivate *priv;
 	ECal *ecal;
+	ECalModel *model;
 	TaskEditor *tedit;
 	ECalComponent *comp;
 	icalcomponent *icalcomp;
@@ -2400,10 +2401,11 @@ gnome_calendar_new_task		(GnomeCalendar *gcal)
 
 	priv = gcal->priv;
 
-	ecal = e_cal_model_get_default_client (e_calendar_table_get_model (E_CALENDAR_TABLE (priv->todo)));
+	model = e_calendar_table_get_model (E_CALENDAR_TABLE (priv->todo));
+	ecal = e_cal_model_get_default_client (model);
 	tedit = task_editor_new (ecal);
 
-	icalcomp = e_cal_model_create_component_with_defaults (e_calendar_view_get_model (E_CALENDAR_VIEW (priv->week_view)));
+	icalcomp = e_cal_model_create_component_with_defaults (model);
 	comp = e_cal_component_new ();
 	e_cal_component_set_icalcomponent (comp, icalcomp);
 
