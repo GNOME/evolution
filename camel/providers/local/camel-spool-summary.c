@@ -784,6 +784,13 @@ spool_summary_sync_full(CamelSpoolSummary *cls, gboolean expunge, CamelFolderCha
 		}
 	}
 
+	/* if the last message was deleted, and we had any messages left,
+	   make sure we close out with a closing \n - since we removed the
+	   one part of the From line following it */
+	if (lastdel && count > 0) {
+		write(fdout, "\n", 1);
+	}
+
 	/* sync out content */
 	if (fsync(fdout) == -1) {
 		g_warning("Cannot sync temporary folder: %s", strerror(errno));

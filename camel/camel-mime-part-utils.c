@@ -108,6 +108,9 @@ convert_buffer (GByteArray *in, const char *to, const char *from)
 	char *outbuf;
 	iconv_t cd;
 	
+	if (in->len == 0)
+		return g_byte_array_new();
+
 	d(printf("converting buffer from %s to %s: '%.*s'\n", from, to, (int)in->len, in->data));
 	
 	cd = e_iconv_open(to, from);

@@ -1731,7 +1731,7 @@ add_message_from_data (CamelFolder *folder, GPtrArray *messages,
 	
 	if (seq - first >= messages->len)
 		g_ptr_array_set_size (messages, seq - first + 1);
-	
+
 	msg = camel_mime_message_new ();
 	if (camel_data_wrapper_construct_from_stream (CAMEL_DATA_WRAPPER (msg), stream) == -1) {
 		camel_object_unref (CAMEL_OBJECT (msg));

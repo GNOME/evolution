@@ -1,3 +1,16 @@
+2002-04-11  Not Zed  <NotZed@Ximian.com>
+
+	* providers/local/camel-spool-summary.c (spool_summary_sync_full):
+	If the last message(s) were deleted, and we had any messages
+	output, account for the lost \n of the following From line by
+	adding an extra \n. fix for #8214.
+
+2002-04-10  Not Zed  <NotZed@Ximian.com>
+
+	* camel-mime-part-utils.c (convert_buffer): If we get a 0 length
+	input, return a 0 lenght output as valid - fixes bugs with some
+	iconv impl and its simpler anyway.
+
 2002-04-11  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* providers/imap/camel-imap-folder.c: Set the UID_SET_LIMIT value
