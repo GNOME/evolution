@@ -1,5 +1,8 @@
 2002-01-24  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* mail-account-gui.c (is_email): Don't bother trying to see if the
+	domain looks like a FQDN.
+
 	* mail-callbacks.c (select_all): If the mail-display is in focus,
 	then select-all in the mail display rather than the
 	message-list. Fixes bug #19126.

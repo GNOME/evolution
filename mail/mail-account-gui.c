@@ -50,19 +50,16 @@ static void service_changed (GtkEntry *entry, gpointer user_data);
 static gboolean
 is_email (const char *address)
 {
-	const char *at, *hname;
+	/* This is supposed to check if the address's domain could be
+           an FQDN but alas, it's not worth the pain and suffering. */
+	const char *at;
 	
 	at = strchr (address, '@');
 	/* make sure we have an '@' and that it's not the first or last char */
 	if (!at || at == address || *(at + 1) == '\0')
 		return FALSE;
 	
-	hname = at + 1;
-	/* make sure the first and last chars aren't '.' */
-	if (*hname == '.' || hname[strlen (hname) - 1] == '.')
-		return FALSE;
-	
-	return strchr (hname, '.') != NULL;
+	return TRUE;
 }
 
 static GtkWidget *
