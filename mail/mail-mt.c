@@ -738,6 +738,14 @@ do_call(struct _mail_msg *mm)
 		p4 = va_arg(ap, void *);
 		m->ret = m->func(p1, p2, p3, p4);
 		break;
+	case MAIL_CALL_p_ppppp:
+		p1 = va_arg(ap, void *);
+		p2 = va_arg(ap, void *);
+		p3 = va_arg(ap, void *);
+		p4 = va_arg(ap, void *);
+		p5 = va_arg(ap, void *);
+		m->ret = m->func(p1, p2, p3, p4, p5);
+		break;
 	case MAIL_CALL_p_ppippp:
 		p1 = va_arg(ap, void *);
 		p2 = va_arg(ap, void *);
@@ -894,8 +902,10 @@ static void do_op_status(struct _mail_msg *mm)
 			MAIL_MT_UNLOCK (mail_msg_lock);
 			if (msg->ops->describe_msg)
 				what = msg->ops->describe_msg (msg, FALSE);
-			else
-				what = _("Working");
+			else {
+				what = g_strdup_printf("Working %p", msg);
+				/*what = _("Working");*/
+			}
 
 			data->activity_id = e_activity_handler_operation_started (activity_handler, "evolution-mail", progress_icon, what, TRUE);
 			

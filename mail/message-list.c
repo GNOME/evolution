@@ -181,6 +181,7 @@ static void load_hide_state(MessageList *ml);
 /* note: @changes is owned/freed by the caller */
 /*static void mail_do_regenerate_messagelist (MessageList *list, const char *search, const char *hideexpr, CamelFolderChangeInfo *changes);*/
 static void mail_regen_list(MessageList *ml, const char *search, const char *hideexpr, CamelFolderChangeInfo *changes);
+static void mail_regen_cancel(MessageList *ml);
 
 static void clear_info(char *key, ETreePath *node, MessageList *ml);
 
@@ -565,7 +566,7 @@ message_list_select_uid (MessageList *message_list, const char *uid)
 	if (message_list->folder == NULL)
 		return;
 
-	if (message_list->regen) {
+	if (message_list->regen || message_list->regen_timeout_id) {
 		g_free(message_list->pending_select_uid);
 		message_list->pending_select_uid = g_strdup(uid);
 	}
@@ -1800,7 +1801,9 @@ message_list_destroy(GtkObject *object)
 		/* need to do this before removing folder, folderinfo's might not exist after */
 		save_tree_state(message_list);
 		save_hide_state(message_list);
-		
+
+		mail_regen_cancel(message_list);
+
 		if (message_list->uid_nodemap) {
 			g_hash_table_foreach(message_list->uid_nodemap, (GHFunc)clear_info, message_list);
 			g_hash_table_destroy (message_list->uid_nodemap);
@@ -1836,7 +1839,7 @@ message_list_destroy(GtkObject *object)
 		g_source_remove (message_list->seen_id);
 		message_list->seen_id = 0;
 	}
-	
+
 	message_list->destroyed = TRUE;
 	
 	GTK_OBJECT_CLASS (message_list_parent_class)->destroy(object);
@@ -2716,19 +2719,8 @@ message_list_set_folder (MessageList *message_list, CamelFolder *folder, const c
 		g_source_remove (message_list->idle_id);
 		message_list->idle_id = 0;
 	}
-	
-	/* cancel any outstanding regeneration requests */
-	if (message_list->regen) {
-		GList *l = message_list->regen;
-		
-		while (l) {
-			struct _mail_msg *mm = l->data;
-			
-			if (mm->cancel)
-				camel_operation_cancel(mm->cancel);
-			l = l->next;
-		}
-	}
+
+	mail_regen_cancel(message_list);
 	
 	if (message_list->folder != NULL) {
 		save_tree_state (message_list);
@@ -2994,7 +2986,6 @@ message_list_set_selected(MessageList *ml, GPtrArray *uids)
 	
 	for (i=0; i<uids->len; i++) {
 		node = g_hash_table_lookup(ml->uid_nodemap, uids->pdata[i]);
-		printf("reselecting uid '%s' %s\n", uids->pdata[i], node?"found":"not found");
 		if (node)
 			e_tree_selection_model_add_to_selection(etsm, node);
 	}
@@ -3521,6 +3512,18 @@ regen_list_regened (struct _mail_msg *mm)
 	} else
 		build_flat (m->ml, m->summary, m->changes);
 
+        if (m->ml->search && m->ml->search != m->search)
+                g_free (m->ml->search);
+	m->ml->search = m->search;
+
+	if (m->ml->regen == NULL && m->ml->pending_select_uid) {
+		char *uid = m->ml->pending_select_uid;
+
+		m->ml->pending_select_uid = NULL;
+		message_list_select_uid(m->ml, uid);
+		g_free(uid);
+	}
+
 	g_signal_emit (m->ml, message_list_signals[MESSAGE_LIST_BUILT], 0);
 }
 
@@ -3539,10 +3542,6 @@ regen_list_free (struct _mail_msg *mm)
 	if (m->tree)
 		camel_folder_thread_messages_unref (m->tree);
 	
-        if (m->ml->search && m->ml->search != m->search)
-                g_free (m->ml->search);
-	m->ml->search = m->search;
-	
 	g_free (m->hideexpr);
 	
 	camel_object_unref (m->folder);
@@ -3550,17 +3549,8 @@ regen_list_free (struct _mail_msg *mm)
 	if (m->changes)
 		camel_folder_change_info_free (m->changes);
 
-	/* This should probably lock the list.
-	   However, since we have a received function, this will always be called in gui thread */
+	/* we have to poke this here since we might've been cancelled and regened wont get called */
 	m->ml->regen = g_list_remove(m->ml->regen, m);
-
-	if (m->ml->regen == NULL && m->ml->pending_select_uid) {
-		char *uid = m->ml->pending_select_uid;
-
-		m->ml->pending_select_uid = NULL;
-		message_list_select_uid(m->ml, uid);
-		g_free(uid);
-	}
 
 	g_object_unref(m->ml);
 }
@@ -3572,6 +3562,44 @@ static struct _mail_msg_op regen_list_op = {
 	regen_list_free,
 };
 
+static gboolean
+ml_regen_timeout(struct _regen_list_msg *m)
+{
+	m->ml->regen = g_list_prepend(m->ml->regen, m);
+	/* TODO: we should manage our own thread stuff, would make cancelling outstanding stuff easier */
+	e_thread_put (mail_thread_queued, (EMsg *)m);
+
+	m->ml->regen_timeout_msg = NULL;
+	m->ml->regen_timeout_id = 0;
+
+	return FALSE;
+}
+
+static void
+mail_regen_cancel(MessageList *ml)
+{
+	/* cancel any outstanding regeneration requests, not we don't clear, they clear themselves */
+	if (ml->regen) {
+		GList *l = ml->regen;
+		
+		while (l) {
+			struct _mail_msg *mm = l->data;
+			
+			if (mm->cancel)
+				camel_operation_cancel(mm->cancel);
+			l = l->next;
+		}
+	}
+
+	/* including unqueued ones */
+	if (ml->regen_timeout_id) {
+		g_source_remove(ml->regen_timeout_id);
+		ml->regen_timeout_id = 0;
+		mail_msg_free((struct _mail_msg *)ml->regen_timeout_msg);
+		ml->regen_timeout_msg = NULL;
+	}
+}
+
 static void
 mail_regen_list (MessageList *ml, const char *search, const char *hideexpr, CamelFolderChangeInfo *changes)
 {
@@ -3581,19 +3609,8 @@ mail_regen_list (MessageList *ml, const char *search, const char *hideexpr, Came
 	if (ml->folder == NULL)
 		return;
 
-	/* cancel any outstanding regeneration requests, we rebuild from scratch anyway */
-	if (ml->regen) {
-		GList *l = ml->regen;
+	mail_regen_cancel(ml);
 
-		while (l) {
-			struct _mail_msg *mm = l->data;
-
-			if (mm->cancel)
-				camel_operation_cancel(mm->cancel);
-			l = l->next;
-		}
-	}
-	
 	gconf = mail_config_get_gconf_client ();
 	
 #ifndef BROKEN_ETREE
@@ -3629,10 +3646,13 @@ mail_regen_list (MessageList *ml, const char *search, const char *hideexpr, Came
 		camel_folder_thread_messages_ref(m->tree);
 	}
 
-	ml->regen = g_list_prepend(ml->regen, m);
-
-	/* TODO: we should manage our own thread stuff, would make cancelling outstanding stuff easier */
-	e_thread_put (mail_thread_queued, (EMsg *)m);
+	/* if we're busy already kick off timeout processing, so normal updates are immediate */
+	if (ml->regen == NULL)
+		ml_regen_timeout(m);
+	else {
+		ml->regen_timeout_msg = m;
+		ml->regen_timeout_id = g_timeout_add(500, (GSourceFunc)ml_regen_timeout, m);
+	}
 }
 
 

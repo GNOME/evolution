@@ -2007,19 +2007,19 @@ emft_popup_copy_folder_selected (const char *uri, void *data)
 	frombase = priv->selected_path + 1;
 
 	if (!(fromstore = camel_session_get_store (session, priv->selected_uri, &ex))) {
-		e_error_run((GtkWindow *)gtk_widget_get_ancestor ((GtkWidget *) cfd->emft, GTK_TYPE_WINDOW),
+		e_error_run((GtkWindow *)gtk_widget_get_toplevel((GtkWidget *) cfd->emft),
 			    cfd->delete?"mail:no-move-folder-notexist":"mail:no-copy-folder-notexist", frombase, uri, ex.desc, NULL);
 		goto fail;
 	}
 	
 	if (cfd->delete && fromstore == mail_component_peek_local_store (NULL) && is_special_local_folder (frombase)) {
-		e_error_run((GtkWindow *)gtk_widget_get_ancestor ((GtkWidget *) cfd->emft, GTK_TYPE_WINDOW),
+		e_error_run((GtkWindow *)gtk_widget_get_toplevel((GtkWidget *) cfd->emft),
 			    "mail:no-rename-special-folder", frombase, NULL);
 		goto fail;
 	}
 	
 	if (!(tostore = camel_session_get_store (session, uri, &ex))) {
-		e_error_run((GtkWindow *)gtk_widget_get_ancestor ((GtkWidget *) cfd->emft, GTK_TYPE_WINDOW),
+		e_error_run((GtkWindow *)gtk_widget_get_toplevel((GtkWidget *) cfd->emft),
 			    cfd->delete?"mail:no-move-folder-to-notexist":"mail:no-move-folder-to-notexist", frombase, uri, ex.desc, NULL);
 		goto fail;
 	}
@@ -2194,7 +2194,7 @@ em_folder_tree_create_folder (EMFolderTree *emft, const char *path, const char *
 	
 	camel_exception_init (&ex);
 	if (!(store = (CamelStore *) camel_session_get_service (session, uri, CAMEL_PROVIDER_STORE, &ex))) {
-		e_error_run((GtkWindow *)gtk_widget_get_ancestor((GtkWidget *)emft, GTK_TYPE_WINDOW),
+		e_error_run((GtkWindow *)gtk_widget_get_toplevel((GtkWidget *)emft),
 			    "mail:no-create-folder-nostore", path, ex.desc, NULL);
 		goto fail;
 	}
@@ -2398,7 +2398,8 @@ emft_popup_delete_response (GtkWidget *dialog, guint response, EMFolderTree *emf
 	camel_exception_init (&ex);
 	emft_popup_delete_folders (store, path, &ex);
 	if (camel_exception_is_set (&ex)) {
-		e_error_run(NULL, "mail:no-delete-folder", path, ex.desc, NULL);
+		e_error_run((GtkWindow *)gtk_widget_get_toplevel((GtkWidget *)emft),
+			    "mail:no-delete-folder", path, ex.desc, NULL);
 		camel_exception_clear (&ex);
 	}
 }
@@ -2429,7 +2430,8 @@ emft_popup_delete_folder (GtkWidget *item, EMFolderTree *emft)
 		return;
 	}
 
-	dialog = e_error_new(NULL, "mail:ask-delete-folder", full_name, NULL);
+	dialog = e_error_new((GtkWindow *)gtk_widget_get_toplevel((GtkWidget *)emft),
+			     "mail:ask-delete-folder", full_name, NULL);
 	g_signal_connect (dialog, "response", G_CALLBACK (emft_popup_delete_response), emft);
 	gtk_widget_show (dialog);
 }
@@ -2462,7 +2464,8 @@ emft_popup_rename_folder (GtkWidget *item, EMFolderTree *emft)
 	
 	/* don't allow user to rename one of the special local folders */
 	if (store == local && is_special_local_folder (full_name)) {
-		e_error_run(NULL, "mail:no-rename-spethal-folder", full_name, NULL);
+		e_error_run((GtkWindow *)gtk_widget_get_toplevel((GtkWidget *)emft),
+			    "mail:no-rename-spethal-folder", full_name, NULL);
 		return;
 	}
 	
@@ -2495,7 +2498,8 @@ emft_popup_rename_folder (GtkWidget *item, EMFolderTree *emft)
 			camel_exception_init (&ex);
 			if ((fi = camel_store_get_folder_info (store, path, CAMEL_STORE_FOLDER_INFO_FAST, &ex)) != NULL) {
 				camel_store_free_folder_info (store, fi);
-				e_error_run(NULL, "mail:no-rename-folder-exists", name, new_name, NULL);
+				e_error_run((GtkWindow *)gtk_widget_get_toplevel((GtkWidget *)emft),
+					    "mail:no-rename-folder-exists", name, new_name, NULL);
 			} else {
 				const char *oldpath, *newpath;
 				
@@ -2507,7 +2511,8 @@ emft_popup_rename_folder (GtkWidget *item, EMFolderTree *emft)
 				camel_exception_clear (&ex);
 				camel_store_rename_folder (store, oldpath, newpath, &ex);
 				if (camel_exception_is_set (&ex)) {
-					e_error_run(NULL, "mail:no-rename-folder", oldpath, newpath, ex.desc, NULL);
+					e_error_run((GtkWindow *)gtk_widget_get_toplevel((GtkWidget *)emft),
+						    "mail:no-rename-folder", oldpath, newpath, ex.desc, NULL);
 					camel_exception_clear (&ex);
 				}
 				

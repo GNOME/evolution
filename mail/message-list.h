@@ -139,6 +139,8 @@ struct _MessageList {
 	/* list of outstanding regeneration requests */
 	GList *regen;
 	char *pending_select_uid; /* set if we were busy regnerating while we had a select come in */
+	guint regen_timeout_id;
+	void *regen_timeout_msg;
 
 	char *frozen_search;	/* to save search took place while we were frozen */
 

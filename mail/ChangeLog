@@ -1,5 +1,37 @@
 2004-05-21  Not Zed  <NotZed@Ximian.com>
 
+	* mail-mt.c (do_call): add marshaller for p_ppppp call.
+
+	* mail-session.c (get_password): fix for camel api changes.
+	(forget_password): same.
+
+	** See #58376.
+
+	* message-list.c (mail_regen_list): do some timeout foo so we
+	don't keep doing list regnerations if we're getting called too
+	often.  God knows what this will break.
+	(message_list_set_selected): removede bug printf.
+	(regen_list_free): move the message-list poking stuff into
+	regen_list_regened.
+	(message_list_set_folder): call mail_regen_cancel to cancel any
+	regen stuff.
+	(mail_regen_cancel): cancel/clear outstanding regenerations.
+	(message_list_destroy): do it here too.
+	(message_list_select_uid): also set the pending select uid if we
+	have a timeout pending.
+
+	* mail-component.c (impl_createControls): set the defualt parent
+	to the main folderview as soon as its created.
+
+	* em-folder-tree.c (emft_popup_copy_folder_selected): use
+	get_toplevel rather than get_ancestor.  seems the more reliable
+	one.  also we're always parented so we shoudl always find a
+	toplevel window.
+	(em_folder_tree_create_folder): same.
+	(emft_popup_delete_response): set error parent.
+	(emft_popup_delete_folder, emft_popup_rename_folder) 
+	(emft_popup_rename_folder, emft_popup_rename_folder): 
+
 	* em-migrate.c (update_passwords_1_2): finally put the 1.2
 	password upgrade patch in.  Untested.  #42721.
 

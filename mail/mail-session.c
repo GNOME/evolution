@@ -86,8 +86,8 @@ typedef struct _MailSessionClass {
 
 static CamelSessionClass *ms_parent_class;
 
-static char *get_password(CamelSession *session, const char *prompt, guint32 flags, CamelService *service, const char *item, CamelException *ex);
-static void forget_password(CamelSession *session, CamelService *service, const char *item, CamelException *ex);
+static char *get_password(CamelSession *session, CamelService *service, const char *domain, const char *prompt, const char *item, guint32 flags, CamelException *ex);
+static void forget_password(CamelSession *session, CamelService *service, const char *domain, const char *item, CamelException *ex);
 static gboolean alert_user(CamelSession *session, CamelSessionAlertType type, const char *prompt, gboolean cancel);
 static CamelFilterDriver *get_filter_driver(CamelSession *session, const char *type, CamelException *ex);
 
@@ -172,15 +172,16 @@ struct _pass_msg {
 	struct _mail_msg msg;
 	
 	CamelSession *session;
-	const char *prompt;
-	guint32 flags;
 	CamelService *service;
+	const char *domain;
+	const char *prompt;
 	const char *item;
+	guint32 flags;
 	CamelException *ex;
 	
 	char *service_url;
 	char *key;
-	
+
 	EAccountService *config_service;
 	GtkWidget *check;
 	GtkWidget *entry;
@@ -323,7 +324,7 @@ do_get_pass(struct _mail_msg *mm)
 		if (account)
 			m->result = g_strdup(account->source->url);
 	} else if (m->key) {
-		m->result = e_passwords_get_password ("Mail", m->key);
+		m->result = e_passwords_get_password (m->domain?m->domain:"Mail", m->key);
 		if (m->result == NULL || (m->flags & CAMEL_SESSION_PASSWORD_REPROMPT)) {
 			if (mail_session->interactive) {
 				request_password(m);
@@ -352,8 +353,8 @@ static struct _mail_msg_op get_pass_op = {
 };
 
 static char *
-get_password (CamelSession *session, const char *prompt, guint32 flags,
-	      CamelService *service, const char *item, CamelException *ex)
+get_password (CamelSession *session, CamelService *service, const char *domain,
+	      const char *prompt, const char *item, guint32 flags, CamelException *ex)
 {
 	struct _pass_msg *m, *r;
 	EMsgPort *pass_reply;
@@ -369,6 +370,7 @@ get_password (CamelSession *session, const char *prompt, guint32 flags,
 	m->prompt = prompt;
 	m->flags = flags;
 	m->service = service;
+	m->domain = domain;
 	m->item = item;
 	m->ex = ex;
 	if (service)
@@ -395,20 +397,20 @@ get_password (CamelSession *session, const char *prompt, guint32 flags,
 }
 
 static void
-main_forget_password (CamelSession *session, CamelService *service, const char *item, CamelException *ex)
+main_forget_password (CamelSession *session, CamelService *service, const char *domain, const char *item, CamelException *ex)
 {
 	char *key = make_key (service, item);
 	
-	e_passwords_forget_password ("Mail", key);
+	e_passwords_forget_password (domain?domain:"Mail", key);
 	
 	g_free (key);
 }
 
 static void
-forget_password (CamelSession *session, CamelService *service, const char *item, CamelException *ex)
+forget_password (CamelSession *session, CamelService *service, const char *domain, const char *item, CamelException *ex)
 {
-	mail_call_main(MAIL_CALL_p_pppp, (MailMainFunc)main_forget_password,
-		       session, service, item, ex);
+	mail_call_main(MAIL_CALL_p_ppppp, (MailMainFunc)main_forget_password,
+		       session, service, domain, item, ex);
 }
 
 /* ********************************************************************** */
