@@ -346,9 +346,6 @@ camel_mime_part_construct_content_from_parser (CamelMimePart *dw, CamelMimeParse
 		if (header_content_type_is (camel_mime_parser_content_type (mp), "multipart", "signed")) {
 			content = (CamelDataWrapper *) camel_multipart_signed_new ();
 			camel_multipart_construct_from_parser ((CamelMultipart *) content, mp);
-		} else if (header_content_type_is (camel_mime_parser_content_type (mp), "multipart", "encrypted")) {
-			content = (CamelDataWrapper *) camel_multipart_encrypted_new ();
-			camel_multipart_construct_from_parser ((CamelMultipart *) content, mp);
 		} else {
 			content = camel_data_wrapper_new ();
 			simple_data_wrapper_construct_from_parser (content, mp);
@@ -361,7 +358,13 @@ camel_mime_part_construct_content_from_parser (CamelMimePart *dw, CamelMimeParse
 		break;
 	case HSCAN_MULTIPART:
 		d(printf("Creating multi-part\n"));
-		content = (CamelDataWrapper *)camel_multipart_new();
+		if (header_content_type_is (camel_mime_parser_content_type (mp), "multipart", "encrypted"))
+			content = (CamelDataWrapper *) camel_multipart_encrypted_new ();
+		else if (header_content_type_is (camel_mime_parser_content_type (mp), "multipart", "signed"))
+			content = (CamelDataWrapper *) camel_multipart_signed_new ();
+		else
+			content = (CamelDataWrapper *) camel_multipart_new ();
+		
 		camel_multipart_construct_from_parser((CamelMultipart *)content, mp);
 		d(printf("Created multi-part\n"));
 		break;
