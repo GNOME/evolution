@@ -1,3 +1,7 @@
+2001-03-01  Peter Williams  <peterw@ximian.com>
+
+	* camel-url.c (camel_url_new): Assert url_string != NULL.
+
 2001-02-28  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* Makefile.am: Added camel-sasl-anonymous.[c,h] to the build.

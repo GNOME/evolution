@@ -67,7 +67,9 @@ camel_url_new (const char *url_string, CamelException *ex)
 	CamelURL *url;
 	char *semi, *colon, *at, *slash;
 	char *p;
-	
+
+	g_assert (url_string);
+
 	/* Find protocol: initial substring until ":" */
 	colon = strchr (url_string, ':');
 	if (!colon) {
