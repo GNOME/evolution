@@ -56,11 +56,15 @@ module Calendar {
 
 	/* A calendar factory, can load and create calendars */
 	interface CalFactory : Unknown {
+		exception NilListener {};
+
 		/* Load a calendar from an URI */
-		void load (in string uri, in Listener listener);
+		void load (in string uri, in Listener listener)
+			raises (NilListener);
 
 		/* Create a new calendar at the specified URI */
-		void create (in string uri, in Listener listener);
+		void create (in string uri, in Listener listener)
+			raises (NilListener);
 	};
 };
 

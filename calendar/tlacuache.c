@@ -22,15 +22,35 @@
 #include <config.h>
 #include <libgnorba/gnorba.h>
 #include <bonobo/gnome-bonobo.h>
+#include <libgnomevfs/gnome-vfs.h>
 #include "cal-factory.h"
+#include "calobj.h"
 
 
 
 /* The calendar factory */
 static CalFactory *factory;
 
-/* The alarms code needs this */
+
+
+/* Stuff that the un-converted alarm code needs to build */
+
 int debug_alarms = FALSE;
+
+void calendar_notify (time_t time, CalendarAlarm *which, void *data);
+
+CalendarAlarm alarm_defaults[4] = {
+	{ ALARM_MAIL, 0, 15, ALARM_MINUTES },
+	{ ALARM_PROGRAM, 0, 15, ALARM_MINUTES },
+	{ ALARM_DISPLAY, 0, 15, ALARM_MINUTES },
+	{ ALARM_AUDIO, 0, 15, ALARM_MINUTES }
+};
+
+void
+calendar_notify (time_t time, CalendarAlarm *which, void *data)
+{
+	g_error ("calendar_notify() called!");
+}
 
 
 
@@ -90,6 +110,11 @@ main (int argc, char **argv)
 
 	if (!bonobo_init (CORBA_OBJECT_NIL, CORBA_OBJECT_NIL, CORBA_OBJECT_NIL)) {
 		g_message ("main(): could not initialize Bonobo");
+		exit (1);
+	}
+
+	if (!gnome_vfs_init ()) {
+		g_message ("main(): could not initialize GNOME-VFS");
 		exit (1);
 	}
 

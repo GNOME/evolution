@@ -162,9 +162,24 @@ CalFactory_load (PortableServer_Servant servant,
 {
 	CalFactory *factory;
 	CalFactoryPrivate *priv;
+	CORBA_Environment ev2;
+	gboolean result;
 
 	factory = CAL_FACTORY (gnome_object_from_servant (servant));
 	priv = factory->priv;
+
+	CORBA_exception_init (&ev2);
+	result = CORBA_Object_is_nil (listener, &ev2);
+
+	if (ev2._major != CORBA_NO_EXCEPTION || result) {
+		CORBA_exception_set (ev, CORBA_USER_EXCEPTION,
+				     ex_GNOME_Calendar_CalFactory_NilListener,
+				     NULL);
+
+		CORBA_exception_free (&ev2);
+		return;
+	}
+	CORBA_exception_free (&ev2);
 
 	cal_factory_load (factory, uri, listener);
 }
@@ -187,10 +202,10 @@ CalFactory_create (PortableServer_Servant servant,
 
 /**
  * cal_factory_get_epv:
- * @void: 
- * 
+ * @void:
+ *
  * Creates an EPV for the CalFactory CORBA class.
- * 
+ *
  * Return value: A newly-allocated EPV.
  **/
 POA_GNOME_Calendar_CalFactory__epv *
@@ -422,10 +437,10 @@ cal_factory_corba_object_create (GnomeObject *object)
 
 /**
  * cal_factory_new:
- * @void: 
- * 
+ * @void:
+ *
  * Creates a new #CalFactory object.
- * 
+ *
  * Return value: A newly-created #CalFactory, or NULL if its corresponding CORBA
  * object could not be created.
  **/
@@ -461,8 +476,22 @@ cal_factory_load (CalFactory *factory, const char *uri, GNOME_Calendar_Listener 
 	LoadCreateJobData *jd;
 	CORBA_Environment ev;
 	GNOME_Calendar_Listener listener_copy;
+	gboolean result;
 
 	CORBA_exception_init (&ev);
+	result = CORBA_Object_is_nil (listener, &ev);
+	if (ev._major != CORBA_NO_EXCEPTION) {
+		g_message ("cal_factory_load(): could not see if the listener was NIL");
+		CORBA_exception_free (&ev);
+		return;
+	}
+	CORBA_exception_free (&ev);
+
+	if (result) {
+		g_message ("cal_factory_load(): cannot operate on a NIL listener!");
+		return;
+	}
+
 	listener_copy = CORBA_Object_duplicate (listener, &ev);
 
 	if (ev._major != CORBA_NO_EXCEPTION) {

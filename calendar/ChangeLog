@@ -1,3 +1,16 @@
+2000-01-25  Federico Mena Quintero  <federico@helixcode.com>
+
+	* cal-factory.c (CalFactory_load): Check that the listener is not
+	nil and emit and exception if it is.
+
+	* gnome-calendar.idl (CalFactory::load CalFactory::create): Now
+	these raise the NilListener exception.
+
+	* tlacuache.c (calendar_notify): Error stub for alarms.
+	(alarm_defaults): Stub array.
+	(debug_alarms): Stub variable.
+	(main): Initialize gnome-vfs.
+
 2000-01-24  Federico Mena Quintero  <federico@helixcode.com>
 
 	* tlacuache.c: New main module for the Tlacuache personal calendar
