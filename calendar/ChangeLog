@@ -1,3 +1,17 @@
+2004-07-25  JP Rosevear  <jpr@ximian.com>
+ 
+ 	Fixes #61058
+ 	
+ 	* gui/e-week-view.c (process_component_recur_cb): add but don't
+ 	prepend
+ 	(process_component): use above as call back so we can pass the
+ 	prepend bool
+ 	(e_week_view_add_event): take a prepend bool and prepend to the
+ 	events array if asked so the event will be shown first when drawn
+ 	(e_week_view_do_key_press): If the event can't be fit on the
+ 	screen, ie not even one event can be shown in the day, don't try
+ 	to edit it
+	
 2004-07-26  Rodney Dawes  <dobey@novell.com>
 
 	* gui/dialogs/event-page.glade: Fix mnemonic for "Location" to not

@@ -147,6 +147,7 @@ static void e_week_view_free_events (EWeekView *week_view);
 static gboolean e_week_view_add_event (ECalComponent *comp,
 				       time_t	  start,
 				       time_t	  end,
+				       gboolean prepend,
 				       gpointer	  data);
 static void e_week_view_check_layout (EWeekView *week_view);
 static void e_week_view_ensure_events_sorted (EWeekView *week_view);
@@ -307,6 +308,15 @@ time_range_changed_cb (ECalModel *model, time_t start_time, time_t end_time, gpo
 		e_week_view_set_selected_time_range (E_CALENDAR_VIEW (week_view), start_time, start_time);
 }
 
+static gboolean
+process_component_recur_cb (ECalComponent *comp, time_t start, time_t end, gpointer data) 
+{
+	AddEventData *add_event_data;
+
+	add_event_data = data;
+
+	return e_week_view_add_event (comp, start, end, FALSE, add_event_data);
+}
 
 static void
 process_component (EWeekView *week_view, ECalModelComponent *comp_data)
@@ -375,7 +385,7 @@ process_component (EWeekView *week_view, ECalModelComponent *comp_data)
 	e_cal_generate_instances_for_object (comp_data->client, comp_data->icalcomp,
 					     week_view->day_starts[0],
 					     week_view->day_starts[num_days],
-					     e_week_view_add_event, &add_event_data);
+					     process_component_recur_cb, &add_event_data);
 
 	g_object_unref (comp);
 }
@@ -2386,6 +2396,7 @@ static gboolean
 e_week_view_add_event (ECalComponent *comp,
 		       time_t	  start,
 		       time_t	  end,
+		       gboolean prepend,
 		       gpointer	  data)
 
 {
@@ -2439,7 +2450,10 @@ e_week_view_add_event (ECalComponent *comp,
 		    e_calendar_view_get_timezone (E_CALENDAR_VIEW (add_event_data->week_view))))
 		event.different_timezone = TRUE;
 
-	g_array_append_val (add_event_data->week_view->events, event);
+	if (prepend)
+		g_array_prepend_val (add_event_data->week_view->events, event);
+	else
+		g_array_append_val (add_event_data->week_view->events, event);
 	add_event_data->week_view->events_sorted = FALSE;
 	add_event_data->week_view->events_need_layout = TRUE;
 
@@ -3769,13 +3783,28 @@ e_week_view_do_key_press (GtkWidget *widget, GdkEventKey *event)
 	   to the server until the user finishes editing it. */
 	add_event_data.week_view = week_view;
 	add_event_data.comp_data = NULL;
-	e_week_view_add_event (comp, dtstart, dtend, &add_event_data);
+	e_week_view_add_event (comp, dtstart, dtend, TRUE, &add_event_data);
 	e_week_view_check_layout (week_view);
 	gtk_widget_queue_draw (week_view->main_canvas);
 
 	if (e_week_view_find_event_from_uid (week_view, uid, &event_num)) {
-		e_week_view_start_editing_event (week_view, event_num, 0,
-						 initial_text);
+		EWeekViewEvent *event;
+		EWeekViewEventSpan *span;
+
+		event = &g_array_index (week_view->events, EWeekViewEvent,
+					event_num);
+		span = &g_array_index (week_view->spans, EWeekViewEventSpan,
+				       event->spans_index + 0);
+		
+		/* If the event can't be fit on the screen, don't try to edit it. */
+		if (!span->text_item) {
+			e_week_view_foreach_event_with_uid (week_view, uid,
+							    e_week_view_remove_event_cb, NULL);
+		} else {
+			e_week_view_start_editing_event (week_view, event_num, 0,
+							 initial_text);
+		}
+		
 	} else {
 		g_warning ("Couldn't find event to start editing.\n");
 	}
