@@ -79,11 +79,11 @@ struct _EStorageSetViewClass {
 GtkType    e_storage_set_view_get_type          (void);
 
 /* DON'T USE THIS. Use e_storage_set_new_view() instead. */
-GtkWidget *e_storage_set_view_new              (EStorageSet       *storage_set,
-						BonoboUIContainer *container);
-void       e_storage_set_view_construct        (EStorageSetView   *storage_set_view,
-						EStorageSet       *storage_set,
-						BonoboUIContainer *container);
+GtkWidget *e_storage_set_view_new        (EStorageSet       *storage_set,
+					  BonoboUIContainer *ui_container);
+void       e_storage_set_view_construct  (EStorageSetView   *storage_set_view,
+					  EStorageSet       *storage_set,
+					  BonoboUIContainer *ui_container);
 
 EStorageSet *e_storage_set_view_get_storage_set  (EStorageSetView *storage_set_view);
 

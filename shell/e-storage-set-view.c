@@ -29,14 +29,11 @@
 
 #include "e-util/e-gtk-utils.h"
 
+#include "e-corba-storage.h"
 #include "e-icon-factory.h"
 #include "e-folder-dnd-bridge.h"
 #include "e-shell-constants.h"
 
-#include <glib.h>
-#include <gnome.h>
-#include <libgnome/gnome-defs.h>
-#include <libgnome/gnome-util.h>
 #include <gal/util/e-util.h>
 #include <gal/widgets/e-gui-utils.h>
 #include <gal/e-table/e-tree-memory-callbacks.h>
@@ -45,6 +42,11 @@
 #include <gal/e-table/e-cell-tree.h>
 #include <gal/unicode/gunicode.h>
 
+#include <glib.h>
+#include <gnome.h>
+#include <libgnome/gnome-defs.h>
+#include <libgnome/gnome-util.h>
+#include <bonobo/bonobo-ui-util.h>
 #include <libgnome/gnome-util.h>
 
 #include "check-empty.xpm"
@@ -77,7 +79,8 @@ static ETreeClass *parent_class = NULL;
 struct _EStorageSetViewPrivate {
 	EStorageSet *storage_set;
 
-	BonoboUIContainer *container;
+	BonoboUIComponent *ui_component;
+	BonoboUIContainer *ui_container;
 
 	ETreeModel *etree_model;
 	ETreePath root_node;
@@ -209,7 +212,6 @@ folder_sort_callback (ETreeMemory *etmm,
 	else			/* priority_1 > priority_2 */
 		return +1;
 }
-
 
 
 /* Helper functions.  */
@@ -392,6 +394,17 @@ convert_gdk_drag_action_set_to_corba (GdkDragAction action)
 
 	return retval;
 }
+
+
+/* The weakref callback for priv->ui_component.  */
+
+static void
+ui_container_destroy_notify (void *data)
+{
+	EStorageSetViewPrivate *priv  = (EStorageSetViewPrivate *) data;
+
+	priv->ui_container = NULL;
+}	
 
 
 /* Custom marshalling function.  */
@@ -592,6 +605,160 @@ set_evolution_path_selection (EStorageSetView *storage_set_view,
 
 /* Folder context menu.  */
 
+struct _FolderPropertyItemsData {
+	EStorageSetView *storage_set_view;
+	ECorbaStorage *corba_storage;
+	int num_items;
+};
+typedef struct _FolderPropertyItemsData FolderPropertyItemsData;
+
+static void
+folder_property_item_verb_callback    (BonoboUIComponent *component,
+				       void *user_data,
+				       const char *cname)
+{
+	FolderPropertyItemsData *data;
+	GtkWidget *toplevel_widget;
+	const char *p;
+	int item_number;
+
+	data = (FolderPropertyItemsData *) user_data;
+
+	p = strrchr (cname, ':');
+	g_assert (p != NULL);
+
+	item_number = atoi (p + 1) - 1;
+	g_assert (item_number >= 0);
+
+	toplevel_widget = gtk_widget_get_toplevel (GTK_WIDGET (data->storage_set_view));
+
+	e_corba_storage_show_folder_properties (data->corba_storage,
+						data->storage_set_view->priv->right_click_row_path,
+						item_number, toplevel_widget->window);
+}
+
+static FolderPropertyItemsData *
+setup_folder_properties_items_if_corba_storage_clicked (EStorageSetView *storage_set_view)
+{
+	EStorageSetViewPrivate *priv;
+	EStorage *storage;
+	GSList *items, *p;
+	GString *xml;
+	FolderPropertyItemsData *data;
+	const char *slash;
+	char *storage_name;
+	int num_property_items;
+	int i;
+
+	priv = storage_set_view->priv;
+
+	slash = strchr (priv->right_click_row_path + 1, E_PATH_SEPARATOR);
+	if (slash == NULL)
+		storage_name = g_strdup (priv->right_click_row_path + 1);
+
+	else
+		storage_name = g_strndup (priv->right_click_row_path + 1,
+					  slash - (priv->right_click_row_path + 1));
+
+	storage = e_storage_set_get_storage (priv->storage_set, storage_name);
+	g_free (storage_name);
+
+	if (storage == NULL || ! E_IS_CORBA_STORAGE (storage))
+		return 0;
+
+	items = e_corba_storage_get_folder_property_items (E_CORBA_STORAGE (storage));
+	if (items == NULL)
+		return 0;
+
+	xml = g_string_new ("<placeholder name=\"StorageFolderPropertiesPlaceholder\">");
+	g_string_append (xml, "<separator f=\"\" name=\"EStorageSetViewFolderPropertiesSeparator\"/>");
+
+	num_property_items = 0;
+	for (p = items; p != NULL; p = p->next) {
+		const ECorbaStoragePropertyItem *item;
+		char *encoded_label;
+		char *encoded_tooltip;
+
+		item = (const ECorbaStoragePropertyItem *) p->data;
+		num_property_items ++;
+
+		g_string_sprintfa (xml, "<menuitem name=\"EStorageSetView:FolderPropertyItem:%d\"",
+				   num_property_items);
+		g_string_sprintfa (xml, " verb=\"EStorageSetView:FolderPropertyItem:%d\"",
+				   num_property_items);
+
+		encoded_tooltip = bonobo_ui_util_encode_str (item->tooltip);
+		g_string_sprintfa (xml, " tip=\"%s\"", encoded_tooltip);
+
+		encoded_label = bonobo_ui_util_encode_str (item->label);
+		g_string_sprintfa (xml, " label=\"%s\"/>", encoded_label);
+
+		g_free (encoded_tooltip);
+		g_free (encoded_label);
+	}
+
+	g_string_append (xml, "</placeholder>");
+
+	data = g_new (FolderPropertyItemsData, 1);
+	data->storage_set_view = storage_set_view;
+	data->corba_storage    = E_CORBA_STORAGE (storage);
+	data->num_items        = num_property_items;
+
+	gtk_object_ref (GTK_OBJECT (data->storage_set_view));
+	gtk_object_ref (GTK_OBJECT (data->corba_storage));
+
+	for (i = 1; i <= num_property_items; i ++) {
+		char *verb;
+
+		verb = g_strdup_printf ("EStorageSetView:FolderPropertyItem:%d", i);
+		bonobo_ui_component_add_verb (priv->ui_component, verb,
+					      folder_property_item_verb_callback,
+					      data);
+	}
+
+	bonobo_ui_component_set (priv->ui_component, "/popups/FolderPopup", xml->str, NULL);
+
+	g_string_free (xml, TRUE);
+	e_corba_storage_free_property_items_list (items);
+
+	return data;
+}
+
+static void
+remove_property_items (EStorageSetView *storage_set_view,
+		       FolderPropertyItemsData *data)
+{
+	EStorageSetViewPrivate *priv;
+
+	priv = storage_set_view->priv;
+
+	if (data->num_items > 0) {
+		int i;
+
+		bonobo_ui_component_rm (priv->ui_component, 
+					"/popups/FolderPopup/StorageFolderPropertiesPlaceholder/EStorageSetViewFolderPropertiesSeparator",
+					NULL);
+
+		for (i = 1; i <= data->num_items; i ++) {
+			char *path;
+			char *verb;
+
+			path = g_strdup_printf ("/popups/FolderPopup/StorageFolderPropertiesPlaceholder/EStorageSetView:FolderPropertyItem:%d", i);
+			bonobo_ui_component_rm (priv->ui_component, path, NULL);
+			g_free (path);
+
+			verb = g_strdup_printf ("EStorageSetView:FolderPropertyItem:%d", i);
+			bonobo_ui_component_remove_verb (priv->ui_component, verb);
+			g_free (verb);
+		}
+	}
+
+	gtk_object_unref (GTK_OBJECT (data->storage_set_view));
+	gtk_object_unref (GTK_OBJECT (data->corba_storage));
+
+	g_free (data);
+}
+
 static void
 popup_folder_menu (EStorageSetView *storage_set_view,
 		   GdkEventButton *event)
@@ -601,6 +768,7 @@ popup_folder_menu (EStorageSetView *storage_set_view,
 	EFolderTypeRegistry *folder_type_registry;
 	EFolder *folder;
 	GtkWidget *menu;
+	FolderPropertyItemsData *folder_property_items_data;
 
 	priv = storage_set_view->priv;
 
@@ -612,17 +780,23 @@ popup_folder_menu (EStorageSetView *storage_set_view,
 	handler = e_folder_type_registry_get_handler_for_type (folder_type_registry,
 							       e_folder_get_type_string (folder));
 	menu = gtk_menu_new ();
-	bonobo_window_add_popup (bonobo_ui_container_get_win (priv->container),
+	bonobo_window_add_popup (bonobo_ui_container_get_win (priv->ui_container),
 				 GTK_MENU (menu), "/popups/FolderPopup");
 
-	evolution_shell_component_client_populate_folder_context_menu (handler,
-								       priv->container,
-								       e_folder_get_physical_uri (folder),
-								       e_folder_get_type_string (folder));
+	if (handler != NULL)
+		evolution_shell_component_client_populate_folder_context_menu (handler,
+									       priv->ui_container,
+									       e_folder_get_physical_uri (folder),
+									       e_folder_get_type_string (folder));
+
+	folder_property_items_data = setup_folder_properties_items_if_corba_storage_clicked (storage_set_view);
 
 	gtk_widget_show (GTK_WIDGET (menu));
 
 	gnome_popup_menu_do_popup_modal (GTK_WIDGET (menu), NULL, NULL, event, NULL);
+
+	if (folder_property_items_data != NULL)
+		remove_property_items (storage_set_view, folder_property_items_data);
 
 	gtk_widget_destroy (GTK_WIDGET (menu));
 
@@ -690,6 +864,11 @@ impl_destroy (GtkObject *object)
 
 	if (priv->drag_corba_data != NULL)
 		CORBA_free (priv->drag_corba_data);
+
+	if (priv->ui_component != NULL)
+		bonobo_object_unref (BONOBO_OBJECT (priv->ui_component));
+
+	/* (No unreffing for priv->ui_container since we use a weakref.)  */
 
 	g_free (priv->selected_row_path);
 	g_free (priv->right_click_row_path);
@@ -1057,7 +1236,7 @@ impl_right_click (ETree *etree,
 		g_free (priv->right_click_row_path);
 	priv->right_click_row_path = g_strdup (e_tree_memory_node_get_data (E_TREE_MEMORY(priv->etree_model), path));
 
-	if (priv->container) {
+	if (priv->ui_container) {
 		gtk_signal_emit (GTK_OBJECT (storage_set_view),
 				 signals[FOLDER_CONTEXT_MENU_POPPING_UP],
 				 priv->right_click_row_path);
@@ -1676,6 +1855,9 @@ init (EStorageSetView *storage_set_view)
 	priv->path_to_etree_node          = g_hash_table_new (g_str_hash, g_str_equal);
 	priv->type_name_to_pixbuf         = g_hash_table_new (g_str_hash, g_str_equal);
 
+	priv->ui_component                = NULL;
+	priv->ui_container                = NULL;
+
 	priv->selected_row_path           = NULL;
 	priv->right_click_row_path        = NULL;
 
@@ -1837,20 +2019,25 @@ insert_storages (EStorageSetView *storage_set_view)
 void
 e_storage_set_view_construct (EStorageSetView   *storage_set_view,
 			      EStorageSet       *storage_set,
-			      BonoboUIContainer *container)
+			      BonoboUIContainer *ui_container)
 {
 	EStorageSetViewPrivate *priv;
 	ETableExtras *extras;
 	ECell *cell;
 
-	g_return_if_fail (storage_set_view != NULL);
 	g_return_if_fail (E_IS_STORAGE_SET_VIEW (storage_set_view));
-	g_return_if_fail (storage_set != NULL);
 	g_return_if_fail (E_IS_STORAGE_SET (storage_set));
 
 	priv = storage_set_view->priv;
 
-	priv->container = container;
+	priv->ui_container = ui_container;
+	if (ui_container != NULL) {
+		gtk_object_weakref (GTK_OBJECT (ui_container), ui_container_destroy_notify, priv);
+
+		priv->ui_component = bonobo_ui_component_new_default ();
+		bonobo_ui_component_set_container (priv->ui_component,
+						   bonobo_object_corba_objref (BONOBO_OBJECT (ui_container)));
+	}
 
 	priv->etree_model = e_tree_memory_callbacks_new (etree_icon_at,
 
@@ -1931,15 +2118,15 @@ e_storage_set_view_construct (EStorageSetView   *storage_set_view,
 /* DON'T USE THIS. Use e_storage_set_new_view() instead. */
 GtkWidget *
 e_storage_set_view_new (EStorageSet *storage_set,
-			BonoboUIContainer *container)
+			BonoboUIContainer *ui_container)
 {
 	GtkWidget *new;
 
-	g_return_val_if_fail (storage_set != NULL, NULL);
 	g_return_val_if_fail (E_IS_STORAGE_SET (storage_set), NULL);
 
 	new = gtk_type_new (e_storage_set_view_get_type ());
-	e_storage_set_view_construct (E_STORAGE_SET_VIEW (new), storage_set, container);
+
+	e_storage_set_view_construct (E_STORAGE_SET_VIEW (new), storage_set, ui_container);
 
 	return new;
 }

@@ -400,7 +400,7 @@ e_shell_folder_selection_dialog_construct (EShellFolderSelectionDialog *folder_s
 	priv->storage_set = e_shell_get_storage_set (shell);
 	gtk_object_ref (GTK_OBJECT (priv->storage_set));
 
-	priv->storage_set_view = e_storage_set_new_view (priv->storage_set, NULL /* No BonoboUIContainer */);
+	priv->storage_set_view = e_storage_set_create_new_view (priv->storage_set, NULL);
 	e_storage_set_view_set_allow_dnd (E_STORAGE_SET_VIEW (priv->storage_set_view), FALSE);
 
 	/* Load the expanded state for this StorageSetView */

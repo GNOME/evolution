@@ -28,6 +28,8 @@
 
 #include "Evolution.h"
 
+#include <gdk-pixbuf/gdk-pixbuf.h>
+
 #ifdef __cplusplus
 extern "C" {
 #pragma }
@@ -110,6 +112,11 @@ struct _EvolutionStorageClass {
 					const char *user,
 					const char *folder_name,
 					Bonobo_Listener listener);
+
+	void (*show_folder_properties) (EvolutionStorage *storage,
+					const char *path,
+					unsigned int itemNumber,
+					unsigned long parentWindowId);
 };
 
 
@@ -155,6 +162,11 @@ gboolean                evolution_storage_folder_exists        (EvolutionStorage
 EvolutionStorageResult  evolution_storage_has_subfolders       (EvolutionStorage                *evolution_storage,
 								const char                      *path,
 								const char                      *message);
+
+void  evolution_storage_add_property_item  (EvolutionStorage *evolution_storage,
+					    const char       *label,
+					    const char       *tooltip,
+					    GdkPixbuf        *icon);
 
 #ifdef __cplusplus
 }

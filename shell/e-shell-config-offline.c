@@ -182,7 +182,7 @@ e_shell_config_offline_create_widget (EShell *shell, EvolutionConfigControl *con
 	page_data = g_new (PageData, 1);
 	page_data->shell = shell;
 
-	page_data->storage_set_view = e_storage_set_new_view (e_shell_get_storage_set (shell), NULL);
+	page_data->storage_set_view = e_storage_set_create_new_view (e_shell_get_storage_set (shell), NULL);
         e_storage_set_view_set_show_checkboxes (E_STORAGE_SET_VIEW (page_data->storage_set_view), TRUE,
 						storage_set_view_has_checkbox_func, NULL);
 	gtk_widget_show (page_data->storage_set_view);

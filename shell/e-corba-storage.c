@@ -26,11 +26,17 @@
 
 #include "e-corba-storage.h"
 
-#include <glib.h>
-#include <bonobo/bonobo-main.h>
-#include <gal/util/e-util.h>
+#include "e-shell-constants.h"
 
 #include "Evolution.h"
+
+#include <glib.h>
+#include <gal/util/e-util.h>
+
+#include <bonobo/bonobo-main.h>
+#include <bonobo/bonobo-exception.h>
+
+#include <gdk/gdkx.h>
 
 
 #define PARENT_TYPE E_TYPE_STORAGE
@@ -623,6 +629,89 @@ e_corba_storage_get_corba_objref (ECorbaStorage *corba_storage)
 	g_return_val_if_fail (E_IS_CORBA_STORAGE (corba_storage), CORBA_OBJECT_NIL);
 
 	return corba_storage->priv->storage_interface;
+}
+
+
+GSList *
+e_corba_storage_get_folder_property_items (ECorbaStorage *corba_storage)
+{
+	GNOME_Evolution_Storage_FolderPropertyItemList *corba_items;
+	CORBA_Environment ev;
+	GSList *list;
+	int i;
+
+	g_return_val_if_fail (E_IS_CORBA_STORAGE (corba_storage), NULL);
+
+	CORBA_exception_init (&ev);
+
+	corba_items = GNOME_Evolution_Storage__get_folderPropertyItems (corba_storage->priv->storage_interface,
+									&ev);
+
+	if (BONOBO_EX (&ev)) {
+		CORBA_exception_free (&ev);
+		return NULL;
+	}
+
+	list = NULL;
+	for (i = 0; i < corba_items->_length; i ++) {
+		ECorbaStoragePropertyItem *item;
+
+		item = g_new (ECorbaStoragePropertyItem, 1);
+		item->label   = g_strdup (corba_items->_buffer[i].label);
+		item->tooltip = g_strdup (corba_items->_buffer[i].tooltip);
+		item->icon    = NULL; /* We don't care for now -- FIXME */
+
+		list = g_slist_prepend (list, item);
+	}
+	list = g_slist_reverse (list);
+
+	CORBA_free (corba_items);
+	CORBA_exception_free (&ev);
+
+	return list;
+}
+
+void
+e_corba_storage_free_property_items_list (GSList *list)
+{
+	GSList *p;
+
+	for (p = list; p != NULL; p = p->next) {
+		ECorbaStoragePropertyItem *item;
+
+		item = (ECorbaStoragePropertyItem *) p->data;
+
+		if (item->icon != NULL)
+			gdk_pixbuf_unref (item->icon);
+		g_free (item->label);
+		g_free (item->tooltip);
+		g_free (item);
+	}
+
+	g_slist_free (list);
+}
+
+void
+e_corba_storage_show_folder_properties (ECorbaStorage *corba_storage,
+					const char *path,
+					int property_item_id,
+					GdkWindow *parent_window)
+{
+	CORBA_Environment ev;
+
+	g_return_if_fail (E_IS_CORBA_STORAGE (corba_storage));
+	g_return_if_fail (path != NULL && path[0] == E_PATH_SEPARATOR);
+
+	CORBA_exception_init (&ev);
+
+	GNOME_Evolution_Storage_showFolderProperties (corba_storage->priv->storage_interface,
+						      path, property_item_id,
+						      GDK_WINDOW_XWINDOW (parent_window),
+						      &ev);
+	if (BONOBO_EX (&ev))
+		g_warning ("Error in Storage::showFolderProperties -- %s", BONOBO_EX_ID (&ev));
+
+	CORBA_exception_free (&ev);
 }
 
 

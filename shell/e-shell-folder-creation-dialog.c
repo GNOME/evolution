@@ -320,7 +320,7 @@ add_storage_set_view (GtkWidget *dialog,
 	GtkWidget *vbox;
 
 	storage_set = e_shell_get_storage_set (shell);
-	storage_set_view = e_storage_set_new_view (storage_set, NULL/*XXX*/);
+	storage_set_view = e_storage_set_create_new_view (storage_set, NULL);
 
 	e_storage_set_view_set_allow_dnd (E_STORAGE_SET_VIEW (storage_set_view), FALSE);
 

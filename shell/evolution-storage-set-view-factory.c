@@ -46,7 +46,7 @@ evolution_storage_set_view_factory_new_view (EShell *shell)
 	g_return_val_if_fail (E_IS_SHELL (shell), NULL);
 
 	storage_set = e_shell_get_storage_set (shell);
-	storage_set_view = e_storage_set_new_view (storage_set, NULL /*XXX*/);
+	storage_set_view = e_storage_set_create_new_view (storage_set, NULL /*XXX*/);
 	e_storage_set_view_set_allow_dnd (E_STORAGE_SET_VIEW (storage_set_view), FALSE);
 
 	storage_set_view_interface = evolution_storage_set_view_new (E_STORAGE_SET_VIEW (storage_set_view));

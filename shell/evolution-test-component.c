@@ -309,6 +309,16 @@ storage_discover_shared_folder_callback (EvolutionStorage *storage,
 }
 
 static void
+storage_show_folder_properties_callback (EvolutionStorage *storage,
+					 const char *path,
+					 unsigned int itemNumber,
+					 unsigned long parentWindowId,
+					 void *data)
+{
+	g_print ("Show properties #%d -- %s\n", itemNumber, path);
+}
+
+static void
 setup_custom_storage (EvolutionShellClient *shell_client)
 {
 	EvolutionStorage *the_storage;
@@ -318,6 +328,15 @@ setup_custom_storage (EvolutionShellClient *shell_client)
 
 	gtk_signal_connect (GTK_OBJECT (the_storage), "discover_shared_folder",
 			    GTK_SIGNAL_FUNC (storage_discover_shared_folder_callback), shell_client);
+
+	/* Add some custom "Properties" items.  */
+	evolution_storage_add_property_item (the_storage, "Sharing...",
+					     "Change sharing properties for this folder", NULL); 
+	evolution_storage_add_property_item (the_storage, "Permissions...",
+					     "Change permissions for this folder", NULL);
+
+	gtk_signal_connect (GTK_OBJECT (the_storage), "show_folder_properties",
+			    GTK_SIGNAL_FUNC (storage_show_folder_properties_callback), NULL);
 
 	result = evolution_storage_register_on_shell (the_storage, BONOBO_OBJREF (shell_client));
 	if (result != EVOLUTION_STORAGE_OK) {

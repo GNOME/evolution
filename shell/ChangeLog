@@ -1,3 +1,55 @@
+2002-08-06  Ettore Perazzoli  <ettore@ximian.com>
+
+	* evolution-test-component.c
+	(storage_show_folder_properties_callback): New callback for the
+	show_folder_properties signal.
+	(setup_custom_storage): Add two property items, and connect the
+	callback to the signal.
+
+	* e-storage-set-view.c: Renamed private member container into
+	ui_container; new member ui_component.
+	(init): Initialize ui_component to NULL.
+	(impl_destroy): Unref if not NULL.
+	(e_storage_set_view_construct): If @ui_container is not NULL,
+	weakref it and create a new ui_component that uses it as its
+	container.
+	(ui_container_destroy_notify): New, weakref destroy callback for
+	priv->ui_container.
+	(remove_property_items): New helper function.
+	(setup_folder_properties_items_if_corba_storage_clicked): New
+	helper function.
+	(folder_property_item_verb_callback): New callback for the verbs
+	associated to the folder property items.
+	(popup_folder_menu): Set up the per-storage folder property items
+	using setup_folder_properties_items_if_corba_storage_clicked() and
+	remove them with remove_property_items() after the menu has been
+	popped down.  Don't invoke populate_folder_context_menu if there
+	is no handler for this node [this avoids a spurious warning].
+
+	* e-corba-storage.c (e_corba_storage_show_folder_properties): New.
+	(e_corba_storage_get_folder_property_items): New.
+	(e_corba_storage_free_property_items_list): New.
+
+	* evolution-storage.c: New private member folder_property_items.
+	(init): Init to NULL.
+	(destroy): Free.
+	(impl_showFolderProperties): New, implementation for the
+	Storage::showFolderProperties CORBA method.
+	(class_init): Set up the "show_folder_properties" signal here.
+	(impl_Storage__get_propertyItems): New, getter for the
+	Storage::propertyItems property.
+	(corba_class_init): Install the new methods.
+	(evolution_storage_add_property_item): New function to add
+	property items to the storage.
+
+	* evolution-storage.h: New signal show_folder_properties.
+
+	* e-storage-set.c (e_storage_set_create_new_view): Renamed from
+	e_storage_set_new_view().
+
+	* Evolution-Storage.idl: Added attribute folderPropertyItems and
+	method ::showFolderProperties.
+
 2002-08-01  Ettore Perazzoli  <ettore@ximian.com>
 
 	* e-gray-bar.c (endarken_style): Set the color for

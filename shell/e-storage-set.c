@@ -615,14 +615,15 @@ storage_set_view_folder_opened (EStorageSetView *storage_set_view,
 }
 
 GtkWidget *
-e_storage_set_new_view (EStorageSet *storage_set, BonoboUIContainer *container)
+e_storage_set_create_new_view (EStorageSet *storage_set,
+			       BonoboUIContainer *ui_container)
 {
 	GtkWidget *storage_set_view;
 
 	g_return_val_if_fail (storage_set != NULL, NULL);
 	g_return_val_if_fail (E_IS_STORAGE_SET (storage_set), NULL);
 
-	storage_set_view = e_storage_set_view_new (storage_set, container);
+	storage_set_view = e_storage_set_view_new (storage_set, ui_container);
 	gtk_signal_connect (GTK_OBJECT (storage_set_view), "folder_opened",
 			    GTK_SIGNAL_FUNC (storage_set_view_folder_opened),
 			    storage_set);
