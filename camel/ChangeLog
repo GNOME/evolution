@@ -1,5 +1,18 @@
 2003-03-13  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* camel-mime-part.c (process_header): Use
+	header_contentid_decode() as this new function should be safer
+	than the hack that we had before.
+
+	* camel-mime-utils.c (header_contentid_decode): New function to
+	try and parse a content-id string in such a way as to work around
+	some of the known bugs in other MIME implementations. Try to be as
+	"safe" as we can - ie. don't allow for more than 1 @ (since the
+	mailer uses "@@@%d" as a fake content-id value for parts without
+	content-ids) and don't allow for invalid content-type chars.
+
+2003-03-13  Jeffrey Stedfast  <fejj@ximian.com>
+
 	* camel-folder.c (get_uids): Don't add bogus uids to the uid
 	array. Might fix bug #38868 (it's the only way I can figure that
 	camel_folder_get_message_info() could possibly return NULL for the

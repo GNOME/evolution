@@ -234,21 +234,7 @@ process_header(CamelMedium *medium, const char *header_name, const char *header_
 		break;
 	case HEADER_CONTENT_ID:
 		g_free (mime_part->content_id);
-		if (!(mime_part->content_id = header_msgid_decode (header_value))) {
-			while (*header_value && strchr (" \t\r\n", *header_value))
-				header_value++;
-			if (*header_value == '<') {
-				p = header_value;
-				while (*p && *p != '>')
-					p++;
-				mime_part->content_id = g_strndup (header_value, p - header_value);
-			} else if (*header_value) {
-				mime_part->content_id = g_strdup (header_value);
-			}
-			
-			if (mime_part->content_id)
-				g_strstrip (mime_part->content_id);
-		}
+		mime_part->content_id = header_contentid_decode (header_value);
 		break;
 	case HEADER_ENCODING:
 		text = header_token_decode (header_value);

@@ -184,6 +184,7 @@ char *header_format_date (time_t time, int offset);
 
 /* decode a message id */
 char *header_msgid_decode (const char *in);
+char *header_contentid_decode (const char *in);
 
 /* generate msg id */
 char *header_msgid_generate (void);
