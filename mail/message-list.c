@@ -810,10 +810,10 @@ message_list_regenerate (MessageList *message_list, const char *search)
 		g_hash_table_destroy (message_list->uid_rowmap);
 	}
 	message_list->uid_rowmap = g_hash_table_new (g_str_hash, g_str_equal);
-
-	if (search) {
+	
+	if (search && camel_folder_has_search_capability (message_list->folder)) {
 		CamelException ex;
-
+		
 		camel_exception_init (&ex);
 		uids = camel_folder_search_by_expression (message_list->folder,
 							  search, &ex);
@@ -826,9 +826,9 @@ message_list_regenerate (MessageList *message_list, const char *search)
 			message_list->search = g_strdup (search);
 	} else
 		uids = camel_folder_get_uids (message_list->folder, NULL);
-
+	
 	/* FIXME: free the old tree data */
-
+	
 	/* Clear the old contents, build the new */
 	if (message_list->tree_root)
 		e_tree_model_node_remove(etm, message_list->tree_root);

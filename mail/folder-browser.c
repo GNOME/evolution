@@ -181,6 +181,9 @@ folder_browser_load_folder (FolderBrowser *fb, const char *name)
 	if (fb->folder)
 		gtk_object_unref (GTK_OBJECT (fb->folder));
 	fb->folder = new_folder;
+	
+	gtk_widget_set_sensitive (GTK_WIDGET (fb->search_entry), camel_folder_has_search_capability (fb->folder));
+	gtk_widget_set_sensitive (GTK_WIDGET (fb->search_menu), camel_folder_has_search_capability (fb->folder));
 
 	message_list_set_folder (fb->message_list, new_folder);
 
@@ -406,7 +409,6 @@ folder_browser_gui_init (FolderBrowser *fb)
 
 	gtk_widget_show (GTK_WIDGET (fb->mail_display));
 	gtk_widget_show (GTK_WIDGET (fb));
-
 }
 
 static void
