@@ -3,7 +3,18 @@ Evolution 1.0.8, 2002-06-19
 
 Bugzilla Bugs Fixed (see http://bugzilla.ximian.com/show_bug.cgi):
 
+  * Addressbook
+
+    #17332 -- Addressbook crashes in LDAP address completion code.
+              (Toshok)
+    #26130 -- Close contact editor before save as crashes. (Toshok)
+
 Other fixes:
+
+  * Addressbook
+
+    - Some memory leak fixes in the addressbook backends and
+      libversit. (Toshok)
 
 Updated translations:
 
