@@ -1,3 +1,7 @@
+2001-08-16  Jon Trowbridge  <trow@ximian.com>
+
+	* configure.in: Require gal 0.10.99.3.
+
 2001-08-16  Kjartan Maraas  <kmaraas@gnome.org>
 
 	* README: Some info on adding --localstatedir to the configure

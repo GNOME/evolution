@@ -76,7 +76,7 @@ static void e_select_names_completion_seq_complete_cb  (EBookView *, gpointer us
 
 static void e_select_names_completion_do_query (ESelectNamesCompletion *, const gchar *query_text, gint pos, gint limit);
 
-static void e_select_names_completion_begin  (ECompletion *, const gchar *txt, gint pos, gint limit);
+static void e_select_names_completion_handle_request  (ECompletion *, const gchar *txt, gint pos, gint limit);
 static void e_select_names_completion_end    (ECompletion *);
 static void e_select_names_completion_cancel (ECompletion *);
 
@@ -688,7 +688,7 @@ e_select_names_completion_class_init (ESelectNamesCompletionClass *klass)
 
 	object_class->destroy = e_select_names_completion_destroy;
 
-	completion_class->begin_completion = e_select_names_completion_begin;
+	completion_class->request_completion = e_select_names_completion_handle_request;
 	completion_class->end_completion = e_select_names_completion_end;
 	completion_class->cancel_completion = e_select_names_completion_cancel;
 
@@ -1019,7 +1019,7 @@ search_override_check (SearchOverride *over, const gchar *text)
  */
 
 static void
-e_select_names_completion_begin (ECompletion *comp, const gchar *text, gint pos, gint limit)
+e_select_names_completion_handle_request (ECompletion *comp, const gchar *text, gint pos, gint limit)
 {
 	ESelectNamesCompletion *selcomp = E_SELECT_NAMES_COMPLETION (comp);
 	const gchar *str;
