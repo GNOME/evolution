@@ -66,8 +66,8 @@ static CamelProviderConfEntry local_conf_entries[] = {
 
 static CamelProvider maildir_provider = {
 	"maildir",
-	N_("Qmail maildir-format mail files"),
-	N_("For storing local mail in qmail maildir directories."),
+	N_("Maildir-format mail directories"),
+	N_("For storing local mail in maildir directories."),
 	"mail",
 	CAMEL_PROVIDER_IS_SOURCE | CAMEL_PROVIDER_IS_STORAGE |
 	CAMEL_PROVIDER_IS_LOCAL,

@@ -1,5 +1,8 @@
 2001-10-18  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* providers/local/camel-local-provider.c: String cleanup for bug
+	#6640.
+
 	* providers/imap/camel-imap-folder.c (imap_sync_online): Fix my
 	Cyrus imapd workaround...instead of checking to see if info->flags
 	== FLAGGED, just check to see if it contains any IMAP flags.
