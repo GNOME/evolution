@@ -227,7 +227,7 @@ ui/evolution-executive-summary.xml
 ui/evolution-mail.xml
 ui/evolution-message-composer.xml
 ui/evolution-subscribe.xml
-ui/evolution-task-editor-dialog.xml
+ui/evolution-task-editor.xml
 ui/evolution-tasks.xml
 ui/evolution.xml
 views/addressbook/galview.xml
