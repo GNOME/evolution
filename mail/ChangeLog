@@ -1,3 +1,13 @@
+2001-06-14  Not Zed  <NotZed@Ximian.com>
+
+	* mail-tools.c (mail_tool_uri_to_folder): If we have a fragment in
+	the url, use that as the folder name, and not the path component.
+
+2001-06-13  Not Zed  <NotZed@Ximian.com>
+
+	* component-factory.c (mail_load_storages): Added temp hack to let
+	spool providers show up in the list.
+
 2001-06-16  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* folder-browser.c (my_folder_browser_init): Allow user's to

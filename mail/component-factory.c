@@ -736,9 +736,12 @@ mail_load_storages (GNOME_Evolution_Shell shell, const GSList *sources, gboolean
 		 * (/var/spool/mail/user) or a storage (~/mail/, eg).
 		 * That issue can't be resolved on the provider level
 		 * -- it's a per-URL problem.
+		 *  MPZ Added a hack to let spool protocol through temporarily ...
 		 */
-		if (!(prov->flags & CAMEL_PROVIDER_IS_STORAGE) ||
-		    !(prov->flags & CAMEL_PROVIDER_IS_REMOTE))
+		if ((!(prov->flags & CAMEL_PROVIDER_IS_STORAGE) ||
+		     !(prov->flags & CAMEL_PROVIDER_IS_REMOTE))
+		    && !((strcmp(prov->protocol, "spool") == 0)
+			 || strcmp(prov->protocol, "maildir") == 0))
 			continue;
 
 		store = camel_session_get_service (session, service->url,

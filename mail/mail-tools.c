@@ -266,10 +266,16 @@ mail_tool_uri_to_folder (const char *uri, CamelException *ex)
 		if (store) {
 			char *name;
 			
-			if (url->path && *url->path)
-				name = url->path + 1;
-			else
-				name = "";
+			/* if we have a fragment, then the path is actually used by the store,
+			   so the fragment is the path to the folder instead */
+			if (url->fragment) {
+				name = url->fragment;
+			} else {
+				if (url->path && *url->path)
+					name = url->path + 1;
+				else
+					name = "";
+			}
 
 			if (offset)
 				folder = camel_store_get_trash (store, ex);
