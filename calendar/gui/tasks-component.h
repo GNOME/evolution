@@ -24,8 +24,8 @@
 #define _TASKS_COMPONENT_H_
 
 #include <bonobo/bonobo-object.h>
+#include <libedataserver/e-source-list.h>
 #include "Evolution.h"
-#include "e-util/e-source-list.h"
 
 
 #define TASKS_TYPE_COMPONENT			(tasks_component_get_type ())

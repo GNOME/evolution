@@ -31,8 +31,8 @@
 #include <gtk/gtkmessagedialog.h>
 #include <gtk/gtkoptionmenu.h>
 #include <glade/glade.h>
+#include <libedataserver/e-source-list.h>
 #include <e-util/e-dialog-utils.h>
-#include <e-util/e-source-list.h>
 #include <e-util/e-url.h>
 #include "new-calendar.h"
 
