@@ -548,7 +548,7 @@ local_record_from_comp (ECalLocalRecord *local, CalComponent *comp, ECalConduitC
 	gtk_object_ref (GTK_OBJECT (comp));
 	
 	cal_component_get_uid (local->comp, &uid);
-	local->local.ID = e_pilot_map_lookup_pid (ctxt->map, uid);
+	local->local.ID = e_pilot_map_lookup_pid (ctxt->map, uid, TRUE);
 	compute_status (ctxt, local, uid);
 
 	local->appt = g_new0 (struct Appointment, 1);
@@ -934,10 +934,12 @@ check_for_slow_setting (GnomePilotConduit *c, ECalConduitContext *ctxt)
 	if (map_count == 0)
 		gnome_pilot_conduit_standard_set_slow (conduit, TRUE);
 
-	if (gnome_pilot_conduit_standard_get_slow (conduit))
+	if (gnome_pilot_conduit_standard_get_slow (conduit)) {
+		ctxt->map->write_touched_only = TRUE;
 		LOG ("    doing slow sync\n");
-	else
+	} else {
 		LOG ("    doing fast sync\n");
+	}
 }
 
 /* Pilot syncing callbacks */
@@ -1002,7 +1004,7 @@ pre_sync (GnomePilotConduit *conduit,
 			ctxt->changed = g_list_concat (ctxt->changed, multi_ccc);
 
 			cal_component_get_uid (ccc->comp, &uid);
-			if (e_pilot_map_lookup_pid (ctxt->map, uid) == 0) {
+			if (e_pilot_map_lookup_pid (ctxt->map, uid, FALSE) == 0) {
 				ctxt->changed = g_list_remove (ctxt->changed, ccc);
 				gtk_object_unref (GTK_OBJECT (ccc->comp));
 				g_free (ccc);
@@ -1352,7 +1354,7 @@ match (GnomePilotConduitSyncAbs *conduit,
 	g_return_val_if_fail (remote != NULL, -1);
 
 	*local = NULL;
-	uid = e_pilot_map_lookup_uid (ctxt->map, remote->ID);
+	uid = e_pilot_map_lookup_uid (ctxt->map, remote->ID, TRUE);
 	
 	if (!uid)
 		return 0;
