@@ -1,3 +1,13 @@
+2001-06-11  Christopher James Lahey  <clahey@ximian.com>
+
+	* backend/ebook/e-card-compare.c, backend/ebook/e-card-compare.h
+	(e_card_locate_match_full): Added this function to let you do
+	slightly more complicated searches.
+
+	* gui/merging/e-card-merging.c (e_card_merging_book_add_card): Use
+	e_card_locate_match_full to check if the card exists in the book
+	it's being added to instead of in the default book.
+
 2001-06-09  Christopher James Lahey  <clahey@ximian.com>
 
 	* gui/component/select-names/e-select-names-completion.c

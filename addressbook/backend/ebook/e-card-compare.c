@@ -326,6 +326,7 @@ e_card_compare (ECard *card1, ECard *card2)
 typedef struct _MatchSearchInfo MatchSearchInfo;
 struct _MatchSearchInfo {
 	ECard *card;
+	GList *avoid;
 	ECardMatchQueryCallback cb;
 	gpointer closure;
 };
@@ -375,6 +376,7 @@ use_common_book_cb (EBook *book, gpointer closure)
 	gchar *query_parts[MAX_QUERY_PARTS];
 	gint p=0;
 	gchar *query, *qj;
+	int i;
 
 	if (book == NULL) {
 		info->cb (info->card, NULL, E_CARD_MATCH_NONE, info->closure);
@@ -409,7 +411,7 @@ use_common_book_cb (EBook *book, gpointer closure)
 					}
 					++s;
 				}
-				query_parts[p++] = g_strdup_printf ("beginswith \"email\" \"%s\")", addr);
+				query_parts[p++] = g_strdup_printf ("(beginswith \"email\" \"%s\")", addr);
 				g_free (addr);
 			}
 			e_iterator_next (iter);
@@ -421,18 +423,34 @@ use_common_book_cb (EBook *book, gpointer closure)
 	/* Build up our full query from the parts. */
 	query_parts[p] = NULL;
 	qj = g_strjoinv (" ", query_parts);
+	for(i = 0; query_parts[i] != NULL; i++)
+		g_free(query_parts[i]);
 	if (p > 0) {
 		query = g_strdup_printf ("(or %s)", qj);
+		g_free (qj);
 	} else {
 		query = qj;
-		qj = NULL;
+	}
+
+	if (info->avoid) {
+		GList *iterator;
+		p = 0;
+		query_parts[p++] = query;
+		for (iterator = info->avoid; iterator; iterator = iterator->next) {
+			query_parts[p++] = g_strdup_printf("(not (is \"id\" \"%s\"))", e_card_get_id (iterator->data));
+		}
+		query_parts[p] = 0;
+		qj = g_strjoinv (" ", query_parts);
+		for(i = 0; query_parts[i] != NULL; i++)
+			g_free(query_parts[i]);
+		query = g_strdup_printf ("(and %s)", qj);
+		g_list_foreach (info->avoid, (GFunc) gtk_object_unref, NULL);
+		g_list_free (info->avoid);
+		info->avoid = NULL;
 	}
 
 	e_book_simple_query (book, query, simple_query_cb, info);
 
-	for (p=0; query_parts[p]; ++p)
-		g_free (query_parts[p]);
-	g_free (qj);
 	g_free (query);
 }
 
@@ -449,7 +467,41 @@ e_card_locate_match (ECard *card, ECardMatchQueryCallback cb, gpointer closure)
 	gtk_object_ref (GTK_OBJECT (card));
 	info->cb = cb;
 	info->closure = closure;
+	info->avoid = NULL;
 
 	e_book_use_local_address_book (use_common_book_cb, info);
+}
+
+/**
+ * e_card_locate_match_full:
+ * @book: The book to look in.  If this is NULL, use the main local
+ * addressbook.
+ * @card: The card to compare to.
+ * @avoid: A list of cards to not match.  These will not show up in the search.
+ * @cb: The function to call.
+ * @closure: The closure to add to the call.
+ * 
+ * Look for the best match and return it using the ECardMatchQueryCallback.
+ **/
+void
+e_card_locate_match_full (EBook *book, ECard *card, GList *avoid, ECardMatchQueryCallback cb, gpointer closure)
+{
+	MatchSearchInfo *info;
+
+	g_return_if_fail (card && E_IS_CARD (card));
+	g_return_if_fail (cb != NULL);
+
+	info = g_new (MatchSearchInfo, 1);
+	info->card = card;
+	gtk_object_ref (GTK_OBJECT (card));
+	info->cb = cb;
+	info->closure = closure;
+	info->avoid = g_list_copy (avoid);
+	g_list_foreach (info->avoid, (GFunc) gtk_object_ref, NULL);
+
+	if (book)
+		use_common_book_cb (book, info);
+	else
+		e_book_use_local_address_book (use_common_book_cb, info);
 }
 

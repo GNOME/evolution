@@ -82,7 +82,7 @@ e_card_merging_book_add_card (EBook           *book,
 	lookup->cb = cb;
 	lookup->closure = closure;
 
-	e_card_locate_match (card, match_query_callback, lookup);
+	e_card_locate_match_full (book, card, NULL, match_query_callback, lookup);
 	return TRUE;
 }
 

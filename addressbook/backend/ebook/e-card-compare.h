@@ -28,6 +28,7 @@
 #ifndef __E_CARD_COMPARE_H__
 #define __E_CARD_COMPARE_H__
 
+#include "e-book.h"
 #include "e-card.h"
 
 typedef enum {
@@ -49,6 +50,7 @@ ECardMatchType e_card_compare_telephone (ECard *card1, ECard *card2);
 ECardMatchType e_card_compare           (ECard *card1, ECard *card2);
 
 void           e_card_locate_match      (ECard *card, ECardMatchQueryCallback cb, gpointer closure);
+void           e_card_locate_match_full (EBook *book, ECard *card, GList *avoid, ECardMatchQueryCallback cb, gpointer closure);
 
 
 
