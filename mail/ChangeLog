@@ -1,3 +1,9 @@
+2003-03-18  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-callbacks.c (composer_get_message):
+	e_msg_composer_get_subject() now returns a const char *, so update
+	appropriately.
+
 2003-03-18  Larry Ewing  <lewing@ximian.com>
 
 	* mail-callbacks.c (do_mail_print): fix leak, cleanup variable

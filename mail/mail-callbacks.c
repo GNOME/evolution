@@ -410,9 +410,9 @@ composer_get_message (EMsgComposer *composer, gboolean post, gboolean save_html_
 	CamelInternetAddress *cia;
 	int hidden = 0, shown = 0;
 	int num = 0, num_bcc = 0;
+	const char *subject;
 	GConfClient *gconf;
 	EAccount *account;
-	char *subject;
 	int i;
 	
 	gconf = gconf_client_get_default ();
@@ -505,12 +505,9 @@ composer_get_message (EMsgComposer *composer, gboolean post, gboolean save_html_
 	/* Check for no subject */
 	subject = e_msg_composer_get_subject (composer);
 	if (subject == NULL || subject[0] == '\0') {
-		if (!ask_confirm_for_empty_subject (composer)) {
-			g_free (subject);
+		if (!ask_confirm_for_empty_subject (composer))
 			goto finished;
-		}
 	}
-	g_free (subject);
 	
 	/* actually get the message now, this will sign/encrypt etc */
 	message = e_msg_composer_get_message (composer, save_html_object_data);
