@@ -1,3 +1,11 @@
+2000-04-26  NotZed  <NotZed@HelixCode.com>
+
+	* tests/test13.c (main): And here too.
+
+	* tests/test2.c (main): Same here.
+
+	* tests/test1.c (main): Change for removed simpledatawrapper.
+
 2000-04-26  Matt Loper  <matt@helixcode.com>
 
 	* tests/.cvsignore: Added test13.

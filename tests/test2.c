@@ -20,7 +20,7 @@ main (int argc, char**argv)
 	message = camel_mime_message_new ();
 
 	
-	input_stream = camel_stream_fs_new_with_name ("mail.test", O_RDONLY, 06000);
+	input_stream = camel_stream_fs_new_with_name ("mail.test", O_RDONLY, 0);
 	if (!input_stream) {
 		perror ("could not open input file\n");
 		printf ("You must create the file mail.test before running this test\n");
@@ -36,7 +36,7 @@ main (int argc, char**argv)
 	camel_stream_close (input_stream);
 	gtk_object_unref (GTK_OBJECT (input_stream));
 
-	output_stream = camel_stream_fs_new_with_name ("mail2.test", CAMEL_STREAM_FS_WRITE);
+	output_stream = camel_stream_fs_new_with_name ("mail2.test", O_WRONLY|O_TRUNC|O_CREAT, 0600);
 	camel_data_wrapper_write_to_stream (CAMEL_DATA_WRAPPER (message), output_stream);
 	camel_stream_close (output_stream);
 	gtk_object_unref (GTK_OBJECT (output_stream));
