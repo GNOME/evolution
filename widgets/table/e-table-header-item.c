@@ -799,8 +799,6 @@ ethi_unrealize (GnomeCanvasItem *item)
 	gtk_signal_disconnect (GTK_OBJECT (item->canvas), ethi->drag_end_id);
 	gtk_signal_disconnect (GTK_OBJECT (item->canvas), ethi->drag_data_get_id);
 
-	gtk_drag_dest_unset (GTK_WIDGET (item->canvas));
-
 	if (ethi->stipple){
 		gdk_bitmap_unref (ethi->stipple);
 		ethi->stipple = NULL;

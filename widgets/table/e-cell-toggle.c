@@ -42,14 +42,6 @@ typedef struct {
 
 static ECellClass *parent_class;
 
-static void
-etog_queue_redraw (ECellToggleView *text_view, int view_col, int view_row)
-{
-	e_table_item_redraw_range (
-		text_view->cell_view.e_table_item_view,
-		view_col, view_row, view_col, view_row);
-}
-
 /*
  * ECell::realize method
  */
@@ -59,12 +51,12 @@ etog_new_view (ECell *ecell, ETableModel *table_model, void *e_table_item_view)
 	ECellToggleView *toggle_view = g_new0 (ECellToggleView, 1);
 	ETableItem *eti = E_TABLE_ITEM (e_table_item_view);
 	GnomeCanvas *canvas = GNOME_CANVAS_ITEM (eti)->canvas;
-	
+
 	toggle_view->cell_view.ecell = ecell;
 	toggle_view->cell_view.e_table_model = table_model;
 	toggle_view->cell_view.e_table_item_view = e_table_item_view;
 	toggle_view->canvas = canvas;
-	
+
 	return (ECellView *) toggle_view;
 }
 
@@ -190,7 +182,6 @@ etog_set_value (ECellToggleView *toggle_view, int model_col, int view_col, int r
 
 	e_table_model_set_value_at (toggle_view->cell_view.e_table_model,
 				    model_col, row, GINT_TO_POINTER (value));
-	etog_queue_redraw (toggle_view, view_col, row);
 }
 
 /*
