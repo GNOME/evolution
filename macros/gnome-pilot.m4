@@ -102,7 +102,9 @@ AC_DEFUN([GNOME_PILOT_HOOK],[
 		if test x$GNOME_CONFIG = xno; then
 			gnome_cv_pilot_found=no
 		else
-			if $GNOME_CONFIG --modversion gpilot 2> /dev/null; then
+			# gnome-config doesn't return a useful error status,
+			# so we check if it outputs anything to stderr
+			if test x`$GNOME_CONFIG gpilot 2>&1 > /dev/null` = x; then
 				gnome_cv_pilot_found=yes
 			else
 				gnome_cv_pilot_found=no

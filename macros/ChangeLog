@@ -1,3 +1,8 @@
+2000-05-01  Dan Winship  <danw@helixcode.com>
+
+	* gnome-pilot.m4 (PILOT_LIBS): "But that trick NEVER works!"
+	"This time for sure!"
+
 Sun Apr 23 12:15:14 2000  George Lebl <jirka@5z.com>
 
 	* gnome.m4: add an extra lib of docklets.  These checks are
