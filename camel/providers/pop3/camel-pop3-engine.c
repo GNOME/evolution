@@ -217,6 +217,18 @@ get_capabilities(CamelPOP3Engine *pe, int read_greeting)
 	while (camel_pop3_engine_iterate(pe, pc) > 0)
 		;
 	camel_pop3_engine_command_free(pe, pc);
+	
+	if (pe->state == CAMEL_POP3_ENGINE_TRANSACTION && !(pe->capa & CAMEL_POP3_CAP_UIDL)) {
+		/* check for UIDL support manually */
+		pc = camel_pop3_engine_command_new (pe, CAMEL_POP3_COMMAND_SIMPLE, NULL, NULL, "UIDL 1\r\n");
+		while (camel_pop3_engine_iterate (pe, pc) > 0)
+			;
+		
+		if (pc->state == CAMEL_POP3_COMMAND_OK)
+			pe->capa |= CAMEL_POP3_CAP_UIDL;
+		
+		camel_pop3_engine_command_free (pe, pc);
+	}
 }
 
 /* returns true if the command was sent, false if it was just queued */
@@ -350,7 +362,7 @@ camel_pop3_engine_command_new(CamelPOP3Engine *pe, guint32 flags, CamelPOP3Comma
 	pc->data = g_strdup_vprintf(fmt, ap);
 	pc->state = CAMEL_POP3_COMMAND_IDLE;
 
-	/* TODO: what abou write errors? */
+	/* TODO: what about write errors? */
 	engine_command_queue(pe, pc);
 
 	return pc;

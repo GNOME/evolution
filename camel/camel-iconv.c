@@ -27,6 +27,7 @@
 
 #include <glib.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 #include <errno.h>
 
@@ -47,6 +48,73 @@ struct _iconv_cache_bucket {
 };
 
 
+/* a useful website on charset alaises:
+ * http://www.li18nux.org/subgroups/sa/locnameguide/v1.1draft/CodesetAliasTable-V11.html */
+
+struct {
+	char *charset;
+	char *iconv_name;
+} known_iconv_charsets[] = {
+#if 0
+	/* charset name, iconv-friendly charset name */
+	{ "iso-8859-1",      "iso-8859-1" },
+	{ "iso8859-1",       "iso-8859-1" },
+	/* the above mostly serves as an example for iso-style charsets,
+	   but we have code that will populate the iso-*'s if/when they
+	   show up in camel_iconv_charset_name() so I'm
+	   not going to bother putting them all in here... */
+	{ "windows-cp1251",  "cp1251"     },
+	{ "windows-1251",    "cp1251"     },
+	{ "cp1251",          "cp1251"     },
+	/* the above mostly serves as an example for windows-style
+	   charsets, but we have code that will parse and convert them
+	   to their cp#### equivalents if/when they show up in
+	   camel_iconv_charset_name() so I'm not going to bother
+	   putting them all in here either... */
+#endif
+	/* charset name (lowercase!), iconv-friendly name (sometimes case sensitive) */
+	{ "utf-8",           "UTF-8"      },
+	{ "utf8",            "UTF-8"      },
+	
+	/* 10646 is a special case, its usually UCS-2 big endian */
+	/* This might need some checking but should be ok for solaris/linux */
+	{ "iso-10646-1",     "UCS-2BE"    },
+	{ "iso_10646-1",     "UCS-2BE"    },
+	{ "iso10646-1",      "UCS-2BE"    },
+	{ "iso-10646",       "UCS-2BE"    },
+	{ "iso_10646",       "UCS-2BE"    },
+	{ "iso10646",        "UCS-2BE"    },
+	
+	/* "ks_c_5601-1987" seems to be the most common of this lot */
+	{ "ks_c_5601-1987",  "EUC-KR"     },
+	{ "5601",            "EUC-KR"     },
+	{ "ksc-5601",        "EUC-KR"     },
+	{ "ksc-5601-1987",   "EUC-KR"     },
+	{ "ksc-5601_1987",   "EUC-KR"     },
+	
+	/* FIXME: Japanese/Korean/Chinese stuff needs checking */
+	{ "euckr-0",         "EUC-KR"     },
+	{ "5601",            "EUC-KR"     },
+	{ "big5-0",          "BIG5"       },
+	{ "big5.eten-0",     "BIG5"       },
+	{ "big5hkscs-0",     "BIG5HKCS"   },
+	{ "gb2312-0",        "gb2312"     },
+	{ "gb2312.1980-0",   "gb2312"     },
+	{ "euc-cn",          "gb2312"     },
+	{ "gb18030-0",       "gb18030"    },
+	{ "gbk-0",           "GBK"        },
+	
+	{ "eucjp-0",         "eucJP"  	  },  /* should this map to "EUC-JP" instead? */
+	{ "ujis-0",          "ujis"  	  },  /* we might want to map this to EUC-JP */
+	{ "jisx0208.1983-0", "SJIS"       },
+	{ "jisx0212.1990-0", "SJIS"       },
+	{ "pck",	     "SJIS"       },
+	{ NULL,              NULL         }
+};
+
+
+static GHashTable *iconv_charsets;
+
 static EMemChunk *cache_chunk;
 static struct _iconv_cache_bucket *iconv_cache_buckets;
 static GHashTable *iconv_cache;
@@ -55,11 +123,16 @@ static unsigned int iconv_cache_size = 0;
 
 #ifdef G_THREADS_ENABLED
 static GStaticMutex iconv_cache_lock = G_STATIC_MUTEX_INIT;
+static GStaticMutex iconv_charset_lock = G_STATIC_MUTEX_INIT;
 #define ICONV_CACHE_LOCK()   g_static_mutex_lock (&iconv_cache_lock)
 #define ICONV_CACHE_UNLOCK() g_static_mutex_unlock (&iconv_cache_lock)
+#define ICONV_CHARSET_LOCK() g_static_mutex_lock (&iconv_charset_lock)
+#define ICONV_CHARSET_UNLOCK() g_static_mutex_unlock (&iconv_charset_lock)
 #else
 #define ICONV_CACHE_LOCK()
 #define ICONV_CACHE_UNLOCK()
+#define ICONV_CHARSET_LOCK()
+#define ICONV_CHARSET_UNLOCK()
 #endif /* G_THREADS_ENABLED */
 
 
@@ -158,10 +231,20 @@ iconv_cache_expire_unused (void)
 }
 
 
+static void
+iconv_charset_free (char *name, char *iname, gpointer user_data)
+{
+	g_free (name);
+	g_free (iname);
+}
+
 void
 camel_iconv_shutdown (void)
 {
 	struct _iconv_cache_bucket *bucket, *next;
+	
+	g_hash_table_foreach (iconv_charsets, (GHFunc) iconv_charset_free, NULL);
+	g_hash_table_destroy (iconv_charsets);
 	
 	bucket = iconv_cache_buckets;
 	while (bucket) {
@@ -191,9 +274,21 @@ void
 camel_iconv_init (void)
 {
 	static int initialized = FALSE;
+	char *from, *to;
+	int i;
 	
 	if (initialized)
 		return;
+	
+	iconv_charsets = g_hash_table_new (g_str_hash, g_str_equal);
+	
+	for (i = 0; known_iconv_charsets[i].charset != NULL; i++) {
+		from = g_strdup (known_iconv_charsets[i].charset);
+		to = g_strdup (known_iconv_charsets[i].iconv_name);
+		g_ascii_strdown (from, -1);
+		
+		g_hash_table_insert (iconv_charsets, from, to);
+	}
 	
 	iconv_cache_buckets = NULL;
 	iconv_cache = g_hash_table_new (g_str_hash, g_str_equal);
@@ -202,6 +297,62 @@ camel_iconv_init (void)
 	cache_chunk = e_memchunk_new (ICONV_CACHE_SIZE, sizeof (struct _iconv_cache_bucket));
 	
 	initialized = TRUE;
+}
+
+
+/**
+ * camel_iconv_charset_name:
+ * @charset: charset name
+ *
+ * Maps charset names to the names that glib's g_iconv_open() is more
+ * likely able to handle.
+ *
+ * Returns an iconv-friendly name for @charset.
+ **/
+const char *
+camel_iconv_charset_name (const char *charset)
+{
+	char *name, *iname, *tmp;
+	
+	if (charset == NULL)
+		return NULL;
+	
+	name = g_alloca (strlen (charset) + 1);
+	strcpy (name, charset);
+	g_ascii_strdown (name, -1);
+	
+	ICONV_CHARSET_LOCK ();
+	if ((iname = g_hash_table_lookup (iconv_charsets, name)) != NULL) {
+		ICONV_CHARSET_UNLOCK ();
+		return iname;
+	}
+	
+	/* Unknown, try to convert some basic charset types to something that should work */
+	if (!strncmp (name, "iso", 3)) {
+		/* camel_charset_canonical_name() can handle this case */
+		ICONV_CHARSET_UNLOCK ();
+		return camel_charset_canonical_name (charset);
+	} else if (strncmp (name, "windows-", 8) == 0) {
+		/* Convert windows-#### or windows-cp#### to cp#### */
+		tmp = name + 8;
+		if (!strncmp (tmp, "cp", 2))
+			tmp += 2;
+		iname = g_strdup_printf ("CP%s", tmp);
+	} else if (strncmp (name, "microsoft-", 10) == 0) {
+		/* Convert microsoft-#### or microsoft-cp#### to cp#### */
+		tmp = name + 10;
+		if (!strncmp (tmp, "cp", 2))
+			tmp += 2;
+		iname = g_strdup_printf ("CP%s", tmp);	
+	} else {
+		/* Just assume its ok enough as is, case and all - let g_iconv_open() handle this */
+		iname = g_strdup (charset);
+	}
+	
+	g_hash_table_insert (iconv_charsets, g_strdup (name), iname);
+	ICONV_CHARSET_UNLOCK ();
+	
+	return iname;
 }
 
 
@@ -235,11 +386,11 @@ camel_iconv_open (const char *to, const char *from)
 		from = camel_charset_locale_name ();
 	
 	/* Even tho g_iconv_open will find the appropriate charset
-	 * format(s) for the to/from charset strings, we still convert
-	 * them to their canonical format here so that our key is in a
-	 * standard format */
-	from = camel_charset_canonical_name (from);
-	to = camel_charset_canonical_name (to);
+	 * format(s) for the to/from charset strings (hahaha, yea
+	 * right), we still convert them to their canonical format
+	 * here so that our key is in a standard format */
+	from = camel_iconv_charset_name (from);
+	to = camel_iconv_charset_name (to);
 	key = g_alloca (strlen (from) + strlen (to) + 2);
 	sprintf (key, "%s:%s", from, to);
 	

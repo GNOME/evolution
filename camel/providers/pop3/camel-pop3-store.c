@@ -484,7 +484,8 @@ pop3_try_authenticate (CamelService *service, gboolean reprompt, const char *err
 		for (s = md5sum, d = md5asc; d < md5asc + 32; s++, d += 2)
 			sprintf (d, "%.2x", *s);
 		
-		pcp = camel_pop3_engine_command_new(store->engine, 0, NULL, NULL, "APOP %s %s\r\n", service->url->user, md5asc);
+		pcp = camel_pop3_engine_command_new(store->engine, 0, NULL, NULL, "APOP %s %s\r\n",
+						    service->url->user, md5asc);
 	} else {
 		CamelServiceAuthType *auth;
 		GList *l;
@@ -580,6 +581,10 @@ pop3_connect (CamelService *service, CamelException *ex)
 		camel_service_disconnect(service, TRUE, ex);
 		return FALSE;
 	}
+	
+	/* Now that we are in the TRANSACTION state, try regetting the capabilities */
+	store->engine->state = CAMEL_POP3_ENGINE_TRANSACTION;
+	camel_pop3_engine_reget_capabilities (store->engine);
 	
 	return TRUE;
 }

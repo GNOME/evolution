@@ -1,3 +1,20 @@
+2003-02-21  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* camel-iconv.c (camel_iconv_charset_name): New function...back
+	from the depths of hell from whence it came originally. Turns out
+	that g_iconv_open() is lame and can't handle all the stuff we used
+	to handle in e_iconv_charset_name().
+	(camel_iconv_open): Use camel_iconv_charset_name() on the to/from
+	charsets rather than camel_charset_canonical_name(). Now maybe
+	g_iconv_open will work for charsets such as "ks_c_5601-1987".
+
+	* providers/pop3/camel-pop3-store.c (pop3_connect): Reget the
+	capabilities after a successful authentication.
+
+	* providers/pop3/camel-pop3-engine.c (get_capabilities): If we are
+	in the TRANSACTION state and CAPA did not list UIDL as a supported
+	command, try checking for it the hard way.
+
 2003-02-23  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* providers/smtp/camel-smtp-transport.c (smtp_data): Do it the
