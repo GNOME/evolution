@@ -1,3 +1,25 @@
+1999-05-27  bertrand  <Bertrand.Guiheneuf@inria.fr>
+
+	* tests/test2.c (main): rewrite message obtained via
+	parsing into a file. Actually, it works pretty well :))
+
+	* camel/camel-mime-message.c (_set_recipient_list_from_string): 
+	create recipient list form a comma separated string.
+	(_parse_header_pair): added recipient lists parsing.
+
+	* camel/camel-mime-part.c (_parse_header_pair): 
+	new (protected) method. Parse a head pair and
+	decides what to do with it.
+	
+	(_add_header): Call in _parse_header_pair
+
+	* camel/camel-mime-message.c (_parse_header_pair): 
+	overload  header parsing MimePart mthod.
+
+	* camel/gstring-util.c (g_string_split): 
+	new func: split a gstring into a GList of
+	substring.
+
 1999-05-26  bertrand  <Bertrand.Guiheneuf@inria.fr>
 
 	* camel/gmime-utils.c (get_header_lines_from_file): 

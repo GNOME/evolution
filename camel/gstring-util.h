@@ -52,6 +52,7 @@ gboolean g_string_equal_for_hash (gconstpointer v, gconstpointer v2);
 gboolean g_string_equal_for_glist (gconstpointer v, gconstpointer v2);
 guint g_string_hash (gconstpointer v);
 void g_string_list_free (GList *string_list);
+GList *g_string_split (GString *string, char sep);
 
 #ifdef __cplusplus
 }

@@ -246,3 +246,49 @@ g_string_list_free (GList *string_list)
 	g_list_foreach(string_list, __g_string_list_free_string, NULL);
 	g_list_free(string_list);
 }
+
+
+
+
+
+
+GList *
+g_string_split (GString *string, char sep)
+{
+	GList *result = NULL;
+	gint first, last, pos;
+	gchar *str;
+	gchar *new_str;
+	GString *new_gstring;
+
+	g_assert (string);
+	str = string->str;
+	if (!str) return NULL;
+
+	first = 0;
+	last = strlen(str) - 1;
+	
+	/* strip leading and trailing separators */
+	while ( (first<=last) && (str[first]==sep) )
+		first++;
+	
+	while ( (first<=last) && (str[last]==sep) )
+		last--;
+
+	CAMEL_LOG(FULL_DEBUG,"g_string_split:: stripping done\n");
+
+	while (first<=last)  {
+		pos = first;
+		/* find next separator */
+		while ((pos<=last) && (str[pos]!=sep)) pos++;
+		if (first != pos) {
+			new_str = g_strndup (str+first, pos-first);
+			new_gstring = g_string_new (new_str);
+			g_free (new_str);
+			result = g_list_append (result, new_gstring);
+		}	
+		first = pos + 1;
+	}
+
+	return result;
+}

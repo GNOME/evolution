@@ -30,8 +30,14 @@
 
 typedef enum {
 	HEADER_UNKNOWN,
-	HEADER_FROM
+	HEADER_FROM,
+	HEADER_REPLY_TO,
+	HEADER_SUBJECT,
+	HEADER_TO,
+	HEADER_CC,
+	HEADER_BCC
 } CamelHeaderType;
+
 static GHashTable *header_name_table;
 
 
@@ -77,6 +83,11 @@ _init_header_name_table()
 {
 	header_name_table = g_hash_table_new (g_string_hash, g_string_equal_for_hash);
 	g_hash_table_insert (header_name_table, g_string_new ("From"), (gpointer)HEADER_FROM);
+	g_hash_table_insert (header_name_table, g_string_new ("Reply-To"), (gpointer)HEADER_REPLY_TO);
+	g_hash_table_insert (header_name_table, g_string_new ("Subject"), (gpointer)HEADER_SUBJECT);
+	g_hash_table_insert (header_name_table, g_string_new ("To"), (gpointer)HEADER_TO);
+	g_hash_table_insert (header_name_table, g_string_new ("Cc"), (gpointer)HEADER_CC);
+	g_hash_table_insert (header_name_table, g_string_new ("Bcc"), (gpointer)HEADER_BCC);
 
 }
 
@@ -542,28 +553,90 @@ _write_to_file (CamelDataWrapper *data_wrapper, FILE *file)
 /*******************************/
 /* mime message header parsing */
 
+static void
+_set_recipient_list_from_string (CamelMimeMessage *message, GString *recipient_type, GString *recipients_string)
+{
+	GList *recipients_list;
+	CAMEL_LOG (FULL_DEBUG,"CamelMimeMessage::_set_recipient_list_from_string parsing ##%s##\n", recipients_string->str);
+	recipients_list = g_string_split (recipients_string, ',');
+	g_hash_table_insert (message->recipients, recipient_type, recipients_list);
+
+}
+
 static gboolean
 _parse_header_pair (CamelMimePart *mime_part, GString *header_name, GString *header_value)
 {
 	CamelHeaderType header_type;
 	CamelMimeMessage *message = CAMEL_MIME_MESSAGE (mime_part);
+	gboolean header_handled = FALSE;
 	
 	
 	header_type = (CamelHeaderType) g_hash_table_lookup (header_name_table, header_name);
 	switch (header_type) {
 	
 	case HEADER_FROM:
-		camel_log(FULL_DEBUG,
+		CAMEL_LOG (FULL_DEBUG,
 			  "CamelMimeMessage::parse_header_pair found HEADER_FROM : %s\n",
 			  header_value->str );
 
 		camel_mime_message_set_from (message, header_value);
-		g_string_free (header_name, TRUE);
-		return TRUE;
+		header_handled = TRUE;
+		break;
+
+	case HEADER_REPLY_TO:
+		CAMEL_LOG (FULL_DEBUG,
+			  "CamelMimeMessage::parse_header_pair found HEADER_REPLY_YO : %s\n",
+			  header_value->str );
+
+		camel_mime_message_set_reply_to (message, header_value);
+		header_handled = TRUE;
+		break;
+
+	case HEADER_SUBJECT:
+		CAMEL_LOG (FULL_DEBUG,
+			  "CamelMimeMessage::parse_header_pair found HEADER_SUBJECT : %s\n",
+			  header_value->str );
+
+		camel_mime_message_set_subject (message, header_value);
+		header_handled = TRUE;
+		break;
+
+	case HEADER_TO:
+		CAMEL_LOG (FULL_DEBUG,
+			  "CamelMimeMessage::parse_header_pair found HEADER_TO : %s\n",
+			  header_value->str );
+
+		_set_recipient_list_from_string (message, g_string_new ("To"), header_value);
+		g_string_free (header_value, TRUE);
+		header_handled = TRUE;
 		break;
 	
-	}
+	case HEADER_CC:
+		CAMEL_LOG (FULL_DEBUG,
+			  "CamelMimeMessage::parse_header_pair found HEADER_CC : %s\n",
+			  header_value->str );
+		
+		_set_recipient_list_from_string (message, g_string_new ("Cc"), header_value);
+		g_string_free (header_value, TRUE);
+		header_handled = TRUE;
+		break;
+	
+	case HEADER_BCC:
+		CAMEL_LOG (FULL_DEBUG,
+			  "CamelMimeMessage::parse_header_pair found HEADER_BCC : %s\n",
+			  header_value->str );
+		
+		_set_recipient_list_from_string (message, g_string_new ("Bcc"), header_value);
+		g_string_free (header_value, TRUE);
+		header_handled = TRUE;
+		break;
+	
 
-	return parent_class->parse_header_pair (mime_part, header_name, header_value);
+	}
+	if (header_handled) {
+		g_string_free (header_name, TRUE);
+		return TRUE;
+	} else
+		return parent_class->parse_header_pair (mime_part, header_name, header_value);
 	
 }
