@@ -218,9 +218,9 @@ struct _UINode default_ui_nodes[] = {
 	{ "ViewNormal",      IS_0MESSAGE },
 	{ "ViewSource",      IS_0MESSAGE },
 	
-	{ "AddSenderToAddressbook",   IS_INCOMING_FOLDER | SELECTION_SINGLE | ANY_THREADED },
+	{ "AddSenderToAddressbook",   IS_INCOMING_FOLDER | SELECTION_SINGLE | ANY_THREADED | HAS_FLAGS },
 	
-	{ "MessageResend",            IS_SENT_FOLDER | SELECTION_SINGLE | ANY_THREADED },
+	{ "MessageResend",            IS_SENT_FOLDER | SELECTION_SINGLE | ANY_THREADED | HAS_FLAGS },
 	
 	/* actions that work on exactly 1 message */
 	{ "MessagePostReply",         IS_1MESSAGE },
@@ -264,7 +264,7 @@ struct _UINode default_ui_nodes[] = {
 	{ "EditCut",                  IS_NMESSAGE },
 	{ "EditCopy",                 IS_NMESSAGE },
 	{ "EditPaste",                IS_NMESSAGE },
-	{ "EditSelectThread",	      IS_ANY_FOLDER | SELECTION_ANYTHING | IS_THREADED },
+	{ "EditSelectThread",	      IS_ANY_FOLDER | SELECTION_ANYTHING | IS_THREADED | HAS_FLAGS},
 
 	{ "ViewHideSelected",         IS_NMESSAGE },
 	
