@@ -42,7 +42,7 @@
 #include "e-shell-view.h"
 #include "e-shell-view-menu.h"
 
-#include <widgets/e-paned/e-paned.h>
+#include <widgets/e-paned/e-hpaned.h>
 
 
 #define PARENT_TYPE gnome_app_get_type () /* Losing GnomeApp does not define GNOME_TYPE_APP.  */
