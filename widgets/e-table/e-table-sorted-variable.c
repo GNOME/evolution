@@ -178,34 +178,25 @@ etsv_sort_info_changed (ETableSortInfo *info, ETableSortedVariable *etsv)
 }
 
 static ETableSortedVariable *etsv_closure;
+void **vals_closure;
+int cols_closure;
+int *ascending_closure;
+GCompareFunc *compare_closure;
+
+/* FIXME: Make it not cache the second and later rows (as if anyone cares.) */
 
 static int
 qsort_callback(const void *data1, const void *data2)
 {
 	gint row1 = *(int *)data1;
 	gint row2 = *(int *)data2;
-	static ETableCol *last_col = NULL;
-	static int last_row = -1;
-	static void *val = NULL;
-	ETableSubset *etss = E_TABLE_SUBSET(etsv_closure);
 	int j;
 	int sort_count = e_table_sort_info_sorting_get_count(etsv_closure->sort_info);
 	int comp_val = 0;
 	int ascending = 1;
-	while(gtk_events_pending())
-		gtk_main_iteration();
 	for (j = 0; j < sort_count; j++) {
-		ETableSortColumn column = e_table_sort_info_sorting_get_nth(etsv_closure->sort_info, j);
-		ETableCol *col;
-		if (column.column > e_table_header_count (etsv_closure->full_header))
-			col = e_table_header_get_columns (etsv_closure->full_header)[e_table_header_count (etsv_closure->full_header) - 1];
-		else
-			col = e_table_header_get_columns (etsv_closure->full_header)[column.column];
-		if (last_col != col || last_row != row1)
-			val = e_table_model_value_at (etss->source, col->col_idx, row1);
-		last_col = col;
-		comp_val = (*col->compare)(val, e_table_model_value_at (etss->source, col->col_idx, row2));
-		ascending = column.ascending;
+		comp_val = (*(compare_closure[j]))(vals_closure[cols_closure * row1 + j], vals_closure[cols_closure * row2 + j]);
+		ascending = ascending_closure[j];
 		if (comp_val != 0)
 			break;
 	}
@@ -224,7 +215,46 @@ qsort_callback(const void *data1, const void *data2)
 static void
 etsv_sort(ETableSortedVariable *etsv)
 {
+	ETableSubset *etss = E_TABLE_SUBSET(etsv);
+	static int reentering = 0;
+	int rows = E_TABLE_SUBSET(etsv)->n_map;
+	int i;
+	int j;
+	int cols;
+	if (reentering)
+		return;
+	reentering = 1;
+	cols = e_table_sort_info_sorting_get_count(etsv->sort_info);
+	cols_closure = cols;
 	etsv_closure = etsv;
+	printf ("starting\n");
+	vals_closure = g_new(void *, rows * cols);
+	ascending_closure = g_new(int, cols);
+	compare_closure = g_new(GCompareFunc, cols);
+	for (j = 0; j < cols; j++) {
+		ETableSortColumn column = e_table_sort_info_sorting_get_nth(etsv->sort_info, j);
+		ETableCol *col;
+		if (column.column > e_table_header_count (etsv->full_header))
+			col = e_table_header_get_column (etsv->full_header, e_table_header_count (etsv->full_header) - 1);
+		else
+			col = e_table_header_get_column (etsv->full_header, column.column);
+		for (i = 0; i < rows; i++) {
+			if( !(i & 0xff) ) {
+				while(gtk_events_pending())
+					gtk_main_iteration();
+			}
+			vals_closure[i * cols + j] = e_table_model_value_at (etss->source, col->col_idx, i);
+		}
+		compare_closure[j] = col->compare;
+		ascending_closure[j] = column.ascending;
+	}
+	printf("allocated\n");
 	qsort(E_TABLE_SUBSET(etsv)->map_table, E_TABLE_SUBSET(etsv)->n_map, sizeof(int), qsort_callback);
+	printf ("sorted\n");
+	g_free(vals_closure);
+	g_free(ascending_closure);
+	g_free(compare_closure);
+	printf("freed\n");
 	e_table_model_changed (E_TABLE_MODEL(etsv));
+	reentering = 0;
 }

@@ -1,5 +1,10 @@
 2000-05-04  Christopher James Lahey  <clahey@helixcode.com>
 
+	* e-table-sorted-variable.c: Load all the data to be sorted by
+	before actually doing the sort.
+
+2000-05-04  Christopher James Lahey  <clahey@helixcode.com>
+
 	* e-cell-text.c, e-cell-text.h: Fix author information.
 
 	* e-table-group-leaf.c: Set a length threshold of 200.
