@@ -1,3 +1,7 @@
+2001-05-25  Peter Williams  <peterw@ximian.com>
+
+	* Makefile.am: Reference libeshell.la instead of libeshell.a.
+
 2001-05-25  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* folder-browser-factory.c (control_activate): Disable Resend on

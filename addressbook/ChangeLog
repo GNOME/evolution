@@ -1,3 +1,7 @@
+2001-05-25  Peter Williams  <peterw@ximian.com>
+
+	* gui/component/Makefile.am: Reference libeshell.la instead of libeshell.a.
+
 2001-05-25  Christopher James Lahey  <clahey@ximian.com>
 
 	* gui/widgets/e-addressbook-reflow-adapter.c (addressbook_height):

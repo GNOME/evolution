@@ -33,8 +33,6 @@
 
 #include "Evolution.h"
 
-#include "e-util/e-corba-utils.h"
-
 #include "e-folder-tree.h"
 
 #include "evolution-storage.h"
@@ -74,6 +72,15 @@ static guint signals[LAST_SIGNAL] = { 0 };
 
 
 /* Utility functions.  */
+
+static const CORBA_char *
+safe_corba_string (const char *s)
+{
+        if (s == NULL)
+                return (CORBA_char *) "";
+
+        return s;
+}
 
 static void
 list_through_listener_foreach (EFolderTree *tree,
@@ -611,8 +618,8 @@ evolution_storage_register (EvolutionStorage *evolution_storage,
 	corba_storage_listener = GNOME_Evolution_StorageRegistry_addStorage (corba_storage_registry,
 									     corba_storage,
 									     priv->name,
-									     e_safe_corba_string (priv->toplevel_node_uri),
-									     e_safe_corba_string (priv->toplevel_node_type),
+									     safe_corba_string (priv->toplevel_node_uri),
+									     safe_corba_string (priv->toplevel_node_type),
 									     &ev);
 
 	if (ev._major == CORBA_NO_EXCEPTION) {

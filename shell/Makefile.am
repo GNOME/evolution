@@ -47,33 +47,39 @@ idl_DATA = $(IDLS)
 
 # Shell library
 
-noinst_LIBRARIES =	\
-	libeshell.a
+lib_LTLIBRARIES =	\
+	libeshell.la
 
-libeshell_a_SOURCES = 				\
+eshellincludedir = $(includedir)/evolution/shell
+
+eshellinclude_HEADERS = 			\
+	Evolution.h				\
+	e-folder-tree.h				\
+	evolution-local-storage.h		\
+	evolution-session.h			\
+	evolution-shell-client.h		\
+	evolution-shell-component-client.h	\
+	evolution-shell-component.h		\
+	evolution-shell-component-dnd.h		\
+	evolution-shell-view.h			\
+	evolution-storage-listener.h		\
+	evolution-storage-set-view-listener.h	\
+	evolution-storage.h
+
+libeshell_la_SOURCES = 				\
 	$(IDL_GENERATED)			\
 	e-folder-tree.c				\
-	e-folder-tree.h				\
 	evolution-local-storage.c		\
-	evolution-local-storage.h		\
 	evolution-session.c			\
-	evolution-session.h			\
 	evolution-shell-client.c		\
-	evolution-shell-client.h		\
 	evolution-shell-component-client.c	\
-	evolution-shell-component-client.h	\
 	evolution-shell-component.c		\
-	evolution-shell-component.h		\
 	evolution-shell-component-dnd.c		\
-	evolution-shell-component-dnd.h		\
 	evolution-shell-view.c			\
-	evolution-shell-view.h			\
 	evolution-storage-listener.c		\
-	evolution-storage-listener.h		\
 	evolution-storage-set-view-listener.c	\
-	evolution-storage-set-view-listener.h	\
 	evolution-storage.c			\
-	evolution-storage.h
+	$(eshellinclude_HEADERS)
 
 # Evolution executable
 
@@ -138,7 +144,7 @@ evolution_SOURCES =				\
 	main.c
 
 evolution_LDADD =						\
-	libeshell.a						\
+	libeshell.la						\
 	importer/libevolution-importer.la			\
 	$(top_builddir)/widgets/misc/libemiscwidgets.a		\
 	$(top_builddir)/e-util/libeutil.la			\

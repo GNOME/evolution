@@ -43,7 +43,7 @@ evolution_addressbook_SOURCES = 	\
 
 evolution_addressbook_LDADD =						\
 	select-names/libeselectnames.la					\
-	$(top_builddir)/shell/libeshell.a				\
+	$(top_builddir)/shell/libeshell.la				\
 	$(EXTRA_GNOME_LIBS)						\
 	$(BONOBO_HTML_GNOME_LIBS)					\
 	$(top_builddir)/addressbook/gui/widgets/libeminicard.a		\

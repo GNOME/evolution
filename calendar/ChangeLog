@@ -1,3 +1,7 @@
+2001-05-25  Peter Williams  <peterw@ximian.com>
+
+	* gui/Makefile.am: Reference libeshell.la instead of libeshell.a.
+
 2001-05-23  Federico Mena Quintero  <federico@ximian.com>
 
 	* gui/dialogs/recurrence-page.c: Finished porting from the old

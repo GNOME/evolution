@@ -1,3 +1,14 @@
+2001-05-25  Peter Williams  <peterw@ximian.com>
+
+	* Makefile.am: Change libeshell from a noinst_LIBRARIES to
+	a lib_LTLIBRARIES. Install its headers in 
+	$includedir/evolution/shell.
+
+	* evolution-storage.c (safe_corba_string): New, copy of e_safe_corba_string
+	in libeutil. This way libeshell doesn't have a missing symbol when programs
+	that don't have libeutil link to it.
+	(evolution_storage_register): s,e_safe_corba_string,safe_corba_string,g.
+
 2001-05-25  jacob berkman  <jacob@ximian.com>
 
 	* e-shell-view.c (setup_widgets): place the shortcut bar in a

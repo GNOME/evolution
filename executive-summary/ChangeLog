@@ -1,3 +1,7 @@
+2001-05-25  Peter Williams  <peterw@ximian.com>
+
+	* component/Makefile.am: Reference libeshell.la instead of libeshell.a.
+
 2001-05-23  Kjartan Maraas  <kmaraas@gnome.org>
 
 	* component/e-summary-url.c: Mark a string for translation.

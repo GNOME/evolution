@@ -113,7 +113,7 @@ evolution_calendar_SOURCES =			\
 
 evolution_calendar_LDADD =								\
 	alarm-notify/libalarm.a								\
-	$(top_builddir)/shell/libeshell.a						\
+	$(top_builddir)/shell/libeshell.la						\
 	$(top_builddir)/calendar/cal-client/libcal-client.la				\
 	$(top_builddir)/calendar/cal-util/libcal-util.la				\
 	$(top_builddir)/e-util/libeutil.la						\
