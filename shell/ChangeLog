@@ -1,5 +1,27 @@
 2001-07-01  Ettore Perazzoli  <ettore@ximian.com>
 
+	* e-shell-view.c: Fixing a bug that could cause Evolution to crash
+	if a new ShellView was created and then destroyed, and then a new
+	folder would appear in the folder tree.  Sigh, this code with the
+	delayed_selection is pretty messed up, but at least this will add
+	some consistency to it and make it safe.
+	(cleanup_delayed_selection): New function to disconnect the
+	"new_folder_cb" callback if the `delayed_selection' is not NULL,
+	and also free the `delayed_selection' itself.
+	(new_folder_cb): Use it.
+	(destroy): Call it here, otherwise we might [a] leak [b] cause a
+	crash as soon as a new folder appears in the folder tree, as
+	"new_folder" gets emitted and our connected signal handler has no
+	EShellView to handle the signal on.
+	(e_shell_view_display_uri): Call it here before re-setting the
+	`delayed_selection'.
+
+	* e-shortcuts-view.c (open_shortcut_in_new_window_cb): Add
+	invocation for `open_shortcut_helper()' back in [it was gone, for
+	unknown reasons].
+
+2001-07-01  Ettore Perazzoli  <ettore@ximian.com>
+
 	* e-storage-set-view.c (tree_drag_begin): If the node doesn't have
 	a component, just don't start the whole CORBA drag thing instead
 	of crashing with an assertion.

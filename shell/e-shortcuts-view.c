@@ -408,7 +408,7 @@ static void
 open_shortcut_in_new_window_cb (GtkWidget *widget,
 				void *data)
 {
-
+	open_shortcut_helper ((ShortcutRightClickMenuData *) data, TRUE);
 }
 
 

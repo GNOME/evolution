@@ -160,6 +160,10 @@ static void        update_offline_toggle_status   (EShellView *shell_view);
 static const char *get_storage_set_path_from_uri  (const char *uri);
 
 
+/* Boo.  */
+static void new_folder_cb (EStorageSet *storage_set, const char *path, void *data);
+
+
 /* Utility functions.  */
 
 static GtkWidget *
@@ -213,6 +217,22 @@ bonobo_widget_is_dead (BonoboWidget *bonobo_widget)
 	CORBA_exception_free (&ev);
 
 	return is_dead;
+}
+
+static void
+cleanup_delayed_selection (EShellView *shell_view)
+{
+	EShellViewPrivate *priv;
+
+	priv = shell_view->priv;
+
+	if (priv->delayed_selection != NULL) {
+		g_free (priv->delayed_selection);
+		priv->delayed_selection = NULL;
+		gtk_signal_disconnect_by_func (GTK_OBJECT (e_shell_get_storage_set (priv->shell)),
+					       GTK_SIGNAL_FUNC (new_folder_cb),
+					       shell_view);
+	}
 }
 
 
@@ -400,8 +420,6 @@ pop_up_folder_bar (EShellView *shell_view)
 
 /* Switching views on a tree view click.  */
 
-static void new_folder_cb (EStorageSet *storage_set, const char *path, void *data);
-
 static int
 set_folder_timeout (gpointer data)
 {
@@ -437,13 +455,7 @@ switch_on_folder_tree_click (EShellView *shell_view,
 		gtk_timeout_remove (priv->set_folder_timeout);
 	g_free (priv->set_folder_uri);
 
-	if (priv->delayed_selection) {
-		g_free (priv->delayed_selection);
-		priv->delayed_selection = NULL;
-		gtk_signal_disconnect_by_func (GTK_OBJECT (e_shell_get_storage_set (priv->shell)),
-					       GTK_SIGNAL_FUNC (new_folder_cb),
-					       shell_view);
-	}
+	cleanup_delayed_selection (shell_view);
 
 	if (priv->folder_bar_mode == E_SHELL_VIEW_SUBWINDOW_TRANSIENT) {
 		e_shell_view_display_uri (shell_view, uri);
@@ -482,8 +494,8 @@ new_folder_cb (EStorageSet *storage_set,
 						       GTK_SIGNAL_FUNC (new_folder_cb),
 						       shell_view);
 			g_free (priv->uri);
-			priv->uri = priv->delayed_selection;
-			priv->delayed_selection = NULL;
+			priv->uri = g_strdup (priv->delayed_selection);
+			cleanup_delayed_selection (shell_view);
 			e_shell_view_display_uri (shell_view, priv->uri);
 		}
 	}
@@ -914,6 +926,8 @@ destroy (GtkObject *object)
 	bonobo_object_unref (BONOBO_OBJECT (priv->ui_component));
 
 	g_free (priv->uri);
+
+	cleanup_delayed_selection (shell_view);
 
 	if (priv->set_folder_timeout != 0)
 		gtk_timeout_remove (priv->set_folder_timeout);
@@ -1847,6 +1861,7 @@ e_shell_view_display_uri (EShellView *shell_view,
 		g_assert (GTK_IS_WIDGET (control));
 		show_existing_view (shell_view, uri, control);
 	} else if (create_new_view_for_uri (shell_view, uri)) {
+		cleanup_delayed_selection (shell_view);
 		priv->delayed_selection = g_strdup (uri);
 		gtk_signal_connect_after (GTK_OBJECT (e_shell_get_storage_set (priv->shell)), "new_folder",
 					  GTK_SIGNAL_FUNC (new_folder_cb), shell_view);
