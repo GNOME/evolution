@@ -236,7 +236,7 @@ evolution.pure: evolution
 
 endif
 
-CLEANFILES += $(IDL_GENERATED)
+CLEANFILES = $(IDL_GENERATED)
 BUILT_SOURCES = $(IDL_GENERATED)
 
 dist-hook:

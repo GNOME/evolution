@@ -1,5 +1,14 @@
 2001-09-14  Ettore Perazzoli  <ettore@ximian.com>
 
+	[Automake 1.5 fixes pointed out by Richard Boulton
+	<richard@tartarus.org>, as per #9258.]
+
+	* importer/Makefile.am (CLEANFILES): Assign directly using `=',
+	instead of `+='.
+	* Makefile.am (CLEANFILES): Likewise.
+
+2001-09-14  Ettore Perazzoli  <ettore@ximian.com>
+
 	* e-shell.c (impl_Shell_getLocalStorage): Return a proper value.
 	(impl_Shell_createStorageSetView): Likewise.
 	(impl_Shell_setLineStatus): Likewise.
