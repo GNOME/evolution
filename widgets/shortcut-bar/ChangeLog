@@ -1,3 +1,12 @@
+2000-05-18  Damon Chaplin  <damon@helixcode.com>
+
+	* e-shortcut-bar.[hc]: new signals "added_item", "removed_item",
+	"added_group", "removed_group". Note that the removed signals are
+	emitted just before the item/group is actually removed.
+
+	* test-shortcut-bar.c: updated to test the new signals, and ref'ed
+	the pixbufs in the icon callback.
+
 2000-05-16  Ettore Perazzoli  <ettore@helixcode.com>
 
 	* e-clipped-label.c: Moved to $(top_srcdir)/widgets/misc.

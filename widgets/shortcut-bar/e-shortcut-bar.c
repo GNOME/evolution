@@ -91,6 +91,10 @@ static GdkPixbuf* e_shortcut_bar_load_image (const gchar *filename);
 enum
 {
   ITEM_SELECTED,
+  ITEM_ADDED,
+  ITEM_REMOVED,
+  GROUP_ADDED,
+  GROUP_REMOVED,
   LAST_SIGNAL
 };
 
@@ -143,6 +147,44 @@ e_shortcut_bar_class_init (EShortcutBarClass *class)
 				gtk_marshal_NONE__POINTER_INT_INT,
 				GTK_TYPE_NONE, 3, GTK_TYPE_GDK_EVENT,
 				GTK_TYPE_INT, GTK_TYPE_INT);
+
+	e_shortcut_bar_signals[ITEM_ADDED] =
+		gtk_signal_new ("item_added",
+				GTK_RUN_LAST | GTK_RUN_ACTION,
+				object_class->type,
+				GTK_SIGNAL_OFFSET (EShortcutBarClass,
+						   added_item),
+				gtk_marshal_NONE__INT_INT,
+				GTK_TYPE_NONE, 2, GTK_TYPE_INT, GTK_TYPE_INT);
+
+	/* This is emitted just before the item is actually removed. */
+	e_shortcut_bar_signals[ITEM_REMOVED] =
+		gtk_signal_new ("item_removed",
+				GTK_RUN_LAST | GTK_RUN_ACTION,
+				object_class->type,
+				GTK_SIGNAL_OFFSET (EShortcutBarClass,
+						   removed_item),
+				gtk_marshal_NONE__INT_INT,
+				GTK_TYPE_NONE, 2, GTK_TYPE_INT, GTK_TYPE_INT);
+
+	e_shortcut_bar_signals[GROUP_ADDED] =
+		gtk_signal_new ("group_added",
+				GTK_RUN_LAST | GTK_RUN_ACTION,
+				object_class->type,
+				GTK_SIGNAL_OFFSET (EShortcutBarClass,
+						   added_group),
+				gtk_marshal_NONE__INT,
+				GTK_TYPE_NONE, 1, GTK_TYPE_INT);
+
+	/* This is emitted just before the group is actually removed. */
+	e_shortcut_bar_signals[GROUP_REMOVED] =
+		gtk_signal_new ("group_removed",
+				GTK_RUN_LAST | GTK_RUN_ACTION,
+				object_class->type,
+				GTK_SIGNAL_OFFSET (EShortcutBarClass,
+						   removed_group),
+				gtk_marshal_NONE__INT,
+				GTK_TYPE_NONE, 1, GTK_TYPE_INT);
 
 	gtk_object_class_add_signals (object_class, e_shortcut_bar_signals,
 				      LAST_SIGNAL);
@@ -265,6 +307,10 @@ e_shortcut_bar_add_group (EShortcutBar *shortcut_bar, const gchar *group_name)
 	gtk_widget_pop_visual ();
 	gtk_widget_pop_colormap ();
 
+	gtk_signal_emit (GTK_OBJECT (shortcut_bar),
+			 e_shortcut_bar_signals[GROUP_ADDED],
+			 group_num);
+
 	return group_num;
 }
 
@@ -273,6 +319,10 @@ void
 e_shortcut_bar_remove_group	(EShortcutBar	 *shortcut_bar,
 				 gint		  group_num)
 {
+	gtk_signal_emit (GTK_OBJECT (shortcut_bar),
+			 e_shortcut_bar_signals[GROUP_REMOVED],
+			 group_num);
+
 	e_group_bar_remove_group (E_GROUP_BAR (shortcut_bar), group_num);
 	g_array_remove_index (shortcut_bar->groups, group_num);
 }
@@ -301,6 +351,11 @@ e_shortcut_bar_add_item (EShortcutBar *shortcut_bar, gint group_num,
 	gdk_pixbuf_unref (image);
 	e_icon_bar_set_item_data_full (E_ICON_BAR (group->icon_bar), item_num,
 				       g_strdup (item_url), g_free);
+
+	gtk_signal_emit (GTK_OBJECT (shortcut_bar),
+			 e_shortcut_bar_signals[ITEM_ADDED],
+			 group_num, item_num);
+
 	return item_num;
 }
 
@@ -318,6 +373,10 @@ e_shortcut_bar_remove_item	(EShortcutBar	 *shortcut_bar,
 
 	group = &g_array_index (shortcut_bar->groups,
 				EShortcutBarGroup, group_num);
+
+	gtk_signal_emit (GTK_OBJECT (shortcut_bar),
+			 e_shortcut_bar_signals[ITEM_REMOVED],
+			 group_num, item_num);
 
 	e_icon_bar_remove_item (E_ICON_BAR (group->icon_bar), item_num);
 }
@@ -462,6 +521,10 @@ e_shortcut_bar_on_drag_data_received  (GtkWidget          *widget,
 					       item_num, g_strdup (item_url),
 					       g_free);
 
+		gtk_signal_emit (GTK_OBJECT (shortcut_bar),
+				 e_shortcut_bar_signals[ITEM_ADDED],
+				 group_num, item_num);
+
 		gtk_drag_finish (context, TRUE, TRUE, time);
 		return;
 	}
@@ -476,10 +539,15 @@ e_shortcut_bar_on_drag_data_delete (GtkWidget          *widget,
 				    EShortcutBar       *shortcut_bar)
 {
 	EIconBar *icon_bar;
+	gint group_num;
 
 	icon_bar = E_ICON_BAR (widget);
 
-	e_icon_bar_remove_item (icon_bar, icon_bar->dragged_item_num);
+	group_num = e_group_bar_get_group_num (E_GROUP_BAR (shortcut_bar),
+					       widget->parent);
+
+	e_shortcut_bar_remove_item (shortcut_bar, group_num,
+				    icon_bar->dragged_item_num);
 }
 
 

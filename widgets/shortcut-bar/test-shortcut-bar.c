@@ -84,6 +84,16 @@ static void on_set_group_button_clicked (GtkWidget *button,
 					 EShortcutBar *shortcut_bar);
 static void on_set_group_button_no_animation_clicked (GtkWidget *button,
 						      EShortcutBar *shortcut_bar);
+static void on_item_added (EShortcutBar *shortcut_bar,
+			   gint group_num,
+			   gint item_num);
+static void on_item_removed (EShortcutBar *shortcut_bar,
+			     gint group_num,
+			     gint item_num);
+static void on_group_added (EShortcutBar *shortcut_bar,
+			    gint group_num);
+static void on_group_removed (EShortcutBar *shortcut_bar,
+			      gint group_num);
 
 int
 main (int argc, char *argv[])
@@ -114,6 +124,15 @@ main (int argc, char *argv[])
 	e_shortcut_bar_set_icon_callback (E_SHORTCUT_BAR (shortcut_bar),
 					  icon_callback,
 					  NULL);
+
+	gtk_signal_connect (GTK_OBJECT (shortcut_bar), "item_added",
+			    GTK_SIGNAL_FUNC (on_item_added), NULL);
+	gtk_signal_connect (GTK_OBJECT (shortcut_bar), "item_removed",
+			    GTK_SIGNAL_FUNC (on_item_removed), NULL);
+	gtk_signal_connect (GTK_OBJECT (shortcut_bar), "group_added",
+			    GTK_SIGNAL_FUNC (on_group_added), NULL);
+	gtk_signal_connect (GTK_OBJECT (shortcut_bar), "group_removed",
+			    GTK_SIGNAL_FUNC (on_group_removed), NULL);
 
 #if 0
 	gtk_container_set_border_width (GTK_CONTAINER (shortcut_bar), 4);
@@ -190,6 +209,7 @@ icon_callback (EShortcutBar *shortcut_bar,
 	for (i = 0; i < NUM_SHORTCUT_TYPES; i++) {
 		if (!strncmp (url, shortcut_types[i],
 			      strlen (shortcut_types[i]))) {
+			gdk_pixbuf_ref (icon_pixbufs[i]);
 			return icon_pixbufs[i];
 		}
 	}
@@ -558,4 +578,38 @@ on_move_button_clicked (GtkWidget *button,
 	g_print ("In on_move_button_clicked\n");
 
 	e_group_bar_reorder_group (E_GROUP_BAR (shortcut_bar), 0, 3);
+}
+
+
+static void
+on_item_added (EShortcutBar *shortcut_bar,
+	       gint group_num,
+	       gint item_num)
+{
+	g_print ("In on_item_added Group:%i Item:%i\n", group_num, item_num);
+}
+
+
+static void
+on_item_removed (EShortcutBar *shortcut_bar,
+		 gint group_num,
+		 gint item_num)
+{
+	g_print ("In on_item_removed Group:%i Item:%i\n", group_num, item_num);
+}
+
+
+static void
+on_group_added (EShortcutBar *shortcut_bar,
+		gint group_num)
+{
+	g_print ("In on_group_added Group:%i\n", group_num);
+}
+
+
+static void
+on_group_removed (EShortcutBar *shortcut_bar,
+		  gint group_num)
+{
+	g_print ("In on_group_removed Group:%i\n", group_num);
 }

@@ -90,6 +90,16 @@ struct _EShortcutBarClass
 					GdkEvent       *event,
 					gint		group_num,
 					gint		item_num);
+	void   (*added_item)	       (EShortcutBar   *shortcut_bar,
+					gint		group_num,
+					gint		item_num);
+	void   (*removed_item)	       (EShortcutBar   *shortcut_bar,
+					gint		group_num,
+					gint		item_num);
+	void   (*added_group)	       (EShortcutBar   *shortcut_bar,
+					gint		group_num);
+	void   (*removed_group)	       (EShortcutBar   *shortcut_bar,
+					gint		group_num);
 };
 
 
@@ -123,9 +133,9 @@ void	   e_shortcut_bar_remove_item		(EShortcutBar	 *shortcut_bar,
 /* Sets the callback which is called to return the icon to use for a particular
    URL. This callback must be set before any items are added. If the callback
    returns NULL the default icon is used. */
-void  e_shortcut_bar_set_icon_callback  (EShortcutBar             *shortcut_bar,
-					 EShortcutBarIconCallback  cb,
-					 gpointer                  data);
+void	   e_shortcut_bar_set_icon_callback	(EShortcutBar    *shortcut_bar,
+						 EShortcutBarIconCallback cb,
+						 gpointer         data);
 
 #ifdef __cplusplus
 }
