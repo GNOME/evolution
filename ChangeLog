@@ -1,3 +1,7 @@
+2000-07-10  Ettore Perazzoli  <ettore@helixcode.com>
+
+	* Version 0.2.
+
 2000-07-10  Jeffrey Stedfast <fejj@helixcode.com>
 
 	* configure.in: Updated to check for required GtkHTML and
