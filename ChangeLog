@@ -1,3 +1,7 @@
+2003-07-13  Telsa Gwynne  <hobbit@aloss.ukuu.org.uk>
+
+	* configure.in: Added "cy" (Welsh) to ALL_LINGUAS
+
 2003-07-11  Ettore Perazzoli  <ettore@ximian.com>
 
 	* configure.in: Version 1.4.3.99.
