@@ -40,7 +40,7 @@ extern "C" {
 
 typedef enum {
 	CAMEL_PGP_TYPE_NONE,
-	CAMEL_PGP_TYPE_PGP2,
+	CAMEL_PGP_TYPE_PGP2,   /* no longer supported */
 	CAMEL_PGP_TYPE_PGP5,
 	CAMEL_PGP_TYPE_PGP6,
 	CAMEL_PGP_TYPE_GPG

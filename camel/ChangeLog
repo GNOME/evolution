@@ -1,3 +1,13 @@
+2001-10-29  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* camel-pgp-context.c (pgp_sign): Notify the user that PGP 2.6.x
+	is no longer supported and use camel_exception_set() instead of
+	setv() where appropriate.
+	(pgp_clearsign): Same.
+	(pgp_verify): And again here.
+	(pgp_encrypt): Here too.
+	(pgp_decrypt): And finally here.
+
 2001-10-29  Dan Winship  <danw@ximian.com>
 
 	* providers/imap/camel-imap-store.c (unsubscribe_folder): Don't
@@ -26,7 +36,7 @@
 	used by a message cache.
 
 	* camel-vee-store.c (build_info): Fix the 'is this a matching
-	subfolder or subfolder'' logic to match camel-store
+	subfolder or subfolder' logic to match camel-store
 	get_subfolders'.
 
 	* camel-store.c (get_subfolders): Fix the 'is this a matching
