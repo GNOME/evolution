@@ -111,7 +111,7 @@ struct _MailComponentPrivate {
 	GMutex *lock;
 
 	/* states/data used during shutdown */
-	enum { MC_QUIT_START, MC_QUIT_SYNC } quit_state;
+	enum { MC_QUIT_START, MC_QUIT_SYNC, MC_QUIT_THREADS } quit_state;
 	int quit_count;
 	int quit_expunge;	/* expunge on quit this time around? */
 
@@ -692,8 +692,16 @@ impl_quit(PortableServer_Servant servant, CORBA_Environment *ev)
 	}
 		/* Falls through */
 	case MC_QUIT_SYNC:
-		return mc->priv->quit_count == 0;
-		/* What else do we need to do at quit time? */
+		if (mc->priv->quit_count > 0)
+			return TRUE;
+
+		mail_cancel_all();
+		mc->priv->quit_state = MC_QUIT_THREADS;
+
+		/* Falls through */
+	case MC_QUIT_THREADS:
+		/* should we keep cancelling? */
+		return mail_msg_active((unsigned int)-1) == 0;
 	}
 
 	return TRUE;

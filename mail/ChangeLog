@@ -1,3 +1,10 @@
+2005-02-21  Not Zed  <NotZed@Ximian.com>
+
+	** See bug #71003
+
+	* mail-component.c (impl_quit): add a new state MC_QUIT_THREADS to
+	wait for all mail threads to finish before quitting.
+
 2005-02-23  Jeffrey Stedfast  <fejj@novell.com>
 
 	* em-format-html.c (efh_format_header): Don't use the pre-UTF-8
