@@ -199,6 +199,44 @@ get_default_task (ECal *ecal)
 
 /* Callbacks.  */
 static void
+add_popup_menu_item (GtkMenu *menu, const char *label, const char *pixmap,
+		     GCallback callback, gpointer user_data)
+{
+	GtkWidget *item, *image;
+
+	if (pixmap) {
+		item = gtk_image_menu_item_new_with_label (label);
+
+		/* load the image */
+		image = gtk_image_new_from_stock (pixmap, GTK_ICON_SIZE_MENU);
+		if (!image)
+			image = gtk_image_new_from_file (pixmap);
+
+		if (image)
+			gtk_image_menu_item_set_image (GTK_IMAGE_MENU_ITEM (item), image);
+	} else {
+		item = gtk_menu_item_new_with_label (label);
+	}
+
+	if (callback)
+		g_signal_connect (G_OBJECT (item), "activate", callback, user_data);
+
+	gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
+	gtk_widget_show (item);
+}
+
+static void
+new_task_list_cb (GtkWidget *widget, TasksComponent *component)
+{
+}
+
+static void
+fill_popup_menu_cb (ESourceSelector *selector, GtkMenu *menu, TasksComponent *component)
+{
+	add_popup_menu (menu, _("New Task List"), GTK_STOCK_NEW, G_CALLBACK (new_task_list_cb), component);
+}
+
+static void
 source_selection_changed_cb (ESourceSelector *selector, TasksComponent *component)
 {
 	update_uris_for_selection (component);
@@ -336,6 +374,9 @@ impl_createControls (PortableServer_Servant servant,
 				 G_OBJECT (component), 0);
 	g_signal_connect_object (priv->source_selector, "primary_selection_changed",
 				 G_CALLBACK (primary_source_selection_changed_cb),
+				 G_OBJECT (component), 0);
+	g_signal_connect_object (priv->source_selector, "fill_popup_menu",
+				 G_CALLBACK (fill_popup_menu_cb),
 				 G_OBJECT (component), 0);
 
 	/* Load the selection from the last run */

@@ -1,5 +1,17 @@
 2003-11-17  Rodrigo Moya <rodrigo@ximian.com>
 
+	* gui/calendar-component.c (add_popup_menu_item): try first to
+	create the icon from the stock, and then from a file.
+	(fill_popup_menu_cb): set callback for 'Rename' menu item.
+	(rename_calendar_cb): callback for 'Rename' menu item.
+	(new_calendar_cb): fixed arguments.
+
+	* gui/tasks-component.c (impl_createControls): connect to
+	"fill_popup_menu" signal on the source selector.
+	(fill_popup_menu_cb): callback to create our menu items.
+
+2003-11-17  Rodrigo Moya <rodrigo@ximian.com>
+
 	* idl/evolution-calendar.idl: remove the AlarmNotify service, no
 	more need for it, since the alarm daemon will listen for changes
 	on the GConf key.

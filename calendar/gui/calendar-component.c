@@ -237,9 +237,9 @@ add_popup_menu_item (GtkMenu *menu, const char *label, const char *pixmap,
 		item = gtk_image_menu_item_new_with_label (label);
 
 		/* load the image */
-		image = gtk_image_new_from_file (pixmap);
+		image = gtk_image_new_from_stock (pixmap, GTK_ICON_SIZE_MENU);
 		if (!image)
-			image = gtk_image_new_from_stock (pixmap, GTK_ICON_SIZE_MENU);
+			image = gtk_image_new_from_file (pixmap);
 
 		if (image)
 			gtk_image_menu_item_set_image (GTK_IMAGE_MENU_ITEM (item), image);
@@ -296,9 +296,44 @@ delete_calendar_cb (GtkWidget *widget, CalendarComponent *comp)
 }
 
 static void
-new_calendar_cb (GtkWidget *widget, ESourceSelector *selector)
+new_calendar_cb (GtkWidget *widget, CalendarComponent *comp)
 {
 	new_calendar_dialog (GTK_WINDOW (gtk_widget_get_toplevel (widget)));
+}
+
+static void
+rename_calendar_cb (GtkWidget *widget, CalendarComponent *comp)
+{
+	GSList *selection;
+	CalendarComponentPrivate *priv;
+	ESource *selected_source;
+	GtkWidget *dialog, *entry;
+
+	priv = comp->priv;
+	
+	selection = e_source_selector_get_selection (E_SOURCE_SELECTOR (priv->source_selector));
+	if (!selection)
+		return;
+
+	selected_source = selection->data;
+
+	/* create the dialog to prompt the user for the new name */
+	dialog = gtk_message_dialog_new (gtk_widget_get_toplevel (widget),
+					 GTK_DIALOG_MODAL,
+					 GTK_MESSAGE_QUESTION,
+					 GTK_BUTTONS_OK_CANCEL,
+					 _("Rename this calendar to"));
+	entry = gtk_entry_new ();
+	gtk_entry_set_text (GTK_ENTRY (entry), e_source_peek_name (selected_source));
+	gtk_widget_show (entry);
+	gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->vbox), entry, TRUE, FALSE, 6);
+
+	if (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_OK)
+		e_source_set_name (selected_source, gtk_entry_get_text (GTK_ENTRY (entry)));
+
+	gtk_widget_destroy (dialog);
+
+	e_source_selector_free_selection (selection);
 }
 
 static void
@@ -306,7 +341,7 @@ fill_popup_menu_cb (ESourceSelector *selector, GtkMenu *menu, CalendarComponent 
 {
 	add_popup_menu_item (menu, _("New Calendar"), NULL, G_CALLBACK (new_calendar_cb), comp);
 	add_popup_menu_item (menu, _("Delete"), GTK_STOCK_DELETE, G_CALLBACK (delete_calendar_cb), comp);
-	add_popup_menu_item (menu, _("Rename"), NULL, NULL, NULL);
+	add_popup_menu_item (menu, _("Rename"), NULL, G_CALLBACK (rename_calendar_cb), comp);
 }
 
 static void
