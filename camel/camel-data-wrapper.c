@@ -106,7 +106,7 @@ _finalize (GtkObject *object)
 	CamelDataWrapper *camel_data_wrapper = CAMEL_DATA_WRAPPER (object);
 
 	CAMEL_LOG_FULL_DEBUG ("Entering CamelDataWrapper::finalize\n");
-	printf ("CamelDataWrapper::finalize, finalizing object %p\n", object);
+	CAMEL_LOG_FULL_DEBUG  ("CamelDataWrapper::finalize, finalizing object %p\n", object);
 	if (camel_data_wrapper->mime_type)
 		gmime_content_field_unref (camel_data_wrapper->mime_type);
 

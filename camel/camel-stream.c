@@ -24,7 +24,7 @@
 #include <config.h>
 #include "camel-stream.h"
 
-static CamelStreamClass *parent_class = NULL;
+static GtkObjectClass *parent_class = NULL;
 
 
 /* Returns the class for a CamelMimeMessage */

@@ -70,7 +70,7 @@ GtkType camel_stream_fs_get_type (void);
 
 
 /* public methods */
-CamelStream *camel_stream_fs_new_with_name (gchar *name, CamelStreamFsMode mode);
+CamelStream *camel_stream_fs_new_with_name (const gchar *name, CamelStreamFsMode mode);
 CamelStream *camel_stream_fs_new_with_fd (int fd);
 
 #ifdef __cplusplus

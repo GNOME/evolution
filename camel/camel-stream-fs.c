@@ -52,7 +52,7 @@ camel_stream_fs_class_init (CamelStreamFsClass *camel_stream_fs_class)
 	CamelStreamClass *camel_stream_class = CAMEL_STREAM_CLASS (camel_stream_fs_class);
 	GtkObjectClass *gtk_object_class = GTK_OBJECT_CLASS (camel_stream_fs_class);
 
-	parent_class = gtk_type_class (gtk_object_get_type ());
+	parent_class = gtk_type_class (camel_stream_get_type ());
 	
 	/* virtual method definition */
 
@@ -111,7 +111,7 @@ _destroy (GtkObject *object)
 		CAMEL_LOG_FULL_DEBUG ( "  Full error text is : %s\n", strerror(errno));
 	}
 	GTK_OBJECT_CLASS (parent_class)->destroy (object);
-	g_free (object);
+	
 	CAMEL_LOG_FULL_DEBUG ("Leaving CamelStreamFs::destroy\n");
 }
 
@@ -132,7 +132,7 @@ _finalize (GtkObject *object)
 
 
 CamelStream *
-camel_stream_fs_new_with_name (gchar *name, CamelStreamFsMode mode)
+camel_stream_fs_new_with_name (const gchar *name, CamelStreamFsMode mode)
 {
 	struct stat s;
 	int v, fd;
@@ -165,7 +165,7 @@ camel_stream_fs_new_with_name (gchar *name, CamelStreamFsMode mode)
 	}
 	
 	stream_fs = CAMEL_STREAM_FS (camel_stream_fs_new_with_fd (fd));
-	stream_fs->name = name;
+	stream_fs->name = g_strdup (name);
 
 	return CAMEL_STREAM (stream_fs);
 	
