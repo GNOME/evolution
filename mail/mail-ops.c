@@ -1061,10 +1061,10 @@ do_transfer_messages (gpointer in_data, gpointer op_data, CamelException *ex)
 		time_t now;
 
 		/*
-		 * Update the time display ever 2 seconds
+		 * Update the time display every 2 seconds
 		 */
 		time (&now);
-		if (last_message || ((now - last_update) > 2)){
+		if (last_message || ((now - last_update) > 2)) {
 			mail_op_set_message (_("%s message %d of %d (uid \"%s\")"), desc,
 					     i + 1, input->uids->len, (char *) input->uids->pdata[i]);
 			last_update = now;
@@ -2405,7 +2405,7 @@ describe_save_messages (gpointer in_data, gboolean gerund)
 		return g_strdup_printf (_("Saving messages from folder \"%s\""),
 					mail_tool_get_folder_name (input->folder));
 	else
-		return g_strdup_printf (_("Saving messages from \"%s\""),
+		return g_strdup_printf (_("Save messages from folder \"%s\""),
 					mail_tool_get_folder_name (input->folder));
 }
 
@@ -2421,33 +2421,52 @@ static void
 do_save_messages (gpointer in_data, gpointer op_data, CamelException *ex)
 {
 	save_messages_input_t *input = (save_messages_input_t *) in_data;
-	CamelStream *stream;
+	CamelFolder *dest_folder;
+	time_t last_update = 0;
+	char *dir, *name, *url;
 	int i;
 	
+	name = g_basename (input->path);
+	dir = g_dirname (input->path);
+	url = g_strdup_printf ("mbox://%s", dir);
+	g_free (dir);
+	dest_folder = mail_tool_get_folder_from_urlname (url, name, CAMEL_STORE_FOLDER_CREATE, ex);
+	g_free (url);
+	
+	if (camel_exception_is_set (ex))
+		return;
+	
 	mail_tool_camel_lock_up ();
-	stream = camel_stream_fs_new_with_name (input->path, O_WRONLY | O_CREAT | O_TRUNC, 0600);
 	
 	for (i = 0; i < input->uids->len; i++) {
-		CamelMimeMessage *message;
+		const gboolean last_message = (i+1 == input->uids->len);
+		time_t now;
 		
-		mail_op_set_message (_("Retrieving message %d of %d (uid \"%s\")"),
-				     i + 1, input->uids->len, (char *)input->uids->pdata[i]);
-		
-		message = camel_folder_get_message (input->folder, input->uids->pdata[i], ex);
-		if (message) {
-			camel_data_wrapper_write_to_stream (CAMEL_DATA_WRAPPER (message), stream);
-			camel_object_unref (CAMEL_OBJECT (message));
+		/*
+		 * Update the time display every 2 seconds
+		 */
+		time (&now);
+		if (last_message || ((now - last_update) > 2)) {
+			mail_op_set_message (_("Saving message %d of %d (uid \"%s\")"),
+					     i + 1, input->uids->len, (char *)input->uids->pdata[i]);
+			last_update = now;
 		}
+		
+		camel_folder_copy_message_to (input->folder, input->uids->pdata[i], dest_folder, NULL);
 		
 		g_free (input->uids->pdata[i]);
 	}
 	
 	g_ptr_array_free (input->uids, TRUE);
 	
-	camel_stream_flush (stream);
-	camel_object_unref (CAMEL_OBJECT (stream));
+	camel_object_unref (CAMEL_OBJECT (dest_folder));
 	
 	mail_tool_camel_lock_down ();
+	
+	/* FIXME: temp hack: now to remove the summary file */
+	name = g_strdup_printf ("%s.ev-summary", input->path);
+	unlink (name);
+	g_free (name);
 }
 
 static void
