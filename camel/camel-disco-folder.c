@@ -35,6 +35,14 @@
 #define CDF_CLASS(o) (CAMEL_DISCO_FOLDER_CLASS (CAMEL_OBJECT_GET_CLASS (o)))
 
 static CamelFolderClass *parent_class = NULL;
+static GSList *disco_folder_properties;
+
+static CamelProperty disco_property_list[] = {
+	{ CAMEL_DISCO_FOLDER_OFFLINE_SYNC, "offline_sync", N_("Copy folder content locally for offline operation") },
+};
+
+static int disco_getv(CamelObject *object, CamelException *ex, CamelArgGetV *args);
+static int disco_setv(CamelObject *object, CamelException *ex, CamelArgV *args);
 
 static void disco_refresh_info (CamelFolder *folder, CamelException *ex);
 static void disco_sync (CamelFolder *folder, gboolean expunge, CamelException *ex);
@@ -60,6 +68,9 @@ camel_disco_folder_class_init (CamelDiscoFolderClass *camel_disco_folder_class)
 	CamelFolderClass *camel_folder_class = CAMEL_FOLDER_CLASS (camel_disco_folder_class);
 
 	parent_class = CAMEL_FOLDER_CLASS (camel_type_get_global_classfuncs (camel_folder_get_type ()));
+
+	((CamelObjectClass *)camel_folder_class)->getv = disco_getv;
+	((CamelObjectClass *)camel_folder_class)->setv = disco_setv;
 
 	/* virtual method definition */
 	camel_disco_folder_class->cache_message = disco_cache_message;
@@ -126,7 +137,8 @@ static void
 cdf_folder_changed(CamelFolder *folder, CamelFolderChangeInfo *changes, void *dummy)
 {
 	if (changes->uid_added->len > 0
-	    && camel_url_get_param(((CamelService *)folder->parent_store)->url, "offline_sync")) {
+	    && (((CamelDiscoFolder *)folder)->offline_sync
+		|| camel_url_get_param(((CamelService *)folder->parent_store)->url, "offline_sync"))) {
 		CamelSession *session = ((CamelService *)folder->parent_store)->session;
 		struct _cdf_sync_msg *m;
 
@@ -149,6 +161,7 @@ CamelType
 camel_disco_folder_get_type (void)
 {
 	static CamelType camel_disco_folder_type = CAMEL_INVALID_TYPE;
+	int i;
 
 	if (camel_disco_folder_type == CAMEL_INVALID_TYPE) {
 		camel_disco_folder_type = camel_type_register (
@@ -157,11 +170,86 @@ camel_disco_folder_get_type (void)
 			sizeof (CamelDiscoFolderClass),
 			(CamelObjectClassInitFunc)camel_disco_folder_class_init, NULL,
 			(CamelObjectInitFunc)camel_disco_folder_init, NULL);
+
+		for (i=0;i<sizeof(disco_property_list)/sizeof(disco_property_list[0]);i++) {
+			disco_property_list[i].description = _(disco_property_list[i].description);
+			disco_folder_properties = g_slist_prepend(disco_folder_properties, &disco_property_list[i]);
+		}
 	}
 
 	return camel_disco_folder_type;
 }
 
+static int
+disco_getv(CamelObject *object, CamelException *ex, CamelArgGetV *args)
+{
+	int i, count=0;
+	guint32 tag;
+
+	for (i=0;i<args->argc;i++) {
+		CamelArgGet *arg = &args->argv[i];
+
+		tag = arg->tag;
+
+		switch (tag & CAMEL_ARG_TAG) {
+		case CAMEL_OBJECT_ARG_PERSISTENT_PROPERTIES:
+		case CAMEL_FOLDER_ARG_PROPERTIES: {
+			CamelArgGetV props;
+
+			props.argc = 1;
+			props.argv[0] = *arg;
+			((CamelObjectClass *)parent_class)->getv(object, ex, &props);
+			*arg->ca_ptr = g_slist_concat(*arg->ca_ptr, g_slist_copy(disco_folder_properties));
+			break; }
+			/* disco args */
+		case CAMEL_DISCO_FOLDER_ARG_OFFLINE_SYNC:
+			*arg->ca_int = ((CamelDiscoFolder *)object)->offline_sync;
+			break;
+		default:
+			count++;
+			continue;
+		}
+
+		arg->tag = (tag & CAMEL_ARG_TYPE) | CAMEL_ARG_IGNORE;
+	}
+
+	if (count)
+		return ((CamelObjectClass *)parent_class)->getv(object, ex, args);
+
+	return 0;
+}
+
+static int
+disco_setv(CamelObject *object, CamelException *ex, CamelArgV *args)
+{
+	int save = 0;
+	int i;
+	guint32 tag;
+
+	for (i=0;i<args->argc;i++) {
+		CamelArg *arg = &args->argv[i];
+
+		tag = arg->tag;
+
+		switch (tag & CAMEL_ARG_TAG) {
+		case CAMEL_DISCO_FOLDER_ARG_OFFLINE_SYNC:
+			if (((CamelDiscoFolder *)object)->offline_sync != arg->ca_int) {
+				((CamelDiscoFolder *)object)->offline_sync = arg->ca_int;
+				save = 1;
+			}
+			break;
+		default:
+			continue;
+		}
+
+		arg->tag = (tag & CAMEL_ARG_TYPE) | CAMEL_ARG_IGNORE;
+	}
+
+	if (save)
+		camel_object_state_write(object);
+
+	return ((CamelObjectClass *)parent_class)->setv(object, ex, args);
+}
 
 static void
 disco_refresh_info (CamelFolder *folder, CamelException *ex)
@@ -179,6 +267,8 @@ disco_sync (CamelFolder *folder, gboolean expunge, CamelException *ex)
 		if (camel_exception_is_set (ex))
 			return;
 	}
+
+	camel_object_state_write(folder);
 
 	switch (camel_disco_store_status (CAMEL_DISCO_STORE (folder->parent_store))) {
 	case CAMEL_DISCO_STORE_ONLINE:

@@ -1042,7 +1042,7 @@ imap_forget_folder (CamelImapStore *imap_store, const char *folder_name, CamelEx
 {
 	CamelFolderSummary *summary;
 	CamelImapMessageCache *cache;
-	char *summary_file;
+	char *summary_file, *state_file;
 	char *journal_file;
 	char *folder_dir, *storage_path;
 	CamelFolderInfo *fi;
@@ -1080,9 +1080,13 @@ imap_forget_folder (CamelImapStore *imap_store, const char *folder_name, CamelEx
 	unlink (summary_file);
 	g_free (summary_file);
 	
-	journal_file = g_strdup_printf ("%s/summary", folder_dir);
+	journal_file = g_strdup_printf ("%s/journal", folder_dir);
 	unlink (journal_file);
 	g_free (journal_file);
+
+	state_file = g_strdup_printf ("%s/cmeta", folder_dir);
+	unlink (state_file);
+	g_free (state_file);
 	
 	rmdir (folder_dir);
 	g_free (folder_dir);

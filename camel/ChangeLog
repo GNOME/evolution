@@ -1,5 +1,24 @@
 2004-01-09  Not Zed  <NotZed@Ximian.com>
 
+	* providers/imap/camel-imap-store.c (imap_forget_folder): fix
+	removal of journal file, and remove the cmeta state file too.
+
+	* providers/imap/camel-imap-folder.c (imap_getv): count up so we
+	call parent class if we missed any, rather than only if we didn't
+	miss any.
+	(imap_rename): rename the object state file.
+	(camel_imap_folder_new): set the object state file for persistent
+	properties.
+
+	* camel-disco-folder.c (disco_getv): support
+	(PERSISTENT_)PROPERTIES & OFFLINE_SYNC.
+	(disco_setv): implement OFFLINE_SYNC.
+	(camel_disco_folder_get_type): setup disco properties list.
+	(cdf_folder_changed): honour the offline_sync setting on the
+	current folder.
+	(disco_sync): save object state.
+	(disco_setv): save object state if it changed.
+
 	* camel-data-wrapper.c (camel_data_wrapper_set_mime_type_field):
 	move assertions here.
 	(set_mime_type_field): change order slightly to properly handle

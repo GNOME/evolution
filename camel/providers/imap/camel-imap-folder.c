@@ -216,7 +216,7 @@ camel_imap_folder_new (CamelStore *parent, const char *folder_name,
 	CamelFolder *folder;
 	CamelImapFolder *imap_folder;
 	const char *short_name;
-	char *summary_file;
+	char *summary_file, *state_file;
 
 	if (camel_mkdir (folder_dir, S_IRWXU) != 0) {
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
@@ -243,6 +243,12 @@ camel_imap_folder_new (CamelStore *parent, const char *folder_name,
 				      folder_name);
 		return NULL;
 	}
+
+	/* set/load persistent state */
+	state_file = g_strdup_printf ("%s/cmeta", folder_dir);
+	camel_object_set(folder, NULL, CAMEL_OBJECT_STATE_FILE, state_file, NULL);
+	g_free(state_file);
+	camel_object_state_read(folder);
 
 	imap_folder = CAMEL_IMAP_FOLDER (folder);
 	imap_folder->cache = camel_imap_message_cache_new (folder_dir, folder->summary, ex);
@@ -406,7 +412,7 @@ static int
 imap_getv(CamelObject *object, CamelException *ex, CamelArgGetV *args)
 {
 	CamelFolder *folder = (CamelFolder *)object;
-	int i, count=args->argc;
+	int i, count=0;
 	guint32 tag;
 
 	for (i=0;i<args->argc;i++) {
@@ -426,7 +432,7 @@ imap_getv(CamelObject *object, CamelException *ex, CamelArgGetV *args)
 			*arg->ca_str = folder->description;
 			break;
 		default:
-			count--;
+			count++;
 			continue;
 		}
 
@@ -444,7 +450,7 @@ imap_rename (CamelFolder *folder, const char *new)
 {
 	CamelImapFolder *imap_folder = (CamelImapFolder *)folder;
 	CamelImapStore *imap_store = (CamelImapStore *)folder->parent_store;
-	char *folder_dir, *summary_path;
+	char *folder_dir, *summary_path, *state_file;
 	char *folders;
 
 	folders = g_strconcat (imap_store->storage_path, "/folders", NULL);
@@ -457,6 +463,10 @@ imap_rename (CamelFolder *folder, const char *new)
 	CAMEL_IMAP_FOLDER_UNLOCK (folder, cache_lock);
 
 	camel_folder_summary_set_filename(folder->summary, summary_path);
+
+	state_file = g_strdup_printf ("%s/cmeta", folder_dir);
+	camel_object_set(folder, NULL, CAMEL_OBJECT_STATE_FILE, state_file, NULL);
+	g_free(state_file);
 
 	g_free(summary_path);
 	g_free(folder_dir);
