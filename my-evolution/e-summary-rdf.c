@@ -640,7 +640,7 @@ e_summary_rdf_init (ESummary *summary)
 	e_summary_add_online_connection (summary, connection);
 
 	e_summary_add_protocol_listener (summary, "rdf", e_summary_rdf_protocol, rdf);
-	if (prefs == NULL || prefs->rdf_urls == NULL) {
+	if (prefs == NULL) {
 		e_summary_rdf_add_uri (summary, "http://www.cnn.com/cnn.rss");
 		timeout = 600;
 	} else {

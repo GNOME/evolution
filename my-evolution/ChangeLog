@@ -1,3 +1,15 @@
+2001-10-31  Iain Holmes  <iain@ximian.com>
+
+	* e-summary-preferences.c (make_initial_rdf_list): Put this back.
+	(make_initial_weather_list): This too plus fixed a memory leak.
+	(vector_from_str_list): Allow a NULL list. Return "" instead of NULL.
+	(e_summary_preferences_restore): Allow the display_folders, rdf_urls, 
+	and stations to be NULL.
+
+	* e-summary-weather.c (e_summary_weather_init): Revert the last changes
+	
+	* e-summary-rdf.c (e_summary_rdf_init): Same.
+
 2001-10-30  Iain Holmes  <iain@ximian.com>
 
 	* e-summary-preferences.c (find_name_from_url): Check a for NULL values

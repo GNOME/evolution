@@ -653,7 +653,7 @@ e_summary_weather_init (ESummary *summary)
 
 	e_summary_add_protocol_listener (summary, "weather", e_summary_weather_protocol, weather);
 
-	if (prefs == NULL || prefs->stations == NULL) {
+	if (prefs == NULL) {
 		/* translators: Put here a list of codes for locations you want to
 		   see in My Evolution by default. You can find the list of all
 		   stations and their codes in Evolution sources

@@ -62,13 +62,32 @@ make_initial_mail_list (ESummaryPrefs *prefs)
 static void
 make_initial_rdf_list (ESummaryPrefs *prefs)
 {
-	prefs->rdf_urls = NULL;
+	GList *rdfs;
+
+	rdfs = g_list_prepend (NULL, g_strdup ("http://www.cnn.com/cnn.rss"));
+	
+	prefs->rdf_urls = rdfs;
 }
 
 static void
 make_initial_weather_list (ESummaryPrefs *prefs)
 {
-	prefs->stations = NULL;
+	/* translators: Put a list of codes for locations you want to see in
+	   My Evolution by default here. You can find the list of all
+	   stations and their codes in Evolution sources.
+	   (evolution/my-evolution/Locations)
+	   Codes are seperated with : eg. "KBOS:EGAA"*/
+	char *default_stations = _("KBOS"), **stations_v, **p;
+	GList *stations = NULL;
+
+	stations_v = g_strsplit (default_stations, ":", 0);
+	g_assert (stations_v != NULL);
+	for (p = stations_v; *p != NULL; p++) {
+		stations = g_list_prepend (stations, *p);
+	}
+	g_strfreev (stations_v);
+
+	prefs->stations = g_list_reverse (stations);
 }
 
 /* Load the prefs off disk */
@@ -79,7 +98,9 @@ vector_from_str_list (GList *strlist)
 	char *vector;
 	GString *str;
 
-	g_return_val_if_fail (strlist != NULL, NULL);
+	if (strlist == NULL) {
+		return g_strdup ("");
+	}
 
 	str = g_string_new ("");
 	for (; strlist; strlist = strlist->next) {
@@ -138,7 +159,7 @@ e_summary_preferences_restore (ESummaryPrefs *prefs)
 
 	CORBA_exception_free (&ev);
 	vector = bonobo_config_get_string (db, "My-Evolution/Mail/display_folders", &ev);
-	if (BONOBO_EX (&ev) || vector == NULL) {
+	if (BONOBO_EX (&ev)) {
 		g_warning ("Error getting Mail/display_folders");
 		CORBA_exception_free (&ev);
 		bonobo_object_release_unref (db, NULL);
@@ -157,7 +178,7 @@ e_summary_preferences_restore (ESummaryPrefs *prefs)
 
 
 	vector = bonobo_config_get_string (db, "My-Evolution/RDF/rdf_urls", &ev);
-	if (BONOBO_EX (&ev) || vector == NULL) {
+	if (BONOBO_EX (&ev)) {
 		g_warning ("Error getting RDF/rdf_urls");
 		CORBA_exception_free (&ev);
 		bonobo_object_release_unref (db, NULL);
@@ -171,7 +192,7 @@ e_summary_preferences_restore (ESummaryPrefs *prefs)
 	prefs->limit = bonobo_config_get_long_with_default (db, "My-Evolution/RDF/limit", 10, NULL);
 
 	vector = bonobo_config_get_string (db, "My-Evolution/Weather/stations", &ev);
-	if (BONOBO_EX (&ev) || vector == NULL) {
+	if (BONOBO_EX (&ev)) {
 		g_warning ("Error getting Weather/stations");
 		CORBA_exception_free (&ev);
 		bonobo_object_release_unref (db, NULL);
