@@ -1,3 +1,50 @@
+2001-10-12  JP Rosevear  <jpr@ximian.com>
+
+	* gui/dialogs/alarm-page.c: return fill_component success
+
+	* gui/dialogs/task-page.c: ditto
+
+	* gui/dialogs/task-details-page.c: ditto
+
+	* gui/dialogs/schedule-page.c: ditto
+
+	* gui/dialogs/recurrence-page.c: ditto
+
+	* gui/dialogs/event-page.c: ditto
+
+	* gui/dialogs/meeting-page.c: use e_notice instead of
+	duplicate_error
+	(meeting_page_get_cancel_comp): duh, deleted_attendees is an array
+	now
+	(meeting_page_fill_component): spew gui errors if there is no
+	organizer or no attendees, return success
+
+	* gui/dialogs/event-editor.c (event_editor_send_comp): always call
+	parent method and don't send the cancellation comp if the method
+	is publish
+	(refresh_meeting_cmd): use the orginal comp to refresh
+	(forward_cmd): prompt the user for the version they want to send
+	(current, original)
+
+	* gui/dialogs/task-editor.c (forward_cmd): as above
+	(refresh_task_cmd): ditto
+
+	* gui/dialogs/comp-editor-page.c
+	(comp_editor_page_fill_component): return boolean of whether the
+	component could be filled or not
+
+	* gui/dialogs/comp-editor-page.h: update proto
+
+	* gui/dialogs/comp-editor.c (prompt_to_save_changes): take a param
+	on whether to try and send or not
+	(comp_editor_get_current_comp): only fill component if its changed
+	(comp_editor_save_comp): prompt user as well
+
+	* gui/dialogs/comp-editor.h: change proto
+
+	* gui/itip-utils.c: replace error_dialog with e_notice
+	(comp_content_type): specify charset
+
 2001-10-11  Larry Ewing  <lewing@ximian.com>
 
 	* gui/e-itip-control.c: large reworking of i18n tagging and now

@@ -37,9 +37,8 @@
 #include <gtk/gtkwindow.h>
 #include <libgnome/gnome-defs.h>
 #include <libgnome/gnome-i18n.h>
-#include <libgnomeui/gnome-stock.h>
-#include <libgnomeui/gnome-dialog-util.h>
 #include <glade/glade.h>
+#include <libgnomeui/gnome-stock.h>
 #include <gal/e-table/e-cell-combo.h>
 #include <gal/e-table/e-cell-text.h>
 #include <gal/e-table/e-table-simple.h>
@@ -128,7 +127,7 @@ static void meeting_page_destroy (GtkObject *object);
 static GtkWidget *meeting_page_get_widget (CompEditorPage *page);
 static void meeting_page_focus_main_widget (CompEditorPage *page);
 static void meeting_page_fill_widgets (CompEditorPage *page, CalComponent *comp);
-static void meeting_page_fill_component (CompEditorPage *page, CalComponent *comp);
+static gboolean meeting_page_fill_component (CompEditorPage *page, CalComponent *comp);
 
 static gint right_click_cb (ETable *etable, gint row, gint col, GdkEvent *event, gpointer data);
 
@@ -409,13 +408,13 @@ meeting_page_fill_widgets (CompEditorPage *page, CalComponent *comp)
 }
 
 /* fill_component handler for the meeting page */
-static void
+static gboolean
 meeting_page_fill_component (CompEditorPage *page, CalComponent *comp)
 {
 	MeetingPage *mpage;
 	MeetingPagePrivate *priv;
 	CalComponentOrganizer organizer = {NULL, NULL, NULL, NULL};
-	
+
 	mpage = MEETING_PAGE (page);
 	priv = mpage->priv;
 
@@ -438,10 +437,12 @@ meeting_page_fill_component (CompEditorPage *page, CalComponent *comp)
 			g_free (str);
 		}
 		
-		if (addr == NULL || strlen (addr) == 0) {		
+		if (addr == NULL || strlen (addr) == 0) {
+			e_notice (NULL, GNOME_MESSAGE_BOX_ERROR,
+				  _("An organizer is required."));
 			g_free (addr);
-			g_free (cn);		
-			return;
+			g_free (cn);
+			return FALSE;
 		} else {
 			gchar *tmp;
 			
@@ -457,7 +458,14 @@ meeting_page_fill_component (CompEditorPage *page, CalComponent *comp)
 		g_free (cn);
 	}
 
+	if (e_meeting_model_count_attendees (priv->model) < 1) {
+		e_notice (NULL, GNOME_MESSAGE_BOX_ERROR,
+			  "Atleast one attendee is required.");
+		return FALSE;
+	}
 	set_attendees (comp, e_meeting_model_get_attendees (priv->model));
+	
+	return TRUE;
 }
 
 
@@ -502,13 +510,6 @@ get_widgets (MeetingPage *mpage)
 		&& priv->existing_organizer_table
 		&& priv->existing_organizer
 		&& priv->existing_organizer_btn);
-}
-
-static void
-duplicate_error (void)
-{
-	GtkWidget *dlg = gnome_error_dialog (_("That person is already attending the meeting!"));
-	gnome_dialog_run_and_close (GNOME_DIALOG (dlg));
 }
 
 static void
@@ -760,7 +761,8 @@ popup_delegate_cb (GtkWidget *widget, gpointer data)
 
 		/* Make sure we can add the new delegatee person */
 		if (e_meeting_model_find_attendee (priv->model, address, NULL) != NULL) {
-			duplicate_error ();
+			e_notice (NULL, GNOME_MESSAGE_BOX_ERROR,
+				  _("That person is already attending the meeting!"));
 			goto cleanup;
 		}
 		
@@ -963,7 +965,7 @@ meeting_page_get_cancel_comp (MeetingPage *mpage)
 
 	priv = mpage->priv;
 
-	if (priv->deleted_attendees == NULL)
+	if (priv->deleted_attendees->len == 0)
 		return NULL;
 	
 	set_attendees (priv->comp, priv->deleted_attendees);

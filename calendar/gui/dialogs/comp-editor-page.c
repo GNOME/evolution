@@ -239,16 +239,20 @@ comp_editor_page_fill_widgets (CompEditorPage *page, CalComponent *comp)
  * Takes the data from the widgets of an editor page and sets it on a calendar
  * component, replacing the contents of the properties that the editor page
  * knows how to manipulate.
+ *
+ * Returns: TRUE if the component could be filled, FALSE otherwise
  **/
-void
+gboolean
 comp_editor_page_fill_component (CompEditorPage *page, CalComponent *comp)
 {
-	g_return_if_fail (page != NULL);
-	g_return_if_fail (IS_COMP_EDITOR_PAGE (page));
-	g_return_if_fail (comp != NULL);
+	g_return_val_if_fail (page != NULL, FALSE);
+	g_return_val_if_fail (IS_COMP_EDITOR_PAGE (page), FALSE);
+	g_return_val_if_fail (comp != NULL, FALSE);
 
 	if (CLASS (page)->fill_component != NULL)
-		(* CLASS (page)->fill_component) (page, comp);
+		return (* CLASS (page)->fill_component) (page, comp);
+
+	return TRUE;
 }
 
 /**

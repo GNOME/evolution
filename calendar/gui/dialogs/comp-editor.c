@@ -79,8 +79,6 @@ static void comp_editor_destroy (GtkObject *object);
 static void real_set_cal_client (CompEditor *editor, CalClient *client);
 static void real_edit_comp (CompEditor *editor, CalComponent *comp);
 static void real_send_comp (CompEditor *editor, CalComponentItipMethod method);
-static void save_comp (CompEditor *editor);
-static void save_comp_with_send (CompEditor *editor);
 static void delete_comp (CompEditor *editor);
 static void close_dialog (CompEditor *editor);
 
@@ -271,6 +269,117 @@ comp_editor_destroy (GtkObject *object)
 	
 	if (GTK_OBJECT_CLASS (parent_class)->destroy)
 		(* GTK_OBJECT_CLASS (parent_class)->destroy) (object);
+}
+
+
+static gboolean
+save_comp (CompEditor *editor) 
+{
+	CompEditorPrivate *priv;
+	CalComponent *clone;
+	GList *l;
+	
+	priv = editor->priv;
+
+	if (!priv->changed)
+		return TRUE;
+	
+	clone = cal_component_clone (priv->comp);
+	for (l = priv->pages; l != NULL; l = l->next) {
+		if (!comp_editor_page_fill_component (l->data, clone)) {
+			gtk_object_unref (GTK_OBJECT (clone));
+			return FALSE;
+		}
+	}
+	cal_component_commit_sequence (clone);
+	gtk_object_unref (GTK_OBJECT (priv->comp));
+	priv->comp = clone;
+	
+	priv->updating = TRUE;
+
+	if (!cal_client_update_object (priv->client, priv->comp)) {
+		g_message ("save_comp (): Could not update the object!");
+		return FALSE;
+	} else {
+		priv->changed = FALSE;
+	}
+
+	priv->updating = FALSE;
+
+	return TRUE;
+}
+
+static gboolean
+save_comp_with_send (CompEditor *editor) 
+{
+	CompEditorPrivate *priv;
+	gboolean send;
+
+	priv = editor->priv;
+
+	send = priv->changed && priv->needs_send;
+	
+	if (!save_comp (editor))
+		return FALSE;
+	
+	if (send && send_component_dialog (priv->comp))
+		comp_editor_send_comp (editor, CAL_COMPONENT_METHOD_REQUEST);
+
+	return TRUE;
+}
+
+static void
+delete_comp (CompEditor *editor)
+{
+	CompEditorPrivate *priv;
+	const char *uid;
+
+	priv = editor->priv;
+
+	cal_component_get_uid (priv->comp, &uid);
+	priv->updating = TRUE;
+	cal_client_remove_object (priv->client, uid);
+	priv->updating = FALSE;
+	close_dialog (editor);
+}
+
+static gboolean
+prompt_to_save_changes (CompEditor *editor, gboolean send)
+{
+	CompEditorPrivate *priv;
+	
+	priv = editor->priv;
+
+	if (!priv->changed)
+		return TRUE;
+
+	switch (save_component_dialog (GTK_WINDOW (priv->window))) {
+	case 0: /* Save */
+		if (send && save_comp_with_send (editor))
+			return TRUE;
+		else if (!send && save_comp (editor))
+			return TRUE;
+		else
+			return FALSE;
+	case 1: /* Discard */
+		return TRUE;
+	case 2: /* Cancel */
+	default:
+		return FALSE;
+	}
+}
+
+/* Closes the dialog box and emits the appropriate signals */
+static void
+close_dialog (CompEditor *editor)
+{
+	CompEditorPrivate *priv;
+	
+	priv = editor->priv;
+
+	g_assert (priv->window != NULL);
+
+	gtk_object_destroy (GTK_OBJECT (editor));
 }
 
 
@@ -676,18 +785,20 @@ comp_editor_edit_comp (CompEditor *editor, CalComponent *comp)
 CalComponent *
 comp_editor_get_current_comp (CompEditor *editor)
 {	
-	CompEditorPrivate *priv;	
+	CompEditorPrivate *priv;
 	CalComponent *comp;
 	GList *l;
-	
+
 	g_return_val_if_fail (editor != NULL, NULL);
 	g_return_val_if_fail (IS_COMP_EDITOR (editor), NULL);
 
 	priv = editor->priv;
 
 	comp = cal_component_clone (priv->comp);
-	for (l = priv->pages; l != NULL; l = l->next)
-		comp_editor_page_fill_component (l->data, comp);
+	if (priv->changed) {
+		for (l = priv->pages; l != NULL; l = l->next)
+			comp_editor_page_fill_component (l->data, comp);
+	}
 
 	return comp;
 }
@@ -698,10 +809,10 @@ comp_editor_get_current_comp (CompEditor *editor)
  * 
  * 
  **/
-void
-comp_editor_save_comp (CompEditor *editor)
+gboolean
+comp_editor_save_comp (CompEditor *editor, gboolean send)
 {
-	save_comp (editor);
+	return prompt_to_save_changes (editor, send);
 }
 
 /**
@@ -823,99 +934,6 @@ comp_editor_focus (CompEditor *editor)
 	raise_and_focus (priv->window);
 }
 
-static void
-save_comp (CompEditor *editor) 
-{
-	CompEditorPrivate *priv;
-	GList *l;
-	
-	priv = editor->priv;
-
-	if (!priv->changed)
-		return;
-	
-	for (l = priv->pages; l != NULL; l = l->next)
-		comp_editor_page_fill_component (l->data, priv->comp);
-	cal_component_commit_sequence (priv->comp);
-	
-	priv->updating = TRUE;
-
-	if (!cal_client_update_object (priv->client, priv->comp))
-		g_message ("save_comp (): Could not update the object!");
-	else
-		priv->changed = FALSE;
-
-	priv->updating = FALSE;
-}
-
-static void
-save_comp_with_send (CompEditor *editor) 
-{
-	CompEditorPrivate *priv;
-	gboolean send;
-
-	priv = editor->priv;
-
-	send = priv->changed && priv->needs_send;
-	
-	save_comp (editor);
-	
-	if (send && send_component_dialog (priv->comp))
-		comp_editor_send_comp (editor, CAL_COMPONENT_METHOD_REQUEST);
-}
-
-static void
-delete_comp (CompEditor *editor)
-{
-	CompEditorPrivate *priv;
-	const char *uid;
-
-	priv = editor->priv;
-
-	cal_component_get_uid (priv->comp, &uid);
-	priv->updating = TRUE;
-	cal_client_remove_object (priv->client, uid);
-	priv->updating = FALSE;
-	close_dialog (editor);
-}
-
-static gboolean
-prompt_to_save_changes (CompEditor *editor)
-{
-	CompEditorPrivate *priv;
-	
-	priv = editor->priv;
-
-	if (!priv->changed)
-		return TRUE;
-
-	switch (save_component_dialog (GTK_WINDOW (priv->window))) {
-	case 0: /* Save */
-		/* FIXME: If an error occurs here, we should popup a dialog
-		   and then return FALSE. */
-		save_comp_with_send (editor);
-		return TRUE;
-	case 1: /* Discard */
-		return TRUE;
-	case 2: /* Cancel */
-	default:
-		return FALSE;
-	}
-}
-
-/* Closes the dialog box and emits the appropriate signals */
-static void
-close_dialog (CompEditor *editor)
-{
-	CompEditorPrivate *priv;
-	
-	priv = editor->priv;
-
-	g_assert (priv->window != NULL);
-
-	gtk_object_destroy (GTK_OBJECT (editor));
-}
-
 /* Menu Commands */
 static void
 save_cmd (GtkWidget *widget, gpointer data)
@@ -930,8 +948,8 @@ save_close_cmd (GtkWidget *widget, gpointer data)
 {
 	CompEditor *editor = COMP_EDITOR (data);
 
-	save_comp_with_send (editor);
-	close_dialog (editor);
+	if (save_comp_with_send (editor))
+		close_dialog (editor);
 }
 
 static void
@@ -1090,7 +1108,7 @@ close_cmd (GtkWidget *widget, gpointer data)
 {
 	CompEditor *editor = COMP_EDITOR (data);
 
-	if (prompt_to_save_changes (editor))
+	if (prompt_to_save_changes (editor, TRUE))
 		close_dialog (editor);
 }
 
@@ -1200,7 +1218,7 @@ delete_event_cb (GtkWidget *widget, GdkEvent *event, gpointer data)
 {
 	CompEditor *editor = COMP_EDITOR (data);
 
-	if (prompt_to_save_changes (editor))
+	if (prompt_to_save_changes (editor, TRUE))
 		close_dialog (editor);
 
 	return TRUE;

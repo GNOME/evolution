@@ -96,7 +96,7 @@ static void task_page_destroy (GtkObject *object);
 static GtkWidget *task_page_get_widget (CompEditorPage *page);
 static void task_page_focus_main_widget (CompEditorPage *page);
 static void task_page_fill_widgets (CompEditorPage *page, CalComponent *comp);
-static void task_page_fill_component (CompEditorPage *page, CalComponent *comp);
+static gboolean task_page_fill_component (CompEditorPage *page, CalComponent *comp);
 static void task_page_set_summary (CompEditorPage *page, const char *summary);
 static void task_page_set_dates (CompEditorPage *page, CompEditorPageDates *dates);
 
@@ -455,7 +455,7 @@ task_page_fill_widgets (CompEditorPage *page, CalComponent *comp)
 }
 
 /* fill_component handler for the task page */
-static void
+static gboolean
 task_page_fill_component (CompEditorPage *page, CalComponent *comp)
 {
 	TaskPage *tpage;
@@ -565,6 +565,8 @@ task_page_fill_component (CompEditorPage *page, CalComponent *comp)
 
 	/* Contacts */
 	comp_editor_contacts_to_component (priv->contacts_entry, comp);
+
+	return TRUE;
 }
 
 /* set_summary handler for the task page */

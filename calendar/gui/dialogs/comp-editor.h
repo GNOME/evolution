@@ -77,7 +77,8 @@ CalClient    *comp_editor_get_cal_client   (CompEditor             *editor);
 void          comp_editor_edit_comp        (CompEditor             *ee,
 					    CalComponent           *comp);
 CalComponent *comp_editor_get_current_comp (CompEditor             *editor);
-void          comp_editor_save_comp        (CompEditor             *editor);
+gboolean      comp_editor_save_comp        (CompEditor             *editor,
+					    gboolean                send);
 void          comp_editor_delete_comp      (CompEditor             *editor);
 void          comp_editor_send_comp        (CompEditor             *editor,
 					    CalComponentItipMethod  method);

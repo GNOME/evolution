@@ -119,7 +119,7 @@ static void alarm_page_destroy (GtkObject *object);
 static GtkWidget *alarm_page_get_widget (CompEditorPage *page);
 static void alarm_page_focus_main_widget (CompEditorPage *page);
 static void alarm_page_fill_widgets (CompEditorPage *page, CalComponent *comp);
-static void alarm_page_fill_component (CompEditorPage *page, CalComponent *comp);
+static gboolean alarm_page_fill_component (CompEditorPage *page, CalComponent *comp);
 static void alarm_page_set_summary (CompEditorPage *page, const char *summary);
 static void alarm_page_set_dates (CompEditorPage *page, CompEditorPageDates *dates);
 
@@ -359,9 +359,7 @@ get_alarm_string (CalComponentAlarm *alarm)
 	CalAlarmAction action;
 	CalAlarmTrigger trigger;
 	char string[256];
-	char *base;
-	char *str;
-	char *dur;
+	char *base, *str = NULL, *dur;
 
 	string [0] = '\0';
 
@@ -536,7 +534,7 @@ alarm_page_fill_widgets (CompEditorPage *page, CalComponent *comp)
 }
 
 /* fill_component handler for the alarm page */
-static void
+static gboolean
 alarm_page_fill_component (CompEditorPage *page, CalComponent *comp)
 {
 	AlarmPage *apage;
@@ -576,6 +574,8 @@ alarm_page_fill_component (CompEditorPage *page, CalComponent *comp)
 		cal_component_add_alarm (comp, alarm_copy);
 		cal_component_alarm_free (alarm_copy);
 	}
+
+	return TRUE;
 }
 
 /* set_summary handler for the alarm page */

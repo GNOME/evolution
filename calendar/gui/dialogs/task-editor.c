@@ -306,7 +306,6 @@ refresh_task_cmd (GtkWidget *widget, gpointer data)
 {
 	TaskEditor *te = TASK_EDITOR (data);
 
-	comp_editor_save_comp (COMP_EDITOR (te));
 	comp_editor_send_comp (COMP_EDITOR (te), CAL_COMPONENT_METHOD_REFRESH);
 }
 
@@ -328,8 +327,8 @@ forward_cmd (GtkWidget *widget, gpointer data)
 {
 	TaskEditor *te = TASK_EDITOR (data);
 	
-	comp_editor_save_comp (COMP_EDITOR (te));
-	comp_editor_send_comp (COMP_EDITOR (te), CAL_COMPONENT_METHOD_PUBLISH);
+	if (comp_editor_save_comp (COMP_EDITOR (te), TRUE))
+		comp_editor_send_comp (COMP_EDITOR (te), CAL_COMPONENT_METHOD_PUBLISH);
 }
 
 static void

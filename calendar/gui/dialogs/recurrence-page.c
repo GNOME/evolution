@@ -33,8 +33,9 @@
 #include <libgnome/gnome-i18n.h>
 #include <glade/glade.h>
 #include <gal/widgets/e-unicode.h>
-#include "e-util/e-dialog-widgets.h"
-#include "widgets/misc/e-dateedit.h"
+#include <e-util/e-dialog-widgets.h>
+#include <e-util/e-time-utils.h>
+#include <widgets/misc/e-dateedit.h>
 #include <cal-util/timeutil.h>
 #include "../calendar-config.h"
 #include "../tag-calendar.h"
@@ -173,7 +174,7 @@ static void recurrence_page_destroy (GtkObject *object);
 static GtkWidget *recurrence_page_get_widget (CompEditorPage *page);
 static void recurrence_page_focus_main_widget (CompEditorPage *page);
 static void recurrence_page_fill_widgets (CompEditorPage *page, CalComponent *comp);
-static void recurrence_page_fill_component (CompEditorPage *page, CalComponent *comp);
+static gboolean recurrence_page_fill_component (CompEditorPage *page, CalComponent *comp);
 static void recurrence_page_set_summary (CompEditorPage *page, const char *summary);
 static void recurrence_page_set_dates (CompEditorPage *page, CompEditorPageDates *dates);
 
@@ -1712,13 +1713,15 @@ recurrence_page_fill_widgets (CompEditorPage *page, CalComponent *comp)
 }
 
 /* fill_component handler for the recurrence page */
-static void
+static gboolean
 recurrence_page_fill_component (CompEditorPage *page, CalComponent *comp)
 {
 	RecurrencePage *rpage;
 
 	rpage = RECURRENCE_PAGE (page);
 	fill_component (rpage, comp);
+
+	return TRUE;
 }
 
 /* set_summary handler for the recurrence page */

@@ -32,9 +32,8 @@
 #include <bonobo-conf/bonobo-config-database.h>
 #include <libgnome/gnome-defs.h>
 #include <libgnome/gnome-i18n.h>
-#include <libgnomeui/gnome-dialog.h>
-#include <libgnomeui/gnome-dialog-util.h>
 #include <gtk/gtkwidget.h>
+#include <gal/widgets/e-gui-utils.h>
 #include <gal/util/e-util.h>
 #include <e-util/e-unicode-i18n.h>
 #include <ical.h>
@@ -68,15 +67,6 @@ static icalproperty_method itip_methods_enum[] = {
     ICAL_METHOD_COUNTER,
     ICAL_METHOD_DECLINECOUNTER,
 };
-
-static void
-error_dialog (gchar *str) 
-{
-	GtkWidget *dlg;
-	
-	dlg = gnome_error_dialog (str);
-	gnome_dialog_run_and_close (GNOME_DIALOG (dlg));
-}
 
 static Bonobo_ConfigDatabase db = NULL;
 
@@ -250,7 +240,8 @@ comp_to_list (CalComponentItipMethod method, CalComponent *comp)
 		cal_component_get_attendee_list (comp, &attendees);
 		len = g_slist_length (attendees);
 		if (len <= 0) {
-			error_dialog (_("Atleast one attendee is necessary"));
+			e_notice (NULL, GNOME_MESSAGE_BOX_ERROR,
+				  _("Atleast one attendee is necessary"));
 			cal_component_free_attendee_list (attendees);
 			return NULL;
 		}
@@ -280,7 +271,8 @@ comp_to_list (CalComponentItipMethod method, CalComponent *comp)
 	case CAL_COMPONENT_METHOD_DECLINECOUNTER:
 		cal_component_get_organizer (comp, &organizer);
 		if (organizer.value == NULL) {
-			error_dialog (_("An organizer must be set."));
+			e_notice (NULL, GNOME_MESSAGE_BOX_ERROR,
+				  _("An organizer must be set."));
 			return NULL;
 		}
 		
@@ -336,7 +328,7 @@ comp_content_type (CalComponentItipMethod method)
 {
 	char tmp[256];	
 
-	sprintf (tmp, "text/calendar;METHOD=%s", itip_methods[method]);
+	sprintf (tmp, "text/calendar; charset=utf-8; METHOD=%s", itip_methods[method]);
 	return CORBA_string_dup (tmp);
 
 }
@@ -575,7 +567,8 @@ comp_minimal (CalComponent *comp, gboolean attendee)
 		cal_component_set_attendee_list (clone, attendees);
 
 		if (!comp_limit_attendees (clone)) {
-			error_dialog ("You are not an attendee!");
+			e_notice (NULL, GNOME_MESSAGE_BOX_ERROR,
+				  _("You must be an attendee of the event."));
 			goto error;
 		}
 	}

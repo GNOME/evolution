@@ -91,7 +91,7 @@ static void task_details_page_destroy (GtkObject *object);
 static GtkWidget *task_details_page_get_widget (CompEditorPage *page);
 static void task_details_page_focus_main_widget (CompEditorPage *page);
 static void task_details_page_fill_widgets (CompEditorPage *page, CalComponent *comp);
-static void task_details_page_fill_component (CompEditorPage *page, CalComponent *comp);
+static gboolean task_details_page_fill_component (CompEditorPage *page, CalComponent *comp);
 
 static CompEditorPageClass *parent_class = NULL;
 
@@ -374,7 +374,7 @@ task_details_page_fill_widgets (CompEditorPage *page, CalComponent *comp)
 }
 
 /* fill_component handler for the task page */
-static void
+static gboolean
 task_details_page_fill_component (CompEditorPage *page, CalComponent *comp)
 {
 	TaskDetailsPage *tdpage;
@@ -436,6 +436,8 @@ task_details_page_fill_component (CompEditorPage *page, CalComponent *comp)
 	cal_component_set_url (comp, url);
 	if (url)
 		g_free (url);
+
+	return TRUE;
 }
 
 

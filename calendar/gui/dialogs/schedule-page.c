@@ -85,7 +85,7 @@ static void schedule_page_destroy (GtkObject *object);
 static GtkWidget *schedule_page_get_widget (CompEditorPage *page);
 static void schedule_page_focus_main_widget (CompEditorPage *page);
 static void schedule_page_fill_widgets (CompEditorPage *page, CalComponent *comp);
-static void schedule_page_fill_component (CompEditorPage *page, CalComponent *comp);
+static gboolean schedule_page_fill_component (CompEditorPage *page, CalComponent *comp);
 
 static CompEditorPageClass *parent_class = NULL;
 
@@ -245,7 +245,7 @@ schedule_page_fill_widgets (CompEditorPage *page, CalComponent *comp)
 }
 
 /* fill_component handler for the schedule page */
-static void
+static gboolean
 schedule_page_fill_component (CompEditorPage *page, CalComponent *comp)
 {
 	SchedulePage *spage;
@@ -253,6 +253,8 @@ schedule_page_fill_component (CompEditorPage *page, CalComponent *comp)
 	
 	spage = SCHEDULE_PAGE (page);
 	priv = spage->priv;
+
+	return TRUE;
 }
 
 

@@ -96,7 +96,7 @@ static void event_page_destroy (GtkObject *object);
 static GtkWidget *event_page_get_widget (CompEditorPage *page);
 static void event_page_focus_main_widget (CompEditorPage *page);
 static void event_page_fill_widgets (CompEditorPage *page, CalComponent *comp);
-static void event_page_fill_component (CompEditorPage *page, CalComponent *comp);
+static gboolean event_page_fill_component (CompEditorPage *page, CalComponent *comp);
 static void event_page_set_summary (CompEditorPage *page, const char *summary);
 static void event_page_set_dates (CompEditorPage *page, CompEditorPageDates *dates);
 
@@ -550,7 +550,7 @@ event_page_fill_widgets (CompEditorPage *page, CalComponent *comp)
 }
 
 /* fill_component handler for the event page */
-static void
+static gboolean
 event_page_fill_component (CompEditorPage *page, CalComponent *comp)
 {
 	EventPage *epage;
@@ -684,6 +684,8 @@ event_page_fill_component (CompEditorPage *page, CalComponent *comp)
 	/* Contacts */
 
 	comp_editor_contacts_to_component (priv->contacts_entry, comp);
+
+	return TRUE;
 }
 
 /* set_summary handler for the event page */

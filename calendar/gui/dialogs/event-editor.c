@@ -286,16 +286,18 @@ event_editor_send_comp (CompEditor *editor, CalComponentItipMethod method)
 
 	priv = ee->priv;
 
-	/* Don't cancel more than once */
-	if (method == CAL_COMPONENT_METHOD_CANCEL)
-		return;	
+	/* Don't cancel more than once or when just publishing */
+	if (method == CAL_COMPONENT_METHOD_PUBLISH ||
+	    method == CAL_COMPONENT_METHOD_CANCEL)
+		goto parent;
 	
 	comp = meeting_page_get_cancel_comp (priv->meet_page);
 	if (comp != NULL) {		
 		itip_send_comp (CAL_COMPONENT_METHOD_CANCEL, comp);
 		gtk_object_unref (GTK_OBJECT (comp));
 	}
-	
+
+ parent:
 	if (parent_class->send_comp)
 		parent_class->send_comp (editor, method);
 }
@@ -369,8 +371,7 @@ static void
 refresh_meeting_cmd (GtkWidget *widget, gpointer data)
 {
 	EventEditor *ee = EVENT_EDITOR (data);
-
-	comp_editor_save_comp (COMP_EDITOR (ee));
+	
 	comp_editor_send_comp (COMP_EDITOR (ee), CAL_COMPONENT_METHOD_REFRESH);
 }
 
@@ -391,9 +392,9 @@ static void
 forward_cmd (GtkWidget *widget, gpointer data)
 {
 	EventEditor *ee = EVENT_EDITOR (data);
-	
-	comp_editor_save_comp (COMP_EDITOR (ee));	
-	comp_editor_send_comp (COMP_EDITOR (ee), CAL_COMPONENT_METHOD_PUBLISH);
+
+	if (comp_editor_save_comp (COMP_EDITOR (ee), TRUE))
+		comp_editor_send_comp (COMP_EDITOR (ee), CAL_COMPONENT_METHOD_PUBLISH);
 }
 
 static void
