@@ -76,8 +76,6 @@ et_destroy (GtkObject *object)
 		et->rebuild_idle_id = 0;
 	}
 	
-	xmlFreeDoc (et->specification);
-
 	(*e_table_parent_class->destroy)(object);
 }
 
@@ -100,29 +98,6 @@ e_table_init (GtkObject *object)
 	e_table->rebuild_idle_id = 0;
 }
 
-static ETableHeader *
-e_table_make_header (ETable *e_table, ETableHeader *full_header, xmlNode *xmlColumns)
-{
-	ETableHeader *nh;
-	xmlNode *column;
-	const int max_cols = e_table_header_count (full_header);
-	
-	nh = e_table_header_new ();
-
-	for (column = xmlColumns->childs; column; column = column->next) {
-		int col = atoi (column->childs->content);
-
-		if (col >= max_cols)
-			continue;
-
-		e_table_header_add_column (nh, e_table_header_get_column (full_header, col), -1);
-	}
-
-	e_table_header_set_frozen_columns (nh, e_xml_get_integer_prop_by_name(xmlColumns, "frozen_columns"));
-	
-	return nh;
-}
-
 static void
 header_canvas_size_allocate (GtkWidget *widget, GtkAllocation *alloc, ETable *e_table)
 {
@@ -142,42 +117,9 @@ sort_info_changed (ETableSortInfo *info, ETable *et)
 static void
 e_table_setup_header (ETable *e_table)
 {
-	xmlNode *root;
-	xmlNode *grouping;
-	int i;
 	e_table->header_canvas = GNOME_CANVAS (e_canvas_new ());
 	
 	gtk_widget_show (GTK_WIDGET (e_table->header_canvas));
-
-	root = xmlDocGetRootElement (e_table->specification);
-	grouping = e_xml_get_child_by_name (root, "grouping");
-
-	e_table->sort_info = e_table_sort_info_new ();
-	
-	gtk_object_ref (GTK_OBJECT (e_table->sort_info));
-	gtk_object_sink (GTK_OBJECT (e_table->sort_info));
-
-	i = 0;
-	for (grouping = grouping->childs; grouping && strcmp (grouping->name, "leaf"); grouping = grouping->childs) {
-		ETableSortColumn column;
-		column.column = e_xml_get_integer_prop_by_name (grouping, "column");
-		column.ascending = e_xml_get_integer_prop_by_name (grouping, "ascending");
-		e_table_sort_info_grouping_set_nth(e_table->sort_info, i++, column);
-	}
-	i = 0;
-	for (; grouping; grouping = grouping->childs) {
-		ETableSortColumn column;
-		column.column = e_xml_get_integer_prop_by_name (grouping, "column");
-		column.ascending = e_xml_get_integer_prop_by_name (grouping, "ascending");
-		e_table_sort_info_sorting_set_nth(e_table->sort_info, i++, column);
-	}
-
-	e_table->sort_info_change_id = 
-		gtk_signal_connect (GTK_OBJECT (e_table->sort_info), "sort_info_changed", 
-				    GTK_SIGNAL_FUNC (sort_info_changed), e_table);
-	e_table->group_info_change_id = 
-		gtk_signal_connect (GTK_OBJECT (e_table->sort_info), "group_info_changed", 
-				    GTK_SIGNAL_FUNC (sort_info_changed), e_table);
 
 	e_table->header_item = gnome_canvas_item_new (
 		gnome_canvas_root (e_table->header_canvas),
@@ -755,6 +697,61 @@ e_table_fill_table (ETable *e_table, ETableModel *model)
 			"frozen", FALSE, NULL);
 }
 
+static ETableHeader *
+et_xml_to_header (ETable *e_table, ETableHeader *full_header, xmlNode *xmlColumns)
+{
+	ETableHeader *nh;
+	xmlNode *column;
+	const int max_cols = e_table_header_count (full_header);
+	
+	nh = e_table_header_new ();
+
+	for (column = xmlColumns->childs; column; column = column->next) {
+		int col = atoi (column->childs->content);
+
+		if (col >= max_cols)
+			continue;
+
+		e_table_header_add_column (nh, e_table_header_get_column (full_header, col), -1);
+	}
+
+	e_table_header_set_frozen_columns (nh, e_xml_get_integer_prop_by_name(xmlColumns, "frozen_columns"));
+	
+	return nh;
+}
+
+static void
+et_grouping_xml_to_sort_info (ETable *table, xmlNode *grouping)
+{
+	int i;
+	table->sort_info = e_table_sort_info_new ();
+	
+	gtk_object_ref (GTK_OBJECT (table->sort_info));
+	gtk_object_sink (GTK_OBJECT (table->sort_info));
+
+	i = 0;
+	for (grouping = grouping->childs; grouping && strcmp (grouping->name, "leaf"); grouping = grouping->childs) {
+		ETableSortColumn column;
+		column.column = e_xml_get_integer_prop_by_name (grouping, "column");
+		column.ascending = e_xml_get_integer_prop_by_name (grouping, "ascending");
+		e_table_sort_info_grouping_set_nth(table->sort_info, i++, column);
+	}
+	i = 0;
+	for (; grouping; grouping = grouping->childs) {
+		ETableSortColumn column;
+		column.column = e_xml_get_integer_prop_by_name (grouping, "column");
+		column.ascending = e_xml_get_integer_prop_by_name (grouping, "ascending");
+		e_table_sort_info_sorting_set_nth(table->sort_info, i++, column);
+	}
+
+	table->sort_info_change_id = 
+		gtk_signal_connect (GTK_OBJECT (table->sort_info), "sort_info_changed", 
+				    GTK_SIGNAL_FUNC (sort_info_changed), table);
+	table->group_info_change_id = 
+		gtk_signal_connect (GTK_OBJECT (table->sort_info), "group_info_changed", 
+				    GTK_SIGNAL_FUNC (sort_info_changed), table);
+}
+
 static void
 et_real_construct (ETable *e_table, ETableHeader *full_header, ETableModel *etm,
 		   xmlDoc *xmlSpec)
@@ -772,7 +769,6 @@ et_real_construct (ETable *e_table, ETableHeader *full_header, ETableModel *etm,
 	e_table->model = etm;
 	gtk_object_ref (GTK_OBJECT (etm));
 
-	e_table->specification = xmlSpec;
 	xmlRoot = xmlDocGetRootElement (xmlSpec);
 	xmlColumns = e_xml_get_child_by_name (xmlRoot, "columns-shown");
 	xmlGrouping = e_xml_get_child_by_name (xmlRoot, "grouping");
@@ -780,7 +776,8 @@ et_real_construct (ETable *e_table, ETableHeader *full_header, ETableModel *etm,
 	gtk_widget_push_visual (gdk_rgb_get_visual ());
 	gtk_widget_push_colormap (gdk_rgb_get_cmap ());
 
-	e_table->header = e_table_make_header (e_table, full_header, xmlColumns);
+	e_table->header = et_xml_to_header (e_table, full_header, xmlColumns);
+	et_grouping_xml_to_sort_info (e_table, xmlGrouping);
 
 	e_table_setup_header (e_table);
 	e_table_setup_table (e_table, full_header, e_table->header, etm);
@@ -813,6 +810,7 @@ e_table_construct (ETable *e_table, ETableHeader *full_header, ETableModel *etm,
 
 	xmlSpec = xmlParseMemory (copy, strlen(copy) + 1);
 	et_real_construct (e_table, full_header, etm, xmlSpec);
+	xmlFreeDoc (xmlSpec);
 	g_free (copy);
 }
 
@@ -824,6 +822,7 @@ e_table_construct_from_spec_file (ETable *e_table, ETableHeader *full_header, ET
 
 	xmlSpec = xmlParseFile (filename);
 	et_real_construct (e_table, full_header, etm, xmlSpec);
+	xmlFreeDoc (xmlSpec);
 }
 
 GtkWidget *
