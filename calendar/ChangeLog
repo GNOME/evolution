@@ -1,3 +1,19 @@
+2002-11-15  JP Rosevear  <jpr@ximian.com>
+
+	* gui/e-day-view.c (e_day_view_on_delete_occurrence): if its an
+	instance, just remove with THIS mod
+
+	* gui/e-week-view.c (e_week_view_on_delete_occurrence): ditto
+	
+	* cal-client/cal-client.c (cal_client_remove_object_with_mod):
+	send the mod parameter to the backend
+	(cal_client_remove_object): implement with above
+	(cal_client_update_object_with_mod): send the mod parameter to the
+	backend
+	(cal_client_update_object): implement with above
+
+	* cal-client/cal-client.h: new protos
+
 2002-11-14  JP Rosevear  <jpr@ximian.com>
 
 	* cal-client/cal-client.c (cal_client_is_read_only): return

@@ -4132,6 +4132,16 @@ e_day_view_on_delete_occurrence (GtkWidget *widget, gpointer data)
 	if (event == NULL)
 		return;
 
+	if (cal_component_is_instance (event->comp)) {
+		const char *uid;
+
+		cal_component_get_uid (event->comp, &uid);
+		if (cal_client_remove_object_with_mod (day_view->client, uid, CALOBJ_MOD_THIS) != CAL_CLIENT_RESULT_SUCCESS)
+			g_message ("e_day_view_on_delete_occurrence(): Could not update the object!");
+
+		return;
+	}
+	
 	/* We must duplicate the CalComponent, or we won't know it has changed
 	   when we get the "update_event" callback. */
 	comp = cal_component_clone (event->comp);

@@ -2380,21 +2380,8 @@ cal_client_get_component_as_string (CalClient *client,
 							    TRUE);
 }
 
-/**
- * cal_client_update_object:
- * @client: A calendar client.
- * @comp: A calendar component object.
- *
- * Asks a calendar to update a component.  Any existing component with the
- * specified component's UID will be replaced.  The client program should not
- * assume that the object is actually in the server's storage until it has
- * received the "obj_updated" notification signal.
- *
- * Return value: a #CalClientResult value indicating the result of the
- * operation.
- **/
 CalClientResult
-cal_client_update_object (CalClient *client, CalComponent *comp)
+cal_client_update_object_with_mod (CalClient *client, CalComponent *comp, CalObjModType mod)
 {
 	CalClientPrivate *priv;
 	CORBA_Environment ev;
@@ -2417,7 +2404,7 @@ cal_client_update_object (CalClient *client, CalComponent *comp)
 		return CAL_CLIENT_RESULT_INVALID_OBJECT;
 
 	CORBA_exception_init (&ev);
-	GNOME_Evolution_Calendar_Cal_updateObjects (priv->cal, obj_string, GNOME_Evolution_Calendar_MOD_ALL, &ev);
+	GNOME_Evolution_Calendar_Cal_updateObjects (priv->cal, obj_string, mod, &ev);
 	g_free (obj_string);
 	
 	if (BONOBO_USER_EX (&ev, ex_GNOME_Evolution_Calendar_Cal_InvalidObject))
@@ -2435,6 +2422,27 @@ cal_client_update_object (CalClient *client, CalComponent *comp)
 
 	CORBA_exception_free (&ev);
 	return retval;
+}
+
+
+/**
+ * cal_client_update_object:
+ * @client: A calendar client.
+ * @comp: A calendar component object.
+ *
+ * Asks a calendar to update a component.  Any existing component with the
+ * specified component's UID will be replaced.  The client program should not
+ * assume that the object is actually in the server's storage until it has
+ * received the "obj_updated" notification signal.
+ *
+ * Return value: a #CalClientResult value indicating the result of the
+ * operation.
+ **/
+CalClientResult
+cal_client_update_object (CalClient *client, CalComponent *comp)
+{
+
+	return cal_client_update_object_with_mod (client, comp, CALOBJ_MOD_ALL);
 }
 
 /**
@@ -2495,21 +2503,8 @@ cal_client_update_objects (CalClient *client, icalcomponent *icalcomp)
 	return retval;
 }
 
-
-/**
- * cal_client_remove_object:
- * @client: A calendar client.
- * @uid: Unique identifier of the calendar component to remove.
- * 
- * Asks a calendar to remove a component.  If the server is able to remove the
- * component, all clients will be notified and they will emit the "obj_removed"
- * signal.
- * 
- * Return value: a #CalClientResult value indicating the result of the
- * operation.
- **/
 CalClientResult
-cal_client_remove_object (CalClient *client, const char *uid)
+cal_client_remove_object_with_mod (CalClient *client, const char *uid, CalObjModType mod)
 {
 	CalClientPrivate *priv;
 	CORBA_Environment ev;
@@ -2524,7 +2519,7 @@ cal_client_remove_object (CalClient *client, const char *uid)
 	g_return_val_if_fail (uid != NULL, CAL_CLIENT_RESULT_NOT_FOUND);
 
 	CORBA_exception_init (&ev);
-	GNOME_Evolution_Calendar_Cal_removeObject (priv->cal, (char *) uid, GNOME_Evolution_Calendar_MOD_ALL, &ev);
+	GNOME_Evolution_Calendar_Cal_removeObject (priv->cal, (char *) uid, mod, &ev);
 
 	if (BONOBO_USER_EX (&ev,  ex_GNOME_Evolution_Calendar_Cal_InvalidObject))
 		retval = CAL_CLIENT_RESULT_INVALID_OBJECT;
@@ -2541,6 +2536,24 @@ cal_client_remove_object (CalClient *client, const char *uid)
 
 	CORBA_exception_free (&ev);
 	return retval;
+}
+
+/**
+ * cal_client_remove_object:
+ * @client: A calendar client.
+ * @uid: Unique identifier of the calendar component to remove.
+ * 
+ * Asks a calendar to remove a component.  If the server is able to remove the
+ * component, all clients will be notified and they will emit the "obj_removed"
+ * signal.
+ * 
+ * Return value: a #CalClientResult value indicating the result of the
+ * operation.
+ **/
+CalClientResult
+cal_client_remove_object (CalClient *client, const char *uid)
+{
+	return cal_client_remove_object_with_mod (client, uid, CALOBJ_MOD_ALL);
 }
 
 CalClientResult
