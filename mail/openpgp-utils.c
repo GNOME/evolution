@@ -1167,7 +1167,7 @@ openpgp_verify (const gchar *in, gint inlen, const gchar *sigin, gint siglen, Ca
 		
 		charset = getenv ("CHARSET");
 		if (!charset)
-			charset = "US-ASCII";
+			charset = "ISO-8859-1";
 		
 		cd = iconv_open ("UTF-8", charset);
 		

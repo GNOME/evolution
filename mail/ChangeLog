@@ -1,3 +1,9 @@
+2001-03-24  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* openpgp-utils.c (openpgp_verify): Default to iso-8859-1 as the
+	user's charset here if it is undefined. This is a better choice
+	than us-ascii.
+
 2001-03-23  Jon Trowbridge  <trow@ximian.com>
 
 	* mail-display.c (handle_embedded_address_object): #ifdef away
