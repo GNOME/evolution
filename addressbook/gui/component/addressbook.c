@@ -72,6 +72,9 @@ typedef struct {
 static void addressbook_view_ref (AddressbookView *);
 static void addressbook_view_unref (AddressbookView *);
 
+static void addressbook_authenticate (EBook *book, gboolean previous_failure,
+				      AddressbookSource *source, EBookCallback cb, gpointer closure);
+
 static void
 save_contact_cb (BonoboUIComponent *uih, void *user_data, const char *path)
 {
@@ -563,6 +566,8 @@ get_prop (BonoboPropertyBag *bag,
 
 typedef struct {
 	EBookCallback cb;
+	char *clean_uri;
+	AddressbookSource *source;
 	gpointer closure;
 } LoadUriData;
 
@@ -572,15 +577,95 @@ load_uri_auth_cb (EBook *book, EBookStatus status, gpointer closure)
 	LoadUriData *data = closure;
 
 	if (status != E_BOOK_STATUS_SUCCESS) {
-		/* pop up a nice dialog, or redo the authentication
-                   bit some number of times. */
+		if (status == E_BOOK_STATUS_CANCELLED) {
+			/* the user clicked cancel in the password dialog */
+			gnome_warning_dialog (_("Accessing LDAP Server anonymously"));
+			data->cb (book, E_BOOK_STATUS_SUCCESS, data->closure);
+			g_free (data->clean_uri);
+			g_free (data);
+			return;
+		}
+		else {
+			e_passwords_forget_password (data->clean_uri);
+			addressbook_authenticate (book, TRUE, data->source, load_uri_auth_cb, closure);
+			return;
+		}
 	}
 
 	data->cb (book, status, data->closure);
 
+	g_free (data->clean_uri);
 	g_free (data);
 }
 
+static void
+addressbook_authenticate (EBook *book, gboolean previous_failure, AddressbookSource *source,
+			  EBookCallback cb, gpointer closure)
+{
+	LoadUriData *load_uri_data = closure;
+	const char *password;
+	char *pass_dup = NULL;
+	char *semicolon;
+
+	load_uri_data->clean_uri = g_strdup (e_book_get_uri (book));
+
+	semicolon = strchr (load_uri_data->clean_uri, ';');
+
+	if (semicolon)
+		*semicolon = '\0';
+
+	password = e_passwords_get_password (load_uri_data->clean_uri);
+
+	if (!password) {
+		char *prompt;
+		gboolean remember;
+		char *failed_auth;
+
+		if (previous_failure) {
+			failed_auth = _("Failed to authenticate.\n");
+		}
+		else {
+			failed_auth = "";
+		}
+
+
+		if (source->auth == ADDRESSBOOK_LDAP_AUTH_SIMPLE_BINDDN)
+			prompt = g_strdup_printf (_("%sEnter password for %s (user %s)"),
+						  failed_auth, source->name, source->binddn);
+		else
+			prompt = g_strdup_printf (_("%sEnter password for %s (user %s)"),
+						  failed_auth, source->name, source->email_addr);
+		remember = source->remember_passwd;
+		pass_dup = e_passwords_ask_password (prompt, load_uri_data->clean_uri, prompt, TRUE,
+						     E_PASSWORDS_REMEMBER_FOREVER, &remember,
+						     NULL);
+		if (remember != source->remember_passwd) {
+			source->remember_passwd = remember;
+			addressbook_storage_write_sources ();
+		}
+		g_free (prompt);
+	}
+
+	if (password || pass_dup) {
+		char *user;
+
+		if (source->auth == ADDRESSBOOK_LDAP_AUTH_SIMPLE_BINDDN)
+			user = source->binddn;
+		else
+			user = source->email_addr;
+		if (!user)
+			user = "";
+		e_book_authenticate_user (book, user, password ? password : pass_dup,
+					  addressbook_storage_auth_type_to_string (source->auth),
+					  cb, closure);
+		g_free (pass_dup);
+		return;
+	}
+	else {
+		/* they hit cancel */
+		cb (book, E_BOOK_STATUS_CANCELLED, closure);
+	}
+}
 
 static void
 load_uri_cb (EBook *book, EBookStatus status, gpointer closure)
@@ -588,65 +673,21 @@ load_uri_cb (EBook *book, EBookStatus status, gpointer closure)
 	LoadUriData *load_uri_data = closure;
 
 	if (status == E_BOOK_STATUS_SUCCESS && book != NULL) {
-		AddressbookSource *source;
 
 		/* check if the addressbook needs authentication */
 
-		source = addressbook_storage_get_source_by_uri (e_book_get_uri (book));
-		if (source &&
-		    source->auth != ADDRESSBOOK_LDAP_AUTH_NONE) {
-			const char *password;
-			char *pass_dup = NULL;
-			char *uri = g_strdup (e_book_get_uri (book));
-			char *semicolon = strchr (uri, ';');
+		load_uri_data->source = addressbook_storage_get_source_by_uri (e_book_get_uri (book));
 
-			if (semicolon)
-				*semicolon = '\0';
+		if (load_uri_data->source &&
+		    load_uri_data->source->auth != ADDRESSBOOK_LDAP_AUTH_NONE) {
 
-			password = e_passwords_get_password (uri);
+			addressbook_authenticate (book, FALSE, load_uri_data->source,
+						  load_uri_auth_cb, closure);
 
-			if (!password) {
-				char *prompt;
-				gboolean remember;
-
-				if (source->auth == ADDRESSBOOK_LDAP_AUTH_SIMPLE_BINDDN)
-					prompt = g_strdup_printf (_("Enter password for %s (user %s)"),
-								  source->name, source->binddn);
-				else
-					prompt = g_strdup_printf (_("Enter password for %s (user %s)"),
-								  source->name, source->email_addr);
-				remember = source->remember_passwd;
-				pass_dup = e_passwords_ask_password (
-								     prompt, uri, prompt, TRUE,
-								     E_PASSWORDS_REMEMBER_FOREVER, &remember,
-								     NULL);
-				if (remember != source->remember_passwd) {
-					source->remember_passwd = remember;
-					addressbook_storage_write_sources ();
-				}
-				g_free (prompt);
-			}
-
-			g_free (uri);
-
-			if (password || pass_dup) {
-				char *user;
-
-				if (source->auth == ADDRESSBOOK_LDAP_AUTH_SIMPLE_BINDDN)
-					user = source->binddn;
-				else
-					user = source->email_addr;
-				if (!user)
-					user = "";
-				e_book_authenticate_user (book, user, password ? password : pass_dup,
-							  addressbook_storage_auth_type_to_string (source->auth),
-							  load_uri_auth_cb, closure);
-				g_free (pass_dup);
-				return;
-			}
+			return;
 		}
 	}
-
+	
 	load_uri_data->cb (book, status, load_uri_data->closure);
 	g_free (load_uri_data);
 }
@@ -655,7 +696,7 @@ gboolean
 addressbook_load_uri (EBook *book, const char *uri,
 		      EBookCallback cb, gpointer closure)
 {
-	LoadUriData *load_uri_data = g_new (LoadUriData, 1);
+	LoadUriData *load_uri_data = g_new0 (LoadUriData, 1);
 	gboolean rv;
 
 	load_uri_data->cb = cb;

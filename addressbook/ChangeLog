@@ -1,3 +1,18 @@
+2002-09-11  Chris Toshok  <toshok@ximian.com>
+
+	[ fixes #30208 ]
+	* gui/component/addressbook.c (load_uri_auth_cb): if the user
+	clicked cancel in the password dialog, let them off the hook and
+	bind anonymously.  Otherwise (if they failed to auth), prompt them
+	for the password again.
+	(addressbook_authenticate): new function, split out 99% of the
+	auth machinery here so it can be called multiple times.  Also,
+	call the callback with E_BOOK_STATUS_CANCELLED if the user clicked
+	the cancel button in the dialog.
+	(load_uri_cb): call addressbook_authenticate if the book has auth
+	enabled.
+	(addressbook_load_uri): use g_new0.
+
 2002-09-05  Anna Dirks  <anna@ximian.com>
 	* gui/component/GNOME_Evolution_Addressbook.oaf.in : Changed the 
 	description of the Directory Servers page of the settings dialog 
