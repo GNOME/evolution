@@ -54,12 +54,12 @@ folder_browser_class_init (GtkObjectClass *object_class)
 	folder_browser_parent_class = gtk_type_class (PARENT_TYPE);
 }
 
-static gboolean
-folder_browser_load_folder (FolderBrowser *fb, const char *name)
+CamelFolder *
+mail_uri_to_folder (const char *name)
 {
 	char *store_name, *msg;
 	CamelStore *store;
-	CamelFolder *new_folder = NULL;
+	CamelFolder *folder = NULL;
 	CamelException *ex;
 
 	ex = camel_exception_new ();
@@ -77,24 +77,18 @@ folder_browser_load_folder (FolderBrowser *fb, const char *name)
 		store = camel_session_get_store (session, store_name, ex);
 
 		if (store) {
-			new_folder = camel_store_get_folder (store, newquery, TRUE, ex);
+			folder = camel_store_get_folder (store, newquery, TRUE, ex);
 			/* FIXME: do this properly rather than hardcoding */
 #warning "Find a way not to hardcode vfolder source"
 			{
-				CamelStore *st;
-				char *stname;
 				CamelFolder *source_folder;
 				extern char *evolution_dir;
 				
-				stname = g_strdup_printf("mbox://%s/local/Inbox", evolution_dir);
-				st = camel_session_get_store (session, stname, ex);
-				g_free (stname);
-				if (st) {
-					source_folder = camel_store_get_folder (st, "mbox", FALSE, ex);
-					if (source_folder) {
-						camel_vee_folder_add_folder (new_folder, source_folder);
-					}
-				}
+				name = g_strdup_printf ("mbox://%s/local/Inbox", evolution_dir);
+				source_folder = mail_uri_to_folder (name);
+				g_free (name);
+				if (source_folder)
+					camel_vee_folder_add_folder (folder, source_folder);
 			}
 		}
 		g_free (newquery);
@@ -131,7 +125,7 @@ folder_browser_load_folder (FolderBrowser *fb, const char *name)
 				folder_name = g_strdup (ptr);
 				
 				fprintf (stderr, "getting folder: %s\n", folder_name);
-				new_folder = camel_store_get_folder (store, folder_name, TRUE, ex);
+				folder = camel_store_get_folder (store, folder_name, TRUE, ex);
 				g_free (folder_name);
 			}
 		}
@@ -142,7 +136,7 @@ folder_browser_load_folder (FolderBrowser *fb, const char *name)
 
 			folder_name = name + 5;
 
-			new_folder = camel_store_get_folder (store, folder_name, FALSE, ex);
+			folder = camel_store_get_folder (store, folder_name, FALSE, ex);
 		}
 	} else if (!strncmp (name, "file:", 5)) {
 		/* Change "file:" to "mbox:". */
@@ -150,36 +144,45 @@ folder_browser_load_folder (FolderBrowser *fb, const char *name)
 		store = camel_session_get_store (session, store_name, ex);
 		g_free (store_name);
 		if (store) {
-			new_folder = camel_store_get_folder (store, "mbox", FALSE, ex);
+			folder = camel_store_get_folder (store, "mbox", FALSE, ex);
 		}
 	} else {
-		char *msg;
-
 		msg = g_strdup_printf ("Can't open URI %s", name);
 		gnome_error_dialog (msg);
 		g_free (msg);
-		camel_exception_free (ex);
-		return FALSE;
 	}
-	
-	if (store)
-		gtk_object_unref (GTK_OBJECT (store));
 
 	if (camel_exception_get_id (ex)) {
 		msg = g_strdup_printf ("Unable to get folder %s: %s\n", name,
 				       camel_exception_get_description (ex));
 		gnome_error_dialog (msg);
 		camel_exception_free (ex);
-		if (new_folder)
-			gtk_object_unref(GTK_OBJECT (new_folder));
-		return FALSE;
+		if (folder) {
+			gtk_object_unref (GTK_OBJECT (folder));
+			folder = NULL;
+		}
 	}
-	
+	camel_exception_free (ex);
+
+	if (store)
+		gtk_object_unref (GTK_OBJECT (store));
+
+	return folder;
+}
+
+static gboolean
+folder_browser_load_folder (FolderBrowser *fb, const char *name)
+{
+	CamelFolder *new_folder;
+
+	new_folder = mail_uri_to_folder (name);
+	if (!new_folder)
+		return FALSE;
+
 	if (fb->folder)
 		gtk_object_unref (GTK_OBJECT (fb->folder));
-	
 	fb->folder = new_folder;
-	
+
 	message_list_set_folder (fb->message_list, new_folder);
 
 	return TRUE;

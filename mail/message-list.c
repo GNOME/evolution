@@ -1073,7 +1073,6 @@ on_row_selection (ETable *table, int row, gboolean selected,
 
 
 /* FIXME: this is all a kludge. */
-
 static gint
 idle_select_row (gpointer user_data)
 {
@@ -1087,4 +1086,39 @@ select_row (ETable *table, gpointer user_data)
 	MessageList *message_list = user_data;
 
 	gtk_idle_add (idle_select_row, message_list->etable);
+}
+
+
+struct message_list_foreach_data {
+	MessageList *message_list;
+	MessageListForeachFunc callback;
+	gpointer user_data;
+};
+
+static void
+mlfe_callback (int row, gpointer user_data)
+{
+	struct message_list_foreach_data *mlfe_data = user_data;
+	CamelMessageInfo *info;
+
+	info = get_message_info (mlfe_data->message_list, row);
+	if (info) {
+		mlfe_data->callback (mlfe_data->message_list,
+				     info->uid,
+				     mlfe_data->user_data);
+	}
+}
+
+void
+message_list_foreach (MessageList *message_list,
+		      MessageListForeachFunc callback,
+		      gpointer user_data)
+{
+	struct message_list_foreach_data mlfe_data;
+
+	mlfe_data.message_list = message_list;
+	mlfe_data.callback = callback;
+	mlfe_data.user_data = user_data;
+	e_table_selected_row_foreach (E_TABLE (message_list->etable),
+				      mlfe_callback, &mlfe_data);
 }

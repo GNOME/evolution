@@ -38,6 +38,8 @@
 #include "Evolution.h"
 #include "evolution-storage.h"
 
+#include "evolution-shell-client.h"
+
 #ifndef HAVE_MKSTEMP
 #include <fcntl.h>
 #include <sys/stat.h>
@@ -63,9 +65,6 @@ typedef struct rsm_s {
 	struct post_send_data *psd;
 	gboolean ok;
 } rsm_t;
-
-static void
-real_delete_msg( int model_row, gpointer user_data );
 
 static void
 real_fetch_mail( gpointer user_data );
@@ -614,29 +613,78 @@ forward_msg (GtkWidget *button, gpointer user_data)
 	gtk_widget_show (GTK_WIDGET (composer));	
 }
 
+struct refile_data {
+	CamelFolder *source, *dest;
+	CamelException *ex;
+};
+
 static void
-real_delete_msg (int model_row, gpointer user_data)
+real_refile_msg (MessageList *ml, const char *uid, gpointer user_data)
+{
+	struct refile_data *rfd = user_data;
+
+	if (camel_exception_is_set (rfd->ex))
+		return;
+
+	camel_folder_move_message_to (rfd->source, uid, rfd->dest, rfd->ex);
+}
+
+void
+refile_msg (GtkWidget *button, gpointer user_data)
 {
 	FolderBrowser *fb = user_data;
 	MessageList *ml = fb->message_list;
-	CamelMessageInfo *info;
-	CamelException ex;
+	char *uri, *physical, *path;
+	struct refile_data rfd;
 
-	camel_exception_init (&ex);
-	
-	g_assert (model_row < ml->summary_table->len);
-	info = ml->summary_table->pdata[model_row];
-		
-	/* Toggle the deleted flag without touching other flags. */
-	camel_folder_set_message_flags (fb->folder, info->uid,
-					CAMEL_MESSAGE_DELETED,
-					~(info->flags), &ex);
+	extern EvolutionShellClient *global_shell_client;
+	static char *last;
 
-	if (camel_exception_is_set (&ex)) {
-		mail_exception_dialog ("Could not toggle deleted flag", &ex, fb);
-		camel_exception_clear (&ex);
+	if (last == NULL)
+		last = g_strdup ("");
+
+	evolution_shell_client_user_select_folder  (global_shell_client,
+						    _("Refile message(s) to"),
+						    last, &uri, &physical);
+	if (!uri)
 		return;
+
+	path = strchr (uri, '/');
+	if (path && strcmp (last, path) != 0) {
+		g_free (last);
+		last = g_strdup (path);
 	}
+	g_free (uri);
+
+	rfd.source = ml->folder;
+	rfd.dest = mail_uri_to_folder (physical);
+	g_free (physical);
+	if (!rfd.dest)
+		return;
+	rfd.ex = camel_exception_new ();
+
+	message_list_foreach (ml, real_refile_msg, &rfd);
+	gtk_object_unref (GTK_OBJECT (rfd.dest));
+
+	if (camel_exception_is_set (rfd.ex))
+	    mail_exception_dialog ("Could not move message", rfd.ex, fb);
+	camel_exception_free (rfd.ex);
+}
+
+static void
+real_delete_msg (MessageList *ml, const char *uid, gpointer user_data)
+{
+	CamelException *ex = user_data;
+	guint32 flags;
+
+	if (camel_exception_is_set (ex))
+		return;
+
+	/* Toggle the deleted flag without touching other flags. */
+	flags = camel_folder_get_message_flags (ml->folder, uid, ex);
+	camel_folder_set_message_flags (ml->folder, uid,
+					CAMEL_MESSAGE_DELETED,
+					~flags, ex);
 }
 
 void
@@ -645,8 +693,17 @@ delete_msg (GtkWidget *button, gpointer user_data)
 	FolderBrowser *fb = user_data;
 	MessageList *ml = fb->message_list;
 	int cursor = e_table_get_cursor_row (E_TABLE (ml->etable));
+	CamelException ex;
 
-	e_table_selected_row_foreach (E_TABLE (ml->etable), real_delete_msg, fb);
+	camel_exception_init (&ex);
+	message_list_foreach (ml, real_delete_msg, &ex);
+	if (camel_exception_is_set (&ex)) {
+		mail_exception_dialog ("Could not toggle deleted flag",
+				       &ex, fb);
+		camel_exception_clear (&ex);
+		return;
+	}
+
 	/* Move the cursor down a row... FIXME: should skip other
 	 * deleted messages. FIXME: this implementation is a bit
 	 * questionable

@@ -84,12 +84,20 @@ typedef struct {
 	BonoboObjectClass parent_class;
 } MessageListClass;
 
+typedef void (*MessageListForeachFunc) (MessageList *message_list,
+					const char *uid,
+					gpointer user_data);
+
 GtkType        message_list_get_type   (void);
 BonoboObject   *message_list_new        (FolderBrowser *parent_folder_browser);
 void           message_list_set_folder (MessageList *message_list,
 					CamelFolder *camel_folder);
 void           message_list_set_search (MessageList *message_list, const char *search);
 GtkWidget     *message_list_get_widget (MessageList *message_list);
+
+void           message_list_foreach    (MessageList *message_list,
+					MessageListForeachFunc callback,
+					gpointer user_data);
 
 #endif /* _MESSAGE_LIST_H_ */
 

@@ -1,3 +1,22 @@
+2000-06-30  Dan Winship  <danw@helixcode.com>
+
+	* message-list.c (message_list_foreach): New function, a wrapper
+	around e_table_selected_row_foreach, which calls the callback
+	function with UIDs rather than row numbers.
+
+	* folder-browser-factory.c: Remove never-used "Find" button from
+	the toolbar and replace it with "Refile". (We need a better icon
+	for this...). Hook up "Refile" to "refile_msg".
+
+	* mail-ops.c (refile_msg): Call the shell's user_select_folder
+	routine, and then use message_list_foreach and real_refile_msg to
+	do the work.
+	(delete_msg): Update to use message_list_foreach.
+
+	* folder-browser.c (mail_uri_to_folder): new function, extracted
+	from folder_browser_load_folder, to turn a URI into a folder.
+	(folder_browser_load_folder): Use it.
+
 2000-06-30  Peter Williams  <peterw@curious-george.helixcode.com>
 
 	* component-factory.c (create_news_storage, create_imap_storage):

@@ -28,6 +28,9 @@
 void           folder_browser_factory_init         (void);
 BonoboControl *folder_browser_factory_new_control  (const char *uri);
 
+/* folder-browser */
+CamelFolder *mail_uri_to_folder (const char *uri);
+
 /* mail-config */
 void mail_config_druid (void);
 
@@ -54,6 +57,7 @@ void forward_msg (GtkWidget *button, gpointer user_data);
 void reply_to_sender (GtkWidget *button, gpointer user_data);
 void reply_to_all (GtkWidget *button, gpointer user_data);
 void delete_msg (GtkWidget *button, gpointer user_data);
+void refile_msg (GtkWidget *button, gpointer user_data);
 
 void expunge_folder (BonoboUIHandler *uih, void *user_data, const char *path);
 void filter_edit (BonoboUIHandler *uih, void *user_data, const char *path);

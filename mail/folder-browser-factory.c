@@ -34,7 +34,6 @@ random_cb (GtkWidget *button, gpointer user_data)
 static GnomeUIInfo gnome_toolbar [] = {
 	GNOMEUIINFO_ITEM_STOCK (N_("Get mail"), N_("Check for new mail"), fetch_mail, GNOME_STOCK_PIXMAP_MAIL_RCV),
 	GNOMEUIINFO_ITEM_STOCK (N_("Compose"), N_("Compose a new message"), compose_msg, GNOME_STOCK_PIXMAP_MAIL_NEW),
-	GNOMEUIINFO_ITEM_STOCK (N_("Find"), N_("Find messages"), random_cb, GNOME_STOCK_PIXMAP_SEARCH),
 
 	GNOMEUIINFO_SEPARATOR,
 
@@ -44,6 +43,8 @@ static GnomeUIInfo gnome_toolbar [] = {
 	GNOMEUIINFO_ITEM_STOCK (N_("Forward"), N_("Forward this message"), forward_msg, GNOME_STOCK_PIXMAP_MAIL_FWD),
 
 	GNOMEUIINFO_SEPARATOR,
+
+	GNOMEUIINFO_ITEM_STOCK (N_("Refile"), N_("Move message to a new folder"), refile_msg, GNOME_STOCK_PIXMAP_MAIL_SND),
 
 	GNOMEUIINFO_ITEM_STOCK (N_("Print"), N_("Print the selected message"), random_cb, GNOME_STOCK_PIXMAP_PRINT),
 
