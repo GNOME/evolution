@@ -288,12 +288,12 @@ imap_refresh_info (CamelFolder *folder, CamelException *ex)
 		if (!new[i].uid)
 			continue;
 
-		info = camel_folder_summary_index (imap_folder->summary, i);
+		info = camel_folder_summary_index (folder->summary, i);
 		iinfo = (CamelImapMessageInfo *)info;
 
 		if (strcmp (camel_message_info_uid (info), new[i].uid) != 0) {
 			camel_folder_change_info_remove_uid (changes, camel_message_info_uid (info));
-			camel_folder_summary_remove (imap_folder->summary, info);
+			camel_folder_summary_remove (folder->summary, info);
 			camel_folder_summary_info_free(folder->summary, info);
 			g_free (new[i].uid);
 			i--;
@@ -733,9 +733,9 @@ camel_imap_folder_changed (CamelFolder *folder, int exists,
 
 		for (i = 0; i < expunged->len; i++) {
 			id = g_array_index (expunged, int, i);
-			info = camel_folder_summary_index (imap_folder->summary, id - 1);
+			info = camel_folder_summary_index (folder->summary, id - 1);
 			camel_folder_change_info_remove_uid (changes, camel_message_info_uid (info));
-			camel_folder_summary_remove (imap_folder->summary, info);
+			camel_folder_summary_remove (folder->summary, info);
 		}
 	}
 

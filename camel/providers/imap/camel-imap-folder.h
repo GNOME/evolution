@@ -47,7 +47,6 @@ typedef struct {
 	struct _CamelImapFolderPrivate *priv;
 
 	CamelFolderSearch *search;
-	CamelFolderSummary *summary;
 	int exists;
 } CamelImapFolder;
 

@@ -8,6 +8,7 @@
 
 	* providers/imap/camel-imap-folder.h (CamelImapFolder): Added a
 	private field.
+	(CamelImapFolder): Removed summary again from here.
 
 	* providers/imap/camel-imap-private.h: Added lock for imap
 	searches.
@@ -27,6 +28,7 @@
 	directly.
 	(imap_refresh_info): Free any info lookups.  Use folder->summary
 	not imap_folder->summary.  And lock around commands.
+	(camel_imap_folder_changed): Use folder->summary again.
 
 2000-12-22  Dan Winship  <danw@helixcode.com>
 
