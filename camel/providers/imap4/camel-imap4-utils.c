@@ -164,7 +164,7 @@ camel_imap4_parse_flags_list (CamelIMAP4Engine *engine, guint32 *flags, CamelExc
 	while (token.token == CAMEL_IMAP4_TOKEN_ATOM || token.token == CAMEL_IMAP4_TOKEN_FLAG) {
 		/* parse the flags list */
 		for (i = 0; i < G_N_ELEMENTS (imap4_flags); i++) {
-			if (!strcasecmp (imap4_flags[i].name, token.v.atom)) {
+			if (!g_ascii_strcasecmp (imap4_flags[i].name, token.v.atom)) {
 				new |= imap4_flags[i].flag;
 				break;
 			}
@@ -173,7 +173,7 @@ camel_imap4_parse_flags_list (CamelIMAP4Engine *engine, guint32 *flags, CamelExc
 #if 0
 		if (i == G_N_ELEMENTS (imap4_flags)) {
 			for (i = 0; i < G_N_ELEMENTS (imap4_user_flags); i++) {
-				if (!strcasecmp (imap4_user_flags[i].name, token.v.atom)) {
+				if (!g_ascii_strcasecmp (imap4_user_flags[i].name, token.v.atom)) {
 					new |= imap4_user_flags[i].flag;
 					break;
 				}
