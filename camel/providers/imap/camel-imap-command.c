@@ -267,18 +267,25 @@ camel_imap_command_response (CamelImapStore *store, char **response,
 	
 	switch (*respbuf) {
 	case '*':
-		type = CAMEL_IMAP_RESPONSE_UNTAGGED;
+		if (!g_strncasecmp (respbuf, "* BYE", 5)) {
+			/* Connection was lost, no more data to fetch */
+			camel_service_disconnect (CAMEL_SERVICE (store), FALSE, NULL);
+			camel_exception_setv (ex, CAMEL_EXCEPTION_SERVICE_UNAVAILABLE,
+					      _("Server unexpectedly disconnected: %s"),
+					      _("Unknown error")); /* g_strerror (104));  FIXME after 1.0 is released */
+			store->connected = FALSE;
+			g_free (respbuf);
+			respbuf = NULL;
+			type = CAMEL_IMAP_RESPONSE_ERROR;
+			break;
+		}
 		
-		/* Read the rest of the response if it is multi-line. */
+		/* Read the rest of the response. */
+		type = CAMEL_IMAP_RESPONSE_UNTAGGED;
 		respbuf = imap_read_untagged (store, respbuf, ex);
 		if (!respbuf)
 			type = CAMEL_IMAP_RESPONSE_ERROR;
-		else if (!g_strncasecmp (respbuf, "* BYE", 5)) {
-			/* Connection was lost, no more data to fetch */
-			store->connected = FALSE;
-			g_free (respbuf);
-			type = CAMEL_IMAP_RESPONSE_ERROR;
-		}
+		
 		break;
 	case '+':
 		type = CAMEL_IMAP_RESPONSE_CONTINUATION;
@@ -292,6 +299,7 @@ camel_imap_command_response (CamelImapStore *store, char **response,
 	if (type == CAMEL_IMAP_RESPONSE_ERROR ||
 	    type == CAMEL_IMAP_RESPONSE_TAGGED)
 		CAMEL_IMAP_STORE_UNLOCK (store, command_lock);
+	
 	return type;
 }
 
@@ -398,17 +406,16 @@ imap_read_untagged (CamelImapStore *store, char *line, CamelException *ex)
 					   str->str + 1, length);
 		if (nread == -1) {
 			if (errno == EINTR)
-				camel_exception_set(ex, CAMEL_EXCEPTION_USER_CANCEL, _("Operation cancelled"));
+				camel_exception_set (ex, CAMEL_EXCEPTION_USER_CANCEL, _("Operation cancelled"));
 			else
-				camel_exception_set(ex, CAMEL_EXCEPTION_SERVICE_UNAVAILABLE, strerror(errno));
+				camel_exception_set (ex, CAMEL_EXCEPTION_SERVICE_UNAVAILABLE, g_strerror (errno));
 			camel_service_disconnect (CAMEL_SERVICE (store), FALSE, NULL);
 			goto lose;
 		}
 		if (nread < length) {
-			camel_exception_setv (ex, CAMEL_EXCEPTION_SERVICE_UNAVAILABLE,
-					      _("Server response ended too soon."));
-			camel_service_disconnect (CAMEL_SERVICE (store),
-						  FALSE, NULL);
+			camel_exception_set (ex, CAMEL_EXCEPTION_SERVICE_UNAVAILABLE,
+					     _("Server response ended too soon."));
+			camel_service_disconnect (CAMEL_SERVICE (store), FALSE, NULL);
 			goto lose;
 		}
 		str->str[length + 1] = '\0';
