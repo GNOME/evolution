@@ -44,10 +44,10 @@
 
       <placeholder name="Print">
 	<menuitem name="PrintPreview" verb="CalendarPrintPreview"
-		  _label="Print Preview" pixtype="pixbuf"/>
+		  _label="Print Pre_view" pixtype="pixbuf"/>
 
-	<menuitem name="Print" verb="CalendarPrint"
-		  _label="_Print..." _tip="Print calendar" pixtype="pixbuf"/>
+	<menuitem name="Print" verb="CalendarPrint" accel="*Control*p"
+		  _label="_Print Calendar..." pixtype="pixbuf"/>
       </placeholder>
 
     </submenu>

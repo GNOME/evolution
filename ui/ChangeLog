@@ -1,3 +1,10 @@
+2001-08-13 Anna Marie Dirks  <anna@ximian.com>
+
+	* evolution-calendar.xml : applied Neil Conway's 
+	<nconway@klamath.dyndns.org> menu-improvement patch.
+
+	* evolution-tasks.xml : same as above.
+
 2001-08-13  Iain Holmes  <iain@ximian.com>
 
 	* my-evolution.xml: Set the label for Print to be shown on priority.

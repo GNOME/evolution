@@ -46,7 +46,7 @@
 				pixtype="pixbuf"/>
 
 				<menuitem name="Print" verb="TasksPrint"
-				_label="_Print"
+				_label="_Print Task..."
 				pixtype="pixbuf"
 				accel="*Control*p"/>
 				
