@@ -1,3 +1,12 @@
+2001-04-20  Not Zed  <NotZed@Ximian.com>
+
+	* providers/local/camel-mbox-summary.c (summary_rebuild): Use
+	unsigned ints.
+
+	* camel-mime-part.c (init_header_name_table): Setupt he
+	header_formatted table with a much more complete list of headers
+	we dont want to fold (addresses).
+
 2001-04-18  Dan Winship  <danw@ximian.com>
 
 	* providers/imap/camel-imap-store.c (camel_imap_store_finalize):

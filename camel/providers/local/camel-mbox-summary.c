@@ -282,9 +282,10 @@ summary_rebuild(CamelMboxSummary *mbs, off_t offset, CamelException *ex)
 
 	while (camel_mime_parser_step(mp, NULL, NULL) == HSCAN_FROM) {
 		CamelMessageInfo *info;
-		off_t pc = camel_mime_parser_tell (mp) + 1;
-		
-		camel_operation_progress (NULL, (int) (((float) pc / size) * 100));
+		unsigned int pc;
+
+		pc = ((unsigned int)camel_mime_parser_tell(mp) + 1) * 100 / size;		
+		camel_operation_progress(NULL, pc);
 		
 		info = camel_folder_summary_add_from_parser(s, mp);
 		if (info == NULL) {

@@ -23,24 +23,21 @@
  * USA
  */
 
-#ifdef HAVE_CONFIG_H
 #include <config.h>
-#endif
-
 #include <string.h>
+#include "camel-mime-part.h"
 #include <stdio.h>
-#include <ctype.h>
+#include "string-utils.h"
 #include "hash-table-utils.h"
+#include "camel-mime-part-utils.h"
+#include <ctype.h>
 #include "camel-mime-parser.h"
 #include "camel-stream-mem.h"
 #include "camel-stream-filter.h"
 #include "camel-mime-filter-basic.h"
 #include "camel-mime-filter-crlf.h"
 #include "camel-mime-filter-charset.h"
-#include "camel-mime-part.h"
-#include "camel-mime-part-utils.h"
 #include "camel-exception.h"
-#include "string-utils.h"
 
 #define d(x) /*(printf("%s(%d): ", __FILE__, __LINE__),(x))*/
 
@@ -84,6 +81,13 @@ static int             construct_from_parser           (CamelMimePart *, CamelMi
 /* forward references */
 static void set_disposition (CamelMimePart *mime_part, const gchar *disposition);
 
+static char *header_formatted[] = {
+	"Content-Type", "Content-Disposition", "Message-ID", "Resent-Message-ID",
+	"To", "Resent-To", "Cc", "Resent-cc", "Bcc", "Resent-bcc",
+	"From", "Resent-From", "Sender", "Resent-Sender",
+	"Reply-To", "Resent-Reply-To",
+};
+
 
 /* loads in a hash table the set of header names we */
 /* recognize and associate them with a unique enum  */
@@ -91,6 +95,8 @@ static void set_disposition (CamelMimePart *mime_part, const gchar *disposition)
 static void
 init_header_name_table()
 {
+	int i;
+
 	header_name_table = g_hash_table_new (g_strcase_hash, g_strcase_equal);
 	g_hash_table_insert (header_name_table, "Content-Description", (gpointer)HEADER_DESCRIPTION);
 	g_hash_table_insert (header_name_table, "Content-Disposition", (gpointer)HEADER_DISPOSITION);
@@ -100,13 +106,8 @@ init_header_name_table()
 	g_hash_table_insert (header_name_table, "Content-Type", (gpointer)HEADER_CONTENT_TYPE);
 
 	header_formatted_table = g_hash_table_new(g_strcase_hash, g_strcase_equal);
-	g_hash_table_insert(header_formatted_table, "Content-Type", (void *)1);
-	g_hash_table_insert(header_formatted_table, "Content-Disposition", (void *)1);
-	g_hash_table_insert(header_formatted_table, "To", (void *)1);
-	g_hash_table_insert(header_formatted_table, "From", (void *)1);
-	g_hash_table_insert(header_formatted_table, "Cc", (void *)1);
-	g_hash_table_insert(header_formatted_table, "Bcc", (void *)1);
-	g_hash_table_insert(header_formatted_table, "Message-ID", (void *)1);
+	for (i=0;i<sizeof(header_formatted)/sizeof(header_formatted[0]);i++)
+		g_hash_table_insert(header_formatted_table, header_formatted[i], (void *)1);
 }
 
 static void
