@@ -1,3 +1,11 @@
+2001-10-29  Ettore Perazzoli  <ettore@ximian.com>
+
+	* e-summary-preferences.c (make_initial_weather_list): We only
+	want KBOS by default.
+
+	* e-summary-weather.c (e_summary_weather_init): We only want KBOS
+	by default.
+
 2001-10-27  Jon Trowbridge  <trow@ximian.com>
 
 	* e-summary.c (e_summary_reload): Slow down reload requests

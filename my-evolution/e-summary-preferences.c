@@ -76,7 +76,7 @@ make_initial_weather_list (ESummaryPrefs *prefs)
 	   see in My Evolution by default. You can find the list of all
 	   stations and their codes in Evolution sources
 	   (evolution/my-evolution/Locations) */
-	char *default_stations = _("KBOS:ZSAM:EGAA"), **stations_v, **p;
+	char *default_stations = _("KBOS"), **stations_v, **p;
 	GList *stations = NULL;
 
 	stations_v = g_strsplit (default_stations, ":", 0);
