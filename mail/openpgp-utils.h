@@ -45,6 +45,7 @@ typedef enum {
 	PGP_HASH_TYPE_SHA1
 } PgpHashType;
 
+typedef struct _PgpValidity PgpValidity;
 
 void openpgp_init (const gchar *path, PgpType type);
 
@@ -63,8 +64,24 @@ gchar *openpgp_clearsign (const gchar *plaintext, const gchar *userid,
 gchar *openpgp_sign (const gchar *in, gint inlen, const gchar *userid,
 		     PgpHashType hash, CamelException *ex);
 
-gboolean openpgp_verify (const gchar *in, gint inlen, const gchar *sigin,
-			 gint siglen, CamelException *ex);
+PgpValidity *openpgp_verify (const gchar *in, gint inlen, const gchar *sigin,
+			     gint siglen, CamelException *ex);
+
+PgpValidity *openpgp_validity_new (void);
+
+void openpgp_validity_init (PgpValidity *validity);
+
+gboolean openpgp_validity_get_valid (PgpValidity *validity);
+
+void openpgp_validity_set_valid (PgpValidity *validity, gboolean valid);
+
+gchar *openpgp_validity_get_description (PgpValidity *validity);
+
+void openpgp_validity_set_description (PgpValidity *validity, const gchar *description);
+
+void openpgp_validity_clear (PgpValidity *validity);
+
+void openpgp_validity_free (PgpValidity *validity);
 
 #ifdef __cplusplus
 }

@@ -245,13 +245,9 @@ pgp_mime_part_sign (CamelMimePart **mime_part, const gchar *userid, PgpHashType 
  * @mime_part: a multipart/signed MIME Part
  * @ex: exception
  *
- * Returns TRUE if the signature is valid otherwise returns
- * FALSE. Note: you may want to check the exception if it fails as
- * there may be useful information to give to the user; example:
- * verification may have failed merely because the user doesn't have
- * the sender's key on her system.
+ * Returns a PgpValidity on success or NULL on fail.
  **/
-gboolean
+PgpValidity *
 pgp_mime_part_verify (CamelMimePart *mime_part, CamelException *ex)
 {
 	CamelDataWrapper *wrapper;
@@ -261,13 +257,13 @@ pgp_mime_part_verify (CamelMimePart *mime_part, CamelException *ex)
 	CamelMimeFilter *crlf_filter;
 	CamelStream *stream;
 	GByteArray *content, *signature;
-	gboolean valid = FALSE;
+	PgpValidity *valid;
 	
-	g_return_val_if_fail (mime_part != NULL, FALSE);
-	g_return_val_if_fail (CAMEL_IS_MIME_PART (mime_part), FALSE);
+	g_return_val_if_fail (mime_part != NULL, NULL);
+	g_return_val_if_fail (CAMEL_IS_MIME_PART (mime_part), NULL);
 	
 	if (!mail_crypto_is_rfc2015_signed (mime_part))
-		return FALSE;
+		return NULL;
 	
 	wrapper = camel_medium_get_content_object (CAMEL_MEDIUM (mime_part));
 	multipart = CAMEL_MULTIPART (wrapper);

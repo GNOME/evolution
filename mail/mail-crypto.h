@@ -41,8 +41,8 @@ void pgp_mime_part_sign (CamelMimePart **mime_part,
 			 PgpHashType hash,
 			 CamelException *ex);
 
-gboolean pgp_mime_part_verify (CamelMimePart *mime_part,
-			       CamelException *ex);
+PgpValidity *pgp_mime_part_verify (CamelMimePart *mime_part,
+				   CamelException *ex);
 
 void pgp_mime_part_encrypt (CamelMimePart **mime_part,
 			    const GPtrArray *recipients,

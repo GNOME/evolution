@@ -48,7 +48,14 @@
 #include <unistd.h>
 #include <signal.h>
 
+#include <iconv.h>
+
 #define d(x)
+
+struct _PgpValidity {
+	gboolean valid;
+	gchar *description;
+};
 
 static const gchar *pgp_path = NULL;
 static PgpType pgp_type = PGP_TYPE_NONE;
@@ -1026,7 +1033,7 @@ swrite (const char *data, int len)
 	return template;
 }
 
-gboolean
+PgpValidity *
 openpgp_verify (const gchar *in, gint inlen, const gchar *sigin, gint siglen, CamelException *ex)
 {
 	char *argv[20];
@@ -1035,20 +1042,20 @@ openpgp_verify (const gchar *in, gint inlen, const gchar *sigin, gint siglen, Ca
 	int passwd_fds[2];
 	char *sigfile = NULL;
 	int retval, i, clearlen;
-	gboolean valid = TRUE;
+	PgpValidity *valid = NULL;
 	
 	
 	if (pgp_type == PGP_TYPE_NONE) {
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
 				      _("No GPG/PGP program available."));
-		return FALSE;
+		return NULL;
 	}
 	
 	if (pipe (passwd_fds) < 0) {
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
 				      _("Couldn't create pipe to GPG/PGP: %s"),
 				      g_strerror (errno));
-		return FALSE;
+		return NULL;
 	}
 	
 	if (sigin != NULL && siglen) {
@@ -1059,7 +1066,7 @@ openpgp_verify (const gchar *in, gint inlen, const gchar *sigin, gint siglen, Ca
 			camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
 					      _("Couldn't create temp file: %s"),
 					      g_strerror (errno));
-			return FALSE;
+			return NULL;
 		}
 	}
 	
@@ -1119,14 +1126,114 @@ openpgp_verify (const gchar *in, gint inlen, const gchar *sigin, gint siglen, Ca
 		g_free (sigfile);
 	}
 	
+	valid = openpgp_validity_new ();
+	
 	if (retval != 0) {
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
 				      "%s", diagnostics);
-		valid = FALSE;
+		
+		openpgp_validity_set_valid (valid, FALSE);
+	} else {
+		openpgp_validity_set_valid (valid, TRUE);
+	}
+	
+	if (diagnostics) {
+		char *charset;
+		char *desc;
+		iconv_t cd;
+		size_t len, inlen;
+		
+		charset = getenv ("CHARSET");
+		if (!charset)
+			charset = "US-ASCII";
+		
+		cd = iconv_open ("UTF-8", charset);
+		
+		inlen = strlen (diagnostics);
+		len = 2 * inlen;
+		desc = g_malloc0 (len);
+		if (iconv (cd, (const char **) &diagnostics, &inlen, &desc, &len) == -1) {
+			g_free (desc);
+			desc = g_strdup (diagnostics);
+		}
+		iconv_close (cd);
+		
+		openpgp_validity_set_description (valid, desc);
+		g_free (desc);
 	}
 	
 	g_free (diagnostics);
 	g_free (cleartext);
 	
 	return valid;
+}
+
+
+/* PGP Validity */
+
+PgpValidity *
+openpgp_validity_new (void)
+{
+	return g_new0 (PgpValidity, 1);
+}
+
+void
+openpgp_validity_init (PgpValidity *validity)
+{
+	g_return_if_fail (validity != NULL);
+	
+	validity->valid = FALSE;
+	validity->description = NULL;
+}
+
+gboolean
+openpgp_validity_get_valid (PgpValidity *validity)
+{
+	g_return_val_if_fail (validity != NULL, FALSE);
+	
+	return validity->valid;
+}
+
+void
+openpgp_validity_set_valid (PgpValidity *validity, gboolean valid)
+{
+	g_return_if_fail (validity != NULL);
+	
+	validity->valid = valid;
+}
+
+gchar *
+openpgp_validity_get_description (PgpValidity *validity)
+{
+	g_return_val_if_fail (validity != NULL, NULL);
+	
+	return validity->description;
+}
+
+void
+openpgp_validity_set_description (PgpValidity *validity, const gchar *description)
+{
+	g_return_if_fail (validity != NULL);
+	
+	g_free (validity->description);
+	validity->description = g_strdup (description);
+}
+
+void
+openpgp_validity_clear (PgpValidity *validity)
+{
+	g_return_if_fail (validity != NULL);
+	
+	validity->valid = FALSE;
+	g_free (validity->description);
+	validity->description = NULL;
+}
+
+void
+openpgp_validity_free (PgpValidity *validity)
+{
+	g_return_if_fail (validity != NULL);
+	
+	g_free (validity->description);
+	g_free (validity);
 }

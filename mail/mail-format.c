@@ -990,7 +990,7 @@ try_inline_pgp_sig (char *start, MailDisplay *md)
 {
 	char *end, *ciphertext, *plaintext;
 	CamelException *ex;
-	gboolean valid;
+	PgpValidity *valid;
 	
 	end = strstr (start, "-----END PGP SIGNATURE-----");
 	if (!end)
@@ -1010,11 +1010,11 @@ try_inline_pgp_sig (char *start, MailDisplay *md)
 	g_free (plaintext);
 	
 	/* Now display the "seal-of-authenticity" or something... */
-	if (valid) {
+	if (openpgp_validity_get_valid (valid)) {
 		mail_html_write (md->html, md->stream,
 				 "<hr>\n<table><tr valign=top>"
 				 "<td><img src=\"%s\"></td>"
-				 "<td><font size=-1>%s<br><br></font></td></table>",
+				 "<td><font size=-1>%s<br><br>",
 				 get_url_for_icon ("wax-seal2.png", md),
 				 _("This message is digitally signed and "
 				   "has been found to be authentic."));
@@ -1026,13 +1026,18 @@ try_inline_pgp_sig (char *start, MailDisplay *md)
 				 get_url_for_icon ("wax-seal-broken.png", md),
 				 _("This message is digitally signed but can "
 				   "not be proven to be authentic."));
-		mail_error_write (md->html, md->stream,
-				  camel_exception_get_description (ex));
-		mail_html_write (md->html, md->stream,
-				 "<br><br></font></td></table>");
 	}
 	
+	if (openpgp_validity_get_description (valid)) {
+		mail_error_write (md->html, md->stream,
+				  openpgp_validity_get_description (valid));
+		mail_html_write (md->html, md->stream, "<br><br>");
+	}
+	
+	mail_html_write (md->html, md->stream, "</font></td></table>");
+		
 	camel_exception_free (ex);
+	openpgp_validity_free (valid);
 	
 	return end;
 }
@@ -1363,7 +1368,7 @@ handle_multipart_signed (CamelMimePart *part, const char *mime_type,
 	CamelMultipart *mp;
 	CamelException *ex;
 	gboolean output = FALSE;
-	gboolean valid;
+	PgpValidity *valid;
 	int nparts, i;
 	
 	wrapper = camel_medium_get_content_object (CAMEL_MEDIUM (part));
@@ -1390,11 +1395,11 @@ handle_multipart_signed (CamelMimePart *part, const char *mime_type,
 	}
 	
 	/* Now display the "seal-of-authenticity" or something... */
-	if (valid) {
+	if (openpgp_validity_get_valid (valid)) {
 		mail_html_write (md->html, md->stream,
 				 "<hr>\n<table><tr valign=top>"
 				 "<td><img src=\"%s\"></td>"
-				 "<td><font size=-1>%s<br><br></font></td></table>",
+				 "<td><font size=-1>%s<br><br>",
 				 get_url_for_icon ("wax-seal2.png", md),
 				 _("This message is digitally signed and "
 				   "has been found to be authentic."));
@@ -1406,12 +1411,18 @@ handle_multipart_signed (CamelMimePart *part, const char *mime_type,
 				 get_url_for_icon ("wax-seal-broken.png", md),
 				 _("This message is digitally signed but can "
 				   "not be proven to be authentic."));
-		mail_error_write (md->html, md->stream,
-				  camel_exception_get_description (ex));
-		mail_html_write (md->html, md->stream,
-				 "<br><br></font></td></table>");
 	}
+
+	if (openpgp_validity_get_description (valid)) {
+		mail_error_write (md->html, md->stream,
+				  openpgp_validity_get_description (valid));
+		mail_html_write (md->html, md->stream, "<br><br>");
+	}
+	
+	mail_html_write (md->html, md->stream, "</font></td></table>");
+	
 	camel_exception_free (ex);
+	openpgp_validity_free (valid);
 	
 	return TRUE;
 }

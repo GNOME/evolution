@@ -1,3 +1,16 @@
+2001-02-21  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-crypto.c (pgp_mime_part_verify): Changed to use
+	PgpValidity.
+
+	* openpgp-utils.c (openpgp_verify): Return a PgpValidity and set
+	the description as UTF-8 for later use in mail-format.c when
+	writing to GtkHTML.
+
+	* mail-format.c (try_inline_pgp_sig): Updated to use the new
+	PgpValidity code.
+	(handle_multipart_signed): Updated.
+
 2001-02-21  Not Zed  <NotZed@Ximian.com>
 
 	* mail-callbacks.c (composer_postpone_cb): Fix for api changes to
