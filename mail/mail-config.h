@@ -36,7 +36,6 @@ typedef struct {
 	char *name;
 	char *filename;
 	char *script;
-	gboolean random;
 	gboolean html;
 } MailConfigSignature;
 
@@ -46,10 +45,8 @@ typedef struct {
 	char *reply_to;
 	char *organization;
 	
-	MailConfigSignature *text_signature;
-	gboolean text_random;
-	MailConfigSignature *html_signature;
-	gboolean html_random;
+	MailConfigSignature *def_signature;
+	gboolean auto_signature;
 } MailConfigIdentity;
 
 typedef struct {
@@ -287,21 +284,17 @@ gboolean mail_config_check_service (const char *url, CamelProviderType type, GLi
 gboolean evolution_mail_config_factory_init (void);
 
 GList * mail_config_get_signature_list (void);
-gint    mail_config_get_signatures_random (void);
 MailConfigSignature *mail_config_signature_add (gboolean html);
 void mail_config_signature_delete (MailConfigSignature *sig);
 void mail_config_signature_write (MailConfigSignature *sig);
 void mail_config_signature_set_name (MailConfigSignature *sig, const gchar *name);
 void mail_config_signature_set_html (MailConfigSignature *sig, gboolean html);
 void mail_config_signature_set_filename (MailConfigSignature *sig, const gchar *filename);
-void mail_config_signature_set_random (MailConfigSignature *sig, gboolean random);
 
 typedef enum {
 	MAIL_CONFIG_SIG_EVENT_NAME_CHANGED,
 	MAIL_CONFIG_SIG_EVENT_CONTENT_CHANGED,
 	MAIL_CONFIG_SIG_EVENT_HTML_CHANGED,
-	MAIL_CONFIG_SIG_EVENT_RANDOM_ON,
-	MAIL_CONFIG_SIG_EVENT_RANDOM_OFF,
 	MAIL_CONFIG_SIG_EVENT_ADDED,
 	MAIL_CONFIG_SIG_EVENT_DELETED
 } MailConfigSigEvent;

@@ -53,6 +53,7 @@
 
 #include <gal/unicode/gunicode.h>
 #include <gal/util/e-unicode-i18n.h>
+#include <gal/widgets/e-unicode.h>
 
 #include <libgnome/gnome-defs.h>
 #include <libgnome/gnome-exec.h>
@@ -845,48 +846,56 @@ static gchar *
 get_signature_html (EMsgComposer *composer)
 {
 	gboolean format_html = FALSE;
-	char *text, *html = NULL, *sig_file = NULL, *script = NULL;
-	static gboolean random_initialized = FALSE;
-	
+	char *text = NULL, *html = NULL, *sig_file = NULL, *script = NULL;
+
 	if (composer->signature) {
 		sig_file = composer->signature->filename;
 		format_html = composer->signature->html;
 		script = composer->signature->script;
-	} else if (composer->random_signature) {
-		GList *l;
-		gint pos;
+	} else if (composer->auto_signature) {
+		MailConfigIdentity *id;
+		gchar *address;
+		gchar *name;
+		gchar *organization;
 
-		if (!random_initialized) {
-			printf ("initialize random generator\n");
-			srand (time (NULL));
-			random_initialized = TRUE;
-		}
-		pos = (int) (((gdouble) mail_config_get_signatures_random ())*rand()/(RAND_MAX+1.0));
-		printf ("using %d sig\n", pos);
+		id = E_MSG_COMPOSER_HDRS (composer->hdrs)->account->id;
+		address = id->address ? e_text_to_html (id->address, E_TEXT_TO_HTML_CONVERT_SPACES) : NULL;
+		name = id->name ? e_text_to_html (id->name, E_TEXT_TO_HTML_CONVERT_SPACES) : NULL;
+		organization = id->organization ? e_text_to_html (id->organization, E_TEXT_TO_HTML_CONVERT_SPACES) : NULL;
 
-		for (l = mail_config_get_signature_list (); l; l = l->next) {
-			MailConfigSignature *sig = (MailConfigSignature *) l->data;
-
-			if (sig->random) {
-				if (pos == 0) {
-					printf ("using %s\n", sig->name);
-					sig_file = sig->filename;
-					script = sig->script;
-					format_html = sig->html;
-					break;
-				}
-				pos --;
-			}
-		}
+		text = g_strdup_printf ("-- <BR>%s%s%s%s%s%s%s%s",
+					name ? name : "",
+					(address && *address) ? " &lt;<A HREF=\"mailto:" : "",
+					address ? address : "",
+					(address && *address) ? "\">" : "",
+					address ? address : "",
+					(address && *address) ? "</A>&gt;" : "",
+					(organization && *organization) ? "<BR>" : "",
+					organization ? organization : "");
+		g_free (address);
+		g_free (name);
+		g_free (organization);
+		format_html = TRUE;
 	}
-	if (!sig_file)
-		return NULL;
-	printf ("sig file: %s\n", sig_file);
 
-	mail_config_signature_run_script (script);
-	text = e_msg_composer_get_sig_file_content (sig_file, format_html);
+	if (!text) {
+		if (!sig_file)
+			return NULL;
+		printf ("sig file: %s\n", sig_file);
+
+		mail_config_signature_run_script (script);
+		text = e_msg_composer_get_sig_file_content (sig_file, format_html);
+	}
+
 	/* printf ("text: %s\n", text); */
 	if (text) {
+		if (!format_html) {
+			gchar *tmp;
+
+			tmp = e_text_to_html (text, E_TEXT_TO_HTML_CONVERT_SPACES);
+			g_free (text);
+			text = tmp;
+		}
 		/* The signature dash convention ("-- \n") is specified in the
 		 * "Son of RFC 1036": http://www.chemie.fu-berlin.de/outerspace/netnews/son-of-1036.html,
 		 * section 4.3.2.
@@ -1736,14 +1745,6 @@ static EPixmap pixcache [] = {
 };
 
 static void
-signature_regenerate_cb (BonoboUIComponent *uic, gpointer user_data, const char *path)
-{
-	printf ("signature_regenerate_cb: %s\n", path);
-
-	e_msg_composer_show_sig_file (E_MSG_COMPOSER (user_data));
-}
-
-static void
 signature_cb (BonoboUIComponent *uic, const char *path, Bonobo_UIComponent_EventType type,
 	      const char *state, gpointer user_data)
 {
@@ -1754,23 +1755,23 @@ signature_cb (BonoboUIComponent *uic, const char *path, Bonobo_UIComponent_Event
 	if (state && *state == '1') {
 		if (path && !strncmp (path, "Signature", 9)) {
 			MailConfigSignature *old_sig;
-			gboolean old_random;
+			gboolean old_auto;
 
 			old_sig = composer->signature;
-			old_random = composer->random_signature;
+			old_auto = composer->auto_signature;
 
 			printf ("I'm going to set signature (%d)\n", atoi (path + 9));
-			if (path [9] == 'N') {
+			if (path [9] == 'N') {			                /* none */
 				composer->signature = NULL;
-				composer->random_signature = FALSE;
-			} else if (path [9] == 'R') {
+				composer->auto_signature = FALSE;
+			} else if (path [9] == 'A') {				/* auto */
 				composer->signature = NULL;
-				composer->random_signature = TRUE;
+				composer->auto_signature = TRUE;
 			} else {
 				composer->signature = g_list_nth_data (mail_config_get_signature_list (), atoi (path + 9));
-				composer->random_signature = FALSE;
+				composer->auto_signature = FALSE;
 			}
-			if (old_sig != composer->signature || old_random != composer->random_signature)
+			if (old_sig != composer->signature || old_auto != composer->auto_signature)
 				e_msg_composer_show_sig_file (composer);
 		}
 	}
@@ -1787,8 +1788,6 @@ remove_signature_list (EMsgComposer *composer)
 	gint len = g_list_length (mail_config_get_signature_list ());
 
 	bonobo_ui_component_rm (composer->uic, "/menu/Edit/EditMisc/EditSignaturesSubmenu/SeparatorList", NULL);
-	bonobo_ui_component_rm (composer->uic, "/menu/Edit/EditMisc/EditSignaturesSubmenu/SeparatorRegenerate", NULL);
-	bonobo_ui_component_rm (composer->uic, "/menu/Edit/EditMisc/EditSignaturesSubmenu/SignatureRegenerate", NULL);
 	for (; len; len --) {
 		g_snprintf (path, 64, "/menu/Edit/EditMisc/EditSignaturesSubmenu/Signature%d", len - 1);
 		bonobo_ui_component_rm (composer->uic, path, NULL);
@@ -1803,22 +1802,14 @@ sig_event_client (MailConfigSigEvent event, MailConfigSignature *sig, EMsgCompos
 	bonobo_ui_component_freeze (composer->uic, NULL);
 	switch (event) {
 	case MAIL_CONFIG_SIG_EVENT_DELETED:
-		if (sig == composer->signature)
+		if (sig == composer->signature) {
 			composer->signature = NULL;
+			composer->auto_signature = TRUE;
+		}
 		path = g_strdup_printf ("/menu/Edit/EditMisc/EditSignaturesSubmenu/Signature%d",
 					g_list_length (mail_config_get_signature_list ()));
 		bonobo_ui_component_rm (composer->uic, path, NULL);
 		g_free (path);
-		setup_signatures_menu (composer);
-		break;
-	case MAIL_CONFIG_SIG_EVENT_RANDOM_OFF:
-		composer->random_signature = FALSE;
-		bonobo_ui_component_rm (composer->uic, "/menu/Edit/EditMisc/EditSignaturesSubmenu/SignatureRandom", NULL);
-		bonobo_ui_component_rm (composer->uic, "/menu/Edit/EditMisc/EditSignaturesSubmenu/SeparatorRandom", NULL);
-		setup_signatures_menu (composer);
-		break;
-	case MAIL_CONFIG_SIG_EVENT_RANDOM_ON:
-		remove_signature_list (composer);
 		setup_signatures_menu (composer);
 		break;
 	case MAIL_CONFIG_SIG_EVENT_ADDED:
@@ -1840,40 +1831,33 @@ setup_signatures_menu (EMsgComposer *composer)
 
 	str = g_string_new ("<submenu name=\"EditSignaturesSubmenu\" _label=\"Signatures\">\n"
 			    "<menuitem name=\"SignatureNone\" _label=\"None\" verb=\"SignatureNone\""
+			    " type=\"radio\" group=\"signatures_group\"/>\n"
+			    "<menuitem name=\"SignatureAuto\" _label=\"Autogenerated\" verb=\"SignatureAuto\""
 			    " type=\"radio\" group=\"signatures_group\"/>\n");
-	if (mail_config_get_signatures_random ()) {
-		g_string_append (str,
-				 "<separator name=\"SeparatorRandom\"/>\n"
-				 "<menuitem name=\"SignatureRandom\" _label=\"Random\" verb=\"SignatureRandom\""
-				 " type=\"radio\" group=\"signatures_group\"/>\n");
-	}
 
 	list = mail_config_get_signature_list ();
 	if (list) {
-
+		gchar *gtk_str;
 		g_string_append (str, "<separator name=\"SeparatorList\"/>");
 
 		for (l = list; l; len ++, l = l->next) {
+			gtk_str = e_utf8_to_gtk_string (GTK_WIDGET (composer), ((MailConfigSignature *)l->data)->name);
 			line = g_strdup_printf ("<menuitem name=\"Signature%d\" _label=\"%s\""
 						" verb=\"Signature%d\" type=\"radio\" group=\"signatures_group\"/>\n",
-						len, ((MailConfigSignature *)l->data)->name, len);
+						len, gtk_str, len);
+			g_free (gtk_str);
 			g_string_append (str, line);
 			g_free (line);
 		}
 	}
 
-	g_string_append (str,
-			 "<separator name=\"SeparatorRegenerate\"/>\n"
-			 "<menuitem name=\"SignatureRegenerate\" _label=\"_Regenerate\""
-			 " verb=\"SignatureRegenerate\" accel=\"*Ctrl**Shift*G\"/>");
 	g_string_append (str, "</submenu>\n");
 
 	bonobo_ui_component_set_translate (composer->uic, "/menu/Edit/EditMisc/", str->str, NULL);
 	bonobo_ui_component_set (composer->uic, "/menu/Edit/EditMisc/", "<separator/>", NULL);
 
 	bonobo_ui_component_add_listener (composer->uic, "SignatureNone", signature_cb, composer);
-	bonobo_ui_component_add_listener (composer->uic, "SignatureRandom", signature_cb, composer);
-	bonobo_ui_component_add_verb (composer->uic, "SignatureRegenerate", signature_regenerate_cb, composer);
+	bonobo_ui_component_add_listener (composer->uic, "SignatureAuto", signature_cb, composer);
 
 	for (i = 0; i < len; i ++) {
 		g_string_sprintf (str, "Signature%d", i + 1);
@@ -2811,14 +2795,13 @@ set_editor_signature (EMsgComposer *composer)
 		
 		id = E_MSG_COMPOSER_HDRS (composer->hdrs)->account->id;
 		
-		composer->random_signature = composer->send_html ? id->html_random : id->text_random;
-		if (composer->random_signature)
-			composer->signature = NULL;
-		else
-			composer->signature = composer->send_html ? id->html_signature : id->text_signature;
-		
-		if (composer->random_signature) {
-			verb = g_strdup ("/commands/SignatureRandom");
+		composer->signature = id->def_signature;
+		composer->auto_signature = id->auto_signature;
+
+		printf ("auto: %d\n", id->auto_signature);
+
+		if (composer->auto_signature) {
+			verb = g_strdup ("/commands/SignatureAuto");
 		} else if (composer->signature == NULL) {
 			verb = g_strdup ("/commands/SignatureNone");
 		} else {
@@ -3818,8 +3801,6 @@ e_msg_composer_set_send_html (EMsgComposer *composer,
 				    composer->send_html, NULL);
 
 	set_config (composer, "FormatHTML", composer->send_html);
-	set_editor_signature (composer);
-	e_msg_composer_show_sig_file (composer);
 	GNOME_GtkHTML_Editor_Engine_runCommand (composer->editor_engine, "unblock-redraw", &ev);
 	CORBA_exception_free (&ev);
 }

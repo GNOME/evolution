@@ -70,16 +70,10 @@ typedef struct {
 	GtkEntry *organization;
 
 	/* signatures */
-	GtkWidget *sig_option_text;
-	GtkWidget *sig_option_html;
-	GtkWidget *sig_new_text;
-	GtkWidget *sig_new_html;
-	GtkWidget *sig_edit_text;
-	GtkWidget *sig_edit_html;
-	MailConfigSignature *text_signature;
-	gboolean text_random;
-	MailConfigSignature *html_signature;
-	gboolean html_random;
+	GtkWidget *sig_option_menu;
+
+	MailConfigSignature *def_signature;
+	gboolean auto_signature;
 
 	/* incoming mail */
 	MailAccountGuiService source;

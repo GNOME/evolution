@@ -511,7 +511,7 @@ For example: &quot;Work&quot; or &quot;Personal&quot;</label>
 
 	  <widget>
 	    <class>GtkLabel</class>
-	    <name>label-sig-text</name>
+	    <name>sigLabel</name>
 	    <label>_Default signature:</label>
 	    <justify>GTK_JUSTIFY_LEFT</justify>
 	    <wrap>False</wrap>
@@ -611,12 +611,10 @@ For example: &quot;Work&quot; or &quot;Personal&quot;</label>
 	  </widget>
 
 	  <widget>
-	    <class>GtkAlignment</class>
-	    <name>alignment27</name>
-	    <xalign>0</xalign>
-	    <yalign>0.5</yalign>
-	    <xscale>0</xscale>
-	    <yscale>1</yscale>
+	    <class>GtkHBox</class>
+	    <name>hbox169</name>
+	    <homogeneous>False</homogeneous>
+	    <spacing>5</spacing>
 	    <child>
 	      <left_attach>1</left_attach>
 	      <right_attach>2</right_attach>
@@ -624,24 +622,49 @@ For example: &quot;Work&quot; or &quot;Personal&quot;</label>
 	      <bottom_attach>3</bottom_attach>
 	      <xpad>0</xpad>
 	      <ypad>0</ypad>
-	      <xexpand>True</xexpand>
+	      <xexpand>False</xexpand>
 	      <yexpand>False</yexpand>
 	      <xshrink>False</xshrink>
 	      <yshrink>False</yshrink>
 	      <xfill>True</xfill>
-	      <yfill>False</yfill>
+	      <yfill>True</yfill>
 	    </child>
 
 	    <widget>
 	      <class>GtkOptionMenu</class>
-	      <name>optionmenu2</name>
+	      <name>sigOption</name>
 	      <can_focus>True</can_focus>
 	      <items>Default
 
 Signature #1
 Signature #2
+xxxxxxxxxxxxxxxxxxxx
 </items>
 	      <initial_choice>0</initial_choice>
+	      <child>
+		<padding>0</padding>
+		<expand>False</expand>
+		<fill>False</fill>
+	      </child>
+	    </widget>
+
+	    <widget>
+	      <class>GtkButton</class>
+	      <name>sigAddNew</name>
+	      <can_focus>True</can_focus>
+	      <signal>
+		<name>clicked</name>
+		<handler>sigAddNewClicked</handler>
+		<last_modification_time>Tue, 04 Jun 2002 19:50:56 GMT</last_modification_time>
+	      </signal>
+	      <label>Add new signature...</label>
+	      <relief>GTK_RELIEF_NORMAL</relief>
+	      <child>
+		<padding>0</padding>
+		<expand>False</expand>
+		<fill>False</fill>
+		<pack>GTK_PACK_END</pack>
+	      </child>
 	    </widget>
 	  </widget>
 	</widget>
@@ -4080,7 +4103,6 @@ Baltic (ISO-8859-4)
       <widget>
 	<class>GtkHBox</class>
 	<name>hbox161</name>
-	<border_width>3</border_width>
 	<homogeneous>False</homogeneous>
 	<spacing>3</spacing>
 	<child>
@@ -4116,7 +4138,7 @@ Baltic (ISO-8859-4)
 	      <class>GtkLabel</class>
 	      <child_name>CList:title</child_name>
 	      <name>label448</name>
-	      <label>Description</label>
+	      <label>Name</label>
 	      <justify>GTK_JUSTIFY_LEFT</justify>
 	      <wrap>False</wrap>
 	      <xalign>0.5</xalign>
@@ -4140,6 +4162,23 @@ Baltic (ISO-8859-4)
 	  </child>
 
 	  <widget>
+	    <class>GtkLabel</class>
+	    <name>label455</name>
+	    <label></label>
+	    <justify>GTK_JUSTIFY_CENTER</justify>
+	    <wrap>False</wrap>
+	    <xalign>0.5</xalign>
+	    <yalign>0.5</yalign>
+	    <xpad>0</xpad>
+	    <ypad>0</ypad>
+	    <child>
+	      <padding>0</padding>
+	      <expand>False</expand>
+	      <fill>False</fill>
+	    </child>
+	  </widget>
+
+	  <widget>
 	    <class>GtkVButtonBox</class>
 	    <name>vbuttonbox25</name>
 	    <layout_style>GTK_BUTTONBOX_START</layout_style>
@@ -4159,7 +4198,16 @@ Baltic (ISO-8859-4)
 	      <name>cmdSignatureAdd</name>
 	      <can_default>True</can_default>
 	      <can_focus>True</can_focus>
-	      <label>_Create Signature</label>
+	      <label>_Add...</label>
+	      <relief>GTK_RELIEF_NORMAL</relief>
+	    </widget>
+
+	    <widget>
+	      <class>GtkButton</class>
+	      <name>cmdSignatureAddScript</name>
+	      <can_default>True</can_default>
+	      <can_focus>True</can_focus>
+	      <label>Add Sc_ript...</label>
 	      <relief>GTK_RELIEF_NORMAL</relief>
 	    </widget>
 
@@ -4168,7 +4216,7 @@ Baltic (ISO-8859-4)
 	      <name>cmdSignatureEdit</name>
 	      <can_default>True</can_default>
 	      <can_focus>True</can_focus>
-	      <label>_Edit</label>
+	      <label>_Edit...</label>
 	      <relief>GTK_RELIEF_NORMAL</relief>
 	    </widget>
 
@@ -4177,25 +4225,7 @@ Baltic (ISO-8859-4)
 	      <name>cmdSignatureDelete</name>
 	      <can_default>True</can_default>
 	      <can_focus>True</can_focus>
-	      <label>_Duplicate</label>
-	      <relief>GTK_RELIEF_NORMAL</relief>
-	    </widget>
-
-	    <widget>
-	      <class>GtkButton</class>
-	      <name>button1</name>
-	      <can_default>True</can_default>
-	      <can_focus>True</can_focus>
-	      <label>_Remove</label>
-	      <relief>GTK_RELIEF_NORMAL</relief>
-	    </widget>
-
-	    <widget>
-	      <class>GtkButton</class>
-	      <name>button2</name>
-	      <can_default>True</can_default>
-	      <can_focus>True</can_focus>
-	      <label>_Add Script...</label>
+	      <label>_Delete</label>
 	      <relief>GTK_RELIEF_NORMAL</relief>
 	    </widget>
 	  </widget>
@@ -4204,61 +4234,13 @@ Baltic (ISO-8859-4)
 
       <widget>
 	<class>GtkHBox</class>
-	<name>hbox165</name>
-	<homogeneous>False</homogeneous>
-	<spacing>0</spacing>
-	<child>
-	  <padding>0</padding>
-	  <expand>False</expand>
-	  <fill>False</fill>
-	</child>
-
-	<widget>
-	  <class>GtkLabel</class>
-	  <name>label449</name>
-	  <label>De_fault signature:</label>
-	  <justify>GTK_JUSTIFY_CENTER</justify>
-	  <wrap>False</wrap>
-	  <xalign>0.5</xalign>
-	  <yalign>0.5</yalign>
-	  <xpad>3</xpad>
-	  <ypad>0</ypad>
-	  <default_focus_target>optionmenu1</default_focus_target>
-	  <child>
-	    <padding>0</padding>
-	    <expand>False</expand>
-	    <fill>False</fill>
-	  </child>
-	</widget>
-
-	<widget>
-	  <class>GtkOptionMenu</class>
-	  <name>optionmenu1</name>
-	  <can_focus>True</can_focus>
-	  <items>Random
-
-Signature #1
-Signature #2
-</items>
-	  <initial_choice>0</initial_choice>
-	  <child>
-	    <padding>0</padding>
-	    <expand>False</expand>
-	    <fill>False</fill>
-	  </child>
-	</widget>
-      </widget>
-
-      <widget>
-	<class>GtkHBox</class>
 	<name>hbox162</name>
-	<border_width>3</border_width>
 	<homogeneous>False</homogeneous>
 	<spacing>3</spacing>
 	<child>
 	  <padding>0</padding>
-	  <expand>True</expand>
-	  <fill>True</fill>
+	  <expand>False</expand>
+	  <fill>False</fill>
 	</child>
 
 	<widget>
@@ -4886,6 +4868,266 @@ Signature #2
 	    <xfill>True</xfill>
 	    <yfill>False</yfill>
 	  </child>
+	</widget>
+      </widget>
+    </widget>
+  </widget>
+</widget>
+
+<widget>
+  <class>GnomeDialog</class>
+  <name>add_script_signature</name>
+  <visible>False</visible>
+  <type>GTK_WINDOW_TOPLEVEL</type>
+  <position>GTK_WIN_POS_NONE</position>
+  <modal>False</modal>
+  <allow_shrink>False</allow_shrink>
+  <allow_grow>False</allow_grow>
+  <auto_shrink>False</auto_shrink>
+  <auto_close>False</auto_close>
+  <hide_on_close>False</hide_on_close>
+
+  <widget>
+    <class>GtkVBox</class>
+    <child_name>GnomeDialog:vbox</child_name>
+    <name>dialog-vbox1</name>
+    <homogeneous>False</homogeneous>
+    <spacing>8</spacing>
+    <child>
+      <padding>4</padding>
+      <expand>True</expand>
+      <fill>True</fill>
+    </child>
+
+    <widget>
+      <class>GtkHButtonBox</class>
+      <child_name>GnomeDialog:action_area</child_name>
+      <name>dialog-action_area1</name>
+      <layout_style>GTK_BUTTONBOX_END</layout_style>
+      <spacing>8</spacing>
+      <child_min_width>85</child_min_width>
+      <child_min_height>27</child_min_height>
+      <child_ipad_x>7</child_ipad_x>
+      <child_ipad_y>0</child_ipad_y>
+      <child>
+	<padding>0</padding>
+	<expand>False</expand>
+	<fill>True</fill>
+	<pack>GTK_PACK_END</pack>
+      </child>
+
+      <widget>
+	<class>GtkButton</class>
+	<name>button4</name>
+	<can_default>True</can_default>
+	<can_focus>True</can_focus>
+	<label>Add signature</label>
+      </widget>
+
+      <widget>
+	<class>GtkButton</class>
+	<name>button5</name>
+	<can_default>True</can_default>
+	<can_focus>True</can_focus>
+	<stock_button>GNOME_STOCK_BUTTON_CANCEL</stock_button>
+      </widget>
+    </widget>
+
+    <widget>
+      <class>GtkVBox</class>
+      <name>vbox160</name>
+      <homogeneous>False</homogeneous>
+      <spacing>0</spacing>
+      <child>
+	<padding>0</padding>
+	<expand>True</expand>
+	<fill>True</fill>
+      </child>
+
+      <widget>
+	<class>GtkFrame</class>
+	<name>frame5</name>
+	<border_width>3</border_width>
+	<label>Signature information</label>
+	<label_xalign>0</label_xalign>
+	<shadow_type>GTK_SHADOW_ETCHED_IN</shadow_type>
+	<child>
+	  <padding>0</padding>
+	  <expand>True</expand>
+	  <fill>True</fill>
+	</child>
+
+	<widget>
+	  <class>GtkVBox</class>
+	  <name>vbox161</name>
+	  <border_width>3</border_width>
+	  <homogeneous>False</homogeneous>
+	  <spacing>3</spacing>
+
+	  <widget>
+	    <class>GtkHBox</class>
+	    <name>hbox171</name>
+	    <homogeneous>False</homogeneous>
+	    <spacing>0</spacing>
+	    <child>
+	      <padding>0</padding>
+	      <expand>False</expand>
+	      <fill>False</fill>
+	    </child>
+
+	    <widget>
+	      <class>GnomePixmap</class>
+	      <name>pixmap1</name>
+	      <filename>info.png</filename>
+	      <child>
+		<padding>0</padding>
+		<expand>True</expand>
+		<fill>True</fill>
+	      </child>
+	    </widget>
+
+	    <widget>
+	      <class>GtkLabel</class>
+	      <name>label456</name>
+	      <label>Type the name to which you would like to refer to this signature into Name entry.
+Enter the filename of the script which you want to use to generate your signature into Script entry. Standard output of this script will be used.</label>
+	      <justify>GTK_JUSTIFY_LEFT</justify>
+	      <wrap>True</wrap>
+	      <xalign>0</xalign>
+	      <yalign>0.5</yalign>
+	      <xpad>0</xpad>
+	      <ypad>0</ypad>
+	      <child>
+		<padding>0</padding>
+		<expand>False</expand>
+		<fill>False</fill>
+	      </child>
+	    </widget>
+	  </widget>
+
+	  <widget>
+	    <class>GtkTable</class>
+	    <name>table9</name>
+	    <rows>2</rows>
+	    <columns>2</columns>
+	    <homogeneous>False</homogeneous>
+	    <row_spacing>3</row_spacing>
+	    <column_spacing>3</column_spacing>
+	    <child>
+	      <padding>0</padding>
+	      <expand>True</expand>
+	      <fill>True</fill>
+	    </child>
+
+	    <widget>
+	      <class>GtkLabel</class>
+	      <name>label459</name>
+	      <label>Name:</label>
+	      <justify>GTK_JUSTIFY_CENTER</justify>
+	      <wrap>False</wrap>
+	      <xalign>0</xalign>
+	      <yalign>0.5</yalign>
+	      <xpad>0</xpad>
+	      <ypad>0</ypad>
+	      <child>
+		<left_attach>0</left_attach>
+		<right_attach>1</right_attach>
+		<top_attach>0</top_attach>
+		<bottom_attach>1</bottom_attach>
+		<xpad>0</xpad>
+		<ypad>0</ypad>
+		<xexpand>False</xexpand>
+		<yexpand>False</yexpand>
+		<xshrink>False</xshrink>
+		<yshrink>False</yshrink>
+		<xfill>True</xfill>
+		<yfill>False</yfill>
+	      </child>
+	    </widget>
+
+	    <widget>
+	      <class>GtkLabel</class>
+	      <name>label460</name>
+	      <label>Script:</label>
+	      <justify>GTK_JUSTIFY_CENTER</justify>
+	      <wrap>False</wrap>
+	      <xalign>0</xalign>
+	      <yalign>0.5</yalign>
+	      <xpad>0</xpad>
+	      <ypad>0</ypad>
+	      <child>
+		<left_attach>0</left_attach>
+		<right_attach>1</right_attach>
+		<top_attach>1</top_attach>
+		<bottom_attach>2</bottom_attach>
+		<xpad>0</xpad>
+		<ypad>0</ypad>
+		<xexpand>False</xexpand>
+		<yexpand>False</yexpand>
+		<xshrink>False</xshrink>
+		<yshrink>False</yshrink>
+		<xfill>True</xfill>
+		<yfill>False</yfill>
+	      </child>
+	    </widget>
+
+	    <widget>
+	      <class>GtkEntry</class>
+	      <name>entry1</name>
+	      <can_focus>True</can_focus>
+	      <editable>True</editable>
+	      <text_visible>True</text_visible>
+	      <text_max_length>0</text_max_length>
+	      <text></text>
+	      <child>
+		<left_attach>1</left_attach>
+		<right_attach>2</right_attach>
+		<top_attach>0</top_attach>
+		<bottom_attach>1</bottom_attach>
+		<xpad>0</xpad>
+		<ypad>0</ypad>
+		<xexpand>True</xexpand>
+		<yexpand>False</yexpand>
+		<xshrink>False</xshrink>
+		<yshrink>False</yshrink>
+		<xfill>True</xfill>
+		<yfill>False</yfill>
+	      </child>
+	    </widget>
+
+	    <widget>
+	      <class>GnomeFileEntry</class>
+	      <name>fileentry1</name>
+	      <max_saved>10</max_saved>
+	      <directory>False</directory>
+	      <modal>False</modal>
+	      <child>
+		<left_attach>1</left_attach>
+		<right_attach>2</right_attach>
+		<top_attach>1</top_attach>
+		<bottom_attach>2</bottom_attach>
+		<xpad>0</xpad>
+		<ypad>0</ypad>
+		<xexpand>True</xexpand>
+		<yexpand>False</yexpand>
+		<xshrink>False</xshrink>
+		<yshrink>False</yshrink>
+		<xfill>True</xfill>
+		<yfill>False</yfill>
+	      </child>
+
+	      <widget>
+		<class>GtkEntry</class>
+		<child_name>GnomeEntry:entry</child_name>
+		<name>combo-entry2</name>
+		<can_focus>True</can_focus>
+		<editable>True</editable>
+		<text_visible>True</text_visible>
+		<text_max_length>0</text_max_length>
+		<text></text>
+	      </widget>
+	    </widget>
+	  </widget>
 	</widget>
       </widget>
     </widget>

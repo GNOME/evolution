@@ -101,7 +101,7 @@ struct _EMsgComposer {
 	CamelMimeMessage *redirect;
 
 	MailConfigSignature *signature;
-	gboolean random_signature;
+	gboolean auto_signature;
 };
 
 struct _EMsgComposerClass {

@@ -102,11 +102,6 @@ struct _MailComposerPrefs {
 	GtkButton *sig_add;
 	GtkButton *sig_edit;
 	GtkButton *sig_delete;
-	GtkToggleButton *sig_random;
-	GtkToggleButton *sig_advanced;
-	GtkToggleButton *sig_html;
-	GnomeFileEntry *sig_filename;
-	GnomeFileEntry *sig_script;
 	GtkHTML *sig_preview;
 	gboolean sig_switch;
 	int sig_row;
