@@ -47,6 +47,9 @@ ical_object_new (void)
 	ico->seq = -1;
 	ico->dtstamp = time (NULL);
 	ico->uid = ical_gen_uid ();
+
+	ico->pilot_id = 0;
+	ico->pilot_status = ICAL_PILOT_SYNC_MOD;
 	
 	return ico;
 }
@@ -372,6 +375,8 @@ load_recur_yearly_day (iCalObject *o, char **str)
 {
 	/* Skip as we do not support multiple days and we do expect
 	 * the dtstart to agree with the value on this field
+	 *
+	 * FIXME: we should support every-n-years
 	 */
 	skip_numbers (str);
 }
@@ -782,6 +787,22 @@ ical_object_create_from_vobject (VObject *o, const char *object_name)
 		}
 		free (the_str);
 	}
+
+	/*
+	 * Pilot
+	 */
+	if (has (o, XPilotIdProp)){
+		ical->pilot_id = atoi (str_val (vo));
+		free (the_str);
+	} else
+		ical->pilot_id = 0;
+
+	if (has (o, XPilotStatusProp)){
+		ical->pilot_status = atoi (str_val (vo));
+		free (the_str);
+	} else
+		ical->pilot_status = ICAL_PILOT_SYNC_MOD;
+	
 	return ical;
 }
 
@@ -1047,6 +1068,17 @@ ical_object_to_vobject (iCalObject *ical)
 		addPropValue (alarm, VCProcedureNameProp, ical->palarm.data);
 	if ((alarm = save_alarm (o, &ical->malarm, ical)))
 		addPropValue (alarm, VCEmailAddressProp, ical->malarm.data);
+
+	/* Pilot */
+	{
+		char buffer [20];
+		
+		sprintf (buffer, "%d", ical->pilot_id);
+		addPropValue (o, XPilotIdProp, buffer);
+		sprintf (buffer, "%d", ical->pilot_status);
+		addPropValue (o, XPilotStatusProp, buffer);
+	}
+	
 	return o;
 }
 
@@ -1426,3 +1458,33 @@ alarm_compute_offset (CalendarAlarm *a)
 	}
 	return a->offset;
 }
+
+iCalObject *
+ical_object_new_from_string (const char *vcal_string)
+{
+	iCalObject *ical = NULL;
+	VObject *cal, *event;
+	VObjectIterator i;
+	char *object_name;
+	
+	cal = Parse_MIME (vcal_string, strlen (vcal_string));
+
+	initPropIterator (&i, cal);
+
+	while (moreIteration (&i)){
+		event = nextVObject (&i);
+
+		object_name = vObjectName (event);
+		
+		if (strcmp (object_name, VCEventProp) == 0){
+			ical = ical_object_create_from_vobject (event, object_name);
+			break;
+		}
+	}
+
+	cleanVObject (cal);
+	cleanStrTbl ();
+
+	return ical;
+}
+

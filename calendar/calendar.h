@@ -26,6 +26,8 @@ typedef struct {
 	/* If the calendar was last modified */
 	int     modified;
 	void    *temp;
+
+	void    *corba_server;
 } Calendar;
 
 /* This is only used by the calendar_get_events_in_range routine to get
@@ -38,6 +40,9 @@ typedef struct {
 } CalendarObject;
 
 Calendar *calendar_new                  (char *title);
+char     *calendar_get_as_vcal_string   (Calendar *cal);
+char     *calendar_string_from_object   (iCalObject *object);
+
 char     *calendar_load                 (Calendar *cal, char *fname);
 void      calendar_save                 (Calendar *cal, char *fname);
 void      calendar_add_object           (Calendar *cal, iCalObject *obj);
@@ -63,6 +68,12 @@ void calendar_destroy_event_list (GList *l);
 void      calendar_object_changed       (Calendar *cal, iCalObject *obj, int flags);
 
 void      calendar_notify (time_t time, CalendarAlarm *which, void *data);
+
+iCalObject *calendar_object_find_event    (Calendar *cal, const char *uid);
+iCalObject *calendar_object_find_todo     (Calendar *cal, const char *uid);
+iCalObject *calendar_object_find          (Calendar *cal, const char *uid);
+iCalObject *calendar_object_find_by_pilot (Calendar *cal, int pilot_id);
+
 END_GNOME_DECLS
 
 #endif

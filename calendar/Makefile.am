@@ -1,17 +1,36 @@
 SUBDIRS = doc
 
+idldir = $(datadir)/idl
+idl_DATA = GnomeCal.idl
+
+gnorbadir = $(sysconfdir)/CORBA/servers
+gnorba_DATA = gnomecal.gnorba
+
 help_base = $(datadir)/gnome/help/cal
 
-CFLAGS += -Wall
+CFLAGS += -Wall -Wunused -Wpointer-arith -Wmissing-declarations
 
 INCLUDES = 			\
 	-I$(includedir)					\
 	$(GNOME_INCLUDEDIR)				\
         -DGNOMELOCALEDIR=\""$(datadir)/locale"\"
 
-bin_PROGRAMS = gnomecal
+bin_PROGRAMS = gnomecal calendar-pilot-sync
+
+GNOMECAL_CORBA_GENERATED =	\
+	GnomeCal.h		\
+	GnomeCal.c		\
+	GnomeCal-common.c	\
+	GnomeCal-skels.c	\
+	GnomeCal-stubs.c
+
+$(GNOMECAL_CORBA_GENERATED): GnomeCal.idl
+	orbit-idl GnomeCal.idl
 
 gnomecal_SOURCES = \
+	GnomeCal-common.c	\
+	GnomeCal-skels.c	\
+	GnomeCal.h		\
 	alarm.c			\
 	alarm.h			\
 	calendar.c		\
@@ -21,6 +40,10 @@ gnomecal_SOURCES = \
 	eventedit.c		\
 	eventedit.h		\
 	getdate.y		\
+	corba-cal.c		\
+	corba-cal.h		\
+	corba-cal-factory.c	\
+	corba-cal-factory.h	\
 	gncal-day-panel.c	\
 	gncal-day-panel.h	\
 	gncal-day-view.c	\
@@ -57,11 +80,28 @@ gnomecal_SOURCES = \
 	year-view.c		\
 	year-view.h
 
+calendar_pilot_sync_SOURCES =	\
+	GnomeCal-common.c	\
+	GnomeCal-stubs.c	\
+	alarm.c			\
+	calendar-pilot-sync.c	\
+	calobj.c		\
+	calobj.h		\
+	calendar.c		\
+	calendar.h		\
+	timeutil.c		\
+	timeutil.h
+
 LINK_FLAGS = \
 	$(GNOME_LIBDIR) \
 	$(GNOMEGNORBA_LIBS) \
 	$(INTLLIBS) ../libversit/libversit.a
 
+PILOT_LIBS = -lpisock
+
+calendar_pilot_sync_LDADD =	\
+	$(PILOT_LIBS)		\
+	$(LINK_FLAGS)
 
 #gncal_LDADD = $(LINK_FLAGS)
 
@@ -70,7 +110,9 @@ gnomecal_LDADD = $(LINK_FLAGS)
 EXTRA_DIST = \
 	gncal.desktop	\
 	bell.xpm	\
-	recur.xpm
+	recur.xpm	\
+	$(idl_DATA)	\
+	$(gnorba_DATA)
 
 
 Productivitydir = $(datadir)/gnome/apps/Applications

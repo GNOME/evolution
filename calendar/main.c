@@ -9,6 +9,7 @@
 
 #include <config.h>
 #include <gnome.h>
+#include <libgnorba/gnorba.h>
 #include <pwd.h>
 #include <sys/types.h>
 #include <sys/stat.h>
@@ -20,7 +21,7 @@
 #include "gnome-cal.h"
 #include "main.h"
 #include "timeutil.h"
-
+#include "corba-cal-factory.h"
 
 #define COOKIE_USER_HOME_DIR ((char *) -1)
 
@@ -65,8 +66,6 @@ int active_calendars = 0;
 
 /* A list of all of the calendars started */
 GList *all_calendars = NULL;
-
-static void new_calendar (char *full_name, char *calendar_file, char *geometry, char *view, gboolean hidden);
 
 /* For dumping part of a calendar */
 static time_t from_t, to_t;
@@ -203,10 +202,29 @@ display_objedit_today (GtkWidget *widget, GnomeCalendar *gcal)
 	gtk_widget_show (ee);
 }
 
+GnomeCalendar *
+gnome_calendar_locate (const char *pathname)
+{
+	GList *l;
+
+	if (pathname == NULL || pathname [0] == 0)
+		pathname = user_calendar_file;
+	
+	for (l = all_calendars; l; l = l->next){
+		GnomeCalendar *gcal = l->data;
+
+		if (strcmp (gcal->cal->filename, pathname) == 0){
+			return gcal;
+		}
+	}
+	return NULL;
+}
+
 static void
 close_cmd (GtkWidget *widget, GnomeCalendar *gcal)
 {
 	all_calendars = g_list_remove (all_calendars, gcal);
+
 	if (gcal->cal->modified){
 		if (!gcal->cal->filename)
 			save_calendar_cmd (widget, gcal);
@@ -217,8 +235,10 @@ close_cmd (GtkWidget *widget, GnomeCalendar *gcal)
 	gtk_widget_destroy (GTK_WIDGET (gcal));
 	active_calendars--;
 
-	if (active_calendars == 0)
+	if (active_calendars == 0){
+		unregister_calendar_services ();
 		gtk_main_quit ();
+	}
 }
 
 void
@@ -551,7 +571,7 @@ calendar_close_event (GtkWidget *widget, GdkEvent *event, GnomeCalendar *gcal)
 	return TRUE;
 }
 
-static void
+GnomeCalendar *
 new_calendar (char *full_name, char *calendar_file, char *geometry, char *page, gboolean hidden)
 {
 	GtkWidget   *toplevel;
@@ -559,7 +579,8 @@ new_calendar (char *full_name, char *calendar_file, char *geometry, char *page, 
 	int         xpos, ypos, width, height;
 
 	/* i18n: This "%s%s" indicates possession. Languages where the order is
-       the inverse should translate it to "%2$s%1$s". */
+	 * the inverse should translate it to "%2$s%1$s".
+	 */
 	g_snprintf(title, 128, _("%s%s"), full_name, _("'s calendar"));
 
 	toplevel = gnome_calendar_new (title);
@@ -606,6 +627,8 @@ new_calendar (char *full_name, char *calendar_file, char *geometry, char *page, 
 	}
 	
 	gtk_widget_show (toplevel);
+
+	return GNOME_CALENDAR (toplevel);
 }
 
 static void
@@ -839,13 +862,23 @@ int
 main(int argc, char *argv[])
 {
 	GnomeClient *client;
+	CORBA_Environment ev;
 
 	bindtextdomain (PACKAGE, GNOMELOCALEDIR);
 	textdomain (PACKAGE);
 
-	gnome_init_with_popt_table ("calendar", VERSION, argc, argv,
-				    options, 0, NULL);
+	CORBA_exception_init (&ev);
 
+	gnome_CORBA_init_with_popt_table (
+		"calendar", VERSION, &argc, argv,
+		options, 0, NULL, GNORBA_INIT_SERVER_FUNC, &ev);
+
+	orb = gnome_CORBA_ORB ();
+	poa = (PortableServer_POA)CORBA_ORB_resolve_initial_references (orb, "RootPOA", &ev);
+	if (ev._major == CORBA_NO_EXCEPTION){
+		init_corba_server ();
+	}
+	
 	if (show_events)
 		dump_events ();
 	if (show_todo)

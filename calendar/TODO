@@ -1,3 +1,8 @@
+Pilot:
+
+* Better support for untimed events (we have none now).
+* Add syncing from Desktop to Pilot.
+
 BUGS:
 
 - Recurrence end date is wrong.  An event that repeats daily will not

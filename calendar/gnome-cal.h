@@ -63,6 +63,8 @@ void       gnome_calendar_object_changed        (GnomeCalendar *gcal,
 						 iCalObject *obj,
 						 int flags);
 
+GnomeCalendar *gnome_calendar_locate            (const char *pathname);
+
 /* Notifies the calendar that the time format has changed and it must update all its views */
 void gnome_calendar_time_format_changed (GnomeCalendar *gcal);
 

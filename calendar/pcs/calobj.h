@@ -65,6 +65,12 @@ typedef struct {
 	int  len;
 } iCalValue;
 
+typedef enum {
+	ICAL_PILOT_SYNC_NONE = 0,
+	ICAL_PILOT_SYNC_MOD  = 1,
+	ICAL_PILOT_SYNC_DEL  = 3
+} iCalPilotState;
+
 typedef struct {
 	int     valid;		/* true if the Geography was specified */
 	double  latitude;
@@ -172,6 +178,10 @@ typedef struct {
 	
 	int new;
 	void *user_data;		/* Generic data pointer */
+
+	/* Pilot */
+	int           pilot_status;     /* Status information */
+	int           pilot_id;         /* Pilot ID */
 } iCalObject;
 
 /* The callback for the recurrence generator */
@@ -179,6 +189,7 @@ typedef int (*calendarfn) (iCalObject *, time_t, time_t, void *);
 
 iCalObject *ical_new                        (char *comment, char *organizer, char *summary);
 iCalObject *ical_object_new                 (void);
+iCalObject *ical_object_new_from_string     (const char *vcalendar_string);
 void        ical_object_destroy             (iCalObject *ico);
 iCalObject *ical_object_create_from_vobject (VObject *obj, const char *object_name);
 VObject    *ical_object_to_vobject          (iCalObject *ical);

@@ -226,6 +226,8 @@ gnome_calendar_new (char *title)
 	gcal->current_display = time_day_begin (time (NULL));
 	gcal->cal = calendar_new (title);
 	setup_widgets (gcal);
+	gnome_calendar_create_corba_server (gcal);
+	
 	return retval;
 }
 

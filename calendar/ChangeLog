@@ -1,3 +1,48 @@
+1999-07-28  Miguel de Icaza  <miguel@gnu.org>
+
+	* calendar-pilot-sync.c: New file.  Implements PalmPilot
+	syncronization with the Gnome Calendar.
+
+1999-07-27  Miguel de Icaza  <miguel@gnu.org>
+
+	* calobj.c (ical_object_new_from_string): New function.  Creates
+	an iCalObject from a vCalendar string that is supposed to contain
+	only one vEvent.
+
+	* calendar.c:
+	(calendar_save): Split this routine in two.
+
+	* gnome-cal.c (gnome_calendar_new): Create the corba server here.
+
+	* main.c: Include gnorba.h, and corba-cal-factory.h here
+	(close_cmd): Kill the calendar server on shutdown.
+
+	* calobj.c (load_recur_yearly_day): Added a fixme comment.  WE
+	need to handle intervals in the years.
+
+	* calendar.c (calendar_object_find_in_list, calendar_object_find,
+	calendar_object_find_todo, calendar_object_find_event): New
+	functions for looking up information.
+
+	* main.c (gnome_calendar_locate): New function.
+
+	* corba-cal.c (calendar_create_object): New file.  Implements the
+	corba server.
+
+	* calendar.c (calendar_object_changed): Flag pilot-status as changed.
+
+	* calobj.c (ical_object_to_vobject): Save pilot information for syncing.
+	(ical_object_create_from_vobject): Load syncing information for
+	pilot.  Do it in a way compatible with KOrganizer.
+
+1999-07-26  Miguel de Icaza  <miguel@gnu.org>
+
+	* calobj.c (ical_object_create_from_vobject): Generate unique IDs
+	on Vevents we load that lack it.  WE need this for the old
+	gnome calendar generated files (ie, before now :-).
+
+	Required to sync with the Palm
+
 1999-07-26  Miguel de Icaza  <miguel@gnu.org>
 
 	* calobj.c (ical_object_create_from_vobject): Generate unique IDs

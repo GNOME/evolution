@@ -4,7 +4,7 @@
  * This keeps track of a given calendar.  Eventually this will abtract everything
  * related to getting calendars/saving calendars locally or to a remote Calendar Service
  *
- * Copyright (C) 1998 the Free Software Foundation
+ * Copyright (C) 1998, 1999 the Free Software Foundation
  *
  * Authors:
  *   Miguel de Icaza (miguel@gnu.org)
@@ -323,18 +323,14 @@ calendar_load (Calendar *cal, char *fname)
 	return NULL;
 }
 
-void
-calendar_save (Calendar *cal, char *fname)
+static VObject *
+vcalendar_create_from_calendar (Calendar *cal)
 {
 	VObject *vcal;
 	GList   *l;
 	time_t  now = time (NULL);
-	struct  stat s;
 	struct tm *tm;
 	
-	if (fname == NULL)
-		fname = cal->filename;
-
 	/* WE call localtime for the side effect of setting tzname */
 	tm = localtime (&now);
 	
@@ -366,6 +362,19 @@ calendar_save (Calendar *cal, char *fname)
 		addVObjectProp (vcal, obj);
 	}
 
+	return vcal;
+}
+
+void
+calendar_save (Calendar *cal, char *fname)
+{
+	VObject *vcal;
+	struct  stat s;
+
+	if (fname == NULL)
+		fname = cal->filename;
+
+	vcal = vcalendar_create_from_calendar (cal);
 	if (g_file_exists (fname)){
 		char *backup_name = g_strconcat (fname, "~", NULL);
 
@@ -375,6 +384,7 @@ calendar_save (Calendar *cal, char *fname)
 		rename (fname, backup_name);
 		g_free (backup_name);
 	}
+
 	writeVObjectToFile (fname, vcal);
 
 	stat (fname, &s);
@@ -382,6 +392,23 @@ calendar_save (Calendar *cal, char *fname)
 	
 	cleanVObject (vcal);
 	cleanStrTbl ();
+}
+
+char *
+calendar_get_as_vcal_string (Calendar *cal)
+{
+	VObject *vcal;
+	char *result;
+	
+	g_return_val_if_fail (cal != NULL, NULL);
+
+	vcal = vcalendar_create_from_calendar (cal);
+	result = writeMemVObject (NULL, 0, vcal);
+
+	cleanVObject (vcal);
+	cleanStrTbl ();
+
+	return result;
 }
 
 static gint
@@ -440,6 +467,8 @@ calendar_object_changed (Calendar *cal, iCalObject *obj, int flags)
 	while (alarm_kill (obj))
 		;
 	ical_object_try_alarms (obj);
+
+	obj->pilot_status = ICAL_PILOT_SYNC_MOD;
 }
 
 static void
@@ -466,3 +495,99 @@ calendar_init_alarms (Calendar *cal)
 	alarm_add (&day_change_alarm, calendar_day_change, cal);
 }
 
+static iCalObject *
+calendar_object_find_in_list (Calendar *cal, GList *list, const char *uid)
+{
+	GList *l;
+
+	for (l = list; l; l = l->next){
+		iCalObject *obj = l->data;
+
+		if (strcmp (obj->uid, uid) == 0)
+			return obj;
+	}
+
+	return NULL;
+}
+
+iCalObject *
+calendar_object_find_event (Calendar *cal, const char *uid)
+{
+	g_return_val_if_fail (cal != NULL, NULL);
+	g_return_val_if_fail (uid != NULL, NULL);
+
+	return calendar_object_find_in_list (cal, cal->events, uid);
+}
+
+iCalObject *
+calendar_object_find_todo (Calendar *cal, const char *uid)
+{
+	g_return_val_if_fail (cal != NULL, NULL);
+	g_return_val_if_fail (uid != NULL, NULL);
+
+	return calendar_object_find_in_list (cal, cal->todo, uid);
+}
+
+iCalObject *
+calendar_object_find (Calendar *cal, const char *uid)
+{
+	iCalObject *obj;
+	
+	g_return_val_if_fail (cal != NULL, NULL);
+	g_return_val_if_fail (uid != NULL, NULL);
+
+	obj = calendar_object_find_in_list (cal, cal->todo, uid);
+
+	if (obj == NULL)
+		obj = calendar_object_find_in_list (cal, cal->events, uid);
+
+	return obj;
+}
+
+iCalObject *
+calendar_object_find_by_pilot (Calendar *cal, int pilot_id)
+{
+	GList *l;
+	
+	g_return_val_if_fail (cal != NULL, NULL);
+
+	for (l = cal->events; l; l = l->next){
+		iCalObject *obj = l->data;
+
+		if (obj->pilot_id == pilot_id)
+			return obj;
+	}
+
+	for (l = cal->todo; l; l = l->next){
+		iCalObject *obj = l->data;
+
+		if (obj->pilot_id == pilot_id)
+			return obj;
+	}
+
+	return NULL;
+}
+
+/*
+ * calendar_string_from_object:
+ *
+ * Returns the iCalObject @object armored around a vCalendar
+ * object as a string.
+ */
+char *
+calendar_string_from_object (iCalObject *object)
+{
+	Calendar *cal;
+	char *str;
+
+	g_return_val_if_fail (object != NULL, NULL);
+	
+	cal = calendar_new ("Temporal");
+	calendar_add_object (cal, object);
+	str = calendar_get_as_vcal_string (cal);
+	calendar_remove_object (cal, object);
+
+	calendar_destroy (cal);
+	
+	return str;
+}
