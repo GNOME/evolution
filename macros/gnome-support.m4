@@ -81,6 +81,8 @@ AC_DEFUN([GNOME_SUPPORT_CHECKS],[
   AC_REPLACE_FUNCS(memmove mkstemp scandir strcasecmp strerror strndup strnlen)
   AC_REPLACE_FUNCS(strtok_r strtod strtol strtoul vasprintf)
 
+  # to include `error.c' error.c has some HAVE_* checks
+  AC_CHECK_FUNCS(vprintf doprnt sterror_r)
   AM_FUNC_ERROR_AT_LINE
 
   # see if we need to declare some functions.  Solaris is notorious for

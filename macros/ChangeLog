@@ -1,3 +1,7 @@
+1998-07-29  Raja R Harinath  <harinath@cs.umn.edu>
+
+	* gnome-support.m4: Check for functions that `error.c' looks for.
+
 1998-07-29  Martin Baulig  <martin@home-of-linux.org>
 
 	* gnome-fileutils.m4 (AM_FUNC_ERROR_AT_LINE): Removed.
