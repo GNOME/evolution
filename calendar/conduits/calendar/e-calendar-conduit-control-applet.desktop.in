@@ -1,8 +1,0 @@
-[Desktop Entry]
-_Name=Evolution Calendar Conduit
-_Comment=Configure the Evolution Calendar conduit
-Exec=e-calendar-conduit-control-applet --cap-id=1
-TryExec=e-calendar-conduit-control-applet
-Terminal=0
-Type=Application
-Icon=gnome-calendar-conduit.png
