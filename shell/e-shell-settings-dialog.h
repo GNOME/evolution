@@ -57,8 +57,10 @@ struct _EShellSettingsDialogClass {
 };
 
 
-GtkType    e_shell_settings_dialog_get_type (void);
-GtkWidget *e_shell_settings_dialog_new      (void);
+GtkType    e_shell_settings_dialog_get_type  (void);
+GtkWidget *e_shell_settings_dialog_new       (void);
+void       e_shell_settings_dialog_show_type (EShellSettingsDialog *dialog,
+					      const char           *type);
 
 #ifdef __cplusplus
 }

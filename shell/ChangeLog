@@ -1,3 +1,19 @@
+2002-04-06  JP Rosevear  <jpr@ximian.com>
+
+	* e-shell-settings-dialog.c (page_new): set type
+	(load_pages): get the oaf property for type and track the page
+	number of the highest priority for each type
+	(destroy_type_entry): destroy hash func
+	(impl_destroy): destroy the hash table
+	(init): create private struct and hash table
+	(e_shell_settings_dialog_show_type): show the page of the given
+	type
+
+	* e-shell-view-menu.c (command_settings): show the page for the
+	current folder type by default
+
+	* e-shell-settings-dialog.h: new proto
+
 2002-04-06  Ettore Perazzoli  <ettore@ximian.com>
 
 	* e-shell-settings-dialog.c (init): Set the title of the dialog.

@@ -44,12 +44,19 @@
 static EMultiConfigDialogClass *parent_class = NULL;
 
 
+
+struct _EShellSettingsDialogPrivate {
+	GHashTable *types;
+};
+
+
 /* Page handling.  */
 
 struct _Page {
 	char *title;
 	char *description;
 	GdkPixbuf *icon;
+	OAF_Property *type;
 	int priority;
 	EConfigPage *page_widget;
 };
@@ -59,6 +66,7 @@ static Page *
 page_new (const char *title,
 	  const char *description,
 	  GdkPixbuf *icon,
+	  OAF_Property *type,
 	  int priority,
 	  EConfigPage *page_widget)
 {
@@ -71,6 +79,7 @@ page_new (const char *title,
 	page->title       = g_strdup (title);
 	page->description = g_strdup (description);
 	page->icon        = icon;
+	page->type        = type;
 	page->priority    = priority;
 	page->page_widget = page_widget;
 
@@ -114,13 +123,16 @@ sort_page_list (GList *list)
 static void
 load_pages (EShellSettingsDialog *dialog)
 {
+	EShellSettingsDialogPrivate *priv;
 	OAF_ServerInfoList *control_list;
 	CORBA_Environment ev;
 	GSList *language_list;
 	GList *page_list;
 	GList *p;
-	int i;
+	int i, j;
 
+	priv = dialog->priv;
+	
 	CORBA_exception_init (&ev);
 
 	control_list = oaf_query ("defined(evolution:config_item:title)", NULL, &ev);
@@ -140,6 +152,7 @@ load_pages (EShellSettingsDialog *dialog)
 		const char *description;
 		const char *icon_path;
 		const char *priority_string;
+		OAF_Property *type;
 		int priority;
 		GdkPixbuf *icon;
 
@@ -148,6 +161,7 @@ load_pages (EShellSettingsDialog *dialog)
 		title       	= oaf_server_info_prop_lookup (info, "evolution:config_item:title", language_list);
 		description 	= oaf_server_info_prop_lookup (info, "evolution:config_item:description", language_list);
 		icon_path   	= oaf_server_info_prop_lookup (info, "evolution:config_item:icon_name", NULL);
+		type            = oaf_server_info_prop_find (info, "evolution:config_item:type");
 		priority_string = oaf_server_info_prop_lookup (info, "evolution:config_item:priority", NULL);
 
 		if (icon_path == NULL) {
@@ -164,6 +178,8 @@ load_pages (EShellSettingsDialog *dialog)
 			}
 		}
 
+		if (type != NULL && type->v._d != OAF_P_STRINGV)
+			type = NULL;
 		if (priority_string == NULL)
 			priority = 0xffff;
 		else
@@ -174,7 +190,7 @@ load_pages (EShellSettingsDialog *dialog)
 		if (! BONOBO_EX (&ev)) {
 			Page *page;
 
-			page = page_new (title, description, icon, priority,
+			page = page_new (title, description, icon, type, priority,
 					 E_CONFIG_PAGE (e_corba_config_page_new_from_objref (corba_object)));
 
 			page_list = g_list_prepend (page_list, page);
@@ -187,7 +203,7 @@ load_pages (EShellSettingsDialog *dialog)
 	}
 
 	page_list = sort_page_list (page_list);
-	for (p = page_list; p != NULL; p = p->next) {
+	for (p = page_list, i = 0; p != NULL; p = p->next, i++) {
 		Page *page;
 
 		page = (Page *) p->data;
@@ -198,6 +214,17 @@ load_pages (EShellSettingsDialog *dialog)
 						page->icon,
 						page->page_widget);
 
+		if (page->type != NULL) {
+			GNOME_stringlist list = page->type->v._u.value_stringv;
+			
+			for (j = 0; j < list._length; j++) {
+				if (g_hash_table_lookup (priv->types, list._buffer[j]) == NULL)
+					g_hash_table_insert (priv->types, g_strdup (list._buffer[j]), 
+							     GINT_TO_POINTER (i));
+			}
+		}
+		
+		
 		page_free (page);
 	}
 
@@ -211,15 +238,28 @@ load_pages (EShellSettingsDialog *dialog)
 
 /* GtkObject methods.  */
 
+static gboolean
+destroy_type_entry (gpointer key, gpointer value, gpointer data)
+{
+	g_free (key);
+	
+	return TRUE;
+}
+		
 static void
 impl_destroy (GtkObject *object)
 {
 	EShellSettingsDialog *dialog;
+	EShellSettingsDialogPrivate *priv;
 
 	dialog = E_SHELL_SETTINGS_DIALOG (object);
+	priv = dialog->priv;
+	
+	g_hash_table_foreach_remove (priv->types, destroy_type_entry, NULL);
+	g_hash_table_destroy (priv->types);
 
-	/* (Really nothing to do here for now.)  */
-
+	g_free (priv);
+	
 	(* GTK_OBJECT_CLASS (parent_class)->destroy) (object);
 }
 
@@ -238,6 +278,13 @@ class_init (EShellSettingsDialog *class)
 static void
 init (EShellSettingsDialog *dialog)
 {
+	EShellSettingsDialogPrivate *priv;
+
+	priv = g_new (EShellSettingsDialogPrivate, 1);
+	priv->types = g_hash_table_new (g_str_hash, g_str_equal);
+
+	dialog->priv = priv;
+
 	load_pages (dialog);
 
 	gtk_window_set_title (GTK_WINDOW (dialog), _("Evolution Settings"));
@@ -246,13 +293,32 @@ init (EShellSettingsDialog *dialog)
 
 
 GtkWidget *
-e_shell_settings_dialog_new (void)
+e_shell_settings_dialog_new ()
 {
 	EShellSettingsDialog *new;
 
 	new = gtk_type_new (e_shell_settings_dialog_get_type ());
 
 	return GTK_WIDGET (new);
+}
+
+void
+e_shell_settings_dialog_show_type (EShellSettingsDialog *dialog, const char *type)
+{
+	EShellSettingsDialogPrivate *priv;
+	gpointer value;
+	int page;
+	
+	g_return_if_fail (dialog != NULL);
+	g_return_if_fail (E_IS_SHELL_SETTINGS_DIALOG (dialog));
+	g_return_if_fail (type != NULL);
+
+	priv = dialog->priv;
+	
+	value = g_hash_table_lookup (priv->types, type);
+	page = GPOINTER_TO_INT (value);
+	
+	e_multi_config_dialog_show_page (E_MULTI_CONFIG_DIALOG (dialog), page);
 }
 
 
