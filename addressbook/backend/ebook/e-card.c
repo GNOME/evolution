@@ -2648,7 +2648,6 @@ e_card_list_send (GList *cards, ECardDisposition disposition)
 			cards = g_list_next (cards);
 		}
 
-
 		subject = CORBA_string_dup ("");
 
 		GNOME_Evolution_Composer_setHeaders (composer_server, to_list, cc_list, bcc_list, subject, &ev);
@@ -2669,6 +2668,9 @@ e_card_list_send (GList *cards, ECardDisposition disposition)
 		GNOME_Evolution_Composer_AttachmentData *attach_data;
 		CORBA_boolean show_inline;
 		char *tempstr;
+
+		GNOME_Evolution_Composer_RecipientList *to_list, *cc_list, *bcc_list;
+		CORBA_char *subject;
 		
 		content_type = CORBA_string_dup ("text/x-vcard");
 		filename = CORBA_string_dup ("");
@@ -2711,6 +2713,61 @@ e_card_list_send (GList *cards, ECardDisposition disposition)
 		CORBA_free (filename);
 		CORBA_free (description);
 		CORBA_free (attach_data);
+
+		to_list = GNOME_Evolution_Composer_RecipientList__alloc ();
+		to_list->_maximum = to_list->_length = 0;
+		
+		cc_list = GNOME_Evolution_Composer_RecipientList__alloc ();
+		cc_list->_maximum = cc_list->_length = 0;
+
+		bcc_list = GNOME_Evolution_Composer_RecipientList__alloc ();
+		bcc_list->_maximum = bcc_list->_length = 0;
+
+		if (!cards || cards->next) {
+			subject = CORBA_string_dup ("Contact information");
+		} else {
+			ECard *card = cards->data;
+			const gchar *tempstr2;
+
+			tempstr2 = NULL;
+			gtk_object_get(GTK_OBJECT(card),
+				       "file_as", &tempstr2,
+				       NULL);
+			if (!tempstr2 || !*tempstr2)
+				gtk_object_get(GTK_OBJECT(card),
+					       "full_name", &tempstr2,
+					       NULL);
+			if (!tempstr2 || !*tempstr2)
+				gtk_object_get(GTK_OBJECT(card),
+					       "org", &tempstr2,
+					       NULL);
+			if (!tempstr2 || !*tempstr2) {
+				EList *list;
+				EIterator *iterator;
+				gtk_object_get(GTK_OBJECT(card),
+					       "email", &list,
+					       NULL);
+				iterator = e_list_get_iterator (list);
+				if (e_iterator_is_valid (iterator)) {
+					tempstr2 = e_iterator_get (iterator);
+				}
+				gtk_object_unref (GTK_OBJECT (iterator));
+			}
+
+			if (!tempstr2 || !*tempstr2)
+				tempstr = g_strdup_printf ("Contact information");
+			else
+				tempstr = g_strdup_printf ("Contact information for %s", tempstr2);
+			subject = CORBA_string_dup (tempstr);
+			g_free (tempstr);
+		}
+		
+		GNOME_Evolution_Composer_setHeaders (composer_server, to_list, cc_list, bcc_list, subject, &ev);
+
+		CORBA_free (to_list);
+		CORBA_free (cc_list);
+		CORBA_free (bcc_list);
+		CORBA_free (subject);
 	}
 
 	GNOME_Evolution_Composer_show (composer_server, &ev);
