@@ -1,3 +1,11 @@
+2005-02-22  Not Zed  <NotZed@Ximian.com>
+
+	** See bug #61468
+
+	* providers/imap/camel-imap-folder.c (imap_update_summary): get rid of the stupid
+	HEADER.FIELDS NOT() blah, it just caused more problems than it
+	ever solved.
+
 2005-02-01  Not Zed  <NotZed@Ximian.com>
 
 	** See bug #72020.
