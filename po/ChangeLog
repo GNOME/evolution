@@ -1,3 +1,8 @@
+2003-10-21  Carlos Perelló Marín <carlos@gnome.org>
+
+	* am.po, bg.po, da.po, ga.po, gl.po, lt.po, nn.po: Reencoded as
+	UTF-8/fixed the encoding label from utf-8 to UTF-8
+
 2003-10-20  Gustavo Maciel Dias Vieira <gdvieira@zaz.com.br>
 
 	* pt_BR.po: Updated Brazilian Portuguese translation done by
