@@ -1,3 +1,10 @@
+2000-02-21  Dan Winship  <danw@helixcode.com>
+
+	* session.c (session_store_new): Update session_store_new to
+	deal with the fact that camel_session_get_store takes a
+	CamelException now. Doesn't actually do anything with the
+	exception yet, because nothing else does yet either.
+
 2000-02-19  Matt Loper  <matt@helixcode.com>
 
 	* .cvsignore: added test-mail.

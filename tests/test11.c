@@ -41,7 +41,12 @@ main (int argc, char**argv)
 	camel_provider_register_as_module ("../camel/providers/mbox/.libs/libcamelmbox.so.0");
 	
 	session = camel_session_new ();
-	store = camel_session_get_store (session, store_url);
+	store = camel_session_get_store (session, store_url, ex);
+	if (camel_exception_get_id (ex)) {
+		printf ("Exception caught in camel_session_get_store\n"
+			"Full description : %s\n", camel_exception_get_description (ex));
+		return -1;
+	}
 
 	printf("get folder\n");	
 

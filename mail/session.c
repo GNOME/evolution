@@ -23,9 +23,12 @@ SessionStore *
 session_store_new (const char *uri)
 {
 	SessionStore *ss = g_new (SessionStore, 1);
+	CamelException *ex;
 	
 	ss->session = camel_session_new ();
-	ss->store = camel_session_get_store (ss->session, uri);
+	ex = camel_exception_new ();
+	ss->store = camel_session_get_store (ss->session, uri, ex);
+	camel_exception_free (ex);
 
 	g_assert (ss->session);
 	g_assert (ss->store);
