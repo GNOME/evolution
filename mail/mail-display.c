@@ -71,7 +71,6 @@ struct _PixbufLoader {
 };
 static GHashTable *thumbnail_cache = NULL;
 
-static char *save_pathname = NULL;  /* preserves last directory in save dialog */
 
 /*----------------------------------------------------------------------*
  *                        Callbacks
@@ -154,7 +153,7 @@ save_data_cb (GtkWidget *widget, gpointer user_data)
 {
 	GtkFileSelection *file_select = (GtkFileSelection *)
 		gtk_widget_get_ancestor (widget, GTK_TYPE_FILE_SELECTION);
-	char *p;
+	char *dir;
 	
 	/* uh, this doesn't really feel right, but i dont know what to do better */
 	gtk_widget_hide (GTK_WIDGET (file_select));
@@ -162,14 +161,9 @@ save_data_cb (GtkWidget *widget, gpointer user_data)
 			    FALSE);
 	
 	/* preserve the pathname */
-	g_free (save_pathname);
-	save_pathname = g_strdup (gtk_file_selection_get_filename (file_select));
-	if((p = strrchr (save_pathname, '/')) != NULL)
-		p[0] = 0;
-	else {
-		g_free (save_pathname);
-		save_pathname = NULL;
-	}
+	dir = g_dirname (gtk_file_selection_get_filename (file_select));
+	mail_config_set_last_filesel_dir (dir);
+	g_free (dir);
 	
 	gtk_widget_destroy (GTK_WIDGET (file_select));
 }
@@ -243,10 +237,7 @@ save_part (CamelMimePart *part)
 	g_return_if_fail (part != NULL);
 	camel_object_ref (CAMEL_OBJECT (part));
 	
-	if (save_pathname == NULL)
-		save_pathname = g_strdup (g_get_home_dir ());
-	
-	filename = make_safe_filename (save_pathname, part);
+	filename = make_safe_filename (mail_config_get_last_filesel_dir (), part);
 	
 	file_select = GTK_FILE_SELECTION (
 		gtk_file_selection_new (_("Save Attachment")));

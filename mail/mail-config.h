@@ -127,6 +127,9 @@ void        mail_config_set_filter_log        (gboolean value);
 const char *mail_config_get_filter_log_path   (void);
 void        mail_config_set_filter_log_path   (const char *path);
 
+const char *mail_config_get_last_filesel_dir  (void);
+void        mail_config_set_last_filesel_dir  (const char *path);
+
 gboolean mail_config_get_empty_trash_on_exit  (void);
 void     mail_config_set_empty_trash_on_exit  (gboolean value);
 

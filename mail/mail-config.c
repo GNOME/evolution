@@ -109,6 +109,8 @@ typedef struct {
 	
 	MailConfigNewMailNotify notify;
 	char *notify_filename;
+	
+	char *last_filesel_dir;
 } MailConfig;
 
 static MailConfig *config = NULL;
@@ -307,6 +309,21 @@ mail_config_clear (void)
 		g_slist_free (config->news);
 		config->news = NULL;
 	}
+	
+	g_free (config->pgp_path);
+	config->pgp_path = NULL;
+	
+	g_free (config->default_charset);
+	config->default_charset = NULL;
+	
+	g_free (config->filter_log_path);
+	config->filter_log_path = NULL;
+	
+	g_free (config->notify_filename);
+	config->notify_filename = NULL;
+	
+	g_free (config->last_filesel_dir);
+	config->last_filesel_dir = NULL;
 }
 
 static void
@@ -652,6 +669,10 @@ config_read (void)
 	
 	config->notify_filename = bonobo_config_get_string (
 		config->db, "/Mail/Notify/new_mail_notification_sound_file", NULL);
+	
+	/* last filesel dir */
+	config->last_filesel_dir = bonobo_config_get_string (
+		config->db, "/Mail/Filesel/last_filesel_dir", NULL);
 }
 
 #define bonobo_config_set_string_wrapper(db, path, val, ev) bonobo_config_set_string (db, path, val ? val : "", ev)
@@ -957,6 +978,10 @@ mail_config_write_on_exit (void)
 	bonobo_config_set_string_wrapper (config->db, "/Mail/Notify/new_mail_notification_sound_file",
 					  config->notify_filename, NULL);
 	
+	/* last filesel dir */
+	bonobo_config_set_string_wrapper (config->db, "/Mail/Filesel/last_filesel_dir",
+					  config->last_filesel_dir, NULL);
+	
 	if (config->threaded_hash)
 		g_hash_table_foreach_remove (config->threaded_hash, hash_save_state, "Threads");
 	
@@ -1187,6 +1212,22 @@ mail_config_set_filter_log_path (const char *path)
 {
 	g_free (config->filter_log_path);
 	config->filter_log_path = g_strdup (path);
+}
+
+const char *
+mail_config_get_last_filesel_dir (void)
+{
+	if (config->last_filesel_dir)
+		return config->last_filesel_dir;
+	else
+		return g_get_home_dir ();
+}
+
+void
+mail_config_set_last_filesel_dir (const char *path)
+{
+	g_free (config->last_filesel_dir);
+	config->last_filesel_dir = g_strdup (path);
 }
 
 gboolean

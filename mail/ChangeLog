@@ -1,5 +1,14 @@
 2002-01-25  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* mail-display.c (save_data_cb): Save the pathname.
+	(save_part): Use the new mail_config cruft to get the last used
+	save pathname.
+
+	* mail-config.c (config_read): Read in last_filesel_dir string.
+	(mail_config_write_on_exit): Save the last_filesel_dir setting.
+	(mail_config_get_last_filesel_dir): New
+	(mail_config_set_last_filesel_dir): New
+
 	* component-factory.c (destination_folder_handle_motion): Do some
 	NULL checking on the url before using it.
 	(destination_folder_handle_drop): Make sure the uri is non-NULL
