@@ -116,11 +116,10 @@ e_addressbook_view_class_init (EAddressbookViewClass *klass)
 static void
 e_addressbook_view_init (EAddressbookView *eav)
 {
-	eav->query = g_strdup("(contains \"x-evolution-any-field\" \"\")");
 	eav->view_type = E_ADDRESSBOOK_VIEW_NONE;
 
 	eav->book = NULL;
-	eav->query = NULL;
+	eav->query = g_strdup("(contains \"x-evolution-any-field\" \"\")");
 
 	eav->object = NULL;
 	eav->widget = NULL;
@@ -156,7 +155,7 @@ e_addressbook_view_set_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 		if (eav->book)
 			gtk_object_unref(GTK_OBJECT(eav->book));
 		if (GTK_VALUE_OBJECT(*arg)) {
-		  eav->book = E_BOOK(GTK_VALUE_OBJECT(*arg));
+			eav->book = E_BOOK(GTK_VALUE_OBJECT(*arg));
 			gtk_object_ref(GTK_OBJECT(eav->book));
 		}
 		else

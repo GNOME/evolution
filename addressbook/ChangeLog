@@ -1,3 +1,9 @@
+2000-09-20  Christopher James Lahey  <clahey@helixcode.com>
+
+	* gui/widgets/e-addressbook-view.c: Fixed display of the minicards
+	when the addressbook was first loading.  (It was overwriting a
+	string with NULL during init.)
+
 2000-09-19  Dan Winship  <danw@helixcode.com>
 
 	* gui/search/Makefile.am (ruledir): Use $(datadir), not
