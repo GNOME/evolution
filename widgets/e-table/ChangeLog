@@ -1,5 +1,12 @@
 2000-06-20  Christopher James Lahey  <clahey@helixcode.com>
 
+	* e-table-group-leaf.c: Fix a minor warning.
+
+	* e-table-item.c: Add to the selection if shift is held down.
+	Show cursor when changing sort (or if table changes majorly.)
+
+2000-06-20  Christopher James Lahey  <clahey@helixcode.com>
+
 	* e-table-defines.h: Fix HEADER_PADDING.
 
 2000-06-20  Christopher James Lahey  <clahey@helixcode.com>

@@ -217,7 +217,7 @@ static void
 etgl_select_row (ETableGroup *etg, gint row)
 {
 	ETableGroupLeaf *etgl = E_TABLE_GROUP_LEAF (etg);
-	gnome_canvas_item_set(GTK_OBJECT(etgl->item),
+	gnome_canvas_item_set(GNOME_CANVAS_ITEM(etgl->item),
 			      "cursor_row", row,
 			      NULL);
 }
