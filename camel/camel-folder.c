@@ -1281,15 +1281,17 @@ transfer_message_to (CamelFolder *source, const char *uid, CamelFolder *dest,
 		info = camel_message_info_new_from_header (((CamelMimePart *)msg)->headers);
 	
 	/* we don't want to retain the deleted flag */
-	if (info && info->flags & CAMEL_MESSAGE_DELETED)
+	if (info && info->flags & CAMEL_MESSAGE_DELETED) {
 		info->flags = info->flags & ~CAMEL_MESSAGE_DELETED;
+		delete_original = TRUE;
+	}
 	
 	camel_folder_append_message (dest, msg, info, transferred_uid, ex);
 	camel_object_unref (CAMEL_OBJECT (msg));
-
+	
 	if (delete_original && !camel_exception_is_set (ex))
 		camel_folder_set_message_flags (source, uid, CAMEL_MESSAGE_DELETED|CAMEL_MESSAGE_SEEN, ~0);
-
+	
 	if (info) {
 		if (source->folder_flags & CAMEL_FOLDER_HAS_SUMMARY_CAPABILITY)
 			CF_CLASS (source)->free_message_info (source, info);

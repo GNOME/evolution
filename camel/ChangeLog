@@ -1,5 +1,8 @@
 2002-09-23  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* camel-folder.c (transfer_message_to): If the original message is
+	deleted, reset the deleted flag when we're done. Fixes bug #30876.
+
 	* providers/imap/camel-imap-folder.c (add_message_from_data):
 	Decode the INTERNALDATE if we've got one.
 	(imap_update_summary): Instead of requesting a list of specific
