@@ -1,5 +1,5 @@
-#ifndef CALOBJ_H
-#define CALOBJ_H
+#ifndef CALENDAR_H
+#define CALENDAR_H
 
 BEGIN_GNOME_DECLS
 
