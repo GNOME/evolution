@@ -102,3 +102,10 @@ extern CamelSession *session;
 gint mail_dialog_run_and_close (GnomeDialog *dlg);
 gint mail_dialog_run (GnomeDialog *dlg);
 
+/* message-list */
+void vfolder_subject(GtkWidget *w, FolderBrowser *fb);
+void vfolder_sender(GtkWidget *w, FolderBrowser *fb);
+void vfolder_recipient(GtkWidget *w, FolderBrowser *fb);
+void filter_subject(GtkWidget *w, FolderBrowser *fb);
+void filter_sender(GtkWidget *w, FolderBrowser *fb);
+void filter_recipient(GtkWidget *w, FolderBrowser *fb);

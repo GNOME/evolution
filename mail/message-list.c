@@ -1008,40 +1008,40 @@ select_row (ETableScrolled *table, gpointer user_data)
 	gtk_idle_add (idle_select_row, message_list);
 }
 
-static void
+void
 vfolder_subject(GtkWidget *w, FolderBrowser *fb)
 {
 	vfolder_gui_add_from_message(fb->mail_display->current_message, AUTO_SUBJECT,
 				     fb->uri);
 }
 
-static void
+void
 vfolder_sender(GtkWidget *w, FolderBrowser *fb)
 {
 	vfolder_gui_add_from_message(fb->mail_display->current_message, AUTO_FROM,
 				     fb->uri);
 }
 
-static void
+void
 vfolder_recipient(GtkWidget *w, FolderBrowser *fb)
 {
 	vfolder_gui_add_from_message(fb->mail_display->current_message, AUTO_TO,
 				     fb->uri);
 }
 
-static void
+void
 filter_subject(GtkWidget *w, FolderBrowser *fb)
 {
 	filter_gui_add_from_message(fb->mail_display->current_message, AUTO_SUBJECT);
 }
 
-static void
+void
 filter_sender(GtkWidget *w, FolderBrowser *fb)
 {
 	filter_gui_add_from_message(fb->mail_display->current_message, AUTO_FROM);
 }
 
-static void
+void
 filter_recipient(GtkWidget *w, FolderBrowser *fb)
 {
 	filter_gui_add_from_message(fb->mail_display->current_message, AUTO_TO);

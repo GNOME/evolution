@@ -1,5 +1,12 @@
 2000-08-24  Peter Williams  <peterw@helixcode.com>
 
+	* folder-browser-factory.c (control_activate): Add all the
+	functions from message-list.c's popup menu to the main
+	menu as well
+
+	* message-list.c (vfolder_subject): These functions become
+	public.
+
 	* mail-callbacks.c (mark_all_seen): Don't call camel_folder_get_uids
 	here. IMAP, for example, will try to communicate with the IMAP
 	server during that call.

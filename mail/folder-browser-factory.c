@@ -167,6 +167,7 @@ control_activate (BonoboControl *control, BonoboUIHandler *uih,
 		forget_passwords, folder_browser);
 
 	/* Message Menu */
+	/* Keep in sync with right-click menu in message-list.c:on_right_click*/
 	bonobo_ui_handler_menu_new_subtree (
 		uih, "/<Component Placeholder>/Message",
 		_("_Message"), NULL, -1,
@@ -220,6 +221,40 @@ control_activate (BonoboControl *control, BonoboUIHandler *uih,
 		_("_Copy Message"), NULL, -1,
 		BONOBO_UI_HANDLER_PIXMAP_NONE, NULL, 0, 0,
 		(void *) copy_msg, folder_browser);
+	bonobo_ui_handler_menu_new_separator (
+		uih, "/<Component Placeholder>/Message/separator3", -1);
+	bonobo_ui_handler_menu_new_item (
+		uih, "/<Component Placeholder>/Message/VFolder on Subject",
+		_("_VFolder on Subject"), NULL, -1,
+		BONOBO_UI_HANDLER_PIXMAP_NONE, NULL, 0, 0,
+		(void *) vfolder_subject, folder_browser);
+	bonobo_ui_handler_menu_new_item (
+		uih, "/<Component Placeholder>/Message/VFolder on Sender",
+		_("VFolder on Se_nder"), NULL, -1,
+		BONOBO_UI_HANDLER_PIXMAP_NONE, NULL, 0, 0,
+		(void *) vfolder_sender, folder_browser);
+	bonobo_ui_handler_menu_new_item (
+		uih, "/<Component Placeholder>/Message/VFolder on Recipients",
+		_("VFolder on _Recipients"), NULL, -1,
+		BONOBO_UI_HANDLER_PIXMAP_NONE, NULL, 0, 0,
+		(void *) vfolder_recipient, folder_browser);
+	bonobo_ui_handler_menu_new_separator (
+		uih, "/<Component Placeholder>/Message/separator4", -1);
+	bonobo_ui_handler_menu_new_item (
+		uih, "/<Component Placeholder>/Message/Filter on Subject",
+		_("_Filter on Subject"), NULL, -1,
+		BONOBO_UI_HANDLER_PIXMAP_NONE, NULL, 0, 0,
+		(void *) filter_subject, folder_browser);
+	bonobo_ui_handler_menu_new_item (
+		uih, "/<Component Placeholder>/Message/Filter on Sender",
+		_("Fi_lter on Sender"), NULL, -1,
+		BONOBO_UI_HANDLER_PIXMAP_NONE, NULL, 0, 0,
+		(void *) filter_sender, folder_browser);
+	bonobo_ui_handler_menu_new_item (
+		uih, "/<Component Placeholder>/Message/Filter on Recipients",
+		_("Filter on Rec_ipients"), NULL, -1,
+		BONOBO_UI_HANDLER_PIXMAP_NONE, NULL, 0, 0,
+		(void *) filter_recipient, folder_browser);
 
 	/* Folder Menu */
 	bonobo_ui_handler_menu_new_subtree (
