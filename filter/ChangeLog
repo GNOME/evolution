@@ -1,3 +1,33 @@
+2000-06-26  Jeffrey Stedfast  <fejj@helixcode.com>
+
+	* filter-editor.c: Added a #include <gnome-xml/parser.h> as this
+	was needed (since we used the xml parser...)
+	(druid_dialogue_clicked): Do we want to use struct filter_option
+	or do we instead want to use struct filter_optionrule as we had before?
+	Since the function we pass the data to expects filter_option, I suspect 
+	that that is what we want.
+
+	* filter-format.h (filter_description_html_write): Renamed from
+	description_html_write in order to match function name in
+	filter-format.c
+
+	* filter-druid.c (option_name_changed): Fixed a memory leak (Free'd
+	a filter description list).
+
+	* filter-arg-types.c (arg_folder_edit_values): Free'd GList data in
+	argin->values.
+
+	* filter-driver.c (filter_driver_set_rules): Added code to free an
+	xmlDoc and some other data.
+
+	* filter-arg.h: Add prototypes for filter_arg_write_html() and 
+	filter_arg_write_text();
+
+	* filter-arg-types.c: Lets see if we can't get rid of some of these 
+	warnings... (use some casts to make warnings go away)
+	(arg_address_edit_value): Lets make sure that ad exists before looking
+	at member data.
+
 2000-06-16  Dan Winship  <danw@helixcode.com>
 
 	* filter-driver.c (do_delete, filter_driver_run): Update for Camel

@@ -72,6 +72,10 @@ FilterArg      *filter_arg_clone(FilterArg *arg);
 void		filter_arg_copy (FilterArg *dst, FilterArg *src);
 void		filter_arg_value_add(FilterArg *a, void *v);
 
+void            filter_arg_write_html(FilterArg *arg, GtkHTML *html,
+				      GtkHTMLStream *stream);
+void            filter_arg_write_text(FilterArg *arg, GString *string);
+
 void		filter_arg_edit_values(FilterArg *arg);
 int	        filter_arg_edit_value(FilterArg *arg, int index);
 

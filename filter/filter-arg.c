@@ -115,7 +115,7 @@ free_value_nothing(FilterArg *arg, void *v)
 static gint
 compare_pointers(gpointer a, gpointer b)
 {
-	return a==b;
+	return a == b;
 }
 
 static void
@@ -213,6 +213,7 @@ filter_arg_write_html(FilterArg *arg, GtkHTML *html, GtkHTMLStream *stream)
 {
 	((FilterArgClass *)(arg->object.klass))->write_html(arg, html, stream);
 }
+
 void
 filter_arg_write_text(FilterArg *arg, GString *string)
 {
@@ -284,10 +285,10 @@ filter_arg_get_count(FilterArg *arg)
 void *
 filter_arg_get_value(FilterArg *arg, int index)
 {
-	int count=0;
+	int count = 0;
 	GList *l;
 
-	for (l = arg->values;l && count<index;l=g_list_next(l))
+	for (l = arg->values; l && count < index; l = g_list_next(l))
 		count++;
 	if (l)
 		return l->data;
@@ -297,8 +298,6 @@ filter_arg_get_value(FilterArg *arg, int index)
 char *
 filter_arg_get_value_as_string(FilterArg *arg, int index)
 {
-	int count=0;
-	GList *l;
 	void *data;
 
 	data = filter_arg_get_value(arg, index);
@@ -322,8 +321,7 @@ struct filter_arg_edit {
 static void
 filter_arg_edit_add(GtkWidget *w, struct filter_arg_edit *edata)
 {
-	GtkListItem *listitem;
-	GList *items = NULL;
+	GtkWidget *listitem;
 	int i;
 
 	printf("adding new item\n");
@@ -333,10 +331,10 @@ filter_arg_edit_add(GtkWidget *w, struct filter_arg_edit *edata)
 	i = filter_arg_edit_value(edata->arg, -1);
 	if (i>=0) {
 		gtk_list_remove_items_no_unref(edata->list, edata->items);
-		listitem = (GtkListItem *)gtk_list_item_new_with_label(filter_arg_get_value_as_string(edata->arg, i));
-		gtk_object_set_data((GtkObject *)listitem, "arg_i", filter_arg_get_value(edata->arg, i));
+		listitem = gtk_list_item_new_with_label(filter_arg_get_value_as_string(edata->arg, i));
+		gtk_object_set_data(GTK_OBJECT (listitem), "arg_i", filter_arg_get_value(edata->arg, i));
 		edata->items = g_list_append(edata->items, listitem);
-		gtk_widget_show((GtkWidget *)listitem);
+		gtk_widget_show(listitem);
 		
 		/* this	api is nonsense */
 		gtk_list_append_items(edata->list, g_list_copy(edata->items));
@@ -388,7 +386,7 @@ filter_arg_edit_edit(GtkWidget *w, struct filter_arg_edit *edata)
 
 	/* yurck */
 	if (edata->item_current
-	    && (name = gtk_object_get_data((GtkObject *)edata->item_current, "arg_i"))
+	    && (name = gtk_object_get_data(GTK_OBJECT (edata->item_current), "arg_i"))
 	    && (i = g_list_index(edata->arg->values, name)) >= 0
 	    && (i = filter_arg_edit_value(edata->arg, i)) >= 0) {
 
@@ -399,12 +397,11 @@ filter_arg_edit_edit(GtkWidget *w, struct filter_arg_edit *edata)
 static void
 filter_arg_edit_delete(GtkWidget *w, struct filter_arg_edit *edata)
 {
-	GtkListItem *listitem;
 	char *name;
 
 	/* yurck */
-	if (edata->item_current
-	    && (name = gtk_object_get_data((GtkObject *)edata->item_current, "arg_i"))) {
+	name = gtk_object_get_data(GTK_OBJECT (edata->item_current), "arg_i");
+	if (edata->item_current && name) {
 		filter_arg_remove(edata->arg, name);
 		fill_list(edata);
 	}
@@ -421,7 +418,7 @@ edit_sensitise(struct filter_arg_edit *edata)
 static void
 filter_arg_edit_select(GtkWidget *w, GtkListItem *list, struct filter_arg_edit *edata)
 {
-	edata->item_current = list;
+	edata->item_current = GTK_WIDGET (list);
 	edit_sensitise(edata);
 
 	printf ("node = %p\n", g_list_find(edata->items, edata->item_current));
@@ -440,7 +437,7 @@ filter_arg_edit_clicked(GnomeDialog *d, int button, struct filter_arg_edit *edat
 	struct _FilterArgPrivate *p = _PRIVATE(edata->arg);
 
 	printf("window finished\n");
-	if (button==0) {
+	if (button == 0) {
 		gtk_signal_emit(GTK_OBJECT(edata->arg), signals[CHANGED]);
 	} else {
 		/* cancel button, restore old values ... */
@@ -448,9 +445,9 @@ filter_arg_edit_clicked(GnomeDialog *d, int button, struct filter_arg_edit *edat
 		while (edata->arg->values) {
 			filter_arg_remove(edata->arg, edata->arg->values->data);
 		}
-		filter_arg_values_add_xml(edata->arg, p->oldargs);
+		filter_arg_values_add_xml(edata->arg, (xmlNodePtr) p->oldargs);
 	}
-	xmlFreeNodeList(p->oldargs);
+	xmlFreeNodeList((xmlNodePtr) p->oldargs);
 	p->oldargs = NULL;
 	p->dialogue = NULL;
 	gnome_dialog_close(d);
@@ -465,8 +462,8 @@ filter_arg_edit_destroy(GnomeDialog *d, struct filter_arg_edit *edata)
 		while (edata->arg->values) {
 			filter_arg_remove(edata->arg, edata->arg->values->data);
 		}
-		filter_arg_values_add_xml(edata->arg, p->oldargs);
-		xmlFreeNodeList(p->oldargs);
+		filter_arg_values_add_xml(edata->arg, (xmlNodePtr) p->oldargs);
+		xmlFreeNodeList((xmlNodePtr) p->oldargs);
 		p->oldargs = NULL;
 	}
 
@@ -480,13 +477,10 @@ filter_arg_edit_destroy(GnomeDialog *d, struct filter_arg_edit *edata)
 void
 filter_arg_edit_values_1(FilterArg *arg)
 {
-	GList *vales;
-	GtkList *list;
-	GtkListItem *listitem;
-	int count, i;
+	GtkWidget *list;
 	GnomeDialog *dialogue;
-	GtkHBox *hbox;
-	GtkVBox *vbox;
+	GtkWidget *hbox;
+	GtkWidget *vbox;
 	GtkWidget *button;
 	GtkWidget *scrolled_window, *frame;
 	struct filter_arg_edit * edata;
@@ -499,7 +493,7 @@ filter_arg_edit_values_1(FilterArg *arg)
 	}
 
 	/* copy the current state */
-	p->oldargs= filter_arg_values_get_xml(arg);
+	p->oldargs = filter_arg_values_get_xml(arg);
 
 	edata = g_malloc0(sizeof(*edata));
 	edata->item_current = NULL;
@@ -508,56 +502,57 @@ filter_arg_edit_values_1(FilterArg *arg)
 	dialogue = (GnomeDialog *)gnome_dialog_new("Edit values", "Ok", "Cancel", 0);
 	edata->dialogue = dialogue;
 
-	p->dialogue = dialogue;
+	p->dialogue = GTK_WIDGET (dialogue);
 
-	hbox = (GtkHBox *)gtk_hbox_new(FALSE, 0);
+	hbox = gtk_hbox_new(FALSE, 0);
 
-	list = (GtkList *)gtk_list_new();
-	edata->list = list;
+	list = gtk_list_new();
+	edata->list = GTK_LIST (list);
 	edata->items = NULL;
 	fill_list(edata);
 
 	scrolled_window = gtk_scrolled_window_new(NULL, NULL);
 	frame = gtk_frame_new("Option values");
 
-	gtk_scrolled_window_add_with_viewport(GTK_SCROLLED_WINDOW(scrolled_window), (GtkWidget *)list);
+	gtk_scrolled_window_add_with_viewport(GTK_SCROLLED_WINDOW(scrolled_window), list);
 	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scrolled_window), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
-	gtk_container_set_focus_vadjustment(GTK_CONTAINER (list), gtk_scrolled_window_get_vadjustment (GTK_SCROLLED_WINDOW (scrolled_window)));
+	gtk_container_set_focus_vadjustment(GTK_CONTAINER (list),
+					    gtk_scrolled_window_get_vadjustment (GTK_SCROLLED_WINDOW (scrolled_window)));
 	gtk_container_add(GTK_CONTAINER(frame), scrolled_window);
 	gtk_widget_set_usize(frame, 200, 300);
-	gtk_box_pack_start((GtkBox *)hbox, frame, TRUE, TRUE, 0);
+	gtk_box_pack_start(GTK_BOX (hbox), frame, TRUE, TRUE, 0);
 
 	/* buttons */
-	vbox = (GtkVBox *)gtk_vbox_new(FALSE, 0);
+	vbox = gtk_vbox_new(FALSE, 0);
 	
 	button = gtk_button_new_with_label ("Add");
-	gtk_box_pack_start((GtkBox *)vbox, button, FALSE, TRUE, 0);
+	gtk_box_pack_start(GTK_BOX (vbox), button, FALSE, TRUE, 0);
 	edata->add = button;
 	button = gtk_button_new_with_label ("Remove");
-	gtk_box_pack_start((GtkBox *)vbox, button, FALSE, TRUE, 0);
+	gtk_box_pack_start(GTK_BOX (vbox), button, FALSE, TRUE, 0);
 	edata->remove = button;
 	button = gtk_button_new_with_label ("Edit");
-	gtk_box_pack_start((GtkBox *)vbox, button, FALSE, TRUE, 0);
+	gtk_box_pack_start(GTK_BOX (vbox), button, FALSE, TRUE, 0);
 	edata->edit = button;
 
-	gtk_box_pack_start((GtkBox *)hbox, (GtkWidget *)vbox, FALSE, FALSE, 0);
+	gtk_box_pack_start(GTK_BOX (hbox), vbox, FALSE, FALSE, 0);
 
-	gtk_signal_connect((GtkObject *)edata->add, "clicked", filter_arg_edit_add, edata);
-	gtk_signal_connect((GtkObject *)edata->edit, "clicked", filter_arg_edit_edit, edata);
-	gtk_signal_connect((GtkObject *)edata->remove, "clicked", filter_arg_edit_delete, edata);
-	gtk_signal_connect((GtkObject *)edata->list, "select_child", filter_arg_edit_select, edata);
-	gtk_signal_connect((GtkObject *)edata->list, "unselect_child", filter_arg_edit_unselect, edata);
+	gtk_signal_connect(GTK_OBJECT (edata->add), "clicked", filter_arg_edit_add, edata);
+	gtk_signal_connect(GTK_OBJECT (edata->edit), "clicked", filter_arg_edit_edit, edata);
+	gtk_signal_connect(GTK_OBJECT (edata->remove), "clicked", filter_arg_edit_delete, edata);
+	gtk_signal_connect(GTK_OBJECT (edata->list), "select_child", filter_arg_edit_select, edata);
+	gtk_signal_connect(GTK_OBJECT (edata->list), "unselect_child", filter_arg_edit_unselect, edata);
 
-	gtk_widget_show(GTK_WIDGET(list));
-	gtk_widget_show_all(GTK_WIDGET(hbox));
-	gtk_box_pack_start((GtkBox *)dialogue->vbox, (GtkWidget *)hbox, TRUE, TRUE, 0);
+	gtk_widget_show(list);
+	gtk_widget_show_all(hbox);
+	gtk_box_pack_start(GTK_BOX (dialogue->vbox), hbox, TRUE, TRUE, 0);
 
-	gtk_signal_connect((GtkObject *)dialogue, "clicked", filter_arg_edit_clicked, edata);
-	gtk_signal_connect((GtkObject *)dialogue, "destroy", filter_arg_edit_destroy, edata);
+	gtk_signal_connect(GTK_OBJECT (dialogue), "clicked", filter_arg_edit_clicked, edata);
+	gtk_signal_connect(GTK_OBJECT (dialogue), "destroy", filter_arg_edit_destroy, edata);
 
 	edit_sensitise(edata);
 
-	gtk_widget_show(dialogue);
+	gtk_widget_show(GTK_WIDGET (dialogue));
 }
 
 

@@ -180,7 +180,7 @@ filter_driver_finalise (GtkObject *obj)
 FilterDriver *
 filter_driver_new (void)
 {
-	FilterDriver *new = FILTER_DRIVER ( gtk_type_new (filter_driver_get_type ()));
+	FilterDriver *new = FILTER_DRIVER (gtk_type_new (filter_driver_get_type ()));
 	return new;
 }
 
@@ -208,6 +208,10 @@ int filter_driver_set_rules(FilterDriver *d, const char *description, const char
 	filt = xmlParseFile(filter);
 	p->options = filter_load_optionset(filt, p->rules);
 
+#warning "Zucchi: is this safe? Doesn't seem to cause problems..."
+	filter_load_ruleset_free (p->rules);
+	xmlFreeDoc (desc);
+	
 	return 0;
 }
 
@@ -494,7 +498,7 @@ close_folder(void *key, void *value, void *data)
 	FilterDriver *d = data;
 	struct _FilterDriverPrivate *p = _PRIVATE(d);
 
-	printf("closing folder: %s\n", key);
+	printf("closing folder: %s\n", (char *) key);
 
 	g_free(key);
 	camel_folder_sync(f, FALSE, p->ex);
@@ -566,7 +570,7 @@ filter_driver_run(FilterDriver *d, CamelFolder *source, CamelFolder *inbox)
 		while (m) {
 			GList *n = m->next;
 
-			printf("matched: %s\n", m->data);
+			printf("matched: %s\n", (char *) m->data);
 
 			/* for all matching id's, so we can work out what to default */
 			if (g_hash_table_lookup(p->processed, m->data) == NULL) {

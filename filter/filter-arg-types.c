@@ -61,14 +61,14 @@ filter_arg_string_get_type (void)
 static void
 arg_string_write_html(FilterArg *argin, GtkHTML *html, GtkHTMLStream *stream)
 {
-	FilterArgString *arg = (FilterArgString *)argin;
+	/*FilterArgString *arg = (FilterArgString *)argin;*/
 	/* empty */
 }
 
 static void
 arg_string_write_text(FilterArg *argin, GString *string)
 {
-	FilterArgString *arg = (FilterArgString *)argin;
+	/*FilterArgString *arg = (FilterArgString *)argin;*/
 	GList *l;
 	char *a;
 
@@ -140,7 +140,7 @@ static xmlNodePtr
 arg_string_values_get_xml(FilterArg *argin)
 {
 	xmlNodePtr value;
-	FilterArgString *arg = (FilterArgString *)argin;
+	/*FilterArgString *arg = (FilterArgString *)argin;*/
 	GList *l;
 	char *a;
 
@@ -181,7 +181,7 @@ arg_string_values_add_xml(FilterArg *arg, xmlNodePtr node)
 static char *
 arg_string_get_value_as_string(FilterArg *argin, void *data)
 {
-	FilterArgString *arg = (FilterArgString *)argin;
+	/*FilterArgString *arg = (FilterArgString *)argin;*/
 	char *a = (char *)data;
 
 	return a;
@@ -282,14 +282,14 @@ filter_arg_address_get_type (void)
 static void
 arg_address_write_html(FilterArg *argin, GtkHTML *html, GtkHTMLStream *stream)
 {
-	FilterArgAddress *arg = (FilterArgAddress *)argin;
+	/*FilterArgAddress *arg = (FilterArgAddress *)argin;*/
 	/* empty */
 }
 
 static void
 arg_address_write_text(FilterArg *argin, GString *string)
 {
-	FilterArgAddress *arg = (FilterArgAddress *)argin;
+	/*FilterArgAddress *arg = (FilterArgAddress *)argin;*/
 	GList *l;
 	struct filter_arg_address *a;
 
@@ -317,37 +317,35 @@ static int
 arg_address_edit_value(FilterArg *arg, int index)
 {
 	GnomeDialog *dialogue;
-	GtkHBox *hbox;
-	GtkLabel *label;
-	GtkEntry *entry;
+	GtkWidget *hbox;
+	GtkWidget *label;
+	GtkWidget *entry;
 	char *text = NULL;
 	char *newtext;
-	struct filter_arg_address *ad;
+	struct filter_arg_address *ad = NULL;
 
 	dialogue = (GnomeDialog *)gnome_dialog_new("Edit value", "Ok", "Cancel", 0);
 
-	hbox = (GtkHBox *)gtk_hbox_new(FALSE, 0);
-	label = (GtkLabel *)gtk_label_new("Folder name");
-	gtk_box_pack_start((GtkBox *)hbox, (GtkWidget *)label, FALSE, FALSE, 0);
-	entry = (GtkEntry *)gtk_entry_new();
-	gtk_box_pack_start((GtkBox *)hbox, (GtkWidget *)entry, TRUE, TRUE, 0);
-	if (index>=0
-	    && (ad = filter_arg_get_value(arg, index))) {
+	hbox = gtk_hbox_new(FALSE, 0);
+	label = gtk_label_new("Folder name");
+	gtk_box_pack_start(GTK_BOX (hbox), label, FALSE, FALSE, 0);
+	entry = gtk_entry_new();
+	gtk_box_pack_start(GTK_BOX (hbox), entry, TRUE, TRUE, 0);
+	if (index >= 0 && (ad = filter_arg_get_value(arg, index))) {
 		text = ad->email;
 	}
 	if (text) {
-		gtk_entry_set_text(entry, text);
+		gtk_entry_set_text(GTK_ENTRY (entry), text);
 	}
-	gtk_box_pack_start((GtkBox *)dialogue->vbox, (GtkWidget *)hbox, TRUE, TRUE, 0);
-	gtk_widget_show_all((GtkWidget *)hbox);
-	gtk_object_ref((GtkObject *)entry);	/* so we can get the text back afterwards */
+	gtk_box_pack_start(GTK_BOX (dialogue->vbox), hbox, TRUE, TRUE, 0);
+	gtk_widget_show_all(hbox);
+	gtk_object_ref(GTK_OBJECT (entry));   /* so we can get the text back afterwards */
 	if (gnome_dialog_run_and_close(dialogue) == 0) {
 		GList *node;
 
-		newtext = g_strdup(gtk_entry_get_text(entry));
-		gtk_object_unref((GtkObject *)entry);
-		if (index>=0
-		    && (node = g_list_find(arg->values, ad))) {
+		newtext = g_strdup(gtk_entry_get_text(GTK_ENTRY (entry)));
+		gtk_object_unref(GTK_OBJECT (entry));
+		if (index >= 0 && ad && (node = g_list_find(arg->values, ad))) {
 			ad = node->data;
 			g_free(ad->email);
 			ad->email = newtext;
@@ -366,7 +364,7 @@ static xmlNodePtr
 arg_address_values_get_xml(FilterArg *argin)
 {
 	xmlNodePtr value;
-	FilterArgAddress *arg = (FilterArgAddress *)argin;
+	/*FilterArgAddress *arg = (FilterArgAddress *)argin;*/
 	GList *l;
 	struct filter_arg_address *a;
 
@@ -416,7 +414,7 @@ arg_address_values_add_xml(FilterArg *arg, xmlNodePtr node)
 static char *
 arg_address_get_value_as_string(FilterArg *argin, void *data)
 {
-	FilterArgAddress *arg = (FilterArgAddress *)argin;
+	/*FilterArgAddress *arg = (FilterArgAddress *)argin;*/
 	struct filter_arg_address *a = (struct filter_arg_address *)data;
 
 	printf("geting address as string : %s %s\n", a->email, a->name);
@@ -534,14 +532,14 @@ filter_arg_folder_get_type (void)
 static void
 arg_folder_write_html(FilterArg *argin, GtkHTML *html, GtkHTMLStream *stream)
 {
-	FilterArgFolder *arg = (FilterArgFolder *)argin;
+	/*FilterArgFolder *arg = (FilterArgFolder *)argin;*/
 	/* empty */
 }
 
 static void
 arg_folder_write_text(FilterArg *argin, GString *string)
 {
-	FilterArgFolder *arg = (FilterArgFolder *)argin;
+	/*FilterArgFolder *arg = (FilterArgFolder *)argin;*/
 	GList *l;
 	char *a;
 
@@ -562,45 +560,47 @@ arg_folder_write_text(FilterArg *argin, GString *string)
 static void
 arg_folder_edit_values(FilterArg *argin)
 {
-	FilterArgFolder *arg = (FilterArgFolder *)argin;
+	/*FilterArgFolder *arg = (FilterArgFolder *)argin;*/
 	GList *l;
 	char *a, *start, *ptr, *ptrend, *ptrgap;
 	char outbuf[128], *outptr; /* FIXME: dont use a bounded buffer! */
-	GString *string = g_string_new("");
 	GtkWidget *dialogue;
 	GtkWidget *text;
+	guint i;
 
-	dialogue = gnome_dialog_new("Edit addresses",
-				    "Ok", "Cancel", NULL);
+	dialogue = gnome_dialog_new("Edit addresses", "Ok", "Cancel", NULL);
 	text = gtk_text_new(NULL, NULL);
-	gtk_object_ref((GtkObject *)text);
+	gtk_object_ref(GTK_OBJECT (text));
 
 	l = argin->values;
 	while (l) {
 		a = l->data;
-		gtk_text_insert(text, NULL, NULL, NULL, a, strlen(a));
-		gtk_text_insert(text, NULL, NULL, NULL, "\n", 1);
+		gtk_text_insert(GTK_TEXT (text), NULL, NULL, NULL, a, strlen(a));
+		gtk_text_insert(GTK_TEXT (text), NULL, NULL, NULL, "\n", 1);
 		l = g_list_next(l);
 	}
 
-	gtk_box_pack_start(GNOME_DIALOG(dialogue)->vbox, text, TRUE, TRUE, 2);
+	gtk_box_pack_start(GTK_BOX (GNOME_DIALOG(dialogue)->vbox), text, TRUE, TRUE, 2);
 	gtk_widget_show(text);
-	gtk_text_set_editable(text, 1);
+	gtk_text_set_editable(GTK_TEXT (text), TRUE);
 
-	gnome_dialog_run_and_close(dialogue);
+	gnome_dialog_run_and_close(GNOME_DIALOG (dialogue));
 
-	/* FIXME: free current values */
+	for (i = 0; i < g_list_length (argin->values); i++)
+		g_free (g_list_nth_data (argin->values, i));
+	g_list_free (argin->values);
+	
 	argin->values = NULL;
 	ptr = GTK_TEXT(text)->text.ch;
-	ptrend = ptr+GTK_TEXT(text)->text_end;
-	ptrgap = ptr+GTK_TEXT(text)->gap_position;
+	ptrend = ptr + GTK_TEXT(text)->text_end;
+	ptrgap = ptr + GTK_TEXT(text)->gap_position;
 
 	start = ptr;
 	outptr = outbuf;
-	while (ptr<ptrend) {
+	while (ptr < ptrend) {
 		printf("%c", *ptr);
 		if (*ptr == '\n') {
-			int len = outptr-outbuf;
+			int len = outptr - outbuf;
 			char *new;
 
 			printf("(len = %d)", len);
@@ -621,14 +621,14 @@ arg_folder_edit_values(FilterArg *argin)
 			ptr += GTK_TEXT(text)->gap_size;
 		}
 	}
-	if (outptr>outbuf) {
+	if (outptr > outbuf) {
 		int len = outptr-outbuf;
 		char *new;
 
 		printf("(lastlen = %d)", len);
 		
 		new = g_malloc(len+1);
-		new[len]=0;
+		new[len] = 0;
 		memcpy(new, start, len);
 		argin->values = g_list_append(argin->values, new);
 	}
@@ -639,7 +639,7 @@ static xmlNodePtr
 arg_folder_values_get_xml(FilterArg *argin)
 {
 	xmlNodePtr value;
-	FilterArgFolder *arg = (FilterArgFolder *)argin;
+	/*FilterArgFolder *arg = (FilterArgFolder *)argin;*/
 	GList *l;
 	char *a;
 
@@ -687,7 +687,7 @@ arg_folder_values_add_xml(FilterArg *arg, xmlNodePtr node)
 static char *
 arg_folder_get_value_as_string(FilterArg *argin, void *data)
 {
-	FilterArgFolder *arg = (FilterArgFolder *)argin;
+	/*FilterArgFolder *arg = (FilterArgFolder *)argin;*/
 	char *a = (char *)data;
 
 	return a;

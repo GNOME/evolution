@@ -18,6 +18,7 @@
  *  Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  */
 
+#include <gnome-xml/parser.h>
 #include "filter-druid.h"
 #include "filter-editor.h"
 
@@ -74,9 +75,9 @@ object_destroy(FilterEditor *obj)
 	struct _FilterEditorPrivate *p = _PRIVATE(obj);
 
 	if (p->druid_druid)
-		gtk_object_unref((GtkObject *)p->druid_dialogue);
+		gtk_object_unref(GTK_OBJECT (p->druid_dialogue));
 
-	GTK_OBJECT_CLASS(filter_editor_parent)->destroy(obj);
+	GTK_OBJECT_CLASS(filter_editor_parent)->destroy(GTK_OBJECT (obj));
 }
 
 static void
@@ -138,7 +139,9 @@ druid_dialogue_clicked(GnomeDialog *d, int button, FilterEditor *e)
 	case 2:
 		printf("Finish!\n");
 		if (p->druid_druid->option_current) {
-			struct filrt_optionrule *or;
+#warning "what is going on here?"
+		        /* FIXME: should this be struct filter_option?? */
+			struct filter_option *or;
 
 			printf("refcount = %d\n", ((GtkObject *)p->druid_druid)->ref_count);
 
@@ -148,7 +151,9 @@ druid_dialogue_clicked(GnomeDialog *d, int button, FilterEditor *e)
 
 				node = g_list_find(e->useroptions, p->druid_option);
 				if (node) {
-					/* fixme: free old one */
+					/* FIXME: free old one */
+					/* we need to know what type or is supposed to be before
+					   we can free old data */
 					node->data = or;
 				} else {
 					g_warning("Cannot find node I edited, appending instead");
@@ -167,9 +172,10 @@ druid_dialogue_clicked(GnomeDialog *d, int button, FilterEditor *e)
 	}
 	filter_druid_set_page(p->druid_druid, page);
 
-	gnome_dialog_set_sensitive(p->druid_dialogue, 0, page>0);
-	gnome_dialog_set_sensitive(p->druid_dialogue, 1, page<4);
-	gnome_dialog_set_sensitive(p->druid_dialogue, 2, page==4); /* FIXME: make this depenedant on when the rules are actually done */	
+	gnome_dialog_set_sensitive(GNOME_DIALOG (p->druid_dialogue), 0, page > 0);
+	gnome_dialog_set_sensitive(GNOME_DIALOG (p->druid_dialogue), 1, page < 4);
+	/* FIXME: make this depenedant on when the rules are actually done */
+	gnome_dialog_set_sensitive(GNOME_DIALOG (p->druid_dialogue), 2, page == 4);
 }
 
 static void
@@ -177,7 +183,7 @@ druid_dialogue_option_selected(FilterDruid *f, struct filter_option *option, Fil
 {
 	struct _FilterEditorPrivate *p = _PRIVATE(e);
 
-	gnome_dialog_set_sensitive(p->druid_dialogue, 1, TRUE);
+	gnome_dialog_set_sensitive(GNOME_DIALOG (p->druid_dialogue), 1, TRUE);
 }
 
 static void
@@ -192,10 +198,7 @@ add_or_edit(FilterEditor *e, struct filter_option *option)
 		return;
 	}
 
-	dialogue = gnome_dialog_new (option
-				     ? _("Edit Filter")
-				     : _("Create filter"),
-				     NULL);
+	dialogue = GNOME_DIALOG (gnome_dialog_new (option ? _("Edit Filter") : _("Create filter"), NULL));
 	p->druid_dialogue = dialogue;
 	{
 		const char *pixmaps[] = {
@@ -214,8 +217,7 @@ add_or_edit(FilterEditor *e, struct filter_option *option)
 		};
 		if (option)
 			names[2] = N_("Apply");
-		gnome_dialog_append_buttons_with_pixmaps(GNOME_DIALOG (dialogue),
-							 names, pixmaps);
+		gnome_dialog_append_buttons_with_pixmaps(dialogue, names, pixmaps);
 	}
 
 	gnome_dialog_set_close(dialogue, FALSE);
@@ -224,9 +226,9 @@ add_or_edit(FilterEditor *e, struct filter_option *option)
 	gnome_dialog_set_sensitive(dialogue, 2, FALSE);
 	gnome_dialog_set_default(dialogue, 1);
 
-	gtk_signal_connect(GTK_OBJECT(dialogue), "clicked", druid_dialogue_clicked, e);
+	gtk_signal_connect(GTK_OBJECT (dialogue), "clicked", druid_dialogue_clicked, e);
 
-	druid = filter_druid_new();
+	druid = FILTER_DRUID (filter_druid_new());
 
 	p->druid_druid = druid;
 
@@ -236,7 +238,7 @@ add_or_edit(FilterEditor *e, struct filter_option *option)
 					"forwards to customise it.</p>"));
 
 	filter_druid_set_rules(druid, e->systemoptions, e->rules, option);
-	gtk_box_pack_start(dialogue->vbox, druid, TRUE, TRUE, 0);
+	gtk_box_pack_start(GTK_BOX (dialogue->vbox), GTK_WIDGET (druid), TRUE, TRUE, 0);
 
 	if (option) {
 		druid_dialogue_clicked(dialogue, 1, e);
@@ -244,10 +246,10 @@ add_or_edit(FilterEditor *e, struct filter_option *option)
 
 	p->druid_option = option;
 
-	gtk_signal_connect(druid, "option_selected", druid_dialogue_option_selected, e);
+	gtk_signal_connect(GTK_OBJECT (druid), "option_selected", druid_dialogue_option_selected, e);
 
-	gtk_widget_show(druid);
-	gtk_widget_show(dialogue);
+	gtk_widget_show(GTK_WIDGET (druid));
+	gtk_widget_show(GTK_WIDGET (dialogue));
 }
 
 static void
@@ -294,8 +296,8 @@ build_editor(FilterEditor *e)
 
 	hbox = gtk_hbox_new(FALSE, 3);
 
-	p->druid = (GtkWidget *)filter_druid_new();
-	gtk_box_pack_start((GtkBox *)hbox, p->druid, TRUE, TRUE, 0);
+	p->druid = FILTER_DRUID (filter_druid_new());
+	gtk_box_pack_start(GTK_BOX (hbox), GTK_WIDGET (p->druid), TRUE, TRUE, 0);
 
 	vbox = gtk_vbox_new(FALSE, 0);
 	
@@ -305,23 +307,23 @@ build_editor(FilterEditor *e)
 	p->up = gtk_button_new_with_label ("Up");
 	p->down = gtk_button_new_with_label ("Down");
 
-	gtk_box_pack_start((GtkBox *)vbox, p->edit, FALSE, TRUE, 0);
-	gtk_box_pack_start((GtkBox *)vbox, p->add, FALSE, TRUE, 3);
-	gtk_box_pack_start((GtkBox *)vbox, p->remove, FALSE, TRUE, 0);
-	gtk_box_pack_start((GtkBox *)vbox, p->up, FALSE, TRUE, 3);
-	gtk_box_pack_start((GtkBox *)vbox, p->down, FALSE, TRUE, 0);
+	gtk_box_pack_start(GTK_BOX (vbox), p->edit, FALSE, TRUE, 0);
+	gtk_box_pack_start(GTK_BOX (vbox), p->add, FALSE, TRUE, 3);
+	gtk_box_pack_start(GTK_BOX (vbox), p->remove, FALSE, TRUE, 0);
+	gtk_box_pack_start(GTK_BOX (vbox), p->up, FALSE, TRUE, 3);
+	gtk_box_pack_start(GTK_BOX (vbox), p->down, FALSE, TRUE, 0);
 
-	gtk_box_pack_start((GtkBox *)hbox, vbox, FALSE, FALSE, 0);
+	gtk_box_pack_start(GTK_BOX (hbox), vbox, FALSE, FALSE, 0);
 
-	gtk_box_pack_start((GtkBox *)e->parent.vbox, hbox, TRUE, TRUE, 0);
+	gtk_box_pack_start(GTK_BOX (e->parent.vbox), hbox, TRUE, TRUE, 0);
 
-	gtk_signal_connect(p->druid, "option_selected", druid_option_selected, e);
+	gtk_signal_connect(GTK_OBJECT (p->druid), "option_selected", druid_option_selected, e);
 
-	gtk_signal_connect(p->edit, "clicked", edit_clicked, e);
-	gtk_signal_connect(p->add, "clicked", add_clicked, e);
-	gtk_signal_connect(p->remove, "clicked", remove_clicked, e);
-	gtk_signal_connect(p->up, "clicked", up_clicked, e);
-	gtk_signal_connect(p->down, "clicked", down_clicked, e);
+	gtk_signal_connect(GTK_OBJECT (p->edit), "clicked", edit_clicked, e);
+	gtk_signal_connect(GTK_OBJECT (p->add), "clicked", add_clicked, e);
+	gtk_signal_connect(GTK_OBJECT (p->remove), "clicked", remove_clicked, e);
+	gtk_signal_connect(GTK_OBJECT (p->up), "clicked", up_clicked, e);
+	gtk_signal_connect(GTK_OBJECT (p->down), "clicked", down_clicked, e);
 
 	filter_druid_set_default_html(p->druid, "<h2>Filtering Rules</h2>"
 				      "<p>Select one of the rules above to <i>view</i>, and "

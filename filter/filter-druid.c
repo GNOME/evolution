@@ -107,7 +107,7 @@ object_destroy(FilterDruid *obj)
 
 	/* FIXME: free lists? */
 
-	GTK_OBJECT_CLASS(filter_druid_parent)->destroy(obj);
+	GTK_OBJECT_CLASS(filter_druid_parent)->destroy(GTK_OBJECT (obj));
 }
 
 static void
@@ -254,7 +254,7 @@ html_write_options(GtkHTML *html, struct filter_option *option, char *def)
 GList *
 fill_rules(GList *rules, struct filter_option *option, int type)
 {
-	GList *optionl, *rulel;
+	GList *rulel;
 	GtkWidget *listitem, *hbox, *checkbox, *label;
 	GList *items = NULL;
 
@@ -295,8 +295,8 @@ fill_rules(GList *rules, struct filter_option *option, int type)
 GList *
 fill_options(GList *options)
 {
-	GList *optionl, *rulel, *optionrulel;
-	GtkWidget *listitem, *hbox, *checkbox, *label;
+	GList *optionl;
+	GtkWidget *listitem;
 	GList *items = NULL;
 
 	optionl = options;
@@ -324,7 +324,7 @@ select_rule_child(GtkList *list, GtkWidget *child, FilterDruid *f)
 	struct filter_rule *fr = gtk_object_get_data(GTK_OBJECT(child), "rule");
 	int state;
 	struct filter_optionrule *rule;
-	struct _FilterDruidPrivate *p = _PRIVATE(f);
+	/*struct _FilterDruidPrivate *p = _PRIVATE(f);*/
 
 	w = gtk_object_get_data(GTK_OBJECT(child), "checkbox");
 	state = !(int) gtk_object_get_data(GTK_OBJECT(child), "checkstate");
@@ -422,7 +422,7 @@ arg_changed(FilterArg *arg, FilterDruid *f)
 
 	printf("value changed!!!\n");
 
-	orig = gtk_object_get_data(arg, "origin");
+	orig = gtk_object_get_data(GTK_OBJECT (arg), "origin");
 	if (orig) {
 		filter_arg_copy(orig, arg);
 		update_display(f, 0);
@@ -440,13 +440,10 @@ arg_link_clicked(GtkHTML *html, const char *url, FilterDruid *f)
 		FilterArg *arg;
 		void *dummy;
 
-		if (sscanf(url+4, "%p %p", &dummy, &arg)==2
-		    && arg) {
-			FilterArg *orig;
-
+		if ((sscanf(url+4, "%p %p", &dummy, &arg) == 2) && arg) {
 			printf("arg = %p\n", arg);
 
-			gtk_signal_connect((GtkObject *)arg, "changed", arg_changed, f);
+			gtk_signal_connect(GTK_OBJECT (arg), "changed", arg_changed, f);
 			filter_arg_edit_values(arg);
 		}
 	}
@@ -457,7 +454,7 @@ option_name_changed(GtkEntry *entry, FilterDruid *f)
 {
 	struct filter_desc *desc;
 
-	printf("name chaned: %s\n", gtk_entry_get_text(entry));
+	printf("name changed: %s\n", gtk_entry_get_text(entry));
 
 	if (f->option_current) {
 		/* FIXME: lots of memory leaks */
@@ -466,6 +463,8 @@ option_name_changed(GtkEntry *entry, FilterDruid *f)
 		desc->type = FILTER_XML_TEXT;
 		desc->vartype = -1;
 		desc->varname = NULL;
+#warning "Zucchi: is this correct?"
+		filter_description_free (f->option_current->description);
 		f->option_current->description = g_list_append(NULL, desc);
 	}
 }
@@ -606,8 +605,8 @@ filter_druid_set_rules(FilterDruid *f, GList *options, GList *rules, struct filt
 static void
 build_druid(FilterDruid *d)
 {
-	GtkWidget *vbox, *frame, *scrolled_window, *list, *html, *hbox, *label;
-	GtkWidget *frame1, *table;
+	GtkWidget *vbox, *frame, *scrolled_window, *list, *html, *label;
+	GtkWidget *table;
 	struct _FilterDruidPrivate *p = _PRIVATE(d);
 
 #if 0
@@ -619,7 +618,7 @@ build_druid(FilterDruid *d)
 	gnome_dialog_set_default((GnomeDialog *)d, 1);
 #endif
 
-	p->notebook = d;
+	p->notebook = GTK_WIDGET (d);
 	gtk_notebook_set_show_tabs(GTK_NOTEBOOK(p->notebook), FALSE);
 	gtk_notebook_set_show_border(GTK_NOTEBOOK(p->notebook), FALSE);
 
