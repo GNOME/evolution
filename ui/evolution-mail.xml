@@ -253,12 +253,6 @@
     _label="Next"
     pixtype="stock" pixname="Forward"/>
 
-    <separator/>
-
-    <toolitem name="MailGetNew" verb=""
-    _label="Get Mail (new)" _tip="Experimental/new code to get/receive mail"
-    pixtype="pixbuf"/>
-
   </dockitem>
 </Root>
 
