@@ -2501,6 +2501,7 @@ _get_position_from_xy (EText *text, gint x, gint y)
 		y += text->num_lines * font_ht;
 	default:
 		/* Do nothing */
+		break;
 	}
 		
 
