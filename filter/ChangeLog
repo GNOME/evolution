@@ -1,3 +1,9 @@
+2002-11-08  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* rule-editor.c (rule_edit): Use weak_ref instead of connecting to
+	"destroy".
+	(rule_add): Same.
+
 2002-11-07  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* vfolder-rule.c (validate): Use a GtkDialog instead of a
