@@ -28,7 +28,7 @@
 #include <string.h>
 #include "camel-stream-filter.h"
 
-#define d(x)
+#define d(x) x
 
 /* use my malloc debugger? */
 /*extern void g_check(void *mp);*/
@@ -287,34 +287,42 @@ do_write (CamelStream *stream, const char *buf, size_t n)
 	CamelStreamFilter *filter = (CamelStreamFilter *)stream;
 	struct _CamelStreamFilterPrivate *p = _PRIVATE(filter);
 	struct _filter *f;
-	size_t presize;
-	char *buffer = (char *)buf;
-	size_t len = n;
+	size_t presize, len, left = n;
+	char *buffer, realbuffer[READ_SIZE+READ_PAD];
 
 	p->last_was_read = FALSE;
 
 	d(printf ("\n\nWriting: Original content (%s): '", ((CamelObject *)filter->source)->klass->name));
-	d(fwrite(buffer, sizeof(char), len, stdout));
+	d(fwrite(buf, sizeof(char), n, stdout));
 	d(printf("'\n"));
 
 	g_check(p->realbuffer);
 
-	f = p->filters;
-	presize = 0;
-	while (f) {
-		camel_mime_filter_filter(f->filter, buffer, len, presize, &buffer, &len, &presize);
+	while (left) {
+		/* Sigh, since filters expect non const args, copy the input first, we do this in handy sized chunks */
+		len = MIN(READ_SIZE, left);
+		buffer = realbuffer + READ_PAD;
+		memcpy(buffer, buf, len);
+		buf += len;
+		left -= len;
 
-		g_check(p->realbuffer);
+		f = p->filters;
+		presize = READ_PAD;
+		while (f) {
+			camel_mime_filter_filter(f->filter, buffer, len, presize, &buffer, &len, &presize);
 
-		d(printf ("Filtered content (%s): '", ((CamelObject *)f->filter)->klass->name));
-		d(fwrite(buffer, sizeof(char), len, stdout));
-		d(printf("'\n"));
+			g_check(p->realbuffer);
 
-		f = f->next;
+			d(printf ("Filtered content (%s): '", ((CamelObject *)f->filter)->klass->name));
+			d(fwrite(buffer, sizeof(char), len, stdout));
+			d(printf("'\n"));
+
+			f = f->next;
+		}
+
+		if (camel_stream_write(filter->source, buffer, len) != len)
+			return -1;
 	}
-
-	if (camel_stream_write(filter->source, buffer, len) != len)
-		return -1;
 
 	g_check(p->realbuffer);
 

@@ -322,6 +322,10 @@ construct (CamelService *service, CamelSession *session,
 		imap_store->parameters |= IMAP_PARAM_FILTER_INBOX;
 		store->flags |= CAMEL_STORE_FILTER_INBOX;
 	}
+	if (camel_url_get_param (url, "filter_junk"))
+		imap_store->parameters |= IMAP_PARAM_FILTER_JUNK;
+	if (camel_url_get_param (url, "filter_junk_inbox"))
+		imap_store->parameters |= IMAP_PARAM_FILTER_JUNK_INBOX;
 
 	/* setup/load the store summary */
 	tmp = alloca(strlen(imap_store->storage_path)+32);
@@ -368,15 +372,17 @@ imap_setv (CamelObject *object, CamelException *ex, CamelArgV *args)
 		if ((tag & CAMEL_ARG_TAG) <= CAMEL_IMAP_STORE_ARG_FIRST ||
 		    (tag & CAMEL_ARG_TAG) >= CAMEL_IMAP_STORE_ARG_FIRST + 100)
 			continue;
-		
-		if (tag == CAMEL_IMAP_STORE_NAMESPACE) {
+
+		switch (tag) {
+		case CAMEL_IMAP_STORE_NAMESPACE:
 			if (strcmp (store->namespace, args->argv[i].ca_str) != 0) {
 				g_free (store->namespace);
 				store->namespace = g_strdup (args->argv[i].ca_str);
 				/* the current imap code will need to do a reconnect for this to take effect */
 				/*reconnect = TRUE;*/
 			}
-		} else if (tag == CAMEL_IMAP_STORE_OVERRIDE_NAMESPACE) {
+			break;
+		case CAMEL_IMAP_STORE_OVERRIDE_NAMESPACE:
 			flags = args->argv[i].ca_int ? IMAP_PARAM_OVERRIDE_NAMESPACE : 0;
 			flags |= (store->parameters & ~IMAP_PARAM_OVERRIDE_NAMESPACE);
 			
@@ -385,17 +391,28 @@ imap_setv (CamelObject *object, CamelException *ex, CamelArgV *args)
 				/* the current imap code will need to do a reconnect for this to take effect */
 				/*reconnect = TRUE;*/
 			}
-		} else if (tag == CAMEL_IMAP_STORE_CHECK_ALL) {
+			break;
+		case CAMEL_IMAP_STORE_CHECK_ALL:
 			flags = args->argv[i].ca_int ? IMAP_PARAM_CHECK_ALL : 0;
 			flags |= (store->parameters & ~IMAP_PARAM_CHECK_ALL);
 			store->parameters = flags;
 			/* no need to reconnect for this option to take effect... */
-		} else if (tag == CAMEL_IMAP_STORE_FILTER_INBOX) {
+			break;
+		case CAMEL_IMAP_STORE_FILTER_INBOX:
 			flags = args->argv[i].ca_int ? IMAP_PARAM_FILTER_INBOX : 0;
 			flags |= (store->parameters & ~IMAP_PARAM_FILTER_INBOX);
 			store->parameters = flags;
 			/* no need to reconnect for this option to take effect... */
-		} else {
+			break;
+		case CAMEL_IMAP_STORE_FILTER_JUNK:
+			flags = args->argv[i].ca_int ? IMAP_PARAM_FILTER_JUNK : 0;
+			store->parameters = flags | (store->parameters & ~IMAP_PARAM_FILTER_JUNK);
+			break;
+		case CAMEL_IMAP_STORE_FILTER_JUNK_INBOX:
+			flags = args->argv[i].ca_int ? IMAP_PARAM_FILTER_JUNK_INBOX : 0;
+			store->parameters = flags | (store->parameters & ~IMAP_PARAM_FILTER_JUNK_INBOX);
+			break;
+		default:
 			/* error?? */
 			continue;
 		}
@@ -428,20 +445,22 @@ imap_getv (CamelObject *object, CamelException *ex, CamelArgGetV *args)
 		
 		switch (tag) {
 		case CAMEL_IMAP_STORE_NAMESPACE:
-			/* get the username */
 			*args->argv[i].ca_str = store->namespace;
 			break;
 		case CAMEL_IMAP_STORE_OVERRIDE_NAMESPACE:
-			/* get the auth mechanism */
 			*args->argv[i].ca_int = store->parameters & IMAP_PARAM_OVERRIDE_NAMESPACE ? TRUE : FALSE;
 			break;
 		case CAMEL_IMAP_STORE_CHECK_ALL:
-			/* get the hostname */
 			*args->argv[i].ca_int = store->parameters & IMAP_PARAM_CHECK_ALL ? TRUE : FALSE;
 			break;
 		case CAMEL_IMAP_STORE_FILTER_INBOX:
-			/* get the port */
 			*args->argv[i].ca_int = store->parameters & IMAP_PARAM_FILTER_INBOX ? TRUE : FALSE;
+			break;
+		case CAMEL_IMAP_STORE_FILTER_JUNK:
+			*args->argv[i].ca_int = store->parameters & IMAP_PARAM_FILTER_JUNK ? TRUE : FALSE;
+			break;
+		case CAMEL_IMAP_STORE_FILTER_JUNK_INBOX:
+			*args->argv[i].ca_int = store->parameters & IMAP_PARAM_FILTER_JUNK_INBOX ? TRUE : FALSE;
 			break;
 		default:
 			/* error? */

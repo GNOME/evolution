@@ -662,32 +662,3 @@ camel_session_set_check_junk (CamelSession *session, gboolean check_junk)
 
 	session->check_junk = check_junk;
 }
-
-/**
- * camel_session_check_junk_for_imap
- * @session: 
- * 
- * Do we have to check IMAP incoming messages to be junk?
- **/
-gboolean
-camel_session_check_junk_for_imap (CamelSession *session)
-{
-	g_assert(CAMEL_IS_SESSION(session));
-
-	return session->check_junk_for_imap;
-}
-
-/**
- * camel_session_set_check_junk_for_imap:
- * @session: 
- * @check_junk_for_imap: 
- * 
- * Set check_junk_for_imap flag, if set, incoming IMAP mail will be checked for being junk.
- **/
-void
-camel_session_set_check_junk_for_imap (CamelSession *session, gboolean check_junk_for_imap)
-{
-	g_assert(CAMEL_IS_SESSION(session));
-
-	session->check_junk_for_imap = check_junk_for_imap;
-}

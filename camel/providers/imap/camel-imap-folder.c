@@ -257,11 +257,14 @@ camel_imap_folder_new (CamelStore *parent, const char *folder_name,
 		return NULL;
 	}
 
-	if (!strcasecmp (folder_name, "INBOX")) {
+	if (!g_ascii_strcasecmp (folder_name, "INBOX")) {
 		if ((imap_store->parameters & IMAP_PARAM_FILTER_INBOX))
 			folder->folder_flags |= CAMEL_FOLDER_FILTER_RECENT;
-		if (!camel_session_check_junk_for_imap (CAMEL_SERVICE (parent)->session))
-			folder->folder_flags |= CAMEL_FOLDER_SUPRESS_JUNK_TEST;
+		if ((imap_store->parameters & IMAP_PARAM_FILTER_JUNK))
+			folder->folder_flags |= CAMEL_FOLDER_FILTER_JUNK;
+	} else {
+		if ((imap_store->parameters & (IMAP_PARAM_FILTER_JUNK|IMAP_PARAM_FILTER_JUNK_INBOX)) == (IMAP_PARAM_FILTER_JUNK))
+			folder->folder_flags |= CAMEL_FOLDER_FILTER_JUNK;
 	}
 
 	imap_folder->search = camel_imap_search_new(folder_dir);
@@ -1234,7 +1237,7 @@ imap_append_online (CamelFolder *folder, CamelMimeMessage *message,
 	CamelImapResponse *response;
 	char *uid;
 	int count;
-	
+
 	count = camel_folder_summary_count (folder->summary);
 	response = do_append (folder, message, info, &uid, ex);
 	if (!response)
@@ -2393,12 +2396,6 @@ imap_update_summary (CamelFolder *folder, int exists,
 	}
 	g_ptr_array_free (fetch_data, TRUE);
 	
-	/* update CAMEL_FOLDER_SUPRESS_JUNK_TEST flag, it may changed in session */
-	if (camel_session_check_junk_for_imap (CAMEL_SERVICE (store)->session))
-		folder->folder_flags &= ~CAMEL_FOLDER_SUPRESS_JUNK_TEST;
-	else
-		folder->folder_flags |= CAMEL_FOLDER_SUPRESS_JUNK_TEST;
-
 	/* And add the entries to the summary, etc. */
 	for (i = 0; i < messages->len; i++) {
 		mi = messages->pdata[i];

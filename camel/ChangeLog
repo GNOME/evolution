@@ -1,3 +1,53 @@
+2004-03-03  Not Zed  <NotZed@Ximian.com>
+
+	* camel-stream-filter.c (do_write, do_write): fun dun diddley un
+	fun.  Since we're writing a const buffer, we need to copy it
+	first.  See #54937.
+
+2004-02-27  Not Zed  <NotZed@Ximian.com>
+
+	** See bug #54755.
+
+	* camel-vtrash-folder.c (vtrash_append_message)
+	(vtrash_transfer_messages_to): error/fail out if the user tries to
+	copy messages to the trash.
+	(vtrash_transfer_messages_to): use the destination bit not the
+	source bit for moving messages to a vtrash folder.
+
+	* camel-gpg-context.c (gpg_ctx_parse_status): ignore NODATA
+	response, otherwise we abort in a meaningless way.  See #52939.
+
+	* providers/imap/camel-imap-utils.c: use g_ascii_str[n]casecmp
+	everywhere.
+	* providers/imap/camel-imap-utils.c (imap_body_decode): fix the
+	sense of the nil check for the subtype of a mutlipart.  See
+	#53355.
+
+2004-02-26  Not Zed  <NotZed@Ximian.com>
+
+	* camel-session.c (camel_session_check_junk_for_imap) 
+	(camel_session_set_check_junk_for_imap): removed.
+
+	* providers/imap/camel-imap-provider.c: Add filter_junk and
+	filter_junk_inbox options to the receive option page.
+
+	* providers/imap/camel-imap-store.c (imap_setv, imap_getv): handle
+	FILTER_JUNK and FILTER_JUNK_INBOX parameters.
+	(imap_setv): conver to switch rather than if statement.
+	(construct): handle url args for filter_junk and
+	filter_junk_inbox.
+
+	* providers/imap/camel-imap-folder.c (camel_imap_folder_new): Set
+	the folder's flags based on the stores junk settings.
+	(imap_update_summary): remove the test for
+	session_check_junk_for_imap, its handled per-store now.
+
+	* camel-folder.c (folder_changed): only check for FILTER_RECENT or
+	FILTER_JUNK to see if we need to do filtering.
+
+	* camel-folder.h (CAMEL_FOLDER_FILTER_JUNK): renamed from
+	CAMEL_FOLDER_SUPRESS_JUNK_TEST (and obviously inverted logic).
+
 2004-03-02  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* providers/local/camel-mbox-summary.c
