@@ -83,11 +83,22 @@
 	  <listitem>
 	    <para>
               <application>Evolution</application> supports three mail
-              sources: POP servers, the most common email server type;
-              IMAP, which stores mail remotely and allows access from
-              multiple locations, and UNIX-style
-              <filename>mbox</filename> files.  Ask your system
-              administrator which one you use.
+              sources: <glossterm>POP</glossterm> servers,
+              <glossterm>IMAP</glossterm> servers, and UNIX-style
+              <filename>mbox</filename> files.  POP servers retrieve
+              your mail and store it on your local system so you can
+              refer to it even when not connected to a network;
+              <glossterm>IMAP</glossterm> servers store the mail on
+              the server so you can access it from multiple locations;
+              UNIX-style <filename>mbox</filename> files are used by
+              your computer for internal mail, and may be useful if
+              you want to switch from another email client such as
+              <application>spruce</application> or
+              <application>mutt</application>.  Ask your system
+              administrator which you should use, or keep guessing
+              until one works.  You may use multiple servers if you
+              wish; see <xref linkend="config-prefs-mail-network"> for
+              more information.
             </para>
 	  </listitem>
 	  </varlistentry>

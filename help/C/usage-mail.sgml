@@ -25,7 +25,8 @@
        <listitem>
 	 <para>
 	   It supports multiple mail sources, including IMAP, POP3,
-	   and local <filename>mbox</filename> files.
+	   local <filename>mbox</filename> files, and even NNTP data
+	   (newsgroups), which isn't technically email.
 	 </para>
        </listitem>
      </itemizedlist>
@@ -150,40 +151,68 @@
           message to message.
         </para>
       </sect3>
+      <sect3 id="usage-mail-getnsend-delete">
+        <title>Deleting Mail</title>
+        <para>
+          To delete a message, select it in the the <interface>message
+          list</interface> by clicking on it once.  Then click on the
+          <guibutton>Delete</guibutton> button in the tool bar.  The
+          message now has a line through it, because you've marked it
+          for deletion. 
+        </para>
+        <para>
+          If you really want to get rid of it, choose
+          <guimenuitem>Expunge</guimenuitem> from the
+          <guimenu>Actions</guimenu> menu.  That will delete it
+          permanently. If you want to keep it, click
+          <guibutton>Delete</guibutton> again, and it will no longer
+          be marked as deleted.  At some point in the future, this
+          feature will change to something a little less
+          counter-intuitive.
+        </para>
+      </sect3>
     </sect2>
 
     <sect2 id="usage-mail-getnsend-get">
       <title>Checking Mail</title>
-
       <para>
 	Now that you've had a look around the
-	<interface>Inbox</interface>, select the welcome message in
-	the <interface>message list</interface> by clicking on it
-	once.  Then click on the <guibutton>Delete</guibutton> button
-	in the tool bar.  The message now has a line through it,
-	because you've marked it for deletion.  If you really want to
-	get rid of it, choose <guimenuitem>Expunge</guimenuitem> from
-	the <guimenu>Actions</guimenu> menu.  That will delete it
-	permanently. If you want to keep it, click
-	<guibutton>Delete</guibutton> again, and it will no longer be
-	marked as deleted.  At some point in the future, this feature
-	will change to something a little less counter-intuitive.
+	<interface>Inbox</interface>, it's time to check for new mail.
+	Before you get it, though, you should decide where you want to
+	keep it.  Your options will vary a little depending on your
+	network setup, but they come down to storing the mail on your
+	hard disk (using <glossterm>POP</glossterm>), or storing it on
+	the network (using <glossterm>IMAP</glossterm>).  If you store
+	your mail on your local hard disk, you can read it whether
+	you're online or not, but you can only read it from one
+	computer.  If you store it on the network, you can only read
+	it when you're online, but you can access it from almost any
+	computer with a network connection, even if it doesn't have
+	<application>Evolution</application>.
       </para>
-
-
       <para>
-	To check your email, just click <guibutton>Get
-	mail</guibutton> in the toolbar.  If this is the first time
-	you've done so, the <interface>mail setup
+        If you choose POP, you'll be putting mail in the
+        <guilabel>Inbox</guilabel> in the <guilabel>Local</guilabel>
+        folder.  If you choose IMAP, it's the
+        <guilabel>Inbox</guilabel> of a folder with the same name as
+        your mail server.  That's so you can maintain several distinct
+        IMAP servers if you want.  See <xref
+        linkend="config-prefs-mail"> for more information about mail
+        servers.
+      </para>
+      <para>
+        Regardless of where you keep your mail, you can click
+	<guibutton>Get mail</guibutton> in the toolbar to check your
+	mail.  The first time you do that, the <interface>mail setup
 	assistant</interface> will ask you for the information it
 	needs to check your mail (see <xref
 	linkend="config-setupassist"> for more information).  If
 	you're checking mail over a network (instead of from local
 	<filename>mbox</filename> files), you'll need to enter your
-	email password.  Type it in, click <guibutton>OK</guibutton> and
-	<application>Evolution</application> will download your mail.
-	New mail will appear in your <interface>Inbox</interface>.
-	<!-- FIXME: add mention of Today if Today feature appears -->
+	email password.  Type it in, click <guibutton>OK</guibutton>
+	and <application>Evolution</application> will download your
+	mail.  New mail will appear in your
+	<interface>Inbox</interface>.
       </para>
       <para>
         Once you've entered your password,
@@ -206,6 +235,22 @@
 	linkend="config-prefs-mail-network">, or ask your system
 	administrator.
       </para>
+      
+      <sect3 id="usage-mail-getnsend-get-news">
+         <title>Using Evolution for News </title>
+       <para>
+         Newsgroups are so similar to email there's no reason not to
+         read them side by side.  If you want to do that, add a news
+         source to your configuration (see <xref
+         linkend="config-prefs-network-news">). The news server will
+         appear as a remote server, and will look exactly like an IMAP
+         folder, except that you can't delete messages from it.  When
+         you click <guibutton>Get Mail</guibutton>,
+         <application>Evolution</application> will also check for news
+         messages.  If you prefer to use a different program, there's
+         always <application>Pan</application>.
+       </para>
+       </sect3>
 
       <sect3 id="usage-mail-getnsend-get-attach">
 	<title>Attachments, HTML Mail, and Live Documents</title>
@@ -284,9 +329,9 @@
 	   Evolution will send mail immediately unless you tell it to
 	   do otherwise by selecting <menuchoice>
 	   <guimenu>File</guimenu> <guimenuitem>Send
-	   Later</guimenuitem></menuchoice>.  That will add messages to the
-	   <guilabel>Outbox</guilabel> queue.  Then, when you press
-	   <guibutton>Send</guibutton> in another message, or
+	   Later</guimenuitem></menuchoice>.  That will add messages
+	   to the <guilabel>Outbox</guilabel> queue.  Then, when you
+	   press <guibutton>Send</guibutton> in another message, or
 	   <guibutton>Get Mail</guibutton> in the main mail window,
 	   all your unsent messages will go out at once.  I like to
 	   use "Send Later" because it gives me a chance to change my

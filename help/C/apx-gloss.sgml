@@ -173,14 +173,27 @@
   </glossdef>
  </glossentry> 
 
-
+ <glossentry id="imap">
+  <glossterm>IMAP</glossterm>
+  <glossdef>
+   <para>
+    Depending upon whom you ask, IMAP stands for the Internet Mail
+    Access Protocol, or the Interim Mail Access Protocol.  Whatever it
+    stands for, it allows access to email which is typically (although
+    not always) stored remotely on a server rather than on a local
+    hard disk.  Often contrasted with <glossterm>POP</glossterm>.
+    This will not be on the test.
+   </para>
+  </glossdef>
+ </glossentry>
+ 
   <glossentry id="ldap">
    <glossterm>LDAP</glossterm>
    <glossdef>
     <para>
-     LDAP is a protocol which allows a client to search through a large database
-     of addresses, phone numbers, and people, as an alternative to a physical
-     phone book.
+     LDAP is a protocol which allows a client to search through a
+     large database of addresses, phone numbers, and people, as an
+     alternative to a physical phone book.
     </para>
    </glossdef>
   </glossentry>
@@ -223,6 +236,17 @@
   <glossdef>
    <para>
     An alias for an e-mail address.
+   </para>
+  </glossdef>
+ </glossentry>
+
+ <glossentry id="pop">
+  <glossterm>POP</glossterm>
+  <glossdef>
+   <para>
+     POP, the Post Office Protocol, is a mechanism for email
+     transport.  In contrast to IMAP, it is used only to get mail from
+     a server and store it locally on your hard disk.
    </para>
   </glossdef>
  </glossentry>

@@ -215,6 +215,15 @@
 	    </varlistentry>
 	  </variablelist>
           </para>
+          <para>
+            If you choose several mail sources, clicking
+            <guibutton>Get Mail</guibutton> will refresh any IMAP or
+            <filename>mbox</filename> listings and check and download
+            all POP servers.  In other words, <guibutton>Get
+            Mail</guibutton> gets your mail, no matter how many
+            sources you have, or what types they are.
+          </para>
+
       </sect3>
       <sect3 id="config-prefs-mail-network-transports">
 	<title>Transports</title>
@@ -226,7 +235,7 @@
            which uses the <application>sendmail</application> program
            on your local system.  <application>Sendmail</application>
            is more difficult to configure, but offers more flexibility
-           than plain <systemitem>SMTP</systemitem>.
+           than <systemitem>SMTP</systemitem>.
         </para>
 	<para>
             To use <guilabel>SMTP</guilabel>, you'll need to enter the
@@ -234,30 +243,30 @@
             <userinput>smtp.isp.net</userinput>.
          </para>
          <para>
-            <application>Evolution</application> can
-            attempt to determine if you have entered the right server
-            name.  To have it do so, check the box labelled
-            <guilabel>Test these values before continuing</guilabel>
-            before you click <guibutton>OK</guibutton>.
+            <application>Evolution</application> can attempt to
+            determine if you have entered a valid server name.  To
+            have it do so, check the box labelled <guilabel>Test these
+            values before continuing</guilabel> before you click
+            <guibutton>OK</guibutton>.
          </para>
 	</sect3>
       </sect2>
-      <sect2 id="config-prefs-network-news">
-
- <!-- WHY is this in the MAIL config section? WHY is this UI SOOOO bad?-->
-          
+      <sect2 id="config-prefs-network-news">          
           <title>News Servers</title>
           <para>
+            Newsgroups are so much like mailing lists that there's no
+            reason not to have access to them right next to your mail.
             When you first select the <guilabel>News
             Servers</guilabel> tab, you will see a blank box with
             three familiar buttons on the right:
             <guibutton>Add</guibutton>, <guibutton>Edit</guibutton>,
-            and <guibutton>Delete</guibutton>.
-          </para>  
+            and <guibutton>Delete</guibutton>.  </para>
           <para>
             Click <guibutton>Add</guibutton> to add a news server; you
             will be prompted for its name.  Enter the name, click
-            <guibutton>OK</guibutton>, and you're done. (FIXME, this needs work).
+            <guibutton>OK</guibutton>, and you're done.  You can have
+            as many mail servers as you like, of course.  News servers
+            will appear next to your IMAP servers.
           </para>
      </sect2>
 
