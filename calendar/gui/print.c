@@ -743,11 +743,15 @@ bound_text(GnomePrintContext *pc, GnomeFont *font, const char *text,
 			*o++=c;
 			if (c==' ')
 				wordstart = o;
-			width+=gnome_font_get_glyph_width(font, gnome_font_lookup_default (font, c));
-			if (width>maxwidth)
-				dump=1;
-			else
-				dump=0;
+
+			dump=0;
+			if (g_utf8_validate (p, strlen(p), NULL)) {
+				width+=gnome_font_get_glyph_width(font, gnome_font_lookup_default (font, c));
+				if (width>maxwidth) {
+					o--;
+					dump=1;
+				}
+			}
 		}
 		if (dump) {
 			if (wordstart==outbuffer)
@@ -772,8 +776,9 @@ bound_text(GnomePrintContext *pc, GnomeFont *font, const char *text,
 				maxwidth -= indent;
 				first=0;
 			}
+		} else {
+			p++;
 		}
-		p++;
 	}
 	if (dump==0) {
 		*o=0;
@@ -782,6 +787,7 @@ bound_text(GnomePrintContext *pc, GnomeFont *font, const char *text,
 		top -= gnome_font_get_size (font);
 	}
 	g_free(outbuffer);
+
 	return top;
 }
 
