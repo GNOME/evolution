@@ -1,5 +1,8 @@
 2003-05-20  Larry Ewing  <lewing@ximian.com>
 
+	* mail-display.c: filter notification events to keep the redisplay
+	count down.
+
 	* mail-composer-prefs.c: remove references to gtkhtml property
 	manager.  Connect to missing settings.
 

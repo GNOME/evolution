@@ -2653,10 +2653,22 @@ static void
 display_notify (GConfClient *gconf, guint cnxn_id, GConfEntry *entry, gpointer data)
 {
 	MailDisplay *md = data;
+	gchar *tkey;
+
+	g_return_if_fail (entry != NULL);
+	g_return_if_fail (gconf_entry_get_key (entry) != NULL);
+	g_return_if_fail (gconf_entry_get_value (entry) != NULL);
 	
-	/* this should really check which setting has changed but it is late */
-	gtk_html_set_animate (md->html, gconf_client_get_bool (gconf, "/apps/evolution/mail/display/animate_images", NULL));
-	mail_display_queue_redisplay ((MailDisplay *)data);
+	tkey = strrchr (entry->key, '/');
+	
+	g_return_if_fail (tkey != NULL);
+
+	if (!strcmp (tkey, "/animate_images")) {
+		gtk_html_set_animate (md->html, gconf_value_get_bool (gconf_entry_get_value(entry)));
+	} else if (!strcmp (tkey, "/citation_color") 
+		   || !strcmp (tkey, "/mark_citations")) {
+		mail_display_queue_redisplay (md);
+	}
 }
 
 GtkWidget *
