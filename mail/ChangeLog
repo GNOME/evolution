@@ -1,3 +1,8 @@
+2000-09-12  Jeffrey Stedfast  <fejj@helixcode.com>
+
+	* mail-ops.c (do_fetch_mail): Was trying to unhook an event from
+	the wrong folder - oops.
+
 2000-09-12  Not Zed  <NotZed@HelixCode.com>
 
 	* message-thread.c: Reverted to version 1.15.

@@ -234,7 +234,7 @@ do_fetch_mail (gpointer in_data, gpointer op_data, CamelException *ex)
 		camel_folder_thaw (input->destination);
 		
 		if (input->hook_func)
-			camel_object_unhook_event (CAMEL_OBJECT (folder), "folder_changed", 
+			camel_object_unhook_event (CAMEL_OBJECT (input->destination), "folder_changed", 
 						   input->hook_func, input->hook_data);
 		
 		/* save the cache for the next time we fetch mail! */
