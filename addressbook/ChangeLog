@@ -1,5 +1,12 @@
 2002-11-26  Chris Toshok  <toshok@ximian.com>
 
+	[ roll forward from 1.2 branch, Fixes addressbook bug #28945 ]
+	* backend/ebook/e-card.c (e_card_get_vobject): if the email
+	property is xml, get the real address from the e-destination.
+	Fixes saving contact lists.
+
+2002-11-26  Chris Toshok  <toshok@ximian.com>
+
 	* gui/widgets/e-minicard.c (e_minicard_reflow): remove redundant
 	setting of y2.
 
