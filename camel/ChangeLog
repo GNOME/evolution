@@ -1,3 +1,19 @@
+2001-05-14  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* tests/folder/test9.c: 
+	* tests/folder/test8.c:
+	* tests/folder/test7.c: 
+	* tests/folder/test6.c: 
+	* tests/folder/test5.c: 
+	* tests/folder/test4.c:
+	* tests/folder/test3.c: 
+	* tests/folder/test2.c: 
+	* tests/folder/test1.c: 
+	* tests/smime/pgp-mime.c: 
+	* tests/smime/pgp.c: Subclass CamelSession since we can no longer
+	specify the passwd callback any other way and update code
+	accordingly.
+
 2001-05-11  Dan Winship  <danw@ximian.com>
 
 	* camel-mime-utils.c (header_location_decode): Decode
