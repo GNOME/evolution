@@ -248,6 +248,19 @@ accum_attribute (GString *gstr, EContact *contact, const char *html_label, ECont
 	}
 }
 
+static void
+accum_multival_attribute (GString *gstr, EContact *contact, const char *html_label, EContactField field, const char *icon, unsigned int html_flags)
+{
+	GList *val_list, *l;
+
+	val_list = e_contact_get (contact, field);
+	for (l = val_list; l; l = l->next) {
+		const char *str = (const char *) l->data;
+		accum_name_value (gstr, html_label, str, icon, html_flags);
+	}
+	g_list_foreach (val_list, (GFunc) g_free, NULL);
+	g_list_free (val_list);
+}
 
 static void
 render_contact_list (GtkHTMLStream *html_stream, EContact *contact)
@@ -330,12 +343,12 @@ render_contact (GtkHTMLStream *html_stream, EContact *contact)
 
 	g_string_assign (accum, "");
 
-	accum_attribute (accum, contact, _("AIM"), E_CONTACT_IM_AIM_HOME_1, AIM_ICON, 0);
-	accum_attribute (accum, contact, _("GroupWise"), E_CONTACT_IM_GROUPWISE_HOME_1, GROUPWISE_ICON, 0);
-	accum_attribute (accum, contact, _("ICQ"), E_CONTACT_IM_ICQ_HOME_1, ICQ_ICON, 0);
-	accum_attribute (accum, contact, _("Jabber"), E_CONTACT_IM_JABBER_HOME_1, JABBER_ICON, 0);
-	accum_attribute (accum, contact, _("MSN"), E_CONTACT_IM_MSN_HOME_1, MSN_ICON, 0);
-	accum_attribute (accum, contact, _("Yahoo"), E_CONTACT_IM_YAHOO_HOME_1, YAHOO_ICON, 0);
+	accum_multival_attribute (accum, contact, _("AIM"), E_CONTACT_IM_AIM, AIM_ICON, 0);
+	accum_multival_attribute (accum, contact, _("GroupWise"), E_CONTACT_IM_GROUPWISE, GROUPWISE_ICON, 0);
+	accum_multival_attribute (accum, contact, _("ICQ"), E_CONTACT_IM_ICQ, ICQ_ICON, 0);
+	accum_multival_attribute (accum, contact, _("Jabber"), E_CONTACT_IM_JABBER, JABBER_ICON, 0);
+	accum_multival_attribute (accum, contact, _("MSN"), E_CONTACT_IM_MSN, MSN_ICON, 0);
+	accum_multival_attribute (accum, contact, _("Yahoo"), E_CONTACT_IM_YAHOO, YAHOO_ICON, 0);
 
 	if (accum->len > 0)
 		gtk_html_stream_printf (html_stream, accum->str);

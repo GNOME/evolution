@@ -1,3 +1,10 @@
+2004-10-25  Nat Friedman  <nat@novell.com>
+
+	* gui/widgets/eab-contact-display.c (accum_multival_attribute):
+	Display mutlivalued contact attributes in the preview.
+	(render_contact): Render all IM fields using the new multival
+	function.
+
 2004-10-21  JP Rosevear  <jpr@novell.com>
 
 	* gui/widgets/eab-config.c (ecph_class_init): correct hook name
