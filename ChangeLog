@@ -1,3 +1,7 @@
+2004-11-01  JP Rosevear  <jpr@novell.com>
+
+	* Makefile.am: dist plugin.mk
+
 2004-10-29  Rodrigo Moya <rodrigo@novell.com>
 
 	* configure.in: added mail-to-meeting plugin.
