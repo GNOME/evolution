@@ -1,3 +1,11 @@
+2005-02-21  Rodrigo Moya <rodrigo@novell.com>
+
+	Fixes #71527
+
+	* ical-format.c (display_error_message): changed to get a simple
+	string instead of a GError.
+	(do_save_calendar_ical): use GNOME-VFS for saving the file.
+
 2005-01-05  JP Rosevear  <jpr@novell.com>
 
 	* save-calendar.c (ask_destination_and_save): fix build for non

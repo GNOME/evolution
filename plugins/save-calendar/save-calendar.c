@@ -128,7 +128,6 @@ ask_destination_and_save (EPlugin *ep, ECalPopupTargetSource *target, ECalSource
 	format_handlers = g_list_append (format_handlers, 
 		rdf_format_handler_new ());
 
-
 	/* The Type GtkComboBox */
 	gtk_box_pack_start (GTK_BOX (extra_widget), GTK_WIDGET (combo), 
 		TRUE, TRUE, 0);

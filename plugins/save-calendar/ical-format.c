@@ -31,12 +31,14 @@
 #else
 #  include <gtk/gtkfilesel.h>
 #endif
+#include <libgnomevfs/gnome-vfs-ops.h>
 #include <gtk/gtkmessagedialog.h>
 #include <gtk/gtkstock.h>
 #include <gtk/gtk.h>
 #include <libedataserver/e-source.h>
 #include <libedataserverui/e-source-selector.h>
 #include <libecal/e-cal.h>
+#include <libecal/e-cal-util.h>
 #include <calendar/gui/e-cal-popup.h>
 #include <libgnomevfs/gnome-vfs.h>
 #include <string.h>
@@ -44,12 +46,11 @@
 #include "format-handler.h"
 
 static void
-display_error_message (GtkWidget *parent, GError *error)
+display_error_message (GtkWidget *parent, const char *message)
 {
 	GtkWidget *dialog;
 
-	dialog = gtk_message_dialog_new (GTK_WINDOW (parent), 0, GTK_MESSAGE_ERROR, GTK_BUTTONS_CLOSE,
-					 error->message);
+	dialog = gtk_message_dialog_new (GTK_WINDOW (parent), 0, GTK_MESSAGE_ERROR, GTK_BUTTONS_CLOSE, message);
 	gtk_dialog_run (GTK_DIALOG (dialog));
 	gtk_widget_destroy (dialog);
 }
@@ -58,8 +59,10 @@ static void
 do_save_calendar_ical (FormatHandler *handler, EPlugin *ep, ECalPopupTargetSource *target, ECalSourceType type, char *dest_uri)
 {
 	ESource *primary_source;
-	ECal *source_client, *dest_client;
+	ECal *source_client;
 	GError *error = NULL;
+	GList *objects;
+	icalcomponent *top_level = NULL;
 
 	primary_source = e_source_selector_peek_primary_selection (target->selector);
 
@@ -69,47 +72,60 @@ do_save_calendar_ical (FormatHandler *handler, EPlugin *ep, ECalPopupTargetSourc
 	/* open source client */
 	source_client = e_cal_new (primary_source, type);
 	if (!e_cal_open (source_client, TRUE, &error)) {
-		display_error_message (gtk_widget_get_toplevel (GTK_WIDGET (target->selector)), error);
+		display_error_message (gtk_widget_get_toplevel (GTK_WIDGET (target->selector)), error->message);
 		g_object_unref (source_client);
 		g_error_free (error);
 		return;
 	}
 
-	/* open destination client */
+	/* create destination file */
+	top_level = e_cal_util_new_top_level ();
+
 	error = NULL;
-	dest_client = e_cal_new_from_uri (dest_uri, type);
-	if (e_cal_open (dest_client, FALSE, &error)) {
-		GList *objects;
+	if (e_cal_get_object_list (source_client, "#t", &objects, &error)) {
+		GnomeVFSResult result;
+		GnomeVFSHandle *handle;
 
-		if (e_cal_get_object_list (source_client, "#t", &objects, NULL)) {
-			while (objects != NULL) {
-				icalcomponent *icalcomp = objects->data;
+		while (objects != NULL) {
+			icalcomponent *icalcomp = objects->data;
+			
+			icalcomponent_add_component (top_level, icalcomp);
 
-				/* FIXME: deal with additions/modifications */
+			/* remove item from the list */
+			objects = g_list_remove (objects, icalcomp);
+		}
 
-				/* FIXME: This stores a directory with one file in it, the user expects only a file */
-
-				/* FIXME: It would be nice if this ical-handler would use gnome-vfs rather than e_cal_* */
-
-				error = NULL;
-				if (!e_cal_create_object (dest_client, icalcomp, NULL, &error)) {
-					display_error_message (gtk_widget_get_toplevel (GTK_WIDGET (target->selector)), error);
-					g_error_free (error);
-				}
-
-				/* remove item from the list */
-				objects = g_list_remove (objects, icalcomp);
-				icalcomponent_free (icalcomp);
+		/* save the file */
+		result = gnome_vfs_open (&handle, dest_uri, GNOME_VFS_OPEN_WRITE);
+		if (result != GNOME_VFS_OK) {
+			if ((result = gnome_vfs_create (&handle, dest_uri, GNOME_VFS_OPEN_WRITE,
+							TRUE, GNOME_VFS_PERM_USER_ALL)) != GNOME_VFS_OK) {
+				display_error_message (gtk_widget_get_toplevel (GTK_WIDGET (target->selector)),
+					       gnome_vfs_result_to_string (result));
 			}
 		}
+
+		if (result == GNOME_VFS_OK) {
+			char *ical_str;
+			GnomeVFSFileSize bytes_written;
+
+			ical_str = icalcomponent_as_ical_string (top_level);
+			if ((result = gnome_vfs_write (handle, (gconstpointer) ical_str, strlen (ical_str), &bytes_written))
+			    != GNOME_VFS_OK) {
+				display_error_message (gtk_widget_get_toplevel (GTK_WIDGET (target->selector)),
+						       gnome_vfs_result_to_string (result));
+			}
+
+			gnome_vfs_close (handle);
+		}
 	} else {
-		display_error_message (gtk_widget_get_toplevel (GTK_WIDGET (target->selector)), error);
+		display_error_message (gtk_widget_get_toplevel (GTK_WIDGET (target->selector)), error->message);
 		g_error_free (error);
 	}
 
 	/* terminate */
 	g_object_unref (source_client);
-	g_object_unref (dest_client);
+	icalcomponent_free (top_level);
 }
 
 FormatHandler *ical_format_handler_new (void)
