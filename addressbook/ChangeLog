@@ -1,3 +1,10 @@
+2003-01-23  Ettore Perazzoli  <ettore@ximian.com>
+
+	* gui/component/select-names/Makefile.am (componentdir): Remove
+	definition; no need to set it here since it's now defined in
+	configure.in
+	* gui/component/Makefile.am (componentdir): Likewise.
+
 2003-01-22  Ettore Perazzoli  <ettore@ximian.com>
 
 	* gui/component/select-names/Makefile.am (gladedir): Version using
