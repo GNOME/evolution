@@ -341,8 +341,15 @@ task_page_fill_widgets (CompEditorPage *page, CalComponent *comp)
 		e_date_edit_set_date (E_DATE_EDIT (priv->due_date),
 				      due_tt->year, due_tt->month,
 				      due_tt->day);
-		e_date_edit_set_time_of_day (E_DATE_EDIT (priv->due_date),
-					     due_tt->hour, due_tt->minute);
+		if (due_tt->is_date) {
+			e_date_edit_set_time_of_day (E_DATE_EDIT (priv->due_date),
+						     -1, -1);
+
+		} else {
+			e_date_edit_set_time_of_day (E_DATE_EDIT (priv->due_date),
+						     due_tt->hour,
+						     due_tt->minute);
+		}
 	} else {
 		char *location;
 
@@ -382,8 +389,14 @@ task_page_fill_widgets (CompEditorPage *page, CalComponent *comp)
 		e_date_edit_set_date (E_DATE_EDIT (priv->start_date),
 				      start_tt->year, start_tt->month,
 				      start_tt->day);
-		e_date_edit_set_time_of_day (E_DATE_EDIT (priv->start_date),
-					     start_tt->hour, start_tt->minute);
+		if (start_tt->is_date) {
+			e_date_edit_set_time_of_day (E_DATE_EDIT (priv->start_date),
+						     -1, -1);
+		} else {
+			e_date_edit_set_time_of_day (E_DATE_EDIT (priv->start_date),
+						     start_tt->hour,
+						     start_tt->minute);
+		}
 	} else {
 		char *location;
 
@@ -468,7 +481,7 @@ task_page_fill_component (CompEditorPage *page, CalComponent *comp)
 	CalComponentDateTime date;
 	struct icaltimetype icaltime;
 	char *cat, *str;
-	gboolean date_set;
+	gboolean date_set, time_set;
 	icaltimezone *zone;
 
 	tpage = TASK_PAGE (page);
@@ -518,37 +531,44 @@ task_page_fill_component (CompEditorPage *page, CalComponent *comp)
 	date.value = &icaltime;
 	date.tzid = NULL;
 
-	/* FIXME: We should use is_date at some point. */
-
 	/* Due Date. */
 	date_set = e_date_edit_get_date (E_DATE_EDIT (priv->due_date),
 					 &icaltime.year,
 					 &icaltime.month,
 					 &icaltime.day);
-	e_date_edit_get_time_of_day (E_DATE_EDIT (priv->due_date),
-				     &icaltime.hour,
-				     &icaltime.minute);
+	time_set = e_date_edit_get_time_of_day (E_DATE_EDIT (priv->due_date),
+						&icaltime.hour,
+						&icaltime.minute);
 	if (date_set) {
-		zone = e_timezone_entry_get_timezone (E_TIMEZONE_ENTRY (priv->due_timezone));
-		if (zone)
+		if (time_set) {
+			zone = e_timezone_entry_get_timezone (E_TIMEZONE_ENTRY (priv->due_timezone));
 			date.tzid = icaltimezone_get_tzid (zone);
+		} else {
+			icaltime.is_date = TRUE;
+			date.tzid = NULL;
+		}
 		cal_component_set_due (comp, &date);
 	} else {
 		cal_component_set_due (comp, NULL);
 	}
 
 	/* Start Date. */
+	icaltime = icaltime_null_time ();
 	date_set = e_date_edit_get_date (E_DATE_EDIT (priv->start_date),
 					 &icaltime.year,
 					 &icaltime.month,
 					 &icaltime.day);
-	e_date_edit_get_time_of_day (E_DATE_EDIT (priv->start_date),
-				     &icaltime.hour,
-				     &icaltime.minute);
+	time_set = e_date_edit_get_time_of_day (E_DATE_EDIT (priv->start_date),
+						&icaltime.hour,
+						&icaltime.minute);
 	if (date_set) {
-		zone = e_timezone_entry_get_timezone (E_TIMEZONE_ENTRY (priv->start_timezone));
-		if (zone)
+		if (time_set) {
+			zone = e_timezone_entry_get_timezone (E_TIMEZONE_ENTRY (priv->start_timezone));
 			date.tzid = icaltimezone_get_tzid (zone);
+		} else {
+			icaltime.is_date = TRUE;
+			date.tzid = NULL;
+		}
 		cal_component_set_dtstart (comp, &date);
 	} else {
 		cal_component_set_dtstart (comp, NULL);
@@ -685,8 +705,8 @@ summary_changed_cb (GtkEditable *editable, gpointer data)
 	g_free (summary);
 }
 
-/* Callback used when the start or end date widgets change.  We check that the
- * start date < end date and we set the "all day task" button as appropriate.
+/* Callback used when the start or due date widgets change.  We notify the
+ * other pages in the task editor, so they can update any labels. 
  */
 static void
 date_changed_cb (EDateEdit *dedit, gpointer data)
@@ -694,7 +714,7 @@ date_changed_cb (EDateEdit *dedit, gpointer data)
 	TaskPage *tpage;
 	TaskPagePrivate *priv;
 	CompEditorPageDates dates;
-	gboolean date_set;
+	gboolean date_set, time_set;
 	CalComponentDateTime start_dt, due_dt;
 	struct icaltimetype start_tt = icaltime_null_time();
 	struct icaltimetype due_tt = icaltime_null_time();
@@ -709,12 +729,17 @@ date_changed_cb (EDateEdit *dedit, gpointer data)
 					 &start_tt.year,
 					 &start_tt.month,
 					 &start_tt.day);
-	e_date_edit_get_time_of_day (E_DATE_EDIT (priv->start_date),
-				     &start_tt.hour,
-				     &start_tt.minute);
+	time_set = e_date_edit_get_time_of_day (E_DATE_EDIT (priv->start_date),
+						&start_tt.hour,
+						&start_tt.minute);
 	if (date_set) {
-		icaltimezone *zone = e_timezone_entry_get_timezone (E_TIMEZONE_ENTRY (priv->start_timezone));
-		start_dt.tzid = icaltimezone_get_tzid (zone);
+		if (time_set) {
+			icaltimezone *zone = e_timezone_entry_get_timezone (E_TIMEZONE_ENTRY (priv->start_timezone));
+			start_dt.tzid = icaltimezone_get_tzid (zone);
+		} else {
+			start_tt.is_date = TRUE;
+			start_dt.tzid = NULL;
+		}
 	} else {
 		start_tt = icaltime_null_time ();
 		start_dt.tzid = NULL;
@@ -724,12 +749,17 @@ date_changed_cb (EDateEdit *dedit, gpointer data)
 					 &due_tt.year,
 					 &due_tt.month,
 					 &due_tt.day);
-	e_date_edit_get_time_of_day (E_DATE_EDIT (priv->due_date),
-				     &due_tt.hour,
-				     &due_tt.minute);
+	time_set = e_date_edit_get_time_of_day (E_DATE_EDIT (priv->due_date),
+						&due_tt.hour,
+						&due_tt.minute);
 	if (date_set) {
-		icaltimezone *zone = e_timezone_entry_get_timezone (E_TIMEZONE_ENTRY (priv->due_timezone));
-		due_dt.tzid = icaltimezone_get_tzid (zone);
+		if (time_set) {
+			icaltimezone *zone = e_timezone_entry_get_timezone (E_TIMEZONE_ENTRY (priv->due_timezone));
+			due_dt.tzid = icaltimezone_get_tzid (zone);
+		} else {
+			due_tt.is_date = TRUE;
+			due_dt.tzid = NULL;
+		}
 	} else {
 		due_tt = icaltime_null_time ();
 		due_dt.tzid = NULL;
