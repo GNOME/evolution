@@ -267,7 +267,6 @@ plugins/groupwise-account-setup/camel-gw-listener.c
 plugins/groupwise-send-options/org-gnome-compose-send-options.xml
 plugins/itip-formatter/itip-formatter.c
 plugins/itip-formatter/itip-view.c
-plugins/itip-formatter/org-gnome-itip-formatter-errors.xml.h
 plugins/mailing-list-actions/org-gnome-mailing-list-actions-errors.xml.h
 plugins/new-mail-notify/new-mail-notify.c
 plugins/plugin-manager/org-gnome-plugin-manager.xml
