@@ -550,6 +550,9 @@ void mail_send_receive(void)
 	extern CamelFolder *outbox_folder;
 	const MailConfigAccount *account;
 
+	if (active_downloads == NULL)
+		active_downloads = g_hash_table_new(g_str_hash, g_str_equal);
+
 	if (gd != NULL) {
 		g_assert(GTK_WIDGET_REALIZED(gd));
 		gdk_window_show(gd->window);
@@ -613,6 +616,9 @@ void mail_receive_uri(const char *uri, int keep)
 {
 	FilterContext *fc;
 	struct _send_info *info;
+
+	if (active_downloads == NULL)
+		active_downloads = g_hash_table_new(g_str_hash, g_str_equal);
 
 	info = g_hash_table_lookup(active_downloads);
 	if (info != NULL)

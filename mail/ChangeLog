@@ -1,3 +1,8 @@
+2001-02-08  Not Zed  <NotZed@Ximian.com>
+
+	* mail-send-recv.c (mail_send_receive):
+	(mail_receive_uri):  Init active_downloads hash if it hasn't been yet.
+
 2001-02-07  Not Zed  <NotZed@Ximian.com>
 
 	* mail-send-recv.c (operation_status): Handle internal camel status return.
