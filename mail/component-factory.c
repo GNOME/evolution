@@ -266,7 +266,6 @@ owner_unset_cb (EvolutionShellComponent *shell_component, gpointer user_data)
 {
 	unref_standard_folders ();
 	mail_importer_uninit ();
-	mail_local_storage_shutdown ();
 	
 	g_idle_add_full (G_PRIORITY_LOW, idle_quit, NULL, NULL);
 }

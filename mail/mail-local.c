@@ -732,11 +732,6 @@ mail_local_storage_startup (EvolutionShellClient *shellclient,
 	CORBA_exception_free (&ev);
 }
 
-void
-mail_local_storage_shutdown (void)
-{
-	camel_object_unref (CAMEL_OBJECT (local_store));
-}
 
 /* Local folder reconfiguration stuff */
 

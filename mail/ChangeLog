@@ -1,3 +1,11 @@
+2001-05-13  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-local.c (mail_local_storage_shutdown): Get rid of this - we
+	don't need it.
+
+	* component-factory.c (owner_unset_cb): Don't unref the LocalStore
+	- we don't own a ref on it!!
+
 2001-05-12  Duncan Mak  <duncan@ximian.com>
 
 	* mail-search.c (begin_cb): Updates the subject on refresh and
