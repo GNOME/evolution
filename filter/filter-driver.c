@@ -552,15 +552,18 @@ filter_driver_run(FilterDriver *d, CamelFolder *source, CamelFolder *inbox)
 		char *uid = all->pdata[i], *procuid;
 		GList *copies, *tmp;
 		CamelMimeMessage *mm;
+		const CamelMessageInfo *info;
 
 		copies = g_hash_table_lookup(p->copies, uid);
 		procuid = g_hash_table_lookup(p->processed, uid);
 
+		info = camel_folder_get_message_info (p->source, uid);
+		
 		if (copies || !procuid) {
 			mm = camel_folder_get_message(p->source, uid, p->ex);
 
 			while (copies) {
-				camel_folder_append_message(copies->data, mm, p->ex);
+				camel_folder_append_message(copies->data, mm, info ? info->flags : 0, p->ex);
 				tmp = copies->next;
 				g_list_free_1(copies);
 				copies = tmp;
@@ -568,7 +571,7 @@ filter_driver_run(FilterDriver *d, CamelFolder *source, CamelFolder *inbox)
 
 			if (!procuid) {
 				printf("Applying default rule to message %s\n", uid);
-				camel_folder_append_message(inbox, mm, p->ex);
+				camel_folder_append_message(inbox, mm, info ? info->flags : 0, p->ex);
 			}
 
 			gtk_object_unref((GtkObject *)mm);

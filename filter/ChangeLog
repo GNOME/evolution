@@ -1,3 +1,8 @@
+2000-07-11  Jeffrey Stedfast  <fejj@helixcode.com>
+
+	* filter-driver.c (filter_driver_run): Updated to reflect changes to
+	camel_folder_append_message ()
+
 2000-07-09  Dan Winship  <danw@helixcode.com>
 
 	* filter-xml.[ch]: add a "string" type
