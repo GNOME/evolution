@@ -1,3 +1,8 @@
+2000-07-07  Jeffrey Stedfast  <fejj@helixcode.com>
+
+	* providers/smtp/camel-smtp-transport.c (esmtp_get_authtypes): 
+	Fixed the parser to actually work
+
 2000-07-06  Dan Winship  <danw@helixcode.com>
 
 	* camel-mime-utils.c (header_references_decode): Make this deal

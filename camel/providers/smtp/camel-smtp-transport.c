@@ -174,7 +174,7 @@ smtp_connect (CamelService *service, CamelException *ex)
 	transport->istream = camel_stream_buffer_new (transport->ostream, 
 						      CAMEL_STREAM_BUFFER_READ);
 
-	/* Read the greeting, note whether the server is ESMTP and if it requests AUTH. */
+	/* Read the greeting, note whether the server is ESMTP or not. */
 	do {
 		/* Check for "220" */
 		g_free (respbuf);
@@ -247,17 +247,14 @@ smtp_disconnect (CamelService *service, CamelException *ex)
 	return TRUE;
 }
 
-static GList
-*esmtp_get_authtypes (gchar *buffer)
+static GList *
+esmtp_get_authtypes (gchar *buffer)
 {
 	GList *ret = NULL;
 	gchar *start, *end;
 
-	if (!(start = strstr (buffer, "AUTH")))
-		return NULL;
-
 	/* advance to the first token */
-	for (start += 4; *start && *start != ' ' && *start != '='; start++);
+	for (start = buffer; *start == ' ' || *start == '='; start++);
 
 	for ( ; *start; ) {
 		/* advance to the end of the token */
@@ -266,7 +263,7 @@ static GList
 		ret = g_list_append (ret, g_strndup (start, end - start));
 
 		/* advance to the next token */
-		for (start = end; *start && *start != ' '; start++);
+		for (start = end; *start == ' '; start++);
 	}
 
 	return ret;
@@ -293,8 +290,8 @@ static CamelServiceAuthType cram_md5_authtype = {
 	TRUE
 };
 
-static GList
-*query_auth_types (CamelService *service, CamelException *ex)
+static GList *
+query_auth_types (CamelService *service, CamelException *ex)
 {
 	/* FIXME: Re-enable this when auth types are actually
 	 * implemented.
@@ -415,8 +412,8 @@ _send (CamelTransport *transport, CamelMedium *message,
 	return _send_to (transport, message, recipients, ex);
 }
 
-static gchar
-*smtp_get_email_addr_from_text (gchar *text)
+static gchar *
+smtp_get_email_addr_from_text (gchar *text)
 {
 	/* get the actual email address from the string passed and place it in addr
 	 * we can assume the address will be in one of the following forms:
@@ -539,8 +536,9 @@ smtp_helo (CamelSmtpTransport *transport, CamelException *ex)
 		}
 		if (transport->smtp_is_esmtp && strstr (respbuf, "AUTH")) {
 			/* parse for supported AUTH types */
-			g_strchomp (respbuf);
-			transport->esmtp_supported_authtypes = esmtp_get_authtypes (respbuf);
+			char *auths = strstr (respbuf, "AUTH") + 4;
+			
+			transport->esmtp_supported_authtypes = esmtp_get_authtypes (auths);
 		}
 	} while ( *(respbuf+3) == '-' ); /* if we got "250-" then loop again */
 	g_free (respbuf);
