@@ -5,4 +5,5 @@
   <GalView id="By_Subject" _title="By Subject" filename="By_Subject.galview" type="etable"/>
   <GalView id="By_Sender" _title="By Sender" filename="By_Sender.galview" type="etable"/>
   <GalView id="By_Status" _title="By Status" filename="By_Status.galview" type="etable"/>
+  <GalView id="By_Follow_Up_Flag" _title="By Follow Up Flag" filename="By_Follow_Up_Flag.galview" type="etable"/>
 </GalViewCollection>
