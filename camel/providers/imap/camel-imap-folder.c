@@ -46,9 +46,12 @@
 #include "camel-mime-message.h"
 #include "camel-stream-filter.h"
 #include "camel-mime-filter-from.h"
+#include "camel-mime-filter-crlf.h"
 #include "camel-exception.h"
 
 #define d(x)
+
+#define CF_CLASS(o) (CAMEL_FOLDER_CLASS (GTK_OBJECT (o)->klass))
 
 static CamelFolderClass *parent_class = NULL;
 
@@ -169,10 +172,10 @@ camel_imap_folder_get_type (void)
 CamelFolder *
 camel_imap_folder_new (CamelStore *parent, CamelException *ex)
 {
-	/* TODO: code this - do we need this? */
 	CamelFolder *folder = CAMEL_FOLDER (gtk_object_new (camel_imap_folder_get_type (), NULL));
+	
+	CF_CLASS (folder)->init (folder, parent, NULL, "INBOX", '/', ex);
 
-	CAMEL_FOLDER_CLASS (folder)->init (folder, parent, NULL, "inbox", '/', ex);
 	return folder;
 }
 
@@ -605,7 +608,7 @@ message_changed (CamelMimeMessage *m, int type, CamelImapFolder *mf)
 static CamelMimeMessage *
 imap_get_message_by_uid (CamelFolder *folder, const gchar *uid, CamelException *ex)
 {
-	CamelImapStream *imap_stream;
+	CamelStream *imap_stream;
 	CamelStream *msgstream;
 	CamelStreamFilter *f_stream;   /* will be used later w/ crlf filter */
 	CamelMimeFilter *filter;       /* crlf/dot filter */
@@ -617,7 +620,7 @@ imap_get_message_by_uid (CamelFolder *folder, const gchar *uid, CamelException *
 
 	/* TODO: fetch the correct part, get rid of the hard-coded stuff */
 	cmdbuf = g_strdup_printf ("UID FETCH %s BODY[TEXT]", uid);
-	imap_stream = camel_imap_stream_new (folder, cmdbuf);
+	imap_stream = camel_imap_stream_new (CAMEL_IMAP_FOLDER (folder), cmdbuf);
 	g_free (cmdbuf);
 
 
@@ -791,16 +794,6 @@ imap_search_by_expression (CamelFolder *folder, const char *expression, CamelExc
 
 	return camel_folder_search_execute_expression(imap_folder->search, expression, ex);
 }
-
-
-
-
-
-
-
-
-
-
 
 
 

@@ -60,8 +60,7 @@ typedef struct {
 
 /* public methods */
 void camel_imap_store_open (CamelImapStore *store, CamelException *ex);
-void camel_imap_store_close (CamelImapStore *store, gboolean expunge,
-			     CamelException *ex);
+void camel_imap_store_close (CamelImapStore *store, gboolean expunge, CamelException *ex);
 
 /* support functions */
 

@@ -1,3 +1,7 @@
+2000-06-13  Jeffrey Stedfast  <fejj@helixcode.com>
+
+	* configure.in: Added IMAP into the build
+
 2000-06-13  Ettore Perazzoli  <ettore@helixcode.com>
 
 	* notes/Makefile.am (SHELL_OBJS): Removed.

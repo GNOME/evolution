@@ -2,25 +2,24 @@
 /* camel-imap-store.c : class for an imap store */
 
 /*
- * Authors: Jeffrey Stedfast <fejj@helixcode.com>
- *          Ross Golder <ross@golder.org>
+ *  Authors: Jeffrey Stedfast <fejj@helixcode.com>
  *
- * Copyright (C) 2000 Helix Code, Inc.
+ *  Copyright 2000 Helix Code, Inc. (www.helixcode.com)
  *
- * This program is free software; you can redistribute it and/or 
- * modify it under the terms of the GNU General Public License as 
- * published by the Free Software Foundation; either version 2 of the
- * License, or (at your option) any later version.
+ *  This program is free software; you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation; either version 2 of the License, or
+ *  (at your option) any later version.
  *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
  *
- * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307
- * USA
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program; if not, write to the Free Software
+ *  Foundation, Inc., 59 Temple Street #330, Boston, MA 02111-1307, USA.
+ *
  */
 
 
@@ -58,10 +57,10 @@ static gboolean imap_connect (CamelService *service, CamelException *ex);
 static gboolean imap_disconnect (CamelService *service, CamelException *ex);
 static GList *query_auth_types (CamelService *service, CamelException *ex);
 static void free_auth_types (CamelService *service, GList *authtypes);
-
 static CamelFolder *get_folder (CamelStore *store, const char *folder_name, gboolean create,
 				CamelException *ex);
 static char *get_folder_name (CamelStore *store, const char *folder_name, CamelException *ex);
+static int camel_imap_status (char *cmdid, char *respbuf);
 
 static void
 camel_imap_store_class_init (CamelImapStoreClass *camel_imap_store_class)
@@ -88,19 +87,16 @@ camel_imap_store_class_init (CamelImapStoreClass *camel_imap_store_class)
 	camel_store_class->get_folder_name = get_folder_name;
 }
 
-
 static void
 camel_imap_store_init (gpointer object, gpointer klass)
 {
 	CamelService *service = CAMEL_SERVICE (object);
 	CamelStore *store = CAMEL_STORE (object);
 
-	service->url_flags = ( CAMEL_SERVICE_URL_NEED_USER |
-			       CAMEL_SERVICE_URL_NEED_HOST );
+	service->url_flags = (CAMEL_SERVICE_URL_NEED_USER | CAMEL_SERVICE_URL_NEED_HOST);
 
 	store->folders = g_hash_table_new (g_str_hash, g_str_equal);
 }
-
 
 GtkType
 camel_imap_store_get_type (void)
@@ -226,9 +222,8 @@ imap_connect (CamelService *service, CamelException *ex)
 						service->url->user, h->h_name);
 		service->url->passwd =
 			camel_session_query_authenticator (camel_service_get_session (service),
-							   prompt, TRUE,
-							   service, "password",
-							   ex);
+							   CAMEL_AUTHENTICATOR_ASK, prompt,
+							   TRUE, service, "password", ex);
 		g_free (prompt);
 		if (!service->url->passwd)
 			return FALSE;
@@ -286,6 +281,8 @@ imap_connect (CamelService *service, CamelException *ex)
 		gtk_object_unref (GTK_OBJECT (store->ostream));
 		gtk_object_unref (GTK_OBJECT (store->istream));
 		return FALSE;
+	} else {
+		g_message ("IMAP Service sucessfully authenticated user %s", service->url->user);
 	}
 
 	service_class->connect (service, ex);
@@ -340,7 +337,7 @@ imap_create (CamelFolder *folder, CamelException *ex)
         /* create the directory for the subfolder */
 	status = camel_imap_command_extended (CAMEL_IMAP_STORE (folder->parent_store), NULL,
 					      &result, "CREATE %s", folder->full_name);
-	
+
 	if (status != CAMEL_IMAP_OK) {
 		CamelService *service = CAMEL_SERVICE (folder->parent_store);
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SERVICE_UNAVAILABLE,
@@ -360,25 +357,39 @@ imap_create (CamelFolder *folder, CamelException *ex)
 static CamelFolder *
 get_folder (CamelStore *store, const char *folder_name, gboolean create, CamelException *ex)
 {
-	CamelImapFolder *new_imap_folder;
-	CamelFolder *new_folder;
+	CamelFolder *new_folder = camel_imap_folder_new (store, ex);
 
-	new_imap_folder = gtk_type_new (CAMEL_IMAP_FOLDER_TYPE);
-	new_folder = CAMEL_FOLDER (new_imap_folder);
-	CAMEL_FOLDER_CLASS (new_folder)->init (new_folder, store, NULL,
-				     folder_name, '/', ex);
-
-	if (imap_create (new_folder, ex))
+	if (imap_create (new_folder, ex)) {
 		return new_folder;
-
+	}
+	
 	return NULL;
 }
 
 static gchar *
-get_folder_name (CamelStore *store, const char *folder_name,
-		 CamelException *ex)
+get_folder_name (CamelStore *store, const char *folder_name, CamelException *ex)
 {
 	return g_strdup (folder_name);
+}
+
+static int
+camel_imap_status (char *cmdid, char *respbuf)
+{
+	char *retcode;
+
+	if (respbuf) {
+		retcode = strstr (respbuf, cmdid);
+		if (retcode) {
+			retcode += strlen (cmdid) + 1;
+			
+			if (!strncmp (retcode, "OK", 2))
+				return CAMEL_IMAP_OK;
+			else if (!strncmp (retcode, "NO", 2))
+				return CAMEL_IMAP_ERR;
+		}
+	}
+	
+	return CAMEL_IMAP_FAIL;
 }
 
 /**
@@ -405,7 +416,7 @@ gint
 camel_imap_command (CamelImapStore *store, CamelFolder *folder, char **ret, char *fmt, ...)
 {
 	gchar *cmdbuf, *respbuf;
-	gchar *cmdid, *code;
+	gchar *cmdid;
 	va_list ap;
 	gint status;
 
@@ -440,7 +451,6 @@ camel_imap_command (CamelImapStore *store, CamelFolder *folder, char **ret, char
 		return CAMEL_IMAP_FAIL;
 	}
 	g_free(cmdbuf);
-	g_free(cmdid);
 
 	/* Read the response */
 	respbuf = camel_stream_buffer_read_line (CAMEL_STREAM_BUFFER (store->istream));
@@ -452,17 +462,8 @@ camel_imap_command (CamelImapStore *store, CamelFolder *folder, char **ret, char
 
 	fprintf(stderr, "received: %s\n", respbuf ? respbuf : "(null)");
 
-        if (respbuf) {
-		code = strstr(respbuf, cmdid) + strlen(cmdid) + 1;
-		if (!strncmp(code, "OK", 2))
-			status = CAMEL_IMAP_OK;
-		else if (!strncmp(code, "NO", 2))
-			status = CAMEL_IMAP_ERR;
-		else
-			status = CAMEL_IMAP_FAIL;
-	} else {
-		status = CAMEL_IMAP_FAIL;
-	}
+	status = camel_imap_status (cmdid, respbuf);
+	g_free (cmdid);
 
 	if (ret) {
 		if (status != CAMEL_IMAP_FAIL) {
@@ -507,9 +508,9 @@ camel_imap_command_extended (CamelImapStore *store, CamelFolder *folder, char **
 {
 	CamelStreamBuffer *stream = CAMEL_STREAM_BUFFER (store->istream);
 	GPtrArray *data;
-	gchar *cmdid, *cmdbuf, *respbuf, *code;
+	gchar *cmdid, *cmdbuf, *respbuf;
 	va_list app;
-	gint i, status = CAMEL_IMAP_OK;
+	gint status = CAMEL_IMAP_OK;
 
 	if (folder && store->current_folder != folder && strncmp(fmt, "SELECT", 6) &&
 	    strncmp(fmt, "STATUS", 6) && strncmp(fmt, "CREATE", 5)) {
@@ -543,12 +544,12 @@ camel_imap_command_extended (CamelImapStore *store, CamelFolder *folder, char **
 		return CAMEL_IMAP_FAIL;
 	}
 	g_free(cmdbuf);
-	g_free(cmdid);
 
 	data = g_ptr_array_new ();
+
 	while (1) {
 		respbuf = camel_stream_buffer_read_line (stream);
-		if (!respbuf || !strncmp(respbuf, cmdid, strlen(cmdid)) ) {
+		if (!respbuf || !strncmp(respbuf, cmdid, strlen(cmdid)) ) {	
 			/* IMAP's last response starts with our command id */
 			break;
 		}
@@ -558,19 +559,8 @@ camel_imap_command_extended (CamelImapStore *store, CamelFolder *folder, char **
 		g_ptr_array_add (data, respbuf);
 	}
 
-	if (respbuf) {
-		code = strstr(respbuf, cmdid) + strlen(cmdid) + 1;
-		if (!strncmp(code, "OK", 2))
-			status = CAMEL_IMAP_OK;
-		else if (!strncmp(code, "NO", 2))
-			status = CAMEL_IMAP_ERR;
-		else
-			status = CAMEL_IMAP_FAIL;
-
-		g_free(respbuf);
-	} else {
-		status = CAMEL_IMAP_FAIL;
-	}
+	status = camel_imap_status (cmdid, respbuf);
+	g_free (cmdid);
 
 	if (status == CAMEL_IMAP_OK) {
 		/* Append an empty string to the end of the array
@@ -581,33 +571,35 @@ camel_imap_command_extended (CamelImapStore *store, CamelFolder *folder, char **
 		g_ptr_array_add (data, NULL);
 		*ret = g_strjoinv ("\n", (gchar **)data->pdata);
 	} else {
-		if (status != CAMEL_IMAP_FAIL)
+		if (status != CAMEL_IMAP_FAIL && respbuf)
 		        *ret = g_strdup (strchr (respbuf, ' ' + 1));
 		else
 			*ret = NULL;
 	}
 
-	for (i = 0; i < data->len - 2; i++)
-		g_free (data->pdata[i]);
 	g_ptr_array_free (data, TRUE);
-
+	
 	return status;
 }
 
+void
+camel_imap_store_open (CamelImapStore *store, CamelException *ex)
+{
+	CamelService *service = CAMEL_SERVICE (store);
 
+	if (!camel_service_is_connected (service))
+		imap_connect (service, ex);
+}
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+void
+camel_imap_store_close (CamelImapStore *store, gboolean expunge, CamelException *ex)
+{
+	/*
+	  if (expunge)
+	  camel_imap_command (store, NULL, "QUIT");
+	  else
+	  camel_imap_command (store, NULL, "RSET");
+	*/
+	
+	imap_disconnect (CAMEL_SERVICE (store), ex);
+}
