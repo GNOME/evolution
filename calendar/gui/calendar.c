@@ -11,7 +11,7 @@
  *   Federico Mena (federico@gimp.org)
  *
  */
-#include "calobj.h"
+
 #include "calendar.h"
 
 Calendar *
@@ -68,13 +68,13 @@ calendar_remove_object (Calendar *cal, iCalObject *obj)
 void
 calendar_destroy (Calendar *cal)
 {
-	g_list_foreach (cal->events, ical_object_destroy, NULL);
+	g_list_foreach (cal->events, (GFunc) ical_object_destroy, NULL);
 	g_list_free (cal->events);
 	
-	g_list_foreach (cal->todo, ical_object_destroy, NULL);
+	g_list_foreach (cal->todo, (GFunc) ical_object_destroy, NULL);
 	g_list_free (cal->todo);
 	
-	g_list_foreach (cal->journal, ical_object_destroy, NULL);
+	g_list_foreach (cal->journal, (GFunc) ical_object_destroy, NULL);
 	g_list_free (cal->journal);
 
 	if (cal->title)
@@ -96,21 +96,23 @@ calendar_get_objects_in_range (GList *objects, time_t start, time_t end)
 		if ((start <= object->dtstart) && (end >= object->dtend))
 			new_events = g_list_prepend (new_events, object);
 	}
+
+	return new_events;
 }
 
 GList *
 calendar_get_events_in_range (Calendar *cal, time_t start, time_t end)
 {
-	calendar_get_objects_in_range (cal->events, start, end);
+	return calendar_get_objects_in_range (cal->events, start, end);
 }
 
 GList *
 calendar_get_todo_in_range (Calendar *cal, time_t start, time_t end)
 {
-	calendar_get_objects_in_range (cal->todo, start, end);
+	return calendar_get_objects_in_range (cal->todo, start, end);
 }
 GList *
 calendar_get_journal_in_range (Calendar *cal, time_t start, time_t end)
 {
-	calendar_get_objects_in_range (cal->journal, start, end);
+	return calendar_get_objects_in_range (cal->journal, start, end);
 }

@@ -7,6 +7,8 @@
 #ifndef CALOBJ_H
 #define CALOBJ_H
 
+#include <libgnome/libgnome.h>
+
 BEGIN_GNOME_DECLS
 
 typedef struct {
@@ -42,7 +44,7 @@ typedef struct {
 typedef enum {
 	ICAL_OPAQUE,
 	ICAL_TRANSPARENT
-};
+} iCalTransp;
 
 typedef char NotYet;
 
@@ -93,8 +95,8 @@ typedef struct {
 
 iCalObject *ical_new (char *comment, char *organizer, char *summary);
 iCalObject *ical_object_new (void);
+void        ical_object_destroy (iCalObject *ico);
 
 END_GNOME_DECLS
 
 #endif
-

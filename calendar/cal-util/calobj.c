@@ -13,7 +13,7 @@ ical_object_new (void)
 {
 	iCalObject *ico;
 
-	ico = g_new0 (iCalObject);
+	ico = g_new0 (iCalObject, 1);
 	
 	ico->seq = -1;
 	ico->dtstamp = time (NULL);

@@ -3,27 +3,30 @@ INCLUDES = 			\
 	$(GNOME_INCLUDEDIR)	\
 	-I../../gcalendar
 
-bin_PROGRAMS = gncal objedit
-
-objedit_SOURCES = objedit.c
+bin_PROGRAMS = gncal
 
 gncal_SOURCES = \
-	gncal.c		\
-	gncal.h		\
-	calcs.c		\
-	calcs.h		\
-	clist.c		\
-	clist.h
+	gncal.c			\
+	gncal.h			\
+	calcs.c			\
+	calcs.h			\
+	clist.c			\
+	clist.h			\
+	calendar.c		\
+	calendar.h		\
+	calobj.c		\
+	calobj.h		\
+	gncal-day-view.c	\
+	gncal-day-view.h	\
+	timeutil.c		\
+	timeutil.h
 
 LINK_FLAGS = \
 	$(GNOME_LIBDIR) \
 	$(GNOMEUI_LIBS) \
-	$(INTLLIBS)	\
-	../../gcalendar/gtkcalendar.o \
-	../../gcalendar/lib_date.o
+	$(INTLLIBS)
 
 gncal_LDADD = $(LINK_FLAGS)
-objedit_LDADD = $(LINK_FLAGS)
 
 EXTRA_DIST = \
 	gncal.desktop

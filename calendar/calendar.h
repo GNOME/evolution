@@ -1,6 +1,8 @@
 #ifndef CALENDAR_H
 #define CALENDAR_H
 
+#include "calobj.h"
+
 BEGIN_GNOME_DECLS
 
 typedef struct {
