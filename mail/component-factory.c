@@ -157,7 +157,7 @@ create_view (EvolutionShellComponent *shell_component,
 		}
 		
 		if (!gtk_object_get_data (GTK_OBJECT (storage), "connected"))
-			mail_note_store(CAMEL_STORE(store), storage, CORBA_OBJECT_NIL);
+			mail_note_store(CAMEL_STORE(store), storage, CORBA_OBJECT_NIL, NULL, NULL);
 		camel_object_unref (CAMEL_OBJECT (store));
 		
 		control = create_noselect_control ();
@@ -1001,7 +1001,7 @@ add_storage (const char *name, const char *uri, CamelService *store,
 	switch (res) {
 	case EVOLUTION_STORAGE_OK:
 		mail_hash_storage (store, storage);
-		mail_note_store((CamelStore *)store, storage, CORBA_OBJECT_NIL);
+		mail_note_store((CamelStore *)store, storage, CORBA_OBJECT_NIL, NULL, NULL);
 		/* falllll */
 	case EVOLUTION_STORAGE_ERROR_ALREADYREGISTERED:
 	case EVOLUTION_STORAGE_ERROR_EXISTS:

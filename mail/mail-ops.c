@@ -433,7 +433,7 @@ do_update_subfolders (CamelStore *store, CamelFolderInfo *info, void *data)
 
 /* this interface is a little icky */
 int
-mail_update_subfolders (CamelStore *store, EvolutionStorage *storage,
+samail_update_subfolders (CamelStore *store, EvolutionStorage *storage,
 			void (*done)(CamelStore *, void *data), void *data)
 {
 	struct _update_info *info;

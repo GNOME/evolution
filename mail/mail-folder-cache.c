@@ -294,22 +294,33 @@ create_folders(CamelFolderInfo *fi, struct _store_info *si)
 		create_folders(fi->sibling, si);
 }
 
+struct _update_data {
+	struct _store_info *si;
+	void (*done)(CamelStore *store, CamelFolderInfo *info, void *data);
+	void *data;
+};
+
 static void
 update_folders(CamelStore *store, CamelFolderInfo *info, void *data)
 {
-	struct _store_info *si = data;
+	struct _update_data *ud = data;
 
 	if (info) {
-		if (si->storage)
-			gtk_object_set_data (GTK_OBJECT (si->storage), "connected", GINT_TO_POINTER (TRUE));
-		create_folders(info, si);
+		if (ud->si->storage)
+			gtk_object_set_data (GTK_OBJECT (ud->si->storage), "connected", GINT_TO_POINTER (TRUE));
+		create_folders(info, ud->si);
 	}
+	if (ud->done)
+		ud->done(store, info, ud->data);
+	g_free(ud);
 }
 
 void
-mail_note_store(CamelStore *store, EvolutionStorage *storage, GNOME_Evolution_Storage corba_storage)
+mail_note_store(CamelStore *store, EvolutionStorage *storage, GNOME_Evolution_Storage corba_storage,
+		void (*done)(CamelStore *store, CamelFolderInfo *info, void *data), void *data)
 {
 	struct _store_info *si;
+	struct _update_data *ud;
 
 	g_assert(CAMEL_IS_STORE(store));
 	g_assert(pthread_self() == mail_gui_thread);
@@ -325,6 +336,8 @@ mail_note_store(CamelStore *store, EvolutionStorage *storage, GNOME_Evolution_St
 
 		d(printf("Noting a new store: %p: %s\n", store, camel_url_to_string(((CamelService *)store)->url, 0)));
 
+		/* FIXME: Need to ref the storages or something?? */
+
 		si = g_malloc0(sizeof(*si));
 		si->folders = g_hash_table_new(g_str_hash, g_str_equal);
 		si->storage = storage;
@@ -338,5 +351,10 @@ mail_note_store(CamelStore *store, EvolutionStorage *storage, GNOME_Evolution_St
 
 	UNLOCK(info_lock);
 
-	mail_get_folderinfo(store, update_folders, si);
+	ud = g_malloc(sizeof(*ud));
+	ud->si = si;
+	ud->done = done;
+	ud->data = data;
+
+	mail_get_folderinfo(store, update_folders, ud);
 }

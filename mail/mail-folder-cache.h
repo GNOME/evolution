@@ -31,7 +31,9 @@
 /* Add a store whose folders should appear in the shell
    The folders are scanned from the store, and/or added at
    runtime via the folder_created event */
-void mail_note_store(struct _CamelStore *store, struct _EvolutionStorage *storage, GNOME_Evolution_Storage corba_storage);
+void
+mail_note_store(CamelStore *store, EvolutionStorage *storage, GNOME_Evolution_Storage corba_storage,
+		void (*done)(CamelStore *store, CamelFolderInfo *info, void *data), void *data);
 
 /* When a folder has been opened, notify it for watching.
    The folder must have already been created on the store (which has already been noted)

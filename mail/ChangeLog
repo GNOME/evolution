@@ -1,3 +1,15 @@
+2001-09-21    <NotZed@Ximian.com>
+
+	* mail-folder-cache.c (mail_note_store): Take a new argument
+	'done' that can callback when complete.  Fixed callers
+	appropriately.
+
+	* mail-ops.c (mail_update_subfolders): Removed.  Isn't used
+	anymore.
+
+	* mail-send-recv.c (receive_update_got_store): Remove call to
+	mail_update_subfolders.
+
 2001-09-20    <NotZed@Ximian.com>
 
 	* mail-vfolder.c (check_source): Dont let drafts/outbox/sent be

@@ -542,7 +542,7 @@ receive_done (char *uri, void *data)
 
 /* same for updating */
 static void
-receive_update_done(CamelStore *store, void *data)
+receive_update_done(CamelStore *store, CamelFolderInfo *info, void *data)
 {
 	receive_done("", data);
 }
@@ -601,11 +601,8 @@ receive_update_got_store (char *uri, CamelStore *store, void *data)
 		EvolutionStorage *storage = mail_lookup_storage (store);
 		
 		if (storage) {
-			if (!gtk_object_get_data (GTK_OBJECT (storage), "connected"))
-				mail_note_store(store, storage, CORBA_OBJECT_NIL);
-			
-			mail_update_subfolders (store, storage, receive_update_done, info);
-			bonobo_object_unref (BONOBO_OBJECT (storage));
+			mail_note_store(store, storage, CORBA_OBJECT_NIL, receive_update_done, info);
+			/*bonobo_object_unref (BONOBO_OBJECT (storage));*/
 		} else {
 			receive_done ("", info);
 		}
