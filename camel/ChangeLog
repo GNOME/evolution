@@ -1,3 +1,10 @@
+2001-01-19  Dan Winship  <danw@ximian.com>
+
+	* providers/imap/camel-imap-store.c
+	(get_subscribed_folders_by_hand): If LISTing a subscribed folder
+	doesn't return a LIST response, just ignore that folder. Yay
+	RFC2060.
+
 2001-01-19  Kjartan Maraas  <kmaraas@gnome.org>
 
 	* providers/smtp/camel-smtp-provider.c: Mark strings for translation.

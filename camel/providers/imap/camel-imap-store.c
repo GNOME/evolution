@@ -735,10 +735,13 @@ get_subscribed_folders_by_hand (CamelImapStore *imap_store, const char *top,
 			g_ptr_array_free (names, TRUE);
 			return;
 		}
-		result = camel_imap_response_extract (response, "LIST", ex);
+		result = camel_imap_response_extract (response, "LIST", NULL);
 		if (!result) {
-			g_ptr_array_free (names, TRUE);
-			return;
+			g_hash_table_remove (imap_store->subscribed_folders,
+					     names->pdata[i]);
+			g_free (names->pdata[i]);
+			g_ptr_array_remove_index_fast (names, i--);
+			continue;
 		}
 
 		fi = parse_list_response_as_folder_info (imap_store, result);
