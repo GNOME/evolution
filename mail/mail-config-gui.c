@@ -2255,7 +2255,7 @@ static void do_test_service (gpointer in_data, gpointer op_data, CamelException 
 	if (camel_exception_get_id (ex) != CAMEL_EXCEPTION_NONE) {
 		data->success = FALSE;
 	} else if (camel_service_connect (service, ex)) {
-		camel_service_disconnect (service, ex);
+		camel_service_disconnect (service, TRUE, ex);
 		data->success = TRUE;
 	} else {
 		data->success = FALSE;
