@@ -1,3 +1,8 @@
+2004-03-31  Not Zed  <NotZed@Ximian.com>
+
+	* e-filter-bar.c (menubar_activated): start the rule editor with
+	the right label.
+
 2004-03-26  Rodney Dawes  <dobey@ximian.com>
 
 	* e-multi-config-dialog.c (init): Remove the dialog separator

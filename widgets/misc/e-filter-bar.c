@@ -188,7 +188,7 @@ menubar_activated (ESearchBar *esb, int id, void *data)
 	switch (id) {
 	case E_FILTERBAR_EDIT_ID:
 		if (!efb->save_dialog) {
-			efb->save_dialog = dialog = (GtkWidget *) rule_editor_new (efb->context, FILTER_SOURCE_INCOMING);
+			efb->save_dialog = dialog = (GtkWidget *) rule_editor_new (efb->context, FILTER_SOURCE_INCOMING, _("_Searches"));
 			
 			gtk_window_set_title (GTK_WINDOW (dialog), _("Search Editor"));
 			g_signal_connect (dialog, "response", G_CALLBACK (full_rule_editor_response), efb);
