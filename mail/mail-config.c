@@ -1812,25 +1812,11 @@ mail_config_service_set_save_passwd (MailConfigService *service, gboolean save_p
 char *
 mail_config_folder_to_cachename (CamelFolder *folder, const char *prefix)
 {
-	CamelService *service = CAMEL_SERVICE (folder->parent_store);
 	char *url, *filename;
-
-	/* This is the way it is for backward compatibility with
-	 * the way it was, not because it's necessarily a good thing.
-	 */
-
-	url = camel_url_to_string (service->url, CAMEL_URL_HIDE_PASSWORD | CAMEL_URL_HIDE_PARAMS);
-
-	/* Really we want to check CAMEL_IS_LOCAL_FOLDER here, but we
-	 * can't do that.
-	 */
-	if (service->provider->flags & CAMEL_PROVIDER_IS_REMOTE) {
-		char *store_url = url;
-		url = g_strdup_printf ("%s/%s", store_url, folder->full_name);
-		g_free (store_url);
-	}
+	
+	url = camel_folder_get_uri (folder);
 	e_filename_make_safe (url);
-
+	
 	filename = g_strdup_printf ("%s/config/%s%s", evolution_dir, prefix, url);
 	g_free (url);
 	

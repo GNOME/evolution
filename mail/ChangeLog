@@ -1,3 +1,8 @@
+2001-09-16  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-config.c (mail_config_folder_to_cachename): Use
+	camel_folder_get_uri().
+
 2001-09-15    <NotZed@Ximian.com>
 
 	* mail-vfolder.c: Major rewrite of most of the guts, handle
