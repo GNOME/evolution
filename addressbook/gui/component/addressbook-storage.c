@@ -413,8 +413,6 @@ addressbook_storage_add_source (AddressbookSource *source)
 				      source->uri, source->description, FALSE);
 
 	g_free (path);
-
-	save_source_data (storage_path);
 }
 
 void
@@ -446,8 +444,6 @@ addressbook_storage_remove_source (const char *name)
 	evolution_storage_removed_folder (storage, path);
 
 	g_free (path);
-
-	save_source_data (storage_path);
 }
 
 GList *
@@ -506,7 +502,11 @@ addressbook_storage_clear_sources ()
 	g_list_foreach (sources, (GFunc)addressbook_source_foreach, NULL);
 	g_list_free (sources);
 	sources = NULL;
+}
 
+void
+addressbook_storage_write_sources ()
+{
 	save_source_data (storage_path);
 }
 
@@ -527,7 +527,7 @@ addressbook_source_copy (const AddressbookSource *source)
 		copy->ldap.rootdn = g_strdup (source->ldap.rootdn);
 		copy->ldap.scope = source->ldap.scope;
 		copy->ldap.auth = source->ldap.auth;
-		copy->ldap.binddn = source->ldap.binddn;
+		copy->ldap.binddn = g_strdup (source->ldap.binddn);
 		copy->ldap.remember_passwd = source->ldap.remember_passwd;
 	}
 	else {

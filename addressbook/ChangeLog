@@ -1,3 +1,24 @@
+2001-07-16  Chris Toshok  <toshok@ximian.com>
+
+	[ Fix bug #4705 - LDAP storage gets saved with corrupted binddn]
+	
+	* gui/component/addressbook-config.c (addressbook_dialog_apply):
+	call addressbook_storage_write_sources here after we're done
+	rebuilding them.
+
+	* gui/component/addressbook-storage.c
+	(addressbook_storage_clear_sources): don't write the source file
+	here.
+	(addressbook_storage_add_source): same.
+	(addressbook_storage_remove_source): same.
+	(addressbook_storage_write_sources): new function, write the
+	source file out.
+	(addressbook_source_copy): g_strdup the binddn so we don't end up
+	free'ing it multiple times thanks to copies freeing theirs.
+
+	* gui/component/addressbook-storage.h: add prototype for
+	address_storage_write_sources.
+
 2001-07-13  Christopher James Lahey  <clahey@ximian.com>
 
 	* gui/contact-editor/contact-editor.glade: Changed Company to
