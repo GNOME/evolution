@@ -928,6 +928,9 @@ void         e_tree_table_adapter_node_set_expanded (ETreeTableAdapter *etta, ET
 	ETreeTableAdapterNode *node;
 	int row;
 
+	if (e_tree_model_node_is_root (etta->priv->source, path) && !etta->priv->root_visible)
+		return;
+
 	node = find_or_create_node(etta, path);
 	row = find_row_num(etta, path);
 
