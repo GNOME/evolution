@@ -505,7 +505,7 @@ imap_url_upgrade (GHashTable *imap_sources, const char *uri)
 	p = hex_decode (p, strlen (p));
 	
 	fprintf (stderr, "checking for folder %s on %s... ", p, base_url);
-	folder = find_folder (si->folders, p, &dir_sep);
+	folder = si->folders ? find_folder (si->folders, p, &dir_sep) : NULL;
 	if (folder == NULL) {
 		fprintf (stderr, "not found.\n");
 		folder = p;

@@ -1,3 +1,9 @@
+2002-09-25  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* upgrade-mailer.c (imap_url_upgrade): NULL-check si->folders
+	before passing it into find_folder so we don't crash. Fixes bug
+	#30915.
+
 2002-09-24  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* folder-browser-ui.c: Allow users to delete already deleted
