@@ -242,7 +242,7 @@ resize_cb (ESelectNamesModel *source, gint index, gint old_len, gint new_len, ET
 }
 
 static void
-changed_cb (ETextModel *model)
+changed_cb (ESelectNamesModel *source, ETextModel *model)
 {
 	ESelectNamesTextModel *text_model = E_SELECT_NAMES_TEXT_MODEL (model);
 	

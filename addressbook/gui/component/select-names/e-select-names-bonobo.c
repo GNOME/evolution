@@ -258,7 +258,7 @@ entry_changed (GtkWidget *widget, BonoboControl *control)
 	gboolean changed = GPOINTER_TO_UINT (g_object_get_data (G_OBJECT (widget), "entry_property_id_changed"));
 
 	if (!changed)
-		bonobo_control_set_property (control, NULL, "entry_changed", TRUE);
+		bonobo_control_set_property (control, NULL, "entry_changed", TC_CORBA_boolean, TRUE, NULL);
 }
 
 static void

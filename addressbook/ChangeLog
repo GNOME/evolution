@@ -1,3 +1,12 @@
+2002-11-21  Not Zed  <NotZed@Ximian.com>
+
+	* gui/component/select-names/e-select-names-bonobo.c
+	(entry_changed): Pass type to bonobo_ctonrol_set_property, and
+	also NULL terminate the valist.
+
+	* gui/component/select-names/e-select-names-text-model.c
+	(changed_cb): Fix signature for signal.
+
 2002-11-19  Ettore Perazzoli  <ettore@ximian.com>
 
 	* gui/component/select-names/GNOME_Evolution_Addressbook_SelectNames.server.in.in,
