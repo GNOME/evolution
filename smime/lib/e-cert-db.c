@@ -55,6 +55,11 @@
  *
  */
 
+
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
+
 /* XXX toshok why oh *why* god WHY did they do this?  no fucking
    sense */
 /* private NSS defines used by PSM */

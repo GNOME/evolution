@@ -1,3 +1,26 @@
+2004-02-11  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* lib/e-pkcs12.c: #include <config.h>
+	(e_pkcs12_export_to_file): Hmm. I gather this needs to be
+	implemented. return FALSE here until someone implements this so
+	gcc doesn't complain about control reaching the end of a non-void
+	function.
+	(handle_error): Same.
+
+	* lib/e-cert-trust.c: And here.
+
+	* lib/e-cert-db.c: Same.
+
+	* lib/e-asn1-object.c: And here.
+
+	* lib/e-cert.c: Here too.
+
+	* gui/e-cert-selector.c: Same.
+
+	* gui/certificate-viewer.c: Same.
+
+	* gui/certificate-manager.c: #include <config.h>
+
 2004-01-07  Not Zed  <NotZed@Ximian.com>
 
 	* gui/e-cert-selector.c (ecs_find_current): check certlist !=

@@ -55,6 +55,11 @@
  *
  */
 
+
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
+
 #include "e-asn1-object.h"
 
 #include "secasn1.h"

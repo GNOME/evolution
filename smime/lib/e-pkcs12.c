@@ -55,6 +55,11 @@
  *
  */
 
+
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
+
 #include <gtk/gtk.h>
 #include <libgnome/gnome-i18n.h>
 
@@ -346,6 +351,7 @@ e_pkcs12_import_from_file (EPKCS12 *pkcs12, const char *path, GError **error)
 gboolean
 e_pkcs12_export_to_file (EPKCS12 *pkcs12, const char *path, GList *certs, GError **error)
 {
+	return FALSE;
 }
 
 /* what to do when the nickname collides with one already in the db.
@@ -417,4 +423,6 @@ static gboolean
 handle_error(int myerr)
 {
 	printf ("handle_error (%d)\n", myerr);
+	
+	return FALSE;
 }
