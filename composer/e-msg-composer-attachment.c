@@ -201,11 +201,7 @@ e_msg_composer_attachment_new (const char *file_name,
 	camel_object_unref (CAMEL_OBJECT (wrapper));
 	
 	camel_mime_part_set_disposition (part, disposition);
-	if (strchr (file_name, '/'))
-		filename = e_utf8_from_locale_string (strrchr (file_name, '/') + 1);
-	else
-		filename = e_utf8_from_locale_string (file_name);
-	
+	filename = e_utf8_from_locale_string (g_basename (file_name));
 	camel_mime_part_set_filename (part, filename);
 	g_free (filename);
 	
