@@ -1,3 +1,12 @@
+2004-08-25  Hans Petter Jansson  <hpj@ximian.com>
+
+	May fix #61833.
+
+	* gui/component/select-names/e-select-names-table-model.c
+	(fill_in_info): Get E_CONTACT_NAME_OR_ORG (first found from File As,
+	Full Name, Organization, Email 1) for the "name" field. Hopefully
+	will prevent most cases of blank entries.
+
 2004-08-25  Frederic Crozat  <fcrozat@mandrakesoft.com>
 
 	* gui/component/addressbook-view.c: (delete_addressbook_cb):
