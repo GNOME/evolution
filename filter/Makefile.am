@@ -7,9 +7,6 @@ INCLUDES = 					\
 	-I $(top_srcdir)/camel			\
 	-I $(top_srcdir)/e-util			\
 	-I $(top_srcdir)/shell			\
-	-I $(top_srcdir)/camel/providers/mbox	\
-	-I $(top_builddir)/shell		\
-	-I $(GNOME_INCLUDEDIR)			\
 	-DFILTER_GLADEDIR=\"$(gladedir)\"	\
 	-DG_LOG_DOMAIN=\"filter\"		\
 	$(LIBFILTER_CFLAGS)

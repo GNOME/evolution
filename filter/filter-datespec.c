@@ -29,19 +29,11 @@
 #include <stdlib.h>
 #include <time.h>
 #include <math.h>
-#include <glib.h>
-#include <gtk/gtkcalendar.h>
-#include <gtk/gtklabel.h>
-#include <gtk/gtkmenu.h>
-#include <gtk/gtkmenuitem.h>
-#include <gtk/gtkoptionmenu.h>
-#include <gtk/gtkspinbutton.h>
-#include <gtk/gtknotebook.h>
-#include <libgnome/gnome-defs.h>
+
+#include <gtk/gtk.h>
 #include <libgnome/gnome-i18n.h>
 #include <libgnomeui/gnome-dialog.h>
 #include <libgnomeui/gnome-dialog-util.h>
-#include <libgnomeui/gnome-stock.h>
 #include <glade/glade.h>
 
 #include "filter-datespec.h"
@@ -146,7 +138,7 @@ filter_datespec_init (FilterDatespec *fd)
 }
 
 static void
-filter_datespec_finalise (GtkObject *obj)
+filter_datespec_finalise (GObject *obj)
 {
 	FilterDatespec *fd = (FilterDatespec *) obj;
 	
@@ -378,9 +370,9 @@ set_option_type (GtkMenu *menu, FilterDatespec *fds)
 	GtkWidget *w;
 
 	/* ugh, no other way to 'get_history' */
-	w = gtk_menu_get_active(menu);
-	fds->priv->type = g_list_index(GTK_MENU_SHELL(menu)->children, w);
-	gtk_notebook_set_page((GtkNotebook*)fds->priv->notebook_type, fds->priv->type);
+	w = gtk_menu_get_active (menu);
+	fds->priv->type = g_list_index (GTK_MENU_SHELL (menu)->children, w);
+	gtk_notebook_set_page ((GtkNotebook*) fds->priv->notebook_type, fds->priv->type);
 }
 
 static void
@@ -388,18 +380,18 @@ set_option_relative (GtkMenu *menu, FilterDatespec *fds)
 {
 	GtkWidget *w;
 	
-	w = gtk_menu_get_active(menu);
-	fds->priv->span = g_list_index(GTK_MENU_SHELL(menu)->children, w);
+	w = gtk_menu_get_active (menu);
+	fds->priv->span = g_list_index (GTK_MENU_SHELL (menu)->children, w);
 }
 
 static void
-dialogue_clicked(GnomeDialog *gd, int button, FilterDatespec *fds)
+dialog_clicked (GnomeDialog *gd, int button, FilterDatespec *fds)
 {
 	if (button != 0)
 		return;
 	
-	get_values(fds);
-	set_button(fds);
+	get_values (fds);
+	set_button (fds);
 }
 
 static void
@@ -410,30 +402,32 @@ button_clicked (GtkButton *button, FilterDatespec *fds)
 	GtkWidget *w, *x;
 	GladeXML *gui;
 	
-	gui = glade_xml_new(FILTER_GLADEDIR "/filter.glade", "filter_datespec");
-	w = glade_xml_get_widget(gui, "filter_datespec");
+	gui = glade_xml_new (FILTER_GLADEDIR "/filter.glade", "filter_datespec", NULL);
+	w = glade_xml_get_widget (gui, "filter_datespec");
 	
 	gd = (GnomeDialog *) gnome_dialog_new (_("Select a time to compare against"), 
 					       GNOME_STOCK_BUTTON_OK, 
 					       GNOME_STOCK_BUTTON_CANCEL, 
 					       NULL);
 	
-	p->notebook_type = glade_xml_get_widget(gui, "notebook_type");
-	p->option_type = glade_xml_get_widget(gui, "option_type");
-	p->calendar_specify = glade_xml_get_widget(gui, "calendar_specify");
-	p->spin_relative = glade_xml_get_widget(gui, "spin_relative");
-	p->option_relative = glade_xml_get_widget(gui, "option_relative");
+	p->notebook_type = glade_xml_get_widget (gui, "notebook_type");
+	p->option_type = glade_xml_get_widget (gui, "option_type");
+	p->calendar_specify = glade_xml_get_widget (gui, "calendar_specify");
+	p->spin_relative = glade_xml_get_widget (gui, "spin_relative");
+	p->option_relative = glade_xml_get_widget (gui, "option_relative");
 	
-	set_values(fds);
+	set_values (fds);
 	
-	g_signal_connect (GTK_OPTION_MENU (p->option_type)->menu, "deactivate", set_option_type, fds);
-	g_signal_connect (GTK_OPTION_MENU (p->option_relative)->menu, "deactivate", set_option_relative, fds);
+	g_signal_connect (GTK_OPTION_MENU (p->option_type)->menu, "deactivate",
+			  GTK_SIGNAL_FUNC (set_option_type), fds);
+	g_signal_connect (GTK_OPTION_MENU (p->option_relative)->menu, "deactivate",
+			  GTK_SIGNAL_FUNC (set_option_relative), fds);
 	
-	gtk_box_pack_start ((GtkBox *)gd->vbox, w, TRUE, TRUE, 3);
+	gtk_box_pack_start ((GtkBox *) gd->vbox, w, TRUE, TRUE, 3);
 	
-	g_signal_connect (gd, "clicked", dialogue_clicked, fds);
+	g_signal_connect (gd, "clicked", GTK_SIGNAL_FUNC (dialog_clicked), fds);
 	
-	gnome_dialog_run_and_close(gd);
+	gnome_dialog_run_and_close (gd);
 }
 
 static GtkWidget *
@@ -448,7 +442,7 @@ get_widget (FilterElement *fe)
 	
 	button = gtk_button_new();
 	gtk_container_add (GTK_CONTAINER (button), fds->priv->label_button);
-	gtk_signal_connect (GTK_OBJECT (button), "clicked", button_clicked, fds);
+	g_signal_connect (button, "clicked", GTK_SIGNAL_FUNC (button_clicked), fds);
 	
 	gtk_widget_show (button);
 	gtk_widget_show (fds->priv->label_button);
