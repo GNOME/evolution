@@ -496,7 +496,7 @@ nntp_store_get_subscribed_folder_info (CamelNNTPStore *store, const char *top, g
 static CamelFolderInfo *
 nntp_store_get_cached_folder_info (CamelNNTPStore *store, const char *orig_top, guint flags, CamelException *ex)
 {
-	int len, i;
+	int i;
 	int subscribed_or_flag = (flags & CAMEL_STORE_FOLDER_INFO_SUBSCRIBED) ? 0 : 1,
 	    root_or_flag = (orig_top == NULL || orig_top[0] == '\0') ? 1 : 0,
 	    recursive_flag = flags & CAMEL_STORE_FOLDER_INFO_RECURSIVE;
@@ -522,10 +522,9 @@ nntp_store_get_cached_folder_info (CamelNNTPStore *store, const char *orig_top, 
 				/* apparently, this is an indirect subitem. if it's not a subitem of
 				   the item we added last, we need to add a portion of this item to
 				   the list as a placeholder */
-				len = strlen (last->full_name);
 				if (!last ||
-				    g_ascii_strncasecmp(si->path, last->full_name, len) != 0 || 
-				    si->path[len] != '.') {
+				    g_ascii_strncasecmp(si->path, last->full_name, strlen(last->full_name)) != 0 || 
+				    si->path[strlen(last->full_name)] != '.') {
 					tmpname = g_strdup(si->path);
 					*(strchr(tmpname + toplen, '.')) = '\0';
 					fi = nntp_folder_info_from_name(store, FALSE, tmpname);

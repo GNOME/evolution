@@ -1,5 +1,11 @@
 2004-01-29  Not Zed  <NotZed@Ximian.com>
 
+	** See bug #53269.
+	
+	* providers/nntp/camel-nntp-store.c
+	(nntp_store_get_cached_folder_info): don't dereference last before
+	checking if its null.
+
 	* camel-object.c (camel_object_bag_rekey): added a doc comment.
 
 	** See bug #53520.
