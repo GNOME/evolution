@@ -4515,9 +4515,8 @@ msgid "pm"
 msgstr "午後"
 
 #: calendar/gui/e-day-view.c:3422 calendar/gui/e-week-view.c:3270
-#, fuzzy
 msgid "New All Day _Event"
-msgstr "新規毎日のイベント"
+msgstr "新規全日イベント"
 
 #: calendar/gui/e-day-view.c:3432 calendar/gui/e-week-view.c:3280
 #: ui/evolution-calendar.xml.h:17
@@ -4525,14 +4524,12 @@ msgid "Go to _Today"
 msgstr "今日へ移動(_T)"
 
 #: calendar/gui/e-day-view.c:3434 calendar/gui/e-week-view.c:3282
-#, fuzzy
 msgid "_Go to Date..."
-msgstr "指定日へ移動..."
+msgstr "指定日へ移動(_G)..."
 
 #: calendar/gui/e-day-view.c:3443 calendar/gui/e-week-view.c:3290
-#, fuzzy
 msgid "_Delete this Appointment"
-msgstr "この約束を削除"
+msgstr "この約束を削除(_D)"
 
 #: calendar/gui/e-day-view.c:3462 calendar/gui/e-week-view.c:3315
 #, fuzzy
@@ -4829,7 +4826,6 @@ msgid "Go To Date"
 msgstr "日にちに移動"
 
 #: calendar/gui/goto-dialog.glade.h:6
-#, fuzzy
 msgid "Go To Today"
 msgstr "今日へ移動"
 
