@@ -1,3 +1,8 @@
+2004-04-30  Not Zed  <NotZed@Ximian.com>
+
+	* e-lang-utils.[ch]: Removed.  This is covered by
+	gnome_i18n_get_language_list, which is more complete.
+
 2004-04-30  Dan Winship  <danw@ximian.com>
 
 	* e-icon-factory.c (load_icon): Make this work for non-stock icons

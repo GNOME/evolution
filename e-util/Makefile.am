@@ -29,7 +29,6 @@ eutilinclude_HEADERS = 				\
 	e-html-utils.h				\
 	e-icon-factory.h			\
 	e-iterator.h				\
-	e-lang-utils.h				\
 	e-list-iterator.h			\
 	e-list.h				\
 	e-memory.h				\
@@ -68,7 +67,6 @@ libeutil_la_SOURCES =				\
 	e-html-utils.c				\
 	e-icon-factory.c			\
 	e-iterator.c				\
-	e-lang-utils.c				\
 	e-list-iterator.c			\
 	e-list.c				\
 	e-memory.c				\
