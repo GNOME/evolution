@@ -52,7 +52,7 @@
 #include "goto.h"
 #include "print.h"
 #include "dialogs/cal-prefs-dialog.h"
-#include "e-util/e-gui-utils.h"
+#include "evolution-shell-component-utils.h"
 
 /* A list of all of the calendars started */
 static GList *all_calendars = NULL;

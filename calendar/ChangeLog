@@ -1,3 +1,11 @@
+2001-05-27  Dan Winship  <danw@ximian.com>
+
+	* gui/calendar-commands.c: #include
+	"evolution-shell-component-utils.h" rather than "e-gui-utils.h"
+	for e_pixmaps_update.
+
+	* gui/tasks-control.c: Likewise.
+
 2001-05-25  Peter Williams  <peterw@ximian.com>
 
 	* gui/Makefile.am: Reference libeshell.la instead of libeshell.a.

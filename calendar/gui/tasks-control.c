@@ -31,7 +31,7 @@
 #include <bonobo/bonobo-ui-util.h>
 #include "e-tasks.h"
 #include "tasks-control.h"
-#include "e-util/e-gui-utils.h"
+#include "evolution-shell-component-utils.h"
 
 #define TASKS_CONTROL_PROPERTY_URI		"folder_uri"
 #define TASKS_CONTROL_PROPERTY_URI_IDX		1
