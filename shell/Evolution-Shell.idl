@@ -39,7 +39,7 @@ module Evolution {
 		 * the message composer.)
 		 */
 		void handleURI (in string uri)
-			raises (NotReady, NotFound, UnsupportedSchema, InvalidURI, InternalError);
+			raises (NotReady, ComponentNotFound, NotFound, UnsupportedSchema, InvalidURI, InternalError);
 
 		/**
 		 * setLineStatus:

@@ -255,7 +255,7 @@ impl_Shell_handleURI (PortableServer_Servant servant,
 	if (p)
 		*p = 0;
 
-	component_info = e_component_registry_peek_info(shell->priv->component_registry, ECR_FIELD_SCHEMA, schema);
+ 	component_info = e_component_registry_peek_info(shell->priv->component_registry, ECR_FIELD_SCHEMA, schema);
 	if (component_info == NULL) {
 		show = TRUE;
 		component_info = e_component_registry_peek_info(shell->priv->component_registry, ECR_FIELD_ALIAS, schema);
@@ -266,9 +266,16 @@ impl_Shell_handleURI (PortableServer_Servant servant,
 		return;
 	}
 
-	if (show && shell->priv->windows)
-		e_shell_window_switch_to_component((EShellWindow *)shell->priv->windows->data, component_info->id);
-
+	if (show) {
+		GtkWidget *shell_window;
+		
+		shell_window = e_shell_create_window (shell, component_info->id, NULL);
+		if (shell_window == NULL) {
+			CORBA_exception_set (ev, CORBA_USER_EXCEPTION, ex_GNOME_Evolution_Shell_ComponentNotFound, NULL);
+			return;
+		}
+	}
+	
 	GNOME_Evolution_Component_handleURI (component_info->iface, uri, ev);
 	/* not an error not to implement it */
 	if (ev->_id != NULL && strcmp(ev->_id, ex_CORBA_NO_IMPLEMENT) == 0)
