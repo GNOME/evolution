@@ -21,11 +21,8 @@
 
 #include <config.h>
 #include <stdlib.h>
-#include <gtk/gtkmain.h>
-#include <gtk/gtksignal.h>
-#include <libgnome/gnome-i18n.h>
-#include <libgnome/gnome-init.h>
 #include <bonobo-activation/bonobo-activation.h>
+#include <bonobo/bonobo-i18n.h>
 #include <bonobo/bonobo-main.h>
 #include "cal-client.h"
 #include "cal-util/cal-component.h"
@@ -106,7 +103,7 @@ list_uids (gpointer data)
 				printf ("------------------------------\n");
 				dump_component (comp);
 				printf ("------------------------------\n");
-				gtk_object_unref (GTK_OBJECT (comp));
+				g_object_unref (comp);
 			} else {
 				printf ("FAILED: %d\n", status);
 			}
@@ -115,7 +112,7 @@ list_uids (gpointer data)
 
 	cal_obj_uid_list_free (uids);
 
-	gtk_object_unref (GTK_OBJECT (client));
+	g_object_unref (client);
 
 	return FALSE;
 }
@@ -143,7 +140,7 @@ cal_opened_cb (CalClient *client, CalClientOpenStatus status, gpointer data)
 				char *comp_str;
 
 				comp_str = cal_component_get_as_string (CAL_COMPONENT (l->data));
-				gtk_object_unref (GTK_OBJECT (l->data));
+				g_object_unref (l->data);
 				cl_printf (client, "Free/Busy -> %s\n", comp_str);
 				g_free (comp_str);
 			}
@@ -153,7 +150,7 @@ cal_opened_cb (CalClient *client, CalClientOpenStatus status, gpointer data)
 		g_idle_add (list_uids, client);
 	}
 	else
-		gtk_object_unref (GTK_OBJECT (client));
+		g_object_unref (client);
 }
 
 /* Callback used when an object is updated */
@@ -165,7 +162,7 @@ obj_updated_cb (CalClient *client, const char *uid, gpointer data)
 
 /* Callback used when a client is destroyed */
 static void
-client_destroy_cb (GtkObject *object, gpointer data)
+client_destroy_cb (GObject *object, gpointer data)
 {
 	if (CAL_CLIENT (object) == client1)
 		client1 = NULL;
@@ -175,7 +172,7 @@ client_destroy_cb (GtkObject *object, gpointer data)
 		g_assert_not_reached ();
 
 	if (!client1 && !client2)
-		gtk_main_quit ();
+		bonobo_main_quit ();
 }
 
 /* Creates a calendar client and tries to load the specified URI into it */
@@ -190,16 +187,16 @@ create_client (CalClient **client, const char *uri, gboolean only_if_exists)
 		exit (1);
 	}
 
-	gtk_signal_connect (GTK_OBJECT (*client), "destroy",
-			    client_destroy_cb,
-			    NULL);
+	g_signal_connect (G_OBJECT (*client), "destroy",
+			  client_destroy_cb,
+			  NULL);
 
-	gtk_signal_connect (GTK_OBJECT (*client), "cal_opened",
-			    GTK_SIGNAL_FUNC (cal_opened_cb),
+	g_signal_connect (G_OBJECT (*client), "cal_opened",
+			  G_CALLBACK (cal_opened_cb),
 			    NULL);
-	gtk_signal_connect (GTK_OBJECT (*client), "obj_updated",
-			    GTK_SIGNAL_FUNC (obj_updated_cb),
-			    NULL);
+	g_signal_connect (G_OBJECT (*client), "obj_updated",
+			  G_CALLBACK (obj_updated_cb),
+			  NULL);
 
 	printf ("Calendar loading `%s'...\n", uri);
 
@@ -220,7 +217,7 @@ main (int argc, char **argv)
 	bindtextdomain (PACKAGE, GNOMELOCALEDIR);
 	textdomain (PACKAGE);
 
-	gnome_program_init ("tl-test", VERSION, LIBGNOME_MODULE, argc, argv, NULL);
+	g_type_init ();
 	bonobo_activation_init (argc, argv);
 
 	if (!bonobo_init (&argc, argv)) {
