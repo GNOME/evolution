@@ -626,14 +626,9 @@ camel_nntp_store_class_init (CamelNNTPStoreClass *camel_nntp_store_class)
 static void
 camel_nntp_store_init (gpointer object, gpointer klass)
 {
-	CamelService *service = CAMEL_SERVICE (object);
 	CamelRemoteStore *remote_store = CAMEL_REMOTE_STORE (object);
 	CamelStore *store = CAMEL_STORE (object);
 
-	service->url_flags = (CAMEL_SERVICE_URL_NEED_HOST
-			      | CAMEL_SERVICE_URL_ALLOW_USER
-			      | CAMEL_SERVICE_URL_ALLOW_PASSWORD
-			      | CAMEL_SERVICE_URL_ALLOW_AUTH);
 	remote_store->default_port = NNTP_PORT;
 
 	store->flags = CAMEL_STORE_SUBSCRIPTIONS;

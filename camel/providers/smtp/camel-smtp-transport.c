@@ -107,11 +107,8 @@ static void
 camel_smtp_transport_init (gpointer object)
 {
 	CamelTransport *transport = CAMEL_TRANSPORT (object);
-	CamelService *service = CAMEL_SERVICE (transport);
 	
 	transport->supports_8bit = FALSE;
-	
-	service->url_flags = CAMEL_SERVICE_URL_NEED_HOST;
 }
 
 CamelType

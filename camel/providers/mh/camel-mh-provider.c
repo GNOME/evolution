@@ -39,6 +39,8 @@ static CamelProvider mh_provider = {
 
 	CAMEL_PROVIDER_IS_STORAGE,
 
+	CAMEL_URL_NEED_PATH,
+
 	{0, 0},
 
 	NULL

@@ -35,6 +35,8 @@ static CamelProvider vee_provider = {
 
 	0,
 
+	0,
+
 	{ 0, 0 },
 
 	NULL

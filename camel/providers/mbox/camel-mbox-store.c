@@ -69,10 +69,7 @@ camel_mbox_store_class_init (CamelMboxStoreClass *camel_mbox_store_class)
 static void
 camel_mbox_store_init (gpointer object, gpointer klass)
 {
-	CamelService *service = CAMEL_SERVICE (object);
 	CamelStore *store = CAMEL_STORE (object);
-
-	service->url_flags = CAMEL_SERVICE_URL_NEED_PATH;
 
 	/* mbox names are filenames, so they are case-sensitive. */
 	store->folders = g_hash_table_new (g_str_hash, g_str_equal);

@@ -112,8 +112,8 @@ check_url (CamelService *service, CamelException *ex)
 {
 	char *url_string;
 
-	if (((service->url_flags & CAMEL_SERVICE_URL_NEED_USER)
-	     == CAMEL_SERVICE_URL_NEED_USER) &&
+	if (((service->provider->url_flags & CAMEL_URL_NEED_USER)
+	     == CAMEL_URL_NEED_USER) &&
 	    (service->url->user == NULL || service->url->user[0] == '\0')) {
 		url_string = camel_url_to_string (service->url, FALSE);
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SERVICE_URL_INVALID,
@@ -121,8 +121,8 @@ check_url (CamelService *service, CamelException *ex)
 				      url_string);
 		g_free (url_string);
 		return FALSE;
-	} else if (((service->url_flags & CAMEL_SERVICE_URL_NEED_HOST)
-		    == CAMEL_SERVICE_URL_NEED_HOST) &&
+	} else if (((service->provider->url_flags & CAMEL_URL_NEED_HOST)
+		    == CAMEL_URL_NEED_HOST) &&
 		   (service->url->host == NULL || service->url->host[0] == '\0')) {
 		url_string = camel_url_to_string (service->url, FALSE);
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SERVICE_URL_INVALID,
@@ -130,8 +130,8 @@ check_url (CamelService *service, CamelException *ex)
 				      url_string);
 		g_free (url_string);
 		return FALSE;
-	} else if (((service->url_flags & CAMEL_SERVICE_URL_NEED_PATH)
-		    == CAMEL_SERVICE_URL_NEED_PATH) &&
+	} else if (((service->provider->url_flags & CAMEL_URL_NEED_PATH)
+		    == CAMEL_URL_NEED_PATH) &&
 		   (service->url->path == NULL || service->url->path[0] == '\0')) {
 		url_string = camel_url_to_string (service->url, FALSE);
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SERVICE_URL_INVALID,
@@ -148,6 +148,7 @@ check_url (CamelService *service, CamelException *ex)
  * camel_service_new: create a new CamelService or subtype
  * @type: the CamelType of the class to create
  * @session: the session for the service
+ * @provider: the service's provider
  * @url: the default URL for the service (may be NULL)
  * @ex: a CamelException
  *
@@ -157,8 +158,9 @@ check_url (CamelService *service, CamelException *ex)
  * Return value: the CamelService, or NULL.
  **/
 CamelService *
-camel_service_new (CamelType type, CamelSession *session, CamelProvider *provider,
-		   CamelURL *url, CamelException *ex)
+camel_service_new (CamelType type, CamelSession *session,
+		   CamelProvider *provider, CamelURL *url,
+		   CamelException *ex)
 {
 	CamelService *service;
 
@@ -181,17 +183,6 @@ camel_service_new (CamelType type, CamelSession *session, CamelProvider *provide
 	/* don't ref -- providers are not CamelObjects */
 
 	service->connected = FALSE;
-	
-#if 0
-	if (!url->empty) {
-		if (CSERV_CLASS (service)->connect (service, ex) == FALSE) {
-			camel_object_unref (CAMEL_OBJECT (service));
-			return NULL;
-		}
-
-		service->connected = TRUE;
-	}
-#endif
 
 	return service;
 }
@@ -329,29 +320,29 @@ get_path (CamelService *service)
 	GString *gpath;
 	char *path;
 	CamelURL *url = service->url;
-	int flags = service->url_flags;
+	int flags = service->provider->url_flags;
 
 	/* A sort of ad-hoc default implementation that works for our
 	 * current set of services.
 	 */
 
 	gpath = g_string_new (service->provider->protocol);
-	if (flags & CAMEL_SERVICE_URL_ALLOW_USER) {
-		if (flags & CAMEL_SERVICE_URL_ALLOW_HOST) {
+	if (flags & CAMEL_URL_ALLOW_USER) {
+		if (flags & CAMEL_URL_ALLOW_HOST) {
 			g_string_sprintfa (gpath, "/%s@%s",
 					   url->user ? url->user : "",
 					   url->host ? url->host : "");
 		} else {
 			g_string_sprintfa (gpath, "/%s%s",
 			   url->user ? url->user : "",
-			   ((flags & CAMEL_SERVICE_URL_NEED_USER) == CAMEL_SERVICE_URL_NEED_USER) ? "" : "@");
+			   ((flags & CAMEL_URL_NEED_USER) == CAMEL_URL_NEED_USER) ? "" : "@");
 		}
-	} else if (flags & CAMEL_SERVICE_URL_ALLOW_HOST) {
+	} else if (flags & CAMEL_URL_ALLOW_HOST) {
 		g_string_sprintfa (gpath, "/%s%s",
-		   ((flags & CAMEL_SERVICE_URL_NEED_HOST) == CAMEL_SERVICE_URL_NEED_HOST) ? "" : "@",
+		   ((flags & CAMEL_URL_NEED_HOST) == CAMEL_URL_NEED_HOST) ? "" : "@",
 		   url->host ? url->host : "");
 	}
-	if ((flags & CAMEL_SERVICE_URL_NEED_PATH) == CAMEL_SERVICE_URL_NEED_PATH) {
+	if ((flags & CAMEL_URL_NEED_PATH) == CAMEL_URL_NEED_PATH) {
 		g_string_sprintfa (gpath, "%s%s",
 				   *url->path == '/' ? "" : "/",
 				   url->path);

@@ -38,7 +38,9 @@ static CamelProvider smtp_provider = {
 
 	"mail",
 
-	0,
+	CAMEL_PROVIDER_IS_REMOTE,
+
+	CAMEL_URL_NEED_HOST,
 
 	{ 0, 0 },
 

@@ -40,6 +40,8 @@ static CamelProvider sendmail_provider = {
 
 	0,
 
+	0,
+
 	{ 0, 0 },
 
 	NULL

@@ -1,3 +1,21 @@
+2000-11-03  Dan Winship  <danw@helixcode.com>
+
+	* camel-provider.h: Add an "url_flags" field to CamelProvider.
+	Move the CAMEL_SERVICE_URL_* defines here and remove the SERVICE_
+	part of the name.
+
+	* camel-service.h: Remove CAMEL_SERVICE_URL_* flags and
+	service->url_flags field.
+
+	* camel-service.c (check_url, get_path): Get URL flags from
+	service->provider, update for changed flag names.
+
+	* providers/*/camel-*-provider.c: Add URL flags to provider
+	structures.
+
+	* providers/*/camel-*-{store,transport}.c, camel-remote-store.c:
+	Remove service->url_flags initialization.
+
 2000-11-02  Jeffrey Stedfast  <fejj@helixcode.com>
 
 	* providers/imap/camel-imap-store.c (get_folder_info): Quote
