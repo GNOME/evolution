@@ -1075,8 +1075,10 @@ cal_client_uri_list (CalClient *client, CalMode mode)
 			uris = NULL;
 			break;
 		}
-		else
+		else {
 			uris = g_list_concat (uris, build_uri_list (uri_seq));
+			CORBA_free (uri_seq);
+		}
 	
 		CORBA_exception_free (&ev);
 	}
