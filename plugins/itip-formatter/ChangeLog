@@ -2,6 +2,8 @@
 
 	* itip-formatter.c (update_item): first crack at saving
 	attachments for the backend
+	(extract_itip_data): tell the user what to do for more than one
+	attachment
 
 2005-01-09  JP Rosevear  <jpr@novell.com>
 

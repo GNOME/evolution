@@ -1001,11 +1001,18 @@ extract_itip_data (FormatItipPObject *pitip, GtkContainer *container)
 	pitip->total += icalcomponent_count_components (pitip->main_comp, ICAL_VTODO_COMPONENT);
 	pitip->total += icalcomponent_count_components (pitip->main_comp, ICAL_VFREEBUSY_COMPONENT);
 
-	if (pitip->total > 0)
-		pitip->current = 1;
-	else
-		pitip->current = 0;
+	if (pitip->total > 1) {
+		set_itip_error (pitip, container, 
+				_("The calendar attached contains multiple items"), 
+				_("To process all of these items, the file should be saved and the calendar imported"));
 
+		return FALSE;		
+	} if (pitip->total > 0) {
+		pitip->current = 1;
+	} else {
+		pitip->current = 0;
+	}
+	
 	/* Determine any delegate sections */
 	prop = icalcomponent_get_first_property (pitip->ical_comp, ICAL_X_PROPERTY);
 	while (prop) {
