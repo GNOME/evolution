@@ -284,6 +284,20 @@ fi
 
 if test "x$enable_ipv6" = "xyes"; then
 	AC_DEFINE(ENABLE_IPv6,1,[Enable IPv6 support])
+	AC_TRY_COMPILE([
+		#include "confdefs.h"
+		#include <sys/types.h>
+		#include <sys/socket.h>
+		#include <netinet/in.h>
+		#include <netdb.h>
+
+	],[
+		struct addrinfo hints;
+		
+		hints.ai_flags = AI_ADDRCONFIG;
+	],[
+		AC_DEFINE(HAVE_AI_ADDRCONFIG,1,[Define if the system defines the AI_ADDRCONFIG flag for getaddrinfo])
+	])
 fi
 AM_CONDITIONAL(ENABLE_IPv6, test "x$enable_ipv6" = "xyes")
 
@@ -358,7 +372,7 @@ AC_CACHE_CHECK([for db3 library name], ac_cv_db3_ldadd,
 	ac_cv_db3_ldadd=""
 
 	for name in db db3 db-3.1; do
-		LIBS="$LIBS_save $with_db3_libs/lib${name}.a"
+		LIBS="$LIBS_save $with_db3_libs/lib${name}.a -pthread"
 		AC_TRY_LINK([
 			#ifdef HAVE_DB3_DB_H
 			#include <db3/db.h>
@@ -384,7 +398,7 @@ AC_SUBST(DB3_LDADD)
 
 AC_CACHE_CHECK([that db3 library version matches header version], ac_cv_db3_lib_version_match,
 [
-	LIBS="$DB3_LDADD $LIBS"
+	LIBS="$DB3_LDADD $LIBS -pthread"
 	AC_TRY_RUN([
 		#ifdef HAVE_DB3_DB_H
 		#include <db3/db.h>
