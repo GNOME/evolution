@@ -1,5 +1,21 @@
 2003-02-04  Hans Petter Jansson  <hpj@ximian.com>
 
+	* gui/e-meeting-time-sel.c
+	(e_meeting_time_selector_on_invite_others_button_draw):
+	Rename to e_meeting_time_selector_on_invite_others_button_expose()
+	and handle "expose-event" instead of "draw".
+	(e_meeting_time_selector_construct): The "draw" signal doesn't exist
+	anymore - connect to "expose-event" instead.
+
+	* gui/dialogs/event-page.c (clear_widgets): Clear the GtkTextBuffer
+	for the description.
+	(event_page_fill_widgets): Use the GtkTextBuffer.
+	(event_page_fill_component): Use the GtkTextBuffer.
+	(init_widgets): Create a GtkTextBuffer for the GtkTextView. Set word
+	wrap. Connect to the "changed" signal of the model instead of the view.
+
+2003-02-04  Hans Petter Jansson  <hpj@ximian.com>
+
 	* gui/e-meeting-time-sel-item.c
 	(e_meeting_time_selector_item_paint_day_top): Use PangoLayout to
 	draw text.
