@@ -1,3 +1,10 @@
+2004-06-18  Radek Doulik  <rodo@ximian.com>
+
+	* main.c (main): test for skip_warning_dialog value in gconf here
+	and not in show_development_warning, otherwise we don't add or
+	call idle_cb and evo will not run
+	(show_development_warning): do not read skip_warning_dialog here
+
 2004-06-18  Not Zed  <NotZed@Ximian.com>
 
 	** See bug #54498.

@@ -202,17 +202,7 @@ show_development_warning(void)
 	GtkWidget *warning_dialog;
 	GtkWidget *dont_bother_me_again_checkbox;
 	GtkWidget *alignment;
-	GConfClient *client;
 	char *text;
-
-	client = gconf_client_get_default ();
-
-	if (gconf_client_get_bool (client, "/apps/evolution/shell/skip_warning_dialog", NULL)) {
-		g_object_unref (client);
-		return;
-	}
-
-	g_object_unref (client);
 
 	warning_dialog = gtk_dialog_new ();
 	gtk_window_set_title (GTK_WINDOW (warning_dialog), "Evolution " VERSION);
@@ -488,6 +478,10 @@ main (int argc, char **argv)
 		POPT_AUTOHELP
 		{ NULL, '\0', 0, NULL, 0, NULL, NULL }
 	};
+#ifdef DEVELOPMENT
+	GConfClient *client;
+	gboolean skip_warning_dialog;
+#endif
 	GSList *uri_list;
 	GValue popt_context_value = { 0, };
 	GnomeProgram *program;
@@ -577,7 +571,11 @@ main (int argc, char **argv)
 	gnome_sound_init ("localhost");
 
 #ifdef DEVELOPMENT
-	if (!getenv ("EVOLVE_ME_HARDER"))
+	client = gconf_client_get_default ();
+	skip_warning_dialog = gconf_client_get_bool (client, "/apps/evolution/shell/skip_warning_dialog", NULL);
+	g_object_unref (client);
+
+	if (!skip_warning_dialog && !getenv ("EVOLVE_ME_HARDER"))
 		show_development_warning();
 	else
 #endif
