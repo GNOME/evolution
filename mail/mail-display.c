@@ -71,7 +71,7 @@ struct _PixbufLoader {
 };
 static GHashTable *thumbnail_cache = NULL;
 
-static char *save_pathname = NULL;  /* preserves last directory in save dialog */
+static gchar *save_pathname = NULL;  /* preserves last directory in save dialog */
 
 /*----------------------------------------------------------------------*
  *                        Callbacks
@@ -126,7 +126,7 @@ make_safe_filename (const char *prefix,CamelMimePart *part)
 {
 	const char *name = NULL;
 	char *safe, *p;
-	
+
 	if (part) {
 		name = camel_mime_part_get_filename (part);
 	}
@@ -135,7 +135,7 @@ make_safe_filename (const char *prefix,CamelMimePart *part)
 		/* This is a filename. Translators take note. */
 		name = _("attachment");
 	}
-	
+
 	p = strrchr (name, '/');
 	if (p)
 		safe = g_strdup_printf ("%s%s", prefix, p);
@@ -154,23 +154,24 @@ save_data_cb (GtkWidget *widget, gpointer user_data)
 {
 	GtkFileSelection *file_select = (GtkFileSelection *)
 		gtk_widget_get_ancestor (widget, GTK_TYPE_FILE_SELECTION);
-	char *p;
-	
+	gchar *p;
+
 	/* uh, this doesn't really feel right, but i dont know what to do better */
 	gtk_widget_hide (GTK_WIDGET (file_select));
-	write_data_to_file (user_data, gtk_file_selection_get_filename (file_select),
+	write_data_to_file (user_data,
+			    gtk_file_selection_get_filename (file_select),
 			    FALSE);
-	
+
 	/* preserve the pathname */
-	g_free (save_pathname);
-	save_pathname = g_strdup (gtk_file_selection_get_filename (file_select));
-	if((p = strrchr (save_pathname, '/')) != NULL)
+	g_free(save_pathname);
+	save_pathname = g_strdup(gtk_file_selection_get_filename(file_select));
+	if((p = strrchr(save_pathname, '/')) != NULL)
 		p[0] = 0;
 	else {
-		g_free (save_pathname);
+		g_free(save_pathname);
 		save_pathname = NULL;
 	}
-	
+
 	gtk_widget_destroy (GTK_WIDGET (file_select));
 }
 
@@ -760,7 +761,7 @@ save_url (MailDisplay *md, const char *url)
 		g_return_val_if_fail (CAMEL_IS_MIME_PART (part), NULL);
 
 		data = camel_medium_get_content_object ((CamelMedium *)part);
-		if (!mail_content_loaded (data, md, TRUE, NULL, NULL, NULL)) {
+		if (!mail_content_loaded (data, md, TRUE, NULL, NULL)) {
 			return NULL;
 		}
 
@@ -1051,7 +1052,7 @@ on_url_requested (GtkHTML *html, const char *url, GtkHTMLStream *handle,
 		g_return_if_fail (CAMEL_IS_MEDIUM (medium));
 		
 		data = camel_medium_get_content_object (medium);
-		if (!mail_content_loaded (data, md, FALSE, url, html, handle))
+		if (!mail_content_loaded (data, md, FALSE, url, handle))
 			return;
 		
 		content_type = camel_data_wrapper_get_mime_type_field (data);
@@ -1097,7 +1098,7 @@ on_url_requested (GtkHTML *html, const char *url, GtkHTMLStream *handle,
 		    g_datalist_get_data (md->data, "load_images")) {
 			ba = g_byte_array_new ();
 			g_hash_table_insert (urls, g_strdup (url), ba);
-			mail_display_stream_write_when_loaded (md, ba, url, load_http, html, handle,
+			mail_display_stream_write_when_loaded (md, ba, url, load_http, handle,
 							       g_strdup (url));
 		} else if (mail_config_get_http_mode () == MAIL_CONFIG_HTTP_SOMETIMES &&
 			   !g_datalist_get_data (md->data, "checking_from")) {
@@ -1120,11 +1121,10 @@ struct _load_content_msg {
 	struct _mail_msg msg;
 	
 	MailDisplay *display;
-	GtkHTML *html;
 	
 	GtkHTMLStream *handle;
-	int redisplay_counter;
-	char *url;
+	gint redisplay_counter;
+	gchar *url;
 	CamelMimeMessage *message;
 	void (*callback)(MailDisplay *, gpointer);
 	gpointer data;
@@ -1162,16 +1162,16 @@ try_part_urls (struct _load_content_msg *m)
 		g_return_val_if_fail (CAMEL_IS_MEDIUM (medium), FALSE);
 		
 		data = camel_medium_get_content_object (medium);
-		if (!mail_content_loaded (data, m->display, FALSE, m->url, m->html, m->handle)) {
+		if (!mail_content_loaded (data, m->display, FALSE, m->url, m->handle)) {
 			g_warning ("This code should not be reached\n");
 			return TRUE;
 		}
 		
-		html_stream = mail_stream_gtkhtml_new (m->html, m->handle);
+		html_stream = mail_stream_gtkhtml_new (m->display->html, m->handle);
 		camel_data_wrapper_write_to_stream (data, html_stream);
 		camel_object_unref (CAMEL_OBJECT (html_stream));
 		
-		gtk_html_end (m->html, m->handle, GTK_HTML_STREAM_OK);
+		gtk_html_end (m->display->html, m->handle, GTK_HTML_STREAM_OK);
 		return TRUE;
 	}
 	
@@ -1191,9 +1191,9 @@ try_data_urls (struct _load_content_msg *m)
 	if (ba) {
 		if (ba->len) {
 			printf ("writing ...\n");
-			gtk_html_write (m->html, m->handle, ba->data, ba->len);
+			gtk_html_write (m->display->html, m->handle, ba->data, ba->len);
 		}
-		gtk_html_end (m->html, m->handle, GTK_HTML_STREAM_OK);
+		gtk_html_end (m->display->html, m->handle, GTK_HTML_STREAM_OK);
 		return TRUE;
 	}
 	
@@ -1215,7 +1215,7 @@ load_content_loaded (struct _mail_msg *mm)
 				m->display->redisplay_counter);
 			if (m->redisplay_counter == m->display->redisplay_counter) {
 				if (!try_part_urls (m) && !try_data_urls (m))
-					gtk_html_end (m->html, m->handle, GTK_HTML_STREAM_ERROR);
+					gtk_html_end (m->display->html, m->handle, GTK_HTML_STREAM_ERROR);
 			}
 		} else
 			mail_display_redisplay (m->display, FALSE);
@@ -1241,7 +1241,6 @@ static struct _mail_msg_op load_content_op = {
 
 static void
 stream_write_or_redisplay_when_loaded (MailDisplay *md,
-				       GtkHTML *html,
 				       gconstpointer key,
 				       const gchar *url,
 				       void (*callback)(MailDisplay *, gpointer),
@@ -1268,7 +1267,6 @@ stream_write_or_redisplay_when_loaded (MailDisplay *md,
 	m = mail_msg_new (&load_content_op, NULL, sizeof (*m));
 	m->display = md;
 	gtk_object_ref (GTK_OBJECT (m->display));
-	m->html = html;
 	m->handle = handle;
 	m->url = g_strdup (url);
 	m->redisplay_counter = md->redisplay_counter;
@@ -1284,40 +1282,34 @@ stream_write_or_redisplay_when_loaded (MailDisplay *md,
 void
 mail_display_stream_write_when_loaded (MailDisplay *md,
 				       gconstpointer key,
-				       const char *url,
+				       const gchar *url,
 				       void (*callback)(MailDisplay *, gpointer),
-				       GtkHTML *html,
 				       GtkHTMLStream *handle,
 				       gpointer data)
 {
-	stream_write_or_redisplay_when_loaded (md, html, key, url, callback, handle, data);
+	stream_write_or_redisplay_when_loaded (md, key, url, callback, handle, data);
 }
 
 void
 mail_display_redisplay_when_loaded (MailDisplay *md,
 				    gconstpointer key,
 				    void (*callback)(MailDisplay *, gpointer),
-				    GtkHTML *html,
 				    gpointer data)
 {
-	stream_write_or_redisplay_when_loaded (md, html, key, NULL, callback, NULL, data);
+	stream_write_or_redisplay_when_loaded (md, key, NULL, callback, NULL, data);
 }
 
 void
-mail_text_write (GtkHTML *html, GtkHTMLStream *stream, gboolean printing, const char *text)
+mail_text_write (GtkHTML *html, GtkHTMLStream *stream, const char *text)
 {
-	guint flags;
 	char *htmltext;
 	
-	flags = E_TEXT_TO_HTML_CONVERT_NL | E_TEXT_TO_HTML_CONVERT_SPACES;
-	
-	if (!printing)
-		flags |= E_TEXT_TO_HTML_CONVERT_URLS | E_TEXT_TO_HTML_CONVERT_ADDRESSES;
-	
-	if (mail_config_get_citation_highlight () && ! printing)
-		flags |= E_TEXT_TO_HTML_MARK_CITATION;
-	
-	htmltext = e_text_to_html_full (text, flags, mail_config_get_citation_color ());
+	htmltext = e_text_to_html_full (text, E_TEXT_TO_HTML_CONVERT_URLS |
+					E_TEXT_TO_HTML_CONVERT_ADDRESSES |
+					E_TEXT_TO_HTML_CONVERT_NL |
+					E_TEXT_TO_HTML_CONVERT_SPACES |
+					(mail_config_get_citation_highlight () ? E_TEXT_TO_HTML_MARK_CITATION : 0),
+					mail_config_get_citation_color ());
 	
 	gtk_html_write (html, stream, "<tt>", 4);
 	gtk_html_write (html, stream, htmltext, strlen (htmltext));
@@ -1350,35 +1342,8 @@ static void
 clear_data (CamelObject *object, gpointer event_data, gpointer user_data)
 {
 	GData *data = user_data;
-	
+
 	g_datalist_clear (&data);
-}
-
-void
-mail_display_render (MailDisplay *md, GtkHTML *html)
-{
-	GtkHTMLStream *stream;
-
-	g_return_if_fail (IS_MAIL_DISPLAY (md));
-	g_return_if_fail (GTK_IS_HTML (html));
-
-	stream = gtk_html_begin (html);
-	
-	mail_html_write (html, stream,
-			 "<!doctype html public \"-//W3C//DTD HTML 4.0 TRANSITIONAL//EN\">\n"
-			 "<html>\n"
-			 "<head>\n<meta name=\"generator\" content=\"Evolution Mail Component\">\n</head>\n");
-	mail_html_write (html, stream, "<body marginwidth=0 marginheight=0>\n");
-	
-	if (md->current_message) {
-		if (md->display_style == MAIL_CONFIG_DISPLAY_SOURCE)
-			mail_format_raw_message (md->current_message, md, html, stream);
-		else
-			mail_format_mime_message (md->current_message, md, html, stream);
-	}
-	
-	mail_html_write (html, stream, "</body></html>\n");
-	gtk_html_end (html, stream, GTK_HTML_STREAM_OK);
 }
 
 /**
@@ -1398,12 +1363,25 @@ mail_display_redisplay (MailDisplay *md, gboolean unscroll)
 	md->redisplay_counter++;
 	/* printf ("md %p redisplay %d\n", md, md->redisplay_counter); */
 	
+	md->stream = gtk_html_begin (GTK_HTML (md->html));
 	if (!unscroll) {
 		/* This is a hack until there's a clean way to do this. */
 		GTK_HTML (md->html)->engine->newPage = FALSE;
 	}
-
-	mail_display_render (md, md->html);
+	
+	mail_html_write (md->html, md->stream, "<!doctype html public \"-//W3C//DTD HTML 4.0 TRANSITIONAL//EN\">\n<html>\n<head>\n<meta name=\"generator\" content=\"Evolution Mail Component\">\n</head>\n");
+	mail_html_write (md->html, md->stream, "<body marginwidth=0 marginheight=0>\n");
+	
+	if (md->current_message) {
+		if (md->display_style == MAIL_CONFIG_DISPLAY_SOURCE)
+			mail_format_raw_message (md->current_message, md);
+		else
+			mail_format_mime_message (md->current_message, md);
+	}
+	
+	mail_html_write (md->html, md->stream, "</body></html>\n");
+	gtk_html_end (md->html, md->stream, GTK_HTML_STREAM_OK);
+	md->stream = NULL;
 }
 
 
@@ -1481,6 +1459,7 @@ mail_display_init (GtkObject *object)
 	mail_display->scroll            = NULL;
 	mail_display->html              = NULL;
 	mail_display->redisplay_counter = 0;
+	mail_display->stream            = NULL;
 	mail_display->last_active       = NULL;
 	mail_display->idle_id           = 0;
 	mail_display->selection         = NULL;
@@ -1490,8 +1469,6 @@ mail_display_init (GtkObject *object)
 	mail_display->invisible         = gtk_invisible_new ();
 
 	mail_display->display_style     = mail_config_get_message_display_style ();
-
-	mail_display->printing          = FALSE;
 }
 
 static void
@@ -2064,10 +2041,10 @@ mail_display_new (void)
 	GtkWidget *scroll, *html;
 	GdkAtom clipboard_atom;
 	HTMLTokenizer *tok;
-	
+
 	gtk_box_set_homogeneous (GTK_BOX (mail_display), FALSE);
 	gtk_widget_show (GTK_WIDGET (mail_display));
-	
+
 	scroll = e_scroll_frame_new (NULL, NULL);
 	e_scroll_frame_set_policy (E_SCROLL_FRAME (scroll),
 				   GTK_POLICY_AUTOMATIC,
@@ -2075,47 +2052,16 @@ mail_display_new (void)
 	e_scroll_frame_set_shadow_type (E_SCROLL_FRAME (scroll), GTK_SHADOW_IN);
 	gtk_box_pack_start_defaults (GTK_BOX (mail_display), GTK_WIDGET (scroll));
 	gtk_widget_show (GTK_WIDGET (scroll));
-	
+
 	html = gtk_html_new ();
 	tok = e_searching_tokenizer_new ();
 	html_engine_set_tokenizer (GTK_HTML (html)->engine, tok);
 	gtk_object_unref (GTK_OBJECT (tok));
-	
-	mail_display_initialize_gtkhtml (mail_display, GTK_HTML (html));
-	
-	gtk_container_add (GTK_CONTAINER (scroll), html);
-	gtk_widget_show (GTK_WIDGET (html));
-	
-	gtk_signal_connect (GTK_OBJECT (mail_display->invisible), "selection_get",
-			    GTK_SIGNAL_FUNC (invisible_selection_get_callback), mail_display);
-	gtk_signal_connect (GTK_OBJECT (mail_display->invisible), "selection_clear_event",
-			    GTK_SIGNAL_FUNC (invisible_selection_clear_event_callback), mail_display);
-	
-	gtk_selection_add_target (mail_display->invisible,
-				  GDK_SELECTION_PRIMARY, GDK_SELECTION_TYPE_STRING, 1);
-	
-	clipboard_atom = gdk_atom_intern ("CLIPBOARD", FALSE);
-	if (clipboard_atom != GDK_NONE)
-		gtk_selection_add_target (mail_display->invisible,
-					  clipboard_atom, GDK_SELECTION_TYPE_STRING, 1);
-	
-	mail_display->scroll = E_SCROLL_FRAME (scroll);
-	mail_display->html = GTK_HTML (html);
-	mail_display->last_active = NULL;
-	mail_display->data = g_new0 (GData *, 1);
-	g_datalist_init (mail_display->data);
-	
-	return GTK_WIDGET (mail_display);
-}
 
-void
-mail_display_initialize_gtkhtml (MailDisplay *mail_display, GtkHTML *html)
-{
 	gtk_html_set_default_content_type (GTK_HTML (html),
 					   "text/html; charset=utf-8");
-	
+
 	gtk_html_set_editable (GTK_HTML (html), FALSE);
-	
 	gtk_signal_connect (GTK_OBJECT (html), "url_requested",
 			    GTK_SIGNAL_FUNC (on_url_requested),
 			    mail_display);
@@ -2135,7 +2081,31 @@ mail_display_initialize_gtkhtml (MailDisplay *mail_display, GtkHTML *html)
 			    GTK_SIGNAL_FUNC (html_iframe_created), mail_display);
 	gtk_signal_connect (GTK_OBJECT (html), "on_url",
 			    GTK_SIGNAL_FUNC (html_on_url), mail_display);
-}
 
+	gtk_container_add (GTK_CONTAINER (scroll), html);
+	gtk_widget_show (GTK_WIDGET (html));
+
+	gtk_signal_connect (GTK_OBJECT (mail_display->invisible), "selection_get",
+			    GTK_SIGNAL_FUNC (invisible_selection_get_callback), mail_display);
+	gtk_signal_connect (GTK_OBJECT (mail_display->invisible), "selection_clear_event",
+			    GTK_SIGNAL_FUNC (invisible_selection_clear_event_callback), mail_display);
+
+	gtk_selection_add_target (mail_display->invisible,
+				  GDK_SELECTION_PRIMARY, GDK_SELECTION_TYPE_STRING, 1);
+
+	clipboard_atom = gdk_atom_intern ("CLIPBOARD", FALSE);
+	if (clipboard_atom != GDK_NONE)
+		gtk_selection_add_target (mail_display->invisible,
+					  clipboard_atom, GDK_SELECTION_TYPE_STRING, 1);
+
+	mail_display->scroll = E_SCROLL_FRAME (scroll);
+	mail_display->html = GTK_HTML (html);
+	mail_display->stream = NULL;
+	mail_display->last_active = NULL;
+	mail_display->data = g_new0 (GData *, 1);
+	g_datalist_init (mail_display->data);
+
+	return GTK_WIDGET (mail_display);
+}
 
 E_MAKE_TYPE (mail_display, "MailDisplay", MailDisplay, mail_display_class_init, mail_display_init, PARENT_TYPE);

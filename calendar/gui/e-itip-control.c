@@ -187,6 +187,7 @@ static CalClient *
 start_calendar_server (gboolean tasks)
 {
 	CalClient *client;
+	char *cal_uri;
 	gboolean success;
 
 	client = cal_client_new ();

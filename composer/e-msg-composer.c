@@ -44,10 +44,6 @@
 #include <ctype.h>
 #include <stdlib.h>
 #include <dirent.h>
-#include <sys/time.h>
-#include <sys/types.h>
-#include <sys/stat.h>
-#include <unistd.h>
 #include <libgnome/gnome-defs.h>
 #include <libgnomeui/gnome-app.h>
 #include <libgnomeui/gnome-uidefs.h>
@@ -68,8 +64,6 @@
 #include <gal/widgets/e-scroll-frame.h>
 #include <gal/e-text/e-entry.h>
 #include <gtkhtml/gtkhtml.h>
-
-/*#include <addressbook/backend/ebook/e-card.h>*/
 
 #include "widgets/misc/e-charset-picker.h"
 
@@ -105,7 +99,6 @@
 enum {
 	SEND,
 	POSTPONE,
-	SAVE_DRAFT,
 	LAST_SIGNAL
 };
 
@@ -114,13 +107,11 @@ static guint signals[LAST_SIGNAL] = { 0 };
 enum {
 	DND_TYPE_MESSAGE_RFC822,
 	DND_TYPE_TEXT_URI_LIST,
-	DND_TYPE_TEXT_VCARD,
 };
 
 static GtkTargetEntry drop_types[] = {
 	{ "message/rfc822", 0, DND_TYPE_MESSAGE_RFC822 },
 	{ "text/uri-list", 0, DND_TYPE_TEXT_URI_LIST },
-	{ "text/x-vcard", 0, DND_TYPE_TEXT_VCARD },
 };
 
 static const int num_drop_types = sizeof (drop_types) / sizeof (drop_types[0]);
@@ -669,106 +660,50 @@ build_message (EMsgComposer *composer)
 }
 
 static char *
-read_file_content (int fd)
+read_file_content (gint fd)
 {
 	GByteArray *contents;
-	char *body, buf[4096];
-	struct timeval tv;
-	fd_set rdset;
-	int retval;
-	ssize_t n;
+	gchar buf[4096];
+	gint n;
+	gchar *body;
 	
 	g_return_val_if_fail (fd > 0, NULL);
 	
 	contents = g_byte_array_new ();
-	
-	FD_ZERO (&rdset);
-	FD_SET (fd, &rdset);
-	
-	tv.tv_sec = 0;
-	tv.tv_usec = 10;
-	
-	retval = select (fd + 1, &rdset, NULL, NULL, &tv);
-	if (retval) {
-		n = 1;
-		while (n > 0 || errno == EINTR) {
-			n = read (fd, buf, sizeof (buf));
-			if (n > 0)
-				g_byte_array_append (contents, buf, n);
-		}
-	}
-	
-	g_byte_array_append (contents, "", 1);
-	
-	body = (contents->len == 1) ? NULL : (char *) contents->data;
-	g_byte_array_free (contents, body == NULL);
-	
-	return body;
-}
-
-static char *
-executed_file_output (const char *file_name)
-{
-	GByteArray *contents;
-	FILE *in;
-	char buf[4096];
-	int n;
-	char *body;
-	
-	g_return_val_if_fail (file_name && *file_name, NULL);
-	
-	in = popen (file_name, "r");
-	if (in == NULL)
-		return NULL;
-	
-	contents = g_byte_array_new ();
-	while ((n = fread (buf, 1, 4096, in)) > 0) {
+	while ((n = read (fd, buf, 4096)) > 0) {
 		g_byte_array_append (contents, buf, n);
 	}
 	g_byte_array_append (contents, "\0", 1);
 	
-	body = (n < 0) ? NULL : (char *) contents->data;
+	body = (n < 0) ? NULL : (gchar *)contents->data;
 	g_byte_array_free (contents, (n < 0));
-	
-	pclose (in);
 	
 	return body;
 }
 
 static char *
-get_file_content (const char *file_name, gboolean convert, guint flags)
+get_file_content (const gchar *file_name, gboolean convert, guint flags)
 {
-	char *raw, *html, *msg = NULL;
-	struct stat statbuf;
-	int fd;
+	gint fd;
+	char *raw;
+	char *html;
 	
-	if (stat (file_name, &statbuf) == -1)
-		return g_strdup ("");
+	fd = open (file_name, O_RDONLY | O_CREAT, 0775);
 	
-	if ((statbuf.st_mode & S_IXUSR)
-	    && getenv ("EVOLUTION_PLEASE_EXECUTE_MY_SIGNATURE_FILE")) {
+	raw = read_file_content (fd);
+	
+	if (raw == NULL) {
+		char *msg;
 		
-		raw = executed_file_output (file_name);
-		if (raw == NULL) {
-			msg = g_strdup_printf (_("Error while executing file %s:\n"
-						 "%s"), file_name, g_strerror (errno));
-		}
+		msg = g_strdup_printf (_("Error while reading file %s:\n"
+					 "%s"), file_name, g_strerror (errno));
 		
-	} else {		
-		fd = open (file_name, O_RDONLY | O_CREAT, 0775);
-		raw = read_file_content (fd);
-		if (raw == NULL) {
-			msg = g_strdup_printf (_("Error while reading file %s:\n"
-						 "%s"), file_name, g_strerror (errno));
-		}
-		close (fd);
-	}
-	
-	if (msg != NULL) {
 		gnome_error_dialog (msg);
 		g_free (msg);
+		close (fd);
 		return g_strdup ("");
 	}
+	close (fd);
 	
 	html = convert ? e_text_to_html (raw, flags) : raw;
 	
@@ -1015,6 +950,96 @@ load (EMsgComposer *composer, const char *file_name)
 			  _("Error loading file: %s"), g_basename (file_name));
 	
 	CORBA_exception_free (&ev);
+}
+
+/* Exit dialog.  (Displays a "Save composition to 'Drafts' before exiting?" warning before actually exiting.)  */
+
+enum { REPLY_YES = 0, REPLY_NO, REPLY_CANCEL };
+
+struct _save_info {
+	EMsgComposer *composer;
+	int quitok;
+};
+
+static void
+save_done (CamelFolder *folder, CamelMimeMessage *msg, CamelMessageInfo *info, int ok, void *data)
+{
+	struct _save_info *si = data;
+	
+	if (ok && si->quitok)
+		gtk_widget_destroy (GTK_WIDGET (si->composer));
+	else
+		gtk_object_unref (GTK_OBJECT (si->composer));
+	
+	g_free (info);
+	g_free (si);
+}
+
+extern CamelFolder *drafts_folder;
+extern char *default_drafts_folder_uri;
+
+static void
+use_default_drafts_cb (gint reply, gpointer data)
+{
+	CamelFolder **folder = data;
+	
+	if (reply == 0)
+		*folder = drafts_folder;
+}
+
+static void
+save_folder (char *uri, CamelFolder *folder, gpointer data)
+{
+	CamelFolder **save = data;
+	
+	if (folder) {
+		*save = folder;
+		camel_object_ref (CAMEL_OBJECT (folder));
+	}
+}
+
+static void
+save_draft (EMsgComposer *composer, int quitok)
+{
+	CamelMimeMessage *msg;
+	CamelMessageInfo *info;
+	const MailConfigAccount *account;
+	struct _save_info *si;
+	CamelFolder *folder = NULL;
+	
+	account = e_msg_composer_get_preferred_account (composer);
+	if (account && account->drafts_folder_uri &&
+	    strcmp (account->drafts_folder_uri, default_drafts_folder_uri) != 0) {
+		int id;
+		
+		id = mail_get_folder (account->drafts_folder_uri, 0, save_folder, &folder, mail_thread_new);
+		mail_msg_wait (id);
+		
+		if (!folder) {
+			GtkWidget *dialog;
+			
+			dialog = gnome_ok_cancel_dialog_parented (_("Unable to open the drafts folder for this account.\n"
+								    "Would you like to use the default drafts folder?"),
+								  use_default_drafts_cb, &folder, GTK_WINDOW (composer));
+			gnome_dialog_run_and_close (GNOME_DIALOG (dialog));
+			if (!folder)
+				return;
+		}
+	} else
+		folder = drafts_folder;
+	
+	msg = e_msg_composer_get_message_draft (composer);
+	
+	info = g_new0 (CamelMessageInfo, 1);
+	info->flags = CAMEL_MESSAGE_DRAFT | CAMEL_MESSAGE_SEEN;
+	
+	si = g_malloc (sizeof (*si));
+	si->composer = composer;
+	gtk_object_ref (GTK_OBJECT (composer));
+	si->quitok = quitok;
+	
+	mail_append_mail (folder, msg, info, save_done, si);
+	camel_object_unref (CAMEL_OBJECT (msg));
 }
 
 #define AUTOSAVE_SEED ".evolution-composer.autosave-XXXXXX"
@@ -1302,20 +1327,17 @@ autosave_manager_unregister (AutosaveManager *am, EMsgComposer *composer)
 static void
 menu_file_save_draft_cb (BonoboUIComponent *uic, void *data, const char *path)
 {
-	gtk_signal_emit (GTK_OBJECT (data), signals[SAVE_DRAFT], FALSE);
+	save_draft (E_MSG_COMPOSER (data), FALSE);
 	e_msg_composer_unset_changed (E_MSG_COMPOSER (data));
 }
-
-/* Exit dialog.  (Displays a "Save composition to 'Drafts' before exiting?" warning before actually exiting.)  */
-
-enum { REPLY_YES = 0, REPLY_NO, REPLY_CANCEL };
 
 static void
 exit_dialog_cb (int reply, EMsgComposer *composer)
 {
 	switch (reply) {
 	case REPLY_YES:
-		gtk_signal_emit (GTK_OBJECT (composer), signals[SAVE_DRAFT], TRUE);
+		/* this has to be done async */
+		save_draft (composer, TRUE);
 		e_msg_composer_unset_changed (composer);
 		break;
 	case REPLY_NO:
@@ -2070,11 +2092,10 @@ message_rfc822_dnd (EMsgComposer *composer, CamelStream *stream)
 
 static void
 drag_data_received (EMsgComposer *composer, GdkDragContext *context,
-		    int x, int y, GtkSelectionData *selection,
+		    gint x, gint y, GtkSelectionData *selection,
 		    guint info, guint time)
 {
-	char *tmp, *filename, **filenames;
-	CamelMimePart *mime_part;
+	gchar *tmp, *filename, **filenames;
 	CamelStream *stream;
 	CamelURL *url;
 	int i;
@@ -2112,33 +2133,9 @@ drag_data_received (EMsgComposer *composer, GdkDragContext *context,
 		
 		g_free (filenames);
 		break;
-	case DND_TYPE_TEXT_VCARD:
-		printf ("dropping a text/x-vcard\n");
-		mime_part = camel_mime_part_new ();
-		camel_mime_part_set_content (mime_part, selection->data,
-					     selection->length, "text/x-vcard");
-		camel_mime_part_set_disposition (mime_part, "inline");
-		
-		e_msg_composer_attachment_bar_attach_mime_part
-			(E_MSG_COMPOSER_ATTACHMENT_BAR (composer->attachment_bar),
-			 mime_part);
-		
-		camel_object_unref (CAMEL_OBJECT (mime_part));
 	default:
-		printf ("dropping an unknown\n");
 		break;
 	}
-}
-
-typedef void (*GtkSignal_NONE__NONE_INT) (GtkObject *, int, gpointer);
-
-static void marshal_NONE__NONE_INT (GtkObject *object, GtkSignalFunc func,
-				    gpointer func_data, GtkArg *args)
-{
-	GtkSignal_NONE__NONE_INT rfunc;
-	
-	rfunc = (GtkSignal_NONE__NONE_INT) func;
-	(*rfunc)(object, GTK_VALUE_INT (args[0]), func_data);
 }
 
 
@@ -2173,14 +2170,6 @@ class_init (EMsgComposerClass *klass)
 				GTK_SIGNAL_OFFSET (EMsgComposerClass, postpone),
 				gtk_marshal_NONE__NONE,
 				GTK_TYPE_NONE, 0);
-	
-	signals[SAVE_DRAFT] =
-		gtk_signal_new ("save-draft",
-				GTK_RUN_LAST,
-				object_class->type,
-				GTK_SIGNAL_OFFSET (EMsgComposerClass, save_draft),
-				marshal_NONE__NONE_INT,
-				GTK_TYPE_NONE, 1);
 	
 	gtk_object_class_add_signals (object_class, signals, LAST_SIGNAL);
 }

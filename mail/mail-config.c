@@ -76,7 +76,7 @@ typedef struct {
 	gboolean show_preview;
 	gboolean thread_list;
 	gboolean hide_deleted;
-	int paned_size;
+	gint paned_size;
 	gboolean send_html;
 	gboolean confirm_unwanted_html;
 	gboolean citation_highlight;
@@ -85,11 +85,11 @@ typedef struct {
 	gboolean prompt_only_bcc;
 	gboolean confirm_expunge;
 	gboolean do_seen_timeout;
-	int seen_timeout;
+	gint seen_timeout;
 	gboolean empty_trash_on_exit;
 	
 	GSList *accounts;
-	int default_account;
+	gint default_account;
 	
 	GSList *news;
 	
@@ -106,9 +106,6 @@ typedef struct {
 	
 	gboolean filter_log;
 	char *filter_log_path;
-	
-	MailConfigNewMailNotify notify;
-	char *notify_command;
 } MailConfig;
 
 static MailConfig *config = NULL;
@@ -117,7 +114,7 @@ static MailConfig *config = NULL;
 
 /* Prototypes */
 static void config_read (void);
-static void mail_config_set_default_account_num (int new_default);
+static void mail_config_set_default_account_num (gint new_default);
 
 
 /* Identity */
@@ -210,11 +207,6 @@ account_copy (const MailConfigAccount *account)
 	new->sent_folder_name = g_strdup (account->sent_folder_name);
 	new->sent_folder_uri = g_strdup (account->sent_folder_uri);
 	
-	new->always_cc = account->always_cc;
-	new->cc_addrs = g_strdup (account->cc_addrs);
-	new->always_bcc = account->always_bcc;
-	new->bcc_addrs = g_strdup (account->bcc_addrs);
-	
 	new->pgp_key = g_strdup (account->pgp_key);
 	new->pgp_encrypt_to_self = account->pgp_encrypt_to_self;
 	new->pgp_always_sign = account->pgp_always_sign;
@@ -242,9 +234,6 @@ account_destroy (MailConfigAccount *account)
 	g_free (account->drafts_folder_uri);
 	g_free (account->sent_folder_name);
 	g_free (account->sent_folder_uri);
-	
-	g_free (account->cc_addrs);
-	g_free (account->bcc_addrs);
 	
 	g_free (account->pgp_key);
 	g_free (account->smime_key);
@@ -367,32 +356,6 @@ config_read (void)
 		g_free (path);
 		if (val && *val)
 			account->sent_folder_uri = val;
-		else
-			g_free (val);
-		
-		path = g_strdup_printf ("/Mail/Accounts/account_always_cc_%d", i);
-		account->always_cc = bonobo_config_get_boolean_with_default (
-		        config->db, path, FALSE, NULL);
-		g_free (path);
-		
-		path = g_strdup_printf ("/Mail/Accounts/account_always_cc_addrs_%d", i);
-		val = bonobo_config_get_string (config->db, path, NULL);
-		g_free (path);
-		if (val && *val)
-			account->cc_addrs = val;
-		else
-			g_free (val);
-		
-		path = g_strdup_printf ("/Mail/Accounts/account_always_bcc_%d", i);
-		account->always_bcc = bonobo_config_get_boolean_with_default (
-		        config->db, path, FALSE, NULL);
-		g_free (path);
-		
-		path = g_strdup_printf ("/Mail/Accounts/account_always_bcc_addrs_%d", i);
-		val = bonobo_config_get_string (config->db, path, NULL);
-		g_free (path);
-		if (val && *val)
-			account->bcc_addrs = val;
 		else
 			g_free (val);
 		
@@ -534,14 +497,13 @@ config_read (void)
 	        "/News/Sources/num", 0, NULL);
 	for (i = 0; i < len; i++) {
 		MailConfigService *n;
-		char *path, *r;
+		gchar *path, *r;
 		
 		path = g_strdup_printf ("/News/Sources/url_%d", i);
 		
 		if ((r = bonobo_config_get_string (config->db, path, NULL))) {
 			n = g_new0 (MailConfigService, 1);		
 			n->url = r;
-			n->enabled = TRUE;
 			config->news = g_slist_append (config->news, n);
 		} 
 		
@@ -644,14 +606,6 @@ config_read (void)
 	
 	config->filter_log_path = bonobo_config_get_string (
 		config->db, "/Mail/Filters/log_path", NULL);
-	
-	/* New Mail Notification */
-	config->notify = bonobo_config_get_long_with_default (
-		config->db, "/Mail/Notify/new_mail_notification", 
-		MAIL_CONFIG_NOTIFY_NOT, NULL);
-	
-	config->notify_command = bonobo_config_get_string (
-		config->db, "/Mail/Notify/new_mail_notification_command", NULL);
 }
 
 #define bonobo_config_set_string_wrapper(db, path, val, ev) bonobo_config_set_string (db, path, val ? val : "", ev)
@@ -711,24 +665,6 @@ mail_config_write (void)
 		path = g_strdup_printf ("/Mail/Accounts/account_sent_folder_uri_%d", i);
 		bonobo_config_set_string_wrapper (config->db, path, 
 						  account->sent_folder_uri, NULL);
-		g_free (path);
-		
-		path = g_strdup_printf ("/Mail/Accounts/account_always_cc_%d", i);
-		bonobo_config_set_boolean (config->db, path, account->always_cc, NULL);
-		g_free (path);
-		
-		path = g_strdup_printf ("/Mail/Accounts/account_always_cc_addrs_%d", i);
-		bonobo_config_set_string_wrapper (config->db, path, 
-						  account->cc_addrs, NULL);
-		g_free (path);
-		
-		path = g_strdup_printf ("/Mail/Accounts/account_always_bcc_%d", i);
-		bonobo_config_set_boolean (config->db, path, account->always_bcc, NULL);
-		g_free (path);
-		
-		path = g_strdup_printf ("/Mail/Accounts/account_always_bcc_addrs_%d", i);
-		bonobo_config_set_string_wrapper (config->db, path, 
-						  account->bcc_addrs, NULL);
 		g_free (path);
 		
 		/* account pgp options */
@@ -825,7 +761,7 @@ mail_config_write (void)
 	bonobo_config_set_long (config->db, "/News/Sources/num", len, NULL);
 	for (i = 0; i < len; i++) {
 		MailConfigService *n;
-		char *path;
+		gchar *path;
 		
 		n = g_slist_nth_data (config->news, i);
 		
@@ -949,14 +885,7 @@ mail_config_write_on_exit (void)
 	
 	bonobo_config_set_string_wrapper (config->db, "/Mail/Filters/log_path",
 					  config->filter_log_path, NULL);
-	
-	/* New Mail Notification */
-	bonobo_config_set_long (config->db, "/Mail/Notify/new_mail_notification", 
-				config->notify, NULL);
-	
-	bonobo_config_set_string_wrapper (config->db, "/Mail/Notify/new_mail_notification_command",
-					  config->notify_command, NULL);
-	
+
 	if (config->threaded_hash)
 		g_hash_table_foreach_remove (config->threaded_hash, hash_save_state, "Threads");
 	
@@ -968,7 +897,7 @@ mail_config_write_on_exit (void)
 	CORBA_exception_free (&ev);
 	
 	/* Passwords */
-	
+
 	/* then we make sure the ones we want to remember are in the
            session cache */
 	accounts = mail_config_get_accounts ();
@@ -989,21 +918,21 @@ mail_config_write_on_exit (void)
 			g_free (passwd);
 		}
 	}
-	
+
 	/* then we clear out our component passwords */
 	e_passwords_clear_component_passwords ();
-	
+
 	/* then we remember them */
 	accounts = mail_config_get_accounts ();
 	for ( ; accounts; accounts = accounts->next) {
 		account = accounts->data;
 		if (account->source->save_passwd && account->source->url)
 			mail_session_remember_password (account->source->url);
-		
+
 		if (account->transport->save_passwd && account->transport->url)
 			mail_session_remember_password (account->transport->url);
 	}
-	
+
 	/* now do cleanup */
 	mail_config_clear ();
 }
@@ -1201,14 +1130,14 @@ mail_config_set_hide_deleted (gboolean value)
 	config->hide_deleted = value;
 }
 
-int
+gint
 mail_config_get_paned_size (void)
 {
 	return config->paned_size;
 }
 
 void
-mail_config_set_paned_size (int value)
+mail_config_set_paned_size (gint value)
 {
 	config->paned_size = value;
 }
@@ -1273,14 +1202,14 @@ mail_config_set_do_seen_timeout (gboolean do_seen_timeout)
 	config->do_seen_timeout = do_seen_timeout;
 }
 
-int
+gint
 mail_config_get_mark_as_seen_timeout (void)
 {
 	return config->seen_timeout;
 }
 
 void
-mail_config_set_mark_as_seen_timeout (int timeout)
+mail_config_set_mark_as_seen_timeout (gint timeout)
 {
 	config->seen_timeout = timeout;
 }
@@ -1680,30 +1609,6 @@ mail_config_set_default_charset (const char *charset)
 	config->default_charset = g_strdup (charset);
 }
 
-MailConfigNewMailNotify
-mail_config_get_new_mail_notify (void)
-{
-	return config->notify;
-}
-
-void
-mail_config_set_new_mail_notify (MailConfigNewMailNotify type)
-{
-	config->notify = type;
-}
-
-const char *
-mail_config_get_new_mail_notify_command (void)
-{
-	return config->notify_command;
-}
-
-void
-mail_config_set_new_mail_notify_command (const char *command)
-{
-	g_free (config->notify_command);
-	config->notify_command = g_strdup (command);
-}
 
 gboolean
 mail_config_find_account (const MailConfigAccount *account)
@@ -1928,8 +1833,8 @@ new_source_created (MailConfigAccount *account)
 	CamelProvider *prov;
 	CamelFolder *inbox;
 	CamelException ex;
-	char *name;
-	char *url;
+	gchar *name;
+	gchar *url;
 	
 	/* no source, don't bother. */
 	if (!account->source || !account->source->url)
@@ -2067,14 +1972,14 @@ mail_config_remove_account (MailConfigAccount *account)
 	return config->accounts;
 }
 
-int
+gint
 mail_config_get_default_account_num (void)
 {
 	return config->default_account;
 }
 
 static void
-mail_config_set_default_account_num (int new_default)
+mail_config_set_default_account_num (gint new_default)
 {
 	config->default_account = new_default;
 }
@@ -2281,7 +2186,7 @@ mail_config_check_service (const char *url, CamelProviderType type, GList **auth
 	
 	id = m->msg.seq;
 	e_thread_put(mail_thread_queued, (EMsg *)m);
-	
+
 	dialog = gnome_dialog_new (_("Connecting to server..."),
 				   GNOME_STOCK_BUTTON_CANCEL,
 				   NULL);
@@ -2296,9 +2201,9 @@ mail_config_check_service (const char *url, CamelProviderType type, GList **auth
 			    GTK_SIGNAL_FUNC (check_cancelled), &id);
 	gtk_window_set_modal (GTK_WINDOW (dialog), FALSE);
 	gtk_widget_show_all (dialog);
-	
+
 	mail_msg_wait(id);
-	
+
 	gtk_widget_destroy (dialog);
 	dialog = NULL;
 	

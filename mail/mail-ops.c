@@ -30,7 +30,6 @@
 
 /* #include <ctype.h> */
 #include <errno.h>
-#include <gnome.h>
 #include <gal/util/e-util.h>
 #include <gal/widgets/e-unicode.h>
 #include <gal/util/e-unicode-i18n.h>
@@ -124,9 +123,9 @@ filter_folder_filter (struct _mail_msg *mm)
 	if (folder_uids)
 		camel_folder_free_uids (folder, folder_uids);
 	
-	/* sync our source folder */
+	/* sync and expunge */
 	if (!m->cache)
-		camel_folder_sync (folder, FALSE, camel_exception_is_set (&mm->ex) ? NULL : &mm->ex);
+		camel_folder_sync (folder, TRUE, camel_exception_is_set (&mm->ex) ? NULL : &mm->ex);
 	camel_folder_thaw (folder);
 	
 	if (m->destination)
@@ -255,7 +254,7 @@ fetch_mail_fetch (struct _mail_msg *mm)
 {
 	struct _fetch_mail_msg *m = (struct _fetch_mail_msg *)mm;
 	struct _filter_mail_msg *fm = (struct _filter_mail_msg *)mm;
-	int count, i;
+	int i;
 	
 	if (m->cancel)
 		camel_operation_register (m->cancel);
@@ -347,22 +346,6 @@ fetch_mail_fetch (struct _mail_msg *mm)
 	if (m->cancel)
 		camel_operation_unregister (m->cancel);
 	
-	count = camel_filter_driver_get_filtered_count (fm->driver);
-	camel_filter_driver_reset_filtered_count (fm->driver);
-	
-	if (count > 0) {
-		switch (mail_config_get_new_mail_notify ()) {
-		case MAIL_CONFIG_NOTIFY_BEEP:
-			gdk_beep ();
-			break;
-		case MAIL_CONFIG_NOTIFY_EXEC:
-			mail_execute_shell_command (fm->driver, mail_config_get_new_mail_notify_command (), NULL);
-			break;
-		default:
-			break;
-		}
-	}
-	
 	/* we unref this here as it may have more work to do (syncing
 	   folders and whatnot) before we are really done */
 	/* should this be cancellable too? (i.e. above unregister above) */
@@ -422,7 +405,6 @@ mail_fetch_mail (const char *source, int keep, const char *type, CamelOperation 
 	
 	fm->driver = camel_session_get_filter_driver (session, type, NULL);
 	camel_filter_driver_set_folder_func (fm->driver, get_folder, get_data);
-	camel_filter_driver_set_shell_exec_func (fm->driver, mail_execute_shell_command, NULL);
 	if (status)
 		camel_filter_driver_set_status_func (fm->driver, status, status_data);
 	
@@ -2187,58 +2169,4 @@ mail_store_set_offline (CamelStore *store, gboolean offline,
 	m->done = done;
 
 	e_thread_put(mail_thread_queued, (EMsg *)m);
-}
-
-
-/* ** Execute Shell Command ***************************************************** */
-
-struct _execute_shell_command_msg {
-	struct _mail_msg msg;
-	
-	char *command;
-};
-
-static char *execute_shell_command_desc (struct _mail_msg *mm, int done)
-{
-	struct _execute_shell_command_msg *m = (struct _execute_shell_command_msg *) mm;
-	char *msg;
-	
-	msg = g_strdup_printf (_("Executing shell command: %s"), m->command);
-	
-	return msg;
-}
-
-static void execute_shell_command_do (struct _mail_msg *mm)
-{
-	struct _execute_shell_command_msg *m = (struct _execute_shell_command_msg *) mm;
-	
-	gnome_execute_shell (NULL, m->command);
-}
-
-static void execute_shell_command_free (struct _mail_msg *mm)
-{
-	struct _execute_shell_command_msg *m = (struct _execute_shell_command_msg *) mm;
-	
-	g_free (m->command);
-}
-
-static struct _mail_msg_op execute_shell_command_op = {
-	execute_shell_command_desc,
-	execute_shell_command_do,
-	NULL,
-	execute_shell_command_free,
-};
-
-void
-mail_execute_shell_command (CamelFilterDriver *driver, const char *command, void *data)
-{
-	struct _execute_shell_command_msg *m;
-	
-	if (command == NULL)
-		return;
-	
-	m = mail_msg_new (&execute_shell_command_op, NULL, sizeof (*m));
-	m->command = g_strdup (command);
-	
-	e_thread_put (mail_thread_queued, (EMsg *) m);
 }

@@ -158,7 +158,7 @@ e_msg_composer_attachment_new (const char *file_name,
 	CamelDataWrapper *wrapper;
 	CamelStream *stream;
 	struct stat statbuf;
-	char *mime_type;
+	gchar *mime_type;
 	char *filename;
 	
 	g_return_val_if_fail (file_name != NULL, NULL);

@@ -4,7 +4,7 @@
 
 2001-12-17  Ettore Perazzoli  <ettore@ximian.com>
 
-	[Fix #17377, Evolution doesn't work on multi-depth displays.]
+	[Fixes #17377, Evolution doesn't work on multi-depth displays.]
 
 	* main.c (main): Push GdkRGB visual and colormap.
 
@@ -84,6 +84,10 @@
 	(save_expanded_state): New function, saves the collapsation state
 	of the tree.
 	(impl_destroy): Call save_expanded_state().
+
+2001-11-15  Ettore Perazzoli  <ettore@ximian.com>
+
+	* e-shell-about-box.c: Add missing comma.
 
 2001-11-14  Ettore Perazzoli  <ettore@ximian.com>
 

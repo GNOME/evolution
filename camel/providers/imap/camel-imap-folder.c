@@ -1411,7 +1411,6 @@ get_content (CamelImapFolder *imap_folder, const char *uid,
 		body_mp = camel_multipart_new ();
 		camel_data_wrapper_set_mime_type_field (
 			CAMEL_DATA_WRAPPER (body_mp), ci->type);
-		
 		camel_multipart_set_boundary (body_mp, NULL);
 		
 		speclen = strlen (part_spec);
@@ -1451,7 +1450,7 @@ get_content (CamelImapFolder *imap_folder, const char *uid,
 			camel_object_unref (CAMEL_OBJECT (content));
 			camel_multipart_add_part (body_mp, part);
 			camel_object_unref (CAMEL_OBJECT (part));
-			
+
 			ci = ci->next;
 		}
 		g_free (child_spec);
@@ -1995,7 +1994,7 @@ camel_imap_folder_fetch_data (CamelImapFolder *imap_folder, const char *uid,
 		CAMEL_IMAP_FOLDER_UNLOCK (imap_folder, cache_lock);
 		CAMEL_IMAP_STORE_UNLOCK (store, command_lock);
 		return stream;
-	}
+	}		
 	
 	if (camel_disco_store_status (CAMEL_DISCO_STORE (store)) == CAMEL_DISCO_STORE_OFFLINE) {
 		camel_exception_set (ex, CAMEL_EXCEPTION_SERVICE_UNAVAILABLE,

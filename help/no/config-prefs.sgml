@@ -3,57 +3,57 @@
 -->
 <chapter id="config-prefs">
 
-      <title>Advanced Configuration</title>
+      <title>Avansert konfigurasjon</title>
       <para>
-        Perhaps your mail server has changed names.  Perhaps you've
-        grown tired of a certain layout for your appointments.
-        Whatever the reason, you want to change your
-        <application>Evolution</application> settings.  This chapter
-        will tell you how to do just that.
+        Kanskje din e-posttjener har byttet navn. Kanskje du er
+        lei av et spesifikt utseende for dine avtaler.
+        Uansett grunn, du ønsker å endre dine innstillinger for
+        <application>Evolution</application>.  Dette kapittelet
+        vil forklare deg hvordan du gjør nettopp dette.
       </para>
 
        <sect1 id="config-prefs-mail">
-         <title>Mail Settings</title>
+         <title>Innstillinger for e-post</title>
         <para>
-        To change your mail settings, select <menuchoice>
-        <guimenu>Tools</guimenu> <guimenuitem>Mail
-        Settings</guimenuitem></menuchoice> in the Inbox.  This
-        will open the <interface>mail preferences window</interface>,
-        illustrated in <xref linkend="config-prefs-mail-fig">.  Mail
-        preferences are separated into several categories:
+        For å endre dine e-post innstillinger velg <menuchoice>
+        <guimenu>Verktøy</guimenu> <guimenuitem>Innstillinger
+        for e-post</guimenuitem></menuchoice> i innboksen. Dette vil
+        åpne vinduet <interface>brukervalg for e-post</interface>,
+        illustrert i <xref linkend="config-prefs-mail-fig">. E-post
+        brukervalg er delt opp i flere kategorier:
         <variablelist>
 	  <varlistentry>
-	    <term><guilabel>Accounts</guilabel></term>
+	    <term><guilabel>Kontoer</guilabel></term>
 	    <listitem>
 	      <para>
-		This allows you to create and alter one or more identities for your
-		email.
+		Dette lar deg opprette og endre en eller flere identiteter for
+		e-post.
 	      </para>
 	    </listitem>
 	  </varlistentry>
 	  <varlistentry>
-	    <term><guilabel>Display</guilabel></term>
+	    <term><guilabel>Visning</guilabel></term>
 	    <listitem>
 	      <para>
-		Allows you to edit how email appears.
+		Lar deg redigere utseende for meldinger.
 	      </para>
 	    </listitem>
 	  </varlistentry>
 	  <varlistentry>
-	    <term><guilabel>Composer</guilabel></term>
+	    <term><guilabel>Redigering</guilabel></term>
 	    <listitem>
 	      <para>
-		Customizes the behavior of the email message composer.
+		Tilpasser oppførselen ved meldingsredigering for e-post.
 	      </para>
 	    </listitem>
 	  </varlistentry>
 	  <varlistentry>
-	    <term><guilabel>Other</guilabel></term>
+	    <term><guilabel>Annet</guilabel></term>
 	    <listitem>
 	      <para>
-		Configures miscellanious aspects of
-		<application>Evolution</application> such as character
-		set and encryption tools.
+		Konfigurerer forskjellige aspekter ved
+		<application>Evolution</application> slik som tegnsett
+		og krypteringsverktøy.
 	      </para>
 	    </listitem>
 	  </varlistentry>

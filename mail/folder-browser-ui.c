@@ -520,6 +520,7 @@ static const char *message_pane_enables[] = {
 	/* these only work if there's a message in the message pane
 	 * (preview pane). This state is independent of how many are
 	 * selected. */
+	"PrintMessage", "PrintPreviewMessage",
 	"ViewFullHeaders", "ViewLoadImages", "ViewNormal", "ViewSource",
 	"MessageSearch", "AddSenderToAddressbook",
 	NULL
@@ -562,8 +563,6 @@ folder_browser_ui_set_selection_state (FolderBrowser *fb, FolderBrowserSelection
 		/* actions that work on exactly 1 message */
 		"MessageReplyAll", "MessageReplyList", "MessageReplySender", "MessageResend", 
 		"MessageForwardInline", "MessageForwardQuoted", "MessageSearch",
-
-		"PrintMessage", "PrintPreviewMessage",
 
 		"ToolsFilterMailingList", "ToolsFilterRecipient", "ToolsFilterSender",
 		"ToolsFilterSubject", "ToolsVFolderMailingList", "ToolsVFolderRecipient", 

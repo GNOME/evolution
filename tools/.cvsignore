@@ -3,5 +3,6 @@ Makefile.in
 evolution-addressbook-clean
 evolution-addressbook-import
 evolution-addressbook-export
+evolution-addressbook-abuse
 .deps
 .libs

@@ -1,10 +1,11 @@
-2001-12-18  Damon Chaplin  <damon@ximian.com>
+2001-12-18  Dan Winship  <danw@ximian.com>
 
-	* src/libical/icalyacc.y: removed unused 'trigger:' production.
+	* configure.in (AC_OUTPUT): Remove src/libicalss/Makefile and
+	src/libicalvcal/Makefile since we don't build those any more. From
+	Jeremy Katz (katzj@redhat.com). #17606.
 
-	* configure.in (AC_OUTPUT): patch from Jeremy Katz <katzj@redhat.com>
-	to remove src/libicalss/Makefile and src/libicalvcal/Makefile, as we
-	don't ship those directories now.
+	* src/libical/icalyacc.y: Remove an unused rule since bison 1.30
+	apparently considers this an error. #17531.
 
 2001-12-10  Damon Chaplin  <damon@ximian.com>
 

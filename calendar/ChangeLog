@@ -1,83 +1,4 @@
-2002-01-03  JP Rosevear  <jpr@ximian.com>
-
-	* gui/tasks-control.c (confirm_expunge): confirm expunging of the
-	tasks
-	(tasks_control_expunge_cmd): verb callback
-
-	* gui/calendar-config.c (config_read): read confirm expunge value
-	(calendar_config_write): write confirm expunge value
-	(calendar_config_write_on_exit): ditto
-	(calendar_config_get_confirm_expunge): get value
-	(calendar_config_set_confirm_expunge): set value
-
-	* gui/calendar-config.h: new proto
-
-	* gui/e-itip-control.c (start_calendar_server): kill warning
-
-	* gui/e-tasks.c (e_tasks_init): init query member to NULL
-	(set_status_message): util function to set status message
-	(e_tasks_open): use above
-	(cal_opened_cb): ditto
-	(create_sexp): create sexp of items to be deleted
-	(query_obj_updated_cb): remove any items found
-	(query_eval_error_cb): bail out on error
-	(query_query_done_cb): tidy when done
-	(e_tasks_delete_completed): set up query
-
-	* gui/e-tasks.h: new proto
-
-	* gui/calendar-model.c (query_query_done_cb): use g_warning
-	instead of printing to stderr
-	(query_eval_error_cb): ditto
-	(update_query): clear the status message if we can't create the
-	query
-
-	* gui/tag-calendar.c (resolve_tzid_cb): make this static
-
-2001-12-21  JP Rosevear  <jpr@ximian.com>
-
-	* gui/dialogs/comp-editor.c: remove needs send signal related
-	cruft
-	(save_comp_with_send): with send_component_dialog, indicate if the
-	meeting info is newly created or not
-	(real_edit_comp): remember if the dialog initially needs a send
-
-	* gui/dialogs/send-comp.c (send_component_dialog): take a "new"
-	parameter indicating whether the dialog should intimate if the
-	component to be sent is a new meeting or not
-
-	* gui/dialogs/send-comp.h: update proto
-
-	* gui/dialogs/comp-editor.c: remove no longer used needs_send
-	notification and signal
-
-	* gui/dialogs/comp-editor.h: remove proto
-
-	* gui/e-day-view.c (e_day_view_on_main_canvas_drag_data_received): add new
-	param to send_component_dialog
-	(e_day_view_finish_long_event_resize): ditto
-	(e_day_view_finish_resize): ditto
-	(e_day_view_on_editing_stopped): ditto
-	(e_day_view_on_top_canvas_drag_data_received): ditto
-
-	* gui/e-week-view.c (e_week_view_on_editing_stopped): add new
-	param to send_component_dialog
-
-2001-12-21 JP Rosevear  <jpr@ximian.com>
-	
-	* gui/dialogs/comp-editor.h: inherit from bonobo window	
-
-	* gui/dialogs/comp-editor.c: inherit from bonobo window
-	(comp_editor_key_press_event): Look for an escape key press and
-	close the window if found
-
-2001-12-20  Ettore Perazzoli  <ettore@ximian.com>
-
-	[Fixes #17377, Evolution doesn't work on multi-depth displays.]
-
-	* gui/main.c (main): Push GdkRGB visual and colormap.
-
-2001-12-19  JP Rosevear  <jpr@ximian.com>
+2001-12-18  JP Rosevear  <jpr@ximian.com>
 
 	* conduits/calendar/calendar-conduit.c (check_for_slow_setting):
 	go slow and clear the map if the last uri and the current uri do
@@ -112,7 +33,20 @@
      	(cal_client_open_default_calendar): open the default uri or the
      	fallback if the method is unsupported
      	(cal_client_open_default_tasks): same for tasks
-	
+
+2001-12-18  Dan Winship  <danw@ximian.com>
+
+	* gui/itip-utils.c (itip_send_comp): Unfortunate hack to make this
+	work with Outlook 2000 in an Exchange environment (at the expense
+	of making it break with O2k in a POP/IMAP environment, unless you
+	set EVOLUTION_SEND_IMIP_AS_ATTACHMENT.) Fails to adequately fix
+	#14705, but it's the best we can do for 1.0.1.
+
+2001-12-17  JP Rosevear  <jpr@ximian.com>
+ 
+ 	* gui/e-meeting-model.c (process_free_busy): indicate the meeting
+ 	attendee has calendar info
+
 2001-12-17  JP Rosevear  <jpr@ximian.com>
  
  	* gui/e-itip-control.c (send_item): use get_real_item
@@ -126,22 +60,28 @@
  	(send_item): use get_real_item
 
 2001-12-17  JP Rosevear  <jpr@ximian.com>
+ 
+ 	* gui/itip-utils.c (comp_limit_attendees): can't remove properties
+ 	in an iteration loop, so remove them outside the loop
+ 	(comp_minimal): don't set a recurid if there isn't one, add the x
+ 	properties to the clone
+ 	(comp_compliant): unref the clone for DECLINECOUNTER
+ 
+ 	* gui/e-itip-control.c (get_refresh_options): make function
+ 	available again
+ 	(show_current_event): use it here
+ 	(ok_clicked_cb): can't remove properties in an iteration loop, so
+ 	remove them outside the loop
+ 
+ 	* cal-util/cal-component.c (free_icalcomponent): properly free the
+ 	attendee list
+ 	(cal_component_rescan): don't destroy the alarm hash
 
-	* gui/itip-utils.c (comp_limit_attendees): can't remove properties
-	in an iteration loop, so remove them outside the loop
-	(comp_minimal): don't set a recurid if there isn't one, add the x
-	properties to the clone
-	(comp_compliant): unref the clone for DECLINECOUNTER
+2001-12-14  Ettore Perazzoli  <ettore@ximian.com>
 
-	* gui/e-itip-control.c (get_refresh_options): make function
-	available again
-	(show_current_event): use it here
-	(ok_clicked_cb): can't remove properties in an iteration loop, so
-	remove them outside the loop
+	[Fixes #17377, Evolution doesn't work on multi-depth displays.]
 
-	* cal-util/cal-component.c (free_icalcomponent): properly free the
-	attendee list
-	(cal_component_rescan): don't destroy the alarm hash
+	* gui/main.c (main): Push GdkRGB visual and colormap.
 
 2001-12-13  Damon Chaplin  <damon@ximian.com>
 
@@ -149,11 +89,11 @@
 	We won't be using the translations in 1.0.1, but it gives translators
 	time before we do use them in 1.0.2.
 
-	* Makefile.am: added zones.h to EXTRA_DIST.
+	* Makefile.am (CONDUIT_DIR): added zones.h to EXTRA_DIST.
 
 2001-12-12  JP Rosevear  <jpr@ximian.com>
  
-	* gui/e-day-view.c (e_day_view_on_top_canvas_button_release):
+ 	* gui/e-day-view.c (e_day_view_on_top_canvas_button_release):
  	ungrab the pointer before calling
  	e_day_view_finish_long_event_resize
  	(e_day_view_on_main_canvas_button_release): ditto
@@ -163,7 +103,10 @@
  	(e_day_view_on_editing_stopped): ditto
  	(e_day_view_on_top_canvas_drag_data_received): ditto
  	(e_day_view_on_main_canvas_drag_data_received): ditto
-
+ 
+ 	* gui/e-week-view.c (e_week_view_on_editing_stopped): ask if the
+ 	meeting should be sent if
+ 
 2001-12-11  JP Rosevear  <jpr@ximian.com>
 
  	* gui/e-meeting-model.c (process_free_busy_comp): properly convert
@@ -199,22 +142,6 @@
 	* importers/GNOME_Evolution_Calendar_Importer.oaf.in: fixed executable
 	name. Fixes bug #16880.
 
-2001-12-08  JP Rosevear  <jpr@ximian.com>
-  
-  	* conduits/calendar/calendar-conduit.c (local_record_from_comp):
-  	if we have an alarm that can be represented on the pilot, set the
-  	appointment fields appropriately, if the duration has values for
-  	minutes and/or hours and/or days, use the lowest common
-  	denominator
-  	(comp_from_remote_record): if the appointment on the pilot has an
-  	alarm, find the first alarm an item currently had that is relative
-  	to the start and with a negative duration and update it (or create
-  	a new one if no valid ones exist)
-  
- 	* cal-util/cal-component.c (cal_component_get_alarm_uids): build
-  	list in the order they appear in the component so we get
-  	consisting order for the gui and for the pilot
- 
 2001-12-08  Rodrigo Moya <rodrigo@ximian.com>
 
 	* gui/calendar-config.c (calendar_config_get_default_uri):
@@ -250,6 +177,22 @@
 	(start_query_cb): Set the state to QUERY_IN_PROGRESS here instead
 	of in populate_query().
 
+2001-12-07  JP Rosevear  <jpr@ximian.com>
+  
+  	* conduits/calendar/calendar-conduit.c (local_record_from_comp):
+  	if we have an alarm that can be represented on the pilot, set the
+  	appointment fields appropriately, if the duration has values for
+  	minutes and/or hours and/or days, use the lowest common
+  	denominator
+  	(comp_from_remote_record): if the appointment on the pilot has an
+  	alarm, find the first alarm an item currently had that is relative
+  	to the start and with a negative duration and update it (or create
+  	a new one if no valid ones exist)
+  
+ 	* cal-util/cal-component.c (cal_component_get_alarm_uids): build
+  	list in the order they appear in the component so we get
+  	consisting order for the gui and for the pilot
+ 
 2001-12-07  Rodrigo Moya <rodrigo@ximian.com>
 
 	* gui/calendar-config.c (calendar_config_get_default_uri):
@@ -264,18 +207,18 @@
 
 2001-12-06  Jon Trowbridge  <trow@ximian.com>
 
-        * gui/dialogs/event-editor.c (event_editor_destroy): Explicitly
+	* gui/dialogs/event-editor.c (event_editor_destroy): Explicitly
 	destroy the EMeetingModel.  This is a hack to work around problems
 	with the reference counting; we are still leaking the
 	EMeetingModels.
 
-        * gui/e-meeting-time-sel.c
-        (e_meeting_time_selector_construct): Ref our EMeetingModel.
-        (e_meeting_time_selector_destroy): Unref the model.
+	* gui/e-meeting-time-sel.c (e_meeting_time_selector_construct):
+	Ref our EMeetingModel.
+	(e_meeting_time_selector_destroy): Unref the model.
 
-        * gui/e-meeting-model.c (destroy): Properly destroy
+	* gui/e-meeting-model.c (destroy): Properly destroy
 	corba_select_names with a call to bonobo_object_release_unref.
-        (Fixes 14002)
+	(Fixes 14002)
 
 2001-12-05  Rodrigo Moya <rodrigo@ximian.com>
 

@@ -100,6 +100,11 @@ impl_prepareForOffline (PortableServer_Servant servant,
 
 	if (priv->summary != NULL) {
 		*active_connection_list = e_summary_offline_handler_create_connection_list (priv->summary);
+	} else {
+		*active_connection_list = GNOME_Evolution_ConnectionList__alloc ();
+		(*active_connection_list)->_length = 0;
+		(*active_connection_list)->_maximum = 0;
+		(*active_connection_list)->_buffer = CORBA_sequence_GNOME_Evolution_Connection_allocbuf (0);
 	}
 }
 

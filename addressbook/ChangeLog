@@ -1,106 +1,3 @@
-2001-12-27  Jon Trowbridge  <trow@ximian.com>
-
-	* gui/component/select-names/e-select-names.c
-	(real_add_address_cb): When we clean, don't clean the model's last
-	element.  This helps keep things working properly when we have
-	signal-character separators.
-	(section_right_click_cb): Changed to work properly with our
-	EText-emitted popup signal.
-	(e_select_names_add_section): Use ETexts for the recipient
-	sections, rather than tables.  This lets us make them directly
-	editable. (Bug #1721)
-
-	* gui/component/select-names/e-select-names-popup.c
-	(popup_info_new): Pass in a ESelectNamesTextModel, not a
-	ESelectNamesModel.
-	(e_select_names_popup): Adjust for the new signature for
-	e_select_names_model_text_pos.
-
-	* gui/component/select-names/e-select-names-manager.c
-	(focus_out_cb): Schedule a cleaning when we focus out.
-	(focus_in_cb): Cancel pending cleaning when we get focus.  This
-	helps us avoid bad things happening during the fast focus out/ins
-	that happen when the completion dropdown appears.
-	(completion_handler): Adjust for new signatures of
-	e_select_names_model_text_pos and e_select_names_model_name_pos.
-	(e_select_names_manager_entry_new): Pass in our
-	ESelectNamesTextModel when constructing the
-	ESelectNamesCompletion.
-	(e_select_names_manager_entry_free): Cancel any pending clean-ups.
-
-	* gui/component/select-names/e-select-names-bonobo.c
-	(entry_get_property_fn): Get the text off of the text model.
-	Which is the only way that really makes sense when you think about
-	it.
-
-	* gui/component/select-names/e-select-names-completion.c: Added a
-	copy of the associated ESelectNamesTextModel to
-	ESelectNamesCompletionPrivate.  This replaces the
-	ESelectNamesModel.
-	(e_select_names_completion_destroy): Unref ->text_model.
-	(e_select_names_completion_handle_request): Pass in our text
-	model's separator info when calling e_select_names_model_text_pos.
-	(e_select_names_completion_new): Pass in the text model as an arg
-	instead of the model, and ref it as needed.
-
-	* gui/component/select-names/e-select-names-text-model.c
-	(e_select_names_text_model_init): Set separator as either ", " or
-	",", depending on the value of the EVOLUTION_DISABLE_MAGIC_COMMA
-	environment variable.
-	(e_select_names_text_model_destroy): Free the separator.
-	(changed_cb): Flush our cached text on changed.
-	(e_select_names_text_model_set_source): Use our own changed_cb
-	callback on changed, rather than just connecting up
-	e_text_model_changed.
-	(e_select_names_text_model_set_separator): Added.  Lets the
-	separator between recipients be specified.
-	(e_select_names_text_model_get_text): Cache the text we get from
-	calling e_select_names_model_get_textification.
-	(e_select_names_text_model_insert_length): A bunch of small
-	changes to properly support generic separators, rather than
-	(implicit and explicitly) assuming ", ".
-	(e_select_names_text_model_delete): More small tweaks to handle
-	generic separators.
-	(e_select_names_text_model_get_nth_obj): Use new signature when
-	calling e_select_names_model_name_pos, and use our cached text.
-
-	* gui/component/select-names/e-select-names-model.c
-	(e_select_names_model_destroy): We don't cache the text or
-	addr_text anymore, so no need to free them here.
-	(e_select_names_model_changed): ...and no need to reset our text
-	and addr_text caches here.
-	(e_select_names_model_get_textification): Take a separator as an
-	arg, rather than just using ", ".  Also, no caching.
-	(e_select_names_model_get_address_text): Take a separator as an
-	arg, rather than just using ", ".  And no caching here either.
-	(e_select_names_model_clean): Add arg that give us control over
-	whether or not the last entry should get cleaned.  We need this
-	when using a one-character separator, so that new destinations
-	that get tacked onto the end don't get immediately cleaned away
-	for being empty.
-	(e_select_names_model_name_pos): Take the separator length as an
-	argument, remove implicit assumption of length 2.
-	(e_select_names_model_text_pos): Take the separator length as an
-	argument, remove implicit assumption of length 2.
-
-2001-12-20  Ettore Perazzoli  <ettore@ximian.com>
-
-	[Fix #17377, Evolution doesn't work on multi-depth displays.]
-
-	* gui/component/addressbook-factory.c (main): Push GdkRGB visual
-	and colormap.
-
-2001-12-19  Jon Trowbridge  <trow@ximian.com>
-
-	* gui/widgets/e-addressbook-reflow-adapter.c
-	(e_addressbook_reflow_adapter_right_click): Add cut/copy/paste to
-	right-click menu.
-
-	* gui/widgets/e-addressbook-view.c (table_right_click): Add
-	cut/copy/paste to right-click menu.  (Fixes bug #14528.)  Also,
-	disable some right-click options if our addressbook isn't
-	editable.
-
 2001-12-18  JP Rosevear  <jpr@ximian.com>
 
 	* conduit/address-conduit.c (check_for_slow_setting): go slow and
@@ -131,7 +28,7 @@
 
 	* conduit/address-conduit.c (start_addressbook_server): use
 	e_book_load_default_book here.
-	
+
 2001-12-17  Chris Toshok  <toshok@ximian.com>
 
 	[ fixes bug 17355 ]
@@ -151,6 +48,13 @@
 	(e_minicard_view_widget_realize): Use an #ECanvasBackground here
 	instead of a #GnomeCanvasRect.
  
+2001-12-17  Ettore Perazzoli  <ettore@ximian.com>
+
+	[Fixes #17377, Evolution doesn't work on multi-depth displays.]
+
+	* gui/component/addressbook-factory.c (main): Push GdkRGB visual
+	and colormap.
+
 2001-12-16  Jon Trowbridge  <trow@ximian.com>
 
 	* gui/component/select-names/e-select-names-completion.c: Added
@@ -161,6 +65,12 @@
 	FALSE at the beginning of a potentially-cached query.
 	(e_select_names_completion_do_query): Only reuse cached cards
 	if cache_complete is TRUE.  (Fixes bug #10241)
+
+	* gui/component/select-names/e-select-names-bonobo.c
+	(impl_destroy): Disconnect from manager's 'changed' and 'ok'
+	signals.
+	(init): Store the handles when we connect to the 'changed' and
+	'ok' signals.  (Fixed bug #16852)
 
 2001-12-15  JP Rosevear  <jpr@ximian.com>
  
@@ -181,21 +91,6 @@
 	* backend/ebook/e-book-util.c (simple_query_new): Used
 	g_strdup_printf to dup a string.  Doh!  Changed to g_strdup.
 	(Bug #17126)
-
-2001-12-07  Jon Trowbridge  <trow@ximian.com>
-
-	* gui/component/select-names/e-select-names-manager.c
-	(e_select_names_manager_entry_new): Remove a reference to code
-	I don't want to commit yet. :-)
-
-	* gui/component/select-names/e-select-names-manager.c: Extensively
-	refactored -- this code had gotten _really_ ugly.  Untangle things
-	to the point where our reference counting problems are fixable.
-
-	* gui/component/select-names/e-select-names-bonobo.c
-	(impl_destroy): Remove all of the ugly hacks to work around our
-	memory management problems, and just unref the manager.
-	(Fixes #14412)
 
 2001-12-05  Chris Toshok  <toshok@ximian.com>
 

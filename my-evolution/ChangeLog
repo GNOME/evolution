@@ -1,16 +1,21 @@
-2001-12-20  Ettore Perazzoli  <ettore@ximian.com>
+2002-02-03  Iain Holmes  <iain@ximian.com>
 
-	[Fixes #17377, Evolution doesn't work on multi-depth displays.]
+	* e-summary-offline-handler.c (impl_prepareForOffline): Create an 
+	empty list if the summary == NULL. Fixes bug 18025
 
-	* main.c (main): Push GdkRGB visual and colormap.
-
-2001-12-19  JP Rosevear  <jpr@ximian.com>
+2001-12-18  JP Rosevear  <jpr@ximian.com>
 
 	* e-summary-tasks.c (e_summary_tasks_init): use
 	cal_client_open_default_tasks
 
 	* e-summary-calendar.c (e_summary_calendar_init): use
 	cal_client_open_default_calendar
+
+2001-12-17  Ettore Perazzoli  <ettore@ximian.com>
+
+	[Fixes #17377, Evolution doesn't work on multi-depth displays.]
+
+	* main.c (main): Push GdkRGB visual and colormap.
 
 2001-12-14  Iain Holmes  <iain@ximian.com>
 

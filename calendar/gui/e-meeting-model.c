@@ -687,15 +687,15 @@ destroy (GtkObject *obj)
 		gtk_object_unref (GTK_OBJECT (priv->client));
 
 	if (priv->ebook != NULL)
-		gtk_object_unref (GTK_OBJECT (priv->ebook));
+		gtk_object_unref (GTK_OBJECT (priv->ebook));        
 
 	if (priv->corba_select_names != CORBA_OBJECT_NIL) {
-		CORBA_Environment ev;
+                CORBA_Environment ev;
 		CORBA_exception_init (&ev);
 		bonobo_object_release_unref (priv->corba_select_names, &ev);
 		CORBA_exception_free (&ev);
-	}
-	
+        }
+
 	g_free (priv);
 }
 
@@ -1181,6 +1181,8 @@ process_free_busy (EMeetingModel *im, EMeetingAttendee *ia, char *text)
 	if (main_comp == NULL)
 		return;
 
+	e_meeting_attendee_set_has_calendar_info (ia, TRUE);
+	
 	kind = icalcomponent_isa (main_comp);
 	if (kind == ICAL_VCALENDAR_COMPONENT) {	
 		icalcompiter iter;

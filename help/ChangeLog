@@ -1,61 +1,7 @@
-2001-12-27  Kevin Breit  <mrproper@ximian.com>
+2001-11-16  Ettore Perazzoli  <ettore@ximian.com>
 
-	* C/usage-exchange.sgml: Small fix
-
-2001-12-24  Kevin Breit  <mrproper@ximian.com>
-
-	* C/apx-bugs.sgml: Updated indenting
-
-	* C/apx-authors.sgml: Updated my email address
-
-	* C/usage-print.sgml: Just, ya know, small change
-
-	* C/usage-exchange.sgml: Fixed wording, tags, and indenting
-
-2001-12-22  Kevin Breit  <mrproper@ximian.com>
-
-	* C/usage-mainwindow.sgml: Added information about importing mutt to Evolution.
-	Added a bit of info to the above.
-
-2001-12-20  Kevin Breit  <mrproper@ximian.com>
-
-	* C/usage-exchange.sgml: Added a <sect1> that discusses features of Connector
-
-2001-12-18  Aaron Weber  <aaron@ximian.com>
-
-	* C/usage-exchange.sgml: add notes about server requirements.
-
-	* C/topic.dat: Changed label of "Connecting to Exchange Servers"
-	
-2001-12-18  Kevin Breit  <mrproper@ximian.com>
-
-	* C/usage-mainwindow.sgml: Added information about importing KMail to Evolution.
-
-2001-12-14  Kevin Breit  <mrproper@ximian.com>
-
-	* C/apx-gloss.sgml: Slight glossary changes in wording
-
-	* C/usage-mail.sgml: Indenting changes, minor reorganization.
-
-2001-12-05  Aaron Weber  <aaron@ximian.com>
-
-	* C/usage-calendar.sgml: added "meeting-announce" note ("Simple
-	meeting announcements").
-
-	* C/config-prefs.sgml: Additional links to other portions of the
-	document.
-
-2001-11-30  Aaron Weber  <aaron@ximian.com>
-
-	* C/usage-mail.sgml: Tiny error fix.
-
-2001-11-29  Kevin Breit  <mrproper@ximian.com>
-
-	* C/usage-mail.sgml: Added more info about pretty emails.
-
-2001-11-28  Kevin Breit  <mrproper@ximian.com>
-
-	* C/usage-mail.sgml: Added section about how to make your email pretty.  I'll add more each day or something.
+	* sgmldocs.make: Use `-f' instead of `-e' so installation of
+	topic.dat works on non-GNU systems too.
 
 2001-11-14  Ettore Perazzoli  <ettore@ximian.com>
 

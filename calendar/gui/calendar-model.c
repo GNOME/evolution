@@ -1891,7 +1891,7 @@ query_query_done_cb (CalQuery *query, CalQueryDoneStatus status, const char *err
 	calendar_model_set_status_message (model, NULL);
 
 	if (status != CAL_QUERY_DONE_SUCCESS)
-		g_warning ("query done: %s\n", error_str);
+		fprintf (stderr, "query done: %s\n", error_str);
 }
 
 /* Callback used when an evaluation error occurs when running a query */
@@ -1906,7 +1906,7 @@ query_eval_error_cb (CalQuery *query, const char *error_str, gpointer data)
 
 	calendar_model_set_status_message (model, NULL);
 
-	g_warning ("eval error: %s\n", error_str);
+	fprintf (stderr, "eval error: %s\n", error_str);
 }
 
 /* Builds a complete query sexp for the calendar model by adding the predicates
@@ -1987,7 +1987,6 @@ update_query (CalendarModel *model)
 
 	if (!priv->query) {
 		g_message ("update_query(): Could not create the query");
-		calendar_model_set_status_message (model, NULL);
 		return;
 	}
 
