@@ -1,5 +1,8 @@
 2002-07-10  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* camel-filter-driver.c (get_message_cb): Make sure message is
+	non-NULL before setting the source on it.
+
 	* camel-gpg-context.c: Renamed stdin to stdin_fd, stdout to
 	stdout_fd, and stderr to stderr_fd in struct _GpgCtx since
 	Solaris' stdin/stdout/etderr variables seem to be macros and are

@@ -1084,7 +1084,7 @@ get_message_cb (void *data, CamelException *ex)
 		message = camel_folder_get_message (p->source, uid, ex);
 	}
 	
-	if (source_url && camel_mime_message_get_source (message) == NULL)
+	if (source_url && message && camel_mime_message_get_source (message) == NULL)
 		camel_mime_message_set_source (message, source_url);
 	
 	return message;
