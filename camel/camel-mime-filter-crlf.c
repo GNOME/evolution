@@ -66,25 +66,30 @@ filter (CamelMimeFilter *f, char *in, size_t len, size_t prespace,
 	CamelMimeFilterCRLF *crlf = (CamelMimeFilterCRLF *)f;
 	gboolean do_dots;
 	char *p, *q;
-
+	
 	do_dots = crlf->mode == CAMEL_MIME_FILTER_CRLF_MODE_CRLF_DOTS;
-
+	
 	if (crlf->direction == CAMEL_MIME_FILTER_CRLF_ENCODE) {
 		camel_mime_filter_set_size (f, 3 * len, FALSE);
-
+		
 		p = in;
 		q = f->outbuf;
 		while (p < in + len) {
-			if (*p == '\n')
+			if (*p == '\n') {
+				crlf->saw_lf = TRUE;
 				*q++ = '\r';
-			else
-				if (do_dots && *p == '.' && (p == in || *(p - 1) == '\n'))
+			} else {
+				if (do_dots && *p == '.' && crlf->saw_lf)
 					*q++ = '.';
+				
+				crlf->saw_lf = FALSE;
+			}
+			
 			*q++ = *p++;
 		}
 	} else {
 		camel_mime_filter_set_size (f, len, FALSE);
-
+		
 		p = in;
 		q = f->outbuf;
 		while (p < in + len) {
@@ -92,30 +97,35 @@ filter (CamelMimeFilter *f, char *in, size_t len, size_t prespace,
 				crlf->saw_cr = TRUE;
 			} else {
 				if (crlf->saw_cr) {
-					if (*p != '\n')
-						*q++ = '\r';
 					crlf->saw_cr = FALSE;
+					
+					if (*p == '\n') {
+						crlf->saw_lf = TRUE;
+						*q++ = *p++;
+						continue;
+					} else
+						*q++ = '\r';
 				}
+				
 				*q++ = *p;
 			}
-
-			if (do_dots) {
-				if (*p == '.' && (p == in || *(p - 1) == '\n')) {
+			
+			if (do_dots && *p == '.') {
+				if (crlf->saw_lf) {
 					crlf->saw_dot = TRUE;
-				} else {
-					if (crlf->saw_dot) {
-						if (*p == '.')
-							p++;
-						crlf->saw_dot = FALSE;
-					}
-					*q++ = *p;
+					crlf->saw_lf = FALSE;
+					p++;
+				} else if (crlf->saw_dot) {
+					crlf->saw_dot = FALSE;
 				}
 			}
-
+			
+			crlf->saw_lf = FALSE;
+			
 			p++;
 		}
 	}
-
+	
 	*out = f->outbuf;
 	*outlen = q - f->outbuf;
 	*outprespace = f->outpre;
@@ -135,6 +145,8 @@ reset (CamelMimeFilter *f)
 	CamelMimeFilterCRLF *crlf = (CamelMimeFilterCRLF *)f;
 
 	crlf->saw_cr = FALSE;
+	crlf->saw_lf = TRUE;
+	crlf->saw_dot = FALSE;
 }
 
 CamelMimeFilter *
@@ -145,6 +157,8 @@ camel_mime_filter_crlf_new (CamelMimeFilterCRLFDirection direction, CamelMimeFil
 	crlf->direction = direction;
 	crlf->mode = mode;
 	crlf->saw_cr = FALSE;
+	crlf->saw_lf = TRUE;
+	crlf->saw_dot = FALSE;
 
 	return (CamelMimeFilter *)crlf;
 }

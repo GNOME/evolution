@@ -14,6 +14,8 @@ LDADD = \
 	$(GNOMEUI_LIBS) $(INTLLIBS) $(EXTRA_GNOME_LIBS)
 
 EXTRA_DIST =			\
+	crlf-1.in		\
+	crlf-1.out		\
 	stripheader-1.in	\
 	stripheader-1.out	\
 	stripheader-2.in	\
@@ -28,9 +30,10 @@ EXTRA_DIST =			\
 	stripheader-6.out
 
 check_PROGRAMS =  		\
+	test-crlf		\
 	test-stripheader
 
-TESTS = test-stripheader
+TESTS = test-crlf test-stripheader
 
 
 

@@ -48,6 +48,7 @@ struct _CamelMimeFilterCRLF {
 	CamelMimeFilterCRLFDirection direction;
 	CamelMimeFilterCRLFMode mode;
 	gboolean saw_cr;
+	gboolean saw_lf;
 	gboolean saw_dot;
 };
 
