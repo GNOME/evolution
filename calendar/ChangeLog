@@ -1,3 +1,12 @@
+2003-03-31  Rodrigo Moya <rodrigo@ximian.com>
+
+	Fixes #39961
+
+	* gui/e-meeting-time-sel.c
+	(e_meeting_time_selector_options_menu_position_callback):
+	(e_meeting_time_selector_autopick_menu_position_callback): use the
+	button's allocation to position the popup menu.
+
 2003-03-29  Not Zed  <NotZed@Ximian.com>
 
 	Fixes #39895
