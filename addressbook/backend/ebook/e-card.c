@@ -271,7 +271,10 @@ char
 
 	if (card->url)
 		addPropValue(vobj, VCURLProp, card->url);
-	
+
+	if (card->title)
+		addPropValue(vobj, VCTitleProp, card->title);
+
 	if (card->id)
 		addPropValue (vobj, VCUniqueStringProp, card->id);
 	
