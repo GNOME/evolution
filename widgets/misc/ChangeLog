@@ -1,3 +1,9 @@
+2003-04-16  Ettore Perazzoli  <ettore@ximian.com>
+
+	* e-search-bar.c (remove_bonobo_menus): Only do the actual remove
+	if the ui component actually has a container; this suppresses a
+	BonoboUI warning at each folder view switch.
+
 2003-04-15  Hans Petter Jansson  <hpj@ximian.com>
 
 	* e-calendar-item.c (e_calendar_item_update): Unref the metrics.
