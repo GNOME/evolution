@@ -1,3 +1,7 @@
+2002-01-04  Pablo Saratxaga  <pablo@mandrakesoft.com>
+
+        * configure.in: Added "eu" to ALL_LINGUAS
+
 2001-12-17  Dan Winship  <danw@ximian.com>
 
 	* configure.in (camel_providerdir): Define this here, using only
