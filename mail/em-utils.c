@@ -910,56 +910,59 @@ reply_get_composer (CamelMimeMessage *message, EAccount *account,
 }
 
 static EAccount *
+guess_account_folder(CamelFolder *folder)
+{
+	EAccount *account;
+	char *tmp;
+
+	tmp = camel_url_to_string(CAMEL_SERVICE(folder->parent_store)->url, CAMEL_URL_HIDE_ALL);
+	account = mail_config_get_account_by_source_url(tmp);
+	g_free(tmp);
+
+	return account;
+}
+
+static EAccount *
 guess_account (CamelMimeMessage *message, CamelFolder *folder)
 {
-	const CamelInternetAddress *to, *cc;
 	GHashTable *account_hash = NULL;
 	EAccount *account = NULL;
-	const char *posthdr, *addr;
-	char *tmp;
-	int i;
-	
+	const char *tmp;
+	int i, j;
+	char *types[2] = { CAMEL_RECIPIENT_TYPE_TO, CAMEL_RECIPIENT_TYPE_CC };
+
 	/* check for newsgroup header */
-	posthdr = camel_medium_get_header (CAMEL_MEDIUM (message), "Newsgroups");
-	
-	if (posthdr && folder) {
-		/* this was posted at a newsgroup! */
-		tmp = camel_url_to_string (CAMEL_SERVICE (folder->parent_store)->url, CAMEL_URL_HIDE_ALL);
-		account = mail_config_get_account_by_source_url (tmp);
-		g_free (tmp);
-		if (account)
-			goto found;
-	}
-	
-	to = camel_mime_message_get_recipients (message, CAMEL_RECIPIENT_TYPE_TO);
-	cc = camel_mime_message_get_recipients (message, CAMEL_RECIPIENT_TYPE_CC);
-	
-	if (to == NULL && cc == NULL)
-		return NULL;
-	
+	if (folder
+	    && camel_medium_get_header((CamelMedium *)message, "Newsgroups")
+	    && (account = guess_account_folder(folder)))
+		return account;
+
+	/* then recipient (to/cc) in account table */
 	account_hash = generate_account_hash ();
-	
-	if (to) {
-		for (i = 0; camel_internet_address_get (to, i, NULL, &addr); i++) {
-			account = g_hash_table_lookup (account_hash, addr);
-			if (account)
-				goto found;
+	for (j=0;account == NULL && j<2;j++) {
+		const CamelInternetAddress *to;
+		
+		to = camel_mime_message_get_recipients(message, types[j]);
+		if (to) {
+			for (i = 0; camel_internet_address_get(to, i, NULL, &tmp); i++) {
+				account = g_hash_table_lookup(account_hash, tmp);
+				if (account)
+					break;
+			}
 		}
 	}
-	
-	if (cc) {
-		for (i = 0; camel_internet_address_get (cc, i, NULL, &addr); i++) {
-			account = g_hash_table_lookup (account_hash, addr);
-			if (account)
-				goto found;
-		}
-	}
-	
- found:
-	
-	if (account_hash)
-		g_hash_table_destroy (account_hash);
-	
+	g_hash_table_destroy(account_hash);
+
+	/* then message source */
+	if (account == NULL
+	    && (tmp = camel_mime_message_get_source(message)))
+		account = mail_config_get_account_by_source_url(tmp);
+
+	/* and finally, source folder */
+	if (account == NULL
+	    && folder)
+		account = guess_account_folder(folder);
+
 	return account;
 }
 

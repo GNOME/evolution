@@ -1,5 +1,11 @@
 2004-02-17  Not Zed  <NotZed@Ximian.com>
 
+	** See bug #53914.
+
+	* em-utils.c (guess_account): do some extra checks, message
+	source, and source folder.
+	(guess_account_folder): helper to guess account based on folder.
+
 	** See bug #54200.
 
 	* em-popup.c (em_popup_target_new_select): add
