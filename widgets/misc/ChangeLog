@@ -1,3 +1,7 @@
+2003-06-23  Ettore Perazzoli  <ettore@ximian.com>
+
+	* e-search-bar.c (set_menu): Translate the text.  [#45112]
+
 2003-06-18  Suresh Chandrasekharan  <suresh.chandrasekharan@sun.com>
 
 	* e-charset-picker.c: Fix for #45082: GB18030 BIG5HKSCS and EUC-TW 
