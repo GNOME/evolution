@@ -1,3 +1,10 @@
+2000-05-09  Dan Winship  <danw@helixcode.com>
+
+	* providers/sendmail/camel-sendmail-transport.c (_send_internal):
+	Bleah. Can't fsync a pipe. As a quick kludge, just don't
+	stream_flush it. The right fix will require bringing back
+	stream_close though.
+
 2000-05-09  Jeffrey Stedfast  <fejj@stampede.org>
 	* camel-internet-address.[c,h]: Undid my changes (moved
 	struct _address back into came-internet-address.c)
