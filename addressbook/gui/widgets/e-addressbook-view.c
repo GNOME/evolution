@@ -790,6 +790,33 @@ new_list (GtkWidget *widget, CardAndBook *card_and_book)
 	e_addressbook_show_contact_list_editor (book, e_card_new(""), TRUE, TRUE);
 }
 
+#if 0
+static void
+sources (GtkWidget *widget, CardAndBook *card_and_book)
+{
+	BonoboControl *control;
+	GNOME_Evolution_ShellView shell_view;
+	CORBA_Environment ev;
+
+	control = gtk_object_get_data (GTK_OBJECT (gcal), "control");
+	if (control == NULL)
+		return;
+
+	shell_view = get_shell_view_interface (control);
+	if (shell_view == CORBA_OBJECT_NIL)
+		return;
+
+	CORBA_exception_init (&ev);
+	
+	GNOME_Evolution_ShellView_showSettings (shell_view, &ev);
+	
+	if (BONOBO_EX (&ev))
+		g_message ("control_util_show_settings(): Could not show settings");
+
+	CORBA_exception_free (&ev);
+}
+#endif
+
 #define POPUP_READONLY_MASK 0x1
 #define POPUP_NOSELECTION_MASK 0x2
 
@@ -854,9 +881,10 @@ do_popup_menu(EAddressbookView *view, GdkEvent *event)
 	gtk_object_ref(GTK_OBJECT(card_and_book->view));
 
 	popup = e_popup_menu_create (menu,
+				     0,
 				     (e_addressbook_model_editable (view->model) ? 0 : POPUP_READONLY_MASK) +
 				     (selection ? 0 : POPUP_NOSELECTION_MASK),
-				     0, card_and_book);
+				     card_and_book);
 
 	gtk_signal_connect (GTK_OBJECT (popup), "selection-done",
 			    GTK_SIGNAL_FUNC (free_popup_info), card_and_book);

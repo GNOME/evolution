@@ -1,5 +1,10 @@
 2002-04-23  Christopher James Lahey  <clahey@ximian.com>
 
+	* gui/widgets/e-addressbook-view.c (do_popup_menu): Make unused
+	menu items disappear instead of graying out.
+
+2002-04-23  Christopher James Lahey  <clahey@ximian.com>
+
 	* gui/widgets/e-addressbook-reflow-adapter.c,
 	gui/widgets/e-addressbook-reflow-adapter.h: Removed
 	e_addressbook_reflow_adapter_right_click and
