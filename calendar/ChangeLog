@@ -1,3 +1,11 @@
+2003-10-31  Harry Lu <harry.lu@sun.com>
+
+	Fix for #50387.
+
+	* importers/icalendar-importer.c: (support_format_fn):
+	Call icalcomponent_is_valid() to check whether the returned 
+	icalcomponent is valid.
+
 2003-10-08  Harry Lu  <harry.lu@sun.com>
 
 	* gui/dialogs/alarm-options.glade: Make repeat-quantity and 
