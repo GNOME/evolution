@@ -1,5 +1,11 @@
 2001-11-19  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* camel-tcp-stream-ssl.c (stream_read): Added a check to see if
+	the operation has been cancelled.
+	(stream_write): Same.
+
+2001-11-19  Jeffrey Stedfast  <fejj@ximian.com>
+
 	Updates for compliance with rfc2231
 
 	* camel-mime-utils.c (header_encode_param):
