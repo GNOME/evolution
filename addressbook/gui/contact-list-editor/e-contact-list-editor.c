@@ -43,6 +43,7 @@
 #include "widgets/misc/e-image-chooser.h"
 #include "widgets/misc/e-source-option-menu.h"
 
+#include "addressbook/gui/component/select-names/Evolution-Addressbook-SelectNames.h"
 #include "addressbook/gui/component/addressbook.h"
 #include "addressbook/gui/widgets/eab-gui-util.h"
 #include "addressbook/util/eab-book-util.h"
@@ -196,6 +197,7 @@ e_contact_list_editor_init (EContactListEditor *editor)
 	editor->changed = FALSE;
 	editor->image_set = FALSE;
 	editor->editable = TRUE;
+	editor->allows_contact_lists = TRUE;
 	editor->in_async_call = FALSE;
 	editor->is_new_list = FALSE;
 
@@ -468,22 +470,6 @@ save_and_close_cb (GtkWidget *widget, EContactListEditor *cle)
 }
 
 static void
-list_deleted_cb (EBook *book, EBookStatus status, EContactListEditor *cle)
-{
-	if (cle->app)
-		gtk_widget_set_sensitive (cle->app, TRUE);
-	cle->in_async_call = FALSE;
-
-	eab_editor_contact_deleted (EAB_EDITOR (cle), status, cle->contact);
-
-	/* always close the dialog after we successfully delete a list */
-	if (status == E_BOOK_ERROR_OK)
-		eab_editor_close (EAB_EDITOR (cle));
-
-	g_object_unref (cle); /* release reference held for callback */
-}
-
-static void
 contact_list_editor_destroy_notify (gpointer data,
 				    GObject *where_the_object_was)
 {
@@ -520,13 +506,26 @@ e_contact_list_editor_set_property (GObject *object, guint prop_id,
 	editor = E_CONTACT_LIST_EDITOR (object);
 	
 	switch (prop_id){
-	case PROP_BOOK:
+	case PROP_BOOK: {
+		gboolean changed;
+
 		if (editor->book)
 			g_object_unref (editor->book);
 		editor->book = E_BOOK(g_value_get_object (value));
 		g_object_ref (editor->book);
 		/* XXX more here about editable/etc. */
+
+		changed = (editor->allows_contact_lists != e_book_check_static_capability (editor->book,
+											   "contact-lists"));
+		editor->allows_contact_lists = e_book_check_static_capability (editor->book,
+									       "contact-lists");
+
+		if (changed) {
+			set_editable (editor);
+			command_state_changed (editor);
+		}
 		break;
+	}
 	case PROP_CONTACT:
 		if (editor->contact)
 			g_object_unref (editor->contact);
@@ -660,17 +659,17 @@ static void
 select_names_ok_cb (BonoboListener *listener, const char *event_name, const CORBA_any *arg,
 		    CORBA_Environment *ev, gpointer data)
 {
-	EDestination **destv;
-
-	char *string = NULL;
-
 	EContactListEditor *ce;
+	EDestination **destv;
+	Bonobo_Control corba_control;
+	GtkWidget *control_widget;
+	char *string = NULL;
 
 	ce = E_CONTACT_LIST_EDITOR (data);
 
-	Bonobo_Control corba_control = GNOME_Evolution_Addressbook_SelectNames_getEntryBySection
-			(ce->corba_select_names, "Members", ev);
-	GtkWidget *control_widget = bonobo_widget_new_control_from_objref (corba_control, CORBA_OBJECT_NIL);
+	corba_control = GNOME_Evolution_Addressbook_SelectNames_getEntryBySection (ce->corba_select_names,
+										   "Members", ev);
+	control_widget = bonobo_widget_new_control_from_objref (corba_control, CORBA_OBJECT_NIL);
 
 	bonobo_widget_get_property (BONOBO_WIDGET (control_widget), "destinations",
 					    TC_CORBA_string, &string, NULL);
@@ -688,7 +687,6 @@ select_names_ok_cb (BonoboListener *listener, const char *event_name, const CORB
 static gboolean
 setup_corba (EContactListEditor *editor)
 {
-
 	CORBA_Environment ev;
 
 	CORBA_exception_init (&ev);
@@ -829,11 +827,12 @@ visible_addrs_toggled_cb (GtkWidget *w, EContactListEditor *editor)
 static void
 set_editable (EContactListEditor *editor)
 {
-	gtk_widget_set_sensitive (editor->email_entry, editor->editable);
-	gtk_widget_set_sensitive (editor->list_name_entry, editor->editable);
-	gtk_widget_set_sensitive (editor->add_button, editor->editable);
-	gtk_widget_set_sensitive (editor->remove_button, editor->editable);
-	gtk_widget_set_sensitive (editor->table, editor->editable);
+	gtk_widget_set_sensitive (editor->email_entry, editor->editable && editor->allows_contact_lists);
+	gtk_widget_set_sensitive (editor->list_name_entry, editor->editable && editor->allows_contact_lists);
+	gtk_widget_set_sensitive (editor->add_button, editor->editable && editor->allows_contact_lists);
+	gtk_widget_set_sensitive (editor->remove_button, editor->editable && editor->allows_contact_lists);
+	gtk_widget_set_sensitive (editor->select_button, editor->editable && editor->allows_contact_lists);
+	gtk_widget_set_sensitive (editor->table, editor->editable && editor->allows_contact_lists);
 }
 
 /* Callback used when the editor is destroyed */
@@ -948,7 +947,7 @@ command_state_changed (EContactListEditor *editor)
 	gboolean valid = eab_editor_is_valid (EAB_EDITOR (editor));
 
 	/* FIXME set the ok button to ok */
-	gtk_widget_set_sensitive (editor->ok_button, valid);
+	gtk_widget_set_sensitive (editor->ok_button, valid && editor->allows_contact_lists);
 	gtk_widget_set_sensitive (editor->source_menu, editor->is_new_list);
 	gtk_widget_set_sensitive (glade_xml_get_widget (editor->gui, "source-label"), editor->is_new_list);
 }
@@ -985,7 +984,7 @@ extract_info(EContactListEditor *editor)
 
 			e_vcard_add_attribute (E_VCARD (contact), attr);
 
-			e_destination_export_to_vcard_attribute (dest, attr);
+			e_destination_export_to_vcard_attribute ((EDestination*)dest, attr);
 		}
 
 		if (editor->image_set

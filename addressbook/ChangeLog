@@ -1,3 +1,23 @@
+2004-07-12  Chris Toshok  <toshok@ximian.com>
+
+	[ part of fix for bug #56520 ]
+	
+	* gui/contact-list-editor/e-contact-list-editor.c
+	(e_contact_list_editor_init): init allows_contact_lists to TRUE.
+	(list_deleted_cb): nuke, it's unused.
+	(e_contact_list_editor_set_property): check if the book supports
+	contact lists, and desensitize things if it doesn't.
+	(select_names_ok_cb): this isn't valid C.  declarations must come
+	before code.
+	(set_editable): the editable state of the dialog depends on
+	whether or not the backend supports contact lists.
+	(command_state_changed): the ok button needs to depend on
+	allows_contact_lists.
+	(extract_info): quiet compiler warning.
+
+	* gui/contact-list-editor/e-contact-list-editor.h (struct
+	_EContactListEditor): add allow_contact_lists.
+
 2004-07-08  Frederic Crozat  <fcrozat@mandrakesoft.com>
 
 	* gui/component/Makefile.am:

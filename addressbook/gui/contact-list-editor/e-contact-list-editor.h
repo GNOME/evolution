@@ -94,6 +94,9 @@ struct _EContactListEditor
 	/* Whether the contact editor will accept modifications */
 	guint editable : 1;
 
+	/* Whether the target book accepts storing of contact lists */
+	guint allows_contact_lists : 1;
+
 	/* Whether an async wombat call is in progress */
 	guint in_async_call : 1;
 
