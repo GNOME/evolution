@@ -6,6 +6,7 @@
  *          Miguel de Icaza <miguel@kernel.org>
  */
 
+#include <config.h>
 #include <string.h>
 #include "gncal-week-view.h"
 #include "timeutil.h"
@@ -82,6 +83,7 @@ static void
 sync_week (GtkCalendar *cal, GncalWeekView *wview)
 {
 	jump_to_day (cal, wview, wview->start_of_week.tm_mday + 7);
+	gnome_calendar_tag_calendar (wview->calendar, wview->gtk_calendar);
 }
 
 static void
@@ -132,7 +134,7 @@ gncal_week_view_new (GnomeCalendar *calendar, time_t start_of_week)
 	wview->gtk_calendar = GTK_CALENDAR (gtk_calendar_new ());
 
 	gtk_signal_connect (GTK_OBJECT (wview->gtk_calendar), "day_selected_double_click",
-			    GTK_SIGNAL_FUNC(jump_to_day), wview);
+			    GTK_SIGNAL_FUNC(jump_to_day_click), wview);
 	gtk_signal_connect (GTK_OBJECT (wview->gtk_calendar), "month_changed",
 			    GTK_SIGNAL_FUNC(sync_week), wview);
 	

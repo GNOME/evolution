@@ -275,7 +275,7 @@ mail_notify (char *mail_address, char *text, time_t app_time)
 	pid = fork ();
 	if (pid == 0){
 		const int top = max_open_files ();
-		int dev_null, i;
+		int dev_null;
 
 		dev_null = open ("/dev/null", O_RDWR);
 		dup2 (p [0], 0);
@@ -329,3 +329,54 @@ calendar_notify (time_t time, void *data)
 	}
 }
 
+/*
+ * called from the calendar_iterate routine to mark the days of a GtkCalendar
+ */
+static int
+mark_gtk_calendar_day (iCalObject *obj, time_t start, time_t end, void *c)
+{
+	GtkCalendar *gtk_cal = c;
+	struct tm *tm_s;
+	int days, day;
+
+	tm_s = localtime (&start);
+	days = difftime (end, start) / (60*60*24);
+
+	for (day = 0; day <= days; day++){
+		time_t new = mktime (tm_s);
+		struct tm *tm_day;
+		
+		tm_day = localtime (&new);
+		gtk_calendar_mark_day (gtk_cal, tm_day->tm_mday);
+		tm_s->tm_mday++;
+	}
+	return TRUE;
+}
+
+/*
+ * Tags the dates with appointments in a GtkCalendar based on the
+ * GnomeCalendar contents
+ */
+void
+gnome_calendar_tag_calendar (GnomeCalendar *cal, GtkCalendar *gtk_cal)
+{
+	time_t month_begin, month_end;
+	struct tm tm;
+	GList  *l;
+
+	/* compute month_begin */
+	tm.tm_hour = 0;
+	tm.tm_min  = 0;
+	tm.tm_sec  = 0;
+	tm.tm_mday = 0;
+	tm.tm_mon  = gtk_cal->month;
+	tm.tm_year = gtk_cal->year - 1900;
+	tm.tm_isdst= -1;
+
+	month_begin = mktime (&tm);
+	tm.tm_mon++;
+	month_end   = mktime (&tm);
+
+	gtk_calendar_clear_marks (gtk_cal);
+	calendar_iterate (cal->cal, month_begin, month_end, mark_gtk_calendar_day, gtk_cal);
+}

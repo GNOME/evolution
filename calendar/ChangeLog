@@ -1,3 +1,13 @@
+1998-04-29  Miguel de Icaza  <miguel@nuclecu.unam.mx>
+
+	* gncal-week-view.c (sync_week): Use gnome_calendar_tag_calendar.
+
+	* gnome-cal.c (gnome_calendar_tag_calendar): New routine used to
+	fill a gtk_calendar with the events on a GnomeCalendar object.
+
+	* gncal-week-view.c (gncal_week_view_new): Set the week to the day
+	we double clicked. 
+
 1998-04-28  Miguel de Icaza  <miguel@nuclecu.unam.mx>
 
 	* gnome-cal.c (calendar_notify): Apply black magic to get mail

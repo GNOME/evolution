@@ -45,6 +45,7 @@ void       gnome_calendar_next           (GnomeCalendar *gcal);
 void       gnome_calendar_previous       (GnomeCalendar *gcal);
 void       gnome_calendar_goto           (GnomeCalendar *gcal, time_t new_time);
 void       gnome_calendar_dayjump        (GnomeCalendar *gcal, time_t time);
+void       gnome_calendar_tag_calendar   (GnomeCalendar *cal, GtkCalendar *gtk_cal);
 
 /* Flags is a bitmask of CalObjectChange values */
 void       gnome_calendar_object_changed (GnomeCalendar *gcal, iCalObject *obj, int flags);

@@ -78,6 +78,12 @@ calendar_day_selected (GtkCalendar *calendar, GncalDayPanel *dpanel)
 	gnome_calendar_goto (dpanel->calendar, mktime (&tm));
 }
 
+static void
+retag_calendar (GtkCalendar *calendar, GncalDayPanel *dpanel)
+{
+	gnome_calendar_tag_calendar (dpanel->calendar, GTK_CALENDAR (dpanel->gtk_calendar));
+}
+
 GtkWidget *
 gncal_day_panel_new (GnomeCalendar *calendar, time_t start_of_day)
 {
@@ -142,6 +148,8 @@ gncal_day_panel_new (GnomeCalendar *calendar, time_t start_of_day)
 	dpanel->day_selected_id = gtk_signal_connect (GTK_OBJECT (dpanel->gtk_calendar), "day_selected",
 						      (GtkSignalFunc) calendar_day_selected,
 						      dpanel);
+	gtk_signal_connect (GTK_OBJECT (dpanel->gtk_calendar), "month_changed",
+			    GTK_SIGNAL_FUNC (retag_calendar), dpanel);
 	gtk_table_attach (GTK_TABLE (dpanel), w,
 			  1, 2, 1, 2,
 			  GTK_FILL | GTK_SHRINK,
@@ -180,9 +188,10 @@ gncal_day_panel_new (GnomeCalendar *calendar, time_t start_of_day)
 static void
 update (GncalDayPanel *dpanel, int update_fullday, iCalObject *ico, int flags)
 {
-	if (update_fullday)
+	if (update_fullday){
 		gncal_full_day_update (dpanel->fullday, ico, flags);
-
+		retag_calendar (dpanel->gtk_calendar, dpanel);
+	}
 	gncal_todo_update (dpanel->todo, ico, flags);
 }
 
@@ -205,7 +214,9 @@ gncal_day_panel_set (GncalDayPanel *dpanel, time_t start_of_day)
 	g_return_if_fail (GNCAL_IS_DAY_PANEL (dpanel));
 
 	dpanel->start_of_day = time_start_of_day (start_of_day);
-
+	if (dpanel->fullday->lower == dpanel->start_of_day)
+		return;
+	
 	strftime (buf, sizeof (buf), "%a %b %d %Y", localtime (&dpanel->start_of_day));
 	gtk_label_set (GTK_LABEL (dpanel->date_label), buf);
 

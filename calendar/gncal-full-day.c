@@ -5,11 +5,12 @@
  * Authors: Federico Mena <quartic@gimp.org>
  *          Miguel de Icaza <miguel@kernel.org>
  */
-
+#include <config.h>
 #include <string.h>
 #include <gdk/gdkkeysyms.h>
 #include <gtk/gtkdrawingarea.h>
 #include <gtk/gtktext.h>
+#include <libgnomeui/gtkcalendar.h>
 #include "eventedit.h"
 #include "gncal-full-day.h"
 #include "view-utils.h"
@@ -465,7 +466,7 @@ child_focus_out (GtkWidget *widget, GdkEventFocus *event, gpointer data)
 
 	text = gtk_editable_get_chars (GTK_EDITABLE (widget), 0, -1);
 	if (child->ico->summary && strcmp (text, child->ico->summary) == 0)
-		return;
+		return FALSE;
 	
 	if (child->ico->summary)
 		g_free (child->ico->summary);

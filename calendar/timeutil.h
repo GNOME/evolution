@@ -39,6 +39,8 @@ time_t time_year_begin   (int    year);
 time_t time_year_end     (int    year);
 time_t time_week_begin   (time_t t);
 time_t parse_date        (char *str);
+time_t time_month_begin  (time_t t);
+time_t time_month_end    (time_t t);
 
 void print_time_t (time_t t);
 

@@ -6,7 +6,7 @@
  *          Miguel de Icaza <miguel@kernel.org>
  */
 
-#include <gtk/gtksignal.h>
+#include <gnome.h>
 #include "gncal-day-view.h"
 #include "timeutil.h"
 #include "view-utils.h"
