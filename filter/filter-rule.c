@@ -440,7 +440,6 @@ rule_copy (FilterRule *dest, FilterRule *src)
 		FilterPart *part;
 
 		part = filter_part_clone (node->data);
-		g_object_ref (part);
 		dest->parts = g_list_append (dest->parts, part);
 		node = node->next;
 	}
