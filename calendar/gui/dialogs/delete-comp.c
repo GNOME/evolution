@@ -24,9 +24,9 @@
 
 #include <glib.h>
 #include <gtk/gtkstock.h>
+#include <gtk/gtkmessagedialog.h>
 #include <libgnome/gnome-i18n.h>
 #include <gal/widgets/e-unicode.h>
-#include "widgets/misc/e-messagebox.h"
 #include "../calendar-config.h"
 #include "delete-comp.h"
 
@@ -62,6 +62,7 @@ delete_component_dialog (CalComponent *comp,
 {
 	char *str;
 	GtkWidget *dialog;
+	int ret;
 
 	if (comp) {
 		g_return_val_if_fail (IS_CAL_COMPONENT (comp), FALSE);
@@ -149,16 +150,10 @@ delete_component_dialog (CalComponent *comp,
 		}
 	}
 
-	dialog = e_message_box_new (str, E_MESSAGE_BOX_QUESTION,
-				    GTK_STOCK_YES,
-				    GTK_STOCK_NO,
-				    NULL);
+	dialog = gtk_message_dialog_new(NULL, 0, GTK_MESSAGE_QUESTION, GTK_BUTTONS_YES_NO, "%s", str);
 	g_free (str);
+	ret = gtk_dialog_run((GtkDialog *)dialog) == GTK_RESPONSE_YES;
+	gtk_widget_destroy(dialog);
 
-	gtk_widget_hide (e_message_box_get_checkbox (E_MESSAGE_BOX (dialog)));
-
-	if (gnome_dialog_run_and_close (GNOME_DIALOG (dialog)) == 0)
-		return TRUE;
-	else
-		return FALSE;
+	return ret;
 }

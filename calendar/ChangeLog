@@ -1,3 +1,8 @@
+2002-11-22  Not Zed  <NotZed@Ximian.com>
+
+	* gui/dialogs/delete-comp.c (delete_component_dialog): Changed
+	e_messagebox -> gtk_messagedialog.
+
 2002-11-21  Not Zed  <NotZed@Ximian.com>
 
 	* gui/component-factory.c (create_view): pass type to
