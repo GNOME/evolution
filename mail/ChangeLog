@@ -1,3 +1,10 @@
+2003-12-05  Rodney Dawes  <dobey@ximian.com>
+
+	Fixes bug #51482
+	
+	* em-folder-tree.c (render_display_name): Don't hardcode colors
+	for the folder tree, instead use bold for unread, as in 1.4
+
 2003-12-05  Radek Doulik  <rodo@ximian.com>
 
 	* em-html-stream.c (emhs_sync_flush): use new gtk_html_flush
