@@ -518,6 +518,7 @@ impl_upgradeFromVersion (PortableServer_Servant servant,
 		/* create the source group */
 		group = e_source_group_new (_("On This Computer"), base_uri);
 		e_source_list_add_group (priv->source_list, group, -1);
+ 		e_source_list_sync (priv->source_list, NULL);
 	}
 
 	if (major == 1 && minor <= 4) {
@@ -534,6 +535,8 @@ impl_upgradeFromVersion (PortableServer_Servant servant,
 
 			g_free (new_dir);
 		}
+
+ 		e_source_list_sync (priv->source_list, NULL);
 	}
 
 	g_free (base_uri);

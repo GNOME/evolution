@@ -239,7 +239,7 @@ update_primary_selection (CalendarComponent *calendar_component)
 		ESource *source;
 		
 		/* Try to create a default if there isn't one */
-		source = find_first_source (priv->source_list);
+		source = e_source_list_peek_source_any (priv->source_list);
 		if (source)
 			e_source_selector_set_primary_selection (E_SOURCE_SELECTOR (priv->source_selector), source);
 	}
@@ -522,6 +522,7 @@ impl_upgradeFromVersion (PortableServer_Servant servant,
 		/* create the remote source group */
 		group = e_source_group_new (_("On The Web"), "webcal://");
 		e_source_list_add_group (priv->source_list, group, -1);
+ 		e_source_list_sync (priv->source_list, NULL);
 	}
 
 	if (major == 1 && minor <= 4) {
@@ -544,6 +545,7 @@ impl_upgradeFromVersion (PortableServer_Servant servant,
 			}
 			g_free (new_dir);
 		}
+ 		e_source_list_sync (priv->source_list, NULL);
 
 		g_free (base_uri);
 
@@ -565,7 +567,23 @@ impl_upgradeFromVersion (PortableServer_Servant servant,
 		e_source_group_add_source (group, source, -1);
 		e_source_group_set_readonly (group, TRUE);
 		e_source_list_add_group (priv->source_list, group, -1);
+ 		e_source_list_sync (priv->source_list, NULL);
 	}
+
+ 	/* create calendar for birthdays & anniversaries */
+ 	if ((major < 0) ||
+ 	    ((major == 1) && (minor < 5)) ||
+	    ((major == 1) && (minor == 5) && (revision < 2))) {
+ 		ESource *source;
+		char *base_uri, *new_dir;
+ 		
+ 		group = e_source_group_new (_("Birthdays"), "contacts://");
+ 		source = e_source_new (_("Birthdays & Anniversaries"), "/");
+ 		e_source_group_add_source (group, source, -1);
+ 		e_source_group_set_readonly (group, TRUE);
+ 		e_source_list_add_group (priv->source_list, group, -1);
+ 		e_source_list_sync (priv->source_list, NULL);
+  	}
 
 	return CORBA_TRUE;
 }
@@ -742,7 +760,7 @@ setup_create_ecal (CalendarComponent *calendar_component)
 
 	if (!priv->create_ecal) {
 		/* Try to create a default if there isn't one */
-		source = find_first_source (priv->source_list);
+		source = e_source_list_peek_source_any (priv->source_list);
 		if (source)
 			priv->create_ecal = auth_new_cal_from_source (source, E_CAL_SOURCE_TYPE_EVENT);
 	}

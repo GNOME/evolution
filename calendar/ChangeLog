@@ -1,3 +1,10 @@
+2004-01-09  JP Rosevear <jpr@ximian.com>
+
+	* gui/calendar-component.c (impl_upgradeFromVersion): make sure we
+	sync the source list when appropriate
+
+	* gui/tasks-component.c (impl_upgradeFromVersion): ditto
+	
 2004-01-09  ERDI Gergo  <cactus@cactus.rulez.org>
 
 	* gui/calendar-component.c (impl_upgradeFromVersion): Create
