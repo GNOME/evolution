@@ -1,3 +1,7 @@
+2002-04-24  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* camel-provider.h: Add a CAMEL_PROVIDER_CONF_LABEL enum.
+
 2002-04-19  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* providers/pop3/camel-pop3-folder.c (pop3_refresh_info): Free the

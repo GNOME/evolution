@@ -113,6 +113,7 @@ typedef enum {
 	CAMEL_PROVIDER_CONF_CHECKBOX,
 	CAMEL_PROVIDER_CONF_CHECKSPIN,
 	CAMEL_PROVIDER_CONF_ENTRY,
+	CAMEL_PROVIDER_CONF_LABEL,
 } CamelProviderConfType;
 
 typedef struct {
@@ -126,10 +127,10 @@ typedef struct {
 typedef struct {
 	/* Provider name used in CamelURLs. */
 	char *protocol;
-
+	
 	/* Provider name as used by people. (May be the same as protocol) */
 	char *name;
-
+	
 	/* Description of the provider. A novice user should be able
 	 * to read this description, and the information provided by
 	 * an ISP, IS department, etc, and determine whether or not
@@ -137,19 +138,19 @@ typedef struct {
 	 * information goes with it.
 	 */
 	char *description;
-
+	
 	/* The category of message that this provider works with.
 	 * (evolution-mail will only list a provider in the store/transport
 	 * config dialogs if its domain is "mail".)
 	 */
 	char *domain;
-
+	
 	/* Flags describing the provider, flags describing its URLs */
 	int flags, url_flags;
-
+	
 	/* Extra configuration information */
 	CamelProviderConfEntry *extra_conf;
-
+	
 	/* CamelType(s) of its store and/or transport. If both are
 	 * set, then they are assumed to be linked together and the
 	 * transport type can only be used in an account that also
