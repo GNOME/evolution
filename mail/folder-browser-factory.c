@@ -311,6 +311,9 @@ control_activate (BonoboControl     *control,
         bonobo_ui_component_set_prop(uic, "/commands/MailStop", "sensitive", "0", NULL);
 
 	bonobo_ui_component_thaw (uic, NULL);
+
+	if (fb->folder)
+		mail_sync_folder (fb->folder, NULL, NULL);
 }
 
 static void
