@@ -1,3 +1,7 @@
+2001-10-17  JP Rosevear  <jpr@ximian.com>
+
+	* idl/evolution-calendar.idl: allow some decent exceptions
+
 2001-10-17  Rodrigo Moya <rodrigo@ximian.com>
 
 	* pcs/query.c (match_component): there may be cases when the backend
