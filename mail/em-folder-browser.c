@@ -42,7 +42,6 @@
 #include "mail-tools.h"
 #include "mail-config.h"
 
-#include <e-util/e-passwords.h>
 #include <e-util/e-dialog-utils.h>
 
 #include <camel/camel-mime-message.h>
@@ -594,12 +593,6 @@ emfb_empty_trash(BonoboUIComponent *uid, void *data, const char *path)
 }
 
 static void
-emfb_forget_passwords(BonoboUIComponent *uid, void *data, const char *path)
-{
-	e_passwords_forget_passwords();
-}
-
-static void
 emfb_mail_compose(BonoboUIComponent *uid, void *data, const char *path)
 {
 	if (!em_utils_check_user_can_send_mail((GtkWidget *)data))
@@ -675,7 +668,6 @@ static BonoboUIVerb emfb_verbs[] = {
 	/* ViewThreaded is a toggle */
 
 	BONOBO_UI_UNSAFE_VERB ("EmptyTrash", emfb_empty_trash),
-	BONOBO_UI_UNSAFE_VERB ("ForgetPasswords", emfb_forget_passwords),
 	BONOBO_UI_UNSAFE_VERB ("MailCompose", emfb_mail_compose),
 	BONOBO_UI_UNSAFE_VERB ("MailPost", emfb_mail_post),
 	BONOBO_UI_UNSAFE_VERB ("MailStop", emfb_mail_stop),

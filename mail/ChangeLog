@@ -1,3 +1,8 @@
+2004-01-15  Rodrigo Moya <rodrigo@ximian.com>
+
+	* em-folder-browser.c: removed ForgetPasswords verb.
+	(emfb_forget_passwords): removed.
+
 2004-01-15  Not Zed  <NotZed@Ximian.com>
 
 	** See bug #52891.
