@@ -1,3 +1,15 @@
+2002-11-07  Chris Toshok  <toshok@ximian.com>
+
+	* e-task-widget.c (impl_destroy): guard against multiple calls.
+	fixes a crash whenever a task finishes (the addressbook finishing
+	loading, etc.).
+
+	* e-shell-marshal.list: add NONE:BOOL for
+	evolution-shell-component.
+
+	* evolution-shell-component.c (class_init): register the signals
+	with g_signal_new.
+
 2002-11-05  Ettore Perazzoli  <ettore@ximian.com>
 
 	* e-shell.c (e_shell_show_settings): Allow type being NULL.

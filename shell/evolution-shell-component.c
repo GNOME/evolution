@@ -27,6 +27,7 @@
 #include "evolution-shell-component.h"
 
 #include "e-shell-corba-icon-utils.h"
+#include "e-shell-marshal.h"
 
 #include <fcntl.h>
 #include <unistd.h>
@@ -871,75 +872,83 @@ class_init (EvolutionShellComponentClass *klass)
 	object_class->finalize = impl_finalize;
 
 	signals[OWNER_SET]
-		= gtk_signal_new ("owner_set",
-				  GTK_RUN_FIRST,
-				  GTK_CLASS_TYPE (object_class),
-				  GTK_SIGNAL_OFFSET (EvolutionShellComponentClass, owner_set),
-				  gtk_marshal_NONE__POINTER_POINTER,
-				  GTK_TYPE_NONE, 2,
-				  GTK_TYPE_POINTER, GTK_TYPE_POINTER);
+		= g_signal_new ("owner_set",
+				G_OBJECT_CLASS_TYPE (object_class),
+				G_SIGNAL_RUN_FIRST,
+				G_STRUCT_OFFSET (EvolutionShellComponentClass, owner_set),
+				NULL, NULL,
+				e_shell_marshal_NONE__POINTER_POINTER,
+				G_TYPE_NONE, 2,
+				G_TYPE_POINTER, G_TYPE_POINTER);
 
 	signals[OWNER_DIED]
-		= gtk_signal_new ("owner_died",
-				  GTK_RUN_FIRST,
-				  GTK_CLASS_TYPE (object_class),
-				  GTK_SIGNAL_OFFSET (EvolutionShellComponentClass, owner_died),
-				  gtk_marshal_NONE__NONE,
-				  GTK_TYPE_NONE, 0);
+		= g_signal_new ("owner_died",
+				G_OBJECT_CLASS_TYPE (object_class),
+				G_SIGNAL_RUN_FIRST,
+				G_STRUCT_OFFSET (EvolutionShellComponentClass, owner_died),
+				NULL, NULL,
+				e_shell_marshal_NONE__NONE,
+				G_TYPE_NONE, 0);
 
 	signals[OWNER_UNSET]
-		= gtk_signal_new ("owner_unset",
-				  GTK_RUN_FIRST,
-				  GTK_CLASS_TYPE (object_class),
-				  GTK_SIGNAL_OFFSET (EvolutionShellComponentClass, owner_unset),
-				  gtk_marshal_NONE__NONE,
-				  GTK_TYPE_NONE, 0);
+		= g_signal_new ("owner_unset",
+				G_OBJECT_CLASS_TYPE (object_class),
+				G_SIGNAL_RUN_FIRST,
+				G_STRUCT_OFFSET (EvolutionShellComponentClass, owner_unset),
+				NULL, NULL,
+				e_shell_marshal_NONE__NONE,
+				G_TYPE_NONE, 0);
 
 	signals[DEBUG]
-		= gtk_signal_new ("debug",
-				  GTK_RUN_FIRST,
-				  GTK_CLASS_TYPE (object_class),
-				  GTK_SIGNAL_OFFSET (EvolutionShellComponentClass, debug),
-				  gtk_marshal_NONE__NONE,
-				  GTK_TYPE_NONE, 0);
+		= g_signal_new ("debug",
+				G_OBJECT_CLASS_TYPE (object_class),
+				G_SIGNAL_RUN_FIRST,
+				G_STRUCT_OFFSET (EvolutionShellComponentClass, debug),
+				NULL, NULL,
+				e_shell_marshal_NONE__NONE,
+				G_TYPE_NONE, 0);
 
 	signals[INTERACTIVE]
-		= gtk_signal_new ("interactive",
-				  GTK_RUN_FIRST,
-				  GTK_CLASS_TYPE (object_class),
-				  GTK_SIGNAL_OFFSET (EvolutionShellComponentClass, interactive),
-				  gtk_marshal_NONE__BOOL,
-				  GTK_TYPE_NONE, 1,
-				  GTK_TYPE_BOOL);
+		= g_signal_new ("interactive",
+				G_OBJECT_CLASS_TYPE (object_class),
+				G_SIGNAL_RUN_FIRST,
+				G_STRUCT_OFFSET (EvolutionShellComponentClass, interactive),
+				NULL, NULL,
+				e_shell_marshal_NONE__BOOL,
+				G_TYPE_NONE, 1,
+				G_TYPE_BOOLEAN);
 
 	signals[HANDLE_EXTERNAL_URI]
-		= gtk_signal_new ("handle_external_uri",
-				  GTK_RUN_FIRST,
-				  GTK_CLASS_TYPE (object_class),
-				  GTK_SIGNAL_OFFSET (EvolutionShellComponentClass, handle_external_uri),
-				  gtk_marshal_NONE__STRING,
-				  GTK_TYPE_NONE, 1,
-				  GTK_TYPE_STRING);
+		= g_signal_new ("handle_external_uri",
+				G_OBJECT_CLASS_TYPE (object_class),
+				G_SIGNAL_RUN_FIRST,
+				G_STRUCT_OFFSET (EvolutionShellComponentClass, handle_external_uri),
+				NULL, NULL,
+				e_shell_marshal_NONE__STRING,
+				G_TYPE_NONE, 1,
+				G_TYPE_STRING);
 
 	signals[USER_CREATE_NEW_ITEM]
-		= gtk_signal_new ("user_create_new_item",
-				  GTK_RUN_FIRST,
-				  GTK_CLASS_TYPE (object_class),
-				  GTK_SIGNAL_OFFSET (EvolutionShellComponentClass, user_create_new_item),
-				  gtk_marshal_NONE__POINTER_POINTER_POINTER,
-				  GTK_TYPE_NONE, 3,
-				  GTK_TYPE_STRING,
-				  GTK_TYPE_STRING,
-				  GTK_TYPE_STRING);
+		= g_signal_new ("user_create_new_item",
+				G_OBJECT_CLASS_TYPE (object_class),
+				G_SIGNAL_RUN_FIRST,
+				G_STRUCT_OFFSET (EvolutionShellComponentClass, user_create_new_item),
+				NULL, NULL,
+				e_shell_marshal_NONE__POINTER_POINTER_POINTER,
+				G_TYPE_NONE, 3,
+				G_TYPE_STRING,
+				G_TYPE_STRING,
+				G_TYPE_STRING);
 
 	signals[SEND_RECEIVE]
-		= gtk_signal_new ("send_receive",
-				  GTK_RUN_FIRST,
-				  GTK_CLASS_TYPE (object_class),
-				  GTK_SIGNAL_OFFSET (EvolutionShellComponentClass, send_receive),
-				  gtk_marshal_NONE__BOOL,
-				  GTK_TYPE_NONE, 1,
-				  GTK_TYPE_BOOL);
+		= g_signal_new ("send_receive",
+				G_OBJECT_CLASS_TYPE (object_class),
+				G_SIGNAL_RUN_FIRST,
+				G_STRUCT_OFFSET (EvolutionShellComponentClass, send_receive),
+				NULL, NULL,
+				e_shell_marshal_NONE__BOOL,
+				G_TYPE_NONE, 1,
+				G_TYPE_BOOLEAN);
 
 	parent_class = gtk_type_class (PARENT_TYPE);
 

@@ -62,15 +62,18 @@ impl_destroy (GtkObject *object)
 	ETaskWidgetPrivate *priv;
 
 	task_widget = E_TASK_WIDGET (object);
-	priv = task_widget->priv;
+	if (task_widget->priv) {
+		priv = task_widget->priv;
 
-	g_free (priv->component_id);
+		g_free (priv->component_id);
 
-	g_object_unref (priv->tooltips);
+		g_object_unref (priv->tooltips);
 
-	gdk_pixbuf_unref (priv->icon_pixbuf);
+		gdk_pixbuf_unref (priv->icon_pixbuf);
 
-	g_free (priv);
+		g_free (priv);
+		task_widget->priv = NULL;
+	}
 
 	(* GTK_OBJECT_CLASS (parent_class)->destroy) (object);
 }
