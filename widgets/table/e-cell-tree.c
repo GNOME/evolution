@@ -62,6 +62,7 @@ typedef struct {
 	GnomeCanvas *canvas;
 	gboolean retro_look;
 	gboolean prelit;
+	gint animate_timeout;
 
 } ECellTreeView;
 
@@ -214,13 +215,13 @@ draw_retro_expander (ECellTreeView *ectv, GdkDrawable *drawable, gboolean expand
 }
 
 static void
-draw_expander (ECellTreeView *ectv, GdkDrawable *drawable, gboolean expanded, GtkStateType state, GdkRectangle *rect)
+draw_expander (ECellTreeView *ectv, GdkDrawable *drawable, GtkExpanderStyle expander_style, GtkStateType state, GdkRectangle *rect)
 {
 	GtkWidget *tree = GTK_WIDGET (ectv->canvas)->parent;
 	gint exp_size;
 	gtk_widget_style_get (tree, "expander_size", &exp_size, NULL);
 
-	gtk_paint_expander (tree->style, drawable, state, rect, tree, "treeview", rect->x + rect->width - exp_size / 2, rect->y + rect->height / 2, expanded ? GTK_EXPANDER_EXPANDED : GTK_EXPANDER_COLLAPSED);
+	gtk_paint_expander (tree->style, drawable, state, rect, tree, "treeview", rect->x + rect->width - exp_size / 2, rect->y + rect->height / 2, expander_style);
 }
 
 /*
@@ -345,7 +346,7 @@ ect_draw (ECellView *ecell_view, GdkDrawable *drawable,
 			} else {
 				r = rect;
 				r.width -= node_image_width + 2;
-				draw_expander (tree_view, drawable, expanded, GTK_STATE_NORMAL, &r);
+				draw_expander (tree_view, drawable, expanded ? GTK_EXPANDER_EXPANDED : GTK_EXPANDER_COLLAPSED, GTK_STATE_NORMAL, &r);
 			}
 		}
 
@@ -421,6 +422,35 @@ ect_height (ECellView *ecell_view, int model_col, int view_col, int row)
 	return (((e_cell_height (tree_view->subcell_view, model_col, view_col, row)) + 1) / 2) * 2;
 }
 
+typedef struct {
+	ECellTreeView *ectv;
+	ETreeTableAdapter *etta;
+	ETreePath node;
+	gboolean expanded;
+	gboolean finish;
+	GdkRectangle area;
+} animate_closure_t;
+
+static gboolean
+animate_expander (gpointer data)
+{
+	animate_closure_t *closure = (animate_closure_t *) data;
+
+	if (closure->finish) {
+		e_tree_table_adapter_node_set_expanded (closure->etta, closure->node, !closure->expanded);
+		closure->ectv->animate_timeout = 0;
+		g_free (data);
+		return FALSE;
+	}
+
+	draw_expander (closure->ectv, GTK_LAYOUT (closure->ectv->canvas)->bin_window,
+		       closure->expanded ? GTK_EXPANDER_SEMI_COLLAPSED : GTK_EXPANDER_SEMI_EXPANDED,
+		       GTK_STATE_NORMAL, &closure->area);
+	closure->finish = TRUE;
+
+	return TRUE;
+}
+
 /*
  * ECell::event method
  */
@@ -439,8 +469,26 @@ ect_event (ECellView *ecell_view, GdkEvent *event, int model_col, int view_col, 
 
 		if (event_in_expander (event, offset, 0)) {
 			if (e_tree_model_node_is_expandable (tree_model, node)) {
-				gboolean expanded = !e_tree_table_adapter_node_is_expanded(etta, node);
-				e_tree_table_adapter_node_set_expanded (etta, node, expanded);
+				gboolean expanded = e_tree_table_adapter_node_is_expanded(etta, node);
+				if (tree_view->retro_look)
+					e_tree_table_adapter_node_set_expanded (etta, node, !expanded);
+				else {
+					gint tmp_row = row;
+					GdkRectangle area;
+					animate_closure_t *closure = g_new0 (animate_closure_t, 1);
+					e_table_item_get_cell_geometry (tree_view->cell_view.e_table_item_view,
+								&tmp_row, &view_col, &area.x, &area.y, NULL, &area.height);
+					area.width = offset - 2;
+					draw_expander (tree_view, GTK_LAYOUT (tree_view->canvas)->bin_window,
+						       expanded ? GTK_EXPANDER_SEMI_EXPANDED : GTK_EXPANDER_SEMI_COLLAPSED,
+						       GTK_STATE_NORMAL, &area);
+					closure->ectv = tree_view;
+					closure->etta = etta;
+					closure->node = node;
+					closure->expanded = expanded;
+					closure->area = area;
+					tree_view->animate_timeout = g_timeout_add (50, animate_expander, closure);
+				}
 				return TRUE;
 			}
 		}
@@ -461,9 +509,8 @@ ect_event (ECellView *ecell_view, GdkEvent *event, int model_col, int view_col, 
 								&tmp_row, &view_col, &area.x, &area.y, NULL, &area.height);
 				area.width = offset - 2;
 				draw_expander (tree_view, GTK_LAYOUT (tree_view->canvas)->bin_window,
-					       e_tree_table_adapter_node_is_expanded (etta, node),
-					       in_expander ? GTK_STATE_PRELIGHT : GTK_STATE_NORMAL, 
-					       &area);
+					       e_tree_table_adapter_node_is_expanded (etta, node) ? GTK_EXPANDER_EXPANDED : GTK_EXPANDER_COLLAPSED,
+					       in_expander ? GTK_STATE_PRELIGHT : GTK_STATE_NORMAL, &area);
 				tree_view->prelit = in_expander;
 				return TRUE;
 			}
@@ -480,7 +527,7 @@ ect_event (ECellView *ecell_view, GdkEvent *event, int model_col, int view_col, 
 							&tmp_row, &view_col, &area.x, &area.y, NULL, &area.height);
 			area.width = offset - 2;
 			draw_expander (tree_view, GTK_LAYOUT (tree_view->canvas)->bin_window,
-				       e_tree_table_adapter_node_is_expanded (etta, node),
+				       e_tree_table_adapter_node_is_expanded (etta, node) ? GTK_EXPANDER_EXPANDED : GTK_EXPANDER_COLLAPSED,
 				       GTK_STATE_NORMAL, &area);
 			tree_view->prelit = FALSE;
 		}
