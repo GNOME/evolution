@@ -1,3 +1,7 @@
+2001-07-10  Peter Williams  <peterw@ximian.com>
+
+	* */Makefile.am (dist-hook): Clean up make dist.
+
 2001-07-11  Aaron Weber  <aaron@ximian.com>
 
 	* C/evolution.sgml: validation on usage-mainwindow and usage-contact.

@@ -1,4 +1,4 @@
-SUBDIRS = cal-client cal-util
+SUBDIRS = cal-util cal-client
 
 EXTRA_DIST =				\
 	alarm-generation.sgml		\

@@ -57,11 +57,14 @@ local_entities =					\
 #	importer/sgml/evolution-importer.sgml		\
 #	importer/sgml/evolution-importer-client.sgml
 
-# Extra SGML files that are included by $(DOC_MAIN_SGML_FILE).
-content_files =				\
+installed_content_files = 		\
 	fdl.sgml			\
 	preface.sgml			\
-	reference.sgml			\
+	reference.sgml
+
+# Extra SGML files that are included by $(DOC_MAIN_SGML_FILE).
+content_files =				\
+	$(installed_content_files)	\
 	$(local_entities)
 
 # Other files to distribute.
@@ -87,10 +90,10 @@ HTML_DIR = $(datadir)/gnome/html
 
 TARGET_DIR=$(HTML_DIR)/$(DOC_MODULE)
 
-EXTRA_DIST =			    \
-	$(content_files)		\
-	$(extra_files)		  \
-	$(HTML_IMAGES)		  \
+EXTRA_DIST =				\
+	$(extra_files)		  	\
+	$(installed_content_files)	\
+	$(HTML_IMAGES)			\
 	$(DOC_MAIN_SGML_FILE)
 
 #	$(DOC_MODULE).types	     \
@@ -156,8 +159,13 @@ endif
 
 dist-hook: dist-check-gtkdoc dist-hook-local
 	mkdir $(distdir)/html
-	-cp $(srcdir)/html/index.sgml $(distdir)/html
-	-cp $(srcdir)/html/*.html $(srcdir)/html/*.css $(distdir)/html
+	test -f $(srcdir)/html/index.sgml && cp $(srcdir)/html/index.sgml $(distdir)/html
+	files=`echo $(srcdir)/html/*.html` ; \
+	test '$(srcdir)/html/*.html' = "$$files" \
+	    || cp $$files $(distdir)/html
+	files=`echo $(srcdir)/html/*.css` ; \
+	test '$(srcdir)/html/*.css' = "$$files" \
+	    || cp $$files $(distdir)/html
 	images=$(HTML_IMAGES) ;	       \
 	for i in $$images ; do		\
 	  cp $(srcdir)/$$i $(distdir)/html ;  \

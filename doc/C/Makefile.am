@@ -31,12 +31,21 @@ evolution-faq: $(FAQ_SGML_FILES)
 	-db2html $(srcdir)/evolution-faq.sgml
 
 dist-hook:
-	mkdir $(distdir)/evolution
-	-cp evolution/*.html evolution/*.css $(distdir)/evolution
 	mkdir $(distdir)/fig
-	-cp fig/*.png $(distdir)/fig
+	mkdir $(distdir)/evolution
 	mkdir $(distdir)/evolution/stylesheet-images
-	-cp evolution/stylesheet-images/* $(distdir)/evolution/stylesheet-images
+	files=`echo $(srcdir)/evolution/*.html` ; \
+	test '$(srcdir)/evolution/*.html' = "$$files" \
+	    || cp $$files $(distdir)/evolution
+	files=`echo $(srcdir)/evolution/*.css` ; \
+	test '$(srcdir)/evolution/*.css' = "$$files" \
+	    || cp $$files $(distdir)/evolution
+	files=`echo $(srcdir)/fig/*.png` ; \
+	test '$(srcdir)/fig/*.png' = "$$files" \
+	    || cp $$files $(distdir)/evolution
+	files=`echo $(srcdir)/evolution/stylesheet-images/*` ; \
+	test '$(srcdir)/evolution/stylesheet-images/*' = "$$files" \
+	    || cp $$files $(distdir)/evolution
 
 # FIXME really messy here
 install-data-local: evolution-guide evolution-faq
