@@ -1011,7 +1011,7 @@ extract_itip_data (FormatItipPObject *pitip, GtkContainer *container)
 		return FALSE;	       
 	}
 
-	switch (kind) {
+	switch (icalcomponent_isa (pitip->ical_comp)) {
 	case ICAL_VEVENT_COMPONENT:
 		pitip->type = E_CAL_SOURCE_TYPE_EVENT;
 		break;
