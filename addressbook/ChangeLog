@@ -8,7 +8,7 @@
 
 	* backend/ebook/e-card.c, backend/ebook/e-card.h: Pulled out the
 	part where the uri is made part of the uid.  Made uri a separate
-	field.
+	field.  Fixes Ximian bug #6490.
 
 	* backend/ebook/e-destination.c, backend/ebook/e-destination.h:
 	Change this to use ECard's split uids and uris.
