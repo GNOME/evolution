@@ -61,8 +61,7 @@
 		<submenu name="Settings">
 
 			<menuitem name="Preferences" _label="Tasks Preferences..."
-			verb="TasksPreferences" _tip="Alter preferences"
-                        />
+			verb="TasksPreferences" _tip="Alter preferences"/>
 
 		</submenu>
 	</menu>
