@@ -228,6 +228,7 @@ mail_tool_move_folder_contents (CamelFolder *source, CamelFolder *dest, gboolean
 	GPtrArray *uids;
 	int i;
 	gboolean summary_capability;
+	time_t last_update = 0;
 
 	mail_tool_camel_lock_up();
 
@@ -284,11 +285,21 @@ mail_tool_move_folder_contents (CamelFolder *source, CamelFolder *dest, gboolean
 	for (i = 0; i < uids->len; i++) {
 		CamelMimeMessage *msg;
 		const CamelMessageInfo *info = NULL;
-
+		const gboolean last_message = (i+1 == uids->len);
+		time_t now;
+		
 		/* Info */
 
-		mail_op_set_message (_("Retrieving message %d of %d"),
-				     i + 1, uids->len);
+		/*
+		 * Only update display every 2 seconds, as mail_op_set_message
+		 * is an expensive operation
+		 */
+		time (&now);
+		if (last_message || ((now - last_update) > 2)) {
+			mail_op_set_message (_("Retrieving message %d of %d"),
+					     i + 1, uids->len);
+			last_update = now;
+		}
 
 		/* Get the message */
 

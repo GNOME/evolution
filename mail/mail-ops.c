@@ -2328,16 +2328,25 @@ do_view_messages (gpointer in_data, gpointer op_data, CamelException *ex)
 {
 	view_messages_input_t *input = (view_messages_input_t *) in_data;
 	view_messages_data_t *data = (view_messages_data_t *) op_data;
-
+	time_t last_update = 0;
 	int i;
 
 	data->messages = g_ptr_array_new ();
 
 	for (i = 0; i < input->uids->len; i++) {
 		CamelMimeMessage *message;
+		const gboolean last_message = (i+1 == input->uids->len);
+		time_t now;
 
-		mail_op_set_message (_("Retrieving message %d of %d (uid \"%s\")"),
-				     i + 1, input->uids->len, (char *)input->uids->pdata[i]);
+		/*
+		 * Update display every 2 seconds
+		 */
+		time (&now);
+		if (last_message || ((now - last_update) > 2)) {
+			mail_op_set_message (_("Retrieving message %d of %d (uid \"%s\")"),
+					     i + 1, input->uids->len, (char *)input->uids->pdata[i]);
+			last_update = now;
+		}
 
 		mail_tool_camel_lock_up ();
 		message = camel_folder_get_message (input->folder, input->uids->pdata[i], ex);

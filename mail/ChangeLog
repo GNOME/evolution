@@ -1,3 +1,10 @@
+2000-12-18  Miguel de Icaza  <miguel@helixcode.com>
+
+	* mail-tools.c (mail_tool_move_folder_contents): Only update
+	display every 2 seconds.
+
+	* mail-ops.c (do_view_messages): Only update display every 2 seconds.
+
 2000-12-16  Not Zed  <NotZed@HelixCode.com>
 
 	* message-list.c (build_tree): Always use the slow (full-update)

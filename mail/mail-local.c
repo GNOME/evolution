@@ -175,7 +175,8 @@ save_metainfo(struct _local_meta *meta)
 
 */
 
-static void update_progress(char *fmt, float percent)
+static void
+update_progress(char *fmt, float percent)
 {
 	if (fmt)
 		mail_op_set_message ("%s", fmt);
