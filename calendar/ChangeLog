@@ -1,3 +1,9 @@
+2004-06-02  Chris Toshok  <toshok@ximian.com>
+
+	* gui/migration.c (migrate_calendars): remove absolute_uri from
+	ESource's.
+	(migrate_tasks): same.
+
 2004-06-02  Rodrigo Moya <rodrigo@novell.com>
 
 	* gui/e-meeting-list-view.c (start_addressbook_server): removed

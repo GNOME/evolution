@@ -783,6 +783,26 @@ migrate_calendars (CalendarComponent *component, int major, int minor, int revis
 			g_free (new_path);
 			g_free (old_path);
 		}
+
+		/* we only need to do this next step if people ran
+		   older versions of 1.5.  We need to clear out the
+		   absolute URI's that were assigned to ESources
+		   during one phase of development, as they take
+		   precedent over relative uris (but aren't updated
+		   when editing an ESource). */
+		if (minor == 5 && revision <= 11) {
+			GSList *g;
+			for (g = e_source_list_peek_groups (calendar_component_peek_source_list (component)); g; g = g->next) {
+				ESourceGroup *group = g->data;
+				GSList *s;
+
+				for (s = e_source_group_peek_sources (group); s; s = s->next) {
+					ESource *source = s->data;
+					e_source_set_absolute_uri (source, NULL);
+				}
+			}
+		}
+
 	}
 
 	e_source_list_sync (calendar_component_peek_source_list (component), NULL);
@@ -888,6 +908,25 @@ migrate_tasks (TasksComponent *component, int major, int minor, int revision, GE
 			migrate_pilot_data ("tasks", "todo", old_path, new_path);
 			g_free (new_path);
 			g_free (old_path);
+		}
+
+		/* we only need to do this next step if people ran
+		   older versions of 1.5.  We need to clear out the
+		   absolute URI's that were assigned to ESources
+		   during one phase of development, as they take
+		   precedent over relative uris (but aren't updated
+		   when editing an ESource). */
+		if (minor == 5 && revision <= 11) {
+			GSList *g;
+			for (g = e_source_list_peek_groups (tasks_component_peek_source_list (component)); g; g = g->next) {
+				ESourceGroup *group = g->data;
+				GSList *s;
+
+				for (s = e_source_group_peek_sources (group); s; s = s->next) {
+					ESource *source = s->data;
+					e_source_set_absolute_uri (source, NULL);
+				}
+			}
 		}
 	}
 
