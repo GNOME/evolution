@@ -54,15 +54,17 @@ main ( gint argc, gchar* argv[] )
 	gtk_widget_show_all (T);
 
 	cg = color_group_fetch ("fore_color_group", dialog);
-	T = color_combo_new (cursor_hand_open_xpm, _("Automatic"),
-			     &e_black, cg);
+	T = color_combo_new (
+		gdk_pixbuf_new_from_xpm_data ((char const **)cursor_hand_open_xpm),
+		_("Automatic"), &e_black, cg);
 	gtk_box_pack_start(GTK_BOX (GNOME_DIALOG (dialog)-> vbox ),
 			   T, TRUE, TRUE, 5);
 	gtk_widget_show_all (T);
 
 	cg = color_group_fetch ("back_color_group", dialog);
-	T = color_combo_new (cursor_hand_open_xpm, _("Automatic"),
-			     &e_black, cg);
+	T = color_combo_new (
+		gdk_pixbuf_new_from_xpm_data ((char const **)cursor_hand_open_xpm),
+		_("Automatic"), &e_black, cg);
 	gtk_box_pack_start(GTK_BOX (GNOME_DIALOG (dialog)-> vbox ),
 			   T, TRUE, TRUE, 5);
 	gtk_widget_show_all (T);
