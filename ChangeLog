@@ -1,3 +1,7 @@
+2000-04-05  Matt Loper  <matt@helixcode.com>
+
+	* README: Added wombat.
+
 2000-04-05  Seth Alves  <alves@hungry.com>
 
 	* shell/e-shell-view.c (get_view): hook up control:calendar

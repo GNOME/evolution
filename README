@@ -43,7 +43,10 @@ camel:		libcamel, a messaging library used by the mailer.
 		Camel is inspired by Sun's JavaMail
 		(http://java.sun.com/products/javamail/) and the
 		IMAPv4 spec (RFC 2060).
-compose:	the message composer UI
+wombat:		Has source code that will load in the addressbook
+		and calendar backend, and will form the server
+		process we'll be using
+composer:	the message composer UI
 data:		the .desktop file for Evolution
 devel-docs:	entirely inadequate documentation
 doc:		more inadequate documentation, and some nice white
