@@ -1,3 +1,10 @@
+Tue May 16 06:11:40 2000  Tuomas Kuosmanen  <tigert@gimp.org>
+
+	* art/evolution-calendar-mini.png art/evolution-inbox-mini.png
+ 	art/evolution-tasks-mini.png art/evolution-contacts-mini.png
+ 	art/evolution-notes-mini.png: new mini-icons for the tree view
+	of folders and stuff.
+
 2000-05-14  Federico Mena Quintero  <federico@helixcode.com>
 
 	* configure.in (AC_OUTPUT): Added calendar/gui/dialogs/Makefile.am.
