@@ -1,3 +1,12 @@
+2001-11-19  Abel Cheung  <maddog@linuxhall.org>
+
+	* configure.in: I will keep adding zh_TW to ALL_LINGUAS before
+	  somebody is willing to tell me why it is deleted without
+	  reason. It was checked against newest gettext (0.10.40) and
+	  older gettext (0.10.35) without any problem. A few
+	  translations are not removed from ALL_LINGUAS even though
+	  they failed in msgfmt checking.
+
 2001-11-14  Ettore Perazzoli  <ettore@ximian.com>
 
 	* README: Updated.
