@@ -23,10 +23,8 @@
  * USA
  */
 
-
 #ifndef CAMEL_POP3_FOLDER_H
 #define CAMEL_POP3_FOLDER_H 1
-
 
 #ifdef __cplusplus
 extern "C" {
@@ -44,21 +42,20 @@ typedef struct {
 	guint32 id;
 	guint32 size;
 	guint32 flags;
+	guint32 index;		/* index of request */
 	char *uid;
 	int err;
 	struct _CamelPOP3Command *cmd;
 	struct _CamelStream *stream;
 } CamelPOP3FolderInfo;
 
-
 typedef struct {
 	CamelFolder parent_object;
 
 	GPtrArray *uids;
-
+	GHashTable *uids_uid;	/* messageinfo by uid */
+	GHashTable *uids_id;	/* messageinfo by id */
 } CamelPOP3Folder;
-
-
 
 typedef struct {
 	CamelFolderClass parent_class;
@@ -66,7 +63,6 @@ typedef struct {
 	/* Virtual methods */	
 	
 } CamelPOP3FolderClass;
-
 
 /* public methods */
 CamelFolder *camel_pop3_folder_new (CamelStore *parent, CamelException *ex);

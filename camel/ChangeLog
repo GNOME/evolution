@@ -1,3 +1,20 @@
+2002-08-06  Not Zed  <NotZed@Ximian.com>
+
+	* providers/pop3/camel-pop3-folder.c (cmd_list): Add messageinfo
+	to id table, and store array index in messageinfo too.
+	(fi_to_index): Removed, use index member of messageinfo, fixed
+	callers.
+	(cmd_builduid): Parse the headers of the data, and ignore any
+	status or x-status headers.
+	(uid_to_fi): Removed, use the hashtable instead.
+	(id_to_fi): Same.
+	(cmd_uidl): Add messageinfo to uid table.
+	(pop3_refresh_info): Setup hash tables, and fill out uid table for
+	nonuid capable servers.
+	(pop3_finalize): Destroy hash tables.  Only free resources if the
+	uids table is not null (if finalised before we ran refresh info).
+	(id_to_fi): Removed.  Use id hash table instead, fixed caller.
+
 2002-08-05  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* camel.c (camel_init): Always set a g_atexit handler to
