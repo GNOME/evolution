@@ -1,9 +1,10 @@
-Version 0.5, "Salamander", 2000-09-12
+Version 0.5, "Salamander", 2000-09-13
 -------------------------------------
 
 Shell:
 
-  - Switched to using ETree (Chris Toshok, Ettore)
+  - Switched to using ETree for the folder view.  (Chris Toshok,
+    Ettore)
 
   - Added interfaces to change the string displayed in the tree view
     as the name of the folder.  (Ettore)
@@ -11,11 +12,11 @@ Shell:
 Calendar:
 
   - Uses only the new iCalendar standard internally; this means future
-    interoperability with new calendaring programs (JP, Federico).
+    interoperability with new calendaring programs.  (JP, Federico)
 
-  - New ultra-cool date range selector, aka little calendar (Damon).
+  - New ultra-cool date range selector, aka little calendar.  (Damon)
 
-  - Plenty of internal refactoring (JP, Damon, Federico).
+  - Plenty of internal refactoring.  (JP, Damon, Federico)
 
   - Pilot synch work, mostly on pcs infrastructure and some todo work (JP)
     <EXPERIMENTAL>
@@ -25,80 +26,81 @@ Calendar:
 
 Addressbook:
 
-  - New advanced search dialog. (Michael Zucchi, Chris Lahey)
+  - New advanced search dialog.  (Michael Zucchi, Chris Lahey)
 
-  - Added parsing of addresses. (Jesse Pavel)
+  - Added parsing of addresses.  (Jesse Pavel)
 
-  - Converted most of addressbook to UTF8. (Lauris)
+  - Converted most of addressbook to UTF8.  (Lauris)
 
 Mailer:
 
   - Filters (but not vfolders) are now more powerful: they can check
     any message header, and can do regexp searches on the headers and
-    body. (Jeff)
+    body.  (Jeff)
 
   - A first draft of an automated mailing list recognizer
-    has been added. (It will need more/better rules.) (Ettore)
+    has been added.  (It will need more/better rules.)  (Ettore)
 
-  - Attachments are handled differently now. All attachments always
+  - Attachments are handled differently now.  All attachments always
     have an icon and a header, and you can right-click on the icon to
-    view/hide, save, or launch an external viewer. (Dan)
+    view/hide, save, or launch an external viewer.  (Dan)
 
   - It is no longer necessary to quit and restart after adding a new
-    IMAP server. (Peter)
+    IMAP server.  (Peter)
 
-  - Lots of i18n/charset fixing. (Lauris)
+  - Lots of i18n/charset fixing.  (Lauris)
 
-  - Shiny new icons. (Tuomas)
+  - Shiny new toolbar icons.  (Tuomas)
 
   - Giant menu reorganization. Most message operations are now in the
     "Message" menu, and folder operations in the "Folder" menu.
     (Ettore, Dan, Peter)
 
   - "Mark as seen" timeout is now configurable. Mail view remembers
-    the location of the message list/message display split. (Richard
+    the location of the message list/message display split.  (Richard
     Hult)
 
   - New filter category: "On-demand", for filters to be applied
-    at arbitrary times rather than during mail incorporation. (Peter)
+    at arbitrary times rather than during mail incorporation.  (Peter)
 
   - POP/IMAP config pages allow you to specify a port... this may
     go away in a later release when we support ssl/ssh tunneling
-    directly. (Peter)
+    directly.  (Peter)
 
   - Reply To All will now remove your own addresses from the recipient
-    lists. (Jesse Pavel)
+    lists.  (Jesse Pavel)
 
-  - Folders are synced when you switch to another folder now. (Dan)
+  - Folders are synced when you switch to another folder now.  (Dan)
 
   - An IMAP bug that caused all messages to be marked as read before
-    they were read has been fixed. (Dan). The IMAP provider is now
-    more robust about dealing with other concurrent IMAP clients.
-    (Jeff)
+    they were read has been fixed.  (Dan)
+
+  - The IMAP provider is now more robust about dealing with other
+    concurrent IMAP clients.  (Jeff)
 
   - POP and IMAP are better about when they do and don't try to
-    reconnect. This was part of Camel operation cancellation support,
-    which unfortunately didn't make it into 0.5. (Peter)
+    reconnect.  This was part of Camel operation cancellation support,
+    which unfortunately didn't make it into 0.5.  (Peter)
 
-  - Sent and Outbox folders are now functional. You now have 2 options
-    when sending a message - "Send Now" which will send the message 
-    imediately and "Send Later" which will queue the message in Outbox 
-    for later sending. When a message is successfully sent, it is copied 
-    to the Sent folder for your records. (Jeff)
+  - Sent and Outbox folders are now functional.  You now have 2
+    options when sending a message - "Send Now" which will send the
+    message imediately and "Send Later" which will queue the message in
+    Outbox for later sending.  When a message is successfully sent, it
+    is copied to the Sent folder for your records.  (Jeff)
 
 ETable:
 
-  - ETree fixes. (Chris Toshok)
+  - ETree fixes.  (Chris Toshok)
 
-  - Lots of small usability fixes. (Chris Lahey)
+  - Lots of small usability fixes.  (Chris Lahey)
 
   - Lots of grouping bug fixes.  Specifically, fixed crashes when
     grouping in trees and made ETable not go crazy when you change
-    data and the table is grouped. (Chris Lahey)
+    data and the table is grouped.  (Chris Lahey)
 
-  - Improved table printing when grouped. (Chris Lahey)
+  - Improved table printing when grouped.  (Chris Lahey)
 
-  - Converted most of ETable to UTF8. (Lauris)
+  - Converted most of ETable to UTF8.  (Lauris)
 
 
 Version 0.4, "Alewife", 2000-08-14
