@@ -364,6 +364,7 @@ simple_query_cb (EBook *book, EBookSimpleQueryStatus status, const GList *cards,
 	MatchSearchInfo *info = (MatchSearchInfo *) closure;
 	ECardMatchType best_match = E_CARD_MATCH_NONE;
 	ECard *best_card = NULL;
+	GList *remaining_cards = NULL;
 	const GList *i;
 
 	if (status != E_BOOK_SIMPLE_QUERY_STATUS_SUCCESS) {
@@ -372,7 +373,24 @@ simple_query_cb (EBook *book, EBookSimpleQueryStatus status, const GList *cards,
 		return;
 	}
 
+	/* remove the cards we're to avoid from the list, if they're present */
 	for (i = cards; i != NULL; i = g_list_next (i)) {
+		ECard *this_card = E_CARD (i->data);
+		GList *iterator;
+		gboolean avoid = FALSE;
+		for (iterator = info->avoid; iterator; iterator = iterator->next) {
+			if (!strcmp (e_card_get_id (iterator->data), e_card_get_id (this_card))) {
+				avoid = TRUE;
+				break;
+			}
+		}
+		if (!avoid)
+			remaining_cards = g_list_prepend (remaining_cards, this_card);
+	}
+
+	remaining_cards = g_list_reverse (remaining_cards);
+
+	for (i = remaining_cards; i != NULL; i = g_list_next (i)) {
 		ECard *this_card = E_CARD (i->data);
 		ECardMatchType this_match = e_card_compare (info->card, this_card);
 		if ((gint)this_match > (gint)best_match) {
@@ -380,6 +398,8 @@ simple_query_cb (EBook *book, EBookSimpleQueryStatus status, const GList *cards,
 			best_card  = this_card;
 		}
 	}
+
+	g_list_free (remaining_cards);
 
 	info->cb (info->card, best_card, best_match, info->closure);
 	match_search_info_free (info);
@@ -448,23 +468,6 @@ use_common_book_cb (EBook *book, gpointer closure)
 		g_free (qj);
 	} else {
 		query = qj;
-	}
-
-	if (info->avoid) {
-		GList *iterator;
-		p = 0;
-		query_parts[p++] = query;
-		for (iterator = info->avoid; iterator; iterator = iterator->next) {
-			query_parts[p++] = g_strdup_printf("(not (is \"id\" \"%s\"))", e_card_get_id (iterator->data));
-		}
-		query_parts[p] = 0;
-		qj = g_strjoinv (" ", query_parts);
-		for(i = 0; query_parts[i] != NULL; i++)
-			g_free(query_parts[i]);
-		query = g_strdup_printf ("(and %s)", qj);
-		g_list_foreach (info->avoid, (GFunc) gtk_object_unref, NULL);
-		g_list_free (info->avoid);
-		info->avoid = NULL;
 	}
 
 	e_book_simple_query (book, query, simple_query_cb, info);

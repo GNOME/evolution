@@ -1,3 +1,12 @@
+2001-07-18  Chris Toshok  <toshok@ximian.com>
+
+	* backend/ebook/e-card-compare.c (simple_query_cb): prune the list
+	of cards that match our query using the avoid list here, instead
+	of using the avoid list in the query itself, since ldap can't
+	handle that.
+	(use_common_book_cb): remove the block of code including the avoid
+	list in the query sent to wombat.
+
 2001-07-17  Chris Toshok  <toshok@ximian.com>
 
 	[ Fixes bugs #4611 - crash searching in the name field at Bigfoot for "\"
