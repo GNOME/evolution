@@ -53,6 +53,18 @@ typedef struct {
 	void (*remove_client) (PASBackend *backend, PASBook *book);
         char *(*get_static_capabilities) (PASBackend *backend);
 
+	void (*create_card) (PASBackend *backend, PASBook *book, PASCreateCardRequest *req);
+	void (*remove_card) (PASBackend *backend, PASBook *book, PASRemoveCardRequest *req);
+	void (*modify_card) (PASBackend *backend, PASBook *book, PASModifyCardRequest *req);
+	void (*check_connection) (PASBackend *backend, PASBook *book, PASCheckConnectionRequest *req);
+	void (*get_vcard) (PASBackend *backend, PASBook *book, PASGetVCardRequest *req);
+	void (*get_cursor) (PASBackend *backend, PASBook *book, PASGetCursorRequest *req);
+	void (*get_book_view) (PASBackend *backend, PASBook *book, PASGetBookViewRequest *req);
+	void (*get_completion_view) (PASBackend *backend, PASBook *book, PASGetCompletionViewRequest *req);
+	void (*get_changes) (PASBackend *backend, PASBook *book, PASGetChangesRequest *req);
+	void (*authenticate_user) (PASBackend *backend, PASBook *book, PASAuthenticateUserRequest *req);
+	void (*get_supported_fields) (PASBackend *backend, PASBook *book, PASGetSupportedFieldsRequest *req);
+
 	/* Notification signals */
 	void (* last_client_gone) (PASBackend *backend);
 } PASBackendClass;
@@ -72,9 +84,53 @@ void        pas_backend_remove_client            (PASBackend             *backen
 						  PASBook                *book);
 char       *pas_backend_get_static_capabilities  (PASBackend             *backend);
 
-void        pas_backend_last_client_gone         (PASBackend             *backend);
+gboolean    pas_backend_is_loaded                (PASBackend             *backend);
 
-GType     pas_backend_get_type                 (void);
+gboolean    pas_backend_is_writable              (PASBackend             *backend);
+
+void        pas_backend_create_card              (PASBackend             *backend,
+						  PASBook                *book,
+						  PASCreateCardRequest   *req);
+void        pas_backend_remove_card              (PASBackend             *backend,
+						  PASBook                *book,
+						  PASRemoveCardRequest   *req);
+void        pas_backend_modify_card              (PASBackend             *backend,
+						  PASBook                *book,
+						  PASModifyCardRequest   *req);
+void        pas_backend_check_connection         (PASBackend             *backend,
+						  PASBook                *book,
+						  PASCheckConnectionRequest *req);
+void        pas_backend_get_vcard                (PASBackend             *backend,
+						  PASBook                *book,
+						  PASGetVCardRequest     *req);
+void        pas_backend_get_cursor               (PASBackend             *backend,
+						  PASBook                *book,
+						  PASGetCursorRequest    *req);
+void        pas_backend_get_book_view            (PASBackend             *backend,
+						  PASBook                *book,
+						  PASGetBookViewRequest  *req);
+void        pas_backend_get_completion_view      (PASBackend             *backend,
+						  PASBook                *book,
+						  PASGetCompletionViewRequest *req);
+void        pas_backend_get_changes              (PASBackend             *backend,
+						  PASBook                *book,
+						  PASGetChangesRequest   *req);
+void        pas_backend_authenticate_user        (PASBackend             *backend,
+						  PASBook                *book,
+						  PASAuthenticateUserRequest *req);
+void        pas_backend_get_supported_fields     (PASBackend             *backend,
+						  PASBook                *book,
+						  PASGetSupportedFieldsRequest *req);
+
+
+GType       pas_backend_get_type                 (void);
+
+
+/* protected functions for subclasses */
+void        pas_backend_set_is_loaded            (PASBackend             *backend,
+						  gboolean                is_loaded);
+void        pas_backend_set_is_writable          (PASBackend             *backend,
+						  gboolean                is_writable);
 
 #endif /* ! __PAS_BACKEND_H__ */
 

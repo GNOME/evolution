@@ -51,13 +51,10 @@ typedef struct _PASBackendFileSearchContext PASBackendFileSearchContext;
 typedef struct _PasBackendFileChangeContext PASBackendFileChangeContext;
 
 struct _PASBackendFilePrivate {
-	GList    *clients;
-	gboolean  loaded;
 	char     *uri;
 	char     *filename;
 	DB       *file_db;
 	EList    *book_views;
-	gboolean  writable;
 	GHashTable *address_lists;
 	PASBackendSummary *summary;
 };
@@ -349,9 +346,6 @@ pas_backend_file_search (PASBackendFile  	      *bf,
 	PASBackendFileBookView *view = (PASBackendFileBookView *)cnstview;
 	gboolean search_needed;
 
-	if (!bf->priv->loaded)
-		return;
-
 	search_needed = TRUE;
 
 	if ( ! strcmp (view->search, "(contains \"x-evolution-any-field\" \"\")"))
@@ -486,9 +480,6 @@ pas_backend_file_changes (PASBackendFile  	      *bf,
 
 	memset (&id_dbt, 0, sizeof (id_dbt));
 	memset (&vcard_dbt, 0, sizeof (vcard_dbt));
-
-	if (!bf->priv->loaded)
-		return;
 
 	/* Find the changed ids */
 	dirname = g_strdup (bf->priv->filename);
@@ -991,8 +982,6 @@ pas_backend_file_process_get_book_view (PASBackend *backend,
 	PASBackendFileBookView view;
 	EIterator *iterator;
 
-	g_return_if_fail (req->listener != NULL);
-	
 	bonobo_object_ref(BONOBO_OBJECT(book));
 
 	book_view = pas_book_view_new (req->listener);
@@ -1013,6 +1002,9 @@ pas_backend_file_process_get_book_view (PASBackend *backend,
 		    : GNOME_Evolution_Addressbook_BookListener_CardNotFound /* XXX */),
 		   book_view);
 
+	if (!pas_backend_is_loaded (backend))
+		return;
+
 	iterator = e_list_get_iterator(bf->priv->book_views);
 	e_iterator_last(iterator);
 	pas_backend_file_search (bf, book, e_iterator_get(iterator), FALSE);
@@ -1029,8 +1021,6 @@ pas_backend_file_process_get_completion_view (PASBackend *backend,
 	PASBackendFileBookView view;
 	EIterator *iterator;
 
-	g_return_if_fail (req->listener != NULL);
-	
 	bonobo_object_ref(BONOBO_OBJECT(book));
 
 	book_view = pas_book_view_new (req->listener);
@@ -1051,6 +1041,9 @@ pas_backend_file_process_get_completion_view (PASBackend *backend,
 		    : GNOME_Evolution_Addressbook_BookListener_CardNotFound /* XXX */),
 		   book_view);
 
+	if (!pas_backend_is_loaded (backend))
+		return;
+
 	iterator = e_list_get_iterator(bf->priv->book_views);
 	e_iterator_last(iterator);
 	pas_backend_file_search (bf, book, e_iterator_get(iterator), TRUE);
@@ -1067,8 +1060,6 @@ pas_backend_file_process_get_changes (PASBackend *backend,
 	PASBackendFileBookView view;
 	PASBackendFileChangeContext ctx;
 	EIterator *iterator;
-
-	g_return_if_fail (req->listener != NULL);
 
 	bonobo_object_ref(BONOBO_OBJECT(book));
 
@@ -1095,6 +1086,9 @@ pas_backend_file_process_get_changes (PASBackend *backend,
 	view.card_sexp = NULL;
 	
 	e_list_append(bf->priv->book_views, &view);
+
+	if (!pas_backend_is_loaded (backend))
+		return;
 
 	iterator = e_list_get_iterator(bf->priv->book_views);
 	e_iterator_last(iterator);
@@ -1154,75 +1148,6 @@ pas_backend_file_process_get_supported_fields (PASBackend *backend,
 	pas_book_respond_get_supported_fields (book,
 					       GNOME_Evolution_Addressbook_BookListener_Success,
 					       fields);
-}
-
-static void
-pas_backend_file_process_client_requests (PASBook *book)
-{
-	PASBackend *backend;
-	PASRequest *req;
-
-	backend = pas_book_get_backend (book);
-
-	req = pas_book_pop_request (book);
-	if (req == NULL)
-		return;
-
-	switch (req->op) {
-	case CreateCard:
-		pas_backend_file_process_create_card (backend, book, (PASCreateCardRequest*)req);
-		break;
-
-	case RemoveCard:
-		pas_backend_file_process_remove_card (backend, book, (PASRemoveCardRequest*)req);
-		break;
-
-	case ModifyCard:
-		pas_backend_file_process_modify_card (backend, book, (PASModifyCardRequest*)req);
-		break;
-
-	case CheckConnection:
-		pas_backend_file_process_check_connection (backend, book, (PASCheckConnectionRequest*)req);
-		break;
-
-	case GetVCard:
-		pas_backend_file_process_get_vcard (backend, book, (PASGetVCardRequest*)req);
-		break;
-		
-	case GetCursor:
-		pas_backend_file_process_get_cursor (backend, book, (PASGetCursorRequest*)req);
-		break;
-		
-	case GetBookView:
-		pas_backend_file_process_get_book_view (backend, book, (PASGetBookViewRequest*)req);
-		break;
-
-	case GetCompletionView:
-		pas_backend_file_process_get_completion_view (backend, book, (PASGetCompletionViewRequest*)req);
-		break;
-
-	case GetChanges:
-		pas_backend_file_process_get_changes (backend, book, (PASGetChangesRequest*)req);
-		break;
-
-	case AuthenticateUser:
-		pas_backend_file_process_authenticate_user (backend, book, (PASAuthenticateUserRequest*)req);
-		break;
-
-	case GetSupportedFields:
-		pas_backend_file_process_get_supported_fields (backend, book, (PASGetSupportedFieldsRequest*)req);
-		break;
-	}
-
-	pas_book_free_request (req);
-}
-
-static void
-pas_backend_file_book_destroy_cb (gpointer data, GObject *where_book_was)
-{
-	PASBackendFile *backend = PAS_BACKEND_FILE (data);
-
-	pas_backend_remove_client (PAS_BACKEND (backend), (PASBook*)where_book_was);
 }
 
 /*
@@ -1377,8 +1302,6 @@ pas_backend_file_load_uri (PASBackend             *backend,
 	struct stat sb;
 	char *summary_filename;
 
-	g_assert (bf->priv->loaded == FALSE);
-
 	db_version (&major, &minor, &patch);
 
 	if (major != 3 ||
@@ -1445,14 +1368,9 @@ pas_backend_file_load_uri (PASBackend             *backend,
 		return GNOME_Evolution_Addressbook_BookListener_OtherError;
 	}
 
-	bf->priv->writable = writable;
-
-	if (pas_backend_file_maybe_upgrade_db (bf))
-		bf->priv->loaded = TRUE;
-	else {
+	if (!pas_backend_file_maybe_upgrade_db (bf)) {
 		db->close (db, 0);
 		bf->priv->file_db = NULL;
-		bf->priv->writable = FALSE;
 		return GNOME_Evolution_Addressbook_BookListener_OtherError;
 	}
 
@@ -1465,7 +1383,6 @@ pas_backend_file_load_uri (PASBackend             *backend,
 	if (stat (bf->priv->filename, &sb) == -1) {
 		db->close (db, 0);
 		bf->priv->file_db = NULL;
-		bf->priv->writable = FALSE;
 		return GNOME_Evolution_Addressbook_BookListener_OtherError;
 	}
 	db_mtime = sb.st_mtime;
@@ -1479,6 +1396,8 @@ pas_backend_file_load_uri (PASBackend             *backend,
 		build_summary (bf->priv);
 	}
 
+	pas_backend_set_is_loaded (backend, TRUE);
+	pas_backend_set_is_writable (backend, writable);
 	return GNOME_Evolution_Addressbook_BookListener_Success;
 }
 
@@ -1490,96 +1409,13 @@ pas_backend_file_get_uri (PASBackend *backend)
 
 	bf = PAS_BACKEND_FILE (backend);
 
-	g_return_val_if_fail (bf->priv->loaded, NULL);
 	g_assert (bf->priv->uri != NULL);
 
 	return bf->priv->uri;
 }
 
-static gboolean
-pas_backend_file_add_client (PASBackend             *backend,
-			     GNOME_Evolution_Addressbook_BookListener  listener)
-{
-	PASBackendFile *bf;
-	PASBook        *book;
-
-	g_assert (backend != NULL);
-	g_assert (PAS_IS_BACKEND_FILE (backend));
-
-	bf = PAS_BACKEND_FILE (backend);
-
-	book = pas_book_new (backend, listener);
-
-	if (!book) {
-		if (!bf->priv->clients)
-			pas_backend_last_client_gone (backend);
-
-		return FALSE;
-	}
-
-	g_object_weak_ref (G_OBJECT (book), pas_backend_file_book_destroy_cb, backend);
-
-	g_signal_connect (book, "requests_queued",
-			  G_CALLBACK (pas_backend_file_process_client_requests), NULL);
-
-	bf->priv->clients = g_list_prepend (
-		bf->priv->clients, book);
-
-	if (bf->priv->loaded) {
-		pas_book_respond_open (
-			book, GNOME_Evolution_Addressbook_BookListener_Success);
-		if (bf->priv->writable)
-			pas_book_report_writable (book, bf->priv->writable);
-	} else {
-		pas_book_respond_open (
-		       book, GNOME_Evolution_Addressbook_BookListener_OtherError);
-	}
-
-	bonobo_object_unref (BONOBO_OBJECT (book));
-	
-	return TRUE;
-}
-
-static void
-pas_backend_file_remove_client (PASBackend             *backend,
-				PASBook                *book)
-{
-	PASBackendFile *bf;
-	GList *l;
-	PASBook *lbook;
-
-	g_return_if_fail (backend != NULL);
-	g_return_if_fail (PAS_IS_BACKEND_FILE (backend));
-	g_return_if_fail (book != NULL);
-	g_return_if_fail (PAS_IS_BOOK (book));
-
-	bf = PAS_BACKEND_FILE (backend);
-
-	/* Find the book in the list of clients */
-
-	for (l = bf->priv->clients; l; l = l->next) {
-		lbook = PAS_BOOK (l->data);
-
-		if (lbook == book)
-			break;
-	}
-
-	g_assert (l != NULL);
-
-	/* Disconnect */
-
-	bf->priv->clients = g_list_remove_link (bf->priv->clients, l);
-	g_list_free_1 (l);
-
-	/* When all clients go away, notify the parent factory about it so that
-	 * it may decide whether to kill the backend or not.
-	 */
-	if (!bf->priv->clients)
-		pas_backend_last_client_gone (backend);
-}
-
 static char *
-pas_backend_file_get_static_capabilities (PASBackend             *backend)
+pas_backend_file_get_static_capabilities (PASBackend *backend)
 {
 	return g_strdup("local,do-initial-query,cache-completions");
 }
@@ -1648,9 +1484,19 @@ pas_backend_file_class_init (PASBackendFileClass *klass)
 	/* Set the virtual methods. */
 	parent_class->load_uri                = pas_backend_file_load_uri;
 	parent_class->get_uri                 = pas_backend_file_get_uri;
-	parent_class->add_client              = pas_backend_file_add_client;
-	parent_class->remove_client           = pas_backend_file_remove_client;
 	parent_class->get_static_capabilities = pas_backend_file_get_static_capabilities;
+
+	parent_class->create_card             = pas_backend_file_process_create_card;
+	parent_class->remove_card             = pas_backend_file_process_remove_card;
+	parent_class->modify_card             = pas_backend_file_process_modify_card;
+	parent_class->check_connection        = pas_backend_file_process_check_connection;
+	parent_class->get_vcard               = pas_backend_file_process_get_vcard;
+	parent_class->get_cursor              = pas_backend_file_process_get_cursor;
+	parent_class->get_book_view           = pas_backend_file_process_get_book_view;
+	parent_class->get_completion_view     = pas_backend_file_process_get_completion_view;
+	parent_class->get_changes             = pas_backend_file_process_get_changes;
+	parent_class->authenticate_user       = pas_backend_file_process_authenticate_user;
+	parent_class->get_supported_fields    = pas_backend_file_process_get_supported_fields;
 
 	object_class->dispose = pas_backend_file_dispose;
 }
@@ -1661,11 +1507,8 @@ pas_backend_file_init (PASBackendFile *backend)
 	PASBackendFilePrivate *priv;
 
 	priv             = g_new0 (PASBackendFilePrivate, 1);
-	priv->loaded     = FALSE;
-	priv->clients    = NULL;
 	priv->book_views = e_list_new((EListCopyFunc) pas_backend_file_book_view_copy, (EListFreeFunc) pas_backend_file_book_view_free, NULL);
 	priv->uri        = NULL;
-	priv->writable   = FALSE;
 
 	backend->priv = priv;
 }

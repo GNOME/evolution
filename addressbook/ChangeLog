@@ -1,3 +1,44 @@
+2002-01-08  Dan Winship  <danw@ximian.com>
+
+	Move PASBook request handling into PASBackend itself since all
+	existing backends do it exactly the same way. (Part of 32866).
+
+	* backend/pas/pas-backend.h (PASBackendClass): add new methods for
+	the various pas book requests.
+
+	* backend/pas/pas-backend.c: Add a clients list to
+	PASBackendPrivate.
+	(pas_backend_create_card, etc): Add these to invoke the new
+	methods.
+	(process_client_requests, book_destroy_cb): Moved here and
+	slightly rewritten from pas-backend-file.
+	(last_client_gone): Now static.
+	(add_client, remove_client): Default implementations, based on
+	pas-backend-file, that add the client to/remove it from the
+	backend's clients list and connect to its requests_queued signal.
+	(pas_backend_init, pas_backend_dispose): Deal with the clients
+	list.
+
+	* backend/pas/pas-backend-file.c (struct _PASBackendFilePrivate):
+	Remove GList *clients.
+	(pas_backend_file_process_client_requests,
+	pas_backend_file_book_destroy_db, pas_backend_file_add_client,
+	pas_backend_file_remove_client): Gone.
+	(pas_backend_file_class_init): Remove add_client/remove_client
+	method initializations, add initializations for processing the
+	various book requests.
+
+	* backend/pas/pas-backend-ldap.c (struct _PASBackendLDAPPrivate):
+	Remove GList *clients.
+	(pas_backend_ldap_process_create_card, etc): Make these take the
+	specific PAS*Request types rather than a generic PASRequest.
+	(pas_backend_ldap_process_client_requests,
+	pas_backend_ldap_book_destroy_db, pas_backend_ldap_add_client,
+	pas_backend_ldap_remove_client): Gone.
+	(pas_backend_ldap_class_init): Remove add_client/remove_client
+	method initializations, add initializations for processing the
+	various book requests.
+
 2003-01-07  Chris Toshok  <toshok@ximian.com>
 
 	* backend/pas/evolutionperson.schema: fix the SYNTAX for the
