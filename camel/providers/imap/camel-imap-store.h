@@ -88,7 +88,7 @@ gint camel_imap_command_extended (CamelImapStore *store, CamelFolder *folder, ch
 
 /* multi-transactional commands... */
 gint camel_imap_command_preliminary (CamelImapStore *store, char **ret, char **cmdid, char *fmt, ...);
-gint camel_imap_command_continuation (CamelImapStore *store, char *cmdid, char **ret, CamelStream *cstream);
+gint camel_imap_command_continuation (CamelImapStore *store, char **ret, char *cmdid, CamelStream *cstream);
 
 /* Standard Camel function */
 CamelType camel_imap_store_get_type (void);

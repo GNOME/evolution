@@ -1023,6 +1023,7 @@ camel_imap_command_preliminary (CamelImapStore *store, char **ret, char **cmdid,
 	if (respbuf) {
 		switch (*respbuf) {
 		case '+':
+			/* continuation request */
 			status = CAMEL_IMAP_PLUS;
 			break;
 		default:
@@ -1050,6 +1051,9 @@ camel_imap_command_preliminary (CamelImapStore *store, char **ret, char **cmdid,
  *
  * This method is for sending continuing responses to the IMAP server. Meant
  * to be used as a followup to camel_imap_command_preliminary.
+ * camel_imap_command_continuation will set @ret to point to a buffer
+ * containing the rest of the response from the IMAP server. The
+ * caller function is responsible for freeing @ret.
  * 
  * Return value: one of CAMEL_IMAP_PLUS (command requires additional data),
  * CAMEL_IMAP_OK (command executed successfully),
@@ -1059,7 +1063,7 @@ camel_imap_command_preliminary (CamelImapStore *store, char **ret, char **cmdid,
  * of the result of the command.)
  **/
 gint
-camel_imap_command_continuation (CamelImapStore *store, char *cmdid, char **ret, CamelStream *cstream)
+camel_imap_command_continuation (CamelImapStore *store, char **ret, char *cmdid, CamelStream *cstream)
 {
 	gint len = 0, status = CAMEL_IMAP_OK;
 	gchar *respbuf;
@@ -1069,19 +1073,22 @@ camel_imap_command_continuation (CamelImapStore *store, char *cmdid, char **ret,
 	d(fprintf (stderr, "sending continuation stream\r\n"));
 	
 	if (camel_stream_write_to_stream (cstream, store->ostream) == -1) {
+		d(fprintf (stderr, "failed to send continuation stream\r\n"));
+		
 		*ret = g_strdup (strerror (errno));
 		
 		return CAMEL_IMAP_FAIL;
 	}
 	
+	d(fprintf (stderr, "okie dokie...\r\n"));
 	data = g_ptr_array_new ();
 	
-	while (TRUE) {
+	while (1) {
 		CamelStreamBuffer *stream = CAMEL_STREAM_BUFFER (store->istream);
 		
 		respbuf = camel_stream_buffer_read_line (stream);
 		if (!respbuf || *respbuf == '+' || !strncmp (respbuf, cmdid, strlen (cmdid))) {
-			/* IMAP's last response starts with our command id */
+			/* IMAP's last response starts with our command id or a continuation request */
 			d(fprintf (stderr, "received: %s\n", respbuf ? respbuf : "(null)"));
 			
 			break;
@@ -1094,14 +1101,14 @@ camel_imap_command_continuation (CamelImapStore *store, char *cmdid, char **ret,
 	}
 	
 	if (respbuf) {
+		g_ptr_array_add (data, respbuf);
+		len += strlen (respbuf) + 1;
+		
 		switch (*respbuf) {
 		case '+':
 			status = CAMEL_IMAP_PLUS;
 			break;
 		default:
-			g_ptr_array_add (data, respbuf);
-			len += strlen (respbuf) + 1;
-			
 			status = camel_imap_status (cmdid, respbuf);
 		}
 	} else {

@@ -548,18 +548,15 @@ imap_append_message (CamelFolder *folder, CamelMimeMessage *message, const Camel
 {
 	CamelStore *store = CAMEL_STORE (folder->parent_store);
 	CamelURL *url = CAMEL_SERVICE (store)->url;
-	CamelStreamMem *mem;
-	gchar *result, *folder_path, *dir_sep, *flagstr = NULL;
+	CamelStream *memstream;
+	GByteArray *ba;
+	gchar *result, *cmdid, *dir_sep;
+	gchar *folder_path, *flagstr = NULL;
 	gint status;
 	
 	g_return_if_fail (folder != NULL);
 	g_return_if_fail (message != NULL);
-	
-	/* write the message to a CamelStreamMem so we can get it's size */
-	mem = CAMEL_STREAM_MEM (CAMEL_DATA_WRAPPER (message)->stream);
-	
-	mem->buffer = g_byte_array_append (mem->buffer, g_strdup ("\r\n"), 3);
-	
+		
 	dir_sep = CAMEL_IMAP_STORE (folder->parent_store)->dir_sep;
 	
 	if (url && url->path && *(url->path + 1) && strcmp (folder->full_name, "INBOX"))
@@ -577,30 +574,51 @@ imap_append_message (CamelFolder *folder, CamelMimeMessage *message, const Camel
 			*(flagstr + strlen (flagstr) - 1) = ')';
 	}
 	
-	/* FIXME: len isn't really correct I don't think, we need to crlf/dot filter */
-	/* FIXME: Dont copy the message ANOTHER TIME, its already in memory entirely
-	   copied, thats bad enough */
-	status = camel_imap_command_extended (CAMEL_IMAP_STORE (folder->parent_store),
-					      folder, &result, "APPEND %s%s {%d}\r\n%s",
-					      folder_path, flagstr ? flagstr : "",
-					      mem->buffer->len - 1, mem->buffer->data);
+	ba = g_byte_array_new ();
+	memstream = camel_stream_mem_new_with_byte_array (ba);
+	/* FIXME: we need to crlf/dot filter */
+	camel_data_wrapper_write_to_stream (CAMEL_DATA_WRAPPER (message), memstream);
+	camel_stream_write_string (memstream, "\r\n");
+	camel_stream_reset (memstream);
+	
+	status = camel_imap_command_preliminary (CAMEL_IMAP_STORE (folder->parent_store),
+						 &result, &cmdid, "APPEND %s%s {%d}",
+						 folder_path, flagstr ? flagstr : "", ba->len - 2);
+	
+	if (status != CAMEL_IMAP_PLUS) {
+		CamelService *service = CAMEL_SERVICE (folder->parent_store);
+		camel_exception_setv (ex, CAMEL_EXCEPTION_SERVICE_UNAVAILABLE,
+				      "Could not APPEND message to IMAP server %s: %s.",
+				      service->url->host, result ? result : "Unknown error");
+		
+		g_free (result);
+		g_free (cmdid);
+		g_free (folder_path);
+		return;
+	}
+	
+	g_free (result);
+	g_free (folder_path);
+	
+	/* send the rest of our data - the mime message */
+	status = camel_imap_command_continuation (CAMEL_IMAP_STORE (folder->parent_store),
+						  &result, cmdid, memstream);
 	
 	if (status != CAMEL_IMAP_OK) {
 		CamelService *service = CAMEL_SERVICE (folder->parent_store);
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SERVICE_UNAVAILABLE,
 				      "Could not APPEND message to IMAP server %s: %s.",
-				      service->url->host,
-				      status != CAMEL_IMAP_FAIL && result ? result :
-				      "Unknown error");
+				      service->url->host, result ? result : "Unknown error");
+		
+		camel_object_unref (CAMEL_OBJECT (memstream));
 		g_free (result);
-		g_free (folder_path);
+		g_free (cmdid);
 		return;
 	}
 	
-	/* FIXME: we should close/free the mem stream */
-	
+	camel_object_unref (CAMEL_OBJECT (memstream));
+	g_free (cmdid);
 	g_free (result);
-	g_free (folder_path);
 	
 	camel_imap_folder_changed (folder, 1, ex);
 }

@@ -1,6 +1,15 @@
 2000-08-11  Jeffrey Stedfast  <fejj@helixcode.com>
 
 	* providers/imap/camel-imap-store.c
+	(camel_imap_command_continuation): Changed param order a bit and
+	fixed some logic
+
+	* providers/imap/camel-imap-folder.c (imap_append_message): Use
+	the new multi-transactional convenience functions
+
+2000-08-11  Jeffrey Stedfast  <fejj@helixcode.com>
+	
+	* providers/imap/camel-imap-store.c
 	(camel_imap_command_preliminary): New convenience function for
 	multi-transactional commands (opening request)
 	(camel_imap_command_continuation): New convenience function for
