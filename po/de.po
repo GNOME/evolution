@@ -1,0 +1,475 @@
+# German po for Evolution.
+# Copyright (C) YEAR Free Software Foundation, Inc.
+# Kai Lahmann <kl@linuxfaqs.de>, 2000.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: evolution 0.0\n"
+"POT-Creation-Date: 2000-05-10 22:19-0400\n"
+"PO-Revision-Date: 2000-05-24 HO:MI+ZONE\n"
+"Last-Translator: Kai Lahmann <kl@linuxfaqs.de>\n"
+"Language-Team: de <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=CHARSET\n"
+"Content-Transfer-Encoding: ENCODING\n"
+
+#: composer/e-msg-composer-address-dialog.c:183 composer/e-msg-composer.c:462
+msgid "Cut"
+msgstr "Ausschneiden"
+
+#: composer/e-msg-composer-address-dialog.c:184
+msgid "Cut selected item into clipboard"
+msgstr "Gewähltes Element in die Zwischenablage ausschneiden"
+
+#: composer/e-msg-composer-address-dialog.c:187 composer/e-msg-composer.c:463
+msgid "Copy"
+msgstr "Kopieren"
+
+#: composer/e-msg-composer-address-dialog.c:188
+msgid "Copy selected item into clipboard"
+msgstr "Gewähltes Element in die Zwischenablage ausschneiden"
+
+#: composer/e-msg-composer-address-dialog.c:191
+#: composer/e-msg-composer-address-dialog.c:199 composer/e-msg-composer.c:464
+msgid "Paste"
+msgstr "Einfügen"
+
+#: composer/e-msg-composer-address-dialog.c:192
+#: composer/e-msg-composer-address-dialog.c:200
+msgid "Paste item from clipboard"
+msgstr "Element aus der Zwischenablage einfügen"
+
+#: composer/e-msg-composer-address-dialog.c:528
+msgid "Select recipients' addresses"
+msgstr "Empfängeradresse auswählen"
+
+#: composer/e-msg-composer-attachment-bar.c:76
+msgid "1 byte"
+msgstr "1 Byte"
+
+#: composer/e-msg-composer-attachment-bar.c:78
+#, c-format
+msgid "%u bytes"
+msgstr "%u Bytes"
+
+#: composer/e-msg-composer-attachment-bar.c:85
+#, c-format
+msgid "%.1fK"
+msgstr "%.1fK"
+
+#: composer/e-msg-composer-attachment-bar.c:89
+#, c-format
+msgid "%.1fM"
+msgstr "%.1fM"
+
+#: composer/e-msg-composer-attachment-bar.c:93
+#, c-format
+msgid "%.1fG"
+msgstr "%.1fG"
+
+#: composer/e-msg-composer-attachment-bar.c:307
+msgid "Add attachment"
+msgstr "Anhang hinzufügen"
+
+#: composer/e-msg-composer-attachment-bar.c:364
+msgid "Remove"
+msgstr "Entfernen"
+
+#: composer/e-msg-composer-attachment-bar.c:365
+msgid "Remove selected items from the attachment list"
+msgstr "Entferne das gewählte Element aus der Anhangsliste"
+
+#: composer/e-msg-composer-attachment-bar.c:396
+msgid "Add attachment..."
+msgstr "Anhang hinzufügen..."
+
+#: composer/e-msg-composer-attachment-bar.c:397
+msgid "Attach a file to the message"
+msgstr "Eine Datei zu der Nachricht hinzufügen"
+
+#: composer/e-msg-composer-attachment.c:259
+msgid "Select attachment"
+msgstr "Anhang auswählen"
+
+#: composer/e-msg-composer-hdrs.c:89
+msgid "Click here for the address book"
+msgstr "Für das Adressbuch hier klicken"
+
+#: composer/e-msg-composer-hdrs.c:124
+msgid "To:"
+msgstr "An:"
+
+#: composer/e-msg-composer-hdrs.c:125
+msgid "Enter the recipients of the message"
+msgstr "Gebe die Empfänger der Nachricht ein"
+
+#: composer/e-msg-composer-hdrs.c:129
+msgid "Cc:"
+msgstr "Cc:"
+
+#: composer/e-msg-composer-hdrs.c:130
+msgid "Enter the addresses that will receive a carbon copy of the message"
+msgstr "Gebe die Adressen ein, die eine Kopie der Nachricht erhalten"
+
+#: composer/e-msg-composer-hdrs.c:135
+msgid "Bcc:"
+msgstr "Bcc:"
+
+#: composer/e-msg-composer-hdrs.c:136
+msgid ""
+"Enter the addresses that will receive a carbon copy of the message without "
+"appearing in the recipient list of the message."
+msgstr ""
+"Gebe die Adressen ein, die eine Kopie erhalten, die"
+"nicht in der Empfängerliste auftaucht."
+
+#: composer/e-msg-composer-hdrs.c:142
+msgid "Subject:"
+msgstr "Betreff:"
+
+#: composer/e-msg-composer-hdrs.c:143
+msgid "Enter the subject of the mail"
+msgstr "Gebe den Betreff der Nachricht an"
+
+#: composer/e-msg-composer.c:420
+msgid "Save in _folder..."
+msgstr "Speichern in _Ordner..."
+
+#: composer/e-msg-composer.c:420
+msgid "Save the message in a specified folder"
+msgstr "Speichere die Nachricht in einem bestimmten Ordner"
+
+#: composer/e-msg-composer.c:423 composer/e-msg-composer.c:460
+#: mail/folder-browser-factory.c:138
+msgid "Send"
+msgstr "Senden"
+
+#: composer/e-msg-composer.c:423
+msgid "Send the message"
+msgstr "Sendet die Nschricht"
+
+#: composer/e-msg-composer.c:431
+msgid "View _attachments"
+msgstr "Anhänge ansehen"
+
+#: composer/e-msg-composer.c:431
+msgid "View/hide attachments"
+msgstr "Anhänge anzeigen/verbergen"
+
+#: composer/e-msg-composer.c:460
+msgid "Send this message"
+msgstr "Diese Nachricht senden"
+
+#: composer/e-msg-composer.c:462
+msgid "Cut selected region into the clipboard"
+msgstr "Gewählten Bereich in die Zwischenablage ausschneiden"
+
+#: composer/e-msg-composer.c:463
+msgid "Copy selected region into the clipboard"
+msgstr "Gewählten Bereich in die Zwischenablage kopieren"
+
+#: composer/e-msg-composer.c:464
+msgid "Paste selected region into the clipboard"
+msgstr "Gewählten Bereich aus der Zwischenablage einfügen"
+
+#: composer/e-msg-composer.c:465
+msgid "Undo"
+msgstr "Rückgängig"
+
+#: composer/e-msg-composer.c:465
+msgid "Undo last operation"
+msgstr "Letzte Aktion zurücknehmen"
+
+#: composer/e-msg-composer.c:467
+msgid "Attach"
+msgstr "Anhängen"
+
+#: composer/e-msg-composer.c:467
+msgid "Attach a file"
+msgstr "eine Datei anhängen"
+
+#: mail/folder-browser-factory.c:85
+msgid ""
+"Hi.  Thanks for taking the time to download this preview release of\n"
+"the Evolution groupware suite.\n"
+"\n"
+"The Evolution team has worked hard to make Evolution as robust,\n"
+"extensible, pretty, fast and well-suited to heavy internet users as\n"
+"possible.  And we're very tired.  But we're not done -- not yet.\n"
+"\n"
+"As you explore Evolution, please understand that most of our work has\n"
+"been focused on the backend engine which drives the entire system and\n"
+"not on the user interface.  We are just cresting the hill now, though,\n"
+"and will be pouring most of our love and attention into the UI from\n"
+"here out.  But at least you know that you're not using demoware.\n"
+"\n"
+"So, time for the nerdy disclaimer.  Evolution will: crash, lose your\n"
+"mail, leave stray processes running, consume 100% CPU, race, lock,\n"
+"send HTML mail to random mailing lists, and embarass you in front of\n"
+"your friends and co-workers.  Use at your own risk.\n"
+"\n"
+"We hope that you enjoy the results of our hard work, and we eagerly\n"
+"await your contributions!\n"
+msgstr ""
+
+#: mail/folder-browser-factory.c:113
+msgid ""
+"Thanks\n"
+"The Evolution Team\n"
+msgstr ""
+"Danke.\n"
+"das Evolution-Team\n"
+
+#: mail/folder-browser-factory.c:137
+msgid "Get mail"
+msgstr "Mails abrufen"
+
+#: mail/folder-browser-factory.c:137
+msgid "Check for new mail"
+msgstr "Nach neuen Mails suchen"
+
+#: mail/folder-browser-factory.c:138
+msgid "Send a new message"
+msgstr "Eine neue Nachricht senden"
+
+#: mail/folder-browser-factory.c:139
+msgid "Find"
+msgstr "Suchen"
+
+#: mail/folder-browser-factory.c:139
+msgid "Find messages"
+msgstr "Machricht suchen"
+
+#: mail/folder-browser-factory.c:143
+msgid "Reply"
+msgstr "Antworten"
+
+#: mail/folder-browser-factory.c:143
+msgid "Reply to the sender of this message"
+msgstr "An den Sender der Nachricht antworten"
+
+#: mail/folder-browser-factory.c:144
+msgid "Reply to All"
+msgstr "Allen antworten"
+
+#: mail/folder-browser-factory.c:144
+msgid "Reply to all recipients of this message"
+msgstr "allen Empfängern der Nachricht antworten"
+
+#: mail/folder-browser-factory.c:146
+msgid "Forward"
+msgstr "Weiterleiten"
+
+#: mail/folder-browser-factory.c:146
+msgid "Forward this message"
+msgstr "Die Nachricht weiterleiten"
+
+#: mail/folder-browser-factory.c:150
+msgid "Print"
+msgstr "Drucken"
+
+#: mail/folder-browser-factory.c:150
+msgid "Print the selected message"
+msgstr "Die gewählte Nachricht drucken"
+
+#: mail/folder-browser-factory.c:152
+msgid "Delete"
+msgstr "Löschen"
+
+#: mail/folder-browser-factory.c:152
+msgid "Delete this message"
+msgstr "Die Nachricht löschen"
+
+#: mail/folder-browser-factory.c:169
+msgid "_Expunge"
+msgstr ""
+
+#: mail/folder-browser-factory.c:292
+msgid "We are sorry, Evolution's Folder Browser can not be initialized."
+msgstr "Es tut uns leid, aber Evolutions Suchdienst kann nicht initialisiert werden."
+
+#: mail/folder-browser.c:207
+msgid "The URI that the Folder Browser will display"
+msgstr "Die URI, die der Suchdienst anzeigen wird"
+
+#: mail/folder-browser.c:210
+msgid "Whether a message preview should be shown"
+msgstr "Ob eine Vorschau der Nachricht angezeigt werden soll"
+
+#: mail/main.c:54
+msgid "Mail Component: I could not initialize Bonobo"
+msgstr "Mail-Komponente: Ich kann Bonobo nicht initialisieren"
+
+#: mail/message-list.c:421
+msgid "Priority"
+msgstr "Priorität"
+
+#: mail/message-list.c:435
+msgid "From"
+msgstr "Von"
+
+#: mail/message-list.c:442
+msgid "Subject"
+msgstr "Betreff"
+
+#: mail/message-list.c:449
+msgid "Sent"
+msgstr "Gesendet"
+
+#: mail/message-list.c:456
+msgid "Receive"
+msgstr "Erhalten"
+
+#: mail/message-list.c:463
+msgid "To"
+msgstr "An"
+
+#: mail/message-list.c:470
+msgid "Size"
+msgstr "Größe"
+
+#. you might have to call gnome_dialog_run() on the
+#. * dialog returned here, I don't remember...
+#.
+#: shell/e-shell-view-menu.c:62
+msgid "Bug buddy was not found in your $PATH."
+msgstr "Der Fehlermelder kann nicht gefunden werden"
+
+#. same as above
+#: shell/e-shell-view-menuc:68
+msgid "Bug buddy could not be run."
+msgstr "Der Fehlermelder kann nicht starten"
+
+#: shell/e-shell-view-menu.c:110
+msgid "Evolution"
+msgstr "Evolution"
+
+#: shell/e-shell-view-menu.c:112
+msgid "Copyright 1999, 2000 Helix Code, Inc."
+msgstr "Copyright 1999, 2000 Helix Code, Inc."
+
+#: shell/e-shell-view-menu.c:114
+msgid ""
+"Evolution is a suite of groupware applications\n"
+"for mail, calendaring, and contact management\n"
+"within the GNOME desktop environment."
+msgstr ""
+"Evolution ist eine Mail-, Kalender-\n"
+"und Kontakt-Management Anwendung\n"
+"innerhalt der GNOME-Desktops."
+
+#: shell/e-shell-view-menu.c:163 shell/e-shell-view-menu.c:229
+msgid "_Folder"
+msgstr "Ordner"
+
+#: shell/e-shell-view-menu.c:167
+msgid "Evolution _Bar Shortcut"
+msgstr "Evolution-Leisten Verknüpfung"
+
+#: shell/e-shell-view-menu.c:173
+msgid "_Mail message"
+msgstr "Nachricht senden"
+
+#: shell/e-shell-view-menu.c:174 shell/e-shell-view-menu.c:177
+msgid "Composes a new mail message"
+msgstr "Eine neue Nachricht erstellen"
+
+#: shell/e-shell-view-menu.c:176
+msgid "_Appointment"
+msgstr ""
+
+#: shell/e-shell-view-menu.c:179
+msgid "Meeting Re_quest"
+msgstr "Treffen-Anfrage"
+
+#: shell/e-shell-view-menu.c:182
+msgid "_Contact"
+msgstr "Kontakt"
+
+#: shell/e-shell-view-menu.c:185
+msgid "_Task"
+msgstr "Aufgabe"
+
+#: shell/e-shell-view-menu.c:188
+msgid "Task _Request"
+msgstr "Aufgaben-Anfrage"
+
+#: shell/e-shell-view-menu.c:191
+msgid "_Journal Entry"
+msgstr "Journal-Eintrag"
+
+#: shell/e-shell-view-menu.c:194
+msgid "_Note"
+msgstr "Notiz"
+
+#: shell/e-shell-view-menu.c:204
+msgid "_Selected Items"
+msgstr "gewähltes Element"
+
+#: shell/e-shell-view-menu.c:212
+msgid "_New Folder"
+msgstr "Neuer Ordner"
+
+#: shell/e-shell-view-menu.c:220
+msgid "_New"
+msgstr "Neu"
+
+#: shell/e-shell-view-menu.c:221
+msgid "_Open"
+msgstr "Öffnen"
+
+#: shell/e-shell-view-menu.c:222
+msgid "Clos_e All Items"
+msgstr "Alle Elemente Schließen"
+
+#: shell/e-shell-view-menu.c:222
+msgid "Closes all the open items"
+msgstr "alle offenen Elemente schließen"
+
+#: shell/e-shell-view-menu.c:243
+msgid "_Toggle Shortcut Bar"
+msgstr "Verknüpfungsleiste umschalten"
+
+#: shell/e-shell-view-menu.c:244
+msgid "Toggles the shortcut bar"
+msgstr "Schaltet die Verknüpfungsleiste um"
+
+#: shell/e-shell-view-menu.c:246
+msgid "_Toggle Treeview"
+msgstr "Baumansicht umschalten"
+
+#: shell/e-shell-view-menu.c:247
+msgid "Toggles the tree view"
+msgstr "Schaltet die Baumansicht um"
+
+#: shell/e-shell-view-menu.c:262
+msgid "_Submit bug"
+msgstr "Fehler melden"
+
+#: shell/e-shell-view-menu.c:263
+msgid "Submit bug-report via bug-buddy"
+msgstr "Einen Fehler über dem Fehlermelder melden"
+
+#. FIXME: add Favorites here
+#: shell/e-shell-view-menu.c:278
+msgid "_Tools"
+msgstr "Werkzeuge"
+
+#: shell/e-shell-view-menu.c:279
+msgid "_Actions"
+msgstr "Aktionen"
+
+#: shell/e-shell.c:82
+#, c-format
+msgid "Cannot set up local storage -- %s"
+msgstr "Kann lokalen Speicher nicht einstellen -- %s"
+
+#: shell/main.c:111
+msgid "Cannot initialize the Bonobo component system."
+msgstr "Kann das Bonobo-System nicht initialisieren."
+
+#: shell/main.c:126
+msgid "Cannot initialize the Evolution shell."
+msgstr "Kann die Evolution-Shell nicht initialisieren"
+
