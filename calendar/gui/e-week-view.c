@@ -1206,8 +1206,7 @@ e_week_view_set_selected_time_range	(EWeekView	*week_view,
 
 	g_return_if_fail (E_IS_WEEK_VIEW (week_view));
 
-	g_date_clear (&date, 1);
-	g_date_set_time (&date, start_time);
+	time_to_gdate_with_zone (&date, start_time, week_view->zone);
 
 	if (week_view->multi_week_view) {
 		/* Find the number of days since the start of the month. */
@@ -1271,8 +1270,7 @@ e_week_view_set_selected_time_range	(EWeekView	*week_view,
 						   week_view->zone))
 		week_view->selection_end_day = week_view->selection_start_day;
 	else {
-		g_date_clear (&end_date, 1);
-		g_date_set_time (&end_date, end_time - 60);
+		time_to_gdate_with_zone (&end_date, end_time - 60, week_view->zone);
 		week_view->selection_end_day = g_date_julian (&end_date)
 			- g_date_julian (&base_date);
 	}

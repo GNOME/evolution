@@ -116,5 +116,6 @@ time_t	time_day_begin_with_zone (time_t time, icaltimezone *zone);
    timezone. (The end of the day is the start of the next day.) */
 time_t	time_day_end_with_zone (time_t time, icaltimezone *zone);
 
+void time_to_gdate_with_zone (GDate *date, time_t time, icaltimezone *zone);
 
 #endif
