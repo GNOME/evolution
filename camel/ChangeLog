@@ -1,5 +1,11 @@
 2004-03-30  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* providers/imap4/camel-imap4-store.c (imap4_get_folder_info):
+	Partially implemented.
+	(imap4_get_folder): Implemented.
+
+2004-03-30  Jeffrey Stedfast  <fejj@ximian.com>
+
 	* camel-mime-utils.c (header_decode_param): Use
 	header_decode_text() rather than rfc2047_decode_word() to decode
 	the brokenly rfc2047 encoded param value string in case it is
@@ -30,6 +36,7 @@
 	* camel-debug.c (camel_debug_start, camel_debug_end): some helpers
 	to wrap debug output for atomicicity.
 
+>>>>>>> 1.2077
 2004-03-29  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* providers/imap4/camel-imap4-folder.c (camel_imap4_folder_new):

@@ -39,6 +39,7 @@
 #include "camel-imap4-folder.h"
 #include "camel-imap4-stream.h"
 #include "camel-imap4-command.h"
+#include "camel-imap4-utils.h"
 
 
 static void camel_imap4_store_class_init (CamelIMAP4StoreClass *klass);
@@ -59,7 +60,6 @@ static CamelFolder *imap4_get_folder (CamelStore *store, const char *folder_name
 static CamelFolderInfo *imap4_create_folder (CamelStore *store, const char *parent_name, const char *folder_name, CamelException *ex);
 static void imap4_delete_folder (CamelStore *store, const char *folder_name, CamelException *ex);
 static void imap4_rename_folder (CamelStore *store, const char *old_name, const char *new_name, CamelException *ex);
-static void imap4_sync (CamelStore *store, gboolean expunge, CamelException *ex);
 static CamelFolderInfo *imap4_get_folder_info (CamelStore *store, const char *top, guint32 flags, CamelException *ex);
 static void imap4_subscribe_folder (CamelStore *store, const char *folder_name, CamelException *ex);
 static void imap4_unsubscribe_folder (CamelStore *store, const char *folder_name, CamelException *ex);
@@ -130,7 +130,6 @@ camel_imap4_store_class_init (CamelIMAP4StoreClass *klass)
 	store_class->create_folder = imap4_create_folder;
 	store_class->delete_folder = imap4_delete_folder;
 	store_class->rename_folder = imap4_rename_folder;
-	store_class->sync = imap4_sync;
 	store_class->get_folder_info = imap4_get_folder_info;
 	store_class->subscribe_folder = imap4_subscribe_folder;
 	store_class->unsubscribe_folder = imap4_unsubscribe_folder;
@@ -585,32 +584,172 @@ imap4_query_auth_types (CamelService *service, CamelException *ex)
 }
 
 
+static char
+imap4_get_path_delim (CamelIMAP4Engine *engine, const char *full_name)
+{
+	/* FIXME: move this to utils so imap4-folder.c can share */
+	CamelIMAP4Namespace *namespace;
+	const char *slash;
+	size_t len;
+	char *top;
+	
+	if ((slash = strchr (full_name, '/')))
+		len = (slash - full_name);
+	else
+		len = strlen (full_name);
+	
+	top = g_alloca (len + 1);
+	memcpy (top, full_name, len);
+	top[len] = '\0';
+	
+	if (!g_ascii_strcasecmp (top, "INBOX"))
+		top = "INBOX";
+	
+ retry:
+	namespace = engine->namespaces.personal;
+	while (namespace != NULL) {
+		if (!strcmp (namespace->path, top))
+			return namespace->sep;
+		namespace = namespace->next;
+	}
+	
+	namespace = engine->namespaces.other;
+	while (namespace != NULL) {
+		if (!strcmp (namespace->path, top))
+			return namespace->sep;
+		namespace = namespace->next;
+	}
+	
+	namespace = engine->namespaces.shared;
+	while (namespace != NULL) {
+		if (!strcmp (namespace->path, top))
+			return namespace->sep;
+		namespace = namespace->next;
+	}
+	
+	if (top[0] != '\0') {
+		/* look for a default namespace? */
+		top[0] = '\0';
+		goto retry;
+	}
+	
+	return '/';
+}
+
 static char *
-imap4_folder_utf7_name (CamelStore *store, const char *folder_name)
+imap4_folder_utf7_name (CamelStore *store, const char *folder_name, char wildcard)
 {
 	char *real_name, *p;
+	char sep;
+	int len;
 	
-	if (store->dir_sep != '/') {
+	sep = imap4_get_path_delim (((CamelIMAP4Store *) store)->engine, folder_name);
+	
+	if (sep != '/') {
 		p = real_name = g_alloca (strlen (folder_name) + 1);
 		strcpy (real_name, folder_name);
 		while (*p != '\0') {
 			if (*p == '/')
-				*p = store->dir_sep;
+				*p = sep;
 			p++;
 		}
 		
 		folder_name = real_name;
 	}
 	
-	return camel_utf8_utf7 (folder_name);
+	if (*folder_name)
+		real_name = camel_utf8_utf7 (folder_name);
+	else
+		real_name = g_strdup ("");
+	
+	if (wildcard) {
+		len = strlen (real_name);
+		real_name = g_realloc (real_name, len + 3);
+		
+		if (len > 0)
+			real_name[len++] = sep;
+		
+		real_name[len++] = wildcard;
+		real_name[len] = '\0';
+	}
+	
+	return real_name;
 }
 
 static CamelFolder *
 imap4_get_folder (CamelStore *store, const char *folder_name, guint32 flags, CamelException *ex)
 {
-	/* FIXME: implement me */
+	CamelIMAP4Engine *engine = ((CamelIMAP4Store *) store)->engine;
+	camel_imap4_list_t *list;
+	CamelIMAP4Command *ic;
+	CamelFolderInfo *fi;
+	GPtrArray *array;
+	char *utf7_name;
+	int create;
+	int id, i;
 	
-	return NULL;
+	/* make sure the folder exists - try LISTing it? */
+	utf7_name = imap4_folder_utf7_name (store, folder_name, '\0');
+	ic = camel_imap4_engine_queue (engine, NULL, "LIST "" %S\r\n", utf7_name);
+	camel_imap4_command_register_untagged (ic, "LIST", camel_imap4_untagged_list);
+	ic->user_data = array = g_ptr_array_new ();
+	g_free (utf7_name);
+	
+	while ((id = camel_imap4_engine_iterate (engine)) < ic->id && id != -1)
+		;
+	
+	if (id == -1 || ic->status != CAMEL_IMAP4_COMMAND_COMPLETE) {
+		camel_exception_xfer (ex, &ic->ex);
+		camel_imap4_command_unref (ic);
+		g_ptr_array_free (array, TRUE);
+		return NULL;
+	}
+	
+	create = array->len == 0;
+	
+	for (i = 0; i < array->len; i++) {
+		list = array->pdata[i];
+		g_free (list->name);
+		g_free (list);
+	}
+	
+	g_ptr_array_free (array, TRUE);
+	
+	if (ic->result != CAMEL_IMAP4_RESULT_OK) {
+		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
+				      _("Cannot get folder `%s' on IMAP server %s: Unknown"),
+				      folder_name, ((CamelService *) store)->url->host);
+		camel_imap4_command_unref (ic);
+		return NULL;
+	}
+	
+	camel_imap4_command_unref (ic);
+	
+	if (create) {
+		const char *basename;
+		char *parent;
+		int len;
+		
+		if (!(flags & CAMEL_STORE_FOLDER_CREATE))
+			return NULL;
+		
+		if (!(basename = strrchr (folder_name, '/')))
+			basename = folder_name;
+		else
+			basename++;
+		
+		len = basename > folder_name ? (basename - folder_name) - 1 : 0;
+		parent = g_alloca (len + 1);
+		memcpy (parent, folder_name, len);
+		parent[len] = '\0';
+		
+		if (!(fi = imap4_create_folder (store, parent, basename, ex)))
+			return NULL;
+		
+		camel_store_free_folder_info (store, fi);
+	}
+	
+	return camel_imap4_folder_new (store, folder_name, ex);
 }
 
 static CamelFolderInfo *
@@ -645,9 +784,7 @@ imap4_create_folder (CamelStore *store, const char *parent_name, const char *fol
 	else
 		name = g_strdup (folder_name);
 	
-	utf7_name = imap4_folder_utf7_name (store, name);
-	g_free (name);
-	
+	utf7_name = imap4_folder_utf7_name (store, name, '\0');
 	ic = camel_imap4_engine_queue (engine, NULL, "CREATE %S\r\n", utf7_name);
 	g_free (utf7_name);
 	
@@ -657,23 +794,31 @@ imap4_create_folder (CamelStore *store, const char *parent_name, const char *fol
 	if (id == -1 || ic->status != CAMEL_IMAP4_COMMAND_COMPLETE) {
 		camel_exception_xfer (ex, &ic->ex);
 		camel_imap4_command_unref (ic);
+		g_free (name);
 		return NULL;
 	}
 	
 	switch (ic->result) {
 	case CAMEL_IMAP4_RESULT_OK:
-		/* FIXME: allocate fi */
+		if (!(fi = imap4_get_folder_info (store, name, CAMEL_STORE_FOLDER_INFO_FAST, ex))) {
+			camel_imap4_command_unref (ic);
+			g_free (name);
+			
+			return NULL;
+		}
+		
+		camel_object_trigger_event (store, "folder_created", fi);
 		break;
 	case CAMEL_IMAP4_RESULT_NO:
 		/* FIXME: would be good to save the NO reason into the err message */
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
 				      _("Cannot create folder `%s': Invalid mailbox name"),
-				      folder_name);
+				      name);
 		break;
 	case CAMEL_IMAP4_RESULT_BAD:
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
 				      _("Cannot create folder `%s': Bad command"),
-				      folder_name);
+				      name);
 		break;
 	default:
 		g_assert_not_reached ();
@@ -681,6 +826,8 @@ imap4_create_folder (CamelStore *store, const char *parent_name, const char *fol
 	
 	camel_imap4_command_unref (ic);
 	
+	g_free (name);
+		
 	return fi;
 }
 
@@ -700,7 +847,7 @@ imap4_delete_folder (CamelStore *store, const char *folder_name, CamelException 
 		return;
 	}
 	
-	utf7_name = imap4_folder_utf7_name (store, folder_name);
+	utf7_name = imap4_folder_utf7_name (store, folder_name, '\0');
 	ic = camel_imap4_engine_queue (engine, NULL, "DELETE %S\r\n", utf7_name);
 	g_free (utf7_name);
 	
@@ -742,16 +889,144 @@ imap4_rename_folder (CamelStore *store, const char *old_name, const char *new_na
 
 }
 
-static void
-imap4_sync (CamelStore *store, gboolean expunge, CamelException *ex)
+static int
+list_sort (const camel_imap4_list_t **list0, const camel_imap4_list_t **list1)
 {
+	return strcmp ((*list0)->name, (*list1)->name);
+}
 
+static void
+list_remove_duplicates (GPtrArray *array)
+{
+	camel_imap4_list_t *list, *last;
+	int i;
+	
+	last = array->pdata[0];
+	for (i = 1; i < array->len; i++) {
+		list = array->pdata[i];
+		if (!strcmp (list->name, last->name)) {
+			g_ptr_array_remove_index (array, i--);
+			last->flags |= list->flags;
+			g_free (list->name);
+			g_free (list);
+		}
+	}
+}
+
+static CamelFolderInfo *
+imap4_build_folder_info (CamelIMAP4Engine *engine, guint32 flags, GPtrArray *array, const char *top)
+{
+	camel_imap4_list_t *list;
+	CamelFolderInfo *fi;
+	char *name, *p;
+	CamelURL *url;
+	int i;
+	
+	g_ptr_array_sort (array, (GCompareFunc) list_sort);
+	
+	list_remove_duplicates (array);
+	
+	url = camel_url_copy (engine->url);
+	
+	for (i = 0; i < array->len; i++) {
+		list = array->pdata[i];
+		fi = g_malloc0 (sizeof (CamelFolderInfo));
+		
+		p = name = camel_utf7_utf8 (list->name);
+		while (*p != '\0') {
+			if (*p == list->delim)
+				*p = '/';
+			p++;
+		}
+		
+		camel_url_set_fragment (url, name);
+		
+		fi->full_name = name;
+		p = strrchr (name, '/');
+		fi->name = g_strdup (p ? p + 1: name);
+		fi->path = g_strdup_printf ("/%s", name);
+		fi->uri = camel_url_to_string (url, 0);
+		fi->flags = list->flags;
+		
+		/* FIXME: use STATUS to get these values if requested */
+		fi->unread = -1;
+		fi->total = -1;
+		
+		g_free (list->name);
+		g_free (list);
+		
+		array->pdata[i] = fi;
+	}
+	
+	/* FIXME: build the fi tree */
+	fi = array->pdata[0];
+	
+	camel_url_free (url);
+	
+	g_ptr_array_free (array, TRUE);
+	
+	return fi;
 }
 
 static CamelFolderInfo *
 imap4_get_folder_info (CamelStore *store, const char *top, guint32 flags, CamelException *ex)
 {
-	return NULL;
+	CamelIMAP4Engine *engine = ((CamelIMAP4Store *) store)->engine;
+	camel_imap4_list_t *list;
+	CamelIMAP4Command *ic;
+	GPtrArray *array;
+	const char *cmd;
+	char *pattern;
+	int id, i;
+	
+	if (flags & CAMEL_STORE_FOLDER_INFO_SUBSCRIBED)
+		cmd = "LSUB";
+	else
+		cmd = "LIST";
+	
+	if (top == NULL)
+		top = "";
+	
+	pattern = imap4_folder_utf7_name (store, top, (flags & CAMEL_STORE_FOLDER_INFO_RECURSIVE) ? '*' : '%');
+	ic = camel_imap4_engine_queue (engine, NULL, "%s "" %S\r\n", cmd, pattern);
+	camel_imap4_command_register_untagged (ic, cmd, camel_imap4_untagged_list);
+	ic->user_data = array = g_ptr_array_new ();
+	
+	while ((id = camel_imap4_engine_iterate (engine)) < ic->id && id != -1)
+		;
+	
+	if (id == -1 || ic->status != CAMEL_IMAP4_COMMAND_COMPLETE) {
+		camel_exception_xfer (ex, &ic->ex);
+		camel_imap4_command_unref (ic);
+		g_ptr_array_free (array, TRUE);
+		g_free (pattern);
+		return NULL;
+	}
+	
+	if (ic->result != CAMEL_IMAP4_RESULT_OK) {
+		camel_imap4_command_unref (ic);
+		
+		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
+				      _("Cannot get %s information for pattern `%s' on IMAP server %s: %s"),
+				      cmd, pattern, engine->url->host, ic->result == CAMEL_IMAP4_RESULT_BAD ?
+				      _("Bad command") : _("Unknown"));
+		
+		for (i = 0; i < array->len; i++) {
+			list = array->pdata[i];
+			g_free (list->name);
+			g_free (list);
+		}
+		
+		g_ptr_array_free (array, TRUE);
+		
+		g_free (pattern);
+		
+		return NULL;
+	}
+	
+	g_free (pattern);
+	
+	return imap4_build_folder_info (engine, flags, array, top);
 }
 
 static void
@@ -762,7 +1037,7 @@ imap4_subscribe_folder (CamelStore *store, const char *folder_name, CamelExcepti
 	char *utf7_name;
 	int id;
 	
-	utf7_name = imap4_folder_utf7_name (store, folder_name);
+	utf7_name = imap4_folder_utf7_name (store, folder_name, '\0');
 	ic = camel_imap4_engine_queue (engine, NULL, "SUBSCRIBE %S\r\n", utf7_name);
 	g_free (utf7_name);
 	
@@ -807,7 +1082,7 @@ imap4_unsubscribe_folder (CamelStore *store, const char *folder_name, CamelExcep
 	char *utf7_name;
 	int id;
 	
-	utf7_name = imap4_folder_utf7_name (store, folder_name);
+	utf7_name = imap4_folder_utf7_name (store, folder_name, '\0');
 	ic = camel_imap4_engine_queue (engine, NULL, "UNSUBSCRIBE %S\r\n", utf7_name);
 	g_free (utf7_name);
 	

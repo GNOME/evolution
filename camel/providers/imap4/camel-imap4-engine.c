@@ -310,6 +310,10 @@ camel_imap4_engine_namespace (CamelIMAP4Engine *engine, CamelException *ex)
 	if (id == -1 || ic->status != CAMEL_IMAP4_COMMAND_COMPLETE) {
 		camel_exception_xfer (ex, &ic->ex);
 		camel_imap4_command_unref (ic);
+		
+		if (array != NULL)
+			g_ptr_array_free (array, TRUE);
+		
 		return -1;
 	}
 	
