@@ -581,10 +581,9 @@ sync_pilot (GNOME_Calendar_Repository repo, int pilot_fd)
 			if (attr & dlpRecAttrArchived)
 				continue;
 			
-			if (attr & dlpRecAttrDirty){
-				printf ("updating record\n");
-				update_record (repo, id, &a, attr);
-			}
+			printf ("updating record\n");
+			update_record (repo, id, &a, attr);
+
 			conduit_free_Appointment (&a);
 		}
 	}

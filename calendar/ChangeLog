@@ -1,3 +1,9 @@
+1999-08-07  Peter Teichman  <pat4@acpub.duke.edu>
+
+	* calendar-pilot-sync.c (sync_pilot): sync correctly for objects
+	created on the pilot, but not dirty (because they have been synced
+	with some other program in the past)
+
 1999-07-30  Miguel de Icaza  <miguel@gnu.org>
 
 	* month-view.c (month_view_init): Release points here. 
