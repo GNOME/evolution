@@ -1,5 +1,12 @@
 2001-07-03  Iain Holmes  <iain@ximian.com>
 
+	* e-summary-prefences.c (e_summary_preferences_restore): Disabled until
+	memory corruption thing is found.
+
+	* my-evolution.glade: Fix the radio button problem.
+
+2001-07-03  Iain Holmes  <iain@ximian.com>
+
 	* e-summary-factory.c: Fixed the Bonobo warning.
 
 2001-07-03  Iain Holmes  <iain@ximian.com>

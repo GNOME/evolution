@@ -16,7 +16,6 @@
 typedef struct _Weather {
 	char *location;
 	char *html;
-	char *metar;
 	GnomeVFSAsyncHandle *handle;
 	GString *string;
 	char *buffer;

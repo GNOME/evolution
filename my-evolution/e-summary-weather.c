@@ -324,6 +324,18 @@ e_summary_weather_update (ESummary *summary)
 }
 
 static void
+weather_free (Weather *w)
+{
+	g_return_if_fail (w != NULL);
+
+	if (w->handle != NULL) {
+		gnome_vfs_async_cancel (w->handle);
+	}
+	g_free (w->location);
+	g_free (w->html);
+	g_free (w);
+}
+static void
 e_summary_weather_add_location (ESummary *summary,
 				const char *location)
 {
@@ -701,10 +713,7 @@ e_summary_weather_reconfigure (ESummary *summary)
 		Weather *w;
 
 		w = old->data;
-		g_free (w->location);
-		g_free (w->html);
-		g_free (w->metar);
-		g_free (w);
+		weather_free (w);
 	}
 	g_list_free (weather->weathers);
 	weather->weathers = NULL;

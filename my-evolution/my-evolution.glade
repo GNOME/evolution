@@ -1095,6 +1095,7 @@
 	      <label>metric</label>
 	      <active>False</active>
 	      <draw_indicator>True</draw_indicator>
+	      <group>units_group</group>
 	      <child>
 		<padding>0</padding>
 		<expand>False</expand>
@@ -1109,6 +1110,7 @@
 	      <label>imperial</label>
 	      <active>False</active>
 	      <draw_indicator>True</draw_indicator>
+	      <group>units_group</group>
 	      <child>
 		<padding>0</padding>
 		<expand>False</expand>
@@ -1250,6 +1252,7 @@
 	      <label></label>
 	      <active>False</active>
 	      <draw_indicator>True</draw_indicator>
+	      <group>day_group</group>
 	      <child>
 		<left_attach>0</left_attach>
 		<right_attach>1</right_attach>
@@ -1273,6 +1276,7 @@
 	      <label></label>
 	      <active>False</active>
 	      <draw_indicator>True</draw_indicator>
+	      <group>day_group</group>
 	      <child>
 		<left_attach>0</left_attach>
 		<right_attach>1</right_attach>
@@ -1296,6 +1300,7 @@
 	      <label></label>
 	      <active>False</active>
 	      <draw_indicator>True</draw_indicator>
+	      <group>day_group</group>
 	      <child>
 		<left_attach>0</left_attach>
 		<right_attach>1</right_attach>
@@ -1319,6 +1324,7 @@
 	      <label></label>
 	      <active>False</active>
 	      <draw_indicator>True</draw_indicator>
+	      <group>day_group</group>
 	      <child>
 		<left_attach>0</left_attach>
 		<right_attach>1</right_attach>
@@ -1548,6 +1554,7 @@
 	    <label>Show all tasks</label>
 	    <active>False</active>
 	    <draw_indicator>True</draw_indicator>
+	    <group>tasks_group</group>
 	    <child>
 	      <padding>0</padding>
 	      <expand>False</expand>
@@ -1562,6 +1569,7 @@
 	    <label>Show today's tasks</label>
 	    <active>False</active>
 	    <draw_indicator>True</draw_indicator>
+	    <group>tasks_group</group>
 	    <child>
 	      <padding>0</padding>
 	      <expand>False</expand>

@@ -114,6 +114,7 @@ str_list_from_vector (const char *vector)
 gboolean
 e_summary_preferences_restore (ESummaryPrefs *prefs)
 {
+#if 0
 	Bonobo_ConfigDatabase db;
 	CORBA_Environment ev;
 	char *vector;
@@ -135,9 +136,9 @@ e_summary_preferences_restore (ESummaryPrefs *prefs)
 		return FALSE;
 	}
 	prefs->display_folders = str_list_from_vector (vector);
-	g_free (vector);
+  	g_free (vector);
 
-	prefs->show_full_path = bonobo_config_get_boolean (db, "Mail/show_full_path=FALSE", NULL);
+	prefs->show_full_path = bonobo_config_get_boolean (db, "Mail/show_full_path", NULL);
 
 	vector = bonobo_config_get_string (db, "RDF/rdf_urls", NULL);
 	if (vector == NULL) {
@@ -145,7 +146,7 @@ e_summary_preferences_restore (ESummaryPrefs *prefs)
 		return FALSE;
 	}
 	prefs->rdf_urls = str_list_from_vector (vector);
-	g_free (vector);
+  	g_free (vector);
 
 	prefs->rdf_refresh_time = bonobo_config_get_long_with_default (db, "RDF/rdf_refresh_time", 600, NULL);
 	prefs->limit = bonobo_config_get_long_with_default (db, "RDF/limit", 10, NULL);
@@ -157,16 +158,18 @@ e_summary_preferences_restore (ESummaryPrefs *prefs)
 		return FALSE;
 	}
 	prefs->stations = str_list_from_vector (vector);
-	g_free (vector);
+  	g_free (vector);
 
 	prefs->units = bonobo_config_get_long (db, "Weather/units", NULL);
-	prefs->weather_refresh_time = bonobo_config_get_long (db, "weather_refresh_time", NULL);
+	prefs->weather_refresh_time = bonobo_config_get_long (db, "Weather/weather_refresh_time", NULL);
 	
 	prefs->days = bonobo_config_get_long (db, "Schedule/days", NULL);
-	prefs->show_tasks = bonobo_config_get_long (db, "show_tasks", NULL);
+	prefs->show_tasks = bonobo_config_get_long (db, "Schedule/show_tasks", NULL);
 
 	bonobo_object_release_unref (db, NULL);
 	return TRUE;
+#endif
+	return FALSE;
 }
 
 /* Write prefs to disk */
@@ -190,13 +193,13 @@ e_summary_preferences_save (ESummaryPrefs *prefs)
 
 	vector = vector_from_str_list (prefs->display_folders);
 	bonobo_config_set_string (db, "Mail/display_folders", vector, NULL);
-	g_free (vector);
+  	g_free (vector); 
 
 	bonobo_config_set_boolean (db, "Mail/show_full_path", prefs->show_full_path, NULL);
 
 	vector = vector_from_str_list (prefs->rdf_urls);
 	bonobo_config_set_string (db, "RDF/rdf_urls", vector, NULL);
-	g_free (vector);
+  	g_free (vector); 
 
 	bonobo_config_set_long (db, "RDF/rdf_refresh_time", prefs->rdf_refresh_time, NULL);
 	bonobo_config_set_long (db, "RDF/limit", prefs->limit, NULL);
@@ -204,7 +207,7 @@ e_summary_preferences_save (ESummaryPrefs *prefs)
 
 	vector = vector_from_str_list (prefs->stations);
 	bonobo_config_set_string (db, "Weather/stations", vector, NULL);
-	g_free (vector);
+  	g_free (vector); 
 
 	bonobo_config_set_long (db, "Weather/units", prefs->units, NULL);
 	bonobo_config_set_long (db, "Weather/weather_refresh_time", prefs->weather_refresh_time, NULL);
