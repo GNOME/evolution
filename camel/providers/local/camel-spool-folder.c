@@ -66,7 +66,7 @@ static GPtrArray *spool_search_by_expression(CamelFolder *folder, const char *ex
 static GPtrArray *spool_search_by_uids(CamelFolder *folder, const char *expression, GPtrArray *uids, CamelException *ex);
 static void spool_search_free(CamelFolder *folder, GPtrArray * result);
 
-static void spool_append_message(CamelFolder *folder, CamelMimeMessage * message, const CamelMessageInfo * info, CamelException *ex);
+static void spool_append_message(CamelFolder *folder, CamelMimeMessage * message, const CamelMessageInfo * info, char **appended_uid, CamelException *ex);
 static CamelMimeMessage *spool_get_message(CamelFolder *folder, const gchar * uid, CamelException *ex);
 static void spool_set_message_user_flag(CamelFolder *folder, const char *uid, const char *name, gboolean value);
 static void spool_set_message_user_tag(CamelFolder *folder, const char *uid, const char *name, const char *value);
@@ -423,7 +423,7 @@ spool_search_free(CamelFolder *folder, GPtrArray * result)
 }
 
 static void
-spool_append_message(CamelFolder *folder, CamelMimeMessage * message, const CamelMessageInfo * info, CamelException *ex)
+spool_append_message(CamelFolder *folder, CamelMimeMessage * message, const CamelMessageInfo * info, char **appended_uid, CamelException *ex)
 {
 	CamelSpoolFolder *lf = (CamelSpoolFolder *)folder;
 	CamelStream *output_stream = NULL, *filter_stream = NULL;
@@ -507,6 +507,9 @@ spool_append_message(CamelFolder *folder, CamelMimeMessage * message, const Came
 		camel_object_trigger_event((CamelObject *)folder, "folder_changed", lf->changes);
 		camel_folder_change_info_clear(lf->changes);
 	}
+
+	if (appended_uid)
+		*appended_uid = g_strdup(camel_message_info_uid(mi));
 
 	return;
 

@@ -96,6 +96,7 @@ typedef struct {
 	void (*append_message)  (CamelFolder *folder, 
 				 CamelMimeMessage *message,
 				 const CamelMessageInfo *info,
+				 char **appended_uid,
 				 CamelException *ex);
 	
 	guint32 (*get_permanent_flags) (CamelFolder *folder);
@@ -147,6 +148,7 @@ typedef struct {
 	void (*transfer_messages_to) (CamelFolder *source,
 				      GPtrArray *uids,
 				      CamelFolder *destination,
+				      GPtrArray **transferred_uids,
 				      gboolean delete_originals,
 				      CamelException *ex);
 	
@@ -221,6 +223,7 @@ void		   camel_folder_set_message_user_tag  (CamelFolder *folder,
 void               camel_folder_append_message         (CamelFolder *folder, 
 							CamelMimeMessage *message,
 							const CamelMessageInfo *info,
+							char **appended_uid,
 							CamelException *ex);
 
 
@@ -261,6 +264,7 @@ void		  camel_folder_ref_message_info		(CamelFolder *folder, CamelMessageInfo *i
 void               camel_folder_transfer_messages_to   (CamelFolder *source,
 							GPtrArray *uids,
 							CamelFolder *dest,
+							GPtrArray **transferred_uids,
 							gboolean delete_originals,
 							CamelException *ex);
 

@@ -52,7 +52,7 @@ static CamelLocalFolderClass *parent_class = NULL;
 
 static CamelLocalSummary *mh_create_summary(const char *path, const char *folder, CamelIndex *index);
 
-static void mh_append_message(CamelFolder * folder, CamelMimeMessage * message, const CamelMessageInfo *info, CamelException * ex);
+static void mh_append_message(CamelFolder * folder, CamelMimeMessage * message, const CamelMessageInfo *info, char **appended_uid, CamelException * ex);
 static CamelMimeMessage *mh_get_message(CamelFolder * folder, const gchar * uid, CamelException * ex);
 
 static void mh_finalize(CamelObject * object);
@@ -121,7 +121,7 @@ static CamelLocalSummary *mh_create_summary(const char *path, const char *folder
 }
 
 static void
-mh_append_message (CamelFolder *folder, CamelMimeMessage *message, const CamelMessageInfo *info, CamelException *ex)
+mh_append_message (CamelFolder *folder, CamelMimeMessage *message, const CamelMessageInfo *info, char **appended_uid, CamelException *ex)
 {
 	CamelMhFolder *mh_folder = (CamelMhFolder *)folder;
 	CamelLocalFolder *lf = (CamelLocalFolder *)folder;
@@ -159,6 +159,9 @@ mh_append_message (CamelFolder *folder, CamelMimeMessage *message, const CamelMe
 				    ((CamelLocalFolder *)mh_folder)->changes);
 	camel_folder_change_info_clear (((CamelLocalFolder *)mh_folder)->changes);
 	
+	if (appended_uid)
+		*appended_uid = g_strdup(camel_message_info_uid(mi));
+
 	return;
 	
  fail_write:

@@ -54,8 +54,8 @@ static void vee_sync (CamelFolder *folder, gboolean expunge, CamelException *ex)
 static void vee_expunge (CamelFolder *folder, CamelException *ex);
 
 static CamelMimeMessage *vee_get_message (CamelFolder *folder, const gchar *uid, CamelException *ex);
-static void vee_append_message(CamelFolder *folder, CamelMimeMessage *message, const CamelMessageInfo *info, CamelException *ex);
-static void vee_transfer_messages_to(CamelFolder *source, GPtrArray *uids, CamelFolder *dest, gboolean delete_originals, CamelException *ex);
+static void vee_append_message(CamelFolder *folder, CamelMimeMessage *message, const CamelMessageInfo *info, char **appended_uid, CamelException *ex);
+static void vee_transfer_messages_to(CamelFolder *source, GPtrArray *uids, CamelFolder *dest, GPtrArray **transferred_uids, gboolean delete_originals, CamelException *ex);
 
 static GPtrArray *vee_search_by_expression(CamelFolder *folder, const char *expression, CamelException *ex);
 static GPtrArray *vee_search_by_uids(CamelFolder *folder, const char *expression, GPtrArray *uids, CamelException *ex);
@@ -732,13 +732,13 @@ vee_set_message_user_flag(CamelFolder *folder, const char *uid, const char *name
 }
 
 static void
-vee_append_message(CamelFolder *folder, CamelMimeMessage *message, const CamelMessageInfo *info, CamelException *ex)
+vee_append_message(CamelFolder *folder, CamelMimeMessage *message, const CamelMessageInfo *info, char **appended_uid, CamelException *ex)
 {
 	camel_exception_set(ex, CAMEL_EXCEPTION_SYSTEM, _("Cannot copy or move messages into a Virtual Folder"));
 }
 
 static void
-vee_transfer_messages_to (CamelFolder *folder, GPtrArray *uids, CamelFolder *dest, gboolean delete_originals, CamelException *ex)
+vee_transfer_messages_to (CamelFolder *folder, GPtrArray *uids, CamelFolder *dest, GPtrArray **transferred_uids, gboolean delete_originals, CamelException *ex)
 {
 	camel_exception_set(ex, CAMEL_EXCEPTION_SYSTEM, _("Cannot copy or move messages into a Virtual Folder"));
 }

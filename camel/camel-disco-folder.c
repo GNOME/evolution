@@ -39,9 +39,10 @@ static void disco_sync (CamelFolder *folder, gboolean expunge, CamelException *e
 static void disco_expunge (CamelFolder *folder, CamelException *ex);
 
 static void disco_append_message (CamelFolder *folder, CamelMimeMessage *message,
-				  const CamelMessageInfo *info, CamelException *ex);
+				  const CamelMessageInfo *info, char **appended_uid, CamelException *ex);
 static void disco_transfer_messages_to (CamelFolder *source, GPtrArray *uids,
 					CamelFolder *destination,
+					GPtrArray **transferred_uids,
 					gboolean delete_originals,
 					CamelException *ex);
 
@@ -169,45 +170,52 @@ disco_expunge (CamelFolder *folder, CamelException *ex)
 
 static void
 disco_append_message (CamelFolder *folder, CamelMimeMessage *message,
-		      const CamelMessageInfo *info, CamelException *ex)
+		      const CamelMessageInfo *info, char **appended_uid,
+		      CamelException *ex)
 {
 	CamelDiscoStore *disco = CAMEL_DISCO_STORE (folder->parent_store);
 
 	switch (camel_disco_store_status (disco)) {
 	case CAMEL_DISCO_STORE_ONLINE:
-		CDF_CLASS (folder)->append_online (folder, message, info, ex);
+		CDF_CLASS (folder)->append_online (folder, message, info,
+						   appended_uid, ex);
 		break;
 
 	case CAMEL_DISCO_STORE_OFFLINE:
-		CDF_CLASS (folder)->append_offline (folder, message, info, ex);
+		CDF_CLASS (folder)->append_offline (folder, message, info,
+						    appended_uid, ex);
 		break;
 
 	case CAMEL_DISCO_STORE_RESYNCING:
-		CDF_CLASS (folder)->append_resyncing (folder, message, info, ex);
+		CDF_CLASS (folder)->append_resyncing (folder, message, info,
+						      appended_uid, ex);
 		break;
 	}
 }
 
 static void
 disco_transfer_messages_to (CamelFolder *source, GPtrArray *uids,
-			    CamelFolder *destination,
+			    CamelFolder *dest, GPtrArray **transferred_uids,
 			    gboolean delete_originals, CamelException *ex)
 {
 	CamelDiscoStore *disco = CAMEL_DISCO_STORE (source->parent_store);
 
 	switch (camel_disco_store_status (disco)) {
 	case CAMEL_DISCO_STORE_ONLINE:
-		CDF_CLASS (source)->transfer_online (source, uids, destination,
+		CDF_CLASS (source)->transfer_online (source, uids,
+						     dest, transferred_uids,
 						     delete_originals, ex);
 		break;
 
 	case CAMEL_DISCO_STORE_OFFLINE:
-		CDF_CLASS (source)->transfer_offline (source, uids, destination,
+		CDF_CLASS (source)->transfer_offline (source, uids,
+						      dest, transferred_uids,
 						      delete_originals, ex);
 		break;
 
 	case CAMEL_DISCO_STORE_RESYNCING:
-		CDF_CLASS (source)->transfer_resyncing (source, uids, destination,
+		CDF_CLASS (source)->transfer_resyncing (source, uids,
+							dest, transferred_uids,
 							delete_originals, ex);
 		break;
 	}

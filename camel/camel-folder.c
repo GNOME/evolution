@@ -77,7 +77,8 @@ static void expunge             (CamelFolder *folder,
 
 
 static void append_message (CamelFolder *folder, CamelMimeMessage *message,
-			    const CamelMessageInfo *info, CamelException *ex);
+			    const CamelMessageInfo *info, char **appended_uid,
+			    CamelException *ex);
 
 
 static GPtrArray        *get_uids            (CamelFolder *folder);
@@ -97,7 +98,8 @@ static GPtrArray      *search_by_expression  (CamelFolder *folder, const char *e
 static GPtrArray      *search_by_uids	     (CamelFolder *folder, const char *exp, GPtrArray *uids, CamelException *ex);
 static void            search_free           (CamelFolder * folder, GPtrArray *result);
 
-static void            transfer_messages_to  (CamelFolder *source, GPtrArray *uids, CamelFolder *dest, gboolean delete_originals, CamelException *ex);
+static void            transfer_messages_to  (CamelFolder *source, GPtrArray *uids, CamelFolder *dest,
+					      GPtrArray **transferred_uids, gboolean delete_originals, CamelException *ex);
 
 static void            delete                (CamelFolder *folder);
 static void            folder_rename         (CamelFolder *folder, const char *new);
@@ -462,7 +464,8 @@ camel_folder_get_unread_message_count (CamelFolder *folder)
 
 static void
 append_message (CamelFolder *folder, CamelMimeMessage *message,
-		const CamelMessageInfo *info, CamelException *ex)
+		const CamelMessageInfo *info, char **appended_uid,
+		CamelException *ex)
 {
 	camel_exception_setv (ex, CAMEL_EXCEPTION_FOLDER_INVALID,
 			      _("Unsupported operation: append message: for %s"),
@@ -481,6 +484,8 @@ append_message (CamelFolder *folder, CamelMimeMessage *message,
  * @message: message object
  * @info: message info with additional flags/etc to set on
  * new message, or %NULL
+ * @appended_uid: if non-%NULL, the UID of the appended message will
+ * be returned here, if it is known.
  * @ex: exception object
  *
  * Add a message to a folder. Only the flag and tag data from @info
@@ -488,13 +493,14 @@ append_message (CamelFolder *folder, CamelMimeMessage *message,
  **/
 void
 camel_folder_append_message (CamelFolder *folder, CamelMimeMessage *message,
-			     const CamelMessageInfo *info, CamelException *ex)
+			     const CamelMessageInfo *info, char **appended_uid,
+			     CamelException *ex)
 {
 	g_return_if_fail (CAMEL_IS_FOLDER (folder));
 
 	CAMEL_FOLDER_LOCK(folder, lock);
 
-	CF_CLASS (folder)->append_message (folder, message, info, ex);
+	CF_CLASS (folder)->append_message (folder, message, info, appended_uid, ex);
 
 	CAMEL_FOLDER_UNLOCK(folder, lock);
 }
@@ -1137,7 +1143,9 @@ camel_folder_search_free (CamelFolder *folder, GPtrArray *result)
 
 
 static void
-transfer_message_to (CamelFolder *source, const char *uid, CamelFolder *dest, gboolean delete_original, CamelException *ex)
+transfer_message_to (CamelFolder *source, const char *uid, CamelFolder *dest,
+		     char **transferred_uid, gboolean delete_original,
+		     CamelException *ex)
 {
 	CamelMimeMessage *msg;
 	CamelMessageInfo *info = NULL;
@@ -1158,7 +1166,7 @@ transfer_message_to (CamelFolder *source, const char *uid, CamelFolder *dest, gb
 	if (info && info->flags & CAMEL_MESSAGE_DELETED)
 		info->flags = info->flags & ~CAMEL_MESSAGE_DELETED;
 	
-	camel_folder_append_message (dest, msg, info, ex);
+	camel_folder_append_message (dest, msg, info, transferred_uid, ex);
 	camel_object_unref (CAMEL_OBJECT (msg));
 
 	if (delete_original && !camel_exception_is_set (ex))
@@ -1173,10 +1181,16 @@ transfer_message_to (CamelFolder *source, const char *uid, CamelFolder *dest, gb
 }
 
 static void
-transfer_messages_to (CamelFolder *source, GPtrArray *uids, CamelFolder *dest, gboolean delete_originals, CamelException *ex)
+transfer_messages_to (CamelFolder *source, GPtrArray *uids, CamelFolder *dest, GPtrArray **transferred_uids, gboolean delete_originals, CamelException *ex)
 {
 	CamelException local;
+	char **ret_uid = NULL;
 	int i;
+
+	if (transferred_uids) {
+		*transferred_uids = g_ptr_array_new ();
+		g_ptr_array_set_size (*transferred_uids, uids->len);
+	}
 
 	camel_exception_init(&local);
 	if (ex == NULL)
@@ -1190,7 +1204,9 @@ transfer_messages_to (CamelFolder *source, GPtrArray *uids, CamelFolder *dest, g
 			camel_folder_freeze(source);
 	}
 	for (i = 0; i < uids->len && !camel_exception_is_set (ex); i++) {
-		transfer_message_to (source, uids->pdata[i], dest, delete_originals, ex);
+		if (transferred_uids)
+			ret_uid = (char **)&((*transferred_uids)->pdata[i]);
+		transfer_message_to (source, uids->pdata[i], dest, ret_uid, delete_originals, ex);
 		camel_operation_progress(NULL, i * 100 / uids->len);
 	}
 	if (uids->len > 1) {
@@ -1208,6 +1224,8 @@ transfer_messages_to (CamelFolder *source, GPtrArray *uids, CamelFolder *dest, g
  * @source: source folder
  * @uids: message UIDs in @source
  * @dest: destination folder
+ * @transferred_uids: if non-%NULL, the UIDs of the resulting messages
+ * in @dest will be stored here, if known.
  * @delete_originals: whether or not to delete the original messages
  * @ex: a CamelException
  *
@@ -1217,8 +1235,8 @@ transfer_messages_to (CamelFolder *source, GPtrArray *uids, CamelFolder *dest, g
  **/
 void
 camel_folder_transfer_messages_to (CamelFolder *source, GPtrArray *uids,
-				   CamelFolder *dest, gboolean delete_originals,
-				   CamelException *ex)
+				   CamelFolder *dest, GPtrArray **transferred_uids,
+				   gboolean delete_originals, CamelException *ex)
 {
 	g_return_if_fail (CAMEL_IS_FOLDER (source));
 	g_return_if_fail (CAMEL_IS_FOLDER (dest));
@@ -1236,11 +1254,11 @@ camel_folder_transfer_messages_to (CamelFolder *source, GPtrArray *uids,
 		 * vtrash transfer method.
 		 */
 		if (CAMEL_IS_VTRASH_FOLDER (dest))
-			CF_CLASS (dest)->transfer_messages_to (source, uids, dest, delete_originals, ex);
+			CF_CLASS (dest)->transfer_messages_to (source, uids, dest, transferred_uids, delete_originals, ex);
 		else
-			CF_CLASS (source)->transfer_messages_to (source, uids, dest, delete_originals, ex);
+			CF_CLASS (source)->transfer_messages_to (source, uids, dest, transferred_uids, delete_originals, ex);
 	} else
-		transfer_messages_to (source, uids, dest, delete_originals, ex);
+		transfer_messages_to (source, uids, dest, transferred_uids, delete_originals, ex);
 	
 	CAMEL_FOLDER_UNLOCK(source, lock);
 }

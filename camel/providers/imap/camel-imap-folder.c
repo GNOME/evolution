@@ -87,22 +87,25 @@ static void imap_rename (CamelFolder *folder, const char *new);
 static CamelMimeMessage *imap_get_message (CamelFolder *folder, const gchar *uid,
 					   CamelException *ex);
 static void imap_append_online (CamelFolder *folder, CamelMimeMessage *message,
-				 const CamelMessageInfo *info, CamelException *ex);
+				const CamelMessageInfo *info, char **appended_uid,
+				CamelException *ex);
 static void imap_append_offline (CamelFolder *folder, CamelMimeMessage *message,
-				  const CamelMessageInfo *info, CamelException *ex);
+				 const CamelMessageInfo *info, char **appended_uid,
+				 CamelException *ex);
 static void imap_append_resyncing (CamelFolder *folder, CamelMimeMessage *message,
-				   const CamelMessageInfo *info, CamelException *ex);
+				   const CamelMessageInfo *info, char **appended_uid,
+				   CamelException *ex);
 
 static void imap_transfer_online (CamelFolder *source, GPtrArray *uids,
-				  CamelFolder *destination,
+				  CamelFolder *dest, GPtrArray **transferred_uids,
 				  gboolean delete_originals,
 				  CamelException *ex);
 static void imap_transfer_offline (CamelFolder *source, GPtrArray *uids,
-				   CamelFolder *destination,
+				   CamelFolder *dest, GPtrArray **transferred_uids,
 				   gboolean delete_originals,
 				   CamelException *ex);
 static void imap_transfer_resyncing (CamelFolder *source, GPtrArray *uids,
-				     CamelFolder *destination,
+				     CamelFolder *dest, GPtrArray **transferred_uids,
 				     gboolean delete_originals,
 				     CamelException *ex);
 
@@ -955,7 +958,8 @@ imap_expunge_uids_resyncing (CamelFolder *folder, GPtrArray *uids, CamelExceptio
 
 static void
 imap_append_offline (CamelFolder *folder, CamelMimeMessage *message,
-		     const CamelMessageInfo *info, CamelException *ex)
+		     const CamelMessageInfo *info, char **appended_uid,
+		     CamelException *ex)
 {
 	CamelImapStore *imap_store = CAMEL_IMAP_STORE (folder->parent_store);
 	CamelImapMessageCache *cache = CAMEL_IMAP_FOLDER (folder)->cache;
@@ -981,7 +985,10 @@ imap_append_offline (CamelFolder *folder, CamelMimeMessage *message,
 
 	camel_disco_diary_log (CAMEL_DISCO_STORE (imap_store)->diary,
 			       CAMEL_DISCO_DIARY_FOLDER_APPEND, folder, uid);
-	g_free (uid);
+	if (appended_uid)
+		*appended_uid = uid;
+	else
+		g_free (uid);
 }
 
 static CamelImapResponse *
@@ -1064,7 +1071,8 @@ do_append (CamelFolder *folder, CamelMimeMessage *message,
 
 static void
 imap_append_online (CamelFolder *folder, CamelMimeMessage *message,
-		    const CamelMessageInfo *info, CamelException *ex)
+		    const CamelMessageInfo *info, char **appended_uid,
+		    CamelException *ex)
 {
 	CamelImapStore *store = CAMEL_IMAP_STORE (folder->parent_store);
 	CamelImapResponse *response;
@@ -1085,8 +1093,12 @@ imap_append_online (CamelFolder *folder, CamelMimeMessage *message,
 			CAMEL_IMAP_FOLDER (folder)->cache, uid,
 			"", CAMEL_DATA_WRAPPER (message), ex);
 		CAMEL_IMAP_FOLDER_UNLOCK (folder, cache_lock);
-		g_free (uid);
-	}
+		if (appended_uid)
+			*appended_uid = uid;
+		else
+			g_free (uid);
+	} else if (appended_uid)
+		*appended_uid = NULL;
 	
 	camel_imap_response_free (store, response);
 	
@@ -1098,7 +1110,8 @@ imap_append_online (CamelFolder *folder, CamelMimeMessage *message,
 
 static void
 imap_append_resyncing (CamelFolder *folder, CamelMimeMessage *message,
-		       const CamelMessageInfo *info, CamelException *ex)
+		       const CamelMessageInfo *info, char **appended_uid,
+		       CamelException *ex)
 {
 	CamelImapStore *store = CAMEL_IMAP_STORE (folder->parent_store);
 	CamelImapResponse *response;
@@ -1116,10 +1129,13 @@ imap_append_resyncing (CamelFolder *folder, CamelMimeMessage *message,
 		camel_imap_message_cache_copy (imap_folder->cache, olduid,
 					       imap_folder->cache, uid, ex);
 		CAMEL_IMAP_FOLDER_UNLOCK (imap_folder, cache_lock);
-		
-		camel_disco_diary_uidmap_add (CAMEL_DISCO_STORE (store)->diary,
-					      olduid, uid);
-	}
+
+		if (appended_uid)
+			*appended_uid = uid;
+		else
+			g_free (uid);
+	} else if (appended_uid)
+		*appended_uid = NULL;
 	
 	camel_imap_response_free (store, response);
 }
@@ -1127,12 +1143,12 @@ imap_append_resyncing (CamelFolder *folder, CamelMimeMessage *message,
 
 static void
 imap_transfer_offline (CamelFolder *source, GPtrArray *uids,
-		       CamelFolder *destination, gboolean delete_originals,
-		       CamelException *ex)
+		       CamelFolder *dest, GPtrArray **transferred_uids,
+		       gboolean delete_originals, CamelException *ex)
 {
 	CamelImapStore *store = CAMEL_IMAP_STORE (source->parent_store);
 	CamelImapMessageCache *sc = CAMEL_IMAP_FOLDER (source)->cache;
-	CamelImapMessageCache *dc = CAMEL_IMAP_FOLDER (destination)->cache;
+	CamelImapMessageCache *dc = CAMEL_IMAP_FOLDER (dest)->cache;
 	CamelFolderChangeInfo *changes;
 	CamelMimeMessage *message;
 	CamelMessageInfo *mi;
@@ -1146,8 +1162,13 @@ imap_transfer_offline (CamelFolder *source, GPtrArray *uids,
 	 */
 	CAMEL_IMAP_STORE_LOCK (store, command_lock);
 	CAMEL_IMAP_FOLDER_LOCK (source, cache_lock);
-	CAMEL_IMAP_FOLDER_LOCK (destination, cache_lock);
+	CAMEL_IMAP_FOLDER_LOCK (dest, cache_lock);
 	CAMEL_IMAP_STORE_UNLOCK (store, command_lock);
+
+	if (transferred_uids) {
+		*transferred_uids = g_ptr_array_new ();
+		g_ptr_array_set_size (*transferred_uids, uids->len);
+	}
 
 	changes = camel_folder_change_info_new ();
 	for (i = 0; i < uids->len; i++) {
@@ -1160,31 +1181,33 @@ imap_transfer_offline (CamelFolder *source, GPtrArray *uids,
 		g_return_if_fail (mi != NULL);
 
 		destuid = g_strdup_printf ("copy-%s:%s", source->full_name, uid);
-		camel_imap_summary_add_offline (destination->summary, destuid, message, mi);
+		camel_imap_summary_add_offline (dest->summary, destuid, message, mi);
 
 		camel_imap_message_cache_copy (sc, uid, dc, destuid, ex);
 		camel_folder_summary_info_free (source->summary, mi);
 		camel_object_unref (CAMEL_OBJECT (message));
 
 		camel_folder_change_info_add_uid (changes, destuid);
-		g_free (destuid);
+		if (transferred_uids)
+			(*transferred_uids)->pdata[i] = destuid;
+		else
+			g_free (destuid);
 
 		if (delete_originals)
 			camel_folder_delete_message (source, uid);
 	}
 
-	CAMEL_IMAP_FOLDER_UNLOCK (destination, cache_lock);
+	CAMEL_IMAP_FOLDER_UNLOCK (dest, cache_lock);
 	CAMEL_IMAP_FOLDER_UNLOCK (source, cache_lock);
 
-	camel_object_trigger_event (CAMEL_OBJECT (destination),
-				    "folder_changed", changes);
+	camel_object_trigger_event (CAMEL_OBJECT (dest), "folder_changed", changes);
 	camel_folder_change_info_free (changes);
 
 	camel_disco_diary_log (CAMEL_DISCO_STORE (store)->diary,
 			       CAMEL_DISCO_DIARY_FOLDER_TRANSFER,
-			       source, destination, uids, delete_originals);
+			       source, dest, uids, delete_originals);
 }
-	
+
 static void
 handle_copyuid (CamelImapResponse *response, CamelFolder *source,
 		CamelFolder *destination)
@@ -1265,8 +1288,8 @@ do_copy (CamelFolder *source, GPtrArray *uids,
 
 static void
 imap_transfer_online (CamelFolder *source, GPtrArray *uids,
-		      CamelFolder *destination, gboolean delete_originals,
-		      CamelException *ex)
+		      CamelFolder *dest, GPtrArray **transferred_uids,
+		      gboolean delete_originals, CamelException *ex)
 {
 	CamelImapStore *store = CAMEL_IMAP_STORE (source->parent_store);
 	int count, i;
@@ -1276,28 +1299,32 @@ imap_transfer_online (CamelFolder *source, GPtrArray *uids,
 	if (camel_exception_is_set (ex))
 		return;
 
-	count = camel_folder_summary_count (destination->summary);
+	count = camel_folder_summary_count (dest->summary);
 
 	/* Now copy the messages */
-	do_copy (source, uids, destination, ex);
+	do_copy (source, uids, dest, ex);
 	if (camel_exception_is_set (ex))
 		return;
 
 	/* Make the destination notice its new messages */
-	if (store->current_folder != destination ||
-	    camel_folder_summary_count (destination->summary) == count)
-		camel_folder_refresh_info (destination, ex);
+	if (store->current_folder != dest ||
+	    camel_folder_summary_count (dest->summary) == count)
+		camel_folder_refresh_info (dest, ex);
 
 	if (delete_originals) {
 		for (i = 0; i < uids->len; i++)
 			camel_folder_delete_message (source, uids->pdata[i]);
 	}
+
+	/* FIXME */
+	if (transferred_uids)
+		*transferred_uids = NULL;
 }
 
 static void
 imap_transfer_resyncing (CamelFolder *source, GPtrArray *uids,
-			 CamelFolder *destination, gboolean delete_originals,
-			 CamelException *ex)
+			 CamelFolder *dest, GPtrArray **transferred_uids,
+			 gboolean delete_originals, CamelException *ex)
 {
 	CamelDiscoDiary *diary = CAMEL_DISCO_STORE (source->parent_store)->diary;
 	GPtrArray *realuids;
@@ -1334,7 +1361,7 @@ imap_transfer_resyncing (CamelFolder *source, GPtrArray *uids,
 
 		/* If we saw any real UIDs, do a COPY */
 		if (i != first) {
-			do_copy (source, realuids, destination, ex);
+			do_copy (source, realuids, dest, ex);
 			g_ptr_array_set_size (realuids, 0);
 			if (i == uids->len || camel_exception_is_set (ex))
 				break;
@@ -1353,7 +1380,7 @@ imap_transfer_resyncing (CamelFolder *source, GPtrArray *uids,
 			info = camel_folder_get_message_info (source, uid);
 			g_return_if_fail (info != NULL);
 
-			imap_append_online (destination, message, info, ex);
+			imap_append_online (dest, message, info, NULL, ex);
 			camel_folder_free_message_info (source, info);
 			camel_object_unref (CAMEL_OBJECT (message));
 			if (delete_originals)
@@ -1363,6 +1390,10 @@ imap_transfer_resyncing (CamelFolder *source, GPtrArray *uids,
 	}
 
 	g_ptr_array_free (realuids, FALSE);
+
+	/* FIXME */
+	if (transferred_uids)
+		*transferred_uids = NULL;
 }
 
 static GPtrArray *

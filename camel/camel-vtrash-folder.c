@@ -36,8 +36,11 @@
 static CamelVeeFolderClass *camel_vtrash_folder_parent;
 
 static void vtrash_append_message (CamelFolder *folder, CamelMimeMessage *message,
-				   const CamelMessageInfo *info, CamelException *ex);
-static void vtrash_transfer_messages_to (CamelFolder *folder, GPtrArray *uids, CamelFolder *dest, gboolean delete_originals, CamelException *ex);
+				   const CamelMessageInfo *info, char **appended_uid,
+				   CamelException *ex);
+static void vtrash_transfer_messages_to (CamelFolder *folder, GPtrArray *uids,
+					 CamelFolder *dest, GPtrArray **transferred_uids,
+					 gboolean delete_originals, CamelException *ex);
 
 static void
 camel_vtrash_folder_class_init (CamelVTrashFolderClass *klass)
@@ -102,7 +105,9 @@ camel_vtrash_folder_new (CamelStore *parent_store, const char *name)
 }
 
 static void
-vtrash_append_message (CamelFolder *folder, CamelMimeMessage *message, const CamelMessageInfo *info, CamelException *ex)
+vtrash_append_message (CamelFolder *folder, CamelMimeMessage *message,
+		       const CamelMessageInfo *info, char **appended_uid,
+		       CamelException *ex)
 {
 	/* no-op */
 }
@@ -120,7 +125,7 @@ transfer_messages(CamelFolder *folder, struct _transfer_data *md, CamelException
 	int i;
 
 	if (!camel_exception_is_set (ex))
-		camel_folder_transfer_messages_to(md->folder, md->uids, md->dest, md->delete, ex);
+		camel_folder_transfer_messages_to(md->folder, md->uids, md->dest, NULL, md->delete, ex);
 
 	for (i=0;i<md->uids->len;i++)
 		g_free(md->uids->pdata[i]);
@@ -130,7 +135,9 @@ transfer_messages(CamelFolder *folder, struct _transfer_data *md, CamelException
 }
 
 static void
-vtrash_transfer_messages_to (CamelFolder *source, GPtrArray *uids, CamelFolder *dest, gboolean delete_originals, CamelException *ex)
+vtrash_transfer_messages_to (CamelFolder *source, GPtrArray *uids,
+			     CamelFolder *dest, GPtrArray **transferred_uids,
+			     gboolean delete_originals, CamelException *ex)
 {
 	CamelVeeMessageInfo *mi;
 	int i;
@@ -142,6 +149,9 @@ vtrash_transfer_messages_to (CamelFolder *source, GPtrArray *uids, CamelFolder *
 	 * source or the destination is a vtrash folder (but not both
 	 * since a store should never have more than one).
 	 */
+
+	if (transferred_uids)
+		*transferred_uids = NULL;
 
 	if (CAMEL_IS_VTRASH_FOLDER (dest)) {
 		/* Copy to trash is meaningless. */

@@ -57,10 +57,10 @@ static CamelMessageInfo *digest_get_message_info (CamelFolder *folder, const cha
 static CamelMimeMessage *digest_get_message (CamelFolder *folder, const gchar *uid,
 					     CamelException *ex);
 static void digest_append_message (CamelFolder *folder, CamelMimeMessage *message,
-				   const CamelMessageInfo *info, CamelException *ex);
+				   const CamelMessageInfo *info, char **appended_uid, CamelException *ex);
 static void digest_transfer_messages_to (CamelFolder *source, GPtrArray *uids,
-					 CamelFolder *destination, gboolean delete_originals,
-					 CamelException *ex);
+					 CamelFolder *dest, GPtrArray **transferred_uids,
+					 gboolean delete_originals, CamelException *ex);
 
 
 static void
@@ -297,17 +297,22 @@ digest_get_full_name (CamelFolder *folder)
 
 static void
 digest_append_message (CamelFolder *folder, CamelMimeMessage *message,
-		       const CamelMessageInfo *info, CamelException *ex)
+		       const CamelMessageInfo *info, char **appended_uid,
+		       CamelException *ex)
 {
 	/* no-op */
+	if (appended_uid)
+		*appended_uid = NULL;
 }
 
 static void
 digest_transfer_messages_to (CamelFolder *source, GPtrArray *uids,
-			     CamelFolder *destination, gboolean delete_originals,
-			     CamelException *ex)
+			     CamelFolder *dest, GPtrArray **transferred_uids,
+			     gboolean delete_originals, CamelException *ex)
 {
 	/* no-op */
+	if (transferred_uids)
+		*transferred_uids = NULL;
 }
 
 static CamelMimeMessage *

@@ -1,3 +1,55 @@
+2002-05-13  Dan Winship  <danw@ximian.com>
+
+	* camel-folder.c (camel_folder_append_message): Add a "char
+	**appended_uid" argument, for the caller to optionally pass in a
+	variable to receive the UID of the appended message (if the
+	provider knows it).
+	(camel_folder_transfer_messages_to): Likewise, add "GPtrArray
+	**transferred_uids"
+	(transfer_messages_to): Update default implementation to handle
+	transferred_uids.
+
+	* camel-disco-folder.c (disco_append_message,
+	disco_transfer_messages_to): Update for API changes.
+
+	* camel-disco-diary.c (camel_disco_diary_replay): Update the
+	diary's temporary uid->real uid map when replaying appends and
+	transfers.
+
+	* providers/imap/camel-imap-folder.c (imap_append_offline,
+	imap_append_online, imap_transfer_offline): Pass back the new
+	UIDs, when requested and available.
+	(imap_append_resyncing): Pass back the new UIDs when requested and
+	available. Remove the diary uidmap managing code since
+	CamelDiscoDiary can handle that itself now.
+	(imap_transfer_online, imap_transfer_resyncing): Update for new
+	APIs, but don't actually pass back the new UIDs yet. (It's tricky
+	since the COPYUID response may not be in the same order as the
+	input uids.)
+	
+	* providers/local/camel-maildir-folder.c (maildir_append_message):
+	Pass back the new UID if requested.
+
+	* providers/local/camel-mbox-folder.c (mbox_append_message):
+	Likewise.
+
+	* providers/local/camel-mh-folder.c (mh_append_message): Likewise.
+
+	* providers/local/camel-spool-folder.c (spool_append_message):
+	Likewise.
+
+	* camel-digest-folder.c (digest_append_message,
+	digest_transfer_messages_to): Update for API changes.
+
+	* camel-filter-driver.c	(camel_filter_driver_filter_message,
+	do_copy, do_move): Update for API changes.
+
+	* camel-vee-folder.c (vee_append_message,
+	vee_transfer_messages_to): Likewise.
+
+	* camel-vtrash-folder.c (vtrash_append_message,
+	vtrash_transfer_messages_to): Likewise. 
+
 2002-05-13  Not Zed  <NotZed@Ximian.com>
 
 	* camel-folder-thread.c

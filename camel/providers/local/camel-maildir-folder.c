@@ -52,7 +52,7 @@ static CamelLocalFolderClass *parent_class = NULL;
 
 static CamelLocalSummary *maildir_create_summary(const char *path, const char *folder, CamelIndex *index);
 
-static void maildir_append_message(CamelFolder * folder, CamelMimeMessage * message, const CamelMessageInfo *info, CamelException * ex);
+static void maildir_append_message(CamelFolder * folder, CamelMimeMessage * message, const CamelMessageInfo *info, char **appended_uid, CamelException * ex);
 static CamelMimeMessage *maildir_get_message(CamelFolder * folder, const gchar * uid, CamelException * ex);
 
 static void maildir_finalize(CamelObject * object);
@@ -126,7 +126,7 @@ static CamelLocalSummary *maildir_create_summary(const char *path, const char *f
 }
 
 static void
-maildir_append_message (CamelFolder *folder, CamelMimeMessage *message, const CamelMessageInfo *info, CamelException *ex)
+maildir_append_message (CamelFolder *folder, CamelMimeMessage *message, const CamelMessageInfo *info, char **appended_uid, CamelException *ex)
 {
 	CamelMaildirFolder *maildir_folder = (CamelMaildirFolder *)folder;
 	CamelLocalFolder *lf = (CamelLocalFolder *)folder;
@@ -168,6 +168,9 @@ maildir_append_message (CamelFolder *folder, CamelMimeMessage *message, const Ca
 				    ((CamelLocalFolder *)maildir_folder)->changes);
 	camel_folder_change_info_clear (((CamelLocalFolder *)maildir_folder)->changes);
 	
+	if (appended_uid)
+		*appended_uid = g_strdup(camel_message_info_uid(mi));
+
 	return;
 	
  fail_write:

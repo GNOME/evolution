@@ -58,7 +58,7 @@ static void mbox_unlock(CamelLocalFolder *lf);
 static void mbox_set_message_user_flag(CamelFolder *folder, const char *uid, const char *name, gboolean value);
 static void mbox_set_message_user_tag(CamelFolder *folder, const char *uid, const char *name, const char *value);
 
-static void mbox_append_message(CamelFolder *folder, CamelMimeMessage * message, const CamelMessageInfo * info,	CamelException *ex);
+static void mbox_append_message(CamelFolder *folder, CamelMimeMessage * message, const CamelMessageInfo * info,	char **appended_uid, CamelException *ex);
 static CamelMimeMessage *mbox_get_message(CamelFolder *folder, const gchar * uid, CamelException *ex);
 static CamelLocalSummary *mbox_create_summary(const char *path, const char *folder, CamelIndex *index);
 
@@ -172,7 +172,7 @@ static void mbox_unlock(CamelLocalFolder *lf)
 }
 
 static void
-mbox_append_message(CamelFolder *folder, CamelMimeMessage * message, const CamelMessageInfo * info, CamelException *ex)
+mbox_append_message(CamelFolder *folder, CamelMimeMessage * message, const CamelMessageInfo * info, char **appended_uid, CamelException *ex)
 {
 	CamelLocalFolder *lf = (CamelLocalFolder *)folder;
 	CamelStream *output_stream = NULL, *filter_stream = NULL;
@@ -256,6 +256,9 @@ mbox_append_message(CamelFolder *folder, CamelMimeMessage * message, const Camel
 		camel_object_trigger_event((CamelObject *)folder, "folder_changed", lf->changes);
 		camel_folder_change_info_clear(lf->changes);
 	}
+
+	if (appended_uid)
+		*appended_uid = g_strdup(camel_message_info_uid(mi));
 
 	return;
 

@@ -307,7 +307,7 @@ camel_disco_diary_replay (CamelDiscoDiary *diary, CamelException *ex)
 		case CAMEL_DISCO_DIARY_FOLDER_APPEND:
 		{
 			CamelFolder *folder;
-			char *uid;
+			char *uid, *ret_uid;
 			CamelMimeMessage *message;
 			CamelMessageInfo *info;
 
@@ -328,9 +328,14 @@ camel_disco_diary_replay (CamelDiscoDiary *diary, CamelException *ex)
 			}
 			info = camel_folder_get_message_info (folder, uid);
 
-			camel_folder_append_message (folder, message, info, ex);
-			g_free (uid);
+			camel_folder_append_message (folder, message, info, &ret_uid, ex);
 			camel_folder_free_message_info (folder, info);
+
+			if (ret_uid) {
+				camel_disco_diary_uidmap_add (diary, uid, ret_uid);
+				g_free (ret_uid);
+			}
+			g_free (uid);
 
 			break;
 		}
@@ -338,8 +343,9 @@ camel_disco_diary_replay (CamelDiscoDiary *diary, CamelException *ex)
 		case CAMEL_DISCO_DIARY_FOLDER_TRANSFER:
 		{
 			CamelFolder *source, *destination;
-			GPtrArray *uids;
+			GPtrArray *uids, *ret_uids;
 			guint32 delete_originals;
+			int i;
 
 			source = diary_decode_folder (diary);
 			destination = diary_decode_folder (diary);
@@ -354,7 +360,17 @@ camel_disco_diary_replay (CamelDiscoDiary *diary, CamelException *ex)
 				continue;
 			}
 
-			camel_folder_transfer_messages_to (source, uids, destination, delete_originals, ex);
+			camel_folder_transfer_messages_to (source, uids, destination, &ret_uids, delete_originals, ex);
+
+			if (ret_uids) {
+				for (i = 0; i < uids->len; i++) {
+					if (!ret_uids->pdata[i])
+						continue;
+					camel_disco_diary_uidmap_add (diary, uids->pdata[i], ret_uids->pdata[i]);
+					g_free (ret_uids->pdata[i]);
+				}
+				g_ptr_array_free (ret_uids, TRUE);
+			}
 			free_uids (uids);
 			break;
 		}
