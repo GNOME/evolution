@@ -1131,6 +1131,7 @@ message_list_destroy (GtkObject *object)
 		camel_object_unref (CAMEL_OBJECT (message_list->folder));
 	}
 
+	gtk_object_unref (GTK_OBJECT (message_list->extras));
 	gtk_object_unref (GTK_OBJECT (message_list->model));
 
 	if (message_list->idle_id != 0)
@@ -1947,9 +1948,6 @@ message_list_set_folder (MessageList *message_list, CamelFolder *camel_folder, g
 					"strikeout_column", COL_DELETED,
 					NULL);
 		}
-
-		/* Now we're finally done with the extras */
-		gtk_object_sink (GTK_OBJECT (message_list->extras));
 
 		/* Build the etree suitable for this folder */
 		message_list_setup_etree (message_list, outgoing);

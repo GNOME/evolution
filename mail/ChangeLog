@@ -1,5 +1,9 @@
 2001-08-21  Peter Williams  <peterw@ximian.com>
 
+	* message-list.c (message_list_set_folder): Don't sink the extras since
+	_set_folder can get called more than once (on reconfigure.)
+	(message_list_destroy): So just unref the extras here.
+
 	* mail-send-recv.c (build_dialogue): Treat the spool provider like IMAP:
 	update instead of performing an explicit receive.
 
