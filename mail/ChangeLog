@@ -4,6 +4,17 @@
 	dialogs in $HOME, determining if a folder is a drafts folder, and
 	Mark All As Read.
 
+2001-04-13  Dan Winship  <danw@ximian.com>
+
+	* mail-account-gui.c: Plug leaks.
+
+	* mail-display.c (on_url_requested): close the html stream on
+	error too.
+
+	* session.c (auth_callback): Plug leak.
+
+	* mail-send-recv.c (receive_status): Initialize "now".
+
 2001-04-13  Christopher James Lahey  <clahey@ximian.com>
 
 	* message-list.c (on_cursor_activated_cmd): Only activate the

@@ -117,6 +117,7 @@ auth_callback (CamelAuthCallbackMode mode, char *data, gboolean secret,
 {
 	char *key, *ans, *url;
 	gboolean accept;
+	gpointer old_key, old_data;
 	
 	url = camel_url_to_string (service->url, CAMEL_URL_HIDE_PASSWORD | CAMEL_URL_HIDE_PARAMS);
 	key = g_strdup_printf ("%s:%s", url, item);
@@ -124,20 +125,18 @@ auth_callback (CamelAuthCallbackMode mode, char *data, gboolean secret,
 	
 	switch (mode) {
 	case CAMEL_AUTHENTICATOR_TELL:
+		if (g_hash_table_lookup_extended (passwords, key,
+						  &old_key, &old_data)) {
+			g_free (old_data);
+			g_free (key);
+			key = old_key;
+		}
+
 		if (!data) {
 			g_hash_table_remove (passwords, key);
 			g_free (key);
 		} else {
-			gpointer old_key, old_data;
-			
-			if (g_hash_table_lookup_extended (passwords, key,
-							  &old_key,
-							  &old_data)) {
-				g_hash_table_insert (passwords, old_key, data);
-				g_free (old_data);
-				g_free (key);
-			} else
-				g_hash_table_insert (passwords, key, data);
+			g_hash_table_insert (passwords, key, data);
 		}
 		
 		return NULL;
