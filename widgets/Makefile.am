@@ -13,10 +13,12 @@ INCLUDES =					\
 CPPFLAGS = 					\
 	-DE_GUIDIR=\"$(guidir)\"
 
-noinst_LTLIBRARIES =				\
-	libevolutionwidgets.la
+noinst_LIBRARIES =				\
+	libevolutionwidgets.a
 
-libevolutionwidgets_la_SOURCES = 		\
+libevolutionwidgets_a_SOURCES = 		\
+	e-cursors.c				\
+	e-cursors.h				\
 	e-msg-composer-address-dialog.c		\
 	e-msg-composer-address-dialog.h		\
 	e-msg-composer-address-entry.c		\
@@ -42,7 +44,9 @@ libevolutionwidgets_la_SOURCES = 		\
 	e-table-render.c			\
 	e-table-render.h			\
 	e-table-simple.c			\
-	e-table-simple.h
+	e-table-simple.h			\
+	e-table-sorted.c			\
+	e-table-sorted.h
 
 noinst_PROGRAMS =	\
 	table-test

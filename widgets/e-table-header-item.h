@@ -16,6 +16,17 @@ typedef struct {
 
 	GdkGC           *gc;
 	GdkCursor       *change_cursor, *normal_cursor;
+
+	short            x1, y1, height;
+	GdkFont         *font;
+
+	/*
+	 * Used during resizing
+	 */
+	int              resize_col;
+	int 	         resize_width;
+	int              resize_start_pos;
+	GtkObject       *resize_guide;
 } ETableHeaderItem;
 
 typedef struct {

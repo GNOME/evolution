@@ -44,3 +44,4 @@ gboolean    e_table_model_is_cell_editable (ETableModel *e_table_model, int col,
  */
 
 #endif /* _E_TABLE_MODEL_H_ */
+

@@ -1,3 +1,20 @@
+1999-11-14  Miguel de Icaza  <miguel@gnu.org>
+
+	* e-table-header-item.c (is_pointer_on_division): Add resizing
+	capabilities. 
+
+	* e-table-sorted.c: Finish implementation.
+
+1999-11-13  Miguel de Icaza  <miguel@gnu.org>
+
+	* e-table-sorted.c: Implement e-table-sorted object.
+
+1999-11-12  Miguel de Icaza  <miguel@gnu.org>
+
+	* e-table-header-item.c: Make the thing configurable.
+
+	* e-table-header-item.h: Add font field, location, height.
+
 1999-11-12  Ettore Perazzoli  <ettore@gnu.org>
 
 	* e-msg-composer-hdrs.c: New member `tooltips' in `struct

@@ -314,4 +314,3 @@ e_table_header_set_size (ETableHeader *eth, int idx, int size)
 	eth->columns [idx]->width = size;
 	gtk_signal_emit (GTK_OBJECT (eth), eth_signals [DIMENSION_CHANGE], idx);
 }
-

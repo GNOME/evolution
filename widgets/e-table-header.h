@@ -59,3 +59,4 @@ GList      *e_table_header_get_selected_indexes(ETableHeader *eth);
 
 
 #endif /* _E_TABLE_HEADER_H_ */
+

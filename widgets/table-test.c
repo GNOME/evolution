@@ -166,6 +166,12 @@ is_cell_editable (ETableModel *etc, int col, int row, void *data)
 	return TRUE;
 }
 
+static void
+set_canvas_size (GnomeCanvas *canvas, GtkAllocation *alloc)
+{
+	gnome_canvas_set_scroll_region (canvas, 0, 0, alloc->width, alloc->height);
+}
+
 int
 main (int argc, char *argv [])
 {
@@ -175,6 +181,7 @@ main (int argc, char *argv [])
 	int i;
 	
 	gnome_init ("TableTest", "TableTest", argc, argv);
+	e_cursors_init ();
 	
 	load_data ();
 
@@ -191,7 +198,7 @@ main (int argc, char *argv [])
 	e_table_header = e_table_header_new ();
 	for (i = 0; i < cols; i++){
 		ETableCol *ecol = e_table_col_new (
-			column_labels [i], 20, 20, e_table_render_string,
+			column_labels [i], 80, 20, e_table_render_string,
 			NULL, g_str_equal, TRUE);
 
 		e_table_header_add_column (e_table_header, ecol, i);
@@ -203,14 +210,27 @@ main (int argc, char *argv [])
 	window = gtk_window_new (GTK_WINDOW_TOPLEVEL);
 	canvas = gnome_canvas_new ();
 
+	gtk_signal_connect (GTK_OBJECT (canvas), "size_allocate",
+			    GTK_SIGNAL_FUNC (set_canvas_size), NULL);
+	
 	gtk_container_add (GTK_CONTAINER (window), canvas);
 	gtk_widget_show_all (window);
-
 	gnome_canvas_item_new (
 		gnome_canvas_root (GNOME_CANVAS (canvas)),
 		e_table_header_item_get_type (),
 		"ETableHeader", e_table_header,
 		NULL);
+	gnome_canvas_item_new (
+		gnome_canvas_root (GNOME_CANVAS (canvas)),
+		gnome_canvas_rect_get_type (),
+		"x1", 0.0,
+		"y1", 0.0,
+		"x2", 10.0,
+		"y2", 10.0,
+		"fill_color", "red",
+		NULL);
 	gtk_main ();
+
+	e_cursors_shutdown ();
 	return 0;
 }

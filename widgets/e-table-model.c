@@ -113,3 +113,23 @@ e_table_model_height (ETableModel *etable)
 	return size;
 }
 
+#if 0
+int
+e_table_model_max_col_width (ETableModel *etm, int col)
+{
+	const int nvals = e_table_model_row_count (etm);
+	int max = 0;
+	int row;
+	
+	for (row = 0; row < nvals; row++){
+		int w;
+		
+		w = e_table_model_cell_width (etm, col, i);
+
+		if (w > max)
+			max = w;
+	}
+
+	return max;
+}
+#endif
