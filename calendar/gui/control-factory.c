@@ -134,7 +134,7 @@ set_prop (BonoboPropertyBag *bag,
 		source = e_source_new ("", "");
 		e_source_set_group (source, group);
 
-		if (gnome_calendar_add_event_source (gcal, source)) {
+		if (gnome_calendar_add_source (gcal, E_CAL_SOURCE_TYPE_EVENT, source)) {
 			calendar_control_sensitize_calendar_commands (control, gcal, TRUE);
 		} else {
 			char *msg;

@@ -1,3 +1,8 @@
+2004-03-31  Sarfraaz Ahmed <asarfraaz@novell.com>
+
+	* gui/config-control.c (set_prop) : Replaced add_event_source 
+	with add_source and passed the VEVENT type as argument.
+
 2004-03-30  William Jon McCann  <mccann@jhu.edu>
 
 	* gui/dialogs/calendar-setup.glade:
