@@ -234,7 +234,7 @@ evolution_storage_register (EvolutionStorage *evolution_storage,
 	corba_storage = bonobo_object_corba_objref (BONOBO_OBJECT (evolution_storage));
 	corba_storage_listener = Evolution_StorageRegistry_register_storage (corba_storage_registry,
 									     corba_storage,
-									     "pippo", &ev);
+									     priv->name, &ev);
 
 	if (ev._major == CORBA_NO_EXCEPTION) {
 		Bonobo_Unknown_ref (corba_storage_registry, &ev);
