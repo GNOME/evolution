@@ -54,10 +54,21 @@ struct _EMsgComposerHdrsClass {
 };
 
 
-GtkType    e_msg_composer_hdrs_get_type   (void);
-GtkWidget *e_msg_composer_hdrs_new        (void);
-void       e_msg_composer_hdrs_to_message (EMsgComposerHdrs *hdrs,
-					   CamelMimeMessage *msg);
+GtkType    e_msg_composer_hdrs_get_type    (void);
+GtkWidget *e_msg_composer_hdrs_new         (void);
+void       e_msg_composer_hdrs_to_message  (EMsgComposerHdrs *hdrs,
+					    CamelMimeMessage *msg);
+
+void	   e_msg_composer_hdrs_set_to      (EMsgComposerHdrs *hdrs,
+					    GList *to_list);
+void	   e_msg_composer_hdrs_set_cc      (EMsgComposerHdrs *hdrs,
+					    GList *cc_list);
+void	   e_msg_composer_hdrs_set_bcc     (EMsgComposerHdrs *hdrs,
+					    GList *bcc_list);
+
+GList	  *e_msg_composer_hdrs_get_to      (EMsgComposerHdrs *hdrs);
+GList	  *e_msg_composer_hdrs_get_cc      (EMsgComposerHdrs *hdrs);
+GList	  *e_msg_composer_hdrs_get_bcc     (EMsgComposerHdrs *hdrs);
 
 #ifdef _cplusplus
 }

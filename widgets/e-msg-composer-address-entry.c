@@ -140,3 +140,36 @@ e_msg_composer_address_entry_get_addresses (EMsgComposerAddressEntry *entry)
 
 	return g_list_reverse (list);
 }
+
+/**
+ * e_msg_composer_address_entry_set_list:
+ * @entry: An address entry
+ * @list: List of pointers to strings representing the addresses that must
+ * appear in the entry
+ * 
+ * Set the address list from @list.
+ **/
+void
+e_msg_composer_address_entry_set_list (EMsgComposerAddressEntry *entry,
+				       GList *list)
+{
+	GString *string;
+	GList *p;
+
+	g_return_if_fail (entry != NULL);
+
+	if (list == NULL) {
+		gtk_editable_delete_text (GTK_EDITABLE (entry), -1, -1);
+		return;
+	}
+
+	string = g_string_new (NULL);
+	for (p = list; p != NULL; p = p->next) {
+		if (string->str[0] != '\0')
+			g_string_append (string, ", ");
+		g_string_append (string, p->data);
+	}
+
+	gtk_entry_set_text (GTK_ENTRY (entry), string->str);
+	g_string_free (string, TRUE);
+}

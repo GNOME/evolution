@@ -56,6 +56,16 @@ load_addresses (EMsgComposerAddressDialog *dialog)
 		gtk_clist_append (clist, text[i]);
 }
 
+/* Combine name and email into an address, e.g. "Ettore Perazzoli
+   <ettore@gnu.org>".  FIXME FIXME FIXME this does not handle quoting (commas
+   will cause troubles), but it should.  */
+static gchar *
+make_full_address (const gchar *name,
+		   const gchar *email)
+{
+	return g_strconcat (name, " <", email, ">", NULL);
+}
+
 /* This loads the selected address in the address GtkCList into the requested
    GtkList.  */
 static void
@@ -64,19 +74,134 @@ add_address (EMsgComposerAddressDialog *dialog,
 {
 	GtkCList *src_clist;
 	GtkCList *dest_clist;
-	guint row;
+	gchar *name, *email;
 	gchar *text[2];
+	guint row;
 
-	src_clist = GTK_CLIST (glade_xml_get_widget (dialog->gui, "address_clist"));
+	src_clist = GTK_CLIST (glade_xml_get_widget (dialog->gui,
+						     "address_clist"));
+	if (src_clist->selection == NULL)
+		return;
+
 	dest_clist = GTK_CLIST (glade_xml_get_widget (dialog->gui, list_name));
 	row = GPOINTER_TO_INT (src_clist->selection->data);
 
-	gtk_clist_get_text (src_clist, row, 0, &text[0]);
+	gtk_clist_get_text (src_clist, row, 0, &name);
+	gtk_clist_get_text (src_clist, row, 1, &email);
+
+	text[0] = make_full_address (name, email);
 	text[1] = NULL;
+
 	gtk_clist_append (dest_clist, text);
-	gtk_clist_set_row_data (dest_clist, dest_clist->rows - 1,
-				GINT_TO_POINTER (row));
+
+	g_free (text[0]);
 }
+
+static void
+apply (EMsgComposerAddressDialog *dialog)
+{
+	gtk_signal_emit (GTK_OBJECT (dialog), signals[APPLY]);
+}
+
+
+/* Recipient list popup menu.  */
+
+struct _RecipientListInfo {
+	EMsgComposerAddressDialog *dialog;
+	GtkCList *clist;
+	gint row;		/* -1 if menu was popped up in an empty
+				   area.  */
+};
+typedef struct _RecipientListInfo RecipientListInfo;
+
+static void
+copy_recipient (RecipientListInfo *info,
+		gboolean remove)
+{
+	gchar *text;
+	gint row;
+
+	if (info->clist->selection == NULL)
+		return;
+
+	row = GPOINTER_TO_INT (info->clist->selection->data);
+	gtk_clist_get_text (info->clist, row, 0, &text);
+
+	g_free (info->dialog->cut_buffer);
+	info->dialog->cut_buffer = g_strdup (text);
+
+	if (remove)
+		gtk_clist_remove (info->clist, row);
+
+	gtk_selection_owner_set (GTK_WIDGET (info->clist),
+				 GDK_SELECTION_PRIMARY,
+				 GDK_CURRENT_TIME);
+}
+
+static void
+copy_recipient_cb (GtkWidget *widget,
+		   gpointer data)
+{
+	RecipientListInfo *info;
+
+	info = (RecipientListInfo *) data;
+	copy_recipient (info, FALSE);
+	g_free (info);
+}
+
+static void
+cut_recipient_cb (GtkWidget *widget,
+		  gpointer data)
+{
+	RecipientListInfo *info;
+
+	info = (RecipientListInfo *) data;
+	copy_recipient (info, TRUE);
+	g_free (info);
+}
+
+static void
+paste_recipient_cb (GtkWidget *widget,
+		    gpointer data)
+{
+	RecipientListInfo *info;
+	GdkAtom atom;
+	gchar *text[2];
+
+	info = (RecipientListInfo *) data;
+
+	atom = gdk_atom_intern ("STRING", FALSE);
+	gtk_selection_convert (GTK_WIDGET (info->clist),
+			       GDK_SELECTION_PRIMARY,
+			       atom,
+			       GDK_CURRENT_TIME);
+
+	g_free (info);
+}
+
+static GnomeUIInfo recipient_list_item_popup_info[] = {
+	GNOMEUIINFO_ITEM_STOCK (N_("Cut"),
+				N_("Cut selected item into clipboard"),
+				cut_recipient_cb,
+				GNOME_STOCK_MENU_CUT),
+	GNOMEUIINFO_ITEM_STOCK (N_("Copy"),
+				N_("Copy selected item into clipboard"),
+				copy_recipient_cb,
+				GNOME_STOCK_MENU_COPY),
+	GNOMEUIINFO_ITEM_STOCK (N_("Paste"),
+				N_("Paste item from clipboard"),
+				paste_recipient_cb,
+				GNOME_STOCK_MENU_PASTE),
+	GNOMEUIINFO_END
+};
+
+static GnomeUIInfo recipient_list_popup_info[] = {
+	GNOMEUIINFO_ITEM_STOCK (N_("Paste"),
+				N_("Paste item from clipboard"),
+				paste_recipient_cb,
+				GNOME_STOCK_MENU_PASTE),
+	GNOMEUIINFO_END
+};
 
 
 /* Signals.  */
@@ -119,15 +244,192 @@ glade_connect (GladeXML *gui,
 				    GTK_SIGNAL_FUNC (callback), callback_data);
 }
 
+static gint
+recipient_clist_button_press_cb (GtkWidget *widget,
+				 GdkEventButton *event,
+				 gpointer data)
+{
+	EMsgComposerAddressDialog *dialog;
+	RecipientListInfo *info;
+	GtkWidget *popup;
+	GtkCList *clist;
+	gboolean on_row;
+	gint row, column;
+
+	dialog = E_MSG_COMPOSER_ADDRESS_DIALOG (data);
+
+	clist = GTK_CLIST (widget);
+
+	if (event->window != clist->clist_window || event->button != 3)
+		return FALSE;
+
+	on_row = gtk_clist_get_selection_info (clist, event->x, event->y,
+					       &row, &column);
+
+	info = g_new (RecipientListInfo, 1);
+	info->dialog = dialog;
+	info->clist = clist;
+
+	if (on_row) {
+		gtk_clist_unselect_all (clist);
+		gtk_clist_select_row (clist, row, 0);
+		info->row = row;
+		popup = gnome_popup_menu_new (recipient_list_item_popup_info);
+	} else {
+		info->row = -1;
+		popup = gnome_popup_menu_new (recipient_list_popup_info);
+	}
+
+	gnome_popup_menu_do_popup_modal (popup, NULL, NULL, event, info);
+
+	gtk_widget_destroy (popup);
+
+	return TRUE;
+}
+
+/* FIXME needs more work.  */
+static void
+recipient_clist_selection_received_cb (GtkWidget *widget,
+				       GtkSelectionData *selection_data,
+				       guint time,
+				       gpointer data)
+{
+	GtkCList *clist;
+	gchar *text[2];
+	gchar *p;
+
+	puts (__FUNCTION__);
+
+	if (selection_data->length < 0)
+		return;
+
+	clist = GTK_CLIST (widget);
+
+	/* FIXME quoting.  */
+	text[0] = g_strdup (selection_data->data);
+	text[1] = NULL;
+
+	/* It is a common mistake to paste `\n's, let's work around that.  */
+	for (p = text[0]; *p != '\0'; p++) {
+		if (*p == '\n') {
+			*p = '\0';
+			break;
+		}
+	}
+
+	if (clist->selection != NULL) {
+		gint row;
+
+		row = GPOINTER_TO_INT (clist->selection->data);
+		gtk_clist_insert (clist, row, text);
+	} else {
+		gtk_clist_append (clist, text);
+	}
+
+	g_free (text[0]);
+}
+
+static void
+recipient_clist_selection_get_cb (GtkWidget *widget, 
+				  GtkSelectionData *selection_data,
+				  guint info,
+				  guint time,
+				  gpointer data)
+{
+	EMsgComposerAddressDialog *dialog;
+	GdkAtom atom;
+
+	puts (__FUNCTION__);
+
+	dialog = E_MSG_COMPOSER_ADDRESS_DIALOG (data);
+	if (dialog->cut_buffer == NULL)
+		return;		/* FIXME should I do something special?  */
+
+	atom = gdk_atom_intern ("STRING", FALSE);
+	gtk_selection_data_set (selection_data, atom, 8,
+				dialog->cut_buffer,
+				strlen (dialog->cut_buffer));
+}
+
+static void
+recipient_clist_selection_clear_event_cb (GtkWidget *widget,
+					  GdkEventSelection *selection,
+					  gpointer data)
+{
+	EMsgComposerAddressDialog *dialog;
+
+	dialog = E_MSG_COMPOSER_ADDRESS_DIALOG (data);
+	g_free (dialog->cut_buffer);
+	dialog->cut_buffer = NULL;
+}
+
+static void
+setup_recipient_list_signals (EMsgComposerAddressDialog *dialog,
+			      const gchar *name)
+{
+	glade_connect (dialog->gui, name, "button_press_event",
+		       GTK_SIGNAL_FUNC (recipient_clist_button_press_cb),
+		       dialog);
+	glade_connect (dialog->gui, name, "selection_received",
+		       GTK_SIGNAL_FUNC (recipient_clist_selection_received_cb),
+		       dialog);
+	glade_connect (dialog->gui, name, "selection_get",
+		       GTK_SIGNAL_FUNC (recipient_clist_selection_get_cb),
+		       dialog);
+	glade_connect (dialog->gui, name, "selection_clear_event",
+		       GTK_SIGNAL_FUNC (recipient_clist_selection_clear_event_cb),
+		       dialog);
+}
+
 static void
 setup_signals (EMsgComposerAddressDialog *dialog)
 {
-	glade_connect (dialog->gui, "to_add_button", "clicked", add_to_cb,
-		       dialog);
-	glade_connect (dialog->gui, "cc_add_button", "clicked", add_cc_cb,
-		       dialog);
-	glade_connect (dialog->gui, "bcc_add_button", "clicked", add_bcc_cb,
-		       dialog);
+	glade_connect (dialog->gui, "to_add_button", "clicked",
+		       GTK_SIGNAL_FUNC (add_to_cb), dialog);
+	glade_connect (dialog->gui, "cc_add_button", "clicked",
+		       GTK_SIGNAL_FUNC (add_cc_cb), dialog);
+	glade_connect (dialog->gui, "bcc_add_button", "clicked",
+		       GTK_SIGNAL_FUNC (add_bcc_cb), dialog);
+
+	setup_recipient_list_signals (dialog, "to_clist");
+	setup_recipient_list_signals (dialog, "cc_clist");
+	setup_recipient_list_signals (dialog, "bcc_clist");
+}
+
+
+static void
+setup_selection_targets (EMsgComposerAddressDialog *dialog)
+{
+	gtk_selection_add_target (glade_xml_get_widget (dialog->gui, "to_clist"),
+				  GDK_SELECTION_PRIMARY,
+				  GDK_SELECTION_TYPE_STRING, 0);
+	gtk_selection_add_target (glade_xml_get_widget (dialog->gui, "cc_clist"),
+				  GDK_SELECTION_PRIMARY,
+				  GDK_SELECTION_TYPE_STRING, 0);
+	gtk_selection_add_target (glade_xml_get_widget (dialog->gui, "bcc_clist"),
+				  GDK_SELECTION_PRIMARY,
+				  GDK_SELECTION_TYPE_STRING, 0);
+}
+
+
+/* GnomeDialog methods.  */
+
+static void
+clicked (GnomeDialog *dialog,
+	 gint button_number)
+{
+	switch (button_number) {
+	case 0:			/* OK */
+		apply (E_MSG_COMPOSER_ADDRESS_DIALOG (dialog));
+		gnome_dialog_close (dialog);
+		break;
+	case 1:			/* Apply */
+		apply (E_MSG_COMPOSER_ADDRESS_DIALOG (dialog));
+		break;
+	case 2:			/* Cancel */
+		gnome_dialog_close (dialog);
+		break;
+	}
 }
 
 
@@ -143,6 +445,7 @@ destroy (GtkObject *object)
 	dialog = E_MSG_COMPOSER_ADDRESS_DIALOG (object);
 
 	gtk_object_unref (GTK_OBJECT (dialog->gui));
+	g_free (dialog->cut_buffer);
 
 	if (GTK_OBJECT_CLASS (parent_class)->destroy != NULL)
 		(* GTK_OBJECT_CLASS (parent_class)->destroy) (object);
@@ -155,9 +458,13 @@ static void
 class_init (EMsgComposerAddressDialogClass *class)
 {
 	GtkObjectClass *object_class;
+	GnomeDialogClass *gnome_dialog_class;
 
 	object_class = GTK_OBJECT_CLASS (class);
 	object_class->destroy = destroy;
+
+	gnome_dialog_class = GNOME_DIALOG_CLASS (class);
+	gnome_dialog_class->clicked = clicked;
 
 	parent_class = gtk_type_class (gnome_dialog_get_type ());
 
@@ -177,6 +484,7 @@ static void
 init (EMsgComposerAddressDialog *dialog)
 {
 	dialog->gui = NULL;
+	dialog->cut_buffer = NULL;
 }
 
 
@@ -230,6 +538,7 @@ e_msg_composer_address_dialog_construct (EMsgComposerAddressDialog *dialog)
 	gtk_container_add (GTK_CONTAINER (GNOME_DIALOG (dialog)->vbox),
 			   glade_xml_get_widget (dialog->gui, "main_table"));
 
+	setup_selection_targets (dialog);
 	load_addresses (dialog);
 	setup_signals (dialog);
 }
@@ -246,15 +555,60 @@ e_msg_composer_address_dialog_new (void)
 }
 
 
-static gchar *
-make_full_address (const gchar *name,
-		   const gchar *email)
+static void
+set_list (EMsgComposerAddressDialog *dialog,
+	  const gchar *list_name,
+	  GList *list)
 {
-	/* FIXME handle quoting.  */
+	GtkCList *clist;
+	GList *p;
+	gchar *text[2];
 
-	return g_strconcat (name, " <", email, ">", NULL);
+	clist = GTK_CLIST (glade_xml_get_widget (dialog->gui, list_name));
+
+	gtk_clist_freeze (clist);
+	gtk_clist_clear (clist);
+
+	text[1] = NULL;
+	for (p = list; p != NULL; p = p->next) {
+		text[0] = (gchar *) p->data;
+		gtk_clist_append (clist, text);
+	}
+
+	gtk_clist_thaw (clist);
 }
 
+void
+e_msg_composer_address_dialog_set_to_list (EMsgComposerAddressDialog *dialog, 
+					   GList *to_list)
+{
+	g_return_if_fail (dialog != NULL);
+	g_return_if_fail (E_IS_MSG_COMPOSER_ADDRESS_DIALOG (dialog));
+
+	set_list (dialog, "to_clist", to_list);
+}
+
+void
+e_msg_composer_address_dialog_set_cc_list (EMsgComposerAddressDialog *dialog, 
+					   GList *cc_list)
+{
+	g_return_if_fail (dialog != NULL);
+	g_return_if_fail (E_IS_MSG_COMPOSER_ADDRESS_DIALOG (dialog));
+
+	set_list (dialog, "cc_clist", cc_list);
+}
+
+void
+e_msg_composer_address_dialog_set_bcc_list (EMsgComposerAddressDialog *dialog, 
+					    GList *bcc_list)
+{
+	g_return_if_fail (dialog != NULL);
+	g_return_if_fail (E_IS_MSG_COMPOSER_ADDRESS_DIALOG (dialog));
+
+	set_list (dialog, "bcc_clist", bcc_list);
+}
+
+
 static GList *
 get_list (EMsgComposerAddressDialog *dialog,
 	  const gchar *clist_name)
@@ -264,20 +618,14 @@ get_list (EMsgComposerAddressDialog *dialog,
 	GList *list;
 	guint i;
 
-	address_clist = GTK_CLIST (glade_xml_get_widget (dialog->gui,
-							 "address_clist"));
 	clist = GTK_CLIST (glade_xml_get_widget (dialog->gui, clist_name));
 
 	list = NULL;
 	for (i = 0; i < clist->rows; i++) {
-		gchar *name, *email;
-		guint addr_row;
+		gchar *addr;
 
-		addr_row = GPOINTER_TO_INT (gtk_clist_get_row_data (clist, i));
-		gtk_clist_get_text (clist, addr_row, 0, &name);
-		gtk_clist_get_text (clist, addr_row, 0, &email);
-
-		list = g_list_prepend (list, make_full_address (name, email));
+		gtk_clist_get_text (clist, i, 0, &addr);
+		list = g_list_prepend (list, g_strdup (addr));
 	}
 
 	return g_list_reverse (list);

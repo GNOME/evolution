@@ -59,6 +59,20 @@ static guint signals[LAST_SIGNAL] = { 0 };
 static GnomeAppClass *parent_class = NULL;
 
 
+static void
+free_string_list (GList *list)
+{
+	GList *p;
+
+	if (list == NULL)
+		return;
+
+	for (p = list; p != NULL; p = p->next)
+		g_free (p->data);
+
+	g_list_free (list);
+}
+
 /* This functions builds a CamelMimeMessage for the message that the user has
    composed in `composer'.  */
 static CamelMimeMessage *
@@ -134,6 +148,25 @@ address_dialog_destroy_cb (GtkWidget *widget,
 	composer->address_dialog = NULL;
 }
 
+static void
+address_dialog_apply_cb (EMsgComposerAddressDialog *dialog,
+			 gpointer data)
+{
+	EMsgComposerHdrs *hdrs;
+	GList *list;
+
+	hdrs = E_MSG_COMPOSER_HDRS (E_MSG_COMPOSER (data)->hdrs);
+
+	list = e_msg_composer_address_dialog_get_to_list (dialog);
+	e_msg_composer_hdrs_set_to (hdrs, list);
+
+	list = e_msg_composer_address_dialog_get_cc_list (dialog);
+	e_msg_composer_hdrs_set_cc (hdrs, list);
+
+	list = e_msg_composer_address_dialog_get_bcc_list (dialog);
+	e_msg_composer_hdrs_set_bcc (hdrs, list);
+}
+
 
 /* Message composer window callbacks.  */
 
@@ -177,19 +210,48 @@ add_attachment_cb (GtkWidget *widget,
 		 NULL);
 }
 
+/* Create the address dialog if not created already.  */
+static void
+setup_address_dialog (EMsgComposer *composer)
+{
+	EMsgComposerAddressDialog *dialog;
+	EMsgComposerHdrs *hdrs;
+	GList *list;
+
+	if (composer->address_dialog != NULL)
+		return;
+
+	composer->address_dialog = e_msg_composer_address_dialog_new ();
+	dialog = E_MSG_COMPOSER_ADDRESS_DIALOG (composer->address_dialog);
+	hdrs = E_MSG_COMPOSER_HDRS (composer->hdrs);
+
+	gtk_signal_connect (GTK_OBJECT (dialog),
+			    "destroy", address_dialog_destroy_cb, composer);
+	gtk_signal_connect (GTK_OBJECT (dialog),
+			    "apply", address_dialog_apply_cb, composer);
+
+	list = e_msg_composer_hdrs_get_to (hdrs);
+	e_msg_composer_address_dialog_set_to_list (dialog, list);
+
+	list = e_msg_composer_hdrs_get_cc (hdrs);
+	e_msg_composer_address_dialog_set_cc_list (dialog, list);
+
+	list = e_msg_composer_hdrs_get_bcc (hdrs);
+	e_msg_composer_address_dialog_set_bcc_list (dialog, list);
+}
+
 static void
 address_dialog_cb (GtkWidget *widget,
 		   gpointer data)
 {
 	EMsgComposer *composer;
 
+	/* FIXME maybe we should hide the dialog on Cancel/OK instead of
+           destroying it.  */
+
 	composer = E_MSG_COMPOSER (data);
-	if (composer->address_dialog == NULL) {
-		composer->address_dialog = e_msg_composer_address_dialog_new ();
-		gtk_signal_connect (GTK_OBJECT (composer->address_dialog),
-				    "destroy", address_dialog_destroy_cb,
-				    composer);
-	}
+
+	setup_address_dialog (composer);
 
 	gtk_widget_show (composer->address_dialog);
 	gdk_window_show (composer->address_dialog->window);

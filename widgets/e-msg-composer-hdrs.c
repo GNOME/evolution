@@ -194,3 +194,75 @@ e_msg_composer_hdrs_to_message (EMsgComposerHdrs *hdrs,
 	set_recipients (msg, hdrs->priv->cc_entry, RECIPIENT_TYPE_CC);
 	set_recipients (msg, hdrs->priv->bcc_entry, RECIPIENT_TYPE_BCC);
 }
+
+
+void
+e_msg_composer_hdrs_set_to (EMsgComposerHdrs *hdrs,
+			    GList *to_list)
+{
+	EMsgComposerAddressEntry *entry;
+
+	g_return_if_fail (hdrs != NULL);
+	g_return_if_fail (E_IS_MSG_COMPOSER_HDRS (hdrs));
+
+	entry = E_MSG_COMPOSER_ADDRESS_ENTRY (hdrs->priv->to_entry);
+	e_msg_composer_address_entry_set_list (entry, to_list);
+}
+
+void
+e_msg_composer_hdrs_set_cc (EMsgComposerHdrs *hdrs,
+			    GList *cc_list)
+{
+	EMsgComposerAddressEntry *entry;
+
+	g_return_if_fail (hdrs != NULL);
+	g_return_if_fail (E_IS_MSG_COMPOSER_HDRS (hdrs));
+
+	entry = E_MSG_COMPOSER_ADDRESS_ENTRY (hdrs->priv->cc_entry);
+	e_msg_composer_address_entry_set_list (entry, cc_list);
+}
+
+void
+e_msg_composer_hdrs_set_bcc (EMsgComposerHdrs *hdrs,
+			     GList *bcc_list)
+{
+	EMsgComposerAddressEntry *entry;
+
+	g_return_if_fail (hdrs != NULL);
+	g_return_if_fail (E_IS_MSG_COMPOSER_HDRS (hdrs));
+
+	entry = E_MSG_COMPOSER_ADDRESS_ENTRY (hdrs->priv->bcc_entry);
+	e_msg_composer_address_entry_set_list (entry, bcc_list);
+}
+
+
+GList *
+e_msg_composer_hdrs_get_to (EMsgComposerHdrs *hdrs)
+{
+	g_return_val_if_fail (hdrs != NULL, NULL);
+	g_return_val_if_fail (E_IS_MSG_COMPOSER_HDRS (hdrs), NULL);
+
+	return e_msg_composer_address_entry_get_addresses
+		(E_MSG_COMPOSER_ADDRESS_ENTRY (hdrs->priv->to_entry));
+}
+
+GList *
+e_msg_composer_hdrs_get_cc (EMsgComposerHdrs *hdrs)
+{
+	g_return_val_if_fail (hdrs != NULL, NULL);
+	g_return_val_if_fail (E_IS_MSG_COMPOSER_HDRS (hdrs), NULL);
+
+	return e_msg_composer_address_entry_get_addresses
+		(E_MSG_COMPOSER_ADDRESS_ENTRY (hdrs->priv->cc_entry));
+}
+
+GList *
+e_msg_composer_hdrs_get_bcc (EMsgComposerHdrs *hdrs)
+{
+	g_return_val_if_fail (hdrs != NULL, NULL);
+	g_return_val_if_fail (E_IS_MSG_COMPOSER_HDRS (hdrs), NULL);
+
+	return e_msg_composer_address_entry_get_addresses
+		(E_MSG_COMPOSER_ADDRESS_ENTRY (hdrs->priv->bcc_entry));
+}
+

@@ -1,3 +1,71 @@
+1999-11-08  Ettore Perazzoli  <ettore@gnu.org>
+
+	* e-msg-composer-address-dialog.c: Implemented cut & paste for the
+	recipient lists.
+	(init): Initialize `cut_buffer'.
+	(destroy): Free it.
+	(recipient_clist_selection_get_cb): New function.
+	(recipient_clist_selection_received_cb): New function.
+	(recipient_clist_selection_clear_event_cb): New function.
+	(setup_recipient_list_signals): Install them as signal handlers
+	for "selection_get", "selection_received" and
+	"selection_clear_event" respectively.
+	(copy_recipient_cb): New function implementing the "copy"
+	operation.
+	(cut_recipient_cb): New function implementing the "cut" operation.
+	(paste_recipient_cb): New function implementing the "paste"
+	operation.
+
+	* e-msg-composer-address-dialog.h: New member `cut_buffer' in
+	`struct _EMsgComposerAddressDialog'.
+
+1999-11-07  Ettore Perazzoli  <ettore@gnu.org>
+
+	* e-msg-composer-address-dialog.c: New context menu
+	`recipient_list_popup_info' for the recipient CLists.
+	(recipient_clist_button_press_cb): New function.
+	(setup_signals): Install it as the "button_press_event" signal
+	handler for popping up the CList context menu.
+
+	* e-msg-composer.c (free_string_list): New helper function.
+	(setup_address_dialog): Setup the initial values in the address
+	dialog according to the ones in the header widget.
+
+	* e-msg-composer-hdrs.c (e_msg_composer_hdrs_get_to): New function.
+	(e_msg_composer_hdrs_get_cc): New function.
+	(e_msg_composer_hdrs_get_bcc): New function.
+
+	* e-msg-composer.c (setup_address_dialog): New helper function.
+	(address_dialog_cb): Use it.
+
+	* e-msg-composer-address-dialog.c (add_address): Do not set the
+	row data anymore.  Instead, put the full address description
+	(i.e. complete with the email address, not just the full name) in
+	the CList.
+	(add_address): Do nothing if no item is selected in the address
+	CList.
+	(get_list): Get the address list from the CList without passing
+	through the address CList.
+	(set_list): New helper function.
+	(e_msg_composer_address_dialog_set_to_list): New function.
+	(e_msg_composer_address_dialog_set_cc_list): New function.
+	(e_msg_composer_address_dialog_set_bcc_list): New function.
+
+	* e-msg-composer.c (address_dialog_apply_cb): Apply values from
+	the address dialog into the composer.
+
+	* e-msg-composer-hdrs.c (e_msg_composer_hdrs_set_to): New function.
+	(e_msg_composer_hdrs_set_cc): New function.
+	(e_msg_composer_hdrs_set_bcc): New function.
+
+	* e-msg-composer-address-entry.c
+	(e_msg_composer_address_entry_set_list): New function.
+
+	* e-msg-composer-address-dialog.c (apply): New helper function.
+	(clicked): New function, `clicked' method for the `GnomeDialog'
+	class.
+	(class_init): Install it.
+
 1999-11-06  Ettore Perazzoli  <ettore@gnu.org>
 
 	* e-msg-composer-attachment-bar.c (destroy): Call the destroy

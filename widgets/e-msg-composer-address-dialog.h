@@ -46,6 +46,8 @@ struct _EMsgComposerAddressDialog {
 	GnomeDialog parent;
 
 	GladeXML *gui;
+
+	gchar *cut_buffer;
 };
 
 struct _EMsgComposerAddressDialogClass {
@@ -58,6 +60,12 @@ struct _EMsgComposerAddressDialogClass {
 GtkType e_msg_composer_address_dialog_get_type (void);
 GtkWidget *e_msg_composer_address_dialog_new (void);
 void e_msg_composer_address_dialog_construct (EMsgComposerAddressDialog *dialog);
+void e_msg_composer_address_dialog_set_to_list (EMsgComposerAddressDialog *dialog, GList *to_list);
+void e_msg_composer_address_dialog_set_cc_list (EMsgComposerAddressDialog *dialog, GList *cc_list);
+void e_msg_composer_address_dialog_set_bcc_list (EMsgComposerAddressDialog *dialog, GList *bcc_list);
+GList *e_msg_composer_address_dialog_get_to_list (EMsgComposerAddressDialog *dialog);
+GList *e_msg_composer_address_dialog_get_cc_list (EMsgComposerAddressDialog *dialog);
+GList *e_msg_composer_address_dialog_get_bcc_list (EMsgComposerAddressDialog *dialog);
 
 #ifdef __cplusplus
 }
