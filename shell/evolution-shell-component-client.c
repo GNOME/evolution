@@ -326,14 +326,16 @@ evolution_shell_component_client_new (const char *id)
 	corba_object = oaf_activate_from_id ((char *) id, 0, NULL, &ev); /* Yuck.  */
 	if (ev._major != CORBA_NO_EXCEPTION) {
 		CORBA_exception_free (&ev);
-		g_error ("Could not start up component for %s. "
-			 "(See previous error messages?)", id);
+		g_warning ("Could not start up component for %s. "
+			   "(See previous error messages?)", id);
+		return NULL;
 	}
 	CORBA_exception_free (&ev);
 
 	if (corba_object == CORBA_OBJECT_NIL) {
-		g_error ("Could not activate component %s. "
-			 "(Maybe you need to set OAF_INFO_PATH?)", id);
+		g_warning ("Could not activate component %s. "
+			   "(Maybe you need to set OAF_INFO_PATH?)", id);
+		return NULL;
 	}
 
 	new = gtk_type_new (evolution_shell_component_client_get_type ());
