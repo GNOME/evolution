@@ -445,7 +445,7 @@ file_send_as_cb (GtkWidget *widget, gpointer data)
 
 	extract_info (cle);
 
-	eab_send_contact(cle->contact, EAB_DISPOSITION_AS_ATTACHMENT);
+	eab_send_contact(cle->contact, 0, EAB_DISPOSITION_AS_ATTACHMENT);
 }
 
 static void
@@ -455,7 +455,7 @@ file_send_to_cb (GtkWidget *widget, gpointer data)
 
 	extract_info (cle);
 
-	eab_send_contact(cle->contact, EAB_DISPOSITION_AS_TO);
+	eab_send_contact(cle->contact, 0, EAB_DISPOSITION_AS_TO);
 }
 
 static void

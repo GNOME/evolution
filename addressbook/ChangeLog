@@ -1,5 +1,11 @@
 2004-05-18  Chris Toshok  <toshok@ximian.com>
 
+	* gui/contact-list-editor/e-contact-list-editor.c
+	(file_send_as_cb): pass 0 to eab_send_contact.
+	(file_send_to_cb): same.
+
+2004-05-18  Chris Toshok  <toshok@ximian.com>
+
 	* gui/widgets/eab-gui-util.c
 	(eab_send_to_contact_and_email_num_list): split out the
 	DISPOSITION_AS_TO stuff here, and make it take a GList of
