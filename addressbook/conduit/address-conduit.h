@@ -1,86 +1,78 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
+/* Evolution calendar - ToDo Conduit Capplet
+ *
+ * Copyright (C) 1998 Free Software Foundation
+ * Copyright (C) 2000 Helix Code, Inc.
+ *
+ * Authors: Eskil Heyn Olsen <deity@eskil.dk> 
+ *          JP Rosevear <jpr@helixcode.com>
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
+ */
 
-#ifndef __ADDRESS_CONDUIT_H__
-#define __ADDRESS_CONDUIT_H__
+#ifndef __ADDR_CONDUIT_H__
+#define __ADDR_CONDUIT_H__
 
 #include <sys/types.h>
 #include <fcntl.h>
 #include <unistd.h>
 #include <gnome.h>
-#include <liboaf/liboaf.h>
 #include <pi-address.h>
 #include <gpilotd/gnome-pilot-conduit.h>
-#include <gpilotd/gnome-pilot-conduit-standard-abs.h>
-#include "ebook/e-card.h"
-#include "ebook/e-card-simple.h"
-#include "ebook/e-book.h"
-#include "ebook/e-book-view.h"
+#include <gpilotd/gnome-pilot-conduit-sync-abs.h>
 
 
-/* This is the local record structure for the GnomeCal conduit. */
-typedef struct _AddressbookLocalRecord AddressbookLocalRecord;
-struct _AddressbookLocalRecord {
+/* This is the local record structure for the Evolution ToDo conduit. */
+typedef struct _EAddrLocalRecord EAddrLocalRecord;
+struct _EAddrLocalRecord {
 	/* The stuff from gnome-pilot-conduit-standard-abs.h
 	   Must be first in the structure, or instances of this
 	   structure cannot be used by gnome-pilot-conduit-standard-abs.
 	*/
-	LocalRecord local;
-	/* The corresponding Evolution addressbook object. */
+	GnomePilotDesktopRecord local;
+
+	/* The corresponding ECard object */
 	ECard *ecard;
-        /* pilot-link address structure, used for implementing Transmit. */	
-	struct Address *address;
-};
-#define ADDRESSBOOK_LOCALRECORD(s) ((AddressbookLocalRecord*)(s))
 
-/* This is the configuration of the GnomeCal conduit. */
-typedef struct _AddressbookConduitCfg AddressbookConduitCfg;
-struct _AddressbookConduitCfg {
-	gboolean open_secret;
-	guint32 pilotId;
-	GnomePilotConduitSyncType  sync_type;   /* only used by capplet */
+        /* pilot-link todo structure, used for implementing Transmit. */
+	struct Address *addr;
 };
-#define GET_CONDUITCFG(c) ((AddressbookConduitCfg*)gtk_object_get_data(GTK_OBJECT(c),"addressconduit_cfg"))
 
-/* This is the context for all the Addressbook conduit methods. */
-typedef struct _AddressbookConduitContext AddressbookConduitContext;
-struct _AddressbookConduitContext {
+/* This is the context for all the GnomeCal conduit methods. */
+typedef struct _EAddrConduitContext EAddrConduitContext;
+struct _EAddrConduitContext {
+	EAddrConduitCfg *cfg;
+
 	struct AddressAppInfo ai;
-	AddressbookConduitCfg *cfg;
+
 	EBook *ebook;
-	// ECardCursor *cursor;
 	GList *cards;
-	/*	CalClient *client;*/
-	CORBA_Environment ev;
-	CORBA_ORB orb;
+	
 	gboolean address_load_tried;
 	gboolean address_load_success;
 
-	char *address_file;
+	time_t since;
+	
+	GHashTable *uid_map;
+	GHashTable *pid_map;
 };
-#define GET_CONDUITCONTEXT(c) ((AddressbookConduitContext*)gtk_object_get_data(GTK_OBJECT(c),"addressconduit_context"))
+
+#endif __ADDR_CONDUIT_H__ 
 
 
-/* Given a GCalConduitCfg*, allocates the structure and 
-   loads the configuration data for the given pilot.
-   this is defined in the header file because it is used by
-   both address-conduit and address-conduit-control-applet,
-   and we don't want to export any symbols we don't have to. */
-static void 
-conduit_load_configuration(AddressbookConduitCfg **c,
-			   guint32 pilotId) 
-{
-	gchar prefix[256];
-	g_snprintf(prefix,255,"/gnome-pilot.d/address-conduit/Pilot_%u/",pilotId);
-	
-	*c = g_new0(AddressbookConduitCfg,1);
-	g_assert(*c != NULL);
-	gnome_config_push_prefix(prefix);
-	(*c)->open_secret = gnome_config_get_bool("open_secret=FALSE");
-	(*c)->sync_type = GnomePilotConduitSyncTypeCustom; /* set in capplets main */
-	gnome_config_pop_prefix();
-	
-	(*c)->pilotId = pilotId;
-}
 
 
-#endif __ADDRESS_CONDUIT_H__ 
+
+
