@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution 0.15\n"
-"POT-Creation-Date: 2001-09-21 14:29+0200\n"
+"POT-Creation-Date: 2001-09-21 18:31-0400\n"
 "PO-Revision-Date: 2001-09-21 14:44CET\n"
 "Last-Translator: Stanislav Visnovsky <visnovsky@nenya.ms.mff.cuni.cz>\n"
 "Language-Team: Slovak <sk-i18n@lists.linux.sk>\n"
@@ -721,7 +721,8 @@ msgstr "Vytváracie rozhranie pre uká¾kový ovládací prvok Adresár"
 
 #: addressbook/gui/component/addressbook-component.c:66
 #: calendar/gui/dialogs/comp-editor-util.c:281
-#: calendar/gui/dialogs/comp-editor-util.c:337 shell/e-shortcuts.c:1062
+#: calendar/gui/dialogs/comp-editor-util.c:337 shell/e-local-storage.c:173
+#: shell/e-shortcuts.c:1062
 msgid "Contacts"
 msgstr "Kontakty"
 
@@ -884,6 +885,11 @@ msgstr "_Port:"
 #: addressbook/gui/component/addressbook-config.glade.h:26
 msgid "_Server name:"
 msgstr "_Meno serveru:"
+
+#: addressbook/gui/component/addressbook-storage.c:163
+#, fuzzy
+msgid "Other Contacts"
+msgstr "Kontakty"
 
 #: addressbook/gui/component/addressbook.c:393
 #, c-format
@@ -1074,10 +1080,9 @@ msgid ""
 "circumstances under which this error occurred.  Thank you."
 msgstr ""
 "Evolution sa nepodarilo získa» lokálny ulo¾enie pre adresár. Je to mo¾no "
-"spôsobené pádom komponentu evolution-addressbook. Aby sme lep¹ie "
-"pochopili a vyrie¹ili tento problém, po¹lite e-mail Jonovi Trowbridgeovi "
-"<trow@ximian.com> s detailným popisom okolností, pri ktorých sa chyba objavila. "
-"Ïakujeme."
+"spôsobené pádom komponentu evolution-addressbook. Aby sme lep¹ie pochopili a "
+"vyrie¹ili tento problém, po¹lite e-mail Jonovi Trowbridgeovi <trow@ximian."
+"com> s detailným popisom okolností, pri ktorých sa chyba objavila. Ïakujeme."
 
 #: addressbook/gui/component/select-names/e-select-names.c:598
 msgid "Select Contacts from Addressbook"
@@ -1264,6 +1269,13 @@ msgid "_Web page address:"
 msgstr "Adresa _WWW stránky:"
 
 #: addressbook/gui/contact-editor/e-contact-editor-confirm-delete.glade.h:1
+#, fuzzy
+msgid ""
+"Are you sure you want\n"
+"to delete this contact?"
+msgstr "Naozaj chcete odstráni» tento úèet?"
+
+#: addressbook/gui/contact-editor/e-contact-editor-confirm-delete.glade.h:3
 msgid "Delete Contact?"
 msgstr "Odstráni» kontakt?"
 
@@ -3019,7 +3031,8 @@ msgid "%d %B"
 msgstr "%d %B"
 
 #: calendar/gui/calendar-commands.c:677
-msgid "Could not create the calendar view.  Please check your ORBit and OAF setup."
+msgid ""
+"Could not create the calendar view.  Please check your ORBit and OAF setup."
 msgstr ""
 "Nie je mo¾né vytvori» kalendárový pohµad. Prosím, overte nastavenie ORBit a "
 "OAF."
@@ -3208,43 +3221,44 @@ msgstr "Popis obsahuje"
 msgid "Comment contains"
 msgstr "Komentár obsahuje"
 
-#: calendar/gui/cal-search-bar.c:416
+#: calendar/gui/cal-search-bar.c:416 mail/mail-ops.c:1054
 msgid "Unmatched"
 msgstr "Nenájdené"
 
-#: calendar/gui/component-factory.c:63 my-evolution/my-evolution.glade.h:6
-#: shell/e-shortcuts.c:1056
+#: calendar/gui/component-factory.c:62 my-evolution/my-evolution.glade.h:6
+#: shell/e-local-storage.c:172 shell/e-shortcuts.c:1056
 msgid "Calendar"
 msgstr "Kalendár"
 
-#: calendar/gui/component-factory.c:64
+#: calendar/gui/component-factory.c:63
 msgid "Folder containing appointments and events"
 msgstr "Prieèinok obsahujúci schôdzky a udalosti"
 
-#: calendar/gui/component-factory.c:68 my-evolution/e-summary-tasks.c:215
-#: my-evolution/e-summary-tasks.c:231 shell/e-shortcuts.c:1059
+#: calendar/gui/component-factory.c:67 calendar/gui/print.c:1719
+#: my-evolution/e-summary-tasks.c:215 my-evolution/e-summary-tasks.c:231
+#: shell/e-local-storage.c:178 shell/e-shortcuts.c:1059
 #: views/tasks/galview.xml.h:1
 msgid "Tasks"
 msgstr "Úlohy"
 
-#: calendar/gui/component-factory.c:69
+#: calendar/gui/component-factory.c:68
 msgid "Folder containing to-do items"
 msgstr "Prieèinok obsahujúci úlohy to-do"
 
-#: calendar/gui/component-factory.c:594 ui/evolution-calendar.xml.h:7
+#: calendar/gui/component-factory.c:593 ui/evolution-calendar.xml.h:7
 msgid "Create a new appointment"
 msgstr "Vytvori» novú schôdzku"
 
-#: calendar/gui/component-factory.c:595 calendar/gui/e-day-view.c:3420
+#: calendar/gui/component-factory.c:594 calendar/gui/e-day-view.c:3420
 msgid "New _Appointment"
 msgstr "Nová _schôdzka"
 
-#: calendar/gui/component-factory.c:600 ui/evolution-calendar.xml.h:8
+#: calendar/gui/component-factory.c:599 ui/evolution-calendar.xml.h:8
 #: ui/evolution-tasks.xml.h:5
 msgid "Create a new task"
 msgstr "Vytvorí novú úlohu"
 
-#: calendar/gui/component-factory.c:601
+#: calendar/gui/component-factory.c:600
 msgid "New _Task"
 msgstr "Nová ú_loha"
 
@@ -3903,7 +3917,7 @@ msgid "Pu_blic"
 msgstr "_Verejné"
 
 #: calendar/gui/dialogs/event-page.glade.h:10
-#: calendar/gui/e-calendar-table.etspec.h:12
+#: calendar/gui/e-calendar-table.etspec.h:13
 msgid "Show Time As"
 msgstr "Zobrazi» èas ako"
 
@@ -3960,49 +3974,55 @@ msgstr "Úèastník"
 
 #: calendar/gui/dialogs/meeting-page.etspec.h:2
 #: calendar/gui/e-meeting-time-sel.etspec.h:2
-msgid "Common Name"
-msgstr "Spoloèé meno"
+#, fuzzy
+msgid "Click here to add an attendee"
+msgstr "* Kliknutím pridáte kontakt *"
 
 #: calendar/gui/dialogs/meeting-page.etspec.h:3
 #: calendar/gui/e-meeting-time-sel.etspec.h:3
-msgid "Delegated From"
-msgstr "Delegované od"
+msgid "Common Name"
+msgstr "Spoloèé meno"
 
 #: calendar/gui/dialogs/meeting-page.etspec.h:4
 #: calendar/gui/e-meeting-time-sel.etspec.h:4
-msgid "Delegated To"
-msgstr "Delegované na"
+msgid "Delegated From"
+msgstr "Delegované od"
 
 #: calendar/gui/dialogs/meeting-page.etspec.h:5
 #: calendar/gui/e-meeting-time-sel.etspec.h:5
-msgid "Language"
-msgstr "Jazyk"
+msgid "Delegated To"
+msgstr "Delegované na"
 
 #: calendar/gui/dialogs/meeting-page.etspec.h:6
 #: calendar/gui/e-meeting-time-sel.etspec.h:6
-msgid "Member"
-msgstr "Èlen"
+msgid "Language"
+msgstr "Jazyk"
 
 #: calendar/gui/dialogs/meeting-page.etspec.h:7
 #: calendar/gui/e-meeting-time-sel.etspec.h:7
-msgid "RSVP"
-msgstr "RSVP"
+msgid "Member"
+msgstr "Èlen"
 
 #: calendar/gui/dialogs/meeting-page.etspec.h:8
 #: calendar/gui/e-meeting-time-sel.etspec.h:8
+msgid "RSVP"
+msgstr "RSVP"
+
+#: calendar/gui/dialogs/meeting-page.etspec.h:9
+#: calendar/gui/e-meeting-time-sel.etspec.h:9
 msgid "Role"
 msgstr "Rola"
 
-#: calendar/gui/dialogs/meeting-page.etspec.h:9
-#: calendar/gui/e-calendar-table.etspec.h:14
-#: calendar/gui/e-meeting-time-sel.etspec.h:9 filter/libfilter-i18n.h:49
+#: calendar/gui/dialogs/meeting-page.etspec.h:10
+#: calendar/gui/e-calendar-table.etspec.h:15
+#: calendar/gui/e-meeting-time-sel.etspec.h:10 filter/libfilter-i18n.h:49
 #: mail/message-list.etspec.h:8
 msgid "Status"
 msgstr "Stav"
 
-#: calendar/gui/dialogs/meeting-page.etspec.h:10
-#: calendar/gui/e-calendar-table.etspec.h:17
-#: calendar/gui/e-meeting-time-sel.etspec.h:10 mail/mail-config.glade.h:85
+#: calendar/gui/dialogs/meeting-page.etspec.h:11
+#: calendar/gui/e-calendar-table.etspec.h:18
+#: calendar/gui/e-meeting-time-sel.etspec.h:11 mail/mail-config.glade.h:85
 #: shell/glade/e-active-connection-dialog.glade.h:5
 msgid "Type"
 msgstr "Typ"
@@ -4278,6 +4298,7 @@ msgid "_Delete Selected Tasks"
 msgstr "O_dstráni» vybrané úlohy"
 
 #: calendar/gui/e-calendar-table.c:1130
+#: calendar/gui/e-calendar-table.etspec.h:6
 msgid "Click to add a task"
 msgstr "Kliknutím pridáte úlohu"
 
@@ -4285,48 +4306,48 @@ msgstr "Kliknutím pridáte úlohu"
 msgid "Alarms"
 msgstr "Alarmy"
 
-#: calendar/gui/e-calendar-table.etspec.h:6 camel/camel-filter-driver.c:702
+#: calendar/gui/e-calendar-table.etspec.h:7 camel/camel-filter-driver.c:702
 #: camel/camel-filter-driver.c:819
 msgid "Complete"
 msgstr "Hotovo"
 
-#: calendar/gui/e-calendar-table.etspec.h:7
+#: calendar/gui/e-calendar-table.etspec.h:8
 msgid "Completion Date"
 msgstr "Dátum dokonèenia"
 
-#: calendar/gui/e-calendar-table.etspec.h:8
+#: calendar/gui/e-calendar-table.etspec.h:9
 msgid "Due Date"
 msgstr "Termín"
 
-#: calendar/gui/e-calendar-table.etspec.h:9
+#: calendar/gui/e-calendar-table.etspec.h:10
 msgid "End Date"
 msgstr "Dátum konca"
 
-#: calendar/gui/e-calendar-table.etspec.h:10
+#: calendar/gui/e-calendar-table.etspec.h:11
 msgid "Geographical Position"
 msgstr "Geografické umiestnenie"
 
-#: calendar/gui/e-calendar-table.etspec.h:11
+#: calendar/gui/e-calendar-table.etspec.h:12
 msgid "Priority"
 msgstr "Priorita"
 
-#: calendar/gui/e-calendar-table.etspec.h:13
+#: calendar/gui/e-calendar-table.etspec.h:14
 msgid "Start Date"
 msgstr "Dátum ¹tartu"
 
 #. FIXME: Inbox shortcut should point to something else for
 #. people who won't care about using /Local Folders/Inbox
-#: calendar/gui/e-calendar-table.etspec.h:15
+#: calendar/gui/e-calendar-table.etspec.h:16
 #: my-evolution/component-factory.c:30 shell/e-shortcuts.c:1050
-#: shell/e-storage-set-view.c:1424
+#: shell/e-storage-set-view.c:1424 shell/e-summary-storage.c:80
 msgid "Summary"
 msgstr "Súhrn"
 
-#: calendar/gui/e-calendar-table.etspec.h:16
+#: calendar/gui/e-calendar-table.etspec.h:17
 msgid "Task sort"
 msgstr "Triedenie úloh"
 
-#: calendar/gui/e-calendar-table.etspec.h:18
+#: calendar/gui/e-calendar-table.etspec.h:19
 msgid "URL"
 msgstr "URL"
 
@@ -4351,11 +4372,13 @@ msgstr "%d %b"
 
 #. String to use in 12-hour time format for times in the morning.
 #: calendar/gui/e-day-view.c:608 calendar/gui/e-week-view.c:344
+#: calendar/gui/print.c:765
 msgid "am"
 msgstr "dopoludnia"
 
 #. String to use in 12-hour time format for times in the afternoon.
 #: calendar/gui/e-day-view.c:611 calendar/gui/e-week-view.c:347
+#: calendar/gui/print.c:767
 msgid "pm"
 msgstr "popoludní"
 
@@ -4387,6 +4410,27 @@ msgstr "Odstráni» tento vý_skyt"
 #: calendar/gui/e-day-view.c:3466 calendar/gui/e-week-view.c:3319
 msgid "Delete _All Occurrences"
 msgstr "Odstráni» _v¹etky výskyty"
+
+#. Describe what the user can do
+#: calendar/gui/e-itip-control.c:649
+msgid ""
+"<br> Please review the following information, and then select an action from "
+"the menu below."
+msgstr ""
+
+#: calendar/gui/e-itip-control.c:664
+#, c-format
+msgid "<b>Summary:</b> %s<br><br>"
+msgstr ""
+
+#: calendar/gui/e-itip-control.c:664
+msgid "<i>None</i>"
+msgstr ""
+
+#: calendar/gui/e-itip-control.c:674
+#, fuzzy, c-format
+msgid "<b>Description:</b> %s"
+msgstr "Popis:"
 
 #: calendar/gui/e-itip-control.c:710
 #, c-format
@@ -4563,7 +4607,8 @@ msgstr "Aktualizácia dokonèená\n"
 
 #: calendar/gui/e-itip-control.c:1107
 msgid "Attendee status could not be updated because of an invalid status!\n"
-msgstr "Stav úèastníka nie je mo¾né aktualizova», preto¾e jeho stav nie je platný!\n"
+msgstr ""
+"Stav úèastníka nie je mo¾né aktualizova», preto¾e jeho stav nie je platný!\n"
 
 #: calendar/gui/e-itip-control.c:1115
 msgid "Attendee status ould not be updated!\n"
@@ -4575,7 +4620,8 @@ msgstr "Stav úèastníka bol aktualizovaný\n"
 
 #: calendar/gui/e-itip-control.c:1119
 msgid "Attendee status can not be updated because the item no longer exists"
-msgstr "Stav úèastníka nie je mo¾né aktualizova», preto¾e polo¾ka u¾ neexistuje"
+msgstr ""
+"Stav úèastníka nie je mo¾né aktualizova», preto¾e polo¾ka u¾ neexistuje"
 
 #: calendar/gui/e-itip-control.c:1147
 msgid "I couldn't remove the item from your calendar file!\n"
@@ -5480,7 +5526,8 @@ msgstr "Nie je mo¾né podpísa» správu: nezadané heslo"
 #: camel/camel-pgp-context.c:531 camel/camel-pgp-context.c:706
 #, c-format
 msgid "Cannot sign this message: couldn't create pipe to GPG/PGP: %s"
-msgstr "Nie je mo¾né podpísa» správu: nie je mo¾né vytvori» rúru do GPG/PGP: %s"
+msgstr ""
+"Nie je mo¾né podpísa» správu: nie je mo¾né vytvori» rúru do GPG/PGP: %s"
 
 #: camel/camel-pgp-context.c:693
 msgid "Cannot sign this message: no plaintext to clearsign"
@@ -5511,7 +5558,8 @@ msgstr "Nie je mo¾né za¹ifrova» správu: nezadané heslo"
 #: camel/camel-pgp-context.c:1086
 #, c-format
 msgid "Cannot encrypt this message: couldn't create pipe to GPG/PGP: %s"
-msgstr "Nie je mo¾né za¹ifrova» správu: nie je mo¾né vytvori» rúru do GPG/PGP: %s"
+msgstr ""
+"Nie je mo¾né za¹ifrova» správu: nie je mo¾né vytvori» rúru do GPG/PGP: %s"
 
 #: camel/camel-pgp-context.c:1095
 msgid "Cannot encrypt this message: no recipients specified"
@@ -5528,7 +5576,8 @@ msgstr "Nie je mo¾né de¹ifrova» správu: nezadané heslo"
 #: camel/camel-pgp-context.c:1273
 #, c-format
 msgid "Cannot decrypt this message: couldn't create pipe to GPG/PGP: %s"
-msgstr "Nie je mo¾né de¹ifrova» správu: nie je mo¾né vytvori» rúru do GPG/PGP: %s"
+msgstr ""
+"Nie je mo¾né de¹ifrova» správu: nie je mo¾né vytvori» rúru do GPG/PGP: %s"
 
 #: camel/camel-provider.c:131
 #, c-format
@@ -5655,7 +5704,8 @@ msgstr "Správa challenge pre server neplatná\n"
 
 #: camel/camel-sasl-digest-md5.c:825
 msgid "Server challenge contained invalid \"Quality of Protection\" token\n"
-msgstr "Správa challenge pre server obsahovala neplatný prvok \"Kvalita ochrany\"\n"
+msgstr ""
+"Správa challenge pre server obsahovala neplatný prvok \"Kvalita ochrany\"\n"
 
 #: camel/camel-sasl-digest-md5.c:847
 msgid "Server response did not contain authorization data\n"
@@ -5697,7 +5747,8 @@ msgstr "Prihlásenie NT"
 
 #: camel/camel-sasl-login.c:34 camel/camel-sasl-plain.c:34
 msgid "This option will connect to the server using a simple password."
-msgstr "Táto voµba pripojí na server pomocou hesiel prená¹aných ako èistý text."
+msgstr ""
+"Táto voµba pripojí na server pomocou hesiel prená¹aných ako èistý text."
 
 #: camel/camel-sasl-login.c:127
 msgid "Unknown authentication state."
@@ -5827,6 +5878,11 @@ msgstr "Nepodarilo sa dekódova» správu."
 #: camel/camel-smime-context.c:855
 msgid "Failed to verify certificates."
 msgstr "Nepodarilo sa overi» certifikáty"
+
+#: camel/camel-store.c:273
+#, fuzzy
+msgid "Cannot create folder: Invalid operation on this store"
+msgstr "Nie je mo¾né získa» zámok na prieèinok %s: %s"
 
 #: camel/camel-tcp-stream-openssl.c:463
 #, c-format
@@ -5991,7 +6047,8 @@ msgstr "Priestor mien"
 
 #: camel/providers/imap/camel-imap-provider.c:57
 msgid "Apply filters to new messages in INBOX on this server"
-msgstr "Aplikova» filtre na nové správy v prieèinku novej po¹ty na tomto serveri"
+msgstr ""
+"Aplikova» filtre na nové správy v prieèinku novej po¹ty na tomto serveri"
 
 #: camel/providers/imap/camel-imap-provider.c:63
 msgid "IMAP"
@@ -6003,7 +6060,8 @@ msgstr "Pre èítanie a ukladanie po¹ty na IMAP serveroch."
 
 #: camel/providers/imap/camel-imap-provider.c:82
 msgid "This option will connect to the IMAP server using a plaintext password."
-msgstr "Táto voµba pripojí na IMAP server pomocou hesiel prená¹aných ako èistý text."
+msgstr ""
+"Táto voµba pripojí na IMAP server pomocou hesiel prená¹aných ako èistý text."
 
 #: camel/providers/imap/camel-imap-store.c:515
 #, c-format
@@ -6616,7 +6674,8 @@ msgstr ""
 "tento protokol podporuje."
 
 #: camel/providers/pop3/camel-pop3-provider.c:92
-msgid "This will connect to the POP server and use Kerberos 4 to authenticate to it."
+msgid ""
+"This will connect to the POP server and use Kerberos 4 to authenticate to it."
 msgstr "Táto voµba vás spojí s POP serverom pomocou overenia Kerberos 4."
 
 #: camel/providers/pop3/camel-pop3-store.c:199
@@ -6787,7 +6846,8 @@ msgstr "Pou¾ívateµ nie je lokálny, bude predaná podµa <forward-path>"
 
 #: camel/providers/smtp/camel-smtp-transport.c:193
 msgid "Requested mail action not taken: mailbox unavailable"
-msgstr "Po¾adovaná po¹tová akcia nevykonaná, po¹tová schránka nie je k dispozícii"
+msgstr ""
+"Po¾adovaná po¹tová akcia nevykonaná, po¹tová schránka nie je k dispozícii"
 
 #: camel/providers/smtp/camel-smtp-transport.c:195
 msgid "Requested action not taken: mailbox unavailable"
@@ -6885,7 +6945,7 @@ msgstr "Nie je mo¾né posla» správu: adresa odosielateµa nie je definovaná."
 msgid "Cannot send message: sender address not valid."
 msgstr "Nie je mo¾né posla» správu: adresa odosielateµa nie je platná."
 
-#: camel/providers/smtp/camel-smtp-transport.c:595 mail/mail-ops.c:619
+#: camel/providers/smtp/camel-smtp-transport.c:595 mail/mail-ops.c:553
 msgid "Sending message"
 msgstr "Posielam správu"
 
@@ -7992,7 +8052,7 @@ msgstr "Nová _správa"
 msgid "Cannot initialize Evolution's mail component."
 msgstr "Nie je mo¾né inicializova» po¹tový komponent Evolution."
 
-#: mail/component-factory.c:1011
+#: mail/component-factory.c:1007
 msgid "Cannot register storage with shell"
 msgstr "Nie je mo¾né zaregistrova» sklad u shellu"
 
@@ -8347,8 +8407,8 @@ msgid ""
 "You are sending an HTML-formatted message, but the following recipients do "
 "not want HTML-formatted mail:\n"
 msgstr ""
-"Posielate správu formátovanú ako HTML, ale nasledujúci adresáti "
-"nechcú dostáva» takto formátovanú po¹tu:\n"
+"Posielate správu formátovanú ako HTML, ale nasledujúci adresáti nechcú "
+"dostáva» takto formátovanú po¹tu:\n"
 
 #: mail/mail-callbacks.c:231
 msgid "Send anyway?"
@@ -8551,6 +8611,21 @@ msgstr ""
 msgid "Evolution Account Assistant"
 msgstr "Sprievodca úètom Evolution"
 
+#: mail/mail-config.c:1486
+#, fuzzy
+msgid "Evolution Shortcuts"
+msgstr "Evolution"
+
+#. right now, the URL always works basically as a matter of luck...
+#. * both IMAP and mbox spool stores have INBOX as their inbox folder
+#. * name. I don't think this will work with maildir. How can we figure out
+#. * what shortcut to insert?
+#.
+#: mail/mail-config.c:1618
+#, fuzzy, c-format
+msgid "%s: Inbox"
+msgstr "Doruèená po¹ta"
+
 #: mail/mail-config.c:1851
 msgid "Checking Service"
 msgstr "Kontrolujem slu¾bu"
@@ -8655,7 +8730,7 @@ msgstr "Zobrazenie"
 msgid "Done"
 msgstr "Hotovo"
 
-#: mail/mail-config.glade.h:28
+#: mail/mail-config.glade.h:28 shell/e-local-storage.c:174
 msgid "Drafts"
 msgstr "Koncepty"
 
@@ -8809,6 +8884,7 @@ msgid "Sending Mail"
 msgstr "Posielanie po¹ty"
 
 #: mail/mail-config.glade.h:73 mail/message-list.etspec.h:6
+#: shell/e-local-storage.c:177
 msgid "Sent"
 msgstr "Odoslané"
 
@@ -9146,11 +9222,11 @@ msgstr "Odkaz na neznáme externé dáta (typ \"%s\")"
 msgid "Malformed external-body part."
 msgstr "Nesprávna èas» externého tela."
 
-#: mail/mail-local.c:548
+#: mail/mail-local.c:547
 msgid "Reconfiguring folder"
 msgstr "Znovu nastavujem prieèinok"
 
-#: mail/mail-local.c:621
+#: mail/mail-local.c:620
 #, c-format
 msgid ""
 "Cannot save folder metainfo; you'll probably find you can't\n"
@@ -9159,32 +9235,27 @@ msgstr ""
 "Nie je mo¾né ulo¾i» metainformácie prieèinku, asi zistíte,\n"
 "¾e ho nie je mo¾né ani otvori»: %s: %s"
 
-#: mail/mail-local.c:675
-#, c-format
-msgid "Cannot open folder: %s: No such folder"
-msgstr "Nie je mo¾né otvori» prieèinok: %s: Prieèinok neexistuje"
-
-#: mail/mail-local.c:693
+#: mail/mail-local.c:676
 #, c-format
 msgid "Cannot save folder metainfo to %s: %s"
 msgstr "Nie je mo¾né ulo¾i» metainformácie prieèinku do %s: %s"
 
-#: mail/mail-local.c:739
+#: mail/mail-local.c:722
 #, c-format
 msgid "Cannot delete folder metadata %s: %s"
 msgstr "Nie je mo¾né odstráni» metainformácie prieèinku %s: %s"
 
-#: mail/mail-local.c:1069
+#: mail/mail-local.c:1052
 #, c-format
 msgid "Changing folder \"%s\" to \"%s\" format"
 msgstr "Mení prieèinok \"%s\" na formát \"%s\""
 
-#: mail/mail-local.c:1084
+#: mail/mail-local.c:1067
 #, c-format
 msgid "%s may not be reconfigured because it is not a local folder"
 msgstr "%s nie je mo¾né znovu nastavi», preto¾e to nie je lokálny prieèinok"
 
-#: mail/mail-local.c:1106
+#: mail/mail-local.c:1089
 msgid ""
 "If you can no longer open this mailbox, then\n"
 "you may need to repair it manually."
@@ -9192,11 +9263,11 @@ msgstr ""
 "Ak nemô¾ete otvori» túto po¹tovú schránku, potom\n"
 "ju budete musie» opravi» ruène."
 
-#: mail/mail-local.c:1197
+#: mail/mail-local.c:1180
 msgid "You cannot change the format of a non-local folder."
 msgstr "Nemô¾ete zmeni¾ formát nelokálnych prieèinkov."
 
-#: mail/mail-local.c:1207
+#: mail/mail-local.c:1190
 #, c-format
 msgid "Reconfigure %s"
 msgstr "Znovu nastavi» %s"
@@ -9245,104 +9316,110 @@ msgstr "Filtrujem prieèinok"
 msgid "Fetching Mail"
 msgstr "Prijímam po¹tu"
 
-#: mail/mail-ops.c:548 mail/mail-ops.c:578
+#: mail/mail-ops.c:482 mail/mail-ops.c:512
 msgid "However, the message was successfully sent."
 msgstr "Ale správa bola úspe¹ne odoslaná."
 
-#: mail/mail-ops.c:615
+#: mail/mail-ops.c:549
 #, c-format
 msgid "Sending \"%s\""
 msgstr "Posielam \"%s\""
 
-#: mail/mail-ops.c:734
+#: mail/mail-ops.c:668
 #, c-format
 msgid "Sending message %d of %d"
 msgstr "Posielam správu %d z %d"
 
-#: mail/mail-ops.c:753
+#: mail/mail-ops.c:687
 #, c-format
 msgid "Failed on message %d of %d"
 msgstr "Zlyhanie na správe %d z %d"
 
-#: mail/mail-ops.c:755 mail/mail-send-recv.c:522
+#: mail/mail-ops.c:689 mail/mail-send-recv.c:522
 msgid "Complete."
 msgstr "Dokonèené."
 
-#: mail/mail-ops.c:848
+#: mail/mail-ops.c:782
 msgid "Saving message to folder"
 msgstr "Ukladám správu do prieèinku"
 
-#: mail/mail-ops.c:927
+#: mail/mail-ops.c:861
 #, c-format
 msgid "Moving messages to %s"
 msgstr "Presúvam správy do %s"
 
-#: mail/mail-ops.c:927
+#: mail/mail-ops.c:861
 #, c-format
 msgid "Copying messages to %s"
 msgstr "Kopírujem správy do %s"
 
-#: mail/mail-ops.c:944
+#: mail/mail-ops.c:878
 msgid "Moving"
 msgstr "Premiestòujem"
 
-#: mail/mail-ops.c:947
+#: mail/mail-ops.c:881
 msgid "Copying"
 msgstr "Kopírujem"
 
-#: mail/mail-ops.c:1059
+#: mail/mail-ops.c:993
 #, c-format
 msgid "Scanning folders in \"%s\""
 msgstr "Prechádzam prieèinky v \"%s\""
 
-#: mail/mail-ops.c:1262
+#. Fill in the new fields
+#: mail/mail-ops.c:1040 shell/e-local-storage.c:179
+#, fuzzy
+msgid "Trash"
+msgstr "Turecká"
+
+#: mail/mail-ops.c:1173
 msgid "Forwarded messages"
 msgstr "Správy predané ïalej"
 
-#: mail/mail-ops.c:1304
+#: mail/mail-ops.c:1215
 #, c-format
 msgid "Opening folder %s"
 msgstr "Otváram prieèinok %s"
 
-#: mail/mail-ops.c:1373
+#: mail/mail-ops.c:1284
 #, c-format
 msgid "Opening store %s"
 msgstr "Otváram sklad %s"
 
-#: mail/mail-ops.c:1442
+#: mail/mail-ops.c:1353
 #, c-format
 msgid "Removing folder %s"
 msgstr "Odstraòujem prieèinok %s"
 
-#: mail/mail-ops.c:1534
+#: mail/mail-ops.c:1445
 #, c-format
 msgid "Storing folder '%s'"
 msgstr "Ukladám prieèinok '%s'"
 
-#: mail/mail-ops.c:1585
+#: mail/mail-ops.c:1496
 msgid "Refreshing folder"
 msgstr "Aktualizujem prieèinok"
 
-#: mail/mail-ops.c:1621
+#: mail/mail-ops.c:1532
 msgid "Expunging folder"
 msgstr "Èistím prieèinok"
 
-#: mail/mail-ops.c:1670
+#: mail/mail-ops.c:1581
 #, c-format
 msgid "Retrieving message %s"
 msgstr "Získavam správu %s"
 
-#: mail/mail-ops.c:1737
+#: mail/mail-ops.c:1648
 #, c-format
 msgid "Retrieving %d message(s)"
 msgstr "Získavam %d správ"
 
-#: mail/mail-ops.c:1823
+#: mail/mail-ops.c:1734
 #, c-format
 msgid "Saving %d messsage(s)"
 msgstr "Ukladám %d správ"
 
-#: mail/mail-ops.c:1935
+#: mail/mail-ops.c:1846
 #, c-format
 msgid ""
 "Unable to create output file: %s\n"
@@ -9351,7 +9428,7 @@ msgstr ""
 "Nepodarilo sa vytvori» výstupný súbor: %s\n"
 " %s"
 
-#: mail/mail-ops.c:1963
+#: mail/mail-ops.c:1874
 #, c-format
 msgid ""
 "Error saving messages to: %s:\n"
@@ -9360,11 +9437,11 @@ msgstr ""
 "Chyba pri ukladaní správ do `%s':\n"
 "%s"
 
-#: mail/mail-ops.c:2037
+#: mail/mail-ops.c:1948
 msgid "Saving attachment"
 msgstr "Ukladám prílohu"
 
-#: mail/mail-ops.c:2053
+#: mail/mail-ops.c:1964
 #, c-format
 msgid ""
 "Cannot create output file: %s:\n"
@@ -9373,12 +9450,12 @@ msgstr ""
 "Nepodarilo sa vytvori» výstupný súbor: %s\n"
 " %s"
 
-#: mail/mail-ops.c:2084
+#: mail/mail-ops.c:1995
 #, c-format
 msgid "Could not write data: %s"
 msgstr "Nie je mo¾né zapísa» dáta: %s"
 
-#: mail/mail-ops.c:2153
+#: mail/mail-ops.c:2064
 #, c-format
 msgid "Disconnecting from %s"
 msgstr "Odpojujem sa od %s"
@@ -9484,6 +9561,11 @@ msgstr "Predaná správa"
 #, c-format
 msgid "Setting up vfolder: %s"
 msgstr "Nastavujem vprieèinok: '%s'"
+
+#: mail/mail-vfolder.c:435
+#, fuzzy
+msgid "VFolders"
+msgstr "Prieèinky"
 
 #: mail/mail-vfolder.c:541
 msgid "New VFolder"
@@ -9647,19 +9729,19 @@ msgstr "Prieèinok obsahujúci súhrn Evolution"
 msgid "Cannot initialize Evolution's Executive Summary component."
 msgstr "Nie je mo¾né inicializova» komponent Súhrn Evolution."
 
-#: my-evolution/e-summary-calendar.c:166 my-evolution/e-summary-calendar.c:184
+#: my-evolution/e-summary-calendar.c:248 my-evolution/e-summary-calendar.c:266
 msgid "Appointments"
 msgstr "Schôdzky"
 
-#: my-evolution/e-summary-calendar.c:167
+#: my-evolution/e-summary-calendar.c:249
 msgid "No appointments"
 msgstr "®iadne schôdzky"
 
-#: my-evolution/e-summary-calendar.c:204
+#: my-evolution/e-summary-calendar.c:286
 msgid "%k%M %d %B"
 msgstr "%k%M %d %B"
 
-#: my-evolution/e-summary-calendar.c:206
+#: my-evolution/e-summary-calendar.c:288
 msgid "%l:%M %d %B"
 msgstr "%l:%M %d %B"
 
@@ -9672,7 +9754,7 @@ msgstr "Súhrn po¹ty"
 #. stations and their codes in Evolution sources
 #. (evolution/my-evolution/Locations)
 #: my-evolution/e-summary-preferences.c:65
-#: my-evolution/e-summary-weather.c:614
+#: my-evolution/e-summary-weather.c:615
 msgid "KBOS:ZSAM:EGAA"
 msgstr "LZIB:LZTT:LKPR"
 
@@ -9721,15 +9803,15 @@ msgstr "(¾iadny popis)"
 msgid "My Weather"
 msgstr "Moje poèasie"
 
-#: my-evolution/e-summary-weather.c:333
+#: my-evolution/e-summary-weather.c:334
 msgid "<dd><b>The weather server could not be contacted</b></dd>"
 msgstr "<dd><b>Server poèasia nemohol by» kontaktovaný</b></dd>"
 
-#: my-evolution/e-summary-weather.c:523
+#: my-evolution/e-summary-weather.c:524
 msgid "Weather"
 msgstr "Poèasie"
 
-#: my-evolution/e-summary-weather.c:675
+#: my-evolution/e-summary-weather.c:676
 msgid "Regions"
 msgstr "Oblasti"
 
@@ -11059,6 +11141,20 @@ msgstr "Zobrazi» detaily"
 msgid "Cancel Operation"
 msgstr "Zru¹i» operáciu"
 
+#: shell/e-local-storage.c:175 shell/e-shortcuts.c:1053
+msgid "Inbox"
+msgstr "Doruèená po¹ta"
+
+#: shell/e-local-storage.c:176
+#, fuzzy
+msgid "Outbox"
+msgstr "mbox"
+
+#: shell/e-local-storage.c:624
+#, fuzzy
+msgid "Local Folders"
+msgstr "©peciálne prieèinky"
+
 #: shell/e-setup.c:125
 msgid "Evolution installation"
 msgstr "In¹talácia Evolution"
@@ -11073,7 +11169,8 @@ msgstr ""
 
 #: shell/e-setup.c:130
 msgid "Please click \"OK\" to install the files, or \"Cancel\" to exit."
-msgstr "Prosím, stlaète \"OK\" pre in¹taláciu súborov, alebo \"Zru¹i»\" pre koniec."
+msgstr ""
+"Prosím, stlaète \"OK\" pre in¹taláciu súborov, alebo \"Zru¹i»\" pre koniec."
 
 #: shell/e-setup.c:170
 msgid "Could not update files correctly"
@@ -11482,7 +11579,8 @@ msgid "%s - Ximian Evolution %s [%s]"
 msgstr "%s - Ximian Evolution %s [%s]"
 
 #: shell/e-shell-view.c:1527
-msgid "Ximian Evolution is currently online.  Click on this button to work offline."
+msgid ""
+"Ximian Evolution is currently online.  Click on this button to work offline."
 msgstr ""
 "Ximian Evolution je momentálne on-line. Stlaèením tohto tlaèidla prejdete do "
 "módu off-line."
@@ -11492,7 +11590,8 @@ msgid "Ximian Evolution is in the process of going offline."
 msgstr "Ximian Evolution prechádza do módu off-line."
 
 #: shell/e-shell-view.c:1540
-msgid "Ximian Evolution is currently offline.  Click on this button to work online."
+msgid ""
+"Ximian Evolution is currently offline.  Click on this button to work online."
 msgstr ""
 "Ximian Evolution je momentálne off-line. Stlaèením tohto tlaèidla prejdete "
 "do módu on-line."
@@ -11651,10 +11750,6 @@ msgstr "Chyba pri ukladaní skratiek."
 #: shell/e-shortcuts.c:1044
 msgid "Shortcuts"
 msgstr "Skratky"
-
-#: shell/e-shortcuts.c:1053
-msgid "Inbox"
-msgstr "Doruèená po¹ta"
 
 #: shell/e-storage.c:182 shell/e-storage.c:188
 msgid "(No name)"
@@ -12385,7 +12480,8 @@ msgid "Hide _Read Messages"
 msgstr "Skry» _preèítané správy"
 
 #: ui/evolution-mail-list.xml.h:8
-msgid "Hide deleted messages rather than displaying them with a line through them"
+msgid ""
+"Hide deleted messages rather than displaying them with a line through them"
 msgstr "Skryje zmazané správy namiesto zobrazenia ¹krtnutím"
 
 #: ui/evolution-mail-list.xml.h:9
@@ -13157,7 +13253,8 @@ msgstr "_Posla» správu o chybe"
 
 #: ui/evolution.xml.h:24
 msgid "Submit a bug report using Bug Buddy"
-msgstr "Po¹le správu o chybe pomocou nástroja pre oznamovanie chýb Priateµ v núdzi."
+msgstr ""
+"Po¹le správu o chybe pomocou nástroja pre oznamovanie chýb Priateµ v núdzi."
 
 #: ui/evolution.xml.h:25
 msgid "Toggle"
@@ -13483,3 +13580,5 @@ msgstr "init_corba(): Nie je mo¾né inicializova» GNOME"
 msgid "init_bonobo(): could not initialize Bonobo"
 msgstr "init_bonobo(): Nie je mo¾né inicializova» Bonobo"
 
+#~ msgid "Cannot open folder: %s: No such folder"
+#~ msgstr "Nie je mo¾né otvori» prieèinok: %s: Prieèinok neexistuje"

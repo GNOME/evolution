@@ -5,12 +5,12 @@
 # Christian Rose <menthos@menthos.com>, 2000, 2001.
 # Martin Norbäck <d95mback@dtek.chalmers.se>, 2001.
 #
-# $Id: sv.po,v 1.118 2001/09/18 00:36:56 menthos Exp $
+# $Id: sv.po,v 1.119 2001/09/21 22:38:42 ettore Exp $
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
-"POT-Creation-Date: 2001-09-18 02:25+0200\n"
+"POT-Creation-Date: 2001-09-21 18:31-0400\n"
 "PO-Revision-Date: 2001-09-18 02:34+0200\n"
 "Last-Translator: Christian Rose <menthos@menthos.com>\n"
 "Language-Team: Swedish <sv@li.org>\n"
@@ -45,7 +45,7 @@ msgid "Email"
 msgstr "E-post"
 
 #: addressbook/backend/ebook/e-card-simple.c:62
-#: addressbook/gui/contact-editor/e-contact-editor.c:1588
+#: addressbook/gui/contact-editor/e-contact-editor.c:1609
 msgid "Primary"
 msgstr "Primär"
 
@@ -55,15 +55,15 @@ msgstr "Prim"
 
 #: addressbook/backend/ebook/e-card-simple.c:63
 #: addressbook/backend/ebook/e-card-simple.c:93
-#: addressbook/gui/contact-editor/e-contact-editor.c:1573
+#: addressbook/gui/contact-editor/e-contact-editor.c:1594
 #: addressbook/gui/widgets/e-addressbook-view.c:902
 msgid "Assistant"
 msgstr "Assistent"
 
 #: addressbook/backend/ebook/e-card-simple.c:64
 #: addressbook/backend/ebook/e-card-simple.c:69
-#: addressbook/gui/contact-editor/e-contact-editor.c:1574
-#: addressbook/gui/contact-editor/e-contact-editor.c:1641
+#: addressbook/gui/contact-editor/e-contact-editor.c:1595
+#: addressbook/gui/contact-editor/e-contact-editor.c:1662
 msgid "Business"
 msgstr "Företag"
 
@@ -73,12 +73,12 @@ msgid "Bus"
 msgstr "För"
 
 #: addressbook/backend/ebook/e-card-simple.c:65
-#: addressbook/gui/contact-editor/e-contact-editor.c:1577
+#: addressbook/gui/contact-editor/e-contact-editor.c:1598
 msgid "Callback"
 msgstr "Tillbakaringning"
 
 #: addressbook/backend/ebook/e-card-simple.c:66
-#: addressbook/gui/contact-editor/e-contact-editor.c:1579
+#: addressbook/gui/contact-editor/e-contact-editor.c:1600
 msgid "Company"
 msgstr "Företag"
 
@@ -88,8 +88,8 @@ msgstr "För"
 
 #: addressbook/backend/ebook/e-card-simple.c:67
 #: addressbook/backend/ebook/e-card-simple.c:70
-#: addressbook/gui/contact-editor/e-contact-editor.c:1580
-#: addressbook/gui/contact-editor/e-contact-editor.c:1642
+#: addressbook/gui/contact-editor/e-contact-editor.c:1601
+#: addressbook/gui/contact-editor/e-contact-editor.c:1663
 msgid "Home"
 msgstr "Hem"
 
@@ -103,17 +103,17 @@ msgid "Org"
 msgstr "Org"
 
 #: addressbook/backend/ebook/e-card-simple.c:71
-#: addressbook/gui/contact-editor/e-contact-editor.c:1584
+#: addressbook/gui/contact-editor/e-contact-editor.c:1605
 msgid "Mobile"
 msgstr "Mobil"
 
 #: addressbook/backend/ebook/e-card-simple.c:72
-#: addressbook/gui/contact-editor/e-contact-editor.c:1578
+#: addressbook/gui/contact-editor/e-contact-editor.c:1599
 msgid "Car"
 msgstr "Bil"
 
 #: addressbook/backend/ebook/e-card-simple.c:73
-#: addressbook/gui/contact-editor/e-contact-editor.c:1576
+#: addressbook/gui/contact-editor/e-contact-editor.c:1597
 #: addressbook/gui/widgets/e-addressbook-view.c:882
 msgid "Business Fax"
 msgstr "Företagsfax"
@@ -123,13 +123,13 @@ msgid "Bus Fax"
 msgstr "För.fax"
 
 #: addressbook/backend/ebook/e-card-simple.c:74
-#: addressbook/gui/contact-editor/e-contact-editor.c:1582
+#: addressbook/gui/contact-editor/e-contact-editor.c:1603
 #: addressbook/gui/widgets/e-addressbook-view.c:883
 msgid "Home Fax"
 msgstr "Fax hem"
 
 #: addressbook/backend/ebook/e-card-simple.c:75
-#: addressbook/gui/contact-editor/e-contact-editor.c:1575
+#: addressbook/gui/contact-editor/e-contact-editor.c:1596
 msgid "Business 2"
 msgstr "Företag 2"
 
@@ -138,44 +138,44 @@ msgid "Bus 2"
 msgstr "För 2"
 
 #: addressbook/backend/ebook/e-card-simple.c:76
-#: addressbook/gui/contact-editor/e-contact-editor.c:1581
+#: addressbook/gui/contact-editor/e-contact-editor.c:1602
 msgid "Home 2"
 msgstr "Hem 2"
 
 #: addressbook/backend/ebook/e-card-simple.c:77
-#: addressbook/gui/contact-editor/e-contact-editor.c:1583
+#: addressbook/gui/contact-editor/e-contact-editor.c:1604
 #: addressbook/gui/widgets/e-addressbook-view.c:886
 msgid "ISDN"
 msgstr "ISDN"
 
 #: addressbook/backend/ebook/e-card-simple.c:78
 #: addressbook/backend/ebook/e-card-simple.c:84
-#: addressbook/gui/contact-editor/e-contact-editor.c:1585
-#: addressbook/gui/contact-editor/e-contact-editor.c:1643
+#: addressbook/gui/contact-editor/e-contact-editor.c:1606
+#: addressbook/gui/contact-editor/e-contact-editor.c:1664
 #: mail/mail-config.glade.h:51
 msgid "Other"
 msgstr "Annat"
 
 #: addressbook/backend/ebook/e-card-simple.c:79
-#: addressbook/gui/contact-editor/e-contact-editor.c:1586
+#: addressbook/gui/contact-editor/e-contact-editor.c:1607
 #: addressbook/gui/widgets/e-addressbook-view.c:888
 msgid "Other Fax"
 msgstr "Annan fax"
 
 #: addressbook/backend/ebook/e-card-simple.c:80
-#: addressbook/gui/contact-editor/e-contact-editor.c:1587
+#: addressbook/gui/contact-editor/e-contact-editor.c:1608
 #: addressbook/gui/widgets/e-addressbook-view.c:889
 msgid "Pager"
 msgstr "Personsökare"
 
 #: addressbook/backend/ebook/e-card-simple.c:81
-#: addressbook/gui/contact-editor/e-contact-editor.c:1589
+#: addressbook/gui/contact-editor/e-contact-editor.c:1610
 #: addressbook/gui/widgets/e-addressbook-view.c:890
 msgid "Radio"
 msgstr "Radio"
 
 #: addressbook/backend/ebook/e-card-simple.c:82
-#: addressbook/gui/contact-editor/e-contact-editor.c:1590
+#: addressbook/gui/contact-editor/e-contact-editor.c:1611
 #: addressbook/gui/widgets/e-addressbook-view.c:891
 msgid "Telex"
 msgstr "Telex"
@@ -187,14 +187,14 @@ msgstr "TTY"
 
 #: addressbook/backend/ebook/e-card-simple.c:85
 #: addressbook/gui/component/e-address-popup.c:476
-#: addressbook/gui/contact-editor/e-contact-editor.c:1616
+#: addressbook/gui/contact-editor/e-contact-editor.c:1637
 #: addressbook/gui/widgets/e-addressbook-view.c:894
 msgid "Email 2"
 msgstr "E-post 2"
 
 #: addressbook/backend/ebook/e-card-simple.c:86
 #: addressbook/gui/component/e-address-popup.c:486
-#: addressbook/gui/contact-editor/e-contact-editor.c:1617
+#: addressbook/gui/contact-editor/e-contact-editor.c:1638
 #: addressbook/gui/widgets/e-addressbook-view.c:895
 msgid "Email 3"
 msgstr "E-post 3"
@@ -273,36 +273,45 @@ msgid "Note"
 msgstr "Notering"
 
 #: addressbook/backend/ebook/e-card-simple.c:97
+#, fuzzy
+msgid "Calendar URI"
+msgstr "Kalender"
+
+#: addressbook/backend/ebook/e-card-simple.c:97
+msgid "CALUri"
+msgstr ""
+
+#: addressbook/backend/ebook/e-card-simple.c:98
 #: addressbook/gui/widgets/e-addressbook-view.c:906
 msgid "Free-busy URL"
 msgstr "Ledig/Upptagen-URL"
 
-#: addressbook/backend/ebook/e-card-simple.c:97
+#: addressbook/backend/ebook/e-card-simple.c:98
 msgid "FBUrl"
 msgstr "LU-Url"
 
-#: addressbook/backend/ebook/e-card-simple.c:98
+#: addressbook/backend/ebook/e-card-simple.c:99
 msgid "Anniversary"
 msgstr "Jubileum"
 
-#: addressbook/backend/ebook/e-card-simple.c:98
+#: addressbook/backend/ebook/e-card-simple.c:99
 msgid "Anniv"
 msgstr "Jubil"
 
-#: addressbook/backend/ebook/e-card-simple.c:99
+#: addressbook/backend/ebook/e-card-simple.c:100
 msgid "Birth Date"
 msgstr "Födelsedatum"
 
-#: addressbook/backend/ebook/e-card-simple.c:102
+#: addressbook/backend/ebook/e-card-simple.c:103
 #: calendar/gui/e-calendar-table.etspec.h:4
 msgid "Categories"
 msgstr "Kategorier"
 
-#: addressbook/backend/ebook/e-card.c:3684
+#: addressbook/backend/ebook/e-card.c:3564
 msgid "Card: "
 msgstr "Kort: "
 
-#: addressbook/backend/ebook/e-card.c:3686
+#: addressbook/backend/ebook/e-card.c:3566
 msgid ""
 "\n"
 "Name: "
@@ -310,7 +319,7 @@ msgstr ""
 "\n"
 "Namn: "
 
-#: addressbook/backend/ebook/e-card.c:3687
+#: addressbook/backend/ebook/e-card.c:3567
 msgid ""
 "\n"
 "  Prefix:     "
@@ -318,7 +327,7 @@ msgstr ""
 "\n"
 "  Prefix:     "
 
-#: addressbook/backend/ebook/e-card.c:3688
+#: addressbook/backend/ebook/e-card.c:3568
 msgid ""
 "\n"
 "  Given:      "
@@ -326,7 +335,7 @@ msgstr ""
 "\n"
 "  Förnamn:    "
 
-#: addressbook/backend/ebook/e-card.c:3689
+#: addressbook/backend/ebook/e-card.c:3569
 msgid ""
 "\n"
 "  Additional: "
@@ -334,7 +343,7 @@ msgstr ""
 "\n"
 "  Andranamn:  "
 
-#: addressbook/backend/ebook/e-card.c:3690
+#: addressbook/backend/ebook/e-card.c:3570
 msgid ""
 "\n"
 "  Family:     "
@@ -342,7 +351,7 @@ msgstr ""
 "\n"
 "  Efternamn:  "
 
-#: addressbook/backend/ebook/e-card.c:3691
+#: addressbook/backend/ebook/e-card.c:3571
 msgid ""
 "\n"
 "  Suffix:     "
@@ -350,7 +359,7 @@ msgstr ""
 "\n"
 "  Suffix:     "
 
-#: addressbook/backend/ebook/e-card.c:3705
+#: addressbook/backend/ebook/e-card.c:3585
 msgid ""
 "\n"
 "Birth Date: "
@@ -358,7 +367,7 @@ msgstr ""
 "\n"
 "Födelsedatum: "
 
-#: addressbook/backend/ebook/e-card.c:3716
+#: addressbook/backend/ebook/e-card.c:3596
 msgid ""
 "\n"
 "Address:"
@@ -366,7 +375,7 @@ msgstr ""
 "\n"
 "Adress:"
 
-#: addressbook/backend/ebook/e-card.c:3718
+#: addressbook/backend/ebook/e-card.c:3598
 msgid ""
 "\n"
 "  Postal Box:  "
@@ -374,7 +383,7 @@ msgstr ""
 "\n"
 "  Box:           "
 
-#: addressbook/backend/ebook/e-card.c:3719
+#: addressbook/backend/ebook/e-card.c:3599
 msgid ""
 "\n"
 "  Ext:         "
@@ -382,7 +391,7 @@ msgstr ""
 "\n"
 "  Anknytning:    "
 
-#: addressbook/backend/ebook/e-card.c:3720
+#: addressbook/backend/ebook/e-card.c:3600
 msgid ""
 "\n"
 "  Street:      "
@@ -390,7 +399,7 @@ msgstr ""
 "\n"
 "  Gatuadress:    "
 
-#: addressbook/backend/ebook/e-card.c:3721
+#: addressbook/backend/ebook/e-card.c:3601
 msgid ""
 "\n"
 "  City:        "
@@ -398,7 +407,7 @@ msgstr ""
 "\n"
 "  Ort:           "
 
-#: addressbook/backend/ebook/e-card.c:3722
+#: addressbook/backend/ebook/e-card.c:3602
 msgid ""
 "\n"
 "  Region:      "
@@ -406,7 +415,7 @@ msgstr ""
 "\n"
 "  Region:        "
 
-#: addressbook/backend/ebook/e-card.c:3723
+#: addressbook/backend/ebook/e-card.c:3603
 msgid ""
 "\n"
 "  Postal Code: "
@@ -414,7 +423,7 @@ msgstr ""
 "\n"
 "  Postnummer:    "
 
-#: addressbook/backend/ebook/e-card.c:3724
+#: addressbook/backend/ebook/e-card.c:3604
 msgid ""
 "\n"
 "  Country:     "
@@ -422,7 +431,7 @@ msgstr ""
 "\n"
 "  Land:          "
 
-#: addressbook/backend/ebook/e-card.c:3737
+#: addressbook/backend/ebook/e-card.c:3617
 msgid ""
 "\n"
 "Delivery Label: "
@@ -430,7 +439,7 @@ msgstr ""
 "\n"
 "Leveransetikett: "
 
-#: addressbook/backend/ebook/e-card.c:3749
+#: addressbook/backend/ebook/e-card.c:3629
 msgid ""
 "\n"
 "Telephones:\n"
@@ -438,7 +447,7 @@ msgstr ""
 "\n"
 "Telefoner:\n"
 
-#: addressbook/backend/ebook/e-card.c:3752
+#: addressbook/backend/ebook/e-card.c:3632
 msgid ""
 "\n"
 "Telephone:"
@@ -446,7 +455,7 @@ msgstr ""
 "\n"
 "Telefon:"
 
-#: addressbook/backend/ebook/e-card.c:3776
+#: addressbook/backend/ebook/e-card.c:3656
 msgid ""
 "\n"
 "E-mail:\n"
@@ -454,7 +463,7 @@ msgstr ""
 "\n"
 "E-post:\n"
 
-#: addressbook/backend/ebook/e-card.c:3779
+#: addressbook/backend/ebook/e-card.c:3659
 msgid ""
 "\n"
 "E-mail:"
@@ -462,7 +471,7 @@ msgstr ""
 "\n"
 "E-post:"
 
-#: addressbook/backend/ebook/e-card.c:3798
+#: addressbook/backend/ebook/e-card.c:3678
 msgid ""
 "\n"
 "Mailer: "
@@ -470,7 +479,7 @@ msgstr ""
 "\n"
 "E-postprogram: "
 
-#: addressbook/backend/ebook/e-card.c:3804
+#: addressbook/backend/ebook/e-card.c:3684
 msgid ""
 "\n"
 "Time Zone: "
@@ -478,7 +487,7 @@ msgstr ""
 "\n"
 "Tidszon: "
 
-#: addressbook/backend/ebook/e-card.c:3812
+#: addressbook/backend/ebook/e-card.c:3692
 msgid ""
 "\n"
 "Geo Location: "
@@ -486,7 +495,7 @@ msgstr ""
 "\n"
 "Geografisk plats: "
 
-#: addressbook/backend/ebook/e-card.c:3816
+#: addressbook/backend/ebook/e-card.c:3696
 msgid ""
 "\n"
 "Business Role: "
@@ -494,7 +503,7 @@ msgstr ""
 "\n"
 "Yrkesroll: "
 
-#: addressbook/backend/ebook/e-card.c:3828
+#: addressbook/backend/ebook/e-card.c:3708
 msgid ""
 "\n"
 "Org: "
@@ -502,7 +511,7 @@ msgstr ""
 "\n"
 "Org: "
 
-#: addressbook/backend/ebook/e-card.c:3829
+#: addressbook/backend/ebook/e-card.c:3709
 msgid ""
 "\n"
 "  Name:  "
@@ -510,7 +519,7 @@ msgstr ""
 "\n"
 "  Namn:    "
 
-#: addressbook/backend/ebook/e-card.c:3830
+#: addressbook/backend/ebook/e-card.c:3710
 msgid ""
 "\n"
 "  Unit:  "
@@ -518,7 +527,7 @@ msgstr ""
 "\n"
 "  Enhet:   "
 
-#: addressbook/backend/ebook/e-card.c:3831
+#: addressbook/backend/ebook/e-card.c:3711
 msgid ""
 "\n"
 "  Unit2: "
@@ -526,7 +535,7 @@ msgstr ""
 "\n"
 "  Enhet 2: "
 
-#: addressbook/backend/ebook/e-card.c:3832
+#: addressbook/backend/ebook/e-card.c:3712
 msgid ""
 "\n"
 "  Unit3: "
@@ -534,7 +543,7 @@ msgstr ""
 "\n"
 "  Enhet 3: "
 
-#: addressbook/backend/ebook/e-card.c:3833
+#: addressbook/backend/ebook/e-card.c:3713
 msgid ""
 "\n"
 "  Unit4: "
@@ -542,7 +551,7 @@ msgstr ""
 "\n"
 "  Enhet 4: "
 
-#: addressbook/backend/ebook/e-card.c:3837
+#: addressbook/backend/ebook/e-card.c:3717
 msgid ""
 "\n"
 "Categories: "
@@ -550,7 +559,7 @@ msgstr ""
 "\n"
 "Kategorier: "
 
-#: addressbook/backend/ebook/e-card.c:3838
+#: addressbook/backend/ebook/e-card.c:3718
 msgid ""
 "\n"
 "Comment: "
@@ -568,7 +577,7 @@ msgstr ""
 #.
 #. add_SoundType (string, crd->sound.type);
 #. }
-#: addressbook/backend/ebook/e-card.c:3851
+#: addressbook/backend/ebook/e-card.c:3731
 msgid ""
 "\n"
 "Unique String: "
@@ -576,7 +585,7 @@ msgstr ""
 "\n"
 "Unik sträng: "
 
-#: addressbook/backend/ebook/e-card.c:3854
+#: addressbook/backend/ebook/e-card.c:3734
 msgid ""
 "\n"
 "Public Key: "
@@ -584,11 +593,11 @@ msgstr ""
 "\n"
 "Publik nyckel: "
 
-#: addressbook/backend/ebook/e-card.c:4204
+#: addressbook/backend/ebook/e-card.c:4087
 msgid "Multiple VCards"
 msgstr "Flera VCard"
 
-#: addressbook/backend/ebook/e-card.c:4212
+#: addressbook/backend/ebook/e-card.c:4095
 #, c-format
 msgid "VCard for %s"
 msgstr "VCard för %s"
@@ -597,7 +606,7 @@ msgstr "VCard för %s"
 #: addressbook/backend/ebook/load-pine-addressbook.c:22
 #: addressbook/backend/ebook/test-client-list.c:23
 #: addressbook/backend/ebook/test-client.c:33
-#: addressbook/conduit/address-conduit.c:1100
+#: addressbook/conduit/address-conduit.c:1119
 #: addressbook/gui/component/addressbook-factory.c:48
 #: calendar/conduits/calendar/calendar-conduit.c:1204
 #: calendar/conduits/todo/todo-conduit.c:1018
@@ -651,28 +660,28 @@ msgstr "Mottar LDAP-sökresultat..."
 msgid "Restarting search."
 msgstr "Startar om sökningen."
 
-#: addressbook/conduit/address-conduit.c:201
+#: addressbook/conduit/address-conduit.c:204
 msgid "Cursor could not be loaded\n"
 msgstr "Markören kunde inte läsas in\n"
 
-#: addressbook/conduit/address-conduit.c:214
+#: addressbook/conduit/address-conduit.c:217
 msgid "EBook not loaded\n"
 msgstr "EBook inte inläst\n"
 
-#: addressbook/conduit/address-conduit.c:662
+#: addressbook/conduit/address-conduit.c:681
 #: calendar/conduits/calendar/calendar-conduit.c:778
 #: calendar/conduits/todo/todo-conduit.c:592
 msgid "Could not start wombat server"
 msgstr "Kunde inte starta wombat-server"
 
-#: addressbook/conduit/address-conduit.c:663
+#: addressbook/conduit/address-conduit.c:682
 #: calendar/conduits/calendar/calendar-conduit.c:779
 #: calendar/conduits/todo/todo-conduit.c:593
 msgid "Could not start wombat"
 msgstr "Kunde inte starta wombat"
 
-#: addressbook/conduit/address-conduit.c:695
-#: addressbook/conduit/address-conduit.c:698
+#: addressbook/conduit/address-conduit.c:714
+#: addressbook/conduit/address-conduit.c:717
 msgid "Could not read pilot's Address application block"
 msgstr "Kunde inte läsa pilotens adressprogramblock"
 
@@ -781,7 +790,7 @@ msgid "Base"
 msgstr "Bas"
 
 #: addressbook/gui/component/addressbook-config.glade.h:7
-#: calendar/gui/dialogs/task-editor.c:151
+#: calendar/gui/dialogs/task-editor.c:172
 msgid "Basic"
 msgstr "Grundläggande"
 
@@ -855,9 +864,9 @@ msgid "_Account name:"
 msgstr "_Kontonamn:"
 
 #: addressbook/gui/component/addressbook-config.glade.h:22
-#: addressbook/gui/contact-editor/contact-editor.glade.h:15
+#: addressbook/gui/contact-editor/contact-editor.glade.h:16
 #: addressbook/gui/contact-list-editor/contact-list-editor.glade.h:4
-#: calendar/gui/dialogs/alarm-page.glade.h:9 filter/filter.glade.h:7
+#: calendar/gui/dialogs/alarm-page.glade.h:8 filter/filter.glade.h:7
 #: mail/mail-config.glade.h:90 my-evolution/my-evolution.glade.h:20
 msgid "_Add"
 msgstr "_Lägg till"
@@ -983,8 +992,8 @@ msgid "(none)"
 msgstr "(ingen)"
 
 #: addressbook/gui/component/e-address-popup.c:466
-#: addressbook/gui/contact-editor/contact-editor.glade.h:13
-#: addressbook/gui/contact-editor/e-contact-editor.c:1615
+#: addressbook/gui/contact-editor/contact-editor.glade.h:14
+#: addressbook/gui/contact-editor/e-contact-editor.c:1636
 msgid "Primary Email"
 msgstr "Primär e-post"
 
@@ -1008,13 +1017,13 @@ msgstr "Undersöker adressboken..."
 
 #: addressbook/gui/component/e-address-popup.c:934
 #: addressbook/gui/component/e-address-widget.c:388
-#: addressbook/gui/component/select-names/e-select-names-popup.c:332
+#: addressbook/gui/component/select-names/e-select-names-popup.c:307
 msgid "Edit Contact Info"
 msgstr "Redigera kontaktinformation"
 
 #: addressbook/gui/component/e-address-popup.c:963
 #: addressbook/gui/component/e-address-widget.c:424
-#: addressbook/gui/component/select-names/e-select-names-popup.c:504
+#: addressbook/gui/component/select-names/e-select-names-popup.c:486
 msgid "Add to Contacts"
 msgstr "Lägg till i kontakter"
 
@@ -1039,7 +1048,7 @@ msgid "Factory for the Addressbook's name selection interface"
 msgstr "Fabrik för adressbokens namnvalsgränssnitt"
 
 #: addressbook/gui/component/select-names/e-select-names-popup.c:164
-#: addressbook/gui/component/select-names/e-select-names.c:760
+#: addressbook/gui/component/select-names/e-select-names.c:764
 #: composer/e-msg-composer-attachment-bar.c:477 filter/filter-filter.c:436
 #: filter/filter-rule.c:613 shell/e-shortcuts-view.c:181
 msgid "Remove"
@@ -1053,28 +1062,33 @@ msgstr "Ta bort alla"
 msgid "Send HTML Mail?"
 msgstr "Skicka HTML-post?"
 
-#: addressbook/gui/component/select-names/e-select-names-popup.c:418
+#: addressbook/gui/component/select-names/e-select-names-popup.c:406
+msgid "Edit Contact List"
+msgstr "Redigera kontaktlista"
+
+#: addressbook/gui/component/select-names/e-select-names-popup.c:424
+msgid "Unnamed Contact List"
+msgstr "Namnlös kontaktlista"
+
+#: addressbook/gui/component/select-names/e-select-names-popup.c:441
 #, c-format
 msgid "(%d not shown)"
 msgstr "(%d visas inte)"
 
-#: addressbook/gui/component/select-names/e-select-names-popup.c:432
-msgid "Edit Contact List"
-msgstr "Redigera kontaktlista"
-
-#: addressbook/gui/component/select-names/e-select-names-popup.c:453
-msgid "Unnamed Contact List"
-msgstr "Namnlös kontaktlista"
-
-#: addressbook/gui/component/select-names/e-select-names-popup.c:527
+#: addressbook/gui/component/select-names/e-select-names-popup.c:507
 msgid "Unnamed Contact"
 msgstr "Namnlös kontakt:"
 
 #: addressbook/gui/component/select-names/e-select-names.c:521
-msgid "Unable to get local storage.  This should never happen."
-msgstr "Kan inte få tag i lokalt lagringsutrymme. Detta borde aldrig hända."
+msgid ""
+"Evolution is unable to get the addressbook local storage. This may have been "
+"caused by the evolution-addressbook component crashing. To help us better "
+"understand and ultimately resolve this problem, please send an e-mail to Jon "
+"Trowbridge <trow@ximian.com> with a detailed description of the "
+"circumstances under which this error occurred.  Thank you."
+msgstr ""
 
-#: addressbook/gui/component/select-names/e-select-names.c:594
+#: addressbook/gui/component/select-names/e-select-names.c:598
 msgid "Select Contacts from Addressbook"
 msgstr "Välj kontakter från adressboken"
 
@@ -1128,137 +1142,158 @@ msgstr "Arbets_fax"
 msgid "Ca_tegories..."
 msgstr "Ka_tegorier..."
 
-#. Construct the app
 #: addressbook/gui/contact-editor/contact-editor.glade.h:5
-#: addressbook/gui/contact-editor/e-contact-editor.c:1220
+msgid "Collaboration"
+msgstr ""
+
+#. Construct the app
+#: addressbook/gui/contact-editor/contact-editor.glade.h:6
+#: addressbook/gui/contact-editor/e-contact-editor.c:1241
 msgid "Contact Editor"
 msgstr "Kontaktredigerare"
 
-#: addressbook/gui/contact-editor/contact-editor.glade.h:6
-#: calendar/gui/dialogs/task-editor.c:156
+#: addressbook/gui/contact-editor/contact-editor.glade.h:7
+#: calendar/gui/dialogs/task-editor.c:177
 msgid "Details"
 msgstr "Detaljer"
 
-#: addressbook/gui/contact-editor/contact-editor.glade.h:7
+#: addressbook/gui/contact-editor/contact-editor.glade.h:8
 msgid "File A_s:"
 msgstr "Arkivera so_m:"
 
-#: addressbook/gui/contact-editor/contact-editor.glade.h:8
+#: addressbook/gui/contact-editor/contact-editor.glade.h:9
 msgid "General"
 msgstr "Allmänt"
 
-#: addressbook/gui/contact-editor/contact-editor.glade.h:9
+#: addressbook/gui/contact-editor/contact-editor.glade.h:10
 msgid "New phone type"
 msgstr "Ny telefontyp"
 
-#: addressbook/gui/contact-editor/contact-editor.glade.h:10
+#: addressbook/gui/contact-editor/contact-editor.glade.h:11
 msgid "No_tes:"
 msgstr "An_teckningar:"
 
-#: addressbook/gui/contact-editor/contact-editor.glade.h:11
+#: addressbook/gui/contact-editor/contact-editor.glade.h:12
 msgid "Organi_zation:"
 msgstr "Organi_sation:"
 
-#: addressbook/gui/contact-editor/contact-editor.glade.h:12
+#: addressbook/gui/contact-editor/contact-editor.glade.h:13
 msgid "Phone Types"
 msgstr "Telefontyper"
 
-#: addressbook/gui/contact-editor/contact-editor.glade.h:14
+#: addressbook/gui/contact-editor/contact-editor.glade.h:15
 msgid "Wants to receive _HTML mail"
 msgstr "Vill ha _HTML-post"
 
-#: addressbook/gui/contact-editor/contact-editor.glade.h:16
+#: addressbook/gui/contact-editor/contact-editor.glade.h:17
 msgid "_Address..."
 msgstr "_Adress..."
 
-#: addressbook/gui/contact-editor/contact-editor.glade.h:17
+#: addressbook/gui/contact-editor/contact-editor.glade.h:18
 msgid "_Assistant's name:"
 msgstr "_Assistentens namn:"
 
-#: addressbook/gui/contact-editor/contact-editor.glade.h:18
+#: addressbook/gui/contact-editor/contact-editor.glade.h:19
 msgid "_Birthday:"
 msgstr "_Födelsedag:"
 
-#: addressbook/gui/contact-editor/contact-editor.glade.h:19
+#: addressbook/gui/contact-editor/contact-editor.glade.h:20
 msgid "_Business"
 msgstr "Företa_g"
 
-#: addressbook/gui/contact-editor/contact-editor.glade.h:20
+#: addressbook/gui/contact-editor/contact-editor.glade.h:21
+#, fuzzy
+msgid "_Calendar Information:"
+msgstr "kalenderinformation"
+
+#: addressbook/gui/contact-editor/contact-editor.glade.h:22
 #: calendar/gui/dialogs/event-page.glade.h:12
 #: calendar/gui/dialogs/task-page.glade.h:10
 msgid "_Contacts..."
 msgstr "_Kontakter..."
 
-#: addressbook/gui/contact-editor/contact-editor.glade.h:21
-#: calendar/gui/dialogs/alarm-page.glade.h:10
-#: calendar/gui/dialogs/meeting-page.c:1490 filter/filter.glade.h:8
-#: mail/folder-browser.c:1310 mail/mail-config.glade.h:94
+#: addressbook/gui/contact-editor/contact-editor.glade.h:23
+#: calendar/gui/dialogs/alarm-page.glade.h:9
+#: calendar/gui/dialogs/meeting-page.c:834 filter/filter.glade.h:8
+#: mail/folder-browser.c:1371 mail/mail-config.glade.h:94
 #: ui/evolution-calendar.xml.h:38 ui/evolution-mail-message.xml.h:88
 #: ui/evolution-tasks.xml.h:15 ui/evolution.xml.h:35
 msgid "_Delete"
 msgstr "_Ta bort"
 
-#: addressbook/gui/contact-editor/contact-editor.glade.h:22
+#: addressbook/gui/contact-editor/contact-editor.glade.h:24
 msgid "_Department:"
 msgstr "Av_delning:"
 
-#: addressbook/gui/contact-editor/contact-editor.glade.h:23
+#: addressbook/gui/contact-editor/contact-editor.glade.h:25
+#, fuzzy
+msgid "_Free/Busy Information:"
+msgstr "Ledig-/upptageninformation"
+
+#: addressbook/gui/contact-editor/contact-editor.glade.h:26
 msgid "_Full Name..."
 msgstr "_Fullständigt namn..."
 
-#: addressbook/gui/contact-editor/contact-editor.glade.h:24
+#: addressbook/gui/contact-editor/contact-editor.glade.h:27
 msgid "_Home"
 msgstr "_Hem"
 
-#: addressbook/gui/contact-editor/contact-editor.glade.h:25
+#: addressbook/gui/contact-editor/contact-editor.glade.h:28
 msgid "_Job title:"
 msgstr "_Jobbtitel:"
 
-#: addressbook/gui/contact-editor/contact-editor.glade.h:26
+#: addressbook/gui/contact-editor/contact-editor.glade.h:29
 msgid "_Manager's Name:"
 msgstr "Chefens na_mn:"
 
-#: addressbook/gui/contact-editor/contact-editor.glade.h:27
+#: addressbook/gui/contact-editor/contact-editor.glade.h:30
 msgid "_Mobile"
 msgstr "_Mobil"
 
-#: addressbook/gui/contact-editor/contact-editor.glade.h:28
+#: addressbook/gui/contact-editor/contact-editor.glade.h:31
 msgid "_Nickname:"
 msgstr "_Smeknamn:"
 
-#: addressbook/gui/contact-editor/contact-editor.glade.h:29
+#: addressbook/gui/contact-editor/contact-editor.glade.h:32
 msgid "_Office:"
 msgstr "K_ontor:"
 
-#: addressbook/gui/contact-editor/contact-editor.glade.h:30
+#: addressbook/gui/contact-editor/contact-editor.glade.h:33
 msgid "_Profession:"
 msgstr "_Yrke:"
 
-#: addressbook/gui/contact-editor/contact-editor.glade.h:31
+#: addressbook/gui/contact-editor/contact-editor.glade.h:34
 msgid "_Spouse:"
 msgstr "Partne_r:"
 
-#: addressbook/gui/contact-editor/contact-editor.glade.h:32
+#: addressbook/gui/contact-editor/contact-editor.glade.h:35
 msgid "_This is the mailing address"
 msgstr "De_tta är postadressen"
 
-#: addressbook/gui/contact-editor/contact-editor.glade.h:33
+#: addressbook/gui/contact-editor/contact-editor.glade.h:36
 msgid "_Web page address:"
 msgstr "_Webbsideadress:"
 
 #: addressbook/gui/contact-editor/e-contact-editor-confirm-delete.glade.h:1
+#, fuzzy
+msgid ""
+"Are you sure you want\n"
+"to delete this contact?"
+msgstr "Är du säker på att du vill ta bort detta konto?"
+
+#: addressbook/gui/contact-editor/e-contact-editor-confirm-delete.glade.h:3
 msgid "Delete Contact?"
 msgstr "Ta bort kontakten?"
 
-#: addressbook/gui/contact-editor/e-contact-editor.c:741
+#: addressbook/gui/contact-editor/e-contact-editor.c:759
 msgid "This contact belongs to these categories:"
 msgstr "Denna kontakt tillhör dessa kategorier:"
 
-#: addressbook/gui/contact-editor/e-contact-editor.c:1591
+#: addressbook/gui/contact-editor/e-contact-editor.c:1612
 msgid "TTY/TDD"
 msgstr "TTY/TDD"
 
-#: addressbook/gui/contact-editor/e-contact-editor.c:2206
+#: addressbook/gui/contact-editor/e-contact-editor.c:2234
 #, c-format
 msgid "Could not find widget for a field: `%s'"
 msgstr "Kunde inte hitta widget för fältet: \"%s\""
@@ -2455,7 +2490,7 @@ msgstr "Skriv ut kuvert"
 
 #: addressbook/gui/widgets/e-addressbook-reflow-adapter.c:274
 #: addressbook/gui/widgets/e-addressbook-view.c:760 filter/libfilter-i18n.h:11
-#: mail/mail-accounts.c:282 ui/evolution-addressbook.xml.h:8
+#: mail/mail-accounts.c:281 ui/evolution-addressbook.xml.h:8
 #: ui/evolution-comp-editor.xml.h:4 ui/evolution-contact-editor.xml.h:2
 #: ui/evolution-contact-list-editor.xml.h:2 ui/evolution-mail-message.xml.h:16
 #: ui/evolution-tasks.xml.h:8
@@ -2499,7 +2534,7 @@ msgid "Protocol not supported"
 msgstr "Protokollet stöds inte"
 
 #: addressbook/gui/widgets/e-addressbook-util.c:41
-#: calendar/gui/calendar-model.c:697 calendar/gui/calendar-model.c:1238
+#: calendar/gui/calendar-model.c:733 calendar/gui/calendar-model.c:1274
 #: calendar/gui/dialogs/task-details-page.glade.h:3
 #: calendar/gui/e-calendar-table.c:404 camel/camel-service.c:544
 #: camel/camel-service.c:580
@@ -2928,9 +2963,28 @@ msgstr "Slumringstid (minuter)"
 msgid "_Edit appointment"
 msgstr "_Redigera möte"
 
-#: calendar/gui/alarm-notify/alarm-queue.c:626
+#: calendar/gui/alarm-notify/alarm-queue.c:629
 msgid "No description available."
 msgstr "Ingen beskrivning finns tillgänglig."
+
+#: calendar/gui/alarm-notify/alarm-queue.c:689
+msgid ""
+"Evolution does not support calendar reminders with\n"
+"email notifications yet, but this reminder was\n"
+"configured to send an email.  Evolution will display\n"
+"a normal reminder dialog box instead."
+msgstr ""
+
+#: calendar/gui/alarm-notify/alarm-queue.c:740
+#, c-format
+msgid ""
+"An Evolution Calendar reminder is about to trigger.\n"
+"This reminder is configured to run the following program:\n"
+"\n"
+"        %s\n"
+"\n"
+"Are you sure you want to run this program?"
+msgstr ""
 
 #: calendar/gui/alarm-notify/notify-main.c:73 calendar/gui/main.c:58
 msgid "Could not initialize GNOME"
@@ -2944,136 +2998,132 @@ msgstr "Kunde inte initiera gnome-vfs"
 msgid "Could not create the alarm notify service factory"
 msgstr "Kunde inte skapa fabriken för alarmaviseringstjänsten"
 
-#: calendar/gui/calendar-commands.c:430
+#: calendar/gui/calendar-commands.c:439
 msgid "%A %d %B %Y"
 msgstr "%A %d %B %Y"
 
 #. strftime format %a = abbreviated weekday name, %d = day of month,
 #. %b = abbreviated month name. Don't use any other specifiers.
-#: calendar/gui/calendar-commands.c:433 calendar/gui/e-day-view-top-item.c:289
+#: calendar/gui/calendar-commands.c:442 calendar/gui/e-day-view-top-item.c:289
 #: calendar/gui/e-day-view.c:1388 calendar/gui/e-week-view-main-item.c:334
 msgid "%a %d %b"
 msgstr "%a %d %b"
 
-#: calendar/gui/calendar-commands.c:435 calendar/gui/calendar-commands.c:440
-#: calendar/gui/calendar-commands.c:442
+#: calendar/gui/calendar-commands.c:444 calendar/gui/calendar-commands.c:449
+#: calendar/gui/calendar-commands.c:451
 msgid "%a %d %b %Y"
 msgstr "%a %d %b %Y"
 
-#: calendar/gui/calendar-commands.c:451
-#, c-format
-msgid "%d"
-msgstr "%d"
-
-#: calendar/gui/calendar-commands.c:453 calendar/gui/calendar-commands.c:460
-#: calendar/gui/calendar-commands.c:466 calendar/gui/calendar-commands.c:468
+#: calendar/gui/calendar-commands.c:462 calendar/gui/calendar-commands.c:469
+#: calendar/gui/calendar-commands.c:475 calendar/gui/calendar-commands.c:477
 msgid "%d %B %Y"
 msgstr "%d %B %Y"
 
 #. strftime format %d = day of month, %B = full
 #. month name. You can change the order but don't
 #. change the specifiers or add anything.
-#: calendar/gui/calendar-commands.c:458
+#: calendar/gui/calendar-commands.c:467
 #: calendar/gui/e-week-view-main-item.c:342 calendar/gui/print.c:1442
 msgid "%d %B"
 msgstr "%d %B"
 
-#: calendar/gui/calendar-commands.c:668
+#: calendar/gui/calendar-commands.c:677
 msgid ""
 "Could not create the calendar view.  Please check your ORBit and OAF setup."
 msgstr ""
 "Kunde inte skapa kalendervyn. Kontrollera din ORBit- och OAF-installation."
 
-#: calendar/gui/calendar-model.c:363 calendar/gui/calendar-model.c:965
+#: calendar/gui/calendar-model.c:399 calendar/gui/calendar-model.c:1001
 #: calendar/gui/e-calendar-table.c:307
 msgid "Private"
 msgstr "Privat"
 
-#: calendar/gui/calendar-model.c:366 calendar/gui/calendar-model.c:967
+#: calendar/gui/calendar-model.c:402 calendar/gui/calendar-model.c:1003
 #: calendar/gui/e-calendar-table.c:308
 msgid "Confidential"
 msgstr "Konfidentiellt"
 
-#: calendar/gui/calendar-model.c:369 calendar/gui/e-calendar-table.c:306
+#: calendar/gui/calendar-model.c:405 calendar/gui/e-calendar-table.c:306
 msgid "Public"
 msgstr "Publikt"
 
-#: calendar/gui/calendar-model.c:462
+#: calendar/gui/calendar-model.c:498
 msgid "N"
 msgstr "N"
 
-#: calendar/gui/calendar-model.c:462
+#: calendar/gui/calendar-model.c:498
 msgid "S"
 msgstr "S"
 
-#: calendar/gui/calendar-model.c:464
+#: calendar/gui/calendar-model.c:500
 msgid "E"
 msgstr "Ö"
 
-#: calendar/gui/calendar-model.c:464
+#: calendar/gui/calendar-model.c:500
 msgid "W"
 msgstr "V"
 
-#: calendar/gui/calendar-model.c:502 calendar/gui/calendar-model.c:1147
+#: calendar/gui/calendar-model.c:538 calendar/gui/calendar-model.c:1183
 #: calendar/gui/dialogs/task-details-page.glade.h:6
 #: calendar/gui/e-calendar-table.c:328 mail/message-list.c:652
 msgid "High"
 msgstr "Hög"
 
-#: calendar/gui/calendar-model.c:504 calendar/gui/calendar-model.c:1149
-#: calendar/gui/calendar-model.c:1664
+#: calendar/gui/calendar-model.c:540 calendar/gui/calendar-model.c:1185
+#: calendar/gui/calendar-model.c:1700
 #: calendar/gui/dialogs/task-details-page.glade.h:9
 #: calendar/gui/e-calendar-table.c:329 mail/message-list.c:651
 msgid "Normal"
 msgstr "Normal"
 
-#: calendar/gui/calendar-model.c:506 calendar/gui/calendar-model.c:1151
+#: calendar/gui/calendar-model.c:542 calendar/gui/calendar-model.c:1187
 #: calendar/gui/dialogs/task-details-page.glade.h:8
 #: calendar/gui/e-calendar-table.c:330 mail/message-list.c:650
 msgid "Low"
 msgstr "Låg"
 
-#: calendar/gui/calendar-model.c:537 calendar/gui/calendar-model.c:1184
+#: calendar/gui/calendar-model.c:573 calendar/gui/calendar-model.c:1220
 #: calendar/gui/e-calendar-table.c:380
 msgid "Free"
 msgstr "Ledig"
 
-#: calendar/gui/calendar-model.c:539 calendar/gui/e-calendar-table.c:381
-#: widgets/meeting-time-sel/e-meeting-time-sel.c:393
+#: calendar/gui/calendar-model.c:575 calendar/gui/e-calendar-table.c:381
+#: calendar/gui/e-meeting-time-sel.c:393
 msgid "Busy"
 msgstr "Upptagen"
 
-#: calendar/gui/calendar-model.c:688 calendar/gui/calendar-model.c:1232
+#: calendar/gui/calendar-model.c:724 calendar/gui/calendar-model.c:1268
 #: calendar/gui/dialogs/task-details-page.glade.h:10
 #: calendar/gui/e-calendar-table.c:401
 msgid "Not Started"
 msgstr "Inte startad"
 
-#: calendar/gui/calendar-model.c:691 calendar/gui/calendar-model.c:1234
+#: calendar/gui/calendar-model.c:727 calendar/gui/calendar-model.c:1270
 #: calendar/gui/dialogs/task-details-page.glade.h:7
 #: calendar/gui/e-calendar-table.c:402
 msgid "In Progress"
 msgstr "Pågår"
 
-#: calendar/gui/calendar-model.c:694 calendar/gui/calendar-model.c:1236
-#: calendar/gui/dialogs/meeting-page.c:665
-#: calendar/gui/dialogs/meeting-page.c:688
+#: calendar/gui/calendar-model.c:730 calendar/gui/calendar-model.c:1272
 #: calendar/gui/dialogs/task-details-page.glade.h:4
-#: calendar/gui/e-calendar-table.c:403
+#: calendar/gui/e-calendar-table.c:403 calendar/gui/e-meeting-model.c:298
+#: calendar/gui/e-meeting-model.c:321
 msgid "Completed"
 msgstr "Färdigt"
 
 #. strftime format of a weekday, a date and a time, 24-hour.
-#: calendar/gui/calendar-model.c:879 e-util/e-time-utils.c:323
+#: calendar/gui/calendar-model.c:915 e-util/e-time-utils.c:163
+#: e-util/e-time-utils.c:354
 msgid "%a %m/%d/%Y %H:%M:%S"
 msgstr "%a %Y-%m-%d %H.%M.%S"
 
 #. strftime format of a weekday, a date and a time, 12-hour.
-#: calendar/gui/calendar-model.c:882 e-util/e-time-utils.c:332
+#: calendar/gui/calendar-model.c:918 e-util/e-time-utils.c:158
+#: e-util/e-time-utils.c:363
 msgid "%a %m/%d/%Y %I:%M:%S %p"
 msgstr "%a %Y-%m-%d %H.%M.%S %p"
 
-#: calendar/gui/calendar-model.c:887
+#: calendar/gui/calendar-model.c:923
 #, c-format
 msgid ""
 "The date must be entered in the format: \n"
@@ -3084,7 +3134,7 @@ msgstr ""
 "\n"
 "%s"
 
-#: calendar/gui/calendar-model.c:1051
+#: calendar/gui/calendar-model.c:1087
 msgid ""
 "The geographical position must be entered in the format: \n"
 "\n"
@@ -3094,26 +3144,26 @@ msgstr ""
 "\n"
 "45.436845,125.862501"
 
-#: calendar/gui/calendar-model.c:1091
+#: calendar/gui/calendar-model.c:1127
 msgid "The percent value must be between 0 and 100, inclusive"
 msgstr "Procentvärdet måste vara mellan 0 och 100"
 
-#: calendar/gui/calendar-model.c:1132
+#: calendar/gui/calendar-model.c:1168
 msgid "The priority must be 'High', 'Normal', 'Low' or 'Undefined'."
 msgstr ""
 "Prioriteten måste vara \"Hög\", \"Normal\", \"Låg\" eller \"Odefinierad\"."
 
 #. An empty string is the same as 'None'.
-#: calendar/gui/calendar-model.c:1145
+#: calendar/gui/calendar-model.c:1181
 #: calendar/gui/dialogs/task-details-page.glade.h:13
 #: calendar/gui/e-calendar-table.c:331
 msgid "Undefined"
 msgstr "Odefinierad"
 
 #. An empty string is the same as 'None'.
-#: calendar/gui/calendar-model.c:1230 calendar/gui/dialogs/meeting-page.c:360
-#: calendar/gui/dialogs/meeting-page.glade.h:1 mail/mail-account-gui.c:1442
-#: mail/mail-accounts.c:144 mail/mail-accounts.c:391
+#: calendar/gui/calendar-model.c:1266 calendar/gui/dialogs/meeting-page.c:332
+#: calendar/gui/dialogs/meeting-page.glade.h:1 mail/mail-account-gui.c:1444
+#: mail/mail-accounts.c:143 mail/mail-accounts.c:390
 #: mail/mail-config.glade.h:49
 #: widgets/e-timezone-dialog/e-timezone-dialog.c:203
 #: widgets/misc/e-cell-date-edit.c:240 widgets/misc/e-dateedit.c:447
@@ -3121,23 +3171,22 @@ msgstr "Odefinierad"
 msgid "None"
 msgstr "Ingen"
 
-#: calendar/gui/calendar-model.c:1666
+#: calendar/gui/calendar-model.c:1702
 msgid "Recurring"
 msgstr "Återkommande"
 
-#: calendar/gui/calendar-model.c:1668
+#: calendar/gui/calendar-model.c:1704
 msgid "Assigned"
 msgstr "Tilldelad"
 
-#: calendar/gui/calendar-model.c:1674 calendar/gui/dialogs/meeting-page.c:637
-#: calendar/gui/dialogs/meeting-page.c:647
-#: calendar/gui/dialogs/meeting-page.c:1177
-#: calendar/gui/dialogs/meeting-page.c:1284
+#: calendar/gui/calendar-model.c:1710 calendar/gui/e-meeting-model.c:270
+#: calendar/gui/e-meeting-model.c:280 calendar/gui/e-meeting-model.c:506
+#: calendar/gui/e-meeting-model.c:702
 msgid "Yes"
 msgstr "Ja"
 
-#: calendar/gui/calendar-model.c:1674 calendar/gui/dialogs/meeting-page.c:649
-#: calendar/gui/dialogs/meeting-page.c:1285
+#: calendar/gui/calendar-model.c:1710 calendar/gui/e-meeting-model.c:282
+#: calendar/gui/e-meeting-model.c:703
 msgid "No"
 msgstr "Nej"
 
@@ -3169,44 +3218,44 @@ msgstr "Beskrivningen innehåller"
 msgid "Comment contains"
 msgstr "Kommentaren innehåller"
 
-#: calendar/gui/cal-search-bar.c:416
+#: calendar/gui/cal-search-bar.c:416 mail/mail-ops.c:1054
 msgid "Unmatched"
 msgstr "Omatchad"
 
-#: calendar/gui/component-factory.c:60 my-evolution/my-evolution.glade.h:6
+#: calendar/gui/component-factory.c:62 my-evolution/my-evolution.glade.h:6
 #: shell/e-local-storage.c:172 shell/e-shortcuts.c:1056
 msgid "Calendar"
 msgstr "Kalender"
 
-#: calendar/gui/component-factory.c:61
+#: calendar/gui/component-factory.c:63
 msgid "Folder containing appointments and events"
 msgstr "Mapp som innehåller möten och evenemang"
 
-#: calendar/gui/component-factory.c:65 calendar/gui/print.c:1719
-#: my-evolution/e-summary-tasks.c:212 my-evolution/e-summary-tasks.c:228
+#: calendar/gui/component-factory.c:67 calendar/gui/print.c:1719
+#: my-evolution/e-summary-tasks.c:215 my-evolution/e-summary-tasks.c:231
 #: shell/e-local-storage.c:178 shell/e-shortcuts.c:1059
 #: views/tasks/galview.xml.h:1
 msgid "Tasks"
 msgstr "Uppgifter"
 
-#: calendar/gui/component-factory.c:66
+#: calendar/gui/component-factory.c:68
 msgid "Folder containing to-do items"
 msgstr "Mapp som innehåller att-göra-objekt"
 
-#: calendar/gui/component-factory.c:509 ui/evolution-calendar.xml.h:7
+#: calendar/gui/component-factory.c:593 ui/evolution-calendar.xml.h:7
 msgid "Create a new appointment"
 msgstr "Skapa ett nytt möte"
 
-#: calendar/gui/component-factory.c:510 calendar/gui/e-day-view.c:3420
+#: calendar/gui/component-factory.c:594 calendar/gui/e-day-view.c:3420
 msgid "New _Appointment"
 msgstr "Nytt m_öte"
 
-#: calendar/gui/component-factory.c:515 ui/evolution-calendar.xml.h:8
+#: calendar/gui/component-factory.c:599 ui/evolution-calendar.xml.h:8
 #: ui/evolution-tasks.xml.h:5
 msgid "Create a new task"
 msgstr "Skapa en ny uppgift"
 
-#: calendar/gui/component-factory.c:516
+#: calendar/gui/component-factory.c:600
 msgid "New _Task"
 msgstr "Ny _uppgift"
 
@@ -3239,24 +3288,26 @@ msgid "Alarm Repeat"
 msgstr "Alarmupprepning"
 
 #: calendar/gui/dialogs/alarm-options.glade.h:2
-msgid "FIXME: mail alarm options"
-msgstr "FIXME: alternativ för e-postalarm"
-
-#: calendar/gui/dialogs/alarm-options.glade.h:3
 msgid "Message to Display"
 msgstr "Meddelande att visa"
 
-#: calendar/gui/dialogs/alarm-options.glade.h:4
+#: calendar/gui/dialogs/alarm-options.glade.h:3
 msgid "Play sound:"
 msgstr "Spela ljud:"
 
-#: calendar/gui/dialogs/alarm-options.glade.h:5
+#: calendar/gui/dialogs/alarm-options.glade.h:4
 msgid "Repeat the alarm"
 msgstr "Upprepa larmet"
 
-#: calendar/gui/dialogs/alarm-options.glade.h:6
+#: calendar/gui/dialogs/alarm-options.glade.h:5
 msgid "Run program:"
 msgstr "Kör program:"
+
+#: calendar/gui/dialogs/alarm-options.glade.h:6
+msgid ""
+"This is an email reminder, but Evolution does not yet support this kind of "
+"reminders.  You will not be able to edit the options for this reminder."
+msgstr ""
 
 #: calendar/gui/dialogs/alarm-options.glade.h:7
 msgid "With these arguments:"
@@ -3278,95 +3329,92 @@ msgstr "timme"
 msgid "minutes"
 msgstr "minut"
 
-#: calendar/gui/dialogs/alarm-page.c:304
+#: calendar/gui/dialogs/alarm-page.c:303
 #, c-format
 msgid "%d days"
 msgstr "%d dagar"
 
-#: calendar/gui/dialogs/alarm-page.c:306
+#: calendar/gui/dialogs/alarm-page.c:305
 msgid "1 day"
 msgstr "1 dag"
 
-#: calendar/gui/dialogs/alarm-page.c:309
+#: calendar/gui/dialogs/alarm-page.c:308
 #, c-format
 msgid "%d weeks"
 msgstr "%d veckor"
 
-#: calendar/gui/dialogs/alarm-page.c:311
+#: calendar/gui/dialogs/alarm-page.c:310
 msgid "1 week"
 msgstr "1 vecka"
 
-#: calendar/gui/dialogs/alarm-page.c:314
+#: calendar/gui/dialogs/alarm-page.c:313
 #, c-format
 msgid "%d hours"
 msgstr "%d timmar"
 
-#: calendar/gui/dialogs/alarm-page.c:316
+#: calendar/gui/dialogs/alarm-page.c:315
 msgid "1 hour"
 msgstr "1 timme"
 
-#: calendar/gui/dialogs/alarm-page.c:319
+#: calendar/gui/dialogs/alarm-page.c:318
 #, c-format
 msgid "%d minutes"
 msgstr "%d minuter"
 
-#: calendar/gui/dialogs/alarm-page.c:321
+#: calendar/gui/dialogs/alarm-page.c:320
 msgid "1 minute"
 msgstr "1 minut"
 
-#: calendar/gui/dialogs/alarm-page.c:324
+#: calendar/gui/dialogs/alarm-page.c:323
 #, c-format
 msgid "%d seconds"
 msgstr "%d sekunder"
 
-#: calendar/gui/dialogs/alarm-page.c:326
+#: calendar/gui/dialogs/alarm-page.c:325
 msgid "1 second"
 msgstr "1 sekund"
 
-#: calendar/gui/dialogs/alarm-page.c:351
+#: calendar/gui/dialogs/alarm-page.c:350
 #: calendar/gui/dialogs/alarm-page.glade.h:4
 msgid "Play a sound"
 msgstr "Spela ett ljud"
 
-#: calendar/gui/dialogs/alarm-page.c:355
+#: calendar/gui/dialogs/alarm-page.c:354
 #: calendar/gui/dialogs/alarm-page.glade.h:3
 msgid "Display a message"
 msgstr "Visa ett meddelande"
 
-#: calendar/gui/dialogs/alarm-page.c:359
-#: calendar/gui/dialogs/alarm-page.glade.h:7
+#: calendar/gui/dialogs/alarm-page.c:358
 msgid "Send an email"
 msgstr "Skicka ett brev"
 
-#: calendar/gui/dialogs/alarm-page.c:363
+#: calendar/gui/dialogs/alarm-page.c:362
 #: calendar/gui/dialogs/alarm-page.glade.h:6
 msgid "Run a program"
 msgstr "Kör ett program"
 
-#: calendar/gui/dialogs/alarm-page.c:369 calendar/gui/dialogs/alarm-page.c:405
-#: calendar/gui/dialogs/meeting-page.c:593
-#: calendar/gui/dialogs/meeting-page.c:628
-#: calendar/gui/dialogs/meeting-page.c:692
-#: calendar/gui/dialogs/meeting-page.c:1256
-#: calendar/gui/dialogs/meeting-page.c:1272
+#: calendar/gui/dialogs/alarm-page.c:368 calendar/gui/dialogs/alarm-page.c:404
+#: calendar/gui/e-meeting-model.c:226 calendar/gui/e-meeting-model.c:261
+#: calendar/gui/e-meeting-model.c:326 calendar/gui/e-meeting-model.c:674
+#: calendar/gui/e-meeting-model.c:690
 #: camel/providers/smtp/camel-smtp-transport.c:224
 #: widgets/misc/e-charset-picker.c:58 widgets/misc/e-charset-picker.c:438
 msgid "Unknown"
 msgstr "Okänd"
 
-#: calendar/gui/dialogs/alarm-page.c:381
+#: calendar/gui/dialogs/alarm-page.c:380
 msgid "before start of appointment"
 msgstr "innan start på möte"
 
-#: calendar/gui/dialogs/alarm-page.c:384
+#: calendar/gui/dialogs/alarm-page.c:383
 msgid "after start of appointment"
 msgstr "efter start på möte"
 
-#: calendar/gui/dialogs/alarm-page.c:394
+#: calendar/gui/dialogs/alarm-page.c:393
 msgid "before end of appointment"
 msgstr "före slut på möte"
 
-#: calendar/gui/dialogs/alarm-page.c:397
+#: calendar/gui/dialogs/alarm-page.c:396
 msgid "after end of appointment"
 msgstr "efter slut på möte"
 
@@ -3384,43 +3432,43 @@ msgstr "Datum/tid:"
 msgid "Reminders"
 msgstr "Påminnelser"
 
-#: calendar/gui/dialogs/alarm-page.glade.h:8
+#: calendar/gui/dialogs/alarm-page.glade.h:7
 #: calendar/gui/dialogs/recurrence-page.glade.h:8
 #: calendar/gui/e-itip-control.glade.h:11
 msgid "Summary:"
 msgstr "Sammanfattning:"
 
-#: calendar/gui/dialogs/alarm-page.glade.h:11
+#: calendar/gui/dialogs/alarm-page.glade.h:10
 msgid "_Options..."
 msgstr "_Alternativ..."
 
 #. Automatically generated. Do not edit.
-#: calendar/gui/dialogs/alarm-page.glade.h:12 filter/libfilter-i18n.h:2
+#: calendar/gui/dialogs/alarm-page.glade.h:11 filter/libfilter-i18n.h:2
 msgid "after"
 msgstr "efter"
 
-#: calendar/gui/dialogs/alarm-page.glade.h:13 filter/libfilter-i18n.h:6
+#: calendar/gui/dialogs/alarm-page.glade.h:12 filter/libfilter-i18n.h:6
 msgid "before"
 msgstr "före"
 
-#: calendar/gui/dialogs/alarm-page.glade.h:14
+#: calendar/gui/dialogs/alarm-page.glade.h:13
 #: calendar/gui/dialogs/recurrence-page.glade.h:14
 msgid "day(s)"
 msgstr "dag"
 
-#: calendar/gui/dialogs/alarm-page.glade.h:15
+#: calendar/gui/dialogs/alarm-page.glade.h:14
 msgid "end of appointment"
 msgstr "slut på möte"
 
-#: calendar/gui/dialogs/alarm-page.glade.h:16
+#: calendar/gui/dialogs/alarm-page.glade.h:15
 msgid "hour(s)"
 msgstr "timme/timmar"
 
-#: calendar/gui/dialogs/alarm-page.glade.h:17 mail/mail-config.glade.h:116
+#: calendar/gui/dialogs/alarm-page.glade.h:16 mail/mail-config.glade.h:116
 msgid "minute(s)"
 msgstr "minut(er)"
 
-#: calendar/gui/dialogs/alarm-page.glade.h:18
+#: calendar/gui/dialogs/alarm-page.glade.h:17
 msgid "start of appointment"
 msgstr "start på möte"
 
@@ -3469,7 +3517,7 @@ msgid "First day of wee_k:"
 msgstr "F_örsta dagen i veckan:"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:12
-#: calendar/gui/dialogs/recurrence-page.c:950
+#: calendar/gui/dialogs/recurrence-page.c:955
 msgid "Friday"
 msgstr "fredag"
 
@@ -3482,7 +3530,7 @@ msgid "Minutes"
 msgstr "minut"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:15
-#: calendar/gui/dialogs/recurrence-page.c:946
+#: calendar/gui/dialogs/recurrence-page.c:951
 msgid "Monday"
 msgstr "måndag"
 
@@ -3491,7 +3539,7 @@ msgid "O_verdue tasks:"
 msgstr "Uppgi_fter som skulle ha utförts:"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:17
-#: calendar/gui/dialogs/recurrence-page.c:951
+#: calendar/gui/dialogs/recurrence-page.c:956
 msgid "Saturday"
 msgstr "lördag"
 
@@ -3512,7 +3560,7 @@ msgid "Su_n"
 msgstr "_sön"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:22
-#: calendar/gui/dialogs/recurrence-page.c:952
+#: calendar/gui/dialogs/recurrence-page.c:957
 msgid "Sunday"
 msgstr "söndag"
 
@@ -3529,7 +3577,7 @@ msgid "Tas_ks due today:"
 msgstr "U_ppgifter som ska ha utförts idag:"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:26
-#: calendar/gui/dialogs/recurrence-page.c:949
+#: calendar/gui/dialogs/recurrence-page.c:954
 msgid "Thursday"
 msgstr "torsdag"
 
@@ -3550,12 +3598,12 @@ msgid "Time format:"
 msgstr "Tidsformat:"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:31
-#: calendar/gui/dialogs/recurrence-page.c:947
+#: calendar/gui/dialogs/recurrence-page.c:952
 msgid "Tuesday"
 msgstr "tisdag"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:32
-#: calendar/gui/dialogs/recurrence-page.c:948
+#: calendar/gui/dialogs/recurrence-page.c:953
 msgid "Wednesday"
 msgstr "onsdag"
 
@@ -3706,35 +3754,35 @@ msgstr " (Ska utföras "
 msgid "Due "
 msgstr "Ska utföras "
 
-#: calendar/gui/dialogs/comp-editor.c:469
+#: calendar/gui/dialogs/comp-editor.c:515
 msgid "Edit Appointment"
 msgstr "Redigera möte"
 
-#: calendar/gui/dialogs/comp-editor.c:474
+#: calendar/gui/dialogs/comp-editor.c:520
 #, c-format
 msgid "Appointment - %s"
 msgstr "Möte - %s"
 
-#: calendar/gui/dialogs/comp-editor.c:477
+#: calendar/gui/dialogs/comp-editor.c:523
 #, c-format
 msgid "Task - %s"
 msgstr "Uppgift - %s"
 
-#: calendar/gui/dialogs/comp-editor.c:480
+#: calendar/gui/dialogs/comp-editor.c:526
 #, c-format
 msgid "Journal entry - %s"
 msgstr "Dagbokspost - %s"
 
-#: calendar/gui/dialogs/comp-editor.c:494
+#: calendar/gui/dialogs/comp-editor.c:540
 msgid "No summary"
 msgstr "Ingen sammanfattning"
 
-#: calendar/gui/dialogs/comp-editor.c:860 mail/mail-callbacks.c:1652
+#: calendar/gui/dialogs/comp-editor.c:950 mail/mail-callbacks.c:1662
 #: mail/mail-display.c:100
 msgid "Overwrite file?"
 msgstr "Skriv över fil?"
 
-#: calendar/gui/dialogs/comp-editor.c:864 mail/mail-callbacks.c:1658
+#: calendar/gui/dialogs/comp-editor.c:954 mail/mail-callbacks.c:1668
 #: mail/mail-display.c:104
 msgid ""
 "A file by that name already exists.\n"
@@ -3743,53 +3791,53 @@ msgstr ""
 "Det finns redan en fil med det namnet.\n"
 "Ska den skrivas över?"
 
-#: calendar/gui/dialogs/comp-editor.c:927 ui/evolution-comp-editor.xml.h:13
+#: calendar/gui/dialogs/comp-editor.c:1017 ui/evolution-comp-editor.xml.h:13
 #: widgets/misc/e-filter-bar.h:101
 msgid "Save As..."
 msgstr "Spara som..."
 
-#: calendar/gui/dialogs/comp-editor.c:1080
+#: calendar/gui/dialogs/comp-editor.c:1170
 msgid "Unable to obtain current version!"
 msgstr "Kunde inte få tag i aktuell version!"
 
-#: calendar/gui/dialogs/delete-comp.c:84
+#: calendar/gui/dialogs/delete-comp.c:90
 #, c-format
 msgid "Are you sure you want to delete the appointment `%s'?"
 msgstr "Är du säker på att du vill ta bort mötet \"%s\""
 
-#: calendar/gui/dialogs/delete-comp.c:87
+#: calendar/gui/dialogs/delete-comp.c:93
 msgid "Are you sure you want to delete this untitled appointment?"
 msgstr "Är du säker på att du vill ta bort detta namnlösa möte?"
 
-#: calendar/gui/dialogs/delete-comp.c:93
+#: calendar/gui/dialogs/delete-comp.c:99
 #, c-format
 msgid "Are you sure you want to delete the task `%s'?"
 msgstr "Är du säker på att du vill ta bort uppgiften \"%s\"?"
 
-#: calendar/gui/dialogs/delete-comp.c:96
+#: calendar/gui/dialogs/delete-comp.c:102
 msgid "Are you sure you want to delete this untitled task?"
 msgstr "Är du säker på att du vill ta bort denna namnlösa uppgift?"
 
-#: calendar/gui/dialogs/delete-comp.c:102
+#: calendar/gui/dialogs/delete-comp.c:108
 #, c-format
 msgid "Are you sure you want to delete the journal entry `%s'?"
 msgstr "Är du säker på att du vill ta bort dagboksposten \"%s\"?"
 
-#: calendar/gui/dialogs/delete-comp.c:105
+#: calendar/gui/dialogs/delete-comp.c:111
 msgid "Are you sure want to delete this untitled journal entry?"
 msgstr "Är du säker på att du vill ta bort denna namnlösa dagbokspost?"
 
-#: calendar/gui/dialogs/delete-comp.c:120
+#: calendar/gui/dialogs/delete-comp.c:126
 #, c-format
 msgid "Are you sure you want to delete %d appointments?"
 msgstr "Är du säker på att du vill ta bort %d möten?"
 
-#: calendar/gui/dialogs/delete-comp.c:125
+#: calendar/gui/dialogs/delete-comp.c:131
 #, c-format
 msgid "Are you sure you want to delete %d tasks?"
 msgstr "Är du säker på att du vill ta bort %d uppgifter?"
 
-#: calendar/gui/dialogs/delete-comp.c:130
+#: calendar/gui/dialogs/delete-comp.c:136
 #, c-format
 msgid "Are you sure you want to delete %d journal entries?"
 msgstr "Är du säker på att du vill ta bort %d dagboksposter?"
@@ -3806,20 +3854,26 @@ msgstr "Delegera till:"
 msgid "Enter Delegate"
 msgstr "Ange delegerad person"
 
-#: calendar/gui/dialogs/event-editor.c:156
+#: calendar/gui/dialogs/event-editor.c:181
 msgid "Appointment"
 msgstr "Möte"
 
-#: calendar/gui/dialogs/event-editor.c:161
+#: calendar/gui/dialogs/event-editor.c:186
 msgid "Reminder"
 msgstr "Påminnelse"
 
-#: calendar/gui/dialogs/event-editor.c:166
+#: calendar/gui/dialogs/event-editor.c:191
 msgid "Recurrence"
 msgstr "Upprepning"
 
-#: calendar/gui/dialogs/event-editor.c:171
-#: calendar/gui/dialogs/event-editor.c:273
+#: calendar/gui/dialogs/event-editor.c:198
+#: calendar/gui/dialogs/event-editor.c:345
+#, fuzzy
+msgid "Scheduling"
+msgstr "Boka _möte"
+
+#: calendar/gui/dialogs/event-editor.c:203
+#: calendar/gui/dialogs/event-editor.c:348
 msgid "Meeting"
 msgstr "Möte"
 
@@ -3861,7 +3915,7 @@ msgid "Pu_blic"
 msgstr "Pu_blikt"
 
 #: calendar/gui/dialogs/event-page.glade.h:10
-#: calendar/gui/e-calendar-table.etspec.h:12
+#: calendar/gui/e-calendar-table.etspec.h:13
 msgid "Show Time As"
 msgstr "Visa tid som"
 
@@ -3878,166 +3932,95 @@ msgstr "Slutti_d:"
 msgid "_Start time:"
 msgstr "_Starttid:"
 
-#: calendar/gui/dialogs/meeting-page.c:568
-#: calendar/gui/dialogs/meeting-page.c:585
-#: calendar/gui/dialogs/meeting-page.c:1173
-#: calendar/gui/dialogs/meeting-page.c:1252
-msgid "Individual"
-msgstr "Person"
-
-#: calendar/gui/dialogs/meeting-page.c:570
-#: calendar/gui/dialogs/meeting-page.c:587
-#: calendar/gui/dialogs/meeting-page.c:1253
-msgid "Group"
-msgstr "Grupp"
-
-#: calendar/gui/dialogs/meeting-page.c:572
-#: calendar/gui/dialogs/meeting-page.c:589
-#: calendar/gui/dialogs/meeting-page.c:1254
-msgid "Resource"
-msgstr "Resurs"
-
-#: calendar/gui/dialogs/meeting-page.c:574
-#: calendar/gui/dialogs/meeting-page.c:591
-#: calendar/gui/dialogs/meeting-page.c:1255
-msgid "Room"
-msgstr "Rum"
-
-#: calendar/gui/dialogs/meeting-page.c:603
-#: calendar/gui/dialogs/meeting-page.c:620
-#: calendar/gui/dialogs/meeting-page.c:1268
-msgid "Chair"
-msgstr "Mötesordförande"
-
-#: calendar/gui/dialogs/meeting-page.c:605
-#: calendar/gui/dialogs/meeting-page.c:622
-#: calendar/gui/dialogs/meeting-page.c:1175
-#: calendar/gui/dialogs/meeting-page.c:1269
-msgid "Required Participant"
-msgstr "Nödvändig deltagare"
-
-#: calendar/gui/dialogs/meeting-page.c:607
-#: calendar/gui/dialogs/meeting-page.c:624
-#: calendar/gui/dialogs/meeting-page.c:1270
-msgid "Optional Participant"
-msgstr "Valfri deltagare"
-
-#: calendar/gui/dialogs/meeting-page.c:609
-#: calendar/gui/dialogs/meeting-page.c:626
-#: calendar/gui/dialogs/meeting-page.c:1271
-msgid "Non-Participant"
-msgstr "Icke-deltagare"
-
-#: calendar/gui/dialogs/meeting-page.c:655
-#: calendar/gui/dialogs/meeting-page.c:678
-#: calendar/gui/dialogs/meeting-page.c:1183
-#: calendar/gui/dialogs/meeting-page.c:1297
-msgid "Needs Action"
-msgstr "Behöver åtgärd"
-
-#: calendar/gui/dialogs/meeting-page.c:657
-#: calendar/gui/dialogs/meeting-page.c:680
-#: calendar/gui/dialogs/meeting-page.c:1298
-msgid "Accepted"
-msgstr "Godtaget"
-
-#: calendar/gui/dialogs/meeting-page.c:659
-#: calendar/gui/dialogs/meeting-page.c:682
-#: calendar/gui/dialogs/meeting-page.c:1299
-msgid "Declined"
-msgstr "Avböjt"
-
-#: calendar/gui/dialogs/meeting-page.c:661
-#: calendar/gui/dialogs/meeting-page.c:684
-#: calendar/gui/dialogs/meeting-page.c:1300
-#: widgets/meeting-time-sel/e-meeting-time-sel.c:392
-msgid "Tentative"
-msgstr "Preliminärt"
-
-#: calendar/gui/dialogs/meeting-page.c:663
-#: calendar/gui/dialogs/meeting-page.c:686
-#: calendar/gui/dialogs/meeting-page.c:1301
-msgid "Delegated"
-msgstr "Delegerat"
-
-#: calendar/gui/dialogs/meeting-page.c:667
-#: calendar/gui/dialogs/meeting-page.c:690
-msgid "In Process"
-msgstr "Pågår"
-
-#: calendar/gui/dialogs/meeting-page.c:728
+#: calendar/gui/dialogs/meeting-page.c:504
 msgid "That person is already attending the meeting!"
 msgstr "Personen är redan närvarande på mötet!"
 
-#: calendar/gui/dialogs/meeting-page.c:779
-#: calendar/gui/dialogs/meeting-page.c:832
+#: calendar/gui/dialogs/meeting-page.c:548
+#: calendar/gui/dialogs/meeting-page.c:583
 msgid "Chair Persons"
 msgstr "Ordförandepersoner"
 
-#: calendar/gui/dialogs/meeting-page.c:781
-#: calendar/gui/dialogs/meeting-page.c:832
-#: calendar/gui/dialogs/meeting-page.c:952
+#: calendar/gui/dialogs/meeting-page.c:550
+#: calendar/gui/dialogs/meeting-page.c:583
+#: calendar/gui/dialogs/meeting-page.c:703
 msgid "Required Participants"
 msgstr "Nödvändiga deltagare"
 
-#: calendar/gui/dialogs/meeting-page.c:783
-#: calendar/gui/dialogs/meeting-page.c:832
+#: calendar/gui/dialogs/meeting-page.c:552
+#: calendar/gui/dialogs/meeting-page.c:583
 msgid "Optional Participants"
 msgstr "Valfria deltagare"
 
-#: calendar/gui/dialogs/meeting-page.c:785
-#: calendar/gui/dialogs/meeting-page.c:832
+#: calendar/gui/dialogs/meeting-page.c:554
+#: calendar/gui/dialogs/meeting-page.c:583
 msgid "Non-Participants"
 msgstr "Icke-deltagare"
 
-#: calendar/gui/dialogs/meeting-page.c:910
+#: calendar/gui/dialogs/meeting-page.c:661
 msgid "Sent By:"
 msgstr "Skickat av:"
 
-#: calendar/gui/dialogs/meeting-page.c:1485
+#: calendar/gui/dialogs/meeting-page.c:829
 msgid "_Delegate To..."
 msgstr "_Delegera till..."
 
 #: calendar/gui/dialogs/meeting-page.etspec.h:1
+#: calendar/gui/e-meeting-time-sel.etspec.h:1
 msgid "Attendee"
 msgstr "Deltagare"
 
 #: calendar/gui/dialogs/meeting-page.etspec.h:2
+#: calendar/gui/e-meeting-time-sel.etspec.h:2
+#, fuzzy
+msgid "Click here to add an attendee"
+msgstr "Klicka här för att lägga till en kontakt"
+
+#: calendar/gui/dialogs/meeting-page.etspec.h:3
+#: calendar/gui/e-meeting-time-sel.etspec.h:3
 msgid "Common Name"
 msgstr "Vanligt namn"
 
-#: calendar/gui/dialogs/meeting-page.etspec.h:3
+#: calendar/gui/dialogs/meeting-page.etspec.h:4
+#: calendar/gui/e-meeting-time-sel.etspec.h:4
 msgid "Delegated From"
 msgstr "Delegerad från"
 
-#: calendar/gui/dialogs/meeting-page.etspec.h:4
+#: calendar/gui/dialogs/meeting-page.etspec.h:5
+#: calendar/gui/e-meeting-time-sel.etspec.h:5
 msgid "Delegated To"
 msgstr "Delegerad till"
 
-#: calendar/gui/dialogs/meeting-page.etspec.h:5
+#: calendar/gui/dialogs/meeting-page.etspec.h:6
+#: calendar/gui/e-meeting-time-sel.etspec.h:6
 msgid "Language"
 msgstr "Språk"
 
-#: calendar/gui/dialogs/meeting-page.etspec.h:6
+#: calendar/gui/dialogs/meeting-page.etspec.h:7
+#: calendar/gui/e-meeting-time-sel.etspec.h:7
 msgid "Member"
 msgstr "Medlem"
 
-#: calendar/gui/dialogs/meeting-page.etspec.h:7
+#: calendar/gui/dialogs/meeting-page.etspec.h:8
+#: calendar/gui/e-meeting-time-sel.etspec.h:8
 msgid "RSVP"
 msgstr "OSA"
 
-#: calendar/gui/dialogs/meeting-page.etspec.h:8
+#: calendar/gui/dialogs/meeting-page.etspec.h:9
+#: calendar/gui/e-meeting-time-sel.etspec.h:9
 msgid "Role"
 msgstr "Roll"
 
-#: calendar/gui/dialogs/meeting-page.etspec.h:9
-#: calendar/gui/e-calendar-table.etspec.h:14 filter/libfilter-i18n.h:49
+#: calendar/gui/dialogs/meeting-page.etspec.h:10
+#: calendar/gui/e-calendar-table.etspec.h:15
+#: calendar/gui/e-meeting-time-sel.etspec.h:10 filter/libfilter-i18n.h:49
 #: mail/message-list.etspec.h:8
 msgid "Status"
 msgstr "Status"
 
-#: calendar/gui/dialogs/meeting-page.etspec.h:10
-#: calendar/gui/e-calendar-table.etspec.h:17 mail/mail-config.glade.h:85
+#: calendar/gui/dialogs/meeting-page.etspec.h:11
+#: calendar/gui/e-calendar-table.etspec.h:18
+#: calendar/gui/e-meeting-time-sel.etspec.h:11 mail/mail-config.glade.h:85
 #: shell/glade/e-active-connection-dialog.glade.h:5
 msgid "Type"
 msgstr "Typ"
@@ -4059,32 +4042,32 @@ msgstr "_Bjud in andra"
 msgid "_Other Organizer"
 msgstr "_Annan organisatör"
 
-#: calendar/gui/dialogs/recurrence-page.c:417 calendar/gui/print.c:1851
+#: calendar/gui/dialogs/recurrence-page.c:422 calendar/gui/print.c:1851
 #: calendar/gui/print.c:1853 calendar/gui/print.c:1854
 msgid "%a %b %d %Y"
 msgstr "%a %d %b %Y"
 
-#: calendar/gui/dialogs/recurrence-page.c:565
+#: calendar/gui/dialogs/recurrence-page.c:570
 msgid "This appointment contains recurrences that Evolution cannot edit."
 msgstr "Detta möte har upprepningsregler som inte kan redigeras med Evolution."
 
-#: calendar/gui/dialogs/recurrence-page.c:919
+#: calendar/gui/dialogs/recurrence-page.c:924
 msgid "on"
 msgstr "vid"
 
-#: calendar/gui/dialogs/recurrence-page.c:945 filter/filter-datespec.c:83
+#: calendar/gui/dialogs/recurrence-page.c:950 filter/filter-datespec.c:83
 msgid "day"
 msgstr "dag"
 
-#: calendar/gui/dialogs/recurrence-page.c:1075
+#: calendar/gui/dialogs/recurrence-page.c:1080
 msgid "on the"
 msgstr "den"
 
-#: calendar/gui/dialogs/recurrence-page.c:1083
+#: calendar/gui/dialogs/recurrence-page.c:1088
 msgid "th"
 msgstr ":e"
 
-#: calendar/gui/dialogs/recurrence-page.c:1256
+#: calendar/gui/dialogs/recurrence-page.c:1261
 msgid "occurrences"
 msgstr "förekomster"
 
@@ -4179,7 +4162,7 @@ msgid "Progress"
 msgstr "Förlopp"
 
 #: calendar/gui/dialogs/task-details-page.glade.h:12
-#: my-evolution/e-summary-preferences.c:898
+#: my-evolution/e-summary-preferences.c:910
 msgid "URL:"
 msgstr "URL:"
 
@@ -4191,8 +4174,8 @@ msgstr "_Prioritet:"
 msgid "_Status:"
 msgstr "_Status:"
 
-#: calendar/gui/dialogs/task-editor.c:161
-#: calendar/gui/dialogs/task-editor.c:239
+#: calendar/gui/dialogs/task-editor.c:184
+#: calendar/gui/dialogs/task-editor.c:285
 msgid "Assignment"
 msgstr "Tilldelning"
 
@@ -4270,7 +4253,7 @@ msgid "100%"
 msgstr "100%"
 
 #: calendar/gui/e-calendar-table.c:850 calendar/gui/e-day-view.c:3441
-#: calendar/gui/e-week-view.c:3288 mail/folder-browser.c:1275
+#: calendar/gui/e-week-view.c:3288 mail/folder-browser.c:1336
 #: shell/e-shortcuts-view.c:385
 msgid "_Open"
 msgstr "_Öppna"
@@ -4313,6 +4296,7 @@ msgid "_Delete Selected Tasks"
 msgstr "_Ta bort markerade uppgifter"
 
 #: calendar/gui/e-calendar-table.c:1130
+#: calendar/gui/e-calendar-table.etspec.h:6
 msgid "Click to add a task"
 msgstr "Klicka för att lägga till en uppgift"
 
@@ -4320,48 +4304,48 @@ msgstr "Klicka för att lägga till en uppgift"
 msgid "Alarms"
 msgstr "Alarm"
 
-#: calendar/gui/e-calendar-table.etspec.h:6 camel/camel-filter-driver.c:702
+#: calendar/gui/e-calendar-table.etspec.h:7 camel/camel-filter-driver.c:702
 #: camel/camel-filter-driver.c:819
 msgid "Complete"
 msgstr "Färdigt"
 
-#: calendar/gui/e-calendar-table.etspec.h:7
+#: calendar/gui/e-calendar-table.etspec.h:8
 msgid "Completion Date"
 msgstr "Färdigdatum"
 
-#: calendar/gui/e-calendar-table.etspec.h:8
+#: calendar/gui/e-calendar-table.etspec.h:9
 msgid "Due Date"
 msgstr "Förfallodatum"
 
-#: calendar/gui/e-calendar-table.etspec.h:9
+#: calendar/gui/e-calendar-table.etspec.h:10
 msgid "End Date"
 msgstr "Slutdatum"
 
-#: calendar/gui/e-calendar-table.etspec.h:10
+#: calendar/gui/e-calendar-table.etspec.h:11
 msgid "Geographical Position"
 msgstr "Geografisk position"
 
-#: calendar/gui/e-calendar-table.etspec.h:11
+#: calendar/gui/e-calendar-table.etspec.h:12
 msgid "Priority"
 msgstr "Prioritet"
 
-#: calendar/gui/e-calendar-table.etspec.h:13
+#: calendar/gui/e-calendar-table.etspec.h:14
 msgid "Start Date"
 msgstr "Startdatum"
 
 #. FIXME: Inbox shortcut should point to something else for
 #. people who won't care about using /Local Folders/Inbox
-#: calendar/gui/e-calendar-table.etspec.h:15
+#: calendar/gui/e-calendar-table.etspec.h:16
 #: my-evolution/component-factory.c:30 shell/e-shortcuts.c:1050
-#: shell/e-storage-set-view.c:1421 shell/e-summary-storage.c:80
+#: shell/e-storage-set-view.c:1424 shell/e-summary-storage.c:80
 msgid "Summary"
 msgstr "Sammanfattning"
 
-#: calendar/gui/e-calendar-table.etspec.h:16
+#: calendar/gui/e-calendar-table.etspec.h:17
 msgid "Task sort"
 msgstr "Sortera efter uppgift"
 
-#: calendar/gui/e-calendar-table.etspec.h:18
+#: calendar/gui/e-calendar-table.etspec.h:19
 msgid "URL"
 msgstr "URL"
 
@@ -4426,234 +4410,234 @@ msgid "Delete _All Occurrences"
 msgstr "Ta bort _alla förekomster"
 
 #. Describe what the user can do
-#: calendar/gui/e-itip-control.c:651
+#: calendar/gui/e-itip-control.c:649
 msgid ""
 "<br> Please review the following information, and then select an action from "
 "the menu below."
 msgstr ""
 "<br> Granska följande information, och välj sedan en åtgärd från menyn nedan."
 
-#: calendar/gui/e-itip-control.c:666
+#: calendar/gui/e-itip-control.c:664
 #, c-format
 msgid "<b>Summary:</b> %s<br><br>"
 msgstr "<b>Sammanfattning:</b> %s<br><br>"
 
-#: calendar/gui/e-itip-control.c:666
+#: calendar/gui/e-itip-control.c:664
 msgid "<i>None</i>"
 msgstr "<i>Ingen</i>"
 
-#: calendar/gui/e-itip-control.c:676
+#: calendar/gui/e-itip-control.c:674
 #, c-format
 msgid "<b>Description:</b> %s"
 msgstr "<b>Beskrivning:</b> %s"
 
-#: calendar/gui/e-itip-control.c:712
+#: calendar/gui/e-itip-control.c:710
 #, c-format
 msgid "<b>%s</b> has published meeting information."
 msgstr "<b>%s</b> har publicerat mötesinformation."
 
-#: calendar/gui/e-itip-control.c:713
+#: calendar/gui/e-itip-control.c:711
 msgid "Meeting Information"
 msgstr "Mötesinformation"
 
-#: calendar/gui/e-itip-control.c:717
+#: calendar/gui/e-itip-control.c:715
 #, c-format
 msgid "<b>%s</b> requests your presence at a meeting."
 msgstr "<b>%s</b> begär din närvaro vid ett möte."
 
-#: calendar/gui/e-itip-control.c:718
+#: calendar/gui/e-itip-control.c:716
 msgid "Meeting Proposal"
 msgstr "Mötesförslag"
 
-#: calendar/gui/e-itip-control.c:722
+#: calendar/gui/e-itip-control.c:720
 #, c-format
 msgid "<b>%s</b> wishes to add to an existing meeting."
 msgstr "<b>%s</b> vill lägga till i ett befintligt möte."
 
-#: calendar/gui/e-itip-control.c:723
+#: calendar/gui/e-itip-control.c:721
 msgid "Meeting Update"
 msgstr "Mötesuppdatering"
 
-#: calendar/gui/e-itip-control.c:727
+#: calendar/gui/e-itip-control.c:725
 #, c-format
 msgid "<b>%s</b> wishes to receive the latest meeting information."
 msgstr "<b>%s</b> vill få den senaste mötesinformationen."
 
-#: calendar/gui/e-itip-control.c:728
+#: calendar/gui/e-itip-control.c:726
 msgid "Meeting Update Request"
 msgstr "Begäran av mötesuppdatering"
 
-#: calendar/gui/e-itip-control.c:732
+#: calendar/gui/e-itip-control.c:730
 #, c-format
 msgid "<b>%s</b> has replied to a meeting request."
 msgstr "<b>%s</b> har svarat på en mötesbegäran."
 
-#: calendar/gui/e-itip-control.c:733
+#: calendar/gui/e-itip-control.c:731
 msgid "Meeting Reply"
 msgstr "Mötessvar"
 
-#: calendar/gui/e-itip-control.c:737
+#: calendar/gui/e-itip-control.c:735
 #, c-format
 msgid "<b>%s</b> has cancelled a meeting."
 msgstr "<b>%s</b> har avbokat ett möte."
 
-#: calendar/gui/e-itip-control.c:738
+#: calendar/gui/e-itip-control.c:736
 msgid "Meeting Cancellation"
 msgstr "Mötesavbokning"
 
-#: calendar/gui/e-itip-control.c:742 calendar/gui/e-itip-control.c:790
-#: calendar/gui/e-itip-control.c:823
+#: calendar/gui/e-itip-control.c:740 calendar/gui/e-itip-control.c:788
+#: calendar/gui/e-itip-control.c:821
 #, c-format
 msgid "<b>%s</b> has sent an unintelligible message."
 msgstr "<b>%s</b> har skickat ett obegripligt meddelande."
 
-#: calendar/gui/e-itip-control.c:743
+#: calendar/gui/e-itip-control.c:741
 msgid "Bad Meeting Message"
 msgstr "Felaktigt mötesmeddelande"
 
-#: calendar/gui/e-itip-control.c:760
+#: calendar/gui/e-itip-control.c:758
 #, c-format
 msgid "<b>%s</b> has published task information."
 msgstr "<b>%s</b> har publicerat mötesinformation."
 
-#: calendar/gui/e-itip-control.c:761
+#: calendar/gui/e-itip-control.c:759
 msgid "Task Information"
 msgstr "Uppgiftsinformation"
 
-#: calendar/gui/e-itip-control.c:765
+#: calendar/gui/e-itip-control.c:763
 #, c-format
 msgid "<b>%s</b> requests you perform a task."
 msgstr "<b>%s</b> begär att du utför en uppgift."
 
-#: calendar/gui/e-itip-control.c:766
+#: calendar/gui/e-itip-control.c:764
 msgid "Task Proposal"
 msgstr "Uppgiftsförslag"
 
-#: calendar/gui/e-itip-control.c:770
+#: calendar/gui/e-itip-control.c:768
 #, c-format
 msgid "<b>%s</b> wishes to add to an existing task."
 msgstr "<b>%s</b> vill lägga till i en befintlig uppgift."
 
-#: calendar/gui/e-itip-control.c:771
+#: calendar/gui/e-itip-control.c:769
 msgid "Task Update"
 msgstr "Uppgiftsuppdatering"
 
-#: calendar/gui/e-itip-control.c:775
+#: calendar/gui/e-itip-control.c:773
 #, c-format
 msgid "<b>%s</b> wishes to receive the latest task information."
 msgstr "<b>%s</b> vill få den senaste uppgiftsinformationen."
 
-#: calendar/gui/e-itip-control.c:776
+#: calendar/gui/e-itip-control.c:774
 msgid "Task Update Request"
 msgstr "Begäran om uppgiftsuppdatering"
 
-#: calendar/gui/e-itip-control.c:780
+#: calendar/gui/e-itip-control.c:778
 #, c-format
 msgid "<b>%s</b> has replied to a task assignment."
 msgstr "<b>%s</b> har svarat på en uppgiftstilldelning."
 
-#: calendar/gui/e-itip-control.c:781
+#: calendar/gui/e-itip-control.c:779
 msgid "Task Reply"
 msgstr "Uppgiftssvar"
 
-#: calendar/gui/e-itip-control.c:785
+#: calendar/gui/e-itip-control.c:783
 #, c-format
 msgid "<b>%s</b> has cancelled a task."
 msgstr "<b>%s</b> har avbokat en uppgift."
 
-#: calendar/gui/e-itip-control.c:786
+#: calendar/gui/e-itip-control.c:784
 msgid "Task Cancellation"
 msgstr "Uppgiftsavbokning"
 
-#: calendar/gui/e-itip-control.c:791
+#: calendar/gui/e-itip-control.c:789
 msgid "Bad Task Message"
 msgstr "Felaktigt uppgiftsmeddelande"
 
-#: calendar/gui/e-itip-control.c:808
+#: calendar/gui/e-itip-control.c:806
 #, c-format
 msgid "<b>%s</b> has published free/busy information."
 msgstr "<b>%s</b> har publicerat ledig-/upptageninformation."
 
-#: calendar/gui/e-itip-control.c:809
+#: calendar/gui/e-itip-control.c:807
 msgid "Free/Busy Information"
 msgstr "Ledig-/upptageninformation"
 
-#: calendar/gui/e-itip-control.c:813
+#: calendar/gui/e-itip-control.c:811
 #, c-format
 msgid "<b>%s</b> requests your free/busy information."
 msgstr "<b>%s</b> begär din ledig-/upptageninformation."
 
-#: calendar/gui/e-itip-control.c:814
+#: calendar/gui/e-itip-control.c:812
 msgid "Free/Busy Request"
 msgstr "Ledig-/Upptagenbegäran"
 
-#: calendar/gui/e-itip-control.c:818
+#: calendar/gui/e-itip-control.c:816
 #, c-format
 msgid "<b>%s</b> has replied to a free/busy request."
 msgstr "<b>%s</b> har svarat på en ledig-/upptagenbegäran."
 
-#: calendar/gui/e-itip-control.c:819
+#: calendar/gui/e-itip-control.c:817
 msgid "Free/Busy Reply"
 msgstr "Ledig-/Upptagensvar"
 
-#: calendar/gui/e-itip-control.c:824
+#: calendar/gui/e-itip-control.c:822
 msgid "Bad Free/Busy Message"
 msgstr "Felaktigt ledig-/upptagenmeddelande"
 
-#: calendar/gui/e-itip-control.c:891
+#: calendar/gui/e-itip-control.c:889
 msgid "The message does not appear to be properly formed"
 msgstr "Meddelandet verkar inte vara korrekt utformat"
 
-#: calendar/gui/e-itip-control.c:910
+#: calendar/gui/e-itip-control.c:908
 msgid "The message contains only unsupported requests."
 msgstr "Meddelandet innehåller typer av begäran som inte stöds."
 
-#: calendar/gui/e-itip-control.c:938 calendar/gui/e-itip-control.c:944
+#: calendar/gui/e-itip-control.c:936 calendar/gui/e-itip-control.c:942
 msgid "The attachment does not contain a valid calendar message"
 msgstr "Bilagan innehåller inte ett giltigt kalendermeddelande"
 
-#: calendar/gui/e-itip-control.c:1063
+#: calendar/gui/e-itip-control.c:1061
 msgid "Calendar file could not be updated!\n"
 msgstr "Kalenderfilen kunde inte uppdateras!\n"
 
-#: calendar/gui/e-itip-control.c:1065
+#: calendar/gui/e-itip-control.c:1063
 msgid "Update complete\n"
 msgstr "Uppdateringen färdig\n"
 
-#: calendar/gui/e-itip-control.c:1109
+#: calendar/gui/e-itip-control.c:1107
 msgid "Attendee status could not be updated because of an invalid status!\n"
 msgstr "Närvarandestatus kunde inte uppdateras på grund av ogiltig status!\n"
 
-#: calendar/gui/e-itip-control.c:1117
+#: calendar/gui/e-itip-control.c:1115
 msgid "Attendee status ould not be updated!\n"
 msgstr "Närvarandestatus kunde inte uppdateras!\n"
 
-#: calendar/gui/e-itip-control.c:1119
+#: calendar/gui/e-itip-control.c:1117
 msgid "Attendee status updated\n"
 msgstr "Närvarandestatus är uppdaterad\n"
 
-#: calendar/gui/e-itip-control.c:1121
+#: calendar/gui/e-itip-control.c:1119
 msgid "Attendee status can not be updated because the item no longer exists"
 msgstr ""
 "Närvarandestatusen kan inte uppdateras eftersom objektet inte längre finns"
 
-#: calendar/gui/e-itip-control.c:1149
+#: calendar/gui/e-itip-control.c:1147
 msgid "I couldn't remove the item from your calendar file!\n"
 msgstr "Jag kunde inte ta bort objektet från din kalenderfil!\n"
 
-#: calendar/gui/e-itip-control.c:1151
+#: calendar/gui/e-itip-control.c:1149
 msgid "Removal Complete"
 msgstr "Borttagning färdig"
 
-#: calendar/gui/e-itip-control.c:1183 calendar/gui/e-itip-control.c:1211
+#: calendar/gui/e-itip-control.c:1181 calendar/gui/e-itip-control.c:1216
 msgid "Item sent!\n"
 msgstr "Objektet skickat!\n"
 
-#: calendar/gui/e-itip-control.c:1185 calendar/gui/e-itip-control.c:1213
+#: calendar/gui/e-itip-control.c:1183 calendar/gui/e-itip-control.c:1220
 msgid "The item could not be sent!\n"
 msgstr "Objektet kunde inte skickas!\n"
 
-#: calendar/gui/e-itip-control.c:1373
+#: calendar/gui/e-itip-control.c:1380
 msgid "Unable to find any of your identities in the attendees list!\n"
 msgstr "Kan inte hitta någon av dina identiteter i närvarandelistan!\n"
 
@@ -4693,6 +4677,161 @@ msgstr "slutdatum"
 #: calendar/gui/e-itip-control.glade.h:13
 msgid "date-start"
 msgstr "startdatum"
+
+#: calendar/gui/e-meeting-model.c:201 calendar/gui/e-meeting-model.c:218
+#: calendar/gui/e-meeting-model.c:502 calendar/gui/e-meeting-model.c:670
+msgid "Individual"
+msgstr "Person"
+
+#: calendar/gui/e-meeting-model.c:203 calendar/gui/e-meeting-model.c:220
+#: calendar/gui/e-meeting-model.c:671
+msgid "Group"
+msgstr "Grupp"
+
+#: calendar/gui/e-meeting-model.c:205 calendar/gui/e-meeting-model.c:222
+#: calendar/gui/e-meeting-model.c:672
+msgid "Resource"
+msgstr "Resurs"
+
+#: calendar/gui/e-meeting-model.c:207 calendar/gui/e-meeting-model.c:224
+#: calendar/gui/e-meeting-model.c:673
+msgid "Room"
+msgstr "Rum"
+
+#: calendar/gui/e-meeting-model.c:236 calendar/gui/e-meeting-model.c:253
+#: calendar/gui/e-meeting-model.c:686
+msgid "Chair"
+msgstr "Mötesordförande"
+
+#: calendar/gui/e-meeting-model.c:238 calendar/gui/e-meeting-model.c:255
+#: calendar/gui/e-meeting-model.c:504 calendar/gui/e-meeting-model.c:687
+msgid "Required Participant"
+msgstr "Nödvändig deltagare"
+
+#: calendar/gui/e-meeting-model.c:240 calendar/gui/e-meeting-model.c:257
+#: calendar/gui/e-meeting-model.c:688
+msgid "Optional Participant"
+msgstr "Valfri deltagare"
+
+#: calendar/gui/e-meeting-model.c:242 calendar/gui/e-meeting-model.c:259
+#: calendar/gui/e-meeting-model.c:689
+msgid "Non-Participant"
+msgstr "Icke-deltagare"
+
+#: calendar/gui/e-meeting-model.c:288 calendar/gui/e-meeting-model.c:311
+#: calendar/gui/e-meeting-model.c:512 calendar/gui/e-meeting-model.c:715
+msgid "Needs Action"
+msgstr "Behöver åtgärd"
+
+#: calendar/gui/e-meeting-model.c:290 calendar/gui/e-meeting-model.c:313
+#: calendar/gui/e-meeting-model.c:716
+msgid "Accepted"
+msgstr "Godtaget"
+
+#: calendar/gui/e-meeting-model.c:292 calendar/gui/e-meeting-model.c:315
+#: calendar/gui/e-meeting-model.c:717
+msgid "Declined"
+msgstr "Avböjt"
+
+#: calendar/gui/e-meeting-model.c:294 calendar/gui/e-meeting-model.c:317
+#: calendar/gui/e-meeting-model.c:718 calendar/gui/e-meeting-time-sel.c:392
+msgid "Tentative"
+msgstr "Preliminärt"
+
+#: calendar/gui/e-meeting-model.c:296 calendar/gui/e-meeting-model.c:319
+#: calendar/gui/e-meeting-model.c:719
+msgid "Delegated"
+msgstr "Delegerat"
+
+#: calendar/gui/e-meeting-model.c:300 calendar/gui/e-meeting-model.c:323
+msgid "In Process"
+msgstr "Pågår"
+
+#. This is a strftime() format string %A = full weekday name,
+#. %B = full month name, %d = month day, %Y = full year.
+#: calendar/gui/e-meeting-time-sel-item.c:472
+#: calendar/gui/e-meeting-time-sel.c:1936
+msgid "%A, %B %d, %Y"
+msgstr "%A %d %B %Y"
+
+#. This is a strftime() format string %a = abbreviated weekday
+#. name, %m = month number, %d = month day, %Y = full year.
+#: calendar/gui/e-meeting-time-sel-item.c:476
+#: calendar/gui/e-meeting-time-sel.c:1964 e-util/e-time-utils.c:186
+#: e-util/e-time-utils.c:345
+msgid "%a %m/%d/%Y"
+msgstr "%a %Y-%m-%d"
+
+#. This is a strftime() format string %m = month number,
+#. %d = month day, %Y = full year.
+#: calendar/gui/e-meeting-time-sel-item.c:480 e-util/e-time-utils.c:221
+#: e-util/e-time-utils.c:276 widgets/misc/e-dateedit.c:1552
+msgid "%m/%d/%Y"
+msgstr "%Y-%m-%d"
+
+#: calendar/gui/e-meeting-time-sel.c:394
+msgid "Out of Office"
+msgstr "Inte inne"
+
+#: calendar/gui/e-meeting-time-sel.c:395
+msgid "No Information"
+msgstr "Ingen information"
+
+#: calendar/gui/e-meeting-time-sel.c:411
+msgid "_Invite Others..."
+msgstr "Bjud _in andra..."
+
+#: calendar/gui/e-meeting-time-sel.c:431
+msgid "_Options"
+msgstr "_Alternativ"
+
+#: calendar/gui/e-meeting-time-sel.c:448
+msgid "Show _Only Working Hours"
+msgstr "Visa _endast arbetstimmar"
+
+#: calendar/gui/e-meeting-time-sel.c:461
+msgid "Show _Zoomed Out"
+msgstr "Visa ut_zoomade"
+
+#: calendar/gui/e-meeting-time-sel.c:479
+msgid "_Update Free/Busy"
+msgstr "_Uppdatera ledig/upptagen"
+
+#: calendar/gui/e-meeting-time-sel.c:497
+msgid "_<<"
+msgstr "_<<"
+
+#: calendar/gui/e-meeting-time-sel.c:514
+msgid "_Autopick"
+msgstr "_Autovälj"
+
+#: calendar/gui/e-meeting-time-sel.c:528
+msgid ">_>"
+msgstr ">_>"
+
+#: calendar/gui/e-meeting-time-sel.c:545
+msgid "_All People and Resources"
+msgstr "_Alla människor och resurser"
+
+#: calendar/gui/e-meeting-time-sel.c:558
+msgid "All _People and One Resource"
+msgstr "Alla _människor och en resurs"
+
+#: calendar/gui/e-meeting-time-sel.c:571
+msgid "_Required People"
+msgstr "Folk som k_rävs"
+
+#: calendar/gui/e-meeting-time-sel.c:584
+msgid "Required People and _One Resource"
+msgstr "Folk som krävs _och en resurs"
+
+#: calendar/gui/e-meeting-time-sel.c:607
+msgid "Meeting _start time:"
+msgstr "Mötets _starttid:"
+
+#: calendar/gui/e-meeting-time-sel.c:626
+msgid "Meeting _end time:"
+msgstr "Mötets slu_ttid:"
 
 #: calendar/gui/e-tasks.c:349
 #, c-format
@@ -4774,7 +4913,7 @@ msgstr "oktober"
 msgid "September"
 msgstr "september"
 
-#: calendar/gui/itip-utils.c:285
+#: calendar/gui/itip-utils.c:274
 msgid "An organizer must be set."
 msgstr "En organisatör måste vara angiven."
 
@@ -4967,7 +5106,7 @@ msgid "Print Calendar"
 msgstr "Skriv ut kalender"
 
 #: calendar/gui/print.c:2302 calendar/gui/print.c:2394
-#: mail/mail-callbacks.c:2061 my-evolution/e-summary.c:551
+#: mail/mail-callbacks.c:2071 my-evolution/e-summary.c:551
 #: ui/evolution-addressbook.xml.h:17 ui/evolution-mail-message.xml.h:64
 msgid "Print Preview"
 msgstr "Förhandsgranska"
@@ -5123,7 +5262,17 @@ msgstr ""
 msgid "is-completed? expects 0 arguments"
 msgstr "is-completed? förväntar sig 0 argument"
 
-#: calendar/pcs/query.c:1085
+#: calendar/pcs/query.c:862
+#, fuzzy
+msgid "completed-before? expects 1 argument"
+msgstr "is-completed? förväntar sig 0 argument"
+
+#: calendar/pcs/query.c:867
+#, fuzzy
+msgid "completed-before? expects argument 1 to be a time_t"
+msgstr "time-day-begin förväntar sig att argument 1 är en time_t"
+
+#: calendar/pcs/query.c:1155
 msgid "Evaluation of the search expression did not yield a boolean value"
 msgstr "Evaluering av sökuttrycket gav inget booleskt värde"
 
@@ -5250,16 +5399,16 @@ msgstr ""
 "Fel vid körning av sökuttrycket: %s:\n"
 "%s"
 
-#: camel/camel-folder-search.c:557 camel/camel-folder-search.c:585
+#: camel/camel-folder-search.c:560 camel/camel-folder-search.c:588
 msgid "(match-all) requires a single bool result"
 msgstr "(matcha-alla) kräver ett ensamt booleskt resultat"
 
-#: camel/camel-folder-search.c:635
+#: camel/camel-folder-search.c:638
 #, c-format
 msgid "Performing query on unknown header: %s"
 msgstr "Utför fråga på okänt huvud: %s"
 
-#: camel/camel-folder-search.c:744 camel/camel-folder-search.c:788
+#: camel/camel-folder-search.c:747 camel/camel-folder-search.c:791
 msgid "Invalid type in body-contains, expecting string"
 msgstr "Ogiltig typ i \"body-contains\", förväntar sträng"
 
@@ -5294,12 +5443,12 @@ msgstr "Kunde inte skapa låsfil för %s: %s"
 msgid "Timed out trying to get lock file on %s. Try again later."
 msgstr "Gjorde time-out när låsfil skulle fås för %s. Försök igen senare."
 
-#: camel/camel-lock.c:201
+#: camel/camel-lock.c:205
 #, c-format
 msgid "Failed to get lock using fcntl(2): %s"
 msgstr "Misslyckades med att få lås med fcntl(2): %s"
 
-#: camel/camel-lock.c:255
+#: camel/camel-lock.c:267
 #, c-format
 msgid "Failed to get lock using flock(2): %s"
 msgstr "Misslyckades med att få lås med flock(2): %s"
@@ -5369,45 +5518,73 @@ msgid "Please enter your %s passphrase"
 msgstr "Ange din %s-lösenordsfras"
 
 #: camel/camel-pgp-context.c:518
-msgid "No plaintext to sign."
-msgstr "Ingen klartext att signera."
+#, fuzzy
+msgid "Cannot sign this message: no plaintext to sign"
+msgstr "Kan inte skicka meddelande: inga mottagare är angivna."
 
 #: camel/camel-pgp-context.c:525 camel/camel-pgp-context.c:700
-#: camel/camel-pgp-context.c:1079 camel/camel-pgp-context.c:1266
-msgid "No password provided."
-msgstr "Inget lösenord angavs."
+#, fuzzy
+msgid "Cannot sign this message: no password provided"
+msgstr "Kan inte skicka meddelande: avsändaradressen är inte giltig."
 
 #: camel/camel-pgp-context.c:531 camel/camel-pgp-context.c:706
-#: camel/camel-pgp-context.c:892 camel/camel-pgp-context.c:1086
-#: camel/camel-pgp-context.c:1273
-#, c-format
-msgid "Couldn't create pipe to GPG/PGP: %s"
+#, fuzzy, c-format
+msgid "Cannot sign this message: couldn't create pipe to GPG/PGP: %s"
 msgstr "Kunde inte skapa rör till GPG/PGP: %s"
 
 #: camel/camel-pgp-context.c:693
-msgid "No plaintext to clearsign."
-msgstr "Ingen klartext att klartextsignera."
+#, fuzzy
+msgid "Cannot sign this message: no plaintext to clearsign"
+msgstr "Kan inte skicka meddelande: inga mottagare är angivna."
 
 #: camel/camel-pgp-context.c:886
-msgid "No plaintext to verify."
-msgstr "Ingen klartext att verifiera."
+#, fuzzy
+msgid "Cannot verify this message: no plaintext to verify"
+msgstr "Kan inte skicka meddelande: inga mottagare är angivna."
+
+#: camel/camel-pgp-context.c:892
+#, fuzzy, c-format
+msgid "Cannot verify this message: couldn't create pipe to GPG/PGP: %s"
+msgstr "Kunde inte skapa rör till GPG/PGP: %s"
 
 #: camel/camel-pgp-context.c:903
-#, c-format
-msgid "Couldn't create temp file: %s"
+#, fuzzy, c-format
+msgid "Cannot verify this message: couldn't create temp file: %s"
 msgstr "Kunde inte skapa temporär fil: %s"
 
 #: camel/camel-pgp-context.c:1069
-msgid "No plaintext to encrypt."
-msgstr "Ingen klartext att kryptera."
+#, fuzzy
+msgid "Cannot encrypt this message: no plaintext to encrypt"
+msgstr "Kan inte skicka meddelande: inga mottagare är angivna."
+
+#: camel/camel-pgp-context.c:1079
+#, fuzzy
+msgid "Cannot encrypt this message: no password provided"
+msgstr "Kan inte skicka meddelande: avsändaradressen är inte giltig."
+
+#: camel/camel-pgp-context.c:1086
+#, fuzzy, c-format
+msgid "Cannot encrypt this message: couldn't create pipe to GPG/PGP: %s"
+msgstr "Kunde inte skapa rör till GPG/PGP: %s"
 
 #: camel/camel-pgp-context.c:1095
-msgid "No recipients specified"
-msgstr "Inga avsändare är angivna"
+#, fuzzy
+msgid "Cannot encrypt this message: no recipients specified"
+msgstr "Kan inte skicka meddelande: inga mottagare är angivna."
 
 #: camel/camel-pgp-context.c:1258
-msgid "No ciphertext to decrypt."
-msgstr "Ingen kryptotext att dekryptera."
+#, fuzzy
+msgid "Cannot decrypt this message: no ciphertext to decrypt"
+msgstr "Kan inte skicka meddelande: inga mottagare är angivna."
+
+#: camel/camel-pgp-context.c:1266
+msgid "Cannot decrypt this message: no password provided"
+msgstr ""
+
+#: camel/camel-pgp-context.c:1273
+#, fuzzy, c-format
+msgid "Cannot decrypt this message: couldn't create pipe to GPG/PGP: %s"
+msgstr "Kunde inte skapa rör till GPG/PGP: %s"
 
 #: camel/camel-provider.c:131
 #, c-format
@@ -5567,7 +5744,7 @@ msgstr ""
 "%s"
 
 #: camel/camel-sasl-kerberos4.c:218
-#: camel/providers/imap/camel-imap-store.c:487
+#: camel/providers/imap/camel-imap-store.c:492
 msgid "Bad authentication response from server."
 msgstr "Felaktigt autentiseringssvar från servern."
 
@@ -5652,20 +5829,20 @@ msgstr "Uppslagning av värdnamn misslyckades: %s: värden kunde inte hittas"
 msgid "Host lookup failed: %s: unknown reason"
 msgstr "Uppslagning av värdnamn misslyckades: %s: okänd orsak"
 
-#: camel/camel-session.c:68
+#: camel/camel-session.c:76
 msgid "Virtual folder email provider"
 msgstr "E-postleverantör för virtuell mapp"
 
-#: camel/camel-session.c:70
+#: camel/camel-session.c:78
 msgid "For reading mail as a query of another set of folders"
 msgstr "För läsande av e-post som en fråga av en annan samling mappar"
 
-#: camel/camel-session.c:297 camel/camel-session.c:366
+#: camel/camel-session.c:322 camel/camel-session.c:391
 #, c-format
 msgid "No provider available for protocol `%s'"
 msgstr "Det finns ingen leverantör för protokollet \"%s\""
 
-#: camel/camel-session.c:483
+#: camel/camel-session.c:508
 #, c-format
 msgid ""
 "Could not create directory %s:\n"
@@ -5711,6 +5888,11 @@ msgstr "Misslyckades med att avkoda meddelandet."
 #: camel/camel-smime-context.c:855
 msgid "Failed to verify certificates."
 msgstr "Misslyckades med att verifiera certifikat."
+
+#: camel/camel-store.c:273
+#, fuzzy
+msgid "Cannot create folder: Invalid operation on this store"
+msgstr "Kan inte skapa mapplås på %s: %s"
 
 #: camel/camel-tcp-stream-openssl.c:463
 #, c-format
@@ -5761,12 +5943,12 @@ msgstr ""
 msgid "Could not parse URL `%s'"
 msgstr "Kunde inte tolka URL:en \"%s\""
 
-#: camel/camel-vee-folder.c:500
+#: camel/camel-vee-folder.c:546
 #, c-format
 msgid "No such message %s in %s"
 msgstr "Det finns inget sådant meddelande %s i %s"
 
-#: camel/camel-vee-folder.c:595
+#: camel/camel-vee-folder.c:641
 #, c-format
 msgid "No such message: %s"
 msgstr "Det finns inget sådant meddelande: %s"
@@ -5799,40 +5981,40 @@ msgstr "IMAP-serversvaret innehöll inte %s-information"
 msgid "Unexpected OK response from IMAP server: %s"
 msgstr "Oväntat OK-svar från IMAP-servern: %s"
 
-#: camel/providers/imap/camel-imap-folder.c:190
+#: camel/providers/imap/camel-imap-folder.c:189
 #, c-format
 msgid "Could not create directory %s: %s"
 msgstr "Kunde inte skapa katalogen %s: %s"
 
-#: camel/providers/imap/camel-imap-folder.c:209
+#: camel/providers/imap/camel-imap-folder.c:208
 #, c-format
 msgid "Could not load summary for %s"
 msgstr "Kunde inte läsa in sammanfattning för %s"
 
-#: camel/providers/imap/camel-imap-folder.c:273
+#: camel/providers/imap/camel-imap-folder.c:272
 msgid "Folder was destroyed and recreated on server."
 msgstr "Mappen förstördes och återskapades på servern."
 
 #. Check UIDs and flags of all messages we already know of.
-#: camel/providers/imap/camel-imap-folder.c:435
+#: camel/providers/imap/camel-imap-folder.c:434
 msgid "Scanning for changed messages"
 msgstr "Letar efter ändrade meddelanden"
 
-#: camel/providers/imap/camel-imap-folder.c:1492
-#: camel/providers/imap/camel-imap-folder.c:1969
+#: camel/providers/imap/camel-imap-folder.c:1491
+#: camel/providers/imap/camel-imap-folder.c:1890
 msgid "This message is not currently available"
 msgstr "Detta meddelande är inte tillgängligt för tillfället"
 
-#: camel/providers/imap/camel-imap-folder.c:1635
-#: camel/providers/imap/camel-imap-folder.c:1716
+#: camel/providers/imap/camel-imap-folder.c:1633
+#: camel/providers/imap/camel-imap-folder.c:1714
 msgid "Fetching summary information for new messages"
 msgstr "Hämtar meddelandeinformation för nya meddelanden"
 
-#: camel/providers/imap/camel-imap-folder.c:1641
+#: camel/providers/imap/camel-imap-folder.c:1639
 msgid "Scanning for new messages"
 msgstr "Letar efter nya meddelanden"
 
-#: camel/providers/imap/camel-imap-folder.c:2002
+#: camel/providers/imap/camel-imap-folder.c:1923
 msgid "Could not find message body in FETCH response."
 msgstr "Kunde inte hitta meddelandetext i FETCH-svaret."
 
@@ -5859,7 +6041,7 @@ msgstr "Kontrollerar ny e-post"
 msgid "Check for new messages in all folders"
 msgstr "Kontrollerar nya meddelanden i alla mappar"
 
-#: camel/providers/imap/camel-imap-provider.c:48 shell/e-shell-view.c:765
+#: camel/providers/imap/camel-imap-provider.c:48 shell/e-shell-view.c:733
 msgid "Folders"
 msgstr "Mappar"
 
@@ -5892,28 +6074,28 @@ msgid "This option will connect to the IMAP server using a plaintext password."
 msgstr ""
 "Detta alternativ ansluter till IMAP-servern med ett lösenord i klartext."
 
-#: camel/providers/imap/camel-imap-store.c:510
+#: camel/providers/imap/camel-imap-store.c:515
 #, c-format
 msgid "IMAP server %s does not support requested authentication type %s"
 msgstr "IMAP-servern %s stöder inte den begärda autentiseringstypen %s"
 
-#: camel/providers/imap/camel-imap-store.c:520
+#: camel/providers/imap/camel-imap-store.c:525
 #: camel/providers/smtp/camel-smtp-transport.c:388
 #, c-format
 msgid "No support for authentication type %s"
 msgstr "Inget stöd för autentiseringstypen %s"
 
-#: camel/providers/imap/camel-imap-store.c:544
+#: camel/providers/imap/camel-imap-store.c:549
 #, c-format
 msgid "%sPlease enter the IMAP password for %s@%s"
 msgstr "%sAnge IMAP-lösenordet för %s@%s"
 
-#: camel/providers/imap/camel-imap-store.c:559
+#: camel/providers/imap/camel-imap-store.c:564
 #: camel/providers/smtp/camel-smtp-transport.c:432
 msgid "You didn't enter a password."
 msgstr "Du angav inte något lösenord."
 
-#: camel/providers/imap/camel-imap-store.c:585
+#: camel/providers/imap/camel-imap-store.c:590
 #, c-format
 msgid ""
 "Unable to authenticate to IMAP server.\n"
@@ -5924,12 +6106,12 @@ msgstr ""
 "%s\n"
 "\n"
 
-#: camel/providers/imap/camel-imap-store.c:884
+#: camel/providers/imap/camel-imap-store.c:889
 #, c-format
 msgid "No such folder %s"
 msgstr "Det finns ingen mapp %s"
 
-#: camel/providers/imap/camel-imap-store.c:1082
+#: camel/providers/imap/camel-imap-store.c:1090
 msgid "The parent folder is not allowed to contain subfolders"
 msgstr "Föräldermappen får inte innehålla undermappar"
 
@@ -5950,23 +6132,28 @@ msgid "For retrieving local mail from standard mbox formated spools."
 msgstr "För hämtande av lokal e-post i mbox-standardformaterade brevlådor."
 
 #: camel/providers/local/camel-local-provider.c:60
+#, fuzzy
+msgid "Apply filters to new messages in INBOX"
+msgstr "Verkställ filtren på nya meddelanden i INBOX på denna server"
+
+#: camel/providers/local/camel-local-provider.c:66
 msgid "Qmail maildir-format mail files"
 msgstr "Brevlådefiler i Qmail maildir-format"
 
-#: camel/providers/local/camel-local-provider.c:61
+#: camel/providers/local/camel-local-provider.c:67
 msgid "For storing local mail in qmail maildir directories."
 msgstr "För lagrande av lokal e-post i qmail maildir-liknande kataloger."
 
-#: camel/providers/local/camel-local-provider.c:70
+#: camel/providers/local/camel-local-provider.c:77
 msgid "Standard Unix mbox spools"
 msgstr "Unix mbox-standardbrevlåda"
 
-#: camel/providers/local/camel-local-provider.c:71
+#: camel/providers/local/camel-local-provider.c:78
 msgid "For reading and storing local mail in standard mbox spool files."
 msgstr "För läsande och lagrande av lokal e-post i mbox-standardspoolfiler."
 
 #: camel/providers/local/camel-local-store.c:127
-#: camel/providers/local/camel-spool-store.c:111
+#: camel/providers/local/camel-spool-store.c:112
 #, c-format
 msgid "Store root %s is not an absolute path"
 msgstr "Lagringsroten %s är inte en absolut sökväg"
@@ -5991,39 +6178,39 @@ msgstr "Lokala lagringsutrymmen har ingen inkorg"
 msgid "Local mail file %s"
 msgstr "Lokal brevlådefil %s"
 
-#: camel/providers/local/camel-local-store.c:237
+#: camel/providers/local/camel-local-store.c:240
 #, c-format
 msgid "Could not rename folder %s to %s: %s"
 msgstr "Kunde inte byta namn på mappen %s till %s: %s"
 
-#: camel/providers/local/camel-local-store.c:279
+#: camel/providers/local/camel-local-store.c:282
 #, c-format
 msgid "Could not delete folder summary file `%s': %s"
 msgstr "Kunde inte ta bort mappsammanfattningsfilen \"%s\": %s"
 
-#: camel/providers/local/camel-local-store.c:289
+#: camel/providers/local/camel-local-store.c:292
 #, c-format
 msgid "Could not delete folder index file `%s': %s"
 msgstr "Kunde inte ta bort mappindexfilen \"%s\": %s"
 
-#: camel/providers/local/camel-local-summary.c:417
-#: camel/providers/local/camel-spool-summary.c:1153
+#: camel/providers/local/camel-local-summary.c:418
+#: camel/providers/local/camel-spool-summary.c:1158
 msgid "Unable to add message to summary: unknown reason"
 msgstr "Kunde inte lägga till meddelandet i sammanfattningen: okänd orsak"
 
-#: camel/providers/local/camel-maildir-folder.c:176
+#: camel/providers/local/camel-maildir-folder.c:181
 #, c-format
 msgid "Cannot append message to maildir folder: %s: %s"
 msgstr "Kan inte lägga till meddelande i mapp för brevlådekatalog: %s: %s"
 
-#: camel/providers/local/camel-maildir-folder.c:201
-#: camel/providers/local/camel-maildir-folder.c:213
-#: camel/providers/local/camel-maildir-folder.c:221
+#: camel/providers/local/camel-maildir-folder.c:206
+#: camel/providers/local/camel-maildir-folder.c:218
+#: camel/providers/local/camel-maildir-folder.c:226
 #: camel/providers/local/camel-mbox-folder.c:328
 #: camel/providers/local/camel-mh-folder.c:195
 #: camel/providers/local/camel-mh-folder.c:204
 #: camel/providers/local/camel-mh-folder.c:212
-#: camel/providers/local/camel-spool-folder.c:532
+#: camel/providers/local/camel-spool-folder.c:537
 #, c-format
 msgid ""
 "Cannot get message: %s\n"
@@ -6032,19 +6219,19 @@ msgstr ""
 "Kan inte hämta meddelande: %s\n"
 "  %s"
 
-#: camel/providers/local/camel-maildir-folder.c:201
+#: camel/providers/local/camel-maildir-folder.c:206
 #: camel/providers/local/camel-mbox-folder.c:328
 #: camel/providers/local/camel-mh-folder.c:195
-#: camel/providers/local/camel-spool-folder.c:532
+#: camel/providers/local/camel-spool-folder.c:537
 msgid "No such message"
 msgstr "Det finns inget sådant meddelande"
 
-#: camel/providers/local/camel-maildir-folder.c:222
+#: camel/providers/local/camel-maildir-folder.c:227
 #: camel/providers/local/camel-mh-folder.c:213
 msgid "Invalid message contents"
 msgstr "Ogiltigt meddelandeinnehåll"
 
-#: camel/providers/local/camel-maildir-store.c:103
+#: camel/providers/local/camel-maildir-store.c:106
 #: camel/providers/local/camel-mh-store.c:90
 #, c-format
 msgid ""
@@ -6054,14 +6241,14 @@ msgstr ""
 "Kunde inte öppna mappen \"%s\":\n"
 "%s"
 
-#: camel/providers/local/camel-maildir-store.c:107
+#: camel/providers/local/camel-maildir-store.c:110
 #: camel/providers/local/camel-mbox-store.c:101
 #: camel/providers/local/camel-mh-store.c:97
 #, c-format
 msgid "Folder `%s' does not exist."
 msgstr "Mappen \"%s\" finns inte."
 
-#: camel/providers/local/camel-maildir-store.c:114
+#: camel/providers/local/camel-maildir-store.c:117
 #: camel/providers/local/camel-mh-store.c:103
 #, c-format
 msgid ""
@@ -6071,23 +6258,23 @@ msgstr ""
 "Kunde inte skapa mappen \"%s\":\n"
 "%s"
 
-#: camel/providers/local/camel-maildir-store.c:129
+#: camel/providers/local/camel-maildir-store.c:132
 #, c-format
 msgid "`%s' is not a maildir directory."
 msgstr "\"%s\" är inte en brevlådekatalog."
 
-#: camel/providers/local/camel-maildir-store.c:165
-#: camel/providers/local/camel-maildir-store.c:202
+#: camel/providers/local/camel-maildir-store.c:167
+#: camel/providers/local/camel-maildir-store.c:204
 #: camel/providers/local/camel-mh-store.c:127
 #, c-format
 msgid "Could not delete folder `%s': %s"
 msgstr "Kunde inte ta bort mappen \"%s\": %s"
 
-#: camel/providers/local/camel-maildir-store.c:166
+#: camel/providers/local/camel-maildir-store.c:168
 msgid "not a maildir directory"
 msgstr "är inte en brevlådekatalog"
 
-#: camel/providers/local/camel-maildir-store.c:285
+#: camel/providers/local/camel-maildir-store.c:331
 #, c-format
 msgid "Could not scan folder `%s': %s"
 msgstr "Kunde inte genomsöka mappen \"%s\": %s"
@@ -6099,13 +6286,13 @@ msgid "Cannot open maildir directory path: %s: %s"
 msgstr "Kan inte öppna sökvägen till brevlådekatalogen: %s: %s"
 
 #: camel/providers/local/camel-mbox-folder.c:152
-#: camel/providers/local/camel-spool-folder.c:268
+#: camel/providers/local/camel-spool-folder.c:273
 #, c-format
 msgid "Cannot create folder lock on %s: %s"
 msgstr "Kan inte skapa mapplås på %s: %s"
 
 #: camel/providers/local/camel-mbox-folder.c:209
-#: camel/providers/local/camel-spool-folder.c:409
+#: camel/providers/local/camel-spool-folder.c:414
 #, c-format
 msgid "Cannot open mailbox: %s: %s\n"
 msgstr "Kan inte öppna brevlåda: %s %s\n"
@@ -6118,9 +6305,9 @@ msgstr "Kan inte lägga till meddelande till mbox-fil: %s: %s"
 #: camel/providers/local/camel-mbox-folder.c:344
 #: camel/providers/local/camel-mbox-folder.c:376
 #: camel/providers/local/camel-mbox-folder.c:389
-#: camel/providers/local/camel-spool-folder.c:548
-#: camel/providers/local/camel-spool-folder.c:580
-#: camel/providers/local/camel-spool-folder.c:593
+#: camel/providers/local/camel-spool-folder.c:553
+#: camel/providers/local/camel-spool-folder.c:585
+#: camel/providers/local/camel-spool-folder.c:598
 #, c-format
 msgid ""
 "Cannot get message: %s from folder %s\n"
@@ -6130,12 +6317,12 @@ msgstr ""
 "  %s"
 
 #: camel/providers/local/camel-mbox-folder.c:377
-#: camel/providers/local/camel-spool-folder.c:581
+#: camel/providers/local/camel-spool-folder.c:586
 msgid "The folder appears to be irrecoverably corrupted."
 msgstr "Mappen verkar vara obotligt skadad."
 
 #: camel/providers/local/camel-mbox-folder.c:390
-#: camel/providers/local/camel-spool-folder.c:594
+#: camel/providers/local/camel-spool-folder.c:599
 msgid "Message construction failed: Corrupt mailbox?"
 msgstr "Meddelandebyggande misslyckades: Trasig brevlåda?"
 
@@ -6184,7 +6371,7 @@ msgstr "Mappen \"%s\" är inte tom. Den togs inte bort."
 #: camel/providers/local/camel-mbox-summary.c:502
 #: camel/providers/local/camel-mbox-summary.c:703
 #: camel/providers/local/camel-spool-summary.c:644
-#: camel/providers/local/camel-spool-summary.c:931
+#: camel/providers/local/camel-spool-summary.c:936
 msgid "Storing folder"
 msgstr "Lagrar mapp"
 
@@ -6223,8 +6410,8 @@ msgstr "Kan inte öppna temporär brevlåda: %s"
 #: camel/providers/local/camel-mbox-summary.c:754
 #: camel/providers/local/camel-spool-summary.c:698
 #: camel/providers/local/camel-spool-summary.c:706
-#: camel/providers/local/camel-spool-summary.c:974
-#: camel/providers/local/camel-spool-summary.c:982
+#: camel/providers/local/camel-spool-summary.c:979
+#: camel/providers/local/camel-spool-summary.c:987
 msgid "Summary and folder mismatch, even after a sync"
 msgstr "Summeringen stämmer inte överens, även efter en synk"
 
@@ -6235,14 +6422,14 @@ msgid "Error writing to temp mailbox: %s"
 msgstr "Fel vid skrivning av temporär brevlåda: %s"
 
 #: camel/providers/local/camel-mbox-summary.c:617
-#: camel/providers/local/camel-spool-summary.c:767
+#: camel/providers/local/camel-spool-summary.c:772
 #, c-format
 msgid "Writing to tmp mailbox failed: %s: %s"
 msgstr "Fel vid skrivning till temporär brevlåda: %s: %s"
 
 #: camel/providers/local/camel-mbox-summary.c:635
 #: camel/providers/local/camel-mbox-summary.c:804
-#: camel/providers/local/camel-spool-summary.c:1032
+#: camel/providers/local/camel-spool-summary.c:1037
 #, c-format
 msgid "Could not close source folder %s: %s"
 msgstr "Kunde inte stänga källmappen %s: %s"
@@ -6259,7 +6446,7 @@ msgstr "Kunde inte byta namn på mapp: %s"
 
 #: camel/providers/local/camel-mbox-summary.c:878
 #: camel/providers/local/camel-spool-summary.c:545
-#: camel/providers/local/camel-spool-summary.c:1106
+#: camel/providers/local/camel-spool-summary.c:1111
 #, c-format
 msgid "Unknown error: %s"
 msgstr "Okänt fel: %s"
@@ -6279,12 +6466,12 @@ msgstr "\"%s\" är inte en katalog."
 msgid "Cannot open MH directory path: %s: %s"
 msgstr "Kan inte öppna sökvägen till MH-katalogen: %s: %s"
 
-#: camel/providers/local/camel-spool-folder.c:465
+#: camel/providers/local/camel-spool-folder.c:470
 #, c-format
 msgid "Cannot append message to spool file: %s: %s"
 msgstr "Kan inte lägga till meddelande till spool-filen %s: %s"
 
-#: camel/providers/local/camel-spool-store.c:132
+#: camel/providers/local/camel-spool-store.c:133
 #, c-format
 msgid "Spool `%s' does not exist or is not a regular file"
 msgstr "Spool-filen \"%s\" finns inte eller är ingen vanlig fil"
@@ -6294,16 +6481,16 @@ msgstr "Spool-filen \"%s\" finns inte eller är ingen vanlig fil"
 msgid "Folder `%s/%s' does not exist."
 msgstr "Mappen \"%s/%s\" finns inte."
 
-#: camel/providers/local/camel-spool-store.c:184
+#: camel/providers/local/camel-spool-store.c:181
 #, c-format
 msgid "Spool mail file %s"
 msgstr "Spool-brevlådefil %s"
 
-#: camel/providers/local/camel-spool-store.c:220
+#: camel/providers/local/camel-spool-store.c:227
 msgid "Spool folders cannot be renamed"
 msgstr "Spool-mappar kan inte bytas namn på"
 
-#: camel/providers/local/camel-spool-store.c:228
+#: camel/providers/local/camel-spool-store.c:235
 msgid "Spool folders cannot be deleted"
 msgstr "Spool-mappar kan inte tas bort"
 
@@ -6323,21 +6510,21 @@ msgstr "Kunde inte öppna mapp: %s: sammanfattar från position %ld: %s"
 msgid "Cannot summarise folder: %s: %s"
 msgstr "Kan inte sammanfatta mapp: %s: %s"
 
-#: camel/providers/local/camel-spool-summary.c:784
-#: camel/providers/local/camel-spool-summary.c:793
-#: camel/providers/local/camel-spool-summary.c:802
+#: camel/providers/local/camel-spool-summary.c:789
+#: camel/providers/local/camel-spool-summary.c:798
+#: camel/providers/local/camel-spool-summary.c:807
 #, c-format
 msgid "Could not sync temporary folder %s: %s"
 msgstr "Kunde inte synkronisera temporära mappen %s: %s"
 
-#: camel/providers/local/camel-spool-summary.c:817
+#: camel/providers/local/camel-spool-summary.c:822
 #, c-format
 msgid "Could not sync spool folder %s: %s"
 msgstr "Kunde inte synkronisera spool-mappen %s: %s"
 
-#: camel/providers/local/camel-spool-summary.c:847
-#: camel/providers/local/camel-spool-summary.c:865
-#: camel/providers/local/camel-spool-summary.c:877
+#: camel/providers/local/camel-spool-summary.c:852
+#: camel/providers/local/camel-spool-summary.c:870
+#: camel/providers/local/camel-spool-summary.c:882
 #, c-format
 msgid ""
 "Could not sync spool folder %s: %s\n"
@@ -6346,7 +6533,7 @@ msgstr ""
 "Kunde inte synkronisera spool-mappen %s: %s\n"
 "Mappen kan vara skadad, kopia sparad i \"%s\""
 
-#: camel/providers/local/camel-spool-summary.c:936
+#: camel/providers/local/camel-spool-summary.c:941
 #, c-format
 msgid "Could not file: %s: %s"
 msgstr "Kunde inte arkivera: %s: %s"
@@ -6776,7 +6963,7 @@ msgstr "Kan inte skicka meddelande: avsändaradressen är inte angiven."
 msgid "Cannot send message: sender address not valid."
 msgstr "Kan inte skicka meddelande: avsändaradressen är inte giltig."
 
-#: camel/providers/smtp/camel-smtp-transport.c:595 mail/mail-ops.c:622
+#: camel/providers/smtp/camel-smtp-transport.c:595 mail/mail-ops.c:553
 msgid "Sending message"
 msgstr "Skickar meddelande"
 
@@ -6998,16 +7185,7 @@ msgstr ""
 msgid "Attach a file"
 msgstr "Bifoga en fil"
 
-#: composer/e-msg-composer.c:669
-#, c-format
-msgid ""
-"Could not open file %s:\n"
-"%s"
-msgstr ""
-"Kunde inte öppna filen %s:\n"
-"%s"
-
-#: composer/e-msg-composer.c:682
+#: composer/e-msg-composer.c:676
 #, c-format
 msgid ""
 "Error while reading file %s:\n"
@@ -7016,29 +7194,29 @@ msgstr ""
 "Fel vid läsning av filen %s:\n"
 "%s"
 
-#: composer/e-msg-composer.c:864
+#: composer/e-msg-composer.c:858
 msgid "Save as..."
 msgstr "Spara som..."
 
-#: composer/e-msg-composer.c:873
+#: composer/e-msg-composer.c:867
 msgid "Warning!"
 msgstr "Varning!"
 
-#: composer/e-msg-composer.c:877
+#: composer/e-msg-composer.c:871
 msgid "File exists, overwrite?"
 msgstr "Filen finns, skriv över?"
 
-#: composer/e-msg-composer.c:899
+#: composer/e-msg-composer.c:893
 #, c-format
 msgid "Error saving file: %s"
 msgstr "Fel vid sparande av filen: %s"
 
-#: composer/e-msg-composer.c:918
+#: composer/e-msg-composer.c:912
 #, c-format
 msgid "Error loading file: %s"
 msgstr "Fel vid inläsning av filen: %s"
 
-#: composer/e-msg-composer.c:989
+#: composer/e-msg-composer.c:983
 msgid ""
 "Unable to open the drafts folder for this account.\n"
 "Would you like to use the default drafts folder?"
@@ -7046,16 +7224,16 @@ msgstr ""
 "Kan inte öppna utkastmappen för detta konto.\n"
 "Vill du använda standardmappen för utkast?"
 
-#: composer/e-msg-composer.c:1042
+#: composer/e-msg-composer.c:1036
 #, c-format
 msgid "Error accessing file: %s"
 msgstr "Fel vid åtkomst av filen: %s"
 
-#: composer/e-msg-composer.c:1050
+#: composer/e-msg-composer.c:1044
 msgid "Unable to retrieve message from editor"
 msgstr "Kunde inte hämta meddelande från redigeraren"
 
-#: composer/e-msg-composer.c:1056
+#: composer/e-msg-composer.c:1050
 #, c-format
 msgid ""
 "Unable to seek on file: %s\n"
@@ -7064,7 +7242,7 @@ msgstr ""
 "Kan inte spola filen: %s\n"
 "%s"
 
-#: composer/e-msg-composer.c:1062
+#: composer/e-msg-composer.c:1056
 #, c-format
 msgid ""
 "Unable to truncate file: %s\n"
@@ -7073,7 +7251,7 @@ msgstr ""
 "Kan inte trunkera filen: %s\n"
 "%s"
 
-#: composer/e-msg-composer.c:1071
+#: composer/e-msg-composer.c:1065
 #, c-format
 msgid ""
 "Error autosaving message: %s\n"
@@ -7082,7 +7260,7 @@ msgstr ""
 "Fel vid automatiskt sparande av meddelande: %s\n"
 " %s"
 
-#: composer/e-msg-composer.c:1171
+#: composer/e-msg-composer.c:1165
 msgid ""
 "Ximian Evolution has found unsaved files from a previous session.\n"
 "Would you like to try to recover them?"
@@ -7090,7 +7268,7 @@ msgstr ""
 "Ximian Evolution har hittat osparade filer från en tidigare session.\n"
 "Vill du försöka återställa dem?"
 
-#: composer/e-msg-composer.c:1319
+#: composer/e-msg-composer.c:1313
 msgid ""
 "This message has not been sent.\n"
 "\n"
@@ -7100,23 +7278,23 @@ msgstr ""
 "\n"
 "Vill du spara dina ändringar?"
 
-#: composer/e-msg-composer.c:1326
+#: composer/e-msg-composer.c:1320
 msgid "Warning: Modified Message"
 msgstr "Varning: Ändrat meddelande"
 
-#: composer/e-msg-composer.c:1349
+#: composer/e-msg-composer.c:1343
 msgid "Open file"
 msgstr "Öppna fil"
 
-#: composer/e-msg-composer.c:1498
+#: composer/e-msg-composer.c:1492
 msgid "Insert File"
 msgstr "Infoga fil"
 
-#: composer/e-msg-composer.c:1874 composer/e-msg-composer.c:2320
+#: composer/e-msg-composer.c:1868 composer/e-msg-composer.c:2314
 msgid "Compose a message"
 msgstr "Skriv ett meddelande"
 
-#: composer/e-msg-composer.c:2410
+#: composer/e-msg-composer.c:2404
 msgid "Could not create composer window."
 msgstr "Kunde inte skapa fönster för meddelanderedigering."
 
@@ -7180,82 +7358,99 @@ msgstr "Ämnet innehåller"
 msgid "Subject does not contain"
 msgstr "Ämnet innehåller inte"
 
-#. strptime format for a date.
-#: e-util/e-time-utils.c:86 e-util/e-time-utils.c:131
-#: e-util/e-time-utils.c:243
-#: widgets/meeting-time-sel/e-meeting-time-sel-item.c:477
-#: widgets/misc/e-dateedit.c:1552
-msgid "%m/%d/%Y"
+#. strptime format of a weekday, a date and a time,
+#. in 12-hour format, without seconds.
+#: e-util/e-time-utils.c:168 e-util/e-time-utils.c:359
+msgid "%a %m/%d/%Y %I:%M %p"
+msgstr "%a %Y-%m-%d %H.%M %p"
+
+#. strptime format of a weekday, a date and a time,
+#. in 24-hour format, without seconds.
+#: e-util/e-time-utils.c:173 e-util/e-time-utils.c:350
+msgid "%a %m/%d/%Y %H:%M"
+msgstr "%a %Y-%m-%d %H.%M"
+
+#. strptime format of a weekday, a date and a time,
+#. in 12-hour format, without minutes or seconds.
+#: e-util/e-time-utils.c:178
+#, fuzzy
+msgid "%a %m/%d/%Y %I %p"
+msgstr "%a %Y-%m-%d %H.%M %p"
+
+#. strptime format of a weekday, a date and a time,
+#. in 24-hour format, without minutes or seconds.
+#: e-util/e-time-utils.c:183
+#, fuzzy
+msgid "%a %m/%d/%Y %H"
+msgstr "%a %Y-%m-%d %H.%M"
+
+#. strptime format of a date and a time, in 12-hour format.
+#: e-util/e-time-utils.c:194
+#, fuzzy
+msgid "%m/%d/%Y %I:%M:%S %p"
+msgstr "%a %Y-%m-%d %H.%M.%S %p"
+
+#. strptime format of a date and a time, in 24-hour format.
+#: e-util/e-time-utils.c:198
+#, fuzzy
+msgid "%m/%d/%Y %H:%M:%S"
+msgstr "%a %Y-%m-%d %H.%M.%S"
+
+#. strptime format of a date and a time, in 12-hour format,
+#. without seconds.
+#: e-util/e-time-utils.c:203
+#, fuzzy
+msgid "%m/%d/%Y %I:%M %p"
+msgstr "%a %Y-%m-%d %H.%M %p"
+
+#. strptime format of a date and a time, in 24-hour format,
+#. without seconds.
+#: e-util/e-time-utils.c:208
+#, fuzzy
+msgid "%m/%d/%Y %H:%M"
+msgstr "%a %Y-%m-%d %H.%M"
+
+#. strptime format of a date and a time, in 12-hour format,
+#. without minutes or seconds.
+#: e-util/e-time-utils.c:213
+#, fuzzy
+msgid "%m/%d/%Y %I %p"
+msgstr "%a %Y-%m-%d %H.%M %p"
+
+#. strptime format of a date and a time, in 24-hour format,
+#. without minutes or seconds.
+#: e-util/e-time-utils.c:218
+#, fuzzy
+msgid "%m/%d/%Y %H"
 msgstr "%Y-%m-%d"
 
 #. strptime format for a time of day, in 12-hour format.
-#: e-util/e-time-utils.c:99 e-util/e-time-utils.c:277
-#: e-util/e-time-utils.c:368
+#: e-util/e-time-utils.c:300 e-util/e-time-utils.c:399
 msgid "%I:%M:%S %p"
 msgstr "%H.%M.%S %p"
 
 #. strptime format for a time of day, in 24-hour format.
-#: e-util/e-time-utils.c:102 e-util/e-time-utils.c:280
-#: e-util/e-time-utils.c:360
+#: e-util/e-time-utils.c:304 e-util/e-time-utils.c:391
 msgid "%H:%M:%S"
 msgstr "%H.%M.%S"
 
-#. strptime format for time of day, without seconds, 12-hour format.
-#: e-util/e-time-utils.c:105 e-util/e-time-utils.c:284
-#: e-util/e-time-utils.c:365 widgets/misc/e-dateedit.c:1360
-#: widgets/misc/e-dateedit.c:1587
+#. strptime format for time of day, without seconds,
+#. in 12-hour format.
+#: e-util/e-time-utils.c:309 e-util/e-time-utils.c:396
+#: widgets/misc/e-dateedit.c:1360 widgets/misc/e-dateedit.c:1587
 msgid "%I:%M %p"
 msgstr "%H.%M %p"
 
-#. strptime format for hour and AM/PM
-#: e-util/e-time-utils.c:108 e-util/e-time-utils.c:287
-msgid "%I %p"
-msgstr "%I %p"
-
 #. strptime format for time of day, without seconds 24-hour format.
-#: e-util/e-time-utils.c:111 e-util/e-time-utils.c:290
-#: e-util/e-time-utils.c:357 widgets/misc/e-dateedit.c:1357
-#: widgets/misc/e-dateedit.c:1584
+#: e-util/e-time-utils.c:313 e-util/e-time-utils.c:388
+#: widgets/misc/e-dateedit.c:1357 widgets/misc/e-dateedit.c:1584
 msgid "%H:%M"
 msgstr "%H.%M"
 
-#. This is the second-choice date format for the locale, which we use
-#. if previous attempts to parse the date string failed.
-#: e-util/e-time-utils.c:247
-msgid "%d/%m/%Y"
-msgstr "%d-%m-%Y"
-
-#. This is the third-choice date format for the locale, which we use
-#. if previous attempts to parse the date string failed.
-#: e-util/e-time-utils.c:251
-msgid "%Y/%m/%d"
-msgstr "%Y-%m-%d"
-
-#. This is the final-choice date format for the locale, which we use
-#. if previous attempts to parse the date string failed.
-#: e-util/e-time-utils.c:255
-#, c-format
-msgid "%x"
-msgstr "%x"
-
-#. strftime format of a weekday and a date.
-#: e-util/e-time-utils.c:314
-#: widgets/meeting-time-sel/e-meeting-time-sel-item.c:473
-#: widgets/meeting-time-sel/e-meeting-time-sel.c:2505
-msgid "%a %m/%d/%Y"
-msgstr "%a %Y-%m-%d"
-
-#. strftime format of a weekday, a date and a
-#. time, in 24-hour format, without seconds.
-#: e-util/e-time-utils.c:319
-msgid "%a %m/%d/%Y %H:%M"
-msgstr "%a %Y-%m-%d %H.%M"
-
-#. strftime format of a weekday, a date and a
-#. time, in 12-hour format, without seconds.
-#: e-util/e-time-utils.c:328
-msgid "%a %m/%d/%Y %I:%M %p"
-msgstr "%a %Y-%m-%d %H.%M %p"
+#. strptime format for hour and AM/PM, 12-hour format.
+#: e-util/e-time-utils.c:317
+msgid "%I %p"
+msgstr "%I %p"
 
 #: filter/filter-datespec.c:80
 msgid "year"
@@ -7649,7 +7844,7 @@ msgstr "besvarad"
 msgid "Score"
 msgstr "Poäng"
 
-#: filter/libfilter-i18n.h:42 mail/mail-callbacks.c:1232
+#: filter/libfilter-i18n.h:42 mail/mail-callbacks.c:1242
 msgid "Sender"
 msgstr "Avsändare"
 
@@ -7681,7 +7876,7 @@ msgstr "börjar med"
 msgid "Stop Processing"
 msgstr "Stoppa behandling"
 
-#: filter/libfilter-i18n.h:51 mail/mail-format.c:889
+#: filter/libfilter-i18n.h:51 mail/mail-format.c:893
 #: mail/message-list.etspec.h:9
 msgid "Subject"
 msgstr "Ämne"
@@ -7741,7 +7936,7 @@ msgid "Scanning %s"
 msgstr "Genomsöker %s"
 
 #: importers/elm-importer.c:528 importers/netscape-importer.c:967
-#: importers/pine-importer.c:669 mail/component-factory.c:95
+#: importers/pine-importer.c:669 mail/component-factory.c:96
 msgid "Mail"
 msgstr "E-post"
 
@@ -7845,47 +8040,47 @@ msgstr "Fabrik för e-postsammanfattningskomponenten."
 msgid "Mail configuration interface"
 msgstr "Gränssnitt för e-postkonfiguration"
 
-#: mail/component-factory.c:95
+#: mail/component-factory.c:96
 msgid "Folder containing mail"
 msgstr "Mapp som innehåller e-post"
 
-#: mail/component-factory.c:96
+#: mail/component-factory.c:97
 msgid "Mail storage folder (internal)"
 msgstr "E-postlagringsmapp (intern)"
 
-#: mail/component-factory.c:97
+#: mail/component-factory.c:98
 msgid "Virtual Trash"
 msgstr "Virtuell papperskorg"
 
-#: mail/component-factory.c:97
+#: mail/component-factory.c:98
 msgid "Virtual Trash folder"
 msgstr "Virtuell papperskorgsmapp"
 
-#: mail/component-factory.c:113
+#: mail/component-factory.c:114
 msgid "This folder cannot contain messages."
 msgstr "Denna mapp kan inte innehålla meddelanden."
 
-#: mail/component-factory.c:355
+#: mail/component-factory.c:356
 msgid "Properties..."
 msgstr "Egenskaper..."
 
-#: mail/component-factory.c:355
+#: mail/component-factory.c:356
 msgid "Change this folder's properties"
 msgstr "Ändra egenskaperna för denna mapp"
 
-#: mail/component-factory.c:779
+#: mail/component-factory.c:790
 msgid "New Mail Message"
 msgstr "Nytt e-postmeddelande"
 
-#: mail/component-factory.c:779
+#: mail/component-factory.c:790
 msgid "New _Mail Message"
 msgstr "Nytt e-_postmeddelande"
 
-#: mail/component-factory.c:810
+#: mail/component-factory.c:821
 msgid "Cannot initialize Evolution's mail component."
 msgstr "Kan inte initiera Evolutions e-postkomponent."
 
-#: mail/component-factory.c:999
+#: mail/component-factory.c:1007
 msgid "Cannot register storage with shell"
 msgstr "Kan inte registrera lager hos skal"
 
@@ -7898,129 +8093,159 @@ msgstr "Egenskaper för \"%s\""
 msgid "Properties"
 msgstr "Egenskaper"
 
-#: mail/folder-browser.c:229 mail/mail-display.c:275
+#: mail/folder-browser.c:239 mail/mail-display.c:275
 #, c-format
 msgid "Could not create temporary directory: %s"
 msgstr "Kunde inte skapa temporär katalog: %s"
 
-#: mail/folder-browser.c:897
+#: mail/folder-browser.c:708
+#, c-format
+msgid "%d new"
+msgstr "%d nya"
+
+#: mail/folder-browser.c:711 mail/folder-browser.c:716
+#: mail/folder-browser.c:720
+msgid ", "
+msgstr ", "
+
+#: mail/folder-browser.c:712
+#, c-format
+msgid "%d hidden"
+msgstr "%d gömda"
+
+#: mail/folder-browser.c:717
+#, c-format
+msgid "%d selected"
+msgstr "%d markerade"
+
+#: mail/folder-browser.c:722
+#, c-format
+msgid "%d unsent"
+msgstr "%d oskickade"
+
+#: mail/folder-browser.c:724
+#, c-format
+msgid "%d total"
+msgstr "%d totalt"
+
+#: mail/folder-browser.c:958
 msgid "Create vFolder from Search"
 msgstr "Skapa virtuell mapp från sökning"
 
-#: mail/folder-browser.c:1242
+#: mail/folder-browser.c:1303
 msgid "VFolder on _Subject"
 msgstr "Virtuell mapp på _ämne"
 
-#: mail/folder-browser.c:1245
+#: mail/folder-browser.c:1306
 msgid "VFolder on Se_nder"
 msgstr "Virtuell mapp på _avsändare"
 
-#: mail/folder-browser.c:1248
+#: mail/folder-browser.c:1309
 msgid "VFolder on _Recipients"
 msgstr "Virtuell mapp på _mottagare"
 
-#: mail/folder-browser.c:1251
+#: mail/folder-browser.c:1312
 msgid "VFolder on Mailing _List"
 msgstr "Virtuell mapp på sänd_lista"
 
-#: mail/folder-browser.c:1257
+#: mail/folder-browser.c:1318
 msgid "Filter on Sub_ject"
 msgstr "Filtrera på _ämne"
 
-#: mail/folder-browser.c:1260
+#: mail/folder-browser.c:1321
 msgid "Filter on Sen_der"
 msgstr "Filtrera på _avsändare"
 
-#: mail/folder-browser.c:1263
+#: mail/folder-browser.c:1324
 msgid "Filter on Re_cipients"
 msgstr "Filtrera på _mottagare"
 
-#: mail/folder-browser.c:1266
+#: mail/folder-browser.c:1327
 msgid "Filter on _Mailing List"
 msgstr "Filtrera på sä_ndlista"
 
-#: mail/folder-browser.c:1277 ui/evolution-mail-message.xml.h:89
+#: mail/folder-browser.c:1338 ui/evolution-mail-message.xml.h:89
 msgid "_Edit as New Message..."
 msgstr "_Redigera som nytt meddelande..."
 
-#: mail/folder-browser.c:1279 ui/evolution-mail-message.xml.h:97
+#: mail/folder-browser.c:1340 ui/evolution-mail-message.xml.h:97
 msgid "_Save As..."
 msgstr "_Spara som..."
 
-#: mail/folder-browser.c:1281
+#: mail/folder-browser.c:1342
 msgid "_Print"
 msgstr "Skriv _ut"
 
-#: mail/folder-browser.c:1286 ui/evolution-mail-message.xml.h:96
+#: mail/folder-browser.c:1347 ui/evolution-mail-message.xml.h:96
 msgid "_Reply to Sender"
 msgstr "Sva_ra till avsändaren"
 
-#: mail/folder-browser.c:1288 ui/evolution-mail-message.xml.h:69
+#: mail/folder-browser.c:1349 ui/evolution-mail-message.xml.h:69
 msgid "Reply to _List"
 msgstr "Svara till _lista"
 
-#: mail/folder-browser.c:1290 ui/evolution-mail-message.xml.h:68
+#: mail/folder-browser.c:1351 ui/evolution-mail-message.xml.h:68
 msgid "Reply to _All"
 msgstr "Svara till _alla"
 
-#: mail/folder-browser.c:1292
+#: mail/folder-browser.c:1353
 msgid "_Forward"
 msgstr "Vidare_befordra"
 
-#: mail/folder-browser.c:1295 ui/evolution-mail-message.xml.h:40
+#: mail/folder-browser.c:1356 ui/evolution-mail-message.xml.h:40
 msgid "Mar_k as Read"
 msgstr "_Markera som läst"
 
-#: mail/folder-browser.c:1297 ui/evolution-mail-message.xml.h:42
+#: mail/folder-browser.c:1358 ui/evolution-mail-message.xml.h:42
 msgid "Mark as U_nread"
 msgstr "Markera som _oläst"
 
-#: mail/folder-browser.c:1299
+#: mail/folder-browser.c:1360
 msgid "Mark as _Important"
 msgstr "Markera som _viktigt"
 
-#: mail/folder-browser.c:1301
+#: mail/folder-browser.c:1362
 msgid "Mark as Unim_portant"
 msgstr "Markera som ovikti_gt"
 
-#: mail/folder-browser.c:1306
+#: mail/folder-browser.c:1367
 msgid "_Move to Folder..."
 msgstr "_Flytta till mapp..."
 
-#: mail/folder-browser.c:1308
+#: mail/folder-browser.c:1369
 msgid "_Copy to Folder..."
 msgstr "_Kopiera till mapp..."
 
-#: mail/folder-browser.c:1312 ui/evolution-mail-message.xml.h:99
+#: mail/folder-browser.c:1373 ui/evolution-mail-message.xml.h:99
 msgid "_Undelete"
 msgstr "_Ångra borttagning"
 
-#: mail/folder-browser.c:1317
+#: mail/folder-browser.c:1378
 msgid "Add Sender to Address Book"
 msgstr "Lägg till avsändaren i adressboken"
 
-#: mail/folder-browser.c:1322
+#: mail/folder-browser.c:1383
 msgid "Apply Filters"
 msgstr "Tillämpa filter"
 
-#: mail/folder-browser.c:1326
+#: mail/folder-browser.c:1387
 msgid "Create Ru_le From Message"
 msgstr "Skapa rege_l från meddelande"
 
-#: mail/folder-browser.c:1479
+#: mail/folder-browser.c:1538
 msgid "Filter on Mailing List"
 msgstr "Filtrera på sändlista"
 
-#: mail/folder-browser.c:1480
+#: mail/folder-browser.c:1539
 msgid "VFolder on Mailing List"
 msgstr "Virtuell mapp på sändlista"
 
-#: mail/folder-browser.c:1482
+#: mail/folder-browser.c:1541
 #, c-format
 msgid "Filter on Mailing List (%s)"
 msgstr "Filtrera på sändlista (%s)"
 
-#: mail/folder-browser.c:1483
+#: mail/folder-browser.c:1542
 #, c-format
 msgid "VFolder on Mailing List (%s)"
 msgstr "Virtuell mapp på sändlista (%s)"
@@ -8111,40 +8336,40 @@ msgstr ""
 "\n"
 "Vill du spara dina ändringar?"
 
-#: mail/mail-account-gui.c:1609
+#: mail/mail-account-gui.c:1611
 msgid "You may not create two accounts with the same name."
 msgstr "Du kan inte skapa två konton med samma namn."
 
-#: mail/mail-accounts.c:145
+#: mail/mail-accounts.c:144
 msgid " (default)"
 msgstr " (standard)"
 
-#: mail/mail-accounts.c:190
+#: mail/mail-accounts.c:189
 msgid "Disable"
 msgstr "Stäng av"
 
-#: mail/mail-accounts.c:192
+#: mail/mail-accounts.c:191
 msgid "Enable"
 msgstr "Slå på"
 
-#: mail/mail-accounts.c:279
+#: mail/mail-accounts.c:278
 msgid "Are you sure you want to delete this account?"
 msgstr "Är du säker på att du vill ta bort detta konto?"
 
-#: mail/mail-accounts.c:283
+#: mail/mail-accounts.c:282
 msgid "Don't delete"
 msgstr "Ta inte bort"
 
-#: mail/mail-accounts.c:286
+#: mail/mail-accounts.c:285
 msgid "Really delete account?"
 msgstr "Verkligen ta bort kontot?"
 
-#: mail/mail-accounts.c:512 mail/mail-accounts.c:516
+#: mail/mail-accounts.c:511 mail/mail-accounts.c:515
 msgid "Are you sure you want to delete this news account?"
 msgstr "Är du säker på att du vill ta bort detta diskussionsgruppskonto?"
 
 #. give our dialog an Close button and title
-#: mail/mail-accounts.c:758 mail/mail-config.glade.h:42
+#: mail/mail-accounts.c:757 mail/mail-config.glade.h:42
 msgid "Mail Settings"
 msgstr "E-postinställningar"
 
@@ -8206,18 +8431,19 @@ msgstr "Du har inte angivit någon e-posttransportmetod"
 
 #. FIXME: this wording sucks
 #: mail/mail-callbacks.c:216
+#, fuzzy
 msgid ""
-"You are sending an HTML-formatted mail, but the following recipients' "
-"contact records do not indicate that they want to receive such messages:\n"
+"You are sending an HTML-formatted message, but the following recipients do "
+"not want HTML-formatted mail:\n"
 msgstr ""
 "Du skickar ett HTML-formaterat brev, men följande mottagares kontaktposter "
 "indikerar inte att de vill ta emot sådana meddelanden:\n"
 
-#: mail/mail-callbacks.c:226
+#: mail/mail-callbacks.c:231
 msgid "Send anyway?"
 msgstr "Skicka ändå?"
 
-#: mail/mail-callbacks.c:268
+#: mail/mail-callbacks.c:273
 msgid ""
 "This message has no subject.\n"
 "Really send?"
@@ -8225,7 +8451,7 @@ msgstr ""
 "Detta meddelande har inget ämne.\n"
 "Vill du verkligen skicka?"
 
-#: mail/mail-callbacks.c:312
+#: mail/mail-callbacks.c:317
 msgid ""
 "Since the contact list you are sending to is configured to hide the list's "
 "addresses, this message will contain only Bcc recipients."
@@ -8233,11 +8459,11 @@ msgstr ""
 "Eftersom kontaktlistan som du skickar är konfigurerad att gömma listans "
 "adresser kommer detta meddelande endast att innehålla blindkopiemottagare."
 
-#: mail/mail-callbacks.c:316
+#: mail/mail-callbacks.c:321
 msgid "This message contains only Bcc recipients."
 msgstr "Detta meddelande innehåller endast blindkopiemottagare."
 
-#: mail/mail-callbacks.c:320
+#: mail/mail-callbacks.c:325
 msgid ""
 "It is possible that the mail server may reveal the recipients by adding an "
 "Apparently-To header.\n"
@@ -8247,40 +8473,40 @@ msgstr ""
 "till ett Apparently-To-huvud.\n"
 "Skicka ändå?"
 
-#: mail/mail-callbacks.c:414
+#: mail/mail-callbacks.c:419
 msgid "This message contains invalid recipients:"
 msgstr "Detta meddelande innehåller ogiltiga mottagare:"
 
-#: mail/mail-callbacks.c:448
+#: mail/mail-callbacks.c:453
 msgid "You must specify recipients in order to send this message."
 msgstr "Du måste ange mottagare för att kunna skicka detta meddelande."
 
-#: mail/mail-callbacks.c:544
+#: mail/mail-callbacks.c:549
 msgid "You must configure an account before you can send this email."
 msgstr "Du måste konfigurera ett konto innan du kan skicka brevet."
 
-#: mail/mail-callbacks.c:773
+#: mail/mail-callbacks.c:779
 msgid "an unknown sender"
 msgstr "en okänd avsändare"
 
-#: mail/mail-callbacks.c:778
+#: mail/mail-callbacks.c:784
 msgid "On %a, %Y-%m-%d at %H:%M, %%s wrote:"
 msgstr "%a %Y-%m-%d klockan %H.%M skrev %%s:"
 
-#: mail/mail-callbacks.c:1152
+#: mail/mail-callbacks.c:1162
 msgid "Move message(s) to"
 msgstr "Flytta meddelande(n) till"
 
-#: mail/mail-callbacks.c:1154
+#: mail/mail-callbacks.c:1164
 msgid "Copy message(s) to"
 msgstr "Kopiera meddelande(n) till"
 
-#: mail/mail-callbacks.c:1528
+#: mail/mail-callbacks.c:1538
 #, c-format
 msgid "Are you sure you want to edit all %d messages?"
 msgstr "Är du säker på att du vill redigera alla %d meddelanden?"
 
-#: mail/mail-callbacks.c:1550
+#: mail/mail-callbacks.c:1560
 msgid ""
 "You may only edit messages saved\n"
 "in the Drafts folder."
@@ -8288,7 +8514,7 @@ msgstr ""
 "Du kan bara redigera meddelanden\n"
 "som du sparat i mappen Utkast."
 
-#: mail/mail-callbacks.c:1584
+#: mail/mail-callbacks.c:1594
 msgid ""
 "You may only resend messages\n"
 "in the Sent folder."
@@ -8296,28 +8522,28 @@ msgstr ""
 "Du kan bara skicka om meddelanden\n"
 "som du sparat i mappen Skickat."
 
-#: mail/mail-callbacks.c:1596
+#: mail/mail-callbacks.c:1606
 #, c-format
 msgid "Are you sure you want to resend all %d messages?"
 msgstr "Är du säker på att du vill skicka om alla %d meddelanden?"
 
-#: mail/mail-callbacks.c:1617
+#: mail/mail-callbacks.c:1627
 msgid "No Message Selected"
 msgstr "Inget meddelande markerat"
 
-#: mail/mail-callbacks.c:1702
+#: mail/mail-callbacks.c:1712
 msgid "Save Message As..."
 msgstr "Spara meddelande som..."
 
-#: mail/mail-callbacks.c:1704
+#: mail/mail-callbacks.c:1714
 msgid "Save Messages As..."
 msgstr "Spara meddelanden som..."
 
-#: mail/mail-callbacks.c:1849 widgets/misc/e-messagebox.c:159
+#: mail/mail-callbacks.c:1859 widgets/misc/e-messagebox.c:159
 msgid "Warning"
 msgstr "Varning"
 
-#: mail/mail-callbacks.c:1854
+#: mail/mail-callbacks.c:1864
 msgid ""
 "This operation will permanently erase all messages marked as deleted. If you "
 "continue, you will not be able to recover these messages.\n"
@@ -8330,11 +8556,11 @@ msgstr ""
 "\n"
 "Vill du verkligen ta bort dessa meddelanden?"
 
-#: mail/mail-callbacks.c:1861
+#: mail/mail-callbacks.c:1871
 msgid "Do not ask me again."
 msgstr "Fråga mig inte igen."
 
-#: mail/mail-callbacks.c:1966
+#: mail/mail-callbacks.c:1976
 #, c-format
 msgid ""
 "Error loading filter information:\n"
@@ -8343,19 +8569,19 @@ msgstr ""
 "Fel vid läsning av filterinformation:\n"
 "%s"
 
-#: mail/mail-callbacks.c:1976
+#: mail/mail-callbacks.c:1986
 msgid "Filters"
 msgstr "Filter"
 
-#: mail/mail-callbacks.c:2022
+#: mail/mail-callbacks.c:2032
 msgid "Print Message"
 msgstr "Skriv ut meddelande"
 
-#: mail/mail-callbacks.c:2068
+#: mail/mail-callbacks.c:2078
 msgid "Printing of message failed"
 msgstr "Utskrift av meddelande misslyckades"
 
-#: mail/mail-callbacks.c:2152
+#: mail/mail-callbacks.c:2162
 #, c-format
 msgid "Are you sure you want to open all %d messages in separate windows?"
 msgstr ""
@@ -8417,7 +8643,7 @@ msgstr ""
 msgid "Evolution Account Assistant"
 msgstr "Evolutions kontoassistent"
 
-#: mail/mail-config.c:1480
+#: mail/mail-config.c:1486
 msgid "Evolution Shortcuts"
 msgstr "Evolutiongenvägar"
 
@@ -8426,16 +8652,16 @@ msgstr "Evolutiongenvägar"
 #. * name. I don't think this will work with maildir. How can we figure out
 #. * what shortcut to insert?
 #.
-#: mail/mail-config.c:1612
+#: mail/mail-config.c:1618
 #, c-format
 msgid "%s: Inbox"
 msgstr "%s: Inkorg"
 
-#: mail/mail-config.c:1843
+#: mail/mail-config.c:1851
 msgid "Checking Service"
 msgstr "Kontrollerar tjänst"
 
-#: mail/mail-config.c:1914 mail/mail-config.c:1917
+#: mail/mail-config.c:1922 mail/mail-config.c:1925
 msgid "Connecting to server..."
 msgstr "Ansluter till server..."
 
@@ -8941,127 +9167,97 @@ msgstr "Spara länk som (FIXME)"
 msgid "Save Image as..."
 msgstr "Spara bild som..."
 
-#: mail/mail-folder-cache.c:152
-#, c-format
-msgid "%d new"
-msgstr "%d nya"
-
-#: mail/mail-folder-cache.c:158 mail/mail-folder-cache.c:165
-#: mail/mail-folder-cache.c:172
-msgid ", "
-msgstr ", "
-
-#: mail/mail-folder-cache.c:159
-#, c-format
-msgid "%d hidden"
-msgstr "%d gömda"
-
-#: mail/mail-folder-cache.c:166
-#, c-format
-msgid "%d selected"
-msgstr "%d markerade"
-
-#: mail/mail-folder-cache.c:175
-#, c-format
-msgid "%d unsent"
-msgstr "%d oskickade"
-
-#: mail/mail-folder-cache.c:177
-#, c-format
-msgid "%d total"
-msgstr "%d totalt"
-
-#: mail/mail-format.c:623
+#: mail/mail-format.c:627
 #, c-format
 msgid "%s attachment"
 msgstr "%s-bilaga"
 
-#: mail/mail-format.c:676
+#: mail/mail-format.c:680
 msgid "Could not parse MIME message. Displaying as source."
 msgstr "Kunde inte tolka MIME-meddelande. Visar som källkod."
 
-#: mail/mail-format.c:760
+#: mail/mail-format.c:764
 msgid "Date"
 msgstr "Datum"
 
-#: mail/mail-format.c:856
+#: mail/mail-format.c:860
 msgid "Bad Address"
 msgstr "Felaktig adress"
 
-#: mail/mail-format.c:878 mail/message-list.etspec.h:3
+#: mail/mail-format.c:882 mail/message-list.etspec.h:3
 msgid "From"
 msgstr "Från"
 
-#: mail/mail-format.c:881
+#: mail/mail-format.c:885
 msgid "Reply-To"
 msgstr "Svara till"
 
-#: mail/mail-format.c:884 mail/message-list.etspec.h:10
+#: mail/mail-format.c:888 mail/message-list.etspec.h:10
 msgid "To"
 msgstr "Till"
 
-#: mail/mail-format.c:887
+#: mail/mail-format.c:891
 msgid "Cc"
 msgstr "Kopia"
 
-#: mail/mail-format.c:1307
+#: mail/mail-format.c:1311
 msgid "No GPG/PGP program configured."
 msgstr "Inget GPG/PGP-program är konfigurerat."
 
-#: mail/mail-format.c:1323
+#: mail/mail-format.c:1327
 msgid "Encrypted message not displayed"
 msgstr "Krypterat meddelande visas inte"
 
-#: mail/mail-format.c:1334
+#: mail/mail-format.c:1338
 msgid "Encrypted message"
 msgstr "Krypterat meddelande"
 
-#: mail/mail-format.c:1335
+#: mail/mail-format.c:1339
 msgid "Click icon to decrypt."
 msgstr "Klicka på ikonen för att dekryptera."
 
-#: mail/mail-format.c:1390
+#: mail/mail-format.c:1394
 msgid "This message is digitally signed and has been found to be authentic."
 msgstr "Detta meddelande är digitalt signerat och har befunnits äkta."
 
-#: mail/mail-format.c:1401
+#: mail/mail-format.c:1405
 msgid "This message is digitally signed but can not be proven to be authentic."
 msgstr "Detta meddelande är digitalt signerat men äktheten kan inte bevisas."
 
-#: mail/mail-format.c:2079
+#: mail/mail-format.c:2083
 #, c-format
 msgid "Pointer to FTP site (%s)"
 msgstr "Pekare till FTP-plats (%s)"
 
-#: mail/mail-format.c:2093
+#: mail/mail-format.c:2097
 #, c-format
 msgid "Pointer to local file (%s) valid at site \"%s\""
 msgstr "Pekare till lokal fil (%s) giltig på platsen \"%s\""
 
-#: mail/mail-format.c:2098
+#: mail/mail-format.c:2102
 #, c-format
 msgid "Pointer to local file (%s)"
 msgstr "Pekare till lokal fil (%s)"
 
-#: mail/mail-format.c:2127
+#: mail/mail-format.c:2131
 #, c-format
 msgid "Pointer to remote data (%s)"
 msgstr "Pekare till fjärrdata (%s)"
 
-#: mail/mail-format.c:2135
+#: mail/mail-format.c:2139
 #, c-format
 msgid "Pointer to unknown external data (\"%s\" type)"
 msgstr "Pekare till okänd extern data (typen \"%s\")"
 
-#: mail/mail-format.c:2140
+#: mail/mail-format.c:2144
 msgid "Malformed external-body part."
 msgstr "Felaktig del med extern meddelandetext."
 
-#: mail/mail-local.c:532
+#: mail/mail-local.c:547
 msgid "Reconfiguring folder"
 msgstr "Omkonfigurerar mapp"
 
-#: mail/mail-local.c:605
+#: mail/mail-local.c:620
 #, c-format
 msgid ""
 "Cannot save folder metainfo; you'll probably find you can't\n"
@@ -9070,27 +9266,27 @@ msgstr ""
 "Kan inte spara metainformation; du kommer antagligen att\n"
 "upptäcka att du inte kan öppna denna mapp längre: %s: %s"
 
-#: mail/mail-local.c:659
+#: mail/mail-local.c:676
 #, c-format
 msgid "Cannot save folder metainfo to %s: %s"
 msgstr "Kan inte spara metainformation för mapp på %s: %s"
 
-#: mail/mail-local.c:715
+#: mail/mail-local.c:722
 #, c-format
 msgid "Cannot delete folder metadata %s: %s"
 msgstr "Kan inte ta bort metainformation för mapp %s: %s"
 
-#: mail/mail-local.c:944
+#: mail/mail-local.c:1052
 #, c-format
 msgid "Changing folder \"%s\" to \"%s\" format"
 msgstr "Byter format på mappen \"%s\" till \"%s\""
 
-#: mail/mail-local.c:959
+#: mail/mail-local.c:1067
 #, c-format
 msgid "%s may not be reconfigured because it is not a local folder"
 msgstr "%s kan inte konfigureras om eftersom den inte är en lokal mapp"
 
-#: mail/mail-local.c:981
+#: mail/mail-local.c:1089
 msgid ""
 "If you can no longer open this mailbox, then\n"
 "you may need to repair it manually."
@@ -9098,16 +9294,16 @@ msgstr ""
 "Om du inte längre kan öppna denna brevlåda måste\n"
 "du kanske reparera den manuellt."
 
-#: mail/mail-local.c:1072
+#: mail/mail-local.c:1180
 msgid "You cannot change the format of a non-local folder."
 msgstr "Du kan inte ändra formatet på en ickelokal mapp."
 
-#: mail/mail-local.c:1082
+#: mail/mail-local.c:1190
 #, c-format
 msgid "Reconfigure %s"
 msgstr "Konfigura om %s"
 
-#: mail/mail-mt.c:187
+#: mail/mail-mt.c:188
 #, c-format
 msgid ""
 "Error while '%s':\n"
@@ -9116,7 +9312,7 @@ msgstr ""
 "Fel vid \"%s\":\n"
 "%s"
 
-#: mail/mail-mt.c:190
+#: mail/mail-mt.c:191
 #, c-format
 msgid ""
 "Error while performing operation:\n"
@@ -9126,125 +9322,135 @@ msgstr ""
 "%s"
 
 #. Remember the password?
-#: mail/mail-mt.c:439
+#: mail/mail-mt.c:454
 msgid "Remember this password"
 msgstr "Kom ihåg detta lösenord"
 
-#: mail/mail-mt.c:796
+#: mail/mail-mt.c:511
+#, fuzzy, c-format
+msgid "Enter Password for %s"
+msgstr "Ange lösenord för %s"
+
+#: mail/mail-mt.c:514
+#, fuzzy
+msgid "Enter Password"
+msgstr "Ange lösenord för %s"
+
+#: mail/mail-mt.c:824
 msgid "Working"
 msgstr "Arbetar"
 
-#: mail/mail-ops.c:85
+#: mail/mail-ops.c:86
 msgid "Filtering Folder"
 msgstr "Filtrerar mapp"
 
-#: mail/mail-ops.c:228
+#: mail/mail-ops.c:229
 msgid "Fetching Mail"
 msgstr "Hämtar post"
 
-#: mail/mail-ops.c:551 mail/mail-ops.c:581
+#: mail/mail-ops.c:482 mail/mail-ops.c:512
 msgid "However, the message was successfully sent."
 msgstr "Meddelandet skickades dock utan problem."
 
-#: mail/mail-ops.c:618
+#: mail/mail-ops.c:549
 #, c-format
 msgid "Sending \"%s\""
 msgstr "Skickar \"%s\""
 
-#: mail/mail-ops.c:737
+#: mail/mail-ops.c:668
 #, c-format
 msgid "Sending message %d of %d"
 msgstr "Skickar meddelande %d av %d"
 
-#: mail/mail-ops.c:756
+#: mail/mail-ops.c:687
 #, c-format
 msgid "Failed on message %d of %d"
 msgstr "Meddelande %d av %d misslyckades"
 
-#: mail/mail-ops.c:758 mail/mail-send-recv.c:514
+#: mail/mail-ops.c:689 mail/mail-send-recv.c:522
 msgid "Complete."
 msgstr "Färdig."
 
-#: mail/mail-ops.c:851
+#: mail/mail-ops.c:782
 msgid "Saving message to folder"
 msgstr "Sparar meddelande till mappen"
 
-#: mail/mail-ops.c:930
+#: mail/mail-ops.c:861
 #, c-format
 msgid "Moving messages to %s"
 msgstr "Flyttar meddelanden till %s"
 
-#: mail/mail-ops.c:930
+#: mail/mail-ops.c:861
 #, c-format
 msgid "Copying messages to %s"
 msgstr "Kopierar meddelanden till %s"
 
-#: mail/mail-ops.c:947
+#: mail/mail-ops.c:878
 msgid "Moving"
 msgstr "Flyttar"
 
-#: mail/mail-ops.c:950
+#: mail/mail-ops.c:881
 msgid "Copying"
 msgstr "Kopierar"
 
-#: mail/mail-ops.c:1062
+#: mail/mail-ops.c:993
 #, c-format
 msgid "Scanning folders in \"%s\""
 msgstr "Genomsöker mappar i \"%s\""
 
 #. Fill in the new fields
-#: mail/mail-ops.c:1103 mail/mail-ops.c:1104 shell/e-local-storage.c:179
+#: mail/mail-ops.c:1040 shell/e-local-storage.c:179
 msgid "Trash"
 msgstr "Papperskorg"
 
-#: mail/mail-ops.c:1240
+#: mail/mail-ops.c:1173
 msgid "Forwarded messages"
 msgstr "Vidarebefordrade meddelanden"
 
-#: mail/mail-ops.c:1282
+#: mail/mail-ops.c:1215
 #, c-format
 msgid "Opening folder %s"
 msgstr "Öppnar mappen %s"
 
-#: mail/mail-ops.c:1351
+#: mail/mail-ops.c:1284
 #, c-format
 msgid "Opening store %s"
 msgstr "Öppnar lagringsutrymmet %s"
 
-#: mail/mail-ops.c:1420
+#: mail/mail-ops.c:1353
 #, c-format
 msgid "Removing folder %s"
 msgstr "Byter namn på mappen %s"
 
-#: mail/mail-ops.c:1513
+#: mail/mail-ops.c:1445
 #, c-format
 msgid "Storing folder '%s'"
 msgstr "Lagrar mappen \"%s\""
 
-#: mail/mail-ops.c:1564
+#: mail/mail-ops.c:1496
 msgid "Refreshing folder"
 msgstr "Uppdaterar mapp"
 
-#: mail/mail-ops.c:1600
+#: mail/mail-ops.c:1532
 msgid "Expunging folder"
 msgstr "Tömmer mapp"
 
-#: mail/mail-ops.c:1649
+#: mail/mail-ops.c:1581
 #, c-format
 msgid "Retrieving message %s"
 msgstr "Hämtar meddelande %s"
 
-#: mail/mail-ops.c:1716
+#: mail/mail-ops.c:1648
 #, c-format
 msgid "Retrieving %d message(s)"
 msgstr "Hämtar %d meddelande(n)"
 
-#: mail/mail-ops.c:1802
+#: mail/mail-ops.c:1734
 #, c-format
 msgid "Saving %d messsage(s)"
 msgstr "Sparar %d meddelande(n)"
 
-#: mail/mail-ops.c:1882
+#: mail/mail-ops.c:1846
 #, c-format
 msgid ""
 "Unable to create output file: %s\n"
@@ -9253,7 +9459,7 @@ msgstr ""
 "Kan inte spara utdatafilen: %s\n"
 " %s"
 
-#: mail/mail-ops.c:1908
+#: mail/mail-ops.c:1874
 #, c-format
 msgid ""
 "Error saving messages to: %s:\n"
@@ -9262,11 +9468,11 @@ msgstr ""
 "Fel vid sparande av meddelanden till: %s\n"
 " %s"
 
-#: mail/mail-ops.c:1982
+#: mail/mail-ops.c:1948
 msgid "Saving attachment"
 msgstr "Sparar bilaga"
 
-#: mail/mail-ops.c:1998
+#: mail/mail-ops.c:1964
 #, c-format
 msgid ""
 "Cannot create output file: %s:\n"
@@ -9275,12 +9481,12 @@ msgstr ""
 "Kan inte skapa utdatafil: %s:\n"
 " %s"
 
-#: mail/mail-ops.c:2029
+#: mail/mail-ops.c:1995
 #, c-format
 msgid "Could not write data: %s"
 msgstr "Kunde inte skriva data: %s"
 
-#: mail/mail-ops.c:2098
+#: mail/mail-ops.c:2064
 #, c-format
 msgid "Disconnecting from %s"
 msgstr "Kopplar från %s"
@@ -9321,46 +9527,46 @@ msgstr "Sök:"
 msgid "Matches:"
 msgstr "Träffar:"
 
-#: mail/mail-send-recv.c:138
+#: mail/mail-send-recv.c:139
 msgid "Cancelling..."
 msgstr "Avbryter..."
 
-#: mail/mail-send-recv.c:242
+#: mail/mail-send-recv.c:243
 #, c-format
 msgid "Server: %s, Type: %s"
 msgstr "Server: %s, typ: %s"
 
-#: mail/mail-send-recv.c:244
+#: mail/mail-send-recv.c:245
 #, c-format
 msgid "Path: %s, Type: %s"
 msgstr "Sökväg: %s, typ: %s"
 
-#: mail/mail-send-recv.c:246
+#: mail/mail-send-recv.c:247
 #, c-format
 msgid "Type: %s"
 msgstr "Typ: %s"
 
-#: mail/mail-send-recv.c:271
+#: mail/mail-send-recv.c:282
 msgid "Send & Receive Mail"
 msgstr "Skicka och ta emot e-post"
 
-#: mail/mail-send-recv.c:272
+#: mail/mail-send-recv.c:283
 msgid "Cancel All"
 msgstr "Avbryt allt"
 
-#: mail/mail-send-recv.c:325
+#: mail/mail-send-recv.c:333
 msgid "Updating..."
 msgstr "Uppdaterar..."
 
-#: mail/mail-send-recv.c:326 mail/mail-send-recv.c:379
+#: mail/mail-send-recv.c:334 mail/mail-send-recv.c:387
 msgid "Waiting..."
 msgstr "Väntar..."
 
-#: mail/mail-send-recv.c:510
+#: mail/mail-send-recv.c:518
 msgid "Cancelled."
 msgstr "Avbruten."
 
-#: mail/mail-session.c:182
+#: mail/mail-session.c:183
 msgid "User canceled operation."
 msgstr "Användaren avbröt åtgärden."
 
@@ -9369,24 +9575,29 @@ msgstr "Användaren avbröt åtgärden."
 msgid "Couldn't create temporary mbox `%s': %s"
 msgstr "Kunde inte skapa temporärt meddelandefält \"%s\": %s"
 
-#: mail/mail-tools.c:290
+#: mail/mail-tools.c:299
 #, c-format
 msgid "Forwarded message - %s"
 msgstr "Vidarebefordrat meddelande - %s"
 
-#: mail/mail-tools.c:294
+#: mail/mail-tools.c:303
 msgid "Forwarded message"
 msgstr "Vidarebefordrat meddelande"
 
-#: mail/mail-tools.c:441
+#: mail/mail-tools.c:439
 msgid "Forwarded Message"
 msgstr "Vidarebefordrat meddelande"
 
-#: mail/mail-vfolder.c:418
+#: mail/mail-vfolder.c:161
+#, fuzzy, c-format
+msgid "Setting up vfolder: %s"
+msgstr "Skapar mappen %s"
+
+#: mail/mail-vfolder.c:435
 msgid "VFolders"
 msgstr "Virtuella mappar"
 
-#: mail/mail-vfolder.c:524
+#: mail/mail-vfolder.c:541
 msgid "New VFolder"
 msgstr "Ny virtuell mapp"
 
@@ -9455,7 +9666,7 @@ msgstr "%a %H.%M"
 msgid "%b %d %Y"
 msgstr "%d %b %Y"
 
-#: mail/message-list.c:2316
+#: mail/message-list.c:2331
 msgid "Generating message list"
 msgstr "Genererar meddelandelista"
 
@@ -9471,36 +9682,36 @@ msgstr "Mottaget"
 msgid "Size"
 msgstr "Storlek"
 
-#: mail/subscribe-dialog.c:221
+#: mail/subscribe-dialog.c:219
 #, c-format
 msgid "Scanning folders under %s on \"%s\""
 msgstr "Genomsöker mappar under %s på \"%s\""
 
-#: mail/subscribe-dialog.c:223
+#: mail/subscribe-dialog.c:221
 #, c-format
 msgid "Scanning root-level folders on \"%s\""
 msgstr "Genomsöker mappar på rotnivå på \"%s\""
 
-#: mail/subscribe-dialog.c:322
+#: mail/subscribe-dialog.c:320
 #, c-format
 msgid "Subscribing to folder \"%s\""
 msgstr "Prenumererar på mappen \"%s\""
 
-#: mail/subscribe-dialog.c:324
+#: mail/subscribe-dialog.c:322
 #, c-format
 msgid "Unsubscribing to folder \"%s\""
 msgstr "Säger upp prenumeration på mappen \"%s\""
 
-#: mail/subscribe-dialog.c:1282 mail/subscribe-dialog.etspec.h:1
+#: mail/subscribe-dialog.c:1280 mail/subscribe-dialog.etspec.h:1
 #: shell/e-storage-set-view.etspec.h:1
 msgid "Folder"
 msgstr "Mapp"
 
-#: mail/subscribe-dialog.c:1523
+#: mail/subscribe-dialog.c:1521
 msgid "No server has been selected"
 msgstr "Ingen server har valts"
 
-#: mail/subscribe-dialog.c:1584
+#: mail/subscribe-dialog.c:1582
 msgid "Please select a server."
 msgstr "Välj en server."
 
@@ -9544,27 +9755,27 @@ msgstr "Evolutionkomponent för sammanfattningen."
 msgid "Folder containing the Evolution Summary"
 msgstr "Mapp som innehåller Evolution-sammanfattningen"
 
-#: my-evolution/component-factory.c:141
+#: my-evolution/component-factory.c:139
 msgid "Cannot initialize Evolution's Executive Summary component."
 msgstr "Kan inte initiera Evolutions sammanfattningskomponent."
 
-#: my-evolution/e-summary-calendar.c:161 my-evolution/e-summary-calendar.c:179
+#: my-evolution/e-summary-calendar.c:248 my-evolution/e-summary-calendar.c:266
 msgid "Appointments"
 msgstr "Möten"
 
-#: my-evolution/e-summary-calendar.c:162
+#: my-evolution/e-summary-calendar.c:249
 msgid "No appointments"
 msgstr "Inga möten"
 
-#: my-evolution/e-summary-calendar.c:199
+#: my-evolution/e-summary-calendar.c:286
 msgid "%k%M %d %B"
 msgstr "%H.%M %d %B"
 
-#: my-evolution/e-summary-calendar.c:201
+#: my-evolution/e-summary-calendar.c:288
 msgid "%l:%M %d %B"
 msgstr "%l.%M %d %B"
 
-#: my-evolution/e-summary-mail.c:113
+#: my-evolution/e-summary-mail.c:115
 msgid "Mail summary"
 msgstr "E-postsammanfattning"
 
@@ -9573,7 +9784,7 @@ msgstr "E-postsammanfattning"
 #. stations and their codes in Evolution sources
 #. (evolution/my-evolution/Locations)
 #: my-evolution/e-summary-preferences.c:65
-#: my-evolution/e-summary-weather.c:614
+#: my-evolution/e-summary-weather.c:615
 msgid "KBOS:ZSAM:EGAA"
 msgstr "ESGG:ESMS:ESSA:ESNU"
 
@@ -9586,57 +9797,59 @@ msgid "Quotes of the Day"
 msgstr "Dagens citat"
 
 # Detta är inte diskussionsgrupper utan nyheter
-#: my-evolution/e-summary-preferences.c:878
+#: my-evolution/e-summary-preferences.c:890
 msgid "Add a news feed"
 msgstr "Lägg till en nyhetskälla"
 
 # Detta är inte diskussionsgrupper utan nyheter
-#: my-evolution/e-summary-preferences.c:886
+#: my-evolution/e-summary-preferences.c:898
 msgid "Enter the URL of the news feed you wish to add"
 msgstr "Ange URL:en till den nyhetskälla som du vill lägga till"
 
-#: my-evolution/e-summary-preferences.c:890
+#: my-evolution/e-summary-preferences.c:902
 msgid "Name:"
 msgstr "Namn:"
 
-#: my-evolution/e-summary-preferences.c:1425
+#: my-evolution/e-summary-preferences.c:1438
 msgid "Summary Settings"
 msgstr "Sammanfattningsinställningar"
 
-# Detta är inte diskussionsgrupper utan nyheter
-#: my-evolution/e-summary-rdf.c:277
-msgid "There was an error downloading news feed"
-msgstr "Ett fel uppstod när nyhetskällan hämtades"
-
-#: my-evolution/e-summary-rdf.c:360 my-evolution/e-summary-rdf.c:386
-msgid "<b>Error downloading RDF</b>"
+#: my-evolution/e-summary-rdf.c:277 my-evolution/e-summary-rdf.c:362
+#: my-evolution/e-summary-rdf.c:395
+#, fuzzy
+msgid "Error downloading RDF"
 msgstr "<b>Fel vid hämtning av RDF</b>"
 
-#: my-evolution/e-summary-rdf.c:475
+#: my-evolution/e-summary-rdf.c:487
 msgid "News Feed"
 msgstr "Nyhetskälla"
 
-#: my-evolution/e-summary-tasks.c:213
+#: my-evolution/e-summary-tasks.c:216
 msgid "No tasks"
 msgstr "Inga uppgifter"
+
+#: my-evolution/e-summary-tasks.c:255
+#, fuzzy
+msgid "(No Description)"
+msgstr "(Ingen beskrivning)"
 
 #: my-evolution/e-summary-weather.c:57
 msgid "My Weather"
 msgstr "Mitt väder"
 
-#: my-evolution/e-summary-weather.c:333
+#: my-evolution/e-summary-weather.c:334
 msgid "<dd><b>The weather server could not be contacted</b></dd>"
 msgstr "<dd><b>Väderservern kunde inte kontaktas</b></dd>"
 
-#: my-evolution/e-summary-weather.c:523
+#: my-evolution/e-summary-weather.c:524
 msgid "Weather"
 msgstr "Väder"
 
-#: my-evolution/e-summary-weather.c:675
+#: my-evolution/e-summary-weather.c:676
 msgid "Regions"
 msgstr "Regioner"
 
-#: my-evolution/e-summary.c:163
+#: my-evolution/e-summary.c:162
 msgid "%A, %B %e %Y"
 msgstr "%A %e %B %Y"
 
@@ -10955,11 +11168,11 @@ msgstr "_metriska"
 msgid "The Evolution shell."
 msgstr "Evolutionskalet."
 
-#: shell/e-activity-handler.c:199
+#: shell/e-activity-handler.c:200
 msgid "Show Details"
 msgstr "Visa detaljer"
 
-#: shell/e-activity-handler.c:201
+#: shell/e-activity-handler.c:202
 msgid "Cancel Operation"
 msgstr "Avbryt åtgärd"
 
@@ -11381,37 +11594,37 @@ msgstr "Arbeta frånkopplad"
 msgid "(No folder displayed)"
 msgstr "(Ingen mapp visas)"
 
-#: shell/e-shell-view.c:1510
+#: shell/e-shell-view.c:1478
 #, c-format
 msgid "%s (%d)"
 msgstr "%s (%d)"
 
-#: shell/e-shell-view.c:1512
+#: shell/e-shell-view.c:1480
 msgid "(None)"
 msgstr "(Ingen)"
 
-#: shell/e-shell-view.c:1517
+#: shell/e-shell-view.c:1485
 #, c-format
 msgid "%s - Ximian Evolution %s"
 msgstr "%s - Ximian Evolution %s"
 
-#: shell/e-shell-view.c:1519
+#: shell/e-shell-view.c:1487
 #, c-format
 msgid "%s - Ximian Evolution %s [%s]"
 msgstr "%s - Ximian Evolution %s [%s]"
 
-#: shell/e-shell-view.c:1559
+#: shell/e-shell-view.c:1527
 msgid ""
 "Ximian Evolution is currently online.  Click on this button to work offline."
 msgstr ""
 "Ximian Evolution är just nu ansluten. Klicka på denna knapp för att koppla "
 "från."
 
-#: shell/e-shell-view.c:1566
+#: shell/e-shell-view.c:1534
 msgid "Ximian Evolution is in the process of going offline."
 msgstr "Ximian Evolution håller på att koppla från."
 
-#: shell/e-shell-view.c:1572
+#: shell/e-shell-view.c:1540
 msgid ""
 "Ximian Evolution is currently offline.  Click on this button to work online."
 msgstr ""
@@ -11621,12 +11834,12 @@ msgstr "Den angivna mappen kan inte ändras eller tas bort"
 msgid "Cannot make a folder a child of one of its descendants"
 msgstr "Kan inte göra en mapp till barn av dess undermappar"
 
-#: shell/e-task-widget.c:170
+#: shell/e-task-widget.c:192
 #, c-format
 msgid "%s (...)"
 msgstr "%s (...)"
 
-#: shell/e-task-widget.c:175
+#: shell/e-task-widget.c:197
 #, c-format
 msgid "%s (%d%% complete)"
 msgstr "%s (%d%% färdigt)"
@@ -13227,81 +13440,6 @@ msgstr ""
 "och välja en tidszon.\n"
 " Använd höger musknapp för att zooma ut."
 
-#. This is a strftime() format string %A = full weekday name,
-#. %B = full month name, %d = month day, %Y = full year.
-#: widgets/meeting-time-sel/e-meeting-time-sel-item.c:469
-#: widgets/meeting-time-sel/e-meeting-time-sel.c:2477
-msgid "%A, %B %d, %Y"
-msgstr "%A %d %B %Y"
-
-#: widgets/meeting-time-sel/e-meeting-time-sel.c:394
-msgid "Out of Office"
-msgstr "Inte inne"
-
-#: widgets/meeting-time-sel/e-meeting-time-sel.c:395
-msgid "No Information"
-msgstr "Ingen information"
-
-#: widgets/meeting-time-sel/e-meeting-time-sel.c:411
-msgid "_Invite Others..."
-msgstr "Bjud _in andra..."
-
-#: widgets/meeting-time-sel/e-meeting-time-sel.c:431
-msgid "_Options"
-msgstr "_Alternativ"
-
-#: widgets/meeting-time-sel/e-meeting-time-sel.c:448
-msgid "Show _Only Working Hours"
-msgstr "Visa _endast arbetstimmar"
-
-#: widgets/meeting-time-sel/e-meeting-time-sel.c:461
-msgid "Show _Zoomed Out"
-msgstr "Visa ut_zoomade"
-
-#: widgets/meeting-time-sel/e-meeting-time-sel.c:479
-msgid "_Update Free/Busy"
-msgstr "_Uppdatera ledig/upptagen"
-
-#: widgets/meeting-time-sel/e-meeting-time-sel.c:497
-msgid "_<<"
-msgstr "_<<"
-
-#: widgets/meeting-time-sel/e-meeting-time-sel.c:514
-msgid "_Autopick"
-msgstr "_Autovälj"
-
-#: widgets/meeting-time-sel/e-meeting-time-sel.c:528
-msgid ">_>"
-msgstr ">_>"
-
-#: widgets/meeting-time-sel/e-meeting-time-sel.c:545
-msgid "_All People and Resources"
-msgstr "_Alla människor och resurser"
-
-#: widgets/meeting-time-sel/e-meeting-time-sel.c:558
-msgid "All _People and One Resource"
-msgstr "Alla _människor och en resurs"
-
-#: widgets/meeting-time-sel/e-meeting-time-sel.c:571
-msgid "_Required People"
-msgstr "Folk som k_rävs"
-
-#: widgets/meeting-time-sel/e-meeting-time-sel.c:584
-msgid "Required People and _One Resource"
-msgstr "Folk som krävs _och en resurs"
-
-#: widgets/meeting-time-sel/e-meeting-time-sel.c:607
-msgid "Meeting _start time:"
-msgstr "Mötets _starttid:"
-
-#: widgets/meeting-time-sel/e-meeting-time-sel.c:631
-msgid "Meeting _end time:"
-msgstr "Mötets slu_ttid:"
-
-#: widgets/meeting-time-sel/e-meeting-time-sel.c:744
-msgid "All Attendees"
-msgstr "Alla deltagare"
-
 #: widgets/menus/gal-view-menus.c:218
 msgid "_Current View"
 msgstr "_Aktuell vy"
@@ -13468,17 +13606,74 @@ msgstr "Server för personlig adressbok"
 msgid "The Personal Calendar Server; calendar factory"
 msgstr "Server för personlig kalender; kalenderfabrik"
 
-#: wombat/wombat.c:173
+#: wombat/wombat.c:175
 msgid "setup_vfs(): could not initialize GNOME-VFS"
 msgstr "setup_vfs(): kunde inte initiera GNOME-VFS"
 
-#: wombat/wombat.c:185
+#: wombat/wombat.c:187
 msgid "init_corba(): could not initialize GNOME"
 msgstr "init_corba(): kunde inte initiera GNOME"
 
-#: wombat/wombat.c:198
+#: wombat/wombat.c:200
 msgid "init_bonobo(): could not initialize Bonobo"
 msgstr "init_bonobo(): kunde inte initiera Bonobo"
+
+#, fuzzy
+#~ msgid "Cannot open folder: %s: No such folder"
+#~ msgstr "Kan inte få mapp: %s: %s"
+
+#~ msgid "Unable to get local storage.  This should never happen."
+#~ msgstr "Kan inte få tag i lokalt lagringsutrymme. Detta borde aldrig hända."
+
+#~ msgid "%d"
+#~ msgstr "%d"
+
+#~ msgid "FIXME: mail alarm options"
+#~ msgstr "FIXME: alternativ för e-postalarm"
+
+#~ msgid "No plaintext to sign."
+#~ msgstr "Ingen klartext att signera."
+
+#~ msgid "No password provided."
+#~ msgstr "Inget lösenord angavs."
+
+#~ msgid "No plaintext to clearsign."
+#~ msgstr "Ingen klartext att klartextsignera."
+
+#~ msgid "No plaintext to verify."
+#~ msgstr "Ingen klartext att verifiera."
+
+#~ msgid "No plaintext to encrypt."
+#~ msgstr "Ingen klartext att kryptera."
+
+#~ msgid "No recipients specified"
+#~ msgstr "Inga avsändare är angivna"
+
+#~ msgid "No ciphertext to decrypt."
+#~ msgstr "Ingen kryptotext att dekryptera."
+
+#~ msgid ""
+#~ "Could not open file %s:\n"
+#~ "%s"
+#~ msgstr ""
+#~ "Kunde inte öppna filen %s:\n"
+#~ "%s"
+
+#~ msgid "%d/%m/%Y"
+#~ msgstr "%d-%m-%Y"
+
+#~ msgid "%Y/%m/%d"
+#~ msgstr "%Y-%m-%d"
+
+#~ msgid "%x"
+#~ msgstr "%x"
+
+# Detta är inte diskussionsgrupper utan nyheter
+#~ msgid "There was an error downloading news feed"
+#~ msgstr "Ett fel uppstod när nyhetskällan hämtades"
+
+#~ msgid "All Attendees"
+#~ msgstr "Alla deltagare"
 
 #~ msgid ""
 #~ "It is %s.  The Unix time is %ld right now.  We just thought you may like "
@@ -13518,9 +13713,6 @@ msgstr "init_bonobo(): kunde inte initiera Bonobo"
 
 #~ msgid "Registering '%s'"
 #~ msgstr "Registrerar \"%s\""
-
-#~ msgid "Creating folder %s"
-#~ msgstr "Skapar mappen %s"
 
 #~ msgid "Done."
 #~ msgstr "Klar."
@@ -14008,9 +14200,6 @@ msgstr "init_bonobo(): kunde inte initiera Bonobo"
 
 #~ msgid "URI"
 #~ msgstr "URI"
-
-#~ msgid "Enter password for %s"
-#~ msgstr "Ange lösenord för %s"
 
 #~ msgid "_Go to Today"
 #~ msgstr "_Gå till idag"
@@ -15002,9 +15191,6 @@ msgstr "init_bonobo(): kunde inte initiera Bonobo"
 #~ msgid "_Compose"
 #~ msgstr "Skriv _nytt"
 
-#~ msgid "Click here to add a contact"
-#~ msgstr "Klicka här för att lägga till en kontakt"
-
 #~ msgid "PLAIN"
 #~ msgstr "VANLIG"
 
@@ -15337,9 +15523,6 @@ msgstr "init_bonobo(): kunde inte initiera Bonobo"
 
 #~ msgid "Copy messages from \"%s\" into \"%s\""
 #~ msgstr "Kopiera meddelanden från \"%s\" till \"%s\""
-
-#~ msgid "(No description)"
-#~ msgstr "(Ingen beskrivning)"
 
 #~ msgid "Loading %s Folder for %s"
 #~ msgstr "Läser in mappen %s för %s"

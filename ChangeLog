@@ -1,4 +1,9 @@
-2001-09-21    <NotZed@Ximian.com>
+2001-09-21  Ettore Perazzoli  <ettore@ximian.com>
+
+	* configure.in: Bump version to 0.14.  Depend on gal >= 0.12,
+	gtkhtml >= 0.13.
+
+2001-09-21  Michael Zucchi  <NotZed@Ximian.com>
 
 	* NEWS (Mail): Updated.
 
