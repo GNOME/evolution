@@ -31,6 +31,8 @@
 
 #include "Evolution.h"
 
+#include <gconf/gconf-client.h>
+
 #include <gal/widgets/e-gui-utils.h>
 
 #include <gtk/gtklabel.h>
@@ -84,7 +86,6 @@ struct _SyncData {
 
 /* The progress listener interface.  */
 
-#if 0				/* FIXME */
 static PortableServer_ServantBase__epv SyncFolderProgressListener_base_epv;
 static POA_GNOME_Evolution_SyncFolderProgressListener__epv SyncFolderProgressListener_epv;
 static POA_GNOME_Evolution_SyncFolderProgressListener__vepv SyncFolderProgressListener_vepv;
@@ -207,12 +208,10 @@ setup_progress_listener (SyncData *sync_data)
 
 	return TRUE;
 }
-#endif
 
 
 /* Setting up the progress dialog.  */
 
-#if 0
 static int
 progress_dialog_close_callback (GnomeDialog *dialog,
 				void *data)
@@ -256,10 +255,8 @@ setup_dialog (SyncData *sync_data)
 
 	gtk_widget_show_all (sync_data->dialog);
 }
-#endif
 
 
-#if 0
 /* Sync the folder at the specified @folder_path.  */
 static void
 sync_folder (SyncData *sync_data,
@@ -366,9 +363,7 @@ sync_folder (SyncData *sync_data,
 	CORBA_free (corba_folder);
 	CORBA_exception_free (&ev);
 }
-#endif
 
-#if 0
 /* Free up the data needed for syncing.  */
 static void
 cleanup (SyncData *sync_data)
@@ -390,41 +385,22 @@ cleanup (SyncData *sync_data)
 
 	CORBA_exception_free (&ev);
 }
-#endif
 
 
 void
 e_shell_offline_sync_all_folders (EShell *shell,
 				  GtkWindow *parent_window)
 {
-#if 0				/* FIXME */
-	Bonobo_ConfigDatabase config_db;
-	CORBA_sequence_CORBA_string *folder_path_sequence;
-	CORBA_any *any;
-	CORBA_Environment ev;
+	GConfClient *gconf_client;
 	SyncData *sync_data;
+	GSList *path_list;
+	GSList *p;
 	int i;
 
-	config_db = e_shell_get_config_db (shell);
+	gconf_client = gconf_client_get_default ();
 
-	CORBA_exception_init (&ev);
-
-	/* Get the paths for the folders to sync up.  */
-
-	any = Bonobo_ConfigDatabase_getValue (config_db, "/OfflineFolders/paths", "", &ev);
-	if (BONOBO_EX (&ev)) {
-		g_warning ("Cannot get /OfflineFolders/paths from ConfigDatabase -- %s", BONOBO_EX_ID (&ev));
-		CORBA_exception_free (&ev);
-		return;
-	}
-	if (! CORBA_TypeCode_equal (any->_type, TC_CORBA_sequence_CORBA_string, &ev) || BONOBO_EX (&ev)) {
-		g_warning ("/OfflineFolders/Paths in ConfigDatabase is not the expected type");
-		CORBA_free (any);
-		CORBA_exception_free (&ev);
-		return;
-	}
-
-	folder_path_sequence = (CORBA_sequence_CORBA_string *) any->_value;
+	path_list = gconf_client_get_list (gconf_client, "/apps/evolution/shell/offline/folder_paths",
+					   GCONF_VALUE_STRING, NULL);
 
 	sync_data = g_new0 (SyncData, 1);
 	sync_data->shell = shell;
@@ -436,10 +412,12 @@ e_shell_offline_sync_all_folders (EShell *shell,
 
 	setup_dialog (sync_data);
 
-	for (i = 0; i < folder_path_sequence->_length; i ++) {
-		sync_folder (sync_data,
-			     folder_path_sequence->_buffer[i],
-			     i + 1, folder_path_sequence->_length);
+	for (p = path_list, i = 1; p != NULL; p = p->next, i ++) {
+		const char *path;
+
+		path = (const char *) p->data;
+
+		sync_folder (sync_data, path, i, g_slist_length (path_list));
 
 		/* If the operation has been cancelled, stop syncing and
 		   return.  */
@@ -449,10 +427,10 @@ e_shell_offline_sync_all_folders (EShell *shell,
 			break;
 		}
 	}
+
  done:
 	cleanup (sync_data);
 
-	CORBA_free (folder_path_sequence);
-	CORBA_exception_free (&ev);
-#endif
+	g_slist_foreach (path_list, (GFunc) g_free, NULL);
+	g_slist_free (path_list);
 }

@@ -1,5 +1,21 @@
 2002-11-25  Ettore Perazzoli  <ettore@ximian.com>
 
+	* e-shell-offline-sync.c (e_shell_offline_sync_all_folders):
+	Filled in, use GConf.
+	(cleanup): Re-enabled again.
+	(sync_folder): Likewise.
+	(progress_dialog_close_callback): Likewise.
+	(progress_dialog_clicked_callback): Likewise.
+	(setup_dialog): Likewise.
+	(setup_progress_listener): Likewise.
+	(impl_SyncFolderProgressListener_reportFailure): Likewise.
+	(impl_SyncFolderProgressListener_reportSuccess): Likewise.
+	(impl_SyncFolderProgressListener_updateProgress): Likewise.
+	(progress_listener_servant_free): Likewise.
+	(progress_listener_servant_new): Likewise.
+
+2002-11-25  Ettore Perazzoli  <ettore@ximian.com>
+
 	* evolution-storage-set-view.c
 	(impl_StorageSetView__set_checkedFolders): Updated to pass a
 	GSList to e_storage_set_view_set_checkboxes_list() [instead of a
