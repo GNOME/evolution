@@ -19,10 +19,10 @@ SUBDIRS =			\
 	e-util			\
 	widgets			\
 	composer		\
+	mail			\
 	tests			\
 	addressbook		\
 	shell			\
-	mail			\
 	libical			\
 	libversit		\
 	calendar
