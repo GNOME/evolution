@@ -253,12 +253,14 @@ static gboolean
 table_canvas_reflow_idle (ETable *e_table)
 {
 	gdouble height, width;
+	gdouble item_height;
 	GtkAllocation *alloc = &(GTK_WIDGET (e_table->table_canvas)->allocation);
 
 	gtk_object_get (GTK_OBJECT (e_table->canvas_vbox),
 			"height", &height,
 			"width", &width,
 			NULL);
+	item_height = height;
 	height = MAX ((int)height, alloc->height);
 	width = MAX((int)width, alloc->width);
 	/* I have no idea why this needs to be -1, but it works. */
@@ -266,6 +268,7 @@ table_canvas_reflow_idle (ETable *e_table)
 		GNOME_CANVAS (e_table->table_canvas),
 		0, 0, width - 1, height - 1);
 	gtk_object_set (GTK_OBJECT (e_table->white_item),
+			"y1", item_height + 1,
 			"x2", width,
 			"y2", height,
 			NULL);
@@ -279,11 +282,13 @@ table_canvas_size_allocate (GtkWidget *widget, GtkAllocation *alloc,
 {
 	gdouble width;
 	gdouble height;
+	gdouble item_height;
 
 	width = alloc->width;
 	gtk_object_get (GTK_OBJECT (e_table->canvas_vbox),
 			"height", &height,
 			NULL);
+	item_height = height;
 	height = MAX ((int)height, alloc->height);
 
 	gtk_object_set (GTK_OBJECT (e_table->canvas_vbox),
@@ -293,6 +298,7 @@ table_canvas_size_allocate (GtkWidget *widget, GtkAllocation *alloc,
 			"width", width,
 			NULL);
 	gtk_object_set (GTK_OBJECT (e_table->white_item),
+			"y1", item_height + 1,
 			"x2", width,
 			"y2", height,
 			NULL);
@@ -502,6 +508,14 @@ et_table_row_deleted (ETableModel *table_model, int row, ETable *et)
 }
 
 static void
+et_canvas_realize (GtkWidget *canvas, ETable *e_table)
+{
+	gnome_canvas_item_set(e_table->white_item,
+			      "fill_color_gdk", &GTK_WIDGET(e_table->table_canvas)->style->base[GTK_STATE_NORMAL],
+			      NULL);
+}
+
+static void
 e_table_setup_table (ETable *e_table, ETableHeader *full_header, ETableHeader *header,
 		     ETableModel *model)
 {
@@ -549,6 +563,8 @@ e_table_setup_table (ETable *e_table, ETableHeader *full_header, ETableHeader *h
 						    "y2", (double) 100,
 						    "fill_color_gdk", &GTK_WIDGET(e_table->table_canvas)->style->base[GTK_STATE_NORMAL],
 						    NULL);
+	gtk_signal_connect(GTK_OBJECT(e_table->table_canvas), "realize",
+			   GTK_SIGNAL_FUNC(et_canvas_realize), e_table);
 	e_table->canvas_vbox = gnome_canvas_item_new(gnome_canvas_root(e_table->table_canvas),
 						     e_canvas_vbox_get_type(),
 						     "spacing", 10.0,
