@@ -587,13 +587,7 @@ mbox_summary_sync(CamelLocalSummary *cls, gboolean expunge, CamelFolderChangeInf
 	char *fromline;
 
 	/* make sure we're in sync, after this point we at least have a complete list of id's */
-	count = camel_folder_summary_count (s);
-	if (count > 0) {
-		CamelMessageInfo *mi = camel_folder_summary_index(s, count - 1);
-		summary_update(mbs, mi->content->endpos, changeinfo, ex);
-	} else {
-		summary_update(mbs, 0, changeinfo, ex);
-	}
+	summary_update(mbs, mbs->folder_size, changeinfo, ex);
 
 	if (camel_exception_is_set(ex))
 		return -1;

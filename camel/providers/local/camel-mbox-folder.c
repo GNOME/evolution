@@ -186,6 +186,9 @@ mbox_append_message(CamelFolder *folder, CamelMimeMessage * message, const Camel
 	if (camel_exception_is_set(ex))
 		goto fail;
 
+	/* and we need to set the frompos explicitly */
+	((CamelMboxMessageInfo *)mi)->frompos = mbs->folder_size?mbs->folder_size+1:0;
+
 	d(printf("Appending message: uid is %s\n", mi->uid));
 
 	output_stream = camel_stream_fs_new_with_name(lf->folder_path, O_WRONLY|O_APPEND, 0600);

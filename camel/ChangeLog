@@ -1,3 +1,17 @@
+2000-11-17  Not Zed  <NotZed@HelixCode.com>
+
+	* camel-stream-buffer.c (camel_stream_buffer_gets): We should
+	always terminate the string.  No need to check outptr is in range,
+	its already been checked.
+
+	* providers/local/camel-mbox-summary.c (mbox_summary_sync): When
+	we update the summary, do it from mbox_summary->folder_size, not
+	the content info endpos (which isn't any good anymore anyway).
+
+	* providers/local/camel-mbox-folder.c (mbox_append_message): Set
+	the frompos from the current folder size, since summary_add wont
+	have initialised it to anything useful.
+
 2000-11-16  Not Zed  <NotZed@HelixCode.com>
 
 	* providers/local/camel-local-summary.c

@@ -395,8 +395,7 @@ int camel_stream_buffer_gets(CamelStreamBuffer *sbf, char *buf, unsigned int max
 	} while (bytes_read>0);
 
 	sbf->ptr = inptr;
-	if (outptr <= outend)
-		*outptr = 0;
+	*outptr = 0;
 
 	return (int)(outptr - buf);
 }
