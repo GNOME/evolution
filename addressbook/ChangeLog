@@ -1,3 +1,10 @@
+2001-01-25  Chris Toshok  <toshok@ximian.com>
+
+	* backend/pas/pas-backend-ldap.c (build_mods_from_ecards): add
+	comment about the else block here.
+	(prop_info): add home_address, business_address, business_fax,
+	assistant, and isdn.
+
 2001-01-25  Christopher James Lahey  <clahey@helixcode.com>
 
 	* backend/pas/pas-backend-file.c (pas_backend_file_load_uri): Made

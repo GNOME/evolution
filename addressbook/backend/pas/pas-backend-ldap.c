@@ -132,38 +132,40 @@ struct prop_info {
 } prop_info[] = {
 
 #define LIST_PROP(fid,q,a,ctor,ber,cmp) {fid, q, a, PROP_TYPE_LIST, ctor, ber, cmp}
-#define STRING_PROP(fid,q,a) {fid, q, a, PROP_TYPE_STRING, NULL}
+#define STRING_PROP(fid,q,a) {fid, q, a, PROP_TYPE_STRING}
 
 /*  	E_CARD_SIMPLE_FIELD_FILE_AS, */
 	STRING_PROP (E_CARD_SIMPLE_FIELD_FULL_NAME,     "full_name", "cn" ),
 	STRING_PROP (E_CARD_SIMPLE_FIELD_FAMILY_NAME,   "family_name", "sn" ),
 	LIST_PROP   (E_CARD_SIMPLE_FIELD_EMAIL,         "email", "mail", email_populate_func, email_ber_func, email_compare_func),
+/*      don't need E_CARD_SIMPLE_FIELD_EMAIL_2, */
+/*      don't need E_CARD_SIMPLE_FIELD_EMAIL_3, */
+
 	STRING_PROP (E_CARD_SIMPLE_FIELD_PHONE_PRIMARY, "phone", "telephoneNumber"),
 /*  	E_CARD_SIMPLE_FIELD_PHONE_BUSINESS, */
 	STRING_PROP (E_CARD_SIMPLE_FIELD_PHONE_HOME,    "home_phone", "homePhone"),
 	STRING_PROP (E_CARD_SIMPLE_FIELD_ORG,           "org", "o"),
-/* XXX 	STRUCT_PROP (E_CARD_SIMPLE_FIELD_ADDRESS_BUSINESS, "business_address", "postalAddress", ....), */
-/* XXX 	STRUCT_PROP (E_CARD_SIMPLE_FIELD_ADDRESS_HOME, "home_address", "homePostalAddress", ....), */
+	STRING_PROP (E_CARD_SIMPLE_FIELD_ADDRESS_BUSINESS, "business_address", "postalAddress"),
+	STRING_PROP (E_CARD_SIMPLE_FIELD_ADDRESS_HOME, "home_address", "homePostalAddress"),
 	STRING_PROP (E_CARD_SIMPLE_FIELD_PHONE_MOBILE,  "mobile", "mobile"),
 /*      E_CARD_SIMPLE_FIELD_PHONE_CAR, */
-/*  	E_CARD_SIMPLE_FIELD_PHONE_BUSINESS_FAX, */
+	STRING_PROP (E_CARD_SIMPLE_FIELD_PHONE_BUSINESS_FAX, "business_fax", "facsimileTelephoneNumber"), 
 /*      E_CARD_SIMPLE_FIELD_PHONE_HOME_FAX, */
 /*      E_CARD_SIMPLE_FIELD_PHONE_BUSINESS_2, */
 /*      E_CARD_SIMPLE_FIELD_PHONE_HOME_2, */
-/*      E_CARD_SIMPLE_FIELD_PHONE_ISDN, */
+	STRING_PROP (E_CARD_SIMPLE_FIELD_PHONE_ISDN, "isdn", "internationalISDNNumber"), 
 /*      E_CARD_SIMPLE_FIELD_PHONE_OTHER, */
 	STRING_PROP (E_CARD_SIMPLE_FIELD_PHONE_PAGER,   "pager", "pager"),
 /*      E_CARD_SIMPLE_FIELD_ADDRESS_OTHER, */
-/*      E_CARD_SIMPLE_FIELD_EMAIL_2, */
-/*      E_CARD_SIMPLE_FIELD_EMAIL_3, */
 	STRING_PROP (E_CARD_SIMPLE_FIELD_URL,           "uri", "labeledURI"),
 	STRING_PROP (E_CARD_SIMPLE_FIELD_ORG_UNIT,      "org_unit",  "ou"),
 	STRING_PROP (E_CARD_SIMPLE_FIELD_OFFICE,        "office",  "roomNumber"),
 	STRING_PROP (E_CARD_SIMPLE_FIELD_TITLE,         "title", "title"),
 /*      E_CARD_SIMPLE_FIELD_ROLE, */
 	STRING_PROP (E_CARD_SIMPLE_FIELD_MANAGER,       "manager",  "manager"),
-/*      E_CARD_SIMPLE_FIELD_ASSISTANT, */
-/*      E_CARD_SIMPLE_FIELD_NICKNAME, */
+	STRING_PROP (E_CARD_SIMPLE_FIELD_ASSISTANT,     "assistant", "secretary"),
+	/* map nickname to displayName */
+	STRING_PROP (E_CARD_SIMPLE_FIELD_NICKNAME,      "nickname",  "displayName"),
 /*      E_CARD_SIMPLE_FIELD_SPOUSE, */
 /*      E_CARD_SIMPLE_FIELD_NOTE, */
 /*      E_CARD_SIMPLE_FIELD_FBURL, */
@@ -481,7 +483,7 @@ build_mods_from_ecards (ECardSimple *current, ECardSimple *new, gboolean *new_dn
 				mod->mod_values[0] = new_prop;
 				mod->mod_values[1] = NULL;
 			}
-			else {
+			else { /* PROP_TYPE_LIST */
 				mod->mod_op |= LDAP_MOD_BVALUES;
 				mod->mod_bvalues = prop_info[i].ber_func (new);
 			}
