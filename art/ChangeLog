@@ -1,3 +1,7 @@
+2001-06-29  Tuomas Kuosmanen  <tigert@ximian.com>
+
+	* contact-is-a-list.png: icon for toshok, for contact lists.
+
 2001-06-27  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* Makefile.am: Install the add-attachment.png icon.
