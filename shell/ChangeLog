@@ -1,5 +1,13 @@
 2001-10-23  Ettore Perazzoli  <ettore@ximian.com>
 
+	* e-shell-folder-commands.c (rename_callback_data_new): Get the
+	path and the shell view instead.
+	(rename_callback_data_free): Updated accordingly.
+	(rename_cb): Set the name on the folder based on the path, not the
+	actual object [as the old object gets unreffed -- of course].
+
+2001-10-23  Ettore Perazzoli  <ettore@ximian.com>
+
 	* e-shell-folder-commands.c (rename_callback_data_new): New.
 	(rename_callback_data_free): New.
 	(rename_cb): Rename the folder here.

@@ -447,15 +447,13 @@ e_shell_command_delete_folder (EShell *shell,
 
 struct _RenameCallbackData {
 	EShellView *shell_view;
-	EFolder *folder;
-	char *new_name;
+	char *new_path;
 };
 typedef struct _RenameCallbackData RenameCallbackData;
 
 static RenameCallbackData *
 rename_callback_data_new (EShellView *shell_view,
-			  EFolder *folder,
-			  const char *new_name)
+			  const char *new_path)
 {
 	RenameCallbackData *callback_data;
 
@@ -464,10 +462,7 @@ rename_callback_data_new (EShellView *shell_view,
 	gtk_object_ref (GTK_OBJECT (shell_view));
 	callback_data->shell_view = shell_view;
 
-	gtk_object_ref (GTK_OBJECT (folder));
-	callback_data->folder = folder;
-
-	callback_data->new_name = g_strdup (new_name);
+	callback_data->new_path = g_strdup (new_path);
 
 	return callback_data;
 }
@@ -476,8 +471,7 @@ static void
 rename_callback_data_free (RenameCallbackData *callback_data)
 {
 	gtk_object_unref (GTK_OBJECT (callback_data->shell_view));
-	gtk_object_unref (GTK_OBJECT (callback_data->folder));
-	g_free (callback_data->new_name);
+	g_free (callback_data->new_path);
 
 	g_free (callback_data);
 }
@@ -489,11 +483,20 @@ rename_cb (EStorageSet *storage_set, EStorageResult result, void *data)
 
 	callback_data = (RenameCallbackData *) data;
 
-	if (result == E_STORAGE_OK) {
-		e_folder_set_name (callback_data->folder, callback_data->new_name);
-	} else {
+	if (result != E_STORAGE_OK) {
 		e_notice (GTK_WINDOW (callback_data->shell_view), GNOME_MESSAGE_BOX_ERROR,
 			  _("Cannot rename folder:\n%s"), e_storage_result_to_string (result));
+	} else {
+		EFolder *folder;
+		EShell *shell;
+		EStorageSet *storage_set;
+
+		shell = e_shell_view_get_shell (callback_data->shell_view);
+		storage_set = e_shell_get_storage_set (shell);
+		folder = e_storage_set_get_folder (storage_set, callback_data->new_path);
+
+		if (folder != NULL)
+			e_folder_set_name (folder, g_basename (callback_data->new_path));
 	}
 
 	rename_callback_data_free (callback_data);
@@ -548,7 +551,7 @@ e_shell_command_rename_folder (EShell *shell,
 	old_base_path = g_strndup (folder_path, old_name - folder_path);
 	new_path = g_strconcat (old_base_path, new_name, NULL);
 
-	callback_data = rename_callback_data_new (shell_view, folder, new_name);
+	callback_data = rename_callback_data_new (shell_view, new_path);
 	e_storage_set_async_xfer_folder (storage_set, folder_path, new_path, TRUE, rename_cb, callback_data);
 
 	g_free (old_base_path);
