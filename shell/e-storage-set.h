@@ -26,6 +26,8 @@
 
 #include <gtk/gtkwidget.h>
 
+#include <bonobo/bonobo-ui-container.h>
+
 #include "e-folder-type-registry.h"
 #include "e-storage.h"
 
@@ -81,7 +83,8 @@ EStorage    *e_storage_set_get_storage          (EStorageSet            *storage
 						 const char             *storage_name);
 EFolder     *e_storage_set_get_folder           (EStorageSet            *storage_set,
 						 const char             *path);
-GtkWidget   *e_storage_set_new_view             (EStorageSet            *storage_set);
+GtkWidget   *e_storage_set_new_view             (EStorageSet            *storage_set,
+						 BonoboUIContainer      *container);
 
 void  e_storage_set_async_create_folder  (EStorageSet               *storage_set,
 					  const char                *path,

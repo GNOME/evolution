@@ -71,8 +71,9 @@ struct _EShellViewPrivate {
            Evolution::ShellView interface.  */
 	EvolutionShellView *corba_interface;
 
-	/* The UI handler.  */
+	/* The UI handler & container.  */
 	BonoboUIComponent *ui_component;
+	BonoboUIContainer *ui_container;
 
 	/* Currently displayed URI.  */
 	char *uri;
@@ -535,7 +536,7 @@ setup_storage_set_subwindow (EShellView *shell_view)
 
 	priv = shell_view->priv;
 
-	storage_set_view = e_storage_set_view_new (e_shell_get_storage_set (priv->shell));
+	storage_set_view = e_storage_set_view_new (e_shell_get_storage_set (priv->shell), priv->ui_container);
 	gtk_signal_connect (GTK_OBJECT (storage_set_view), "folder_selected",
 			    GTK_SIGNAL_FUNC (folder_selected_cb), shell_view);
 	gtk_signal_connect (GTK_OBJECT (storage_set_view), "storage_selected",
@@ -996,7 +997,6 @@ e_shell_view_construct (EShellView *shell_view,
 	EShellViewPrivate *priv;
 	EShellView *view;
 	GtkObject *window;
-	BonoboUIContainer *container;
 
 	g_return_val_if_fail (shell != NULL, NULL);
 	g_return_val_if_fail (shell_view != NULL, NULL);
@@ -1021,13 +1021,14 @@ e_shell_view_construct (EShellView *shell_view,
 	gtk_signal_connect_while_alive (GTK_OBJECT (e_shell_get_storage_set (priv->shell)), "updated_folder",
 					updated_folder_cb, shell_view, GTK_OBJECT (shell_view));
 
-	container = bonobo_ui_container_new ();
-	bonobo_ui_container_set_win (container, BONOBO_WINDOW (shell_view));
-	gtk_signal_connect (GTK_OBJECT (container), "system_exception", GTK_SIGNAL_FUNC (unmerge_on_error), NULL);
+	priv->ui_container = bonobo_ui_container_new ();
+	bonobo_ui_container_set_win (priv->ui_container, BONOBO_WINDOW (shell_view));
+	gtk_signal_connect (GTK_OBJECT (priv->ui_container),
+			    "system_exception", GTK_SIGNAL_FUNC (unmerge_on_error), NULL);
 
 	priv->ui_component = bonobo_ui_component_new ("evolution");
 	bonobo_ui_component_set_container (priv->ui_component,
-					   bonobo_object_corba_objref (BONOBO_OBJECT (container)));
+					   bonobo_object_corba_objref (BONOBO_OBJECT (priv->ui_container)));
 
 	bonobo_ui_component_freeze (priv->ui_component, NULL);
 
@@ -1750,6 +1751,15 @@ e_shell_view_get_bonobo_ui_component (EShellView *shell_view)
 	g_return_val_if_fail (E_IS_SHELL_VIEW (shell_view), NULL);
 
 	return shell_view->priv->ui_component;
+}
+
+BonoboUIContainer *
+e_shell_view_get_bonobo_ui_container (EShellView *shell_view)
+{
+	g_return_val_if_fail (shell_view != NULL, NULL);
+	g_return_val_if_fail (E_IS_SHELL_VIEW (shell_view), NULL);
+
+	return shell_view->priv->ui_container;
 }
 
 GtkWidget *

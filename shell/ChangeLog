@@ -1,3 +1,47 @@
+2001-05-11  Chris Toshok  <toshok@ximian.com>
+
+	* evolution-storage-set-view-factory.c
+	(evolution_storage_set_view_factory_new_view): the only
+	problematic area - pass NULL for now in as the BonoboUIContainer.
+	how do we pass this container to the control?
+
+	* e-storage-set-view.c (folder_context_menu_activate): un-#if 0
+	this function.
+	(populate_folder_context_menu_with_common_items): build our popup
+	using the new xml bonobo stuffs.
+	(popup_folder_menu): convert to using the new xml bonobo stuffs.
+	(right_click): only do the popup menu if we have a
+	BonoboUIContainer.
+	(e_storage_set_view_new): add BonoboUIContainer* arg.
+	(e_storage_set_view_construct): same.
+
+	* e-storage-set-view.h: add BonoboUIContainer* args to
+	e_storage_set_view_new and e_storage_set_view_construct.
+
+	* e-shell-folder-creation-dialog.c (add_storage_set_view): pass
+	NULL for the BonoboUIContainer, since we shouldn't (?) have a
+	popup in this dialog.
+	
+	* e-shell-folder-selection-dialog.c
+	(e_shell_folder_selection_dialog_construct): pass NULL for the
+	BonoboUIContainer, since we shouldn't (?) have a popup in this
+	dialog.
+
+	* e-storage-set.h: add BonoboUIContainer* arg to
+	e_storage_set_new_view.
+
+	* e-storage-set.c (e_storage_set_new_view): add arg, and track
+	change to e_storage_set_view_new.
+
+	* e-shell-view.h: add prototype for
+	e_shell_view_get_bonobo_ui_container.
+
+	* e-shell-view.c (setup_storage_set_subwindow): track change to
+	e_storage_set_view_new.
+	(e_shell_view_construct): the BonoboUIContainer is now part of our
+	private structure.
+	(e_shell_view_get_bonobo_ui_container): new function.
+
 2001-05-09  Christopher James Lahey  <clahey@ximian.com>
 
 	* importer/intelligent.c (create_gui): Made this function static.

@@ -292,7 +292,7 @@ add_storage_set_view (GtkWidget *dialog,
 	GtkWidget *vbox;
 
 	storage_set = e_shell_get_storage_set (shell);
-	storage_set_view = e_storage_set_new_view (storage_set);
+	storage_set_view = e_storage_set_new_view (storage_set, NULL/*XXX*/);
 
 	GTK_WIDGET_SET_FLAGS (storage_set_view, GTK_CAN_FOCUS);
 

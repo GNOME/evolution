@@ -29,6 +29,7 @@
 #include "e-storage-set-view.h"
 
 #include <glib.h>
+#include <gnome.h>
 #include <libgnome/gnome-defs.h>
 #include <libgnome/gnome-util.h>
 #include <gal/util/e-util.h>
@@ -78,6 +79,8 @@ static ETreeClass *parent_class = NULL;
 
 struct _EStorageSetViewPrivate {
 	EStorageSet *storage_set;
+
+	BonoboUIContainer *container;
 
 	ETreeModel *etree_model;
 	ETreePath root_node;
@@ -626,7 +629,6 @@ folder_xfer_callback (EStorageSet *storage_set,
 /* FIXME: This should be moved somewhere else, so that also the shortcut code
    can share it.  */
 
-#if 0
 static void
 folder_context_menu_activate_cb (BonoboUIComponent *uih,
 				 void *data,
@@ -646,30 +648,31 @@ static void
 populate_folder_context_menu_with_common_items (EStorageSetView *storage_set_view,
 						BonoboUIComponent *uih)
 {
-	bonobo_ui_handler_menu_new_item (uih, "/Activate",
-					 _("_View"), _("View the selected folder"),
-					 0, BONOBO_UI_HANDLER_PIXMAP_NONE,
-					 NULL, 0, 0,
-					 folder_context_menu_activate_cb,
-					 storage_set_view);
+	static char popup_xml[] = 
+		"<submenu name=\"Folder\" _label=\"Folder\">\n"
+		"  <menuitem name=\"Activate\" verb=\"ActivateView\" _label=\"_View\" _tip=\"View the selected folder\"/>\n"
+		"  <placeholder name=\"componentPlaceholder\" delimit=\"top\"/>\n"
+		"</submenu>\n";
+
+	bonobo_ui_component_add_verb (uih, "ActivateView",
+				      folder_context_menu_activate_cb,
+				      storage_set_view);
+
+	bonobo_ui_component_set_translate (uih, "/popups/folderPopup", popup_xml, NULL);
 }
-#endif
 
 static void
 popup_folder_menu (EStorageSetView *storage_set_view,
 		   GdkEventButton *event)
 {
-#if 0
 	EvolutionShellComponentClient *handler;
 	EStorageSetViewPrivate *priv;
 	EFolderTypeRegistry *folder_type_registry;
 	BonoboUIComponent *uih;
 	EFolder *folder;
+	GtkWidget *menu;
 
 	priv = storage_set_view->priv;
-
-	uih = bonobo_ui_handler_new ();
-	bonobo_ui_handler_create_popup_menu (uih);
 
 	folder = e_storage_set_get_folder (priv->storage_set, priv->selected_row_path);
 	if (folder == NULL) {
@@ -684,6 +687,14 @@ popup_folder_menu (EStorageSetView *storage_set_view,
 							       e_folder_get_type_string (folder));
 	g_assert (handler != NULL);
 
+	uih = bonobo_ui_component_new ("folder-popup");
+
+	bonobo_ui_component_set_container (uih,
+					   bonobo_object_corba_objref (BONOBO_OBJECT (priv->container)));
+
+	bonobo_ui_component_set (uih, "/",
+				 "<popups> <popup name=\"folderPopup\"/> </popups>", NULL);
+
 	evolution_shell_component_client_populate_folder_context_menu (handler,
 								       uih,
 								       e_folder_get_physical_uri (folder),
@@ -691,10 +702,15 @@ popup_folder_menu (EStorageSetView *storage_set_view,
 
 	populate_folder_context_menu_with_common_items (storage_set_view, uih);
 
-	bonobo_ui_handler_do_popup_menu (uih);
+	menu = gtk_menu_new ();
+
+	bonobo_window_add_popup (bonobo_ui_container_get_win (priv->container),
+				 GTK_MENU (menu), "/popups/folderPopup");
+
+	gtk_widget_show (GTK_WIDGET (menu));
+	gtk_menu_popup (GTK_MENU (menu), NULL, NULL, NULL, NULL, 3, 0);
 
 	bonobo_object_unref (BONOBO_OBJECT (uih));
-#endif
 }
 
 
@@ -1227,7 +1243,8 @@ right_click (ETree *etree,
 	storage_set_view = E_STORAGE_SET_VIEW (etree);
 	priv = storage_set_view->priv;
 
-	popup_folder_menu (storage_set_view, (GdkEventButton *) event);
+	if (priv->container)
+		popup_folder_menu (storage_set_view, (GdkEventButton *) event);
 
 	return TRUE;
 }
@@ -1773,8 +1790,9 @@ insert_storages (EStorageSetView *storage_set_view)
 }
 
 void
-e_storage_set_view_construct (EStorageSetView *storage_set_view,
-			      EStorageSet *storage_set)
+e_storage_set_view_construct (EStorageSetView   *storage_set_view,
+			      EStorageSet       *storage_set,
+			      BonoboUIContainer *container)
 {
 	EStorageSetViewPrivate *priv;
 	ETableExtras *extras;
@@ -1786,6 +1804,8 @@ e_storage_set_view_construct (EStorageSetView *storage_set_view,
 	g_return_if_fail (E_IS_STORAGE_SET (storage_set));
 
 	priv = storage_set_view->priv;
+
+	priv->container = container;
 
 	priv->etree_model = e_tree_memory_callbacks_new (etree_icon_at,
 
@@ -1848,7 +1868,8 @@ e_storage_set_view_construct (EStorageSetView *storage_set_view,
 }
 
 GtkWidget *
-e_storage_set_view_new (EStorageSet *storage_set)
+e_storage_set_view_new (EStorageSet *storage_set,
+			BonoboUIContainer *container)
 {
 	GtkWidget *new;
 
@@ -1856,7 +1877,7 @@ e_storage_set_view_new (EStorageSet *storage_set)
 	g_return_val_if_fail (E_IS_STORAGE_SET (storage_set), NULL);
 
 	new = gtk_type_new (e_storage_set_view_get_type ());
-	e_storage_set_view_construct (E_STORAGE_SET_VIEW (new), storage_set);
+	e_storage_set_view_construct (E_STORAGE_SET_VIEW (new), storage_set, container);
 
 	return new;
 }

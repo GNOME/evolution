@@ -25,6 +25,7 @@
 #define __E_STORAGE_SET_VIEW_H__
 
 #include <gal/e-table/e-tree.h>
+#include <bonobo/bonobo-ui-container.h>
 #include "e-storage-set.h"
 
 #ifdef __cplusplus
@@ -68,9 +69,11 @@ struct _EStorageSetViewClass {
 
 
 GtkType     e_storage_set_view_get_type            (void);
-GtkWidget  *e_storage_set_view_new                 (EStorageSet     *storage_set);
+GtkWidget  *e_storage_set_view_new                 (EStorageSet     *storage_set,
+						    BonoboUIContainer *container);
 void        e_storage_set_view_construct           (EStorageSetView *storage_set_view,
-						    EStorageSet     *storage_set);
+						    EStorageSet     *storage_set,
+						    BonoboUIContainer *container);
 void        e_storage_set_view_set_current_folder  (EStorageSetView *storage_set_view,
 						    const char      *path);
 const char *e_storage_set_view_get_current_folder  (EStorageSetView *storage_set_view);

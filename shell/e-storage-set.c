@@ -529,14 +529,14 @@ e_storage_set_get_folder (EStorageSet *storage_set,
 
 
 GtkWidget *
-e_storage_set_new_view (EStorageSet *storage_set)
+e_storage_set_new_view (EStorageSet *storage_set, BonoboUIContainer *container)
 {
 	GtkWidget *storage_set_view;
 
 	g_return_val_if_fail (storage_set != NULL, NULL);
 	g_return_val_if_fail (E_IS_STORAGE_SET (storage_set), NULL);
 
-	storage_set_view = e_storage_set_view_new (storage_set);
+	storage_set_view = e_storage_set_view_new (storage_set, container);
 
 	return storage_set_view;
 }

@@ -333,7 +333,7 @@ e_shell_folder_selection_dialog_construct (EShellFolderSelectionDialog *folder_s
 	priv->storage_set = e_shell_get_storage_set (shell);
 	gtk_object_ref (GTK_OBJECT (priv->storage_set));
 
-	priv->storage_set_view = e_storage_set_new_view (priv->storage_set);
+	priv->storage_set_view = e_storage_set_new_view (priv->storage_set, NULL /* No BonoboUIContainer */);
 	GTK_WIDGET_SET_FLAGS (priv->storage_set_view, GTK_CAN_FOCUS);
 	gtk_signal_connect (GTK_OBJECT (priv->storage_set_view),
 			    "double_click", GTK_SIGNAL_FUNC (dbl_click_cb),
