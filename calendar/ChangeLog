@@ -1,3 +1,8 @@
+2001-12-06  Rodrigo Moya <rodrigo@ximian.com>
+
+	* gui/dialogs/event-page.c (event_page_fill_widgets): default
+	component classification to PUBLIC
+
 2001-12-06  Jon Trowbridge  <trow@ximian.com>
 
 	* gui/dialogs/event-editor.c (event_editor_destroy): Explicitly

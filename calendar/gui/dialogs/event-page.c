@@ -532,9 +532,11 @@ event_page_fill_widgets (CompEditorPage *page, CalComponent *comp)
 		break;
 
 	default:
-		/* What do do?  We can't g_assert_not_reached() since it is a
-		 * value from an external file.
-		 */
+		/* default to PUBLIC */
+		e_dialog_radio_set (priv->classification_public,
+				    CAL_COMPONENT_CLASS_PUBLIC,
+				    classification_map);
+		break;
 	}
 
 
