@@ -3520,7 +3520,12 @@ enum {
 	 * To disable cut and copy for meetings the user is not the
 	 * organizer of
 	 */
-	MASK_MEETING_ORGANIZER = 32
+	MASK_MEETING_ORGANIZER = 32,
+
+	/*
+	 * To disable things not valid for instances
+	 */
+	MASK_INSTANCE = 64
 };
 
 static EPopupMenu main_items [] = {
@@ -3575,7 +3580,7 @@ static EPopupMenu child_items [] = {
 	E_POPUP_SEPARATOR,
 
 	E_POPUP_ITEM (N_("_Delete"), e_week_view_on_delete_appointment, MASK_EDITABLE | MASK_SINGLE | MASK_EDITING),
-	E_POPUP_ITEM (N_("Make this Occurrence _Movable"), e_week_view_on_unrecur_appointment, MASK_RECURRING | MASK_EDITING | MASK_EDITABLE),
+	E_POPUP_ITEM (N_("Make this Occurrence _Movable"), e_week_view_on_unrecur_appointment, MASK_RECURRING | MASK_EDITING | MASK_EDITABLE | MASK_INSTANCE),
 	E_POPUP_ITEM (N_("Delete this _Occurrence"), e_week_view_on_delete_occurrence, MASK_RECURRING | MASK_EDITING | MASK_EDITABLE),
 	E_POPUP_ITEM (N_("Delete _All Occurrences"), e_week_view_on_delete_appointment, MASK_RECURRING | MASK_EDITING | MASK_EDITABLE),
 
@@ -3629,6 +3634,9 @@ e_week_view_show_popup_menu (EWeekView	     *week_view,
 			hide_mask |= MASK_SINGLE;
 		else
 			hide_mask |= MASK_RECURRING;
+
+		if (cal_component_is_instance (event->comp))
+			hide_mask |= MASK_INSTANCE;
 
 		if (cal_component_has_organizer (event->comp)) {
 			disable_mask |= MASK_MEETING;

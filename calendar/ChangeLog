@@ -1,4 +1,15 @@
+2002-12-10  JP Rosevear  <jpr@ximian.com>
+
+	* gui/e-week-view.c (e_week_view_show_popup_menu): mask out "make
+	moveable" if its an instance
+
+	* gui/e-day-view.c (e_day_view_on_event_right_click): ditto
+
 2002-12-09  JP Rosevear  <jpr@ximian.com>
+
+	* gui/e-week-view.c (e_week_view_on_editing_stopped): if its
+	an instance, show the recur comp dialog and modify it based on the
+	response (or not if cancel is hit)
 
 	* gui/e-day-view.c (e_day_view_finish_long_event_resize): if its
 	an instance, show the recur comp dialog and modify it based on the
