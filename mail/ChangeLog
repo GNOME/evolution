@@ -1,3 +1,10 @@
+2004-02-01  Bill Zhu <bill.zhu@sun.com>
+
+        Fixes for bug #53530
+
+        * em-utils.c (em_utils_redirect_message): Removed the duplicate 
+	adding of attachments
+
 2004-01-30  Jeffrey Stedfast  <fejj@ximian.com>
 
 	Fixes for bug #53348

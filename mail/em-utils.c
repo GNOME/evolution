@@ -714,8 +714,6 @@ em_utils_redirect_message (CamelMimeMessage *message)
 	composer = redirect_get_composer (message);
 	
 	wrapper = camel_medium_get_content_object (CAMEL_MEDIUM (message));
-	if (CAMEL_IS_MULTIPART (wrapper))
-		e_msg_composer_add_message_attachments (composer, message, FALSE);
 	
 	gtk_widget_show (GTK_WIDGET (composer));
 	e_msg_composer_unset_changed (composer);
