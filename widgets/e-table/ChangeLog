@@ -1,3 +1,27 @@
+2000-06-08  Chris Toshok  <toshok@helixcode.com>
+
+	* e-tree-gnode.c, e-tree-gnode.h: New files.  A tree model using a
+	GNode structure to store it's info.
+
+	* e-tree-model.c, e-tree-model.h: New files.  A proxy model
+	sitting between a table model and the real tree model (of which
+	ETreeGNode is an example).
+
+	* e-cell-tree.c, e-cell-tree.h: New files.  A cell renderer
+	capable of wrapping up a subcell and drawing the tree controls for
+	expanding/collapsing trees.
+
+	* tree-expanded.xpm, tree-unexpanded.xpm: New files.  the standard
+	+ and - icons.
+
+	* e-tree-example-1.c: New file, giving a (pretty poor :) example
+	of using ETreeGNode.
+	
+	* Makefile.am: at the tree stuff to the build, and build
+	tree-example-1.
+
+	* .cvsignore: ignore tree-example-1.
+	
 2000-06-08  Christopher James Lahey  <clahey@helixcode.com>
 
 	* The field chooser works now.

@@ -31,6 +31,8 @@ libetable_a_SOURCES = 				\
 	e-cell-text.h				\
 	e-cell-toggle.c				\
 	e-cell-toggle.h				\
+	e-cell-tree.c				\
+	e-cell-tree.h				\
 	e-table.c				\
 	e-table.h				\
 	e-table-col-dnd.h			\
@@ -72,10 +74,14 @@ libetable_a_SOURCES = 				\
 	e-table-subset-variable.c		\
 	e-table-subset-variable.h		\
 	e-table-text-model.c			\
-	e-table-text-model.h
+	e-table-text-model.h			\
+	e-tree-gnode.c				\
+	e-tree-gnode.h				\
+	e-tree-model.c				\
+	e-tree-model.h
 
 noinst_PROGRAMS =	\
-	table-test table-example-1 table-example-2 table-size-test
+	table-test table-example-1 table-example-2 table-size-test tree-example-1
 
 table_test_SOURCES = 	\
 	test-table.c	\
@@ -124,6 +130,17 @@ table_example_2_LDADD =				\
 	$(top_builddir)/e-util/libeutil.la	
 
 table_example_2_LDFLAGS = `gnome-config --libs gdk_pixbuf`
+
+tree_example_1_SOURCES = 	\
+	e-tree-example-1.c
+
+tree_example_1_LDFLAGS = `gnome-config --libs gdk_pixbuf`
+
+tree_example_1_LDADD =				\
+	libetable.a				\
+	$(EXTRA_GNOME_LIBS)			\
+	$(top_builddir)/widgets/e-text/libetext.a \
+	$(top_builddir)/e-util/libeutil.la	
 
 icons = 			\
 	arrow-down.xpm		\
