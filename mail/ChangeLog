@@ -1,3 +1,8 @@
+2000-03-04  Christopher James Lahey  <clahey@helixcode.com>
+
+	* message-list.c: Use g_int_compare and g_str_compare as we should
+	be instead of g_int_equal and g_str_equal.
+	
 2000-03-04  bertrand  <bertrand@helixcode.com>
 
 	* test-mail.c (main): replace the bonobo-active/gtk-main

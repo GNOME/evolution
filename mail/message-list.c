@@ -182,60 +182,60 @@ message_list_init_header (MessageList *message_list)
 		e_table_col_new (COL_ONLINE_STATUS, _("Online status"),
 				 COL_ICON_WIDTH, COL_ICON_WIDTH,
 				 message_list->render_online_status,
-				 g_int_equal, FALSE);
+				 g_int_compare, FALSE);
 
 	message_list->table_cols [COL_MESSAGE_STATUS] =
 		e_table_col_new (COL_MESSAGE_STATUS, _("Message status"),
 				 COL_ICON_WIDTH, COL_ICON_WIDTH,
 				 message_list->render_message_status,
-				 g_int_equal, FALSE);
+				 g_int_compare, FALSE);
 
 	message_list->table_cols [COL_PRIORITY] =
 		e_table_col_new (COL_PRIORITY, _("Priority"),
 				 COL_ICON_WIDTH, COL_ICON_WIDTH,
 				 message_list->render_priority,
-				 g_int_equal, FALSE);
+				 g_int_compare, FALSE);
 	
 	message_list->table_cols [COL_ATTACHMENT] =
 		e_table_col_new (COL_ATTACHMENT, _("Attachment"),
 				 COL_ICON_WIDTH, COL_ICON_WIDTH,
 				 message_list->render_attachment,
-				 g_int_equal, FALSE);
+				 g_int_compare, FALSE);
 
 	message_list->table_cols [COL_FROM] =
 		e_table_col_new (COL_FROM, _("From"),
 				 COL_FROM_WIDTH, COL_FROM_WIDTH_MIN,
 				 message_list->render_text,
-				 g_str_equal, TRUE);
+				 g_str_compare, TRUE);
 
 	message_list->table_cols [COL_SUBJECT] =
 		e_table_col_new (COL_SUBJECT, _("Subject"),
 				 COL_SUBJECT_WIDTH, COL_SUBJECT_WIDTH_MIN,
 				 message_list->render_text,
-				 g_str_equal, TRUE);
+				 g_str_compare, TRUE);
 
 	message_list->table_cols [COL_SENT] =
 		e_table_col_new (COL_SENT, _("Sent"),
 				 COL_SUBJECT_WIDTH, COL_SENT_WIDTH_MIN,
 				 message_list->render_text,
-				 g_str_equal, TRUE);
+				 g_str_compare, TRUE);
 
 	message_list->table_cols [COL_RECEIVE] =
 		e_table_col_new (COL_SENT, _("Receive"),
 				 COL_RECEIVE_WIDTH, COL_RECEIVE_WIDTH_MIN,
 				 message_list->render_text,
-				 g_str_equal, TRUE);
+				 g_str_compare, TRUE);
 	message_list->table_cols [COL_TO] =
 		e_table_col_new (COL_TO, _("To"),
 				 COL_TO_WIDTH, COL_TO_WIDTH_MIN,
 				 message_list->render_text,
-				 g_str_equal, TRUE);
+				 g_str_compare, TRUE);
 
 	message_list->table_cols [COL_SIZE] =
 		e_table_col_new (COL_SIZE, _("Size"),
 				 COL_SIZE_WIDTH, COL_SIZE_WIDTH_MIN,
 				 message_list->render_text,
-				 g_str_equal, TRUE);
+				 g_str_compare, TRUE);
 
 	/*
 	 * Dummy init: It setups the headers to match the order in which
