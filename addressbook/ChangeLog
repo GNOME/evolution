@@ -1,3 +1,17 @@
+2001-07-18  Dan Winship  <danw@ximian.com>
+
+	* backend/ebook/e-book.c (e_book_unload_uri): Flush the listener's
+	queue before unreffing it to ensure that it doesn't emit any more
+	"responses_queued" signals after the EBook is destroyed.
+
+	* backend/ebook/e-book-listener.c (e_book_listener_check_queue,
+	e_book_listener_queue_response, e_book_listener_new): Use
+	bonobo_object_ref/unref rather than gtk_object_ref/unref.
+
+	* backend/ebook/e-book-view-listener.c
+	(e_book_view_listener_queue_response, e_book_view_listener_new):
+	Likewise.
+
 2001-07-18  Chris Toshok  <toshok@ximian.com>
 
 	* backend/ebook/e-card-compare.c (simple_query_cb): prune the list

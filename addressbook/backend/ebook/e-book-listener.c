@@ -43,7 +43,7 @@ e_book_listener_check_queue (EBookListener *listener)
 
 		/* We only release our reference to the listener when the idle
 		   function is totally finished. */
-		gtk_object_unref (GTK_OBJECT (listener));
+		bonobo_object_unref (BONOBO_OBJECT (listener));
 
 		return FALSE;
 	}
@@ -62,7 +62,7 @@ e_book_listener_queue_response (EBookListener         *listener,
 	if (listener->priv->idle_id == 0) {
 
 		/* Hold a reference to the listener until the idle function is finished. */
-		gtk_object_ref (GTK_OBJECT (listener));
+		bonobo_object_ref (BONOBO_OBJECT (listener));
 
 		listener->priv->idle_id = g_idle_add (
 			(GSourceFunc) e_book_listener_check_queue, listener);
@@ -558,7 +558,7 @@ e_book_listener_new ()
 	if (retval == NULL) {
 		g_warning ("e_book_listener_new: Error constructing "
 			   "EBookListener!\n");
-		gtk_object_unref (GTK_OBJECT (listener));
+		bonobo_object_unref (BONOBO_OBJECT (listener));
 		return NULL;
 	}
 

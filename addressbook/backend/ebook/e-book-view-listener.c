@@ -88,7 +88,7 @@ e_book_view_listener_queue_response (EBookViewListener         *listener,
 	if (listener->priv->idle_id == 0) {
 
 		/* Hold a reference to the listener while the idle is active. */
-		gtk_object_ref (GTK_OBJECT (listener));
+		bonobo_object_ref (BONOBO_OBJECT (listener));
 
 		listener->priv->idle_id = g_idle_add (
 			(GSourceFunc) e_book_view_listener_check_queue, listener);
@@ -340,7 +340,7 @@ e_book_view_listener_new ()
 	if (retval == NULL) {
 		g_warning ("e_book_view_listener_new: Error constructing "
 			   "EBookViewListener!\n");
-		gtk_object_unref (GTK_OBJECT (listener));
+		bonobo_object_unref (BONOBO_OBJECT (listener));
 		return NULL;
 	}
 
