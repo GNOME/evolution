@@ -315,6 +315,7 @@ e_utf8_to_gtk_string_sized (GtkWidget *widget, const gchar *string, gint bytes)
 
 	g_return_val_if_fail (widget, NULL);
 
+	gtk_widget_ensure_style (widget);
 	ic = e_iconv_to_gdk_font (widget->style->font);
 	if (ic == (iconv_t) -1) {
 		XFontStruct *xfs;
