@@ -1,3 +1,10 @@
+2002-10-20  Chris Toshok  <toshok@ximian.com>
+
+       [ fixes #32144 ]
+	* gui/contact-editor/e-contact-save-as.c (e_contact_save_as):
+	convert the name to the gtk locale before saving.
+	(e_contact_list_save_as): same.
+	
 2002-10-19  Chris Toshok  <toshok@ximian.com>
 
 	[ probable fix for #25477, and memory leak fix ]
