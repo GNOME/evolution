@@ -28,6 +28,7 @@ typedef struct {
 	void        (*cursor_change)      (ETableScrolled *est, int row);
 	void        (*double_click)       (ETableScrolled *est, int row);
 	gint        (*right_click)        (ETableScrolled *est, int row, int col, GdkEvent *event);
+	gint        (*click)              (ETableScrolled *est, int row, int col, GdkEvent *event);
 	gint        (*key_press)          (ETableScrolled *est, int row, int col, GdkEvent *event);
 } ETableScrolledClass;
 

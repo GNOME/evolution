@@ -31,6 +31,7 @@ enum {
 	CURSOR_CHANGE,
 	DOUBLE_CLICK,
 	RIGHT_CLICK,
+	CLICK,
 	KEY_PRESS,
 	LAST_SIGNAL
 };
@@ -68,6 +69,16 @@ right_click_proxy (ETable *et, int row, int col, GdkEvent *event, ETableScrolled
 	int return_val = 0;
 	gtk_signal_emit (GTK_OBJECT (ets),
 			 ets_signals [RIGHT_CLICK],
+			 row, col, event, &return_val);
+	return return_val;
+}
+
+static gint
+click_proxy (ETable *et, int row, int col, GdkEvent *event, ETableScrolled *ets)
+{
+	int return_val = 0;
+	gtk_signal_emit (GTK_OBJECT (ets),
+			 ets_signals [CLICK],
 			 row, col, event, &return_val);
 	return return_val;
 }
@@ -114,6 +125,8 @@ e_table_scrolled_real_construct (ETableScrolled *ets)
 			   GTK_SIGNAL_FUNC(double_click_proxy), ets);
 	gtk_signal_connect(GTK_OBJECT(ets->table), "right_click",
 			   GTK_SIGNAL_FUNC(right_click_proxy), ets);
+	gtk_signal_connect(GTK_OBJECT(ets->table), "click",
+			   GTK_SIGNAL_FUNC(click_proxy), ets);
 	gtk_signal_connect(GTK_OBJECT(ets->table), "key_press",
 			   GTK_SIGNAL_FUNC(key_press_proxy), ets);
 
@@ -359,6 +372,7 @@ e_table_scrolled_class_init (GtkObjectClass *object_class)
 	klass->cursor_change = NULL;
 	klass->double_click = NULL;
 	klass->right_click = NULL;
+	klass->click = NULL;
 	klass->key_press = NULL;
 
 	ets_signals [CURSOR_CHANGE] =
@@ -382,6 +396,14 @@ e_table_scrolled_class_init (GtkObjectClass *object_class)
 				GTK_RUN_LAST,
 				object_class->type,
 				GTK_SIGNAL_OFFSET (ETableScrolledClass, right_click),
+				e_marshal_INT__INT_INT_POINTER,
+				GTK_TYPE_INT, 3, GTK_TYPE_INT, GTK_TYPE_INT, GTK_TYPE_POINTER);
+
+	ets_signals [CLICK] =
+		gtk_signal_new ("click",
+				GTK_RUN_LAST,
+				object_class->type,
+				GTK_SIGNAL_OFFSET (ETableScrolledClass, click),
 				e_marshal_INT__INT_INT_POINTER,
 				GTK_TYPE_INT, 3, GTK_TYPE_INT, GTK_TYPE_INT, GTK_TYPE_POINTER);
 
