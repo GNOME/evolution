@@ -17,7 +17,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution 1.0.1.99\n"
-"POT-Creation-Date: 2002-06-19 17:07-0400\n"
+"POT-Creation-Date: 2002-07-23 10:40+0100\n"
 "PO-Revision-Date: 2002-01-16 19:40GMT\n"
 "Last-Translator: Nick Niktaris(Νίκος Νύκταρης) <niktarin@yahoo.com>\n"
 "Language-Team: Greek <nls@hellug.gr>\n"
@@ -976,7 +976,7 @@ msgid "_Server name:"
 msgstr "Όνομα _διακομιστή:"
 
 #: addressbook/gui/component/addressbook-factory.c:70
-#: calendar/gui/alarm-notify/notify-main.c:176 calendar/gui/main.c:134
+#: calendar/gui/alarm-notify/notify-main.c:176 calendar/gui/main.c:137
 msgid "Could not initialize gnome-vfs"
 msgstr "Δεν ήταν δυνατή η προετοιμασία του gnome-vfs"
 
@@ -5997,57 +5997,46 @@ msgid "_Due Date:"
 msgstr "Ημερομηνία _Λήξης:"
 
 #: calendar/gui/e-calendar-table.c:427
-#, c-format
 msgid "0%"
 msgstr "0%"
 
 #: calendar/gui/e-calendar-table.c:428
-#, c-format
 msgid "10%"
 msgstr "10%"
 
 #: calendar/gui/e-calendar-table.c:429
-#, c-format
 msgid "20%"
 msgstr "20%"
 
 #: calendar/gui/e-calendar-table.c:430
-#, c-format
 msgid "30%"
 msgstr "30%"
 
 #: calendar/gui/e-calendar-table.c:431
-#, c-format
 msgid "40%"
 msgstr "40%"
 
 #: calendar/gui/e-calendar-table.c:432
-#, c-format
 msgid "50%"
 msgstr "50%"
 
 #: calendar/gui/e-calendar-table.c:433
-#, c-format
 msgid "60%"
 msgstr "60%"
 
 #: calendar/gui/e-calendar-table.c:434
-#, c-format
 msgid "70%"
 msgstr "70%"
 
 #: calendar/gui/e-calendar-table.c:435
-#, c-format
 msgid "80%"
 msgstr "80%"
 
 #: calendar/gui/e-calendar-table.c:436
-#, c-format
 msgid "90%"
 msgstr "90%"
 
 #: calendar/gui/e-calendar-table.c:437
-#, c-format
 msgid "100%"
 msgstr "100%"
 
@@ -6925,7 +6914,12 @@ msgstr ""
 msgid "You must be an attendee of the event."
 msgstr "Πρέπει να είστε παρευρισκόμενος για αυτό το γεγονός."
 
-#: calendar/gui/main.c:91
+#: calendar/gui/main.c:65
+#, fuzzy
+msgid "Could not activate Bonobo"
+msgstr "Δεν ήταν δυνατή η αρχικοποίηση του Bonobo"
+
+#: calendar/gui/main.c:94
 msgid "Could not create the component editor factory"
 msgstr "Δεν ήταν δυνατή η δημιουργία του εργοστασίου επεξεργασίας συστατικού"
 
@@ -10411,7 +10405,7 @@ msgstr "Αντιγραφή στο Φάκελο..."
 
 #: mail/folder-browser.c:1469 ui/evolution-mail-message.xml.h:107
 msgid "_Undelete"
-msgstr "Α_κύρωση Διαγραφής"
+msgstr "Α_ναίρεση Διαγραφής"
 
 #: mail/folder-browser.c:1473 ui/evolution-mail-message.xml.h:1
 msgid "Add Sender to Address Book"
@@ -10700,7 +10694,7 @@ msgstr "ένας άγνωστος αποστολέας"
 
 #: mail/mail-callbacks.c:843
 msgid "On %a, %Y-%m-%d at %H:%M, %%s wrote:"
-msgstr "Την %a, %d-%m-%Y στις %H:%M, ο/η %%s έγραψε:"
+msgstr "Στις %d/%b/%Y, ημέρα %A και ώρα %H:%M, ο/η %%s έγραψε:"
 
 #: mail/mail-callbacks.c:1282 mail/message-browser.c:130
 msgid "Move message(s) to"
@@ -11011,7 +11005,7 @@ msgstr "Επεξεργασία..."
 
 #: mail/mail-config.glade.h:33
 msgid "Enabled"
-msgstr "Ενεργοποίηση"
+msgstr "Ενεργοποιημένο"
 
 #: mail/mail-config.glade.h:34
 msgid "Get Digital ID..."
@@ -12581,7 +12575,7 @@ msgid "Freezing ice pellets"
 msgstr "Παγωμένοι σβώλοι πάγου"
 
 #. HAIL
-#: my-evolution/Locations.h:883 my-evolution/metar.c:217
+#: my-evolution/metar.c:217 my-evolution/Locations.h:883
 msgid "Hail"
 msgstr "Χαλάζι"
 
@@ -27017,9 +27011,3 @@ msgstr "init_bonobo(): Δεν ήταν δυνατή η αρχικοποίηση του Bonobo"
 
 #~ msgid "_Mobile"
 #~ msgstr "_Κινητό"
-
-#~ msgid "°F"
-#~ msgstr "°F"
-
-#~ msgid "°C"
-#~ msgstr "°C"
