@@ -1,17 +1,26 @@
 2000-05-25  Federico Mena Quintero  <federico@helixcode.com>
 
+	* gui/event-editor-dialog.glade: Put the main notebook directly
+	under a simple GtkWindow.  We are going to pull out the notebook
+	and slap it into our custom-built GnomeApp, anwyays.
+
+	* gui/event-editor.c: Made the EventEditor derive from GnomeApp.
+	Added a BonoboUIHandler for its menu and toolbar.
+	(make_title_from_ico): Create a nice title for the window.
+	(get_widgets): Fetch the Glade widgets here instead of all over
+	the place.
+	(event_editor_new): Temporary hack to show the dialog here, just
+	so that I can test it.
+
+	* gui/Makefile.am (EXTRA_DIST): Added the Glade messages file.
+
+2000-05-25  Federico Mena Quintero  <federico@helixcode.com>
+
 	* gui/main.c (init_bonobo): Do not initialize libglade twice.
 
 	* gui/component-factory.c (create_view): Set the folder_uri
 	property, otherwise the calendar will not get loaded into the
 	view.
-
-2000-05-24  Federico Mena Quintero  <federico@helixcode.com>
-
-	* gui/print.c (range_selector_new): New function to create the
-	custom range selector.
-	(print_dialog): New function to show the print dialog.
-	(print_calendar): Use the print dialog.
 
 2000-05-25  Christopher James Lahey  <clahey@helixcode.com>
 
@@ -38,6 +47,13 @@
 
 	* gui/evolution-calendar.gnorba: New.
 	* gui/evolution-calendar.oafinfo: New.
+
+2000-05-24  Federico Mena Quintero  <federico@helixcode.com>
+
+	* gui/print.c (range_selector_new): New function to create the
+	custom range selector.
+	(print_dialog): New function to show the print dialog.
+	(print_calendar): Use the print dialog.
 
 2000-05-24  Christopher James Lahey  <clahey@helixcode.com>
 

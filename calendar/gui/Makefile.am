@@ -34,6 +34,8 @@ LINK_FLAGS =							\
 gladedir   = $(datadir)/evolution/glade
 glade_DATA = event-editor-dialog.glade
 
+glade_messages = event-editor-dialog.glade.h
+
 bin_PROGRAMS = evolution-calendar
 
 evolution_calendar_SOURCES =			\
@@ -110,15 +112,16 @@ gnorbadir = $(sysconfdir)/CORBA/servers
 gnorba_DATA = calendar-control.gnorba evolution-calendar.gnorba
 endif
 
-EXTRA_DIST =			\
-	bell.xpm		\
-	recur.xpm		\
-	dayview.xpm		\
-	workweekview.xpm	\
-	weekview.xpm		\
-	monthview.xpm		\
-	yearview.xpm		\
-	calendar-control.gnorba	\
+EXTRA_DIST =				\
+	$(glade_messages)		\
+	bell.xpm			\
+	recur.xpm			\
+	dayview.xpm			\
+	workweekview.xpm		\
+	weekview.xpm			\
+	monthview.xpm			\
+	yearview.xpm			\
+	calendar-control.gnorba		\
 	calendar-control.oafinfo
 
 install-data-local:

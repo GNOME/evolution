@@ -1,10 +1,81 @@
-/* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
+/* Evolution calendar - Event editor dialog
+ *
+ * Copyright (C) 2000 Helix Code, Inc.
+ *
+ * Authors: Miguel de Icaza <miguel@helixcode.com>
+ *          Federico Mena-Quintero <federico@helixcode.com>
+ *          Seth Alves <alves@helixcode.com>
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
+ */
 
 #include <config.h>
 #include <gnome.h>
 #include <cal-util/timeutil.h>
-#include <gui/event-editor-utils.h>
-#include <gui/event-editor.h>
+#include "event-editor-utils.h"
+#include "event-editor.h"
+
+
+
+typedef struct {
+	/* Glade XML data */
+	GladeXML *xml;
+
+	/* Calendar this editor is associated to */
+	GnomeCalendar *gcal;
+
+	/* UI handler */
+	BonoboUIHandler *uih;
+
+	/* Widgets from the Glade file */
+
+	GtkWidget *general_owner;
+
+	GtkWidget *start_time;
+	GtkWidget *end_time;
+	GtkWidget *all_day_checkbox;
+
+	GtkWidget *alarm_display;
+	GtkWidget *alarm_program;
+	GtkWidget *alarm_audio;
+	GtkWidget *alarm_mail;
+	GtkWidget *alarm_display_amount;
+	GtkWidget *alarm_display_unit;
+	GtkWidget *alarm_audio_amount;
+	GtkWidget *alarm_audio_unit;
+	GtkWidget *alarm_program_amount;
+	GtkWidget *alarm_program_unit;
+	GtkWidget *alarm_program_run_program;
+	GtkWidget *alarm_mail_amount;
+	GtkWidget *alarm_mail_unit;
+	GtkWidget *alarm_mail_mail_to;
+
+	GtkWidget *recurrence_rule_notebook;
+	GtkWidget *recurrence_rule_none;
+	GtkWidget *recurrence_rule_daily;
+	GtkWidget *recurrence_rule_weekly;
+	GtkWidget *recurrence_rule_monthly;
+	GtkWidget *recurrence_rule_yearly;
+
+	GtkWidget *recurrence_exception_add;
+	GtkWidget *recurrence_exception_delete;
+	GtkWidget *recurrence_exception_change;
+
+	GtkWidget *exception_list;
+	GtkWidget *exception_date;
+} EventEditorPrivate;
 
 typedef struct {
 	GladeXML *gui;
@@ -13,6 +84,13 @@ typedef struct {
 	iCalObject *ical;
 } EventEditorDialog;
 
+
+
+static void event_editor_class_init (EventEditorClass *class);
+static void event_editor_init (EventEditor *ee);
+static void event_editor_destroy (GtkObject *object);
+
+static GnomeAppClass *parent_class;
 
 extern int day_begin, day_end;
 extern char *user_name;
@@ -23,6 +101,324 @@ extern int week_starts_on_monday;
 static void append_exception (EventEditorDialog *dialog, time_t t);
 static void check_all_day (EventEditorDialog *dialog);
 static void alarm_toggle (GtkToggleButton *toggle, EventEditorDialog *dialog);
+
+
+
+/**
+ * event_editor_get_type:
+ * @void: 
+ * 
+ * Registers the #EventEditor class if necessary, and returns the type ID
+ * associated to it.
+ * 
+ * Return value: The type ID of the #EventEditor class.
+ **/
+GtkType
+event_editor_get_type (void)
+{
+	static GtkType event_editor_type = 0;
+
+	if (!event_editor_type) {
+		static const GtkTypeInfo event_editor_info = {
+			"EventEditor",
+			sizeof (EventEditor),
+			sizeof (EventEditorClass),
+			(GtkClassInitFunc) event_editor_class_init,
+			(GtkObjectInitFunc) event_editor_init,
+			NULL, /* reserved_1 */
+			NULL, /* reserved_2 */
+			(GtkClassInitFunc) NULL
+		};
+
+		event_editor_type = gtk_type_unique (gnome_app_get_type (), &event_editor_info);
+	}
+
+	return event_editor_type;
+}
+
+/* Class initialization function for the event editor */
+static void
+event_editor_class_init (EventEditorClass *class)
+{
+	GtkObjectClass *object_class;
+
+	object_class = (GtkObjectClass *) class;
+
+	parent_class = gtk_type_class (gnome_app_get_type ());
+
+	object_class->destroy = event_editor_destroy;
+}
+
+/* Object initialization function for the event editor */
+static void
+event_editor_init (EventEditor *ee)
+{
+	EventEditorPrivate *priv;
+
+	priv = g_new0 (EventEditorPrivate, 1);
+	ee->priv = priv;
+}
+
+/* Destroy handler for the event editor */
+static void
+event_editor_destroy (GtkObject *object)
+{
+	EventEditor *ee;
+	EventEditorPrivate *priv;
+
+	g_return_if_fail (object != NULL);
+	g_return_if_fail (IS_EVENT_EDITOR (object));
+
+	ee = EVENT_EDITOR (object);
+	priv = ee->priv;
+
+	if (priv->xml) {
+		gtk_object_unref (GTK_OBJECT (priv->xml));
+		priv->xml = NULL;
+	}
+
+	if (GTK_OBJECT_CLASS (parent_class)->destroy)
+		(* GTK_OBJECT_CLASS (parent_class)->destroy) (object);
+}
+
+/* Creates an appropriate title for the event editor dialog */
+static char *
+make_title_from_ico (iCalObject *ico)
+{
+	const char *summary;
+
+	if (ico->summary)
+		summary = ico->summary;
+	else
+		summary =  _("No summary");
+
+	switch (ico->type) {
+	case ICAL_EVENT:
+		return g_strdup_printf (_("Appointment - %s"), summary);
+
+	case ICAL_TODO:
+		return g_strdup_printf (_("Task - %s"), summary);
+
+	case ICAL_JOURNAL:
+		return g_strdup_printf (_("Journal entry - %s"), summary);
+
+	default:
+		g_message ("make_title_from_ico(): Cannot handle object of type %d", (int) ico->type);
+		return NULL;
+	}
+}
+
+/* Gets the widgets from the XML file and returns if they are all available */
+static gboolean
+get_widgets (EventEditor *ee)
+{
+	EventEditorPrivate *priv;
+
+	priv = ee->priv;
+
+#define GW(name) glade_xml_get_widget (priv->xml, name)
+
+	priv->general_owner = GW ("general-owner");
+
+	priv->start_time = GW ("start-time");
+	priv->end_time = GW ("end-time");
+	priv->all_day_checkbox = GW ("all-day-event");
+
+	priv->alarm_display = GW ("alarm-display");
+	priv->alarm_program = GW ("alarm-program");
+	priv->alarm_audio = GW ("alarm-audio");
+	priv->alarm_mail = GW ("alarm-mail");
+	priv->alarm_display_amount = GW ("alarm-display-amount");
+	priv->alarm_display_unit = GW ("alarm-display-unit");
+	priv->alarm_audio_amount = GW ("alarm-audio-amount");
+	priv->alarm_audio_unit = GW ("alarm-audio-unit");
+	priv->alarm_program_amount = GW ("alarm-program-amount");
+	priv->alarm_program_unit = GW ("alarm-program-unit");
+	priv->alarm_program_run_program = GW ("run-program-file-entry");
+	priv->alarm_mail_amount = GW ("alarm-mail-amount");
+	priv->alarm_mail_unit = GW ("alarm-mail-unit");
+	priv->alarm_mail_mail_to = GW ("mail-to");
+
+	priv->recurrence_rule_notebook = GW ("recurrence-rule-notebook");
+	priv->recurrence_rule_none = GW ("recurrence-rule-none");
+	priv->recurrence_rule_daily = GW ("recurrence-rule-daily");
+	priv->recurrence_rule_weekly = GW ("recurrence-rule-weekly");
+	priv->recurrence_rule_monthly = GW ("recurrence-rule-monthly");
+	priv->recurrence_rule_yearly = GW ("recurrence-rule-yearly");
+
+	priv->recurrence_exception_add = GW ("recurrence-exceptions-add");
+	priv->recurrence_exception_delete = GW ("recurrence-exceptions-delete");
+	priv->recurrence_exception_change = GW ("recurrence-exceptions-change");
+
+	priv->exception_list = GW ("recurrence-exceptions-list");
+	priv->exception_date = GW ("recurrence-exceptions-date");
+
+#undef GW
+
+	return (priv->general_owner
+		&& priv->start_time
+		&& priv->end_time
+		&& priv->all_day_checkbox
+		&& priv->alarm_display
+		&& priv->alarm_program
+		&& priv->alarm_audio
+		&& priv->alarm_mail
+		&& priv->alarm_display_amount
+		&& priv->alarm_display_unit
+		&& priv->alarm_audio_amount
+		&& priv->alarm_audio_unit
+		&& priv->alarm_program_amount
+		&& priv->alarm_program_unit
+		&& priv->alarm_program_run_program
+		&& priv->alarm_mail_amount
+		&& priv->alarm_mail_unit
+		&& priv->alarm_mail_mail_to
+		&& priv->recurrence_rule_notebook
+		&& priv->recurrence_rule_none
+		&& priv->recurrence_rule_daily
+		&& priv->recurrence_rule_weekly
+		&& priv->recurrence_rule_monthly
+		&& priv->recurrence_rule_yearly
+		&& priv->recurrence_exception_add
+		&& priv->recurrence_exception_delete
+		&& priv->recurrence_exception_change
+		&& priv->exception_list
+		&& priv->exception_date);
+}
+
+static GnomeUIInfo main_menu[] = {
+	/* FIXME */
+	GNOMEUIINFO_END
+};
+
+/* Creates the menu bar for the event editor */
+static void
+create_menu (EventEditor *ee)
+{
+	EventEditorPrivate *priv;
+	BonoboUIHandlerMenuItem *list;
+
+	priv = ee->priv;
+
+	bonobo_ui_handler_create_menubar (priv->uih);
+
+	list = bonobo_ui_handler_menu_parse_uiinfo_list_with_data (main_menu, ee);
+	bonobo_ui_handler_menu_add_list (priv->uih, "/", list);
+}
+
+static GnomeUIInfo toolbar[] = {
+	/* FIXME */
+	GNOMEUIINFO_END
+};
+
+/* Creates the toolbar for the event editor */
+static void
+create_toolbar (EventEditor *ee)
+{
+	EventEditorPrivate *priv;
+	BonoboUIHandlerToolbarItem *list;
+
+	priv = ee->priv;
+
+	bonobo_ui_handler_create_toolbar (priv->uih, "Toolbar");
+
+	list = bonobo_ui_handler_toolbar_parse_uiinfo_list_with_data (toolbar, ee);
+	bonobo_ui_handler_toolbar_add_list (priv->uih, "/Toolbar", list);
+}
+
+GtkWidget *
+event_editor_construct (EventEditor *ee, GnomeCalendar *gcal, iCalObject *ico)
+{
+	EventEditorPrivate *priv;
+	char *title;
+	GtkWidget *toplevel;
+	GtkWidget *contents;
+
+	g_return_val_if_fail (ee != NULL, NULL);
+	g_return_val_if_fail (IS_EVENT_EDITOR (ee), NULL);
+	g_return_val_if_fail (gcal != NULL, NULL);
+	g_return_val_if_fail (GNOME_IS_CALENDAR (gcal), NULL);
+	g_return_val_if_fail (ico != NULL, NULL);
+	g_return_val_if_fail (ico->uid != NULL, NULL);
+
+	priv = ee->priv;
+
+	/* Create the UI handler */
+
+	priv->uih = bonobo_ui_handler_new ();
+	if (!priv->uih) {
+		g_message ("event_editor_construct(): Could not create the UI handler");
+		goto error;
+	}
+
+	bonobo_ui_handler_set_app (priv->uih, GNOME_APP (ee));
+
+	/* Load the content widgets */
+
+	priv->xml = glade_xml_new (EVOLUTION_GLADEDIR "/event-editor-dialog.glade", NULL);
+	if (!priv->xml) {
+		g_message ("event_editor_construct(): Could not load the Glade XML file!");
+		goto error;
+	}
+
+	toplevel = glade_xml_get_widget (priv->xml, "event-editor-dialog");
+	contents = glade_xml_get_widget (priv->xml, "dialog-contents");
+	if (!(toplevel && contents)) {
+		g_message ("event_editor_construct(): Could not find the contents in the XML file!");
+		goto error;
+	}
+
+	if (!get_widgets (ee)) {
+		g_message ("event_editor_construct(): Could not find all widgets in the XML file!");
+		goto error;
+	}
+
+	gtk_object_ref (GTK_OBJECT (contents));
+	gtk_container_remove (GTK_CONTAINER (toplevel), GTK_WIDGET (contents));
+	gtk_widget_destroy (GTK_WIDGET (toplevel));
+
+	/* Construct the app */
+
+	priv->gcal = gcal;
+
+	title = make_title_from_ico (ico);
+	gnome_app_construct (GNOME_APP (ee), "event-editor", title);
+	g_free (title);
+
+	create_menu (ee);
+	create_toolbar (ee);
+
+	gnome_app_set_contents (GNOME_APP (ee), contents);
+	gtk_widget_show (contents);
+	gtk_object_unref (GTK_OBJECT (contents));
+
+	return GTK_WIDGET (ee);
+
+ error:
+
+	gtk_object_unref (GTK_OBJECT (ee));
+	return NULL;
+}
+
+GtkWidget *
+event_editor_new (GnomeCalendar *gcal, iCalObject *ico)
+{
+	EventEditor *ee;
+
+	g_return_val_if_fail (gcal != NULL, NULL);
+	g_return_val_if_fail (GNOME_IS_CALENDAR (gcal), NULL);
+	g_return_val_if_fail (ico != NULL, NULL);
+	g_return_val_if_fail (ico->uid != NULL, NULL);
+
+	ee = EVENT_EDITOR (gtk_type_new (TYPE_EVENT_EDITOR));
+
+	ee = event_editor_construct (ee, gcal, ico);
+
+	if (ee)
+		gtk_widget_show (GTK_WIDGET (ee));
+
+	return GTK_WIDGET (ee);
+}
 
 static void
 fill_in_dialog_from_ical (EventEditorDialog *dialog)
@@ -628,7 +1024,7 @@ recurrence_exception_changed (GtkWidget *widget, EventEditorDialog *dialog)
 }
 
 
-
+#if 0
 GtkWidget *event_editor_new (GnomeCalendar *gcal, iCalObject *ical)
 {
 	EventEditorDialog *dialog = g_new0 (EventEditorDialog, 1);
@@ -722,7 +1118,7 @@ GtkWidget *event_editor_new (GnomeCalendar *gcal, iCalObject *ical)
 
 	return dialog->dialog;
 }
-
+#endif
 
 void event_editor_new_whole_day (GnomeCalendar *owner, time_t day)
 {
@@ -810,4 +1206,3 @@ make_spin_button (int val, int low, int high)
    Gtk-WARNING **: invalid cast from `(unknown)' to `GnomeDialog'
    on line 669:  gnome_dialog_close (GNOME_DIALOG(dialog->dialog));
  */
-
