@@ -189,13 +189,14 @@ typedef struct {
 
 /* ldap api foo */
 static LDAP *
-addressbook_ldap_init (AddressbookSource *source)
+addressbook_ldap_init (GtkWidget *window, AddressbookSource *source)
 {
 	LDAP *ldap = ldap_init (source->host, atoi(source->port));
 
 	if (!ldap) {
-		gnome_error_dialog (_("Failed to connect to LDAP server"));
-
+		GtkWidget *dialog;
+		dialog = gnome_error_dialog_parented (_("Failed to connect to LDAP server"), GTK_WINDOW(window));
+		gtk_window_set_modal (GTK_WINDOW (dialog), TRUE);
 		return NULL;
 	}
 
@@ -205,20 +206,23 @@ addressbook_ldap_init (AddressbookSource *source)
 }
 
 static int
-addressbook_ldap_auth (AddressbookSource *source, LDAP *ldap)
+addressbook_ldap_auth (GtkWidget *window, AddressbookSource *source, LDAP *ldap)
 {
 	int ldap_error;
 
 	/* XXX use auth info from source */
 	ldap_error = ldap_simple_bind_s (ldap, NULL, NULL);
-	if (LDAP_SUCCESS != ldap_error)
-		gnome_error_dialog (_("Failed to authenticate with LDAP server"));
+	if (LDAP_SUCCESS != ldap_error) {
+		GtkWidget *dialog;
+		dialog = gnome_error_dialog_parented (_("Failed to authenticate with LDAP server"), GTK_WINDOW (window));
+		gtk_window_set_modal (GTK_WINDOW (dialog), TRUE);
+	}
 	return ldap_error;
 
 }
 
 static int
-addressbook_root_dse_query (AddressbookSource *source, LDAP *ldap, char **attrs, LDAPMessage **resp)
+addressbook_root_dse_query (GtkWidget *dialog, AddressbookSource *source, LDAP *ldap, char **attrs, LDAPMessage **resp)
 {
 	int ldap_error;
 	struct timeval timeout;
@@ -231,8 +235,11 @@ addressbook_root_dse_query (AddressbookSource *source, LDAP *ldap, char **attrs,
 					LDAP_ROOT_DSE, LDAP_SCOPE_BASE,
 					"(objectclass=*)",
 					attrs, 0, NULL, NULL, &timeout, LDAP_NO_LIMIT, resp);
-	if (LDAP_SUCCESS != ldap_error)
-		gnome_error_dialog (_("Could not perform query on Root DSE"));
+	if (LDAP_SUCCESS != ldap_error) {
+		GtkWidget *dialog;
+		dialog = gnome_error_dialog_parented (_("Could not perform query on Root DSE"), GTK_WINDOW (dialog));
+		gtk_window_set_modal (GTK_WINDOW (dialog), TRUE);
+	}
 
 	return ldap_error;
 }
@@ -612,7 +619,7 @@ supported_bases_create_table (char *name, char *string1, char *string2, int num1
 }
 
 static gboolean
-do_ldap_root_dse_query (ETableModel *model, AddressbookSource *source, char ***rvalues)
+do_ldap_root_dse_query (GtkWidget *dialog, ETableModel *model, AddressbookSource *source, char ***rvalues)
 {
 	LDAP* ldap;
 	char *attrs[2];
@@ -621,24 +628,26 @@ do_ldap_root_dse_query (ETableModel *model, AddressbookSource *source, char ***r
 	LDAPMessage *resp;
 	int i;
 
-	ldap = addressbook_ldap_init (source);
+	ldap = addressbook_ldap_init (dialog, source);
 	if (!ldap)
 		return FALSE;
 
-	if (LDAP_SUCCESS != addressbook_ldap_auth (source, ldap))
+	if (LDAP_SUCCESS != addressbook_ldap_auth (dialog, source, ldap))
 		goto fail;
 
 	attrs[0] = "namingContexts";
 	attrs[1] = NULL;
 
-	ldap_error = addressbook_root_dse_query (source, ldap, attrs, &resp);
+	ldap_error = addressbook_root_dse_query (dialog, source, ldap, attrs, &resp);
 
 	if (ldap_error != LDAP_SUCCESS)
 		goto fail;
 
 	values = ldap_get_values (ldap, resp, "namingContexts");
 	if (!values || values[0] == NULL) {
-		gnome_ok_dialog (_("The server responded with no supported search bases"));
+		GtkWidget *error_dialog;
+		error_dialog = gnome_ok_dialog_parented (_("The server responded with no supported search bases"), GTK_WINDOW (dialog));
+		gtk_window_set_modal (GTK_WINDOW (error_dialog), TRUE);
 		goto fail;
 	}
 
@@ -685,7 +694,7 @@ query_for_supported_bases (GtkWidget *button, AddressbookSourceDialog *sdialog)
 
 	search_base_selection_model_changed (selection_model, dialog);
 
-	if (do_ldap_root_dse_query (model, source, &values)) {
+	if (do_ldap_root_dse_query (dialog, model, source, &values)) {
 		gnome_dialog_close_hides (GNOME_DIALOG(dialog), TRUE);
 
 		id = gnome_dialog_run_and_close (GNOME_DIALOG (dialog));
@@ -1123,24 +1132,26 @@ do_schema_query (AddressbookSourceDialog *sdialog)
 	LDAPMessage *resp;
 	struct timeval timeout;
 
-	ldap = addressbook_ldap_init (source);
+	ldap = addressbook_ldap_init (sdialog->window, source);
 	if (!ldap)
 		goto fail;
 
-	if (LDAP_SUCCESS != addressbook_ldap_auth (source, ldap))
+	if (LDAP_SUCCESS != addressbook_ldap_auth (sdialog->window, source, ldap))
 		goto fail;
 
 	attrs[0] = "subschemaSubentry";
 	attrs[1] = NULL;
 
-	ldap_error = addressbook_root_dse_query (source, ldap, attrs, &resp);
+	ldap_error = addressbook_root_dse_query (sdialog->window, source, ldap, attrs, &resp);
 
 	if (ldap_error != LDAP_SUCCESS)
 		goto fail;
 
 	values = ldap_get_values (ldap, resp, "subschemaSubentry");
 	if (!values || values[0] == NULL) {
-		gnome_ok_dialog (_("The server did not respond with a schema entry"));
+		GtkWidget *dialog;
+		dialog = gnome_ok_dialog_parented (_("This server does not support LDAPv3 schema information"), GTK_WINDOW (sdialog->window));
+		gtk_window_set_modal (GTK_WINDOW (dialog), TRUE);
 		goto fail;
 	}
 
@@ -1160,13 +1171,17 @@ do_schema_query (AddressbookSourceDialog *sdialog)
 					"(objectClass=subschema)", attrs, 0,
 					NULL, NULL, &timeout, LDAP_NO_LIMIT, &resp);
 	if (LDAP_SUCCESS != ldap_error) {
-		gnome_error_dialog (_("Could not query for schema information"));
+		GtkWidget *dialog;
+		dialog = gnome_error_dialog_parented (_("Error retrieving schema information"), GTK_WINDOW (sdialog->window));
+		gtk_window_set_modal (GTK_WINDOW (dialog), TRUE);
 		goto fail;
 	}
 
 	values = ldap_get_values (ldap, resp, "objectClasses");
 	if (!values) {
-		gnome_error_dialog (_("Server did not respond with valid schema information"));
+		GtkWidget *dialog;
+		dialog = gnome_error_dialog_parented (_("Server did not respond with valid schema information"), GTK_WINDOW (sdialog->window));
+		gtk_window_set_modal (GTK_WINDOW (dialog), TRUE);
 		goto fail;
 	}
 
@@ -1672,7 +1687,7 @@ addressbook_config_control_new (GNOME_Evolution_Shell shell)
 	Bonobo_ConfigDatabase config_db;
 	char *xml;
 	CORBA_Environment ev;
-	static const char *possible_types[] = { "contacts", NULL };
+	static const char *possible_types[] = { "contacts", "ldap-contacts" };
 
 	CORBA_exception_init (&ev);
 

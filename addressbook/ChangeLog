@@ -1,3 +1,14 @@
+2002-05-07  Chris Toshok  <toshok@ximian.com>
+
+	* gui/component/addressbook-config.c (addressbook_ldap_init):
+	bleah, need to pass the GtkWindow here so we can pop up the a
+	modal parented dialog (gtk modal dialogs suck?).
+	(addressbook_ldap_auth): same.
+	(addressbook_root_dse_query): same.
+	(do_ldap_root_dse_query): same.
+	(addressbook_config_control_new): add "ldap-contacts" to the list
+	of possible types.
+
 2002-05-07  Dan Winship  <danw@ximian.com>
 
 	* gui/component/addressbook-storage.c (create_ldap_folder):
