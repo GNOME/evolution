@@ -13,10 +13,12 @@ gnomecal_SOURCES = \
 	calendar.h		\
 	calobj.c		\
 	calobj.h		\
-	gncal-week-view.c	\
-	gncal-week-view.h	\
 	gncal-day-view.c	\
 	gncal-day-view.h	\
+	gncal-full-day.c	\
+	gncal-full-day.h	\
+	gncal-week-view.c	\
+	gncal-week-view.h	\
 	gnome-cal.c		\
 	gnome-cal.h		\
 	main.c			\

@@ -17,7 +17,24 @@
 #include "gncal.h"
 #include "calcs.h"
 #include "clist.h"
-#include "gtkcalendar.h"
+#include "gncal-week-view.h"
+
+void
+prueba (void)
+{
+	GtkWidget *window;
+	GtkWidget *wview;
+
+	window = gtk_window_new (GTK_WINDOW_TOPLEVEL);
+	gtk_window_set_policy (GTK_WINDOW (window), TRUE, TRUE, FALSE);
+	gtk_container_border_width (GTK_CONTAINER (window), 6);
+
+	wview = gncal_week_view_new (NULL, time (NULL));
+	gtk_container_add (GTK_CONTAINER (window), wview);
+	gtk_widget_show (wview);
+
+	gtk_widget_show (window);
+}
 
 /* Function declarations */
 void parse_args(int argc, char *argv[]);
@@ -534,6 +551,8 @@ main(int argc, char *argv[])
 	old_day = old_month = old_year = 0;
 	get_system_date(&curr_day, &curr_month, &curr_year);
 	update_today();
+
+	prueba ();
 
 	gtk_main();
 

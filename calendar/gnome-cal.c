@@ -8,6 +8,7 @@
 #include <gnome.h>
 #include "calendar.h"
 #include "gnome-cal.h"
+#include "gncal-full-day.h"
 #include "gncal-week-view.h"
 #include "views.h"
 
@@ -49,7 +50,11 @@ setup_widgets (GnomeCalendar *gcal)
 	gcal->week_view = gncal_week_view_new (gcal, now);
 	year_view = year_view_create (gcal);
 	task_view = tasks_create (gcal);
-	
+
+	{
+		day_view = gncal_full_day_new (gcal, time (NULL), time (NULL) + 86400);
+	}
+
 	gtk_notebook_append_page (GTK_NOTEBOOK (notebook), day_view,  gtk_label_new (_("Day View")));
 	gtk_notebook_append_page (GTK_NOTEBOOK (notebook), gcal->week_view, gtk_label_new (_("Week View")));
 	gtk_notebook_append_page (GTK_NOTEBOOK (notebook), year_view, gtk_label_new (_("Year View")));
