@@ -1,3 +1,9 @@
+2005-02-01  Rodrigo Moya <rodrigo@novell.com>
+
+	* gui/calendar-commands.c
+	(calendar_control_sensitize_calendar_commands): only add real data
+	to the array.
+
 2005-02-01  JP Rosevear  <jpr@novell.com>
 
 	Fixes #71944

@@ -446,8 +446,8 @@ calendar_control_sensitize_calendar_commands (BonoboControl *control, GnomeCalen
 	selected = e_calendar_view_get_selected_events((ECalendarView *)view);
 	for (l=selected;l;l=g_list_next(l)) {
 		ECalendarViewEvent *event = l->data;
-		if (event)
-			g_ptr_array_add(events, e_cal_model_copy_component_data(event->comp_data));
+		if (event && event->comp_data)
+			g_ptr_array_add (events, e_cal_model_copy_component_data(event->comp_data));
 	}
 	g_list_free(selected);
 
