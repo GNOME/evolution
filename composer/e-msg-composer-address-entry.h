@@ -54,7 +54,7 @@ GtkType    e_msg_composer_address_entry_get_type      (void);
 GtkWidget *e_msg_composer_address_entry_new           (void);
 GList     *e_msg_composer_address_entry_get_addresses (EMsgComposerAddressEntry *entry);
 void	   e_msg_composer_address_entry_set_list      (EMsgComposerAddressEntry *entry,
-						       GList *list);
+						       const GList *list);
 
 #ifdef __cplusplus
 }

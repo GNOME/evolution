@@ -151,10 +151,10 @@ e_msg_composer_address_entry_get_addresses (EMsgComposerAddressEntry *entry)
  **/
 void
 e_msg_composer_address_entry_set_list (EMsgComposerAddressEntry *entry,
-				       GList *list)
+				       const GList *list)
 {
 	GString *string;
-	GList *p;
+	const GList *p;
 
 	g_return_if_fail (entry != NULL);
 

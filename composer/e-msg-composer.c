@@ -641,6 +641,49 @@ e_msg_composer_show_attachments (EMsgComposer *composer,
 
 
 /**
+ * e_msg_composer_set_headers:
+ * @composer: a composer object
+ * @to: the values for the "To" header
+ * @cc: the values for the "Cc" header
+ * @bcc: the values for the "Bcc" header
+ * @subject: the value for the "Subject" header
+ *
+ * Sets the headers in the composer to the given values.
+ **/
+void 
+e_msg_composer_set_headers (EMsgComposer *composer, const GList *to,
+			    const GList *cc, const GList *bcc,
+			    const char *subject)
+{
+	EMsgComposerHdrs *hdrs;
+
+	g_return_if_fail (E_IS_MSG_COMPOSER (composer));
+	hdrs = E_MSG_COMPOSER_HDRS (composer->hdrs);
+
+	e_msg_composer_hdrs_set_to (hdrs, to);
+	e_msg_composer_hdrs_set_cc (hdrs, cc);
+	e_msg_composer_hdrs_set_bcc (hdrs, bcc);
+	e_msg_composer_hdrs_set_subject (hdrs, subject);
+}
+
+
+/**
+ * e_msg_composer_set_body_text:
+ * @composer: a composer object
+ * @text: the HTML text to initialize the editor with
+ *
+ * Loads the given HTML text into the editor.
+ **/
+void
+e_msg_composer_set_body_text (EMsgComposer *composer, const char *text)
+{
+	g_return_if_fail (E_IS_MSG_COMPOSER (composer));
+
+	set_editor_text (BONOBO_WIDGET (composer->editor), text);
+}
+
+
+/**
  * e_msg_composer_get_message:
  * @composer: A message composer widget
  * 

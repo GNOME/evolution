@@ -1,3 +1,14 @@
+2000-04-21  Dan Winship  <danw@helixcode.com>
+
+	* e-msg-composer.c (e_msg_composer_set_headers): 
+	(e_msg_composer_set_body_text): new functions
+
+	* e-msg-composer-hdrs.c: const poisoning
+	(e_msg_composer_hdrs_set_subject): 
+	(e_msg_composer_hdrs_get_subject): new functions
+
+	* e-msg-composer-address-entry.c: const poisoning
+
 2000-04-20  Dan Winship  <danw@helixcode.com>
 
 	* e-msg-composer.c (get_editor_text, set_editor_text): new

@@ -285,7 +285,7 @@ e_msg_composer_hdrs_to_message (EMsgComposerHdrs *hdrs,
 
 void
 e_msg_composer_hdrs_set_to (EMsgComposerHdrs *hdrs,
-			    GList *to_list)
+			    const GList *to_list)
 {
 	EMsgComposerAddressEntry *entry;
 
@@ -298,7 +298,7 @@ e_msg_composer_hdrs_set_to (EMsgComposerHdrs *hdrs,
 
 void
 e_msg_composer_hdrs_set_cc (EMsgComposerHdrs *hdrs,
-			    GList *cc_list)
+			    const GList *cc_list)
 {
 	EMsgComposerAddressEntry *entry;
 
@@ -311,7 +311,7 @@ e_msg_composer_hdrs_set_cc (EMsgComposerHdrs *hdrs,
 
 void
 e_msg_composer_hdrs_set_bcc (EMsgComposerHdrs *hdrs,
-			     GList *bcc_list)
+			     const GList *bcc_list)
 {
 	EMsgComposerAddressEntry *entry;
 
@@ -320,6 +320,20 @@ e_msg_composer_hdrs_set_bcc (EMsgComposerHdrs *hdrs,
 
 	entry = E_MSG_COMPOSER_ADDRESS_ENTRY (hdrs->priv->bcc_entry);
 	e_msg_composer_address_entry_set_list (entry, bcc_list);
+}
+
+void
+e_msg_composer_hdrs_set_subject (EMsgComposerHdrs *hdrs,
+				 const char *subject)
+{
+	GtkEntry *entry;
+
+	g_return_if_fail (hdrs != NULL);
+	g_return_if_fail (E_IS_MSG_COMPOSER_HDRS (hdrs));
+	g_return_if_fail (subject != NULL);
+
+	entry = GTK_ENTRY (hdrs->priv->subject_entry);
+	gtk_entry_set_text (entry, subject);
 }
 
 
@@ -353,3 +367,12 @@ e_msg_composer_hdrs_get_bcc (EMsgComposerHdrs *hdrs)
 		(E_MSG_COMPOSER_ADDRESS_ENTRY (hdrs->priv->bcc_entry));
 }
 
+const char *
+e_msg_composer_hdrs_get_subject (EMsgComposerHdrs *hdrs)
+{
+	g_return_val_if_fail (hdrs != NULL, NULL);
+	g_return_val_if_fail (E_IS_MSG_COMPOSER_HDRS (hdrs), NULL);
+
+	return gtk_entry_get_text
+		(GTK_ENTRY (hdrs->priv->subject_entry));
+}

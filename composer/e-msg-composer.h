@@ -72,10 +72,20 @@ struct _EMsgComposerClass {
 
 
 GtkType           e_msg_composer_get_type          (void);
+
 void              e_msg_composer_construct         (EMsgComposer *composer);
 GtkWidget        *e_msg_composer_new               (void);
 void              e_msg_composer_show_attachments  (EMsgComposer *composer,
 						    gboolean      show);
+
+void              e_msg_composer_set_headers       (EMsgComposer *composer,
+						    const GList *to,
+						    const GList *cc,
+						    const GList *bcc,
+						    const char *subject);
+void              e_msg_composer_set_body_text     (EMsgComposer *composer,
+						    const char *text);
+
 CamelMimeMessage *e_msg_composer_get_message       (EMsgComposer *composer);
 
 #ifdef __cplusplus
