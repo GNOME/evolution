@@ -3,7 +3,8 @@
  * Copyright (C) 2000 Helix Code, Inc.
  * Copyright (C) 2000 Ximian, Inc.
  *
- * Author: Federico Mena-Quintero <federico@ximian.com>
+ * Authors: Federico Mena-Quintero <federico@ximian.com>
+ *          Rodrigo Moya <rodrigo@ximian.com>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -63,6 +64,9 @@ Cal *cal_new (CalBackend *backend, GNOME_Evolution_Calendar_Listener listener);
 
 void cal_notify_update (Cal *cal, const char *uid);
 void cal_notify_remove (Cal *cal, const char *uid);
+
+char *cal_get_password (Cal *cal, const char *prompt, const char *key);
+void  cal_forget_password (Cal *cal, const char *key);
 
 
 

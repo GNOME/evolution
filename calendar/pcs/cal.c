@@ -3,7 +3,8 @@
  * Copyright (C) 2000 Helix Code, Inc.
  * Copyright (C) 2000 Ximian, Inc.
  *
- * Author: Federico Mena-Quintero <federico@ximian.com>
+ * Authors: Federico Mena-Quintero <federico@ximian.com>
+ *          Rodrigo Moya <rodrigo@ximian.com>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -639,6 +640,84 @@ cal_notify_remove (Cal *cal, const char *uid)
 	if (ev._major != CORBA_NO_EXCEPTION)
 		g_message ("cal_notify_remove(): could not notify the listener "
 			   "about a removed object");
+
+	CORBA_exception_free (&ev);
+}
+
+/**
+ * cal_get_password:
+ * @cal: A calendar client interface.
+ * @prompt: The message to show to the user when asking for the password.
+ * @key: A key associated with the password being asked.
+ *
+ * Gets a password from the calendar client this Cal knows about. It does
+ * so by using the WombatClient interface being used by the corresponding
+ * CalClient.
+ *
+ * Returns: a password entered by the user.
+ */
+char *
+cal_get_password (Cal *cal, const char *prompt, const char *key)
+{
+	CalPrivate *priv;
+	CORBA_Environment ev;
+	CORBA_char *pwd;
+
+	g_return_val_if_fail (cal != NULL, NULL);
+	g_return_val_if_fail (IS_CAL (cal), NULL);
+
+	priv = cal->priv;
+	g_return_val_if_fail (priv->wombat_client != CORBA_OBJECT_NIL, NULL);
+
+	CORBA_exception_init (&ev);
+	pwd = GNOME_Evolution_WombatClient_getPassword (
+		priv->wombat_client,
+		(const CORBA_char *) prompt,
+		(const CORBA_char *) key,
+		&ev);
+	if (ev._major != CORBA_NO_EXCEPTION) {
+		g_message ("cal_get_password: could not get password from associated WombatClient");
+		CORBA_exception_free (&ev);
+		return NULL;
+	}
+
+	return pwd;
+}
+
+/**
+ * cal_forget_password:
+ * @cal: A calendar client interface.
+ * @key: A key associated with the password to be forgotten.
+ *
+ * Notifies the associated calendar client that it should forget
+ * about the password identified by @key, so that next time the backend
+ * asks the client about it, the client would ask again the user for it.
+ * This is done in cases where the password supplied the first time
+ * was not a valid password and the backend needs the user to enter
+ * a new one.
+ */
+void
+cal_client_forget_password (Cal *cal, const char *key)
+{
+	CalPrivate *priv;
+	CORBA_Environment ev;
+
+	g_return_if_fail (cal != NULL);
+	g_return_if_fail (IS_CAL (cal));
+
+	priv = cal->priv;
+	g_return_if_fail (priv->wombat_client != CORBA_OBJECT_NIL);
+
+	CORBA_exception_init (&ev);
+	GNOME_Evolution_WombatClient_forgetPassword (
+		priv->wombat_client,
+		(const CORBA_char *) key,
+		&ev);
+
+	if (ev._major != CORBA_NO_EXCEPTION) {
+		g_message ("cal_forget_password: could not notify WombatClient about "
+			   "password to be forgotten");
+	}
 
 	CORBA_exception_free (&ev);
 }
