@@ -11,11 +11,13 @@
 #include <config.h>
 #include <stdlib.h>
 #include <gtk/gtksignal.h>
+#include <gtk/gtkobject.h>
 #include <gnome-xml/parser.h>
 #include <gnome-xml/xmlmemory.h>
 #include "gal/util/e-util.h"
 #include "gal/util/e-xml-utils.h"
 #include "e-table-state.h"
+
 
 #define PARENT_TYPE (gtk_object_get_type())
 
@@ -46,6 +48,8 @@ etst_class_init (GtkObjectClass *klass)
 static void
 etst_init (ETableState *state)
 {
+	GTK_OBJECT_UNSET_FLAGS (GTK_OBJECT (state), GTK_FLOATING);
+
 	state->columns = NULL;
 	state->expansions = NULL;
 	state->sort_info = e_table_sort_info_new();
