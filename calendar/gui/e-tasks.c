@@ -679,15 +679,18 @@ set_status_message (ETasks *tasks, const char *message, ...)
 {
 	ETasksPrivate *priv;
 	va_list args;
-	char sz[2048];
-	
-	va_start (args, message);
-	vsnprintf (sz, sizeof sz, message, args);
-	va_end (args);
+	char sz[2048], *msg_string = NULL;
+
+	if (message) {
+		va_start (args, message);
+		vsnprintf (sz, sizeof sz, message, args);
+		va_end (args);
+		msg_string = sz;
+	}
 
 	priv = tasks->priv;
 	
-	e_calendar_table_set_status_message (E_CALENDAR_TABLE (priv->tasks_view), sz);
+	e_calendar_table_set_status_message (E_CALENDAR_TABLE (priv->tasks_view), msg_string);
 }
 
 /* Callback from the calendar client when an error occurs in the backend */

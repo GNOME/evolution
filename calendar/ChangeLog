@@ -1,5 +1,8 @@
 2004-06-03  Rodrigo Moya <rodrigo@novell.com>
 
+	* gui/e-tasks.c (set_status_message): don't use vsprintf with
+	NULL strings, crashes on FreeBSD.
+
 	* gui/dialogs/comp-editor-page.c
 	(comp_editor_page_notify_client_changed): update the internal client
 	when it changes.
