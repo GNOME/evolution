@@ -14,6 +14,7 @@
 #include <gnome-xml/xmlmemory.h>
 #include <gnome.h>
 #include <gal/widgets/e-gui-utils.h>
+#include "e-addressbook-util.h"
 
 #define PARENT_TYPE gtk_object_get_type()
 GtkObjectClass *parent_class;

@@ -46,6 +46,7 @@
 
 #include "addressbook-storage.h"
 #include "addressbook-component.h"
+#include "addressbook-config.h"
 #include "addressbook.h"
 #include "addressbook/gui/merging/e-card-merging.h"
 #include "addressbook/gui/widgets/e-addressbook-util.h"

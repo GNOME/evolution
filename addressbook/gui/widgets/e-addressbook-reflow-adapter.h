@@ -36,16 +36,17 @@ struct _EAddressbookReflowAdapterClass {
 };
 
 
-GtkType       e_addressbook_reflow_adapter_get_type     (void);
-void          e_addressbook_reflow_adapter_construct    (EAddressbookReflowAdapter *adapter,
-							 EAddressbookModel *model);
-EReflowModel *e_addressbook_reflow_adapter_new          (EAddressbookModel *model);
+GtkType       e_addressbook_reflow_adapter_get_type          (void);
+void          e_addressbook_reflow_adapter_construct         (EAddressbookReflowAdapter *adapter,
+							      EAddressbookModel         *model);
+EReflowModel *e_addressbook_reflow_adapter_new               (EAddressbookModel         *model);
 
 /* Returns object with ref count of 1. */
-ECard        *e_addressbook_reflow_adapter_get_card     (EAddressbookReflowAdapter *adapter,
-							 int                 index);
-gint          e_addressbook_reflow_adapter_right_click  (EAddressbookReflowAdapter *emvm,
-							 GdkEvent           *event,
-							 ESelectionModel    *selection);
-
+ECard        *e_addressbook_reflow_adapter_get_card          (EAddressbookReflowAdapter *adapter,
+							      int                        index);
+gint          e_addressbook_reflow_adapter_right_click       (EAddressbookReflowAdapter *emvm,
+							      GdkEvent                  *event,
+							      ESelectionModel           *selection);
+gint          e_addressbook_reflow_adapter_base_right_click  (EAddressbookReflowAdapter *adapter,
+							      GdkEvent                  *event);
 #endif /* _E_ADDRESSBOOK_REFLOW_ADAPTER_H_ */

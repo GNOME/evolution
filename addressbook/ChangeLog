@@ -1,3 +1,24 @@
+2002-04-11  Christopher James Lahey  <clahey@ximian.com>
+
+	* gui/component/addressbook-component.c: Include
+	addressbook-config.h here as this file uses it.
+
+	* gui/component/select-names/e-select-names.c (SPEC, SPEC2): Made
+	this dialog searchable by typing in the ETable.
+
+	* gui/widgets/e-addressbook-model.c: Include e-addressbook-util.h
+	here.
+
+	* gui/widgets/e-addressbook-reflow-adapter.c
+	(e_addressbook_reflow_adapter_right_click),
+	gui/widgets/e-addressbook-view.c (table_right_click): Fixed a
+	memory leak here by using "selection-done" signal.
+
+	* gui/widgets/e-addressbook-reflow-adapter.c,
+	gui/widgets/e-addressbook-reflow-adapter.h,
+	gui/widgets/e-addressbook-view.c, gui/widgets/e-minicard-view.c:
+	Added a right click menu for areas that aren't cards.
+
 2002-04-09  Dan Winship  <danw@ximian.com>
 
 	* backend/ebook/e-book-util.c (e_book_load_default_book): Update

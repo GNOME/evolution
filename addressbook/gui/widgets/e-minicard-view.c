@@ -327,15 +327,21 @@ e_minicard_view_event (GnomeCanvasItem *item, GdkEvent *event)
 			g_assert (E_IS_BOOK (book));
 
 			e_addressbook_show_contact_editor (book, e_card_new(""), TRUE, editable);
+			return TRUE;
 		}
-		return TRUE;
+	case GDK_BUTTON_PRESS:
+		if (event->button.button == 3) {
+			return e_addressbook_reflow_adapter_base_right_click (view->adapter, event);
+		}
+		break;
 	default:
-		if (GNOME_CANVAS_ITEM_CLASS(parent_class)->event)
-			return GNOME_CANVAS_ITEM_CLASS(parent_class)->event(item, event);
-		else
-			return FALSE;
 		break;
 	}
+
+	if (GNOME_CANVAS_ITEM_CLASS(parent_class)->event)
+		return GNOME_CANVAS_ITEM_CLASS(parent_class)->event(item, event);
+	else
+		return FALSE;
 }
 
 static gint

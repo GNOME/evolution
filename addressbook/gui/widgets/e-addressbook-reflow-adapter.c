@@ -14,6 +14,7 @@
 #include <gal/widgets/e-unicode.h>
 #include <gal/widgets/e-font.h>
 #include <gal/widgets/e-popup-menu.h>
+#include <gal/widgets/e-gui-utils.h>
 #include <gal/unicode/gunicode.h>
 #include "e-contact-save-as.h"
 #include "addressbook/printing/e-contact-print.h"
@@ -102,9 +103,12 @@ typedef struct {
 static void
 model_and_selection_free (ModelAndSelection *mns)
 {
-	gtk_object_unref(GTK_OBJECT(mns->adapter));
-	e_selection_model_right_click_up(mns->selection);
-	gtk_object_unref(GTK_OBJECT(mns->selection));
+	if (mns->adapter)
+		gtk_object_unref(GTK_OBJECT(mns->adapter));
+	if (mns->selection) {
+		e_selection_model_right_click_up(mns->selection);
+		gtk_object_unref(GTK_OBJECT(mns->selection));
+	}
 	if (mns->widget)
 		gtk_object_unref(GTK_OBJECT(mns->widget));
 	g_free(mns);
@@ -144,7 +148,6 @@ save_as (GtkWidget *widget, ModelAndSelection *mns)
 	if (list)
 		e_contact_list_save_as (_("Save as VCard"), list);
 	e_free_object_list (list);
-	model_and_selection_free (mns);
 }
 
 static void
@@ -156,7 +159,6 @@ send_as (GtkWidget *widget, ModelAndSelection *mns)
 	if (list)
 		e_card_list_send (list, E_CARD_DISPOSITION_AS_ATTACHMENT);
 	e_free_object_list (list);
-	model_and_selection_free (mns);
 }
 
 static void
@@ -168,7 +170,6 @@ send_to (GtkWidget *widget, ModelAndSelection *mns)
 	if (list)
 		e_card_list_send (list, E_CARD_DISPOSITION_AS_TO);
 	e_free_object_list (list);
-	model_and_selection_free (mns);
 }
 
 static void
@@ -180,7 +181,6 @@ print (GtkWidget *widget, ModelAndSelection *mns)
 	if (list)
 		gtk_widget_show (e_contact_print_card_list_dialog_new (list));
 	e_free_object_list (list);
-	model_and_selection_free (mns);
 }
 
 #if 0 /* Envelope printing is disabled for Evolution 1.0. */
@@ -193,7 +193,6 @@ print_envelope (GtkWidget *widget, ModelAndSelection *mns)
 	if (list)
 		gtk_widget_show (e_contact_print_envelope_list_dialog_new (list));
 	e_free_object_list (list);
-	model_and_selection_free (mns);
 }
 #endif
 
@@ -254,7 +253,6 @@ delete (GtkWidget *widget, ModelAndSelection *mns)
 	}
 
 	e_free_object_list (list);
-	model_and_selection_free (mns);
 }
 
 static void
@@ -268,8 +266,6 @@ open_card (GtkWidget *widget, ModelAndSelection *mns)
 
 	e_addressbook_show_multiple_cards (book, list, e_addressbook_model_editable (priv->model));
 	e_free_object_list (list);
-
-	model_and_selection_free (mns);
 }
 
 static void
@@ -287,8 +283,6 @@ transfer_cards (ModelAndSelection *mns, gboolean delete_from_source)
 		parent_window = NULL;
 
 	e_addressbook_transfer_cards (book, cards, delete_from_source, parent_window);
-
-	model_and_selection_free (mns);
 }
 
 static void
@@ -303,12 +297,19 @@ move_to_folder (GtkWidget *widget, ModelAndSelection *mns)
 	transfer_cards (mns, TRUE);
 }
 
+static void
+free_popup_info (GtkWidget *w, ModelAndSelection *mns)
+{
+	model_and_selection_free (mns);
+}
+
 #define POPUP_READONLY_MASK 0x01
 gint
 e_addressbook_reflow_adapter_right_click (EAddressbookReflowAdapter *adapter, GdkEvent *event, ESelectionModel *selection)
 {
 	EAddressbookReflowAdapterPrivate *priv = adapter->priv;
 	ModelAndSelection *mns = g_new(ModelAndSelection, 1);
+	GtkMenu *popup;
 	EPopupMenu menu[] = {
 		{ N_("Open"), NULL, GTK_SIGNAL_FUNC(open_card), NULL, NULL, 0 },
 		{ N_("Save as VCard"), NULL, GTK_SIGNAL_FUNC(save_as), NULL, NULL, 0 },
@@ -338,7 +339,61 @@ e_addressbook_reflow_adapter_right_click (EAddressbookReflowAdapter *adapter, Gd
 	gtk_object_ref(GTK_OBJECT(mns->selection));
 	if (mns->widget)
 		gtk_object_ref(GTK_OBJECT(mns->widget));
-	e_popup_menu_run (menu, event, e_addressbook_model_editable(priv->model) ? 0 : POPUP_READONLY_MASK, 0, mns);
+	popup = e_popup_menu_create (menu, e_addressbook_model_editable(priv->model) ? 0 : POPUP_READONLY_MASK, 0, mns);
+
+	gtk_signal_connect (GTK_OBJECT (popup), "selection-done",
+			    GTK_SIGNAL_FUNC (free_popup_info), mns);
+	e_popup_menu (popup, event);
+
+	return TRUE;
+}
+
+static void
+new_card (GtkWidget *widget, ModelAndSelection *mns)
+{
+	EBook *book;
+
+	book = e_addressbook_model_get_ebook(mns->adapter->priv->model);
+
+	e_addressbook_show_contact_editor (book, e_card_new(""), TRUE, TRUE);
+}
+
+static void
+new_list (GtkWidget *widget, ModelAndSelection *mns)
+{
+	EBook *book;
+
+	book = e_addressbook_model_get_ebook(mns->adapter->priv->model);
+
+	e_addressbook_show_contact_list_editor (book, e_card_new(""), TRUE, TRUE);
+}
+
+gint
+e_addressbook_reflow_adapter_base_right_click (EAddressbookReflowAdapter *adapter, GdkEvent *event)
+{
+	EAddressbookReflowAdapterPrivate *priv = adapter->priv;
+	ModelAndSelection *mns = g_new(ModelAndSelection, 1);
+	GtkMenu *popup;
+	EPopupMenu menu[] = {
+		{ N_("New Contact..."), NULL, GTK_SIGNAL_FUNC(new_card), NULL, NULL, POPUP_READONLY_MASK },
+		{ N_("New Contact List..."), NULL, GTK_SIGNAL_FUNC(new_list), NULL, NULL, POPUP_READONLY_MASK },
+		E_POPUP_SEPARATOR,
+		{ N_("Paste"), NULL, GTK_SIGNAL_FUNC (paste), NULL, NULL, POPUP_READONLY_MASK },
+		E_POPUP_TERMINATOR
+	};
+
+	mns->adapter = adapter;
+	mns->selection = NULL;
+	mns->widget = gtk_get_event_widget (event);
+	gtk_object_ref(GTK_OBJECT(mns->adapter));
+	if (mns->widget)
+		gtk_object_ref(GTK_OBJECT(mns->widget));
+	popup = e_popup_menu_create (menu, e_addressbook_model_editable(priv->model) ? 0 : POPUP_READONLY_MASK, 0, mns);
+
+	gtk_signal_connect (GTK_OBJECT (popup), "selection-done",
+			    GTK_SIGNAL_FUNC (free_popup_info), mns);
+	e_popup_menu (popup, event);
+
 	return TRUE;
 }
 

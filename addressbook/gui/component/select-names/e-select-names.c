@@ -111,7 +111,7 @@ e_select_names_class_init (ESelectNamesClass *klass)
 }
 
 #define SPEC "<ETableSpecification no-headers=\"true\" cursor-mode=\"line\"> \
-  <ETableColumn model_col= \"%d\" _title=\"Name\"          expansion=\"1.0\" minimum_width=\"20\" resizable=\"true\" cell=\"string\"       compare=\"string\"/> \
+  <ETableColumn model_col= \"%d\" _title=\"Name\"          expansion=\"1.0\" minimum_width=\"20\" resizable=\"true\" cell=\"string\"       compare=\"string\" search=\"string\"/> \
 	<ETableState>                   			       \
 		<column source=\"0\"/>     			       \
 	        <grouping> <leaf column=\"0\" ascending=\"true\"/> </grouping> \
@@ -119,7 +119,7 @@ e_select_names_class_init (ESelectNamesClass *klass)
 </ETableSpecification>"
 
 #define SPEC2 "<ETableSpecification no-headers=\"true\" cursor-mode=\"line\"> \
-  <ETableColumn model_col= \"0\" _title=\"Name\"          expansion=\"1.0\" minimum_width=\"20\" resizable=\"true\" cell=\"string\"       compare=\"string\"/> \
+  <ETableColumn model_col= \"0\" _title=\"Name\"          expansion=\"1.0\" minimum_width=\"20\" resizable=\"true\" cell=\"string\"       compare=\"string\" search=\"string\"/> \
 	<ETableState>                   			       \
 		<column source=\"0\"/>     			       \
         	<grouping> <leaf column=\"0\" ascending=\"true\"/> </grouping> \

@@ -30,6 +30,7 @@
 #include <gal/e-table/e-table-model.h>
 #include <gal/widgets/e-scroll-frame.h>
 #include <gal/widgets/e-popup-menu.h>
+#include <gal/widgets/e-gui-utils.h>
 #include <gal/widgets/e-unicode.h>
 #include <gal/menus/gal-view-factory-etable.h>
 #include <gal/menus/gal-view-etable.h>
@@ -768,6 +769,12 @@ minicard_selection_change (EMinicardViewWidget *widget, EAddressbookView *view)
 }
 
 static void
+minicard_button_press (GtkWidget *widget, GdkEventButton *event, EAddressbookView *view)
+{
+	g_print ("Button %d pressed with event type %d\n", event->button, event->type);
+}
+
+static void
 create_minicard_view (EAddressbookView *view)
 {
 	GtkWidget *scrollframe;
@@ -789,6 +796,9 @@ create_minicard_view (EAddressbookView *view)
 
 	gtk_signal_connect(GTK_OBJECT(minicard_view), "selection_change",
 			   GTK_SIGNAL_FUNC(minicard_selection_change), view);
+
+	gtk_signal_connect(GTK_OBJECT(minicard_view), "button_press_event",
+			   GTK_SIGNAL_FUNC(minicard_button_press), view);
 
 
 	view->object = GTK_OBJECT(minicard_view);
@@ -900,14 +910,12 @@ static void
 save_as (GtkWidget *widget, CardAndBook *card_and_book)
 {
 	e_contact_save_as(_("Save as VCard"), card_and_book->card);
-	card_and_book_free(card_and_book);
 }
 
 static void
 send_as (GtkWidget *widget, CardAndBook *card_and_book)
 {
 	e_card_send(card_and_book->card, E_CARD_DISPOSITION_AS_ATTACHMENT);
-	card_and_book_free(card_and_book);
 }
 
 static void
@@ -915,14 +923,12 @@ send_to (GtkWidget *widget, CardAndBook *card_and_book)
 
 {
 	e_card_send(card_and_book->card, E_CARD_DISPOSITION_AS_TO);
-	card_and_book_free(card_and_book);
 }
 
 static void
 print (GtkWidget *widget, CardAndBook *card_and_book)
 {
 	gtk_widget_show(e_contact_print_card_dialog_new(card_and_book->card));
-	card_and_book_free(card_and_book);
 }
 
 #if 0 /* Envelope printing is disabled for Evolution 1.0. */
@@ -930,7 +936,6 @@ static void
 print_envelope (GtkWidget *widget, CardAndBook *card_and_book)
 {
 	gtk_widget_show(e_contact_print_envelope_dialog_new(card_and_book->card));
-	card_and_book_free(card_and_book);
 }
 #endif
 
@@ -944,14 +949,12 @@ copy (GtkWidget *widget, CardAndBook *card_and_book)
 #endif
 
 	e_addressbook_view_copy (card_and_book->view);
-	card_and_book_free (card_and_book);
 }
 
 static void
 paste (GtkWidget *widget, CardAndBook *card_and_book)
 {
 	e_addressbook_view_paste (card_and_book->view);
-	card_and_book_free (card_and_book);
 }
 
 static void
@@ -968,7 +971,6 @@ cut (GtkWidget *widget, CardAndBook *card_and_book)
 #endif
 
 	e_addressbook_view_cut (card_and_book->view);
-	card_and_book_free (card_and_book);
 }
 
 static void
@@ -987,20 +989,23 @@ delete (GtkWidget *widget, CardAndBook *card_and_book)
 		}
 		e_free_object_list(list);
 	}
-	card_and_book_free(card_and_book);
 }
 
 static void
 copy_to_folder (GtkWidget *widget, CardAndBook *card_and_book)
 {
 	e_addressbook_view_copy_to_folder (card_and_book->view);
-	card_and_book_free (card_and_book);
 }
 
 static void
 move_to_folder (GtkWidget *widget, CardAndBook *card_and_book)
 {
 	e_addressbook_view_move_to_folder (card_and_book->view);
+}
+
+static void
+free_popup_info (GtkWidget *w, CardAndBook *card_and_book)
+{
 	card_and_book_free (card_and_book);
 }
 
@@ -1011,6 +1016,7 @@ table_right_click(ETableScrolled *table, gint row, gint col, GdkEvent *event, EA
 	if (E_IS_ADDRESSBOOK_TABLE_ADAPTER(view->object)) {
 		EAddressbookModel *model = view->model;
 		CardAndBook *card_and_book;
+		GtkMenu *popup;
 
 		EPopupMenu menu[] = {
 			{ N_("Save as VCard"), NULL, GTK_SIGNAL_FUNC(save_as), NULL, NULL, 0 }, 
@@ -1044,12 +1050,71 @@ table_right_click(ETableScrolled *table, gint row, gint col, GdkEvent *event, EA
 		gtk_object_ref(GTK_OBJECT(card_and_book->book));
 		gtk_object_ref(GTK_OBJECT(card_and_book->view));
 
-		e_popup_menu_run (menu, event,
-				  e_addressbook_model_editable (model) ? 0 : POPUP_READONLY_MASK,
-				  0, card_and_book);
+		popup = e_popup_menu_create (menu,
+					     e_addressbook_model_editable (model) ? 0 : POPUP_READONLY_MASK,
+					     0, card_and_book);
+
+		gtk_signal_connect (GTK_OBJECT (popup), "selection-done",
+				    GTK_SIGNAL_FUNC (free_popup_info), card_and_book);
+		e_popup_menu (popup, event);
+
 		return TRUE;
 	} else
 		return FALSE;
+}
+
+static void
+new_card (GtkWidget *widget, CardAndBook *card_and_book)
+{
+	e_addressbook_show_contact_editor (card_and_book->book, e_card_new(""), TRUE, TRUE);
+}
+
+static void
+new_list (GtkWidget *widget, CardAndBook *card_and_book)
+{
+	e_addressbook_show_contact_list_editor (card_and_book->book, e_card_new(""), TRUE, TRUE);
+}
+
+static gint
+table_white_space_event(ETableScrolled *table, GdkEvent *event, EAddressbookView *view)
+{
+	if (event->type == GDK_BUTTON_PRESS && ((GdkEventButton *)event)->button == 3 &&
+	    E_IS_ADDRESSBOOK_TABLE_ADAPTER(view->object)) {
+		EAddressbookModel *model = view->model;
+		CardAndBook *card_and_book;
+		GtkMenu *popup;
+
+		EPopupMenu menu[] = {
+			{ N_("New Contact..."), NULL, GTK_SIGNAL_FUNC(new_card), NULL, NULL, POPUP_READONLY_MASK },
+			{ N_("New Contact List..."), NULL, GTK_SIGNAL_FUNC(new_list), NULL, NULL, POPUP_READONLY_MASK },
+			E_POPUP_SEPARATOR,
+			{ N_("Paste"), NULL, GTK_SIGNAL_FUNC (paste), NULL, NULL, POPUP_READONLY_MASK },
+			E_POPUP_TERMINATOR
+		};
+
+		card_and_book = g_new(CardAndBook, 1);
+		card_and_book->card = NULL;
+		card_and_book->widget = GTK_WIDGET(table);
+		card_and_book->view = view;
+		gtk_object_get(GTK_OBJECT(model),
+			       "book", &(card_and_book->book),
+			       NULL);
+
+		gtk_object_ref(GTK_OBJECT(card_and_book->book));
+		gtk_object_ref(GTK_OBJECT(card_and_book->view));
+
+		popup = e_popup_menu_create (menu,
+					     e_addressbook_model_editable (model) ? 0 : POPUP_READONLY_MASK,
+					     0, card_and_book);
+		
+		gtk_signal_connect (GTK_OBJECT (popup), "selection-done",
+				    GTK_SIGNAL_FUNC (free_popup_info), card_and_book);
+		e_popup_menu (popup, event);
+		
+		return TRUE;
+	} else {
+		return FALSE;
+	}
 }
 
 static void
@@ -1159,6 +1224,8 @@ create_table_view (EAddressbookView *view)
 			   GTK_SIGNAL_FUNC(table_double_click), view);
 	gtk_signal_connect(GTK_OBJECT(e_table_scrolled_get_table(E_TABLE_SCROLLED(table))), "right_click",
 			   GTK_SIGNAL_FUNC(table_right_click), view);
+	gtk_signal_connect(GTK_OBJECT(e_table_scrolled_get_table(E_TABLE_SCROLLED(table))), "white_space_event",
+			   GTK_SIGNAL_FUNC(table_white_space_event), view);
 	gtk_signal_connect(GTK_OBJECT(e_table_scrolled_get_table(E_TABLE_SCROLLED(table))), "selection_change",
 			   GTK_SIGNAL_FUNC(table_selection_change), view);
 
