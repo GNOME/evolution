@@ -54,7 +54,7 @@
 #include "em-folder-tree-model.h"
 
 #define w(x) 
-#define d(x)  /*(printf("%s(%d):%s: ",  __FILE__, __LINE__, __PRETTY_FUNCTION__), (x))*/
+#define d(x) x
 
 /* note that many things are effectively serialised by having them run in
    the main loop thread which they need to do because of corba/gtk calls */
@@ -408,7 +408,7 @@ setup_folder(CamelFolderInfo *fi, struct _store_info *si)
 static void
 create_folders(CamelFolderInfo *fi, struct _store_info *si)
 {
-	d(printf("Setup new folder: %s\n  %s\n", fi->url, fi->full_name));
+	d(printf("Setup new folder: %s\n  %s\n", fi->uri, fi->full_name));
 
 	while (fi) {
 		setup_folder(fi, si);
