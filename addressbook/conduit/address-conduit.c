@@ -1293,28 +1293,33 @@ card_changed (EBookView *book_view, const GList *cards, EAddrConduitContext *ctx
 
 
 static void
-card_removed (EBookView *book_view, const char *id, EAddrConduitContext *ctxt)
+card_removed (EBookView *book_view, GList *ids, EAddrConduitContext *ctxt)
 {
-	CardObjectChange *coc;
-	gboolean archived;
-	
-	archived = e_pilot_map_uid_is_archived (ctxt->map, id);
-	
-	/* If its deleted, not in the archive and not in the map its a list */
-	if (!archived && e_pilot_map_lookup_pid (ctxt->map, id, FALSE) == 0)
-		return;	
-	
-	coc = g_new0 (CardObjectChange, 1);
-	coc->card = e_card_new ("");
-	e_card_set_id (coc->card, id);
-	coc->type = CARD_DELETED;
+	GList *l;
 
-	ctxt->changed = g_list_prepend (ctxt->changed, coc);
+	for (l = ids; l != NULL; l = l->next) {
+		const char *id = l->data;
+		CardObjectChange *coc;
+		gboolean archived;
+		
+		archived = e_pilot_map_uid_is_archived (ctxt->map, id);
 	
-	if (!archived)
-		g_hash_table_insert (ctxt->changed_hash, (gpointer)e_card_get_id (coc->card), coc);
-	else
-		e_pilot_map_remove_by_uid (ctxt->map, id);
+		/* If its deleted, not in the archive and not in the map its a list */
+		if (!archived && e_pilot_map_lookup_pid (ctxt->map, id, FALSE) == 0)
+			return;	
+	
+		coc = g_new0 (CardObjectChange, 1);
+		coc->card = e_card_new ("");
+		e_card_set_id (coc->card, id);
+		coc->type = CARD_DELETED;
+
+		ctxt->changed = g_list_prepend (ctxt->changed, coc);
+	
+		if (!archived)
+			g_hash_table_insert (ctxt->changed_hash, (gpointer)e_card_get_id (coc->card), coc);
+		else
+			e_pilot_map_remove_by_uid (ctxt->map, id);
+	}
 }
 
 static void

@@ -1,3 +1,7 @@
+2003-03-31  JP Rosevear  <jpr@ximian.com>
+
+	* conduit/address-conduit.c (card_removed): it emits a list now
+
 2003-03-31  Dan Winship  <danw@ximian.com>
 
 	* gui/component/select-names/e-select-names.c
