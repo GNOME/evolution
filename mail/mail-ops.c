@@ -502,31 +502,33 @@ mail_send_message(CamelMimeMessage *message, const char *destination, CamelFilte
 	header = camel_medium_get_header (CAMEL_MEDIUM (message), "X-Evolution-Account");
 	if (header) {
 		const MailConfigAccount *account;
-
+		
 		account = mail_config_get_account_by_name (header);
 		camel_medium_remove_header (CAMEL_MEDIUM (message), "X-Evolution-Account");
 		if (account) {
 			transport_url = g_strdup (account->transport->url);
 			camel_medium_remove_header (CAMEL_MEDIUM (message), "X-Evolution-Transport");
-			sent_folder_uri = account->sent_folder_uri;
+			sent_folder_uri = g_strdup (account->sent_folder_uri);
 			camel_medium_remove_header (CAMEL_MEDIUM (message), "X-Evolution-Fcc");
 		}
 	}
+	
 	if (!transport_url) {
 		header = camel_medium_get_header (CAMEL_MEDIUM (message), "X-Evolution-Transport");
 		if (header) {
-			transport_url = g_strstrip(g_strdup (header));
+			transport_url = g_strstrip (g_strdup (header));
 			camel_medium_remove_header (CAMEL_MEDIUM (message), "X-Evolution-Transport");
 		}
 	}
+	
 	if (!sent_folder_uri) {
 		header = camel_medium_get_header (CAMEL_MEDIUM (message), "X-Evolution-Fcc");
 		if (header) {
-			sent_folder_uri = g_strstrip(g_strdup (header));
+			sent_folder_uri = g_strstrip (g_strdup (header));
 			camel_medium_remove_header (CAMEL_MEDIUM (message), "X-Evolution-Fcc");
 		}
 	}
-
+	
 	xport = camel_session_get_transport (session, transport_url ? transport_url : destination, ex);
 	g_free (transport_url);
 	if (!xport) {
@@ -553,13 +555,18 @@ mail_send_message(CamelMimeMessage *message, const char *destination, CamelFilte
 		folder = mail_tool_uri_to_folder (sent_folder_uri, NULL);
 		if (!folder) {
 			/* FIXME */
+			camel_object_ref (CAMEL_OBJECT (sent_folder));
 			folder = sent_folder;
 		}
-	} else
+	} else {
+		camel_object_ref (CAMEL_OBJECT (sent_folder));
 		folder = sent_folder;
-
-	if (folder)
+	}
+	
+	if (folder) {
 		camel_folder_append_message (folder, message, info, ex);
+		camel_object_unref (CAMEL_OBJECT (folder));
+	}
 	
 	camel_message_info_free (info);
 }
@@ -997,7 +1004,6 @@ add_vtrash_info (CamelFolderInfo *info)
 	g_return_if_fail (info != NULL);
 	
 	for (fi = info; fi->sibling; fi = fi->sibling) {
-		g_warning ("add_vtrash_info(): url is %s", fi->url);
 		if (!strcmp (fi->name, _("Trash")))
 			break;
 	}

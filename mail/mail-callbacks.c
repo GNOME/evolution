@@ -330,9 +330,17 @@ composer_get_message (EMsgComposer *composer)
 	/* Add info about the sending account */
 	account = e_msg_composer_get_preferred_account (composer);
 	if (account) {
-		camel_medium_set_header (CAMEL_MEDIUM (message), "X-Evolution-Account", account->name);
-		camel_medium_set_header (CAMEL_MEDIUM (message), "X-Evolution-Transport", account->transport->url);
-		camel_medium_set_header (CAMEL_MEDIUM (message), "X-Evolution-Fcc", account->sent_folder_uri);
+		if (account->name)
+			camel_medium_set_header (CAMEL_MEDIUM (message), "X-Evolution-Account",
+						 account->name);
+		
+		if (account->transport && account->transport->url)
+			camel_medium_set_header (CAMEL_MEDIUM (message), "X-Evolution-Transport",
+						 account->transport->url);
+		
+		if (account->sent_folder_uri)
+			camel_medium_set_header (CAMEL_MEDIUM (message), "X-Evolution-Fcc",
+						 account->sent_folder_uri);
 	}
 
 	return message;
