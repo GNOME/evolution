@@ -109,16 +109,13 @@ from the evolution preview mirror.
 
  - gdk-pixbuf - 0.7.0 or later (*)
 
- - ORBit - 0.5.3 or later (*)
+ - ORBit - 0.5.5 or later (*)
 
  - oaf - 0.6.0 or later
 
    *** If you are using oaf from CVS, you should use the flag
    *** "--disable-more-warnings" when configure, or it may fail to
    *** build.
-
- - gconf - 0.9.0 or later. (If you get this from GNOME CVS, use the
-   "gconf-1-0" branch.
 
  - gnome-vfs - 0.3 or later
 
@@ -137,9 +134,9 @@ from the evolution preview mirror.
 
  - gconf - 0.6 or later
 
- - gal (GNOME Application Library) - from CVS
+ - gal (GNOME Application Library) - 0.4 or later
 
- - gtkhtml - 0.7 or later
+ - gtkhtml - 0.8 or later
 
  - libglade (*)
 
