@@ -1,3 +1,14 @@
+2003-02-03  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-identify.c (mail_identify_mime_part): Just use
+	gnome_vfs_get_mime_type_from_name() so we can forget all the crap
+	I implemented before.
+
+2003-02-01  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-display.c (on_link_clicked): Pass in the *address* of the
+	GError to gnome_url_show(), otherwise bad things happen :-)
+
 2003-01-31  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-config.c (mail_config_get_labels): New function to return a

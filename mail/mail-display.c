@@ -303,8 +303,9 @@ on_link_clicked (GtkHTML *html, const char *url, MailDisplay *md)
 		mail_display_jump_to_anchor (md, url);
 	} else {
 		GError *err = NULL;
-		gnome_url_show (url, err);
-
+		
+		gnome_url_show (url, &err);
+		
 		if (err) {
 			g_warning ("gnome_url_show: %s", err->message);
 			g_error_free (err);
@@ -319,7 +320,7 @@ save_part (CamelMimePart *part)
 	char *filename, *dir, *base;
 	GConfClient *gconf;
 	
-	camel_object_ref (CAMEL_OBJECT (part));
+	camel_object_ref (part);
 	
 	gconf = gconf_client_get_default ();
 	dir = gconf_client_get_string (gconf, "/apps/evolution/mail/save_dir", NULL);
@@ -349,7 +350,7 @@ save_part (CamelMimePart *part)
 static void
 save_cb (GtkWidget *widget, gpointer user_data)
 {
-	CamelMimePart *part = g_object_get_data((user_data), "CamelMimePart");
+	CamelMimePart *part = g_object_get_data ((GObject *) user_data, "CamelMimePart");
 	
 	save_part (part);
 }
@@ -368,7 +369,7 @@ launch_cb (GtkWidget *widget, gpointer user_data)
 	g_return_if_fail (handler != NULL && handler->applications != NULL);
 	
 	/* Yum. Too bad EPopupMenu doesn't allow per-item closures. */
-	children = gtk_container_get_children(GTK_CONTAINER (widget->parent));
+	children = gtk_container_get_children (GTK_CONTAINER (widget->parent));
 	g_return_if_fail (children != NULL && children->next != NULL && children->next->next != NULL);
 	
 	for (c = children->next->next, apps = handler->applications; c && apps; c = c->next, apps = apps->next) {
@@ -379,7 +380,7 @@ launch_cb (GtkWidget *widget, gpointer user_data)
 	g_return_if_fail (c != NULL && apps != NULL);
 	app = apps->data;
 	
-	tmpdir = e_mkdtemp ("evolution.XXXXXX");
+	tmpdir = e_mkdtemp ("app-launcher-XXXXXX");
 	
 	if (!tmpdir) {
 		GtkWidget *dialog;
@@ -539,6 +540,7 @@ pixmap_press (GtkWidget *widget, GdkEventButton *event, gpointer user_data)
 	for (i = 1; i < nitems; i++)
 		g_free (menu[i].name);
 	g_free (menu);
+	
 	return TRUE;
 }	
 
