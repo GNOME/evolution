@@ -1,3 +1,8 @@
+2000-10-18  Not Zed  <NotZed@HelixCode.com>
+
+	* folder-browser.c (folder_browser_gui_init): Removed the search
+	on keypress stuff - put back in by mistake.
+
 2000-10-16  Jeffrey Stedfast  <fejj@helixcode.com>
 
 	* folder-browser.c (search_full_clicked): Un #if 0'd out
