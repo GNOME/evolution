@@ -179,6 +179,12 @@ impl_addGroup (PortableServer_Servant servant,
 	corba_shortcuts = E_CORBA_SHORTCUTS (bonobo_object_from_servant (servant));
 	priv = corba_shortcuts->priv;
 
+	if (position == 0) {
+		CORBA_exception_set (ev, CORBA_USER_EXCEPTION,
+				     ex_GNOME_Evolution_Shortcuts_InvalidPosition, NULL);
+		return;
+	}
+
 	e_shortcuts_add_group (priv->shortcuts, position, name);
 }
 
@@ -192,6 +198,12 @@ impl_removeGroup (PortableServer_Servant servant,
 
 	corba_shortcuts = E_CORBA_SHORTCUTS (bonobo_object_from_servant (servant));
 	priv = corba_shortcuts->priv;
+
+	if (group_num == 0) {
+		CORBA_exception_set (ev, CORBA_USER_EXCEPTION,
+				     ex_GNOME_Evolution_Shortcuts_CannotRemove, NULL);
+		return;
+	}
 
 	e_shortcuts_remove_group (priv->shortcuts, group_num);
 }

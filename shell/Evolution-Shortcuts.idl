@@ -29,6 +29,8 @@ module Evolution {
 		typedef sequence<Group> GroupList;
 
 		exception NotFound {};
+		exception InvalidPosition {};
+		exception CannotRemove {};
 
 		readonly attribute GroupList groups; // FIXME: Could be non-readonly
 
@@ -39,9 +41,10 @@ module Evolution {
 		Shortcut get (in short group_num, in short item_num)
 			raises (NotFound);
 
-		void addGroup (in short position, in string name);
+		void addGroup (in short position, in string name)
+			raises (InvalidPosition);
 		void removeGroup (in short group_num)
-			raises (NotFound);
+			raises (NotFound, CannotRemove);
 		Group getGroup (in short group_num)
 			raises (NotFound);
 

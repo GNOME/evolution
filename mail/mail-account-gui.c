@@ -1133,7 +1133,7 @@ launch_signature_editor (MailAccountGui *gui, const gchar *filename, gboolean ht
 	container = bonobo_ui_container_new ();
 	bonobo_ui_container_set_win (container, BONOBO_WINDOW (editor->win));
 	
-	component = bonobo_ui_component_new ("evolution-signature-editor");
+	component = bonobo_ui_component_new_default ();
 	bonobo_ui_component_set_container (component, bonobo_object_corba_objref (BONOBO_OBJECT (container)));
 	bonobo_ui_component_add_verb_list_with_data (component, verbs, editor);
 	bonobo_ui_util_set_ui (component, EVOLUTION_DATADIR, "evolution-signature-editor.xml", "evolution-signature-editor");

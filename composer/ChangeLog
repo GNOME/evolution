@@ -1,3 +1,9 @@
+2001-10-02  Ettore Perazzoli  <ettore@ximian.com>
+
+	* e-msg-composer.c (setup_ui): Use
+	`bonobo_ui_component_new_default()', not
+	`bonobo_ui_component_new()'.
+
 2001-09-27  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* e-msg-composer-attachment.c (e_msg_composer_attachment_new):

@@ -1,5 +1,11 @@
 2001-10-02  Ettore Perazzoli  <ettore@ximian.com>
 
+	* e-shell-view.c (e_shell_view_construct): Use
+	`bonobo_ui_component_new_default()', not
+	`bonobo_ui_component_new()'.
+
+2001-10-02  Ettore Perazzoli  <ettore@ximian.com>
+
 	* e-shell-view.c (storage_set_removed_folder_callback): New,
 	callback for the ::removed_folder signal on the shell's
 	EStorageSet.

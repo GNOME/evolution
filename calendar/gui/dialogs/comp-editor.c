@@ -196,7 +196,7 @@ setup_widgets (CompEditor *editor)
 	gtk_signal_connect (GTK_OBJECT (priv->window), "delete_event",
 			    GTK_SIGNAL_FUNC (delete_event_cb), editor);
 
-	priv->uic = bonobo_ui_component_new ("comp-editor");
+	priv->uic = bonobo_ui_component_new_default ();
 	container = bonobo_ui_container_new ();
 	bonobo_ui_container_set_win (container, BONOBO_WINDOW (priv->window));
 	bonobo_ui_component_set_container (priv->uic, BONOBO_OBJREF (container));

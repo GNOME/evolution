@@ -1695,12 +1695,10 @@ setup_ui (EMsgComposer *composer)
 	container = bonobo_ui_container_new ();
 	bonobo_ui_container_set_win (container, BONOBO_WINDOW (composer));
 	
-	composer->uic = bonobo_ui_component_new ("evolution-message-composer");
-	bonobo_ui_component_set_container (
-	        composer->uic, bonobo_object_corba_objref (BONOBO_OBJECT (container)));
+	composer->uic = bonobo_ui_component_new_default ();
+	bonobo_ui_component_set_container (composer->uic, bonobo_object_corba_objref (BONOBO_OBJECT (container)));
 	
-	bonobo_ui_component_add_verb_list_with_data (
-		composer->uic, verbs, composer);
+	bonobo_ui_component_add_verb_list_with_data (composer->uic, verbs, composer);
 	
         /* Customize Toolbar thingie */
 	bonobo_ui_engine_config_set_path (bonobo_window_get_ui_engine (BONOBO_WINDOW (composer)),
