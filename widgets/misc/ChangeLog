@@ -2,6 +2,8 @@
 
 	* e-filter-bar.c (do_advanced): Change the border width and
 	padding to comply with the HIG. Fixes bug #41202.
+	(do_advanced): Changed the button ordering from Cancel/Save/OK to
+	Save/Cancel/OK to comply with the HIG. Fixes bug #41207.
 
 2003-04-08  Mike Kestner  <mkestner@ximian.com>
 

@@ -146,8 +146,8 @@ do_advanced (ESearchBar *esb)
 		filter_rule_set_source (rule, FILTER_SOURCE_INCOMING);
 		/* FIXME: get the toplevel window... */
 		dialog = gtk_dialog_new_with_buttons (_("Advanced Search"), NULL, GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT,
-						      GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
 						      GTK_STOCK_SAVE, GTK_RESPONSE_APPLY,
+						      GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
 						      GTK_STOCK_OK, GTK_RESPONSE_OK, NULL);
 		
 		efb->save_dialog = dialog;
