@@ -32,6 +32,8 @@
 #include <gal/util/e-i18n.h>
 #include <gtk/gtknotebook.h>
 #include <gtk/gtkentry.h>
+#include <gtk/gtktogglebutton.h>
+#include <gtk/gtkbox.h>
 
 static GnomeDialogClass *parent_class = NULL;
 #define PARENT_TYPE gnome_dialog_get_type()
@@ -103,7 +105,7 @@ gvisad_connect_signal(GalViewInstanceSaveAsDialog *dialog, char *widget_name, ch
 	widget = glade_xml_get_widget(dialog->gui, widget_name);
 
 	if (widget)
-		gtk_signal_connect(GTK_OBJECT(widget), signal, handler, dialog);
+		g_signal_connect (G_OBJECT (widget), signal, G_CALLBACK (handler), dialog);
 }
 
 /* Method override implementations */
