@@ -19,6 +19,7 @@
 #include "e-table-item.h"
 #include "e-cell.h"
 #include "e-util/e-canvas.h"
+#include "e-util/e-canvas-utils.h"
 
 #define PARENT_OBJECT_TYPE gnome_canvas_item_get_type ()
 
@@ -534,6 +535,27 @@ eti_request_region_redraw (ETableItem *eti,
 				eti->y1 + y1 + height + 1 + border);
 }
 
+/*
+ * eti_request_region_show
+ *
+ * Request a canvas show on the range (start_col, start_row) to (end_col, end_row).
+ * This is inclusive (ie, you can use: 0,0-0,0 to show the first cell).
+ */
+static void
+eti_request_region_show (ETableItem *eti,
+			 int start_col, int start_row,
+			 int end_col, int end_row)
+{
+	int x1, y1, x2, y2;
+	
+	x1 = e_table_header_col_diff (eti->header, 0, start_col);
+	y1 = eti_row_diff (eti, 0, start_row);
+	x2 = x1 + e_table_header_col_diff (eti->header, start_col, end_col + 1);
+	y2 = y1 + eti_row_diff (eti, start_row, end_row + 1);
+
+	e_canvas_item_show_area(GNOME_CANVAS_ITEM(eti), x1, y1, x2, y2); 
+}
+
 static void
 eti_table_model_row_changed (ETableModel *table_model, int row, ETableItem *eti)
 {
@@ -586,7 +608,7 @@ e_table_item_redraw_range (ETableItem *eti,
 	else
 		border = 0;
 
-	eti_request_region_redraw (eti, start_col, start_row, end_col, end_row, border);
+	eti_request_region_redraw(eti, start_col, start_row, end_col, end_row, border);
 }
 
 static void
@@ -1464,13 +1486,16 @@ e_table_item_focus (ETableItem *eti, int col, int row)
 	gtk_signal_emit (GTK_OBJECT (eti), eti_signals [CURSOR_CHANGE],
 			 row);
 	if (row != -1) {
+		/* FIXME: remove once selection stuff is done. */
 #if 0
 		if (eti->cursor_mode == E_TABLE_CURSOR_SPREADSHEET)
 			eti_request_region_redraw (eti, col, row, col, row, FOCUSED_BORDER);
 		else
 #endif
-			/* FIXME: remove once selection stuff is done. */
 			eti_request_region_redraw (eti, 0, row, eti->cols - 1, row, FOCUSED_BORDER);
+
+		eti_request_region_show (eti, 0, row, eti->cols - 1, row);
+
 #if 0
 		e_table_item_select_row (eti, row);
 #endif
