@@ -23,9 +23,7 @@
  * USA
  */
 
-#ifdef HAVE_CONFIG_H
 #include <config.h>
-#endif
 
 #include <ctype.h>
 #include <dirent.h>
@@ -263,6 +261,7 @@ camel_imap_message_cache_remove (CamelImapMessageCache *cache, const char *uid)
 		key = subparts->pdata[i];
 		path = g_strdup_printf ("%s/%s", cache->path, key);
 		unlink (path);
+		g_free (path);
 		stream = g_hash_table_lookup (cache->parts, key);
 		if (stream) {
 			camel_object_unhook_event (stream, "finalize",

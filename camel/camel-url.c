@@ -330,6 +330,7 @@ camel_url_to_string (CamelURL *url, guint32 flags)
 		if (url->host) {
 			enc = camel_url_encode (url->host, TRUE, ":/");
 			g_string_sprintfa (str, "%s%s", url->user ? "@" : "", enc);
+			g_free (enc);
 		}
 		if (url->port)
 			g_string_sprintfa (str, ":%d", url->port);

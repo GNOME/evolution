@@ -1,3 +1,9 @@
+2001-04-12  Dan Winship  <danw@ximian.com>
+
+	* providers/imap/camel-imap-message-cache.c
+	(camel_imap_message_cache_remove): 
+	* camel-url.c (camel_url_to_string): Plug memory leaks.
+
 2001-04-11  Dan Winship  <danw@ximian.com>
 
 	* providers/imap/camel-imap-utils.c (imap_parse_string_generic):
