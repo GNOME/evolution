@@ -1,3 +1,11 @@
+2001-08-31  Zbigniew Chyla  <cyba@gnome.pl>
+
+	* gui/e-itip-control.c (write_html):
+	Marked strings for translation (with U_).
+
+	* gui/itip-utils.c (itip_send_comp):
+	Ditto.
+
 2001-08-31  Damon Chaplin  <damon@ximian.com>
 
 	* gui/dialogs/comp-editor-util.c (comp_editor_contacts_to_widget): 

@@ -36,6 +36,7 @@
 #include <libgnomeui/gnome-dialog-util.h>
 #include <gtk/gtkwidget.h>
 #include <gal/util/e-util.h>
+#include <e-util/e-unicode-i18n.h>
 #include <ical.h>
 #include <Evolution-Composer.h>
 #include "cal-util/cal-util.h"
@@ -296,7 +297,7 @@ itip_send_comp (CalComponentItipMethod method, CalComponent *comp)
 	sprintf (tempstr, "text/calendar;METHOD=%s", itip_methods[method]);
 	content_type = CORBA_string_dup (tempstr);
 	filename = CORBA_string_dup ("calendar.ics");
-	sprintf (tempstr, "Calendar attachment");
+	sprintf (tempstr, U_("Calendar attachment"));
 	description = CORBA_string_dup (tempstr);
 	show_inline = FALSE;
 

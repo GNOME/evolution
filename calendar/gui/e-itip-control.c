@@ -43,6 +43,7 @@
 #include <cal-client/cal-client.h>
 #include <e-util/e-time-utils.h>
 #include <e-util/e-dialog-widgets.h>
+#include <e-util/e-unicode-i18n.h>
 #include "calendar-config.h"
 #include "itip-utils.h"
 #include "e-itip-control.h"
@@ -552,10 +553,9 @@ write_html (EItipControl *itip, gchar *itip_desc, gchar *itip_title, gchar *opti
 	}
 
 	/* Describe what the user can do */
-	html = g_strdup ("<br> Please review the following information, "
-			 "and then select an action from the menu below.");
+	html = U_("<br> Please review the following information, "
+	          "and then select an action from the menu below.");
 	gtk_html_write (GTK_HTML (priv->html), html_stream, html, strlen(html));
-	g_free (html);
 	
 	/* Separator */
 	gtk_html_write (GTK_HTML (priv->html), html_stream, HTML_SEP, strlen (HTML_SEP));
@@ -568,7 +568,7 @@ write_html (EItipControl *itip, gchar *itip_desc, gchar *itip_title, gchar *opti
 
 	/* Summary */
 	cal_component_get_summary (priv->comp, &text);
-	html = g_strdup_printf ("<b>Summary:</b> %s<br><br>", text.value ? text.value : "<i>None</i>");
+	html = g_strdup_printf (U_("<b>Summary:</b> %s<br><br>"), text.value ? text.value : U_("<i>None</i>"));
 	gtk_html_write (GTK_HTML (priv->html), html_stream, html, strlen(html));
 	g_free (html);
 
@@ -578,7 +578,7 @@ write_html (EItipControl *itip, gchar *itip_desc, gchar *itip_title, gchar *opti
 		text = *((CalComponentText *)l->data);
 
 	if (l && text.value) {
-		html = g_strdup_printf ("<b>Description:</b> %s", text.value);
+		html = g_strdup_printf (U_("<b>Description:</b> %s"), text.value);
 		gtk_html_write (GTK_HTML (priv->html), html_stream, html, strlen(html));
 		g_free (html);
 	}
