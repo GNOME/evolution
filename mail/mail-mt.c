@@ -69,6 +69,8 @@ static pthread_cond_t mail_msg_cond = PTHREAD_COND_INITIALIZER;
 
 pthread_t mail_gui_thread;
 
+MailAsyncEvent *mail_async_event;
+
 static void mail_msg_destroy(EThread *e, EMsg *msg, void *data);
 
 void *mail_msg_new(mail_msg_op_t *ops, EMsgPort *reply_port, size_t size)
@@ -184,7 +186,7 @@ void mail_msg_free(void *msg)
 	g_free(m);
 
 	if (activity)
-		mail_proxy_event(destroy_objects, NULL, activity, NULL);
+		mail_async_event_emit(mail_async_event, destroy_objects, NULL, activity, NULL);
 }
 
 /* hash table of ops->dialogue of active errors */
@@ -473,6 +475,8 @@ void mail_msg_init(void)
 
 	mail_msg_active = g_hash_table_new(NULL, NULL);
 	mail_gui_thread = pthread_self();
+
+	mail_async_event = mail_async_event_new();
 }
 
 /* ********************************************************************** */
@@ -764,63 +768,86 @@ mail_user_message (const char *type, const char *prompt, gboolean allow_cancel)
 
 struct _proxy_msg {
 	struct _mail_msg msg;
+	MailAsyncEvent *ea;
 	CamelObjectEventHookFunc func;
 	CamelObject *o;
 	void *event_data;
 	void *data;
 };
 
-static int mail_proxy_event_current = -1;
-
 static void
-do_proxy_event(struct _mail_msg *mm)
+do_async_event(struct _mail_msg *mm)
 {
 	struct _proxy_msg *m = (struct _proxy_msg *)mm;
 
-	mail_proxy_event_current = mm->seq;
 	m->func(m->o, m->event_data, m->data);
-	mail_proxy_event_current = -1;
+
+	g_mutex_lock(m->ea->lock);
+	m->ea->tasks = g_slist_remove(m->ea->tasks, (void *)mm->seq);
+	g_mutex_unlock(m->ea->lock);
+
 }
 
-struct _mail_msg_op proxy_event_op = {
+struct _mail_msg_op async_event_op = {
 	NULL,
-	do_proxy_event,
+	do_async_event,
 	NULL,
 	NULL,
 };
 
-/* returns the current id of the executing proxy event */
-int mail_proxy_event_id(void)
+MailAsyncEvent *mail_async_event_new(void)
 {
-	return mail_proxy_event_current;
+	MailAsyncEvent *ea;
+
+	ea = g_malloc0(sizeof(*ea));
+	ea->lock = g_mutex_new();
+
+	return ea;
 }
 
-int mail_proxy_event(CamelObjectEventHookFunc func, CamelObject *o, void *event_data, void *data)
+int mail_async_event_emit(MailAsyncEvent *ea, CamelObjectEventHookFunc func, CamelObject *o, void *event_data, void *data)
 {
 	struct _proxy_msg *m;
 	int id;
 	int ismain = pthread_self() == mail_gui_thread;
 
 	if (ismain) {
-		/* save the current id incase we're proxying an event in a proxied event */
-		id = mail_proxy_event_current;
-		mail_proxy_event_current = -1;
 		func(o, event_data, data);
-		mail_proxy_event_current = id;
 		/* id of -1 is 'always finished' */
 		return -1;
 	} else {
 		/* we dont have a reply port for this, we dont care when/if it gets executed, just queue it */
-		m = mail_msg_new(&proxy_event_op, NULL, sizeof(*m));
+		m = mail_msg_new(&async_event_op, NULL, sizeof(*m));
 		m->func = func;
 		m->o = o;
 		m->event_data = event_data;
 		m->data = data;
-		
+		m->ea = ea;
+
 		id = m->msg.seq;
+		g_mutex_lock(ea->lock);
+		ea->tasks = g_slist_prepend(ea->tasks, (void *)id);
+		g_mutex_unlock(ea->lock);
 		e_msgport_put(mail_gui_port, (EMsg *)m);
 		return id;
 	}
+}
+
+void mail_async_event_destroy(MailAsyncEvent *ea)
+{
+	int id;
+
+	g_mutex_lock(ea->lock);
+	while (ea->tasks) {
+		id = (int)ea->tasks->data;
+		g_mutex_unlock(ea->lock);
+		mail_msg_wait(id);
+		g_mutex_lock(ea->lock);
+	}
+	g_mutex_unlock(ea->lock);
+
+	g_mutex_free(ea->lock);
+	g_free(ea);
 }
 
 /* ********************************************************************** */
@@ -845,6 +872,11 @@ do_call(struct _mail_msg *mm)
 	case MAIL_CALL_p_p:
 		p1 = va_arg(ap, void *);
 		m->ret = m->func(p1);
+		break;
+	case MAIL_CALL_p_pp:
+		p1 = va_arg(ap, void *);
+		p2 = va_arg(ap, void *);
+		m->ret = m->func(p1, p2);
 		break;
 	case MAIL_CALL_p_ppp:
 		p1 = va_arg(ap, void *);

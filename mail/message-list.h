@@ -81,6 +81,9 @@ struct _MessageList {
 
 	/* locks */
 	GMutex *hide_lock;	/* for any 'hide' info above */
+
+	/* for message/folder chagned event handling */
+	struct _MailAsyncEvent *async_event;
 };
 
 typedef struct {

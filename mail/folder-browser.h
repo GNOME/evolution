@@ -17,7 +17,6 @@
 #include "mail-types.h"
 #include "shell/Evolution.h"
 
-
 #define FOLDER_BROWSER_TYPE        (folder_browser_get_type ())
 #define FOLDER_BROWSER(o)          (GTK_CHECK_CAST ((o), FOLDER_BROWSER_TYPE, FolderBrowser))
 #define FOLDER_BROWSER_CLASS(k)    (GTK_CHECK_CLASS_CAST((k), FOLDER_BROWSER_TYPE, FolderBrowserClass))
@@ -36,8 +35,6 @@ typedef enum _FolderBrowserSelectionState {
 struct  _FolderBrowser {
 	GtkTable parent;
 
-	struct _FolderBrowserPrivate *priv;
-	
 	BonoboPropertyBag *properties;
 	
 	GNOME_Evolution_Shell shell;
@@ -83,8 +80,10 @@ struct  _FolderBrowser {
 	
 	GtkWidget *invisible;
 	GByteArray *clipboard_selection;
-};
 
+	/* for async events */
+	struct _MailAsyncEvent *async_event;
+};
 
 typedef struct {
 	GtkTableClass parent_class;

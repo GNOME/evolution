@@ -68,14 +68,23 @@ char *mail_get_password (CamelService *service, const char *prompt,
  */
 gboolean mail_user_message (const char *type, const char *prompt, gboolean allow_cancel);
 
+/* asynchronous event proxies */
+typedef struct _MailAsyncEvent {
+	GMutex *lock;
+	GSList *tasks;
+} MailAsyncEvent;
+
+/* create a new async event handler */
+MailAsyncEvent *mail_async_event_new(void);
 /* forward a camel event (or other call) to the gui thread */
-int mail_proxy_event(CamelObjectEventHookFunc func, CamelObject *o, void *event_data, void *data);
-/* in main (only), get the current event id */
-int mail_proxy_event_id(void);
+int mail_async_event_emit(MailAsyncEvent *ea, CamelObjectEventHookFunc func, CamelObject *o, void *event_data, void *data);
+/* wait for all outstanding async events to complete */
+void mail_async_event_destroy(MailAsyncEvent *ea);
 
 /* Call a function in the gui thread, wait for it to return, type is the marshaller to use */
 typedef enum {
 	MAIL_CALL_p_p,
+	MAIL_CALL_p_pp,
 	MAIL_CALL_p_ppp,
 	MAIL_CALL_p_pppp,
 	MAIL_CALL_p_ppippp,
@@ -98,5 +107,8 @@ extern EThread *mail_thread_queued_slow;	/* for operations that can (or should) 
 /* The main thread. */
 extern pthread_t mail_gui_thread;
 
+/* A generic proxy event for anything that can be proxied during the life of the mailer (almost nothing) */
+/* Note that almost all objects care about the lifecycle of their events, so this cannot be used */
+extern MailAsyncEvent *mail_async_event;
 
 #endif /* ! _MAIL_MT */

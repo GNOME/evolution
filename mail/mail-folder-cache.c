@@ -70,6 +70,7 @@ struct _store_info {
 	/* only 1 should be set */
 	EvolutionStorage *storage;
 	GNOME_Evolution_Storage corba_storage;
+	MailAsyncEvent *async_event;
 };
 
 static GHashTable *stores;
@@ -195,9 +196,8 @@ folder_changed(CamelObject *o, gpointer event_data, gpointer user_data)
 		return;
 
 	d(printf("Fodler changed!\n"));
-	/* hopefully our mfi isn't lost while this is executing ... */
 	camel_object_ref((CamelObject *)o);
-	mail_proxy_event((CamelObjectEventHookFunc)real_folder_changed, o, NULL, mfi);
+	mail_async_event_emit(mfi->store_info->async_event, (CamelObjectEventHookFunc)real_folder_changed, o, NULL, mfi);
 }
 
 static void
@@ -210,74 +210,90 @@ folder_finalised(CamelObject *o, gpointer event_data, gpointer user_data)
 }
 
 static void
+folder_deleted(CamelObject *o, gpointer event_data, gpointer user_data)
+{
+	struct _folder_info *mfi = user_data;
+
+	(printf("Folder deleted '%s'!\n", ((CamelFolder *)o)->full_name));
+	mfi->folder = NULL;
+}
+
+static void
 real_note_folder(CamelFolder *folder, void *event_data, void *data)
 {
-	CamelStore *store = folder->parent_store;
-	struct _store_info *si;
-	struct _folder_info *mfi;
+	struct _folder_info *mfi = event_data;
 
-	LOCK(info_lock);
-	si = g_hash_table_lookup(stores, store);
-	UNLOCK(info_lock);
-	if (si == NULL) {
-		g_warning("Adding a folder `%s' to a store %p which hasn't been added yet?\n", folder->full_name, store);
-		camel_object_unref((CamelObject *)folder);
-		return;
-	}
-
-	LOCK(info_lock);
-	mfi = g_hash_table_lookup(si->folders, folder->full_name);
-	UNLOCK(info_lock);
-
-	if (mfi == NULL) {
-		g_warning("Adding a folder `%s' that I dont know about yet?", folder->full_name);
-		camel_object_unref((CamelObject *)folder);
-		return;
-	}
-
-	/* dont do anything if we already have this */
-	if (mfi->folder == folder) {
-		camel_object_unref (CAMEL_OBJECT (folder));
-		return;
-	}
-
-	mfi->folder = folder;
 	update_1folder(mfi, NULL);
-
-	camel_object_hook_event((CamelObject *)folder, "folder_changed", folder_changed, mfi);
-	camel_object_hook_event((CamelObject *)folder, "message_changed", folder_changed, mfi);
-	camel_object_hook_event((CamelObject *)folder, "finalize", folder_finalised, mfi);
-
 	camel_object_unref((CamelObject *)folder);
 }
 
 void mail_note_folder(CamelFolder *folder)
 {
+	CamelStore *store = folder->parent_store;
+	struct _store_info *si;
+	struct _folder_info *mfi;
+
 	if (stores == NULL) {
 		g_warning("Adding a folder `%s' to a store which hasn't been added yet?\n", folder->full_name);
 		return;
 	}
 
+	LOCK(info_lock);
+	si = g_hash_table_lookup(stores, store);
+	if (si == NULL) {
+		g_warning("Adding a folder `%s' to a store %p which hasn't been added yet?\n", folder->full_name, store);
+		UNLOCK(info_lock);
+		return;
+	}
+
+	mfi = g_hash_table_lookup(si->folders, folder->full_name);
+	if (mfi == NULL) {
+		g_warning("Adding a folder `%s' that I dont know about yet?", folder->full_name);
+		UNLOCK(info_lock);
+		return;
+	}
+
+	/* dont do anything if we already have this */
+	if (mfi->folder == folder) {
+		UNLOCK(info_lock);
+		return;
+	}
+
+	mfi->folder = folder;
+
+	camel_object_hook_event((CamelObject *)folder, "folder_changed", folder_changed, mfi);
+	camel_object_hook_event((CamelObject *)folder, "message_changed", folder_changed, mfi);
+	camel_object_hook_event((CamelObject *)folder, "deleted", folder_deleted, mfi);
+	camel_object_hook_event((CamelObject *)folder, "finalize", folder_finalised, mfi);
+
 	camel_object_ref((CamelObject *)folder);
-	mail_proxy_event((CamelObjectEventHookFunc)real_note_folder, (CamelObject *)folder, NULL, NULL);
+
+	UNLOCK(info_lock);
+
+	mail_async_event_emit(si->async_event, (CamelObjectEventHookFunc)real_note_folder, (CamelObject *)folder, (void *)mfi, NULL);
 }
 
 static void
-real_folder_created(CamelStore *store, void *event_data, CamelFolderInfo *fi)
+real_folder_created(CamelStore *store, struct _store_info *si, CamelFolderInfo *fi)
+{
+	setup_folder(fi, si);
+	camel_object_unref((CamelObject *)store);
+}
+
+static void
+store_folder_subscribed(CamelObject *o, void *event_data, void *data)
 {
 	struct _store_info *si;
 
-	d(printf("real_folder_created: %s (%s)\n", fi->full_name, fi->url));
-
 	LOCK(info_lock);
-	si = g_hash_table_lookup(stores, store);
-	UNLOCK(info_lock);
+	si = g_hash_table_lookup(stores, o);
 	if (si)
-		setup_folder(fi, si);
-	else
-		/* leaks, so what */
-		g_warning("real_folder_created: can't find store: %s\n",
-			  camel_url_to_string(((CamelService *)store)->url, 0));
+		camel_object_ref(o);
+	UNLOCK(info_lock);
+
+	if (si)
+		mail_async_event_emit(si->async_event,
+				      (CamelObjectEventHookFunc)real_folder_created, o, si, event_data);
 }
 
 static void
@@ -285,14 +301,9 @@ store_folder_created(CamelObject *o, void *event_data, void *data)
 {
 	/* we only want created events to do more work if we dont support subscriptions */
 	if (!camel_store_supports_subscriptions(CAMEL_STORE(o)))
-		mail_msg_wait(mail_proxy_event((CamelObjectEventHookFunc)real_folder_created, o, NULL, event_data));
+		store_folder_subscribed(o, event_data, data);
 }
 
-static void
-store_folder_subscribed(CamelObject *o, void *event_data, void *data)
-{
-	mail_msg_wait(mail_proxy_event((CamelObjectEventHookFunc)real_folder_created, o, NULL, event_data));
-}
 
 static void
 real_folder_deleted(CamelStore *store, void *event_data, CamelFolderInfo *fi)
@@ -301,6 +312,24 @@ real_folder_deleted(CamelStore *store, void *event_data, CamelFolderInfo *fi)
 	
 	if (strstr(fi->url, ";noselect") == NULL)
 		mail_vfolder_remove_uri(store, fi->url);
+
+	camel_object_unref((CamelObject *)store);
+}
+
+static void
+store_folder_unsubscribed(CamelObject *o, void *event_data, void *data)
+{
+	struct _store_info *si;
+
+	LOCK(info_lock);
+	si = g_hash_table_lookup(stores, o);
+	if (si)
+		camel_object_ref(o);
+	UNLOCK(info_lock);
+
+	if (si)
+		mail_async_event_emit(si->async_event,
+				      (CamelObjectEventHookFunc)real_folder_deleted, o, si, event_data);
 }
 
 static void
@@ -308,14 +337,9 @@ store_folder_deleted(CamelObject *o, void *event_data, void *data)
 {
 	/* we only want deleted events to do more work if we dont support subscriptions */
 	if (!camel_store_supports_subscriptions(CAMEL_STORE(o)))
-		mail_msg_wait(mail_proxy_event((CamelObjectEventHookFunc)real_folder_deleted, o, NULL, event_data));
+		store_folder_unsubscribed(o, event_data, data);
 }
 
-static void
-store_folder_unsubscribed(CamelObject *o, void *event_data, void *data)
-{
-	mail_msg_wait(mail_proxy_event((CamelObjectEventHookFunc)real_folder_deleted, o, NULL, event_data));
-}
 
 static void
 free_folder_info(char *path, struct _folder_info *info, void *data)
@@ -336,6 +360,9 @@ store_finalised(CamelObject *o, void *event_data, void *data)
 	si = g_hash_table_lookup(stores, store);
 	if (si) {
 		g_hash_table_remove(stores, store);
+		UNLOCK(info_lock);
+		mail_async_event_destroy(si->async_event);
+		LOCK(info_lock);
 		g_hash_table_foreach(si->folders, (GHFunc)free_folder_info, NULL);
 		g_hash_table_destroy(si->folders);
 		g_free(si);
@@ -408,6 +435,7 @@ mail_note_store(CamelStore *store, EvolutionStorage *storage, GNOME_Evolution_St
 		si->corba_storage = corba_storage;
 		si->store = store;
 		g_hash_table_insert(stores, store, si);
+		si->async_event = mail_async_event_new();
 
 		camel_object_hook_event((CamelObject *)store, "folder_created", store_folder_created, NULL);
 		camel_object_hook_event((CamelObject *)store, "folder_deleted", store_folder_deleted, NULL);

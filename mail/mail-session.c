@@ -271,17 +271,9 @@ camel_timeout (gpointer data)
 }
 
 static void
-do_register_timeout(CamelObject *o, void *edata, void *data)
+main_register_timeout(struct _timeout_data *td)
 {
-	struct _timeout_data *td = (struct _timeout_data *)edata;
-
 	td->result = gtk_timeout_add_full(td->interval, camel_timeout, NULL, td, g_free);
-}
-
-static void
-do_remove_timeout(CamelObject *o, void *edata, void *data)
-{
-	gtk_timeout_remove(*((int *)edata));
 }
 
 static guint
@@ -298,7 +290,7 @@ register_timeout (CamelSession *session, guint32 interval, CamelTimeoutCallback 
 		g_warning("Timeout %u too small, increased to 1000", interval);
 		interval = 1000;
 	}
-	
+
 	/* This is extremely messy, we need to proxy to gtk thread for this */
 	td = g_malloc (sizeof (*td));
 	td->interval = interval;
@@ -306,7 +298,7 @@ register_timeout (CamelSession *session, guint32 interval, CamelTimeoutCallback 
 	td->cb = cb;
 	td->camel_data = camel_data;
 
-	mail_msg_wait(mail_proxy_event(do_register_timeout, (CamelObject *)session, td, NULL));
+	mail_call_main(MAIL_CALL_p_p, (MailMainFunc)main_register_timeout, td);
 
 	if (td->result == 0) {
 		g_free(td);
@@ -316,10 +308,16 @@ register_timeout (CamelSession *session, guint32 interval, CamelTimeoutCallback 
 	return td->result;
 }
 
+static void
+main_remove_timeout(guint *edata)
+{
+	gtk_timeout_remove(*edata);
+}
+
 static gboolean
 remove_timeout (CamelSession *session, guint handle)
 {
-	mail_msg_wait(mail_proxy_event(do_remove_timeout, (CamelObject *)session, &handle, NULL));
+	mail_call_main(MAIL_CALL_p_p, (MailMainFunc)main_remove_timeout, &handle);
 
 	return TRUE;
 }

@@ -1120,12 +1120,15 @@ message_list_init (GtkObject *object)
 	message_list->hide_lock = g_mutex_new();
 
 	message_list->uid_nodemap = g_hash_table_new (g_str_hash, g_str_equal);
+	message_list->async_event = mail_async_event_new();
 }
 
 static void
 message_list_destroy (GtkObject *object)
 {
 	MessageList *message_list = MESSAGE_LIST (object);
+
+	mail_async_event_destroy(message_list->async_event);
 
 	if (message_list->folder) {
 		save_tree_state(message_list);
@@ -1868,9 +1871,8 @@ main_folder_changed (CamelObject *o, gpointer event_data, gpointer user_data)
 static void
 folder_changed (CamelObject *o, gpointer event_data, gpointer user_data)
 {
-	/* similarly to message_changed, copy the change list and propagate it to
-	   the main thread and free it */
 	CamelFolderChangeInfo *changes;
+	MessageList *ml = MESSAGE_LIST (user_data);
 
 	if (event_data) {
 		changes = camel_folder_change_info_new();
@@ -1878,29 +1880,20 @@ folder_changed (CamelObject *o, gpointer event_data, gpointer user_data)
 	} else {
 		changes = NULL;
 	}
-	mail_proxy_event (main_folder_changed, o, changes, user_data);
-}
 
-static void
-main_message_changed (CamelObject *o, gpointer uid, gpointer user_data)
-{
-	MessageList *ml = MESSAGE_LIST (user_data);
-	CamelFolderChangeInfo *changes;
-
-	changes = camel_folder_change_info_new();
-	camel_folder_change_info_change_uid(changes, uid);
-	main_folder_changed(o, changes, ml);
-	g_free(uid);
+	mail_async_event_emit(ml->async_event, main_folder_changed, o, changes, user_data);
 }
 
 static void
 message_changed (CamelObject *o, gpointer event_data, gpointer user_data)
 {
-	/* Here we copy the data because our thread may free the copy that we would reference.
-	 * The other thread would be passed a uid parameter that pointed to freed data.
-	 * We copy it and free it in the handler. 
-	 */
-	mail_proxy_event (main_message_changed, o, g_strdup ((gchar *)event_data), user_data);
+	CamelFolderChangeInfo *changes;
+	MessageList *ml = MESSAGE_LIST (user_data);
+
+	changes = camel_folder_change_info_new();
+	camel_folder_change_info_change_uid(changes, (char *)event_data);
+
+	mail_async_event_emit(ml->async_event, main_folder_changed, o, changes, user_data);
 }
 
 void

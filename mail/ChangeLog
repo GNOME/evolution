@@ -1,5 +1,51 @@
 2001-10-16    <NotZed@Ximian.com>
 
+	* mail-folder-cache.c: Added an async_event handler to store_info.
+	(mail_note_store): Setup async event handler here.
+	(store_finalised): Flush out async events here.
+	(folder_changed): Use async event handler to emit event.
+	(mail_note_folder): Chagned, do most of the work in the calling
+	context, only do the corba stuff in main.
+	(store_folder_subscribed): Use async event, and do more work locally.
+	(store_folder_unsubscribed): Same.
+	(store_folder_deleted): Call store_folder_unsubscribed if we have
+	to do any work.
+	(store_folder_created): Call store_folder_subscribed if we have to
+	do any work.
+	(store_folder_unsubscribed): Ref store while busy.
+	(real_folder_deleted): And unref here.
+	(store_folder_subscribed): Reg store while busy.
+	(real_folder_created): Unref here.
+	(mail_note_folder): Ref folder while busy.
+	(real_note_folder): And unref here.
+	(mail_note_folder): Hook onto folder_deleted event.
+	(folder_deleted): Just mark this folder as no longer available.
+	
+	* mail-session.c (register_timeout): Use mail_call_main instead of
+	proxy_event.
+	(remove_timeout): Same here.
+
+	* folder-browser.c (folder_changed): use the new mail_async_event
+	stuff.
+	(folder_changed_main): Remove old async event handling stuff.
+	(FOLDER_BROWSER_LOCK/UNLOCK): Removed.
+	(FolderBrowserPrivate): Removed too, sigh.
+
+	* mail-mt.c (mail_async_event_new, mail_async_event_emit,
+	mail_async_event_destroy): New functions to handle async events.
+	(mail_proxy_event, mail_proxy_event_id): Removed old functions for
+	async events.
+	(do_call): Add suport for MAIL_CALL_p_pp.
+	(mail_msg_free): Use mail_async_event instead of proxy_event.
+
+	* message-list.c (message_changed): Promote the message_changed to
+	a folder_changed and use main_folder_changed to process it.
+	(main_message_changed): Remove.d
+	(message_list_init): Setup async event handler.
+	(message_list_destroy): Remove async handler.
+	(folder_changed): Use async hanler to emit event in main loop.
+	(message_changed): Same.
+
 	* mail-mt.c (mail_proxy_event_id): New function to return the id
 	of the currently executing proxied event.
 
