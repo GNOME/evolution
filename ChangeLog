@@ -1,3 +1,7 @@
+2001-05-08  Christopher James Lahey  <clahey@ximian.com>
+
+	* configure.in: Bumped check for gal to 0.7.99.3.
+
 2001-05-04  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* acconfig.h: undef HAVE_SSL and HAVE_OPENSSL
