@@ -361,7 +361,7 @@ impl_expose_event (GtkWidget *widget,
 	child_event = *event;
 	if (bin->child && GTK_WIDGET_NO_WINDOW (bin->child) &&
 	    gtk_widget_intersect (bin->child, &event->area, &child_event.area))
-		gtk_widget_event (bin->child, (GdkEvent*) &child_event);
+		gtk_container_propagate_expose (GTK_CONTAINER (widget), bin->child, &child_event);
 
 	return FALSE;
 }
