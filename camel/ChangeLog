@@ -1,5 +1,7 @@
 2004-02-24  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* camel-stream-process.c: #include <signal.h>, we don't need limits.h
+
 	* camel-store.c (camel_store_folder_uri_equal): New function to do
 	what camel_store_uri_cmp() was supposed to do.
 
