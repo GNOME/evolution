@@ -29,7 +29,7 @@
 #include "camel-service.h"
 
 CamelServiceAuthType camel_sasl_plain_authtype = {
-	N_("Password"),
+	N_("PLAIN"),
 
 	N_("This option will connect to the server using a "
 	   "simple password."),

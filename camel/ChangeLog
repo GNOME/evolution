@@ -1,3 +1,15 @@
+2002-06-19  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* providers/smtp/camel-smtp-transport.c (smtp_connect): Don't
+	bother trying to authenticate (and thus don't throw up an error
+	dialog) unless the server is an ESMTP server and supports
+	authentication.
+
+	* camel-sasl-plain.c: Change the user-friendly name to PLAIN, this
+	is what it should be. Not "Password" because user's immediately
+	think that they need authentication when they see "Password" even
+	if they don't need it at all.
+
 2002-06-17  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* camel-vee-folder.c (camel_vee_folder_add_folder): Update the

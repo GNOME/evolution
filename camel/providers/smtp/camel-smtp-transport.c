@@ -424,6 +424,7 @@ static gboolean
 smtp_connect (CamelService *service, CamelException *ex)
 {
 	CamelSmtpTransport *transport = CAMEL_SMTP_TRANSPORT (service);
+	gboolean has_authtypes;
 	
 	/* We (probably) need to check popb4smtp before we connect ... */
 	if (service->url->authmech && !strcmp (service->url->authmech, "POPB4SMTP")) {
@@ -448,18 +449,18 @@ smtp_connect (CamelService *service, CamelException *ex)
 		return FALSE;
 	
 	/* check to see if AUTH is required, if so...then AUTH ourselves */
-	if (service->url->authmech) {
+	has_authtypes = g_hash_table_size (transport->authtypes) > 0;
+	if (service->url->authmech && (transport->flags & CAMEL_SMTP_TRANSPORT_IS_ESMTP) && has_authtypes) {
 		CamelSession *session = camel_service_get_session (service);
 		CamelServiceAuthType *authtype;
 		gboolean authenticated = FALSE;
 		char *errbuf = NULL;
 		
-		if (!(transport->flags & CAMEL_SMTP_TRANSPORT_IS_ESMTP) ||
-		    !g_hash_table_lookup (transport->authtypes, service->url->authmech)) {
+		if (!g_hash_table_lookup (transport->authtypes, service->url->authmech)) {
 			camel_exception_setv (ex, CAMEL_EXCEPTION_SERVICE_CANT_AUTHENTICATE,
 					      _("SMTP server %s does not support requested "
-						"authentication type %s"), service->url->host,
-					      service->url->authmech);
+						"authentication type %s."),
+					      service->url->host, service->url->authmech);
 			camel_service_disconnect (service, TRUE, NULL);
 			return FALSE;
 		}
