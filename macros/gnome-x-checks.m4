@@ -47,7 +47,7 @@ AC_DEFUN([GNOME_X_CHECKS],
 	    ;;
 	esac
 
-	AC_CHECK_HEADER(gtk/gtkaccelgroup.h, AC_DEFINE(HAVE_DEVGTK))
+	AC_CHECK_HEADER(gtk/gtkaccelgroup.h, USE_DEVGTK=true; AC_DEFINE(HAVE_DEVGTK))
 
 	if test "$GNOME_HAVE_SM" = true; then
 	   AC_CHECK_HEADERS(X11/SM/SMlib.h,,GNOME_HAVE_SM=false)

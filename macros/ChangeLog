@@ -1,3 +1,8 @@
+Wed Jun 10 14:19:39 EDT 1998 Gregory McLean <gregm@comstar.net>
+
+	* gnome-x-checks.m4: more tweeks to make building against gtk 1.0 and
+	  gtk1.1 less painful.
+
 1998-06-08  Martin Baulig  <martin@home-of-linux.org>
 
 	* gnome-support.m4 (CROSS_COMPILING): New automake conditional;
