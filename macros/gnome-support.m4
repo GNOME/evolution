@@ -58,13 +58,8 @@ AC_DEFUN([GNOME_SUPPORT_CHECKS],[
     fi
   done
 
-  AC_CHECK_FUNCS(vsnprintf,,[
-    AC_CHECK_FUNCS(__vsnprintf,
-      LIBOBJS="$LIBOBJS easy-vsnprintf.o",
-      LIBOBJS="$LIBOBJS vsnprintf.o")])
-
   AC_REPLACE_FUNCS(memmove mkstemp scandir strcasecmp strerror strndup strnlen)
-  AC_REPLACE_FUNCS(strtok_r strtod strtol strtoul vasprintf)
+  AC_REPLACE_FUNCS(strtok_r strtod strtol strtoul vasprintf vsnprintf)
 
   AC_CHECK_FUNCS(realpath,,LIBOBJS="$LIBOBJS canonicalize.o")
 
