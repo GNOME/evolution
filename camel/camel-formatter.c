@@ -20,7 +20,6 @@
  *  along with this program; if not, write to the Free Software
  *  Foundation, Inc., 59 Temple Street #330, Boston, MA 02111-1307, USA.
  *
- *
  *----------------------------------------------------------------------*/
 
 #include <config.h>
@@ -30,7 +29,7 @@ static GtkObjectClass *parent_class=NULL;
 static void _finalize (GtkObject *object);
 
 struct _CamelFormatterPrivate {
-	CamelMimeMessage *msg;
+	/* nothing here yet */
 };
 
 static void
@@ -53,58 +52,51 @@ write_recipients_to_stream (const gchar *recipient_type,
 	gchar *s;
 	g_assert (recipient_type && stream_out);
 	
-	s = g_strdup_printf ("<b>%s: <br>\n", recipient_type);
+	/* Write "To:", "CC:", or "BCC:" to the stream */
+	s = g_strdup_printf ("<b>%s:</b> ", recipient_type);
 	camel_stream_write_string (stream_out, s);
 	g_free (s);
 
+	/* Write out each recipient of 'recipient_type' to the stream */
  	while (recipients) {
 		camel_stream_write_string (stream_out, recipients->data);
 		recipients = recipients->next;
 		if (recipients)
 			camel_stream_write_string (stream_out, "; ");
 	}
-	camel_stream_write_string (stream_out, "</b><br>\n");	
+	camel_stream_write_string (stream_out, "<br><br>\n");	
 }
 
-void
-set_mime_message (CamelFormatter* cfm, CamelMimeMessage* msg)
+CamelFormatter*
+camel_formatter_new ()
 {
-	g_assert(cfm && msg);
-	cfm->priv->msg = msg;
+	return (gtk_type_new (CAMEL_FORMATTER_TYPE));
 }
-
 
 
 /**
- * camel_formatter_to_html: write data content in a byte stream
- * @data_wrapper: the camel formatter object
- * @stream_out byte stream where data will be written 
- * 
- * This method must be overriden by subclasses
- * Data must be written in the bytes stream
- * in a architecture independant fashion. 
- * If data is a standard data (for example an jpg image)
- * it must be serialized in the strea exactly as it 
- * would be saved on disk. A simple dump of the stream in
- * a file should be sufficient for the data to be 
- * re-read by a foreign application.  
- * 
+ * camel_formatter_make_html: 
+ * @formatter: the camel formatter object
+ * @stream_out: byte stream where data will be written 
+ *
+ * Writes a CamelMimeMessage out, as html, into a stream passed in as
+ * a parameter.
  **/
 void
-camel_formatter_make_html (CamelFormatter *mhs,
+camel_formatter_make_html (CamelFormatter* formatter,
+			   CamelMimeMessage* mime_message,
 			   CamelStream* stream_out)
 {
 	gchar *s = NULL;
 	GList *recipients = NULL;
-	CamelMimeMessage *mime_message;
 
-	g_assert (mhs && stream_out);
-	g_assert (mhs->priv->msg);
+	g_assert (formatter && mime_message && stream_out);
 
-	mime_message = mhs->priv->msg;
-	
 	camel_stream_write_string (stream_out, "Content type: text/html\n");
-
+	
+	/* A few fields will probably be available from the mime_message;
+	   for each one that's available, write it to the output stream
+	   with a helper function, 'write_field_to_stream'. */
 	if ((s = (gchar*)camel_mime_message_get_subject (mime_message))) {
 		write_field_to_stream ("Subject: ", s, stream_out);
 	}
@@ -155,7 +147,7 @@ static void
 camel_formatter_init (gpointer object, gpointer klass) 
 {
 	CamelFormatter* cmf = CAMEL_FORMATTER (object);
-	cmf->priv->msg = NULL;
+	cmf->priv = g_new (CamelFormatterPrivate, 1);
 }
 
 
@@ -189,9 +181,9 @@ camel_formatter_get_type (void)
 static void           
 _finalize (GtkObject *object)
 {
-	CamelFormatter *mhs = CAMEL_FORMATTER (object);
+	CamelFormatter *formatter = CAMEL_FORMATTER (object);
 
-	g_free (mhs->priv);
+	g_free (formatter->priv);
 	
 	GTK_OBJECT_CLASS (parent_class)->finalize (object);
 }

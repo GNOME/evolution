@@ -50,13 +50,12 @@ typedef struct {
 GtkType  camel_formatter_get_type (void);
 
 /* Public functions */
-CamelFormatter* camel_formatter_new (CamelMimeMessage* msg);
-
-void set_mime_message (CamelFormatter* cfm, CamelMimeMessage* msg);
+CamelFormatter* camel_formatter_new ();
 
 /* The main job of CamelFormatter is to take a mime message, and
    produce html from it. */
 void     camel_formatter_make_html (CamelFormatter* cmf,
+				    CamelMimeMessage *msg,
 				    CamelStream* stream_out);
 
 #endif // CAMEL_FORMATTER_H
