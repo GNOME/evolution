@@ -13,6 +13,7 @@ GtkWidget *e_create_image_widget     (gchar *name, gchar *string1, gchar *string
 void e_container_foreach_leaf        (GtkContainer *container,
 				      GtkCallback   callback,
 				      gpointer      closure);
-
+gint e_container_change_tab_order    (GtkContainer *container,
+				      GList        *widgets);
 
 #endif /* E_GUI_UTILS_H */

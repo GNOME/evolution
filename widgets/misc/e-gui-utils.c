@@ -136,3 +136,84 @@ e_container_foreach_leaf(GtkContainer *container,
 	callback_closure.closure = closure;
 	gtk_container_foreach(container, (GtkCallback) e_container_foreach_leaf_callback, &callback_closure);
 }
+
+static void
+e_container_change_tab_order_destroy_notify(gpointer data)
+{
+	GList *list = data;
+	g_list_foreach(list, (GFunc) gtk_object_unref, NULL);
+	g_list_free(list);
+}
+
+
+static gint
+e_container_change_tab_order_callback(GtkContainer *container,
+				      GtkDirectionType direction,
+				      GList *children)
+{
+	GtkWidget *focus_child;
+	GtkWidget *child;
+
+	if (direction != GTK_DIR_TAB_FORWARD &&
+	    direction != GTK_DIR_TAB_BACKWARD)
+		return FALSE;
+
+	focus_child = container->focus_child;
+
+	if (direction == GTK_DIR_TAB_BACKWARD) {
+		children = g_list_last(children);
+	}
+
+	while (children) {
+		child = children->data;
+		if (direction == GTK_DIR_TAB_FORWARD)
+			children = children->next;
+		else
+			children = children->prev;
+
+		if (!child)
+			continue;
+
+		if (focus_child) {
+			if (focus_child == child) {
+				focus_child = NULL;
+
+				if (GTK_WIDGET_DRAWABLE (child) &&
+				    GTK_IS_CONTAINER (child) &&
+				    !GTK_WIDGET_HAS_FOCUS (child))
+					if (gtk_container_focus (GTK_CONTAINER (child), direction)) {
+						gtk_signal_emit_stop_by_name(GTK_OBJECT(container), "focus");
+						return TRUE;
+					}
+			}
+		}
+		else if (GTK_WIDGET_DRAWABLE (child)) {
+			if (GTK_IS_CONTAINER (child)) {
+				if (gtk_container_focus (GTK_CONTAINER (child), direction)) {
+					gtk_signal_emit_stop_by_name(GTK_OBJECT(container), "focus");
+					return TRUE;
+				}
+			}
+			else if (GTK_WIDGET_CAN_FOCUS (child)) {
+				gtk_widget_grab_focus (child);
+				gtk_signal_emit_stop_by_name(GTK_OBJECT(container), "focus");
+				return TRUE;
+			}
+		}
+	}
+
+	return FALSE;
+}
+
+gint
+e_container_change_tab_order(GtkContainer *container, GList *widgets)
+{
+	GList *list;
+	list = g_list_copy(widgets);
+	g_list_foreach(list, (GFunc) gtk_object_ref, NULL);
+	return gtk_signal_connect_full(GTK_OBJECT(container), "focus",
+				       GTK_SIGNAL_FUNC(e_container_change_tab_order_callback),
+				       NULL, list,
+				       e_container_change_tab_order_destroy_notify,
+				       FALSE, FALSE);
+}
