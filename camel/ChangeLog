@@ -1,10 +1,21 @@
+2002-07-15  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* providers/local/camel-local-provider.c: Changed the mbox and
+	spool provider descriptions to try and be more clear. I'm not sure
+	I like the mention of Evolution in the mbox provider description,
+	but there was no other way to make it clear that it MOVED mail out
+	of the mbox folder into a folder managed by Evolution without
+	mentioning Evolution. *sigh* Anyways, to me "retrieve" means move,
+	but apparently this isn't clear to the weak minded.
+
 2002-07-15  Peter Williams  <peterw@ximian.com>
 
-	* providers/imap/camel-imap-folder.c (imap_rescan): >= is not appropriate
-	here because the sequences are 1-based; so seq = summary_len is valid. 
-	Hopefully addresses 15646, because this caused the last message in a folder
-	to be reloaded, replacing its CamelMessageInfo, and the tree view was using
-	the old CamelMessageInfo.
+	* providers/imap/camel-imap-folder.c (imap_rescan): >= is not
+	appropriate here because the sequences are 1-based; so seq =
+	summary_len is valid.  Hopefully addresses 15646, because this
+	caused the last message in a folder to be reloaded, replacing its
+	CamelMessageInfo, and the tree view was using the old
+	CamelMessageInfo.
 
 2002-07-13  Not Zed  <NotZed@Ximian.com>
 
