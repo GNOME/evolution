@@ -1,3 +1,7 @@
+2000-08-10  Christopher James Lahey  <clahey@helixcode.com>
+
+	* e-calendar-item.c, e-calendar.c: Fixed some warnings.
+
 2000-07-25  Damon Chaplin  <damon@helixcode.com>
 
 	* e-calendar-item.h: 

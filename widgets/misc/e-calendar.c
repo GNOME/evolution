@@ -56,10 +56,12 @@ static gint e_calendar_expose		(GtkWidget      *widget,
 					 GdkEventExpose *event);
 static void e_calendar_draw		(GtkWidget	*widget,
 					 GdkRectangle	*area);
+#if 0
 static gint e_calendar_button_press	(GtkWidget	*widget,
 					 GdkEventButton	*event);
 static gint e_calendar_button_release	(GtkWidget	*widget,
 					 GdkEventButton	*event);
+#endif
 static gint e_calendar_focus_in		(GtkWidget	*widget,
 					 GdkEventFocus	*event);
 static gint e_calendar_focus_out	(GtkWidget	*widget,
@@ -347,7 +349,9 @@ e_calendar_paint		(ECalendar	*cal,
 }
 
 
+/* FIXME These aren't used? */
 
+#if 0
 static gint
 e_calendar_button_press		(GtkWidget	*widget,
 				 GdkEventButton	*event)
@@ -370,6 +374,7 @@ e_calendar_button_release	(GtkWidget	*widget,
 
 	return FALSE;
 }
+#endif
 
 
 static gint

@@ -464,7 +464,7 @@ e_calendar_item_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 		break;
 	case ARG_SHOW_WEEK_NUMBERS:
 		bvalue = GTK_VALUE_BOOL (*arg);
-		if (calitem->show_week_numbers != ivalue) {
+		if (calitem->show_week_numbers != bvalue) {
 			calitem->show_week_numbers = bvalue;
 			need_reshape = TRUE;
 		}
