@@ -657,6 +657,15 @@
 	      Set Status - If you want to add multiple actions for this filter, press
 	      <guibutton>Add filter</guibutton> and repeat the previous step.
 	    </para>
+            <note>
+              <para>
+                If you wish to set status while moving an email to a
+                different folder at the same time, you will need to
+                tell <application>Ximian Evolution</application> to
+                set status before you move the message to another
+                folder.
+              </para>
+            </note>
 	  </listitem>
 	  <listitem>
 	    <para>
