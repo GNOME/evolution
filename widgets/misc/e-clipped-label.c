@@ -48,6 +48,7 @@ static void e_clipped_label_size_allocate (GtkWidget *widget,
 static gint e_clipped_label_expose (GtkWidget      *widget,
 				    GdkEventExpose *event);
 static void e_clipped_label_recalc_chars_displayed (EClippedLabel *label);
+static void e_clipped_label_destroy                (GtkObject *object);
 
 
 static GtkMiscClass *parent_class;
@@ -99,6 +100,8 @@ e_clipped_label_class_init (EClippedLabelClass *class)
 	widget_class->size_request	= e_clipped_label_size_request;
  	widget_class->size_allocate	= e_clipped_label_size_allocate;
 	widget_class->expose_event	= e_clipped_label_expose;
+
+	object_class->destroy           = e_clipped_label_destroy;
 
 	e_clipped_label_ellipsis = _("...");
 }
@@ -245,6 +248,20 @@ e_clipped_label_expose (GtkWidget      *widget,
 	gdk_gc_set_clip_mask (widget->style->fg_gc[widget->state], NULL);
 
 	return TRUE;
+}
+
+
+static void
+e_clipped_label_destroy (GtkObject *object)
+{
+	EClippedLabel *label;
+
+	g_return_if_fail (E_IS_CLIPPED_LABEL (object));
+
+	label = E_CLIPPED_LABEL(object);
+
+	g_free (label->label);
+	g_free (label->label_wc);
 }
 
 

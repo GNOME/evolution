@@ -1,3 +1,7 @@
+2000-06-02  Christopher James Lahey  <clahey@helixcode.com>
+
+	* widgets/misc/e-clipped-label.c: Free the finish data.
+
 2000-06-01  Christopher James Lahey  <clahey@helixcode.com>
 
 	* tests/test-movemail.c (main): Don't call e_setup_base_dir.
