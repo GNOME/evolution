@@ -5519,6 +5519,7 @@ e_day_view_start_editing_event (EDayView *day_view,
 	EDayViewEvent *event;
 	ETextEventProcessor *event_processor = NULL;
 	ETextEventProcessorCommand command;
+	gboolean read_only;
 
 #if 0
 	g_print ("In e_day_view_start_editing_event\n");
@@ -5536,6 +5537,9 @@ e_day_view_start_editing_event (EDayView *day_view,
 		event = &g_array_index (day_view->events[day], EDayViewEvent,
 					event_num);
 	}
+
+	if (!e_cal_is_read_only (event->comp_data->client, &read_only, NULL) || read_only)
+		return;
 
 	/* If the event is not shown, don't try to edit it. */
 	if (!event->canvas_item)

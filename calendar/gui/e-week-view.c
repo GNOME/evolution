@@ -306,8 +306,7 @@ time_range_changed_cb (ECalModel *model, time_t start_time, time_t end_time, gpo
 static void
 process_component (EWeekView *week_view, ECalModelComponent *comp_data)
 {
-	EWeekViewEvent *event;
-	gint event_num, num_days;
+	gint num_days;
 	ECalComponent *comp = NULL;
 	AddEventData add_event_data;
 	const char *uid, *rid;
@@ -2792,6 +2791,7 @@ e_week_view_start_editing_event (EWeekView *week_view,
 	ETextEventProcessor *event_processor = NULL;
 	ETextEventProcessorCommand command;
 	ECalModelComponent *comp_data;
+	gboolean read_only;
 	
 	/* If we are already editing the event, just return. */
 	if (event_num == week_view->editing_event_num
@@ -2801,6 +2801,9 @@ e_week_view_start_editing_event (EWeekView *week_view,
 	event = &g_array_index (week_view->events, EWeekViewEvent, event_num);
 	span = &g_array_index (week_view->spans, EWeekViewEventSpan,
 			       event->spans_index + span_num);
+
+	if (!e_cal_is_read_only (event->comp_data->client, &read_only, NULL) || read_only)
+		return FALSE;
 
 	/* If the event is not shown, don't try to edit it. */
 	if (!span->text_item)

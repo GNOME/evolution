@@ -1,3 +1,11 @@
+2005-01-18  Rodrigo Moya <rodrigo@novell.com>
+
+	* gui/e-week-view.c (process_component): killed warnings.
+	(e_week_view_start_editing_event): do nothing if the calendar is
+	read only.
+
+	* gui/e-day-view.c (e_day_view_start_editing_event): ditto.
+
 2005-01-18  Harish Krishnaswamy  <kharish@novell.com>
 
 	* gui/dialogs/cal-attachment-bar.c 
