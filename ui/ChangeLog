@@ -1,3 +1,9 @@
+2004-02-23  Dan Winship  <danw@ximian.com>
+
+	* my-evolution.xml: Remove (this was the Summary's UI file)
+
+	* Makefile.am (XML_FILES): Remove my-evolution.xml
+
 2004-02-11  Rodney Dawes  <dobey@ximian.com>
 
 	* evolution-mail-message.xml: Add sender to Address Book, not

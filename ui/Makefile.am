@@ -16,8 +16,7 @@ XML_FILES =					\
 	evolution-signature-editor.xml		\
 	evolution-subscribe.xml			\
 	evolution-task-editor.xml		\
-	evolution-tasks.xml			\
-	my-evolution.xml
+	evolution-tasks.xml
 
 evolutionui_DATA = $(XML_FILES)
 
