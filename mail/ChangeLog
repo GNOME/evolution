@@ -1,3 +1,9 @@
+2004-02-11  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* em-popup.c: #include <libgnomevfs/gnome-vfs-mime.h>
+	(em_popup_create_menu): Wrap item->label with _() so
+	that the strings get translated properly.
+
 2004-02-11  Christian Neumair  <chris@gnome-de.org>
 
 	* em-folder-tree-model.c (sort_cb): "On this Computer" -> "On This

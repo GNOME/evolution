@@ -40,6 +40,7 @@
 #include <gtk/gtkimage.h>
 
 #include <libgnome/gnome-url.h>
+#include <libgnomevfs/gnome-vfs-mime.h>
 
 #include "em-popup.h"
 #include "e-util/e-msgport.h"
@@ -333,7 +334,7 @@ em_popup_create_menu(EMPopup *emp, guint32 hide_mask, guint32 disable_mask)
 		}
 
 		if (item->label) {
-			label = gtk_label_new_with_mnemonic(item->label);
+			label = gtk_label_new_with_mnemonic(_(item->label));
 			gtk_misc_set_alignment((GtkMisc *)label, 0.0, 0.5);
 			gtk_widget_show(label);
 			gtk_container_add((GtkContainer *)menuitem, label);
