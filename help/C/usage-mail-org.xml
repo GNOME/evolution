@@ -729,7 +729,7 @@
            suspects of being Spam with the "X-Spam-Status" header to
            your mail, which you can then search for in a
            filter. Because SpamAssassin scores mails based on the
-           likelyhood that messages are junk, you can even choose how
+           likelihood that messages are junk, you can even choose how
            strict you want it to be. If you don't have a friendly
            network administrator, never fear: you can install
            SpamAssassin on your own system, then pipe messages through
@@ -816,14 +816,14 @@
          </listitem>
          <listitem>
            <para>
-             Create a directory called "bin" in your home directory, and save the file there as "spam-filter.sh"
+             Save file as "spam-filter.sh"
            </para>
          </listitem>
          <listitem>
            <para>
               Mark the file as an executable program: 
-             Open your home directory in Nautilus, right click on
-             filterscript.sh there, and select
+             Open your home directory in Nautilus, right-click on
+             spam-filter.sh there, and select
              <guimenuitem>Properties</guimenuitem>. Then, click the
              "Permissions" tab and check the box in the
              <guilabel>Execute</guilabel> column and the
@@ -838,7 +838,7 @@
              <guimenuitem>
                Terminal
              </guimenuitem>
-           </menuchoice>) and enter the command: chmod +x bin/spam-filter.sh.
+           </menuchoice>) and enter the command: chmod +x spam-filter.sh.
        </para>
      </listitem>
      <listitem>
@@ -854,7 +854,7 @@
                </para></listitem>
 
              <listitem><para> 
-             Enter "/home/username/bin/spam-filter.sh" as the shell command, then select
+             Enter "/home/username/spam-filter.sh" as the shell command, then select
              "Does Not Return" and "0" as the remaining two
              items. Substitute your username for "username" so that
              Evolution can find the script.
