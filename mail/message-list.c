@@ -386,11 +386,10 @@ message_list_select (MessageList               *message_list,
 {
 	CamelMessageInfo *info;
 	int vrow, last;
-	ETree *et = message_list->tree;
 	
 	if (!GTK_WIDGET_HAS_FOCUS (message_list))
 		gtk_widget_grab_focus (GTK_WIDGET (message_list));
-
+	
 	switch (direction) {
 	case MESSAGE_LIST_SELECT_PREVIOUS:
 		last = -1;
@@ -404,34 +403,44 @@ message_list_select (MessageList               *message_list,
 		g_warning("Invalid argument to message_list_select");
 		return;
 	}
-
+	
 	/* If it's -1, we want the last view row, not the last model row. */
 	/* model_to_view_row etc simply dont work for sorted views.  Sigh. */
 	if (base_row == -1)
-		vrow = e_tree_row_count(message_list->tree) - 1;
+		vrow = e_tree_row_count (message_list->tree) - 1;
 	else
-		vrow = e_tree_model_to_view_row (et, base_row);
-
-	if (base_row <= -1)
+		vrow = e_tree_model_to_view_row (message_list->tree, base_row);
+	
+	if (vrow <= -1)
 		return;
+	
 	/* This means that we'll move at least one message in 'direction'. */
 	if (vrow != last)
 		vrow += direction;
-
+	
 	/* We don't know whether to use < or > due to "direction" */
 	while (vrow != last) {
-		ETreePath node = e_tree_node_at_row (et, vrow);
-
+		ETreePath node = e_tree_node_at_row (message_list->tree, vrow);
+		
 		info = get_message_info (message_list, node);
-
+		
 		if (info && (info->flags & mask) == flags) {
-			e_tree_set_cursor (et, node);
+			e_tree_set_cursor (message_list->tree, node);
 			
 			gtk_signal_emit (GTK_OBJECT (message_list), message_list_signals[MESSAGE_SELECTED],
 					 camel_message_info_uid (info));
 			return;
 		}
 		vrow += direction;
+	}
+	
+	if (wraparound) {
+		if (direction == MESSAGE_LIST_SELECT_PREVIOUS)
+			base_row = -1;
+		else
+			base_row = 0;
+		
+		message_list_select (message_list, base_row, direction, flags, mask, FALSE);
 	}
 }
 
@@ -2172,7 +2181,7 @@ message_list_hide_uids (MessageList *ml, GPtrArray *uids)
 {
 	int i;
 	char *uid;
-	
+
 	/* first see if we need to do any work, if so, then do it all at once */
 	for (i = 0; i < uids->len; i++) {
 		if (g_hash_table_lookup (ml->uid_nodemap, uids->pdata[i])) {

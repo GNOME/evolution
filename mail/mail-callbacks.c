@@ -1882,9 +1882,14 @@ save_msg_ok (GtkWidget *widget, gpointer user_data)
 	GPtrArray *uids;
 	const char *path;
 	int fd, ret = 0;
+	struct stat st;
 	
 	path = gtk_file_selection_get_filename (GTK_FILE_SELECTION (user_data));
 	if (path[0] == '\0')
+		return;
+	
+	/* make sure we can actually save to it... */
+	if (stat (path, &st) != -1 && !S_ISREG (st.st_mode))
 		return;
 	
 	fd = open (path, O_RDONLY);
@@ -2025,8 +2030,7 @@ next_unread_msg (GtkWidget *button, gpointer user_data)
 		return;
 	
 	row = e_tree_row_of_node (fb->message_list->tree, e_tree_get_cursor (fb->message_list->tree));
-	message_list_select (fb->message_list, row,
-			     MESSAGE_LIST_SELECT_NEXT,
+	message_list_select (fb->message_list, row, MESSAGE_LIST_SELECT_NEXT,
 			     0, CAMEL_MESSAGE_SEEN, TRUE);
 }
 
@@ -2040,8 +2044,7 @@ next_flagged_msg (GtkWidget *button, gpointer user_data)
 		return;
 	
 	row = e_tree_row_of_node (fb->message_list->tree, e_tree_get_cursor (fb->message_list->tree));
-	message_list_select (fb->message_list, row,
-			     MESSAGE_LIST_SELECT_NEXT,
+	message_list_select (fb->message_list, row, MESSAGE_LIST_SELECT_NEXT,
 			     CAMEL_MESSAGE_FLAGGED, CAMEL_MESSAGE_FLAGGED, FALSE);
 }
 
@@ -2055,8 +2058,7 @@ previous_msg (GtkWidget *button, gpointer user_data)
 		return;
 	
 	row = e_tree_row_of_node (fb->message_list->tree, e_tree_get_cursor (fb->message_list->tree));
-	message_list_select (fb->message_list, row,
-			     MESSAGE_LIST_SELECT_PREVIOUS,
+	message_list_select (fb->message_list, row, MESSAGE_LIST_SELECT_PREVIOUS,
 			     0, 0, FALSE);
 }
 
@@ -2070,9 +2072,8 @@ previous_unread_msg (GtkWidget *button, gpointer user_data)
 		return;
 	
 	row = e_tree_row_of_node (fb->message_list->tree, e_tree_get_cursor (fb->message_list->tree));
-	message_list_select (fb->message_list, row,
-			     MESSAGE_LIST_SELECT_PREVIOUS,
-			     0, CAMEL_MESSAGE_SEEN, FALSE);
+	message_list_select (fb->message_list, row, MESSAGE_LIST_SELECT_PREVIOUS,
+			     0, CAMEL_MESSAGE_SEEN, TRUE);
 }
 
 void
@@ -2085,8 +2086,7 @@ previous_flagged_msg (GtkWidget *button, gpointer user_data)
 		return;
 	
 	row = e_tree_row_of_node (fb->message_list->tree, e_tree_get_cursor (fb->message_list->tree));
-	message_list_select (fb->message_list, row,
-			     MESSAGE_LIST_SELECT_PREVIOUS,
+	message_list_select (fb->message_list, row, MESSAGE_LIST_SELECT_PREVIOUS,
 			     CAMEL_MESSAGE_FLAGGED, CAMEL_MESSAGE_FLAGGED, TRUE);
 }
 
