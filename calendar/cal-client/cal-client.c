@@ -551,6 +551,42 @@ cal_client_create_calendar (CalClient *client, const char *str_uri)
 	return load_or_create (client, str_uri, FALSE);
 }
 
+int
+cal_client_get_n_objects (CalClient *client, CalObjType type)
+{
+	CalClientPrivate *priv;
+	CORBA_Environment ev;
+	int n;
+	int t;
+
+	g_return_val_if_fail (client != NULL, -1);
+	g_return_val_if_fail (IS_CAL_CLIENT (client), -1);
+
+	priv = client->priv;
+	g_return_val_if_fail (priv->load_state == LOAD_STATE_LOADED, -1);
+
+	t = (((type & CALOBJ_TYPE_EVENT) ? Evolution_Calendar_TYPE_EVENT : 0)
+	     | ((type & CALOBJ_TYPE_TODO) ? Evolution_Calendar_TYPE_TODO : 0)
+	     | ((type & CALOBJ_TYPE_JOURNAL) ? Evolution_Calendar_TYPE_JOURNAL : 0)
+	     | ((type & CALOBJ_TYPE_OTHER) ? Evolution_Calendar_TYPE_OTHER : 0)
+	     /*
+	     | ((type & CALOBJ_TYPE_ANY) ? Evolution_Calendar_TYPE_ANY : 0)
+	     */
+	     );
+
+	CORBA_exception_init (&ev);
+	n = Evolution_Calendar_Cal_get_n_objects (priv->cal, t, &ev);
+
+	if (ev._major != CORBA_NO_EXCEPTION) {
+		g_message ("cal_client_get_n_objects(): could not get the number of objects");
+		CORBA_exception_free (&ev);
+		return -1;
+	}
+
+	CORBA_exception_free (&ev);
+	return n;
+}
+
 /**
  * cal_client_get_object:
  * @client: A calendar client.
@@ -562,9 +598,8 @@ cal_client_create_calendar (CalClient *client, const char *str_uri)
  * sought object, or NULL if no object had the specified UID.  A complete
  * calendar is returned because you also need the timezone data.
  **/
-CalClientGetStatus cal_client_get_object (CalClient *client,
-					  const char *uid,
-					  iCalObject **ico)
+CalClientGetStatus
+cal_client_get_object (CalClient *client, const char *uid, iCalObject **ico)
 {
 	CalClientPrivate *priv;
 	CORBA_Environment ev;
@@ -676,6 +711,8 @@ cal_client_get_uids (CalClient *client, CalObjType type)
 		CORBA_exception_free (&ev);
 		return NULL;
 	}
+
+	CORBA_exception_free (&ev);
 
 	/* Create the list */
 

@@ -1,3 +1,26 @@
+2000-06-09  Federico Mena Quintero  <federico@helixcode.com>
+
+	* idl/evolution-calendar.idl (Cal): Added a get_n_objects()
+	method.
+
+	* pcs/cal-backend.c (cal_backend_get_n_objects): New function.
+
+	* pcs/cal-backend-imc.c (cal_backend_imc_get_n_objects):
+	Implemented.
+
+	* pcs/cal.c (Cal_get_n_objects): Implemented.
+
+	* cal-client/cal-client.c (cal_client_get_uids): Free the ev.
+	(cal_client_get_n_objects): Implemented.
+
+	* cal-util/calobj.h (iCalObjectField): New enumeration to identify
+	the fields in an iCalObject.
+
+2000-06-08  Federico Mena Quintero  <federico@helixcode.com>
+
+	* gui/event-editor.c (event_editor_destroy): Free the private
+	structure.
+
 2000-06-08  Federico Mena Quintero  <federico@helixcode.com>
 
 	* cal-util/calobj.c (ical_object_to_vobject): Allow for NULL

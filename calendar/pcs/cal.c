@@ -166,7 +166,35 @@ Cal_get_uri (PortableServer_Servant servant,
 	g_free (str_uri);
 
 	return str_uri_copy;
+}
 
+/* Cal::get_n_objects method */
+static CORBA_long
+Cal_get_n_objects (PortableServer_Servant servant,
+		   Evolution_Calendar_CalObjType type,
+		   CORBA_Environment *ev)
+{
+	Cal *cal;
+	CalPrivate *priv;
+	int t;
+	int n;
+
+	cal = CAL (bonobo_object_from_servant (servant));
+	priv = cal->priv;
+
+	/* Translate the CORBA flags to our own flags */
+
+	t = (((type & Evolution_Calendar_TYPE_EVENT) ? CALOBJ_TYPE_EVENT : 0)
+	     | ((type & Evolution_Calendar_TYPE_TODO) ? CALOBJ_TYPE_TODO : 0)
+	     | ((type & Evolution_Calendar_TYPE_JOURNAL) ? CALOBJ_TYPE_JOURNAL : 0)
+	     | ((type & Evolution_Calendar_TYPE_OTHER) ? CALOBJ_TYPE_OTHER : 0)
+	     /*
+	     | ((type & Evolution_Calendar_TYPE_ANY) ? CALOBJ_TYPE_ANY : 0)
+	     */
+	     );
+
+	n = cal_backend_get_n_objects (priv->backend, t);
+	return n;
 }
 
 /* Cal::get_object method */
@@ -504,6 +532,7 @@ cal_get_epv (void)
 
 	epv = g_new0 (POA_Evolution_Calendar_Cal__epv, 1);
 	epv->_get_uri = Cal_get_uri;
+	epv->get_n_objects = Cal_get_n_objects;
 	epv->get_object = Cal_get_object;
 	epv->get_uids = Cal_get_uids;
 	epv->get_events_in_range = Cal_get_events_in_range;

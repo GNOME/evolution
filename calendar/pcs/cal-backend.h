@@ -64,6 +64,8 @@ struct _CalBackendClass {
 	void (* add_cal) (CalBackend *backend, Cal *cal);
 	CalBackendLoadStatus (* load) (CalBackend *backend, GnomeVFSURI *uri);
 	void (* create) (CalBackend *backend, GnomeVFSURI *uri);
+
+	int (* get_n_objects) (CalBackend *backend, CalObjType type);
 	char *(* get_object) (CalBackend *backend, const char *uid);
 	GList *(* get_uids) (CalBackend *backend, CalObjType type);
 	GList *(* get_events_in_range) (CalBackend *backend, time_t start, time_t end);
@@ -84,6 +86,8 @@ void cal_backend_add_cal (CalBackend *backend, Cal *cal);
 CalBackendLoadStatus cal_backend_load (CalBackend *backend, GnomeVFSURI *uri);
 
 void cal_backend_create (CalBackend *backend, GnomeVFSURI *uri);
+
+int cal_backend_get_n_objects (CalBackend *backend, CalObjType type);
 
 char *cal_backend_get_object (CalBackend *backend, const char *uid);
 

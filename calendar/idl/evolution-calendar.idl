@@ -80,6 +80,9 @@ module Calendar {
 		/* A calendar is identified by its URI */
 		readonly attribute string uri;
 
+		/* Gets the number of objects of the specified types */
+		long get_n_objects (in CalObjType type);
+
 		/* Gets an object based on its URI */
 		CalObj get_object (in CalObjUID uid)
 			raises (NotFound);

@@ -12,6 +12,7 @@ INCLUDES = 						\
 	-I$(top_srcdir)					\
 	-I$(top_srcdir)/calendar			\
 	-I$(top_srcdir)/libical/src/libical		\
+	-I$(top_srcdir)/widgets				\
 	-I$(includedir)					\
 	$(BONOBO_VFS_GNOME_CFLAGS)			\
 	$(GNOME_CONDUIT_INCLUDEDIR)			\
@@ -28,6 +29,7 @@ LINK_FLAGS =							\
 	$(top_builddir)/e-util/libeutil.la			\
 	$(top_builddir)/widgets/e-paned/libepaned.a		\
 	$(top_builddir)/widgets/e-text/libetext.a		\
+	$(top_builddir)/widgets/e-table/libetable.a		\
 	$(top_builddir)/libversit/libversit.la			\
 	$(top_builddir)/libical/src/libical/libical.a
 

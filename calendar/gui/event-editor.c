@@ -272,6 +272,9 @@ event_editor_destroy (GtkObject *object)
 		priv->xml = NULL;
 	}
 
+	g_free (priv);
+	ee->priv = NULL;
+
 	if (GTK_OBJECT_CLASS (parent_class)->destroy)
 		(* GTK_OBJECT_CLASS (parent_class)->destroy) (object);
 }

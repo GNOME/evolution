@@ -177,6 +177,25 @@ cal_backend_create (CalBackend *backend, GnomeVFSURI *uri)
 }
 
 /**
+ * cal_backend_get_n_objects:
+ * @backend: A calendar backend.
+ * @type: Types of objects that will be included in the count.
+ * 
+ * Queries the number of calendar objects of a particular type.
+ * 
+ * Return value: Number of objects of the specified @type.
+ **/
+int
+cal_backend_get_n_objects (CalBackend *backend, CalObjType type)
+{
+	g_return_val_if_fail (backend != NULL, -1);
+	g_return_val_if_fail (IS_CAL_BACKEND (backend), -1);
+
+	g_assert (CLASS (backend)->get_n_objects != NULL);
+	return (* CLASS (backend)->get_n_objects) (backend, type);
+}
+
+/**
  * cal_backend_get_object:
  * @backend: A calendar backend.
  * @uid: Unique identifier for a calendar object.

@@ -81,6 +81,8 @@ CalClient *cal_client_new (void);
 gboolean cal_client_load_calendar (CalClient *client, const char *str_uri);
 gboolean cal_client_create_calendar (CalClient *client, const char *str_uri);
 
+int cal_client_get_n_objects (CalClient *client, CalObjType type);
+
 CalClientGetStatus cal_client_get_object (CalClient *client,
 					  const char *uid,
 					  iCalObject **ico);

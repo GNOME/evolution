@@ -74,6 +74,8 @@ static GnomeVFSURI *cal_backend_imc_get_uri (CalBackend *backend);
 static void cal_backend_imc_add_cal (CalBackend *backend, Cal *cal);
 static CalBackendLoadStatus cal_backend_imc_load (CalBackend *backend, GnomeVFSURI *uri);
 static void cal_backend_imc_create (CalBackend *backend, GnomeVFSURI *uri);
+
+static int cal_backend_imc_get_n_objects (CalBackend *backend, CalObjType type);
 static char *cal_backend_imc_get_object (CalBackend *backend, const char *uid);
 static GList *cal_backend_imc_get_uids (CalBackend *backend, CalObjType type);
 static GList *cal_backend_imc_get_events_in_range (CalBackend *backend, time_t start, time_t end);
@@ -137,6 +139,7 @@ cal_backend_imc_class_init (CalBackendIMCClass *class)
 	backend_class->add_cal = cal_backend_imc_add_cal;
 	backend_class->load = cal_backend_imc_load;
 	backend_class->create = cal_backend_imc_create;
+	backend_class->get_n_objects = cal_backend_imc_get_n_objects;
 	backend_class->get_object = cal_backend_imc_get_object;
 	backend_class->get_uids = cal_backend_imc_get_uids;
 	backend_class->get_events_in_range = cal_backend_imc_get_events_in_range;
@@ -827,6 +830,58 @@ cal_backend_imc_create (CalBackend *backend, GnomeVFSURI *uri)
 	priv->loaded = TRUE;
 
 	save (cbimc);
+}
+
+struct get_n_objects_closure {
+	CalObjType type;
+	int n;
+};
+
+/* Counts the number of objects of the specified type.  Called from
+ * g_hash_table_foreach().
+ */
+static void
+count_objects (gpointer key, gpointer value, gpointer data)
+{
+	iCalObject *ico;
+	struct get_n_objects_closure *c;
+	gboolean store;
+
+	ico = value;
+	c = data;
+
+	store = FALSE;
+
+	if (ico->type == ICAL_EVENT)
+		store = (c->type & CALOBJ_TYPE_EVENT) != 0;
+	else if (ico->type == ICAL_TODO)
+		store = (c->type & CALOBJ_TYPE_TODO) != 0;
+	else if (ico->type == ICAL_JOURNAL)
+		store = (c->type & CALOBJ_TYPE_JOURNAL) != 0;
+	else
+		store = (c->type & CALOBJ_TYPE_OTHER) != 0;
+
+	if (store)
+		c->n++;
+}
+
+/* Get_n_objects handler for the IMC backend */
+static int
+cal_backend_imc_get_n_objects (CalBackend *backend, CalObjType type)
+{
+	CalBackendIMC *cbimc;
+	IMCPrivate *priv;
+	struct get_n_objects_closure c;
+
+	cbimc = CAL_BACKEND_IMC (backend);
+	priv = cbimc->priv;
+
+	g_return_val_if_fail (priv->loaded, -1);
+
+	c.type = type;
+	c.n = 0;
+
+	g_hash_table_foreach (priv->object_hash, count_objects, &c);
 }
 
 /* Get_object handler for the IMC backend */
