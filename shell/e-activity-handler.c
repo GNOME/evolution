@@ -145,8 +145,6 @@ activity_info_new (const char *component_id,
 static void
 activity_info_free (ActivityInfo *info)
 {
-	g_print ("activity_info_free %d ref count %d\n", info->id, G_OBJECT (info->icon_pixbuf)->ref_count);
-
 	g_free (info->component_id);
 
 	g_object_unref (info->icon_pixbuf);
@@ -348,7 +346,7 @@ e_activity_handler_operation_progressing (EActivityHandler *activity_handler,
 
 	p = lookup_activity (priv->activity_infos, activity_id, &order_number);
 	if (p == NULL) {
-		g_warning ("EActivityHandler: uknown operation %d", activity_id);
+		g_warning ("EActivityHandler: unknown operation %d", activity_id);
 		return;
 	}
 
