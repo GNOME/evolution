@@ -26,6 +26,8 @@
 #include <glade/glade.h>
 #include <gal/e-table/e-table-model.h>
 
+#include "addressbook/gui/contact-editor/eab-editor.h"
+
 #include <libebook/e-book-async.h>
 #include <libebook/e-contact.h>
 
@@ -43,7 +45,7 @@ typedef struct _EContactListEditorClass  EContactListEditorClass;
 
 struct _EContactListEditor
 {
-	GtkObject object;
+	EABEditor parent;
 
 	/* item specific fields */
 	EBook *book;
@@ -83,14 +85,7 @@ struct _EContactListEditor
 
 struct _EContactListEditorClass
 {
-	GtkObjectClass parent_class;
-
-	/* Notification signals */
-
-	void (* list_added)    (EContactListEditor *cle, EBookStatus status, EContact *contact);
-	void (* list_modified) (EContactListEditor *cle, EBookStatus status, EContact *contact);
-	void (* list_deleted)  (EContactListEditor *cle, EBookStatus status, EContact *contact);
-	void (* editor_closed) (EContactListEditor *cle);
+	EABEditorClass parent_class;
 };
 
 EContactListEditor *e_contact_list_editor_new                (EBook *book,
@@ -98,10 +93,6 @@ EContactListEditor *e_contact_list_editor_new                (EBook *book,
 							      gboolean is_new_list,
 							      gboolean editable);
 GType               e_contact_list_editor_get_type           (void);
-void                e_contact_list_editor_show               (EContactListEditor *editor);
-void                e_contact_list_editor_raise              (EContactListEditor *editor);
-
-gboolean            e_contact_list_editor_confirm_delete     (GtkWindow      *parent);
 
 gboolean            e_contact_list_editor_request_close_all  (void);
 

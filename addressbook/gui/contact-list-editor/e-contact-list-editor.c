@@ -9,7 +9,7 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
-* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * General Public License for more details.
  *
  * You should have received a copy of the GNU General Public
@@ -38,18 +38,10 @@
 #include "addressbook/gui/widgets/eab-gui-util.h"
 #include "addressbook/util/eab-book-util.h"
 
+#include  "eab-editor.h"
 #include "e-contact-editor.h"
 #include "e-contact-list-model.h"
 #include "e-contact-list-editor-marshal.h"
-
-/* Signal IDs */
-enum {
-	LIST_ADDED,
-	LIST_MODIFIED,
-	LIST_DELETED,
-	EDITOR_CLOSED,
-	LAST_SIGNAL
-};
 
 static void e_contact_list_editor_init		(EContactListEditor		 *editor);
 static void e_contact_list_editor_class_init	(EContactListEditorClass	 *klass);
@@ -57,10 +49,16 @@ static void e_contact_list_editor_set_property (GObject *object, guint prop_id, 
 static void e_contact_list_editor_get_property (GObject *object, guint prop_id, GValue *value, GParamSpec *pspec);
 static void e_contact_list_editor_dispose (GObject *object);
 
+static void     e_contact_list_editor_show       (EABEditor *editor);
+static void     e_contact_list_editor_raise      (EABEditor *editor);
+static void     e_contact_list_editor_close      (EABEditor *editor);
+static gboolean e_contact_list_editor_is_valid   (EABEditor *editor);
+static gboolean e_contact_list_editor_is_changed (EABEditor *editor);
+static GtkWindow* e_contact_list_editor_get_window (EABEditor *editor);
+
 static void create_ui (EContactListEditor *ce);
 static void set_editable (EContactListEditor *editor);
 static void command_state_changed (EContactListEditor *editor);
-static void close_dialog (EContactListEditor *cle);
 static void extract_info(EContactListEditor *editor);
 static void fill_in_info(EContactListEditor *editor);
 
@@ -81,9 +79,7 @@ static void table_drag_data_received_cb (ETable *table, int row, int col,
 					 GtkSelectionData *selection_data, guint info, guint time,
 					 EContactListEditor *editor);
 
-static GtkObjectClass *parent_class = NULL;
-
-static guint contact_list_editor_signals[LAST_SIGNAL];
+static EABEditorClass *parent_class = NULL;
 
 enum DndTargetType {
 	DND_TARGET_TYPE_VCARD,
@@ -104,8 +100,6 @@ enum {
 	PROP_EDITABLE
 };
 
-static GSList *all_contact_list_editors = NULL;
-
 GType
 e_contact_list_editor_get_type (void)
 {
@@ -124,7 +118,7 @@ e_contact_list_editor_get_type (void)
 			(GInstanceInitFunc) e_contact_list_editor_init,
 		};
 
-		cle_type = g_type_register_static (GTK_TYPE_OBJECT, "EContactListEditor", &cle_info, 0);
+		cle_type = g_type_register_static (EAB_TYPE_EDITOR, "EContactListEditor", &cle_info, 0);
 	}
 
 	return cle_type;
@@ -135,12 +129,20 @@ static void
 e_contact_list_editor_class_init (EContactListEditorClass *klass)
 {
 	GObjectClass *object_class = G_OBJECT_CLASS (klass);
+	EABEditorClass *editor_class = EAB_EDITOR_CLASS (klass);
 
-	parent_class = g_type_class_ref (GTK_TYPE_OBJECT);
+	parent_class = g_type_class_ref (EAB_TYPE_EDITOR);
+
+	editor_class->show = e_contact_list_editor_show;
+	editor_class->raise = e_contact_list_editor_raise;
+	editor_class->close = e_contact_list_editor_close;
+	editor_class->is_valid = e_contact_list_editor_is_valid;
+	editor_class->is_changed = e_contact_list_editor_is_changed;
+	editor_class->get_window = e_contact_list_editor_get_window;
 
 	object_class->set_property = e_contact_list_editor_set_property;
 	object_class->get_property = e_contact_list_editor_get_property;
-	/* object_class->dispose = e_contact_list_editor_dispose;*/
+	object_class->dispose = e_contact_list_editor_dispose;
 
 	g_object_class_install_property (object_class, PROP_BOOK, 
 					 g_param_spec_object ("book",
@@ -169,45 +171,6 @@ e_contact_list_editor_class_init (EContactListEditorClass *klass)
 							       /*_( */"XXX blurb" /*)*/,
 							       FALSE,
 							       G_PARAM_READWRITE));
-
-	contact_list_editor_signals[LIST_ADDED] =
-		g_signal_new ("list_added",
-			      G_OBJECT_CLASS_TYPE (object_class),
-			      G_SIGNAL_RUN_FIRST,
-			      G_STRUCT_OFFSET (EContactListEditorClass, list_added),
-			      NULL, NULL,
-			      e_contact_list_editor_marshal_NONE__INT_OBJECT,
-			      G_TYPE_NONE, 2,
-			      G_TYPE_INT, G_TYPE_OBJECT);
-
-	contact_list_editor_signals[LIST_MODIFIED] =
-		g_signal_new ("list_modified",
-			      G_OBJECT_CLASS_TYPE (object_class),
-			      G_SIGNAL_RUN_FIRST,
-			      G_STRUCT_OFFSET (EContactListEditorClass, list_modified),
-			      NULL, NULL,
-			      e_contact_list_editor_marshal_NONE__INT_OBJECT,
-			      G_TYPE_NONE, 2,
-			      G_TYPE_INT, G_TYPE_OBJECT);
-
-	contact_list_editor_signals[LIST_DELETED] =
-		g_signal_new ("list_deleted",
-			      G_OBJECT_CLASS_TYPE (object_class),
-			      G_SIGNAL_RUN_FIRST,
-			      G_STRUCT_OFFSET (EContactListEditorClass, list_deleted),
-			      NULL, NULL,
-			      e_contact_list_editor_marshal_NONE__INT_OBJECT,
-			      G_TYPE_NONE, 2,
-			      G_TYPE_INT, G_TYPE_OBJECT);
-
-	contact_list_editor_signals[EDITOR_CLOSED] =
-		g_signal_new ("editor_closed",
-			      G_OBJECT_CLASS_TYPE (object_class),
-			      G_SIGNAL_RUN_FIRST,
-			      G_STRUCT_OFFSET (EContactListEditorClass, editor_closed),
-			      NULL, NULL,
-			      e_contact_list_editor_marshal_NONE__NONE,
-			      G_TYPE_NONE, 0);
 }
 
 static void
@@ -341,14 +304,13 @@ list_added_cb (EBook *book, EBookStatus status, const char *id, EditorCloseStruc
 
 	e_contact_set (cle->contact, E_CONTACT_UID, (char*)id);
 
-	g_signal_emit (cle, contact_list_editor_signals[LIST_ADDED], 0,
-		       status, cle->contact);
+	eab_editor_contact_added (EAB_EDITOR (cle), status, cle->contact);
 
 	if (status == E_BOOK_ERROR_OK) {
 		cle->is_new_list = FALSE;
 
 		if (should_close)
-			close_dialog (cle);
+			eab_editor_close (EAB_EDITOR (cle));
 		else
 			command_state_changed (cle);
 	}
@@ -367,12 +329,11 @@ list_modified_cb (EBook *book, EBookStatus status, EditorCloseStruct *ecs)
 		gtk_widget_set_sensitive (cle->app, TRUE);
 	cle->in_async_call = FALSE;
 
-	g_signal_emit (cle, contact_list_editor_signals[LIST_MODIFIED], 0,
-		       status, cle->contact);
+	eab_editor_contact_modified (EAB_EDITOR (cle), status, cle->contact);
 
 	if (status == E_BOOK_ERROR_OK) {
 		if (should_close)
-			close_dialog (cle);
+			eab_editor_close (EAB_EDITOR (cle));
 	}
 
 	g_object_unref (cle); /* release ref held for ebook callback */
@@ -420,21 +381,25 @@ is_named (EContactListEditor *editor)
 }
 
 static gboolean
-prompt_to_save_changes (EContactListEditor *editor)
+e_contact_list_editor_is_valid (EABEditor *editor)
 {
-	if (!editor->changed || !is_named (editor))
-		return TRUE;
+	EContactListEditor *cle = E_CONTACT_LIST_EDITOR (editor);
 
-	switch (eab_prompt_save_dialog (GTK_WINDOW(editor->app))) {
-	case GTK_RESPONSE_YES:
-		save_contact (editor, FALSE);
-		return TRUE;
-	case GTK_RESPONSE_NO:
-		return TRUE;
-	case GTK_RESPONSE_CANCEL:
-	default:
-		return FALSE;
-	}
+	return is_named (cle);
+}
+
+static gboolean
+e_contact_list_editor_is_changed (EABEditor *editor)
+{
+	EContactListEditor *cle = E_CONTACT_LIST_EDITOR (editor);
+
+	return cle->changed;
+}
+
+static GtkWindow*
+e_contact_list_editor_get_window (EABEditor *editor)
+{
+	return GTK_WINDOW (E_CONTACT_LIST_EDITOR (editor)->app);
 }
 
 static void
@@ -442,10 +407,10 @@ file_close_cb (GtkWidget *widget, gpointer data)
 {
 	EContactListEditor *cle = E_CONTACT_LIST_EDITOR (data);
 
-	if (!prompt_to_save_changes (cle))
+	if (!eab_editor_prompt_to_save_changes (EAB_EDITOR (cle), GTK_WINDOW (cle->app)))
 		return;
 
-	close_dialog (cle);
+	eab_editor_close (EAB_EDITOR (cle));
 }
 
 static void
@@ -500,12 +465,11 @@ list_deleted_cb (EBook *book, EBookStatus status, EContactListEditor *cle)
 		gtk_widget_set_sensitive (cle->app, TRUE);
 	cle->in_async_call = FALSE;
 
-	g_signal_emit (cle, contact_list_editor_signals[LIST_DELETED], 0,
-		       status, cle->contact);
+	eab_editor_contact_deleted (EAB_EDITOR (cle), status, cle->contact);
 
 	/* always close the dialog after we successfully delete a list */
 	if (status == E_BOOK_ERROR_OK)
-		close_dialog (cle);
+		eab_editor_close (EAB_EDITOR (cle));
 
 	g_object_unref (cle); /* release reference held for callback */
 }
@@ -518,7 +482,7 @@ delete_cb (GtkWidget *widget, gpointer data)
 
 	g_object_ref (contact);
 
-	if (e_contact_editor_confirm_delete(GTK_WINDOW(cle->app))) {
+	if (eab_editor_confirm_delete (GTK_WINDOW(cle->app))) {
 
 		extract_info (cle);
 		
@@ -580,9 +544,7 @@ static void
 contact_list_editor_destroy_notify (gpointer data,
 				    GObject *where_the_object_was)
 {
-	EContactListEditor *ce = E_CONTACT_LIST_EDITOR (data);
-
-	all_contact_list_editors = g_slist_remove (all_contact_list_editors, ce);
+	eab_editor_remove (EAB_EDITOR (data));
 }
 
 EContactListEditor *
@@ -593,11 +555,8 @@ e_contact_list_editor_new (EBook *book,
 {
 	EContactListEditor *ce = g_object_new (E_TYPE_CONTACT_LIST_EDITOR, NULL);
 
-	all_contact_list_editors = g_slist_prepend (all_contact_list_editors, ce);
+	eab_editor_add (EAB_EDITOR (ce));
 	g_object_weak_ref (G_OBJECT (ce), contact_list_editor_destroy_notify, ce);
-
-	g_object_ref (ce);
-	gtk_object_sink (GTK_OBJECT (ce));
 
 	g_object_set (ce,
 		      "book", book,
@@ -692,16 +651,30 @@ e_contact_list_editor_get_property (GObject *object, guint prop_id,
 	}
 }
 
-void
-e_contact_list_editor_show (EContactListEditor *editor)
+static void
+e_contact_list_editor_show (EABEditor *editor)
 {
-	gtk_widget_show (editor->app);
+	EContactListEditor *cle = E_CONTACT_LIST_EDITOR (editor);
+	gtk_widget_show (cle->app);
 }
 
-void
-e_contact_list_editor_raise (EContactListEditor *editor)
+static void
+e_contact_list_editor_raise (EABEditor *editor)
 {
-	gdk_window_raise (GTK_WIDGET (editor->app)->window);
+	EContactListEditor *cle = E_CONTACT_LIST_EDITOR (editor);
+	gdk_window_raise (GTK_WIDGET (cle->app)->window);
+}
+
+static void
+e_contact_list_editor_close (EABEditor *editor)
+{
+	EContactListEditor *cle = E_CONTACT_LIST_EDITOR (editor);
+	g_assert (cle->app != NULL);
+
+	gtk_widget_destroy (cle->app);
+	cle->app = NULL;
+
+	eab_editor_closed (EAB_EDITOR (cle));
 }
 
 GtkWidget *
@@ -798,18 +771,6 @@ set_editable (EContactListEditor *editor)
 	gtk_widget_set_sensitive (editor->table, editor->editable);
 }
 
-/* Closes the dialog box and emits the appropriate signals */
-static void
-close_dialog (EContactListEditor *cle)
-{
-	g_assert (cle->app != NULL);
-
-	gtk_widget_destroy (cle->app);
-	cle->app = NULL;
-
-	g_signal_emit (cle, contact_list_editor_signals[EDITOR_CLOSED], 0);
-}
-
 /* Callback used when the editor is destroyed */
 static gint
 app_delete_event_cb (GtkWidget *widget, GdkEvent *event, gpointer data)
@@ -822,10 +783,10 @@ app_delete_event_cb (GtkWidget *widget, GdkEvent *event, gpointer data)
 	if (ce->in_async_call)
 		return TRUE;
 
-	if (!prompt_to_save_changes (ce))
+	if (!eab_editor_prompt_to_save_changes (EAB_EDITOR (ce), GTK_WINDOW (ce->app)))
 		return TRUE;
 
-	close_dialog (ce);
+	eab_editor_close (EAB_EDITOR (ce));
 	return TRUE;
 }
 
@@ -918,17 +879,17 @@ table_drag_data_received_cb (ETable *table, int row, int col,
 static void
 command_state_changed (EContactListEditor *editor)
 {
-	gboolean named = is_named (editor);
+	gboolean valid = eab_editor_is_valid (EAB_EDITOR (editor));
 
 	bonobo_ui_component_set_prop (editor->uic,
 				      "/commands/ContactListEditorSaveClose",
 				      "sensitive",
-				      editor->changed && named && editor->editable ? "1" : "0", NULL);
+				      editor->changed && valid && editor->editable ? "1" : "0", NULL);
 
 	bonobo_ui_component_set_prop (editor->uic,
 				      "/commands/ContactListEditorSave",
 				      "sensitive",
-				      editor->changed && named && editor->editable ? "1" : "0", NULL);
+				      editor->changed && valid && editor->editable ? "1" : "0", NULL);
 
 	bonobo_ui_component_set_prop (editor->uic,
 				      "/commands/ContactListEditorDelete",
@@ -1038,28 +999,4 @@ fill_in_info(EContactListEditor *editor)
 			e_contact_photo_free (photo);
 		}
 	}
-}
-
-
-gboolean
-e_contact_list_editor_request_close_all (void)
-{
-	GSList *p;
-	GSList *pnext;
-	gboolean retval;
-
-	retval = TRUE;
-	for (p = all_contact_list_editors; p != NULL; p = pnext) {
-		pnext = p->next;
-
-		e_contact_list_editor_raise (E_CONTACT_LIST_EDITOR (p->data));
-		if (! prompt_to_save_changes (E_CONTACT_LIST_EDITOR (p->data))) {
-			retval = FALSE;
-			break;
-		}
-
-		close_dialog (E_CONTACT_LIST_EDITOR (p->data));
-	}
-
-	return retval;
 }

@@ -35,6 +35,7 @@
 
 #include <gnome.h>
 
+#include "addressbook/gui/contact-editor/eab-editor.h"
 #include "addressbook/gui/contact-editor/e-contact-editor.h"
 #include "addressbook/gui/contact-list-editor/e-contact-list-editor.h"
 #include "addressbook/gui/component/addressbook-component.h"
@@ -163,16 +164,16 @@ eab_show_contact_list_editor (EBook *book, EContact *contact,
 
 	ce = e_contact_list_editor_new (book, contact, is_new_contact, editable);
 
-	g_signal_connect (ce, "list_added",
+	g_signal_connect (ce, "contact_added",
 			  G_CALLBACK (added_cb), GINT_TO_POINTER (TRUE));
-	g_signal_connect (ce, "list_modified",
+	g_signal_connect (ce, "contact_modified",
 			  G_CALLBACK (modified_cb), GINT_TO_POINTER (TRUE));
-	g_signal_connect (ce, "list_deleted",
+	g_signal_connect (ce, "contact_deleted",
 			  G_CALLBACK (deleted_cb), GINT_TO_POINTER (TRUE));
 	g_signal_connect (ce, "editor_closed",
 			  G_CALLBACK (editor_closed_cb), GINT_TO_POINTER (TRUE));
 
-	e_contact_list_editor_show (ce);
+	eab_editor_show (EAB_EDITOR (ce));
 
 	return ce;
 }

@@ -933,10 +933,9 @@ contact_editor_cb (EBook *book, EBookStatus status, gpointer closure)
 {
 	if (status == E_BOOK_ERROR_OK) {
 		EABPopupControl *pop = EAB_POPUP_CONTROL (closure);
-		EContactEditor *ce = eab_show_contact_editor (book, pop->contact, FALSE, TRUE);
+		eab_show_contact_editor (book, pop->contact, FALSE, TRUE);
 		eab_popup_control_cleanup (pop);
 		emit_event (pop, "Destroy");
-		e_contact_editor_raise (ce);
 	}
 
 	if (book)

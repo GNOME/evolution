@@ -21,7 +21,7 @@
 #define __E_MINICARD_H__
 
 #include <gdk-pixbuf/gdk-pixbuf.h>
-#include "addressbook/gui/contact-editor/e-contact-editor.h"
+#include "addressbook/gui/contact-editor/eab-editor.h"
 #include <libgnomecanvas/gnome-canvas.h>
 #include <libebook/e-contact.h>
 
@@ -72,7 +72,7 @@ struct _EMinicard
 	GdkPixbuf *list_icon_pixbuf;
 	double list_icon_size;
 
-	GObject *editor;
+	EABEditor *editor;
 
 	GList *fields; /* Of type EMinicardField */
 	guint needs_remodeling : 1;

@@ -624,6 +624,12 @@ impl_upgradeFromVersion (PortableServer_Servant servant, short major, short mino
 	return addressbook_migrate (addressbook_component_peek (), major, minor, revision);
 }
 
+static CORBA_boolean
+impl_requestQuit (PortableServer_Servant servant, CORBA_Environment *ev)
+{
+	return eab_editor_request_close_all ();
+}
+
 /* GObject methods.  */
 
 static void
@@ -677,6 +683,7 @@ addressbook_component_class_init (AddressbookComponentClass *class)
 	epv->_get_userCreatableItems = impl__get_userCreatableItems;
 	epv->requestCreateItem       = impl_requestCreateItem;
 	epv->upgradeFromVersion      = impl_upgradeFromVersion;
+	epv->requestQuit             = impl_requestQuit;
 
 	object_class->dispose  = impl_dispose;
 	object_class->finalize = impl_finalize;

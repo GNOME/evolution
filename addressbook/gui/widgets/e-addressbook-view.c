@@ -911,7 +911,7 @@ cut (GtkWidget *widget, ContactAndBook *contact_and_book)
 static void
 delete (GtkWidget *widget, ContactAndBook *contact_and_book)
 {
-	if (e_contact_editor_confirm_delete(GTK_WINDOW(gtk_widget_get_toplevel(contact_and_book->view->widget)))) {
+	if (eab_editor_confirm_delete(GTK_WINDOW(gtk_widget_get_toplevel(contact_and_book->view->widget)))) {
 		EBook *book;
 		GList *list = get_contact_list(contact_and_book);
 		GList *iterator;

@@ -25,6 +25,8 @@
 #include <bonobo/bonobo-ui-component.h>
 #include <glade/glade.h>
 
+#include "addressbook/gui/contact-editor/eab-editor.h"
+
 #include <libebook/e-book-async.h>
 #include <libebook/e-contact.h>
 
@@ -54,7 +56,7 @@ typedef struct _EContactEditorClass  EContactEditorClass;
 
 struct _EContactEditor
 {
-	GtkObject object;
+	EABEditor object;
 	
 	/* item specific fields */
 	EBook *source_book;
@@ -119,14 +121,7 @@ struct _EContactEditor
 
 struct _EContactEditorClass
 {
-	GtkObjectClass parent_class;
-
-	/* Notification signals */
-
-	void (* contact_added)    (EContactEditor *ce, EBookStatus status, EContact *contact);
-	void (* contact_modified) (EContactEditor *ce, EBookStatus status, EContact *contact);
-	void (* contact_deleted)  (EContactEditor *ce, EBookStatus status, EContact *contact);
-	void (* editor_closed)    (EContactEditor *ce);
+	EABEditorClass parent_class;
 };
 
 EContactEditor *e_contact_editor_new                (EBook          *book,
@@ -134,14 +129,6 @@ EContactEditor *e_contact_editor_new                (EBook          *book,
 						     gboolean        is_new_contact,
 						     gboolean        editable);
 GType           e_contact_editor_get_type           (void);
-
-void            e_contact_editor_show               (EContactEditor *editor);
-void            e_contact_editor_close              (EContactEditor *editor);
-void            e_contact_editor_raise              (EContactEditor *editor);
-
-gboolean        e_contact_editor_confirm_delete     (GtkWindow      *parent);
-
-gboolean        e_contact_editor_request_close_all  (void);
 
 G_END_DECLS
 

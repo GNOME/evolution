@@ -1,5 +1,93 @@
 2004-03-24  Chris Toshok  <toshok@ximian.com>
 
+	* gui/contact-list-editor/e-contact-list-editor.c
+	(e_contact_list_editor_get_type): parent_type == EAB_TYPE_EDITOR.
+	(e_contact_list_editor_class_init): fill in editor_class virtual
+	functions, and remove all the signals.
+	(list_added_cb): call eab_editor_contact_* instead of emitting a
+	signal here.  also call eab_editor_close
+	(list_modified_cb): same.
+	(e_contact_list_editor_is_valid): new function.
+	(e_contact_list_editor_is_changed): same.
+	(e_contact_list_editor_get_window): same.
+	(file_close_cb): call eab_editor_ functions.
+	(list_deleted_cb): call eab_editor_contact_* instead of emitting a
+	signal here.  also call eab_editor_close
+	(delete_cb): call eab_editor_* functions.
+	(contact_list_editor_destroy_notify): call eab_editor_remove.
+	(e_contact_list_editor_new): call eab_editor_add, and remove the
+	g_object_ref/gtk_object_sink two-step.
+	(e_contact_list_editor_show): make static, and make arg EABEditor.
+	(e_contact_list_editor_raise): same.
+	(e_contact_list_editor_close): same.
+	(app_delete_event_cb): call eab_editor_ functions.
+	(command_state_changed): use eab_editor_is_valid instead of
+	is_named.
+	(e_contact_list_editor_request_close_all): nuke.
+	
+	* gui/contact-list-editor/e-contact-list-editor.h: nuke a bunch of
+	prototypes for functions that are now either virtual functions
+	from EABEditor or eab_editor_* functions.
+	(struct _EContactListEditor): we subclass from EABEditor.
+	(struct _EContactListEditorClass): same, and nuke all the signals.
+
+	* gui/contact-editor/e-contact-editor.c
+	(e_contact_editor_get_type): parent_type == EAB_TYPE_EDITOR.
+	(e_contact_editor_class_init): fill in editor_class virtual
+	functions, and remove all the signals.
+	(contact_moved_cb): call eab_editor_contact_* instead of emitting
+	a signal here.  also call eab_editor_close
+	(contact_added_cb): same.
+	(contact_modified_cb): same.
+	(e_contact_editor_close): rename from close_dialog.
+	(e_contact_editor_is_valid): new function.
+	(e_contact_editor_is_changed): new function.
+	(e_contact_editor_get_window): new function.
+	(file_close_cb): use eab_editor_ calls here.
+	(e_contact_editor_confirm_delete): nuke.
+	(contact_deleted_cb): call eab_editor_contact_* instead of
+	emitting a signal here.  also call eab_editor_close
+	(delete_cb): use eab_editor_ functions.
+	(e_contact_editor_dispose): chain up to our parent's ::dispose.
+	(contact_editor_destroy_notify): use eab_editor_remove.
+	(e_contact_editor_new): use eab_editor_add, and remove the
+	g_object_ref/gtk_object_sink two-step.
+	(_popup_position): nuke dead function.
+	(set_fields): i is an index, not a field_id.
+	(e_contact_editor_raise): make this static, and it takes an
+	EABEditor arg now, not a EContactEditor.
+	(e_contact_editor_show): same.
+	(e_contact_editor_request_close_all): nuke.
+	
+	* gui/contact-editor/e-contact-editor.h: nuke a bunch of
+	prototypes for functions that are now either virtual functions
+	from EABEditor or eab_editor_* functions.
+	(struct _EContactEditor): we subclass from EABEditor.
+	(struct _EContactEditorClass): same, and remove the signals.
+
+	* gui/widgets/e-addressbook-view.c (delete): call
+	eab_editor_confirm_delete.
+
+	* gui/widgets/eab-popup-control.c (contact_editor_cb): don't
+	bother calling e_contact_editor_raise since this is a new contact
+	editor anyway.
+
+	* gui/widgets/eab-gui-util.c (eab_show_contact_list_editor): use
+	EABEditor signals, and eab_editor_show.
+
+	* gui/widgets/e-minicard.h: "editor" is now of type EABEditor, not
+	GObject.
+
+	* gui/widgets/e-minicard.c (e_minicard_event): just use
+	eab_editor_raise instead of
+	e_contact_editor_raise/e_contact_list_editor_raise.
+
+	* gui/component/addressbook-component.c (impl_requestQuit):
+	implement this again, calling eab_editor_request_close_all.
+	(addressbook_component_class_init): fill in epv->requestQuit.
+
+2004-03-24  Chris Toshok  <toshok@ximian.com>
+
 	* gui/contact-editor/eab-editor.[ch]: superclass for both
 	EContactEditor and EContactListEditor.  A start toward simplifying
 	the interface to both of them, and a place to abstract code.

@@ -602,10 +602,7 @@ e_minicard_event (GnomeCanvasItem *item, GdkEvent *event)
 	case GDK_2BUTTON_PRESS:
 		if (event->button.button == 1 && E_IS_MINICARD_VIEW(item->parent)) {
 			if (e_minicard->editor) {
-				if (GPOINTER_TO_INT (e_contact_get (e_minicard->contact, E_CONTACT_IS_LIST)))
-					e_contact_list_editor_raise (E_CONTACT_LIST_EDITOR(e_minicard->editor));
-				else
-					e_contact_editor_raise(E_CONTACT_EDITOR(e_minicard->editor));
+				eab_editor_raise (e_minicard->editor);
 			} else {
 				EBook *book = NULL;
 				if (E_IS_MINICARD_VIEW(item->parent)) {
@@ -618,12 +615,12 @@ e_minicard_event (GnomeCanvasItem *item, GdkEvent *event)
 					if (e_contact_get (e_minicard->contact, E_CONTACT_IS_LIST)) {
 						EContactListEditor *editor = eab_show_contact_list_editor (book, e_minicard->contact,
 													   FALSE, e_minicard->editable);
-						e_minicard->editor = G_OBJECT (editor);
+						e_minicard->editor = EAB_EDITOR (editor);
 					}
 					else {
 						EContactEditor *editor = eab_show_contact_editor (book, e_minicard->contact,
 												  FALSE, e_minicard->editable);
-						e_minicard->editor = G_OBJECT (editor);
+						e_minicard->editor = EAB_EDITOR (editor);
 					}
 					g_object_ref (e_minicard->editor);
 
