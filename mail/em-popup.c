@@ -46,6 +46,7 @@
 #include "e-util/e-msgport.h"
 #include "em-utils.h"
 
+#include <camel/camel-store.h>
 #include <camel/camel-folder.h>
 #include <camel/camel-mime-message.h>
 #include <camel/camel-string-utils.h>
@@ -584,7 +585,7 @@ em_popup_target_new_part(struct _CamelMimePart *part, const char *mime_type)
 
 /* TODO: This should be based on the CamelFolderInfo, but ... em-folder-tree doesn't keep it? */
 EMPopupTarget *
-em_popup_target_new_folder(const char *uri, int isstore)
+em_popup_target_new_folder(const char *uri, guint32 info_flags, int isstore)
 {
 	EMPopupTarget *t = g_malloc0(sizeof(*t));
 	guint32 mask = ~0;
@@ -619,15 +620,14 @@ em_popup_target_new_folder(const char *uri, int isstore)
 			/* more hack, for maildir root */
 			|| strcmp(path, ".") == 0))
 			mask |= EM_POPUP_FOLDER_DELETE|EM_POPUP_FOLDER_INFERIORS;
-
-		/* since vtrash/vjunk currently make scarily bogus
-		 * url's, we have to check this too */
-		if (strcmp(url->protocol, "vtrash") == 0
-		    || strcmp(url->protocol, "vjunk") == 0)
-			mask |= EM_POPUP_FOLDER_DELETE|EM_POPUP_FOLDER_INFERIORS;
+		
 		/* end hack bit */
-
-		if (camel_url_get_param(url, "noselect") == NULL)
+		
+		/* check for vTrash/vJunk */
+		if (info_flags & CAMEL_FOLDER_VIRTUAL)
+			mask |= EM_POPUP_FOLDER_DELETE|EM_POPUP_FOLDER_INFERIORS;
+		
+		if (info_flags & CAMEL_FOLDER_NOSELECT)
 			mask &= ~EM_POPUP_FOLDER_SELECT;
 	}
 

@@ -1,3 +1,23 @@
+2004-02-12  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* em-folder-tree.c (emft_tree_button_press): Updated for em-popup
+	API change (altho currently passes a dummy value).
+
+	* em-popup.c (em_popup_target_new_folder): Check for vTrash/vJunk
+	by checking the CAMEL_FOLDER_VIRTUAL info flags bit. (perhaps this
+	flag should be renamed to SPECIAL? VIRTUAL might not have been a
+	good name). Also changed to check flags & CAMEL_FOLDER_NOSELECT
+	rather than checking the uri string for a noselect param.
+
+	* mail-folder-cache.c (unset_folder_info): Instead of checking for
+	";noselect" in the uri, check for a CAMEL_FOLDER_NOSELECT flag on
+	mfi->flags.
+	(setup_folder): Copy the fi->flags to mfi->flags here.
+	(rename_folders): Same.
+	(setup_folder): Check fi->flags for CAMEL_FOLDER_NOSELECT here
+	instead.
+	(rename_folders): Same. Also gets rid of a FIXME.
+
 2004-02-18  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* em-format-html-display.c (efhd_xpkcs7mime_validity_clicked):

@@ -2224,7 +2224,9 @@ emft_tree_button_press (GtkWidget *treeview, GdkEventButton *event, EMFolderTree
 	selection = gtk_tree_view_get_selection (priv->treeview);
 	emft_selection_get_selected (selection, &model, &iter);
 	gtk_tree_model_get (model, &iter, COL_STRING_URI, &uri, COL_BOOL_IS_STORE, &isstore, -1);
-	target = em_popup_target_new_folder(uri, isstore);
+	
+	/* FIXME: pass valid fi->flags here */
+	target = em_popup_target_new_folder(uri, 0, isstore);
 	
 	for (i = 0; i < sizeof (emft_popup_menu) / sizeof (emft_popup_menu[0]); i++) {
 		EMPopupItem *item = &emft_popup_menu[i];

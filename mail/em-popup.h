@@ -165,7 +165,7 @@ struct _GtkMenu *em_popup_create_menu_once(EMPopup *emp, EMPopupTarget *, guint3
 EMPopupTarget *em_popup_target_new_uri(const char *uri);
 EMPopupTarget *em_popup_target_new_select(struct _CamelFolder *folder, const char *folder_uri, GPtrArray *uids);
 EMPopupTarget *em_popup_target_new_part(struct _CamelMimePart *part, const char *mime_type);
-EMPopupTarget *em_popup_target_new_folder(const char *uri, int isstore);
+EMPopupTarget *em_popup_target_new_folder(const char *uri, guint32 info_flags, int isstore);
 void em_popup_target_free(EMPopupTarget *target);
 
 #ifdef __cplusplus

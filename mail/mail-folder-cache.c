@@ -69,7 +69,9 @@ struct _folder_info {
 	char *path;		/* shell path */
 	char *full_name;	/* full name of folder/folderinfo */
 	char *uri;		/* uri of folder */
-
+	
+	guint32 flags;
+	
 	CamelFolder *folder;	/* if known */
 };
 
@@ -272,7 +274,7 @@ unset_folder_info(struct _folder_info *mfi, int delete, int unsub)
 		camel_object_unhook_event(folder, "finalize", folder_finalised, mfi);
 	}
 
-	if (strstr(mfi->uri, ";noselect") == NULL) {
+	if (mfi->flags & CAMEL_FOLDER_NOSELECT) {
 		up = g_malloc0(sizeof(*up));
 
 		up->remove = TRUE;
@@ -377,6 +379,8 @@ setup_folder(CamelFolderInfo *fi, struct _store_info *si)
 		mfi->full_name = g_strdup(fi->full_name);
 		mfi->uri = g_strdup(fi->url);
 		mfi->store_info = si;
+		mfi->flags = fi->flags;
+		
 		g_hash_table_insert(si->folders, mfi->full_name, mfi);
 		g_hash_table_insert(si->folders_uri, mfi->uri, mfi);
 
@@ -387,7 +391,8 @@ setup_folder(CamelFolderInfo *fi, struct _store_info *si)
 		up->unread = (fi->unread_message_count==-1)?0:fi->unread_message_count;
 		up->store = si->store;
 		camel_object_ref(up->store);
-		if (strstr(fi->url, ";noselect") == NULL)
+		
+		if (fi->flags & CAMEL_FOLDER_NOSELECT)
 			up->add = TRUE;
 
 		e_dlist_addtail(&updates, (EDListNode *)up);
@@ -595,6 +600,8 @@ rename_folders(struct _store_info *si, const char *oldbase, const char *newbase,
 		mfi->path = g_strdup(fi->path);
 		mfi->full_name = g_strdup(fi->full_name);
 		mfi->uri = g_strdup(fi->url);
+		mfi->flags = fi->flags;
+		
 		g_hash_table_insert(si->folders, mfi->full_name, mfi);
 		g_hash_table_insert(si->folders_uri, mfi->uri, mfi);
 	} else {
@@ -605,6 +612,8 @@ rename_folders(struct _store_info *si, const char *oldbase, const char *newbase,
 		mfi->full_name = g_strdup(fi->full_name);
 		mfi->uri = g_strdup(fi->url);
 		mfi->store_info = si;
+		mfi->flags = fi->flags;
+		
 		g_hash_table_insert(si->folders, mfi->full_name, mfi);
 		g_hash_table_insert(si->folders_uri, mfi->uri, mfi);
 	}
@@ -617,8 +626,8 @@ rename_folders(struct _store_info *si, const char *oldbase, const char *newbase,
 	up->unread = fi->unread_message_count==-1?0:fi->unread_message_count;
 	up->store = si->store;
 	camel_object_ref(up->store);
-	/* FIXME: use fi->flags */
-	if (strstr(fi->url, ";noselect") == NULL)
+	
+	if (fi->flags & CAMEL_FOLDER_NOSELECT)
 		up->add = TRUE;
 
 	e_dlist_addtail(&updates, (EDListNode *)up);
