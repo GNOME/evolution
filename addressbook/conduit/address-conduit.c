@@ -302,14 +302,16 @@ local_record_from_ecard (EAddrLocalRecord *local, ECard *ecard, EAddrConduitCont
 
 	local->addr = g_new0 (struct Address, 1);
 
-	if (ecard->name->given)
-		local->addr->entry[entryFirstname] = strdup (ecard->name->given);
-	if (ecard->name->family)
-		local->addr->entry[entryLastname] = strdup (ecard->name->family);
-	if (ecard->org)
-		local->addr->entry[entryCompany] = strdup (ecard->org);
-	if (ecard->title)
-		local->addr->entry[entryTitle] = strdup (ecard->title);
+	if (ecard->name) {
+		if (ecard->name->given)
+			local->addr->entry[entryFirstname] = strdup (ecard->name->given);
+		if (ecard->name->family)
+			local->addr->entry[entryLastname] = strdup (ecard->name->family);
+		if (ecard->org)
+			local->addr->entry[entryCompany] = strdup (ecard->org);
+		if (ecard->title)
+			local->addr->entry[entryTitle] = strdup (ecard->title);
+	}
 
 	delivery = e_card_simple_get_delivery_address (simple, E_CARD_SIMPLE_ADDRESS_ID_HOME);
 	if (delivery) {
@@ -366,7 +368,7 @@ local_record_from_uid (EAddrLocalRecord *local,
 	if (ecard != NULL) {
 		local_record_from_ecard (local, ecard, ctxt);
 	} else {
-		ecard = e_card_new (NULL);
+		ecard = e_card_new ("");
 		local_record_from_ecard (local, ecard, ctxt);
 	}
 }
@@ -469,7 +471,6 @@ check_for_slow_setting (GnomePilotConduit *c, EAddrConduitContext *ctxt)
 	int count, map_count;
 
   	count = g_list_length (ctxt->cards);
-	count = 0;
 
 	map_count = g_hash_table_size (ctxt->map->pid_map);
 	
@@ -493,7 +494,7 @@ card_added (EBookView *book_view, const GList *cards, EAddrConduitContext *ctxt)
 		ECard *card = l->data;
 		CardObjectChange *coc = g_new0 (CardObjectChange, 1);
 		
-		coc->uid = e_card_get_id (card);
+		coc->uid = g_strdup (e_card_get_id (card));
 		coc->type = CARD_ADDED;
 
 		ctxt->changed = g_list_prepend (ctxt->changed, coc);
@@ -510,9 +511,9 @@ card_changed (EBookView *book_view, const GList *cards, EAddrConduitContext *ctx
 		ECard *card = l->data;
 		CardObjectChange *coc = g_new0 (CardObjectChange, 1);
 	
-		coc->uid = e_card_get_id (card);
+		coc->uid = g_strdup (e_card_get_id (card));
 		coc->type = CARD_MODIFIED;
-
+		g_print ("UID **** %s\n", coc->uid);
 		ctxt->changed = g_list_prepend (ctxt->changed, coc);
 		g_hash_table_insert (ctxt->changed_hash, coc->uid, coc);
 	}	

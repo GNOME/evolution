@@ -1,3 +1,12 @@
+2000-12-07  JP Rosevear  <jpr@helixcode.com>
+
+	* conduit/address-conduit.c (local_record_from_uid): Pass "" rather
+	than NULL to e_card_new.
+	(local_record_from_ecard): Make sure ecard->name is valid
+	(check_for_slow_setting): Remove hard coded test value
+	(card_added): g_strdup the resul of e_card_get_id
+	(card_changed): ditto
+
 2000-12-07  Christopher James Lahey  <clahey@helixcode.com>
 
 	* gui/widgets/e-addressbook-view.c: Got rid of code referencing
