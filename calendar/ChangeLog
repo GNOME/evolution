@@ -1,3 +1,20 @@
+2001-07-17  Federico Mena Quintero  <federico@ximian.com>
+
+	Really fixes #4380.  The previous fix was necessary but not
+	sufficient; it worked for me because my system timezone happens to
+	match the Evolution timezone --- if they don't match, the bug
+	would persist.
+
+	* cal-util/timeutil.c (time_to_gdate_with_zone): New function.  We
+	cannot use g_date_set_time() anymore because it does not take
+	timezones into account.
+
+	* gui/gnome-cal.c (get_days_shown): Use the function above.
+
+	* gui/e-day-view.c (e_day_view_find_work_week_start): Likewise.
+
+	* gui/e-week-view.c (e_week_view_set_selected_time_range): Likewise.
+
 2001-07-17  Jon Trowbridge  <trow@ximian.com>
 
 	* gui/dialogs/meeting-page.c (invite_entry_changed): Print
@@ -30,6 +47,7 @@
 	* gui/dialogs/comp-editor-util.c (comp_editor_dates): 
 	* gui/print.c (print_date_label): only free icaltimetype if not NULL.
 
+>>>>>>> 1.974
 2001-07-12  Taylor Hayward  <taylorhayward@yahoo.com>
 
 	* gui/goto-dialog.glade:

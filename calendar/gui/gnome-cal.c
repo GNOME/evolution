@@ -1692,14 +1692,16 @@ get_days_shown (GnomeCalendar *gcal, GDate *start_date, gint *days_shown)
 
 	switch (priv->current_view_type) {
 	case GNOME_CAL_DAY_VIEW:
-		g_date_clear (start_date, 1);
-		g_date_set_time (start_date, E_DAY_VIEW (priv->day_view)->lower);
+		time_to_gdate_with_zone (start_date,
+					 E_DAY_VIEW (priv->day_view)->lower,
+					 priv->zone);
 		*days_shown = e_day_view_get_days_shown (E_DAY_VIEW (priv->day_view));
 		break;
 
 	case GNOME_CAL_WORK_WEEK_VIEW:
-		g_date_clear (start_date, 1);
-		g_date_set_time (start_date, E_DAY_VIEW (priv->work_week_view)->lower);
+		time_to_gdate_with_zone (start_date,
+					 E_DAY_VIEW (priv->work_week_view)->lower,
+					 priv->zone);
 		*days_shown = e_day_view_get_days_shown (E_DAY_VIEW (priv->work_week_view));
 		break;
 

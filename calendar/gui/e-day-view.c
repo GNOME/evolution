@@ -2154,8 +2154,11 @@ e_day_view_find_work_week_start		(EDayView	*day_view,
 	gint weekday, day, i, offset;
 	struct icaltimetype tt = icaltime_null_time ();
 
+#if 0
 	g_date_clear (&date, 1);
 	g_date_set_time (&date, start_time);
+#endif
+	time_to_gdate_with_zone (&date, start_time, day_view->zone);
 
 	/* The start of the work-week is the first working day after the
 	   week start day. */

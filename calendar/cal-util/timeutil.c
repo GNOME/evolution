@@ -393,6 +393,30 @@ time_day_end_with_zone (time_t time, icaltimezone *zone)
 	return icaltime_as_timet_with_zone (tt, zone);
 }
 
+/**
+ * time_to_gdate_with_zone:
+ * @date: Destination #GDate value.
+ * @time: A time value.
+ * @zone: Desired timezone for destination @date, or NULL if the UTC timezone
+ * is desired.
+ * 
+ * Converts a time_t value to a #GDate structure using the specified timezone.
+ * This is analogous to g_date_set_time() but takes the timezone into account.
+ **/
+void
+time_to_gdate_with_zone (GDate *date, time_t time, icaltimezone *zone)
+{
+	struct icaltimetype tt;
+
+	g_return_if_fail (date != NULL);
+	g_return_if_fail (time != -1);
+
+	tt = icaltime_from_timet_with_zone (time, FALSE,
+					    zone ? zone : icaltimezone_get_utc_timezone ());
+
+	g_date_set_dmy (date, tt.day, tt.month, tt.year);
+}
+
 
 /**************************************************************************
  * General time functions.
