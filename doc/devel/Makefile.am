@@ -82,7 +82,7 @@ extra_files =
 # and uncomment this line.
 #DOC_OVERRIDES = $(DOC_MODULE)-overrides.txt
 
-HTML_DIR = $(datadir)/gnome/html
+HTML_DIR = $(datadir)/gnome/html/evolution-$(BASE_VERSION)
 
 ###########################################################################
 # Everything below here is generic and you shouldn't need to change it.

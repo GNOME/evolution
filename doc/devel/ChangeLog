@@ -1,3 +1,7 @@
+2003-01-22  Ettore Perazzoli  <ettore@ximian.com>
+
+	* Makefile.am (HTML_DIR): Version using $(BASE_VERSION).
+
 2002-07-17  Peter Williams  <peterw@ximian.com>
 
 	* calendar/cal-util/Makefile.am (GTKDOC_LIBS): Because we're
