@@ -344,8 +344,6 @@ start_import (const char *folderpath,
 		real_iid = g_strdup (iid);
 	}
 
-	g_print ("Importing with: %s\n", real_iid);
-
 	if (real_iid == NULL) {
 		char *message;
 
@@ -355,6 +353,8 @@ start_import (const char *folderpath,
 
 		return;
 	}
+
+	g_print ("Importing with: %s\n", real_iid);
 
 	icd = g_new (ImporterComponentData, 1);
 	icd->stop = FALSE;
