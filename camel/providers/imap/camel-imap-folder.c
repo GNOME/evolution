@@ -1489,8 +1489,6 @@ part_spec_push (struct _part_spec_stack **stack, int part)
 {
 	struct _part_spec_stack *node;
 	
-	printf ("pushing %d\n", part);
-	
 	node = g_new (struct _part_spec_stack, 1);
 	node->parent = *stack;
 	node->part = part;
@@ -1630,7 +1628,7 @@ get_content (CamelImapFolder *imap_folder, const char *uid,
 		g_free (part_spec);
 		return content;
 	} else {
-		content = camel_imap_wrapper_new (imap_folder, ci->type, uid, part_spec, part);
+		content = camel_imap_wrapper_new (imap_folder, ci->type, uid, *part_spec ? part_spec : "1", part);
 		g_free (part_spec);
 		return content;
 	}

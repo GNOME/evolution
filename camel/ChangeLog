@@ -1,3 +1,9 @@
+2002-05-15  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* providers/imap/camel-imap-folder.c (get_content): If the
+	part_spec is an empty string for a leaft part, use "1" since we
+	don't actually want to get the raw message headers too.
+
 2002-05-15  Not Zed  <NotZed@Ximian.com>
 
 	* providers/imap/camel-imap-store.c (refresh_folder_info): removed.
