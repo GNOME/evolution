@@ -3348,6 +3348,12 @@ set_signature_gui (EMsgComposer *composer)
 }
 
 
+static void
+auto_recip_free (gpointer key, gpointer value, gpointer user_data)
+{
+	g_free (key);
+}
+
 /**
  * e_msg_composer_new_with_message:
  * @message: The message to use as the source
@@ -3363,20 +3369,70 @@ e_msg_composer_new_with_message (CamelMimeMessage *message)
 {
 	const CamelInternetAddress *to, *cc, *bcc;
 	GList *To = NULL, *Cc = NULL, *Bcc = NULL;
+	const MailConfigAccount *account = NULL;
 	EDestination **Tov, **Ccv, **Bccv;
-	const char *format, *subject, *account_name;
+	GHashTable *auto_cc, *auto_bcc;
 	CamelContentType *content_type;
+	const char *format, *subject;
 	struct _header_raw *headers;
 	CamelDataWrapper *content;
+	char *account_name;
 	EMsgComposer *new;
 	XEvolution *xev;
-	guint len, i;
+	int len, i;
 	
 	g_return_val_if_fail (gtk_main_level () > 0, NULL);
 	
 	new = create_composer (E_MSG_COMPOSER_VISIBLE_MASK_MAIL);
 	if (!new)
 		return NULL;
+	
+	/* Restore the Account preference */
+	account_name = (char *) camel_medium_get_header (CAMEL_MEDIUM (message), "X-Evolution-Account");
+	if (account_name) {
+		account_name = g_strdup (account_name);
+		g_strstrip (account_name);
+		
+		account = mail_config_get_account_by_name (account_name);
+	}
+	
+	auto_cc = g_hash_table_new (g_strcase_hash, g_strcase_equal);
+	auto_bcc = g_hash_table_new (g_strcase_hash, g_strcase_equal);
+	
+	if (account) {
+		CamelInternetAddress *iaddr;
+		
+		/* hash our auto-recipients for this account */
+		if (account->always_cc) {
+			iaddr = camel_internet_address_new ();
+			if (camel_address_decode (CAMEL_ADDRESS (iaddr), account->cc_addrs) != -1) {
+				for (i = 0; i < camel_address_length (CAMEL_ADDRESS (iaddr)); i++) {
+					const char *name, *addr;
+					
+					if (!camel_internet_address_get (iaddr, i, &name, &addr))
+						continue;
+					
+					g_hash_table_insert (auto_cc, g_strdup (addr), GINT_TO_POINTER (TRUE));
+				}
+			}
+			camel_object_unref (iaddr);
+		}
+		
+		if (account->always_bcc) {
+			iaddr = camel_internet_address_new ();
+			if (camel_address_decode (CAMEL_ADDRESS (iaddr), account->bcc_addrs) != -1) {
+				for (i = 0; i < camel_address_length (CAMEL_ADDRESS (iaddr)); i++) {
+					const char *name, *addr;
+					
+					if (!camel_internet_address_get (iaddr, i, &name, &addr))
+						continue;
+					
+					g_hash_table_insert (auto_bcc, g_strdup (addr), GINT_TO_POINTER (TRUE));
+				}
+			}
+			camel_object_unref (iaddr);
+		}
+	}
 	
 	subject = camel_mime_message_get_subject (message);
 	
@@ -3406,10 +3462,17 @@ e_msg_composer_new_with_message (CamelMimeMessage *message)
 			EDestination *dest = e_destination_new ();
 			e_destination_set_name (dest, name);
 			e_destination_set_email (dest, addr);
+			
+			if (g_hash_table_lookup (auto_cc, addr))
+				e_destination_set_auto_recipient (dest, TRUE);
+			
 			Cc = g_list_append (Cc, dest);
 		}
 	}
+	
 	Ccv = e_destination_list_to_vector (Cc);
+	g_hash_table_foreach (auto_cc, auto_recip_free, NULL);
+	g_hash_table_destroy (auto_cc);
 	g_list_free (Cc);
 	
 	len = CAMEL_ADDRESS (bcc)->addresses->len;
@@ -3420,25 +3483,22 @@ e_msg_composer_new_with_message (CamelMimeMessage *message)
 			EDestination *dest = e_destination_new ();
 			e_destination_set_name (dest, name);
 			e_destination_set_email (dest, addr);
+			
+			if (g_hash_table_lookup (auto_bcc, addr))
+				e_destination_set_auto_recipient (dest, TRUE);
+			
 			Bcc = g_list_append (Bcc, dest);
 		}
 	}
 	
 	Bccv = e_destination_list_to_vector (Bcc);
+	g_hash_table_foreach (auto_bcc, auto_recip_free, NULL);
+	g_hash_table_destroy (auto_bcc);
 	g_list_free (Bcc);
-	
-	/* Restore the Account preference */
-	account_name = camel_medium_get_header (CAMEL_MEDIUM (message), "X-Evolution-Account");
-	if (account_name) {
-		while (*account_name && isspace ((unsigned) *account_name))
-			account_name++;
-	}
-	if (account_name == NULL) {
-		account_name = camel_medium_get_header (CAMEL_MEDIUM (message), "From");
-	}
 	
 	e_msg_composer_set_headers (new, account_name, Tov, Ccv, Bccv, subject);
 	
+	g_free (account_name);
 	e_destination_freev (Tov);
 	e_destination_freev (Ccv);
 	e_destination_freev (Bccv);

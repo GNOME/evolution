@@ -1,3 +1,11 @@
+2002-07-31  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* e-msg-composer.c (e_msg_composer_new_with_message): Parse the
+	auto-cc/bcc recipients and then later when parsing the cc/bcc
+	recipients into EDestination objects, if the address is an
+	auto-*cc address, then set auto_recipient to TRUE on that
+	EDestination. This fixes bug #28339.
+
 2002-07-29  Radek Doulik  <rodo@ximian.com>
 
 	* e-msg-composer.c (encode_signature_name): new helper function
