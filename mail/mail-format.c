@@ -960,6 +960,7 @@ handle_text_plain_flowed (char *buf, MailDisplay *md)
 	char *text, *line, *eol, *p;
 	int prevquoting = 0, quoting, len;
 	gboolean br_pending = FALSE;
+	guint32 citation_color = mail_config_get_citation_color ();
 
 	mail_html_write (md->html, md->stream,
 			 "\n<!-- text/plain, flowed -->\n<font size=\"-3\">&nbsp</font><br>\n<tt>\n");
@@ -974,8 +975,11 @@ handle_text_plain_flowed (char *buf, MailDisplay *md)
 		for (p = line; *p == '>'; p++)
 			quoting++;
 		if (quoting != prevquoting) {
-			mail_html_write (md->html, md->stream, "%s\n",
-					 prevquoting == 0 ? "<i>\n" : "");
+			if (prevquoting == 0) {
+				mail_html_write (md->html, md->stream,
+						 "<font color=\"#%06x\">",
+						 citation_color);
+			}
 			while (quoting > prevquoting) {
 				mail_html_write (md->html, md->stream,
 						 "<blockquote>");
@@ -986,8 +990,10 @@ handle_text_plain_flowed (char *buf, MailDisplay *md)
 						 "</blockquote>");
 				prevquoting--;
 			}
-			mail_html_write (md->html, md->stream, "%s\n",
-					 prevquoting == 0 ? "</i>\n" : "");
+			if (quoting == 0) {
+				mail_html_write (md->html, md->stream,
+						 "</font>\n");
+			}
 		} else if (br_pending) {
 			mail_html_write (md->html, md->stream, "<br>\n");
 			br_pending = FALSE;

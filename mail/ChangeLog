@@ -1,3 +1,10 @@
+2001-04-26  Dan Winship  <danw@ximian.com>
+
+	* mail-format.c (handle_text_plain_flowed): Use <font color=...>
+	to mark citations rather than italicizing them, which has never
+	looked very nice. Now this is more consistent with the non-flowed
+	case.
+
 2001-04-26  Jon Trowbridge  <trow@ximian.com>
 
 	* folder-browser-factory.c: Added "MessageSearch" verb.
