@@ -1,3 +1,14 @@
+2000-03-04  NotZed  <NotZed@HelixCode.com>
+
+	* filter-driver.c (main): Actually implement filtering, at least,
+	from Inbox.  Copy messages to folder (in the same store only, so
+	far), delete, and stop processing are implemented, and the logic
+	to handle default processing.
+
+	* filter-xml.c (load_optionvalue): Fix up a bug where we lost the
+	name of the arg (ouch).
+	* filter-xml.c: Wrapped printf's in debug macros.
+
 2000-03-02  NotZed  <NotZed@HelixCode.com>
 
 	* filter-druid.c (object_destroy): Disconnect the list signal, so

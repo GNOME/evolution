@@ -13,6 +13,8 @@
 #include "filter-arg-types.h"
 #include "filter-xml.h"
 
+#define d(x)
+
 struct token_tab {
 	char *name;
 	enum filter_xml_token token;
@@ -74,10 +76,10 @@ detokenise(int token)
 static xmlNodePtr
 find_node(xmlNodePtr start, char *name)
 {
-	printf("trying to find node '%s'\n", name);
+	d(printf("trying to find node '%s'\n", name));
 	while (start && strcmp(start->name, name))
 		start = start->next;
-	printf("node = %p\n", start);
+	d(printf("node = %p\n", start));
 	return start;
 }
 
@@ -87,11 +89,11 @@ find_node_attr(xmlNodePtr start, char *name, char *attrname, char *attrvalue)
 	xmlNodePtr node;
 	char *s;
 
-	printf("looking for node named %s with attribute %s=%s\n", name, attrname, attrvalue);
+	d(printf("looking for node named %s with attribute %s=%s\n", name, attrname, attrvalue));
 
 	while (	start && (start = find_node(start, name)) ) {
 		s = xmlGetProp(start, attrname);
-		printf("   comparing '%s' to '%s'\n", s, attrvalue);
+		d(printf("   comparing '%s' to '%s'\n", s, attrvalue));
 		if (s && !strcmp(s, attrvalue))
 			break;
 		start = start->next;
@@ -116,9 +118,9 @@ load_desc(xmlNodePtr node, int type, int vartype, char *varname)
 			desc->type = type;
 			desc->vartype = vartype;
 			desc->varname = varname?g_strdup(varname):0;
-			printf(" **** node name = %s var name = %s  var type = %s\n", node->name, varname, detokenise(vartype));
+			d(printf(" **** node name = %s var name = %s  var type = %s\n", node->name, varname, detokenise(vartype)));
 			list = g_list_append(list, desc);
-			printf("appending '%s'\n", node->content);
+			d(printf("appending '%s'\n", node->content));
 			newtype = type;
 			newvartype = -1;
 			newvarname = NULL;
@@ -129,7 +131,7 @@ load_desc(xmlNodePtr node, int type, int vartype, char *varname)
 		}
 		n = node->childs;
 		while (n) {
-			printf("adding child '%s'\n", n->name);
+			d(printf("adding child '%s'\n", n->name));
 			list = g_list_concat(list, load_desc(n, newtype, newvartype, newvarname));
 			n = n->next;
 		}
@@ -157,7 +159,7 @@ filter_load_ruleset(xmlDocPtr doc)
 		
 		ruletype = tokenise(xmlGetProp(ruleset, "type"));
 
-		printf("ruleset, name = %s\n", ruleset->name);
+		d(printf("ruleset, name = %s\n", ruleset->name));
 
 		while (rule) {
 
@@ -166,24 +168,24 @@ filter_load_ruleset(xmlDocPtr doc)
 			r->type = ruletype;
 			r->name = xmlGetProp(rule, "name");
 
-			printf(" rule, name = %s\n", r->name);
+			d(printf(" rule, name = %s\n", r->name));
 
 			while (n) {
 				type = tokenise(n->name);
-				printf("  n, name = %s\n", n->name);
-				printf("  ncontent = %s\n", n->content);
-				printf("  childs = %p\n", n->childs);
+				d(printf("  n, name = %s\n", n->name));
+				d(printf("  ncontent = %s\n", n->content));
+				d(printf("  childs = %p\n", n->childs));
 				if (n->childs) {
-					printf(" childs content = %s\n", n->childs->content);
+					d(printf(" childs content = %s\n", n->childs->content));
 				}
 				switch(type) {
 				case FILTER_XML_CODE:
 					r->code = xmlNodeGetContent(n);
 					break;
 				case FILTER_XML_DESC:
-					printf(" ** loading description\n");
+					d(printf(" ** loading description\n"));
 					r->description = load_desc(n->childs, type, -1, NULL);
-					printf(" ** done loading description\n");
+					d(printf(" ** done loading description\n"));
 					break;
 				default:
 					printf("warning, unknown token encountered\n");
@@ -203,14 +205,14 @@ filter_load_ruleset(xmlDocPtr doc)
 int
 filter_find_rule(struct filter_rule *a, char *name)
 {
-	printf("finding, is %s = %s?\n", a->name, name);
+	d(printf("finding, is %s = %s?\n", a->name, name));
 	return strcmp(a->name, name);
 }
 
 int
 filter_find_arg(FilterArg *a, char *name)
 {
-	printf("finding, is %s = %s?\n", a->name, name);
+	d(printf("finding, is %s = %s?\n", a->name, name));
 	return strcmp(a->name, name);
 }
 
@@ -221,19 +223,18 @@ load_optionvalue(struct filter_desc *desc, xmlNodePtr node)
 	int token;
 	int lasttoken = -2;
 	FilterArg *arg = NULL;
-	char *name;
 
-	printf("creating arg entry for '%s'\n", desc->varname);
+	d(printf("creating arg entry for '%s'\n", desc->varname));
 
 	switch(desc->vartype) {
 	case FILTER_XML_ADDRESS:
-		arg = filter_arg_address_new(name);
+		arg = filter_arg_address_new(desc->varname);
 		break;
 	case FILTER_XML_FOLDER:
-		arg = filter_arg_folder_new(name);
+		arg = filter_arg_folder_new(desc->varname);
 		break;
 	default:
-		printf("ok, maybe we're not\n");
+		d(printf("ok, maybe we're not\n"));
 		/* unknown arg type, drop it */
 		return NULL;
 	}
@@ -289,14 +290,14 @@ filter_load_optionset(xmlDocPtr doc, GList *rules)
 	optionset = find_node(doc->root->childs, "optionset");
 	if (optionset == NULL) {
 		printf("optionset not found\n");
-		return;
+		return NULL;
 	}
 	option = find_node(optionset->childs, "option");
 	while (option) {
 		o = option->childs;
 		op = g_malloc0(sizeof(*op));
-		printf("option = %s\n", o->name);
-		printf("option, type=%s\n", xmlGetProp(option, "type"));
+		d(printf("option = %s\n", o->name));
+		d(printf("option, type=%s\n", xmlGetProp(option, "type")));
 		op->type = tokenise(xmlGetProp(option, "type"));
 		while (o) {
 			type = tokenise(o->name);
@@ -305,7 +306,7 @@ filter_load_optionset(xmlDocPtr doc, GList *rules)
 				lrule = g_list_find_custom(rules, xmlGetProp(o, "rule"), (GCompareFunc) filter_find_rule);
 				if (lrule) {
 					fr = lrule->data;
-					printf("found rule : %s\n", fr->name);
+					d(printf("found rule : %s\n", fr->name));
 					optionrule = g_malloc0(sizeof(*optionrule));
 					optionrule->rule = fr;
 					op->options = g_list_append(op->options, optionrule);
@@ -319,17 +320,20 @@ filter_load_optionset(xmlDocPtr doc, GList *rules)
 							/* try and see if there is a setting for this value */
 							or = find_node_attr(o->childs, "optionvalue", "name", desc->varname);
 							arg = load_optionvalue(desc, or);
-							if (arg)
+							if (arg) {
 								optionrule->args = g_list_append(optionrule->args, arg);
+								d(printf("Adding arg %s\n", arg->name));
+							}
 						}
 						ldesc = g_list_next(ldesc);
 					}
 				} else {
+					/* FIXME: memleak */
 					printf("Cannot find rule: %s\n", xmlGetProp(o, "rule"));
 				}
 				break;
 			case FILTER_XML_DESC:
-				printf("loading option descriptiong\n");
+				d(printf("loading option descriptiong\n"));
 				op->description = load_desc(option->childs, type, -1, NULL);
 				break;
 			}
@@ -414,8 +418,7 @@ filter_clone_optionrule_free(struct filter_optionrule *or)
 	GList *argl;
 	struct filter_optionrule *rule;
 
-	printf("---- free optionrule\n");
-	return;
+	d(printf("---- free optionrule\n"));
 
 	argl = or->args;
 	while (argl) {
