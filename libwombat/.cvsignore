@@ -5,6 +5,10 @@ Evolution-Wombat.h
 Evolution-Wombat-common.c
 Evolution-Wombat-skels.c
 Evolution-Wombat-stubs.c
+wombat.h
+wombat-common.c
+wombat-skels.c
+wombat-stubs.c
 .deps
 .libs
 libwombat.la

@@ -5,6 +5,7 @@ Makefile.in
 *-decl-list.txt
 *-unused.txt
 *-undocumented.txt
+*-symbols.txt
 *.hierarchy
 *.signals
 *.stamp
