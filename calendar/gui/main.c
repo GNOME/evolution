@@ -4,25 +4,28 @@
  *
  * Authors:
  *          Miguel de Icaza (miguel@kernel.org)
- *          Federico Mena (federico@nuclecu.unam.mx)
+ *          Federico Mena (federico@helixcode.com)
  */
 
 #include <config.h>
-#include <gnome.h>
-#include <libgnorba/gnorba.h>
 #include <pwd.h>
+#include <unistd.h>
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <string.h>
 #include <ctype.h>
 #include <errno.h>
+#include <gnome.h>
+#include <libgnorba/gnorba.h>
+#include <bonobo.h>
+#include <cal-util/timeutil.h>
 /* #include "calendar.h" DELETE */
 #include "alarm.h"
 #include "eventedit.h"
 #include "gnome-cal.h"
 #include "main.h"
-#include "cal-util/timeutil.h"
-#include "corba-cal-factory.h"
+
+
 
 #define COOKIE_USER_HOME_DIR ((char *) -1)
 
@@ -772,6 +775,8 @@ dump_events (void)
 	process_dates ();
 	init_calendar ();
 
+	/* FIXME: this is not waiting for the calendar to be loaded */
+
 	/* DELETE
 	cal = calendar_new (full_name, CALENDAR_INIT_ALARMS);
 	s = calendar_load (cal, load_file ? load_file : user_calendar_file);
@@ -826,6 +831,8 @@ dump_todo (void)
 
 	process_dates ();
 	init_calendar ();
+
+	/* FIXME: this is not waiting for the calendar to be loaded */
 
 	/* DELETE
 	cal = calendar_new (full_name, CALENDAR_INIT_ALARMS);
@@ -986,8 +993,10 @@ session_save_state (GnomeClient *client, gint phase, GnomeRestartStyle save_styl
 	return 1;
 }
 
+
+
 int
-main(int argc, char *argv[])
+main (int argc, char **argv)
 {
 	GnomeClient *client;
 	CORBA_Environment ev;
@@ -996,46 +1005,56 @@ main(int argc, char *argv[])
 	textdomain (PACKAGE);
 
 	CORBA_exception_init (&ev);
+	gnome_CORBA_init_with_popt_table ("calendar", VERSION, &argc, argv,
+					  options, 0, NULL, 0, &ev);
+	if (ev._major != CORBA_NO_EXCEPTION) {
+		g_message ("main(): could not initialize the ORB");
+		CORBA_exception_free (&ev);
+		exit (EXIT_FAILURE);
+	}
+	CORBA_exception_free (&ev);
 
-	gnome_CORBA_init_with_popt_table (
-		"calendar", VERSION, &argc, argv,
-		options, 0, NULL, GNORBA_INIT_SERVER_FUNC, &ev);
-
-	orb = gnome_CORBA_ORB ();
-	poa = (PortableServer_POA)CORBA_ORB_resolve_initial_references (orb, "RootPOA", &ev);
-	if (ev._major == CORBA_NO_EXCEPTION){
-		init_corba_server ();
+	if (!bonobo_init (CORBA_OBJECT_NIL, CORBA_OBJECT_NIL, CORBA_OBJECT_NIL)) {
+		g_message ("main(): could not initialize Bonobo");
+		exit (EXIT_FAILURE);
 	}
 	
+	process_dates ();
+
 	if (show_events)
 		dump_events ();
+
 	if (show_todo)
 		dump_todo ();
 	
 	client = gnome_master_client ();
-	if (client){
+	if (client) {
 		gtk_signal_connect (GTK_OBJECT (client), "save_yourself",
 				    GTK_SIGNAL_FUNC (session_save_state), argv [0]);
 		gtk_signal_connect (GTK_OBJECT (client), "die",
 				    GTK_SIGNAL_FUNC (session_die), NULL);
 	}
 
-	process_dates ();
 	alarm_init ();
 	init_calendar ();
 
-	/*
-	 * Load all of the calendars specifies in the command line with
-	 * the geometry specificied -if any-
+	/* FIXME: the following is broken-ish, since geometries/views are not matched
+	 * to calendars, but they are just picked in whatever order they came in
+	 * from the command line.
 	 */
-	if (start_calendars){
+
+	/* Load all of the calendars specified in the command line with the
+	 * geometry specified, if any.
+	 */
+	if (start_calendars) {
 		GList *p, *g, *v;
 		char *title;
 
 		p = start_calendars;
 		g = start_geometries;
 		v = start_views;
-		while (p){
+
+		while (p) {
 			char *file = p->data;
 			char *geometry = g ? g->data : NULL;
 			char *page_name = v ? v->data : NULL;
@@ -1047,6 +1066,7 @@ main(int argc, char *argv[])
 				title = full_name;
 			else
 				title = file;
+
 			new_calendar (title, file, geometry, page_name, startup_hidden);
 
 			p = p->next;
@@ -1062,7 +1082,8 @@ main(int argc, char *argv[])
 
 		new_calendar (full_name, user_calendar_file, geometry, page_name, startup_hidden);
 	}
-	gtk_main ();
+
+	bonobo_main ();
 	return 0;
 }
 

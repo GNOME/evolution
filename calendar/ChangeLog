@@ -1,5 +1,13 @@
 2000-03-10  Federico Mena Quintero  <federico@helixcode.com>
 
+	* gui/main.c (main): Do not pass the INIT_SERVER flag to
+	gnome_CORBA_init_with_popt_table().  Check for exceptions
+	properly.
+	(main): Initialize Bonobo.
+	(main): Call process_dates() to parse the dates from the command
+	line before we dump the events or the TODOs.
+	(main): Use bonobo_main() instead of gtk_main().
+
 	* cal-util/calobj.c (ical_new): Initialize the alarm types here.
 	Do not call default_alarm() anymore, since that is a GUI issue.
 	(default_alarm): Removed function.
