@@ -508,7 +508,9 @@ do_filter_mail (gpointer in_data, gpointer op_data, CamelException *ex)
 		filter_rule_build_code((FilterRule *)rule, s);
 		filter_filter_build_action(rule, a);
 
+#if 0
 		printf("applying rule %s\n action %s\n", s->str, a->str);
+#endif
 
 		mail_tool_camel_lock_up ();
 		p->matches = camel_folder_search_by_expression (p->source, s->str, p->ex);
@@ -518,12 +520,11 @@ do_filter_mail (gpointer in_data, gpointer op_data, CamelException *ex)
 		for (i = 0; i < p->matches->len; i++) {
 			uid = p->matches->pdata[i];
 
-#if 0
 			/* for all matching id's, so we can work out what to default */
 			if (g_hash_table_lookup (p->processed, uid) == NULL) {
 				g_hash_table_insert (p->processed, uid, GINT_TO_POINTER (1));
 			}
-#endif
+
 			if (g_hash_table_lookup (p->terminated, uid)) {
 				g_ptr_array_remove_index_fast (p->matches, i);
 				i--;
