@@ -73,6 +73,10 @@ void  e_shell_folder_title_bar_set_toggle_state      (EShellFolderTitleBar *fold
 void  e_shell_folder_title_bar_set_title_clickable   (EShellFolderTitleBar *folder_title_bar,
 						      gboolean              clickable);
 
+void  e_shell_folder_title_bar_update_navigation_buttons  (EShellFolderTitleBar *folder_title_bar,
+							   gboolean              can_go_back,
+							   gboolean              can_go_forward);
+
 #ifdef __cplusplus
 }
 #endif /* __cplusplus */

@@ -390,7 +390,7 @@ static void
 add_navigation_buttons (EShellFolderTitleBar *folder_title_bar)
 {
 	EShellFolderTitleBarPrivate *priv;
-	GtkWidget *back_label, *back_pixmap, *back_box;
+	GtkWidget *back_pixmap;
 	GtkWidget *forward_pixmap;
 
 	priv = folder_title_bar->priv;
@@ -399,15 +399,8 @@ add_navigation_buttons (EShellFolderTitleBar *folder_title_bar)
 	gtk_button_set_relief (GTK_BUTTON (priv->back_button), GTK_RELIEF_NONE);
 	GTK_WIDGET_UNSET_FLAGS (priv->back_button, GTK_CAN_FOCUS);
 
-	back_label = gtk_label_new (_("Back"));
-	set_title_bar_label_style (back_label);
 	back_pixmap = create_pixmap_widget_from_xpm (left_arrow_xpm);
-
-	back_box = gtk_hbox_new (FALSE, 2);
-	gtk_box_pack_start (GTK_BOX (back_box), back_pixmap, FALSE, TRUE, 0); 
-	gtk_box_pack_start (GTK_BOX (back_box), back_label, FALSE, TRUE, 0); 
-
-	gtk_container_add (GTK_CONTAINER (priv->back_button), back_box);
+	gtk_container_add (GTK_CONTAINER (priv->back_button), back_pixmap);
 
 	gtk_signal_connect (GTK_OBJECT (priv->back_button), "clicked",
 			    GTK_SIGNAL_FUNC (back_button_clicked_callback), folder_title_bar);
@@ -593,6 +586,7 @@ init (EShellFolderTitleBar *shell_folder_title_bar)
 	priv->title_button_label = NULL;
 	priv->title_button       = NULL;
 	priv->title_button_arrow = NULL;
+
 	priv->back_button        = NULL;
 	priv->forward_button     = NULL;
 
@@ -840,6 +834,23 @@ e_shell_folder_title_bar_set_title_clickable (EShellFolderTitleBar *folder_title
 	}
 
 	priv->title_clickable = !! title_clickable;
+}
+
+
+void
+e_shell_folder_title_bar_update_navigation_buttons  (EShellFolderTitleBar *folder_title_bar,
+						     gboolean can_go_back,
+						     gboolean can_go_forward)
+{
+	EShellFolderTitleBarPrivate *priv;
+
+	g_return_if_fail (folder_title_bar != NULL);
+	g_return_if_fail (E_IS_SHELL_FOLDER_TITLE_BAR (folder_title_bar));
+
+	priv = folder_title_bar->priv;
+
+	gtk_widget_set_sensitive (priv->back_button, can_go_back);
+	gtk_widget_set_sensitive (priv->forward_button, can_go_forward);
 }
 
 

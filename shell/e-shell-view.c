@@ -802,7 +802,7 @@ offline_toggle_clicked_cb (GtkButton *button,
 }
 
 
-/* More callbacks: navigation buttons handling.  */
+/* Handling of the navigation buttons.  */
 
 static void
 back_clicked_callback (EShellFolderTitleBar *title_bar,
@@ -840,6 +840,18 @@ forward_clicked_callback (EShellFolderTitleBar *title_bar,
 	new_uri = (const char *) e_history_next (priv->history);
 
 	display_uri (shell_view, new_uri, FALSE);
+}
+
+static void
+update_navigation_buttons (EShellView *shell_view)
+{
+	EShellViewPrivate *priv;
+
+	priv = shell_view->priv;
+
+	e_shell_folder_title_bar_update_navigation_buttons (priv->folder_title_bar,
+							    e_history_has_prev (priv->history),
+							    e_history_has_next (priv->history));
 }
 
 
@@ -2107,6 +2119,8 @@ display_uri (EShellView *shell_view,
  end:
 	if (add_to_history && retval == TRUE && priv->uri != NULL)
 		e_history_add (priv->history, g_strdup (priv->uri));
+
+	update_navigation_buttons (shell_view);
 
 	g_free (priv->set_folder_uri);
 	priv->set_folder_uri = NULL;

@@ -1,5 +1,15 @@
 2002-02-22  Ettore Perazzoli  <ettore@ximian.com>
 
+	* e-shell-view.c (update_navigation_buttons): New.
+	(display_uri): Call it before returning so the navigation buttons
+	always have the right sensitivity.
+
+	* e-shell-folder-title-bar.c
+	(e_shell_folder_title_bar_update_navigation_buttons): New.
+	(add_navigation_buttons): Remove the "Back" label.
+
+2002-02-22  Ettore Perazzoli  <ettore@ximian.com>
+
 	* e-shell-view.c: New member `history' in `EShellViewPrivate'.
 	(init): Initialize.
 	(destroy): Unref.
