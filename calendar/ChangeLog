@@ -1,7 +1,8 @@
 2005-01-19  Rodrigo Moya <rodrigo@novell.com>
 
-	* importers/icalendar-imporer.c (update_objects): use receive_objects
-	method instead of individually updating objects.
+	* importers/icalendar-importer.c (update_objects): use receive_objects
+	method instead of individually updating objects. Set the method on the
+	VCALENDAR object we create.
 
 2005-01-18  Rodrigo Moya <rodrigo@novell.com>
 

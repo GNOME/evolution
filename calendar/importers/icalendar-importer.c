@@ -194,9 +194,15 @@ update_objects (ECal *client, icalcomponent *icalcomp)
 	kind = icalcomponent_isa (icalcomp);
 	if (kind == ICAL_VTODO_COMPONENT || kind == ICAL_VEVENT_COMPONENT) {
 		vcal = e_cal_util_new_top_level ();
+		if (icalcomponent_get_method (icalcomp) == ICAL_METHOD_CANCEL)
+			icalcomponent_set_method (vcal, ICAL_METHOD_CANCEL);
+		else
+			icalcomponent_set_method (vcal, ICAL_METHOD_PUBLISH);
 		icalcomponent_add_component (vcal, icalcomponent_new_clone (icalcomp));
 	} else if (kind == ICAL_VCALENDAR_COMPONENT) {
 		vcal = icalcomponent_new_clone (icalcomp);
+		if (!icalcomponent_get_first_property (vcal, ICAL_METHOD_PROPERTY))
+			icalcomponent_set_method (vcal, ICAL_METHOD_PUBLISH);
 	} else
 		return FALSE;
 
