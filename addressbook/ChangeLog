@@ -1,8 +1,13 @@
 2000-05-16  Christopher James Lahey  <clahey@helixcode.com>
 
+	* contact-editor/e-contact-editor-categories.c: Fixed a compile
+	error.
+	
+2000-05-16  Christopher James Lahey  <clahey@helixcode.com>
+
 	* contact-editor/e-contact-editor-categories.c: Got rid of a
 	memory leak.  Rearranged a couple functions.
-
+	
 	* gui/minicard/e-minicard-view.c, gui/minicard/e-minicard-view.h:
 	Added some code to stop watching the EBook when the canvas is
 	destroyed (apparently the canvas is destroyed before our widget is

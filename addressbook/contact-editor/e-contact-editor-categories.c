@@ -301,12 +301,13 @@ e_contact_editor_categories_init (EContactEditorCategories *categories)
 void
 e_contact_editor_categories_destroy (GtkObject *object)
 {
-	EContactEditorCategories *e_contact_editor_categories = E_CONTACT_EDITOR_CATEGORIES(object);
+	EContactEditorCategories *categories = E_CONTACT_EDITOR_CATEGORIES(object);
+	int i;
 
-	if (e_contact_editor_categories->gui)
-		gtk_object_unref(GTK_OBJECT(e_contact_editor_categories->gui));
+	if (categories->gui)
+		gtk_object_unref(GTK_OBJECT(categories->gui));
 
-	g_free(e_contact_editor_categories->categories);
+	g_free(categories->categories);
 	for (i = 0; i < categories->list_length; i++)
 		g_free(categories->category_list[i]);
 	g_free(categories->category_list);
