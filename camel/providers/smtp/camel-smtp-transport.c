@@ -1304,7 +1304,7 @@ smtp_data (CamelSmtpTransport *transport, CamelMimeMessage *message, gboolean ha
 		n = bcc->next;
 		camel_medium_add_header (CAMEL_MEDIUM (message), "Bcc", bcc->data);
 		g_free (bcc->data);
-		g_slist_free1 (bcc);
+		g_slist_free_1 (bcc);
 		bcc = n;
 	}
 	

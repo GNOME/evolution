@@ -203,7 +203,7 @@ sendmail_send_to (CamelTransport *transport, CamelMimeMessage *message,
 		n = bcc->next;
 		camel_medium_add_header (CAMEL_MEDIUM (message), "Bcc", bcc->data);
 		g_free (bcc->data);
-		g_slist_free1 (bcc);
+		g_slist_free_1 (bcc);
 		bcc = n;
 	}
 	
@@ -237,9 +237,11 @@ sendmail_send_to (CamelTransport *transport, CamelMimeMessage *message,
 		n = bcc->next;
 		camel_medium_add_header (CAMEL_MEDIUM (message), "Bcc", bcc->data);
 		g_free (bcc->data);
-		g_slist_free1 (bcc);
+		g_slist_free_1 (bcc);
 		bcc = n;
 	}
+	
+	return FALSE;
 }
 
 static char *
