@@ -3,6 +3,12 @@
 
 DIE=0
 
+if [ -n "$GNOME2_PATH" ]; then
+	ACLOCAL_FLAGS="-I $GNOME2_DIR/share/aclocal $ACLOCAL_FLAGS"
+	PATH="$GNOME2_DIR/bin:$PATH"
+	export PATH
+fi
+
 (autoconf --version) < /dev/null > /dev/null 2>&1 || {
   echo
   echo "**Error**: You must have \`autoconf' installed to compile Gnome."
