@@ -30,6 +30,7 @@
 #include <gnome-xml/tree.h>
 #include <gal/e-text/e-text.h>
 #include "e-completion.h"
+#include <libgnome/gnome-defs.h>
 
 
 BEGIN_GNOME_DECLS

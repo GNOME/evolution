@@ -25,6 +25,7 @@
 #define E_TEXT_MODEL_URI_H
 
 #include <gal/e-text/e-text-model.h>
+#include <libgnome/gnome-defs.h>
 
 BEGIN_GNOME_DECLS
 

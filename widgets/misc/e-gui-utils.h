@@ -28,6 +28,7 @@
 #include <gtk/gtkwindow.h>
 
 #include <libgnomeui/gnome-messagebox.h>
+#include <libgnome/gnome-defs.h>
 
 BEGIN_GNOME_DECLS
 

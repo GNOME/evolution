@@ -26,6 +26,7 @@
 
 #include <gtk/gtkobject.h>
 #include <libgnomeprint/gnome-print.h>
+#include <libgnome/gnome-defs.h>
 
 BEGIN_GNOME_DECLS
 

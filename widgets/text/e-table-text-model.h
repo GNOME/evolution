@@ -26,6 +26,7 @@
 
 #include <gal/e-text/e-text-model.h>
 #include <gal/e-table/e-table-model.h>
+#include <libgnome/gnome-defs.h>
 
 
 BEGIN_GNOME_DECLS

@@ -25,6 +25,7 @@
 #define __E_CANVAS_UTILS__
 
 #include <libgnomeui/gnome-canvas.h>
+#include <libgnome/gnome-defs.h>
 
 BEGIN_GNOME_DECLS
 

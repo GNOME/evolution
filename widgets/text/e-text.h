@@ -44,6 +44,7 @@
 #include <gal/util/e-text-event-processor.h>
 #include <gal/e-text/e-text-model.h>
 #include <gal/widgets/e-canvas.h>
+#include <libgnome/gnome-defs.h>
 
 BEGIN_GNOME_DECLS
 
