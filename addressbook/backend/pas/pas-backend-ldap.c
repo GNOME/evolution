@@ -482,7 +482,7 @@ check_schema_support (PASBackendLDAP *bl)
 			   of draconian acl's that keep subschema
 			   reads from working until the user is
 			   authed. */
-			if (!pas_backend_is_writable (PAS_BACKEND (bl)) {
+			if (!pas_backend_is_writable (PAS_BACKEND (bl))) {
 				g_warning ("subschema read returned nothing before successful auth");
 				bl->priv->evolutionPersonChecked = FALSE;
 			}
