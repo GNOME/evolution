@@ -300,37 +300,6 @@ model_row_changed_cb (ETableModel *etm, int row, gpointer data)
 }
 
 static void
-model_rows_deleted_cb (ETableModel *etm, int row, int count, gpointer data)
-{
-	ETasks *tasks;
-	ETasksPrivate *priv;
-	ECalModelComponent *comp_data;
-
-	tasks = E_TASKS (data);
-	priv = tasks->priv;
-
-	if (priv->current_uid) {
-		const char *uid;
-		int i;
-
-		for (i = row; i < row + count; i++) {
-			comp_data = e_cal_model_get_component_at (E_CAL_MODEL (etm), i);
-			if (comp_data) {
-				uid = icalcomponent_get_uid (comp_data->icalcomp);
-				if (!strcmp (uid ? uid : "", priv->current_uid)) {
-					ETable *etable;
-
-					etable = e_table_scrolled_get_table (
-						E_TABLE_SCROLLED (E_CALENDAR_TABLE (priv->tasks_view)->etable));
-					table_cursor_change_cb (etable, 0, tasks);
-					break;
-				}
-			}
-		}
-	}
-}
-
-static void
 setup_config (ETasks *tasks)
 {
 	ETasksPrivate *priv;
@@ -422,8 +391,6 @@ setup_widgets (ETasks *tasks)
 	model = e_calendar_table_get_model (E_CALENDAR_TABLE (priv->tasks_view));
 	g_signal_connect (G_OBJECT (model), "model_row_changed",
 			  G_CALLBACK (model_row_changed_cb), tasks);
-	g_signal_connect (G_OBJECT (model), "model_rows_deleted",
-			  G_CALLBACK (model_rows_deleted_cb), tasks);
 }
 
 /* Class initialization function for the gnome calendar */
