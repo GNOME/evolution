@@ -1,5 +1,4 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
-
 /*
  * Authors:
  *  Dan Winship <danw@ximian.com>
@@ -753,18 +752,14 @@ write_field_row_begin (const char *name, gint flags, GtkHTML *html, GtkHTMLStrea
 static void
 write_date (CamelMimeMessage *message, int flags, GtkHTML *html, GtkHTMLStream *stream)
 {
-	char *datestr;
-	time_t date;
-	int offset;
+	const char *datestr;
 	
-	write_field_row_begin (_("Date"), flags, html, stream);
+	datestr = camel_medium_get_header (CAMEL_MEDIUM (message), "Date");
 	
-	date = camel_mime_message_get_date (message, &offset);
-	datestr = header_format_date (date, offset);
-	
-	gtk_html_stream_printf (stream, "%s</td> </tr>", datestr);
-	
-	g_free (datestr);
+	if (datestr) {
+		write_field_row_begin (_("Date"), flags, html, stream);
+		gtk_html_stream_printf (stream, "%s</td> </tr>", datestr);
+	}
 }
 
 static void
