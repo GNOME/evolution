@@ -76,7 +76,8 @@ menu_file_save_cb (BonoboUIComponent *uic,
 		CORBA_exception_init (&ev);
 	
 		stream = bonobo_stream_open (BONOBO_IO_DRIVER_FS, editor->sig->filename,
-					     Bonobo_Storage_WRITE | Bonobo_Storage_CREATE, 0);
+					     Bonobo_Storage_CREATE, 0);
+		BONOBO_STREAM_CLASS (GTK_OBJECT (stream)->klass)->truncate (stream, 0, &ev);
 
 		pstream_iface = bonobo_object_client_query_interface
 			(bonobo_widget_get_server (BONOBO_WIDGET (editor->control)),
@@ -92,8 +93,8 @@ menu_file_save_cb (BonoboUIComponent *uic,
 		CORBA_exception_free (&ev);
 		bonobo_object_unref (BONOBO_OBJECT (stream));
 	}
-	editor->sig->html = editor->html;
 
+	mail_config_signature_set_html (editor->sig, editor->html);
 	mail_config_signature_emit_event (MAIL_CONFIG_SIG_EVENT_CONTENT_CHANGED, editor->sig);
 }
 

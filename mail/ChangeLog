@@ -1,5 +1,8 @@
 2002-03-08  Radek Doulik  <rodo@ximian.com>
 
+	* mail-signature-editor.c (menu_file_save_cb): truncate stream
+	before saving
+
 	* mail-config.c (mail_config_signature_set_html): new function
 
 	* mail-accounts.c (sig_event_client): watch for HTML changed event
