@@ -1,5 +1,9 @@
 2001-08-15  Jakub Steiner <jimmac@ximian.com>
 
+	* add-attachment.png: get rid of the yellow
+
+2001-08-15  Jakub Steiner <jimmac@ximian.com>
+
 	* all_contacts.xpm, new_contact.xpm: Nat wanted something bigger
 	  that would match the new button style. The filename of
 	  all_contacts.xpm is crap, maybe you guys can fix it to be
