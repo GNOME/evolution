@@ -828,16 +828,6 @@ etable_key (ETable *table, int row, int col, GdkEvent *ev, FolderBrowser *fb)
 				     0, CAMEL_MESSAGE_DELETED);
 		return TRUE;
 
-	case GDK_Home:
-	case GDK_KP_Home:
-		message_list_select(fb->message_list, 0, MESSAGE_LIST_SELECT_NEXT, 0, 0);
-		return TRUE;
-		
-	case GDK_End:
-	case GDK_KP_End:
-		message_list_select(fb->message_list, -1, MESSAGE_LIST_SELECT_PREVIOUS, 0, 0);
-		return TRUE;
-		
 	case 'n':
 	case 'N':
 		message_list_select (fb->message_list, row,

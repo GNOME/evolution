@@ -1,3 +1,8 @@
+2001-01-27  Christopher James Lahey  <clahey@helixcode.com>
+
+	* folder-browser.c (etable_key): Don't handle home and end keys
+	since %ETable deals with them now.
+
 2001-01-27  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* message-list.c (address_compare): Protect against NULL address
