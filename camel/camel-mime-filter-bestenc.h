@@ -90,7 +90,7 @@ CamelType		camel_mime_filter_bestenc_get_type	(void);
 CamelMimeFilterBestenc      *camel_mime_filter_bestenc_new	(unsigned int flags);
 
 
-CamelMimePartEncodingType	camel_mime_filter_bestenc_get_best_encoding(CamelMimeFilterBestenc *f, CamelBestencEncoding required);
+CamelTransferEncoding	camel_mime_filter_bestenc_get_best_encoding(CamelMimeFilterBestenc *f, CamelBestencEncoding required);
 const char *		camel_mime_filter_bestenc_get_best_charset(CamelMimeFilterBestenc *f);
 void 			camel_mime_filter_bestenc_set_flags(CamelMimeFilterBestenc *f, unsigned int flags);
 

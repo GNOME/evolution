@@ -647,13 +647,13 @@ camel_mime_message_foreach_part (CamelMimeMessage *msg, CamelPartFunc callback, 
 static gboolean
 check_8bit (CamelMimeMessage *msg, CamelMimePart *part, void *data)
 {
-	CamelMimePartEncodingType encoding;
+	CamelTransferEncoding encoding;
 	int *has8bit = data;
 	
 	/* check this part, and stop as soon as we are done */
 	encoding = camel_mime_part_get_encoding (part);
 	
-	*has8bit = encoding == CAMEL_MIME_PART_ENCODING_8BIT || encoding == CAMEL_MIME_PART_ENCODING_BINARY;
+	*has8bit = encoding == CAMEL_TRANSFER_ENCODING_8BIT || encoding == CAMEL_TRANSFER_ENCODING_BINARY;
 	
 	return !(*has8bit);
 }
@@ -669,11 +669,11 @@ camel_mime_message_has_8bit_parts (CamelMimeMessage *msg)
 }
 
 /* finds the best charset and transfer encoding for a given part */
-static CamelMimePartEncodingType
+static CamelTransferEncoding
 find_best_encoding (CamelMimePart *part, CamelBestencRequired required, CamelBestencEncoding enctype, char **charsetp)
 {
 	CamelMimeFilterCharset *charenc = NULL;
-	CamelMimePartEncodingType encoding;
+	CamelTransferEncoding encoding;
 	CamelMimeFilterBestenc *bestenc;
 	unsigned int flags, callerflags;
 	CamelDataWrapper *content;
@@ -695,7 +695,7 @@ find_best_encoding (CamelMimePart *part, CamelBestencRequired required, CamelBes
 		/* charset might not be right here, but it'll get the right stuff
 		   if it is ever set */
 		*charsetp = NULL;
-		return CAMEL_MIME_PART_ENCODING_DEFAULT;
+		return CAMEL_TRANSFER_ENCODING_DEFAULT;
 	}
 	
 	istext = camel_content_type_is (((CamelDataWrapper *) part)->mime_type, "text", "*");
@@ -797,7 +797,7 @@ static gboolean
 best_encoding (CamelMimeMessage *msg, CamelMimePart *part, void *datap)
 {
 	struct _enc_data *data = datap;
-	CamelMimePartEncodingType encoding;
+	CamelTransferEncoding encoding;
 	CamelDataWrapper *wrapper;
 	char *charset;
 	

@@ -76,7 +76,7 @@ camel_data_wrapper_init (gpointer object, gpointer klass)
 	pthread_mutex_init (&camel_data_wrapper->priv->stream_lock, NULL);
 	
 	camel_data_wrapper->mime_type = camel_content_type_new ("application", "octet-stream");
-	camel_data_wrapper->encoding = CAMEL_MIME_PART_ENCODING_DEFAULT;
+	camel_data_wrapper->encoding = CAMEL_TRANSFER_ENCODING_DEFAULT;
 	camel_data_wrapper->offline = FALSE;
 }
 
@@ -179,17 +179,17 @@ decode_to_stream (CamelDataWrapper *data_wrapper, CamelStream *stream)
 	fstream = (CamelStream *) camel_stream_filter_new_with_stream (stream);
 	
 	switch (data_wrapper->encoding) {
-	case CAMEL_MIME_PART_ENCODING_BASE64:
+	case CAMEL_TRANSFER_ENCODING_BASE64:
 		filter = (CamelMimeFilter *) camel_mime_filter_basic_new_type (CAMEL_MIME_FILTER_BASIC_BASE64_DEC);
 		camel_stream_filter_add (CAMEL_STREAM_FILTER (fstream), filter);
 		camel_object_unref (filter);
 		break;
-	case CAMEL_MIME_PART_ENCODING_QUOTEDPRINTABLE:
+	case CAMEL_TRANSFER_ENCODING_QUOTEDPRINTABLE:
 		filter = (CamelMimeFilter *) camel_mime_filter_basic_new_type (CAMEL_MIME_FILTER_BASIC_QP_DEC);
 		camel_stream_filter_add (CAMEL_STREAM_FILTER (fstream), filter);
 		camel_object_unref (filter);
 		break;
-	case CAMEL_MIME_PART_ENCODING_UUENCODE:
+	case CAMEL_TRANSFER_ENCODING_UUENCODE:
 		filter = (CamelMimeFilter *) camel_mime_filter_basic_new_type (CAMEL_MIME_FILTER_BASIC_UU_DEC);
 		camel_stream_filter_add (CAMEL_STREAM_FILTER (fstream), filter);
 		camel_object_unref (filter);

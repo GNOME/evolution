@@ -45,7 +45,7 @@ struct _CamelDataWrapper {
 	CamelObject parent_object;
 	struct _CamelDataWrapperPrivate *priv;
 	
-	CamelMimePartEncodingType encoding;
+	CamelTransferEncoding encoding;
 	
 	CamelContentType *mime_type;
 	CamelStream *stream;

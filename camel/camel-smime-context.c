@@ -289,7 +289,7 @@ smime_sign_restore (CamelMimePart *mime_part, GSList **encodings)
 			*encodings = (*encodings)->next;
 		}
 	} else {
-		CamelMimePartEncodingType encoding;
+		CamelTransferEncoding encoding;
 		
 		if (CAMEL_IS_MIME_MESSAGE (wrapper)) {
 			/* restore the message parts' subparts */
@@ -320,7 +320,7 @@ smime_sign_prepare (CamelMimePart *mime_part, GSList **encodings)
 			smime_sign_prepare (part, encodings);
 		}
 	} else {
-		CamelMimePartEncodingType encoding;
+		CamelTransferEncoding encoding;
 		
 		if (CAMEL_IS_MIME_MESSAGE (wrapper)) {
 			/* prepare the message parts' subparts */
@@ -330,8 +330,8 @@ smime_sign_prepare (CamelMimePart *mime_part, GSList **encodings)
 			
 			/* FIXME: find the best encoding for this part and use that instead?? */
 			/* the encoding should really be QP or Base64 */
-			if (encoding != CAMEL_MIME_PART_ENCODING_BASE64)
-				camel_mime_part_set_encoding (mime_part, CAMEL_MIME_PART_ENCODING_QUOTEDPRINTABLE);
+			if (encoding != CAMEL_TRANSFER_ENCODING_BASE64)
+				camel_mime_part_set_encoding (mime_part, CAMEL_TRANSFER_ENCODING_QUOTEDPRINTABLE);
 			
 			*encodings = g_slist_append (*encodings, GINT_TO_POINTER (encoding));
 		}

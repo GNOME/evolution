@@ -320,7 +320,7 @@ media_text      ::= <"> "TEXT" <"> SPACE media_subtype
 struct _body_fields {
 	CamelContentType *ct;
 	char *msgid, *desc;
-	CamelMimePartEncodingType encoding;
+	CamelTransferEncoding encoding;
 	guint32 size;
 	};*/
 

@@ -166,7 +166,7 @@ camel_mime_part_init (gpointer object, gpointer klass)
 	mime_part->content_MD5          = NULL;
 	mime_part->content_location     = NULL;
 	mime_part->content_languages    = NULL;
-	mime_part->encoding = CAMEL_MIME_PART_ENCODING_DEFAULT;
+	mime_part->encoding = CAMEL_TRANSFER_ENCODING_DEFAULT;
 }
 
 
@@ -241,7 +241,7 @@ process_header(CamelMedium *medium, const char *name, const char *value)
 		break;
 	case HEADER_ENCODING:
 		text = camel_header_token_decode (value);
-		mime_part->encoding = camel_mime_part_encoding_from_string (text);
+		mime_part->encoding = camel_transfer_encoding_from_string (text);
 		g_free (text);
 		break;
 	case HEADER_CONTENT_MD5:
@@ -482,16 +482,16 @@ camel_mime_part_get_content_location (CamelMimePart *mime_part)
 
 void
 camel_mime_part_set_encoding (CamelMimePart *mime_part,
-			      CamelMimePartEncodingType encoding)
+			      CamelTransferEncoding encoding)
 {
 	const char *text;
 
-	text = camel_mime_part_encoding_to_string (encoding);
+	text = camel_transfer_encoding_to_string (encoding);
 	camel_medium_set_header (CAMEL_MEDIUM (mime_part),
 				 "Content-Transfer-Encoding", text);
 }
 
-CamelMimePartEncodingType
+CamelTransferEncoding
 camel_mime_part_get_encoding (CamelMimePart *mime_part)
 {
 	return mime_part->encoding;
@@ -690,13 +690,13 @@ write_to_stream (CamelDataWrapper *dw, CamelStream *stream)
 		
 		if (mp->encoding != content->encoding) {
 			switch (mp->encoding) {
-			case CAMEL_MIME_PART_ENCODING_BASE64:
+			case CAMEL_TRANSFER_ENCODING_BASE64:
 				filter = (CamelMimeFilter *) camel_mime_filter_basic_new_type (CAMEL_MIME_FILTER_BASIC_BASE64_ENC);
 				break;
-			case CAMEL_MIME_PART_ENCODING_QUOTEDPRINTABLE:
+			case CAMEL_TRANSFER_ENCODING_QUOTEDPRINTABLE:
 				filter = (CamelMimeFilter *) camel_mime_filter_basic_new_type (CAMEL_MIME_FILTER_BASIC_QP_ENC);
 				break;
-			case CAMEL_MIME_PART_ENCODING_UUENCODE:
+			case CAMEL_TRANSFER_ENCODING_UUENCODE:
 				filename = camel_mime_part_get_filename (mp);
 				count = camel_stream_printf (ostream, "begin 644 %s\n", filename ? filename : "untitled");
 				if (count == -1)
@@ -759,7 +759,7 @@ write_to_stream (CamelDataWrapper *dw, CamelStream *stream)
 		
 		total += count;
 		
-		if (reencode && mp->encoding == CAMEL_MIME_PART_ENCODING_UUENCODE) {
+		if (reencode && mp->encoding == CAMEL_TRANSFER_ENCODING_UUENCODE) {
 			count = camel_stream_write (ostream, "end\n", 4);
 			if (count == -1)
 				return -1;
@@ -859,42 +859,6 @@ construct_from_stream(CamelDataWrapper *dw, CamelStream *s)
 	camel_object_unref((CamelObject *)mp);
 	return ret;
 }
-
-/* this must be kept in sync with the header */
-static const char *encodings[] = {
-	"",
-	"7bit",
-	"8bit",
-	"base64",
-	"quoted-printable",
-	"binary",
-	"x-uuencode",
-};
-
-const char *
-camel_mime_part_encoding_to_string (CamelMimePartEncodingType encoding)
-{
-	if (encoding >= sizeof(encodings)/sizeof(encodings[0]))
-		encoding = 0;
-
-	return encodings[encoding];
-}
-
-/* FIXME I am not sure this is the correct way to do this.  */
-CamelMimePartEncodingType
-camel_mime_part_encoding_from_string (const char *string)
-{
-	int i;
-
-	if (string != NULL) {
-		for (i=0;i<sizeof(encodings)/sizeof(encodings[0]);i++)
-			if (!strcasecmp(string, encodings[i]))
-				return i;
-	}
-
-	return CAMEL_MIME_PART_ENCODING_DEFAULT;
-}
-
 
 /******************************/
 /**  Misc utility functions  **/

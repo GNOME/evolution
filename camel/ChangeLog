@@ -1,5 +1,46 @@
 2003-09-18  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* camel-mime-utils.c (camel_transfer_encoding_to_string): New
+	function to replace the one from camel-mime-part.c
+	(camel_transfer_encoding_from_string): Same.
+	(camel_content_transfer_encoding_decode): Renamed from
+	camel_header_content_encoding_decode().
+
+	* camel-mime-part.c (camel_mime_part_encoding_to_string): Removed.
+	(camel_mime_part_encoding_from_string): Removed.
+
+	* camel-data-wrapper.[c,h]: updated for CamelTransferEncoding
+	namespace changes
+
+	* camel-folder-summary.c: updated for CamelTransferEncoding
+	namespace changes
+
+	* camel-mime-filter-bestenc.[c,h]: updated for CamelTransferEncoding
+	namespace changes
+
+	* camel-mime-message.c: updated for CamelTransferEncoding
+	namespace changes
+
+	* camel-mime-part-utils.c: updated for CamelTransferEncoding
+	namespace changes
+
+	* camel-multipart-signed.c: updated for CamelTransferEncoding
+	namespace changes
+
+	* camel-smime-context.c: updated for CamelTransferEncoding
+	namespace changes
+
+	* providers/imapp/camel-imapp-utils.c: updated for
+	CamelTransferEncoding namespace changes
+
+	* tests/lib/messages.c: updated for CamelTransferEncoding
+	namespace changes
+
+	* tests/message/test1.c: updated for CamelTransferEncoding
+	namespace changes
+
+2003-09-18  Jeffrey Stedfast  <fejj@ximian.com>
+
 	* camel-mime-utils.[c,h]: namespaced the encoding/decoding
 	routines.
 

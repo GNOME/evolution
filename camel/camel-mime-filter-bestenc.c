@@ -219,10 +219,10 @@ camel_mime_filter_bestenc_new (unsigned int flags)
  * 
  * Return value: 
  **/
-CamelMimePartEncodingType
+CamelTransferEncoding
 camel_mime_filter_bestenc_get_best_encoding(CamelMimeFilterBestenc *f, CamelBestencEncoding required)
 {
-	CamelMimePartEncodingType bestenc;
+	CamelTransferEncoding bestenc;
 	int istext;
 	
 	istext = (required & CAMEL_BESTENC_TEXT) ? 1 : 0;
@@ -238,15 +238,15 @@ camel_mime_filter_bestenc_get_best_encoding(CamelMimeFilterBestenc *f, CamelBest
 	   that will never let it show.  Unfortunately only base64 can at present,
 	   although qp could be modified to allow it too */
 	if ((f->flags & CAMEL_BESTENC_NO_FROM) && f->hadfrom)
-		return CAMEL_MIME_PART_ENCODING_BASE64;
+		return CAMEL_TRANSFER_ENCODING_BASE64;
 
 	/* if we need to encode, see how we do it */
 	if (required == CAMEL_BESTENC_BINARY)
-		bestenc = CAMEL_MIME_PART_ENCODING_BINARY;
+		bestenc = CAMEL_TRANSFER_ENCODING_BINARY;
 	else if (istext && (f->count0 == 0 && f->count8 < (f->total * 17 / 100)))
-		bestenc = CAMEL_MIME_PART_ENCODING_QUOTEDPRINTABLE;
+		bestenc = CAMEL_TRANSFER_ENCODING_QUOTEDPRINTABLE;
 	else
-		bestenc = CAMEL_MIME_PART_ENCODING_BASE64;
+		bestenc = CAMEL_TRANSFER_ENCODING_BASE64;
 	
 	/* if we have nocrlf order, or long lines, we need to encode always */
 	if (f->crlfnoorder || f->maxline >= 998)
@@ -254,7 +254,7 @@ camel_mime_filter_bestenc_get_best_encoding(CamelMimeFilterBestenc *f, CamelBest
 
 	/* if we have no 8 bit chars or nul's, we can just use 7 bit */
 	if (f->count8 + f->count0 == 0)
-		return CAMEL_MIME_PART_ENCODING_7BIT;
+		return CAMEL_TRANSFER_ENCODING_7BIT;
 
 	/* otherwise, we see if we can use 8 bit, or not */
 	switch(required) {
@@ -264,12 +264,12 @@ camel_mime_filter_bestenc_get_best_encoding(CamelMimeFilterBestenc *f, CamelBest
 	case CAMEL_BESTENC_BINARY:
 	default:
 		if (f->count0 == 0)
-			return CAMEL_MIME_PART_ENCODING_8BIT;
+			return CAMEL_TRANSFER_ENCODING_8BIT;
 		else
 			return bestenc;
 	}
 
-	return CAMEL_MIME_PART_ENCODING_DEFAULT;
+	return CAMEL_TRANSFER_ENCODING_DEFAULT;
 }
 
 /**

@@ -545,7 +545,7 @@ static void
 prepare_sign(CamelMimePart *mime_part)
 {
 	CamelDataWrapper *wrapper;
-	CamelMimePartEncodingType encoding;
+	CamelTransferEncoding encoding;
 	int parts, i;
 	
 	wrapper = camel_medium_get_content_object (CAMEL_MEDIUM (mime_part));
@@ -561,9 +561,9 @@ prepare_sign(CamelMimePart *mime_part)
 	} else {
 		encoding = camel_mime_part_get_encoding(mime_part);
 
-		if (encoding != CAMEL_MIME_PART_ENCODING_BASE64
-		    && encoding != CAMEL_MIME_PART_ENCODING_QUOTEDPRINTABLE) {
-			camel_mime_part_set_encoding(mime_part, CAMEL_MIME_PART_ENCODING_QUOTEDPRINTABLE);
+		if (encoding != CAMEL_TRANSFER_ENCODING_BASE64
+		    && encoding != CAMEL_TRANSFER_ENCODING_QUOTEDPRINTABLE) {
+			camel_mime_part_set_encoding(mime_part, CAMEL_TRANSFER_ENCODING_QUOTEDPRINTABLE);
 		}
 	}
 }

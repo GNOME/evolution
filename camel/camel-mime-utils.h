@@ -43,16 +43,16 @@ extern "C" {
 #define CAMEL_UUDECODE_STATE_MASK   (CAMEL_UUDECODE_STATE_BEGIN | CAMEL_UUDECODE_STATE_END)
 
 /* note, if you change this, make sure you change the 'encodings' array in camel-mime-part.c */
-typedef enum _CamelMimePartEncodingType {
-	CAMEL_MIME_PART_ENCODING_DEFAULT,
-	CAMEL_MIME_PART_ENCODING_7BIT,
-	CAMEL_MIME_PART_ENCODING_8BIT,
-	CAMEL_MIME_PART_ENCODING_BASE64,
-	CAMEL_MIME_PART_ENCODING_QUOTEDPRINTABLE,
-	CAMEL_MIME_PART_ENCODING_BINARY,
-	CAMEL_MIME_PART_ENCODING_UUENCODE,
-	CAMEL_MIME_PART_NUM_ENCODINGS
-} CamelMimePartEncodingType;
+typedef enum _CamelTransferEncoding {
+	CAMEL_TRANSFER_ENCODING_DEFAULT,
+	CAMEL_TRANSFER_ENCODING_7BIT,
+	CAMEL_TRANSFER_ENCODING_8BIT,
+	CAMEL_TRANSFER_ENCODING_BASE64,
+	CAMEL_TRANSFER_ENCODING_QUOTEDPRINTABLE,
+	CAMEL_TRANSFER_ENCODING_BINARY,
+	CAMEL_TRANSFER_ENCODING_UUENCODE,
+	CAMEL_TRANSFER_NUM_ENCODINGS
+} CamelTransferEncoding;
 
 /* a list of references for this message */
 struct _camel_header_references {
@@ -159,7 +159,7 @@ void camel_content_disposition_unref (CamelContentDisposition *);
 char *camel_content_disposition_format (CamelContentDisposition *d);
 
 /* decode the contents of a content-encoding header */
-char *camel_header_content_encoding_decode (const char *in);
+char *camel_content_transfer_encoding_decode (const char *in);
 
 /* raw headers */
 void camel_header_raw_append (struct _camel_header_raw **list, const char *name, const char *value, int offset);
@@ -211,6 +211,9 @@ struct _camel_header_references *camel_header_references_dup (const struct _came
 
 /* decode content-location */
 char *camel_header_location_decode (const char *in);
+
+const char *camel_transfer_encoding_to_string (CamelTransferEncoding encoding);
+CamelTransferEncoding camel_transfer_encoding_from_string (const char *string);
 
 /* decode the mime-type header */
 void camel_header_mime_decode (const char *in, int *maj, int *min);

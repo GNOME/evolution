@@ -1877,7 +1877,7 @@ content_info_new (CamelFolderSummary *s, struct _camel_header_raw *h)
 	charset = e_iconv_locale_charset ();
 	ci->id = camel_header_msgid_decode (camel_header_raw_find (&h, "content-id", NULL));
 	ci->description = camel_header_decode_string (camel_header_raw_find (&h, "content-description", NULL), NULL);
-	ci->encoding = camel_header_content_encoding_decode (camel_header_raw_find (&h, "content-transfer-encoding", NULL));
+	ci->encoding = camel_content_transfer_encoding_decode (camel_header_raw_find (&h, "content-transfer-encoding", NULL));
 	
 	return ci;
 }
@@ -2022,7 +2022,7 @@ summary_build_content_info(CamelFolderSummary *s, CamelMessageInfo *msginfo, Cam
 
 			d(printf("generating index:\n"));
 			
-			encoding = camel_header_content_encoding_decode(camel_mime_parser_header(mp, "content-transfer-encoding", NULL));
+			encoding = camel_content_transfer_encoding_decode(camel_mime_parser_header(mp, "content-transfer-encoding", NULL));
 			if (encoding) {
 				if (!strcasecmp(encoding, "base64")) {
 					d(printf(" decoding base64\n"));

@@ -2871,6 +2871,40 @@ camel_header_address_decode(const char *in, const char *charset)
 	return list;
 }
 
+/* this must be kept in sync with the header */
+static const char *encodings[] = {
+	"",
+	"7bit",
+	"8bit",
+	"base64",
+	"quoted-printable",
+	"binary",
+	"x-uuencode",
+};
+
+const char *
+camel_transfer_encoding_to_string (CamelTransferEncoding encoding)
+{
+	if (encoding >= sizeof (encodings) / sizeof (encodings[0]))
+		encoding = 0;
+	
+	return encodings[encoding];
+}
+
+CamelTransferEncoding
+camel_transfer_encoding_from_string (const char *string)
+{
+	int i;
+	
+	if (string != NULL) {
+		for (i = 0; i < sizeof (encodings) / sizeof (encodings[0]); i++)
+			if (!strcasecmp (string, encodings[i]))
+				return i;
+	}
+	
+	return CAMEL_TRANSFER_ENCODING_DEFAULT;
+}
+
 void
 camel_header_mime_decode(const char *in, int *maj, int *min)
 {
@@ -3324,10 +3358,11 @@ camel_content_type_simple (CamelContentType *ct)
 }
 
 char *
-camel_header_content_encoding_decode(const char *in)
+camel_content_transfer_encoding_decode (const char *in)
 {
 	if (in)
-		return decode_token(&in);
+		return decode_token (&in);
+	
 	return NULL;
 }
 

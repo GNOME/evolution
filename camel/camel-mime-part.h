@@ -56,7 +56,7 @@ struct _CamelMimePart {
 	char *content_MD5;
 	char *content_location;
 	GList *content_languages;
-	CamelMimePartEncodingType encoding;
+	CamelTransferEncoding encoding;
 };
 
 typedef struct _CamelMimePartClass {
@@ -90,8 +90,8 @@ const	  char  *camel_mime_part_get_content_MD5	(CamelMimePart *mime_part);
 void		 camel_mime_part_set_content_location	(CamelMimePart *mime_part, const char *);
 const	  char  *camel_mime_part_get_content_location	(CamelMimePart *mime_part);
 
-void	         camel_mime_part_set_encoding		(CamelMimePart *mime_part, CamelMimePartEncodingType type);
-CamelMimePartEncodingType camel_mime_part_get_encoding	(CamelMimePart *mime_part);
+void	         camel_mime_part_set_encoding		(CamelMimePart *mime_part, CamelTransferEncoding type);
+CamelTransferEncoding camel_mime_part_get_encoding	(CamelMimePart *mime_part);
 
 void	 	 camel_mime_part_set_content_languages	(CamelMimePart *mime_part, GList *content_languages);
 const	  GList *camel_mime_part_get_content_languages	(CamelMimePart *mime_part);
@@ -99,10 +99,6 @@ const	  GList *camel_mime_part_get_content_languages	(CamelMimePart *mime_part);
 /* FIXME: what about content-type parameters?   what about major/minor parts? */
 void               camel_mime_part_set_content_type 	(CamelMimePart *mime_part, const char *content_type);
 CamelContentType  *camel_mime_part_get_content_type	(CamelMimePart *mime_part);
-
-/* FIXME: move to camel-mime-utils, and rename CamelEncodingType or CamelTransferEncoding */
-const     char *          camel_mime_part_encoding_to_string   (CamelMimePartEncodingType encoding);
-CamelMimePartEncodingType camel_mime_part_encoding_from_string (const char *string);
 
 /* construction */
 int		camel_mime_part_construct_from_parser  (CamelMimePart *, CamelMimeParser *);
