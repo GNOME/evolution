@@ -722,13 +722,14 @@ setup_storage_set_subwindow (EShellView *shell_view)
 	gtk_signal_connect (GTK_OBJECT (priv->storage_set_title_bar), "button_clicked",
 			    GTK_SIGNAL_FUNC (storage_set_view_button_clicked_cb), shell_view);
 
-	gtk_widget_show (vbox);
 	gtk_widget_show (storage_set_view);
 	gtk_widget_show (priv->storage_set_title_bar);
 	gtk_widget_show (scroll_frame);
 
 	priv->storage_set_view_box = vbox;
 	priv->storage_set_view = storage_set_view;
+
+	/* Notice we don't show the vbox here yet.  By default it's hidden.  */
 }
 
 static void
@@ -938,7 +939,6 @@ setup_widgets (EShellView *shell_view)
 	gtk_widget_show (priv->shortcut_frame);
 	gtk_widget_show (priv->shortcut_bar);
 	gtk_widget_show (priv->storage_set_view);
-	gtk_widget_show (priv->storage_set_view_box);
 	gtk_widget_show (priv->notebook);
 	gtk_widget_show (priv->hpaned);
 	gtk_widget_show (priv->view_hpaned);

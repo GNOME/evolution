@@ -1,5 +1,11 @@
 2001-08-20  Ettore Perazzoli  <ettore@ximian.com>
 
+	* e-shell-view.c (setup_storage_set_subwindow): Don't show the
+	vbox here.
+	(setup_widgets): Don't show the storage_set_view_box here.
+
+2001-08-20  Ettore Perazzoli  <ettore@ximian.com>
+
 	* evolution-test-component.c: Added display_name and description
 	to the type.
 
