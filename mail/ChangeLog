@@ -1,3 +1,8 @@
+2001-07-20  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-ops.c (filter_folder_filter): Don't expunge the source
+	folder if we have a cache.
+
 2001-07-20  Dan Winship  <danw@ximian.com>
 
 	* mail-mt.c (mail_msgport_replied): Use mail_msg_destroy rather
@@ -47,6 +52,7 @@
 	(destination_folder_handle_motion): Ditto.
 	(destination_folder_handle_drop): Ditto.
 
+>>>>>>> 1.1426
 2001-07-19  Not Zed  <NotZed@Ximian.com>
 
 	* mail-local.c (reconfigure_folder_reconfigure): remvoed
