@@ -307,7 +307,7 @@ For example: &quot;Work&quot; or &quot;Personal&quot;</label>
 	      <editable>True</editable>
 	      <text_visible>True</text_visible>
 	      <text_max_length>0</text_max_length>
-	      <text> </text>
+	      <text></text>
 	      <child>
 		<padding>0</padding>
 		<expand>True</expand>
