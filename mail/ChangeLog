@@ -1,3 +1,9 @@
+2001-05-25  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* component-factory.c (xfer_folder): This code should be correct
+	now. Still waiting on the shell to do it's job of creating the
+	metadata xml file in the destination folder though.
+
 2001-05-24  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* message-list.c (message_list_select_uid): g_strdup the uid into

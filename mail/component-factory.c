@@ -129,10 +129,10 @@ do_create_folder (char *uri, CamelFolder *folder, void *data)
 	else
 		result = GNOME_Evolution_ShellComponentListener_INVALID_URI;
 
-	CORBA_exception_init(&ev);
-	GNOME_Evolution_ShellComponentListener_notifyResult(listener, result, &ev);
-	CORBA_Object_release(listener, &ev);
-	CORBA_exception_free(&ev);
+	CORBA_exception_init (&ev);
+	GNOME_Evolution_ShellComponentListener_notifyResult (listener, result, &ev);
+	CORBA_Object_release (listener, &ev);
+	CORBA_exception_free (&ev);
 }
 
 static void
@@ -145,7 +145,7 @@ create_folder (EvolutionShellComponent *shell_component,
 	char *uri;
 	CORBA_Environment ev;
 	
-	CORBA_exception_init(&ev);
+	CORBA_exception_init (&ev);
 	if (!strcmp (type, "mail")) {
 		uri = g_strdup_printf ("mbox://%s", physical_uri);
 		mail_create_folder (uri, do_create_folder, CORBA_Object_duplicate (listener, &ev));
@@ -156,7 +156,7 @@ create_folder (EvolutionShellComponent *shell_component,
 		GNOME_Evolution_ShellComponentListener_notifyResult (
 			listener, GNOME_Evolution_ShellComponentListener_UNSUPPORTED_TYPE, &ev);
 	}
-	CORBA_exception_free(&ev);
+	CORBA_exception_free (&ev);
 }
 
 static void
@@ -187,6 +187,8 @@ remove_folder (EvolutionShellComponent *shell_component,
 	char *uri;
 	
 	CORBA_exception_init (&ev);
+	
+	g_warning ("removing folder: %s", physical_uri);
 	
 	uri = g_strdup_printf ("file://%s", physical_uri);
 	mail_remove_folder (uri, do_remove_folder, CORBA_Object_duplicate (listener, &ev));
@@ -223,18 +225,12 @@ xfer_folder (EvolutionShellComponent *shell_component,
 	     void *closure)
 {
 	CORBA_Environment ev;
-	char *dest_uri;
 	
 	CORBA_exception_init (&ev);
-	
-	dest_uri = g_strdup_printf ("mbox://%s", destination_physical_uri);
-	mail_xfer_folder (source_physical_uri, dest_uri, remove_source, do_xfer_folder,
+	mail_xfer_folder (source_physical_uri, destination_physical_uri, remove_source, do_xfer_folder,
 			  CORBA_Object_duplicate (listener, &ev));
-	g_free (dest_uri);
-	
 	GNOME_Evolution_ShellComponentListener_notifyResult (listener,
 							     GNOME_Evolution_ShellComponentListener_OK, &ev);
-	
 	CORBA_exception_free (&ev);
 }
 
