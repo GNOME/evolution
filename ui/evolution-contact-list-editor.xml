@@ -1,7 +1,7 @@
 <Root>
         <commands>
 		<cmd name="ContactListEditorSave" pixtype="pixbuf" accel="*Control*s"/>
-		<cmd name="ContactListEditorSaveAs" pixtype="pixbuf" accel="*Control*v"/>
+		<cmd name="ContactListEditorSaveAs" pixtype="pixbuf" accel="*Control**Shift*s"/>
 
 		<cmd name="ContactListEditorSendAs"/>
 		<cmd name="ContactListEditorSendTo"/>
@@ -15,7 +15,7 @@
 
 		<cmd name="ContactListEditorSaveClose"
 		 _tip="Save the list and close the dialog box"
-		 pixtype="pixbuf"/>
+		 pixtype="pixbuf" accel="*Control*Return" />
 	</commands>
 
 	<menu>
@@ -23,7 +23,7 @@
 		<submenu name="File" _label="_File">
 
 		        <menuitem name="ContactListEditorSave" verb="" _label="_Save"/>
-		        <menuitem name="ContactListEditorSaveClose" verb="" _label="Save and Close" pixtype="pixbuf" accel="*Control*Return"/>
+		        <menuitem name="ContactListEditorSaveClose" verb="" _label="Save and Close" pixtype="pixbuf"/>
 
 		        <menuitem name="ContactListEditorSaveAs" verb="" _label="Save _As..."/>
 

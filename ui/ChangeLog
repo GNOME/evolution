@@ -1,3 +1,11 @@
+2003-03-26  Chris Toshok  <toshok@ximian.com>
+
+	[ fixes #40212 ]
+	* evolution-contact-editor.xml: change accelerator for Save
+	As... to Control-Shift-s
+
+	* evolution-contact-list-editor.xml: same.
+
 2003-03-20  JP Rosevear  <jpr@ximian.com>
 
 	* evolution.xml: remove conduit settings as a separate entry
