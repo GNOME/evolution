@@ -35,6 +35,7 @@
 #include <camel/camel.h>
 #include <gtk/gtknotebook.h>
 #include <gtk/gtktogglebutton.h>
+#include <gtk/gtkdialog.h>
 #include <libgnomevfs/gnome-vfs-mime.h>
 
 #include "e-util/e-mktemp.h"

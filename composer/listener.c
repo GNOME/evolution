@@ -27,6 +27,7 @@
 #include <bonobo/bonobo-arg.h>
 #include <bonobo/bonobo-object.h>
 #include <bonobo/bonobo-stream-client.h>
+#include <camel/camel-stream-mem.h>
 
 #include "listener.h"
 

@@ -48,6 +48,7 @@
 #include <camel/camel-data-wrapper.h>
 #include <camel/camel-stream-fs.h>
 #include <camel/camel-stream-null.h>
+#include <camel/camel-stream-mem.h>
 #include <camel/camel-stream-filter.h>
 #include <camel/camel-mime-filter-bestenc.h>
 #include <camel/camel-mime-part.h>

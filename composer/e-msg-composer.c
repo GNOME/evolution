@@ -56,6 +56,14 @@
 
 #include <gtk/gtkoptionmenu.h>
 #include <gtk/gtkscrolledwindow.h>
+#include <gtk/gtkmain.h>
+#include <gtk/gtkmenuitem.h>
+#include <gtk/gtklabel.h>
+#include <gtk/gtkstock.h>
+#include <gtk/gtkdnd.h>
+#include <gtk/gtkvbox.h>
+#include <gtk/gtkhbox.h>
+#include <gtk/gtkimage.h>
 
 #include <gconf/gconf.h>
 #include <gconf/gconf-client.h>

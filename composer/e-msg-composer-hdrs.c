@@ -41,6 +41,10 @@
 #include <gtk/gtkmenuitem.h>
 #include <gtk/gtkoptionmenu.h>
 #include <gtk/gtktooltips.h>
+#include <gtk/gtkentry.h>
+#include <gtk/gtklabel.h>
+#include <gtk/gtkhbox.h>
+#include <gtk/gtkmessagedialog.h>
 
 #include <gconf/gconf.h>
 #include <gconf/gconf-client.h>

@@ -31,9 +31,11 @@
 #include <bonobo/bonobo-generic-factory.h>
 #include <gal/util/e-util.h>
 #include <gal/widgets/e-gui-utils.h>
-#include <camel/camel.h>
 #include "evolution-composer.h"
 #include "mail/mail-config.h"
+#include "e-util/e-account-list.h"
+#include <camel/camel-mime-filter-tohtml.h>
+#include <camel/camel-stream-mem.h>
 
 #define PARENT_TYPE BONOBO_OBJECT_TYPE
 static BonoboObjectClass *parent_class = NULL;

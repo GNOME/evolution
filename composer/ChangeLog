@@ -1,3 +1,8 @@
+2004-03-31  Not Zed  <NotZed@Ximian.com>
+
+	* *.[ch]: Fixed missing headers now mail/* doesn't include gtk/*,
+	camel/*, and gnome/* for you.
+
 2004-03-29  Radek Doulik  <rodo@ximian.com>
 
 	* e-msg-composer.c (set_editor_text): do not add <br> between text
