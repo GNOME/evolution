@@ -83,6 +83,12 @@ dnl Purify support
 dnl
 EVO_PURIFY_SUPPORT
 
+dnl **************
+dnl Test Component
+dnl **************
+AC_ARG_ENABLE(test-component, [  --enable-test-component=[no/yes]      Enable test component.],enable_test_comp="$enableval",enable_test_comp=no)
+AM_CONDITIONAL(ENABLE_TEST_COMPONENT, test "x$enable_test_comp" = "xyes")
+
 dnl
 dnl system mail stuff
 dnl
@@ -1366,7 +1372,7 @@ echo "\
 	IPv6 support:     $msg_ipv6
 	Dot Locking:	  $msg_dot
 	File Locking:	  $msg_file
-	Gtk-doc:	  $enable_gtk_doc"
+	Gtk-doc:	  $enable_gtk_doc
 
 if test x$enable_gtk_doc = xyes; then
 echo "
