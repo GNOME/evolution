@@ -1,3 +1,9 @@
+2003-05-19  Dan Winship  <danw@ximian.com>
+
+	* pcs/cal-backend.c (cal_backend_finalize): Don't double-free
+	newly-added categories that the gui hasn't been told about yet.
+	#43321
+
 2003-05-19  Rodrigo Moya <rodrigo@ximian.com>
 
 	* gui/main.c (factory): set 'initialized' to TRUE when initialization

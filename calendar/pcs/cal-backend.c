@@ -222,6 +222,16 @@ free_category_cb (gpointer key, gpointer value, gpointer data)
 	g_free (c);
 }
 
+static gboolean
+prune_changed_categories (gpointer key, gpointer value, gpointer data)
+{
+	CalBackendCategory *c = value;
+
+	if (!c->refcount)
+		free_category_cb (key, value, data);
+	return TRUE;
+}
+
 void
 cal_backend_finalize (GObject *object)
 {
@@ -232,11 +242,11 @@ cal_backend_finalize (GObject *object)
 
 	g_assert (priv->clients == NULL);
 
+	g_hash_table_foreach_remove (priv->changed_categories, prune_changed_categories, NULL);
+	g_hash_table_destroy (priv->changed_categories);
+
 	g_hash_table_foreach (priv->categories, free_category_cb, NULL);
 	g_hash_table_destroy (priv->categories);
-
-	g_hash_table_foreach (priv->changed_categories, free_category_cb, NULL);
-	g_hash_table_destroy (priv->changed_categories);
 
 	if (priv->category_idle_id)
 		g_source_remove (priv->category_idle_id);
@@ -1150,18 +1160,6 @@ notify_categories_changed (CalBackend *backend)
 		cal_notify_categories_changed (l->data, seq);
 
 	CORBA_free (seq);
-}
-
-static gboolean
-prune_changed_categories (gpointer key, gpointer value, gpointer data)
-{
-	CalBackendCategory *category = value;
-
-	if (!category->refcount) {
-		g_free (category->name);
-		g_free (category);
-	}
-	return TRUE;
 }
 
 static gboolean
