@@ -90,7 +90,10 @@ install_folder_response (EMFolderSelector *emfs, int response, gpointer *data)
 			while (names [parts])
 				parts++;
 			folder_name = names[parts -1];
-			parent_name = names[parts -2];
+			if (parts >= 2)
+				parent_name = names[parts -2];
+			else
+				parent_name = NULL;
 		}	
 		camel_exception_init (&ex);
 		if (!(store = (CamelStore *) camel_session_get_service (session, uri, CAMEL_PROVIDER_STORE, &ex))) {
@@ -168,7 +171,7 @@ org_gnome_popup_wizard (EPlugin *ep, EMEventTargetMessage *target)
 	CamelMimeMessage *msg = (CamelMimeMessage *) target->message ;
 	CamelStreamMem *content ;
 	CamelDataWrapper *dw ;
-	CamelMimePart *mime_part = CAMEL_MIME_PART(msg) ;
+	CamelMimePart *mime_part ;
 	char *notification;
 	char *start_message;
 	char *buffer = NULL;
@@ -178,6 +181,11 @@ org_gnome_popup_wizard (EPlugin *ep, EMEventTargetMessage *target)
 	GtkWidget *selector_dialog ;
 	struct AcceptData *accept_data; 
 
+
+	if (!msg)
+		return ;
+
+	mime_part = CAMEL_MIME_PART(msg) ;
 	notification = (char *)camel_medium_get_header (CAMEL_MEDIUM(msg),"X-notification") ;
 	if (!notification) {
 		return ;

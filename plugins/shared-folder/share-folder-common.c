@@ -269,7 +269,6 @@ users_dialog_response(GtkWidget *dialog, int response, struct ShareInfo *ssi)
 		return;
 	}
 
-	/* HACK: we need to create vfolders using the vfolder editor */
 	if (CAMEL_IS_VEE_STORE(store)) {
 		EMVFolderRule *rule;
 
@@ -292,7 +291,7 @@ new_folder_response (EMFolderSelector *emfs, int response, EMFolderTreeModel *mo
 	GtkWidget *users_dialog;
 	GtkWidget *w;
 	struct ShareInfo *ssi;
-	const char *uri, *path;
+	const char *uri;
 	EGwConnection *cnc;
 	CamelException ex;
 	CamelStore *store;
@@ -346,7 +345,6 @@ org_gnome_create_option(EPlugin *ep, EMPopupTargetFolder *target)
 	folder_tree = (EMFolderTree *) em_folder_tree_new_with_model (model);
 	dialog = em_folder_selector_create_new (folder_tree, 0, _("Create folder"), _("Specify where to create the folder:"));
 	uri = em_folder_tree_get_selected_uri(folder_tree);
-	g_print("\nselected uri:%s\n",uri);
 	em_folder_selector_set_selected ((EMFolderSelector *) dialog, uri);
 	g_free(uri);
 	g_signal_connect (dialog, "response", G_CALLBACK (new_folder_response), model);
@@ -368,11 +366,18 @@ org_gnome_shared_folder_factory (EPlugin *ep, EConfigHookItemFactoryData *hook_d
 	EMConfigTargetFolder *target=  (EMConfigTargetFolder *)hook_data->config->target;
 
 	folderuri = g_strdup(target->uri);
-	account = g_strrstr(folderuri, "groupwise");
-	sub = g_strrstr(folderuri, "#");
-		if(sub == NULL)
-			sub = g_strrstr(folderuri, "/");
+	if (folderuri) {
+		account = g_strrstr(folderuri, "groupwise");
+		sub = g_strrstr(folderuri, "#");
+	} else
+		return NULL;
+	
+	if(sub == NULL)
+		sub = g_strrstr(folderuri, "/");
+	if (sub)
 		sub++;
+	else
+		return NULL;
 
 	if ( !( strcmp (sub, "Mailbox") && strcmp (sub, "Calendar") && strcmp (sub, "Contacts") && strcmp (sub, "Documents") && strcmp (sub, "Authored") && strcmp (sub, "Default Library") && strcmp (sub, "Work In Progress") && strcmp (sub, "Cabinet") && strcmp (sub, "Sent Items") && strcmp (sub, "Trash") && strcmp (sub, "Checklist"))) {
 		g_free (folderuri);
@@ -387,13 +392,13 @@ org_gnome_shared_folder_factory (EPlugin *ep, EConfigHookItemFactoryData *hook_d
 			id = get_container_id (cnc, sub);
 		else
 			g_warning("Could not Connnect\n");
-
+		
+		g_free (folderuri);
 		if (cnc && id)
 			sharing_tab = share_folder_new (cnc, id);
 		else 
 			return NULL;
 
-		g_free (folderuri);
 		gtk_notebook_append_page((GtkNotebook *) hook_data->parent, (GtkWidget *) sharing_tab->vbox, gtk_label_new_with_mnemonic N_("Sharing"));
 		common = sharing_tab;
 
@@ -409,6 +414,9 @@ get_cnc (CamelStore *store)
 		const char *uri, *property_value, *use_ssl, *server_name, *user, *port;
 		CamelService *service;
 		CamelURL *url;
+		
+		if (!store)
+			return  NULL;
 
 		service = CAMEL_SERVICE(store);
 		url = service->url;
@@ -429,6 +437,7 @@ get_cnc (CamelStore *store)
 			uri = g_strconcat ("http://", server_name, ":", port, "/soap", NULL);
 
 		cnc = e_gw_connection_new (uri, user, service->url->passwd);
+
 		return cnc;
 
 }
@@ -445,12 +454,12 @@ get_container_id(EGwConnection *cnc, gchar *fname)
 
 		for (container = container_list; container != NULL; container = container->next) {
 			name = e_gw_container_get_name (container->data);
-			g_print ("\n\nchecking container for: %s\n\n", name);
+			//g_print ("\n\nchecking container for: %s\n %s\n", name, fname);
 			/* if Null is passed as name then we return top lavel id*/
-			/*if (fname == NULL) {
+			if (fname == NULL) {
 				id = g_strdup (e_gw_container_get_id (container->data));
 				break;
-			} else*/ if (!strcmp (name, fname)) {
+			} else if (!strcmp (name, fname)) {
 				id = g_strdup (e_gw_container_get_id (container->data));
 				break;
 			}
