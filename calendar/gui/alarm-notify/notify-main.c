@@ -103,7 +103,7 @@ alarm_notify_factory_fn (BonoboGenericFactory *factory, const char *component_id
 		g_assert (alarm_notify_service != NULL);
 	}
 
-	return NULL;
+	return alarm_notify_service;
 }
 
 /* Loads the calendars that the alarm daemon has been told to load in the past */

@@ -1,3 +1,8 @@
+2003-12-16  Rodrigo Moya <rodrigo@ximian.com>
+
+	* gui/alarm-notify/notify-main.c (alarm_notify_factory_fn): return
+	a reference to the alarm_notify_service, not NULL.
+
 2003-12-15  JP Rosevear <jpr@ximian.com>
 
 	* gui/gnome-cal.c (setup_widgets): set the list view config
