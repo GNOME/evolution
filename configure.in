@@ -261,6 +261,10 @@ if test "x$ac_cv_gethostbyaddr_r_seven_args" = "xyes" ; then
 	AC_DEFINE(GETHOSTBYADDR_R_SEVEN_ARGS, 1, [Solaris-style gethostbyaddr_r])
 fi
 
+dnl **************************************************
+dnl * Gnome Icon Theme
+dnl **************************************************
+PKG_CHECK_MODULES(GIT, gnome-icon-theme >= 1.2.0)
 
 dnl **************************************************
 dnl * Accessibility support

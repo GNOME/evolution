@@ -1,3 +1,11 @@
+2004-04-19  Rodney Dawes  <dobey@ximian.com>
+
+	* configure.in: Require gnome-icon-theme >= 1.2.0
+
+2004-04-19  Michael Terry  <mike@mterry.name>
+
+	* data/evolution.desktop.in.in: Use the icon theme
+
 2004-04-09  Chris Toshok  <toshok@ximian.com>
 
 	* configure.in (UPGRADE_REVISION): bump to 8 for new contact list

@@ -2,7 +2,7 @@
 _Name=Ximian Evolution (Unstable)
 _Comment=The Ximian Evolution Groupware Suite
 Exec=evolution-@BASE_VERSION@
-Icon=evolution-@BASE_VERSION@.png
+Icon=evolution
 Terminal=false
 Type=Application
 Categories=GNOME;Application;Office;X-Red-Hat-Base;
