@@ -84,7 +84,7 @@ mail_uri_to_folder (const char *name)
 				CamelFolder *source_folder;
 				extern char *evolution_dir;
 				
-				name = g_strdup_printf ("mbox://%s/local/Inbox", evolution_dir);
+				name = g_strdup_printf ("file://%s/local/Inbox", evolution_dir);
 				source_folder = mail_uri_to_folder (name);
 				g_free (name);
 				if (source_folder)
