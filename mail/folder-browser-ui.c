@@ -649,10 +649,12 @@ void
 folder_browser_ui_rm_all (FolderBrowser *fb)
 {
 	BonoboUIComponent *uic = fb->uicomp;
-	
-	bonobo_ui_component_rm (uic, "/", NULL);
- 	bonobo_ui_component_unset_container (uic, NULL);
-	
+
+	if (bonobo_ui_component_get_container (uic) != NULL) {
+		bonobo_ui_component_rm (uic, "/", NULL);
+		bonobo_ui_component_unset_container (uic, NULL);
+	}
+
 	if (fb->sensitise_state) {
 		g_hash_table_destroy (fb->sensitise_state);
 		fb->sensitise_state = NULL;

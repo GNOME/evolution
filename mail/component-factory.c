@@ -1612,31 +1612,6 @@ factory (BonoboGenericFactory *factory,
 	return NULL;
 }
 
-/* The GNOME SEGV handler will lose if it's not run from the main Gtk
- * thread. So if we crash in another thread, redirect the signal.
- */
-static void (*gnome_segv_handler) (int);
-
-static GStaticMutex segv_mutex = G_STATIC_MUTEX_INIT;
-
-static void
-segv_redirect (int sig)
-{
-	if (pthread_self () == mail_gui_thread)
-		gnome_segv_handler (sig);
-	else {
-		pthread_kill (mail_gui_thread, sig);
-		/* We can't return from the signal handler or the
-		 * thread may SEGV again. But we can't pthread_exit,
-		 * because then the thread may get cleaned up before
-		 * bug-buddy can get a stack trace. So we block by
-		 * trying to lock a mutex we know is already locked.
-		 */
-		g_static_mutex_lock (&segv_mutex);
-	}
-}
-
-
 static Bonobo_Unknown
 make_factory (PortableServer_POA poa, const char *iid, gpointer impl_ptr, CORBA_Environment *ev)
 {
@@ -1644,21 +1619,6 @@ make_factory (PortableServer_POA poa, const char *iid, gpointer impl_ptr, CORBA_
 	static int init = 0;
 
 	if (!init) {
-		sigaction (SIGSEGV, NULL, &osa);
-		if (osa.sa_handler != SIG_DFL) {
-			sa.sa_flags = 0;
-			sigemptyset (&sa.sa_mask);
-			sa.sa_handler = segv_redirect;
-			sigaction (SIGSEGV, &sa, NULL);
-			sigaction (SIGBUS, &sa, NULL);
-			sigaction (SIGFPE, &sa, NULL);
-			
-			sa.sa_handler = SIG_IGN;
-			sigaction (SIGXFSZ, &sa, NULL);
-			gnome_segv_handler = osa.sa_handler;
-			g_static_mutex_lock (&segv_mutex);
-		}
-		
 		/* init ? */
 		mail_config_init ();
 		mail_msg_init ();

@@ -1,3 +1,13 @@
+2003-05-13  Ettore Perazzoli  <ettore@ximian.com>
+
+	* component-factory.c (segv_redirect): Removed.
+	(make_factory): No need to set up the SIGSEGV redirect handler
+	here, since it's already done in the shell now, and it's in-proc.
+
+	* folder-browser-ui.c (folder_browser_ui_rm_all): Only do the
+	bonobo_ui_component() stuff if the component does have a
+	container.
+
 2003-05-08  Ettore Perazzoli  <ettore@ximian.com>
 
 	* mail-session.c (mail_session_set_interactive): Set the
