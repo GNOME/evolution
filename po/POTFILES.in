@@ -1,7 +1,7 @@
 # List of source files containing translatable strings.
 # Please keep this list in alphabetic order.
-addressbook/backend/ebook/GNOME_Evolution_Addressbook_LDIF_Importer.server.in
-addressbook/backend/ebook/GNOME_Evolution_Addressbook_VCard_Importer.server.in
+addressbook/backend/ebook/GNOME_Evolution_Addressbook_LDIF_Importer.server.in.in
+addressbook/backend/ebook/GNOME_Evolution_Addressbook_VCard_Importer.server.in.in
 addressbook/backend/ebook/e-card-simple.c
 addressbook/backend/ebook/e-card.c
 addressbook/backend/ebook/e-destination.c
@@ -133,6 +133,7 @@ calendar/gui/tasks-migrate.c
 calendar/gui/weekday-picker.c
 calendar/importers/GNOME_Evolution_Calendar_Importer.server.in
 calendar/importers/icalendar-importer.c
+calendar/pcs/cal-backend-file.c
 calendar/pcs/query.c
 calendar/zones.h
 camel/camel-cipher-context.c
