@@ -1302,7 +1302,7 @@ card_removed (EBookView *book_view, const char *id, EAddrConduitContext *ctxt)
 }
 
 static void
-sequence_complete (EBookView *book_view, EAddrConduitContext *ctxt)
+sequence_complete (EBookView *book_view, EBookViewStatus status, EAddrConduitContext *ctxt)
 {
 	gtk_signal_disconnect_by_data (GTK_OBJECT (book_view), ctxt);
 	gtk_object_unref (GTK_OBJECT (book_view));

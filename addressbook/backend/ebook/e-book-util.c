@@ -422,7 +422,7 @@ simple_query_card_added_cb (EBookView *view, const GList *cards, gpointer closur
 }
 
 static void
-simple_query_sequence_complete_cb (EBookView *view, gpointer closure)
+simple_query_sequence_complete_cb (EBookView *view, EBookViewStatus status, gpointer closure)
 {
 	SimpleQueryInfo *sq = closure;
 

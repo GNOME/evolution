@@ -126,14 +126,15 @@ pas_book_view_notify_add_1 (PASBookView *book_view,
 }
 
 void
-pas_book_view_notify_complete (PASBookView *book_view)
+pas_book_view_notify_complete (PASBookView *book_view,
+			       GNOME_Evolution_Addressbook_BookViewListener_CallStatus status)
 {
 	CORBA_Environment ev;
 
 	CORBA_exception_init (&ev);
 
 	GNOME_Evolution_Addressbook_BookViewListener_notifySequenceComplete (
-		book_view->priv->listener, &ev);
+		book_view->priv->listener, status, &ev);
 
 	if (ev._major != CORBA_NO_EXCEPTION) {
 		g_warning ("pas_book_view_notify_complete: Exception signaling BookViewListener!\n");

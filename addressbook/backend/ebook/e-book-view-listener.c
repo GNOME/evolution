@@ -15,6 +15,8 @@
 #include "e-book-view.h"
 #include "e-card.h"
 
+static EBookViewStatus e_book_view_listener_convert_status (GNOME_Evolution_Addressbook_BookViewListener_CallStatus status);
+
 enum {
 	RESPONSES_QUEUED,
 	LAST_SIGNAL
@@ -109,8 +111,9 @@ e_book_view_listener_queue_response (EBookViewListener         *listener,
 
 /* Add, Remove, Modify */
 static void
-e_book_view_listener_queue_empty_event (EBookViewListener          *listener,
-					EBookViewListenerOperation  op)
+e_book_view_listener_queue_status_event (EBookViewListener          *listener,
+					 EBookViewListenerOperation  op,
+					 EBookViewStatus             status)
 {
 	EBookViewListenerResponse *resp;
 
@@ -120,6 +123,7 @@ e_book_view_listener_queue_empty_event (EBookViewListener          *listener,
 	resp = g_new0 (EBookViewListenerResponse, 1);
 
 	resp->op        = op;
+	resp->status    = status;
 	resp->id        = NULL;
 	resp->cards     = NULL;
 	resp->message   = NULL;
@@ -141,6 +145,7 @@ e_book_view_listener_queue_id_event (EBookViewListener          *listener,
 	resp = g_new0 (EBookViewListenerResponse, 1);
 
 	resp->op        = op;
+	resp->status    = E_BOOK_VIEW_STATUS_SUCCESS;
 	resp->id        = g_strdup (id);
 	resp->cards     = NULL;
 	resp->message   = NULL;
@@ -163,6 +168,7 @@ e_book_view_listener_queue_sequence_event (EBookViewListener          *listener,
 	resp = g_new0 (EBookViewListenerResponse, 1);
 
 	resp->op        = op;
+	resp->status    = E_BOOK_VIEW_STATUS_SUCCESS;
 	resp->id        = NULL;
 	resp->cards     = NULL;
 	resp->message   = NULL;
@@ -188,6 +194,7 @@ e_book_view_listener_queue_message_event (EBookViewListener          *listener,
 	resp = g_new0 (EBookViewListenerResponse, 1);
 
 	resp->op        = op;
+	resp->status    = E_BOOK_VIEW_STATUS_SUCCESS;
 	resp->id        = NULL;
 	resp->cards     = NULL;
 	resp->message   = g_strdup(message);
@@ -230,11 +237,13 @@ impl_BookViewListener_notify_card_changed (PortableServer_Servant servant,
 
 static void
 impl_BookViewListener_notify_sequence_complete (PortableServer_Servant servant,
+						const GNOME_Evolution_Addressbook_BookViewListener_CallStatus status,
 						CORBA_Environment *ev)
 {
 	EBookViewListener *listener = E_BOOK_VIEW_LISTENER (bonobo_object_from_servant (servant));
 
-	e_book_view_listener_queue_empty_event (listener, SequenceCompleteEvent);
+	e_book_view_listener_queue_status_event (listener, SequenceCompleteEvent,
+						 e_book_view_listener_convert_status (status));
 }
 
 static void
@@ -292,6 +301,28 @@ e_book_view_listener_pop_response (EBookViewListener *listener)
 	g_list_free_1 (popped);
 
 	return resp;
+}
+
+static EBookViewStatus
+e_book_view_listener_convert_status (const GNOME_Evolution_Addressbook_BookViewListener_CallStatus status)
+{
+	switch (status) {
+	case GNOME_Evolution_Addressbook_BookViewListener_Success:
+		return E_BOOK_VIEW_STATUS_SUCCESS;
+	case GNOME_Evolution_Addressbook_BookViewListener_SearchTimeLimitExceeded:
+		return E_BOOK_VIEW_STATUS_TIME_LIMIT_EXCEEDED;
+	case GNOME_Evolution_Addressbook_BookViewListener_SearchSizeLimitExceeded:
+		return E_BOOK_VIEW_STATUS_SIZE_LIMIT_EXCEEDED;
+	case GNOME_Evolution_Addressbook_BookViewListener_InvalidQuery:
+		return E_BOOK_VIEW_STATUS_INVALID_QUERY;
+	case GNOME_Evolution_Addressbook_BookViewListener_OtherError:
+		return E_BOOK_VIEW_STATUS_OTHER_ERROR;
+	default:
+		g_warning ("e_book_view_listener_convert_status: Unknown status "
+			   "from card server: %d\n", (int) status);
+		return E_BOOK_VIEW_STATUS_UNKNOWN;
+
+	}
 }
 
 static EBookViewListener *

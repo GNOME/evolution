@@ -190,7 +190,7 @@ do_summary_query (PASBackendFile         *bf,
 	if (card_count)
 		pas_book_view_notify_add (view->book_view, cards);
 
-	pas_book_view_notify_complete (view->book_view);
+	pas_book_view_notify_complete (view->book_view, GNOME_Evolution_Addressbook_BookViewListener_Success);
 
 	g_list_foreach (cards, (GFunc)g_free, NULL);
 	g_list_free (cards);
@@ -377,9 +377,7 @@ pas_backend_file_search (PASBackendFile  	      *bf,
 		view->card_sexp = pas_backend_card_sexp_new (view->search);
 	
 		if (!view->card_sexp) {
-			/* need a different error message here. */
-			pas_book_view_notify_status_message (view->book_view, _("Error in search expression."));
-			pas_book_view_notify_complete (view->book_view);
+			pas_book_view_notify_complete (view->book_view, GNOME_Evolution_Addressbook_BookViewListener_InvalidQuery);
 			return;
 		}
 
@@ -436,7 +434,7 @@ pas_backend_file_search (PASBackendFile  	      *bf,
 		if (card_count)
 			pas_book_view_notify_add (view->book_view, cards);
 
-		pas_book_view_notify_complete (view->book_view);
+		pas_book_view_notify_complete (view->book_view, GNOME_Evolution_Addressbook_BookViewListener_Success);
 
 		/*
 		** It's fine to do this now since the data has been handed off.
@@ -561,7 +559,7 @@ pas_backend_file_changes (PASBackendFile  	      *bf,
 			pas_book_view_notify_remove (view->book_view, id);
 		}
 		
-		pas_book_view_notify_complete (view->book_view);
+		pas_book_view_notify_complete (view->book_view, GNOME_Evolution_Addressbook_BookViewListener_Success);
 	}
 
 	/* Update the hash */
@@ -658,7 +656,7 @@ pas_backend_file_process_create_card (PASBackend *backend,
 			if (vcard_matches_search (view, vcard)) {
 				bonobo_object_ref (BONOBO_OBJECT (view->book_view));
 				pas_book_view_notify_add_1 (view->book_view, vcard);
-				pas_book_view_notify_complete (view->book_view);
+				pas_book_view_notify_complete (view->book_view, GNOME_Evolution_Addressbook_BookViewListener_Success);
 				bonobo_object_unref (BONOBO_OBJECT (view->book_view));
 			}
 		}
@@ -728,7 +726,7 @@ pas_backend_file_process_remove_card (PASBackend *backend,
 		if (vcard_matches_search (view, vcard_string)) {
 			bonobo_object_ref (BONOBO_OBJECT (view->book_view));
 			pas_book_view_notify_remove (view->book_view, req->id);
-			pas_book_view_notify_complete (view->book_view);
+			pas_book_view_notify_complete (view->book_view, GNOME_Evolution_Addressbook_BookViewListener_Success);
 			bonobo_object_unref (BONOBO_OBJECT (view->book_view));
 		}
 	}
@@ -809,7 +807,7 @@ pas_backend_file_process_modify_card (PASBackend *backend,
 			else /* if (old_match) */
 				pas_book_view_notify_remove (view->book_view, id);
 
-			pas_book_view_notify_complete (view->book_view);
+			pas_book_view_notify_complete (view->book_view, GNOME_Evolution_Addressbook_BookViewListener_Success);
 
 			bonobo_object_release_unref(bonobo_object_corba_objref(BONOBO_OBJECT(view->book_view)), &ev);
 

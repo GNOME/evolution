@@ -1,5 +1,89 @@
 2002-08-19  Chris Toshok  <toshok@ximian.com>
 
+	* backend/pas/pas-book-view.c (pas_book_view_notify_complete):
+	take and pass the CallStatus to our listener.
+
+	* backend/pas/pas-book-view.h: change the prototype for
+	notify_complete to include the CallStatus.
+
+	* gui/component/select-names/e-select-names-completion.c
+	(e_select_names_completion_seq_complete_cb): add the status arg.
+
+	* gui/widgets/e-addressbook-view.c
+	(e_addressbook_view_class_init): init the search_result signal.
+	(e_addressbook_view_init): connect to the model's search_result
+	signal.
+	(emit_search_result): emit our search_result signal.
+	(search_result): call emit_search_result.
+
+	* gui/widgets/e-addressbook-view.h (struct
+	_EAddressbookViewClass): add the search_result signal.
+
+	* gui/widgets/e-addressbook-model.c (sequence_complete): emit both
+	a "search_result" as well as the "stop_state_changed" signal.
+	(e_addressbook_model_class_init): init the search_result signal.
+
+	* gui/widgets/e-addressbook-model.h: add search_result signal.
+
+	* gui/component/addressbook.c (search_result): pop up a dialog
+	telling the user why the search failed or was truncated.
+	(addressbook_factory_new_control): connect to the "search_result"
+	signal on the view.
+
+	* conduit/address-conduit.c (sequence_complete): add the status
+	parameter to sequence_complete.
+
+	* backend/idl/addressbook.idl: add BookViewListener_CallStatus,
+	and change notifySequenceComplete to take a CallStatus.
+
+	* backend/pas/pas-backend-ldap.c (create_card_handler): pass
+	status back in the notify_complete call.
+	(remove_card_handler): same.
+	(modify_card_modify_handler): same
+	(ldap_search_handler): same, and parse out the ldap return code so
+	we can report limits being properly.
+
+	* backend/pas/pas-backend-file.c (do_summary_query): pass status
+	back in the notify_complete call.
+	(pas_backend_file_search): same, and get rid of the
+	status_message, as the status is passed back properly.
+	(pas_backend_file_search): pass status
+	back in the notify_complete call.
+	(pas_backend_file_changes): same.
+	(pas_backend_file_process_create_card): same.
+	(pas_backend_file_process_remove_card): same.
+	(pas_backend_file_process_modify_card): same.
+
+	* backend/ebook/e-book-util.c (simple_query_sequence_complete_cb):
+	add status parameter.
+
+	* backend/ebook/e-book-view-listener.c
+	(e_book_view_listener_queue_status_event): change name from
+	_queue_empty_event, and take a status arg.
+	(e_book_view_listener_queue_id_event): init resp->status (to
+	SUCCESS).
+	(e_book_view_listener_queue_sequence_event): same.
+	(e_book_view_listener_queue_message_event): same.
+	(impl_BookViewListener_notify_sequence_complete): call
+	queue_status_event, and convert the corba status to
+	EBookViewStatus.
+	(e_book_view_listener_convert_status): new function, conver the
+	corba status to EBookViewStatus.
+
+	* backend/ebook/e-book-view-listener.h: add a "status" slot to
+	EBookViewListenerResponse.
+
+	* backend/ebook/e-book-view.h: change prototype for
+	sequence_complete signal.
+
+	* backend/ebook/e-book-view.c (e_book_view_do_complete_event):
+	sequence_complete takes a parameter now (EBookViewStatus).
+	(e_book_view_class_init): add the enum arg to the signal.
+
+	* backend/ebook/e-book-types.h: add EBookViewStatus enum.
+
+2002-08-19  Chris Toshok  <toshok@ximian.com>
+
 	* backend/pas/pas-backend-file.c
 	(pas_backend_file_get_static_capabilities): add
 	"cache-completions" here, since file completion results are

@@ -81,7 +81,7 @@ static void e_select_names_completion_destroy (GtkObject *object);
 
 static void e_select_names_completion_got_book_view_cb (EBook *book, EBookStatus status, EBookView *view, gpointer user_data);
 static void e_select_names_completion_card_added_cb    (EBookView *, const GList *cards, gpointer user_data);
-static void e_select_names_completion_seq_complete_cb  (EBookView *, gpointer user_data);
+static void e_select_names_completion_seq_complete_cb  (EBookView *, EBookViewStatus status, gpointer user_data);
 
 static void e_select_names_completion_do_query (ESelectNamesCompletion *, const gchar *query_text, gint pos, gint limit);
 
@@ -884,7 +884,7 @@ e_select_names_completion_card_added_cb (EBookView *book_view, const GList *card
 }
 
 static void
-e_select_names_completion_seq_complete_cb (EBookView *book_view, gpointer user_data)
+e_select_names_completion_seq_complete_cb (EBookView *book_view, EBookViewStatus status, gpointer user_data)
 {
 	ESelectNamesCompletionBookData *book_data = user_data;
 	ESelectNamesCompletion *comp = E_SELECT_NAMES_COMPLETION(book_data->comp);

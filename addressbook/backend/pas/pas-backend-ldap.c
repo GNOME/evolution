@@ -1059,7 +1059,7 @@ create_card_handler (LDAPOp *op, LDAPMessage *res)
 				pas_book_view_notify_add_1 (view->book_view,
 							    new_vcard);
 			}
-			pas_book_view_notify_complete (view->book_view);
+			pas_book_view_notify_complete (view->book_view, GNOME_Evolution_Addressbook_BookViewListener_Success);
 
 			g_free (new_vcard);
 
@@ -1071,7 +1071,7 @@ create_card_handler (LDAPOp *op, LDAPMessage *res)
 	}
 
 	if (op->view)
-		pas_book_view_notify_complete (op->view);
+		pas_book_view_notify_complete (op->view, GNOME_Evolution_Addressbook_BookViewListener_Success);
 
 	/* and lastly respond */
 	response = ldap_error_to_response (ldap_error);
@@ -1259,7 +1259,7 @@ remove_card_handler (LDAPOp *op, LDAPMessage *res)
 				 ldap_error_to_response (ldap_error));
 
 	if (op->view)
-		pas_book_view_notify_complete (op->view);
+		pas_book_view_notify_complete (op->view, GNOME_Evolution_Addressbook_BookViewListener_Success);
 }
 
 static void
@@ -1371,7 +1371,7 @@ modify_card_modify_handler (LDAPOp *op, LDAPMessage *res)
 				pas_book_view_notify_add_1 (view->book_view, modify_op->vcard);
 			else /* if (old_match) */
 				pas_book_view_notify_remove (view->book_view, e_card_simple_get_id (modify_op->card));
-			pas_book_view_notify_complete (view->book_view);
+			pas_book_view_notify_complete (view->book_view, GNOME_Evolution_Addressbook_BookViewListener_Success);
 
 			bonobo_object_release_unref(bonobo_object_corba_objref(BONOBO_OBJECT(view->book_view)), &ev);
 		}
@@ -2771,14 +2771,23 @@ ldap_search_handler (LDAPOp *op, LDAPMessage *res)
 		/* the entry that marks the end of our search */
 		if (search_op->num_pending_adds)
 			send_pending_adds (search_op);
-		pas_book_view_notify_complete (search_op->op.view);
+
+		if (ldap_error == LDAP_TIMELIMIT_EXCEEDED)
+			pas_book_view_notify_complete (search_op->op.view, GNOME_Evolution_Addressbook_BookViewListener_SearchTimeLimitExceeded);
+		else if (ldap_error == LDAP_SIZELIMIT_EXCEEDED)
+			pas_book_view_notify_complete (search_op->op.view, GNOME_Evolution_Addressbook_BookViewListener_SearchSizeLimitExceeded);
+		else if (ldap_error == LDAP_SUCCESS)
+			pas_book_view_notify_complete (search_op->op.view, GNOME_Evolution_Addressbook_BookViewListener_Success);
+		else
+			pas_book_view_notify_complete (search_op->op.view, GNOME_Evolution_Addressbook_BookViewListener_OtherError);
+
 		ldap_op_finished (op);
 	}
 	else {
 		g_warning ("unhandled search result type %d returned", msg_type);
 		if (search_op->num_pending_adds)
 			send_pending_adds (search_op);
-		pas_book_view_notify_complete (search_op->op.view);
+		pas_book_view_notify_complete (search_op->op.view, GNOME_Evolution_Addressbook_BookViewListener_OtherError);
 		ldap_op_finished (op);
 	}
 }

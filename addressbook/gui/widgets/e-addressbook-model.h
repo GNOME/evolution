@@ -45,6 +45,7 @@ struct _EAddressbookModelClass {
 	 * Signals
 	 */
 	void (*writable_status)    (EAddressbookModel *model, gboolean writable);
+	void (*search_result)      (EAddressbookModel *model, EBookViewStatus status);
 	void (*status_message)     (EAddressbookModel *model, const gchar *message);
 	void (*folder_bar_message) (EAddressbookModel *model, const gchar *message);
 	void (*card_added)         (EAddressbookModel *model, gint index, gint count);

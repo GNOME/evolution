@@ -94,6 +94,7 @@ struct _EAddressbookViewClass
 	 * Signals
 	 */
 	void (*status_message)        (EAddressbookView *view, const gchar *message);
+	void (*search_result)         (EAddressbookView *view, EBookViewStatus status);
 	void (*folder_bar_message)    (EAddressbookView *view, const gchar *message);
 	void (*command_state_change)  (EAddressbookView *view);
 	void (*alphabet_state_change) (EAddressbookView *view, gunichar letter);

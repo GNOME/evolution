@@ -906,6 +906,39 @@ set_status_message (EAddressbookView *eav, const char *message, AddressbookView 
 }
 
 static void
+search_result (EAddressbookView *eav, EBookViewStatus status, AddressbookView *view)
+{
+	char *str = NULL;
+
+	switch (status) {
+	case E_BOOK_VIEW_STATUS_SUCCESS:
+		return;
+	case E_BOOK_VIEW_STATUS_SIZE_LIMIT_EXCEEDED:
+		str = _("More cards matched this query than either the server is \n"
+			"configured to return or Evolution is configured to display.\n"
+			"Please make your search more specific or raise the result limit in\n"
+			"the directory server preferences for this addressbook.");
+		break;
+	case E_BOOK_VIEW_STATUS_TIME_LIMIT_EXCEEDED:
+		str = _("The time to execute this query exceeded the server limit or the limit\n"
+			"you have configured for this addressbook.  Please make your search\n"
+			"more specific or raise the time limit in the directory server\n"
+			"preferences for this addressbook.");
+		break;
+	case E_BOOK_VIEW_STATUS_INVALID_QUERY:
+		str = _("The backend for this addressbook was unable to parse this query.");
+		break;
+	case E_BOOK_VIEW_STATUS_OTHER_ERROR:
+	case E_BOOK_VIEW_STATUS_UNKNOWN:
+		str = _("This query did not complete successfully.");
+		break;
+	}
+
+	if (str)
+		gnome_warning_dialog (str);
+}
+
+static void
 set_folder_bar_label (EAddressbookView *eav, const char *message, AddressbookView *view)
 {
 	CORBA_Environment ev;
@@ -1062,6 +1095,11 @@ addressbook_factory_new_control (void)
 	gtk_signal_connect (GTK_OBJECT (view->view),
 			    "status_message",
 			    GTK_SIGNAL_FUNC(set_status_message),
+			    view);
+
+	gtk_signal_connect (GTK_OBJECT (view->view),
+			    "search_result",
+			    GTK_SIGNAL_FUNC(search_result),
 			    view);
 
 	gtk_signal_connect (GTK_OBJECT (view->view),

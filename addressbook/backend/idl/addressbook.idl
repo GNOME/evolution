@@ -31,10 +31,21 @@ module Addressbook {
 	 * changes (if it affects the set of viewed cards.)
 	 */
 	interface BookViewListener : Bonobo::Unknown {
+		enum CallStatus {
+			Success,
+			/* These are still successful searches, but
+			   the result set was truncated */
+			SearchSizeLimitExceeded,
+			SearchTimeLimitExceeded,
+
+			/* These are failures */
+			InvalidQuery,
+			OtherError
+		};
 		void notifyCardAdded        (in VCardList cards);
 		void notifyCardRemoved      (in CardId id);
 		void notifyCardChanged      (in VCardList cards);
-		void notifySequenceComplete ();
+		void notifySequenceComplete (in CallStatus status);
 		void notifyStatusMessage    (in string message);
 	};
 	

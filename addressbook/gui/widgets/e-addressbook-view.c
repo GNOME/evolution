@@ -79,6 +79,7 @@ static void e_addressbook_view_destroy (GtkObject *object);
 static void change_view_type (EAddressbookView *view, EAddressbookViewType view_type);
 
 static void status_message     (GtkObject *object, const gchar *status, EAddressbookView *eav);
+static void search_result      (GtkObject *object, EBookViewStatus status, EAddressbookView *eav);
 static void folder_bar_message (GtkObject *object, const gchar *status, EAddressbookView *eav);
 static void stop_state_changed (GtkObject *object, EAddressbookView *eav);
 static void writable_status (GtkObject *object, gboolean writable, EAddressbookView *eav);
@@ -105,6 +106,7 @@ enum {
 
 enum {
 	STATUS_MESSAGE,
+	SEARCH_RESULT,
 	FOLDER_BAR_MESSAGE,
 	COMMAND_STATE_CHANGE,
 	ALPHABET_STATE_CHANGE,
@@ -180,6 +182,14 @@ e_addressbook_view_class_init (EAddressbookViewClass *klass)
 				gtk_marshal_NONE__POINTER,
 				GTK_TYPE_NONE, 1, GTK_TYPE_POINTER);
 
+	e_addressbook_view_signals [SEARCH_RESULT] =
+		gtk_signal_new ("search_result",
+				GTK_RUN_LAST,
+				object_class->type,
+				GTK_SIGNAL_OFFSET (EAddressbookViewClass, search_result),
+				gtk_marshal_NONE__ENUM,
+				GTK_TYPE_NONE, 1, GTK_TYPE_ENUM);
+
 	e_addressbook_view_signals [FOLDER_BAR_MESSAGE] =
 		gtk_signal_new ("folder_bar_message",
 				GTK_RUN_LAST,
@@ -220,6 +230,11 @@ e_addressbook_view_init (EAddressbookView *eav)
 	gtk_signal_connect (GTK_OBJECT(eav->model),
 			    "status_message",
 			    GTK_SIGNAL_FUNC (status_message),
+			    eav);
+
+	gtk_signal_connect (GTK_OBJECT(eav->model),
+			    "search_result",
+			    GTK_SIGNAL_FUNC (search_result),
 			    eav);
 
 	gtk_signal_connect (GTK_OBJECT(eav->model),
@@ -1293,6 +1308,14 @@ emit_status_message (EAddressbookView *eav, const gchar *status)
 }
 
 static void
+emit_search_result (EAddressbookView *eav, EBookViewStatus status)
+{
+	gtk_signal_emit (GTK_OBJECT (eav),
+			 e_addressbook_view_signals [SEARCH_RESULT],
+			 status);
+}
+
+static void
 emit_folder_bar_message (EAddressbookView *eav, const gchar *message)
 {
 	gtk_signal_emit (GTK_OBJECT (eav),
@@ -1304,6 +1327,12 @@ static void
 status_message (GtkObject *object, const gchar *status, EAddressbookView *eav)
 {
 	emit_status_message (eav, status);
+}
+
+static void
+search_result (GtkObject *object, EBookViewStatus status, EAddressbookView *eav)
+{
+	emit_search_result (eav, status);
 }
 
 static void

@@ -40,7 +40,8 @@ void         pas_book_view_notify_add             (PASBookView                *b
 						   const GList                *cards);
 void         pas_book_view_notify_add_1           (PASBookView                *book_view,
 						   const char                 *card);
-void         pas_book_view_notify_complete        (PASBookView                *book_view);
+void         pas_book_view_notify_complete        (PASBookView                *book_view,
+						   GNOME_Evolution_Addressbook_BookViewListener_CallStatus);
 void         pas_book_view_notify_status_message  (PASBookView                *book_view,
 						   const char                 *message);
 

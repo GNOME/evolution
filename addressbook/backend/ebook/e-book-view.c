@@ -90,9 +90,9 @@ e_book_view_do_removed_event (EBookView                 *book_view,
 
 static void
 e_book_view_do_complete_event (EBookView                 *book_view,
-			      EBookViewListenerResponse *resp)
+			       EBookViewListenerResponse *resp)
 {
-	gtk_signal_emit (GTK_OBJECT (book_view), e_book_view_signals [SEQUENCE_COMPLETE]);
+	gtk_signal_emit (GTK_OBJECT (book_view), e_book_view_signals [SEQUENCE_COMPLETE], resp->status);
 }
 
 static void
@@ -300,8 +300,9 @@ e_book_view_class_init (EBookViewClass *klass)
 				GTK_RUN_LAST,
 				object_class->type,
 				GTK_SIGNAL_OFFSET (EBookViewClass, sequence_complete),
-				gtk_marshal_NONE__NONE,
-				GTK_TYPE_NONE, 0);
+				gtk_marshal_NONE__ENUM,
+				GTK_TYPE_NONE, 1,
+				GTK_TYPE_ENUM);
 
 	e_book_view_signals [STATUS_MESSAGE] =
 		gtk_signal_new ("status_message",

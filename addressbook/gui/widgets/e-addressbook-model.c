@@ -37,6 +37,7 @@ enum {
 enum {
 	WRITABLE_STATUS,
 	STATUS_MESSAGE,
+	SEARCH_RESULT,
 	FOLDER_BAR_MESSAGE,
 	CARD_ADDED,
 	CARD_REMOVED,
@@ -231,10 +232,14 @@ status_message (EBookView *book_view,
 
 static void
 sequence_complete (EBookView *book_view,
+		   EBookViewStatus status,
 		   EAddressbookModel *model)
 {
 	model->search_in_progress = FALSE;
 	status_message (book_view, NULL, model);
+	gtk_signal_emit (GTK_OBJECT (model),
+			 e_addressbook_model_signals [SEARCH_RESULT],
+			 status);
 	gtk_signal_emit (GTK_OBJECT (model),
 			 e_addressbook_model_signals [STOP_STATE_CHANGED]);
 }
@@ -284,6 +289,14 @@ e_addressbook_model_class_init (GtkObjectClass *object_class)
 				GTK_SIGNAL_OFFSET (EAddressbookModelClass, status_message),
 				gtk_marshal_NONE__POINTER,
 				GTK_TYPE_NONE, 1, GTK_TYPE_POINTER);
+
+	e_addressbook_model_signals [SEARCH_RESULT] =
+		gtk_signal_new ("search_result",
+				GTK_RUN_LAST,
+				object_class->type,
+				GTK_SIGNAL_OFFSET (EAddressbookModelClass, search_result),
+				gtk_marshal_NONE__ENUM,
+				GTK_TYPE_NONE, 1, GTK_TYPE_ENUM);
 
 	e_addressbook_model_signals [FOLDER_BAR_MESSAGE] =
 		gtk_signal_new ("folder_bar_message",
