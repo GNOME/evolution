@@ -28,13 +28,12 @@
 #include "mail-config.h"
 #include "mail-ops.h"
 #include "mail.h"
+#include "mail-session.h"
 #include <sys/types.h>
 #include <string.h>
 #include <unistd.h>
 
 #define d(x) x
-
-extern CamelSession *session;
 
 GtkWidget *mail_config_create_html (const char *name, const char *str1, const char *str2,
 				    int int1, int int2);
@@ -178,12 +177,12 @@ mail_config_create_html (const char *name, const char *str1, const char *str2,
 }
 
 static void
-druid_cancel (GnomeDruidPage *page, gpointer arg1, gpointer user_data)
+druid_cancel (GnomeDruid *druid, gpointer user_data)
 {
 	/* Cancel the setup of the account */
-	MailConfigDruid *druid = user_data;
+	MailConfigDruid *config = user_data;
 	
-	gtk_widget_destroy (GTK_WIDGET (druid));
+	gtk_widget_destroy (GTK_WIDGET (config));
 }
 
 static void
@@ -195,7 +194,9 @@ druid_finish (GnomeDruidPage *page, gpointer arg1, gpointer user_data)
 	MailConfigIdentity *id;
 	MailConfigService *source;
 	MailConfigService *transport;
+	CamelURL *url;
 	GSList *mini;
+	char *str;
 	
 	account = g_new0 (MailConfigAccount, 1);
 	account->name = mail_config_druid_get_account_name (druid);
@@ -211,9 +212,17 @@ druid_finish (GnomeDruidPage *page, gpointer arg1, gpointer user_data)
 	
 	/* construct the source */
 	source = g_new0 (MailConfigService, 1);
-	source->url = mail_config_druid_get_source_url (druid);
 	source->keep_on_server = mail_config_druid_get_keep_mail_on_server (druid);
 	source->save_passwd = mail_config_druid_get_save_password (druid);
+	str = mail_config_druid_get_source_url (druid);
+	url = camel_url_new (str, NULL);
+	g_free (str);
+	source->url = camel_url_to_string (url, FALSE);
+	if (source->save_passwd && url->passwd) {
+		mail_session_set_password (source->url, url->passwd);
+		mail_session_remember_password (source->url);
+	}
+	camel_url_free (url);
 	
 	/* construct the transport */
 	transport = g_new0 (MailConfigService, 1);
@@ -226,7 +235,7 @@ druid_finish (GnomeDruidPage *page, gpointer arg1, gpointer user_data)
 	mail_config_add_account (account);
 	mail_config_write ();
 	
-	mini = g_slist_append (NULL, account->source);
+	mini = g_slist_prepend (NULL, account->source);
 	mail_load_storages (druid->shell, mini);
 	g_slist_free (mini);
 	
@@ -924,7 +933,7 @@ mail_config_druid_get_sigfile (MailConfigDruid *druid)
 char *
 mail_config_druid_get_source_url (MailConfigDruid *druid)
 {
-	char *source_url, *host, *pport;
+	char *source_url, *host, *pport, *auth;
 	const CamelProvider *provider;
 	CamelURL *url;
 	int port = 0;
@@ -936,7 +945,8 @@ mail_config_druid_get_source_url (MailConfigDruid *druid)
 	url = g_new0 (CamelURL, 1);
 	url->protocol = g_strdup (provider->protocol);
 	url->user = g_strdup (gtk_entry_get_text (druid->incoming_username));
-	url->authmech = g_strdup (gtk_object_get_data (GTK_OBJECT (druid), "source_authmech"));
+	auth = gtk_object_get_data (GTK_OBJECT (druid), "source_authmech");
+	url->authmech = auth && *auth ? g_strdup (auth) : NULL;
 	url->passwd = g_strdup (gtk_entry_get_text (druid->password));
 	host = g_strdup (gtk_entry_get_text (druid->incoming_hostname));
 	if (host && (pport = strchr (host, ':'))) {

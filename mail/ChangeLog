@@ -1,3 +1,24 @@
+2001-01-09  Jeffrey Stedfast  <fejj@helixcode.com>
+
+	* session.c (mail_session_set_password): New function to set the
+	password for a given url.
+	
+	* mail-config-druid.c (druid_finish): Don't save the password in
+	the source url, instead insert it into the save-password hash.
+	(mail_config_druid_get_source_url): Check to make sure the
+	authmech isn't "", if it is then don't set the authmech.
+
+	* mail-account-editor.c (apply_changes): Don't save the password
+	in the source url, instead insert it into the save-password
+	hash. Also check to make sure we don't set an empty string as the
+	authmech for the source or transport.
+	
+	* mail-accounts.c (mail_default): After reloading the accounts,
+	reselect the previously selected account.
+	(mail_delete): Same.
+
+	* mail-config-druid.c (druid_cancel): Fixed segfault bug.
+
 2001-01-09  Radek Doulik  <rodo@helixcode.com>
 
 	* mail-format.c (write_headers): remove </center><p>

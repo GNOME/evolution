@@ -289,3 +289,9 @@ mail_session_forget_passwords (BonoboUIComponent *uih, void *user_data,
 	gnome_config_private_clean_section ("/Evolution/Passwords");
 	gnome_config_sync ();
 }
+
+void
+mail_session_set_password (const char *url, const char *password)
+{
+	g_hash_table_insert (passwords, url, g_strdup (password));
+}

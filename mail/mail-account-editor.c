@@ -21,12 +21,11 @@
  */
 
 #include "mail-account-editor.h"
+#include "mail-session.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <camel/camel-url.h>
-
-extern CamelSession *session;
 
 static void mail_account_editor_class_init (MailAccountEditorClass *class);
 static void mail_account_editor_init       (MailAccountEditor *editor);
@@ -108,7 +107,7 @@ static gboolean
 apply_changes (MailAccountEditor *editor)
 {
 	MailConfigAccount *account;
-	char *host, *pport;
+	char *host, *pport, *auth;
 	CamelURL *url;
 	int port;
 	
@@ -144,7 +143,8 @@ apply_changes (MailAccountEditor *editor)
 	url->passwd = g_strdup (gtk_entry_get_text (editor->source_passwd));
 	
 	g_free (url->authmech);
-	url->authmech = g_strdup (gtk_object_get_data (GTK_OBJECT (editor), "source_authmech"));
+	auth = gtk_object_get_data (GTK_OBJECT (editor), "source_authmech");
+	url->authmech = auth && *auth ? g_strdup (auth) : NULL;
 	
 	g_free (url->host);
         host = g_strdup (gtk_entry_get_text (editor->source_host));
@@ -167,16 +167,26 @@ apply_changes (MailAccountEditor *editor)
 		return FALSE;
 	}
 	
+	if (account->source->save_passwd) {
+		char *string;
+		
+		string = camel_url_to_string (url, FALSE);
+		mail_session_set_password (string, url->passwd);
+		mail_session_remember_password (string);
+		g_free (string);
+	}
+	
 	/* now that we know this url works, set it */
 	g_free (account->source->url);
-	account->source->url = camel_url_to_string (url, account->source->save_passwd);
+	account->source->url = camel_url_to_string (url, FALSE);
 	camel_url_free (url);
 	
 	/* transport */
 	url = camel_url_new (account->transport->url, NULL);
 	
 	g_free (url->authmech);
-	url->authmech = g_strdup (gtk_object_get_data (GTK_OBJECT (editor), "transport_authmech"));
+	auth = gtk_object_get_data (GTK_OBJECT (editor), "transport_authmech");
+	url->authmech = auth && *auth ? g_strdup (auth) : NULL;
 	
 	g_free (url->host);
         host = g_strdup (gtk_entry_get_text (editor->transport_host));
