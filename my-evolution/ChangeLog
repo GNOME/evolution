@@ -1,3 +1,8 @@
+2001-10-11  Dan Winship  <danw@ximian.com>
+
+	* e-summary-mail.c (update_folder_cb): Update the signature to
+	match the new signal.
+
 2001-10-10  Iain Holmes  <iain@ximian.com>
 
 	* e-summary-weather.c (e_summary_weather_update): Return a value.

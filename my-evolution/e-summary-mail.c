@@ -211,7 +211,7 @@ new_folder_cb (EvolutionStorageListener *listener,
 static void
 update_folder_cb (EvolutionStorageListener *listener,
 		  const char *path,
-		  const char *display_name,
+		  int unread_count,
 		  ESummary *summary)
 {
 	char *evolution_dir;
