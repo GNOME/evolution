@@ -448,6 +448,7 @@ remodel( EMinicard *e_minicard )
 	if (e_minicard->card) {
 		char *fname;
 		char *url;
+		char *title;
 		ECardList *address_list;
 		ECardList *phone_list;
 		ECardList *email_list;
@@ -468,6 +469,7 @@ remodel( EMinicard *e_minicard )
 			       "phone",      &phone_list,
 			       "email",      &email_list,
 			       "url",        &url,
+			       "title",      &title,
 			       NULL);
 
 		if (fname) {
@@ -481,6 +483,10 @@ remodel( EMinicard *e_minicard )
 				gnome_canvas_item_set(e_minicard->header_text,
 						      "text", "",
 						      NULL);
+
+		if (title)
+			add_field(e_minicard, "Title:", title);
+
 		if (address_list) {
 			for (iterator = e_card_list_get_iterator(address_list); e_card_iterator_is_valid(iterator); e_card_iterator_next(iterator)) {
 				const ECardDeliveryAddress *address = e_card_iterator_get(iterator);
@@ -512,6 +518,7 @@ remodel( EMinicard *e_minicard )
 				add_field(e_minicard, "Email:", (char *) e_card_iterator_get(iterator));
 			}
 		}
+
 		if (url)
 			add_field(e_minicard, "Web page:", url);
 	}

@@ -1,5 +1,10 @@
 2000-04-13  Chris Toshok  <toshok@helixcode.com>
 
+	* addressbook/gui/minicard/test-reflow.c: add a title.
+
+	* addressbook/gui/minicard/e-minicard.c (remodel): add support for
+	the title attribute.
+
 	* addressbook/backend/ebook/e-card.c (e_card_get_vcard): save out
 	the title to the vcard.
 
