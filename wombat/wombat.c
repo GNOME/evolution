@@ -7,10 +7,10 @@
 
 #include <config.h>
 #include <bonobo.h>
-#include <pas-book-factory.h>
-#include <pas-backend-file.h>
+#include <pas/pas-book-factory.h>
+#include <pas/pas-backend-file.h>
 #ifdef HAVE_LDAP
-#include <pas-backend-ldap.h>
+#include <pas/pas-backend-ldap.h>
 #endif
 #include <libgnomevfs/gnome-vfs-init.h>
 #include <libgnorba/gnorba.h>

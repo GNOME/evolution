@@ -6,7 +6,7 @@
 #define __PAS_BACKEND_LDAP_H__
 
 #include <libgnome/gnome-defs.h>
-#include <pas-backend.h>
+#include "pas-backend.h"
 
 typedef struct _PASBackendLDAPPrivate PASBackendLDAPPrivate;
 

@@ -1,5 +1,5 @@
 #include <gnome.h>
-#include <e-card.h>
+#include "e-card.h"
 
 #define TEST_VCARD                   \
 "BEGIN:VCARD

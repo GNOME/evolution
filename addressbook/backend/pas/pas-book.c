@@ -5,8 +5,9 @@
  * Copyright 2000, Helix Code, Inc.
  */
 
+#include <config.h>
 #include <gtk/gtksignal.h>
-#include <pas-book.h>
+#include "pas-book.h"
 
 static BonoboObjectClass *pas_book_parent_class;
 POA_Evolution_Book__vepv pas_book_vepv;

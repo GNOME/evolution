@@ -22,7 +22,7 @@
 #define __E_MINICARD_H__
 
 #include <gnome.h>
-#include "e-card.h"
+#include <ebook/e-card.h>
 
 #ifdef __cplusplus
 extern "C" {

@@ -14,9 +14,9 @@
 #include <string.h>
 #include <gtk/gtk.h>
 
-#include "libversit/vcc.h"
-#include <e-card.h>
-#include <e-card-pairs.h>
+#include <libversit/vcc.h>
+#include "e-card.h"
+#include "e-card-pairs.h"
 
 #define is_a_prop_of(obj,prop) (isAPropertyOf ((obj),(prop)))
 #define str_val(obj) (the_str = (vObjectValueType (obj))? fakeCString (vObjectUStringZValue (obj)) : calloc (1, 1))

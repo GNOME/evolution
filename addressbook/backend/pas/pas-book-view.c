@@ -5,6 +5,7 @@
  * Copyright 2000, Helix Code, Inc.
  */
 
+#include <config.h>
 #include <glib.h>
 #include "pas-book-view.h"
 

@@ -17,8 +17,8 @@
 #include "pas-book.h"
 #include "pas-card-cursor.h"
 
-#include <e-sexp.h>
-#include <e-card.h>
+#include <e-util/e-sexp.h>
+#include <ebook/e-card.h>
 
 #define LDAP_MAX_SEARCH_RESPONSES 500
 

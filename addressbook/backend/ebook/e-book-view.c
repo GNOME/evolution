@@ -8,13 +8,14 @@
  * Copyright 1999, 2000, Helix Code, Inc.
  */
 
-#include <addressbook.h>
+#include <config.h>
 #include <libgnorba/gnorba.h>
 #include <gtk/gtksignal.h>
 #include <gtk/gtkmarshal.h>
-#include <e-card-cursor.h>
-#include <e-book-view-listener.h>
-#include <e-book-view.h>
+#include "addressbook.h"
+#include "e-card-cursor.h"
+#include "e-book-view-listener.h"
+#include "e-book-view.h"
 
 GtkObjectClass *e_book_view_parent_class;
 

@@ -10,7 +10,7 @@
 #include <config.h>
 #include <gtk/gtk.h>
 
-#include <e-card-iterator.h>
+#include "e-card-iterator.h"
 
 #define ECI_CLASS(object) (E_CARD_ITERATOR_CLASS(GTK_OBJECT((object))->klass))
 

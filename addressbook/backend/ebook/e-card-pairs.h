@@ -23,8 +23,8 @@
 #ifndef __E_CARD_PAIRS_H__
 #define __E_CARD_PAIRS_H__
 
-#include "libversit/vcc.h"
-#include <e-card.h>
+#include <libversit/vcc.h>
+#include <ebook/e-card.h>
 
 
 #if 0

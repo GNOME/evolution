@@ -13,8 +13,8 @@
 #include <time.h>
 #include <gtk/gtk.h>
 #include <stdio.h>
-#include <e-card-iterator.h>
-#include <e-card-list.h>
+#include <ebook/e-card-iterator.h>
+#include <ebook/e-card-list.h>
 
 #define E_TYPE_CARD_LIST_ITERATOR            (e_card_list_iterator_get_type ())
 #define E_CARD_LIST_ITERATOR(obj)            (GTK_CHECK_CAST ((obj), E_TYPE_CARD_LIST_ITERATOR, ECardListIterator))

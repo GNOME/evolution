@@ -20,12 +20,14 @@
  * Boston, MA 02111-1307, USA.
  */
 
+#include <config.h>
 #include <gnome.h>
 #include "e-minicard-label.h"
 #include "e-text.h"
-#include "e-canvas.h"
-#include "e-util.h"
-#include "e-canvas-utils.h"
+#include <e-util/e-canvas.h>
+#include <e-util/e-util.h>
+#include <e-util/e-canvas-utils.h>
+
 static void e_minicard_label_init		(EMinicardLabel		 *card);
 static void e_minicard_label_class_init	(EMinicardLabelClass	 *klass);
 static void e_minicard_label_set_arg (GtkObject *o, GtkArg *arg, guint arg_id);

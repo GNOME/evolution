@@ -10,8 +10,8 @@
 #include <config.h>
 #include <gtk/gtk.h>
 
-#include <e-card-list.h>
-#include <e-card-list-iterator.h>
+#include "e-card-list.h"
+#include "e-card-list-iterator.h"
 
 #define ECL_CLASS(object) (E_CARD_LIST_CLASS(GTK_OBJECT((object))->klass))
 

@@ -14,7 +14,7 @@
 
 #include <libgnome/gnome-defs.h>
 #include <bonobo/bonobo-object.h>
-#include <addressbook.h>
+#include <ebook/addressbook.h>
 
 BEGIN_GNOME_DECLS
 

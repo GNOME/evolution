@@ -20,8 +20,10 @@
  * Boston, MA 02111-1307, USA.
  */
 
+#include <config.h>
 #include <gnome.h>
 #include "e-contact-editor.h"
+
 static void e_contact_editor_init		(EContactEditor		 *card);
 static void e_contact_editor_class_init	(EContactEditorClass	 *klass);
 static void e_contact_editor_set_arg (GtkObject *o, GtkArg *arg, guint arg_id);

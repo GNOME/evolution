@@ -1,7 +1,3 @@
-lib_LTLIBRARIES = libpas.la
-
-corbadir = $(sysconfdir)/CORBA/servers
-
 CORBA_SOURCE =						\
 	addressbook.h					\
 	addressbook-common.c				\
@@ -18,45 +14,32 @@ $(CORBA_SOURCE): $(idls)
 
 INCLUDES =						\
         -DGNOMELOCALEDIR=\""$(datadir)/locale"\"        \
-	-DG_LOG_DOMAIN=\"Wombat\"			\
-	-I$(builddir)					\
-	-I$(srcdir) -I$(top_srcdir) 			\
-	-I$(srcdir)/. 					\
-	-I$(srcdir)/.. 					\
-	-I$(top_builddir)				\
-        -I$(includedir)                                 \
-	-I$(top_srcdir)/e-util				\
-	-I$(top_srcdir)/addressbook/backend/ebook	\
+	-DG_LOG_DOMAIN=\"wombat-pas\"			\
+	-I$(top_srcdir) 				\
+	-I$(top_srcdir)/addressbook/backend		\
+	-I$(top_builddir)/addressbook/backend		\
         $(GNOME_INCLUDEDIR)
-
-gnome_libs =						\
-	$(GNOME_LIBDIR)					\
-        $(GNOMEUI_LIBS)					\
-	$(GNOMEGNORBA_LIBS)				\
-	$(INTLLIBS)
 
 if ENABLE_LDAP
 LDAP_BACKEND = pas-backend-ldap.c
 endif
 
-libpas_la_SOURCES =					\
+noinst_LIBRARIES = libpas.a
+
+libpas_a_SOURCES =					\
 	$(CORBA_SOURCE)					\
 	pas-book-factory.c				\
+	pas-book-factory.h				\
 	pas-book-view.c					\
+	pas-book-view.h					\
 	pas-book.c					\
+	pas-book.h					\
 	pas-backend-file.c				\
+	pas-backend-file.h				\
 	$(LDAP_BACKEND)					\
 	pas-backend.c					\
-	pas-card-cursor.c
-
-libpasincludedir = $(includedir)/backend
-
-libpasinclude_HEADERS =					\
-	pas-book-factory.h				\
-	pas-book-view.h					\
-	pas-book.h					\
-	pas-backend-file.h				\
 	pas-backend.h					\
+	pas-card-cursor.c				\
 	pas-card-cursor.h
 
 BUILT_SOURCES = $(CORBA_SOURCE)

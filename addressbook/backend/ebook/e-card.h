@@ -15,8 +15,8 @@
 #include <time.h>
 #include <gtk/gtk.h>
 #include <stdio.h>
-#include <e-card-types.h>
-#include <e-card-list.h>
+#include <ebook/e-card-types.h>
+#include <ebook/e-card-list.h>
 
 #define E_TYPE_CARD            (e_card_get_type ())
 #define E_CARD(obj)            (GTK_CHECK_CAST ((obj), E_TYPE_CARD, ECard))

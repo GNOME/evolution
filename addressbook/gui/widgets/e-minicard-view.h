@@ -23,7 +23,7 @@
 
 #include <gnome.h>
 #include "e-reflow-sorted.h"
-#include "e-book.h"
+#include <ebook/e-book.h>
 
 #ifdef __cplusplus
 extern "C" {

@@ -23,7 +23,7 @@
 
 #include <gnome.h>
 #include <glade/glade.h>
-#include "e-card.h"
+#include <ebook/e-card.h>
 
 #ifdef __cplusplus
 extern "C" {

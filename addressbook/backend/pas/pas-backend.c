@@ -5,8 +5,9 @@
  * Copyright 2000, Helix Code, Inc.
  */
 
+#include <config.h>
 #include <gtk/gtkobject.h>
-#include <pas-backend.h>
+#include "pas-backend.h"
 
 #define CLASS(o) PAS_BACKEND_CLASS (GTK_OBJECT (o)->klass)
 

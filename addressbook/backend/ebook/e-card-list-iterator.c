@@ -10,8 +10,8 @@
 #include <config.h>
 #include <gtk/gtk.h>
 
-#include <e-card-list-iterator.h>
-#include <e-card-list.h>
+#include "e-card-list-iterator.h"
+#include "e-card-list.h"
 
 static void e_card_list_iterator_init (ECardListIterator *card);
 static void e_card_list_iterator_class_init (ECardListIteratorClass *klass);

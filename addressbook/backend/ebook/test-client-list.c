@@ -4,7 +4,7 @@
 #include <gnome.h>
 #include <libgnorba/gnorba.h>
 
-#include <e-book.h>
+#include "e-book.h"
 
 CORBA_Environment ev;
 CORBA_ORB orb;

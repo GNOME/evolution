@@ -4,8 +4,8 @@ INCLUDES =						\
 	-DG_LOG_DOMAIN=\"wombat\"			\
 	-I$(top_srcdir)/e-util				\
 	-I$(top_srcdir)					\
-	-I$(top_srcdir)/addressbook/backend/pas		\
-	-I$(top_builddir)/addressbook/backend/pas	\
+	-I$(top_srcdir)/addressbook/backend		\
+	-I$(top_builddir)/addressbook/backend		\
 	-I$(top_srcdir)/calendar			\
 	-DEVOLUTION_VERSION=\""$(VERSION)"\"		\
 	-DEVOLUTION_LOCALEDIR=\""$(datadir)/locale"\"
@@ -19,7 +19,7 @@ wombat_SOURCES = 	\
 wombat_LDADD =							\
 	$(EXTRA_GNOME_LIBS)					\
 	$(BONOBO_VFS_GNOME_LIBS)				\
-	$(top_builddir)/addressbook/backend/pas/libpas.la	\
+	$(top_builddir)/addressbook/backend/pas/libpas.a	\
 	$(top_builddir)/addressbook/backend/ebook/libebook.la	\
 	$(top_builddir)/calendar/pcs/libpcs.a			\
 	$(top_builddir)/libical/src/libical/libical.la		\

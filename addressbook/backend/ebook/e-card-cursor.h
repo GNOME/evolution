@@ -12,8 +12,8 @@
 
 #include <libgnome/gnome-defs.h>
 #include <gtk/gtk.h>
-#include "addressbook/backend/ebook/addressbook.h"
-#include "e-card.h"
+#include <ebook/addressbook.h>
+#include <ebook/e-card.h>
 
 BEGIN_GNOME_DECLS
 

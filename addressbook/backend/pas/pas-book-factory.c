@@ -6,10 +6,11 @@
  * Copyright 2000, Helix Code, Inc.
  */
 
+#include <config.h>
 #include <ctype.h>
 #include <libgnorba/gnorba.h>
-#include <addressbook.h>
-#include <pas-book-factory.h>
+#include "addressbook.h"
+#include "pas-book-factory.h"
 
 #define PAS_BOOK_FACTORY_GOAD_ID "evolution:addressbook-server"
 

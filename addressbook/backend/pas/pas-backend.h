@@ -23,12 +23,12 @@
 
 #include <libgnome/gnome-defs.h>
 #include <gtk/gtkobject.h>
-#include <addressbook.h>
+#include <pas/addressbook.h>
 
 typedef struct _PASBackend        PASBackend;
 typedef struct _PASBackendPrivate PASBackendPrivate;
 
-#include <pas-book.h>
+#include <pas/pas-book.h>
 
 struct _PASBackend {
 	GtkObject parent_object;

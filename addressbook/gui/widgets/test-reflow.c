@@ -48,7 +48,7 @@
 #include "config.h"
 
 #include <gnome.h>
-#include "e-canvas.h"
+#include <e-util/e-canvas.h>
 #include "e-reflow.h"
 #include "e-minicard.h"
 

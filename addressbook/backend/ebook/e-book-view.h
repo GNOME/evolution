@@ -13,8 +13,8 @@
 
 #include <libgnome/gnome-defs.h>
 
-#include <e-card.h>
-#include <e-book-view-listener.h>
+#include <ebook/e-card.h>
+#include <ebook/e-book-view-listener.h>
 
 BEGIN_GNOME_DECLS
 

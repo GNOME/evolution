@@ -9,10 +9,11 @@
  * Copyright 2000, Helix Code, Inc.
  */
 
+#include <config.h>
 #include <gtk/gtksignal.h>
-#include <e-book-view-listener.h>
-#include <e-book-view.h>
-#include <e-card.h>
+#include "e-book-view-listener.h"
+#include "e-book-view.h"
+#include "e-card.h"
 
 enum {
 	RESPONSES_QUEUED,

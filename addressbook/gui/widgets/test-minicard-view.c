@@ -20,7 +20,7 @@
 #include <gnome.h>
 #include <libgnorba/gnorba.h>
 #include <bonobo.h>
-#include "e-canvas.h"
+#include <e-util/e-canvas.h>
 #include "e-minicard-view.h"
 
 /* This is a horrible thing to do, but it is just a test. */

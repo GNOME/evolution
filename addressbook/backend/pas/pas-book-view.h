@@ -14,7 +14,7 @@
 
 #include <bonobo/bonobo-object.h>
 #include <libgnome/gnome-defs.h>
-#include <addressbook.h>
+#include <pas/addressbook.h>
 
 typedef struct _PASBookView        PASBookView;
 typedef struct _PASBookViewClass   PASBookViewClass;

@@ -1,4 +1,4 @@
-bin_PROGRAMS = test-card test-client test-client-list
+noinst_PROGRAMS = test-card test-client test-client-list
 
 corbadir = $(sysconfdir)/CORBA/servers
 
@@ -19,11 +19,9 @@ $(CORBA_SOURCE): $(idls)
 INCLUDES =						\
         -DGNOMELOCALEDIR=\""$(datadir)/locale"\"        \
 	-DG_LOG_DOMAIN=\"EBook\"			\
-	-I$(builddir)					\
-	-I$(srcdir) -I$(top_srcdir) 			\
-	-I$(srcdir)/.					\
-	-I$(srcdir)/..					\
-        -I$(includedir)                                 \
+	-I$(top_srcdir) 				\
+	-I$(top_srcdir)/addressbook/backend		\
+	-I$(top_builddir)/addressbook/backend		\
         $(GNOME_INCLUDEDIR)
 
 gnome_libs =						\
@@ -50,7 +48,7 @@ libebook_la_SOURCES =					\
 	e-card-list.c					\
 	e-card.c
 
-libebookincludedir = $(includedir)/backend
+libebookincludedir = $(includedir)/evolution/ebook
 
 libebookinclude_HEADERS =				\
 	e-book-listener.h				\

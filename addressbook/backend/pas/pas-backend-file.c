@@ -16,11 +16,11 @@
 #include <db.h>
 #endif
 
-#include <pas-backend-file.h>
-#include <pas-book.h>
-#include <pas-card-cursor.h>
-#include <e-card.h>
-#include <e-sexp.h>
+#include "pas-backend-file.h"
+#include "pas-book.h"
+#include "pas-card-cursor.h"
+#include <ebook/e-card.h>
+#include <e-util/e-sexp.h>
 
 #define PAS_BACKEND_FILE_VERSION_NAME "PAS-DB-VERSION"
 #define PAS_BACKEND_FILE_VERSION "0.1"

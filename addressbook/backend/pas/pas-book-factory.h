@@ -5,7 +5,7 @@
 #include <bonobo/bonobo-object.h>
 #include <libgnome/gnome-defs.h>
 
-#include <pas-backend.h>
+#include <pas/pas-backend.h>
 
 #ifndef __PAS_BOOK_FACTORY_H__
 #define __PAS_BOOK_FACTORY_H__

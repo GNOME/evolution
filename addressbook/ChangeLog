@@ -1,3 +1,28 @@
-2000-04-17  Federico Mena Quintero  <federico@helixcode.com>
+2000-04-18  Federico Mena Quintero  <federico@helixcode.com>
+
+	* gui/minicard/Makefile.am (INCLUDES): Use "e-minicard" as the log
+	domain.
+
+	* gui/component/Makefile.am (INCLUDES): Use
+	"evolution-addressbook" as the log domain.
+
+	* backend/pas/Makefile.am: Build libpas.a, not a shared library.
+	Do not install any header files.
+	(INCLUDES): Remove spurious include paths.
+
+	* backend/pas/*.[ch]: Fix includes.
+
+	* backend/ebook/Makefile.am: Do not install the test programs.
+	Fixed some include weirdness.
+
+	* backend/ebook/*.[ch]: Fix includes.
+
+	* contact-editor/Makefile.am (INCLUDES): Set the log domain to
+	"contact-editor".
+	(INCLUDES): Fix.
+
+	* contact-editor/*.[ch]: Fix includes.
+
+	* gui/minicard/*.[ch]: Fix includes.
 
 	* ChangeLog: Started a ChangeLog here.

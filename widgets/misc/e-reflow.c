@@ -20,12 +20,14 @@
  * Boston, MA 02111-1307, USA.
  */
 
+#include <config.h>
 #include <gnome.h>
 #include <math.h>
 #include "e-reflow.h"
-#include "e-canvas-utils.h"
-#include "e-canvas.h"
-#include "e-util.h"
+#include <e-util/e-canvas-utils.h>
+#include <e-util/e-canvas.h>
+#include <e-util/e-util.h>
+
 static void e_reflow_init		(EReflow		 *reflow);
 static void e_reflow_class_init	(EReflowClass	 *klass);
 static void e_reflow_set_arg (GtkObject *o, GtkArg *arg, guint arg_id);

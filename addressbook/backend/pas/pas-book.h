@@ -14,14 +14,14 @@
 
 #include <bonobo/bonobo-object.h>
 #include <libgnome/gnome-defs.h>
-#include <addressbook.h>
-#include <pas-book-view.h>
+#include <pas/addressbook.h>
+#include <pas/pas-book-view.h>
 
 typedef struct _PASBook        PASBook;
 typedef struct _PASBookPrivate PASBookPrivate;
 
-#include <pas-backend.h>
-#include <pas-card-cursor.h>
+#include <pas/pas-backend.h>
+#include <pas/pas-card-cursor.h>
 
 typedef enum {
 	CreateCard,

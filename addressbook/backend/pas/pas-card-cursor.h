@@ -12,7 +12,7 @@
 
 #include <libgnome/gnome-defs.h>
 #include <bonobo/bonobo-object.h>
-#include "addressbook.h"
+#include <pas/addressbook.h>
 
 BEGIN_GNOME_DECLS
 

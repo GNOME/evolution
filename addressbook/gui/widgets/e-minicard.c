@@ -20,16 +20,18 @@
  * Boston, MA 02111-1307, USA.
  */
 
+#include <config.h>
 #include <gnome.h>
 #include "e-minicard.h"
 #include "e-minicard-label.h"
 #include "e-text.h"
-#include "e-book.h"
-#include "e-canvas.h"
-#include "e-util.h"
-#include "e-canvas-utils.h"
+#include <ebook/e-book.h>
+#include <e-util/e-canvas.h>
+#include <e-util/e-util.h>
+#include <e-util/e-canvas-utils.h>
 #include "e-contact-editor.h"
 #include "e-minicard-view.h"
+
 static void e_minicard_init		(EMinicard		 *card);
 static void e_minicard_class_init	(EMinicardClass	 *klass);
 static void e_minicard_set_arg (GtkObject *o, GtkArg *arg, guint arg_id);

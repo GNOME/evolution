@@ -13,10 +13,10 @@
 
 #include <libgnome/gnome-defs.h>
 
-#include <e-card.h>
-#include <e-card-cursor.h>
-#include <e-book-view.h>
-#include <e-book-types.h>
+#include <ebook/e-card.h>
+#include <ebook/e-card-cursor.h>
+#include <ebook/e-book-view.h>
+#include <ebook/e-book-types.h>
 
 BEGIN_GNOME_DECLS
 
