@@ -68,6 +68,8 @@ struct _EMinicardWidgetClass
 GtkWidget *e_minicard_widget_new(void);
 GtkType    e_minicard_widget_get_type (void);
 
+void e_minicard_widget_set_card (EMinicardWidget *, ECard *);
+
 #ifdef __cplusplus
 }
 #endif /* __cplusplus */

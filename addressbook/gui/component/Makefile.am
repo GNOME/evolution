@@ -38,7 +38,9 @@ evolution_addressbook_SOURCES = 	\
 	e-cardlist-model.c		\
 	e-cardlist-model.h		\
 	e-address-widget.h		\
-	e-address-widget.c
+	e-address-widget.c		\
+	e-address-popup.h		\
+	e-address-popup.c
 
 evolution_addressbook_LDADD =						\
 	select-names/libeselectnames.la					\

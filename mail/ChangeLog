@@ -1,3 +1,17 @@
+2001-03-23  Jon Trowbridge  <trow@ximian.com>
+
+	* mail-display.c (handle_embedded_address_object): #ifdef away
+	some code I don't quite want to delete yet.
+	(html_button_press_event): Remove some of Radek's placeholder
+	code, replace it with code to create my AddressPopup bonobo
+	control.
+
+	* mail-format.c: Remove some obsolete code that if #ifdef-ed out
+	a while ago.
+
+	* mail-ops.c (send_queue_send): Strip out the X-Evolution-Identity
+	header when sending.
+
 2001-03-23  Christopher James Lahey  <clahey@ximian.com>
 
 	* message-list.c: Turned on BROKEN_ETREE.

@@ -601,7 +601,7 @@ void mail_send_receive(void)
 	gtk_signal_connect((GtkObject *)gd, "destroy", gtk_widget_destroyed, &gd);
 	while (scan) {
 		struct _send_info *info = scan->data;
-		
+
 		switch(info->type) {
 		case SEND_RECEIVE:
 			mail_fetch_mail(info->uri, info->keep,

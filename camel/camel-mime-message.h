@@ -115,6 +115,10 @@ void                        camel_mime_message_set_recipients     (CamelMimeMess
 								   const char                 *type,
 								   const CamelInternetAddress *r);
 
+void                        camel_mime_message_set_identity       (CamelMimeMessage           *mime_message,
+								   const char                 *identity);
+								   
+
 /* utility functions */
 gboolean                    camel_mime_message_has_8bit_parts     (CamelMimeMessage           *mime_message);
 void                        camel_mime_message_set_best_encoding  (CamelMimeMessage           *msg,

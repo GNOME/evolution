@@ -643,6 +643,12 @@ send_queue_send(struct _mail_msg *mm)
 		if (camel_exception_is_set (&mm->ex))
 			break;
 		
+		/* Remove the X-Evolution header so we don't send our flags too ;-) */
+		camel_medium_remove_header (CAMEL_MEDIUM (message), "X-Evolution");
+
+		/* We also don't want to send our identity header. */
+		camel_medium_remove_header (CAMEL_MEDIUM (message), "X-Evolution-Identity");
+
 		/* Get the preferred transport URI */
 		destination = (char *)camel_medium_get_header (CAMEL_MEDIUM (message), "X-Evolution-Transport");
 		if (destination) {
@@ -754,7 +760,7 @@ static char *append_mail_desc(struct _mail_msg *mm, int done)
 static void append_mail_append(struct _mail_msg *mm)
 {
 	struct _append_msg *m = (struct _append_msg *)mm;
-	
+
 	camel_mime_message_set_date(m->message, CAMEL_MESSAGE_DATE_CURRENT, 0);
 	camel_folder_append_message(m->folder, m->message, m->info, &mm->ex);
 }

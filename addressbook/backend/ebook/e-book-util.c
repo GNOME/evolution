@@ -151,8 +151,6 @@ simple_query_new (EBook *book, const char *query, EBookSimpleQueryCallback cb, g
 static void
 simple_query_free (SimpleQueryInfo *sq)
 {
-	GList *i;
-
 	/* Remove ourselves from the EBook's pending list. */
 	book_remove_simple_query (sq->book, sq);
 
@@ -271,7 +269,7 @@ e_book_simple_query (EBook *book, const char *query, EBookSimpleQueryCallback cb
 #ifdef USE_WORKAROUND
 	gtk_timeout_add (50, WORKAROUND_try_queue, NULL);
 #else
-	e_book_get_book_view (book, query, simple_query_book_view_cb, sq);
+	e_book_get_book_view (book, (gchar *) query, simple_query_book_view_cb, sq);
 #endif
 
 	return sq->tag;
@@ -425,8 +423,6 @@ e_book_name_and_email_query (EBook *book,
 		name_query = NULL;
 	} else
 		return 0;
-
-	g_message ("query: %s", query);
 
 	info = g_new0 (NameEmailQueryInfo, 1);
 	info->name = g_strdup (name);

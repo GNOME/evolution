@@ -814,7 +814,7 @@ camel_filter_driver_filter_message (CamelFilterDriver *driver, CamelMimeMessage 
 	struct _filter_rule *node;
 	gboolean freeinfo = FALSE;
 	gboolean filtered = FALSE;
-	
+
 	if (info == NULL) {
 		struct _header_raw *h = CAMEL_MIME_PART (message)->headers;
 		
@@ -833,6 +833,8 @@ camel_filter_driver_filter_message (CamelFilterDriver *driver, CamelMimeMessage 
 	p->info = info;
 	p->uid = uid;
 	p->source = source;
+
+	/* camel_mime_message_set_identity (message, source_url); */
 	
 	node = (struct _filter_rule *)p->rules.head;
 	while (node->next) {

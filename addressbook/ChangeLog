@@ -1,3 +1,30 @@
+2001-03-23  Jon Trowbridge  <trow@ximian.com>
+
+	* gui/widgets/e-minicard-widget.c (e_minicard_widget_set_card):
+	Added.  Call me old-fashioned, but I just prefer to have a real
+	API rather than doing everything via gtk_object_get/set-type
+	calls.
+	(e_minicard_widget_set_arg): Changed to call
+	e_minicard_widget_set_card.
+
+	* backend/ebook/e-book-util.c: Small changes to get rid of
+	compiler warnings.  (Casting out const, removed unused variables,
+	etc.)  Removed some debugging messages.
+
+	* gui/component/addressbook-factory.c (main): Added call
+	to e_address_popup_factory_init.
+
+	* gui/component/e-address-popup.c: Added.  A popup gadget that is
+	invoked (as a bonobo control) when an address is left-clicked in
+	the mailer.  The addressbook is queries, and the address is either
+	displayed as a minicard (if it already exists) or in a "generic
+	format".  A button is provided for editting/adding the contact.
+	Some of the semantics of this widget are a bit... non-standard,
+	because of bonobo issues.  I can't really seem to replicate
+	popup-menu behavior because of how bonobo propogates events, etc.
+	so I've tried to produce something that I think is non-annoying.
+	YMMV.
+
 2001-03-22  Iain Holmes  <iain@ximian.com>
 
 	* backend/ebook/evolution-gnomecard-importer.c: Update to the new

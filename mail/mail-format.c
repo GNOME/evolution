@@ -623,32 +623,6 @@ write_subject (const char *subject, int flags, GtkHTML *html, GtkHTMLStream *str
 		g_free (encoded_subj);
 }
 
-#ifdef USE_OBSOLETE_UNUSED_STUFF_AND_GET_COMPILER_WARNINGS
-static void
-write_field_to_stream(const char *description, const char *value, int flags, GtkHTML *html, GtkHTMLStream *stream)
-{
-	char *encoded_desc, *encoded_value, *embedded_object;
-	int bold = (flags&WRITE_BOLD) == WRITE_BOLD;
-
-	/* The description comes from gettext... */
-	encoded_desc = e_utf8_from_gtk_string (GTK_WIDGET (html), description);
-
-	if (value)
-		encoded_value = e_text_to_html (value, E_TEXT_TO_HTML_CONVERT_NL|E_TEXT_TO_HTML_CONVERT_URLS);
-	else
-		encoded_value = "";
-
-	mail_html_write(html, stream,
-			"<tr valign=top><%s align=right>%s</%s>"
-			"<td> %s </td></tr>", bold ? "th" : "td",
-			encoded_desc, bold ? "th" : "td", encoded_value);
-	g_free (encoded_desc);
-	g_free (embedded_object);
-	if (value)
-		g_free(encoded_value);
-}
-#endif
-
 static void
 write_address(MailDisplay *md, const CamelInternetAddress *addr, const char *field_name, int flags)
 {
@@ -665,6 +639,7 @@ write_address(MailDisplay *md, const CamelInternetAddress *addr, const char *fie
 	while (camel_internet_address_get (addr, i, &name, &email)) {
 		
 		if ((name && *name) || (email && *email)) {
+
 			/* we need these <B> </B> to separate HTMLText objects */
 			mail_html_write (md->html, md->stream, i ? ",<B> </B> " : "<td>");
 			mail_html_write (md->html, md->stream, " ");
@@ -682,6 +657,7 @@ write_address(MailDisplay *md, const CamelInternetAddress *addr, const char *fie
 						 email);
 				mail_set = TRUE;
 			}
+
 			if (name && *name)
 				mail_html_write (md->html, md->stream, "%s ", name);
 			if (email && *email)

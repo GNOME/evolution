@@ -63,7 +63,7 @@ struct _EAddressWidget {
 };
 
 struct _EAddressWidgetClass {
-	GtkHBoxClass parent_class;
+	GtkEventBoxClass parent_class;
 };
 
 GtkType e_address_widget_get_type (void);

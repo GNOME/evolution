@@ -398,6 +398,13 @@ camel_mime_message_set_recipients(CamelMimeMessage *mime_message, const char *ty
 	g_free(text);
 }
 
+void
+camel_mime_message_set_identity(CamelMimeMessage *mime_message, const char *identity)
+{
+	g_assert (mime_message);
+	camel_medium_add_header (CAMEL_MEDIUM (mime_message), "X-Evolution-Identity", identity);
+}
+
 const CamelInternetAddress *
 camel_mime_message_get_recipients(CamelMimeMessage *mime_message, const char *type)
 {

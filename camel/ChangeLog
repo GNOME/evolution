@@ -1,3 +1,13 @@
+2001-03-23  Jon Trowbridge  <trow@ximian.com>
+
+	* camel-filter-driver.c (camel_filter_driver_filter_message):
+	Don't call camel_mime_message_set_identity.  (The call is
+	commented out, left over from some earlier experimentation that I
+	want to be able to remember later...)
+
+	* camel-mime-message.c (camel_mime_message_set_identity): Added.
+	A function to set the X-Evolution-Identity header.
+	
 2001-03-22  Dan Winship  <danw@ximian.com>
 
 	* providers/imap/camel-imap-command.c (imap_read_response): Don't

@@ -1038,18 +1038,6 @@ mail_display_class_init (GtkObjectClass *object_class)
 }
 
 static void
-add_to_addressbook (GtkWidget *w, MailDisplay *mail_display)
-{
-	g_print ("FIXME\n");
-}
-
-static void
-open_in_addressbook (GtkWidget *w, MailDisplay *mail_display)
-{
-	g_print ("FIXME\n");
-}
-
-static void
 link_open_in_browser (GtkWidget *w, MailDisplay *mail_display)
 {
 	g_print ("FIXME\n");
@@ -1069,15 +1057,6 @@ link_copy_location (GtkWidget *w, MailDisplay *mail_display)
 
 #define SEPARATOR  { "", NULL, (NULL), NULL,  0 }
 #define TERMINATOR { NULL, NULL, (NULL), NULL,  0 }
-
-static EPopupMenu address_menu [] = {
-	{ N_("Add to addressbook (FIXME)"),      NULL,
-	  GTK_SIGNAL_FUNC (add_to_addressbook),  NULL,  0 },
-	{ N_("Open in addressbook (FIXME)"),             NULL,
-	  GTK_SIGNAL_FUNC (open_in_addressbook), NULL,  0 },
-
-	TERMINATOR
-};
 
 static EPopupMenu link_menu [] = {
 	{ N_("Open link in browser (FIXME)"),    NULL,
@@ -1100,6 +1079,7 @@ html_button_press_event (GtkWidget *widget, GdkEventButton *event, MailDisplay *
 		if (event->button == 3) {
 			HTMLEngine *e;
 			HTMLPoint *point;
+			GtkWidget *popup_thing;
 			const gchar *email;
 			const gchar *name;
 			const gchar *link;
@@ -1110,8 +1090,16 @@ html_button_press_event (GtkWidget *widget, GdkEventButton *event, MailDisplay *
 				email = (const gchar *) html_object_get_data (point->object, "email");
 				if (email) {
 					name = (const gchar *) html_object_get_data (point->object, "name");
-					g_print ("address: %s name: %s\n", email, name);
-					e_popup_menu_run (address_menu, (GdkEvent *) event, 0, 0, mail_display);
+
+					popup_thing = bonobo_widget_new_control ("OAFIID:GNOME_Evolution_Addressbook_AddressPopup",
+										 CORBA_OBJECT_NIL);
+
+					bonobo_widget_set_property (BONOBO_WIDGET (popup_thing),
+								    "name", name,
+								    "email", email,
+								    NULL);
+					gtk_widget_show (popup_thing);
+
 				} else if ((link = html_object_get_url (point->object))) {
 					e_popup_menu_run (link_menu, (GdkEvent *) event, 0, 0, mail_display);
 				}

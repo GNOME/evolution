@@ -213,7 +213,6 @@ e_address_widget_construct (EAddressWidget *addr)
 	gtk_box_pack_start (GTK_BOX (box), addr->spacer, FALSE, FALSE, 0);
 	gtk_box_pack_start (GTK_BOX (box), addr->email_widget, FALSE, FALSE, 0);
 
-
 	gtk_container_add (GTK_CONTAINER (addr), box);
 
 	gtk_widget_show (box);

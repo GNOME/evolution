@@ -117,4 +117,31 @@
 
 </oaf_server>
 
+<oaf_server iid="OAFIID:GNOME_Evolution_Addressbook_AddressPopupFactory"
+	    type="exe"
+	    location="evolution-addressbook">
+
+	<oaf_attribute name="repo_ids" type="stringv">
+		<item value="IDL:GNOME/ObjectFactory:1.0"/>
+	</oaf_attribute>
+
+	<oaf_attribute name="description" type="string"
+		       _value="Factory for the Addressbook's address popup"/>
+
+</oaf_server>
+
+<oaf_server iid="OAFIID:GNOME_Evolution_Addressbook_AddressPopup"
+	    type="factory"
+	    location="OAFIID:GNOME_Evolution_Addressbook_AddressPopupFactory">
+
+	<oaf_attribute name="repo_ids" type="stringv">
+		<item value="IDL:BonoboControl/address-widget:1.0"/>
+		<item value="IDL:GNOME/Control:1.0"/>
+	</oaf_attribute>
+
+	<oaf_attribute name="description" type="string"
+		       _value="A Bonobo control for an address popup."/>
+
+</oaf_server>
+
 </oaf_info>

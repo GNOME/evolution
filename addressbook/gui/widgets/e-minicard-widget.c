@@ -196,21 +196,12 @@ static void
 e_minicard_widget_set_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 {
 	EMinicardWidget *emw = E_MINICARD_WIDGET(object);
+	gpointer ptr;
 
 	switch (arg_id){
 	case ARG_CARD:
-		if (emw->card)
-			gtk_object_unref(GTK_OBJECT(emw->card));
-		if (GTK_VALUE_OBJECT(*arg)) {
-		  emw->card = E_CARD(GTK_VALUE_OBJECT(*arg));
-			gtk_object_ref(GTK_OBJECT(emw->card));
-		}
-		else
-			emw->card = NULL;
-		if (emw->item)
-			gtk_object_set(GTK_OBJECT(emw->item),
-				       "card", emw->card,
-				       NULL);
+		ptr = GTK_VALUE_POINTER (*arg);
+		e_minicard_widget_set_card (emw, ptr ? E_CARD (ptr) : NULL);
 		break;
 	default:
 		break;
@@ -232,5 +223,28 @@ e_minicard_widget_get_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 	default:
 		arg->type = GTK_TYPE_INVALID;
 		break;
+	}
+}
+
+void
+e_minicard_widget_set_card (EMinicardWidget *emw, ECard *card)
+{
+	g_return_if_fail (emw && E_IS_MINICARD_WIDGET (emw));
+	g_return_if_fail (card == NULL || E_IS_CARD (card));
+
+	if (card != emw->card) {
+
+		if (emw->card)
+			gtk_object_unref (GTK_OBJECT (emw->card));
+
+		emw->card = card;
+
+		if (emw->card)
+			gtk_object_ref (GTK_OBJECT (emw->card));
+
+		if (emw->item)
+			gtk_object_set (GTK_OBJECT (emw->item),
+				       "card", emw->card,
+				       NULL);
 	}
 }
