@@ -1,3 +1,7 @@
+2003-05-29  Rodney Dawes  <dobey@ximian.com>
+
+	* evolution-addressbook.xml: Fix binding conflict with Print/Preview
+	
 2003-05-01  JP Rosevear  <jpr@ximian.com>
 
 	* evolution.xml: file all new folder bindings to be ctrl-shift-f

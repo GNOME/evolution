@@ -11,8 +11,7 @@
 
     <cmd name="ContactsPrintPreview"
 	 _tip="Previews the contacts to be printed"
-	 pixtype="stock" pixname="Print"
-	 accel="*Control*p"/>
+	 pixtype="stock" pixname="Print"/>
 
     <cmd name="ContactsView"
 	 _tip="View the current contact"
