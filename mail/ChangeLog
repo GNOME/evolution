@@ -1,3 +1,9 @@
+2001-04-02  Iain Holmes  <iain@ximian.com>
+
+	* importers/elm-importer.c (elm_can_import): Calls is_kmail to check for
+	kmail files.
+	(is_kmail): Checks if the given directory is a KMail directory.
+
 2001-04-02  Dan Winship  <danw@ximian.com>
 
 	* mail-account-gui.c: Add a "provider_type" arg to
