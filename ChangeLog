@@ -1,3 +1,8 @@
+2000-03-30  Chris Toshok  <toshok@laptoph.xtoph.org>
+
+	* addressbook/backend/pas/pas-backend-ldap.h: new-file
+	* addressbook/backend/pas/pas-backend-ldap.c: new file
+
 2000-03-30  Dan Winship  <danw@helixcode.com>
 
 	* shell/e-shell-view.c (e_shell_view_set_view): Hold off on
