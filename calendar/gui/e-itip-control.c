@@ -246,7 +246,7 @@ init (EItipControl *itip)
 
 	/* Html Widget */
 	priv->html = gtk_html_new ();
-	gtk_html_set_default_content_type (priv->html, 
+	gtk_html_set_default_content_type (GTK_HTML (priv->html), 
 					   "text/html; charset=utf-8");
 
 	gtk_widget_show (priv->html);
