@@ -1,5 +1,22 @@
 2001-06-28  Chris Toshok  <toshok@ximian.com>
 
+	* gui/contact-list-editor/Makefile.am (INCLUDES): remove ancient
+	e-table include, and add include for contact-editor so we can
+	reuse the confirm_delete dialog.
+
+	* gui/contact-list-editor/e-contact-list-editor.h (struct
+	_EContactListEditor): remove prototype for
+	e_contact_list_editor_close, since the function no longer exists.
+
+	* gui/contact-list-editor/e-contact-list-editor.c
+	(list_deleted_cb): new function, emit our "list_deleted" signal.
+	(delete_cb): new function, called from the Delete toolbar item.
+	(e_contact_list_editor_raise): flesh out function.
+	(extract_info): "evolution_list" => "list".
+	(fill_in_info): same.
+
+2001-06-28  Chris Toshok  <toshok@ximian.com>
+
 	* backend/ebook/e-card.c (e_card_get_vobject): add support for
 	X-EVOLUTION-LIST and X-EVOLUTION-LIST-SHOW-ADDRESSES.
 	(parse_list): new function, parse the boolean X-EVOLUTION-LIST.

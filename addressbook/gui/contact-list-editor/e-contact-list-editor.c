@@ -25,6 +25,7 @@
 #include <gal/e-table/e-table-scrolled.h>
 #include <gal/widgets/e-unicode.h>
 
+#include "e-contact-editor.h"
 #include "e-contact-list-editor.h"
 #include "e-contact-list-model.h"
 
@@ -350,7 +351,6 @@ save_card (EContactListEditor *cle, gboolean should_close)
 	}
 }
 
-/* File/Close callback */
 static void
 file_close_cb (GtkWidget *widget, gpointer data)
 {
@@ -374,15 +374,41 @@ tb_save_and_close_cb (GtkWidget *widget, gpointer data)
 	save_card (cle, TRUE);
 }
 
+static void
+list_deleted_cb (EBook *book, EBookStatus status, EContactListEditor *cle)
+{
+	gtk_signal_emit (GTK_OBJECT (cle), contact_list_editor_signals[LIST_DELETED],
+			 status, cle->card);
+}
+
+static void
+delete_cb (GtkWidget *widget, gpointer data)
+{
+	EContactListEditor *cle = E_CONTACT_LIST_EDITOR (data);
+	ECard *card = cle->card;
+
+	gtk_object_ref(GTK_OBJECT(card));
+
+	if (e_contact_editor_confirm_delete(GTK_WINDOW(cle->app))) {
+
+		extract_info (cle);
+		
+		if (!cle->is_new_list)
+			e_book_remove_card (cle->book, card, GTK_SIGNAL_FUNC(list_deleted_cb), cle);
+	}
+
+	gtk_object_unref(GTK_OBJECT(card));
+}
+
 static
 BonoboUIVerb verbs [] = {
 	BONOBO_UI_UNSAFE_VERB ("ContactListEditorSave", file_save_cb),
 	BONOBO_UI_UNSAFE_VERB ("ContactListEditorSaveClose", tb_save_and_close_cb),
+	BONOBO_UI_UNSAFE_VERB ("ContactListEditorDelete", delete_cb),
 #if 0
 	BONOBO_UI_UNSAFE_VERB ("ContactEditorSaveAs", file_save_as_cb),
 	BONOBO_UI_UNSAFE_VERB ("ContactEditorSendAs", file_send_as_cb),
 	BONOBO_UI_UNSAFE_VERB ("ContactEditorSendTo", file_send_to_cb),
-	BONOBO_UI_UNSAFE_VERB ("ContactEditorDelete", delete_cb),
 #endif
 	BONOBO_UI_UNSAFE_VERB ("ContactListEditorClose", file_close_cb),
 	BONOBO_UI_VERB_END
@@ -440,6 +466,7 @@ e_contact_list_editor_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 		editor->card = e_card_duplicate(E_CARD(GTK_VALUE_OBJECT (*arg)));
 		fill_in_info(editor);
 		editor->changed = FALSE;
+		command_state_changed (editor);
 		break;
 
 	case ARG_IS_NEW_LIST: {
@@ -506,13 +533,9 @@ e_contact_list_editor_show (EContactListEditor *editor)
 }
 
 void
-e_contact_list_editor_close (EContactListEditor *editor)
-{
-}
-
-void
 e_contact_list_editor_raise (EContactListEditor *editor)
 {
+	gdk_window_raise (GTK_WIDGET (editor->app)->window);
 }
 
 #define SPEC "<ETableSpecification no-headers=\"true\" cursor-mode=\"line\" selection-mode=\"single\"> \
@@ -732,8 +755,8 @@ extract_info(EContactListEditor *editor)
 
 		
 		gtk_object_set (GTK_OBJECT(card),
-				"evolution_list", GINT_TO_POINTER (TRUE),
-				"evolution_list_show_addresses",
+				"list", GINT_TO_POINTER (TRUE),
+				"list_show_addresses",
 				GINT_TO_POINTER (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON(editor->visible_addrs_checkbutton))),
 				NULL);
 
@@ -762,14 +785,9 @@ fill_in_info(EContactListEditor *editor)
 		gtk_object_get (GTK_OBJECT (editor->card),
 				"file_as", &file_as,
 				"email", &email_list,
-				"evolution_list", &is_evolution_list,
-				"evolution_list_show_addresses", &show_addresses,
+				"list", &is_evolution_list,
+				"list_show_addresses", &show_addresses,
 				NULL);
-
-		if (!editor->is_new_list && !is_evolution_list) {
-			g_warning ("Attempting to edit non-list card in the list editor.\n");
-			return;
-		}
 
 		gtk_editable_delete_text (GTK_EDITABLE (editor->list_name_entry), 0, -1);
 		if (file_as) {

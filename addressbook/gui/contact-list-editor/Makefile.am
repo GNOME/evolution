@@ -5,7 +5,7 @@ INCLUDES =					\
 	-I$(top_srcdir)/addressbook/		\
 	-I$(top_srcdir)/addressbook/backend	\
 	-I$(top_srcdir)/addressbook/gui/merging	\
-	-I$(top_srcdir)/widgets/e-table		\
+	-I$(top_srcdir)/addressbook/gui/contact-editor	\
 	-DEVOLUTION_GLADEDIR=\""$(gladedir)"\"	\
 	-DDATADIR=\""$(datadir)"\"		\
 	-DEVOLUTION_DATADIR=\""$(datadir)"\"	\

@@ -96,7 +96,6 @@ EContactListEditor *e_contact_list_editor_new             (EBook *book,
 							   gboolean editable);
 GtkType             e_contact_list_editor_get_type        (void);
 void                e_contact_list_editor_show            (EContactListEditor *editor);
-void                e_contact_list_editor_close           (EContactListEditor *editor);
 void                e_contact_list_editor_raise           (EContactListEditor *editor);
 
 gboolean            e_contact_list_editor_confirm_delete  (GtkWindow      *parent);
