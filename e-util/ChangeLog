@@ -2,6 +2,7 @@
 
 	* e-trie.c (e_trie_search): If the gunichar is 0xfffe, just skip
 	processing it. Maybe this will fix bug #39900.
+	(trie_utf8_getc): Removed unused labels to shutup the compiler.
 
 2003-03-19  Jeffrey Stedfast  <fejj@ximian.com>
 

@@ -68,9 +68,7 @@ trie_utf8_getc (const unsigned char **in, size_t inlen)
 	if (inlen == 0)
 		return 0;
 	
-again:
 	r = *inptr++;
-loop:
 	if (r < 0x80) {
 		*in = inptr;
 		u = r;
