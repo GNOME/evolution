@@ -60,6 +60,9 @@
 #define e_table_item_leave_edit_(x) (e_table_item_leave_edit((x)))
 #endif
 
+static void eti_check_cursor_bounds (ETableItem *eti);
+static void eti_cancel_drag_due_to_model_change (ETableItem *eti);
+
 /* FIXME: Do an analysis of which cell functions are needed before
    realize and make sure that all of them are doable by all the cells
    and that all of the others are only done after realization. */
@@ -353,6 +356,14 @@ eti_attach_cell_views (ETableItem *eti)
 
 	g_assert (eti->header);
 	g_assert (eti->table_model);
+
+	/* this is just c&p from model pre change, but it fixes things */
+	eti_cancel_drag_due_to_model_change (eti);
+	eti_check_cursor_bounds (eti);
+	if (eti_editing (eti))
+		e_table_item_leave_edit_(eti);
+	eti->motion_row = -1;
+	eti->motion_col = -1;
 
 	/*
 	 * Now realize the various ECells
@@ -2551,8 +2562,7 @@ eti_event (GnomeCanvasItem *item, GdkEvent *e)
 			return TRUE;
 
 		if (eti->motion_row != -1 && eti->motion_col != -1 &&
-		    (row != eti->motion_row || col != eti->motion_col)
-		    && eti->motion_col < eti->n_cells) {
+		    (row != eti->motion_row || col != eti->motion_col)) {
 			GdkEvent *cross = gdk_event_new (GDK_LEAVE_NOTIFY);
 			cross->crossing.time = e->motion.time;
 			return_val = eti_e_cell_event (eti, eti->cell_views [eti->motion_col],
