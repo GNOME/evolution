@@ -1217,7 +1217,37 @@ show_current_event (EItipControl *itip)
 		else
 			itip_desc = _("<b>%s</b> requests your presence at a meeting.");
 		itip_title = _("Meeting Proposal");
-		options = get_request_options (priv->current_ecal ? FALSE : TRUE);
+		if (priv->current_ecal) {
+			ECalComponentAttendee *attendee= NULL, *tmp;
+			GList *attendee_list, *l;
+			
+			e_cal_component_get_attendee_list (priv->comp, &attendee_list);
+			if (priv->my_address == NULL)
+				find_my_address (itip, priv->ical_comp);
+			g_assert (priv->my_address != NULL);
+	
+			for (l = attendee_list; l ; l = g_slist_next (l)) {
+				tmp = (ECalComponentAttendee *) (l->data);
+				if (!strcmp (tmp->value + 7, priv->my_address)) {
+					attendee = tmp;
+					break;
+				}
+			 }
+			if (attendee) {
+				switch (attendee->status) {
+					case ICAL_PARTSTAT_ACCEPTED: 
+					case ICAL_PARTSTAT_DECLINED:
+					case ICAL_PARTSTAT_TENTATIVE:
+						options = get_request_options (FALSE);
+						break;
+
+					/* otherwise it must be needs action */			
+					default:
+						options = get_request_options (TRUE);
+				}
+			}
+		} else
+			options = get_request_options (TRUE);
 		break;
 	case ICAL_METHOD_ADD:
 		itip_desc = _("<b>%s</b> wishes to add to an existing meeting.");

@@ -1,3 +1,10 @@
+2004-07-25 pchenthill <pchenthill@novell.com>
+
+	Fixes #59983
+	If the ecal component is already loaded, check for the participation 
+	status of the attendee and display the menu for selecting the 
+	calendar.
+
 2004-07-23  JP Rosevear  <jpr@ximian.com>
  
  	Fixes #61571
