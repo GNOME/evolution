@@ -311,7 +311,7 @@ connect_to_server_wrapper (CamelService *service, CamelException *ex)
 	
 	if (ssl_mode == USE_SSL_ALWAYS) {
 		/* First try STARTTLS */
-		if (!connect_to_server (service, ssl_mode, TRUE, &stls_supported, ex))
+		if (!connect_to_server (service, ssl_mode, TRUE, &stls_supported, ex)) {
 			if (!stls_supported && EXCEPTION_RETRY (ex)) {
 				/* STARTTLS is unavailable - okay, now try old-style SSL */
 				camel_exception_clear (ex);
