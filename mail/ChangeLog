@@ -1,5 +1,18 @@
 2004-07-28  Not Zed  <NotZed@Ximian.com>
 
+	** See #61958.
+
+	* mail-folder-cache.c (real_flush_updates): remove the soreinfo
+	lookup, it isn't used anywhere anymore.
+	(mail_note_folder): hook onto the events outside of the lock, and
+	don't pass the mfi pointer anymore.
+	(mail_note_store): hook onto the events outside of the lock.
+	(folder_changed, folder_finalised, folder_renamed): lookup the mfi
+	if needed, it is no longer passed to the callback.
+	(unset_folder_info): change unhook calls for new parameters.
+
+2004-07-28  Not Zed  <NotZed@Ximian.com>
+
 	** See #61940.
 
 	* em-composer-utils.c (composer_set_body): add emformat source arg.

@@ -56,6 +56,8 @@
 #define w(x) 
 #define d(x)
 
+/* This code is a mess, there is no reason it should be so complicated. */
+
 /* note that many things are effectively serialised by having them run in
    the main loop thread which they need to do because of corba/gtk calls */
 #define LOCK(x) pthread_mutex_lock(&x)
@@ -185,7 +187,6 @@ real_flush_updates(void *o, void *event_data, void *data)
 	struct _MailComponent *component;
 	struct _EMFolderTreeModel *model;
 	struct _folder_update *up;
-	struct _store_info *si;
 	time_t now;
 	
 	component = mail_component_peek ();
@@ -193,8 +194,6 @@ real_flush_updates(void *o, void *event_data, void *data)
 	
 	LOCK(info_lock);
 	while ((up = (struct _folder_update *)e_dlist_remhead(&updates))) {
-		si = g_hash_table_lookup(stores, up->store);
-		
 		UNLOCK(info_lock);
 
 		if (up->remove) {
@@ -264,9 +263,9 @@ unset_folder_info(struct _folder_info *mfi, int delete, int unsub)
 	if (mfi->folder) {
 		CamelFolder *folder = mfi->folder;
 
-		camel_object_unhook_event(folder, "folder_changed", folder_changed, mfi);
-		camel_object_unhook_event(folder, "renamed", folder_renamed, mfi);
-		camel_object_unhook_event(folder, "finalize", folder_finalised, mfi);
+		camel_object_unhook_event(folder, "folder_changed", folder_changed, NULL);
+		camel_object_unhook_event(folder, "renamed", folder_renamed, NULL);
+		camel_object_unhook_event(folder, "finalize", folder_finalised, NULL);
 	}
 
 	if ((mfi->flags & CAMEL_FOLDER_NOSELECT) == 0) {
@@ -417,13 +416,12 @@ static void
 folder_changed (CamelObject *o, gpointer event_data, gpointer user_data)
 {
 	CamelFolderChangeInfo *changes = event_data;
-	CamelFolder *folder = (CamelFolder *) o;
-	struct _folder_info *mfi = user_data;
+	CamelFolder *folder = (CamelFolder *)o;
+	CamelStore *store = folder->parent_store;
+	struct _store_info *si;
+	struct _folder_info *mfi;
 	int new = 0;
 	
-	if (mfi->folder != folder)
-		return;
-
 	d(printf("folder '%s' changed\n", folder->full_name));
 
 	if (!CAMEL_IS_VEE_FOLDER(folder)
@@ -434,31 +432,42 @@ folder_changed (CamelObject *o, gpointer event_data, gpointer user_data)
 		new = changes->uid_added->len;
 	
 	LOCK(info_lock);
-	update_1folder(mfi, new, NULL);
+	if (stores != NULL
+	    && (si = g_hash_table_lookup(stores, store)) != NULL
+	    && (mfi = g_hash_table_lookup(si->folders, folder->full_name)) != NULL
+	    && mfi->folder == folder) {
+		update_1folder(mfi, new, NULL);
+	}
 	UNLOCK(info_lock);
 }
 
 static void
 folder_finalised(CamelObject *o, gpointer event_data, gpointer user_data)
 {
-	struct _folder_info *mfi = user_data;
+	CamelFolder *folder = (CamelFolder *)o;
+	CamelStore *store = folder->parent_store;
+	struct _store_info *si;
+	struct _folder_info *mfi;
 
 	d(printf("Folder finalised '%s'!\n", ((CamelFolder *)o)->full_name));
 	LOCK(info_lock);
-	mfi->folder = NULL;
+	if (stores != NULL
+	    && (si = g_hash_table_lookup(stores, store)) != NULL
+	    && (mfi = g_hash_table_lookup(si->folders, folder->full_name)) != NULL
+	    && mfi->folder == folder) {
+		mfi->folder = NULL;
+	}
 	UNLOCK(info_lock);
 }
 
 static void
 folder_renamed(CamelObject *o, gpointer event_data, gpointer user_data)
 {
-	struct _folder_info *mfi = user_data;
 	CamelFolder *folder = (CamelFolder *)o;
 	char *old = event_data;
 
 	d(printf("Folder renamed from '%s' to '%s'\n", old, folder->full_name));
 
-	mfi = mfi;
 	old = old;
 	folder = folder;
 	/* Dont do anything, do it from the store rename event? */
@@ -489,13 +498,13 @@ void mail_note_folder(CamelFolder *folder)
 
 	mfi->folder = folder;
 
-	camel_object_hook_event(folder, "folder_changed", folder_changed, mfi);
-	camel_object_hook_event(folder, "renamed", folder_renamed, mfi);
-	camel_object_hook_event(folder, "finalize", folder_finalised, mfi);
-
 	update_1folder(mfi, 0, NULL);
 
 	UNLOCK(info_lock);
+
+	camel_object_hook_event(folder, "folder_changed", folder_changed, NULL);
+	camel_object_hook_event(folder, "renamed", folder_renamed, NULL);
+	camel_object_hook_event(folder, "finalize", folder_finalised, NULL);
 }
 
 static void
@@ -740,6 +749,7 @@ mail_note_store_remove(CamelStore *store)
 		g_hash_table_destroy(si->folders_uri);
 		g_free(si);
 	}
+
 	UNLOCK(info_lock);
 }
 
@@ -867,6 +877,7 @@ mail_note_store(CamelStore *store, CamelOperation *op,
 	struct _update_data *ud;
 	const char *buf;
 	guint timeout;
+	int hook = 0;
 	
 	g_assert(CAMEL_IS_STORE(store));
 	g_assert(pthread_self() == mail_gui_thread);
@@ -894,13 +905,7 @@ mail_note_store(CamelStore *store, CamelOperation *op,
 		camel_object_ref((CamelObject *)store);
 		g_hash_table_insert(stores, store, si);
 		e_dlist_init(&si->folderinfo_updates);
-
-		camel_object_hook_event(store, "folder_opened", store_folder_opened, NULL);
-		camel_object_hook_event(store, "folder_created", store_folder_created, NULL);
-		camel_object_hook_event(store, "folder_deleted", store_folder_deleted, NULL);
-		camel_object_hook_event(store, "folder_renamed", store_folder_renamed, NULL);
-		camel_object_hook_event(store, "folder_subscribed", store_folder_subscribed, NULL);
-		camel_object_hook_event(store, "folder_unsubscribed", store_folder_unsubscribed, NULL);
+		hook = TRUE;
 	}
 
 	/* We might get a race when setting up a store, such that it is still left in offline mode,
@@ -929,6 +934,16 @@ mail_note_store(CamelStore *store, CamelOperation *op,
 	}
 
 	UNLOCK(info_lock);
+
+	/* there is potential for race here, but it is safe as we check for the store anyway */
+	if (hook) {
+		camel_object_hook_event(store, "folder_opened", store_folder_opened, NULL);
+		camel_object_hook_event(store, "folder_created", store_folder_created, NULL);
+		camel_object_hook_event(store, "folder_deleted", store_folder_deleted, NULL);
+		camel_object_hook_event(store, "folder_renamed", store_folder_renamed, NULL);
+		camel_object_hook_event(store, "folder_subscribed", store_folder_subscribed, NULL);
+		camel_object_hook_event(store, "folder_unsubscribed", store_folder_unsubscribed, NULL);
+	}
 }
 
 struct _find_info {
