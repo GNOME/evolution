@@ -294,6 +294,7 @@ e_minicard_realize (GnomeCanvasItem *item)
 #endif
 				 "fill_color_gdk", &canvas->style->fg[GTK_STATE_NORMAL],
 				 "text", "",
+				 "draw_background", FALSE,
 				 NULL );
 	e_canvas_item_move_absolute(e_minicard->header_text, 6, 6);
 

@@ -245,6 +245,7 @@ e_minicard_label_construct (GnomeCanvasItem *item)
 				 "use_ellipsis", TRUE,
 				 "font_gdk", font,
 				 "fill_color", "black",
+				 "draw_background", FALSE,
 				 NULL );
 	e_canvas_item_move_absolute(e_minicard_label->fieldname, 2, 1);
 
@@ -258,6 +259,7 @@ e_minicard_label_construct (GnomeCanvasItem *item)
 				 "font_gdk", font,
 				 "fill_color", "black",
 				 "editable", TRUE,
+				 "draw_background", FALSE,
 				 NULL );
 	e_canvas_item_move_absolute(e_minicard_label->field, ( e_minicard_label->width / 2 + 2), 1);
 

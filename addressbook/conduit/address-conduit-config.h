@@ -27,6 +27,7 @@
 
 #include <gnome.h>
 #include <libgpilotdCM/gnome-pilot-conduit-management.h>
+#include <gpilotd/gnome-pilot-conduit.h>
 #include <libgpilotdCM/gnome-pilot-conduit-config.h>
 
 /* Configuration info */
