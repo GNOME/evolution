@@ -1,5 +1,10 @@
 2001-07-23  Ettore Perazzoli  <ettore@ximian.com>
 
+	* e-task-widget.c (e_task_widget_construct): Set the usize for the
+	contained hbox to 0x0.
+
+2001-07-23  Ettore Perazzoli  <ettore@ximian.com>
+
 	* e-shell-view-menu.c: Get the manuals from the `evolution-guide'
 	dir as that's where they get installed.
 
