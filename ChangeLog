@@ -1,3 +1,8 @@
+2003-03-14  Chris Toshok  <toshok@ximian.com>
+
+	* tools/evolution-addressbook-export.c (save_cards): use
+	bonobo_main_quit, and clean this up a bit.
+
 2003-03-06  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* configure.in: Added AC_C_INLINE - this should fix bug #39171.

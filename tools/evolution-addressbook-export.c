@@ -24,9 +24,14 @@ save_cards (EBook *book, EBookSimpleQueryStatus status, const GList *cards, gpoi
 		result = e_write_file (filename, vcard, O_CREAT | O_EXCL);
 	else
 		result = e_write_file_mkstemp (tmpname, vcard);
-	printf (tmpname);
-	sync();
-	g_main_loop_quit (NULL);
+	if (result != 0) {
+		printf ("failed with result == %d", result);
+	}
+	else {
+		char *name = filename ? filename : tmpname;
+		printf ("succeeded writing %s\n", name);
+	}
+	bonobo_main_quit ();
 }
 
 static void
