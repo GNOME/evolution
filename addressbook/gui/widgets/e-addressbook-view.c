@@ -324,6 +324,7 @@ book_writable_cb (EBook *book, gboolean writable, EAddressbookView *eav)
 	gtk_object_set (GTK_OBJECT (eav->model),
 			"editable", eav->editable,
 			NULL);
+	writable_status (GTK_OBJECT(book), writable, eav);
 }
 
 static void
@@ -347,7 +348,6 @@ e_addressbook_view_set_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 			eav->book = NULL;
 		gtk_object_set(GTK_OBJECT(eav->model),
 			       "book", eav->book,
-			       "editable", eav->editable,
 			       NULL);
 
 		break;
