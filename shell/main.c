@@ -26,6 +26,7 @@
 #include <bonobo.h>
 #include <libgnomeui/gnome-window-icon.h>
 #include <glade/glade.h>
+#include <liboaf/liboaf.h>
 
 #include "e-util/e-gui-utils.h"
 #include "e-setup.h"
@@ -48,41 +49,6 @@ destroy_cb (GtkObject *object, gpointer data)
 {
 	gtk_main_quit ();
 }
-
-#ifdef USING_OAF
-
-#include <liboaf/liboaf.h>
-
-static void
-init_corba (int *argc, char **argv)
-{
-	gnome_init_with_popt_table ("Evolution", VERSION, *argc, argv, oaf_popt_options, 0, NULL);
-
-	oaf_init (*argc, argv);
-}
-
-#else  /* USING_OAF */
-
-#include <libgnorba/gnorba.h>
-
-static void
-init_corba (int *argc, char **argv)
-{
-	CORBA_Environment ev;
-	
-	CORBA_exception_init (&ev);
-
-	gnome_CORBA_init_with_popt_table ("Evolution", VERSION, argc, argv,
-					  NULL, 0, NULL,
-					  GNORBA_INIT_SERVER_FUNC, &ev);
-
-	if (ev._major != CORBA_NO_EXCEPTION)
-		g_error ("Cannot initialize GNOME");
-
-	CORBA_exception_free (&ev);
-}
-
-#endif /* USING_OAF */
 
 static void
 development_warning ()
@@ -184,7 +150,8 @@ main (int argc, char **argv)
 	bindtextdomain (PACKAGE, EVOLUTION_LOCALEDIR);
 	textdomain (PACKAGE);
 
-	init_corba (&argc, argv);
+	gnome_init_with_popt_table ("Evolution", VERSION, argc, argv, oaf_popt_options, 0, NULL);
+	oaf_init (argc, argv);
 
 	glade_gnome_init ();
 

@@ -70,15 +70,9 @@ struct _EShellPrivate {
 #define SHORTCUTS_FILE_NAME     "shortcuts.xml"
 #define LOCAL_STORAGE_DIRECTORY "local"
 
-#ifdef USING_OAF
 #define MAIL_COMPONENT_ID	 "OAFIID:evolution-shell-component:evolution-mail:d3cb3ed6-a654-4337-8aa0-f443751d6d1b"
 #define CALENDAR_COMPONENT_ID    "OAFIID:evolution-shell-component:evolution-calendar:2eb9eb63-d305-4918-9c35-faae5db19e51"
 #define ADDRESSBOOK_COMPONENT_ID "OAFIID:evolution-shell-component:addressbook:b7a26547-7014-4bb5-98ab-2bcac2bb55ca"
-#else
-#define MAIL_COMPONENT_ID	 "evolution-shell-component:evolution-mail"
-#define CALENDAR_COMPONENT_ID    "evolution-shell-component:evolution-calendar"
-#define ADDRESSBOOK_COMPONENT_ID "evolution-shell-component:addressbook"
-#endif
 
 
 enum {

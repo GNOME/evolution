@@ -31,6 +31,8 @@
 #include <bonobo/bonobo-main.h>
 #include <bonobo/bonobo-widget.h>
 
+#include <liboaf/liboaf.h>
+
 #include "e-util/e-util.h"
 
 #include "evolution-shell-component-client.h"
@@ -50,42 +52,6 @@ struct _EvolutionShellComponentClientPrivate {
 
 #define RETURN_ERROR_IF_FAIL(cond) \
 	g_return_val_if_fail ((cond), EVOLUTION_SHELL_COMPONENT_INVALIDARG)
-
-
-/* Object activation.  */
-
-#ifdef USING_OAF
-
-#include <liboaf/liboaf.h>
-
-static CORBA_Object
-activate_object_from_id (const char *id)
-{
-	CORBA_Environment ev;
-	CORBA_Object corba_object;
-
-	CORBA_exception_init (&ev);
-
-	corba_object = oaf_activate_from_id ((char *) id, 0, NULL, &ev); /* Yuck.  */
-	if (ev._major != CORBA_NO_EXCEPTION)
-		corba_object = CORBA_OBJECT_NIL;
-
-	CORBA_exception_free (&ev);
-
-	return corba_object;
-}
-
-#else
-
-#include <libgnorba/gnorba.h>
-
-static CORBA_Object
-activate_object_from_id (const char *id)
-{
-	return goad_server_activate_with_id (NULL, id, 0, NULL);
-}
-
-#endif
 
 
 /* Utility functions.  */
@@ -350,21 +316,27 @@ EvolutionShellComponentClient *
 evolution_shell_component_client_new (const char *id)
 {
 	EvolutionShellComponentClient *new;
+	CORBA_Environment ev;
 	CORBA_Object corba_object;
 
 	g_return_val_if_fail (id != NULL, NULL);
 
-	new = gtk_type_new (evolution_shell_component_client_get_type ());
+	CORBA_exception_init (&ev);
 
-	corba_object = activate_object_from_id (id);
+	corba_object = oaf_activate_from_id ((char *) id, 0, NULL, &ev); /* Yuck.  */
+	if (ev._major != CORBA_NO_EXCEPTION) {
+		CORBA_exception_free (&ev);
+		g_error ("Could not start up component for %s. "
+			 "(See previous error messages?)", id);
+	}
+	CORBA_exception_free (&ev);
 
 	if (corba_object == CORBA_OBJECT_NIL) {
-		g_warning ("Could not activate component %s. "
-			   "(Maybe you need to set OAF_INFO_PATH?)", id);
-		bonobo_object_unref (BONOBO_OBJECT (new));
-		return NULL;
+		g_error ("Could not activate component %s. "
+			 "(Maybe you need to set OAF_INFO_PATH?)", id);
 	}
 
+	new = gtk_type_new (evolution_shell_component_client_get_type ());
 	evolution_shell_component_client_construct (new, corba_object);
 
 	return new;

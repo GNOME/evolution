@@ -1,3 +1,13 @@
+2000-07-24  Dan Winship  <danw@helixcode.com>
+
+	* e-shell.c, main.c: Remove GOAD support.
+
+	* evolution-shell-component-client.c: Remove GOAD support.
+	(evolution_shell_component_client_new): Give the "maybe
+	OAF_INFO_PATH" message if no oafinfo file was found, and give a
+	"consult previous error messages" message if the component was
+	found but not activated. Abort in either case.
+
 2000-07-23  Ettore Perazzoli  <ettore@helixcode.com>
 
 	* e-shell-view-menu.c: Converted to use `bonobo_ui_handler_*()'
