@@ -6,13 +6,13 @@
 # Martin Norbäck <d95mback@dtek.chalmers.se>, 2001.
 # Johan Dahlin <zilch.am@home.se>, 2001.
 #
-# $Id: sv.po,v 1.135.2.8 2001/12/19 03:02:24 menthos Exp $
+# $Id: sv.po,v 1.135.2.9 2001/12/19 16:56:19 menthos Exp $
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
-"POT-Creation-Date: 2001-12-19 03:59+0100\n"
-"PO-Revision-Date: 2001-12-19 04:01+0100\n"
+"POT-Creation-Date: 2001-12-19 17:53+0100\n"
+"PO-Revision-Date: 2001-12-19 17:54+0100\n"
 "Last-Translator: Christian Rose <menthos@menthos.com>\n"
 "Language-Team: Swedish <sv@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -13339,7 +13339,7 @@ msgstr "Akeno Ab"
 
 #: my-evolution/Locations.h:32
 msgid "Akita Airport"
-msgstr "Akita-flygplatsen"
+msgstr "Akita flygplats"
 
 #: my-evolution/Locations.h:33
 msgid "Akron"
@@ -15383,7 +15383,7 @@ msgstr "Dayton-Fairborn"
 
 #: my-evolution/Locations.h:565
 msgid "Dayton-South Airport"
-msgstr "Dayton-Södra flygplatsen"
+msgstr "Dayton-South flygplats"
 
 #: my-evolution/Locations.h:566
 msgid "Dead Horse"
@@ -18231,7 +18231,7 @@ msgstr "Marathon"
 
 #: my-evolution/Locations.h:1309
 msgid "Mar Del Plata"
-msgstr "Mar del Plata"
+msgstr "Mar Del Plata"
 
 #: my-evolution/Locations.h:1310
 msgid "Margarita"
@@ -21023,7 +21023,7 @@ msgstr "Sauce Viejo"
 
 #: my-evolution/Locations.h:2026
 msgid "Sault Ste Marie"
-msgstr "sault Ste Marie"
+msgstr "Sault Ste Marie"
 
 #: my-evolution/Locations.h:2027
 msgid "Savannah"
