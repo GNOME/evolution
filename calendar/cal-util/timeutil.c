@@ -38,7 +38,7 @@ time_from_isodate (char *str)
 	if (str [15] == 'Z')
 #if defined(HAVE_TM_GMTOFF)
 		t -= my_tm.tm_gmtoff
-#elsif defined(HAVE_TIMEZONE)
+#elif defined(HAVE_TIMEZONE)
 		t -= timezone
 #endif
 		;
