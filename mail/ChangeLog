@@ -1,5 +1,8 @@
 2001-04-03  Dan Winship  <danw@ximian.com>
 
+	* folder-browser-factory.c (control_activate): Sync the folder on
+	activate.
+
 	* session.c (mail_session_remember_password): Use the same
 	URL-transforming rules we use when hashing the password so this
 	actually works.
