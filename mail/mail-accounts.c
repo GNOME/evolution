@@ -212,8 +212,10 @@ mail_delete (GtkButton *button, gpointer data)
 		int row, len;
 		
 		account = gtk_clist_get_row_data (dialog->mail_accounts, dialog->accounts_row);
-		g_list_remove ((GList *)dialog->accounts, account);
+		g_slist_remove ((GSList *) dialog->accounts, account);
 		account_destroy (account);
+		mail_config_write ();
+		
 		gtk_clist_remove (dialog->mail_accounts, dialog->accounts_row);
 		
 		len = g_slist_length ((GSList *) dialog->accounts);
@@ -239,6 +241,8 @@ mail_default (GtkButton *button, gpointer data)
 	if (dialog->accounts_row >= 0) {
 		account = gtk_clist_get_row_data (dialog->mail_accounts, dialog->accounts_row);
 		mail_config_set_default_account (account);
+		mail_config_write ();
+		load_accounts (dialog);
 	}
 }
 
@@ -296,8 +300,10 @@ news_delete (GtkButton *button, gpointer data)
 		int row, len;
 		
 		server = gtk_clist_get_row_data (dialog->news_accounts, dialog->news_row);
-		g_list_remove ((GList *)dialog->news, server);
+		g_slist_remove ((GSList *) dialog->news, server);
 		service_destroy (server);
+		mail_config_write ();
+		
 		gtk_clist_remove (dialog->news_accounts, dialog->news_row);
 		
 		len = g_slist_length ((GSList *) dialog->news);

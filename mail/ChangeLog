@@ -1,3 +1,9 @@
+2001-01-09  Jeffrey Stedfast  <fejj@helixcode.com>
+
+	* mail-accounts.c (mail_default): Write the config data and reload
+	the accounts list so the "default" tag is relocated.
+	(mail_delete): Write the config data here too.
+
 2001-01-08  Jeffrey Stedfast  <fejj@helixcode.com>
 
 	* Makefile.am: 
