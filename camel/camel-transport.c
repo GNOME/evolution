@@ -32,8 +32,26 @@
 #include "camel-mime-message.h"
 #include "camel-private.h"
 
+static CamelServiceClass *parent_class = NULL;
+
 /* Returns the class for a CamelTransport */
 #define CT_CLASS(so) CAMEL_TRANSPORT_CLASS (CAMEL_OBJECT_GET_CLASS(so))
+
+static int transport_setv (CamelObject *object, CamelException *ex, CamelArgV *args);
+static int transport_getv (CamelObject *object, CamelException *ex, CamelArgGetV *args);
+
+
+static void
+camel_transport_class_init (CamelTransportClass *camel_transport_class)
+{
+	CamelObjectClass *camel_object_class = CAMEL_OBJECT_CLASS (camel_transport_class);
+	
+	parent_class = CAMEL_SERVICE_CLASS (camel_type_get_global_classfuncs (camel_service_get_type ()));
+	
+	/* virtual method overload */
+	camel_object_class->setv = transport_setv;
+	camel_object_class->getv = transport_getv;
+}
 
 static void
 camel_transport_init (gpointer object, gpointer klass)
@@ -74,6 +92,21 @@ camel_transport_get_type (void)
 	}
 	
 	return type;
+}
+
+
+static int
+transport_setv (CamelObject *object, CamelException *ex, CamelArgV *args)
+{
+	/* CamelTransport doesn't currently have anything to set */
+	return CAMEL_OBJECT_CLASS (parent_class)->setv (object, ex, args);
+}
+
+static int
+transport_getv (CamelObject *object, CamelException *ex, CamelArgGetV *args)
+{
+	/* CamelTransport doesn't currently have anything to get */
+	return CAMEL_OBJECT_CLASS (parent_class)->getv (object, ex, args);
 }
 
 

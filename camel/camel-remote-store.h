@@ -37,6 +37,14 @@ extern "C" {
 #define CAMEL_REMOTE_STORE_CLASS(k) (CAMEL_CHECK_CLASS_CAST ((k), CAMEL_REMOTE_STORE_TYPE, CamelRemoteStoreClass))
 #define CAMEL_IS_REMOTE_STORE(o)    (CAMEL_CHECK_TYPE((o), CAMEL_REMOTE_STORE_TYPE))
 
+
+enum {
+	CAMEL_REMOTE_STORE_ARG_FIRST  = CAMEL_STORE_ARG_FIRST + 100,
+	CAMEL_REMOTE_STORE_ARG_SSL,
+};
+
+#define CAMEL_REMOTE_STORE_SSL (CAMEL_REMOTE_STORE_ARG_SSL | CAMEL_ARG_STR)
+
 typedef struct {
 	CamelStore parent_object;	
 	struct _CamelRemoteStorePrivate *priv;

@@ -47,7 +47,10 @@ static void camel_digest_store_class_init (CamelDigestStoreClass *klass);
 static void camel_digest_store_init       (CamelDigestStore *obj);
 static void camel_digest_store_finalise   (CamelObject *obj);
 
-static CamelStoreClass *camel_digest_store_parent = NULL;
+static int digest_setv (CamelObject *object, CamelException *ex, CamelArgV *args);
+static int digest_getv (CamelObject *object, CamelException *ex, CamelArgGetV *args);
+
+static CamelStoreClass *parent_class = NULL;
 
 
 CamelType
@@ -72,11 +75,15 @@ camel_digest_store_get_type (void)
 static void
 camel_digest_store_class_init (CamelDigestStoreClass *klass)
 {
+	CamelObjectClass *object_class = (CamelObjectClass *) klass;
 	CamelStoreClass *store_class = (CamelStoreClass *) klass;
 	
-	camel_digest_store_parent = CAMEL_STORE_CLASS(camel_type_get_global_classfuncs (camel_store_get_type ()));
+	parent_class = CAMEL_STORE_CLASS(camel_type_get_global_classfuncs (camel_store_get_type ()));
 	
 	/* virtual method overload */
+	object_class->setv = digest_setv;
+	object_class->getv = digest_getv;
+	
 	store_class->get_folder = digest_get_folder;
 	store_class->rename_folder = digest_rename_folder;
 	store_class->delete_folder = digest_delete_folder;
@@ -100,6 +107,20 @@ static void
 camel_digest_store_finalise (CamelObject *obj)
 {
 	
+}
+
+static int
+digest_setv (CamelObject *object, CamelException *ex, CamelArgV *args)
+{
+	/* CamelDigestStore doesn't currently have anything to set */
+	return CAMEL_OBJECT_CLASS (parent_class)->setv (object, ex, args);
+}
+
+static int
+digest_getv (CamelObject *object, CamelException *ex, CamelArgGetV *args)
+{
+	/* CamelDigestStore doesn't currently have anything to get */
+	return CAMEL_OBJECT_CLASS (parent_class)->getv (object, ex, args);
 }
 
 

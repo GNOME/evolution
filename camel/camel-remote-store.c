@@ -23,6 +23,7 @@
  *
  */
 
+
 #ifdef HAVE_CONFIG_H
 #include <config.h>
 #endif
@@ -66,7 +67,7 @@ extern gboolean camel_verbose_debug;
 #define CSTRC(obj) (CAMEL_STORE_CLASS        (CAMEL_OBJECT_GET_CLASS (obj)))
 #define CRSC(obj)  (CAMEL_REMOTE_STORE_CLASS (CAMEL_OBJECT_GET_CLASS (obj)))
 
-static CamelStoreClass *store_class = NULL;
+static CamelStoreClass *parent_class = NULL;
 
 static void     remote_construct       (CamelService *service, CamelSession *session,
 					CamelProvider *provider, CamelURL *url,
@@ -82,16 +83,24 @@ static gint     remote_send_stream     (CamelRemoteStore *store, CamelStream *st
 static gint     remote_recv_line       (CamelRemoteStore *store, char **dest, 
 					CamelException *ex);
 
+static int remote_store_setv (CamelObject *object, CamelException *ex, CamelArgV *args);
+static int remote_store_getv (CamelObject *object, CamelException *ex, CamelArgGetV *args);
+
 static void
 camel_remote_store_class_init (CamelRemoteStoreClass *camel_remote_store_class)
 {
 	/* virtual method overload */
+	CamelObjectClass *camel_object_class =
+		CAMEL_OBJECT_CLASS (camel_remote_store_class);
 	CamelServiceClass *camel_service_class =
 		CAMEL_SERVICE_CLASS (camel_remote_store_class);
 	
-	store_class = CAMEL_STORE_CLASS (camel_type_get_global_classfuncs (camel_store_get_type ()));
+	parent_class = CAMEL_STORE_CLASS (camel_type_get_global_classfuncs (camel_store_get_type ()));
 	
 	/* virtual method overload */
+	camel_object_class->setv = remote_store_setv;
+	camel_object_class->getv = remote_store_getv;
+	
 	camel_service_class->construct = remote_construct;
 	camel_service_class->connect = remote_connect;
 	camel_service_class->disconnect = remote_disconnect;
@@ -162,6 +171,68 @@ camel_remote_store_get_type (void)
 	return camel_remote_store_type;
 }
 
+static int
+remote_store_setv (CamelObject *object, CamelException *ex, CamelArgV *args)
+{
+	CamelService *service = (CamelService *) object;
+	CamelURL *url = service->url;
+	guint32 tag;
+	int i;
+	
+	for (i = 0; i < args->argc; i++) {
+		tag = args->argv[i].tag;
+		
+		/* make sure this arg wasn't already handled */
+		if (tag & CAMEL_ARG_IGNORE)
+			continue;
+		
+		/* make sure this is an arg we're supposed to handle */
+		if ((tag & CAMEL_ARG_TAG) <= CAMEL_REMOTE_STORE_ARG_FIRST ||
+		    (tag & CAMEL_ARG_TAG) >= CAMEL_REMOTE_STORE_ARG_FIRST + 100)
+			continue;
+		
+		if (tag == CAMEL_REMOTE_STORE_SSL) {
+			/* set the ssl mode */
+			camel_url_set_param (url, "use_ssl", args->argv[i].ca_str);
+		} else {
+			/* error? */
+			continue;
+		}
+		
+		/* let our parent know that we've handled this arg */
+		camel_argv_ignore (args, i);
+	}
+	
+	return CAMEL_OBJECT_CLASS (parent_class)->setv (object, ex, args);
+}
+
+static int
+remote_store_getv (CamelObject *object, CamelException *ex, CamelArgGetV *args)
+{
+	CamelService *service = (CamelService *) object;
+	CamelURL *url = service->url;
+	guint32 tag;
+	int i;
+	
+	for (i = 0; i < args->argc; i++) {
+		tag = args->argv[i].tag;
+		
+		/* make sure this is an arg we're supposed to handle */
+		if ((tag & CAMEL_ARG_TAG) <= CAMEL_REMOTE_STORE_ARG_FIRST ||
+		    (tag & CAMEL_ARG_TAG) >= CAMEL_REMOTE_STORE_ARG_FIRST + 100)
+			continue;
+		
+		if (tag == CAMEL_REMOTE_STORE_SSL) {
+			/* get the ssl mode */
+			*args->argv[i].ca_str = (char *) camel_url_get_param (url, "use_ssl");
+		} else {
+			/* error? */
+		}
+	}
+	
+	return CAMEL_OBJECT_CLASS (parent_class)->getv (object, ex, args);
+}
+
 static void
 remote_construct (CamelService *service, CamelSession *session,
 		  CamelProvider *provider, CamelURL *url,
@@ -169,7 +240,7 @@ remote_construct (CamelService *service, CamelSession *session,
 {
 	CamelRemoteStore *remote_store = CAMEL_REMOTE_STORE (service);
 
-	CAMEL_SERVICE_CLASS (store_class)->construct (service, session, provider, url, ex);
+	CAMEL_SERVICE_CLASS (parent_class)->construct (service, session, provider, url, ex);
 
 	if (camel_url_get_param (url, "use_ssl"))
 		remote_store->use_ssl = TRUE;
@@ -261,7 +332,7 @@ remote_connect (CamelService *service, CamelException *ex)
 	}
 	
 	/* parent class connect initialization */
-	if (CAMEL_SERVICE_CLASS (store_class)->connect (service, ex) == FALSE)
+	if (CAMEL_SERVICE_CLASS (parent_class)->connect (service, ex) == FALSE)
 		return FALSE;
 	
 	store->ostream = tcp_stream;
@@ -301,7 +372,7 @@ remote_disconnect (CamelService *service, gboolean clean, CamelException *ex)
 		store->timeout_id = 0;
 	}
 	
-	if (!CAMEL_SERVICE_CLASS (store_class)->disconnect (service, clean, ex))
+	if (!CAMEL_SERVICE_CLASS (parent_class)->disconnect (service, clean, ex))
 		return FALSE;
 	
 	if (store->istream) {

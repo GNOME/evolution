@@ -75,12 +75,15 @@ static void construct (CamelService *service, CamelSession *session,
 		       CamelProvider *provider, CamelURL *url,
 		       CamelException *ex);
 
+static int store_setv (CamelObject *object, CamelException *ex, CamelArgV *args);
+static int store_getv (CamelObject *object, CamelException *ex, CamelArgGetV *args);
+
 static void
 camel_store_class_init (CamelStoreClass *camel_store_class)
 {
 	CamelObjectClass *camel_object_class = CAMEL_OBJECT_CLASS (camel_store_class);
 	CamelServiceClass *camel_service_class = CAMEL_SERVICE_CLASS(camel_store_class);
-
+	
 	parent_class = CAMEL_SERVICE_CLASS (camel_type_get_global_classfuncs (camel_service_get_type ()));
 	
 	/* virtual method definition */
@@ -102,7 +105,10 @@ camel_store_class_init (CamelStoreClass *camel_store_class)
 	
 	/* virtual method overload */
 	camel_service_class->construct = construct;
-
+	
+	camel_object_class->setv = store_setv;
+	camel_object_class->getv = store_getv;
+	
 	camel_object_class_add_event(camel_object_class, "folder_created", NULL);
 	camel_object_class_add_event(camel_object_class, "folder_deleted", NULL);
 	camel_object_class_add_event(camel_object_class, "folder_renamed", NULL);
@@ -174,6 +180,19 @@ camel_store_get_type (void)
 	return camel_store_type;
 }
 
+static int
+store_setv (CamelObject *object, CamelException *ex, CamelArgV *args)
+{
+	/* CamelStore doesn't currently have anything to set */
+	return CAMEL_OBJECT_CLASS (parent_class)->setv (object, ex, args);
+}
+
+static int
+store_getv (CamelObject *object, CamelException *ex, CamelArgGetV *args)
+{
+	/* CamelStore doesn't currently have anything to get */
+	return CAMEL_OBJECT_CLASS (parent_class)->getv (object, ex, args);
+}
 
 static gboolean
 folder_matches (gpointer key, gpointer value, gpointer user_data)

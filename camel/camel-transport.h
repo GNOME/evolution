@@ -42,6 +42,10 @@ extern "C" {
 #define CAMEL_IS_TRANSPORT(o)    (CAMEL_CHECK_TYPE((o), CAMEL_TRANSPORT_TYPE))
 
 
+enum {
+	CAMEL_TRANSPORT_ARG_FIRST  = CAMEL_SERVICE_ARG_FIRST + 100,
+};
+
 struct _CamelTransport
 {
 	CamelService parent_object;

@@ -33,7 +33,7 @@
 
 #define CDS_CLASS(o) (CAMEL_DISCO_STORE_CLASS (CAMEL_OBJECT_GET_CLASS (o)))
 
-static CamelRemoteStoreClass *remote_store_class = NULL;
+static CamelRemoteStoreClass *parent_class = NULL;
 
 static void disco_construct (CamelService *service, CamelSession *session,
 			     CamelProvider *provider, CamelURL *url,
@@ -51,26 +51,34 @@ static void set_status (CamelDiscoStore *disco_store,
 			CamelException *ex);
 static gboolean can_work_offline (CamelDiscoStore *disco_store);
 
+static int disco_setv (CamelObject *object, CamelException *ex, CamelArgV *args);
+static int disco_getv (CamelObject *object, CamelException *ex, CamelArgGetV *args);
+
 static void
 camel_disco_store_class_init (CamelDiscoStoreClass *camel_disco_store_class)
 {
+	CamelObjectClass *camel_object_class =
+		CAMEL_OBJECT_CLASS (camel_disco_store_class);
 	CamelServiceClass *camel_service_class =
 		CAMEL_SERVICE_CLASS (camel_disco_store_class);
 	CamelStoreClass *camel_store_class =
 		CAMEL_STORE_CLASS (camel_disco_store_class);
-
-	remote_store_class = CAMEL_REMOTE_STORE_CLASS (camel_type_get_global_classfuncs (camel_remote_store_get_type ()));
-
+	
+	parent_class = CAMEL_REMOTE_STORE_CLASS (camel_type_get_global_classfuncs (camel_remote_store_get_type ()));
+	
 	/* virtual method definition */
 	camel_disco_store_class->set_status = set_status;
 	camel_disco_store_class->can_work_offline = can_work_offline;
-
+	
 	/* virtual method overload */
+	camel_object_class->setv = disco_setv;
+	camel_object_class->getv = disco_getv;
+	
 	camel_service_class->construct = disco_construct;
 	camel_service_class->connect = disco_connect;
 	camel_service_class->disconnect = disco_disconnect;
 	camel_service_class->cancel_connect = disco_cancel_connect;
-
+	
 	camel_store_class->get_folder = disco_get_folder;
 	camel_store_class->get_folder_info = disco_get_folder_info;
 }
@@ -94,6 +102,20 @@ camel_disco_store_get_type (void)
 	return camel_disco_store_type;
 }
 
+static int
+disco_setv (CamelObject *object, CamelException *ex, CamelArgV *args)
+{
+	/* CamelDiscoStore doesn't currently have anything to set */
+	return CAMEL_OBJECT_CLASS (parent_class)->setv (object, ex, args);
+}
+
+static int
+disco_getv (CamelObject *object, CamelException *ex, CamelArgGetV *args)
+{
+	/* CamelDiscoStore doesn't currently have anything to get */
+	return CAMEL_OBJECT_CLASS (parent_class)->getv (object, ex, args);
+}
+
 static void
 disco_construct (CamelService *service, CamelSession *session,
 		 CamelProvider *provider, CamelURL *url,
@@ -101,7 +123,7 @@ disco_construct (CamelService *service, CamelSession *session,
 {
 	CamelDiscoStore *disco = CAMEL_DISCO_STORE (service);
 
-	CAMEL_SERVICE_CLASS (remote_store_class)->construct (service, session, provider, url, ex);
+	CAMEL_SERVICE_CLASS (parent_class)->construct (service, session, provider, url, ex);
 	if (camel_exception_is_set (ex))
 		return;
 
@@ -117,7 +139,7 @@ disco_connect (CamelService *service, CamelException *ex)
 
 	status = camel_disco_store_status (store);
 	if (status != CAMEL_DISCO_STORE_OFFLINE) {
-		if (!CAMEL_SERVICE_CLASS (remote_store_class)->connect (service, ex)) {
+		if (!CAMEL_SERVICE_CLASS (parent_class)->connect (service, ex)) {
 			status = camel_disco_store_status (store);
 			if (status != CAMEL_DISCO_STORE_OFFLINE)
 				return FALSE;
@@ -160,7 +182,7 @@ disco_cancel_connect (CamelService *service)
 	/* Fall back */
 	store->status = CAMEL_DISCO_STORE_OFFLINE;
 
-	CAMEL_SERVICE_CLASS (remote_store_class)->cancel_connect (service);
+	CAMEL_SERVICE_CLASS (parent_class)->cancel_connect (service);
 }
 
 static gboolean
@@ -182,7 +204,7 @@ disco_disconnect (CamelService *service, gboolean clean, CamelException *ex)
 
 	}
 
-	return CAMEL_SERVICE_CLASS (remote_store_class)->disconnect (service, clean, ex);
+	return CAMEL_SERVICE_CLASS (parent_class)->disconnect (service, clean, ex);
 }
 
 static CamelFolder *

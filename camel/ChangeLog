@@ -1,5 +1,24 @@
 2002-05-08  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* camel-digest-store.c (digest_setv): Implemented.
+	(digest_getv): Implemented.
+
+	* camel-disco-store.c (disco_setv): Implemented.
+	(disco_getv): Implemented.
+
+	* camel-remote-store.c (remote_store_setv): Implemented.
+	(remote_store_getv): Implemented.
+
+	* camel-transport.c (camel_transport_class_init): Implemented.
+	(transport_setv): Implemented.
+	(transport_getv): Implemented.
+
+	* camel-store.c (store_setv): Implemented.
+	(store_getv): Implemented.
+
+	* camel-service.c (service_setv): Implemented.
+	(service_getv): Implemented.
+
 	* providers/pop3/camel-pop3-store.c (pop3_try_authenticate):
 	camel_pop3_engine_iterate doesn't return the state, it returns -1
 	on fail, 0 when finished processing request or >0 if more ops are

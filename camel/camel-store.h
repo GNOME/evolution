@@ -38,6 +38,9 @@ extern "C" {
 #include <camel/camel-object.h>
 #include <camel/camel-service.h>
 
+enum {
+	CAMEL_STORE_ARG_FIRST  = CAMEL_SERVICE_ARG_FIRST + 100,
+};
 
 typedef struct _CamelFolderInfo {
 	struct _CamelFolderInfo *parent,
