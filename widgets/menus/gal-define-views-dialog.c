@@ -224,7 +224,7 @@ gal_define_views_dialog_init (GalDefineViewsDialog *dialog)
 
 	dialog->collection = NULL;
 
-	gui = glade_xml_new_with_domain (GAL_GLADEDIR "/gal-define-views.glade", NULL, PACKAGE);
+	gui = glade_xml_new_with_domain (GAL_GLADEDIR "/gal-define-views.glade", NULL, E_I18N_DOMAIN);
 	dialog->gui = gui;
 
 	widget = glade_xml_get_widget(gui, "table-top");
@@ -254,7 +254,7 @@ gal_define_views_dialog_init (GalDefineViewsDialog *dialog)
 			       "collection", dialog->collection,
 			       NULL);
 	}
-	
+
 	gtk_window_set_policy(GTK_WINDOW(dialog), FALSE, TRUE, FALSE);
 }
 
@@ -278,6 +278,21 @@ gal_define_views_dialog_set_collection(GalDefineViewsDialog *dialog,
 		gtk_object_set(GTK_OBJECT(dialog->model),
 			       "collection", collection,
 			       NULL);
+	}
+	if (dialog->gui) {
+		GtkWidget *widget = glade_xml_get_widget(dialog->gui, "label-views");
+		if (widget && GTK_IS_LABEL (widget)) {
+			if (collection->title) {
+				char *text = g_strdup_printf (_("Define Views for %s"),
+							      collection->title);
+				gtk_label_set_text (GTK_LABEL (widget),
+						    text);
+				g_free (text);
+			} else {
+				gtk_label_set_text (GTK_LABEL (widget),
+						    _("Define Views"));
+			}
+		}
 	}
 }
 

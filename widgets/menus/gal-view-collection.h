@@ -57,6 +57,8 @@ typedef struct {
 	char *local_dir;
 
 	char *default_view;
+
+	char *title;
 } GalViewCollection;
 
 typedef struct {
@@ -87,7 +89,9 @@ struct GalViewCollectionItem {
 GtkType                gal_view_collection_get_type                 (void);
 GalViewCollection     *gal_view_collection_new                      (void);
 
-/* Set up the view collection.  Call these three functions before ever doing load or save and never call them again. */
+void                   gal_view_collection_set_title                (GalViewCollection *collection,
+								     const char        *title);
+/* Set up the view collection.  Call these two functions before ever doing load or save and never call them again. */
 void                   gal_view_collection_set_storage_directories  (GalViewCollection *collection,
 								     const char        *system_dir,
 								     const char        *local_dir);

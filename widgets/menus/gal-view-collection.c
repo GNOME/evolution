@@ -159,17 +159,29 @@ gal_view_collection_destroy (GtkObject *object)
 		gal_view_collection_item_free (collection->view_data[i]);
 	}
 	g_free(collection->view_data);
+	collection->view_count = 0;
+	collection->view_data = NULL;
+
 	e_free_object_list(collection->factory_list);
+	collection->factory_list = NULL;
 
 	for (i = 0; i < collection->removed_view_count; i++) {
 		gal_view_collection_item_free (collection->removed_view_data[i]);
 	}
 	g_free(collection->removed_view_data);
+	collection->removed_view_count = 0;
+	collection->removed_view_data = NULL;
 
 	g_free(collection->system_dir);
 	g_free(collection->local_dir);
+	collection->system_dir = NULL;
+	collection->local_dir = NULL;
 
 	g_free (collection->default_view);
+	collection->default_view = NULL;
+
+	g_free (collection->title);
+	collection->title = NULL;
 
 	if (gal_view_collection_parent_class->destroy)
 		(*gal_view_collection_parent_class->destroy)(object);
@@ -221,6 +233,8 @@ gal_view_collection_init (GalViewCollection *collection)
 	collection->loaded                = FALSE;
 	collection->default_view          = NULL;
 	collection->default_view_built_in = TRUE;
+
+	collection->title                 = NULL;
 }
 
 /**
@@ -261,6 +275,14 @@ GalViewCollection *
 gal_view_collection_new                      (void)
 {
 	return gtk_type_new(gal_view_collection_get_type());
+}
+
+void
+gal_view_collection_set_title (GalViewCollection *collection,
+			       const char *title)
+{
+	g_free (collection->title);
+	collection->title = g_strdup (title);
 }
 
 /**
