@@ -745,7 +745,7 @@ mail_composer_prefs_construct (MailComposerPrefs *prefs)
 	GtkWidget *toplevel, *widget, *menu;
 	GladeXML *gui;
 	int style;
-	char *names[][4] = {{"live_spell_check", "chkEnableSpellChecking"},
+	char *names[][2] = {{"live_spell_check", "chkEnableSpellChecking"},
 			    {"magic_smileys_check", "chkAutoSmileys"},
 			    {"gtk_html_prop_keymap_option", "omenuShortcutsType"},
 			    {NULL, NULL}};

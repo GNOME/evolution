@@ -1,3 +1,8 @@
+2002-05-24  Radek Doulik  <rodo@ximian.com>
+
+	* mail-composer-prefs.c (mail_composer_prefs_construct): ops,
+	revert array size
+
 2002-05-24  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-callbacks.c (mail_generate_reply): If we can't find the
