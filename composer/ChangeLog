@@ -1,3 +1,8 @@
+2002-09-25  Dan Winship  <danw@ximian.com>
+
+	* e-msg-composer-hdrs.c (create_headers): Use "mail/*" for the
+	allowed_types for the posting folder selector.
+
 2002-09-24  Dan Winship  <danw@ximian.com>
 
 	* e-msg-composer-hdrs.c (create_from_optionmenu): Only append the

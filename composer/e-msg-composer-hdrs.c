@@ -387,7 +387,7 @@ static void
 create_headers (EMsgComposerHdrs *hdrs)
 {
 	EMsgComposerHdrsPrivate *priv = hdrs->priv;
-	static const char *posting_types[] = { "mail", NULL };
+	static const char *posting_types[] = { "mail/*", NULL };
 	
 	/*
 	 * Reply-To:
