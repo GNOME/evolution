@@ -1,3 +1,18 @@
+2003-03-29  Not Zed  <NotZed@Ximian.com>
+
+	Fixes #39895
+
+	* gui/e-day-view.h (EDayViewColors): add an unfocussed colour to
+	draw the selection in when we're not focussed.
+
+	* gui/e-day-view.c (e_day_view_realize): Initialise
+	E_DAY_VIEW_COLOR_BG_SELECTED_UNFOCUSSED to be 1/2 saturation of
+	the focussed colour.
+
+	* gui/e-day-view-main-item.c (e_day_view_main_item_draw): Use the
+	UFOCUSSED colour if we aren't focussed, rather than just not
+	drawing anything.
+
 2003-03-28  JP Rosevear  <jpr@ximian.com>
 
 	* gui/e-itip-control.c (get_servers): the shell client is a

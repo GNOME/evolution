@@ -977,6 +977,10 @@ e_day_view_realize (GtkWidget *widget)
 	day_view->colors[E_DAY_VIEW_COLOR_BG_SELECTED].green = 0 * 257;
 	day_view->colors[E_DAY_VIEW_COLOR_BG_SELECTED].blue  = 156 * 257;
 
+	day_view->colors[E_DAY_VIEW_COLOR_BG_SELECTED_UNFOCUSSED].red   = 16 * 257;
+	day_view->colors[E_DAY_VIEW_COLOR_BG_SELECTED_UNFOCUSSED].green = 78 * 257;
+	day_view->colors[E_DAY_VIEW_COLOR_BG_SELECTED_UNFOCUSSED].blue  = 139 * 257;
+
 	day_view->colors[E_DAY_VIEW_COLOR_BG_GRID].red   = 0x8000;
 	day_view->colors[E_DAY_VIEW_COLOR_BG_GRID].green = 0x8000;
 	day_view->colors[E_DAY_VIEW_COLOR_BG_GRID].blue  = 0x8000;
