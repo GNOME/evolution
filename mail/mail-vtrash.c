@@ -36,7 +36,7 @@
 #include "mail-mt.h"
 
 #include "camel/camel.h"
-#include "camel/camel-vee-store.h"
+#include "camel/providers/vee/camel-vee-store.h"
 #include "filter/vfolder-rule.h"
 #include "filter/filter-part.h"
 

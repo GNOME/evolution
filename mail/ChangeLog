@@ -1,3 +1,8 @@
+2001-02-20  Not Zed  <NotZed@Ximian.com>
+
+	* mail-vtrash.c: Include the camel-vee-store.h header from the
+	uninstalled copy.
+
 2001-02-19  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* component-factory.c (mail_load_storages): Create vTrash folders
