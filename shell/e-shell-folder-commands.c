@@ -27,6 +27,8 @@
 
 #include "e-shell-folder-commands.h"
 
+#include <gal/widgets/e-gui-utils.h>
+
 #include <libgnome/gnome-i18n.h>
 #include <libgnome/gnome-util.h>
 #include <libgnomeui/gnome-dialog.h>
@@ -147,6 +149,31 @@ folder_selection_dialog_folder_selected_callback (EShellFolderSelectionDialog *f
 	default:
 		g_assert_not_reached ();
 		return;
+	}
+
+	if (strcmp (folder_command_data->destination_path,
+		    folder_command_data->source_path) == 0) {
+		const char *msg;
+
+		if (remove_source)
+			msg = _("Cannot move a folder over itself.");
+		else
+			msg = _("Cannot copy a folder over itself.");
+
+		e_notice (GTK_WINDOW (folder_selection_dialog), GNOME_MESSAGE_BOX_ERROR, msg);
+		return;
+	}
+
+	if (remove_source) {
+		int source_len;
+
+		source_len = strlen (folder_command_data->source_path);
+		if (strncmp (folder_command_data->destination_path,
+			     folder_command_data->source_path,
+			     source_len) == 0) {
+			e_notice (GTK_WINDOW (folder_selection_dialog), GNOME_MESSAGE_BOX_ERROR,
+				  _("Cannot move a folder into one of its descendants."));
+		}
 	}
 
 	storage_set = e_shell_get_storage_set (folder_command_data->shell);

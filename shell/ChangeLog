@@ -1,3 +1,12 @@
+2001-07-06  Ettore Perazzoli  <ettore@ximian.com>
+
+	[Fix #3959, copying a folder over itself crashes Evolution.]
+
+	* e-shell-folder-commands.c
+	(folder_selection_dialog_folder_selected_callback): Sanity checks:
+	don't allow copying a folder over itself, or moving it under one
+	of its descendants.  In such cases, pop up an error dialog.
+
 2001-07-05  Iain Holmes  <iain@ximian.com>
 
 	* e-shortcuts-view.c (icon_callback): Special case the evolution:/My
