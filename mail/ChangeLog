@@ -1,13 +1,13 @@
 2000-12-12  Christopher James Lahey  <clahey@helixcode.com>
 
+	* component-factory.c (create_view): Added a cast.
+
 	* mail-summary.c: Added #include "mail-summary.h".  Commented out
 	folder_free, summary_free, and view_destroy_cb since they're not
 	used.
 	(do_changed): Added a cast.
 	(create_summary_view): Changed some types so that casting would be
 	easier.
-
-	* component-factory.c (create_view): Added a cast.
 
 	* session.c (mail_session_remember_password): Added a cast.
 
