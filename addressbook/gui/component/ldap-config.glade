@@ -382,7 +382,7 @@ LDAP attribute to associate with it.</property>
 
                 <child>
                   <widget class="GtkLabel" id="label286">
-                    <property name="label" translatable="yes">Please select and Evolution attribute and an
+                    <property name="label" translatable="yes">Please select an Evolution attribute and an
 LDAP attribute to associate with it.</property>
                     <property name="justify">GTK_JUSTIFY_LEFT</property>
                     <property name="wrap">no</property>
