@@ -331,8 +331,18 @@ load_shortcuts (EShortcuts *shortcuts,
 			name = xmlGetProp (q, "name");
 			type = xmlGetProp (q, "type");
 			
-			shortcut_item = shortcut_item_new (uri, name, 0, type);
+			if (strncmp (uri, E_SHELL_URI_PREFIX, E_SHELL_URI_PREFIX_LEN) == 0) {
+				EFolder *folder;
 
+				folder = e_storage_set_get_folder (priv->storage_set, uri + E_SHELL_URI_PREFIX_LEN);
+				if (folder != NULL) {
+					if (type != NULL)
+						xmlFree (type);
+					type = g_strdup (e_folder_get_type_string (folder));
+				}
+			}
+
+			shortcut_item = shortcut_item_new (uri, name, 0, type);
 			shortcut_group->shortcuts = g_slist_prepend (shortcut_group->shortcuts,
 								     shortcut_item);
 

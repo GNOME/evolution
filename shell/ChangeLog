@@ -1,5 +1,18 @@
 2001-08-07  Ettore Perazzoli  <ettore@ximian.com>
 
+	* e-shortcuts.c (load_shortcuts): If the shortcut points to some
+	folder in the storage set, get the type from it.
+
+	* e-storage-set.c (signal_new_folder_for_all_folders_under_paths):
+	New helper function.
+	(signal_new_folder_for_all_folders_in_storage): New helper
+	function.
+	(e_storage_set_add_storage): Call the latter to emit a
+	"new_folder" signal for all the folders contained in the newly
+	added storage.
+
+2001-08-07  Ettore Perazzoli  <ettore@ximian.com>
+
 	[This should fix #5407, application crash on re-opening.]
 
 	* e-shell.c (e_shell_construct): Call

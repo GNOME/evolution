@@ -241,6 +241,45 @@ get_storage_for_path (EStorageSet *storage_set,
 	return storage;
 }
 
+static void
+signal_new_folder_for_all_folders_under_paths (EStorageSet *storage_set,
+					       EStorage *storage,
+					       GList *path_list)
+{
+	GList *p;
+
+	for (p = path_list; p != NULL; p = p->next) {
+		GList *sub_path_list;
+		const char *path;
+		char *path_with_storage;
+
+		path = (const char *) p->data;
+
+		path_with_storage = g_strconcat (G_DIR_SEPARATOR_S, e_storage_get_name (storage), path, NULL);
+		gtk_signal_emit (GTK_OBJECT (storage_set), signals[NEW_FOLDER], path_with_storage);
+		g_free (path_with_storage);
+
+		sub_path_list = e_storage_get_subfolder_paths (storage, path);
+
+		signal_new_folder_for_all_folders_under_paths (storage_set, storage, sub_path_list);
+
+		e_free_string_list (sub_path_list);
+	}
+}
+
+static void
+signal_new_folder_for_all_folders_in_storage (EStorageSet *storage_set,
+					      EStorage *storage)
+{
+	GList *path_list;
+
+	path_list = e_storage_get_subfolder_paths (storage, G_DIR_SEPARATOR_S);
+
+	signal_new_folder_for_all_folders_under_paths (storage_set, storage, path_list);
+
+	e_free_string_list (path_list);
+}
+
 
 /* GtkObject methods.  */
 
@@ -425,6 +464,8 @@ e_storage_set_add_storage (EStorageSet *storage_set,
 	g_hash_table_insert (priv->name_to_named_storage, named_storage->name, named_storage);
 
 	gtk_signal_emit (GTK_OBJECT (storage_set), signals[NEW_STORAGE], storage);
+
+	signal_new_folder_for_all_folders_in_storage (storage_set, storage);
 
 	return TRUE;
 }
@@ -644,8 +685,6 @@ e_storage_set_get_folder_type_registry (EStorageSet *storage_set)
 }
 
 
-/* Utility functions.  */
-
 /**
  * e_storage_set_get_path_for_physical_uri:
  * @storage_set: A storage set
