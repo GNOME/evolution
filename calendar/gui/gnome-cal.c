@@ -835,17 +835,11 @@ static void
 set_timezone (GnomeCalendar *calendar) 
 {
 	GnomeCalendarPrivate *priv;
-	char *location;
 	GList *l;
 
 	priv = calendar->priv;
 	
-	location = calendar_config_get_timezone ();
-	priv->zone = icaltimezone_get_builtin_timezone (location);
-	g_free (location);
-	
-	if (!priv->zone)
-		priv->zone = icaltimezone_get_utc_timezone ();
+	priv->zone = calendar_config_get_icaltimezone ();
 
 	for (l = priv->clients_list; l != NULL; l = l->next) {
 		ECal *client = l->data;

@@ -131,11 +131,7 @@ write_html (GtkHTMLStream *stream, ECalComponent *comp)
 
 	g_return_if_fail (E_IS_CAL_COMPONENT (comp));
 
-	str = calendar_config_get_timezone ();
-	if (str && str[0]) {
-		current_zone = icaltimezone_get_builtin_timezone (str);
-	} else
-		current_zone = icaltimezone_get_utc_timezone ();
+	current_zone = calendar_config_get_icaltimezone ();
 
 	/* write document header */
 	e_cal_component_get_summary (comp, &text);
@@ -439,19 +435,12 @@ static void
 set_timezone (ETasks *tasks) 
 {
 	ETasksPrivate *priv;
-	char *location;
 	icaltimezone *zone;
 	GList *l;
 	
 	priv = tasks->priv;
 	
-	location = calendar_config_get_timezone ();
-	zone = icaltimezone_get_builtin_timezone (location);
-	g_free (location);
-	
-	if (!zone)
-		zone = icaltimezone_get_utc_timezone ();
-
+	zone = calendar_config_get_icaltimezone ();
 	for (l = priv->clients_list; l != NULL; l = l->next) {
 		ECal *client = l->data;
 		

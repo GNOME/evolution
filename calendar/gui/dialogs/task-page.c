@@ -260,7 +260,6 @@ task_page_fill_widgets (CompEditorPage *page, ECalComponent *comp)
 	GSList *l;
 	const char *categories;
 	icaltimezone *zone, *default_zone;
-	char *location;
 	ESource *source;
 
 	tpage = TASK_PAGE (page);
@@ -286,8 +285,7 @@ task_page_fill_widgets (CompEditorPage *page, ECalComponent *comp)
 	}
 	e_cal_component_free_text_list (l);
 
-	location = calendar_config_get_timezone ();
-	default_zone = icaltimezone_get_builtin_timezone (location);
+	default_zone = calendar_config_get_icaltimezone ();
 
 	/* Due Date. */
 	e_cal_component_get_due (comp, &d);
@@ -823,7 +821,6 @@ init_widgets (TaskPage *tpage)
 {
 	TaskPagePrivate *priv;
 	GtkTextBuffer *text_buffer;
-	char *location;
 	icaltimezone *zone;
 
 	priv = tpage->priv;
@@ -889,8 +886,7 @@ init_widgets (TaskPage *tpage)
 			 G_CALLBACK (source_changed_cb), tpage);
 
 	/* Set the default timezone, so the timezone entry may be hidden. */
-	location = calendar_config_get_timezone ();
-	zone = icaltimezone_get_builtin_timezone (location);
+	zone = calendar_config_get_icaltimezone ();
 	e_timezone_entry_set_default_timezone (E_TIMEZONE_ENTRY (priv->start_timezone), zone);
 	e_timezone_entry_set_default_timezone (E_TIMEZONE_ENTRY (priv->due_timezone), zone);
 

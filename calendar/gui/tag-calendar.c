@@ -49,7 +49,6 @@ prepare_tag (ECalendar *ecal, struct calendar_tag_closure *c, icaltimezone *zone
 	gint end_year, end_month, end_day;
 	struct icaltimetype start_tt = icaltime_null_time ();
 	struct icaltimetype end_tt = icaltime_null_time ();
-	char *location;
 
 	if (clear_first)
 		e_calendar_item_clear_marks (ecal->calitem);
@@ -75,8 +74,7 @@ prepare_tag (ECalendar *ecal, struct calendar_tag_closure *c, icaltimezone *zone
 	if (zone) {
 		c->zone = zone;
 	} else {
-		location = calendar_config_get_timezone ();
-		c->zone = icaltimezone_get_builtin_timezone (location);
+		c->zone = calendar_config_get_icaltimezone ();
 	}
 	
 	c->start_time = icaltime_as_timet_with_zone (start_tt, c->zone);

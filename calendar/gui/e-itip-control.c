@@ -498,8 +498,7 @@ write_label_piece (EItipControl *itip, ECalComponentDateTime *dt,
 	   the COMPLETED property, which is always in UTC, and also because
 	   Outlook sends simple events as UTC times. */
 	if (dt->value->is_utc) {
-		char *location = calendar_config_get_timezone ();
-		zone = icaltimezone_get_builtin_timezone (location);
+		zone = calendar_config_get_icaltimezone ();
 		icaltimezone_convert_time (dt->value, icaltimezone_get_utc_timezone (), zone);
 	}
 

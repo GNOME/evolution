@@ -618,7 +618,7 @@ ems_init (EMeetingStore *store)
 
 	priv->attendees = g_ptr_array_new ();
 	
-	priv->zone = icaltimezone_get_builtin_timezone (calendar_config_get_timezone ());
+	priv->zone = calendar_config_get_icaltimezone ();
 	
 	priv->refresh_queue = g_ptr_array_new ();
 	priv->refresh_data = g_hash_table_new (g_direct_hash, g_direct_equal);

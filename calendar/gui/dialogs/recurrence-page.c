@@ -1453,7 +1453,7 @@ fill_ending_date (RecurrencePage *rpage, struct icalrecurrencetype *r)
 				e_cal_component_get_dtstart (priv->comp, &dt);
 
 				if (dt.value->is_date)
-					to_zone = icaltimezone_get_builtin_timezone (calendar_config_get_timezone ());
+					to_zone = calendar_config_get_icaltimezone ();
 				else if (dt.tzid == NULL)
 					to_zone = icaltimezone_get_utc_timezone ();
 				else

@@ -756,7 +756,6 @@ e_calendar_view_copy_clipboard (ECalendarView *cal_view)
 static void
 clipboard_get_text_cb (GtkClipboard *clipboard, const gchar *text, ECalendarView *cal_view)
 {
-	char *default_tzid;
 	icalcomponent *icalcomp;
 	icalcomponent_kind kind;
 	time_t selected_time_start, selected_time_end;
@@ -769,11 +768,8 @@ clipboard_get_text_cb (GtkClipboard *clipboard, const gchar *text, ECalendarView
 	if (!icalcomp)
 		return;
 
-	default_tzid = calendar_config_get_timezone ();
-
+	default_zone = calendar_config_get_icaltimezone ();
 	client = e_cal_model_get_default_client (cal_view->priv->model);
-	/* FIXME Error checking */
-	e_cal_get_timezone (client, default_tzid, &default_zone, NULL);
 
 	/* check the type of the component */
 	/* FIXME An error dialog if we return? */

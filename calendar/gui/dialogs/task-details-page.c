@@ -327,13 +327,11 @@ task_details_page_fill_widgets (CompEditorPage *page, ECalComponent *comp)
 	e_cal_component_get_completed (comp, &completed);
 	if (completed) {
 		icaltimezone *utc_zone, *zone;
-		char *location;
 
 		/* Completed is in UTC, but that would confuse the user, so
 		   we convert it to local time. */
 		utc_zone = icaltimezone_get_utc_timezone ();
-		location = calendar_config_get_timezone ();
-		zone = icaltimezone_get_builtin_timezone (location);
+		zone = calendar_config_get_icaltimezone ();
 
 		icaltimezone_convert_time (completed, utc_zone, zone);
 
@@ -419,8 +417,7 @@ task_details_page_fill_component (CompEditorPage *page, ECalComponent *comp)
 		   entire time the dialog is shown. Otherwise if the user
 		   changes the timezone, the COMPLETED date may get changed
 		   as well. */
-		char *location = calendar_config_get_timezone ();
-		icaltimezone *zone = icaltimezone_get_builtin_timezone (location);
+		icaltimezone *zone = calendar_config_get_icaltimezone ();
 		icaltimezone_convert_time (&icaltime, zone,
 					   icaltimezone_get_utc_timezone ());
 		e_cal_component_set_completed (comp, &icaltime);

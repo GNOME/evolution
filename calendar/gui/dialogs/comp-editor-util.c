@@ -254,14 +254,12 @@ comp_editor_new_date_edit (gboolean show_date, gboolean show_time,
 struct tm
 comp_editor_get_current_time (GtkObject *object, gpointer data)
 {
-	char *location;
 	icaltimezone *zone;
 	struct icaltimetype tt;
 	struct tm tmp_tm = { 0 };
 
 	/* Get the current timezone. */
-	location = calendar_config_get_timezone ();
-	zone = icaltimezone_get_builtin_timezone (location);
+	zone = calendar_config_get_icaltimezone ();
 
 	tt = icaltime_from_timet_with_zone (time (NULL), FALSE, zone);
 

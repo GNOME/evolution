@@ -324,11 +324,8 @@ update_time (EventPage *epage, ECalComponentDateTime *start_date, ECalComponentD
 	/* If it is an all day event, we set both timezones to the current
 	   timezone, so that if the user toggles the 'All Day Event' checkbox
 	   the event uses the current timezone rather than none at all. */
-	if (all_day_event) {
-		char *location = calendar_config_get_timezone ();
-		start_zone = end_zone = icaltimezone_get_builtin_timezone (location);
-	}
-
+	if (all_day_event)
+		start_zone = end_zone = calendar_config_get_icaltimezone ();
 
 	gtk_signal_handler_block_by_data (GTK_OBJECT (priv->start_time),
 					  epage);
@@ -1241,7 +1238,6 @@ init_widgets (EventPage *epage)
 {
 	EventPagePrivate *priv;
 	GtkTextBuffer *text_buffer;
-	char *location;
 	icaltimezone *zone;
 
 	priv = epage->priv;
@@ -1327,8 +1323,7 @@ init_widgets (EventPage *epage)
 			    G_CALLBACK (source_changed_cb), epage);
 
 	/* Set the default timezone, so the timezone entry may be hidden. */
-	location = calendar_config_get_timezone ();
-	zone = icaltimezone_get_builtin_timezone (location);
+	zone = calendar_config_get_icaltimezone ();
 	e_timezone_entry_set_default_timezone (E_TIMEZONE_ENTRY (priv->start_timezone), zone);
 	e_timezone_entry_set_default_timezone (E_TIMEZONE_ENTRY (priv->end_timezone), zone);
 

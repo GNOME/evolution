@@ -518,7 +518,6 @@ get_alarm_string (ECalComponentAlarm *alarm)
 	case E_CAL_COMPONENT_ALARM_TRIGGER_ABSOLUTE: {
 		struct icaltimetype itt;
 		icaltimezone *utc_zone, *current_zone;
-		char *location;
 		struct tm tm;
 		char buf[256];
 
@@ -527,8 +526,7 @@ get_alarm_string (ECalComponentAlarm *alarm)
 		itt = trigger.u.abs_time;
 
 		utc_zone = icaltimezone_get_utc_timezone ();
-		location = calendar_config_get_timezone ();
-		current_zone = icaltimezone_get_builtin_timezone (location);
+		current_zone = calendar_config_get_icaltimezone ();
 
 		tm = icaltimetype_to_tm_with_zone (&itt, utc_zone, current_zone);
 

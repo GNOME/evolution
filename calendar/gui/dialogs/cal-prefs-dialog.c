@@ -868,13 +868,11 @@ show_config (DialogData *dialog_data)
 {
 	CalWeekdays working_days;
 	gint mask, day, week_start_day, time_divisions;
-	char *zone_name;
 	icaltimezone *zone;
 	gboolean sensitive;
 
 	/* Timezone. */
-	zone_name = calendar_config_get_timezone ();
-	zone = icaltimezone_get_builtin_timezone (zone_name);
+	zone = calendar_config_get_icaltimezone ();
 	e_timezone_entry_set_timezone (E_TIMEZONE_ENTRY (dialog_data->timezone),
 				       zone);
 

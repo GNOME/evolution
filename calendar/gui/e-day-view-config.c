@@ -159,17 +159,10 @@ e_day_view_config_get_view (EDayViewConfig *view_config)
 static void
 set_timezone (EDayView *day_view) 
 {
-	char *location;
 	icaltimezone *zone;
 	
-	location = calendar_config_get_timezone ();
-	zone = icaltimezone_get_builtin_timezone (location);
-	if (!zone)
-		zone = icaltimezone_get_utc_timezone ();
-	
+	zone = calendar_config_get_icaltimezone ();	
 	e_calendar_view_set_timezone (E_CALENDAR_VIEW (day_view), zone);
-
-	g_free (location);
 }
 
 static void

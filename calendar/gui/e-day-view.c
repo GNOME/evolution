@@ -7005,7 +7005,7 @@ e_day_view_on_top_canvas_drag_data_received  (GtkWidget          *widget,
 		&& !drag_from_same_window) {
 		/* We are dragging between different window */
 
-		char *comp_str, *default_tzid;
+		char *comp_str;
 		icalcomponent *icalcomp;
 		icalcomponent_kind kind;
 		time_t dtstart;
@@ -7022,8 +7022,7 @@ e_day_view_on_top_canvas_drag_data_received  (GtkWidget          *widget,
 		if (!icalcomp)
 			goto error;
 
-		default_tzid = calendar_config_get_timezone ();
-		e_cal_get_timezone (client, default_tzid, &default_zone, NULL);
+		default_zone = calendar_config_get_icaltimezone ();
 
 		/* check the type of the component */
 		kind = icalcomponent_isa (icalcomp);
@@ -7196,7 +7195,7 @@ e_day_view_on_main_canvas_drag_data_received  (GtkWidget          *widget,
 		&& !drag_from_same_window) {
 		/* We are dragging between different window */
 
-		char *comp_str, *default_tzid;
+		char *comp_str;
 		icalcomponent *icalcomp;
 		icalcomponent_kind kind;
 		time_t dtstart;
@@ -7213,8 +7212,7 @@ e_day_view_on_main_canvas_drag_data_received  (GtkWidget          *widget,
 		if (!icalcomp)
 			goto error;
 
-		default_tzid = calendar_config_get_timezone ();
-		e_cal_get_timezone (client, default_tzid, &default_zone, NULL);
+		default_zone = calendar_config_get_icaltimezone ();
 
 		/* check the type of the component */
 		kind = icalcomponent_isa (icalcomp);

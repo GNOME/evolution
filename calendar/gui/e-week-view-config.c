@@ -159,17 +159,10 @@ e_week_view_config_get_view (EWeekViewConfig *view_config)
 static void
 set_timezone (EWeekView *week_view) 
 {
-	char *location;
 	icaltimezone *zone;
 	
-	location = calendar_config_get_timezone ();
-	zone = icaltimezone_get_builtin_timezone (location);
-	if (!zone)
-		zone = icaltimezone_get_utc_timezone ();
-	
+	zone = calendar_config_get_icaltimezone ();	
 	e_calendar_view_set_timezone (E_CALENDAR_VIEW (week_view), zone);
-
-	g_free (location);
 }
 
 static void

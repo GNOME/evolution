@@ -749,7 +749,7 @@ comp_compliant (ECalComponentItipMethod method, ECalComponent *comp, ECal *clien
 			e_cal_component_get_dtstart (clone, &dt);
 
 			if (dt.value->is_date) {
-				from_zone = icaltimezone_get_builtin_timezone (calendar_config_get_timezone ());
+				from_zone = calendar_config_get_icaltimezone ();
 			} else if (dt.tzid == NULL) {
 				from_zone = icaltimezone_get_utc_timezone ();
 			} else {

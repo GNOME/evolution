@@ -322,16 +322,13 @@ cal_comp_event_new_with_current_time (ECal *client, gboolean all_day)
 	ECalComponent *comp;
 	struct icaltimetype itt;
 	ECalComponentDateTime dt;
-	char *location;
 	icaltimezone *zone;
 
 	comp = cal_comp_event_new_with_defaults (client);
 
 	g_return_val_if_fail (comp, NULL);
 	
-	location = calendar_config_get_timezone ();
-	zone = icaltimezone_get_builtin_timezone (location);
-
+	zone = calendar_config_get_icaltimezone ();
 	if (all_day) {
 		itt = icaltime_from_timet_with_zone (time (NULL), 1, zone);
 

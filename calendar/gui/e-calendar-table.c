@@ -1340,14 +1340,12 @@ e_calendar_table_save_state (ECalendarTable	*cal_table,
 static struct tm
 e_calendar_table_get_current_time (ECellDateEdit *ecde, gpointer data)
 {
-	char *location;
 	icaltimezone *zone;
 	struct tm tmp_tm = { 0 };
 	struct icaltimetype tt;
 
 	/* Get the current timezone. */
-	location = calendar_config_get_timezone ();
-	zone = icaltimezone_get_builtin_timezone (location);
+	zone = calendar_config_get_icaltimezone ();
 
 	tt = icaltime_from_timet_with_zone (time (NULL), FALSE, zone);
 

@@ -1,5 +1,12 @@
 2004-02-05  JP Rosevear <jpr@ximian.com>
 
+	* Convert the calendar_config_get_timezone and
+	icaltimezone_get_builtin_timezone pair to just
+	calendar_config_get_icaltimezone, this guarantees we will have
+	some timezone
+
+2004-02-05  JP Rosevear <jpr@ximian.com>
+
 	* gui/calendar-config.h: add proto
 
 	* gui/calendar-config.c (calendar_config_get_icaltimezone): return

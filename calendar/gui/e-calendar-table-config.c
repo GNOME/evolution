@@ -162,19 +162,12 @@ static void
 set_timezone (ECalendarTable *table) 
 {
 	ECalModel *model;
-	char *location;
 	icaltimezone *zone;
 	
-	location = calendar_config_get_timezone ();
-	zone = icaltimezone_get_builtin_timezone (location);
-	if (!zone)
-		zone = icaltimezone_get_utc_timezone ();
-	
+	zone = calendar_config_get_icaltimezone ();	
 	model = e_calendar_table_get_model (table);
 	if (model)
 		e_cal_model_set_timezone (model, zone);
-
-	g_free (location);
 }
 
 static void

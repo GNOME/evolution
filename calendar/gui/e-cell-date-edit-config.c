@@ -163,19 +163,13 @@ set_timezone (ECellDateEdit *cell)
 {
 	ECellDateEditText *cell_text;
 	ECellPopup *cell_popup;
-	char *location;
 	icaltimezone *zone;
 	
-	location = calendar_config_get_timezone ();
-	zone = icaltimezone_get_builtin_timezone (location);
-	if (!zone)
-		zone = icaltimezone_get_utc_timezone ();
+	zone = calendar_config_get_icaltimezone ();
 
 	cell_popup = E_CELL_POPUP (cell);
 	cell_text = E_CELL_DATE_EDIT_TEXT (cell_popup->child);
 	e_cell_date_edit_text_set_timezone (cell_text, zone);
-
-	g_free (location);
 }
 
 static void

@@ -159,17 +159,10 @@ e_cal_list_view_config_get_view (ECalListViewConfig *view_config)
 static void
 set_timezone (ECalListView *list_view) 
 {
-	char *location;
 	icaltimezone *zone;
 	
-	location = calendar_config_get_timezone ();
-	zone = icaltimezone_get_builtin_timezone (location);
-	if (!zone)
-		zone = icaltimezone_get_utc_timezone ();
-	
+	zone = calendar_config_get_icaltimezone ();	
 	e_calendar_view_set_timezone (E_CALENDAR_VIEW (list_view), zone);
-
-	g_free (location);
 }
 
 static void

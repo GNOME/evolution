@@ -174,17 +174,6 @@ struct einfo
 
 static GnomePrintConfig *print_config = NULL;
 
-
-/* Convenience function to help the transition to timezone functions.
-   It returns the current timezone. */
-static icaltimezone*
-get_timezone (void)
-{
-	char *location = calendar_config_get_timezone ();
-	return icaltimezone_get_builtin_timezone (location);
-}
-
-
 /* Convenience function to help the transition to timezone functions.
    It converts a time_t to a struct tm. */
 static struct tm*
@@ -512,7 +501,7 @@ static char *days[] = {
 static char *
 format_date(time_t time, int flags, char *buffer, int bufflen)
 {
-	icaltimezone *zone = get_timezone ();
+	icaltimezone *zone = calendar_config_get_icaltimezone ();
 	char fmt[64];
 	struct tm tm;
 
@@ -566,7 +555,7 @@ print_month_small (GnomePrintContext *pc, GnomeCalendar *gcal, time_t month,
 		   int titleflags, time_t greystart, time_t greyend,
 		   int bordertitle)
 {
-	icaltimezone *zone = get_timezone ();
+	icaltimezone *zone = calendar_config_get_icaltimezone ();
 	ECal *client;
 	GnomeFont *font, *font_bold, *font_normal;
 	time_t now, next;
@@ -895,7 +884,7 @@ print_day_add_event (ECalModelComponent *comp_data,
 		     GArray	  **events)
 
 {
-	icaltimezone *zone = get_timezone ();
+	icaltimezone *zone = calendar_config_get_icaltimezone ();
 	EDayViewEvent event;
 	gint day, offset;
 	struct icaltimetype start_tt, end_tt;
@@ -1159,7 +1148,7 @@ static void
 print_day_details (GnomePrintContext *pc, GnomeCalendar *gcal, time_t whence,
 		   double left, double right, double top, double bottom)
 {
-	icaltimezone *zone = get_timezone ();
+	icaltimezone *zone = calendar_config_get_icaltimezone ();
 	EDayViewEvent *event;
 	GnomeFont *font;
 	time_t start, end;
@@ -1195,7 +1184,7 @@ print_day_details (GnomePrintContext *pc, GnomeCalendar *gcal, time_t whence,
 
 	/* Also print events outside of work hours */
 	if (pdi.events[0]->len > 0) {
-		icaltimezone *zone = get_timezone ();
+		icaltimezone *zone = calendar_config_get_icaltimezone ();
 		struct icaltimetype tt;
 
 		event = &g_array_index (pdi.events[0], EDayViewEvent, 0);		
@@ -1475,7 +1464,7 @@ print_week_view_background (GnomePrintContext *pc, GnomeFont *font,
 			    double left, double top,
 			    double cell_width, double cell_height)
 {
-	icaltimezone *zone = get_timezone ();
+	icaltimezone *zone = calendar_config_get_icaltimezone ();
 	int day, day_x, day_y, day_h;
 	double x1, x2, y1, y2, font_size, fillcolor;
 	struct tm tm;
@@ -1540,7 +1529,7 @@ print_week_summary_cb (ECalComponent *comp,
 		       gpointer	  data)
 
 {
- 	icaltimezone *zone = get_timezone ();
+ 	icaltimezone *zone = calendar_config_get_icaltimezone ();
  	EWeekViewEvent event;
  	struct icaltimetype start_tt, end_tt;
 	ECalModelGenerateInstancesData *mdata = (ECalModelGenerateInstancesData *) data;
@@ -1585,7 +1574,7 @@ print_week_summary (GnomePrintContext *pc, GnomeCalendar *gcal,
 		    int month, double font_size,
 		    double left, double right, double top, double bottom)
 {
-	icaltimezone *zone = get_timezone ();
+	icaltimezone *zone = calendar_config_get_icaltimezone ();
 	EWeekViewEvent *event;
 	struct psinfo psi;
 	time_t day_start;
@@ -1686,7 +1675,7 @@ print_year_summary (GnomePrintContext *pc, GnomeCalendar *gcal, time_t whence,
 		    double left, double right, double top, double bottom,
 		    int morerows)
 {
-	icaltimezone *zone = get_timezone ();
+	icaltimezone *zone = calendar_config_get_icaltimezone ();
 	double row_height, col_width, l, r, t, b;
 	time_t now;
 	int col, row, rows, cols;
@@ -1728,7 +1717,7 @@ static void
 print_month_summary (GnomePrintContext *pc, GnomeCalendar *gcal, time_t whence,
 		     double left, double right, double top, double bottom)
 {
-	icaltimezone *zone = get_timezone ();
+	icaltimezone *zone = calendar_config_get_icaltimezone ();
 	time_t date;
 	struct tm tm;
 	struct icaltimetype tt;
@@ -1905,7 +1894,7 @@ static const int print_view_map[] = {
 static GtkWidget *
 range_selector_new (GtkWidget *dialog, time_t at, int *view)
 {
-	icaltimezone *zone = get_timezone ();
+	icaltimezone *zone = calendar_config_get_icaltimezone ();
 	GtkWidget *box;
 	GtkWidget *radio;
 	GSList *group;
@@ -1993,7 +1982,7 @@ static void
 print_day_view (GnomePrintContext *pc, GnomeCalendar *gcal, time_t date,
 		double left, double right, double top, double bottom)
 {
-	icaltimezone *zone = get_timezone ();
+	icaltimezone *zone = calendar_config_get_icaltimezone ();
 	int i, days = 1;
 	double todo, header, l;
 	char buf[100];
@@ -2051,7 +2040,7 @@ static void
 print_week_view (GnomePrintContext *pc, GnomeCalendar *gcal, time_t date,
 		 double left, double right, double top, double bottom)
 {
-	icaltimezone *zone = get_timezone ();
+	icaltimezone *zone = calendar_config_get_icaltimezone ();
 	double header, l;
 	char buf[100];
 	time_t when;
@@ -2121,7 +2110,7 @@ static void
 print_month_view (GnomePrintContext *pc, GnomeCalendar *gcal, time_t date,
 		  double left, double right, double top, double bottom)
 {
-	icaltimezone *zone = get_timezone ();
+	icaltimezone *zone = calendar_config_get_icaltimezone ();
 	double header;
 	char buf[100];
 
@@ -2178,7 +2167,7 @@ print_year_view (GnomePrintContext *pc, GnomeCalendar *gcal, time_t date,
 static void
 write_label_piece (time_t t, char *buffer, int size, char *stext, char *etext)
 {
-	icaltimezone *zone = get_timezone ();
+	icaltimezone *zone = calendar_config_get_icaltimezone ();
 	struct tm *tmp_tm;
 	int len;
 
