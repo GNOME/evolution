@@ -1,3 +1,7 @@
+2001-07-11  Aaron Weber  <aaron@ximian.com>
+
+	* C/evolution.sgml: validation on usage-mainwindow and usage-contact.
+
 2001-07-11  Kevin Breit  <battery841@mediaone.net>
 
 	* C/usage-calendar.sgml: More edits.

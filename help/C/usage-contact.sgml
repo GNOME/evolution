@@ -164,7 +164,7 @@
     </para>
     <para>
      <variablelist>
-
+	
 	<varlistentry>
 	  <term>Full Name</term>
 	  <listitem>
@@ -219,7 +219,7 @@
 		  interacts with the <guilabel>File As</guilabel>
 		  box to help you organize your contacts.
 		</para>
-		<para>
+	    <para>
 		  To see how it works, type a name in the
 		  <guilabel>Full Name</guilabel> field:
 		  <userinput>Rupert T. Monkey</userinput>.  You'll
@@ -231,22 +231,19 @@
 		  your own, such as <userinput> T. Rupert Monkey
 		  </userinput>.
 		</para>
-		<tip>
-		  <title>Filing Suggestion</title>
-		  
-		  <para>
-		    Don't enter something entirely different from
-		    the actual name, since you might forget that
-		    you've filed Rupert's information under "F" for
-		    "Fictitious Ximian Employee."
-		  </para>
-		</tip>
-
-             </para>
-           </listitem>
+	    <tip>
+	      <title>Filing Suggestion</title>
+	      <para>
+		 Don't enter something entirely different from the
+		 actual name, since you might forget that you've filed
+		 Rupert's information under "F" for "Fictitious Ximian
+		 Employee."
+              </para>
+	    </tip>
+	  </listitem>
 	</varlistentry>
 	<varlistentry>
-            <term>Multiple Values for Fields</term>
+	  <term>Multiple Values for Fields</term>
             <listitem>
 	      <para>
                 If you click on the small arrow buttons next to the

@@ -24,8 +24,7 @@
     <para>
       After <application>Evolution</application> starts up, you will
       see the <interface>main window</interface>, with the
-      <interface>Inbox</interface> open.  It should look a lot like the
-      picture in <xref linkend="usage-mainwindow-fig">. On the left of
+      <interface>Inbox</interface> open. On the left of
 	the <interface>main window</interface> is the <interface>shortcut
 	  bar</interface>, with several buttons in it.  Just underneath the
 	title bar is a series of menus in the <interface>menu
