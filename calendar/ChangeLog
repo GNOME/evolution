@@ -1,3 +1,21 @@
+2000-05-16  Seth Alves  <alves@hungry.com>
+
+	* gui/event-editor.c (recurrence_toggled): hook the radio buttons
+	to the pages of the notebook.
+	(append_exception): 
+	(recurrence_exception_added): 
+	(recurrence_exception_deleted): 
+	(recurrence_exception_changed): code to deal with the recurrence
+	exception list.
+
+2000-05-15  Seth Alves  <alves@hungry.com>
+
+	* gui/event-editor.[ch]: gladeified replacement for eventedit.c
+
+	* gui/event-editor-utils.[ch]: utilities used by event-editor.c
+
+	* gui/event-editor-dialog.glade: glade file used by event-editor.c
+
 2000-05-14  Federico Mena Quintero  <federico@helixcode.com>
 
 	* gui/gnome-cal.c (display_notification): Use the alarm

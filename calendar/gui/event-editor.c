@@ -20,11 +20,14 @@ extern int am_pm_flag;
 extern int week_starts_on_monday;
 
 
+static void append_exception (EventEditorDialog *dialog, time_t t);
+
 static void
 fill_in_dialog_from_ical (EventEditorDialog *dialog)
 {
 	iCalObject *ical = dialog->ical;
 	GladeXML *gui = dialog->gui;
+	GList *list;
 
 	store_to_editable (gui, "general-owner",
 			  dialog->ical->organizer->addr ?
@@ -130,6 +133,11 @@ fill_in_dialog_from_ical (EventEditorDialog *dialog)
 		store_to_gnome_dateedit (gui, "recurrence-ending-date-end-on-date", ical->recur->enddate - 86400);
 	}
 	/* else repeat forever */
+
+
+	/* fill the exceptions list */
+	for (list = ical->exdate; list; list = list->next)
+		append_exception (dialog, *((time_t *) list->data));
 }
 
 
@@ -262,6 +270,18 @@ dialog_to_ical (EventEditorDialog *dialog)
 		ical->recur->duration = extract_from_spin (gui, "recurrence-ending-date-end-after-count");
 		ical_object_compute_end (ical);
 	}
+
+
+	/* get exceptions from clist into ical->exdate */
+	{
+		int i;
+		time_t *t;
+		GtkCList *exception_list = GTK_CLIST (glade_xml_get_widget (dialog->gui, "recurrence-exceptions-list"));
+		for (i = 0; i < exception_list->rows; i++) {
+			t = gtk_clist_get_row_data (exception_list, i);
+			ical->exdate = g_list_prepend (ical->exdate, t);
+		}
+	}
 }
 
 
@@ -314,6 +334,90 @@ recurrence_toggled (GtkWidget *radio, EventEditorDialog *dialog)
 }
 
 
+static char *
+get_exception_string (time_t t)
+{
+	static char buf[256];
+
+	strftime (buf, sizeof(buf), _("%a %b %d %Y"), localtime (&t));
+	return buf;
+}
+
+
+static void
+append_exception (EventEditorDialog *dialog, time_t t)
+{
+	time_t *tt;
+	char   *c[1];
+	int     i;
+	GtkCList *exception_list = GTK_CLIST (glade_xml_get_widget (dialog->gui, "recurrence-exceptions-list"));
+
+	c[0] = get_exception_string (t);
+
+	tt = g_new (time_t, 1);
+	*tt = t;
+
+	i = gtk_clist_append (exception_list, c);
+	gtk_clist_set_row_data (exception_list, i, tt);
+	gtk_clist_select_row (exception_list, i, 0);
+
+	//gtk_widget_set_sensitive (ee->recur_ex_vbox, TRUE);
+}
+
+
+static void
+recurrence_exception_added (GtkWidget *widget, EventEditorDialog *dialog)
+{
+	//GtkWidget *exception_date = glade_xml_get_widget (dialog->gui, "recurrence-exceptions-date");
+	time_t t = extract_from_gnome_dateedit (dialog->gui, "recurrence-exceptions-date");
+	append_exception (dialog, t);
+}
+
+
+static void
+recurrence_exception_deleted (GtkWidget *widget, EventEditorDialog *dialog)
+{
+	GtkCList *clist;
+	int sel, length;
+
+	clist = GTK_CLIST (glade_xml_get_widget (dialog->gui, "recurrence-exceptions-list"));
+	if (! clist->selection)
+		return;
+	sel = GPOINTER_TO_INT(clist->selection->data);
+
+	g_free (gtk_clist_get_row_data (clist, sel)); /* free the time_t stored there */
+
+	gtk_clist_remove (clist, sel);
+	length = g_list_length(clist->row_list);
+	if (sel >= length)
+		sel--;
+	gtk_clist_select_row (clist, sel, 0);
+
+	//if (clist->rows == 0)
+	//	gtk_widget_set_sensitive (ee->recur_ex_vbox, FALSE);
+}
+
+
+static void
+recurrence_exception_changed (GtkWidget *widget, EventEditorDialog *dialog)
+{
+	GtkCList *clist;
+	time_t *t;
+	int sel;
+
+	clist = GTK_CLIST (glade_xml_get_widget (dialog->gui, "recurrence-exceptions-list"));
+	if (! clist->selection)
+		return;
+
+	sel = GPOINTER_TO_INT(clist->selection->data);
+
+	t = gtk_clist_get_row_data (clist, sel);
+	*t = extract_from_gnome_dateedit (dialog->gui, "recurrence-exceptions-date");
+
+	gtk_clist_set_text (clist, sel, 0, get_exception_string (*t));
+}
+
+
 
 GtkWidget *event_editor_new (GnomeCalendar *gcal, iCalObject *ical)
 {
@@ -356,6 +460,20 @@ GtkWidget *event_editor_new (GnomeCalendar *gcal, iCalObject *ical)
 		gtk_signal_connect (GTK_OBJECT (recurrence_rule_yearly), "toggled",
 				    GTK_SIGNAL_FUNC (recurrence_toggled), dialog);
 		
+	}
+
+
+	{
+		GtkWidget *recurrence_exception_add = glade_xml_get_widget (dialog->gui, "recurrence-exceptions-add");
+		GtkWidget *recurrence_exception_delete = glade_xml_get_widget (dialog->gui, "recurrence-exceptions-delete");
+		GtkWidget *recurrence_exception_change = glade_xml_get_widget (dialog->gui, "recurrence-exceptions-change");
+
+		gtk_signal_connect (GTK_OBJECT (recurrence_exception_add), "clicked",
+				    GTK_SIGNAL_FUNC (recurrence_exception_added), dialog);
+		gtk_signal_connect (GTK_OBJECT (recurrence_exception_delete), "clicked",
+				    GTK_SIGNAL_FUNC (recurrence_exception_deleted), dialog);
+		gtk_signal_connect (GTK_OBJECT (recurrence_exception_change), "clicked",
+				    GTK_SIGNAL_FUNC (recurrence_exception_changed), dialog);
 	}
 
 
@@ -431,8 +549,5 @@ make_spin_button (int val, int low, int high)
    figure out why alarm units aren't sticking between edits
 
    extract from and store to the ending date in the recurrence rule stuff
-
-   finish the recurrence rule exceptions
-
  */
 

@@ -1004,8 +1004,7 @@ Days
 	    <widget>
 	      <class>GtkNotebook</class>
 	      <name>recurrence-rule-notebook</name>
-	      <can_focus>True</can_focus>
-	      <show_tabs>True</show_tabs>
+	      <show_tabs>False</show_tabs>
 	      <show_border>True</show_border>
 	      <tab_pos>GTK_POS_TOP</tab_pos>
 	      <scrollable>False</scrollable>
@@ -1692,7 +1691,7 @@ Sunday
 	    <shadow_type>GTK_SHADOW_ETCHED_IN</shadow_type>
 	    <child>
 	      <padding>0</padding>
-	      <expand>True</expand>
+	      <expand>False</expand>
 	      <fill>True</fill>
 	    </child>
 
@@ -1753,7 +1752,7 @@ Sunday
 		  <last_modification_time>Sat, 13 May 2000 18:02:55 GMT</last_modification_time>
 		  <child>
 		    <padding>0</padding>
-		    <expand>True</expand>
+		    <expand>False</expand>
 		    <fill>True</fill>
 		  </child>
 		</widget>
@@ -1836,19 +1835,33 @@ Sunday
 	    <shadow_type>GTK_SHADOW_ETCHED_IN</shadow_type>
 	    <child>
 	      <padding>0</padding>
-	      <expand>False</expand>
+	      <expand>True</expand>
 	      <fill>True</fill>
 	    </child>
 
 	    <widget>
-	      <class>GtkHBox</class>
-	      <name>hbox11</name>
+	      <class>GtkVBox</class>
+	      <name>vbox12</name>
 	      <homogeneous>False</homogeneous>
 	      <spacing>0</spacing>
 
 	      <widget>
-		<class>GtkVBox</class>
-		<name>vbox6</name>
+		<class>Custom</class>
+		<name>recurrence-exceptions-date</name>
+		<creation_function>make_date_edit</creation_function>
+		<int1>0</int1>
+		<int2>0</int2>
+		<last_modification_time>Tue, 16 May 2000 01:42:29 GMT</last_modification_time>
+		<child>
+		  <padding>0</padding>
+		  <expand>True</expand>
+		  <fill>True</fill>
+		</child>
+	      </widget>
+
+	      <widget>
+		<class>GtkHBox</class>
+		<name>hbox21</name>
 		<homogeneous>False</homogeneous>
 		<spacing>0</spacing>
 		<child>
@@ -1858,66 +1871,90 @@ Sunday
 		</child>
 
 		<widget>
-		  <class>Custom</class>
-		  <name>recurrence-exceptions-date</name>
-		  <creation_function>make_date_edit</creation_function>
-		  <int1>0</int1>
-		  <int2>0</int2>
-		  <last_modification_time>Sat, 13 May 2000 18:04:39 GMT</last_modification_time>
+		  <class>GtkVBox</class>
+		  <name>vbox13</name>
+		  <homogeneous>False</homogeneous>
+		  <spacing>0</spacing>
+		  <child>
+		    <padding>0</padding>
+		    <expand>False</expand>
+		    <fill>True</fill>
+		  </child>
+
+		  <widget>
+		    <class>GtkButton</class>
+		    <name>recurrence-exceptions-add</name>
+		    <can_focus>True</can_focus>
+		    <label>Add</label>
+		    <child>
+		      <padding>0</padding>
+		      <expand>False</expand>
+		      <fill>False</fill>
+		    </child>
+		  </widget>
+
+		  <widget>
+		    <class>GtkButton</class>
+		    <name>recurrence-exceptions-change</name>
+		    <can_focus>True</can_focus>
+		    <label>Chage</label>
+		    <child>
+		      <padding>0</padding>
+		      <expand>False</expand>
+		      <fill>False</fill>
+		    </child>
+		  </widget>
+
+		  <widget>
+		    <class>GtkButton</class>
+		    <name>recurrence-exceptions-delete</name>
+		    <can_focus>True</can_focus>
+		    <label>Delete</label>
+		    <child>
+		      <padding>0</padding>
+		      <expand>False</expand>
+		      <fill>False</fill>
+		    </child>
+		  </widget>
+		</widget>
+
+		<widget>
+		  <class>GtkScrolledWindow</class>
+		  <name>scrolledwindow2</name>
+		  <hscrollbar_policy>GTK_POLICY_ALWAYS</hscrollbar_policy>
+		  <vscrollbar_policy>GTK_POLICY_ALWAYS</vscrollbar_policy>
+		  <hupdate_policy>GTK_UPDATE_CONTINUOUS</hupdate_policy>
+		  <vupdate_policy>GTK_UPDATE_CONTINUOUS</vupdate_policy>
 		  <child>
 		    <padding>0</padding>
 		    <expand>True</expand>
 		    <fill>True</fill>
 		  </child>
-		</widget>
 
-		<widget>
-		  <class>GtkButton</class>
-		  <name>recurrence-exceptions-add</name>
-		  <can_focus>True</can_focus>
-		  <label>Add exception</label>
-		  <child>
-		    <padding>0</padding>
-		    <expand>False</expand>
-		    <fill>False</fill>
-		  </child>
-		</widget>
+		  <widget>
+		    <class>GtkCList</class>
+		    <name>recurrence-exceptions-list</name>
+		    <can_focus>True</can_focus>
+		    <columns>1</columns>
+		    <column_widths>80</column_widths>
+		    <selection_mode>GTK_SELECTION_SINGLE</selection_mode>
+		    <show_titles>False</show_titles>
+		    <shadow_type>GTK_SHADOW_IN</shadow_type>
 
-		<widget>
-		  <class>GtkButton</class>
-		  <name>recurrence-exceptions-change</name>
-		  <can_focus>True</can_focus>
-		  <label>Change selected</label>
-		  <child>
-		    <padding>0</padding>
-		    <expand>False</expand>
-		    <fill>False</fill>
-		  </child>
+		    <widget>
+		      <class>GtkLabel</class>
+		      <child_name>CList:title</child_name>
+		      <name>label40</name>
+		      <label></label>
+		      <justify>GTK_JUSTIFY_CENTER</justify>
+		      <wrap>False</wrap>
+		      <xalign>0.5</xalign>
+		      <yalign>0.5</yalign>
+		      <xpad>0</xpad>
+		      <ypad>0</ypad>
+		    </widget>
+		  </widget>
 		</widget>
-
-		<widget>
-		  <class>GtkButton</class>
-		  <name>recurrence-exceptions-delete</name>
-		  <can_focus>True</can_focus>
-		  <label>Delete selected</label>
-		  <child>
-		    <padding>0</padding>
-		    <expand>False</expand>
-		    <fill>False</fill>
-		  </child>
-		</widget>
-	      </widget>
-
-	      <widget>
-		<class>GtkList</class>
-		<name>recurrence-exceptions-list</name>
-		<width>40</width>
-		<selection_mode>GTK_SELECTION_SINGLE</selection_mode>
-		<child>
-		  <padding>0</padding>
-		  <expand>True</expand>
-		  <fill>True</fill>
-		</child>
 	      </widget>
 	    </widget>
 	  </widget>
