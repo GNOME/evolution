@@ -1,3 +1,15 @@
+2004-12-23  Hans Petter Jansson  <hpj@novell.com>
+
+	* gui/component/Makefile.am (SUBDIRS): No more select-names.
+	(libevolution_addressbook_la_LIBADD): Remove libeselectnames.la.
+
+	* gui/component/component-factory.c (factory): Remove the select-names
+	component.
+
+	* gui/contact-list-editor/Makefile.am (IDL)
+	(IDL_GENERATED_H)
+	(selectnamesdir): No longer needed, so removed.
+
 2004-12-22  Hans Petter Jansson  <hpj@novell.com>
 
 	* gui/contact-list-editor/e-contact-list-editor.c
