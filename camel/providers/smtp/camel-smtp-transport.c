@@ -1002,7 +1002,7 @@ smtp_data (CamelSmtpTransport *transport, CamelMedium *message, gboolean has_8bi
 	camel_stream_filter_add (filtered_stream, CAMEL_MIME_FILTER (crlffilter));
 	camel_object_unref (CAMEL_OBJECT (crlffilter));
 	
-	/* copy the bcc headers */
+	/* copy and remove the bcc headers */
 	header = CAMEL_MIME_PART (message)->headers;
 	while (header) {
 		if (!g_strcasecmp (header->name, "Bcc"))
@@ -1012,29 +1012,10 @@ smtp_data (CamelSmtpTransport *transport, CamelMedium *message, gboolean has_8bi
 	
 	camel_medium_remove_header (CAMEL_MEDIUM (message), "Bcc");
 	
+	/* write the message */
 	ret = camel_data_wrapper_write_to_stream (CAMEL_DATA_WRAPPER (message), CAMEL_STREAM (filtered_stream));
-	if (ret == -1 || camel_stream_flush (CAMEL_STREAM (filtered_stream)) == -1) {
-		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
-				      _("DATA send timed out: message termination: "
-					"%s: mail not sent"),
-				      g_strerror (errno));
-		
-		camel_object_unref (CAMEL_OBJECT (filtered_stream));
-		
-		if (bcc) {
-			h = bcc;
-			while (h) {
-				camel_medium_add_header (CAMEL_MEDIUM (message), "Bcc", h->data);
-				g_free (h->data);
-				h = h->next;
-			}
-			g_slist_free (bcc);
-		}
-		
-		return FALSE;
-	}
 	
-	camel_object_unref (CAMEL_OBJECT (filtered_stream));
+	/* add the bcc headers back */
 	if (bcc) {
 		h = bcc;
 		while (h) {
@@ -1044,6 +1025,20 @@ smtp_data (CamelSmtpTransport *transport, CamelMedium *message, gboolean has_8bi
 		}
 		g_slist_free (bcc);
 	}
+	
+	if (ret == -1) {
+		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
+				      _("DATA send timed out: message termination: "
+					"%s: mail not sent"),
+				      g_strerror (errno));
+		
+		camel_object_unref (CAMEL_OBJECT (filtered_stream));
+		
+		return FALSE;
+	}
+	
+	camel_stream_flush (CAMEL_STREAM (filtered_stream));
+	camel_object_unref (CAMEL_OBJECT (filtered_stream));
 	
 	/* terminate the message body */
 	
