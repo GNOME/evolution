@@ -11,6 +11,7 @@
 #undef ENABLE_THREADS
 #undef SENDMAIL_PATH
 #undef SYSTEM_MAIL_DIR
+#undef HAVE_LDAP
 
 /* Define this if you want to build against the development gtk */
 #undef HAVE_DEVGTK
