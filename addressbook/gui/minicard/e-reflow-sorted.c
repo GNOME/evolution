@@ -170,7 +170,7 @@ e_reflow_sorted_remove_item(EReflowSorted *e_reflow_sorted, const gchar *id)
 		gtk_object_unref(GTK_OBJECT(item));
 		gtk_object_destroy(GTK_OBJECT(item));
 		if ( GTK_OBJECT_FLAGS( e_reflow_sorted ) & GNOME_CANVAS_ITEM_REALIZED ) {
-			e_canvas_item_request_reflow(item);
+			e_canvas_item_request_reflow(GNOME_CANVAS_ITEM(e_reflow_sorted));
 		}
 	}
 }
@@ -211,7 +211,7 @@ e_reflow_sorted_reorder_item(EReflowSorted *e_reflow_sorted, const gchar *id)
 		gtk_object_unref(GTK_OBJECT(item));
 		g_list_free_1(list);
 		e_reflow_sorted_add_item(reflow, item);
-		e_canvas_item_request_reflow(GNOME_CANVAS_ITEM(reflow));
+		e_canvas_item_request_reflow(GNOME_CANVAS_ITEM(e_reflow_sorted));
 	}
 }
 
@@ -227,7 +227,8 @@ e_reflow_sorted_add_item(EReflow *reflow, GnomeCanvasItem *item)
 			gnome_canvas_item_set(item,
 					      "width", (double) reflow->column_width,
 					      NULL);
-			e_canvas_item_request_reflow(item);
+
+			e_canvas_item_request_reflow(GNOME_CANVAS_ITEM(e_reflow_sorted));
 		}
 	}
 }

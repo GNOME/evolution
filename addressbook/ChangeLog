@@ -1,5 +1,11 @@
 2000-05-09  Christopher James Lahey  <clahey@helixcode.com>
 
+	* gui/minicard/e-minicard.c: Reenable editting.
+
+	* gui/minicard/e-reflow-sorted.c: Make reflow flow on deletion.
+
+2000-05-09  Christopher James Lahey  <clahey@helixcode.com>
+
 	* gui/component/addressbook.c: Destroy the view object when
 	leaving the minicard view.
 

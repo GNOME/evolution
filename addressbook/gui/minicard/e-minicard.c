@@ -337,7 +337,6 @@ e_minicard_event (GnomeCanvasItem *item, GdkEvent *event)
 						       NULL );
 				e_minicard->has_focus = TRUE;
 			} else {
-#if 0
 				EBook *book;
 				
 				e_card_simple_sync_card(e_minicard->simple);
@@ -351,7 +350,6 @@ e_minicard_event (GnomeCanvasItem *item, GdkEvent *event)
 						    e_minicard->card,
 						    card_changed_cb,
 						    NULL);
-#endif
 
 				gnome_canvas_item_set( e_minicard->rect, 
 						       "outline_color", NULL, 
