@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: evolution VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2005-02-13 12:33+0100\n"
-"PO-Revision-Date: 2005-02-14 15:15+0100\n"
+"PO-Revision-Date: 2005-02-20 13:41+0100\n"
 "Last-Translator: Miloslav Trmac <mitr@volny.cz>\n"
 "Language-Team: Czech <cs@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -7110,7 +7110,7 @@ msgstr "Zdroje"
 #: calendar/gui/e-meeting-list-view.c:135 calendar/gui/e-meeting-store.c:99
 #: calendar/gui/e-meeting-store.c:116 calendar/gui/e-meeting-store.c:802
 msgid "Individual"
-msgstr "Individuálně"
+msgstr "Jednotlivec"
 
 #: calendar/gui/e-meeting-list-view.c:136 calendar/gui/e-meeting-store.c:101
 #: calendar/gui/e-meeting-store.c:118
@@ -10106,7 +10106,7 @@ msgstr "Odpovědi a rodiče"
 
 #: filter/filter-rule.c:880
 msgid "Include threads"
-msgstr "Obsahuje vlákna"
+msgstr "Zahrnout vlákna"
 
 #: filter/filter-rule.c:975 filter/filter.glade.h:3
 msgid "Incoming"
@@ -10493,9 +10493,8 @@ msgid "Mailing list"
 msgstr "Poštovní konference"
 
 #: mail/em-filter-i18n.h:39
-#, fuzzy
 msgid "Match All"
-msgstr "Záloha všeho"
+msgstr "Vše odpovídá"
 
 #: mail/em-filter-i18n.h:40
 msgid "Message Body"
@@ -10770,7 +10769,7 @@ msgstr "Název složky nesmí obsahovat '/'."
 #: ui/evolution-mail-global.xml.h:17 ui/evolution-mail-messagedisplay.xml.h:8
 #: ui/evolution-message-composer.xml.h:53 ui/evolution.xml.h:49
 msgid "_View"
-msgstr "_Zobrazení"
+msgstr "_Zobrazit"
 
 #: mail/em-folder-tree.c:2803
 msgid "Open in _New Window"
@@ -12534,9 +12533,7 @@ msgstr "Vyberte si prosím z následujících možností"
 
 #: mail/mail-config.glade.h:109
 msgid "Pr_ompt when sending messages with only Bcc recipients defined"
-msgstr ""
-"Up_ozornit, když posílám zprávu, kde jsou uvedeni jen příjemci ve skryté "
-"kopii"
+msgstr "Up_ozorňovat, když posílám zprávu, kde jsou uvedeni jen příjemci ve skryté kopii"
 
 #: mail/mail-config.glade.h:110
 msgid "Quote original message"
@@ -12628,7 +12625,7 @@ msgstr "Podpisy"
 
 #: mail/mail-config.glade.h:132
 msgid "Specify _filename:"
-msgstr "Určený _název souboru:"
+msgstr "Zvolte _název souboru:"
 
 #: mail/mail-config.glade.h:133
 msgid "Spell Checking"
@@ -13500,7 +13497,7 @@ msgstr "Filtruji složku"
 
 #: mail/mail-ops.c:262
 msgid "Fetching Mail"
-msgstr "Přijímám pošta"
+msgstr "Přijímám poštu"
 
 #: mail/mail-ops.c:542 mail/mail-ops.c:585
 #, c-format
@@ -13709,7 +13706,7 @@ msgstr "Aktualizuje se..."
 
 #: mail/mail-send-recv.c:416 mail/mail-send-recv.c:468
 msgid "Waiting..."
-msgstr "Čeká se..."
+msgstr "Čekám..."
 
 #: mail/mail-session.c:208
 #, c-format
@@ -14397,9 +14394,9 @@ msgid "%A, %B %e, %Y %l:%M:%S %p"
 msgstr "%A, %e %B %Y %l:%M:%S %p"
 
 #: plugins/itip-formatter/itip-view.c:335
-#, fuzzy, c-format
+#, c-format
 msgid "<b>%s</b> through %s has published the following meeting information:"
-msgstr "<b>%s</b> zveřejnil(-a) informaci o schůzce."
+msgstr "<b>%s</b> pomocí %s zveřejnil(-a) následující informace o schůzce:"
 
 #: plugins/itip-formatter/itip-view.c:337
 #, c-format
@@ -14412,9 +14409,9 @@ msgid "<b>%s</b> requests the presence of %s at the following meeting:"
 msgstr "<b>%s</b> požaduje účast %s na následující schůzce:"
 
 #: plugins/itip-formatter/itip-view.c:345
-#, fuzzy, c-format
+#, c-format
 msgid "<b>%s</b> through %s requests your presence at the following meeting:"
-msgstr "<b>%s</b> požaduje vaši účast na schůzce."
+msgstr "<b>%s</b> pomocí %s požaduje vaši účast na následující schůzce:"
 
 #: plugins/itip-formatter/itip-view.c:347
 #, c-format
@@ -14422,9 +14419,9 @@ msgid "<b>%s</b> requests your presence at the following meeting:"
 msgstr "<b>%s</b> požaduje vaši účast na následující schůzce:"
 
 #: plugins/itip-formatter/itip-view.c:353
-#, fuzzy, c-format
+#, c-format
 msgid "<b>%s</b> through %s wishes to add to an existing meeting:"
-msgstr "<b>%s</b> si přeje být přidán(-a) na existující schůzku."
+msgstr "<b>%s</b> pomocí %s si přeje být přidán(-a) na existující schůzku:"
 
 #: plugins/itip-formatter/itip-view.c:355
 #, c-format
@@ -14443,9 +14440,9 @@ msgid "<b>%s</b> has sent back the following meeting response:"
 msgstr "<b>%s</b> poslal(-a) zpět následující odpověď o schůzce:"
 
 #: plugins/itip-formatter/itip-view.c:365
-#, fuzzy, c-format
+#, c-format
 msgid "<b>%s</b> through %s has cancelled the following meeting:"
-msgstr "<b>%s</b> zrušil(-a) schůzku."
+msgstr "<b>%s</b> pomocí %s zrušil(-a) následující schůzku."
 
 #: plugins/itip-formatter/itip-view.c:367
 #, c-format
@@ -14458,19 +14455,19 @@ msgid "<b>%s</b> has proposed the following meeting changes."
 msgstr "<b>%s</b> navrhl(-a) následující změny schůzky."
 
 #: plugins/itip-formatter/itip-view.c:374
-#, fuzzy, c-format
+#, c-format
 msgid "<b>%s</b> through %s has declined the following meeting changes:"
-msgstr "<b>%s</b> odpověděl(-a) na žádost o schůzku."
+msgstr "<b>%s</b> pomocí %s odmítl(-a) následující změny schůzky."
 
 #: plugins/itip-formatter/itip-view.c:376
 #, c-format
 msgid "<b>%s</b> has declined the following meeting changes."
-msgstr "<b>%s</b> odmítl(-a) náeslující změny schůzky."
+msgstr "<b>%s</b> odmítl(-a) následující změny schůzky."
 
 #: plugins/itip-formatter/itip-view.c:403
-#, fuzzy, c-format
+#, c-format
 msgid "<b>%s</b> through %s has published the following task:"
-msgstr "<b>%s</b> zveřejnil(-a) informaci o úkolu."
+msgstr "<b>%s</b> pomocí %s zveřejnil(-a) následující úkol:"
 
 #: plugins/itip-formatter/itip-view.c:405
 #, c-format
@@ -14483,9 +14480,9 @@ msgid "<b>%s</b> requests the assignment of %s to the following task:"
 msgstr "<b>%s</b> požaduje přiřazení %s k následujícímu úkolu:"
 
 #: plugins/itip-formatter/itip-view.c:413
-#, fuzzy, c-format
+#, c-format
 msgid "<b>%s</b> through %s has assigned you a task:"
-msgstr "<b>%s</b> zrušil(-a) úkol."
+msgstr "<b>%s</b> vám pomocí %s přiřadil(-a) úkol:"
 
 #: plugins/itip-formatter/itip-view.c:415
 #, c-format
@@ -14493,9 +14490,9 @@ msgid "<b>%s</b> has assigned you a task:"
 msgstr "<b>%s</b> vám přiřadil(-a) úkol:"
 
 #: plugins/itip-formatter/itip-view.c:421
-#, fuzzy, c-format
+#, c-format
 msgid "<b>%s</b> through %s wishes to add to an existing task:"
-msgstr "<b>%s</b> si přeje být přidán(-a) k existujícímu úkolu."
+msgstr "<b>%s</b> pomocí %s si přeje být přidán(-a) k existujícímu úkolu:"
 
 #: plugins/itip-formatter/itip-view.c:423
 #, c-format
@@ -14515,9 +14512,9 @@ msgid "<b>%s</b> has sent back the following assigned task response:"
 msgstr "<b>%s</b> poslal(-a) zpět následující odpověď o přiřazeném úkolu:"
 
 #: plugins/itip-formatter/itip-view.c:433
-#, fuzzy, c-format
+#, c-format
 msgid "<b>%s</b> through %s has cancelled the following assigned task:"
-msgstr "<b>%s</b> zrušil(-a) úkol."
+msgstr "<b>%s</b> pomocí %s zrušil(-a) následující přiřazený úkol:"
 
 #: plugins/itip-formatter/itip-view.c:435
 #, c-format
@@ -14532,7 +14529,7 @@ msgstr "<b>%s</b> navrhl(-a) následující změny přiřazení úkolu:"
 #: plugins/itip-formatter/itip-view.c:442
 #, c-format
 msgid "<b>%s</b> through %s has declined the following assigned task:"
-msgstr ""
+msgstr "<b>%s</b> pomocí %s odmítl(-a) následující přiřazený úkol:"
 
 #: plugins/itip-formatter/itip-view.c:444
 #, c-format
@@ -14719,7 +14716,7 @@ msgid ""
 "Uid%sSummary%sDescription List%sCategories List%sComment List%sCompleted%"
 "sCreated%sContact List%sStart%sEnd%sDue%sPercent Done%sPriority%sUrl%"
 "sAttendees List%sLocation%sModified%s"
-msgstr ""
+msgstr "Uid%sSummary%sDescription List%sCategories List%sComment List%sCompleted%sCreated%sContact List%sStart%sEnd%sDue%sPercent Done%sPriority%sUrl%sAttendees List%sLocation%sModified%s"
 
 #: plugins/save-calendar/csv-format.c:519
 msgid "Advanced options for the CSV format"
@@ -16779,7 +16776,7 @@ msgstr "Otevřít vybranou zprávu v editoru"
 
 #: ui/evolution-mail-message.xml.h:72
 msgid "Original Si_ze"
-msgstr "Původní _velikost"
+msgstr "_Původní velikost"
 
 #: ui/evolution-mail-message.xml.h:73
 msgid "P_revious Unread Message"
@@ -17351,7 +17348,7 @@ msgstr "Přepnout, zdali pracujete off-line."
 
 #: ui/evolution.xml.h:31
 msgid "Tool_bar"
-msgstr "_Lišta nástrojů"
+msgstr "_Lištu nástrojů"
 
 #: ui/evolution.xml.h:32
 msgid "Tool_bar style"
@@ -17367,7 +17364,7 @@ msgstr "O _Evolution..."
 
 #: ui/evolution.xml.h:40
 msgid "_Help"
-msgstr "Ná_pověda"
+msgstr "Nápo_věda"
 
 #: ui/evolution.xml.h:41
 msgid "_Hide buttons"
