@@ -967,6 +967,8 @@ real_send_comp (CompEditor *editor, CalComponentItipMethod method)
 	gtk_object_ref (GTK_OBJECT (tmp_comp));
 	comp_editor_edit_comp (editor, tmp_comp);
 	gtk_object_unref (GTK_OBJECT (tmp_comp));
+
+	comp_editor_set_changed (editor, TRUE);
 	save_comp (editor);
 }
 
