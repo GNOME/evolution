@@ -69,6 +69,15 @@
    we start a drag. */
 #define E_DAY_VIEW_DRAG_START_OFFSET	4
 
+/* The amount we scroll the main canvas when the Page Up/Down keys are pressed,
+   as a fraction of the page size. */
+#define E_DAY_VIEW_PAGE_STEP		0.5
+
+/* The amount we scroll the main canvas when the mouse wheel buttons are
+   pressed, as a fraction of the page size. */
+#define E_DAY_VIEW_WHEEL_MOUSE_STEP_SIZE	0.25
+
+
 /* Drag and Drop stuff. */
 enum {
 	TARGET_CALENDAR_EVENT
@@ -113,6 +122,8 @@ static void e_day_view_cursor_key_right (EDayView *day_view,
 static void e_day_view_ensure_rows_visible (EDayView *day_view,
 					    gint start_row,
 					    gint end_row);
+static void e_day_view_scroll	(EDayView	*day_view,
+				 gfloat		 pages_to_scroll);
 
 static gboolean e_day_view_check_if_new_event_fits (EDayView *day_view);
 
@@ -1665,14 +1676,14 @@ e_day_view_update_event_label (EDayView *day_view,
 			if (day_view->show_event_end_times) {
 				/* 24 hour format with end time. */
 				text = g_strdup_printf
-					("%02i:%02i-%02i:%02i %s",
+					("%2i:%02i-%2i:%02i %s",
 					 start_display_hour, start_minute,
 					 end_display_hour, end_minute,
 					 text);
 			} else {
 				/* 24 hour format without end time. */
 				text = g_strdup_printf
-					("%02i:%02i %s",
+					("%2i:%02i %s",
 					 start_display_hour, start_minute,
 					 text);
 			}
@@ -1680,7 +1691,7 @@ e_day_view_update_event_label (EDayView *day_view,
 			if (day_view->show_event_end_times) {
 				/* 12 hour format with end time. */
 				text = g_strdup_printf
-					("%02i:%02i%s-%02i:%02i%s %s",
+					("%2i:%02i%s-%2i:%02i%s %s",
 					 start_display_hour, start_minute,
 					 start_suffix,
 					 end_display_hour, end_minute,
@@ -1689,7 +1700,7 @@ e_day_view_update_event_label (EDayView *day_view,
 			} else {
 				/* 12 hour format without end time. */
 				text = g_strdup_printf
-					("%02i:%02i%s %s",
+					("%2i:%02i%s %s",
 					 start_display_hour, start_minute,
 					 start_suffix,
 					 text);
@@ -2531,16 +2542,14 @@ e_day_view_on_main_canvas_button_press (GtkWidget *widget,
 	EDayViewPosition pos;
 
 	/* Handle scroll wheel events */
-	if (event->button == 4 || event->button == 5) {
-		GtkAdjustment *adj = GTK_LAYOUT (day_view->main_canvas)->vadjustment;
-		gfloat new_value;
-
-		new_value = adj->value + ((event->button == 4) ?
-					  -adj->page_increment / 2:
-					  adj->page_increment / 2);
-		new_value = CLAMP (new_value, adj->lower, adj->upper - adj->page_size);
-		gtk_adjustment_set_value (adj, new_value);
-
+	if (event->button == 4) {
+		/* The wheel has been moved up, so scroll the canvas down. */
+		e_day_view_scroll (day_view, E_DAY_VIEW_WHEEL_MOUSE_STEP_SIZE);
+		return TRUE;
+	}
+	if (event->button == 5) {
+		/* The wheel has been moved down, so scroll the canvas up. */
+		e_day_view_scroll (day_view, -E_DAY_VIEW_WHEEL_MOUSE_STEP_SIZE);
 		return TRUE;
 	}
 
@@ -4724,6 +4733,12 @@ e_day_view_key_press (GtkWidget *widget, GdkEventKey *event)
 		case GDK_Right:
 			e_day_view_cursor_key_right (day_view, event);
 			break;
+		case GDK_Page_Up:
+			e_day_view_scroll (day_view, E_DAY_VIEW_PAGE_STEP);
+			break;
+		case GDK_Page_Down:
+			e_day_view_scroll (day_view, -E_DAY_VIEW_PAGE_STEP);
+			break;
 		default:
 			stop_emission = FALSE;
 			break;
@@ -5003,6 +5018,23 @@ e_day_view_cursor_key_right (EDayView *day_view, GdkEventKey *event)
 		gtk_widget_queue_draw (day_view->top_canvas);
 		gtk_widget_queue_draw (day_view->main_canvas);
 	}
+}
+
+
+/* Scrolls the main canvas up or down. The pages_to_scroll argument
+   is multiplied with the adjustment's page size and added to the adjustment's
+   value, while ensuring we stay within the bounds. A positive value will
+   scroll the canvas down and a negative value will scroll it up. */
+static void
+e_day_view_scroll	(EDayView	*day_view,
+			 gfloat		 pages_to_scroll)
+{
+	GtkAdjustment *adj = GTK_LAYOUT (day_view->main_canvas)->vadjustment;
+	gfloat new_value;
+
+	new_value = adj->value - adj->page_size * pages_to_scroll;
+	new_value = CLAMP (new_value, adj->lower, adj->upper - adj->page_size);
+	gtk_adjustment_set_value (adj, new_value);
 }
 
 

@@ -105,7 +105,9 @@ struct _EventEditorPrivate {
 	GtkWidget *alarm_mail_unit;
 	GtkWidget *alarm_mail_mail_to;
 
-	GtkWidget *classification_radio;
+	GtkWidget *classification_public;
+	GtkWidget *classification_private;
+	GtkWidget *classification_confidential;
 
 	GtkWidget *recurrence_summary;
 	GtkWidget *recurrence_starting_date;
@@ -154,6 +156,11 @@ struct _EventEditorPrivate {
 
 	/* For the recurrence preview, the actual widget */
 	GtkWidget *recurrence_preview_calendar;
+
+	/* Call event_editor_set_changed() to set this to TRUE when any field
+	   in the dialog is changed. When the user closes the dialog we will
+	   prompt to save changes. */
+	gboolean changed;
 };
 
 
@@ -180,6 +187,11 @@ static void recur_to_comp_object (EventEditor *ee, CalComponent *comp);
 static void recurrence_exception_add_cb (GtkWidget *widget, EventEditor *ee);
 static void recurrence_exception_modify_cb (GtkWidget *widget, EventEditor *ee);
 static void recurrence_exception_delete_cb (GtkWidget *widget, EventEditor *ee);
+static void field_changed		(GtkWidget	*widget,
+					 EventEditor	*ee);
+static void event_editor_set_changed	(EventEditor	*ee,
+					 gboolean	 changed);
+static gboolean prompt_to_save_changes	(EventEditor	*ee);
 
 
 
@@ -235,6 +247,8 @@ event_editor_init (EventEditor *ee)
 
 	priv = g_new0 (EventEditorPrivate, 1);
 	ee->priv = priv;
+
+	event_editor_set_changed (ee, FALSE);
 }
 
 /* Frees the rows and the row data in the recurrence exceptions GtkCList */
@@ -367,6 +381,7 @@ recur_weekday_picker_changed_cb (WeekdayPicker *wp, gpointer data)
 	EventEditor *ee;
 
 	ee = EVENT_EDITOR (data);
+	event_editor_set_changed (ee, TRUE);
 	preview_recur (ee);
 }
 
@@ -505,6 +520,7 @@ month_day_menu_selection_done_cb (GtkMenuShell *menu_shell, gpointer data)
 
 	ee = EVENT_EDITOR (data);
 	adjust_day_index_spin (ee);
+	event_editor_set_changed (ee, TRUE);
 	preview_recur (ee);
 }
 
@@ -515,6 +531,7 @@ recur_month_index_value_changed_cb (GtkAdjustment *adj, gpointer data)
 	EventEditor *ee;
 
 	ee = EVENT_EDITOR (data);
+	event_editor_set_changed (ee, TRUE);
 	preview_recur (ee);
 }
 
@@ -634,6 +651,7 @@ recur_ending_until_changed_cb (EDateEdit *de, gpointer data)
 	EventEditor *ee;
 
 	ee = EVENT_EDITOR (data);
+	event_editor_set_changed (ee, TRUE);
 	preview_recur (ee);
 }
 
@@ -674,6 +692,7 @@ recur_ending_count_value_changed_cb (GtkAdjustment *adj, gpointer data)
 	EventEditor *ee;
 
 	ee = EVENT_EDITOR (data);
+	event_editor_set_changed (ee, TRUE);
 	preview_recur (ee);
 }
 
@@ -838,6 +857,8 @@ recurrence_type_toggled_cb (GtkToggleButton *toggle, gpointer data)
 
 	ee = EVENT_EDITOR (data);
 
+	event_editor_set_changed (ee, TRUE);
+
 	if (toggle->active) {
 		sensitize_recur_widgets (ee);
 		preview_recur (ee);
@@ -851,6 +872,7 @@ recur_interval_value_changed_cb (GtkAdjustment *adj, gpointer data)
 	EventEditor *ee;
 
 	ee = EVENT_EDITOR (data);
+	event_editor_set_changed (ee, TRUE);
 	preview_recur (ee);
 }
 
@@ -863,6 +885,7 @@ recur_interval_selection_done_cb (GtkMenuShell *menu_shell, gpointer data)
 	EventEditor *ee;
 
 	ee = EVENT_EDITOR (data);
+	event_editor_set_changed (ee, TRUE);
 	make_recurrence_special (ee);
 	preview_recur (ee);
 }
@@ -876,6 +899,7 @@ recur_ending_selection_done_cb (GtkMenuShell *menu_shell, gpointer data)
 	EventEditor *ee;
 
 	ee = EVENT_EDITOR (data);
+	event_editor_set_changed (ee, TRUE);
 	make_recurrence_ending_special (ee);
 	preview_recur (ee);
 }
@@ -919,7 +943,9 @@ get_widgets (EventEditor *ee)
 	priv->alarm_mail_unit = GW ("alarm-mail-unit");
 	priv->alarm_mail_mail_to = GW ("alarm-mail-mail-to");
 
-	priv->classification_radio = GW ("classification-radio");
+	priv->classification_public = GW ("classification-public");
+	priv->classification_private = GW ("classification-private");
+	priv->classification_confidential = GW ("classification-confidential");
 
 	priv->recurrence_summary = GW ("recurrence-summary");
 	priv->recurrence_starting_date = GW ("recurrence-starting-date");
@@ -966,7 +992,9 @@ get_widgets (EventEditor *ee)
 		&& priv->alarm_mail_amount
 		&& priv->alarm_mail_unit
 		&& priv->alarm_mail_mail_to
-		&& priv->classification_radio
+		&& priv->classification_public
+		&& priv->classification_private
+		&& priv->classification_confidential
 		&& priv->recurrence_summary
 		&& priv->recurrence_starting_date
 		&& priv->recurrence_none
@@ -1108,6 +1136,7 @@ init_widgets (EventEditor *ee)
 	gnome_canvas_item_set (GNOME_CANVAS_ITEM (ecal->calitem),
 			       "maximum_days_selected", 0,
 			       "week_start_day", (week_start_day + 6) % 7,
+			       "show_week_numbers", calendar_config_get_dnav_show_week_no (),
 			       NULL);
 	gtk_container_add (GTK_CONTAINER (priv->recurrence_preview_bin),
 			   priv->recurrence_preview_calendar);
@@ -1148,6 +1177,64 @@ init_widgets (EventEditor *ee)
 			    GTK_SIGNAL_FUNC (recurrence_exception_modify_cb), ee);
 	gtk_signal_connect (GTK_OBJECT (priv->recurrence_exception_delete), "clicked",
 			    GTK_SIGNAL_FUNC (recurrence_exception_delete_cb), ee);
+
+
+	/*
+	 * Connect the default signal handler to use to make sure the "changed"
+	 * field gets set whenever a field is changed.
+	 */
+
+	/* General Page. */
+	gtk_signal_connect (GTK_OBJECT (priv->general_summary), "changed",
+			    GTK_SIGNAL_FUNC (field_changed), ee);
+	gtk_signal_connect (GTK_OBJECT (priv->description), "changed",
+			    GTK_SIGNAL_FUNC (field_changed), ee);
+	gtk_signal_connect (GTK_OBJECT (priv->classification_public),
+			    "toggled",
+			    GTK_SIGNAL_FUNC (field_changed), ee);
+	gtk_signal_connect (GTK_OBJECT (priv->classification_private),
+			    "toggled",
+			    GTK_SIGNAL_FUNC (field_changed), ee);
+	gtk_signal_connect (GTK_OBJECT (priv->classification_confidential),
+			    "toggled",
+			    GTK_SIGNAL_FUNC (field_changed), ee);
+
+	/* Reminder Page. */
+	gtk_signal_connect (GTK_OBJECT (GTK_SPIN_BUTTON (priv->alarm_display_amount)->adjustment),
+			    "value_changed",
+			    GTK_SIGNAL_FUNC (field_changed), ee);
+	gtk_signal_connect (GTK_OBJECT (GTK_SPIN_BUTTON (priv->alarm_audio_amount)->adjustment),
+			    "value_changed",
+			    GTK_SIGNAL_FUNC (field_changed), ee);
+	gtk_signal_connect (GTK_OBJECT (GTK_SPIN_BUTTON (priv->alarm_program_amount)->adjustment),
+			    "value_changed",
+			    GTK_SIGNAL_FUNC (field_changed), ee);
+	gtk_signal_connect (GTK_OBJECT (GTK_SPIN_BUTTON (priv->alarm_mail_amount)->adjustment),
+			    "value_changed",
+			    GTK_SIGNAL_FUNC (field_changed), ee);
+
+	gtk_signal_connect (GTK_OBJECT (GTK_OPTION_MENU (priv->alarm_display_unit)->menu),
+			    "deactivate",
+			    GTK_SIGNAL_FUNC (field_changed), ee);
+	gtk_signal_connect (GTK_OBJECT (GTK_OPTION_MENU (priv->alarm_audio_unit)->menu),
+			    "deactivate",
+			    GTK_SIGNAL_FUNC (field_changed), ee);
+	gtk_signal_connect (GTK_OBJECT (GTK_OPTION_MENU (priv->alarm_program_unit)->menu),
+			    "deactivate",
+			    GTK_SIGNAL_FUNC (field_changed), ee);
+	gtk_signal_connect (GTK_OBJECT (GTK_OPTION_MENU (priv->alarm_mail_unit)->menu),
+			    "deactivate",
+			    GTK_SIGNAL_FUNC (field_changed), ee);
+
+	gtk_signal_connect (GTK_OBJECT (priv->alarm_program_run_program_entry),
+			    "changed",
+			    GTK_SIGNAL_FUNC (field_changed), ee);
+	gtk_signal_connect (GTK_OBJECT (priv->alarm_mail_mail_to),
+			    "changed",
+			    GTK_SIGNAL_FUNC (field_changed), ee);
+
+
+	/* Recurrence Page. */
 }
 
 static const int classification_map[] = {
@@ -1238,7 +1325,7 @@ clear_widgets (EventEditor *ee)
 
 	/* Classification */
 
-	e_dialog_radio_set (priv->classification_radio,
+	e_dialog_radio_set (priv->classification_public,
 			    CAL_COMPONENT_CLASS_PRIVATE, classification_map);
 
 	/* Recurrences */
@@ -1851,19 +1938,27 @@ fill_widgets (EventEditor *ee)
 	e_dialog_editable_set (priv->alarm_program_run_program_entry, priv->ico->palarm.data);
 	e_dialog_editable_set (priv->alarm_mail_mail_to, priv->ico->malarm.data);
 #endif
+
+	/* Call alarm_toggle to set the sensitivity of the widgets. */
+	alarm_toggle (priv->alarm_display, ee);
+	alarm_toggle (priv->alarm_audio, ee);
+	alarm_toggle (priv->alarm_program, ee);
+	alarm_toggle (priv->alarm_mail, ee);
+
+
 	/* Classification */
 
 	cal_component_get_classification (priv->comp, &cl);
 
 	switch (cl) {
 	case CAL_COMPONENT_CLASS_PUBLIC:
-	    	e_dialog_radio_set (priv->classification_radio, CAL_COMPONENT_CLASS_PUBLIC,
+	    	e_dialog_radio_set (priv->classification_public, CAL_COMPONENT_CLASS_PUBLIC,
 				    classification_map);
 	case CAL_COMPONENT_CLASS_PRIVATE:
-	    	e_dialog_radio_set (priv->classification_radio, CAL_COMPONENT_CLASS_PRIVATE,
+	    	e_dialog_radio_set (priv->classification_public, CAL_COMPONENT_CLASS_PRIVATE,
 				    classification_map);
 	case CAL_COMPONENT_CLASS_CONFIDENTIAL:
-	    	e_dialog_radio_set (priv->classification_radio, CAL_COMPONENT_CLASS_CONFIDENTIAL,
+	    	e_dialog_radio_set (priv->classification_public, CAL_COMPONENT_CLASS_CONFIDENTIAL,
 				    classification_map);
 	default:
 		/* What do do?  We can't g_assert_not_reached() since it is a
@@ -1873,6 +1968,9 @@ fill_widgets (EventEditor *ee)
 
 	/* Recurrences */
 	fill_recurrence_widgets (ee);
+
+	/* Do this last, since the callbacks will set it to TRUE. */
+	event_editor_set_changed (ee, FALSE);
 }
 
 
@@ -2239,7 +2337,7 @@ dialog_to_comp_object (EventEditor *ee, CalComponent *comp)
 	ico->malarm.data = e_dialog_editable_get (priv->alarm_mail_mail_to);
 #endif
 
-	cal_component_set_classification (comp, classification_get (priv->classification_radio));
+	cal_component_set_classification (comp, classification_get (priv->classification_public));
 
 	/* Recurrence information */
 	recur_to_comp_object (ee, comp);
@@ -2265,6 +2363,8 @@ save_event_object (EventEditor *ee)
 
 	if (!cal_client_update_object (priv->client, priv->comp))
 		g_message ("save_event_object(): Could not update the object!");
+	else
+		event_editor_set_changed (ee, FALSE);
 }
 
 /* Closes the dialog box and emits the appropriate signals */
@@ -2347,11 +2447,12 @@ file_close_cb (GtkWidget *widget, gpointer data)
 {
 	EventEditor *ee;
 
+	g_return_if_fail (IS_EVENT_EDITOR (data));
+
 	ee = EVENT_EDITOR (data);
 
-	g_return_if_fail (IS_EVENT_EDITOR (ee));
-
-	close_dialog (ee);
+	if (prompt_to_save_changes (ee))
+		close_dialog (ee);
 }
 
 static void
@@ -2398,10 +2499,12 @@ app_delete_event_cb (GtkWidget *widget, GdkEvent *event, gpointer data)
 {
 	EventEditor *ee;
 
-	/* FIXME: need to check for a dirty object */
+	g_return_val_if_fail (IS_EVENT_EDITOR (data), TRUE);
 
 	ee = EVENT_EDITOR (data);
-	close_dialog (ee);
+
+	if (prompt_to_save_changes (ee))
+		close_dialog (ee);
 
 	return TRUE;
 }
@@ -2718,6 +2821,8 @@ event_editor_focus (EventEditor *ee)
 	raise_and_focus (priv->app);
 }
 
+/* Sets the sensitivity of the relevant alarm widgets. Called when filling
+   the widgets initially and when the alarm button is toggled. */
 static void
 alarm_toggle (GtkWidget *toggle, EventEditor *ee)
 {
@@ -2727,6 +2832,8 @@ alarm_toggle (GtkWidget *toggle, EventEditor *ee)
 	gboolean active;
 
 	priv = ee->priv;
+
+	event_editor_set_changed (ee, TRUE);
 
 	active = GTK_TOGGLE_BUTTON (toggle)->active;
 
@@ -2751,7 +2858,7 @@ alarm_toggle (GtkWidget *toggle, EventEditor *ee)
 	gtk_widget_set_sensitive (alarm_unit, active);
 }
 
-/* Checks if the day range occupies a single whole day, and if so, check. the
+/* Checks if the event's time starts and ends at midnight, and sets the
  * "all day event" box accordingly.
  */
 static void
@@ -2759,9 +2866,7 @@ check_all_day (EventEditor *ee)
 {
 	EventEditorPrivate *priv;
 	time_t ev_start, ev_end;
-	time_t start_begin_day, end_begin_day;
-	struct tm tm_start, tm_end;
-	gboolean all_day;
+	gboolean all_day = FALSE;
 
 	priv = ee->priv;
 
@@ -2773,36 +2878,26 @@ check_all_day (EventEditor *ee)
 	ev_end = e_date_edit_get_time (E_DATE_EDIT (priv->end_time));
 	g_return_if_fail (ev_end != -1);
 
-#if 0
 	/* all day event checkbox */
 	if (time_day_begin (ev_start) == ev_start
 	    && time_day_begin (ev_end) == ev_end)
-		e_dialog_toggle_set (priv->all_day_event, TRUE);
-#endif
-
-	start_begin_day = time_day_begin (ev_start);
-	end_begin_day = time_day_begin (ev_end);
-
-	tm_start = *localtime (&start_begin_day);
-	tm_end = *localtime (&end_begin_day);
-
-	/* FIXME: This will only set all_day to TRUE if the event lasts 1 day.
-	   But we also want it TRUE for multiple-day events. */
-	tm_end.tm_mday--;
-	if (mktime (&tm_start) == mktime (&tm_end))
 		all_day = TRUE;
-	else
-		all_day = FALSE;
 
 	gtk_signal_handler_block_by_data (GTK_OBJECT (priv->all_day_event), ee);
 
 	e_dialog_toggle_set (priv->all_day_event, all_day);
 
 	gtk_signal_handler_unblock_by_data (GTK_OBJECT (priv->all_day_event), ee);
+
+	e_date_edit_set_show_time (E_DATE_EDIT (priv->start_time), !all_day);
+	e_date_edit_set_show_time (E_DATE_EDIT (priv->end_time), !all_day);
 }
 
 /*
- * Callback: all day event box clicked
+ * Callback: all day event button toggled.
+ * Note that this should only be called when the user explicitly toggles the
+ * button. Be sure to block this handler when the toggle button's state is set
+ * within the code.
  */
 static void
 set_all_day (GtkWidget *toggle, EventEditor *ee)
@@ -2814,9 +2909,11 @@ set_all_day (GtkWidget *toggle, EventEditor *ee)
 
 	priv = ee->priv;
 
-	/* When the all_day toggle is on, the start date is rounded down to
-	   the start of the day, and end date is rounded down to the start of
-	   the day on which the event ends. The event is then taken to be
+	event_editor_set_changed (ee, TRUE);
+
+	/* When the all_day toggle is turned on, the start date is rounded down
+	   to the start of the day, and end date is rounded down to the start
+	   of the day on which the event ends. The event is then taken to be
 	   inclusive of the days between the start and end days.
 	   Note that if the event end is at midnight, we do not round it down
 	   to the previous day, since if we do that and the user repeatedly
@@ -2824,40 +2921,48 @@ set_all_day (GtkWidget *toggle, EventEditor *ee)
 	   (We'd also need to make sure we didn't adjust the time when the
 	   radio button is initially set.)
 
-	   When the all_day_toggle is off, we set the event start to the start
-	   of the working day, and if the event end is on or before the day
-	   of the event start we set it to one hour after the event start. */
+	   When the all_day_toggle is turned off, we set the event start to the
+	   start of the working day, and if the event end is on or before the
+	   day of the event start we set it to one hour after the event start.
+	*/
 	all_day = GTK_TOGGLE_BUTTON (toggle)->active;
 
-	/* Start time. */
+	/*
+	 * Start time.
+	 */
 	start_t = e_date_edit_get_time (E_DATE_EDIT (priv->start_time));
 	g_return_if_fail (start_t != -1);
 
 	start_tm = *localtime (&start_t);
-	start_tm.tm_min  = 0;
-	start_tm.tm_sec  = 0;
 
-	if (all_day)
+	if (all_day) {
+		/* Round down to the start of the day. */
 		start_tm.tm_hour = 0;
-	else
-		start_tm.tm_hour = day_begin;
+		start_tm.tm_min  = 0;
+		start_tm.tm_sec  = 0;
+	} else {
+		/* Set to the start of the working day. */
+		start_tm.tm_hour = calendar_config_get_day_start_hour ();
+		start_tm.tm_min  = calendar_config_get_day_start_minute ();
+		start_tm.tm_sec  = 0;
+	}
 
-	/* will set recur start too */
-	e_date_edit_set_time (E_DATE_EDIT (priv->start_time), mktime (&start_tm));
-
-	/* End time. */
+	/*
+	 * End time.
+	 */
 	end_t = e_date_edit_get_time (E_DATE_EDIT (priv->end_time));
 	g_return_if_fail (end_t != -1);
 
 	end_tm = *localtime (&end_t);
-	end_tm.tm_min  = 0;
-	end_tm.tm_sec  = 0;
 
 	if (all_day) {
+		/* Round down to the start of the day. */
 		end_tm.tm_hour = 0;
+		end_tm.tm_min  = 0;
+		end_tm.tm_sec  = 0;
 	} else {
-		/* If the event end is now before the event start, make it
-		   end one hour after the start. mktime() will fix any
+		/* If the event end is now on or before the event start day,
+		   make it end one hour after the start. mktime() will fix any
 		   overflows. */
 		if (end_tm.tm_year < start_tm.tm_year
 		    || (end_tm.tm_year == start_tm.tm_year
@@ -2872,10 +2977,24 @@ set_all_day (GtkWidget *toggle, EventEditor *ee)
 		}
 	}
 
+	/* Block date_changed_cb, or dates_changed() will be called after the
+	   start time is set (but before the end time is set) and will call
+	   check_all_day() and mess us up. */
+	gtk_signal_handler_block_by_data (GTK_OBJECT (priv->start_time), ee);
+	gtk_signal_handler_block_by_data (GTK_OBJECT (priv->end_time), ee);
+
+	/* will set recur start too */
+	e_date_edit_set_time (E_DATE_EDIT (priv->start_time), mktime (&start_tm));
+
 	e_date_edit_set_time (E_DATE_EDIT (priv->end_time), mktime (&end_tm));
+
+	gtk_signal_handler_unblock_by_data (GTK_OBJECT (priv->start_time), ee);
+	gtk_signal_handler_unblock_by_data (GTK_OBJECT (priv->end_time), ee);
 
 	e_date_edit_set_show_time (E_DATE_EDIT (priv->start_time), !all_day);
 	e_date_edit_set_show_time (E_DATE_EDIT (priv->end_time), !all_day);
+
+	preview_recur (ee);
 }
 
 /* Callback used when the start or end date widgets change.  We check that the
@@ -2892,6 +3011,8 @@ date_changed_cb (EDateEdit *dedit, gpointer data)
 	ee = EVENT_EDITOR (data);
 	priv = ee->priv;
 
+	event_editor_set_changed (ee, TRUE);
+
 	/* Ensure that start < end */
 
 	start = e_date_edit_get_time (E_DATE_EDIT (priv->start_time));
@@ -2899,11 +3020,18 @@ date_changed_cb (EDateEdit *dedit, gpointer data)
 	end = e_date_edit_get_time (E_DATE_EDIT (priv->end_time));
 	g_return_if_fail (end != -1);
 
-	if (start > end) {
+	if (start >= end) {
 		tm_start = *localtime (&start);
 		tm_end = *localtime (&end);
 
-		if (GTK_WIDGET (dedit) == priv->start_time) {
+		if (start == end && tm_start.tm_hour == 0
+		    && tm_start.tm_min == 0 && tm_start.tm_sec == 0) {
+			/* If the start and end times are the same, but both
+			   are on day boundaries, then that is OK since it
+			   means we have an all-day event lasting 1 day.
+			   So we do nothing here. */
+
+		} else if (GTK_WIDGET (dedit) == priv->start_time) {
 			/* Modify the end time */
 
 			tm_end.tm_year = tm_start.tm_year;
@@ -2989,6 +3117,7 @@ recurrence_exception_add_cb (GtkWidget *widget, EventEditor *ee)
 
 	priv = ee->priv;
 
+	event_editor_set_changed (ee, TRUE);
 	t = e_date_edit_get_time (E_DATE_EDIT (priv->recurrence_exception_date));
 	append_exception (ee, t);
 	preview_recur (ee);
@@ -3008,6 +3137,8 @@ recurrence_exception_modify_cb (GtkWidget *widget, EventEditor *ee)
 	clist = GTK_CLIST (priv->recurrence_exception_list);
 	if (!clist->selection)
 		return;
+
+	event_editor_set_changed (ee, TRUE);
 
 	sel = GPOINTER_TO_INT (clist->selection->data);
 
@@ -3032,6 +3163,8 @@ recurrence_exception_delete_cb (GtkWidget *widget, EventEditor *ee)
 	clist = GTK_CLIST (priv->recurrence_exception_list);
 	if (!clist->selection)
 		return;
+
+	event_editor_set_changed (ee, TRUE);
 
 	sel = GPOINTER_TO_INT (clist->selection->data);
 
@@ -3091,4 +3224,77 @@ make_spin_button (int val, int low, int high)
 	gtk_widget_set_usize (spin, 60, 0);
 
 	return spin;
+}
+
+
+/* This is called when most fields are changed (except those which already
+   have signal handlers). It just sets the "changed" flag. */
+static void
+field_changed			(GtkWidget	*widget,
+				 EventEditor	*ee)
+{
+	EventEditorPrivate *priv;
+
+	g_return_if_fail (IS_EVENT_EDITOR (ee));
+
+	priv = ee->priv;
+
+	event_editor_set_changed (ee, TRUE);
+}
+
+
+static void
+event_editor_set_changed	(EventEditor	*ee,
+				 gboolean	 changed)
+{
+	EventEditorPrivate *priv;
+
+	priv = ee->priv;
+
+#if 0
+	g_print ("In event_editor_set_changed: %s\n",
+		 changed ? "TRUE" : "FALSE");
+#endif
+
+	priv->changed = changed;
+}
+
+
+/* This checks if the "changed" field is set, and if so it prompts to save
+   the changes using a "Save/Discard/Cancel" modal dialog. It then saves the
+   changes if requested. It returns TRUE if the dialog should now be closed. */
+static gboolean
+prompt_to_save_changes		(EventEditor	*ee)
+{
+	EventEditorPrivate *priv;
+	GtkWidget *dialog;
+
+	priv = ee->priv;
+
+	if (!priv->changed)
+		return TRUE;
+
+	dialog = gnome_message_box_new (_("Do you want to save changes?"),
+					GNOME_MESSAGE_BOX_QUESTION,
+					GNOME_STOCK_BUTTON_YES,
+					GNOME_STOCK_BUTTON_NO,
+					GNOME_STOCK_BUTTON_CANCEL,
+					NULL);
+
+	gnome_dialog_set_parent (GNOME_DIALOG (dialog),
+				 GTK_WINDOW (priv->app));
+		
+	switch (gnome_dialog_run_and_close (GNOME_DIALOG (dialog))) {
+	case 0: /* Save */
+		/* FIXME: If an error occurs here, we should popup a dialog
+		   and then return FALSE. */
+		save_event_object (ee);
+		return TRUE;
+	case 1: /* Discard */
+		return TRUE;
+	case 2: /* Cancel */
+	default:
+		return FALSE;
+		break;
+	}
 }

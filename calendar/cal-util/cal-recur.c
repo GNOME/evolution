@@ -260,11 +260,11 @@ static gboolean generate_instances_for_chunk	(CalComponent		*comp,
 						 GSList			*rdates,
 						 GSList			*exrules,
 						 GSList			*exdates,
+						 gboolean		 single_rule,
 						 CalObjTime		*event_start,
+						 time_t			 interval_start,
 						 CalObjTime		*chunk_start,
 						 CalObjTime		*chunk_end,
-						 time_t			 interval_start_time,
-						 time_t			 interval_end_time,
 						 gint			 duration_days,
 						 gint			 duration_seconds,
 						 CalRecurInstanceFn	 cb,
@@ -600,7 +600,7 @@ cal_recur_generate_instances (CalComponent		*comp,
  * If the callback routine returns FALSE the occurrence generation stops.
  *
  * The use of the specific rule is for determining the end of a rule when
- * COUNT is set. The callback will count instances and store the enddata
+ * COUNT is set. The callback will count instances and store the enddate
  * when COUNT is reached.
  *
  * Both start and end can be -1, in which case we start at the events first
@@ -621,6 +621,7 @@ cal_recur_generate_instances_of_rule (CalComponent	 *comp,
 	CalObjTime interval_start, interval_end, event_start, event_end;
 	CalObjTime chunk_start, chunk_end;
 	gint days, seconds, year;
+	gboolean single_rule;
 
 	g_return_if_fail (comp != NULL);
 	g_return_if_fail (cb != NULL);
@@ -662,10 +663,14 @@ cal_recur_generate_instances_of_rule (CalComponent	 *comp,
 	/* If a specific recurrence rule is being used, set up a simple list,
 	   else get the recurrence rules from the component. */
 	if (prop) {
+		single_rule = TRUE;
+
 		elem.data = prop;
 		elem.next = NULL;
 		rrules = &elem;
 	} else {
+		single_rule = FALSE;
+
 		/* Make sure all the enddates for the rules are set. */
 		cal_recur_ensure_end_dates (comp, FALSE);
 
@@ -738,9 +743,10 @@ cal_recur_generate_instances_of_rule (CalComponent	 *comp,
 		if (!generate_instances_for_chunk (comp, dtstart_time,
 						   rrules, rdates,
 						   exrules, exdates,
+						   single_rule,
 						   &event_start,
+						   start,
 						   &chunk_start, &chunk_end,
-						   start, end,
 						   days, seconds,
 						   cb, cb_data))
 			break;
@@ -934,11 +940,11 @@ generate_instances_for_chunk (CalComponent	*comp,
 			      GSList		*rdates,
 			      GSList		*exrules,
 			      GSList		*exdates,
+			      gboolean		 single_rule,
 			      CalObjTime	*event_start,
+			      time_t		 interval_start,
 			      CalObjTime	*chunk_start,
 			      CalObjTime	*chunk_end,
-			      time_t		 interval_start_time,
-			      time_t		 interval_end_time,
 			      gint		 duration_days,
 			      gint		 duration_seconds,
 			      CalRecurInstanceFn cb,
@@ -969,13 +975,17 @@ generate_instances_for_chunk (CalComponent	*comp,
 	rdate_periods = g_array_new (FALSE, FALSE,
 				     sizeof (CalObjRecurrenceDate));
 
-	/* The original DTSTART property is included in the occurrence set.
-	   So we add it if it is in this chunk. If it is after this chunk
-	   we set finished to FALSE. */
-	if (cal_obj_time_compare_func (event_start, chunk_end) >= 0)
-		finished = FALSE;
-	else if (cal_obj_time_compare_func (event_start, chunk_start) >= 0)
-		g_array_append_vals (occs, event_start, 1);
+	/* The original DTSTART property is included in the occurrence set,
+	   but not if we are just generating occurrences for a single rule. */
+	if (!single_rule) {
+		/* We add it if it is in this chunk. If it is after this chunk
+		   we set finished to FALSE, since we know we aren't finished
+		   yet. */
+		if (cal_obj_time_compare_func (event_start, chunk_end) >= 0)
+			finished = FALSE;
+		else if (cal_obj_time_compare_func (event_start, chunk_start) >= 0)
+			g_array_append_vals (occs, event_start, 1);
+	}
 	
 	/* Expand each of the recurrence rules. */
 	for (elem = rrules; elem; elem = elem->next) {
@@ -1102,9 +1112,14 @@ generate_instances_for_chunk (CalComponent	*comp,
 			break;
 		}
 
+		/* Check to ensure that the start time is at or after the
+		   events DTSTART time, that it is not after the end of the
+		   interval we are generating instances for, and that it is
+		   inside the chunk that we are currently working on. */
 		if (start_time < comp_dtstart
-		    || (interval_end_time != -1
-			&& start_time >= interval_end_time))
+		    || start_time < interval_start
+		    || cal_obj_time_compare_func (occ, chunk_start) < 0
+		    || cal_obj_time_compare_func (occ, chunk_end) > 0)
 			continue;
 
 		if (occ->is_rdate) {
@@ -1133,7 +1148,9 @@ generate_instances_for_chunk (CalComponent	*comp,
 			break;
 		}
 
-		if (end_time <= interval_start_time)
+		/* Check that the occurrence ends after the start of the
+		   current chunk. */
+		if (cal_obj_time_compare_func (occ, chunk_start) <= 0)
 			continue;
 
 		cb_status = (*cb) (comp, start_time, end_time, cb_data);

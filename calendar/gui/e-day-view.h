@@ -165,14 +165,30 @@ typedef enum
 typedef struct _EDayViewEvent EDayViewEvent;
 struct _EDayViewEvent {
 	CalComponent *comp;
+
+	/* These are the times of this specific occurrence of the event. */
 	time_t start;
 	time_t end;
-	guint8 start_row_or_col;/* The start column for normal events, or the
-				   start row for long events. */
-	guint8 num_columns;	/* 0 indicates not displayed. For long events
-				   this is just 1 if the event is shown. */
-	guint16 start_minute;	/* Offsets from the start of the display. */
+
+	/* For events in the main canvas, this contains the start column.
+	   For long events in the top canvas, this is its row. */
+	guint8 start_row_or_col;
+
+	/* For events in the main canvas, this is the number of columns that
+	   it covers. For long events this is set to 1 if the event is shown.
+	   For both types of events this is set to 0 if the event is not shown,
+	   i.e. it couldn't fit into the display. Currently long events are
+	   always shown as we just increase the height of the top canvas. */
+	guint8 num_columns;
+
+	/* These are minute offsets from the first time shown in the view.
+	   They range from 0 to 24 * 60. Currently the main canvas always
+	   starts at 12am  and the code to handle starting at other times
+	   isn't finished. */
+	guint16 start_minute;
 	guint16 end_minute;
+
+	/* This is the EText item containing the event summary. */
 	GnomeCanvasItem *canvas_item;
 };
 

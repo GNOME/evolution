@@ -1959,7 +1959,7 @@ gnome_calendar_on_date_navigator_selection_changed (ECalendarItem    *calitem,
 	   Note that if weekends are compressed and the week start day is set
 	   to Sunday we don't actually show complete weeks in the Week view,
 	   so this may need tweaking. */
-	if ((g_date_weekday (&new_start_date) + 5) % 7 == calendar_config_get_week_start_day ())
+	if (g_date_weekday (&new_start_date) % 7 == calendar_config_get_week_start_day ())
 		starts_on_week_start_day = TRUE;
 
 	/* Switch views as appropriate, and change the number of days or weeks

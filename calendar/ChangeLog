@@ -1,3 +1,39 @@
+2000-12-11  Damon Chaplin  <damon@helixcode.com>
+
+	* gui/event-editor.c: added changed flags and added calls to a new
+	function event_editor_set_changed() to set & reset this flag.
+	Added prompt_to_save_changed() which is called when the user
+	selects File/Close or the window's close button.
+	Fixed the 'All day event' toggle button.
+	Made the 'Alarm' page sensitive as appropriate when filling widgets.
+	(Though note that the alarm widgets are not being set yet.)
+	
+	* gui/dialogs/task-editor.c: added changed flag as above.
+
+	* gui/event-editor-dialog.glade: used good names for all the
+	classification radio buttons so we can access them in the code.
+
+	* gui/event-editor.c (init_widgets): use the "show week numbers" config
+	option in the recurrence preview calendar.
+
+	* gui/e-day-view.c (e_day_view_update_event_label): use 9:00 instead
+	of 09:00 in the main view, as we do everywhere else now. It means the
+	times won't line up, but they are easier to read which I think is
+	better.
+	Added support for Page Up/Down, though I think it should move the
+	selection rather than just scroll the canvas.
+
+	* cal-util/cal-recur.c (generate_instances_for_chunk): removed the
+	end parameter since we should be using the chunk end time now.
+	Added single_rule parameter for when we are generating the
+	occurrences of a single RRULE, in which case the event's start date is
+	not included in the occurrences output (unless it results from the
+	RRULE expansion). Both of these fix problems when using COUNT.
+
+	* gui/gnome-cal.c (gnome_calendar_on_date_navigator_selection_changed):
+	fixed bug when checking if the new start day starts on the week start
+	day. If you select a complete week it should now show the Week view.
+
 2000-12-08  Federico Mena Quintero  <federico@helixcode.com>
 
 	* gui/event-editor.c (dialog_to_comp_object): Free the strings we

@@ -81,6 +81,11 @@ typedef struct {
 
 	GtkWidget *completed_date;
 	GtkWidget *url;
+
+	/* Call task_editor_set_changed() to set this to TRUE when any field
+	   in the dialog is changed. When the user closes the dialog we will
+	   prompt to save changes. */
+	gboolean changed;
 } TaskEditorPrivate;
 
 
@@ -165,7 +170,13 @@ static void status_changed		(GtkMenu	*menu,
 					 TaskEditor	*tedit);
 static void percent_complete_changed	(GtkAdjustment	*adj,
 					 TaskEditor	*tedit);
+static void field_changed		(GtkWidget	*widget,
+					 TaskEditor	*tedit);
+static void task_editor_set_changed	(TaskEditor	*tedit,
+					 gboolean	 changed);
+static gboolean prompt_to_save_changes	(TaskEditor	*tedit);
 
+/* The function libglade calls to create the EDateEdit widgets in the GUI. */
 GtkWidget * task_editor_create_date_edit (void);
 
 static GtkObjectClass *parent_class;
@@ -196,6 +207,8 @@ task_editor_init (TaskEditor *tedit)
 	tedit->priv = priv;
 
 	priv->ignore_callbacks = FALSE;
+
+	task_editor_set_changed (tedit, FALSE);
 }
 
 
@@ -339,10 +352,12 @@ app_delete_event_cb (GtkWidget *widget, GdkEvent *event, gpointer data)
 {
 	TaskEditor *tedit;
 
-	/* FIXME: need to check for a dirty object */
+	g_return_val_if_fail (IS_TASK_EDITOR (data), TRUE);
 
 	tedit = TASK_EDITOR (data);
-	close_dialog (tedit);
+
+	if (prompt_to_save_changes (tedit))
+		close_dialog (tedit);
 
 	return TRUE;
 }
@@ -435,6 +450,30 @@ init_widgets (TaskEditor *tedit)
 	gtk_signal_connect (GTK_OBJECT (GTK_SPIN_BUTTON (priv->percent_complete)->adjustment),
 			    "value_changed",
 			    GTK_SIGNAL_FUNC (percent_complete_changed), tedit);
+
+	/* Connect the default signal handler to use to make sure the "changed"
+	   field gets set whenever a field is changed. */
+	gtk_signal_connect (GTK_OBJECT (priv->summary), "changed",
+			    GTK_SIGNAL_FUNC (field_changed), tedit);
+	gtk_signal_connect (GTK_OBJECT (priv->due_date), "changed",
+			    GTK_SIGNAL_FUNC (field_changed), tedit);
+	gtk_signal_connect (GTK_OBJECT (priv->start_date), "changed",
+			    GTK_SIGNAL_FUNC (field_changed), tedit);
+	gtk_signal_connect (GTK_OBJECT (GTK_OPTION_MENU (priv->priority)->menu),
+			    "deactivate",
+			    GTK_SIGNAL_FUNC (field_changed), tedit);
+	gtk_signal_connect (GTK_OBJECT (GTK_OPTION_MENU (priv->classification)->menu),
+			    "deactivate",
+			    GTK_SIGNAL_FUNC (field_changed), tedit);
+	gtk_signal_connect (GTK_OBJECT (priv->description), "changed",
+			    GTK_SIGNAL_FUNC (field_changed), tedit);
+	gtk_signal_connect (GTK_OBJECT (priv->contacts), "changed",
+			    GTK_SIGNAL_FUNC (field_changed), tedit);
+	gtk_signal_connect (GTK_OBJECT (priv->categories), "changed",
+			    GTK_SIGNAL_FUNC (field_changed), tedit);
+	gtk_signal_connect (GTK_OBJECT (priv->url), "changed",
+			    GTK_SIGNAL_FUNC (field_changed), tedit);
+
 }
 
 static void
@@ -709,6 +748,8 @@ fill_widgets (TaskEditor *tedit)
 
 	priv = tedit->priv;
 
+	task_editor_set_changed (tedit, FALSE);
+
 	clear_widgets (tedit);
 
 	if (!priv->comp)
@@ -785,7 +826,6 @@ fill_widgets (TaskEditor *tedit)
 			status = ICAL_STATUS_NEEDSACTION;
 		}
 	}
-	g_print ("Setting status\n");
 	e_dialog_option_menu_set (priv->status, status, status_map);
 
 	/* Priority. */
@@ -796,13 +836,11 @@ fill_widgets (TaskEditor *tedit)
 	} else {
 		priority = PRIORITY_UNDEFINED;
 	}
-	g_print ("Setting priority\n");
 	e_dialog_option_menu_set (priv->priority, priority, priority_map);
 
 
 	/* Classification. */
 	cal_component_get_classification (priv->comp, &classification);
-	g_print ("Setting classification\n");
 	e_dialog_option_menu_set (priv->classification, classification,
 				  classification_map);
 
@@ -836,6 +874,8 @@ save_todo_object (TaskEditor *tedit)
 
 	if (!cal_client_update_object (priv->client, priv->comp))
 		g_message ("save_todo_object(): Could not update the object!");
+	else
+		task_editor_set_changed (tedit, FALSE);
 }
 
 
@@ -956,6 +996,7 @@ dialog_to_comp_object (TaskEditor *tedit)
 	if (url)
 		g_free (url);
 
+
 	cal_component_commit_sequence (comp);
 }
 
@@ -1021,11 +1062,12 @@ file_close_cb (GtkWidget *widget, gpointer data)
 {
 	TaskEditor *tedit;
 
+	g_return_if_fail (IS_TASK_EDITOR (data));
+
 	tedit = TASK_EDITOR (data);
 
-	g_return_if_fail (IS_TASK_EDITOR (tedit));
-
-	close_dialog (tedit);
+	if (prompt_to_save_changes (tedit))
+		close_dialog (tedit);
 }
 
 
@@ -1119,6 +1161,8 @@ completed_changed	(EDateEdit	*dedit,
 	if (priv->ignore_callbacks)
 		return;
 
+	task_editor_set_changed (tedit, TRUE);
+
 	priv->ignore_callbacks = TRUE;
 	t = e_date_edit_get_time (E_DATE_EDIT (priv->completed_date));
 	if (t == -1) {
@@ -1152,6 +1196,8 @@ status_changed		(GtkMenu	*menu,
 	if (priv->ignore_callbacks)
 		return;
 
+	task_editor_set_changed (tedit, TRUE);
+
 	status = e_dialog_option_menu_get (priv->status, status_map);
 	priv->ignore_callbacks = TRUE;
 	if (status == ICAL_STATUS_NEEDSACTION) {
@@ -1182,6 +1228,8 @@ percent_complete_changed	(GtkAdjustment	*adj,
 	if (priv->ignore_callbacks)
 		return;
 
+	task_editor_set_changed (tedit, TRUE);
+
 	percent = e_dialog_spin_get_int (priv->percent_complete);
 	priv->ignore_callbacks = TRUE;
 
@@ -1205,3 +1253,79 @@ percent_complete_changed	(GtkAdjustment	*adj,
 	priv->ignore_callbacks = FALSE;
 }
 
+
+/* This is called when all fields except those handled above (status, percent
+   complete & completed date) are changed. It just sets the "changed" flag. */
+static void
+field_changed			(GtkWidget	*widget,
+				 TaskEditor	*tedit)
+{
+	TaskEditorPrivate *priv;
+
+	g_return_if_fail (IS_TASK_EDITOR (tedit));
+
+	priv = tedit->priv;
+
+	if (priv->ignore_callbacks)
+		return;
+
+	task_editor_set_changed (tedit, TRUE);
+}
+
+
+static void
+task_editor_set_changed		(TaskEditor	*tedit,
+				 gboolean	 changed)
+{
+	TaskEditorPrivate *priv;
+
+	priv = tedit->priv;
+
+#if 0
+	g_print ("In task_editor_set_changed: %s\n",
+		 changed ? "TRUE" : "FALSE");
+#endif
+
+	priv->changed = changed;
+}
+
+
+/* This checks if the "changed" field is set, and if so it prompts to save
+   the changes using a "Save/Discard/Cancel" modal dialog. It then saves the
+   changes if requested. It returns TRUE if the dialog should now be closed. */
+static gboolean
+prompt_to_save_changes		(TaskEditor	*tedit)
+{
+	TaskEditorPrivate *priv;
+	GtkWidget *dialog;
+
+	priv = tedit->priv;
+
+	if (!priv->changed)
+		return TRUE;
+
+	dialog = gnome_message_box_new (_("Do you want to save changes?"),
+					GNOME_MESSAGE_BOX_QUESTION,
+					GNOME_STOCK_BUTTON_YES,
+					GNOME_STOCK_BUTTON_NO,
+					GNOME_STOCK_BUTTON_CANCEL,
+					NULL);
+
+	gnome_dialog_set_parent (GNOME_DIALOG (dialog),
+				 GTK_WINDOW (priv->app));
+		
+	switch (gnome_dialog_run_and_close (GNOME_DIALOG (dialog))) {
+	case 0: /* Save */
+		/* FIXME: If an error occurs here, we should popup a dialog
+		   and then return FALSE. */
+		save_todo_object (tedit);
+		return TRUE;
+	case 1: /* Discard */
+		return TRUE;
+	case 2: /* Cancel */
+	default:
+		return FALSE;
+		break;
+	}
+
+}
