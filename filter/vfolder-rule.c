@@ -203,7 +203,7 @@ validate (FilterRule *fr)
 
 		GtkWidget *gd;
 
-		gd = gnome_ok_dialog (_("Oops.  You need to to specify at least one folder as a source."));
+		gd = gnome_ok_dialog (_("You need to to specify at least one folder as a source."));
 		gnome_dialog_run_and_close (GNOME_DIALOG (gd));
 
 		return 0;

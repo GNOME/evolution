@@ -144,7 +144,7 @@ validate (FilterElement *fe)
 	} else {
 		GtkWidget *dialog;
 		
-		dialog = gnome_ok_dialog (_("Oops, you forgot to choose a folder.\n"
+		dialog = gnome_ok_dialog (_("You forgot to choose a folder.\n"
 					    "Please go back and specify a valid folder to deliver mail to."));
 		
 		gnome_dialog_run_and_close (GNOME_DIALOG (dialog));

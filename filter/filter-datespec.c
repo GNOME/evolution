@@ -191,9 +191,9 @@ validate (FilterElement *fe)
 		valid = FALSE;
 		
 		if (fds->type == FDST_UNKNOWN)
-			gd = gnome_ok_dialog (_("Oops. You have forgotten to choose a date."));
+			gd = gnome_ok_dialog (_("You have forgotten to choose a date."));
 		else
-			gd = gnome_ok_dialog (_("Oops. You have chosen an invalid date."));
+			gd = gnome_ok_dialog (_("You have chosen an invalid date."));
 		
 		gnome_dialog_run_and_close (GNOME_DIALOG (gd));
 	}
