@@ -1,3 +1,8 @@
+2000-08-31  Christopher James Lahey  <clahey@helixcode.com>
+
+	* backend/ebook/Makefile.am: Install load-gnomecard-addressbook
+	and load-pine-addressbook.
+
 2000-08-30  Lauris Kaplinski  <lauris@helixcode.com>
 
 	* printing/e-contact-print.c: Countless small changes for gnome-print 0.21+

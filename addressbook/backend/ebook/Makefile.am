@@ -1,4 +1,6 @@
-noinst_PROGRAMS = test-card test-client test-client-list load-pine-addressbook load-gnomecard-addressbook
+noinst_PROGRAMS = test-card test-client test-client-list
+
+bin_PROGRAMS = load-pine-addressbook load-gnomecard-addressbook
 
 CORBA_SOURCE =						\
 	addressbook.h					\
