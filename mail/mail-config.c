@@ -162,7 +162,7 @@ typedef struct
 } MailDialog;
 
 static const char GCONFPATH[] = "/apps/Evolution/Mail";
-static MailConfig *config;
+static MailConfig *config = NULL;
 
 /* private prototypes - these are ugly, rename some of them? */
 static void html_size_req (GtkWidget *widget, GtkRequisition *requisition);
@@ -303,7 +303,7 @@ provider_list_add (GSList *services, CamelProviderType type,
 	mcs->authtypes = camel_service_query_auth_types (mcs->service, ex);
 	camel_exception_free (ex);
 
-	return g_slist_append (services, mcs);
+	return g_slist_prepend (services, mcs);
 }
 
 static void 
@@ -313,7 +313,7 @@ provider_list (GSList **sources, GSList **news, GSList **transports)
 	
 	/* Fetch list of all providers. */
 	providers = camel_session_list_providers (session, TRUE);
-	*sources = *transports = NULL;
+	*sources = *transports = *news = NULL;
 	for (p = providers; p; p = p->next) {
 		CamelProvider *prov = p->data;
 		
@@ -430,6 +430,10 @@ init_config ()
 		return;
 	
 	config = g_new0 (MailConfig, 1);
+
+	config->ids = NULL;
+	config->sources = NULL;
+	config->transport = NULL;
 }
 
 static void
@@ -437,15 +441,19 @@ clear_config ()
 {
 	if (!config)
 		return;
-
-	g_slist_foreach (config->ids, identity_destroy_each, NULL);
-	g_slist_free (config->ids);
-	config->ids = NULL;
-
-	g_slist_foreach (config->sources, service_destroy_each, NULL);
-	g_slist_free (config->sources);
-	config->sources = NULL;
-
+	
+	if (config->ids) {
+		g_slist_foreach (config->ids, identity_destroy_each, NULL);
+		g_slist_free (config->ids);
+		config->ids = NULL;
+	}
+	
+	if (config->sources) {
+		g_slist_foreach (config->sources, service_destroy_each, NULL);
+		g_slist_free (config->sources);
+		config->sources = NULL;
+	}
+	
 	service_destroy (config->transport);
 	config->transport = NULL;
 }
@@ -471,7 +479,7 @@ read_config ()
 	g_free (str);
 
 	len = gnome_config_get_int ("num");
-	for (i=0; i<len; i++) {
+	for (i = 0; i < len; i++) {
 		MailConfigIdentity *id;
 		gchar *path;
 		
@@ -495,21 +503,21 @@ read_config ()
 	gnome_config_pop_prefix ();
 
 	/* Sources */
-	str = g_strdup_printf ("=%s/config/Mail=/Sources/",evolution_dir);
+	str = g_strdup_printf ("=%s/config/Mail=/Sources/", evolution_dir);
 	gnome_config_push_prefix (str);
 	g_free (str);
 
 	len = gnome_config_get_int ("num");
-	for (i=0; i<len; i++) {
+	for (i = 0; i < len; i++) {
 		MailConfigService *s;
 		gchar *path;
 		
 		s = g_new0 (MailConfigService, 1);
-
+		
 		path = g_strdup_printf ("url_%d", i);
 		s->url = gnome_config_get_string (path);
 		g_free (path);
-
+		
 		config->sources = g_slist_append (config->sources, s);
 	}
 	gnome_config_pop_prefix ();
@@ -520,7 +528,7 @@ read_config ()
 	g_free (str);
 
 	len = gnome_config_get_int ("num");
-	for (i=0; i<len; i++) {
+	for (i = 0; i < len; i++) {
 		MailConfigService *n;
 		gchar *path;
 		
@@ -571,7 +579,7 @@ write_config ()
 
 	len = g_slist_length (config->ids);
 	gnome_config_set_int ("num", len);
-	for (i=0; i<len; i++) {
+	for (i = 0; i < len; i++) {
 		MailConfigIdentity *id;
 		gchar *path;
 		
@@ -878,6 +886,7 @@ service_page_get_url (MailDialogServicePage *page)
 
 	url_str = camel_url_to_string (url, FALSE);
 	camel_url_free (url);
+	
 	return url_str;
 }
 
@@ -994,7 +1003,7 @@ service_page_item_auth_fill (MailDialogServicePage *page,
 static gboolean
 service_acceptable (MailDialogServicePage *page)
 {
-	char *url=NULL;
+	char *url = NULL;
 	CamelService *service;
 	CamelException *ex;
 
@@ -1015,12 +1024,12 @@ service_acceptable (MailDialogServicePage *page)
 		camel_exception_free (ex);
 		
 		info_dialog (page->vbox, "Connection successful!");
-
+		
 		return TRUE;
 	}
-
+	
 	gtk_object_unref (GTK_OBJECT (service));
-
+	
  error:
 	error_dialog (page->vbox, camel_exception_get_description (ex));
 	camel_exception_free (ex);
@@ -1519,6 +1528,7 @@ source_dialog (MailConfigService *source, GtkWidget *parent)
 	gboolean new = !source;
 	
 	sdialog = g_new0 (MailDialogSource, 1);
+	sdialog->source = source;
 	
 	provider_list (&sources, &news, &transports);
 	
@@ -1540,7 +1550,8 @@ source_dialog (MailConfigService *source, GtkWidget *parent)
 
         /* Get the identity widget */
 	sdialog->page = source_page_new (sources);
-	service_page_set_url (sdialog->page->page, source);
+	if (!new)
+		service_page_set_url (sdialog->page->page, source);
 	service_page_set_done_cb (sdialog->page->page, 
 				  sdialog_page_done, sdialog);
 	gtk_box_pack_start (GTK_BOX (dialog_vbox), sdialog->page->vbox, 
@@ -1569,8 +1580,9 @@ source_dialog (MailConfigService *source, GtkWidget *parent)
 
 	gnome_dialog_run_and_close (GNOME_DIALOG (sdialog->dialog));
 
+	/* FIXME: */
 	returnsource = sdialog->source;
-	g_free (sdialog);
+	/*g_free (sdialog);*/
 
 	return returnsource;
 }
@@ -1935,7 +1947,7 @@ sources_add_clicked (GtkWidget *widget, MailDialog *dialog)
 		gint row = 0;
 		
 		text[0] = source->url;
-
+		
 		row = gtk_clist_append (clist, text);
 		gtk_clist_set_row_data (clist, row, source);
 		gtk_clist_select_row (clist, row, 0);
@@ -2124,7 +2136,7 @@ mail_config (void)
 	GladeXML *gui;
 	GtkCList *clist;
 	GtkWidget *button, *tvbox;
-	GSList *sources=NULL, *news=NULL, *transports=NULL;
+	GSList *sources = NULL, *news = NULL, *transports = NULL;
 	gint len, row;
 
 	read_config ();
@@ -2143,7 +2155,7 @@ mail_config (void)
 	gtk_clist_set_column_width (clist, 0, 80);
 
 	len = g_slist_length (config->ids);	
-	for (row=0; row<len; row++) {
+	for (row = 0; row < len; row++) {
 		MailConfigIdentity *id;
 		gchar *text[4];
 		
@@ -2184,7 +2196,7 @@ mail_config (void)
 	gtk_clist_set_column_width (clist, 0, 80);
 
 	len = g_slist_length (config->sources);	
-	for (row=0; row<len; row++) {
+	for (row = 0; row < len; row++) {
 		MailConfigService *source;
 		gchar *text[1];
 		
@@ -2292,3 +2304,5 @@ mail_config_fetch (void)
 	
 	return config;
 }
+
+

@@ -1,3 +1,13 @@
+2000-08-03  Jeffrey Stedfast  <fejj@helixcode.com>
+
+	* mail-config.c: set config = NULL
+	(provider_list) Eek! Initialize news to NULL!  Also, use
+	g_slist_prepend() for "performance" gains ;-)
+	(init_config): Set the config member data to NULL just to be on
+	the safe side
+	(clear_config): Don't bother freeing slist data if the slist is
+	NULL
+
 2000-08-03  Peter Williams  <peterw@helixcode.com>
 
 	* main.c (main): One more gconf reference to take out...
