@@ -324,6 +324,13 @@ crypto_exec_with_passwd (char *path, char *argv[], const char *input,
  *                     Public crypto functions
  *----------------------------------------------------------------------*/
 
+/**
+ * mail_crypto_openpgp_decrypt: pgp decrypt ciphertext
+ * @ciphertext: ciphertext to decrypt
+ * @ex: a CamelException
+ *
+ * Decrypts the ciphertext
+ **/
 
 char *
 mail_crypto_openpgp_decrypt (const char *ciphertext, CamelException *ex)
@@ -412,8 +419,7 @@ mail_crypto_openpgp_decrypt (const char *ciphertext, CamelException *ex)
  * @sign: TRUE if you wish to sign the encrypted text as well, FALSE otherwise
  * @ex: a CamelException
  *
- * Initalizes the folder by setting the parent store, parent folder,
- * and name.
+ * Encrypts the plaintext to the list of recipients and optionally signs
  **/
 
 char *
@@ -423,7 +429,7 @@ mail_crypto_openpgp_encrypt (const char *plaintext,
 {
 	GPtrArray *recipient_list = NULL;
 	int retval, i, r;
-	char *path, *argv[12];
+	char *path, *argv[15];
 	char *passphrase = NULL, *ciphertext = NULL, *diagnostics = NULL;
 	int passwd_fds[2];
 	char passwd_fd[32];
@@ -564,7 +570,123 @@ mail_crypto_openpgp_encrypt (const char *plaintext,
 	return ciphertext;
 }
 
+/**
+ * mail_crypto_openpgp_clearsign: pgp clearsign plaintext
+ * @plaintext: text to sign
+ * @userid: user id to sign with
+ * @ex: a CamelException
+ *
+ * Clearsigns the plaintext using the user id
+ **/
+
+char *
+mail_crypto_openpgp_clearsign (const char *plaintext, const char *userid,
+			       CamelException *ex)
+{
+	int retval;
+	char *path, *argv[20];
+	int i;
+	char *passphrase;
+	char *ciphertext = NULL;
+	char *diagnostics = NULL;
+	int passwd_fds[2];
+	char passwd_fd[32];
+	
+#ifndef PGP_PROGRAM
+	camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
+			      _("No GPG/PGP program available."));
+	return NULL;
+#endif
+
+	passphrase = mail_request_dialog (_("Please enter your PGP/GPG passphrase."),
+					  TRUE, "pgp", FALSE);
+	
+	if (!passphrase) {
+		camel_exception_set (ex, CAMEL_EXCEPTION_SYSTEM,
+				     _("No password provided."));
+		return NULL;
+	}
+	
+	if (pipe (passwd_fds) < 0) {
+		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
+				      _("Couldn't create pipe to GPG/PGP: %s"),
+				      g_strerror (errno));
+		return NULL;
+	}
+	
+	i = 0;
+#if defined(GPG_PATH)
+	path = GPG_PATH;
+	
+	argv[i++] = "gpg";
+	
+	argv[i++] = "--clearsign";
+	
+	if (userid) {
+		argv[i++] = "-u";
+		argv[i++] = (char *) userid;
+	}
+	
+	argv[i++] = "--verbose";
+	argv[i++] = "--yes";
+	argv[i++] = "--batch";
+	
+	argv[i++] = "--armor";
+	
+	argv[i++] = "--output";
+	argv[i++] = "-";            /* output to stdout */
+	
+	argv[i++] = "--passphrase-fd";
+	sprintf (passwd_fd, "%d", passwd_fds[0]);
+	argv[i++] = passwd_fd;
+#elif defined(PGP5_PATH)
+	path = PGP5_PATH;
+	
+	argv[i++] = "pgps";
+	
+	if (userid) {
+		argv[i++] = "-u";
+		argv[i++] = (char *) userid;
+	}
+	
+	argv[i++] = "-f";
+	argv[i++] = "-z";
+	argv[i++] = "-a";
+	argv[i++] = "-o";
+	argv[i++] = "-";        /* output to stdout */
+	
+	argv[i++] = "-s";	
+	sprintf (passwd_fd, "PGPPASSFD=%d", passwd_fds[0]);
+	putenv (passwd_fd);
+#else
+	path = PGP_PATH;
+
+	argv[i++] = "pgp";
+	argv[i++] = "-f";
+	argv[i++] = "-e";
+	argv[i++] = "-a";
+	argv[i++] = "-o";
+	argv[i++] = "-";
+	
+	argv[i++] = "-s";	
+	sprintf (passwd_fd, "PGPPASSFD=%d", passwd_fds[0]);
+	putenv (passwd_fd);
+#endif
+	argv[i++] = NULL;
+	
+	retval = crypto_exec_with_passwd (path, argv, plaintext, passwd_fds,
+					  passphrase, &ciphertext,
+					  &diagnostics);
+	
+	if (retval != 0 || !*ciphertext) {
+		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
+				      "%s", diagnostics);
+		g_free (ciphertext);
+		ciphertext = NULL;
+	}
+	
+	g_free (diagnostics);
+	return ciphertext;
+}
+
 #endif /* PGP_PROGRAM */
-
-
-

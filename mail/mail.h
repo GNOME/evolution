@@ -34,7 +34,10 @@ char *mail_crypto_openpgp_encrypt (const char *plaintext,
 				   const GPtrArray *recipients,
 				   gboolean sign,
 				   CamelException *ex);
-/* FIXME: add encryption & signing functions */
+
+char *mail_crypto_openpgp_clearsign (const char *plaintext,
+				     const char *userid,
+				     CamelException *ex);
 
 /* mail-format */
 void mail_format_mime_message (CamelMimeMessage *mime_message,
