@@ -1656,11 +1656,12 @@ mail_generate_reply (CamelMimeMessage *message, gboolean to_all)
 	if (!composer)
 		return NULL;
 	
+	/* FIXME: should probably use a shorter date string */
 	sender = camel_mime_message_get_from (message);
 	camel_internet_address_get (sender, 0, &name, &address);
 	date = camel_mime_message_get_date (message, &offset);
 	date_str = header_format_date (date, offset);
-	text = mail_tool_quote_message (message, _("On %s, %s wrote:\n"), date_str, name ? name : address);
+	text = mail_tool_quote_message (message, _("On %s, %s wrote:\n"), date_str, name && *name ? name : address);
 	g_free (date_str);
 	
 	if (text) {
