@@ -3,7 +3,7 @@
 
 /* 
  *
- * Copyright (C) 1999 Bertrand Guiheneuf <Bertrand.Guiheneuf@aful.org> .
+ * Copyright (C) 1999 Bertrand Guiheneuf <bertrand@helixcode.com> .
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 

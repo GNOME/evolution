@@ -28,7 +28,7 @@
  * included in camel because it is not exported 
  * by gtk
  *
- * Bertrand Guiheneuf <Bertrand.Guiheneuf@aful.org>
+ * Bertrand Guiheneuf <bertrand@helixcode.com>
  */
 
 /* collect a single argument value from a va_list.

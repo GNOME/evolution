@@ -4,7 +4,7 @@
 /* 
  *
  * Author : 
- *  Bertrand Guiheneuf <Bertrand.Guiheneuf@aful.org>
+ *  Bertrand Guiheneuf <bertrand@helixcode.com>
  *
  * Copyright 1999, 2000 HelixCode (http://www.helixcode.com) .
  *
@@ -284,7 +284,7 @@ string_prefix (const gchar *s, const gchar *suffix, gboolean *suffix_found)
 
 	/* if the string is shorter than the suffix, do nothing */
 	if (s_len < suf_len) {
-		*suffix_found = FALSE
+		*suffix_found = FALSE;
 		return NULL;
 	}
 	

@@ -7,7 +7,7 @@
 /* 
  *
  * Author : 
- *  Bertrand Guiheneuf <Bertrand.Guiheneuf@aful.org>
+ *  Bertrand Guiheneuf <bertrand@helixcode.com>
  *
  * Copyright 1999, 2000 HelixCode (http://www.helixcode.com) .
  *
