@@ -1,3 +1,8 @@
+2005-01-24  Rodrigo Moya <rodrigo@novell.com>
+
+	* gui/dialogs/recurrence-page.c (sensitize_buttons): if there are
+	detached instances, disable recurrence date widgets.
+
 2005-01-21  JP Rosevear  <jpr@novell.com>
 
 	Fixes #46404

@@ -531,6 +531,19 @@ sensitize_buttons (RecurrencePage *rpage)
 			read_only = TRUE;
 			icalcomponent_free (icalcomp);
 		}
+
+		if (!read_only) {
+			GList *list;
+
+			/* see if we have detached instances */
+			if (e_cal_get_objects_for_uid (COMP_EDITOR_PAGE (rpage)->client, uid, &list, NULL)) {
+				if (list && g_list_length (list) > 1)
+					read_only = TRUE;
+
+				g_list_foreach (list, (GFunc) icalcomponent_free, NULL);
+				g_list_free (list);
+			}
+		}
 	}
 
 	if (!read_only)
