@@ -1236,8 +1236,11 @@ ethi_event (GnomeCanvasItem *item, GdkEvent *e)
 		break;
 		
 	case GDK_BUTTON_PRESS:
-		convert (canvas, e->button.x, e->button.y, &x, &y);
+		if (e->button.button > 3)
+			return FALSE;
 
+		convert (canvas, e->button.x, e->button.y, &x, &y);
+		    
 		if (is_pointer_on_division (ethi, x, &start, &col) && e->button.button == 1){
 			ETableCol *ecol;
 				
