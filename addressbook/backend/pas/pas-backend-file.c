@@ -548,10 +548,13 @@ pas_backend_file_changes_foreach_key (const char *key, gpointer user_data)
 	db_error = db->get (db, &id_dbt, &vcard_dbt, 0);
 	
 	if (db_error == 1) {
+		ECard *ecard;
 		char *id = id_dbt.data;
-		char *vcard_string = vcard_dbt.data;
-
-		ctx->del_cards = g_list_append (ctx->del_cards, strdup(vcard_string));
+		
+		ecard = e_card_new ("");
+		e_card_set_id (ecard, id);
+		
+		ctx->del_cards = g_list_append (ctx->del_cards, e_card_get_vcard (ecard));
 		ctx->del_ids = g_list_append (ctx->del_ids, strdup(id));
 	}
 }

@@ -39,6 +39,7 @@
 #include <pi-dlp.h>
 #include <pi-version.h>
 #include <ebook/e-book.h>
+#include <ebook/e-card-types.h>
 #include <ebook/e-card-cursor.h>
 #include <ebook/e-card.h>
 #include <ebook/e-card-simple.h>
@@ -378,12 +379,10 @@ ecard_from_remote_record(EAddrConduitContext *ctxt,
 	struct Address address;
 	ECard *ecard;
 	ECardSimple *simple;
-	int i;
+	ECardDeliveryAddress delivery;
 	char *string;
 	char *stringparts[4];
-	char *commaparts[3];
-	char *spaceparts[3];
-	char *commastring, *spacestring;
+	int i;
 
 	g_return_val_if_fail(remote!=NULL,NULL);
 	memset (&address, 0, sizeof (struct Address));
@@ -411,43 +410,28 @@ ecard_from_remote_record(EAddrConduitContext *ctxt,
 	e_card_simple_set(simple, E_CARD_SIMPLE_FIELD_FULL_NAME, string);
 	g_free(string);
 
-	i = 0;
-	if (check (entryAddress))
-		spaceparts[i++] = get (entryAddress);
-	if (check (entryZip))
-		spaceparts[i++] = get (entryZip);
-	spaceparts[i] = 0;
-	spacestring = g_strjoinv(" ", spaceparts);
-
-	i = 0;
-	if (check (entryCity))
-		commaparts[i++] = get (entryCity);
-	if (spacestring && *spacestring)
-		commaparts[i++] = spacestring;
-	commaparts[i] = 0;
-	commastring = g_strjoinv(", ", commaparts);
-
-	i = 0;
-	if (check (entryAddress))
-		stringparts[i++] = get (entryAddress);
-	if (commastring && *commastring)
-		stringparts[i++] = commastring;
-	if (check (entryCountry))
-		stringparts[i++] = get (entryCountry);
-	stringparts[i] = NULL;
-	string = g_strjoinv("\n", stringparts);
-	e_card_simple_set(simple, E_CARD_SIMPLE_FIELD_ADDRESS_HOME, string);
-
-	g_free(spacestring);
-	g_free(commastring);
-	g_free(string);
-
 	if (check (entryTitle))
 		e_card_simple_set(simple, E_CARD_SIMPLE_FIELD_TITLE, get (entryTitle));
 
 	if (check (entryCompany))
 		e_card_simple_set(simple, E_CARD_SIMPLE_FIELD_ORG, get (entryCompany));
 
+	memset (&delivery, 0, sizeof (ECardDeliveryAddress));
+	delivery.flags = E_CARD_ADDR_HOME;
+	if (check (entryAddress))
+		delivery.street = get (entryAddress);
+	if (check (entryCity))
+		delivery.city = get (entryCity);
+	if (check (entryState))
+		delivery.region = get (entryState);
+	if (check (entryCountry))
+		delivery.country = get (entryCountry);
+	if (check (entryZip))
+		delivery.code = get (entryZip);
+	string = e_card_delivery_address_to_string (&delivery);
+	e_card_simple_set (simple,  E_CARD_SIMPLE_FIELD_ADDRESS_HOME, string);
+	g_free (string);
+	
 	for (i = entryPhone1; i <= entryPhone5; i++) {
 		char *phonelabel = ctxt->ai.phoneLabels[address.phoneLabel[i - entryPhone1]];
 

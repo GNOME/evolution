@@ -1,3 +1,11 @@
+2000-12-05  JP Rosevear  <jpr@helixcode.com>
+
+	* backend/pas/pas-backend-file.c (pas_backend_file_changes_foreach_key): 
+	Create an empty vcard with the appropriate id for deleted cards
+
+	* conduit/address-conduit.c (ecard_from_remote_record): Ensure the
+	address fields are added sensibly
+
 2000-12-05  Ettore Perazzoli  <ettore@helixcode.com>
 
 	* gui/component/e-ldap-storage.c (setup_ldap_storage): Updated the
