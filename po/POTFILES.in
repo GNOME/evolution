@@ -64,7 +64,6 @@ calendar/gui/e-day-view-time-item.c
 calendar/gui/e-day-view-top-item.c
 calendar/gui/e-itip-control.c
 calendar/gui/e-itip-control.glade
-calendar/gui/e-meeting-dialog.glade
 calendar/gui/e-tasks.c
 calendar/gui/e-week-view.c
 calendar/gui/e-week-view-main-item.c

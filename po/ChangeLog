@@ -1,3 +1,7 @@
+2001-06-19  JP Rosevear  <jpr@ximian.com>
+
+	* POTFILES.in: remove dead file
+
 2001-06-19  Héctor García Álvarez <hector@scouts-es.org>
 
         * es.po: Updated Spanish translation.
