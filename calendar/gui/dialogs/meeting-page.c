@@ -865,7 +865,7 @@ meeting_page_construct (MeetingPage *mpage, EMeetingModel *emm,
 			    G_CALLBACK (table_canvas_focus_out_cb), mpage);
 
 	gtk_widget_show (GTK_WIDGET (priv->etable));
-	gtk_box_pack_start (GTK_BOX (priv->main), GTK_WIDGET (priv->etable), TRUE, TRUE, 2);
+	gtk_box_pack_start (GTK_BOX (priv->main), GTK_WIDGET (priv->etable), TRUE, TRUE, 6);
 	
 	/* Init the widget signals */
 	init_widgets (mpage);

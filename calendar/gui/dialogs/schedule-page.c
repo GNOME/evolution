@@ -437,7 +437,7 @@ schedule_page_construct (SchedulePage *spage, EMeetingModel *emm)
 						   calendar_config_get_day_end_hour (),
 						   calendar_config_get_day_end_minute ());
 	gtk_widget_show (GTK_WIDGET (priv->sel));
-	gtk_box_pack_start (GTK_BOX (priv->main), GTK_WIDGET (priv->sel), TRUE, TRUE, 2);
+	gtk_box_pack_start (GTK_BOX (priv->main), GTK_WIDGET (priv->sel), TRUE, TRUE, 6);
 
 	if (!init_widgets (spage)) {
 		g_message ("schedule_page_construct(): " 

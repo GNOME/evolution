@@ -825,9 +825,12 @@ audio_notification (time_t trigger, CompQueuedAlarms *cqa,
 		const char *url;
 
 		url = icalattach_get_url (attach);
-		g_assert (url != NULL);
 
-		gnome_sound_play (url); /* this sucks */
+		if (url && *url) {
+			gnome_sound_init ("localhost");
+			gnome_sound_play (url); /* this sucks */
+		} else
+			gdk_beep ();
 	}
 
 	if (attach)

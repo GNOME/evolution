@@ -741,7 +741,7 @@ setup_widgets (GnomeCalendar *gcal)
 			  G_CALLBACK (search_bar_category_changed_cb), gcal);
 
 	gtk_widget_show (priv->search_bar);
-	gtk_box_pack_start (GTK_BOX (gcal), priv->search_bar, FALSE, FALSE, 0);
+	gtk_box_pack_start (GTK_BOX (gcal), priv->search_bar, FALSE, FALSE, 6);
 
 	/* The main HPaned, with the notebook of calendar views on the left
 	   and the ECalendar and ToDo list on the right. */
@@ -751,7 +751,7 @@ setup_widgets (GnomeCalendar *gcal)
 	g_signal_connect (priv->hpane, "button_release_event",
 			  G_CALLBACK (gnome_calendar_hpane_resized), gcal);
 	gtk_widget_show (priv->hpane);
-	gtk_box_pack_start (GTK_BOX (gcal), priv->hpane, TRUE, TRUE, 0);
+	gtk_box_pack_start (GTK_BOX (gcal), priv->hpane, TRUE, TRUE, 6);
 
 	/* The Notebook containing the 4 calendar views. */
 	priv->notebook = gtk_notebook_new ();

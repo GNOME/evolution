@@ -212,7 +212,7 @@ setup_widgets (CompEditor *editor)
 	priv->notebook = GTK_NOTEBOOK (gtk_notebook_new ());
 	gtk_widget_show (GTK_WIDGET (priv->notebook));
 	gtk_box_pack_start (GTK_BOX (vbox), GTK_WIDGET (priv->notebook),
-			    TRUE, TRUE, 0);
+			    TRUE, TRUE, 6);
 }
 
 /* Object initialization function for the calendar component editor */

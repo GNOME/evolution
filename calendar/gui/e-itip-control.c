@@ -374,7 +374,7 @@ init (EItipControl *itip)
 	gtk_container_add (GTK_CONTAINER (scrolled_window), priv->html);
 	gtk_object_weakref (GTK_OBJECT (priv->html), html_destroyed, itip);
 	gtk_widget_set_usize (scrolled_window, 600, 400);
-	gtk_box_pack_start (GTK_BOX (itip), scrolled_window, FALSE, FALSE, 4);
+	gtk_box_pack_start (GTK_BOX (itip), scrolled_window, FALSE, FALSE, 6);
 
 	g_signal_connect (priv->html, "url_requested", G_CALLBACK (url_requested_cb), itip);
 	g_signal_connect (priv->html, "object_requested", G_CALLBACK (object_requested_cb), itip);

@@ -917,12 +917,12 @@ make_weekly_special (RecurrencePage *rpage)
 	gtk_container_add (GTK_CONTAINER (priv->special), hbox);
 
 	label = gtk_label_new (_("on"));
-	gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, 0);
+	gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, 6);
 
 	wp = WEEKDAY_PICKER (weekday_picker_new ());
 
 	priv->weekday_picker = GTK_WIDGET (wp);
-	gtk_box_pack_start (GTK_BOX (hbox), GTK_WIDGET (wp), FALSE, FALSE, 0);
+	gtk_box_pack_start (GTK_BOX (hbox), GTK_WIDGET (wp), FALSE, FALSE, 6);
 
 	gtk_widget_show_all (hbox);
 
@@ -1170,17 +1170,17 @@ make_monthly_special (RecurrencePage *rpage)
 	gtk_container_add (GTK_CONTAINER (priv->special), hbox);
 
 	label = gtk_label_new (_("on the"));
-	gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, 0);
+	gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, 6);
 
 	adj = GTK_ADJUSTMENT (gtk_adjustment_new (1, 1, 31, 1, 10, 10));
 
 	priv->month_num_menu = make_recur_month_num_menu (priv->month_index);
 	gtk_box_pack_start (GTK_BOX (hbox), priv->month_num_menu,
-			    FALSE, FALSE, 0);
+			    FALSE, FALSE, 6);
 
 	priv->month_day_menu = make_recur_month_menu ();
 	gtk_box_pack_start (GTK_BOX (hbox), priv->month_day_menu,
-			    FALSE, FALSE, 0);
+			    FALSE, FALSE, 6);
 
 	gtk_widget_show_all (hbox);
 
@@ -1352,10 +1352,10 @@ make_ending_count_special (RecurrencePage *rpage)
 	adj = GTK_ADJUSTMENT (gtk_adjustment_new (1, 1, 10000, 1, 10, 10));
 	priv->ending_count_spin = gtk_spin_button_new (adj, 1, 0);
 	gtk_box_pack_start (GTK_BOX (hbox), priv->ending_count_spin,
-			    FALSE, FALSE, 0);
+			    FALSE, FALSE, 6);
 
 	label = gtk_label_new (_("occurrences"));
-	gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, 0);
+	gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, 6);
 
 	gtk_widget_show_all (hbox);
 

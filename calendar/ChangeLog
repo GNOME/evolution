@@ -1,3 +1,21 @@
+2003-04-22  Rodrigo Moya <rodrigo@ximian.com>
+
+	Fixes part of #41148, #41216 and #41235
+
+	* gui/e-itip-control.c (init):
+	* gui/e-meeting-time-sel.c (e_meeting_time_selector_construct,
+	  e_meeting_time_selector_add_key_color):
+	* gui/e-timezone-entry.c (e_timezone_entry_init):
+	* gui/gnome-cal.c (setup_widgets):
+	* gui/tasks-control.c (confirm_expunge):
+	* gui/dialogs/comp-editor.c (setup_widgets):
+	* gui/dialogs/e-delegate-dialog.c (e_delegate_dialog_construct):
+	* gui/dialogs/meeting-page.c (meeting_page_construct):
+	* gui/dialogs/recurrence-page.c (make_weekly_special,
+	  make_monthly_special, make_ending_count_special):
+	* gui/dialogs/schedule-page.c (schedule_page_construct):
+	use HIG-suggested spacing.
+
 2003-04-21  Rodrigo Moya <rodrigo@ximian.com>
 
 	Fixes #22444

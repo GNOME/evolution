@@ -176,7 +176,7 @@ e_delegate_dialog_construct (EDelegateDialog *edd, const char *name, const char 
 
 	priv->entry = bonobo_widget_new_control_from_objref (corba_control, CORBA_OBJECT_NIL);
 	gtk_widget_show (priv->entry);
-	gtk_box_pack_start (GTK_BOX (priv->hbox), priv->entry, TRUE, TRUE, 0);
+	gtk_box_pack_start (GTK_BOX (priv->hbox), priv->entry, TRUE, TRUE, 6);
 
 	dest = e_destination_new ();
 	destv[0] = dest;

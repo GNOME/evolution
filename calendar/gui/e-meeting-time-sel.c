@@ -343,7 +343,7 @@ e_meeting_time_selector_construct (EMeetingTimeSelector * mts, EMeetingModel *em
 	real_table = e_table_scrolled_get_table (E_TABLE_SCROLLED (mts->etable));
 	g_signal_connect (real_table->sort_info, "sort_info_changed", G_CALLBACK (sort_info_changed_cb), mts);
 
-	gtk_box_pack_start (GTK_BOX (mts->attendees_vbox), mts->etable, TRUE, TRUE, 2);
+	gtk_box_pack_start (GTK_BOX (mts->attendees_vbox), mts->etable, TRUE, TRUE, 6);
 	gtk_widget_show (mts->etable);
 	g_free (filename);
 
@@ -423,7 +423,7 @@ e_meeting_time_selector_construct (EMeetingTimeSelector * mts, EMeetingModel *em
 	button = gtk_button_new_with_label ("");
 	accel_key = gtk_label_parse_uline (GTK_LABEL (GTK_BIN (button)->child),
 					   _("_Invite Others..."));
-	gtk_box_pack_start (GTK_BOX (hbox), button, TRUE, TRUE, 0);
+	gtk_box_pack_start (GTK_BOX (hbox), button, TRUE, TRUE, 6);
 	gtk_widget_show (button);
 	gtk_widget_add_accelerator (button, "clicked", mts->accel_group,
 				    accel_key, GDK_MOD1_MASK, 0);
@@ -433,7 +433,7 @@ e_meeting_time_selector_construct (EMeetingTimeSelector * mts, EMeetingModel *em
 			  G_CALLBACK (e_meeting_time_selector_on_invite_others_button_expose), mts);
 
 	mts->options_button = gtk_button_new ();
-	gtk_box_pack_start (GTK_BOX (hbox), mts->options_button, TRUE, TRUE, 0);
+	gtk_box_pack_start (GTK_BOX (hbox), mts->options_button, TRUE, TRUE, 6);
 	gtk_widget_show (mts->options_button);
 
 	g_signal_connect (mts->options_button, "clicked",
@@ -445,13 +445,13 @@ e_meeting_time_selector_construct (EMeetingTimeSelector * mts, EMeetingModel *em
 
 	label = gtk_label_new ("");
 	accel_key = gtk_label_parse_uline (GTK_LABEL (label), _("_Options"));
-	gtk_box_pack_start (GTK_BOX (child_hbox), label, TRUE, TRUE, 0);
+	gtk_box_pack_start (GTK_BOX (child_hbox), label, TRUE, TRUE, 6);
 	gtk_widget_show (label);
 	gtk_widget_add_accelerator (mts->options_button, "clicked", mts->accel_group,
 				    accel_key, GDK_MOD1_MASK, 0);
 
 	arrow = gtk_arrow_new (GTK_ARROW_DOWN, GTK_SHADOW_OUT);
-	gtk_box_pack_start (GTK_BOX (child_hbox), arrow, FALSE, FALSE, 2);
+	gtk_box_pack_start (GTK_BOX (child_hbox), arrow, FALSE, FALSE, 6);
 	gtk_widget_show (arrow);
 
 	/* Create the Options menu. */
@@ -517,13 +517,13 @@ e_meeting_time_selector_construct (EMeetingTimeSelector * mts, EMeetingModel *em
 					   _("_<<"));
 	gtk_widget_add_accelerator (button, "clicked", mts->accel_group,
 				    accel_key, GDK_MOD1_MASK | GDK_SHIFT_MASK, 0);
-	gtk_box_pack_start (GTK_BOX (hbox), button, TRUE, TRUE, 0);
+	gtk_box_pack_start (GTK_BOX (hbox), button, TRUE, TRUE, 6);
 	gtk_widget_show (button);
 	g_signal_connect (button, "clicked",
 			  G_CALLBACK (e_meeting_time_selector_on_prev_button_clicked), mts);
 
 	mts->autopick_button = gtk_button_new ();
-	gtk_box_pack_start (GTK_BOX (hbox), mts->autopick_button, TRUE, TRUE, 0);
+	gtk_box_pack_start (GTK_BOX (hbox), mts->autopick_button, TRUE, TRUE, 6);
 	gtk_widget_show (mts->autopick_button);
 
 	child_hbox = gtk_hbox_new (FALSE, 2);
@@ -532,7 +532,7 @@ e_meeting_time_selector_construct (EMeetingTimeSelector * mts, EMeetingModel *em
 
 	label = gtk_label_new ("");
 	accel_key = gtk_label_parse_uline (GTK_LABEL (label), _("_Autopick"));
-	gtk_box_pack_start (GTK_BOX (child_hbox), label, TRUE, TRUE, 0);
+	gtk_box_pack_start (GTK_BOX (child_hbox), label, TRUE, TRUE, 6);
 	gtk_widget_show (label);
 	gtk_widget_add_accelerator (mts->autopick_button, "clicked", mts->accel_group,
 				    accel_key, GDK_MOD1_MASK, 0);
@@ -540,7 +540,7 @@ e_meeting_time_selector_construct (EMeetingTimeSelector * mts, EMeetingModel *em
 			  G_CALLBACK (e_meeting_time_selector_on_autopick_button_clicked), mts);
 
 	arrow = gtk_arrow_new (GTK_ARROW_DOWN, GTK_SHADOW_OUT);
-	gtk_box_pack_start (GTK_BOX (child_hbox), arrow, FALSE, FALSE, 2);
+	gtk_box_pack_start (GTK_BOX (child_hbox), arrow, FALSE, FALSE, 6);
 	gtk_widget_show (arrow);
 
 	button = gtk_button_new_with_label ("");
@@ -548,7 +548,7 @@ e_meeting_time_selector_construct (EMeetingTimeSelector * mts, EMeetingModel *em
 					   _(">_>"));
 	gtk_widget_add_accelerator (button, "clicked", mts->accel_group,
 				    accel_key, GDK_MOD1_MASK | GDK_SHIFT_MASK, 0);
-	gtk_box_pack_start (GTK_BOX (hbox), button, TRUE, TRUE, 0);
+	gtk_box_pack_start (GTK_BOX (hbox), button, TRUE, TRUE, 6);
 	gtk_widget_show (button);
 	g_signal_connect (button, "clicked",
 			  G_CALLBACK (e_meeting_time_selector_on_next_button_clicked), mts);
@@ -729,7 +729,7 @@ e_meeting_time_selector_add_key_color (EMeetingTimeSelector * mts,
 
 	label = gtk_label_new (label_text);
 	gtk_misc_set_alignment (GTK_MISC (label), 0.0, 0.5);
-	gtk_box_pack_start (GTK_BOX (child_hbox), label, TRUE, TRUE, 0);
+	gtk_box_pack_start (GTK_BOX (child_hbox), label, TRUE, TRUE, 6);
 	gtk_widget_show (label);
 
 	g_signal_connect (darea, "expose_event",
