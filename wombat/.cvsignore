@@ -5,12 +5,12 @@ Makefile
 Makefile.in
 *.lo
 *.la
-wombat-stubs.c
-wombat-skels.c
-wombat-common.c
-wombat.h
 evolution-wombat
 evolution-wombat.pure
 GNOME_Evolution_Wombat.server
 GNOME_Evolution_Wombat.server.in
 GNOME_Evolution_Wombat.server.in.in
+Evolution-Wombat-common.c
+Evolution-Wombat-skels.c
+Evolution-Wombat-stubs.c
+Evolution-Wombat.h
