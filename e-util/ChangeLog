@@ -1,3 +1,10 @@
+2004-01-23  JP Rosevear <jpr@ximian.com>
+
+	* Makefile.am: build new sources
+
+	* e-folder-map.[hc]: builds a list of 1.4 folder paths of a
+	certain type
+
 2004-01-20  JP Rosevear <jpr@ximian.com>
 
 	* Makefile.am: don't build dead files

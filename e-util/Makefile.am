@@ -22,6 +22,7 @@ eutilinclude_HEADERS = 				\
 	e-corba-utils.h				\
 	e-dialog-utils.h			\
 	e-dialog-widgets.h			\
+	e-folder-map.h				\
 	e-gtk-utils.h				\
 	e-gui-utils.h				\
 	e-host-utils.h				\
@@ -50,6 +51,7 @@ libeutil_la_SOURCES =				\
 	e-account-list.c			\
 	e-account.c				\
 	e-bconf-map.c				\
+	e-folder-map.c				\
 	e-categories-config.c			\
 	e-categories-master-list-wombat.c	\
 	e-component-listener.c			\
