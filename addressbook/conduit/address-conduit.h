@@ -62,6 +62,7 @@ struct _EAddrConduitContext {
 	GList *cards;
 	GList *changed;
 	GHashTable *changed_hash;
+	GList *locals;
 	
 	gboolean address_load_tried;
 	gboolean address_load_success;

@@ -1,3 +1,22 @@
+2001-10-26  JP Rosevear  <jpr@ximian.com>
+
+	* conduit/address-conduit.h: new member
+
+	* conduit/address-conduit.c (print_remote): free the struct after
+	using it
+	(e_addr_context_new): make consistent with other conduits
+	(e_addr_context_destroy): properly destroy the context
+	(cursor_cb): no need to ref the card, its done for us
+	(clear_entry_text): util function to free a field
+	(free_local): free a local record
+	(local_record_to_pilot_record): use a static buffer so we don't
+	have to free it later
+	(local_record_from_ecard): only fill in the fields we might not
+	sync, clear a field before replacing the contents
+	(for_each): track locals
+	(for_each_modified): ditto
+	(free_match): use free_local
+
 2001-10-26  Christopher James Lahey  <clahey@ximian.com>
 
 	* gui/widgets/e-minicard.c, gui/widgets/e-minicard.h
