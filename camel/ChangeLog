@@ -1,5 +1,13 @@
 2001-03-14  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* providers/smtp/libcamelsmtp.urls: defined "ssmtp"
+
+	* providers/smtp/camel-smtp-provider.c: Defined the Secure SMTP
+	provider.
+	(camel_provider_module_init): Register the Secure SMTP provider.
+
+2001-03-14  Jeffrey Stedfast  <fejj@ximian.com>
+
 	* providers/imap/camel-imap-store.c (imap_connect): Check for
 	"simap" instead of "imaps".
 

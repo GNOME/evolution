@@ -54,7 +54,7 @@ static CamelProvider imap_provider = {
 };
 
 #if defined (HAVE_NSS) || defined (HAVE_OPENSSL)
-static CamelProvider imaps_provider = {
+static CamelProvider simap_provider = {
 	"simap",
 	N_("Secure IMAPv4"),
 
@@ -80,19 +80,19 @@ camel_provider_module_init (CamelSession *session)
 	imap_provider.object_types[CAMEL_PROVIDER_STORE] =
 		camel_imap_store_get_type ();
 #if defined (HAVE_NSS) || defined (HAVE_OPENSSL)
-	imaps_provider.object_types[CAMEL_PROVIDER_STORE] = 
+	simap_provider.object_types[CAMEL_PROVIDER_STORE] = 
 		camel_imap_store_get_type ();
 #endif
 	
 	imap_provider.service_cache = g_hash_table_new (imap_url_hash, imap_url_equal);
 	
 #if defined (HAVE_NSS) || defined (HAVE_OPENSSL)
-	imaps_provider.service_cache = g_hash_table_new (imap_url_hash, imap_url_equal);
+	simap_provider.service_cache = g_hash_table_new (imap_url_hash, imap_url_equal);
 #endif
 	
 	camel_session_register_provider (session, &imap_provider);
 #if defined (HAVE_NSS) || defined (HAVE_OPENSSL)
-	camel_session_register_provider (session, &imaps_provider);
+	camel_session_register_provider (session, &simap_provider);
 #endif
 }
 

@@ -49,7 +49,7 @@ static CamelProvider pop3_provider = {
 };
 
 #if defined (HAVE_NSS) || defined (HAVE_OPENSSL)
-static CamelProvider pops_provider = {
+static CamelProvider spop_provider = {
 	"spop",
 	N_("Secure POP"),
 
@@ -75,18 +75,18 @@ camel_provider_module_init (CamelSession *session)
 	pop3_provider.object_types[CAMEL_PROVIDER_STORE] =
 		camel_pop3_store_get_type ();
 #if defined (HAVE_NSS) || defined (HAVE_OPENSSL)
-	pops_provider.object_types[CAMEL_PROVIDER_STORE] =
+	spop_provider.object_types[CAMEL_PROVIDER_STORE] =
 		camel_pop3_store_get_type ();
 #endif
 	
 	pop3_provider.service_cache = g_hash_table_new (camel_url_hash, camel_url_equal);
 	
 #if defined (HAVE_NSS) || defined (HAVE_OPENSSL)
-	pops_provider.service_cache = g_hash_table_new (camel_url_hash, camel_url_equal);
+	spop_provider.service_cache = g_hash_table_new (camel_url_hash, camel_url_equal);
 #endif
 	
 	camel_session_register_provider (session, &pop3_provider);
 #if defined (HAVE_NSS) || defined (HAVE_OPENSSL)
-	camel_session_register_provider (session, &pops_provider);
+	camel_session_register_provider (session, &spop_provider);
 #endif
 }

@@ -47,15 +47,46 @@ static CamelProvider smtp_provider = {
 	NULL
 };
 
+#if defined (HAVE_NSS) || defined (HAVE_OPENSSL)
+static CamelProvider ssmtp_provider = {
+	"ssmtp",
+	N_("Secure SMTP"),
+
+	N_("For delivering mail by connecting to a remote mailhub "
+	   "using SMTP over an SSL connection.\n"),
+
+	"mail",
+
+	CAMEL_PROVIDER_IS_REMOTE,
+
+	CAMEL_URL_NEED_HOST | CAMEL_URL_ALLOW_AUTH,
+
+	{ 0, 0 },
+
+	NULL
+};
+#endif
+
 void
 camel_provider_module_init (CamelSession *session)
 {
 	smtp_provider.object_types[CAMEL_PROVIDER_TRANSPORT] =
-		camel_smtp_transport_get_type();
-
+		camel_smtp_transport_get_type ();
+#if defined (HAVE_NSS) || defined (HAVE_OPENSSL)
+	ssmtp_provider.object_types[CAMEL_PROVIDER_TRANSPORT] =
+		camel_smtp_transport_get_type ();
+#endif
+	
 	smtp_provider.service_cache = g_hash_table_new (camel_url_hash, camel_url_equal);
+
+#if defined (HAVE_NSS) || defined (HAVE_OPENSSL)
+	ssmtp_provider.service_cache = g_hash_table_new (camel_url_hash, camel_url_equal);
+#endif
 	
 	camel_session_register_provider (session, &smtp_provider);
+#if defined (HAVE_NSS) || defined (HAVE_OPENSSL)
+	camel_session_register_provider (session, &ssmtp_provider);
+#endif
 }
 
 
