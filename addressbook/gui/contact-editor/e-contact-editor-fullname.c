@@ -43,7 +43,7 @@ static GtkDialogClass *parent_class = NULL;
 enum {
 	PROP_0,
 	PROP_NAME,
-	PROP_IS_READ_ONLY
+	PROP_EDITABLE
 };
 
 GType
@@ -89,7 +89,7 @@ e_contact_editor_fullname_class_init (EContactEditorFullnameClass *klass)
 							       /*_( */"XXX blurb" /*)*/,
 							       G_PARAM_READWRITE));
 
-	g_object_class_install_property (object_class, PROP_IS_READ_ONLY, 
+	g_object_class_install_property (object_class, PROP_EDITABLE, 
 					 g_param_spec_boolean ("editable",
 							       _("Editable"),
 							       /*_( */"XXX blurb" /*)*/,
@@ -170,19 +170,24 @@ e_contact_editor_fullname_set_property (GObject *object, guint prop_id,
 		e_contact_editor_fullname->name = e_card_name_copy(g_value_get_pointer (value));
 		fill_in_info(e_contact_editor_fullname);
 		break;
-	case PROP_IS_READ_ONLY: {
+	case PROP_EDITABLE: {
 		int i;
-		char *entry_names[] = {
+		char *widget_names[] = {
 			"combo-title",
 			"combo-suffix",
 			"entry-first",
 			"entry-middle",
 			"entry-last",
+			"label-title",
+			"label-suffix",
+			"label-first",
+			"label-middle",
+			"label-last",
 			NULL
 		};
 		e_contact_editor_fullname->editable = g_value_get_boolean (value) ? TRUE : FALSE;
-		for (i = 0; entry_names[i] != NULL; i ++) {
-			GtkWidget *w = glade_xml_get_widget(e_contact_editor_fullname->gui, entry_names[i]);
+		for (i = 0; widget_names[i] != NULL; i ++) {
+			GtkWidget *w = glade_xml_get_widget(e_contact_editor_fullname->gui, widget_names[i]);
 			if (GTK_IS_ENTRY (w)) {
 				gtk_entry_set_editable (GTK_ENTRY (w),
 							e_contact_editor_fullname->editable);
@@ -191,6 +196,9 @@ e_contact_editor_fullname_set_property (GObject *object, guint prop_id,
 				gtk_entry_set_editable (GTK_ENTRY (GTK_COMBO (w)->entry),
 							e_contact_editor_fullname->editable);
 				gtk_widget_set_sensitive (GTK_COMBO (w)->button, e_contact_editor_fullname->editable);
+			}
+			else if (GTK_IS_LABEL (w)) {
+				gtk_widget_set_sensitive (w, e_contact_editor_fullname->editable);
 			}
 		}
 		break;
@@ -214,7 +222,7 @@ e_contact_editor_fullname_get_property (GObject *object, guint prop_id,
 		extract_info(e_contact_editor_fullname);
 		g_value_set_pointer (value, e_card_name_ref(e_contact_editor_fullname->name));
 		break;
-	case PROP_IS_READ_ONLY:
+	case PROP_EDITABLE:
 		g_value_set_boolean (value, e_contact_editor_fullname->editable ? TRUE : FALSE);
 		break;
 	default:

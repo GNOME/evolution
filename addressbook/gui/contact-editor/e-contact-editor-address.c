@@ -49,7 +49,7 @@ static GtkDialogClass *parent_class = NULL;
 enum {
 	PROP_0,
 	PROP_ADDRESS,
-	PROP_IS_READ_ONLY
+	PROP_EDITABLE
 };
 
 GType
@@ -95,7 +95,7 @@ e_contact_editor_address_class_init (EContactEditorAddressClass *klass)
 							       /*_( */"XXX blurb" /*)*/,
 							       G_PARAM_READWRITE));
 
-	g_object_class_install_property (object_class, PROP_IS_READ_ONLY, 
+	g_object_class_install_property (object_class, PROP_EDITABLE, 
 					 g_param_spec_boolean ("editable",
 							       _("Editable"),
 							       /*_( */"XXX blurb" /*)*/,
@@ -481,9 +481,9 @@ e_contact_editor_address_set_property (GObject *object, guint prop_id,
 		e_contact_editor_address->address = e_card_delivery_address_copy(g_value_get_pointer (value));
 		fill_in_info(e_contact_editor_address);
 		break;
-	case PROP_IS_READ_ONLY: {
+	case PROP_EDITABLE: {
 		int i;
-		char *entry_names[] = {
+		char *widget_names[] = {
 			"entry-street",
 			"entry-city",
 			"entry-ext",
@@ -491,11 +491,18 @@ e_contact_editor_address_set_property (GObject *object, guint prop_id,
 			"entry-region",
 			"combo-country",
 			"entry-code",
+			"label-street",
+			"label-city",
+			"label-ext",
+			"label-po",
+			"label-region",
+			"label-country",
+			"label-code",
 			NULL
 		};
 		e_contact_editor_address->editable = g_value_get_boolean (value) ? TRUE : FALSE;
-		for (i = 0; entry_names[i] != NULL; i ++) {
-			GtkWidget *w = glade_xml_get_widget(e_contact_editor_address->gui, entry_names[i]);
+		for (i = 0; widget_names[i] != NULL; i ++) {
+			GtkWidget *w = glade_xml_get_widget(e_contact_editor_address->gui, widget_names[i]);
 			if (GTK_IS_ENTRY (w)) {
 				gtk_entry_set_editable (GTK_ENTRY (w),
 							e_contact_editor_address->editable);
@@ -504,6 +511,9 @@ e_contact_editor_address_set_property (GObject *object, guint prop_id,
 				gtk_entry_set_editable (GTK_ENTRY (GTK_COMBO (w)->entry),
 							e_contact_editor_address->editable);
 				gtk_widget_set_sensitive (GTK_COMBO (w)->button, e_contact_editor_address->editable);
+			}
+			else if (GTK_IS_LABEL (w)) {
+				gtk_widget_set_sensitive (w, e_contact_editor_address->editable);
 			}
 		}
 		break;
@@ -527,7 +537,7 @@ e_contact_editor_address_get_property (GObject *object, guint prop_id,
 		extract_info(e_contact_editor_address);
 		g_value_set_pointer (value, e_card_delivery_address_ref(e_contact_editor_address->address));
 		break;
-	case PROP_IS_READ_ONLY:
+	case PROP_EDITABLE:
 		g_value_set_boolean (value, e_contact_editor_address->editable ? TRUE : FALSE);
 		break;
 	default:

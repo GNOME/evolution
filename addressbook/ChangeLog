@@ -1,3 +1,53 @@
+2002-11-23  Chris Toshok  <toshok@ximian.com>
+
+	[ roll forward from the 1.2 branch.  fixes #25540, part of #29630,
+	as well as other selection issues in the contact editor and ACL
+	issues in the ldap backend ]
+	* backend/pas/pas-backend-ldap.c (check_schema_support): reset the
+	schema check state to FALSE if the read returned nothing (and the
+	user had not authenticated).  we'll requery if/when they auth.
+	(query_ldap_root_dse): free the schema dn before assigning over
+	it.
+	(pas_backend_ldap_connect): added a diagnostic warning about the
+	root dse query failing in anonymous mode (if it in fact did fail.)
+	(pas_backend_ldap_process_authenticate_user): if we successfully
+	authed, requery the root dse to pick up any attributes that might
+	be protected, and retry the schema query if that failed before.
+
+	* gui/contact-editor/e-contact-editor.c (full_name_clicked): set
+	the dialog's editable state based on the new field
+	"fullname_editable", and only do the Ok button handling if this
+	flag is TRUE.
+	(full_addr_clicked): set the dialog's editable state based on the
+	editable state for the particular address (from
+	editor->address_editable[]).  also, only do the Ok button handling
+	if this flag is TRUE.
+	(_address_arrow_pressed): use the address_editable array to
+	determine whether the address text and the mailing address
+	checkbutton are sensitive.
+	(enable_writable_fields): figure out if fullname_editable is
+	TRUE/FALSE, also, init the address_editable flags based on the
+	field list, and handle the address checkbutton.
+
+	* gui/contact-editor/fulladdr.glade: change the label names to
+	label-<name> to match {entry,combo}-<name>.
+
+	* gui/contact-editor/fullname.glade: same.
+
+	* gui/contact-editor/e-contact-editor-fullname.c
+	(e_contact_editor_fullname_class_init): rename ARG_IS_READ_ONLY to
+	ARG_EDITABLE, to reflect the correct sense of the flag.
+	(e_contact_editor_fullname_set_arg): same, and make the labels
+	sensitive/insensitive depending on the editable state of the
+	dialog.
+
+	* gui/contact-editor/e-contact-editor-address.c
+	(e_contact_editor_address_class_init): rename ARG_IS_READ_ONLY to
+	ARG_EDITABLE, to reflect the correct sense of the flag.
+	(e_contact_editor_address_set_arg): same, and make the labels
+	sensitive/insensitive depending on the editable state of the
+	dialog.
+	
 2002-11-22  Chris Toshok  <toshok@ximian.com>
 
 	[ roll forward Sean.Gao@sun.com's fix for #16870 from the 1.2

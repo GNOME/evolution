@@ -477,6 +477,22 @@ check_schema_support (PASBackendLDAP *bl)
 
 			ldap_value_free (values);
 		}
+		else {
+			/* the reason for this is so that if the user
+			   ends up authenticating to the ldap server,
+			   we will requery for the subschema values.
+			   This makes it a bit more robust in the face
+			   of draconian acl's that keep subschema
+			   reads from working until the user is
+			   authed. */
+			if (!bl->priv->writable) {
+				g_warning ("subschema read returned nothing before successful auth");
+				bl->priv->evolutionPersonChecked = FALSE;
+			}
+			else {
+				g_warning ("subschema read returned nothing after successful auth");
+			}
+		}
 
 		ldap_msgfree (resp);
 	}
@@ -584,6 +600,7 @@ query_ldap_root_dse (PASBackendLDAP *bl)
 		values = ldap_get_values (ldap, resp, "schemaNamingContext");
 	}
 	if (values && values[0]) {
+		g_free (bl->priv->schema_dn);
 		bl->priv->schema_dn = g_strdup (values[0]);
 	}
 	else {
@@ -663,6 +680,9 @@ pas_backend_ldap_connect (PASBackendLDAP *bl)
 
 			return GNOME_Evolution_Addressbook_BookListener_Success;
 		}
+		else
+			g_warning ("Failed to perform root dse query anonymously, (ldap_error 0x%02x)", ldap_error);
+
 	}
 
 	g_warning ("pas_backend_ldap_connect failed for "
@@ -3130,8 +3150,20 @@ pas_backend_ldap_process_authenticate_user (PASBackend *backend,
 
 	bl->priv->writable = (ldap_error == LDAP_SUCCESS);
 
-	if (!bl->priv->evolutionPersonChecked)
-		check_schema_support (bl);
+	/* if the bind was successful we force a requery on the root
+	   dse since some ldap servers are set up such that they don't
+	   report anything (including the schema DN) until the user is
+	   authenticated */
+	if (!bl->priv->evolutionPersonChecked && ldap_error == LDAP_SUCCESS) {
+		ldap_error = query_ldap_root_dse (bl);
+
+		if (LDAP_SUCCESS == ldap_error) {
+			if (!bl->priv->evolutionPersonChecked)
+				check_schema_support (bl);
+		}
+		else
+			g_warning ("Failed to perform root dse query after authenticating, (ldap_error 0x%02x)", ldap_error);
+	}
 
 	pas_book_report_writable (book, bl->priv->writable);
 }
