@@ -265,6 +265,9 @@ icalproperty_free (icalproperty* prop)
 
 /* This returns where the start of the next line should be. chars_left does
    not include the trailing '\0'. */
+#define MAX_LINE_LEN 75
+/*#define MAX_LINE_LEN 120*/
+
 static char*
 get_next_line_start (char *line_start, int chars_left)
 {
@@ -272,7 +275,7 @@ get_next_line_start (char *line_start, int chars_left)
 
     /* If we have 74 chars or less left, we can output all of them. 
        we return a pointer to the '\0' at the end of the string. */
-    if (chars_left <= 74) {
+    if (chars_left < MAX_LINE_LEN) {
         return line_start + chars_left;
     } 
 
@@ -280,7 +283,7 @@ get_next_line_start (char *line_start, int chars_left)
        trying to find a ';' ':' or ' '. If we find one, we return the character
        after it. If not, we break at 74 chars (the 75th char is the space at
        the start of the line). */
-    pos = line_start + 73;
+    pos = line_start + MAX_LINE_LEN - 2;
     while (pos > line_start) {
         if (*pos == ';' || *pos == ':' || *pos == ' ') {
 	    return pos + 1;
@@ -288,7 +291,7 @@ get_next_line_start (char *line_start, int chars_left)
 	pos--;
     }
 
-    return line_start + 74;
+    return line_start + MAX_LINE_LEN - 1;
 }
 
 

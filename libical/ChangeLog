@@ -1,5 +1,10 @@
 2001-10-31  Damon Chaplin  <damon@ximian.com>
 
+	* src/libical/icalproperty.c (get_next_line_start): use MAX_LINE_LEN
+	rather than magic numbers all over the place.
+
+2001-10-31  Damon Chaplin  <damon@ximian.com>
+
 	* src/libical/icalproperty.c (icalproperty_as_ical_string): had to
 	redo the folding code since Outlook 2000 doesn't like parameter values
 	like 'TENTATIVE' cut in half. Now it tries to split after a ';', ':'
