@@ -593,12 +593,10 @@ int
 camel_multipart_signed_sign(CamelMultipartSigned *mps, CamelCipherContext *context, CamelMimePart *content, const char *userid, CamelCipherHash hash, CamelException *ex)
 {
 	CamelMimeFilter *canon_filter;
-	CamelStream *sigstream, *mem;
+	CamelStream *mem;
 	CamelStreamFilter *filter;
 	CamelContentType *mime_type;
-	CamelMimePart *signature;
-	CamelDataWrapper *dw;
-	char *type;
+	CamelMimePart *sigpart;
 
 	/* this needs to be set */
 	g_return_val_if_fail(context->sign_protocol != NULL, -1);
@@ -624,26 +622,13 @@ camel_multipart_signed_sign(CamelMultipartSigned *mps, CamelCipherContext *conte
 	printf("-- end\n");
 #endif
 
-	sigstream = camel_stream_mem_new();
+	sigpart = camel_mime_part_new();
 
-	if (camel_cipher_sign(context, userid, hash, mem, sigstream, ex) == -1) {
-		camel_object_unref((CamelObject *)mem);
-		camel_object_unref((CamelObject *)sigstream);
+	if (camel_cipher_sign(context, userid, hash, mem, sigpart, ex) == -1) {
+		camel_object_unref(mem);
+		camel_object_unref(sigpart);
 		return -1;
 	}
-
-	/* create the signature wrapper object */
-	signature = camel_mime_part_new();
-	dw = camel_data_wrapper_new();
-	type = alloca(strlen(context->sign_protocol) + 32);
-	sprintf(type, "%s; name=signature.asc", context->sign_protocol);
-	camel_data_wrapper_set_mime_type(dw, type);
-	camel_stream_reset(sigstream);
-	camel_data_wrapper_construct_from_stream(dw, sigstream);
-	camel_object_unref((CamelObject *)sigstream);
-	camel_medium_set_content_object((CamelMedium *)signature, dw);
-	camel_object_unref((CamelObject *)dw);
-	camel_mime_part_set_description(signature, _("This is a digitally signed message part"));
 
 	/* setup our mime type and boundary */
 	mime_type = camel_content_type_new("multipart", "signed");
@@ -655,7 +640,7 @@ camel_multipart_signed_sign(CamelMultipartSigned *mps, CamelCipherContext *conte
 
 	/* just keep the whole raw content.  We dont *really* need to do this because
 	   we know how we just proccessed it, but, well, better to be safe than sorry */
-	mps->signature = signature;
+	mps->signature = sigpart;
 	mps->contentraw = mem;
 	camel_stream_reset(mem);
 
@@ -685,7 +670,7 @@ camel_multipart_signed_verify(CamelMultipartSigned *mps, CamelCipherContext *con
 {
 	CamelCipherValidity *valid;
 	CamelMimePart *sigpart;
-	CamelStream *sigstream, *constream;
+	CamelStream *constream;
 
 	/* we need to be able to verify stuff we just signed as well as stuff we loaded from a stream/parser */
 
@@ -713,13 +698,10 @@ camel_multipart_signed_verify(CamelMultipartSigned *mps, CamelCipherContext *con
 	}
 
 	/* we do this as a normal mime part so we can have it handle transfer encoding etc */
-	sigstream = camel_stream_mem_new();
 	sigpart = camel_multipart_get_part((CamelMultipart *)mps, CAMEL_MULTIPART_SIGNED_SIGNATURE);
-	camel_data_wrapper_write_to_stream((CamelDataWrapper *)sigpart, sigstream);
-	camel_stream_reset(sigstream);
 
 	/* do the magic, the caller must supply the right context for this kind of object */
-	valid = camel_cipher_verify(context, camel_cipher_id_to_hash(context, mps->micalg), constream, sigstream, ex);
+	valid = camel_cipher_verify(context, camel_cipher_id_to_hash(context, mps->micalg), constream, sigpart, ex);
 
 #if 0
 	{
@@ -733,8 +715,7 @@ camel_multipart_signed_verify(CamelMultipartSigned *mps, CamelCipherContext *con
 	}
 #endif
 
-	camel_object_unref((CamelObject *)constream);
-	camel_object_unref((CamelObject *)sigstream);
+	camel_object_unref(constream);
 
 	return valid;
 }

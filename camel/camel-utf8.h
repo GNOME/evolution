@@ -34,4 +34,8 @@ void g_string_append_u(GString *out, guint32 c);
 char *camel_utf7_utf8(const char *ptr);
 char *camel_utf8_utf7(const char *ptr);
 
+/* convert ucs2 to/from utf8 */
+char *camel_utf8_ucs2(const char *ptr);
+char *camel_ucs2_utf8(const char *ptr);
+
 #endif /* ! _CAMEL_UTF8_H */

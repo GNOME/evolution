@@ -92,6 +92,7 @@ libcamel_la_SOURCES = 				\
 	camel-seekable-substream.c		\
 	camel-service.c				\
 	camel-session.c				\
+	camel-smime-context.c			\
 	camel-store.c				\
 	camel-store-summary.c			\
 	camel-stream-buffer.c			\
@@ -191,6 +192,7 @@ libcamelinclude_HEADERS =			\
 	camel-seekable-substream.h		\
 	camel-service.h				\
 	camel-session.h				\
+	camel-smime-context.h			\
 	camel-store.h				\
 	camel-store-summary.h			\
 	camel-stream-buffer.h			\

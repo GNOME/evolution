@@ -1,41 +1,34 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
  *  Authors: Jeffrey Stedfast <fejj@ximian.com>
+ *           Michael Zucchi <notzed@ximian.com>
  *
- *  Copyright 2001 Ximian, Inc. (www.ximian.com)
+ *  The Initial Developer of the Original Code is Netscape
+ *  Communications Corporation.  Portions created by Netscape are 
+ *  Copyright (C) 1994-2000 Netscape Communications Corporation.  All
+ *  Rights Reserved.
  *
- * This program is free software; you can redistribute it and/or
- * modify it under the terms of version 2 of the GNU General Public
- * License as published by the Free Software Foundation.
+ *  Copyright 2003 Ximian, Inc. (www.ximian.com)
  *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
- * General Public License for more details.
+ *  This program is free software; you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation; either version 2 of the License, or
+ *  (at your option) any later version.
  *
- * You should have received a copy of the GNU General Public
- * License along with this program; if not, write to the
- * Free Software Foundation, Inc., 59 Temple Place - Suite 330,
- * Boston, MA 02111-1307, USA.
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program; if not, write to the Free Software
+ *  Foundation, Inc., 59 Temple Street #330, Boston, MA 02111-1307, USA.
  *
  */
-
-/* Note: much of the NSS code was copied from Mozilla's cmsutil.c program */
 
 #ifdef HAVE_CONFIG_H
 #include <config.h>
 #endif
-
-#ifdef HAVE_NSS
-#include "camel-smime-context.h"
-
-#include "camel-mime-filter-from.h"
-#include "camel-mime-filter-crlf.h"
-#include "camel-stream-filter.h"
-#include "camel-stream-fs.h"
-#include "camel-stream-mem.h"
-#include "camel-mime-part.h"
-#include "camel-multipart.h"
 
 #include "nss.h"
 #include <cms.h>
@@ -43,858 +36,552 @@
 #include <certdb.h>
 #include <pkcs11.h>
 #include <smime.h>
+#include <pkcs11t.h>
+#include <pk11func.h>
+
+#include <camel/camel-exception.h>
+#include <camel/camel-stream-mem.h>
+#include <camel/camel-data-wrapper.h>
+
+#include <camel/camel-mime-part.h>
+#include <camel/camel-stream-fs.h>
+#include <camel/camel-stream-filter.h>
+#include <camel/camel-mime-filter-basic.h>
+#include <camel/camel-mime-filter-canon.h>
+
+#include "camel-smime-context.h"
+#include "camel-operation.h"
 
 #define d(x)
 
-struct _CamelSMimeContextPrivate {
+struct _CamelSMIMEContextPrivate {
 	CERTCertDBHandle *certdb;
+
+	char *encrypt_key;
+	camel_smime_sign_t sign_mode;
+
+	unsigned int send_encrypt_key_prefs:1;
 };
 
-
-static CamelMimeMessage *smime_sign      (CamelCMSContext *ctx, CamelMimeMessage *message,
-					  const char *userid, gboolean signing_time,
-					  gboolean detached, CamelException *ex);
-
-static CamelMimeMessage *smime_certsonly (CamelCMSContext *ctx, CamelMimeMessage *message,
-					  const char *userid, GPtrArray *recipients,
-					  CamelException *ex);
-
-static CamelMimeMessage *smime_encrypt   (CamelCMSContext *ctx, CamelMimeMessage *message,
-					  const char *userid, GPtrArray *recipients, 
-					  CamelException *ex);
-
-static CamelMimeMessage *smime_envelope  (CamelCMSContext *ctx, CamelMimeMessage *message,
-					  const char *userid, GPtrArray *recipients, 
-					  CamelException *ex);
-
-static CamelMimeMessage *smime_decode    (CamelCMSContext *ctx, CamelMimeMessage *message,
-					  CamelCMSValidityInfo **info, CamelException *ex);
-
-static CamelCMSContextClass *parent_class;
-
-static void
-camel_smime_context_init (CamelSMimeContext *context)
-{
-	context->priv = g_new0 (struct _CamelSMimeContextPrivate, 1);
-}
-
-static void
-camel_smime_context_finalise (CamelObject *o)
-{
-	CamelSMimeContext *context = (CamelSMimeContext *)o;
-	
-	g_free (context->encryption_key);
-	g_free (context->priv);
-}
-
-static void
-camel_smime_context_class_init (CamelSMimeContextClass *camel_smime_context_class)
-{
-	CamelCMSContextClass *camel_cms_context_class =
-		CAMEL_CMS_CONTEXT_CLASS (camel_smime_context_class);
-	
-	parent_class = CAMEL_CMS_CONTEXT_CLASS (camel_type_get_global_classfuncs (camel_cms_context_get_type ()));
-	
-	camel_cms_context_class->sign = smime_sign;
-	camel_cms_context_class->certsonly = smime_certsonly;
-	camel_cms_context_class->encrypt = smime_encrypt;
-	camel_cms_context_class->envelope = smime_envelope;
-	camel_cms_context_class->decode = smime_decode;
-}
-
-CamelType
-camel_smime_context_get_type (void)
-{
-	static CamelType type = CAMEL_INVALID_TYPE;
-	
-	if (type == CAMEL_INVALID_TYPE) {
-		type = camel_type_register (camel_cms_context_get_type (),
-					    "CamelSMimeContext",
-					    sizeof (CamelSMimeContext),
-					    sizeof (CamelSMimeContextClass),
-					    (CamelObjectClassInitFunc) camel_smime_context_class_init,
-					    NULL,
-					    (CamelObjectInitFunc) camel_smime_context_init,
-					    (CamelObjectFinalizeFunc) camel_smime_context_finalise);
-	}
-	
-	return type;
-}
-
+static CamelCipherContextClass *parent_class = NULL;
 
 /**
  * camel_smime_context_new:
- * @session: CamelSession
- * @encryption_key: preferred encryption key (used when attaching cert chains to messages)
+ * @session: session
  *
- * This creates a new CamelSMimeContext object which is used to sign,
- * verify, encrypt and decrypt streams.
+ * Creates a new sm cipher context object.
  *
- * Return value: the new CamelSMimeContext
+ * Returns a new sm cipher context object.
  **/
-CamelSMimeContext *
-camel_smime_context_new (CamelSession *session, const char *encryption_key)
+CamelCipherContext *
+camel_smime_context_new(CamelSession *session)
 {
-	CamelSMimeContext *context;
-	CERTCertDBHandle *certdb;
+	CamelCipherContext *cipher;
+	CamelSMIMEContext *ctx;
 	
-	g_return_val_if_fail (session != NULL, NULL);
-	g_return_val_if_fail (CAMEL_IS_SESSION (session), NULL);
+	g_return_val_if_fail(CAMEL_IS_SESSION(session), NULL);
 	
-	certdb = CERT_GetDefaultCertDB ();
-	if (!certdb)
-		return NULL;
+	ctx =(CamelSMIMEContext *) camel_object_new(camel_smime_context_get_type());
 	
-	context = CAMEL_SMIME_CONTEXT (camel_object_new (CAMEL_SMIME_CONTEXT_TYPE));
+	cipher =(CamelCipherContext *) ctx;
+	cipher->session = session;
+	camel_object_ref(session);
 	
-	camel_cms_context_construct (CAMEL_CMS_CONTEXT (context), session);
-	
-	context->encryption_key = g_strdup (encryption_key);
-	context->priv->certdb = certdb;
-	
-	return context;
+	return cipher;
 }
 
-
-struct _GetPasswdData {
-	CamelSession *session;
-	const char *userid;
-	CamelException *ex;
-};
-
-static char *
-smime_get_password (PK11SlotInfo *info, PRBool retry, void *arg)
+void
+camel_smime_context_set_encrypt_key(CamelSMIMEContext *context, gboolean use, const char *key)
 {
-	CamelSession *session = ((struct _GetPasswdData *)arg)->session;
-	const char *userid = ((struct _GetPasswdData *)arg)->userid;
-	CamelException *ex = ((struct _GetPasswdData *)arg)->ex;
-	char *prompt, *passwd, *ret;
+	context->priv->send_encrypt_key_prefs = use;
+	g_free(context->priv->encrypt_key);
+	context->priv->encrypt_key = g_strdup(key);
+}
+
+/* set signing mode, clearsigned multipart/signed or enveloped */
+void
+camel_smime_context_set_sign_mode(CamelSMIMEContext *context, camel_smime_sign_t type)
+{
+	context->priv->sign_mode = type;
+}
+
+static const char *
+sm_hash_to_id(CamelCipherContext *context, CamelCipherHash hash)
+{
+	switch(hash) {
+	case CAMEL_CIPHER_HASH_MD5:
+		return "md5";
+	case CAMEL_CIPHER_HASH_SHA1:
+	case CAMEL_CIPHER_HASH_DEFAULT:
+		return "sha1";
+	default:
+		return NULL;
+	}
+}
+
+static CamelCipherHash
+sm_id_to_hash(CamelCipherContext *context, const char *id)
+{
+	if (id) {
+		if (!strcmp(id, "md5"))
+			return CAMEL_CIPHER_HASH_MD5;
+		else if (!strcmp(id, "sha1"))
+			return CAMEL_CIPHER_HASH_SHA1;
+	}
 	
-	prompt = g_strdup_printf (_("Please enter your password for %s"), userid);
-	passwd = camel_session_get_password (session, prompt, FALSE, TRUE,
-					     NULL, userid, ex);
-	g_free (prompt);
-	
-	ret = PL_strdup (passwd);
-	g_free (passwd);
-	
-	return ret;
+	return CAMEL_CIPHER_HASH_DEFAULT;
+}
+
+/* used for decode content callback, for streaming decode */
+static void
+sm_write_stream(void *arg, const char *buf, unsigned long len)
+{
+	camel_stream_write((CamelStream *)arg, buf, len);
 }
 
 static PK11SymKey *
-decode_key_cb (void *arg, SECAlgorithmID *algid)
+sm_decrypt_key(void *arg, SECAlgorithmID *algid)
 {
+	printf("Decrypt key called\n");
 	return (PK11SymKey *)arg;
 }
 
+static char *
+sm_get_passwd(PK11SlotInfo *info, PRBool retry, void *arg)
+{
+	printf("Password requested for '%s'\n", PK11_GetTokenName(info));
+	
+	return NULL;
+}
 
 static NSSCMSMessage *
-signed_data (CamelSMimeContext *ctx, const char *userid, gboolean signing_time,
-	     gboolean detached, CamelException *ex)
+sm_signing_cmsmessage(CamelSMIMEContext *context, const char *nick, SECOidTag hash, int detached, CamelException *ex)
 {
+	struct _CamelSMIMEContextPrivate *p = context->priv;
 	NSSCMSMessage *cmsg = NULL;
 	NSSCMSContentInfo *cinfo;
 	NSSCMSSignedData *sigd;
 	NSSCMSSignerInfo *signerinfo;
-	CERTCertificate *cert, *ekpcert;
-	
-	if (!userid) {
-		camel_exception_set (ex, CAMEL_EXCEPTION_SYSTEM,
-				     _("Please indicate the nickname of a certificate to sign with."));
-		return NULL;
-	}
-	
-	if ((cert = CERT_FindCertByNickname (ctx->priv->certdb, (char *) userid)) == NULL) {
-		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
-				      _("The signature certificate for \"%s\" does not exist."),
-				      userid);
-		return NULL;
-	}
-	
-	/* create the cms message object */
-	cmsg = NSS_CMSMessage_Create (NULL);
-	
-	/* build chain of objects: message->signedData->data */
-	sigd = NSS_CMSSignedData_Create (cmsg);
-	
-	cinfo = NSS_CMSMessage_GetContentInfo (cmsg);
-	NSS_CMSContentInfo_SetContent_SignedData (cmsg, cinfo, sigd); 
-	
-	cinfo = NSS_CMSSignedData_GetContentInfo (sigd);
-	
-	/* speciffy whether we want detached signatures or not */
-	NSS_CMSContentInfo_SetContent_Data (cmsg, cinfo, NULL, detached);
-	
-	/* create & attach signer information */
-	signerinfo = NSS_CMSSignerInfo_Create (cmsg, cert, SEC_OID_SHA1);
-	
-	/* include the cert chain */
-	NSS_CMSSignerInfo_IncludeCerts (signerinfo, NSSCMSCM_CertChain, 
-					certUsageEmailSigner);
-	
-	if (signing_time) {
-		NSS_CMSSignerInfo_AddSigningTime (signerinfo, PR_Now ());
-	}
-	
-	if (TRUE) {
-		/* Add S/MIME Capabilities */
-		NSS_CMSSignerInfo_AddSMIMECaps (signerinfo);
-	}
-	
-	if (ctx->encryption_key) {
-		/* get the cert, add it to the message */
-		ekpcert = CERT_FindCertByNickname (ctx->priv->certdb, ctx->encryption_key);
-		if (!ekpcert) {
-			camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
-					      _("The encryption certificate for \"%s\" does not exist."),
-					      ctx->encryption_key);
-			goto exception;
-		}
-		
-		NSS_CMSSignerInfo_AddSMIMEEncKeyPrefs (signerinfo, ekpcert, ctx->priv->certdb);
-		
-		NSS_CMSSignedData_AddCertificate (sigd, ekpcert);
-	} else {
-		/* check signing cert for fitness as encryption cert */
-		/* if yes, add signing cert as EncryptionKeyPreference */
-		NSS_CMSSignerInfo_AddSMIMEEncKeyPrefs (signerinfo, cert, ctx->priv->certdb);
-	}
-	
-	NSS_CMSSignedData_AddSignerInfo (sigd, signerinfo);
-	
-	return cmsg;
-	
- exception:
-	
-	NSS_CMSMessage_Destroy (cmsg);
-	
-	return NULL;
-}
+	CERTCertificate *cert= NULL, *ekpcert = NULL;
 
-static void
-smime_sign_restore (CamelMimePart *mime_part, GSList **encodings)
-{
-	CamelDataWrapper *wrapper;
-	
-	wrapper = camel_medium_get_content_object (CAMEL_MEDIUM (mime_part));
-	if (!wrapper)
-		return;
-	
-	if (CAMEL_IS_MULTIPART (wrapper)) {
-		int parts, i;
-		
-		parts = camel_multipart_get_number (CAMEL_MULTIPART (wrapper));
-		for (i = 0; i < parts; i++) {
-			CamelMimePart *part = camel_multipart_get_part (CAMEL_MULTIPART (wrapper), i);
-			
-			smime_sign_restore (part, encodings);
-			*encodings = (*encodings)->next;
-		}
-	} else {
-		CamelTransferEncoding encoding;
-		
-		if (CAMEL_IS_MIME_MESSAGE (wrapper)) {
-			/* restore the message parts' subparts */
-			smime_sign_restore (CAMEL_MIME_PART (wrapper), encodings);
+	/* TODO: usage should be hardcoded to usageSigner? */
+
+	if ((cert = CERT_FindUserCertByUsage(p->certdb,
+					     (char *)nick,
+					     certUsageEmailSigner,
+					     PR_FALSE,
+					     NULL)) == NULL) {
+		camel_exception_setv(ex, 1, "Cann't find certificate for '%s'", nick);
+		return NULL;
+	}
+
+	cmsg = NSS_CMSMessage_Create(NULL); /* create a message on its own pool */
+	if (cmsg == NULL) {
+		camel_exception_setv(ex, 1, "Can't create CMS message");
+		goto fail;
+	}
+
+	if ((sigd = NSS_CMSSignedData_Create(cmsg)) == NULL) {
+		camel_exception_setv(ex, 1, "Can't create CMS signedData");
+		goto fail;
+	}
+
+	cinfo = NSS_CMSMessage_GetContentInfo(cmsg);
+	if (NSS_CMSContentInfo_SetContent_SignedData(cmsg, cinfo, sigd) != SECSuccess) {
+		camel_exception_setv(ex, 1, "Can't attach CMS signedData");
+		goto fail;
+	}
+
+	/* if !detatched, the contentinfo will alloc a data item for us */
+	cinfo = NSS_CMSSignedData_GetContentInfo(sigd);
+	if (NSS_CMSContentInfo_SetContent_Data(cmsg, cinfo, NULL, detached) != SECSuccess) {
+		camel_exception_setv(ex, 1, "Can't attach CMS data");
+		goto fail;
+	}
+
+	signerinfo = NSS_CMSSignerInfo_Create(cmsg, cert, hash);
+	if (signerinfo == NULL) {
+		camel_exception_setv(ex, 1, "Can't create CMS SignerInfo");
+		goto fail;
+	}
+
+	/* we want the cert chain included for this one */
+	if (NSS_CMSSignerInfo_IncludeCerts(signerinfo, NSSCMSCM_CertChain, certUsageEmailSigner) != SECSuccess) {
+		camel_exception_setv(ex, 1, "Can't find cert chain");
+		goto fail;
+	}
+
+	/* SMIME RFC says signing time should always be added */
+	if (NSS_CMSSignerInfo_AddSigningTime(signerinfo, PR_Now()) != SECSuccess) {
+		camel_exception_setv(ex, 1, "Can't add CMS SigningTime");
+		goto fail;
+	}
+
+#if 0
+	/* this can but needn't be added.  not sure what general usage is */
+	if (NSS_CMSSignerInfo_AddSMIMECaps(signerinfo) != SECSuccess) {
+		fprintf(stderr, "ERROR: cannot add SMIMECaps attribute.\n");
+		goto loser;
+	}
+#endif
+
+	/* Check if we need to send along our return encrypt cert, rfc2633 2.5.3 */
+	if (p->send_encrypt_key_prefs) {
+		CERTCertificate *enccert = NULL;
+
+		if (p->encrypt_key) {
+			/* encrypt key has its own nick */
+			if ((ekpcert = CERT_FindUserCertByUsage(
+				     p->certdb,
+				     p->encrypt_key,
+				     certUsageEmailRecipient, PR_FALSE, NULL)) == NULL) {
+				camel_exception_setv(ex, 1, "encryption cert for '%s' does not exist", p->encrypt_key);
+				goto fail;
+			}
+			enccert = ekpcert;
+		} else if (CERT_CheckCertUsage(cert, certUsageEmailRecipient) == SECSuccess) {
+			/* encrypt key is signing key */
+			enccert = cert;
 		} else {
-			encoding = GPOINTER_TO_INT ((*encodings)->data);
-			
-			camel_mime_part_set_encoding (mime_part, encoding);
+			/* encrypt key uses same nick */
+			if ((ekpcert = CERT_FindUserCertByUsage(
+				     p->certdb, (char *)nick,
+				     certUsageEmailRecipient, PR_FALSE, NULL)) == NULL) {
+				camel_exception_setv(ex, 1, "encryption cert for '%s' does not exist", nick);
+				goto fail;
+			}
+			enccert = ekpcert;
+		}
+
+		if (NSS_CMSSignerInfo_AddSMIMEEncKeyPrefs(signerinfo, enccert, p->certdb) != SECSuccess) {
+			camel_exception_setv(ex, 1, "can't add SMIMEEncKeyPrefs attribute");
+			goto fail;
+		}
+
+		if (NSS_CMSSignerInfo_AddMSSMIMEEncKeyPrefs(signerinfo, enccert, p->certdb) != SECSuccess) {
+			camel_exception_setv(ex, 1, "can't add MS SMIMEEncKeyPrefs attribute");
+			goto fail;
+		}
+
+		if (ekpcert != NULL && NSS_CMSSignedData_AddCertificate(sigd, ekpcert) != SECSuccess) {
+			camel_exception_setv(ex, 1, "can't add add encryption certificate");
+			goto fail;
 		}
 	}
+
+	if (NSS_CMSSignedData_AddSignerInfo(sigd, signerinfo) != SECSuccess) {
+		camel_exception_setv(ex, 1, "can't add CMS SignerInfo");
+		goto fail;
+	}
+
+	if (ekpcert)
+		CERT_DestroyCertificate(ekpcert);
+
+	if (cert)
+		CERT_DestroyCertificate(cert);
+
+	return cmsg;
+fail:
+	if (ekpcert)
+		CERT_DestroyCertificate(ekpcert);
+
+	if (cert)
+		CERT_DestroyCertificate(cert);
+
+	NSS_CMSMessage_Destroy(cmsg);
+
+	return NULL;
 }
 
-static void
-smime_sign_prepare (CamelMimePart *mime_part, GSList **encodings)
+static int
+sm_encode_cmsmessage(CamelSMIMEContext *context, NSSCMSMessage *cmsg, CamelStream *instream, CamelStream *out, CamelException *ex)
 {
-	CamelDataWrapper *wrapper;
-	int parts, i;
-	
-	wrapper = camel_medium_get_content_object (CAMEL_MEDIUM (mime_part));
-	if (!wrapper)
-		return;
-	
-	if (CAMEL_IS_MULTIPART (wrapper)) {
-		parts = camel_multipart_get_number (CAMEL_MULTIPART (wrapper));
-		for (i = 0; i < parts; i++) {
-			CamelMimePart *part = camel_multipart_get_part (CAMEL_MULTIPART (wrapper), i);
-			
-			smime_sign_prepare (part, encodings);
-		}
-	} else {
-		CamelTransferEncoding encoding;
-		
-		if (CAMEL_IS_MIME_MESSAGE (wrapper)) {
-			/* prepare the message parts' subparts */
-			smime_sign_prepare (CAMEL_MIME_PART (wrapper), encodings);
+	NSSCMSEncoderContext *enc;
+	CamelStreamMem *mem = NULL;
+
+	enc = NSS_CMSEncoder_Start(cmsg, 
+				   sm_write_stream, out, /* DER output callback  */
+				   NULL, NULL, /* destination storage  */
+				   sm_get_passwd, context, /* password callback    */
+				   NULL, NULL,     /* decrypt key callback */
+				   NULL, NULL );   /* detached digests    */
+	if (!enc) {
+		camel_exception_setv(ex, 1, "Cannot create encoder context");
+		goto fail;
+	}
+
+	/* Note: see rfc2015 or rfc3156, section 5 */
+
+	/* FIXME: stream this, we stream output at least */
+	mem = (CamelStreamMem *)camel_stream_mem_new();
+	camel_stream_write_to_stream(instream, (CamelStream *)mem);
+
+	if (NSS_CMSEncoder_Update(enc, mem->buffer->data, mem->buffer->len) != SECSuccess) {
+		NSS_CMSEncoder_Cancel(enc);
+		camel_exception_setv(ex, 1, "Failed to add data to CMS encoder");
+		goto fail;
+	}
+
+	if (NSS_CMSEncoder_Finish(enc) != SECSuccess) {
+		camel_exception_setv(ex, 1, "Failed to encode data");
+		goto fail;
+	}
+
+	camel_object_unref(mem);
+
+	return 0;
+
+fail:
+	if (mem)
+		camel_object_unref(mem);
+
+	return -1;
+}
+
+static int
+sm_sign(CamelCipherContext *ctx, const char *userid, CamelCipherHash hash, CamelStream *istream, CamelMimePart *sigpart, CamelException *ex)
+{
+	int res;
+	NSSCMSMessage *cmsg;
+	CamelStream *ostream;
+	SECOidTag sechash;
+
+	switch (hash) {
+	case CAMEL_CIPHER_HASH_SHA1:
+	case CAMEL_CIPHER_HASH_DEFAULT:
+	default:
+		sechash = SEC_OID_SHA1;
+		break;
+	case CAMEL_CIPHER_HASH_MD5:
+		sechash = SEC_OID_MD5;
+		break;
+	}
+
+	cmsg = sm_signing_cmsmessage((CamelSMIMEContext *)ctx, userid, sechash,
+				     ((CamelSMIMEContext *)ctx)->priv->sign_mode == CAMEL_SMIME_SIGN_CLEARSIGN, ex);
+	if (cmsg == NULL)
+		return -1;
+
+	ostream = camel_stream_mem_new();
+	res = sm_encode_cmsmessage((CamelSMIMEContext *)ctx, cmsg, istream, ostream, ex);
+	NSS_CMSMessage_Destroy(cmsg);
+
+	if (res == 0) {
+		CamelDataWrapper *dw;
+		CamelContentType *ct;
+
+		dw = camel_data_wrapper_new();
+		camel_stream_reset(ostream);
+		camel_data_wrapper_construct_from_stream(dw, ostream);
+		dw->encoding = CAMEL_TRANSFER_ENCODING_BINARY;
+
+		if (((CamelSMIMEContext *)ctx)->priv->sign_mode == CAMEL_SMIME_SIGN_CLEARSIGN) {
+			ct = camel_content_type_new("application", "x-pkcs7-signature");
+			camel_content_type_set_param(ct, "name", "smime.p7s");
+			camel_data_wrapper_set_mime_type_field(dw, ct);
+			camel_content_type_unref(ct);
+
+			camel_mime_part_set_filename(sigpart, "smime.p7s");
 		} else {
-			encoding = camel_mime_part_get_encoding (mime_part);
-			
-			/* FIXME: find the best encoding for this part and use that instead?? */
-			/* the encoding should really be QP or Base64 */
-			if (encoding != CAMEL_TRANSFER_ENCODING_BASE64)
-				camel_mime_part_set_encoding (mime_part, CAMEL_TRANSFER_ENCODING_QUOTEDPRINTABLE);
-			
-			*encodings = g_slist_append (*encodings, GINT_TO_POINTER (encoding));
+			ct = camel_content_type_new("application", "x-pkcs7-mime");
+			camel_content_type_set_param(ct, "name", "smime.p7m");
+			camel_content_type_set_param(ct, "smime-type", "signed-data");
+			camel_data_wrapper_set_mime_type_field(dw, ct);
+			camel_content_type_unref(ct);
+
+			camel_mime_part_set_filename(sigpart, "smime.p7m");
+			camel_mime_part_set_description(sigpart, "S/MIME Signed Message");
 		}
+
+		camel_mime_part_set_disposition(sigpart, "attachment");
+		camel_mime_part_set_encoding(sigpart, CAMEL_TRANSFER_ENCODING_BASE64);
+
+		camel_medium_set_content_object((CamelMedium *)sigpart, dw);
+		camel_object_unref(dw);
+	}
+
+
+	camel_object_unref(ostream);
+
+	return res;
+}
+
+static const char *
+sm_status_description(NSSCMSVerificationStatus status)
+{
+	/* could use this but then we can't control i18n? */
+	/*NSS_CMSUtil_VerificationStatusToString(status));*/
+
+	switch(status) {
+	case NSSCMSVS_Unverified:
+	default:
+		return _("Unverified");
+	case NSSCMSVS_GoodSignature:
+		return _("Good signature");
+	case NSSCMSVS_BadSignature:
+		return _("Bad signature");
+	case NSSCMSVS_DigestMismatch:
+		return _("Content tampered with or altered in transit");
+	case NSSCMSVS_SigningCertNotFound:
+		return _("Signing certificate not found");
+	case NSSCMSVS_SigningCertNotTrusted:
+		return _("Signing certificate not trusted");
+	case NSSCMSVS_SignatureAlgorithmUnknown:
+		return _("Signature algorithm unknown");
+	case NSSCMSVS_SignatureAlgorithmUnsupported:
+		return _("Siganture algorithm unsupported");
+	case NSSCMSVS_MalformedSignature:
+		return _("Malformed signature");
+	case NSSCMSVS_ProcessingError:
+		return _("Processing error");
 	}
 }
 
-
-static CamelMimeMessage *
-smime_sign (CamelCMSContext *ctx, CamelMimeMessage *message,
-	    const char *userid, gboolean signing_time,
-	    gboolean detached, CamelException *ex)
+static CamelCipherValidity *
+sm_verify(CamelCipherContext *context, CamelCipherHash hash, CamelStream *istream, CamelMimePart *sigpart, CamelException *ex)
 {
-	CamelMimeMessage *mesg = NULL;
-	NSSCMSMessage *cmsg = NULL;
-	struct _GetPasswdData *data;
-	PLArenaPool *arena;
-	NSSCMSEncoderContext *ecx;
-	SECItem output = { 0, 0, 0 };
-	CamelStream *stream;
-	GSList *list, *encodings = NULL;
-	GByteArray *buf;
-	
-	cmsg = signed_data (CAMEL_SMIME_CONTEXT (ctx), userid, signing_time, detached, ex);
-	if (!cmsg)
-		return NULL;
-	
-	arena = PORT_NewArena (1024);
-	data = g_new (struct _GetPasswdData, 1);
-	data->session = ctx->session;
-	data->userid = userid;
-	data->ex = ex;
-	ecx = NSS_CMSEncoder_Start (cmsg, NULL, NULL, &output, arena,
-				    smime_get_password, data, NULL, NULL,
-				    NULL, NULL);
-	
-	stream = camel_stream_mem_new ();
-	
-	smime_sign_prepare (CAMEL_MIME_PART (message), &encodings);
-	camel_data_wrapper_write_to_stream (CAMEL_DATA_WRAPPER (message), stream);
-	list = encodings;
-	smime_sign_restore (CAMEL_MIME_PART (message), &list);
-	g_slist_free (encodings);
-	
-	buf = CAMEL_STREAM_MEM (stream)->buffer;
-	
-	NSS_CMSEncoder_Update (ecx, buf->data, buf->len);
-	NSS_CMSEncoder_Finish (ecx);
-	
-	camel_object_unref (stream);
-	g_free (data);
-	
-	/* write the result to a camel stream */
-	stream = camel_stream_mem_new ();
-	camel_stream_write (stream, output.data, output.len);
-	PORT_FreeArena (arena, PR_FALSE);
-	
-	NSS_CMSMessage_Destroy (cmsg);
-	
-	/* parse the stream into a new CamelMimeMessage */
-	mesg = camel_mime_message_new ();
-	camel_stream_reset (stream);
-	camel_data_wrapper_construct_from_stream (CAMEL_DATA_WRAPPER (mesg), stream);
-	camel_object_unref (stream);
-	
-	return mesg;
-}
-
-
-static NSSCMSMessage *
-certsonly_data (CamelSMimeContext *ctx, const char *userid, GPtrArray *recipients, CamelException *ex)
-{
-	NSSCMSMessage *cmsg = NULL;
-	NSSCMSContentInfo *cinfo;
-	NSSCMSSignedData *sigd;
-	CERTCertificate **rcerts;
-	int i = 0;
-	
-	/* find the signer's and the recipients' certs */
-	rcerts = g_new (CERTCertificate *, recipients->len + 2);
-	rcerts[0] = CERT_FindCertByNicknameOrEmailAddr (ctx->priv->certdb, (char *) userid);
-	if (!rcerts[0]) {
-		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
-				      _("Failed to find certificate for \"%s\"."),
-				      recipients->pdata[i]);
-		goto exception;
-	}
-	
-	for (i = 0; i < recipients->len; i++) {
-		rcerts[i + 1] = CERT_FindCertByNicknameOrEmailAddr (ctx->priv->certdb,
-								    recipients->pdata[i]);
-		
-		if (!rcerts[i + 1]) {
-			camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
-					      _("Failed to find certificate for \"%s\"."),
-					      recipients->pdata[i]);
-			goto exception;
-		}
-	}
-	rcerts[i + 1] = NULL;
-	
-	/* create the cms message object */
-	cmsg = NSS_CMSMessage_Create (NULL);
-	
-	sigd = NSS_CMSSignedData_CreateCertsOnly (cmsg, rcerts[0], PR_TRUE);
-	
-	/* add the recipient cert chain */
-	for (i = 0; i < recipients->len; i++) {
-		NSS_CMSSignedData_AddCertChain (sigd, rcerts[i]);
-	}
-	
-	cinfo = NSS_CMSMessage_GetContentInfo (cmsg);
-	NSS_CMSContentInfo_SetContent_SignedData (cmsg, cinfo, sigd);
-	
-	cinfo = NSS_CMSSignedData_GetContentInfo (sigd);
-	NSS_CMSContentInfo_SetContent_Data (cmsg, cinfo, NULL, PR_FALSE);
-	
-	g_free (rcerts);
-	
-	return cmsg;
-	
- exception:
-	
-	NSS_CMSMessage_Destroy (cmsg);
-	
-	g_free (rcerts);
-	
-	return NULL;
-}
-
-static CamelMimeMessage *
-smime_certsonly (CamelCMSContext *ctx, CamelMimeMessage *message,
-		 const char *userid, GPtrArray *recipients,
-		 CamelException *ex)
-{
-	CamelMimeMessage *mesg = NULL;
-	struct _GetPasswdData *data;
-	NSSCMSMessage *cmsg = NULL;
-	PLArenaPool *arena;
-	NSSCMSEncoderContext *ecx;
-	SECItem output = { 0, 0, 0 };
-	CamelStream *stream;
-	GByteArray *buf;
-	
-	cmsg = certsonly_data (CAMEL_SMIME_CONTEXT (ctx), userid, recipients, ex);
-	if (!cmsg)
-		return NULL;
-	
-	arena = PORT_NewArena (1024);
-	data = g_new (struct _GetPasswdData, 1);
-	data->session = ctx->session;
-	data->userid = userid;
-	data->ex = ex;
-	ecx = NSS_CMSEncoder_Start (cmsg, NULL, NULL, &output, arena,
-				    smime_get_password, data, NULL, NULL,
-				    NULL, NULL);
-	
-	stream = camel_stream_mem_new ();
-	camel_data_wrapper_write_to_stream (CAMEL_DATA_WRAPPER (message), stream);
-	buf = CAMEL_STREAM_MEM (stream)->buffer;
-	
-	NSS_CMSEncoder_Update (ecx, buf->data, buf->len);
-	NSS_CMSEncoder_Finish (ecx);
-	
-	camel_object_unref (stream);
-	g_free (data);
-	
-	/* write the result to a camel stream */
-	stream = camel_stream_mem_new ();
-	camel_stream_write (stream, output.data, output.len);
-	PORT_FreeArena (arena, PR_FALSE);
-	
-	NSS_CMSMessage_Destroy (cmsg);
-	
-	/* parse the stream into a new CamelMimeMessage */
-	mesg = camel_mime_message_new ();
-	camel_stream_reset (stream);
-	camel_data_wrapper_construct_from_stream (CAMEL_DATA_WRAPPER (mesg), stream);
-	camel_object_unref (stream);
-	
-	return mesg;
-}
-
-
-static NSSCMSMessage *
-enveloped_data (CamelSMimeContext *ctx, const char *userid, GPtrArray *recipients, CamelException *ex)
-{
-	NSSCMSMessage *cmsg = NULL;
-	NSSCMSContentInfo *cinfo;
-	NSSCMSEnvelopedData *envd;
-	NSSCMSRecipientInfo *rinfo;
-	CERTCertificate **rcerts;
-	SECOidTag bulkalgtag;
-	int keysize, i;
-	
-	/* find the recipient certs by email address or nickname */
-	rcerts = g_new (CERTCertificate *, recipients->len + 2);
-	rcerts[0] = CERT_FindCertByNicknameOrEmailAddr (ctx->priv->certdb, (char *) userid);
-	if (!rcerts[0]) {
-		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
-				      _("Failed to find certificate for \"%s\"."),
-				      userid);
-		goto exception;
-	}
-	
-	for (i = 0; i < recipients->len; i++) {
-		rcerts[i + 1] = CERT_FindCertByNicknameOrEmailAddr (ctx->priv->certdb,  
-								    recipients->pdata[i]);
-		if (!rcerts[i + 1]) {
-			camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
-					      _("Failed to find certificate for \"%s\"."),
-					      recipients->pdata[i]);
-			goto exception;
-		}
-	}
-	rcerts[i + 1] = NULL;
-	
-	/* find a nice bulk algorithm */
-	if (!NSS_SMIMEUtil_FindBulkAlgForRecipients (rcerts, &bulkalgtag, &keysize)) {
-		camel_exception_set (ex, CAMEL_EXCEPTION_SYSTEM,
-				     _("Failed to find a common bulk algorithm."));
-		goto exception;
-	}
-	
-	/* create a cms message object */
-	cmsg = NSS_CMSMessage_Create (NULL);
-	
-	envd = NSS_CMSEnvelopedData_Create (cmsg, bulkalgtag, keysize);
-	cinfo = NSS_CMSMessage_GetContentInfo (cmsg);
-	NSS_CMSContentInfo_SetContent_EnvelopedData (cmsg, cinfo, envd);
-	
-	cinfo = NSS_CMSEnvelopedData_GetContentInfo (envd);
-	NSS_CMSContentInfo_SetContent_Data (cmsg, cinfo, NULL, PR_FALSE);
-	
-	/* create & attach recipient information */
-	for (i = 0; rcerts[i] != NULL; i++) {
-		rinfo = NSS_CMSRecipientInfo_Create (cmsg, rcerts[i]);
-		NSS_CMSEnvelopedData_AddRecipient (envd, rinfo);
-	}
-	
-	g_free (rcerts);
-	
-	return cmsg;
-	
- exception:
-	
-	NSS_CMSMessage_Destroy (cmsg);
-	
-	g_free (rcerts);
-	
-	return NULL;
-}
-
-static CamelMimeMessage *
-smime_envelope (CamelCMSContext *ctx, CamelMimeMessage *message,
-		const char *userid, GPtrArray *recipients, 
-		CamelException *ex)
-{
-	CamelMimeMessage *mesg = NULL;
-	struct _GetPasswdData *data;
-	NSSCMSMessage *cmsg = NULL;
-	PLArenaPool *arena;
-	NSSCMSEncoderContext *ecx;
-	SECItem output = { 0, 0, 0 };
-	CamelStream *stream;
-	GByteArray *buf;
-	
-	cmsg = enveloped_data (CAMEL_SMIME_CONTEXT (ctx), userid, recipients, ex);
-	if (!cmsg)
-		return NULL;
-	
-	arena = PORT_NewArena (1024);
-	data = g_new (struct _GetPasswdData, 1);
-	data->session = ctx->session;
-	data->userid = userid;
-	data->ex = ex;
-	ecx = NSS_CMSEncoder_Start (cmsg, NULL, NULL, &output, arena,
-				    smime_get_password, data, NULL, NULL,
-				    NULL, NULL);
-	
-	stream = camel_stream_mem_new ();
-	camel_data_wrapper_write_to_stream (CAMEL_DATA_WRAPPER (message), stream);
-	buf = CAMEL_STREAM_MEM (stream)->buffer;
-	
-	NSS_CMSEncoder_Update (ecx, buf->data, buf->len);
-	NSS_CMSEncoder_Finish (ecx);
-	
-	camel_object_unref (stream);
-	g_free (data);
-	
-	/* write the result to a camel stream */
-	stream = camel_stream_mem_new ();
-	camel_stream_write (stream, output.data, output.len);
-	PORT_FreeArena (arena, PR_FALSE);
-	
-	NSS_CMSMessage_Destroy (cmsg);
-	
-	/* parse the stream into a new CamelMimeMessage */
-	mesg = camel_mime_message_new ();
-	camel_stream_reset (stream);
-	camel_data_wrapper_construct_from_stream (CAMEL_DATA_WRAPPER (mesg), stream);
-	camel_object_unref (stream);
-	
-	return mesg;
-}
-
-
-struct _BulkKey {
-	PK11SymKey *bulkkey;
-	SECOidTag bulkalgtag;
-	int keysize;
-};
-
-static NSSCMSMessage *
-encrypted_data (CamelSMimeContext *ctx, GByteArray *input, struct _BulkKey *key,
-		CamelStream *ostream, CamelException *ex)
-{
-	NSSCMSMessage *cmsg = NULL;
-	NSSCMSContentInfo *cinfo;
-	NSSCMSEncryptedData *encd;
-	NSSCMSEncoderContext *ecx = NULL;
-	PLArenaPool *arena = NULL;
-	SECItem output = { 0, 0, 0 };
-	
-	/* arena for output */
-	arena = PORT_NewArena (1024);
-	
-	/* create cms message object */
-	cmsg = NSS_CMSMessage_Create (NULL);
-	
-	encd = NSS_CMSEncryptedData_Create (cmsg, key->bulkalgtag, key->keysize);
-	
-	cinfo = NSS_CMSMessage_GetContentInfo (cmsg);
-	NSS_CMSContentInfo_SetContent_EncryptedData (cmsg, cinfo, encd);
-	
-	cinfo = NSS_CMSEncryptedData_GetContentInfo (encd);
-	NSS_CMSContentInfo_SetContent_Data (cmsg, cinfo, NULL, PR_FALSE);
-	
-	ecx = NSS_CMSEncoder_Start (cmsg, NULL, NULL, &output, arena, NULL, NULL,
-				    decode_key_cb, key->bulkkey, NULL, NULL);
-	
-	NSS_CMSEncoder_Update (ecx, input->data, input->len);
-	
-	NSS_CMSEncoder_Finish (ecx);
-	
-	camel_stream_write (ostream, output.data, output.len);
-	
-	if (arena)
-		PORT_FreeArena (arena, PR_FALSE);
-	
-	return cmsg;
-}
-
-static struct _BulkKey *
-get_bulkkey (CamelSMimeContext *ctx, const char *userid, GPtrArray *recipients, CamelException *ex)
-{
-	struct _BulkKey *bulkkey = NULL;
-	NSSCMSMessage *env_cmsg;
-	NSSCMSContentInfo *cinfo;
-	SECItem dummyOut = { 0, 0, 0 };
-	SECItem dummyIn  = { 0, 0, 0 };
-	char str[] = "You are not a beautiful and unique snowflake.";
-	PLArenaPool *arena;
-	int i, nlevels;
-	
-	/* construct an enveloped data message to obtain bulk keys */
-	arena = PORT_NewArena (1024);
-	dummyIn.data = (unsigned char *)str;
-	dummyIn.len = strlen (str);
-	
-	env_cmsg = enveloped_data (ctx, userid, recipients, ex);
-	NSS_CMSDEREncode (env_cmsg, &dummyIn, &dummyOut, arena);
-	/*camel_stream_write (envstream, dummyOut.data, dummyOut.len);*/
-	PORT_FreeArena (arena, PR_FALSE);
-	
-	/* get the content info for the enveloped data */
-	nlevels = NSS_CMSMessage_ContentLevelCount (env_cmsg);
-	for (i = 0; i < nlevels; i++) {
-		SECOidTag typetag;
-		
-		cinfo = NSS_CMSMessage_ContentLevel (env_cmsg, i);
-		typetag = NSS_CMSContentInfo_GetContentTypeTag (cinfo);
-		if (typetag == SEC_OID_PKCS7_DATA) {
-			bulkkey = g_new (struct _BulkKey, 1);
-			
-			/* get the symmertic key */
-			bulkkey->bulkalgtag = NSS_CMSContentInfo_GetContentEncAlgTag (cinfo);
-			bulkkey->keysize = NSS_CMSContentInfo_GetBulkKeySize (cinfo);
-			bulkkey->bulkkey = NSS_CMSContentInfo_GetBulkKey (cinfo);
-			
-			return bulkkey;
-		}
-	}
-	
-	return NULL;
-}
-
-static CamelMimeMessage *
-smime_encrypt (CamelCMSContext *ctx, CamelMimeMessage *message,
-	       const char *userid, GPtrArray *recipients, 
-	       CamelException *ex)
-{
-	struct _BulkKey *bulkkey = NULL;
-	CamelMimeMessage *mesg = NULL;
-	NSSCMSMessage *cmsg = NULL;
-	CamelStream *stream;
-	GByteArray *buf;
-	
-	bulkkey = get_bulkkey (CAMEL_SMIME_CONTEXT (ctx), userid, recipients, ex);
-	if (!bulkkey)
-		return NULL;
-	
-	buf = g_byte_array_new ();
-	stream = camel_stream_mem_new ();
-	camel_stream_mem_set_byte_array (CAMEL_STREAM_MEM (stream), buf);
-	camel_data_wrapper_write_to_stream (CAMEL_DATA_WRAPPER (message), stream);
-	camel_object_unref (stream);
-	
-	stream = camel_stream_mem_new ();
-	cmsg = encrypted_data (CAMEL_SMIME_CONTEXT (ctx), buf, bulkkey, stream, ex);
-	g_byte_array_free (buf, TRUE);
-	g_free (bulkkey);
-	if (!cmsg) {
-		camel_object_unref (stream);
-		return NULL;
-	}
-	
-	NSS_CMSMessage_Destroy (cmsg);
-	
-	/* parse the stream into a new CamelMimeMessage */
-	mesg = camel_mime_message_new ();
-	camel_stream_reset (stream);
-	camel_data_wrapper_construct_from_stream (CAMEL_DATA_WRAPPER (mesg), stream);
-	camel_object_unref (stream);
-	
-	return mesg;
-}
-
-
-static NSSCMSMessage *
-decode_data (CamelSMimeContext *ctx, GByteArray *input, CamelStream *ostream,
-	     CamelCMSValidityInfo **info, CamelException *ex)
-{
-	NSSCMSDecoderContext *dcx;
-	struct _GetPasswdData *data;
-	CamelCMSValidityInfo *vinfo = NULL;
-	NSSCMSMessage *cmsg = NULL;
-	NSSCMSContentInfo *cinfo;
+	struct _CamelSMIMEContextPrivate *p = ((CamelSMIMEContext *)context)->priv;
+	NSSCMSDecoderContext *dec;
+	NSSCMSMessage *cmsg;
 	NSSCMSSignedData *sigd = NULL;
 	NSSCMSEnvelopedData *envd;
 	NSSCMSEncryptedData *encd;
-	int nlevels, i, nsigners, j;
-	char *signercn;
-	NSSCMSSignerInfo *si;
-	SECOidTag typetag;
-	SECItem *item;
-	
-	data = g_new (struct _GetPasswdData, 1);
-	data->session = CAMEL_CMS_CONTEXT (ctx)->session;
-	data->userid = NULL;
-	data->ex = ex;
-	
-	dcx = NSS_CMSDecoder_Start (NULL,
-				    NULL, NULL,
-				    smime_get_password, data,
-				    decode_key_cb,
-				    NULL);
-	
-	NSS_CMSDecoder_Update (dcx, input->data, input->len);
-	
-	cmsg = NSS_CMSDecoder_Finish (dcx);
-	g_free (data);
+	SECAlgorithmID **digestalgs;
+	NSSCMSDigestContext *digcx;
+	int count, i, nsigners, j;
+	SECItem **digests;
+	PLArenaPool *poolp = NULL;
+	CamelStreamMem *mem;
+	NSSCMSVerificationStatus status;
+	CamelCipherValidity *valid;
+	GString *description;
+
+	dec = NSS_CMSDecoder_Start(NULL, 
+				   NULL, NULL, /* content callback     */
+				   sm_get_passwd, context,	/* password callback    */
+				   NULL, NULL); /* decrypt key callback */
+
+	/* FIXME: Stream?  not worth it?  sigs are small */
+	mem = (CamelStreamMem *)camel_stream_mem_new();
+	camel_data_wrapper_decode_to_stream(camel_medium_get_content_object((CamelMedium *)sigpart), (CamelStream *)mem);
+	(void)NSS_CMSDecoder_Update(dec, mem->buffer->data, mem->buffer->len);
+	camel_object_unref(mem);
+	cmsg = NSS_CMSDecoder_Finish(dec);
 	if (cmsg == NULL) {
-		camel_exception_set (ex, CAMEL_EXCEPTION_SYSTEM,
-				     _("Failed to decode message."));
+		camel_exception_setv(ex, 1, "Decoder failed");
 		return NULL;
 	}
-	
-	nlevels = NSS_CMSMessage_ContentLevelCount (cmsg);
-	for (i = 0; i < nlevels; i++) {
-		CamelCMSSigner *signers = NULL;
-		
-		cinfo = NSS_CMSMessage_ContentLevel (cmsg, i);
-		typetag = NSS_CMSContentInfo_GetContentTypeTag (cinfo);
-		
-		if (info && !vinfo) {
-			vinfo = g_new0 (CamelCMSValidityInfo, 1);
-			*info = vinfo;
-		} else if (vinfo) {
-			vinfo->next = g_new0 (CamelCMSValidityInfo, 1);
-			vinfo = vinfo->next;
-		}
-		
+
+	description = g_string_new("");
+	valid = camel_cipher_validity_new();
+	camel_cipher_validity_set_valid(valid, TRUE);
+	status = NSSCMSVS_Unverified;
+
+	/* NB: this probably needs to go into a decoding routine that can be used for processing
+	   enveloped data too */
+	count = NSS_CMSMessage_ContentLevelCount(cmsg);
+	for (i = 0; i < count; i++) {
+		NSSCMSContentInfo *cinfo = NSS_CMSMessage_ContentLevel(cmsg, i);
+		SECOidTag typetag = NSS_CMSContentInfo_GetContentTypeTag(cinfo);
+
 		switch (typetag) {
 		case SEC_OID_PKCS7_SIGNED_DATA:
-			if (vinfo)
-				vinfo->type = CAMEL_CMS_TYPE_SIGNED;
-			
-			sigd = (NSSCMSSignedData *)NSS_CMSContentInfo_GetContent (cinfo);
-			
-			/* import the certificates */
-			NSS_CMSSignedData_ImportCerts (sigd, ctx->priv->certdb,
-						       certUsageEmailSigner, PR_FALSE);
-			
-			/* find out about signers */
-			nsigners = NSS_CMSSignedData_SignerInfoCount (sigd);
-			
-			if (nsigners == 0) {
-				/* must be a cert transport message */
-				SECStatus retval;
-				
-				/* XXX workaround for bug #54014 */
-				NSS_CMSSignedData_ImportCerts (sigd, ctx->priv->certdb, 
-							       certUsageEmailSigner, PR_TRUE);
-				
-				retval = NSS_CMSSignedData_VerifyCertsOnly (sigd, ctx->priv->certdb, 
-									    certUsageEmailSigner);
-				if (retval != SECSuccess) {
-					camel_exception_set (ex, CAMEL_EXCEPTION_SYSTEM,
-							     _("Failed to verify certificates."));
-					goto exception;
-				}
-				
-				return cmsg;
+			sigd = (NSSCMSSignedData *)NSS_CMSContentInfo_GetContent(cinfo);
+			if (sigd == NULL) {
+				camel_exception_setv(ex, 1, "No signedData in signature");
+				goto fail;
 			}
-			
-			for (j = 0; vinfo && j < nsigners; j++) {
-				if (!signers) {
-					signers = g_new0 (CamelCMSSigner, 1);
-					vinfo->signers = signers;
-				} else {
-					signers->next = g_new0 (CamelCMSSigner, 1);
-					signers = signers->next;
+
+			/* need to build digests of the content */
+			if (!NSS_CMSSignedData_HasDigests(sigd)) {
+				if ((poolp = PORT_NewArena(1024)) == NULL) {
+					camel_exception_setv(ex, 1, "out of memory");
+					goto fail;
 				}
+
+				digestalgs = NSS_CMSSignedData_GetDigestAlgs(sigd);
 				
-				si = NSS_CMSSignedData_GetSignerInfo (sigd, j);
-				signercn = NSS_CMSSignerInfo_GetSignerCommonName (si);
-				if (signercn == NULL)
-					signercn = "";
-				
-				NSS_CMSSignedData_VerifySignerInfo (sigd, j, ctx->priv->certdb, 
-								    certUsageEmailSigner);
-				
-				if (signers) {
-					signers->signercn = g_strdup (signercn);
-					signers->status = g_strdup (
-						NSS_CMSUtil_VerificationStatusToString (
-							NSS_CMSSignerInfo_GetVerificationStatus (si)));
+				digcx = NSS_CMSDigestContext_StartMultiple(digestalgs);
+				if (digcx == NULL) {
+					camel_exception_setv(ex, 1, "Cannot calculate digests");
+					goto fail;
+				}
+
+				mem = (CamelStreamMem *)camel_stream_mem_new();
+				camel_stream_write_to_stream(istream, (CamelStream *)mem);
+				NSS_CMSDigestContext_Update(digcx, mem->buffer->data, mem->buffer->len);
+				camel_object_unref(mem);
+
+				if (NSS_CMSDigestContext_FinishMultiple(digcx, poolp, &digests) != SECSuccess) {
+					camel_exception_setv(ex, 1, "Can	not calculate digests");
+					goto fail;
+				}
+
+				if (NSS_CMSSignedData_SetDigests(sigd, digestalgs, digests) != SECSuccess) {
+					camel_exception_setv(ex, 1, "Cannot set message digests");
+					goto fail;
+				}
+
+				PORT_FreeArena(poolp, PR_FALSE);
+				poolp = NULL;
+			}
+
+			/* import the certificates */
+			if (NSS_CMSSignedData_ImportCerts(sigd, p->certdb, certUsageEmailSigner, PR_FALSE) != SECSuccess) {
+				camel_exception_setv(ex, 1, "cert import failed");
+				goto fail;
+			}
+
+			/* check for certs-only message */
+			nsigners = NSS_CMSSignedData_SignerInfoCount(sigd);
+			if (nsigners == 0) {
+				/* ?? Should we check other usages? */
+				NSS_CMSSignedData_ImportCerts(sigd, p->certdb, certUsageEmailSigner, PR_TRUE);
+				if (NSS_CMSSignedData_VerifyCertsOnly(sigd, p->certdb, certUsageEmailSigner) != SECSuccess) {
+					g_string_printf(description, "Certficate only message, cannot verify certificates");
+				} else {
+					status = NSSCMSVS_GoodSignature;
+					g_string_printf(description, "Certficate only message, certificates imported and verified");
+				}
+			} else {
+
+				if (!NSS_CMSSignedData_HasDigests(sigd)) {
+					camel_exception_setv(ex, 1, "Can't find signature digests");
+					goto fail;
+				}
+
+				for (j = 0; j < nsigners; j++) {
+					NSSCMSSignerInfo *si;
+					char *cn, *em;
+					
+					si = NSS_CMSSignedData_GetSignerInfo(sigd, j);
+					NSS_CMSSignedData_VerifySignerInfo(sigd, j, p->certdb, certUsageEmailSigner);
+					
+					status = NSS_CMSSignerInfo_GetVerificationStatus(si);
+					
+					cn = NSS_CMSSignerInfo_GetSignerCommonName(si);
+					em = NSS_CMSSignerInfo_GetSignerEmailAddress(si);
+					
+					g_string_append_printf(description, _("Signer: %s <%s>: %s\n"),
+							       cn?cn:"<unknown>", em?em:"<unknown>",
+							       sm_status_description(status));
+					
+					if (cn)
+						PORT_Free(cn);
+					if (em)
+						PORT_Free(em);
+					
+					if (status != NSSCMSVS_GoodSignature)
+						camel_cipher_validity_set_valid(valid, FALSE);
 				}
 			}
 			break;
 		case SEC_OID_PKCS7_ENVELOPED_DATA:
-			if (vinfo)
-				vinfo->type = CAMEL_CMS_TYPE_ENVELOPED;
-			
-			envd = (NSSCMSEnvelopedData *)NSS_CMSContentInfo_GetContent (cinfo);
+			envd = (NSSCMSEnvelopedData *)NSS_CMSContentInfo_GetContent(cinfo);
+			/* do we need to look into the enveloped data for signatures too?? */
 			break;
 		case SEC_OID_PKCS7_ENCRYPTED_DATA:
-			if (vinfo)
-				vinfo->type = CAMEL_CMS_TYPE_ENCRYPTED;
-			
-			encd = (NSSCMSEncryptedData *)NSS_CMSContentInfo_GetContent (cinfo);
+			encd = (NSSCMSEncryptedData *)NSS_CMSContentInfo_GetContent(cinfo);
 			break;
 		case SEC_OID_PKCS7_DATA:
 			break;
@@ -902,100 +589,330 @@ decode_data (CamelSMimeContext *ctx, GByteArray *input, CamelStream *ostream,
 			break;
 		}
 	}
-	
-	item = NSS_CMSMessage_GetContent (cmsg);
-	camel_stream_write (ostream, item->data, item->len);
-	
-	return cmsg;
-	
- exception:
-	
-	if (info)
-		camel_cms_validity_info_free (*info);
-	
-	if (cmsg)
-		NSS_CMSMessage_Destroy (cmsg);
-	
+
+	camel_cipher_validity_set_valid(valid, status == NSSCMSVS_GoodSignature);
+	camel_cipher_validity_set_description(valid, description->str);
+	g_string_free(description, TRUE);
+
+	NSS_CMSMessage_Destroy(cmsg);
+	return valid;
+
+fail:
+	NSS_CMSMessage_Destroy(cmsg);
+	camel_cipher_validity_free(valid);
+	g_string_free(description, TRUE);
+
+	if (poolp)
+		PORT_FreeArena(poolp, PR_FALSE);
+
 	return NULL;
 }
 
-
-static CamelMimeMessage *
-smime_decode (CamelCMSContext *ctx, CamelMimeMessage *message,
-	      CamelCMSValidityInfo **info, CamelException *ex)
+static int
+sm_encrypt(CamelCipherContext *context, const char *userid, GPtrArray *recipients, CamelMimePart *ipart, CamelMimePart *opart, CamelException *ex)
 {
-	CamelMimeMessage *mesg = NULL;
+	struct _CamelSMIMEContextPrivate *p = ((CamelSMIMEContext *)context)->priv;
+	/*NSSCMSRecipientInfo **recipient_infos;*/
+	CERTCertificate **recipient_certs = NULL;
+	NSSCMSContentInfo *cinfo;
+	PK11SymKey *bulkkey = NULL;
+	SECOidTag bulkalgtag;
+	int bulkkeysize, i;
+	CK_MECHANISM_TYPE type;
+	PK11SlotInfo *slot;
+	PLArenaPool *poolp;
 	NSSCMSMessage *cmsg = NULL;
-	CamelStream *stream, *ostream;
-	GByteArray *buf;
-	
-	stream = camel_stream_mem_new ();
-	camel_data_wrapper_write_to_stream (CAMEL_DATA_WRAPPER (message), stream);
-	buf = CAMEL_STREAM_MEM (stream)->buffer;
-	
-	ostream = camel_stream_mem_new ();
-	cmsg = decode_data (CAMEL_SMIME_CONTEXT (ctx), buf, ostream, info, ex);
-	camel_object_unref (stream);
-	if (!cmsg) {
-		camel_object_unref (ostream);
-		return NULL;
+	NSSCMSEnvelopedData *envd;
+ 	NSSCMSEncoderContext *enc = NULL;
+	CamelStreamMem *mem;
+	CamelStream *ostream = NULL;
+	CamelDataWrapper *dw;
+	CamelContentType *ct;
+
+	poolp = PORT_NewArena(1024);
+	if (poolp == NULL) {
+		camel_exception_setv(ex, 1, "Out of memory");
+		return -1;
 	}
+
+	/* Lookup all recipients certs, for later working */
+	recipient_certs = (CERTCertificate **)PORT_ArenaZAlloc(poolp, sizeof(*recipient_certs[0])*(recipients->len + 1));
+	if (recipient_certs == NULL) {
+		camel_exception_setv(ex, 1, "Out of memory");
+		goto fail;
+	}
+
+	for (i=0;i<recipients->len;i++) {
+		recipient_certs[i] = CERT_FindCertByNicknameOrEmailAddr(p->certdb, recipients->pdata[i]);
+		if (recipient_certs[i] == NULL) {
+			camel_exception_setv(ex, 1, "Can't find certificate for `%s'", recipients->pdata[i]);
+			goto fail;
+		}
+	}
+
+	/* Find a common algorithm, probably 3DES anyway ... */
+	if (NSS_SMIMEUtil_FindBulkAlgForRecipients(recipient_certs, &bulkalgtag, &bulkkeysize) != SECSuccess) {
+		camel_exception_setv(ex, 1, "Can't find common bulk encryption algorithm");
+		goto fail;
+	}
+
+	/* Generate a new bulk key based on the common algorithm - expensive */
+	type = PK11_AlgtagToMechanism(bulkalgtag);
+	slot = PK11_GetBestSlot(type, context);
+	if (slot == NULL) {
+		/* PORT_GetError(); ?? */
+		camel_exception_setv(ex, 1, "Can't allocate slot for encryption bulk key");
+		goto fail;
+	}
+
+	bulkkey = PK11_KeyGen(slot, type, NULL, bulkkeysize/8, context);
+	PK11_FreeSlot(slot);
+
+	/* Now we can start building the message */
+	/* msg->envelopedData->data */
+	cmsg = NSS_CMSMessage_Create(NULL);
+	if (cmsg == NULL) {
+		camel_exception_setv(ex, 1, "Can't create CMS Message");
+		goto fail;
+	}
+
+	envd = NSS_CMSEnvelopedData_Create(cmsg, bulkalgtag, bulkkeysize);
+	if (envd == NULL) {
+		camel_exception_setv(ex, 1, "Can't create CMS EnvelopedData");
+		goto fail;
+	}
+
+	cinfo = NSS_CMSMessage_GetContentInfo(cmsg);
+	if (NSS_CMSContentInfo_SetContent_EnvelopedData(cmsg, cinfo, envd) != SECSuccess) {
+		camel_exception_setv(ex, 1, "Can't attach CMS EnvelopedData");
+		goto fail;
+	}
+
+	cinfo = NSS_CMSEnvelopedData_GetContentInfo(envd);
+	if (NSS_CMSContentInfo_SetContent_Data(cmsg, cinfo, NULL, PR_FALSE) != SECSuccess) {
+		camel_exception_setv(ex, 1, "Can't attach CMS data object");
+		goto fail;
+	}
+
+	/* add recipient certs */
+	for (i=0;recipient_certs[i];i++) {
+		NSSCMSRecipientInfo *ri = NSS_CMSRecipientInfo_Create(cmsg, recipient_certs[i]);
+
+		if (ri == NULL) {
+			camel_exception_setv(ex, 1, "Can't create CMS RecipientInfo");
+			goto fail;
+		}
+
+		if (NSS_CMSEnvelopedData_AddRecipient(envd, ri) != SECSuccess) {
+			camel_exception_setv(ex, 1, "Can't add CMS RecipientInfo");
+			goto fail;
+		}
+	}
+
+	/* dump it out */
+	ostream = camel_stream_mem_new();
+	enc = NSS_CMSEncoder_Start(cmsg,
+				   sm_write_stream, ostream,
+				   NULL, NULL,
+				   sm_get_passwd, context,
+				   sm_decrypt_key, bulkkey,
+				   NULL, NULL);
+	if (enc == NULL) {
+		camel_exception_setv(ex, 1, "Can't create encoder context");
+		goto fail;
+	}
+
+	/* FIXME: Stream the input */
+	/* FIXME: Canonicalise the input? */
+	mem = (CamelStreamMem *)camel_stream_mem_new();
+	camel_data_wrapper_write_to_stream((CamelDataWrapper *)ipart, (CamelStream *)mem);
+	if (NSS_CMSEncoder_Update(enc, mem->buffer->data, mem->buffer->len) != SECSuccess) {
+		NSS_CMSEncoder_Cancel(enc);
+		camel_object_unref(mem);
+		camel_exception_setv(ex, 1, "Failed to add data to encoder");
+		goto fail;
+	}
+	camel_object_unref(mem);
+
+	if (NSS_CMSEncoder_Finish(enc) != SECSuccess) {
+		camel_exception_setv(ex, 1, "Failed to encode data");
+		goto fail;
+	}
+
+	PK11_FreeSymKey(bulkkey);
+	NSS_CMSMessage_Destroy(cmsg);
+	for (i=0;recipient_certs[i];i++)
+		CERT_DestroyCertificate(recipient_certs[i]);
+	PORT_FreeArena(poolp, PR_FALSE);
 	
-	/* construct a new mime message from the stream */
-	mesg = camel_mime_message_new ();
-	camel_stream_reset (ostream);
-	camel_data_wrapper_construct_from_stream (CAMEL_DATA_WRAPPER (mesg), ostream);
-	camel_object_unref (ostream);
-	
-	return mesg;
+	dw = camel_data_wrapper_new();
+	camel_data_wrapper_construct_from_stream(dw, ostream);
+	camel_object_unref(ostream);
+	dw->encoding = CAMEL_TRANSFER_ENCODING_BINARY;
+
+	ct = camel_content_type_new("application", "x-pkcs7-mime");
+	camel_content_type_set_param(ct, "name", "smime.p7m");
+	camel_content_type_set_param(ct, "smime-type", "enveloped-data");
+	camel_data_wrapper_set_mime_type_field(dw, ct);
+	camel_content_type_unref(ct);
+
+	camel_medium_set_content_object((CamelMedium *)opart, dw);
+	camel_object_unref(dw);
+
+	camel_mime_part_set_disposition(opart, "attachment");
+	camel_mime_part_set_filename(opart, "smime.p7m");
+	camel_mime_part_set_description(opart, "S/MIME Encrypted Message");
+	camel_mime_part_set_encoding(opart, CAMEL_TRANSFER_ENCODING_BASE64);
+
+	return 0;
+
+fail:
+	if (ostream)
+		camel_object_unref(ostream);
+	if (cmsg)
+		NSS_CMSMessage_Destroy(cmsg);
+	if (bulkkey)
+		PK11_FreeSymKey(bulkkey);
+
+	if (recipient_certs) {
+		for (i=0;recipient_certs[i];i++)
+			CERT_DestroyCertificate(recipient_certs[i]);
+	}
+
+	PORT_FreeArena(poolp, PR_FALSE);
+
+	return -1;
 }
+
+static CamelMimePart *
+sm_decrypt(CamelCipherContext *context, CamelMimePart *ipart, CamelException *ex)
+{
+	NSSCMSDecoderContext *dec;
+	NSSCMSMessage *cmsg;
+	CamelStreamMem *istream;
+	CamelStream *ostream;
+	CamelMimePart *opart = NULL;
+
+	/* FIXME: This assumes the content is only encrypted.  Perhaps its ok for
+	   this api to do this ... */
+
+	ostream = camel_stream_mem_new();
+
+	/* FIXME: stream this to the decoder incrementally */
+	istream = (CamelStreamMem *)camel_stream_mem_new();
+	camel_data_wrapper_decode_to_stream(camel_medium_get_content_object((CamelMedium *)ipart), (CamelStream *)istream);
+	camel_stream_reset((CamelStream *)istream);
+
+	dec = NSS_CMSDecoder_Start(NULL, 
+				   sm_write_stream, ostream, /* content callback     */
+				   sm_get_passwd, context,	/* password callback    */
+				   NULL, NULL); /* decrypt key callback */
+
+	if (NSS_CMSDecoder_Update(dec, istream->buffer->data, istream->buffer->len) != SECSuccess) {
+		printf("decoder update failed\n");
+	}
+	camel_object_unref(istream);
+
+	cmsg = NSS_CMSDecoder_Finish(dec);
+	if (cmsg == NULL) {
+		camel_exception_setv(ex, 1, "Decoder failed, error %d", PORT_GetError());
+		goto fail;
+	}
 
 #if 0
-
-/* Ugh, so smime context inherets from cms context, not cipher context
-   this needs to be fixed ... */
-
-/* this has a 1:1 relationship to CamelCipherHash */
-static char **name_table[] = {
-	"sha1",		/* we use sha1 as the 'default' */
-	NULL,
-	"md5",
-	"sha1",
-	NULL,
-};
-
-static const char *smime_hash_to_id(CamelCipherContext *context, CamelCipherHash hash)
-{
-	/* if we dont know, just use default? */
-	if (hash > sizeof(name_table)/sizeof(name_table[0])
-	    || name_table[hash] == NULL;
-		hash = CAMEL_CIPHER_HASH_DEFAULT;
-
-	return name_table[hash];
-}
-
-static CamelCipherHash smime_id_to_hash(CamelCipherContext *context, const char *id)
-{
-	int i;
-	unsigned char *tmpid, *o, *in;
-	unsigned char c;
-
-	if (id == NULL)
-		return CAMEL_CIPHER_HASH_DEFAULT;
-
-	tmpid = alloca(strlen(id)+1);
-	in = id;
-	o = tmpid;
-	while ((c = *in++))
-		*o++ = tolower(c);
-
-	for (i=1;i<sizeof(name_table)/sizeof(name_table[0]);i++) {
-		if (!strcmp(name_table[i], tmpid))
-			return i;
+	/* not sure if we really care about this? */
+	if (!NSS_CMSMessage_IsEncrypted(cmsg)) {
+		camel_exception_setv(ex, 1, "S/MIME Decrypt: No encrypted content found");
+		NSS_CMSMessage_Destroy(cmsg);
+		goto fail;
 	}
-
-	return CAMEL_CIPHER_HASH_DEFAULT;
-}
 #endif
 
-#endif /* HAVE_NSS */
+	NSS_CMSMessage_Destroy(cmsg);
+
+	opart = camel_mime_part_new();
+	camel_stream_reset(ostream);
+	camel_data_wrapper_construct_from_stream((CamelDataWrapper *)opart, ostream);
+fail:
+	camel_object_unref(ostream);
+
+	return opart;
+}
+
+static int
+sm_import_keys(CamelCipherContext *context, CamelStream *istream, CamelException *ex)
+{
+	camel_exception_setv(ex, 1, "import keys: unimplemented");
+
+	return -1;
+}
+
+static int
+sm_export_keys(CamelCipherContext *context, GPtrArray *keys, CamelStream *ostream, CamelException *ex)
+{
+	camel_exception_setv(ex, 1, "export keys: unimplemented");
+
+	return -1;
+}
+
+/* ********************************************************************** */
+
+static void
+camel_smime_context_class_init(CamelSMIMEContextClass *klass)
+{
+	CamelCipherContextClass *cipher_class = CAMEL_CIPHER_CONTEXT_CLASS(klass);
+	
+	parent_class = CAMEL_CIPHER_CONTEXT_CLASS(camel_type_get_global_classfuncs(camel_cipher_context_get_type()));
+	
+	cipher_class->hash_to_id = sm_hash_to_id;
+	cipher_class->id_to_hash = sm_id_to_hash;
+	cipher_class->sign = sm_sign;
+	cipher_class->verify = sm_verify;
+	cipher_class->encrypt = sm_encrypt;
+	cipher_class->decrypt = sm_decrypt;
+	cipher_class->import_keys = sm_import_keys;
+	cipher_class->export_keys = sm_export_keys;
+}
+
+static void
+camel_smime_context_init(CamelSMIMEContext *context)
+{
+	CamelCipherContext *cipher =(CamelCipherContext *) context;
+	
+	cipher->sign_protocol = "application/x-pkcs7-signature";
+	cipher->encrypt_protocol = "application/x-pkcs7-mime";
+	cipher->key_protocol = "application/x-pkcs7-signature";
+
+	context->priv = g_malloc0(sizeof(*context->priv));
+	context->priv->certdb = CERT_GetDefaultCertDB();
+	context->priv->sign_mode = CAMEL_SMIME_SIGN_CLEARSIGN;
+}
+
+static void
+camel_smime_context_finalise(CamelObject *object)
+{
+	CamelSMIMEContext *context = (CamelSMIMEContext *)object;
+
+	/* FIXME: do we have to free the certdb? */
+
+	g_free(context->priv);
+}
+
+CamelType
+camel_smime_context_get_type(void)
+{
+	static CamelType type = CAMEL_INVALID_TYPE;
+	
+	if (type == CAMEL_INVALID_TYPE) {
+		type = camel_type_register(camel_cipher_context_get_type(),
+					   "CamelSMIMEContext",
+					   sizeof(CamelSMIMEContext),
+					   sizeof(CamelSMIMEContextClass),
+					   (CamelObjectClassInitFunc) camel_smime_context_class_init,
+					   NULL,
+					   (CamelObjectInitFunc) camel_smime_context_init,
+					   (CamelObjectFinalizeFunc) camel_smime_context_finalise);
+	}
+	
+	return type;
+}

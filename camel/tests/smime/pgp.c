@@ -31,6 +31,7 @@
 #include <sys/wait.h>
 #include <camel/camel-gpg-context.h>
 #include <camel/camel-stream-mem.h>
+#include <camel/camel-mime-part.h>
 
 #include "camel-test.h"
 #include "session.h"
@@ -120,6 +121,7 @@ int main (int argc, char **argv)
 	CamelException *ex;
 	CamelCipherValidity *valid;
 	CamelStream *stream1, *stream2, *stream3;
+	struct _CamelMimePart *sigpart;
 	GPtrArray *recipients;
 	GByteArray *buf;
 	char *before, *after;
@@ -154,11 +156,10 @@ int main (int argc, char **argv)
 	camel_stream_write (stream1, "Hello, I am a test stream.\n", 27);
 	camel_stream_reset (stream1);
 	
-	stream2 = camel_stream_mem_new ();
-	
+	sigpart = camel_mime_part_new();
+
 	camel_test_push ("PGP signing");
-	camel_cipher_sign (ctx, "no.user@no.domain", CAMEL_CIPHER_HASH_SHA1,
-			   stream1, stream2, ex);
+	camel_cipher_sign (ctx, "no.user@no.domain", CAMEL_CIPHER_HASH_SHA1, stream1, sigpart, ex);
 	check_msg (!camel_exception_is_set (ex), "%s", camel_exception_get_description (ex));
 	camel_test_pull ();
 	
@@ -166,15 +167,14 @@ int main (int argc, char **argv)
 	
 	camel_test_push ("PGP verify");
 	camel_stream_reset (stream1);
-	camel_stream_reset (stream2);
-	valid = camel_cipher_verify (ctx, CAMEL_CIPHER_HASH_SHA1, stream1, stream2, ex);
+	valid = camel_cipher_verify (ctx, CAMEL_CIPHER_HASH_SHA1, stream1, sigpart, ex);
 	check_msg (!camel_exception_is_set (ex), "%s", camel_exception_get_description (ex));
 	check_msg (camel_cipher_validity_get_valid (valid), "%s", camel_cipher_validity_get_description (valid));
 	camel_cipher_validity_free (valid);
 	camel_test_pull ();
 	
-	camel_object_unref (CAMEL_OBJECT (stream1));
-	camel_object_unref (CAMEL_OBJECT (stream2));
+	camel_object_unref(stream1);
+	camel_object_unref(sigpart);
 	
 	stream1 = camel_stream_mem_new ();
 	stream2 = camel_stream_mem_new ();

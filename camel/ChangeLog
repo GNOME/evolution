@@ -1,3 +1,60 @@
+2003-10-30  Not Zed  <NotZed@Ximian.com>
+
+	* camel-cipher-context.h: Added a note about api inconsistencies.
+
+2003-10-30  Not Zed  <NotZed@Ximian.com>
+
+	* camel-multipart-encrypted.c (camel_multipart_encrypted_decrypt):
+	fix for cipher_decrypt changes.
+
+	* camel-gpg-context.c, camel-cipher-context.c: moved all the init
+	code to the end to save having to keep forward declarations
+	around.
+	(camel_cipher_decrypt): changed to take mimepart input and return
+	a mimepart.
+	(gpg_decrypt): fix for changed args.
+
+2003-10-29  Not Zed  <NotZed@Ximian.com>
+
+	* camel-smime-context.[ch]: replaced entirely with a new
+	implementation which inherits from camel-cipher-context, and add
+	to build.
+
+	* camel-multipart-encrypted.c (camel_multipart_encrypted_encrypt):
+	fix for cipher_encrypt api changes.
+	(camel_multipart_encrypted_decrypt): use g_ascii_strcasecmp.
+
+	* camel-gpg-context.c (gpg_encrypt): Fix to handle input/output as
+	parts not streams
+
+	* camel-cipher-context.c (camel_cipher_encrypt): change to take
+	mimeparts rather than streams as input/output.  And remove the
+	'sign' argument, it is implied if userid is supplied.
+
+2003-10-28  Not Zed  <NotZed@Ximian.com>
+
+	* tests/smime/pgp.c (main): fix for ciphercontext api changes.
+
+	* camel-multipart-signed.c (camel_multipart_signed_verify): pass
+	in the part to cipher_verify directly.
+	(camel_multipart_signed_sign): let the cipher context setup the
+	part details.
+
+	* camel-gpg-context.c (gpg_sign): put the signature stream into a
+	mimepart, with appropriate headers/encoding.
+	(swrite): write out a mimepart rather than a stream.
+	(gpg_verify): handle changed args.
+
+	* camel-cipher-context.c (camel_cipher_sign): write the signature
+	to a mimepart rather than a simple stream.
+	(camel_cipher_verify): take the signature as a mimepart not a
+	stream.
+
+2003-10-22  Not Zed  <NotZed@Ximian.com>
+
+	* camel-utf8.c (camel_ucs2_utf8, camel_utf8_ucs2): helpers for
+	ucs2 stuff.  ucs2 is 16 bit truncated unicode.
+
 2003-10-28  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* camel-mime-utils.c: We should check List-Post before List-Id

@@ -25,9 +25,12 @@
 #include <config.h>
 #endif
 
+#include <string.h>
+
 #include <glib.h>
 #include "camel-utf8.h"
 
+#include <netinet/in.h>
 
 /**
  * camel_utf8_putc:
@@ -337,4 +340,61 @@ camel_utf8_utf7(const char *ptr)
 	g_string_free(out, TRUE);
 
 	return ret;
+}
+
+/**
+ * camel_utf8_ucs2:
+ * @ptr: 
+ * 
+ * Convert a utf8 string into a ucs2 one.  The ucs string will be in
+ * network byte order, and terminated with a 16 bit NULL.
+ * 
+ * Return value: 
+ **/
+char *
+camel_utf8_ucs2(const char *ptr)
+{
+	GByteArray *work = g_byte_array_new();
+	guint32 c;
+	char *out;
+
+	/* what if c is > 0xffff ? */
+
+	while ( (c = camel_utf8_getc((const unsigned char **)&ptr)) ) {
+		guint16 s = htons(c);
+
+		g_byte_array_append(work, (char *)&s, 2);
+	}
+
+	g_byte_array_append(work, "\000\000", 2);
+	out = g_malloc(work->len);
+	memcpy(out, work->data, work->len);
+	g_byte_array_free(work, TRUE);
+
+	return out;
+}
+
+/**
+ * camel_ucs2_utf8:
+ * @ptr: 
+ * 
+ * Convert a ucs2 string into a utf8 one.  The ucs2 string is treated
+ * as network byte ordered, and terminated with a 16 bit NUL.
+ * 
+ * Return value: 
+ **/
+char *camel_ucs2_utf8(const char *ptr)
+{
+	guint16 *ucs = (guint16 *)ptr;
+	guint32 c;
+	GString *work = g_string_new("");
+	char *out;
+
+	while ( (c = *ucs++) )
+		g_string_append_u(work, ntohs(c));
+
+	out = g_strdup(work->str);
+	g_string_free(work, TRUE);
+
+	return out;
 }

@@ -145,41 +145,19 @@ camel_multipart_encrypted_encrypt (CamelMultipartEncrypted *mpe, CamelMimePart *
 	CamelMimePart *version_part, *encrypted_part;
 	CamelContentType *mime_type;
 	CamelDataWrapper *wrapper;
-	CamelStream *filtered_stream;
-	CamelStream *stream, *ciphertext;
-	CamelMimeFilter *crlf_filter;
+	CamelStream *stream;
 	
 	g_return_val_if_fail (CAMEL_IS_MULTIPART_ENCRYPTED (mpe), -1);
 	g_return_val_if_fail (CAMEL_IS_CIPHER_CONTEXT (cipher), -1);
 	g_return_val_if_fail (cipher->encrypt_protocol != NULL, -1);
 	g_return_val_if_fail (CAMEL_IS_MIME_PART (content), -1);
 	
-	/* get the cleartext */
-	stream = camel_stream_mem_new ();
-	filtered_stream = (CamelStream *) camel_stream_filter_new_with_stream (stream);
-	
-	crlf_filter = camel_mime_filter_crlf_new (CAMEL_MIME_FILTER_CRLF_ENCODE,
-						  CAMEL_MIME_FILTER_CRLF_MODE_CRLF_ONLY);
-	camel_stream_filter_add (CAMEL_STREAM_FILTER (filtered_stream), crlf_filter);
-	camel_object_unref (crlf_filter);
-	
-	camel_data_wrapper_write_to_stream ((CamelDataWrapper *) content, filtered_stream);
-	camel_stream_flush (filtered_stream);
-	camel_object_unref (filtered_stream);
-	
-	/* reset the content stream */
-	camel_stream_reset (stream);
-	
 	/* encrypt the content stream */
-	ciphertext = camel_stream_mem_new ();
-	if (camel_cipher_encrypt (cipher, FALSE, userid, recipients, stream, ciphertext, ex) == -1) {
-		camel_object_unref (ciphertext);
-		camel_object_unref (stream);
+	encrypted_part = camel_mime_part_new();
+	if (camel_cipher_encrypt (cipher, userid, recipients, content, encrypted_part, ex) == -1) {
+		camel_object_unref(encrypted_part);
 		return -1;
 	}
-	
-	camel_object_unref (stream);
-	camel_stream_reset (ciphertext);
 	
 	/* construct the version part */
 	stream = camel_stream_mem_new ();
@@ -193,16 +171,7 @@ camel_multipart_encrypted_encrypt (CamelMultipartEncrypted *mpe, CamelMimePart *
 	camel_object_unref (stream);
 	camel_medium_set_content_object ((CamelMedium *) version_part, wrapper);
 	camel_object_unref (wrapper);
-	
-	/* construct the encrypted mime part */
-	encrypted_part = camel_mime_part_new ();
-	wrapper = camel_data_wrapper_new ();
-	camel_data_wrapper_set_mime_type (wrapper, "application/octet-stream; name=encrypted.asc");
-	camel_data_wrapper_construct_from_stream (wrapper, ciphertext);
-	camel_object_unref (ciphertext);
-	camel_medium_set_content_object ((CamelMedium *) encrypted_part, wrapper);
-	camel_object_unref (wrapper);
-	
+
 	/* save the version and encrypted parts */
 	/* FIXME: make sure there aren't any other parts?? */
 	camel_multipart_add_part (CAMEL_MULTIPART (mpe), version_part);
@@ -233,10 +202,6 @@ camel_multipart_encrypted_decrypt (CamelMultipartEncrypted *mpe,
 	CamelMimePart *version_part, *encrypted_part, *decrypted_part;
 	CamelContentType *mime_type;
 	CamelDataWrapper *wrapper;
-	CamelStream *filtered_stream;
-	CamelMimeFilter *crlf_filter;
-	CamelStream *ciphertext;
-	CamelStream *stream;
 	const char *protocol;
 	char *content_type;
 	
@@ -254,7 +219,7 @@ camel_multipart_encrypted_decrypt (CamelMultipartEncrypted *mpe,
 	
 	if (protocol) {
 		/* make sure the protocol matches the cipher encrypt protocol */
-		if (strcasecmp (cipher->encrypt_protocol, protocol) != 0) {
+		if (g_ascii_strcasecmp (cipher->encrypt_protocol, protocol) != 0) {
 			camel_exception_set (ex, CAMEL_EXCEPTION_SYSTEM,
 					     _("Failed to decrypt MIME part: protocol error"));
 			
@@ -269,7 +234,7 @@ camel_multipart_encrypted_decrypt (CamelMultipartEncrypted *mpe,
 	version_part = camel_multipart_get_part (CAMEL_MULTIPART (mpe), CAMEL_MULTIPART_ENCRYPTED_VERSION);
 	wrapper = camel_medium_get_content_object (CAMEL_MEDIUM (version_part));
 	content_type = camel_data_wrapper_get_mime_type (wrapper);
-	if (strcasecmp (content_type, protocol) != 0) {
+	if (g_ascii_strcasecmp (content_type, protocol) != 0) {
 		camel_exception_set (ex, CAMEL_EXCEPTION_SYSTEM,
 				     _("Failed to decrypt MIME part: protocol error"));
 		
@@ -288,44 +253,11 @@ camel_multipart_encrypted_decrypt (CamelMultipartEncrypted *mpe,
 		return NULL;
 	}
 	
-	/* get the ciphertext stream */
-	ciphertext = camel_stream_mem_new ();
-	wrapper = camel_medium_get_content_object (CAMEL_MEDIUM (encrypted_part));
-	camel_data_wrapper_write_to_stream (wrapper, ciphertext);
-	camel_stream_reset (ciphertext);
-	
-	stream = camel_stream_mem_new ();
-	filtered_stream = (CamelStream *) camel_stream_filter_new_with_stream (stream);
-	crlf_filter = camel_mime_filter_crlf_new (CAMEL_MIME_FILTER_CRLF_DECODE,
-						  CAMEL_MIME_FILTER_CRLF_MODE_CRLF_ONLY);
-	camel_stream_filter_add (CAMEL_STREAM_FILTER (filtered_stream), crlf_filter);
-	camel_object_unref (crlf_filter);
-	
-	/* get the cleartext */
-	if (camel_cipher_decrypt (cipher, ciphertext, filtered_stream, ex) == -1) {
-		camel_object_unref (filtered_stream);
-		camel_object_unref (ciphertext);
-		camel_object_unref (stream);
-		
-		return NULL;
-	}
-	
-	camel_stream_flush (filtered_stream);
-	camel_object_unref (filtered_stream);
-	camel_object_unref (ciphertext);
-	camel_stream_reset (stream);
-	
-	decrypted_part = camel_mime_part_new ();
-	camel_data_wrapper_construct_from_stream (CAMEL_DATA_WRAPPER (decrypted_part), stream);
-	
+	decrypted_part =  camel_cipher_decrypt(cipher, encrypted_part, ex);
 	if (decrypted_part) {
-		/* cache the decrypted part */
 		camel_object_ref (decrypted_part);
 		mpe->decrypted = decrypted_part;
-	} else {
-		camel_exception_set (ex, CAMEL_EXCEPTION_SYSTEM,
-				     _("Failed to decrypt MIME part: parse error"));
 	}
-	
+
 	return decrypted_part;
 }
