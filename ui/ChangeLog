@@ -1,3 +1,8 @@
+2002-09-25  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* evolution-mail-message.xml: Make the Zoom accels the same as
+	galeon so people will shut the fuck up about it.
+
 2002-09-04  Ettore Perazzoli  <ettore@ximian.com>
 
 	* evolution-mail-message.xml: Add back "period" and "comma" as
