@@ -2358,7 +2358,7 @@ fill_fi(CamelStore *store, CamelFolderInfo *fi, guint32 flags)
 
 	fi->unread = -1;
 	fi->total = -1;
-	folder = camel_object_bag_get(store->folders, fi->full_name);
+	folder = camel_object_bag_peek(store->folders, fi->full_name);
 	if (folder) {
 		if ((flags & CAMEL_STORE_FOLDER_INFO_FAST) == 0)
 			/* we use connect lock for everything, so this should be safe */
@@ -2394,19 +2394,7 @@ static void
 get_folder_counts(CamelImapStore *imap_store, CamelFolderInfo *fi, CamelException *ex)
 {
 	GSList *q;
-	GPtrArray *folders;
-	GHashTable *folders_table;
 	CamelFolder *folder;
-	int i;
-
-	/* We list rather than use get here, and manage our own lookups outside of the bag,
-	   since get will wait if someone has reserved the name - can cause deadlock */
-	folders = camel_object_bag_list(CAMEL_STORE(imap_store)->folders);
-	folders_table = g_hash_table_new(g_str_hash, g_str_equal);
-	for (i=0; i<folders->len;i++) {
-		folder = folders->pdata[i];
-		g_hash_table_insert(folders_table, folder->full_name, folder);
-	}
 
 	/* non-recursive breath first search */
 
@@ -2437,11 +2425,14 @@ get_folder_counts(CamelImapStore *imap_store, CamelFolderInfo *fi, CamelExceptio
 					fi->unread = get_folder_status (imap_store, fi->full_name, "UNSEEN");
 					fi->total = get_folder_status(imap_store, fi->full_name, "MESSAGES");
 					/* if we have this folder open, and the unread count has changed, update */
-					folder = g_hash_table_lookup(folders_table, fi->full_name);
-					if (folder && fi->unread != camel_folder_get_unread_message_count(folder)) {
-						CAMEL_FOLDER_CLASS (CAMEL_OBJECT_GET_CLASS(folder))->refresh_info(folder, ex);
-						fi->unread = camel_folder_get_unread_message_count(folder);
-						fi->total = camel_folder_get_message_count(folder);
+					folder = camel_object_bag_peek(CAMEL_STORE(imap_store)->folders, fi->full_name);
+					if (folder) {
+						if (fi->unread != camel_folder_get_unread_message_count(folder)) {
+							CAMEL_FOLDER_CLASS (CAMEL_OBJECT_GET_CLASS(folder))->refresh_info(folder, ex);
+							fi->unread = camel_folder_get_unread_message_count(folder);
+							fi->total = camel_folder_get_message_count(folder);
+						}
+						camel_object_unref(folder);
 					}
 				}
 			} else {
@@ -2454,11 +2445,6 @@ get_folder_counts(CamelImapStore *imap_store, CamelFolderInfo *fi, CamelExceptio
 			fi = fi->next;
 		}
 	}
-
-	g_hash_table_destroy(folders_table);
-	for (i=0; i<folders->len;i++)
-		camel_object_unref(folders->pdata[i]);
-	g_ptr_array_free(folders, TRUE);
 }
 
 /* imap needs to treat inbox case insensitive */

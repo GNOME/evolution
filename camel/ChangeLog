@@ -1,5 +1,14 @@
 2004-03-29  Not Zed  <NotZed@Ximian.com>
 
+	* providers/imap/camel-imap-store.c (get_folder_counts): use
+	object_bag_peek instead of _get, since we dont want to clash/wait
+	for reservations.  More #56045 related fixes.
+	(get_folder_counts): revert the lookup/hashtable stuff for the
+	folder, and use object_bag_peek.
+
+	* camel-object.c (camel_object_bag_peek): new method to get an
+	object bag entry without worrying about if its reserved or not.
+
 	* camel-gpg-context.c (gpg_verify): get the content-type off of
 	the multipart-signed, not its container.  This seems wrong
 	... but might fix #56084.

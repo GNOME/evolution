@@ -1812,6 +1812,38 @@ camel_object_bag_get(CamelObjectBag *bag, const void *key)
 }
 
 /**
+ * camel_object_bag_peek:
+ * @bag: 
+ * @key: 
+ * 
+ * Lookup the object @key in @bag, ignoring any reservations.  If it
+ * isn't committed, then it isn't considered.  This should only be
+ * used where reliable transactional-based state is not required.
+ * 
+ * Unlike other 'peek' operations, the object is still reffed if
+ * found.
+ *
+ * Return value: A referenced object, or NULL if @key is not
+ * present in the bag.
+ **/
+void *
+camel_object_bag_peek(CamelObjectBag *bag, const void *key)
+{
+	CamelObject *o;
+
+	E_LOCK(type_lock);
+
+	o = g_hash_table_lookup(bag->object_table, key);
+	if (o) {
+		/* we use the same lock as the refcount */
+		o->ref_count++;
+	}
+	E_UNLOCK(type_lock);
+
+	return o;
+}
+
+/**
  * camel_object_bag_reserve:
  * @bag: 
  * @key: 
