@@ -1,5 +1,8 @@
 2000-11-04  Radek Doulik  <rodo@helixcode.com>
 
+	* e-msg-composer-attachment.c (e_msg_composer_attachment_new): fix
+	test for regular file to !S_ISREG (statbuf.st_mode)
+
 	* listener.c (resolve_image_url): use inline images hash table
 
 	* e-msg-composer.c (init): create inlined images hash table
