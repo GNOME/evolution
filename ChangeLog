@@ -1,3 +1,7 @@
+2004-04-06  JP Rosevear <jpr@ximian.com>
+
+	* configure.in: bump micro version
+
 2004-04-02  JP Rosevear  <jpr@ximian.com>
 
 	* configure.in: bump version, requirements
