@@ -3,7 +3,8 @@
 	* providers/imap/camel-imap-folder.c
 	(imap_get_subfolder_names_internal): If the url path is "/" and
 	the folder path is "/", just LIST "" "*" (this should fix some
-	cyrus imapd problems)
+	cyrus imapd problems). Also, INBOX is case insensitive so use
+	g_strcasecmp
 
 2000-08-24  Lauris Kaplinski  <lauris@helixcode.com>
 

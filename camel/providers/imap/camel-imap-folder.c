@@ -750,7 +750,7 @@ imap_get_subfolder_names_internal (CamelFolder *folder, CamelException *ex)
 	if (url && url->path) {
 		if (!strcmp (folder->full_name, url->path + 1))
 			namespace = g_strdup (url->path + 1);
-		else if (!strcmp (folder->full_name, "INBOX"))
+		else if (!g_strcasecmp (folder->full_name, "INBOX"))
 			namespace = g_strdup (url->path + 1); /* FIXME: erm...not sure */
 		else
 			namespace = g_strdup_printf ("%s%s%s", url->path + 1, dir_sep, folder->full_name);
@@ -765,7 +765,7 @@ imap_get_subfolder_names_internal (CamelFolder *folder, CamelException *ex)
 		if (*path) {
 			if (!strcmp (folder->full_name, path))
 				namespace = g_strdup (path);
-			else if (!strcmp (folder->full_name, "INBOX"))
+			else if (!g_strcasecmp (folder->full_name, "INBOX"))
 				namespace = g_strdup (path); /* FIXME: erm...not sure */
 			else
 				namespace = g_strdup_printf ("%s%s%s", path, dir_sep, folder->full_name);
