@@ -1,3 +1,9 @@
+2003-05-20  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* camel-object.c (camel_object_bag_destroy): Create a second
+	GPtrArray for the keys. We don't want to use bag->free_key() on
+	the object. Fixes bug #43406.
+
 2003-05-19  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* camel-folder-summary.c (camel_folder_summary_load): Only display
