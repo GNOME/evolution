@@ -1,3 +1,15 @@
+2000-08-28  Jeffrey Stedfast  <fejj@helixcode.com>
+
+	* e-msg-composer-hdrs.c (e_msg_composer_hdrs_to_message): Set the
+	"From" address in the CamelMimeMessage. Also updated to use
+	get_subject to both make our lives easier and prepare for using UTF8
+	(e_msg_composer_hdrs_get_subject): Updated to behave similarly to
+	get_from and return allocated memory (it will have to return
+	allocated memory once it's converted to use UTF8 anyways)
+
+	* e-msg-composer.c (setup_save_draft): Always set
+	composer->send_html = TRUE so that formatting is preserved.
+
 2000-08-24  Lauris Kaplinski  <lauris@helixcode.com>
 
 	* e-msg-composer-address-entry.c: Use e_utf8 wrappers

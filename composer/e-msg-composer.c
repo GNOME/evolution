@@ -208,23 +208,39 @@ build_message (EMsgComposer *composer)
 {
 	EMsgComposerAttachmentBar *attachment_bar =
 		E_MSG_COMPOSER_ATTACHMENT_BAR (composer->attachment_bar);
+	MsgFormat type = MSG_FORMAT_ALTERNATIVE;
 	CamelMimeMessage *new;
 	CamelMultipart *body = NULL;
 	CamelMimePart *part;
+	gchar *from = NULL;
 	char *html = NULL, *plain = NULL, *fmt = NULL;
 	int i;
-	MsgFormat type = MSG_FORMAT_ALTERNATIVE;
-
+	
 	if (composer->persist_stream_interface == CORBA_OBJECT_NIL)
 		return NULL;
-
+	
 	if (composer->send_html)
 		type = MSG_FORMAT_ALTERNATIVE;
 	else
 		type = MSG_FORMAT_PLAIN;
-
+	
+	/* get and/or set the From field */
+	from = e_msg_composer_hdrs_get_from (E_MSG_COMPOSER_HDRS (composer->hdrs));
+	if (!from) {
+		const MailConfigIdentity *id = NULL;
+		CamelInternetAddress *ciaddr;
+		
+		id = mail_config_get_default_identity ();
+		ciaddr = camel_internet_address_new ();
+		camel_internet_address_add (ciaddr, id->name, id->address);
+		from = camel_address_encode (CAMEL_ADDRESS (ciaddr));
+		e_msg_composer_hdrs_set_from (E_MSG_COMPOSER_HDRS (composer->hdrs), from);
+		camel_object_unref (CAMEL_OBJECT (ciaddr));
+	}
+	g_free (from);
+	
 	new = camel_mime_message_new ();
-
+	
 	e_msg_composer_hdrs_to_message (E_MSG_COMPOSER_HDRS (composer->hdrs), new);
 	for (i = 0; i < composer->extra_hdr_names->len; i++) {
 		camel_medium_add_header (CAMEL_MEDIUM (new),
@@ -238,13 +254,13 @@ build_message (EMsgComposer *composer)
 	
 	if (type != MSG_FORMAT_PLAIN)
 		html = get_text (composer->persist_stream_interface, "text/html");
-
+	
 	if (type == MSG_FORMAT_ALTERNATIVE) {
 		body = camel_multipart_new ();
 		camel_data_wrapper_set_mime_type (CAMEL_DATA_WRAPPER (body),
 						  "multipart/alternative");
 		camel_multipart_set_boundary (body, NULL);
-
+		
 		part = camel_mime_part_new ();
 		camel_mime_part_set_content (part, fmt, strlen (fmt), "text/plain");
 		g_free (fmt);
@@ -257,13 +273,13 @@ build_message (EMsgComposer *composer)
 		camel_multipart_add_part (body, part);
 		camel_object_unref (CAMEL_OBJECT (part));
 	}
-
+	
 	if (e_msg_composer_attachment_bar_get_num_attachments (attachment_bar)) {
 		CamelMultipart *multipart = camel_multipart_new ();
-
+		
 		/* Generate a random boundary. */
 		camel_multipart_set_boundary (multipart, NULL);
-
+		
 		part = camel_mime_part_new ();
 		switch (type) {
 		case MSG_FORMAT_ALTERNATIVE:
@@ -278,9 +294,9 @@ build_message (EMsgComposer *composer)
 		}
 		camel_multipart_add_part (multipart, part);
 		camel_object_unref (CAMEL_OBJECT (part));
-
+		
 		e_msg_composer_attachment_bar_to_multipart (attachment_bar, multipart);
-
+		
 		camel_medium_set_content_object (CAMEL_MEDIUM (new), CAMEL_DATA_WRAPPER (multipart));
 		camel_object_unref (CAMEL_OBJECT (multipart));
 	} else {
@@ -298,15 +314,14 @@ build_message (EMsgComposer *composer)
 			camel_object_unref (CAMEL_OBJECT (stream));
 			
 			camel_data_wrapper_set_mime_type (cdw, "text/plain");
-
+			
 			camel_medium_set_content_object (CAMEL_MEDIUM (new), CAMEL_DATA_WRAPPER (cdw));
 			camel_object_unref (CAMEL_OBJECT (cdw));
 			g_free (fmt);
 			break;
-
 		}
 	}
-
+	
 	return new;
 }
 
@@ -514,8 +529,9 @@ setup_save_draft (gpointer in_data, gpointer op_data, CamelException *ex)
 	save_draft_data_t *data = (save_draft_data_t *) op_data;
 	
 	g_return_if_fail (input->composer != NULL);
-
+	
 	/* initialize op_data */
+	input->composer->send_html = TRUE;  /* always save drafts as HTML to keep formatting */
 	data->msg = e_msg_composer_get_message (input->composer);
 	data->info = g_new0 (CamelMessageInfo, 1);
 	data->info->flags = CAMEL_MESSAGE_DRAFT;

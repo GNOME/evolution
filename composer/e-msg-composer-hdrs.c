@@ -518,18 +518,22 @@ void
 e_msg_composer_hdrs_to_message (EMsgComposerHdrs *hdrs,
 				CamelMimeMessage *msg)
 {
-	const gchar *s;
-
+	gchar *subject;
+	gchar *from;
+	
 	g_return_if_fail (hdrs != NULL);
 	g_return_if_fail (E_IS_MSG_COMPOSER_HDRS (hdrs));
 	g_return_if_fail (msg != NULL);
 	g_return_if_fail (CAMEL_IS_MIME_MESSAGE (msg));
-
-	gtk_object_get(GTK_OBJECT(hdrs->priv->subject_entry),
-		       "text", &s,
-		       NULL);
-	camel_mime_message_set_subject (msg, g_strdup (s));
-
+	
+	subject = e_msg_composer_hdrs_get_subject (hdrs);
+	camel_mime_message_set_subject (msg, subject);
+	g_free (subject);
+	
+	from = e_msg_composer_hdrs_get_from (hdrs);
+	camel_mime_message_set_from (msg, from);
+	g_free (from);
+	
 	set_recipients (msg, hdrs->priv->to_entry, CAMEL_RECIPIENT_TYPE_TO);
 	set_recipients (msg, hdrs->priv->cc_entry, CAMEL_RECIPIENT_TYPE_CC);
 	set_recipients (msg, hdrs->priv->bcc_entry, CAMEL_RECIPIENT_TYPE_BCC);
@@ -563,7 +567,7 @@ e_msg_composer_hdrs_set_from (EMsgComposerHdrs *hdrs,
 	
 	g_return_if_fail (hdrs != NULL);
 	g_return_if_fail (E_IS_MSG_COMPOSER_HDRS (hdrs));
-
+	
 	entry = GTK_ENTRY (GTK_COMBO (hdrs->priv->from_entry)->entry);
 	e_utf8_gtk_entry_set_text (entry, from);
 }
@@ -606,14 +610,11 @@ e_msg_composer_hdrs_set_subject (EMsgComposerHdrs *hdrs,
 	g_return_if_fail (E_IS_MSG_COMPOSER_HDRS (hdrs));
 	g_return_if_fail (subject != NULL);
 
-	gtk_object_set(GTK_OBJECT(hdrs->priv->subject_entry),
-		       "text", subject,
-		       NULL);
+	gtk_object_set (GTK_OBJECT (hdrs->priv->subject_entry),
+			"text", subject,
+			NULL);
 }
 
-/*
- * Hmmm... this introduces possible memory leak, but syntax suggest allocated string
- */
 char *
 e_msg_composer_hdrs_get_from (EMsgComposerHdrs *hdrs)
 {
@@ -629,9 +630,9 @@ e_msg_composer_hdrs_get_to (EMsgComposerHdrs *hdrs)
 {
 	g_return_val_if_fail (hdrs != NULL, NULL);
 	g_return_val_if_fail (E_IS_MSG_COMPOSER_HDRS (hdrs), NULL);
-
+	
 	g_assert_not_reached ();
-
+	
 	return NULL;
 }
 
@@ -641,9 +642,9 @@ e_msg_composer_hdrs_get_cc (EMsgComposerHdrs *hdrs)
 {
 	g_return_val_if_fail (hdrs != NULL, NULL);
 	g_return_val_if_fail (E_IS_MSG_COMPOSER_HDRS (hdrs), NULL);
-
+	
 	g_assert_not_reached ();
-
+	
 	return NULL;
 }
 
@@ -653,25 +654,25 @@ e_msg_composer_hdrs_get_bcc (EMsgComposerHdrs *hdrs)
 {
 	g_return_val_if_fail (hdrs != NULL, NULL);
 	g_return_val_if_fail (E_IS_MSG_COMPOSER_HDRS (hdrs), NULL);
-
+	
 	g_assert_not_reached ();
-
+	
 	return NULL;
 }
 
-const char *
+/* FIXME: This is just changed to return allooc'd mem to be consistant with get_from */
+char *
 e_msg_composer_hdrs_get_subject (EMsgComposerHdrs *hdrs)
 {
 	gchar *subject;
-
+	
 	g_return_val_if_fail (hdrs != NULL, NULL);
 	g_return_val_if_fail (E_IS_MSG_COMPOSER_HDRS (hdrs), NULL);
-
-	gtk_object_get(GTK_OBJECT(hdrs->priv->subject_entry),
-		       "text", &subject,
-		       NULL);
 	
-	return subject;
+	gtk_object_get (GTK_OBJECT (hdrs->priv->subject_entry),
+			"text", &subject, NULL);
+	
+	return g_strdup (subject);
 }
 
 

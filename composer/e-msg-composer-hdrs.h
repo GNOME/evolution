@@ -77,7 +77,7 @@ char       *e_msg_composer_hdrs_get_from           (EMsgComposerHdrs *hdrs);
 GList      *e_msg_composer_hdrs_get_to             (EMsgComposerHdrs *hdrs);
 GList      *e_msg_composer_hdrs_get_cc             (EMsgComposerHdrs *hdrs);
 GList      *e_msg_composer_hdrs_get_bcc            (EMsgComposerHdrs *hdrs);
-const char *e_msg_composer_hdrs_get_subject        (EMsgComposerHdrs *hdrs);
+char       *e_msg_composer_hdrs_get_subject        (EMsgComposerHdrs *hdrs);
 
 GtkWidget  *e_msg_composer_hdrs_get_to_entry       (EMsgComposerHdrs *hdrs);
 GtkWidget  *e_msg_composer_hdrs_get_cc_entry       (EMsgComposerHdrs *hdrs);
