@@ -2576,6 +2576,8 @@ print_comp (ECalComponent *comp, ECal *client, gboolean preview)
 	if (!print_config)
 		print_config = gnome_print_config_default ();
 
+	gnome_print_config_set (print_config, GNOME_PRINT_KEY_PAGE_ORIENTATION, "R0");
+
 	copies = 1;
 	collate = FALSE;
 
@@ -2678,6 +2680,7 @@ print_table (ETable *etable, const char *title, gboolean preview)
 	if (!print_config)
 		print_config = gnome_print_config_default ();
 
+	gnome_print_config_set (print_config, GNOME_PRINT_KEY_PAGE_ORIENTATION, "R0");
 	printable = e_table_get_printable (etable);
 	g_object_ref (printable);
 	gtk_object_sink (GTK_OBJECT (printable));

@@ -3,6 +3,9 @@
 	* gui/print.c (print_border_with_triangles): use rgb color as
 	fillcolor
 	(print_week_day_event): ditto
+	(print_table): set page orientation, it may be changed from last
+	printing
+	(print_comp): ditto
 
 	* gui/e-cal-model.c (e_cal_model_get_rgb_color_for_component): new
 	helper function, gets component color as rgb double values
