@@ -40,6 +40,7 @@ void *mail_msg_new(mail_msg_op_t *ops, EMsgPort *reply_port, size_t size)
 	msg->ops = ops;
 	msg->seq = mail_msg_seq++;
 	msg->msg.reply_port = reply_port;
+	msg->cancel = camel_cancel_new();
 	camel_exception_init(&msg->ex);
 
 	g_hash_table_insert(mail_msg_active, (void *)msg->seq, msg);
@@ -63,6 +64,7 @@ void mail_msg_free(void *msg)
 
 	MAIL_MT_UNLOCK(mail_msg_lock);
 
+	camel_cancel_unref(m->cancel);
 	camel_exception_clear(&m->ex);
 	g_free(m);
 }
@@ -90,6 +92,20 @@ void mail_msg_check_error(void *msg)
 	gnome_dialog_run_and_close(gd);
 	g_free(text);
 }
+
+void mail_msg_cancel(unsigned int msgid)
+{
+	struct _mail_msg *m;
+
+	MAIL_MT_LOCK(mail_msg_lock);
+	m = g_hash_table_lookup(mail_msg_active, (void *)msgid);
+
+	if (m)
+		camel_cancel_cancel(m->cancel);
+
+	MAIL_MT_UNLOCK(mail_msg_lock);
+}
+
 
 /* waits for a message to be finished processing (freed)
    the messageid is from struct _mail_msg->seq */

@@ -647,7 +647,7 @@ static struct _mail_msg_op send_mail_op = {
 };
 
 int
-mail_send_mail(const char *uri, CamelMimeMessage *message, void (*done) (char *uri, CamelMimeMessage *message, gboolean sent, void *data), void *data)
+mail_send_mail_old(const char *uri, CamelMimeMessage *message, void (*done) (char *uri, CamelMimeMessage *message, gboolean sent, void *data), void *data)
 {
 	struct _send_mail_msg *m;
 	int id;

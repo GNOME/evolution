@@ -1,3 +1,31 @@
+2001-01-21  Not Zed  <NotZed@Ximian.com>
+
+	* mail-mt.c (mail_msg_new): Init a cancel field in the message.
+	(mail_msg_free): Free it.
+	(mail_msg_cancel): New function to attempt to cancel an
+	operation by id.  Impelementation functions can still be
+	uncancellable by not registering for cancellation, etc, or do it
+	themselves as well.
+
+	* mail-send-recv.c (fetch_mail_filter_folder): set folder_uid's
+	properly, so we can save it later.
+	(filter_folder_filter): Renamed from fetch_mail_filter_folder,
+	since its going to be used for all filtering.
+	(mail_fetch_mail): Changed from mail_filter_mail.
+	(mail_filter_folder): New function, replaces
+	mail_do_filter_ondemand functionality.
+	(mail_filter_on_demand): New function, actually replaces
+	mail_do_filter_ondemand.
+	(receive_get_folder): Added an exception arg.
+	(mail_send_message): New function to just send a message.
+	(send_mail_send): Use mail_send_message.
+	(send_queue_send): New send qeue code, use mail_send_message, and
+	clean up some stuff.
+	(mail_send_receive): Changed from mail_receive.
+	(build_dialogue): Setup the sending data, as well.
+	(mail_update_subfolders): New function to update folder info.
+	(send_mail_send): hook into cancellation if we want.
+
 2001-01-20  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-ops.c (do_send_queue): Strip leading space from the

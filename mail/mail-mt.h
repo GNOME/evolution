@@ -26,11 +26,13 @@
 #include "camel/camel-exception.h"
 #include "e-util/e-msgport.h"
 #include "camel/camel-object.h"
+#include "camel/camel-session.h"
 
 typedef struct _mail_msg {
 	EMsg msg;		/* parent type */
 	struct _mail_msg_op *ops; /* operation functions */
 	unsigned int seq;	/* seq number for synchronisation */
+	CamelCancel *cancel;	/* a cancellation handle */
 	CamelException ex;	/* an initialised camel exception, upto the caller to use this */
 } mail_msg_t;
 
@@ -50,6 +52,7 @@ void mail_msg_init(void);
 void *mail_msg_new(mail_msg_op_t *ops, EMsgPort *reply_port, size_t size);
 void mail_msg_free(void *msg);
 void mail_msg_check_error(void *msg);
+void mail_msg_cancel(unsigned int msgid);
 void mail_msg_wait(unsigned int msgid);
 
 /* set the status-bar message */
