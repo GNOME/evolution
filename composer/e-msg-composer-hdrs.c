@@ -233,8 +233,10 @@ GtkWidget *
 e_msg_composer_hdrs_new (void)
 {
 	EMsgComposerHdrs *new;
+	EMsgComposerHdrsPrivate *priv;
 
 	new = gtk_type_new (e_msg_composer_hdrs_get_type ());
+	priv = new->priv;
 
 	setup_headers (E_MSG_COMPOSER_HDRS (new));
 
@@ -380,3 +382,41 @@ e_msg_composer_hdrs_get_subject (EMsgComposerHdrs *hdrs)
 	return gtk_entry_get_text
 		(GTK_ENTRY (hdrs->priv->subject_entry));
 }
+
+
+GtkWidget *
+e_msg_composer_hdrs_get_to_entry (EMsgComposerHdrs *hdrs)
+{
+	g_return_val_if_fail (hdrs != NULL, NULL);
+	g_return_val_if_fail (E_IS_MSG_COMPOSER_HDRS (hdrs), NULL);
+
+	return hdrs->priv->to_entry;
+}
+
+GtkWidget *
+e_msg_composer_hdrs_get_cc_entry (EMsgComposerHdrs *hdrs)
+{
+	g_return_val_if_fail (hdrs != NULL, NULL);
+	g_return_val_if_fail (E_IS_MSG_COMPOSER_HDRS (hdrs), NULL);
+
+	return hdrs->priv->cc_entry;
+}
+
+GtkWidget *
+e_msg_composer_hdrs_get_bcc_entry (EMsgComposerHdrs *hdrs)
+{
+	g_return_val_if_fail (hdrs != NULL, NULL);
+	g_return_val_if_fail (E_IS_MSG_COMPOSER_HDRS (hdrs), NULL);
+
+	return hdrs->priv->bcc_entry;
+}
+
+GtkWidget *
+e_msg_composer_hdrs_get_subject_entry (EMsgComposerHdrs *hdrs)
+{
+	g_return_val_if_fail (hdrs != NULL, NULL);
+	g_return_val_if_fail (E_IS_MSG_COMPOSER_HDRS (hdrs), NULL);
+
+	return hdrs->priv->subject_entry;
+}
+

@@ -61,6 +61,9 @@ struct _EMsgComposer {
 
 	GtkWidget *address_dialog;
 
+	Bonobo_PersistFile   persist_file_interface;
+	Bonobo_PersistStream persist_stream_interface;
+
 	gboolean attachment_bar_visible : 1;
 };
 

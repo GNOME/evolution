@@ -25,32 +25,19 @@ CPPFLAGS =					\
 
 libcomposer_la_SOURCES = 			\
 	e-msg-composer-address-dialog.c		\
-	e-msg-composer-address-entry.c		\
-	e-msg-composer-attachment-bar.c		\
-	e-msg-composer-attachment.c		\
-	e-msg-composer-hdrs.c			\
-	e-msg-composer.c			
-
-libcomposerinclude_HEADERS = 			\
 	e-msg-composer-address-dialog.h		\
+	e-msg-composer-address-entry.c		\
 	e-msg-composer-address-entry.h		\
+	e-msg-composer-attachment-bar.c		\
 	e-msg-composer-attachment-bar.h		\
+	e-msg-composer-attachment.c		\
 	e-msg-composer-attachment.h		\
+	e-msg-composer-hdrs.c			\
 	e-msg-composer-hdrs.h			\
+	e-msg-composer-select-file.c		\
+	e-msg-composer.c			
 	e-msg-composer.h			
-
-## libcomposer_LDADD =	 			\
-	$(top_builddir)/camel/libcamel.la	\
-	$(BONOBO_GNOME_LIBS)			\
-	$(GNOME_LIBDIR)				\
-	$(GNOMEUI_LIBS)				\
-	$(INTLLIBS)				\
-	$(PTHREAD_LIB)				\
-	$(EXTRA_GNOME_LIBS)
-
 
 EXTRA_DIST =					\
 	$(glade_DATA)				\
 	ChangeLog
-
-

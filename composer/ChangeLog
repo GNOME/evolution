@@ -1,3 +1,42 @@
+2000-06-17  Ettore Perazzoli  <ettore@helixcode.com>
+
+	* e-msg-composer.c (e_msg_composer_construct): I18N the title bar.
+
+	* Makefile.am (libcomposerinclude_HEADERS): Removed.  Move all the
+	`.h' files into `libcomposer_la_SOURCES' so that they get
+	distributed, but not installed.
+
+	* e-msg-composer.c (open_cb): New; implement the `Open' command.
+	(save_as_cb): New; implement the `Save as' command.
+	(init): Initialize the `persist_file_interface' and
+	`persist_stream_interface' members to NULL.
+	(destroy): Release the PersistStream and PersistFile interfaces.
+	(e_msg_composer_construct): Query the PersistFile and
+	PersistStream interfaces on the control and save them in the
+	`persist_file_interface' and `persist_stream_interface' members.
+	(get_text): Renamed from `get_editor_text'.  Get a
+	@persist_stream_interface instead of querying it a the control.
+	(build_message): Return NULL if `persist_stream_interface' is nil.
+
+	* e-msg-composer.h: New member `persist_file_interface' in
+	`EMsgComposer'.
+
+	* e-msg-composer-select-file.c: New.
+	* e-msg-composer-select-file.h: New.
+
+	* e-msg-composer.c (e_msg_composer_construct): Make the `To:'
+	entry grab the keyboard focus.
+
+	* e-msg-composer-hdrs.c (e_msg_composer_hdrs_get_to_entry): New.
+	(e_msg_composer_hdrs_get_cc_entry): New.
+	(e_msg_composer_hdrs_get_bcc_entry): New.
+	(e_msg_composer_hdrs_get_subject_entry): New.
+
+	* e-msg-composer.c (e_msg_composer_construct): Set the scroll
+	frame's shadow type to `GTK_SHADOW_IN'.
+	(format_text): Initialize `tabbing' to zero to shut down the
+	compiler.
+
 2000-06-14  Dan Winship  <danw@helixcode.com>
 
 	* e-msg-composer-attachment-bar.c (add_from_user): keep the

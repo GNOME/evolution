@@ -45,12 +45,14 @@
 
 #include "e-util/e-html-utils.h"
 #include "e-util/e-setup.h"
+#include "e-util/e-gui-utils.h"
 #include "widgets/misc/e-scroll-frame.h"
 
 #include "e-msg-composer.h"
 #include "e-msg-composer-address-dialog.h"
 #include "e-msg-composer-attachment-bar.h"
 #include "e-msg-composer-hdrs.h"
+#include "e-msg-composer-select-file.h"
 
 #ifdef USING_OAF
 #define HTML_EDITOR_CONTROL_ID "OAFIID:control:html-editor:63c5499b-8b0c-475a-9948-81ec96a9662c"
@@ -102,21 +104,14 @@ free_string_list (GList *list)
 }
 
 static char *
-get_editor_text (BonoboWidget *editor, char *format)
+get_text (Bonobo_PersistStream persist, char *format)
 {
-	Bonobo_PersistStream persist;
 	BonoboStream *stream;
 	BonoboStreamMem *stream_mem;
 	CORBA_Environment ev;
 	char *text;
 
 	CORBA_exception_init (&ev);
-	persist = (Bonobo_PersistStream)
-		bonobo_object_client_query_interface (
-			bonobo_widget_get_server (editor),
-			"IDL:Bonobo/PersistStream:1.0",
-			&ev);
-	g_assert (persist != CORBA_OBJECT_NIL);
 
 	stream = bonobo_stream_mem_create (NULL, 0, FALSE, TRUE);
 	Bonobo_PersistStream_save (persist, (Bonobo_Stream)bonobo_object_corba_objref (BONOBO_OBJECT (stream)), format, &ev);
@@ -125,10 +120,6 @@ get_editor_text (BonoboWidget *editor, char *format)
 		return NULL;
 	}
 	
-	if (ev._major != CORBA_SYSTEM_EXCEPTION)
-		CORBA_Object_release (persist, &ev);
-
-	Bonobo_Unknown_unref (persist, &ev);
 	CORBA_exception_free (&ev);
 
 	stream_mem = BONOBO_STREAM_MEM (stream);
@@ -136,6 +127,7 @@ get_editor_text (BonoboWidget *editor, char *format)
 	memcpy (text, stream_mem->buffer, stream_mem->pos);
 	text[stream_mem->pos] = 0;
 	bonobo_object_unref (BONOBO_OBJECT(stream));
+
 	return text;
 }
 
@@ -152,6 +144,7 @@ format_text (char *text)
 	int len, tabbing, i;
 	gboolean linestart = TRUE, cited = FALSE;
 
+	tabbing = 0;		/* Shut down compiler.  */
 	len = strlen (text);
 	out = g_string_sized_new (len + len / LINE_LEN);
 
@@ -231,6 +224,9 @@ build_message (EMsgComposer *composer)
 	MsgFormat type = MSG_FORMAT_ALTERNATIVE;
 	char *path;
 
+	if (composer->persist_stream_interface == CORBA_OBJECT_NIL)
+		return NULL;
+
 	path = g_strdup_printf ("=%s/config=/mail/msg_format", evolution_dir);
 	string = gnome_config_get_string (path);
 	g_free (path);
@@ -248,13 +244,12 @@ build_message (EMsgComposer *composer)
 					 composer->extra_hdr_values->pdata[i]);
 	}
 	
-	plain = get_editor_text (BONOBO_WIDGET (composer->editor), "text/plain");
+	plain = get_text (composer->persist_stream_interface, "text/plain");
 	fmt = format_text (plain);
 	g_free (plain);
 	
-	if (type != MSG_FORMAT_PLAIN) {
-		html = get_editor_text (BONOBO_WIDGET (composer->editor), "text/html");
-	}
+	if (type != MSG_FORMAT_PLAIN)
+		html = get_text (composer->persist_stream_interface, "text/html");
 
 	if (type == MSG_FORMAT_ALTERNATIVE) {
 		body = camel_multipart_new ();
@@ -485,6 +480,45 @@ address_dialog_apply_cb (EMsgComposerAddressDialog *dialog,
 /* Message composer window callbacks.  */
 
 static void
+open_cb (GtkWidget *widget,
+	 gpointer data)
+{
+	EMsgComposer *composer;
+	CORBA_Environment ev;
+	char *file_name;
+
+	composer = E_MSG_COMPOSER (data);
+
+	file_name = e_msg_composer_select_file (composer, _("Open file"));
+	if (file_name == NULL)
+		return;
+
+	CORBA_exception_init (&ev);
+
+	Bonobo_PersistFile_load (composer->persist_file_interface, file_name, &ev);
+
+	if (ev._major != CORBA_NO_EXCEPTION)
+		e_notice (GTK_WINDOW (composer), GNOME_MESSAGE_BOX_ERROR,
+			  _("Error loading file: %s"), g_basename (file_name));
+
+	CORBA_exception_free (&ev);
+
+	g_free (file_name);
+}
+
+static void
+save_cb (GtkWidget *widget,
+	 gpointer data)
+{
+}
+
+static void
+save_as_cb (GtkWidget *widget,
+	    gpointer data)
+{
+}
+
+static void
 send_cb (GtkWidget *widget,
 	 gpointer data)
 {
@@ -510,7 +544,6 @@ exit_cb (GtkWidget *widget, gpointer data)
 					 exit_dialog_cb, composer, parent);
 }
 	
-
 static void
 menu_view_attachments_activate_cb (GtkWidget *widget,
 				   gpointer data)
@@ -609,9 +642,9 @@ attachment_bar_changed_cb (EMsgComposerAttachmentBar *bar,
 /* Menu bar implementation.  */
 
 static GnomeUIInfo file_tree[] = {
-	GNOMEUIINFO_MENU_OPEN_ITEM (NULL, NULL),
-	GNOMEUIINFO_MENU_SAVE_ITEM (NULL, NULL),
-	GNOMEUIINFO_MENU_SAVE_AS_ITEM (NULL, NULL),
+	GNOMEUIINFO_MENU_OPEN_ITEM (open_cb, NULL),
+	GNOMEUIINFO_MENU_SAVE_ITEM (save_cb, NULL),
+	GNOMEUIINFO_MENU_SAVE_AS_ITEM (save_as_cb, NULL),
 	GNOMEUIINFO_ITEM_NONE (N_("Save in _folder..."), N_("Save the message in a specified folder"),
 			       NULL),
 	GNOMEUIINFO_SEPARATOR,
@@ -684,6 +717,7 @@ static void
 destroy (GtkObject *object)
 {
 	EMsgComposer *composer;
+	CORBA_Environment ev;
 
 	composer = E_MSG_COMPOSER (object);
 
@@ -707,6 +741,20 @@ destroy (GtkObject *object)
 		g_ptr_array_free (composer->extra_hdr_names, TRUE);
 		g_ptr_array_free (composer->extra_hdr_values, TRUE);
 	}
+
+	CORBA_exception_init (&ev);
+
+	if (composer->persist_stream_interface != CORBA_OBJECT_NIL) {
+		Bonobo_Unknown_unref (composer->persist_stream_interface, &ev);
+		CORBA_Object_release (composer->persist_stream_interface, &ev);
+	}
+
+	if (composer->persist_file_interface != CORBA_OBJECT_NIL) {
+		Bonobo_Unknown_unref (composer->persist_file_interface, &ev);
+		CORBA_Object_release (composer->persist_file_interface, &ev);
+	}
+
+	CORBA_exception_free (&ev);
 
 	if (GTK_OBJECT_CLASS (parent_class)->destroy != NULL)
 		(* GTK_OBJECT_CLASS (parent_class)->destroy) (object);
@@ -746,18 +794,21 @@ class_init (EMsgComposerClass *klass)
 static void
 init (EMsgComposer *composer)
 {
-	composer->uih = NULL;
+	composer->uih                      = NULL;
 
-	composer->hdrs = NULL;
-	composer->extra_hdr_names = g_ptr_array_new ();
-	composer->extra_hdr_values = g_ptr_array_new ();
+	composer->hdrs                     = NULL;
+	composer->extra_hdr_names          = g_ptr_array_new ();
+	composer->extra_hdr_values         = g_ptr_array_new ();
 
-	composer->editor = NULL;
+	composer->editor                   = NULL;
 
-	composer->address_dialog = NULL;
+	composer->address_dialog           = NULL;
 
-	composer->attachment_bar = NULL;
-	composer->attachment_scroll_frame = NULL;
+	composer->attachment_bar           = NULL;
+	composer->attachment_scroll_frame  = NULL;
+
+	composer->persist_file_interface   = CORBA_OBJECT_NIL;
+	composer->persist_stream_interface = CORBA_OBJECT_NIL;
 }
 
 
@@ -795,6 +846,7 @@ void
 e_msg_composer_construct (EMsgComposer *composer)
 {
 	GtkWidget *vbox;
+	BonoboObject *editor_server;
 
 	g_return_if_fail (gtk_main_level () > 0);
 
@@ -802,7 +854,7 @@ e_msg_composer_construct (EMsgComposer *composer)
 				     DEFAULT_WIDTH, DEFAULT_HEIGHT);
 
 	gnome_app_construct (GNOME_APP (composer), "e-msg-composer",
-			     "Compose a message");
+			     _("Compose a message"));
 
 	composer->uih = bonobo_ui_handler_new ();
 	bonobo_ui_handler_set_app (composer->uih, GNOME_APP (composer));
@@ -819,14 +871,23 @@ e_msg_composer_construct (EMsgComposer *composer)
 	create_toolbar (composer);
 	composer->editor = create_editor (composer);
 
+	editor_server = BONOBO_OBJECT (bonobo_widget_get_server (BONOBO_WIDGET (composer->editor)));
+	
+	composer->persist_file_interface
+		= bonobo_object_query_interface (editor_server, "IDL:Bonobo/PersistFile:1.0");
+	composer->persist_stream_interface
+		= bonobo_object_query_interface (editor_server, "IDL:Bonobo/PersistStream:1.0");
+
 	gtk_widget_show (composer->editor);
 	gtk_box_pack_start (GTK_BOX (vbox), composer->editor, TRUE, TRUE, 0);
 	gtk_widget_show (composer->editor);
 
-	/* Attachment editor, wrapped into a GtkScrolledWindow.  We don't
+	/* Attachment editor, wrapped into an EScrollFrame.  We don't
            show it for now.  */
 
 	composer->attachment_scroll_frame = e_scroll_frame_new (NULL, NULL);
+	e_scroll_frame_set_shadow_type (E_SCROLL_FRAME (composer->attachment_scroll_frame),
+					GTK_SHADOW_IN);
 	e_scroll_frame_set_policy (E_SCROLL_FRAME (composer->attachment_scroll_frame),
 				   GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
 
@@ -845,6 +906,10 @@ e_msg_composer_construct (EMsgComposer *composer)
 	gtk_widget_show (vbox);
 
 	e_msg_composer_show_attachments (composer, FALSE);
+
+	/* Set focus on the `To:' field.  */
+
+	gtk_widget_grab_focus (e_msg_composer_hdrs_get_to_entry (E_MSG_COMPOSER_HDRS (composer->hdrs)));
 }
 
 /**

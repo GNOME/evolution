@@ -56,24 +56,30 @@ struct _EMsgComposerHdrsClass {
 };
 
 
-GtkType    e_msg_composer_hdrs_get_type    (void);
-GtkWidget *e_msg_composer_hdrs_new         (void);
-void       e_msg_composer_hdrs_to_message  (EMsgComposerHdrs *hdrs,
-					    CamelMimeMessage *msg);
+GtkType     e_msg_composer_hdrs_get_type           (void);
+GtkWidget  *e_msg_composer_hdrs_new                (void);
 
-void	   e_msg_composer_hdrs_set_to      (EMsgComposerHdrs *hdrs,
-					    const GList *to_list);
-void	   e_msg_composer_hdrs_set_cc      (EMsgComposerHdrs *hdrs,
-					    const GList *cc_list);
-void	   e_msg_composer_hdrs_set_bcc     (EMsgComposerHdrs *hdrs,
-					    const GList *bcc_list);
-void       e_msg_composer_hdrs_set_subject (EMsgComposerHdrs *hdrs,
-					    const char *subject);
+void        e_msg_composer_hdrs_to_message         (EMsgComposerHdrs *hdrs,
+						    CamelMimeMessage *msg);
 
-GList	  *e_msg_composer_hdrs_get_to      (EMsgComposerHdrs *hdrs);
-GList	  *e_msg_composer_hdrs_get_cc      (EMsgComposerHdrs *hdrs);
-GList	  *e_msg_composer_hdrs_get_bcc     (EMsgComposerHdrs *hdrs);
-const char*e_msg_composer_hdrs_get_subject (EMsgComposerHdrs *hdrs);
+void        e_msg_composer_hdrs_set_to             (EMsgComposerHdrs *hdrs,
+						    const GList      *to_list);
+void        e_msg_composer_hdrs_set_cc             (EMsgComposerHdrs *hdrs,
+						    const GList      *cc_list);
+void        e_msg_composer_hdrs_set_bcc            (EMsgComposerHdrs *hdrs,
+						    const GList      *bcc_list);
+void        e_msg_composer_hdrs_set_subject        (EMsgComposerHdrs *hdrs,
+						    const char       *subject);
+
+GList      *e_msg_composer_hdrs_get_to             (EMsgComposerHdrs *hdrs);
+GList      *e_msg_composer_hdrs_get_cc             (EMsgComposerHdrs *hdrs);
+GList      *e_msg_composer_hdrs_get_bcc            (EMsgComposerHdrs *hdrs);
+const char *e_msg_composer_hdrs_get_subject        (EMsgComposerHdrs *hdrs);
+
+GtkWidget  *e_msg_composer_hdrs_get_to_entry       (EMsgComposerHdrs *hdrs);
+GtkWidget  *e_msg_composer_hdrs_get_cc_entry       (EMsgComposerHdrs *hdrs);
+GtkWidget  *e_msg_composer_hdrs_get_bcc_entry      (EMsgComposerHdrs *hdrs);
+GtkWidget  *e_msg_composer_hdrs_get_subject_entry  (EMsgComposerHdrs *hdrs);
 
 #ifdef _cplusplus
 }
