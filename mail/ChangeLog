@@ -1,3 +1,13 @@
+2001-01-28  Not Zed  <NotZed@Ximian.com>
+
+	* mail-display.c (write_data_to_file): Changed to use
+	mail_save_part to save the data in another thread.
+	(save_data_cb): Hide the fileselector once we have a button press,
+	and are saving stuff.
+
+	* mail-ops.c (mail_save_part): New function to save a part content
+	asynchronously.
+
 2001-01-27  Christopher James Lahey  <clahey@helixcode.com>
 
 	* folder-browser.c (etable_key): Don't handle home and end keys

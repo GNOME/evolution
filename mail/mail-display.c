@@ -22,6 +22,9 @@
 #include "mail.h"
 #include "art/empty.xpm"
 
+#include "mail-ops.h"
+#include "mail-mt.h"
+
 #include <bonobo.h>
 #include <libgnorba/gnorba.h>
 #include <bonobo/bonobo-stream-memory.h>
@@ -55,20 +58,22 @@ struct _PixbufLoader {
  *                        Callbacks
  *----------------------------------------------------------------------*/
 
+static void
+write_data_written(CamelMimePart *part, char *name, int done, void *data)
+{
+	int *ret = data;
+
+	/* should we popup a dialogue to say its done too? */
+	*ret = done;
+}
+
 static gboolean
 write_data_to_file (CamelMimePart *part, const char *name, gboolean unique)
 {
-	CamelMimeFilterCharset *charsetfilter;
-	CamelContentType *content_type;
-	CamelStreamFilter *filtered_stream;
-	CamelStream *stream_fs;
-	CamelDataWrapper *data;
-	const char *charset;
 	int fd;
 	int ret = FALSE;
 	
 	g_return_val_if_fail (CAMEL_IS_MIME_PART (part), FALSE);
-	data = camel_medium_get_content_object (CAMEL_MEDIUM (part));
 	
 	fd = open (name, O_WRONLY | O_CREAT | O_EXCL, S_IRUSR | S_IWUSR);
 	if (fd == -1 && errno == EEXIST && !unique) {
@@ -86,58 +91,12 @@ write_data_to_file (CamelMimePart *part, const char *name, gboolean unique)
 
 		if (gnome_dialog_run_and_close (GNOME_DIALOG (dlg)) != 0)
 			return FALSE;
-
-		fd = open (name, O_WRONLY | O_TRUNC);
 	}
+	if (fd != -1)
+		close(fd);
 
-	if (fd == -1
-	    || (stream_fs = camel_stream_fs_new_with_fd (fd)) == NULL) {
-		char *msg;
-
-		msg = g_strdup_printf (_("Could not open file %s:\n%s"),
-				       name, strerror (errno));
-		gnome_error_dialog (msg);
-		g_free (msg);
-		return FALSE;
-	}
-	
-
-	/* we only convert text/ parts, and we only convert if we have to
-	   null charset param == us-ascii == utf8 always, and utf8 == utf8 obviously */
-	/* this will also let "us-ascii that isn't really" parts pass out in
-	   proper format, without us trying to treat it as what it isn't, which is
-	   the same algorithm camel uses */
-	
-	content_type = camel_mime_part_get_content_type (part);
-	if (header_content_type_is(content_type, "text", "*")
-	    && (charset = header_content_type_param (content_type, "charset"))
-	    && strcasecmp(charset, "utf-8") != 0) {
-		charsetfilter = camel_mime_filter_charset_new_convert ("utf-8", charset);
-		filtered_stream = camel_stream_filter_new_with_stream (stream_fs);
-		camel_stream_filter_add (filtered_stream, CAMEL_MIME_FILTER (charsetfilter));
-		camel_object_unref (CAMEL_OBJECT (charsetfilter));
-	} else {
-		/* no we can't use a CAMEL_BLAH() cast here, since its not true, HOWEVER
-		   we only treat it as a normal stream from here on, so it is OK */
-		filtered_stream = (CamelStreamFilter *)stream_fs;
-		camel_object_ref (CAMEL_OBJECT (stream_fs));
-	}
-	
-	if (camel_data_wrapper_write_to_stream (data, CAMEL_STREAM (filtered_stream)) == -1
-	    || camel_stream_flush (CAMEL_STREAM (filtered_stream)) == -1) {
-		char *msg;
-		
-		msg = g_strdup_printf (_("Could not write data: %s"),
-				       strerror (errno));
-		gnome_error_dialog (msg);
-		g_free (msg);
-		ret = FALSE;
-	} else {
-		ret = TRUE;
-	}
-
-	camel_object_unref (CAMEL_OBJECT (filtered_stream));
-	camel_object_unref (CAMEL_OBJECT (stream_fs));
+	/* should this have progress of what its doing? */
+	mail_msg_wait(mail_save_part(part, name, write_data_written, &ret));
 
 	return ret;
 }
@@ -173,6 +132,8 @@ save_data_cb (GtkWidget *widget, gpointer user_data)
 	GtkFileSelection *file_select = (GtkFileSelection *)
 		gtk_widget_get_ancestor (widget, GTK_TYPE_FILE_SELECTION);
 
+	/* uh, this doesn't really feel right, but i dont know what to do better */
+	gtk_widget_hide (GTK_WIDGET (file_select));
 	write_data_to_file (user_data,
 			    gtk_file_selection_get_filename (file_select),
 			    FALSE);
