@@ -1,3 +1,14 @@
+2002-04-11  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* providers/imap/camel-imap-folder.c: Set the UID_SET_LIMIT value
+	to 4096. I ran into an issue tonight where apparently the IMAP
+	server changed the UIDVALIDITY and so Evo needed to re-fetch all
+	headers and it was trying to send a uid set of some 25k (yes, I
+	have a very large INBOX). Anyways, it was set to unlimited
+	before. Courier IMAPd can safely handle up to ~16k per token, but
+	UW IMAPd can only handle 8k per command-line, so I set it to 4k
+	just to be safe.
+
 2002-04-10  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* camel-mime-part-utils.c (convert_buffer): Fixed a bug that would

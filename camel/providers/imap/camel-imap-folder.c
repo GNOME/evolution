@@ -64,7 +64,9 @@
 #include "camel-stream.h"
 #include "string-utils.h"
 
-#define UID_SET_LIMIT  (-1)
+
+/* set to -1 for infinite size */
+#define UID_SET_LIMIT  (4096)
 
 
 #define CF_CLASS(o) (CAMEL_FOLDER_CLASS (CAMEL_OBJECT_GET_CLASS(o)))
