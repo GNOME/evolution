@@ -1,3 +1,8 @@
+2000-11-06  Radek Doulik  <rodo@helixcode.com>
+
+	* configure.in (GTKHTML_LIBS): also look for HTMLEditor.idl in
+	${prefix}/share/gtkhtml
+
 2000-11-03  Radek Doulik  <rodo@helixcode.com>
 
 	* configure.in (BONOBO_HTML_GNOME_CFLAGS): raise required version

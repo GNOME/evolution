@@ -351,13 +351,18 @@ GTKHTML_LIBS="`gnome-config --libs gtkhtml`"
 AC_SUBST(GTKHTML_CFLAGS)
 AC_SUBST(GTKHTML_LIBS)
 
-AC_MSG_CHECKING(for HTMLEditor.idl)
+AC_MSG_CHECKING(for HTMLEditor.idl in `gnome-config --datadir`/gtkhtml or ${prefix}/share/gtkhtml)
 if test -f `gnome-config --datadir`/gtkhtml/HTMLEditor.idl; then
 	GTK_HTML_EDITOR_IDL=`gnome-config --datadir`/gtkhtml/HTMLEditor.idl
 	AC_MSG_RESULT(found)
 else
-	AC_MSG_ERROR(HTMLEditor.idl is required to compile Evolution composer, it's included in GtkHTML
+	if test -f ${prefix}/share/gtkhtml/HTMLEditor.idl; then
+		GTK_HTML_EDITOR_IDL=${prefix}/share/gtkhtml/HTMLEditor.idl
+		AC_MSG_RESULT(found)
+	else
+		AC_MSG_ERROR(HTMLEditor.idl is required to compile Evolution composer, it's included in GtkHTML
 You need GtkHTML build with html-editor-control)
+	fi
 fi
 
 AC_SUBST(GTK_HTML_EDITOR_IDL)
