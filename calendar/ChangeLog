@@ -1,5 +1,13 @@
 2001-02-06  JP Rosevear  <jpr@ximian.com>
 
+	* cal-util/cal-component.c (cal_component_set_categories): If the
+	categories string is empty, remove the property
+	(get_period_list): Fixes from clahey to handle the new rdate
+	format in libical
+	(set_period_list): ditto
+
+2001-02-06  JP Rosevear  <jpr@ximian.com>
+
 	* gui/event-editor.c (fill_reminder_widgets): Match new
 	append_alarm signature
 	(reminder_to_comp_object): only add alarms tagged as new, no
