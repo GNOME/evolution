@@ -1,8 +1,8 @@
 <?xml version="1.0"?>
 <filteroptions>
   <ruleset>
-    <rule grouping="all" source="local_remote_active">
-      <_title>Important mail</_title>
+    <rule grouping="all" source="local">
+      <_title>Important mail (local)</_title>
       <partset>
         <part name="status">
           <value name="match-type" type="option" value="is"/>
@@ -11,8 +11,8 @@
       </partset>
       <sources/>
     </rule>
-    <rule grouping="all" source="local_remote_active">
-      <_title>Unread mail</_title>
+    <rule grouping="all" source="local">
+      <_title>Unread mail (local)</_title>
       <partset>
         <part name="status">
           <value name="match-type" type="option" value="is not"/>

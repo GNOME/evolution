@@ -1,3 +1,9 @@
+2002-09-23  Dan Winship  <danw@ximian.com>
+
+	* vfolders.xml: Make the default vfolders only operate on local
+	folders. Otherwise evolution is mysteriously incredibly slow to
+	start up for new users with lots of IMAP/exchange folders.
+
 2002-07-29  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* searches.xml: Reordered.
