@@ -1,3 +1,10 @@
+2003-04-27  Rodney Dawes  <dobey@ximian.com>
+
+	Fixes #35814
+	
+	* gui/calendar-component.c: Change mnemonic/keybinding for
+	New Meeting to not conflict with other items in the File->New menu
+	
 2003-04-24  Rodrigo Moya <rodrigo@ximian.com>
 
 	Fixes #41661

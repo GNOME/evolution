@@ -734,9 +734,9 @@ create_object (void)
 			    FOLDER_CALENDAR, 'a', "new_appointment.xpm");
 
 	add_creatable_item (shell_component, CREATE_MEETING_ID,
-			    _("New meeting"), _("_Meeting"),
+			    _("New meeting"), _("M_eeting"),
 			    _("Create a new meeting request"),
-			    FOLDER_CALENDAR, 's', "meeting-request-16.png");
+			    FOLDER_CALENDAR, 'e', "meeting-request-16.png");
 
 	add_creatable_item (shell_component, CREATE_TASK_ID,
 			    _("New task"), _("_Task"),

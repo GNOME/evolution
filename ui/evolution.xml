@@ -43,7 +43,7 @@
 	<menuitem name="Folder" verb="NewFolder"
 		  _label="_Folder..."
 		  _tip="Create a new folder"
-		  accel="*Control**Shift*e"
+		  accel="*Control**Shift*f"
 		  pixtype="pixbuf"/>
 
 	<menuitem name="Shortcut" verb="NewShortcut"
