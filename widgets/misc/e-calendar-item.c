@@ -940,11 +940,11 @@ e_calendar_item_draw		(GnomeCanvasItem *canvas_item,
 			    calitem->y2 - calitem->y1 + 1);
 
 	/* Draw the shadow around the entire item. */
-	gtk_draw_shadow (style, drawable,
-			 GTK_STATE_NORMAL, GTK_SHADOW_IN,
-			 calitem->x1 - x, calitem->y1 - y,
-			 calitem->x2 - calitem->x1 + 1,
-			 calitem->y2 - calitem->y1 + 1);
+	gtk_paint_shadow (style, drawable, GTK_STATE_NORMAL, GTK_SHADOW_IN,
+			  NULL, NULL, "entry",
+			  calitem->x1 - x, calitem->y1 - y,
+			  calitem->x2 - calitem->x1 + 1,
+			  calitem->y2 - calitem->y1 + 1);
 
 	row_y = canvas_item->y1 + ythickness;
 	bar_height = ythickness * 2
@@ -961,24 +961,27 @@ e_calendar_item_draw		(GnomeCanvasItem *canvas_item,
 				    - xthickness * 2,
 				    bar_height);
 
-		gtk_draw_shadow (style, drawable,
-				 GTK_STATE_NORMAL, GTK_SHADOW_OUT,
-				 calitem->x1 + xthickness - x, row_y - y,
-				 calitem->x2 - calitem->x1 + 1
-				 - xthickness * 2,
-				 bar_height);
+		gtk_paint_shadow (style, drawable,
+				  GTK_STATE_NORMAL, GTK_SHADOW_OUT,
+				  NULL, NULL, "calendar-header",
+				  calitem->x1 + xthickness - x, row_y - y,
+				  calitem->x2 - calitem->x1 + 1
+				  - xthickness * 2,
+				  bar_height);
 
 
 		for (col = 0; col < calitem->cols; col++) {
 			if (col != 0) {
 				col_x = calitem->x1 + calitem->x_offset
 					+ calitem->month_width * col;
-				gtk_draw_vline (style, drawable,
-						GTK_STATE_NORMAL,
-						row_y + ythickness + 1 - y,
-						row_y + bar_height
-						- ythickness - 2 - y,
-						col_x - 1 - x);
+				gtk_paint_vline (style, drawable,
+						 GTK_STATE_NORMAL,
+						 NULL, NULL,
+						 "calendar-separator",
+						 row_y + ythickness + 1 - y,
+						 row_y + bar_height
+						 - ythickness - 2 - y,
+						 col_x - 1 - x);
 			}
 
 
@@ -1860,6 +1863,12 @@ e_calendar_item_get_day_style		(ECalendarItem	*calitem,
 					 GdkColor      **box_color,
 					 gboolean	*bold)
 {
+	GtkWidget *widget;
+	GtkStyle *style;
+
+	widget = GTK_WIDGET (GNOME_CANVAS_ITEM (calitem)->canvas);
+	style = widget->style;
+
 	*bg_color = NULL;
 	*fg_color = NULL;
 	*box_color = NULL;
@@ -1872,15 +1881,16 @@ e_calendar_item_get_day_style		(ECalendarItem	*calitem,
 		*box_color = &calitem->colors[E_CALENDAR_ITEM_COLOR_TODAY_BOX];
 
 	if (prev_or_next_month)
-		*fg_color = &calitem->colors[E_CALENDAR_ITEM_COLOR_PREV_OR_NEXT_MONTH_FG];
+		*fg_color = &style->mid[GTK_WIDGET_STATE (widget)];
 
 	if (selected) {
-		*fg_color = &calitem->colors[E_CALENDAR_ITEM_COLOR_SELECTION_FG];
-		if (has_focus)
-			*bg_color = &calitem->colors[E_CALENDAR_ITEM_COLOR_SELECTION_BG_FOCUSED];
-		else
-			*bg_color = &calitem->colors[E_CALENDAR_ITEM_COLOR_SELECTION_BG];
-
+		if (has_focus) {
+			*fg_color = &style->text[GTK_STATE_SELECTED];
+			*bg_color = &style->base[GTK_STATE_SELECTED];
+		} else {
+			*fg_color = &style->text[GTK_STATE_ACTIVE];
+			*bg_color = &style->base[GTK_STATE_ACTIVE];
+		}
 	}
 }
 

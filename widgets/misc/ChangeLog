@@ -1,3 +1,15 @@
+2004-12-14  Rodney Dawes  <dobey@novell.com>
+
+	* e-calendar-item.c (e_calendar_item_draw): Use gtk_paint_foo instead
+	of the deprecated gtk_draw_foo functions
+	(e_calendar_item_get_day_style): Use colors from the theme for the
+	background and foreground of various items
+	
+	* test-calendar.c (main): Don't set a callback for getting the day
+	style, we want the test app to use the widget defaults
+	(get_day_style): Remove all this duplicated code as we want to use
+	the widget default colors for day fg/bg
+
 2004-11-26  JP Rosevear  <jpr@novell.com>
 
 	* test-info-label.c: test prog

@@ -50,21 +50,6 @@ static guint n_targets = sizeof(target_table) / sizeof(target_table[0]);
 
 static void on_date_range_changed	(ECalendarItem *calitem);
 static void on_selection_changed	(ECalendarItem *calitem);
-static void get_day_style		(ECalendarItem	*calitem,
-					 gint		 year,
-					 gint		 month,
-					 gint		 day,
-					 gint		 day_style,
-					 gboolean	 today,
-					 gboolean	 prev_or_next_month,
-					 gboolean	 selected,
-					 gboolean	 has_focus,
-					 gboolean	 drop_target,
-					 GdkColor      **bg_color,
-					 GdkColor      **fg_color,
-					 GdkColor      **box_color,
-					 gboolean	*bold,
-					 gpointer	 data);
 
 static void
 delete_event_cb (GtkWidget *widget,
@@ -96,8 +81,6 @@ main (int argc, char **argv)
 	e_calendar_set_minimum_size (E_CALENDAR (cal), 1, 1);
 	calitem = E_CALENDAR (cal)->calitem;
 	gtk_widget_show (cal);
-	e_calendar_item_set_style_callback (calitem, get_day_style,
-					    NULL, NULL);
 
 	g_signal_connect((calitem), "date_range_changed",
 			    G_CALLBACK (on_date_range_changed), NULL);
@@ -160,62 +143,4 @@ on_selection_changed (ECalendarItem *calitem)
 		 g_date_get_day (&end_date),
 		 g_date_get_month (&end_date),
 		 g_date_get_year (&end_date));
-}
-
-
-static void
-get_day_style		(ECalendarItem	*calitem,
-			 gint		 year,
-			 gint		 month,
-			 gint		 day,
-			 gint		 day_style,
-			 gboolean	 today,
-			 gboolean	 prev_or_next_month,
-			 gboolean	 selected,
-			 gboolean	 has_focus,
-			 gboolean	 drop_target,
-			 GdkColor      **bg_color,
-			 GdkColor      **fg_color,
-			 GdkColor      **box_color,
-			 gboolean	*bold,
-			 gpointer	 data)
-{
-	*bg_color = NULL;
-	*fg_color = NULL;
-	*box_color = NULL;
-	*bold = FALSE;
-
-#if 1
-
-	if (day_style == 1)
-		*bold = TRUE;
-
-	if (today)
-		*box_color = &calitem->colors[E_CALENDAR_ITEM_COLOR_TODAY_BOX];
-
-	if (prev_or_next_month)
-		*fg_color = &calitem->colors[E_CALENDAR_ITEM_COLOR_PREV_OR_NEXT_MONTH_FG];
-
-	if (selected) {
-		*fg_color = &calitem->colors[E_CALENDAR_ITEM_COLOR_SELECTION_FG];
-		*bg_color = &calitem->colors[E_CALENDAR_ITEM_COLOR_SELECTION_BG];
-	}
-
-#else
-
-	if (day_style == 1)
-		*bold = TRUE;
-
-	if (today)
-		*box_color = &calitem->colors[E_CALENDAR_ITEM_COLOR_PREV_OR_NEXT_MONTH_FG];
-
-	if (prev_or_next_month)
-		*fg_color = &calitem->colors[E_CALENDAR_ITEM_COLOR_TODAY_BOX];
-
-	if (selected) {
-		*fg_color = &calitem->colors[E_CALENDAR_ITEM_COLOR_SELECTION_FG];
-		*bg_color = &calitem->colors[E_CALENDAR_ITEM_COLOR_PREV_OR_NEXT_MONTH_FG];
-	}
-
-#endif
 }
