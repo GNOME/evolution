@@ -756,6 +756,15 @@ cal_attachment_bar_get_num_attachments (CalAttachmentBar *bar)
 }
 
 void
+cal_attachment_bar_attach_mime_part (CalAttachmentBar *bar,
+						CamelMimePart *part)
+{
+	g_return_if_fail (E_IS_CAL_ATTACHMENT_BAR (bar));
+	
+	add_from_mime_part (bar, part);
+}
+
+void
 cal_attachment_bar_attach (CalAttachmentBar *bar,
 				      const gchar *file_name)
 {

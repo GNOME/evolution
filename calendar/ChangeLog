@@ -1,3 +1,10 @@
+2005-02-28  Harish Krishnaswamy  <kharish@novell.com>
+
+        Fixes #69556
+        * gui/dialogs/cal-attachment-bar.c:
+        (cal_attachment_bar_attach_mime_part): Add missing call to
+        attach_mime_part.
+
 2005-02-28  Rodrigo Moya <rodrigo@novell.com>
 
 	Fixes #72928
