@@ -20,9 +20,10 @@
  * Boston, MA 02111-1307, USA.
  */
 
+#include <config.h>
+#include "gal/util/e-i18n.h"
 #include <locale.h>
 #include <libgnome/libgnome.h>
-#include "gal/util/e-i18n.h"
 #include <math.h>
 #include <gnome-xml/parser.h>
 #include <gnome-xml/xmlmemory.h>
@@ -375,4 +376,3 @@ e_xml_get_translated_string_prop_by_name (const xmlNode *parent, const xmlChar *
 	}
 	return ret_val;
 }
-
