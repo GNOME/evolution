@@ -1,3 +1,7 @@
+2002-05-28  JP Rosevear  <jpr@ximian.com>
+
+	* configure.in: discover the libgcc file name if we are using gcc
+
 2002-05-08  Ettore Perazzoli  <ettore@ximian.com>
 
 	* README: Add an explanation/warning about why we want Berkeley DB

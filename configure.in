@@ -104,6 +104,13 @@ AC_PROG_INSTALL
 AC_PROG_LN_S
 AC_PROG_MAKE_SET
 
+if test -n "${GCC}"; then
+	LIBGCC_A_FILENAME=`${CC} -print-libgcc-file-name`;
+else
+	LIBGCC_A_FILENAME="";
+fi
+AC_SUBST(LIBGCC_A_FILENAME)
+
 dnl Initialize xml-i18n-tools
 AM_PROG_XML_I18N_TOOLS
 
