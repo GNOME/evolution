@@ -76,6 +76,8 @@
 
 
 struct _composer_callback_data {
+	unsigned int ref_count;
+	
 	CamelFolder *drafts_folder;
 	char *drafts_uid;
 	
@@ -83,6 +85,57 @@ struct _composer_callback_data {
 	guint32 flags, set;
 	char *uid;
 };
+
+static struct _composer_callback_data *
+ccd_new (void)
+{
+	struct _composer_callback_data *ccd;
+	
+	ccd = g_new (struct _composer_callback_data, 1);
+	ccd->ref_count = 1;
+	ccd->drafts_folder = NULL;
+	ccd->drafts_uid = NULL;
+	ccd->folder = NULL;
+	ccd->flags = 0;
+	ccd->set = 0;
+	ccd->uid = NULL;
+	
+	return ccd;
+}
+
+static void
+free_ccd (struct _composer_callback_data *ccd)
+{
+	if (ccd->drafts_folder)
+		camel_object_unref (ccd->drafts_folder);
+	g_free (ccd->drafts_uid);
+	
+	if (ccd->folder)
+		camel_object_unref (ccd->folder);
+	g_free (ccd->uid);
+	g_free (ccd);
+}
+
+static void
+ccd_ref (struct _composer_callback_data *ccd)
+{
+	ccd->ref_count++;
+}
+
+static void
+ccd_unref (struct _composer_callback_data *ccd)
+{
+	ccd->ref_count--;
+	if (ccd->ref_count == 0)
+		free_ccd (ccd);
+}
+
+
+static void
+composer_destroy_cb (GtkWidget *composer, gpointer user_data)
+{
+	ccd_unref (user_data);
+}
 
 
 static void
@@ -287,8 +340,8 @@ ask_confirm_for_only_bcc (EMsgComposer *composer, gboolean hidden_list_case)
 	gboolean show_again = TRUE;
 	GtkWidget *mbox;
 	int button;
-	const gchar *first_text;
-	gchar *message_text;
+	const char *first_text;
+	char *message_text;
 	
 	if (!mail_config_get_prompt_only_bcc ())
 		return TRUE;
@@ -332,20 +385,6 @@ ask_confirm_for_only_bcc (EMsgComposer *composer, gboolean hidden_list_case)
 		return FALSE;
 }
 
-static void
-free_ccd (GtkWidget *composer, gpointer user_data)
-{
-	struct _composer_callback_data *ccd = user_data;
-	
-	if (ccd->drafts_folder)
-		camel_object_unref (ccd->drafts_folder);
-	g_free (ccd->drafts_uid);
-	
-	if (ccd->folder)
-		camel_object_unref (ccd->folder);
-	g_free (ccd->uid);
-	g_free (ccd);
-}
 
 struct _send_data {
 	struct _composer_callback_data *ccd;
@@ -391,11 +430,7 @@ composer_send_queued_cb (CamelFolder *folder, CamelMimeMessage *msg, CamelMessag
 		}
 	} else {
 		if (!ccd) {
-			ccd = g_new (struct _composer_callback_data, 1);
-			ccd->drafts_folder = NULL;
-			ccd->drafts_uid = NULL;
-			ccd->folder = NULL;
-			ccd->uid = NULL;
+			ccd = ccd_new ();
 			
 			/* disconnect the previous signal handlers */
 			gtk_signal_disconnect_by_func (GTK_OBJECT (send->composer),
@@ -409,7 +444,7 @@ composer_send_queued_cb (CamelFolder *folder, CamelMimeMessage *msg, CamelMessag
 			gtk_signal_connect (GTK_OBJECT (send->composer), "save-draft",
 					    GTK_SIGNAL_FUNC (composer_save_draft_cb), ccd);
 			gtk_signal_connect (GTK_OBJECT (send->composer), "destroy",
-					    GTK_SIGNAL_FUNC (free_ccd), ccd);
+					    GTK_SIGNAL_FUNC (composer_destroy_cb), ccd);
 		}
 		
 		e_msg_composer_set_enable_autosave (send->composer, TRUE);
@@ -418,6 +453,9 @@ composer_send_queued_cb (CamelFolder *folder, CamelMimeMessage *msg, CamelMessag
 	}
 	
 	camel_message_info_free (info);
+	
+	if (send->ccd)
+		ccd_unref (send->ccd);
 	
 	g_free (send);
 }
@@ -602,6 +640,7 @@ composer_send_cb (EMsgComposer *composer, gpointer user_data)
 	
 	send = g_malloc (sizeof (*send));
 	send->ccd = user_data;
+	ccd_ref (send->ccd);
 	send->send = !post;
 	send->composer = composer;
 	gtk_object_ref (GTK_OBJECT (composer));
@@ -635,11 +674,7 @@ save_draft_done (CamelFolder *folder, CamelMimeMessage *msg, CamelMessageInfo *i
 	CORBA_exception_free (&ev);
 	
 	if ((ccd = sdi->ccd) == NULL) {
-		ccd = g_new (struct _composer_callback_data, 1);
-		ccd->drafts_folder = NULL;
-		ccd->drafts_uid = NULL;
-		ccd->folder = NULL;
-		ccd->uid = NULL;
+		ccd = ccd_new ();
 		
 		/* disconnect the previous signal handlers */
 		gtk_signal_disconnect_by_func (GTK_OBJECT (sdi->composer),
@@ -653,7 +688,7 @@ save_draft_done (CamelFolder *folder, CamelMimeMessage *msg, CamelMessageInfo *i
 		gtk_signal_connect (GTK_OBJECT (sdi->composer), "save-draft",
 				    GTK_SIGNAL_FUNC (composer_save_draft_cb), ccd);
 		gtk_signal_connect (GTK_OBJECT (sdi->composer), "destroy",
-				    GTK_SIGNAL_FUNC (free_ccd), ccd);
+				    GTK_SIGNAL_FUNC (composer_destroy_cb), ccd);
 	}
 	
 	if (ccd->drafts_folder) {
@@ -687,6 +722,8 @@ save_draft_done (CamelFolder *folder, CamelMimeMessage *msg, CamelMessageInfo *i
 	
  done:
 	gtk_object_unref (GTK_OBJECT (sdi->composer));
+	if (sdi->ccd)
+		ccd_unref (sdi->ccd);
 	g_free (info);
 	g_free (sdi);
 }
@@ -757,6 +794,7 @@ composer_save_draft_cb (EMsgComposer *composer, int quit, gpointer user_data)
 	sdi->composer = composer;
 	gtk_object_ref (GTK_OBJECT (composer));
 	sdi->ccd = user_data;
+	ccd_ref (sdi->ccd);
 	sdi->quit = quit;
 	
 	mail_append_mail (folder, msg, info, save_draft_done, sdi);
@@ -814,20 +852,14 @@ compose_msg (GtkWidget *widget, gpointer user_data)
 	if (!composer)
 		return;
 	
-	ccd = g_new (struct _composer_callback_data, 1);
-	ccd->drafts_folder = NULL;
-	ccd->drafts_uid = NULL;
-	ccd->folder = NULL;
-	ccd->uid = NULL;
-	ccd->flags = 0;
-	ccd->set = 0;
+	ccd = ccd_new ();
 	
 	gtk_signal_connect (GTK_OBJECT (composer), "send",
 			    GTK_SIGNAL_FUNC (composer_send_cb), ccd);
 	gtk_signal_connect (GTK_OBJECT (composer), "save-draft",
 			    GTK_SIGNAL_FUNC (composer_save_draft_cb), ccd);
 	gtk_signal_connect (GTK_OBJECT (composer), "destroy",
-			    GTK_SIGNAL_FUNC (free_ccd), ccd);
+			    GTK_SIGNAL_FUNC (composer_destroy_cb), ccd);
 	
 	gtk_widget_show (composer);
 }
@@ -849,20 +881,14 @@ send_to_url (const char *url)
 	if (!composer)
 		return;
 	
-	ccd = g_new (struct _composer_callback_data, 1);
-	ccd->drafts_folder = NULL;
-	ccd->drafts_uid = NULL;
-	ccd->folder = NULL;
-	ccd->uid = NULL;
-	ccd->flags = 0;
-	ccd->set = 0;
+	ccd = ccd_new ();
 	
 	gtk_signal_connect (GTK_OBJECT (composer), "send",
 			    GTK_SIGNAL_FUNC (composer_send_cb), ccd);
 	gtk_signal_connect (GTK_OBJECT (composer), "save-draft",
 			    GTK_SIGNAL_FUNC (composer_save_draft_cb), ccd);
 	gtk_signal_connect (GTK_OBJECT (composer), "destroy",
-			    GTK_SIGNAL_FUNC (free_ccd), ccd);
+			    GTK_SIGNAL_FUNC (composer_destroy_cb), ccd);
 	
 	gtk_widget_show (composer);
 }	
@@ -1259,9 +1285,7 @@ mail_reply (CamelFolder *folder, CamelMimeMessage *msg, const char *uid, int mod
 	if (!composer)
 		return;
 	
-	ccd = g_new (struct _composer_callback_data, 1);
-	ccd->drafts_folder = NULL;
-	ccd->drafts_uid = NULL;
+	ccd = ccd_new ();
 	
 	camel_object_ref (folder);
 	ccd->folder = folder;
@@ -1276,7 +1300,7 @@ mail_reply (CamelFolder *folder, CamelMimeMessage *msg, const char *uid, int mod
 	gtk_signal_connect (GTK_OBJECT (composer), "save-draft",
 			    GTK_SIGNAL_FUNC (composer_save_draft_cb), ccd);
 	gtk_signal_connect (GTK_OBJECT (composer), "destroy",
-			    GTK_SIGNAL_FUNC (free_ccd), ccd);
+			    GTK_SIGNAL_FUNC (composer_destroy_cb), ccd);
 	
 	gtk_widget_show (GTK_WIDGET (composer));	
 	e_msg_composer_unset_changed (composer);
@@ -1354,20 +1378,14 @@ forward_get_composer (CamelMimeMessage *message, const char *subject)
 	
 	composer = e_msg_composer_new ();
 	if (composer) {
-		ccd = g_new (struct _composer_callback_data, 1);
-		ccd->drafts_folder = NULL;
-		ccd->drafts_uid = NULL;
-		ccd->folder = NULL;
-		ccd->uid = NULL;
-		ccd->flags = 0;
-		ccd->set = 0;
+		ccd = ccd_new ();
 		
 		gtk_signal_connect (GTK_OBJECT (composer), "send",
 				    GTK_SIGNAL_FUNC (composer_send_cb), ccd);
 		gtk_signal_connect (GTK_OBJECT (composer), "save-draft",
 				    GTK_SIGNAL_FUNC (composer_save_draft_cb), ccd);
 		gtk_signal_connect (GTK_OBJECT (composer), "destroy",
-				    GTK_SIGNAL_FUNC (free_ccd), ccd);
+				    GTK_SIGNAL_FUNC (composer_destroy_cb), ccd);
 		
 		e_msg_composer_set_headers (composer, account->name, NULL, NULL, NULL, subject);
 	} else {
@@ -1499,20 +1517,14 @@ post_to_url (const char *url)
 	
 	e_msg_composer_hdrs_set_post_to ((EMsgComposerHdrs *) ((EMsgComposer *) composer)->hdrs, url);
 	
-	ccd = g_new (struct _composer_callback_data, 1);
-	ccd->drafts_folder = NULL;
-	ccd->drafts_uid = NULL;
-	ccd->folder = NULL;
-	ccd->uid = NULL;
-	ccd->flags = 0;
-	ccd->set = 0;
+	ccd = ccd_new ();
 	
 	gtk_signal_connect (GTK_OBJECT (composer), "send",
 			    GTK_SIGNAL_FUNC (composer_send_cb), ccd);
 	gtk_signal_connect (GTK_OBJECT (composer), "save-draft",
 			    GTK_SIGNAL_FUNC (composer_save_draft_cb), ccd);
 	gtk_signal_connect (GTK_OBJECT (composer), "destroy",
-			    GTK_SIGNAL_FUNC (free_ccd), ccd);
+			    GTK_SIGNAL_FUNC (composer_destroy_cb), ccd);
 	
 	gtk_widget_show (composer);
 }
@@ -1578,20 +1590,14 @@ redirect_get_composer (CamelMimeMessage *message)
 	
 	composer = e_msg_composer_new_redirect (message, account->name);
 	if (composer) {
-		ccd = g_new (struct _composer_callback_data, 1);
-		ccd->drafts_folder = NULL;
-		ccd->drafts_uid = NULL;
-		ccd->folder = NULL;
-		ccd->uid = NULL;
-		ccd->flags = 0;
-		ccd->set = 0;
+		ccd = ccd_new ();
 		
 		gtk_signal_connect (GTK_OBJECT (composer), "send",
 				    GTK_SIGNAL_FUNC (composer_send_cb), ccd);
 		gtk_signal_connect (GTK_OBJECT (composer), "save-draft",
 				    GTK_SIGNAL_FUNC (composer_save_draft_cb), ccd);
 		gtk_signal_connect (GTK_OBJECT (composer), "destroy",
-				    GTK_SIGNAL_FUNC (free_ccd), ccd);
+				    GTK_SIGNAL_FUNC (composer_destroy_cb), ccd);
 	} else {
 		g_warning ("Could not create composer");
 	}
@@ -2295,26 +2301,19 @@ do_edit_messages (CamelFolder *folder, GPtrArray *uids, GPtrArray *messages, voi
 		composer = e_msg_composer_new_with_message (messages->pdata[i]);
 		
 		if (composer) {
-			ccd = g_new (struct _composer_callback_data, 1);
+			ccd = ccd_new ();
 			if (folder_browser_is_drafts (fb)) {
 				camel_object_ref (folder);
 				ccd->drafts_folder = folder;
 				ccd->drafts_uid = g_strdup (uids->pdata[i]);
-			} else {
-				ccd->drafts_folder = NULL;
-				ccd->drafts_uid = NULL;
 			}
-			ccd->folder = NULL;
-			ccd->uid = NULL;
-			ccd->flags = 0;
-			ccd->set = 0;
 			
 			gtk_signal_connect (GTK_OBJECT (composer), "send",
 					    GTK_SIGNAL_FUNC (composer_send_cb), ccd);
 			gtk_signal_connect (GTK_OBJECT (composer), "save-draft",
 					    GTK_SIGNAL_FUNC (composer_save_draft_cb), ccd);
 			gtk_signal_connect (GTK_OBJECT (composer), "destroy",
-					    GTK_SIGNAL_FUNC (free_ccd), ccd);
+					    GTK_SIGNAL_FUNC (composer_destroy_cb), ccd);
 			
 			gtk_widget_show (GTK_WIDGET (composer));
 		}

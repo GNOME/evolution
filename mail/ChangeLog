@@ -1,5 +1,23 @@
 2002-09-05  Jeffrey Stedfast  <fejj@ximian.com>
 
+	All this snot is to fix bug #29930. What I think was happening was
+	that the composer's destroy callback got fired off before the
+	async callback did.
+
+	* mail-callbacks.c (ccd_new): New convenience function to malloc a
+	new ccd.
+	(ccd_ref): ccd is now ref_counted (it needs to be) so we now have
+	this.
+	(ccd_unref): And we need this now too of course.
+	(composer_destroy_cb): composer's new destroy callback function -
+	unref's the ccd.
+	(composer_send_queued_cb): unref the ccd.
+	(composer_send_cb): ref the ccd here.
+	(save_draft_done): unref the ccd.
+	(composer_save_draft_cb): ref the ccd.
+
+2002-09-05  Jeffrey Stedfast  <fejj@ximian.com>
+
 	* upgrade-mailer.c (imap_url_upgrade): Hex decode the folder names
 	when searching for them in the memory buffer, and re-hex encode
 	them when combining them with the rst of the URL.
