@@ -489,7 +489,7 @@ etgc_set_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 		for (list = etgc->children; list; list = g_list_next (list)) {
 			ETableGroupContainerChildNode *child_node = (ETableGroupContainerChildNode *)list->data;
 			gtk_object_set (GTK_OBJECT(child_node->child),
-					"draw_grid", GTK_VALUE_BOOL (*arg),
+					"drawgrid", GTK_VALUE_BOOL (*arg),
 					NULL);
 		}
 		break;
@@ -499,7 +499,7 @@ etgc_set_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 		for (list = etgc->children; list; list = g_list_next (list)) {
 			ETableGroupContainerChildNode *child_node = (ETableGroupContainerChildNode *)list->data;
 			gtk_object_set (GTK_OBJECT(child_node->child),
-					"draw_focus", GTK_VALUE_BOOL (*arg),
+					"drawfocus", GTK_VALUE_BOOL (*arg),
 					NULL);
 		}
 		break;
@@ -509,7 +509,7 @@ etgc_set_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 		for (list = etgc->children; list; list = g_list_next (list)) {
 			ETableGroupContainerChildNode *child_node = (ETableGroupContainerChildNode *)list->data;
 			gtk_object_set (GTK_OBJECT(child_node->child),
-					"mode_spreadsheet", GTK_VALUE_BOOL (*arg),
+					"spreadsheet", GTK_VALUE_BOOL (*arg),
 					NULL);
 		}
 		break;

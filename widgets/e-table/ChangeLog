@@ -1,5 +1,9 @@
 2000-05-28  Christopher James Lahey  <clahey@helixcode.com>
 
+	* e-table-group-container.c: Fixed setting of arguments.
+
+2000-05-28  Christopher James Lahey  <clahey@helixcode.com>
+
 	* e-table-group-container.c, e-table-group-leaf.c,
 	e-table-group.c, e-table-group.h, e-table-item.c, e-table-item.h,
 	e-table.c, e-table.h: Added double click handling.
