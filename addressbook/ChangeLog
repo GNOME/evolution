@@ -1,5 +1,12 @@
 2001-05-18  Jon Trowbridge  <trow@ximian.com>
 
+	* gui/component/select-names/e-select-names-completion.c
+	(match_name): Do a better job constructing match strings, so we
+	never try to use a segment of the name that isn't there (resulting
+	in ugly (null)'s in the string).  Boost our score if some part of
+	the name also matches the front part of the e-mail address, so the
+	name match will always trump the e-mail match.
+
 	* gui/component/select-names/e-select-names-bonobo.c
 	(entry_get_property_fn): Return the serialized EDestinations
 	(rather than just a string w/ e-mail addresses) through the bonobo

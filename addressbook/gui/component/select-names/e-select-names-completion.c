@@ -275,8 +275,10 @@ match_name (ESelectNamesCompletion *comp, EDestination *dest, double *score)
 {
 	ECard *card;
 	gchar *cpy, **strv;
+	const gchar *email;
 	gint len, i, match_len = 0;
 	gint match = 0, first_match = 0;
+	gboolean have_given, have_additional, have_family;
 
 	card = e_destination_get_card (dest);
 	
@@ -293,6 +295,7 @@ match_name (ESelectNamesCompletion *comp, EDestination *dest, double *score)
 		len = strlen (strv[i]);
 
 		if (card->name->given
+		    && *card->name->given
 		    && !(match & MATCHED_GIVEN_NAME)
 		    && match_name_fragment (card->name->given, strv[i])) {
 
@@ -300,12 +303,14 @@ match_name (ESelectNamesCompletion *comp, EDestination *dest, double *score)
 
 		}
 		else if (card->name->additional
+			 && *card->name->additional
 			 && !(match & MATCHED_ADDITIONAL_NAME)
 			 && match_name_fragment (card->name->additional, strv[i])) {
 
 			this_match = MATCHED_ADDITIONAL_NAME;
 
 		} else if (card->name->family
+			   && *card->name->family
 			   && !(match & MATCHED_FAMILY_NAME)
 			   && match_name_fragment (card->name->family, strv[i])) {
 			
@@ -337,12 +342,57 @@ match_name (ESelectNamesCompletion *comp, EDestination *dest, double *score)
 			*score *= 100;
 	}
 
-	if (first_match == MATCHED_GIVEN_NAME)
-		return g_strdup_printf ("%s %s", card->name->given, card->name->family);
-	else if (first_match == MATCHED_ADDITIONAL_NAME)
-		return g_strdup_printf ("%s, %s %s", card->name->family, card->name->given, card->name->additional);
-	else if (first_match == MATCHED_FAMILY_NAME)
-		return g_strdup_printf ("%s, %s", card->name->family, card->name->given);
+	email = e_destination_get_email (dest);
+	if (email) {
+		/* Do the same for the email address. */
+		gchar *at = strchr (email, '@');
+		len = at ? at-email : strlen (email);
+		if ((card->name->given && !e_utf8_strncasecmp (card->name->given, email, MIN (strlen (card->name->given), len)))
+		    || (card->name->family && !e_utf8_strncasecmp (card->name->family, email, MIN (strlen (card->name->family), len)))
+		    || (card->name->additional && !e_utf8_strncasecmp (card->name->additional, email, MIN (strlen (card->name->additional), len))))
+			*score *= 100;
+	}
+
+	have_given       = card->name->given && *card->name->given;
+	have_additional  = card->name->additional && *card->name->additional;
+	have_family      = card->name->family && *card->name->family;
+
+	if (first_match == MATCHED_GIVEN_NAME) {
+
+		if (have_family)
+			return g_strdup_printf ("%s %s", card->name->given, card->name->family);
+		else
+			return g_strdup_printf (card->name->given);
+
+	} else if (first_match == MATCHED_ADDITIONAL_NAME) {
+
+		if (have_family) {
+			
+			return g_strdup_printf ("%s, %s%s%s",
+						card->name->family,
+						have_given ? card->name->given : "",
+						have_given ? " " : "",
+						card->name->additional);
+
+		} else {
+
+			return g_strdup_printf ("%s%s%s",
+						have_given ? card->name->given : "",
+						have_given ?  " " : "",
+						card->name->additional);
+
+		}
+
+	} else if (first_match == MATCHED_FAMILY_NAME) {
+
+		if (have_given)
+			return g_strdup_printf ("%s, %s %s",
+						card->name->family,
+						card->name->given,
+						have_additional ? card->name->additional : "");
+		else
+			return g_strdup_printf (card->name->family);
+	}
 	
 	return NULL;
 }
