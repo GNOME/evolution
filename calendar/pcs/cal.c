@@ -64,10 +64,10 @@ impl_Cal_get_uri (PortableServer_Servant servant,
 	return str_uri_copy;
 }
 
-/* Cal::is_read_only method */
+/* Cal::isReadOnly method */
 static CORBA_boolean
-impl_Cal_is_read_only (PortableServer_Servant servant,
-		       CORBA_Environment *ev)
+impl_Cal_isReadOnly (PortableServer_Servant servant,
+		     CORBA_Environment *ev)
 {
 	Cal *cal;
 	CalPrivate *priv;
@@ -78,10 +78,10 @@ impl_Cal_is_read_only (PortableServer_Servant servant,
 	return cal_backend_is_read_only (priv->backend);
 }
 		       
-/* Cal::get_email_address method */
+/* Cal::getEmailAddress method */
 static CORBA_char *
-impl_Cal_get_email_address (PortableServer_Servant servant,
-			    CORBA_Environment *ev)
+impl_Cal_getEmailAddress (PortableServer_Servant servant,
+			  CORBA_Environment *ev)
 {
 	Cal *cal;
 	CalPrivate *priv;
@@ -113,10 +113,11 @@ uncorba_obj_type (GNOME_Evolution_Calendar_CalObjType type)
 		| ((type & GNOME_Evolution_Calendar_TYPE_JOURNAL) ? CALOBJ_TYPE_JOURNAL : 0));
 }
 
+/* Cal::setMode method */
 static void
-impl_Cal_set_mode (PortableServer_Servant servant,
-		   GNOME_Evolution_Calendar_CalMode mode,
-		   CORBA_Environment *ev)
+impl_Cal_setMode (PortableServer_Servant servant,
+		  GNOME_Evolution_Calendar_CalMode mode,
+		  CORBA_Environment *ev)
 {
 	Cal *cal;
 	CalPrivate *priv;
@@ -127,11 +128,11 @@ impl_Cal_set_mode (PortableServer_Servant servant,
 	cal_backend_set_mode (priv->backend, mode);
 }
 
-/* Cal::get_n_objects method */
+/* Cal::countObjects method */
 static CORBA_long
-impl_Cal_get_n_objects (PortableServer_Servant servant,
-			GNOME_Evolution_Calendar_CalObjType type,
-			CORBA_Environment *ev)
+impl_Cal_countObjects (PortableServer_Servant servant,
+		       GNOME_Evolution_Calendar_CalObjType type,
+		       CORBA_Environment *ev)
 {
 	Cal *cal;
 	CalPrivate *priv;
@@ -146,11 +147,11 @@ impl_Cal_get_n_objects (PortableServer_Servant servant,
 	return n;
 }
 
-/* Cal::get_object method */
+/* Cal::getObject method */
 static GNOME_Evolution_Calendar_CalObj
-impl_Cal_get_object (PortableServer_Servant servant,
-		     const GNOME_Evolution_Calendar_CalObjUID uid,
-		     CORBA_Environment *ev)
+impl_Cal_getObject (PortableServer_Servant servant,
+		    const CORBA_char *uid,
+		    CORBA_Environment *ev)
 {
 	Cal *cal;
 	CalPrivate *priv;
@@ -200,11 +201,11 @@ build_uid_seq (GList *uids)
 	return seq;
 }
 
-/* Cal::get_uids method */
+/* Cal::getUIDs method */
 static GNOME_Evolution_Calendar_CalObjUIDSeq *
-impl_Cal_get_uids (PortableServer_Servant servant,
-		   GNOME_Evolution_Calendar_CalObjType type,
-		   CORBA_Environment *ev)
+impl_Cal_getUIDs (PortableServer_Servant servant,
+		  GNOME_Evolution_Calendar_CalObjType type,
+		  CORBA_Environment *ev)
 {
 	Cal *cal;
 	CalPrivate *priv;
@@ -225,12 +226,12 @@ impl_Cal_get_uids (PortableServer_Servant servant,
 	return seq;
 }
 
-/* Cal::get_changes method */
+/* Cal::getChanges method */
 static GNOME_Evolution_Calendar_CalObjChangeSeq *
-impl_Cal_get_changes (PortableServer_Servant servant,
-		      GNOME_Evolution_Calendar_CalObjType type,
-		      const CORBA_char *change_id,
-		      CORBA_Environment *ev)
+impl_Cal_getChanges (PortableServer_Servant servant,
+		     GNOME_Evolution_Calendar_CalObjType type,
+		     const CORBA_char *change_id,
+		     CORBA_Environment *ev)
 {
 	Cal *cal;
 	CalPrivate *priv;
@@ -244,13 +245,13 @@ impl_Cal_get_changes (PortableServer_Servant servant,
 	return cal_backend_get_changes (priv->backend, t, change_id);
 }
 
-/* Cal::get_objects_in_range method */
+/* Cal::getObjectsInRange method */
 static GNOME_Evolution_Calendar_CalObjUIDSeq *
-impl_Cal_get_objects_in_range (PortableServer_Servant servant,
-			       GNOME_Evolution_Calendar_CalObjType type,
-			       GNOME_Evolution_Calendar_Time_t start,
-			       GNOME_Evolution_Calendar_Time_t end,
-			       CORBA_Environment *ev)
+impl_Cal_getObjectsInRange (PortableServer_Servant servant,
+			    GNOME_Evolution_Calendar_CalObjType type,
+			    GNOME_Evolution_Calendar_Time_t start,
+			    GNOME_Evolution_Calendar_Time_t end,
+			    CORBA_Environment *ev)
 {
 	Cal *cal;
 	CalPrivate *priv;
@@ -305,13 +306,13 @@ build_fb_seq (GList *obj_list)
 	return seq;
 }
 
-/* Cal::get_free_busy method */
+/* Cal::getFreeBusy method */
 static GNOME_Evolution_Calendar_CalObjSeq *
-impl_Cal_get_free_busy (PortableServer_Servant servant,
-			const GNOME_Evolution_Calendar_UserList *user_list,
-			const GNOME_Evolution_Calendar_Time_t start,
-			const GNOME_Evolution_Calendar_Time_t end,
-			CORBA_Environment *ev)
+impl_Cal_getFreeBusy (PortableServer_Servant servant,
+		      const GNOME_Evolution_Calendar_UserList *user_list,
+		      const GNOME_Evolution_Calendar_Time_t start,
+		      const GNOME_Evolution_Calendar_Time_t end,
+		      CORBA_Environment *ev)
 {
 	Cal *cal;
 	CalPrivate *priv;
@@ -350,12 +351,12 @@ impl_Cal_get_free_busy (PortableServer_Servant servant,
         return seq;
 }
 
-/* Cal::get_alarms_in_range method */
+/* Cal::getAlarmsInRange method */
 static GNOME_Evolution_Calendar_CalComponentAlarmsSeq *
-impl_Cal_get_alarms_in_range (PortableServer_Servant servant,
-			      GNOME_Evolution_Calendar_Time_t start,
-			      GNOME_Evolution_Calendar_Time_t end,
-			      CORBA_Environment *ev)
+impl_Cal_getAlarmsInRange (PortableServer_Servant servant,
+			   GNOME_Evolution_Calendar_Time_t start,
+			   GNOME_Evolution_Calendar_Time_t end,
+			   CORBA_Environment *ev)
 {
 	Cal *cal;
 	CalPrivate *priv;
@@ -383,13 +384,13 @@ impl_Cal_get_alarms_in_range (PortableServer_Servant servant,
 	return seq;
 }
 
-/* Cal::get_alarms_for_object method */
+/* Cal::getAlarmsForObject method */
 static GNOME_Evolution_Calendar_CalComponentAlarms *
-impl_Cal_get_alarms_for_object (PortableServer_Servant servant,
-				const GNOME_Evolution_Calendar_CalObjUID uid,
-				GNOME_Evolution_Calendar_Time_t start,
-				GNOME_Evolution_Calendar_Time_t end,
-				CORBA_Environment * ev)
+impl_Cal_getAlarmsForObject (PortableServer_Servant servant,
+			     const CORBA_char *uid,
+			     GNOME_Evolution_Calendar_Time_t start,
+			     GNOME_Evolution_Calendar_Time_t end,
+			     CORBA_Environment * ev)
 {
 	Cal *cal;
 	CalPrivate *priv;
@@ -423,11 +424,11 @@ impl_Cal_get_alarms_for_object (PortableServer_Servant servant,
 	}
 }
 
-/* Cal::update_objects method */
+/* Cal::updateObjects method */
 static void
-impl_Cal_update_objects (PortableServer_Servant servant,
-			 const GNOME_Evolution_Calendar_CalObj calobj,
-			 CORBA_Environment *ev)
+impl_Cal_updateObjects (PortableServer_Servant servant,
+			const CORBA_char *calobj,
+			CORBA_Environment *ev)
 {
 	Cal *cal;
 	CalPrivate *priv;
@@ -452,11 +453,11 @@ impl_Cal_update_objects (PortableServer_Servant servant,
 	}
 }
 
-/* Cal::remove_object method */
+/* Cal::removeObject method */
 static void
-impl_Cal_remove_object (PortableServer_Servant servant,
-			const GNOME_Evolution_Calendar_CalObjUID uid,
-			CORBA_Environment *ev)
+impl_Cal_removeObject (PortableServer_Servant servant,
+		       const CORBA_char *uid,
+		       CORBA_Environment *ev)
 {
 	Cal *cal;
 	CalPrivate *priv;
@@ -481,12 +482,12 @@ impl_Cal_remove_object (PortableServer_Servant servant,
 	}
 }
 
-/* Cal::send_object method */
+/* Cal::sendObject method */
 static GNOME_Evolution_Calendar_CalObj
-impl_Cal_send_object (PortableServer_Servant servant,
-		      const GNOME_Evolution_Calendar_CalObj calobj,
-		      GNOME_Evolution_Calendar_UserList **user_list,
-		      CORBA_Environment *ev)
+impl_Cal_sendObject (PortableServer_Servant servant,
+		     const CORBA_char *calobj,
+		     GNOME_Evolution_Calendar_UserList **user_list,
+		     CORBA_Environment *ev)
 {
 	Cal *cal;
 	CalPrivate *priv;
@@ -530,10 +531,10 @@ impl_Cal_send_object (PortableServer_Servant servant,
 
 /* Cal::getQuery implementation */
 static GNOME_Evolution_Calendar_Query
-impl_Cal_get_query (PortableServer_Servant servant,
-		    const CORBA_char *sexp,
-		    GNOME_Evolution_Calendar_QueryListener ql,
-		    CORBA_Environment *ev)
+impl_Cal_getQuery (PortableServer_Servant servant,
+		   const CORBA_char *sexp,
+		   GNOME_Evolution_Calendar_QueryListener ql,
+		   CORBA_Environment *ev)
 {
 	Cal *cal;
 	CalPrivate *priv;
@@ -565,11 +566,11 @@ impl_Cal_get_query (PortableServer_Servant servant,
 	return query_copy;
 }
 
-/* Cal::set_default_timezone method */
+/* Cal::setDefaultTimezone method */
 static void
-impl_Cal_set_default_timezone (PortableServer_Servant servant,
-			       const GNOME_Evolution_Calendar_CalTimezoneObjUID tzid,
-			       CORBA_Environment *ev)
+impl_Cal_setDefaultTimezone (PortableServer_Servant servant,
+			     const CORBA_char *tzid,
+			     CORBA_Environment *ev)
 {
 	Cal *cal;
 	CalPrivate *priv;
@@ -585,11 +586,11 @@ impl_Cal_set_default_timezone (PortableServer_Servant servant,
 	}
 }
 
-/* Cal::get_timezone_object method */
+/* Cal::getTimezoneObject method */
 static GNOME_Evolution_Calendar_CalObj
-impl_Cal_get_timezone_object (PortableServer_Servant servant,
-			      const GNOME_Evolution_Calendar_CalTimezoneObjUID tzid,
-			      CORBA_Environment *ev)
+impl_Cal_getTimezoneObject (PortableServer_Servant servant,
+			    const CORBA_char *tzid,
+			    CORBA_Environment *ev)
 {
 	Cal *cal;
 	CalPrivate *priv;
@@ -746,23 +747,23 @@ cal_class_init (CalClass *klass)
 
 	/* Epv methods */
 	epv->_get_uri = impl_Cal_get_uri;
-	epv->isReadOnly = impl_Cal_is_read_only;
-	epv->getEmailAddress = impl_Cal_get_email_address;
-	epv->setMode = impl_Cal_set_mode;
-	epv->countObjects = impl_Cal_get_n_objects;
-	epv->getObject = impl_Cal_get_object;
-	epv->setDefaultTimezone = impl_Cal_set_default_timezone;
-	epv->getTimezoneObject = impl_Cal_get_timezone_object;
-	epv->getUIDs = impl_Cal_get_uids;
-	epv->getChanges = impl_Cal_get_changes;
-	epv->getObjectsInRange = impl_Cal_get_objects_in_range;
-	epv->getFreeBusy = impl_Cal_get_free_busy;
-	epv->getAlarmsInRange = impl_Cal_get_alarms_in_range;
-	epv->getAlarmsForObject = impl_Cal_get_alarms_for_object;
-	epv->updateObjects = impl_Cal_update_objects;
-	epv->removeObject = impl_Cal_remove_object;
-	epv->sendObject = impl_Cal_send_object; 
-	epv->getQuery = impl_Cal_get_query;
+	epv->isReadOnly = impl_Cal_isReadOnly;
+	epv->getEmailAddress = impl_Cal_getEmailAddress;
+	epv->setMode = impl_Cal_setMode;
+	epv->countObjects = impl_Cal_countObjects;
+	epv->getObject = impl_Cal_getObject;
+	epv->setDefaultTimezone = impl_Cal_setDefaultTimezone;
+	epv->getTimezoneObject = impl_Cal_getTimezoneObject;
+	epv->getUIDs = impl_Cal_getUIDs;
+	epv->getChanges = impl_Cal_getChanges;
+	epv->getObjectsInRange = impl_Cal_getObjectsInRange;
+	epv->getFreeBusy = impl_Cal_getFreeBusy;
+	epv->getAlarmsInRange = impl_Cal_getAlarmsInRange;
+	epv->getAlarmsForObject = impl_Cal_getAlarmsForObject;
+	epv->updateObjects = impl_Cal_updateObjects;
+	epv->removeObject = impl_Cal_removeObject;
+	epv->sendObject = impl_Cal_sendObject;
+	epv->getQuery = impl_Cal_getQuery;
 }
 
 

@@ -70,7 +70,7 @@ dialog_destroy_cb (GtkObject *object, gpointer data)
 	AlarmNotify *an;
 
 	an = data;
-	gtk_object_unref (GTK_OBJECT (an->xml));
+	g_object_unref (an->xml);
 	g_free (an);
 }
 
@@ -173,8 +173,7 @@ make_html_display (gchar *widget_name, char *s1, char *s2, int scroll, int shado
 {
 	GtkWidget *html, *frame;
 
-	gtk_widget_push_visual(gdk_rgb_get_visual());
-	gtk_widget_push_colormap(gdk_rgb_get_cmap());
+	gtk_widget_push_colormap (gdk_rgb_get_colormap ());
 
 	html = gtk_html_new();
 
@@ -182,12 +181,11 @@ make_html_display (gchar *widget_name, char *s1, char *s2, int scroll, int shado
 					   "charset=utf-8");
 	gtk_html_load_empty (GTK_HTML (html));
 
-	gtk_signal_connect (GTK_OBJECT (html), "url_requested",
-			    GTK_SIGNAL_FUNC (url_requested_cb),
-			    NULL);
+	g_signal_connect (html, "url_requested",
+			  G_CALLBACK (url_requested_cb),
+			  NULL);
 
 	gtk_widget_pop_colormap();
-	gtk_widget_pop_visual();
 
 	frame = e_scroll_frame_new(NULL, NULL);
 
@@ -199,13 +197,13 @@ make_html_display (gchar *widget_name, char *s1, char *s2, int scroll, int shado
 	e_scroll_frame_set_shadow_type (E_SCROLL_FRAME (frame),
 					GTK_SHADOW_IN);
 
-	gtk_widget_set_usize (frame, 300, 200);
+	gtk_widget_set_size_request (frame, 300, 200);
 
 	gtk_container_add(GTK_CONTAINER (frame), html);
 
 	gtk_widget_show_all(frame);
 
-	gtk_object_set_user_data(GTK_OBJECT (frame), html);
+	g_object_set_data (G_OBJECT (frame), "html", html);
 	return frame;
 }
 
@@ -349,19 +347,19 @@ alarm_notify_dialog (time_t trigger, time_t occur_start, time_t occur_end,
 	an->heading = glade_xml_get_widget (an->xml, "heading");
 	an->message = glade_xml_get_widget (an->xml, "message");
 	an->snooze_time = glade_xml_get_widget (an->xml, "snooze-time");
-	an->html = gtk_object_get_user_data (GTK_OBJECT (glade_xml_get_widget (an->xml, "frame")));
+	an->html = g_object_get_data (G_OBJECT (glade_xml_get_widget (an->xml, "frame")), "html");
 
 	if (!(an->dialog && an->close && an->snooze && an->edit && an->heading && an->message
 	      && an->snooze_time)) {
 		g_message ("alarm_notify_dialog(): Could not find all widgets in Glade file!");
-		gtk_object_unref (GTK_OBJECT (an->xml));
+		g_object_unref (an->xml);
 		g_free (an);
 		return FALSE;
 	}
 
-	gtk_object_set_data (GTK_OBJECT (an->dialog), "alarm-notify", an);
-	gtk_signal_connect (GTK_OBJECT (an->dialog), "destroy",
-			    GTK_SIGNAL_FUNC (dialog_destroy_cb), an);
+	g_signal_connect (an->dialog, "destroy",
+			  G_CALLBACK (dialog_destroy_cb),
+			  an);
 
 	/* Title */
 
@@ -381,21 +379,21 @@ alarm_notify_dialog (time_t trigger, time_t occur_start, time_t occur_end,
 
 	/* Connect actions */
 
-	gtk_signal_connect (GTK_OBJECT (an->dialog), "delete_event",
-			    GTK_SIGNAL_FUNC (delete_event_cb),
-			    an);
+	g_signal_connect (an->dialog, "delete_event",
+			  G_CALLBACK (delete_event_cb),
+			  an);
 
-	gtk_signal_connect (GTK_OBJECT (an->close), "clicked",
-			    GTK_SIGNAL_FUNC (close_clicked_cb),
-			    an);
+	g_signal_connect (an->close, "clicked",
+			  G_CALLBACK (close_clicked_cb),
+			  an);
 
-	gtk_signal_connect (GTK_OBJECT (an->snooze), "clicked",
-			    GTK_SIGNAL_FUNC (snooze_clicked_cb),
-			    an);
+	g_signal_connect (an->snooze, "clicked",
+			  G_CALLBACK (snooze_clicked_cb),
+			  an);
 
-	gtk_signal_connect (GTK_OBJECT (an->edit), "clicked",
-			    GTK_SIGNAL_FUNC (edit_clicked_cb),
-			    an);
+	g_signal_connect (an->edit, "clicked",
+			  G_CALLBACK (edit_clicked_cb),
+			  an);
 
 	/* Run! */
 

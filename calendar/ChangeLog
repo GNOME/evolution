@@ -1,3 +1,27 @@
+2002-11-12  Federico Mena Quintero  <federico@ximian.com>
+
+	* pcs/cal-backend-util.c: #include <string.h>
+
+	* pcs/cal.c: Fixed prototypes of the CORBA method implementations.
+
+	* pcs/cal-backend-file.c (cal_backend_file_dispose): Added a
+	dispose method.
+	(cal_backend_file_get_free_busy): Converted to use EConfigListener
+	rather than BonoboConfigDatabase.
+
+	* gui/alarm-notify/alarm-notify.c: #include <string.h>, fix use of
+	g_hash_table_lookup_extended().
+
+	* gui/alarm-notify/alarm-notify-dialog.c: Substitute deprecated
+	GTK+ functions for new ones.
+
+	* gui/alarm-notify/alarm-queue.c: Likewise.
+
+	* gui/alarm-notify/notify-main.c: #include <string.h>,
+	<gtk/gtkmain.h>.
+
+	* gui/alarm-notify/save.c: #include <string.h>.
+
 2002-11-08  Ettore Perazzoli  <ettore@ximian.com>
 
 	* gui/calendar-commands.c (calendar_control_deactivate): Use

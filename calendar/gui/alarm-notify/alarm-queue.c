@@ -941,7 +941,7 @@ alarm_queue_add_client (CalClient *client)
 	ca = g_new (ClientAlarms, 1);
 
 	ca->client = client;
-	gtk_object_ref (GTK_OBJECT (ca->client));
+	g_object_ref (ca->client);
 
 	ca->refcount = 1;
 	g_hash_table_insert (client_alarms_hash, client, ca);
@@ -949,13 +949,16 @@ alarm_queue_add_client (CalClient *client)
 	ca->uid_alarms_hash = g_hash_table_new (g_str_hash, g_str_equal);
 
 	if (cal_client_get_load_state (client) != CAL_CLIENT_LOAD_LOADED)
-		gtk_signal_connect (GTK_OBJECT (client), "cal_opened",
-				    GTK_SIGNAL_FUNC (cal_opened_cb), ca);
+		g_signal_connect (client, "cal_opened",
+				  G_CALLBACK (cal_opened_cb),
+				  ca);
 
-	gtk_signal_connect (GTK_OBJECT (client), "obj_updated",
-			    GTK_SIGNAL_FUNC (obj_updated_cb), ca);
-	gtk_signal_connect (GTK_OBJECT (client), "obj_removed",
-			    GTK_SIGNAL_FUNC (obj_removed_cb), ca);
+	g_signal_connect (client, "obj_updated",
+			  G_CALLBACK (obj_updated_cb),
+			  ca);
+	g_signal_connect (client, "obj_removed",
+			  G_CALLBACK (obj_removed_cb),
+			  ca);
 
 	if (cal_client_get_load_state (client) == CAL_CLIENT_LOAD_LOADED) {
 		load_alarms_for_today (ca);
@@ -1031,9 +1034,10 @@ alarm_queue_remove_client (CalClient *client)
 
 	/* Clean up */
 
-	gtk_signal_disconnect_by_data (GTK_OBJECT (ca->client), ca);
+	g_signal_handlers_disconnect_matched (ca->client, G_SIGNAL_MATCH_DATA,
+					      0, 0, NULL, NULL, ca);
 
-	gtk_object_unref (GTK_OBJECT (ca->client));
+	g_object_unref (ca->client);
 	ca->client = NULL;
 
 	g_hash_table_destroy (ca->uid_alarms_hash);

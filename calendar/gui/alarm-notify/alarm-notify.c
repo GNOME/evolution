@@ -22,6 +22,7 @@
 #include "config.h"
 #endif
 
+#include <string.h>
 #include <cal-client/cal-client.h>
 #include "alarm-notify.h"
 #include "alarm-queue.h"
@@ -293,6 +294,7 @@ AlarmNotify_removeCalendar (PortableServer_Servant servant,
 	LoadedClient *lc;
 	EUri *uri;
 	char *orig_str;
+	gpointer lc_ptr, orig_str_ptr;
 	gboolean found;
 
 	an = ALARM_NOTIFY (bonobo_object_from_servant (servant));
@@ -309,8 +311,11 @@ AlarmNotify_removeCalendar (PortableServer_Servant servant,
 	remove_uri_to_load (uri);
 
 	found = g_hash_table_lookup_extended (priv->uri_client_hash, str_uri,
-					      (gpointer *) &orig_str,
-					      (gpointer *) &lc);
+					      &orig_str_ptr,
+					      &lc_ptr);
+	orig_str = orig_str_ptr;
+	lc = lc_ptr;
+
 	e_uri_free (uri);
 
 	if (!lc) {
@@ -413,7 +418,7 @@ alarm_notify_add_calendar (AlarmNotify *an, const char *str_uri, gboolean load_a
 	EUri *uri;
 	CalClient *client;
 	LoadedClient *lc;
-	char *s;
+	gpointer lc_ptr, s_ptr;
 
 	g_return_if_fail (an != NULL);
 	g_return_if_fail (IS_ALARM_NOTIFY (an));
@@ -430,7 +435,12 @@ alarm_notify_add_calendar (AlarmNotify *an, const char *str_uri, gboolean load_a
 		return;
 	}
 
-	if (g_hash_table_lookup_extended (priv->uri_client_hash, str_uri, &s, &lc)) {
+	if (g_hash_table_lookup_extended (priv->uri_client_hash, str_uri, &s_ptr, &lc_ptr)) {
+		char *s;
+
+		lc = lc_ptr;
+		s = s_ptr;
+
 		g_hash_table_remove (priv->uri_client_hash, str_uri);
 
 		g_signal_handlers_disconnect_matched (G_OBJECT (lc->client),

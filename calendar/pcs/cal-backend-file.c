@@ -21,6 +21,7 @@
  */
 
 #include <config.h>
+#include <string.h>
 #include <bonobo/bonobo-exception.h>
 #include <bonobo/bonobo-moniker-util.h>
 #include <libgnomevfs/gnome-vfs.h>
@@ -73,7 +74,7 @@ struct _CalBackendFilePrivate {
 	GHashTable *removed_categories;
 
 	/* Config database handle for free/busy organizer information */
-	Bonobo_ConfigDatabase db;
+	EConfigListener *config_listener;
 	
 	/* Idle handler for saving the calendar when it is dirty */
 	guint idle_id;
@@ -87,6 +88,7 @@ struct _CalBackendFilePrivate {
 
 static void cal_backend_file_class_init (CalBackendFileClass *class);
 static void cal_backend_file_init (CalBackendFile *cbfile, CalBackendFileClass *class);
+static void cal_backend_file_dispose (GObject *object);
 static void cal_backend_file_finalize (GObject *object);
 
 static const char *cal_backend_file_get_uri (CalBackend *backend);
@@ -136,6 +138,7 @@ static gboolean cal_backend_file_set_default_timezone (CalBackend *backend,
 						       const char *tzid);
 
 static void notify_categories_changed (CalBackendFile *cbfile);
+static void notify_error (CalBackendFile *cbfile, const char *message);
 
 static CalBackendClass *parent_class;
 
@@ -185,6 +188,7 @@ cal_backend_file_class_init (CalBackendFileClass *class)
 
 	parent_class = (CalBackendClass *) g_type_class_peek_parent (class);
 
+	object_class->dispose = cal_backend_file_dispose;
 	object_class->finalize = cal_backend_file_finalize;
 
 	backend_class->get_uri = cal_backend_file_get_uri;
@@ -212,24 +216,6 @@ cal_backend_file_class_init (CalBackendFileClass *class)
 	backend_class->get_timezone = cal_backend_file_get_timezone;
 	backend_class->get_default_timezone = cal_backend_file_get_default_timezone;
 	backend_class->set_default_timezone = cal_backend_file_set_default_timezone;
-}
-
-static Bonobo_ConfigDatabase
-load_db (void)
-{
-	Bonobo_ConfigDatabase db = CORBA_OBJECT_NIL;
-	CORBA_Environment ev;
-
-	CORBA_exception_init (&ev);
- 
-	db = bonobo_get_object ("wombat:", "Bonobo/ConfigDatabase", &ev);
-	
-	if (BONOBO_EX (&ev))
-		db = CORBA_OBJECT_NIL;
-		
-	CORBA_exception_free (&ev);
-
-	return db;
 }
 
 static void
@@ -260,7 +246,7 @@ cal_backend_file_init (CalBackendFile *cbfile, CalBackendFileClass *class)
 	/* The timezone defaults to UTC. */
 	priv->default_zone = icaltimezone_get_utc_timezone ();
 
-	priv->db = load_db ();
+	priv->config_listener = e_config_listener_new ();
 	
 	g_signal_connect (G_OBJECT (cbfile), "cal_added",
 			  G_CALLBACK (cal_added_cb), NULL);
@@ -358,6 +344,52 @@ free_category_cb (gpointer key, gpointer value, gpointer data)
 	g_free (c);
 }
 
+/* Dispose handler for the file backend */
+static void
+cal_backend_file_dispose (GObject *object)
+{
+	CalBackendFile *cbfile;
+	CalBackendFilePrivate *priv;
+
+	cbfile = CAL_BACKEND_FILE (object);
+	priv = cbfile->priv;
+
+	/* Save if necessary */
+
+	if (priv->idle_id != 0) {
+		save (cbfile);
+		g_source_remove (priv->idle_id);
+		priv->idle_id = 0;
+	}
+
+	if (priv->comp_uid_hash) {
+		g_hash_table_foreach (priv->comp_uid_hash, 
+				      free_cal_component, NULL);
+		g_hash_table_destroy (priv->comp_uid_hash);
+		priv->comp_uid_hash = NULL;
+	}
+
+	g_list_free (priv->events);
+	g_list_free (priv->todos);
+	g_list_free (priv->journals);
+	priv->events = NULL;
+	priv->todos = NULL;
+	priv->journals = NULL;
+
+	if (priv->icalcomp) {
+		icalcomponent_free (priv->icalcomp);
+		priv->icalcomp = NULL;
+	}
+
+	if (priv->config_listener) {
+		g_object_unref (priv->config_listener);
+		priv->config_listener = NULL;
+	}
+
+	if (G_OBJECT_CLASS (parent_class)->dispose)
+		(* G_OBJECT_CLASS (parent_class)->dispose) (object);
+}
+
 /* Finalize handler for the file backend */
 static void
 cal_backend_file_finalize (GObject *object)
@@ -375,34 +407,12 @@ cal_backend_file_finalize (GObject *object)
 	clients = CAL_BACKEND (cbfile)->clients;
 	g_assert (clients == NULL);
 
-	/* Save if necessary */
-
-	if (priv->idle_id != 0) {
-		save (cbfile);
-		g_source_remove (priv->idle_id);
-		priv->idle_id = 0;
-	}
-
 	/* Clean up */
 
 	if (priv->uri) {
 	        g_free (priv->uri);
 		priv->uri = NULL;
 	}
-
-	if (priv->comp_uid_hash) {
-		g_hash_table_foreach (priv->comp_uid_hash, 
-				      free_cal_component, NULL);
-		g_hash_table_destroy (priv->comp_uid_hash);
-		priv->comp_uid_hash = NULL;
-	}
-
-	g_list_free (priv->events);
-	g_list_free (priv->todos);
-	g_list_free (priv->journals);
-	priv->events = NULL;
-	priv->todos = NULL;
-	priv->journals = NULL;
 
 	g_hash_table_foreach (priv->categories, free_category_cb, NULL);
 	g_hash_table_destroy (priv->categories);
@@ -412,14 +422,6 @@ cal_backend_file_finalize (GObject *object)
 	g_hash_table_destroy (priv->removed_categories);
 	priv->removed_categories = NULL;
 
-	if (priv->icalcomp) {
-		icalcomponent_free (priv->icalcomp);
-		priv->icalcomp = NULL;
-	}
-
-	bonobo_object_release_unref (priv->db, NULL);
-	priv->db = CORBA_OBJECT_NIL;
-	
 	g_free (priv);
 	cbfile->priv = NULL;
 
@@ -1406,7 +1408,7 @@ cal_backend_file_get_free_busy (CalBackend *backend, GList *users, time_t start,
 	g_return_val_if_fail (start <= end, NULL);
 
 	if (users == NULL) {
-		if (cal_backend_mail_account_get_default (priv->db, &address, &name)) {			
+		if (cal_backend_mail_account_get_default (priv->config_listener, &address, &name)) {
 			vfb = create_user_free_busy (cbfile, address, name, start, end);
 			calobj = icalcomponent_as_ical_string (vfb);
 			obj_list = g_list_append (obj_list, g_strdup (calobj));
@@ -1417,7 +1419,7 @@ cal_backend_file_get_free_busy (CalBackend *backend, GList *users, time_t start,
 	} else {
 		for (l = users; l != NULL; l = l->next ) {
 			address = l->data;			
-			if (cal_backend_mail_account_is_valid (priv->db, address, &name)) {
+			if (cal_backend_mail_account_is_valid (priv->config_listener, address, &name)) {
 				vfb = create_user_free_busy (cbfile, address, name, start, end);
 				calobj = icalcomponent_as_ical_string (vfb);
 				obj_list = g_list_append (obj_list, g_strdup (calobj));

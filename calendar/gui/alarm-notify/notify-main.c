@@ -23,6 +23,7 @@
 #include "config.h"
 #endif
 
+#include <string.h>
 #include <glib.h>
 #include <libgnome/gnome-i18n.h>
 #include <libgnome/gnome-init.h>
@@ -32,6 +33,7 @@
 #include <bonobo/bonobo-main.h>
 #include <bonobo/bonobo-generic-factory.h>
 #include <bonobo-activation/bonobo-activation.h>
+#include <gtk/gtkmain.h>
 #include "alarm.h"
 #include "alarm-queue.h"
 #include "alarm-notify.h"
@@ -159,8 +161,6 @@ load_calendars (gpointer user_data)
 int
 main (int argc, char **argv)
 {
-	free (malloc (8));
-
 	bindtextdomain (PACKAGE, EVOLUTION_LOCALEDIR);
 	textdomain (PACKAGE);
 

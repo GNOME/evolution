@@ -22,6 +22,7 @@
 #include <config.h>
 #endif
 
+#include <string.h>
 #include <bonobo/bonobo-arg.h>
 #include <bonobo/bonobo-exception.h>
 #include <bonobo/bonobo-moniker-util.h>
