@@ -3,19 +3,19 @@
 # Gaute Hvoslef Kvalnes <ai98ghk@stud.hib.no>, 2000.
 # Kjartan Maraas  <kmaraas@gnome.org>, 2001.
 # Roy-Magne Mo <rmo@sunnmore.net>, 2001
+# 
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution-0.11\n"
-"POT-Creation-Date: 2001-11-05 19:49-0500\n"
+"POT-Creation-Date: 2001-11-07 13:39+0100\n"
 "PO-Revision-Date: 2000-10-31 20:17+02:00\n"
 "Last-Translator: Roy-Magne Mo <rmo@sunnmore.net>\n"
-"Language-Team: Norwegian (Nynorsk)\n"
+"Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=iso-8859-1\n"
 "Content-Transfer-Encoding: 8bit\n"
 
 #: addressbook/backend/ebook/GNOME_Evolution_Addressbook_LDIF_Importer.oaf.in.h:1
-#, fuzzy
 msgid "Factory to import LDIF files into Evolution."
 msgstr "Øydelagd oppsettfil."
 
@@ -212,7 +212,7 @@ msgstr "E-post 3"
 #: addressbook/backend/ebook/e-card-simple.c:88
 #: addressbook/gui/widgets/e-addressbook-view.c:877
 msgid "Web Site"
-msgstr ""
+msgstr "Nettstad"
 
 #: addressbook/backend/ebook/e-card-simple.c:88
 msgid "Url"
@@ -281,12 +281,11 @@ msgstr "Ektefelle"
 #: addressbook/backend/ebook/e-card-simple.c:97
 #: addressbook/gui/widgets/e-addressbook-view.c:886
 msgid "Note"
-msgstr "Notat"
+msgstr "Merknad"
 
 #: addressbook/backend/ebook/e-card-simple.c:98
-#, fuzzy
 msgid "Calendar URI"
-msgstr "Skriv ut alle"
+msgstr "Kalendar URI"
 
 #: addressbook/backend/ebook/e-card-simple.c:98
 msgid "CALUri"
@@ -328,9 +327,8 @@ msgid "%x"
 msgstr "%x"
 
 #: addressbook/backend/ebook/e-card.c:3712
-#, fuzzy
 msgid "Card: "
-msgstr "Teikn"
+msgstr "Kort:"
 
 #: addressbook/backend/ebook/e-card.c:3714
 #, fuzzy
@@ -713,9 +711,8 @@ msgstr "Legg adresse til adresseboka"
 #: calendar/gui/dialogs/comp-editor-util.c:310
 #: calendar/gui/dialogs/comp-editor-util.c:366 shell/e-local-storage.c:172
 #: shell/e-shortcuts.c:1061
-#, fuzzy
 msgid "Contacts"
-msgstr "&Innhald ..."
+msgstr "Kontakter"
 
 #: addressbook/gui/component/addressbook-component.c:71
 #, fuzzy
@@ -723,9 +720,8 @@ msgid "Folder containing contact information"
 msgstr "Les filinformasjon"
 
 #: addressbook/gui/component/addressbook-component.c:73
-#, fuzzy
 msgid "LDAP Server"
-msgstr "Tenar:"
+msgstr "LDAP-tenar"
 
 #: addressbook/gui/component/addressbook-component.c:73
 #, fuzzy
@@ -734,9 +730,8 @@ msgstr "Les filinformasjon"
 
 #: addressbook/gui/component/addressbook-component.c:526
 #: ui/evolution-addressbook.xml.h:11
-#, fuzzy
 msgid "New Contact"
-msgstr "&Ny kontakt"
+msgstr "Ny kontakt"
 
 #: addressbook/gui/component/addressbook-component.c:526
 #, fuzzy
@@ -760,12 +755,11 @@ msgstr "KDE adressebok"
 
 #: addressbook/gui/component/addressbook-config.glade.h:1
 msgid "389"
-msgstr ""
+msgstr "389"
 
 #: addressbook/gui/component/addressbook-config.glade.h:2
-#, fuzzy
 msgid "Account Name"
-msgstr "Små ikon"
+msgstr "Kontonamn"
 
 #: addressbook/gui/component/addressbook-config.glade.h:3
 #, fuzzy
@@ -792,9 +786,8 @@ msgid "Basic"
 msgstr "Enkel"
 
 #: addressbook/gui/component/addressbook-config.glade.h:8
-#, fuzzy
 msgid "De_lete"
-msgstr "Slett"
+msgstr "S_lett"
 
 #: addressbook/gui/component/addressbook-config.glade.h:9
 msgid "Email Address:"
@@ -806,7 +799,6 @@ msgid ""
 msgstr ""
 
 #: addressbook/gui/component/addressbook-config.glade.h:11
-#, fuzzy
 msgid "One"
 msgstr "Ein"
 
@@ -865,9 +857,8 @@ msgid ""
 msgstr ""
 
 #: addressbook/gui/component/addressbook-config.glade.h:23
-#, fuzzy
 msgid "_Account name:"
-msgstr "Små ikon"
+msgstr "Konton_amn:"
 
 #: addressbook/gui/component/addressbook-config.glade.h:24
 #: addressbook/gui/contact-editor/contact-editor.glade.h:19
@@ -897,9 +888,8 @@ msgid "_Port:"
 msgstr "_Port:"
 
 #: addressbook/gui/component/addressbook-config.glade.h:28
-#, fuzzy
 msgid "_Server name:"
-msgstr "Lagra melding"
+msgstr "_Tenarnamn;"
 
 #: addressbook/gui/component/addressbook-factory.c:70
 #: calendar/gui/alarm-notify/notify-main.c:174 calendar/gui/main.c:134
@@ -908,9 +898,8 @@ msgid "Could not initialize gnome-vfs"
 msgstr "Kunne ikkje initiere Bonobo"
 
 #: addressbook/gui/component/addressbook-storage.c:167
-#, fuzzy
 msgid "Other Contacts"
-msgstr "Slett kolonne"
+msgstr "Andre kontakter"
 
 #: addressbook/gui/component/addressbook.c:468
 #, fuzzy
@@ -963,9 +952,8 @@ msgstr "Små ikon"
 
 #: addressbook/gui/component/addressbook.c:763
 #: calendar/gui/cal-search-bar.c:59
-#, fuzzy
 msgid "Category is"
-msgstr "Kategoriar"
+msgstr "Kategori er"
 
 #. We attach subitems below
 #: addressbook/gui/component/addressbook.c:764 widgets/misc/e-filter-bar.h:97
@@ -1015,9 +1003,8 @@ msgid "Add address to existing contact \"%s\""
 msgstr ""
 
 #: addressbook/gui/component/e-address-popup.c:891
-#, fuzzy
 msgid "Querying Addressbook..."
-msgstr "A&dressebok ..."
+msgstr "Spør a&dresseboka ..."
 
 #: addressbook/gui/component/e-address-popup.c:973
 #: addressbook/gui/component/e-address-widget.c:387
@@ -1177,8 +1164,9 @@ msgid "Ca_tegories..."
 msgstr "Kategoriar ..."
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:5
+#, fuzzy
 msgid "Collaboration"
-msgstr ""
+msgstr "Samarbeid"
 
 #. Construct the app
 #: addressbook/gui/contact-editor/contact-editor.glade.h:6
@@ -1234,9 +1222,8 @@ msgid "Wants to receive _HTML mail"
 msgstr ""
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:20
-#, fuzzy
 msgid "_Address..."
-msgstr "Adresse"
+msgstr "_Adresse ..."
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:21
 #, fuzzy
@@ -1275,19 +1262,16 @@ msgid "_Department:"
 msgstr "Avdeling:"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:27
-#, fuzzy
 msgid "_Full Name..."
-msgstr "Fullt namn"
+msgstr "_Fullt namn ..."
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:28
-#, fuzzy
 msgid "_Home"
-msgstr "Heim"
+msgstr "_Heim"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:29
-#, fuzzy
 msgid "_Job title:"
-msgstr "Jobb-tittel"
+msgstr "_Jobb-tittel:"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:30
 msgid "_Manager's Name:"
@@ -1302,9 +1286,8 @@ msgid "_Nickname:"
 msgstr "Kalle_namn:"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:33
-#, fuzzy
 msgid "_Office:"
-msgstr "K&ontor:"
+msgstr "K_ontor:"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:34
 #, fuzzy
@@ -1339,9 +1322,8 @@ msgid ""
 msgstr "Er du sikker på at du vil sletta denne klassen?"
 
 #: addressbook/gui/contact-editor/e-contact-editor-confirm-delete.glade.h:3
-#, fuzzy
 msgid "Delete Contact?"
-msgstr "Slett kolonne"
+msgstr "Slett kontakt?"
 
 #: addressbook/gui/contact-editor/e-contact-editor.c:755
 msgid "This contact belongs to these categories:"
@@ -1371,14 +1353,12 @@ msgstr "Rediger fil"
 
 #: addressbook/gui/contact-editor/e-contact-quick-add.c:326
 #: addressbook/gui/widgets/e-addressbook-view.c:850
-#, fuzzy
 msgid "Full Name"
 msgstr "Fullt namn"
 
 #: addressbook/gui/contact-editor/e-contact-quick-add.c:332
-#, fuzzy
 msgid "E-mail"
-msgstr "E-post 2"
+msgstr "E-post"
 
 #. This is a filename. Translators take note.
 #: addressbook/gui/contact-editor/e-contact-save-as.c:106
@@ -1403,17 +1383,16 @@ msgid "Address _2:"
 msgstr "Adresse"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:2
-#, fuzzy
 msgid "Afghanistan"
-msgstr "Namn på assistent"
+msgstr "Afganistan"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:3
 msgid "Albania"
-msgstr ""
+msgstr "Albania"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:4
 msgid "Algeria"
-msgstr ""
+msgstr "Algerie"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:5
 msgid "American Samoa"
@@ -1421,11 +1400,11 @@ msgstr ""
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:6
 msgid "Andorra"
-msgstr ""
+msgstr "Andorra"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:7
 msgid "Angola"
-msgstr ""
+msgstr "Angola"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:8
 msgid "Anguilla"
@@ -1481,12 +1460,10 @@ msgid "Barbados"
 msgstr ""
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:21
-#, fuzzy
 msgid "Belarus"
-msgstr "år"
+msgstr "Kviterussland"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:22
-#, fuzzy
 msgid "Belgium"
 msgstr "Belgia"
 
@@ -1542,7 +1519,6 @@ msgid "Brunei Darussalam"
 msgstr ""
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:35
-#, fuzzy
 msgid "Bulgaria"
 msgstr "Bulgaria"
 
@@ -1743,12 +1719,10 @@ msgid "Gambia"
 msgstr ""
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:83
-#, fuzzy
 msgid "Georgia"
 msgstr "Georgia"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:84
-#, fuzzy
 msgid "Germany"
 msgstr "Tyskland"
 
@@ -1854,12 +1828,10 @@ msgid "Italy"
 msgstr ""
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:108
-#, fuzzy
 msgid "Jamaica"
 msgstr "Jamaica"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:109
-#, fuzzy
 msgid "Japan"
 msgstr "Japansk"
 
@@ -2020,7 +1992,7 @@ msgstr "Personsøkjar"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:145
 msgid "Namibia"
-msgstr ""
+msgstr "Namibia"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:146
 msgid "Nauru"
@@ -2046,9 +2018,8 @@ msgid "New Caledonia"
 msgstr "&Ny kontakt"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:151
-#, fuzzy
 msgid "New Zealand"
-msgstr "New Zealand"
+msgstr "Ny Zealand"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:152
 msgid "Nicaragua"
@@ -2219,7 +2190,6 @@ msgid "Slovakia"
 msgstr ""
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:191
-#, fuzzy
 msgid "Slovenia"
 msgstr "Slovenia"
 
@@ -2309,7 +2279,6 @@ msgid "Tokelau"
 msgstr ""
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:211
-#, fuzzy
 msgid "Tonga"
 msgstr "Tonga"
 
@@ -2356,7 +2325,6 @@ msgid "United Arab Emirates"
 msgstr ""
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:222
-#, fuzzy
 msgid "United Kingdom"
 msgstr "Storbritannia"
 
@@ -2408,7 +2376,6 @@ msgid "Yemen"
 msgstr "Send"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:234
-#, fuzzy
 msgid "Yugoslavia"
 msgstr "Jugoslavia"
 
@@ -2421,9 +2388,8 @@ msgid "Zimbabwe"
 msgstr ""
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:237
-#, fuzzy
 msgid "_Address:"
-msgstr "Adresse"
+msgstr "_Adresse:"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:238
 #, fuzzy
@@ -2459,7 +2425,6 @@ msgid "Esq."
 msgstr ""
 
 #: addressbook/gui/contact-editor/fullname.glade.h:4
-#, fuzzy
 msgid "I"
 msgstr "I"
 
@@ -2469,11 +2434,11 @@ msgstr ""
 
 #: addressbook/gui/contact-editor/fullname.glade.h:6
 msgid "III"
-msgstr ""
+msgstr "III"
 
 #: addressbook/gui/contact-editor/fullname.glade.h:7
 msgid "Jr."
-msgstr ""
+msgstr "Jr."
 
 #: addressbook/gui/contact-editor/fullname.glade.h:8
 #, fuzzy
@@ -2490,11 +2455,11 @@ msgstr ""
 
 #: addressbook/gui/contact-editor/fullname.glade.h:11
 msgid "Ms."
-msgstr ""
+msgstr "Fr."
 
 #: addressbook/gui/contact-editor/fullname.glade.h:12
 msgid "Sr."
-msgstr ""
+msgstr "Sr."
 
 #: addressbook/gui/contact-editor/fullname.glade.h:13
 #, fuzzy
@@ -2517,9 +2482,8 @@ msgid "_Suffix:"
 msgstr "Etterstaving"
 
 #: addressbook/gui/contact-editor/fullname.glade.h:17
-#, fuzzy
 msgid "_Title:"
-msgstr "Tittel:"
+msgstr "_Tittel:"
 
 #: addressbook/gui/contact-list-editor/contact-list-editor.glade.h:1
 #, fuzzy
@@ -2541,7 +2505,7 @@ msgstr ""
 #: addressbook/gui/contact-list-editor/contact-list-editor.glade.h:6
 #: calendar/gui/dialogs/recurrence-page.glade.h:12 filter/filter.glade.h:10
 msgid "_Remove"
-msgstr "_Fjern"
+msgstr "Fje_rn"
 
 #: addressbook/gui/contact-list-editor/contact-list-editor.glade.h:7
 #, fuzzy
@@ -2901,9 +2865,8 @@ msgid "Bottom:"
 msgstr "Botn:"
 
 #: addressbook/printing/e-contact-print.glade.h:6
-#, fuzzy
 msgid "Dimensions:"
-msgstr "Dimensjonar"
+msgstr "Mål:"
 
 #: addressbook/printing/e-contact-print.glade.h:7
 #, fuzzy
@@ -3109,7 +3072,7 @@ msgstr "Låg"
 #: calendar/gui/dialogs/task-details-page.glade.h:13
 #: calendar/gui/e-calendar-table.c:408
 msgid "Undefined"
-msgstr ""
+msgstr "Udefinert"
 
 #: calendar/conduits/calendar/calendar-conduit.c:935
 #: calendar/conduits/todo/todo-conduit.c:647
@@ -3573,7 +3536,7 @@ msgstr "Køyr %s med desse arguenta:"
 #: calendar/gui/dialogs/alarm-options.glade.h:8 filter/filter-datespec.c:83
 #, fuzzy
 msgid "days"
-msgstr " dag"
+msgstr "dagar"
 
 #: calendar/gui/dialogs/alarm-options.glade.h:9
 #, fuzzy
@@ -3615,9 +3578,8 @@ msgid "%d hours"
 msgstr "time/timar"
 
 #: calendar/gui/dialogs/alarm-page.c:328
-#, fuzzy
 msgid "1 hour"
-msgstr "time/timar"
+msgstr "1 time"
 
 #: calendar/gui/dialogs/alarm-page.c:333
 #, fuzzy, c-format
@@ -3832,12 +3794,12 @@ msgstr "Fredag"
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:13
 #, fuzzy
 msgid "Hours"
-msgstr "time/timar"
+msgstr "Timar"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:14
 #, fuzzy
 msgid "Minutes"
-msgstr "minutt"
+msgstr "Minutt"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:15
 #: calendar/gui/dialogs/recurrence-page.c:959
@@ -3877,8 +3839,9 @@ msgstr "Sun"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:22
 #: calendar/gui/dialogs/recurrence-page.c:965
+#, fuzzy
 msgid "Sunday"
-msgstr "Sundag"
+msgstr "Søndag"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:23
 #, fuzzy
@@ -4421,8 +4384,9 @@ msgid "on"
 msgstr "Mån"
 
 #: calendar/gui/dialogs/recurrence-page.c:958 filter/filter-datespec.c:83
+#, fuzzy
 msgid "day"
-msgstr "dagen"
+msgstr "dag"
 
 #: calendar/gui/dialogs/recurrence-page.c:1088
 #, fuzzy
@@ -5393,9 +5357,8 @@ msgid "_Autopick"
 msgstr "Automatisk"
 
 #: calendar/gui/e-meeting-time-sel.c:562
-#, fuzzy
 msgid ">_>"
-msgstr ">>"
+msgstr ">_>"
 
 #: calendar/gui/e-meeting-time-sel.c:579
 #, fuzzy
@@ -5750,14 +5713,14 @@ msgid "Status: %s"
 msgstr "Status:"
 
 #: calendar/gui/print.c:2280
-#, fuzzy, c-format
+#, c-format
 msgid "Priority: %s"
-msgstr "Prioritet:"
+msgstr "Prioritet: %s"
 
 #: calendar/gui/print.c:2294
-#, fuzzy, c-format
+#, c-format
 msgid "Percent Complete: %i"
-msgstr "Ferdig"
+msgstr "Prosent ferdig: %i"
 
 #: calendar/gui/print.c:2306
 #, c-format
@@ -5765,9 +5728,9 @@ msgid "URL: %s"
 msgstr "URL: %s"
 
 #: calendar/gui/print.c:2320
-#, fuzzy, c-format
+#, c-format
 msgid "Categories: %s"
-msgstr "Kategoriar"
+msgstr "Kategoriar %s"
 
 #: calendar/gui/print.c:2331
 #, fuzzy
@@ -5775,9 +5738,8 @@ msgid "Contacts: "
 msgstr "&Innhald ..."
 
 #: calendar/gui/print.c:2386
-#, fuzzy
 msgid "Print Calendar"
-msgstr "Skriv ut alle"
+msgstr "Skriv ut kalendar"
 
 #: calendar/gui/print.c:2477 calendar/gui/print.c:2569
 #: mail/mail-callbacks.c:2352 my-evolution/e-summary.c:614
@@ -5791,9 +5753,8 @@ msgid "Print Item"
 msgstr "Utskriftssystem"
 
 #: calendar/gui/print.c:2587
-#, fuzzy
 msgid "Print Setup"
-msgstr "Speloppsett"
+msgstr "Utskriftoppsett"
 
 #: calendar/gui/tasks-control.c:126
 #, fuzzy
@@ -7964,9 +7925,8 @@ msgid "Warning!"
 msgstr "Flyttar"
 
 #: composer/e-msg-composer.c:892
-#, fuzzy
 msgid "File exists, overwrite?"
-msgstr "Loggfil eksisterer, overskriv?"
+msgstr "Fila eksisterar, skriv over?"
 
 #: composer/e-msg-composer.c:914
 #, fuzzy, c-format
@@ -8475,12 +8435,11 @@ msgstr "Rediger filterreglar"
 
 #: filter/filter.glade.h:4
 msgid "Incoming"
-msgstr ""
+msgstr "Innkomande"
 
 #: filter/filter.glade.h:5
-#, fuzzy
 msgid "Outgoing"
-msgstr "Oversikt"
+msgstr "Utgåande"
 
 #: filter/filter.glade.h:6 filter/vfolder-editor.c:130
 #, fuzzy
@@ -8581,8 +8540,9 @@ msgid "Draft"
 msgstr "Kladd"
 
 #: filter/libfilter-i18n.h:20
+#, fuzzy
 msgid "ends with"
-msgstr ""
+msgstr "sluttar med"
 
 #: filter/libfilter-i18n.h:21
 #, fuzzy
@@ -8712,8 +8672,9 @@ msgid "Specific header"
 msgstr ""
 
 #: filter/libfilter-i18n.h:48
+#, fuzzy
 msgid "starts with"
-msgstr ""
+msgstr "byrjar med"
 
 #: filter/libfilter-i18n.h:50
 msgid "Stop Processing"
@@ -9067,7 +9028,7 @@ msgstr "_Lagre som ..."
 
 #: mail/folder-browser.c:1487
 msgid "_Print"
-msgstr "_Skriv ut"
+msgstr "S_kriv ut"
 
 #: mail/folder-browser.c:1491 ui/evolution-mail-message.xml.h:103
 #, fuzzy
@@ -9251,9 +9212,8 @@ msgid "Could not save signature file."
 msgstr "Kunne ikkje laga kio-jobb.\n"
 
 #: mail/mail-account-gui.c:1039
-#, fuzzy
 msgid "Save signature"
-msgstr "Vis sig&natur"
+msgstr "Lagre signatur"
 
 #: mail/mail-account-gui.c:1045
 #, fuzzy
@@ -10069,9 +10029,8 @@ msgid "placeholder"
 msgstr "Bruk &plasshaldarar"
 
 #: mail/mail-config.glade.h:123
-#, fuzzy
 msgid "seconds."
-msgstr "sekund"
+msgstr "sekund."
 
 #: mail/mail-crypto.c:59
 #, fuzzy
@@ -10734,12 +10693,11 @@ msgstr "Melding"
 
 #: mail/message-list.etspec.h:2
 msgid "Flagged"
-msgstr ""
+msgstr "Flagga"
 
 #: mail/message-list.etspec.h:4
-#, fuzzy
 msgid "Received"
-msgstr "Motta"
+msgstr "Mottatt"
 
 #: mail/message-list.etspec.h:7
 msgid "Size"
@@ -11223,7 +11181,7 @@ msgstr "Moderat snø"
 #: my-evolution/metar.c:161
 #, fuzzy
 msgid "Heavy snow"
-msgstr "Overskriftsrader"
+msgstr "Tung snø"
 
 #: my-evolution/metar.c:162
 #, fuzzy
@@ -11330,7 +11288,7 @@ msgstr ""
 #: my-evolution/metar.c:189
 #, fuzzy
 msgid "Few ice crystals"
-msgstr "Færre kriterium"
+msgstr "Få iskrystallar"
 
 #: my-evolution/metar.c:190
 msgid "Moderate ice crystals"
@@ -11467,7 +11425,7 @@ msgstr "Kritisk feil"
 #: my-evolution/metar.c:225
 #, fuzzy
 msgid "Hailstorm"
-msgstr "Historie"
+msgstr "Haglstorm"
 
 #: my-evolution/metar.c:226
 #, fuzzy
@@ -11523,7 +11481,7 @@ msgstr ""
 #: my-evolution/metar.c:240
 #, fuzzy
 msgid "Small hailstorm"
-msgstr "Små steg:"
+msgstr "Liten haglstorm"
 
 #: my-evolution/metar.c:241
 #, fuzzy
@@ -11698,12 +11656,12 @@ msgstr "Lappar og anna"
 #: my-evolution/metar.c:284
 #, fuzzy
 msgid "Partial fog"
-msgstr "Katalog"
+msgstr "Delvis tåke"
 
 #: my-evolution/metar.c:286
 #, fuzzy
 msgid "Fog with wind"
-msgstr "Logg-vindauge"
+msgstr "Tåke med vind"
 
 #: my-evolution/metar.c:288
 #, fuzzy
@@ -11719,7 +11677,7 @@ msgstr "Skrifttype for helsing"
 #: my-evolution/metar.c:292
 #, fuzzy
 msgid "Smoke"
-msgstr "modem"
+msgstr "Røyk"
 
 #: my-evolution/metar.c:293
 msgid "Smoke in the vicinity"
@@ -11728,7 +11686,7 @@ msgstr ""
 #: my-evolution/metar.c:294
 #, fuzzy
 msgid "Thin smoke"
-msgstr "gjer trekk"
+msgstr "Tynn røyk"
 
 #: my-evolution/metar.c:295
 #, fuzzy
@@ -11763,7 +11721,7 @@ msgstr "Skiljeteikn for tusental:"
 #: my-evolution/metar.c:301
 #, fuzzy
 msgid "Smoke with wind"
-msgstr "&Slett avtale"
+msgstr "Røyk med vind"
 
 #: my-evolution/metar.c:303
 #, fuzzy
@@ -11772,8 +11730,9 @@ msgstr "&Teiknemodus"
 
 #. VOLCANIC_ASH
 #: my-evolution/metar.c:307
+#, fuzzy
 msgid "Volcanic ash"
-msgstr ""
+msgstr "Vulkansk oske"
 
 #: my-evolution/metar.c:308
 msgid "Volcanic ash in the vicinity"
@@ -11784,8 +11743,9 @@ msgid "Moderate volcanic ash"
 msgstr ""
 
 #: my-evolution/metar.c:311
+#, fuzzy
 msgid "Thick volcanic ash"
-msgstr ""
+msgstr "Tjukk vulkansk oske"
 
 #: my-evolution/metar.c:312
 msgid "Shallow volcanic ash"
@@ -12218,7 +12178,7 @@ msgstr ""
 #: my-evolution/metar.c:445
 #, fuzzy
 msgid "Moderate tornado"
-msgstr "moderert"
+msgstr "Moderat tornado"
 
 #: my-evolution/metar.c:446
 #, fuzzy
@@ -12729,8 +12689,9 @@ msgid "Filename:"
 msgstr "Filnamn:"
 
 #: shell/e-shell-importer.c:617
+#, fuzzy
 msgid "Select a file"
-msgstr "Vel fil"
+msgstr "Vel ei fil"
 
 #: shell/e-shell-importer.c:627
 msgid "File type:"
@@ -12982,9 +12943,8 @@ msgid "Show the shortcuts as large icons"
 msgstr ""
 
 #: shell/e-shortcuts-view.c:239
-#, fuzzy
 msgid "_New Group..."
-msgstr "Ny gruppe ..."
+msgstr "_Ny gruppe ..."
 
 #: shell/e-shortcuts-view.c:240
 #, fuzzy
@@ -13437,8 +13397,9 @@ msgid "Copy"
 msgstr "Kopier"
 
 #: ui/evolution-addressbook.xml.h:3 ui/evolution-calendar.xml.h:3
+#, fuzzy
 msgid "Copy the selection"
-msgstr "Kopier vald område"
+msgstr "Kopier utval"
 
 #: ui/evolution-addressbook.xml.h:4
 #, fuzzy
@@ -13494,7 +13455,7 @@ msgstr "Slett den valte oppgåva"
 #: ui/evolution-addressbook.xml.h:21
 #, fuzzy
 msgid "Select All"
-msgstr "Vel mappe"
+msgstr "Vel alle"
 
 #: ui/evolution-addressbook.xml.h:22
 #, fuzzy
@@ -13732,7 +13693,7 @@ msgstr "Slett denne adressa"
 #: ui/evolution-comp-editor.xml.h:5 ui/evolution-contact-editor.xml.h:3
 #, fuzzy
 msgid "Delete this item"
-msgstr "Slett denne adressa"
+msgstr "Slett dette elementet"
 
 #: ui/evolution-comp-editor.xml.h:6 ui/evolution-mail-messagedisplay.xml.h:3
 #: ui/evolution.xml.h:16
@@ -13792,8 +13753,9 @@ msgstr "Private meldingar"
 #: ui/evolution-contact-editor.xml.h:7
 #: ui/evolution-contact-list-editor.xml.h:6
 #: ui/evolution-message-composer.xml.h:21
+#, fuzzy
 msgid "Save _As..."
-msgstr "Lagre _som ..."
+msgstr "L_agre som ..."
 
 #: ui/evolution-contact-editor.xml.h:9
 msgid "Save the contact and close the dialog box"
@@ -13807,14 +13769,12 @@ msgid "_Save"
 msgstr "_Lagre"
 
 #: ui/evolution-contact-list-editor.xml.h:3
-#, fuzzy
 msgid "Delete this list"
-msgstr "Slett denne adressa"
+msgstr "Slett denne lista"
 
 #: ui/evolution-contact-list-editor.xml.h:4
-#, fuzzy
 msgid "Delete..."
-msgstr "Slett"
+msgstr "Slett ..."
 
 #: ui/evolution-contact-list-editor.xml.h:7
 msgid "Save the list and close the dialog box"
@@ -13986,8 +13946,9 @@ msgid "Copy selected messages"
 msgstr "Sentrer dei valte elementa"
 
 #: ui/evolution-mail-list.xml.h:3
+#, fuzzy
 msgid "Cu_t"
-msgstr "K_lipp"
+msgstr "Klipp u_t"
 
 #: ui/evolution-mail-list.xml.h:4
 #, fuzzy
@@ -14232,9 +14193,8 @@ msgid "Force images in HTML mail to be loaded"
 msgstr ""
 
 #: ui/evolution-mail-message.xml.h:30
-#, fuzzy
 msgid "Forward"
-msgstr "Framover"
+msgstr "Vidaresend"
 
 #: ui/evolution-mail-message.xml.h:31
 #, fuzzy
@@ -14331,7 +14291,6 @@ msgid "Move selected messages to another folder"
 msgstr "Lagra side til ascii-fil"
 
 #: ui/evolution-mail-message.xml.h:53
-#, fuzzy
 msgid "Next"
 msgstr "Neste"
 
@@ -14536,16 +14495,16 @@ msgid "_Tools"
 msgstr "_Verkty"
 
 #: ui/evolution-mail-messagedisplay.xml.h:2 ui/evolution.xml.h:5
-#, fuzzy
 msgid "Close this window"
-msgstr "&Slett avtale"
+msgstr "Lukk vindauge"
 
 #: ui/evolution-mail-messagedisplay.xml.h:5
 #: ui/evolution-message-composer.xml.h:45
 #: ui/evolution-signature-editor.xml.h:6 ui/evolution-subscribe.xml.h:9
 #: ui/evolution.xml.h:33
+#, fuzzy
 msgid "_Close"
-msgstr "_Lukk"
+msgstr "L_ukk"
 
 #: ui/evolution-mail-messagedisplay.xml.h:8
 #: ui/evolution-message-composer.xml.h:55 ui/evolution.xml.h:50
@@ -14555,7 +14514,7 @@ msgstr "_Vis"
 #: ui/evolution-message-composer.xml.h:1
 #, fuzzy
 msgid "Attach"
-msgstr "&Legg ved"
+msgstr "Kople til"
 
 #: ui/evolution-message-composer.xml.h:4 ui/evolution-signature-editor.xml.h:2
 msgid "Close the current file"
@@ -14622,8 +14581,9 @@ msgid "S/MIME Sign"
 msgstr ""
 
 #: ui/evolution-message-composer.xml.h:20
+#, fuzzy
 msgid "Save As"
-msgstr "Lagra som"
+msgstr "Lagre som"
 
 #: ui/evolution-message-composer.xml.h:22
 msgid "Save _Draft"
@@ -14774,7 +14734,7 @@ msgstr "Mapper"
 #: ui/evolution-subscribe.xml.h:3
 #, fuzzy
 msgid "Refresh List"
-msgstr "Frisk &opp liste"
+msgstr "Frisk opp liste"
 
 #: ui/evolution-subscribe.xml.h:4
 msgid "Refresh List of Folders"
@@ -15065,9 +15025,8 @@ msgid "By Company"
 msgstr "Firma"
 
 #: views/addressbook/galview.xml.h:3
-#, fuzzy
 msgid "Phone List"
-msgstr "Telefonliste:"
+msgstr "Telefonliste"
 
 #: views/mail/galview.xml.h:1
 #, fuzzy
@@ -15103,9 +15062,8 @@ msgid "Selection:"
 msgstr "Utval:"
 
 #: widgets/e-timezone-dialog/e-timezone-dialog.glade.h:3
-#, fuzzy
 msgid "Time Zones"
-msgstr "Tidssone"
+msgstr "Tidssoner"
 
 #: widgets/e-timezone-dialog/e-timezone-dialog.glade.h:4
 msgid ""
@@ -15182,7 +15140,6 @@ msgid "Korean"
 msgstr "Koreansk"
 
 #: widgets/misc/e-charset-picker.c:65
-#, fuzzy
 msgid "Turkish"
 msgstr "Tyrkisk"
 
@@ -15195,14 +15152,12 @@ msgid "Western European"
 msgstr "Vesteuropeisk"
 
 #: widgets/misc/e-charset-picker.c:84
-#, fuzzy
 msgid "Traditional"
-msgstr "Tradisjonell KMail"
+msgstr "Tradisjonell"
 
 #: widgets/misc/e-charset-picker.c:85 widgets/misc/e-charset-picker.c:86
-#, fuzzy
 msgid "Simplified"
-msgstr "Forenkla kinesisk"
+msgstr "Forenkla"
 
 #: widgets/misc/e-charset-picker.c:90
 msgid "Ukrainian"
