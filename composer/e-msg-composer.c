@@ -266,13 +266,25 @@ build_message (EMsgComposer *composer)
 	}
 	
 	plain = get_text (composer->persist_stream_interface, "text/plain");
+
+	/* the component has probably died */ 
+	if (plain == NULL)
+		return NULL;
+
 	fmt = format_text (plain);
 	e8bit = is_8bit (fmt);
 	g_free (plain);
 	
-	if (type != MSG_FORMAT_PLAIN)
+	if (type != MSG_FORMAT_PLAIN) {
 		html = get_text (composer->persist_stream_interface, "text/html");
-	
+		
+		/* the component has probably died */ 
+		if (html == NULL) {
+			g_free (fmt);
+			return NULL;
+		}
+	}
+
 	if (type == MSG_FORMAT_ALTERNATIVE) {
 		body = camel_multipart_new ();
 		camel_data_wrapper_set_mime_type (CAMEL_DATA_WRAPPER (body),
