@@ -61,7 +61,7 @@ control_activate (BonoboControl *control, BonoboUIHandler *uih,
 
 	folder_browser = bonobo_control_get_widget (control);
 
-	bonobo_ui_handler_menu_new_item (uih, "/Tools/Expunge", N_("_Expunge"),
+	bonobo_ui_handler_menu_new_item (uih, "/Actions/Expunge", N_("_Expunge"),
 					 NULL, -1,
 					 BONOBO_UI_HANDLER_PIXMAP_STOCK,
 					 GNOME_STOCK_PIXMAP_TRASH,
@@ -123,7 +123,7 @@ control_deactivate (BonoboControl *control, BonoboUIHandler *uih,
 	char *toolbar_name = g_strdup_printf ("/Toolbar%d", fb->serial);
 
 	bonobo_ui_handler_menu_remove (uih, "/File/Mail");
-	bonobo_ui_handler_menu_remove (uih, "/Tools/Expunge");
+	bonobo_ui_handler_menu_remove (uih, "/Actions/Expunge");
 	bonobo_ui_handler_menu_remove (uih, "/Tools/Filter Druid ...");
 	bonobo_ui_handler_menu_remove (uih, "/Tools/Virtual Folder Druid ...");
 	bonobo_ui_handler_menu_remove (uih, "/Tools/Mail Configuration ...");
