@@ -1,3 +1,10 @@
+2000-09-20  JP Rosevear  <jpr@helixcode.com>
+
+	* pcs/cal-backend.c (cal_backend_log_sax_start_element): Properly
+	assign the CalObjChange type.
+	(cal_backend_log_sax_parse): Delete
+	(cal_backend_get_log_entries): Use xmlSAXUserParseFile
+
 2000-09-19  JP Rosevear  <jpr@helixcode.com>
 
 	* pcs/cal-backend.c (cal_backend_set_uri): New utility function

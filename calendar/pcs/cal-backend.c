@@ -41,8 +41,8 @@ static void cal_backend_class_init (CalBackendClass *class);
 static void cal_backend_init (CalBackend *backend);
 static gboolean cal_backend_log_sync (CalBackend *backend);
 static GHashTable *cal_backend_get_log_entries (CalBackend *backend, 
-						time_t since, 
-						CalObjType type);
+						CalObjType type,
+						time_t since);
 
 static GtkObjectClass *parent_class;
 
@@ -576,11 +576,9 @@ cal_backend_log_sync (CalBackend *backend)
 }
 
 static void
-cal_backend_log_sax_start_element (void *data, const xmlChar *name, 
-				   const xmlChar **attrs)
+cal_backend_log_sax_start_element (CalBackendParseState *state, const CHAR *name, 
+				   const CHAR **attrs)
 {
-	CalBackendParseState *state = (CalBackendParseState *)data;
-	
 	if (!strcmp (name, "timestamp")) {
 		while (attrs && *attrs != NULL) {
 			const xmlChar **val = attrs;
@@ -616,88 +614,80 @@ cal_backend_log_sax_start_element (void *data, const xmlChar *name,
 					cot = CALOBJ_TYPE_TODO;
 			}
 
-			if (!strcmp (*attrs, "operation"))
-				coc->type = atoi (*val);
-				
+			if (!strcmp (*attrs, "operation")) {
+				if (!strcmp (*val, "updated"))
+					coc->type = CALOBJ_UPDATED;
+				else if (!strcmp (*val, "removed"))
+					coc->type = CALOBJ_REMOVED;
+			}
+			
 			attrs = ++val;
 		}
-			
+
 		if (state->type == CALOBJ_TYPE_ANY || state->type == cot)
 			g_hash_table_insert (state->hash, coc->uid, coc);
 	}
 }
 
 static void
-cal_backend_log_sax_end_element (void *data, const xmlChar *name)
+cal_backend_log_sax_end_element (CalBackendParseState *state, const CHAR *name)
 {
-	CalBackendParseState *state = (CalBackendParseState *)data;
-	
 	if (!strcmp (name, "timestamp")) {
 		state->in_valid_timestamp = FALSE;
 	}
 }
 
-static int
-cal_backend_log_sax_parse (CalBackend *backend, xmlSAXHandler *handler, 
-			   CalBackendParseState *state)
-{
-	int ret = 0;
-	xmlParserCtxtPtr ctxt;
-	char *filename;
-
-	g_return_val_if_fail (backend->uri != NULL, -1);
-	
-	filename = cal_backend_log_name (backend->uri);
-
-	if (!g_file_exists (filename))
-		return 0;
-	
-	ctxt = xmlCreateFileParserCtxt (filename);
-	if (ctxt == NULL) 
-		return -1;
-
-	ctxt->sax = handler;
-	ctxt->userData = (void *)state;
-	
-	xmlParseDocument (ctxt);
-	
-	if (ctxt->wellFormed)
-		ret = 0;
-	else
-		ret = -1;
-
-	if (handler != NULL)
-		ctxt->sax = NULL;
-	xmlFreeParserCtxt(ctxt);
-     
-	return ret;
-}
+static xmlSAXHandler logSAXParser = {
+    0, /* internalSubset */
+    0, /* isStandalone */
+    0, /* hasInternalSubset */
+    0, /* hasExternalSubset */
+    0, /* resolveEntity */
+    0, /* getEntity */
+    0, /* entityDecl */
+    0, /* notationDecl */
+    0, /* attributeDecl */
+    0, /* elementDecl */
+    0, /* unparsedEntityDecl */
+    0, /* setDocumentLocator */
+    0, /* startDocument */
+    0, /* endDocument */
+    (startElementSAXFunc)cal_backend_log_sax_start_element, /* startElement */
+    (endElementSAXFunc)cal_backend_log_sax_end_element, /* endElement */
+    0, /* reference */
+    0, /* characters */
+    0, /* ignorableWhitespace */
+    0, /* processingInstruction */
+    0, /* comment */
+    0, /* warning */
+    0, /* error */
+    0, /* fatalError */
+};
 
 static GHashTable *
-cal_backend_get_log_entries (CalBackend *backend, time_t since, 
-			     CalObjType type)
+cal_backend_get_log_entries (CalBackend *backend, CalObjType type, time_t since)
 {
-	xmlSAXHandler handler;
 	CalBackendParseState state;
 	GHashTable *hash;
-	
+	char *filename;
+
 	g_return_val_if_fail (backend != NULL, NULL);
+	g_return_val_if_fail (backend->uri != NULL, NULL);
 	g_return_val_if_fail (IS_CAL_BACKEND (backend), NULL);
 
 	if (!cal_backend_log_sync (backend))
 		return NULL;
 
+	filename = cal_backend_log_name (backend->uri);	
+
 	hash = g_hash_table_new (g_str_hash, g_str_equal);
 	
-	memset(&handler, 0, sizeof(xmlSAXHandler));
-	handler.startElement = cal_backend_log_sax_start_element;
-	handler.endElement = cal_backend_log_sax_end_element;
-
 	state.type = type;
 	state.since = since;
+	state.in_valid_timestamp = FALSE;
 	state.hash = hash;
 
-	if (cal_backend_log_sax_parse (backend, &handler, &state) < 0)
+	if (xmlSAXUserParseFile (&logSAXParser, &state, filename) < 0)
 		return NULL;
 	
 	return hash;
