@@ -9,6 +9,7 @@ MACROS=						\
   gnome-guile-checks.m4				\
   gnome-libgtop-check.m4			\
   gnome-objc-checks.m4				\
+  gnome-orbit-check.m4				\
   gnome-pthread-check.m4			\
   gnome-support.m4				\
   gnome-undelfs.m4				\
