@@ -1,3 +1,12 @@
+2000-06-12  Jeffrey Stedfast  <fejj@helixcode.com>
+
+	* mail-config.c: Got rid of sources_max_row and identities_max_row
+	as they are not really needed (just use clist->rows)
+	(on_cmdSourcesEdit_clicked): Modified to make 'source'
+	point to the data being edited.
+	(on_cmdSourcesAdd_clicked): Adds a new clist item and selects it so the
+	editor knows where to stick the data when it's done.
+
 2000-06-12  Federico Mena Quintero  <federico@helixcode.com>
 
 	* message-list.c: Removed the ETableModel thaw handler.

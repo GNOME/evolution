@@ -1220,9 +1220,7 @@ mail_config_druid (void)
 }
 
 static gint identity_row = -1;
-static gint identity_max_row = -1;
 static gint source_row = -1;
-static gint source_max_row = -1;
 
 struct identity_dialog_data {
 	GtkWidget *clist;
@@ -1258,11 +1256,12 @@ static void
 on_cmdIdentityConfigDialogCancel_clicked (GtkWidget *dialog, gpointer user_data)
 {
 	struct identity_dialog_data *data = user_data;
+	int max_row;
 	
 	if (data && data->new_entry) {
 		gtk_clist_remove (GTK_CLIST (data->clist), identity_row);
-		identity_max_row--;
-		identity_row = identity_row > identity_max_row ? identity_max_row : identity_row;
+                max_row = GTK_CLIST (data->clist)->rows - 1;
+		identity_row = identity_row > max_row ? max_row : identity_row;
 		gtk_clist_select_row (GTK_CLIST (data->clist), identity_row, 0);
 	}
 }
@@ -1379,6 +1378,7 @@ on_SourceConfigDialogButton_clicked (GnomeDialog *dialog, int button, gpointer u
 	struct source_dialog_data *data = user_data;
 	GtkWidget *vbox;
 	GtkWidget *notebook;
+	int max_row;
 
 	switch (button) {
 	case 0: /* OK clicked */
@@ -1395,8 +1395,8 @@ on_SourceConfigDialogButton_clicked (GnomeDialog *dialog, int button, gpointer u
 		g_print ("Cancel clicked\n");
 		if (data && data->new_entry) {
 			gtk_clist_remove (GTK_CLIST (data->clist), source_row);
-			source_max_row--;
-			source_row = source_row > source_max_row ? source_max_row : source_row;
+			max_row = GTK_CLIST (data->clist)->rows - 1;
+			source_row = source_row > max_row ? max_row : source_row;
 			gtk_clist_select_row (GTK_CLIST (data->clist), source_row, 0);
 		}
 		break;
@@ -1447,6 +1447,7 @@ create_source_config_dialog (gboolean edit_mode, char **sourcep, GtkWidget *clis
 	gtk_widget_set_name (config_dialog, "config_dialog");
 	gtk_object_set_data (GTK_OBJECT (config_dialog), "config_dialog", config_dialog);
 	gtk_window_set_policy (GTK_WINDOW (config_dialog), TRUE, TRUE, FALSE);
+	gtk_window_set_default_size (GTK_WINDOW (config_dialog), 380, 450);
 	
 	dialog_vbox1 = GNOME_DIALOG (config_dialog)->vbox;
 	gtk_widget_set_name (dialog_vbox1, "dialog_vbox1");
@@ -1530,8 +1531,7 @@ on_cmdIdentityAdd_clicked (GtkWidget *widget, gpointer user_data)
 	if (identity_row > -1)
 		gtk_clist_unselect_row (GTK_CLIST (user_data), identity_row, 0);
 
-	identity_max_row++;
-	gtk_clist_select_row (GTK_CLIST (user_data), identity_max_row, 0);
+	gtk_clist_select_row (GTK_CLIST (user_data), GTK_CLIST (user_data)->rows - 1, 0);
 
 	/* now create the editing dialog */
 	dialog = create_identity_config_dialog (FALSE, &idrec, GTK_WIDGET (user_data));
@@ -1584,13 +1584,12 @@ on_cmdSourcesAdd_clicked (GtkWidget *widget, gpointer user_data)
 	char *text[] = { "" };
 
 	gtk_clist_append (GTK_CLIST (user_data), text);
-	source_max_row++;
 
 	if (source_row > -1)
 		gtk_clist_unselect_row (GTK_CLIST (user_data), source_row, 0);
-	
-	gtk_clist_select_row (GTK_CLIST (user_data), source_max_row, 0);
 
+	gtk_clist_select_row (GTK_CLIST (user_data), GTK_CLIST (user_data)->rows - 1, 0);
+	
 	/* now create the editing dialog */
 	dialog = create_source_config_dialog (FALSE, &source, GTK_WIDGET (user_data));
 	gtk_widget_show (dialog);
@@ -1610,8 +1609,8 @@ on_cmdSourcesEdit_clicked (GtkWidget *widget, gpointer user_data)
 		return;
 
 	sourcep = gtk_clist_get_row_data (GTK_CLIST (user_data), source_row);
-	if (!sourcep) {
-		sourcep = source;
+	if (sourcep) {
+		source = sourcep;
 	}
 
 	/* now create the editing dialog */
@@ -1736,6 +1735,7 @@ providers_config_new (void)
 	gtk_widget_set_name (providers_config, "providers_config");
 	gtk_object_set_data (GTK_OBJECT (providers_config), "providers_config", providers_config);
 	gtk_window_set_policy (GTK_WINDOW (providers_config), TRUE, TRUE, FALSE);
+	gtk_window_set_default_size (GTK_WINDOW (providers_config), 460, 340);
 
 	dialog_vbox1 = GNOME_DIALOG (providers_config)->vbox;
 	gtk_widget_set_name (dialog_vbox1, "dialog_vbox1");
@@ -1789,7 +1789,6 @@ providers_config_new (void)
 
 		/* add an entry to the identity clist */
 		gtk_clist_append (GTK_CLIST (clistIdentities), text);
-		identity_max_row = 0;
 
 		path = g_strdup_printf ("=%s/config=/mail/id_name", evolution_dir);
 		idrec.name = gnome_config_get_string (path);
@@ -1817,8 +1816,6 @@ providers_config_new (void)
 		data->organization = g_strdup (idrec.organization);
 		data->sigfile = g_strdup (idrec.sigfile);
 		gtk_clist_set_row_data (GTK_CLIST (clistIdentities), 0, data);
-	} else {
-		identity_max_row = -1;
 	}
 
 
@@ -1913,12 +1910,9 @@ providers_config_new (void)
 		char *text[] = { "" };
 
 		gtk_clist_append (GTK_CLIST (clistSources), text);
-		source_max_row = 0;
 
 		gtk_clist_set_text (GTK_CLIST (clistSources), 0, 0, source);
 		gtk_clist_set_row_data (GTK_CLIST (clistSources), 0, g_strdup(source));
-	} else {
-		source_max_row = -1;
 	}
 
 	lblMailSources = gtk_label_new (_("Mail sources"));
