@@ -318,6 +318,7 @@ load_single_dir (GalViewCollection *collection,
 	}
 
 	g_free(filename);
+	xmlFreeDoc(doc);
 }
 
 /**
