@@ -154,9 +154,11 @@ get_view (EShellView *eshell_view, EFolder *efolder, Bonobo_UIHandler uih)
 							       corba_shell,
 							       &ev);
 		} else {
-			g_warning ("The bonobo component for the mail doesn't "
-				   "seem to implement the "
-				   "Evolution::ServiceRepository interface\n");
+			
+			g_print ("The bonobo component for \"%s\" doesn't "
+				 "seem to implement the "
+				 "Evolution::ServiceRepository interface\n",
+				 e_folder_get_description (efolder));
 		}
 	
 		gtk_widget_show (w);
