@@ -1447,10 +1447,10 @@ ethi_popup_customize_view(GtkWidget *widget, EthiHeaderInfo *info)
 				spec, state);
 		g_signal_connect (
 			ethi->config, "destroy",
-			G_CALLBACk (config_destroyed), ethi);
+			G_CALLBACK (config_destroyed), ethi);
 		g_signal_connect (
 			ethi->config, "changed",
-			G_CALLBACk (apply_changes), ethi);
+			G_CALLBACK (apply_changes), ethi);
 	}
 }
 
