@@ -1,3 +1,8 @@
+2001-08-15  Jason Leach  <jleach@ximian.com>
+
+	* e-folder.c (e_folder_set_child_highlight): Emit a "changed"
+	signal at the end of this function.  Bug #7232.
+
 2001-08-15  Aaron Weber  <aaron@ximian.com>
 
 	* e-shell-view-menu.c (command_about_box): Changed help menus to

@@ -340,12 +340,12 @@ e_folder_set_child_highlight (EFolder *folder,
 	g_return_if_fail (folder != NULL);
 	g_return_if_fail (E_IS_FOLDER (folder));
 
-	/* FIXME: Doesn't emit CHANGED.  */
-
 	if (highlighted)
 		folder->priv->child_highlight++;
 	else
 		folder->priv->child_highlight--;
+
+	gtk_signal_emit (GTK_OBJECT (folder), signals[CHANGED]);
 }
 
 void
