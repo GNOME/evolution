@@ -381,8 +381,7 @@ init_trash (CamelStore *store)
 	
 	name = g_strdup_printf ("%s?(match-all (system-flag \"Deleted\"))", _("Trash"));
 	
-	store->vtrash = camel_vee_folder_new (store, name, CAMEL_STORE_FOLDER_CREATE |
-					      CAMEL_STORE_VEE_FOLDER_AUTO, NULL);
+	store->vtrash = camel_vee_folder_new (store, name, CAMEL_STORE_FOLDER_CREATE|CAMEL_STORE_VEE_FOLDER_AUTO|CAMEL_STORE_FOLDER_PRIVATE);
 	
 	g_free (name);
 	

@@ -38,7 +38,6 @@ struct _CamelVeeFolder {
 
 	char *expression;	/* query expression */
 	char *vname;		/* local name */
-	CamelFolder *local;	/* local storage for folder */
 
 	guint32 flags;		/* folder open flags */
 
@@ -50,12 +49,14 @@ struct _CamelVeeFolderClass {
 	CamelFolderClass parent_class;
 };
 
-guint		camel_vee_folder_get_type	(void);
-CamelFolder    *camel_vee_folder_new		(CamelStore *parent_store, const char *name,
-						 guint32 flags, CamelException *ex);
+guint	      camel_vee_folder_get_type		(void);
+CamelFolder  *camel_vee_folder_new		(CamelStore *parent_store, const char *name, guint32 flags);
+void         camel_vee_folder_construct		(CamelVeeFolder *vf, CamelStore *parent_store, const char *name, guint32 flags);
 
 void         camel_vee_folder_add_folder         (CamelVeeFolder *vf, CamelFolder *sub);
 void         camel_vee_folder_remove_folder      (CamelVeeFolder *vf, CamelFolder *sub);
+void	     camel_vee_folder_set_expression	 (CamelVeeFolder *vf, const char *expr);
+
 CamelFolder *camel_vee_folder_get_message_folder (CamelVeeFolder *vf, const char *uid);
 
 #endif /* ! _CAMEL_VEE_FOLDER_H */

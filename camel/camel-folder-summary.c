@@ -1045,19 +1045,18 @@ void camel_folder_summary_remove_uid(CamelFolderSummary *s, const char *uid)
  **/
 void camel_folder_summary_remove_index(CamelFolderSummary *s, int index)
 {
-	CAMEL_SUMMARY_LOCK(s, ref_lock);
 	CAMEL_SUMMARY_LOCK(s, summary_lock);
 	if (index < s->messages->len) {
 		CamelMessageInfo *info = s->messages->pdata[index];
-		/* make sure it doesn't vanish while we're not looking */
-		info->refcount++;
+
+		g_hash_table_remove(s->messages_uid, camel_message_info_uid(info));
+		g_ptr_array_remove_index(s->messages, index);
+		s->flags |= CAMEL_SUMMARY_DIRTY;
+
 		CAMEL_SUMMARY_UNLOCK(s, summary_lock);
-		CAMEL_SUMMARY_UNLOCK(s, ref_lock);
-		camel_folder_summary_remove(s, info);
 		camel_folder_summary_info_free(s, info);
 	} else {
 		CAMEL_SUMMARY_UNLOCK(s, summary_lock);
-		CAMEL_SUMMARY_UNLOCK(s, ref_lock);
 	}
 }
 

@@ -1,3 +1,66 @@
+2001-03-27  Not Zed  <NotZed@Ximian.com>
+
+	* camel-vee-store.c (vee_get_folder): Added folder_created event
+	here.
+	
+	* camel-vee-folder.c (unmatched_finalise): Removed, moved into
+	main finalise code.
+	(message_changed): Just create a new change entry and promote it
+	to a folder_changed thing.
+	(vee_sync): Always rebuild folder on sync, even when not expunge.
+	(folder_changed): If not autoupdating, make sure we remove any
+	removed entries.
+	(vee_folder_build_folder): 
+	(vee_folder_remove_folder): NOP if we're called on
+	folder_unmatched.
+	(vee_search_by_expression): Only search each folder once.  Should
+	we also order the result in summary order?
+
+2001-03-20  Not Zed  <NotZed@Ximian.com>
+
+	* camel-store.c (init_trash): Fix calling for vee_folder_new().
+
+	* camel-folder-summary.c (camel_folder_summary_remove_index):
+	Optimise slightly, use ptr_array_remove_index rather than have to
+	search for the index by using summary_remove.
+
+	* camel-vee-folder.h: Removed local member from VeeFolder, since
+	it was never used.
+
+	* camel-vee-store.c (camel_vee_store_finalise): Setup finalise
+	function.
+
+	* camel-vee-folder.c (camel_vee_folder_set_expression): New
+	function to set the query of an existing vfolder.
+	(camel_vee_folder_construct): New function for
+	convenience/subclasses.
+	(camel_vee_folder_new): Removed exception parameter, no longer
+	needed (since we dont search yet).
+	(camel_vee_folder_new): Changed to use folder_construct, and no
+	longer raise the folder created signal.
+	(vee_folder_build_folder): Make it return error on exception, so
+	we can work without exceptions.
+	(vee_folder_remove_folder): Use remove index rather than
+	remove_uid, this is ok since we have the summary locked for our
+	own access.
+	(camel_vee_folder_add_folder): Only add the folder to the
+	unmatched private if it is not a private folder.
+	(camel_vee_folder_remove_folder): Only remove the folder from
+	unmatched if it is not private.
+	(vee_expunge): Just call sync with expunge set.
+	(vee_sync): If expunging, also refresh the search.
+	(vee_folder_build_folder): We do our own locking now, removed from
+	callers, also trigger changed events here too (within locks),
+	fixed callers appropriately.
+	(vee_folder_remove_folder): Do our own locking, and trigger
+	changed events.
+	(vee_folder_add_info): Renamed of vee_folder_add, we now take a
+	hash of the folder name, rather than use the folders address.
+	(hash_folder): Convert a folder name into an 8 character hash.
+	(vee_get_message, vee_search_by_expression, vee_set_message_flags,
+	vee_set_message_user_flag, vee_move_message_to): Changed the uid
+	to be an 8 byte hash + original uid, with no ':' anymore.
+
 2001-03-26  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* camel-mime-utils.c (header_decode_text): When writing the last
