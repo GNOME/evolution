@@ -74,7 +74,7 @@ typedef struct {
 	/* virtual methods */
 	const gchar * (* get_color_for_component) (ECalModel *model, ECalModelComponent *comp_data);
 	void          (* fill_component_from_model) (ECalModel *model, ECalModelComponent *comp_data,
-						     ECalModel *source_model, gint row);
+						     ETableModel *source_model, gint row);
 } ECalModelClass;
 
 GType               e_cal_model_get_type (void);

@@ -44,7 +44,7 @@ static gboolean ecmc_value_is_empty (ETableModel *etm, int col, const void *valu
 static char *ecmc_value_to_string (ETableModel *etm, int col, const void *value);
 
 static void ecmc_fill_component_from_model (ECalModel *model, ECalModelComponent *comp_data,
-					    ECalModel *source_model, gint row);
+					    ETableModel *source_model, gint row);
 
 static GObjectClass *parent_class = NULL;
 
@@ -441,18 +441,18 @@ ecmc_value_to_string (ETableModel *etm, int col, const void *value)
 
 static void
 ecmc_fill_component_from_model (ECalModel *model, ECalModelComponent *comp_data,
-				ECalModel *source_model, gint row)
+				ETableModel *source_model, gint row)
 {
 	g_return_if_fail (E_IS_CAL_MODEL_CALENDAR (model));
 	g_return_if_fail (comp_data != NULL);
-	g_return_if_fail (E_IS_CAL_MODEL_CALENDAR (source_model));
+	g_return_if_fail (E_IS_TABLE_MODEL (source_model));
 
 	set_dtend (comp_data,
-		   e_table_model_value_at (E_TABLE_MODEL (source_model), E_CAL_MODEL_CALENDAR_FIELD_DTEND, row));
+		   e_table_model_value_at (source_model, E_CAL_MODEL_CALENDAR_FIELD_DTEND, row));
 	set_location (comp_data,
-		      e_table_model_value_at (E_TABLE_MODEL (source_model), E_CAL_MODEL_CALENDAR_FIELD_LOCATION, row));
+		      e_table_model_value_at (source_model, E_CAL_MODEL_CALENDAR_FIELD_LOCATION, row));
 	set_transparency (comp_data,
-			  e_table_model_value_at (E_TABLE_MODEL (source_model), E_CAL_MODEL_CALENDAR_FIELD_TRANSPARENCY, row));
+			  e_table_model_value_at (source_model, E_CAL_MODEL_CALENDAR_FIELD_TRANSPARENCY, row));
 }
 
 /**

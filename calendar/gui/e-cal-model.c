@@ -652,11 +652,10 @@ ecm_append_row (ETableModel *etm, ETableModel *source, int row)
 {
 	ECalModelClass *model_class;
 	ECalModelComponent comp_data;
-	ECalModel *source_model = (ECalModel *) source;
 	ECalModel *model = (ECalModel *) etm;
 
 	g_return_if_fail (E_IS_CAL_MODEL (model));
-	g_return_if_fail (E_IS_CAL_MODEL (source_model));
+	g_return_if_fail (E_IS_TABLE_MODEL (source));
 
 	memset (&comp_data, 0, sizeof (comp_data));
 	comp_data.client = e_cal_model_get_default_client (model);
@@ -677,7 +676,7 @@ ecm_append_row (ETableModel *etm, ETableModel *source, int row)
 	/* call the class' method for filling the component */
 	model_class = (ECalModelClass *) G_OBJECT_GET_CLASS (model);
 	if (model_class->fill_component_from_model != NULL) {
-		model_class->fill_component_from_model (model, &comp_data, source_model, row);
+		model_class->fill_component_from_model (model, &comp_data, source, row);
 	}
 
 

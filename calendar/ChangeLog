@@ -1,5 +1,18 @@
 2003-10-27  Rodrigo Moya <rodrigo@ximian.com>
 
+	* gui/e-cal-model.h: changed fill_component_from_model virtual
+	method to get an ETableModel, not an ECalModel.
+
+	* gui/e-cal-model.c (ecm_append_row): the source model sent from
+	ETable is an ETableModel, not an ECalModel.
+
+	* gui/e-cal-model-calendar.c (ecmc_fill_component_from_model):
+	get an ETableModel for the 'source_model' argument.
+
+	* gui/e-cal-model-tasks.c (ecmt_fill_component_from_model): ditto.
+
+2003-10-27  Rodrigo Moya <rodrigo@ximian.com>
+
 	* gui/tasks-component.c (add_uri_for_source): pass FALSE as the
 	'only_if_exists' parameter, so that the calendar gets created when
 	it still does not exist.

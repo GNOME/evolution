@@ -48,7 +48,7 @@ static char *ecmt_value_to_string (ETableModel *etm, int col, const void *value)
 
 static const char *ecmt_get_color_for_component (ECalModel *model, ECalModelComponent *comp_data);
 static void ecmt_fill_component_from_model (ECalModel *model, ECalModelComponent *comp_data,
-					    ECalModel *source_model, gint row);
+					    ETableModel *source_model, gint row);
 
 static GObjectClass *parent_class = NULL;
 
@@ -970,26 +970,26 @@ ecmt_get_color_for_component (ECalModel *model, ECalModelComponent *comp_data)
 
 static void
 ecmt_fill_component_from_model (ECalModel *model, ECalModelComponent *comp_data,
-				ECalModel *source_model, gint row)
+				ETableModel *source_model, gint row)
 {
 	g_return_if_fail (E_IS_CAL_MODEL_TASKS (model));
 	g_return_if_fail (comp_data != NULL);
-	g_return_if_fail (E_IS_CAL_MODEL_TASKS (source_model));
+	g_return_if_fail (E_IS_TABLE_MODEL (source_model));
 
 	set_completed ((ECalModelTasks *) model, comp_data,
-		       e_table_model_value_at (E_TABLE_MODEL (source_model), E_CAL_MODEL_TASKS_FIELD_COMPLETED, row));
+		       e_table_model_value_at (source_model, E_CAL_MODEL_TASKS_FIELD_COMPLETED, row));
 	set_due (comp_data,
-		 e_table_model_value_at (E_TABLE_MODEL (source_model), E_CAL_MODEL_TASKS_FIELD_DUE, row));
+		 e_table_model_value_at (source_model, E_CAL_MODEL_TASKS_FIELD_DUE, row));
 	set_geo (comp_data,
-		 e_table_model_value_at (E_TABLE_MODEL (source_model), E_CAL_MODEL_TASKS_FIELD_GEO, row));
+		 e_table_model_value_at (source_model, E_CAL_MODEL_TASKS_FIELD_GEO, row));
 	set_percent (comp_data,
-		     e_table_model_value_at (E_TABLE_MODEL (source_model), E_CAL_MODEL_TASKS_FIELD_PERCENT, row));
+		     e_table_model_value_at (source_model, E_CAL_MODEL_TASKS_FIELD_PERCENT, row));
 	set_priority (comp_data,
-		      e_table_model_value_at (E_TABLE_MODEL (source_model), E_CAL_MODEL_TASKS_FIELD_PRIORITY, row));
+		      e_table_model_value_at (source_model, E_CAL_MODEL_TASKS_FIELD_PRIORITY, row));
 	set_status (comp_data,
-		    e_table_model_value_at (E_TABLE_MODEL (source_model), E_CAL_MODEL_TASKS_FIELD_STATUS, row));
+		    e_table_model_value_at (source_model, E_CAL_MODEL_TASKS_FIELD_STATUS, row));
 	set_url (comp_data,
-		 e_table_model_value_at (E_TABLE_MODEL (source_model), E_CAL_MODEL_TASKS_FIELD_URL, row));
+		 e_table_model_value_at (source_model, E_CAL_MODEL_TASKS_FIELD_URL, row));
 }
 
 /**
