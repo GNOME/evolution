@@ -89,8 +89,9 @@ names. Most (but not all) of them are also available as tarballs on
 ftp.gnome.org. The (*)ed packages are available in Helix GNOME.
 (http://www.helixcode.com/desktop/)
 
- - gnome-xml - 1.8.7 (If you get this from GNOME CVS, use the tag
-   "LIB_XML_1_X".) (*)
+ - gnome-xml - 1.8.7 or later in the 1.0 series, but not from the 2.0
+   series (If you get this from GNOME CVS, use the tag "LIB_XML_1_X".)
+   (*)
 
  - gnome-print - 0.20 (*). The gnome-print CVS HEAD will NOT work.
 
@@ -103,13 +104,11 @@ ftp.gnome.org. The (*)ed packages are available in Helix GNOME.
    *** You should use the flag "--disable-more-warnings" when
    *** configuring oaf, or it may fail to build.
 
- - gnome-vfs - from CVS (0.2 mostly works, but has a bug where it
-   doesn't install one of its header files
-   [libgnomevfs/gnome-vfs-file-size.h] so you have to install it by
-   hand if you use that version.)
+ - gnome-vfs - 0.3 or later
 
-   *** You should use the flag "--disable-more-warnings" when
-   *** configuring gnome-vfs, or it may fail to build.
+   *** If you are using gnome-vfs from CVS, you should use the flag
+   *** "--disable-more-warnings" when configuring, or it may fail to
+   *** build.
 
  - bonobo - from CVS
 

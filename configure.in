@@ -285,11 +285,6 @@ BONOBO_HTML_GNOME_CFLAGS="`gnome-config --cflags bonobox libglade gdk_pixbuf gtk
 AC_SUBST(BONOBO_HTML_GNOME_LIBS)
 AC_SUBST(BONOBO_HTML_GNOME_CFLAGS)
 
-GNOME_VFS_LIBS="`gnome-config --libs vfs`"
-GNOME_VFS_CFLAGS="`gnome-config --cflags vfs`"
-AC_SUBST(GNOME_VFS_LIBS)
-AC_SUBST(GNOME_VFS_CFLAGS)
-
 dnl ******************************
 dnl GtkHTML checking
 dnl ******************************
@@ -323,24 +318,26 @@ dnl Gnome-VFS checking
 dnl ******************************
 AC_MSG_CHECKING(for GNOME-VFS)
 if gnome-config --libs vfs > /dev/null 2>&1; then
-	vfs_ok=true
+	vers=`gnome-config --modversion vfs`
+	case $vers
+	in
+	    gnome-vfs-0.[012]) vfs_ok=false ;;
+	    *) vfs_ok=true ;;
+	esac
 else
 	vfs_ok=false
 fi
 
 if $vfs_ok; then
-	AC_MSG_RESULT(found)
+	AC_MSG_RESULT($vers)
 else
-	AC_MSG_ERROR(GNOME-VFS is required to compile Evolution)
+	AC_MSG_ERROR(GNOME-VFS 0.3 or newer is required to compile Evolution)
 fi
 
-saved_CFLAGS="$CFLAGS"
-saved_LDFLAGS="$LDFLAGS"
-CFLAGS="$CFLAGS `gnome-config --cflags vfs`"
-LDFLAGS="$LDFLAGS `gnome-config --libs vfs`"
-AC_CHECK_FUNCS(gnome_vfs_mime_get_default_action_without_fallback)
-CFLAGS="$saved_CFLAGS"
-LDFLAGS="$saved_LDFLAGS"
+GNOME_VFS_LIBS="`gnome-config --libs vfs`"
+GNOME_VFS_CFLAGS="`gnome-config --cflags vfs`"
+AC_SUBST(GNOME_VFS_LIBS)
+AC_SUBST(GNOME_VFS_CFLAGS)
 
 BONOBO_VFS_GNOME_LIBS="`gnome-config --libs bonobox libglade gdk_pixbuf gnomecanvaspixbuf vfs gnomeui `"
 BONOBO_VFS_GNOME_CFLAGS="`gnome-config --cflags bonobox libglade gdk_pixbuf gnomecanvaspixbuf vfs gnomeui `"

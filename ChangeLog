@@ -1,3 +1,7 @@
+2000-08-12  Dan Winship  <danw@helixcode.com>
+
+	* configure.in, README: Depend on gnome-vfs 0.3
+
 2000-08-10  Christopher James Lahey  <clahey@helixcode.com>
 
 	* widgets/e-text/.cvsignore, widgets/e-text/Makefile.am,
