@@ -1,3 +1,10 @@
+2002-06-15  Chris Toshok  <toshok@ximian.com>
+
+	* backend/pas/pas-backend-ldap.c (pas_backend_ldap_connect): use
+	ldap_unbind_ext.
+	(create_card_handler): don't leak the new vcard.
+	(pas_backend_ldap_process_authenticate_user): don't leak the dn.
+
 2002-06-14  Chris Toshok  <toshok@ximian.com>
 
 	* backend/pas/pas-backend-file.c (pas_backend_file_search): up the

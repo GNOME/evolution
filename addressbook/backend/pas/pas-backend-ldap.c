@@ -552,7 +552,7 @@ pas_backend_ldap_connect (PASBackendLDAP *bl)
 
 	/* close connection first if it's open first */
 	if (blpriv->ldap)
-		ldap_unbind (blpriv->ldap);
+		ldap_unbind_ext (blpriv->ldap, NULL, NULL);
 
 	blpriv->ldap = ldap_init (blpriv->ldap_host, blpriv->ldap_port);
 #if defined (DEBUG) && defined (LDAP_OPT_DEBUG_LEVEL)
@@ -980,20 +980,23 @@ create_card_handler (LDAPOp *op, LDAPMessage *res)
 			CORBA_Environment ev;
 			gboolean match;
 			PASBackendLDAPBookView *view = l->data; 
+			char *new_vcard;
 
 			CORBA_exception_init(&ev);
 
 			bonobo_object_dup_ref(bonobo_object_corba_objref(BONOBO_OBJECT(view->book_view)), &ev);
 
+			new_vcard = e_card_simple_get_vcard_assume_utf8 (create_op->new_card);
+
 			match = pas_backend_card_sexp_match_vcard (view->card_sexp,
-								   e_card_simple_get_vcard_assume_utf8 (create_op->new_card));
+								   new_vcard);
 			if (match) {
-				char *vcard = e_card_simple_get_vcard_assume_utf8 (create_op->new_card);
 				pas_book_view_notify_add_1 (view->book_view,
-							    vcard);
-				g_free (vcard);
+							    new_vcard);
 			}
 			pas_book_view_notify_complete (view->book_view);
+
+			g_free (new_vcard);
 
 			bonobo_object_release_unref(bonobo_object_corba_objref(BONOBO_OBJECT(view->book_view)), &ev);
 		}
@@ -2853,8 +2856,14 @@ pas_backend_ldap_process_authenticate_user (PASBackend *backend,
 		g_free (query);
 
 		if (ldap_error == LDAP_SUCCESS) {
+			char *entry_dn;
+
 			e = ldap_first_entry (bl->priv->ldap, res);
-			dn = g_strdup(ldap_get_dn (bl->priv->ldap, e));
+
+			entry_dn = ldap_get_dn (bl->priv->ldap, e);
+			dn = g_strdup(entry_dn);
+
+			ldap_memfree (entry_dn);
 			ldap_msgfree (res);
 		}
 		else {
