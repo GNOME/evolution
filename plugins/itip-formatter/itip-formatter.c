@@ -1145,7 +1145,6 @@ format_itip_object (EMFormatHTML *efh, GtkHTMLEmbedded *eb, EMFormatHTMLPObject 
 	}
 	
 	gtk_container_add (GTK_CONTAINER (eb), pitip->view);
-	gtk_widget_set_usize (pitip->view, 640, -1);
 
 	g_signal_connect (pitip->view, "response", G_CALLBACK (view_response_cb), pitip);
 

@@ -1,3 +1,8 @@
+2005-01-03  Rodney Dawes  <dobey@novell.com>
+
+	* itip-formatter.c (format_itip_object): Don't do set_usize ()
+	on the container
+
 2005-01-03  JP Rosevear  <jpr@novell.com>
 
 	* itip-formatter.c (format_itip_object): load accounts
