@@ -292,7 +292,8 @@ e_cell_print (ECellView *ecell_view, GnomePrintContext *context,
 	      int model_col, int view_col, int row,
 	      double width, double height)
 {
-	ECVIEW_EC_CLASS(ecell_view)->print (ecell_view, context, model_col, view_col, row, width, height);
+	if (ECVIEW_EC_CLASS(ecell_view)->print)
+		ECVIEW_EC_CLASS(ecell_view)->print (ecell_view, context, model_col, view_col, row, width, height);
 }
 
 /**
