@@ -698,8 +698,16 @@ set_owner_on_components (EShell *shell)
 			g_warning ("Error setting owner on component %s -- %s",
 				   id, evolution_shell_component_result_to_string (result));
 
-			if (result == EVOLUTION_SHELL_COMPONENT_OLDOWNERHASDIED)
-				e_component_registry_restart_component (priv->component_registry, id);
+			if (result == EVOLUTION_SHELL_COMPONENT_OLDOWNERHASDIED) {
+				component_client = e_component_registry_restart_component (priv->component_registry, id);
+				result = evolution_shell_component_client_set_owner (component_client, corba_shell,
+										     local_directory);
+				if (result != EVOLUTION_SHELL_COMPONENT_OK) {
+					g_warning ("Error re-setting owner on component %s -- %s",
+						   id, evolution_shell_component_result_to_string (result));
+					/* (At this point, we give up.)  */
+				}
+			}
 		}
 	}
 

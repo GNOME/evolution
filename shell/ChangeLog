@@ -1,3 +1,8 @@
+2001-10-17  Ettore Perazzoli  <ettore@ximian.com>
+
+	* e-shell.c (set_owner_on_components): Re-set the owner on the
+	component that raised OldOwnerHasDied.
+
 2001-10-15  Iain Holmes  <iain@ximian.com>
 
 	* e-shell-startup-wizard.c (prepare_importer_page): Stop the prepare
