@@ -211,6 +211,9 @@ event_editor_edit_comp (CompEditor *editor, ECalComponent *comp)
 	e_cal_component_get_organizer (comp, &organizer);
 	e_cal_component_get_attendee_list (comp, &attendees);
 
+	/* Clear things up */
+	e_meeting_store_remove_all_attendees (priv->model);
+
 	/* Set up the attendees */
 	if (attendees == NULL && !priv->is_meeting) {
 		if (priv->meet_page)

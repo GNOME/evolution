@@ -1,3 +1,8 @@
+2005-01-07  JP Rosevear  <jpr@novell.com>
+
+	* gui/dialogs/event-editor.c (event_editor_edit_comp): clear the
+	attendees, somehow I remove this in an earlier commit
+
 2005-01-07  Rodrigo Moya <rodrigo@novell.com>
 
 	* gui/dialogs/event-page.glade:
