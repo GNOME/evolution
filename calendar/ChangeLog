@@ -1,3 +1,9 @@
+2000-05-08  Seth Alves  <alves@hungry.com>
+
+	* gui/e-day-view.c (e_day_view_on_delete_appointment): call
+	e_day_view_stop_editing_event here to avoid a divide by zero
+	a bit further on.  i'm not sure if this is the best fix for this.
+
 2000-05-08  Federico Mena Quintero  <federico@helixcode.com>
 
 	* pcs/cal-backend.h (CalBackendClass): CalBackendClass now is just

@@ -2376,6 +2376,9 @@ e_day_view_on_delete_appointment (GtkWidget *widget, gpointer data)
 	if (event == NULL)
 		return;
 
+	if (day_view->editing_event_day >= 0)
+		e_day_view_stop_editing_event (day_view);
+
 	gnome_calendar_remove_object (day_view->calendar, event->ico);
 }
 
@@ -4283,6 +4286,9 @@ e_day_view_get_event_position (EDayView *day_view,
 	cols_in_row = day_view->cols_per_row[day][start_row];
 	start_col = event->start_row_or_col;
 	num_columns = event->num_columns;
+
+	if (cols_in_row == 0)
+		return FALSE;
 
 	/* If the event is being resize, use the resize position. */
 	if (day_view->resize_drag_pos != E_DAY_VIEW_POS_NONE
