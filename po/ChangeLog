@@ -1,3 +1,8 @@
+2002-01-09  Christian Rose  <menthos@menthos.com>
+
+	* POTFILES.in: Sorted and added LOTS of missing files.
+	* sv.po: Updated Swedish translation.
+
 2002-01-07  Simos Xenitellis  <simos@hellug.gr>
 
 	* el.po: Minor fixes.
@@ -36,7 +41,7 @@
 2001-12-19  Roy-Magne Mo <rmo@sunnmore.net>
 
 	* nn.po: Updated Norwegian (nynorsk) translation
-	* ChangLog: removed gettext-entries
+	* ChangeLog: removed gettext-entries
 
 2001-12-18  Ettore Perazzoli  <ettore@ximian.com>
 
