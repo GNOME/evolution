@@ -1247,7 +1247,9 @@ build_component_alarms_list (GNOME_Evolution_Calendar_CalComponentAlarmsSeq *seq
  * time.
  *
  * Return value: A list of #CalComponentAlarms structures.  This should be freed
- * using the cal_client_free_alarms() function.
+ * using the cal_client_free_alarms() function, or by freeing each element
+ * separately with cal_component_alarms_free() and then freeing the list with
+ * g_slist_free().
  **/
 GSList *
 cal_client_get_alarms_in_range (CalClient *client, time_t start, time_t end)

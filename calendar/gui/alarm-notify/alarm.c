@@ -1,4 +1,4 @@
-/* Evolution calendar - alarm notification support
+/* Evolution calendar - Low-level alarm timer mechanism
  *
  * Copyright (C) 2000 Helix Code, Inc.
  *
@@ -21,14 +21,18 @@
  */
 
 #include <config.h>
+#include <unistd.h>
 #include <time.h>
-#include <gnome.h>
 #include <fcntl.h>
 #include <signal.h>
 #include <sys/time.h>
+#include <gdk/gdk.h>
 #include "alarm.h"
 
 
+
+/* Whether the timer system has been initialized */
+static gboolean alarm_inited;
 
 /* The pipes used to notify about an alarm */
 static int alarm_pipes [2];
@@ -72,6 +76,13 @@ setup_itimer (time_t diff)
 	return (v == 0) ? TRUE : FALSE;
 }
 
+/* Clears the itimer we have pending */
+static gboolean
+clear_itimer (void)
+{
+	return setup_itimer (0);
+}
+
 /* Removes the head alarm, returns it, and schedules the next alarm in the
  * queue.
  */
@@ -106,20 +117,10 @@ pop_alarm (void)
 			 * will fail?
 			 */
 		}
-	} else {
-		struct itimerval itimer;
-		int v;
-
-		itimer.it_interval.tv_sec = 0;
-		itimer.it_interval.tv_usec = 0;
-		itimer.it_value.tv_sec = 0;
-		itimer.it_value.tv_usec = 0;
-
-		v = setitimer (ITIMER_REAL, &itimer, NULL);
-		if (v != 0)
+	} else
+		if (!clear_itimer ())
 			g_message ("pop_alarm(): Could not clear the timer!  "
 				   "Weird things may happen.");
-	}
 
 	return ar;
 }
@@ -144,7 +145,7 @@ alarm_ready (gpointer data, gint fd, GdkInputCondition cond)
 	(* ar->alarm_fn) (ar, ar->trigger, ar->data);
 
 	if (ar->destroy_notify_fn)
-		(* ar->destroy_notify_fn) (ar->data);
+		(* ar->destroy_notify_fn) (ar, ar->data);
 
 	g_free (ar);
 }
@@ -216,6 +217,10 @@ alarm_add (time_t trigger, AlarmFunction alarm_fn, gpointer data,
 	time_t now;
 	AlarmRecord *ar;
 
+	g_return_val_if_fail (alarm_inited, NULL);
+	g_return_val_if_fail (trigger != -1, NULL);
+	g_return_val_if_fail (alarm_fn != NULL, NULL);
+
 	now = time (NULL);
 	if (trigger < now)
 		return NULL;
@@ -229,9 +234,6 @@ alarm_add (time_t trigger, AlarmFunction alarm_fn, gpointer data,
 	g_print ("alarm_add(): Adding alarm for %s\n", ctime (&trigger));
 
 	if (!queue_alarm (now, ar)) {
-		if (ar->destroy_notify_fn)
-			(* ar->destroy_notify_fn) (ar->data);
-
 		g_free (ar);
 		ar = NULL;
 	}
@@ -252,6 +254,7 @@ alarm_remove (gpointer alarm)
 	AlarmRecord *old_head;
 	GList *l;
 
+	g_return_if_fail (alarm_inited);
 	g_return_if_fail (alarm != NULL);
 
 	ar = alarm;
@@ -272,7 +275,7 @@ alarm_remove (gpointer alarm)
 	}
 
 	if (ar->destroy_notify_fn)
-		(* ar->destroy_notify_fn) (ar->data);
+		(* ar->destroy_notify_fn) (ar, ar->data);
 
 	g_free (ar);
 }
@@ -280,7 +283,7 @@ alarm_remove (gpointer alarm)
 /**
  * alarm_init:
  *
- * Initializes the alarm notification system.  This must be called near the
+ * Initializes the alarm timer mechanism.  This must be called near the
  * beginning of the program.
  **/
 void
@@ -288,6 +291,8 @@ alarm_init (void)
 {
 	struct sigaction sa;
 	int flags;
+
+	g_return_if_fail (alarm_inited == FALSE);
 
 	pipe (alarm_pipes);
 
@@ -302,4 +307,50 @@ alarm_init (void)
 	sigemptyset (&sa.sa_mask);
 	sa.sa_flags = SA_RESTART;
 	sigaction (SIGALRM, &sa, NULL);
+
+	alarm_inited = TRUE;
+}
+
+/**
+ * alarm_done:
+ * 
+ * Terminates the alarm timer mechanism.  This should be called at the end of
+ * the program.
+ **/
+void
+alarm_done (void)
+{
+	GList *l;
+
+	g_return_if_fail (alarm_inited);
+
+	if (!clear_itimer ())
+		g_message ("alarm_done(): Could not clear the timer!  "
+			   "Weird things may happen.");
+
+	for (l = alarms; l; l = l->next) {
+		AlarmRecord *ar;
+
+		ar = l->data;
+
+		if (ar->destroy_notify_fn)
+			(* ar->destroy_notify_fn) (ar, ar->data);
+
+		g_free (ar);
+	}
+
+	g_list_free (alarms);
+	alarms = NULL;
+
+	if (close (alarm_pipes[0]) != 0)
+		g_message ("alarm_done(): Could not close the input pipe for notification");
+
+	alarm_pipes[0] = -1;
+
+	if (close (alarm_pipes[1]) != 0)
+		g_message ("alarm_done(): Could not close the output pipe for notification");
+
+	alarm_pipes[1] = -1;
+
+	alarm_inited = FALSE;
 }

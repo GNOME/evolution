@@ -2,20 +2,20 @@
 <NAME>CalClient::cal-loaded</NAME>
 <RETURNS>void</RETURNS>
 CalClient *calclient
-GtkEnum  arg1
+gint  arg1
 </SIGNAL>
 
 <SIGNAL>
 <NAME>CalClient::obj-updated</NAME>
 <RETURNS>void</RETURNS>
 CalClient *calclient
-GtkString  arg1
+gchar *arg1
 </SIGNAL>
 
 <SIGNAL>
 <NAME>CalClient::obj-removed</NAME>
 <RETURNS>void</RETURNS>
 CalClient *calclient
-GtkString  arg1
+gchar *arg1
 </SIGNAL>
 

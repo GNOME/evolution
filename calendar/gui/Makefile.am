@@ -62,6 +62,8 @@ evolution_calendar_SOURCES =			\
 	$(IDL_GENERATED)			\
 	alarm.c					\
 	alarm.h					\
+	alarm-notify.c				\
+	alarm-notify.h				\
 	calendar-config.c			\
 	calendar-config.h			\
 	calendar-commands.c			\

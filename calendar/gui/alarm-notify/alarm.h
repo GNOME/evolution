@@ -1,4 +1,4 @@
-/* Evolution calendar - alarm notification support
+/* Evolution calendar - Low-level alarm timer mechanism
  *
  * Copyright (C) 2000 Helix Code, Inc.
  *
@@ -24,16 +24,19 @@
 #define ALARM_H
 
 #include <time.h>
+#include <glib.h>
 
 
 
 typedef void (* AlarmFunction) (gpointer alarm_id, time_t trigger, gpointer data);
-typedef void (* AlarmDestroyNotify) (gpointer data);
+typedef void (* AlarmDestroyNotify) (gpointer alarm_id, gpointer data);
 
-void     alarm_init   (void);
-gpointer alarm_add    (time_t trigger, AlarmFunction alarm_fn, gpointer data,
-		       AlarmDestroyNotify destroy_notify_fn);
-void     alarm_remove (gpointer alarm);
+void alarm_init (void);
+void alarm_done (void);
+
+gpointer alarm_add (time_t trigger, AlarmFunction alarm_fn, gpointer data,
+		    AlarmDestroyNotify destroy_notify_fn);
+void alarm_remove (gpointer alarm);
 
 
 

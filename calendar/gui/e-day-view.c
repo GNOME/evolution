@@ -1449,8 +1449,10 @@ e_day_view_set_cal_client	(EDayView	*day_view,
 	day_view->client = client;
 
 	if (day_view->client) {
-		gtk_signal_connect (GTK_OBJECT (day_view->client), "cal_loaded",
-				    GTK_SIGNAL_FUNC (cal_loaded_cb), day_view);
+		if (!cal_client_is_loaded (day_view->client))
+			gtk_signal_connect (GTK_OBJECT (day_view->client), "cal_loaded",
+					    GTK_SIGNAL_FUNC (cal_loaded_cb), day_view);
+
 		gtk_signal_connect (GTK_OBJECT (day_view->client), "obj_updated",
 				    GTK_SIGNAL_FUNC (obj_updated_cb), day_view);
 		gtk_signal_connect (GTK_OBJECT (day_view->client), "obj_removed",

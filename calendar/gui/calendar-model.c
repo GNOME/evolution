@@ -1840,8 +1840,10 @@ calendar_model_set_cal_client (CalendarModel *model, CalClient *client, CalObjTy
 	priv->type = type;
 
 	if (priv->client) {
-		gtk_signal_connect (GTK_OBJECT (priv->client), "cal_loaded",
-				    GTK_SIGNAL_FUNC (cal_loaded_cb), model);
+		if (!cal_client_is_loaded (priv->client))
+			gtk_signal_connect (GTK_OBJECT (priv->client), "cal_loaded",
+					    GTK_SIGNAL_FUNC (cal_loaded_cb), model);
+
 		gtk_signal_connect (GTK_OBJECT (priv->client), "obj_updated",
 				    GTK_SIGNAL_FUNC (obj_updated_cb), model);
 		gtk_signal_connect (GTK_OBJECT (priv->client), "obj_removed",

@@ -976,8 +976,10 @@ e_week_view_set_cal_client	(EWeekView	*week_view,
 	week_view->client = client;
 
 	if (week_view->client) {
-		gtk_signal_connect (GTK_OBJECT (week_view->client), "cal_loaded",
-				    GTK_SIGNAL_FUNC (cal_loaded_cb), week_view);
+		if (!cal_client_is_loaded (week_view->client))
+			gtk_signal_connect (GTK_OBJECT (week_view->client), "cal_loaded",
+					    GTK_SIGNAL_FUNC (cal_loaded_cb), week_view);
+
 		gtk_signal_connect (GTK_OBJECT (week_view->client), "obj_updated",
 				    GTK_SIGNAL_FUNC (obj_updated_cb), week_view);
 		gtk_signal_connect (GTK_OBJECT (week_view->client), "obj_removed",

@@ -168,6 +168,10 @@ update_calendar (EItipControlPrivate *priv)
 	snprintf (cal_uri, 250, "%s/local/Calendar/calendar.ics", evolution_dir);
 	
 	client = cal_client_new ();
+
+	gtk_signal_connect (GTK_OBJECT (client), "cal_loaded",
+	    	   	    GTK_SIGNAL_FUNC (cal_loaded_cb), priv);
+	
 	if (cal_client_load_calendar (client, cal_uri) == FALSE) {
 		GtkWidget *dialog;
 
@@ -178,9 +182,6 @@ update_calendar (EItipControlPrivate *priv)
 		return;
 	}
 
-	gtk_signal_connect (GTK_OBJECT (client), "cal_loaded",
-	    	   	    GTK_SIGNAL_FUNC (cal_loaded_cb), priv);
-	
 	gtk_progress_bar_update (GTK_PROGRESS_BAR (priv->loading_progress), 0.5);
 	gtk_widget_show (priv->loading_progress);
 

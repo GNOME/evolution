@@ -1,3 +1,57 @@
+2000-12-21  Federico Mena Quintero  <federico@helixcode.com>
+
+	Alarm trigger queueing for the GUI part.
+
+	* gui/alarm-notify.[ch]: New files with the high-level alarm
+	notification system; mostly moved over from gnome-cal.c.  The
+	low-level timer stuff is still in alarm.[ch].
+
+	* gui/alarm-notify.c (alarm_notify_init): New function to
+	initialize the alarm notification system.
+	(alarm_notify_done): New function to shut down the alarm
+	notification system.
+	(alarm_notify_add_client): New function to start monitoring a
+	calendar client for alarm notification.
+	(alarm_notify_remove_client): New function to stop monitoring a
+	client.
+
+	* gui/alarm.h (AlarmDestroyNotify): Also pass in the alarm ID so
+	the callback may know which ID is being destroyed.
+
+	* gui/alarm.c (clear_itimer): New function.
+	(pop_alarm): Use clear_itimer().
+	(alarm_done): New function to shut down the timer system.
+	(alarm_add): Add some preconditions.  Do not call the destroy
+	notification function if we could not create the alarm.
+	(alarm_ready): Pass the alarm ID to the destroy notify function.
+	(alarm_remove): Likewise.  Also, add some preconditions.
+
+	* gui/gnome-cal.c: Removed the alarm notification functions from
+	here since they are now in alarm-notify.c.
+	(gnome_calendar_construct): Register the client with
+	alarm_notify_add_client().
+	(gnome_calendar_destroy): Use alarm_notify_remove_client() to
+	unregister the client.
+	(obj_updated_cb): Do not do any alarm-related stuff.
+	(obj_removed_cb): Likewise.
+
+	* gui/main.c (main): Shut down the alarm timer system.
+	(main): Initialize and shut down the alarm notification system.
+
+	* gui/Makefile.am (evolution_calendar_SOURCES): Added
+	alarm-notify.[ch] to the list of sources.
+
+	* gui/calendar-model.c (calendar_model_set_cal_client): Only
+	connect to the "cal_loaded" signal if the client is not already
+	loaded.
+
+	* gui/e-day-view.c (e_day_view_set_cal_client): Likewise.
+
+	* gui/e-week-view.c (e_week_view_set_cal_client): Likewise.
+
+	* gui/e-itip-control.c (update_calendar): Connect to "cal_loaded"
+	before issuing the load request.
+
 2000-12-21  Iain Holmes  <iain@helixcode.com>
 
 	* gui/calendar-summary.c: Updated for new executive summary.

@@ -18,7 +18,7 @@
 #include <gal/e-paned/e-vpaned.h>
 #include <cal-util/timeutil.h>
 #include "dialogs/alarm-notify-dialog.h"
-#include "alarm.h"
+#include "alarm-notify.h"
 #include "e-calendar-table.h"
 #include "e-day-view.h"
 #include "e-week-view.h"
@@ -109,7 +109,7 @@ struct _GnomeCalendarPrivate {
 	/* Alarm ID for the midnight refresh function */
 	gpointer midnight_alarm_refresh_id;
 
-	/* UID->alarms hash */
+	/* UID->ObjectAlarms hash */
 	GHashTable *alarms;
 
 	/* Whether we are being destroyed and should not mess with the object
@@ -120,12 +120,24 @@ struct _GnomeCalendarPrivate {
 
 
 
-/* An entry in the UID->alarms hash table.  The UID key *is* the uid field in
- * this structure, so don't free it separately.
- */
+/* A queued alarm for a component */
 typedef struct {
-	char *uid;
-	GList *alarm_ids;
+	/* Alarm ID from alarm.h */
+	gpointer alarm_id;
+
+	/* Trigger instance this queued alarm refers to */
+	CalAlarmInstance *instance;
+} QueuedAlarm;
+
+/* An entry in the UID->alarms hash table */
+typedef struct {
+	/* The actual component we keep around; its UID *is* the key in the hash
+         * table.
+	 */
+	CalComponentAlarms *alarms;
+
+	/* List of QueuedAlarm structures */
+	GList *queued_alarms;
 } ObjectAlarms;
 
 
@@ -323,16 +335,30 @@ static void
 free_object_alarms (gpointer key, gpointer value, gpointer data)
 {
 	ObjectAlarms *oa;
+	GList *l;
 
 	oa = value;
 
-	g_assert (oa->uid != NULL);
-	g_free (oa->uid);
-	oa->uid = NULL;
+	g_assert (oa->alarms != NULL);
+	cal_component_alarms_free (oa->alarms);
+	oa->alarms = NULL;
 
-	g_assert (oa->alarm_ids != NULL);
-	g_list_free (oa->alarm_ids);
-	oa->alarm_ids = NULL;
+	g_assert (oa->queued_alarms != NULL);
+
+	for (l = oa->queued_alarms; l; l = l->next) {
+		QueuedAlarm *qa;
+
+		qa = l->data;
+
+		/* The instance structures were already freed by the call to
+		 * cal_component_alarms_free().
+		 */
+
+		g_free (qa);
+	}
+
+	g_list_free (oa->queued_alarms);
+	oa->queued_alarms = NULL;
 
 	g_free (oa);
 }
@@ -373,6 +399,9 @@ gnome_calendar_destroy (GtkObject *object)
 	}
 
 	if (priv->client) {
+		if (cal_client_is_loaded (priv->client))
+			alarm_notify_remove_client (priv->client);
+
 		gtk_object_unref (GTK_OBJECT (priv->client));
 		priv->client = NULL;
 	}
@@ -880,13 +909,6 @@ audio_notification (time_t trigger, time_t occur, CalComponent *comp, GnomeCalen
 	/* FIXME */
 }
 
-struct trigger_alarm_closure {
-	GnomeCalendar *gcal;
-	char *uid;
-	CalComponentAlarmAction type;
-	time_t occur;
-};
-
 /* Callback function used when an alarm is triggered */
 static void
 trigger_alarm_cb (gpointer alarm_id, time_t trigger, gpointer data)
@@ -973,108 +995,7 @@ trigger_alarm_cb (gpointer alarm_id, time_t trigger, gpointer data)
 	gtk_object_unref (GTK_OBJECT (comp));
 }
 
-/* Frees a struct trigger_alarm_closure */
-static void
-free_trigger_alarm_closure (gpointer data)
-{
-	struct trigger_alarm_closure *c;
-
-	c = data;
-	g_free (c->uid);
-	g_free (c);
-}
-
-/* Queues the specified alarm */
-static void
-setup_alarm (GnomeCalendar *gcal, CalAlarmInstance *ai)
-{
-	GnomeCalendarPrivate *priv;
-	struct trigger_alarm_closure *c;
-	gpointer alarm;
-	ObjectAlarms *oa;
-
-	priv = gcal->priv;
-
-	c = g_new (struct trigger_alarm_closure, 1);
-	c->gcal = gcal;
-	c->uid = g_strdup (ai->uid);
-#if 0
-	c->type = ai->type;
 #endif
-	c->occur = ai->occur;
-
-	alarm = alarm_add (ai->trigger, trigger_alarm_cb, c, free_trigger_alarm_closure);
-	if (!alarm) {
-		g_message ("setup_alarm(): Could not set up alarm");
-		g_free (c->uid);
-		g_free (c);
-		return;
-	}
-
-	oa = g_hash_table_lookup (priv->alarms, ai->uid);
-	if (oa)
-		oa->alarm_ids = g_list_prepend (oa->alarm_ids, alarm);
-	else {
-		oa = g_new (ObjectAlarms, 1);
-		oa->uid = g_strdup (ai->uid);
-		oa->alarm_ids = g_list_prepend (NULL, alarm);
-
-		g_hash_table_insert (priv->alarms, oa->uid, oa);
-	}
-}
-
-static void load_alarms (GnomeCalendar *cal);
-
-/* Called nightly to refresh the day's alarms */
-static void
-midnight_refresh_cb (gpointer alarm_id, time_t trigger, gpointer data)
-{
-	GnomeCalendar *cal;
-	GnomeCalendarPrivate *priv;
-
-	cal = GNOME_CALENDAR (data);
-	priv = cal->priv;
-
-	priv->midnight_alarm_refresh_id = NULL;
-
-	load_alarms (cal);
-}
-
-#endif
-
-/* Loads and queues the alarms from the current time up to midnight. */
-static void
-load_alarms (GnomeCalendar *gcal)
-{
-#if 0
-	GnomeCalendarPrivate *priv;
-	time_t now;
-	time_t end_of_day;
-	GList *alarms, *l;
-
-	priv = gcal->priv;
-
-	now = time (NULL);
-	end_of_day = time_day_end (now);
-
-	/* Queue alarms */
-
-	alarms = cal_client_get_alarms_in_range (priv->client, now, end_of_day);
-
-	for (l = alarms; l; l = l->next)
-		setup_alarm (gcal, l->data);
-
-	cal_alarm_instance_list_free (alarms);
-
-	/* Queue the midnight alarm refresh */
-
-	priv->midnight_alarm_refresh_id = alarm_add (end_of_day, midnight_refresh_cb, gcal, NULL);
-	if (!priv->midnight_alarm_refresh_id) {
-		g_message ("load_alarms(): Could not set up the midnight refresh alarm!");
-		/* FIXME: what to do? */
-	}
-#endif
-}
 
 /* Loads the initial data into the calendar; this should be called right after
  * the cal_loaded signal from the client is invoked.
@@ -1086,68 +1007,8 @@ initial_load (GnomeCalendar *gcal)
 
 	priv = gcal->priv;
 
-	load_alarms (gcal);
 	tag_calendar_by_client (priv->date_navigator, priv->client);
 }
-
-#if 0
-/* Removes any queued alarms for the specified UID */
-static void
-remove_alarms_for_object (GnomeCalendar *gcal, const char *uid)
-{
-	GnomeCalendarPrivate *priv;
-	ObjectAlarms *oa;
-	GList *l;
-
-	priv = gcal->priv;
-
-	oa = g_hash_table_lookup (priv->alarms, uid);
-	if (!oa)
-		return;
-
-	for (l = oa->alarm_ids; l; l = l->next) {
-		gpointer alarm_id;
-
-		alarm_id = l->data;
-		alarm_remove (alarm_id);
-	}
-
-	g_hash_table_remove (priv->alarms, uid);
-
-	g_free (oa->uid);
-	g_list_free (oa->alarm_ids);
-	g_free (oa);
-}
-
-/* Adds today's alarms for the specified object */
-static void
-add_alarms_for_object (GnomeCalendar *gcal, const char *uid)
-{
-	GnomeCalendarPrivate *priv;
-	GList *alarms;
-	gboolean result;
-	time_t now, end_of_day;
-	GList *l;
-
-	priv = gcal->priv;
-
-	now = time (NULL);
-	end_of_day = time_day_end (now);
-
-	result = cal_client_get_alarms_for_object (priv->client, uid, now, end_of_day, &alarms);
-	if (!result) {
-		/* FIXME: should we warn here, or is it OK if the object
-		 * disappeared in the meantime?
-		 */
-		return;
-	}
-
-	for (l = alarms; l; l = l->next)
-		setup_alarm (gcal, l->data);
-
-	cal_alarm_instance_list_free (alarms);
-}
-#endif
 
 /* Displays an error to indicate that loading a calendar failed */
 static void
@@ -1282,11 +1143,6 @@ obj_updated_cb (CalClient *client, const char *uid, gpointer data)
 	gcal = GNOME_CALENDAR (data);
 	priv = gcal->priv;
 
-#if 0
-	remove_alarms_for_object (gcal, uid);
-	add_alarms_for_object (gcal, uid);
-#endif
-
 	tag_calendar_by_client (priv->date_navigator, priv->client);
 }
 
@@ -1299,10 +1155,6 @@ obj_removed_cb (CalClient *client, const char *uid, gpointer data)
 
 	gcal = GNOME_CALENDAR (data);
 	priv = gcal->priv;
-
-#if 0
-	remove_alarms_for_object (gcal, uid);
-#endif
 
 	tag_calendar_by_client (priv->date_navigator, priv->client);
 }
@@ -1330,6 +1182,8 @@ gnome_calendar_construct (GnomeCalendar *gcal)
 			    GTK_SIGNAL_FUNC (obj_updated_cb), gcal);
 	gtk_signal_connect (GTK_OBJECT (priv->client), "obj_removed",
 			    GTK_SIGNAL_FUNC (obj_removed_cb), gcal);
+
+	alarm_notify_add_client (priv->client);
 
 	e_calendar_table_set_cal_client (E_CALENDAR_TABLE (priv->todo), priv->client);
 
@@ -1378,9 +1232,9 @@ gnome_calendar_new (void)
 /**
  * gnome_calendar_get_cal_client:
  * @gcal: A calendar view.
- * 
+ *
  * Queries the calendar client interface object that a calendar view is using.
- * 
+ *
  * Return value: A calendar client interface object.
  **/
 CalClient *
@@ -1689,7 +1543,7 @@ gnome_calendar_set_selected_time_range (GnomeCalendar *gcal,
  * @gcal: A calendar view.
  * @start_time: Return value for the start of the time selection.
  * @end_time: Return value for the end of the time selection.
- * 
+ *
  * Queries the time selection range on the calendar view.
  **/
 void

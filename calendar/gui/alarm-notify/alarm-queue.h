@@ -1,9 +1,8 @@
-/* Evolution calendar - Low-level alarm timer mechanism
+/* Evolution calendar - Alarm notification engine
  *
  * Copyright (C) 2000 Helix Code, Inc.
  *
- * Authors: Miguel de Icaza <miguel@helixcode.com>
- *          Federico Mena-Quintero <federico@helixcode.com>
+ * Authors: Federico Mena-Quintero <federico@helixcode.com>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -20,24 +19,17 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
  */
 
-#ifndef ALARM_H
-#define ALARM_H
+#ifndef ALARM_NOTIFY_H
+#define ALARM_NOTIFY_H
 
-#include <time.h>
-#include <glib.h>
+#include <cal-client/cal-client.h>
 
-
 
-typedef void (* AlarmFunction) (gpointer alarm_id, time_t trigger, gpointer data);
-typedef void (* AlarmDestroyNotify) (gpointer alarm_id, gpointer data);
+void alarm_notify_init (void);
+void alarm_notify_done (void);
 
-void alarm_init (void);
-void alarm_done (void);
+void alarm_notify_add_client (CalClient *client);
+void alarm_notify_remove_client (CalClient *client);
 
-gpointer alarm_add (time_t trigger, AlarmFunction alarm_fn, gpointer data,
-		    AlarmDestroyNotify destroy_notify_fn);
-void alarm_remove (gpointer alarm);
-
-
 
 #endif
