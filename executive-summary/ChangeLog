@@ -1,3 +1,12 @@
+2000-12-28  Iain Holmes  <iain@helixcode.com>
+
+	* test-service/rdf-summary.c (create_view): Aggregate a 
+	Bonobo::PersistStream interface.
+	(load_from_stream):
+	(summary_to_string):
+	(save_to_stream):
+	(content_types): Functions to load and save an XML document.
+
 2000-12-26  Iain Holmes  <iain@helixcode.com>
 
 	* component/e-summary.c (make_control_html): Neatened the code.

@@ -18,6 +18,7 @@
 #include <gnome.h>
 #include <bonobo.h>
 #include <gnome-xml/parser.h>
+#include <gnome-xml/xmlmemory.h>
 
 #include <evolution-services/executive-summary-component.h>
 #include <evolution-services/executive-summary-html-view.h>
@@ -281,9 +282,128 @@ view_destroyed (GtkObject *object,
 	g_free (summary);
 
 	running_views--;
+	g_print ("Running_views: %d\n", running_views);
 	if (running_views <= 0) {
 		gtk_main_quit ();
 	}
+}
+
+/* PersistStream callbacks */
+static void
+load_from_stream (BonoboPersistStream *ps,
+		  Bonobo_Stream stream,
+		  Bonobo_Persist_ContentType type,
+		  gpointer data,
+		  CORBA_Environment *ev)
+{
+	RdfSummary *summary = (RdfSummary *) data;
+	char *str;
+	xmlChar *xml_str;
+	xmlDocPtr doc;
+	xmlNodePtr root, children;
+
+	if (*type && g_strcasecmp (type, "application/x-rdf-summary") != 0) {
+		CORBA_exception_set (ev, CORBA_USER_EXCEPTION,
+				     ex_Bonobo_Persist_WrongDataType, NULL);
+		return;
+	}
+
+	bonobo_stream_client_read_string (stream, &str, ev);
+	if (ev->_major != CORBA_NO_EXCEPTION || str == NULL) {
+		CORBA_exception_set (ev, CORBA_USER_EXCEPTION,
+				     ex_Bonobo_Persist_WrongDataType, NULL);
+		return;
+	}
+
+	g_print ("Hydrating with %s\n", str);
+	doc = xmlParseDoc ((xmlChar *) str);
+	g_free (str);
+
+	root = doc->root;
+	children = root->childs;
+	while (children) {
+		if (strcasecmp (children->name, "location") == 0) {
+			xml_str = xmlNodeListGetString (doc, children->childs, 1);
+			summary->location = g_strdup (xml_str);
+			g_print ("Location = %s\n", summary->location);
+			xmlFree (xml_str);
+
+			children = children->next;
+			continue;
+		} 
+
+		if (strcasecmp (children->name, "limit") == 0) {
+			xml_str = xmlNodeListGetString (doc, children->childs, 1);
+			summary->limit = atoi (xml_str);
+			g_print ("Limit = %d\n", summary->limit);
+			xmlFree (xml_str);
+
+			children = children->next;
+			continue;
+		}
+
+		g_print ("Unknown name: %s\n", children->name);
+		children = children->next;
+	}
+	xmlFreeDoc (doc);
+}
+
+static char *
+summary_to_string (RdfSummary *summary)
+{
+	xmlChar *out_str;
+	int out_len = 0;
+	xmlDocPtr doc;
+	xmlNodePtr root;
+	xmlNsPtr ns;
+	char *tmp_str;
+	
+	doc = xmlNewDoc ("1.0");
+	ns = xmlNewGlobalNs (doc, "http://www.helixcode.com", "rdf");
+	
+	doc->root = xmlNewDocNode (doc, ns, "rdf-summary", NULL);
+
+	xmlNewChild (doc->root, ns, "location", summary->location);
+	tmp_str = g_strdup_printf ("%d", summary->limit);
+	xmlNewChild (doc->root, ns, "limit", tmp_str);
+	g_free (tmp_str);
+
+	xmlDocDumpMemory (doc, &out_str, &out_len);
+	g_print ("%s\n", out_str);
+
+	return out_str;
+}
+
+static void
+save_to_stream (BonoboPersistStream *ps,
+		const Bonobo_Stream stream,
+		Bonobo_Persist_ContentType type,
+		gpointer data,
+		CORBA_Environment *ev)
+{
+	RdfSummary *summary = (RdfSummary *) data;
+	char *str;
+
+	if (*type && g_strcasecmp (type, "application/x-rdf-summary") != 0) {
+		CORBA_exception_set (ev, CORBA_USER_EXCEPTION,
+				     ex_Bonobo_Persist_WrongDataType, NULL);
+		return;
+	}
+
+	str = summary_to_string (summary);
+	if (str)
+		bonobo_stream_client_printf (stream, TRUE, ev, str);
+	xmlFree (str);
+
+	return;
+}
+
+static Bonobo_Persist_ContentTypeList *
+content_types (BonoboPersistStream *ps,
+	       void *closure,
+	       CORBA_Environment *ev)
+{
+	return bonobo_persist_generate_content_types (1, "application/x-rdf-summary");
 }
 
 static void
@@ -555,6 +675,7 @@ create_view (ExecutiveSummaryComponentFactory *_factory,
 	RdfSummary *summary;
 	BonoboObject *component, *view;
 	BonoboEventSource *event_source;
+	BonoboPersistStream *stream;
 	BonoboPropertyBag *bag;
 	BonoboPropertyControl *property;
 	char *html = "<b>Loading RDF file. . .<br>Please wait</b>";
@@ -576,12 +697,15 @@ create_view (ExecutiveSummaryComponentFactory *_factory,
 	   interface aggregated */
 	event_source = bonobo_event_source_new ();
 
+
+	/* Summary::HtmlView */
 	view = executive_summary_html_view_new_full (event_source);
 	summary->view = view;
 	executive_summary_html_view_set_html (EXECUTIVE_SUMMARY_HTML_VIEW (view),
 					      html);
 	bonobo_object_add_interface (component, view);
 
+	/* Bonobo::PropertyBag */
 	bag = bonobo_property_bag_new_full (get_prop, set_prop, 
 					    event_source, summary);
 	summary->bag = bag;
@@ -604,6 +728,11 @@ create_view (ExecutiveSummaryComponentFactory *_factory,
 			    GTK_SIGNAL_FUNC (property_action), summary);
 
 	bonobo_object_add_interface (component, BONOBO_OBJECT(property));
+
+	/* Bonobo::PersistStream */
+	stream = bonobo_persist_stream_new (load_from_stream, save_to_stream,
+					    NULL, content_types, summary);
+	bonobo_object_add_interface (component, BONOBO_OBJECT (stream));
 
 	running_views++;
 	gtk_timeout_add (5000, (GSourceFunc) download, summary);
