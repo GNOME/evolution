@@ -39,7 +39,6 @@
 	* e-msg-composer-hdrs.c (entry_changed): duh, emit the signal
 	using an initialised value(!).
 
->>>>>>> 1.470
 2002-11-19  Radek Doulik  <rodo@ximian.com>
 
 	* e-msg-composer.c (e_msg_composer_get_sig_file_content): use
