@@ -458,7 +458,6 @@ static int
 remote_recv_line (CamelRemoteStore *store, char **dest, CamelException *ex)
 {
 	CamelStreamBuffer *stream;
-	CamelException internal_ex;
 	char *buf;
 	
 	*dest = NULL;
@@ -477,18 +476,14 @@ remote_recv_line (CamelRemoteStore *store, char **dest, CamelException *ex)
 	
 	buf = camel_stream_buffer_read_line (stream);
 	
-	camel_exception_init (&internal_ex);
 	if (buf == NULL) {
 		if (errno == EINTR)
-			camel_exception_set (&internal_ex, CAMEL_EXCEPTION_USER_CANCEL, _("Operation cancelled"));
+			camel_exception_set (ex, CAMEL_EXCEPTION_USER_CANCEL, _("Operation cancelled"));
 		else
-			camel_exception_setv (&internal_ex, CAMEL_EXCEPTION_SERVICE_UNAVAILABLE,
+			camel_exception_setv (ex, CAMEL_EXCEPTION_SERVICE_UNAVAILABLE,
 					      _("Server unexpectedly disconnected: %s"),
 					      g_strerror (errno));
-	}
-	
-	if (camel_exception_is_set (&internal_ex)) {
-		camel_exception_xfer (ex, &internal_ex);
+		
 		camel_service_disconnect (CAMEL_SERVICE (store), FALSE, NULL);
 		return -1;
 	}

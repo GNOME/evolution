@@ -159,15 +159,20 @@ set_errno (int code)
 {
 	/* FIXME: this should handle more. */
 	switch (code) {
+	case PR_PENDING_INTERRUPT_ERROR:
+		errno = EINTR;
+		break;
+	case PR_IO_PENDING_ERROR:
 	case PR_IO_TIMEOUT_ERROR:
 		errno = EAGAIN;
 		break;
+	case PR_WOULD_BLOCK_ERROR:
+		errno = EWOULDBLOCK;
+		break;
 	case PR_IO_ERROR:
+	default:
 		errno = EIO;
 		break;
-	default:
-		/* what to set by default?? */
-		errno = EINTR;
 	}
 }
 
@@ -179,10 +184,9 @@ stream_read (CamelStream *stream, char *buffer, size_t n)
 	
 	do {
 		nread = PR_Read (tcp_stream_ssl->priv->sockfd, buffer, n);
-	} while (nread == -1 && PR_GetError () == PR_PENDING_INTERRUPT_ERROR);
-	
-	if (nread == -1)
-		set_errno (PR_GetError ());
+		if (nread == -1)
+			set_errno (PR_GetError ());
+	} while (nread == -1 && (errno == EINTR || errno == EAGAIN || errno == EWOULDBLOCK));
 	
 	return nread;
 }
@@ -191,14 +195,18 @@ static ssize_t
 stream_write (CamelStream *stream, const char *buffer, size_t n)
 {
 	CamelTcpStreamSSL *tcp_stream_ssl = CAMEL_TCP_STREAM_SSL (stream);
-	ssize_t written = 0;
+	ssize_t w, written = 0;
 	
 	do {
-		written = PR_Write (tcp_stream_ssl->priv->sockfd, buffer, n);
-	} while (written == -1 && PR_GetError () == PR_PENDING_INTERRUPT_ERROR);
-	
-	if (written == -1)
-		set_errno (PR_GetError ());
+		do {
+			w = PR_Write (tcp_stream_ssl->priv->sockfd, buffer + written, n - written);
+			if (w == -1)
+				set_errno (PR_GetError ());
+		} while (w == -1 && (errno == EINTR || errno == EAGAIN || errno == EWOULDBLOCK));
+		
+		if (w > 0)
+			written += w;
+	} while (w != -1 && written < n);
 	
 	return written;
 }
@@ -367,7 +375,6 @@ ssl_cert_is_saved (const char *certid)
 {
 	char *filename;
 	struct stat st;
-	int ret;
 	
 	filename = g_strdup_printf ("%s/.camel_certs/%s", getenv ("HOME"), certid);
 	

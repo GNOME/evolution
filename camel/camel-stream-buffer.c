@@ -401,9 +401,13 @@ int camel_stream_buffer_gets(CamelStreamBuffer *sbf, char *buf, unsigned int max
 		if (outptr == outend)
 			break;
 
-		bytes_read = camel_stream_read(sbf->stream, sbf->buf, sbf->size);
-		if (bytes_read == -1)
-			return -1;
+		bytes_read = camel_stream_read (sbf->stream, sbf->buf, sbf->size);
+		if (bytes_read == -1) {
+			if (buf == outptr)
+				return -1;
+			else
+				bytes_read = 0;
+		}
 		inptr = sbf->ptr = sbf->buf;
 		inend = sbf->end = sbf->buf + bytes_read;
 	} while (bytes_read>0);

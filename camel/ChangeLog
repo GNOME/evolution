@@ -1,3 +1,30 @@
+2001-10-29  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* camel-tcp-stream-openssl.c (my_SSL_write): Removed.
+	(stream_write): Keep looping (non-blocking case) if errno is
+	EAGAIN, EINTR or EWOULDBLOCK. For NONBLOCKing I/O, sync up with
+	CamelTcpStreamRaw. As with CamelTcpStreamRaw/SSL - make sure to
+	write out everything before returning.
+	(my_SSL_read): Removed.
+	(stream_read): Just call ssl_error_to_errno() and check the errno
+	values that we care about so we can keep the general look of all
+	this stream code the same. Also when checking the return value of
+	SSL_read, check for <0 instead of ==-1 since the man page for
+	SSL_read doesn't say it will return -1 on fail, it just says <0.
+	(stream_flush): Don't fsync() since syncing on a socket is a Bad
+	Thing (tm).
+
+	* camel-tcp-stream-ssl.c (stream_write): Make sure we write out
+	everything just like in camel-tcp-stream-raw.c.
+
+	* camel-stream-buffer.c (camel_stream_buffer_gets): If
+	camel_stream_read() returns -1, don't necessarily return -1 to our
+	caller since it's possible that we did actually "read" some data
+	(ie, we copied some pre-buffered data into the out buffer).
+
+	* camel-stream-buffer.h: Removed CAMEL_STREAM_BUFFER_NEWLINE since
+	it never got used anywhere and it isn't supported anyway.
+
 2001-10-30    <NotZed@Ximian.com>
 
 	* providers/imap/camel-imap-store.c

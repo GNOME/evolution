@@ -176,8 +176,8 @@ errlib_error_to_errno (int ret)
 	if (error == 0) {
 		if (ret == 0)
 			errno = EINVAL; /* unexpected EOF */
-		/* otherwise errno should be set */
-	} else {
+		errno = 0;
+	} else if (!errno) {
 		/* ok, we get the shaft now. */
 		errno = EINTR;
 	}
@@ -210,22 +210,11 @@ ssl_error_to_errno (SSL *ssl, int ret)
 	}
 }
 
-static int
-my_SSL_read (SSL *ssl, void *buf, int num)
-{
-	int ret;
-
-	do
-		ret = SSL_read (ssl, buf, num);
-	while (ret < 0 && (SSL_get_error (ssl, ret) == SSL_ERROR_WANT_READ ||
-			   SSL_get_error (ssl, ret) == SSL_ERROR_WANT_WRITE));
-	return ret;
-}
-
 static ssize_t
 stream_read (CamelStream *stream, char *buffer, size_t n)
 {
 	CamelTcpStreamOpenSSL *tcp_stream_openssl = CAMEL_TCP_STREAM_OPENSSL (stream);
+	SSL *ssl = tcp_stream_openssl->priv->ssl;
 	ssize_t nread;
 	int cancel_fd;
 	
@@ -237,8 +226,10 @@ stream_read (CamelStream *stream, char *buffer, size_t n)
 	cancel_fd = camel_operation_cancel_fd (NULL);
 	if (cancel_fd == -1) {
 		do {
-			nread = my_SSL_read (tcp_stream_openssl->priv->ssl, buffer, n);
-		} while (nread == -1 && errno == EINTR);
+			nread = SSL_read (ssl, buffer, n);
+			if (nread < 0)
+				ssl_error_to_errno (ssl, nread);
+		} while (nread < 0 && (errno == EINTR || errno == EAGAIN || errno == EWOULDBLOCK));
 	} else {
 		int flags, fdmax;
 		fd_set rdset;
@@ -247,51 +238,36 @@ stream_read (CamelStream *stream, char *buffer, size_t n)
 		fcntl (tcp_stream_openssl->priv->sockfd, F_SETFL, flags | O_NONBLOCK);
 		
 		do {
-			nread = my_SSL_read (tcp_stream_openssl->priv->ssl, buffer, n);
+			FD_ZERO (&rdset);
+			FD_SET (tcp_stream_openssl->priv->sockfd, &rdset);
+			FD_SET (cancel_fd, &rdset);
+			fdmax = MAX (tcp_stream_openssl->priv->sockfd, cancel_fd) + 1;
 			
-			if (nread == 0)
-				return nread;
-			
-			if (nread == -1 && errno == EAGAIN) {
-				FD_ZERO (&rdset);
-				FD_SET (tcp_stream_openssl->priv->sockfd, &rdset);
-				FD_SET (cancel_fd, &rdset);
-				fdmax = MAX (tcp_stream_openssl->priv->sockfd, cancel_fd) + 1;
-				
-				select (fdmax, &rdset, 0, 0, NULL);
-				if (FD_ISSET (cancel_fd, &rdset)) {
-					fcntl (tcp_stream_openssl->priv->sockfd, F_SETFL, flags);
-					errno = EINTR;
-					return -1;
-				}
+			select (fdmax, &rdset, 0, 0, NULL);
+			if (FD_ISSET (cancel_fd, &rdset)) {
+				fcntl (tcp_stream_openssl->priv->sockfd, F_SETFL, flags);
+				errno = EINTR;
+				return -1;
 			}
-		} while (nread == -1 && errno == EAGAIN);
+			
+			do {
+				nread = SSL_read (ssl, buffer, n);
+				if (nread < 0)
+					ssl_error_to_errno (ssl, nread);
+			} while (nread < 0 && errno == EINTR);
+		} while (nread < 0 && (errno == EAGAIN || errno == EWOULDBLOCK));
 		
 		fcntl (tcp_stream_openssl->priv->sockfd, F_SETFL, flags);
 	}
 	
-	if (nread == -1)
-		ssl_error_to_errno (tcp_stream_openssl->priv->ssl, -1);
-	
 	return nread;
-}
-
-static int
-my_SSL_write (SSL *ssl, const void *buf, int num)
-{
-	int ret;
-
-	do
-		ret = SSL_write (ssl, buf, num);
-	while (ret < 0 && (SSL_get_error (ssl, ret) == SSL_ERROR_WANT_READ ||
-			   SSL_get_error (ssl, ret) == SSL_ERROR_WANT_WRITE));
-	return ret;
 }
 
 static ssize_t
 stream_write (CamelStream *stream, const char *buffer, size_t n)
 {
 	CamelTcpStreamOpenSSL *tcp_stream_openssl = CAMEL_TCP_STREAM_OPENSSL (stream);
+	SSL *ssl = tcp_stream_openssl->priv->ssl;
 	ssize_t w, written = 0;
 	int cancel_fd;
 	
@@ -303,8 +279,15 @@ stream_write (CamelStream *stream, const char *buffer, size_t n)
 	cancel_fd = camel_operation_cancel_fd (NULL);
 	if (cancel_fd == -1) {
 		do {
-			written = my_SSL_write (tcp_stream_openssl->priv->ssl, buffer, n);
-		} while (written == -1 && errno == EINTR);
+			do {
+				w = SSL_write (ssl, buffer + written, n - written);
+				if (w < 0)
+					ssl_error_to_errno (SSL_get_error (ssl, w));
+			} while (w < 0 && (errno == EINTR || errno == EAGAIN || errno == EWOULDBLOCK));
+			
+			if (w > 0)
+				written += w;
+		} while (w != -1 && written < n);
 	} else {
 		fd_set rdset, wrset;
 		int flags, fdmax;
@@ -326,18 +309,27 @@ stream_write (CamelStream *stream, const char *buffer, size_t n)
 				return -1;
 			}
 			
-			w = my_SSL_write (tcp_stream_openssl->priv->ssl, buffer + written, n - written);
-			if (w > 0)
+			do {
+				w = SSL_write (ssl, buffer + written, n - written);
+				if (w < 0)
+					ssl_error_to_errno (ssl, w);
+			} while (w < 0 && errno == EINTR);
+			
+			if (w < 0) {
+				if (errno == EAGAIN || errno == EWOULDBLOCK) {
+					w = 0;
+				} else {
+					error = errno;
+					fcntl (tcp_stream_raw->sockfd, F_SETFL, flags);
+					errno = error;
+					return -1;
+				}
+			} else
 				written += w;
-		} while (w != -1 && written < n);
+		} while (w >= 0 && written < n);
 		
 		fcntl (tcp_stream_openssl->priv->sockfd, F_SETFL, flags);
-		if (w == -1)
-			written = -1;
 	}
-	
-	if (written == -1)
-		ssl_error_to_errno (tcp_stream_openssl->priv->ssl, -1);
 	
 	return written;
 }
@@ -345,7 +337,7 @@ stream_write (CamelStream *stream, const char *buffer, size_t n)
 static int
 stream_flush (CamelStream *stream)
 {
-	return fsync (((CamelTcpStreamOpenSSL *)stream)->priv->sockfd);
+	return 0;
 }
 
 
