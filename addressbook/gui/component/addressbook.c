@@ -26,7 +26,7 @@
 
 #include <gtk/gtkmessagedialog.h>
 #include <libgnome/gnome-i18n.h>
-#include <libebook/e-book-async.h>
+#include <libebook/e-book.h>
 
 #include "e-util/e-passwords.h"
 

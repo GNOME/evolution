@@ -38,7 +38,7 @@
 #include <libgnomeprint/gnome-print-job.h>
 #include <libgnomeprintui/gnome-print-dialog.h>
 #include <libgnomeprintui/gnome-print-job-preview.h>
-#include <libebook/e-book-async.h>
+#include <libebook/e-book.h>
 #include <libebook/e-contact.h>
 #include <gal/util/e-util.h>
 

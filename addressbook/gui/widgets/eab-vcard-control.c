@@ -33,7 +33,7 @@
 #include <bonobo/bonobo-stream-client.h>
 #include <gal/util/e-util.h>
 
-#include <libebook/e-book-async.h>
+#include <libebook/e-book.h>
 #include <libebook/e-contact.h>
 #include <addressbook/gui/component/addressbook.h>
 #include <addressbook/gui/widgets/eab-contact-display.h>

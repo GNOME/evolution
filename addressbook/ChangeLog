@@ -1,3 +1,47 @@
+2004-06-17  Chris Toshok  <toshok@ximian.com>
+
+	* util/eab-book-util.c (eab_name_and_email_query):
+	EBookContactsCallback -> EBookListCallback.
+	(eab_nickname_query): same.
+
+	* printing/e-contact-print.c: e-book-async.h -> e-book.h
+
+	* gui/widgets/eab-vcard-control.c: e-book-async.h -> e-book.h.
+
+	* gui/widgets/e-addressbook-model.h: e-book-async.h -> e-book.h.
+
+	* gui/widgets/eab-popup-control.h: e-book-async.h -> e-book.h.
+
+	* gui/widgets/eab-popup-control.c: remove e-book-async.h include.
+	
+	* gui/merging/eab-contact-merging.h: e-book-async.h -> e-book.h.
+
+	* gui/contact-editor/e-contact-editor.h: e-book-async.h ->
+	e-book.h.
+
+	* gui/contact-editor/e-contact-editor.h: same.
+
+	* gui/contact-list-editor/e-contact-list-editor.h: same.
+	
+	* gui/contact-list-editor/e-contact-list-model.h: remove include
+	of e-book-async.h
+	
+	* gui/component/select-names/e-select-names-completion.h: include
+	e-book.h, not e-book-async.h
+	
+	* gui/component/select-names/e-select-names-model.c: same.
+
+	* gui/component/select-names/e-select-names.c: same.
+
+	* gui/component/addressbook-migrate.c: include e-book.h, not
+	e-book-async.h
+
+	* gui/component/addressbook-view.c: same.
+
+	* gui/component/addressbook.h: same.
+
+	* gui/component/addressbook.c: remove include e-book-async.h.
+
 2004-06-17  Sivaiah Nallagatla <snallagatla@novell.com>
 
         * gui/widgets/e-addressbook-view.etspec : update

@@ -16,7 +16,7 @@
 #include <gtk/gtksignal.h>
 
 #include <gal/util/e-util.h>
-#include <libebook/e-book-async.h>
+#include <libebook/e-book.h>
 #include <libebook/e-contact.h>
 #include "e-select-names-model.h"
 #include "e-select-names-marshal.h"

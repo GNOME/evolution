@@ -27,7 +27,7 @@
 
 #include "addressbook/gui/contact-editor/eab-editor.h"
 
-#include <libebook/e-book-async.h>
+#include <libebook/e-book.h>
 #include <libebook/e-contact.h>
 
 #include <gtk/gtktreeview.h>

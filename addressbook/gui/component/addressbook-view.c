@@ -61,8 +61,6 @@
 #include "addressbook/printing/e-contact-print.h"
 #include "addressbook/util/eab-book-util.h"
 
-#include <libebook/e-book-async.h>
-
 #define PARENT_TYPE G_TYPE_OBJECT
 static GObjectClass *parent_class = NULL;
 

@@ -3,7 +3,6 @@
 #define _E_CONTACT_LIST_MODEL_H_
 
 #include <gal/e-table/e-table-model.h>
-#include <libebook/e-book-async.h>
 #include <libebook/e-contact.h>
 #include "addressbook/util/e-destination.h"
 

@@ -28,7 +28,7 @@
 #define E_SELECT_NAMES_COMPLETION_H
 
 #include <gal/e-text/e-completion.h>
-#include <libebook/e-book-async.h>
+#include <libebook/e-book.h>
 #include "e-select-names-text-model.h"
 
 G_BEGIN_DECLS

@@ -31,7 +31,7 @@
 #include <gal/e-table/e-table-without.h>
 #include <gal/widgets/e-popup-menu.h>
 
-#include <libebook/e-book-async.h>
+#include <libebook/e-book.h>
 #include <libebook/e-contact.h>
 #include <addressbook/gui/widgets/e-addressbook-model.h>
 #include <addressbook/gui/widgets/e-addressbook-table-adapter.h>

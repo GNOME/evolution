@@ -74,7 +74,7 @@ guint
 eab_name_and_email_query (EBook *book,
 			  const gchar *name,
 			  const gchar *email,
-			  EBookContactsCallback cb,
+			  EBookListCallback cb,
 			  gpointer closure)
 {
 	gchar *email_query=NULL, *name_query=NULL;
@@ -153,7 +153,7 @@ eab_name_and_email_query (EBook *book,
 guint
 eab_nickname_query (EBook                 *book,
 		    const char            *nickname,
-		    EBookContactsCallback  cb,
+		    EBookListCallback      cb,
 		    gpointer               closure)
 {
 	EBookQuery *query;
