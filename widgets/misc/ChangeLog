@@ -1,3 +1,11 @@
+2001-08-09  Anna Marie Dirks <anna@ximian.com>
+
+	Fixes bug #6918
+	
+	* e-filter-bar.h: Changed the "Save As.." menu item to 
+	"Add to Saved Searches".
+
+
 2001-08-09  Anna Marie Dirks <anna@ximian.com> 
 	* e-filter-bar.h : changed the E_FILTERBAR_RESET label from
 	"Show All" to "Clear" to alleviate confusion about whether
