@@ -978,16 +978,21 @@ comp_editor_send_comp (CompEditor *editor, CalComponentItipMethod method)
 		klass->send_comp (editor, method);
 }
 
-void
+gboolean
 comp_editor_close (CompEditor *editor)
 {
-	g_return_if_fail (editor != NULL);
-	g_return_if_fail (IS_COMP_EDITOR (editor));
+	gboolean close;
+	
+	g_return_val_if_fail (editor != NULL, FALSE);
+	g_return_val_if_fail (IS_COMP_EDITOR (editor), FALSE);
 
 	commit_all_fields (editor);
 	
-	if (prompt_to_save_changes (editor, TRUE))
+	close = prompt_to_save_changes (editor, TRUE);
+	if (close)
 		close_dialog (editor);
+
+	return close;
 }
 
 /**

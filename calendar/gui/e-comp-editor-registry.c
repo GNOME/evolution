@@ -171,15 +171,16 @@ foreach_close_cb (gpointer key, gpointer value, gpointer data)
 	gtk_signal_disconnect_by_data (GTK_OBJECT (rdata->editor), data);
 	
 	comp_editor_focus (rdata->editor);
-	comp_editor_close (rdata->editor);
-
+	if (!comp_editor_close (rdata->editor))
+		return FALSE;
+		
 	g_free (rdata->uid);
 	g_free (rdata);
 		
 	return TRUE;
 }
 
-void
+gboolean
 e_comp_editor_registry_close_all (ECompEditorRegistry *reg)
 {
 	ECompEditorRegistryPrivate *priv;
@@ -190,6 +191,10 @@ e_comp_editor_registry_close_all (ECompEditorRegistry *reg)
 	priv = reg->priv;
 
 	g_hash_table_foreach_remove (priv->editors, foreach_close_cb, reg);
+	if (g_hash_table_size (priv->editors) != 0)
+		return FALSE;
+	
+	return TRUE;
 }
 
 static void

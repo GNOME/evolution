@@ -1,5 +1,21 @@
 2002-05-26  JP Rosevear  <jpr@ximian.com>
 
+	* gui/e-comp-editor-registry.c (e_comp_editor_registry_close_all):
+	if there are remaining items, return false
+	(foreach_close_cb): don't remove the item if it couldn't be closed
+
+	* gui/e-comp-editor-registry.h: update proto
+
+	* gui/component-factory.c (request_quit): return a boolean
+	indicating if everything was closed
+
+	* gui/dialogs/comp-editor.h: update proto
+
+	* gui/dialogs/comp-editor.c (comp_editor_close): return true if
+	the editor was closed, false otherwise
+
+2002-05-26  JP Rosevear  <jpr@ximian.com>
+	
 	* gui/e-comp-editor-registry.[hc]: a registry of comp editors so
 	we can close them all centrally
 

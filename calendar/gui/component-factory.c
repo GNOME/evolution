@@ -472,9 +472,7 @@ xfer_folder (EvolutionShellComponent *shell_component,
 static gboolean
 request_quit (EvolutionShellComponent *shell_component, void *closure)
 {
-	e_comp_editor_registry_close_all (comp_editor_registry);
-	
-	return TRUE;
+	return e_comp_editor_registry_close_all (comp_editor_registry);
 }
 
 static GList *shells = NULL;
