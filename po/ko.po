@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: evolution 1.5.3\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2004-07-09 21:59+0900\n"
-"PO-Revision-Date: 2004-07-15 06:07+0900\n"
+"PO-Revision-Date: 2004-07-15 06:11+0900\n"
 "Last-Translator: Changwoo Ryu <cwryu@debian.org>\n"
 "Language-Team: GNOME Korea <gnome-kr-hackers@lists.kldp.net>\n"
 "MIME-Version: 1.0\n"
@@ -576,7 +576,7 @@ msgstr "전자메일 주소"
 #: addressbook/gui/component/ldap-config.glade.h:22
 msgid ""
 "Evolution will use this email address to authenticate you with the server."
-msgstr "Evolution은 이 전자메일 주소를 서버에 인증할 때 사용합니다"
+msgstr "Evolution은 이 전자메일 주소를 서버에 인증할 때 사용합니다."
 
 #: addressbook/gui/component/ldap-config.glade.h:23
 msgid "Find Possible Search Bases"
@@ -3859,7 +3859,7 @@ msgstr "%s에 알림"
 
 #: calendar/gui/alarm-notify/alarm-notify.glade.h:1
 msgid "Snooze _time (minutes):"
-msgstr "연기할 시간 (분 단위)(_T)"
+msgstr "연기할 시간 (분 단위)(_T):"
 
 #: calendar/gui/alarm-notify/alarm-notify.glade.h:2
 msgid "_Edit appointment"
@@ -10486,7 +10486,7 @@ msgstr "IMAP4 server %s에서 예상치 못한 답변: %s"
 #: camel/providers/imap4/camel-imap4-engine.c:232
 #, c-format
 msgid "Unexpected greeting from IMAP server %s."
-msgstr "IMAP server에서 예상치 못한 인사말: %s"
+msgstr "IMAP server %s에서 예상치 못한 인사말이 왔습니다."
 
 #: camel/providers/imap4/camel-imap4-engine.c:416
 #, c-format
@@ -12262,7 +12262,7 @@ msgstr "메일을 작성하기 전에 계정을 설정해야 합니다."
 #: composer/mail-composer-errors.xml.h:48
 #: composer/mail-composer-errors.xml.h:52
 msgid "Could not create composer window."
-msgstr "메일 작성 창을 만들 수 없습니다"
+msgstr "메일 작성 창을 만들 수 없습니다."
 
 #. mail-composer:no-address-control secondary
 #: composer/mail-composer-errors.xml.h:50
@@ -14137,7 +14137,7 @@ msgstr "며칠이 지나면 끝날 때 휴지통을 비우는 지"
 
 #: mail/evolution-mail.schemas.in.in.h:51
 msgid "Minimum time between emptying the trash on exit, in days."
-msgstr "끝날 때 휴지통을 비울 최소 간격 (며칠)"
+msgstr "끝날 때 휴지통을 비울 최소 간격 (며칠)."
 
 #: mail/evolution-mail.schemas.in.in.h:52
 msgid "New Mail Notify sound file"
@@ -15887,7 +15887,7 @@ msgstr "\"{0}\" 가상 폴더를 편집할 수 없습니다: 폴더가 없습니
 msgid ""
 "This folder may have been added implictly, go to the virtual folder editor "
 "to add it explictly, if required."
-msgstr "묵시적으로 더한 폴더일 수도 있습니다. 필요하다면, 가상 폴더 편집 창으로 가서 직접 추가하십시오."
+msgstr "묵시적으로 더한 폴더일 수도 있습니다. 필요하다면, 가상 폴더 편집 창으로 가서 직접 더하십시오."
 
 #. mail:vfolder-notunique primary
 #: mail/mail-errors.xml.h:190
