@@ -1949,21 +1949,21 @@ summary_build_content_info(CamelFolderSummary *s, CamelMessageInfo *msginfo, Cam
 			
 			encoding = camel_content_transfer_encoding_decode(camel_mime_parser_header(mp, "content-transfer-encoding", NULL));
 			if (encoding) {
-				if (!strcasecmp(encoding, "base64")) {
+				if (!g_ascii_strcasecmp(encoding, "base64")) {
 					d(printf(" decoding base64\n"));
 					if (p->filter_64 == NULL)
 						p->filter_64 = camel_mime_filter_basic_new_type(CAMEL_MIME_FILTER_BASIC_BASE64_DEC);
 					else
 						camel_mime_filter_reset((CamelMimeFilter *)p->filter_64);
 					enc_id = camel_mime_parser_filter_add(mp, (CamelMimeFilter *)p->filter_64);
-				} else if (!strcasecmp(encoding, "quoted-printable")) {
+				} else if (!g_ascii_strcasecmp(encoding, "quoted-printable")) {
 					d(printf(" decoding quoted-printable\n"));
 					if (p->filter_qp == NULL)
 						p->filter_qp = camel_mime_filter_basic_new_type(CAMEL_MIME_FILTER_BASIC_QP_DEC);
 					else
 						camel_mime_filter_reset((CamelMimeFilter *)p->filter_qp);
 					enc_id = camel_mime_parser_filter_add(mp, (CamelMimeFilter *)p->filter_qp);
-				} else if (!strcasecmp (encoding, "x-uuencode")) {
+				} else if (!g_ascii_strcasecmp (encoding, "x-uuencode")) {
 					d(printf(" decoding x-uuencode\n"));
 					if (p->filter_uu == NULL)
 						p->filter_uu = camel_mime_filter_basic_new_type(CAMEL_MIME_FILTER_BASIC_UU_DEC);
@@ -1978,8 +1978,8 @@ summary_build_content_info(CamelFolderSummary *s, CamelMessageInfo *msginfo, Cam
 
 			charset = camel_content_type_param(ct, "charset");
 			if (charset!=NULL
-			    && !(strcasecmp(charset, "us-ascii")==0
-				 || strcasecmp(charset, "utf-8")==0)) {
+			    && !(g_ascii_strcasecmp(charset, "us-ascii")==0
+				 || g_ascii_strcasecmp(charset, "utf-8")==0)) {
 				d(printf(" Adding conversion filter from %s to UTF-8\n", charset));
 				mfc = g_hash_table_lookup(p->filter_charset, charset);
 				if (mfc == NULL) {
@@ -2461,7 +2461,7 @@ camel_system_flag (const char *name)
 	g_return_val_if_fail (name != NULL, 0);
 	
 	for (flag = flag_names; *flag->name; flag++)
-		if (!strcasecmp (name, flag->name))
+		if (!g_ascii_strcasecmp (name, flag->name))
 			return flag->value;
 	
 	return 0;

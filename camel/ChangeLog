@@ -1,3 +1,24 @@
+2004-11-28	S.Çağlar Onur <caglar@uludag.org.tr>
+
+	** See bug #69446.
+
+	* evolution-2.0.2/camel/camel-charset-map.c (camel_charset_iso_to_windows)
+	* evolution-2.0.2/camel/camel-filter-search.c (check_header)
+	* evolution-2.0.2/camel/camel-folder-search.c (check_header)
+	* evolution-2.0.2/camel/camel-folder-summary.c (message_info_new,summary_build_content_info,camel_system_flag)
+	* evolution-2.0.2/camel/camel-html-parser.c (camel_html_parser_attr)
+	* evolution-2.0.2/camel/camel-mime-filter-enriched.c (param_parse,camel_mime_filter_enriched_init)
+	* evolution-2.0.2/camel/camel-mime-parser.c (folder_scan_step,main)
+	* evolution-2.0.2/camel/camel-mime-utils.c (camel_header_param,camel_header_set_param,camel_content_type_is,camel_transfer_encoding_from_string,camel_content_type_format,camel_content_type_simple,camel_header_decode_date,header_raw_find_node)
+	* evolution-2.0.2/camel/camel-sasl-digest-md5.c (decode_data_type)
+	* evolution-2.0.2/camel/providers/imap/camel-imap-command.c (camel_imap_response_free)
+	* evolution-2.0.2/camel/providers/imap/camel-imap-folder.c (camel_imap_folder_new,camel_imap_folder_selected,imap_refresh_info,camel_imap_folder_new,camel_imap_folder_selected)
+	* evolution-2.0.2/camel/providers/imap/camel-imap-store.c (imap_get_capability,imap_connect_online,get_folder_online,get_folder_offline,get_subscribed_folders,folder_hash,get_folders)
+	* evolution-2.0.2/camel/providers/pop3/camel-pop3-store.c (get_folder)
+	* evolution-2.0.2/camel/tests/lib/folders.c: (test_folder_message_ops)
+	some strcasecmp() calls changed with g_ascii_strcasecmp() for Turkish 
+	character conversiton problems [ http://www.i18nguy.com/unicode/turkish-i18n.html ]
+
 2004-10-12  Radek Doulik  <rodo@ximian.com>
 
 	* camel-junk-plugin.c: new init method implementation

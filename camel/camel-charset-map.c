@@ -336,23 +336,23 @@ camel_charset_iso_to_windows (const char *isocharset)
 	 *    windows-cp1257.
 	 */
 	
-	if (!strcasecmp (isocharset, "iso-8859-1") || !strcasecmp (isocharset, "us-ascii"))
+	if (!g_ascii_strcasecmp (isocharset, "iso-8859-1") || !g_ascii_strcasecmp (isocharset, "us-ascii"))
 		return "windows-cp1252";
-	else if (!strcasecmp (isocharset, "iso-8859-2"))
+	else if (!g_ascii_strcasecmp (isocharset, "iso-8859-2"))
 		return "windows-cp1250";
-	else if (!strcasecmp (isocharset, "iso-8859-4"))
+	else if (!g_ascii_strcasecmp (isocharset, "iso-8859-4"))
 		return "windows-cp1257";
-	else if (!strcasecmp (isocharset, "iso-8859-5"))
+	else if (!g_ascii_strcasecmp (isocharset, "iso-8859-5"))
 		return "windows-cp1251";
-	else if (!strcasecmp (isocharset, "iso-8859-6"))
+	else if (!g_ascii_strcasecmp (isocharset, "iso-8859-6"))
 		return "windows-cp1256";
-	else if (!strcasecmp (isocharset, "iso-8859-7"))
+	else if (!g_ascii_strcasecmp (isocharset, "iso-8859-7"))
 		return "windows-cp1253";
-	else if (!strcasecmp (isocharset, "iso-8859-8"))
+	else if (!g_ascii_strcasecmp (isocharset, "iso-8859-8"))
 		return "windows-cp1255";
-	else if (!strcasecmp (isocharset, "iso-8859-9"))
+	else if (!g_ascii_strcasecmp (isocharset, "iso-8859-9"))
 		return "windows-cp1254";
-	else if (!strcasecmp (isocharset, "iso-8859-13"))
+	else if (!g_ascii_strcasecmp (isocharset, "iso-8859-13"))
 		return "windows-cp1257";
 	
 	return isocharset;

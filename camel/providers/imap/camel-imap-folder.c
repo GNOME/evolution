@@ -371,7 +371,7 @@ camel_imap_folder_selected (CamelFolder *folder, CamelImapResponse *response,
 			val = strtoul (resp + 2, &resp, 10);
 			if (val == 0)
 				continue;
-			if (!strcasecmp (resp, " EXISTS")) {
+			if (!g_ascii_strcasecmp (resp, " EXISTS")) {
 				/* Another one?? */
 				exists = val;
 				continue;
@@ -512,7 +512,7 @@ imap_refresh_info (CamelFolder *folder, CamelException *ex)
 	 * should do it.  */
 	CAMEL_SERVICE_LOCK (imap_store, connect_lock);
 	if (imap_store->current_folder != folder
-	    || strcasecmp(folder->full_name, "INBOX") == 0) {
+	    || g_ascii_strcasecmp(folder->full_name, "INBOX") == 0) {
 		response = camel_imap_command (imap_store, folder, ex, NULL);
 		if (response) {
 			camel_imap_folder_selected (folder, response, ex);
@@ -528,7 +528,7 @@ imap_refresh_info (CamelFolder *folder, CamelException *ex)
 #if 0
 		/* on some servers need to CHECKpoint INBOX to recieve new messages?? */
 		/* rfc2060 suggests this, but havent seen a server that requires it */
-		if (strcasecmp(folder->full_name, "INBOX") == 0) {
+		if (g_ascii_strcasecmp(folder->full_name, "INBOX") == 0) {
 			response = camel_imap_command (imap_store, folder, ex, "CHECK");
 			camel_imap_response_free (imap_store, response);
 		}

@@ -1675,7 +1675,7 @@ tail_recurse:
 		type = CAMEL_MIME_PARSER_STATE_HEADER;
 		if ( (content = camel_header_raw_find(&h->headers, "Content-Type", NULL))
 		     && (ct = camel_content_type_decode(content))) {
-			if (!strcasecmp(ct->type, "multipart")) {
+			if (!g_ascii_strcasecmp(ct->type, "multipart")) {
 				if (!camel_content_type_is(ct, "multipart", "signed")
 				    && (bound = camel_content_type_param(ct, "boundary"))) {
 					d(printf("multipart, boundary = %s\n", bound));
@@ -1694,7 +1694,7 @@ tail_recurse:
 			} else if (!strcasecmp(ct->type, "message")) {
 				if (!strcasecmp(ct->subtype, "rfc822")
 				    || !strcasecmp(ct->subtype, "news")
-				    /*|| !strcasecmp(ct->subtype, "partial")*/) {
+				    /*|| !g_ascii_strcasecmp(ct->subtype, "partial")*/) {
 					type = CAMEL_MIME_PARSER_STATE_MESSAGE;
 				}
 			}
@@ -1906,7 +1906,7 @@ int main(int argc, char **argv)
 			case CAMEL_MIME_PARSER_STATE_HEADER:
 				if (s->parts->content_type
 				    && (charset = camel_content_type_param(s->parts->content_type, "charset"))) {
-					if (strcasecmp(charset, "us-ascii")) {
+					if (g_ascii_strcasecmp(charset, "us-ascii")) {
 #if 0
 						folder_push_filter_charset(s, "UTF-8", charset);
 #endif

@@ -549,7 +549,7 @@ camel_imap_response_free (CamelImapStore *store, CamelImapResponse *response)
 		if (response->folder) {
 			/* Check if it's something we need to handle. */
 			number = strtoul (resp + 2, &p, 10);
-			if (!strcasecmp (p, " EXISTS")) {
+			if (!g_ascii_strcasecmp (p, " EXISTS")) {
 				exists = number;
 			} else if (!strcasecmp (p, " EXPUNGE")) {
 				if (!expunged) {
