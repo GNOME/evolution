@@ -1,3 +1,8 @@
+2001-04-13  Christopher James Lahey  <clahey@ximian.com>
+
+	* message-list.c (on_cursor_activated_cmd): Only activate the
+	message if the cursor has moved.
+
 2001-04-12  Christopher James Lahey  <clahey@ximian.com>
 
 	* message-list.c (e_mail_address_new): Updated this function to be
