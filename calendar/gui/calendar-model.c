@@ -112,12 +112,14 @@ calendar_model_class_init (CalendarModelClass *class)
 	etm_class->column_count = calendar_model_column_count;
 	etm_class->row_count = calendar_model_row_count;
 	etm_class->value_at = calendar_model_value_at;
+#if 0
 	etm_class->set_value_at = calendar_model_set_value_at;
 	etm_class->is_cell_editable = calendar_model_is_cell_editable;
 	etm_class->duplicate_value = calendar_model_duplicate_value;
 	etm_class->free_value = calendar_model_free_value;
 	etm_class->initialize_value = calendar_model_initialize_value;
 	etm_class->value_is_empty = calendar_model_value_is_empty;
+#endif
 }
 
 /* Object initialization function for the calendar table model */
