@@ -124,6 +124,10 @@ void  evolution_shell_component_client_populate_folder_context_menu  (EvolutionS
 								      const char                    *physical_uri,
 								      const char                    *type);
 
+void  evolution_shell_component_client_request_quit  (EvolutionShellComponentClient         *shell_component_client,
+						      EvolutionShellComponentClientCallback  callback,
+						      void                                  *data);
+
 #ifdef cplusplus
 }
 #endif /* cplusplus */

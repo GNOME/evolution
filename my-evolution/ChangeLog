@@ -1,3 +1,8 @@
+2002-05-15  Ettore Perazzoli  <ettore@ximian.com>
+
+	* component-factory.c (create_component): Pass NULL as
+	@request_quit_fn.
+
 2002-05-14  Christopher James Lahey  <clahey@ximian.com>
 
 	* e-summary-mail.c (folder_gen_html): Use the uri stored in the

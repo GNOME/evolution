@@ -70,6 +70,7 @@
 #include "e-splash.h"
 #include "e-uri-schema-registry.h"
 
+#include "evolution-shell-component-client.h"
 #include "evolution-shell-component-utils.h"
 #include "evolution-storage-set-view-factory.h"
 
@@ -2142,6 +2143,69 @@ e_shell_construct_result_to_string (EShellConstructResult result)
 	default:
 		return _("Unknown error");
 	}
+}
+
+
+static void
+prepare_for_quit_callback (EvolutionShellComponentClient *client,
+			   EvolutionShellComponentResult result,
+			   void *data)
+{
+	GNOME_Evolution_ShellComponentListener_Result *result_return;
+
+	result_return = (GNOME_Evolution_ShellComponentListener_Result *) data;
+	*result_return = result;
+}
+
+gboolean
+e_shell_prepare_for_quit (EShell *shell)
+{
+	EShellPrivate *priv;
+	GList *component_ids;
+	GList *p;
+	gboolean retval;
+
+	g_return_val_if_fail (E_IS_SHELL (shell), FALSE);
+
+	priv = shell->priv;
+
+	/* Make all the views insensitive so we have some modal-like
+	   behavior.  */
+	for (p = priv->views; p != NULL; p = p->next)
+		gtk_widget_set_sensitive (GTK_WIDGET (p->data), FALSE);
+
+	component_ids = e_component_registry_get_id_list (priv->component_registry);
+
+	for (p = component_ids; p != NULL; p = p->next) {
+		EvolutionShellComponentClient *client;
+		const char *id;
+		GNOME_Evolution_ShellComponentListener_Result result;
+
+		id = (const char *) p->data;
+		client = e_component_registry_get_component_by_id (priv->component_registry, id);
+
+		result = (GNOME_Evolution_ShellComponentListener_Result) -1;
+
+		evolution_shell_component_client_request_quit (client, prepare_for_quit_callback, &result);
+
+		while (result == (GNOME_Evolution_ShellComponentListener_Result) -1)
+			gtk_main_iteration ();
+
+		if (result != GNOME_Evolution_ShellComponentListener_OK) {
+			retval = FALSE;
+			goto end;
+		}
+	}
+
+	retval = TRUE;
+
+ end:
+	/* Restore all the views to be sensitive.  */
+	for (p = priv->views; p != NULL; p = p->next)
+		gtk_widget_set_sensitive (GTK_WIDGET (p->data), TRUE);
+
+	e_free_string_list (component_ids);
+	return retval;
 }
 
 

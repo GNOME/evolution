@@ -52,6 +52,7 @@ typedef struct _EvolutionShellComponentClass   EvolutionShellComponentClass;
 
 enum _EvolutionShellComponentResult {
 	EVOLUTION_SHELL_COMPONENT_OK,
+	EVOLUTION_SHELL_COMPONENT_CANCEL,
 	EVOLUTION_SHELL_COMPONENT_CORBAERROR,
 	EVOLUTION_SHELL_COMPONENT_INTERRUPTED,
 	EVOLUTION_SHELL_COMPONENT_INVALIDARG,
@@ -110,6 +111,9 @@ typedef char * (* EvolutionShellComponentGetDndSelectionFn) (EvolutionShellCompo
 							     int *selection_length_return,
 							     void *closure);
 
+typedef gboolean (* EvolutionShellComponentRequestQuitFn) (EvolutionShellComponent *shell_component,
+							   void *closure);
+
 struct _EvolutionShellComponentFolderType {
 	char *name;
 	char *icon_name;
@@ -161,26 +165,28 @@ struct _EvolutionShellComponentClass {
 };
 
 
-GtkType                  evolution_shell_component_get_type   (void);
-void                     evolution_shell_component_construct  (EvolutionShellComponent                            *shell_component,
-							       const EvolutionShellComponentFolderType             folder_types[],
-							       const char                                         *external_uri_schemas[],
-							       EvolutionShellComponentCreateViewFn                 create_view_fn,
-							       EvolutionShellComponentCreateFolderFn               create_folder_fn,
-							       EvolutionShellComponentRemoveFolderFn               remove_folder_fn,
-							       EvolutionShellComponentXferFolderFn                 xfer_folder_fn,
-							       EvolutionShellComponentPopulateFolderContextMenuFn  populate_folder_context_menu_fn,
-							       EvolutionShellComponentGetDndSelectionFn            get_dnd_selection_fn,
-							       void                                               *closure);
-EvolutionShellComponent *evolution_shell_component_new        (const EvolutionShellComponentFolderType             folder_types[],
-							       const char                                         *external_uri_schemas[],
-							       EvolutionShellComponentCreateViewFn                 create_view_fn,
-							       EvolutionShellComponentCreateFolderFn               create_folder_fn,
-							       EvolutionShellComponentRemoveFolderFn               remove_folder_fn,
-							       EvolutionShellComponentXferFolderFn                 xfer_folder_fn,
-							       EvolutionShellComponentPopulateFolderContextMenuFn  populate_folder_context_menu_fn,
-							       EvolutionShellComponentGetDndSelectionFn            get_dnd_selection_fn,
-							       void                                               *closure);
+GtkType evolution_shell_component_get_type   (void);
+void evolution_shell_component_construct  (EvolutionShellComponent                            *shell_component,
+					   const EvolutionShellComponentFolderType             folder_types[],
+					   const char                                         *external_uri_schemas[],
+					   EvolutionShellComponentCreateViewFn                 create_view_fn,
+					   EvolutionShellComponentCreateFolderFn               create_folder_fn,
+					   EvolutionShellComponentRemoveFolderFn               remove_folder_fn,
+					   EvolutionShellComponentXferFolderFn                 xfer_folder_fn,
+					   EvolutionShellComponentPopulateFolderContextMenuFn  populate_folder_context_menu_fn,
+					   EvolutionShellComponentGetDndSelectionFn            get_dnd_selection_fn,
+					   EvolutionShellComponentRequestQuitFn                request_quit_fn,
+					   void                                               *closure);
+EvolutionShellComponent *evolution_shell_component_new (const EvolutionShellComponentFolderType             folder_types[],
+							const char                                         *external_uri_schemas[],
+							EvolutionShellComponentCreateViewFn                 create_view_fn,
+							EvolutionShellComponentCreateFolderFn               create_folder_fn,
+							EvolutionShellComponentRemoveFolderFn               remove_folder_fn,
+							EvolutionShellComponentXferFolderFn                 xfer_folder_fn,
+							EvolutionShellComponentPopulateFolderContextMenuFn  populate_folder_context_menu_fn,
+							EvolutionShellComponentGetDndSelectionFn            get_dnd_selection_fn,
+							EvolutionShellComponentRequestQuitFn                request_quit_fn,
+							void                                               *closure);
 EvolutionShellClient    *evolution_shell_component_get_owner  (EvolutionShellComponent                            *shell_component);
 
 void  evolution_shell_component_add_user_creatable_item  (EvolutionShellComponent *shell_component,

@@ -147,7 +147,9 @@ command_quit (BonoboUIComponent *uih,
 	shell_view = E_SHELL_VIEW (data);
 
 	shell = e_shell_view_get_shell (shell_view);
-	e_shell_destroy_all_views (shell);
+
+	if (e_shell_prepare_for_quit (shell))
+		e_shell_destroy_all_views (shell);
 }
 
 static void

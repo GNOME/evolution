@@ -952,7 +952,7 @@ create_component (void)
 							 xfer_folder,
 							 populate_folder_context_menu,
 							 get_dnd_selection,
-							 NULL);
+							 NULL, NULL);
 
 	gtk_signal_connect (GTK_OBJECT (shell_component), "send_receive",
 			    GTK_SIGNAL_FUNC (send_receive_cb), NULL);

@@ -1,3 +1,23 @@
+2002-05-15  Ettore Perazzoli  <ettore@ximian.com>
+
+	* e-shell-view-menu.c (command_quit): Check with
+	e_shell_prepare_for_quit() before quitting.
+
+	* e-shell.c (e_shell_prepare_for_quit): New.
+
+	* evolution-test-component.c (request_quit_fn): New function
+	asking for confirmation to quit.
+
+	* evolution-shell-component.c (evolution_shell_component_new): New
+	arg @request_quit_fn.
+	(impl_requestQuit): New, implementation for
+	EvolutionShellComponent::requestQuit.
+	(evolution_shell_component_result_to_string): Handle
+	EVOLUTION_SHELL_COMPONENT_CANCEL.
+	(evolution_shell_component_client_request_quit): New.
+
+	* Evolution-ShellComponent.idl (requestQuit): New.
+
 2002-05-15  Iain <iain@ximian.com>
 
 	* e-corba-storage-registry.c (impl_StorageRegistry_addStorage): Remove

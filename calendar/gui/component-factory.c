@@ -677,6 +677,7 @@ create_object (void)
 							 xfer_folder,
 							 NULL, /* populate_folder_context_menu_fn */
 							 NULL, /* get_dnd_selection_fn */
+							 NULL, /* request_quit */
 							 NULL  /* closure */);
 
 	/* Offline handler */

@@ -488,6 +488,28 @@ create_view_fn (EvolutionShellComponent *shell_component,
 	return EVOLUTION_SHELL_COMPONENT_OK;
 }
 
+static gboolean
+request_quit_fn (EvolutionShellComponent *shell_component,
+		 void *closure)
+{
+	GtkWidget *confirm_dialog;
+	GtkWidget *label;
+	int button;
+
+	confirm_dialog = gnome_dialog_new ("Quit?", GNOME_STOCK_BUTTON_OK, GNOME_STOCK_BUTTON_CANCEL, NULL);
+	label = gtk_label_new ("Please confirm that you want to quit now.");
+	gtk_container_add (GTK_CONTAINER (GNOME_DIALOG (confirm_dialog)->vbox), label);
+	gtk_widget_show_all (confirm_dialog);
+
+	button = gnome_dialog_run (GNOME_DIALOG (confirm_dialog));
+	gtk_widget_destroy (confirm_dialog);
+
+	if (button == 0)
+		return TRUE;	/* OK */
+	else
+		return FALSE;	/* Cancel */
+}
+
 
 /* Callbacks.  */
 
@@ -547,7 +569,9 @@ register_component (void)
 	shell_component = evolution_shell_component_new (folder_types,
 							 NULL,
 							 create_view_fn,
-							 NULL, NULL, NULL, NULL, NULL, NULL);
+							 NULL, NULL, NULL, NULL, NULL,
+							 request_quit_fn,
+							 NULL);
 
 	gtk_signal_connect (GTK_OBJECT (shell_component), "owner_set",
 			    GTK_SIGNAL_FUNC (owner_set_callback), NULL);

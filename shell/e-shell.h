@@ -150,6 +150,8 @@ Bonobo_ConfigDatabase            e_shell_get_config_db                     (EShe
 EComponentRegistry              *e_shell_get_component_registry            (EShell *shell);
 EShellUserCreatableItemsHandler *e_shell_get_user_creatable_items_handler  (EShell *shell);
 
+gboolean e_shell_prepare_for_quit (EShell *shell);
+
 
 const char *e_shell_construct_result_to_string (EShellConstructResult result);
 

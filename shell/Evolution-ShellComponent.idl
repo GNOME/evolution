@@ -137,11 +137,19 @@ module Evolution {
 		   @show_dialog is true, display a progress dialog for the
 		   operation as well.  */
 		void sendReceive (in boolean show_dialog);
+
+		/* Request the component to quit.  The component should report
+		   through the listener (through OK or CANCEL) whether the
+		   shell can quit safely.  (This is meant to be used for
+		   confirmations before quitting.)  */
+		oneway void requestQuit (in ShellComponentListener listener)
+			raises (Busy);
 	};
 
 	interface ShellComponentListener {
 		enum Result {
 			OK,
+			CANCEL,
 			UNSUPPORTED_OPERATION,
 			UNSUPPORTED_TYPE,
 			EXISTS,

@@ -64,6 +64,7 @@ struct _EvolutionShellComponentPrivate {
 	EvolutionShellComponentXferFolderFn xfer_folder_fn;
 	EvolutionShellComponentPopulateFolderContextMenuFn populate_folder_context_menu_fn;
 	EvolutionShellComponentGetDndSelectionFn get_dnd_selection_fn;
+	EvolutionShellComponentRequestQuitFn request_quit_fn;
 
 	EvolutionShellClient *owner_client;
 
@@ -670,6 +671,32 @@ impl_sendReceive (PortableServer_Servant servant,
 	gtk_signal_emit (GTK_OBJECT (shell_component), signals[SEND_RECEIVE], show_dialog);
 }
 
+static void
+impl_requestQuit (PortableServer_Servant servant,
+		  const GNOME_Evolution_ShellComponentListener listener,
+		  CORBA_Environment *ev)
+{
+	EvolutionShellComponent *shell_component;
+	gboolean allow_quit;
+
+	shell_component = EVOLUTION_SHELL_COMPONENT (bonobo_object_from_servant (servant));
+
+	if (shell_component->priv->request_quit_fn == NULL)
+		allow_quit = TRUE;
+	else
+		allow_quit = (* shell_component->priv->request_quit_fn) (shell_component,
+									 shell_component->priv->closure);
+
+	if (allow_quit)
+		GNOME_Evolution_ShellComponentListener_notifyResult (listener,
+								     GNOME_Evolution_ShellComponentListener_OK,
+								     ev);
+	else
+		GNOME_Evolution_ShellComponentListener_notifyResult (listener,
+								     GNOME_Evolution_ShellComponentListener_CANCEL,
+								     ev);
+}
+
 
 /* GtkObject methods.  */
 
@@ -872,6 +899,7 @@ class_init (EvolutionShellComponentClass *klass)
 	epv->populateFolderContextMenu   = impl_populateFolderContextMenu;
 	epv->userCreateNewItem           = impl_userCreateNewItem;
 	epv->sendReceive                 = impl_sendReceive;
+	epv->requestQuit                 = impl_requestQuit;
 
 	shell_component_class = EVOLUTION_SHELL_COMPONENT_CLASS (object_class);
 	shell_component_class->owner_died = impl_owner_died;
@@ -914,6 +942,7 @@ evolution_shell_component_construct (EvolutionShellComponent *shell_component,
 				     EvolutionShellComponentXferFolderFn xfer_folder_fn,
 				     EvolutionShellComponentPopulateFolderContextMenuFn populate_folder_context_menu_fn,
 				     EvolutionShellComponentGetDndSelectionFn get_dnd_selection_fn,
+				     EvolutionShellComponentRequestQuitFn request_quit_fn,
 				     void *closure)
 {
 	EvolutionShellComponentPrivate *priv;
@@ -931,6 +960,7 @@ evolution_shell_component_construct (EvolutionShellComponent *shell_component,
 	priv->xfer_folder_fn                  = xfer_folder_fn;
 	priv->populate_folder_context_menu_fn = populate_folder_context_menu_fn;
 	priv->get_dnd_selection_fn            = get_dnd_selection_fn;
+	priv->request_quit_fn                 = request_quit_fn;
 
 	priv->closure = closure;
 
@@ -976,6 +1006,7 @@ evolution_shell_component_new (const EvolutionShellComponentFolderType folder_ty
 			       EvolutionShellComponentXferFolderFn xfer_folder_fn,
 			       EvolutionShellComponentPopulateFolderContextMenuFn populate_folder_context_menu_fn,
 			       EvolutionShellComponentGetDndSelectionFn get_dnd_selection_fn,
+			       EvolutionShellComponentRequestQuitFn request_quit_fn,
 			       void *closure)
 {
 	EvolutionShellComponent *new;
@@ -993,6 +1024,7 @@ evolution_shell_component_new (const EvolutionShellComponentFolderType folder_ty
 					     xfer_folder_fn,
 					     populate_folder_context_menu_fn,
 					     get_dnd_selection_fn,
+					     request_quit_fn,
 					     closure);
 
 	return new;
@@ -1041,6 +1073,8 @@ evolution_shell_component_result_to_string (EvolutionShellComponentResult result
 	switch (result) {
 	case EVOLUTION_SHELL_COMPONENT_OK:
 		return _("Success");
+	case EVOLUTION_SHELL_COMPONENT_CANCEL:
+		return _("Cancel");
 	case EVOLUTION_SHELL_COMPONENT_CORBAERROR:
 		return _("CORBA error");
 	case EVOLUTION_SHELL_COMPONENT_INTERRUPTED:
