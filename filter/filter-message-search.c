@@ -24,6 +24,7 @@
 #include <e-util/e-sexp.h>
 #include <regex.h>
 #include <string.h>
+#include <ctype.h>
 
 typedef struct {
 	CamelMimeMessage *message;
@@ -34,6 +35,7 @@ typedef struct {
 
 /* ESExp callbacks */
 static ESExpResult *header_contains (struct _ESExp *f, int argc, struct _ESExpResult **argv, FilterMessageSearch *fms);
+static ESExpResult *header_matches (struct _ESExp *f, int argc, struct _ESExpResult **argv, FilterMessageSearch *fms);
 static ESExpResult *header_regex (struct _ESExp *f, int argc, struct _ESExpResult **argv, FilterMessageSearch *fms);
 static ESExpResult *match_all (struct _ESExp *f, int argc, struct _ESExpTerm **argv, FilterMessageSearch *fms);
 static ESExpResult *body_contains (struct _ESExp *f, int argc, struct _ESExpResult **argv, FilterMessageSearch *fms);
@@ -57,6 +59,7 @@ static struct {
 	{ "body-contains",     (ESExpFunc *) body_contains,     0 },
 	{ "body-regex",        (ESExpFunc *) body_regex,        0 },
 	{ "header-contains",   (ESExpFunc *) header_contains,   0 },
+	{ "header-matches",    (ESExpFunc *) header_matches,    0 },
 	{ "header-regex",      (ESExpFunc *) header_regex,      0 },
 	{ "user-tag",          (ESExpFunc *) user_tag,          0 },
 	{ "user-flag",         (ESExpFunc *) user_flag,         0 },
@@ -83,6 +86,50 @@ header_contains (struct _ESExp *f, int argc, struct _ESExpResult **argv, FilterM
 		if (contents) {
 			if (strstr (contents, match))
 				matched = TRUE;
+		}
+	}
+	
+	r = e_sexp_result_new (ESEXP_RES_BOOL);
+	r->value.bool = matched;
+	
+	return r;
+}
+
+static ESExpResult *
+header_matches (struct _ESExp *f, int argc, struct _ESExpResult **argv, FilterMessageSearch *fms)
+{
+	gboolean matched = FALSE;
+	ESExpResult *r;
+	
+	if (argc == 2) {
+		char *header = (argv[0])->value.string;
+		char *match = (argv[1])->value.string;
+		const char *contents;
+		
+		contents = camel_medium_get_header (CAMEL_MEDIUM (fms->message), header);
+		
+		if (contents) {
+			/* danw says to use search-engine style matching...
+			 * This means that if the search match string is
+			 * lowercase then compare case-insensitive else
+			 * compare case-sensitive. */
+			gboolean is_lowercase = TRUE;
+			char *c;
+			
+			for (c = match; *c; c++) {
+				if (isalpha (*c) && isupper (*c)) {
+					is_lowercase = FALSE;
+					break;
+				}
+			}
+			
+			if (is_lowercase) {
+				if (g_strcasecmp (contents, match))
+					matched = TRUE;
+			} else {
+				if (strcmp (contents, match))
+					matched = TRUE;
+			}
 		}
 	}
 	

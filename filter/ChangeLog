@@ -1,3 +1,10 @@
+2000-10-27  Jeffrey Stedfast  <fejj@helixcode.com>
+
+	* filtertypes.xml: Add header-matches expressions ("is" / "is not").
+
+	* filter-message-search.c (header_matches): New callback to match
+	headers exactly (aka strcmp rather than strstr).
+
 2000-10-27  Jacob "Ulysses" Berkman  <jacob@helixcode.com>
 
 	* filter-driver.c (filter_driver_filter_mbox): divide before
