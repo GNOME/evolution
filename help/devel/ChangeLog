@@ -1,5 +1,14 @@
 2001-04-23  Ettore Perazzoli  <ettore@ximian.com>
 
+	* executive-summary/Makefile.am (scan) [ENABLE_GTK_DOC]: Kludge
+	builddir != srcdir behavior by symlinking the $(DOC_MODULE).types
+	file into the builddir.
+	* calendar/cal-client/Makefile.am (scan) [ENABLE_GTK_DOC]:
+	Likewise.
+	* calendar/cal-util/Makefile.am (scan) [ENABLE_GTK_DOC]: Likewise.
+
+2001-04-23  Ettore Perazzoli  <ettore@ximian.com>
+
 	* evolution-devel-guide.sgml: Disable the importer references here
 	too.
 
