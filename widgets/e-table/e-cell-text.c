@@ -389,6 +389,7 @@ ect_draw (ECellView *ecell_view, GdkDrawable *drawable,
 	CellEdit *edit = text_view->edit;
 	gboolean edit_display = FALSE;
 	ECellTextLineBreaks *linebreaks;
+	GdkColor *background, *foreground;
 
 
 	if (edit){
@@ -414,10 +415,18 @@ ect_draw (ECellView *ecell_view, GdkDrawable *drawable,
 	gdk_gc_set_clip_rectangle (fg_gc, &rect);
 	clip_rect = &rect;
 
-	gdk_gc_set_foreground (text_view->gc, &canvas->style->base [GTK_STATE_NORMAL]);
+	
+	if (selected){
+		background = &canvas->style->bg [GTK_STATE_SELECTED];
+		foreground = &canvas->style->text [GTK_STATE_SELECTED];
+	} else {
+		background = &canvas->style->base [GTK_STATE_NORMAL];
+		foreground = &canvas->style->text [GTK_STATE_NORMAL];
+	}
+	gdk_gc_set_foreground (text_view->gc, background);
 	gdk_draw_rectangle (drawable, text_view->gc, TRUE,
 			    rect.x, rect.y, rect.width, rect.height);
-	gdk_gc_set_foreground (text_view->gc, &canvas->style->text [GTK_STATE_NORMAL]);
+	gdk_gc_set_foreground (text_view->gc, foreground);
 
 	x1 += 4;
 	y1 += 1;
@@ -550,6 +559,7 @@ ect_draw (ECellView *ecell_view, GdkDrawable *drawable,
 		lines = linebreaks->lines;
 		ypos = get_line_ypos(&cell, lines);
 		ypos += font->ascent;
+		
 		
 		for (i = 0; i < linebreaks->num_lines; i++) {
 			xpos = get_line_xpos (&cell, lines);
