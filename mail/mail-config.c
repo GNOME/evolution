@@ -80,9 +80,9 @@ static GdkImlibImage *load_image (const char *name);
 static void prepare_first (GnomeDruidPage *page, GnomeDruid *druid, gpointer user_data);
 static void cancel (GnomeDruid *druid, gpointer window);
 static void finish (GnomeDruidPage *page, gpointer arg1, gpointer window);
-static void on_cmdIdentityAdd_clicked (GtkButton *button, gpointer user_data);
-static void on_cmdIdentityEdit_clicked (GtkButton *button, gpointer user_data);
-static void on_cmdIdentityDelete_clicked (GtkButton *button, gpointer user_data);
+static void on_cmdIdentityAdd_clicked (GtkWidget *widget, gpointer user_data);
+static void on_cmdIdentityEdit_clicked (GtkWidget *widget, gpointer user_data);
+static void on_cmdIdentityDelete_clicked (GtkWidget *widget, gpointer user_data);
 static void on_cmdSourcesAdd_clicked (GtkButton *button, gpointer user_data);
 static void on_cmdSourcesEdit_clicked (GtkButton *button, gpointer user_data);
 static void on_cmdSourcesDelete_clicked (GtkButton *button, gpointer user_data);
@@ -182,7 +182,8 @@ identity_note_doneness (GtkObject *page, gpointer user_data)
 	GtkEntry *entry;
 	char *data;
 
-	exit_button = gtk_object_get_data (page, "exit_button");
+	if (!(exit_button = gtk_object_get_data (page, "exit_button")))
+		exit_button = gtk_object_get_data (page, "ok_button");
 
 	entry = gtk_object_get_data (page, "name");
 	data = gtk_entry_get_text (entry);
@@ -227,16 +228,19 @@ static void
 destroy_identity (GtkObject *table, gpointer idrecp)
 {
 	struct identity_record *idrec = idrecp;
-	GtkEditable *editable;
+	GtkWidget *entry;
 
-	editable = gtk_object_get_data (table, "name");
-	idrec->name = gtk_editable_get_chars (editable, 0, -1);
-	editable = gtk_object_get_data (table, "addr");
-	idrec->address = gtk_editable_get_chars (editable, 0, -1);
-	editable = gtk_object_get_data (table, "org");
-	idrec->organization = gtk_editable_get_chars (editable, 0, -1);
-	editable = gtk_object_get_data (table, "sig");
-	idrec->sigfile = gtk_editable_get_chars (editable, 0, -1);
+	entry = gtk_object_get_data (table, "name");
+	idrec->name = g_strdup (gtk_entry_get_text (GTK_ENTRY (entry)));
+
+	entry = gtk_object_get_data (table, "addr");
+	idrec->address = g_strdup (gtk_entry_get_text (GTK_ENTRY (entry)));
+
+	entry = gtk_object_get_data (table, "org");
+	idrec->organization = g_strdup (gtk_entry_get_text (GTK_ENTRY (entry)));
+
+	entry = gtk_object_get_data (table, "sig");
+	idrec->sigfile = g_strdup (gtk_entry_get_text (GTK_ENTRY (entry)));
 }
 
 static void
@@ -247,7 +251,7 @@ create_identity_page (GtkWidget *vbox, struct identity_record *idrec)
 	GtkWidget *name_entry, *addr_entry, *org_entry, *sig_entry;
 	GtkWidget *hsep;
 	char *user;
-	struct passwd *pw;
+	struct passwd *pw = NULL;
 
 	html = html_new (FALSE);
 	put_html (GTK_HTML (html),
@@ -258,6 +262,7 @@ create_identity_page (GtkWidget *vbox, struct identity_record *idrec)
 	gtk_box_pack_start (GTK_BOX (vbox), html->parent, FALSE, TRUE, 0);
 
 	table = gtk_table_new (5, 2, FALSE);
+	gtk_widget_set_name (table, "table");
 	gtk_table_set_row_spacings (GTK_TABLE (table), 10);
 	gtk_table_set_col_spacings (GTK_TABLE (table), 6);
 	gtk_container_set_border_width (GTK_CONTAINER (table), 8);
@@ -275,18 +280,22 @@ create_identity_page (GtkWidget *vbox, struct identity_record *idrec)
 			  GTK_EXPAND | GTK_FILL, 0, 0, 0);
 	gtk_object_set_data (GTK_OBJECT (vbox), "name", name_entry);
 
-	user = getenv ("USER");
-	if (user)
-		pw = getpwnam (user);
-	else
-		pw = getpwuid (getuid ());
-	if (pw && pw->pw_gecos && *pw->pw_gecos) {
+	if (!idrec || !idrec->name) {
+		user = getenv ("USER");
+		if (user)
+			pw = getpwnam (user);
+		else
+			pw = getpwuid (getuid ());
+	}
+	if ((idrec && idrec->name) || (pw && pw->pw_gecos && *pw->pw_gecos)) {
 		char *name;
-		int pos = 0;
 
-		name = g_strndup (pw->pw_gecos, strcspn (pw->pw_gecos, ","));
-		gtk_editable_insert_text (GTK_EDITABLE (name_entry),
-					  name, strlen (name), &pos);
+		if (idrec && idrec->name)
+			name = g_strdup (idrec->name);
+		else
+			name = g_strndup (pw->pw_gecos, strcspn (pw->pw_gecos, ","));
+		gtk_entry_set_text (GTK_ENTRY (name_entry), name);
+		g_free (name);
 	}
 
 	addr = gtk_label_new (_("Email address:"));
@@ -295,6 +304,8 @@ create_identity_page (GtkWidget *vbox, struct identity_record *idrec)
 	gtk_misc_set_alignment (GTK_MISC (addr), 1, 0.5);
 
 	addr_entry = gtk_entry_new ();
+	if (idrec && idrec->address)
+		gtk_entry_set_text (GTK_ENTRY (addr_entry), idrec->address);
 	gtk_table_attach (GTK_TABLE (table), addr_entry, 1, 2, 1, 2,
 			  GTK_EXPAND | GTK_FILL, 0, 0, 0);
 	gtk_object_set_data (GTK_OBJECT (vbox), "addr", addr_entry);
@@ -316,6 +327,8 @@ create_identity_page (GtkWidget *vbox, struct identity_record *idrec)
 	gtk_misc_set_alignment (GTK_MISC (org), 1, 0.5);
 
 	org_entry = gtk_entry_new ();
+	if (idrec && idrec->organization)
+		gtk_entry_set_text (GTK_ENTRY (org_entry), idrec->organization);
 	gtk_table_attach (GTK_TABLE (table), org_entry, 1, 2, 3, 4,
 			  GTK_EXPAND | GTK_FILL, 0, 0, 0);
 	gtk_object_set_data (GTK_OBJECT (vbox), "org", org_entry);
@@ -326,6 +339,8 @@ create_identity_page (GtkWidget *vbox, struct identity_record *idrec)
 	gtk_misc_set_alignment (GTK_MISC (sig), 1, 0);
 
 	sig_entry = gnome_file_entry_new (NULL, _("Signature File"));
+	if (idrec && idrec->sigfile)
+		gtk_entry_set_text (GTK_ENTRY (sig_entry), idrec->sigfile);
 	gtk_table_attach (GTK_TABLE (table), sig_entry, 1, 2, 4, 5,
 			  GTK_FILL, 0, 0, 0);
 	gnome_file_entry_set_default_path (GNOME_FILE_ENTRY (sig_entry),
@@ -496,8 +511,10 @@ set_service_url (GtkObject *table, char *url_str)
 	ex = camel_exception_new ();
 	
 	url = camel_url_new (url_str, ex);
-	if (camel_exception_get_id (ex) != CAMEL_EXCEPTION_NONE)
+	if (camel_exception_get_id (ex) != CAMEL_EXCEPTION_NONE) {
+		camel_exception_free (ex);
 		return;
+	}
 
 	editable = gtk_object_get_data (table, "user_entry");
 	if (editable && url)
@@ -512,9 +529,9 @@ set_service_url (GtkObject *table, char *url_str)
 		gtk_entry_set_text (GTK_ENTRY (editable), url->path);
 
         /* How are we gonna do this? */
-#if 0
 	auth_optionmenu = gtk_object_get_data (table, "auth_optionmenu");
 	if (auth_optionmenu) {
+#if 0
 		GtkWidget *menu, *item;
 		CamelServiceAuthType *authtype;
 
@@ -526,8 +543,9 @@ set_service_url (GtkObject *table, char *url_str)
 			if (*authtype->authproto)
 				url->authmech = g_strdup (authtype->authproto);
 		}
-	}
 #endif
+	}
+
 	camel_exception_free (ex);
 	camel_url_free (url);
 }
@@ -999,11 +1017,9 @@ cancel (GnomeDruid *druid, gpointer window)
 }
 
 static void
-finish (GnomeDruidPage *page, gpointer arg1, gpointer window)
+write_config (void)
 {
 	char *path;
-
-	cancel (arg1, window);
 
 	/* According to the API docs, there's an easier way to do this,
 	 * except that it doesn't work. Anyway, this will be replaced
@@ -1039,6 +1055,13 @@ finish (GnomeDruidPage *page, gpointer arg1, gpointer window)
 	g_free (path);
 
 	gnome_config_sync ();
+}
+
+static void
+finish (GnomeDruidPage *page, gpointer arg1, gpointer window)
+{
+	cancel (arg1, window);
+	write_config();
 }
 
 void
@@ -1185,22 +1208,214 @@ mail_config_druid (void)
 	gtk_main ();
 }
 
-static void
-on_cmdIdentityAdd_clicked (GtkButton *button, gpointer user_data)
-{
+static gint identity_row = -1;
+static gint source_row = -1;
 
+
+struct identity_dialog_data {
+	GtkWidget *clist;
+	struct identity_record *idrec;
+	gboolean new_entry;
+};
+
+static void
+on_cmdIdentityConfigDialogOK_clicked (GtkWidget *dialog, gpointer user_data)
+{
+	struct identity_dialog_data *data = user_data;
+	GtkWidget *vbox = gtk_object_get_data (GTK_OBJECT (dialog), "vbox");
+
+	destroy_identity (GTK_OBJECT (vbox), data->idrec);
+
+	gtk_clist_set_text (GTK_CLIST (data->clist), identity_row, 0, data->idrec->name);
+	gtk_clist_set_text (GTK_CLIST (data->clist), identity_row, 1, data->idrec->address);
+	gtk_clist_set_text (GTK_CLIST (data->clist), identity_row, 2, data->idrec->organization);
+	gtk_clist_set_text (GTK_CLIST (data->clist), identity_row, 3, data->idrec->sigfile);
+
+	gtk_clist_set_row_data (GTK_CLIST (data->clist), identity_row,
+				g_memdup (data->idrec, sizeof (struct identity_record)));
 }
 
 static void
-on_cmdIdentityEdit_clicked (GtkButton *button, gpointer user_data)
+on_cmdIdentityConfigDialogCancel_clicked (GtkWidget *dialog, gpointer user_data)
 {
-
+	struct identity_dialog_data *data = user_data;
+	
+	if (data && data->new_entry) {
+		gtk_clist_remove (GTK_CLIST (data->clist), identity_row);
+		identity_row = -1;
+	}
 }
 
 static void
-on_cmdIdentityDelete_clicked (GtkButton *button, gpointer user_data)
+on_IdentityConfigDialogButton_clicked (GnomeDialog *dialog, int button, gpointer user_data)
 {
+	switch (button) {
+	case 0: /* OK clicked */
+		g_print ("OK clicked\n");
+		on_cmdIdentityConfigDialogOK_clicked (GTK_WIDGET (dialog), user_data);
+		break;
+	case 1: /* Cancel clicked */
+		g_print ("Cancel clicked\n");
+		on_cmdIdentityConfigDialogCancel_clicked (GTK_WIDGET (dialog), user_data);
+		break;
+	}
 
+	if (button != -1)
+		gnome_dialog_close (dialog);
+}
+
+static GtkWidget*
+create_identity_config_dialog (gboolean edit_mode, struct identity_record *idrecp, GtkWidget *clist)
+{
+	static GtkWidget *config_dialog;
+	GtkWidget *dialog_vbox1;
+	GtkWidget *dialog_action_area1;
+	GtkWidget *cmdConfigDialogOK;
+	GtkWidget *cmdConfigDialogCancel;
+	GtkWidget *vbox;
+	struct identity_dialog_data *data = NULL;
+
+	if (edit_mode)
+		config_dialog = gnome_dialog_new (_("Edit Identity"), NULL);
+	else
+		config_dialog = gnome_dialog_new (_("Add Identity"), NULL);
+	gtk_window_set_modal (GTK_WINDOW (config_dialog), TRUE);
+	gtk_widget_set_name (config_dialog, "config_dialog");
+	gtk_object_set_data (GTK_OBJECT (config_dialog), "config_dialog", config_dialog);
+	gtk_window_set_policy (GTK_WINDOW (config_dialog), FALSE, FALSE, FALSE);
+	
+	dialog_vbox1 = GNOME_DIALOG (config_dialog)->vbox;
+	gtk_widget_set_name (dialog_vbox1, "dialog_vbox1");
+	gtk_object_set_data (GTK_OBJECT (config_dialog), "dialog_vbox1", dialog_vbox1);
+	gtk_widget_show (dialog_vbox1);
+	
+	dialog_action_area1 = GNOME_DIALOG (config_dialog)->action_area;
+	gtk_widget_set_name (dialog_action_area1, "dialog_action_area1");
+	gtk_object_set_data (GTK_OBJECT (config_dialog), "dialog_action_area1", dialog_action_area1);
+	gtk_widget_show (dialog_action_area1);
+	gtk_button_box_set_layout (GTK_BUTTON_BOX (dialog_action_area1), GTK_BUTTONBOX_END);
+	gtk_button_box_set_spacing (GTK_BUTTON_BOX (dialog_action_area1), 8);
+
+	/* Create the vbox that we will pack the identity widget into */
+	vbox = gtk_vbox_new (FALSE, 0);
+	gtk_widget_set_name (vbox, "vbox");
+	gtk_object_set_data (GTK_OBJECT (config_dialog), "vbox", vbox);
+	gtk_widget_ref (vbox);
+	gtk_object_set_data_full (GTK_OBJECT (config_dialog), "vbox", vbox,
+				  (GtkDestroyNotify) gtk_widget_unref);
+	gtk_widget_show (vbox);
+	gtk_box_pack_start (GTK_BOX (dialog_vbox1), vbox, TRUE, TRUE, 0);
+	
+	gnome_dialog_append_button (GNOME_DIALOG (config_dialog), GNOME_STOCK_BUTTON_OK);
+	cmdConfigDialogOK = g_list_last (GNOME_DIALOG (config_dialog)->buttons)->data;
+	gtk_widget_set_name (cmdConfigDialogOK, "cmdConfigDialogOK");
+	gtk_object_set_data (GTK_OBJECT (vbox), "ok_button", cmdConfigDialogOK);
+	gtk_widget_ref (cmdConfigDialogOK);
+	gtk_object_set_data_full (GTK_OBJECT (config_dialog), "cmdConfigDialogOK", cmdConfigDialogOK,
+				  (GtkDestroyNotify) gtk_widget_unref);
+	gtk_widget_show (cmdConfigDialogOK);
+	GTK_WIDGET_SET_FLAGS (cmdConfigDialogOK, GTK_CAN_DEFAULT);
+	gtk_widget_set_sensitive (cmdConfigDialogOK, FALSE);
+	
+	gnome_dialog_append_button (GNOME_DIALOG (config_dialog), GNOME_STOCK_BUTTON_CANCEL);
+	cmdConfigDialogCancel = g_list_last (GNOME_DIALOG (config_dialog)->buttons)->data;
+	gtk_widget_set_name (cmdConfigDialogCancel, "cmdConfigDialogCancel");
+	gtk_widget_ref (cmdConfigDialogCancel);
+	gtk_object_set_data_full (GTK_OBJECT (config_dialog), "cmdConfigDialogCancel", cmdConfigDialogCancel,
+				  (GtkDestroyNotify) gtk_widget_unref);
+	gtk_widget_show (cmdConfigDialogCancel);
+	GTK_WIDGET_SET_FLAGS (cmdConfigDialogCancel, GTK_CAN_DEFAULT);
+	
+        /* create/pack our Identity widget */
+	create_identity_page (vbox, &idrec);
+	
+	/*gtk_signal_disconnect_by_func (GTK_OBJECT (vbox), GTK_SIGNAL_FUNC (destroy_identity), NULL);*/
+
+	data = g_malloc0 (sizeof (struct identity_dialog_data));
+	data->clist  = clist;
+	data->idrec  = idrecp;
+	data->new_entry = !edit_mode;
+
+	gtk_signal_connect(GTK_OBJECT (config_dialog), "clicked",
+			   GTK_SIGNAL_FUNC (on_IdentityConfigDialogButton_clicked),
+			   data);
+	/*
+	gtk_signal_connect (GTK_OBJECT (cmdConfigDialogOK), "clicked",
+			    GTK_SIGNAL_FUNC (on_cmdIdentityConfigDialogOK_clicked),
+			    data);
+	
+	gtk_signal_connect (GTK_OBJECT (cmdConfigDialogCancel), "clicked",
+			    GTK_SIGNAL_FUNC (on_cmdIdentityConfigDialogCancel_clicked),
+			    data);
+	*/
+	
+	return config_dialog;
+}
+
+static void
+on_clistIdentities_select_row (GtkWidget *widget, gint row, gint column,
+			       GdkEventButton *event, gpointer data)
+{
+	identity_row = row;
+}
+
+static void
+on_clistSources_select_row (GtkWidget *widget, gint row, gint column,
+			       GdkEventButton *event, gpointer data)
+{
+	source_row = row;
+}
+
+static void
+on_cmdIdentityAdd_clicked (GtkWidget *widget, gpointer user_data)
+{
+	GtkWidget *dialog;
+	char *text[] = { "", "", "", "" };
+
+	gtk_clist_append (GTK_CLIST (user_data), text);
+	if (identity_row > -1)
+		gtk_clist_unselect_row (GTK_CLIST (user_data), identity_row, 0);
+	gtk_clist_select_row (GTK_CLIST (user_data), identity_row + 1, 0);
+
+	/* now create the editing dialog */
+	dialog = create_identity_config_dialog (FALSE, &idrec, GTK_WIDGET (user_data));
+	gtk_widget_show (dialog);
+}
+
+static void
+on_cmdIdentityEdit_clicked (GtkWidget *widget, gpointer user_data)
+{
+	GtkWidget *dialog;
+	struct identity_record *idrecp;
+	
+	if (identity_row == -1)
+		return;
+
+	idrecp = gtk_clist_get_row_data (GTK_CLIST (user_data), identity_row);
+	if (!idrecp) {
+		idrecp = &idrec;
+#if 0
+		g_free (idrecp->name);
+		idrecp->name = NULL;
+		g_free (idrecp->address);
+		idrecp->address = NULL;
+		g_free (idrecp->organization);
+		idrecp->organization = NULL;
+		g_free (idrecp->sigfile);
+		idrecp->sigfile = NULL;
+#endif
+	}
+
+	/* now create the editing dialog */
+	dialog = create_identity_config_dialog (TRUE, idrecp, GTK_WIDGET (user_data));
+	gtk_widget_show (dialog);
+}
+
+static void
+on_cmdIdentityDelete_clicked (GtkWidget *widget, gpointer user_data)
+{
+	gtk_clist_remove (GTK_CLIST (user_data), identity_row);
+	identity_row = -1;
 }
 
 static void
@@ -1239,6 +1454,8 @@ on_cmdCamelServicesOK_clicked (GtkButton *button, gpointer user_data)
 		destroy_service (GTK_OBJECT (interior_notebook), (gpointer) &transport);
 		gtk_widget_destroy(GTK_WIDGET (user_data));
 	}
+
+	write_config();
 }
 
 static void
@@ -1278,6 +1495,7 @@ providers_config_new (void)
 	GtkWidget *transport_page_vbox;
 	GList *providers, *p, *sources, *transports;
 	GtkWidget *table, *interior_notebook;
+	char *titles[] = { _("Name"), _("Address"), _("Organization"), _("Signature file") };
 	int page;
 
 
@@ -1305,7 +1523,7 @@ providers_config_new (void)
 	gtk_window_set_modal (GTK_WINDOW (providers_config), TRUE);
 	gtk_widget_set_name (providers_config, "providers_config");
 	gtk_object_set_data (GTK_OBJECT (providers_config), "providers_config", providers_config);
-	gtk_window_set_policy (GTK_WINDOW (providers_config), FALSE, FALSE, FALSE);
+	gtk_window_set_policy (GTK_WINDOW (providers_config), TRUE, TRUE, FALSE);
 
 	dialog_vbox1 = GNOME_DIALOG (providers_config)->vbox;
 	gtk_widget_set_name (dialog_vbox1, "dialog_vbox1");
@@ -1337,7 +1555,7 @@ providers_config_new (void)
 	gtk_box_pack_start (GTK_BOX (hbox1), scrolledwindow1, TRUE, TRUE, 0);
 	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scrolledwindow1), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
 
-	clistIdentities = gtk_clist_new (1);
+	clistIdentities = gtk_clist_new_with_titles (4, titles);
 	gtk_widget_set_name (clistIdentities, "clistIdentities");
 	gtk_widget_ref (clistIdentities);
 	gtk_object_set_data_full (GTK_OBJECT (providers_config), "clistIdentities", clistIdentities,
@@ -1346,6 +1564,12 @@ providers_config_new (void)
 	gtk_container_add (GTK_CONTAINER (scrolledwindow1), clistIdentities);
 	gtk_clist_set_column_width (GTK_CLIST (clistIdentities), 0, 80);
 	gtk_clist_column_titles_show (GTK_CLIST (clistIdentities));
+
+	/* TODO: we should really have a GList of identities */
+	idrec.name = NULL;
+	idrec.address = NULL;
+	idrec.organization = NULL;
+	idrec.sigfile = NULL;
 
 	lblIdentities = gtk_label_new (_("Identities"));
 	gtk_widget_set_name (lblIdentities, "lblIdentities");
@@ -1536,34 +1760,37 @@ providers_config_new (void)
 
 	gtk_signal_connect (GTK_OBJECT (cmdIdentityAdd), "clicked",
 			    GTK_SIGNAL_FUNC (on_cmdIdentityAdd_clicked),
-			    NULL);
+			    clistIdentities);
 	gtk_signal_connect (GTK_OBJECT (cmdIdentityEdit), "clicked",
 			    GTK_SIGNAL_FUNC (on_cmdIdentityEdit_clicked),
-			    NULL);
+			    clistIdentities);
 	gtk_signal_connect (GTK_OBJECT (cmdIdentityDelete), "clicked",
 			    GTK_SIGNAL_FUNC (on_cmdIdentityDelete_clicked),
-			    NULL);
+			    clistIdentities);
+	
 	gtk_signal_connect (GTK_OBJECT (cmdSourcesAdd), "clicked",
 			    GTK_SIGNAL_FUNC (on_cmdSourcesAdd_clicked),
-			    NULL);
+			    clistSources);
 	gtk_signal_connect (GTK_OBJECT (cmdSourcesEdit), "clicked",
 			    GTK_SIGNAL_FUNC (on_cmdSourcesEdit_clicked),
-			    NULL);
+			    clistSources);
 	gtk_signal_connect (GTK_OBJECT (cmdSourcesDelete), "clicked",
 			    GTK_SIGNAL_FUNC (on_cmdSourcesDelete_clicked),
-			    NULL);
+			    clistSources);
+	
 	gtk_signal_connect (GTK_OBJECT (cmdCamelServicesOK), "clicked",
 			    GTK_SIGNAL_FUNC (on_cmdCamelServicesOK_clicked),
 			    providers_config);
 	gtk_signal_connect (GTK_OBJECT (cmdCamelServicesCancel), "clicked",
 			    GTK_SIGNAL_FUNC (on_cmdCamelServicesCancel_clicked),
 			    providers_config);
+	
+	gtk_signal_connect (GTK_OBJECT (clistIdentities), "select_row",
+			    GTK_SIGNAL_FUNC (on_clistIdentities_select_row),
+			    NULL);
+	gtk_signal_connect (GTK_OBJECT (clistSources), "select_row",
+			    GTK_SIGNAL_FUNC (on_clistSources_select_row),
+			    NULL);
 
 	return providers_config;
 }
-
-
-
-
-
-

@@ -1,3 +1,11 @@
+2000-05-31  Jeffrey Stedfast  <fejj@helixcode.com>
+
+	* mail-config.c: Configuration dialog now allows 
+	adding/editing/deleting of Identities (which leaves
+	adding/editing/deleting of sources left to implement).
+	The data is also saved when the dialog is exited via 
+	the OK button.
+
 2000-05-31  Dan Winship  <danw@helixcode.com>
 
 	* mail-format.c (mail_format_mime_message): Initialize the "urls"
