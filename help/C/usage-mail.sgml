@@ -1558,7 +1558,6 @@
 	  </listitem>
 	</itemizedlist>
       </para>
-      <para> Happy mailing! </para>
     </sect2>
     <sect2 id="fancy-mail">
       <title>Making Your Email More Fancy</title>
@@ -1580,8 +1579,55 @@
 	<para>
 	  Notice how professional the email looks, but it gets the content across well.  Each section is broken up in its own subsection.  The title is bolded, while the text which follows is indented one time.
 	</para>
+	<para>
+<!-- Typed 1800 to 1830 -->
+	Making your headlines a larger size instead of bold can help as well.  Header size 4 is often the best alternative for bold.  You can change your text to size 4 by selecting it and pressing Ctrl+4.  You can set your text to regular size later by hitting Ctrl+0.
+	</para>
+      </sect3>
+      <sect3 id="bulleted-lists">
+      <title>Bulleted Lists</title>
+      <para>
+      Often times, people use asterisks instead of real bullets.  Not only do asterisks look nicer, but <application>Evolution</application> will word wrap for you, which makes your text looks nicer.
+      </para>
+      </sect3>
+      <sect3 id="inline-images">
+      <title>Images In Your Email</title>
+      <para>
+      Images can help people to understand your point.  You should also consider using the HTML Picture Frame Template in <application>Evolution</application>, as it looks good and has captions below it.
+      </para>
+      <para>
+      If you do choose to use images, try to keep them narrow.  If your images are wider than 400 pixels, the image may not fit in the whole email window, making it hard for your reader to read the email and view the image.  Instead, you should consider using a thumbnail and creating a link on the image which opens a browser with the full image.
+      </para>
+      </sect3>
+      <sect3 id="color-suggestions">
+      <title>Coloring Your Text</title>
+      <para>
+      Colors can help bring words or sentences out for emphasis.  You should choose your colors carefully though, as the wrong color can be distracting.  Some good colors to use would be:
+      <itemizedlist>
+      <listitem>
+      <para>
+      Light brown
+      </para>
+      </listitem>
+      <listitem>
+      <para>
+      Dull purple
+      </para>
+      </listitem>
+      <listitem>
+      <para>
+      Dark red
+      </para>
+      </listitem>
+      </itemizedlist>
+      <!-- Include a screenshot -->
+      Notice how these colors are similar saturation <!-- Confirm I am using the right word -->
+      </para>
       </sect3>
     </sect2>
+    <para>
+    Happy mailing!
+    </para>
   </sect1>
   <sect1 id="rsvp-stuff">
     <title>RSVPs in Mail</title>
