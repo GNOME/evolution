@@ -1,3 +1,8 @@
+2001-06-12  Not Zed  <NotZed@Ximian.com>
+
+	* mail-account-gui.c (source_type_changed): Setup default spool
+	location same as for mbox mail retrieval.
+
 2001-06-08  Dan Winship  <danw@ximian.com>
 
 	* folder-browser-factory.c: fix some commands to match the ui file

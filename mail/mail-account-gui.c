@@ -225,7 +225,8 @@ source_type_changed (GtkWidget *widget, gpointer user_data)
 			if (!dwidget)
 				dwidget = GTK_WIDGET (gui->source.path);
 
-			if (!strcmp (provider->protocol, "mbox")) {
+			if (!strcmp (provider->protocol, "mbox")
+			    || !strcmp(provider->protocol, "spool")) {
 				char *path;
 
 				if (getenv ("MAIL"))
