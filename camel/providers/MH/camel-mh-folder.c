@@ -301,15 +301,15 @@ _list_subfolders(CamelFolder *folder)
 	parent_class->delete_messages (folder);
 
 	directory_path = mh_folder->directory_path;
-	if (!directory_path) return FALSE;
+	if (!directory_path) return NULL;
 	
-	if (!camel_folder_exists (folder)) return TRUE;
+	if (!camel_folder_exists (folder)) return NULL;
 	
 	dir_handle = opendir (directory_path);
 	
 	/* read first entry in the directory */
 	dir_entry = readdir (dir_handle);
-	while ((stat_error != -1) && (unlink_error != -1) && (dir_entry != NULL)) {
+	while ((stat_error != -1) && (dir_entry != NULL)) {
 
 		/* get the name of the next entry in the dir */
 		entry_name = dir_entry->d_name;

@@ -21,6 +21,10 @@
  *
  */
 
+/* 
+ * Authors:  Robert Brady <rwb197@ecs.soton.ac.uk>
+ */
+
 #include <stdio.h>
 #include <ctype.h>
 #include <unicode.h>
@@ -38,17 +42,20 @@ static unsigned char base64_rank[256];
 static int base64_rank_table_built;
 static void build_base64_rank_table (void);
 
-static int hexval(gchar c) {
-	if (isdigit(c)) return c-'0';
-	c = tolower(c);
+static int 
+hexval (gchar c) {
+	if (isdigit (c)) return c-'0';
+	c = tolower (c);
 	return c - 'a' + 10;
 }
 
-static void decode_quoted(const gchar *text, gchar *to) {
+static void 
+decode_quoted (const gchar *text, gchar *to) 
+{
 	while (*text) {
 		if (*text == '=') {
-			gchar a = hexval(text[1]);
-			gchar b = hexval(text[2]);
+			gchar a = hexval (text[1]);
+			gchar b = hexval (text[2]);
 			int c = (a << 4) + b;
 			*to = c;
 			to++;
@@ -66,8 +73,8 @@ static void decode_quoted(const gchar *text, gchar *to) {
 	*to = 0;
 }
 
-static 
-void decode_base64 (const gchar *what, gchar *where) 
+static void 
+decode_base64 (const gchar *what, gchar *where) 
 {
 	unsigned short pattern = 0;
 	int bits = 0;
@@ -111,7 +118,7 @@ gchar
 {
 	gchar buffer[4096] /* FIXME : constant sized buffer */, *b = buffer;
 	
-	build_base64_rank_table();
+	build_base64_rank_table ();
 	
 	while (*data) {
 		
@@ -128,10 +135,10 @@ gchar
 				
 				if (!encoding) break;
 				encoding++;
-				text = strchr(encoding, '?');
+				text = strchr (encoding, '?');
 				if (!text) break;
 				text++;
-				end = strstr(text, "?=");
+				end = strstr (text, "?=");
 				if (!end) break;
 				end++;
 				
@@ -139,10 +146,10 @@ gchar
 				*(text-1)=0;
 				*(end-1)=0;
 				
-				if (strcasecmp(encoding, "q")==0) {
+				if (strcasecmp (encoding, "q") == 0) {
 					decode_quoted(text, dc);
-				} else if (strcasecmp(encoding, "b")==0) {
-					decode_base64(text, dc);
+				} else if (strcasecmp (encoding, "b") == 0) {
+					decode_base64 (text, dc);
 				} else {
 					/* What to do here? */
 					break;
@@ -152,20 +159,19 @@ gchar
 					int f;
 					iconv_t i;
 					const gchar *d2 = dc;
-					int l = strlen(d2), l2 = 4000;
+					int l = strlen (d2), l2 = 4000;
 					
-					i = unicode_iconv_open(into_what, charset);
+					i = unicode_iconv_open (into_what, charset);
 					if (!i) 
 						break;
 					
-					unicode_iconv(i, &d2, &l, &b, &l2);
+					unicode_iconv (i, &d2, &l, &b, &l2);
 					
-					unicode_iconv_close(i);
+					unicode_iconv_close (i);
 					data = end;
 				}
 			}
-		}
-		else {
+		} else {
 			*b = *data;
 			b++;
 		}
@@ -182,7 +188,7 @@ gchar
 	
 	*b = 0;
 	
-	return g_strdup(buffer);
+	return g_strdup (buffer);
 }
 
 gchar 
@@ -198,25 +204,25 @@ gchar
 	}
 	
 	if (!not_ascii) {
-		b += sprintf(b, "%s", string);
+		b += sprintf (b, "%s", string);
 	}
 	
 	else {
-		b += sprintf(b, "=?%s?Q?", charset);
+		b += sprintf (b, "=?%s?Q?", charset);
 		s = string;
 		while (*s) {
-			if (*s == ' ') b += sprintf(b, "_");
+			if (*s == ' ') b += sprintf (b, "_");
 			else if (*s < 0x20 || *s >= 0x7f || *s == '=' || *s == '?' || *s == '_') {
-				b += sprintf(b, "=%2x", *s);
+				b += sprintf (b, "=%2x", *s);
 			} else {
-				b += sprintf(b, "%c", *s);
+				b += sprintf (b, "%c", *s);
 			}
 			s++;
 		}
-		b += sprintf(b, "?=");
+		b += sprintf (b, "?=");
 	}
 	
 	*b = 0;
 	
-	return g_strdup(buffer);
+	return g_strdup (buffer);
 }

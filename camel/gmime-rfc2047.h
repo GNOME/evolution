@@ -21,6 +21,10 @@
  *
  */
 
+/* 
+ * Authors:  Robert Brady <rwb197@ecs.soton.ac.uk>
+ */
+
 #ifndef GMIME_RFC2047_H
 #define GMIME_RFC2047_H 1
 #include <glib.h>

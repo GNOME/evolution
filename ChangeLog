@@ -1,5 +1,16 @@
-1999-08-04  root  <guiheneu@jean.joudboeuf.fr>
+1999-08-05  bertrand  <Bertrand.Guiheneuf@aful.org>
 
+	* camel/README.HACKING: 
+	Some notes.
+
+	* camel/CODING.STYLE: 
+	short note about coding style. 
+
+	* camel/README.COPYRIGHT: 
+	Note about copyright policy.
+
+	* camel/providers/MH/camel-mh-folder.c (_list_subfolders): 
+	minor typo fixes.
 
 1999-08-04  bertrand  <Bertrand.Guiheneuf@aful.org>
 
