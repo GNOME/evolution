@@ -640,7 +640,7 @@ gint
 camel_imap_command_extended (CamelImapStore *store, CamelFolder *folder, GPtrArray **ret, CamelException *ex, char *fmt, ...)
 {
 	gint status = CAMEL_IMAP_OK;
-	GPtrArray *data;
+	GPtrArray *data = NULL;
 	GArray *expunged;
 	gchar *respbuf, *cmdid;
 	gint recent = 0;

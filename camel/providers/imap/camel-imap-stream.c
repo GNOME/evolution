@@ -162,6 +162,9 @@ stream_read (CamelStream *stream, char *buffer, size_t n)
 				return -1;
 			}
 			
+			/* advance to the beginning of the actual data */
+			p++;
+			
 			/* calculate the new part-length */
 			for (q = p; *q && (q - p) <= part_len; q++) {
 				if (*q == '\n')

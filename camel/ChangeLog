@@ -1,3 +1,11 @@
+2000-09-28  Jeffrey Stedfast  <fejj@helixcode.com>
+
+	* providers/imap/camel-imap-folder.c (imap_get_message): When
+	getting a literal string response, don't include the \r\n after
+	the closing } (as in: "... {798}\r\n...")
+	
+	* providers/imap/camel-imap-stream.c (stream_read): Same.
+
 2000-09-28  Not Zed  <NotZed@HelixCode.com>
 
 	* camel-mime-utils.c (header_fold): New function to fold headers.

@@ -626,6 +626,9 @@ imap_get_message (CamelFolder *folder, const gchar *uid, CamelException *ex)
 			return NULL;
 		}
 		
+		/* advance to the beginning of the actual data */
+		p++;
+		
 		/* calculate the new part-length */
 		for (q = p; *q && (q - p) <= part_len; q++) {
 			if (*q == '\n')
@@ -680,6 +683,9 @@ imap_get_message (CamelFolder *folder, const gchar *uid, CamelException *ex)
 			g_free (header);
 			return NULL;
 		}
+		
+		/* advance to the beginning of the actual data */
+		p++;
 		
 		/* calculate the new part-length */
 		for (q = p; *q && (q - p) <= part_len; q++) {
