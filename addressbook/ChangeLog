@@ -1,5 +1,12 @@
 2000-05-25  Christopher James Lahey  <clahey@helixcode.com>
 
+	* gui/component/addressbook.c,
+	gui/component/e-addressbook-model.c,
+	gui/component/e-addressbook-model.h: Added double click to open
+	contact editor.
+
+2000-05-25  Christopher James Lahey  <clahey@helixcode.com>
+
 	* gui/component/addressbook.c: Removed some columns.
 
 2000-05-25  Ettore Perazzoli  <ettore@helixcode.com>

@@ -284,6 +284,21 @@ get_view(EAddressbookModel *model)
 	return FALSE;
 }
 
+ECard *
+e_addressbook_model_get_card(EAddressbookModel *model,
+			     int                row)
+{
+	if (model->data && row < model->data_count) {
+		ECard *card;
+		gtk_object_get(GTK_OBJECT(model->data[row]),
+			       "card", &card,
+			       NULL);
+		gtk_object_ref(GTK_OBJECT(card));
+		return card;
+	}
+	return NULL;
+}
+
 static void
 e_addressbook_model_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 {

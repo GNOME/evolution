@@ -45,4 +45,8 @@ typedef struct {
 GtkType e_addressbook_model_get_type (void);
 ETableModel *e_addressbook_model_new (void);
 
+/* Returns object with ref count of 1. */
+ECard *e_addressbook_model_get_card(EAddressbookModel *model,
+				    int                row);
+
 #endif /* _E_ADDRESSBOOK_MODEL_H_ */

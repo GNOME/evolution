@@ -94,6 +94,13 @@ card_added_cb (EBook* book, EBookStatus status, const char *id,
 }
 
 static void
+card_modified_cb (EBook* book, EBookStatus status,
+		  gpointer user_data)
+{
+	g_print ("%s: %s(): a card was modified\n", __FILE__, __FUNCTION__);
+}
+
+static void
 new_contact_cb (BonoboUIHandler *uih, void *user_data, const char *path)
 {
 	gint result;
@@ -719,6 +726,56 @@ teardown_table_view (AddressbookView *view)
 }
 
 static void
+table_double_click(ETable *table, gint row, AddressbookView *view)
+{
+	ECard *card = e_addressbook_model_get_card(E_ADDRESSBOOK_MODEL(view->model), row);
+	gint result;
+	GtkWidget* contact_editor;
+	EBook *book;
+	GtkWidget* dlg = gnome_dialog_new ("Contact Editor", "Save", "Cancel", NULL);
+
+	contact_editor = e_contact_editor_new(card);
+	gtk_object_unref(GTK_OBJECT(card));
+
+	gtk_window_set_policy(GTK_WINDOW(dlg), FALSE, TRUE, FALSE);
+
+	gtk_object_get(GTK_OBJECT(view->model),
+		       "book", &book,
+		       NULL);
+
+	g_assert (E_IS_BOOK (book));
+
+	gtk_box_pack_start (GTK_BOX (GNOME_DIALOG (dlg)->vbox),
+			    contact_editor, TRUE, TRUE, 0);
+
+	gtk_widget_show (contact_editor);
+	gtk_widget_show (dlg);
+
+	gnome_dialog_close_hides (GNOME_DIALOG (dlg), TRUE);
+	result = gnome_dialog_run_and_close (GNOME_DIALOG (dlg));
+
+	
+	/* If the user clicks "okay"...*/
+	if (result == 0) {
+		ECard *card;
+		g_assert (contact_editor);
+		g_assert (GTK_IS_OBJECT (contact_editor));
+		gtk_object_get(GTK_OBJECT(contact_editor),
+			       "card", &card,
+			       NULL);
+		
+		/* Add the card in the contact editor to our ebook */
+		e_book_commit_card (
+			book,
+			card,
+			card_modified_cb,
+			NULL);
+	}
+	
+	gnome_dialog_close(GNOME_DIALOG (dlg));
+}
+
+static void
 create_table_view (AddressbookView *view, char *initial_query)
 {
 	ECell *cell_left_just;
@@ -764,6 +821,9 @@ create_table_view (AddressbookView *view, char *initial_query)
 	   the table we've created, the header, the model, and the
 	   initial layout.  It does the rest.  */
 	view->table = e_table_new (e_table_header, E_TABLE_MODEL(view->model), SPEC);
+
+	gtk_signal_connect(GTK_OBJECT(view->table), "double_click",
+			   GTK_SIGNAL_FUNC(table_double_click), view);
 
 	gtk_box_pack_start(GTK_BOX(view->vbox), view->table, TRUE, TRUE, 0);
 
