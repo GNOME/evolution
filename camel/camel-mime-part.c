@@ -26,6 +26,7 @@
 #include <stdio.h>
 #include "gmime-content-field.h"
 #include "gstring-util.h"
+#include "camel-log.h"
 
 
 typedef enum {
@@ -34,6 +35,7 @@ typedef enum {
 	HEADER_DISPOSITION,
 	HEADER_CONTENT_ID,
 	HEADER_ENCODING,
+	HEADER_CONTENT_MD5,
 	HEADER_CONTENT_LANGUAGES
 } CamelHeaderType;
 static GHashTable *header_name_table;
@@ -76,6 +78,9 @@ _init_header_name_table()
 	header_name_table = g_hash_table_new (g_string_hash, g_string_equal_for_hash);
 	g_hash_table_insert (header_name_table, g_string_new ("Content-Description"), (gpointer)HEADER_DESCRIPTION);
 	g_hash_table_insert (header_name_table, g_string_new ("Content-Disposition"), (gpointer)HEADER_DISPOSITION);
+	g_hash_table_insert (header_name_table, g_string_new ("Content-id"), (gpointer)HEADER_CONTENT_ID);
+	g_hash_table_insert (header_name_table, g_string_new ("Content-Transfer-Encoding"), (gpointer)HEADER_ENCODING);
+	g_hash_table_insert (header_name_table, g_string_new ("Content-MD5"), (gpointer)HEADER_CONTENT_MD5);
 
 }
 
@@ -536,15 +541,64 @@ static gboolean
 _parse_header_pair (CamelMimePart *mime_part, GString *header_name, GString *header_value)
 {
 	CamelHeaderType header_type;
+	gboolean header_handled = FALSE;
+
+
 	header_type = (CamelHeaderType) g_hash_table_lookup (header_name_table, header_name);
 	switch (header_type) {
 	
 	case HEADER_DESCRIPTION:
-		printf("found HEADER_DESCRIPTION\n");
-		return TRUE;
+		CAMEL_LOG (FULL_DEBUG,
+			   "CamelMimePart::parse_header_pair found HEADER_DESCRIPTION: %s\n",
+			   header_value->str );
+		
+		camel_mime_part_set_description (mime_part, header_value);
+		header_handled = TRUE;
 		break;
-	
+
+	case HEADER_DISPOSITION:
+		CAMEL_LOG (FULL_DEBUG,
+			   "CamelMimePart::parse_header_pair found HEADER_DISPOSITION: %s\n",
+			   header_value->str );
+		
+		camel_mime_part_set_disposition (mime_part, header_value);
+		header_handled = TRUE;
+		break;
+
+	case HEADER_CONTENT_ID:
+		CAMEL_LOG (FULL_DEBUG,
+			   "CamelMimePart::parse_header_pair found HEADER_CONTENT_ID: %s\n",
+			   header_value->str );
+		
+		CMP_CLASS(mime_part)->set_content_id (mime_part, header_value);
+		header_handled = TRUE;
+		break;
+		
+	case HEADER_ENCODING:
+		CAMEL_LOG (FULL_DEBUG,
+			   "CamelMimePart::parse_header_pair found HEADER_ENCODING: %s\n",
+			   header_value->str );
+		
+		camel_mime_part_set_encoding (mime_part, header_value);
+		header_handled = TRUE;
+		break;
+		
+	case HEADER_CONTENT_MD5:
+		CAMEL_LOG (FULL_DEBUG,
+			   "CamelMimePart::parse_header_pair found HEADER_CONTENT_MD5: %s\n",
+			   header_value->str );
+
+		CMP_CLASS(mime_part)->set_content_MD5 (mime_part, header_value);		
+		header_handled = TRUE;
+		break;
+		
+		
 	}
-	return FALSE;
-	
+
+
+	if (header_handled) {
+		g_string_free (header_name, TRUE);
+		return TRUE;
+	} else return FALSE;
+		
 }

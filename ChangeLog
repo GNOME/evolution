@@ -1,3 +1,11 @@
+1999-05-28  bertrand  <Bertrand.Guiheneuf@inria.fr>
+
+	* camel/camel-mime-part.c 
+	(_parse_header_pair): 
+	(_init_header_name_table): 
+	More header parsing code.
+
+	
 1999-05-27  bertrand  <Bertrand.Guiheneuf@inria.fr>
 
 	* tests/test2.c (main): rewrite message obtained via
