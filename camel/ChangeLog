@@ -1,3 +1,10 @@
+2001-03-30  Dan Winship  <danw@ximian.com>
+
+	* providers/pop3/camel-pop3-store.c (connect_to_server,
+	query_auth_types, pop3_connect): Move things around here to make
+	this all work right again (so you don't get prompted for a
+	password when checking the supported authtypes.)
+
 2001-03-30  Jon Trowbridge  <trow@ximian.com>
 
 	* camel-mime-message.c (camel_mime_message_set_source): Shrould
