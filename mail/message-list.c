@@ -43,6 +43,7 @@
 #include "art/mail-read.xpm"
 #include "art/mail-replied.xpm"
 #include "art/attachment.xpm"
+#include "art/priority-high.xpm"
 #include "art/empty.xpm"
 #include "art/score-lowest.xpm"
 #include "art/score-lower.xpm"
@@ -82,6 +83,7 @@ static POA_Evolution_MessageList__vepv evolution_message_list_vepv;
 static void on_cursor_change_cmd (ETableScrolled *table, int row, gpointer user_data);
 static void select_row (ETableScrolled *table, gpointer user_data);
 static gint on_right_click (ETableScrolled *table, gint row, gint col, GdkEvent *event, MessageList *list);
+static gint on_click (ETableScrolled *table, gint row, gint col, GdkEvent *event, MessageList *list);
 static void on_double_click (ETableScrolled *table, gint row, MessageList *list);
 static void select_msg (MessageList *message_list, gint row);
 static char *filter_date (const void *data);
@@ -98,6 +100,7 @@ static struct {
 	{ mail_replied_xpm,	NULL },
 	{ empty_xpm,		NULL },
 	{ attachment_xpm,	NULL },
+	{ priority_high_xpm,	NULL },
 	{ score_lowest_xpm,     NULL },
 	{ score_lower_xpm,      NULL },
 	{ score_low_xpm,        NULL },
@@ -409,6 +412,7 @@ ml_duplicate_value (ETableModel *etm, int col, const void *value, void *data)
 {
 	switch (col){
 	case COL_MESSAGE_STATUS:
+	case COL_FLAGGED:
 	case COL_SCORE:
 	case COL_ATTACHMENT:
 	case COL_DELETED:
@@ -433,6 +437,7 @@ ml_free_value (ETableModel *etm, int col, void *value, void *data)
 {
 	switch (col){
 	case COL_MESSAGE_STATUS:
+	case COL_FLAGGED:
 	case COL_SCORE:
 	case COL_ATTACHMENT:
 	case COL_DELETED:
@@ -457,6 +462,7 @@ ml_initialize_value (ETableModel *etm, int col, void *data)
 {
 	switch (col){
 	case COL_MESSAGE_STATUS:
+	case COL_FLAGGED:
 	case COL_SCORE:
 	case COL_ATTACHMENT:
 	case COL_DELETED:
@@ -482,6 +488,7 @@ ml_value_is_empty (ETableModel *etm, int col, const void *value, void *data)
 {
 	switch (col){
 	case COL_MESSAGE_STATUS:
+	case COL_FLAGGED:
 	case COL_SCORE:
 	case COL_ATTACHMENT:
 	case COL_DELETED:
@@ -549,6 +556,7 @@ ml_value_to_string (ETableModel *etm, int col, const void *value, void *data)
 		break;
 		
 	case COL_ATTACHMENT:
+	case COL_FLAGGED:
 	case COL_DELETED:
 	case COL_UNREAD:
 		return g_strdup_printf("%d", (int) value);
@@ -653,6 +661,12 @@ ml_tree_value_at (ETreeModel *etm, ETreePath *path, int col, void *model_data)
 		else
 			return GINT_TO_POINTER (0);
 		
+	case COL_FLAGGED:
+		if (msg_info->flags & CAMEL_MESSAGE_FLAGGED)
+			return GINT_TO_POINTER (1);
+		else
+			return GINT_TO_POINTER (0);
+
 	case COL_SCORE:
 	{
 		const char *tag;
@@ -709,9 +723,21 @@ ml_tree_value_at (ETreeModel *etm, ETreePath *path, int col, void *model_data)
 		return GINT_TO_POINTER (!(msg_info->flags & CAMEL_MESSAGE_SEEN));
 		
 	case COL_COLOUR:
-		return (void *) camel_tag_get ((CamelTag **) &msg_info->user_tags, "colour");
+	{
+		const char *colour;
+
+		colour = camel_tag_get ((CamelTag **) &msg_info->user_tags,
+					"colour");
+		if (colour)
+			return (void *)colour;
+		else if (msg_info->flags & CAMEL_MESSAGE_FLAGGED)
+			/* FIXME: extract from the xpm somehow. */
+			return "#A7453E";
+		else
+			return NULL;
 	}
-	
+	}
+
 	g_assert_not_reached ();
 	
  fake:
@@ -723,6 +749,7 @@ ml_tree_value_at (ETreeModel *etm, ETreePath *path, int col, void *model_data)
 		return (void *)subtree_unread(message_list,
 					      e_tree_model_node_get_first_child(etm, path));
 	case COL_MESSAGE_STATUS:
+	case COL_FLAGGED:
 	case COL_SCORE:
 	case COL_ATTACHMENT:
 	case COL_DELETED:
@@ -748,38 +775,13 @@ static void
 ml_tree_set_value_at (ETreeModel *etm, ETreePath *path, int col,
 		      const void *val, void *model_data)
 {
-	MessageList *message_list = model_data;
-	const CamelMessageInfo *msg_info;
-	char *uid;
-	GPtrArray *uids;
-
-	if (col != COL_MESSAGE_STATUS)
-		return;
-
-	uid = e_tree_model_node_get_data (etm, path);
-	if (strncmp (uid, "uid:", 4) != 0)
-		return;
-	uid += 4;
-
-	msg_info = camel_folder_get_message_info (message_list->folder, uid);
-	if (!msg_info)
-		return;
-
-	uids = g_ptr_array_new ();
-	g_ptr_array_add (uids, g_strdup (uid));
-	mail_do_flag_messages (message_list->folder, uids, TRUE,
-			       CAMEL_MESSAGE_SEEN, CAMEL_MESSAGE_SEEN);
-
-	if (message_list->seen_id) {
-		gtk_timeout_remove (message_list->seen_id);
-		message_list->seen_id = 0;
-	}
+	g_assert_not_reached ();
 }
 
 static gboolean
 ml_tree_is_cell_editable (ETreeModel *etm, ETreePath *path, int col, void *model_data)
 {
-	return col == COL_MESSAGE_STATUS;
+	return FALSE;
 }
 
 static void
@@ -831,8 +833,9 @@ message_list_create_extras (void)
 
 	extras = e_table_extras_new();
 	e_table_extras_add_pixbuf(extras, "status", states_pixmaps [0].pixbuf);
-	e_table_extras_add_pixbuf(extras, "score", states_pixmaps [10].pixbuf);
+	e_table_extras_add_pixbuf(extras, "score", states_pixmaps [11].pixbuf);
 	e_table_extras_add_pixbuf(extras, "attachment", states_pixmaps [4].pixbuf);
+	e_table_extras_add_pixbuf(extras, "flagged", states_pixmaps [5].pixbuf);
 
 	e_table_extras_add_compare(extras, "address_compare", address_compare);
 	e_table_extras_add_compare(extras, "subject_compare", subject_compare);
@@ -847,6 +850,9 @@ message_list_create_extras (void)
 	
 	e_table_extras_add_cell(extras, "render_attachment", e_cell_toggle_new (0, 2, images));
 	
+	images [1] = states_pixmaps [5].pixbuf;
+	e_table_extras_add_cell(extras, "render_flagged", e_cell_toggle_new (0, 2, images));
+
 	for (i = 0; i < 7; i++)
 		images[i] = states_pixmaps [i + 5].pixbuf;
 	
@@ -910,16 +916,17 @@ message_list_get_layout (MessageList *message_list)
 	/* Message status, From, Subject, Sent Date */
 	return g_strdup ("<ETableSpecification cursor-mode=\"line\">"
 			 "<ETableColumn model_col= \"0\" pixbuf=\"status\" expansion=\"0.0\" minimum_width=\"18\" resizable=\"false\" cell=\"render_message_status\" compare=\"integer\" sortable=\"false\"/>"
-			 "<ETableColumn model_col= \"1\" pixbuf=\"score\" expansion=\"0.0\" minimum_width=\"20\" resizable=\"false\" cell=\"render_score\" compare=\"integer\"/>"
-			 "<ETableColumn model_col= \"2\" pixbuf=\"attachment\" expansion=\"0.0\" minimum_width=\"18\" resizable=\"false\" cell=\"render_attachment\" compare=\"integer\" sortable=\"false\"/>"
-			 "<ETableColumn model_col= \"3\" _title=\"From\" expansion=\"24.0\" minimum_width=\"32\" resizable=\"true\" cell=\"render_text\" compare=\"address_compare\"/>"
-			 "<ETableColumn model_col= \"4\" _title=\"Subject\" expansion=\"30.0\" minimum_width=\"32\" resizable=\"true\" cell=\"render_tree\" compare=\"subject_compare\"/>"
-			 "<ETableColumn model_col= \"5\" _title=\"Date\" expansion=\"24.0\" minimum_width=\"32\" resizable=\"true\" cell=\"render_date\" compare=\"integer\"/>"
-			 "<ETableColumn model_col= \"6\" _title=\"Received\" expansion=\"20.0\" minimum_width=\"32\" resizable=\"true\" cell=\"render_date\" compare=\"integer\"/>"
-			 "<ETableColumn model_col= \"7\" _title=\"To\" expansion=\"24.0\" minimum_width=\"32\" resizable=\"true\" cell=\"render_text\" compare=\"address_compare\"/>"
-			 "<ETableColumn model_col= \"8\" _title=\"Size\" expansion=\"6.0\" minimum_width=\"32\" resizable=\"true\" cell=\"render_text\" compare=\"string\"/>"
-			 "<ETableState> <column source=\"0\"/> <column source=\"3\"/>"
-			 "<column source=\"4\"/> <column source=\"5\"/>"
+			 "<ETableColumn model_col= \"1\" pixbuf=\"flagged\" expansion=\"0.0\" minimum_width=\"20\" resizable=\"false\" cell=\"render_flagged\" compare=\"integer\"/>"
+			 "<ETableColumn model_col= \"2\" pixbuf=\"score\" expansion=\"0.0\" minimum_width=\"20\" resizable=\"false\" cell=\"render_score\" compare=\"integer\"/>"
+			 "<ETableColumn model_col= \"3\" pixbuf=\"attachment\" expansion=\"0.0\" minimum_width=\"18\" resizable=\"false\" cell=\"render_attachment\" compare=\"integer\" sortable=\"false\"/>"
+			 "<ETableColumn model_col= \"4\" _title=\"From\" expansion=\"24.0\" minimum_width=\"32\" resizable=\"true\" cell=\"render_text\" compare=\"address_compare\"/>"
+			 "<ETableColumn model_col= \"5\" _title=\"Subject\" expansion=\"30.0\" minimum_width=\"32\" resizable=\"true\" cell=\"render_tree\" compare=\"subject_compare\"/>"
+			 "<ETableColumn model_col= \"6\" _title=\"Date\" expansion=\"24.0\" minimum_width=\"32\" resizable=\"true\" cell=\"render_date\" compare=\"integer\"/>"
+			 "<ETableColumn model_col= \"7\" _title=\"Received\" expansion=\"20.0\" minimum_width=\"32\" resizable=\"true\" cell=\"render_date\" compare=\"integer\"/>"
+			 "<ETableColumn model_col= \"8\" _title=\"To\" expansion=\"24.0\" minimum_width=\"32\" resizable=\"true\" cell=\"render_text\" compare=\"address_compare\"/>"
+			 "<ETableColumn model_col= \"9\" _title=\"Size\" expansion=\"6.0\" minimum_width=\"32\" resizable=\"true\" cell=\"render_text\" compare=\"string\"/>"
+			 "<ETableState> <column source=\"0\"/> <column source=\"1\"/> <column source=\"4\"/>"
+			 "<column source=\"5\"/> <column source=\"6\"/>"
 			 "<grouping> </grouping> </ETableState>"
 			 "</ETableSpecification>");
 }
@@ -928,9 +935,9 @@ static void
 message_list_setup_etable(MessageList *message_list)
 {
 	char *state = "<ETableState>"
-		"<column source=\"0\"/> <column source=\"7\"/>"
-		"<column source=\"4\"/> <column source=\"5\"/>"
-		"<grouping> </grouping> </ETableState>";
+		"<column source=\"0\"/> <column source=\"1\"/> "
+		"<column source=\"8\"/> <column source=\"5\"/> "
+		"<column source=\"6\"/> <grouping> </grouping> </ETableState>";
 
 	/* build the spec based on the folder, and possibly from a saved file */
 	/* otherwise, leave default */
@@ -1005,6 +1012,9 @@ message_list_init (GtkObject *object)
 	gtk_signal_connect (GTK_OBJECT (message_list->etable), "cursor_change",
 			   GTK_SIGNAL_FUNC (on_cursor_change_cmd), message_list);
 
+	gtk_signal_connect (GTK_OBJECT (message_list->etable), "click",
+			    GTK_SIGNAL_FUNC (on_click), message_list);
+	
 	gtk_signal_connect (GTK_OBJECT (message_list->etable), "right_click",
 			    GTK_SIGNAL_FUNC (on_right_click), message_list);
 	
@@ -1611,6 +1621,36 @@ on_right_click (ETableScrolled *table, gint row, gint col, GdkEvent *event, Mess
 
 	g_free (menu[last_item].name);
 	
+	return TRUE;
+}
+
+static gint
+on_click (ETableScrolled *table, gint row, gint col, GdkEvent *event, MessageList *list)
+{
+	const char *uid;
+	GPtrArray *uids;
+	int flag;
+
+	if (col == COL_MESSAGE_STATUS)
+		flag = CAMEL_MESSAGE_SEEN;
+	else if (col == COL_FLAGGED)
+		flag = CAMEL_MESSAGE_FLAGGED;
+	else
+		return FALSE;
+
+	uid = get_message_uid (list, row);
+	if (!uid)
+		return FALSE;
+
+	uids = g_ptr_array_new ();
+	g_ptr_array_add (uids, g_strdup (uid));
+	mail_do_flag_messages (list->folder, uids, TRUE, flag, flag);
+
+	if (flag == CAMEL_MESSAGE_SEEN && list->seen_id) {
+		gtk_timeout_remove (list->seen_id);
+		list->seen_id = 0;
+	}
+
 	return TRUE;
 }
 

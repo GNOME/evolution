@@ -28,6 +28,7 @@ typedef struct _Renderer Renderer;
 
 enum {
 	COL_MESSAGE_STATUS,
+	COL_FLAGGED,
 	COL_SCORE,
 	COL_ATTACHMENT,
 	COL_FROM,
