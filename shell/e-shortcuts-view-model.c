@@ -281,7 +281,7 @@ class_init (EShortcutsViewModelClass *klass)
 	object_class = G_OBJECT_CLASS (klass);
 	object_class->finalize = impl_finalize;
 
-	parent_class = gtk_type_class (e_shortcut_model_get_type ());
+	parent_class = g_type_class_ref(e_shortcut_model_get_type ());
 }
 
 static void

@@ -105,7 +105,7 @@ set_folder (EvolutionFolderSelectorButton *folder_selector_button,
 
 	pixbuf = evolution_shell_client_get_pixbuf_for_type (priv->shell_client, folder->type, TRUE);
 	gtk_image_set_from_pixbuf (GTK_IMAGE (priv->icon), pixbuf);
-	gdk_pixbuf_unref (pixbuf);
+	g_object_unref (pixbuf);
 
 	folder_lname = e_utf8_to_gtk_string (w, folder->displayName);
 	storage_lname = NULL;
@@ -245,7 +245,7 @@ class_init (EvolutionFolderSelectorButtonClass *klass)
 	GObjectClass *object_class;
 	GtkButtonClass *button_class;
 
-	parent_class = gtk_type_class (PARENT_TYPE);
+	parent_class = g_type_class_ref(PARENT_TYPE);
 
 	object_class = G_OBJECT_CLASS (klass);
 	button_class = GTK_BUTTON_CLASS (klass);
@@ -258,20 +258,20 @@ class_init (EvolutionFolderSelectorButtonClass *klass)
 	signals[POPPED_UP] = gtk_signal_new ("popped_up",
 					    GTK_RUN_FIRST,
 					    GTK_CLASS_TYPE (object_class),
-					    GTK_SIGNAL_OFFSET (EvolutionFolderSelectorButtonClass, popped_up),
+					    G_STRUCT_OFFSET (EvolutionFolderSelectorButtonClass, popped_up),
 					    e_shell_marshal_NONE__NONE,
 					    GTK_TYPE_NONE, 0);
 	signals[SELECTED] = gtk_signal_new ("selected",
 					    GTK_RUN_FIRST,
 					    GTK_CLASS_TYPE (object_class),
-					    GTK_SIGNAL_OFFSET (EvolutionFolderSelectorButtonClass, selected),
+					    G_STRUCT_OFFSET (EvolutionFolderSelectorButtonClass, selected),
 					    e_shell_marshal_NONE__POINTER,
 					    GTK_TYPE_NONE, 1,
 					    GTK_TYPE_POINTER);
 	signals[CANCELED] = gtk_signal_new ("canceled",
 					    GTK_RUN_FIRST,
 					    GTK_CLASS_TYPE (object_class),
-					    GTK_SIGNAL_OFFSET (EvolutionFolderSelectorButtonClass, canceled),
+					    G_STRUCT_OFFSET (EvolutionFolderSelectorButtonClass, canceled),
 					    e_shell_marshal_NONE__NONE,
 					    GTK_TYPE_NONE, 0);
 }

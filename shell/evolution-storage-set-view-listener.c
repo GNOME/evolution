@@ -198,19 +198,19 @@ class_init (EvolutionStorageSetViewListenerClass *klass)
 	object_class = G_OBJECT_CLASS (klass);
 	object_class->finalize = impl_finalize;
 
-	parent_class = gtk_type_class (gtk_object_get_type ());
+	parent_class = g_type_class_ref(gtk_object_get_type ());
 
 	signals[FOLDER_SELECTED] = gtk_signal_new ("folder_selected",
 						   GTK_RUN_FIRST,
 						   GTK_CLASS_TYPE (object_class),
-						   GTK_SIGNAL_OFFSET (EvolutionStorageSetViewListenerClass, folder_selected),
+						   G_STRUCT_OFFSET (EvolutionStorageSetViewListenerClass, folder_selected),
 						   e_shell_marshal_NONE__STRING,
 						   GTK_TYPE_NONE, 1,
 						   GTK_TYPE_STRING);
 	signals[FOLDER_TOGGLED] = gtk_signal_new ("folder_toggled",
 						  GTK_RUN_FIRST,
 						  GTK_CLASS_TYPE (object_class),
-						  GTK_SIGNAL_OFFSET (EvolutionStorageSetViewListenerClass, folder_toggled),
+						  G_STRUCT_OFFSET (EvolutionStorageSetViewListenerClass, folder_toggled),
 						  e_shell_marshal_NONE__NONE,
 						  GTK_TYPE_NONE, 0);
 

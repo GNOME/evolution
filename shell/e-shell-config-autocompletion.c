@@ -108,7 +108,7 @@ e_shell_config_autocompletion_create_widget (EShell *shell, EvolutionConfigContr
 	ac->control_widget = e_folder_list_new (ac->shell_client, xml);
 	g_free (xml);
 
-	gtk_object_set (GTK_OBJECT (ac->control_widget),
+	g_object_set((ac->control_widget),
 			"title", _("Extra Completion folders"),
 			"possible_types", possible_types,
 			NULL);

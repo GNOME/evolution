@@ -71,7 +71,7 @@ impl_dispose (GObject *object)
 	}
 
 	if (priv->icon_pixbuf != NULL) {
-		gdk_pixbuf_unref (priv->icon_pixbuf);
+		g_object_unref (priv->icon_pixbuf);
 		priv->icon_pixbuf = NULL;
 	}
 
@@ -97,7 +97,7 @@ impl_finalize (GObject *object)
 static void
 class_init (GObjectClass *object_class)
 {
-	parent_class = gtk_type_class (PARENT_TYPE);
+	parent_class = g_type_class_ref(PARENT_TYPE);
 
 	object_class->dispose  = impl_dispose;
 	object_class->finalize = impl_finalize;
@@ -151,9 +151,9 @@ e_task_widget_construct (ETaskWidget *task_widget,
 	gtk_container_add (GTK_CONTAINER (frame), box);
 	gtk_widget_show (box);
 
-	gtk_widget_set_usize (box, 1, -1);
+	gtk_widget_set_size_request (box, 1, -1);
 
-	priv->icon_pixbuf = gdk_pixbuf_ref (icon_pixbuf);
+	priv->icon_pixbuf = g_object_ref (icon_pixbuf);
 
 	gdk_pixbuf_render_pixmap_and_mask (icon_pixbuf, &pixmap, &mask, 128);
 
@@ -167,7 +167,7 @@ e_task_widget_construct (ETaskWidget *task_widget,
 	gtk_box_pack_start (GTK_BOX (box), priv->label, TRUE, TRUE, 0);
 
 	gdk_pixmap_unref (pixmap);
-	gdk_bitmap_unref (mask);
+	g_object_unref (mask);
 
 	priv->tooltips = gtk_tooltips_new ();
 	g_object_ref (priv->tooltips);

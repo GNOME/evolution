@@ -41,6 +41,7 @@
 
 #include <gtk/gtksignal.h>
 #include <gtk/gtklabel.h>
+#include <gtk/gtkstock.h>
 
 #include <string.h>
 
@@ -273,7 +274,7 @@ class_init (EShellFolderSelectionDialogClass *klass)
 	GObjectClass *object_class;
 	GtkDialogClass *dialog_class;
 
-	parent_class = gtk_type_class (PARENT_TYPE);
+	parent_class = g_type_class_ref(PARENT_TYPE);
 	object_class = G_OBJECT_CLASS (klass);
 	dialog_class = GTK_DIALOG_CLASS (klass);
 
@@ -286,7 +287,7 @@ class_init (EShellFolderSelectionDialogClass *klass)
 		= gtk_signal_new ("folder_selected",
 				  GTK_RUN_LAST,
 				  GTK_CLASS_TYPE (object_class),
-				  GTK_SIGNAL_OFFSET (EShellFolderSelectionDialogClass, folder_selected),
+				  G_STRUCT_OFFSET (EShellFolderSelectionDialogClass, folder_selected),
 				  e_shell_marshal_NONE__STRING,
 				  GTK_TYPE_NONE, 1,
 				  GTK_TYPE_STRING);
@@ -295,7 +296,7 @@ class_init (EShellFolderSelectionDialogClass *klass)
 		= gtk_signal_new ("cancelled",
 				  GTK_RUN_LAST,
 				  GTK_CLASS_TYPE (object_class),
-				  GTK_SIGNAL_OFFSET (EShellFolderSelectionDialogClass, cancelled),
+				  G_STRUCT_OFFSET (EShellFolderSelectionDialogClass, cancelled),
 				  e_shell_marshal_NONE__NONE,
 				  GTK_TYPE_NONE, 0);
 }

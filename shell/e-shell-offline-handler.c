@@ -718,13 +718,13 @@ class_init (EShellOfflineHandlerClass *klass)
 	object_class->dispose  = impl_dispose;
 	object_class->finalize = impl_finalize;
 
-	parent_class = gtk_type_class (gtk_object_get_type ());
+	parent_class = g_type_class_ref(gtk_object_get_type ());
 
 	signals[OFFLINE_PROCEDURE_STARTED]
 		= gtk_signal_new ("offline_procedure_started",
 				  GTK_RUN_LAST,
 				  GTK_CLASS_TYPE (object_class),
-				  GTK_SIGNAL_OFFSET (EShellOfflineHandlerClass, offline_procedure_started),
+				  G_STRUCT_OFFSET (EShellOfflineHandlerClass, offline_procedure_started),
 				  e_shell_marshal_NONE__NONE,
 				  GTK_TYPE_NONE, 0);
 
@@ -732,7 +732,7 @@ class_init (EShellOfflineHandlerClass *klass)
 		= gtk_signal_new ("offline_procedure_finished",
 				  GTK_RUN_LAST,
 				  GTK_CLASS_TYPE (object_class),
-				  GTK_SIGNAL_OFFSET (EShellOfflineHandlerClass, offline_procedure_finished),
+				  G_STRUCT_OFFSET (EShellOfflineHandlerClass, offline_procedure_finished),
 				  e_shell_marshal_NONE__BOOL,
 				  GTK_TYPE_NONE, 1,
 				  GTK_TYPE_BOOL);

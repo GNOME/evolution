@@ -677,13 +677,13 @@ class_init (EShortcutsClass *klass)
 	object_class->dispose  = impl_dispose;
 	object_class->finalize = impl_finalize;
 
-	parent_class = gtk_type_class (gtk_object_get_type ());
+	parent_class = g_type_class_ref(gtk_object_get_type ());
 
 	signals[NEW_GROUP]
 		= gtk_signal_new ("new_group",
 				  GTK_RUN_FIRST,
 				  GTK_CLASS_TYPE (object_class),
-				  GTK_SIGNAL_OFFSET (EShortcutsClass, new_group),
+				  G_STRUCT_OFFSET (EShortcutsClass, new_group),
 				  e_shell_marshal_NONE__INT,
 				  GTK_TYPE_NONE, 1,
 				  GTK_TYPE_INT);
@@ -692,7 +692,7 @@ class_init (EShortcutsClass *klass)
 		= gtk_signal_new ("remove_group",
 				  GTK_RUN_FIRST,
 				  GTK_CLASS_TYPE (object_class),
-				  GTK_SIGNAL_OFFSET (EShortcutsClass, remove_group),
+				  G_STRUCT_OFFSET (EShortcutsClass, remove_group),
 				  e_shell_marshal_NONE__INT,
 				  GTK_TYPE_NONE, 1,
 				  GTK_TYPE_INT);
@@ -701,7 +701,7 @@ class_init (EShortcutsClass *klass)
 		= gtk_signal_new ("rename_group",
 				  GTK_RUN_FIRST,
 				  GTK_CLASS_TYPE (object_class),
-				  GTK_SIGNAL_OFFSET (EShortcutsClass, rename_group),
+				  G_STRUCT_OFFSET (EShortcutsClass, rename_group),
 				  e_shell_marshal_NONE__INT_STRING,
 				  GTK_TYPE_NONE, 2,
 				  GTK_TYPE_INT,
@@ -711,7 +711,7 @@ class_init (EShortcutsClass *klass)
 		= gtk_signal_new ("group_change_icon_size",
 				  GTK_RUN_FIRST,
 				  GTK_CLASS_TYPE (object_class),
-				  GTK_SIGNAL_OFFSET (EShortcutsClass, group_change_icon_size),
+				  G_STRUCT_OFFSET (EShortcutsClass, group_change_icon_size),
 				  e_shell_marshal_NONE__INT_INT,
 				  GTK_TYPE_NONE, 2,
 				  GTK_TYPE_INT,
@@ -721,7 +721,7 @@ class_init (EShortcutsClass *klass)
 		= gtk_signal_new ("new_shortcut",
 				  GTK_RUN_FIRST,
 				  GTK_CLASS_TYPE (object_class),
-				  GTK_SIGNAL_OFFSET (EShortcutsClass, new_shortcut),
+				  G_STRUCT_OFFSET (EShortcutsClass, new_shortcut),
 				  e_shell_marshal_NONE__INT_INT,
 				  GTK_TYPE_NONE, 2,
 				  GTK_TYPE_INT,
@@ -731,7 +731,7 @@ class_init (EShortcutsClass *klass)
 		= gtk_signal_new ("remove_shortcut",
 				  GTK_RUN_FIRST,
 				  GTK_CLASS_TYPE (object_class),
-				  GTK_SIGNAL_OFFSET (EShortcutsClass, remove_shortcut),
+				  G_STRUCT_OFFSET (EShortcutsClass, remove_shortcut),
 				  e_shell_marshal_NONE__INT_INT,
 				  GTK_TYPE_NONE, 2,
 				  GTK_TYPE_INT,
@@ -741,7 +741,7 @@ class_init (EShortcutsClass *klass)
 		= gtk_signal_new ("update_shortcut",
 				  GTK_RUN_FIRST,
 				  GTK_CLASS_TYPE (object_class),
-				  GTK_SIGNAL_OFFSET (EShortcutsClass, update_shortcut),
+				  G_STRUCT_OFFSET (EShortcutsClass, update_shortcut),
 				  e_shell_marshal_NONE__INT_INT,
 				  GTK_TYPE_NONE, 2,
 				  GTK_TYPE_INT,

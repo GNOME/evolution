@@ -84,7 +84,7 @@ reduce_displayed_activities_per_component (ETaskBar *task_bar)
 static void
 class_init (GtkObjectClass *object_class)
 {
-	parent_class = gtk_type_class (PARENT_TYPE);
+	parent_class = g_type_class_ref(PARENT_TYPE);
 }
 
 static void

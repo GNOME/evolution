@@ -665,7 +665,7 @@ impl_finalize (GObject *object)
 		g_free (item->label);
 		g_free (item->tooltip);
 		if (item->icon != NULL)
-			gdk_pixbuf_unref (item->icon);
+			g_object_unref (item->icon);
 		g_free (item);
 	}
 	g_slist_free (priv->folder_property_items);
@@ -704,12 +704,12 @@ class_init (EvolutionStorageClass *klass)
 	epv->showFolderProperties       = impl_Storage_showFolderProperties;
 	epv->_get_folderPropertyItems   = impl_Storage__get_folderPropertyItems;
 
-	parent_class = gtk_type_class (PARENT_TYPE);
+	parent_class = g_type_class_ref(PARENT_TYPE);
 
 	signals[CREATE_FOLDER] = gtk_signal_new ("create_folder",
 						 GTK_RUN_LAST,
 						 GTK_CLASS_TYPE (object_class),
-						 GTK_SIGNAL_OFFSET (EvolutionStorageClass,
+						 G_STRUCT_OFFSET (EvolutionStorageClass,
 								    create_folder),
 						 e_shell_marshal_NONE__POINTER_STRING_STRING_STRING_STRING,
 						 GTK_TYPE_NONE, 5,
@@ -722,7 +722,7 @@ class_init (EvolutionStorageClass *klass)
 	signals[REMOVE_FOLDER] = gtk_signal_new ("remove_folder",
 						 GTK_RUN_LAST,
 						 GTK_CLASS_TYPE (object_class),
-						 GTK_SIGNAL_OFFSET (EvolutionStorageClass,
+						 G_STRUCT_OFFSET (EvolutionStorageClass,
 								    remove_folder),
 						 e_shell_marshal_NONE__POINTER_STRING_STRING,
 						 GTK_TYPE_NONE, 3,
@@ -733,7 +733,7 @@ class_init (EvolutionStorageClass *klass)
 	signals[XFER_FOLDER] = gtk_signal_new ("xfer_folder",
 					       GTK_RUN_LAST,
 					       GTK_CLASS_TYPE (object_class),
-					       GTK_SIGNAL_OFFSET (EvolutionStorageClass,
+					       G_STRUCT_OFFSET (EvolutionStorageClass,
 								  xfer_folder),
 					       e_shell_marshal_NONE__POINTER_STRING_STRING_BOOL,
 					       GTK_TYPE_NONE, 4,
@@ -745,7 +745,7 @@ class_init (EvolutionStorageClass *klass)
 	signals[UPDATE_FOLDER] = gtk_signal_new ("update_folder",
 						 GTK_RUN_FIRST,
 						 GTK_CLASS_TYPE (object_class),
-						 GTK_SIGNAL_OFFSET (EvolutionStorageClass,
+						 G_STRUCT_OFFSET (EvolutionStorageClass,
 								    update_folder),
 						 e_shell_marshal_NONE__STRING_INT,
 						 GTK_TYPE_NONE, 2,
@@ -755,7 +755,7 @@ class_init (EvolutionStorageClass *klass)
 	signals[OPEN_FOLDER] = gtk_signal_new ("open_folder",
 					       GTK_RUN_LAST,
 					       GTK_CLASS_TYPE (object_class),
-					       GTK_SIGNAL_OFFSET (EvolutionStorageClass,
+					       G_STRUCT_OFFSET (EvolutionStorageClass,
 								  open_folder),
 					       e_shell_marshal_NONE__STRING,
 					       GTK_TYPE_NONE, 1,
@@ -764,7 +764,7 @@ class_init (EvolutionStorageClass *klass)
 	signals[DISCOVER_SHARED_FOLDER] = gtk_signal_new ("discover_shared_folder",
 							  GTK_RUN_LAST,
 							  GTK_CLASS_TYPE (object_class),
-							  GTK_SIGNAL_OFFSET (EvolutionStorageClass,
+							  G_STRUCT_OFFSET (EvolutionStorageClass,
 									     discover_shared_folder),
 							  e_shell_marshal_NONE__POINTER_STRING_STRING,
 							  GTK_TYPE_NONE, 3,
@@ -775,7 +775,7 @@ class_init (EvolutionStorageClass *klass)
 	signals[CANCEL_DISCOVER_SHARED_FOLDER] = gtk_signal_new ("cancel_discover_shared_folder",
 								 GTK_RUN_LAST,
 								 GTK_CLASS_TYPE (object_class),
-								 GTK_SIGNAL_OFFSET (EvolutionStorageClass,
+								 G_STRUCT_OFFSET (EvolutionStorageClass,
 										    cancel_discover_shared_folder),
 								 e_shell_marshal_NONE__STRING_STRING,
 								 GTK_TYPE_NONE, 2,
@@ -785,7 +785,7 @@ class_init (EvolutionStorageClass *klass)
 	signals[REMOVE_SHARED_FOLDER] = gtk_signal_new ("remove_shared_folder",
 							GTK_RUN_LAST,
 							GTK_CLASS_TYPE (object_class),
-							GTK_SIGNAL_OFFSET (EvolutionStorageClass,
+							G_STRUCT_OFFSET (EvolutionStorageClass,
 									   remove_shared_folder),
 							e_shell_marshal_NONE__STRING_POINTER,
 							GTK_TYPE_NONE, 2,
@@ -795,7 +795,7 @@ class_init (EvolutionStorageClass *klass)
 	signals[SHOW_FOLDER_PROPERTIES] = gtk_signal_new ("show_folder_properties",
 							  GTK_RUN_LAST,
 							  GTK_CLASS_TYPE (object_class),
-							  GTK_SIGNAL_OFFSET (EvolutionStorageClass,
+							  G_STRUCT_OFFSET (EvolutionStorageClass,
 									     show_folder_properties),
 							  e_shell_marshal_NONE__STRING_INT_INT,
 							  GTK_TYPE_NONE, 3,
@@ -1324,7 +1324,7 @@ evolution_storage_add_property_item  (EvolutionStorage *evolution_storage,
 	item->tooltip = g_strdup (tooltip);
 	item->icon    = icon;
 	if (icon != NULL)
-		gdk_pixbuf_ref (icon);
+		g_object_ref (icon);
 
 	evolution_storage->priv->folder_property_items = g_slist_append (evolution_storage->priv->folder_property_items,
 									 item);

@@ -195,7 +195,7 @@ setup_server_option_menu (EShell *shell,
 		g_object_set_data_full (G_OBJECT (menu_item), "storage_name", g_strdup (storage_name), g_free);
 
 		gtk_widget_show (menu_item);
-		gtk_menu_append (GTK_MENU (menu), menu_item);
+		gtk_menu_shell_append(GTK_MENU_SHELL(menu), menu_item);
 
 		if (*storage_name_return == NULL)
 			*storage_name_return = g_strdup (storage_name);
@@ -354,7 +354,7 @@ create_progress_dialog (EShell *shell,
 	char *text;
 
 	dialog = gnome_dialog_new (_("Opening Folder"), GNOME_STOCK_BUTTON_CANCEL, NULL);
-	gtk_widget_set_usize (dialog, 300, -1);
+	gtk_widget_set_size_request (dialog, 300, -1);
 	gtk_window_set_policy (GTK_WINDOW (dialog), FALSE, FALSE, FALSE);
 
 	g_signal_connect (dialog, "close",
@@ -445,8 +445,7 @@ shared_folder_discovery_callback (EStorage *storage,
 		else
 			e_shell_create_view (shell, uri, NULL);
 	} else {
-		e_notice (parent ? GTK_WINDOW (parent) : NULL,
-			  GNOME_MESSAGE_BOX_ERROR,
+		e_notice (parent ? GTK_WINDOW (parent) : NULL, GTK_MESSAGE_ERROR,
 			  _("Could not open shared folder: %s."),
 			  e_storage_result_to_string (result));
 	}
@@ -499,7 +498,7 @@ discover_folder (EShell *shell,
 
  error:
 	/* FIXME: Be more verbose?  */
-	e_notice (GTK_WINDOW (parent), GNOME_MESSAGE_BOX_ERROR,
+	e_notice (GTK_WINDOW (parent), GTK_MESSAGE_ERROR,
 		  _("Cannot find the specified shared folder."));
 }
 

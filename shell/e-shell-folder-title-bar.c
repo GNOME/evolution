@@ -168,7 +168,7 @@ new_empty_pixmap_widget (void)
 	gdk_pixbuf_render_pixmap_and_mask (empty_pixbuf, &pixmap, &mask, 127);
 	pixmap_widget = gtk_pixmap_new (pixmap, mask);
 
-	gdk_pixbuf_unref (empty_pixbuf);
+	g_object_unref (empty_pixbuf);
 
 	return pixmap_widget;
 }
@@ -393,7 +393,7 @@ impl_dispose (GObject *object)
 	priv = folder_title_bar->priv;
 
 	if (priv->icon != NULL) {
-		gdk_pixbuf_unref (priv->icon);
+		g_object_unref (priv->icon);
 		priv->icon = NULL;
 	}
 
@@ -469,12 +469,12 @@ class_init (EShellFolderTitleBarClass *klass)
 	widget_class = GTK_WIDGET_CLASS (klass);
 	widget_class->size_allocate = impl_size_allocate;
 
-	parent_class = gtk_type_class (PARENT_TYPE);
+	parent_class = g_type_class_ref(PARENT_TYPE);
 
 	signals[TITLE_TOGGLED] = gtk_signal_new ("title_toggled",
 						 GTK_RUN_FIRST,
 						 GTK_CLASS_TYPE (object_class),
-						 GTK_SIGNAL_OFFSET (EShellFolderTitleBarClass, title_toggled),
+						 G_STRUCT_OFFSET (EShellFolderTitleBarClass, title_toggled),
 						 e_shell_marshal_NONE__BOOL,
 						 GTK_TYPE_NONE, 1,
 						 GTK_TYPE_BOOL);
@@ -482,14 +482,14 @@ class_init (EShellFolderTitleBarClass *klass)
 	signals[BACK_CLICKED] = gtk_signal_new ("back_clicked",
 						GTK_RUN_FIRST,
 						GTK_CLASS_TYPE (object_class),
-						GTK_SIGNAL_OFFSET (EShellFolderTitleBarClass, back_clicked),
+						G_STRUCT_OFFSET (EShellFolderTitleBarClass, back_clicked),
 						e_shell_marshal_NONE__NONE,
 						GTK_TYPE_NONE, 0);
 
 	signals[FORWARD_CLICKED] = gtk_signal_new ("forward_clicked",
 						   GTK_RUN_FIRST,
 						   GTK_CLASS_TYPE (object_class),
-						   GTK_SIGNAL_OFFSET (EShellFolderTitleBarClass, forward_clicked),
+						   G_STRUCT_OFFSET (EShellFolderTitleBarClass, forward_clicked),
 						   e_shell_marshal_NONE__NONE,
 						   GTK_TYPE_NONE, 0);
 }
@@ -708,12 +708,12 @@ e_shell_folder_title_bar_set_icon (EShellFolderTitleBar *folder_title_bar,
 
 	if (icon == NULL) {
 		if (priv->icon != NULL)
-			gdk_pixbuf_unref (priv->icon);
+			g_object_unref (priv->icon);
 		priv->icon = new_empty_pixbuf ();
 	} else {
-		gdk_pixbuf_ref (icon);
+		g_object_ref (icon);
 		if (priv->icon != NULL)
-			gdk_pixbuf_unref (priv->icon);
+			g_object_unref (priv->icon);
 		priv->icon = icon;
 	}
 

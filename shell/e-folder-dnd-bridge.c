@@ -52,7 +52,7 @@ folder_xfer_callback (EStorageSet *storage_set,
 		return;
 
 	parent = GTK_WINDOW (data);
-	e_notice (parent, GNOME_MESSAGE_BOX_ERROR, _("Cannot transfer folder:\n%s"),
+	e_notice (parent, GTK_MESSAGE_ERROR, _("Cannot transfer folder:\n%s"),
 		  e_storage_result_to_string (result));
 }
 

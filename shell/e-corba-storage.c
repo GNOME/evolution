@@ -686,7 +686,7 @@ class_init (ECorbaStorageClass *klass)
 
 	corba_class_init ();
 
-	parent_class = gtk_type_class (PARENT_TYPE);
+	parent_class = g_type_class_ref(PARENT_TYPE);
 }
 
 static void
@@ -822,7 +822,7 @@ e_corba_storage_free_property_items_list (GSList *list)
 		item = (ECorbaStoragePropertyItem *) p->data;
 
 		if (item->icon != NULL)
-			gdk_pixbuf_unref (item->icon);
+			g_object_unref (item->icon);
 		g_free (item->label);
 		g_free (item->tooltip);
 		g_free (item);

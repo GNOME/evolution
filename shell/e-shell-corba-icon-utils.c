@@ -201,7 +201,7 @@ e_new_gdk_pixbuf_from_corba_icon  (const GNOME_Evolution_Icon *icon,
 			  0, 0, (double) scaled_width / icon->width, (double) scaled_height / icon->height,
 			  GDK_INTERP_HYPER);
 
-	gdk_pixbuf_unref (pixbuf);
+	g_object_unref (pixbuf);
 
 	return scaled_pixbuf;
 }

@@ -56,9 +56,9 @@ icon_new (const char *name,
 	icon->large_pixbuf = large_pixbuf;
 
 	if (small_pixbuf != NULL)
-		gdk_pixbuf_ref (small_pixbuf);
+		g_object_ref (small_pixbuf);
 	if (large_pixbuf != NULL)
-		gdk_pixbuf_ref (large_pixbuf);
+		g_object_ref (large_pixbuf);
 
 	return icon;
 }
@@ -73,9 +73,9 @@ icon_free (Icon *icon)
 	g_free (icon->name);
 
 	if (icon->large_pixbuf != NULL)
-		gdk_pixbuf_unref (icon->large_pixbuf);
+		g_object_unref (icon->large_pixbuf);
 	if (icon->small_pixbuf != NULL)
-		gdk_pixbuf_unref (icon->small_pixbuf);
+		g_object_unref (icon->small_pixbuf);
 
 	g_free (icon);
 }
@@ -106,8 +106,8 @@ load_icon (const char *icon_name)
 
 	icon = icon_new (icon_name, small_pixbuf, large_pixbuf);
 
-	gdk_pixbuf_unref (small_pixbuf);
-	gdk_pixbuf_unref (large_pixbuf);
+	g_object_unref (small_pixbuf);
+	g_object_unref (large_pixbuf);
 
 	return icon;
 }
@@ -153,10 +153,10 @@ e_icon_factory_get_icon (const char *icon_name,
 	}
 
 	if (mini) {
-		gdk_pixbuf_ref (icon->small_pixbuf);
+		g_object_ref (icon->small_pixbuf);
 		return icon->small_pixbuf;
 	} else {
-		gdk_pixbuf_ref (icon->large_pixbuf);
+		g_object_ref (icon->large_pixbuf);
 		return icon->large_pixbuf;
 	}
 }

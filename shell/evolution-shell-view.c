@@ -167,7 +167,7 @@ class_init (EvolutionShellViewClass *klass)
 		= gtk_signal_new ("set_message",
 				  GTK_RUN_FIRST,
 				  GTK_CLASS_TYPE (object_class),
-				  GTK_SIGNAL_OFFSET (EvolutionShellViewClass, set_message),
+				  G_STRUCT_OFFSET (EvolutionShellViewClass, set_message),
 				  e_shell_marshal_NONE__STRING_INT,
 				  GTK_TYPE_NONE, 2,
 				  GTK_TYPE_STRING,
@@ -177,7 +177,7 @@ class_init (EvolutionShellViewClass *klass)
 		= gtk_signal_new ("unset_message",
 				  GTK_RUN_FIRST,
 				  GTK_CLASS_TYPE (object_class),
-				  GTK_SIGNAL_OFFSET (EvolutionShellViewClass, unset_message),
+				  G_STRUCT_OFFSET (EvolutionShellViewClass, unset_message),
 				  e_shell_marshal_NONE__NONE,
 				  GTK_TYPE_NONE, 0);
 
@@ -185,7 +185,7 @@ class_init (EvolutionShellViewClass *klass)
 		= gtk_signal_new ("change_current_view",
 				  GTK_RUN_FIRST,
 				  GTK_CLASS_TYPE (object_class),
-				  GTK_SIGNAL_OFFSET (EvolutionShellViewClass, change_current_view),
+				  G_STRUCT_OFFSET (EvolutionShellViewClass, change_current_view),
 				  e_shell_marshal_NONE__STRING,
 				  GTK_TYPE_NONE, 1,
 				  GTK_TYPE_STRING);
@@ -194,7 +194,7 @@ class_init (EvolutionShellViewClass *klass)
 		= gtk_signal_new ("set_title",
 				  GTK_RUN_FIRST,
 				  GTK_CLASS_TYPE (object_class),
-				  GTK_SIGNAL_OFFSET (EvolutionShellViewClass, set_title),
+				  G_STRUCT_OFFSET (EvolutionShellViewClass, set_title),
 				  e_shell_marshal_NONE__STRING,
 				  GTK_TYPE_NONE, 1,
 				  GTK_TYPE_STRING);
@@ -203,7 +203,7 @@ class_init (EvolutionShellViewClass *klass)
 		= gtk_signal_new ("set_folder_bar_label",
 				  GTK_RUN_FIRST,
 				  GTK_CLASS_TYPE (object_class),
-				  GTK_SIGNAL_OFFSET (EvolutionShellViewClass, set_folder_bar_label),
+				  G_STRUCT_OFFSET (EvolutionShellViewClass, set_folder_bar_label),
 				  e_shell_marshal_NONE__STRING,
 				  GTK_TYPE_NONE, 1,
 				  GTK_TYPE_STRING);
@@ -212,11 +212,11 @@ class_init (EvolutionShellViewClass *klass)
 		= gtk_signal_new ("show_settings",
 				  GTK_RUN_FIRST,
 				  GTK_CLASS_TYPE (object_class),
-				  GTK_SIGNAL_OFFSET (EvolutionShellViewClass, show_settings),
+				  G_STRUCT_OFFSET (EvolutionShellViewClass, show_settings),
 				  e_shell_marshal_NONE__NONE,
 				  GTK_TYPE_NONE, 0);
 
-	parent_class = gtk_type_class (bonobo_x_object_get_type ());
+	parent_class = g_type_class_ref(bonobo_x_object_get_type ());
 }
 
 static void

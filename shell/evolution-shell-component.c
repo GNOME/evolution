@@ -123,7 +123,7 @@ user_creatable_item_type_new (const char *id,
 	if (icon == NULL)
 		type->icon = NULL;
 	else
-		type->icon = gdk_pixbuf_ref (icon);
+		type->icon = g_object_ref (icon);
 
 	return type;
 }
@@ -137,7 +137,7 @@ user_creatable_item_type_free (UserCreatableItemType *type)
 	g_free (type->folder_type);
 
 	if (type->icon != NULL)
-		gdk_pixbuf_unref (type->icon);
+		g_object_unref (type->icon);
 
 	g_free (type);
 }
@@ -950,7 +950,7 @@ class_init (EvolutionShellComponentClass *klass)
 				G_TYPE_NONE, 1,
 				G_TYPE_BOOLEAN);
 
-	parent_class = gtk_type_class (PARENT_TYPE);
+	parent_class = g_type_class_ref(PARENT_TYPE);
 
 	epv->_get_supportedTypes         = impl__get_supportedTypes;
 	epv->_get_externalUriSchemas     = impl__get_externalUriSchemas;

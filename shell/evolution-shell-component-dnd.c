@@ -136,7 +136,7 @@ evolution_shell_component_dnd_source_folder_class_init (EvolutionShellComponentD
 	klass->epv.deleteData = impl_GNOME_Evolution_ShellComponentDnd_SourceFolder_deleteData;
 	klass->epv.endDrag    = impl_GNOME_Evolution_ShellComponentDnd_SourceFolder_endDrag;
 
-	parent_class = gtk_type_class (PARENT_TYPE);
+	parent_class = g_type_class_ref(PARENT_TYPE);
 }
 
 static void
@@ -259,7 +259,7 @@ evolution_shell_component_dnd_destination_folder_class_init (EvolutionShellCompo
 	klass->epv.handleMotion = impl_GNOME_Evolution_ShellComponentDnd_DestinationFolder_handleMotion;
 	klass->epv.handleDrop = impl_GNOME_Evolution_ShellComponentDnd_DestinationFolder_handleDrop;
 
-	parent_class = gtk_type_class (PARENT_TYPE);
+	parent_class = g_type_class_ref(PARENT_TYPE);
 }
 
 static void

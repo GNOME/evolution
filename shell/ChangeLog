@@ -1,3 +1,33 @@
+2002-11-27  Not Zed  <NotZed@Ximian.com>
+
+	* main.c (show_development_warning): changed to use a gtkdialog
+	instead of a gnome one.
+	(warning_dialog_response_callback): clicked->response.
+
+	* e-shell-folder-selection-dialog.c: Include gtk/gtkstock.h
+
+	* e-shell-folder-creation-dialog.c: include gnome-dialog.h
+	(dialog_response_cb): gtk_entry_get_text now returns const.  Dont
+	free result.
+
+	* e-setup.c: include gnome-messagebox.h
+
+	* *.c: (re)run fix.sh over all, for e_notice changes & pick up
+	some deprecated functions.
+
+	* e-shell-shared-folder-picker-dialog.c
+	(shared_folder_discovery_callback): reformat e_notice call for
+	script.
+
+	* e-shell-offline-sync.c
+	(impl_SyncFolderProgressListener_reportFailure): Fix e_notice
+	call, we weren't passing type in.
+
+	* e-shell-folder-commands.c (xfer_result_callback): changed around
+	slightly to save some processing & allow a script to run.
+	(e_shell_command_rename_folder): reformat e_notice call to help script.
+	Include gnome-messagebox.h
+
 2002-11-25  Dan Winship  <danw@ximian.com>
 
 	* e-shell-settings-dialog.c (page_new): e_get_language_list now

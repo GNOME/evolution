@@ -309,7 +309,7 @@ impl_realize (GtkWidget *widget)
 	g_assert (priv->timeout_id == -1);
 	priv->timeout_id = g_timeout_add (ANIMATION_DELAY, timeout_callback, about_box);
 
-	gdk_pixbuf_unref (background_pixbuf);
+	g_object_unref (background_pixbuf);
 }
 
 static void
@@ -363,7 +363,7 @@ class_init (GObjectClass *object_class)
 {
 	GtkWidgetClass *widget_class;
 
-	parent_class = gtk_type_class (PARENT_TYPE);
+	parent_class = g_type_class_ref(PARENT_TYPE);
 
 	object_class->dispose  = impl_dispose;
 	object_class->finalize = impl_finalize;

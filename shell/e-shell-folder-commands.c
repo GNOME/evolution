@@ -39,6 +39,7 @@
 #include <libgnome/gnome-i18n.h>
 #include <libgnome/gnome-util.h>
 #include <libgnomeui/gnome-dialog.h>
+#include <libgnomeui/gnome-messagebox.h>
 
 #include <gtk/gtklabel.h>
 #include <gtk/gtksignal.h>
@@ -135,19 +136,15 @@ xfer_result_callback (EStorageSet *storage_set,
 	folder_command_data = (FolderCommandData *) data;
 
 	if (result != E_STORAGE_OK) {
-		char *msg;
+		const char *fmt;
 
 		if (folder_command_data->command == FOLDER_COMMAND_COPY)
-			msg = g_strdup_printf (_("Cannot copy folder: %s"),
-					       e_storage_result_to_string (result));
+			fmt = _("Cannot copy folder: %s");
 		else
-			msg = g_strdup_printf (_("Cannot move folder: %s"),
-					       e_storage_result_to_string (result));
+			fmt = _("Cannot move folder: %s");
 
-		e_notice (GTK_WINDOW (folder_command_data->shell_view),
-			  GNOME_MESSAGE_BOX_ERROR, msg);
-
-		g_free (msg);
+		e_notice (GTK_WINDOW (folder_command_data->shell_view), GTK_MESSAGE_ERROR,
+			  fmt, e_storage_result_to_string (result));
 	}
 
 	folder_command_data_free (folder_command_data);
@@ -192,7 +189,7 @@ folder_selection_dialog_folder_selected_callback (EShellFolderSelectionDialog *f
 		else
 			msg = _("Cannot copy a folder over itself.");
 
-		e_notice (GTK_WINDOW (folder_selection_dialog), GNOME_MESSAGE_BOX_ERROR, msg);
+		e_notice (GTK_WINDOW (folder_selection_dialog), GTK_MESSAGE_ERROR, msg);
 		return;
 	}
 
@@ -203,7 +200,7 @@ folder_selection_dialog_folder_selected_callback (EShellFolderSelectionDialog *f
 		if (strncmp (folder_command_data->destination_path,
 			     folder_command_data->source_path,
 			     source_len) == 0) {
-			e_notice (GTK_WINDOW (folder_selection_dialog), GNOME_MESSAGE_BOX_ERROR,
+			e_notice (GTK_WINDOW (folder_selection_dialog), GTK_MESSAGE_ERROR,
 				  _("Cannot move a folder into one of its descendants."));
 			return;
 		}
@@ -390,7 +387,7 @@ delete_cb (EStorageSet *storage_set,
 	shell_view = E_SHELL_VIEW (data);
 
 	if (result != E_STORAGE_OK)
-		e_notice (GTK_WINDOW (shell_view), GNOME_MESSAGE_BOX_ERROR,
+		e_notice (GTK_WINDOW (shell_view), GTK_MESSAGE_ERROR,
 			  _("Cannot delete folder:\n%s"), e_storage_result_to_string (result));
 }
 
@@ -485,7 +482,7 @@ rename_cb (EStorageSet *storage_set, EStorageResult result, void *data)
 	callback_data = (RenameCallbackData *) data;
 
 	if (result != E_STORAGE_OK) {
-		e_notice (GTK_WINDOW (callback_data->shell_view), GNOME_MESSAGE_BOX_ERROR,
+		e_notice (GTK_WINDOW (callback_data->shell_view), GTK_MESSAGE_ERROR,
 			  _("Cannot rename folder:\n%s"), e_storage_result_to_string (result));
 	} else {
 		EFolder *folder;
@@ -548,8 +545,7 @@ e_shell_command_rename_folder (EShell *shell,
 		if (e_shell_folder_name_is_valid (new_name, &reason))
 			break;
 
-		e_notice (shell_view != NULL ? GTK_WINDOW (shell_view) : NULL,
-			  GNOME_MESSAGE_BOX_ERROR,
+		e_notice (shell_view != NULL ? GTK_WINDOW (shell_view) : NULL, GTK_MESSAGE_ERROR,
 			  _("The specified folder name is not valid: %s"), reason);
 	}
 
@@ -583,10 +579,10 @@ remove_shared_cb (EStorageSet *storage_set,
 
 	if (result == E_STORAGE_NOTIMPLEMENTED ||
 	    result == E_STORAGE_UNSUPPORTEDOPERATION)
-		e_notice (GTK_WINDOW (shell_view), GNOME_MESSAGE_BOX_ERROR,
+		e_notice (GTK_WINDOW (shell_view), GTK_MESSAGE_ERROR,
 			  _("Selected folder does not belong to another user"));
 	else if (result != E_STORAGE_OK)
-		e_notice (GTK_WINDOW (shell_view), GNOME_MESSAGE_BOX_ERROR,
+		e_notice (GTK_WINDOW (shell_view), GTK_MESSAGE_ERROR,
 			  _("Cannot remove folder:\n%s"), e_storage_result_to_string (result));
 }
 

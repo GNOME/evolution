@@ -250,7 +250,7 @@ load_images (void)
 		g_warning ("Cannot load `%s'", EVOLUTION_IMAGES "/offline.png");
 	} else {
 		gdk_pixbuf_render_pixmap_and_mask (pixbuf, &offline_pixmap, &offline_mask, 128);
-		gdk_pixbuf_unref (pixbuf);
+		g_object_unref (pixbuf);
 	}
 
 	pixbuf = gdk_pixbuf_new_from_file (EVOLUTION_IMAGES "/online.png", NULL);
@@ -258,7 +258,7 @@ load_images (void)
 		g_warning ("Cannot load `%s'", EVOLUTION_IMAGES "/online.png");
 	} else {
 		gdk_pixbuf_render_pixmap_and_mask (pixbuf, &online_pixmap, &online_mask, 128);
-		gdk_pixbuf_unref (pixbuf);
+		g_object_unref (pixbuf);
 	}
 }
 
@@ -273,7 +273,7 @@ cleanup_delayed_selection (EShellView *shell_view)
 		g_free (priv->delayed_selection);
 		priv->delayed_selection = NULL;
 		gtk_signal_disconnect_by_func (GTK_OBJECT (e_shell_get_storage_set (priv->shell)),
-					       GTK_SIGNAL_FUNC (new_folder_cb),
+					       G_CALLBACK (new_folder_cb),
 					       shell_view);
 	}
 }
@@ -283,7 +283,7 @@ find_socket (GtkContainer *container)
 {
 	GList *children, *tmp;
 
-	children = gtk_container_children (container);
+	children = gtk_container_get_children(container);
 	while (children) {
 		if (BONOBO_IS_SOCKET (children->data))
 			return children->data;
@@ -628,7 +628,7 @@ storage_set_removed_folder_callback (EStorageSet *storage_set,
 	priv->sockets = g_list_remove (priv->sockets, socket);
 
 	destroy_connection_id = GPOINTER_TO_INT (g_object_get_data (G_OBJECT (socket), "e_shell_view_destroy_connection_id"));
-	gtk_signal_disconnect (GTK_OBJECT (socket), destroy_connection_id);
+	g_signal_handler_disconnect((socket), destroy_connection_id);
 
 	page_num = gtk_notebook_page_num (GTK_NOTEBOOK (priv->notebook), view->control);
 
@@ -784,16 +784,16 @@ folder_bar_popup_map_callback (GtkWidget *widget,
 	gtk_grab_add (widget);
 
 	gtk_signal_connect_while_alive (GTK_OBJECT (widget), "button_release_event",
-					GTK_SIGNAL_FUNC (storage_set_view_box_button_release_event_cb), shell_view,
+					G_CALLBACK (storage_set_view_box_button_release_event_cb), shell_view,
 					GTK_OBJECT (priv->folder_bar_popup));
 	gtk_signal_connect_while_alive (GTK_OBJECT (priv->storage_set_view), "folder_opened",
-					GTK_SIGNAL_FUNC (storage_set_view_folder_opened_cb), shell_view,
+					G_CALLBACK (storage_set_view_folder_opened_cb), shell_view,
 					GTK_OBJECT (priv->folder_bar_popup));
 	gtk_signal_connect_while_alive (GTK_OBJECT (priv->storage_set_view), "button_release_event",
-					GTK_SIGNAL_FUNC (storage_set_view_box_button_release_event_cb), shell_view,
+					G_CALLBACK (storage_set_view_box_button_release_event_cb), shell_view,
 					GTK_OBJECT (priv->folder_bar_popup));
 	gtk_signal_connect_while_alive (GTK_OBJECT (priv->storage_set_title_bar), "button_clicked",
-					GTK_SIGNAL_FUNC (popup_storage_set_view_button_clicked), shell_view,
+					G_CALLBACK (popup_storage_set_view_button_clicked), shell_view,
 					GTK_OBJECT (priv->folder_bar_popup));
 }
 
@@ -1460,7 +1460,7 @@ impl_dispose (GObject *object)
 		socket_widget = GTK_WIDGET (p->data);
 		destroy_connection_id = GPOINTER_TO_INT (g_object_get_data (G_OBJECT (socket_widget),
 									    "e_shell_view_destroy_connection_id"));
-		gtk_signal_disconnect (GTK_OBJECT (socket_widget), destroy_connection_id);
+		g_signal_handler_disconnect((socket_widget), destroy_connection_id);
 	}
 	g_list_free (priv->sockets);
 	priv->sockets = NULL;
@@ -1515,13 +1515,13 @@ class_init (EShellViewClass *klass)
 	object_class->dispose  = impl_dispose;
 	object_class->finalize = impl_finalize;
 
-	parent_class = gtk_type_class (BONOBO_TYPE_WINDOW);
+	parent_class = g_type_class_ref(BONOBO_TYPE_WINDOW);
 
 	signals[SHORTCUT_BAR_VISIBILITY_CHANGED]
 		= gtk_signal_new ("shortcut_bar_visibility_changed",
 				  GTK_RUN_FIRST,
 				  GTK_CLASS_TYPE (object_class),
-				  GTK_SIGNAL_OFFSET (EShellViewClass, shortcut_bar_visibility_changed),
+				  G_STRUCT_OFFSET (EShellViewClass, shortcut_bar_visibility_changed),
 				  e_shell_marshal_NONE__INT,
 				  GTK_TYPE_NONE, 1,
 				  GTK_TYPE_INT);
@@ -1530,7 +1530,7 @@ class_init (EShellViewClass *klass)
 		= gtk_signal_new ("folder_bar_visibility_changed",
 				  GTK_RUN_FIRST,
 				  GTK_CLASS_TYPE (object_class),
-				  GTK_SIGNAL_OFFSET (EShellViewClass, folder_bar_visibility_changed),
+				  G_STRUCT_OFFSET (EShellViewClass, folder_bar_visibility_changed),
 				  e_shell_marshal_NONE__INT,
 				  GTK_TYPE_NONE, 1,
 				  GTK_TYPE_INT);
@@ -1539,7 +1539,7 @@ class_init (EShellViewClass *klass)
 		= gtk_signal_new ("view_changed",
 				  GTK_RUN_FIRST,
 				  GTK_CLASS_TYPE (object_class),
-				  GTK_SIGNAL_OFFSET (EShellViewClass, view_changed),
+				  G_STRUCT_OFFSET (EShellViewClass, view_changed),
 				  e_shell_marshal_NONE__STRING_STRING_STRING_STRING,
 				  GTK_TYPE_NONE, 4,
 				  GTK_TYPE_STRING,
@@ -1941,7 +1941,7 @@ update_folder_title_bar (EShellView *shell_view,
 			folder_icon = e_folder_type_registry_get_icon_for_type (folder_type_registry,
 										e_folder_get_type_string (folder),
 										TRUE);
-			gdk_pixbuf_ref (folder_icon);
+			g_object_ref (folder_icon);
 		}
 	}
 
@@ -1949,7 +1949,7 @@ update_folder_title_bar (EShellView *shell_view,
 					   folder_icon);
 
 	if (folder_icon != NULL)
-		gdk_pixbuf_unref (folder_icon);
+		g_object_unref (folder_icon);
 
 	if (title != NULL) {
 		char *s;

@@ -192,42 +192,42 @@ evolution_wizard_class_init (EvolutionWizardClass *klass)
 
 	signals[NEXT] = gtk_signal_new ("next", GTK_RUN_FIRST,
 					GTK_CLASS_TYPE (object_class),
-					GTK_SIGNAL_OFFSET (EvolutionWizardClass, next),
+					G_STRUCT_OFFSET (EvolutionWizardClass, next),
 					e_shell_marshal_NONE__INT,
 					GTK_TYPE_NONE, 1,
 					GTK_TYPE_INT);
 	signals[PREPARE] = gtk_signal_new ("prepare", GTK_RUN_FIRST,
 					   GTK_CLASS_TYPE (object_class),
-					   GTK_SIGNAL_OFFSET (EvolutionWizardClass, prepare),
+					   G_STRUCT_OFFSET (EvolutionWizardClass, prepare),
 					   e_shell_marshal_NONE__INT,
 					   GTK_TYPE_NONE, 1,
 					   GTK_TYPE_INT);
 	signals[BACK] = gtk_signal_new ("back", GTK_RUN_FIRST,
 					GTK_CLASS_TYPE (object_class),
-					GTK_SIGNAL_OFFSET (EvolutionWizardClass, back),
+					G_STRUCT_OFFSET (EvolutionWizardClass, back),
 					e_shell_marshal_NONE__INT,
 					GTK_TYPE_NONE, 1,
 					GTK_TYPE_INT);
 	signals[FINISH] = gtk_signal_new ("finish", GTK_RUN_FIRST,
 					  GTK_CLASS_TYPE (object_class),
-					  GTK_SIGNAL_OFFSET (EvolutionWizardClass, finish),
+					  G_STRUCT_OFFSET (EvolutionWizardClass, finish),
 					  e_shell_marshal_NONE__INT,
 					  GTK_TYPE_NONE, 1,
 					  GTK_TYPE_INT);
 	signals[CANCEL] = gtk_signal_new ("cancel", GTK_RUN_FIRST,
 					  GTK_CLASS_TYPE (object_class),
-					  GTK_SIGNAL_OFFSET (EvolutionWizardClass, cancel),
+					  G_STRUCT_OFFSET (EvolutionWizardClass, cancel),
 					  e_shell_marshal_NONE__INT,
 					  GTK_TYPE_NONE, 1,
 					  GTK_TYPE_INT);
 	signals[HELP] = gtk_signal_new ("help", GTK_RUN_FIRST,
 					GTK_CLASS_TYPE (object_class),
-					GTK_SIGNAL_OFFSET (EvolutionWizardClass, help),
+					G_STRUCT_OFFSET (EvolutionWizardClass, help),
 					e_shell_marshal_NONE__INT,
 					GTK_TYPE_NONE, 1,
 					GTK_TYPE_INT);
 
-	parent_class = gtk_type_class (PARENT_TYPE);
+	parent_class = g_type_class_ref(PARENT_TYPE);
 
 	epv->_get_pageCount = impl_GNOME_Evolution_Wizard__get_pageCount;
 	epv->getControl = impl_GNOME_Evolution_Wizard_getControl;

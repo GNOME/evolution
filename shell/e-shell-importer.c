@@ -621,7 +621,7 @@ create_plugin_menu (ImportData *data)
 	menu = gtk_menu_new ();
 	item = gtk_menu_item_new_with_label (_("Automatic"));
 	g_object_set_data_full ((GObject *)item, "bonoboiid", g_strdup ("Automatic"), g_free);
-	gtk_menu_append (GTK_MENU (menu), item);
+	gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
 
 	CORBA_exception_init (&ev);
 	info_list = bonobo_activation_query ("repo_ids.has ('IDL:GNOME/Evolution/Importer:1.0')", NULL, &ev);
@@ -643,7 +643,7 @@ create_plugin_menu (ImportData *data)
 				  G_CALLBACK (item_selected), data);
 
 		g_object_set_data_full ((GObject *)item, "bonoboiid", g_strdup (info->iid), g_free);
-		gtk_menu_append (GTK_MENU (menu), item);
+		gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
 	}
 	CORBA_free (info_list);
 

@@ -81,7 +81,7 @@ class_init (GtkObjectClass *object_class)
 {
 	GtkWidgetClass *widget_class;
 
-	parent_class = gtk_type_class (PARENT_TYPE);
+	parent_class = g_type_class_ref(PARENT_TYPE);
 
 	widget_class = GTK_WIDGET_CLASS (object_class);
 	widget_class->style_set = impl_style_set;

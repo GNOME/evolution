@@ -268,7 +268,7 @@ class_init (EStorageClass *class)
 	GObjectClass *object_class;
 
 	object_class = G_OBJECT_CLASS (class);
-	parent_class = gtk_type_class (gtk_object_get_type ());
+	parent_class = g_type_class_ref(gtk_object_get_type ());
 
 	object_class->finalize = impl_finalize;
 
@@ -288,7 +288,7 @@ class_init (EStorageClass *class)
 		gtk_signal_new ("new_folder",
 				GTK_RUN_FIRST,
 				GTK_CLASS_TYPE (object_class),
-				GTK_SIGNAL_OFFSET (EStorageClass, new_folder),
+				G_STRUCT_OFFSET (EStorageClass, new_folder),
 				e_shell_marshal_NONE__STRING,
 				GTK_TYPE_NONE, 1,
 				GTK_TYPE_STRING);
@@ -296,7 +296,7 @@ class_init (EStorageClass *class)
 		gtk_signal_new ("updated_folder",
 				GTK_RUN_FIRST,
 				GTK_CLASS_TYPE (object_class),
-				GTK_SIGNAL_OFFSET (EStorageClass, updated_folder),
+				G_STRUCT_OFFSET (EStorageClass, updated_folder),
 				e_shell_marshal_NONE__STRING,
 				GTK_TYPE_NONE, 1,
 				GTK_TYPE_STRING);
@@ -304,7 +304,7 @@ class_init (EStorageClass *class)
 		gtk_signal_new ("removed_folder",
 				GTK_RUN_FIRST,
 				GTK_CLASS_TYPE (object_class),
-				GTK_SIGNAL_OFFSET (EStorageClass, removed_folder),
+				G_STRUCT_OFFSET (EStorageClass, removed_folder),
 				e_shell_marshal_NONE__STRING,
 				GTK_TYPE_NONE, 1,
 				GTK_TYPE_STRING);
@@ -312,7 +312,7 @@ class_init (EStorageClass *class)
 		gtk_signal_new ("close_folder",
 				GTK_RUN_FIRST,
 				GTK_CLASS_TYPE (object_class),
-				GTK_SIGNAL_OFFSET (EStorageClass, close_folder),
+				G_STRUCT_OFFSET (EStorageClass, close_folder),
 				e_shell_marshal_NONE__STRING,
 				GTK_TYPE_NONE, 1,
 				GTK_TYPE_STRING);

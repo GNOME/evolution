@@ -39,6 +39,7 @@
 
 #include <libgnome/gnome-i18n.h>
 #include <libgnome/gnome-util.h>
+#include <libgnomeui/gnome-messagebox.h>
 
 #include <errno.h>
 #include <sys/stat.h>
@@ -169,7 +170,7 @@ check_evolution_directory (const char *evolution_directory)
 	}
 
 	if (retval == FALSE)
-		e_notice (NULL, GNOME_MESSAGE_BOX_ERROR,
+		e_notice (NULL, GTK_MESSAGE_ERROR,
 			  _("Could not update files correctly"));
 
  out:
@@ -192,7 +193,7 @@ copy_default_stuff (const char *evolution_directory)
 	char *old_default_shortcuts_file;
 
 	if (mkdir (evolution_directory, 0700)) {
-		e_notice (NULL, GNOME_MESSAGE_BOX_ERROR,
+		e_notice (NULL, GTK_MESSAGE_ERROR,
 			  _("Cannot create the directory\n%s\nError: %s"),
 			  evolution_directory,
 			  g_strerror (errno));
@@ -207,7 +208,7 @@ copy_default_stuff (const char *evolution_directory)
 
 	if (system (command) != 0) {
 		/* FIXME: Give more help.  */
-		e_notice (NULL, GNOME_MESSAGE_BOX_ERROR,
+		e_notice (NULL, GTK_MESSAGE_ERROR,
 			  _("An error occurred in copying files into\n`%s'."), evolution_directory);
 		retval = FALSE;
 	} else {
@@ -280,7 +281,7 @@ setup_bonobo_conf_private_directory (const char *evolution_directory)
 	name = g_concat_dir_and_file (evolution_directory, "private");
 	if (stat (name, &buf) == -1) {
 		if (mkdir (name, 0700) != 0) {
-			e_notice (NULL, GNOME_MESSAGE_BOX_ERROR,
+			e_notice (NULL, GTK_MESSAGE_ERROR,
 				  _("Evolution could not create directory\n"
 				    "%s:\n%s"),
 				  name, strerror (errno));
@@ -298,13 +299,13 @@ setup_bonobo_conf_private_directory (const char *evolution_directory)
 	}
 
 	if (S_ISDIR (buf.st_mode)) {
-		e_notice (NULL, GNOME_MESSAGE_BOX_ERROR,
+		e_notice (NULL, GTK_MESSAGE_ERROR,
 			  _("Directory %s\n"
 			    "does not have the right permissions. Please make it\n"
 			    "readable and executable and restart Evolution."),
 			  name);
 	} else {
-		e_notice (NULL, GNOME_MESSAGE_BOX_ERROR,
+		e_notice (NULL, GTK_MESSAGE_ERROR,
 			  _("File %s\n"
 			    "should be removed to allow Evolution to work correctly.\n"
 			    "Please remove this file and restart Evolution."),
@@ -327,7 +328,7 @@ e_setup (const char *evolution_directory)
 	}
 
 	if (! S_ISDIR (statinfo.st_mode)) {
-		e_notice (NULL, GNOME_MESSAGE_BOX_ERROR,
+		e_notice (NULL, GTK_MESSAGE_ERROR,
 			  _("The file `%s' is not a directory.\n"
 			    "Please move it in order to allow installation\n"
 			    "of the Evolution user files."));
@@ -366,7 +367,7 @@ e_setup (const char *evolution_directory)
 
 	file = g_strdup_printf ("%s/searches.xml", evolution_directory);
 	if (stat (file, &statinfo) != 0) {
-		e_notice (NULL, GNOME_MESSAGE_BOX_ERROR,
+		e_notice (NULL, GTK_MESSAGE_ERROR,
 			  _("The directory `%s' exists but is not the\n"
 			    "Evolution directory.  Please move it in order\n"
 			    "to allow installation of the Evolution user "

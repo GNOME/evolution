@@ -137,8 +137,8 @@ icon_new (ESplash *splash,
 static void
 icon_free (Icon *icon)
 {
-	gdk_pixbuf_unref (icon->dark_pixbuf);
-	gdk_pixbuf_unref (icon->light_pixbuf);
+	g_object_unref (icon->dark_pixbuf);
+	g_object_unref (icon->light_pixbuf);
 
 /*  	g_object_unref (icon->canvas_item); */
 
@@ -168,7 +168,7 @@ layout_icons (ESplash *splash)
 
 		icon = (Icon *) p->data;
 
-		gtk_object_set (GTK_OBJECT (icon->canvas_item),
+		g_object_set((icon->canvas_item),
 				"x", (double) x,
 				"y", (double) ICON_Y,
 				NULL);
@@ -219,7 +219,7 @@ impl_dispose (GObject *object)
 	priv = splash->priv;
 
 	if (priv->splash_image_pixbuf != NULL) {
-		gdk_pixbuf_unref (priv->splash_image_pixbuf);
+		g_object_unref (priv->splash_image_pixbuf);
 		priv->splash_image_pixbuf = NULL;
 	}
 
@@ -265,7 +265,7 @@ class_init (ESplashClass *klass)
 	object_class->dispose  = impl_dispose;
 	object_class->finalize = impl_finalize;
 
-	parent_class = gtk_type_class (gtk_window_get_type ());
+	parent_class = g_type_class_ref(gtk_window_get_type ());
 }
 
 static void
@@ -317,7 +317,7 @@ e_splash_construct (ESplash *splash,
 
 	priv = splash->priv;
 
-	priv->splash_image_pixbuf = gdk_pixbuf_ref (splash_image_pixbuf);
+	priv->splash_image_pixbuf = g_object_ref (splash_image_pixbuf);
 
 	canvas = gnome_canvas_new_aa ();
 	priv->canvas = GNOME_CANVAS (canvas);
@@ -327,7 +327,7 @@ e_splash_construct (ESplash *splash,
 	image_width = gdk_pixbuf_get_width (splash_image_pixbuf);
 	image_height = gdk_pixbuf_get_height (splash_image_pixbuf);
 
-	gtk_widget_set_usize (canvas, image_width, image_height);
+	gtk_widget_set_size_request (canvas, image_width, image_height);
 	gnome_canvas_set_scroll_region (GNOME_CANVAS (canvas), 0, 0, image_width, image_height);
 	gtk_widget_show (canvas);
 
@@ -346,7 +346,7 @@ e_splash_construct (ESplash *splash,
 	g_signal_connect (splash, "button-press-event",
 			  G_CALLBACK (button_press_event), splash);
 	
-	gtk_object_set (GTK_OBJECT (splash), "type", GTK_WINDOW_TOPLEVEL, NULL);
+	g_object_set((splash), "type", GTK_WINDOW_TOPLEVEL, NULL);
 	gtk_window_set_position (GTK_WINDOW (splash), GTK_WIN_POS_CENTER);
 	gtk_window_set_policy (GTK_WINDOW (splash), FALSE, FALSE, FALSE);
 	gtk_window_set_default_size (GTK_WINDOW (splash), image_width, image_height);
@@ -375,7 +375,7 @@ e_splash_new (void)
 	new = g_object_new (e_splash_get_type (), NULL);
 	e_splash_construct (new, splash_image_pixbuf);
 
-	/* gdk_pixbuf_unref (splash_image_pixbuf); */
+	/* g_object_unref (splash_image_pixbuf); */
 
 	return GTK_WIDGET (new);
 }
@@ -438,7 +438,7 @@ e_splash_set_icon_highlight  (ESplash *splash,
 	icon = (Icon *) g_list_nth_data (priv->icons, num);
 	g_return_if_fail (icon != NULL);
 
-	gtk_object_set (GTK_OBJECT (icon->canvas_item),
+	g_object_set((icon->canvas_item),
 			"pixbuf", highlight ? icon->light_pixbuf : icon->dark_pixbuf,
 			NULL);
 }

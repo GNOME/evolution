@@ -190,7 +190,7 @@ class_init (ECorbaConfigPageClass *class)
 	config_page_class = E_CONFIG_PAGE_CLASS (class);
 	config_page_class->apply = impl_apply;
 
-	parent_class = gtk_type_class (PARENT_TYPE);
+	parent_class = g_type_class_ref(PARENT_TYPE);
 }
 
 static void

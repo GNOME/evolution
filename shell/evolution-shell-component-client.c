@@ -370,7 +370,7 @@ class_init (EvolutionShellComponentClientClass *klass)
 	GObjectClass *object_class;
 
 	object_class = G_OBJECT_CLASS (klass);
-	parent_class = gtk_type_class (PARENT_TYPE);
+	parent_class = g_type_class_ref(PARENT_TYPE);
 
 	object_class->dispose = impl_dispose;
 	object_class->finalize = impl_finalize;

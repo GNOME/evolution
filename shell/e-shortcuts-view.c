@@ -705,13 +705,13 @@ class_init (EShortcutsViewClass *klass)
 	shortcut_bar_class->shortcut_drag_motion        = impl_shortcut_drag_motion;
 	shortcut_bar_class->shortcut_drag_data_received = impl_shortcut_drag_data_received;
 
-	parent_class = gtk_type_class (e_shortcut_bar_get_type ());
+	parent_class = g_type_class_ref(e_shortcut_bar_get_type ());
 
 	signals[ACTIVATE_SHORTCUT] =
 		gtk_signal_new ("activate_shortcut",
 				GTK_RUN_LAST | GTK_RUN_ACTION,
 				GTK_CLASS_TYPE (object_class),
-				GTK_SIGNAL_OFFSET (EShortcutsViewClass, activate_shortcut),
+				G_STRUCT_OFFSET (EShortcutsViewClass, activate_shortcut),
 				e_shell_marshal_NONE__POINTER_STRING_INT,
 				GTK_TYPE_NONE, 3,
 				GTK_TYPE_POINTER,
@@ -722,7 +722,7 @@ class_init (EShortcutsViewClass *klass)
 		gtk_signal_new ("hide_requested",
 				GTK_RUN_LAST,
 				GTK_CLASS_TYPE (object_class),
-				GTK_SIGNAL_OFFSET (EShortcutsViewClass,
+				G_STRUCT_OFFSET (EShortcutsViewClass,
 						   hide_requested),
 				e_shell_marshal_NONE__NONE,
 				GTK_TYPE_NONE, 0);

@@ -87,7 +87,7 @@ launch_pilot_settings (const char *extra_arg)
 
         args[0] = gnome_is_program_in_path ("gpilotd-control-applet");
         if (!args[0]) {
-		e_notice (NULL, GNOME_MESSAGE_BOX_ERROR,
+		e_notice (NULL, GTK_MESSAGE_ERROR,
 			  _("The GNOME Pilot tools do not appear to be installed on this system."));
 		return;
         }
@@ -96,7 +96,7 @@ launch_pilot_settings (const char *extra_arg)
         g_free (args[0]);
 
         if (pid == -1)
-                e_notice (NULL, GNOME_MESSAGE_BOX_ERROR, _("Error executing %s."), args[0]);
+                e_notice (NULL, GTK_MESSAGE_ERROR, _("Error executing %s."), args[0]);
 }
 
 

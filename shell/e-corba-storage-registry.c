@@ -442,7 +442,7 @@ class_init (ECorbaStorageRegistryClass *klass)
 	epv->removeListener      = impl_StorageRegistry_removeListener;
 	epv->getFolderByUri      = impl_StorageRegistry_getFolderByUri;
 
-	parent_class = gtk_type_class (PARENT_TYPE);
+	parent_class = g_type_class_ref(PARENT_TYPE);
 }
 
 static void

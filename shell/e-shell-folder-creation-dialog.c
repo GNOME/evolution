@@ -27,6 +27,7 @@
 #include <glib.h>
 #include <libgnome/gnome-i18n.h>
 #include <libgnome/gnome-util.h>
+#include <libgnomeui/gnome-dialog.h>
 
 #include <gtk/gtkdialog.h>
 #include <gtk/gtkoptionmenu.h>
@@ -122,7 +123,7 @@ async_create_cb (EStorageSet *storage_set,
 						  dialog_data->folder_path,
 						  dialog_data->result_callback_data);
 
-	e_notice (GTK_WINDOW (dialog_data->dialog), GNOME_MESSAGE_BOX_ERROR,
+	e_notice (GTK_WINDOW (dialog_data->dialog), GTK_MESSAGE_ERROR,
 		  _("Cannot create the specified folder:\n%s"),
 		  e_storage_result_to_string (result));
 
@@ -147,7 +148,7 @@ dialog_response_cb (GnomeDialog *dialog,
 	const char *folder_type;
 	const char *parent_path;
 	const char *reason;
-	char *folder_name;
+	const char *folder_name;
 	char *path;
 
 	dialog_data = (DialogData *) data;
@@ -162,10 +163,10 @@ dialog_response_cb (GnomeDialog *dialog,
 		return;
 	}
 
-	folder_name = e_utf8_gtk_entry_get_text (GTK_ENTRY (dialog_data->folder_name_entry));
+	folder_name = gtk_entry_get_text(GTK_ENTRY (dialog_data->folder_name_entry));
 
 	if (! e_shell_folder_name_is_valid (folder_name, &reason)) {
-		e_notice (GTK_WINDOW (dialog), GNOME_MESSAGE_BOX_ERROR,
+		e_notice (GTK_WINDOW (dialog), GTK_MESSAGE_ERROR,
 			  _("The specified folder name is not valid: %s"), reason);
 		return;
 	}
@@ -183,7 +184,6 @@ dialog_response_cb (GnomeDialog *dialog,
 	}
 
 	path = g_concat_dir_and_file (parent_path, folder_name);
-	g_free (folder_name);
 
 	storage_set = e_shell_get_storage_set (dialog_data->shell);
 
@@ -424,7 +424,7 @@ add_folder_types (GtkWidget *dialog,
 
 		menu_item = gtk_menu_item_new_with_label (type->display_name);
 		gtk_widget_show (menu_item);
-		gtk_menu_append (GTK_MENU (menu), menu_item);
+		gtk_menu_shell_append(GTK_MENU_SHELL(menu), menu_item);
 
 		g_object_set_data_full (G_OBJECT (menu_item), "folder_type", g_strdup (type->type), g_free);
 

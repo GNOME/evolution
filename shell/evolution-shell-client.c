@@ -265,7 +265,7 @@ static void
 unref_pixbuf (gpointer name, gpointer pixbuf, gpointer data)
 {
 	g_free (name);
-	gdk_pixbuf_unref (pixbuf);
+	g_object_unref (pixbuf);
 }
 
 static void
@@ -347,7 +347,7 @@ class_init (EvolutionShellClientClass *klass)
 {
 	GObjectClass *object_class;
 
-	parent_class = gtk_type_class (PARENT_TYPE);
+	parent_class = g_type_class_ref(PARENT_TYPE);
 
 	object_class = G_OBJECT_CLASS (klass);
 
@@ -641,7 +641,7 @@ evolution_shell_client_get_pixbuf_for_type (EvolutionShellClient *shell_client,
 	} else
 		g_free (hash_name);
 
-	gdk_pixbuf_ref (pixbuf);
+	g_object_ref (pixbuf);
 	return pixbuf;
 }
 

@@ -118,7 +118,7 @@ class_init (EvolutionSessionClass *klass)
 	GObjectClass *object_class;
 
 	object_class = G_OBJECT_CLASS (klass);
-	parent_class = gtk_type_class (PARENT_TYPE);
+	parent_class = g_type_class_ref(PARENT_TYPE);
 
 	object_class->dispose  = impl_dispose;
 	object_class->finalize = impl_finalize;
@@ -127,7 +127,7 @@ class_init (EvolutionSessionClass *klass)
 		= gtk_signal_new ("load_configuration",
 				  GTK_RUN_FIRST,
 				  GTK_CLASS_TYPE (object_class),
-				  GTK_SIGNAL_OFFSET (EvolutionSessionClass, load_configuration),
+				  G_STRUCT_OFFSET (EvolutionSessionClass, load_configuration),
 				  e_shell_marshal_NONE__STRING,
 				  GTK_TYPE_NONE, 1,
 				  GTK_TYPE_STRING);
@@ -135,7 +135,7 @@ class_init (EvolutionSessionClass *klass)
 		= gtk_signal_new ("save_configuration",
 				  GTK_RUN_FIRST,
 				  GTK_CLASS_TYPE (object_class),
-				  GTK_SIGNAL_OFFSET (EvolutionSessionClass, save_configuration),
+				  G_STRUCT_OFFSET (EvolutionSessionClass, save_configuration),
 				  e_shell_marshal_NONE__STRING,
 				  GTK_TYPE_NONE, 1,
 				  GTK_TYPE_STRING);

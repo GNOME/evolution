@@ -239,7 +239,7 @@ activity_info_new (const char *component_id,
 	info = g_new (ActivityInfo, 1);
 	info->component_id   = g_strdup (component_id);
 	info->id             = id;
-	info->icon_pixbuf    = gdk_pixbuf_ref (icon);
+	info->icon_pixbuf    = g_object_ref (icon);
 	info->information    = CORBA_string_dup (information);
 	info->cancellable    = cancellable;
 	info->event_listener = CORBA_Object_duplicate (event_listener, &ev);
@@ -260,7 +260,7 @@ activity_info_free (ActivityInfo *info)
 
 	g_free (info->component_id);
 
-	gdk_pixbuf_unref (info->icon_pixbuf);
+	g_object_unref (info->icon_pixbuf);
 	CORBA_free (info->information);
 	CORBA_Object_release (info->event_listener, &ev);
 
@@ -410,7 +410,7 @@ impl_operationStarted (PortableServer_Servant servant,
 		e_task_bar_prepend_task (E_TASK_BAR (p->data),
 					 task_widget_new_from_activity_info (activity_info));
 
-	gdk_pixbuf_unref (icon_pixbuf);
+	g_object_unref (icon_pixbuf);
 
 	priv->activity_infos = g_list_prepend (priv->activity_infos, activity_info);
 
@@ -514,7 +514,7 @@ class_init (GObjectClass *object_class)
 {
 	EActivityHandlerClass *handler_class;
 
-	parent_class = gtk_type_class (PARENT_TYPE);
+	parent_class = g_type_class_ref(PARENT_TYPE);
 
 	object_class->dispose  = impl_dispose;
 	object_class->finalize = impl_finalize;

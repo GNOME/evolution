@@ -220,7 +220,7 @@ e_folder_list_class_init (EFolderListClass *klass)
 
 	glade_gnome_init();
 
-	parent_class               = gtk_type_class (PARENT_TYPE);
+	parent_class               = g_type_class_ref(PARENT_TYPE);
 
 	object_class->set_arg      = e_folder_list_set_arg;
 	object_class->get_arg      = e_folder_list_get_arg;
@@ -233,7 +233,7 @@ e_folder_list_class_init (EFolderListClass *klass)
 		gtk_signal_new ("option_menu_changed",
 				GTK_RUN_LAST,
 				E_OBJECT_CLASS_TYPE (object_class),
-				GTK_SIGNAL_OFFSET (EFolderListClass, option_menu_changed),
+				G_STRUCT_OFFSET (EFolderListClass, option_menu_changed),
 				e_shell_marshal_NONE__INT,
 				GTK_TYPE_NONE, 1, GTK_TYPE_INT);
 
@@ -241,7 +241,7 @@ e_folder_list_class_init (EFolderListClass *klass)
 		gtk_signal_new ("changed",
 				GTK_RUN_LAST,
 				E_OBJECT_CLASS_TYPE (object_class),
-				GTK_SIGNAL_OFFSET (EFolderListClass, changed),
+				G_STRUCT_OFFSET (EFolderListClass, changed),
 				e_shell_marshal_NONE__NONE,
 				GTK_TYPE_NONE, 0);
 
@@ -335,7 +335,7 @@ add_clicked (GtkButton *button, EFolderList *efl)
 		e_table_memory_store_insert (efl->priv->model, -1, NULL, pixbuf, display_string,
 					     folder->displayName, folder->evolutionUri, folder->physicalUri);
 		e_folder_list_changed (efl);
-		gdk_pixbuf_unref (pixbuf);
+		g_object_unref (pixbuf);
 		g_free (display_string);
 	}
 }
@@ -430,11 +430,11 @@ e_folder_list_init (EFolderList *efl)
 	efl->priv->model = E_TABLE_MEMORY_STORE (g_object_get_data (G_OBJECT (efl->priv->scrolled_table), "table-model"));
 
 	e_glade_xml_connect_widget (gui, "button-add", "clicked",
-				    GTK_SIGNAL_FUNC (add_clicked), efl);
+				    G_CALLBACK (add_clicked), efl);
 	e_glade_xml_connect_widget (gui, "button-remove", "clicked",
-				    GTK_SIGNAL_FUNC (remove_clicked), efl);
+				    G_CALLBACK (remove_clicked), efl);
 	e_glade_xml_connect_widget (gui, "custom-optionmenu", "changed",
-				    GTK_SIGNAL_FUNC (optionmenu_changed), efl);
+				    G_CALLBACK (optionmenu_changed), efl);
 
 	selection_model = e_table_get_selection_model (e_table_scrolled_get_table (efl->priv->scrolled_table));
 
@@ -602,7 +602,7 @@ e_folder_list_set_items (EFolderList *efl, EFolderListItem *items)
 					     pixbuf, display_string,
 					     items[i].display_name, items[i].uri, items[i].physical_uri);
 		CORBA_free (folder);
-		gdk_pixbuf_unref (pixbuf);
+		g_object_unref (pixbuf);
 		g_free (display_string);
 	}
 }

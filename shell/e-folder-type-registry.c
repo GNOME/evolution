@@ -115,7 +115,7 @@ folder_type_new (const char *name,
 		new->mini_icon_pixbuf = gdk_pixbuf_new_from_file (icon_path, NULL);
 	} else {
 		if (new->icon_pixbuf != NULL)
-			new->mini_icon_pixbuf = gdk_pixbuf_ref (new->icon_pixbuf);
+			new->mini_icon_pixbuf = g_object_ref (new->icon_pixbuf);
 		else
 			new->mini_icon_pixbuf = NULL;
 	}
@@ -134,9 +134,9 @@ folder_type_free (FolderType *folder_type)
 	g_free (folder_type->description);
 
 	if (folder_type->icon_pixbuf != NULL)
-		gdk_pixbuf_unref (folder_type->icon_pixbuf);
+		g_object_unref (folder_type->icon_pixbuf);
 	if (folder_type->mini_icon_pixbuf != NULL)
-		gdk_pixbuf_unref (folder_type->mini_icon_pixbuf);
+		g_object_unref (folder_type->mini_icon_pixbuf);
 
 	if (folder_type->handler != NULL)
 		g_object_unref (folder_type->handler);
@@ -248,7 +248,7 @@ class_init (EFolderTypeRegistryClass *class)
 	object_class = G_OBJECT_CLASS (class);
 	object_class->finalize = impl_finalize;
 
-	parent_class = gtk_type_class (gtk_object_get_type ());
+	parent_class = g_type_class_ref(gtk_object_get_type ());
 }
 
 static void

@@ -156,11 +156,11 @@ class_init (EvolutionConfigControlClass *class)
 
 	signals[APPLY] = gtk_signal_new ("apply", GTK_RUN_FIRST,
 					 GTK_CLASS_TYPE (object_class),
-					 GTK_SIGNAL_OFFSET (EvolutionConfigControlClass, apply),
+					 G_STRUCT_OFFSET (EvolutionConfigControlClass, apply),
 					 e_shell_marshal_NONE__NONE,
 					 GTK_TYPE_NONE, 0);
 
-	parent_class = gtk_type_class (PARENT_TYPE);
+	parent_class = g_type_class_ref(PARENT_TYPE);
 }
 
 static void

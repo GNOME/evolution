@@ -423,7 +423,7 @@ class_init (EvolutionStorageSetViewClass *klass)
 	epv->_set_checkedFolders = impl_StorageSetView__set_checkedFolders;
 	epv->_get_checkedFolders = impl_StorageSetView__get_checkedFolders;
 
-	parent_class = gtk_type_class (PARENT_TYPE);
+	parent_class = g_type_class_ref(PARENT_TYPE);
 }
 
 static void

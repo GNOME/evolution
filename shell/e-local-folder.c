@@ -378,7 +378,7 @@ class_init (ELocalFolderClass *klass)
 {
 	GObjectClass *object_class;
 
-	parent_class = gtk_type_class (e_folder_get_type ());
+	parent_class = g_type_class_ref(e_folder_get_type ());
 
 	object_class = G_OBJECT_CLASS (klass);
 	object_class->finalize = impl_finalize;

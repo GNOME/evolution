@@ -62,7 +62,7 @@ void e_pixmaps_update (BonoboUIComponent *uic, EPixmap *pixcache)
 				g_warning ("Cannot load image -- %s", path);
 			} else {
 				pixcache [i].pixbuf = bonobo_ui_util_pixbuf_to_xml (pixbuf);
-				gdk_pixbuf_unref (pixbuf);
+				g_object_unref (pixbuf);
 				bonobo_ui_component_set_prop (uic,
 					pixcache [i].path, "pixname",
 					pixcache [i].pixbuf, NULL);
@@ -136,7 +136,7 @@ e_activation_failure_dialog (GtkWindow *parent, const char *msg,
 	}
 	CORBA_exception_free (&ev);
 
-	e_notice (parent, GNOME_MESSAGE_BOX_ERROR, errmsg);
+	e_notice (parent, GTK_MESSAGE_ERROR, errmsg);
 	g_free (errmsg);
 }
 

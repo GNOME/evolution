@@ -251,7 +251,7 @@ class_init (EvolutionStorageListenerClass *klass)
 {
 	GObjectClass *object_class;
 
-	parent_class = gtk_type_class (PARENT_TYPE);
+	parent_class = g_type_class_ref(PARENT_TYPE);
 
 	object_class = G_OBJECT_CLASS (klass);
 	object_class->finalize = impl_finalize;
@@ -259,14 +259,14 @@ class_init (EvolutionStorageListenerClass *klass)
 	signals[DESTROYED]      = gtk_signal_new ("destroyed",
 						  GTK_RUN_FIRST,
 						  GTK_CLASS_TYPE (object_class),
-						  GTK_SIGNAL_OFFSET (EvolutionStorageListenerClass, destroyed),
+						  G_STRUCT_OFFSET (EvolutionStorageListenerClass, destroyed),
 						  e_shell_marshal_NONE__NONE,
 						  GTK_TYPE_NONE, 0);
 
 	signals[NEW_FOLDER]     = gtk_signal_new ("new_folder",
 						  GTK_RUN_FIRST,
 						  GTK_CLASS_TYPE (object_class),
-						  GTK_SIGNAL_OFFSET (EvolutionStorageListenerClass, new_folder),
+						  G_STRUCT_OFFSET (EvolutionStorageListenerClass, new_folder),
 						  e_shell_marshal_NONE__STRING_POINTER,
 						  GTK_TYPE_NONE, 2,
 						  GTK_TYPE_STRING,
@@ -275,7 +275,7 @@ class_init (EvolutionStorageListenerClass *klass)
 	signals[UPDATE_FOLDER]  = gtk_signal_new ("update_folder",
 						  GTK_RUN_FIRST,
 						  GTK_CLASS_TYPE (object_class),
-						  GTK_SIGNAL_OFFSET (EvolutionStorageListenerClass, update_folder),
+						  G_STRUCT_OFFSET (EvolutionStorageListenerClass, update_folder),
 						  e_shell_marshal_NONE__STRING_INT,
 						  GTK_TYPE_NONE, 2,
 						  GTK_TYPE_STRING,
@@ -284,7 +284,7 @@ class_init (EvolutionStorageListenerClass *klass)
 	signals[REMOVED_FOLDER] = gtk_signal_new ("removed_folder",
 						  GTK_RUN_FIRST,
 						  GTK_CLASS_TYPE (object_class),
-						  GTK_SIGNAL_OFFSET (EvolutionStorageListenerClass, removed_folder),
+						  G_STRUCT_OFFSET (EvolutionStorageListenerClass, removed_folder),
 						  e_shell_marshal_NONE__STRING,
 						  GTK_TYPE_NONE, 1,
 						  GTK_TYPE_STRING);
@@ -292,7 +292,7 @@ class_init (EvolutionStorageListenerClass *klass)
 	signals[HAS_SUBFOLDERS] = gtk_signal_new ("has_subfolders",
 						  GTK_RUN_FIRST,
 						  GTK_CLASS_TYPE (object_class),
-						  GTK_SIGNAL_OFFSET (EvolutionStorageListenerClass, has_subfolders),
+						  G_STRUCT_OFFSET (EvolutionStorageListenerClass, has_subfolders),
 						  e_shell_marshal_NONE__STRING_STRING,
 						  GTK_TYPE_NONE, 2,
 						  GTK_TYPE_STRING,

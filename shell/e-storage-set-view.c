@@ -325,7 +325,7 @@ get_pixbuf_for_folder (EStorageSetView *storage_set_view,
 	icon_pixbuf_height = gdk_pixbuf_get_height (icon_pixbuf);
 
 	if (icon_pixbuf_width == E_SHELL_MINI_ICON_SIZE && icon_pixbuf_height == E_SHELL_MINI_ICON_SIZE) {
-		scaled_pixbuf = gdk_pixbuf_ref (icon_pixbuf);
+		scaled_pixbuf = g_object_ref (icon_pixbuf);
 	} else {
 		scaled_pixbuf = gdk_pixbuf_new (gdk_pixbuf_get_colorspace (icon_pixbuf),
 						gdk_pixbuf_get_has_alpha (icon_pixbuf),
@@ -815,7 +815,7 @@ static void
 pixbuf_free_func (gpointer key, gpointer value, gpointer user_data)
 {
 	g_free (key);
-	gdk_pixbuf_unref ((GdkPixbuf*)value);
+	g_object_unref ((GdkPixbuf*)value);
 }
 
 static void
@@ -1788,7 +1788,7 @@ class_init (EStorageSetViewClass *klass)
 	GObjectClass *object_class;
 	ETreeClass *etree_class;
 
-	parent_class = gtk_type_class (PARENT_TYPE);
+	parent_class = g_type_class_ref(PARENT_TYPE);
 
 	object_class = G_OBJECT_CLASS (klass);
 	object_class->dispose  = impl_dispose;
@@ -1811,7 +1811,7 @@ class_init (EStorageSetViewClass *klass)
 		= gtk_signal_new ("folder_selected",
 				  GTK_RUN_FIRST,
 				  GTK_CLASS_TYPE (object_class),
-				  GTK_SIGNAL_OFFSET (EStorageSetViewClass, folder_selected),
+				  G_STRUCT_OFFSET (EStorageSetViewClass, folder_selected),
 				  e_shell_marshal_NONE__STRING,
 				  GTK_TYPE_NONE, 1,
 				  GTK_TYPE_STRING);
@@ -1820,7 +1820,7 @@ class_init (EStorageSetViewClass *klass)
 		= gtk_signal_new ("folder_opened",
 				  GTK_RUN_FIRST,
 				  GTK_CLASS_TYPE (object_class),
-				  GTK_SIGNAL_OFFSET (EStorageSetViewClass, folder_opened),
+				  G_STRUCT_OFFSET (EStorageSetViewClass, folder_opened),
 				  e_shell_marshal_NONE__STRING,
 				  GTK_TYPE_NONE, 1,
 				  GTK_TYPE_STRING);
@@ -1829,7 +1829,7 @@ class_init (EStorageSetViewClass *klass)
 		= gtk_signal_new ("dnd_action",
 				  GTK_RUN_FIRST,
 				  GTK_CLASS_TYPE (object_class),
-				  GTK_SIGNAL_OFFSET (EStorageSetViewClass, dnd_action),
+				  G_STRUCT_OFFSET (EStorageSetViewClass, dnd_action),
 				  e_shell_marshal_NONE__POINTER_POINTER_POINTER_POINTER,
 				  GTK_TYPE_NONE, 4,
 				  GTK_TYPE_POINTER,
@@ -1841,7 +1841,7 @@ class_init (EStorageSetViewClass *klass)
 		= gtk_signal_new ("folder_context_menu_popping_up",
 				  GTK_RUN_FIRST,
 				  GTK_CLASS_TYPE (object_class),
-				  GTK_SIGNAL_OFFSET (EStorageSetViewClass, folder_context_menu_popping_up),
+				  G_STRUCT_OFFSET (EStorageSetViewClass, folder_context_menu_popping_up),
 				  e_shell_marshal_NONE__STRING,
 				  GTK_TYPE_NONE, 1,
 				  GTK_TYPE_STRING);
@@ -1850,7 +1850,7 @@ class_init (EStorageSetViewClass *klass)
 		= gtk_signal_new ("folder_context_menu_popped_down",
 				  GTK_RUN_FIRST,
 				  GTK_CLASS_TYPE (object_class),
-				  GTK_SIGNAL_OFFSET (EStorageSetViewClass, folder_context_menu_popped_down),
+				  G_STRUCT_OFFSET (EStorageSetViewClass, folder_context_menu_popped_down),
 				  e_shell_marshal_NONE__NONE,
 				  GTK_TYPE_NONE, 0);
 
@@ -1858,7 +1858,7 @@ class_init (EStorageSetViewClass *klass)
 		= gtk_signal_new ("checkboxes_changed",
 				  GTK_RUN_FIRST,
 				  GTK_CLASS_TYPE (object_class),
-				  GTK_SIGNAL_OFFSET (EStorageSetViewClass, checkboxes_changed),
+				  G_STRUCT_OFFSET (EStorageSetViewClass, checkboxes_changed),
 				  e_shell_marshal_NONE__NONE,
 				  GTK_TYPE_NONE, 0);
 
@@ -1989,12 +1989,12 @@ setup_folder_changed_callbacks (EStorageSetView *storage_set_view,
 	folder_changed_callback_data->path = g_strdup (path);
 
 	gtk_signal_connect_while_alive (GTK_OBJECT (folder), "name_changed",
-					GTK_SIGNAL_FUNC (folder_name_changed_cb),
+					G_CALLBACK (folder_name_changed_cb),
 					folder_changed_callback_data,
 					GTK_OBJECT (storage_set_view));
 
 	e_gtk_signal_connect_full_while_alive (GTK_OBJECT (folder), "changed",
-					       GTK_SIGNAL_FUNC (folder_changed_cb),
+					       G_CALLBACK (folder_changed_cb),
 					       NULL,
 					       folder_changed_callback_data,
 					       folder_changed_callback_data_destroy_notify,
@@ -2141,7 +2141,7 @@ e_storage_set_view_construct (EStorageSetView   *storage_set_view,
 
 	extras = e_table_extras_new ();
 	cell = e_cell_text_new (NULL, GTK_JUSTIFY_LEFT);
-	gtk_object_set (GTK_OBJECT (cell), "bold_column", 1, NULL);
+	g_object_set((cell), "bold_column", 1, NULL);
 	e_table_extras_add_cell (extras, "render_tree",
 				 e_cell_tree_new (NULL, NULL, TRUE, cell));
 

@@ -156,7 +156,7 @@ impl_SyncFolderProgressListener_reportFailure (PortableServer_Servant servant,
 
 	/* FIXME -- We probably should give the user more of a chance to do
 	   something about it.  */
-	e_notice (GTK_WINDOW (sync_data->dialog),
+	e_notice (GTK_WINDOW (sync_data->dialog), GTK_MESSAGE_ERROR,
 		  _("Error synchronizing \"%s\":\n%s"), e_folder_get_name (folder), message);
 
 	sync_data->current_folder_finished = TRUE;
@@ -236,7 +236,7 @@ static void
 setup_dialog (SyncData *sync_data)
 {
 	sync_data->dialog = gnome_dialog_new (_("Syncing Folder"), GNOME_STOCK_BUTTON_CANCEL, NULL);
-	gtk_widget_set_usize (sync_data->dialog, 300, -1);
+	gtk_widget_set_size_request (sync_data->dialog, 300, -1);
 	gtk_window_set_policy (GTK_WINDOW (sync_data->dialog), FALSE, FALSE, FALSE);
 
 	g_signal_connect (sync_data->dialog, "close",

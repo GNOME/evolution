@@ -64,7 +64,7 @@ set_dialog_size (EShellSettingsDialog *dialog)
 	width = gdk_string_width (font, "M") * 72;
 	height = (font->ascent + font->descent) * 35;
 
-	gtk_widget_set_usize (GTK_WIDGET (dialog), width, height);
+	gtk_widget_set_size_request (GTK_WIDGET (dialog), width, height);
 }
 
 
@@ -91,7 +91,7 @@ page_new (const char *title,
 	Page *page;
 
 	if (icon != NULL)
-		gdk_pixbuf_ref (icon);
+		g_object_ref (icon);
 
 	page = g_new (Page, 1);
 	page->title       = g_strdup (title);
@@ -111,7 +111,7 @@ page_free (Page *page)
 	g_free (page->description);
 
 	if (page->icon != NULL)
-		gdk_pixbuf_unref (page->icon);
+		g_object_unref (page->icon);
 
 	g_free (page);
 }
@@ -223,7 +223,7 @@ load_pages (EShellSettingsDialog *dialog)
 		}
 
 		if (icon != NULL)
-			gdk_pixbuf_unref (icon);
+			g_object_unref (icon);
 
 		CORBA_exception_free (&ev);
 	}
@@ -315,7 +315,7 @@ class_init (EShellSettingsDialog *class)
 	widget_class = GTK_WIDGET_CLASS (class);
 	widget_class->realize = impl_realize;
 
-	parent_class = gtk_type_class (PARENT_TYPE);
+	parent_class = g_type_class_ref(PARENT_TYPE);
 }
 
 static void

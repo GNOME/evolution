@@ -170,7 +170,7 @@ pop_up_activation_error_dialog (ESplash *splash,
 	char *error_message;
 
 	error_message = e_get_activation_failure_msg (ev);
-	e_notice (GTK_WINDOW (splash), GNOME_MESSAGE_BOX_ERROR,
+	e_notice (GTK_WINDOW (splash), GTK_MESSAGE_ERROR,
 		  _("Cannot activate component %s :\n"
 		    "The error from the activation system is:\n"
 		    "%s"),
@@ -831,7 +831,7 @@ setup_components (EShell *shell,
 		if (splash != NULL)
 			e_splash_add_icon (splash, icon_pixbuf);
 
-		gdk_pixbuf_unref (icon_pixbuf);
+		g_object_unref (icon_pixbuf);
 
 		g_free (icon_path);
 	}
@@ -1168,7 +1168,7 @@ class_init (EShellClass *klass)
 	GObjectClass *object_class;
 	POA_GNOME_Evolution_Shell__epv *epv;
 
-	parent_class = gtk_type_class (PARENT_TYPE);
+	parent_class = g_type_class_ref(PARENT_TYPE);
 
 	object_class = G_OBJECT_CLASS (klass);
 	object_class->dispose  = impl_dispose;
@@ -1178,7 +1178,7 @@ class_init (EShellClass *klass)
 		gtk_signal_new ("no_views_left",
 				GTK_RUN_LAST,
 				GTK_CLASS_TYPE (object_class),
-				GTK_SIGNAL_OFFSET (EShellClass, no_views_left),
+				G_STRUCT_OFFSET (EShellClass, no_views_left),
 				e_shell_marshal_NONE__NONE,
 				GTK_TYPE_NONE, 0);
 
@@ -1186,7 +1186,7 @@ class_init (EShellClass *klass)
 		gtk_signal_new ("line_status_changed",
 				GTK_RUN_LAST,
 				GTK_CLASS_TYPE (object_class),
-				GTK_SIGNAL_OFFSET (EShellClass, line_status_changed),
+				G_STRUCT_OFFSET (EShellClass, line_status_changed),
 				e_shell_marshal_NONE__INT,
 				GTK_TYPE_NONE, 1,
 				GTK_TYPE_INT);
@@ -1195,7 +1195,7 @@ class_init (EShellClass *klass)
 		gtk_signal_new ("new_view_created",
 				GTK_RUN_LAST,
 				GTK_CLASS_TYPE (object_class),
-				GTK_SIGNAL_OFFSET (EShellClass, new_view_created),
+				G_STRUCT_OFFSET (EShellClass, new_view_created),
 				e_shell_marshal_NONE__POINTER,
 				GTK_TYPE_NONE, 1,
 				GTK_TYPE_POINTER);
@@ -1816,7 +1816,7 @@ e_shell_component_maybe_crashed   (EShell *shell,
 	else
 		parent_window = GTK_WINDOW (shell_view);
 
-	e_notice (parent_window, GNOME_MESSAGE_BOX_ERROR,
+	e_notice (parent_window, GTK_MESSAGE_ERROR,
 		  _("The Evolution component that handles folders of type \"%s\"\n"
 		    "has unexpectedly quit. You will need to quit Evolution and restart\n"
 		    "in order to access that data again."),

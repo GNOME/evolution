@@ -297,7 +297,7 @@ class_init (GObjectClass *object_class)
 	ECorbaShortcutsClass *corba_shortcuts_class;
 	POA_GNOME_Evolution_Shortcuts__epv *epv;
 
-	parent_class = gtk_type_class (PARENT_TYPE);
+	parent_class = g_type_class_ref(PARENT_TYPE);
 
 	object_class->dispose  = impl_dispose;
 	object_class->finalize = impl_finalize;

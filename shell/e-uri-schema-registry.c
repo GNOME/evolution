@@ -101,7 +101,7 @@ impl_finalize (GObject *object)
 static void
 class_init (GObjectClass *object_class)
 {
-	parent_class = gtk_type_class (PARENT_TYPE);
+	parent_class = g_type_class_ref(PARENT_TYPE);
 
 	object_class->finalize = impl_finalize;
 }

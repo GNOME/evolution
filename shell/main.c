@@ -39,6 +39,8 @@
 #include <gtk/gtkmain.h>
 #include <gtk/gtksignal.h>
 #include <gtk/gtkwindow.h>
+#include <gtk/gtkdialog.h>
+#include <gtk/gtkstock.h>
 
 #include <gdk/gdkx.h>
 #include <X11/Xlib.h>
@@ -163,7 +165,7 @@ shell_weak_notify (void *data,
 /* Warning dialog to scare people off a little bit.  */
 
 static void
-warning_dialog_clicked_callback (GnomeDialog *dialog,
+warning_dialog_response_callback (GtkDialog *dialog,
 				 int button_number,
 				 void *data)
 {
@@ -199,9 +201,9 @@ show_development_warning (GtkWindow *parent)
 
 	g_object_unref (client);
 
-	warning_dialog = gnome_dialog_new ("Ximian Evolution " VERSION, GNOME_STOCK_BUTTON_OK, NULL);
-	gtk_window_set_transient_for (GTK_WINDOW (warning_dialog), parent);
-
+	warning_dialog = gtk_dialog_new_with_buttons("Ximian Evolution " VERSION, parent,
+						     GTK_DIALOG_MODAL|GTK_DIALOG_DESTROY_WITH_PARENT,
+						     GTK_STOCK_OK, GTK_RESPONSE_OK, NULL);
 	label = gtk_label_new (
 		/* xgettext:no-c-format */
 		_("Hi.  Thanks for taking the time to download this preview release\n"
@@ -222,7 +224,7 @@ show_development_warning (GtkWindow *parent)
 			));
 	gtk_label_set_justify (GTK_LABEL (label), GTK_JUSTIFY_LEFT);
 
-	gtk_box_pack_start (GTK_BOX (GNOME_DIALOG (warning_dialog)->vbox), 
+	gtk_box_pack_start (GTK_BOX (GTK_DIALOG (warning_dialog)->vbox), 
 			    label, TRUE, TRUE, 4);
 
 	label = gtk_label_new (_("Thanks\n"
@@ -230,7 +232,7 @@ show_development_warning (GtkWindow *parent)
 	gtk_label_set_justify(GTK_LABEL(label), GTK_JUSTIFY_RIGHT);
 	gtk_misc_set_alignment(GTK_MISC(label), 1, .5);
 
-	gtk_box_pack_start (GTK_BOX (GNOME_DIALOG (warning_dialog)->vbox), 
+	gtk_box_pack_start (GTK_BOX (GTK_DIALOG (warning_dialog)->vbox), 
 			    label, TRUE, TRUE, 0);
 
 	dont_bother_me_again_checkbox = gtk_check_button_new_with_label (_("Don't tell me again"));
@@ -239,13 +241,13 @@ show_development_warning (GtkWindow *parent)
 	alignment = gtk_alignment_new (0.0, 0.0, 0.0, 0.0);
 
 	gtk_container_add (GTK_CONTAINER (alignment), dont_bother_me_again_checkbox);
-	gtk_box_pack_start (GTK_BOX (GNOME_DIALOG (warning_dialog)->vbox),
+	gtk_box_pack_start (GTK_BOX (GTK_DIALOG (warning_dialog)->vbox),
 			    alignment, FALSE, FALSE, 0);
 
 	gtk_widget_show_all (warning_dialog);
 
-	g_signal_connect (warning_dialog, "clicked",
-			  G_CALLBACK (warning_dialog_clicked_callback),
+	g_signal_connect (warning_dialog, "response",
+			  G_CALLBACK (warning_dialog_response_callback),
 			  dont_bother_me_again_checkbox);
 }
 
@@ -355,7 +357,7 @@ idle_cb (void *data)
 	case E_SHELL_CONSTRUCT_RESULT_CANNOTREGISTER:
 		corba_shell = bonobo_activation_activate_from_id (E_SHELL_OAFIID, 0, NULL, &ev);
 		if (ev._major != CORBA_NO_EXCEPTION || corba_shell == CORBA_OBJECT_NIL) {
-			e_notice (NULL, GNOME_MESSAGE_BOX_ERROR,
+			e_notice (NULL, GTK_MESSAGE_ERROR,
 				  _("Cannot access the Ximian Evolution shell."));
 			CORBA_exception_free (&ev);
 			bonobo_main_quit ();
@@ -364,7 +366,7 @@ idle_cb (void *data)
 		break;
 
 	default:
-		e_notice (NULL, GNOME_MESSAGE_BOX_ERROR,
+		e_notice (NULL, GTK_MESSAGE_ERROR,
 			  _("Cannot initialize the Ximian Evolution shell: %s"),
 			  e_shell_construct_result_to_string (result));
 		CORBA_exception_free (&ev);

@@ -138,7 +138,7 @@ class_init (EFolderClass *klass)
 {
 	GObjectClass *object_class;
 
-	parent_class = gtk_type_class (gtk_object_get_type ());
+	parent_class = g_type_class_ref(gtk_object_get_type ());
 
 	object_class = G_OBJECT_CLASS (klass);
 	object_class->finalize = impl_finalize;
@@ -146,14 +146,14 @@ class_init (EFolderClass *klass)
 	signals[CHANGED] = gtk_signal_new ("changed",
 					   GTK_RUN_FIRST,
 					   GTK_CLASS_TYPE (object_class),
-					   GTK_SIGNAL_OFFSET (EFolderClass, changed),
+					   G_STRUCT_OFFSET (EFolderClass, changed),
 					   e_shell_marshal_NONE__NONE,
 					   GTK_TYPE_NONE, 0);
 
 	signals[NAME_CHANGED] = gtk_signal_new ("name_changed",
 						GTK_RUN_FIRST,
 						GTK_CLASS_TYPE (object_class),
-						GTK_SIGNAL_OFFSET (EFolderClass, name_changed),
+						G_STRUCT_OFFSET (EFolderClass, name_changed),
 						e_shell_marshal_NONE__NONE,
 						GTK_TYPE_NONE, 0);
 

@@ -220,7 +220,7 @@ class_init (EvolutionActivityClientClass *klass)
 {
 	GObjectClass *object_class;
 
-	parent_class = gtk_type_class (PARENT_TYPE);
+	parent_class = g_type_class_ref(PARENT_TYPE);
 
 	object_class = G_OBJECT_CLASS (klass);
 	object_class->dispose  = impl_dispose;
@@ -230,7 +230,7 @@ class_init (EvolutionActivityClientClass *klass)
 		= gtk_signal_new ("show_details",
 				  GTK_RUN_FIRST,
 				  GTK_CLASS_TYPE (object_class),
-				  GTK_SIGNAL_OFFSET (EvolutionActivityClientClass, show_details),
+				  G_STRUCT_OFFSET (EvolutionActivityClientClass, show_details),
 				  e_shell_marshal_NONE__NONE,
 				  GTK_TYPE_NONE, 0);
 
@@ -238,7 +238,7 @@ class_init (EvolutionActivityClientClass *klass)
 		= gtk_signal_new ("cancel",
 				  GTK_RUN_FIRST,
 				  GTK_CLASS_TYPE (object_class),
-				  GTK_SIGNAL_OFFSET (EvolutionActivityClientClass, cancel),
+				  G_STRUCT_OFFSET (EvolutionActivityClientClass, cancel),
 				  e_shell_marshal_NONE__NONE,
 				  GTK_TYPE_NONE, 0);
 }

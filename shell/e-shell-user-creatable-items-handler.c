@@ -248,7 +248,7 @@ free_menu_items (GSList *menu_items)
 		g_free (item->verb);
 
 		if (item->icon != NULL)
-			gdk_pixbuf_unref (item->icon);
+			g_object_unref (item->icon);
 
 		g_free (item->component_id);
 
@@ -697,7 +697,7 @@ impl_finalize (GObject *object)
 static void
 class_init (GObjectClass *object_class)
 {
-	parent_class = gtk_type_class (PARENT_TYPE);
+	parent_class = g_type_class_ref(PARENT_TYPE);
 
 	object_class->dispose  = impl_dispose;
 	object_class->finalize = impl_finalize;
