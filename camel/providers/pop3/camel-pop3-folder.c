@@ -206,8 +206,7 @@ pop3_sync (CamelFolder *folder, gboolean expunge, CamelException *ex)
 	CamelPop3Folder *pop3_folder;
 	CamelPop3Store *pop3_store;
 	int i, status;
-	char *resp;
-
+	
 	if (!expunge)
 		return;
 
@@ -216,7 +215,7 @@ pop3_sync (CamelFolder *folder, gboolean expunge, CamelException *ex)
 
 	for (i = 0; i < pop3_folder->uids->len; i++) {
 		if (pop3_folder->flags[i] & CAMEL_MESSAGE_DELETED) {
-			status = camel_pop3_command (pop3_store, &resp, ex,
+			status = camel_pop3_command (pop3_store, NULL, ex,
 						     "DELE %d", i + 1);
 			if (status != CAMEL_POP3_OK)
 				return;
@@ -297,7 +296,7 @@ pop3_get_message (CamelFolder *folder, const char *uid, CamelException *ex)
 	}
 
 	/* this should be "nnn octets" ? */
-	if (sscanf(result, "%d", &total) != 1)
+	if (result && sscanf (result, "%d", &total) != 1)
 		total = 0;
 
 	g_free (result);

@@ -1,3 +1,14 @@
+2001-03-27  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* providers/pop3/camel-pop3-folder.c (pop3_sync): If we aren't
+	going to even check the resp/free buffer that gets returned from
+	camel_pop3_command, don't even bother using it. Send in NULL
+	instead.
+	(pop3_get_message): Check to make sure that the `result' string is
+	non-NULL. It's possible that some POP servers may return with
+	"+OK\r\n<message>..." rather than the expected 
+	"+OK ### octets\r\n<message>..."
+
 2001-03-27  Not Zed  <NotZed@Ximian.com>
 
 	* camel-folder-summary.c (camel_folder_summary_finalize): Unref
