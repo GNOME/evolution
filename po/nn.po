@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: nn\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2004-09-03 11:48+0000\n"
-"PO-Revision-Date: 2004-09-03 13:10+0000\n"
+"PO-Revision-Date: 2004-09-03 18:38+0000\n"
 "Last-Translator: Åsmund Skjæveland <aasmunds@fys.uio.no>\n"
 "Language-Team: Norwegian Nynorsk <i18n-nn@lister.ping.uio.no>\n"
 "MIME-Version: 1.0\n"
@@ -2382,7 +2382,7 @@ msgid ""
 "exists in this folder.  Would you like to add it anyway?"
 msgstr ""
 "Den nye e-post-adressa eller det nye namnet til denne\n"
-"kontakten finst allereie i denne mappa. Vil du leggja han til likevel?"
+"kontakten finst få før i denne mappa. Vil du leggja han til likevel?"
 
 #: addressbook/gui/merging/eab-contact-duplicate-detected.glade.h:2
 msgid "New Contact:"
@@ -12675,7 +12675,7 @@ msgstr "Du gi dette filteret eit namn."
 #. filter:bad-name-notunique primary
 #: filter/filter-errors.xml.h:22
 msgid "Name \"{0}\" already used."
-msgstr "Namnet «{0}» er allereie brukt."
+msgstr "Namnet «{0}» er brukt frå før."
 
 #. filter:bad-name-notunique secondary
 #: filter/filter-errors.xml.h:24
@@ -13822,7 +13822,7 @@ msgstr ""
 #: mail/em-migrate.c:2060
 #, c-format
 msgid "Unable to copy POP3 keep-on-server data `%s': %s"
-msgstr ""
+msgstr "Klarte ikkje kopiera data lagra på POP3-tenar (%s): %s"
 
 #: mail/em-migrate.c:2415 mail/em-migrate.c:2427
 #, c-format
@@ -14123,11 +14123,11 @@ msgstr "Merk som lesen etter ei gitt tid."
 
 #: mail/evolution-mail.schemas.in.in.h:45
 msgid "Mark citations in the message \"Preview\""
-msgstr ""
+msgstr "Merk sitering i førehandframsyningsramma"
 
 #: mail/evolution-mail.schemas.in.in.h:46
 msgid "Mark citations in the message \"Preview\"."
-msgstr ""
+msgstr "Merk sitering i førehandframsyningsramma."
 
 #: mail/evolution-mail.schemas.in.in.h:47
 msgid "Message Window default height"
@@ -14143,11 +14143,11 @@ msgstr "Korleis meldinga vert vist (vanleg, fullt meldingshovud, kjelde)"
 
 #: mail/evolution-mail.schemas.in.in.h:50
 msgid "Minimum days between emptying the trash on exit"
-msgstr "Minste tal på dagar mellom kvar gong papirkorga vert tømt ved avslutting"
+msgstr "Minste tal på dagar mellom kvar gong papirkorga vert tømt når du avsluttar"
 
 #: mail/evolution-mail.schemas.in.in.h:51
 msgid "Minimum time between emptying the trash on exit, in days."
-msgstr "Minste tid mellom kvar gong papirkorga vert tømt ved avslutting, i dagar."
+msgstr "Minste tid mellom kvar gong papirkorga vert tømt når du avsluttar, i dagar."
 
 #: mail/evolution-mail.schemas.in.in.h:52
 msgid "New Mail Notify sound file"
@@ -15451,7 +15451,7 @@ msgstr "Kryss av her for å godta lisensavtalen"
 
 #: mail/mail-dialogs.glade.h:26 mail/message-tags.glade.h:6
 msgid "_Due By:"
-msgstr ""
+msgstr "_Ferdig innan:"
 
 #: mail/mail-dialogs.glade.h:27 mail/message-tags.glade.h:7
 msgid "_Flag:"
@@ -15503,53 +15503,47 @@ msgstr "Innlogginga på tenaren «{0}» som «{0}» feila."
 msgid ""
 "Check to make sure your password is spelled correctly.  Remember that many "
 "passwords are case sensitive; your caps lock might be on."
-msgstr ""
+msgstr "Kontroller at passordet ditt er skrive rett. Hugs at mange passord ser skilnad på store og små bokstavar. Sjå etter om Caps Lock er på."
 
 #. mail:ask-send-html primary
 #: mail/mail-errors.xml.h:10
-#, fuzzy
 msgid "Are you sure you want to send a message in HTML format?"
-msgstr "Er du sikker på at du vil fjerna denne adressa?"
+msgstr "Er du sikker på at du vil senda ei melding i HTML-format?"
 
 #. mail:ask-send-html secondary
 #: mail/mail-errors.xml.h:12
-#, fuzzy
 msgid ""
 "Please make sure the following recipients are willing and able to receive "
 "HTML email:\n"
 "{0}\n"
 "Send anyway?"
 msgstr ""
-"Du sender ei HTML-formatert melding. Pass på at dei følgjande mottakarane\n"
-"er i stand til å lesa HTML-e-post, og faktisk vil ha slik post:\n"
+"Kontroller at desse mottakarane vil og kan ta imot HTML-meldingar:\n"
+"{0}\n"
+"Senda uansett?"
 
 #: mail/mail-errors.xml.h:15 mail/mail-errors.xml.h:20
 #: mail/mail-errors.xml.h:27 mail/mail-errors.xml.h:32
-#, fuzzy
 msgid "_Send"
-msgstr "Send"
+msgstr "_Send"
 
 #. mail:ask-send-no-subject primary
 #: mail/mail-errors.xml.h:17
-#, fuzzy
 msgid "Are you sure you want to send a message without a subject?"
-msgstr ""
-"Er du sikker på at du vil\n"
-" slette denne kontakta?"
+msgstr "Er du sikker på at du vil senda meldinga utan emne?"
 
 #. mail:ask-send-no-subject secondary
 #: mail/mail-errors.xml.h:19
 msgid ""
 "Adding a meaningful Subject line to your messages will give your recipients "
 "an idea of what your mail is about."
-msgstr ""
+msgstr "Eit meiningsfullt emne vil fortelja mottakarane kva e-posten din er om."
 
 #. mail:ask-send-only-bcc-contact primary
 #. mail:ask-send-only-bcc primary
 #: mail/mail-errors.xml.h:22 mail/mail-errors.xml.h:29
-#, fuzzy
 msgid "Are you sure you want to send a message with only BCC recipients?"
-msgstr "Spø_r ved sending av melding som berre har mottakarar i Bcc-feltet"
+msgstr "Er du sikker på at du vil senda ein e-post med berre blindkopi-mottakarar?"
 
 #. mail:ask-send-only-bcc-contact secondary
 #: mail/mail-errors.xml.h:24
@@ -15561,6 +15555,9 @@ msgid ""
 "your message. To avoid this, you should add at least one To: or CC: "
 "recipient. "
 msgstr ""
+"Kontaktlista du sender til er stilt til å gøyma listemottakarar.\n"
+"\n"
+"Mange e-post-system legg til ei linje «Apparently-To» i meldingshovudet på meldingar som berre har blindkopi-mottakarar. Denne linja vil i så fall lista opp alle mottakarane av meldinga. For å unngå dette bør du leggja til minst ein Til:- eller Cc:-mottakar. "
 
 #. mail:ask-send-only-bcc secondary
 #: mail/mail-errors.xml.h:31
@@ -15569,89 +15566,80 @@ msgid ""
 "BCC recipients. This header, if added, will list all of your recipients to "
 "your message anyway. To avoid this, you should add at least one To: or CC: "
 "recipient."
-msgstr ""
+msgstr "Mange e-post-system legg til ei linje «Apparently-To» i meldingshovudet på meldingar som berre har blindkopi-mottakarar. Denne linja vil i så fall lista opp alle mottakarane av meldinga. For å unngå dette bør du leggja til minst ein Til:- eller Cc:-mottakar."
 
 #. mail:send-no-recipients primary
 #: mail/mail-errors.xml.h:34
 msgid "This message cannot be sent because you have not specified any Recipients"
-msgstr ""
+msgstr "Denne meldinga kan ikkje senda. Du har ikkje oppgjeve nokon mottakarar"
 
 #. mail:send-no-recipients secondary
 #: mail/mail-errors.xml.h:36
 msgid ""
 "Please enter a valid email address in the To: field. You can search for "
 "email addresses by clicking on the To: button next to the entry box."
-msgstr ""
+msgstr "Skriv inn ei gyldig e-post-adresse i «Til:»-feltet. Du kan søkja etter e-post-adresser ved å klikka på «Til:»-knappen til venstre for mottakarfeltet."
 
 #. mail:ask-default-drafts primary
 #: mail/mail-errors.xml.h:38
-#, fuzzy
 msgid "Use default drafts folder?"
-msgstr "Opnar standard oppgåvemappe"
+msgstr "Bruka standard utkastmappe?"
 
 #. mail:ask-default-drafts secondary
 #: mail/mail-errors.xml.h:40
-#, fuzzy
 msgid ""
 "Unable to open the drafts folder for this account.  Use the system drafts "
 "folder instead?"
-msgstr ""
-"Kan ikkje opna kladd-mappa til denne kontoen.\n"
-"Vil du bruka standard-kladdmappa?"
+msgstr "Kan ikkje opna utkastmappa til denne kontoen. Vil du bruka standard-utkastmappa i staden?"
 
 #: mail/mail-errors.xml.h:41
-#, fuzzy
 msgid "Use _Default"
 msgstr "Bruk stan_dard"
 
 #. mail:ask-expunge primary
 #: mail/mail-errors.xml.h:43
-#, fuzzy
 msgid ""
 "Are you sure you want to permanently remove all the deleted message in "
 "folder \"{0}\"?"
-msgstr "Fjern alle sletta meldingar frå denne mappa for godt"
+msgstr "Er du sikker på at du vil fjerna alle dei sletta meldingane i mappa «{0}» for godt?"
 
 #. mail:ask-expunge secondary
 #. mail:ask-empty-trash secondary
 #: mail/mail-errors.xml.h:45 mail/mail-errors.xml.h:50
 msgid "If you continue, you will not be able to recover these messages."
-msgstr ""
+msgstr "Dersom du held fram, vil du ikkje kunna gjenoppretta desse meldingane."
 
 #: mail/mail-errors.xml.h:46
-#, fuzzy
 msgid "_Expunge"
 msgstr "_Tøm"
 
 #. mail:ask-empty-trash primary
 #: mail/mail-errors.xml.h:48
-#, fuzzy
 msgid ""
 "Are you sure you want to permanently remove all the deleted messages in all "
 "folders?"
-msgstr "Fjern alle sletta meldingar frå alle mapper"
+msgstr "Er du sikker på at du vil fjerna alle dei sletta meldingane i alle mappene for godt?"
 
 #: mail/mail-errors.xml.h:51
-#, fuzzy
 msgid "_Empty Trash"
 msgstr "_Tøm papirkorga"
 
 #. mail:exit-unsaved primary
 #: mail/mail-errors.xml.h:53
 msgid "You have unsent messages, do you wish to quit anyway?"
-msgstr ""
+msgstr "Du har usendte meldingar. Vil du avslutta likevel?"
 
 #. mail:exit-unsaved secondary
 #: mail/mail-errors.xml.h:55
 msgid ""
 "If you quit, these messages will not be sent until Evolution is started "
 "again."
-msgstr ""
+msgstr "Dersom du avsluttar, vil ikkje desse meldingane verta sendte før Evolution vert starta att."
 
 #. mail:camel-exception primary
 #: mail/mail-errors.xml.h:57
 msgid "Your message with the subject \"{0}\" was not delivered."
-msgstr ""
+msgstr "Meldinga med emne «{0}» vart ikkje levert."
 
 #. mail:camel-exception secondary
 #: mail/mail-errors.xml.h:59
@@ -15661,102 +15649,83 @@ msgid ""
 "The message is stored in the Outbox folder.  Check the message for errors "
 "and resend."
 msgstr ""
+"Meldinga vart sendt gjennom programmet «sendmail». Sendmail oppgav følgjande feil: "
+"«Status 67: meldinga vart ikkje sendt».\n"
+"Meldinga er lagra i utboksen. Kontroller om det er feil i meldinga, og prøv på nytt."
 
 #. mail:async-error primary
 #: mail/mail-errors.xml.h:62
-#, fuzzy
 msgid "Error while {0}."
-msgstr ""
-"Feil ved «%s»:\n"
-"%s"
+msgstr "Feil under {0}."
 
 #. mail:async-error secondary
 #: mail/mail-errors.xml.h:64
 msgid "{1}."
-msgstr ""
+msgstr "{1}."
 
 #. mail:async-error-nodescribe primary
 #: mail/mail-errors.xml.h:66
-#, fuzzy
 msgid "Error while performing operation."
-msgstr ""
-"Feil ved lesing av fil:\n"
-"%s"
+msgstr "Feil medan handlinga vart utført."
 
 #. mail:async-error-nodescribe secondary
 #: mail/mail-errors.xml.h:68
 msgid "{0}."
-msgstr ""
+msgstr "{0}."
 
 #. mail:ask-session-password primary
 #: mail/mail-errors.xml.h:82
-#, fuzzy
 msgid "Enter password."
-msgstr "Skriv inn passord"
+msgstr "Skriv inn passordet."
 
 # TRN: Dårleg.
 #. mail:filter-load-error primary
 #: mail/mail-errors.xml.h:86
-#, fuzzy
 msgid "Error loading filter definitions."
-msgstr ""
-"Feil ved lesing av filterinformasjon:\n"
-"%s"
+msgstr "Feil under lesing av filterdefinisjonar."
 
 #. mail:no-save-path primary
 #: mail/mail-errors.xml.h:90
-#, fuzzy
 msgid "Cannot save to directory \"{0}\"."
-msgstr "Kan ikkje laga katalogen «%s»: %s"
+msgstr "Kan ikkje lagra i katalogen «{0}»."
 
 #. mail:no-create-path primary
 #. mail:no-write-path-exists primary
 #. mail:no-write-path-notfile primary
 #: mail/mail-errors.xml.h:94 mail/mail-errors.xml.h:102
 #: mail/mail-errors.xml.h:106
-#, fuzzy
 msgid "Cannot save to file \"{0}\"."
-msgstr ""
-"Klarte ikkje å lagra til «%s»\n"
-" %s"
+msgstr "Kan ikkje lagra i fila «{0}»."
 
 #. mail:no-create-path secondary
 #: mail/mail-errors.xml.h:96
-#, fuzzy
 msgid "Cannot create the save directory, because \"{1}\""
-msgstr "Kan ikkje laga katalogen «%s»: %s"
+msgstr "Kan ikkje laga katalogen, fordi «{0}»"
 
 #. mail:no-create-tmp-path primary
 #: mail/mail-errors.xml.h:98
-#, fuzzy
 msgid "Cannot create temporary save directory."
-msgstr "Klarte ikkje å lage mellombels katalog: %s"
+msgstr "Klarte ikkje å laga mellombels katalog."
 
 #. mail:no-write-path-exists secondary
 #: mail/mail-errors.xml.h:104
-#, fuzzy
 msgid "File exists but cannot overwrite it."
-msgstr "Fila eksisterar, skriv over?"
+msgstr "Fila finst, men kan ikkje skriva over."
 
 #. mail:no-write-path-notfile secondary
 #: mail/mail-errors.xml.h:108
-#, fuzzy
 msgid "File exists but is not a regular file."
-msgstr "Fila «%s» finst ikkje, eller er ikkje ei vanleg fil."
+msgstr "Fila finst, men er ikkje ei vanleg fil."
 
 #. mail:no-delete-folder primary
 #: mail/mail-errors.xml.h:110
-#, fuzzy
 msgid "Cannot delete folder \"{0}\"."
-msgstr ""
-"Kan ikkje sletta mappa:\n"
-"%s"
+msgstr "Kan ikkje sletta mappa «{0}»."
 
 #. mail:no-delete-special-folder primary
 #: mail/mail-errors.xml.h:114
-#, fuzzy
 msgid "Cannot delete system folder \"{0}\"."
-msgstr "Kan ikkje sletta mappa: %s: Mappa finst ikkje"
+msgstr "Kan ikkje sletta systemmappa «{0}»."
 
 #. mail:no-delete-special-folder secondary
 #. mail:no-rename-special-folder secondary
@@ -15764,98 +15733,86 @@ msgstr "Kan ikkje sletta mappa: %s: Mappa finst ikkje"
 msgid ""
 "System folders are required for Ximian Evolution to function correctly and "
 "cannot be renamed, moved, or deleted."
-msgstr ""
+msgstr "Systemmapper trengst for at Ximian Evolution skal fungera rett, og kan ikkje få nytt namn, flyttast eller slettast."
 
 #. mail:no-rename-special-folder primary
 #: mail/mail-errors.xml.h:118
-#, fuzzy
 msgid "Cannot rename or move system folder \"{0}\"."
-msgstr "Kan ikkje endra namn på mappa: %s: Mappa finst ikkje"
+msgstr "Kan ikkje byta namn på eller flytta systemmappa «{0}»."
 
 #. mail:ask-delete-folder title
 #: mail/mail-errors.xml.h:122
-#, fuzzy
 msgid "Delete \"{0}\"?"
-msgstr "Slett «%s»"
+msgstr "Sletta «{0}»?"
 
 #. mail:ask-delete-folder primary
 #: mail/mail-errors.xml.h:124
-#, fuzzy
 msgid "Really delete folder \"{0}\" and all of its subfolders?"
-msgstr "Verkeleg sletta mappa «%s»?"
+msgstr "Verkeleg sletta mappa «{0}» og alle undermappene?"
 
 #. mail:ask-delete-folder secondary
 #: mail/mail-errors.xml.h:126
 msgid ""
 "If you delete the folder, all of its contents and its subfolders contents "
 "will be deleted permanently."
-msgstr ""
+msgstr "Dersom du slettar mappa, vil alt innhaldet og alle undermappene forsvinna for godt."
 
 #. mail:no-rename-folder-exists primary
 #. mail:no-rename-folder primary
 #: mail/mail-errors.xml.h:128 mail/mail-errors.xml.h:132
-#, fuzzy
 msgid "Cannot rename \"{0}\" to \"{1}\"."
-msgstr "Kan ikkje flytta mappe: %s"
+msgstr "Kan ikkje gje «{0}» det nye namnet «{1}»."
 
 #. mail:no-rename-folder-exists secondary
 #. mail:vfolder-notunique secondary
 #: mail/mail-errors.xml.h:130 mail/mail-errors.xml.h:192
-#, fuzzy
 msgid "A folder named \"{1}\" already exists. Please use a different name."
-msgstr "Ei mappe som har namnet «%s» finst allereie. Bruk eit anna namn."
+msgstr "Ei mappe som har namnet «{1}» finst frå før. Bruk eit anna namn."
 
 #. mail:no-rename-folder secondary
 #: mail/mail-errors.xml.h:134
 msgid "Because \"{2}\"."
-msgstr ""
+msgstr "Fordi «{2}»."
 
 #. mail:no-move-folder-nostore primary
 #. mail:no-move-folder-to-nostore primary
 #: mail/mail-errors.xml.h:136 mail/mail-errors.xml.h:140
-#, fuzzy
 msgid "Cannot move folder \"{0}\" to \"{1}\"."
-msgstr "Kan ikkje flytta mappe: %s"
+msgstr "Kan ikkje flytta mappa «{0}» til «{1}»."
 
 #. mail:no-move-folder-nostore secondary
 #. mail:no-copy-folder-nostore secondary
 #: mail/mail-errors.xml.h:138 mail/mail-errors.xml.h:146
-#, fuzzy
 msgid "Cannot open source \"{2}\"."
-msgstr "Klarte ikkje opna kjelde"
+msgstr "Klarte ikkje opna kjelda «{2}»."
 
 #. mail:no-move-folder-to-nostore secondary
 #. mail:no-copy-folder-to-nostore secondary
 #: mail/mail-errors.xml.h:142 mail/mail-errors.xml.h:150
-#, fuzzy
 msgid "Cannot open target \"{2}\"."
-msgstr "Kan ikkje opna melding"
+msgstr "Kan ikkje opna målet «{2}»."
 
 #. mail:no-copy-folder-nostore primary
 #. mail:no-copy-folder-to-nostore primary
 #: mail/mail-errors.xml.h:144 mail/mail-errors.xml.h:148
-#, fuzzy
 msgid "Cannot copy folder \"{0}\" to \"{1}\"."
-msgstr "Kan ikkje kopiera mappe: %s"
+msgstr "Kan ikkje kopiera mappa «{0}» til «{1}»."
 
 #. mail:no-create-folder-nostore primary
 #: mail/mail-errors.xml.h:152
-#, fuzzy
 msgid "Cannot create folder \"{0}\"."
-msgstr "Kan ikkje laga mappa: %s: %s"
+msgstr "Kan ikkje laga mappa «{0}»."
 
 #. mail:no-create-folder-nostore secondary
 #: mail/mail-errors.xml.h:154
-#, fuzzy
 msgid "Cannot open source \"{1}\""
-msgstr "Klarte ikkje opna kjelde"
+msgstr "Klarte ikkje opna kjelda «{1}»"
 
 #. mail:account-incomplete primary
 #. mail:account-notunique primary
 #: mail/mail-errors.xml.h:156 mail/mail-errors.xml.h:160
-#, fuzzy
 msgid "Cannot save changes to account."
-msgstr "og ein annan kontakt."
+msgstr "Kan ikkje lagra endringane i kontoen."
 
 #. mail:account-incomplete secondary
 #: mail/mail-errors.xml.h:158
@@ -15869,9 +15826,8 @@ msgstr "Du kan ikkje opprette to kontoar med det same namnet."
 
 #. mail:ask-delete-account title
 #: mail/mail-errors.xml.h:164
-#, fuzzy
 msgid "Delete account?"
-msgstr "Slett dei valde kontaktane"
+msgstr "Sletta kontoen?"
 
 #. mail:ask-delete-account primary
 #: mail/mail-errors.xml.h:166
@@ -15881,136 +15837,127 @@ msgstr "Er du sikker på at du vil sletta denne kontoen?"
 #. mail:ask-delete-account secondary
 #: mail/mail-errors.xml.h:168
 msgid "If you proceed, the account information will be deleted permanently."
-msgstr ""
+msgstr "Dersom du held fram, vil kontoen verta sletta for godt."
 
 #: mail/mail-errors.xml.h:169
-#, fuzzy
 msgid "Don't delete"
-msgstr "_Angra slett"
+msgstr "Ikkje slett"
 
 #. mail:no-save-signature primary
 #: mail/mail-errors.xml.h:171
-#, fuzzy
 msgid "Could not save signature file."
-msgstr "Kan ikkje lagra signaturfil: %s"
+msgstr "Kan ikkje lagra signaturfila."
 
 #. mail:no-save-signature secondary
 #: mail/mail-errors.xml.h:173
 msgid "Because \"{0}\"."
-msgstr ""
+msgstr "Fordi «{0}»."
 
 #. mail:signature-notscript primary
 #: mail/mail-errors.xml.h:175
-#, fuzzy
 msgid "Cannot set signature script \"{0}\"."
-msgstr "_HTML-signatur:"
+msgstr "Kan ikkje velja signaturskriptet «{0}»."
 
 #. mail:signature-notscript secondary
 #: mail/mail-errors.xml.h:177
 msgid "The script file must exist and be executable."
-msgstr ""
+msgstr "Skriptfila må finnast og vera køyrbar."
 
 #. mail:ask-signature-changed title
 #: mail/mail-errors.xml.h:179
-#, fuzzy
 msgid "Discard changed?"
-msgstr "_Forkast endringar"
+msgstr "Forkasta endringar?"
 
 #. mail:ask-signature-changed primary
 #: mail/mail-errors.xml.h:181
-#, fuzzy
 msgid "Do you wish to save your changes?"
 msgstr "Vil du lagra endringane?"
 
 #. mail:ask-signature-changed secondary
 #: mail/mail-errors.xml.h:183
-#, fuzzy
 msgid "This signature has been changed, but has not been saved."
-msgstr ""
-"Dette er siste trekk.\n"
-"Vil du leggja til fleire trekk?"
+msgstr "Signaturen er endra, men ikkje lagra."
 
 #: mail/mail-errors.xml.h:184
-#, fuzzy
 msgid "_Discard changes"
 msgstr "_Forkast endringar"
 
 #. mail:vfolder-notexist primary
 #: mail/mail-errors.xml.h:186
-#, fuzzy
 msgid "Cannot edit vFolder \"{0}\" as it does not exist."
-msgstr "Mappa «%s» eksisterar ikkje."
+msgstr "Kan ikkje redigera den virtuelle mappa «{0}». Ho finst ikkje."
 
 #. mail:vfolder-notexist secondary
 #: mail/mail-errors.xml.h:188
 msgid ""
 "This folder may have been added implictly, go to the virtual folder editor "
 "to add it explictly, if required."
-msgstr ""
+msgstr "Mappa kan ha blitt lagt til implisitt. Det kan vera naudsynt å opna virtuell mappe-redigering og leggja henne til eksplisitt."
 
 #. mail:vfolder-notunique primary
 #: mail/mail-errors.xml.h:190
-#, fuzzy
 msgid "Cannot add vFolder \"{0}\"."
-msgstr ""
-"Kan ikkje sletta mappa:\n"
-"%s"
+msgstr "Kan ikkje leggja til den virtuelle mappa «{0}»."
 
 #. mail:vfolder-updated primary
 #: mail/mail-errors.xml.h:194
 msgid "vFolders automatically updated."
-msgstr ""
+msgstr "virtuelle mapper oppdatert automatisk."
 
 #. mail:vfolder-updated secondary
 #: mail/mail-errors.xml.h:196
-#, fuzzy
 msgid ""
 "The following vFolder(s):\n"
 "{0}\n"
 "Used the now removed folder:\n"
 "    \"{1}\"\n"
 "And have been updated."
-msgstr " s."
+msgstr ""
+"Desse virtuelle mappene:\n"
+"{0}\n"
+"Brukte denne mappa, som no er fjerna:\n"
+"    «{1}»\n"
+"Dei virtuelle mappene er oppdaterte."
 
 #. mail:filter-updated primary
 #: mail/mail-errors.xml.h:202
 msgid "Mail filters automatically updated."
-msgstr ""
+msgstr "E-post-filter er oppdaterte automatisk."
 
 #. mail:filter-updated secondary
 #: mail/mail-errors.xml.h:204
-#, fuzzy
 msgid ""
 "The following filter rule(s):\n"
 "{0}\n"
 "Used the now removed folder:\n"
 "    \"{1}\"\n"
 "And have been updated."
-msgstr " s."
+msgstr ""
+"Desse filterreglane:\n"
+"{0}\n"
+"Brukte denne mappa, som no er fjerna:\n"
+"    «{1}»\n"
+"Filterreglane er oppdaterte."
 
 #. mail:no-folder primary
 #: mail/mail-errors.xml.h:210
-#, fuzzy
 msgid "Missing folder."
-msgstr "Fjernar mappe %s"
+msgstr "Manglande mappe."
 
 #. mail:no-folder secondary
 #: mail/mail-errors.xml.h:212
-#, fuzzy
 msgid "You must specify a folder."
-msgstr "Stilnamn:"
+msgstr "Du må oppgje ei mappe."
 
 #. mail:no-name-vfolder secondary
 #: mail/mail-errors.xml.h:216
-#, fuzzy
 msgid "You must name this vFolder."
-msgstr "Du må gje denne mappa eit namn."
+msgstr "Då må gje denne virtuelle mappa eit namn.namn."
 
 #. mail:vfolder-no-source primary
 #: mail/mail-errors.xml.h:218
-#, fuzzy
 msgid "No sources selected."
-msgstr "Ingen tenar har vorte vald"
+msgstr "Ingen kjelder valde."
 
 #. mail:vfolder-no-source secondary
 #: mail/mail-errors.xml.h:220
