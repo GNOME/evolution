@@ -1,5 +1,12 @@
 2000-10-04  Federico Mena Quintero  <federico@helixcode.com>
 
+	* gui/print.c (print_day_summary_cb): Use g_list_append() correctly.
+	(print_todo_details_cb): Likewise.
+	(print_day_summary): Initialize psi.events.  This code was
+	obviously never tested.
+	(print_todo_details): Likewise.
+	(print_day_details): Initialize pdi.slots.
+
 	* gui/print.c (range_selector_new): Fix strftime() %a versus %b
 	confusion.  Fixes bugzilla #644.
 	(range_selector_new): Fix the whole localization mess by making

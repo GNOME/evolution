@@ -518,7 +518,7 @@ bound_text(GnomePrintContext *pc, GnomeFont *font, char *text, double left, doub
 }
 
 /*
- * Print Day Details 
+ * Print Day Details
  */
 static gboolean
 print_day_details_cb (CalComponent *comp, time_t istart, time_t iend, gpointer data)
@@ -527,19 +527,19 @@ print_day_details_cb (CalComponent *comp, time_t istart, time_t iend, gpointer d
 	GList *l, *col = NULL;
 	struct pdinfo *pdi = (struct pdinfo *)data;
 	struct einfo *ei;
-	
+
 	ei = g_new (struct einfo, 1);
 
 	cal_component_get_summary (comp, &text);
 	ei->text = g_strdup (text.value);
-	
+
 	ei->start = istart;
 	ei->end = iend;
 	ei->count = 0;
-	
+
 	for (l = pdi->slots; l; l = l->next) {
 		struct einfo *testei;
-		
+
 		col = (GList *)l->data;
 		testei = (struct einfo *)col->data;
 
@@ -548,13 +548,13 @@ print_day_details_cb (CalComponent *comp, time_t istart, time_t iend, gpointer d
 			l->data = col;
 			return TRUE;
 		}
-		
+
 		testei->count++;
 		ei->count++;
 	}
-	
+
 	col = NULL;
-	col = g_list_prepend (col, ei);	
+	col = g_list_prepend (col, ei);
 	pdi->slots = g_list_append (pdi->slots, col);
 
 	return TRUE;
@@ -619,22 +619,24 @@ print_day_details (GnomePrintContext *pc, GnomeCalendar *gcal, time_t whence,
 	start = time_day_begin(whence);
 	end = time_day_end(start);
 
+	pdi.slots = NULL;
+
 	cal_client_generate_instances (client, CALOBJ_TYPE_EVENT, start, end,
 				       print_day_details_cb, &pdi);
-	
+
 	num_slots = g_list_length (pdi.slots);
 	slot_width = (right-left-width)/num_slots;
 
 	for (i = num_slots, l = pdi.slots; l; i--, l = l->next) {
 		GList *e = (GList *)l->data;
-		
+
 		for (; e; e = e->next) {
 			struct einfo *ei = (struct einfo *)e->data;
 
 			y = top - (top - bottom) * (ei->start - start) / (end - start) - 1;
 			yend = top - (top - bottom) * (ei->end - start) / (end - start) + 1;
 			x = left + width + slot_width * (num_slots - i);
-			
+
 			if (num_slots > 0)
 				x++;
 
@@ -642,9 +644,9 @@ print_day_details (GnomePrintContext *pc, GnomeCalendar *gcal, time_t whence,
 				xend = x + (num_slots - ei->count) * slot_width - 2;
 			else
 				xend = x + slot_width - 2;
-			
+
 			print_border (pc, x, xend, y, yend, 0.0, 0.9);
-			
+
 			bound_text (pc, font_summary, ei->text, x, xend, y, yend, 0);
 
 			g_free (ei);
@@ -661,7 +663,7 @@ print_day_details (GnomePrintContext *pc, GnomeCalendar *gcal, time_t whence,
 }
 
 /*
- * Print Day Summary 
+ * Print Day Summary
  */
 #if 0
 #define TIME_FMT "%X"
@@ -680,12 +682,12 @@ print_day_summary_cb (CalComponent *comp, time_t istart, time_t iend, gpointer d
 
 	cal_component_get_summary (comp, &text);
 	ei->text = g_strdup (text.value);
-	
+
 	ei->start = istart;
 	ei->end = iend;
 	ei->count = 0;
 
-	g_list_append (psi->events, ei);
+	psi->events = g_list_append (psi->events, ei);
 
 	return TRUE;
 }
@@ -720,6 +722,8 @@ print_day_summary (GnomePrintContext *pc, GnomeCalendar *gcal, time_t whence,
 	format_date(start, titleformat, buf, 100);
 	titled_box (pc, buf, font_summary, ALIGN_RIGHT | ALIGN_BORDER,
 		    &left, &right, &top, &bottom, 0.0);
+
+	psi.events = NULL;
 
 	cal_client_generate_instances (client, CALOBJ_TYPE_EVENT, start, end,
 				       print_day_summary_cb, &psi);
@@ -776,11 +780,11 @@ print_day_summary (GnomePrintContext *pc, GnomeCalendar *gcal, time_t whence,
 		}
 
 		y += gnome_font_get_size (font_summary) - inc;
-		
+
 		g_free (ei);
 	}
 	g_list_free (psi.events);
-	
+
 	gtk_object_unref (GTK_OBJECT (font_summary));
 }
 
@@ -926,7 +930,7 @@ print_todo_details_cb (CalComponent *comp, time_t istart, time_t iend, gpointer 
 	cal_component_get_summary (comp, &text);
 	ei->text = g_strdup (text.value);
 
-	g_list_append (pti->todos, ei);
+	pti->todos = g_list_append (pti->todos, ei);
 
 	return TRUE;
 }
@@ -953,6 +957,8 @@ print_todo_details (GnomePrintContext *pc, GnomeCalendar *gcal, time_t start, ti
 
 	y = top - 3;
 	yend = bottom - 2;
+
+	pti.todos = NULL;
 
 	cal_client_generate_instances (client, CALOBJ_TYPE_TODO, start, end,
 				       print_todo_details_cb, &pti);
@@ -1178,7 +1184,7 @@ print_calendar (GnomeCalendar *gcal, gboolean preview, time_t at, PrintView defa
 	gnome_print_master_set_copies (gpm, copies, collate);
 
 	pc = gnome_print_master_get_context (gpm);
-	
+
 	l = gnome_paper_lmargin (paper_info);
 	r = gnome_paper_pswidth (paper_info) - gnome_paper_rmargin (paper_info);
 	t = gnome_paper_psheight (paper_info) - gnome_paper_tmargin (paper_info);
