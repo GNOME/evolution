@@ -42,6 +42,7 @@
 
 #include <evolution-services/executive-summary-component.h>
 #include <evolution-services/executive-summary-html-view.h>
+#include <gal/widgets/e-unicode.h>
 
 typedef struct {
 	CamelFolder *folder;
@@ -297,12 +298,11 @@ generate_folder_summaries (MailSummary *summary)
 	int i;
 
 	user = g_strdup_printf ("%s/vfolders.xml", evolution_dir);
-	system = g_strdup_printf ("%s/evolution/vfoldertypes.xml", EVOLUTION_DATADIR);
+	system = EVOLUTION_DATADIR "/evolution/vfoldertypes.xml";
 
 	context = vfolder_context_new ();
 	rule_context_load ((RuleContext *)context, system, user);
 	g_free (user);
-	g_free (system);
 
 	rule = NULL;
 	while ((rule = rule_context_next_rule ((RuleContext *)context, rule, NULL))){
@@ -465,7 +465,7 @@ create_summary_view (ExecutiveSummaryComponentFactory *_factory,
 	summary->folders = 0;
 	summary->in_summary = FALSE;
 	summary->folder_to_summary = g_hash_table_new (NULL, NULL);
-	summary->title = g_strdup ("Mail Summary");
+	summary->title = e_utf8_from_locale_string (_("Mail Summary"));
 	summary->icon = g_strdup ("envelope.png");
 	summary->idle = 0;
 

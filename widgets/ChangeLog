@@ -1,3 +1,8 @@
+2001-05-05  Gediminas Paulauskas <menesis@delfi.lt>
+
+	* menus/gal-view-menus.c: bonobo_ui_node_set_attr expects unstranslated
+	strings, so change _() to N_().
+
 2001-04-12  Dan Winship  <danw@ximian.com>
 
 	* menus/gal-view-menus.c (build_menus): Fix a memory leak.

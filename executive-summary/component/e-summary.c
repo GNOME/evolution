@@ -224,6 +224,8 @@ e_summary_init (ESummary *esummary)
 					GTK_POLICY_NEVER, GTK_POLICY_AUTOMATIC);
 	priv->html = gtk_html_new ();
 	gtk_html_set_editable (GTK_HTML (priv->html), FALSE);
+	gtk_html_set_default_content_type (GTK_HTML (priv->html),
+					   "text/html; charset=utf-8");
 	gtk_html_set_default_background_color (GTK_HTML (priv->html), &bgcolour);
 	gtk_signal_connect (GTK_OBJECT (priv->html), "url-requested",
 			    GTK_SIGNAL_FUNC (e_summary_url_request), esummary);

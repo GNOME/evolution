@@ -8,15 +8,17 @@
  * (C) 2000, 2001 Ximian, Inc.
  */
 #include <config.h>
+
+#include "gal-view-menus.h"
+
 #include <stdlib.h>
 #include <gtk/gtksignal.h>
 #include <gnome-xml/parser.h>
 #include <gnome-xml/xmlmemory.h>
-#include <libgnome/gnome-defs.h>
+#include <libgnomeui/gnome-dialog.h>
 #include <libgnome/gnome-i18n.h>
 #include <gal/util/e-util.h>
 #include <gal/util/e-xml-utils.h>
-#include "gal-view-menus.h"
 #include <gal/menus/gal-define-views-dialog.h>
 #include <gal/widgets/e-unicode.h>
 
@@ -159,7 +161,6 @@ build_menus(GalViewMenus *menus)
 	int length;
 	int i;
 	GalViewCollection *collection = menus->priv->collection;
-	char *label;
 
 	root = bonobo_ui_node_new("Root");
 	menu = bonobo_ui_node_new_child(root, "menu");
@@ -172,15 +173,22 @@ build_menus(GalViewMenus *menus)
 	
 	submenu = bonobo_ui_node_new_child(place, "submenu");
 	bonobo_ui_node_set_attr(submenu, "name", "CurrentView");
-	bonobo_ui_node_set_attr(submenu, "_label", _("_Current View"));
+	bonobo_ui_node_set_attr(submenu, "_label", N_("_Current View"));
 
 	length = gal_view_collection_get_count(collection);
 	for (i = 0; i < length; i++) {
 		char *verb;
+		char *label;
 		GalViewCollectionItem *item = gal_view_collection_get_view_item(collection, i);
 		menuitem = bonobo_ui_node_new_child(submenu, "menuitem");
 		bonobo_ui_node_set_attr(menuitem, "name", item->id);
-		bonobo_ui_node_set_attr(menuitem, "_label", item->title);
+
+		/* bonobo displays this string so it must be in locale */
+		label = e_utf8_to_locale_string(item->title);
+		/* All labels are bonobo_ui_util_decode_str()ed,
+		 * so even translated label must be set with _label */
+		bonobo_ui_node_set_attr(menuitem, "_label", label);
+		g_free(label);
 
 		verb = g_strdup_printf("DefineViews:%s", item->id);
 		bonobo_ui_node_set_attr(menuitem, "verb", verb);
@@ -191,9 +199,7 @@ build_menus(GalViewMenus *menus)
 
 	menuitem = bonobo_ui_node_new_child(submenu, "menuitem");
 	bonobo_ui_node_set_attr(menuitem, "name", "DefineViews");
-	label = e_utf8_from_locale_string(_("Define Views"));
-	bonobo_ui_node_set_attr(menuitem, "_label", label);
-	g_free (label);
+	bonobo_ui_node_set_attr(menuitem, "_label", N_("Define Views"));
 	bonobo_ui_node_set_attr(menuitem, "verb", "DefineViews");
 
 	string = bonobo_ui_node_to_string(root, TRUE);

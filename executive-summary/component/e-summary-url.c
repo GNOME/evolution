@@ -798,12 +798,14 @@ e_summary_url_describe (const char *uri,
 			ESummary *esummary)
 {
 	ESummaryProtocol protocol;
-	char *contents, *description;
+	char *contents, *description, *tmp;
 
 	protocol = get_protocol (uri);
 	contents = parse_uri (uri, protocol, esummary);
+	tmp = e_utf8_to_locale_string (contents);
 
-	description = g_strdup_printf (_(descriptions[protocol]), contents);
+	description = g_strdup_printf (_(descriptions[protocol]), tmp);
+	g_free (tmp);
 	g_free (contents);
 
 	return description;

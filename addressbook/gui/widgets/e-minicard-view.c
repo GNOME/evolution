@@ -21,12 +21,13 @@
  */
 
 #include <config.h>
-
+#include <gnome.h>
 #include <gal/widgets/e-canvas.h>
+#include <gal/widgets/e-unicode.h>
+#include <libgnome/gnome-i18n.h>
 #include "e-minicard-view.h"
 #include "e-minicard.h"
 #include "e-contact-editor.h"
-
 static void e_minicard_view_init		(EMinicardView		 *reflow);
 static void e_minicard_view_class_init	(EMinicardViewClass	 *klass);
 static void e_minicard_view_set_arg (GtkObject *o, GtkArg *arg, guint arg_id);
@@ -125,6 +126,7 @@ selection_changed (ESelectionModel *selection, EMinicardView *view)
 static void
 e_minicard_view_init (EMinicardView *view)
 {
+	char *empty_message;
 	view->book = NULL;
 	view->query = g_strdup("(contains \"x-evolution-any-field\" \"\")");
 	view->editable = FALSE;
@@ -142,10 +144,13 @@ e_minicard_view_init (EMinicardView *view)
 	gtk_signal_connect(GTK_OBJECT(view->selection), "selection_changed",
 			   GTK_SIGNAL_FUNC(selection_changed), view);
 	
-	gtk_object_set(GTK_OBJECT(view),
-		       "empty_message", _("\n\nThere are no items to show in this view\n\n"
-					  "Double-click here to create a new Contact."),
-		       NULL);
+	empty_message = e_utf8_from_locale_string(_("\n\nThere are no items to show in this view\n\n"
+						    "Double-click here to create a new Contact."));
+	gtk_object_set (GTK_OBJECT(view),
+			"empty_message",
+			empty_message,
+			NULL);
+	g_free (empty_message);
 
 	E_REFLOW_SORTED(view)->compare_func = (GCompareFunc) e_minicard_compare;
 	E_REFLOW_SORTED(view)->string_func  = (EReflowStringFunc) e_minicard_get_card_id;

@@ -1,3 +1,10 @@
+2001-05-05  Gediminas Paulauskas <menesis@delfi.lt>
+
+	* importer/importer.c (create_html): copied newer and fixed function
+	from mail/mail-config-druid.c.
+	(html_new, put_html): removed.
+	(show_import_wizard): use create_html instead of html_new/put_html pair.
+
 2001-04-18  Gediminas Paulauskas <menesis@delfi.lt>
 
 	* e-shell-view-menu.c: set up menu icons for new folder, import and work

@@ -21,21 +21,20 @@
  */
 
 #include <config.h>
-#include <bonobo/bonobo-ui-container.h>
-#include <bonobo/bonobo-ui-util.h>
+#include <gnome.h>
+#include "e-contact-editor.h"
+#include <e-contact-editor-fullname.h>
+#include <e-contact-editor-address.h>
 #include <gdk-pixbuf/gdk-pixbuf.h>
 #include <gdk-pixbuf/gnome-canvas-pixbuf.h>
+#include "e-util/e-gui-utils.h"
 #include <gal/widgets/e-categories.h>
 #include <gal/widgets/e-gui-utils.h>
 #include <gal/widgets/e-unicode.h>
-#include <addressbook/printing/e-contact-print.h>
-#include <addressbook/printing/e-contact-print-envelope.h>
-#include <e-util/e-gui-utils.h>
-
-#include "e-contact-editor.h"
-#include "e-contact-editor-fullname.h"
-#include "e-contact-editor-address.h"
-#include "e-contact-save-as.h"
+#include <libgnome/gnome-i18n.h>
+#include <e-contact-save-as.h>
+#include "addressbook/printing/e-contact-print.h"
+#include "addressbook/printing/e-contact-print-envelope.h"
 
 /* Signal IDs */
 enum {
@@ -1186,7 +1185,7 @@ _arrow_pressed (GtkWidget *widget, GdkEventButton *button, EContactEditor *edito
 			GtkWidget *label_widget = glade_xml_get_widget(editor->gui, label);
 			if (label_widget && GTK_IS_LABEL(label_widget)) {
 				gtk_object_set(GTK_OBJECT(label_widget),
-					       "label", g_list_nth_data(*list, menu_item),
+					       "label", _(g_list_nth_data(*list, menu_item)),
 					       NULL);
 			}
 #if 0

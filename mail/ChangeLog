@@ -1,3 +1,13 @@
+2001-05-05  Gediminas Paulauskas <menesis@delfi.lt>
+
+	* mail-summary.c: translate "Mail summary".
+
+	backported from HEAD a change by Dan Winship <danw@ximian.com>
+
+	* mail-config-druid.c (make_default_account): Convert the result
+	of g_get_real_name() from the locale charset to UTF8. Noted by
+	Petter Sundlöf (NOT "Petter Sundl_" :)
+
 2001-04-24  Iain Holmes  <iain@ximian.com>
 
 	* component-factory.c (notify_bonobo_listener): Notify the listener

@@ -565,12 +565,12 @@ table_right_click(ETableScrolled *table, gint row, gint col, GdkEvent *event, EA
 		CardAndBook *card_and_book;
 
 		EPopupMenu menu[] = {
-			{"Save as VCard", NULL, GTK_SIGNAL_FUNC(save_as), NULL, 0}, 
-			{"Send contact to other", NULL, GTK_SIGNAL_FUNC(send_as), NULL, 0},
-			{"Send message to contact", NULL, GTK_SIGNAL_FUNC(send_to), NULL, 0},
-			{"Print", NULL, GTK_SIGNAL_FUNC(print), NULL, 0},
-			{"Print Envelope", NULL, GTK_SIGNAL_FUNC(print_envelope), NULL, 0},
-			{"Delete", NULL, GTK_SIGNAL_FUNC(delete), NULL, 0},
+			{N_("Save as VCard"), NULL, GTK_SIGNAL_FUNC(save_as), NULL, 0}, 
+			{N_("Send contact to other"), NULL, GTK_SIGNAL_FUNC(send_as), NULL, 0},
+			{N_("Send message to contact"), NULL, GTK_SIGNAL_FUNC(send_to), NULL, 0},
+			{N_("Print"), NULL, GTK_SIGNAL_FUNC(print), NULL, 0},
+			{N_("Print Envelope"), NULL, GTK_SIGNAL_FUNC(print_envelope), NULL, 0},
+			{N_("Delete"), NULL, GTK_SIGNAL_FUNC(delete), NULL, 0},
 			{NULL, NULL, NULL, NULL, 0}
 		};
 
