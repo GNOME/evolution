@@ -1,3 +1,8 @@
+2001-07-05  Anna Marie Dirks  <anna@ximian.com> 
+	* gui/contact-list-editor/contact-list-editor.glade: 
+	Added some accelerators, padding, and a "memebers" frame;
+	also fixed spacing and growth behaviour of this dialog. 
+
 2001-07-05  Christopher James Lahey  <clahey@ximian.com>
 
 	* backend/pas/pas-backend-file.c (compare_category): Fix a memory
