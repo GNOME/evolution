@@ -68,6 +68,7 @@
 #include "Evolution-DataServer.h"
 
 #include <gal/widgets/e-cursors.h>
+#include "widgets/misc/e-error.h"
 
 #include <fcntl.h>
 #include <signal.h>
@@ -387,8 +388,7 @@ idle_cb (void *data)
 	case E_SHELL_CONSTRUCT_RESULT_CANNOTREGISTER:
 		corba_shell = bonobo_activation_activate_from_id (E_SHELL_OAFIID, 0, NULL, &ev);
 		if (ev._major != CORBA_NO_EXCEPTION || corba_shell == CORBA_OBJECT_NIL) {
-			e_notice (NULL, GTK_MESSAGE_ERROR,
-				  _("Cannot register the Evolution shell."));
+			e_error_run(NULL, "shell:noshell", NULL);
 			CORBA_exception_free (&ev);
 			bonobo_main_quit ();
 			return FALSE;
@@ -396,9 +396,8 @@ idle_cb (void *data)
 		break;
 
 	default:
-		e_notice (NULL, GTK_MESSAGE_ERROR,
-			  _("Cannot initialize the Evolution shell: %s"),
-			  e_shell_construct_result_to_string (result));
+		e_error_run(NULL, "shell:noshell-reason",
+			    e_shell_construct_result_to_string(result), NULL);
 		CORBA_exception_free (&ev);
 		bonobo_main_quit ();
 		return FALSE;

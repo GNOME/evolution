@@ -1,3 +1,10 @@
+2004-05-18  Not Zed  <NotZed@Ximian.com>
+
+	* shell-errors.xml: added noshell and noshell-reason error
+	strings.  the latter seems a waste, but ...
+
+	* main.c (idle_cb): use e_error for the new no shell errors.
+
 2004-05-17  Jeffrey Stedfast  <fejj@novell.com>
 
 	* e-shell-window-commands.c: Change E_PIXMAP() sizes over to
