@@ -1,3 +1,26 @@
+2003-07-03  Rodrigo Moya <rodrigo@ximian.com>
+
+	* gui/e-tasks.c (setup_widgets): added a paned widget to contain
+	the task list and a HTML widget for displaying the task's details.
+	Connect to "cursor_change" signal on the ETable.
+	(table_cursor_change_cb): update the HTML view every time the selected
+	task changes.
+	(timet_to_str_with_zone): new function copied from alarm daemon.
+	(url_requested_cb): callback for "url_requested" signal on the
+	GtkHTML widget.
+	(on_link_clicked_cb): respond to clicks linked on the HTML widget.
+	(vpaned_resized_cb): set the configuration entry for the task vpane
+	position.
+	(e_tasks_destroy): free new member.
+	(e_tasks_construct): connect to "obj_removed" signal on the CalClient.
+	(client_obj_removed_cb): if the updated object is the one being
+	displayed in the HTML widget, update it.
+
+	* gui/calendar-config.[ch] (calendar_config_get_task_vpane_pos):
+	(calendar_config_gset_task_vpane_pos): new functions.
+
+	* gui/apps_evolution_calendar.schemas: added task vpane position.
+
 2003-07-03  Antonio Xu <antonio.xu@sun.com>
 
 	Fixes #45767

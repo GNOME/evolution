@@ -129,6 +129,9 @@ void	  calendar_config_set_month_hpane_pos	(gint	      hpane_pos);
 gint      calendar_config_get_month_vpane_pos	(void);
 void	  calendar_config_set_month_vpane_pos	(gint	      vpane_pos);
 
+gint      calendar_config_get_task_vpane_pos    (void);
+void      calendar_config_set_task_vpane_pos    (gint         vpane_pos);
+
 /* Colors for the task list */
 const char *calendar_config_get_tasks_due_today_color	(void);
 void	    calendar_config_set_tasks_due_today_color	(const char *color);

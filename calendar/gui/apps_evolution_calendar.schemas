@@ -147,6 +147,17 @@
     </schema>
 
     <schema>
+      <key>/schemas/apps/evolution/calendar/display/task_vpane_position</key>
+      <applyto>/apps/evolution/calendar/display/task_vpane_position</applyto>
+      <owner>evolution-calendar</owner>
+      <type>int</type>
+      <default>400</default>
+      <locale name="C">
+        <short>Position of the vertical pane in the task view</short>
+      </locale>
+    </schema>
+
+    <schema>
       <key>/schemas/apps/evolution/calendar/display/compress_weekend</key>
       <applyto>/apps/evolution/calendar/display/compress_weekend</applyto>
       <owner>evolution-calendar</owner>

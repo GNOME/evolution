@@ -339,6 +339,19 @@ calendar_config_set_month_vpane_pos	(gint	      vpane_pos)
 	e_config_listener_set_long (config, "/apps/evolution/calendar/display/month_vpane_position", vpane_pos);
 }
 
+gint
+calendar_config_get_task_vpane_pos	(void)
+{
+	return  e_config_listener_get_long_with_default (config, "/apps/evolution/calendar/display/task_vpane_position", 400, NULL);
+}
+
+
+void
+calendar_config_set_task_vpane_pos	(gint	      vpane_pos)
+{
+	e_config_listener_set_long (config, "/apps/evolution/calendar/display/task_vpane_position", vpane_pos);
+}
+
 
 /* Whether we compress the weekend in the week/month views. */
 gboolean

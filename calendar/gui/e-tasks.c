@@ -1,8 +1,7 @@
 /* -*- Mode: C; indent-tabs-mode: t; c-basic-offset: 8; tab-width: 8 -*- */
 /* e-tasks.c
  *
- * Copyright (C) 2001  Ximian, Inc.
- * Copyright (C) 2001  Ximian, Inc.
+ * Copyright (C) 2001-2003  Ximian, Inc.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2 of the GNU General Public
@@ -20,17 +19,24 @@
  *
  * Authors: Federico Mena Quintero <federico@ximian.com>
  *	    Damon Chaplin <damon@ximian.com>
+ *          Rodrigo Moya <rodrigo@ximian.com>
  */
 
 #include <config.h>
 #include <gnome.h>
+#include <libgnomevfs/gnome-vfs-ops.h>
 #include <gal/util/e-util.h>
 #include <gal/e-table/e-table-scrolled.h>
 #include <gal/menus/gal-view-instance.h>
 #include <gal/menus/gal-view-factory-etable.h>
 #include <gal/menus/gal-view-etable.h>
+#include <gtkhtml/gtkhtml.h>
+#include <gtkhtml/gtkhtml-stream.h>
 
+#include "e-util/e-categories-config.h"
+#include "e-util/e-time-utils.h"
 #include "e-util/e-url.h"
+#include "cal-util/timeutil.h"
 #include "widgets/menus/gal-view-menus.h"
 #include "dialogs/delete-error.h"
 #include "dialogs/task-editor.h"
@@ -58,6 +64,10 @@ struct _ETasksPrivate {
 
 	/* Calendar search bar for tasks */
 	GtkWidget *search_bar;
+
+	/* The HTML widget to display the task's details */
+	GtkWidget *html;
+	gchar *current_uid;
 
 	/* View instance and the view menus handler */
 	GalViewInstance *view_instance;
@@ -126,6 +136,249 @@ e_tasks_init (ETasks *tasks)
 	priv->query = NULL;
 	priv->view_instance = NULL;
 	priv->view_menus = NULL;
+	priv->current_uid = NULL;
+}
+
+/* Converts a time_t to a string, relative to the specified timezone */
+static char *
+timet_to_str_with_zone (time_t t, icaltimezone *zone)
+{
+        struct icaltimetype itt;
+        struct tm tm;
+        char buf[256];
+                                                                                              
+        if (t == -1)
+                return g_strdup (_("invalid time"));
+                                                                                              
+        itt = icaltime_from_timet_with_zone (t, FALSE, zone);
+        tm = icaltimetype_to_tm (&itt);
+                                                                                              
+        e_time_format_date_and_time (&tm, calendar_config_get_24_hour_format (),
+                                     FALSE, FALSE, buf, sizeof (buf));
+        return g_strdup (buf);
+}
+
+static void
+write_html (GtkHTMLStream *stream, CalComponent *comp)
+{
+	CalComponentText text;
+	CalComponentDateTime dt;
+	gchar *buf, *str;
+	icaltimezone *current_zone;
+	GSList *l;
+	icalproperty_status status;
+	int *priority_value;
+
+	g_return_if_fail (IS_CAL_COMPONENT (comp));
+
+	str = calendar_config_get_timezone ();
+	if (str && str[0]) {
+		current_zone = icaltimezone_get_builtin_timezone (str);
+	} else
+		current_zone = icaltimezone_get_utc_timezone ();
+
+	/* write document header */
+	cal_component_get_summary (comp, &text);
+	gtk_html_stream_printf (stream,
+				"<HTML><BODY><H1>%s</H1>",
+				text.value);
+
+	/* write icons for the categories */
+	cal_component_get_categories_list (comp, &l);
+	if (l) {
+		GSList *node;
+
+		for (node = l; node != NULL; node = node->next) {
+			const char *icon_file;
+
+			icon_file = e_categories_config_get_icon_file_for ((const char *) node->data);
+			if (icon_file) {
+				gtk_html_stream_printf (stream, "<IMG ALT=\"%s\" SRC=\"file://%s\">",
+							(const char *) node->data, icon_file);
+			}
+		}
+
+		cal_component_free_categories_list (l);
+	}
+	
+	/* write summary */
+	gtk_html_stream_printf (stream,
+				"<BR><BR><BR><TABLE BORDER=\"0\" WIDTH=\"80%%\">"
+				"<TR><TD VALIGN=\"TOP\" ALIGN=\"RIGHT\" WIDTH=\"15%%\"><B>%s</B></TD><TD>%s</TD></TR>",
+				_("Summary:"), text.value);
+
+	/* write start date */
+	cal_component_get_dtstart (comp, &dt);
+	if (dt.value != NULL) {
+		buf = timet_to_str_with_zone (icaltime_as_timet (*dt.value), current_zone);
+		str = g_locale_to_utf8 (buf, -1, NULL, NULL, NULL);
+
+		g_free (buf);
+	} else
+		str = g_strdup ("");
+
+	gtk_html_stream_printf (stream, "<TR><TD VALIGN=\"TOP\" ALIGN=\"RIGHT\"><B>%s</B></TD><TD>%s</TD></TR>",
+				_("Start Date:"), str);
+
+	cal_component_free_datetime (&dt);
+	g_free (str);
+
+	/* write Due Date */
+	cal_component_get_due (comp, &dt);
+	if (dt.value != NULL) {
+		buf = timet_to_str_with_zone (icaltime_as_timet (*dt.value), current_zone);
+		str = g_locale_to_utf8 (buf, -1, NULL, NULL, NULL);
+
+		g_free (buf);
+	} else
+		str = g_strdup ("");
+
+	gtk_html_stream_printf (stream, "<TR><TD VALIGN=\"TOP\" ALIGN=\"RIGHT\"><B>%s</B></TD><TD>%s</TD></TR>",
+				_("Due Date:"), str);
+
+	cal_component_free_datetime (&dt);
+	g_free (str);
+
+	/* write status */
+	gtk_html_stream_printf (stream, "<TR><TD VALIGN=\"TOP\" ALIGN=\"RIGHT\"><B>%s</B></TD>", _("Status:"));
+	cal_component_get_status (comp, &status);
+	switch (status) {
+	case ICAL_STATUS_INPROCESS :
+		str = g_strdup (_("In Progress"));
+		break;
+	case ICAL_STATUS_COMPLETED :
+		str = g_strdup (_("Completed"));
+		break;
+	case ICAL_STATUS_CANCELLED :
+		str = g_strdup (_("Cancelled"));
+		break;
+	case ICAL_STATUS_NONE :
+	default :
+		str = g_strdup (_("Not Started"));
+		break;
+	}
+
+	gtk_html_stream_printf (stream, "<TD>%s</TD></TR>", str);
+	g_free (str);
+
+	/* write priority */
+	gtk_html_stream_printf (stream, "<TR><TD VALIGN=\"TOP\" ALIGN=\"RIGHT\"><B>%s</B></TD>", _("Priority:"));
+	cal_component_get_priority (comp, &priority_value);
+	if (priority_value) {
+		if (*priority_value == 0)
+			str = g_strdup ("");
+		else if (*priority_value <= 4)
+			str = g_strdup (_("High"));
+		else if (*priority_value == 5)
+			str = g_strdup (_("Normal"));
+		else
+			str = g_strdup (_("Low"));
+
+		gtk_html_stream_printf (stream, "<TD>%s</TD></TR>", str);
+
+		g_free (str);
+		cal_component_free_priority (priority_value);
+	} else
+		gtk_html_stream_printf (stream, "<TD></TD></TR>");
+	
+	/* write description and URL */
+	gtk_html_stream_printf (stream, "<TR><TD COLSPAN=\"2\"><HR></TD></TR>");
+
+	gtk_html_stream_printf (stream, "<TR><TD VALIGN=\"TOP\" ALIGN=\"RIGHT\"><B>%s</B></TD>", _("Description:"));
+	cal_component_get_description_list (comp, &l);
+	if (l) {
+		GSList *node;
+
+		gtk_html_stream_printf (stream, "<TD>");
+
+		for (node = l; node != NULL; node = node->next) {
+			gint i;
+			GString *str = g_string_new ("");;
+
+			text = * (CalComponentText *) node->data;
+			for (i = 0; i < strlen (text.value ? text.value : 0); i++) {
+				if (text.value[i] == '\n')
+					str = g_string_append (str, "<BR>");
+				else if (text.value[i] == '<')
+					str = g_string_append (str, "&lt;");
+				else if (text.value[i] == '>')
+					str = g_string_append (str, "&gt;");
+				else
+					str = g_string_append_c (str, text.value[i]);
+			}
+
+			gtk_html_stream_printf (stream, str->str);
+			g_string_free (str, TRUE);
+		}
+
+		gtk_html_stream_printf (stream, "</TD></TR>");
+
+		cal_component_free_text_list (l);
+	} else
+		gtk_html_stream_printf (stream, "<TD></TD></TR>");
+
+	/* URL */
+	gtk_html_stream_printf (stream, "<TR><TD VALIGN=\"TOP\" ALIGN=\"RIGHT\"><B>%s</B></TD>", _("URL:"));
+	cal_component_get_url (comp, (const char **) &str);
+	if (str)
+		gtk_html_stream_printf (stream, "<TD><A HREF=\"%s\">%s</A></TD></TR>", str, str);
+	else
+		gtk_html_stream_printf (stream, "<TD></TD></TR>");
+
+	gtk_html_stream_printf (stream, "</TABLE>");
+
+	/* close document */
+	gtk_html_stream_printf (stream, "</BODY></HTML>");
+}
+
+static void
+on_link_clicked (GtkHTML *html, const char *url, gpointer data)
+{
+        GError *err = NULL;
+
+        gnome_url_show (url, &err);
+
+	if (err) {
+		g_warning ("gnome_url_show: %s", err->message);
+                g_error_free (err);
+        }
+}
+
+/* Callback used when the cursor changes in the table */
+static void
+table_cursor_change_cb (ETable *etable, int row, gpointer data)
+{
+	ETasks *tasks;
+	ETasksPrivate *priv;
+	int n_selected;
+
+	tasks = E_TASKS (data);
+	priv = tasks->priv;
+
+	n_selected = e_table_selected_count (etable);
+
+	/* update the HTML widget */
+	if (n_selected == 1) {
+		GtkHTMLStream *stream;
+		CalendarModel *model;
+		CalComponent *comp;
+		const char *uid;
+
+		model = e_calendar_table_get_model (E_CALENDAR_TABLE (priv->tasks_view));
+
+		stream = gtk_html_begin (GTK_HTML (priv->html));
+
+		comp = calendar_model_get_component (model, e_table_get_cursor_row (etable));
+		write_html (stream, comp);
+
+		gtk_html_stream_close (stream, GTK_HTML_STREAM_OK);
+
+		cal_component_get_uid (comp, &uid);
+		if (priv->current_uid)
+			g_free (priv->current_uid);
+		priv->current_uid = g_strdup (uid);
+	} else
+		gtk_html_load_empty (GTK_HTML (priv->html));
 }
 
 /* Callback used when the selection changes in the table. */
@@ -172,6 +425,37 @@ search_bar_category_changed_cb (CalSearchBar *cal_search, const char *category, 
 	calendar_model_set_default_category (model, category);
 }
 
+/* Callback used when the user selects a URL in the HTML widget */
+static void
+url_requested_cb (GtkHTML *html, const char *url, GtkHTMLStream *stream, gpointer data)
+{
+	if (!strncmp ("file:///", url, strlen ("file:///"))) {
+		GnomeVFSHandle *handle;
+		GnomeVFSResult result;
+		char buffer[4096];
+
+		if (gnome_vfs_open (&handle, url, GNOME_VFS_OPEN_READ) == GNOME_VFS_OK) {
+			do {
+				GnomeVFSFileSize bread;
+
+				result = gnome_vfs_read (handle, buffer, sizeof (buffer), &bread);
+				if (result == GNOME_VFS_OK)
+					gtk_html_stream_write (stream, buffer, bread);
+			} while (result == GNOME_VFS_OK);
+
+			gnome_vfs_close (handle);
+		}
+	}
+}
+
+static gboolean
+vpaned_resized_cb (GtkWidget *widget, GdkEventButton *event, ETasks *tasks)
+{
+	calendar_config_set_task_vpane_pos (gtk_paned_get_position (GTK_PANED (widget)));
+
+	return FALSE;
+}
+
 #define E_TASKS_TABLE_DEFAULT_STATE					\
 	"<?xml version=\"1.0\"?>"					\
 	"<ETableState>"							\
@@ -189,6 +473,7 @@ setup_widgets (ETasks *tasks)
 	ETasksPrivate *priv;
 	ETable *etable;
 	CalendarModel *model;
+	GtkWidget *paned, *scroll;
 
 	priv = tasks->priv;
 
@@ -202,6 +487,16 @@ setup_widgets (ETasks *tasks)
 			  GTK_EXPAND | GTK_FILL | GTK_SHRINK, 0, 0, 0);
 	gtk_widget_show (priv->search_bar);
 
+	/* add the paned widget for the task list and task detail areas */
+	paned = gtk_vpaned_new ();
+	gtk_paned_set_position (GTK_PANED (paned), calendar_config_get_task_vpane_pos ());
+	g_signal_connect (G_OBJECT (paned), "button_release_event",
+			  G_CALLBACK (vpaned_resized_cb), tasks);
+	gtk_table_attach (GTK_TABLE (tasks), paned, 0, 1, 1, 2,
+			  GTK_EXPAND | GTK_FILL, GTK_EXPAND | GTK_FILL, 0, 0);
+	gtk_widget_show (paned);
+
+	/* create the task list */
 	priv->tasks_view = e_calendar_table_new ();
 	model = e_calendar_table_get_model (E_CALENDAR_TABLE (priv->tasks_view));
 	calendar_model_set_new_comp_vtype (model, CAL_COMPONENT_TODO);
@@ -209,13 +504,33 @@ setup_widgets (ETasks *tasks)
 	etable = e_table_scrolled_get_table (
 		E_TABLE_SCROLLED (E_CALENDAR_TABLE (priv->tasks_view)->etable));
 	e_table_set_state (etable, E_TASKS_TABLE_DEFAULT_STATE);
-	gtk_table_attach (GTK_TABLE (tasks), priv->tasks_view, 0, 1, 1, 2,
-			  GTK_EXPAND | GTK_FILL, GTK_EXPAND | GTK_FILL, 0, 0);
+	gtk_paned_add1 (GTK_PANED (paned), priv->tasks_view);
 	gtk_widget_show (priv->tasks_view);
 
 	calendar_config_configure_e_calendar_table (E_CALENDAR_TABLE (priv->tasks_view));
 
+	g_signal_connect (etable, "cursor_change", G_CALLBACK (table_cursor_change_cb), tasks);
 	g_signal_connect (etable, "selection_change", G_CALLBACK (table_selection_change_cb), tasks);
+
+	/* create the task detail */
+	priv->html = gtk_html_new ();
+	gtk_html_set_default_content_type (GTK_HTML (priv->html), "charset=utf-8");
+	gtk_html_load_empty (GTK_HTML (priv->html));
+
+	g_signal_connect (G_OBJECT (priv->html), "url_requested",
+			  G_CALLBACK (url_requested_cb), NULL);
+	g_signal_connect (G_OBJECT (priv->html), "link_clicked",
+			  G_CALLBACK (on_link_clicked), tasks);
+
+	gtk_widget_pop_colormap ();
+	scroll = gtk_scrolled_window_new (NULL, NULL);
+	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scroll),
+					GTK_POLICY_AUTOMATIC,
+					GTK_POLICY_AUTOMATIC);
+	gtk_scrolled_window_set_shadow_type (GTK_SCROLLED_WINDOW (scroll), GTK_SHADOW_IN);
+	gtk_container_add (GTK_CONTAINER (scroll), priv->html);
+	gtk_paned_add2 (GTK_PANED (paned), scroll);
+	gtk_widget_show_all (scroll);
 }
 
 /* Callback used when the set of categories changes in the calendar client */
@@ -229,6 +544,26 @@ client_categories_changed_cb (CalClient *client, GPtrArray *categories, gpointer
 	priv = tasks->priv;
 
 	cal_search_bar_set_categories (CAL_SEARCH_BAR (priv->search_bar), categories);
+}
+
+static void
+client_obj_updated_cb (CalClient *client, const char *uid, gpointer data)
+{
+	ETasks *tasks;
+	ETasksPrivate *priv;
+
+	tasks = E_TASKS (data);
+	priv = tasks->priv;
+
+	if (priv->current_uid) {
+		if (!strcmp (uid, priv->current_uid)) {
+			ETable *etable;
+
+			etable = e_table_scrolled_get_table (
+				E_TABLE_SCROLLED (E_CALENDAR_TABLE (priv->tasks_view)->etable));
+			table_cursor_change_cb (etable, 0, tasks);
+		}
+	}
 }
 
 GtkWidget *
@@ -254,6 +589,8 @@ e_tasks_construct (ETasks *tasks)
 			  G_CALLBACK (backend_error_cb), tasks);
 	g_signal_connect (priv->client, "categories_changed",
 			  G_CALLBACK (client_categories_changed_cb), tasks);
+	g_signal_connect (priv->client, "obj_updated",
+			  G_CALLBACK (client_obj_updated_cb), tasks);
 
 	model = e_calendar_table_get_model (E_CALENDAR_TABLE (priv->tasks_view));
 	g_assert (model != NULL);
@@ -312,6 +649,11 @@ e_tasks_destroy (GtkObject *object)
 			priv->client = NULL;
 		}
 		
+		if (priv->current_uid) {
+			g_free (priv->current_uid);
+			priv->current_uid = NULL;
+		}
+
 		g_free (priv);
 		tasks->priv = NULL;
 	
