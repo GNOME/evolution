@@ -1,3 +1,8 @@
+2001-07-26  Peter Williams  <peterw@ximian.com>
+
+	* mail-mt.c (do_get_pass): Use magic to make the password
+	remembering checkbutton come after the entry, visually.
+
 2001-07-26  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-format.c (write_headers): Respect Gtk theme colors for the

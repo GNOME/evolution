@@ -424,8 +424,9 @@ do_get_pass(struct _mail_msg *mm)
 	struct _pass_msg *m = (struct _pass_msg *)mm;
 	const MailConfigAccount *mca;
 	GtkWidget *dialogue;
-	GtkWidget *tb;
-	
+	GtkWidget *tb, *entry;
+	GList *children, *iter;
+
 	/* this api is just awful ... hence the hacks */
 	dialogue = gnome_request_dialog(m->secret, m->prompt, NULL,
 					0, pass_got, m, NULL);
@@ -435,8 +436,33 @@ do_get_pass(struct _mail_msg *mm)
 	tb = gtk_check_button_new_with_label (_("Remember this password"));
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (tb), mca->source->save_passwd);
 	gtk_widget_show (tb);
+
+	/* do some dirty stuff to put the checkbutton after the entry */
+	entry = NULL;
+	children = gtk_container_children (GTK_CONTAINER (GNOME_DIALOG (dialogue)->vbox));
+
+	for (iter = children; iter; iter = iter->next) {
+		if (GTK_IS_ENTRY (iter->data)) {
+			entry = GTK_WIDGET (iter->data);
+			break;
+		}
+	}
+
+	g_list_free (children);
+
+	if (entry) {
+		gtk_object_ref (GTK_OBJECT (entry));
+		gtk_container_remove (GTK_CONTAINER (GNOME_DIALOG (dialogue)->vbox), entry);
+	}
+
 	gtk_box_pack_end (GTK_BOX (GNOME_DIALOG (dialogue)->vbox),
 			  tb, TRUE, FALSE, 0);
+
+	if (entry) {
+		gtk_box_pack_end (GTK_BOX (GNOME_DIALOG (dialogue)->vbox), entry, TRUE, FALSE, 0);
+		gtk_object_unref (GTK_OBJECT (entry));
+	}
+
 	m->tb = tb;
 
 	e_container_foreach_leaf((GtkContainer *)dialogue, focus_on_entry, NULL);
