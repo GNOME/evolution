@@ -3,6 +3,16 @@
 	* gui/event-editor.[ch]: added a public function which causes the
 	event editor to reload its widgets to the associated CalComponent.
 
+	* gui/e-meeting-edit.c: added rudimentary support for the phat
+	e-meeting-time-selector widget, though it has no effect on the
+	component yet.
+
+	* gui/Makefile.am: the meeting editor depends on the meeting widget
+	library, now.
+	
+	* gui/e-itip-control.glade: I added another toolbar button that summons
+	from the hoary deep the meeting time widget.
+
 2000-10-19  Ettore Perazzoli  <ettore@helixcode.com>
 
 	* gui/Makefile.am: Add `event-editor-dialog.glade.h'.

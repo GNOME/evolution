@@ -30,7 +30,8 @@ LINK_FLAGS =							\
 	$(top_builddir)/widgets/misc/libemiscwidgets.a		\
 	$(top_builddir)/e-util/libeutil.la			\
 	$(top_builddir)/libversit/libversit.la			\
-	$(top_builddir)/libical/src/libical/libical.a
+	$(top_builddir)/libical/src/libical/libical.a		\
+	$(top_builddir)/widgets/meeting-time-sel/libevolutionmtsel.a
 
 gladedir   = $(datadir)/evolution/glade
 

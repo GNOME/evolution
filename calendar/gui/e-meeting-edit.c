@@ -24,6 +24,7 @@
 #include <glade/glade.h>
 #include <icaltypes.h>
 #include <ical.h>
+#include <widgets/meeting-time-sel/e-meeting-time-sel.h>
 #include "e-meeting-edit.h"
 
 #define E_MEETING_GLADE_XML "e-meeting-dialog.glade"
@@ -41,6 +42,7 @@ struct _EMeetingEditorPrivate {
 	GtkWidget *organizer_entry;
 	GtkWidget *role_entry;
 	GtkWidget *rsvp_check;
+	GtkWidget *schedule_button;
 	
 	gint changed_signal_id;
 
@@ -362,6 +364,81 @@ edit_attendee (icalproperty *prop, gpointer data)
 	return retval;
 }
 
+static void
+schedule_button_clicked_cb (GtkWidget *widget, gpointer data)
+{
+	EMeetingEditorPrivate *priv;
+
+	EMeetingTimeSelector *mts;
+	EMeetingTimeSelectorAttendeeType type;
+	GtkWidget *dialog;
+	gchar *attendee;
+	gint cntr, row;
+	icalproperty *prop;
+	icalparameter *param;
+	gint button_num;
+
+	priv = (EMeetingEditorPrivate *) ((EMeetingEditor *)data)->priv;
+
+	
+	gtk_widget_push_visual (gdk_imlib_get_visual ());
+	gtk_widget_push_colormap (gdk_imlib_get_colormap ());
+	
+	dialog = gnome_dialog_new ("Schedule Meeting", "Set Time", "Cancel", NULL);
+
+	gtk_window_set_default_size (GTK_WINDOW (dialog), 600, 400);
+	gtk_window_set_policy (GTK_WINDOW (dialog), FALSE, TRUE, FALSE);
+
+	mts = (EMeetingTimeSelector *)e_meeting_time_selector_new ();
+	gtk_container_add (GTK_CONTAINER (GNOME_DIALOG (dialog)->vbox), GTK_WIDGET (mts));
+	gtk_window_add_accel_group (GTK_WINDOW (dialog),
+				    E_MEETING_TIME_SELECTOR (mts)->accel_group);
+	gtk_widget_show (GTK_WIDGET (mts));
+	
+	gtk_widget_pop_visual ();
+	gtk_widget_pop_colormap ();
+	
+
+	/* Let's stick all the attendees that we have in our clist, into the
+	   meeting time widget. */
+	for (cntr = 0; cntr < priv->numentries; cntr++ ) {
+		gtk_clist_get_text (GTK_CLIST (priv->attendee_list), cntr, 
+				    ADDRESS_COL, &attendee);
+		row = e_meeting_time_selector_attendee_add (mts, attendee, NULL);
+
+		prop = (icalproperty *)gtk_clist_get_row_data (GTK_CLIST (priv->attendee_list), cntr);
+		param = get_icalparam_by_type (prop, ICAL_ROLE_PARAMETER);
+
+		switch (icalparameter_get_role (param)) {
+			case ICAL_ROLE_CHAIR:
+			case ICAL_ROLE_REQPARTICIPANT:
+			  type = E_MEETING_TIME_SELECTOR_REQUIRED_PERSON;
+			  break;
+			default:
+			  type = E_MEETING_TIME_SELECTOR_OPTIONAL_PERSON;
+		}
+
+		e_meeting_time_selector_attendee_set_type (mts, row, type);
+	}
+
+	/* I don't want the meeting widget to be destroyed before I can
+	   extract information from it; so now the dialog window will just
+	   be hidden when the user clicks a button or closes it. */
+	gnome_dialog_close_hides (GNOME_DIALOG (dialog), TRUE);
+
+	gnome_dialog_set_close (GNOME_DIALOG (dialog), TRUE);
+
+	button_num = gnome_dialog_run (GNOME_DIALOG (dialog));
+
+	if (button_num == 0) {
+		/* The user clicked "Set Time". */
+	}
+
+	gtk_widget_destroy (GTK_WIDGET (dialog));
+
+	return;
+}
+
 
 static void 
 add_button_clicked_cb (GtkWidget *widget, gpointer data)
@@ -442,8 +519,8 @@ edit_button_clicked_cb (GtkWidget *widget, gpointer data)
 	}
 	else {
 		icalproperty *prop, *new_prop;
-		icalparameter *param, *new_param;
-		icalvalue *value, *new_value;
+		icalparameter *param;
+		icalvalue *value;
 		
 		prop = (icalproperty *)gtk_clist_get_row_data (GTK_CLIST (priv->attendee_list),
 							       priv->selected_row);
@@ -460,12 +537,15 @@ edit_button_clicked_cb (GtkWidget *widget, gpointer data)
 
 			icalproperty_remove_parameter (prop, ICAL_ROLE_PARAMETER);
 			icalproperty_remove_parameter (prop, ICAL_RSVP_PARAMETER);
+			icalproperty_remove_parameter (prop, ICAL_PARTSTAT_PARAMETER);
 
+#if 0
+			/* This was used when I was debugging libical. */
 			param = get_icalparam_by_type (prop, ICAL_ROLE_PARAMETER);
 			if (param != NULL)
 				g_print ("e-meeting-edit.c: param should be NULL, but it isn't.\n");
+#endif
 
-			icalproperty_remove_parameter (prop, ICAL_PARTSTAT_PARAMETER);
 
 			param = icalparameter_new_clone (get_icalparam_by_type (new_prop, ICAL_ROLE_PARAMETER));
 			g_assert (param != NULL);
@@ -574,6 +654,7 @@ e_meeting_edit (EMeetingEditor *editor)
 	priv->attendee_list = glade_xml_get_widget (priv->xml, "attendee_list");
 	priv->role_entry = glade_xml_get_widget (priv->xml, "role_entry");
 	priv->rsvp_check = glade_xml_get_widget (priv->xml, "rsvp_check");
+	priv->schedule_button = glade_xml_get_widget (priv->xml, "schedule_button");
 
 	gtk_clist_set_column_justification (GTK_CLIST (priv->attendee_list), ROLE_COL, GTK_JUSTIFY_CENTER);
 	gtk_clist_set_column_justification (GTK_CLIST (priv->attendee_list), RSVP_COL, GTK_JUSTIFY_CENTER);
@@ -590,6 +671,9 @@ e_meeting_edit (EMeetingEditor *editor)
 
 	gtk_signal_connect (GTK_OBJECT (priv->attendee_list), "select_row",
 			    GTK_SIGNAL_FUNC (list_row_select_cb), editor);
+	
+	gtk_signal_connect (GTK_OBJECT (priv->schedule_button), "clicked",
+			    GTK_SIGNAL_FUNC (schedule_button_clicked_cb), editor);
 
 	add_button = glade_xml_get_widget (priv->xml, "add_button");
 	delete_button = glade_xml_get_widget (priv->xml, "delete_button");
