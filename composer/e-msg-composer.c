@@ -1059,8 +1059,9 @@ save (EMsgComposer *composer,
 	if (ev._major != CORBA_NO_EXCEPTION) {
 		e_notice (GTK_WINDOW (composer), GNOME_MESSAGE_BOX_ERROR,
 			  _("Error saving file: %s"), g_basename (my_file_name));
-	}
-	
+	} else
+		GNOME_GtkHTML_Editor_Engine_runCommand (composer->editor_engine, "saved", &ev);
+
 	CORBA_exception_free (&ev);
 	
 	g_free (my_file_name);
@@ -4435,7 +4436,9 @@ e_msg_composer_is_dirty (EMsgComposer *composer)
 	gboolean rv;
 	
 	CORBA_exception_init (&ev);
-	rv = composer->has_changed || GNOME_GtkHTML_Editor_Engine_hasUndo (composer->editor_engine, &ev);
+	rv = composer->has_changed
+		|| (GNOME_GtkHTML_Editor_Engine_hasUndo (composer->editor_engine, &ev) &&
+		    !GNOME_GtkHTML_Editor_Engine_runCommand (composer->editor_engine, "is-saved", &ev));
 	CORBA_exception_free (&ev);
 
 	return rv;

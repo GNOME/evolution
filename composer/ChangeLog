@@ -1,3 +1,8 @@
+2002-07-17  Radek Doulik  <rodo@ximian.com>
+
+	* e-msg-composer.c (save): use "saved" gtkhtml command
+	(e_msg_composer_is_dirty): use "is-saved" gtkhtml command
+
 2002-07-16  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* e-msg-composer.c (e_msg_composer_set_headers): Set the
