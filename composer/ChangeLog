@@ -1,3 +1,7 @@
+2000-09-12  Ettore Perazzoli  <ettore@helixcode.com>
+
+	* Makefile.am ($(IDL_GENERATED)): Add space after `-I'.
+
 2000-09-05  Ettore Perazzoli  <ettore@helixcode.com>
 
 	* e-msg-composer.c (create_menubar_format): Accelerate the

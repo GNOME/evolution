@@ -1,5 +1,10 @@
 2000-09-12  Ettore Perazzoli  <ettore@helixcode.com>
 
+	* gui/component/select-names/Makefile.am: Add space after `-I'
+	when invoking `orbit-idl'.
+
+2000-09-12  Ettore Perazzoli  <ettore@helixcode.com>
+
 	* gui/component/Makefile.am (EXTRA_DIST): Remove `ui.xml'.
 
 2000-09-11  Christopher James Lahey  <clahey@helixcode.com>

@@ -1,5 +1,9 @@
 2000-09-12  Ettore Perazzoli  <ettore@helixcode.com>
 
+	($(EVOLUTION_MAIL_CORBA_GENERATED)): Add space after `-I'.
+
+2000-09-12  Ettore Perazzoli  <ettore@helixcode.com>
+
 	* Makefile.am: Remove `ui.xml' stuff.
 
 2000-09-12  Dan Winship  <danw@helixcode.com>

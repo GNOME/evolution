@@ -125,7 +125,7 @@ glade_DATA = mail-config.glade mail-config-druid.glade local-config.glade
 iconsdir = $(datadir)/images/evolution
 
 $(EVOLUTION_MAIL_CORBA_GENERATED): Mail.idl 
-	$(ORBIT_IDL) -I$(datadir)/idl -I`$(GNOME_CONFIG) --cflags idl` -I`$(GNOME_CONFIG) --datadir`/idl -I$(srcdir) $(srcdir)/Mail.idl
+	$(ORBIT_IDL) -I $(datadir)/idl -I `$(GNOME_CONFIG) --cflags idl` -I `$(GNOME_CONFIG) --datadir`/idl -I $(srcdir) $(srcdir)/Mail.idl
 
 EXTRA_DIST = Mail.idl $(glade_DATA) $(oaf_DATA)
 

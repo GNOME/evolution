@@ -1,3 +1,8 @@
+2000-09-12  Ettore Perazzoli  <ettore@helixcode.com>
+
+	* ($(IDL_GENERATED)): Stupid `orbit-idl' wants a space after the
+	`-I'.
+
 2000-09-12  Lauris Kaplinski  <lauris@helixcode.com>
 
 	* e-shell-view.c (update_folder_title_bar): Translate UTF-8
