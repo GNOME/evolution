@@ -1151,7 +1151,7 @@ header_decode_text (const char *in, size_t inlen, int ctext, const char *default
 		append = append_quoted_pair;
 	} else {
 		mask = (CAMEL_MIME_IS_LWSP);
-		append = g_string_append;
+		append = g_string_append_len;
 	}
 	
 	out = g_string_new ("");

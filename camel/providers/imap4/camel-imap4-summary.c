@@ -630,13 +630,13 @@ courier_imap_is_a_piece_of_shit (CamelFolderSummary *summary, guint32 msg)
 	CamelSession *session = ((CamelService *) ((CamelFolder *) imap->folder)->parent_store)->session;
 	char *warning;
 	
-	warning = g_strdup_printf ("IMAP server did not respond with an untagged FETCH response for\n"
-				   "message #%u. This is illegal according to rfc3501 (and the older\n"
-				   "rfc2060). You will need to contact your Administrator(s) (or ISP)\n"
-				   "and have them resolve this issue.\n\n"
-				   "Hint: If your IMAP server is Courier-IMAP, it is likely that this\n"
-				   "message is simply unreadable by the IMAP server and will need to\n"
-				   "be given read permissions.\n", msg);
+	warning = g_strdup_printf ("IMAP server did not respond with an untagged FETCH response "
+				   "for message #%u. This is illegal according to rfc3501 (and "
+				   "the older rfc2060). You will need to contact your\n"
+				   "Administrator(s) (or ISP) and have them resolve this issue.\n\n"
+				   "Hint: If your IMAP server is Courier-IMAP, it is likely that this "
+				   "message is simply unreadable by the IMAP server and will need "
+				   "to be given read permissions.", msg);
 	
 	camel_session_alert_user (session, CAMEL_SESSION_ALERT_WARNING, warning, FALSE);
 	g_free (warning);
