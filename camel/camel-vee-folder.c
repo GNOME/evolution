@@ -411,8 +411,6 @@ vee_sync(CamelFolder *folder, gboolean expunge, CamelException *ex)
 	struct _CamelVeeFolderPrivate *p = _PRIVATE(vf);
 	GList *node;
 
-	printf("vee-sync\n");
-
 	CAMEL_VEE_FOLDER_LOCK(vf, subfolder_lock);
 
 	node = p->folders;

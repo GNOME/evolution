@@ -255,6 +255,7 @@ smtp_connect (CamelService *service, CamelException *ex)
 #endif /* HAVE_NSS */
 	
 	ret = camel_tcp_stream_connect (CAMEL_TCP_STREAM (tcp_stream), h, port);
+	camel_free_host(h);
 	if (ret == -1) {
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SERVICE_UNAVAILABLE,
 				      _("Could not connect to %s (port %d): %s"),

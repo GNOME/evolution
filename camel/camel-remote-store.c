@@ -236,6 +236,7 @@ remote_connect (CamelService *service, CamelException *ex)
 #endif /* HAVE_NSS */
 	
 	ret = camel_tcp_stream_connect (CAMEL_TCP_STREAM (tcp_stream), h, port);
+	camel_free_host(h);
 	if (ret == -1) {
 		if (errno == EINTR)
 			camel_exception_set (ex, CAMEL_EXCEPTION_USER_CANCEL,

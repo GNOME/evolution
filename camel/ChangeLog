@@ -1,3 +1,23 @@
+2001-03-29  Not Zed  <NotZed@Ximian.com>
+
+	* providers/smtp/camel-smtp-transport.c (smtp_connect): Free host
+	name info when done ... blah blah.
+
+	* camel-sasl-kerberos4.c (krb4_challenge): Free host name info
+	after we're done with it.
+
+	* camel-sasl-digest-md5.c (digest_md5_challenge): Free host name
+	info after we're done with it.
+
+	* camel-remote-store.c (remote_connect): Free the host name info
+	from get_host after we're finished with it.
+
+	* camel-service.c (camel_get_host_byname): New function to
+	lookup a name, and still be cancellable.
+	(camel_free_host): And a function to free the structure
+	returned.
+	(camel_service_gethost): Call get_host_byname for this.
+
 2001-03-29  Jon Trowbridge  <trow@ximian.com>
 
 	* camel-filter-driver.c (camel_filter_driver_filter_message): Save
@@ -182,6 +202,7 @@
 	(camel_vee_folder_hash_folder): Made public (renamed from
 	hash_folder), simply for subclasses (probably not needed).
 	(vee_expunge): Oops, call the class sync, not superclass sync.
+	(vee_sync): Remove some accidental debug.
 
 2001-03-27  Jeffrey Stedfast  <fejj@ximian.com>
 

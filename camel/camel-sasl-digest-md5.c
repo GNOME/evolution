@@ -823,7 +823,7 @@ digest_md5_challenge (CamelSasl *sasl, GByteArray *token, CamelException *ex)
 		priv->response = generate_response (priv->challenge, h, sasl->service_name,
 						    sasl->service->url->user,
 						    sasl->service->url->passwd);
-		
+		camel_free_host(h);
 		ret = digest_response (priv->response);
 		
 		break;

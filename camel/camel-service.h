@@ -112,6 +112,9 @@ GList *             camel_service_query_auth_types   (CamelService *service,
 struct hostent *    camel_service_gethost            (CamelService *service,
 						      CamelException *ex);
 
+/* cancellable dns lookup */
+struct hostent *    camel_get_host_byname	     (const char *name, CamelException *ex);
+void		    camel_free_host	    	     (struct hostent *h);
 
 /* Standard Camel function */
 CamelType camel_service_get_type (void);

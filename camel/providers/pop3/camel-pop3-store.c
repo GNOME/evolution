@@ -169,9 +169,12 @@ connect_to_server (CamelService *service, CamelException *ex)
 		/* Need to copy hostname, because krb_realmofhost will
 		 * call gethostbyname as well, and gethostbyname uses
 		 * static storage.
+		 * This isn't really necessary since gethost() returns a copy anyway,
+		 * but for simplicity leave the old code here - NZ
 		 */
 		h = camel_service_gethost (service, ex);
 		hostname = g_strdup (h->h_name);
+		camel_free_host(h);
 
 		fd = CAMEL_STREAM_FS (CAMEL_REMOTE_STORE (service)->ostream)->fd;
 

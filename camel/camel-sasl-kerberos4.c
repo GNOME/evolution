@@ -146,6 +146,7 @@ krb4_challenge (CamelSasl *sasl, GByteArray *token, CamelException *ex)
 		inst = g_strndup (h->h_name, strcspn (h->h_name, "."));
 		g_strdown (inst);
 		realm = g_strdup (krb_realmofhost (h->h_name));
+		camel_free_host(h);
 		status = krb_mk_req (&authenticator, sasl->service_name, inst, realm, priv->nonce_h);
 		if (status == KSUCCESS) {
 			status = krb_get_cred (sasl->service_name, inst, realm, &credentials);
