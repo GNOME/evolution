@@ -161,19 +161,33 @@ format_text (char *text)
 	while (*s) {
 		len = strcspn (s, "\n");
 		if (len > LINE_LEN) {
+			/* If we can break anywhere between s and
+			 * s + LINE_LEN, do that. We can break between
+			 * space and anything but &nbsp;
+			 */
 			space = s + LINE_LEN;
-			while (*space != ' ' && space > s)
+			while (space > s && (*space != ' '
+					     || (*(space + 1) == '\240')
+					     || (*(space - 1) == '\240')))
 				space--;
 
 			if (space != s)
 				len = space - s;
 		}
 
-		memcpy (d, s, len);
-		s += len;
-		if (*s)
+		/* Copy the line... */
+		while (len--) {
+			*d++ = (*s == '\240' ? ' ' : *s);
 			s++;
-		d += len;
+		}
+
+		/* Eat whitespace... */
+		while (*s == ' ' || *s == '\240')
+			s++;
+		if (*s == '\n')
+			s++;
+
+		/* And end the line. */
 		*d++ = '\n';
 	}
 
