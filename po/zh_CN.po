@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Evolution\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-01-25 00:42+0800\n"
+"POT-Creation-Date: 2005-01-25 12:52+0800\n"
 "PO-Revision-Date: 2005-01-22 15:52+0800\n"
 "Last-Translator: Funda Wang <fundawang@linux.net.cn>\n"
 "Language-Team: zh_CN <i18n-translation@lists.linux.net.cn>\n"
@@ -1008,7 +1008,7 @@ msgstr "登录方式(_L)："
 
 #: addressbook/gui/component/ldap-config.glade.h:47
 #: calendar/gui/dialogs/calendar-setup.c:243
-#: calendar/gui/dialogs/calendar-setup.glade.h:8 mail/mail-config.glade.h:161
+#: calendar/gui/dialogs/calendar-setup.glade.h:8 mail/mail-config.glade.h:160
 msgid "_Name:"
 msgstr "名称(_N)："
 
@@ -1082,13 +1082,13 @@ msgid "<b>Work</b>"
 msgstr "<b>工作</b>"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:11
-#: addressbook/gui/contact-editor/e-contact-editor.c:184
+#: addressbook/gui/contact-editor/e-contact-editor.c:182
 #: addressbook/gui/widgets/eab-contact-display.c:346
 msgid "AIM"
 msgstr "AIM"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:12
-#: addressbook/gui/contact-editor/e-contact-editor.c:272
+#: addressbook/gui/contact-editor/e-contact-editor.c:270
 #: addressbook/gui/contact-list-editor/e-contact-list-editor.c:168
 #: addressbook/gui/contact-list-editor/e-contact-list-editor.etspec.h:1
 #: addressbook/gui/widgets/e-minicard.c:181
@@ -1096,7 +1096,7 @@ msgid "Contact"
 msgstr "联系人"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:13
-#: addressbook/gui/contact-editor/e-contact-editor.c:533
+#: addressbook/gui/contact-editor/e-contact-editor.c:531
 msgid "Contact Editor"
 msgstr "联系人编辑器"
 
@@ -1136,7 +1136,7 @@ msgstr "电话"
 
 #. red
 #: addressbook/gui/contact-editor/contact-editor.glade.h:23
-#: addressbook/gui/contact-editor/e-contact-editor.c:201
+#: addressbook/gui/contact-editor/e-contact-editor.c:199
 #: addressbook/gui/contact-editor/e-contact-editor-im.c:235
 #: filter/filter-label.c:122 mail/em-migrate.c:1012 mail/mail-config.c:76
 #: mail/mail-config.glade.h:147
@@ -1272,7 +1272,7 @@ msgid "Address"
 msgstr "地址"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:103
-#: addressbook/gui/contact-editor/e-contact-editor.c:300
+#: addressbook/gui/contact-editor/e-contact-editor.c:298
 #: addressbook/gui/contact-editor/e-contact-editor-fullname.c:95
 #: addressbook/gui/contact-editor/e-contact-editor-im.c:141
 #: addressbook/gui/contact-list-editor/e-contact-list-editor.c:182
@@ -2253,80 +2253,76 @@ msgstr "赞比亚"
 msgid "Zimbabwe"
 msgstr "津巴布韦"
 
-#: addressbook/gui/contact-editor/e-contact-editor.c:185
+#: addressbook/gui/contact-editor/e-contact-editor.c:183
 #: addressbook/gui/contact-editor/e-contact-editor-im.c:64
 #: addressbook/gui/widgets/eab-contact-display.c:349
 msgid "Jabber"
 msgstr "Jabber"
 
-#: addressbook/gui/contact-editor/e-contact-editor.c:186
+#: addressbook/gui/contact-editor/e-contact-editor.c:184
 #: addressbook/gui/widgets/eab-contact-display.c:351
 msgid "Yahoo"
 msgstr "雅虎"
 
-#: addressbook/gui/contact-editor/e-contact-editor.c:187
+#: addressbook/gui/contact-editor/e-contact-editor.c:185
 #: addressbook/gui/widgets/eab-contact-display.c:350
 msgid "MSN"
 msgstr "MSN"
 
-#: addressbook/gui/contact-editor/e-contact-editor.c:188
+#: addressbook/gui/contact-editor/e-contact-editor.c:186
 #: addressbook/gui/contact-editor/e-contact-editor-im.c:67
 #: addressbook/gui/widgets/eab-contact-display.c:348
 msgid "ICQ"
 msgstr "ICQ"
 
-#: addressbook/gui/contact-editor/e-contact-editor.c:189
+#: addressbook/gui/contact-editor/e-contact-editor.c:187
 #: addressbook/gui/widgets/eab-contact-display.c:347
 msgid "GroupWise"
 msgstr "GroupWise"
 
-#: addressbook/gui/contact-editor/e-contact-editor.c:202
+#: addressbook/gui/contact-editor/e-contact-editor.c:200
 #: addressbook/gui/contact-editor/e-contact-editor-im.c:231
 msgid "Home"
 msgstr "家庭"
 
-#: addressbook/gui/contact-editor/e-contact-editor.c:203
+#: addressbook/gui/contact-editor/e-contact-editor.c:201
 #: addressbook/gui/contact-editor/e-contact-editor-im.c:239
 msgid "Other"
 msgstr "其它"
 
-#: addressbook/gui/contact-editor/e-contact-editor.c:258
+#: addressbook/gui/contact-editor/e-contact-editor.c:256
 msgid "Source Book"
 msgstr "来源地址簿"
 
-#: addressbook/gui/contact-editor/e-contact-editor.c:265
+#: addressbook/gui/contact-editor/e-contact-editor.c:263
 msgid "Target Book"
 msgstr "目标地址簿"
 
-#: addressbook/gui/contact-editor/e-contact-editor.c:279
+#: addressbook/gui/contact-editor/e-contact-editor.c:277
 msgid "Is New Contact"
 msgstr "为新联系人"
 
-#: addressbook/gui/contact-editor/e-contact-editor.c:286
+#: addressbook/gui/contact-editor/e-contact-editor.c:284
 msgid "Writable Fields"
 msgstr "可写域"
 
-#: addressbook/gui/contact-editor/e-contact-editor.c:293
+#: addressbook/gui/contact-editor/e-contact-editor.c:291
 msgid "Required Fields"
 msgstr "必需域"
 
-#: addressbook/gui/contact-editor/e-contact-editor.c:307
+#: addressbook/gui/contact-editor/e-contact-editor.c:305
 msgid "Changed"
 msgstr "已更改"
 
-#: addressbook/gui/contact-editor/e-contact-editor.c:2463
-msgid "This contact belongs to these categories:"
-msgstr "此联系人属于这些类别："
-
-#: addressbook/gui/contact-editor/e-contact-editor.c:2556
+#: addressbook/gui/contact-editor/e-contact-editor.c:2544
 msgid "Please select an image for this contact"
 msgstr "请选择此联系人的图像"
 
-#: addressbook/gui/contact-editor/e-contact-editor.c:2557
+#: addressbook/gui/contact-editor/e-contact-editor.c:2545
 msgid "No image"
 msgstr "无图像"
 
-#: addressbook/gui/contact-editor/e-contact-editor.c:2833
+#: addressbook/gui/contact-editor/e-contact-editor.c:2821
 msgid ""
 "The contact data is invalid:\n"
 "\n"
@@ -2334,7 +2330,7 @@ msgstr ""
 "联系人数据无效：\n"
 "\n"
 
-#: addressbook/gui/contact-editor/e-contact-editor.c:2885
+#: addressbook/gui/contact-editor/e-contact-editor.c:2873
 msgid "Invalid contact."
 msgstr "无效的联系人。"
 
@@ -4726,12 +4722,9 @@ msgstr "文件名："
 msgid "MIME type:"
 msgstr "MIME 类型："
 
-#. FIXME: This routine should just be a "toggled" event handler on the checkbox cell renderer which
-#. has "activatable" set.
 #. g_object_set((GObject *)renderer, "activatable", TRUE, NULL);
 #: calendar/gui/dialogs/cal-prefs-dialog.c:576 mail/em-account-prefs.c:470
-#: mail/em-composer-prefs.c:678 mail/em-composer-prefs.c:945
-#: plugins/plugin-manager/plugin-manager.c:213
+#: mail/em-composer-prefs.c:884 plugins/plugin-manager/plugin-manager.c:213
 msgid "Enabled"
 msgstr "已启用"
 
@@ -4751,8 +4744,6 @@ msgstr "不删除"
 #: calendar/gui/dialogs/cal-prefs-dialog.c:820
 #: calendar/gui/dialogs/cal-prefs-dialog.c:853 mail/em-account-prefs.c:317
 #: mail/em-account-prefs.c:345 mail/em-account-prefs.c:376
-#: mail/em-composer-prefs.c:597 mail/em-composer-prefs.c:655
-#: mail/em-composer-prefs.c:685
 msgid "Disable"
 msgstr "禁用"
 
@@ -4760,8 +4751,6 @@ msgstr "禁用"
 #: calendar/gui/dialogs/cal-prefs-dialog.c:820
 #: calendar/gui/dialogs/cal-prefs-dialog.c:855 mail/em-account-prefs.c:317
 #: mail/em-account-prefs.c:345 mail/em-account-prefs.c:378
-#: mail/em-composer-prefs.c:597 mail/em-composer-prefs.c:655
-#: mail/em-composer-prefs.c:685
 msgid "Enable"
 msgstr "启用"
 
@@ -9148,15 +9137,15 @@ msgid ""
 "<b>"
 msgstr "<b>(编写器含有不可编辑的非文本信体。)<b>"
 
-#: composer/e-msg-composer-hdrs.c:512
+#: composer/e-msg-composer-hdrs.c:519
 msgid "Posting destination"
 msgstr "投递目的"
 
-#: composer/e-msg-composer-hdrs.c:513
+#: composer/e-msg-composer-hdrs.c:520
 msgid "Choose folders to post the message to."
 msgstr "选择要将信件投递到哪个文件夹。"
 
-#: composer/e-msg-composer-hdrs.c:547
+#: composer/e-msg-composer-hdrs.c:554
 msgid "Click here for the address book"
 msgstr "单击此处以使用地址簿"
 
@@ -9167,45 +9156,45 @@ msgstr "单击此处以使用地址簿"
 #. * because that causes from_changed to be called, which
 #. * expects the reply_to fields to be initialized.
 #.
-#: composer/e-msg-composer-hdrs.c:577
+#: composer/e-msg-composer-hdrs.c:584
 msgid "_Reply-To:"
 msgstr "回复到(_R)："
 
 #.
 #. * From
 #.
-#: composer/e-msg-composer-hdrs.c:584
+#: composer/e-msg-composer-hdrs.c:591
 msgid "Fr_om:"
 msgstr "发件人(_O)："
 
 #.
 #. * Subject
 #.
-#: composer/e-msg-composer-hdrs.c:591
+#: composer/e-msg-composer-hdrs.c:598
 msgid "S_ubject:"
 msgstr "主题(_U)："
 
-#: composer/e-msg-composer-hdrs.c:601
+#: composer/e-msg-composer-hdrs.c:608
 msgid "_To:"
 msgstr "收信人(_T)："
 
-#: composer/e-msg-composer-hdrs.c:602
+#: composer/e-msg-composer-hdrs.c:609
 msgid "Enter the recipients of the message"
 msgstr "输入信件的收件人"
 
-#: composer/e-msg-composer-hdrs.c:605
+#: composer/e-msg-composer-hdrs.c:612
 msgid "_Cc:"
 msgstr "抄送(_C)："
 
-#: composer/e-msg-composer-hdrs.c:606
+#: composer/e-msg-composer-hdrs.c:613
 msgid "Enter the addresses that will receive a carbon copy of the message"
 msgstr "输入将接收该信件副本的收件人地址"
 
-#: composer/e-msg-composer-hdrs.c:609
+#: composer/e-msg-composer-hdrs.c:616
 msgid "_Bcc:"
 msgstr "暗送(_B)："
 
-#: composer/e-msg-composer-hdrs.c:610
+#: composer/e-msg-composer-hdrs.c:617
 msgid ""
 "Enter the addresses that will receive a carbon copy of the message without "
 "appearing in the recipient list of the message."
@@ -9214,15 +9203,15 @@ msgstr "输入将接收该信件副本，但不出现在收件人列表中的收
 #.
 #. * Post-To
 #.
-#: composer/e-msg-composer-hdrs.c:617
+#: composer/e-msg-composer-hdrs.c:624
 msgid "_Post To:"
 msgstr "投递到(_P)："
 
-#: composer/e-msg-composer-hdrs.c:622
+#: composer/e-msg-composer-hdrs.c:629
 msgid "Click here to select folders to post to"
 msgstr "单击此处以选择要投递到的文件夹"
 
-#: composer/e-msg-composer-hdrs.c:628
+#: composer/e-msg-composer-hdrs.c:635
 msgid "Post To:"
 msgstr "投递到："
 
@@ -9782,7 +9771,7 @@ msgstr "过去"
 msgid "months"
 msgstr "月"
 
-#: filter/filter.glade.h:18 mail/mail-config.glade.h:173
+#: filter/filter.glade.h:18 mail/mail-config.glade.h:172
 msgid "seconds"
 msgstr "秒"
 
@@ -9932,15 +9921,15 @@ msgstr "协议"
 msgid "Unnamed"
 msgstr "未命名"
 
-#: mail/em-composer-prefs.c:949
+#: mail/em-composer-prefs.c:890
 msgid "Language(s)"
 msgstr "语言"
 
-#: mail/em-composer-prefs.c:995
+#: mail/em-composer-prefs.c:933
 msgid "Add signature script"
 msgstr "添加签名脚本"
 
-#: mail/em-composer-prefs.c:1015
+#: mail/em-composer-prefs.c:953
 msgid "Signature(s)"
 msgstr "签名"
 
@@ -12257,6 +12246,14 @@ msgid "T_ype: "
 msgstr "类型(_Y)："
 
 #: mail/mail-config.glade.h:135
+#, fuzzy
+msgid ""
+"The list of languages here reflects only the languages for which you have a "
+"dictionary installed."
+msgstr ""
+"此页面允许您配置拼写检查行为和语言。在此列出的语言反映了您所安装的字典。"
+
+#: mail/mail-config.glade.h:136
 msgid ""
 "The output of this script will be used as your\n"
 "signature. The name you specify will be used\n"
@@ -12264,14 +12261,6 @@ msgid ""
 msgstr ""
 "此脚本的输出将用于您的签名。您指定的名称将只会\n"
 "用于显示。"
-
-#: mail/mail-config.glade.h:138
-msgid ""
-"This page allows you to configure spell checking behavior and language. The "
-"list of languages here reflects only the languages for which you have a "
-"dictionary installed."
-msgstr ""
-"此页面允许您配置拼写检查行为和语言。在此列出的语言反映了您所安装的字典。"
 
 #: mail/mail-config.glade.h:140
 msgid ""
@@ -12327,74 +12316,70 @@ msgid "_Don't sign meeting requests (for Outlook compatibility)"
 msgstr "不要签名会议请求(同 Outlook 兼容)(_D)"
 
 #: mail/mail-config.glade.h:154
-msgid "_Enable"
-msgstr "启用(_E)"
-
-#: mail/mail-config.glade.h:155
 msgid "_Forward style:"
 msgstr "转发方式(_F)："
 
-#: mail/mail-config.glade.h:156
+#: mail/mail-config.glade.h:155
 msgid "_Full Name:"
 msgstr "全名(_F)："
 
-#: mail/mail-config.glade.h:157
+#: mail/mail-config.glade.h:156
 msgid "_Host:"
 msgstr "主机(_H)："
 
-#: mail/mail-config.glade.h:158
+#: mail/mail-config.glade.h:157
 msgid "_Load images if sender is in address book"
 msgstr "如果发件人在地址簿中就装入图像(_L)"
 
-#: mail/mail-config.glade.h:159
+#: mail/mail-config.glade.h:158
 msgid "_Make this my default account"
 msgstr "使它成为我的默认账户(_M)"
 
-#: mail/mail-config.glade.h:160
+#: mail/mail-config.glade.h:159
 msgid "_Mark messages as read after"
 msgstr "把信件标记为已读前等(_M)"
 
-#: mail/mail-config.glade.h:162
+#: mail/mail-config.glade.h:161
 msgid "_Never load images from the Internet"
 msgstr "绝不从 Internet 装入图像(_N)"
 
-#: mail/mail-config.glade.h:163
+#: mail/mail-config.glade.h:162
 msgid "_Path:"
 msgstr "路径(_P)："
 
-#: mail/mail-config.glade.h:164
+#: mail/mail-config.glade.h:163
 msgid "_Prompt when sending HTML messages to contacts that don't want them"
 msgstr "发送给不想接收 HTML 的联系人时提示(_P)"
 
-#: mail/mail-config.glade.h:165
+#: mail/mail-config.glade.h:164
 msgid "_Prompt when sending messages with an empty subject line"
 msgstr "发送空主题行的信件时提示(_P)"
 
-#: mail/mail-config.glade.h:166
+#: mail/mail-config.glade.h:165
 msgid "_Reply style:"
 msgstr "回复风格(_R)："
 
-#: mail/mail-config.glade.h:167
+#: mail/mail-config.glade.h:166
 msgid "_Script:"
 msgstr "脚本(_S)："
 
-#: mail/mail-config.glade.h:168
+#: mail/mail-config.glade.h:167
 msgid "_Show animated images"
 msgstr "显示动画图像(_S)"
 
-#: mail/mail-config.glade.h:169
+#: mail/mail-config.glade.h:168
 msgid "_Use Secure Connection:"
 msgstr "使用安全连接(_U)："
 
-#: mail/mail-config.glade.h:170
+#: mail/mail-config.glade.h:169
 msgid "_Use the same fonts as other applications"
 msgstr "使用与其它应用程序相同的字体(_U)"
 
-#: mail/mail-config.glade.h:171
+#: mail/mail-config.glade.h:170
 msgid "color"
 msgstr "颜色"
 
-#: mail/mail-config.glade.h:172
+#: mail/mail-config.glade.h:171
 msgid "description"
 msgstr "描述"
 
@@ -12936,22 +12921,26 @@ msgid "Review"
 msgstr "回顾"
 
 #: mail/searchtypes.xml.h:1
+msgid "Body contains"
+msgstr "邮件体含有"
+
+#: mail/searchtypes.xml.h:2
 msgid "Message contains"
 msgstr "信件含有"
 
-#: mail/searchtypes.xml.h:2
+#: mail/searchtypes.xml.h:3
 msgid "Recipients contain"
 msgstr "收件人含有"
 
-#: mail/searchtypes.xml.h:3
+#: mail/searchtypes.xml.h:4
 msgid "Sender contains"
 msgstr "发件人含有"
 
-#: mail/searchtypes.xml.h:4
+#: mail/searchtypes.xml.h:5
 msgid "Subject contains"
 msgstr "主题含有"
 
-#: mail/searchtypes.xml.h:5
+#: mail/searchtypes.xml.h:6
 #, fuzzy
 msgid "Subject or Sender contains"
 msgstr "主题含有"
@@ -16923,6 +16912,12 @@ msgstr "%s (...)"
 msgid "%s (%d%% complete)"
 msgstr "%s (%d%% 完成)"
 
+#~ msgid "This contact belongs to these categories:"
+#~ msgstr "此联系人属于这些类别："
+
+#~ msgid "_Enable"
+#~ msgstr "启用(_E)"
+
 #~ msgid ""
 #~ "\n"
 #~ "Share List"
@@ -16941,9 +16936,6 @@ msgstr "%s (%d%% 完成)"
 
 #~ msgid "Edi_t"
 #~ msgstr "编辑(_T)"
-
-#~ msgid "Body contains"
-#~ msgstr "邮件体含有"
 
 #~ msgid "Body does not contain"
 #~ msgstr "邮件体不含有"
