@@ -1,3 +1,8 @@
+2001-08-20  Damon Chaplin  <damon@ximian.com>
+
+	* e-time-utils.c (e_time_parse_date): added comments to help
+	translators a bit.
+
 2001-08-09  Rodrigo Moya <rodrigo@ximian.com>
 
 	* e-categories-config.c (e_categories_config_get_icon_for): return

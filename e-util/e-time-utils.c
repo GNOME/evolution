@@ -236,9 +236,19 @@ e_time_parse_date (const char *value, struct tm *result)
 	g_return_val_if_fail (value != NULL, E_TIME_PARSE_INVALID);
 	g_return_val_if_fail (result != NULL, E_TIME_PARSE_INVALID);
 
+	/* This is the preferred date format for the locale. */
 	format[0] = _("%m/%d/%Y");
+
+	/* This is the second-choice date format for the locale, which we use
+	   if previous attempts to parse the date string failed. */
 	format[1] = _("%d/%m/%Y");
+
+	/* This is the third-choice date format for the locale, which we use
+	   if previous attempts to parse the date string failed. */
 	format[2] = _("%Y/%m/%d");
+
+	/* This is the final-choice date format for the locale, which we use
+	   if previous attempts to parse the date string failed. */
 	format[3] = _("%x"); /* catch-all give-up strptime()-sucks format */
 
 	return parse_with_strptime (value, result, format, sizeof (format) / sizeof (format[0]));
