@@ -65,7 +65,24 @@ check_configured (FolderBrowser *fb)
 		return TRUE;
 
 	if (fb) {
-		mail_config_druid (fb->shell);
+		GtkWidget *dialog;
+
+		dialog = gnome_message_box_new (_("You have not configured the mail client.\nYou need to do this before you can send,\nreceive or compose mail.\nWould you like to configure it now?"),
+						GNOME_MESSAGE_BOX_QUESTION,
+						GNOME_STOCK_BUTTON_YES,
+						GNOME_STOCK_BUTTON_NO, NULL);
+		gnome_dialog_set_parent (GNOME_DIALOG (dialog),
+					 GTK_WINDOW (gtk_widget_get_ancestor (GTK_WIDGET(fb), GTK_TYPE_WINDOW)));
+
+		switch (gnome_dialog_run_and_close (GNOME_DIALOG (dialog))) {
+		case 0:
+			mail_config_druid (fb->shell);
+			break;
+		case 1:
+		default:
+			break;
+		}
+
 		return mail_config_is_configured ();
 	} else
 		return FALSE;
@@ -79,13 +96,6 @@ check_send_configuration (FolderBrowser *fb)
 	/* Check general */
 	
 	if (!check_configured (fb)) {
-		GtkWidget *message;
-		
-		message = gnome_warning_dialog_parented (_("You need to configure the mail client\n"
-							   "before you can compose mail."),
-							 GTK_WINDOW (gtk_widget_get_ancestor (GTK_WIDGET (fb),
-											      GTK_TYPE_WINDOW)));
-		gnome_dialog_run_and_close (GNOME_DIALOG (message));
 		return FALSE;
 	}
 
@@ -183,11 +193,6 @@ send_queued_mail (GtkWidget *widget, gpointer user_data)
 	MailConfigService *transport;
 	
 	if (!mail_config_is_configured ()) {
-		GtkWidget *win = gtk_widget_get_ancestor (GTK_WIDGET (user_data),
-							  GTK_TYPE_WINDOW);
-		
-		gnome_error_dialog_parented ("You have not set any configuration settings",
-					     GTK_WINDOW (win));
 		return;
 	}
 	

@@ -1,3 +1,11 @@
+2000-09-14  Iain Holmes  <terrorist@gegl.org>
+
+	* mail-callbacks.c (check_configured): Ask if you want to 
+	configure the mail client if it isn't configured already.
+	(check_send_configuration): Remove the error box if mail isn't
+	configured.
+	(send_queued_mail): Same.
+
 2000-09-14  Dan Winship  <danw@helixcode.com>
 
 	* mail-ops.c (setup_append_mail): camel_folder_append is perfectly
