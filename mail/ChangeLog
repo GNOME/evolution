@@ -1,4 +1,14 @@
-2000-06-21  Peter Williams  <peter@newton.cx>
+2000-06-21  Peter Williams  <peterw@helixcode.com>
+	* mail-thread.{c,h}: New files -- a simple API for executing
+	the major mail ops (fetch_mail etc) asynchronously, allowing
+	the operations to send messages and update a progress bar.
+
+	* test-thread.{c,h}: Tests the mail-thread API.
+
+	* Makefile.am: add mail-thread.[ch] to evolution_mail_SOURCES
+	and declare the test_thread noinst_PROGRAM.
+
+2000-06-21  Peter Williams  <peterw@helixcode.com>
 
 	* mail-format.c (mail_generate_reply): Include "e-setup.h" to
 	get the prototype for evolution_dir.

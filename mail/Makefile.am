@@ -1,4 +1,4 @@
-bin_PROGRAMS =	evolution-mail test-mail
+bin_PROGRAMS =	evolution-mail test-mail test-thread
 
 providerdir = $(libdir)/evolution/camel-providers/$(VERSION)
 
@@ -45,6 +45,8 @@ evolution_mail_SOURCES =		\
 	mail-format.c			\
 	mail-identify.c			\
 	mail-ops.c			\
+	mail-threads.c			\
+	mail-threads.h			\
 	mail-types.h			\
 	main.c				\
 	message-list.c			\
@@ -67,6 +69,7 @@ evolution_mail_LDADD = 					\
 	$(top_builddir)/libibex/libibex.la		\
 	$(top_builddir)/filter/libfilter.la		\
 	$(BONOBO_HTML_GNOME_LIBS)			\
+	$(PTHREAD_LIB)					\
 	$(UNICODE_LIBS)
 
 test_mail_SOURCES = \
@@ -75,6 +78,16 @@ test_mail_SOURCES = \
 test_mail_LDADD = \
 	$(BONOBO_HTML_GNOME_LIBS)
 
+test_thread_SOURCES =	\
+	mail-threads.c	\
+	mail-threads.h	\
+	test-thread.c
+
+test_thread_LDADD = 			\
+	$(BONOBO_VFS_GNOME_LIBS)	\
+	$(PTHREAD_LIB)
+
+test_thread_CFLAGS = -g
 
 GOAD_FILES = evolution-mail.gnorba
 OAF_FILES = evolution-mail.oafinfo
