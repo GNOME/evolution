@@ -418,7 +418,7 @@ emfv_got_folder(char *uri, CamelFolder *folder, void *data)
 static void
 emfv_set_folder_uri(EMFolderView *emfv, const char *uri)
 {
-	mail_get_folder(uri, 0, emfv_got_folder, emfv, mail_thread_new);
+	mail_get_folder(uri, 0, emfv_got_folder, emfv, mail_thread_queued);
 }
 
 static void

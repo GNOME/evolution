@@ -119,7 +119,10 @@ struct _MessageList {
 	
 	/* is the message-list object in a destroyed state? */
 	guint destroyed : 1;
-	
+
+	/* frozen count */
+	guint frozen:16;
+
 	/* Where the ETree cursor is. */
 	int cursor_row;
 	char *cursor_uid;
@@ -133,6 +136,8 @@ struct _MessageList {
 	/* list of outstanding regeneration requests */
 	GList *regen;
 	char *pending_select_uid; /* set if we were busy regnerating while we had a select come in */
+
+	char *frozen_search;	/* to save search took place while we were frozen */
 
 	/* the current camel folder thread tree, if any */
 	struct _CamelFolderThread *thread_tree;
@@ -165,6 +170,9 @@ void           message_list_set_folder (MessageList *message_list, CamelFolder *
 void           message_list_foreach    (MessageList *message_list,
 					MessageListForeachFunc callback,
 					gpointer user_data);
+
+void	       message_list_freeze(MessageList *ml);
+void	       message_list_thaw(MessageList *ml);
 
 GPtrArray     *message_list_get_selected(MessageList *ml);
 void	       message_list_free_uids(MessageList *ml, GPtrArray *uids);

@@ -1,5 +1,27 @@
 2004-04-14  Not Zed  <NotZed@Ximian.com>
 
+	* em-folder-view.c (emfv_set_folder_uri): ugh, use the queued
+	thread to get the folder, otherwise we can get folders set on the
+	display out of order.
+
+	* message-list.c (message_list_set_search): if we set this while
+	frozen, save the search elsewhere.
+	(message_list_thaw): if we had a frozen-time search, use it when
+	we regenerate.
+
+	* em-folder-browser.c (emfb_set_folder): freeze/thaw the
+	messagelist around changes so we don't have multiple updates fire
+	off changing folders.
+	(emfb_activate): remove an unused variable i never used.
+
+	* message-list.c (message_list_freeze, message_list_thaw): lock
+	some updates to the ui, so you can do things like set folder and
+	search atomically.
+	(message_list_set_threaded, message_list_set_hidedeleted)
+	(message_list_set_search, message_list_hide_uids)
+	(message_list_hide_clear, message_list_set_folder): dont refresh
+	the list if we're frozen.
+
 	* mail-component.c (impl_createControls): remove debug comment.
 
 	** See #56641.

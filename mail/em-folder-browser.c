@@ -916,6 +916,8 @@ emfb_set_folder(EMFolderView *emfv, CamelFolder *folder, const char *uri)
 	EMFolderBrowser *emfb = (EMFolderBrowser *) emfv;
 	struct _EMFolderBrowserPrivate *p = emfb->priv;
 
+	message_list_freeze(emfv->list);
+
 	emfb_parent->set_folder(emfv, folder, uri);
 	
 	/* This is required since we get activated the first time
@@ -968,6 +970,8 @@ emfb_set_folder(EMFolderView *emfv, CamelFolder *folder, const char *uri)
 		if (emfv->uic)
 			emfb_create_view_menus (emfb, emfv->uic);
 	}
+
+	message_list_thaw(emfv->list);
 }
 
 /* TODO: All this mess should sit directly on MessageList, but it would
@@ -1012,7 +1016,7 @@ emfb_activate(EMFolderView *emfv, BonoboUIComponent *uic, int act)
 
 	if (act) {
 		GConfClient *gconf;
-		gboolean state, newstate;
+		gboolean state;
 		char *sstate;
 
 		gconf = mail_config_get_gconf_client ();

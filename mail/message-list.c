@@ -1686,6 +1686,7 @@ message_list_finalise (GObject *object)
 		message_list->hidden_pool = NULL;
 	}
 
+	g_free(message_list->frozen_search);
 	g_free(message_list->cursor_uid);
 
 	g_mutex_free(message_list->hide_lock);
@@ -2592,7 +2593,8 @@ message_list_set_folder (MessageList *message_list, CamelFolder *folder, const c
 		message_list->hidejunk = junk_folder && !(folder->folder_flags & CAMEL_FOLDER_IS_JUNK) && !(folder->folder_flags & CAMEL_FOLDER_IS_TRASH);
 		
 		load_hide_state (message_list);
-		mail_regen_list (message_list, message_list->search, NULL, NULL);
+		if (message_list->frozen == 0)
+			mail_regen_list (message_list, message_list->search, NULL, NULL);
 	}
 }
 
@@ -2771,6 +2773,25 @@ message_list_get_selected(MessageList *ml)
 	return data.uids;
 }
 
+void
+message_list_freeze(MessageList *ml)
+{
+	ml->frozen++;
+}
+
+void
+message_list_thaw(MessageList *ml)
+{
+	g_assert(ml->frozen != 0);
+
+	ml->frozen--;
+	if (ml->frozen == 0) {
+		mail_regen_list(ml, ml->frozen_search?ml->frozen_search:ml->search, NULL, NULL);
+		g_free(ml->frozen_search);
+		ml->frozen_search = NULL;
+	}
+}
+
 void message_list_free_uids(MessageList *ml, GPtrArray *uids)
 {
 	int i;
@@ -2787,7 +2808,8 @@ message_list_set_threaded (MessageList *ml, gboolean threaded)
 	if (ml->threaded != threaded) {
 		ml->threaded = threaded;
 		
-		mail_regen_list (ml, ml->search, NULL, NULL);
+		if (ml->frozen == 0)
+			mail_regen_list (ml, ml->search, NULL, NULL);
 	}
 }
 
@@ -2797,7 +2819,8 @@ message_list_set_hidedeleted (MessageList *ml, gboolean hidedeleted)
 	if (ml->hidedeleted != hidedeleted) {
 		ml->hidedeleted = hidedeleted;
 		
-		mail_regen_list (ml, ml->search, NULL, NULL);
+		if (ml->frozen == 0)
+			mail_regen_list (ml, ml->search, NULL, NULL);
 	}
 }
 
@@ -2815,8 +2838,13 @@ message_list_set_search (MessageList *ml, const char *search)
 		camel_folder_thread_messages_unref(ml->thread_tree);
 		ml->thread_tree = NULL;
 	}
-	
-	mail_regen_list (ml, search, NULL, NULL);
+
+	if (ml->frozen == 0)
+		mail_regen_list (ml, search, NULL, NULL);
+	else {
+		g_free(ml->frozen_search);
+		ml->frozen_search = g_strdup(search);
+	}
 }
 
 /* returns the number of messages displayable *after* expression hiding has taken place */
@@ -2861,7 +2889,6 @@ message_list_hidden(MessageList *ml)
 
 	return hidden;
 }
-
 
 /* add a new expression to hide, or set the range.
    @expr: A new search expression - all matching messages will be hidden.  May be %NULL.
@@ -2918,7 +2945,8 @@ message_list_hide_uids (MessageList *ml, GPtrArray *uids)
 			MESSAGE_LIST_UNLOCK (ml, hide_lock);
 			/* save this here incase the user pops up another window, so they are consistent */
 			save_hide_state(ml);
-			mail_regen_list (ml, ml->search, NULL, NULL);
+			if (ml->frozen == 0)
+				mail_regen_list (ml, ml->search, NULL, NULL);
 			break;
 		}
 	}
@@ -2946,7 +2974,8 @@ message_list_hide_clear (MessageList *ml)
 
 	/* save this here incase the user pops up another window, so they are consistent */
 	save_hide_state(ml);
-	mail_regen_list (ml, ml->search, NULL, NULL);
+	if (ml->frozen == 0)
+		mail_regen_list (ml, ml->search, NULL, NULL);
 }
 
 #define HIDE_STATE_VERSION (1)
