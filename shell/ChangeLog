@@ -1,5 +1,14 @@
 2002-07-26  Ettore Perazzoli  <ettore@ximian.com>
 
+	* e-shell-view-menu.c (command_new_shortcut): Capitalize the title
+	of the dialog for consistency.
+
+	* e-shell-folder-creation-dialog.c (setup_dialog): Don't prepend
+	the window's title with "Evolution -" since we don't do that
+	anywhere else.  Also capitalize properly.
+
+2002-07-26  Ettore Perazzoli  <ettore@ximian.com>
+
 	* e-shell-user-creatable-items-handler.c (ensure_menu_xml): Put in
 	the ComponentItems placeholder, instead of NewItems.
 

@@ -592,7 +592,7 @@ command_new_shortcut (BonoboUIComponent *uih,
 	shell_view = E_SHELL_VIEW (data);
 
 	folder_selection_dialog = e_shell_folder_selection_dialog_new (e_shell_view_get_shell (shell_view),
-								       _("Create a new shortcut"),
+								       _("Create New Shortcut"),
 								       _("Select the folder you want the shortcut to point to:"),
 								       e_shell_view_get_current_uri (shell_view),
 								       NULL);

@@ -288,7 +288,7 @@ setup_dialog (GtkWidget *dialog,
 		gtk_window_set_transient_for (GTK_WINDOW (dialog), parent_window);
 
 	gtk_window_set_modal (GTK_WINDOW (dialog), TRUE);
-	gtk_window_set_title (GTK_WINDOW (dialog), _("Evolution - Create new folder"));
+	gtk_window_set_title (GTK_WINDOW (dialog), _("Create New Folder"));
 
 	gnome_dialog_set_default   (GNOME_DIALOG (dialog), 0);
 	gnome_dialog_set_sensitive (GNOME_DIALOG (dialog), 0, FALSE);
