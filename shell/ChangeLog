@@ -1,3 +1,8 @@
+2000-06-08  Ettore Perazzoli  <ettore@helixcode.com>
+
+	* e-shell-view.c (setup_bonobo_ui_handler): Oops.  Don't create
+	the toolbar.  This was not supposed to be committed.
+
 2000-06-07  Ettore Perazzoli  <ettore@helixcode.com>
 
 	* e-storage.c (folder_destroy): Don't destroy the subfolders.

@@ -311,7 +311,7 @@ setup_bonobo_ui_handler (EShellView *shell_view)
 
 	bonobo_ui_handler_set_app (uih, GNOME_APP (shell_view));
 	bonobo_ui_handler_create_menubar (uih);
-	bonobo_ui_handler_create_toolbar (uih, "Toolbar");
+	/* bonobo_ui_handler_create_toolbar (uih, "Toolbar"); */
 	bonobo_ui_handler_set_statusbar (uih, priv->appbar);
 
 	priv->uih = uih;
