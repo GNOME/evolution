@@ -36,21 +36,11 @@ libcal_utilinclude_HEADERS =	\
 	cal-util.h		\
 	timeutil.h
 
-# GLib marshalling cruft
-
-cal-util-marshal.h: cal-util-marshal.list
-	( @GLIB_GENMARSHAL@ --prefix=cal_util_marshal cal-util-marshal.list --header > cal-util-marshal.tmp \
-	&& mv cal-util-marshal.tmp cal-util-marshal.h ) \
-	|| ( rm -f cal-util-marshal.tmp && exit 1 )
-
-cal-util-marshal.c: cal-util-marshal.h
-	( @GLIB_GENMARSHAL@ --prefix=cal_util_marshal cal-util-marshal.list --body > cal-util-marshal.tmp \
-	&& mv cal-util-marshal.tmp cal-util-marshal.c ) \
-	|| ( rm -f cal-util-marshal.tmp && exit 1 )
-
 MARSHAL_GENERATED = cal-util-marshal.c cal-util-marshal.h
+@EVO_MARSHAL_RULE@
 
 BUILT_SOURCES = $(MARSHAL_GENERATED)
+CLEANFILES = $(BUILT_SOURCES)
 
 #
 # static library for use in conduits' shared libraries

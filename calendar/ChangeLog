@@ -35,6 +35,9 @@
 
 2003-07-23  Dan Winship  <danw@ximian.com>
 
+	* cal-util/Makefile.am: Use EVO_MARSHAL_RULE, and add
+	MARSHAL_GENERATED to CLEANFILES
+
 	* gui/alarm-notify/alarm-queue.c (on_dialog_obj_updated_cb): Fix
 	an unused variable
 
