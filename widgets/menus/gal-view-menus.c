@@ -22,21 +22,14 @@
 #include <gal/util/e-xml-utils.h>
 #include <gal/menus/gal-define-views-dialog.h>
 #include <gal/widgets/e-unicode.h>
-#include <e-util/e-list.h>
+#include <bonobo/bonobo-ui-util.h>
 
 struct _GalViewMenusPrivate {
 	GalViewCollection *collection;
 	int collection_changed_id;
 	BonoboUIVerb *verbs;
 	BonoboUIComponent *component;
-	EList *listenerClosures;
 };
-
-typedef struct {
-	GalViewCollection *collection;
-	GalView *view;
-	const char *id;
-} ListenerClosure;
 
 #define PARENT_TYPE (gtk_object_get_type())
 
@@ -46,37 +39,32 @@ static void collection_changed (GalViewCollection *collection,
 
 #define d(x)
 
+typedef struct {
+	GalViewCollection *collection;
+	GalView *view;
+} CollectionAndView;
+
 static void
 free_verbs (GalViewMenus *gvm)
 {
+	BonoboUIVerb *verbs;
 	if (gvm->priv->verbs) {
-		g_free(gvm->priv->verbs->cname);
+		for (verbs = gvm->priv->verbs + 1; verbs->cname; verbs++) {
+			CollectionAndView *cnv;
+
+			if (gvm->priv->component)
+				bonobo_ui_component_remove_verb(gvm->priv->component, verbs->cname);
+
+			cnv = verbs->user_data;
+			g_free(verbs->cname);
+
+			gtk_object_unref(GTK_OBJECT(cnv->collection));
+			gtk_object_unref(GTK_OBJECT(cnv->view));
+			g_free(cnv);
+		}
 		g_free(gvm->priv->verbs);
 	}
 	gvm->priv->verbs = NULL;
-}
-
-static void
-closure_free (void *data, void *user_data)
-{
-	ListenerClosure *closure = data;
-	GalViewMenus *gvm = user_data;
-
-	gtk_object_ref(GTK_OBJECT(closure->view));
-	gtk_object_ref(GTK_OBJECT(closure->collection));
-
-	bonobo_ui_component_remove_listener (gvm->priv->component, closure->id);
-
-	g_free (closure);
-}
-
-static void
-remove_listeners (GalViewMenus *gvm)
-{
-	if (gvm->priv->listenerClosures) {
-		gtk_object_unref (GTK_OBJECT(gvm->priv->listenerClosures));
-	}
-	gvm->priv->listenerClosures = NULL;
 }
 
 static void
@@ -99,7 +87,6 @@ gvm_destroy (GtkObject *object)
 
 	free_verbs(gvm);
 	remove_xml(gvm);
-	remove_listeners(gvm);
 	g_free(gvm->priv);
 	gvm->priv = NULL;
 
@@ -122,7 +109,6 @@ gvm_init (GalViewMenus *gvm)
 	gvm->priv->collection_changed_id = 0;
 	gvm->priv->verbs = NULL;
 	gvm->priv->component = NULL;
-	gvm->priv->listenerClosures = NULL;
 }
 
 E_MAKE_TYPE(gal_view_menus, "GalViewMenus", GalViewMenus, gvm_class_init, gvm_init, PARENT_TYPE);
@@ -179,22 +165,6 @@ define_views(BonoboUIComponent *component,
 	gtk_widget_show(dialog);
 }
 
-static void
-toggled_cb (BonoboUIComponent *component,
-	    const char *path,
-	    Bonobo_UIComponent_EventType type,
-	    const char *state,
-	    gpointer user_data)
-{
-	ListenerClosure *closure = user_data;
-
-	/* do nothing on state change to untoggled */
-	if (!strcmp (state, "0"))
-		return;
-
-	gal_view_collection_display_view(closure->collection, closure->view);
-}
-
 static char *
 build_menus(GalViewMenus *menus)
 {
@@ -219,19 +189,12 @@ build_menus(GalViewMenus *menus)
 	bonobo_ui_node_set_attr(submenu, "_label", N_("_Current View"));
 
 	length = gal_view_collection_get_count(collection);
-
-	menus->priv->listenerClosures = e_list_new (NULL, closure_free, menus);
-
 	for (i = 0; i < length; i++) {
 		char *label, *encoded_label;
+		char *verb;
 		GalViewCollectionItem *item = gal_view_collection_get_view_item(collection, i);
-		ListenerClosure *closure;
-
 		menuitem = bonobo_ui_node_new_child(submenu, "menuitem");
 		bonobo_ui_node_set_attr(menuitem, "name", item->id);
-		bonobo_ui_node_set_attr(menuitem, "id", item->id);
-		bonobo_ui_node_set_attr(menuitem, "group", "GalViewMenus");
-		bonobo_ui_node_set_attr(menuitem, "type", "radio");
 
 		/* bonobo displays this string so it must be in locale */
 		label = e_utf8_to_locale_string(item->title);
@@ -240,17 +203,9 @@ build_menus(GalViewMenus *menus)
 		g_free (encoded_label);
 		g_free(label);
 
-		closure = g_new (ListenerClosure, 1);
-		closure->collection   = collection;
-		closure->view         = item->view;
-		closure->id           = item->id;
-
-		gtk_object_ref(GTK_OBJECT(closure->view));
-		gtk_object_ref(GTK_OBJECT(closure->collection));
-
-		bonobo_ui_component_add_listener (menus->priv->component, item->id, toggled_cb, closure);
-
-		e_list_append (menus->priv->listenerClosures, closure);
+		verb = g_strdup_printf("DefineViews:%s", item->id);
+		bonobo_ui_node_set_attr(menuitem, "verb", verb);
+		g_free(verb);
 	}
 
 #if 0
@@ -273,11 +228,23 @@ build_menus(GalViewMenus *menus)
 	return xml;
 }
 
+static void
+show_view(BonoboUIComponent *component,
+	  gpointer           user_data,
+	  const char        *cname)
+{
+	CollectionAndView *cnv = user_data;
+	gal_view_collection_display_view(cnv->collection, cnv->view);
+}
+
 static BonoboUIVerb *
 build_verbs (GalViewMenus *menus)
 {
-	BonoboUIVerb *verbs = g_new(BonoboUIVerb, 2);
+	GalViewCollection *collection = menus->priv->collection;
+	int count = gal_view_collection_get_count(collection);
+	BonoboUIVerb *verbs = g_new(BonoboUIVerb, count + 2);
 	BonoboUIVerb *verb;
+	int i;
 	
 	verb            = verbs;
 	verb->cname     = g_strdup("DefineViews");
@@ -285,6 +252,23 @@ build_verbs (GalViewMenus *menus)
 	verb->user_data = menus;
 	verb->dummy     = NULL;
 	verb ++;
+	for (i = 0; i < count; i++) {
+		CollectionAndView *cnv;
+		GalViewCollectionItem *item = gal_view_collection_get_view_item(collection, i);
+
+		cnv             = g_new(CollectionAndView, 1);
+		cnv->view       = item->view;
+		cnv->collection = collection;
+
+		gtk_object_ref(GTK_OBJECT(cnv->view));
+		gtk_object_ref(GTK_OBJECT(cnv->collection));
+
+		verb->cname     = g_strdup_printf("DefineViews:%s", item->id);
+		verb->cb        = show_view;
+		verb->user_data = cnv;
+		verb->dummy     = NULL;
+		verb++;
+	}
 
 	verb->cname     = NULL;
 	verb->cb        = NULL;
@@ -302,7 +286,6 @@ build_stuff (GalViewMenus      *gvm,
 	char *xml;
 
 	remove_xml(gvm);
-	remove_listeners(gvm);
 	xml = build_menus(gvm);
 	bonobo_ui_component_set_translate(gvm->priv->component, "/", xml, ev);
 	g_free(xml);

@@ -1,3 +1,8 @@
+2001-10-21  Christopher James Lahey  <clahey@ximian.com>
+
+	* menus/gal-view-menus.c: Make this not be a radio button, but
+	instead just a normal menu.
+
 2001-10-18  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* menus/gal-view-menus.c: #include bonobo-ui-util.h
