@@ -1,7 +1,7 @@
 2001-04-11  Jeffrey Stedfast  <fejj@ximian.com>
 
-	* e-msg-composer-select-file.c (create_file_selection): Change
-	into the user's home dir before opening the filesel.
+	* e-msg-composer-select-file.c (create_file_selection): Set the
+	default filename to the user's homedir.
 
 2001-04-04  Kjartan Maraas  <kmaraas@gnome.org>
 
