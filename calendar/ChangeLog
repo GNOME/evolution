@@ -1,3 +1,10 @@
+2005-02-03  Yong Sun <yong.sun@sun.com>
+ 
+         Fix for #56901
+ 
+         * gui/print.c: (bound_text): When the width>maxwidth, the 
+ 	pointer 'p' should also be backwarded, same as 'o'.
+	
 2005-01-31  Chenthill Palanisamy  <pchenthill@novell.com>
 
 	Fixes #64682
