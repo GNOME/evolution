@@ -216,7 +216,7 @@ e_addressbook_view_init (EAddressbookView *eav)
 	gtk_signal_connect (GTK_OBJECT(eav->invisible), "selection_received",
 			    GTK_SIGNAL_FUNC (selection_received),
 			    eav);
-	gtk_signal_connect (GTK_OBJECT(eav->invisible), "destroyed",
+	gtk_signal_connect (GTK_OBJECT(eav->invisible), "destroy",
 			    GTK_SIGNAL_FUNC (invisible_destroyed),
 			    eav);
 }
@@ -1104,6 +1104,24 @@ card_deleted_cb (EBook* book, EBookStatus status, gpointer user_data)
 	g_print ("%s: %s(): a card was deleted\n", __FILE__, __FUNCTION__);
 }
 
+static void
+do_remove (int i, gpointer user_data)
+{
+	EBook *book;
+	ECard *card;
+	EAddressbookView *view = user_data;
+
+	gtk_object_get (GTK_OBJECT(view->model),
+			"book", &book,
+			NULL);
+
+	card = e_addressbook_model_get_card (view->model, i);
+
+	e_book_remove_card(book, card, card_deleted_cb, NULL);
+
+	gtk_object_unref (GTK_OBJECT (card));
+}
+
 void
 e_addressbook_view_delete_selection(EAddressbookView *view)
 {
@@ -1111,8 +1129,9 @@ e_addressbook_view_delete_selection(EAddressbookView *view)
 
 	g_return_if_fail (model);
 
-	if (view->view_type == E_ADDRESSBOOK_VIEW_MINICARD)
-		e_minicard_view_widget_remove_selection (E_MINICARD_VIEW_WIDGET(view->object), card_deleted_cb, NULL);
+	e_selection_model_foreach (model,
+				   do_remove,
+				   view);
 }
 
 static void

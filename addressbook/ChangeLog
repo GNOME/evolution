@@ -1,5 +1,20 @@
 2001-05-31  Chris Toshok  <toshok@ximian.com>
 
+	* gui/widgets/e-addressbook-model.c (remove_card): decrement
+	data_count before emitting the card_removed signal, and break
+	after we've removed the matching card.
+	(e_addressbook_model_class_init): change signature of
+	"card_removed" signal to match what we emit (and what is
+	expected.)
+
+	* gui/widgets/e-addressbook-view.c (e_addressbook_view_init): the
+	signal name is "destroy", not "destroyed".
+	(do_remove): new function, actually remove the card.
+	(e_addressbook_view_delete_selection): get this working for both
+	view types.
+
+2001-05-31  Chris Toshok  <toshok@ximian.com>
+
 	* gui/component/addressbook.c: Print Preview =>
 	ContactsPrintPreview.  Changed peter's change so that the node
 	name is more in line with "Print.."'s

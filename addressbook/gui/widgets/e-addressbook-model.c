@@ -142,9 +142,12 @@ remove_card(EBookView *book_view,
 		if ( !strcmp(e_card_get_id(model->data[i]), id) ) {
 			gtk_object_unref(GTK_OBJECT(model->data[i]));
 			memmove(model->data + i, model->data + i + 1, (model->data_count - i - 1) * sizeof (ECard *));
+			model->data_count--;
+
 			gtk_signal_emit (GTK_OBJECT (model),
 					 e_addressbook_model_signals [CARD_REMOVED],
 					 i);
+			break;
 		}
 	}
 }
@@ -246,8 +249,8 @@ e_addressbook_model_class_init (GtkObjectClass *object_class)
 				GTK_RUN_LAST,
 				object_class->type,
 				GTK_SIGNAL_OFFSET (EAddressbookModelClass, card_removed),
-				gtk_marshal_NONE__INT_INT,
-				GTK_TYPE_NONE, 2, GTK_TYPE_INT, GTK_TYPE_INT);
+				gtk_marshal_NONE__INT,
+				GTK_TYPE_NONE, 1, GTK_TYPE_INT);
 
 	e_addressbook_model_signals [CARD_CHANGED] =
 		gtk_signal_new ("card_changed",
