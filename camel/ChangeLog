@@ -1,3 +1,10 @@
+2001-03-03  Not Zed  <NotZed@Ximian.com>
+
+	* camel-vee-folder.c (vee_folder_remove_folder): New function to
+	remove a folder from a vfolder.
+	(camel_vee_folder_remove_folder): New public function to remove a
+	folder from a vfolder.
+
 2001-03-02  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* providers/smtp/camel-smtp-provider.c: Doh! Set the
