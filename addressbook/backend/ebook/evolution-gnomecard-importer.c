@@ -3,6 +3,7 @@
 #include <stdio.h>
 
 #include <liboaf/liboaf.h>
+#include <bonobo/bonobo-context.h>
 #include <bonobo/bonobo-generic-factory.h>
 #include <bonobo/bonobo-main.h>
 

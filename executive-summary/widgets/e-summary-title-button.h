@@ -26,6 +26,7 @@
 
 #include <gtk/gtksignal.h>
 #include <libgnomeui/gnome-canvas.h>
+#include <libgnomeui/gnome-canvas-rect-ellipse.h>
 
 #define E_SUMMARY_TITLE_BUTTON_TYPE (e_summary_title_button_get_type ())
 #define E_SUMMARY_TITLE_BUTTON(obj) (GTK_CHECK_CAST ((obj), E_SUMMARY_TITLE_BUTTON_TYPE, ESummaryTitleButton))

@@ -1197,7 +1197,7 @@ _arrow_pressed (GtkWidget *widget, GdkEventButton *button, EContactEditor *edito
 			GtkWidget *label_widget = glade_xml_get_widget(editor->gui, label);
 			if (label_widget && GTK_IS_LABEL(label_widget)) {
 				gtk_object_set(GTK_OBJECT(label_widget),
-					       "label", g_list_nth_data(*list, menu_item),
+					       "label", _(g_list_nth_data(*list, menu_item)),
 					       NULL);
 			}
 #if 0

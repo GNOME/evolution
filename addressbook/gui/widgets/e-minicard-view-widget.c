@@ -168,6 +168,7 @@ e_minicard_view_widget_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 		break;
 	case ARG_EDITABLE:
 		emvw->editable = GTK_VALUE_BOOL(*arg);
+		if (emvw->emv)
 		gtk_object_set (GTK_OBJECT(emvw->emv),
 				"editable", emvw->editable,
 				NULL);

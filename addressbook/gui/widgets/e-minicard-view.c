@@ -162,8 +162,9 @@ e_minicard_view_init (EMinicardView *view)
 			   GTK_SIGNAL_FUNC(selection_changed), view);
 	
 	gtk_object_set(GTK_OBJECT(view),
-		       "empty_message", _("\n\nThere are no items to show in this view\n\n"
-					  "Double-click here to create a new Contact."),
+		       "empty_message",
+		       e_utf8_from_locale_string(_("\n\nThere are no items to show in this view\n\n"
+					  "Double-click here to create a new Contact.")),
 		       NULL);
 
 	E_REFLOW_SORTED(view)->compare_func = (GCompareFunc) e_minicard_compare;

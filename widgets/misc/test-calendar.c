@@ -30,8 +30,6 @@
 #include <config.h>
 #endif
 
-
-#include <gtk/gtkbox.h>
 #include <gtk/gtkdnd.h>
 #include <gtk/gtkmain.h>
 #include <gtk/gtkvbox.h>

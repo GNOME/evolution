@@ -570,12 +570,12 @@ table_right_click(ETableScrolled *table, gint row, gint col, GdkEvent *event, EA
 		CardAndBook *card_and_book;
 
 		EPopupMenu menu[] = {
-			{"Save as VCard", NULL, GTK_SIGNAL_FUNC(save_as), NULL, 0}, 
-			{"Send contact to other", NULL, GTK_SIGNAL_FUNC(send_as), NULL, 0},
-			{"Send message to contact", NULL, GTK_SIGNAL_FUNC(send_to), NULL, 0},
-			{"Print", NULL, GTK_SIGNAL_FUNC(print), NULL, 0},
-			{"Print Envelope", NULL, GTK_SIGNAL_FUNC(print_envelope), NULL, 0},
-			{"Delete", NULL, GTK_SIGNAL_FUNC(delete), NULL, 0},
+			{N_("Save as VCard"), NULL, GTK_SIGNAL_FUNC(save_as), NULL, 0}, 
+			{N_("Send contact to other"), NULL, GTK_SIGNAL_FUNC(send_as), NULL, 0},
+			{N_("Send message to contact"), NULL, GTK_SIGNAL_FUNC(send_to), NULL, 0},
+			{N_("Print"), NULL, GTK_SIGNAL_FUNC(print), NULL, 0},
+			{N_("Print Envelope"), NULL, GTK_SIGNAL_FUNC(print_envelope), NULL, 0},
+			{N_("Delete"), NULL, GTK_SIGNAL_FUNC(delete), NULL, 0},
 			{NULL, NULL, NULL, NULL, 0}
 		};
 
@@ -639,21 +639,32 @@ status_message (GtkObject *object, const gchar *status, EAddressbookView *eav)
 #ifdef JUST_FOR_TRANSLATORS
 static char *list [] = {
 	N_("* Click here to add a contact *"),
-	N_("Name"),
+	N_("File As"),
+	N_("Full Name"),
 	N_("Email"),
-	N_("Primary"),
-	N_("Business"),
-	N_("Home"),
+	N_("Primary Phone"),
+	N_("Assistant Phone"),
+	N_("Business Phone"),
+	N_("Callback Phone"),
+	N_("Company Phone"),
+	N_("Home Phone"),
 	N_("Organization"),
-	N_("Mobile"),
-	N_("Car"),
+	N_("Business Address"),
+	N_("Home Address"),
+	N_("Mobile Phone"),
+	N_("Car Phone"),
 	N_("Business Fax"),
 	N_("Home Fax"),
-	N_("Business 2"),
-	N_("Home 2"),
+	N_("Business Phone 2"),
+	N_("Home Phone 2"),
 	N_("ISDN"),
-	N_("Other"),
+	N_("Other Phone"),
+	N_("Other Fax"),
 	N_("Pager"),
+	N_("Radio"),
+	N_("Telex"),
+	N_("TTY"),
+	N_("Other Address"),
 	N_("Email 2"),
 	N_("Email 3"),
 	N_("Web Site"),
@@ -667,7 +678,6 @@ static char *list [] = {
 	N_("Spouse"),
 	N_("Note"),
 	N_("Free-busy URL"),
-	N_("Click here to add a contact")
 };
 #endif
 

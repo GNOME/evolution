@@ -1,3 +1,7 @@
+2001-04-10  Gediminas Paulauskas <menesis@delfi.lt>
+
+	* menus/gal-view-menus.c: convert label to utf8.
+
 2001-04-04  Kjartan Maraas  <kmaraas@gnome.org>
 
 	* menus/gal-view-menus.c: Fix headers.

@@ -25,10 +25,12 @@
 #include <config.h>
 #endif
 
+#include <gtk/gtkframe.h>
 #include <gal/util/e-util.h>
 #include <gal/widgets/e-font.h>
-
 #include <gal/e-text/e-text.h>
+#include <libgnomeui/gnome-canvas.h>
+#include <libgnomeui/gnome-canvas-widget.h>
 
 #include "e-summary-subwindow.h"
 #include "e-summary-titlebar.h"

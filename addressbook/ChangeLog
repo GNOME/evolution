@@ -1,3 +1,15 @@
+2001-04-10  Gediminas Paulauskas <menesis@delfi.lt>
+
+	* backend/ebook/evolution-gnomecard-importer.c: added missing #include.
+	* contact-editor/e-contact-editor.c (_arrow_pressed): popup menu items were
+	not translated after selecting one of them.
+	* gui/widgets/e-addressbook-view.c: mark popup menu items with N_().
+	Updated list[] for translators.
+	* gui/widgets/e-minicard.c: same.
+	* gui/widgets/e-minicard-view-widget.c (e_minicard_view_widget_set_arg): fix warning
+	for "editable" arg.
+	* gui/widgets/e-minicard-view.c: convert "empty_message" to utf8.
+
 2001-04-09  Chris Toshok  <toshok@ximian.com>
 
 	* gui/component/addressbook-component.c (remove_folder): stubbed,

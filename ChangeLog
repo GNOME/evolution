@@ -1,3 +1,9 @@
+2001-04-10  Gediminas Paulauskas <menesis@delfi.lt>
+
+	* AUTHORS: /me is a translator.
+	* configure.in (EVO_CHECK_LIB): fail with AC_MSG_ERROR, not echo &&
+	exit 1.
+
 2001-04-10  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* configure.in (EVOLUTION_DIR): create the makefile in
