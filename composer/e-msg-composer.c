@@ -189,19 +189,28 @@ best_encoding (GByteArray *buf, const char *charset)
 }
 
 static const char *
-best_charset (GByteArray *buf, CamelMimePartEncodingType *encoding)
+best_charset (GByteArray *buf, const char *default_charset, CamelMimePartEncodingType *encoding)
 {
 	const char *charset;
-
+	
+	/* First try US-ASCII */
 	*encoding = best_encoding (buf, "US-ASCII");
 	if (*encoding == CAMEL_MIME_PART_ENCODING_7BIT)
 		return NULL;
-
+	
+	/* Next try the user-specified charset for this message */
+	charset = default_charset;
+	*encoding = best_encoding (buf, charset);
+	if (*encoding != -1)
+		return charset;
+	
+	/* Now try the user's default charset from the mail config */
 	charset = mail_config_get_default_charset ();
 	*encoding = best_encoding (buf, charset);
 	if (*encoding != -1)
 		return charset;
-
+	
+	/* Try to find something that will work */
 	charset = camel_charset_best (buf->data, buf->len);
 	if (!charset)
 		*encoding = CAMEL_MIME_PART_ENCODING_7BIT;
@@ -309,10 +318,13 @@ build_message (EMsgComposer *composer)
 		camel_object_unref (CAMEL_OBJECT (new));
 		return NULL;
 	}
-	charset = best_charset (data, &plain_encoding);
+	
+	/* FIXME: we may want to do better than this... */
+	charset = best_charset (data, composer->charset, &plain_encoding);
 	type = header_content_type_new ("text", "plain");
 	if (charset)
 		header_content_type_set_param (type, "charset", charset);
+	
 	plain = camel_data_wrapper_new ();
 	stream = camel_stream_mem_new_with_byte_array (data);
 	camel_data_wrapper_construct_from_stream (plain, stream);
@@ -393,7 +405,7 @@ build_message (EMsgComposer *composer)
 		camel_multipart_add_part (multipart, part);
 		camel_object_unref (CAMEL_OBJECT (part));
 		
-		e_msg_composer_attachment_bar_to_multipart (attachment_bar, multipart);
+		e_msg_composer_attachment_bar_to_multipart (attachment_bar, multipart, composer->charset);
 		
 		current = CAMEL_DATA_WRAPPER (multipart);
 	}
@@ -1349,6 +1361,24 @@ menu_view_cc_cb (BonoboUIComponent           *component,
 	e_msg_composer_set_view_cc (E_MSG_COMPOSER (user_data), atoi (state));
 }
 
+static void
+menu_changed_charset_cb (BonoboUIComponent           *component,
+			 const char                  *path,
+			 Bonobo_UIComponent_EventType type,
+			 const char                  *state,
+			 gpointer                     user_data)
+{
+	if (type != Bonobo_UIComponent_STATE_CHANGED)
+		return;
+	
+	if (atoi (state)) {
+		/* Charset menu names are "Charset-%s" where %s is the charset name */
+		g_free (E_MSG_COMPOSER (user_data)->charset);
+		E_MSG_COMPOSER (user_data)->charset = g_strdup (path + strlen ("Charset-"));
+		g_warning ("Set charset to %s", E_MSG_COMPOSER (user_data)->charset);
+	}
+}
+
 
 static BonoboUIVerb verbs [] = {
 
@@ -1399,7 +1429,9 @@ setup_ui (EMsgComposer *composer)
 	
 	e_pixmaps_update (composer->uic, pixcache);
 	
-	e_charset_picker_bonobo_ui_populate (composer->uic, NULL);
+	e_charset_picker_bonobo_ui_populate (composer->uic, NULL,
+					     menu_changed_charset_cb,
+					     composer);
 	
 	if (!camel_session_is_online (session)) {
 		/* Move the accelerator from Send to Send Later */
@@ -1606,6 +1638,8 @@ destroy (GtkObject *object)
 	e_msg_composer_clear_inlined_table (composer);
 	g_hash_table_destroy (composer->inline_images);
 	
+	g_free (composer->charset);
+	
 	CORBA_exception_init (&ev);
 	
 	if (composer->persist_stream_interface != CORBA_OBJECT_NIL) {
@@ -1790,6 +1824,8 @@ init (EMsgComposer *composer)
 	composer->smime_encrypt            = FALSE;
 	
 	composer->has_changed              = FALSE;
+	
+	composer->charset                  = NULL;
 }
 
 

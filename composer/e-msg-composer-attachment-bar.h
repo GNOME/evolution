@@ -63,7 +63,8 @@ typedef struct _EMsgComposerAttachmentBarClass  EMsgComposerAttachmentBarClass;
 
 GtkType e_msg_composer_attachment_bar_get_type (void);
 GtkWidget *e_msg_composer_attachment_bar_new (GtkAdjustment *adj);
-void e_msg_composer_attachment_bar_to_multipart (EMsgComposerAttachmentBar *bar, CamelMultipart *multipart);
+void e_msg_composer_attachment_bar_to_multipart (EMsgComposerAttachmentBar *bar, CamelMultipart *multipart,
+						 const char *default_charset);
 guint e_msg_composer_attachment_bar_get_num_attachments (EMsgComposerAttachmentBar *bar);
 void e_msg_composer_attachment_bar_attach (EMsgComposerAttachmentBar *bar, const gchar *file_name);
 void e_msg_composer_attachment_bar_attach_mime_part (EMsgComposerAttachmentBar *bar, CamelMimePart *part);

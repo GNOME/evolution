@@ -73,6 +73,8 @@ struct _EMsgComposer {
 
 	Bonobo_PropertyBag     property_bag;
 	
+	char *charset;
+	
 	gboolean attachment_bar_visible : 1;
 	gboolean send_html     : 1;
 	gboolean pgp_sign      : 1;

@@ -1,7 +1,20 @@
 2001-07-02  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* e-msg-composer-attachment-bar.c (attach_to_multipart): Set the
+	user-chosen charset.
+
+	* e-msg-composer.c (menu_change_charset_cb): New callback function
+	to get the user-set charset.
+	(init): Set the charset to NULL.
+	(best_charset): Take a default_charset param that holds the value
+	the user set for this particular message using the menu.
+	(destroy): Free the charset.
+
+2001-07-02  Jeffrey Stedfast  <fejj@ximian.com>
+
 	* e-msg-composer.c (setup_ui): Construct an e-charset-picker
 	bonobo-ui menu.
+	(menu_change_charset_cb): 
 
 2001-06-30  Jon Trowbridge  <trow@ximian.com>
 

@@ -729,7 +729,8 @@ best_encoding (const guchar *text)
 
 static void
 attach_to_multipart (CamelMultipart *multipart,
-		     EMsgComposerAttachment *attachment)
+		     EMsgComposerAttachment *attachment,
+		     const char *default_charset)
 {
 	CamelContentType *content_type;
 	
@@ -747,9 +748,10 @@ attach_to_multipart (CamelMultipart *multipart,
 			g_byte_array_append (array, "", 1);
 			text = array->data;
 			
-			if (is_8bit (text))
+			if (is_8bit (text)) {
 				camel_mime_part_set_encoding (attachment->body, best_encoding (text));
-			else
+				header_content_type_set_param (content_type, "charset", default_charset);
+			} else
 				camel_mime_part_set_encoding (attachment->body, CAMEL_MIME_PART_ENCODING_7BIT);
 			
 			camel_object_unref (CAMEL_OBJECT (stream));
@@ -764,7 +766,8 @@ attach_to_multipart (CamelMultipart *multipart,
 
 void
 e_msg_composer_attachment_bar_to_multipart (EMsgComposerAttachmentBar *bar,
-					    CamelMultipart *multipart)
+					    CamelMultipart *multipart,
+					    const char *default_charset)
 {
 	EMsgComposerAttachmentBarPrivate *priv;
 	GList *p;
@@ -780,7 +783,7 @@ e_msg_composer_attachment_bar_to_multipart (EMsgComposerAttachmentBar *bar,
 		EMsgComposerAttachment *attachment;
 
 		attachment = E_MSG_COMPOSER_ATTACHMENT (p->data);
-		attach_to_multipart (multipart, attachment);
+		attach_to_multipart (multipart, attachment, default_charset);
 	}
 }
 
