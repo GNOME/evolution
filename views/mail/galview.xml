@@ -1,9 +1,0 @@
-<?xml version="1.0"?>
-<GalViewCollection default-view="Messages">
-  <GalView id="Messages" _title="_Messages" filename="Messages.galview" type="etable"/>
-  <GalView id="As_Sent_Folder" _title="As _Sent Folder" filename="As_Sent_Folder.galview" type="etable"/>
-  <GalView id="By_Subject" _title="By Su_bject" filename="By_Subject.galview" type="etable"/>
-  <GalView id="By_Sender" _title="By Se_nder" filename="By_Sender.galview" type="etable"/>
-  <GalView id="By_Status" _title="By S_tatus" filename="By_Status.galview" type="etable"/>
-  <GalView id="By_Follow_Up_Flag" _title="By _Follow Up Flag" filename="By_Follow_Up_Flag.galview" type="etable"/>
-</GalViewCollection>
