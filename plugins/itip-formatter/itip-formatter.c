@@ -705,7 +705,7 @@ update_item (FormatItipPObject *pitip, ItipViewResponse response)
 		CamelMimeMessage *msg = ((EMFormat *) pitip->pobject.format)->message;
 		
 		e_cal_component_get_attachment_list (clone_comp, &attachments);
-		g_message ("Number of attachments is %d", g_list_length (attachments));
+		g_message ("Number of attachments is %d", g_slist_length (attachments));
 		
 		for (l = attachments; l; l = l->next) {
 			GSList *parts = NULL, *m;

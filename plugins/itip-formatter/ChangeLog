@@ -1,3 +1,7 @@
+2005-01-11  Harish Krishnaswamy  <kharish@novell.com>
+
+	* itip-formatter.c (update_item): Fixed a compiler warning. 
+
 2005-01-10  JP Rosevear  <jpr@novell.com>
 
 	* itip-formatter.c (update_item): set to the new items, duh
