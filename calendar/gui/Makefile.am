@@ -14,9 +14,11 @@ INCLUDES = 			\
 	-I$(includedir)					\
 	$(GNOME_INCLUDEDIR)				\
 	$(GNOME_CONDUIT_INCLUDEDIR)				\
+	$(PISOCK_INCLUDEDIR)                  \
         -DGNOMELOCALEDIR=\""$(datadir)/locale"\"
 
-bin_PROGRAMS = gnomecal calendar-pilot-sync
+bin_PROGRAMS = gnomecal @CALSYNC@
+EXTRA_PROGRAMS = calendar-pilot-sync
 
 GNOMECAL_CORBA_GENERATED =	\
 	GnomeCal.h		\
@@ -100,10 +102,8 @@ LINK_FLAGS = \
 	$(GNOMEGNORBA_LIBS) \
 	$(INTLLIBS) ../libversit/libversit.a
 
-PILOT_LIBS = -lpisock
-
 calendar_pilot_sync_LDADD =	\
-	$(PILOT_LIBS)		\
+	$(PISOCK_LIBS)		\
 	$(LINK_FLAGS)
 
 
