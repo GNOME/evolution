@@ -2,6 +2,10 @@
 
 	* em-folder-tree.c (tree_row_expanded): Fixed to check fi->child
 	as well (since mbox does it right).
+	(emft_popup_new_folder_response): Fixed to subscribe to the
+	correct folder.
+	(emft_popup_delete_folders): Fixed to use the full_name rather
+	than the path.
 
 	* em-folder-selection-button.c (set_contents): Fixed to not
 	include leading '/' in the folder name in the label.

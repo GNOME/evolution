@@ -1231,11 +1231,11 @@ emft_popup_new_folder_response (EMFolderSelector *emfs, int response, EMFolderTr
 	/* FIXME: ugh, kludge-a-licious: EMFolderSelector uses EMFolderTree so we can poke emfs->emft internals */
 	struct _EMFolderTreePrivate *priv = emfs->emft->priv;
 	struct _EMFolderTreeModelStoreInfo *si;
-	const char *uri, *parent;
+	const char *uri, *parent, *path, *full_name;
+	char *name, *namebuf = NULL;
 	GtkWidget *dialog;
 	CamelStore *store;
 	CamelException ex;
-	char *path, *name;
 	
 	if (response != GTK_RESPONSE_OK) {
 		gtk_widget_destroy ((GtkWidget *) emfs);
@@ -1243,7 +1243,7 @@ emft_popup_new_folder_response (EMFolderSelector *emfs, int response, EMFolderTr
 	}
 	
 	uri = em_folder_selector_get_selected_uri (emfs);
-	path = (char *) em_folder_selector_get_selected_path (emfs);
+	path = em_folder_selector_get_selected_path (emfs);
 	d(printf ("Creating folder: %s (%s)\n", path, uri));
 	
 	camel_exception_init (&ex);
@@ -1259,13 +1259,14 @@ emft_popup_new_folder_response (EMFolderSelector *emfs, int response, EMFolderTr
 	camel_object_unref (store);
 	
 	/* FIXME: camel_store_create_folder should just take full path names */
-	path = g_strdup (path[0] == '/' ? path + 1 : path);
-	if (!(name = strrchr (path, '/'))) {
-		name = path;
+	full_name = path[0] == '/' ? path + 1 : path;
+	namebuf = g_strdup (full_name);
+	if (!(name = strrchr (namebuf, '/'))) {
+		name = namebuf;
 		parent = "";
 	} else {
 		*name++ = '\0';
-		parent = path;
+		parent = namebuf;
 	}
 	
 	d(printf ("creating folder name='%s' path='%s'\n", name, path));
@@ -1274,12 +1275,12 @@ emft_popup_new_folder_response (EMFolderSelector *emfs, int response, EMFolderTr
 	if (camel_exception_is_set (&ex)) {
 		goto exception;
 	} else if (camel_store_supports_subscriptions (si->store)) {
-		camel_store_subscribe_folder (si->store, path, &ex);
+		camel_store_subscribe_folder (si->store, full_name, &ex);
 		if (camel_exception_is_set (&ex))
 			goto exception;
 	}
 	
-	g_free (path);
+	g_free (namebuf);
 	
 	gtk_widget_destroy ((GtkWidget *) emfs);
 	
@@ -1291,7 +1292,7 @@ emft_popup_new_folder_response (EMFolderSelector *emfs, int response, EMFolderTr
 					 GTK_MESSAGE_ERROR, GTK_BUTTONS_CLOSE, _("%s"), ex.desc);
 	g_signal_connect (dialog, "response", G_CALLBACK (gtk_widget_destroy), dialog);
 	camel_exception_clear (&ex);
-	g_free (path);
+	g_free (namebuf);
 	
 	gtk_widget_show (dialog);
 }
@@ -1351,15 +1352,17 @@ emft_popup_delete_rec (CamelStore *store, CamelFolderInfo *fi, CamelException *e
 }
 
 static void
-emft_popup_delete_folders (CamelStore *store, const char *base, CamelException *ex)
+emft_popup_delete_folders (CamelStore *store, const char *path, CamelException *ex)
 {
 	guint32 flags = CAMEL_STORE_FOLDER_INFO_RECURSIVE;
+	const char *full_name;
 	CamelFolderInfo *fi;
 	
 	if (camel_store_supports_subscriptions (store))
 		flags |= CAMEL_STORE_FOLDER_INFO_SUBSCRIBED;
 	
-	fi = camel_store_get_folder_info (store, base, flags, ex);
+	full_name = path[0] == '/' ? path + 1 : path;
+	fi = camel_store_get_folder_info (store, full_name, flags, ex);
 	if (camel_exception_is_set (ex))
 		return;
 	
