@@ -1,5 +1,12 @@
 2001-06-30  Iain Holmes  <iain@ximian.com>
 
+	* e-summary-preferences.c (add_dialog_clicked_cb): Add the new url to
+	the list.
+	(rdf_new_url_clicked_cb): Create a dialog and allow the user to add
+	new urls.
+
+2001-06-30  Iain Holmes  <iain@ximian.com>
+
 	* e-summary-rdf.c (tree_walk): Remove spewage.
 	(e_summary_rdf_count):
 	(e_summary_rdf_add):

@@ -13,9 +13,12 @@
 
 #include <libgnome/gnome-defs.h>
 #include <libgnome/gnome-util.h>
+#include <libgnome/gnome-i18n.h>
 #include <libgnome/gnome-config.h>
 
 #include <libgnomeui/gnome-propertybox.h>
+#include <libgnomeui/gnome-stock.h>
+
 #include <glade/glade.h>
 static void
 make_initial_mail_list (ESummaryPrefs *prefs)
@@ -358,6 +361,7 @@ struct _CalendarPage {
 typedef struct _PropertyData {
 	ESummary *summary;
 	GnomePropertyBox *box;
+	GtkWidget *new_entry;
 	GladeXML *xml;
 
 	struct _MailPage *mail;
@@ -627,10 +631,50 @@ rdf_remove_clicked_cb (GtkButton *button,
 }
 
 static void
+add_dialog_clicked_cb (GnomeDialog *dialog,
+		       int button,
+		       PropertyData *pd)
+{
+	char *text[1];
+
+	if (button == 1) {
+		return;
+	}
+
+	text[0] = gtk_entry_get_text (GTK_ENTRY (pd->new_entry));
+	gtk_clist_append (GTK_CLIST (pd->rdf->all), text);
+	
+	gnome_dialog_close (dialog);
+}
+
+static void
 rdf_new_url_clicked_cb (GtkButton *button,
 			PropertyData *pd)
 {
+	static GtkWidget *add_dialog = NULL;
+	GtkWidget *label;
 
+	if (add_dialog != NULL) {
+		gdk_window_raise (add_dialog->window);
+		gdk_window_show (add_dialog->window);
+		return;
+	} 
+
+	add_dialog = gnome_dialog_new (_("Add a new RDF"),
+				       GNOME_STOCK_BUTTON_OK,
+				       GNOME_STOCK_BUTTON_CANCEL, NULL);
+	gtk_signal_connect (GTK_OBJECT (add_dialog), "clicked",
+			    GTK_SIGNAL_FUNC (add_dialog_clicked_cb), pd);
+	gtk_signal_connect (GTK_OBJECT (add_dialog), "destroy",
+			    GTK_SIGNAL_FUNC (gtk_widget_destroyed), &add_dialog);
+
+	label = gtk_label_new (_("Enter the URL of the RDF file you wish to add"));
+	gtk_box_pack_start (GTK_BOX (GNOME_DIALOG (add_dialog)->vbox), label,
+			    TRUE, TRUE, 0);
+	pd->new_entry = gtk_entry_new ();
+	gtk_box_pack_start (GTK_BOX (GNOME_DIALOG (add_dialog)->vbox), 
+			    pd->new_entry, TRUE, TRUE, 0);
+	gtk_widget_show_all (add_dialog);
 }
 
 static void
