@@ -106,4 +106,17 @@
     <separator f="" name="eshell4"/>
   </dockitem>
 
+  <popups>
+    <popup name="NewPopup">
+    	<placeholder name="ComponentItems"/>
+
+	<separator f="" name="eshell7"/>
+
+	<menuitem name="EvolutionWindow"
+	          verb="OpenFolderInNewWindow"
+		  _label="Evolution _Window"
+		  _tip="Create a new window displaying this folder"
+		  accel="*Control**Shift*w"/>
+    </popup>
+
 </Root>
