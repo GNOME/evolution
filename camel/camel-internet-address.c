@@ -207,7 +207,7 @@ camel_internet_address_add	(CamelInternetAddress *a, const char *name, const cha
  * Return value: TRUE if such an address exists, or FALSE otherwise.
  **/
 gboolean
-camel_internet_address_get	(CamelInternetAddress *a, int index, const char **namep, const char **addressp)
+camel_internet_address_get	(const CamelInternetAddress *a, int index, const char **namep, const char **addressp)
 {
 	struct _address *addr;
 

@@ -45,7 +45,7 @@ guint			camel_internet_address_get_type	(void);
 CamelInternetAddress   *camel_internet_address_new	(void);
 
 int			camel_internet_address_add	(CamelInternetAddress *, const char *, const char *);
-gboolean		camel_internet_address_get	(CamelInternetAddress *, int, const char **, const char **);
+gboolean		camel_internet_address_get	(const CamelInternetAddress *, int, const char **, const char **);
 
 int			camel_internet_address_find_name(CamelInternetAddress *, const char *, const char **);
 int			camel_internet_address_find_address(CamelInternetAddress *, const char *, const char **);
