@@ -489,16 +489,10 @@ cal_recur_generate_instances (CalComponent		*comp,
 	else
 		dtend_time = time_day_end (dtstart_time);
 
-
-	cal_component_get_rrule_list (comp, &rrules);
-	cal_component_get_rdate_list (comp, &rdates);
-	cal_component_get_exrule_list (comp, &exrules);
-	cal_component_get_exdate_list (comp, &exdates);
-
 	/* If there is no recurrence, just call the callback if the event
 	   intersects the given interval. */
-
-	if (!(rrules || rdates || exrules || exdates)) {
+	if (!(cal_component_has_recurrences (comp)
+	      || cal_component_has_exceptions (comp))) {
 		if ((end && dtstart_time < end && dtend_time > start)
 		    || (end == 0 && dtend_time > start)) {
 			(* cb) (comp, dtstart_time, dtend_time, cb_data);
@@ -506,6 +500,12 @@ cal_recur_generate_instances (CalComponent		*comp,
 
 		goto out;
 	}
+
+	/* Get the recurrence rules */
+	cal_component_get_rrule_list (comp, &rrules);
+	cal_component_get_rdate_list (comp, &rdates);
+	cal_component_get_exrule_list (comp, &exrules);
+	cal_component_get_exdate_list (comp, &exdates);
 
 	/* Convert the interval start & end to CalObjTime. */
 	cal_object_time_from_time (&interval_start, start);
@@ -557,6 +557,12 @@ cal_recur_generate_instances (CalComponent		*comp,
 						  cb, cb_data))
 			break;
 	}
+
+	cal_component_free_recur_list (rrules);
+	cal_component_free_period_list (rdates);
+	cal_component_free_recur_list (exrules);
+	cal_component_free_exdate_list (exdates);
+	
 
  out:
 	cal_component_free_datetime (&dtstart);

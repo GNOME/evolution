@@ -1991,6 +1991,29 @@ cal_component_set_exdate_list (CalComponent *comp, GSList *exdate_list)
 	priv->need_sequence_inc = TRUE;
 }
 
+/**
+ * cal_component_has_exdates:
+ * @comp: A calendar component object.
+ * 
+ * Queries whether a calendar component object has any exception dates defined
+ * for it.
+ * 
+ * Return value: TRUE if the component has exception dates, FALSE otherwise.
+ **/
+gboolean
+cal_component_has_exdates (CalComponent *comp)
+{
+	CalComponentPrivate *priv;
+
+	g_return_val_if_fail (comp != NULL, FALSE);
+	g_return_val_if_fail (IS_CAL_COMPONENT (comp), FALSE);
+
+	priv = comp->priv;
+	g_return_val_if_fail (priv->icalcomp != NULL, FALSE);
+
+	return (priv->exdate_list != NULL);
+}
+
 /* Gets a list of recurrence rules */
 static void
 get_recur_list (GSList *recur_list,
@@ -2105,6 +2128,43 @@ cal_component_set_exrule_list (CalComponent *comp, GSList *recur_list)
 	set_recur_list (comp, icalproperty_new_exrule, &priv->exrule_list, recur_list);
 
 	priv->need_sequence_inc = TRUE;
+}
+
+/**
+ * cal_component_has_exrules:
+ * @comp: A calendar component object.
+ * 
+ * Queries whether a calendar component object has any exception rules defined
+ * for it.
+ * 
+ * Return value: TRUE if the component has exception rules, FALSE otherwise.
+ **/
+gboolean
+cal_component_has_exrules (CalComponent *comp)
+{
+	CalComponentPrivate *priv;
+
+	g_return_val_if_fail (comp != NULL, FALSE);
+	g_return_val_if_fail (IS_CAL_COMPONENT (comp), FALSE);
+
+	priv = comp->priv;
+	g_return_val_if_fail (priv->icalcomp != NULL, FALSE);
+
+	return (priv->exrule_list != NULL);
+}
+
+/**
+ * cal_component_has_exceptions:
+ * @comp: A calendar component object
+ * 
+ * Queries whether a calendar component object has any exceptions defined
+ * 
+ * Return value: TRUE if the component has exceptions, FALSE otherwise
+ **/
+gboolean 
+cal_component_has_exceptions (CalComponent *comp)
+{
+	return cal_component_has_exdates (comp) || cal_component_has_exrules (comp);
 }
 
 /**
@@ -2489,6 +2549,20 @@ cal_component_has_rrules (CalComponent *comp)
 	g_return_val_if_fail (priv->icalcomp != NULL, FALSE);
 
 	return (priv->rrule_list != NULL);
+}
+
+/**
+ * cal_component_has_recurrence:
+ * @comp: A calendar component object
+ * 
+ * Queries whether a calendar component object has any recurrences defined
+ * 
+ * Return value: TRUE if the component has recurrences, FALSE otherwise
+ **/
+gboolean 
+cal_component_has_recurrences (CalComponent *comp)
+{
+	return cal_component_has_rdates (comp) || cal_component_has_rrules (comp);
 }
 
 /**

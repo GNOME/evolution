@@ -1,3 +1,21 @@
+2000-09-06  JP Rosevear  <jpr@helixcode.com>
+
+	* cal-util/cal-recur.c (cal_recur_generate_instances): Use
+	new convenience functions and only get the recurrence
+	stuff if needed.  Free the recurrence stuff if used.
+
+2000-09-05  JP Rosevear  <jpr@helixcode.com>
+
+	* cal-util/cal-component.h: Add new prototypes
+
+	* cal-util/cal-component.c (cal_component_has_exrules): Utility 
+	function to determine whether a cal component has any exrules
+	(cal_component_has_exdates): Ditto for exdates
+	(cal_component_has_exceptions): Utility function to determine
+	whether a cal component has any exception rules
+	(cal_component_has_recurrences):Utility function to determine
+	whether a cal component has any recurrence rules 
+
 2000-09-05  JP Rosevear  <jpr@helixcode.com>
 
 	* gui/event-editor.c (dialog_to_comp_object): Kill all exdates if
