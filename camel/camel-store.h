@@ -51,7 +51,17 @@ typedef struct _CamelFolderInfo {
 	char *full_name;
 	char *path;
 	int unread_message_count;
+	guint32 flags;
 } CamelFolderInfo;
+
+/* Note: these are abstractions (duh), its upto the provider to make them make sense */
+
+/* a folder which can't contain messages */
+#define CAMEL_FOLDER_NOSELECT (1<<0)
+/* a folder which cannot have children */
+#define CAMEL_FOLDER_NOINFERIORS (1<<1)
+/* a folder which has children (not yet fully implemented) */
+#define CAMEL_FOLDER_CHILDREN (1<<2)
 
 /* Structure of rename event's event_data */
 typedef struct _CamelRenameInfo {

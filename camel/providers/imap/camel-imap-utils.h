@@ -50,11 +50,6 @@ struct _namespaces {
 void imap_namespaces_destroy (struct _namespaces *namespaces);
 struct _namespaces *imap_parse_namespace_response (const char *response);
 
-#define IMAP_LIST_FLAG_NOINFERIORS	(1 << 0)
-#define IMAP_LIST_FLAG_NOSELECT		(1 << 1)
-#define IMAP_LIST_FLAG_MARKED		(1 << 2)
-#define IMAP_LIST_FLAG_UNMARKED		(1 << 3)
-
 gboolean imap_parse_list_response  (CamelImapStore *store, const char *buf, int *flags,
 				    char *sep, char **folder);
 

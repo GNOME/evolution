@@ -315,13 +315,17 @@ imap_parse_list_response (CamelImapStore *store, const char *buf, int *flags, ch
 		len = strcspn (word, " )");
 		if (flags) {
 			if (!g_strncasecmp (word, "\\NoInferiors", len))
-				*flags |= IMAP_LIST_FLAG_NOINFERIORS;
+				*flags |= CAMEL_FOLDER_NOINFERIORS;
 			else if (!g_strncasecmp (word, "\\NoSelect", len))
-				*flags |= IMAP_LIST_FLAG_NOSELECT;
+				*flags |= CAMEL_FOLDER_NOSELECT;
 			else if (!g_strncasecmp (word, "\\Marked", len))
-				*flags |= IMAP_LIST_FLAG_MARKED;
+				*flags |= CAMEL_IMAP_FOLDER_MARKED;
 			else if (!g_strncasecmp (word, "\\Unmarked", len))
-				*flags |= IMAP_LIST_FLAG_UNMARKED;
+				*flags |= CAMEL_IMAP_FOLDER_UNMARKED;
+			else if (!g_strncasecmp (word, "\\HasChildren", len))
+				*flags |= CAMEL_FOLDER_CHILDREN;
+			else if (!g_strncasecmp (word, "\\HasNoChildren", len))
+				*flags |= CAMEL_IMAP_FOLDER_NOCHILDREN;
 		}
 		
 		word += len;

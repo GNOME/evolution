@@ -60,7 +60,7 @@
 #include "camel-imap-private.h"
 #include "camel-private.h"
 
-#define d(x) x
+#define d(x) 
 
 /* Specified in RFC 2060 */
 #define IMAP_PORT 143
@@ -1247,9 +1247,9 @@ imap_connect_online (CamelService *service, CamelException *ex)
 			result = response->untagged->pdata[i];
 			if (!imap_parse_list_response (store, result, &flags, NULL, &name))
 				continue;
-			if (flags & (IMAP_LIST_FLAG_MARKED | IMAP_LIST_FLAG_UNMARKED))
+			if (flags & (CAMEL_IMAP_FOLDER_MARKED | CAMEL_IMAP_FOLDER_UNMARKED))
 				store->capabilities |= IMAP_CAPABILITY_useful_lsub;
-			if (flags & IMAP_LIST_FLAG_NOSELECT) {
+			if (flags & CAMEL_FOLDER_NOSELECT) {
 				g_free (name);
 				continue;
 			}
@@ -1284,7 +1284,7 @@ imap_connect_offline (CamelService *service, CamelException *ex)
 	char *buf, *name, *path;
 	FILE *storeinfo;
 	guint32 tmp;
-	
+
 	path = g_strdup_printf ("%s/journal", store->storage_path);
 	disco_store->diary = camel_disco_diary_new (disco_store, path, ex);
 	g_free (path);
@@ -1307,25 +1307,31 @@ imap_connect_offline (CamelService *service, CamelException *ex)
 		return camel_disco_store_check_online (CAMEL_DISCO_STORE (store), ex);
 	}
 	
+	store->subscribed_folders = g_hash_table_new (g_str_hash, g_str_equal);
+
 	camel_file_util_decode_uint32 (storeinfo, &store->capabilities);
 	imap_set_server_level (store);
-	camel_file_util_decode_string (storeinfo, &store->namespace);
-	camel_file_util_decode_uint32 (storeinfo, &tmp);
-	store->dir_sep = tmp;
-	((CamelStore *)store)->dir_sep = tmp;
-	
-	/* Get subscribed folders */
-	store->subscribed_folders = g_hash_table_new (g_str_hash, g_str_equal);
-	while (camel_file_util_decode_string (storeinfo, &buf) == 0) {
-		if (!imap_parse_list_response (store, buf, NULL, NULL, &name)) {
+	camel_file_util_decode_string (storeinfo, &name);
+	/* if the namespace has changed, the subscribed folder list in this file is bogus */
+	if (store->namespace == NULL || (name != NULL && strcmp(name, store->namespace) == 0)) {
+		g_free(store->namespace);
+		store->namespace = name;
+		camel_file_util_decode_uint32 (storeinfo, &tmp);
+		store->dir_sep = tmp;
+		((CamelStore *)store)->dir_sep = tmp;
+		while (camel_file_util_decode_string (storeinfo, &buf) == 0) {
+			if (!imap_parse_list_response (store, buf, NULL, NULL, &name)) {
+				g_free (buf);
+				continue;
+			}
+			g_hash_table_insert (store->subscribed_folders, name,
+					     GINT_TO_POINTER (1));
 			g_free (buf);
-			continue;
 		}
-		g_hash_table_insert (store->subscribed_folders, name,
-				     GINT_TO_POINTER (1));
-		g_free (buf);
+	} else {
+		g_free(name);
 	}
-	
+
 	fclose (storeinfo);
 	imap_store_refresh_folders (store, ex);
 	
@@ -1769,7 +1775,7 @@ create_folder (CamelStore *store, const char *parent_name,
 			continue;
 		
 		if (strcmp (thisone, parent_name) == 0) {
-			if (flags & IMAP_LIST_FLAG_NOINFERIORS)
+			if (flags & CAMEL_FOLDER_NOINFERIORS)
 				need_convert = TRUE;
 			break;
 		}
@@ -1905,6 +1911,7 @@ parse_list_response_as_folder_info (CamelImapStore *imap_store,
 	}
 
 	fi = g_new0 (CamelFolderInfo, 1);
+	fi->flags = flags;
 	fi->full_name = dir;
 	if (sep && name)
 		fi->name = g_strdup (name);
@@ -1914,12 +1921,13 @@ parse_list_response_as_folder_info (CamelImapStore *imap_store,
 	url = camel_url_new (imap_store->base_url, NULL);
 	g_free (url->path);
 	url->path = g_strdup_printf ("/%s", dir);
-	if (flags & IMAP_LIST_FLAG_NOSELECT || fi->name[0] == 0)
+	if (flags & CAMEL_FOLDER_NOSELECT || fi->name[0] == 0)
 		camel_url_set_param (url, "noselect", "yes");
 	fi->url = camel_url_to_string (url, 0);
 	camel_url_free (url);
-	
-	if (flags & IMAP_LIST_FLAG_UNMARKED)
+
+	/* FIXME: redundant */
+	if (flags & CAMEL_IMAP_FOLDER_UNMARKED)
 		fi->unread_message_count = -1;
 	
 	return fi;
@@ -1931,28 +1939,31 @@ copy_folder_name (gpointer name, gpointer key, gpointer array)
 	g_ptr_array_add (array, name);
 }
 
-static void
-get_subscribed_folders_by_hand (CamelImapStore *imap_store, const char *top,
-				GPtrArray *folders, CamelException *ex)
+/* this is used when lsub doesn't provide very useful information */
+static GPtrArray *
+get_subscribed_folders(CamelImapStore *imap_store, const char *top, CamelException *ex)
 {
-	GPtrArray *names;
+	GPtrArray *names, *folders;
 	CamelImapResponse *response;
 	CamelFolderInfo *fi;
 	char *result;
 	int i, toplen = strlen (top);
-	
+
+	folders = g_ptr_array_new();
 	names = g_ptr_array_new ();
 	g_hash_table_foreach (imap_store->subscribed_folders,
 			      copy_folder_name, names);
-	
+
+	if (names->len == 0)
+		g_ptr_array_add(names, "INBOX");
+
 	for (i = 0; i < names->len; i++) {
 		response = camel_imap_command (imap_store, NULL, ex,
 					       "LIST \"\" %F",
 					       names->pdata[i]);
-		if (!response) {
-			g_ptr_array_free (names, TRUE);
-			return;
-		}
+		if (!response)
+			break;
+
 		result = camel_imap_response_extract (imap_store, response, "LIST", NULL);
 		if (!result) {
 			g_hash_table_remove (imap_store->subscribed_folders,
@@ -1973,7 +1984,10 @@ get_subscribed_folders_by_hand (CamelImapStore *imap_store, const char *top,
 		
 		g_ptr_array_add (folders, fi);
 	}
+
 	g_ptr_array_free (names, TRUE);
+
+	return folders;
 }
 
 static void
@@ -2000,170 +2014,238 @@ get_folders_online (CamelImapStore *imap_store, const char *pattern,
 	camel_imap_response_free (imap_store, response);
 }
 
-static CamelFolderInfo *
-get_folder_info_online (CamelStore *store, const char *top,
-			guint32 flags, CamelException *ex)
+#if 0
+static void
+dumpfi(CamelFolderInfo *fi)
+{
+	int depth;
+	CamelFolderInfo *n = fi;
+
+	if (fi == NULL)
+		return;
+
+	depth = 0;
+	while (n->parent) {
+		depth++;
+		n = n->parent;
+	}
+
+	while (fi) {
+		printf("%-40s %-30s %*s\n", fi->path, fi->full_name, depth*2+strlen(fi->name), fi->name);
+		if (fi->child)
+			dumpfi(fi->child);
+		fi = fi->sibling;
+	}
+}
+#endif
+
+static void
+get_folder_counts(CamelImapStore *imap_store, CamelFolderInfo *fi, CamelException *ex)
+{
+	GSList *q;
+
+	/* non-recursive breath first search */
+
+	q = g_slist_append(NULL, fi);
+
+	while (q) {
+		fi = q->data;
+		q = g_slist_remove_link(q, q);
+
+		while (fi) {
+			/* ignore noselect folders, and check only inbox if we only check inbox */
+			if ((fi->flags & CAMEL_FOLDER_NOSELECT) == 0
+			    && ( (imap_store->parameters & IMAP_PARAM_CHECK_ALL)
+				 || strcasecmp(fi->full_name, "inbox") == 0) ) {
+
+				CAMEL_IMAP_STORE_LOCK (imap_store, command_lock);
+				/* For the current folder, poke it to check for new	
+				 * messages and then report that number, rather than
+				 * doing a STATUS command.
+				 */
+				if (imap_store->current_folder && strcmp(imap_store->current_folder->full_name, fi->full_name) == 0) {
+					/* we bypass the folder locking otherwise we can deadlock.  we use the command lock for
+					   any operations anyway so this is 'safe'.  See comment above imap_store_refresh_folders() for info */
+					CAMEL_FOLDER_CLASS (CAMEL_OBJECT_GET_CLASS(imap_store->current_folder))->refresh_info(imap_store->current_folder, ex);
+					fi->unread_message_count = camel_folder_get_unread_message_count (imap_store->current_folder);
+				} else
+					fi->unread_message_count = get_folder_status (imap_store, fi->full_name, "UNSEEN");
+		
+				CAMEL_IMAP_STORE_UNLOCK (imap_store, command_lock);
+			} else {
+				fi->unread_message_count = -1;
+			}
+
+			if (fi->child)
+				q = g_slist_append(q, fi->child);
+			fi = fi->sibling;
+		}
+	}
+}
+
+/* imap needs to treat inbox case insensitive */
+/* we'll assume the names are normalised already */
+static guint folder_hash(const void *ap)
+{
+	const char *a = ap;
+
+	if (strcasecmp(a, "INBOX") == 0)
+		a = "INBOX";
+
+	return g_str_hash(a);
+}
+
+static int folder_eq(const void *ap, const void *bp)
+{
+	const char *a = ap;
+	const char *b = bp;
+
+	if (strcasecmp(a, "INBOX") == 0)
+		a = "INBOX";
+	if (strcasecmp(b, "INBOX") == 0)
+		b = "INBOX";
+
+	return g_str_equal(a, b);
+}
+
+static GPtrArray *
+get_folders(CamelStore *store, const char *top, guint32 flags, CamelException *ex)
 {
 	CamelImapStore *imap_store = CAMEL_IMAP_STORE (store);
-	gboolean need_inbox = FALSE;
-	GPtrArray *folders;
-	const char *name;
-	char *pattern;
-	CamelFolderInfo *fi, *tree;
+	GSList *p = NULL;
+	GHashTable *infos;
 	int i;
-	
+	GPtrArray *folders, *folders_out;
+	CamelFolderInfo *fi;
+	char *name;
+	int depth = 0;
+	int haveinbox = 0;
+	static int imap_max_depth = 0;
+
 	if (!camel_imap_store_connected (imap_store, ex))
 		return NULL;
-	
-	name = top;
-	if (!name || name[0] == '\0') {
-		need_inbox = TRUE;
-		name = imap_store->namespace ? imap_store->namespace : "";
+
+	/* allow megalomaniacs to override the max of 10 */
+	if (imap_max_depth == 0) {
+		name = getenv("CAMEL_IMAP_MAX_DEPTH");
+		if (name) {
+			imap_max_depth = atoi(name);
+			imap_max_depth = MIN(imap_max_depth, 2);
+		} else
+			imap_max_depth = 10;
 	}
-	
-	folders = g_ptr_array_new ();
-	
-	/* Get top-level */
-	get_folders_online (imap_store, name, folders, FALSE, ex);
-	if (camel_exception_is_set (ex))
-		goto lose;
-	
-	if (folders->len) {
-		const char *noselect;
-		CamelURL *url;
-		
-		fi = folders->pdata[0];
-		
-		url = camel_url_new (fi->url, NULL);
-		noselect = url ? camel_url_get_param (url, "noselect") : NULL;
-		if (noselect && !g_strcasecmp (noselect, "yes") && name[0] == '\0') {
-			camel_folder_info_free (fi);
-			g_ptr_array_remove_index (folders, 0);
-		}
-		camel_url_free (url);
+
+	infos = g_hash_table_new(folder_hash, folder_eq);
+
+	/* get starting point & strip trailing '/' */
+	if (top[0] == 0 && imap_store->namespace)
+		top = imap_store->namespace;
+	i = strlen(top)-1;
+	name = alloca(i+2);
+	strcpy(name, top);
+	while (i>0 && name[i] == store->dir_sep)
+		name[i--] = 0;
+
+	d(printf("\n\nList '%s' %s\n", name, flags&CAMEL_STORE_FOLDER_INFO_RECURSIVE?"RECURSIVE":"NON-RECURSIVE"));
+
+	folders_out = g_ptr_array_new();
+	folders = g_ptr_array_new();
+
+	/* first get working list of names */
+	get_folders_online (imap_store, name[0]?name:"%", folders, FALSE, ex);
+	for (i=0; i<folders->len && !haveinbox; i++) {
+		fi = folders->pdata[i];
+		haveinbox = (strcasecmp(fi->full_name, "INBOX")) == 0;
 	}
-	
-	/* If we want to look at only subscribed folders AND check if
-	 * any of them have new mail, AND the server doesn't return
-	 * Marked/UnMarked with LSUB, then use
-	 * get_subscribed_folders_by_hand. In all other cases, use a
-	 * single LIST or LSUB command.
-	 */
-	if ((flags & CAMEL_STORE_FOLDER_INFO_SUBSCRIBED) &&
-	    !(imap_store->capabilities & IMAP_CAPABILITY_useful_lsub) &&
-	    (imap_store->parameters & IMAP_PARAM_CHECK_ALL)) {
-		get_subscribed_folders_by_hand (imap_store, name, folders, ex);
-	} else {
-		pattern = imap_concat (imap_store, name, (flags & CAMEL_STORE_FOLDER_INFO_RECURSIVE) ? "*" : "%");
-		get_folders_online (imap_store, pattern, folders, (flags & CAMEL_STORE_FOLDER_INFO_SUBSCRIBED), ex);
-		g_free (pattern);
-	}
-	
-	if (camel_exception_is_set (ex)) {
-	lose:
-		for (i = 0; i < folders->len; i++)
-			camel_folder_info_free (folders->pdata[i]);
-		g_ptr_array_free (folders, TRUE);
-		return NULL;
-	}
-	
-	/* Add INBOX, if necessary */
-	if (need_inbox) {
-		for (i = 0; i < folders->len; i++) {
-			fi = folders->pdata[i];
-			if (!g_strcasecmp (fi->full_name, "INBOX")) {
-				need_inbox = FALSE;
-				break;
+
+	if (!haveinbox && top[0] == 0)
+		get_folders_online(imap_store, "INBOX", folders, FALSE, ex);
+
+	for (i=0; i<folders->len; i++)
+		p = g_slist_prepend(p, folders->pdata[i]);
+
+	g_ptr_array_set_size(folders, 0);
+
+	/* p is a reversed list of pending folders for the next level, q is the list of folders for this */
+	while (p) {
+		GSList *q = g_slist_reverse(p);
+
+		p = NULL;
+		while (q) {
+			fi = q->data;
+
+			q = g_slist_remove_link(q, q);
+			g_ptr_array_add(folders_out, fi);
+
+			d(printf("Checking folder '%s'\n", fi->full_name));
+
+			/* First if we're not recursive mode on the top level, and we know it has or doesn't
+                            or can't have children, no need to go further - a bit ugly */
+			if ( top == imap_store->namespace
+			     && (flags & CAMEL_STORE_FOLDER_INFO_RECURSIVE) == 0
+			     && (fi->flags & (CAMEL_FOLDER_CHILDREN|CAMEL_IMAP_FOLDER_NOCHILDREN|CAMEL_FOLDER_NOINFERIORS)) != 0) {
+				/* do nothing */
+			}
+				/* Otherwise, if this has (or might have) children, scan it */
+			else if ( (fi->flags & (CAMEL_IMAP_FOLDER_NOCHILDREN|CAMEL_FOLDER_NOINFERIORS)) == 0
+				  || (fi->flags & CAMEL_FOLDER_CHILDREN) != 0) {
+				char *n;
+				
+				n = imap_concat(imap_store, fi->full_name, "%");
+				get_folders_online(imap_store, n, folders, FALSE, ex);
+				g_free(n);
+
+				if (folders->len > 0)
+					fi->flags |= CAMEL_FOLDER_CHILDREN;
+
+				for (i=0;i<folders->len;i++) {
+					fi = folders->pdata[i];
+					if (g_hash_table_lookup(infos, fi->full_name) == NULL) {
+						g_hash_table_insert(infos, fi->full_name, fi);
+						if ((flags & CAMEL_STORE_FOLDER_INFO_RECURSIVE) && depth<imap_max_depth)
+							p = g_slist_prepend(p, fi);
+						else
+							g_ptr_array_add(folders_out, fi);
+					} else {
+						camel_folder_info_free(fi);
+					}
+				}
+				g_ptr_array_set_size(folders, 0);
 			}
 		}
-		
-		if (need_inbox) {
-			CamelURL *url;
-			char *uri;
-			
-			url = camel_url_new (imap_store->base_url, NULL);
-			g_free (url->path);
-			url->path = g_strdup ("/INBOX");
-			uri = camel_url_to_string (url, 0);
-			camel_url_free (url);
-			
-			fi = g_new0 (CamelFolderInfo, 1);
-			fi->full_name = g_strdup ("INBOX");
-			fi->name = g_strdup ("INBOX");
-			fi->url = uri;
-			fi->unread_message_count = 0;
-			
-			g_ptr_array_add (folders, fi);
-		}
+		depth++;
 	}
-	
-	/* Assemble. */
 
-	/* if building the folder tree, preserve the namespace at the top. Note the
-	 * ==, not strcmp. This makes it so that the subscribe dialog and the folder
-	 * tree have the same layout and prevents the subscribe dialog from building
-	 * infinitely large trees.
-	 */
+	g_ptr_array_free(folders, TRUE);
+	g_hash_table_destroy(infos);
 
-	if (name == imap_store->namespace)
-		tree = camel_folder_info_build (folders, "", imap_store->dir_sep, TRUE);
+	return folders_out;
+}
+
+static CamelFolderInfo *
+get_folder_info_online (CamelStore *store, const char *top, guint32 flags, CamelException *ex)
+{
+	CamelImapStore *imap_store = CAMEL_IMAP_STORE (store);
+	GPtrArray *folders;
+	CamelFolderInfo *tree;
+
+	if (top == NULL)
+		top = "";
+
+	if ((flags & CAMEL_STORE_FOLDER_INFO_SUBSCRIBED)
+	    && !(imap_store->capabilities & IMAP_CAPABILITY_useful_lsub)
+	    && (imap_store->parameters & IMAP_PARAM_CHECK_ALL))
+		folders = get_subscribed_folders(imap_store, top, ex);
 	else
-		tree = camel_folder_info_build (folders, name, imap_store->dir_sep, TRUE);
+		folders = get_folders(store, top, flags, ex);
 
-	if (flags & CAMEL_STORE_FOLDER_INFO_FAST) {
-		g_ptr_array_free (folders, TRUE);
-		return tree;
-	}
-	
-	/* Get unread counts. Sync flag changes to the server first so
-	 * it has the same ideas about read/unread as we do.
-	 */
-	camel_store_sync (store, NULL);
-	for (i = 0; i < folders->len; i++) {
-		const char *noselect;
-		CamelURL *url;
-		
-		fi = folders->pdata[i];
-		
-		/* Don't check if it doesn't contain messages or if it
-		 * was \UnMarked.
-		 */
-		url = camel_url_new (fi->url, NULL);
-		noselect = url ? camel_url_get_param (url, "noselect") : NULL;
-		if (fi->unread_message_count == -1 || (noselect && !g_strcasecmp (noselect, "yes"))) {
-			camel_url_free (url);
-			continue;
-		}
-		camel_url_free (url);
-		
-		/* Don't check if it's not INBOX and we're only
-		 * checking INBOX.
-		 */
-		if ((!(imap_store->parameters & IMAP_PARAM_CHECK_ALL))
-		    && (g_strcasecmp (fi->name, "INBOX") != 0)) {
-			fi->unread_message_count = -1;
-			continue;
-		}
-		
-		CAMEL_IMAP_STORE_LOCK (imap_store, command_lock);
-		/* For the current folder, poke it to check for new
-		 * messages and then report that number, rather than
-		 * doing a STATUS command.
-		 */
-		if (imap_store->current_folder &&
-		    !strcmp (imap_store->current_folder->full_name, fi->full_name)) {
-			/* we bypass the folder locking otherwise we can deadlock.  we use the command lock for
-			   any operations anyway so this is 'safe'.  See comment above imap_store_refresh_folders() for info */
-			CAMEL_FOLDER_CLASS (CAMEL_OBJECT_GET_CLASS(imap_store->current_folder))->refresh_info(imap_store->current_folder, ex);
-			fi->unread_message_count = camel_folder_get_unread_message_count (imap_store->current_folder);
-		} else
-			fi->unread_message_count = get_folder_status (imap_store, fi->full_name, "UNSEEN");
-		
-		CAMEL_IMAP_STORE_UNLOCK (imap_store, command_lock);
-	}
-	
-	g_ptr_array_free (folders, TRUE);
-	
+	/* note the weird top stuff, it is so a namespace based list "" is properly tree-ised */
+	tree = camel_folder_info_build(folders, top[0] == 0 && imap_store->namespace?"":top, imap_store->dir_sep, TRUE);
+	g_ptr_array_free(folders, TRUE);
+
+	if (!(flags & CAMEL_STORE_FOLDER_INFO_FAST))
+		get_folder_counts(imap_store, tree, ex);
+
 	return tree;
 }
 
@@ -2412,12 +2494,10 @@ camel_imap_store_readline (CamelImapStore *store, char **dest, CamelException *e
 		return -1;
 	}
 	
-#if d(!)0
 	if (camel_verbose_debug) {
 		fprintf (stderr, "received: ");
 		fwrite (ba->data, 1, ba->len, stderr);
 	}
-#endif
 	
 	/* camel-imap-command.c:imap_read_untagged expects the CRLFs
            to be stripped off and be nul-terminated *sigh* */
