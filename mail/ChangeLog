@@ -1,3 +1,12 @@
+2000-10-19  Dan Winship  <danw@helixcode.com>
+
+	* mail-ops.c: (do_fetch_mail): For an imap store, just refresh the
+	INBOX.
+
+	* folder-browser-factory.c (control_deactivate): Don't sync
+	non-existent folders.
+	* message-list.c (nuke_uids): Don't traverse non-existent trees.
+
 2000-10-19  Ettore Perazzoli  <ettore@helixcode.com>
 
 	* Makefile.am (glade_messages): New.
