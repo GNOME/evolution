@@ -1,9 +1,0 @@
-Makefile.in
-Makefile
-.deps
-*.conduit
-*.lo
-.libs
-libecalendar_conduit.la
-e-calendar-conduit-control-applet
-e-calendar-conduit-control-applet.desktop

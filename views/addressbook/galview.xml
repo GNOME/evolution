@@ -1,6 +1,0 @@
-<?xml version="1.0"?>
-<GalViewCollection default-view="Address_Cards">
-  <GalView id="Address_Cards" _title="_Address Cards" filename="Address_Cards.galview" type="minicard"/>
-  <GalView id="Phone_List" _title="_Phone List" filename="Phone_List.galview" type="etable"/>
-  <GalView id="By_Company" _title="By _Company" filename="By_Company.galview" type="etable"/>
-</GalViewCollection>
