@@ -466,8 +466,9 @@ mail_reply (CamelFolder *folder, CamelMimeMessage *msg, const char *uid, gboolea
 			    GTK_SIGNAL_FUNC (composer_postpone_cb), psd);
 	gtk_signal_connect (GTK_OBJECT (composer), "destroy",
 			    GTK_SIGNAL_FUNC (free_psd), psd);
-	
+
 	gtk_widget_show (GTK_WIDGET (composer));	
+	e_msg_composer_unset_changed (composer);
 }
 
 void
@@ -537,7 +538,8 @@ do_forward_inline(CamelFolder *folder, char *uid, CamelMimeMessage *message, voi
 			EMsgComposer *composer = forward_get_composer(subject);
 			if (composer) {
 				e_msg_composer_set_body_text(composer, text);
-				gtk_widget_show((GtkWidget *)composer);
+				gtk_widget_show(GTK_WIDGET(composer));
+				e_msg_composer_unset_changed(composer);
 			}
 			g_free(text);
 		}
@@ -553,7 +555,8 @@ do_forward_attach(CamelFolder *folder, GPtrArray *messages, CamelMimePart *part,
 		EMsgComposer *composer = forward_get_composer(subject);
 		if (composer) {
 			e_msg_composer_attach(composer, part);
-			gtk_widget_show((GtkWidget *)composer);
+			gtk_widget_show(GTK_WIDGET(composer));
+			e_msg_composer_unset_changed(composer);
 		}
 	}
 }

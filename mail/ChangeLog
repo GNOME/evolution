@@ -1,3 +1,13 @@
+2001-01-25  Jason Leach  <jasonleach@usa.net>
+
+	(Don't prompt about unsaved changes for replies/forwards that have
+	 not actually been modified)
+	
+	* mail-callbacks.c (do_forward_inline): Unset the has_changed for
+	the message composer.
+	(do_forward_attach): Same here.
+	(mail_reply): And here.
+
 2001-01-25  Dan Winship  <danw@ximian.com>
 
 	* mail-format.c (mail_content_loaded): Check if a message part's
