@@ -57,6 +57,7 @@
 /*#include <e-util/md5-utils.h>*/
 
 #include "camel-tcp-stream-ssl.h"
+#include "camel-stream-fs.h"
 #include "camel-session.h"
 #include "camel-certdb.h"
 
