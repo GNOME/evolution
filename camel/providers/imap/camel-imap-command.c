@@ -87,12 +87,16 @@ camel_imap_command (CamelImapStore *store, CamelFolder *folder,
 	if (folder && (!fmt || folder != store->current_folder)) {
 		CamelImapResponse *response;
 
-		store->current_folder = NULL;
+		if (store->current_folder) {
+			camel_object_unref (CAMEL_OBJECT (store->current_folder));
+			store->current_folder = NULL;
+		}
 		response = camel_imap_command (store, NULL, ex, "SELECT %S",
 					       folder->full_name);
 		if (!response)
 			return NULL;
 		store->current_folder = folder;
+		camel_object_ref (CAMEL_OBJECT (folder));
 
 		camel_imap_folder_selected (folder, response, ex);
 		if (!fmt)

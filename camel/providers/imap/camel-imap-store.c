@@ -143,6 +143,8 @@ camel_imap_store_finalize (CamelObject *object)
 	}
 	if (imap_store->namespace)
 		g_free (imap_store->namespace);
+	if (imap_store->current_folder)
+		camel_object_unref (CAMEL_OBJECT (imap_store->current_folder));
 #ifdef ENABLE_THREADS
 	e_mutex_destroy(imap_store->priv->command_lock);
 #endif
@@ -724,7 +726,10 @@ imap_disconnect (CamelService *service, gboolean clean, CamelException *ex)
 		camel_imap_response_free (response);
 	}
 	store->connected = FALSE;
-	store->current_folder = NULL;
+	if (store->current_folder) {
+		camel_object_unref (CAMEL_OBJECT (store->current_folder));
+		store->current_folder = NULL;
+	}
 
 	if (store->subscribed_folders) {
 		g_hash_table_foreach_remove (store->subscribed_folders,

@@ -1,5 +1,11 @@
 2001-03-26  Dan Winship  <danw@ximian.com>
 
+	* providers/imap/camel-imap-command.c (camel_imap_command): keep a
+	reference on the store's current_folder.
+
+	* providers/imap/camel-imap-store.c (camel_imap_store_finalize): 
+	(imap_disconnect): unref the current_folder before clearing it.
+
 	* camel-url.c (camel_url_get_param): Add missing accessor.
 
 	* camel-session.c (camel_session_get_provider): New. Return
