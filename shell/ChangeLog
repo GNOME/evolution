@@ -1,5 +1,9 @@
 2004-04-30  Not Zed  <NotZed@Ximian.com>
 
+	* e-component-registry.c:
+	* e-shell-settings-dialog.c: 
+	* e-shell-window.c:  Remove e-lang-utils.h include.
+
 	* e-component-registry.c (query_components): do the same as below.
 
 	* e-shell-settings-dialog.c (load_pages): use

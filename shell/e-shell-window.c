@@ -31,8 +31,6 @@
 #include "e-shell-marshal.h"
 #include "e-sidebar.h"
 
-#include "e-util/e-lang-utils.h"
-
 #include <gal/util/e-util.h>
 
 #include <gtk/gtkbutton.h>

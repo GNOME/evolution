@@ -28,7 +28,6 @@
 
 #include "e-shell-utils.h"
 #include <e-util/e-icon-factory.h>
-#include "e-util/e-lang-utils.h"
 
 #include <libgnome/gnome-i18n.h>
 #include <gal/util/e-util.h>

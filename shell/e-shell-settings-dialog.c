@@ -29,7 +29,6 @@
 
 #include "e-corba-config-page.h"
 #include <e-util/e-icon-factory.h>
-#include "e-util/e-lang-utils.h"
 
 #include <gal/util/e-util.h>
 
