@@ -1,3 +1,8 @@
+2000-05-01  Federico Mena Quintero  <federico@helixcode.com>
+
+	* wombat.c (main): Doh, also unref the pas_book_factory when we
+	are done.
+
 2000-04-30  Federico Mena Quintero  <federico@helixcode.com>
 
 	* wombat.c (setup_pas): Connect to the "last_book_gone" signal of
