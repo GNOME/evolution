@@ -114,12 +114,12 @@
 
   <dockitem name="Toolbar">
 
-    <toolitem name="MailGetSend" verb=""
-     _label="Send / Receive" priority="1"
+     <toolitem name="MailCompose" verb=""
+     _label="New Message" priority="1"
      pixtype="pixbuf"/>
 
-    <toolitem name="MailCompose" verb=""
-     _label="Compose" priority="1"
+    <toolitem name="MailGetSend" verb=""
+     _label="Send / Receive" priority="1"
      pixtype="pixbuf"/>
 
     <separator/>
