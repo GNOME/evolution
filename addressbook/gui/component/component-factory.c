@@ -43,7 +43,6 @@
 #define COMPONENT_ID                   "OAFIID:GNOME_Evolution_Addressbook_Component:" BASE_VERSION
 #define ADDRESS_POPUP_ID               "OAFIID:GNOME_Evolution_Addressbook_AddressPopup:" BASE_VERSION
 #define SELECT_NAMES_ID                "OAFIID:GNOME_Evolution_Addressbook_SelectNames:" BASE_VERSION
-#define LDAP_STORAGE_CONFIG_CONTROL_ID "OAFIID:GNOME_Evolution_LDAPStorage_ConfigControl:" BASE_VERSION
 #define COMPLETION_CONFIG_CONTROL_ID "OAFIID:GNOME_Evolution_Addressbook_Autocompletion_ConfigControl:" BASE_VERSION
 #define CERTIFICATE_MANAGER_CONFIG_CONTROL_ID "OAFIID:GNOME_Evolution_SMime_CertificateManager_ConfigControl:" BASE_VERSION
 
@@ -66,11 +65,6 @@ factory (BonoboGenericFactory *factory,
 		return BONOBO_OBJECT (eab_popup_control_new ());
 	if (strcmp (component_id, COMPLETION_CONFIG_CONTROL_ID) == 0)
 		return BONOBO_OBJECT (autocompletion_config_control_new ());
-#if 0
-	/* Config control is dead */
-	if (strcmp (component_id, LDAP_STORAGE_CONFIG_CONTROL_ID) == 0)
-		return BONOBO_OBJECT (addressbook_config_control_new ());
-#endif
 	if (strcmp (component_id, SELECT_NAMES_ID) == 0)
 		return BONOBO_OBJECT (e_select_names_bonobo_new ());
 #ifdef ENABLE_SMIME
