@@ -126,7 +126,7 @@ entry_get_property_fn (BonoboPropertyBag *bag,
 				card_list->_buffer[i] = bonobo_object_corba_objref (BONOBO_OBJECT (simple_card));
 			}
 
-			CORBA_free (arg->_value);
+			CORBA_free (*(GNOME_Evolution_Addressbook_SimpleCardList **)arg->_value);
 			BONOBO_ARG_SET_GENERAL (arg, card_list, TC_GNOME_Evolution_Addressbook_SimpleCardList, GNOME_Evolution_Addressbook_SimpleCardList *, NULL);
 		}
 		break;

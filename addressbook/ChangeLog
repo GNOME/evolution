@@ -1,3 +1,10 @@
+2002-07-12  Dan Winship  <danw@ximian.com>
+
+	* gui/component/select-names/e-select-names-bonobo.c
+	(entry_get_property_fn): Make the
+	ENTRY_PROPERTY_ID_SIMPLE_CARD_LIST case not crash, although
+	there's still something wrong.
+
 2002-07-10  Chris Toshok  <toshok@ximian.com>
 
 	* gui/component/select-names/e-select-names-completion.c
