@@ -86,7 +86,7 @@ gal_define_views_dialog_class_init (GalDefineViewsDialogClass *klass)
 
 /* ETable creation */
 #define SPEC "<ETableSpecification cursor-mode=\"line\" draw-grid=\"true\">" \
-	     "<ETableColumn model_col= \"0\" _tite=\"Name\" expansion=\"1.0\" minimum_width=\"18\" resizable=\"true\" cell=\"string\" compare=\"string\"/>" \
+	     "<ETableColumn model_col= \"0\" _title=\"Name\" expansion=\"1.0\" minimum_width=\"18\" resizable=\"true\" cell=\"string\" compare=\"string\"/>" \
              "<ETableState> <column source=\"0\"/> <grouping> </grouping> </ETableState>" \
 	     "</ETableSpecification>"
 
@@ -117,7 +117,7 @@ gdvd_button_new_dialog_callback(GtkWidget *widget, int button, GalDefineViewsDia
 			       "name", &name,
 			       NULL);
 		view = gal_view_new();
-		gtk_object_set(GTK_OBJECT(widget),
+		gtk_object_set(GTK_OBJECT(view),
 			       "name", name,
 			       NULL);
 		gal_define_views_model_append(GAL_DEFINE_VIEWS_MODEL(dialog->model), view);
