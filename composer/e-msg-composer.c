@@ -3210,6 +3210,42 @@ handle_multipart (EMsgComposer *composer, CamelMultipart *multipart, int depth)
 	}
 }
 
+static void
+set_signature_gui (EMsgComposer *composer)
+{
+	CORBA_Environment ev;
+
+	composer->auto_signature = FALSE;
+	composer->signature = NULL;
+
+	CORBA_exception_init (&ev);
+	if (GNOME_GtkHTML_Editor_Engine_searchByData (composer->editor_engine, 1, "ClueFlow", "signature", "1", &ev)) {
+		gchar *str = NULL;
+
+		str = GNOME_GtkHTML_Editor_Engine_getParagraphData (composer->editor_engine, "signature_name", &ev);
+		if (ev._major == CORBA_NO_EXCEPTION && str) {
+			if (!strncmp (str, "name:", 5)) {
+				GList *list = NULL;
+
+				list = mail_config_get_signature_list ();
+				if (list)
+					for (; list; list = list->next) {
+						if (!strcmp (str + 5, ((MailConfigSignature *) list->data)->name))
+							break;
+					}
+				if (list)
+					composer->signature = (MailConfigSignature *) list->data;
+				else
+					composer->auto_signature = TRUE;
+			} else if (!strcmp (str, "auto")) {
+				composer->auto_signature = TRUE;
+			}
+		}
+		sig_select_item (composer);
+	}
+	CORBA_exception_free (&ev);
+}
+
 
 /**
  * e_msg_composer_new_with_message:
@@ -3371,7 +3407,7 @@ e_msg_composer_new_with_message (CamelMimeMessage *message)
 	 */	
 	e_msg_composer_flush_pending_body (new, TRUE);
 	
-	set_editor_signature (new);
+	set_signature_gui (new);
 	
 	return new;
 }

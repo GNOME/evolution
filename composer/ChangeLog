@@ -2,6 +2,9 @@
 
 	* e-msg-composer.c (do_exit): don't assert on default, when ESC is
 	pressed, the dialog is closed as well and we get button number -1
+	(set_signature_gui): new helper method to set signature from draft
+	message
+	(e_msg_composer_new_with_message): use set_signature_gui
 
 2002-07-26  Ettore Perazzoli  <ettore@ximian.com>
 
