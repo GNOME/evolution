@@ -1,3 +1,9 @@
+2000-12-14  Dan Winship  <danw@helixcode.com>
+
+	* gui/calendar-model.c (_XOPEN_SOURCE): #define this to 500, not
+	nothing. Also, move this bit after the other #includes to
+	prevent potential messiness.
+
 2000-12-13  Federico Mena Quintero  <federico@helixcode.com>
 
 	* cal-util/cal-component.c (ensure_mandatory_properties): Even

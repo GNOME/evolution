@@ -24,19 +24,19 @@
 
 #include <config.h>
 #include <math.h>
-/* We need this for strptime. */
 #include <ctype.h>
-#define _XOPEN_SOURCE
-#define __USE_XOPEN
-#include <sys/time.h>
-#undef _XOPEN_SOURCE
-#undef __USE_XOPEN
 #include <time.h>
 #include <gnome.h>
 #include <cal-util/timeutil.h>
 #include "calendar-model.h"
 #include "calendar-commands.h"
 
+/* We need this for strptime. */
+#define _XOPEN_SOURCE 500
+#define __USE_XOPEN
+#include <sys/time.h>
+#undef _XOPEN_SOURCE
+#undef __USE_XOPEN
 
 
 /* Private part of the ECalendarModel structure */
