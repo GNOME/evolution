@@ -562,7 +562,7 @@ et_build_groups (ETable *et)
 				       0);
 	e_canvas_vbox_add_item(E_CANVAS_VBOX(et->canvas_vbox), GNOME_CANVAS_ITEM(et->group));
 	gnome_canvas_item_set(GNOME_CANVAS_ITEM(et->group),
-			      "horiztonal_draw_grid", et->horizontal_draw_grid,
+			      "horizontal_draw_grid", et->horizontal_draw_grid,
 			      "vertical_draw_grid", et->vertical_draw_grid,
 			      "drawfocus", et->draw_focus,
 			      "cursor_mode", et->cursor_mode,
