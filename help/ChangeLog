@@ -1,3 +1,8 @@
+2001-06-25  Aaron Weber  <aaron@ximian.com>
+
+	* C/evolution-faq.sgml: Now that bug-buddy works with our
+	bugzilla, update faq to reflect it.
+
 2001-06-25  Kevin Breit  <battery841@mediaone.net>
 
 	* C/usage-mail.sgml: Put config-encryption in usage-mail.sgml.  config-encryption.sgml should be depreciated.
@@ -126,10 +131,14 @@
 
 	* C/usage-mail.sgml: Updated Bcc: example
 
+2001-06-19  Aaron Weber  <aaron@ximian.com>
+
+	* C/usage-mainwindow.sgml: A couple changes to Kevin's update.
+
 2001-06-19  Kevin Breit <battery841@mediaone.net>
 
 	* C/usage-mail.sgml: Basic edits
-
+	
 2001-06-19  Kevin Breit <battery841@mediaone.net>
 
 	* C/usage-exec-summary: Updated to say "My Evolution"

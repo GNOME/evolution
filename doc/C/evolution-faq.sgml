@@ -815,32 +815,20 @@ cp -r ~/evolution/local/Inbox/subfolders/Foo ~/evolution/local/Inbox/subfolders/
         </question>
         <answer>
           <para>
-            You should report bugs about Evolution into the Ximian bug
-            reporting system (Bugzilla), located at
-            <ulink url="http://bugzilla.ximian.com">http://bugzilla.ximian.com</ulink>.
+            You can use the GNOME Bug Report Tool
+            (<command>bug-buddy</command>), or report bugs to the
+            Ximian bug reporting system (Bugzilla), located at <ulink
+            url="http://bugzilla.ximian.com">http://bugzilla.ximian.com</ulink>.
           </para>
           
           <para>
             Please use the query function to check if a bug has been
-            submitted already before submitting it.
+            submitted already, so that we avoid duplicate reports.
           </para>
         </answer> 
       </qandaentry>
       
-      <qandaentry>
-        <question>
-          <para>
-            Can I just use Bug-Buddy?
-          </para>
-        </question>
-        <answer>
-          <para>
-            Not yet.  The Ximian bug tracker does not yet have an
-            email-based interface, so Bug Buddy cannot talk to it.  This
-            will be fixed eventually.
-          </para>
-        </answer>
-      </qandaentry>
+
       <qandaentry>
         <question>
           <para>
@@ -856,10 +844,10 @@ cp -r ~/evolution/local/Inbox/subfolders/Foo ~/evolution/local/Inbox/subfolders/
               code that happened and why. For this reason, stack
               traces are extremely useful for the Evolution
               developers, so it's important that you learn how to get
-              them, and include them in crash reports. Once we have
-              <application>bug-buddy</application> working with our
-              bug database, it will be much easier to do this. Until
-              then, here's how:
+              them, and include them in crash reports. The
+              <application>bug-buddy</application> tool can get and
+              submit a stack trace for you.  If you want to do it by
+              yourself, here's how:
           </para>
           <para>
              First of all, in order to get a stack trace, your
@@ -939,6 +927,11 @@ bt
             PID</userinput> where PID is the process ID of the
             component you want to debug.
           </para>
+          <para>
+             If that sounds too complicated, you can always use
+             <command>bug-buddy</command> to get and submit the stack
+             trace.
+           </para>
         </answer>
       </qandaentry>
     </qandaset>
@@ -946,3 +939,4 @@ bt
   </appendix>
 
 <!-- Local Variables: --> <!-- indent-tabs-mode:nil --> <!-- End: -->
+
