@@ -127,6 +127,8 @@ New features:
     - When editing contacts from the composer entries (To:, CC:), pop
       up the right kind of editor based on the contact type.
 
+    - Much improved LDAP backend responsiveness and performance.
+
   * Mail
 
     - New, much faster indexing engine.  This results in faster mail
