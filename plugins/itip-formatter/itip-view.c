@@ -20,6 +20,10 @@
  *
  */
 
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
+
 #include <string.h>
 #include <glib.h>
 #include <gtk/gtk.h>
@@ -36,12 +40,19 @@
 #include <e-util/e-account-list.h>
 #include <e-util/e-icon-factory.h>
 #include <e-util/e-time-utils.h>
+#include <e-util/e-gtk-utils.h>
 #include <calendar/gui/itip-utils.h>
 #include "itip-view.h"
 
 #define MEETING_ICON "stock_new-meeting"
 
 G_DEFINE_TYPE (ItipView, itip_view, GTK_TYPE_HBOX);
+
+typedef struct  {
+	ItipViewInfoItemType type;
+
+	char *message;
+} ItipViewInfoItem;
 
 struct _ItipViewPrivate {
 	ItipViewMode mode;
@@ -66,7 +77,27 @@ struct _ItipViewPrivate {
 	GtkWidget *end_header;
 	GtkWidget *end_label;
 	struct tm *end_tm;
+
+	GtkWidget *info_box;
+	GSList *info_items;
+	
+	GtkWidget *description_label;
+	char *description;
+
+	GtkWidget *progress_box;
+	GtkWidget *progress_label;
+	char *progress;
+	
+	GtkWidget *button_box;
 };
+
+/* Signal IDs */
+enum {
+	RESPONSE,
+	LAST_SIGNAL
+};
+
+static guint signals[LAST_SIGNAL] = { 0 };
 
 static void
 format_date_and_time_x		(struct tm	*date_tm,
@@ -100,11 +131,11 @@ format_date_and_time_x		(struct tm	*date_tm,
 			if (!show_zero_seconds && date_tm->tm_sec == 0)
 				/* strftime format of a weekday, a date and a
 				   time, in 12-hour format, without seconds. */
-				format = _("Today %I:%M %p");
+				format = _("Today %l:%M %p");
 			else
 				/* strftime format of a weekday, a date and a
 				   time, in 12-hour format. */
-				format = _("Today %I:%M:%S %p");
+				format = _("Today %l:%M:%S %p");
 		}
 
 	/* Tomorrow */		
@@ -126,11 +157,11 @@ format_date_and_time_x		(struct tm	*date_tm,
 			if (!show_zero_seconds && date_tm->tm_sec == 0)
 				/* strftime format of a weekday, a date and a
 				   time, in 12-hour format, without seconds. */
-				format = _("%A, %B %e %I:%M %p");
+				format = _("%A, %B %e %l:%M %p");
 			else
 				/* strftime format of a weekday, a date and a
 				   time, in 12-hour format. */
-				format = _("%A, %B %e %I:%M:%S %p");
+				format = _("%A, %B %e %l:%M:%S %p");
 		}
 
 	/* Within 7 days */		
@@ -152,11 +183,11 @@ format_date_and_time_x		(struct tm	*date_tm,
 			if (!show_zero_seconds && date_tm->tm_sec == 0)
 				/* strftime format of a weekday, a date and a
 				   time, in 12-hour format, without seconds. */
-				format = _("%A %I:%M %p");
+				format = _("%A %l:%M %p");
 			else
 				/* strftime format of a weekday, a date and a
 				   time, in 12-hour format. */
-				format = _("%A %I:%M:%S %p");
+				format = _("%A %l:%M:%S %p");
 		}
 
 	/* This Year */		
@@ -178,11 +209,11 @@ format_date_and_time_x		(struct tm	*date_tm,
 			if (!show_zero_seconds && date_tm->tm_sec == 0)
 				/* strftime format of a weekday, a date and a
 				   time, in 12-hour format, without seconds. */
-				format = _("%A, %B %e %I:%M %p");
+				format = _("%A, %B %e %l:%M %p");
 			else
 				/* strftime format of a weekday, a date and a
 				   time, in 12-hour format. */
-				format = _("%A, %B %e %I:%M:%S %p");
+				format = _("%A, %B %e %l:%M:%S %p");
 		}
 	} else {
 		if (!show_midnight && date_tm->tm_hour == 0
@@ -202,11 +233,11 @@ format_date_and_time_x		(struct tm	*date_tm,
 			if (!show_zero_seconds && date_tm->tm_sec == 0)
 				/* strftime format of a weekday, a date and a
 				   time, in 12-hour format, without seconds. */
-				format = _("%A, %B %e, %Y %I:%M %p");
+				format = _("%A, %B %e, %Y %l:%M %p");
 			else
 				/* strftime format of a weekday, a date and a
 				   time, in 12-hour format. */
-				format = _("%A, %B %e, %Y %I:%M:%S %p");
+				format = _("%A, %B %e, %Y %l:%M:%S %p");
 		}
 	}
 	
@@ -231,38 +262,45 @@ set_sender_text (ItipView *view)
 	switch (priv->mode) {
 	case ITIP_VIEW_MODE_PUBLISH:
 		if (priv->sentby)
-			sender = g_strdup_printf (_("<b>%s</b> through %s has published meeting information."), organizer, priv->sentby);
+			sender = g_strdup_printf (_("<b>%s</b> through %s has published the following meeting information:"), organizer, priv->sentby);
 		else
-			sender = g_strdup_printf (_("<b>%s</b> has published meeting information."), organizer);
+			sender = g_strdup_printf (_("<b>%s</b> has published the following meeting information:"), organizer);
 		break;
 	case ITIP_VIEW_MODE_REQUEST:
 		/* FIXME is the delegator stuff handled correctly here? */
 		if (priv->delegator) {
-			sender = g_strdup_printf (_("<b>%s</b> requests the presence of %s at a meeting."), organizer, priv->delegator);
+			sender = g_strdup_printf (_("<b>%s</b> requests the presence of %s at the following meeting:"), organizer, priv->delegator);
 		} else {
 			if (priv->sentby)
-				sender = g_strdup_printf (_("<b>%s</b> through %s requests your presence at a meeting."), organizer, priv->sentby);
+				sender = g_strdup_printf (_("<b>%s</b> through %s requests your presence at the following meeting:"), organizer, priv->sentby);
 			else
-				sender = g_strdup_printf (_("<b>%s</b> requests your presence at a meeting."), organizer);
+				sender = g_strdup_printf (_("<b>%s</b> requests your presence at the following meeting:"), organizer);
 		}
 		break;
 	case ITIP_VIEW_MODE_ADD:
+		/* FIXME What text for this? */
 		if (priv->sentby)
-			sender = g_strdup_printf (_("<b>%s</b> through %s wishes to add to an existing meeting."), organizer, priv->sentby);
+			sender = g_strdup_printf (_("<b>%s</b> through %s wishes to add to an existing meeting:"), organizer, priv->sentby);
 		else
-			sender = g_strdup_printf (_("<b>%s</b> wishes to add to an existing meeting."), organizer);
+			sender = g_strdup_printf (_("<b>%s</b> wishes to add to an existing meeting:"), organizer);
 		break;
 	case ITIP_VIEW_MODE_REFRESH:
-		sender = g_strdup_printf (_("<b>%s</b> wishes to receive the latest meeting information."), attendee);
+		sender = g_strdup_printf (_("<b>%s</b> wishes to receive the latest information for the following meeting:"), attendee);
 		break;
 	case ITIP_VIEW_MODE_REPLY:
-		sender = g_strdup_printf (_("<b>%s</b> has replied to a meeting invitation."), attendee);
+		sender = g_strdup_printf (_("<b>%s</b> has accepted the following meeting:"), attendee);
 		break;
 	case ITIP_VIEW_MODE_CANCEL:
 		if (priv->sentby)
-			sender = g_strdup_printf (_("<b>%s</b> through %s has cancelled a meeting."), organizer, priv->sentby);
+			sender = g_strdup_printf (_("<b>%s</b> through %s has cancelled the follow meeting:"), organizer, priv->sentby);
 		else
-			sender = g_strdup_printf (_("<b>%s</b> has cancelled a meeting."), organizer);
+			sender = g_strdup_printf (_("<b>%s</b> has cancelled the following meeting."), organizer);
+		break;
+	case ITIP_VIEW_MODE_COUNTER:
+		if (priv->sentby)
+			sender = g_strdup_printf (_("<b>%s</b> through %s has cancelled the follow meeting:"), organizer, priv->sentby);
+		else
+			sender = g_strdup_printf (_("<b>%s</b> has cancelled the following meeting."), organizer);
 		break;
 	default:
 		break;
@@ -301,6 +339,18 @@ set_location_text (ItipView *view)
 
 	priv->location ? gtk_widget_show (priv->location_header) : gtk_widget_hide (priv->location_header);
 	priv->location ? gtk_widget_show (priv->location_label) : gtk_widget_hide (priv->location_label);
+}
+
+static void
+set_description_text (ItipView *view)
+{
+	ItipViewPrivate *priv;
+
+	priv = view->priv;
+
+	gtk_label_set_text (GTK_LABEL (priv->description_label), priv->description);
+
+	priv->description ? gtk_widget_show (priv->description_label) : gtk_widget_hide (priv->description_label);
 }
 
 static void
@@ -352,6 +402,139 @@ set_end_text (ItipView *view)
 }
 
 static void
+set_info_items (ItipView *view) 
+{
+	ItipViewPrivate *priv;
+	GSList *l;
+	
+	priv = view->priv;
+
+	gtk_container_foreach (GTK_CONTAINER (priv->info_box), (GtkCallback) gtk_widget_destroy, NULL);
+	
+	for (l = priv->info_items; l; l = l->next) {
+		ItipViewInfoItem *item = l->data;	
+		GtkWidget *hbox, *image, *label;
+		
+		hbox = gtk_hbox_new (FALSE, 0);
+
+		switch (item->type) {
+		case ITIP_VIEW_INFO_ITEM_TYPE_INFO:
+			image = gtk_image_new_from_stock (GTK_STOCK_DIALOG_INFO, GTK_ICON_SIZE_SMALL_TOOLBAR);
+			break;
+		case ITIP_VIEW_INFO_ITEM_TYPE_WARNING:			
+			image = gtk_image_new_from_stock (GTK_STOCK_DIALOG_WARNING, GTK_ICON_SIZE_SMALL_TOOLBAR);
+			break;			
+		case ITIP_VIEW_INFO_ITEM_TYPE_ERROR:
+			image = gtk_image_new_from_stock (GTK_STOCK_DIALOG_ERROR, GTK_ICON_SIZE_SMALL_TOOLBAR);
+			break;
+		case ITIP_VIEW_INFO_ITEM_TYPE_NONE:
+		default:
+			image = NULL;
+		}
+		
+		if (image) {
+			gtk_widget_show (image);
+			gtk_box_pack_start (GTK_BOX (hbox), image, FALSE, FALSE, 6);
+		}
+		
+		label = gtk_label_new (item->message);
+		gtk_widget_show (label);
+		gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, 6);
+
+		gtk_widget_show (hbox);
+		gtk_box_pack_start (GTK_BOX (priv->info_box), hbox, FALSE, FALSE, 6);
+	}	
+}
+
+static void
+set_progress_text (ItipView *view)
+{
+	ItipViewPrivate *priv;
+
+	priv = view->priv;
+
+	g_message ("Setting progress to: %s", priv->progress);
+	gtk_label_set_text (GTK_LABEL (priv->progress_label), priv->progress);
+
+	priv->progress ? gtk_widget_show (priv->progress_box) : gtk_widget_hide (priv->progress_box);
+}
+
+#define DATA_RESPONSE_KEY "ItipView::button_response"
+
+static void
+button_clicked_cb (GtkWidget *widget, gpointer data) 
+{
+	ItipViewResponse response;
+	
+	response = GPOINTER_TO_INT (g_object_get_data (G_OBJECT (widget), DATA_RESPONSE_KEY));
+
+	g_message ("Response %d", response);
+	g_signal_emit (G_OBJECT (data), signals[RESPONSE], 0, response);
+}
+
+static void
+set_one_button (ItipView *view, char *label, char *stock_id, ItipViewResponse response) 
+{
+	ItipViewPrivate *priv;
+	GtkWidget *button;
+	
+	priv = view->priv;
+
+	button = e_gtk_button_new_with_icon (label, stock_id);
+	g_object_set_data (G_OBJECT (button), DATA_RESPONSE_KEY, GINT_TO_POINTER (response));
+	gtk_widget_show (button);
+	gtk_container_add (GTK_CONTAINER (priv->button_box), button);	
+
+	g_signal_connect (button, "clicked", G_CALLBACK (button_clicked_cb), view);
+}
+
+static void
+set_buttons (ItipView *view) 
+{
+	ItipViewPrivate *priv;
+	
+	priv = view->priv;
+
+	gtk_container_foreach (GTK_CONTAINER (priv->button_box), (GtkCallback) gtk_widget_destroy, NULL);
+
+	/* Everything gets the open button */
+	set_one_button (view, "_Open Calendar", GTK_STOCK_JUMP_TO, ITIP_VIEW_RESPONSE_OPEN);
+	
+	switch (priv->mode) {
+	case ITIP_VIEW_MODE_PUBLISH:
+		/* FIXME Is this really the right button? */
+		set_one_button (view, "_Accept", GTK_STOCK_APPLY, ITIP_VIEW_RESPONSE_ACCEPT);
+		break;
+	case ITIP_VIEW_MODE_REQUEST:
+		set_one_button (view, "_Decline", GTK_STOCK_CANCEL, ITIP_VIEW_RESPONSE_DECLINE);
+		set_one_button (view, "_Tentative", GTK_STOCK_DIALOG_QUESTION, ITIP_VIEW_RESPONSE_TENTATIVE);
+		set_one_button (view, "_Accept", GTK_STOCK_APPLY, ITIP_VIEW_RESPONSE_ACCEPT);
+		break;
+	case ITIP_VIEW_MODE_ADD:
+		/* FIXME Right response? */
+		set_one_button (view, "_Add", GTK_STOCK_ADD, ITIP_VIEW_RESPONSE_ACCEPT);
+		break;
+	case ITIP_VIEW_MODE_REFRESH:
+		/* FIXME Is this really the right button? */
+		set_one_button (view, "_Refresh", GTK_STOCK_REFRESH, ITIP_VIEW_RESPONSE_REFRESH);
+		break;
+	case ITIP_VIEW_MODE_REPLY:
+		/* FIXME Is this really the right button? */
+		set_one_button (view, "_Update", GTK_STOCK_REFRESH, ITIP_VIEW_RESPONSE_UPDATE);
+		break;
+	case ITIP_VIEW_MODE_CANCEL:
+		set_one_button (view, "_Update", GTK_STOCK_REFRESH, ITIP_VIEW_RESPONSE_UPDATE);
+		break;
+	case ITIP_VIEW_MODE_COUNTER:
+		break;
+	case ITIP_VIEW_MODE_DECLINECOUNTER:
+		break;
+	default:
+		break;
+	}
+}
+
+static void
 itip_view_destroy (GtkObject *object) 
 {
 	ItipView *view = ITIP_VIEW (object);
@@ -365,6 +548,8 @@ itip_view_destroy (GtkObject *object)
 		g_free (priv->location);
 		g_free (priv->start_tm);
 		g_free (priv->end_tm);
+
+		itip_view_clear_info_items (view);
 		
 		g_free (priv);
 		view->priv = NULL;
@@ -383,13 +568,22 @@ itip_view_class_init (ItipViewClass *klass)
 	gtkobject_class = GTK_OBJECT_CLASS (klass);
 	
 	gtkobject_class->destroy = itip_view_destroy;
+
+	signals[RESPONSE] =
+		g_signal_new ("response",
+			      G_TYPE_FROM_CLASS (klass),
+			      G_SIGNAL_RUN_LAST,
+			      G_STRUCT_OFFSET (ItipViewClass, response),
+			      NULL, NULL,
+			      gtk_marshal_NONE__INT,
+			      G_TYPE_NONE, 1, G_TYPE_INT);
 }
 
 static void
 itip_view_init (ItipView *view)
 {
 	ItipViewPrivate *priv;
-	GtkWidget *icon, *vbox, *separator, *table;
+	GtkWidget *icon, *vbox, *separator, *table, *image;
 
 	priv = g_new0 (ItipViewPrivate, 1);	
 	view->priv = priv;
@@ -411,6 +605,7 @@ itip_view_init (ItipView *view)
 	/* The first section listing the sender */
 	/* FIXME What to do if the send and organizer do not match */
 	priv->sender_label = gtk_label_new (NULL);
+	gtk_misc_set_alignment (GTK_MISC (priv->sender_label), 0, 0.5);
 	gtk_widget_show (priv->sender_label);
 	gtk_box_pack_start (GTK_BOX (vbox), priv->sender_label, FALSE, FALSE, 6);
 
@@ -434,11 +629,13 @@ itip_view_init (ItipView *view)
 	/* Location */
 	priv->location_header = gtk_label_new (_("Location:"));
 	priv->location_label = gtk_label_new (NULL);
+	gtk_misc_set_alignment (GTK_MISC (priv->location_header), 0, 0.5);
 	gtk_misc_set_alignment (GTK_MISC (priv->location_label), 0, 0.5);
 	gtk_table_attach (GTK_TABLE (table), priv->location_header, 0, 1, 1, 2, GTK_FILL, 0, 0, 0);
 	gtk_table_attach (GTK_TABLE (table), priv->location_label, 1, 2, 1, 2, GTK_FILL, 0, 0, 0);
 	
-	priv->start_header = gtk_label_new (_("Starts:"));
+	/* Start time */
+	priv->start_header = gtk_label_new (_("Start time:"));
 	priv->start_label = gtk_label_new (NULL);
 	gtk_misc_set_alignment (GTK_MISC (priv->start_header), 0, 0.5);
 	gtk_misc_set_alignment (GTK_MISC (priv->start_label), 0, 0.5);
@@ -446,14 +643,48 @@ itip_view_init (ItipView *view)
 	gtk_table_attach (GTK_TABLE (table), priv->start_header, 0, 1, 2, 3, GTK_FILL, 0, 0, 0);
 	gtk_table_attach (GTK_TABLE (table), priv->start_label, 1, 2, 2, 3, GTK_FILL, 0, 0, 0);
 
-	priv->end_header = gtk_label_new (_("Ends:"));
+	/* End time */
+	priv->end_header = gtk_label_new (_("End time:"));
 	priv->end_label = gtk_label_new (NULL);
 	gtk_misc_set_alignment (GTK_MISC (priv->end_header), 0, 0.5);
 	gtk_misc_set_alignment (GTK_MISC (priv->end_label), 0, 0.5);
 	gtk_table_attach (GTK_TABLE (table), priv->end_header, 0, 1, 3, 4, GTK_FILL, 0, 0, 0);
 	gtk_table_attach (GTK_TABLE (table), priv->end_label, 1, 2, 3, 4, GTK_FILL, 0, 0, 0);
+
+	/* Info items */
+	priv->info_box = gtk_vbox_new (FALSE, 0);
+	gtk_widget_show (priv->info_box);
+	gtk_box_pack_start (GTK_BOX (vbox), priv->info_box, FALSE, FALSE, 6);
+
+	/* Description */
+	priv->description_label = gtk_label_new (NULL);
+	gtk_label_set_line_wrap (GTK_LABEL (priv->description_label), TRUE);
+	gtk_misc_set_alignment (GTK_MISC (priv->description_label), 0, 0.5);
+//	gtk_box_pack_start (GTK_BOX (vbox), priv->description_label, FALSE, FALSE, 6);
+
+	separator = gtk_hseparator_new ();
+	gtk_widget_show (separator);
+	gtk_box_pack_start (GTK_BOX (vbox), separator, FALSE, FALSE, 6);
+
+	/* Progress */
+	priv->progress_box = gtk_hbox_new (FALSE, 0);
+	gtk_box_pack_start (GTK_BOX (vbox), priv->progress_box, FALSE, FALSE, 6);
+
+	image = e_icon_factory_get_image ("stock_animation", E_ICON_SIZE_BUTTON);
+	gtk_widget_show (image);
+	gtk_box_pack_start (GTK_BOX (priv->progress_box), image, FALSE, FALSE, 6);
+
+	priv->progress_label = gtk_label_new (NULL);
+	gtk_widget_show (priv->progress_label);
+	gtk_misc_set_alignment (GTK_MISC (priv->progress_label), 0, 0.5);
+	gtk_box_pack_start (GTK_BOX (priv->progress_box), priv->progress_label, FALSE, FALSE, 6);
 	
 	/* The buttons for actions */
+	priv->button_box = gtk_hbutton_box_new ();
+	gtk_button_box_set_layout (GTK_BUTTON_BOX (priv->button_box), GTK_BUTTONBOX_END);
+	gtk_box_set_spacing (GTK_BOX (priv->button_box), 12);
+	gtk_widget_show (priv->button_box);
+	gtk_box_pack_start (GTK_BOX (vbox), priv->button_box, FALSE, FALSE, 6);
 }
 
 GtkWidget *
@@ -477,6 +708,7 @@ itip_view_set_mode (ItipView *view, ItipViewMode mode)
 	priv->mode = mode;
 
 	set_sender_text (view);
+	set_buttons (view);
 }
 
 ItipViewMode
@@ -598,7 +830,7 @@ itip_view_set_summary (ItipView *view, const char *summary)
 	if (priv->summary)
 		g_free (priv->summary);
 
-	priv->summary = g_strdup (summary);
+	priv->summary = summary ? g_strstrip (g_strdup (summary)) : NULL;
 
 	set_summary_text (view);
 }
@@ -629,7 +861,7 @@ itip_view_set_location (ItipView *view, const char *location)
 	if (priv->location)
 		g_free (priv->location);
 
-	priv->location = g_strdup (location);
+	priv->location = location ? g_strstrip (g_strdup (location)) : NULL;
 
 	set_location_text (view);
 }
@@ -646,6 +878,39 @@ itip_view_get_location (ItipView *view)
 	
 	return priv->location;
 }
+
+/* FIXME Status and description */
+void
+itip_view_set_description (ItipView *view, const char *description)
+{
+	ItipViewPrivate *priv;
+	
+	g_return_if_fail (view != NULL);
+	g_return_if_fail (ITIP_IS_VIEW (view));	
+	
+	priv = view->priv;
+	
+	if (priv->description)
+		g_free (priv->description);
+
+	priv->description = description ? g_strstrip (g_strdup (description)) : NULL;
+
+	set_description_text (view);
+}
+
+const char *
+itip_view_get_description (ItipView *view)
+{
+	ItipViewPrivate *priv;
+
+	g_return_val_if_fail (view != NULL, NULL);
+	g_return_val_if_fail (ITIP_IS_VIEW (view), NULL);
+	
+	priv = view->priv;
+	
+	return priv->description;
+}
+
 
 void
 itip_view_set_start (ItipView *view, struct tm *start)
@@ -718,3 +983,64 @@ itip_view_get_end (ItipView *view)
 	
 	return priv->end_tm;
 }
+
+void
+itip_view_add_info_item (ItipView *view, ItipViewInfoItemType type, const char *message)
+{
+	ItipViewPrivate *priv;
+	ItipViewInfoItem *item;
+
+	g_return_if_fail (view != NULL);
+	g_return_if_fail (ITIP_IS_VIEW (view));	
+	
+	priv = view->priv;
+
+	item = g_new0 (ItipViewInfoItem, 1);
+
+	item->type = type;
+	item->message = g_strdup (message);
+	
+	priv->info_items = g_slist_append (priv->info_items, item);
+
+	set_info_items (view);
+}
+
+void
+itip_view_clear_info_items (ItipView *view)
+{
+	ItipViewPrivate *priv;
+	GSList *l;
+	
+	g_return_if_fail (view != NULL);
+	g_return_if_fail (ITIP_IS_VIEW (view));	
+	
+	priv = view->priv;
+
+	gtk_container_foreach (GTK_CONTAINER (priv->info_box), (GtkCallback) gtk_widget_destroy, NULL);
+
+	for (l = priv->info_items; l; l = l->next) {
+		ItipViewInfoItem *item = l->data;
+
+		g_free (item->message);
+		g_free (item);
+	}
+}
+
+void
+itip_view_set_progress (ItipView *view, const char *message)
+{
+	ItipViewPrivate *priv;
+	
+	g_return_if_fail (view != NULL);
+	g_return_if_fail (ITIP_IS_VIEW (view));	
+	
+	priv = view->priv;
+
+	if (priv->progress)
+		g_free (priv->progress);
+
+	priv->progress = message ? g_strstrip (g_strdup (message)) : NULL;
+	
+	set_progress_text (view);	
+}
+

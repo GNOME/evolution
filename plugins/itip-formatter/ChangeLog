@@ -1,3 +1,31 @@
+2004-12-29  JP Rosevear  <jpr@novell.com>
+
+	* itip-view.h: new protos
+
+	* itip-view.c (format_date_and_time_x): don't draw the leading
+	zero in 12hr clock mode for the hour
+	(set_sender_text): make intro statements closer to the UI design
+	(set_description_text): display description
+	(set_info_items): show info items, messages with icons
+	(set_progress_text): show progress text item (for
+	loading/searching calendars)
+	(set_one_button): add a response button
+	(set_buttons): set response buttons based on mode
+	(itip_view_destroy): clear info items
+	(itip_view_class_init): add response signal
+	(itip_view_init): new areas for description, info items, buttons
+	(itip_view_set_description): accessor
+	(itip_view_get_description): ditto
+	(itip_view_add_info_item): add an info item to the display
+	(itip_view_clear_info_items): clear all items
+	(itip_view_set_progress): set the progress message
+
+	* itip-formatter.c: move over calendar loading, searching code,
+	set more itip view properties
+
+	* org-gnome-itip-formatter.eplug.in: add a config page item,
+	doesn't do much right now
+
 2004-12-22  JP Rosevear  <jpr@novell.com>
 
 	* Initial checkin of new itip formatter 

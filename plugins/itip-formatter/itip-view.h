@@ -43,10 +43,13 @@ typedef enum {
 	ITIP_VIEW_MODE_NONE,
 	ITIP_VIEW_MODE_PUBLISH,
 	ITIP_VIEW_MODE_REQUEST,
+	ITIP_VIEW_MODE_COUNTER,
+	ITIP_VIEW_MODE_DECLINECOUNTER,
 	ITIP_VIEW_MODE_ADD,
 	ITIP_VIEW_MODE_REPLY,
 	ITIP_VIEW_MODE_REFRESH,
-	ITIP_VIEW_MODE_CANCEL
+	ITIP_VIEW_MODE_CANCEL,
+	ITIP_VIEW_MODE_ERROR
 } ItipViewMode;
 
 typedef enum {
@@ -55,19 +58,29 @@ typedef enum {
 	ITIP_VIEW_RESPONSE_TENTATIVE,
 	ITIP_VIEW_RESPONSE_DECLINE,
 	ITIP_VIEW_RESPONSE_UPDATE,
-	ITIP_VIEW_RESPONSE_SEND
+	ITIP_VIEW_RESPONSE_REFRESH,
+	ITIP_VIEW_RESPONSE_OPEN
 } ItipViewResponse;
 
-struct _ItipView 
-{
+typedef enum {
+	ITIP_VIEW_INFO_ITEM_TYPE_NONE,
+	ITIP_VIEW_INFO_ITEM_TYPE_INFO,
+	ITIP_VIEW_INFO_ITEM_TYPE_WARNING,
+	ITIP_VIEW_INFO_ITEM_TYPE_ERROR,
+	ITIP_VIEW_INFO_ITEM_TYPE_PROGRESS
+} ItipViewInfoItemType;
+
+
+struct _ItipView {
 	GtkHBox parent_instance;
 
 	ItipViewPrivate *priv;
 };
 
-struct _ItipViewClass 
-{
+struct _ItipViewClass {
 	GtkHBoxClass parent_class;
+
+	void (* response) (ItipView *view, int response);
 };
 
 GType      itip_view_get_type (void);
@@ -91,11 +104,19 @@ const char *itip_view_get_summary (ItipView *view);
 void itip_view_set_location (ItipView *view, const char *location);
 const char *itip_view_get_location (ItipView *view);
 
+void itip_view_set_description (ItipView *view, const char *description);
+const char *itip_view_get_description (ItipView *view);
+
 void itip_view_set_start (ItipView *view, struct tm *start);
 const struct tm *itip_view_get_start (ItipView *view);
 
 void itip_view_set_end (ItipView *view, struct tm *end);
 const struct tm *itip_view_get_end (ItipView *view);
+
+void itip_view_add_info_item (ItipView *view, ItipViewInfoItemType, const char *message); 
+void itip_view_clear_info_items (ItipView *view);
+
+void itip_view_set_progress (ItipView *view, const char *message);
 
 G_END_DECLS
 
