@@ -13,7 +13,6 @@ compose_LDADD =				\
 	$(COMPOSE_LIBS)
 
 compose_SOURCES =	\
-	compose.h	\
-	compose.c	
+	compose.c	\
 	../composer/Composer-stubs.c \
 	../composer/Composer-common.c
