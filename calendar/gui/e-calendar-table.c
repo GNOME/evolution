@@ -584,10 +584,12 @@ void
 e_calendar_table_open_selected (ECalendarTable *cal_table)
 {
 	ECalModelComponent *comp_data;
+	icalproperty *prop;
 
 	comp_data = get_selected_comp (cal_table);
+	prop = icalcomponent_get_first_property (comp_data->icalcomp, ICAL_ATTENDEE_PROPERTY);
 	if (comp_data != NULL)
-		open_task (cal_table, comp_data, FALSE);
+		open_task (cal_table, comp_data, prop ? TRUE : FALSE);
 }
 
 /**
@@ -940,7 +942,7 @@ open_task (ECalendarTable *cal_table, ECalModelComponent *comp_data, gboolean as
 	if (tedit == NULL) {
 		ECalComponent *comp;
 
-		tedit = COMP_EDITOR (task_editor_new (comp_data->client));
+		tedit = COMP_EDITOR (task_editor_new (comp_data->client, assign));
 
 		comp = e_cal_component_new ();
 		e_cal_component_set_icalcomponent (comp, icalcomponent_new_clone (comp_data->icalcomp));
@@ -959,9 +961,11 @@ static void
 open_task_by_row (ECalendarTable *cal_table, int row)
 {
 	ECalModelComponent *comp_data;
+	icalproperty *prop;
 
 	comp_data = e_cal_model_get_component_at (cal_table->model, row);
-	open_task (cal_table, comp_data, FALSE);
+	prop = icalcomponent_get_first_property (comp_data->icalcomp, ICAL_ATTENDEE_PROPERTY);
+	open_task (cal_table, comp_data, prop ? TRUE : FALSE);
 }
 
 static void
@@ -981,10 +985,12 @@ e_calendar_table_on_open_task (EPopup *ep, EPopupItem *pitem, void *data)
 {
 	ECalendarTable *cal_table = data;
 	ECalModelComponent *comp_data;
+	icalproperty *prop;
 
 	comp_data = get_selected_comp (cal_table);
+	prop = icalcomponent_get_first_property (comp_data->icalcomp, ICAL_ATTENDEE_PROPERTY);
 	if (comp_data)
-		open_task (cal_table, comp_data, FALSE);
+		open_task (cal_table, comp_data, prop ? TRUE : FALSE);
 }
 
 static void

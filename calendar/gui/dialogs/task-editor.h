@@ -53,8 +53,8 @@ struct _TaskEditorClass {
 
 GtkType     task_editor_get_type       (void);
 TaskEditor *task_editor_construct      (TaskEditor *te,
-					ECal  *client);
-TaskEditor *task_editor_new            (ECal  *client);
+					ECal  *client, gboolean is_assigned);
+TaskEditor *task_editor_new            (ECal  *client, gboolean is_assigned);
 void        task_editor_show_assignment(TaskEditor *te);
 
 

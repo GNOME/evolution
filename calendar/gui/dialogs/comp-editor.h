@@ -68,6 +68,9 @@ gboolean      comp_editor_get_existing_org (CompEditor             *editor);
 void          comp_editor_set_user_org     (CompEditor             *editor,
 					    gboolean                user_org);
 gboolean      comp_editor_get_user_org     (CompEditor             *editor);
+void          comp_editor_set_group_item     (CompEditor             *editor,
+					    gboolean                is_group_item);
+gboolean      comp_editor_get_group_item     (CompEditor             *editor);
 void          comp_editor_append_page      (CompEditor             *editor,
 					    CompEditorPage         *page,
 					    const char             *label);

@@ -45,6 +45,7 @@ struct _TaskEditorPrivate {
 	EMeetingStore *model;
 	
 	gboolean assignment_shown;
+	gboolean is_assigned;
 	gboolean updating;	
 };
 
@@ -115,16 +116,18 @@ task_editor_init (TaskEditor *te)
 	priv->model = E_MEETING_STORE (e_meeting_store_new ());
 	priv->assignment_shown = TRUE;
 	priv->updating = FALSE;	
+	priv->is_assigned = FALSE;
 
 }
 
 TaskEditor *
-task_editor_construct (TaskEditor *te, ECal *client)
+task_editor_construct (TaskEditor *te, ECal *client, gboolean is_assigned)
 {
 	TaskEditorPrivate *priv;
 	
 	priv = te->priv;
 
+	priv->is_assigned = is_assigned;
 	priv->task_page = task_page_new ();
 	g_object_ref (priv->task_page);
 	gtk_object_sink (GTK_OBJECT (priv->task_page));
@@ -140,13 +143,15 @@ task_editor_construct (TaskEditor *te, ECal *client)
 	comp_editor_append_page (COMP_EDITOR (te),
 				 COMP_EDITOR_PAGE (priv->task_details_page),
 				 _("Status"));
-
-	priv->meet_page = meeting_page_new (priv->model, client);
-	g_object_ref (priv->meet_page);
-	gtk_object_sink (GTK_OBJECT (priv->meet_page));
-	comp_editor_append_page (COMP_EDITOR (te),
-				 COMP_EDITOR_PAGE (priv->meet_page),
-				 _("Assignment"));
+	if (priv->is_assigned) {
+		comp_editor_set_group_item (COMP_EDITOR (te), TRUE);
+		priv->meet_page = meeting_page_new (priv->model, client);
+		g_object_ref (priv->meet_page);
+		gtk_object_sink (GTK_OBJECT (priv->meet_page));
+		comp_editor_append_page (COMP_EDITOR (te),
+					 COMP_EDITOR_PAGE (priv->meet_page),
+					 _("Assignment"));
+	}
 
 	comp_editor_set_e_cal (COMP_EDITOR (te), client);
 
@@ -245,7 +250,9 @@ task_editor_edit_comp (CompEditor *editor, ECalComponent *comp)
 			if (ia != NULL)
 				e_meeting_attendee_set_edit_level (ia, E_MEETING_ATTENDEE_EDIT_NONE);
 		}
-
+		
+		
+		comp_editor_set_group_item (COMP_EDITOR (te), TRUE);
 		priv->assignment_shown = TRUE;		
 	}
 	e_cal_component_free_attendee_list (attendees);
@@ -324,12 +331,12 @@ task_editor_finalize (GObject *object)
  * editor could not be created.
  **/
 TaskEditor *
-task_editor_new (ECal *client)
+task_editor_new (ECal *client, gboolean is_assigned)
 {
 	TaskEditor *te;
 
 	te = g_object_new (TYPE_TASK_EDITOR, NULL);
-	return task_editor_construct (te, client);
+	return task_editor_construct (te, client, is_assigned);
 }
 
 static void
@@ -349,8 +356,6 @@ show_assignment (TaskEditor *te)
 		comp_editor_set_changed (COMP_EDITOR (te), TRUE);
 	}
 
-	comp_editor_show_page (COMP_EDITOR (te),
-			       COMP_EDITOR_PAGE (priv->meet_page));
 }
 
 void

@@ -2833,7 +2833,7 @@ gnome_calendar_new_task		(GnomeCalendar *gcal)
 	if (!ecal)
 		return;
 	
-	tedit = task_editor_new (ecal);
+	tedit = task_editor_new (ecal, FALSE);
 
 	icalcomp = e_cal_model_create_component_with_defaults (model);
 	comp = e_cal_component_new ();

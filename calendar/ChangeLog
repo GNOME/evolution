@@ -1,5 +1,33 @@
 2004-12-02  Chenthill Palanisamy  <pchenthill@novell.com>
 
+	* gui/dialogs/task-editor.[ch] (task_editor_new), (task_editor_construct),
+	(show_assignment):
+	Add a boolean variable to denote assigned task and construct the 
+	meeting page only for the assigned task. Set it as a group item
+	in component editor.
+	(_TaskEditorPrivate): added the boolean variable (is_assigned).
+	(task_editor_init): initialized the variable.
+	* gui/dialogs/comp-editor.[ch]: Added functions to set and get whether comp
+	 is a group item or individual item.
+	* gui/comp-editor.c (make_title_from_string), (make_title_from_comp):
+	Set the Title for the appointment editor window as "Meeting" or "Assigned
+	Task" if its a group calendar/task item.
+	(_CompEditorPrivate): added a boolean variable (is_group_item).
+	(comp_editor_init): initialized the same.
+	* gui/dialogs/event-editor.c (event_editor_construct), (show_meeting): Set whether
+	the component is a group item or not in comp editor.
+	* gui/e-calendar-table.c (e_calendar_table_open_task), (e_calendar_table_open_selected),
+	(open_task_by_row): Check whether the component being opened is an assigned task by
+	checking for attendees and call open_task with proper value for boolean variable assign.
+	* gui/comp-editor-factory.c (edit_existing):
+	* gui/e-calendar-table.c (open_task):
+	* gui/e-tasks.c (e_tasks_new_task):
+	* gui/gnome-cal.c (gnome_calendar_new_task):
+	* gui/tasks-component.c (create_new_todo):
+	Called the function task_editor_new with a added argument.
+
+2004-12-02  Chenthill Palanisamy  <pchenthill@novell.com>
+
 	* gui/e-day-view.c (e_day_view_finish_resize), (e_day_view_reshape_day_event)
        	(e_day_view_change_event_time): Free the string day_view->last_edited_comp_string
 	before changing assigning it another value.

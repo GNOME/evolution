@@ -901,7 +901,7 @@ e_tasks_new_task			(ETasks		*tasks)
 	category = cal_search_bar_get_category (CAL_SEARCH_BAR (priv->search_bar));
 	e_cal_component_set_categories (comp, category);
 
-	tedit = task_editor_new (ecal);
+	tedit = task_editor_new (ecal, FALSE);
 	comp_editor_edit_comp (COMP_EDITOR (tedit), comp);
 	g_object_unref (comp);
 

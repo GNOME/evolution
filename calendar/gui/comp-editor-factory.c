@@ -273,7 +273,7 @@ edit_existing (OpenClient *oc, const char *uid)
 		break;
 
 	case E_CAL_COMPONENT_TODO:
-		editor = COMP_EDITOR (task_editor_new (oc->client));
+		editor = COMP_EDITOR (task_editor_new (oc->client, e_cal_component_has_attendees (comp)));
 		break;
 
 	default:
@@ -323,7 +323,7 @@ edit_new (OpenClient *oc, const GNOME_Evolution_Calendar_CompEditorFactory_CompE
 		comp = cal_comp_event_new_with_current_time (oc->client, TRUE);
 		break;
 	case GNOME_Evolution_Calendar_CompEditorFactory_EDITOR_MODE_TODO:
-		editor = COMP_EDITOR (task_editor_new (oc->client));
+		editor = COMP_EDITOR (task_editor_new (oc->client, FALSE));
 		comp = get_default_task (oc->client);
 		break;
 	default:

@@ -147,6 +147,7 @@ event_editor_construct (EventEditor *ee, ECal *client)
 				 _("Recurrence"));
 	
 	if (priv->is_meeting) {
+		comp_editor_set_group_item (COMP_EDITOR (ee), TRUE);
 		priv->sched_page = schedule_page_new (priv->model);
 		g_object_ref (priv->sched_page);
 		gtk_object_sink (GTK_OBJECT (priv->sched_page));
@@ -359,6 +360,7 @@ show_meeting (EventEditor *ee)
 
 	priv = ee->priv;
 
+	
 	if (!priv->meeting_shown) {
 		comp_editor_append_page (COMP_EDITOR (ee),
 					 COMP_EDITOR_PAGE (priv->sched_page),
