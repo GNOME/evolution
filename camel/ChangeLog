@@ -1,3 +1,11 @@
+2004-09-15  Not Zed  <NotZed@Ximian.com>
+
+	** See bug #0xffff.
+
+	* providers/local/camel-local-folder.c
+	(camel_local_folder_construct): only emit folder_created if we
+	actually created it.
+
 2004-09-03  Not Zed  <NotZed@Ximian.com>
 
 	* camel-tcp-stream-ssl.c (stream_connect): make ssl connection
