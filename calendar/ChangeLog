@@ -2,7 +2,8 @@
 
 	* gui/calendar-summary.c (generate_html_summary): Get the tasks
 	correctly.
-
+	(generate_html_summary): Mark the tasks as completed if so.
+	
 2001-01-08  Damon Chaplin  <damon@helixcode.com>
 
 	* gui/Makefile.am: added new source files for the Tasks folders.

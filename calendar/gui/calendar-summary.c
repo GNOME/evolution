@@ -151,6 +151,7 @@ generate_html_summary (CalSummary *summary)
 		CalComponent *comp;
 		CalComponentText text;
 		CalClientGetStatus status;
+		struct icaltimetype *completed;
 		char *uid;
 		char *tmp2;
 		
@@ -160,8 +161,15 @@ generate_html_summary (CalSummary *summary)
 			continue;
 		
 		cal_component_get_summary (comp, &text);
+		cal_component_get_completed (comp, &completed);
 
-		tmp2 = g_strdup_printf ("<li>%s</li>", text.value);
+		if (completed == NULL) {
+			tmp2 = g_strdup_printf ("<li>%s</li>", text.value);
+		} else {
+			tmp2 = g_strdup_printf ("<li><strike>%s</strike></li>",
+						text.value);
+			cal_component_free_icaltimetype (completed);
+		}
 
 		tmp = ret_html;
 		ret_html = g_strconcat (ret_html, tmp2, NULL);
