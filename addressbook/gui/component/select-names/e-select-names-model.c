@@ -22,9 +22,6 @@
 #include "e-select-names-marshal.h"
 #include "eab-book-util.h"
 
-#define MAX_LENGTH 2047
-
-
 enum {
 	E_SELECT_NAMES_MODEL_CHANGED,
 	E_SELECT_NAMES_MODEL_RESIZED,
@@ -214,12 +211,6 @@ e_select_names_model_get_textification (ESelectNamesModel *model, const char *se
 		}
 		
 		text = g_strjoinv (separator, strv);
-
-		if (g_utf8_strlen(text, -1) > MAX_LENGTH) {
-			char *p = g_utf8_offset_to_pointer (text, MAX_LENGTH);
-			*p = '\0';
-			text = g_realloc (text, p - text + 1);
-		}
 		
 		g_free (strv);
 		

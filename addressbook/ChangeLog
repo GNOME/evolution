@@ -1,3 +1,11 @@
+2004-06-24  Radek Doulik  <rodo@ximian.com>
+
+	* gui/component/select-names/e-select-names-model.c
+	(e_select_names_model_get_textification): do not limit the text
+	len to 2047 characters
+
+	See bug #60366
+
 2004-06-23  Hans Petter Jansson  <hpj@ximian.com>
 
 	* gui/contact-editor/contact-editor.glade: Set window to be invisible
