@@ -239,11 +239,11 @@ void cal_component_set_transparency (CalComponent *comp, CalComponentTransparenc
 void cal_component_get_url (CalComponent *comp, const char **url);
 void cal_component_set_url (CalComponent *comp, const char *url);
 
-void cal_component_get_pilot_id (CalComponent *comp, unsigned long *pilot_id);
-void cal_component_set_pilot_id (CalComponent *comp, unsigned long pilot_id);
+void cal_component_get_pilot_id (CalComponent *comp, unsigned long **pilot_id);
+void cal_component_set_pilot_id (CalComponent *comp, unsigned long *pilot_id);
 
-void cal_component_get_pilot_status (CalComponent *comp, unsigned long *pilot_status);
-void cal_component_set_pilot_status (CalComponent *comp, unsigned long pilot_status);
+void cal_component_get_pilot_status (CalComponent *comp, unsigned long **pilot_status);
+void cal_component_set_pilot_status (CalComponent *comp, unsigned long *pilot_status);
 
 /* Functions to free returned values */
 
@@ -257,6 +257,8 @@ void cal_component_free_priority (int *priority);
 void cal_component_free_period_list (GSList *period_list);
 void cal_component_free_recur_list (GSList *recur_list);
 void cal_component_free_sequence (int *sequence);
+void cal_component_free_pilot_id (unsigned long *pilot_status);
+void cal_component_free_pilot_status (unsigned long *pilot_status);
 void cal_component_free_text_list (GSList *text_list);
 
 /* Alarms */

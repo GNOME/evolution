@@ -1,3 +1,45 @@
+2000-09-10  JP Rosevear  <jpr@helixcode.com>
+
+	* conduits/todo/todo-conduit.c (local_record_from_icalobject): Use
+	cal component pilot stuff properly
+	(find_record_in_repository): Remove cruft
+	(ical_from_remote_record): Remove cruft
+	(update_record): Set the vtype immediately after creation. Remove cruft
+
+	* conduits/todo/todo-conduit.h: Remove iCalObject stuff
+
+	* conduits/todo/todo-conduit-config.h: Move all the config stuff
+	here, I need to kill the warnings at some point
+
+	* conduits/todo/todo-conduit-control-applet.c (doRevertSettings): 
+	Set all the state variables correctly on a revert
+	(doSaveSettings): Update original state
+	(doHelp): Rename from about_cb
+	(main): Destroy configurations when done
+
+	* conduits/todo/Makefile.am: Tidy
+
+	* pcs/cal-backend-file.c (cbf_pilot_hash): Function for hashing
+	pilot ids
+	(cbf_pilot_equal): For hash table of pilot ids
+	(cal_backend_file_destroy): Destroy pilot id hash
+	(add_component): Insert the uid into the pilot hash
+	(remove_component): Remove the uid from the pilot hash
+	(cal_backend_file_load): Create the pilot hash
+	(cal_backend_file_create): ditto
+	(cal_backend_file_get_uid_by_pilot_id): Implement using the pilot hash
+	(cal_backend_file_update_pilot_id): ditto
+
+	* cal-util/cal-component.h: Update prototypes
+
+	* cal-util/cal-component.c (cal_component_get_pilot_id): Implement
+	using ical X properties
+	(cal_component_set_pilot_id): ditto
+	(cal_component_get_pilot_status): ditto
+	(cal_component_set_pilot_status): ditto
+	(cal_component_free_pilot_id): Free a pilot id
+	(cal_component_free_pilot_status): Free a pilot status
+	
 2000-09-09  Ettore Perazzoli  <ettore@helixcode.com>
 
 	* gui/dialogs/Makefile.am (INCLUDES): Add

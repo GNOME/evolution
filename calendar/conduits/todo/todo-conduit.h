@@ -25,8 +25,8 @@ struct _GCalLocalRecord {
 	   structure cannot be used by gnome-pilot-conduit-standard-abs.
 	*/
 	LocalRecord local;
-	/* The corresponding iCal object, as found by GnomeCal. */
-	//iCalObject *ical;
+
+	/* The corresponding Comp object, as found by GnomeCal. */
 	CalComponent *ical;
 
         /* pilot-link todo structure, used for implementing Transmit. */
@@ -47,7 +47,7 @@ struct _GCalConduitCfg {
 typedef struct _GCalConduitContext GCalConduitContext;
 struct _GCalConduitContext {
 	struct ToDoAppInfo ai;
-	GCalConduitCfg *cfg;
+	ToDoConduitCfg *cfg;
 	CalClient *client;
 	CORBA_Environment ev;
 	CORBA_ORB orb;
@@ -58,28 +58,6 @@ struct _GCalConduitContext {
 };
 #define GET_GCALCONTEXT(c) ((GCalConduitContext*)gtk_object_get_data(GTK_OBJECT(c),"todoconduit_context"))
 
-
-/* Given a GCalConduitCfg*, allocates the structure and 
-   loads the configuration data for the given pilot.
-   this is defined in the header file because it is used by
-   both todo-conduit and todo-conduit-control-applet,
-   and we don't want to export any symbols we don't have to. */
-static void 
-gcalconduit_load_configuration(GCalConduitCfg **c,
-			       guint32 pilotId) 
-{
-	gchar prefix[256];
-	g_snprintf(prefix,255,"/gnome-pilot.d/todo-conduit/Pilot_%u/",pilotId);
-	
-	*c = g_new0(GCalConduitCfg,1);
-	g_assert(*c != NULL);
-	gnome_config_push_prefix(prefix);
-	(*c)->open_secret = gnome_config_get_bool("open_secret=FALSE");
-	(*c)->sync_type = GnomePilotConduitSyncTypeCustom; /* set in capplets main */
-	gnome_config_pop_prefix();
-	
-	(*c)->pilotId = pilotId;
-}
-
-
 #endif __TODO_CONDUIT_H__ 
+
+

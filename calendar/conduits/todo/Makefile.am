@@ -6,6 +6,7 @@ INCLUDES = 					\
 	$(BONOBO_GNOME_CFLAGS)			\
 	$(GNOME_PILOT_CFLAGS)
 
+# ToDo Capplet
 bin_PROGRAMS = todo-conduit-control-applet
 
 todo_conduit_control_applet_SOURCES = todo-conduit-control-applet.c
@@ -23,22 +24,11 @@ todo_conduit_control_applet_LDADD = \
 
 
 
-# todo_conduit
+# ToDo Conduit
 todo_conduitsdir=$(libdir)/gnome-pilot/conduits
 todo_conduits_LTLIBRARIES = libtodo_conduit.la
 
-libtodo_conduit_la_SOURCES = \
-	todo-conduit.c
-
-# todo-conduit.c: my_gnomecal_idl
-
-todo.conduit: todo.conduit.in Makefile
-	sed -e 's^\@prefix\@^$(prefix)^g' < $(srcdir)/todo.conduit.in > todo.conduit.tmp \
-	&& mv todo.conduit.tmp todo.conduit
-
-#
-# conduit
-#
+libtodo_conduit_la_SOURCES = todo-conduit.c
 
 libtodo_conduit_la_LDFLAGS = \
 	-rpath $(libdir)
@@ -52,6 +42,11 @@ libtodo_conduit_la_LIBADD = 					\
 	$(PISOCK_LIBDIR) $(PISOCK_LIBS) 				\
 	$(GNOME_LIBDIR) 						\
 	$(GNOME_LIBS)
+
+todo.conduit: todo.conduit.in Makefile
+	sed -e 's^\@prefix\@^$(prefix)^g' < $(srcdir)/todo.conduit.in > todo.conduit.tmp \
+	&& mv todo.conduit.tmp todo.conduit
+
 
 ccenterdir = $(datadir)/control-center
 ccenterPalmPilotdir = $(ccenterdir)/Peripherals
