@@ -1,5 +1,29 @@
 2004-01-19  Not Zed  <NotZed@Ximian.com>
 
+	* em-migrate.c (em_upgrade_pop_uid_caches_1_4): if we can't open
+	the pop3 cache dir, because it doesn't exist, it is not an error.
+
+	** See bug #52983.
+
+	* mail-component.c (em_uri_from_camel, em_uri_to_camel): Handle
+	vfolder: uri's properly.  And make sure local uri's are properly
+	encoded.
+	(mail_component_get_folder_from_evomail_uri)
+	(mail_component_evomail_uri_from_folder): removed, no longer used.
+	(em_uri_from_camel): don't leak the camelurl.
+	(d): disable debug
+
+	* mail-vfolder.c (vfolder_load_storage): move the vfolder storage
+	location to ~/.evolution/mail/vfolder rather than
+	~/.evolution/mail (this is currently unused anyway).
+	(uri_is_ignore): short-circuit exit if we find a match.
+	(mail_vfolder_add_uri): dont exit immediately if we have a vfolder
+	uri, but don't add it to local/remove either.
+	(mail_vfolder_delete_uri): remove any uri from the local/remote
+	source list while we're at it.
+
+2004-01-19  Not Zed  <NotZed@Ximian.com>
+
 	* em-folder-view.c (emfv_on_url_cb): properly decode the mailto
 	url rather than treating it as a simple string.
 

@@ -1685,6 +1685,11 @@ em_upgrade_pop_uid_caches_1_4 (const char *evolution_dir, CamelException *ex)
 	/* open the old cache dir */
 	cache_dir = g_build_filename (g_get_home_dir (), "evolution", "mail", "pop3", NULL);
 	if (!(dir = opendir (cache_dir))) {
+		if (errno == ENOENT) {
+			g_free(cache_dir);
+			return 0;
+		}
+
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
 				      _("Failed to migrate pop3 uid caches: %s"),
 				      g_strerror (errno));

@@ -68,9 +68,7 @@
 #include <bonobo/bonobo-control.h>
 #include <bonobo/bonobo-widget.h>
 
-
-#define d(x) x
-
+#define d(x) 
 
 #define PARENT_TYPE bonobo_object_get_type ()
 static BonoboObjectClass *parent_class = NULL;
@@ -801,31 +799,50 @@ mail_component_get_local_inbox(MailComponent *mc, struct _CamelException *ex)
 
 extern struct _CamelSession *session;
 
+/* email: uri's are based on the account, with special cases for local
+ * stores, vfolder and local mail.
+ * e.g.
+ *  imap account imap://user@host/ -> email://accountid@accountid.host/
+ *  vfolder      vfolder:/storage/path#folder -> email://vfolder@local/folder
+ *  local        local:/storage/path#folder   -> email://local@local/folder
+ */
+
 char *em_uri_from_camel(const char *curi)
 {
 	CamelURL *curl;
 	EAccount *account;
 	const char *uid, *path;
-	char *euri;
+	char *euri, *tmp;
 	CamelProvider *provider;
 
 	provider = camel_session_get_provider(session, curi, NULL);
-	if (provider == NULL)
+	if (provider == NULL) {
+		d(printf("em uri from camel failed '%s'\n", curi));
 		return g_strdup(curi);
+	}
 
 	curl = camel_url_new(curi, NULL);
 	if (curl == NULL)
 		return g_strdup(curi);
 
-	account = mail_config_get_account_by_source_url(curi);
-	uid = (account == NULL)?"local@local":account->uid;
+	if (strcmp(curl->protocol, "vfolder") == 0)
+		uid = "vfolder@local";
+	else if ((account = mail_config_get_account_by_source_url(curi)) == NULL)
+		uid = "local@local";
+	else
+		uid = account->uid;
 	path = (provider->url_flags & CAMEL_URL_FRAGMENT_IS_PATH)?curl->fragment:curl->path;
 	if (path[0] == '/')
 		path++;
-	euri = g_strdup_printf("email://%s/%s", uid, path);
+
+	tmp = camel_url_encode(path, ";?");
+	euri = g_strdup_printf("email://%s/%s", uid, tmp);
+	g_free(tmp);
 	
 	d(printf("em uri from camel '%s' -> '%s'\n", curi, euri));
-	
+
+	camel_url_free(curl);
+
 	return euri;
 }
 
@@ -838,21 +855,37 @@ char *em_uri_to_camel(const char *euri)
 	CamelURL *eurl, *curl;
 	char *uid, *curi;
 
+	if (strncmp(euri, "email:", 6) != 0) {
+		d(printf("em uri to camel not euri '%s'\n", euri));
+		return g_strdup(euri);
+	}
+
 	eurl = camel_url_new(euri, NULL);
 	if (eurl == NULL)
 		return g_strdup(euri);
 
-	if (strcmp(eurl->protocol, "email") != 0) {
-		camel_url_free(eurl);
-		return g_strdup(euri);
-	}
-
 	g_assert(eurl->host != NULL);
 
 	if (eurl->user != NULL) {
-		if (strcmp(eurl->user, "local") == 0 && strcmp(eurl->host, "local") == 0) {
-			curi = g_strdup_printf("mbox:%s/.evolution/mail/local#%s", g_get_home_dir(), eurl->path[0]=='/'?eurl->path+1:eurl->path);
+		/* Sigh, shoul'dve used mbox@local for mailboxes, not local@local */
+		if (strcmp(eurl->host, "local") == 0
+		    && (strcmp(eurl->user, "local") == 0 || strcmp(eurl->user, "vfolder") == 0)) {
+			char *base;
+
+			if (strcmp(eurl->user, "vfolder") == 0)
+				curl = camel_url_new("vfolder:", NULL);
+			else
+				curl = camel_url_new("mbox:", NULL);
+
+			base = g_strdup_printf("%s/.evolution/mail/%s", g_get_home_dir(), eurl->user);
+			camel_url_set_path(curl, base);
+			g_free(base);
+			camel_url_set_fragment(curl, eurl->path[0]=='/'?eurl->path+1:eurl->path);
+			curi = camel_url_to_string(curl, 0);
+			camel_url_free(curl);
 			camel_url_free(eurl);
+
+			d(printf("em uri to camel local '%s' -> '%s'\n", euri, curi));
 			return curi;
 		}
 
@@ -867,6 +900,7 @@ char *em_uri_to_camel(const char *euri)
 
 	if (account == NULL) {
 		camel_url_free(eurl);
+		d(printf("em uri to camel no account '%s' -> '%s'\n", euri, euri));
 		return g_strdup(euri);
 	}
 
@@ -888,105 +922,5 @@ char *em_uri_to_camel(const char *euri)
 
 	return curi;
 }
-
-
-CamelFolder *
-mail_component_get_folder_from_evomail_uri (MailComponent *component,
-					    guint32 flags,
-					    const char *evomail_uri,
-					    CamelException *ex)
-{
-	CamelException local_ex;
-	EAccountList *accounts;
-	EIterator *iter;
-	const char *p;
-	const char *q;
-	const char *folder_name;
-	char *uid;
-
-	camel_exception_init (&local_ex);
-
-	if (strncmp (evomail_uri, "evomail:", 8) != 0)
-		return NULL;
-
-	p = evomail_uri + 8;
-	while (*p == '/')
-		p ++;
-
-	q = strchr (p, '/');
-	if (q == NULL)
-		return NULL;
-
-	uid = g_strndup (p, q - p);
-	folder_name = q + 1;
-
-	/* since we have no explicit account for 'local' folders, make one up */
-	if (strcmp(uid, "local") == 0) {
-		g_free(uid);
-		return camel_store_get_folder(component->priv->local_store, folder_name, flags, ex);
-	}
-
-	accounts = mail_config_get_accounts ();
-	iter = e_list_get_iterator ((EList *) accounts);
-	while (e_iterator_is_valid (iter)) {
-		EAccount *account = (EAccount *) e_iterator_get (iter);
-		EAccountService *service = account->source;
-		CamelProvider *provider;
-		CamelStore *store;
-
-		if (strcmp (account->uid, uid) != 0)
-			continue;
-
-		provider = camel_session_get_provider (session, service->url, &local_ex);
-		if (provider == NULL)
-			goto fail;
-
-		store = (CamelStore *) camel_session_get_service (session, service->url, CAMEL_PROVIDER_STORE, &local_ex);
-		if (store == NULL)
-			goto fail;
-
-		g_free (uid);
-		return camel_store_get_folder (store, folder_name, flags, ex);
-	}
-
- fail:
-	camel_exception_clear (&local_ex);
-	g_free (uid);
-	return NULL;
-}
-
-
-char *
-mail_component_evomail_uri_from_folder (MailComponent *component,
-					CamelFolder *folder)
-{
-	CamelStore *store = camel_folder_get_parent_store (folder);
-	EAccount *account;
-	char *service_url;
-	char *evomail_uri;
-	const char *uid;
-
-	if (store == NULL)
-		return NULL;
-
-	service_url = camel_service_get_url (CAMEL_SERVICE (store));
-	account = mail_config_get_account_by_source_url (service_url);
-
-	if (account == NULL) {
-		/* since we have no explicit account for 'local' folders, make one up */
-		/* TODO: check the folder is really a local one, folder->parent_store == local_store? */
-		uid = "local";
-		/*g_free (service_url);
-		return NULL;*/
-	} else {
-		uid = account->uid;
-	}
-
-	evomail_uri = g_strconcat ("evomail:///", uid, "/", camel_folder_get_full_name (folder), NULL);
-	g_free (service_url);
-
-	return evomail_uri;
-}
-
 
 BONOBO_TYPE_FUNC_FULL (MailComponent, GNOME_Evolution_Component, PARENT_TYPE, mail_component)

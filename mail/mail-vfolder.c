@@ -311,6 +311,9 @@ uri_is_ignore(const char *uri, GCompareFunc uri_cmp)
 		|| (default_sent_folder_uri && uri_cmp(default_sent_folder_uri, uri))
 		|| (default_drafts_folder_uri && uri_cmp(default_drafts_folder_uri, uri));
 	
+	if (found)
+		return found;
+
 	accounts = mail_config_get_accounts ();
 	iter = e_list_get_iterator ((EList *) accounts);
 	while (e_iterator_is_valid (iter)) {
@@ -347,7 +350,7 @@ mail_vfolder_add_uri(CamelStore *store, const char *curi, int remove)
 	char *uri;
 
 	uri = em_uri_from_camel(curi);
-	if (CAMEL_IS_VEE_STORE(store) || !strncmp(curi, "vtrash:", 7) || !strncmp(curi, "vjunk:", 6) || context == NULL) {
+	if (!strncmp(curi, "vtrash:", 7) || !strncmp(curi, "vjunk:", 6) || context == NULL) {
 		g_free(uri);
 		return;
 	}
@@ -361,7 +364,9 @@ mail_vfolder_add_uri(CamelStore *store, const char *curi, int remove)
 	d(printf("%s uri to check: %s\n", remove?"Removing":"Adding", uri));
 
 	/* maintain the source folders lists for changed rules later on */
-	if (remove) {
+	if (CAMEL_IS_VEE_STORE(store)) {
+		is_ignore = TRUE;
+	} else if (remove) {
 		if (remote) {
 			if ((link = my_list_find(source_folders_remote, (void *)uri, uri_cmp)) != NULL) {
 				g_free(link->data);
@@ -438,6 +443,7 @@ mail_vfolder_delete_uri(CamelStore *store, const char *curi)
 	CamelVeeFolder *vf;
 	GString *changed;
 	char *uri;
+	GList *link;
 
 	if (context == NULL || !strncmp(curi, "vtrash:", 7) || !strncmp(curi, "vjunk:", 6))
 		return;
@@ -470,6 +476,16 @@ mail_vfolder_delete_uri(CamelStore *store, const char *curi)
 				source = NULL;
 			}
 		}
+	}
+
+	if ((link = my_list_find(source_folders_remote, (void *)uri, uri_cmp)) != NULL) {
+		g_free(link->data);
+		source_folders_remote = g_list_remove_link(source_folders_remote, link);
+	}
+
+	if ((link = my_list_find(source_folders_local, (void *)uri, uri_cmp)) != NULL) {
+		g_free(link->data);
+		source_folders_local = g_list_remove_link(source_folders_local, link);
 	}
 	
 	UNLOCK();
@@ -607,6 +623,8 @@ rule_changed(FilterRule *rule, CamelFolder *folder)
 				sources_folder = g_list_append(sources_folder, newfolder);
 			else
 				sources_uri = g_list_append(sources_uri, g_strdup(sourceuri));
+		} else {
+			d(printf("  no i'm not - this folder doesn't exist anywhere\n"));
 		}
 
 		g_free(curi);
@@ -791,7 +809,7 @@ vfolder_load_storage(void)
 	vfolder_hash = g_hash_table_new(g_str_hash, g_str_equal);
 
 	/* first, create the vfolder store, and set it up */
-	storeuri = g_strdup_printf("vfolder:%s/vfolder", mail_component_peek_base_directory (mail_component_peek ()));
+	storeuri = g_strdup_printf("vfolder:%s/mail/vfolder", mail_component_peek_base_directory (mail_component_peek ()));
 	vfolder_store = camel_session_get_store(session, storeuri, NULL);
 	if (vfolder_store == NULL) {
 		g_warning("Cannot open vfolder store - no vfolders available");
