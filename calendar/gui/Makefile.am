@@ -196,6 +196,9 @@ Conduitsdir = $(PalmPilotdir)/Conduits
 Conduits_DATA = \
 	calendar-conduit-control-applet.desktop \
 	todo-conduit-control-applet.desktop 
+
+Conduits_seconddir = $(datadir)/gnome/apps/Settings/Peripherals/PalmPilot/Conduits/
+Conduits_second_DATA = $(Conduits_DATA)
 endif
 
 EXTRA_DIST = \

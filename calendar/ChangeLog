@@ -1,3 +1,8 @@
+1999-12-05  Eskil Heyn Olsen  <deity@eskil.dk>
+
+	* Makefile.am (Conduits_second_DATA): Also install .desktop files
+	for conduit capplets in the gnome/apps menu dir.
+
 1999-12-04  Eskil Heyn Olsen  <deity@eskil.dk>
 
 	* Makefile.am (EXTRA_DIST): Added .desktop files to EXTRA_DIST.
