@@ -207,9 +207,9 @@ etgl_set_focus (ETableGroup *etg, EFocus direction, gint view_col)
 {
 	ETableGroupLeaf *etgl = E_TABLE_GROUP_LEAF (etg);
 	if (direction == E_FOCUS_END) {
-		e_table_item_focus (etgl->item, view_col, e_table_model_row_count(E_TABLE_MODEL(etgl->subset)) - 1);
+		e_table_item_set_cursor (etgl->item, view_col, e_table_model_row_count(E_TABLE_MODEL(etgl->subset)) - 1);
 	} else {
-		e_table_item_focus (etgl->item, view_col, 0);
+		e_table_item_set_cursor (etgl->item, view_col, 0);
 	}
 }
 
@@ -217,7 +217,9 @@ static void
 etgl_select_row (ETableGroup *etg, gint row)
 {
 	ETableGroupLeaf *etgl = E_TABLE_GROUP_LEAF (etg);
-	e_table_item_focus(etgl->item, 0, row);
+	gnome_canvas_item_set(GTK_OBJECT(etgl->item),
+			      "cursor_row", row,
+			      NULL);
 }
 
 static int
@@ -229,13 +231,6 @@ etgl_get_selected_view_row (ETableGroup *etg)
 		       "cursor_row", &row,
 		       NULL);
 	return row;
-}
-
-static void
-etgl_unfocus (ETableGroup *etg)
-{
-	ETableGroupLeaf *etgl = E_TABLE_GROUP_LEAF (etg);
-	e_table_item_unfocus (etgl->item);
 }
 
 static gint
@@ -360,7 +355,6 @@ etgl_class_init (GtkObjectClass *object_class)
 	e_group_class->row_count  = etgl_row_count;
 	e_group_class->set_focus  = etgl_set_focus;
 	e_group_class->select_row = etgl_select_row;
-	e_group_class->unfocus    = etgl_unfocus;
 	e_group_class->get_selected_view_row = etgl_get_selected_view_row;
 	e_group_class->get_focus_column = etgl_get_focus_column;
 	e_group_class->get_printable = etgl_get_printable;

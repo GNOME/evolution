@@ -1,5 +1,19 @@
 2000-06-20  Christopher James Lahey  <clahey@helixcode.com>
 
+	* e-table-group-container.c, e-table-group-leaf.c,
+	e-table-group.c, e-table-group.h: Removed the unfocus method since
+	that's handled by the canvas itself now.
+
+	* e-table-item.c, e-table-item.h: Finished adapting ETableItem to
+	use the canvas selection/cursor system.  Selection and cursor now
+	use row numbers associated with the source model instead of the
+	sorted model (if the model they are given is an ETableSubset.)
+	This has no effect on the interface, except that unfocus was
+	removed and e_table_item_focus was renamed to
+	e_table_item_set_cursor.
+
+2000-06-20  Christopher James Lahey  <clahey@helixcode.com>
+
 	* e-table-item.c, e-table-item.h: Started adapting ETableItem to
 	use the canvas selection/cursor system.
 

@@ -194,16 +194,6 @@ e_table_group_get_selected_view_row (ETableGroup *etg)
 		return -1;
 }
 
-void
-e_table_group_unfocus (ETableGroup *etg)
-{
-	g_return_if_fail (etg != NULL);
-	g_return_if_fail (E_IS_TABLE_GROUP (etg));
-
-	if (ETG_CLASS (etg)->unfocus)
-		ETG_CLASS (etg)->unfocus (etg);
-}
-
 gboolean
 e_table_group_get_focus (ETableGroup *etg)
 {
@@ -378,7 +368,6 @@ etg_class_init (GtkObjectClass *object_class)
 	klass->set_focus  = NULL;
 	klass->select_row = NULL;
 	klass->get_selected_view_row = NULL;
-	klass->unfocus = NULL;
 	klass->get_focus = etg_get_focus;
 	klass->get_ecol = NULL;
 	klass->get_printable = NULL;

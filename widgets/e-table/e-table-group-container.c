@@ -216,7 +216,6 @@ etgc_event (GnomeCanvasItem *item, GdkEvent *event)
 					if (start_col == -1)
 						start_col = e_table_header_count (e_table_group_get_header (child)) - 1;
 					
-					e_table_group_unfocus(child);
 					if (direction == E_FOCUS_END)
 						list = list->prev;
 					else
@@ -521,16 +520,6 @@ etgc_set_focus (ETableGroup *etg, EFocus direction, gint view_col)
 	}
 }
 
-static void
-etgc_unfocus (ETableGroup *etg)
-{
-	ETableGroupContainer *etgc = E_TABLE_GROUP_CONTAINER(etg);
-	GList *list;
-	for (list = etgc->children; list; list = g_list_next(list)) {
-		e_table_group_unfocus (((ETableGroupContainerChildNode *)list->data)->child);
-	}
-}
-
 static gint
 etgc_get_focus_column (ETableGroup *etg)
 {
@@ -672,7 +661,6 @@ etgc_class_init (GtkObjectClass *object_class)
 	e_group_class->set_focus  = etgc_set_focus;
 	e_group_class->select_row = etgc_select_row;
 	e_group_class->get_selected_view_row = etgc_get_selected_view_row;
-	e_group_class->unfocus    = etgc_unfocus;
 	e_group_class->get_focus_column = etgc_get_focus_column;
 	e_group_class->get_printable = etgc_get_printable;
 

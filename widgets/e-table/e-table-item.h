@@ -75,6 +75,7 @@ typedef struct {
 	 */
 	int              length_threshold;
 	
+	gint             row_guess;
 	gint             cursor_row;
 	gint             cursor_col;
 	ETableCursorMode cursor_mode;
@@ -105,8 +106,7 @@ GtkType    e_table_item_get_type (void);
 /*
  * Focus
  */
-void       e_table_item_focus    (ETableItem *eti, int col, int row);
-void       e_table_item_unfocus  (ETableItem *eti);
+void       e_table_item_set_cursor    (ETableItem *eti, int col, int row);
 
 gint       e_table_item_get_focused_column (ETableItem *eti);
 
