@@ -1,5 +1,16 @@
 2002-01-15  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* providers/smtp/camel-smtp-transport.c (smtp_send_to): Updated to
+	match the new send_to API.
+	(smtp_send): Get the from address and pass that along to
+	smtp_send_to().
+
+	* providers/sendmail/camel-sendmail-transport.c
+	(sendmail_send_to): Updated to match the new send_to API.
+
+	* camel-transport.c (camel_transport_send_to): Now takes a from
+	argument too.
+
 	* providers/imap/camel-imap-folder.c (imap_update_summary): Sort
 	the needheaders UID array and fixed to respect the
 	UID_SET_LIMIT. This should now finish the fixification of bug

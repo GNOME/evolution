@@ -70,7 +70,7 @@
 static gboolean smtp_can_send (CamelTransport *transport, CamelMedium *message);
 static gboolean smtp_send (CamelTransport *transport, CamelMedium *message, CamelException *ex);
 static gboolean smtp_send_to (CamelTransport *transport, CamelMedium *message,
-			      CamelAddress *recipients, CamelException *ex);
+			      CamelAddress *from, CamelAddress *recipients, CamelException *ex);
 
 /* support prototypes */
 static void smtp_construct (CamelService *service, CamelSession *session,
@@ -567,7 +567,8 @@ smtp_can_send (CamelTransport *transport, CamelMedium *message)
 
 static gboolean
 smtp_send_to (CamelTransport *transport, CamelMedium *message,
-	      CamelAddress *recipients, CamelException *ex)
+	      CamelAddress *from, CamelAddress *recipients,
+	      CamelException *ex)
 {
 	CamelSmtpTransport *smtp_transport = CAMEL_SMTP_TRANSPORT (transport);
 	const CamelInternetAddress *cia;
@@ -575,15 +576,14 @@ smtp_send_to (CamelTransport *transport, CamelMedium *message,
 	const char *addr;
 	int i, len;
 	
-	cia = camel_mime_message_get_from (CAMEL_MIME_MESSAGE (message));
-	if (!cia) {
+	if (!from) {
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
 				      _("Cannot send message: "
 					"sender address not defined."));
 		return FALSE;
 	}
 	
-	if (!camel_internet_address_get (cia, 0, NULL, &addr)) {
+	if (!camel_internet_address_get (CAMEL_INTERNET_ADDRESS (from), 0, NULL, &addr)) {
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
 				      _("Cannot send message: "
 					"sender address not valid."));
@@ -642,9 +642,11 @@ smtp_send_to (CamelTransport *transport, CamelMedium *message,
 static gboolean
 smtp_send (CamelTransport *transport, CamelMedium *message, CamelException *ex)
 {
-	const CamelInternetAddress *to, *cc, *bcc;
+	const CamelInternetAddress *from, *to, *cc, *bcc;
 	CamelInternetAddress *recipients = NULL;
 	gboolean status;
+	
+	from = camel_mime_message_get_from (CAMEL_MIME_MESSAGE (message));
 	
 	to = camel_mime_message_get_recipients (CAMEL_MIME_MESSAGE (message), CAMEL_RECIPIENT_TYPE_TO);
 	cc = camel_mime_message_get_recipients (CAMEL_MIME_MESSAGE (message), CAMEL_RECIPIENT_TYPE_CC);
@@ -655,7 +657,7 @@ smtp_send (CamelTransport *transport, CamelMedium *message, CamelException *ex)
 	camel_address_cat (CAMEL_ADDRESS (recipients), CAMEL_ADDRESS (cc));
 	camel_address_cat (CAMEL_ADDRESS (recipients), CAMEL_ADDRESS (bcc));
 	
-	status = smtp_send_to (transport, message, CAMEL_ADDRESS (recipients), ex);
+	status = smtp_send_to (transport, message, CAMEL_ADDRESS (from), CAMEL_ADDRESS (recipients), ex);
 	
 	camel_object_unref (CAMEL_OBJECT (recipients));
 	

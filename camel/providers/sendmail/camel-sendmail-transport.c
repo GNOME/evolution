@@ -45,7 +45,8 @@ static gboolean sendmail_can_send (CamelTransport *transport, CamelMedium *messa
 static gboolean sendmail_send (CamelTransport *transport, CamelMedium *message,
 			       CamelException *ex);
 static gboolean sendmail_send_to (CamelTransport *transport, CamelMedium *message,
-				  CamelAddress *recipients, CamelException *ex);
+				  CamelAddress *from, CamelAddress *recipients,
+				  CamelException *ex);
 
 
 static void
@@ -198,14 +199,17 @@ get_from (CamelMedium *message, CamelException *ex)
 
 static gboolean
 sendmail_send_to (CamelTransport *transport, CamelMedium *message,
-		  CamelAddress *recipients, CamelException *ex)
+		  CamelAddress *from, CamelAddress *recipients,
+		  CamelException *ex)
 {
-	const char *from, *addr, **argv;
+	const char *from_addr, *addr, **argv;
 	gboolean status;
 	int i, len;
 	
-	from = get_from (message, ex);
 	if (!from)
+		return FALSE;
+	
+	if (!camel_internet_address_get (CAMEL_INTERNET_ADDRESS (from), 0, NULL, &from_addr))
 		return FALSE;
 	
 	len = camel_address_length (recipients);
@@ -213,7 +217,7 @@ sendmail_send_to (CamelTransport *transport, CamelMedium *message,
 	argv[0] = "sendmail";
 	argv[1] = "-i";
 	argv[2] = "-f";
-	argv[3] = from;
+	argv[3] = from_addr;
 	argv[4] = "--";
 	
 	for (i = 0; i < len; i++) {

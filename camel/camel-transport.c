@@ -122,6 +122,7 @@ camel_transport_send (CamelTransport *transport, CamelMedium *message,
  * camel_transport_send_to: Send a message non-standard recipients
  * @transport: the transport
  * @message: the message
+ * @from: from address
  * @recipients: the recipients
  * @ex: a CamelException
  *
@@ -132,7 +133,8 @@ camel_transport_send (CamelTransport *transport, CamelMedium *message,
  **/
 gboolean
 camel_transport_send_to (CamelTransport *transport, CamelMedium *message,
-			 CamelAddress *recipients, CamelException *ex)
+			 CamelAddress *from, CamelAddress *recipients,
+			 CamelException *ex)
 {
 	gboolean sent;
 	
@@ -140,7 +142,7 @@ camel_transport_send_to (CamelTransport *transport, CamelMedium *message,
 	
 	CAMEL_TRANSPORT_LOCK (transport, send_lock);
 	sent = CT_CLASS (transport)->send_to (transport, message,
-					      recipients, ex);
+					      from, recipients, ex);
 	CAMEL_TRANSPORT_UNLOCK (transport, send_lock);
 	
 	return sent;
