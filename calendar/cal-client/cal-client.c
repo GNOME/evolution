@@ -1057,6 +1057,8 @@ add_instance (CalComponent *comp, time_t start, time_t end, gpointer data)
 	ci->start = start;
 	ci->end = end;
 
+	*list = g_list_prepend (*list, ci);
+
 	return TRUE;
 }
 
@@ -1132,9 +1134,9 @@ cal_client_generate_instances (CalClient *client, CalObjType type,
 	for (l = instances; l; l = l->next) {
 		struct comp_instance *ci;
 		gboolean result;
-
+		
 		ci = l->data;
-
+		
 		result = (* cb) (ci->comp, ci->start, ci->end, cb_data);
 
 		if (!result)
