@@ -1,3 +1,7 @@
+2002-05-14  Dan Winship  <danw@ximian.com>
+
+	* data/evolution.1: Document "evolution default:mail"
+
 2002-05-08  Ettore Perazzoli  <ettore@ximian.com>
 
 	* README: Add an explanation/warning about why we want Berkeley DB
