@@ -68,10 +68,6 @@ dependencies should be compiled in the order they are listed here):
 	  If you have a GNOME 2.0 installation, libgnomecanvas 2.0 is
 	  safe to use.
 
-	* libsoup 1.99.12 or later
-
-	     ftp://ftp.gnome.org/pub/gnome/sources/libsoup
-
 	* gtkhtml 3.0.1 or later
 
 	     ftp://ftp.gnome.org/pub/gnome/sources/gtkhtml

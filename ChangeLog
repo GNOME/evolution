@@ -1,3 +1,21 @@
+2003-10-22  Dan Winship  <danw@ximian.com>
+
+	* executive-summary/*: Removed; this code has not been used since
+	pre-1.0.
+
+	* my-evolution/*: Removed; gone in evolution 2.0.
+
+	* notes/*: Removed; never finished and no one is working on it.
+
+	* configure.in (E_UTIL_{CFLAGS,LIBS}): Remove soup-2.0 since
+	e-proxy is gone.
+	(EVOLUTION_MAIL_{CFLAGS,LIBS}): Remove soup-2.0 since the mailer
+	uses CamelHTTPStream now.
+	(EVOLUTION_EXECUTIVE_SUMMARY_{CFLAGS,LIBS}): Gone
+	(AC_OUTPUT): Remove my-evolution/Makefile
+
+	* README: evolution no longer depends on soup
+
 2003-10-21  Dan Winship  <danw@ximian.com>
 
 	* configure.in (GNOME_COMPILE_WARNINGS): Turn off the annoying
