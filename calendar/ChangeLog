@@ -1,7 +1,8 @@
 2003-12-16  Rodrigo Moya <rodrigo@ximian.com>
 
 	* gui/alarm-notify/notify-main.c (alarm_notify_factory_fn): return
-	a reference to the alarm_notify_service, not NULL.
+	a reference to the alarm_notify_service, not NULL and ref the object
+	before returning it.
 
 2003-12-15  JP Rosevear <jpr@ximian.com>
 
