@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution 0.8\n"
-"POT-Creation-Date: 2001-02-27 13:13-0500\n"
+"POT-Creation-Date: 2001-03-13 11:49-0500\n"
 "PO-Revision-Date: 2001-01-06 15:31+0900\n"
 "Last-Translator: Young-Ho, Cha <ganadist@chollian.net\n"
 "MIME-Version: 1.0\n"
@@ -278,123 +278,6 @@ msgstr ""
 msgid "Could not initialize Bonobo"
 msgstr "Bonobo를 초기화 할수 없습니다"
 
-#. This array must be in the same order as enumerations
-#. in GnomePilotConduitSyncType as they are used as index.
-#. Custom type implies Disabled state.
-#.
-#: addressbook/conduit/address-conduit-control-applet.c:77
-#: calendar/conduits/calendar/calendar-conduit-control-applet.c:77
-#: calendar/conduits/todo/todo-conduit-control-applet.c:77
-msgid "Disabled"
-msgstr ""
-
-#: addressbook/conduit/address-conduit-control-applet.c:78
-#: calendar/conduits/calendar/calendar-conduit-control-applet.c:78
-#: calendar/conduits/todo/todo-conduit-control-applet.c:78
-msgid "Synchronize"
-msgstr "동기화"
-
-#: addressbook/conduit/address-conduit-control-applet.c:79
-#: calendar/conduits/calendar/calendar-conduit-control-applet.c:79
-#: calendar/conduits/todo/todo-conduit-control-applet.c:79
-msgid "Copy From Pilot"
-msgstr "Pilot으로부터 복사"
-
-#: addressbook/conduit/address-conduit-control-applet.c:80
-#: calendar/conduits/calendar/calendar-conduit-control-applet.c:80
-#: calendar/conduits/todo/todo-conduit-control-applet.c:80
-msgid "Copy To Pilot"
-msgstr "Pilot로 복사"
-
-#: addressbook/conduit/address-conduit-control-applet.c:81
-#: calendar/conduits/calendar/calendar-conduit-control-applet.c:81
-#: calendar/conduits/todo/todo-conduit-control-applet.c:81
-msgid "Merge From Pilot"
-msgstr ""
-
-#: addressbook/conduit/address-conduit-control-applet.c:82
-#: calendar/conduits/calendar/calendar-conduit-control-applet.c:82
-#: calendar/conduits/todo/todo-conduit-control-applet.c:82
-msgid "Merge To Pilot"
-msgstr ""
-
-#: addressbook/conduit/address-conduit-control-applet.c:121
-#: calendar/conduits/calendar/calendar-conduit-control-applet.c:121
-#: calendar/conduits/todo/todo-conduit-control-applet.c:121
-msgid "JP Rosevear <jpr@helixcode.com>"
-msgstr ""
-
-#: addressbook/conduit/address-conduit-control-applet.c:122
-#: calendar/conduits/calendar/calendar-conduit-control-applet.c:122
-#: calendar/conduits/todo/todo-conduit-control-applet.c:122
-msgid "Original Author:"
-msgstr "원 저작자:"
-
-#: addressbook/conduit/address-conduit-control-applet.c:123
-#: calendar/conduits/calendar/calendar-conduit-control-applet.c:123
-#: calendar/conduits/todo/todo-conduit-control-applet.c:123
-msgid "Eskil Heyn Olsen <deity@eskil.dk>"
-msgstr ""
-
-#: addressbook/conduit/address-conduit-control-applet.c:127
-msgid "Evolution Addressbook Conduit"
-msgstr "Evolution 주소록 부품"
-
-#: addressbook/conduit/address-conduit-control-applet.c:128
-#: calendar/conduits/calendar/calendar-conduit-control-applet.c:128
-#: calendar/conduits/todo/todo-conduit-control-applet.c:128
-msgid "(C) 1998-2000 the Free Software Foundation and Helix Code"
-msgstr ""
-
-#: addressbook/conduit/address-conduit-control-applet.c:130
-msgid "Configuration utility for the evolution addressbook conduit.\n"
-msgstr "Evolution용 주소록 부품 설정 도구.\n"
-
-#: addressbook/conduit/address-conduit-control-applet.c:131
-#: calendar/conduits/calendar/calendar-conduit-control-applet.c:131
-#: calendar/conduits/todo/todo-conduit-control-applet.c:131
-msgid "gnome-unknown.xpm"
-msgstr ""
-
-#: addressbook/conduit/address-conduit-control-applet.c:162
-#: calendar/conduits/calendar/calendar-conduit-control-applet.c:162
-#: calendar/conduits/todo/todo-conduit-control-applet.c:162
-msgid "Synchronize Action"
-msgstr "동기화 실행"
-
-#: addressbook/conduit/address-conduit-control-applet.c:214
-#: calendar/conduits/calendar/calendar-conduit-control-applet.c:215
-#: calendar/conduits/todo/todo-conduit-control-applet.c:214
-msgid "Conduit state"
-msgstr "부품 상태"
-
-#: addressbook/conduit/address-conduit-control-applet.c:266
-#: addressbook/conduit/address-conduit-control-applet.c:279
-#: calendar/conduits/calendar/calendar-conduit-control-applet.c:267
-#: calendar/conduits/calendar/calendar-conduit-control-applet.c:280
-#: calendar/conduits/todo/todo-conduit-control-applet.c:266
-#: calendar/conduits/todo/todo-conduit-control-applet.c:279
-msgid ""
-"No pilot configured, please choose the\n"
-"'Pilot Link Properties' capplet first."
-msgstr ""
-"설정된 파일럿이 없습니다, 먼저 '파일럿\n"
-"연결 설정'캐플릿을 선택하십시오."
-
-#: addressbook/conduit/address-conduit-control-applet.c:285
-#: calendar/conduits/calendar/calendar-conduit-control-applet.c:286
-#: calendar/conduits/todo/todo-conduit-control-applet.c:285
-msgid "Not connected to the gnome-pilot daemon"
-msgstr "gnome-pilot 데몬에 연결되어있지않음"
-
-#: addressbook/conduit/address-conduit-control-applet.c:290
-#: calendar/conduits/calendar/calendar-conduit-control-applet.c:291
-#: calendar/conduits/todo/todo-conduit-control-applet.c:290
-msgid ""
-"An error occured when trying to fetch\n"
-"pilot list from the gnome-pilot daemon"
-msgstr ""
-
 #: addressbook/conduit/address-conduit.c:201
 msgid "Cursor could not be loaded\n"
 msgstr ""
@@ -419,16 +302,6 @@ msgstr "wombat을 시작할수 없습니다"
 #: addressbook/conduit/address-conduit.c:687
 msgid "Could not read pilot's Address application block"
 msgstr ""
-
-#: addressbook/conduit/e-address-conduit-control-applet.desktop.in.h:1
-#, fuzzy
-msgid "Configure the address conduit"
-msgstr "Evolution용 주소록 부품 설정 도구.\n"
-
-#: addressbook/conduit/e-address-conduit-control-applet.desktop.in.h:2
-#, fuzzy
-msgid "Evolution Address conduit "
-msgstr "Evolution 주소록 부품"
 
 #: addressbook/contact-editor/contact-editor.glade.h:1
 #: addressbook/gui/component/addressbook-config.glade.h:1
@@ -1407,15 +1280,6 @@ msgstr "폭:"
 msgid "label26"
 msgstr ""
 
-#: calendar/conduits/calendar/calendar-conduit-control-applet.c:127
-#: calendar/conduits/calendar/e-calendar-conduit-control-applet.desktop.in.h:2
-msgid "Evolution Calendar Conduit"
-msgstr "Evolution 달력 부품"
-
-#: calendar/conduits/calendar/calendar-conduit-control-applet.c:130
-msgid "Configuration utility for the evolution calendar conduit.\n"
-msgstr "Evolution 달력 부품용 설정 도구.\n"
-
 #: calendar/conduits/calendar/calendar-conduit.c:687
 #: calendar/conduits/todo/todo-conduit.c:501
 msgid "Error while communicating with calendar server"
@@ -1425,25 +1289,6 @@ msgstr ""
 #: calendar/conduits/calendar/calendar-conduit.c:789
 msgid "Could not read pilot's Calendar application block"
 msgstr ""
-
-#: calendar/conduits/calendar/e-calendar-conduit-control-applet.desktop.in.h:1
-#, fuzzy
-msgid "Configure the Evolution Calendar conduit"
-msgstr "Evolution 달력 부품"
-
-#: calendar/conduits/todo/e-todo-conduit-control-applet.desktop.in.h:1
-#, fuzzy
-msgid "Configure the Evolution ToDo conduit"
-msgstr "Evolution 해야할일 부품"
-
-#: calendar/conduits/todo/e-todo-conduit-control-applet.desktop.in.h:2
-#: calendar/conduits/todo/todo-conduit-control-applet.c:127
-msgid "Evolution ToDo Conduit"
-msgstr "Evolution 해야할일 부품"
-
-#: calendar/conduits/todo/todo-conduit-control-applet.c:130
-msgid "Configuration utility for the evolution todo conduit.\n"
-msgstr "Evolution 해야할일 부품 설정 도구.\n"
 
 #: calendar/conduits/todo/todo-conduit.c:600
 #: calendar/conduits/todo/todo-conduit.c:603
@@ -6450,25 +6295,24 @@ msgid "The specified type is not supported in this storage"
 msgstr "이 저장매체에 지정된 형식이 지원되지 않습니다"
 
 #: shell/main.c:74
+#, fuzzy, c-format
 msgid ""
-"Hi.  Thanks for taking the time to download this preview release\n"
+"Hi.  Thanks for taking the time to download this PREVIEW RELEASE\n"
 "of the Evolution groupware suite.\n"
 "\n"
-"Over the time since the past release, our focus has been on making\n"
-"Evolution usable.  Many of the Evolution developers are now using\n"
-"Evolution to read their mail full time. You could too. (Just\n"
-"be sure to keep a backup.)\n"
+"Evolution is not yet complete. It's getting close, but there are\n"
+"places where features are either missing or only half working. If\n"
+"you can't figure out how to do something, it's probably because\n"
+"there's no way to do it yet! :-)\n"
 "\n"
-"But while we have fixed many bugs affecting its stability and\n"
-"security, you still get the disclaimer:  Evolution will: crash,\n"
-"lose your mail when you don't want it to, refuse to delete your\n"
-"mail when you do want it to, leave stray processes running,\n"
-"consume 100% CPU, race, lock, send HTML mail to random mailing\n"
-"lists, and embarass you in front of your friends and co-workers.\n"
-"Use only as directed.\n"
+"We hope Evolution will be usable for you, but we still feel the\n"
+"need to warn you that it may: crash, lose your mail, leave stray\n"
+"processes running, consume 100% of your CPU, send non-\n"
+"compliant commands to your servers, and generally embarass you\n"
+"in front of your friends and co-workers. Use only as directed.\n"
 "\n"
-"We hope that you enjoy the results of our hard work, and we eagerly\n"
-"await your contributions!\n"
+"We hope that you enjoy the results of our hard work, and we\n"
+"eagerly await your contributions!\n"
 msgstr ""
 "안녕하세요. Evolution 그룹웨어 슈트의 미리보기 릴리즈를 내려받는데\n"
 "시간을 할애해주셔서 감사합니다.\n"
@@ -6489,7 +6333,7 @@ msgstr ""
 "우리의 힘든 결과물이 여러분을 즐겁게 하기를 바랍니다, 그리고 \n"
 "여러분들의 공헌을 몹시 바라고 있습니다!\n"
 
-#: shell/main.c:101
+#: shell/main.c:99
 msgid ""
 "Thanks\n"
 "The Evolution Team\n"
@@ -6497,15 +6341,15 @@ msgstr ""
 "감사합니다\n"
 "Evolution 팀\n"
 
-#: shell/main.c:132
+#: shell/main.c:130
 msgid "Cannot initialize the Evolution shell."
 msgstr "Evolution 쉘을 초기화 할수 없습니다."
 
-#: shell/main.c:178
+#: shell/main.c:176
 msgid "Disable."
 msgstr ""
 
-#: shell/main.c:198
+#: shell/main.c:196
 msgid "Cannot initialize the Bonobo component system."
 msgstr "보노보 컴포넌트 시스템을 초기화 할수 없습니다."
 
@@ -7830,6 +7674,68 @@ msgstr "Bonobo를 초기화 할수 없습니다"
 #, fuzzy
 msgid "The Evolution groupware suite"
 msgstr "Evolution 단축 막대(_s)"
+
+#~ msgid "Synchronize"
+#~ msgstr "동기화"
+
+#~ msgid "Copy From Pilot"
+#~ msgstr "Pilot으로부터 복사"
+
+#~ msgid "Copy To Pilot"
+#~ msgstr "Pilot로 복사"
+
+#~ msgid "Original Author:"
+#~ msgstr "원 저작자:"
+
+#~ msgid "Evolution Addressbook Conduit"
+#~ msgstr "Evolution 주소록 부품"
+
+#~ msgid "Configuration utility for the evolution addressbook conduit.\n"
+#~ msgstr "Evolution용 주소록 부품 설정 도구.\n"
+
+#~ msgid "Synchronize Action"
+#~ msgstr "동기화 실행"
+
+#~ msgid "Conduit state"
+#~ msgstr "부품 상태"
+
+#~ msgid ""
+#~ "No pilot configured, please choose the\n"
+#~ "'Pilot Link Properties' capplet first."
+#~ msgstr ""
+#~ "설정된 파일럿이 없습니다, 먼저 '파일럿\n"
+#~ "연결 설정'캐플릿을 선택하십시오."
+
+#~ msgid "Not connected to the gnome-pilot daemon"
+#~ msgstr "gnome-pilot 데몬에 연결되어있지않음"
+
+#, fuzzy
+#~ msgid "Configure the address conduit"
+#~ msgstr "Evolution용 주소록 부품 설정 도구.\n"
+
+#, fuzzy
+#~ msgid "Evolution Address conduit "
+#~ msgstr "Evolution 주소록 부품"
+
+#~ msgid "Evolution Calendar Conduit"
+#~ msgstr "Evolution 달력 부품"
+
+#~ msgid "Configuration utility for the evolution calendar conduit.\n"
+#~ msgstr "Evolution 달력 부품용 설정 도구.\n"
+
+#, fuzzy
+#~ msgid "Configure the Evolution Calendar conduit"
+#~ msgstr "Evolution 달력 부품"
+
+#, fuzzy
+#~ msgid "Configure the Evolution ToDo conduit"
+#~ msgstr "Evolution 해야할일 부품"
+
+#~ msgid "Evolution ToDo Conduit"
+#~ msgstr "Evolution 해야할일 부품"
+
+#~ msgid "Configuration utility for the evolution todo conduit.\n"
+#~ msgstr "Evolution 해야할일 부품 설정 도구.\n"
 
 #, fuzzy
 #~ msgid "Cannot initialize Evolution's notes component."

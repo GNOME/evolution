@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution 0.9\n"
-"POT-Creation-Date: 2001-02-14 16:16-0200\n"
+"POT-Creation-Date: 2001-03-13 11:49-0500\n"
 "PO-Revision-Date: 2001-02-14 16:52-02:00\n"
 "Last-Translator: Gustavo Maciel Dias Vieira <gdvieira@zaz.com.br>\n"
 "Language-Team: Brazilian Portuguese <ldp-br@bazar.conectiva.com.br>\n"
@@ -311,127 +311,6 @@ msgstr ""
 msgid "Could not initialize Bonobo"
 msgstr "Não foi possível iniciar Bonobo"
 
-#. This array must be in the same order as enumerations
-#. in GnomePilotConduitSyncType as they are used as index.
-#. Custom type implies Disabled state.
-#.
-#: addressbook/conduit/address-conduit-control-applet.c:77
-#: calendar/conduits/calendar/calendar-conduit-control-applet.c:77
-#: calendar/conduits/todo/todo-conduit-control-applet.c:77
-msgid "Disabled"
-msgstr "Desativado"
-
-#: addressbook/conduit/address-conduit-control-applet.c:78
-#: calendar/conduits/calendar/calendar-conduit-control-applet.c:78
-#: calendar/conduits/todo/todo-conduit-control-applet.c:78
-msgid "Synchronize"
-msgstr "Sincronizar"
-
-#: addressbook/conduit/address-conduit-control-applet.c:79
-#: calendar/conduits/calendar/calendar-conduit-control-applet.c:79
-#: calendar/conduits/todo/todo-conduit-control-applet.c:79
-msgid "Copy From Pilot"
-msgstr "Copiar a partir do pilot"
-
-#: addressbook/conduit/address-conduit-control-applet.c:80
-#: calendar/conduits/calendar/calendar-conduit-control-applet.c:80
-#: calendar/conduits/todo/todo-conduit-control-applet.c:80
-msgid "Copy To Pilot"
-msgstr "Copiar para o pilot"
-
-#: addressbook/conduit/address-conduit-control-applet.c:81
-#: calendar/conduits/calendar/calendar-conduit-control-applet.c:81
-#: calendar/conduits/todo/todo-conduit-control-applet.c:81
-msgid "Merge From Pilot"
-msgstr "Mesclar a partir do pilot"
-
-#: addressbook/conduit/address-conduit-control-applet.c:82
-#: calendar/conduits/calendar/calendar-conduit-control-applet.c:82
-#: calendar/conduits/todo/todo-conduit-control-applet.c:82
-msgid "Merge To Pilot"
-msgstr "Mesclar para o pilot"
-
-#: addressbook/conduit/address-conduit-control-applet.c:121
-#: calendar/conduits/calendar/calendar-conduit-control-applet.c:121
-#: calendar/conduits/todo/todo-conduit-control-applet.c:121
-msgid "JP Rosevear <jpr@helixcode.com>"
-msgstr "JP Rosevear <jpr@helixcode.com>"
-
-#: addressbook/conduit/address-conduit-control-applet.c:122
-#: calendar/conduits/calendar/calendar-conduit-control-applet.c:122
-#: calendar/conduits/todo/todo-conduit-control-applet.c:122
-msgid "Original Author:"
-msgstr "Autor original:"
-
-#: addressbook/conduit/address-conduit-control-applet.c:123
-#: calendar/conduits/calendar/calendar-conduit-control-applet.c:123
-#: calendar/conduits/todo/todo-conduit-control-applet.c:123
-msgid "Eskil Heyn Olsen <deity@eskil.dk>"
-msgstr "Eskil Heyn Olsen <deity@eskil.dk>"
-
-#: addressbook/conduit/address-conduit-control-applet.c:127
-msgid "Evolution Addressbook Conduit"
-msgstr "Canal para catálogo de endereços do Evolution"
-
-#: addressbook/conduit/address-conduit-control-applet.c:128
-#: calendar/conduits/calendar/calendar-conduit-control-applet.c:128
-#: calendar/conduits/todo/todo-conduit-control-applet.c:128
-msgid "(C) 1998-2000 the Free Software Foundation and Helix Code"
-msgstr "(C) 1998-2000 the Free Software Foundation and Helix Code"
-
-#: addressbook/conduit/address-conduit-control-applet.c:130
-msgid "Configuration utility for the evolution addressbook conduit.\n"
-msgstr ""
-"Utilitário de configuração do canal para catálogo de endereços do "
-"Evolution.\n"
-
-#: addressbook/conduit/address-conduit-control-applet.c:131
-#: calendar/conduits/calendar/calendar-conduit-control-applet.c:131
-#: calendar/conduits/todo/todo-conduit-control-applet.c:131
-msgid "gnome-unknown.xpm"
-msgstr "gnome-unknown.xpm"
-
-#: addressbook/conduit/address-conduit-control-applet.c:162
-#: calendar/conduits/calendar/calendar-conduit-control-applet.c:162
-#: calendar/conduits/todo/todo-conduit-control-applet.c:162
-msgid "Synchronize Action"
-msgstr "Ação ao sincronizar"
-
-#: addressbook/conduit/address-conduit-control-applet.c:214
-#: calendar/conduits/calendar/calendar-conduit-control-applet.c:215
-#: calendar/conduits/todo/todo-conduit-control-applet.c:214
-msgid "Conduit state"
-msgstr "Estado do canal"
-
-#: addressbook/conduit/address-conduit-control-applet.c:266
-#: addressbook/conduit/address-conduit-control-applet.c:279
-#: calendar/conduits/calendar/calendar-conduit-control-applet.c:267
-#: calendar/conduits/calendar/calendar-conduit-control-applet.c:280
-#: calendar/conduits/todo/todo-conduit-control-applet.c:266
-#: calendar/conduits/todo/todo-conduit-control-applet.c:279
-msgid ""
-"No pilot configured, please choose the\n"
-"'Pilot Link Properties' capplet first."
-msgstr ""
-"Nenhum pilot configurado, por favor visite primeiramente\n"
-"o painel Pilot Link na central de controle."
-
-#: addressbook/conduit/address-conduit-control-applet.c:285
-#: calendar/conduits/calendar/calendar-conduit-control-applet.c:286
-#: calendar/conduits/todo/todo-conduit-control-applet.c:285
-msgid "Not connected to the gnome-pilot daemon"
-msgstr "Não conectado ao daemon Gnome Pilot"
-
-#: addressbook/conduit/address-conduit-control-applet.c:290
-#: calendar/conduits/calendar/calendar-conduit-control-applet.c:291
-#: calendar/conduits/todo/todo-conduit-control-applet.c:290
-msgid ""
-"An error occured when trying to fetch\n"
-"pilot list from the gnome-pilot daemon"
-msgstr ""
-"Ocorreu um erro ao tentar ler a lista de\n"
-"pilots a partir do daemon Gnome Pilot"
-
 #: addressbook/conduit/address-conduit.c:201
 msgid "Cursor could not be loaded\n"
 msgstr "Não foi possível carregar cursor\n"
@@ -456,14 +335,6 @@ msgstr "Não foi possível iniciar wombat"
 #: addressbook/conduit/address-conduit.c:687
 msgid "Could not read pilot's Address application block"
 msgstr "Não foi possível ler os dados do aplicativo de endereços do pilot"
-
-#: addressbook/conduit/e-address-conduit-control-applet.desktop.in.h:1
-msgid "Configure the address conduit"
-msgstr "Configura o canal para catálogo de endereços"
-
-#: addressbook/conduit/e-address-conduit-control-applet.desktop.in.h:2
-msgid "Evolution Address conduit "
-msgstr "Canal para endereços do Evolution "
 
 #: addressbook/contact-editor/contact-editor.glade.h:1
 #: addressbook/gui/component/addressbook-config.glade.h:1
@@ -510,7 +381,7 @@ msgstr "Arquivar como:"
 
 #: addressbook/contact-editor/contact-editor.glade.h:10
 #: executive-summary/component/executive-summary-config.glade.h:3
-#: mail/mail-config.glade.h:27
+#: mail/mail-config.glade.h:28
 msgid "General"
 msgstr "Geral"
 
@@ -680,7 +551,7 @@ msgstr "Celular"
 #: addressbook/contact-editor/e-contact-editor.c:1286
 #: addressbook/contact-editor/e-contact-editor.c:1381
 #: addressbook/gui/widgets/e-addressbook-view.c:583
-#: calendar/gui/e-meeting-dialog.glade.h:14 mail/mail-config.glade.h:46
+#: calendar/gui/e-meeting-dialog.glade.h:14 mail/mail-config.glade.h:48
 msgid "Other"
 msgstr "Outro"
 
@@ -958,7 +829,7 @@ msgid "Remember this password"
 msgstr "Lembrar esta senha"
 
 #: addressbook/gui/component/addressbook-config.c:401
-#: mail/mail-config.glade.h:28
+#: mail/mail-config.glade.h:29
 msgid "Host:"
 msgstr "Máquina:"
 
@@ -992,7 +863,7 @@ msgid "Authentication:"
 msgstr "Autenticação:"
 
 #: addressbook/gui/component/addressbook-config.c:502
-#: mail/mail-config-druid.c:481 mail/mail-config.glade.h:49
+#: mail/mail-config-druid.c:481 mail/mail-config.glade.h:52
 msgid "Path:"
 msgstr "Caminho:"
 
@@ -1021,7 +892,7 @@ msgstr ""
 "ele."
 
 #: addressbook/gui/component/addressbook-config.c:666
-#: mail/mail-config.glade.h:41
+#: mail/mail-config.glade.h:43
 msgid "Name:"
 msgstr "Nome:"
 
@@ -1047,7 +918,7 @@ msgstr "Fontes de catálogos de endereços"
 #: calendar/gui/e-meeting-dialog.glade.h:8
 #: calendar/gui/event-editor-dialog.glade.h:8 filter/filter.glade.h:2
 #: filter/libfilter-i18n.h:7 mail/folder-browser.c:684
-#: mail/mail-config.glade.h:20 mail/mail-view.c:150
+#: mail/mail-config.glade.h:21 mail/mail-view.c:150
 #: ui/evolution-addressbook.xml.h:3 ui/evolution-event-editor.xml.h:17
 #: ui/evolution-mail.xml.h:6 ui/evolution-task-editor-dialog.xml.h:18
 msgid "Delete"
@@ -1055,7 +926,7 @@ msgstr "Excluir"
 
 #: addressbook/gui/component/addressbook-config.glade.h:4
 #: calendar/gui/e-meeting-dialog.glade.h:9 filter/filter.glade.h:3
-#: mail/folder-browser.c:670 mail/mail-config.glade.h:23
+#: mail/folder-browser.c:670 mail/mail-config.glade.h:24
 msgid "Edit"
 msgstr "Editar"
 
@@ -1424,7 +1295,7 @@ msgstr "Nome do estilo:"
 msgid "Top:"
 msgstr "Superior:"
 
-#: addressbook/printing/e-contact-print.glade.h:40 mail/mail-config.glade.h:71
+#: addressbook/printing/e-contact-print.glade.h:40 mail/mail-config.glade.h:77
 msgid "Type:"
 msgstr "Tipo:"
 
@@ -1436,15 +1307,6 @@ msgstr "Largura:"
 msgid "label26"
 msgstr "label26"
 
-#: calendar/conduits/calendar/calendar-conduit-control-applet.c:127
-#: calendar/conduits/calendar/e-calendar-conduit-control-applet.desktop.in.h:2
-msgid "Evolution Calendar Conduit"
-msgstr "Canal para agenda do Evolution"
-
-#: calendar/conduits/calendar/calendar-conduit-control-applet.c:130
-msgid "Configuration utility for the evolution calendar conduit.\n"
-msgstr "Utilitário de configuração do canal para agenda do Evolution.\n"
-
 #: calendar/conduits/calendar/calendar-conduit.c:687
 #: calendar/conduits/todo/todo-conduit.c:501
 msgid "Error while communicating with calendar server"
@@ -1454,23 +1316,6 @@ msgstr "Erro ao comunicar com o servidor de agenda"
 #: calendar/conduits/calendar/calendar-conduit.c:789
 msgid "Could not read pilot's Calendar application block"
 msgstr "Não foi possível ler os dados do aplicativo de agenda do pilot"
-
-#: calendar/conduits/calendar/e-calendar-conduit-control-applet.desktop.in.h:1
-msgid "Configure the Evolution Calendar conduit"
-msgstr "Configura o canal para agenda do Evolution"
-
-#: calendar/conduits/todo/e-todo-conduit-control-applet.desktop.in.h:1
-msgid "Configure the Evolution ToDo conduit"
-msgstr "Configura o canal para tarefas do Evolution"
-
-#: calendar/conduits/todo/e-todo-conduit-control-applet.desktop.in.h:2
-#: calendar/conduits/todo/todo-conduit-control-applet.c:127
-msgid "Evolution ToDo Conduit"
-msgstr "Canal para tarefas do Evolution"
-
-#: calendar/conduits/todo/todo-conduit-control-applet.c:130
-msgid "Configuration utility for the evolution todo conduit.\n"
-msgstr "Utilitário de configuração do canal para tarefas do Evolution.\n"
 
 #: calendar/conduits/todo/todo-conduit.c:600
 #: calendar/conduits/todo/todo-conduit.c:603
@@ -1925,7 +1770,7 @@ msgid "minutes before they occur."
 msgstr "minutos antes que ocorram."
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:58
-#: mail/mail-config.glade.h:77
+#: mail/mail-config.glade.h:84
 msgid "seconds."
 msgstr "segundos."
 
@@ -1996,8 +1841,8 @@ msgstr "Baixa"
 #. add a "None" option to the stores menu
 #: calendar/gui/dialogs/task-editor-dialog.glade.h:13
 #: mail/mail-account-editor.c:695 mail/mail-account-editor.c:697
-#: mail/mail-account-editor.c:746 mail/mail-accounts.c:114
-#: mail/mail-config-druid.c:906 mail/mail-config.glade.h:43
+#: mail/mail-account-editor.c:746 mail/mail-accounts.c:115
+#: mail/mail-config-druid.c:906 mail/mail-config.glade.h:45
 #: shell/e-shell-view.c:1119 widgets/misc/e-dateedit.c:421
 #: widgets/misc/e-dateedit.c:1330 widgets/misc/e-dateedit.c:1445
 msgid "None"
@@ -3006,12 +2851,12 @@ msgstr ""
 msgid "SMTWTFS"
 msgstr "DSTQQSS"
 
-#: camel/camel-filter-driver.c:767
+#: camel/camel-filter-driver.c:773
 #, c-format
 msgid "Error parsing filter: %s: %s"
 msgstr "Erro ao analisar filtro: %s: %s"
 
-#: camel/camel-filter-driver.c:772
+#: camel/camel-filter-driver.c:778
 #, c-format
 msgid "Error executing filter: %s: %s"
 msgstr "Erro ao executar filtro: %s: %s"
@@ -3252,7 +3097,7 @@ msgstr "Resposta inesperada do servidor IMAP: %s"
 msgid "IMAP command failed: %s"
 msgstr "Falhou o comando IMAP: %s"
 
-#: camel/providers/imap/camel-imap-command.c:243 shell/e-storage.c:433
+#: camel/providers/imap/camel-imap-command.c:243 shell/e-storage.c:449
 msgid "Unknown error"
 msgstr "Erro desconhecido"
 
@@ -3275,8 +3120,8 @@ msgstr "Resposta OK inesperada do servidor IMAP: %s"
 msgid "Could not load summary for %s"
 msgstr "Não foi possível carregar resumo para %s"
 
-#: camel/providers/imap/camel-imap-folder.c:697
-#: camel/providers/imap/camel-imap-folder.c:859
+#: camel/providers/imap/camel-imap-folder.c:708
+#: camel/providers/imap/camel-imap-folder.c:870
 msgid "Could not find message body in FETCH response."
 msgstr "Não foi possível localizar corpo da mensagem na resposta FETCH."
 
@@ -3786,7 +3631,7 @@ msgid "No such folder `%s'."
 msgstr "Não existe a pasta `%s'."
 
 #: camel/providers/sendmail/camel-sendmail-provider.c:34
-#: mail/mail-config.glade.h:60
+#: mail/mail-config.glade.h:64
 msgid "Sendmail"
 msgstr "Sendmail"
 
@@ -3839,7 +3684,7 @@ msgstr "sendmail"
 msgid "Mail delivery via the sendmail program"
 msgstr "Entrega de correio usando o programa sendmail"
 
-#: camel/providers/smtp/camel-smtp-provider.c:34 mail/mail-config.glade.h:55
+#: camel/providers/smtp/camel-smtp-provider.c:34 mail/mail-config.glade.h:58
 msgid "SMTP"
 msgstr "SMTP"
 
@@ -3946,7 +3791,7 @@ msgstr ""
 "SMTP."
 
 #: camel/providers/smtp/camel-smtp-transport.c:348
-#: camel/providers/smtp/camel-smtp-transport.c:353 mail/mail-config.glade.h:10
+#: camel/providers/smtp/camel-smtp-transport.c:353 mail/mail-config.glade.h:11
 msgid "CRAM-MD5"
 msgstr "CRAM-MD5"
 
@@ -4190,7 +4035,7 @@ msgstr "Assunto:"
 msgid "Enter the subject of the mail"
 msgstr "Entre o assunto da correspondência"
 
-#: composer/e-msg-composer.c:497
+#: composer/e-msg-composer.c:512
 #, c-format
 msgid ""
 "Could not open signature file %s:\n"
@@ -4199,39 +4044,39 @@ msgstr ""
 "Não foi possível abrir arquivo de assinatura %s:\n"
 "%s"
 
-#: composer/e-msg-composer.c:665
+#: composer/e-msg-composer.c:680
 msgid "Save as..."
 msgstr "Salvar como..."
 
-#: composer/e-msg-composer.c:676
+#: composer/e-msg-composer.c:691
 #, c-format
 msgid "Error saving file: %s"
 msgstr "Erro ao salvar arquivo: %s"
 
-#: composer/e-msg-composer.c:696
+#: composer/e-msg-composer.c:711
 #, c-format
 msgid "Error loading file: %s"
 msgstr "Erro ao carregar arquivo: %s"
 
-#: composer/e-msg-composer.c:718
+#: composer/e-msg-composer.c:733
 msgid "Saving changes to message..."
 msgstr "Salvando modificações à mensagem..."
 
-#: composer/e-msg-composer.c:720
+#: composer/e-msg-composer.c:735
 msgid "Save changes to message..."
 msgstr "Salvar modificações à mensagem..."
 
-#: composer/e-msg-composer.c:761
+#: composer/e-msg-composer.c:776
 #, c-format
 msgid "Error saving composition to 'Drafts': %s"
 msgstr "Erro ao salvar mensagem para 'Drafts': %s"
 
-#: composer/e-msg-composer.c:819 evolution.desktop.in.h:1
+#: composer/e-msg-composer.c:834 evolution.desktop.in.h:1
 #: shell/e-shell-view-menu.c:192
 msgid "Evolution"
 msgstr "Evolution"
 
-#: composer/e-msg-composer.c:825
+#: composer/e-msg-composer.c:840
 msgid ""
 "This message has not been sent.\n"
 "\n"
@@ -4241,27 +4086,27 @@ msgstr ""
 "\n"
 "Você deseja salvar as suas modificações?"
 
-#: composer/e-msg-composer.c:850
+#: composer/e-msg-composer.c:865
 msgid "Open file"
 msgstr "Abrir arquivo"
 
-#: composer/e-msg-composer.c:976
+#: composer/e-msg-composer.c:991
 msgid "That file does not exist."
 msgstr "Este arquivo não existe."
 
-#: composer/e-msg-composer.c:986
+#: composer/e-msg-composer.c:1001
 msgid "That is not a regular file."
 msgstr "Este não é um arquivo comum."
 
-#: composer/e-msg-composer.c:996
+#: composer/e-msg-composer.c:1011
 msgid "That file exists but is not readable."
 msgstr "Este arquivo existe mas não é legível."
 
-#: composer/e-msg-composer.c:1006
+#: composer/e-msg-composer.c:1021
 msgid "That file appeared accesible but open(2) failed."
 msgstr "Este arquivo aparenta ser acessível mas open(2) falhou."
 
-#: composer/e-msg-composer.c:1028
+#: composer/e-msg-composer.c:1043
 msgid ""
 "The file is very large (more than 100K).\n"
 "Are you sure you wish to insert it?"
@@ -4269,15 +4114,15 @@ msgstr ""
 "O arquivo é muito grande (mais que 100K).\n"
 "Você tem certeza que deseja inserí-lo?"
 
-#: composer/e-msg-composer.c:1049
+#: composer/e-msg-composer.c:1064
 msgid "An error occurred while reading the file."
 msgstr "Um erro ocorreu ao ler o arquivo."
 
-#: composer/e-msg-composer.c:1292 composer/e-msg-composer.c:1527
+#: composer/e-msg-composer.c:1307 composer/e-msg-composer.c:1542
 msgid "Compose a message"
 msgstr "Redigir uma mensagem"
 
-#: composer/e-msg-composer.c:1608
+#: composer/e-msg-composer.c:1623
 msgid "Could not create composer window."
 msgstr "Não foi possível criar janela de redação."
 
@@ -4366,7 +4211,7 @@ msgstr "Mover %s para a próxima linha"
 msgid "Configure %s"
 msgstr "Configurar %s"
 
-#: executive-summary/component/e-summary.c:916
+#: executive-summary/component/e-summary.c:913
 #, c-format
 msgid ""
 "Cannot open the HTML file:\n"
@@ -4375,7 +4220,7 @@ msgstr ""
 "Não é possível abrir o arquivo HTML:\n"
 "%s"
 
-#: executive-summary/component/e-summary.c:930
+#: executive-summary/component/e-summary.c:927
 #, c-format
 msgid ""
 "Error reading data:\n"
@@ -4384,7 +4229,7 @@ msgstr ""
 "Erro ao ler dados:\n"
 "%s"
 
-#: executive-summary/component/e-summary.c:948
+#: executive-summary/component/e-summary.c:945
 msgid "File does not have a place for the services.\n"
 msgstr "Arquivo não possui um lugar para os serviços.\n"
 
@@ -4731,7 +4576,7 @@ msgstr "Pontuação"
 msgid "Set Status"
 msgstr "Atribuir estado"
 
-#: filter/libfilter-i18n.h:20
+#: filter/libfilter-i18n.h:20 mail/mail-config.glade.h:71
 msgid "Source"
 msgstr "Fonte"
 
@@ -4999,12 +4844,12 @@ msgstr "mbox"
 msgid "mh"
 msgstr "mh"
 
-#: mail/mail-accounts.c:115
+#: mail/mail-accounts.c:116
 msgid " (default)"
 msgstr " (padrão)"
 
 #. give our dialog an OK button and title
-#: mail/mail-accounts.c:367
+#: mail/mail-accounts.c:389
 msgid "Evolution Account Manager"
 msgstr "Gerenciador de contas do Evolution"
 
@@ -5182,11 +5027,15 @@ msgstr "Autenticação"
 msgid "Authentication Type:"
 msgstr "Tipo de autenticação:"
 
-#: mail/mail-config.glade.h:11
+#: mail/mail-config.glade.h:10
+msgid "Automatically check mail every"
+msgstr ""
+
+#: mail/mail-config.glade.h:12
 msgid "Check settings"
 msgstr "Verificar configurações"
 
-#: mail/mail-config.glade.h:12
+#: mail/mail-config.glade.h:13
 msgid ""
 "Congratulations, your mail configuration is complete.\n"
 "\n"
@@ -5202,175 +5051,194 @@ msgstr ""
 "\n"
 "Pressione \"Concluir\" para salvar suas configurações."
 
-#: mail/mail-config.glade.h:18
+#: mail/mail-config.glade.h:19
 msgid "DIGEST-MD5"
 msgstr "DIGEST-MD5"
 
-#: mail/mail-config.glade.h:19
+#: mail/mail-config.glade.h:20
 msgid "Default"
 msgstr "Padrão"
 
-#: mail/mail-config.glade.h:21
+#: mail/mail-config.glade.h:22
 msgid "Done"
 msgstr "Terminado"
 
-#: mail/mail-config.glade.h:22
+#: mail/mail-config.glade.h:23
 msgid "E-Mail Address:"
 msgstr "Endereço eletrônico:"
 
-#: mail/mail-config.glade.h:24
+#: mail/mail-config.glade.h:25
 msgid "Email Address:"
 msgstr "Endereço eletrônico:"
 
-#: mail/mail-config.glade.h:25
+#: mail/mail-config.glade.h:26
 msgid "Evolution Mail Configuration"
 msgstr "Configuração de correio do Evolution"
 
-#: mail/mail-config.glade.h:26
+#: mail/mail-config.glade.h:27
 msgid "Full Name:"
 msgstr "Nome completo:"
 
-#: mail/mail-config.glade.h:29
+#: mail/mail-config.glade.h:30
 msgid "Hostname:"
 msgstr "Nome da máquina:"
 
-#: mail/mail-config.glade.h:30
+#: mail/mail-config.glade.h:31
 msgid "Identity"
 msgstr "Identidade"
 
-#: mail/mail-config.glade.h:31
+#: mail/mail-config.glade.h:32
+msgid "Include in \"Get Mail\" operations."
+msgstr ""
+
+#: mail/mail-config.glade.h:33
 msgid "Incoming Mail Server"
 msgstr "Servidor de correio de entrada"
 
-#: mail/mail-config.glade.h:32
+#: mail/mail-config.glade.h:34
 msgid "Keep mail on server"
 msgstr "Manter correio no servidor"
 
-#: mail/mail-config.glade.h:33
+#: mail/mail-config.glade.h:35
 msgid "Kerberos"
 msgstr "Kerberos"
 
-#: mail/mail-config.glade.h:34
+#: mail/mail-config.glade.h:36
 msgid "Mail"
 msgstr "Correio"
 
-#: mail/mail-config.glade.h:35
+#: mail/mail-config.glade.h:37
 msgid "Mail Account"
 msgstr "Conta de correio"
 
-#: mail/mail-config.glade.h:36
+#: mail/mail-config.glade.h:38
 msgid "Mail Configuration"
 msgstr "Configuração de correio"
 
-#: mail/mail-config.glade.h:37
+#: mail/mail-config.glade.h:39
 msgid "Mail Configuration Druid"
 msgstr "Assitente de configuração de correio"
 
-#: mail/mail-config.glade.h:38
+#: mail/mail-config.glade.h:40
 msgid "Make this my default account"
 msgstr "Torne esta a minha conta padrão"
 
-#: mail/mail-config.glade.h:39
+#: mail/mail-config.glade.h:41
 msgid "Mark messages as \"Read\" after:"
 msgstr "Marcar mensagens como \"Lida\" após:"
 
-#: mail/mail-config.glade.h:40
+#: mail/mail-config.glade.h:42
 msgid "Miscellaneous"
 msgstr "Diversos"
 
-#: mail/mail-config.glade.h:42
+#: mail/mail-config.glade.h:44
 msgid "News"
 msgstr "Notícias"
 
-#: mail/mail-config.glade.h:44
+#: mail/mail-config.glade.h:46
 msgid "Optional"
 msgstr "Opcional"
 
-#: mail/mail-config.glade.h:45
+#: mail/mail-config.glade.h:47
 msgid "Organization:"
 msgstr "Empresa:"
 
-#: mail/mail-config.glade.h:47
+#: mail/mail-config.glade.h:49
 msgid "Outgoing Mail Server"
 msgstr "Servidor de correio de saída"
 
-#: mail/mail-config.glade.h:48
+#: mail/mail-config.glade.h:50
+#, fuzzy
+msgid "PGP binary path:"
+msgstr "Cifrar com PGP"
+
+#: mail/mail-config.glade.h:51
 msgid "Password:"
 msgstr "Senha:"
 
-#: mail/mail-config.glade.h:50
+#: mail/mail-config.glade.h:53
 msgid "Plain Text"
 msgstr "Texto claro"
 
-#: mail/mail-config.glade.h:51
+#: mail/mail-config.glade.h:54
 msgid "Receiving Email"
 msgstr "Recebendo mensagem"
 
-#: mail/mail-config.glade.h:52
+#: mail/mail-config.glade.h:55
 msgid "Remember my password"
 msgstr "Lembre a minha senha"
 
-#: mail/mail-config.glade.h:53 mail/mail-format.c:629
+#: mail/mail-config.glade.h:56 mail/mail-format.c:629
 msgid "Reply-To:"
 msgstr "Responder-a:"
 
-#: mail/mail-config.glade.h:54
+#: mail/mail-config.glade.h:57
 msgid "Required"
 msgstr "Exigido"
 
-#: mail/mail-config.glade.h:56
+#: mail/mail-config.glade.h:59
 msgid "Save password"
 msgstr "Salvar senha"
 
-#: mail/mail-config.glade.h:57
+#: mail/mail-config.glade.h:60
+#, fuzzy
+msgid "Select PGP binary"
+msgstr "Selecionar um arquivo"
+
+#: mail/mail-config.glade.h:61
 msgid "Select signature file"
 msgstr "Selecionar arquivo de assinatura"
 
-#: mail/mail-config.glade.h:58
+#: mail/mail-config.glade.h:62
 msgid "Send mail in HTML format by default."
 msgstr "Enviar mensagens em formato HTML como padrão."
 
-#: mail/mail-config.glade.h:59
+#: mail/mail-config.glade.h:63
 msgid "Sending Email"
 msgstr "Enviando mensagem"
 
-#: mail/mail-config.glade.h:61
+#: mail/mail-config.glade.h:65
 msgid "Server Configuration"
 msgstr "Configuração do servidor"
 
-#: mail/mail-config.glade.h:62
+#: mail/mail-config.glade.h:66
 msgid "Server Type: "
 msgstr "Tipo do servidor: "
 
-#: mail/mail-config.glade.h:63
+#: mail/mail-config.glade.h:67
 msgid "Server requires authentication"
 msgstr "Servidor requer autenticação"
 
-#: mail/mail-config.glade.h:64
+#: mail/mail-config.glade.h:68
 msgid "Servers"
 msgstr "Servidores"
 
-#: mail/mail-config.glade.h:65
+#: mail/mail-config.glade.h:69
 msgid "Signature file:"
 msgstr "Arquivo de assinatura:"
 
-#: mail/mail-config.glade.h:66
+#: mail/mail-config.glade.h:70
 msgid "Signature:"
 msgstr "Assinatura:"
 
-#: mail/mail-config.glade.h:67
+#: mail/mail-config.glade.h:72
 msgid "Sources"
 msgstr "Fontes"
 
-#: mail/mail-config.glade.h:68
+#: mail/mail-config.glade.h:73
 msgid "This server requires a secure connection (SSL)"
 msgstr "Este servidor requer uma conexão segura (SSL)"
 
-#: mail/mail-config.glade.h:69
+#: mail/mail-config.glade.h:74
+#, fuzzy
+msgid "Transport"
+msgstr "Transparente"
+
+#: mail/mail-config.glade.h:75
 msgid "Type"
 msgstr "Tipo"
 
-#: mail/mail-config.glade.h:70
+#: mail/mail-config.glade.h:76
 msgid ""
 "Type the name by which you would like to refer to these servers. For "
 "example: \"Work\" or \"Home\"."
@@ -5378,15 +5246,15 @@ msgstr ""
 "Digite o nome com o qual deseja identificar estes servidores. Por exemplo: "
 "\"Trabalho\" ou \"Casa\"."
 
-#: mail/mail-config.glade.h:72
+#: mail/mail-config.glade.h:78
 msgid "User Information"
 msgstr "Informação do usuário"
 
-#: mail/mail-config.glade.h:73
+#: mail/mail-config.glade.h:79
 msgid "Username:"
 msgstr "Nome do usuário:"
 
-#: mail/mail-config.glade.h:74
+#: mail/mail-config.glade.h:80
 msgid ""
 "Welcome to the Evolution Mail Configuration Druid.\n"
 "\n"
@@ -5395,6 +5263,11 @@ msgstr ""
 "Bem-vindo ao assistente de configuração de correio do Evolution.\n"
 "\n"
 "Pressione \"Próximo\" para começar. "
+
+#: mail/mail-config.glade.h:83
+#, fuzzy
+msgid "minutes."
+msgstr "minutos"
 
 #: mail/mail-config-druid.c:389
 #, c-format
@@ -5604,117 +5477,117 @@ msgstr ""
 msgid "Working"
 msgstr "Trabalhando"
 
-#: mail/mail-ops.c:510
+#: mail/mail-ops.c:513
 #, c-format
 msgid "Sending \"%s\""
 msgstr "Enviando \"%s\""
 
-#: mail/mail-ops.c:512
+#: mail/mail-ops.c:515
 msgid "Sending message"
 msgstr "Enviando mensagem"
 
-#: mail/mail-ops.c:740 mail/mail-ops.c:747
+#: mail/mail-ops.c:743 mail/mail-ops.c:750
 #, c-format
 msgid "Appending \"%s\""
 msgstr "Concatenando \"%s\""
 
-#: mail/mail-ops.c:744 mail/mail-ops.c:750
+#: mail/mail-ops.c:747 mail/mail-ops.c:753
 msgid "Appending a message without a subject"
 msgstr "Concatenando uma mensagem sem um assunto"
 
-#: mail/mail-ops.c:833
+#: mail/mail-ops.c:836
 #, c-format
 msgid "Moving messages from \"%s\" into \"%s\""
 msgstr "Movendo mensagens de \"%s\" para \"%s\""
 
-#: mail/mail-ops.c:835
+#: mail/mail-ops.c:838
 #, c-format
 msgid "Copying messages from \"%s\" into \"%s\""
 msgstr "Copiando mensagens de \"%s\" para \"%s\""
 
-#: mail/mail-ops.c:838
+#: mail/mail-ops.c:841
 #, c-format
 msgid "Move messages from \"%s\" into \"%s\""
 msgstr "Mover mensagens de \"%s\" para \"%s\""
 
-#: mail/mail-ops.c:840
+#: mail/mail-ops.c:843
 #, c-format
 msgid "Copy messages from \"%s\" into \"%s\""
 msgstr "Copiar mensagens de \"%s\" para \"%s\""
 
-#: mail/mail-ops.c:871
+#: mail/mail-ops.c:874
 msgid "Moving"
 msgstr "Movendo"
 
-#: mail/mail-ops.c:874
+#: mail/mail-ops.c:877
 msgid "Copying"
 msgstr "Copiando"
 
-#: mail/mail-ops.c:894
+#: mail/mail-ops.c:897
 #, c-format
 msgid "%s message %d of %d (uid \"%s\")"
 msgstr "%s mensagem %d de %d (uid \"%s\")"
 
-#: mail/mail-ops.c:969
+#: mail/mail-ops.c:972
 #, c-format
 msgid "Scanning folders in \"%s\""
 msgstr "Varrendo pastas em \"%s\""
 
-#: mail/mail-ops.c:1035 mail/subscribe-dialog.c:359
+#: mail/mail-ops.c:1038 mail/subscribe-dialog.c:359
 msgid "(No description)"
 msgstr "(Sem descrição)"
 
-#: mail/mail-ops.c:1100
+#: mail/mail-ops.c:1103
 msgid "Forwarded messages"
 msgstr "Mensagens encaminhadas"
 
-#: mail/mail-ops.c:1141 mail/mail-ops.c:1275
+#: mail/mail-ops.c:1144 mail/mail-ops.c:1278
 #, c-format
 msgid "Opening folder %s"
 msgstr "Abrindo pasta %s"
 
-#: mail/mail-ops.c:1206
+#: mail/mail-ops.c:1209
 #, c-format
 msgid "Opening store %s"
 msgstr "Abrindo repositório %s"
 
-#: mail/mail-ops.c:1337
+#: mail/mail-ops.c:1340
 msgid "Synchronising folder"
 msgstr "Sincronizando pasta"
 
-#: mail/mail-ops.c:1387
+#: mail/mail-ops.c:1390
 msgid "Expunging folder"
 msgstr "Excluindo permanentemente pasta"
 
-#: mail/mail-ops.c:1436
+#: mail/mail-ops.c:1439
 #, c-format
 msgid "Retrieving message %s"
 msgstr "Recuperando mensagem %s"
 
-#: mail/mail-ops.c:1503
+#: mail/mail-ops.c:1506
 msgid "Retrieving messages"
 msgstr "Recuperando mensagens"
 
-#: mail/mail-ops.c:1513
+#: mail/mail-ops.c:1516
 #, c-format
 msgid "Retrieving message number %d of %d (uid \"%s\")"
 msgstr "Recuperando mensagem número %d de %d (uid \"%s\")"
 
-#: mail/mail-ops.c:1661
+#: mail/mail-ops.c:1664
 #, c-format
 msgid "Loading %s Folder for %s"
 msgstr "Carregando pasta %s para %s"
 
-#: mail/mail-ops.c:1663
+#: mail/mail-ops.c:1666
 #, c-format
 msgid "Load %s Folder for %s"
 msgstr "Carregar pasta %s para %s"
 
-#: mail/mail-ops.c:1829
+#: mail/mail-ops.c:1832
 msgid "Saving messages"
 msgstr "Salvando mensagens"
 
-#: mail/mail-ops.c:1908
+#: mail/mail-ops.c:1911
 #, c-format
 msgid ""
 "Unable to create output file: %s\n"
@@ -5723,12 +5596,12 @@ msgstr ""
 "Não é possível criar arquivo de saída: %s\n"
 " %s"
 
-#: mail/mail-ops.c:1921
+#: mail/mail-ops.c:1924
 #, c-format
 msgid "Saving message %d of %d (uid \"%s\")"
 msgstr "Salvando mensagem %d de %d (uid \"%s\")"
 
-#: mail/mail-ops.c:1935
+#: mail/mail-ops.c:1938
 #, c-format
 msgid ""
 "Error saving messages to: %s:\n"
@@ -5737,11 +5610,11 @@ msgstr ""
 "Erro ao salvar mensagens para: %s:\n"
 " %s"
 
-#: mail/mail-ops.c:2009
+#: mail/mail-ops.c:2012
 msgid "Saving attachment"
 msgstr "Salvando anexo"
 
-#: mail/mail-ops.c:2024
+#: mail/mail-ops.c:2027
 #, c-format
 msgid ""
 "Cannot create output file: %s:\n"
@@ -5750,7 +5623,7 @@ msgstr ""
 "Não é possível criar arquivo de saída: %s:\n"
 " %s"
 
-#: mail/mail-ops.c:2052
+#: mail/mail-ops.c:2055
 #, c-format
 msgid "Could not write data: %s"
 msgstr "Não foi possível escrever dados: %s"
@@ -6161,7 +6034,8 @@ msgstr ""
 
 #: shell/importer/import.glade.h:1
 msgid "Click \"Import\" to begin importing the file into Evolution. "
-msgstr "Clique em \"Importar\" para começar a importar o arquivo para o Evolution. "
+msgstr ""
+"Clique em \"Importar\" para começar a importar o arquivo para o Evolution. "
 
 #: shell/importer/import.glade.h:2
 msgid "Evolution Import Utility"
@@ -6434,74 +6308,73 @@ msgstr "_Visualizar"
 msgid "View the selected folder"
 msgstr "Visualizar a pasta selecionada"
 
-#: shell/e-storage.c:160
+#: shell/e-storage.c:176
 msgid "(No name)"
 msgstr "(Sem nome)"
 
-#: shell/e-storage.c:411
+#: shell/e-storage.c:427
 msgid "No error"
 msgstr "Sem erro"
 
-#: shell/e-storage.c:413
+#: shell/e-storage.c:429
 msgid "Generic error"
 msgstr "Erro genérico"
 
-#: shell/e-storage.c:415
+#: shell/e-storage.c:431
 msgid "A folder with the same name already exists"
 msgstr "Já existe uma pasta com o mesmo nome"
 
-#: shell/e-storage.c:417
+#: shell/e-storage.c:433
 msgid "The specified folder type is not valid"
 msgstr "O tipo de pasta especificado não é válido"
 
-#: shell/e-storage.c:419
+#: shell/e-storage.c:435
 msgid "I/O error"
 msgstr "Erro de E/S"
 
-#: shell/e-storage.c:421
+#: shell/e-storage.c:437
 msgid "Not enough space to create the folder"
 msgstr "Não há espaço suficiente para criar a pasta"
 
-#: shell/e-storage.c:423
+#: shell/e-storage.c:439
 msgid "The specified folder was not found"
 msgstr "A pasta especificada não foi achada"
 
-#: shell/e-storage.c:425
+#: shell/e-storage.c:441
 msgid "Function not implemented in this storage"
 msgstr "Função não implementada neste repositório"
 
-#: shell/e-storage.c:427
+#: shell/e-storage.c:443
 msgid "Permission denied"
 msgstr "Permissão negada"
 
-#: shell/e-storage.c:429
+#: shell/e-storage.c:445
 msgid "Operation not supported"
 msgstr "Operação não suportada"
 
-#: shell/e-storage.c:431
+#: shell/e-storage.c:447
 msgid "The specified type is not supported in this storage"
 msgstr "O tipo especificado não é suportado neste repositório"
 
 #: shell/main.c:74
+#, fuzzy, c-format
 msgid ""
-"Hi.  Thanks for taking the time to download this preview release\n"
+"Hi.  Thanks for taking the time to download this PREVIEW RELEASE\n"
 "of the Evolution groupware suite.\n"
 "\n"
-"Over the time since the past release, our focus has been on making\n"
-"Evolution usable.  Many of the Evolution developers are now using\n"
-"Evolution to read their mail full time. You could too. (Just\n"
-"be sure to keep a backup.)\n"
+"Evolution is not yet complete. It's getting close, but there are\n"
+"places where features are either missing or only half working. If\n"
+"you can't figure out how to do something, it's probably because\n"
+"there's no way to do it yet! :-)\n"
 "\n"
-"But while we have fixed many bugs affecting its stability and\n"
-"security, you still get the disclaimer:  Evolution will: crash,\n"
-"lose your mail when you don't want it to, refuse to delete your\n"
-"mail when you do want it to, leave stray processes running,\n"
-"consume 100% CPU, race, lock, send HTML mail to random mailing\n"
-"lists, and embarass you in front of your friends and co-workers.\n"
-"Use only as directed.\n"
+"We hope Evolution will be usable for you, but we still feel the\n"
+"need to warn you that it may: crash, lose your mail, leave stray\n"
+"processes running, consume 100% of your CPU, send non-\n"
+"compliant commands to your servers, and generally embarass you\n"
+"in front of your friends and co-workers. Use only as directed.\n"
 "\n"
-"We hope that you enjoy the results of our hard work, and we eagerly\n"
-"await your contributions!\n"
+"We hope that you enjoy the results of our hard work, and we\n"
+"eagerly await your contributions!\n"
 msgstr ""
 "Hi.  Thanks for taking the time to download this preview release\n"
 "of the Evolution groupware suite.\n"
@@ -6522,7 +6395,7 @@ msgstr ""
 "We hope that you enjoy the results of our hard work, and we eagerly\n"
 "await your contributions!\n"
 
-#: shell/main.c:101
+#: shell/main.c:99
 msgid ""
 "Thanks\n"
 "The Evolution Team\n"
@@ -6530,15 +6403,15 @@ msgstr ""
 "Obrigado\n"
 "The Evolution Team\n"
 
-#: shell/main.c:132
+#: shell/main.c:130
 msgid "Cannot initialize the Evolution shell."
 msgstr "Não é possível iniciar o Evolution."
 
-#: shell/main.c:178
+#: shell/main.c:176
 msgid "Disable."
 msgstr "Desativar."
 
-#: shell/main.c:198
+#: shell/main.c:196
 msgid "Cannot initialize the Bonobo component system."
 msgstr "Não é possível iniciar o sistema de componentes Bonobo."
 
@@ -7773,3 +7646,91 @@ msgstr "init_bonobo(): não foi possível iniciar Bonobo"
 #: evolution.desktop.in.h:2
 msgid "The Evolution groupware suite"
 msgstr "O conjunto de aplicativos de groupware Evolution"
+
+#~ msgid "Disabled"
+#~ msgstr "Desativado"
+
+#~ msgid "Synchronize"
+#~ msgstr "Sincronizar"
+
+#~ msgid "Copy From Pilot"
+#~ msgstr "Copiar a partir do pilot"
+
+#~ msgid "Copy To Pilot"
+#~ msgstr "Copiar para o pilot"
+
+#~ msgid "Merge From Pilot"
+#~ msgstr "Mesclar a partir do pilot"
+
+#~ msgid "Merge To Pilot"
+#~ msgstr "Mesclar para o pilot"
+
+#~ msgid "JP Rosevear <jpr@helixcode.com>"
+#~ msgstr "JP Rosevear <jpr@helixcode.com>"
+
+#~ msgid "Original Author:"
+#~ msgstr "Autor original:"
+
+#~ msgid "Eskil Heyn Olsen <deity@eskil.dk>"
+#~ msgstr "Eskil Heyn Olsen <deity@eskil.dk>"
+
+#~ msgid "Evolution Addressbook Conduit"
+#~ msgstr "Canal para catálogo de endereços do Evolution"
+
+#~ msgid "(C) 1998-2000 the Free Software Foundation and Helix Code"
+#~ msgstr "(C) 1998-2000 the Free Software Foundation and Helix Code"
+
+#~ msgid "Configuration utility for the evolution addressbook conduit.\n"
+#~ msgstr ""
+#~ "Utilitário de configuração do canal para catálogo de endereços do "
+#~ "Evolution.\n"
+
+#~ msgid "gnome-unknown.xpm"
+#~ msgstr "gnome-unknown.xpm"
+
+#~ msgid "Synchronize Action"
+#~ msgstr "Ação ao sincronizar"
+
+#~ msgid "Conduit state"
+#~ msgstr "Estado do canal"
+
+#~ msgid ""
+#~ "No pilot configured, please choose the\n"
+#~ "'Pilot Link Properties' capplet first."
+#~ msgstr ""
+#~ "Nenhum pilot configurado, por favor visite primeiramente\n"
+#~ "o painel Pilot Link na central de controle."
+
+#~ msgid "Not connected to the gnome-pilot daemon"
+#~ msgstr "Não conectado ao daemon Gnome Pilot"
+
+#~ msgid ""
+#~ "An error occured when trying to fetch\n"
+#~ "pilot list from the gnome-pilot daemon"
+#~ msgstr ""
+#~ "Ocorreu um erro ao tentar ler a lista de\n"
+#~ "pilots a partir do daemon Gnome Pilot"
+
+#~ msgid "Configure the address conduit"
+#~ msgstr "Configura o canal para catálogo de endereços"
+
+#~ msgid "Evolution Address conduit "
+#~ msgstr "Canal para endereços do Evolution "
+
+#~ msgid "Evolution Calendar Conduit"
+#~ msgstr "Canal para agenda do Evolution"
+
+#~ msgid "Configuration utility for the evolution calendar conduit.\n"
+#~ msgstr "Utilitário de configuração do canal para agenda do Evolution.\n"
+
+#~ msgid "Configure the Evolution Calendar conduit"
+#~ msgstr "Configura o canal para agenda do Evolution"
+
+#~ msgid "Configure the Evolution ToDo conduit"
+#~ msgstr "Configura o canal para tarefas do Evolution"
+
+#~ msgid "Evolution ToDo Conduit"
+#~ msgstr "Canal para tarefas do Evolution"
+
+#~ msgid "Configuration utility for the evolution todo conduit.\n"
+#~ msgstr "Utilitário de configuração do canal para tarefas do Evolution.\n"

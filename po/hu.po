@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution VERSION\n"
-"POT-Creation-Date: 2001-02-27 13:13-0500\n"
+"POT-Creation-Date: 2001-03-13 11:49-0500\n"
 "PO-Revision-Date: 2001-02-08 23:12+0100\n"
 "Last-Translator: Szabolcs Ban <shooby@gnome.hu>\n"
 "Language-Team: Hungarian <hu@gnome.hu>\n"
@@ -315,125 +315,6 @@ msgstr ""
 msgid "Could not initialize Bonobo"
 msgstr "A Bonobo inicializálása nem sikerült"
 
-#. This array must be in the same order as enumerations
-#. in GnomePilotConduitSyncType as they are used as index.
-#. Custom type implies Disabled state.
-#.
-#: addressbook/conduit/address-conduit-control-applet.c:77
-#: calendar/conduits/calendar/calendar-conduit-control-applet.c:77
-#: calendar/conduits/todo/todo-conduit-control-applet.c:77
-msgid "Disabled"
-msgstr "Tiltva"
-
-#: addressbook/conduit/address-conduit-control-applet.c:78
-#: calendar/conduits/calendar/calendar-conduit-control-applet.c:78
-#: calendar/conduits/todo/todo-conduit-control-applet.c:78
-msgid "Synchronize"
-msgstr "Szinkronizálás"
-
-#: addressbook/conduit/address-conduit-control-applet.c:79
-#: calendar/conduits/calendar/calendar-conduit-control-applet.c:79
-#: calendar/conduits/todo/todo-conduit-control-applet.c:79
-msgid "Copy From Pilot"
-msgstr " Másolás a pilotról"
-
-#: addressbook/conduit/address-conduit-control-applet.c:80
-#: calendar/conduits/calendar/calendar-conduit-control-applet.c:80
-#: calendar/conduits/todo/todo-conduit-control-applet.c:80
-msgid "Copy To Pilot"
-msgstr "Másolás a pilotra"
-
-#: addressbook/conduit/address-conduit-control-applet.c:81
-#: calendar/conduits/calendar/calendar-conduit-control-applet.c:81
-#: calendar/conduits/todo/todo-conduit-control-applet.c:81
-msgid "Merge From Pilot"
-msgstr "Összevetés a pilotról"
-
-#: addressbook/conduit/address-conduit-control-applet.c:82
-#: calendar/conduits/calendar/calendar-conduit-control-applet.c:82
-#: calendar/conduits/todo/todo-conduit-control-applet.c:82
-msgid "Merge To Pilot"
-msgstr "Összevetés a pilotra"
-
-#: addressbook/conduit/address-conduit-control-applet.c:121
-#: calendar/conduits/calendar/calendar-conduit-control-applet.c:121
-#: calendar/conduits/todo/todo-conduit-control-applet.c:121
-msgid "JP Rosevear <jpr@helixcode.com>"
-msgstr "JP Rosevear <jpr@helixcode.com>"
-
-#: addressbook/conduit/address-conduit-control-applet.c:122
-#: calendar/conduits/calendar/calendar-conduit-control-applet.c:122
-#: calendar/conduits/todo/todo-conduit-control-applet.c:122
-msgid "Original Author:"
-msgstr "Eredeti tulajdonos:"
-
-#: addressbook/conduit/address-conduit-control-applet.c:123
-#: calendar/conduits/calendar/calendar-conduit-control-applet.c:123
-#: calendar/conduits/todo/todo-conduit-control-applet.c:123
-msgid "Eskil Heyn Olsen <deity@eskil.dk>"
-msgstr "Eskil Heyn Olsen <deity@eskil.dk>"
-
-#: addressbook/conduit/address-conduit-control-applet.c:127
-msgid "Evolution Addressbook Conduit"
-msgstr "Evolúció címlista csatorna"
-
-#: addressbook/conduit/address-conduit-control-applet.c:128
-#: calendar/conduits/calendar/calendar-conduit-control-applet.c:128
-#: calendar/conduits/todo/todo-conduit-control-applet.c:128
-msgid "(C) 1998-2000 the Free Software Foundation and Helix Code"
-msgstr "(C) 1998-2000 a Free Software Foundation és a Helix Code"
-
-#: addressbook/conduit/address-conduit-control-applet.c:130
-msgid "Configuration utility for the evolution addressbook conduit.\n"
-msgstr "Konfigurációs eszköz az Evolúció címjegyzék csatornájához.\n"
-
-#: addressbook/conduit/address-conduit-control-applet.c:131
-#: calendar/conduits/calendar/calendar-conduit-control-applet.c:131
-#: calendar/conduits/todo/todo-conduit-control-applet.c:131
-msgid "gnome-unknown.xpm"
-msgstr "gnome-unknown.xpm"
-
-#: addressbook/conduit/address-conduit-control-applet.c:162
-#: calendar/conduits/calendar/calendar-conduit-control-applet.c:162
-#: calendar/conduits/todo/todo-conduit-control-applet.c:162
-msgid "Synchronize Action"
-msgstr "Szinkronizációs eljárás"
-
-#: addressbook/conduit/address-conduit-control-applet.c:214
-#: calendar/conduits/calendar/calendar-conduit-control-applet.c:215
-#: calendar/conduits/todo/todo-conduit-control-applet.c:214
-msgid "Conduit state"
-msgstr "Csatorna állapot"
-
-#: addressbook/conduit/address-conduit-control-applet.c:266
-#: addressbook/conduit/address-conduit-control-applet.c:279
-#: calendar/conduits/calendar/calendar-conduit-control-applet.c:267
-#: calendar/conduits/calendar/calendar-conduit-control-applet.c:280
-#: calendar/conduits/todo/todo-conduit-control-applet.c:266
-#: calendar/conduits/todo/todo-conduit-control-applet.c:279
-msgid ""
-"No pilot configured, please choose the\n"
-"'Pilot Link Properties' capplet first."
-msgstr ""
-"Nincs pilot beállítva, kérlek válaszd ki a\n"
-"'Pilot Link Properties' cappletet elõször."
-
-#: addressbook/conduit/address-conduit-control-applet.c:285
-#: calendar/conduits/calendar/calendar-conduit-control-applet.c:286
-#: calendar/conduits/todo/todo-conduit-control-applet.c:285
-msgid "Not connected to the gnome-pilot daemon"
-msgstr "Nincs a gnome-pilot daemonra kapcsolódva"
-
-#: addressbook/conduit/address-conduit-control-applet.c:290
-#: calendar/conduits/calendar/calendar-conduit-control-applet.c:291
-#: calendar/conduits/todo/todo-conduit-control-applet.c:290
-msgid ""
-"An error occured when trying to fetch\n"
-"pilot list from the gnome-pilot daemon"
-msgstr ""
-"Hiba lépett fel a pilotok listájának\n"
-"a gnome-pilot daemontól való lekérésekor "
-
 #: addressbook/conduit/address-conduit.c:201
 msgid "Cursor could not be loaded\n"
 msgstr "A kurzort nem tudom betölteni\n"
@@ -458,16 +339,6 @@ msgstr "Nem tudom a wombat-ot elindítani"
 #: addressbook/conduit/address-conduit.c:687
 msgid "Could not read pilot's Address application block"
 msgstr "Nem tudom a pilot Address application blokkját olvasni"
-
-#: addressbook/conduit/e-address-conduit-control-applet.desktop.in.h:1
-#, fuzzy
-msgid "Configure the address conduit"
-msgstr "Konfigurációs eszköz az Evolúció címjegyzék csatornájához.\n"
-
-#: addressbook/conduit/e-address-conduit-control-applet.desktop.in.h:2
-#, fuzzy
-msgid "Evolution Address conduit "
-msgstr "Evolúció címlista csatorna"
 
 #: addressbook/contact-editor/contact-editor.glade.h:1
 #: addressbook/gui/component/addressbook-config.glade.h:1
@@ -1452,15 +1323,6 @@ msgstr "Szélesség:"
 msgid "label26"
 msgstr "label26"
 
-#: calendar/conduits/calendar/calendar-conduit-control-applet.c:127
-#: calendar/conduits/calendar/e-calendar-conduit-control-applet.desktop.in.h:2
-msgid "Evolution Calendar Conduit"
-msgstr "Evolúció naptár csatorna"
-
-#: calendar/conduits/calendar/calendar-conduit-control-applet.c:130
-msgid "Configuration utility for the evolution calendar conduit.\n"
-msgstr "Az Evolúció naptár csatorna beállító eszköze.\n"
-
 #: calendar/conduits/calendar/calendar-conduit.c:687
 #: calendar/conduits/todo/todo-conduit.c:501
 msgid "Error while communicating with calendar server"
@@ -1470,25 +1332,6 @@ msgstr "Hibás kommunikáció a naptár kiszolgálóval"
 #: calendar/conduits/calendar/calendar-conduit.c:789
 msgid "Could not read pilot's Calendar application block"
 msgstr "Nem tudom a pilot Calendar application blokkját olvasni"
-
-#: calendar/conduits/calendar/e-calendar-conduit-control-applet.desktop.in.h:1
-#, fuzzy
-msgid "Configure the Evolution Calendar conduit"
-msgstr "Evolúció naptár csatorna"
-
-#: calendar/conduits/todo/e-todo-conduit-control-applet.desktop.in.h:1
-#, fuzzy
-msgid "Configure the Evolution ToDo conduit"
-msgstr "Evolúció tennivaló csatorna"
-
-#: calendar/conduits/todo/e-todo-conduit-control-applet.desktop.in.h:2
-#: calendar/conduits/todo/todo-conduit-control-applet.c:127
-msgid "Evolution ToDo Conduit"
-msgstr "Evolúció tennivaló csatorna"
-
-#: calendar/conduits/todo/todo-conduit-control-applet.c:130
-msgid "Configuration utility for the evolution todo conduit.\n"
-msgstr "Az Evolúció tennivaló csatorna beállító eszköze.\n"
 
 #: calendar/conduits/todo/todo-conduit.c:600
 #: calendar/conduits/todo/todo-conduit.c:603
@@ -6564,25 +6407,24 @@ msgid "The specified type is not supported in this storage"
 msgstr "A megadott típus nem támogatott ebben a tárolóban."
 
 #: shell/main.c:74
+#, fuzzy, c-format
 msgid ""
-"Hi.  Thanks for taking the time to download this preview release\n"
+"Hi.  Thanks for taking the time to download this PREVIEW RELEASE\n"
 "of the Evolution groupware suite.\n"
 "\n"
-"Over the time since the past release, our focus has been on making\n"
-"Evolution usable.  Many of the Evolution developers are now using\n"
-"Evolution to read their mail full time. You could too. (Just\n"
-"be sure to keep a backup.)\n"
+"Evolution is not yet complete. It's getting close, but there are\n"
+"places where features are either missing or only half working. If\n"
+"you can't figure out how to do something, it's probably because\n"
+"there's no way to do it yet! :-)\n"
 "\n"
-"But while we have fixed many bugs affecting its stability and\n"
-"security, you still get the disclaimer:  Evolution will: crash,\n"
-"lose your mail when you don't want it to, refuse to delete your\n"
-"mail when you do want it to, leave stray processes running,\n"
-"consume 100% CPU, race, lock, send HTML mail to random mailing\n"
-"lists, and embarass you in front of your friends and co-workers.\n"
-"Use only as directed.\n"
+"We hope Evolution will be usable for you, but we still feel the\n"
+"need to warn you that it may: crash, lose your mail, leave stray\n"
+"processes running, consume 100% of your CPU, send non-\n"
+"compliant commands to your servers, and generally embarass you\n"
+"in front of your friends and co-workers. Use only as directed.\n"
 "\n"
-"We hope that you enjoy the results of our hard work, and we eagerly\n"
-"await your contributions!\n"
+"We hope that you enjoy the results of our hard work, and we\n"
+"eagerly await your contributions!\n"
 msgstr ""
 "Helló, köszönjük, hogy letöltötted az Evolúció munkacsoport csomag\n"
 "elõnézeti verzióját.\n"
@@ -6601,7 +6443,7 @@ msgstr ""
 "Azért reméljük, élvezni fogod a kemény munkánk eredményét, és várjuk\n"
 "hozzájárulásod! \n"
 
-#: shell/main.c:101
+#: shell/main.c:99
 msgid ""
 "Thanks\n"
 "The Evolution Team\n"
@@ -6609,15 +6451,15 @@ msgstr ""
 "Köszönettel\n"
 "Az Evolúció Csapat\n"
 
-#: shell/main.c:132
+#: shell/main.c:130
 msgid "Cannot initialize the Evolution shell."
 msgstr "Nem tudom elindítani az Evolúció shell-t."
 
-#: shell/main.c:178
+#: shell/main.c:176
 msgid "Disable."
 msgstr "Tiltás."
 
-#: shell/main.c:198
+#: shell/main.c:196
 msgid "Cannot initialize the Bonobo component system."
 msgstr "Nem tudom elindítani a Bonobo komponens rendszert."
 
@@ -8024,6 +7866,96 @@ msgstr "A Bonobo inicializálása nem sikerült"
 #, fuzzy
 msgid "The Evolution groupware suite"
 msgstr "Evolúció naptár csatorna"
+
+#~ msgid "Disabled"
+#~ msgstr "Tiltva"
+
+#~ msgid "Synchronize"
+#~ msgstr "Szinkronizálás"
+
+#~ msgid "Copy From Pilot"
+#~ msgstr " Másolás a pilotról"
+
+#~ msgid "Copy To Pilot"
+#~ msgstr "Másolás a pilotra"
+
+#~ msgid "Merge From Pilot"
+#~ msgstr "Összevetés a pilotról"
+
+#~ msgid "Merge To Pilot"
+#~ msgstr "Összevetés a pilotra"
+
+#~ msgid "JP Rosevear <jpr@helixcode.com>"
+#~ msgstr "JP Rosevear <jpr@helixcode.com>"
+
+#~ msgid "Original Author:"
+#~ msgstr "Eredeti tulajdonos:"
+
+#~ msgid "Eskil Heyn Olsen <deity@eskil.dk>"
+#~ msgstr "Eskil Heyn Olsen <deity@eskil.dk>"
+
+#~ msgid "Evolution Addressbook Conduit"
+#~ msgstr "Evolúció címlista csatorna"
+
+#~ msgid "(C) 1998-2000 the Free Software Foundation and Helix Code"
+#~ msgstr "(C) 1998-2000 a Free Software Foundation és a Helix Code"
+
+#~ msgid "Configuration utility for the evolution addressbook conduit.\n"
+#~ msgstr "Konfigurációs eszköz az Evolúció címjegyzék csatornájához.\n"
+
+#~ msgid "gnome-unknown.xpm"
+#~ msgstr "gnome-unknown.xpm"
+
+#~ msgid "Synchronize Action"
+#~ msgstr "Szinkronizációs eljárás"
+
+#~ msgid "Conduit state"
+#~ msgstr "Csatorna állapot"
+
+#~ msgid ""
+#~ "No pilot configured, please choose the\n"
+#~ "'Pilot Link Properties' capplet first."
+#~ msgstr ""
+#~ "Nincs pilot beállítva, kérlek válaszd ki a\n"
+#~ "'Pilot Link Properties' cappletet elõször."
+
+#~ msgid "Not connected to the gnome-pilot daemon"
+#~ msgstr "Nincs a gnome-pilot daemonra kapcsolódva"
+
+#~ msgid ""
+#~ "An error occured when trying to fetch\n"
+#~ "pilot list from the gnome-pilot daemon"
+#~ msgstr ""
+#~ "Hiba lépett fel a pilotok listájának\n"
+#~ "a gnome-pilot daemontól való lekérésekor "
+
+#, fuzzy
+#~ msgid "Configure the address conduit"
+#~ msgstr "Konfigurációs eszköz az Evolúció címjegyzék csatornájához.\n"
+
+#, fuzzy
+#~ msgid "Evolution Address conduit "
+#~ msgstr "Evolúció címlista csatorna"
+
+#~ msgid "Evolution Calendar Conduit"
+#~ msgstr "Evolúció naptár csatorna"
+
+#~ msgid "Configuration utility for the evolution calendar conduit.\n"
+#~ msgstr "Az Evolúció naptár csatorna beállító eszköze.\n"
+
+#, fuzzy
+#~ msgid "Configure the Evolution Calendar conduit"
+#~ msgstr "Evolúció naptár csatorna"
+
+#, fuzzy
+#~ msgid "Configure the Evolution ToDo conduit"
+#~ msgstr "Evolúció tennivaló csatorna"
+
+#~ msgid "Evolution ToDo Conduit"
+#~ msgstr "Evolúció tennivaló csatorna"
+
+#~ msgid "Configuration utility for the evolution todo conduit.\n"
+#~ msgstr "Az Evolúció tennivaló csatorna beállító eszköze.\n"
 
 #, fuzzy
 #~ msgid ""
