@@ -1,7 +1,15 @@
 2001-09-04  Aaron Weber  <aaron@ximian.com>
 
-	* C/usage-mainwindow.sgml: Validate.
+	* C/evolution.sgml: Validation.
 
+	* C/usage-print.sgml: Add .ps information.
+
+	* C/usage-mail-org.sgml: Virtual Folder/vFolder, Ximian Evolution/Evolution.
+
+2001-09-04  Aaron Weber  <aaron@ximian.com>
+
+	* C/usage-mainwindow.sgml: Validate.
+	
 	* C/usage-mail.sgml: More html stuff.
 
 	* C/apx-authors.sgml: Credit kmarass.
