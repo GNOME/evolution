@@ -19,10 +19,6 @@
     <cmd name="ToolsFilters"
      _tip="Create or edit rules for filtering new mail"/>
 
-    <cmd name="ToolsSettings"
-     _tip="Create or edit mail accounts and other preferences"
-     pixtype="pixbuf"/>
-
     <cmd name="ToolsSubscriptions"
      _tip="Subscribe or unsubscribe to folders on remote servers"/>
 
@@ -87,8 +83,6 @@
     <submenu name="Tools">
 
       <placeholder name="ComponentPlaceholder">
-
-        <menuitem name="ToolsSettings" verb="" _label="_Mail Settings..."/>
 
 	<separator f="" name="emailglobal1"/>
 

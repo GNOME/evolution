@@ -43,8 +43,12 @@
 
   </menu>
 
-  <dockitem name="Toolbar" relief="none" behavior="exclusive"
-	    _tip="Main toolbar" hlook="text" vlook="icon">
+  <dockitem name="Toolbar" 
+            relief="none" 
+            behavior="exclusive"
+	    _tip="Main toolbar" 
+            hlook="text" 
+            vlook="icon">
     <placeholder name="MailMessageToolbar"/>
     <separator f="" name="emailmessage"/>
     <placeholder name="MailNextButtons"/>
