@@ -1,3 +1,8 @@
+2000-06-07  Federico Mena Quintero  <federico@helixcode.com>
+
+	* gui/event-editor.c (toolbar): Added missing tooltips.  We still
+	need icons, though.
+
 2000-06-07  Seth Alves  <alves@hungry.com>
 
 	* cal-util/calobj.c (ical_object_find_in_string): put this back in,
