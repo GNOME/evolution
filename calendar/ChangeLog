@@ -1,5 +1,18 @@
 2000-11-21  Federico Mena Quintero  <federico@helixcode.com>
 
+	* gui/task.xpm: Remove the check because it makes it look like the
+	task is already completed.  This fixes bug #819.
+
+	* gui/task-recurring.xpm: Make it use a prettier overlaid icon.
+
+	* gui/task-*.xpm: Made the things look like little spiral-bound
+	notebooks.
+
+	* gui/e-calendar-table.c (E_CALENDAR_TABLE_SPEC): Make the default
+	column order be icon/completed/summary.
+
+2000-11-21  Federico Mena Quintero  <federico@helixcode.com>
+
 	* gui/calendar-model.c (calendar_model_is_cell_editable): The icon
 	column is not editable!
 
