@@ -1,3 +1,9 @@
+2000-07-28  Cody Russell  <bratsche@gnome.org>
+        * mail-ops.c, mail.h: Added mark_all_seen(), to mark every
+        message in the list with CAMEL_MESSAGE_SEEN.
+
+        * folder-browser-factory.c: Added "Actions/Mark all seen".
+
 2000-07-27  Jeffrey Stedfast  <fejj@helixcode.com>
 
 	* mail-config.c: Lets fix Dan's kludge the Right Way (tm)

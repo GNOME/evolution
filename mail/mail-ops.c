@@ -791,6 +791,23 @@ move_msg (GtkWidget *button, gpointer user_data)
 	camel_exception_free (rfd.ex);
 }
 
+void
+mark_all_seen (BonoboUIHandler *uih, void *user_data, const char *path)
+{
+	FolderBrowser *fb = FOLDER_BROWSER(user_data);
+	MessageList *ml = fb->message_list;
+	GPtrArray *uids;
+	int i;
+
+	uids = camel_folder_get_uids (ml->folder);
+	for (i = 0; i < uids->len; i++)
+	{
+		camel_folder_set_message_flags (ml->folder, uids->pdata[i],
+						CAMEL_MESSAGE_SEEN,
+						CAMEL_MESSAGE_SEEN);
+	}
+}
+
 static void
 real_delete_msg (MessageList *ml, const char *uid, gpointer user_data)
 {

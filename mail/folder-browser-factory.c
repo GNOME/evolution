@@ -68,6 +68,13 @@ control_activate (BonoboControl *control, BonoboUIHandler *uih,
 #endif
 		);
 
+	bonobo_ui_handler_menu_new_item (uih, "/Actions/Mark all seen",
+					 _("_Mark all messages seen"),
+					 NULL, -1,
+					 BONOBO_UI_HANDLER_PIXMAP_STOCK,
+					 GNOME_STOCK_PIXMAP_CLEAR,
+					 0, 0, mark_all_seen, folder_browser);
+
 	bonobo_ui_handler_menu_new_item (uih, "/Actions/Expunge", _("_Expunge"),
 					 NULL, -1,
 					 BONOBO_UI_HANDLER_PIXMAP_STOCK,
@@ -130,6 +137,7 @@ control_deactivate (BonoboControl *control, BonoboUIHandler *uih,
 	char *toolbar_name = g_strdup_printf ("/Toolbar%d", fb->serial);
 
 	bonobo_ui_handler_menu_remove (uih, "/View/Threaded");
+	bonobo_ui_handler_menu_remove (uih, "/Actions/Mark all seen");
 	bonobo_ui_handler_menu_remove (uih, "/Actions/Expunge");
 	bonobo_ui_handler_menu_remove (uih, "/Tools/Filter Druid ...");
 	bonobo_ui_handler_menu_remove (uih, "/Tools/Virtual Folder Druid ...");
