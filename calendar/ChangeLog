@@ -1,5 +1,17 @@
 2000-03-01  Federico Mena Quintero  <federico@helixcode.com>
 
+	At this point the calendar client and personal calendar server
+	files were moved to the idl/, cal-client/, and pcs/ directories.
+
+	* idl/Makefile.am: New file.
+
+	* cal-client/Makefile.am: New file.  Moved the libcal-client stuff
+	from calendar/Makefile.am to here.
+
+	* Makefile.am (SUBDIRS): Added the idl and cal-client directories.
+
+2000-03-01  Federico Mena Quintero  <federico@helixcode.com>
+
 	* Makefile.am: Use the gnome-config flags for orbit-idl.  
 	Create a libcal-client library with the calendar client object.
 

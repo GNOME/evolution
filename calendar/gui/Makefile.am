@@ -1,9 +1,8 @@
-SUBDIRS = doc
+SUBDIRS = doc idl cal-client
 
 idldir = $(datadir)/idl
 idl_DATA = 			\
-	GnomeCal.idl		\
-	evolution-calendar.idl
+	GnomeCal.idl
 
 idl_flags = `$(GNOME_CONFIG) --cflags idl`
 
@@ -21,8 +20,6 @@ extra_pilot_bins = 				\
 endif
 
 bin_PROGRAMS = gnomecal tlacuache $(extra_pilot_bins)
-
-lib_LTLIBRARIES = libcal-client.la
 
 ICAL_LINK_FLAGS = ../libical/src/libical/libical.la
 
@@ -132,23 +129,6 @@ calendar_pilot_sync_SOURCES =	\
 	calendar.h		\
 	timeutil.c		\
 	timeutil.h
-
-#
-# cal-client library
-#
-
-libcal_clientincludedir = $(includedir)/cal-client
-
-libcal_client_la_SOURCES =			\
-	$(EVOLUTION_CALENDAR_CORBA_GENERATED)	\
-	cal-client.c				\
-	cal-listener.c				\
-	cal-util.c
-
-libcal_clientinclude_HEADERS =	\
-	cal-client.h		\
-	cal-listener.h		\
-	cal-util.h
 
 #
 # tlacuache personal calendar server
