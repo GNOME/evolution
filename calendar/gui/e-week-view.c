@@ -2648,6 +2648,7 @@ e_week_view_key_press (GtkWidget *widget, GdkEventKey *event)
 	gint event_num;
 	gchar *initial_text;
 	CalComponentDateTime date;
+	struct icaltimetype itt;
 	time_t dtstart, dtend;
 	const char *uid;
 	
@@ -2689,12 +2690,13 @@ e_week_view_key_press (GtkWidget *widget, GdkEventKey *event)
 	dtstart = week_view->day_starts[week_view->selection_start_day];
 	dtend = week_view->day_starts[week_view->selection_end_day + 1];
 	
-	date.value = g_new0 (struct icaltimetype, 1);
-	*date.value = icaltime_from_timet (dtstart, FALSE, TRUE);
+	date.value = &itt;
+	date.tzid = NULL;
+
+	*date.value = icaltime_from_timet (dtstart, FALSE, FALSE);
 	cal_component_set_dtstart (comp, &date);
-	*date.value = icaltime_from_timet (dtend, FALSE, TRUE);
+	*date.value = icaltime_from_timet (dtend, FALSE, FALSE);
 	cal_component_set_dtend (comp, &date);
-	g_free (date.value);
 
 	/* We add the event locally and start editing it. When we get the
 	   "update_event" callback from the server, we basically ignore it.
@@ -2868,7 +2870,7 @@ e_week_view_on_delete_occurrence (GtkWidget *widget, gpointer data)
 	list = g_slist_append (list, date);
 	date = g_new0 (CalComponentDateTime, 1);
 	date->value = g_new (struct icaltimetype, 1);
-	*date->value = icaltime_from_timet (event->start, TRUE, TRUE);
+	*date->value = icaltime_from_timet (event->start, TRUE, FALSE);
 	cal_component_set_exdate_list (comp, list);
 	cal_component_free_exdate_list (list);
 
@@ -2906,7 +2908,8 @@ e_week_view_on_unrecur_appointment (GtkWidget *widget, gpointer data)
 	EWeekView *week_view;
 	EWeekViewEvent *event;
 	CalComponent *comp, *new_comp;
-	CalComponentDateTime *date;
+	CalComponentDateTime date;
+	struct icaltimetype itt;
 	GSList *list;
 
 	week_view = E_WEEK_VIEW (data);
@@ -2917,17 +2920,17 @@ e_week_view_on_unrecur_appointment (GtkWidget *widget, gpointer data)
 	event = &g_array_index (week_view->events, EWeekViewEvent,
 				week_view->popup_event_num);
 	
+	date.value = &itt;
+	date.tzid = NULL;	
+
 	/* For the recurring object, we add a exception to get rid of the
 	   instance. */
-
 	comp = cal_component_clone (event->comp);
 	cal_component_get_exdate_list (comp, &list);
-	date = g_new0 (CalComponentDateTime, 1);
-	date->value = g_new (struct icaltimetype, 1);
-	*date->value = icaltime_from_timet (event->start, TRUE, TRUE);
-	list = g_slist_append (list, date);
+	*date.value = icaltime_from_timet (event->start, TRUE, FALSE);
+	list = g_slist_append (list, &date);
 	cal_component_set_exdate_list (comp, list);
-	cal_component_free_exdate_list (list);
+	g_slist_free (list);
 
 	/* For the unrecurred instance we duplicate the original object,
 	   create a new uid for it, get rid of the recurrence rules, and set
@@ -2937,15 +2940,10 @@ e_week_view_on_unrecur_appointment (GtkWidget *widget, gpointer data)
 	cal_component_set_exdate_list (new_comp, NULL);
 	cal_component_set_exrule_list (new_comp, NULL);
 
-	date = g_new0 (CalComponentDateTime, 1);
-	date->value = g_new (struct icaltimetype, 1);
-
-	*date->value = icaltime_from_timet (event->start, TRUE, TRUE);
-	cal_component_set_dtstart (new_comp, date);
-	*date->value = icaltime_from_timet (event->end, TRUE, TRUE);
-	cal_component_set_dtend (new_comp, date);
-
-	cal_component_free_datetime (date);
+	*date.value = icaltime_from_timet (event->start, TRUE, FALSE);
+	cal_component_set_dtstart (new_comp, &date);
+	*date.value = icaltime_from_timet (event->end, TRUE, FALSE);
+	cal_component_set_dtend (new_comp, &date);
 	
 	/* Now update both CalComponents. Note that we do this last since at
 	   present the updates happen synchronously so our event may disappear.

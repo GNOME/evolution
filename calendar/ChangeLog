@@ -1,5 +1,13 @@
 2000-08-30  JP Rosevear  <jpr@helixcode.com>
 
+	* gui/e-week-view.c: Make sure the is_utc flag is always 
+	FALSE for icaltime_from_timet
+	(e_week_view_on_unrecur_appointment): Use icaltimetype struct
+	from the stack and make sure tzid is always NULL
+	(e_week_view_key_press): ditto
+
+2000-08-30  JP Rosevear  <jpr@helixcode.com>
+
 	* gui/e-day-view.c: Make sure the is_utc flag is always 
 	FALSE for icaltime_from_timet
 	(e_day_view_on_unrecur_appointment): Use icaltimetype struct
