@@ -9,8 +9,8 @@ INCLUDES =						\
 	$(BONOBO_GNOME_CFLAGS)
 
 noinst_LIBRARIES =				\
-	libeaddressbooksearchdialog.a
+	libeaddressbooksearch.a
 
-libeaddressbooksearchdialog_a_SOURCES =		\
+libeaddressbooksearch_a_SOURCES =		\
 	e-addressbook-search-dialog.c		\
 	e-addressbook-search-dialog.h

@@ -45,6 +45,7 @@ struct _EAddressbookSearchDialog
 
 	GtkWidget *search;
 	GtkWidget *view;
+	GtkWidget *scrolled_window;
 };
 
 struct _EAddressbookSearchDialogClass

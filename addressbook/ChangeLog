@@ -1,5 +1,15 @@
 2000-08-12  Christopher James Lahey  <clahey@helixcode.com>
 
+	* gui/search/Makefile.am,
+	gui/search/e-addressbook-search-dialog.c,
+	gui/search/e-addressbook-search-dialog.h: A few small interface
+	fixes.
+
+	* gui/component/Makefile.am: Link in the addressbook search
+	dialog.
+
+2000-08-12  Christopher James Lahey  <clahey@helixcode.com>
+
 	* gui/Makefile.am: Added the search directory.
 
 	* backend/ebook/e-book.c: Fixed a potential crash.

@@ -25,6 +25,7 @@
 #include <e-util/e-canvas.h>
 #include "e-addressbook-search-dialog.h"
 #include "addressbook/gui/minicard/e-minicard-view-widget.h"
+#include "widgets/misc/e-scroll-frame.h"
 static void e_addressbook_search_dialog_init		 (EAddressbookSearchDialog		 *widget);
 static void e_addressbook_search_dialog_class_init	 (EAddressbookSearchDialogClass	 *klass);
 static void e_addressbook_search_dialog_set_arg       (GtkObject *o, GtkArg *arg, guint arg_id);
@@ -103,7 +104,7 @@ static void
 button_press (GtkWidget *widget, EAddressbookSearchDialog *dialog)
 {
 	char *query;
-	gtk_widget_show(dialog->view);
+	gtk_widget_show(dialog->scrolled_window);
 	query = get_query();
 	gtk_object_set(GTK_OBJECT(dialog->view),
 		       "query", query,
@@ -117,6 +118,8 @@ e_addressbook_search_dialog_init (EAddressbookSearchDialog *view)
 	GtkWidget *button;
 	GnomeDialog *dialog = GNOME_DIALOG (view);
 
+	gtk_window_set_policy(GTK_WINDOW(view), FALSE, TRUE, FALSE);
+
 	view->search = get_widget();
 	gtk_box_pack_start(GTK_BOX(dialog->vbox), view->search, TRUE, TRUE, 0);
 	gtk_widget_show(view->search);
@@ -128,7 +131,13 @@ e_addressbook_search_dialog_init (EAddressbookSearchDialog *view)
 	gtk_widget_show(button);
 
 	view->view = e_minicard_view_widget_new();
-	gtk_box_pack_start(GTK_BOX(dialog->vbox), view->view, TRUE, TRUE, 0);
+	gtk_widget_show(view->view);
+
+	view->scrolled_window = e_scroll_frame_new(NULL, NULL);
+	e_scroll_frame_set_policy(E_SCROLL_FRAME(view->scrolled_window), GTK_POLICY_AUTOMATIC, GTK_POLICY_NEVER);
+	gtk_container_add(GTK_CONTAINER(view->scrolled_window), view->view);
+	
+	gtk_box_pack_start(GTK_BOX(dialog->vbox), view->scrolled_window, TRUE, TRUE, 0);
 }
 
 GtkWidget *
