@@ -32,6 +32,7 @@
 #include <fcntl.h>
 #include <unistd.h>
 #include <dirent.h>
+#include <errno.h>
 
 #ifdef ENABLE_THREADS
 #include <pthread.h>
@@ -62,10 +63,37 @@ get_path (gboolean make)
 	GString *path;
 	
 	path = g_string_new ("/tmp/evolution-");
-	g_string_sprintfa (path, "%d-%d", getuid (), getpid ());
+	g_string_sprintfa (path, "%d-%d", (int) getuid (), (int) getpid ());
 	
-	if (make)
-		mkdir (path->str, S_IRWXU);
+	if (make) {
+		int ret;
+		
+		/* shoot now, ask questions later */
+		ret = mkdir (path->str, S_IRWXU);
+		if (ret == -1) {
+			if (errno == EEXIST) {
+				struct stat st;
+				
+				if (stat (path->str, &st) == -1) {
+					/* reset errno */
+					errno = EEXIST;
+					g_string_free (path, TRUE);
+					return NULL;
+				}
+				
+				/* make sure this is a directory and belongs to us... */
+				if (!S_ISDIR (st.st_dev) || st.st_uid != getuid ()) {
+					/* eek! this is bad... */
+					g_string_free (path, TRUE);
+					return NULL;
+				}
+			} else {
+				/* some other error...do not pass go, do not collect $200 */
+				g_string_free (path, TRUE);
+				return NULL;
+			}
+		}
+	}
 	
 	return path;
 }
@@ -145,8 +173,10 @@ e_mktemp (const char *template)
 	ret = mktemp (path->str);
 	if (ret) {
 		TEMP_FILES_LOCK ();
-		if (!initialized)
+		if (!initialized) {
 			g_atexit (e_mktemp_cleanup);
+			initialized = TRUE;
+		}
 		temp_files = g_slist_prepend (temp_files, ret);
 		g_string_free (path, FALSE);
 		TEMP_FILES_UNLOCK ();
@@ -177,8 +207,10 @@ e_mkstemp (const char *template)
 	fd = mkstemp (path->str);
 	if (fd != -1) {
 		TEMP_FILES_LOCK ();
-		if (!initialized)
+		if (!initialized) {
 			g_atexit (e_mktemp_cleanup);
+			initialized = TRUE;
+		}
 		temp_files = g_slist_prepend (temp_files, path->str);
 		g_string_free (path, FALSE);
 		TEMP_FILES_UNLOCK ();
@@ -218,8 +250,10 @@ e_mkdtemp (const char *template)
 	
 	if (tmpdir) {
 		TEMP_DIRS_LOCK ();
-		if (!initialized)
+		if (!initialized) {
 			g_atexit (e_mktemp_cleanup);
+			initialized = TRUE;
+		}
 		temp_dirs = g_slist_prepend (temp_dirs, tmpdir);
 		g_string_free (path, FALSE);
 		TEMP_DIRS_UNLOCK ();

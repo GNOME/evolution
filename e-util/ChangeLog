@@ -1,5 +1,9 @@
 2001-08-24  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* e-mktemp.c (get_path): Make more robust.
+
+2001-08-24  Jeffrey Stedfast  <fejj@ximian.com>
+
 	* Makefile.am: Added e-mktemp.[c,h] to the build.
 
 	* e-mktemp.c (e_mktemp): A new wrapper around mktemp so that we
