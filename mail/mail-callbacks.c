@@ -664,9 +664,9 @@ create_msg_composer (const char *url)
 		e_msg_composer_hdrs_set_from_account (E_MSG_COMPOSER_HDRS (composer->hdrs), account->name);
 		e_msg_composer_set_send_html (composer, send_html);
 		e_msg_composer_show_sig_file (composer);
-	}
-	
-	return GTK_WIDGET (composer);
+		return GTK_WIDGET (composer);
+	} else
+		return NULL;
 }
 
 void
