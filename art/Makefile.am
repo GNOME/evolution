@@ -68,6 +68,13 @@ images_DATA = \
 	mail-config-druid-receive.png	\
 	mail-config-druid-send.png	\
 	mail-config-druid-account-name.png \
+	myweather-rain.png		\
+	myweather-snow.png		\
+	myweather-storm.png		\
+	myweather-fog.png		\
+	myweather-sun.png		\
+	myweather-suncloud.png		\
+	myweather-clouds.png		\
 	new_appointment.xpm		\
 	new_contact.xpm			\
 	new-message.xpm			\
