@@ -1,3 +1,10 @@
+2004-06-02  JP Rosevear  <jpr@novell.com>
+
+	* gui/alarm-notify/alarm-notify.c (process_removal_in_hash): free
+	the correct uri, preventing bad memory corruption
+	(list_changed_cb): track the removals in a list so we don't
+	clobber the hash table data during the foreach loop
+
 2004-06-01  Rodrigo Moya <rodrigo@novell.com>
 
 	Fixes #59369

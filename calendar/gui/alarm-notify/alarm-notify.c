@@ -72,6 +72,7 @@ alarm_notify_class_init (AlarmNotifyClass *klass)
 typedef struct {
 	AlarmNotify *an;
 	ESourceList *source_list;
+	GList *removals;
 } ProcessRemovalsData;
 
 static void
@@ -95,16 +96,15 @@ process_removal_in_hash (gpointer key, gpointer value, gpointer data)
 			source_uri = e_source_get_uri (source);
 			if (strcmp (source_uri, uri) == 0)
 				found = TRUE;
-			g_free (uri);
+			g_free (source_uri);
 
 			if (found)
 				return;
 		}
 	}
 
-	/* not found, so remove it */
-	g_message ("Removing %s", uri);
-	alarm_notify_remove_calendar (prd->an, uri);
+	/* not found, so list it for removal */
+	prd->removals = g_list_prepend (prd->removals, uri);
 }
 
 static void
@@ -115,6 +115,7 @@ list_changed_cb (ESourceList *source_list, gpointer data)
 	GSList *groups, *sources, *p, *q;
 	ECalSourceType source_type = E_CAL_SOURCE_TYPE_LAST;
 	ProcessRemovalsData prd;
+	GList *l;
 	int i;
 	
 	priv = an->priv;
@@ -151,10 +152,16 @@ list_changed_cb (ESourceList *source_list, gpointer data)
 	/* process the removals */
 	prd.an = an;
 	prd.source_list = priv->source_lists[source_type];
+	prd.removals = NULL;
 	g_hash_table_foreach (priv->uri_client_hash, (GHFunc) process_removal_in_hash, &prd);
+
+	for (l = prd.removals; l; l = l->next) {
+		g_message ("Removing %s", (char *)l->data);
+		alarm_notify_remove_calendar (an, l->data);
+	}
+	g_list_free (prd.removals);
 }
 
-/* Loads the calendars that the alarm daemon has been told to load in the past */
 static void
 load_calendars (AlarmNotify *an, ECalSourceType source_type)
 {
