@@ -1,49 +1,7 @@
-2002-11-03  Rodrigo Moya <rodrigo@ximian.com>
+2002-11-26  Richard Li <Richard.Li@Sun.COM>
 
-	* cal-client/cal-client.c (get_default_uri): use EConfigListener
-	instead of BonoboConfig.
-
-	* cal-client/cal-client.c:
-	* cal-client/cal-listener.[ch]:
-	* cal-client/query-listener.c: warning free.
-
-2002-11-03  Rodrigo Moya <rodrigo@ximian.com>
-
-	* pcs/cal-backend-util.[ch]: don't use BonoboConfig, but
-	EConfigListener.
-
-	* gui/calendar-config.c: use /apps/Evolution prefix for all
-	configuration keys.
-
-2002-10-31  Rodrigo Moya <rodrigo@ximian.com>
-
-	* cal-util/cal-component.[ch]:
-	* cal-util/cal-recur.h:
-	* cal-util/cal-util.[ch]:
-	* cal-client/cal-client.h:
-	* cal-client/cal-client-multi.h:
-	* cal-client/cal-client-types.[ch]:
-	* cal-client/cal-listener.h
-	* cal-client/cal-query.[ch]:
-	* cal-client/query-listener.h:
-	* pcs/cal.h:
-	* pcs/cal-backend.[ch]:
-	* pcs/cal-backend-file.h:
-	* pcs/cal-backend-util.h:
-	* pcs/cal-common.h:
-	* pcs/cal-factory.h:
-	* pcs/query.[ch]:
-	* pcs/query-backend.[ch]: started GNOME 2 porting.
-	cal-util, cal-client and pcs compiled ok.
-
-	* cal-client/cal-client.c (cal_client_construct):
-	* pcs/cal-factory.c: use b-a instead of OAF and bonobo-config
-	instead of bonobo-conf.
-
-2002-10-29  Rodrigo Moya <rodrigo@ximian.com>
-
-	* gui/gnome-cal.c (backend_died_cb): cleaned up the status bar
-	messages for all widgets.
+	* cal-client/cal-client.c (cal_client_construct): removed extra call
+	to CORBA_exception_init.
 
 2002-10-24  JP Rosevear  <jpr@ximian.com>
 	

@@ -23,12 +23,13 @@
 #endif
 
 #include <gtk/gtksignal.h>
-#include <bonobo-activation/bonobo-activation.h>
+#include <liboaf/liboaf.h>
 #include <bonobo/bonobo-exception.h>
+#include <bonobo/bonobo-moniker-util.h>
+#include <bonobo-conf/bonobo-config-database.h>
 #include <libgnome/gnome-util.h>
 
 #include "e-util/e-component-listener.h"
-#include "e-util/e-config-listener.h"
 #include "cal-client-types.h"
 #include "cal-client.h"
 #include "cal-listener.h"
@@ -158,7 +159,7 @@ cal_client_class_init (CalClientClass *class)
 	cal_client_signals[CAL_OPENED] =
 		gtk_signal_new ("cal_opened",
 				GTK_RUN_FIRST,
-				G_TYPE_FROM_CLASS (object_class),
+				object_class->type,
 				GTK_SIGNAL_OFFSET (CalClientClass, cal_opened),
 				gtk_marshal_NONE__ENUM,
 				GTK_TYPE_NONE, 1,
@@ -166,7 +167,7 @@ cal_client_class_init (CalClientClass *class)
 	cal_client_signals[CAL_SET_MODE] =
 		gtk_signal_new ("cal_set_mode",
 				GTK_RUN_FIRST,
-				G_TYPE_FROM_CLASS (object_class),
+				object_class->type,
 				GTK_SIGNAL_OFFSET (CalClientClass, cal_set_mode),
 				marshal_NONE__ENUM_ENUM,
 				GTK_TYPE_NONE, 2,
@@ -175,7 +176,7 @@ cal_client_class_init (CalClientClass *class)
 	cal_client_signals[OBJ_UPDATED] =
 		gtk_signal_new ("obj_updated",
 				GTK_RUN_FIRST,
-				G_TYPE_FROM_CLASS (object_class),
+				object_class->type,
 				GTK_SIGNAL_OFFSET (CalClientClass, obj_updated),
 				gtk_marshal_NONE__STRING,
 				GTK_TYPE_NONE, 1,
@@ -183,7 +184,7 @@ cal_client_class_init (CalClientClass *class)
 	cal_client_signals[OBJ_REMOVED] =
 		gtk_signal_new ("obj_removed",
 				GTK_RUN_FIRST,
-				G_TYPE_FROM_CLASS (object_class),
+				object_class->type,
 				GTK_SIGNAL_OFFSET (CalClientClass, obj_removed),
 				gtk_marshal_NONE__STRING,
 				GTK_TYPE_NONE, 1,
@@ -191,7 +192,7 @@ cal_client_class_init (CalClientClass *class)
 	cal_client_signals[BACKEND_ERROR] =
 		gtk_signal_new ("backend_error",
 				GTK_RUN_FIRST,
-				G_TYPE_FROM_CLASS (object_class),
+				object_class->type,
 				GTK_SIGNAL_OFFSET (CalClientClass, backend_error),
 				gtk_marshal_NONE__STRING,
 				GTK_TYPE_NONE, 1,
@@ -199,7 +200,7 @@ cal_client_class_init (CalClientClass *class)
 	cal_client_signals[CATEGORIES_CHANGED] =
 		gtk_signal_new ("categories_changed",
 				GTK_RUN_FIRST,
-				G_TYPE_FROM_CLASS (object_class),
+				object_class->type,
 				GTK_SIGNAL_OFFSET (CalClientClass, categories_changed),
 				gtk_marshal_NONE__POINTER,
 				GTK_TYPE_NONE, 1,
@@ -207,7 +208,7 @@ cal_client_class_init (CalClientClass *class)
 	cal_client_signals[FORGET_PASSWORD] =
 		gtk_signal_new ("forget_password",
 				GTK_RUN_FIRST,
-                                G_TYPE_FROM_CLASS (object_class),
+                                object_class->type,
                                 GTK_SIGNAL_OFFSET (CalClientClass, forget_password),
                                 gtk_marshal_NONE__STRING,
                                 GTK_TYPE_NONE, 1,
@@ -215,7 +216,7 @@ cal_client_class_init (CalClientClass *class)
 	cal_client_signals[BACKEND_DIED] =
 		gtk_signal_new ("backend_died",
 				GTK_RUN_FIRST,
-				G_TYPE_FROM_CLASS (object_class),
+				object_class->type,
 				GTK_SIGNAL_OFFSET (CalClientClass, backend_died),
 				gtk_marshal_NONE__NONE,
 				GTK_TYPE_NONE, 0);
@@ -551,7 +552,7 @@ cal_set_mode_cb (CalListener *listener,
 
 /* Handle the obj_updated signal from the listener */
 static void
-obj_updated_cb (CalListener *listener, const CORBA_char *uid, gpointer data)
+obj_updated_cb (CalListener *listener, const GNOME_Evolution_Calendar_CalObjUID uid, gpointer data)
 {
 	CalClient *client;
 
@@ -561,7 +562,7 @@ obj_updated_cb (CalListener *listener, const CORBA_char *uid, gpointer data)
 
 /* Handle the obj_removed signal from the listener */
 static void
-obj_removed_cb (CalListener *listener, const CORBA_char *uid, gpointer data)
+obj_removed_cb (CalListener *listener, const GNOME_Evolution_Calendar_CalObjUID uid, gpointer data)
 {
 	CalClient *client;
 
@@ -653,11 +654,10 @@ cal_client_construct (CalClient *client)
 {
 	CalClientPrivate *priv;
 	GNOME_Evolution_Calendar_CalFactory factory;
-	Bonobo_ServerInfoList *servers;
+	OAF_ServerInfoList *servers;
 	CORBA_Environment ev;
 	int i;
 
-	CORBA_exception_init (&ev);
 	g_return_val_if_fail (client != NULL, NULL);
 	g_return_val_if_fail (IS_CAL_CLIENT (client), NULL);
 
@@ -665,7 +665,7 @@ cal_client_construct (CalClient *client)
 
 	CORBA_exception_init (&ev);
 
-	servers = bonobo_activation_query ("repo_ids.has ('IDL:GNOME/Evolution/Calendar/CalFactory:1.0')", NULL, &ev);
+	servers = oaf_query ("repo_ids.has ('IDL:GNOME/Evolution/Calendar/CalFactory:1.0')", NULL, &ev);
 	if (ev._major != CORBA_NO_EXCEPTION) {
 		g_message ("Cannot perform OAF query for Calendar servers.");
 		CORBA_exception_free (&ev);
@@ -676,12 +676,12 @@ cal_client_construct (CalClient *client)
 		g_warning ("No Calendar servers installed.");
 
 	for (i = 0; i < servers->_length; i++) {
-		const Bonobo_ServerInfo *info;
+		const OAF_ServerInfo *info;
 
 		info = servers->_buffer + i;
 
 		factory = (GNOME_Evolution_Calendar_CalFactory)
-			bonobo_activation_activate_from_id (info->iid, 0, NULL, &ev);
+			oaf_activate_from_id (info->iid, 0, NULL, &ev);
 		if (BONOBO_EX (&ev)) {
 			g_warning ("cal_client_construct: Could not activate calendar server %s", info->iid);
 			CORBA_free (servers);
@@ -864,21 +864,31 @@ get_fall_back_uri (gboolean tasks)
 static char *
 get_default_uri (gboolean tasks)
 {
-	EConfigListener *db;
+	Bonobo_ConfigDatabase db;
 	char *uri;
+	CORBA_Environment ev;
 
-	db = e_config_listener_new ();
+	CORBA_exception_init (&ev);
 	
-	if (tasks)
-		uri = e_config_listener_get_string (db, "/apps/Evolution/DefaultFolders/tasks_uri");
-	else
-		uri = e_config_listener_get_string (db, "/apps/Evolution/DefaultFolders/calendar_uri");
-	g_object_unref (G_OBJECT (db));
+	db = bonobo_get_object ("wombat:", "Bonobo/ConfigDatabase", &ev);
+	
+	if (BONOBO_EX (&ev) || db == CORBA_OBJECT_NIL) {
+		CORBA_exception_free (&ev);
+		return NULL;
+ 	}
 
-	if (!uri)
-		uri = get_fall_back_uri (tasks);
+	if (tasks)
+		uri = bonobo_config_get_string (db, "/DefaultFolders/tasks_uri", &ev);
 	else
+		uri = bonobo_config_get_string (db, "/DefaultFolders/calendar_uri", &ev);
+	bonobo_object_release_unref (db, NULL);
+
+	if (BONOBO_EX (&ev)) {
+		CORBA_exception_free (&ev);
+		uri = get_fall_back_uri (tasks);
+	} else {
 		uri = cal_util_expand_uri (uri, tasks);
+	}
 	
 	return uri;
 }
@@ -1043,8 +1053,8 @@ cal_client_is_read_only (CalClient *client)
 	CORBA_Environment ev;
 	CORBA_boolean read_only;
 
-	g_return_val_if_fail (client != NULL, FALSE);
-	g_return_val_if_fail (IS_CAL_CLIENT (client), FALSE);
+	g_return_val_if_fail (client != NULL, NULL);
+	g_return_val_if_fail (IS_CAL_CLIENT (client), NULL);
 
 	priv = client->priv;
 
