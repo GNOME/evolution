@@ -25,6 +25,7 @@
 #endif
 
 #include "e-combo-button.h"
+#include "art/empty.xpm"
 
 #include <gtk/gtkarrow.h>
 #include <gtk/gtkhbox.h>
@@ -89,7 +90,7 @@ create_empty_pixmap_widget (void)
 	GtkWidget *pixmap_widget;
 	GdkPixbuf *pixbuf;
 
-	pixbuf = gdk_pixbuf_new (GDK_COLORSPACE_RGB, TRUE, 8, 1, 1);
+	pixbuf = gdk_pixbuf_new_from_xpm_data ((const char **)empty_xpm);
 
 	pixmap_widget = create_pixmap_widget_from_pixbuf (pixbuf);
 
