@@ -46,6 +46,7 @@
 #include <camel/camel-vtrash-folder.h>
 #include <camel/camel-stream-mem.h>
 #include <camel/camel-file-utils.h>
+#include <camel/camel-stream-fs.h>
 
 #include "e-util/e-mktemp.h"
 #include "e-util/e-request.h"
@@ -1404,6 +1405,7 @@ static gboolean
 tree_drag_motion (GtkWidget *widget, GdkDragContext *context, int x, int y, guint time, EMFolderTree *emft)
 {
 	struct _EMFolderTreePrivate *priv = emft->priv;
+	GtkTreeModel *model = (GtkTreeModel *) priv->model;
 	GtkTreeViewDropPosition pos;
 	GdkDragAction action = 0;
 	GtkTreePath *path;
@@ -1417,9 +1419,9 @@ tree_drag_motion (GtkWidget *widget, GdkDragContext *context, int x, int y, guin
 	if (priv->autoscroll_id == 0)
 		priv->autoscroll_id = g_timeout_add (150, (GSourceFunc) tree_autoscroll, emft);
 	
-	gtk_tree_model_get_iter (priv->model, &iter, path);
+	gtk_tree_model_get_iter (model, &iter, path);
 	
-	if (gtk_tree_model_iter_has_child (priv->model, &iter) && !gtk_tree_view_row_expanded (priv->treeview, path)) {
+	if (gtk_tree_model_iter_has_child (model, &iter) && !gtk_tree_view_row_expanded (priv->treeview, path)) {
 		if (priv->autoexpand_id != 0) {
 			GtkTreePath *autoexpand_path;
 			
@@ -1427,7 +1429,7 @@ tree_drag_motion (GtkWidget *widget, GdkDragContext *context, int x, int y, guin
 			if (gtk_tree_path_compare (autoexpand_path, path) != 0) {
 				/* row changed, restart timer */
 				gtk_tree_row_reference_free (priv->autoexpand_row);
-				priv->autoexpand_row = gtk_tree_row_reference_new (priv->model, path);
+				priv->autoexpand_row = gtk_tree_row_reference_new (model, path);
 				g_source_remove (priv->autoexpand_id);
 				priv->autoexpand_id = g_timeout_add (600, (GSourceFunc) tree_autoexpand, emft);
 			}
@@ -1435,7 +1437,7 @@ tree_drag_motion (GtkWidget *widget, GdkDragContext *context, int x, int y, guin
 			gtk_tree_path_free (autoexpand_path);
 		} else {
 			priv->autoexpand_id = g_timeout_add (600, (GSourceFunc) tree_autoexpand, emft);
-			priv->autoexpand_row = gtk_tree_row_reference_new (priv->model, path);
+			priv->autoexpand_row = gtk_tree_row_reference_new (model, path);
 		}
 	} else if (priv->autoexpand_id != 0) {
 		gtk_tree_row_reference_free (priv->autoexpand_row);

@@ -1,5 +1,20 @@
 2004-05-04  Jeffrey Stedfast  <fejj@ximian.com>
 
+	Fix for bug #55303, but ideally there would be a nicer way of
+	doing this - likely with some added ETree API but that's not
+	likely to happen anytime soon.
+
+	* em-folder-browser.c (scroll_idle_cb): Recall the saved scrollbar
+	position state and set it, then reconnect to the
+	message_list_scrolled signal.
+	(emfb_list_built): Calculate a default scrollbar position for
+	scroll_idle_cb to use if there's no saved state.
+	(emfb_set_folder): Disconnect from the message_list_scrolled
+	signal and the idle_scroll_id.
+	(emfb_list_scrolled): Save the scrollbar position state.
+	(emfb_destroy): Disconnect from list_scrolled_id and
+	idle_scroll_id.
+
 	Fix for bug #58004.
 
 	* mail-account-gui.c (display_license): Fixed to compile.

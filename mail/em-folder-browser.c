@@ -49,14 +49,7 @@
 #include <e-util/e-dialog-utils.h>
 #include <e-util/e-icon-factory.h>
 
-/*#include <camel/camel-mime-message.h>*/
 #include <camel/camel-stream.h>
-/*#include <camel/camel-stream-filter.h>
-#include <camel/camel-mime-filter.h>
-#include <camel/camel-mime-filter-tohtml.h>
-#include <camel/camel-mime-filter-enriched.h>
-#include <camel/camel-multipart.h>
-#include <camel/camel-stream-mem.h>*/
 #include <camel/camel-url.h>
 
 #include <bonobo/bonobo-main.h>
@@ -107,7 +100,11 @@ struct _EMFolderBrowserPrivate {
 	guint search_menu_activated_id;
 	guint search_activated_id;
 	guint search_query_changed_id;
-
+	
+	double default_scroll_position;
+	guint idle_scroll_id;
+	guint list_scrolled_id;
+	
 	guint vpane_resize_id;
 	guint list_built_id;	/* hook onto list-built for delayed 'select first unread' stuff */
 	
@@ -251,7 +248,17 @@ emfb_destroy(GtkObject *o)
 		g_signal_handler_disconnect(((EMFolderView *)emfb)->list, emfb->priv->list_built_id);
 		emfb->priv->list_built_id = 0;
 	}
-
+	
+	if (emfb->priv->list_scrolled_id) {
+		g_signal_handler_disconnect (((EMFolderView *) emfb)->list, emfb->priv->list_scrolled_id);
+		emfb->priv->list_scrolled_id = 0;
+	}
+	
+	if (emfb->priv->idle_scroll_id) {
+		g_source_remove (emfb->priv->idle_scroll_id);
+		emfb->priv->idle_scroll_id = 0;
+	}
+	
 	((GtkObjectClass *)emfb_parent)->destroy(o);
 }
 
@@ -788,12 +795,52 @@ emfb_view_preview(BonoboUIComponent *uic, const char *path, Bonobo_UIComponent_E
 	em_folder_browser_show_preview((EMFolderBrowser *)emfv, state[0] != '0');
 }
 
+static void
+emfb_list_scrolled (MessageList *ml, EMFolderBrowser *emfb)
+{
+	EMFolderView *emfv = (EMFolderView *) emfb;
+	double position;
+	char *state;
+	
+	position = message_list_get_scrollbar_position (ml);
+	state = g_strdup_printf ("%f", position);
+	
+	if (camel_object_meta_set (emfv->folder, "evolution:list_scroll_position", state))
+		camel_object_state_write (emfv->folder);
+	
+	g_free (state);
+}
+
+static gboolean
+scroll_idle_cb (EMFolderBrowser *emfb)
+{
+	EMFolderView *emfv = (EMFolderView *) emfb;
+	double position;
+	char *state;
+	
+	if ((state = camel_object_meta_get (emfv->folder, "evolution:list_scroll_position"))) {
+		position = strtod (state, NULL);
+		g_free (state);
+	} else {
+		position = emfb->priv->default_scroll_position;
+	}
+	
+	message_list_set_scrollbar_position (emfv->list, position);
+	
+	emfb->priv->list_scrolled_id = g_signal_connect (emfv->list, "message_list_scrolled", G_CALLBACK (emfb_list_scrolled), emfb);
+	
+	emfb->priv->idle_scroll_id = 0;
+	
+	return FALSE;
+}
+
 /* TODO: This should probably be handled by message-list, by storing/queueing
    up the select operation if its busy rebuilding the message-list */
 static void
 emfb_list_built (MessageList *ml, EMFolderBrowser *emfb)
 {
 	EMFolderView *emfv = (EMFolderView *) emfb;
+	double position = 0.0f;
 	
 	g_signal_handler_disconnect (ml, emfb->priv->list_built_id);
 	emfb->priv->list_built_id = 0;
@@ -803,12 +850,23 @@ emfb_list_built (MessageList *ml, EMFolderBrowser *emfb)
 			message_list_select_uid (ml, emfb->priv->select_uid);
 			g_free (emfb->priv->select_uid);
 			emfb->priv->select_uid = NULL;
+			
+			/* change the default to the current position */
+			position = message_list_get_scrollbar_position (ml);
 		} else {
 			/* NOTE: not all users want this, so we need a preference for it perhaps? see bug #52887 */
 			/* FIXME: if the 1st message in the list is unread, this will actually select the second unread msg */
 			/*message_list_select (ml, MESSAGE_LIST_SELECT_NEXT, 0, CAMEL_MESSAGE_SEEN, TRUE);*/
 		}
 	}
+	
+	emfb->priv->default_scroll_position = position;
+	
+	/* FIXME: this is a gross workaround for an etable bug that I can't fix - bug #55303 */
+	/* this needs to be a lower priority than anything in e-table-item/e-canvas, since
+	 * e_canvas_item_region_show_relay() uses a timeout, we have to use a timeout of the
+	 * same interval but a lower priority. */
+	emfb->priv->idle_scroll_id = g_timeout_add_full (G_PRIORITY_LOW, 250, (GSourceFunc) scroll_idle_cb, emfb, NULL);
 }
 
 
@@ -922,9 +980,19 @@ emfb_set_folder(EMFolderView *emfv, CamelFolder *folder, const char *uri)
 {
 	EMFolderBrowser *emfb = (EMFolderBrowser *) emfv;
 	struct _EMFolderBrowserPrivate *p = emfb->priv;
-
+	
 	message_list_freeze(emfv->list);
-
+	
+	if (emfb->priv->list_scrolled_id) {
+		g_signal_handler_disconnect (emfv->list, emfb->priv->list_scrolled_id);
+		emfb->priv->list_scrolled_id = 0;
+	}
+	
+	if (emfb->priv->idle_scroll_id) {
+		g_source_remove (emfb->priv->idle_scroll_id);
+		emfb->priv->idle_scroll_id = 0;
+	}
+	
 	emfb_parent->set_folder(emfv, folder, uri);
 	
 	/* This is required since we get activated the first time
@@ -968,15 +1036,15 @@ emfb_set_folder(EMFolderView *emfv, CamelFolder *folder, const char *uri)
 		message_list_set_search(emfb->view.list, sstate);
 		g_free(sstate);
 
-		if ((sstate = camel_object_meta_get (folder, "evolution:selected_uid")))
+		if ((sstate = camel_object_meta_get (folder, "evolution:selected_uid"))) {
 			emfb->priv->select_uid = sstate;
-		else {
+		} else {
 			g_free(p->select_uid);
 			p->select_uid = NULL;
 		}
 		
 		if (emfv->list->cursor_uid == NULL && emfb->priv->list_built_id == 0)
-			emfb->priv->list_built_id = g_signal_connect(emfv->list, "message_list_built", G_CALLBACK (emfb_list_built), emfv);
+			p->list_built_id = g_signal_connect(emfv->list, "message_list_built", G_CALLBACK (emfb_list_built), emfv);
 		
 		/*emfb_create_view_instance (emfb, folder, uri);*/
 		if (emfv->uic)
