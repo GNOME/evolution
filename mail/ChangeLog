@@ -1,3 +1,23 @@
+2001-07-06  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* folder-browser.c (folder_browser_copy): Mark the messages as
+	Seen also.
+	(folder_browser_class_init): Create an atom type for
+	X-Evolution-Message selection type.
+	(my_folder_browser_init): Add our multiple selection types, one of
+	which is the default string type.
+
+	* component-factory.c (destination_folder_handle_drop): Update to
+	use the new X-Evolution-Message type format.
+
+	* folder-browser.c (selection_get): Convert the
+	X-Evolution-Message clipboard type to whatever format the target
+	wants.
+	(message_list_drag_data_get): Update because the
+	X-Evolution-Message type changed.
+	(folder_browser_copy): Same.
+	(x_evolution_message_parse): And here too.
+
 2001-07-06  Peter Williams  <peterw@ximian.com>
 
 	* mail-callbacks.c (composer_postpone_cb): Don't free the psd here --

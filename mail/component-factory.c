@@ -368,7 +368,7 @@ destination_folder_handle_drop (EvolutionShellComponentDndDestinationFolder *fol
 				const GNOME_Evolution_ShellComponentDnd_Data *data,
 				gpointer user_data)
 {
-	char *url, *name, *in, *inptr, *inend;
+	char *url, *in, *inptr, *inend;
 	gboolean retval = FALSE;
 	CamelFolder *source;
 	CamelStream *stream;
@@ -442,7 +442,7 @@ destination_folder_handle_drop (EvolutionShellComponentDndDestinationFolder *fol
 		camel_object_unref (CAMEL_OBJECT (source));
 		break;
 	case ACCEPTED_DND_TYPE_X_EVOLUTION_MESSAGE:
-		/* format: "url folder_name uid1\0uid2\0uid3\0...\0uidn" */
+		/* format: "uri uid1\0uid2\0uid3\0...\0uidn" */
 		
 		in = data->bytes._buffer;
 		inend = in + data->bytes._length;
@@ -450,12 +450,7 @@ destination_folder_handle_drop (EvolutionShellComponentDndDestinationFolder *fol
 		inptr = strchr (in, ' ');
 		url = g_strndup (in, inptr - in);
 		
-		name = inptr + 1;
-		inptr = strchr (name, ' ');
-		name = g_strndup (name, inptr - name);
-		
-		source = mail_tool_get_folder_from_urlname (url, name, 0, &ex);
-		g_free (name);
+		source = mail_tool_uri_to_folder (url, &ex);
 		g_free (url);
 		
 		if (!source) {

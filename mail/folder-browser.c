@@ -58,16 +58,17 @@
 
 #define PARENT_TYPE (gtk_table_get_type ())
 
+#define X_EVOLUTION_MESSAGE_TYPE "x-evolution-message"
+#define MESSAGE_RFC822_TYPE      "message/rfc822"
+#define TEXT_URI_LIST_TYPE       "text/uri-list"
+#define TEXT_PLAIN_TYPE          "text/plain"
 
+/* Drag & Drop types */
 enum DndTargetType {
 	DND_TARGET_TYPE_X_EVOLUTION_MESSAGE,
 	DND_TARGET_TYPE_MESSAGE_RFC822,
 	DND_TARGET_TYPE_TEXT_URI_LIST,
 };
-
-#define X_EVOLUTION_MESSAGE_TYPE "x-evolution-message"
-#define MESSAGE_RFC822_TYPE      "message/rfc822"
-#define TEXT_URI_LIST_TYPE       "text/uri-list"
 
 static GtkTargetEntry drag_types[] = {
 	{ X_EVOLUTION_MESSAGE_TYPE, 0, DND_TARGET_TYPE_X_EVOLUTION_MESSAGE },
@@ -76,6 +77,18 @@ static GtkTargetEntry drag_types[] = {
 };
 
 static const int num_drag_types = sizeof (drag_types) / sizeof (drag_types[0]);
+
+enum PasteTargetType {
+	PASTE_TARGET_TYPE_X_EVOLUTION_MESSAGE,
+	PASTE_TARGET_TYPE_TEXT_PLAIN,
+};
+
+static GtkTargetPair paste_types[] = {
+	{ 0, 0, PASTE_TARGET_TYPE_X_EVOLUTION_MESSAGE },
+	{ GDK_SELECTION_TYPE_STRING, 0, PASTE_TARGET_TYPE_TEXT_PLAIN },
+};
+
+static const int num_paste_types = sizeof (paste_types) / sizeof (paste_types[0]);
 
 static GdkAtom clipboard_atom = GDK_NONE;
 
@@ -168,6 +181,9 @@ folder_browser_class_init (GtkObjectClass *object_class)
 	/* clipboard atom */
 	if (!clipboard_atom)
 		clipboard_atom = gdk_atom_intern ("CLIPBOARD", FALSE);
+	
+	if (!paste_types[0].target)
+		paste_types[0].target = gdk_atom_intern (X_EVOLUTION_MESSAGE_TYPE, FALSE);
 }
 
 static void
@@ -298,21 +314,12 @@ message_list_drag_data_get (ETree *tree, int row, ETreePath path, int col,
 	case DND_TARGET_TYPE_X_EVOLUTION_MESSAGE:
 	{
 		GByteArray *array;
-		char *url;
 		
-		/* format: "url folder_name uid1\0uid2\0uid3\0...\0uidn" */
+		/* format: "uri uid1\0uid2\0uid3\0...\0uidn" */
 		
-		url = camel_url_to_string (CAMEL_SERVICE (camel_folder_get_parent_store (fb->folder))->url,
-					   CAMEL_URL_HIDE_PASSWORD | CAMEL_URL_HIDE_AUTH | CAMEL_URL_HIDE_AUTH);
-		
-		/* write the url portion */
+		/* write the uri portion */
 		array = g_byte_array_new ();
-		g_byte_array_append (array, url, strlen (url));
-		g_byte_array_append (array, " ", 1);
-		g_free (url);
-		
-		/* write the folder_name portion */
-		g_byte_array_append (array, fb->folder->name, strlen (fb->folder->name));
+		g_byte_array_append (array, fb->uri, strlen (fb->uri));
 		g_byte_array_append (array, " ", 1);
 		
 		/* write the uids */
@@ -378,22 +385,20 @@ message_rfc822_dnd (CamelFolder *dest, CamelStream *stream, CamelException *ex)
 static CamelFolder *
 x_evolution_message_parse (char *in, unsigned int inlen, GPtrArray **uids)
 {
-	/* format: "url folder_name uid1\0uid2\0uid3\0...\0uidn" */
-	char *inptr, *inend, *name, *url;
+	/* format: "uri uid1\0uid2\0uid3\0...\0uidn" */
+	char *inptr, *inend, *uri;
 	CamelFolder *folder;
+	
+	if (in == NULL)
+		return NULL;
 	
 	inend = in + inlen;
 	
 	inptr = strchr (in, ' ');
-	url = g_strndup (in, inptr - in);
+	uri = g_strndup (in, inptr - in);
 	
-	name = inptr + 1;
-	inptr = strchr (name, ' ');
-	name = g_strndup (name, inptr - name);
-	
-	folder = mail_tool_get_folder_from_urlname (url, name, 0, NULL);
-	g_free (name);
-	g_free (url);
+	folder = mail_tool_uri_to_folder (uri, NULL);
+	g_free (uri);
 	
 	if (!folder)
 		return NULL;
@@ -501,12 +506,66 @@ static void
 selection_get (GtkWidget *widget, GtkSelectionData *selection_data,
 	       guint info, guint time_stamp, FolderBrowser *fb)
 {
-	if (fb->clipboard_selection != NULL) {
+	if (fb->clipboard_selection == NULL)
+		return;
+	
+	switch (info) {
+	default:
+	case PASTE_TARGET_TYPE_TEXT_PLAIN:
+	{
+		/* FIXME: this'll be fucking slow for the user... pthread this? */
+		CamelFolder *source;
+		CamelStream *stream;
+		GByteArray *bytes;
+		GPtrArray *uids;
+		int i;
+		
+		bytes = fb->clipboard_selection;
+		
+		/* Note: source should == fb->folder, but we might as well use `source' instead of fb->folder */
+		source = x_evolution_message_parse (bytes->data, bytes->len, &uids);
+		if (source == NULL)
+			return;
+		
+		if (uids == NULL) {
+			camel_object_unref (CAMEL_OBJECT (source));
+			return;
+		}
+		
+		bytes = g_byte_array_new ();
+		stream = camel_stream_mem_new ();
+		camel_stream_mem_set_byte_array (CAMEL_STREAM_MEM (stream), bytes);
+		
+		for (i = 0; i < uids->len; i++) {
+			CamelMimeMessage *message;
+			
+			message = camel_folder_get_message (source, uids->pdata[i], NULL);
+			g_free (uids->pdata[i]);
+			
+			if (message) {			
+				camel_stream_write (stream, "From - \n", 8);
+				camel_data_wrapper_write_to_stream (CAMEL_DATA_WRAPPER (message), stream);
+				camel_object_unref (CAMEL_OBJECT (message));
+			}
+		}
+		
+		g_ptr_array_free (uids, TRUE);
+		camel_object_unref (CAMEL_OBJECT (stream));
+		camel_object_unref (CAMEL_OBJECT (source));
+		
+		gtk_selection_data_set (selection_data, selection_data->target, 8,
+					bytes->data, bytes->len);
+		
+		g_byte_array_free (bytes, FALSE);
+	}
+	break;
+	case PASTE_TARGET_TYPE_X_EVOLUTION_MESSAGE:
+		/* we already have our data in the correct form */
 		gtk_selection_data_set (selection_data,
-					GDK_SELECTION_TYPE_STRING,
-					8,
+					selection_data->target, 8,
 					fb->clipboard_selection->data,
 					fb->clipboard_selection->len);
+		break;
 	}
 }
 
@@ -525,6 +584,9 @@ selection_received (GtkWidget *widget, GtkSelectionData *selection_data,
 {
 	CamelFolder *source = NULL;
 	GPtrArray *uids = NULL;
+	
+	if (selection_data == NULL)
+		return;
 	
 	source = x_evolution_message_parse (selection_data->data, selection_data->length, &uids);
 	if (source == NULL)
@@ -546,7 +608,6 @@ folder_browser_copy (GtkWidget *menuitem, FolderBrowser *fb)
 	GPtrArray *uids = NULL;
 	GByteArray *bytes;
 	gboolean cut;
-	char *url;
 	int i;
 	
 	cut = menuitem == NULL;
@@ -559,27 +620,19 @@ folder_browser_copy (GtkWidget *menuitem, FolderBrowser *fb)
 	uids = g_ptr_array_new ();
 	message_list_foreach (fb->message_list, add_uid, uids);
 	
-	/* format: "url folder_name uid1\0uid2\0uid3\0...\0uidn" */
+	/* format: "uri uid1\0uid2\0uid3\0...\0uidn" */
 	
-	url = camel_url_to_string (CAMEL_SERVICE (camel_folder_get_parent_store (fb->folder))->url,
-				   CAMEL_URL_HIDE_PASSWORD | CAMEL_URL_HIDE_AUTH | CAMEL_URL_HIDE_PARAMS);
-	
-	/* write the url portion */
+	/* write the uri portion */
 	bytes = g_byte_array_new ();
-	g_byte_array_append (bytes, url, strlen (url));
-	g_byte_array_append (bytes, " ", 1);
-	g_free (url);
-	
-	/* write the folder_name portion */
-	g_byte_array_append (bytes, fb->folder->name, strlen (fb->folder->name));
+	g_byte_array_append (bytes, fb->uri, strlen (fb->uri));
 	g_byte_array_append (bytes, " ", 1);
 	
 	/* write the uids */
 	for (i = 0; i < uids->len; i++) {
 		if (cut) {
 			camel_folder_set_message_flags (fb->folder, uids->pdata[i],
-							CAMEL_MESSAGE_DELETED,
-							CAMEL_MESSAGE_DELETED);
+							CAMEL_MESSAGE_SEEN | CAMEL_MESSAGE_DELETED,
+							CAMEL_MESSAGE_SEEN | CAMEL_MESSAGE_DELETED);
 		}
 		g_byte_array_append (bytes, uids->pdata[i], strlen (uids->pdata[i]));
 		g_free (uids->pdata[i]);
@@ -604,9 +657,8 @@ folder_browser_cut (GtkWidget *menuitem, FolderBrowser *fb)
 void
 folder_browser_paste (GtkWidget *menuitem, FolderBrowser *fb)
 {
-	gtk_selection_convert (fb->invisible,
-			       clipboard_atom,
-			       GDK_SELECTION_TYPE_STRING,
+	gtk_selection_convert (fb->invisible, clipboard_atom,
+			       paste_types[0].target,
 			       GDK_CURRENT_TIME);
 }
 
@@ -1611,7 +1663,8 @@ do_mark_seen (gpointer data)
 /* callback when we have the message to display, after async loading it (see below) */
 /* if we have pending uid's, it means another was selected before we finished displaying
    the last one - so we cycle through and start loading the pending one immediately now */
-static void done_message_selected(CamelFolder *folder, char *uid, CamelMimeMessage *msg, void *data)
+static void
+done_message_selected (CamelFolder *folder, char *uid, CamelMimeMessage *msg, void *data)
 {
 	FolderBrowser *fb = data;
 	int timeout = mail_config_get_mark_as_seen_timeout ();
@@ -1651,7 +1704,7 @@ static void done_message_selected(CamelFolder *folder, char *uid, CamelMimeMessa
 
 /* ok we waited enough, display it anyway (see below) */
 static gboolean
-do_message_selected(FolderBrowser *fb)
+do_message_selected (FolderBrowser *fb)
 {
 	d(printf ("selecting uid %s (delayed)\n", fb->new_uid ? fb->new_uid : "NONE"));
 	
@@ -1707,6 +1760,7 @@ static void
 my_folder_browser_init (GtkObject *object)
 {
 	FolderBrowser *fb = FOLDER_BROWSER (object);
+	int i;
 	
 	fb->view_collection = NULL;
 	fb->view_menus = NULL;
@@ -1722,9 +1776,9 @@ my_folder_browser_init (GtkObject *object)
 	 */
 	fb->message_list = (MessageList *)message_list_new ();
 	fb->mail_display = (MailDisplay *)mail_display_new ();
-
+	
 	fb->preview_shown = TRUE;
-
+	
 	e_scroll_frame_set_policy(E_SCROLL_FRAME(fb->message_list),
 				  GTK_POLICY_NEVER,
 				  GTK_POLICY_ALWAYS);
@@ -1760,10 +1814,10 @@ my_folder_browser_init (GtkObject *object)
 	/* cut, copy & paste */
 	fb->invisible = gtk_invisible_new ();
 	
-	gtk_selection_add_target (fb->invisible,
-				  clipboard_atom,
-				  GDK_SELECTION_TYPE_STRING,
-				  0);
+	for (i = 0; i < num_paste_types; i++)
+		gtk_selection_add_target (fb->invisible, clipboard_atom,
+					  paste_types[i].target,
+					  paste_types[i].info);
 	
 	gtk_signal_connect (GTK_OBJECT (fb->invisible),
 			    "selection_get",
