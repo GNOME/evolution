@@ -1,3 +1,11 @@
+2004-11-09  Jeffrey Stedfast  <fejj@novell.com>
+
+	* providers/imap4/camel-imap4-provider.c: Updated the properties
+	to include all the same settings as the old imap code.
+
+	* providers/imap4/camel-imap4-folder.c (imap4_getv): Implemented.
+	(imap4_setv): Implemented.
+
 2004-11-08  Jeffrey Stedfast  <fejj@novell.com>
 
 	Fix for bug #69241.
