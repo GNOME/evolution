@@ -449,13 +449,14 @@ build_message (EMsgComposer *composer)
 	if (composer->smime_sign) {
 		/* FIXME: should use the S/MIME signature certificate email address */
 		CamelMimeMessage *smime_mesg;
+		CamelInternetAddress *from;
 		const char *address;
 		
 		camel_exception_init (&ex);
 		from = e_msg_composer_hdrs_get_from (E_MSG_COMPOSER_HDRS (composer->hdrs));
 		camel_internet_address_get (from, 0, NULL, &address);
 		
-		smime_mesg = mail_crypto_smime_sign (message, address, TRUE, TRUE, &ex);
+		smime_mesg = mail_crypto_smime_sign (new, address, TRUE, TRUE, &ex);
 		
 		camel_object_unref (CAMEL_OBJECT (from));
 		
@@ -469,6 +470,7 @@ build_message (EMsgComposer *composer)
 	if (composer->smime_encrypt) {
 		/* FIXME: we should try to get the preferred cert "nickname" for each recipient */
 		const CamelInternetAddress *addr;
+		CamelInternetAddress *from;
 		CamelMimeMessage *smime_mesg;
 		const char *address;
 		GPtrArray *recipients;
@@ -501,7 +503,7 @@ build_message (EMsgComposer *composer)
 		from = e_msg_composer_hdrs_get_from (E_MSG_COMPOSER_HDRS (composer->hdrs));
 		camel_internet_address_get (from, 0, NULL, &address);
 		
-		smime_mesg = mail_crypto_smime_encrypt (message, address, recipients, &ex);
+		smime_mesg = mail_crypto_smime_encrypt (new, address, recipients, &ex);
 		
 		camel_object_unref (CAMEL_OBJECT (from));
 		

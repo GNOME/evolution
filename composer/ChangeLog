@@ -1,3 +1,7 @@
+2001-05-31  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* e-msg-composer.c (build_message): Oops. Fix a few compile problems.
+
 2001-05-31  Christopher James Lahey  <clahey@ximian.com>
 
 	* Makefile.am (HTML_EDITOR_GENERATED): Use GTKHTML_DATADIR here.
