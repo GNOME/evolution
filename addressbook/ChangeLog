@@ -1,3 +1,8 @@
+2004-12-06  Not Zed  <NotZed@Ximian.com>
+
+	* gui/component/addressbook-config.c (eabc_general_type): set the
+	active item based on the current group.
+
 2004-12-01  Sivaiah Nallagatla <snallagatla@novell.com> 
 
 	* gui/contact-editor/e-contact-editor.c (save_contact) :

@@ -500,6 +500,7 @@ eabc_general_type(EConfig *ec, EConfigItem *item, struct _GtkWidget *parent, str
 	GtkTreeIter iter;
 	GSList *l;
 	GtkWidget *w, *label;
+	int i, row;
 
 	if (old)
 		return old;
@@ -511,18 +512,22 @@ eabc_general_type(EConfig *ec, EConfigItem *item, struct _GtkWidget *parent, str
 	dropdown = (GtkComboBox *)gtk_combo_box_new();	
 	cell = gtk_cell_renderer_text_new();
 	store = gtk_list_store_new(2, G_TYPE_STRING, G_TYPE_POINTER);
+	i = 0;
 	for (l=sdialog->menu_source_groups;l;l=g_slist_next(l)) {
 		ESourceGroup *group = l->data;
 
 		gtk_list_store_append(store, &iter);
-		gtk_list_store_set(store, &iter, 0, e_source_group_peek_name(group), 1, group, -1);	
+		gtk_list_store_set(store, &iter, 0, e_source_group_peek_name(group), 1, group, -1);
+		if (e_source_peek_group(sdialog->source) == group)
+			row = i;
+		i++;
 	}
 
 	gtk_cell_layout_pack_start((GtkCellLayout *)dropdown, cell, TRUE);
 	gtk_cell_layout_set_attributes((GtkCellLayout *)dropdown, cell, "text", 0, NULL);
 	gtk_combo_box_set_model(dropdown, (GtkTreeModel *)store);
 	gtk_combo_box_set_active(dropdown, -1);
-	gtk_combo_box_set_active(dropdown, 0);
+	gtk_combo_box_set_active(dropdown, row);
 	g_signal_connect(dropdown, "changed", G_CALLBACK(eabc_type_changed), sdialog);
 	gtk_widget_show((GtkWidget *)dropdown);
 	gtk_box_pack_start((GtkBox *)w, (GtkWidget *)dropdown, TRUE, TRUE, 0);
