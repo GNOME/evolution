@@ -1079,7 +1079,7 @@ header_decode_text (const char *in, int inlen)
 		} else {
 			if (lastc)
 				g_string_append_c (out, lastc);
-			out = g_string_append_len (out, word, len);
+			out = append_latin1 (out, word, len);
 		}
 	}
 	

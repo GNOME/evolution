@@ -1,5 +1,9 @@
 2001-03-26  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* camel-mime-utils.c (header_decode_text): When writing the last
+	token (if not rfc2047 encoded), don't use g_string_append_len, use
+	append_latin1.
+
 	* camel-mime-message.c (write_to_stream): Don't spew a warning if
 	the message-id wasn't set by the application, not a big deal since
 	we create one right here.
