@@ -1,5 +1,32 @@
 2004-05-25  Jeffrey Stedfast  <fejj@novell.com>
 
+	* gui/dialogs/url-editor-dialog.c (init_widgets): Use
+	gtk_window_set_icon_list() here instead of gtk_window_set_icon().
+
+	* gui/dialogs/select-source-dialog.c (select_source_dialog): Use
+	gtk_window_set_icon_list() here instead of gtk_window_set_icon().
+
+	* gui/dialogs/calendar-setup.c (source_to_dialog): Huh?? Why are
+	integer colours in an array of char*? Fixed to be an array of
+	guint32.
+
+	* gui/dialogs/changed-comp.c (changed_component_dialog): Use
+	gtk_window_set_icon_list() here instead of gtk_window_set_icon().
+
+	* gui/dialogs/calendar-setup.c (calendar_setup_new_calendar):
+	Don't bother calling tk_window_set_icon() if we are gonna call
+	gtk_window_set_icon_list a few lines later.
+	(calendar_setup_edit_calendar): Same.
+	instead.
+	(calendar_setup_new_task_list): Same.
+	(calendar_setup_edit_task_list): Same.
+
+	* gui/dialogs/alarm-options.c (alarm_options_dialog_run): Use
+	gtk_window_set_icon_list() instead of gtk_window_set_icon() so gtk
+	can do the Right Thing (tm).
+
+2004-05-25  Jeffrey Stedfast  <fejj@novell.com>
+
 	* Makefile.am: Make calendar-errors.xml.h and install the xml
 	file.
 

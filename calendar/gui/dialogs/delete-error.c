@@ -40,9 +40,10 @@
 void
 delete_error_dialog (GError *error, ECalComponentVType vtype)
 {
+	GList *icon_list = NULL;
 	GtkWidget *dialog;
 	const char *str;
-
+	
 	if (!error)
 		return;
 	
@@ -106,9 +107,16 @@ delete_error_dialog (GError *error, ECalComponentVType vtype)
 					 GTK_MESSAGE_ERROR,
 					 GTK_BUTTONS_OK, str);
 	if (vtype == E_CAL_COMPONENT_EVENT)
-		gtk_window_set_icon (GTK_WINDOW (dialog), e_icon_factory_get_icon ("stock_calendar", 32));
+		icon_list = e_icon_factory_get_icon_list ("stock_calendar");
 	else if (vtype == E_CAL_COMPONENT_TODO)
-		gtk_window_set_icon (GTK_WINDOW (dialog), e_icon_factory_get_icon ("stock_todo", 32));
+		icon_list = e_icon_factory_get_icon_list ("stock_todo");
+	
+	if (icon_list) {
+		gtk_window_set_icon_list (GTK_WINDOW (dialog), icon_list);
+		g_list_foreach (icon_list, (GFunc) g_object_unref, NULL);
+		g_list_free (icon_list);
+	}
+	
 	gtk_dialog_run (GTK_DIALOG (dialog));
 	gtk_widget_destroy (dialog);
 }

@@ -533,7 +533,7 @@ source_to_dialog (SourceDialog *source_dialog)
 		g_signal_handlers_unblock_matched (source_dialog->refresh_spin, G_SIGNAL_MATCH_DATA,
 						   0, 0, NULL, NULL, source_dialog);
 	if (source_dialog->source_color) {
-		static char *assigned_colors[] = {
+		static guint32 assigned_colors[] = {
 			0xBECEDD, /* 190 206 221     Blue */
 			0xE2F0EF, /* 226 240 239     Light Blue */
 			0xC6E2B7, /* 198 226 183     Green */
@@ -739,9 +739,7 @@ calendar_setup_new_calendar (GtkWindow *parent)
 	
 	gtk_window_set_type_hint (GTK_WINDOW (source_dialog->window), GDK_WINDOW_TYPE_HINT_DIALOG);
 	gtk_window_set_modal (GTK_WINDOW (source_dialog->window), TRUE);
-	gtk_window_set_icon (GTK_WINDOW (source_dialog->window),
-			     e_icon_factory_get_icon("stock_calendar", 32));
-
+	
 	icon_list = e_icon_factory_get_icon_list ("stock_calendar");
 	if (icon_list) {
 		gtk_window_set_icon_list (GTK_WINDOW (source_dialog->window), icon_list);
@@ -770,7 +768,8 @@ gboolean
 calendar_setup_edit_calendar (GtkWindow *parent, ESource *source)
 {
 	SourceDialog *source_dialog = g_new0 (SourceDialog, 1);
-
+	GList *icon_list;
+	
 	g_return_val_if_fail (source != NULL, FALSE);
 
 	source_dialog->gui_xml = glade_xml_new (EVOLUTION_GLADEDIR "/" GLADE_FILE_NAME, "calendar-editor-window", NULL);
@@ -813,9 +812,14 @@ calendar_setup_edit_calendar (GtkWindow *parent, ESource *source)
 
 	gtk_window_set_type_hint (GTK_WINDOW (source_dialog->window), GDK_WINDOW_TYPE_HINT_DIALOG);
 	gtk_window_set_modal (GTK_WINDOW (source_dialog->window), TRUE);
-	gtk_window_set_icon (GTK_WINDOW (source_dialog->window),
-			     e_icon_factory_get_icon("stock_calendar", 32));
-
+	
+	icon_list = e_icon_factory_get_icon_list ("stock_calendar");
+	if (icon_list) {
+		gtk_window_set_icon_list (GTK_WINDOW (source_dialog->window), icon_list);
+		g_list_foreach (icon_list, (GFunc) g_object_unref, NULL);
+		g_list_free (icon_list);
+	}
+	
 	gtk_widget_show_all (source_dialog->window);
 
 	if (!source_is_remote (source_dialog->source))
@@ -911,8 +915,6 @@ calendar_setup_new_task_list (GtkWindow *parent)
 
 	gtk_window_set_type_hint (GTK_WINDOW (source_dialog->window), GDK_WINDOW_TYPE_HINT_DIALOG);
 	gtk_window_set_modal (GTK_WINDOW (source_dialog->window), TRUE);
-	gtk_window_set_icon (GTK_WINDOW (source_dialog->window),
-			     e_icon_factory_get_icon ("stock_todo", 32));
 	
 	icon_list = e_icon_factory_get_icon_list ("stock_task");
 	if (icon_list) {
@@ -942,7 +944,8 @@ gboolean
 calendar_setup_edit_task_list (GtkWindow *parent, ESource *source)
 {
 	SourceDialog *source_dialog = g_new0 (SourceDialog, 1);
-
+	GList *icon_list;
+	
 	g_return_val_if_fail (source != NULL, FALSE);
 
 	source_dialog->gui_xml = glade_xml_new (EVOLUTION_GLADEDIR "/" GLADE_FILE_NAME, "task-list-editor-window", NULL);
@@ -985,9 +988,14 @@ calendar_setup_edit_task_list (GtkWindow *parent, ESource *source)
 
 	gtk_window_set_type_hint (GTK_WINDOW (source_dialog->window), GDK_WINDOW_TYPE_HINT_DIALOG);
 	gtk_window_set_modal (GTK_WINDOW (source_dialog->window), TRUE);
-	gtk_window_set_icon (GTK_WINDOW (source_dialog->window),
-			     e_icon_factory_get_icon ("stock_todo", 32));
-
+	
+	icon_list = e_icon_factory_get_icon_list ("stock_task");
+	if (icon_list) {
+		gtk_window_set_icon_list (GTK_WINDOW (source_dialog->window), icon_list);
+		g_list_foreach (icon_list, (GFunc) g_object_unref, NULL);
+		g_list_free (icon_list);
+	}
+	
 	gtk_widget_show_all (source_dialog->window);
 
 	if (!source_is_remote (source_dialog->source))

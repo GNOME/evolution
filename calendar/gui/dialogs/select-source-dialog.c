@@ -55,6 +55,7 @@ select_source_dialog (GtkWindow *parent, ECalSourceType obj_type)
 	const char *gconf_key;
 	char *label_text;
 	GConfClient *conf_client;
+	GList *icon_list = NULL;
 
 	if (obj_type == E_CAL_SOURCE_TYPE_EVENT)
 		gconf_key = "/apps/evolution/calendar/sources";
@@ -125,10 +126,16 @@ select_source_dialog (GtkWindow *parent, ECalSourceType obj_type)
 	gtk_label_set_mnemonic_widget (GTK_LABEL (label), source_selector);
 
 	if (obj_type == E_CAL_SOURCE_TYPE_EVENT)
-		gtk_window_set_icon (GTK_WINDOW (dialog), e_icon_factory_get_icon("stock_calendar", 32));
+		icon_list = e_icon_factory_get_icon_list ("stock_calendar");
 	else if (obj_type == E_CAL_SOURCE_TYPE_TODO)
-		gtk_window_set_icon (GTK_WINDOW (dialog), e_icon_factory_get_icon("stock_todo", 32));
-
+		icon_list = e_icon_factory_get_icon_list ("stock_todo");
+	
+	if (icon_list) {
+		gtk_window_set_icon_list (GTK_WINDOW (dialog), icon_list);
+		g_list_foreach (icon_list, (GFunc) g_object_unref, NULL);
+		g_list_free (icon_list);
+	}
+	
 	if (gtk_dialog_run (GTK_DIALOG (dialog)) != GTK_RESPONSE_OK) {
 		if (selected_source)
 			g_object_unref (selected_source);

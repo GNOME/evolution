@@ -218,6 +218,7 @@ init_widgets (UrlDialogData *url_dlg_data)
 	GtkWidget *selector;
 	ESourceList *source_list;
 	GConfClient *gconf_client;
+	GList *icon_list;
 	GSList *p;
 	
 	g_signal_connect (url_dlg_data->url_entry, "changed", 
@@ -286,9 +287,14 @@ init_widgets (UrlDialogData *url_dlg_data)
 					GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
 	gtk_scrolled_window_set_shadow_type (GTK_SCROLLED_WINDOW (url_dlg_data->scrolled_window),
 					     GTK_SHADOW_IN);
-	gtk_window_set_icon (GTK_WINDOW (url_dlg_data->url_dialog),
-			     e_icon_factory_get_icon("stock_calendar", 32));
-
+	
+	icon_list = e_icon_factory_get_icon_list ("stock_calendar");
+	if (icon_list) {
+		gtk_window_set_icon_list (GTK_WINDOW (url_dlg_data->url_dialog), icon_list);
+		g_list_foreach (icon_list, (GFunc) g_object_unref, NULL);
+		g_list_free (icon_list);
+	}
+	
 	gtk_widget_show (url_dlg_data->scrolled_window);
 }
 

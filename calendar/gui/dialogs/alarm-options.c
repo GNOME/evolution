@@ -774,7 +774,8 @@ alarm_options_dialog_run (ECalComponentAlarm *alarm, const char *email, gboolean
 {
 	Dialog dialog;
 	int response_id;
-
+	GList *icon_list;
+	
 	g_return_val_if_fail (alarm != NULL, FALSE);
 
  	dialog.repeat = repeat;
@@ -798,8 +799,13 @@ alarm_options_dialog_run (ECalComponentAlarm *alarm, const char *email, gboolean
 	init_widgets (&dialog);
 
 	alarm_to_dialog (&dialog, alarm);
-
-	gtk_window_set_icon (GTK_WINDOW (dialog.toplevel), e_icon_factory_get_icon ("stock_calendar", 32));
+	
+	icon_list = e_icon_factory_get_icon_list ("stock_calendar");
+	if (icon_list) {
+		gtk_window_set_icon_list (GTK_WINDOW (dialog.toplevel), icon_list);
+		g_list_foreach (icon_list, (GFunc) g_object_unref, NULL);
+		g_list_free (icon_list);
+	}
 
 	response_id = gtk_dialog_run (GTK_DIALOG (dialog.toplevel));
 	gtk_widget_hide (dialog.toplevel);
