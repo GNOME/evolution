@@ -1,3 +1,32 @@
+2000-02-09  bertrand  <Bertrand.Guiheneuf@aful.org>
+
+	* tests/ui-tests/message-browser.c: various typo
+	fixes in the ctree construction. 
+
+	* camel/string-utils.c (string_trim): fix braindead
+	trailing trim bug.
+
+	* camel/gmime-content-field.c (gmime_content_field_construct_from_string): 
+	strip the leading and trailing quotes when constructing the 
+	content field. This should be done in a more generic 
+	RFC822 approach, but this fixes a bug that prevent
+	matt from analysing some multipart messages.
+
+	* camel/camel-data-wrapper.h: reorganize the 
+	deprecated and new methods. 
+
+	* camel/providers/mbox/camel-mbox-folder.c 
+	(_check_get_or_maybe_generate_summary_file): 
+	Use "From " as the message separating string. 
+	
+	* camel/providers/mbox/camel-mbox-folder.c (_append_message): 
+	set the mode when creating the mbox file. 	
+
+	* camel/providers/mbox/camel-mbox-utils.c (camel_mbox_write_xev): 
+	ditto
+	* camel/providers/mbox/camel-mbox-summary.c (camel_mbox_save_summary): 
+	ditto
+
 2000-02-09  Matt Loper  <matt@helixcode.com>
 
 	* tests/ui-tests/message-browser.c (print_usage_and_quit): Minor

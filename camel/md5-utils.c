@@ -188,7 +188,6 @@ md5_final (guchar digest[16], MD5Context *ctx)
 	if (ctx->doByteReverse)
 		_byte_reverse ((guchar *) ctx->buf, 4);
 	memcpy (digest, ctx->buf, 16);
-	memset (ctx, 0, sizeof(ctx));	/* In case it's sensitive */
 }
 
 

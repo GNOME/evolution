@@ -51,7 +51,9 @@ camel_mbox_save_summary (CamelMboxSummary *summary, const gchar *filename, Camel
 
 	CAMEL_LOG_FULL_DEBUG ("CamelMboxFolder::save_summary entering \n");
 
-	fd = open (filename, O_WRONLY | O_CREAT | O_TRUNC);
+	fd = open (filename, 
+		   O_WRONLY | O_CREAT | O_TRUNC,
+		   S_IRUSR  | S_IWUSR);
 	if (fd == -1) {
 			camel_exception_setv (ex, 
 					     CAMEL_EXCEPTION_FOLDER_INSUFFICIENT_PERMISSION,

@@ -245,7 +245,8 @@ string_trim (gchar *string, const gchar *trim_chars, StringTrimOption options)
 		   string, first_ok, last_ok);
 	
 	if (first_ok > 0)
-		memmove (string, string+first_ok, last_ok - first_ok +2);
+		memmove (string, string+first_ok, last_ok - first_ok + 1);
+	string[last_ok - first_ok +1] = '\0';
 	
 }
 

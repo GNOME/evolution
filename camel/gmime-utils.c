@@ -196,6 +196,8 @@ get_header_array_from_stream (CamelStream *stream)
 			if (nb_char_read>0) {
 				switch (next_char) {
 					
+				case '\r': CAMEL_LOG_FULL_DEBUG ( "gmime-utils::get_header_table_from_stream "
+								  "****** FOUND A \\r******* \n");
 				case '\n': /* a blank line means end of headers */
 					if (crlf) {
 						end_of_headers=TRUE;

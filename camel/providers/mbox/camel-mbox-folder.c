@@ -242,7 +242,7 @@ _check_get_or_maybe_generate_summary_file (CamelMboxFolder *mbox_folder, CamelEx
 
 		mbox_file_fd = open (mbox_folder->folder_file_path, O_RDONLY);
 		message_info_array = camel_mbox_parse_file (mbox_file_fd, 
-							    "From - ", 
+							    "From ", 
 							    0,
 							    &file_size,
 							    &next_uid,
@@ -981,7 +981,10 @@ _append_message (CamelFolder *folder, CamelMimeMessage *message, CamelException 
 
 	/* append the temporary file message to the mbox file */
 	fd1 = open (tmp_message_filename, O_RDONLY);
-	fd2 = open (mbox_folder->folder_file_path, O_WRONLY | O_CREAT | O_APPEND);
+	fd2 = open (mbox_folder->folder_file_path, 
+		    O_WRONLY | O_CREAT | O_APPEND,
+		    S_IRUSR  | S_IWUSR);
+
 	if (fd2 == -1) {
 			camel_exception_setv (ex, 
 					     CAMEL_EXCEPTION_FOLDER_INSUFFICIENT_PERMISSION,

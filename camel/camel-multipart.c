@@ -343,6 +343,7 @@ _get_boundary (CamelMultipart *multipart)
 		return NULL;
 	}
 	boundary = gmime_content_field_get_parameter (CAMEL_DATA_WRAPPER (multipart)->mime_type, "boundary");
+	CAMEL_LOG_FULL_DEBUG ("Leaving CamelMultipart::boundary found : \"%s\"\n", boundary);
 	CAMEL_LOG_FULL_DEBUG ("Leaving CamelMultipart::_get_boundary\n");
 	return boundary;
 }
@@ -443,10 +444,12 @@ _read_part (CamelStream *new_part_stream, CamelStream *stream, gchar *normal_bou
 			new_line = gmime_read_line_from_stream (stream);
 		}
 	}
+	
 	if (new_line) g_free (new_line);
+	else last_part = TRUE;
 
 	CAMEL_LOG_FULL_DEBUG ("CamelMultipart:: Leaving _read_part\n");
-	return (last_part || (new_line == NULL));
+	return (last_part);
 }
 
 static void

@@ -33,11 +33,12 @@ handle_tree_item (CamelDataWrapper* object, GtkWidget* tree_ctrl)
 	
 	tree_item = gtk_tree_item_new_with_label (label);
 	gtk_tree_append (GTK_TREE (tree_ctrl), tree_item);
+	printf ("Appending %s\n", label);
 
 	if (CAMEL_IS_MULTIPART (object))
 	{
 		CamelMultipart* multipart = CAMEL_MULTIPART (object);
-		GtkWidget* subtree;
+		GtkWidget* subtree = NULL;
 		int max_multiparts = camel_multipart_get_number (multipart);
 		int i;
 
@@ -55,19 +56,19 @@ handle_tree_item (CamelDataWrapper* object, GtkWidget* tree_ctrl)
 
 			g_print ("handling part %d\n", i);
 			handle_tree_item (CAMEL_DATA_WRAPPER (body_part),
-					  tree_item);
+					  subtree);
 		}	
 	}
 }
 
 
-GtkWidget*
+static GtkWidget*
 get_message_tree_ctrl (CamelMimeMessage* message)
 {
 	GtkWidget* tree_ctrl = gtk_tree_new ();
 	CamelDataWrapper* message_contents =
 		camel_medium_get_content_object (CAMEL_MEDIUM (message));
-	int i;
+
 /*
  * Set up the scroll window
  */
@@ -109,7 +110,7 @@ static void
 print_usage_and_quit()
 {
 	g_print ("Usage: message-browser [FILENAME]\n");
-	g_print ("Where FILENAME is the filename of a mime message ");
+	g_print ("Where FILENAME is the filename of a mime message "); 
 	g_print ("in \"message/rfc822\" format.\n");
 	exit (0);
 }
@@ -145,4 +146,6 @@ main (int argc, char *argv[])
 			    GTK_SIGNAL_FUNC(gtk_main_quit),
 			    &app);
 	gtk_main();
+
+	return 1;
 }
