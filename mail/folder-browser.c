@@ -54,7 +54,6 @@
 #include "filter/filter-input.h"
 #include "filter/filter-label.h"
 
-#include "mail-search-dialogue.h"
 #include "e-util/e-sexp.h"
 #include "e-util/e-mktemp.h"
 #include "folder-browser.h"
