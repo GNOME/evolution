@@ -45,6 +45,7 @@
 #include "em-folder-properties.h"
 #include "em-config.h"
 
+#include "mail-component.h"
 #include "mail-ops.h"
 #include "mail-mt.h"
 #include "mail-vfolder.h"
@@ -238,7 +239,14 @@ emfp_dialog_got_folder (char *uri, CamelFolder *folder, void *data)
 	camel_object_get (folder, NULL, CAMEL_FOLDER_PROPERTIES, &prop_data->properties, CAMEL_FOLDER_NAME, &prop_data->name,
 			  CAMEL_FOLDER_TOTAL, &prop_data->total, CAMEL_FOLDER_UNREAD, &prop_data->unread, NULL);
 
-	emfp_items[EMFP_FOLDER_SECTION].label = prop_data->name;
+	if (folder->parent_store == mail_component_peek_local_store(NULL)
+	    && (!strcmp(prop_data->name, "Drafts")
+		|| !strcmp(prop_data->name, "Inbox")
+		|| !strcmp(prop_data->name, "Outbox")
+		|| !strcmp(prop_data->name, "Sent")))
+		emfp_items[EMFP_FOLDER_SECTION].label = _(prop_data->name);
+	else
+		emfp_items[EMFP_FOLDER_SECTION].label = prop_data->name;
 
 	count = g_slist_length (prop_data->properties);
 

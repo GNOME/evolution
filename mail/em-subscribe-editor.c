@@ -340,7 +340,7 @@ sub_folderinfo_get (struct _mail_msg *mm)
 
 	if (m->seq == m->sub->seq) {
 		camel_operation_register(mm->cancel);
-		m->info = camel_store_get_folder_info(m->sub->store, m->node?m->node->info->full_name:"", CAMEL_STORE_FOLDER_INFO_FAST | CAMEL_STORE_FOLDER_INFO_NO_VIRTUAL | CAMEL_STORE_FOLDER_INFO_SUBSCRIPTION_INFO, &mm->ex);
+		m->info = camel_store_get_folder_info(m->sub->store, m->node?m->node->info->full_name:"", CAMEL_STORE_FOLDER_INFO_FAST | CAMEL_STORE_FOLDER_INFO_NO_VIRTUAL, &mm->ex);
 		camel_operation_unregister(mm->cancel);
 	}
 }
