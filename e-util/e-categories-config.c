@@ -11,7 +11,11 @@
 #include <libgnomeui/gnome-dialog.h>
 #include <gal/widgets/e-unicode.h>
 #include <gal/widgets/e-categories.h>
+#include <bonobo-conf/bonobo-config-database.h>
+#include <bonobo/bonobo-exception.h>
+#include <bonobo/bonobo-moniker-util.h>
 #include "e-categories-config.h"
+#include "e-categories-master-list-wombat.h"
 
 typedef struct {
 	GdkPixmap *pixmap;
@@ -21,6 +25,49 @@ typedef struct {
 static GHashTable *cat_colors = NULL;
 static GHashTable *cat_icons = NULL;
 static gboolean initialized = FALSE;
+
+char *
+config_get_string (char *key)
+{
+	Bonobo_ConfigDatabase db;
+	CORBA_Environment ev;
+	char *string;
+
+	CORBA_exception_init (&ev);
+
+	db = bonobo_get_object ("wombat:", "Bonobo/ConfigDatabase", &ev);
+	if (BONOBO_EX (&ev)) {
+		CORBA_exception_free (&ev);
+		return NULL;
+	}
+
+	string = bonobo_config_get_string (db, key, NULL);
+
+	bonobo_object_release_unref (db, &ev);
+	CORBA_exception_free (&ev);
+
+	return string;
+}
+
+static void
+config_set_string (const char *key, const char *value)
+{
+	Bonobo_ConfigDatabase db;
+	CORBA_Environment ev;
+
+	CORBA_exception_init (&ev);
+
+	db = bonobo_get_object ("wombat:", "Bonobo/ConfigDatabase", &ev);
+	if (BONOBO_EX (&ev)) {
+		CORBA_exception_free (&ev);
+		return;
+	}
+
+	bonobo_config_set_string (db, key, value, &ev);
+
+	bonobo_object_release_unref (db, &ev);
+	CORBA_exception_free (&ev);
+}
 
 static void
 initialize_categories_config (void)
@@ -46,6 +93,7 @@ const char *
 e_categories_config_get_color_for (const char *category)
 {
 	char *color;
+	char *tmp;
 
 	g_return_val_if_fail (category != NULL, NULL);
 
@@ -57,9 +105,13 @@ e_categories_config_get_color_for (const char *category)
 		return (const char *) color;
 
 	/* not found, so get it from configuration */
-	/* FIXME: use BonoboConf here? */
+	tmp = g_strdup_printf ("General/Categories/%s/Color", category);
+        color = config_get_string (tmp);
+	g_free (tmp);
+	if (color)
+		e_categories_config_set_color_for (category, (const char *) color);
 
-	return NULL;
+	return color;
 }
 
 /**
@@ -69,6 +121,7 @@ void
 e_categories_config_set_color_for (const char *category, const char *color)
 {
 	char *tmp_color;
+	char *tmp;
 
 	g_return_if_fail (category != NULL);
 	g_return_if_fail (color != NULL);
@@ -84,9 +137,12 @@ e_categories_config_set_color_for (const char *category, const char *color)
 
 	/* add new color to the hash table */
 	tmp_color = g_strdup (color);
-	g_hash_table_insert (cat_colors, (gpointer) category, (gpointer) category);
+	g_hash_table_insert (cat_colors, (gpointer) category, (gpointer) tmp_color);
 
-	/* FIXME: ...and to the configuration */
+	/* ...and to the configuration */
+	tmp = g_strdup_printf ("General/Categories/%s/Color", category);
+	config_set_string (tmp, color);
+	g_free (tmp);
 }
 
 /**
@@ -102,6 +158,8 @@ void
 e_categories_config_get_icon_for (const char *category, GdkPixmap **pixmap, GdkBitmap **mask)
 {
 	icon_data_t *icon_data;
+	char *tmp;
+	char *icon_file;
 
 	g_return_if_fail (category != NULL);
 	g_return_if_fail (pixmap != NULL);
@@ -118,7 +176,12 @@ e_categories_config_get_icon_for (const char *category, GdkPixmap **pixmap, GdkB
 	}
 
 	/* not found, so look in the configuration */
-	/* FIXME: use BonoboConf here */
+	tmp = g_strdup_printf ("General/Categories/%s/Icon", category);
+	icon_file = config_get_string (tmp);
+	g_free (tmp);
+	if (icon_file) {
+		g_free (icon_file);
+	}
 
 	*pixmap = NULL;
 	if (mask != NULL)
@@ -134,6 +197,7 @@ void
 e_categories_config_set_icon_for (const char *category, const char *pixmap_file)
 {
 	icon_data_t *icon_data;
+	char *tmp;
 
 	g_return_if_fail (category != NULL);
 	g_return_if_fail (pixmap_file != NULL);
@@ -155,7 +219,9 @@ e_categories_config_set_icon_for (const char *category, const char *pixmap_file)
 	icon_data->pixmap = gdk_pixmap_create_from_xpm (NULL, &icon_data->mask, NULL, pixmap_file);
 	g_hash_table_insert (cat_icons, (gpointer) category, (gpointer) icon_data);
 
-	/* FIXME: ...and to the configuration */
+	/* ...and to the configuration */
+	tmp = g_strdup_printf ("General/Categories/%s/Icon", category);
+	config_set_string (tmp, pixmap_file);
 }
 
 /**
@@ -178,6 +244,7 @@ e_categories_config_open_dialog_for_entry (GtkEntry *entry)
 	int result;
 	GString *cat_icons;
 	GString *cat_colors;
+	ECategoriesMasterList *ecml;
 
 	g_return_if_fail (entry != NULL);
 	g_return_if_fail (GTK_IS_ENTRY (entry));
@@ -185,8 +252,11 @@ e_categories_config_open_dialog_for_entry (GtkEntry *entry)
 	categories = e_utf8_gtk_entry_get_text (GTK_ENTRY (entry));
 	dialog = GNOME_DIALOG (e_categories_new (categories));
 
-	/* FIXME: get icons/colors per category from configuration
-	   and pass them to the ECategories widget */
+	ecml = e_categories_master_list_wombat_new ();
+	gtk_object_set (GTK_OBJECT (dialog),
+			"ecml", ecml,
+			NULL);
+	gtk_object_unref (GTK_OBJECT (ecml));
 
 	/* run the dialog */
 	result = gnome_dialog_run (dialog);
@@ -199,9 +269,6 @@ e_categories_config_open_dialog_for_entry (GtkEntry *entry)
 		e_utf8_gtk_entry_set_text (GTK_ENTRY (entry), categories);
 		g_free (categories);
 	}
-
-	/* FIXME: now get icons/colors associated with each category from the
-	   ECategories widget, and set them to the configuration */
 
 	gtk_object_destroy (GTK_OBJECT (dialog));
 }
