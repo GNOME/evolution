@@ -1,5 +1,39 @@
-Evolution 1.1.3, 2002-??-??
+Evolution x.x.x, ????-??-??
 ---------------------------
+
+Bugzilla Bugs Fixed (see http://bugzilla.ximian.com/show_bug.cgi):
+
+  * Addressbook
+    #16870 -- fix CRLF check for empty lines in ldif importre (Sean Gao)
+    #25540 -- fix sensitivity issues in the contact editor (Toshok)
+    #33097 -- Fix crash when changing autocomplete folder list.  Also
+              fixes #30323, #33930, and #33332. (Toshok)
+    #34254 -- fix case sensitive nature of vcard importer (Sean Gao)
+
+Other fixes:
+
+  * Addressbook
+
+    - Fix scope problem where scopes would be saved as "base" and
+      "one" instead of "one" and "sub" repectively.
+    - Fixed a possible (and very probable) crash involving the
+      minicard view.
+    - The LDAP backend should be much more robust in the face of more
+      restrictive ACL's.
+
+Evolution 1.2.0, 2002-11-06
+---------------------------
+
+Changes since 1.1.90:
+
+  - Made the default width of the mail filter editing dialog larger.
+    (Dan)
+
+  - Removed the development warning at startup.  (Ettore)
+
+
+Evolution 1.1.90, 2002-10-28
+----------------------------
 
 Bugzilla Bugs Fixed (see http://bugzilla.ximian.com/show_bug.cgi):
 
