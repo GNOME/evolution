@@ -1,3 +1,12 @@
+2000-06-02  Christopher James Lahey  <clahey@helixcode.com>
+
+	* camel-session.c: Ref and unref objects in the service cache
+	properly.
+
+	* camel-store.c: Ref the folder when returning it using
+	lookup_folder.  Used the folder's full name for the key for the
+	folder cache since that's used to uncache it.
+
 2000-06-02  Dan Winship  <danw@helixcode.com>
 
 	Fun with purify.

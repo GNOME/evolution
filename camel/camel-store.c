@@ -151,8 +151,12 @@ get_default_folder_name (CamelStore *store, CamelException *ex)
 static CamelFolder *
 lookup_folder (CamelStore *store, const char *folder_name)
 {
-	if (store->folders)
-		return g_hash_table_lookup (store->folders, folder_name);
+	if (store->folders) {
+		CamelFolder *folder = g_hash_table_lookup (store->folders, folder_name);
+		if (folder)
+			gtk_object_ref(GTK_OBJECT(folder));
+		return folder;
+	}
 	return NULL;
 }
 
@@ -166,7 +170,7 @@ cache_folder (CamelStore *store, const char *folder_name, CamelFolder *folder)
 		g_warning ("Caching folder %s that already exists.",
 			   folder_name);
 	}
-	g_hash_table_insert (store->folders, (gpointer)g_strdup(folder_name), folder);
+	g_hash_table_insert (store->folders, camel_folder_get_full_name (folder), folder);
 	gtk_signal_connect_object (GTK_OBJECT (folder), "destroy",
 				   GTK_SIGNAL_FUNC (CS_CLASS (store)->uncache_folder),
 				   GTK_OBJECT (store));

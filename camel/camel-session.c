@@ -26,6 +26,7 @@
  */
 
 #include <config.h>
+#include <stdio.h>
 #include "camel-session.h"
 #include "camel-store.h"
 #include "camel-transport.h"
@@ -191,6 +192,7 @@ camel_session_list_providers (CamelSession *session, gboolean load)
 static void
 service_cache_remove(CamelService *service, CamelSession *session)
 {
+	gtk_object_unref(GTK_OBJECT(service));
 	g_hash_table_remove(session->service_cache, service->url);
 }
 
@@ -247,6 +249,7 @@ camel_session_get_service (CamelSession *session, const char *url_string,
 	service = camel_service_new (provider->object_types[type], session, url, ex);
 	if (service) {
 		g_hash_table_insert(session->service_cache, url, service);
+		gtk_object_ref(GTK_OBJECT(service));
 		gtk_signal_connect((GtkObject *)service, "destroy", service_cache_remove, session);
 	}
 	return service;
