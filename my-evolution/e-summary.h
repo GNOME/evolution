@@ -112,6 +112,7 @@ struct _ESummary {
 
 	ESummaryPrivate *priv;
 
+	GNOME_Evolution_Shell shell;
 	GNOME_Evolution_ShellView shell_view_interface;
 
 	gboolean online;

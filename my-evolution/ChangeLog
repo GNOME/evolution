@@ -1,3 +1,76 @@
+2002-03-15  Iain Holmes  <iain@ximian.com>
+
+	* Makefile.am: Add the e-summary-shown.[ch] files.
+
+	* e-summary-mail.c: Add entries for the Storages in the private
+	 struct.
+	 (new_folder_cb): Only allow mail folders that are local or vfolders.
+	 Store the StorageInfo that the folder belongs to in the folder struct
+	 Add the folder to the list of folders in the storage.
+	 (update_folder_cb): Update the signature.
+	 (mail_change_notify): Simplify the check to see if we are displaying
+	 the folder.
+	 (e_summary_mail_register_storage): Take a name argument.
+	 Create a StorageInfo structure, connect the signals and add the
+	 listener.
+	 (e_summary_mail_register_local_storage): Get the local storage from
+	 the shell and register it with e_summary_mail_register_storage.
+	 (storage_notify): Receive notifications when a new storage is created
+	 or destroyed or changed. Stuff only happens when a storage is
+	 created, currently.
+	 (e_summary_mail_register_storages): Don't register local storage
+	 here. Get the StorageRegistry from the corba_shell, create a new
+	 BonoboListener and add it to the registry.
+	 (e_summary_mail_init): Free a CORBA_Environment.
+	 (e_summary_mail_reconfigure): Add a check for the uri being a
+	 vfolder.
+	 (str_compare): Compare ESummaryMailFolders instead of MailRowDatas.
+	 (sort_storages): Compare 2 storage names.
+	 (get_parent_path): Special case for the vfolders.
+	 (insert_path_recur): Remove the toplevel creation.
+	 Create a toplevel node if the uri is a storage toplevel.
+	 Special case the name finder for vfolders.
+	 Get the number of children in the parent so that we can add the new
+	 child after the rest.
+	 (add_storage_to_table): For each folder in a storage, add it to the
+	 table.
+	 (make_toplevel): Generate the toplevel name for each storage.
+	 (e_summary_mail_fill_list): For each storage, add the folders.
+
+	 * e-summary-preferences.c (fill_rdf_etable): Put the entries into an
+	 ESummaryShown instead of an ESummaryTable.
+	 (make_property_dialog): Hook up to the Showns.
+	 (add_shown_to_list): Add the locations to the list.
+	 (property_box_clicked_cb): Create a new list for the RDFs and
+	 weathers.
+	 (e_summary_preferences_make_rdf_table): Make an ESummaryShown.
+	 (e_summary_preferences_make_weather_table): Make an ESummaryShown.
+
+	 * e-summary-table.c: Use ECellTri.
+	 (value_at): Get the right value for the TriCell.
+	 (set_value_at): Set the right value for the TriCell.
+	 (e_summary_table_init): Use the ECellTri.
+	 (e_summary_table_get_num_children): Get the number of children a
+	 path has.
+
+	 * e-summary-weather.c (e_summary_weather_fill_etable): Use an
+	 ESummaryShown instead of ESummaryTable.
+
+	 * e-summary.[ch]: Store the GNOME_Evolution_Shell in the nonprivate
+	 structure.
+
+	 * e-summary-shown.[ch]: Widget to do Add-> <-Remove with two tables.
+
+2002-02-22  Iain Holmes  <iain@ximian.com>
+
+	* e-summary-factory.c: Use the new configure icon.
+
+2002-02-13  Iain Holmes  <iain@ximian.com>
+
+	* Makefile.am: Add the e-cell-tri.[ch] files
+
+	* e-summary-table.c
+
 2002-03-14  Ettore Perazzoli  <ettore@ximian.com>
 
 	* e-summary-factory.c (e_summary_factory_new_control): Call

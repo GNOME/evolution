@@ -69,5 +69,6 @@ ETreePath e_summary_table_add_node (ESummaryTable *est,
 				    ETreePath path,
 				    int position,
 				    gpointer node_data);
-
+guint e_summary_table_get_num_children (ESummaryTable *est,
+					ETreePath path);
 #endif

@@ -82,7 +82,6 @@ struct _ESummaryMailFolderInfo {
 };
 
 struct _ESummaryPrivate {
-	GNOME_Evolution_Shell shell;
 	GNOME_Evolution_ShellView shell_view_interface;
 
 	GtkWidget *html_scroller;
@@ -535,7 +534,7 @@ e_summary_new (const GNOME_Evolution_Shell shell)
 	ESummary *summary;
 
 	summary = gtk_type_new (e_summary_get_type ());
-	summary->priv->shell = shell;
+	summary->shell = shell;
 
 	e_summary_add_protocol_listener (summary, "evolution", e_summary_evolution_protocol_listener, summary);
 

@@ -47,15 +47,28 @@
 
 struct _ESummaryMail {
 	GNOME_Evolution_FolderInfo folder_info;
+	GNOME_Evolution_StorageRegistry registry;
 	BonoboListener *listener;
 	EvolutionStorageListener *storage_listener;
 
+	GSList *storage_list;
+	
 	GHashTable *folders;
 	GList *shown;
 	ESummaryMailMode mode;
 
 	char *html;
 };
+
+typedef struct _StorageInfo {
+	char *name;
+	char *toplevel;
+	
+	GNOME_Evolution_Storage storage;
+	EvolutionStorageListener *listener;
+	ESummary *summary;
+	GList *folders;
+} StorageInfo;
 
 typedef struct _ESummaryMailFolder {
 	char *name;
@@ -65,6 +78,7 @@ typedef struct _ESummaryMailFolder {
 	int unread;
 
 	gboolean init; /* Has this folder been initialised? */
+	StorageInfo *si;
 } ESummaryMailFolder;
 
 /* Work out what to do with folder names */
@@ -179,21 +193,26 @@ static void
 new_folder_cb (EvolutionStorageListener *listener,
 	       const char *path,
 	       const GNOME_Evolution_Folder *folder,
-	       ESummary *summary)
+	       StorageInfo *si)
 {
+	ESummary *summary = si->summary;
 	ESummaryMail *mail;
 	ESummaryMailFolder *mail_folder;
 	GList *p;
 
 	/* Don't care about non mail */
+	g_print ("Folder->physicalUri: %s...", folder->physicalUri);
 	if (strcmp (folder->type, "mail") != 0 ||
-	    strncmp (folder->physicalUri, "file://", 7) != 0) {
+	    (strncmp (folder->physicalUri, "file://", 7) != 0 &&
+	    strncmp (folder->physicalUri, "vfolder", 7) != 0)) {
+		g_print ("rejected\n");
 		return;
 	}
-
+	g_print ("accepted\n");
 	mail = summary->mail;
 
 	mail_folder = g_new (ESummaryMailFolder, 1);
+	mail_folder->si = si;
 	mail_folder->path = g_strdup (folder->physicalUri);
 	mail_folder->name = g_strdup (path);
 	mail_folder->count = -1;
@@ -201,17 +220,14 @@ new_folder_cb (EvolutionStorageListener *listener,
 	mail_folder->init = FALSE;
 
 	g_hash_table_insert (mail->folders, mail_folder->path, mail_folder);
-
+	si->folders = g_list_prepend (si->folders, mail_folder);
+	
 	for (p = summary->preferences->display_folders; p; p = p->next) {
-		char *uri;
-
-		uri = g_strconcat ("file://", p->data, NULL);
-		if (strcmp (uri, folder->physicalUri) == 0) {
+		if (strcmp (p->data, folder->physicalUri) == 0) {
 			mail->shown = g_list_append (mail->shown, mail_folder);
 			e_summary_mail_get_info (mail, mail_folder->path, 
 						 mail->listener);
 		}
-		g_free (uri);
 	}
 }
 
@@ -219,8 +235,9 @@ static void
 update_folder_cb (EvolutionStorageListener *listener,
 		  const char *path,
 		  int unread_count,
-		  ESummary *summary)
+		  StorageInfo *si)
 {
+	ESummary *summary = si->summary;
 	char *evolution_dir;
 	static char *proto = NULL;
 	char *uri;
@@ -242,8 +259,9 @@ update_folder_cb (EvolutionStorageListener *listener,
 static void
 remove_folder_cb (EvolutionStorageListener *listener,
 		  const char *path,
-		  ESummary *summary)
+		  StorageInfo *si)
 {
+	ESummary *summary = si->summary;
 	ESummaryMail *mail;
 	ESummaryMailFolder *mail_folder;
 	GList *p;
@@ -298,17 +316,10 @@ mail_change_notify (BonoboListener *listener,
 
 	/* Are we displaying this folder? */
 	for (p = summary->preferences->display_folders; p; p = p->next) {
-		char *uri;
-		
-		uri = g_strconcat ("file://", p->data, NULL);
-		if (strcmp (uri, folder->path) == 0) {
+		if (strcmp (p->data, folder->path) == 0) {
 			e_summary_draw (summary);
-
-			g_free (uri);
 			return;
 		}
-
-		g_free (uri);
 	}
 }
 
@@ -319,30 +330,38 @@ e_summary_mail_protocol (ESummary *summary,
 {
 }
 
+	
+	
 static gboolean
 e_summary_mail_register_storage (ESummary *summary,
+				 const char *name,
 				 GNOME_Evolution_Storage corba_storage)
 {
 	ESummaryMail *mail;
-	EvolutionStorageListener *listener;
 	GNOME_Evolution_StorageListener corba_listener;
+	StorageInfo *si;
 	CORBA_Environment ev;
 
 	mail = summary->mail;
 
-	if (mail->storage_listener == NULL) {
-		mail->storage_listener = evolution_storage_listener_new ();
+	si = g_new (StorageInfo, 1);
+	si->name = g_strdup (name);
+	si->toplevel = NULL;
+	si->summary = summary;
+	si->storage = corba_storage;
+	si->listener = evolution_storage_listener_new ();
+	si->folders = NULL;
 
-		gtk_signal_connect (GTK_OBJECT (mail->storage_listener), "new-folder",
-				    GTK_SIGNAL_FUNC (new_folder_cb), summary);
-		gtk_signal_connect (GTK_OBJECT (mail->storage_listener), "removed-folder",
-				    GTK_SIGNAL_FUNC (remove_folder_cb), summary);
-		gtk_signal_connect (GTK_OBJECT (mail->storage_listener), "update_folder",
-				    GTK_SIGNAL_FUNC (update_folder_cb), summary);
-	}
-	listener = mail->storage_listener;
+	mail->storage_list = g_slist_prepend (mail->storage_list, si);
 	
-	corba_listener = evolution_storage_listener_corba_objref (listener);
+	gtk_signal_connect (GTK_OBJECT (si->listener), "new-folder",
+			    GTK_SIGNAL_FUNC (new_folder_cb), si);
+	gtk_signal_connect (GTK_OBJECT (si->listener), "removed-folder",
+			    GTK_SIGNAL_FUNC (remove_folder_cb), si);
+	gtk_signal_connect (GTK_OBJECT (si->listener), "update_folder",
+			    GTK_SIGNAL_FUNC (update_folder_cb), si);
+	
+	corba_listener = evolution_storage_listener_corba_objref (si->listener);
 
 	CORBA_exception_init (&ev);
 	GNOME_Evolution_Storage_addListener (corba_storage, corba_listener, &ev);
@@ -360,31 +379,116 @@ e_summary_mail_register_storage (ESummary *summary,
 	return TRUE;
 }
 
+static void
+e_summary_mail_register_local_storage (ESummary *summary)
+{
+	ESummaryMail *mail;
+	GNOME_Evolution_Storage local_storage;
+	CORBA_Environment ev;
+
+	mail = summary->mail;
+
+	CORBA_exception_init (&ev);
+	local_storage = GNOME_Evolution_Shell_getLocalStorage (summary->shell, &ev);
+	if (BONOBO_EX (&ev) || local_storage == CORBA_OBJECT_NIL) {
+		g_warning ("Error getting local storage: %s", CORBA_exception_id (&ev));
+		CORBA_exception_free (&ev);
+		return;
+	}
+	CORBA_exception_free (&ev);
+
+	e_summary_mail_register_storage (summary, _("Local Folders"), local_storage);
+}
+
+static void
+storage_notify (BonoboListener *listener,
+		const char *name,
+		const BonoboArg *arg,
+		CORBA_Environment *ev,
+		ESummary *summary)
+{
+	GNOME_Evolution_StorageRegistry_NotifyResult *nr;
+	GNOME_Evolution_Storage corba_storage;
+	CORBA_Environment ev2;
+	ESummaryMail *mail;
+
+	mail = summary->mail;
+	g_return_if_fail (mail != NULL);
+	
+	nr = arg->_value;
+	switch (nr->type) {
+	case GNOME_Evolution_StorageRegistry_STORAGE_CREATED:
+		/* These need to be special cased because they're special */
+		if (strcmp (nr->name, "summary") == 0) {
+			break;
+		}
+
+		if (strcmp (nr->name, "local") == 0) {
+			e_summary_mail_register_local_storage (summary);
+			break;
+		}
+		
+		CORBA_exception_init (&ev2);
+		corba_storage = GNOME_Evolution_StorageRegistry_getStorageByName (mail->registry,
+										  nr->name, &ev2);
+		if (BONOBO_EX (&ev2) || corba_storage == CORBA_OBJECT_NIL) {
+			g_warning ("Error getting storage %s\n%s", nr->name,
+				   CORBA_exception_id (&ev2));
+			CORBA_exception_free (&ev2);
+			return;
+		}
+
+		CORBA_exception_free (&ev2);
+		e_summary_mail_register_storage (summary, nr->name, corba_storage);
+		break;
+
+	case GNOME_Evolution_StorageRegistry_STORAGE_DESTROYED:
+		g_print ("%s removed\n", nr->name);
+		break;
+
+	default:
+		g_print ("Unknown response %d\n", nr->type);
+		break;
+	}
+}
+
 static gboolean
 e_summary_mail_register_storages (ESummary *summary,
 				  GNOME_Evolution_Shell corba_shell)
 {
-	GNOME_Evolution_Storage local_storage;
+	Bonobo_Listener corba_listener;
+	BonoboListener *listener;
 	CORBA_Environment ev;
 
 	g_return_val_if_fail (summary != NULL, FALSE);
 	g_return_val_if_fail (IS_E_SUMMARY (summary), FALSE);
 
 	CORBA_exception_init (&ev);
-	local_storage = GNOME_Evolution_Shell_getLocalStorage (corba_shell, &ev);
-	if (BONOBO_EX (&ev)) {
-		g_warning ("Exception getting local storage: %s",
-			   CORBA_exception_id (&ev));
+
+	summary->mail->registry = Bonobo_Unknown_queryInterface (corba_shell,
+								 "IDL:GNOME/Evolution/StorageRegistry:1.0",
+								 &ev);
+	if (BONOBO_EX (&ev) || summary->mail->registry == NULL) {
+		g_warning ("No storage registry: %s", CORBA_exception_id (&ev));
 		CORBA_exception_free (&ev);
-		
 		return FALSE;
 	}
-	CORBA_exception_free (&ev);
 
-	if (e_summary_mail_register_storage (summary, local_storage))
-		return TRUE;
-	else
+	listener = bonobo_listener_new (NULL, NULL);
+	gtk_signal_connect (GTK_OBJECT (listener), "event-notify",
+			    GTK_SIGNAL_FUNC (storage_notify), summary);
+	corba_listener = bonobo_object_corba_objref (BONOBO_OBJECT (listener));
+
+	/* Storages will be added whenever the listener gets an event. */
+	GNOME_Evolution_StorageRegistry_addListener (summary->mail->registry, corba_listener, &ev);
+	if (BONOBO_EX (&ev)) {
+		g_warning ("Cannot add listener\n%s", CORBA_exception_id (&ev));
+		CORBA_exception_free (&ev);
 		return FALSE;
+	}
+	
+	CORBA_exception_free (&ev);
+	return TRUE;
 }
 
 void
@@ -411,6 +515,8 @@ e_summary_mail_init (ESummary *summary,
 		return;
 	}
 
+	CORBA_exception_free (&ev);
+	
 	/* Create a BonoboListener for all the notifies. */
 	mail->listener = bonobo_listener_new (NULL, NULL);
 	gtk_signal_connect (GTK_OBJECT (mail->listener), "event-notify",
@@ -442,11 +548,13 @@ e_summary_mail_reconfigure (ESummary *summary)
 		ESummaryMailFolder *folder;
 		char *uri;
 
-		if (strncmp (p->data, "file://", 7) == 0) {
+		if (strncmp (p->data, "file://", 7) == 0 ||
+		    strncmp (p->data, "vfolder:", 8) == 0) {
 			uri = g_strdup (p->data);
 		} else {
 			uri = g_strconcat ("file://", p->data, NULL);
 		}
+
 		folder = g_hash_table_lookup (mail->folders, uri);
 		if (folder != NULL) {
 			if (folder->init == FALSE) {
@@ -499,11 +607,23 @@ static int
 str_compare (gconstpointer a,
 	     gconstpointer b)
 {
-	ESummaryMailRowData *rda, *rdb;
+	ESummaryMailFolder *folder_a, *folder_b;
 
-	rda = (ESummaryMailRowData *) a;
-	rdb = (ESummaryMailRowData *) b;
-	return strcmp (rda->name, rdb->name);
+	folder_a = (ESummaryMailFolder *) a;
+	folder_b = (ESummaryMailFolder *) b;
+	return strcasecmp (folder_a->name, folder_b->name);
+}
+
+static int
+sort_storages (gconstpointer a,
+	       gconstpointer b)
+{
+	StorageInfo *si_a, *si_b;
+
+	si_a = (StorageInfo *) a;
+	si_b = (StorageInfo *) b;
+
+	return strcasecmp (si_a->name, si_b->name);
 }
 
 static char *
@@ -511,8 +631,16 @@ get_parent_path (const char *path)
 {
 	char *last;
 
-	last = strrchr (path, '/');
-	return g_strndup (path, last - path);
+	if (strncmp (path, "vfolder", 7) == 0) {
+		last = strrchr (path, '#');
+		if (last == NULL) {
+			return g_strdup (path);
+		}
+		return g_strndup (path, last - path);
+	} else {
+		last = strrchr (path, '/');
+		return g_strndup (path, last - path);
+	}
 }
 
 static gboolean
@@ -533,6 +661,7 @@ is_folder_shown (ESummaryMail *mail,
 
 static ETreePath
 insert_path_recur (ESummaryTable *est,
+		   StorageInfo *si,
 		   GHashTable *hash_table,
 		   const char *path,
 		   ESummaryMail *mail)
@@ -540,37 +669,46 @@ insert_path_recur (ESummaryTable *est,
 	char *parent_path, *name;
 	ETreePath parent_node, node;
 	ESummaryTableModelEntry *entry;
-	static char *toplevel = NULL;
+	int children;
 	
 	parent_path = get_parent_path (path);
 
-	if (toplevel == NULL) {
-		char *tmp;
-		
-		tmp = gnome_util_prepend_user_home ("evolution/local");
-		toplevel = g_strconcat ("file://", tmp, NULL);
-		g_free (tmp);
-	}
-
 	parent_node = g_hash_table_lookup (hash_table, parent_path);
 	if (parent_node == NULL) {
-		if (strcmp (toplevel, path) == 0) {
+		if (strcmp (si->toplevel, path) == 0) {
 			/* Insert root */
-			return NULL;
+			children = e_summary_table_get_num_children (est, NULL);
+			node = e_summary_table_add_node (est, NULL, children, NULL);
+			entry = g_new (ESummaryTableModelEntry, 1);
+			entry->path = node;
+			entry->location = NULL;
+			entry->name = g_strdup (si->name);
+			entry->editable = FALSE;
+			entry->removable = FALSE;
+			entry->shown = FALSE;
+
+			g_hash_table_insert (est->model, entry->path, entry);
+			g_hash_table_insert (hash_table, g_strdup (path), node);
+			return node;
 		} else {
-			parent_node = insert_path_recur (est, hash_table, parent_path, mail);
+			parent_node = insert_path_recur (est, si, hash_table, parent_path, mail);
 		}
 	}
 
 	g_free (parent_path);
-	name = strrchr (path, '/');
+	if (strcmp (si->name, "VFolders") == 0) {
+		name = strrchr (path, '#');
+	} else {
+		name = strrchr (path, '/');
+	}
 
 	/* Leave out folders called "subfolder" */
 	if (strcmp (name + 1, "subfolders") == 0) {
 		return parent_node;
 	}
-	
-	node = e_summary_table_add_node (est, parent_node, 0, NULL);
+
+	children = e_summary_table_get_num_children (est, parent_node);
+	node = e_summary_table_add_node (est, parent_node, children, NULL);
 	entry = g_new (ESummaryTableModelEntry, 1);
 	entry->path = node;
 	entry->location = g_strdup (path);
@@ -594,13 +732,52 @@ free_path_hash (gpointer key,
 	g_free (key);
 }
 
+static void
+add_storage_to_table (ESummaryTable *est,
+		      StorageInfo *si,
+		      ESummary *summary)
+{
+	GHashTable *path_hash;
+	GList *p;
+	
+	path_hash = g_hash_table_new (g_str_hash, g_str_equal);
+    	p = g_list_sort (si->folders, str_compare);
+
+	for (; p; p = p->next) {
+		ESummaryMailFolder *folder = p->data;
+
+		insert_path_recur (est, si, path_hash, folder->path, summary->mail);
+	}
+
+	g_hash_table_foreach (path_hash, free_path_hash, NULL);
+	g_hash_table_destroy (path_hash);
+}
+
+static void
+make_toplevel (StorageInfo *si)
+{
+	if (si->toplevel != NULL) {
+		return;
+	}
+
+	if (strcmp (si->name, "VFolders") == 0) {
+		si->toplevel = g_strdup_printf ("vfolder:%s/evolution/vfolder",
+						g_get_home_dir ());
+	} else if (strcmp (si->name, "Local Folders") == 0) {
+		si->toplevel = g_strdup_printf ("file://%s/evolution/local",
+						g_get_home_dir ());
+	} else {
+		g_warning ("Unknown folder name... EEEEEEKEKEKEKEE!");
+		si->toplevel = g_strdup ("Dunno");
+	}
+}
+
 void
 e_summary_mail_fill_list (ESummaryTable *est,
 			  ESummary *summary)
 {
 	ESummaryMail *mail;
-	GList *names, *p;
-	GHashTable *path_hash;
+	GSList *p;
 
 	g_return_if_fail (IS_E_SUMMARY_TABLE (est));
 	g_return_if_fail (IS_E_SUMMARY (summary));
@@ -610,22 +787,16 @@ e_summary_mail_fill_list (ESummaryTable *est,
 		return;
 	}
 
-	names = NULL;
-	g_hash_table_foreach (mail->folders, hash_to_list, &names);
+	p = g_slist_sort (mail->storage_list, sort_storages);
+	for (; p; p = p->next) {
+		StorageInfo *si = p->data;
 
-	path_hash = g_hash_table_new (g_str_hash, g_str_equal);
-	
-	names = g_list_sort (names, str_compare);
-	for (p = names; p; p = p->next) {
-		ESummaryMailRowData *rd = p->data;
-		insert_path_recur (est, path_hash, rd->uri, mail);
-		free_row_data (rd);
+		if (si->toplevel == NULL) {
+			make_toplevel (si);
+		}
+		
+		add_storage_to_table (est, si, summary);
 	}
-
-	/* Free everything */
-	g_list_free (names);
-	g_hash_table_foreach (path_hash, free_path_hash, NULL);
-	g_hash_table_destroy (path_hash);
 }
 
 const char *

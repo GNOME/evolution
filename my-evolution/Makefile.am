@@ -30,6 +30,8 @@ evolution_executive_summary_SOURCES =		\
 	$(MAIL_GENERATED)			\
 	component-factory.c		\
 	component-factory.h		\
+	e-cell-tri.c			\
+	e-cell-tri.h			\
 	e-summary.c			\
 	e-summary.h			\
 	e-summary-calendar.c		\
@@ -44,6 +46,8 @@ evolution_executive_summary_SOURCES =		\
 	e-summary-preferences.h		\
 	e-summary-rdf.c			\
 	e-summary-rdf.h			\
+	e-summary-shown.c		\
+	e-summary-shown.h		\
 	e-summary-table.c		\
 	e-summary-table.h		\
 	e-summary-tasks.c		\

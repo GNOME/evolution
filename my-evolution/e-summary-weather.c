@@ -35,7 +35,7 @@
 #include <gal/widgets/e-unicode.h>
 
 #include "e-summary.h"
-#include "e-summary-table.h"
+#include "e-summary-shown.h"
 #include "e-summary-weather.h"
 #include "weather.h"
 #include "metar.h"
@@ -663,16 +663,15 @@ is_weather_shown (ESummaryWeather *weather,
 }
 
 void
-e_summary_weather_fill_etable (ESummaryTable *est,
+e_summary_weather_fill_etable (ESummaryShown *ess,
 			       ESummary *summary)
 {
 	ESummaryWeather *weather;
 	ETreePath region, state, location;
-	ESummaryTableModelEntry *entry;
+	ESummaryShownModelEntry *entry;
 	char *key, *path;
 	int nregions, iregions;
 	char **regions;
-	int i, n, l;
 
 	g_return_if_fail (IS_E_SUMMARY (summary));
 	
@@ -688,7 +687,7 @@ e_summary_weather_fill_etable (ESummaryTable *est,
 
 	gnome_config_get_vector ("Main/regions", &nregions, &regions);
 	region = NULL;
-	for (i = 0, iregions = nregions - 1; iregions >= 0; iregions--, i++) {
+	for (iregions = nregions - 1; iregions >= 0; iregions--) {
 		int nstates, istates;
 		char **states;
 		char *region_name;
@@ -699,21 +698,17 @@ e_summary_weather_fill_etable (ESummaryTable *est,
 		states_key = g_strconcat (regions[iregions], "/states", NULL);
 		region_name = gnome_config_get_string (region_name_key);
 
-		region = e_summary_table_add_node (est, NULL, i, NULL);
-
-		entry = g_new (ESummaryTableModelEntry, 1);
-		entry->path = region;
+		entry = g_new (ESummaryShownModelEntry, 1);
 		entry->location = NULL;
 		entry->name = g_strdup (region_name);
-		entry->editable = FALSE;
-		entry->removable = FALSE;
-		entry->shown = FALSE;
-		g_hash_table_insert (est->model, entry->path, entry);
+		entry->showable = FALSE;
 		
+		region = e_summary_shown_add_node (ess, TRUE, entry, NULL, NULL);
+
 		gnome_config_get_vector (states_key, &nstates, &states);
 
 		state = NULL;
-		for (n = 0, istates = nstates - 1; istates >= 0; istates--, n++) {
+		for (istates = nstates - 1; istates >= 0; istates--) {
 			void *iter;
 			char *iter_key, *iter_val;
 			char *state_path, *state_name_key, *state_name;
@@ -722,21 +717,16 @@ e_summary_weather_fill_etable (ESummaryTable *est,
 			state_name_key = g_strconcat (state_path, "name", NULL);
 			state_name = gnome_config_get_string (state_name_key);
 
-			state = e_summary_table_add_node (est, region, n, NULL);
-
-			entry = g_new (ESummaryTableModelEntry, 1);
-			entry->path = state;
+			entry = g_new (ESummaryShownModelEntry, 1);
 			entry->location = NULL;
 			entry->name = g_strdup (state_name);
-			entry->editable = FALSE;
-			entry->removable = FALSE;
-			entry->shown = FALSE;
-			g_hash_table_insert (est->model, entry->path, entry);
+			entry->showable = FALSE;
+
+			state = e_summary_shown_add_node (ess, TRUE, entry, region, NULL);
 
 			location = NULL;
 			iter = gnome_config_init_iterator (state_path);
 
-			l = 0;
 			while ((iter = gnome_config_iterator_next (iter, &iter_key, &iter_val)) != NULL) {
 				if (strstr (iter_key, "loc") != NULL) {
 					char **locdata;
@@ -746,24 +736,19 @@ e_summary_weather_fill_etable (ESummaryTable *est,
 								  &nlocdata,
 								  &locdata);
 					g_return_if_fail (nlocdata == 4);
-
-					location = e_summary_table_add_node (est, state, l, NULL);
-					entry = g_new (ESummaryTableModelEntry, 1);
-					entry->path = location;
+					
+					entry = g_new (ESummaryShownModelEntry, 1);
 					entry->location = g_strdup (locdata[1]);
 					entry->name = g_strdup (locdata[0]);
-					entry->editable = TRUE;
-					entry->removable = FALSE;
-					
-					entry->shown = is_weather_shown (weather, locdata[1]);
-					g_hash_table_insert (est->model, entry->path, entry);
+					entry->showable = TRUE;
+
+					location = e_summary_shown_add_node (ess, TRUE, entry, state, NULL);
 					
 					g_strfreev (locdata);
 				}
 
 				g_free (iter_key);
 				g_free (iter_val);
-				l++;
 			}
 
 			g_free (state_name);

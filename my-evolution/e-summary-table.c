@@ -49,6 +49,7 @@
 #include <libgnomeui/gnome-init.h>
 
 #include "e-summary-table.h"
+#include "e-cell-tri.h"
 
 #define COLS 2
 
@@ -60,7 +61,7 @@ char *headers[COLS] = {
 #endif
 
 #define SPEC "<ETableSpecification cursor-mode=\"line\" draw-focus=\"true\"> \
-<ETableColumn model_col=\"0\" _title=\"Shown\" resizable=\"true\" cell=\"checkbox\" compare=\"integer\"/> \
+<ETableColumn model_col=\"0\" _title=\"Shown\" resizable=\"true\" cell=\"tricell\" compare=\"integer\"/> \
 <ETableColumn model_col=\"1\" _title=\"Name\" minimum_width=\"20\" resizable=\"true\" cell=\"render-name\" compare=\"string\"/> \
 <ETableState> \
 <column source=\"0\"/> \
@@ -214,7 +215,11 @@ value_at (ETreeModel *etm,
 			return entry->name;
 
 		} else {
-			return GINT_TO_POINTER (entry->shown);
+			if (entry->editable == TRUE) {
+				return GINT_TO_POINTER (entry->shown ? 2 : 1);
+			} else {
+				return GINT_TO_POINTER (0);
+			}
 		}
 	}
 }
@@ -243,7 +248,7 @@ set_value_at (ETreeModel *etm,
 	g_return_if_fail (entry != NULL);
 
 	if (entry->editable == TRUE) {
-		entry->shown = GPOINTER_TO_INT (val);
+		entry->shown = GPOINTER_TO_INT (val) == 1 ? FALSE : TRUE;
 		gtk_signal_emit (GTK_OBJECT (est), table_signals[ITEM_CHANGED], path);
 	}
 }
@@ -370,7 +375,8 @@ e_summary_table_init (ESummaryTable *est)
 	cell = e_cell_text_new (NULL, GTK_JUSTIFY_LEFT);
 	priv->extras = e_table_extras_new ();
 	e_table_extras_add_cell (priv->extras, "render-name", e_cell_tree_new (NULL, NULL, FALSE, cell));
-
+	e_table_extras_add_cell (priv->extras, "tricell", e_cell_tri_new ());
+	
 	priv->etable = e_tree_scrolled_new (priv->etm, priv->extras, SPEC, NULL);
 	if (priv->etable == NULL) {
 		g_warning ("Could not create ETable for ESummaryTable");
@@ -420,4 +426,14 @@ e_summary_table_add_node (ESummaryTable *table,
 	return p;
 }
 	      
-	
+guint
+e_summary_table_get_num_children (ESummaryTable *table,
+				  ETreePath path)
+{
+	if (path == NULL) {
+		return e_tree_model_node_get_children (table->priv->etm,
+						       table->priv->root_node, NULL);
+	} else {
+		return e_tree_model_node_get_children (table->priv->etm, path, NULL);
+	}
+}

@@ -45,6 +45,7 @@
 #include "e-summary.h"
 #include "e-summary-preferences.h"
 #include "e-summary-table.h"
+#include "e-summary-shown.h"
 
 #include "evolution-config-control.h"
 
@@ -570,8 +571,8 @@ static void
 fill_rdf_etable (GtkWidget *widget,
 		 PropertyData *pd)
 {
-	ESummaryTableModelEntry *entry;
-	ESummaryTable *est;
+	ESummaryShownModelEntry *entry;
+	ESummaryShown *ess;
 	FILE *handle;
 	int i, total;
 	char *rdf_file, line[4096];
@@ -580,22 +581,20 @@ fill_rdf_etable (GtkWidget *widget,
 		pd->rdf->default_hash = g_hash_table_new (g_str_hash, g_str_equal);
 	}
 
-	est = E_SUMMARY_TABLE (widget);
+	ess = E_SUMMARY_SHOWN (widget);
 
 	/* Fill the defaults first */
 	for (i = 0; rdfs[i].url; i++) {
-		ETreePath path;
-
-		path = e_summary_table_add_node (est, NULL, i, NULL);
-
-		entry = g_new (ESummaryTableModelEntry, 1);
-		entry->path = path;
+		entry = g_new (ESummaryShownModelEntry, 1);
 		entry->location = g_strdup (rdfs[i].url);
 		entry->name = g_strdup (rdfs[i].name);
-		entry->editable = TRUE;
-		entry->removable = FALSE;
-		entry->shown = rdf_is_shown (pd, entry->location);
-		g_hash_table_insert (est->model, entry->path, entry);
+		entry->showable = TRUE;
+
+		e_summary_shown_add_node (ess, TRUE, entry, NULL, NULL);
+
+		if (rdf_is_shown (pd, rdfs[i].url) == TRUE) {
+			e_summary_shown_add_node (ess, FALSE, entry, NULL, NULL);
+		}
 
 		pd->rdf->known = g_list_append (pd->rdf->known, &rdfs[i]);
 
@@ -619,7 +618,6 @@ fill_rdf_etable (GtkWidget *widget,
 	}
 
 	while (fgets (line, 4095, handle)) {
-		ETreePath path;
 		char **tokens;
 		struct _RDFInfo *info;
 		int len;
@@ -646,16 +644,17 @@ fill_rdf_etable (GtkWidget *widget,
 		
 		pd->rdf->known = g_list_append (pd->rdf->known, info);
 
-		path = e_summary_table_add_node (est, NULL, total++, NULL);
-		entry = g_new (ESummaryTableModelEntry, 1);
-		entry->path = path;
+		entry = g_new (ESummaryShownModelEntry, 1);
 		entry->location = g_strdup (info->url);
 		entry->name = g_strdup (info->name);
-		entry->editable = TRUE;
-		entry->removable = TRUE;
-		entry->shown = rdf_is_shown (pd, entry->location);
-		g_hash_table_insert (est->model, entry->path, entry);
-				
+		entry->showable = TRUE;
+
+		e_summary_shown_add_node (ess, TRUE, entry, NULL, NULL);
+
+		if (rdf_is_shown (pd, tokens[0]) == TRUE) {
+			e_summary_shown_add_node (ess, FALSE, entry, NULL, NULL);
+		}
+
 		g_strfreev (tokens);
 	}
 
@@ -663,10 +662,10 @@ fill_rdf_etable (GtkWidget *widget,
 }
 
 static void
-fill_weather_etable (ESummaryTable *est,
+fill_weather_etable (ESummaryShown *ess,
 		     PropertyData *pd)
 {
-	e_summary_weather_fill_etable (est, pd->summary);
+	e_summary_weather_fill_etable (ess, pd->summary);
 }
 
 static void
@@ -796,7 +795,6 @@ mail_etable_item_changed_cb (ESummaryTable *est,
 
 static void
 rdf_etable_item_changed_cb (ESummaryTable *est,
-			    ETreePath path,
 			    PropertyData *pd)
 {
 	evolution_config_control_changed (pd->config_control);
@@ -804,7 +802,6 @@ rdf_etable_item_changed_cb (ESummaryTable *est,
 
 static void
 weather_etable_item_changed_cb (ESummaryTable *est,
-				ETreePath path,
 				PropertyData *pd)
 {
 	evolution_config_control_changed (pd->config_control);
@@ -955,10 +952,7 @@ make_property_dialog (PropertyData *pd)
 	gtk_signal_connect (GTK_OBJECT (rdf->etable), "item-changed",
 			    GTK_SIGNAL_FUNC (rdf_etable_item_changed_cb), pd);
 
-	rdf->model = E_SUMMARY_TABLE (rdf->etable)->model;
-
 	fill_rdf_etable (rdf->etable, pd);
-	
 	rdf->refresh = glade_xml_get_widget (pd->xml, "spinbutton1");
 	g_return_val_if_fail (rdf->refresh != NULL, FALSE);
 	gtk_spin_button_set_value (GTK_SPIN_BUTTON (rdf->refresh),
@@ -983,9 +977,8 @@ make_property_dialog (PropertyData *pd)
 	gtk_signal_connect (GTK_OBJECT (weather->etable), "item-changed",
 			    GTK_SIGNAL_FUNC (weather_etable_item_changed_cb),
 			    pd);
-	weather->model = E_SUMMARY_TABLE (weather->etable)->model;
 
-	fill_weather_etable (E_SUMMARY_TABLE (weather->etable), pd);
+	fill_weather_etable (E_SUMMARY_SHOWN (weather->etable), pd);
 
 	weather->refresh = glade_xml_get_widget (pd->xml, "spinbutton5");
 	g_return_val_if_fail (weather->refresh != NULL, FALSE);
@@ -1110,6 +1103,7 @@ maybe_add_to_shown (gpointer key,
 GtkWidget *e_summary_preferences_make_mail_table (PropertyData *pd);
 GtkWidget *e_summary_preferences_make_rdf_table (PropertyData *pd);
 GtkWidget *e_summary_preferences_make_weather_table (PropertyData *pd);
+
 GtkWidget *
 e_summary_preferences_make_mail_table (PropertyData *pd)
 {
@@ -1119,17 +1113,31 @@ e_summary_preferences_make_mail_table (PropertyData *pd)
 GtkWidget *
 e_summary_preferences_make_rdf_table (PropertyData *pd)
 {
-	return e_summary_table_new (g_hash_table_new (NULL, NULL));
+	return e_summary_shown_new ();
 }
 
 GtkWidget *
 e_summary_preferences_make_weather_table (PropertyData *pd)
 {
-	return e_summary_table_new (g_hash_table_new (NULL, NULL));
+	return e_summary_shown_new ();
 }
 
 
 /* The factory for the ConfigControl.  */
+
+static void
+add_shown_to_list (gpointer key,
+		   gpointer value,
+		   gpointer data)
+{
+	ESummaryShownModelEntry *item;
+	GList **list;
+
+	item = (ESummaryShownModelEntry *) value;
+	list = (GList **) data;
+
+	*list = g_list_prepend (*list, g_strdup (item->location));
+}
 
 static void
 config_control_apply_cb (EvolutionConfigControl *control,
@@ -1139,38 +1147,38 @@ config_control_apply_cb (EvolutionConfigControl *control,
 
 	pd = (PropertyData *) data;
 
-	/* RDFs */
 	if (pd->rdf->tmp_list) {
 		free_str_list (pd->rdf->tmp_list);
 		g_list_free (pd->rdf->tmp_list);
 		pd->rdf->tmp_list = NULL;
 	}
-
 	/* Take each news feed which is on and add it
 	   to the shown list */
-	g_hash_table_foreach (pd->rdf->model, maybe_add_to_shown, &pd->rdf->tmp_list);
-
+	g_hash_table_foreach (E_SUMMARY_SHOWN (pd->rdf->etable)->shown_model,
+			      add_shown_to_list, &pd->rdf->tmp_list);
+	
 	if (pd->summary->preferences->rdf_urls) {
 		free_str_list (pd->summary->preferences->rdf_urls);
 		g_list_free (pd->summary->preferences->rdf_urls);
 	}
-
+	
 	pd->summary->preferences->rdf_urls = copy_str_list (pd->rdf->tmp_list);
-
+	
 	/* Weather */
 	if (pd->weather->tmp_list) {
 		free_str_list (pd->weather->tmp_list);
 		g_list_free (pd->weather->tmp_list);
 		pd->weather->tmp_list = NULL;
 	}
-	g_hash_table_foreach (pd->weather->model, maybe_add_to_shown, &pd->weather->tmp_list);
-		
+	
+	g_hash_table_foreach (E_SUMMARY_SHOWN (pd->weather->etable)->shown_model,
+			      add_shown_to_list, &pd->weather->tmp_list);
 	if (pd->summary->preferences->stations) {
 		free_str_list (pd->summary->preferences->stations);
 		g_list_free (pd->summary->preferences->stations);
 	}
 	pd->summary->preferences->stations = copy_str_list (pd->weather->tmp_list);
-		
+	
 	/* Folders */
 	if (pd->mail->tmp_list) {
 		free_str_list (pd->mail->tmp_list);
@@ -1178,13 +1186,13 @@ config_control_apply_cb (EvolutionConfigControl *control,
 		pd->mail->tmp_list = NULL;
 	}
 	g_hash_table_foreach (pd->mail->model, maybe_add_to_shown, &pd->mail->tmp_list);
-
+	
 	if (pd->summary->preferences->display_folders) {
 		free_str_list (pd->summary->preferences->display_folders);
 		g_list_free (pd->summary->preferences->display_folders);
 	}
 	pd->summary->preferences->display_folders = copy_str_list (pd->mail->tmp_list);
-		
+	
 	e_summary_reconfigure (pd->summary);
 }
 
