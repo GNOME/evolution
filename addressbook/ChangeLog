@@ -1,3 +1,17 @@
+2001-05-20  Christopher James Lahey  <clahey@ximian.com>
+
+	* gui/component/addressbook-config.c
+	(addressbook_source_item_new): Removed an unused variable.
+
+	* gui/component/select-names/e-select-names-bonobo.c
+	(entry_get_property_fn): Made text here non-const.
+
+	* gui/component/select-names/e-select-names-popup.c
+	(edit_contact_info_cb): Cast to a gpointer here.
+
+	* gui/component/select-names/e-select-names.c
+	(e_addressbook_create_ebook_table): Cast to E_TABLE_MODEL here.
+
 2001-05-18  Jon Trowbridge  <trow@ximian.com>
 
 	* gui/component/select-names/e-select-names-completion.c

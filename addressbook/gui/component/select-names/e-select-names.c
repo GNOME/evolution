@@ -179,7 +179,7 @@ e_addressbook_create_ebook_table(char *name, char *string1, char *string2, int n
 	char *uri;
 	char *spec;
 
-	model = e_addressbook_model_new();
+	model = E_TABLE_MODEL (e_addressbook_model_new());
 	gtk_object_set(GTK_OBJECT(model),
 		       "editable", FALSE,
 		       "query", "(contains \"email\" \"\")",

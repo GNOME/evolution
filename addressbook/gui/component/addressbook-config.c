@@ -378,7 +378,9 @@ addressbook_source_item_new (AddressbookSourceDialog *dialog, AddressbookSourceT
 {
 	AddressbookSourcePageItem *item = g_new0 (AddressbookSourcePageItem, 1);
 	GtkWidget *table = NULL;
+#if 0
 	GtkWidget *advanced_button;
+#endif
 	int row = 0;
 
 	item->pnum = type;

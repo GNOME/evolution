@@ -66,7 +66,7 @@ entry_get_property_fn (BonoboPropertyBag *bag,
 		       void *user_data)
 {
 	GtkWidget *w;
-	const char *text;
+	char *text;
 
 	w = GTK_WIDGET (user_data);
 
