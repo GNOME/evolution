@@ -279,13 +279,25 @@ load_file_fn (EvolutionImporter *importer,
 	      const char *folder_type,
 	      void *closure)
 {
-	char *contents;
+	char *contents, *f;
 	gboolean ret = FALSE;
 	ICalImporter *ici = (ICalImporter *) closure;
 
 	g_return_val_if_fail (ici != NULL, FALSE);
 
 	contents = read_file (filename);
+
+	if (!strcmp (folder_type, "calendar")) {
+		ici->folder_contains_events = TRUE;
+		ici->folder_contains_tasks = FALSE;
+
+		f = g_strdup ("calendar.ics");
+	} else {
+		ici->folder_contains_events = FALSE;
+		ici->folder_contains_tasks = TRUE;
+
+		f = g_strdup ("tasks.ics");
+	}
 
 	/* parse the file */
 	if (contents) {
@@ -296,9 +308,8 @@ load_file_fn (EvolutionImporter *importer,
 			char *real_uri;
 
 			if (!g_strncasecmp (physical_uri, "file", 4) &&
-			    g_strcasecmp (physical_uri + (strlen (physical_uri) - strlen ("calendar.ics")),
-					  "calendar.ics")) {
-				real_uri = g_concat_dir_and_file (physical_uri, "calendar.ics");
+			    g_strcasecmp (physical_uri + (strlen (physical_uri) - strlen (f)), f)) {
+				real_uri = g_concat_dir_and_file (physical_uri, f);
 			} else
 				real_uri = g_strdup (physical_uri);
 
@@ -313,6 +324,7 @@ load_file_fn (EvolutionImporter *importer,
 	}
 
 	g_free (contents);
+	g_free (f);
 
 	return ret;
 }
@@ -419,19 +431,31 @@ vcal_load_file_fn (EvolutionImporter *importer,
 		   void *closure)
 {
 	gboolean ret = FALSE;
+	char *f;
 	ICalImporter *ici = (ICalImporter *) closure;
 	icalcomponent *icalcomp;
 
 	g_return_val_if_fail (ici != NULL, FALSE);
+
+	if (!strcmp (folder_type, "calendar")) {
+		ici->folder_contains_events = TRUE;
+		ici->folder_contains_tasks = FALSE;
+
+		f = g_strdup ("calendar.ics");
+	} else {
+		ici->folder_contains_events = FALSE;
+		ici->folder_contains_tasks = TRUE;
+
+		f = g_strdup ("tasks.ics");
+	}
 
 	icalcomp = load_vcalendar_file (filename);
 	if (icalcomp) {
 		char *real_uri;
 
 		if (!g_strncasecmp (physical_uri, "file", 4) &&
-		    g_strcasecmp (physical_uri + (strlen (physical_uri) - strlen ("calendar.ics")),
-				  "calendar.ics")) {
-			real_uri = g_concat_dir_and_file (physical_uri, "calendar.ics");
+		    g_strcasecmp (physical_uri + (strlen (physical_uri) - strlen (f)), f)) {
+			real_uri = g_concat_dir_and_file (physical_uri, f);
 		} else
 			real_uri = g_strdup (physical_uri);
 
@@ -443,6 +467,8 @@ vcal_load_file_fn (EvolutionImporter *importer,
 
 		g_free (real_uri);
 	}
+
+	g_free (f);
 
 	return ret;
 }

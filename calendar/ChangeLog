@@ -1,5 +1,12 @@
 2003-04-02  Rodrigo Moya <rodrigo@ximian.com>
 
+	Fixes #39262
+	
+	* importers/icalendar-importer.c (load_file_fn, vcal_load_file_fn):
+	use folder_type argument to determine what to import.
+	
+2003-04-02  Rodrigo Moya <rodrigo@ximian.com>
+
 	* importers/icalendar-importer.c (load_file_fn, vcal_load_file_fn):
 	added "folder_type" parameter to EvolutionImporterLoadFileFn.
 	
