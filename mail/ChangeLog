@@ -1,3 +1,8 @@
+2000-08-08  Jeffrey Stedfast  <fejj@helixcode.com>
+
+	* mail-config.h: Added void as an argument to functions not
+	needing any parameters to avoid compile warnings.
+
 2000-08-08  Jeremy Wise  <jwise@pathwaynet.com>
 	* mail-config.[ch], main.c, folder-browser-factory.c: State of the
 	threaded list toggle is now saved via gnome_config

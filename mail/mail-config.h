@@ -21,6 +21,8 @@
 #ifndef _MAIL_CONFIG_H
 #define _MAIL_CONFIG_H
 
+
+
 #include <glib.h>
 
 typedef struct 
@@ -66,12 +68,12 @@ void mail_config_write (void);
 void mail_config_write_on_exit (void);
 
 /* Accessor functions */
-gboolean mail_config_is_configured ();
+gboolean mail_config_is_configured (void);
 MailConfigIdentity *mail_config_get_default_identity (void);
 MailConfigService *mail_config_get_default_source (void);
 MailConfigService *mail_config_get_transport (void);
-gboolean mail_config_send_html ();
-gboolean mail_config_thread_list ();
+gboolean mail_config_send_html (void);
+gboolean mail_config_thread_list (void);
 void mail_config_set_thread_list (gboolean value);
 MailConfig *mail_config_fetch (void);
 
