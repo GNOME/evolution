@@ -25,6 +25,7 @@
 #include "mail.h"
 #include "shell/Evolution.h"
 #include "mail-config.h"
+#include "mail-ops.h"
 
 /* The FolderBrowser BonoboControls we have.  */
 static GList *control_list = NULL;

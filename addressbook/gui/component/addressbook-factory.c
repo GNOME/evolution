@@ -14,6 +14,7 @@
 #include <liboaf/liboaf.h>
 #include <glade/glade.h>
 #include <e-util/e-cursors.h>
+#include <unicode.h>
 
 #include "addressbook.h"
 #include "addressbook-component.h"
@@ -59,6 +60,8 @@ main (int argc, char **argv)
 	e_minicard_control_factory_init ();
 
 	e_cursors_init();
+
+	unicode_init();
 
 	bonobo_main ();
 

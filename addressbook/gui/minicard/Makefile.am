@@ -53,6 +53,7 @@ minicard_test_LDADD =							\
 	$(EXTRA_GNOME_LIBS)						\
 	libeminicard.a							\
 	$(BONOBO_GNOME_LIBS)						\
+	$(GNOME_PRINT_LIBS)						\
 	$(top_builddir)/addressbook/backend/ebook/libebook.la		\
 	$(top_builddir)/e-util/libeutil.la				\
 	$(top_builddir)/libversit/libversit.la				\
@@ -70,6 +71,7 @@ reflow_test_SOURCES = 	\
 reflow_test_LDADD =							\
 	$(EXTRA_GNOME_LIBS)						\
 	$(BONOBO_GNOME_LIBS)						\
+	$(GNOME_PRINT_LIBS)						\
 	libeminicard.a							\
 	$(top_builddir)/addressbook/backend/ebook/libebook.la		\
 	$(top_builddir)/e-util/libeutil.la				\
@@ -106,6 +108,7 @@ minicard_widget_test_SOURCES = 	\
 minicard_widget_test_LDADD =				\
 	$(EXTRA_GNOME_LIBS)						\
 	$(BONOBO_GNOME_LIBS)						\
+	$(GNOME_PRINT_LIBS)						\
 	libeminicard.a							\
 	$(top_builddir)/addressbook/backend/ebook/libebook.la		\
 	$(top_builddir)/e-util/libeutil.la				\
