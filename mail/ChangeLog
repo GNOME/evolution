@@ -1,3 +1,10 @@
+2005-02-03  Jeffrey Stedfast  <fejj@novell.com>
+
+	* message-list.c (message_list_set_folder): Use
+	g_hash_table_foreach_remove() instead so the keys don't point to
+	free'd values.
+	(normalised_free): Return TRUE.
+
 2005-02-02  Rodney Dawes  <dobey@novell.com>
 
 	* em-subscribe-editor.c (em_subscribe_editor_new): Use the

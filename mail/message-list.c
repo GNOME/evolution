@@ -1846,10 +1846,12 @@ message_list_init (MessageList *message_list)
 	g_signal_connect (((GtkScrolledWindow *) message_list)->vscrollbar, "value-changed", G_CALLBACK (ml_scrolled), message_list);
 }
 
-static void
+static gboolean
 normalised_free (gpointer key, gpointer value, gpointer user_data)
 {
 	e_poolv_destroy (value);
+	
+	return TRUE;
 }
 
 static void
@@ -1917,7 +1919,7 @@ message_list_finalise (GObject *object)
 	MessageList *message_list = MESSAGE_LIST (object);
 	struct _MessageListPrivate *p = message_list->priv;
 	
-	g_hash_table_foreach (message_list->normalised_hash, normalised_free, NULL);
+	g_hash_table_foreach (message_list->normalised_hash, (GHFunc) normalised_free, NULL);
 	g_hash_table_destroy (message_list->normalised_hash);
 	
 	if (message_list->thread_tree)
@@ -2805,7 +2807,7 @@ message_list_set_folder (MessageList *message_list, CamelFolder *folder, const c
 	}
 	
 	/* reset the normalised sort performance hack */
-	g_hash_table_foreach (message_list->normalised_hash, normalised_free, NULL);
+	g_hash_table_foreach_remove (message_list->normalised_hash, normalised_free, NULL);
 	
 	mail_regen_cancel(message_list);
 	
