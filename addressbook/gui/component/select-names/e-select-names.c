@@ -492,6 +492,8 @@ e_select_names_init (ESelectNames *e_select_names)
 	gtk_dialog_set_default_response (GTK_DIALOG (e_select_names),
 					 GTK_RESPONSE_OK);
 
+	gtk_window_set_modal (GTK_DIALOG (e_select_names), TRUE);
+
 	gtk_window_set_title(GTK_WINDOW(e_select_names), _("Select Contacts from Addressbook")); 
 	gtk_window_set_policy(GTK_WINDOW(e_select_names), FALSE, TRUE, FALSE);
 
@@ -625,7 +627,7 @@ e_select_names_dispose (GObject *object)
 GtkWidget*
 e_select_names_new (void)
 {
-	GtkWidget *widget = g_object_new (E_TYPE_SELECT_NAMES, "modal", FALSE, NULL);
+	GtkWidget *widget = g_object_new (E_TYPE_SELECT_NAMES, NULL);
 	return widget;
 }
 

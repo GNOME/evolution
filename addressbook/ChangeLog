@@ -1,5 +1,12 @@
 2003-03-03  Ettore Perazzoli  <ettore@ximian.com>
 
+	* gui/component/select-names/e-select-names.c
+	(e_select_names_new): Don't set the "modal" property through
+	g_object_new().
+	(e_select_names_init): Explictly make the dialog modal here.
+
+2003-03-03  Ettore Perazzoli  <ettore@ximian.com>
+
 	* gui/widgets/e-addressbook-view.c (create_minicard_view): No need
 	to do any reparenting here; the widget is created with no parent.
 
