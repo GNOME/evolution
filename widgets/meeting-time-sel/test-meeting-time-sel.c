@@ -26,6 +26,13 @@
 #include <config.h>
 #endif
 
+#include <time.h>
+#include <gtk/gtkmain.h>
+#include <gdk_imlib.h>
+#include <libgnome/gnome-defs.h>
+#include <libgnomeui/gnome-dialog.h>
+#include <libgnomeui/gnome-init.h>
+#include <libgnomeui/gnome-stock.h>
 #include "e-meeting-time-sel.h"
 
 void add_random_attendee_test_data (EMeetingTimeSelector *mts);

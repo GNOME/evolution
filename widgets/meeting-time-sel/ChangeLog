@@ -1,3 +1,10 @@
+2001-04-04  Kjartan Maraas  <kmaraas@gnome.org>
+
+	* e-meeting-time-sel-item.c: Fix headers.
+	* e-meeting-time-sel-list-item.c: Same here.
+	* e-meeting-time-sel.[ch]: Same here.
+	* test-meeting-time-sel.c: Same here.
+	
 2001-03-29  Larry Ewing  <lewing@ximian.com>
 
 	* e-meeting-time-sel-list-item.c: s/#include/#ifdef/ to fix

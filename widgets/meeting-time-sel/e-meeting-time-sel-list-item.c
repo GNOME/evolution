@@ -33,6 +33,7 @@
 #endif
 
 #include <time.h>
+#include <gtk/gtksignal.h>
 #include <gal/widgets/e-canvas.h>
 #include "e-meeting-time-sel-list-item.h"
 #include "e-meeting-time-sel.h"
