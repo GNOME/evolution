@@ -1,3 +1,9 @@
+2002-11-25  Dan Winship  <danw@ximian.com>
+
+	* fr.po: Remove a ":" that shouldn't have been there (and
+	abbreviate the translation of "Mailer" to make the mail header
+	display look nicer).
+
 2002-11-20  Tõivo Leedjärv  <toivo@linux.ee>
 
 	* et.po: Updated Estonian translation
