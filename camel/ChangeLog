@@ -1,3 +1,8 @@
+2004-09-22  Not Zed  <NotZed@Ximian.com>
+
+	* camel-folder-summary.c (camel_folder_summary_decode_token):
+	handle a zero-length token read rather than failing.
+
 2004-09-21  Not Zed  <NotZed@Ximian.com>
 
 	** See bug #66199.
