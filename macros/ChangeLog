@@ -1,3 +1,8 @@
+1998-12-05  Martin Baulig  <martin@home-of-linux.org>
+
+	* gnome-libgtop-sysdeps.m4: Recognice NetBSD as a valid
+	system and use the `freebsd' sysdeps directory for it.
+
 1998-12-03  Martin Baulig  <martin@home-of-linux.org>
 
 	* gnome-libgtop-sysdeps.m4 (GLIBTOP_LINUX_VERSION_CODE):
