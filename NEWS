@@ -1,6 +1,11 @@
 Development
 -----------
 
+  * Calendar
+
+	- Various changes to allow the backend to alter the GUI and to
+          handle RECURRENCE-IDS	in events
+
   * Mail
     #35123 -- The new/post button chooses a different default account
      35289    to the new message menu. (Leon Zhang)
