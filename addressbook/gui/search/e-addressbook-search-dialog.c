@@ -22,6 +22,12 @@
 
 #include <config.h>
 
+#include <gtk/gtkbox.h>
+#include <gtk/gtkentry.h>
+#include <gtk/gtksignal.h>
+#include <libgnome/gnome-defs.h>
+#include <libgnome/gnome-i18n.h>
+#include <libgnomeui/gnome-stock.h>
 #include <gal/widgets/e-canvas.h>
 #include <gal/widgets/e-scroll-frame.h>
 

@@ -55,9 +55,12 @@
 #include <sys/stat.h>
 #include <errno.h>
 
+#include <glib.h>
 #include <gnome-xml/parser.h>
 #include <gnome-xml/xmlmemory.h>
 
+#include <libgnome/gnome-defs.h>
+#include <libgnome/gnome-i18n.h>
 #include <bonobo/bonobo-object.h>
 
 #include <gal/util/e-util.h>

@@ -21,6 +21,16 @@
  */
 
 #include <config.h>
+#include <time.h>
+#include <gtk/gtkcheckbutton.h>
+#include <gtk/gtkcheckmenuitem.h>
+#include <gtk/gtkcombo.h>
+#include <gtk/gtktext.h>
+#include <gtk/gtktogglebutton.h>
+#include <libgnome/gnome-defs.h>
+#include <libgnome/gnome-i18n.h>
+#include <libgnomeui/gnome-dateedit.h>
+#include <libgnomeui/gnome-popup-menu.h>
 #include <bonobo/bonobo-ui-container.h>
 #include <bonobo/bonobo-ui-util.h>
 #include <gdk-pixbuf/gdk-pixbuf.h>

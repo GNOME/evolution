@@ -22,6 +22,8 @@
 
 #include <config.h>
 
+#include <gtk/gtksignal.h>
+#include <libgnomeui/gnome-canvas-rect-ellipse.h>
 #include <gal/widgets/e-canvas.h>
 
 #include "e-minicard-view-widget.h"

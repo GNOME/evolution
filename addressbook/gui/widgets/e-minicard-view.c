@@ -22,6 +22,9 @@
 
 #include <config.h>
 
+#include <glib.h>
+#include <libgnome/gnome-defs.h>
+#include <libgnome/gnome-i18n.h>
 #include <gal/widgets/e-canvas.h>
 #include "e-minicard-view.h"
 #include "e-minicard.h"

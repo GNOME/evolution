@@ -1,3 +1,17 @@
+2001-04-04  Kjartan Maraas  <kmaraas@gnome.org>
+
+	* contact-editor/e-contact-editor.[ch]: Fix headers.
+	* component/addressbook-storage.c: Same here.
+	* gui/search/e-addressbook-search-dialog.c: Same here.
+	* gui/widgets/e-addressbook-view.c: Same here.
+	* gui/widgets/e-minicard-label.c: Same here.
+	* gui/widgets/e-minicard-view-widget.c: Same here.
+	* gui/widgets/e-minicard-view.c: Same here.
+	* gui/widgets/e-minicard-widget-test.c: Same here.
+	* gui/widgets/e-minicard-widget.c: Same here.
+	* gui/widgets/e-minicard.c: Same here.
+	* gui/widgets/test-minicard-label.c: Same here.
+
 2001-04-03  Christopher James Lahey  <clahey@ximian.com>
 
 	* gui/widgets/e-addressbook-view.c (table_double_click): Fixed a

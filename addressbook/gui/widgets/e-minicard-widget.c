@@ -21,6 +21,7 @@
  */
 
 #include <config.h>
+#include <libgnomeui/gnome-canvas-rect-ellipse.h>
 #include "e-minicard-widget.h"
 #include "e-minicard.h"
 

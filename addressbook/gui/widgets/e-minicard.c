@@ -21,6 +21,11 @@
  */
 
 #include <config.h>
+#include <glib.h>
+#include <gdk/gdkkeysyms.h>
+#include <libgnome/gnome-defs.h>
+#include <libgnome/gnome-i18n.h>
+#include <libgnomeui/gnome-canvas-rect-ellipse.h>
 #include <gal/e-text/e-text.h>
 #include <gal/util/e-util.h>
 #include <gal/widgets/e-canvas-utils.h>

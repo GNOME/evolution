@@ -48,7 +48,9 @@
 "
 
 #include "config.h"
-
+#include <gtk/gtkmain.h>
+#include <libgnomeui/gnome-app.h>
+#include <libgnomeui/gnome-init.h>
 #include "e-minicard-widget.h"
 
 /* This is a horrible thing to do, but it is just a test. */

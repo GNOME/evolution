@@ -19,6 +19,10 @@
 
 #include "config.h"
 
+#include <gtk/gtkmain.h>
+#include <libgnomeui/gnome-app.h>
+#include <libgnomeui/gnome-canvas-rect-ellipse.h>
+#include <libgnomeui/gnome-init.h>
 #include <gal/widgets/e-canvas.h>
 #include "e-minicard-label.h"
 

@@ -21,6 +21,8 @@
  */
 
 #include <config.h>
+#include <gtk/gtksignal.h>
+#include <libgnomeui/gnome-canvas-rect-ellipse.h>
 #include <gal/util/e-util.h>
 #include <gal/e-text/e-text.h>
 #include <gal/widgets/e-canvas.h>
