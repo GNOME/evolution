@@ -1,6 +1,7 @@
 2000-04-26  Dan Winship  <danw@helixcode.com>
 
-	* mail-format.c: update for CamelStream changes.
+	* mail-format.c: update for CamelStream changes. Update for
+	CamelMimeBodyPart -> CamelMimePart
 
 2000-04-25  Dan Winship  <danw@helixcode.com>
 

@@ -32,7 +32,6 @@ typedef struct _CamelException CamelException;
 typedef struct _CamelFolder CamelFolder;
 typedef struct _CamelFolderSummary CamelFolderSummary;
 typedef struct _CamelMedium CamelMedium;
-typedef struct _CamelMimeBodyPart CamelMimeBodyPart;
 typedef struct _CamelMimeMessage CamelMimeMessage;
 typedef struct _CamelMimePart CamelMimePart;
 typedef struct _CamelMultipart CamelMultipart;

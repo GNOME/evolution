@@ -26,8 +26,9 @@
 
 #include "e-msg-composer-attachment.h"
 #include "e-msg-composer-attachment-bar.h"
-#include "camel/camel-simple-data-wrapper.h"
+#include "camel/camel-data-wrapper.h"
 #include "camel/camel-stream-fs.h"
+#include "camel/camel-mime-part.h"
 
 
 #define ICON_WIDTH 64
@@ -604,11 +605,11 @@ static void
 attach_to_multipart (CamelMultipart *multipart,
 		     EMsgComposerAttachment *attachment)
 {
-	CamelMimeBodyPart *part;
+	CamelMimePart *part;
 	struct stat st;
 	int fd;
 
-	part = camel_mime_body_part_new ();
+	part = camel_mime_part_new ();
 	fd = open (attachment->file_name, O_RDONLY);
 	if (fd != -1 && fstat (fd, &st) != -1) {
 		char *data;
@@ -617,8 +618,7 @@ attach_to_multipart (CamelMultipart *multipart,
 		read (fd, data, st.st_size);
 		close (fd);
 
-		camel_mime_part_set_content (CAMEL_MIME_PART (part), data,
-					     st.st_size,
+		camel_mime_part_set_content (part, data, st.st_size,
 					     attachment->mime_type);
 	} else {
 		g_warning ("couldn't open %s", attachment->file_name);
@@ -626,11 +626,10 @@ attach_to_multipart (CamelMultipart *multipart,
 		return;
 	}
 
-	camel_mime_part_set_disposition (CAMEL_MIME_PART (part), "attachment");
-	camel_mime_part_set_filename (CAMEL_MIME_PART (part),
+	camel_mime_part_set_disposition (part, "attachment");
+	camel_mime_part_set_filename (part,
 				      g_basename (attachment->file_name));
-	camel_mime_part_set_description (CAMEL_MIME_PART (part),
-					 attachment->description);
+	camel_mime_part_set_description (part, attachment->description);
 
 	camel_multipart_add_part (multipart, part);
 }

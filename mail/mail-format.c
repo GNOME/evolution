@@ -878,10 +878,9 @@ handle_multipart_mixed (CamelMimePart *part, CamelMimeMessage *root, GtkBox *box
 
 	nparts = camel_multipart_get_number (mp);	
 	for (i = 0; i < nparts; i++) {
-		CamelMimeBodyPart *body_part =
-			camel_multipart_get_part (mp, i);
+		part = camel_multipart_get_part (mp, i);
 
-		call_handler_function (CAMEL_MIME_PART (body_part), root, box);
+		call_handler_function (part, root, box);
 	}
 }
 
@@ -892,7 +891,7 @@ handle_multipart_related (CamelMimePart *part, CamelMimeMessage *root, GtkBox *b
 	CamelDataWrapper *wrapper =
 		camel_medium_get_content_object (CAMEL_MEDIUM (part));
 	CamelMultipart *mp;
-	CamelMimeBodyPart *body_part, *display_part = NULL;
+	CamelMimePart *body_part, *display_part = NULL;
 	GMimeContentField *content_type;
 	const char *start;
 	int i, nparts;
@@ -915,8 +914,7 @@ handle_multipart_related (CamelMimePart *part, CamelMimeMessage *root, GtkBox *b
 			const char *cid;
 
 			body_part = camel_multipart_get_part (mp, i);
-			cid = camel_mime_part_get_content_id (
-				CAMEL_MIME_PART (body_part));
+			cid = camel_mime_part_get_content_id (body_part);
 
 			if (!strncmp (cid, start + 1, len) &&
 			    strlen (cid) == len) {
@@ -942,13 +940,12 @@ handle_multipart_related (CamelMimePart *part, CamelMimeMessage *root, GtkBox *b
 		if (body_part == display_part)
 			continue;
 
-		part = CAMEL_MIME_PART (body_part);
-		cid = get_cid (part, root);
+		cid = get_cid (body_part, root);
 		g_free (cid);
 	}
 
 	/* Now, display the displayed part. */
-	call_handler_function (CAMEL_MIME_PART (display_part), root, box);
+	call_handler_function (display_part, root, box);
 }
 
 /* RFC 2046 says "display the last part that you are able to display". */
@@ -961,8 +958,7 @@ find_preferred_alternative (CamelMultipart *multipart)
 
 	nparts = camel_multipart_get_number (multipart);
 	for (i = 0; i < nparts; i++) {
-		CamelMimePart *part = CAMEL_MIME_PART (
-			camel_multipart_get_part (multipart, i));
+		CamelMimePart *part = camel_multipart_get_part (multipart, i);
 
 		if (lookup_handler (part, &generic) &&
 		    (!preferred_part || !generic))
@@ -1007,7 +1003,7 @@ handle_multipart_appledouble (CamelMimePart *part, CamelMimeMessage *root,
 	 * to us. The second part _may_ be displayable data. Most
 	 * likely it's application/octet-stream though.
 	 */
-	part = CAMEL_MIME_PART (camel_multipart_get_part (multipart, 1));
+	part = camel_multipart_get_part (multipart, 1);
 	call_handler_function (part, root, box);
 }
 
@@ -1257,7 +1253,7 @@ reply_body (CamelDataWrapper *data, gboolean *html)
 	 */
 	boundary = camel_multipart_get_boundary (mp);
 	for (i = 0; i < nparts; i++) {
-		subpart = CAMEL_MIME_PART (camel_multipart_get_part (mp, i));
+		subpart = camel_multipart_get_part (mp, i);
 
 		disp = camel_mime_part_get_disposition (subpart);
 		if (disp && strcasecmp (disp, "inline") != 0)

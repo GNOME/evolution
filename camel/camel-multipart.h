@@ -62,14 +62,12 @@ typedef struct {
 	CamelDataWrapperClass parent_class;
 
 	/* Virtual methods */
-	void (*add_part) (CamelMultipart *multipart, CamelMimeBodyPart *part);
-	void (*add_part_at) (CamelMultipart *multipart, CamelMimeBodyPart *part, guint index);
-	void (*remove_part) (CamelMultipart *multipart, CamelMimeBodyPart *part);
-	CamelMimeBodyPart * (*remove_part_at) (CamelMultipart *multipart, guint index);
-	CamelMimeBodyPart * (*get_part) (CamelMultipart *multipart, guint index);
+	void (*add_part) (CamelMultipart *multipart, CamelMimePart *part);
+	void (*add_part_at) (CamelMultipart *multipart, CamelMimePart *part, guint index);
+	void (*remove_part) (CamelMultipart *multipart, CamelMimePart *part);
+	CamelMimePart * (*remove_part_at) (CamelMultipart *multipart, guint index);
+	CamelMimePart * (*get_part) (CamelMultipart *multipart, guint index);
 	guint (*get_number) (CamelMultipart *multipart);
-	void (*set_parent) (CamelMultipart *multipart, CamelMimePart *parent);
-	CamelMimePart * (*get_parent) (CamelMultipart *multipart);
 	void (*set_boundary) (CamelMultipart *multipart, gchar *boundary);
 	const gchar * (*get_boundary) (CamelMultipart *multipart);
 
@@ -83,20 +81,17 @@ GtkType camel_multipart_get_type (void);
 /* public methods */
 CamelMultipart *    camel_multipart_new            (void);
 void                camel_multipart_add_part       (CamelMultipart *multipart,
-						    CamelMimeBodyPart *part);
+						    CamelMimePart *part);
 void                camel_multipart_add_part_at    (CamelMultipart *multipart,
-						    CamelMimeBodyPart *part,
+						    CamelMimePart *part,
 						    guint index);
 void                camel_multipart_remove_part    (CamelMultipart *multipart,
-						    CamelMimeBodyPart *part);
-CamelMimeBodyPart * camel_multipart_remove_part_at (CamelMultipart *multipart,
+						    CamelMimePart *part);
+CamelMimePart *     camel_multipart_remove_part_at (CamelMultipart *multipart,
 						    guint index);
-CamelMimeBodyPart * camel_multipart_get_part       (CamelMultipart *multipart,
+CamelMimePart *     camel_multipart_get_part       (CamelMultipart *multipart,
 						    guint index);
 guint               camel_multipart_get_number     (CamelMultipart *multipart);
-void                camel_multipart_set_parent     (CamelMultipart *multipart,
-						    CamelMimePart *parent);
-CamelMimePart *     camel_multipart_get_parent     (CamelMultipart *multipart);
 void                camel_multipart_set_boundary   (CamelMultipart *multipart,
 						    gchar *boundary);
 const gchar *       camel_multipart_get_boundary   (CamelMultipart *multipart);

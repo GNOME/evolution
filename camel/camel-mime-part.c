@@ -629,6 +629,16 @@ camel_mime_part_encoding_from_string (const gchar *string)
 /******************************/
 /**  Misc utility functions  **/
 
+/**
+ * camel_mime_part_new:
+ *
+ * Return value: a new CamelMimePart
+ **/
+CamelMimePart *
+camel_mime_part_new (void)
+{
+	return (CamelMimePart *)gtk_object_new (CAMEL_MIME_PART_TYPE, NULL);
+}
 
 /**
  * camel_mime_part_set_content:

@@ -29,7 +29,6 @@
 #include "camel-mime-part-utils.h"
 #include "camel-mime-message.h"
 #include "camel-multipart.h"
-#include "camel-mime-body-part.h"
 #include "camel-seekable-substream.h"
 #include "camel-stream-filter.h"
 #include "camel-stream-mem.h"
@@ -187,9 +186,9 @@ camel_mime_part_construct_content_from_parser(CamelMimePart *dw, CamelMimeParser
 
 		while (camel_mime_parser_step(mp, &buf, &len) != HSCAN_MULTIPART_END) {
 			camel_mime_parser_unstep(mp);
-			bodypart = (CamelDataWrapper *)camel_mime_body_part_new();
+			bodypart = (CamelDataWrapper *)camel_mime_part_new();
 			camel_mime_part_construct_from_parser((CamelMimePart *)bodypart, mp);
-			camel_multipart_add_part((CamelMultipart *)content, (CamelMimeBodyPart *)bodypart);
+			camel_multipart_add_part((CamelMultipart *)content, (CamelMimePart *)bodypart);
 		}
 
 		d(printf("Created multi-part\n"));

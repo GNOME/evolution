@@ -31,26 +31,23 @@
 #include "gmime-utils.h"
 #include "camel-stream-mem.h"
 #include "camel-seekable-substream.h"
-#include "camel-mime-body-part.h"
 #include "camel-multipart.h"
+#include "camel-mime-part.h"
 
 #define d(x)
 
 static void                  add_part          (CamelMultipart *multipart,
-						   CamelMimeBodyPart *part);
+						CamelMimePart *part);
 static void                  add_part_at       (CamelMultipart *multipart,
-						CamelMimeBodyPart *part,
+						CamelMimePart *part,
 						guint index);
 static void                  remove_part       (CamelMultipart *multipart,
-						CamelMimeBodyPart *part);
-static CamelMimeBodyPart *   remove_part_at    (CamelMultipart *multipart,
+						CamelMimePart *part);
+static CamelMimePart *       remove_part_at    (CamelMultipart *multipart,
 						guint index);
-static CamelMimeBodyPart *   get_part          (CamelMultipart *multipart,
+static CamelMimePart *       get_part          (CamelMultipart *multipart,
 						guint index);
 static guint                 get_number        (CamelMultipart *multipart);
-static void                  set_parent        (CamelMultipart *multipart,
-						CamelMimePart *parent);
-static CamelMimePart *       get_parent        (CamelMultipart *multipart);
 static void                  set_boundary      (CamelMultipart *multipart,
 						gchar *boundary);
 static const gchar *         get_boundary      (CamelMultipart *multipart);
@@ -86,8 +83,6 @@ camel_multipart_class_init (CamelMultipartClass *camel_multipart_class)
 	camel_multipart_class->remove_part_at = remove_part_at;
 	camel_multipart_class->get_part = get_part;
 	camel_multipart_class->get_number = get_number;
-	camel_multipart_class->set_parent = set_parent;
-	camel_multipart_class->get_parent = get_parent;
 	camel_multipart_class->set_boundary = set_boundary;
 	camel_multipart_class->get_boundary = get_boundary;
 
@@ -137,18 +132,15 @@ camel_multipart_get_type (void)
 static void
 unref_part (gpointer data, gpointer user_data)
 {
-	GtkObject *body_part = GTK_OBJECT (data);
+	GtkObject *part = GTK_OBJECT (data);
 
-	gtk_object_unref (body_part);
+	gtk_object_unref (part);
 }
 
 static void
 finalize (GtkObject *object)
 {
 	CamelMultipart *multipart = CAMEL_MULTIPART (object);
-
-	if (multipart->parent)
-		gtk_object_unref (GTK_OBJECT (multipart->parent));
 
 	g_list_foreach (multipart->parts, unref_part, NULL);
 
@@ -185,7 +177,7 @@ camel_multipart_new (void)
 
 
 static void
-add_part (CamelMultipart *multipart, CamelMimeBodyPart *part)
+add_part (CamelMultipart *multipart, CamelMimePart *part)
 {
 	multipart->parts = g_list_append (multipart->parts, part);
 	gtk_object_ref (GTK_OBJECT (part));
@@ -194,22 +186,22 @@ add_part (CamelMultipart *multipart, CamelMimeBodyPart *part)
 /**
  * camel_multipart_add_part:
  * @multipart: a CamelMultipart
- * @part: the body part to add
+ * @part: the part to add
  *
- * Appends the body part to the multipart object.
+ * Appends the part to the multipart object.
  **/
 void
-camel_multipart_add_part (CamelMultipart *multipart, CamelMimeBodyPart *part)
+camel_multipart_add_part (CamelMultipart *multipart, CamelMimePart *part)
 {
 	g_return_if_fail (CAMEL_IS_MULTIPART (multipart));
-	g_return_if_fail (CAMEL_IS_MIME_BODY_PART (part));
+	g_return_if_fail (CAMEL_IS_MIME_PART (part));
 
 	CMP_CLASS (multipart)->add_part (multipart, part);
 }
 
 
 static void
-add_part_at (CamelMultipart *multipart, CamelMimeBodyPart *part, guint index)
+add_part_at (CamelMultipart *multipart, CamelMimePart *part, guint index)
 {
 	multipart->parts = g_list_insert (multipart->parts, part, index);
 	gtk_object_ref (GTK_OBJECT (part));
@@ -218,26 +210,26 @@ add_part_at (CamelMultipart *multipart, CamelMimeBodyPart *part, guint index)
 /**
  * camel_multipart_add_part_at:
  * @multipart: a CamelMultipart
- * @part: the body part to add
+ * @part: the part to add
  * @index: index to add the multipart at
  *
- * Adds the body part to the multipart object after the @index'th
+ * Adds the part to the multipart object after the @index'th
  * element. If @index is greater than the number of parts, it is
  * equivalent to camel_multipart_add_part().
  **/
 void
 camel_multipart_add_part_at (CamelMultipart *multipart,
-			     CamelMimeBodyPart *part, guint index)
+			     CamelMimePart *part, guint index)
 {
 	g_return_if_fail (CAMEL_IS_MULTIPART (multipart));
-	g_return_if_fail (CAMEL_IS_MIME_BODY_PART (part));
+	g_return_if_fail (CAMEL_IS_MIME_PART (part));
 
 	CMP_CLASS (multipart)->add_part_at (multipart, part, index);
 }
 
 
 static void
-remove_part (CamelMultipart *multipart, CamelMimeBodyPart *part)
+remove_part (CamelMultipart *multipart, CamelMimePart *part)
 {
 	if (!multipart->parts)
 		return;
@@ -254,21 +246,21 @@ remove_part (CamelMultipart *multipart, CamelMimeBodyPart *part)
  **/
 void
 camel_multipart_remove_part (CamelMultipart *multipart,
-			     CamelMimeBodyPart *part)
+			     CamelMimePart *part)
 {
 	g_return_if_fail (CAMEL_IS_MULTIPART (multipart));
-	g_return_if_fail (CAMEL_IS_MIME_BODY_PART (part));
+	g_return_if_fail (CAMEL_IS_MIME_PART (part));
 
 	CMP_CLASS (multipart)->remove_part (multipart, part);
 }
 
 
-static CamelMimeBodyPart *
+static CamelMimePart *
 remove_part_at (CamelMultipart *multipart, guint index)
 {
 	GList *parts_list;
 	GList *part_to_remove;
-	CamelMimeBodyPart *removed_body_part;
+	CamelMimePart *removed_part;
 
 	if (!(multipart->parts))
 		return NULL;
@@ -280,14 +272,14 @@ remove_part_at (CamelMultipart *multipart, guint index)
 			   "part to remove is NULL\n");
 		return NULL;
 	}
-	removed_body_part = CAMEL_MIME_BODY_PART (part_to_remove->data);
+	removed_part = CAMEL_MIME_PART (part_to_remove->data);
 
 	multipart->parts = g_list_remove_link (parts_list, part_to_remove);
 	if (part_to_remove->data)
 		gtk_object_unref (GTK_OBJECT (part_to_remove->data));
 	g_list_free_1 (part_to_remove);
 
-	return removed_body_part;
+	return removed_part;
 }
 
 /**
@@ -300,7 +292,7 @@ remove_part_at (CamelMultipart *multipart, guint index)
  * Return value: the removed part. Note that it is gtk_object_unref()ed
  * before being returned, which may cause it to be destroyed.
  **/
-CamelMimeBodyPart *
+CamelMimePart *
 camel_multipart_remove_part_at (CamelMultipart *multipart, guint index)
 {
 	g_return_val_if_fail (CAMEL_IS_MULTIPART (multipart), NULL);
@@ -309,7 +301,7 @@ camel_multipart_remove_part_at (CamelMultipart *multipart, guint index)
 }
 
 
-static CamelMimeBodyPart *
+static CamelMimePart *
 get_part (CamelMultipart *multipart, guint index)
 {
 	GList *part;
@@ -319,7 +311,7 @@ get_part (CamelMultipart *multipart, guint index)
 
 	part = g_list_nth (multipart->parts, index);
 	if (part)
-		return CAMEL_MIME_BODY_PART (part->data);
+		return CAMEL_MIME_PART (part->data);
 	else
 		return NULL;
 }
@@ -331,7 +323,7 @@ get_part (CamelMultipart *multipart, guint index)
  *
  * Return value: the indicated subpart, or %NULL
  **/
-CamelMimeBodyPart *
+CamelMimePart *
 camel_multipart_get_part (CamelMultipart *multipart, guint index)
 {
 	g_return_val_if_fail (CAMEL_IS_MULTIPART (multipart), NULL);
@@ -359,53 +351,6 @@ camel_multipart_get_number (CamelMultipart *multipart)
 
 	return CMP_CLASS (multipart)->get_number (multipart);
 }
-
-
-static void
-set_parent (CamelMultipart *multipart, CamelMimePart *parent)
-{
-	multipart->parent = parent;
-	if (parent)
-		gtk_object_ref (GTK_OBJECT (parent));
-}
-
-/**
- * camel_multipart_set_parent:
- * @multipart: a CamelMultipart
- * @parent: the CamelMimePart that is @multipart's parent
- *
- * Sets the parent of @multipart.
- **/
-void
-camel_multipart_set_parent (CamelMultipart *multipart, CamelMimePart *parent)
-{
-	g_return_if_fail (CAMEL_IS_MULTIPART (multipart));
-	g_return_if_fail (CAMEL_IS_MIME_PART (parent));
-
-	CMP_CLASS (multipart)->set_parent (multipart, parent);
-}
-
-
-static CamelMimePart *
-get_parent (CamelMultipart *multipart)
-{
-	return multipart->parent;
-}
-
-/**
- * camel_multipart_get_parent:
- * @multipart: a CamelMultipart
- *
- * Return value: @multipart's parent part
- **/
-CamelMimePart *
-camel_multipart_get_parent (CamelMultipart *multipart)
-{
-	g_return_val_if_fail (CAMEL_IS_MULTIPART (multipart), NULL);
-
-	return CMP_CLASS (multipart)->get_parent (multipart);
-}
-
 
 
 static void

@@ -1,5 +1,9 @@
 2000-04-26  Dan Winship  <danw@helixcode.com>
 
+	* Update for CamelMimeBodyPart -> CamelMimePart
+
+2000-04-26  Dan Winship  <danw@helixcode.com>
+
 	* e-msg-composer-attachment-bar.c (attach_to_multipart): add a
 	s/SIMPLE_// that notzed missed. Update to use
 	camel_mime_part_set_content.

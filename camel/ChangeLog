@@ -1,5 +1,16 @@
 2000-04-26  Dan Winship  <danw@helixcode.com>
 
+	* camel-mime-body-part.[ch]: Remove. We weren't using the fields
+	that made this different from camel-mime-part, so it basically
+	just forced us to do lots of gratuitous typecasting.
+
+	* camel-multipart.[ch]: Use CamelMimePart. Remove the multipart
+	parent stuff, since we weren't using that either.
+
+	* etc: update for CamelMimeBodyPart -> CamelMimePart
+
+2000-04-26  Dan Winship  <danw@helixcode.com>
+
 	* camel-medium.c (set_content_object): sink the content object
 	after referencing it.
 

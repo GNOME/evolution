@@ -40,7 +40,6 @@ extern "C" {
 #include <camel/camel-folder.h>
 #include <camel/camel-marshal-utils.h>
 #include <camel/camel-medium.h>
-#include <camel/camel-mime-body-part.h>
 #include <camel/camel-mime-filter-basic.h>
 #include <camel/camel-mime-filter-charset.h>
 #include <camel/camel-mime-filter-index.h>
