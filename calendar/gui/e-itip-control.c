@@ -16,7 +16,6 @@
 #include <ical.h>
 #include <time.h>
 #include <Evolution-Composer.h>
-#include <e-components.h>
 
 #include "e-itip-control.h"
 #include <cal-util/cal-component.h>

@@ -1,3 +1,8 @@
+2000-12-04  Dan Winship  <danw@helixcode.com>
+
+	* gui/e-itip-control.c: Remove mysterious #include inserted by
+	mmeeks to break the build.
+
 2000-12-01  Federico Mena Quintero  <federico@helixcode.com>
 
 	Fixes bug #918.
