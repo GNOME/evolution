@@ -1,5 +1,12 @@
 1998-12-15  Martin Baulig  <martin@home-of-linux.org>
 
+	* gnome-gettext.m4: Add the hacked version of the gettext
+	macros that is used in Gtk+ here.
+
+	* autogen.sh: Accept both AM_GNU_GETTEXT and AM_GNOME_GETTEXT.
+	 
+1998-12-15  Martin Baulig  <martin@home-of-linux.org>
+
 	* gnome-libgtop-check.m4: All parts of GNOME will now require
 	LibGTop >= 0.99.0 which is the latest version from CVS and
 	already feature-freezed for GNOME 1.0.
