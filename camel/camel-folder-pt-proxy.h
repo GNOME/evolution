@@ -38,17 +38,25 @@
 #define IS_CAMEL_FOLDER_PT_PROXY(o)    (GTK_CHECK_TYPE((o), CAMEL_FOLDER_PT_PROXY_TYPE))
 
 typedef struct {
+	guint signal_id;
+	GtkArg *args;
+} PtProxySignaData;
+
+typedef struct {
 	CamelFolder parent;
 	
 	gchar *real_url;
 	CamelFolder *real_folder;
-	GStaticMutex mutex;
 
 	CamelOpQueue *op_queue;
 	gint pipe_client_fd;
 	gint pipe_server_fd;
 	GIOChannel *notify_source;
 
+	/* used for signal proxy */
+	GMutex *signal_data_mutex;
+	GCond *signal_data_cond;
+	PtProxySignaData signal_data;
 } CamelFolderPtProxy;
 
 

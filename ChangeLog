@@ -1,3 +1,16 @@
+1999-09-21  bertrand  <Bertrand.Guiheneuf@aful.org>
+
+	* camel/camel-folder-pt-proxy.c:
+	Signal proxying implemenatation. 
+	(_signal_marshaller_server_side): 
+	(_signal_marshaller_client_side): 
+	(_init_signals_proxy): 
+	Code not is tested and has to be best 
+	explained as it uses threads conditions and
+	gtk signal system.
+	(_thread_notification_catch): notify pending signals
+	as well as thread availability.
+
 1999-09-20  bertrand  <Bertrand.Guiheneuf@aful.org>
 
 	* camel/camel-folder-pt-proxy.c (_op_exec_or_plan_for_exec): 

@@ -74,6 +74,10 @@ static GList *_get_uid_list  (CamelFolder *folder);
 
 static void _finalize (GtkObject *object);
 
+/* for the proxy watch */
+static gboolean _thread_notification_catch (GIOChannel *source,
+					    GIOCondition condition,
+					    gpointer data);
 
 static void
 camel_folder_proxy_class_init (CamelFolderPtProxyClass *camel_folder_pt_proxy_class)
@@ -122,7 +126,8 @@ static void
 camel_folder_proxy_init (CamelFolderPtProxy *folder_pt_proxy)
 {
 	folder_pt_proxy->op_queue = camel_op_queue_new ();
-
+	folder_pt_proxy->signal_data_cond = g_cond_new();
+	folder_pt_proxy->signal_data_mutex = g_mutex_new();
 }
 
 
@@ -156,11 +161,12 @@ static void
 _finalize (GtkObject *object)
 {
 	CamelFolder *camel_folder = CAMEL_FOLDER (object);
+	CamelFolderPtProxy *camel_folder_pt_proxy = CAMEL_FOLDER_PT_PROXY (camel_folder);
 	GList *message_node;
 
 	CAMEL_LOG_FULL_DEBUG ("Entering CamelFolderPtProxy::finalize\n");
-
-	
+	g_cond_free (camel_folder_pt_proxy->signal_data_cond);
+	g_mutex_free (camel_folder_pt_proxy->signal_data_mutex);
 	GTK_OBJECT_CLASS (parent_class)->finalize (object);
 	CAMEL_LOG_FULL_DEBUG ("Leaving CamelFolderPtProxy::finalize\n");
 }
@@ -187,10 +193,14 @@ _op_exec_or_plan_for_exec (CamelFolderPtProxy *proxy_folder, CamelOp *op)
 	op_queue = proxy_folder->op_queue;
 
 	if (camel_op_queue_get_service_availability (op_queue)) {
+		/* no thread is currently running, run 
+		 * the operation directly */
 		camel_op_queue_set_service_availability (op_queue, FALSE);
 		pthread_create (&thread, NULL , (thread_call_func)(op->func), op->param);
 		camel_op_free (op);
 	} else {
+		/* a child thread is already running, 
+		 * push the operation in the queue */
 		camel_op_queue_push_op (op_queue, op);
 	}
 
@@ -219,41 +229,12 @@ _maybe_run_next_op (CamelFolderPtProxy *proxy_folder)
 		return;
 	}
 	
+	/* run the operation in a child thread */
 	pthread_create (&thread, NULL , (thread_call_func)(op->func), op->param);
 	camel_op_free (op);
 }
 
 
-/**
- * _thread_notification_catch: call by glib loop when data is available on the thread io channel
- * @source: 
- * @condition: 
- * @data: 
- * 
- * called by watch set on the IO channel
- * 
- * Return value: 
- **/
-static gboolean  
-_thread_notification_catch (GIOChannel *source,
-			    GIOCondition condition,
-			    gpointer data)
-{
-	CamelFolderPtProxy *proxy_folder = (CamelFolderPtProxy *)data;	
-	gchar op_name;
-	guint bytes_read;
-	GIOError error;
-
-	error = g_io_channel_read (source,
-				   &op_name,
-				   1,
-				   &bytes_read);
-	if (op_name == 'a')
-		_maybe_run_next_op (proxy_folder);		
-
-	/* do not remove the io watch */
-	return TRUE;
-}
 
 
 
@@ -275,29 +256,47 @@ _init_notify_system (CamelFolderPtProxy *proxy_folder)
 		return;
 	}
 	
+	
 	proxy_folder->pipe_client_fd = filedes [0];
 	proxy_folder->pipe_server_fd = filedes [1];
 	proxy_folder->notify_source =  g_io_channel_unix_new (filedes [0]);
 	
-	g_io_add_watch (proxy_folder->notify_source, G_IO_IN, _thread_notification_catch, proxy_folder);
+	/* the _thread_notification_catch function 
+	* will be called in the main thread when the 
+	* child thread writes some data in the channel */ 
+	g_io_add_watch (proxy_folder->notify_source, G_IO_IN,
+			_thread_notification_catch, 
+			proxy_folder);
 	
 }
 
 /**
  * notify_availability: notify thread completion
- * @proxy_folder: 
- * 
- * called by child thread before completion 
- **/
+ * @folder: server folder (in the child thread)
+ * @op_name: operation name
+ *
+ * called by child thread (real folder) to notify the main 
+ * thread (folder proxy) something is available for him.
+ * What this thing is depends on  @op_name:
+ *
+ * 'a' : thread available. That means the thread is ready 
+ *       to process an operation. 
+ * 's' : a signal is available. Used by the signal proxy.
+ *
+ */
 static void
-notify_availability(CamelFolderPtProxy *proxy_folder)
+_notify_availability (CamelFolder *folder, gchar op_name)
 {
 	GIOChannel *notification_channel;
-	gchar op_name = 'a';
+	CamelFolderPtProxy *proxy_folder;
 	guint bytes_written;
 
+	proxy_folder = (CamelFolderPtProxy *)gtk_object_get_data (GTK_OBJECT (folder),
+								  "proxy_folder");
 	notification_channel = proxy_folder->notify_source;	
 	do {
+		/* the write operation will trigger the
+		 * watch on the main thread side */
 		g_io_channel_write  (notification_channel,
 				     &op_name,
 				     1,
@@ -305,8 +304,153 @@ notify_availability(CamelFolderPtProxy *proxy_folder)
 	} while (bytes_written == 1);
 
 }
+/* signal proxying */
+
+static void
+_signal_marshaller_server_side (GtkObject *object,
+				gpointer data,
+				guint n_args,
+				GtkArg *args)
+{
+	CamelFolder *folder;
+	CamelFolderPtProxy *proxy_folder;
+	guint signal_id;
+	
+	folder = CAMEL_FOLDER (object);
+	proxy_folder = CAMEL_FOLDER_PT_PROXY (gtk_object_get_data (object, "proxy_folder"));
+	signal_id = (guint)data;
+	g_assert (proxy_folder);
+
+	g_mutex_lock (proxy_folder->signal_data_mutex);
+	
+	/* we are going to wait for the main client thread 
+	 * to have emitted the last signal we asked him
+	 * to proxy.
+	 */
+	while (proxy_folder->signal_data.args)
+		g_cond_wait (proxy_folder->signal_data_cond,
+			     proxy_folder->signal_data_mutex);
+
+	proxy_folder->signal_data.signal_id = signal_id;
+	proxy_folder->signal_data.args = args;
+
+	
+	g_mutex_unlock (proxy_folder->signal_data_mutex);
+
+	/* tell the main thread there is a signal pending */
+	_notify_availability (folder, 's');
+}
 
 
+static void
+_signal_marshaller_client_side (CamelFolderPtProxy *proxy_folder)
+{
+	g_mutex_lock (proxy_folder->signal_data_mutex);
+	g_assert (proxy_folder->signal_data.args);
+	
+	/* emit the pending signal */
+	gtk_signal_emitv (GTK_OBJECT (proxy_folder), 
+			  proxy_folder->signal_data.signal_id,
+			  proxy_folder->signal_data.args);
+
+	proxy_folder->signal_data.args = NULL;
+
+	/* if waiting for the signal to be treated,
+	 * awake the client thread up 
+	 */ 
+	g_cond_signal (proxy_folder->signal_data_cond);
+	g_mutex_unlock (proxy_folder->signal_data_mutex);	
+}
+
+
+
+_init_signals_proxy (CamelFolderPtProxy *proxy_folder)
+{
+	CamelFolder *real_folder;
+	GtkType camel_folder_type;
+	guint i;
+	char *signal_to_proxy[] = { 
+		NULL
+	};
+ 
+	camel_folder_type = CAMEL_FOLDER_TYPE;
+	real_folder = proxy_folder->real_folder;	
+
+	for (i=0; signal_to_proxy[i]; i++) {
+		/* conect the signal to the signal marshaller
+		 * user_data is the signal id */
+		gtk_signal_connect_full (GTK_OBJECT (real_folder),
+					 signal_to_proxy[i],
+					 NULL,
+					 _signal_marshaller_server_side,
+					 (gpointer)gtk_signal_lookup (signal_to_proxy[i], camel_folder_type),
+					 NULL,
+					 TRUE,
+					 FALSE);
+	}
+	
+		
+	
+	
+}
+
+/****   catch notification from the child thread ****/
+/**
+ * _thread_notification_catch: call by glib loop when data is available on the thread io channel
+ * @source: 
+ * @condition: 
+ * @data: 
+ * 
+ * called by watch set on the IO channel
+ * 
+ * Return value: TRUE because we don't want the watch to be removed
+ **/
+static gboolean  
+_thread_notification_catch (GIOChannel *source,
+			    GIOCondition condition,
+			    gpointer data)
+{
+	CamelFolderPtProxy *proxy_folder = (CamelFolderPtProxy *)data;	
+	gchar op_name;
+	guint bytes_read;
+	GIOError error;
+
+	
+	error = g_io_channel_read (source,
+				   &op_name,
+				   1,
+				   &bytes_read);
+	
+	switch (op_name) { 		
+	case 'a': /* the thread is OK for a new operation */
+		_maybe_run_next_op (proxy_folder);		
+		break;
+	case 's': /* there is a pending signal to proxy */
+		_signal_marshaller_client_side (proxy_folder);
+		break;
+	}
+
+	/* do not remove the io watch */
+	return TRUE;
+}
+
+
+
+
+
+/*********/
+
+/**** Operations implementation ****/
+
+/* 
+ * the _async prefixed operations are
+ * executed in a child thread.
+ * When completed, they must call 
+ * notify_availability () in order to
+ * tell the main thread it can process
+ * a new operation.
+ *
+ */
 
 /* folder->init_with_store implementation */
 
@@ -318,22 +462,19 @@ typedef struct {
 static void
 _async_init_with_store (gpointer param)
 {
-	_InitStoreParam *init_store_param = (_InitStoreParam *)param;
-	CamelFolder *folder = init_store_param->folder;
-	CamelFolderPtProxy *proxy_folder;
-	CamelFolder *real_folder;
+	_InitStoreParam *init_store_param;
+	CamelFolder *folder;
 
-	proxy_folder = CAMEL_FOLDER_PT_PROXY (folder);
-	real_folder = proxy_folder->real_folder;
+	init_store_param =  (_InitStoreParam *)param;
 
-	/* we may block here but we are actually in a 
-	 * separate thread, so no problem 
-	 */
-	/*  g_static_mutex_lock (&(proxy_folder->mutex)); */
-	
-	CF_CLASS (real_folder)->init_with_store (real_folder, init_store_param->parent_store);
+	folder = init_store_param->folder;
+
+	CF_CLASS (folder)->init_with_store (folder, init_store_param->parent_store);
 	g_free (param);
-	/*  g_static_mutex_unlock (&(proxy_folder->mutex)); */
+	
+	/* tell the main thread we are completed */
+	_notify_availability (folder, 'a');
+
 }
 
 
@@ -348,11 +489,14 @@ _init_with_store (CamelFolder *folder, CamelStore *parent_store)
 	/* it can not be in camel_folder_proxy_init 
 	 * because of the pipe error handling */ 
 	_init_notify_system (proxy_folder);
+	gtk_object_set_data (GTK_OBJECT (proxy_folder->real_folder),
+			     "proxy_folder",
+			     proxy_folder);
 
 	op = camel_op_new ();
 	/* param will be freed in _async_init_with_store */
 	param = g_new (_InitStoreParam, 1);
-	param->folder = folder;
+	param->folder = proxy_folder->real_folder;
 	param->parent_store = parent_store;
 	
 	op->func = _async_init_with_store;
@@ -364,22 +508,53 @@ _init_with_store (CamelFolder *folder, CamelStore *parent_store)
 
 
 
-
 /* folder->open implementation */
+
 typedef struct {
 	CamelFolder *folder;
 	CamelFolderOpenMode mode;
-} _openFolderParam;
+} _OpenFolderParam;
+
+static void  
+_async_open (gpointer param)
+{
+	_OpenFolderParam *open_folder_param;
+	CamelFolder *folder;
+	
+	open_folder_param = (_OpenFolderParam *)param;
+	
+	folder =open_folder_param->folder;
+	
+	CF_CLASS (folder)->open (folder, open_folder_param->mode);
+	g_free (param);
+	_notify_availability (folder, 'a');
+
+}
 
 static void
 _open (CamelFolder *folder, CamelFolderOpenMode mode)
 {
+	CamelFolderPtProxy *proxy_folder = CAMEL_FOLDER_PT_PROXY (folder);
+	_OpenFolderParam *param;
+	CamelOp *op;
 
+	op = camel_op_new ();
+	
+	param = g_new (_OpenFolderParam, 1);
+	param->folder = proxy_folder->real_folder;
+	param->mode = mode;
+	
+	op->func = _async_open;
+	op->param =  param;
+	
+	_op_exec_or_plan_for_exec (proxy_folder, op);
 }
 
 
 
 
+
+/* folder->close implementation */
 static void
 _close (CamelFolder *folder, gboolean expunge)
 {
