@@ -65,6 +65,10 @@ void ibex_rename(ibex *ib, char *oldfilename, char *newfilename);
  */
 GPtrArray *ibex_find(ibex *ib, char *word);
 
+/* Find if a word is contained in a specific name reference.
+ */
+gboolean ibex_find_name(ibex *ib, char *name, char *word);
+
 /* Return all the files containing all of the words in the given
  * array. Returned data is like with ibex_find.
  */

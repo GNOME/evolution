@@ -25,7 +25,27 @@ ibex_find(ibex *ib, char *word)
 	  g_ptr_array_add(ret, ibf->name);
 	}
     }
-  return ret;  
+  return ret;
+}
+
+gboolean
+ibex_find_name(ibex *ib, char *name, char *word)
+{
+  GPtrArray *refs;
+  ibex_file *ibf;
+  int i;
+
+  refs = g_hash_table_lookup(ib->words, word);
+  if (refs)
+    {
+      for (i = 0; i < refs->len; i++)
+	{
+	  ibf = g_ptr_array_index(refs, i);
+	  if (!strcmp(ibf->name, name))
+		  return TRUE;
+	}
+    }
+  return FALSE;
 }
 
 static gint
