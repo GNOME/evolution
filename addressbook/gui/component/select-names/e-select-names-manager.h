@@ -33,6 +33,8 @@ struct _ESelectNamesManager {
 	ESelectNames *names;
 
 	GList *completion_books;
+
+	Bonobo_EventSource_ListenerId listener_id;
 };
 
 struct _ESelectNamesManagerClass {

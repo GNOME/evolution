@@ -1,5 +1,18 @@
 2002-08-19  Chris Toshok  <toshok@ximian.com>
 
+	* gui/component/select-names/e-select-names-manager.h: add the
+	listener_id slot.
+
+	* gui/component/select-names/e-select-names-manager.c
+	(e_select_names_manager_new): store off the listener_id.
+	(e_select_names_manager_destroy): remove the bonobo listener -
+	fixes a crash when modifying the completion folders after you
+	bring up a compose window.
+	(e_select_names_manager_entry_new): another random timeout change
+	- make the completion at 100ms.
+
+2002-08-19  Chris Toshok  <toshok@ximian.com>
+
 	* backend/pas/pas-book-view.c (pas_book_view_notify_complete):
 	take and pass the CallStatus to our listener.
 

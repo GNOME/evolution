@@ -269,7 +269,7 @@ e_select_names_manager_entry_new (ESelectNamesManager *manager, ESelectNamesMode
 		e_select_names_completion_add_book (E_SELECT_NAMES_COMPLETION(entry->comp), book);
 	}
 
-	e_entry_enable_completion_full (entry->entry, entry->comp, 50, completion_handler);
+	e_entry_enable_completion_full (entry->entry, entry->comp, 100, completion_handler);
 		
 	entry->manager = manager;
 
@@ -451,18 +451,13 @@ e_select_names_manager_new (void)
 {
 	ESelectNamesManager *manager = E_SELECT_NAMES_MANAGER(gtk_type_new(e_select_names_manager_get_type()));
 	Bonobo_ConfigDatabase db;
-	CORBA_Environment ev;
 
-	CORBA_exception_init (&ev);
+	db = addressbook_config_database (NULL);
 
-	db = addressbook_config_database (&ev);
-
-	CORBA_exception_free (&ev);
-
-	bonobo_event_source_client_add_listener (db, uris_listener,
-						 "Bonobo/ConfigDatabase:change/Addressbook/Completion:",
-						 NULL,
-						 manager);
+	manager->listener_id = bonobo_event_source_client_add_listener (db, uris_listener,
+									"Bonobo/ConfigDatabase:change/Addressbook/Completion:",
+									NULL,
+									manager);
 
 	read_completion_books_from_db (manager);
 
@@ -644,6 +639,8 @@ e_select_names_manager_destroy (GtkObject *object)
 	g_list_foreach (manager->completion_books, (GFunc) gtk_object_unref, NULL);
 	g_list_free (manager->completion_books);
 	manager->completion_books = NULL;
+
+	bonobo_event_source_client_remove_listener (addressbook_config_database (NULL), manager->listener_id, NULL);
 }
 
 static void
