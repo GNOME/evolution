@@ -1956,19 +1956,26 @@ find_address_mailing (EContactEditor *editor)
 }
 
 static void
-set_field(GtkEntry *entry, const char *string)
+set_field(EContactEditor *editor, GtkEntry *entry, const char *string)
 {
 	const char *oldstring = gtk_entry_get_text(entry);
 	if (!string)
 		string = "";
-	if (strcmp(string, oldstring))
+	if (strcmp(string, oldstring)) {
+		g_signal_handlers_block_matched (entry,
+						 G_SIGNAL_MATCH_DATA,
+						 0, 0, NULL, NULL, editor);
 		gtk_entry_set_text(entry, string);
+		g_signal_handlers_unblock_matched (entry,
+						   G_SIGNAL_MATCH_DATA,
+						   0, 0, NULL, NULL, editor);
+	}
 }
 
 static void
-set_phone_field(GtkWidget *entry, const ECardPhone *phone)
+set_phone_field(EContactEditor *editor, GtkWidget *entry, const ECardPhone *phone)
 {
-	set_field(GTK_ENTRY(entry), phone ? phone->number : "");
+	set_field(editor, GTK_ENTRY(entry), phone ? phone->number : "");
 }
 
 static void
@@ -1980,23 +1987,23 @@ set_fields(EContactEditor *editor)
 
 	entry = glade_xml_get_widget(editor->gui, "entry-phone1");
 	if (entry && GTK_IS_ENTRY(entry))
-		set_phone_field(entry, e_card_simple_get_phone(editor->simple, editor->phone_choice[0]));
+		set_phone_field(editor, entry, e_card_simple_get_phone(editor->simple, editor->phone_choice[0]));
 
 	entry = glade_xml_get_widget(editor->gui, "entry-phone2");
 	if (entry && GTK_IS_ENTRY(entry))
-		set_phone_field(entry, e_card_simple_get_phone(editor->simple, editor->phone_choice[1]));
+		set_phone_field(editor, entry, e_card_simple_get_phone(editor->simple, editor->phone_choice[1]));
 
 	entry = glade_xml_get_widget(editor->gui, "entry-phone3");
 	if (entry && GTK_IS_ENTRY(entry))
-		set_phone_field(entry, e_card_simple_get_phone(editor->simple, editor->phone_choice[2]));
+		set_phone_field(editor, entry, e_card_simple_get_phone(editor->simple, editor->phone_choice[2]));
 
 	entry = glade_xml_get_widget(editor->gui, "entry-phone4");
 	if (entry && GTK_IS_ENTRY(entry))
-		set_phone_field(entry, e_card_simple_get_phone(editor->simple, editor->phone_choice[3]));
+		set_phone_field(editor, entry, e_card_simple_get_phone(editor->simple, editor->phone_choice[3]));
 	
 	entry = glade_xml_get_widget(editor->gui, "entry-email1");
 	if (entry && GTK_IS_ENTRY(entry))
-		set_field(GTK_ENTRY(entry), e_card_simple_get_email(editor->simple, editor->email_choice));
+		set_field(editor, GTK_ENTRY(entry), e_card_simple_get_email(editor->simple, editor->email_choice));
 
 
 
