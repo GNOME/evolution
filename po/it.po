@@ -12204,7 +12204,7 @@ msgid ""
 "before you can compose mail."
 msgstr ""
 "È necessario configurare un'account\n"
-"prima di poter comporre una email."
+"prima di poter comporre una Email."
 
 #: mail/mail-callbacks.c:226
 msgid ""
@@ -12228,7 +12228,7 @@ msgid ""
 "You are sending an HTML-formatted message. Please make sure that\n"
 "the following recipients are willing and able to receive HTML mail:\n"
 msgstr ""
-"Si sta spedendo un messaggio formattato in HTML. Prego verificare che\n"
+"Si sta spedendo un messaggio formattato in HTML. Verificare che\n"
 "i seguenti destinatari vogliano e possano ricevere posta in HTML:\n"
 
 #: mail/mail-callbacks.c:267
@@ -12247,10 +12247,7 @@ msgstr ""
 msgid ""
 "Since the contact list you are sending to is configured to hide the list's "
 "addresses, this message will contain only Bcc recipients."
-msgstr ""
-"Dal momento che la lista dei contatti a cui si sta scrivendo è configurata "
-"per nascondere gli indirizzi della lista, questo messaggio contiene solo "
-"destinatari Bcc."
+msgstr "Dal momento che l'elenco dei contatti a cui si sta scrivendo è configurato per nascondere gli indirizzi dell'elenco, questo messaggio contiene solo destinatari Bcc."
 
 #: mail/mail-callbacks.c:318
 msgid "This message contains only Bcc recipients."
@@ -12297,7 +12294,7 @@ msgstr "Copia messaggi in"
 #: mail/mail-callbacks.c:2344
 #, c-format
 msgid "Are you sure you want to edit all %d messages?"
-msgstr "Sei sicuro di voler modificare tutti i %d messaggi?"
+msgstr "Modificare tutti i %d messaggi?"
 
 #: mail/mail-callbacks.c:2360
 msgid ""
@@ -12318,7 +12315,7 @@ msgstr ""
 #: mail/mail-callbacks.c:2403
 #, c-format
 msgid "Are you sure you want to resend all %d messages?"
-msgstr "Sei sicuro di voler rispedire tutti i %d messaggi?"
+msgstr "Rispedire tutti i %d messaggi?"
 
 #: mail/mail-callbacks.c:2424
 msgid "No Message Selected"
@@ -12392,7 +12389,7 @@ msgstr "Stampa messaggio non riuscita"
 #: mail/mail-callbacks.c:3147
 #, c-format
 msgid "Are you sure you want to open all %d messages in separate windows?"
-msgstr "Sicuro di voler aprire tutti i %d messaggi in finestre separate?"
+msgstr "Aprire tutti i %d messaggi in finestre separate?"
 
 #: mail/mail-composer-prefs.c:226 mail/mail-composer-prefs.c:349
 #: mail/mail-config.c:1376
@@ -12429,9 +12426,8 @@ msgid ""
 "below do not need to be filled in, unless you wish to include this "
 "information in email you send."
 msgstr ""
-"Inserire nome e indirizzo email qui sotto. Non è necessario riempire i campi "
-"\"opzionali\",\n"
-"a meno che non si desideri includere queste informazioni alle email spedite."
+"Inserire nome e indirizzo Email qui sotto. Non è necessario riempire i campi \"opzionali\",\n"
+"a meno che non si desideri includere queste informazioni alle Email spedite."
 
 #: mail/mail-config-druid.c:388 mail/mail-config-druid.c:395
 msgid "Receiving Mail"
@@ -12442,9 +12438,8 @@ msgid ""
 "Please enter information about your incoming mail server below. If you are "
 "not sure, ask your system administrator or Internet Service Provider."
 msgstr ""
-"Inserire qui sotto le informazioni riguardanti il server di posta in "
-"entrata. Se non si è sicuri, chiedere\n"
-"all'amministratore di sistema o al Vostro Provider Internet."
+"Inserire qui sotto le informazioni riguardanti il server di posta in entrata. Se non si è sicuri, chiedere\n"
+"all'amministratore di sistema o al provider Internet."
 
 #: mail/mail-config-druid.c:397
 msgid "Please select among the following options"
@@ -12458,10 +12453,7 @@ msgstr "Spedizione posta"
 msgid ""
 "Please enter information about the way you will send mail. If you are not "
 "sure, ask your system administrator or Internet Service Provider."
-msgstr ""
-"Inserire le informazioni riguardanti le modalità di invio della posta. Se "
-"non si è sicuri, chiedere all'amministratore di sistema o al Vostro "
-"ProviderInternet."
+msgstr "Inserire le informazioni riguardanti le modalità di invio della posta. Se non si è sicuri, chiedere all'amministratore di sistema o al provider Internet."
 
 #: mail/mail-config-druid.c:407 mail/mail-config.glade.h:10
 msgid "Account Management"
@@ -12600,10 +12592,10 @@ msgid ""
 msgstr ""
 "Complimenti, la configurazione della posta è completa.\n"
 "\n"
-"Ora siete pronti a mandare e ricevere email\n"
+"Ora si può a spedire e ricevere Email\n"
 "con Evolution.\n"
 "\n"
-"Cliccare su \"Fine\" per salvare le impostazioni."
+"Fare clic su \"Fine\" per salvare le impostazioni."
 
 #: mail/mail-config.glade.h:38
 msgid "De_fault"
@@ -12651,7 +12643,7 @@ msgstr "Cartelle Email"
 
 #: mail/mail-config.glade.h:51
 msgid "Email _address:"
-msgstr "Indirizzo email:"
+msgstr "Indirizzo Email:"
 
 #: mail/mail-config.glade.h:52
 msgid "Empty _trash folders on exit"
@@ -12675,7 +12667,7 @@ msgstr "Proprietà caratteri"
 
 #: mail/mail-config.glade.h:57
 msgid "Format messages in _HTML"
-msgstr "Formato Messaggi in _HTML"
+msgstr "Formato messaggi in _HTML"
 
 #: mail/mail-config.glade.h:58
 msgid "Get Digital ID..."
@@ -12691,7 +12683,7 @@ msgstr "IMAPv4 "
 
 #: mail/mail-config.glade.h:63
 msgid "Inline"
-msgstr "In linea"
+msgstr "Inline"
 
 #: mail/mail-config.glade.h:64
 msgid "Kerberos "
@@ -12707,11 +12699,11 @@ msgstr "Caricamento immagini"
 
 #: mail/mail-config.glade.h:68
 msgid "Mail Configuration"
-msgstr "Configurazione della Posta"
+msgstr "Configurazione della posta"
 
 #: mail/mail-config.glade.h:70
 msgid "Mailbox location"
-msgstr "Collocazione della Mailbox"
+msgstr "Collocazione della casella di posta"
 
 #: mail/mail-config.glade.h:71
 msgid "Message Composer"
@@ -12727,7 +12719,7 @@ msgstr "Carattere del messaggio"
 
 #: mail/mail-config.glade.h:75
 msgid "New Mail Notification"
-msgstr "Notifica Nuova Posta"
+msgstr "Notifica nuova posta"
 
 #: mail/mail-config.glade.h:77
 msgid ""
@@ -12737,7 +12729,7 @@ msgstr "Nota: non verrà richiesta una password fino alla prima connessione"
 
 #: mail/mail-config.glade.h:78
 msgid "Optional Information"
-msgstr "Informazioni Opzionali"
+msgstr "Informazioni opzionali"
 
 #: mail/mail-config.glade.h:80
 msgid "Or_ganization:"
@@ -12789,7 +12781,7 @@ msgstr "Ricezione Email"
 
 #: mail/mail-config.glade.h:95
 msgid "Receiving _Options"
-msgstr "_Opzioni di Ricezione"
+msgstr "_Opzioni di ricezione"
 
 #: mail/mail-config.glade.h:96
 msgid "Remember this _password"
@@ -12837,7 +12829,7 @@ msgstr "Cartella _messaggi inviati:"
 
 #: mail/mail-config.glade.h:109
 msgid "Sent and Draft Messages"
-msgstr "Messaggi Inviati e Bozze"
+msgstr "Messaggi inviati e bozze"
 
 #: mail/mail-config.glade.h:110
 msgid "Ser_ver requires authentication"
@@ -12845,11 +12837,11 @@ msgstr "Il ser_ver richiede autenticazione"
 
 #: mail/mail-config.glade.h:111
 msgid "Server Configuration"
-msgstr "Configurazione del Server"
+msgstr "Configurazione del server"
 
 #: mail/mail-config.glade.h:112
 msgid "Server _Type: "
-msgstr "_Tipo di Server:"
+msgstr "_Tipo di server:"
 
 #: mail/mail-config.glade.h:113
 msgid "Specify _filename:"
@@ -12869,8 +12861,8 @@ msgid ""
 "signature. The name you specify will be used\n"
 "for display purposes only. "
 msgstr ""
-"Il risultato di questo script verrà usato come Vostra\n"
-"firma. Il nome che specificherete avrà solo scopo\n"
+"Il risultato di questo script verrà usato come \n"
+"firma. Il nome specificato avrà solo scopo \n"
 "visivo."
 
 #: mail/mail-config.glade.h:119
@@ -12888,7 +12880,7 @@ msgid ""
 "Type the name by which you would like to refer to this account.\n"
 "For example: \"Work\" or \"Personal\""
 msgstr ""
-"Battere il nome con il quale ci si vuole riferire a questo account.\n"
+"Indicare il nome con il quale ci si vuole riferire a questo account.\n"
 "Per esempio: \"Lavoro\" o \"Personale\""
 
 #: mail/mail-config.glade.h:124
@@ -12901,9 +12893,9 @@ msgid ""
 "\n"
 "Click \"Forward\" to begin. "
 msgstr ""
-"Benvenuti nella configurazione guidata della Posta di Evolution.\n"
+"Benvenuti nella configurazione guidata della posta di Evolution.\n"
 "\n"
-"Cliccare \"avanti\" per cominciare."
+"Fare clic su \"avanti\" per cominciare."
 
 #: mail/mail-config.glade.h:130
 msgid "_Add Signature"
@@ -12911,7 +12903,7 @@ msgstr "_Aggiungi firma"
 
 #: mail/mail-config.glade.h:131
 msgid "_Always load images off the net"
-msgstr "_Caricare sempre le immagini dalla rete"
+msgstr "_Carica sempre le immagini dalla rete"
 
 #: mail/mail-config.glade.h:132
 msgid "_Always sign outgoing messages when using this account"
@@ -12919,11 +12911,11 @@ msgstr "Firma _sempre i messaggi in uscita quando viene usato questo account"
 
 #: mail/mail-config.glade.h:133
 msgid "_Authentication Type: "
-msgstr "Tipo di _Autenticazione: "
+msgstr "Tipo di _autenticazione: "
 
 #: mail/mail-config.glade.h:134
 msgid "_Authentication type: "
-msgstr "Tipo di _Autenticazione: "
+msgstr "Tipo di _autenticazione: "
 
 #: mail/mail-config.glade.h:135
 msgid "_Automatically check for new mail every"
@@ -12963,7 +12955,7 @@ msgstr "Abilita"
 
 #: mail/mail-config.glade.h:145
 msgid "_Forward style:"
-msgstr "Stile inoltra:"
+msgstr "Stile inoltro:"
 
 #: mail/mail-config.glade.h:146
 msgid "_Full name:"
@@ -12983,7 +12975,7 @@ msgstr "_Carica le immagini se il mittente è nella rubrica"
 
 #: mail/mail-config.glade.h:152
 msgid "_Make this my default account"
-msgstr "Imposta come _mio account predefinito"
+msgstr "Imposta co_me account predefinito"
 
 #: mail/mail-config.glade.h:153
 msgid "_Mark messages as read after"
@@ -12999,13 +12991,11 @@ msgstr "_Non caricare mai le immagini dalla rete"
 
 #: mail/mail-config.glade.h:157
 msgid "_Play sound file when new mail arrives"
-msgstr "Suona un file sonoro quando arriva nuova posta"
+msgstr "Avvisa con un segnale acustico quando arriva nuova posta"
 
 #: mail/mail-config.glade.h:158
 msgid "_Prompt when sending HTML messages to contacts that don't want them"
-msgstr ""
-"Chiedere conferma _prima di inviare messaggi HTML a contatti che non li "
-"desiderano"
+msgstr "Chiedi conferma _prima di inviare messaggi HTML a contatti che non li desiderano"
 
 #: mail/mail-config.glade.h:159
 msgid "_Prompt when sending messages with an empty subject line"
@@ -13013,7 +13003,7 @@ msgstr "Segnala l'invio di messaggi senza oggetto"
 
 #: mail/mail-config.glade.h:160
 msgid "_Receiving Mail"
-msgstr "_Ricezione Posta"
+msgstr "_Ricezione posta"
 
 #: mail/mail-config.glade.h:161
 msgid "_Reply style:"
@@ -13029,7 +13019,7 @@ msgstr "_Script:"
 
 #: mail/mail-config.glade.h:164
 msgid "_Sending Mail"
-msgstr "_Spedizione Posta"
+msgstr "_Spedizione posta"
 
 #: mail/mail-config.glade.h:165
 msgid "_Show animated images"
@@ -13041,7 +13031,7 @@ msgstr "Firme"
 
 #: mail/mail-config.glade.h:167
 msgid "_Standard Font:"
-msgstr "Carattere _standart:"
+msgstr "Carattere _standard:"
 
 #: mail/mail-config.glade.h:168
 msgid "_Terminal Font:"
@@ -13107,7 +13097,7 @@ msgstr "Salva allegati..."
 
 #: mail/mail-display.c:458
 msgid "View Inline"
-msgstr "Visualizza In linea"
+msgstr "Visualizza inline"
 
 #: mail/mail-display.c:459
 #, c-format
@@ -13117,7 +13107,7 @@ msgstr "Apri in %s..."
 #: mail/mail-display.c:515
 #, c-format
 msgid "View Inline (via %s)"
-msgstr "View Inline (via %s)"
+msgstr "View inline (via %s)"
 
 #: mail/mail-display.c:519
 msgid "Hide"
@@ -13125,7 +13115,7 @@ msgstr "Nascondi"
 
 #: mail/mail-display.c:539
 msgid "External Viewer"
-msgstr "Visualizzatore Esterno"
+msgstr "Visualizzatore esterno"
 
 #: mail/mail-display.c:1368
 msgid "Downloading images"
@@ -13145,24 +13135,24 @@ msgstr "da %B %d, %Y, %l:%M %P"
 
 #: mail/mail-display.c:2255
 msgid "Open Link in Browser"
-msgstr "Aprei il link nel Browser"
+msgstr "Apri il link nel browser"
 
 #: mail/mail-display.c:2256
 msgid "Copy Link Location"
-msgstr "Copia la collocazione del Link"
+msgstr "Copia la collocazione del link"
 
 #: mail/mail-display.c:2258
 msgid "Save Link as (FIXME)"
-msgstr "Salva il Link come"
+msgstr "Salva il link come"
 
 #: mail/mail-display.c:2260
 msgid "Save Image as..."
-msgstr "Salva Immagine con nome..."
+msgstr "Salva immagine con nome..."
 
 #: mail/mail-folder-cache.c:745
 #, c-format
 msgid "Pinging %s"
-msgstr "Sto facendo ping a %s"
+msgstr "Ping a %s"
 
 #: mail/mail-format.c:665
 #, c-format
@@ -13292,7 +13282,7 @@ msgid ""
 "If you can no longer open this mailbox, then\n"
 "you may need to repair it manually."
 msgstr ""
-"Se non si riesce più ad aprire questa mailbox, può essere necessario\n"
+"Se non si riesce più ad aprire questa casella di posta, può essere necessario\n"
 "ripararla manualmente."
 
 #: mail/mail-local.c:1448
@@ -13324,15 +13314,15 @@ msgstr ""
 
 #: mail/mail-mt.c:904
 msgid "Working"
-msgstr "Sto lavorando"
+msgstr "In elaborazione"
 
 #: mail/mail-ops.c:86
 msgid "Filtering Folder"
-msgstr "Filtraggio Cartella"
+msgstr "Filtraggio cartella"
 
 #: mail/mail-ops.c:264
 msgid "Fetching Mail"
-msgstr "Ricezione Posta"
+msgstr "Ricezione posta"
 
 #: mail/mail-ops.c:550 mail/mail-ops.c:579
 msgid "However, the message was successfully sent."
@@ -13497,7 +13487,7 @@ msgstr "Trova nel Messaggio"
 
 #: mail/mail-search.c:320
 msgid "Case Sensitive"
-msgstr "Sensibile alle Maiuscole"
+msgstr "Sensibile alle maiuscole"
 
 #: mail/mail-search.c:322
 msgid "Search Forward"
@@ -13518,12 +13508,12 @@ msgstr "Annullamento..."
 #: mail/mail-send-recv.c:254
 #, c-format
 msgid "Server: %s, Type: %s"
-msgstr "Server: %s, Tipo: %s"
+msgstr "Server: %s, tipo: %s"
 
 #: mail/mail-send-recv.c:256
 #, c-format
 msgid "Path: %s, Type: %s"
-msgstr "Percorso %s, Tipo: %s"
+msgstr "Percorso %s, tipo: %s"
 
 #: mail/mail-send-recv.c:258
 #, c-format
@@ -13532,7 +13522,7 @@ msgstr "Tipo: %s"
 
 #: mail/mail-send-recv.c:306
 msgid "Send & Receive Mail"
-msgstr "Invia e Ricevi Posta"
+msgstr "Invia e ricevi posta"
 
 #: mail/mail-send-recv.c:307
 msgid "Cancel _All"
@@ -13544,7 +13534,7 @@ msgstr "Aggiornamento in corso..."
 
 #: mail/mail-send-recv.c:390 mail/mail-send-recv.c:446
 msgid "Waiting..."
-msgstr "In Attesa..."
+msgstr "In attesa..."
 
 #: mail/mail-session.c:226
 msgid "User canceled operation."
@@ -13553,11 +13543,11 @@ msgstr "Operazione annullata dall'utente."
 #: mail/mail-session.c:259
 #, c-format
 msgid "Enter Password for %s"
-msgstr "Inserire la Password per %s"
+msgstr "Inserire la password per %s"
 
 #: mail/mail-session.c:261
 msgid "Enter Password"
-msgstr "Inserire la Password"
+msgstr "Inserire la password"
 
 #: mail/mail-session.c:284
 msgid "_Remember this password"
@@ -13578,7 +13568,7 @@ msgid ""
 "\n"
 "Do you wish to save your changes?"
 msgstr ""
-"Questa firma è statamodificata, ma non è stata salvata\n"
+"Questa firma è stata modificata, ma non è stata salvata\n"
 "\n"
 "Salvare le modifiche?"
 
@@ -13618,12 +13608,12 @@ msgstr "Messaggio Inoltrato"
 #: mail/mail-vfolder.c:92
 #, c-format
 msgid "Setting up vfolder: %s"
-msgstr "Impostazione vfolder %s in corso"
+msgstr "Impostazione cartella virtuale %s in corso"
 
 #: mail/mail-vfolder.c:210
 #, c-format
 msgid "Updating vfolders for uri: %s"
-msgstr "Aggiornamento vfolder per %s in corso"
+msgstr "Aggiornamento cartella virtuale per %s in corso"
 
 #: mail/mail-vfolder.c:468
 #, c-format
@@ -13633,27 +13623,27 @@ msgid ""
 "    '%s'\n"
 "And have been updated."
 msgstr ""
-"Le seguenti vFolder:\n"
+"Le seguenti cartelle virtuali:\n"
 "%sUsavano la cartella:\n"
 "    '%s'\n"
 "che ora è stata rimossa, e quindi sono state aggiornate."
 
 #: mail/mail-vfolder.c:777
 msgid "VFolders"
-msgstr "VFolder"
+msgstr "Cartelle virtuali"
 
 #: mail/mail-vfolder.c:835
 msgid "vFolders"
-msgstr "vFolder"
+msgstr "Cartelle virtuali"
 
 #: mail/mail-vfolder.c:874
 msgid "Edit VFolder"
-msgstr "Modifica VFolder"
+msgstr "Modifica cartella virtuale"
 
 #: mail/mail-vfolder.c:894
 #, c-format
 msgid "Trying to edit a vfolder '%s' which doesn't exist."
-msgstr "Si è cercato di editare una vfolder (%s) che non esiste."
+msgstr "Si è cercato di modificare una cartella virtuale (%s) che non esiste."
 
 #: mail/mail-vfolder.c:966
 msgid "New VFolder"
@@ -13682,11 +13672,11 @@ msgstr "Risposto"
 
 #: mail/message-list.c:744
 msgid "Multiple Unseen Messages"
-msgstr "Messaggi Multipli Non Visti"
+msgstr "Messaggi multipli non visti"
 
 #: mail/message-list.c:745
 msgid "Multiple Messages"
-msgstr "Messaggi Multipli"
+msgstr "Messaggi multipli"
 
 #: mail/message-list.c:749
 msgid "Lowest"
@@ -13730,7 +13720,7 @@ msgstr "%b %d %Y"
 
 #: mail/message-list.c:2649
 msgid "Generating message list"
-msgstr "Generazione lista messaggi"
+msgstr "Generazione elenco messaggi"
 
 #: mail/message-list.etspec.h:3
 msgid "Due By"
@@ -13738,7 +13728,7 @@ msgstr "Scadenza "
 
 #: mail/message-list.etspec.h:4
 msgid "Flag Status"
-msgstr "Segnazione di Stato"
+msgstr "Segnalazione di stato"
 
 #: mail/message-list.etspec.h:5
 msgid "Flagged"
@@ -13774,7 +13764,7 @@ msgstr "Segue"
 
 #: mail/message-tag-followup.c:65
 msgid "For Your Information"
-msgstr "Per Vostra informazione"
+msgstr "Per informazione"
 
 #: mail/message-tag-followup.c:66 ui/evolution-mail-message.xml.h:36
 msgid "Forward"
@@ -13790,7 +13780,7 @@ msgstr "Rispondi"
 
 #: mail/message-tag-followup.c:70 ui/evolution-mail-message.xml.h:73
 msgid "Reply to All"
-msgstr "Rispondi a Tutti"
+msgstr "Rispondi a tutti"
 
 #: mail/message-tag-followup.c:71
 msgid "Review"
@@ -13810,7 +13800,7 @@ msgid ""
 "Please select a follow up action from the \"Flag\" menu."
 msgstr ""
 "I messaggi selezionati come seguenti sono elencati sotto.\n"
-"Prego selezionare un'azione seguente dal menu \"Segnalazioni\"."
+"Selezionare un'azione seguente dal menu \"Segnalazioni\"."
 
 #: mail/message-tags.glade.h:6
 msgid "_Due by:"
@@ -13851,7 +13841,7 @@ msgstr "Nessun server è stato selezionato"
 
 #: mail/subscribe-dialog.c:1598
 msgid "Please select a server."
-msgstr "Prego selezionare un server."
+msgstr "Selezionare un server."
 
 #: mail/subscribe-dialog.glade.h:1
 msgid "Folder Subscriptions"
@@ -23776,7 +23766,7 @@ msgstr "%A, %B %e %Y"
 
 #: my-evolution/e-summary.c:533
 msgid "Please wait..."
-msgstr "Attendere prego..."
+msgstr "Attendere..."
 
 #: my-evolution/e-summary.c:622 ui/my-evolution.xml.h:2
 msgid "Print Summary"
@@ -24182,7 +24172,7 @@ msgstr "Gragnola moderata"
 
 #: my-evolution/metar.c:207
 msgid "Heavy ice pellets"
-msgstr "Gragnola Intensa"
+msgstr "Gragnola intensa"
 
 #: my-evolution/metar.c:208
 msgid "Shallow ice pellets"
@@ -24194,7 +24184,7 @@ msgstr "Gragnola a chiazze"
 
 #: my-evolution/metar.c:210
 msgid "Partial ice pellets"
-msgstr "Parziale gragnola"
+msgstr "Gragnola parziale"
 
 #: my-evolution/metar.c:211
 msgid "Ice pellet storm"
@@ -24393,7 +24383,7 @@ msgstr "Foschia poco intensa"
 
 #: my-evolution/metar.c:269
 msgid "Patches of mist"
-msgstr "Banchi di Foschia"
+msgstr "Banchi di foschia"
 
 #: my-evolution/metar.c:270
 msgid "Partial mist"
@@ -25227,7 +25217,7 @@ msgstr ""
 #: shell/e-shell-folder-commands.c:405
 #, c-format
 msgid "Really delete folder \"%s\"?"
-msgstr "Sicuri di voler cancellare la cartella \"%s\"?"
+msgstr "Cancellare la cartella \"%s\"?"
 
 #: shell/e-shell-folder-commands.c:416
 #, c-format
@@ -25300,11 +25290,9 @@ msgid ""
 "You can select \"Automatic\" if you do not know, and Evolution will attempt "
 "to work it out."
 msgstr ""
-"Scegliere il file che si vuole importare in Evolution e selezionare il tipo "
-"di file dalla lista.\n"
+"Scegliere il file che si vuole importare in Evolution e selezionare il tipo di file dall'elenco.\n"
 "\n"
-"Se non lo si conosce, è possibile selezionare \"Automatico\" ed Evolution "
-"tenterà  di arrangiarsi."
+"Si può selezionare \"Automatico\"  nel caso non si conosca il tipo di file, in questo caso Evolution tenterà rilevarlo automaticamente."
 
 #: shell/e-shell-importer.c:148 shell/e-shell-startup-wizard.c:709
 msgid "Please select the information that you would like to import:"
@@ -25537,11 +25525,11 @@ msgstr "Vai alla cartella..."
 
 #: shell/e-shell-view-menu.c:503
 msgid "Select the folder that you want to open"
-msgstr "Selezionare la cartella che si desidera aprire"
+msgstr "Selezionare la cartella da aprire"
 
 #: shell/e-shell-view-menu.c:617
 msgid "Create New Shortcut"
-msgstr "Crea nuova scorciatoia"
+msgstr "Crea nuovo collegamento"
 
 #: shell/e-shell-view-menu.c:618
 msgid "Select the folder you want the shortcut to point to:"
@@ -25549,15 +25537,15 @@ msgstr "Selezionare la cartella a cui si vuole che punti il collegamento:"
 
 #: shell/e-shell-view-menu.c:769
 msgid "_Work Online"
-msgstr "_Lavora connesso"
+msgstr "_In linea"
 
 #: shell/e-shell-view-menu.c:782 ui/evolution.xml.h:65
 msgid "_Work Offline"
-msgstr "_Lavora disconnesso"
+msgstr "_Non in linea"
 
 #: shell/e-shell-view-menu.c:795 ui/evolution.xml.h:39
 msgid "Work Offline"
-msgstr "Non connesso"
+msgstr "Non in linea"
 
 #: shell/e-shell-view.c:264
 msgid "(No folder displayed)"
@@ -25575,20 +25563,16 @@ msgstr "(nessuno)"
 #: shell/e-shell-view.c:2083
 msgid ""
 "Ximian Evolution is currently online.  Click on this button to work offline."
-msgstr ""
-"Ximian Evolution è al momento connesso.  Premere questo tasto per "
-"disconnettersi."
+msgstr "Ximian Evolution è al momento in linea. Fare clic su questo tasto per disconnettersi."
 
 #: shell/e-shell-view.c:2090
 msgid "Ximian Evolution is in the process of going offline."
-msgstr "Ximian Evolution si sta disconnettendo."
+msgstr "\nXimian Evolution si sta disconnettendo."
 
 #: shell/e-shell-view.c:2096
 msgid ""
 "Ximian Evolution is currently offline.  Click on this button to work online."
-msgstr ""
-"Ximian Evolution è al momento disconnesso.  Premere questo tasto per "
-"connettersi."
+msgstr "Ximian Evolution è al momento non in linea.  Fare clic su questo tasto per connettersi."
 
 #: shell/e-shell.c:175
 #, c-format
@@ -25604,7 +25588,7 @@ msgstr ""
 #: shell/e-shell.c:741
 #, c-format
 msgid "Cannot set up local storage -- %s"
-msgstr "Impossibile impostare il local storage -- %s"
+msgstr "Impossibile impostare la memorizzazione locale -- %s"
 
 #: shell/e-shell.c:1804
 #, c-format
@@ -25635,7 +25619,7 @@ msgstr "Errore generico"
 
 #: shell/e-shortcuts-view.c:80
 msgid "Create New Shortcut Group"
-msgstr "Crea un nuovo gruppo di collegamento"
+msgstr "Crea un nuovo gruppo di collegamenti"
 
 #: shell/e-shortcuts-view.c:81
 msgid "Group name:"
@@ -25644,17 +25628,15 @@ msgstr "Nome del gruppo:"
 #: shell/e-shortcuts-view.c:179
 #, c-format
 msgid "Do you really want to remove group \"%s\" from the shortcut bar?"
-msgstr ""
-"Si desidera veramente rimuovere il gruppo \"%s\" dalla barra delle "
-"scorciatoie?"
+msgstr "Si desidera veramente rimuovere il gruppo \"%s\" dalla barra dei collegamenti?"
 
 #: shell/e-shortcuts-view.c:222
 msgid "Rename Shortcut Group"
-msgstr "Rinomina gruppo di collegamento"
+msgstr "Rinomina gruppo di collegamenti"
 
 #: shell/e-shortcuts-view.c:223
 msgid "Rename selected shortcut group to:"
-msgstr "Rinomina gruppo di collegamento selezionato come:"
+msgstr "Rinomina gruppo di collegamenti selezionato come:"
 
 #: shell/e-shortcuts-view.c:255
 msgid "_Small Icons"
@@ -25706,7 +25688,7 @@ msgstr "Nascondi la barra dei collegamenti"
 
 #: shell/e-shortcuts-view.c:288
 msgid "Create _Default Shortcuts"
-msgstr "Crea scorciatoia pre_definita"
+msgstr "Crea collegamto pre_definito"
 
 #: shell/e-shortcuts-view.c:289
 msgid "Create Default Shortcuts"
@@ -25714,7 +25696,7 @@ msgstr "Crea scorciatoie predefinite"
 
 #: shell/e-shortcuts-view.c:408
 msgid "Rename Shortcut"
-msgstr "Rinomina scorciatoia"
+msgstr "Rinomina collegamento"
 
 #: shell/e-shortcuts-view.c:409
 msgid "Rename selected shortcut to:"
@@ -25746,7 +25728,7 @@ msgstr "Ri_muovere"
 
 #: shell/e-shortcuts-view.c:429
 msgid "Remove this shortcut from the shortcut bar"
-msgstr "Rimuovi la scorciatoia dalla barra dei collegamenti"
+msgstr "Rimuovi il collegamento dalla barra dei collegamenti"
 
 #: shell/e-shortcuts.c:649
 msgid "Error saving shortcuts."
@@ -25754,7 +25736,7 @@ msgstr "Errore di salvataggio delle scorciatoie"
 
 #: shell/e-shortcuts.c:1096
 msgid "Shortcuts"
-msgstr "Scorciatoie"
+msgstr "Collegamenti"
 
 #: shell/e-storage-set-view.etspec.h:1
 msgid "Checkbox"
@@ -27643,7 +27625,7 @@ msgstr "_Barra dei collegamenti"
 
 #: ui/evolution.xml.h:62
 msgid "_Shortcut..."
-msgstr "_Scorciatoia..."
+msgstr "Collegamento..."
 
 #: ui/my-evolution.xml.h:3
 msgid "Print summary"
