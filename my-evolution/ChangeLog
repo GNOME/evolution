@@ -1,5 +1,17 @@
 2002-08-14  Iain <iain@ximian.com>
 
+	* e-summary-calendar.c (generate_html): Use the default uris for the
+	links.
+	(e_summary_calendar_init): Get the default uri from bonobo config
+	(e_summary_calendar_free): Free default uri.
+
+	* e-summary-tasks.c (generate_html): Use the default uris for the
+	links.
+	(e_summary_tasks_init): Get the default uri.
+	(e_summary_tasks_free): Free default uri.
+
+2002-08-14  Iain <iain@ximian.com>
+
 	* e-summary-tasks.c (sort_uids): Sort the tasks in the correct order.
 
 2002-08-14  Iain <iain@ximian.com>

@@ -44,6 +44,8 @@ struct _ESummaryTasks {
 	char *html;
 	char *due_today_colour;
 	char *overdue_colour;
+
+	char *default_uri;
 };
 
 const char *
@@ -310,7 +312,7 @@ generate_html (gpointer data)
 		s2 = e_utf8_from_locale_string (_("No tasks"));
 		g_free (tasks->html);
 		tasks->html = g_strconcat ("<dl><dt><img src=\"myevo-post-it.png\" align=\"middle\" "
-					   "alt=\"\" width=\"48\" height=\"48\"> <b><a href=\"evolution:/local/Tasks\">",
+					   "alt=\"\" width=\"48\" height=\"48\"> <b><a href=\"", tasks->default_uri, "\">",
 					   s1, "</a></b></dt><dd><b>", s2, "</b></dd></dl>", NULL);
 		g_free (s1);
 		g_free (s2);
@@ -321,8 +323,10 @@ generate_html (gpointer data)
 		char *s;
 
 		uids = cal_list_sort (uids, sort_uids, tasks->client);
-		string = g_string_new ("<dl><dt><img src=\"myevo-post-it.png\" align=\"middle\" "
-		                       "alt=\"\" width=\"48\" height=\"48\"> <b><a href=\"evolution:/local/Tasks\">");
+		string = g_string_new (NULL);
+		g_string_sprintf (string, "<dl><dt><img src=\"myevo-post-it.png\" align=\"middle\" "
+				  "alt=\"\" width=\"48\" height=\"48\"> <b><a href=\"%s\">", tasks->default_uri);
+		
 		s = e_utf8_from_locale_string (_("Tasks"));
 		g_string_append (string, s);
 		g_free (s);
@@ -460,9 +464,18 @@ e_summary_tasks_init (ESummary *summary)
 
 	/* Get some configuration values from the calendar */
 	if (db != CORBA_OBJECT_NIL) {
+
+		CORBA_exception_init (&ev);
+		
 		tasks->due_today_colour = bonobo_config_get_string_with_default (db, "/Calendar/Tasks/Colors/TasksDueToday", "blue", NULL);
 		tasks->overdue_colour = bonobo_config_get_string_with_default (db, "/Calendar/Tasks/Colors/TasksOverdue", "red", NULL);
 
+		tasks->default_uri = bonobo_config_get_string (db, "/DefaultFolders/tasks_path", &ev);
+		if (BONOBO_EX (&ev)) {
+			tasks->default_uri = g_strdup ("evolution:/local/Tasks");
+		}
+		CORBA_exception_free (&ev);
+			
 		bonobo_object_release_unref (db, NULL);
 	} else {
 		tasks->due_today_colour = g_strdup ("blue");
@@ -509,6 +522,7 @@ e_summary_tasks_free (ESummary *summary)
 	g_free (tasks->html);
 	g_free (tasks->due_today_colour);
 	g_free (tasks->overdue_colour);
+	g_free (tasks->default_uri);
 	
 	g_free (tasks);
 	summary->tasks = NULL;

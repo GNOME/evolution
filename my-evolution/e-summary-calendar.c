@@ -45,6 +45,8 @@ struct _ESummaryCalendar {
 
 	char *html;
 	gboolean wants24hr;
+
+	char *default_uri;
 };
 
 const char *
@@ -366,7 +368,7 @@ generate_html (gpointer data)
 		s2 = e_utf8_from_locale_string (_("No appointments"));
 		g_free (calendar->html);
 		calendar->html = g_strconcat ("<dl><dt><img src=\"myevo-appointments.png\" align=\"middle\" "
-		                              "alt=\"\" width=\"48\" height=\"48\"> <b><a href=\"evolution:/local/Calendar\">",
+		                              "alt=\"\" width=\"48\" height=\"48\"> <b><a href=\"", calendar->default_uri, "\">",
 		                              s1, "</a></b></dt><dd><b>", s2, "</b></dd></dl>", NULL);
 		g_free (s1);
 		g_free (s2);
@@ -378,8 +380,10 @@ generate_html (gpointer data)
 		int i;
 		char *s;
 
-		string = g_string_new ("<dl><dt><img src=\"myevo-appointments.png\" align=\"middle\" "
-		                       "alt=\"\" width=\"48\" height=\"48\"> <b><a href=\"evolution:/local/Calendar\">");
+		string = g_string_new (NULL);
+		g_string_sprintf (string, "<dl><dt><img src=\"myevo-appointments.png\" align=\"middle\" "
+			      "alt=\"\" width=\"48\" height=\"48\"> <b><a href=\"%s\">",
+			      calendar->default_uri);
 		s = e_utf8_from_locale_string (_("Appointments"));
 		g_string_append (string, s);
 		g_free (s);
@@ -548,6 +552,9 @@ e_summary_calendar_init (ESummary *summary)
 	e_summary_add_protocol_listener (summary, "calendar", e_summary_calendar_protocol, calendar);
 
 	calendar->wants24hr = bonobo_config_get_boolean_with_default (db, "/Calendar/Display/Use24HourFormat", locale_uses_24h_time_format (), NULL);
+	calendar->default_uri = bonobo_config_get_string_with_default (db, "/DefaultFolders/calendar_path", "evolution:/local/Calendar", NULL);
+
+	g_print ("Default folder: %s\n", calendar->default_uri);
 	bonobo_object_release_unref (db, NULL);
 }
 
@@ -568,7 +575,8 @@ e_summary_calendar_free (ESummary *summary)
 	calendar = summary->calendar;
 	gtk_object_unref (GTK_OBJECT (calendar->client));
 	g_free (calendar->html);
-
+	g_free (calendar->default_uri);
+	
 	g_free (calendar);
 	summary->calendar = NULL;
 }
