@@ -9,6 +9,7 @@
       </para>
     </partintro>
 
+    &EvolutionImporterListener;
     &EvolutionImporterClient;
   </reference>
 

@@ -1,5 +1,4 @@
 <INCLUDE>evolution-importer.h</INCLUDE>
-<INCLUDE>evolution-importer-client.h</INCLUDE>
 
 <SECTION>
 <FILE>evolution-importer</FILE>
@@ -29,12 +28,35 @@ EvolutionImporterPrivate
 
 </SECTION>
 
+<INCLUDE>evolution-importer-listener.h</INCLUDE>
+<SECTION>
+<FILE>evolution-importer-listener</FILE>
+EVOLUTION_IMPORTER_LISTENER
+<TITLE>EvolutionImporterListener</TITLE>
+
+EvolutionImporterListenerCallback
+
+evolution_importer_listener_new
+
+<SUBSECTION Standard>
+EVOLUTION_TYPE_IMPORTER_LISTENER
+EVOLUTION_IMPORTER_LISTENER
+EVOLUTION_IMPORTER_LISTENER_CLASS
+EVOLUTION_IS_IMPORTER_LISTENER
+EVOLUTION_IS_IMPORTER_LISTENER_CLASS
+evolution_importer_listener_get_type
+
+<SUBSECTION Private>
+EvolutionImporterListener
+EvolutionImporterListenerPrivate
+
+</SECTION>
+
+<INCLUDE>evolution-importer-client.h</INCLUDE>
 <SECTION>
 <FILE>evolution-importer-client</FILE>
 EVOLUTION_IMPORTER_CLIENT
 <TITLE>EvolutionImporterClient</TITLE>
-
-EvolutionImporterClientCallback
 
 evolution_importer_client_new
 evolution_importer_client_new_from_id
@@ -53,6 +75,5 @@ evolution_importer_client_get_type
 
 <SUBSECTION Private>
 EvolutionImporterClient
-EvolutionImporterClientPrivate
 
 </SECTION>

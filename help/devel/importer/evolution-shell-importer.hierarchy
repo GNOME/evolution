@@ -1,5 +1,14 @@
 GtkObject
+  GtkWidget
+    GtkRange
+      GtkScale
+    GtkContainer
+      GtkBin
+        GtkButton
+          GtkToggleButton
+            GtkCheckButton
   BonoboObject
     EvolutionImporter
     Handle to remote Bonobo::Unknown
       EvolutionImporterClient
+    EvolutionImporterListener

@@ -2,11 +2,11 @@
 EvolutionImporter
 
 <!-- ##### SECTION Short_Description ##### -->
-
+A #BonoboObject that implements the GNOME/Evolution/Importer interface.
 
 <!-- ##### SECTION Long_Description ##### -->
 <para>
-
+A #BonoboObject wrapper around the GNOME/Evolution/Importer interface, providing error checking and reference counting, hiding the CORBA internals from the user and providing a simple way to create a GNOME_Evolution_Importer object.
 </para>
 
 <!-- ##### SECTION See_Also ##### -->
@@ -16,53 +16,53 @@ EvolutionImporter
 
 <!-- ##### MACRO EVOLUTION_IMPORTER ##### -->
 <para>
-
+Casts a #GtkObject into an #EvolutionImporter.
 </para>
 
-@obj: 
+@obj: A #GtkObject.
 
 
 <!-- ##### USER_FUNCTION EvolutionImporterSupportFormatFn ##### -->
 <para>
-
+The type of function that is called when the importer wishes to find out if the importing component can support the file given in @filename.
 </para>
 
-@importer: 
-@filename: 
-@closure: 
-@Returns: 
+@importer: The #EvolutionImporter.
+@filename: The filename of the file to check.
+@closure: The data passed into evolution_importer_new ().
+@Returns: A #gboolean. TRUE if the importing component can import the file, FALSE otherwise.
 
 
 <!-- ##### USER_FUNCTION EvolutionImporterLoadFileFn ##### -->
 <para>
-
+The type of function that is called when the importer wishes the importing component to load the file given in @filename, and initialise itself.
 </para>
 
-@importer: 
-@filename: 
-@closure: 
-@Returns: 
+@importer: The #EvolutionImporter.
+@filename: The filename of the file to load.
+@closure: The data passed into evolution_importer_new ().
+@Returns: A #gboolean. TRUE if the load and initialisation was successful, FALSE otherwise.
 
 
 <!-- ##### USER_FUNCTION EvolutionImporterProcessItemFn ##### -->
 <para>
-
+The type of function that is called when the importer wants the importing component to process the next item (or items) in a file.
 </para>
 
-@importer: 
-@listener: 
-@closure: 
-@ev: 
+@importer: The #EvolutionImporter
+@listener: A GNOME_Evolution_Importer_Listener CORBA object.
+@closure: The data passed into evolution_importer_new ().
+@ev: A #CORBA_Environment for returning any CORBA exceptions.
 
 
 <!-- ##### USER_FUNCTION EvolutionImporterGetErrorFn ##### -->
 <para>
-
+The type of function that is called when the importer wants to get a string version of an error. Not all importing components support this function.
 </para>
 
-@importer: 
-@closure: 
-@Returns: 
+@importer: The #EvolutionImporter.
+@closure: The data passed to evolution_importer_new ().
+@Returns: A string representation of the error, or NULL if there was no error, or the importing component does not support the getError method.
 
 
 <!-- ##### ENUM EvolutionImporterResult ##### -->
@@ -70,15 +70,6 @@ EvolutionImporter
 
 </para>
 
-@EVOLUTION_IMPORTER_OK: 
-@EVOLUTION_IMPORTER_UNSUPPORTED_OPERATION: 
-@EVOLUTION_IMPORTER_INTERRUPTED: 
-@EVOLUTION_IMPORTER_BUSY: 
-@EVOLUTION_IMPORTER_NOT_READY: 
-@EVOLUTION_IMPORTER_UNKNOWN_DATA: 
-@EVOLUTION_IMPORTER_BAD_DATA: 
-@EVOLUTION_IMPORTER_BAD_FILE: 
-@EVOLUTION_IMPORTER_UNKNOWN_ERROR: 
 
 <!-- ##### FUNCTION evolution_importer_new ##### -->
 <para>

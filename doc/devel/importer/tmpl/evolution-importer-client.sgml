@@ -2,11 +2,11 @@
 EvolutionImporterClient
 
 <!-- ##### SECTION Short_Description ##### -->
-
+A #GtkObject based client to simplify use of a GNOME_Evolution_Importer object.
 
 <!-- ##### SECTION Long_Description ##### -->
 <para>
-
+This #GtkObject provides a convience wrapper to the GNOME_Evolution_Importer object, providing error checking and hiding all the CORBA internals from the user.
 </para>
 
 <!-- ##### SECTION See_Also ##### -->
@@ -16,21 +16,10 @@ EvolutionImporterClient
 
 <!-- ##### MACRO EVOLUTION_IMPORTER_CLIENT ##### -->
 <para>
-
+Casts a #GtkObject into an #EvolutionImporterClient
 </para>
 
-@obj: 
-
-
-<!-- ##### USER_FUNCTION EvolutionImporterClientCallback ##### -->
-<para>
-
-</para>
-
-@client: 
-@result: 
-@more_items: 
-@data: 
+@obj: A #GtkObject
 
 
 <!-- ##### FUNCTION evolution_importer_client_new ##### -->
@@ -77,6 +66,8 @@ EvolutionImporterClient
 </para>
 
 @client: 
+@listener: 
+<!-- # Unused Parameters # -->
 @callback: 
 @closure: 
 
