@@ -21,6 +21,9 @@
 
 	<oaf_attribute name="description" type="string"
 		value="Evolution component for the executive summary."/>
+
+	<oaf_attribute name="evolution:shell-component-icon" type="string"
+		       value="evolution-today.png"/>
 </oaf_server>
 
 </oaf_info>

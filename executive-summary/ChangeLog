@@ -1,3 +1,8 @@
+2000-10-14  Ettore Perazzoli  <ettore@helixcode.com>
+
+	* evolution-executive-summary.oafinfo: Added
+	"evolution:shell-component-icon" property.
+
 2000-10-10  Jacob "Ulysses" Berkman  <jacob@helixcode.com>
 
 	* evolution-services/Makefile.am (IDLS): make the built sources
