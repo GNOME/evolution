@@ -1091,6 +1091,7 @@ efh_image(EMFormatHTML *efh, CamelStream *stream, CamelMimePart *part, EMFormatH
 
 static EMFormatHandler type_builtin_table[] = {
 	{ "application/x-pkcs7-mime", (EMFormatFunc)efh_application_xpkcs7mime },
+	{ "application/pkcs7-mime", (EMFormatFunc)efh_application_xpkcs7mime },
 
 	{ "image/gif", (EMFormatFunc)efh_image },
 	{ "image/jpeg", (EMFormatFunc)efh_image },

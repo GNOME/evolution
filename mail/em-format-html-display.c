@@ -913,6 +913,8 @@ efhd_multipart_signed (EMFormat *emf, CamelStream *stream, CamelMimePart *part, 
 
 static EMFormatHandler type_builtin_table[] = {
 	{ "application/x-pkcs7-mime", (EMFormatFunc)efhd_application_xpkcs7mime },
+	{ "application/pkcs7-mime", (EMFormatFunc)efhd_application_xpkcs7mime },
+
 	{ "multipart/signed", (EMFormatFunc)efhd_multipart_signed },
 };
 

@@ -1,3 +1,15 @@
+2003-12-12  Not Zed  <NotZed@Ximian.com>
+
+	** See bug #52108.
+
+	* em-format.c (em_format_is_attachment): also recognise
+	application/pkcs7-mime for mailers who like to make up their own
+	standards.
+
+	* em-format-html.c (type_builtin_table[]): *
+	em-format-html-display.c (type_builtin_table[]): make recognise
+	application/pkcs7-mime too.
+
 2003-12-11  Chris Toshok  <toshok@ximian.com>
 
 	* Makefile.am (INCLUDES): get the build moving again.  add
