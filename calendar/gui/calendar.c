@@ -81,15 +81,6 @@ ical_object_try_alarms (iCalObject *obj)
 }
 
 void
-calendar_add_alarms (Calendar *cal)
-{
-	GList *events = cal->events;
-
-	for (; events; events=events->next)
-		ical_object_try_alarms (events->data);
-}
-
-void
 calendar_add_object (Calendar *cal, iCalObject *obj)
 {
 	obj->new = 0;
@@ -245,7 +236,7 @@ calendar_compare_by_dtstart (gpointer a, gpointer b)
 void
 calendar_load_from_vobject (Calendar *cal, VObject *vcal)
 {
-	VObjectIterator i;;
+	VObjectIterator i;
 	
 	initPropIterator (&i, vcal);
 
