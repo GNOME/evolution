@@ -93,12 +93,21 @@ load_pages (EShellSettingsDialog *dialog)
 
 		title       = oaf_server_info_prop_lookup (info, "evolution:config_item:title", language_list);
 		description = oaf_server_info_prop_lookup (info, "evolution:config_item:description", language_list);
-		icon_path   = oaf_server_info_prop_lookup (info, "evolution:config_item:icon_path", language_list);
+		icon_path   = oaf_server_info_prop_lookup (info, "evolution:config_item:icon_name", NULL);
 
-		if (icon_path == NULL)
+		if (icon_path == NULL) {
 			icon = NULL;
-		else
-			icon = gdk_pixbuf_new_from_file (icon_path);
+		} else {
+			if (g_path_is_absolute (icon_path)) {
+				icon = gdk_pixbuf_new_from_file (icon_path);
+			} else {
+				char *real_icon_path;
+
+				real_icon_path = g_concat_dir_and_file (EVOLUTION_IMAGES, icon_path);
+				icon = gdk_pixbuf_new_from_file (real_icon_path);
+				g_free (real_icon_path);
+			}
+		}
 
 		corba_object = oaf_activate_from_id ((char *) info->iid, 0, NULL, &ev);
 		if (ev._major == CORBA_NO_EXCEPTION)

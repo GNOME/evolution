@@ -1,3 +1,11 @@
+2002-03-13  Ettore Perazzoli  <ettore@ximian.com>
+
+	* e-shell-settings-dialog.c (load_pages): Use
+	`evolution:config_item:icon_name' instead of
+	`evolution:config_item:icon_path'.  If it's not an absolute path,
+	load from the IMAGESDIR.  Also, no need to specify the language
+	list for this one, as the icon name shouldn't be translated.
+
 2002-03-12  Ettore Perazzoli  <ettore@ximian.com>
 
 	* evolution-test-component.c (create_configuration_page): Update
