@@ -31,52 +31,6 @@
 /* The FolderBrowser BonoboControls we have.  */
 static GList *control_list = NULL;
 
-static void
-register_ondemand (RuleContext *f, FilterRule *rule, FolderBrowser *fb, BonoboUIComponent *uic)
-{
-	BonoboUIHandler *uih;
-	gchar *text;
-	struct fb_ondemand_closure *oc;
-	
-	oc = g_new (struct fb_ondemand_closure, 1);
-	oc->rule = rule;
-	oc->fb = fb;
-	oc->path = g_strdup_printf ("/*Component Placeholder*/Folder/Filter-%s", rule->name);
-
-#warning FIXME: this should not use the bonobo_ui_handler API.
-
-	uih = bonobo_ui_handler_new_from_component (uic);
-
-	if (fb->filter_menu_paths == NULL)
-		bonobo_ui_handler_menu_new_separator (uih, "/*Component Placeholder*/Folder/separator1", -1);
-	
-	text = g_strdup_printf (_("Run filter \"%s\""), rule->name);
-	fb->filter_menu_paths = g_slist_prepend (fb->filter_menu_paths, oc);
-	
-	bonobo_ui_handler_menu_new_item (uih, oc->path, text,
-					 NULL, -1,
-					 BONOBO_UI_HANDLER_PIXMAP_NONE,
-					 0,
-					 0, 0, run_filter_ondemand, oc);
-	g_free (text);
-}
-
-static void
-create_ondemand_hooks (FolderBrowser *fb, BonoboUIComponent *uic)
-{
-	gchar *system, *user;
-	FilterRule *rule = NULL;
-
-	user = g_strdup_printf ("%s/filters.xml", evolution_dir);
-	system = EVOLUTION_DATADIR "/evolution/filtertypes.xml";
-	fb->filter_context = filter_context_new();
-	rule_context_load ((RuleContext *) fb->filter_context, system, user);
-	while ( (rule = rule_context_next_rule((RuleContext *)fb->filter_context, rule, FILTER_SOURCE_DEMAND)) != NULL ) {
-		register_ondemand((RuleContext *)fb->filter_context, rule, fb, uic);
-	}
-	g_free (user);
-}
-
 /*
  * Add with 'folder_browser'
  */
@@ -197,8 +151,6 @@ control_activate (BonoboControl     *control,
 		uic, "ViewThreaded",
 		message_list_toggle_threads,
 		FOLDER_BROWSER (folder_browser)->message_list);
-
-	create_ondemand_hooks (fb, uic);
 
 	update_pixmaps (uic);
 

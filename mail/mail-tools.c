@@ -189,7 +189,6 @@ mail_tool_do_movemail (const gchar *source_url, CamelException *ex)
 	gchar *dest_url;
 	gchar *dest_path;
 	const gchar *source;
-	CamelFolder *ret;
 	struct stat sb;
 #ifndef MOVEMAIL_PATH
 	int tmpfd;
