@@ -327,7 +327,7 @@ build_message (EMsgComposer *composer)
 			}
 		}
 		data = g_byte_array_new ();
-		g_byte_array_append (data, composer->mime_body, i);
+		g_byte_array_append (data, composer->mime_body, strlen (composer->mime_body));
 		type = header_content_type_decode (composer->mime_type);
 	} else {
 		data = get_text (composer->persist_stream_interface, "text/plain");

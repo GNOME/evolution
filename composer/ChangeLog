@@ -1,3 +1,8 @@
+2002-03-04  Dan Winship  <danw@ximian.com>
+
+	* e-msg-composer.c (build_message): Fix a dumb bug in previous
+	commit that broke iMIP containing 8-bit data.
+
 2002-02-25  Dan Winship  <danw@ximian.com>
 
 	Mailer side of 14705.
