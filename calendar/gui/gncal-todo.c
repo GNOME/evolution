@@ -229,6 +229,7 @@ static void
 gncal_todo_init (GncalTodo *todo)
 {
 	GtkWidget *w;
+	GtkWidget *sw;
 	GtkWidget *hbox;
 
 	gtk_box_set_spacing (GTK_BOX (todo), 4);
@@ -242,17 +243,20 @@ gncal_todo_init (GncalTodo *todo)
 
 	/* Clist */
 
+	sw = gtk_scrolled_window_new (NULL, NULL);
+	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (sw), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
+	gtk_box_pack_start (GTK_BOX (todo), sw, TRUE, TRUE, 0);
+	gtk_widget_show (sw);
+
 	w = gtk_clist_new (1);
 	todo->clist = GTK_CLIST (w);
-
-	gtk_clist_set_policy (todo->clist, GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
 	gtk_clist_set_selection_mode (todo->clist, GTK_SELECTION_BROWSE);
 
 	gtk_signal_connect (GTK_OBJECT (todo->clist), "select_row",
 			    (GtkSignalFunc) clist_row_selected,
 			    todo);
 
-	gtk_box_pack_start (GTK_BOX (todo), w, TRUE, TRUE, 0);
+	gtk_container_add (GTK_CONTAINER (sw), w);
 	gtk_widget_show (w);
 
 	/* Box for buttons */

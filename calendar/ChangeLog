@@ -1,3 +1,8 @@
+1998-11-16  Federico Mena Quintero  <federico@nuclecu.unam.mx>
+
+	* gncal-todo.c (gncal_todo_init): Use a scrolled window to put the
+	clist into.
+
 1998-11-11  Miguel de Icaza  <miguel@nuclecu.unam.mx>
 
 	* calendar.c (calendar_save): Backup the old file before saving
