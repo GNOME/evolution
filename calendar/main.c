@@ -62,7 +62,9 @@ struct color_prop color_props[] = {
 	{ 0xd364, 0xc6b7, 0x7969, N_("Highlighted day:"),      "/calendar/Colors/prelight_bg" },
 	{ 0x01f0, 0x01f0, 0x01f0, N_("Day numbers:"),          "/calendar/Colors/day_fg" },
 	{ 0x0000, 0x0000, 0xffff, N_("Current day's number:"), "/calendar/Colors/current_fg" },
-	{ 0x0000, 0xaaaa, 0xaaaa, N_("Overdue To Do item"),     "/calendar/Coloirs/todo_overdue" }
+	{ 0xbbbb, 0xbbbb, 0x0000, N_("To-Do item that is not yet due:"), "/calendar/Colors/todo_not_yet" },
+	{ 0xdddd, 0xbbbb, 0x0000, N_("To-Do item that is due today:"),   "/calendar/Colors/todo_today" },
+	{ 0xbbbb, 0xdddd, 0x0000, N_("To-Do item that is overdue:"),     "/calendar/Colors/todo_overdue" }
 };
 
 /* Number of active calendars */
@@ -206,9 +208,14 @@ init_calendar (void)
 
 	/* read todolist settings */
 
+	todo_show_time_remaining = gnome_config_get_bool("/calendar/Todo/show_time_remain");
 	todo_show_due_date = gnome_config_get_bool("/calendar/Todo/show_due_date");
 
-	todo_due_date_overdue_highlight = gnome_config_get_bool("/calendar/Todo/highlight_overdue_tasks");
+	todo_item_dstatus_highlight_overdue = gnome_config_get_bool("/calendar/Todo/highlight_overdue");
+	
+	todo_item_dstatus_highlight_due_today = gnome_config_get_bool("/calendar/Todo/highlight_due_today");
+	
+	todo_item_dstatus_highlight_not_due_yet = gnome_config_get_bool("/calendar/Todo/highlight_not_due_yet");
 
         todo_current_sort_column = gnome_config_get_int("/calendar/Todo/sort_column");
 	

@@ -19,7 +19,9 @@ typedef enum {
 	COLOR_PROP_PRELIGHT_DAY_BG,	/* Background color for prelighted day */
 	COLOR_PROP_DAY_FG,		/* Color for day numbers */
 	COLOR_PROP_CURRENT_DAY_FG,	/* Color for current day's number */
-	COLOR_PROP_OVERDUE_TODO,
+	COLOR_PROP_TODO_NOT_DUE_YET,    /* Color for Todo items not yet due */
+	COLOR_PROP_TODO_DUE_TODAY,      /* Color for Todo items due today */ 
+	COLOR_PROP_TODO_OVERDUE,        /* Color for Todo items that are overdue */
 	COLOR_PROP_LAST			/* Number of color properties */
 } ColorProp;
 
@@ -36,10 +38,14 @@ extern struct color_prop color_props[];
  
 /* todo preferences */
 extern int todo_show_due_date;
-extern int todo_due_date_overdue_highlight;
+
+extern int todo_item_dstatus_highlight_overdue;
+extern int todo_item_dstatus_highlight_due_today;
+extern int todo_item_dstatus_highlight_not_due_yet;
+
+extern int todo_show_time_remaining;
 extern int todo_show_priority;
 extern char *todo_overdue_font_text;
-extern struct color_prop todo_overdue_highlight_color;
 extern gboolean todo_style_changed;
 extern gint todo_current_sort_column;
 extern gint todo_current_sort_type;

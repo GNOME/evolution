@@ -15,7 +15,13 @@
 
 int todo_show_due_date = 0;
 int todo_show_priority = 0;
-int todo_due_date_overdue_highlight = 0;
+int todo_show_time_remaining = 0;
+
+int todo_item_dstatus_highlight_overdue = 0;
+int todo_item_dstatus_highlight_due_today = 0;
+int todo_item_dstatus_highlight_not_due_yet = 0;
+
+
 char *todo_overdue_font_text;
 gint todo_current_sort_column = 0;
 gint todo_current_sort_type = GTK_SORT_ASCENDING;
@@ -177,7 +183,7 @@ simple_todo_editor (GncalTodo *todo, iCalObject *ico)
 	gtk_widget_show (due_label);
 
 	due_entry = gtk_entry_new ();
-	due_entry = date_edit_new (ico->dtend, FALSE);
+	due_entry = date_edit_new (ico->dtend, TRUE);
 	gtk_box_pack_start (GTK_BOX (due_box), due_entry, TRUE, TRUE, 0);
 	gtk_widget_show (due_entry);
 
@@ -412,15 +418,17 @@ gncal_todo_init (GncalTodo *todo)
 	GtkWidget *w;
 	GtkWidget *sw;
 	GtkWidget *hbox;
-	gchar *titles[3] = {
+	gchar *titles[4] = {
 	    N_("Summary"),
 	    N_("Due Date"),
-	    N_("Priority")
+	    N_("Priority"),
+	    N_("Time Left")
 	};
-	char *tmp[3];
+	char *tmp[4];
 	tmp[0] = _(titles[0]);
 	tmp[1] = _(titles[1]);
 	tmp[2] = _(titles[2]);
+	tmp[3] = _(titles[3]);
 
 	gtk_box_set_spacing (GTK_BOX (todo), 4);
 
@@ -439,7 +447,7 @@ gncal_todo_init (GncalTodo *todo)
 	gtk_widget_show (sw);
 
 
-	w = gtk_clist_new_with_titles(3, tmp);
+	w = gtk_clist_new_with_titles(4, tmp);
 
 	todo->clist = GTK_CLIST (w);
 	gtk_clist_set_selection_mode (todo->clist, GTK_SELECTION_BROWSE);
@@ -523,53 +531,224 @@ convert_time_t_to_char (time_t t)
 	return g_strdup (buf);
 }
 
+enum todo_styles {
+	TODO_STYLE_OVERDUE,
+	TODO_STYLE_DUE_TODAY,
+	TODO_STYLE_NOT_DUE
+};
+
+
+enum todo_status {
+	TODO_ITEM_DSTATUS_NOT_DUE_YET,
+	TODO_ITEM_DSTATUS_DUE_TODAY,
+	TODO_ITEM_DSTATUS_OVERDUE,
+	TODO_ITEM_DSTATUS_LAST_DUE_STATUS
+};
+typedef enum todo_status todo_status;
+
 static GtkStyle *
-make_overdue_todo_style(GncalTodo *todo)
+make_todo_style(GncalTodo *todo, todo_status style_type) 
 {
-	GtkStyle *overdue_style = NULL;
-	GdkColor overdue_color;
+	GtkStyle *style = NULL;
+	GdkColor style_color;
+	int color_prop = 0;
+	switch(style_type) {
+	case TODO_ITEM_DSTATUS_NOT_DUE_YET:
+	  color_prop = COLOR_PROP_TODO_NOT_DUE_YET;
+	  break;
+	case TODO_ITEM_DSTATUS_DUE_TODAY:
+	  color_prop = COLOR_PROP_TODO_DUE_TODAY;
+	  break;
+	case TODO_ITEM_DSTATUS_OVERDUE:
+	  color_prop = COLOR_PROP_TODO_OVERDUE;
+	  break;
+	case TODO_ITEM_DSTATUS_LAST_DUE_STATUS:
+	}
 	
-	/*make the overdue color configurable */
-	overdue_color.red   = color_props[COLOR_PROP_OVERDUE_TODO].r;
-	overdue_color.green = color_props[COLOR_PROP_OVERDUE_TODO].g;
-	overdue_color.blue  = color_props[COLOR_PROP_OVERDUE_TODO].b;
+	style_color.red   = color_props[color_prop].r;
+	style_color.green = color_props[color_prop].g;
+	style_color.blue  = color_props[color_prop].b;
 	
-	overdue_style = gtk_style_copy (GTK_WIDGET (todo->clist)->style);
-	overdue_style->base[GTK_STATE_NORMAL] = overdue_color;
-	
-	return overdue_style;
+	style = gtk_style_copy (GTK_WIDGET (todo->clist)->style);
+	style->base[GTK_STATE_NORMAL] = style_color;
+	return style;
 }
+
+
+
+
+static
+todo_status todo_item_due_status(time_t *todo_due_time) {
+	struct tm due_tm_time;
+	struct tm current_time;
+	struct tm *temp_tm;
+	time_t current_time_val = time(NULL);
+	temp_tm = localtime(todo_due_time);
+	/* make a copy so it dosen't get over written */
+	memcpy(&due_tm_time, temp_tm, sizeof(struct tm));
+	
+	
+	temp_tm = localtime(&current_time_val);
+	memcpy(&current_time, temp_tm, sizeof(struct tm));
+	
+	if(due_tm_time.tm_mon == current_time.tm_mon &&
+	   due_tm_time.tm_mday == current_time.tm_mday &&
+	   due_tm_time.tm_year == current_time.tm_year) {
+		return TODO_ITEM_DSTATUS_DUE_TODAY;
+	}
+	
+	if((*todo_due_time) < current_time_val) {
+		return TODO_ITEM_DSTATUS_OVERDUE;
+	}
+	
+	return TODO_ITEM_DSTATUS_NOT_DUE_YET;
+}
+
+
+enum todo_remaining_time_form {
+	TODO_ITEM_REMAINING_WEEKS,
+	TODO_ITEM_REMAINING_DAYS,
+	TODO_ITEM_REMAINING_HOURS,
+	TODO_ITEM_REMAINING_MINUTES,
+	TODO_ITEM_REMAINING_SECONDS
+};
+typedef enum todo_remaining_time_form todo_remaining_time_form;
 
 static void
 insert_in_clist (GncalTodo *todo, iCalObject *ico)
 {
 	int i;
-	char *text[3];
-        static GtkStyle *overdue_style = NULL;
+	char *text[4];
+	char time_remaining_buffer[100];
+	time_t time_remain;
+	todo_remaining_time_form time_remaining_form;
+	int sec_in_week = 3600*7*24;
+	int sec_in_day = 3600*24;
+	int sec_in_hour = 3600;
+	int sec_in_minute = 60;
+	int weeks = 0;
+	int days = 0;
+	int hours = 0;
+	int minutes = 0;
+	int seconds = 0; 
 	
-      
-	/* setup the over due style if we haven't already, or it changed.*/
-	if (todo_style_changed || !overdue_style) { 
-		/* free the old style cause its not needed anymore */
-		if(!overdue_style) g_free(overdue_style);
-		overdue_style = make_overdue_todo_style(todo);
+	
+	/* an array for the styles of items */
+	static GtkStyle *dstatus_styles[TODO_ITEM_DSTATUS_LAST_DUE_STATUS];
+	/* we want to remake the styles when the status is changed,
+	   also we need to check for the null value in the pointer so we init them
+	   at startup */
+	if (todo_style_changed || !dstatus_styles[TODO_ITEM_DSTATUS_NOT_DUE_YET]) {
+		g_free(dstatus_styles[TODO_ITEM_DSTATUS_NOT_DUE_YET]);
+		g_free(dstatus_styles[TODO_ITEM_DSTATUS_OVERDUE]);
+		g_free(dstatus_styles[TODO_ITEM_DSTATUS_DUE_TODAY]);
+		
+		dstatus_styles[TODO_ITEM_DSTATUS_NOT_DUE_YET] = make_todo_style(todo, TODO_ITEM_DSTATUS_NOT_DUE_YET);
+		dstatus_styles[TODO_ITEM_DSTATUS_OVERDUE] = make_todo_style(todo, TODO_ITEM_DSTATUS_OVERDUE);
+		dstatus_styles[TODO_ITEM_DSTATUS_DUE_TODAY] = make_todo_style(todo, TODO_ITEM_DSTATUS_DUE_TODAY);
+		
 		todo_style_changed = 0;
 	}
+
+	  
+       
 
 
 	text[0] =  ico->summary;
 
+	if(todo_show_time_remaining) {
+	  memset(time_remaining_buffer, 0, 100);
+	  /* we need to make a string that represents the amount of time remaining
+	     before this task is due */
+	  
+	  /* for right now all I'll do is up to the hours. */
+	  time_remain = (ico->dtend - time(NULL));
+	  if(time_remain < 0) {
+	    text[3] = "Overdue!";
+	  }
+	  else {
+
+	    /* lets determine a decent denomination to display */
+	    if(time_remain / (sec_in_week)) 
+	      {
+	    	/* we have weeks available */
+	    	time_remaining_form = TODO_ITEM_REMAINING_WEEKS;
+		weeks = time_remain / sec_in_week;
+		days = (time_remain % (sec_in_week))/sec_in_day;
+	      }
+	    else if(time_remain / (sec_in_day)) 
+	      {
+		/* we have days available */
+	    	time_remaining_form = TODO_ITEM_REMAINING_DAYS;
+		days = time_remain / sec_in_day;
+		hours = (time_remain % sec_in_day)/sec_in_hour;
+	      }
+	    else if(time_remain / (sec_in_hour)) 
+	      {
+		/* we have hours available */
+	    	time_remaining_form = TODO_ITEM_REMAINING_HOURS;
+		hours = time_remain /sec_in_hour;
+		minutes = (time_remain % sec_in_hour) / sec_in_minute;
+	      }
+	    else if(time_remain / sec_in_minute) 
+	      {
+	    	time_remaining_form = TODO_ITEM_REMAINING_MINUTES;
+		minutes = time_remain / sec_in_minute;
+		seconds = time_remain % sec_in_minute;
+	      }
+	    else 
+	      {
+	    	time_remaining_form = TODO_ITEM_REMAINING_SECONDS;
+		seconds = time_remain;
+	      }
+
+	    switch(time_remaining_form) 
+	      {
+	      case TODO_ITEM_REMAINING_WEEKS:
+		snprintf(time_remaining_buffer, 100, "%d %s %d %s", weeks,
+			 (weeks > 1) ? _("Weeks") : _("Week"),
+			 days, (days > 1) ? _("Days") : _("Day"));
+		break;
+	      case TODO_ITEM_REMAINING_DAYS:
+		snprintf(time_remaining_buffer, 100, "%d %s %d %s", days,
+			 (days > 1) ? _("Days") : _("Day"),
+			 hours, (hours > 1) ? _("Hours") : _("Hour"));
+		break;
+	      case TODO_ITEM_REMAINING_HOURS:
+		snprintf(time_remaining_buffer, 100, "%d %s %d %s", hours,
+			 (hours > 1) ? _("Hours") : _("Hour"),
+			 minutes, (minutes > 1) ? _("Minutes") : _("Minute"));
+		break;
+	      case TODO_ITEM_REMAINING_MINUTES:
+		snprintf(time_remaining_buffer, 100, "%d %s %d %s", minutes,
+			 (minutes > 1) ? _("Minutes") : _("Minute"),
+			 seconds, (seconds > 1) ? _("Seconds") : _("Second"));
+		break;
+	      case TODO_ITEM_REMAINING_SECONDS:
+		snprintf(time_remaining_buffer, 100, "%d %s", seconds,
+			 (seconds > 1) ? _("Seconds") : _("Second")); 
+		break;
+	      }
+	    text[3] = g_strdup(time_remaining_buffer);
+	    todo->data_ptrs = g_slist_append(todo->data_ptrs, text[3]);
+	  }
+
+	}
+	else {
+	  text[3] = "Loose penguini!";
+	}
 	/*
 	 * right now column 0 will be the summary
 	 * and column 1 will be the due date. 
 	 * WISH:  this should be able to be changed on the fly
 	 */
 
-	if(ico->dtend && todo_show_due_date) {
-		text[1] = convert_time_t_to_char (ico->dtend);
-		/* Append the data's pointer so later it can be properly freed */
-		todo->data_ptrs = g_slist_append (todo->data_ptrs, text[1]);
-	}
+	if(ico->dtend && todo_show_due_date)
+	  {
+	    text[1] = convert_time_t_to_char (ico->dtend);
+	    /* Append the data's pointer so later it can be properly freed */
+	    todo->data_ptrs = g_slist_append (todo->data_ptrs, text[1]);
+	  }
 	else
 		text[1] = NULL;
 	
@@ -589,9 +768,27 @@ insert_in_clist (GncalTodo *todo, iCalObject *ico)
 	 * determine if the task is overdue..
 	 * if so mark with the apropriate style
 	 */
-	if(todo_due_date_overdue_highlight) {
-		if(ico->dtend < time(NULL))
-			gtk_clist_set_row_style(todo->clist, i, overdue_style);
+
+	switch(todo_item_due_status(&ico->dtend)) {
+	case TODO_ITEM_DSTATUS_NOT_DUE_YET:
+	  if(todo_item_dstatus_highlight_not_due_yet) 
+	    {
+	      gtk_clist_set_row_style(todo->clist, i, dstatus_styles[TODO_ITEM_DSTATUS_NOT_DUE_YET]);
+	    }
+	  break;
+	case TODO_ITEM_DSTATUS_DUE_TODAY:
+	  if(todo_item_dstatus_highlight_due_today)
+	    {
+	      gtk_clist_set_row_style(todo->clist, i, dstatus_styles[TODO_ITEM_DSTATUS_DUE_TODAY]);
+	    }
+	  break;
+	case TODO_ITEM_DSTATUS_OVERDUE:
+	  if(todo_item_dstatus_highlight_overdue) 
+	    {
+	      gtk_clist_set_row_style(todo->clist, i, dstatus_styles[TODO_ITEM_DSTATUS_OVERDUE]);
+	    }
+	  break;
+	case TODO_ITEM_DSTATUS_LAST_DUE_STATUS:
 	}
 	
 	/* keep the list in order */
@@ -626,10 +823,20 @@ gncal_todo_update (GncalTodo *todo, iCalObject *ico, int flags)
 	/* check on the columns that we should display */
 	/* check for due date */
 
-	if(todo_show_due_date) 
-		gtk_clist_set_column_visibility (todo->clist, 1, 1);
-	else
-		gtk_clist_set_column_visibility (todo->clist, 1, 0);
+	if(todo_show_due_date) {
+	  gtk_clist_set_column_visibility (todo->clist, 1, 1);
+	}
+	else {
+	  gtk_clist_set_column_visibility (todo->clist, 1, 0);
+	}
+
+	if(todo_show_time_remaining) {
+	  gtk_clist_set_column_visibility (todo->clist, 3, 1);
+	}
+	else {
+	  gtk_clist_set_column_visibility (todo->clist, 3, 0);
+	}
+				       
 
 	if(todo_show_priority)
 	  gtk_clist_set_column_visibility (todo->clist, 2, 1);
