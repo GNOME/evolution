@@ -121,12 +121,14 @@ static guint signals[LAST_SIGNAL] = { 0 };
 enum {
 	DND_TYPE_MESSAGE_RFC822,
 	DND_TYPE_TEXT_URI_LIST,
+	DND_TYPE_NETSCAPE_URL,
 	DND_TYPE_TEXT_VCARD,
 };
 
 static GtkTargetEntry drop_types[] = {
 	{ "message/rfc822", 0, DND_TYPE_MESSAGE_RFC822 },
 	{ "text/uri-list", 0, DND_TYPE_TEXT_URI_LIST },
+	{ "_NETSCAPE_URL", 0, DND_TYPE_NETSCAPE_URL },
 	{ "text/x-vcard", 0, DND_TYPE_TEXT_VCARD },
 };
 
@@ -2550,7 +2552,7 @@ drag_data_received (EMsgComposer *composer, GdkDragContext *context,
 		    int x, int y, GtkSelectionData *selection,
 		    guint info, guint time)
 {
-	char *tmp, *str, *filename, **urls;
+	char *tmp, *str, **urls;
 	CamelMimePart *mime_part;
 	CamelStream *stream;
 	CamelURL *url;
@@ -2568,6 +2570,7 @@ drag_data_received (EMsgComposer *composer, GdkDragContext *context,
 		camel_object_unref (stream);
 		break;
 	case DND_TYPE_TEXT_URI_LIST:
+	case DND_TYPE_NETSCAPE_URL:
 		d(printf ("dropping a text/uri-list\n"));
 		tmp = g_strndup (selection->data, selection->length);
 		urls = g_strsplit (tmp, "\n", 0);
@@ -2585,16 +2588,13 @@ drag_data_received (EMsgComposer *composer, GdkDragContext *context,
 
 				if (url == NULL)
 					continue;
-				
-				filename = url->path;
-				url->path = NULL;
+
+				if (!strcasecmp (url->protocol, "file"))
+					e_msg_composer_attachment_bar_attach
+						(E_MSG_COMPOSER_ATTACHMENT_BAR (composer->attachment_bar),
+					 	url->path);
+
 				camel_url_free (url);
-				
-				e_msg_composer_attachment_bar_attach
-					(E_MSG_COMPOSER_ATTACHMENT_BAR (composer->attachment_bar),
-					 filename);
-				
-				g_free (filename);
 			}
 		}
 		
