@@ -1,3 +1,4 @@
+# translation of ru.po to 
 # translation of evolution to Russian
 # Copyright (C) 2000,2002,2003, 2004, 2005 Free Software Foundation, Inc.
 # Valek Filippov <frob@df.ru>, 2000.
@@ -10,7 +11,7 @@ msgstr ""
 "Project-Id-Version: ru\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2005-02-01 11:28+0200\n"
-"PO-Revision-Date: 2005-02-01 11:48+0200\n"
+"PO-Revision-Date: 2005-02-01 19:12+0200\n"
 "Last-Translator: Leonid Kanter <leon@asplinux.ru>\n"
 "Language-Team:  <ru@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -17597,9 +17598,8 @@ msgstr "Категории:"
 #. To translators: This is the accessibility name of
 #. the search bar's text entry widget
 #: widgets/misc/e-search-bar.c:343
-#, fuzzy
 msgid "Search Text Entry"
-msgstr "Редактор поиска"
+msgstr "Поиск текста"
 
 #: widgets/misc/e-search-bar.c:547
 msgid "_Search"
@@ -17761,7 +17761,7 @@ msgstr "Неозаглавленное"
 
 #: widgets/misc/e-send-options.glade.h:37
 msgid "_When convenient"
-msgstr ""
+msgstr "_Когда удобно"
 
 #: widgets/misc/e-send-options.glade.h:38
 msgid "_When opened:     "
