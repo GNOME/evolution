@@ -777,7 +777,7 @@ void            e_table_set_state                 (ETable               *e_table
 	if (state->col_count > 0)
 		e_table_set_state_object(e_table, state);
 
-	gtk_object_sink(GTK_OBJECT(state));
+	gtk_object_unref(GTK_OBJECT(state));
 }
 
 void            e_table_load_state                (ETable               *e_table,
@@ -795,7 +795,7 @@ void            e_table_load_state                (ETable               *e_table
 	if (state->col_count > 0)
 		e_table_set_state_object(e_table, state);
 
-	gtk_object_sink(GTK_OBJECT(state));
+	gtk_object_unref(GTK_OBJECT(state));
 }
 
 ETableState *
@@ -834,7 +834,7 @@ gchar          *e_table_get_state                 (ETable               *e_table
 
 	state = e_table_get_state_object(e_table);
 	string = e_table_state_save_to_string(state);
-	gtk_object_sink(GTK_OBJECT(state));
+	gtk_object_unref(GTK_OBJECT(state));
 	return string;
 }
 
@@ -845,7 +845,7 @@ void            e_table_save_state                (ETable               *e_table
 
 	state = e_table_get_state_object(e_table);
 	e_table_state_save_to_file(state, filename);
-	gtk_object_sink(GTK_OBJECT(state));
+	gtk_object_unref(GTK_OBJECT(state));
 }
 
 static void

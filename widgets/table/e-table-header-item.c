@@ -85,12 +85,18 @@ ethi_destroy (GtkObject *object){
 
 	ethi_drop_table_header (ethi);
 
-	if (ethi->sort_info){
+	if (ethi->dnd_code) {
+		g_free (ethi->dnd_code);
+		ethi->dnd_code = NULL;
+	}
+
+	if (ethi->sort_info) {
 		if (ethi->sort_info_changed_id)
 			gtk_signal_disconnect (GTK_OBJECT(ethi->sort_info), ethi->sort_info_changed_id);
 		if (ethi->group_info_changed_id)
 			gtk_signal_disconnect (GTK_OBJECT(ethi->sort_info), ethi->group_info_changed_id);
 		gtk_object_unref (GTK_OBJECT(ethi->sort_info));
+		ethi->sort_info = NULL;
 	}
 
 	if (GTK_OBJECT_CLASS (ethi_parent_class)->destroy)

@@ -117,6 +117,7 @@ e_table_state_save_to_file      (ETableState *state,
 	doc = xmlNewDoc("1.0");
 	xmlDocSetRootElement(doc, e_table_state_save_to_node(state, NULL));
 	xmlSaveFile(filename, doc);
+	xmlFreeDoc(doc);
 }
 
 char *
@@ -130,6 +131,7 @@ e_table_state_save_to_string    (ETableState *state)
 	doc = xmlNewDoc(NULL);
 	xmlDocSetRootElement(doc, e_table_state_save_to_node(state, NULL));
 	xmlDocDumpMemory(doc, &string, &length);
+	xmlFreeDoc(doc);
 
 	ret_val = g_strdup(string);
 	xmlFree(string);
