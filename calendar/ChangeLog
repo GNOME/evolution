@@ -1,3 +1,10 @@
+2005-03-28  Rodrigo Moya <rodrigo@novell.com>
+
+	Fixes #44719
+
+	* gui/alarm-queue.c (display_notification): make the alarm dialog sticky
+	when not using the system tray.
+
 2005-03-25  Harry Lu  <harry.lu@sun.com>
 
 	Fix a string break by 44579's patch.
