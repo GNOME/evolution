@@ -599,10 +599,8 @@ save_draft_done (CamelFolder *folder, CamelMimeMessage *msg, CamelMessageInfo *i
 		ccd = ccd_new ();
 		
 		/* disconnect the previous signal handlers */
-		gtk_signal_disconnect_by_func (GTK_OBJECT (sdi->composer),
-					       G_CALLBACK (composer_send_cb), NULL);
-		gtk_signal_disconnect_by_func (GTK_OBJECT (sdi->composer),
-					       G_CALLBACK (composer_save_draft_cb), NULL);
+		g_signal_handlers_disconnect_by_func (sdi->composer, G_CALLBACK (composer_send_cb), NULL);
+		g_signal_handlers_disconnect_by_func (sdi->composer, G_CALLBACK (composer_save_draft_cb), NULL);
 		
 		/* reconnect to the signals using a non-NULL ccd for the callback data */
 		g_signal_connect (sdi->composer, "send", G_CALLBACK (composer_send_cb), ccd);
@@ -3093,7 +3091,7 @@ print_preview_msg (GtkWidget *button, gpointer user_data)
 static GtkObject *subscribe_dialog = NULL;
 
 static void
-subscribe_dialog_destroy (GtkWidget *widget, gpointer user_data)
+subscribe_dialog_destroy (GtkObject *dialog, GObject *deadbeef)
 {
 	if (subscribe_dialog) {
 		g_object_unref (subscribe_dialog);
@@ -3106,8 +3104,9 @@ manage_subscriptions (BonoboUIComponent *uih, void *user_data, const char *path)
 {
 	if (!subscribe_dialog) {
 		subscribe_dialog = subscribe_dialog_new ();
-		g_signal_connect (SUBSCRIBE_DIALOG (subscribe_dialog)->app, "destroy",
-				  G_CALLBACK (subscribe_dialog_destroy), NULL);
+		
+		g_object_weak_ref ((GObject *) SUBSCRIBE_DIALOG (subscribe_dialog)->app,
+				   (GWeakNotify) subscribe_dialog_destroy, subscribe_dialog);
 		
 		subscribe_dialog_show (subscribe_dialog);
 	} else {

@@ -31,6 +31,7 @@ INCLUDES = \
 	-DCAMEL_PROVIDERDIR=\""$(camel_providerdir)"\"	\
 	-DMAIL_IMPORTERSDIR=\""$(importerdir)"\"	\
 	-DG_DISABLE_DEPRECATED				\
+	-DGTK_DISABLE_DEPRECATED			\
 	-DG_LOG_DOMAIN=\"evolution-mail\"
 
 EVOLUTION_MAIL_CORBA_GENERATED = \

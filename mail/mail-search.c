@@ -362,13 +362,8 @@ mail_search_construct (MailSearch *ms, MailDisplay *mail)
 #endif
 	g_signal_connect (ms, "clicked", G_CALLBACK (dialog_clicked_cb), ms);
 	
-	gtk_signal_connect_object (GTK_OBJECT (ms), "destroy",
-				   G_CALLBACK (dialog_destroy_cb),
-				   GTK_OBJECT (ms));
-	
-	gtk_signal_connect_object (GTK_OBJECT (ms->mail), "destroy",
-				   G_CALLBACK (gtk_widget_destroy),
-				   GTK_OBJECT (ms));
+	g_object_weak_ref ((GObject *) ms, (GWeakNotify) dialog_destroy_cb, ms);
+	g_object_weak_ref ((GObject *) ms->mail, (GWeakNotify) gtk_widget_destroy, ms);
 }
 
 GtkWidget *

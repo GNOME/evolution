@@ -325,11 +325,8 @@ save_part (CamelMimePart *part)
 	g_signal_connect (file_select->ok_button, "clicked", 
 			  G_CALLBACK (save_data_cb), part);
 	
-	/* FIXME: deprecated */
-#warning "gtk_signal_connect_object"
-	gtk_signal_connect_object (GTK_OBJECT (file_select->cancel_button),
-				   "clicked", G_CALLBACK (gtk_widget_destroy),
-				   GTK_OBJECT (file_select));
+	g_signal_connect_swapped (file_select->cancel_button, "clicked",
+				  G_CALLBACK (gtk_widget_destroy), file_select);
 	
 	g_object_weak_ref ((GObject *) file_select, (GWeakNotify) save_destroy_cb, part);
 	

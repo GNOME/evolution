@@ -1,3 +1,14 @@
+2003-01-03  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-display.c: Fixed some build issues.
+
+	* mail-search.c: Same.
+
+	* mail-callbacks.c (save_draft_done): Use
+	g_signal_handlers_disconnect_by_func().
+	(manage_subscriptions): Use a weak_ref instead of connecting to
+	the destroy event.
+
 2002-12-17  Jeffrey Stedfast  <fejj@ximian.com>
 
 	...And a whole bunch more build fixes.
