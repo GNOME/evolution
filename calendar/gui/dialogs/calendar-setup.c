@@ -257,6 +257,43 @@ eccp_get_source_name (EConfig *ec, EConfigItem *item, struct _GtkWidget *parent,
 	return entry;
 }
 
+static void 
+offline_status_changed_cb (GtkWidget *widget, CalendarSourceDialog *sdialog)
+{
+	
+	if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (widget)))
+		e_source_set_property (sdialog->source, "offline_sync", "1");
+	else 
+		e_source_set_property (sdialog->source, "offline_sync", "0");	
+	    
+}
+
+static GtkWidget *
+eccp_general_offline (EConfig *ec, EConfigItem *item, struct _GtkWidget *parent, struct _GtkWidget *old, void *data)
+{
+	CalendarSourceDialog *sdialog = data;
+	GtkWidget *offline_setting;
+	const char *offline_sync;
+	int row;
+	gboolean is_local = g_str_has_prefix (e_source_group_peek_base_uri (sdialog->source_group), "file:");
+	offline_sync =  e_source_get_property (sdialog->source, "offline_sync");
+	if (old)
+		return old;
+	else {
+		row = ((GtkTable*)parent)->nrows;
+		offline_setting = gtk_check_button_new_with_label (N_("Copy calendar contents locally for offline operation"));
+		gtk_widget_show (offline_setting);
+		g_signal_connect (offline_setting, "toggled", G_CALLBACK (offline_status_changed_cb), sdialog);
+		gtk_table_attach (GTK_TABLE (parent), offline_setting, 1, 2, row, row+1, GTK_EXPAND | GTK_FILL, 0, 0, 0);
+
+	}
+	
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (offline_setting), (offline_sync && g_str_equal (offline_sync, "1"))  ? TRUE : FALSE);
+	if (is_local)
+	  gtk_widget_hide (offline_setting);
+	return offline_setting;
+}
+
 static void
 color_changed (GnomeColorPicker *picker, guint r, guint g, guint b, guint a, ECalConfigTargetSource *t)
 {
@@ -326,6 +363,7 @@ static ECalConfigItem eccp_items[] = {
 	{ E_CONFIG_ITEM_TABLE,    "00.general/00.source/00.type", NULL, eccp_get_source_type },
 	{ E_CONFIG_ITEM_TABLE,    "00.general/00.source/10.name", NULL, eccp_get_source_name },
 	{ E_CONFIG_ITEM_TABLE,    "00.general/00.source/20.color", NULL, eccp_get_source_color },
+	{ E_CONFIG_ITEM_TABLE,	  "00.general/00.source/30.offline", NULL, eccp_general_offline },
 	{ 0 },
 };
 
@@ -336,6 +374,7 @@ static ECalConfigItem ectp_items[] = {
 	{ E_CONFIG_ITEM_TABLE,    "00.general/00.source/00.type", NULL, eccp_get_source_type },
 	{ E_CONFIG_ITEM_TABLE,    "00.general/00.source/10.name", NULL, eccp_get_source_name },
 	{ E_CONFIG_ITEM_TABLE,    "00.general/00.source/20.color", NULL, eccp_get_source_color },
+	{ E_CONFIG_ITEM_TABLE,	  "00.general/00.source/30.offline", NULL, eccp_general_offline },
 	{ 0 },
 };
 

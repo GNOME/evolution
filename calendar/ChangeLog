@@ -1,3 +1,14 @@
+2004-12-23  Chenthill Palanisamy <pchenthill@novell.com>
+
+	Part of merge from offline branch 
+	
+	* gui/dialogs/calendar-setup.c
+	(eccp_general_offline): function to add the check box for
+	folder offline settings.
+	(offline_status_changed_cb): call back function for the same.
+	(ECalConfigItem eccp_items[]), (ECalConfigItem ectp_items[]):
+	 Added the check box function call in both the structures.
+	
 2004-12-23  Rodrigo Moya <rodrigo@novell.com>
 
 	* gui/e-cal-model.c (set_instance_times): get instance times using
