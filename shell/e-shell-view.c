@@ -2127,14 +2127,13 @@ e_shell_view_show_folder_bar (EShellView *shell_view,
 		e_shell_folder_title_bar_set_clickable (E_SHELL_FOLDER_TITLE_BAR (priv->folder_title_bar),
 							FALSE);
 	} else {
-		e_paned_set_position (E_PANED (priv->view_hpaned), 0);
-
 		if (GTK_WIDGET_VISIBLE (priv->storage_set_view_box)) {
-			gtk_widget_hide (priv->storage_set_view_box);
 			/* FIXME this is a private field!  */
 			priv->view_hpaned_position = E_PANED (priv->view_hpaned)->child1_size;
-			e_paned_set_position (E_PANED (priv->view_hpaned), 0);
+			gtk_widget_hide (priv->storage_set_view_box);
 		}
+
+		e_paned_set_position (E_PANED (priv->view_hpaned), 0);
 
 		e_title_bar_set_button_mode (E_TITLE_BAR (priv->storage_set_title_bar),
 					     E_TITLE_BAR_BUTTON_MODE_PIN);

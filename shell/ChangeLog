@@ -1,3 +1,9 @@
+2001-09-16  Ettore Perazzoli  <ettore@ximian.com>
+
+	* e-shell-view.c (e_shell_view_show_folder_bar): Hide the
+	storage_set_view_box *before* getting the child1_size [otherwise,
+	the latter will, um, always be zero].
+
 2001-09-16  Christopher James Lahey  <clahey@ximian.com>
 
 	* e-storage-set-view.c (etree_get_node_by_id): Made save_id const
