@@ -1,3 +1,10 @@
+2003-05-05  Not Zed  <NotZed@Ximian.com>
+
+	** See bug #42294.
+	
+	* mail-config.c (config_write_fonts): Also set the custom font
+	style for *BonoboPlug*GtkHTML.
+
 2003-05-05  Ettore Perazzoli  <ettore@ximian.com>
 
 	* mail-session.c (request_password): Set OK as the default
