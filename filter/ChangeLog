@@ -1,3 +1,9 @@
+2000-11-30  Jeffrey Stedfast  <fejj@helixcode.com>
+
+	* filter-driver.c (filter_driver_filter_message): Update to use
+	EStrv in appropriate places (wrapped with #ifdef DOESTRV for the
+	moment).
+
 2000-11-27  Jeffrey Stedfast  <fejj@helixcode.com>
 
 	* filtertypes.xml: Moved the regex filter rule around - we've
