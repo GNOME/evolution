@@ -29,9 +29,10 @@
 #define __EAB_POPUP_CONTROL_H__
 
 #include <bonobo/bonobo-event-source.h>
-#include <gtk/gtk.h>
 #include <libebook/e-book-async.h>
 #include <libebook/e-contact.h>
+
+#include <gtk/gtkeventbox.h>
 
 G_BEGIN_DECLS
 

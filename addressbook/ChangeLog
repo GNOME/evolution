@@ -1,3 +1,17 @@
+2004-04-12  Chris Toshok  <toshok@ximian.com>
+
+	[ should fix #56537 ]
+	
+	* gui/widgets/eab-popup-control.c (EMPTY_ENTRY): use _(), not N_()
+	here.
+	(email_menu_add_options_from_contact): and g_strdup it here, so
+	that the g_list_foreach (... g_free ..) doesn't cause things to
+	blow up.
+	(email_menu_unset_options): nuke ifdefed function.
+	
+	* gui/widgets/eab-popup-control.h: don't include gtk.h, include
+	just what we need.
+
 2004-04-10  Chris Toshok  <toshok@ximian.com>
 
 	* gui/widgets/eab-gui-util.h: add prototypes for

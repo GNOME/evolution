@@ -33,6 +33,17 @@
 #include <string.h>
 #include "addressbook.h"
 #include "eab-popup-control.h"
+#include <gtk/gtkbutton.h>
+#include <gtk/gtkcellrenderertext.h>
+#include <gtk/gtkframe.h>
+#include <gtk/gtkhbbox.h>
+#include <gtk/gtkhseparator.h>
+#include <gtk/gtklabel.h>
+#include <gtk/gtkoptionmenu.h>
+#include <gtk/gtkstock.h>
+#include <gtk/gtktable.h>
+#include <gtk/gtktreeselection.h>
+#include <gtk/gtktreeview.h>
 #include <bonobo/bonobo-control.h>
 #include <bonobo/bonobo-property-bag.h>
 #include <bonobo/bonobo-generic-factory.h>
@@ -185,7 +196,7 @@ mini_wizard_new (void)
  * contact.
  */
 
-#define EMPTY_ENTRY N_("(none)")
+#define EMPTY_ENTRY _("(none)")
 
 typedef struct _EMailMenu EMailMenu;
 struct _EMailMenu {
@@ -261,7 +272,7 @@ email_menu_add_options_from_contact (EMailMenu *menu, EContact *contact, const g
 	email_menu_add_option (menu, e_contact_get (contact, E_CONTACT_EMAIL_2));
 	email_menu_add_option (menu, e_contact_get (contact, E_CONTACT_EMAIL_3));
 	email_menu_add_option (menu, g_strdup (extra_addr));
-	email_menu_add_option (menu, EMPTY_ENTRY);
+	email_menu_add_option (menu, g_strdup (EMPTY_ENTRY));
 }
 
 static void
@@ -288,35 +299,6 @@ email_menu_set_option (EMailMenu *menu, const gchar *addr)
 		menu->current_selection = (gchar *) iter->data;
 	} 
 }
-
-#ifdef UNDEFINED_FUNCTIONS_SHOULD_PLEASE_BE_INCLUDED
-static void
-email_menu_unset_option (EMailMenu *menu, const gchar *addr)
-{
-	GList *iter;
-
-	g_return_if_fail (menu != NULL);
-	g_return_if_fail (addr != NULL);
-
-	if (menu->current_selection == NULL || strcmp (addr, menu->current_selection))
-		return;
-
-	iter = menu->options;
-	while (iter && strcmp (addr, (gchar *) iter->data)) {
-		iter = g_list_next (iter);
-	}
-	if (iter) {
-		iter = g_list_next (iter);
-		if (iter) {
-			email_menu_set_option (menu, (gchar *) iter->data);
-		} else {
-			email_menu_set_option (menu, EMPTY_ENTRY);
-		}
-	}
-}
-#endif
-
-
 
 typedef struct _EMailTable EMailTable;
 struct _EMailTable {
