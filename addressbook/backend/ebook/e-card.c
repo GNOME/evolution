@@ -204,6 +204,12 @@ e_card_new (char *vcard)
 		cleanVObject(vobj);
 		vobj = next;
 	}
+	if (card->name == NULL)
+		card->name = e_card_name_new();
+	if (card->file_as == NULL)
+		card->file_as = g_strdup("");
+	if (card->fname == NULL)
+		card->fname = g_strdup("");
 	return card;
 }
 
@@ -265,6 +271,8 @@ char
 
 	if ( card->fname )
 		addPropValue(vobj, VCFullNameProp, card->fname);
+	else if (card->fname)
+		addProp(vobj, VCFullNameProp);
 
 	if ( card->name && (card->name->prefix || card->name->given || card->name->additional || card->name->family || card->name->suffix) ) {
 		VObject *nameprop;
@@ -280,6 +288,8 @@ char
 		if ( card->name->suffix )
 			addPropValue(nameprop, VCNameSuffixesProp, card->name->suffix);
 	}
+	else if (card->name)
+		addProp(vobj, VCNameProp);
 
 
 	if ( card->address ) {
@@ -1638,12 +1648,16 @@ e_card_set_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 	case ARG_FILE_AS:
 		g_free(card->file_as);
 		card->file_as = g_strdup(GTK_VALUE_STRING(*arg));
+		if (card->file_as == NULL)
+			card->file_as = g_strdup("");
 		break;
 	case ARG_FULL_NAME:
 		g_free(card->fname);
 		card->fname = g_strdup(GTK_VALUE_STRING(*arg));
 		if (card->name)
 			e_card_name_free (card->name);
+		if (card->fname == NULL)
+			card->fname = g_strdup("");
 		card->name = e_card_name_from_string (card->fname);
 		break;
 	case ARG_NAME:

@@ -1,5 +1,9 @@
 2001-03-28  Christopher James Lahey  <clahey@ximian.com>
 
+	* backend/ebook/e-card.c (e_card_set_arg): Fixed some crashes.
+
+2001-03-28  Christopher James Lahey  <clahey@ximian.com>
+
 	* gui/component/select-names/e-select-names-table-model.c
 	(fill_in_info): Use E_CARD_SIMPLE_FIELD_NAME_OR_ORG instead of
 	getting the NAME and then the ORG.  That way if we expand
