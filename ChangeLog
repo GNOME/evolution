@@ -1,5 +1,10 @@
 2004-08-13  Rodney Dawes  <dobey@novell.com>
 
+	* configure.in: Add value and description fields to AC_DEFINE calls
+	for the HAVE_ET_COM_ERR_H and HAVE_COM_ERR_H checks
+
+2004-08-13  Rodney Dawes  <dobey@novell.com>
+
 	* acinclude.m4: Remove EVO_CHECK_LIB
 	Update EVO_LDAP_CHECK to support --with-openldap-{libs,includes}
 	Sync with e-d-s acinclude.m4 (Adds GTK_DOC_CHECK)

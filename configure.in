@@ -565,8 +565,8 @@ else
 	AC_MSG_RESULT($with_krb5)
 fi
 
-AC_CHECK_HEADER([et/com_err.h],[AC_DEFINE([HAVE_ET_COM_ERR_H])])
-AC_CHECK_HEADER([com_err.h],[AC_DEFINE([HAVE_COM_ERR_H])])
+AC_CHECK_HEADER([et/com_err.h],[AC_DEFINE([HAVE_ET_COM_ERR_H], 1, [Have et/comm_err.h])])
+AC_CHECK_HEADER([com_err.h],[AC_DEFINE([HAVE_COM_ERR_H], 1, [Have comm_err.h])])
 
 msg_krb4="no"
 if test "x${with_krb4}" != "xno"; then
