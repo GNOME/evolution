@@ -65,6 +65,9 @@
 		  <property name="case_sensitive">False</property>
 		  <property name="enable_arrow_keys">True</property>
 		  <property name="enable_arrows_always">False</property>
+		  <accessibility>
+		    <atkproperty name="AtkObject::accessible_name" translatable="yes">Organizer</atkproperty>
+		  </accessibility>
 
 		  <child internal-child="entry">
 		    <widget class="GtkEntry" id="organizer-entry">

@@ -1763,9 +1763,7 @@ init_widgets (EventPage *epage)
 			    G_CALLBACK (summary_changed_cb), epage);
 
 	/* Description */
-	text_buffer = gtk_text_buffer_new (NULL);
-	gtk_text_view_set_buffer (GTK_TEXT_VIEW (priv->description), text_buffer);
-	g_object_unref (text_buffer);
+	text_buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (priv->description));
 
 	gtk_text_view_set_wrap_mode (GTK_TEXT_VIEW (priv->description), GTK_WRAP_WORD);
 

@@ -518,7 +518,6 @@ e_date_time_list_iter_n_children (GtkTreeModel *tree_model,
 	EDateTimeList *date_time_list = E_DATE_TIME_LIST (tree_model);
 
 	g_return_val_if_fail (E_IS_DATE_TIME_LIST (tree_model), -1);
-	g_return_val_if_fail (IS_VALID_ITER (date_time_list, iter), -1);
 
 	if (iter == NULL)
 		return g_list_length (date_time_list->list);

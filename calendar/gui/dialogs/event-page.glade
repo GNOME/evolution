@@ -197,6 +197,9 @@
 		      <property name="right_margin">0</property>
 		      <property name="indent">0</property>
 		      <property name="text" translatable="yes"></property>
+		      <accessibility>
+			<atkproperty name="AtkObject::accessible_name" translatable="yes">Event Description</atkproperty>
+		      </accessibility>
 		    </widget>
 		  </child>
 		</widget>
@@ -475,6 +478,9 @@
 		  <property name="int1">0</property>
 		  <property name="int2">0</property>
 		  <property name="last_modification_time">Tue, 16 May 2000 19:11:05 GMT</property>
+		  <accessibility>
+		    <atkrelation target="start-time-label" type="labelled-by"/>
+		  </accessibility>
 		</widget>
 		<packing>
 		  <property name="left_attach">1</property>
@@ -493,6 +499,9 @@
 		  <property name="int1">0</property>
 		  <property name="int2">0</property>
 		  <property name="last_modification_time">Tue, 16 May 2000 19:11:10 GMT</property>
+		  <accessibility>
+		    <atkrelation target="end-time-label" type="labelled-by"/>
+		  </accessibility>
 		</widget>
 		<packing>
 		  <property name="left_attach">1</property>
@@ -522,7 +531,7 @@
 	      </child>
 
 	      <child>
-		<widget class="GtkLabel" id="label57">
+		<widget class="GtkLabel" id="start-time-label">
 		  <property name="visible">True</property>
 		  <property name="label" translatable="yes">_Start time:</property>
 		  <property name="use_underline">True</property>
@@ -547,7 +556,7 @@
 	      </child>
 
 	      <child>
-		<widget class="GtkLabel" id="label58">
+		<widget class="GtkLabel" id="end-time-label">
 		  <property name="visible">True</property>
 		  <property name="label" translatable="yes">_End time:</property>
 		  <property name="use_underline">True</property>

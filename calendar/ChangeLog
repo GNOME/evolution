@@ -1,3 +1,47 @@
+2004-10-12  Li Yuan  <li.yuan@sun.com>
+
+	* gui/calendar-commands.c:
+	(calendar_get_text_for_folder_bar_label):
+	When the start year and the end year are the same, the num should
+	be displayed in start time.
+	* gui/dialogs/alarm-dialog.glade:
+	Add names to comboxes in alarm-dialog page.
+	* gui/dialogs/cal-prefs-dialog.glade:
+	Add labbled_by relation for e_date_edit.
+	Add names to comboxes in general tab and display tab.
+	Add shortcut keys to start_of_day_label and end_of_day_label.
+	* gui/dialogs/event-page.c: (init_widgets):
+	Use the default text_buffer of gtk_text_view instead of
+	creating one.
+	* gui/dialogs/event-page.glade:
+	Add labbled_by relation for e_date_edit.
+	* gui/dialogs/meeting-page.glade:
+	Set an atk name for organizer widget.
+	* gui/dialogs/task-page.c: (init_widgets):
+	Use the default text_buffer of gtk_text_view instead of
+	creating one.
+	* gui/dialogs/task-page.glade:
+	Add labbled_by relation for e_date_edit.
+	Add a11y names to task description and categories.
+	* gui/e-alarm-list.c: (e_alarm_list_iter_n_children):
+	Remove the iter checker. The iter can't have a valid value at this time.
+	* gui/e-date-time-list.c: (e_date_time_list_iter_n_children):
+	Remove the iter checker. The iter can't have a valid value at this time.
+	* gui/e-meeting-time-sel.c: (e_meeting_time_selector_construct):
+	Add labbled_by relation for e_date_edit.
+	* gui/e-timezone-entry.c: (e_timezone_entry_class_init),
+	(e_timezone_entry_init), (e_timezone_entry_mnemonic_activate),
+	(e_timezone_entry_focus):
+	Add a focus handler for e-timezone-entry. Set an atk name for the
+	button.
+	* gui/e-week-view.c: (e_week_view_do_cursor_key_up),
+	(e_week_view_do_cursor_key_down), (e_week_view_do_cursor_key_left),
+	(e_week_view_do_cursor_key_right), (e_month_view_do_cursor_key_up),
+	(e_month_view_do_cursor_key_down),
+	(e_month_view_do_cursor_key_left),
+	(e_month_view_do_cursor_key_right):
+	Emit the selected_time_changed signal after the selection day changed.
+
 2004-10-11  Not Zed  <NotZed@Ximian.com>
 
 	* gui/alarm-notify/alarm-queue.c (tray_icon_clicked_cb): convert

@@ -625,7 +625,6 @@ e_alarm_list_iter_n_children (GtkTreeModel *tree_model,
 	EAlarmList *alarm_list = E_ALARM_LIST (tree_model);
 
 	g_return_val_if_fail (E_IS_ALARM_LIST (tree_model), -1);
-	g_return_val_if_fail (IS_VALID_ITER (alarm_list, iter), -1);
 
 	if (iter == NULL)
 		return g_list_length (alarm_list->list);

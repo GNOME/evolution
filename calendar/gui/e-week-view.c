@@ -3499,9 +3499,9 @@ e_week_view_do_cursor_key_up (EWeekView *week_view)
 	if (week_view->selection_start_day <= 0)
 		return;
 	
-	g_signal_emit_by_name (week_view, "selected_time_changed");
 	week_view->selection_start_day--;
 	week_view->selection_end_day = week_view->selection_start_day;
+	g_signal_emit_by_name (week_view, "selected_time_changed");
 	gtk_widget_queue_draw (week_view->main_canvas);
 }
 
@@ -3512,9 +3512,9 @@ e_week_view_do_cursor_key_down (EWeekView *week_view)
 		week_view->selection_start_day >= 6)
 		return;
 	
-	g_signal_emit_by_name (week_view, "selected_time_changed");
 	week_view->selection_start_day++;
 	week_view->selection_end_day = week_view->selection_start_day;
+	g_signal_emit_by_name (week_view, "selected_time_changed");
 	gtk_widget_queue_draw (week_view->main_canvas);
 }
 
@@ -3524,9 +3524,9 @@ e_week_view_do_cursor_key_left (EWeekView *week_view)
 	if (week_view->selection_start_day == -1)
 		return;
 	
-	g_signal_emit_by_name (week_view, "selected_time_changed");
 	week_view->selection_start_day = map_left[week_view->selection_start_day];
 	week_view->selection_end_day = week_view->selection_start_day;
+	g_signal_emit_by_name (week_view, "selected_time_changed");
 	gtk_widget_queue_draw (week_view->main_canvas);
 }
 
@@ -3536,9 +3536,9 @@ e_week_view_do_cursor_key_right (EWeekView *week_view)
 	if (week_view->selection_start_day == -1)
 		return;
 	
-	g_signal_emit_by_name (week_view, "selected_time_changed");
 	week_view->selection_start_day = map_right[week_view->selection_start_day];
 	week_view->selection_end_day = week_view->selection_start_day;
+	g_signal_emit_by_name (week_view, "selected_time_changed");
 	gtk_widget_queue_draw (week_view->main_canvas);
 }
 
@@ -3548,9 +3548,9 @@ e_month_view_do_cursor_key_up (EWeekView *week_view)
 	if (week_view->selection_start_day < 7)
 		return;
 	
-	g_signal_emit_by_name (week_view, "selected_time_changed");
 	week_view->selection_start_day -= 7;
 	week_view->selection_end_day = week_view->selection_start_day;
+	g_signal_emit_by_name (week_view, "selected_time_changed");
 	gtk_widget_queue_draw (week_view->main_canvas);
 }
 
@@ -3563,9 +3563,9 @@ e_month_view_do_cursor_key_down (EWeekView *week_view)
 		week_view->selection_start_day >= (weeks_shown - 1) * 7)
 		return;
 	
-	g_signal_emit_by_name (week_view, "selected_time_changed");
 	week_view->selection_start_day += 7;
 	week_view->selection_end_day = week_view->selection_start_day;
+	g_signal_emit_by_name (week_view, "selected_time_changed");
 	gtk_widget_queue_draw (week_view->main_canvas);
 }
 
@@ -3575,9 +3575,9 @@ e_month_view_do_cursor_key_left (EWeekView *week_view)
 	if (week_view->selection_start_day <= 0)
 		return;
 	
-	g_signal_emit_by_name (week_view, "selected_time_changed");
 	week_view->selection_start_day--;
 	week_view->selection_end_day = week_view->selection_start_day;
+	g_signal_emit_by_name (week_view, "selected_time_changed");
 	gtk_widget_queue_draw (week_view->main_canvas);
 }
 
@@ -3590,9 +3590,9 @@ e_month_view_do_cursor_key_right (EWeekView *week_view)
 		week_view->selection_start_day >= weeks_shown * 7 - 1)
 		return;
 	
-	g_signal_emit_by_name (week_view, "selected_time_changed");
 	week_view->selection_start_day++;
 	week_view->selection_end_day = week_view->selection_start_day;
+	g_signal_emit_by_name (week_view, "selected_time_changed");
 	gtk_widget_queue_draw (week_view->main_canvas);
 }
 

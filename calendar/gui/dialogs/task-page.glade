@@ -276,6 +276,9 @@
 		  <property name="has_frame">True</property>
 		  <property name="invisible_char" translatable="yes">*</property>
 		  <property name="activates_default">False</property>
+		  <accessibility>
+		    <atkproperty name="AtkObject::accessible_name" translatable="yes">Categories</atkproperty>
+		  </accessibility>
 		</widget>
 		<packing>
 		  <property name="left_attach">1</property>
@@ -311,6 +314,9 @@
 		      <property name="right_margin">0</property>
 		      <property name="indent">0</property>
 		      <property name="text" translatable="yes"></property>
+		      <accessibility>
+			<atkproperty name="AtkObject::accessible_name" translatable="yes">Task Description</atkproperty>
+		      </accessibility>
 		    </widget>
 		  </child>
 		</widget>
@@ -421,7 +427,7 @@
 	      <property name="column_spacing">12</property>
 
 	      <child>
-		<widget class="GtkLabel" id="label29">
+		<widget class="GtkLabel" id="due-date-label">
 		  <property name="visible">True</property>
 		  <property name="label" translatable="yes">_Due date:</property>
 		  <property name="use_underline">True</property>
@@ -446,7 +452,7 @@
 	      </child>
 
 	      <child>
-		<widget class="GtkLabel" id="label30">
+		<widget class="GtkLabel" id="start-date-label">
 		  <property name="visible">True</property>
 		  <property name="label" translatable="yes">Sta_rt date:</property>
 		  <property name="use_underline">True</property>
@@ -498,6 +504,9 @@
 		      <property name="int1">0</property>
 		      <property name="int2">0</property>
 		      <property name="last_modification_time">Tue, 19 Jun 2001 04:43:54 GMT</property>
+		      <accessibility>
+			<atkrelation target="due-date-label" type="labelled-by"/>
+		      </accessibility>
 		    </widget>
 		    <packing>
 		      <property name="padding">0</property>
@@ -544,6 +553,9 @@
 		      <property name="int1">0</property>
 		      <property name="int2">0</property>
 		      <property name="last_modification_time">Tue, 19 Jun 2001 04:43:46 GMT</property>
+		      <accessibility>
+			<atkrelation target="start-date-label" type="labelled-by"/>
+		      </accessibility>
 		    </widget>
 		    <packing>
 		      <property name="padding">0</property>

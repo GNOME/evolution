@@ -434,9 +434,9 @@ calendar_get_text_for_folder_bar_label (GnomeCalendar *gcal)
 				  _("%A %d %B %Y"), &start_tm);
 		} else if (start_tm.tm_year == end_tm.tm_year) {
 			e_utf8_strftime (buffer, sizeof (buffer),
-				  _("%a %d %b"), &start_tm);
+				  _("%a %d %b %Y"), &start_tm);
 			e_utf8_strftime (end_buffer, sizeof (end_buffer),
-				  _("%a %d %b %Y"), &end_tm);
+				  _("%a %d %b"), &end_tm);
 			strcat (buffer, " - ");
 			strcat (buffer, end_buffer);
 		} else {
@@ -464,9 +464,9 @@ calendar_get_text_for_folder_bar_label (GnomeCalendar *gcal)
 				strcat (buffer, end_buffer);
 			} else {
 				e_utf8_strftime (buffer, sizeof (buffer),
-					  _("%d %B"), &start_tm);
+					  _("%d %B %Y"), &start_tm);
 				e_utf8_strftime (end_buffer, sizeof (end_buffer),
-					  _("%d %B %Y"), &end_tm);
+					  _("%d %B"), &end_tm);
 				strcat (buffer, " - ");
 				strcat (buffer, end_buffer);
 			}

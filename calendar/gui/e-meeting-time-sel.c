@@ -277,6 +277,7 @@ e_meeting_time_selector_construct (EMeetingTimeSelector * mts, EMeetingStore *em
 	guchar stipple_bits[] = {
 		0x01, 0x02, 0x04, 0x08, 0x10, 0x20, 0x40, 0x80,
 	};
+	AtkObject *a11y_label, *a11y_date_edit;
 
 	/* The default meeting time is the nearest half-hour interval in the
 	   future, in working hours. */
@@ -591,6 +592,14 @@ e_meeting_time_selector_construct (EMeetingTimeSelector * mts, EMeetingStore *em
 	gtk_widget_show (table);
 
 	mts->start_date_edit = e_date_edit_new ();
+	gtk_label_set_mnemonic_widget (GTK_LABEL (label), mts->start_date_edit);
+	a11y_label = gtk_widget_get_accessible (label);
+	a11y_date_edit = gtk_widget_get_accessible (mts->start_date_edit);
+	if (a11y_label != NULL && a11y_date_edit != NULL) {
+		atk_object_add_relationship (a11y_date_edit,
+					ATK_RELATION_LABELLED_BY,
+					a11y_label);
+	}
 	e_date_edit_set_show_time (E_DATE_EDIT (mts->start_date_edit), TRUE);
 	e_date_edit_set_use_24_hour_format (E_DATE_EDIT (mts->start_date_edit),
 					    calendar_config_get_24_hour_format ());
@@ -610,6 +619,14 @@ e_meeting_time_selector_construct (EMeetingTimeSelector * mts, EMeetingStore *em
 	gtk_widget_show (label);
 
 	mts->end_date_edit = e_date_edit_new ();
+	gtk_label_set_mnemonic_widget (GTK_LABEL (label), mts->end_date_edit);
+	a11y_label = gtk_widget_get_accessible (label);
+	a11y_date_edit = gtk_widget_get_accessible (mts->end_date_edit);
+	if (a11y_label != NULL && a11y_date_edit != NULL) {
+		atk_object_add_relationship (a11y_date_edit,
+					ATK_RELATION_LABELLED_BY,
+					a11y_label);
+	}
 	e_date_edit_set_show_time (E_DATE_EDIT (mts->end_date_edit), TRUE);
 	e_date_edit_set_use_24_hour_format (E_DATE_EDIT (mts->end_date_edit),
 					    calendar_config_get_24_hour_format ());
