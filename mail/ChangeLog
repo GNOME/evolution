@@ -1,5 +1,12 @@
 2004-03-11  Not Zed  <NotZed@Ximian.com>
 
+	* mail-component.c: change stores hash to point to a structure, in
+	which we maintain the vtrash and vjunk folders for the entirety of
+	the session.  memory use be damned i guess.  #55417 and partially
+	#55391.	
+
+2004-03-11  Not Zed  <NotZed@Ximian.com>
+
 	* em-format-html.c (efh_format_header): pass the raw header in
 	instead of name and value.
 	(efh_format_headers): if we have specific headers to show, iterate

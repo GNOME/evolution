@@ -83,6 +83,15 @@
 #define PARENT_TYPE bonobo_object_get_type ()
 static BonoboObjectClass *parent_class = NULL;
 
+struct _store_info {	
+	CamelStore *store;
+	char *name;
+
+	/* we keep a reference to these so they remain around for the session */
+	CamelFolder *vtrash;
+	CamelFolder *vjunk;
+};
+
 struct _MailComponentPrivate {
 	GMutex *lock;
 
@@ -97,7 +106,7 @@ struct _MailComponentPrivate {
 	EActivityHandler *activity_handler;
 	
 	MailAsyncEvent *async_event;
-	GHashTable *store_hash; /* display_name by store */
+	GHashTable *store_hash; /* stores store_info objects by store */
 	
 	RuleContext *search_context;
 	
@@ -119,22 +128,48 @@ static struct {
 	{ "Inbox", },		/* 'always local' inbox */
 };
 
+static struct _store_info *
+store_info_new(CamelStore *store, const char *name)
+{
+	struct _store_info *si;
+
+	si = g_malloc0(sizeof(*si));
+	if (name == NULL)
+		si->name = camel_service_get_name((CamelService *)store, TRUE);
+	else
+		si->name = g_strdup(name);
+	si->store = store;
+	camel_object_ref(store);
+	si->vtrash = camel_store_get_trash(store, NULL);
+	si->vjunk = camel_store_get_junk(store, NULL);
+
+	return si;
+}
+
+static void
+store_info_free(struct _store_info *si)
+{
+	if (si->vtrash)
+		camel_object_unref(si->vtrash);
+	if (si->vjunk)
+		camel_object_unref(si->vjunk);
+	camel_object_unref(si->store);
+	g_free(si->name);
+	g_free(si);
+}
+
 /* Utility functions.  */
 static void
 mc_add_store(MailComponent *component, CamelStore *store, const char *name, void (*done)(CamelStore *store, CamelFolderInfo *info, void *data))
 {
-	char *service_name = NULL;
+	struct _store_info *si;
 
 	MAIL_COMPONENT_DEFAULT(component);
 
-	if (name == NULL)
-		name = service_name = camel_service_get_name ((CamelService *) store, TRUE);
-
-	camel_object_ref(store);
-	g_hash_table_insert(component->priv->store_hash, store, g_strdup(name));
-	em_folder_tree_model_add_store(component->priv->model, store, name);
+	si = store_info_new(store, name);
+	g_hash_table_insert(component->priv->store_hash, store, si);
+	em_folder_tree_model_add_store(component->priv->model, store, si->name);
 	mail_note_store(store, NULL, done, component);
-	g_free(service_name);
 }
 
 static void
@@ -376,13 +411,9 @@ impl_dispose (GObject *object)
 }
 
 static void
-store_hash_free (gpointer key, gpointer value, gpointer user_data)
+store_hash_free (CamelStore *store, struct _store_info *si, void *data)
 {
-	CamelStore *store = key;
-	char *name = value;
-	
-	g_free (name);
-	camel_object_unref (store);
+	store_info_free(si);
 }
 
 static void
@@ -394,7 +425,7 @@ impl_finalize (GObject *object)
 	
 	mail_async_event_destroy (priv->async_event);
 	
-	g_hash_table_foreach (priv->store_hash, store_hash_free, NULL);
+	g_hash_table_foreach (priv->store_hash, (GHFunc)store_hash_free, NULL);
 	g_hash_table_destroy (priv->store_hash);
 	
 	if (mail_async_event_destroy (priv->async_event) == -1) {
@@ -506,7 +537,7 @@ mc_quit_sync_done(CamelStore *store, void *data)
 }
 
 static void
-mc_quit_sync(CamelStore *store, char *name, MailComponent *mc)
+mc_quit_sync(CamelStore *store, struct _store_info *si, MailComponent *mc)
 {
 	int expunge = gconf_client_get_bool(mail_config_get_gconf_client(), "/apps/evolution/mail/trash/empty_on_exit", NULL);
 
@@ -839,7 +870,7 @@ void
 mail_component_remove_store (MailComponent *component, CamelStore *store)
 {
 	MailComponentPrivate *priv;
-	char *name;
+	struct _store_info *si;
 
 	MAIL_COMPONENT_DEFAULT(component);
 
@@ -851,11 +882,11 @@ mail_component_remove_store (MailComponent *component, CamelStore *store)
 	 * URL will always return the same object. So this works.
 	 */
 	
-	if (!(name = g_hash_table_lookup (priv->store_hash, store)))
+	if (!(si = g_hash_table_lookup (priv->store_hash, store)))
 		return;
 	
 	g_hash_table_remove (priv->store_hash, store);
-	g_free (name);
+	store_info_free(si);
 	
 	/* so i guess potentially we could have a race, add a store while one
 	   being removed.  ?? */
@@ -895,12 +926,26 @@ mail_component_get_store_count (MailComponent *component)
 	return g_hash_table_size (component->priv->store_hash);
 }
 
+/* need to map from internal struct to external api */
+struct _store_foreach_data {
+	GHFunc func;
+	void *data;
+};
+
+static void
+mc_stores_foreach(CamelStore *store, struct _store_info *si, struct _store_foreach_data *data)
+{
+	data->func((void *)store, (void *)si->name, data->data);
+}
+
 void
 mail_component_stores_foreach (MailComponent *component, GHFunc func, void *user_data)
 {
+	struct _store_foreach_data data = { func, user_data };
+
 	MAIL_COMPONENT_DEFAULT(component);
 
-	g_hash_table_foreach (component->priv->store_hash, func, user_data);
+	g_hash_table_foreach (component->priv->store_hash, (GHFunc)mc_stores_foreach, &data);
 }
 
 void
