@@ -1,3 +1,8 @@
+2001-07-17  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* e-msg-composer.c (drag_data_received): Correctly handle
+	text/uri-list's that contain more than a single file reference.
+
 2001-07-12  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* e-msg-composer.c (menu_changed_charset_cb): Removed a warning

@@ -2010,17 +2010,14 @@ message_rfc822_dnd (EMsgComposer *composer, CamelStream *stream)
 }
 
 static void
-drag_data_received (EMsgComposer *composer,
-		    GdkDragContext *context,
-		    gint x,
-		    gint y,
-		    GtkSelectionData *selection,
-		    guint info,
-		    guint time)
+drag_data_received (EMsgComposer *composer, GdkDragContext *context,
+		    gint x, gint y, GtkSelectionData *selection,
+		    guint info, guint time)
 {
-	gchar *temp, *filename;
+	gchar *tmp, *filename, **filenames;
 	CamelStream *stream;
 	CamelURL *url;
+	int i;
 	
 	switch (info) {
 	case DND_TYPE_MESSAGE_RFC822:
@@ -2033,23 +2030,27 @@ drag_data_received (EMsgComposer *composer,
 		camel_object_unref (CAMEL_OBJECT (stream));
 		break;
 	case DND_TYPE_TEXT_URI_LIST:
-		filename = g_strndup (selection->data, selection->length);
-		temp = strchr (filename, '\n');
-		if (temp)
-			*temp = '\0';
-		g_strstrip (filename);
+		tmp = g_strndup (selection->data, selection->length);
+		filenames = g_strsplit (tmp, "\n", 0);
+		g_free (tmp);
 		
-		url = camel_url_new (filename, NULL);
-		g_free (filename);
-		filename = url->path;
-		url->path = NULL;
-		camel_url_free (url);
+		for (i = 0; filenames[i] != NULL; i++) {
+			filename = g_strstrip (filenames[i]);
+			
+			url = camel_url_new (filename, NULL);
+			g_free (filename);
+			filename = url->path;
+			url->path = NULL;
+			camel_url_free (url);
+			
+			e_msg_composer_attachment_bar_attach
+				(E_MSG_COMPOSER_ATTACHMENT_BAR (composer->attachment_bar),
+				 filename);
+			
+			g_free (filename);
+		}
 		
-		e_msg_composer_attachment_bar_attach
-			(E_MSG_COMPOSER_ATTACHMENT_BAR (composer->attachment_bar),
-			 filename);
-		
-		g_free (filename);
+		g_free (filenames);
 		break;
 	default:
 		break;
