@@ -375,7 +375,7 @@ trash_finalize (CamelObject *trash, gpointer event_data, gpointer user_data)
 static void
 init_trash (CamelStore *store)
 {
-	store->vtrash = camel_vtrash_folder_new (store, _("Trash"));
+	store->vtrash = camel_vtrash_folder_new (store, CAMEL_VTRASH_NAME);
 	
 	if (store->vtrash) {
 		/* attach to the finalise event of the vtrash */
