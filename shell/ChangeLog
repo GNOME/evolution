@@ -1,50 +1,3 @@
-2004-06-09  Dan Winship  <danw@novell.com>
-
-	* check-empty.xpm, check-filled.xpm, check-missing.xpm:
-	* e-shell-config-autocompletion.[ch]:
-	* e-shell-config-default-folders.[ch]:
-	* e-shell-config-folder-settings.[ch]:
-	* e-shell-config-offline.[ch]:
-	* e-shell-config.[ch]:
-	* e-shell-folder-creation-dialog.[ch]:
-	* e-shell-shared-folder-picker-dialog.[ch]:
-	* e-storage-set-store.[ch]:
-	* e-storage-set-view-checkboxes.etstate:
-	* e-storage-set-view-no-checkboxes.etstate:
-	* e-storage-set-view.etspec:
-	* e-uri-schema-registry.[ch]:
-	* evolution-activity-client.c:
-	* evolution-storage-set-view-factory.[ch]:
-	* evolution-storage-set-view.[ch]:
-	* glade/e-folder-list.glade:
-	* glade/e-shell-config-default-folders.glade:
-	* glade/e-shell-folder-creation-dialog.glade:
-	* glade/e-shell-shared-folder-picker-dialog.glade: Remove
-	no-longer-used stuff
-
-	* README: Remove this, since it's more confusing than true now.
-
-	* Evolution-Offline.idl, Evolution-common.idl: Remove
-	GNOME_Evolution_Folder, and references to it.
-
-	* e-active-connection-dialog.glade:
-	* evolution-startup-wizard.glade: Move the last two remaining
-	files from ./glade/ up to here.
-	
-	* glade/*: Gone.
-
-	* Makefile.am, .cvsignore: update for the above
-
-2004-06-06  Jeffrey Stedfast  <fejj@ximian.com>
-
-	* e-shell-window-commands.c: Added Martyn Russel to the credits.
-
-2004-06-04  JP Rosevear  <jpr@novell.com>
-
-	Fixes #59361
-	
-	* e-sidebar.c (layout_buttons): handle 0 and 1 buttons properly
-
 2004-06-01  William Jon McCann  <mccann@jhu.edu>
 
 	* e-shell-window-commands.c (e_shell_window_commands_setup):
@@ -88,7 +41,7 @@
 
 2004-05-28  JP Rosevear  <jpr@novell.com>
 
-	* e-shell-window-commands.c: remove bogus include
+	* e-shell-window-commands.c: remove bogus include	
 
 2004-05-28  William Jon McCann  <mccann@jhu.edu>
 

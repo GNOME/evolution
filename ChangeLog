@@ -1,8 +1,3 @@
-2004-06-09  Dan Winship  <danw@novell.com>
-
-	* configure.in (AC_OUTPUT): Remove shell/glade/Makefile, which has
-	been merged into shell/Makefile
-
 2004-06-03  JP Rosevear  <jpr@novell.com>
 
 	* configure.in: bump version, requirements

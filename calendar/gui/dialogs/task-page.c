@@ -42,7 +42,6 @@
 #include "e-util/e-categories-config.h"
 #include "../e-timezone-entry.h"
 #include "../calendar-config.h"
-#include "comp-editor.h"
 #include "comp-editor-util.h"
 #include "task-page.h"
 
@@ -279,11 +278,9 @@ task_page_fill_widgets (CompEditorPage *page, ECalComponent *comp)
 
 	e_cal_component_get_description_list (comp, &l);
 	if (l && l->data) {
-		ECalComponentText *dtext;
-		
-		dtext = l->data;
+		text = *(ECalComponentText *)l->data;
 		gtk_text_buffer_set_text (gtk_text_view_get_buffer (GTK_TEXT_VIEW (priv->description)),
-					  dtext->value ? dtext->value : "", -1);
+					  text.value, -1);
 	} else {
 		gtk_text_buffer_set_text (gtk_text_view_get_buffer (GTK_TEXT_VIEW (priv->description)),
 					  "", 0);
@@ -828,9 +825,7 @@ source_changed_cb (GtkWidget *widget, ESource *source, gpointer data)
 			gtk_dialog_run (GTK_DIALOG (dialog));
 			gtk_widget_destroy (dialog);
 		} else {
-			comp_editor_notify_client_changed (
-				COMP_EDITOR (gtk_widget_get_toplevel (priv->main)),
-				client);
+			comp_editor_page_notify_client_changed (COMP_EDITOR_PAGE (epage), client);
 		}
 	}
 }

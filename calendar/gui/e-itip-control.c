@@ -672,7 +672,6 @@ set_date_label (EItipControl *itip, GtkHTML *html, GtkHTMLStream *html_stream,
 	EItipControlPrivate *priv;
 	ECalComponentDateTime datetime;
 	static char buffer[1024];
-	gchar *str;
 	gboolean wrote = FALSE, task_completed = FALSE;
 	ECalComponentVType type;
 
@@ -683,24 +682,20 @@ set_date_label (EItipControl *itip, GtkHTML *html, GtkHTMLStream *html_stream,
 	buffer[0] = '\0';
 	e_cal_component_get_dtstart (comp, &datetime);
 	if (datetime.value) {
-		str = g_strdup_printf ("<b>%s:</b>", _("Starts"));
 		write_label_piece (itip, &datetime, buffer, 1024,
-				  str,
+				   _("<b>Starts:</b> "),
 				   "<br>", FALSE);
 		gtk_html_write (html, html_stream, buffer, strlen(buffer));
 		wrote = TRUE;
-		g_free (str);
 	}
 	e_cal_component_free_datetime (&datetime);
 
 	buffer[0] = '\0';
 	e_cal_component_get_dtend (comp, &datetime);
 	if (datetime.value){
-		str = g_strdup_printf ("<b>%s:</b>", _("Ends"));
-		write_label_piece (itip, &datetime, buffer, 1024, str, "<br>", FALSE);
+		write_label_piece (itip, &datetime, buffer, 1024, _("<b>Ends:</b> "), "<br>", FALSE);
 		gtk_html_write (html, html_stream, buffer, strlen (buffer));
 		wrote = TRUE;
-		g_free (str);
 	}
 	e_cal_component_free_datetime (&datetime);
 
@@ -717,24 +712,20 @@ set_date_label (EItipControl *itip, GtkHTML *html, GtkHTMLStream *html_stream,
 	if (type == E_CAL_COMPONENT_TODO && datetime.value) {
 		/* Pass TRUE as is_utc, so it gets converted to the current
 		   timezone. */
-		str = g_strdup_printf ("<b>%s:</b>", _("Completed"));
 		datetime.value->is_utc = TRUE;
-		write_label_piece (itip, &datetime, buffer, 1024, str, "<br>", FALSE);
+		write_label_piece (itip, &datetime, buffer, 1024, _("<b>Completed:</b> "), "<br>", FALSE);
 		gtk_html_write (html, html_stream, buffer, strlen (buffer));
 		wrote = TRUE;
 		task_completed = TRUE;
-		g_free (str);
 	}
 	e_cal_component_free_datetime (&datetime);
 
 	buffer[0] = '\0';
 	e_cal_component_get_due (comp, &datetime);
 	if (type == E_CAL_COMPONENT_TODO && !task_completed && datetime.value) {
-		str = g_strdup_printf ("<b>%s:</b>", _("Due"));
-		write_label_piece (itip, &datetime, buffer, 1024, str, "<br>", FALSE);
+		write_label_piece (itip, &datetime, buffer, 1024, _("<b>Due:</b> "), "<br>", FALSE);
 		gtk_html_write (html, html_stream, buffer, strlen (buffer));
 		wrote = TRUE;
-		g_free (str);
 	}
 
 	e_cal_component_free_datetime (&datetime);
@@ -816,7 +807,6 @@ write_html (EItipControl *itip, const gchar *itip_desc, const gchar *itip_title,
 	gchar *html;
 	const gchar *const_html;
 	gchar *filename;
-	gchar *str;
 
 	priv = itip->priv;
 
@@ -925,12 +915,9 @@ write_html (EItipControl *itip, const gchar *itip_desc, const gchar *itip_title,
 
 	/* Summary */
 	e_cal_component_get_summary (priv->comp, &text);
-	str = g_strdup_printf ("<i>%s:</i>", _("None"));
-
-	html = text.value ? camel_text_to_html (text.value, CAMEL_MIME_FILTER_TOHTML_CONVERT_NL, 0) : str;
+	html = text.value ? camel_text_to_html (text.value, CAMEL_MIME_FILTER_TOHTML_CONVERT_NL, 0) : _("<i>None</i>");
 	gtk_html_stream_printf (html_stream, "<b>%s</b><br>%s<br><br>",
 				_("Summary:"), html);
-	g_free (str);
 	if (text.value)
 		g_free (html);
 	

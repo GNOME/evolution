@@ -172,12 +172,6 @@ init_widgets (EventEditor *ee)
 			    G_CALLBACK (model_row_delete_cb), ee);
 }
 
-static void
-client_changed_cb (CompEditorPage *page, ECal *client, gpointer user_data)
-{
-	set_menu_sens (EVENT_EDITOR (user_data));
-}
-
 /* Object initialization function for the event editor */
 static void
 event_editor_init (EventEditor *ee)
@@ -205,8 +199,6 @@ event_editor_construct (EventEditor *ee, ECal *client)
 	comp_editor_append_page (COMP_EDITOR (ee), 
 				 COMP_EDITOR_PAGE (priv->event_page),
 				 _("Appointment"));
-	g_signal_connect (G_OBJECT (priv->event_page), "client_changed",
-			  G_CALLBACK (client_changed_cb), ee);
 
 	priv->alarm_page = alarm_page_new ();
 	g_object_ref (priv->alarm_page);

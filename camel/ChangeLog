@@ -1,196 +1,3 @@
-2004-06-14  Not Zed  <NotZed@Ximian.com>
-
-	* providers/smtp/camel-smtp-transport.c (smtp_data): use
-	g_ascii_strcasecmp.
-	(smtp_connect): do not re-helo after we've authenticated.  This
-	was a misreading of the spec.  We must only re-helo after a
-	transport layer negotiation.
-
-2004-06-12  Jeffrey Stedfast  <fejj@ximian.com>
-
-	* providers/imap4/camel-imap4-store.c (imap4_noop): Flush summary
-	updates for the currently selected folder.
-	(imap4_noop): Sync the currently selected folder before sending
-	NOOP.
-
-	* providers/imap4/camel-imap4-summary.c
-	(camel_imap4_summary_set_exists): Don't bother with
-	exists_changed. We don't need it afterall.
-	(camel_imap4_summary_flush_updates): Instead of updating flags if
-	update_flags or exists_changed is set, only bother if update_flags
-	is set or if exists is smaller than the summary count (since
-	updating flags is also sueful for determining which messages have
-	been removed).
-
-2004-06-11  Jeffrey Stedfast  <fejj@novell.com>
-
-	* providers/imap4/camel-imap4-folder.c (imap4_refresh_info): Force
-	updating of the emsage flags (normally this only happens if
-	something has changed that warrants rescanning them).
-
-2004-06-11  Jeffrey Stedfast  <fejj@ximian.com>
-
-	* providers/imap4/camel-imap4-folder.c (untagged_fetch): Handle
-	getting FLAGS even though we didn't request it (server can send us
-	FLAGS info if another client changed them recently, for
-	example). Also fixed to handle the fact that not every bit of info
-	has to be in a single untagged FETCH response - it may come in
-	several untagged responses.
-
-	* providers/imap4/camel-imap4-summary.c (envelope_decode_address):
-	Decode the email address name token.
-	(envelope_decode_nstring): rfc2047 decode strings if requested.
-	(decode_envelope): Request that the subject string be rfc2047
-	decoded.
-
-2004-06-11  Not Zed  <NotZed@Ximian.com>
-
-	* providers/local/camel-maildir-store.c (get_folder_info): if we
-	scan from "" or top == NULL, then we really want to scan from "."
-	instead.
-
-	* camel-url.c (camel_url_new_with_base): don't check the for a
-	character after the # before extracting the fragment.  An empty
-	fragment is still allowed and # should never be added to the path.
-	See Rfc1808 2.4.1.
-
-2004-06-11  Jeffrey Stedfast  <fejj@ximian.com>
-
-	* providers/imap4/camel-imap4-summary.c
-	(camel_imap4_summary_flush_updates): Don't bother scanning summary
-	info if EXISTS was 0.
-	(camel_imap4_summary_set_uidvalidity): Emit the folder_changed
-	event after clearing the summary.
-	(camel_imap4_summary_expunge): Emit the folder_changed event after
-	removing the message from the summary.
-	(camel_imap4_summary_set_exists): Only set exists_changed if the
-	new and old exists values are different.
-	(imap4_fetch_all_add): Emit a folder_changed signal if any new
-	info's were added.
-	(imap4_fetch_all_update): Emit a folder_changed event if any uids
-	were removed or otherwise updated.
-	(camel_imap4_summary_expunge): Use seqid-1 to determine the actual
-	summary index.
-	(camel_imap4_summary_flush_updates): Added some logic to
-	distinguish between EXISTS value changing because it changed and
-	because messages got expunged.
-
-	* providers/imap4/camel-imap4-folder.c (imap4_sync): Flush updates
-	after an EXPUNGE and don't unset expunge if we didn't delete
-	anything (the logic was wrong anyway).
-	(imap4_refresh_info): Implemented.
-
-2004-06-10  Jeffrey Stedfast  <fejj@ximian.com>
-
-	* providers/imap4/camel-imap4-engine.c
-	(camel_imap4_engine_handle_untagged_1): Don't always try and parse
-	a RESP-CODE in the BYE case as the RESP-CODE is optional.
-
-2004-06-10  Jeffrey Stedfast  <fejj@novell.com>
-
-	* providers/imap4/camel-imap4-store.c (imap4_build_folder_info):
-	If flags does not include FOLDER_INFO_FAST, get the total/unread
-	counts for the folder-info.
-
-	* providers/imap4/camel-imap4-engine.c (engine_parse_status):
-	Removed.
-	(camel_imap4_engine_handle_untagged_1): Don't handle untagged
-	STATUS responses anymore. Let the STATUS requestor handle them
-	instead.
-
-	* providers/imap4/camel-imap4-utils.c
-	(camel_imap4_untagged_status): New function to parse untagged
-	status events.
-
-2004-06-10  Not Zed  <NotZed@Ximian.com>
-
-	* camel-filter-driver.c (camel_filter_driver_filter_message): add
-	some :filter debug.
-	(open_folder): only ignore the get_folder exception if we have a
-	default folder, otherwise don't.  See #59727.
-
-	* providers/nntp/camel-nntp-store.c (camel_nntp_command): move the
-	stream based checking into the loop, after we connect.  Fixes a
-	crash.
-
-2004-06-09  Jeffrey Stedfast  <fejj@novell.com>
-
-	* camel-gpg-context.c (gpg_verify): Fixed a case where it was
-	possible to double-free the gpg context.
-	(gpg_verify): If we don't have a public key, then the signature is
-	just BAD always.
-
-2004-06-09  Jeffrey Stedfast  <fejj@ximian.com>
-
-	* camel-gpg-context.c (gpg_verify): Don't assign trust to be
-	UNKNOWN if gpg sent us a NODATA status.
-
-2004-06-07  Jeffrey Stedfast  <fejj@novell.com>
-
-	* providers/imap4/camel-imap4-folder.c (camel_imap4_folder_new):
-	Load the entire summary, not just the summary header. This way
-	when the user opens the folder, we don't do a complete re-sync
-	with the server unnecessarily.
-
-	* providers/imap4/camel-imap4-summary.c (untagged_fetch_all): New
-	info's always have a uid of "", so don't checkagainst NULL.
-
-2004-06-06  Jeffrey Stedfast  <fejj@ximian.com>
-
-	* providers/imap4/camel-imap4-store.c (imap4_rename_folder):
-	Implemented, mostly. Still need to update state on the renamed
-	folder object if instantiated and rename the on-disk cache
-	directory.
-
-	* providers/imap4/camel-imap4-folder.c
-	(camel_imap4_folder_finalize): Free the cachedir.
-	(camel_imap4_folder_new): Init the cachedir and load the saved
-	summary before updating it against the server summary.
-
-	* providers/imap4/camel-imap4-store.c
-	(camel_imap4_store_finalize): Free the storage_path.
-	(imap4_construct): Init the storage_path.
-
-2004-06-04  Jeffrey Stedfast  <fejj@novell.com>
-
-	* providers/imap4/camel-imap4-folder.c (camel_imap4_folder_new):
-	Initialise the folder->summary and force an update of the message
-	info cache by selecting the folder and flushing the updates to the
-	imap4 summary object.
-
-	* providers/imap4/camel-imap4-store.c (imap4_get_folder_info):
-	Lock the connect_lock before we check if the engine is NULL and
-	after we connect (assuming we need to), initialise the engine
-	pointer again.
-	(imap4_get_folder_info): Doh. Need to escape the "'s in the LIST
-	command string.
-	(imap4_get_folder): Same.
-
-	* camel-stream-buffer.c (stream_flush): Fixed to work
-	properly. After we've flushed the buffer, we want to set sbf->ptr
-	to sbf->buf, we don't want to do sbf->ptr += written, that'll just
-	corrupt our next write.
-
-	* providers/imap4/camel-imap4-store.c (connect_to_server_wrapper):
-	Duh. If the user doesn't care about SSL/TLS - use USE_SSL_NEVER,
-	not USE_SSL_ALWAYS.
-
-	* camel-tcp-stream-ssl.c (stream_flush): Always just return 0,
-	don't try to PR_Sync() - fsync on a socket causes an error.
-
-	* providers/imap4/camel-imap4-command.c
-	(camel_imap4_command_step): Set exceptions when write/flush fail.
-
-	* providers/imap4/camel-imap4-engine.c
-	(camel_imap4_engine_take_stream): Set an exception in the case
-	where we get an unexpected greeting from the server.
-
-	* providers/imap4/camel-imap4-store.c (imap4_create_folder):
-	store->dir_sep no longer exists, so query the engine for the
-	directory separator for the parent_folder.
-	(imap4_build_folder_info): CamelFolderInfo no longer has a path
-	component.
-
 2004-06-03  Not Zed  <NotZed@Ximian.com>
 
 	* providers/nntp/camel-nntp-store.c (camel_nntp_command):
@@ -345,15 +152,12 @@
 
 2004-05-24  Sivaiah Nallagatla <snallagatla@novell.com>
 
-	* camel-provider.h: Added CAMEL_PROVIDER_CONF_HIDDEN to
+        * camel-provider.h : added CAMEL_PROVIDER_CONF_HIDDEN to
          conf item type enum. This is used by groupwise provider
-
-	* providers/groupwise/camel-groupwise-provider.c: Added
-	CAMEL_PROVIDER_CONF_HIDDEN to groupwise_conf_entries to pass the
-	auth-domain value
-
-	* providers/imap/camel-imap-store.c (imap_auth_loop): Read the
-	auth-domain property from imap url and pass it camel sesstion apis
+        * providers/groupwise/camel-groupwise-provider.c : Added CAMEL_PROVIDER_CONF_HIDDEN
+        to groupwise_conf_entries to pass the auth-domain value
+        * providers/imap/camel-imap-store.c (imap_auth_loop) : read the auth-domain
+        property from imap url and pass it camel sesstion apis
 
 2004-05-22  Not Zed  <NotZed@Ximian.com>
 
@@ -372,7 +176,7 @@
 
 	* providers/imap/camel-imap-store.c (connect_to_server): Added a
 	workaround for broken IMAP. Hopefully by forcing only the IMAP4
-	command subset, we can work around their suckage.
+	command subst, we can work around their suckage.
 
 2004-05-21  Not Zed  <NotZed@Ximian.com>
 

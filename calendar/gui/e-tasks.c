@@ -679,18 +679,15 @@ set_status_message (ETasks *tasks, const char *message, ...)
 {
 	ETasksPrivate *priv;
 	va_list args;
-	char sz[2048], *msg_string = NULL;
-
-	if (message) {
-		va_start (args, message);
-		vsnprintf (sz, sizeof sz, message, args);
-		va_end (args);
-		msg_string = sz;
-	}
+	char sz[2048];
+	
+	va_start (args, message);
+	vsnprintf (sz, sizeof sz, message, args);
+	va_end (args);
 
 	priv = tasks->priv;
 	
-	e_calendar_table_set_status_message (E_CALENDAR_TABLE (priv->tasks_view), msg_string);
+	e_calendar_table_set_status_message (E_CALENDAR_TABLE (priv->tasks_view), sz);
 }
 
 /* Callback from the calendar client when an error occurs in the backend */
@@ -738,48 +735,6 @@ backend_died_cb (ECal *client, gpointer data)
 	g_object_unref (source);
 }
 
-/* Callback from the calendar client when the calendar is opened */
-static void
-client_cal_opened_cb (ECal *ecal, ECalendarStatus status, ETasks *tasks)
-{
-	ECalModel *model;
-	ESource *source;
-	ETasksPrivate *priv;
-
-	priv = tasks->priv;
-
-	source = e_cal_get_source (ecal);
-
-	switch (status) {
-	case E_CALENDAR_STATUS_OK :
-		set_status_message (tasks, _("Loading tasks"));
-		model = e_calendar_table_get_model (E_CALENDAR_TABLE (priv->tasks_view));
-		e_cal_model_add_client (model, ecal);
-
-		set_timezone (tasks);
-		set_status_message (tasks, NULL);
-		break;
-	default :
-		/* Make sure the source doesn't disappear on us */
-		g_object_ref (source);
-
-		priv->clients_list = g_list_remove (priv->clients_list, ecal);
-		g_signal_handlers_disconnect_matched (ecal, G_SIGNAL_MATCH_DATA,
-						      0, 0, NULL, NULL, tasks);
-
-		/* Do this last because it unrefs the client */
-		g_hash_table_remove (priv->clients, e_cal_get_uri (ecal));
-
-		gtk_signal_emit (GTK_OBJECT (tasks), e_tasks_signals[SOURCE_REMOVED], source);
-
-		set_status_message (tasks, NULL);
-		g_object_unref (ecal);
-		g_object_unref (source);
-
-		break;
-	}
-}
-
 void
 e_tasks_open_task			(ETasks		*tasks)
 {
@@ -824,6 +779,7 @@ e_tasks_add_todo_source (ETasks *tasks, ESource *source)
 {
 	ETasksPrivate *priv;
 	ECal *client;
+	ECalModel *model;
 	char *str_uri;
 	GError *error = NULL;
 
@@ -856,11 +812,42 @@ e_tasks_add_todo_source (ETasks *tasks, ESource *source)
 	g_signal_connect (G_OBJECT (client), "backend_error", G_CALLBACK (backend_error_cb), tasks);
 	g_signal_connect (G_OBJECT (client), "categories_changed", G_CALLBACK (client_categories_changed_cb), tasks);
 	g_signal_connect (G_OBJECT (client), "backend_died", G_CALLBACK (backend_died_cb), tasks);
-	g_signal_connect (G_OBJECT (client), "cal_opened", G_CALLBACK (client_cal_opened_cb), tasks);
 
 	gtk_signal_emit (GTK_OBJECT (tasks), e_tasks_signals[SOURCE_ADDED], source);
 
-	e_cal_open_async (client, FALSE);
+	if (!e_cal_open (client, FALSE, &error)) {
+		GtkWidget *dialog;
+
+		dialog = gtk_message_dialog_new (GTK_WINDOW (gtk_widget_get_toplevel (GTK_WIDGET (tasks))),
+						 GTK_DIALOG_NO_SEPARATOR,
+						 GTK_MESSAGE_ERROR, GTK_BUTTONS_OK,
+						 _("Error opening %s:\n%s"),
+						 str_uri, error ? error->message : "");
+
+		g_error_free (error);
+		priv->clients_list = g_list_prepend (priv->clients_list, client);
+		g_signal_handlers_disconnect_matched (client, G_SIGNAL_MATCH_DATA,
+						      0, 0, NULL, NULL, tasks);	
+
+		/* Do this last because it unrefs the client */
+		g_hash_table_remove (priv->clients, str_uri);
+
+		gtk_signal_emit (GTK_OBJECT (tasks), e_tasks_signals[SOURCE_REMOVED], source);
+
+		gtk_dialog_run (GTK_DIALOG (dialog));
+		gtk_widget_destroy (dialog);
+
+		set_status_message (tasks, NULL);
+
+		return FALSE;
+	}
+
+	set_status_message (tasks, _("Loading tasks"));
+	model = e_calendar_table_get_model (E_CALENDAR_TABLE (priv->tasks_view));
+	e_cal_model_add_client (model, client);
+
+	set_timezone (tasks);
+	set_status_message (tasks, NULL);
 
 	return TRUE;
 }

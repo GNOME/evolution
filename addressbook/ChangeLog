@@ -1,32 +1,9 @@
-2004-06-14  Not Zed  <NotZed@Ximian.com>
-
-	* importers/evolution-ldif-importer.c (parseLine): handle LIST
-	field types.
-	(ldif_fields[]): Add a list type. E_CONTACT_EMAIL is a list field
-	type.  See #58855.
-
-2004-06-08  Chris Toshok  <toshok@ximian.com>
-
-	* gui/widgets/e-addressbook-model.c (get_view_idle): new
-	function. do the get_view in an idle handler.
-	(eab_model_set_property): don't call get_view directly from any
-	setter block.  instead just add the idle handler (if it's not
-	already added.)  This keeps us from duplicating queries when both
-	"book" and "query" are set using the same g_object_set.
-
-	* gui/widgets/e-addressbook-model.h: add book_view_idle_id.
-	
 2004-06-07  Hans Petter Jansson  <hpj@ximian.com>
 
 	Fixes #58921.
 
 	* gui/contact-editor/e-contact-editor.c (extract_address_record):
 	Also check if the po box field is non-empty.
-
-2004-06-07  Jon Oberheide  <jon@focalhost.com>
-
-	* gui/contact-list-editor/e-contact-list-model.c: disable editing
-	of cells in the contact table.
 
 2004-06-07  Hans Petter Jansson  <hpj@ximian.com>
 
@@ -35,96 +12,13 @@
 	* gui/component/addressbook-migrate.c (migrate_contacts): Change
 	the "POSTAL" address in 1.4 to "OTHER" in 1.5.
 
-2004-06-07  Hans Petter Jansson  <hpj@ximian.com>
-
-	* gui/Makefile.am (SUBDIRS): Fix order of dependencies.
-
-2004-06-07  H P Nadig  <hpnadig@pacific.net.in>
-
-	* gui/contact-list-editor/e-contact-list-editor.h: Added few
-	headers needed for select names dialog.
-
-	* gui/contact-list-editor/e-contact-list-editor.c
-	(e_contact_list_editor_init): Added select button handler.
-	(select_cb): The callback function for Select Button.
-	(setup_corba): To setup corba for select names dialog.	
-	(select_names_ok_cb): Handle Select names dialog entries.
-	(add_to_model): Adds cards to the model. 
-
-	* gui/contact-list-editor/contact-list-editor.glade: New 'Select'
-	Button. Tooltips added for buttons in button Box.
-
-2004-06-07  Dan Winship  <danw@novell.com>
-
-	* gui/component/addressbook-view.c: s/stock_save_as/stock_save-as/
-
-2004-06-04  Larry Ewing  <lewing@ximian.com>
-
-	* gui/contact-list-editor/e-contact-list-editor.c: remove bonobo
-	menus and cruft add ok/cancel buttons.
-
-	* gui/contact-list-editor/e-contact-list-editor.h: add buttons for
-	ok/cancel.
-
-	* gui/contact-list-editor/contact-list-editor.glade: add fields for
-	ok/cancel reparent to GtkDialog, other minor adjustments.
-
-2004-06-04  JP Rosevear  <jpr@novell.com>
-
-	Fixes #55945
 	
-	* importers/*.server.in.in: ditto
-
-	* importers/evolution-ldif-importer.c: fix OAFIIDs
-
-	* importers/evolution-vcard-importer.c: ditto
-
 2004-06-04  Chris Toshok  <toshok@ximian.com>
 
 	* gui/component/select-names/e-select-names-model.c
 	(name_and_email_simple_query_cb): only resolve destinations
 	against persons, not contact lists.
-
-2004-06-03  Hans Petter Jansson  <hpj@ximian.com>
-
-	Fixes #53643 and #26903.
-
-	* gui/search/addresstypes.xml: category -> category_list
-
-	* gui/search/e-addressbook-search-dialog.c (get_widget): Get
-	filter rule from parent view.
-	(eab_search_dialog_set_property): Implement.
-	(eab_search_dialog_get_property): Impleent.
-	(eab_search_dialog_class_init): Set up property methods.
-	(get_query): Get filter rule from parent view.
-	(eab_search_dialog_init): Don't get the filter widget here,
-	wait until parent view property is set.
-	(eab_search_dialog_new): Don't poke the parent view in, set it
-	as a property instead.
-	(eab_search_dialog_dispose): No longer needs to unref rule.
-
-	* gui/search/e-addressbook-search-dialog.c: EABSearchDialog no
-	longer needs to keep rule internally.
-
-	* gui/widgets/Makefile.am: Set SEARCH_RULE_DIR define.
-
-	* gui/widgets/e-addressbook-view.c (eab_view_new): Set up filter
-	rule and context.
-	(eab_view_peek_search_context): Implement.
-	(eab_view_peek_search_rule): Implement.
-
-	* gui/widgets/e-addressbook-view.h: Keep track of filter rule
-	and context. Add protos for added API.
-
-2004-06-03  Jeffrey Stedfast  <fejj@novell.com>
-
-	* conduit/address-conduit.c (set_status_cleared): Protect against
-	a NULL uid. Fixes bug #57619.
-	(ecard_from_remote_record): Set the full_name of the contact so
-	that we can use that as the FILE_AS rather than the company name,
-	which sucked. Fixes a bug I may or may not have reported months
-	ago. Ahah, fixes bug #57620.
-
+	
 2004-06-02  Hans Petter Jansson  <hpj@ximian.com>
 
 	* gui/component/addressbook-migrate.c

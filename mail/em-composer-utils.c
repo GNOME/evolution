@@ -868,6 +868,7 @@ static void
 forward_non_attached (GPtrArray *messages, int style, const char *fromuri)
 {
 	CamelMimeMessage *message;
+	CamelDataWrapper *wrapper;
 	EMsgComposer *composer;
 	char *subject, *text;
 	int i;
@@ -1456,13 +1457,6 @@ get_reply_all (CamelMimeMessage *message, CamelInternetAddress **to, CamelIntern
 		camel_internet_address_get (*cc, 0, &name, &addr);
 		camel_internet_address_add (*to, name, addr);
 		camel_address_remove ((CamelAddress *) *cc, 0);
-	}
-
-	/* if To: is still empty, may we removed duplicates (i.e. ourself), so add the original To if it was set */
-	if (camel_address_length((CamelAddress *)*to) == 0
-	    && (camel_internet_address_get(to_addrs, 0, &name, &addr)
-		|| camel_internet_address_get(cc_addrs, 0, &name, &addr))) {
-		camel_internet_address_add(*to, name, addr);
 	}
 	
 	g_hash_table_destroy (rcpt_hash);
