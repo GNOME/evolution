@@ -1,3 +1,7 @@
+2000-07-06  Not Zed  <NotZed@HelixCode.com>
+
+	* message-thread.[ch]: Code for message threading. 
+
 2000-07-05  Dan Winship  <danw@helixcode.com>
 
 	* mail-identify.c (mail_identify_mime_part): Oops. My gnome-vfs
