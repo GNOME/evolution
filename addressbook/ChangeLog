@@ -1,3 +1,13 @@
+2000-11-28  JP Rosevear  <jpr@helixcode.com>
+
+	* conduit/address-conduit.c (local_record_to_pilot_record): Return
+	a struct rather than a pointer to a struct
+	(view_cb): kill warning
+	(compare): local_record_to_pilot_record now returns a struct
+	(prepare): ditto
+	(free_prepare): remove as per gnome-pilot changes
+	(conduit_get_gpilot_conduit): don't listen for free_prepare signal
+
 2000-11-27  JP Rosevear  <jpr@helixcode.com>
 
 	* conduit/address-conduit.h: Remove "complete" field

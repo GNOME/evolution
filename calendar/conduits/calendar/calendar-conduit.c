@@ -53,7 +53,7 @@
 GnomePilotConduit * conduit_get_gpilot_conduit (guint32);
 void conduit_destroy_gpilot_conduit (GnomePilotConduit*);
 
-#define CONDUIT_VERSION "0.1.0"
+#define CONDUIT_VERSION "0.1.1"
 #ifdef G_LOG_DOMAIN
 #undef G_LOG_DOMAIN
 #endif
@@ -280,29 +280,26 @@ compute_status (ECalConduitContext *ctxt, ECalLocalRecord *local, const char *ui
 	}
 }
 
-static GnomePilotRecord *
+static GnomePilotRecord
 local_record_to_pilot_record (ECalLocalRecord *local,
 			      ECalConduitContext *ctxt)
 {
-	GnomePilotRecord *p = NULL;
+	GnomePilotRecord p;
 	
-	g_return_val_if_fail (local != NULL, NULL);
 	g_assert (local->comp != NULL);
 	g_assert (local->appt != NULL );
 	
 	LOG ("local_record_to_remote_record\n");
 
-	p = g_new0 (GnomePilotRecord, 1);
-
-	p->ID = local->local.ID;
-	p->category = 0;
-	p->attr = local->local.attr;
-	p->archived = local->local.archived;
-	p->secret = local->local.secret;
+	p.ID = local->local.ID;
+	p.category = 0;
+	p.attr = local->local.attr;
+	p.archived = local->local.archived;
+	p.secret = local->local.secret;
 
 	/* Generate pilot record structure */
-	p->record = g_new0 (char,0xffff);
-	p->length = pack_Appointment (local->appt, p->record, 0xffff);
+	p.record = g_new0 (char, 0xffff);
+	p.length = pack_Appointment (local->appt, p.record, 0xffff);
 
 	return p;	
 }
@@ -875,7 +872,7 @@ compare (GnomePilotConduitSyncAbs *conduit,
 	 ECalConduitContext *ctxt)
 {
 	/* used by the quick compare */
-	GnomePilotRecord *local_pilot;
+	GnomePilotRecord local_pilot;
 	int retval = 0;
 
 	LOG ("compare: local=%s remote=%s...\n",
@@ -885,19 +882,15 @@ compare (GnomePilotConduitSyncAbs *conduit,
 	g_return_val_if_fail (remote!=NULL,-1);
 
 	local_pilot = local_record_to_pilot_record (local, ctxt);
-	if (!local_pilot) 
-		return -1;
 
-	if (remote->length != local_pilot->length
-	    || memcmp (local_pilot->record, remote->record, remote->length))
+	if (remote->length != local_pilot.length
+	    || memcmp (local_pilot.record, remote->record, remote->length))
 		retval = 1;
 
 	if (retval == 0)
 		LOG ("    equal");
 	else
 		LOG ("    not equal");
-	
-	g_free (local_pilot);
 	
 	return retval;
 }
@@ -1031,29 +1024,14 @@ free_match (GnomePilotConduitSyncAbs *conduit,
 static gint
 prepare (GnomePilotConduitSyncAbs *conduit,
 	 ECalLocalRecord *local,
-	 GnomePilotRecord **remote,
+	 GnomePilotRecord *remote,
 	 ECalConduitContext *ctxt)
 {
 	LOG ("prepare: encoding local %s\n", print_local (local));
 
 	*remote = local_record_to_pilot_record (local, ctxt);
 
-	if (!*remote)
-		return -1;
-	
 	return 0;
-}
-
-static gint
-free_prepare (GnomePilotConduitSyncAbs *conduit,
-	      GnomePilotRecord *remote,
-	      ECalConduitContext *ctxt)
-{
-	LOG ("free_prepare: freeing\n");
-
-	g_return_val_if_fail (remote != NULL, -1);
-
-        return 0;
 }
 
 static ORBit_MessageValidationResult
@@ -1117,7 +1095,6 @@ conduit_get_gpilot_conduit (guint32 pilot_id)
   	gtk_signal_connect (retval, "free_match", (GtkSignalFunc) free_match, ctxt);
 
   	gtk_signal_connect (retval, "prepare", (GtkSignalFunc) prepare, ctxt);
-  	gtk_signal_connect (retval, "free_prepare", (GtkSignalFunc) free_prepare, ctxt);
 
 	return GNOME_PILOT_CONDUIT (retval);
 }
