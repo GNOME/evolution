@@ -697,7 +697,7 @@ eti_add_table_model (ETableItem *eti, ETableModel *table_model)
 		eti->uses_source_model = 1;
 		eti->source_model = E_TABLE_SUBSET(table_model)->source;
 		if (eti->source_model)
-			gtk_object_ref(eti->source_model);
+			gtk_object_ref(GTK_OBJECT(eti->source_model));
 	}
 	
 	eti_table_model_changed (table_model, eti);
