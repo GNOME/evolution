@@ -1,0 +1,9 @@
+1998-02-10  Raja R Harinath  <harinath@cs.umn.edu>
+
+	* gnome.m4: New file.  Moved AC_CHECK_GNOME from `configure.in' to
+	here, and renamed macro to GNOME_CHECK_GNOME.
+	* gnome-x-checks.m4: Likewise, move and renaming AC_GNOME_X_CHECKS 
+	to GNOME_X_CHECKS.
+	
+	* aclocal-include.m4: New file.  Defines AM_ACLOCAL_INCLUDE macro
+	to provide extra search directories to `aclocal'.
