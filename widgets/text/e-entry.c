@@ -201,7 +201,8 @@ canvas_size_request (GtkWidget *widget, GtkRequisition *requisition,
 	d(g_print("%s: width = %d\n", __FUNCTION__, requisition->width));
 
 	context = gtk_widget_get_pango_context (widget);
-	metrics = pango_context_get_metrics (context, gtk_widget_get_style (widget)->font_desc, NULL);
+	metrics = pango_context_get_metrics (context, gtk_widget_get_style (widget)->font_desc,
+					     pango_context_get_language (context));
 
 	requisition->height = (2 +
 			       PANGO_PIXELS (pango_font_metrics_get_ascent (metrics) +
