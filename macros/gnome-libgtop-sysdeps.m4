@@ -77,7 +77,7 @@ main (void)
 	  libgtop_use_machine_h=yes
 	  libgtop_need_server=yes
 	  ;;
-	freebsd*|netbsd*)
+	freebsd*|netbsd*|openbsd*)
 	  libgtop_sysdeps_dir=freebsd
 	  libgtop_use_machine_h=yes
 	  libgtop_need_server=yes
