@@ -50,6 +50,8 @@
 
 #include <gal/util/e-xml-utils.h>
 
+#include "e-util/e-bconf-map.h"
+
 #include "mail-component.h" /* for em_uri_from_camel() */
 #include "em-migrate.h"
 
@@ -209,155 +211,6 @@ accounts_1_0_free (gpointer key, gpointer value, gpointer user_data)
 	account_info_1_0_free (value);
 }
 
-static char hexnib[256] = {
-	-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,
-	-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,
-	-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,
-	 0, 1, 2, 3, 4, 5, 6, 7, 8, 9,-1,-1,-1,-1,-1,-1,
-	-1,10,11,12,13,14,15,16,-1,-1,-1,-1,-1,-1,-1,-1,
-	-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,
-	-1,10,11,12,13,14,15,16,-1,-1,-1,-1,-1,-1,-1,-1,
-	-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,
-	-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,
-};
-
-static char *
-hex_decode (const char *val)
-{
-	const unsigned char *p = (const unsigned char *) val;
-	char *o, *res;
-	
-	o = res = g_malloc (strlen(val)/2 + 1);
-	for (p = val; (p[0] && p[1]); p += 2)
-		*o++ = (hexnib[p[0]] << 4) | hexnib[p[1]];
-	*o = 0;
-	
-	return res;
-}
-
-static char *
-url_decode (const char *val)
-{
-	const unsigned char *p = (const unsigned char *) val;
-	char *o, *res, c;
-	
-	o = res = g_malloc (strlen (val) + 1);
-	while (*p) {
-		c = *p++;
-		if (c == '%'
-		    && hexnib[p[0]] != -1 && hexnib[p[1]] != -1) {
-			*o++ = (hexnib[p[0]] << 4) | hexnib[p[1]];
-			p+=2;
-		} else
-			*o++ = c;
-	}
-	*o = 0;
-	
-	return res;
-}
-
-static xmlNodePtr
-lookup_bconf_path (xmlDocPtr doc, const char *path)
-{
-	xmlNodePtr root;
-	char *val;
-	int found;
-	
-	root = doc->children;
-	if (strcmp (root->name, "bonobo-config") != 0) {
-		g_warning ("not bonobo-config xml file\n");
-		return NULL;
-	}
-	
-	root = root->children;
-	while (root) {
-		if (!strcmp (root->name, "section")) {
-			val = xmlGetProp (root, "path");
-			found = val && strcmp (val, path) == 0;
-			xmlFree (val);
-			if (found)
-				break;
-		}
-		root = root->next;
-	}
-	
-	return root;
-}
-
-static xmlNodePtr
-bconf_get_entry (xmlNodePtr root, const char *name)
-{
-	xmlNodePtr node = root->children;
-	int found;
-	char *val;
-	
-	while (node) {
-		if (!strcmp (node->name, "entry")) {
-			val = xmlGetProp (node, "name");
-			found = val && strcmp (val, name) == 0;
-			xmlFree (val);
-			if (found)
-				break;
-		}
-		node = node->next;
-	}
-	
-	return node;
-}
-
-static char *
-bconf_get_value (xmlNodePtr root, const char *name)
-{
-	xmlNodePtr node = bconf_get_entry (root, name);
-	
-	if (node)
-		return xmlGetProp (node, "value");
-	else
-		return NULL;
-}
-
-static char *
-bconf_get_bool (xmlNodePtr root, const char *name)
-{
-	char *val, *res;
-	
-	if ((val = bconf_get_value (root, name))) {
-		res = g_strdup (val[0] == '1' ? "true" : "false");
-		xmlFree (val);
-	} else
-		res = NULL;
-	
-	return res;
-}
-
-static char *
-bconf_get_long (xmlNodePtr root, const char *name)
-{
-	char *val, *res;
-	
-	if ((val = bconf_get_value (root, name))) {
-		res = g_strdup (val);
-		xmlFree (val);
-	} else
-		res = NULL;
-	
-	return res;
-}
-
-static char *
-bconf_get_string (xmlNodePtr root, const char *name)
-{
-	char *val, *res;
-	
-	if ((val = bconf_get_value (root, name))) {
-		res = hex_decode (val);
-		xmlFree (val);
-	} else
-		res = NULL;
-	
-	return res;
-}
-
 static char *
 get_base_uri (const char *val)
 {
@@ -444,7 +297,7 @@ upgrade_xml_uris_1_0 (const char *uri)
 		base_uri = get_base_uri (uri);
 		uri += strlen (base_uri) + 1;
 		if (strncmp (uri, "exchange/", 9) == 0) {
-			folder = url_decode (uri + 9);
+			folder = e_bconf_url_decode (uri + 9);
 			p = strchr (folder, '/');
 			out = g_strdup_printf ("%s/personal%s", base_uri, p ? p : "/");
 			g_free (folder);
@@ -591,10 +444,10 @@ load_accounts_1_0 (xmlDocPtr doc)
 	int count = 0, i;
 	char key[32];
 	
-	if (!(source = lookup_bconf_path (doc, "/Mail/Accounts")))
+	if (!(source = e_bconf_get_path (doc, "/Mail/Accounts")))
 		return 0;
 	
-	if ((val = bconf_get_value (source, "num"))) {
+	if ((val = e_bconf_get_value (source, "num"))) {
 		count = atoi (val);
 		xmlFree (val);
 	}
@@ -605,14 +458,14 @@ load_accounts_1_0 (xmlDocPtr doc)
 		char *rawuri;
 		
 		sprintf (key, "source_url_%d", i);
-		if (!(rawuri = bconf_get_value (source, key)))
+		if (!(rawuri = e_bconf_get_value (source, key)))
 			continue;
 		
 		ai = g_malloc0 (sizeof (struct _account_info_1_0));
-		ai->uri = hex_decode (rawuri);
+		ai->uri = e_bconf_hex_decode (rawuri);
 		ai->base_uri = get_base_uri (ai->uri);
 		sprintf (key, "account_name_%d", i);
-		ai->name = bconf_get_string (source, key);
+		ai->name = e_bconf_get_string (source, key);
 		
 		d(printf("load account '%s'\n", ai->uri));
 		
@@ -625,9 +478,9 @@ load_accounts_1_0 (xmlDocPtr doc)
 			/* small hack, poke the source_url into the transport_url for exchanget: transports
 			   - this will be picked up later in the conversion */
 			sprintf (key, "transport_url_%d", i);
-			node = bconf_get_entry (source, key);
+			node = e_bconf_get_entry (source, key);
 			if (node && (val = xmlGetProp (node, "value"))) {
-				tmp = hex_decode (val);
+				tmp = e_bconf_hex_decode (val);
 				xmlFree (val);
 				if (strncmp (tmp, "exchanget:", 10) == 0)
 					xmlSetProp (node, "value", rawuri);
@@ -776,7 +629,6 @@ upgrade_xml_1_2_rec (xmlNodePtr node)
 		{ "item", NULL, item_props },
 		{ 0 },
 	};
-	int changed = 0;
 	xmlNodePtr work;
 	int i,j;
 	char *txt, *tmp;
@@ -796,7 +648,6 @@ upgrade_xml_1_2_rec (xmlNodePtr node)
 								d(printf ("upgrading xml node %s/%s '%s' -> '%s'\n",
 									  tags[i].name, tags[i].tags[j], txt, tmp));
 								xmlNodeSetContent (work, tmp);
-								changed = 1;
 								g_free (tmp);
 							}
 							xmlFree (txt);
@@ -814,7 +665,6 @@ upgrade_xml_1_2_rec (xmlNodePtr node)
 					d(printf ("upgrading xml property %s on node %s '%s' -> '%s'\n",
 						  tags[i].props[j], tags[i].name, txt, tmp));
 					xmlSetProp (node, tags[i].props[j], tmp);
-					changed = 1;
 					g_free (tmp);
 					xmlFree (txt);
 				}
@@ -824,11 +674,11 @@ upgrade_xml_1_2_rec (xmlNodePtr node)
 	
 	node = node->children;
 	while (node) {
-		changed |= upgrade_xml_1_2_rec (node);
+		upgrade_xml_1_2_rec (node);
 		node = node->next;
 	}
 	
-	return changed;
+	return 0;
 }
 
 static int
@@ -846,402 +696,204 @@ em_upgrade_xml_1_2 (xmlDocPtr doc)
 /*  Tables for converting flat bonobo conf -> gconf xml blob		  */
 /* ********************************************************************** */
 
-/* for remapping bonobo-conf account data into the new xml blob format */
-/* These are used in build_xml, and order must match the lookup_table */
-enum _map_t {
-	MAP_END = 0,		/* end of line*/
-	MAP_BOOL,		/* bool -> prop of name 'to' value true or false */
-	MAP_LONG,		/* long -> prop of name 'to' value a long */
-	MAP_STRING,		/* string -> prop of name 'to' */
-	MAP_ENUM,		/* long/bool -> prop of name 'to', with the value indexed into the child map table's from field */
-	MAP_CHILD,		/* a new child of name 'to' */
-	MAP_MASK = 0x3f,
-	MAP_CONTENT = 0x80,	/* if set, create a new node of name 'to' instead of a property */
-};
-
-struct _map_table {
-	char *from;
-	char *to;
-	int type;
-	struct _map_table *child;
-};
-
 /* Mail/Accounts/ * */
-struct _map_table cc_map[] = {
-	{ "account_always_cc_%i", "always", MAP_BOOL },
-	{ "account_always_cc_addrs_%i", "recipients", MAP_STRING|MAP_CONTENT },
+static e_bconf_map_t cc_map[] = {
+	{ "account_always_cc_%i", "always", E_BCONF_MAP_BOOL },
+	{ "account_always_cc_addrs_%i", "recipients", E_BCONF_MAP_STRING|E_BCONF_MAP_CONTENT },
 	{ NULL },
 };
 
-struct _map_table bcc_map[] = {
-	{ "account_always_cc_%i", "always", MAP_BOOL },
-	{ "account_always_bcc_addrs_%i", "recipients", MAP_STRING|MAP_CONTENT },
+static e_bconf_map_t bcc_map[] = {
+	{ "account_always_cc_%i", "always", E_BCONF_MAP_BOOL },
+	{ "account_always_bcc_addrs_%i", "recipients", E_BCONF_MAP_STRING|E_BCONF_MAP_CONTENT },
 	{ NULL },
 };
 
-struct _map_table pgp_map[] = {
-	{ "account_pgp_encrypt_to_self_%i", "encrypt-to-self", MAP_BOOL },
-	{ "account_pgp_always_trust_%i", "always-trust", MAP_BOOL },
-	{ "account_pgp_always_sign_%i", "always-sign", MAP_BOOL },
-	{ "account_pgp_no_imip_sign_%i", "no-imip-sign", MAP_BOOL },
-	{ "account_pgp_key_%i", "key-id", MAP_STRING|MAP_CONTENT },
+static e_bconf_map_t pgp_map[] = {
+	{ "account_pgp_encrypt_to_self_%i", "encrypt-to-self", E_BCONF_MAP_BOOL },
+	{ "account_pgp_always_trust_%i", "always-trust", E_BCONF_MAP_BOOL },
+	{ "account_pgp_always_sign_%i", "always-sign", E_BCONF_MAP_BOOL },
+	{ "account_pgp_no_imip_sign_%i", "no-imip-sign", E_BCONF_MAP_BOOL },
+	{ "account_pgp_key_%i", "key-id", E_BCONF_MAP_STRING|E_BCONF_MAP_CONTENT },
 	{ NULL },
 };
 
-struct _map_table smime_map[] = {
-	{ "account_smime_encrypt_to_self_%i", "encrypt-to-self", MAP_BOOL },
-	{ "account_smime_always_sign_%i", "always-sign", MAP_BOOL },
-	{ "account_smime_key_%i", "key-id", MAP_STRING|MAP_CONTENT },
+static e_bconf_map_t smime_map[] = {
+	{ "account_smime_encrypt_to_self_%i", "encrypt-to-self", E_BCONF_MAP_BOOL },
+	{ "account_smime_always_sign_%i", "always-sign", E_BCONF_MAP_BOOL },
+	{ "account_smime_key_%i", "key-id", E_BCONF_MAP_STRING|E_BCONF_MAP_CONTENT },
 	{ NULL },
 };
 
-struct _map_table identity_sig_map[] = {
-	{ "identity_autogenerated_signature_%i", "auto", MAP_BOOL },
-	{ "identity_def_signature_%i", "default", MAP_LONG },
+static e_bconf_map_t identity_sig_map[] = {
+	{ "identity_autogenerated_signature_%i", "auto", E_BCONF_MAP_BOOL },
+	{ "identity_def_signature_%i", "default", E_BCONF_MAP_LONG },
 	{ NULL },
 };
 
-struct _map_table identity_map[] = {
-	{ "identity_name_%i", "name", MAP_STRING|MAP_CONTENT },
-	{ "identity_address_%i", "addr-spec", MAP_STRING|MAP_CONTENT },
-	{ "identity_reply_to_%i", "reply-to", MAP_STRING|MAP_CONTENT },
-	{ "identity_organization_%i", "organization", MAP_STRING|MAP_CONTENT },
-	{ NULL, "signature", MAP_CHILD, identity_sig_map },
+static e_bconf_map_t identity_map[] = {
+	{ "identity_name_%i", "name", E_BCONF_MAP_STRING|E_BCONF_MAP_CONTENT },
+	{ "identity_address_%i", "addr-spec", E_BCONF_MAP_STRING|E_BCONF_MAP_CONTENT },
+	{ "identity_reply_to_%i", "reply-to", E_BCONF_MAP_STRING|E_BCONF_MAP_CONTENT },
+	{ "identity_organization_%i", "organization", E_BCONF_MAP_STRING|E_BCONF_MAP_CONTENT },
+	{ NULL, "signature", E_BCONF_MAP_CHILD, identity_sig_map },
 	{ NULL },
 };
 
-struct _map_table source_map[] = {
-	{ "source_save_passwd_%i", "save-passwd", MAP_BOOL },
-	{ "source_keep_on_server_%i", "keep-on-server", MAP_BOOL },
-	{ "source_auto_check_%i", "auto-check", MAP_BOOL },
-	{ "source_auto_check_time_%i", "auto-check-timeout", MAP_LONG },
-	{ "source_url_%i", "url", MAP_STRING|MAP_CONTENT },
+static e_bconf_map_t source_map[] = {
+	{ "source_save_passwd_%i", "save-passwd", E_BCONF_MAP_BOOL },
+	{ "source_keep_on_server_%i", "keep-on-server", E_BCONF_MAP_BOOL },
+	{ "source_auto_check_%i", "auto-check", E_BCONF_MAP_BOOL },
+	{ "source_auto_check_time_%i", "auto-check-timeout", E_BCONF_MAP_LONG },
+	{ "source_url_%i", "url", E_BCONF_MAP_STRING|E_BCONF_MAP_CONTENT },
 	{ NULL },
 };
 
-struct _map_table transport_map[] = {
-	{ "transport_save_passwd_%i", "save-passwd", MAP_BOOL },
-	{ "transport_url_%i", "url", MAP_STRING|MAP_CONTENT },
+static e_bconf_map_t transport_map[] = {
+	{ "transport_save_passwd_%i", "save-passwd", E_BCONF_MAP_BOOL },
+	{ "transport_url_%i", "url", E_BCONF_MAP_STRING|E_BCONF_MAP_CONTENT },
 	{ NULL },
 };
 
-struct _map_table account_map[] = {
-	{ "account_name_%i", "name", MAP_STRING },
-	{ "source_enabled_%i", "enabled", MAP_BOOL },
-	{ NULL, "identity", MAP_CHILD, identity_map },
-	{ NULL, "source", MAP_CHILD, source_map },
-	{ NULL, "transport", MAP_CHILD, transport_map },
-	{ "account_drafts_folder_uri_%i", "drafts-folder", MAP_STRING|MAP_CONTENT },
-	{ "account_sent_folder_uri_%i", "sent-folder", MAP_STRING|MAP_CONTENT },
-	{ NULL, "auto-cc", MAP_CHILD, cc_map },
-	{ NULL, "auto-bcc", MAP_CHILD, bcc_map },
-	{ NULL, "pgp", MAP_CHILD, pgp_map },
-	{ NULL, "smime", MAP_CHILD, smime_map },
+static e_bconf_map_t account_map[] = {
+	{ "account_name_%i", "name", E_BCONF_MAP_STRING },
+	{ "source_enabled_%i", "enabled", E_BCONF_MAP_BOOL },
+	{ NULL, "identity", E_BCONF_MAP_CHILD, identity_map },
+	{ NULL, "source", E_BCONF_MAP_CHILD, source_map },
+	{ NULL, "transport", E_BCONF_MAP_CHILD, transport_map },
+	{ "account_drafts_folder_uri_%i", "drafts-folder", E_BCONF_MAP_STRING|E_BCONF_MAP_CONTENT },
+	{ "account_sent_folder_uri_%i", "sent-folder", E_BCONF_MAP_STRING|E_BCONF_MAP_CONTENT },
+	{ NULL, "auto-cc", E_BCONF_MAP_CHILD, cc_map },
+	{ NULL, "auto-bcc", E_BCONF_MAP_CHILD, bcc_map },
+	{ NULL, "pgp", E_BCONF_MAP_CHILD, pgp_map },
+	{ NULL, "smime", E_BCONF_MAP_CHILD, smime_map },
 	{ NULL },
 };
 
 /* /Mail/Signatures/ * */
-struct _map_table signature_format_map[] = {
+static e_bconf_map_t signature_format_map[] = {
 	{ "text/plain", },
 	{ "text/html", },
 	{ NULL }
 };
 
-struct _map_table signature_map[] = {
-	{ "name_%i", "name", MAP_STRING },
-	{ "html_%i", "format", MAP_ENUM, signature_format_map },
-	{ "filename_%i", "filename", MAP_STRING|MAP_CONTENT },
-	{ "script_%i", "script", MAP_STRING|MAP_CONTENT },
+static e_bconf_map_t signature_map[] = {
+	{ "name_%i", "name", E_BCONF_MAP_STRING },
+	{ "html_%i", "format", E_BCONF_MAP_ENUM, signature_format_map },
+	{ "filename_%i", "filename", E_BCONF_MAP_STRING|E_BCONF_MAP_CONTENT },
+	{ "script_%i", "script", E_BCONF_MAP_STRING|E_BCONF_MAP_CONTENT },
 	{ NULL },
 };
-
-
-static char *
-get_name (const char *in, int index)
-{
-	GString *out = g_string_new ("");
-	char c, *res;
-	
-	while ((c = *in++)) {
-		if (c == '%') {
-			c = *in++;
-			switch (c) {
-			case '%':
-				g_string_append_c (out, '%');
-				break;
-			case 'i':
-				g_string_append_printf (out, "%d", index);
-				break;
-			}
-		} else {
-			g_string_append_c (out, c);
-		}
-	}
-	
-	res = out->str;
-	g_string_free (out, FALSE);
-	
-	return res;
-}
-
-static char *
-bconf_lookup_bool (xmlNodePtr source, const char *name, struct _map_table *map)
-{
-	return bconf_get_bool (source, name);
-}
-
-static char *
-bconf_lookup_long (xmlNodePtr source, const char *name, struct _map_table *map)
-{
-	return bconf_get_long (source, name);
-}
-
-static char *
-bconf_lookup_string (xmlNodePtr source, const char *name, struct _map_table *map)
-{
-	return bconf_get_string (source, name);
-}
-
-static char *
-bconf_lookup_enum (xmlNodePtr source, const char *name, struct _map_table *map)
-{
-	char *val;
-	int index = 0, i;
-	
-	if ((val = bconf_get_value (source, name))) {
-		index = atoi (val);
-		xmlFree (val);
-	}
-	
-	for (i = 0; map->child[i].from; i++)
-		if (i == index)
-			return g_strdup (map->child[i].from);
-	
-	return NULL;
-}
-
-typedef char * (*bconf_lookup_func) (xmlNodePtr, const char *, struct _map_table *);
-
-static void
-build_xml (xmlNodePtr root, struct _map_table *map, int index, xmlNodePtr source)
-{
-	bconf_lookup_func lookup_table[] = { bconf_lookup_bool, bconf_lookup_long, bconf_lookup_string, bconf_lookup_enum };
-	char *name, *value;
-	xmlNodePtr node;
-	
-	while (map->type != MAP_END) {
-		if ((map->type & MAP_MASK) == MAP_CHILD) {
-			node = xmlNewChild (root, NULL, map->to, NULL);
-			build_xml (node, map->child, index, source);
-		} else {
-			name = get_name (map->from, index);
-			value = lookup_table[(map->type & MAP_MASK) - 1] (source, name, map);
-			
-			d(printf ("key '%s=%s' -> ", name, value));
-			
-			if (map->type & MAP_CONTENT) {
-				if (value && value[0])
-					xmlNewTextChild (root, NULL, map->to, value);
-			} else {
-				xmlSetProp (root, map->to, value);
-			}
-			g_free (value);
-			g_free (name);
-		}
-		map++;
-	}
-}
-
-static int
-convert_xml_blob (GConfClient *gconf, xmlDocPtr doc, struct _map_table *map, const char *path,
-		  const char *outpath, const char *name, const char *idparam)
-{
-	xmlNodePtr source;
-	int count = 0, i;
-	GSList *list, *l;
-	char *val;
-	
-	source = lookup_bconf_path (doc, path);
-	if (source) {
-		list = NULL;
-		if ((val = bconf_get_value (source, "num"))) {
-			count = atoi (val);
-			xmlFree (val);
-		}
-		
-		d(printf("Found %d blobs at %s\n", count, path));
-		
-		for (i = 0; i < count; i++) {
-			xmlDocPtr docout;
-			xmlChar *xmlbuf;
-			int n;
-			xmlNodePtr root;
-			
-			docout = xmlNewDoc ("1.0");
-			root = xmlNewDocNode (docout, NULL, name, NULL);
-			xmlDocSetRootElement (docout, root);
-			
-			/* This could be set with a MAP_UID type ... */
-			if (idparam) {
-				char buf[16];
-				
-				sprintf (buf, "%d", i);
-				xmlSetProp (root, idparam, buf);
-			}
-			
-			build_xml (root, map, i, source);
-			
-			xmlDocDumpMemory (docout, &xmlbuf, &n);
-			xmlFreeDoc (docout);
-			
-			list = g_slist_append (list, xmlbuf);
-		}
-		
-		gconf_client_set_list (gconf, outpath, GCONF_VALUE_STRING, list, NULL);
-		while (list) {
-			l = list->next;
-			xmlFree (list->data);
-			g_slist_free_1 (list);
-			list = l;
-		}
-	} else {
-		g_warning ("could not find '%s' in old config database, skipping", path);
-	}
-	
-	return 0;
-}
 
 /* ********************************************************************** */
 /*  Tables for bonobo conf -> gconf conversion				  */
 /* ********************************************************************** */
 
-/* order important here, used to index a few tables below */
-enum {
-	BMAP_BOOL,
-	BMAP_BOOLNOT,
-	BMAP_INT,
-	BMAP_STRING,
-	BMAP_SIMPLESTRING,	/* a non-encoded string */
-	BMAP_COLOUR,
-	BMAP_MASK = 0x7f,
-};
-
-struct _gconf_map {
-	char *from;
-	char *to;
-	int type;
-};
-
-/* ********************************************************************** */
-
-static struct _gconf_map mail_accounts_map[] = {
+static e_gconf_map_t mail_accounts_map[] = {
 	/* /Mail/Accounts - most entries are processed via the xml blob routine */
 	/* This also works because the initial uid mapping is 1:1 with the list order */
-	{ "default_account", "mail/default_account", BMAP_SIMPLESTRING },
+	{ "default_account", "mail/default_account", E_GCONF_MAP_SIMPLESTRING },
 	{ 0 },
 };
 
-static struct _gconf_map mail_display_map[] = {
+static e_gconf_map_t mail_display_map[] = {
 	/* /Mail/Display */
-	{ "thread_list", "mail/display/thread_list", BMAP_BOOL },
-	{ "thread_subject", "mail/display/thread_subject", BMAP_BOOL },
-	{ "hide_deleted", "mail/display/show_deleted", BMAP_BOOLNOT },
-	{ "preview_pane", "mail/display/show_preview", BMAP_BOOL },
-	{ "paned_size", "mail/display/paned_size", BMAP_INT },
-	{ "seen_timeout", "mail/display/mark_seen_timeout", BMAP_INT },
-	{ "do_seen_timeout", "mail/display/mark_seen", BMAP_BOOL },
-	{ "http_images", "mail/display/load_http_images", BMAP_INT },
-	{ "citation_highlight", "mail/display/mark_citations", BMAP_BOOL },
-	{ "citation_color", "mail/display/citation_colour", BMAP_COLOUR },
-	{ "x_mailer_display_style", "mail/display/xmailer_mask", BMAP_INT },
+	{ "thread_list", "mail/display/thread_list", E_GCONF_MAP_BOOL },
+	{ "thread_subject", "mail/display/thread_subject", E_GCONF_MAP_BOOL },
+	{ "hide_deleted", "mail/display/show_deleted", E_GCONF_MAP_BOOLNOT },
+	{ "preview_pane", "mail/display/show_preview", E_GCONF_MAP_BOOL },
+	{ "paned_size", "mail/display/paned_size", E_GCONF_MAP_INT },
+	{ "seen_timeout", "mail/display/mark_seen_timeout", E_GCONF_MAP_INT },
+	{ "do_seen_timeout", "mail/display/mark_seen", E_GCONF_MAP_BOOL },
+	{ "http_images", "mail/display/load_http_images", E_GCONF_MAP_INT },
+	{ "citation_highlight", "mail/display/mark_citations", E_GCONF_MAP_BOOL },
+	{ "citation_color", "mail/display/citation_colour", E_GCONF_MAP_COLOUR },
+	{ "x_mailer_display_style", "mail/display/xmailer_mask", E_GCONF_MAP_INT },
 	{ 0 },
 };
 
-static struct _gconf_map mail_format_map[] = {
+static e_gconf_map_t mail_format_map[] = {
 	/* /Mail/Format */
-	{ "message_display_style", "mail/display/message_style", BMAP_INT },
-	{ "send_html", "mail/composer/send_html", BMAP_BOOL },
-	{ "default_reply_style", "mail/format/reply_style", BMAP_INT },
-	{ "default_forward_style", "mail/format/forward_style", BMAP_INT },
-	{ "default_charset", "mail/composer/charset", BMAP_STRING },
-	{ "confirm_unwanted_html", "mail/prompts/unwanted_html", BMAP_BOOL },
+	{ "message_display_style", "mail/display/message_style", E_GCONF_MAP_INT },
+	{ "send_html", "mail/composer/send_html", E_GCONF_MAP_BOOL },
+	{ "default_reply_style", "mail/format/reply_style", E_GCONF_MAP_INT },
+	{ "default_forward_style", "mail/format/forward_style", E_GCONF_MAP_INT },
+	{ "default_charset", "mail/composer/charset", E_GCONF_MAP_STRING },
+	{ "confirm_unwanted_html", "mail/prompts/unwanted_html", E_GCONF_MAP_BOOL },
 	{ 0 },
 };
 
-static struct _gconf_map mail_trash_map[] = {
+static e_gconf_map_t mail_trash_map[] = {
 	/* /Mail/Trash */
-	{ "empty_on_exit", "mail/trash/empty_on_exit", BMAP_BOOL },
+	{ "empty_on_exit", "mail/trash/empty_on_exit", E_GCONF_MAP_BOOL },
 	{ 0 },
 };
 
-static struct _gconf_map mail_prompts_map[] = {
+static e_gconf_map_t mail_prompts_map[] = {
 	/* /Mail/Prompts */
-	{ "confirm_expunge", "mail/prompts/expunge", BMAP_BOOL },
-	{ "empty_subject", "mail/prompts/empty_subject", BMAP_BOOL },
-	{ "only_bcc", "mail/prompts/only_bcc", BMAP_BOOL },
+	{ "confirm_expunge", "mail/prompts/expunge", E_GCONF_MAP_BOOL },
+	{ "empty_subject", "mail/prompts/empty_subject", E_GCONF_MAP_BOOL },
+	{ "only_bcc", "mail/prompts/only_bcc", E_GCONF_MAP_BOOL },
 	{ 0 }
 };
 
-static struct _gconf_map mail_filters_map[] = {
+static e_gconf_map_t mail_filters_map[] = {
 	/* /Mail/Filters */
-	{ "log", "mail/filters/log", BMAP_BOOL },
-	{ "log_path", "mail/filters/logfile", BMAP_STRING },
+	{ "log", "mail/filters/log", E_GCONF_MAP_BOOL },
+	{ "log_path", "mail/filters/logfile", E_GCONF_MAP_STRING },
 	{ 0 }
 };
 
-static struct _gconf_map mail_notify_map[] = {
+static e_gconf_map_t mail_notify_map[] = {
 	/* /Mail/Notify */
-	{ "new_mail_notification", "mail/notify/type", BMAP_INT },
-	{ "new_mail_notification_sound_file", "mail/notify/sound", BMAP_STRING },
+	{ "new_mail_notification", "mail/notify/type", E_GCONF_MAP_INT },
+	{ "new_mail_notification_sound_file", "mail/notify/sound", E_GCONF_MAP_STRING },
 	{ 0 }
 };
 
-static struct _gconf_map mail_filesel_map[] = {
+static e_gconf_map_t mail_filesel_map[] = {
 	/* /Mail/Filesel */
-	{ "last_filesel_dir", "mail/save_dir", BMAP_STRING },
+	{ "last_filesel_dir", "mail/save_dir", E_GCONF_MAP_STRING },
 	{ 0 }
 };
 
-static struct _gconf_map mail_composer_map[] = {
+static e_gconf_map_t mail_composer_map[] = {
 	/* /Mail/Composer */
-	{ "ViewFrom", "mail/composer/view/From", BMAP_BOOL },
-	{ "ViewReplyTo", "mail/composer/view/ReplyTo", BMAP_BOOL },
-	{ "ViewCC", "mail/composer/view/Cc", BMAP_BOOL },
-	{ "ViewBCC", "mail/composer/view/Bcc", BMAP_BOOL },
-	{ "ViewSubject", "mail/composer/view/Subject", BMAP_BOOL },
+	{ "ViewFrom", "mail/composer/view/From", E_GCONF_MAP_BOOL },
+	{ "ViewReplyTo", "mail/composer/view/ReplyTo", E_GCONF_MAP_BOOL },
+	{ "ViewCC", "mail/composer/view/Cc", E_GCONF_MAP_BOOL },
+	{ "ViewBCC", "mail/composer/view/Bcc", E_GCONF_MAP_BOOL },
+	{ "ViewSubject", "mail/composer/view/Subject", E_GCONF_MAP_BOOL },
 	{ 0 },
 };
 
 /* ********************************************************************** */
 
-static struct _gconf_map importer_elm_map[] = {
+static e_gconf_map_t importer_elm_map[] = {
 	/* /Importer/Elm */
-	{ "mail", "importer/elm/mail", BMAP_BOOL },
-	{ "mail-imported", "importer/elm/mail-imported", BMAP_BOOL },
+	{ "mail", "importer/elm/mail", E_GCONF_MAP_BOOL },
+	{ "mail-imported", "importer/elm/mail-imported", E_GCONF_MAP_BOOL },
 	{ 0 },
 };
 
-static struct _gconf_map importer_pine_map[] = {
+static e_gconf_map_t importer_pine_map[] = {
 	/* /Importer/Pine */
-	{ "mail", "importer/elm/mail", BMAP_BOOL },
-	{ "address", "importer/elm/address", BMAP_BOOL },
+	{ "mail", "importer/elm/mail", E_GCONF_MAP_BOOL },
+	{ "address", "importer/elm/address", E_GCONF_MAP_BOOL },
 	{ 0 },
 };
 
-static struct _gconf_map importer_netscape_map[] = {
+static e_gconf_map_t importer_netscape_map[] = {
 	/* /Importer/Netscape */
-	{ "mail", "importer/netscape/mail", BMAP_BOOL },
-	{ "settings", "importer/netscape/settings", BMAP_BOOL },
-	{ "filters", "importer/netscape/filters", BMAP_BOOL },
+	{ "mail", "importer/netscape/mail", E_GCONF_MAP_BOOL },
+	{ "settings", "importer/netscape/settings", E_GCONF_MAP_BOOL },
+	{ "filters", "importer/netscape/filters", E_GCONF_MAP_BOOL },
 	{ 0 },
 };
 
 /* ********************************************************************** */
 
-static struct {
-	char *root;
-	struct _gconf_map *map;
-} gconf_remap_list[] = {
+static e_gconf_map_list_t gconf_remap_list[] = {
 	{ "/Mail/Accounts", mail_accounts_map },
 	{ "/Mail/Display", mail_display_map },
 	{ "/Mail/Format", mail_format_map },
@@ -1272,81 +924,32 @@ struct {
 
 /* remaps mail config from bconf to gconf */
 static int
-import_bonobo_config (xmlDocPtr config_xmldb, GConfClient *gconf)
+bconf_import (GConfClient *gconf, xmlDocPtr config_xmldb)
 {
 	xmlNodePtr source;
-	struct _gconf_map *map;
-	char *path, *val, *tmp;
+	char labx[16], colx[16];
+	char *val, *lab, *col;
 	GSList *list, *l;
-	char buf[32];
-	int i, j;
+	int i;
 	
-	/* process all flat config */
-	for (i = 0; gconf_remap_list[i].root; i++) {
-		d(printf ("Path: %s\n", gconf_remap_list[i].root));
-		if (!(source = lookup_bconf_path (config_xmldb, gconf_remap_list[i].root)))
-			continue;
-		
-		map = gconf_remap_list[i].map;
-		for (j = 0; map[j].from; j++) {
-			if (!(val = bconf_get_value (source, map[j].from)))
-				continue;
-			
-			d(printf (" %s = '%s' -> %s [%d]\n",
-				  map[j].from,
-				  val == NULL ? "(null)" : val,
-				  map[j].to,
-				  map[j].type));
-			
-			path = g_strdup_printf ("/apps/evolution/%s", map[j].to);
-			switch (map[j].type) {
-			case BMAP_BOOL:
-				gconf_client_set_bool (gconf, path, atoi (val), NULL);
-				break;
-			case BMAP_BOOLNOT:
-				gconf_client_set_bool (gconf, path, !atoi (val), NULL);
-				break;
-			case BMAP_INT:
-				gconf_client_set_int (gconf, path, atoi (val), NULL);
-				break;
-			case BMAP_STRING:
-				tmp = hex_decode (val);
-				gconf_client_set_string (gconf, path, tmp, NULL);
-				g_free(tmp);
-				break;
-			case BMAP_SIMPLESTRING:
-				gconf_client_set_string (gconf, path, val, NULL);
-				break;
-			case BMAP_COLOUR:
-				sprintf (buf, "#%06x", atoi (val) & 0xffffff);
-				gconf_client_set_string (gconf, path, buf, NULL);
-				break;
-			}
-			
-			/* FIXME: handle errors */
-			g_free (path);
-			xmlFree (val);
-		}
-	}
+	e_bconf_import (gconf, config_xmldb, gconf_remap_list);
 	
 	/* Labels:
-	  label string + label colour as integer
+	   label string + label colour as integer
 	   -> label string:# colour as hex */
-	source = lookup_bconf_path (config_xmldb, "/Mail/Labels");
+	source = e_bconf_get_path (config_xmldb, "/Mail/Labels");
 	if (source) {
 		list = NULL;
 		for (i = 0; i < 5; i++) {
-			char labx[16], colx[16];
-			char *lab, *col;
-			
 			sprintf (labx, "label_%d", i);
 			sprintf (colx, "color_%d", i);
-			lab = bconf_get_string (source, labx);
-			if ((col = bconf_get_value (source, colx))) {
+			lab = e_bconf_get_string (source, labx);
+			if ((col = e_bconf_get_value (source, colx))) {
 				sprintf (colx, "#%06x", atoi (col) & 0xffffff);
-				xmlFree (col);
+				g_free (col);
 			} else
 				strcpy (colx, label_default[i].colour);
+			
 			val = g_strdup_printf ("%s:%s", lab ? lab : label_default[i].label, colx);
 			list = g_slist_append (list, val);
 			g_free (lab);
@@ -1364,9 +967,12 @@ import_bonobo_config (xmlDocPtr config_xmldb, GConfClient *gconf)
 	}
 	
 	/* Accounts: The flat bonobo-config structure is remapped to a list of xml blobs.  Upgrades as necessary */
-	convert_xml_blob (gconf, config_xmldb, account_map, "/Mail/Accounts", "/apps/evolution/mail/accounts", "account", "uid");
+	e_bconf_import_xml_blob (gconf, config_xmldb, account_map, "/Mail/Accounts",
+				 "/apps/evolution/mail/accounts", "account", "uid");
+	
 	/* Same for signatures */
-	convert_xml_blob (gconf, config_xmldb, signature_map, "/Mail/Signatures", "/apps/evolution/mail/signatures", "signature", NULL);
+	e_bconf_import_xml_blob (gconf, config_xmldb, signature_map, "/Mail/Signatures",
+				 "/apps/evolution/mail/signatures", "signature", NULL);
 	
 	return 0;
 }
@@ -1377,7 +983,7 @@ em_migrate_1_2 (const char *evolution_dir, xmlDocPtr config_xmldb, xmlDocPtr fil
 	GConfClient *gconf;
 	
 	gconf = gconf_client_get_default ();
-	import_bonobo_config (config_xmldb, gconf);
+	bconf_import (gconf, config_xmldb);
 	g_object_unref (gconf);
 	
 	em_upgrade_xml_1_2 (filters);
@@ -1984,7 +1590,7 @@ em_migrate_dir (EMMigrateSession *session, const char *dirname, const char *full
 }
 
 static void
-em_migrate_local_folders_from_14_to_20 (EMMigrateSession *session)
+em_migrate_local_folders_1_4 (EMMigrateSession *session)
 {
 	struct dirent *dent;
 	struct stat st;
@@ -2177,7 +1783,7 @@ em_migrate_1_4 (const char *evolution_dir, xmlDocPtr filters, xmlDocPtr vfolders
 	}
 	g_free (path);
 	
-	em_migrate_local_folders_from_14_to_20 (session);
+	em_migrate_local_folders_1_4 (session);
 	
 	camel_object_unref (session->store);
 	g_free (session->srcdir);
