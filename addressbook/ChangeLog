@@ -1,3 +1,8 @@
+2000-10-16  Christopher James Lahey  <clahey@helixcode.com>
+
+	* contact-editor/fulladdr.glade: Fixed a typo.  Made this look a
+	bit better.
+
 2000-10-15  Dan Winship  <danw@helixcode.com>
 
 	* gui/component/select-names/Makefile.am:
