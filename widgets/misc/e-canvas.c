@@ -1091,6 +1091,14 @@ grab_cancelled_check (gpointer data)
 {
 	ECanvas *canvas = data;
 
+	if (GNOME_CANVAS (canvas)->grabbed_item == NULL) {
+		canvas->grab_cancelled_cb = NULL;
+		canvas->grab_cancelled_check_id = 0;
+		canvas->grab_cancelled_time = 0;
+		canvas->grab_cancelled_data = NULL;
+		return FALSE;
+	}
+
 	if (gtk_grab_get_current ()) {
 		gnome_canvas_item_ungrab(GNOME_CANVAS (canvas)->grabbed_item, canvas->grab_cancelled_time);
 		if (canvas->grab_cancelled_cb) {
