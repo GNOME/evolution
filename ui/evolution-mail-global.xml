@@ -25,7 +25,7 @@
      _tip="Subscribe or unsubscribe to folders on remote servers"/>
 
     <cmd name="ToolsVFolders"
-     _tip="Create or edit virtual folder definitions"/>
+     _tip="Create or edit vFolder definitions"/>
 
     <cmd name="ViewPreview"
      _tip="Show message preview window"
@@ -78,7 +78,7 @@
 	<separator f="" name="emailglobal2"/>
 
         <placeholder name="MailVFolderTools">
-          <menuitem name="ToolsVFolders" verb="" _label="Virtual Folder _Editor..."/>
+          <menuitem name="ToolsVFolders" verb="" _label="vFolder _Editor..."/>
         </placeholder>
 
 	<separator f="" name="emailglobal3"/>

@@ -185,16 +185,16 @@
      _tip="Create a rule to filter messages with this subject"/>
 
     <cmd name="ToolsVFolderMailingList"
-     _tip="Create a virtual folder for this mailing list"/>
+     _tip="Create a vFolder for this mailing list"/>
 
     <cmd name="ToolsVFolderRecipient"
-     _tip="Create a virtual folder for these recipients"/>
+     _tip="Create a vFolder for these recipients"/>
 
     <cmd name="ToolsVFolderSender"
-     _tip="Create a virtual folder for this sender"/>
+     _tip="Create a vFolder for this sender"/>
 
     <cmd name="ToolsVFolderSubject"
-     _tip="Create a virtual folder for this subject"/>
+     _tip="Create a vFolder for this subject"/>
 
     <cmd name="ViewFullHeaders"
      _tip="Show message with all email headers"
@@ -370,11 +370,11 @@
           </submenu>
         </placeholder>
         <placeholder name="MailVFolderTools">
-          <submenu name="ToolsVFolderFromMessage" _label="Create _Virtual Folder From Message">
-            <menuitem name="ToolsVFolderSubject" verb="" _label="VFolder on _Subject..."/>
-            <menuitem name="ToolsVFolderSender" verb="" _label="VFolder on Se_nder..."/>
-            <menuitem name="ToolsVFolderRecipient" verb="" _label="VFolder on _Recipients..."/>
-            <menuitem name="ToolsVFolderMailingList" verb="" _label="VFolder on Mailing _List..."/>
+          <submenu name="ToolsVFolderFromMessage" _label="Create _vFolder From Message">
+            <menuitem name="ToolsVFolderSubject" verb="" _label="vFolder on _Subject..."/>
+            <menuitem name="ToolsVFolderSender" verb="" _label="vFolder on Se_nder..."/>
+            <menuitem name="ToolsVFolderRecipient" verb="" _label="vFolder on _Recipients..."/>
+            <menuitem name="ToolsVFolderMailingList" verb="" _label="vFolder on Mailing _List..."/>
           </submenu>
         </placeholder>
       </placeholder>
