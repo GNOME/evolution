@@ -1,5 +1,8 @@
 2000-02-21  Matt Loper  <matt@helixcode.com>
 
+	* tests/ui-tests/message-browser.c (on_link_clicked): stop
+	sscanf() abuse.
+
 	* tests/Makefile.am: changed references to libibex.a to
 	libibex.la.
 
