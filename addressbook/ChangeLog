@@ -1,3 +1,8 @@
+2003-03-18  JP Rosevear  <jpr@ximian.com>
+
+	* conduit/address-conduit.c (addrconduit_load_configuration): kill
+	warning by sinking objects
+
 2003-03-18  Not Zed  <NotZed@Ximian.com>
 
 	* gui/component/select-names/e-select-names.c (set_book,
