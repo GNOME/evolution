@@ -1,3 +1,19 @@
+2004-08-06  JP Rosevear  <jpr@ximian.com>
+ 
+ 	Fixes #62021
+ 	
+ 	* gui/dialogs/event-page.c (source_changed_cb): set the default
+ 	timezone
+ 
+ 	* gui/e-itip-control.c (start_calendar_server): set the default
+ 	timezone
+ 
+ 	* gui/calendar-component.c (setup_create_ecal): set the default
+ 	timezone, as the component view is not alive and hence has not set
+ 	it
+ 
+	* gui/tasks-component.c (setup_create_ecal): ditto
+	
 2004-08-05  Parthasarathi S A   <sparthasarathi@novell.com>
 
 	Fix for bug #61673.

@@ -131,6 +131,7 @@ start_calendar_server (EItipControl *itip, ESource *source, ECalSourceType type)
 {
 	EItipControlPrivate *priv;
 	ECal *ecal;
+	icaltimezone *zone;
 
 	priv = itip->priv;
 	
@@ -142,6 +143,9 @@ start_calendar_server (EItipControl *itip, ESource *source, ECalSourceType type)
 	if (!e_cal_open (ecal, TRUE, NULL))
 		return NULL;
 	
+	zone = calendar_config_get_icaltimezone ();
+	e_cal_set_default_timezone (ecal, zone, NULL);
+
 	g_hash_table_insert (priv->ecals[type], g_strdup (e_source_peek_uid (source)), ecal);
 	
 	return ecal;
