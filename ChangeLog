@@ -5,6 +5,9 @@
 	changed names to follow camel style.
 	(md5_get_digest_from_stream): 
 	new methods.
+	(md5_get_digest_from_file): 
+	new function : get file md5 signature. 
+	To be used in providers code.
 
 	* camel/md5-utils.c: imported md5 coding 
 	routine from rpm. Compiles.

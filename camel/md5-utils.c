@@ -316,3 +316,32 @@ md5_get_digest_from_stream (CamelStream *stream, gint buffer_size, guchar digest
 
 
 
+void
+md5_get_digest_from_file (gchar *filename, gint buffer_size, guchar digest[16])
+{	
+	MD5Context ctx;
+	guchar tmp_buf[1024];
+	gint nb_bytes_read;
+	FILE *fp;
+
+	md5_init (&ctx);
+	fp = fopen(filename, "r");
+	if (!fp) {
+	return;
+	}
+	
+	while ((nb_bytes_read = fread (tmp_buf, sizeof (guchar), 1024, fp)) > 0)
+		md5_update (&ctx, tmp_buf, nb_bytes_read);
+	
+	if (ferror(fp)) {
+		fclose(fp);
+		return;
+	}
+	
+	md5_final (digest, &ctx);
+	
+}
+
+
+
+
