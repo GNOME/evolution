@@ -209,7 +209,8 @@ create_from_optionmenu (EMsgComposerHdrs *hdrs)
 	accounts = mail_config_get_accounts ();
 	for (a = accounts; a; a = a->next) {
 		account = a->data;
-		g_ptr_array_add (addresses, account->id->address);
+		if (account->id->address)
+			g_ptr_array_add (addresses, account->id->address);
 	}
 
 	while (accounts) {

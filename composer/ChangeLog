@@ -1,3 +1,10 @@
+2002-10-18  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* e-msg-composer-hdrs.c (create_from_optionmenu): Only add the
+	account address to the list of addresses if it is non-NULL. Fixes
+	bug #32446 although it shouldn't ever happen anyway (an account
+	address is not allowed to be NULL).
+
 2002-10-16  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* e-msg-composer-attachment.c (e_msg_composer_attachment_new): We
