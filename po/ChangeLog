@@ -1,3 +1,7 @@
+2001-10-13  Dan Winship  <danw@ximian.com>
+
+	* POTFILES.in: Add shell/evolution-shell-component-utils.c
+
 2001-10-13  Gustavo Maciel Dias Vieira <gdvieira@zaz.com.br>
 
 	* pt_BR.po: Updated Brazilian Portuguese translation.
@@ -18,6 +22,7 @@
 
 	* es.po: Updates Spanish trasnlation
 
+>>>>>>> 1.693
 2001-10-12  Stanislav Visnovsky  <visnovsky@nenya.ms.mff.cuni.cz>
 
 	* sk.po: Updated Slovak translation.
@@ -30,10 +35,6 @@
 
         * es.po: Updated Spanish translation.
 	
-2001-10-10  gettextize  <bug-gnu-utils@gnu.org>
-
-	* Makefile.in.in: Upgrade to gettext-0.10.39.
-
 2001-10-09  Christian Rose  <menthos@menthos.com>
 
 	* sv.po: Updated Swedish translation.
@@ -394,14 +395,6 @@
 2001-08-23  Andras Timar <timar@gnome.hu>
 
         * hu.po: Updated Hungarian translation.
-
-2001-08-22  gettextize  <bug-gnu-utils@gnu.org>
-
-	* Makefile.in.in: Upgrade to gettext-0.10.38.
-
-2001-08-22  gettextize  <bug-gnu-utils@gnu.org>
-
-	* Makefile.in.in: Upgrade to gettext-0.10.38.
 
 2001-08-22  Kjartan Maraas  <kmaraas@gnome.org>
 
