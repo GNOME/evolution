@@ -1044,7 +1044,7 @@ AC_SUBST(GNOME_FULL_LIBS)
 
 dnl --- Flags for the various libraries we build
 
-EVO_SET_COMPILE_FLAGS(CAMEL, glib-2.0 libxml-2.0 libgnome-2.0,
+EVO_SET_COMPILE_FLAGS(CAMEL, glib-2.0,
 		      $THREADS_CFLAGS $KRB4_CFLAGS $NSS_CFLAGS $NSPR_CFLAGS $OPENSSL_CFLAGS,
 	              $THREADS_LIBS $KRB4_LDFLAGS $NSS_LDFLAGS $NSPR_LDFLAGS $OPENSSL_LDFLAGS)
 AC_SUBST(CAMEL_CFLAGS)
@@ -1251,12 +1251,20 @@ addressbook/backend/pas/Makefile
 art/Makefile
 camel/Makefile
 camel/providers/Makefile
-camel/providers/local/Makefile
 camel/providers/imap/Makefile
+camel/providers/local/Makefile
 camel/providers/nntp/Makefile
 camel/providers/pop3/Makefile
 camel/providers/sendmail/Makefile
 camel/providers/smtp/Makefile
+camel/tests/Makefile
+camel/tests/folder/Makefile
+camel/tests/lib/Makefile
+camel/tests/message/Makefile
+camel/tests/mime-filter/Makefile
+camel/tests/misc/Makefile
+camel/tests/smime/Makefile
+camel/tests/stream/Makefile
 data/Makefile
 data/cde_app_root/Makefile
 data/cde_app_root/dt/Makefile
