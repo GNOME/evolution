@@ -53,8 +53,6 @@ tlacuache_SOURCES =		\
 	cal-common.h		\
 	cal-factory.c		\
 	cal-factory.h		\
-	calobj.c		\
-	calobj.h		\
 	icalendar.c		\
 	icalendar.h		\
 	job.c			\
