@@ -74,7 +74,11 @@ validate_exchange_user (void *data)
 	}
 
 	validate = provider->priv; 
-	validate->validate_user (url, owa_entry_text, NULL);
+	if (validate)
+		validate->validate_user (url, owa_entry_text, NULL); 
+	else
+		valid = FALSE; 
+	/* FIXME: need to check for return value */
 	if (valid) {
 		count ++;
 		url_string = camel_url_to_string (url, 0);
