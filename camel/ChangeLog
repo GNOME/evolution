@@ -1,3 +1,10 @@
+2000-11-03  Jeffrey Stedfast  <fejj@helixcode.com>
+
+	* camel-url.c (camel_url_to_string): If show_pass, then base64 the
+	password before writing it to the output string.
+	(camel_url_new): Assume password has been base64 encoded and
+	decode accordingly.
+
 2000-11-03  Dan Winship  <danw@helixcode.com>
 
 	* camel-provider.h: Add an "url_flags" field to CamelProvider.

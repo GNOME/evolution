@@ -34,6 +34,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include "camel-url.h"
+#include "camel-mime-utils.h"
 #include "camel-exception.h"
 #include "camel-object.h"
 
@@ -69,7 +70,7 @@ camel_url_new (const char *url_string, CamelException *ex)
 	CamelURL *url;
 	char *semi, *colon, *at, *slash;
 	char *p;
-
+	
 	/* Find protocol: initial substring until ":" */
 	colon = strchr (url_string, ':');
 	if (!colon) {
@@ -78,7 +79,7 @@ camel_url_new (const char *url_string, CamelException *ex)
 				      url_string);
 		return NULL;
 	}
-
+	
 	url = g_new0 (CamelURL, 1);
 	url->protocol = g_strndup (url_string, colon - url_string);
 	g_strdown (url->protocol);
@@ -115,8 +116,19 @@ camel_url_new (const char *url_string, CamelException *ex)
 	if (at && (!slash || at < slash)) {
 		colon = strchr (url_string, ':');
 		if (colon && colon < at) {
-			url->passwd = g_strndup (colon + 1, at - colon - 1);
-			camel_url_decode (url->passwd);
+			/* assume password is base64 encoded */
+			int state = 0; int save = 0;
+			char *passwd;
+			int len;
+			
+			passwd = g_strndup (colon + 1, at - colon - 1);
+			camel_url_decode (passwd);
+			
+			len = strlen (passwd);
+			url->passwd = g_malloc (len);
+			len = base64_decode_step (passwd, len, url->passwd, &state, &save);
+			
+			url->passwd[len] = '\0';
 		} else {
 			url->passwd = NULL;
 			colon = at;
@@ -183,16 +195,32 @@ camel_url_to_string (CamelURL *url, gboolean show_passwd)
 
 	if (url->user)
 		user = camel_url_encode (url->user, TRUE, ":;@/");
+	
 	if (url->authmech)
 		authmech = camel_url_encode (url->authmech, TRUE, ":@/");
-	if (show_passwd && url->passwd)
-		passwd = camel_url_encode (url->passwd, TRUE, "@/");
+	
+	if (show_passwd && url->passwd) {
+		int state = 0, save = 0;
+		int len;
+		char *pass;
+		
+		len = strlen (url->passwd);
+		pass = g_malloc ((int)(len * 4 / 3) + 4);
+		len = base64_encode_close (url->passwd, len, FALSE, pass, &state, &save);
+		pass[len] = '\0';
+		
+		passwd = camel_url_encode (pass, TRUE, "/");
+		g_free (pass);
+	}
+	
 	if (url->host)
 		host = camel_url_encode (url->host, TRUE, ":/");
+	
 	if (url->port)
 		g_snprintf (port, sizeof (port), "%d", url->port);
 	else
 		*port = '\0';
+	
 	if (url->path)
 		path = camel_url_encode (url->path, FALSE, NULL);
 
