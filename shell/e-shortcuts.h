@@ -55,6 +55,10 @@ struct _EShortcutItem {
 	   folder, this is NULL.  */
 	char *type;
 
+	/* Custom icon for the shortcut.  If this is NULL, then the shortcut
+	   should just use the icon for the type.  */
+	char *custom_icon_name;
+
 	/* Number of unread items in the folder.  Zero if not a folder.  */
 	int unread_count;
 };
@@ -123,14 +127,16 @@ void  e_shortcuts_add_shortcut       (EShortcuts *shortcuts,
 				      const char *uri,
 				      const char *name,
 				      int unread_count,
-				      const char *type);
+				      const char *type,
+				      const char *custom_icon_name);
 void  e_shortcuts_update_shortcut    (EShortcuts *shortcuts,
 				      int         group_num,
 				      int         num,
 				      const char *uri,
 				      const char *name,
 				      int unread_count,
-				      const char *type);
+				      const char *type,
+				      const char *custom_icon_name);
 
 void  e_shortcuts_remove_group  (EShortcuts *shortcuts,
 				 int         group_num);

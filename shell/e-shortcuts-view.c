@@ -380,7 +380,8 @@ rename_shortcut_cb (GtkWidget *widget,
 		return;
 
 	e_shortcuts_update_shortcut (shortcuts, menu_data->group_num, menu_data->item_num,
-				     shortcut_item->uri, new_name, shortcut_item->unread_count, shortcut_item->type);
+				     shortcut_item->uri, new_name, shortcut_item->unread_count,
+				     shortcut_item->type, shortcut_item->custom_icon_name);
 	g_free (new_name);
 }
 
@@ -502,7 +503,8 @@ static void
 get_shortcut_info (EShortcutsView *shortcuts_view,
 		   const char *item_url,
 		   int *unread_count_return,
-		   const char **type_return)
+		   const char **type_return,
+		   const char **custom_icon_name_return)
 {
 	EShortcutsViewPrivate *priv;
 	EStorageSet *storage_set;
@@ -522,11 +524,13 @@ get_shortcut_info (EShortcutsView *shortcuts_view,
 
 	folder = e_storage_set_get_folder (storage_set, path);
 	if (folder != NULL) {
-		*unread_count_return = e_folder_get_unread_count (folder);
-		*type_return = e_folder_get_type_string (folder);
+		*unread_count_return     = e_folder_get_unread_count (folder);
+		*type_return             = e_folder_get_type_string (folder);
+		*custom_icon_name_return = e_folder_get_custom_icon_name (folder);
 	} else {
-		*unread_count_return = 0;
-		*type_return = NULL;
+		*unread_count_return     = 0;
+		*type_return             = NULL;
+		*custom_icon_name_return = NULL;
 	}
 }
 
@@ -541,6 +545,7 @@ impl_shortcut_dropped (EShortcutBar *shortcut_bar,
 	EShortcutsViewPrivate *priv;
 	int unread_count;
 	const char *type;
+	const char *custom_icon_name;
 	char *tmp;
 	char *tp;
 	char *name_without_unread;
@@ -548,7 +553,7 @@ impl_shortcut_dropped (EShortcutBar *shortcut_bar,
 	shortcuts_view = E_SHORTCUTS_VIEW (shortcut_bar);
 	priv = shortcuts_view->priv;
 
-	get_shortcut_info (shortcuts_view, item_url, &unread_count, &type);
+	get_shortcut_info (shortcuts_view, item_url, &unread_count, &type, &custom_icon_name);
 
 	/* Looks funny, but keeps it from adding the unread count
            repeatedly when dragging folders around */
@@ -560,7 +565,11 @@ impl_shortcut_dropped (EShortcutBar *shortcut_bar,
 
 	e_shortcuts_add_shortcut (priv->shortcuts,
 				  group_num, position,
-				  item_url, name_without_unread, unread_count, type);
+				  item_url,
+				  name_without_unread,
+				  unread_count,
+				  type,
+				  custom_icon_name);
 
 	g_free (tmp);
 	g_free (name_without_unread);

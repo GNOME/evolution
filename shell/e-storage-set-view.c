@@ -28,8 +28,9 @@
 #include "e-storage-set-view.h"
 
 #include "e-util/e-gtk-utils.h"
-#include "e-folder-dnd-bridge.h"
 
+#include "e-icon-factory.h"
+#include "e-folder-dnd-bridge.h"
 #include "e-shell-constants.h"
 
 #include <glib.h>

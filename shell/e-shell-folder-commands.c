@@ -602,7 +602,10 @@ e_shell_command_add_to_shortcut_bar (EShell *shell,
 	storage_set = e_shell_get_storage_set (shell);
 	folder = e_storage_set_get_folder (storage_set, e_shell_view_get_current_path (shell_view));
 
-	e_shortcuts_add_shortcut (shortcuts, group_num, -1, uri, NULL, unread_count, e_folder_get_type_string (folder));
+	e_shortcuts_add_shortcut (shortcuts, group_num, -1, uri, NULL,
+				  unread_count,
+				  e_folder_get_type_string (folder),
+				  e_folder_get_custom_icon_name (folder));
 
 	g_free (uri);
 }

@@ -74,9 +74,10 @@ shortcut_list_to_corba (const GSList *shortcut_list,
 
 		item = (const EShortcutItem *) p->data;
 
-		buffer[i].uri  = CORBA_string_dup (e_safe_corba_string (item->uri));
-		buffer[i].name = CORBA_string_dup (e_safe_corba_string (item->name));
-		buffer[i].type = CORBA_string_dup (e_safe_corba_string (item->type));
+		buffer[i].uri  		 = CORBA_string_dup (e_safe_corba_string (item->uri));
+		buffer[i].name 		 = CORBA_string_dup (e_safe_corba_string (item->name));
+		buffer[i].type 		 = CORBA_string_dup (e_safe_corba_string (item->type));
+		buffer[i].customIconName = CORBA_string_dup (e_safe_corba_string (item->custom_icon_name));
 	}
 
 	CORBA_sequence_set_release (shortcut_list_return, TRUE);
@@ -119,7 +120,8 @@ impl_add (PortableServer_Servant servant,
 				  string_from_corba (shortcut->uri),
 				  string_from_corba (shortcut->name),
 				  0,
-				  string_from_corba (shortcut->type));
+				  string_from_corba (shortcut->type),
+				  string_from_corba (shortcut->customIconName));
 }
 
 static void
@@ -159,9 +161,10 @@ impl_get (PortableServer_Servant servant,
 	}
 
 	retval = GNOME_Evolution_Shortcuts_Shortcut__alloc ();
-	retval->uri  = CORBA_string_dup (e_safe_corba_string (item->uri));
-	retval->name = CORBA_string_dup (e_safe_corba_string (item->name));
-	retval->type = CORBA_string_dup (e_safe_corba_string (item->type));
+	retval->uri  	       = CORBA_string_dup (e_safe_corba_string (item->uri));
+	retval->name 	       = CORBA_string_dup (e_safe_corba_string (item->name));
+	retval->type 	       = CORBA_string_dup (e_safe_corba_string (item->type));
+	retval->customIconName = CORBA_string_dup (e_safe_corba_string (item->custom_icon_name));
 
 	return retval;
 }

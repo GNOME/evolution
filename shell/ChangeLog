@@ -1,5 +1,52 @@
 2002-07-09  Ettore Perazzoli  <ettore@ximian.com>
 
+	* e-shortcuts-view-model.c (get_icon_for_item): If the
+	custom_icon_name is not NULL, return the pixbuf for it.
+
+	* e-storage-set-view.c: #include "e-icon-factory.h".
+
+	* e-shortcuts-view.c (impl_shortcut_dropped): Pass the
+	custom_icon_name.
+	(get_shortcut_info): New arg @custom_icon_name_return.
+	(rename_shortcut_cb): Pass the custom_icon_name here.
+
+	* e-shell-view-menu.c (new_shortcut_dialog_folder_selected_cb):
+	Pass the custom_icon_name for the folder's shortcut.
+
+	* e-shell-folder-commands.c (e_shell_command_add_to_shortcut_bar):
+	Pass the custom_icon_name for the folder's shortcut.
+
+	* e-corba-shortcuts.c (impl_add): Use the customIconName member in
+	struct ::Shortcuts::Shortcut.
+	(shorcut_list_to_corba): Set the customIconName member on the
+	returned shortcuts.
+	(impl_get): Likewise.
+
+	* Evolution-Shortcuts.idl: New member customIconName in struct
+	Shortcut.
+
+	* e-shortcuts.c (shortcut_item_new): New arg @custom_icon_name;
+	initialize the member in EShortcutItem from it.
+	(shortcut_item_update): New arg @custom_icon_name; set the
+	custom_icon_name from it.  Also remove some braindeadness from
+	this code.
+	(update_shortcut_and_emit_signal): New arg @custom_icon_name.
+	(load_shortcuts): Load the custom icon name from the XML
+	[eg. <item name="foo" type="mail" icon="inbox">].
+	(save_shortcuts): Save the custom icon name in the XML.
+	(e_shortcuts_add_shortcut): New arg @custom_icon_name.
+	(update_shortcuts_by_path): Pass the custom_icon_name to
+	update_shortcut_and_emit_signal().
+	(e_shortcuts_update_shortcut): New arg @custom_icon_name; pass it
+	to update_shortcut_and_emit_signal().
+	(e_shortcuts_add_default_group): Pass "inbox" as the
+	custom_icon_name for the inbox shortcut, and NULL for the other
+	shortcuts.
+
+	* e-shortcuts.h: New member custom_icon_name in EShortcutItem.
+
+2002-07-09  Ettore Perazzoli  <ettore@ximian.com>
+
 	* e-shortcuts-view.c (impl_shortcut_drag_motion): Remove debugging
 	message.
 	(impl_shortcut_drag_motion): Likewise.

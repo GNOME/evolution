@@ -573,7 +573,10 @@ new_shortcut_dialog_folder_selected_cb (EShellFolderSelectionDialog *folder_sele
 	evolution_uri = g_strconcat (E_SHELL_URI_PREFIX, path, NULL);
 
 	/* FIXME: I shouldn't have to set the type here.  Maybe.  */
-	e_shortcuts_add_shortcut (shortcuts, group_num, -1, evolution_uri, NULL, e_folder_get_unread_count (folder), e_folder_get_type_string (folder));
+	e_shortcuts_add_shortcut (shortcuts, group_num, -1, evolution_uri, NULL,
+				  e_folder_get_unread_count (folder),
+				  e_folder_get_type_string (folder),
+				  e_folder_get_custom_icon_name (folder));
 
 	g_free (evolution_uri);
 

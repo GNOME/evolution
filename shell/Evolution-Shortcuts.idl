@@ -19,6 +19,7 @@ module Evolution {
 			string uri;
 			string name;
 			string type;
+			string customIconName;
 		};
 		typedef sequence <Shortcut> ShortcutList;
 
