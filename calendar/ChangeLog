@@ -1,3 +1,8 @@
+2000-05-10  Matt Loper  <matt@helixcode.com>
+
+	* gui/calendar-commands.c (calendar_control_activate): Move
+	"about" menuitem to the help menu.
+
 2000-05-10  Christopher James Lahey  <clahey@helixcode.com>
 
 	* gui/Makefile.am: Added main.h.  Combined the two EXTRA_DIST

@@ -629,7 +629,7 @@ calendar_control_activate (BonoboControl *control,
 	/* help menu */
 
 	bonobo_ui_handler_menu_new_item (uih,
-					 "/View/About Calendar",
+					 "/Help/About Calendar",
 					 N_("About Calendar"),
 					 N_("About Calendar"),
 					 -1,
