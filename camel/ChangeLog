@@ -1,3 +1,16 @@
+2000-06-17  Jeffrey Stedfast  <fejj@helixcode.com>
+
+	* providers/imap/camel-imap-folder.c (imap_search_by_expression):
+	Began to implement, need to get information on how to
+	deconstruct @expression into an IMAP search expression and
+	parse the results.
+	(imap_init): Now queries the IMAP provider for CAPABILITY to
+	determine if SEARCH is implemented or not.
+
+	* providers/imap/imap.c: Removed - no longer a need to have
+	this as an example for anyone interesting to help mecode IMAP
+	support.
+	
 2000-06-16  Jeffrey Stedfast  <fejj@helixcode.com>
 
 	* providers/imap/camel-imap-folder.c (imap_sync): Added code
