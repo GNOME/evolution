@@ -61,7 +61,7 @@
       <placeholder name="ComponentActionsPlaceholder">
 	<menuitem name="PublishFreeBusy" verb="" _label="_Publish Free/Busy Information"/>
       </placeholder>
-    </submenu_name>
+    </submenu>
   </menu>
 
   <dockitem name="Toolbar">
