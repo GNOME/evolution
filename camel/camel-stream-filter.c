@@ -327,7 +327,7 @@ static	void      do_close      (CamelStream *stream)
 	}
 
 	p->filteredlen = 0;
-	camel_stream_close(filter->source);
+/*	camel_stream_close(filter->source);*/
 }
 
 static	void      do_reset      (CamelStream *stream)
