@@ -1,5 +1,33 @@
 2001-08-03  Ettore Perazzoli  <ettore@ximian.com>
 
+	[Fix #6232, the thirty-four-splash-screens-at-startup bug.]
+
+	* e-shell.c (setup_local_storage): Add an E_STORAGE() cast to
+	prevent a warning.
+
+	* main.c (idle_cb): Only try to activate from the shell ID if the
+	result is `E_SHELL_CONSTRUCT_RESULT_CANNOTREGISTER'; if there is a
+	different error, spit out a dialog box with a description of it
+	and exit instead.
+
+	* e-shell.c (e_shell_construct): Return an `EShellConstructResult'
+	describing what kind of result we had.  Show the splash after the
+	DB has been reached, not before.
+	(e_shell_construct_result_to_string): New function to get a
+	descriptive string out of an `EShellConstructResult'.
+	(e_shell_new): New arg @construct_result_return to return a
+	description of the result of the operation.
+
+	* e-shell.h: New enum `EShellConstructResult'.
+
+	* e-shell.c (impl_Shell_createNewView): Raise `InternalError'
+	instead of crashing if the shell_view returns a CORBA_OBJECT_NIL.
+
+	* Evolution-Shell.idl: New exception `InternalError'.
+	`createNewView' and `handleURI' can raise it.
+
+2001-08-03  Ettore Perazzoli  <ettore@ximian.com>
+
 	* e-storage-set-view.c (storage_sort_callback): Put the storage
 	named E_SUMMARY_STORAGE_NAME on top.
 

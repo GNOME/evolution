@@ -87,7 +87,6 @@ static void
 development_warning (void)
 {
 	GtkWidget *label, *warning_dialog;
-	int ret;
 	
 	warning_dialog = gnome_dialog_new ("Evolution " VERSION, GNOME_STOCK_BUTTON_OK, NULL);
 
@@ -138,18 +137,18 @@ idle_cb (void *data)
 	GSList *uri_list;
 	GNOME_Evolution_Shell corba_shell;
 	CORBA_Environment ev;
+	EShellConstructResult result;
 	gboolean restored;
 
 	CORBA_exception_init (&ev);
 
 	uri_list = (GSList *) data;
 
-	shell = e_shell_new (evolution_directory, ! no_splash);
+	shell = e_shell_new (evolution_directory, ! no_splash, &result);
 	g_free (evolution_directory);
 
-	if (shell == NULL) {
+	if (result == E_SHELL_CONSTRUCT_RESULT_CANNOTREGISTER) {
 		corba_shell = oaf_activate_from_id (E_SHELL_OAFIID, 0, NULL, &ev);
-
 		if (ev._major != CORBA_NO_EXCEPTION || corba_shell == CORBA_OBJECT_NIL) {
 			e_notice (NULL, GNOME_MESSAGE_BOX_ERROR,
 				  _("Cannot access the Evolution shell."));
@@ -159,6 +158,13 @@ idle_cb (void *data)
 		}
 
 		restored = FALSE;
+	} else if (result != E_SHELL_CONSTRUCT_RESULT_OK) {
+		e_notice (NULL, GNOME_MESSAGE_BOX_ERROR,
+			  _("Cannot initialize the Evolution shell: %s"),
+			  e_shell_construct_result_to_string (result));
+		CORBA_exception_free (&ev);
+		gtk_main_quit ();
+		return FALSE;
 	} else {
 		gtk_signal_connect (GTK_OBJECT (shell), "no_views_left",
 				    GTK_SIGNAL_FUNC (no_views_left_cb), NULL);

@@ -243,6 +243,11 @@ impl_Shell_createNewView (PortableServer_Servant servant,
 	}
 
 	shell_view_interface = e_shell_view_get_corba_interface (shell_view);
+	if (shell_view_interface == CORBA_OBJECT_NIL) {
+		CORBA_exception_set (ev, CORBA_USER_EXCEPTION,
+				     ex_GNOME_Evolution_Shell_InternalError, NULL);
+		return CORBA_OBJECT_NIL;
+	}
 
 	Bonobo_Unknown_ref (shell_view_interface, ev);
 	return CORBA_Object_duplicate ((CORBA_Object) shell_view_interface, ev);
@@ -455,7 +460,7 @@ setup_local_storage (EShell *shell)
 	priv->local_storage = E_LOCAL_STORAGE (local_storage);
 
 	priv->summary_storage = E_SUMMARY_STORAGE (e_summary_storage_new ());
-	e_storage_set_add_storage (priv->storage_set, priv->summary_storage);
+	e_storage_set_add_storage (priv->storage_set, E_STORAGE (priv->summary_storage));
 
 	return TRUE;
 }
@@ -685,7 +690,6 @@ destroy (GtkObject *object)
 
 	if (shell->priv->db != CORBA_OBJECT_NIL)
 		bonobo_object_release_unref (shell->priv->db, NULL);
-	shell->priv->db = CORBA_OBJECT_NIL;
 
 	/* No unreffing for these as they are aggregate.  */
 	/* bonobo_object_unref (BONOBO_OBJECT (priv->corba_storage_registry)); */
@@ -783,9 +787,9 @@ init (EShell *shell)
  * Construct @shell so that it uses the specified @local_directory and
  * @corba_object.
  *
- * Return value: %FALSE if the shell cannot be registered; %TRUE otherwise.
+ * Return value: The result of the operation.
  **/
-gboolean
+EShellConstructResult
 e_shell_construct (EShell *shell,
 		   const char *iid,
 		   const char *local_directory,
@@ -797,20 +801,10 @@ e_shell_construct (EShell *shell,
 	CORBA_Environment ev;
 	gchar *shortcut_path;
 
-	g_return_val_if_fail (shell != NULL, FALSE);
-	g_return_val_if_fail (E_IS_SHELL (shell), FALSE);
-	g_return_val_if_fail (local_directory != NULL, FALSE);
-	g_return_val_if_fail (g_path_is_absolute (local_directory), FALSE);
-
-	if (! show_splash) {
-		splash = NULL;
-	} else {
-		splash = e_splash_new ();
-		gtk_widget_show (splash);
-	}
-
-	while (gtk_events_pending ())
-		gtk_main_iteration ();
+	g_return_val_if_fail (shell != NULL, E_SHELL_CONSTRUCT_RESULT_INVALIDARG);
+	g_return_val_if_fail (E_IS_SHELL (shell), E_SHELL_CONSTRUCT_RESULT_INVALIDARG);
+	g_return_val_if_fail (local_directory != NULL, E_SHELL_CONSTRUCT_RESULT_INVALIDARG);
+	g_return_val_if_fail (g_path_is_absolute (local_directory), E_SHELL_CONSTRUCT_RESULT_INVALIDARG);
 
 	priv = shell->priv;
 
@@ -828,7 +822,6 @@ e_shell_construct (EShell *shell,
 	CORBA_exception_init (&ev);
 
 	priv->db = bonobo_get_object ("wombat:", "Bonobo/ConfigDatabase", &ev);
-
 	if (BONOBO_EX (&ev) || priv->db == CORBA_OBJECT_NIL) {
 		g_warning ("Cannot access Bonobo/ConfigDatabase on wombat:");
 
@@ -838,7 +831,7 @@ e_shell_construct (EShell *shell,
 		priv->db = CORBA_OBJECT_NIL;
 
 		CORBA_exception_free (&ev);
-		return FALSE;
+		return E_SHELL_CONSTRUCT_RESULT_NOCONFIGDB;
  	}
 	
 	CORBA_exception_free (&ev);
@@ -851,8 +844,18 @@ e_shell_construct (EShell *shell,
 	corba_object = bonobo_object_corba_objref (BONOBO_OBJECT (shell));
 	if (oaf_active_server_register (iid, corba_object) != OAF_REG_SUCCESS) {
 		CORBA_exception_free (&ev);
-		return FALSE;
+		return E_SHELL_CONSTRUCT_RESULT_GENERICERROR;
 	}
+
+	if (! show_splash) {
+		splash = NULL;
+	} else {
+		splash = e_splash_new ();
+		gtk_widget_show (splash);
+	}
+
+	while (gtk_events_pending ())
+		gtk_main_iteration ();
 
 	if (show_splash)
 		setup_components (shell, E_SPLASH (splash));
@@ -888,13 +891,15 @@ e_shell_construct (EShell *shell,
 	if (show_splash)
 		gtk_widget_destroy (splash);
 
-	return TRUE;
+	return E_SHELL_CONSTRUCT_RESULT_OK;
 }
 
 /**
  * e_shell_new:
  * @local_directory: Local directory for storing local information and folders.
  * @show_splash: Whether to display a splash screen.
+ * @construct_result_return: A pointer to an EShellConstructResult variable into
+ * which the result of the operation will be stored.
  * 
  * Create a new EShell.
  * 
@@ -902,17 +907,22 @@ e_shell_construct (EShell *shell,
  **/
 EShell *
 e_shell_new (const char *local_directory,
-	     gboolean    show_splash)
+	     gboolean show_splash,
+	     EShellConstructResult *construct_result_return)
 {
 	EShell *new;
 	EShellPrivate *priv;
+	EShellConstructResult construct_result;
 
 	g_return_val_if_fail (local_directory != NULL, NULL);
 	g_return_val_if_fail (*local_directory != '\0', NULL);
 
 	new = gtk_type_new (e_shell_get_type ());
 
-	if (! e_shell_construct (new, E_SHELL_OAFIID, local_directory, show_splash)) {
+	construct_result = e_shell_construct (new, E_SHELL_OAFIID, local_directory, show_splash);
+
+	if (construct_result != E_SHELL_CONSTRUCT_RESULT_OK) {
+		*construct_result_return = construct_result;
 		bonobo_object_unref (BONOBO_OBJECT (new));
 		return NULL;
 	}
@@ -920,10 +930,13 @@ e_shell_new (const char *local_directory,
 	priv = new->priv;
 
 	if (priv->shortcuts == NULL || priv->storage_set == NULL) {
+		/* FIXME? */
+		*construct_result_return = E_SHELL_CONSTRUCT_RESULT_GENERICERROR;
 		bonobo_object_unref (BONOBO_OBJECT (new));
 		return NULL;
 	}
 
+	*construct_result_return = E_SHELL_CONSTRUCT_RESULT_OK;
 	return new;
 }
 
@@ -1498,6 +1511,26 @@ e_shell_unregister_all (EShell *shell)
 
 	gtk_object_unref (GTK_OBJECT (priv->component_registry));
 	priv->component_registry = NULL;
+}
+
+
+const char *
+e_shell_construct_result_to_string (EShellConstructResult result)
+{
+	switch (result) {
+	case E_SHELL_CONSTRUCT_RESULT_OK:
+		return _("OK");
+	case E_SHELL_CONSTRUCT_RESULT_INVALIDARG:
+		return _("Invalid arguments");
+	case E_SHELL_CONSTRUCT_RESULT_CANNOTREGISTER:
+		return _("Cannot register on OAF");
+	case E_SHELL_CONSTRUCT_RESULT_NOCONFIGDB:
+		return _("Configuration Database not found");
+	case E_SHELL_CONSTRUCT_RESULT_GENERICERROR:
+		return _("Generic error");
+	default:
+		return _("Unknown error");
+	}
 }
 
 

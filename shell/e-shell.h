@@ -78,14 +78,25 @@ struct _EShellClass {
 /* ID for registering the shell in the OAF name service.  */
 #define E_SHELL_OAFIID  "OAFIID:GNOME_Evolution_Shell"
 
+enum _EShellConstructResult {
+	E_SHELL_CONSTRUCT_RESULT_OK,
+	E_SHELL_CONSTRUCT_RESULT_INVALIDARG,
+	E_SHELL_CONSTRUCT_RESULT_CANNOTREGISTER,
+	E_SHELL_CONSTRUCT_RESULT_NOCONFIGDB,
+	E_SHELL_CONSTRUCT_RESULT_GENERICERROR
+};
+typedef enum _EShellConstructResult EShellConstructResult;
+
+
 
-GtkType   e_shell_get_type   (void);
-gboolean  e_shell_construct  (EShell     *shell,
-			      const char *iid,
-			      const char *local_directory,
-			      gboolean    show_splash);
-EShell   *e_shell_new        (const char *local_directory,
-			      gboolean    show_splash);
+GtkType                e_shell_get_type   (void);
+EShellConstructResult  e_shell_construct  (EShell                *shell,
+					   const char            *iid,
+					   const char            *local_directory,
+					   gboolean               show_splash);
+EShell                *e_shell_new        (const char            *local_directory,
+					   gboolean               show_splash,
+					   EShellConstructResult *construct_result_return);
 
 EShellView *e_shell_create_view  (EShell     *shell,
 				  const char *uri);
@@ -116,6 +127,9 @@ void              e_shell_go_online        (EShell     *shell,
 					    EShellView *action_view);
 
 Bonobo_ConfigDatabase e_shell_get_config_db (EShell     *shell);
+
+
+const char *e_shell_construct_result_to_string (EShellConstructResult result);
 
 #ifdef __cplusplus
 }
