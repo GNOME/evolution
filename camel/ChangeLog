@@ -1,6 +1,11 @@
 2002-04-24  Jeffrey Stedfast  <fejj@ximian.com>
 
-	* camel-provider.h: Add a CAMEL_PROVIDER_CONF_LABEL enum.
+	* providers/local/camel-local-provider.c
+	(camel_provider_module_init): Configure the default paths for mh,
+	mbox, maildir, spools, etc.
+
+	* camel-provider.h: Add a CAMEL_PROVIDER_CONF_LABEL enum and
+	define some default CamelProviderConfEntry macros.
 
 2002-04-19  Jeffrey Stedfast  <fejj@ximian.com>
 

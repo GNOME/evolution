@@ -123,6 +123,10 @@ typedef struct {
 } CamelProviderConfEntry;
 
 
+/* Some defaults */
+#define CAMEL_PROVIDER_CONF_DEFAULT_USERNAME  { CAMEL_PROVIDER_CONF_LABEL, "username", NULL, N_("User_name:"), NULL }
+#define CAMEL_PROVIDER_CONF_DEFAULT_HOSTNAME  { CAMEL_PROVIDER_CONF_LABEL, "hostname", NULL, N_("_Host:"), NULL }
+#define CAMEL_PROVIDER_CONF_DEFAULT_PATH      { CAMEL_PROVIDER_CONF_ENTRY, "path", NULL, N_("_Path:"), "" }
 
 typedef struct {
 	/* Provider name used in CamelURLs. */
