@@ -1,3 +1,8 @@
+2001-01-21  Federico Mena Quintero  <federico@ximian.com>
+
+	* gui/dialogs/task-editor.c (file_delete_cb): Fix bug #1250; now
+	we present a confirmation dialog before deleting the component.
+
 2001-01-20  Federico Mena Quintero  <federico@ximian.com>
 
 	* gui/event-editor-dialog.glade: Fix bug #1243.  Turn on the Y

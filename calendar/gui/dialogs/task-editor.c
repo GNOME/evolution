@@ -37,6 +37,7 @@
 #include <e-util/e-dialog-widgets.h>
 #include <widgets/misc/e-dateedit.h>
 #include <cal-util/timeutil.h>
+#include "delete-comp.h"
 #include "task-editor.h"
 #include "../calendar-config.h"
 #include "../widget-util.h"
@@ -1052,7 +1053,6 @@ file_delete_cb (BonoboUIComponent *uic, gpointer data, const char *path)
 {
 	TaskEditor *tedit;
 	TaskEditorPrivate *priv;
-	const char *uid;
 
 	tedit = TASK_EDITOR (data);
 
@@ -1062,14 +1062,18 @@ file_delete_cb (BonoboUIComponent *uic, gpointer data, const char *path)
 
 	g_return_if_fail (priv->comp);
 
-	cal_component_get_uid (priv->comp, &uid);
+	if (delete_component_dialog (priv->comp, priv->app)) {
+		const char *uid;
 
-	/* We don't check the return value; FALSE can mean the object was not in
-	 * the server anyways.
-	 */
-	cal_client_remove_object (priv->client, uid);
+		cal_component_get_uid (priv->comp, &uid);
 
-	close_dialog (tedit);
+		/* We don't check the return value; FALSE can mean the object
+		 * was not in the server anyways.
+		 */
+		cal_client_remove_object (priv->client, uid);
+
+		close_dialog (tedit);
+	}
 }
 
 /* File/Close callback */
