@@ -1,3 +1,10 @@
+2003-12-14  JP Rosevear <jpr@ximian.com>
+
+	* e-user-creatable-items-handler.c (get_components_from_registry):
+	only add the component to the list if we actually create it
+
+	Fixes #51707
+	
 2003-12-11  Not Zed  <NotZed@Ximian.com>
 
 	* e-sidebar.c (do_layout): remove padding around the folder list.

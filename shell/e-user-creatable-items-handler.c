@@ -150,14 +150,15 @@ get_components_from_registry (EUserCreatableItemsHandler *handler,
 
 	for (p = registry_list; p != NULL; p = p->next) {
 		EComponentInfo *info = p->data;
-		Component *component;
+		Component *component = NULL;
 
 		e_component_registry_activate (registry, info->id, NULL);
 
 		if (info->iface != CORBA_OBJECT_NIL)
 			component = component_new (info->id, info->iface);
 
-		handler->priv->components = g_slist_prepend (handler->priv->components, component);
+		if (component)
+			handler->priv->components = g_slist_prepend (handler->priv->components, component);
 	}
 }
 
