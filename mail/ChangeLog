@@ -1,3 +1,19 @@
+2002-01-29  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-callbacks.c (redirect): New function that implements the
+	Redirect feature.
+
+	* mail-ops.c (mail_send_message): If we are redirecting a message,
+	get the Resent-* recipients otherwise get the normal To/Cc/Bcc
+	recipients and use them in the CamelTransport::send_to() method.
+
+	* mail-session.c (main_get_filter_driver): Set the beep_func to
+	the beep_cb, not the play_sound_func. Oops ;-)
+
+	* folder-browser-ui.c: Add Redirect bonobo verb thingy here.
+	(folder_browser_ui_set_selection_state): Add MessageRedirect to
+	the proper string arrays.
+
 2002-01-29  Radek Doulik  <rodo@ximian.com>
 
 	* mail-callbacks.c (do_mail_print): initialize line to 0 to make

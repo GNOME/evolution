@@ -426,19 +426,35 @@ mail_fetch_mail (const char *source, int keep, const char *type, CamelOperation 
 
 extern CamelFolder *sent_folder;
 
+static char *normal_recipients[] = {
+	CAMEL_RECIPIENT_TYPE_TO,
+	CAMEL_RECIPIENT_TYPE_CC,
+	CAMEL_RECIPIENT_TYPE_BCC
+};
+
+static char *resent_recipients[] = {
+	CAMEL_RECIPIENT_TYPE_RESENT_TO,
+	CAMEL_RECIPIENT_TYPE_RESENT_CC,
+	CAMEL_RECIPIENT_TYPE_RESENT_BCC
+};
+
 /* send 1 message to a specific transport */
 static void
 mail_send_message (CamelMimeMessage *message, const char *destination,
 		   CamelFilterDriver *driver, CamelException *ex)
 {
+	const CamelInternetAddress *iaddr;
+	CamelAddress *from, *recipients;
 	CamelMessageInfo *info;
 	CamelTransport *xport = NULL;
 	char *transport_url = NULL;
 	char *sent_folder_uri = NULL;
+	const char *resent_from;
 	CamelFolder *folder;
 	XEvolution *xev;
+	int i;
 	
-	camel_medium_add_header (CAMEL_MEDIUM (message), "X-Mailer",
+	camel_medium_set_header (CAMEL_MEDIUM (message), "X-Mailer",
 				 "Evolution/" VERSION SUB_VERSION " " VERSION_COMMENT);
 	
 	camel_mime_message_set_date (message, CAMEL_MESSAGE_DATE_CURRENT, 0);
@@ -471,7 +487,27 @@ mail_send_message (CamelMimeMessage *message, const char *destination,
 		return;
 	}
 	
-	camel_transport_send (xport, CAMEL_MEDIUM (message), ex);
+	from = (CamelAddress *) camel_internet_address_new ();
+	resent_from = camel_medium_get_header (CAMEL_MEDIUM (message), "Resent-From");
+	if (resent_from) {
+		camel_address_decode (from, resent_from);
+	} else {
+		iaddr = camel_mime_message_get_from (message);
+		camel_address_copy (from, CAMEL_ADDRESS (iaddr));
+	}
+	
+	recipients = (CamelAddress *) camel_internet_address_new ();
+	for (i = 0; i < 3; i++) {
+		const char *type;
+		
+		type = resent_from ? resent_recipients[i] : normal_recipients[i];
+		iaddr = camel_mime_message_get_recipients (message, type);
+		camel_address_cat (recipients, CAMEL_ADDRESS (iaddr));
+	}
+	
+	camel_transport_send_to (xport, CAMEL_MEDIUM (message), from, recipients, ex);
+	camel_object_unref (CAMEL_OBJECT (recipients));
+	camel_object_unref (CAMEL_OBJECT (from));
 	
 	mail_tool_restore_xevolution_headers (message, xev);
 	mail_tool_destroy_xevolution (xev);

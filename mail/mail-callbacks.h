@@ -54,6 +54,8 @@ void forward_quoted        (GtkWidget *widget, gpointer user_data);
 void forward_attached      (GtkWidget *widget, gpointer user_data);
 void forward               (GtkWidget *widget, gpointer user_data);
 
+void redirect              (GtkWidget *widget, gpointer user_data);
+
 void reply_to_sender       (GtkWidget *widget, gpointer user_data);
 void reply_to_list         (GtkWidget *widget, gpointer user_data);
 void reply_to_all          (GtkWidget *widget, gpointer user_data);

@@ -51,6 +51,7 @@ static BonoboUIVerb message_verbs [] = {
 	BONOBO_UI_UNSAFE_VERB ("MessageForwardAttached", forward_attached),
 	BONOBO_UI_UNSAFE_VERB ("MessageForwardInline", forward_inline),
 	BONOBO_UI_UNSAFE_VERB ("MessageForwardQuoted", forward_quoted),
+	BONOBO_UI_UNSAFE_VERB ("MessageRedirect", redirect),
 	BONOBO_UI_UNSAFE_VERB ("MessageMarkAsRead", mark_as_seen),
 	BONOBO_UI_UNSAFE_VERB ("MessageMarkAsUnRead", mark_as_unseen),
 	BONOBO_UI_UNSAFE_VERB ("MessageMarkAsImportant", mark_as_important),
@@ -549,6 +550,7 @@ folder_browser_ui_set_selection_state (FolderBrowser *fb, FolderBrowserSelection
 		"MessageMarkAsImportant", "MessageMarkAsUnimportant",
 		"MessageOpen", "MessageSaveAs", 
 		"MessageForward", "MessageForwardAttached",
+		"MessageRedirect",
 
 		"EditCut", "EditCopy", "EditPaste", "ViewHideSelected",
 
@@ -561,7 +563,7 @@ folder_browser_ui_set_selection_state (FolderBrowser *fb, FolderBrowserSelection
 	static const char *multiple_disables[] = {
 		/* actions that work on exactly 1 message */
 		"MessageReplyAll", "MessageReplyList", "MessageReplySender", "MessageResend", 
-		"MessageForwardInline", "MessageForwardQuoted", "MessageSearch",
+		"MessageForwardInline", "MessageForwardQuoted", "MessageRedirect", "MessageSearch",
 
 		"PrintMessage", "PrintPreviewMessage",
 

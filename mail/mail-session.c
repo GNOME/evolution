@@ -857,7 +857,7 @@ main_get_filter_driver (CamelSession *session, const char *type, CamelException 
 	
 	camel_filter_driver_set_shell_exec_func (driver, mail_execute_shell_command, NULL);
 	camel_filter_driver_set_play_sound_func (driver, session_play_sound, NULL);
-	camel_filter_driver_set_play_sound_func (driver, session_system_beep, NULL);
+	camel_filter_driver_set_system_beep_func (driver, session_system_beep, NULL);
 	
 	fsearch = g_string_new ("");
 	faction = g_string_new ("");

@@ -1285,6 +1285,89 @@ forward (GtkWidget *widget, gpointer user_data)
 		forward_message (user_data, style);
 }
 
+static EMsgComposer *
+redirect_get_composer (CamelMimeMessage *message)
+{
+	const MailConfigAccount *account = NULL;
+	const CamelInternetAddress *to_addrs, *cc_addrs;
+	const GSList *accounts = NULL;
+	EMsgComposer *composer;
+	
+	g_return_val_if_fail (message != NULL, NULL);
+	
+	accounts = mail_config_get_accounts ();
+	to_addrs = camel_mime_message_get_recipients (message, CAMEL_RECIPIENT_TYPE_TO);
+	cc_addrs = camel_mime_message_get_recipients (message, CAMEL_RECIPIENT_TYPE_CC);
+	
+	account = guess_me (to_addrs, cc_addrs, accounts);
+	
+	if (!account) {
+		const char *source;
+		
+		source = camel_mime_message_get_source (message);
+		account = mail_config_get_account_by_source_url (source);
+	}
+	
+	if (!account)
+		account = mail_config_get_default_account ();
+	
+	composer = e_msg_composer_new_redirect (message, account->name);
+	if (composer) {
+		gtk_signal_connect (GTK_OBJECT (composer), "send",
+				    GTK_SIGNAL_FUNC (composer_send_cb), NULL);
+		gtk_signal_connect (GTK_OBJECT (composer), "postpone",
+				    GTK_SIGNAL_FUNC (composer_postpone_cb), NULL);
+		gtk_signal_connect (GTK_OBJECT (composer), "save-draft",
+				    GTK_SIGNAL_FUNC (composer_save_draft_cb), NULL);
+	} else {
+		g_warning ("Could not create composer");
+	}
+	
+	return composer;
+}
+
+static void
+do_redirect (CamelFolder *folder, char *uid, CamelMimeMessage *message, void *data)
+{
+	EMsgComposer *composer;
+	
+	if (!message)
+		return;
+	
+	composer = redirect_get_composer (message);
+	if (composer) {
+		CamelDataWrapper *wrapper;
+		
+		wrapper = camel_medium_get_content_object (CAMEL_MEDIUM (message));
+		if (CAMEL_IS_MULTIPART (wrapper))
+			e_msg_composer_add_message_attachments (composer, message, FALSE);
+		
+		gtk_widget_show (GTK_WIDGET (composer));
+		e_msg_composer_unset_changed (composer);
+	}
+}
+
+void
+redirect (GtkWidget *widget, gpointer user_data)
+{
+	FolderBrowser *fb = (FolderBrowser *) user_data;
+	
+	if (FOLDER_BROWSER_IS_DESTROYED (fb))
+		return;
+	
+	if (!check_send_configuration (fb))
+		return;
+	
+	if (fb->mail_display && fb->mail_display->current_message) {
+		do_redirect (fb->folder, NULL,
+			     fb->mail_display->current_message,
+			     NULL);
+	} else {
+		mail_get_message (fb->folder, fb->message_list->cursor_uid,
+				  do_redirect, NULL, mail_thread_new);
+	}
+}
+
 static void
 transfer_msg_done (gboolean ok, void *data)
 {
