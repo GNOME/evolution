@@ -7,7 +7,7 @@
 
 		<cmd name="ContactEditorSendTo"/>
 
-		<cmd name="ContactEditorDelete"
+		<cmd name="ContactEditorDelete" pixtype="pixbuf"
 		 _tip="Delete this item" accel="*Control*d"/>
 
 		<cmd name="ContactEditorPrint"

@@ -1,6 +1,7 @@
 2001-08-20  Damon Chaplin  <damon@ximian.com>
 
 	* evolution-contact-editor.xml: use bigger Save icon for toolbar.
+	set Delete pixtype to pixbuf.
 
 	* evolution-comp-editor.xml: used Delete icon for menu.
 
