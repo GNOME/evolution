@@ -5,6 +5,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <camel/camel-url.h>
+#include <camel/camel-exception.h>
 
 #include "camel-test.h"
 
@@ -59,6 +60,7 @@ int
 main (int argc, char **argv)
 {
 	CamelURL *base_url, *url;
+	CamelException ex;
 	char *url_string;
 	int i;
 
@@ -67,9 +69,12 @@ main (int argc, char **argv)
 	camel_test_start ("RFC1808 relative URL parsing");
 
 	camel_test_push ("base URL parsing");
-	base_url = camel_url_new (base);
-	if (!base_url)
-		camel_test_fail ("Could not parse %s\n", base);
+	camel_exception_clear (&ex);
+	base_url = camel_url_new (base, &ex);
+	if (!base_url) {
+		camel_test_fail ("Could not parse %s: %s\n", base,
+				 camel_exception_get_description (&ex));
+	}
 	camel_test_pull ();
 
 	camel_test_push ("base URL unparsing");

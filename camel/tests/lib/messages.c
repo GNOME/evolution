@@ -115,6 +115,7 @@ test_message_read_file(const char *name)
 	camel_data_wrapper_construct_from_stream((CamelDataWrapper *)msg2, (CamelStream *)file);
 	/* file's refcount may be > 1 if the message is real big */
 	check(CAMEL_OBJECT(file)->ref_count >=1);
+	camel_object_unref((CamelObject *)file);
 
 	return msg2;
 }

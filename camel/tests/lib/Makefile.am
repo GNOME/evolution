@@ -8,6 +8,7 @@ libcameltest_a_SOURCES = \
 	messages.c messages.h \
 	addresses.c addresses.h \
 	folders.c folders.h \
+	session.c session.h \
 	streams.c streams.h \
 	address-data.h
 

@@ -9,3 +9,6 @@ Makefile.in
 *.bbg
 *.da
 *.gcov
+test1
+test2
+test3

@@ -1239,7 +1239,7 @@ rfc2047_encode_word(GString *outstring, const char *in, int len, const char *typ
 		g_string_append(outstring, ascii);
 	}
 
-	if (ic == (iconv_t) -1) {
+	if (ic != (iconv_t) -1) {
 		iconv_close(ic);
 	}
 }

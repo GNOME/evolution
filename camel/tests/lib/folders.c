@@ -193,7 +193,7 @@ test_folder_basic(CamelSession *session, const char *storename, int local)
 {
 	CamelStore *store;
 	CamelException *ex = camel_exception_new();
-	CamelFolder *folder, *root;
+	CamelFolder *folder;
 	char *what = g_strdup_printf("testing store: %s", storename);
 
 	camel_test_start(what);
@@ -205,31 +205,17 @@ test_folder_basic(CamelSession *session, const char *storename, int local)
 	check(store != NULL);
 	pull();
 
-	/* local providers == no root folder */
-	push("getting root folder");
-	root = camel_store_get_root_folder(store, ex);
+	/* local providers == no inbox */
+	push("getting inbox folder");
+	folder = camel_store_get_inbox(store, ex);
 	if (local) {
 		check(camel_exception_is_set(ex));
-		check(root == NULL);
+		check(folder == NULL);
 		camel_exception_clear(ex);
 	} else {
 		check_msg(!camel_exception_is_set(ex), "%s", camel_exception_get_description(ex));
-		check(root != NULL);
-		check_unref(root, 1);
-	}
-	pull();
-
-	/* same for default folder */
-	push("getting default folder");
-	root = camel_store_get_root_folder(store, ex);
-	if (local) {
-		check(camel_exception_is_set(ex));
-		check(root == NULL);
-		camel_exception_clear(ex);
-	} else {
-		check_msg(!camel_exception_is_set(ex), "%s", camel_exception_get_description(ex));
-		check(root != NULL);
-		check_unref(root, 1);
+		check(folder != NULL);
+		check_unref(folder, 1);
 	}
 	pull();
 
