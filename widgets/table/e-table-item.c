@@ -1058,12 +1058,28 @@ eti_init (GnomeCanvasItem *item)
 static const char gray50_bits[] = {
 	0x02, 0x01, };
 
+#if 0
+static gint
+eti_visibility_notify(GtkWidget	         *widget,
+		      GdkEventVisibility *event,
+		      ETableItem         *eti)
+{
+	if (eti->tooltip->window) {
+		gtk_widget_destroy (eti->tooltip->window);
+		eti->tooltip->window = NULL;
+	}
+
+	return FALSE;
+}
+#endif
+
 static void
 eti_realize (GnomeCanvasItem *item)
 {
 	ETableItem *eti = E_TABLE_ITEM (item);
 	GtkWidget *canvas_widget = GTK_WIDGET (item->canvas);
 	GdkWindow *window;
+	GdkEventMask mask;
 	
 	if (GNOME_CANVAS_ITEM_CLASS (eti_parent_class)->realize)
                 (*GNOME_CANVAS_ITEM_CLASS (eti_parent_class)->realize)(item);
@@ -1089,6 +1105,15 @@ eti_realize (GnomeCanvasItem *item)
 	gdk_gc_set_ts_origin (eti->focus_gc, 0, 0);
 	gdk_gc_set_stipple (eti->focus_gc, eti->stipple);
 	gdk_gc_set_fill (eti->focus_gc, GDK_OPAQUE_STIPPLED);
+
+#if 0
+	mask = gtk_widget_get_events(GTK_WIDGET(item->canvas));
+	mask |= GDK_VISIBILITY_NOTIFY_MASK;
+	gtk_widget_set_events(GTK_WIDGET(item->canvas), mask);
+
+	gtk_signal_connect(GTK_OBJECT(item->canvas), "visibility_notify_event",
+			   GTK_SIGNAL_FUNC(eti_visibility_notify), eti);
+#endif
 
 	if (eti->cell_views == NULL)
 		eti_attach_cell_views (eti);
