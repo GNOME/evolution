@@ -251,6 +251,12 @@ tree_model_iface_init (GtkTreeModelIface *iface)
 }
 
 static void
+tree_sortable_iface_init (GtkTreeSortableIface *iface)
+{
+	;
+}
+
+static void
 tree_drag_dest_iface_init (GtkTreeDragDestIface *iface)
 {
 	iface->drag_data_received = model_drag_data_received;
@@ -441,20 +447,26 @@ model_drag_data_received (GtkTreeDragDest *drag_dest, GtkTreePath *dest_path, Gt
 	GtkTreeIter iter;
 	char *path;
 	
+	d(printf ("model_drag_data_received\n"));
+	
 	/* this means we are receiving no data */
 	if (!selection->data || selection->length == -1)
 		return FALSE;
 	
-	if (!gtk_tree_model_get_iter ((GtkTreeModel *) model, &iter, dest_path))
+	if (!gtk_tree_model_get_iter ((GtkTreeModel *) model, &iter, dest_path)) {
+		d(printf ("\tfailed to get row\n"));
 		return FALSE;
+	}
 	
 	gtk_tree_model_get ((GtkTreeModel *) model, &iter,
 			    COL_POINTER_CAMEL_STORE, &store,
 			    COL_STRING_FOLDER_PATH, &path, -1);
 	
 	/* make sure user isn't try to drop on a placeholder row */
-	if (path == NULL)
+	if (path == NULL) {
+		d(printf ("\tdropped on a placeholder row?\n"));
 		return FALSE;
+	}
 	
 	full_name = path[0] == '/' ? path + 1 : path;
 	
@@ -469,19 +481,19 @@ model_drag_data_received (GtkTreeDragDest *drag_dest, GtkTreePath *dest_path, Gt
 		if (selection->target == gdk_atom_intern ("x-uid-list", FALSE)) {
 			/* import a list of uids from another evo folder */
 			drop_uid_list (folder, move, selection, &ex);
-			d(printf ("* dropped a x-uid-list\n"));
+			d(printf ("\t* dropped a x-uid-list\n"));
 		} else if (selection->target == gdk_atom_intern ("x-folder", FALSE)) {
 			/* copy or move (aka rename) a folder */
 			drop_folder (folder, move, selection, &ex);
-			d(printf ("* dropped a x-folder\n"));
+			d(printf ("\t* dropped a x-folder\n"));
 		} else if (selection->target == gdk_atom_intern ("message/rfc822", FALSE)) {
 			/* import a message/rfc822 stream */
 			drop_message_rfc822 (folder, selection, &ex);
-			d(printf ("* dropped a message/rfc822\n"));
+			d(printf ("\t* dropped a message/rfc822\n"));
 		} else if (selection->target == gdk_atom_intern ("text/uri-list", FALSE)) {
 			/* import an mbox, maildir, or mh folder? */
 			drop_text_uri_list (folder, selection, &ex);
-			d(printf ("* dropped a text/uri-list\n"));
+			d(printf ("\t* dropped a text/uri-list\n"));
 		} else {
 			g_assert_not_reached ();
 		}
@@ -503,27 +515,39 @@ model_row_drop_possible (GtkTreeDragDest *drag_dest, GtkTreePath *dest_path, Gtk
 	gboolean is_store;
 	GtkTreeIter iter;
 	
+	d(printf ("model_row_drop_possible\n"));
+	
 	if (!gtk_tree_model_get_iter ((GtkTreeModel *) model, &iter, dest_path))
 		return FALSE;
 	
 	gtk_tree_model_get ((GtkTreeModel *) model, &iter, COL_BOOL_IS_STORE, &is_store, -1);
 	
 	if (selection->target == gdk_atom_intern ("x-uid-list", FALSE)) {
-		if (is_store)
+		if (is_store) {
+			d(printf ("\tcan't drop x-uid-list on a store\n"));
 			return FALSE;
+		}
 		
+		d(printf ("\tcan drop x-uid-list\n"));
 		return TRUE;
 	} else if (selection->target == gdk_atom_intern ("x-folder", FALSE)) {
+		d(printf ("\tcan drop x-folder\n"));
 		return TRUE;
 	} else if (selection->target == gdk_atom_intern ("message/rfc822", FALSE)) {
-		if (is_store)
+		if (is_store) {
+			d(printf ("\tcan't drop message/rfc822 on a store\n"));
 			return FALSE;
+		}
 		
+		d(printf ("\tcan drop message/rfc822\n"));
 		return TRUE;
 	} else if (selection->target == gdk_atom_intern ("text/uri-list", FALSE)) {
-		if (is_store)
+		if (is_store) {
+			d(printf ("\tcan't drop text/uri-list on a store\n"));
 			return FALSE;
+		}
 		
+		d(printf ("\tcan drop text/uri-list\n"));
 		return TRUE;
 	} else {
 		g_assert_not_reached ();
@@ -715,6 +739,9 @@ em_folder_tree_model_new (const char *evolution_dir)
 	
 	model = g_object_new (EM_TYPE_FOLDER_TREE_MODEL, NULL);
 	gtk_tree_store_set_column_types ((GtkTreeStore *) model, NUM_COLUMNS, col_types);
+	gtk_tree_sortable_set_sort_column_id ((GtkTreeSortable *) model,
+					      GTK_TREE_SORTABLE_DEFAULT_SORT_COLUMN_ID,
+					      GTK_SORT_ASCENDING);
 	
 	filename = g_build_filename (evolution_dir, "mail", "config", "folder-tree.state", NULL);
 	em_folder_tree_model_load_state (model, filename);
