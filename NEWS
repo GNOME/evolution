@@ -101,6 +101,17 @@ Addressbook:
 
   - Fixes for LDAP/multibook address completion.  (Toshok, Trow)
 
+  - Added a "Do you want to save changes?" dialog to the contact 
+    and contact list editors. (Toshok)
+
+  - Fixed date (birthday and anniversary) handling for LDAP. (Toshok)
+
+  - Fixed nasty LDAP modification bug. (Toshok)
+
+  - Add a config setting (/Addressbook/default_book_uri) to specify where
+    vcards and email addresses from mail messages are stored as contacts.
+    (Toshok)
+
 Summary:
 
   - Worked around gnome-vfs problems that were causing crashes.  (Trow)
