@@ -1,3 +1,7 @@
+2004-07-02  JP Rosevaer  <jpr@novell.com>
+
+	* Makefile.am (SUBDIRS): Revert previous error change
+
 2004-07-01  Rodney Dawes  <dobey@novell.com>
 
 	* Makefile.am (BUILT_SOURCES): Remove $(error_i18n)

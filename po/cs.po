@@ -8,14 +8,14 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution VERSION\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-06-30 03:23+0200\n"
+"POT-Creation-Date: 2004-07-02 14:48-0400\n"
 "PO-Revision-Date: 2004-06-30 15:27+0200\n"
 "Last-Translator: Miloslav Trmac <mitr@volny.cz>\n"
 "Language-Team: Czech <cs@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Report-Msgid-Bugs-To: \n"
 "Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%"
 "10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 
@@ -63,7 +63,9 @@ msgstr "Tento adresář nelze otevřít."
 msgid ""
 "This addressbook server might unreachable or the server name may be "
 "misspelled or your network connection could be down."
-msgstr "Server adresáře možná není dostupný nebo by v názvu serveru mohl být překlep nebo možná nefunguje vaše připojení k síti."
+msgstr ""
+"Server adresáře možná není dostupný nebo by v názvu serveru mohl být překlep "
+"nebo možná nefunguje vaše připojení k síti."
 
 #. addressbook:ldap-auth primary
 #: addressbook/addressbook-errors.xml.h:6
@@ -76,7 +78,10 @@ msgid ""
 "Check to make sure your password is spelled correctly and that you are using "
 "a supported login method. Remember that many passwords are case sensitive; "
 "your caps lock might be on."
-msgstr "Zkontrolujte, že vaše heslo je zadáno správně a že používáte podporovanou metodupřihlašování. Nezapomeňte, že u mnoha hesel se rozlišuje velikost písmen; možná máte zapnut caps lock."
+msgstr ""
+"Zkontrolujte, že vaše heslo je zadáno správně a že používáte podporovanou "
+"metodupřihlašování. Nezapomeňte, že u mnoha hesel se rozlišuje velikost "
+"písmen; možná máte zapnut caps lock."
 
 #. addressbook:ldap-search-base primary
 #: addressbook/addressbook-errors.xml.h:10
@@ -89,7 +94,10 @@ msgid ""
 "This LDAP server may use an older version of LDAP, which does not support "
 "this functionality or it may be misconfigured. Ask your administrator for "
 "supported search bases."
-msgstr "Tento server LDAP možná používá starší verzi LDAP, která futo funkci nepodporuje, nebo je možná špatně nastaven. Zeptejte se vašeho správce na podporované základy vyhledávání."
+msgstr ""
+"Tento server LDAP možná používá starší verzi LDAP, která futo funkci "
+"nepodporuje, nebo je možná špatně nastaven. Zeptejte se vašeho správce na "
+"podporované základy vyhledávání."
 
 #. addressbook:ldap-v3-schema primary
 #: addressbook/addressbook-errors.xml.h:14
@@ -112,13 +120,14 @@ msgid "Could not remove addressbook."
 msgstr "Nemohu odstranit adresář."
 
 #. addressbook:remove-addressbook secondary
-#. addressbook:generic-error primary
-#. addressbook:load-error secondary
-#. addressbook:search-error secondary
 #: addressbook/addressbook-errors.xml.h:22
 #: addressbook/addressbook-errors.xml.h:26
 #: addressbook/addressbook-errors.xml.h:34
-#: addressbook/addressbook-errors.xml.h:38
+#: addressbook/addressbook-errors.xml.h:38 mail/mail-errors.xml.h:70
+#: mail/mail-errors.xml.h:72 mail/mail-errors.xml.h:74
+#: mail/mail-errors.xml.h:76 mail/mail-errors.xml.h:78
+#: mail/mail-errors.xml.h:80 mail/mail-errors.xml.h:84
+#: mail/mail-errors.xml.h:88
 msgid "{0}"
 msgstr "{0}"
 
@@ -128,9 +137,8 @@ msgid "Category editor not available."
 msgstr "Editor kategorie není dostupný"
 
 #. addressbook:generic-error secondary
-#. mail-composer:no-attach secondary
 #: addressbook/addressbook-errors.xml.h:28
-#: composer/mail-composer-errors.xml.h:4
+#: composer/mail-composer-errors.xml.h:4 mail/mail-errors.xml.h:92
 msgid "{1}"
 msgstr "{1}"
 
@@ -177,7 +185,9 @@ msgstr "Nemohu přesunout kontakt."
 msgid ""
 "You are attempting to move a contact from one addressbook to another but it "
 "cannot be removed from the source. Do you want to save a copy instead?"
-msgstr "Přesouváte kontakt z jednoho adresáře do jiného, ale nelze jej odstranit ze zdroje. Chcete místo toho uložit kopii?"
+msgstr ""
+"Přesouváte kontakt z jednoho adresáře do jiného, ale nelze jej odstranit ze "
+"zdroje. Chcete místo toho uložit kopii?"
 
 #. addressbook:save-error primary
 #: addressbook/addressbook-errors.xml.h:49
@@ -198,7 +208,9 @@ msgstr "Adresář Evolution neočekávaně skončil."
 #: addressbook/addressbook-errors.xml.h:55
 msgid ""
 "Your contacts for {0} will not be available until Evolution is restarted."
-msgstr "Vaše kontakty pro {0} nebudou k dispozici, dokud nebude Evolution znovu spuštěna."
+msgstr ""
+"Vaše kontakty pro {0} nebudou k dispozici, dokud nebude Evolution znovu "
+"spuštěna."
 
 #: addressbook/conduit/address-conduit.c:275
 msgid "Default Sync Address:"
@@ -325,7 +337,6 @@ msgid "Migrating `%s':"
 msgstr "Převádím `%s':"
 
 #. create the local source group
-#. On This Computer is always first and VFolders is always last
 #: addressbook/gui/component/addressbook-migrate.c:489
 #: calendar/gui/migration.c:446 calendar/gui/migration.c:528
 #: mail/em-folder-tree-model.c:196 mail/em-folder-tree-model.c:198
@@ -334,9 +345,6 @@ msgid "On This Computer"
 msgstr "V tomto počítači"
 
 #. Create the default Person addressbook
-#. Create the default Person calendar
-#. Create the default Person task list
-#. orange
 #: addressbook/gui/component/addressbook-migrate.c:497
 #: addressbook/gui/contact-editor/contact-editor.glade.h:34
 #: calendar/gui/migration.c:454 calendar/gui/migration.c:536
@@ -502,6 +510,7 @@ msgid "636"
 msgstr "636"
 
 #: addressbook/gui/component/ldap-config.glade.h:7
+#: calendar/gui/dialogs/url-editor-dialog.glade.h:2
 msgid "<b>Authentication</b>"
 msgstr "<b>Autentizace/<b>"
 
@@ -3194,17 +3203,17 @@ msgstr "Zobrazení karty"
 msgid "GTK Tree View"
 msgstr "GTK Tree View"
 
-#: addressbook/gui/widgets/test-reflow.c:119
+#: addressbook/gui/widgets/test-reflow.c:106
 msgid "Reflow Test"
 msgstr "Test přeformátování"
 
-#: addressbook/gui/widgets/test-reflow.c:120
+#: addressbook/gui/widgets/test-reflow.c:107
 #: addressbook/printing/test-contact-print-style-editor.c:54
 #: addressbook/printing/test-print.c:53
 msgid "Copyright (C) 2000, Ximian, Inc."
 msgstr "Copyright © 2000, Ximian, Inc."
 
-#: addressbook/gui/widgets/test-reflow.c:122
+#: addressbook/gui/widgets/test-reflow.c:109
 msgid "This should test the reflow canvas item"
 msgstr "Toto by mělo otestovat položku canvasu přeformátování"
 
@@ -3515,7 +3524,6 @@ msgid "Unnamed List"
 msgstr "Nepojmenovaný seznam"
 
 #. calendar:prompt-cancel-meeting primary
-#. calendar:prompt-cancel-task primary
 #: calendar/calendar-errors.xml.h:2 calendar/calendar-errors.xml.h:12
 msgid "Would you like to send all the participants a cancellation notice?"
 msgstr "Chcete poslat všem účastníkům oznámení o zrušení?"
@@ -3525,7 +3533,9 @@ msgstr "Chcete poslat všem účastníkům oznámení o zrušení?"
 msgid ""
 "If you don't send a cancellation notice, the other participants may not know "
 "the meeting is canceled."
-msgstr "Pokud nepošlete oznámení o zrušení, ostatní účastníci možná nebudou vědět, že je schůzka zrušena."
+msgstr ""
+"Pokud nepošlete oznámení o zrušení, ostatní účastníci možná nebudou vědět, "
+"že je schůzka zrušena."
 
 #: calendar/calendar-errors.xml.h:5 calendar/calendar-errors.xml.h:15
 #: calendar/calendar-errors.xml.h:25 calendar/calendar-errors.xml.h:79
@@ -3548,14 +3558,17 @@ msgstr "Opravdu chcete odstranit tuto schůzku?"
 #: calendar/calendar-errors.xml.h:10
 msgid ""
 "All information on this meeting will be deleted and can not be restored."
-msgstr "Všechny informace o této schůzce budou odstraněny a nebude je možné obnovit."
+msgstr ""
+"Všechny informace o této schůzce budou odstraněny a nebude je možné obnovit."
 
 #. calendar:prompt-cancel-task secondary
 #: calendar/calendar-errors.xml.h:14
 msgid ""
 "If you don't send a cancellation notice, the other participants may not know "
 "the task has been deleted."
-msgstr "Pokud nepošlete oznámení o zrušení, ostatní účastníci možná nebudou vědět, že úkol byl zrušena."
+msgstr ""
+"Pokud nepošlete oznámení o zrušení, ostatní účastníci možná nebudou vědět, "
+"že úkol byl zrušena."
 
 #. calendar:prompt-delete-task primary
 #: calendar/calendar-errors.xml.h:18 calendar/calendar-errors.xml.h:44
@@ -3563,12 +3576,11 @@ msgid "Are you sure you want to delete this task?"
 msgstr "Opravdu chcete odstranit tento úkol?"
 
 #. calendar:prompt-delete-task secondary
-#. calendar:prompt-delete-named-task secondary
-#. calendar:prompt-delete-task secondary
 #: calendar/calendar-errors.xml.h:20 calendar/calendar-errors.xml.h:42
 #: calendar/calendar-errors.xml.h:46
 msgid "All information on this task will be deleted and can not be restored."
-msgstr "Všechny informace o tomto úkolu budou odstraněny a nebude možné je obnovit."
+msgstr ""
+"Všechny informace o tomto úkolu budou odstraněny a nebude možné je obnovit."
 
 #. calendar:prompt-cancel-journal primary
 #: calendar/calendar-errors.xml.h:22
@@ -3580,7 +3592,9 @@ msgstr "Chcete poslat oznámení o zrušení tohoto zápisu v deníku?"
 msgid ""
 "If you don't send a cancellation notice, the other participants may not know "
 "the journal has been deleted."
-msgstr "Pokud nepošlete oznámení o zrušení, ostatní účastníci možná nebudou vědět, že deník byl odstraněn."
+msgstr ""
+"Pokud nepošlete oznámení o zrušení, ostatní účastníci možná nebudou vědět, "
+"že deník byl odstraněn."
 
 #. calendar:prompt-delete-journal primary
 #: calendar/calendar-errors.xml.h:28 calendar/calendar-errors.xml.h:52
@@ -3592,7 +3606,9 @@ msgstr "Opravdu chcete odstranit tento zápis v deníku?"
 msgid ""
 "All information on this journal entry will be deleted and can not be "
 "restored."
-msgstr "Všechny informace o tomto zápisu v deníku budou odstraněny a nebude možné je obnovit."
+msgstr ""
+"Všechny informace o tomto zápisu v deníku budou odstraněny a nebude možné je "
+"obnovit."
 
 #. calendar:prompt-delete-titled-appointment primary
 #: calendar/calendar-errors.xml.h:32
@@ -3600,11 +3616,11 @@ msgid "Are you sure you want to delete the appointment titled '{0}'?"
 msgstr "Opravdu chcete odstranit událost nazvanou `{0}'?"
 
 #. calendar:prompt-delete-titled-appointment secondary
-#. calendar:prompt-delete-appointment secondary
 #: calendar/calendar-errors.xml.h:34 calendar/calendar-errors.xml.h:38
 msgid ""
 "All information on this appointment will be deleted and can not be restored."
-msgstr "Všechny informace o této události budou odstraněny a nebude možné je obnovit."
+msgstr ""
+"Všechny informace o této události budou odstraněny a nebude možné je obnovit."
 
 #. calendar:prompt-delete-appointment primary
 #: calendar/calendar-errors.xml.h:36
@@ -3622,11 +3638,11 @@ msgid "Are you sure you want to delete the journal entry '{0}'?"
 msgstr "Opravdu chcete odstranit zápis v deníku `{0}'?"
 
 #. calendar:prompt-delete-named-journal secondary
-#. calendar:prompt-delete-journal secondary
 #: calendar/calendar-errors.xml.h:50 calendar/calendar-errors.xml.h:54
 msgid ""
 "All information in this journal will be deleted and can not be restored."
-msgstr "Všechny informace o tomto deníku budou odstraněny a nebude možné je obnovit."
+msgstr ""
+"Všechny informace o tomto deníku budou odstraněny a nebude možné je obnovit."
 
 #. calendar:prompt-delete-appointments primary
 #: calendar/calendar-errors.xml.h:56
@@ -3638,7 +3654,9 @@ msgstr "Opravdu chcete odstranit těchto {0} událostí?"
 msgid ""
 "All information on these appointments will be deleted and can not be "
 "restored."
-msgstr "Všechny informace o těchto událostech budou odstraněny a nebude možné je obnovit."
+msgstr ""
+"Všechny informace o těchto událostech budou odstraněny a nebude možné je "
+"obnovit."
 
 #. calendar:prompt-delete-tasks primary
 #: calendar/calendar-errors.xml.h:60
@@ -3648,7 +3666,9 @@ msgstr "Opravdu chcete odstranit těchto {0} úkolů?"
 #. calendar:prompt-delete-tasks secondary
 #: calendar/calendar-errors.xml.h:62
 msgid "All information on these tasks will be deleted and can not be restored."
-msgstr "Všechny informace o těchto úkolech budou odstraněny a nebude možné je obnovit."
+msgstr ""
+"Všechny informace o těchto úkolech budou odstraněny a nebude možné je "
+"obnovit."
 
 #. calendar:prompt-delete-journals primary
 #: calendar/calendar-errors.xml.h:64
@@ -3660,7 +3680,9 @@ msgstr "Opravdu chcete odstranit těchto {0} zápisů v deníku?"
 msgid ""
 "All information in these journal entries will be deleted and can not be "
 "restored."
-msgstr "Všechny informace o těchto položkách deníku budou odstraněny a nebude možné je obnovit."
+msgstr ""
+"Všechny informace o těchto položkách deníku budou odstraněny a nebude možné "
+"je obnovit."
 
 #. calendar:prompt-save-appointment title
 #: calendar/calendar-errors.xml.h:68
@@ -3694,7 +3716,8 @@ msgstr "Chcete poslat účastníkům pozvánky na schůzku?"
 #: calendar/calendar-errors.xml.h:78
 msgid ""
 "Email invitations will be sent to all participants and allow them to RSVP."
-msgstr "E-maily s pozvánkami budou odeslány všem účastníkům, aby mohli odpovědět."
+msgstr ""
+"E-maily s pozvánkami budou odeslány všem účastníkům, aby mohli odpovědět."
 
 #: calendar/calendar-errors.xml.h:80 calendar/calendar-errors.xml.h:86
 #: calendar/calendar-errors.xml.h:92 calendar/calendar-errors.xml.h:98
@@ -3712,7 +3735,9 @@ msgstr "Chcete účastníkům poslat aktualizované informace o schůzce?"
 msgid ""
 "Sending updated information allows other participants to keep their "
 "calendars up to date."
-msgstr "Poslání aktualizovaných informací umožní jiným účastníkům, aby udržovali své kalendáře aktuální."
+msgstr ""
+"Poslání aktualizovaných informací umožní jiným účastníkům, aby udržovali své "
+"kalendáře aktuální."
 
 #. calendar:prompt-send-task primary
 #: calendar/calendar-errors.xml.h:88
@@ -3724,7 +3749,9 @@ msgstr "Chcete tento úkol poslat účastníkům?"
 msgid ""
 "Email invitations will be sent to all participants and allow them to accept "
 "this task."
-msgstr "E-maily s pozvánkami budou odeslány všem účastníkům, aby mohli tento úkol přijmout."
+msgstr ""
+"E-maily s pozvánkami budou odeslány všem účastníkům, aby mohli tento úkol "
+"přijmout."
 
 #. calendar:prompt-send-updated-task-info primary
 #: calendar/calendar-errors.xml.h:94
@@ -3736,7 +3763,9 @@ msgstr "Chcete účastníkům poslat aktualizované informace o úkolu?"
 msgid ""
 "Sending updated information allows other participants to keep their task "
 "lists up to date."
-msgstr "Poslání aktualizovaných informací umožní ostatním účastníkům, aby udržovali své seznamy úkolů aktuální."
+msgstr ""
+"Poslání aktualizovaných informací umožní ostatním účastníkům, aby udržovali "
+"své seznamy úkolů aktuální."
 
 #. calendar:tasks-crashed primary
 #: calendar/calendar-errors.xml.h:100
@@ -3756,7 +3785,8 @@ msgstr "Kalendář Evolution neočekávaně skončil."
 #. calendar:calendar-crashed secondary
 #: calendar/calendar-errors.xml.h:106
 msgid "Your calendars will not be available until Evolution is restarted."
-msgstr "Vaše kalendáře nebudou k dispozici, dokud nebude Evolution znovu spuštěna."
+msgstr ""
+"Vaše kalendáře nebudou k dispozici, dokud nebude Evolution znovu spuštěna."
 
 #: calendar/common/authentication.c:44 calendar/gui/e-pub-utils.c:301
 #: smime/gui/component.c:48
@@ -4145,10 +4175,6 @@ msgstr "%A %d %B %Y"
 
 #. strftime format %a = abbreviated weekday name, %d = day of month,
 #. %b = abbreviated month name. Don't use any other specifiers.
-#. strftime format %a = abbreviated weekday name,
-#. %d = day of month, %b = abbreviated month name.
-#. You can change the order but don't change the
-#. specifiers or add anything.
 #: calendar/gui/calendar-commands.c:435 calendar/gui/calendar-component.c:507
 #: calendar/gui/e-day-view-top-item.c:694 calendar/gui/e-day-view.c:1588
 #: calendar/gui/e-week-view-main-item.c:329
@@ -5096,11 +5122,6 @@ msgid "_Start time:"
 msgstr "_Začátek:"
 
 #. an empty string is the same as 'None'
-#. add a "None" option to the stores menu
-#. Put the "None" and "UTC" entries at the top of the combo's list.
-#. When "None" is selected we want the field to be cleared.
-#. Note that we don't show this here, since by default a 'None' date
-#. is not permitted.
 #: calendar/gui/dialogs/meeting-page.c:313
 #: calendar/gui/dialogs/meeting-page.glade.h:6
 #: calendar/gui/e-cal-model-tasks.c:647 calendar/gui/e-itip-control.c:928
@@ -5508,52 +5529,53 @@ msgstr "_Termín dokončení:"
 msgid "_Group:"
 msgstr "_Skupina:"
 
-#: calendar/gui/dialogs/url-editor-dialog.glade.h:2
-msgid "Authentication Credentials for HTTP Server"
-msgstr "Ověření autentizace pro HTTP server"
-
 #: calendar/gui/dialogs/url-editor-dialog.glade.h:3
-msgid "Calendars selected for publishing"
-msgstr "Kalendáře vybrané pro zveřejnění"
+#, fuzzy
+msgid "<b>Free/Busy C_alendars</b>"
+msgstr "<b>Možnosti kalendáře</b>"
 
 #: calendar/gui/dialogs/url-editor-dialog.glade.h:4
-msgid "Daily"
-msgstr "Denně"
+#, fuzzy
+msgid "<b>Publishing Frequency</b>"
+msgstr "Frekvence zveřejňování"
 
 #: calendar/gui/dialogs/url-editor-dialog.glade.h:5
+#, fuzzy
+msgid "<b>Publishing _Location</b>"
+msgstr "Umístění zveřejňování volného/obsazeného času"
+
+#: calendar/gui/dialogs/url-editor-dialog.glade.h:6
 msgid "Free/Busy Editor"
 msgstr "Editor informací o volném/obsazeném čase"
 
-#: calendar/gui/dialogs/url-editor-dialog.glade.h:6
-msgid "Free/Busy Publishing Location"
-msgstr "Umístění zveřejňování volného/obsazeného času"
-
 #: calendar/gui/dialogs/url-editor-dialog.glade.h:7
-msgid "Login name:"
-msgstr "Přihlašovací jméno:"
+#, fuzzy
+msgid "_Daily"
+msgstr "Denně"
 
 #: calendar/gui/dialogs/url-editor-dialog.glade.h:8
-msgid "Password:"
-msgstr "Heslo:"
+#, fuzzy
+msgid "_Manual"
+msgstr "_Pošta"
 
 #: calendar/gui/dialogs/url-editor-dialog.glade.h:9
-msgid "Publishing Frequency"
-msgstr "Frekvence zveřejňování"
+#, fuzzy
+msgid "_Password:"
+msgstr "Heslo:"
 
 #: calendar/gui/dialogs/url-editor-dialog.glade.h:10
-msgid "Remember password"
+#, fuzzy
+msgid "_Remember password"
 msgstr "Zapamatovat si heslo"
 
 #: calendar/gui/dialogs/url-editor-dialog.glade.h:11
-msgid "URL:"
-msgstr "URL:"
+#, fuzzy
+msgid "_Username:"
+msgstr "_Jméno uživatele:"
 
 #: calendar/gui/dialogs/url-editor-dialog.glade.h:12
-msgid "User Publishes"
-msgstr "Uživatel zveřejňuje"
-
-#: calendar/gui/dialogs/url-editor-dialog.glade.h:13
-msgid "Weekly"
+#, fuzzy
+msgid "_Weekly"
 msgstr "Týdně"
 
 #: calendar/gui/e-alarm-list.c:395
@@ -6010,20 +6032,12 @@ msgid "_Settings..."
 msgstr "Na_stavení..."
 
 #. strftime format of a weekday, a date and a time, 24-hour.
-#. strptime format of a weekday, a date and a time,
-#. in 24-hour format.
-#. strftime format of a weekday, a date and a
-#. time, in 24-hour format.
 #: calendar/gui/e-cell-date-edit-text.c:117 e-util/e-time-utils.c:180
 #: e-util/e-time-utils.c:393
 msgid "%a %m/%d/%Y %H:%M:%S"
 msgstr "%a %d/%m/%Y %H:%M:%S"
 
 #. strftime format of a weekday, a date and a time, 12-hour.
-#. strptime format of a weekday, a date and a time,
-#. in 12-hour format.
-#. strftime format of a weekday, a date and a
-#. time, in 12-hour format.
 #: calendar/gui/e-cell-date-edit-text.c:120 e-util/e-time-utils.c:175
 #: e-util/e-time-utils.c:402
 msgid "%a %m/%d/%Y %I:%M:%S %p"
@@ -6047,10 +6061,6 @@ msgstr "%02i rozdělení minuty"
 
 #. strftime format %A = full weekday name, %d = day of month,
 #. %B = full month name. Don't use any other specifiers.
-#. strftime format %A = full weekday name, %d = day of
-#. month, %B = full month name. You can change the
-#. order but don't change the specifiers or add
-#. anything.
 #: calendar/gui/e-day-view-top-item.c:690 calendar/gui/e-day-view.c:1571
 #: calendar/gui/e-week-view-main-item.c:320 calendar/gui/print.c:1514
 msgid "%A %d %B"
@@ -6058,9 +6068,6 @@ msgstr "%A %d %B"
 
 #. strftime format %d = day of month, %b = abbreviated month name.
 #. Don't use any other specifiers.
-#. strftime format %d = day of month, %b = abbreviated
-#. month name. You can change the order but don't
-#. change the specifiers or add anything.
 #: calendar/gui/e-day-view-top-item.c:698 calendar/gui/e-day-view.c:1604
 #: calendar/gui/e-week-view-main-item.c:343
 msgid "%d %b"
@@ -6588,10 +6595,6 @@ msgstr "%A, %B %d, %Y"
 
 #. This is a strftime() format string %a = abbreviated weekday
 #. name, %m = month number, %d = month day, %Y = full year.
-#. This is a strftime() format string %a = abbreviated weekday name,
-#. %m = month number, %d = month day, %Y = full year.
-#. strptime format of a weekday and a date.
-#. strftime format of a weekday and a date.
 #: calendar/gui/e-meeting-time-sel-item.c:456
 #: calendar/gui/e-meeting-time-sel.c:2086 e-util/e-time-utils.c:203
 #: e-util/e-time-utils.c:296 e-util/e-time-utils.c:384
@@ -6600,10 +6603,6 @@ msgstr "%a %d/%m/%Y"
 
 #. This is a strftime() format string %m = month number,
 #. %d = month day, %Y = full year.
-#. strptime format of a weekday and a date.
-#. This is the preferred date format for the locale.
-#. This is a strftime() format for a short date. %m = month,
-#. %d = day of month, %Y = year (all digits).
 #: calendar/gui/e-meeting-time-sel-item.c:460 e-util/e-time-utils.c:238
 #: e-util/e-time-utils.c:299 widgets/misc/e-dateedit.c:1604
 msgid "%m/%d/%Y"
@@ -9610,7 +9609,7 @@ msgstr "Nemohu přidat šifrovací certifikát"
 msgid "Cannot add CMS SignerInfo"
 msgstr "Nemohu přidat CMS SignerInfo"
 
-#: camel/camel-smime-context.c:430
+#: camel/camel-smime-context.c:430 camel/camel-smime-context.c:877
 msgid "Cannot create encoder context"
 msgstr "Nemohu vytvořit obsah enkodéru"
 
@@ -9691,7 +9690,8 @@ msgid "Certificate only message, certificates imported and verified"
 msgstr "Zpráva jen s certifikátem, certifikáty importovány a ověřeny"
 
 #: camel/camel-smime-context.c:635
-msgid "Can't find signature digests"
+#, fuzzy
+msgid "Cannot find signature digests"
 msgstr "Nemohu najít digesty podpisu"
 
 #: camel/camel-smime-context.c:651
@@ -9704,46 +9704,50 @@ msgid "Decoder failed"
 msgstr "Dekodér selhal"
 
 #: camel/camel-smime-context.c:804
-#, c-format
-msgid "Can't find certificate for `%s'"
-msgstr "Nemohu najít certifikát pro `%s'"
+#, fuzzy, c-format
+msgid "Cannot find certificate for `%s'"
+msgstr "Nemohu najít certifikát pro '%s'"
 
 #: camel/camel-smime-context.c:811
-msgid "Can't find common bulk encryption algorithm"
+#, fuzzy
+msgid "Cannot find common bulk encryption algorithm"
 msgstr "Nemohu najít společný algoritmus pro šifrování"
 
 #. PORT_GetError(); ??
 #: camel/camel-smime-context.c:820
-msgid "Can't allocate slot for encryption bulk key"
+#, fuzzy
+msgid "Cannot allocate slot for encryption bulk key"
 msgstr "Nemohu alokovat slot pro šifrovací klíč"
 
 #: camel/camel-smime-context.c:831
-msgid "Can't create CMS Message"
+#, fuzzy
+msgid "Cannot create CMS Message"
 msgstr "Nemohu vytvořit zprávu CMS"
 
 #: camel/camel-smime-context.c:837
-msgid "Can't create CMS EnvelopedData"
+#, fuzzy
+msgid "Cannot create CMS EnvelopedData"
 msgstr "Nemohu vytvořit CMS EnvelopedData"
 
 #: camel/camel-smime-context.c:843
-msgid "Can't attach CMS EnvelopedData"
+#, fuzzy
+msgid "Cannot attach CMS EnvelopedData"
 msgstr "Nemohu připojit CMS EnvelopedData"
 
 #: camel/camel-smime-context.c:849
-msgid "Can't attach CMS data object"
+#, fuzzy
+msgid "Cannot attach CMS data object"
 msgstr "Nemohu připojit objekt dat CMS"
 
 #: camel/camel-smime-context.c:858
-msgid "Can't create CMS RecipientInfo"
+#, fuzzy
+msgid "Cannot create CMS RecipientInfo"
 msgstr "Nemohu vytvořit CMS RecipientInfo"
 
 #: camel/camel-smime-context.c:863
-msgid "Can't add CMS RecipientInfo"
+#, fuzzy
+msgid "Cannot add CMS RecipientInfo"
 msgstr "Nemohu přidat CMS RecipientInfo"
-
-#: camel/camel-smime-context.c:877
-msgid "Can't create encoder context"
-msgstr "Nemohu vytvořit kontext enkodéru"
 
 #: camel/camel-smime-context.c:888
 msgid "Failed to add data to encoder"
@@ -12144,12 +12148,10 @@ msgid "Could not retrieve messages to attach from {0}."
 msgstr "Nemohu z {0} získat zprávy, které připojit."
 
 #. mail-composer:attach-nomessages secondary
-#. mail-composer:no-sig-file secondary
-#. system:no-save-file secondary
-#. system:no-load-file secondary
 #: composer/mail-composer-errors.xml.h:14
-#: composer/mail-composer-errors.xml.h:42
-#: widgets/misc/e-system-errors.xml.h:11 widgets/misc/e-system-errors.xml.h:15
+#: composer/mail-composer-errors.xml.h:42 mail/mail-errors.xml.h:100
+#: mail/mail-errors.xml.h:112 widgets/misc/e-system-errors.xml.h:11
+#: widgets/misc/e-system-errors.xml.h:15
 msgid "Because \"{1}\"."
 msgstr "Protože \"{1}\"."
 
@@ -12242,7 +12244,6 @@ msgid "You need to configure an account before you can compose mail."
 msgstr "Než budete moci psát zprávu, musíte nastavit účet."
 
 #. mail-composer:no-address-control primary
-#. mail-composer:no-editor-control primary
 #: composer/mail-composer-errors.xml.h:48
 #: composer/mail-composer-errors.xml.h:52
 msgid "Could not create composer window."
@@ -12416,16 +12417,12 @@ msgstr "Synchronizované kategorie:"
 
 #. strptime format of a weekday, a date and a time,
 #. in 12-hour format, without seconds.
-#. strftime format of a weekday, a date and a
-#. time, in 12-hour format, without seconds.
 #: e-util/e-time-utils.c:185 e-util/e-time-utils.c:398
 msgid "%a %m/%d/%Y %I:%M %p"
 msgstr "%a %d. %m. %Y %I:%M %p"
 
 #. strptime format of a weekday, a date and a time,
 #. in 24-hour format, without seconds.
-#. strftime format of a weekday, a date and a
-#. time, in 24-hour format, without seconds.
 #: e-util/e-time-utils.c:190 e-util/e-time-utils.c:389
 msgid "%a %m/%d/%Y %H:%M"
 msgstr "%a %d. %m. %Y %H:%M"
@@ -12477,31 +12474,23 @@ msgid "%m/%d/%Y %H"
 msgstr "%d. %m. %Y %H"
 
 #. strptime format for a time of day, in 12-hour format.
-#. strftime format of a time in 12-hour format.
 #: e-util/e-time-utils.c:339 e-util/e-time-utils.c:438
 msgid "%I:%M:%S %p"
 msgstr "%H:%M:%S %p"
 
 #. strptime format for a time of day, in 24-hour format.
-#. strftime format of a time in 24-hour format.
 #: e-util/e-time-utils.c:343 e-util/e-time-utils.c:430
 msgid "%H:%M:%S"
 msgstr "%H:%M:%S"
 
 #. strptime format for time of day, without seconds,
 #. in 12-hour format.
-#. strftime format of a time in 12-hour format,
-#. without seconds.
-#. This is a strftime() format. %I = hour (1-12), %M = minute, %p = am/pm string.
 #: e-util/e-time-utils.c:348 e-util/e-time-utils.c:435
 #: widgets/misc/e-dateedit.c:1414 widgets/misc/e-dateedit.c:1639
 msgid "%I:%M %p"
 msgstr "%H:%M, %x"
 
 #. strptime format for time of day, without seconds 24-hour format.
-#. strftime format of a time in 24-hour format,
-#. without seconds.
-#. This is a strftime() format. %H = hour (0-23), %M = minute.
 #: e-util/e-time-utils.c:352 e-util/e-time-utils.c:427
 #: widgets/misc/e-dateedit.c:1411 widgets/misc/e-dateedit.c:1636
 msgid "%H:%M"
@@ -12601,7 +12590,6 @@ msgid "Missing file name."
 msgstr "Chybí název souboru."
 
 #. filter:no-file secondary
-#. filter:bad-file secondary
 #: filter/filter-errors.xml.h:8 filter/filter-errors.xml.h:12
 msgid "You must specify a file name."
 msgstr "Musíte uvést název souboru:"
@@ -12622,7 +12610,7 @@ msgid "Could not compile regular expression \"{1}\"."
 msgstr "Nemohu zkompilovat regulární výraz \"{1}\"."
 
 #. filter:no-name primary
-#: filter/filter-errors.xml.h:18
+#: filter/filter-errors.xml.h:18 mail/mail-errors.xml.h:214
 msgid "Missing name."
 msgstr "Chybí název."
 
@@ -15477,6 +15465,552 @@ msgstr "se všemi místními a aktivními vzdálenými složkami"
 msgid "with all local folders"
 msgstr "se všemi místními složkami"
 
+#. mail:camel-service-auth-invalid primary
+#: mail/mail-errors.xml.h:2
+msgid "Invalid authentication"
+msgstr "Neplatná autentizace"
+
+#. mail:camel-service-auth-invalid secondary
+#: mail/mail-errors.xml.h:4
+msgid ""
+"This server does not support this type of authentication and may not support "
+"authentication at all."
+msgstr ""
+"Tento server nepodporuje tento typ autentizace a možná autentizaci "
+"nepodporuje vůbec."
+
+#. mail:camel-service-auth-failed primary
+#: mail/mail-errors.xml.h:6
+msgid "Your login to your server \"{0}\" as \"{0}\" failed."
+msgstr "Vaše přihlašování k severu \"{0}\" jako \"{0}\" selhalo."
+
+#. mail:camel-service-auth-failed secondary
+#: mail/mail-errors.xml.h:8
+#, fuzzy
+msgid ""
+"Check to make sure your password is spelled correctly.  Remember that many "
+"passwords are case sensitive; your caps lock might be on."
+msgstr ""
+"Zkontrolujte, že vaše heslo je zadáno správně a že používáte podporovanou "
+"metodupřihlašování. Nezapomeňte, že u mnoha hesel se rozlišuje velikost "
+"písmen; možná máte zapnut caps lock."
+
+#. mail:ask-send-html primary
+#: mail/mail-errors.xml.h:10
+msgid "Are you sure you want to send a message in HTML format?"
+msgstr "Opravdu chcete odeslat zprávu ve formátu HTML?"
+
+#. mail:ask-send-html secondary
+#: mail/mail-errors.xml.h:12
+msgid ""
+"Please make sure the following recipients are willing and able to receive "
+"HTML email:\n"
+"{0}\n"
+"Send anyway?"
+msgstr ""
+"Ujistěte se prosím, že následující příjemci si přejí a mohou dostávat zprávy "
+"ve formátu HTML:\n"
+"{0}\n"
+"Přesto poslat?"
+
+#: mail/mail-errors.xml.h:15 mail/mail-errors.xml.h:20
+#: mail/mail-errors.xml.h:27 mail/mail-errors.xml.h:32
+#, fuzzy
+msgid "_Send"
+msgstr "Poslat"
+
+#. mail:ask-send-no-subject primary
+#: mail/mail-errors.xml.h:17
+msgid "Are you sure you want to send a message without a subject?"
+msgstr "Opravdu chhcete odeslat zprávu bez předmětu?"
+
+#. mail:ask-send-no-subject secondary
+#: mail/mail-errors.xml.h:19
+msgid ""
+"Adding a meaningful Subject line to your messages will give your recipients "
+"an idea of what your mail is about."
+msgstr ""
+"Přidání smysluplného řádku s předměntem k vašim zprávám dá vašim příjemcům "
+"shrnutí, o čem je vaše zpráva."
+
+#. mail:ask-send-only-bcc-contact primary
+#: mail/mail-errors.xml.h:22 mail/mail-errors.xml.h:29
+msgid "Are you sure you want to send a message with only BCC recipients?"
+msgstr "Opravdu chcete odeslat zprávu jen se skrytými příjemci?"
+
+#. mail:ask-send-only-bcc-contact secondary
+#: mail/mail-errors.xml.h:24
+msgid ""
+"The contact list you are sending to is configured to hide list recipients.\n"
+"\n"
+"Many email systems add an Apparently-To header to messages that only have "
+"BCC recipients. This header, if added, will list all of your recipients in "
+"your message. To avoid this, you should add at least one To: or CC: "
+"recipient. "
+msgstr ""
+"Seznam kontaktů, kterému odesíláte zprávu, je nastaven, aby skrýval příjemce "
+"zprávy.\n"
+"\n"
+"Mnoho systémů pro e-mail přidává hlavičku Apparently-To ke zprávám, které "
+"mají příjemce jen pro skryté kopie. Pokud bude tato hlavička přidána, bude "
+"obsahovat všechny příjemce vaší zprávy. Abyste se tomu vyhnuli, měli byste "
+"přidat alespoň jednoho příjemce do Komu: nebo Kopie:."
+
+#. mail:ask-send-only-bcc secondary
+#: mail/mail-errors.xml.h:31
+msgid ""
+"Many email systems add an Apparently-To header to messages that only have "
+"BCC recipients. This header, if added, will list all of your recipients to "
+"your message anyway. To avoid this, you should add at least one To: or CC: "
+"recipient."
+msgstr ""
+"Mnoho systémů pro e-mail přidává hlavičku Apparently-To ke zprávám, které "
+"mají příjemce jen pro skryté kopie. Pokud bude tato hlavička přidána, bude "
+"obsahovat všechny příjemce vaší zprávy. Abyste se tomu vyhnuli, měli byste "
+"přidat alespoň jednoho příjemce do Komu: nebo Kopie:."
+
+#. mail:send-no-recipients primary
+#: mail/mail-errors.xml.h:34
+msgid ""
+"This message cannot be sent because you have not specified any Recipients"
+msgstr "Tato zpráva nemůže být odeslána, protože jste nezadali žádné příjemce"
+
+#. mail:send-no-recipients secondary
+#: mail/mail-errors.xml.h:36
+msgid ""
+"Please enter a valid email address in the To: field. You can search for "
+"email addresses by clicking on the To: button next to the entry box."
+msgstr ""
+"Zadejte prosím do pole Komu: platnou e-mailovou adresu. E-mailové adresy "
+"můžete hledat kliknutím na tlačíko Komu: vedle vstupního pole."
+
+#. mail:ask-default-drafts primary
+#: mail/mail-errors.xml.h:38
+msgid "Use default drafts folder?"
+msgstr "Použít implicitní složku konceptů?"
+
+#. mail:ask-default-drafts secondary
+#: mail/mail-errors.xml.h:40
+msgid ""
+"Unable to open the drafts folder for this account.  Use the system drafts "
+"folder instead?"
+msgstr ""
+"Nemohu otevřít složku konceptů pro tento účet. Použít místo ní systémovou "
+"složku konceptů?"
+
+#: mail/mail-errors.xml.h:41
+msgid "Use _Default"
+msgstr "Použít _implicitní"
+
+#. mail:ask-expunge primary
+#: mail/mail-errors.xml.h:43
+msgid ""
+"Are you sure you want to permanently remove all the deleted message in "
+"folder \"{0}\"?"
+msgstr ""
+"Opravdu chcete natrvalo odstranit všechny odstraněné zprávy ze složky \"{0}"
+"\"?"
+
+#. mail:ask-expunge secondary
+#: mail/mail-errors.xml.h:45 mail/mail-errors.xml.h:50
+msgid "If you continue, you will not be able to recover these messages."
+msgstr "Pokud budete pokračovat, nebudete moci tyto zprávy obnovit."
+
+#: mail/mail-errors.xml.h:46
+msgid "_Expunge"
+msgstr "_Vyčistit"
+
+#. mail:ask-empty-trash primary
+#: mail/mail-errors.xml.h:48
+msgid ""
+"Are you sure you want to permanently remove all the deleted messages in all "
+"folders?"
+msgstr ""
+"Opravdu chcete natrvalo odstranit všechny odstraněné zprávy ze všech složek?"
+
+#: mail/mail-errors.xml.h:51
+msgid "_Empty Trash"
+msgstr "Vyprázdnit _koš"
+
+#. mail:exit-unsaved primary
+#: mail/mail-errors.xml.h:53
+msgid "You have unsent messages, do you wish to quit anyway?"
+msgstr "Máte neodeslané zprávy, chcete přesto skončit?"
+
+#. mail:exit-unsaved secondary
+#: mail/mail-errors.xml.h:55
+#, fuzzy
+msgid ""
+"If you quit, these messages will not be sent until Evolution is started "
+"again."
+msgstr "Vaše úkoly nebudou k dispozici, dokud nebude Evolution znovu spuštěna."
+
+#. mail:camel-exception primary
+#: mail/mail-errors.xml.h:57
+msgid "Your message with the subject \"{0}\" was not delivered."
+msgstr "Vaše zpráva s předmětem \"{0}\" nebyla odeslána."
+
+#. mail:camel-exception secondary
+#: mail/mail-errors.xml.h:59
+msgid ""
+"The message was sent via the \"sendmail\" external application.  Sendmail "
+"reports the following error: status 67: mail not sent.\n"
+"The message is stored in the Outbox folder.  Check the message for errors "
+"and resend."
+msgstr ""
+"Tato zpráva byla odeslána externí aplikací \"sendmail\". Sendmail hlásí "
+"následující chybu: stav 67: zpráva neodeslána.\n"
+"Zpráva je uložena ve složce K odeslání. Zkontrolujte, že ve zprávě nejsou "
+"chyby, a pošlete ji znovu."
+
+#. mail:async-error primary
+#: mail/mail-errors.xml.h:62
+msgid "Error while {0}."
+msgstr ""
+
+#. mail:async-error secondary
+#: mail/mail-errors.xml.h:64
+#, fuzzy
+msgid "{1}."
+msgstr "{1}"
+
+#. mail:async-error-nodescribe primary
+#: mail/mail-errors.xml.h:66
+msgid "Error while performing operation."
+msgstr "Chyba při vykonávání operace."
+
+#. mail:async-error-nodescribe secondary
+#: mail/mail-errors.xml.h:68
+#, fuzzy
+msgid "{0}."
+msgstr "{0}"
+
+#. mail:ask-session-password primary
+#: mail/mail-errors.xml.h:82
+msgid "Enter password."
+msgstr "Zadejte heslo."
+
+#. mail:filter-load-error primary
+#: mail/mail-errors.xml.h:86
+msgid "Error loading filter definitions."
+msgstr "Chyba při načítání definic filtrů."
+
+#. mail:no-save-path primary
+#: mail/mail-errors.xml.h:90
+msgid "Cannot save to directory \"{0}\"."
+msgstr "Nemohu uložit do adresáře \"{0}\"."
+
+#. mail:no-create-path primary
+#: mail/mail-errors.xml.h:94 mail/mail-errors.xml.h:102
+#: mail/mail-errors.xml.h:106
+msgid "Cannot save to file \"{0}\"."
+msgstr "Nemohu uložit do souboru \"{0}\"."
+
+#. mail:no-create-path secondary
+#: mail/mail-errors.xml.h:96
+msgid "Cannot create the save directory, because \"{1}\""
+msgstr "Nemohu vytvořit adresář pro ukládání, protože \"{1}\""
+
+#. mail:no-create-tmp-path primary
+#: mail/mail-errors.xml.h:98
+msgid "Cannot create temporary save directory."
+msgstr "Nemohu vytvořit dočasný adresář pro ukládání."
+
+#. mail:no-write-path-exists secondary
+#: mail/mail-errors.xml.h:104
+msgid "File exists but cannot overwrite it."
+msgstr "Soubor existuje, ale nemohu jej přepsat."
+
+#. mail:no-write-path-notfile secondary
+#: mail/mail-errors.xml.h:108
+msgid "File exists but is not a regular file."
+msgstr "Soubor existuje, ale není normální soubor."
+
+#. mail:no-delete-folder primary
+#: mail/mail-errors.xml.h:110
+msgid "Cannot delete folder \"{0}\"."
+msgstr "Nemohu odstranit složku \"{0}\"."
+
+#. mail:no-delete-spethal-folder primary
+#: mail/mail-errors.xml.h:114
+msgid "Cannot delete system folder \"{0}\"."
+msgstr "Nemohu odstranit systémovou složku \"{0}\"."
+
+#. mail:no-delete-spethal-folder secondary
+#: mail/mail-errors.xml.h:116 mail/mail-errors.xml.h:120
+msgid ""
+"System folders are required for Ximian Evolution to function correctly and "
+"cannot be renamed, moved, or deleted."
+msgstr ""
+"Systémové složky jsou vyžadovány pro správnou funkci Ximian Evolution a "
+"nemohou být přejmenovány, přesunuty ani odstraněny."
+
+#. mail:no-rename-spethal-folder primary
+#: mail/mail-errors.xml.h:118
+msgid "Cannot rename or move system folder \"{0}\"."
+msgstr "Nemohu přejmenovat nebo přesunout systémovou složku \"{0}\"."
+
+#. mail:ask-delete-folder title
+#: mail/mail-errors.xml.h:122
+msgid "Delete \"{0}\"?"
+msgstr "Odstranit \"{0}\"?"
+
+#. mail:ask-delete-folder primary
+#: mail/mail-errors.xml.h:124
+msgid "Really delete folder \"{0}\" and all of its subfolders?"
+msgstr "Opravdu odstranit složku \"{0}\" a všechny její podsložky?"
+
+#. mail:ask-delete-folder secondary
+#: mail/mail-errors.xml.h:126
+msgid ""
+"If you delete the folder, all of its contents and its subfolders contents "
+"will be deleted permanently."
+msgstr ""
+"Pokud složku odstraníte, bude všechen její obsah a obsah jejích podsložek "
+"natrvalo odstraněn."
+
+#. mail:no-rename-folder-exists primary
+#: mail/mail-errors.xml.h:128 mail/mail-errors.xml.h:132
+msgid "Cannot rename \"{0}\" to \"{1}\"."
+msgstr "Nemohu přejmenovat \"{0}\" na \"{1}\"."
+
+#. mail:no-rename-folder-exists secondary
+#: mail/mail-errors.xml.h:130 mail/mail-errors.xml.h:192
+msgid "A folder named \"{1}\" already exists. Please use a different name."
+msgstr "Složka nazvaná \"{1}\" již existuje. Použijte prosím jiný název."
+
+#. mail:no-rename-folder secondary
+#: mail/mail-errors.xml.h:134
+#, fuzzy
+msgid "Because \"{2}\"."
+msgstr "Protože \"{1}\"."
+
+#. mail:no-move-folder-nostore primary
+#: mail/mail-errors.xml.h:136 mail/mail-errors.xml.h:140
+msgid "Cannot move folder \"{0}\" to \"{1}\"."
+msgstr "Nemohu přesunout složku \"{0}\" do \"{1}\"."
+
+#. mail:no-move-folder-nostore secondary
+#: mail/mail-errors.xml.h:138 mail/mail-errors.xml.h:146
+msgid "Cannot open source \"{2}\"."
+msgstr "Nemohu otevřít zdroj \"{2}\"."
+
+#. mail:no-move-folder-to-nostore secondary
+#: mail/mail-errors.xml.h:142 mail/mail-errors.xml.h:150
+msgid "Cannot open target \"{2}\"."
+msgstr "Nemohu otevřít cíl \"{2}\"."
+
+#. mail:no-copy-folder-nostore primary
+#: mail/mail-errors.xml.h:144 mail/mail-errors.xml.h:148
+msgid "Cannot copy folder \"{0}\" to \"{1}\"."
+msgstr "Nemohu zkopírovat složku \"{0}\" do \"{1}\"."
+
+#. mail:no-create-folder-nostore primary
+#: mail/mail-errors.xml.h:152
+msgid "Cannot create folder \"{0}\"."
+msgstr "Nemohu vytvořit složku \"{0}\"."
+
+#. mail:no-create-folder-nostore secondary
+#: mail/mail-errors.xml.h:154
+msgid "Cannot open source \"{1}\""
+msgstr "Nemohu otevřít zdroj \"{1}\""
+
+#. mail:account-incomplete primary
+#: mail/mail-errors.xml.h:156 mail/mail-errors.xml.h:160
+msgid "Cannot save changes to account."
+msgstr "Nemohu uložit změny účtu."
+
+#. mail:account-incomplete secondary
+#: mail/mail-errors.xml.h:158
+msgid "You have not filled in all of the required information."
+msgstr "Nevyplnili jste všechny požadované informace."
+
+#. mail:account-notunique secondary
+#: mail/mail-errors.xml.h:162
+msgid "You may not create two accounts with the same name."
+msgstr "Nemůžete vytvořit dva účty se stejným jménem."
+
+#. mail:ask-delete-account title
+#: mail/mail-errors.xml.h:164
+msgid "Delete account?"
+msgstr "Odstranit účet?"
+
+#. mail:ask-delete-account primary
+#: mail/mail-errors.xml.h:166
+msgid "Are you sure you want to delete this account?"
+msgstr "Opravdu chcete odstranit tento účet?"
+
+#. mail:ask-delete-account secondary
+#: mail/mail-errors.xml.h:168
+msgid "If you proceed, the account information will be deleted permanently."
+msgstr "Pokud budete pokračovat, informace o účtu budou natrvalo odstraněny."
+
+#: mail/mail-errors.xml.h:169
+#, fuzzy
+msgid "Don't delete"
+msgstr "O_bnovit odstraněné"
+
+#. mail:no-save-signature primary
+#: mail/mail-errors.xml.h:171
+msgid "Could not save signature file."
+msgstr "Nemohu uložit soubor podpisu."
+
+#. mail:no-save-signature secondary
+#: mail/mail-errors.xml.h:173
+#, fuzzy
+msgid "Because \"{0}\"."
+msgstr "Protože \"{1}\"."
+
+#. mail:signature-notscript primary
+#: mail/mail-errors.xml.h:175
+msgid "Cannot set signature script \"{0}\"."
+msgstr "Nemohu nastavit skript podpisu \"{0}\"."
+
+#. mail:signature-notscript secondary
+#: mail/mail-errors.xml.h:177
+msgid "The script file must exist and be executable."
+msgstr "Soubor skriptu musí existovat a musí být spustitelný."
+
+#. mail:ask-signature-changed title
+#: mail/mail-errors.xml.h:179
+msgid "Discard changed?"
+msgstr "Zahodit změny?"
+
+#. mail:ask-signature-changed primary
+#: mail/mail-errors.xml.h:181
+#, fuzzy
+msgid "Do you wish to save your changes?"
+msgstr "Chcete uložit změny?"
+
+#. mail:ask-signature-changed secondary
+#: mail/mail-errors.xml.h:183
+msgid "This signature has been changed, but has not been saved."
+msgstr "Tento podpis byl změněn, ale nebyl uložen."
+
+#: mail/mail-errors.xml.h:184
+msgid "_Discard changes"
+msgstr "_Zahodit změny"
+
+#. mail:vfolder-notexist primary
+#: mail/mail-errors.xml.h:186
+msgid "Cannot edit vFolder \"{0}\" as it does not exist."
+msgstr "Nemohu upravovat V-složku \"{0}\", protože neexistuje."
+
+#. mail:vfolder-notexist secondary
+#: mail/mail-errors.xml.h:188
+msgid ""
+"This folder may have been added implictly, go to the virtual folder editor "
+"to add it explictly, if required."
+msgstr ""
+"Tato složka možná byla přidána implicitně, je-li to vyžadováno, přidejte ji "
+"explicitně v editoru virtuálních složek."
+
+#. mail:vfolder-notunique primary
+#: mail/mail-errors.xml.h:190
+msgid "Cannot add vFolder \"{0}\"."
+msgstr "Nemohu přidat V-složku \"{0}\"."
+
+#. mail:vfolder-updated primary
+#: mail/mail-errors.xml.h:194
+msgid "vFolders automatically updated."
+msgstr "V-složky byly automaticky aktualizovány."
+
+#. mail:vfolder-updated secondary
+#: mail/mail-errors.xml.h:196
+msgid ""
+"The following vFolder(s):\n"
+"{0}\n"
+"Used the now removed folder:\n"
+"    \"{1}\"\n"
+"And have been updated."
+msgstr ""
+"Následující V-složky:\n"
+"{0}\n"
+"Používaly nyní odstraněnou složku:\n"
+"   \"{1}\"\n"
+"A byly aktualizovány."
+
+#. mail:filter-updated primary
+#: mail/mail-errors.xml.h:202
+msgid "Mail filters automatically updated."
+msgstr "Filtry pošty byly automaticky aktualizovány."
+
+#. mail:filter-updated secondary
+#: mail/mail-errors.xml.h:204
+msgid ""
+"The following filter rule(s):\n"
+"{0}\n"
+"Used the now removed folder:\n"
+"    \"{1}\"\n"
+"And have been updated."
+msgstr ""
+"Následující pravidla filtrů:\n"
+"{0}\n"
+"Používala nyní odstraněnou složku:\n"
+"   \"{1}\"\n"
+"A byla aktualizována."
+
+#. mail:no-folder primary
+#: mail/mail-errors.xml.h:210
+msgid "Missing folder."
+msgstr "Chybí složka."
+
+#. mail:no-folder secondary
+#: mail/mail-errors.xml.h:212
+msgid "You must specify a folder."
+msgstr "Musíte uvést složku."
+
+#. mail:no-name-vfolder secondary
+#: mail/mail-errors.xml.h:216
+msgid "You must name this vFolder."
+msgstr "Musíte pojmenovat tuto V-složku."
+
+#. mail:vfolder-no-source primary
+#: mail/mail-errors.xml.h:218
+msgid "No sources selected."
+msgstr "Nebyl vybrán žádný zdroj."
+
+#. mail:vfolder-no-source secondary
+#: mail/mail-errors.xml.h:220
+msgid ""
+"You must specify at least one folder as a source.\n"
+"Either by selecting the folders individually, and/or by selecting\n"
+"all local folders, all remote folders, or both."
+msgstr ""
+"Jako zdroj musíte zadat alespoň jednu složku.\n"
+"Individuálním výběrem složek, výběrem všech místních složek,\n"
+"všech vzdálených složek nebo obojí."
+
+#. mail:ask-migrate-existing primary
+#: mail/mail-errors.xml.h:224
+msgid "Problem migrating old mail folder \"{0}\"."
+msgstr "Problém při převodu staré složky pošty \"{0}\"."
+
+#. mail:ask-migrate-existing secondary
+#: mail/mail-errors.xml.h:226
+msgid ""
+"A non-empty folder at \"{1}\" already exists.\n"
+"\n"
+"You can choose to ignore this folder, overwrite or append its contents, or "
+"quit.\n"
+msgstr ""
+"V \"{1}\" již existuje neprázdná složka.\n"
+"\n"
+"Můžete tuto složku ignorovat, přepsat ji, připojit k jejímu obsahu nebo "
+"skončit.\n"
+
+#: mail/mail-errors.xml.h:230
+msgid "Ignore"
+msgstr "Ignorovat"
+
+#: mail/mail-errors.xml.h:231 widgets/misc/e-system-errors.xml.h:7
+msgid "_Overwrite"
+msgstr "_Přepsat"
+
+#: mail/mail-errors.xml.h:232
+msgid "_Append"
+msgstr "_Připojit"
+
 #: mail/mail-folder-cache.c:785
 #, c-format
 msgid "Pinging %s"
@@ -16492,6 +17026,88 @@ msgstr ""
 "%s: --online a --offline není možné použít najednou.\n"
 "  Použijte %s --help pro zobrazení dalších informací.\n"
 
+#. shell:upgrade-nospace primary
+#: shell/shell-errors.xml.h:2
+msgid "Insufficient disk space for upgrade."
+msgstr "Nedostatečné místo na disku pro aktualizaci."
+
+#. shell:upgrade-nospace secondary
+#: shell/shell-errors.xml.h:4
+msgid ""
+"Upgrading your data and settings will require upto {0} of disk space, but "
+"you only have {1} available.\n"
+"\n"
+"You will need to make more space available in your home directory before you "
+"can continue."
+msgstr ""
+"Aktualizace vašich dat a nastavení bude vyžadovat až {0} místa na disku, ale "
+"máte k dispozici jen {1}.\n"
+"\n"
+"Než budete moci pokračovat, musíte ve vašem domovském adresáři uvolnit více "
+"místa."
+
+#. shell:upgrade-failed primary
+#: shell/shell-errors.xml.h:8
+msgid ""
+"Upgrade from previous version failed:\n"
+"{0}"
+msgstr ""
+"Aktualizace z předchozí verze selhala:\n"
+"{0}"
+
+#. shell:upgrade-failed secondary
+#: shell/shell-errors.xml.h:11
+msgid ""
+"{1}\n"
+"\n"
+"If you choose to continue, you may not have access to some of your old "
+"data.\n"
+msgstr ""
+"{1}\n"
+"\n"
+"Pokud se rozhodnete pokračovat, některá vaše stará data možná nebudou "
+"přístupná.\n"
+
+#: shell/shell-errors.xml.h:15
+msgid "Continue"
+msgstr "Pokračovat"
+
+#. shell:noshell title
+#: shell/shell-errors.xml.h:17 shell/shell-errors.xml.h:25
+msgid "Cannot start Evolution"
+msgstr "Nemohu spustit Evolution."
+
+#. shell:noshell primary
+#: shell/shell-errors.xml.h:19 shell/shell-errors.xml.h:27
+msgid "Evolution can not start."
+msgstr "Evolution nelze spustit."
+
+#. shell:noshell secondary
+#: shell/shell-errors.xml.h:21
+msgid ""
+"Your system configuration does not match your Evolution configuration.\n"
+"\n"
+"Click help for details"
+msgstr ""
+"Nastavení vašeho systému neodpovídá vašemu nastavení Evolution.\n"
+"\n"
+"Pro podrobonosti klikněte na Nápověda"
+
+#. shell:noshell-reason secondary
+#: shell/shell-errors.xml.h:29
+msgid ""
+"Your system configuration does not match your Evolution configuration:\n"
+"\n"
+"{0}\n"
+"\n"
+"Click help for details."
+msgstr ""
+"Nastavení vašeho systému neodpovídá vašemu nastavení Evolution.\n"
+"\n"
+"{0}\n"
+"\n"
+"Pro podrobonosti klikněte na Nápověda"
+
 #: smime/gui/ca-trust-dialog.c:91
 #, c-format
 msgid ""
@@ -16508,14 +17124,18 @@ msgid ""
 "Because you trust the certificate authority that issued this certificate, "
 "then you trust the authenticity of this certificate unless otherwise "
 "indicated here"
-msgstr "Protože důvěřujete certifikační agentuře, která vydala tento certifikát, důvěřujete pravosti tohoto certifikátu, pokud zde není uvedeno jinak"
+msgstr ""
+"Protože důvěřujete certifikační agentuře, která vydala tento certifikát, "
+"důvěřujete pravosti tohoto certifikátu, pokud zde není uvedeno jinak"
 
 #: smime/gui/cert-trust-dialog.c:149
 msgid ""
 "Because you do not trust the certificate authority that issued this "
 "certificate, then you do not trust the authenticity of this certificate "
 "unless otherwise indicated here"
-msgstr "Protože nedůvěřujete certifikační agentuře, která vydala tento certifikát, nedůvěřujete pravosti tohoto certifikátu, pokud zde není uvedeno jinak"
+msgstr ""
+"Protože nedůvěřujete certifikační agentuře, která vydala tento certifikát, "
+"nedůvěřujete pravosti tohoto certifikátu, pokud zde není uvedeno jinak"
 
 #: smime/gui/certificate-manager.c:130 smime/gui/certificate-manager.c:353
 #: smime/gui/certificate-manager.c:556
@@ -18752,10 +19372,6 @@ msgstr "Soubor existuje \"{0}\"."
 msgid "Do you wish to overwrite it?"
 msgstr "Chcete jej přepsat?"
 
-#: widgets/misc/e-system-errors.xml.h:7
-msgid "_Overwrite"
-msgstr "_Přepsat"
-
 #. system:no-save-file primary
 #: widgets/misc/e-system-errors.xml.h:9
 msgid "Cannot save file \"{0}\"."
@@ -18775,6 +19391,30 @@ msgstr "%s (...)"
 #, c-format
 msgid "%s (%d%% complete)"
 msgstr "%s (%d%% hotovo)"
+
+#~ msgid "Authentication Credentials for HTTP Server"
+#~ msgstr "Ověření autentizace pro HTTP server"
+
+#~ msgid "Calendars selected for publishing"
+#~ msgstr "Kalendáře vybrané pro zveřejnění"
+
+#~ msgid "Login name:"
+#~ msgstr "Přihlašovací jméno:"
+
+#~ msgid "URL:"
+#~ msgstr "URL:"
+
+#~ msgid "User Publishes"
+#~ msgstr "Uživatel zveřejňuje"
+
+#~ msgid "Can't find certificate for `%s'"
+#~ msgstr "Nemohu najít certifikát pro `%s'"
+
+#~ msgid "Can't create CMS Message"
+#~ msgstr "Nemohu vytvořit zprávu CMS"
+
+#~ msgid "Can't create encoder context"
+#~ msgstr "Nemohu vytvořit kontext enkodéru"
 
 #~ msgid ""
 #~ "Selected calendar is read-only, events cannot be created. Please select a "
@@ -18814,344 +19454,8 @@ msgstr "%s (%d%% hotovo)"
 #~ "Vybraný seznam úkolů je jen pro čtení, události nelze vytvářet. Vyberte "
 #~ "prosím kalendář pro čtení i zápis."
 
-#~ msgid "Missing folder."
-#~ msgstr "Chybí složka."
-
-#~ msgid "You must specify a folder."
-#~ msgstr "Musíte uvést složku."
-
-#~ msgid "You must name this vFolder."
-#~ msgstr "Musíte pojmenovat tuto V-složku."
-
-#~ msgid "No sources selected."
-#~ msgstr "Nebyl vybrán žádný zdroj."
-
-#~ msgid ""
-#~ "You must specify at least one folder as a source.\n"
-#~ "Either by selecting the folders individually, and/or by selecting\n"
-#~ "all local folders, all remote folders, or both."
-#~ msgstr ""
-#~ "Jako zdroj musíte zadat alespoň jednu složku.\n"
-#~ "Individuálním výběrem složek, výběrem všech místních složek,\n"
-#~ "všech vzdálených složek nebo obojí."
-
 #~ msgid "_Score Rules"
 #~ msgstr "Pravidla _skóre"
-
-#~ msgid "Invalid authentication"
-#~ msgstr "Neplatná autentizace"
-
-#~ msgid ""
-#~ "This server does not support this type of authentication and may not "
-#~ "support authentication at all."
-#~ msgstr ""
-#~ "Tento server nepodporuje tento typ autentizace a možná autentizaci "
-#~ "nepodporuje vůbec."
-
-#~ msgid "Your login to your server \"{0}\" as \"{0}\" failed."
-#~ msgstr "Vaše přihlašování k severu \"{0}\" jako \"{0}\" selhalo."
-
-#~ msgid "Are you sure you want to send a message in HTML format?"
-#~ msgstr "Opravdu chcete odeslat zprávu ve formátu HTML?"
-
-#~ msgid ""
-#~ "Please make sure the following recipients are willing and able to receive "
-#~ "HTML email:\n"
-#~ "{0}\n"
-#~ "Send anyway?"
-#~ msgstr ""
-#~ "Ujistěte se prosím, že následující příjemci si přejí a mohou dostávat "
-#~ "zprávy ve formátu HTML:\n"
-#~ "{0}\n"
-#~ "Přesto poslat?"
-
-#~ msgid "Are you sure you want to send a message without a subject?"
-#~ msgstr "Opravdu chhcete odeslat zprávu bez předmětu?"
-
-#~ msgid ""
-#~ "Adding a meaningful Subject line to your messages will give your "
-#~ "recipients an idea of what your mail is about."
-#~ msgstr ""
-#~ "Přidání smysluplného řádku s předměntem k vašim zprávám dá vašim "
-#~ "příjemcům shrnutí, o čem je vaše zpráva."
-
-#~ msgid "Are you sure you want to send a message with only BCC recipients?"
-#~ msgstr "Opravdu chcete odeslat zprávu jen se skrytými příjemci?"
-
-#~ msgid ""
-#~ "The contact list you are sending to is configured to hide list "
-#~ "recipients.\n"
-#~ "\n"
-#~ "Many email systems add an Apparently-To header to messages that only have "
-#~ "BCC recipients. This header, if added, will list all of your recipients "
-#~ "in your message. To avoid this, you should add at least one To: or CC: "
-#~ "recipient. "
-#~ msgstr ""
-#~ "Seznam kontaktů, kterému odesíláte zprávu, je nastaven, aby skrýval "
-#~ "příjemce zprávy.\n"
-#~ "\n"
-#~ "Mnoho systémů pro e-mail přidává hlavičku Apparently-To ke zprávám, které "
-#~ "mají příjemce jen pro skryté kopie. Pokud bude tato hlavička přidána, "
-#~ "bude obsahovat všechny příjemce vaší zprávy. Abyste se tomu vyhnuli, měli "
-#~ "byste přidat alespoň jednoho příjemce do Komu: nebo Kopie:."
-
-#~ msgid ""
-#~ "Many email systems add an Apparently-To header to messages that only have "
-#~ "BCC recipients. This header, if added, will list all of your recipients "
-#~ "to your message anyway. To avoid this, you should add at least one To: or "
-#~ "CC: recipient."
-#~ msgstr ""
-#~ "Mnoho systémů pro e-mail přidává hlavičku Apparently-To ke zprávám, které "
-#~ "mají příjemce jen pro skryté kopie. Pokud bude tato hlavička přidána, "
-#~ "bude obsahovat všechny příjemce vaší zprávy. Abyste se tomu vyhnuli, měli "
-#~ "byste přidat alespoň jednoho příjemce do Komu: nebo Kopie:."
-
-#~ msgid ""
-#~ "This message cannot be sent because you have not specified any Recipients"
-#~ msgstr ""
-#~ "Tato zpráva nemůže být odeslána, protože jste nezadali žádné příjemce"
-
-#~ msgid ""
-#~ "Please enter a valid email address in the To: field. You can search for "
-#~ "email addresses by clicking on the To: button next to the entry box."
-#~ msgstr ""
-#~ "Zadejte prosím do pole Komu: platnou e-mailovou adresu. E-mailové adresy "
-#~ "můžete hledat kliknutím na tlačíko Komu: vedle vstupního pole."
-
-#~ msgid "Use default drafts folder?"
-#~ msgstr "Použít implicitní složku konceptů?"
-
-#~ msgid ""
-#~ "Unable to open the drafts folder for this account.  Use the system drafts "
-#~ "folder instead?"
-#~ msgstr ""
-#~ "Nemohu otevřít složku konceptů pro tento účet. Použít místo ní systémovou "
-#~ "složku konceptů?"
-
-#~ msgid "Use _Default"
-#~ msgstr "Použít _implicitní"
-
-#~ msgid ""
-#~ "Are you sure you want to permanently remove all the deleted message in "
-#~ "folder \"{0}\"?"
-#~ msgstr ""
-#~ "Opravdu chcete natrvalo odstranit všechny odstraněné zprávy ze složky "
-#~ "\"{0}\"?"
-
-#~ msgid "If you continue, you will not be able to recover these messages."
-#~ msgstr "Pokud budete pokračovat, nebudete moci tyto zprávy obnovit."
-
-#~ msgid "_Expunge"
-#~ msgstr "_Vyčistit"
-
-#~ msgid ""
-#~ "Are you sure you want to permanently remove all the deleted messages in "
-#~ "all folders?"
-#~ msgstr ""
-#~ "Opravdu chcete natrvalo odstranit všechny odstraněné zprávy ze všech "
-#~ "složek?"
-
-#~ msgid "_Empty Trash"
-#~ msgstr "Vyprázdnit _koš"
-
-#~ msgid "You have unsent messages, do you wish to quit anyway?"
-#~ msgstr "Máte neodeslané zprávy, chcete přesto skončit?"
-
-#~ msgid "Your message with the subject \"{0}\" was not delivered."
-#~ msgstr "Vaše zpráva s předmětem \"{0}\" nebyla odeslána."
-
-#~ msgid ""
-#~ "The message was sent via the \"sendmail\" external application.  Sendmail "
-#~ "reports the following error: status 67: mail not sent.\n"
-#~ "The message is stored in the Outbox folder.  Check the message for errors "
-#~ "and resend."
-#~ msgstr ""
-#~ "Tato zpráva byla odeslána externí aplikací \"sendmail\". Sendmail hlásí "
-#~ "následující chybu: stav 67: zpráva neodeslána.\n"
-#~ "Zpráva je uložena ve složce K odeslání. Zkontrolujte, že ve zprávě nejsou "
-#~ "chyby, a pošlete ji znovu."
-
-#~ msgid "Error while performing operation."
-#~ msgstr "Chyba při vykonávání operace."
-
-#~ msgid "Enter password."
-#~ msgstr "Zadejte heslo."
-
-#~ msgid "Error loading filter definitions."
-#~ msgstr "Chyba při načítání definic filtrů."
-
-#~ msgid "Cannot save to directory \"{0}\"."
-#~ msgstr "Nemohu uložit do adresáře \"{0}\"."
-
-#~ msgid "Cannot save to file \"{0}\"."
-#~ msgstr "Nemohu uložit do souboru \"{0}\"."
-
-#~ msgid "Cannot create the save directory, because \"{1}\""
-#~ msgstr "Nemohu vytvořit adresář pro ukládání, protože \"{1}\""
-
-#~ msgid "Cannot create temporary save directory."
-#~ msgstr "Nemohu vytvořit dočasný adresář pro ukládání."
-
-#~ msgid "File exists but cannot overwrite it."
-#~ msgstr "Soubor existuje, ale nemohu jej přepsat."
-
-#~ msgid "File exists but is not a regular file."
-#~ msgstr "Soubor existuje, ale není normální soubor."
-
-#~ msgid "Cannot delete folder \"{0}\"."
-#~ msgstr "Nemohu odstranit složku \"{0}\"."
-
-#~ msgid "Cannot delete system folder \"{0}\"."
-#~ msgstr "Nemohu odstranit systémovou složku \"{0}\"."
-
-#~ msgid ""
-#~ "System folders are required for Ximian Evolution to function correctly "
-#~ "and cannot be renamed, moved, or deleted."
-#~ msgstr ""
-#~ "Systémové složky jsou vyžadovány pro správnou funkci Ximian Evolution a "
-#~ "nemohou být přejmenovány, přesunuty ani odstraněny."
-
-#~ msgid "Cannot rename or move system folder \"{0}\"."
-#~ msgstr "Nemohu přejmenovat nebo přesunout systémovou složku \"{0}\"."
-
-#~ msgid "Delete \"{0}\"?"
-#~ msgstr "Odstranit \"{0}\"?"
-
-#~ msgid "Really delete folder \"{0}\" and all of its subfolders?"
-#~ msgstr "Opravdu odstranit složku \"{0}\" a všechny její podsložky?"
-
-#~ msgid ""
-#~ "If you delete the folder, all of its contents and its subfolders contents "
-#~ "will be deleted permanently."
-#~ msgstr ""
-#~ "Pokud složku odstraníte, bude všechen její obsah a obsah jejích podsložek "
-#~ "natrvalo odstraněn."
-
-#~ msgid "Cannot rename \"{0}\" to \"{1}\"."
-#~ msgstr "Nemohu přejmenovat \"{0}\" na \"{1}\"."
-
-#~ msgid "A folder named \"{1}\" already exists. Please use a different name."
-#~ msgstr "Složka nazvaná \"{1}\" již existuje. Použijte prosím jiný název."
-
-#~ msgid "Cannot move folder \"{0}\" to \"{1}\"."
-#~ msgstr "Nemohu přesunout složku \"{0}\" do \"{1}\"."
-
-#~ msgid "Cannot open source \"{2}\"."
-#~ msgstr "Nemohu otevřít zdroj \"{2}\"."
-
-#~ msgid "Cannot open target \"{2}\"."
-#~ msgstr "Nemohu otevřít cíl \"{2}\"."
-
-#~ msgid "Cannot copy folder \"{0}\" to \"{1}\"."
-#~ msgstr "Nemohu zkopírovat složku \"{0}\" do \"{1}\"."
-
-#~ msgid "Cannot create folder \"{0}\"."
-#~ msgstr "Nemohu vytvořit složku \"{0}\"."
-
-#~ msgid "Cannot open source \"{1}\""
-#~ msgstr "Nemohu otevřít zdroj \"{1}\""
-
-#~ msgid "Cannot save changes to account."
-#~ msgstr "Nemohu uložit změny účtu."
-
-#~ msgid "You have not filled in all of the required information."
-#~ msgstr "Nevyplnili jste všechny požadované informace."
-
-#~ msgid "You may not create two accounts with the same name."
-#~ msgstr "Nemůžete vytvořit dva účty se stejným jménem."
-
-#~ msgid "Delete account?"
-#~ msgstr "Odstranit účet?"
-
-#~ msgid "Are you sure you want to delete this account?"
-#~ msgstr "Opravdu chcete odstranit tento účet?"
-
-#~ msgid "If you proceed, the account information will be deleted permanently."
-#~ msgstr ""
-#~ "Pokud budete pokračovat, informace o účtu budou natrvalo odstraněny."
-
-#~ msgid "Could not save signature file."
-#~ msgstr "Nemohu uložit soubor podpisu."
-
-#~ msgid "Cannot set signature script \"{0}\"."
-#~ msgstr "Nemohu nastavit skript podpisu \"{0}\"."
-
-#~ msgid "The script file must exist and be executable."
-#~ msgstr "Soubor skriptu musí existovat a musí být spustitelný."
-
-#~ msgid "Discard changed?"
-#~ msgstr "Zahodit změny?"
-
-#~ msgid "This signature has been changed, but has not been saved."
-#~ msgstr "Tento podpis byl změněn, ale nebyl uložen."
-
-#~ msgid "_Discard changes"
-#~ msgstr "_Zahodit změny"
-
-#~ msgid "Cannot edit vFolder \"{0}\" as it does not exist."
-#~ msgstr "Nemohu upravovat V-složku \"{0}\", protože neexistuje."
-
-#~ msgid ""
-#~ "This folder may have been added implictly, go to the virtual folder "
-#~ "editor to add it explictly, if required."
-#~ msgstr ""
-#~ "Tato složka možná byla přidána implicitně, je-li to vyžadováno, přidejte "
-#~ "ji explicitně v editoru virtuálních složek."
-
-#~ msgid "Cannot add vFolder \"{0}\"."
-#~ msgstr "Nemohu přidat V-složku \"{0}\"."
-
-#~ msgid "vFolders automatically updated."
-#~ msgstr "V-složky byly automaticky aktualizovány."
-
-#~ msgid ""
-#~ "The following vFolder(s):\n"
-#~ "{0}\n"
-#~ "Used the now removed folder:\n"
-#~ "    \"{1}\"\n"
-#~ "And have been updated."
-#~ msgstr ""
-#~ "Následující V-složky:\n"
-#~ "{0}\n"
-#~ "Používaly nyní odstraněnou složku:\n"
-#~ "   \"{1}\"\n"
-#~ "A byly aktualizovány."
-
-#~ msgid "Mail filters automatically updated."
-#~ msgstr "Filtry pošty byly automaticky aktualizovány."
-
-#~ msgid ""
-#~ "The following filter rule(s):\n"
-#~ "{0}\n"
-#~ "Used the now removed folder:\n"
-#~ "    \"{1}\"\n"
-#~ "And have been updated."
-#~ msgstr ""
-#~ "Následující pravidla filtrů:\n"
-#~ "{0}\n"
-#~ "Používala nyní odstraněnou složku:\n"
-#~ "   \"{1}\"\n"
-#~ "A byla aktualizována."
-
-#~ msgid "Problem migrating old mail folder \"{0}\"."
-#~ msgstr "Problém při převodu staré složky pošty \"{0}\"."
-
-#~ msgid ""
-#~ "A non-empty folder at \"{1}\" already exists.\n"
-#~ "\n"
-#~ "You can choose to ignore this folder, overwrite or append its contents, "
-#~ "or quit.\n"
-#~ msgstr ""
-#~ "V \"{1}\" již existuje neprázdná složka.\n"
-#~ "\n"
-#~ "Můžete tuto složku ignorovat, přepsat ji, připojit k jejímu obsahu nebo "
-#~ "skončit.\n"
-
-#~ msgid "Ignore"
-#~ msgstr "Ignorovat"
-
-#~ msgid "_Append"
-#~ msgstr "_Připojit"
 
 #~ msgid "Properties"
 #~ msgstr "Vlastnosti"
@@ -19198,71 +19502,6 @@ msgstr "%s (%d%% hotovo)"
 
 #~ msgid "_User:"
 #~ msgstr "_Uživatel:"
-
-#~ msgid "Insufficient disk space for upgrade."
-#~ msgstr "Nedostatečné místo na disku pro aktualizaci."
-
-#~ msgid ""
-#~ "Upgrading your data and settings will require upto {0} of disk space, but "
-#~ "you only have {1} available.\n"
-#~ "\n"
-#~ "You will need to make more space available in your home directory before "
-#~ "you can continue."
-#~ msgstr ""
-#~ "Aktualizace vašich dat a nastavení bude vyžadovat až {0} místa na disku, "
-#~ "ale máte k dispozici jen {1}.\n"
-#~ "\n"
-#~ "Než budete moci pokračovat, musíte ve vašem domovském adresáři uvolnit "
-#~ "více místa."
-
-#~ msgid ""
-#~ "Upgrade from previous version failed:\n"
-#~ "{0}"
-#~ msgstr ""
-#~ "Aktualizace z předchozí verze selhala:\n"
-#~ "{0}"
-
-#~ msgid ""
-#~ "{1}\n"
-#~ "\n"
-#~ "If you choose to continue, you may not have access to some of your old "
-#~ "data.\n"
-#~ msgstr ""
-#~ "{1}\n"
-#~ "\n"
-#~ "Pokud se rozhodnete pokračovat, některá vaše stará data možná nebudou "
-#~ "přístupná.\n"
-
-#~ msgid "Continue"
-#~ msgstr "Pokračovat"
-
-#~ msgid "Cannot start Evolution"
-#~ msgstr "Nemohu spustit Evolution."
-
-#~ msgid "Evolution can not start."
-#~ msgstr "Evolution nelze spustit."
-
-#~ msgid ""
-#~ "Your system configuration does not match your Evolution configuration.\n"
-#~ "\n"
-#~ "Click help for details"
-#~ msgstr ""
-#~ "Nastavení vašeho systému neodpovídá vašemu nastavení Evolution.\n"
-#~ "\n"
-#~ "Pro podrobonosti klikněte na Nápověda"
-
-#~ msgid ""
-#~ "Your system configuration does not match your Evolution configuration:\n"
-#~ "\n"
-#~ "{0}\n"
-#~ "\n"
-#~ "Click help for details."
-#~ msgstr ""
-#~ "Nastavení vašeho systému neodpovídá vašemu nastavení Evolution.\n"
-#~ "\n"
-#~ "{0}\n"
-#~ "\n"
-#~ "Pro podrobonosti klikněte na Nápověda"
 
 #~ msgid ""
 #~ "Some fields are no longer representable in the contact editor. Please "
