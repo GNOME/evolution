@@ -1,5 +1,11 @@
 2000-10-05  Chris Toshok  <toshok@helixcode.com>
 
+	* e-shell-folder-creation-dialog.c: #include <gal/widgets/e-gui-utils.h>
+	
+	* e-shell-folder-selection-dialog.c: same.
+
+2000-10-05  Chris Toshok  <toshok@helixcode.com>
+
 	* e-shell-folder-selection-dialog.c: add #include for
 	libgnomeui/gnome-messagebox.h
 

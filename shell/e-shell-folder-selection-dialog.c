@@ -27,12 +27,11 @@
 
 #include <libgnomeui/gnome-stock.h>
 #include <libgnomeui/gnome-dialog.h>
-#include <libgnomeui/gnome-messagebox.h>
 #include <libgnome/gnome-i18n.h>
 
-#include "e-util/e-gui-utils.h"
 #include <gal/util/e-util.h>
 #include <gal/widgets/e-scroll-frame.h>
+#include <gal/widgets/e-gui-utils.h>
 
 #include "e-shell-constants.h"
 #include "e-storage-set-view.h"

@@ -28,9 +28,9 @@
 #include <gnome.h>
 #include <glade/glade-xml.h>
 
-#include "e-util/e-gui-utils.h"
 #include <gal/util/e-util.h>
 #include <gal/widgets/e-unicode.h>
+#include <gal/widgets/e-gui-utils.h>
 
 #include <gal/widgets/e-scroll-frame.h>
 
