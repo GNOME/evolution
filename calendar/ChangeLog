@@ -1,3 +1,11 @@
+2004-02-02  JP Rosevear <jpr@ximian.com>
+
+	* importers/icalendar-importer.c (support_format_fn): use
+	g_file_get_contents
+	(load_file_fn): ditto
+	(vcal_support_format_fn): ditto
+	(load_vcalendar_file): ditto
+
 2004-01-30  JP Rosevear <jpr@ximian.com>
 
 	* remove dead files

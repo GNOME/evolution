@@ -80,47 +80,6 @@ importer_destroy_cb (gpointer user_data)
 	g_free (ici);
 }
 
-/* This reads in an entire file and returns it. It returns NULL on error.
-   The returned string should be freed. */
-static char*
-read_file (const char *filename)
-{
-	int fd, n;
-	GString *str;
-	char buffer[2049];
-	gboolean error = FALSE;
-
-	/* read file contents */
-	fd = open (filename, O_RDONLY);
-	if (fd == -1)
-		return NULL;
-
-	str = g_string_new ("");
-	while (1) {
-		memset (buffer, 0, sizeof(buffer));
-		n = read (fd, buffer, sizeof (buffer) - 1);
-		if (n > 0) {
-			str = g_string_append (str, buffer);
-		} else if (n == 0) {
-			break;
-		} else {
-			error = TRUE;
-			break;
-		}
-	}
-
-	close (fd);
-
-	if (error) {
-		g_string_free (str, FALSE);
-		return NULL;
-	} else {
-		gchar *retval = str->str;
-		g_string_free (str, FALSE);
-		return retval;
-	}
-}
-
 /* This removes all components except VEVENTs and VTIMEZONEs from the toplevel
    icalcomponent, and returns a GList of the VTODO components. */
 static GList*
@@ -309,15 +268,15 @@ support_format_fn (EvolutionImporter *importer,
 		   const char *filename,
 		   void *closure)
 {
-	char *contents;
+	char *contents ;
 	icalcomponent *icalcomp;
 	gboolean ret = FALSE;
 
-	contents = read_file (filename);
-
-	/* parse the file */
-	if (contents) {
+	if (g_file_get_contents (filename, &contents, NULL, NULL)) {
+		/* parse the file */
 		icalcomp = icalparser_parse_string (contents);
+		g_free (contents);
+
 		if (icalcomp) {
 			if (icalcomponent_is_valid (icalcomp))
 				ret = TRUE;
@@ -326,8 +285,6 @@ support_format_fn (EvolutionImporter *importer,
 			icalcomponent_free (icalcomp);
 		}
 	}
-
-	g_free (contents);
 
 	return ret;
 }
@@ -345,8 +302,6 @@ load_file_fn (EvolutionImporter *importer,
 
 	g_return_val_if_fail (ici != NULL, FALSE);
 
-	contents = read_file (filename);
-
 	if (!strcmp (folder_type, "calendar")) {
 		ici->folder_contains_events = TRUE;
 		ici->folder_contains_tasks = FALSE;
@@ -359,11 +314,14 @@ load_file_fn (EvolutionImporter *importer,
 		f = g_strdup ("tasks.ics");
 	}
 
-	/* parse the file */
-	if (contents) {
+
+	if (g_file_get_contents (filename, &contents, NULL, NULL)) {
 		icalcomponent *icalcomp;
 
+		/* parse the file */
 		icalcomp = icalparser_parse_string (contents);
+		g_free (contents);
+		
 		if (icalcomp) {
 			char *real_uri;
 
@@ -389,7 +347,6 @@ load_file_fn (EvolutionImporter *importer,
 		}
 	}
 
-	g_free (contents);
 	g_free (f);
 
 	return ret;
@@ -429,13 +386,12 @@ vcal_support_format_fn (EvolutionImporter *importer,
 	char *contents;
 	gboolean ret = FALSE;
 
-	contents = read_file (filename);
-
-	/* parse the file */
-	if (contents) {
+	if (g_file_get_contents (filename, &contents, NULL, NULL)) {
 		VObject *vcal;
 
+		/* parse the file */
 		vcal = Parse_MIME (contents, strlen (contents));
+		g_free (contents);
 
 		if (vcal) {
 			icalcomponent *icalcomp;
@@ -450,8 +406,6 @@ vcal_support_format_fn (EvolutionImporter *importer,
 			cleanVObject (vcal);
 		}
 	}
-
-	g_free (contents);
 
 	return ret;
 }
@@ -469,13 +423,12 @@ load_vcalendar_file (const char *filename)
 	defaults.alarm_audio_fmttype = "audio/x-wav";
 	defaults.alarm_description = (char*) _("Reminder!!");
 
-	contents = read_file (filename);
-
-	/* parse the file */
-	if (contents) {
+	if (g_file_get_contents (filename, &contents, NULL, NULL)) {
 		VObject *vcal;
 
+		/* parse the file */
 		vcal = Parse_MIME (contents, strlen (contents));
+		g_free (contents);
 
 		if (vcal) {
 			icalcomp = icalvcal_convert_with_defaults (vcal,
@@ -483,8 +436,6 @@ load_vcalendar_file (const char *filename)
 			cleanVObject (vcal);
 		}
 	}
-
-	g_free (contents);
 
 	return icalcomp;
 }
