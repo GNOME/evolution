@@ -164,7 +164,6 @@
 
 	* conduit/address-conduit.c (add_record): unref ecard when done
 
->>>>>>> 1.898
 2001-10-28  Jon Trowbridge  <trow@ximian.com>
 
 	* backend/ebook/e-card.c (e_card_date_from_string): Expose this
