@@ -1311,7 +1311,7 @@ folder_changed_change(CamelSession *session, CamelSessionThreadMsg *msg)
 			g_hash_table_insert(matches_hash, matches->pdata[i], matches->pdata[i]);
 		for (i=0;i<changes->uid_changed->len;i++) {
 			uid = changes->uid_changed->pdata[i];
-			if (stlren(uid)+9 > vuidlen) {
+			if (strlen(uid)+9 > vuidlen) {
 				vuidlen = strlen(uid)+64;
 				vuid = g_realloc(vuid, vuidlen);
 			}
