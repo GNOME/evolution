@@ -1674,7 +1674,7 @@ ldap_config_control_new (GNOME_Evolution_Shell shell)
 }
 
 
-BonoboObject *
+EvolutionConfigControl *
 addressbook_config_control_new (void)
 {
 	GNOME_Evolution_Shell shell;

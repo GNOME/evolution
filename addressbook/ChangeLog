@@ -1,3 +1,10 @@
+2002-12-19  Ettore Perazzoli  <ettore@ximian.com>
+
+	* gui/component/addressbook-config.c
+	(addressbook_config_control_new): Made it return an
+	EvolutionConfigControl instead of a BonoboControl (and removed a
+	bogus EvolutionConfigControl -> BonoboControl cast).
+
 2002-12-17  Chris Toshok  <toshok@ximian.com>
 
 	[ fixes bug #34897 ]

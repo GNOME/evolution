@@ -26,8 +26,10 @@
 #define __ADDRESSBOOK_CONFIG_H__
 
 #include "addressbook-storage.h"
+#include "evolution-config-control.h"
 
-BonoboObject *addressbook_config_control_new (void);
+EvolutionConfigControl *addressbook_config_control_new (void);
+
 void  addressbook_config_create_new_source  (const char *new_source,
 					     GtkWidget  *parent);
 
