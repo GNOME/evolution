@@ -1,3 +1,10 @@
+2002-02-08  JP Rosevear  <jpr@ximian.com>
+
+	* Makefile.am: build new files
+
+	* e-url-button.[hc]: button widget that when clicked slurps the
+	url of an entry and launchs the gnome url handler on the text
+
 2002-01-27  Ettore Perazzoli  <ettore@ximian.com>
 
 	* Makefile.am: Use GNOME_FULL_CFLAGS and GNOME_FULL_LIBS.
