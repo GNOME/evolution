@@ -1,3 +1,8 @@
+2000-09-27  Jeffrey Stedfast  <fejj@helixcode.com>
+
+	* filter-driver.c (filter_driver_run): Now takes an argument to
+	specify the log file (or NULL if logging is not to be performed).
+
 2000-09-19  Dan Winship  <danw@helixcode.com>
 
 	* Makefile.am (gladedir, filterdir): Use $(datadir), not

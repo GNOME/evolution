@@ -29,6 +29,8 @@
 #include <gnome.h>
 #include <gtkhtml/gtkhtml.h>
 
+#include <time.h>
+
 #include <gnome-xml/tree.h>
 #include <gnome-xml/parser.h>
 
@@ -59,6 +61,8 @@ struct _FilterDriverPrivate {
 	
 	CamelMimeMessage *message; /* input message */
 	CamelMessageInfo *info;    /* message summary info */
+	
+	FILE *logfile;             /* log file */
 	
 	CamelException *ex;
 	
@@ -244,6 +248,8 @@ do_delete (struct _ESExp *f, int argc, struct _ESExpResult **argv, FilterDriver 
 	if (!p->terminated) {
 		d(fprintf (stderr, "doing delete\n"));
 		p->deleted = TRUE;
+		if (p->logfile)
+			fprintf (p->logfile, "Action = Deleted\n");
 	}
 	
 	return NULL;
@@ -257,6 +263,8 @@ mark_forward (struct _ESExp *f, int argc, struct _ESExpResult **argv, FilterDriv
 	if (!p->terminated) {
 		d(fprintf (stderr, "marking message for forwarding\n"));
 		/* FIXME: do stuff here */
+		if (p->logfile)
+			fprintf (p->logfile, "Action = Forwarded\n");
 	}
 	
 	return NULL;
@@ -286,6 +294,8 @@ do_copy (struct _ESExp *f, int argc, struct _ESExpResult **argv, FilterDriver *d
 				
 				mail_tool_camel_lock_up ();
 				camel_folder_append_message (outbox, p->message, p->info, p->ex);
+				if (p->logfile)
+					fprintf (p->logfile, "Action = Copied to folder %s\n", outbox->full_name);
 				mail_tool_camel_lock_down ();
 			}
 		}
@@ -316,6 +326,8 @@ do_colour (struct _ESExp *f, int argc, struct _ESExpResult **argv, FilterDriver 
 		d(fprintf (stderr, "setting colour tag\n"));
 		if (argc > 0 && argv[0]->type == ESEXP_RES_STRING) {
 			camel_tag_set (&p->info->user_tags, "colour", argv[0]->value.string);
+			if (p->logfile)
+				fprintf (p->logfile, "Action = Set color to %s\n", argv[0]->value.string);
 		}
 	}
 	
@@ -334,6 +346,8 @@ do_score (struct _ESExp *f, int argc, struct _ESExpResult **argv, FilterDriver *
 			
 			value = g_strdup_printf ("%d", argv[0]->value.number);
 			camel_tag_set (&p->info->user_tags, "score", value);
+			if (p->logfile)
+				fprintf (p->logfile, "Action = Set score to %d\n", argv[0]->value.number);
 			g_free (value);
 		}
 	}
@@ -403,7 +417,8 @@ free_key (gpointer key, gpointer value, gpointer user_data)
 
 gboolean
 filter_driver_run (FilterDriver *driver, CamelMimeMessage *message, CamelMessageInfo *info,
-		   CamelFolder *inbox, enum _filter_source_t sourcetype, CamelException *ex)
+		   CamelFolder *inbox, enum _filter_source_t sourcetype,
+		   FILE *logfile, CamelException *ex)
 {
 	struct _FilterDriverPrivate *p = _PRIVATE (driver);
 	ESExpResult *r;
@@ -422,6 +437,7 @@ filter_driver_run (FilterDriver *driver, CamelMimeMessage *message, CamelMessage
 	p->copied = FALSE;
 	p->message = message;
 	p->info = info;
+	p->logfile = logfile; 
 	
 	fsearch = g_string_new ("");
 	faction = g_string_new ("");
@@ -454,10 +470,28 @@ filter_driver_run (FilterDriver *driver, CamelMimeMessage *message, CamelMessage
 #ifndef NO_WARNINGS
 #warning "Must check expression parsed and executed properly?"
 #endif
+		if (logfile) {
+			/* write log header */
+			time_t t;
+			char date[50];
+			
+			time (&t);
+			strftime (date, 49, "%a, %d %b %Y %H:%M:%S", localtime (&t));
+			fprintf (logfile, "Applied filter \"%s\" to message from %s - \"%s\" at %s\n",
+				 fsearch->str, camel_mime_message_get_from (message),
+				 camel_mime_message_get_subject (message), date);
+		}
+		
+		/* perform necessary filtering actions */
 		e_sexp_input_text (p->eval, faction->str, strlen (faction->str));
 		e_sexp_parse (p->eval);
 		r = e_sexp_eval (p->eval);
 		e_sexp_result_free (r);
+		
+		if (logfile) {
+			/* spacer between filters */
+			fprintf (logfile, "\n");
+		}
 		
 		if (p->terminated)
 			break;
