@@ -1,4 +1,16 @@
+2002-10-07  Jeffrey Stedfast  <fejj@ximian.com>
+
+	Fixes bug #31752
+
+	* providers/smtp/camel-smtp-transport.c (connect_to_server): Don't
+	forget to send another EHLO command to the server once we toggle
+	into STARTTLS mode.
+	(smtp_helo): Reset any flags set using the EHLO response and also
+	any authtypes.
+
 2002-10-06  Jeffrey Stedfast  <fejj@ximian.com>
+
+	Fixes bug #31681
 
 	* camel-mime-utils.c: Fix all mailing list regex patterns to allow
 	any number of spaces *or* tabs as pre-padding for the header

@@ -245,11 +245,7 @@ connect_to_server (CamelService *service, int try_starttls, CamelException *ex)
 		return FALSE;
 	
 	/* set some smtp transport defaults */
-	transport->flags &= ~(CAMEL_SMTP_TRANSPORT_IS_ESMTP |
-			      CAMEL_SMTP_TRANSPORT_8BITMIME |
-			      CAMEL_SMTP_TRANSPORT_STARTTLS |
-			      CAMEL_SMTP_TRANSPORT_ENHANCEDSTATUSCODES);
-	
+	transport->flags &= CAMEL_SMTP_TRANSPORT_USE_SSL; /* reset all but ssl flags */
 	transport->authtypes = NULL;
 	
 	port = service->url->port ? service->url->port : SMTP_PORT;
@@ -377,15 +373,22 @@ connect_to_server (CamelService *service, int try_starttls, CamelException *ex)
 	} while (*(respbuf+3) == '-'); /* if we got "220-" then loop again */
 	
 	/* Okay, now toggle SSL/TLS mode */
-	ret = camel_tcp_stream_ssl_enable_ssl (CAMEL_TCP_STREAM_SSL (tcp_stream));
-	if (ret != -1)
-		return TRUE;
+	if (camel_tcp_stream_ssl_enable_ssl (CAMEL_TCP_STREAM_SSL (tcp_stream)) == -1) {
+		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
+				      _("Failed to connect to SMTP server %s in secure mode: %s"),
+				      service->url->host, g_strerror (errno));
+		goto exception_cleanup;
+	}
 	
-	camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
-			      _("Failed to connect to SMTP server %s in secure mode: %s"),
-			      service->url->host, g_strerror (errno));
+	/* We are supposed to re-EHLO after a successful STARTTLS to
+           re-fetch any supported extensions. */
+	if (!smtp_helo (transport, ex) && !transport->connected)
+		return FALSE;
+	
+	return TRUE;
 	
  exception_cleanup:
+	
 	camel_object_unref (CAMEL_OBJECT (transport->istream));
 	transport->istream = NULL;
 	camel_object_unref (CAMEL_OBJECT (transport->ostream));
@@ -862,6 +865,18 @@ smtp_helo (CamelSmtpTransport *transport, CamelException *ex)
 	CamelException err;
 	const char *token;
 	int af;
+	
+	/* these are flags that we set, so unset them in case we
+	   are being called a second time (ie, after a STARTTLS) */
+	transport->flags &= ~(CAMEL_SMTP_TRANSPORT_8BITMIME |
+			      CAMEL_SMTP_TRANSPORT_ENHANCEDSTATUSCODES |
+			      CAMEL_SMTP_TRANSPORT_STARTTLS);
+	
+	if (transport->authtypes) {
+		g_hash_table_foreach (transport->authtypes, authtypes_free, NULL);
+		g_hash_table_destroy (transport->authtypes);
+		transport->authtypes = NULL;
+	}
 	
 	camel_operation_start_transient (NULL, _("SMTP Greeting"));
 	
