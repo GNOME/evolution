@@ -1823,7 +1823,10 @@ get_content (CamelImapFolder *imap_folder, const char *uid,
 		g_free (part_spec);
 		return content;
 	} else {
-		content = camel_imap_wrapper_new (imap_folder, ci->type, uid, *part_spec ? part_spec : "1", part);
+		CamelTransferEncoding enc;
+
+		enc = ci->encoding?camel_transfer_encoding_from_string(ci->encoding):CAMEL_TRANSFER_ENCODING_DEFAULT;
+		content = camel_imap_wrapper_new (imap_folder, ci->type, enc, uid, *part_spec ? part_spec : "1", part);
 		g_free (part_spec);
 		return content;
 	}

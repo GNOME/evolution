@@ -153,7 +153,8 @@ write_to_stream (CamelDataWrapper *data_wrapper, CamelStream *stream)
 
 
 CamelDataWrapper *
-camel_imap_wrapper_new (CamelImapFolder *imap_folder, CamelContentType *type,
+camel_imap_wrapper_new (CamelImapFolder *imap_folder,
+			CamelContentType *type, CamelTransferEncoding encoding,
 			const char *uid, const char *part_spec,
 			CamelMimePart *part)
 {
@@ -164,6 +165,7 @@ camel_imap_wrapper_new (CamelImapFolder *imap_folder, CamelContentType *type,
 
 	camel_data_wrapper_set_mime_type_field (CAMEL_DATA_WRAPPER (imap_wrapper), type);
 	((CamelDataWrapper *)imap_wrapper)->offline = TRUE;
+	((CamelDataWrapper *)imap_wrapper)->encoding = encoding;
 
 	imap_wrapper->folder = imap_folder;
 	camel_object_ref (imap_folder);

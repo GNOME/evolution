@@ -59,6 +59,7 @@ CamelType camel_imap_wrapper_get_type (void);
 /* Constructor */
 CamelDataWrapper *camel_imap_wrapper_new (CamelImapFolder *imap_folder,
 					  CamelContentType *type,
+					  CamelTransferEncoding encoding,
 					  const char *uid,
 					  const char *part_spec,
 					  CamelMimePart *part);
