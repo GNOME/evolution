@@ -4,25 +4,8 @@ INCLUDES = 					\
 	-I$(top_srcdir)/addressbook/backend	\
 	-I$(top_builddir)/e-util		\
 	$(BONOBO_GNOME_CFLAGS)			\
-	$(PISOCK_INCLUDEDIR)			\
+	$(PISOCK_CFLAGS)			\
 	$(GNOME_PILOT_CFLAGS)
-
-# Address Capplet
-bin_PROGRAMS = e-address-conduit-control-applet
-
-e_address_conduit_control_applet_SOURCES = address-conduit-control-applet.c
-
-e_address_conduit_control_applet_LDADD = 	\
-		$(CAPPLET_LIBS)  		\
-		$(GNOME_LIBDIR) 		\
-		$(GNOME_PILOT_LIBS) 		\
-		$(PISOCK_LIBS) 			\
-		$(GNOME_CAPPLET_LIBS) 		\
-		$(BONOBO_GNOME_LIBS) 		\
-		$(GNOME_XML_LIB) 		\
-	        $(GNOMEUI_LIBS) 		\
-                $(INTLLIBS)
-
 
 # Address Conduit
 e_address_conduitsdir=$(libdir)/gnome-pilot/conduits
@@ -54,23 +37,11 @@ e-address.conduit: e-address.conduit.in Makefile
 	&& mv e-address.conduit.tmp e-address.conduit
 
 
-ccenterdir = $(datadir)/control-center
-ccenterPalmPilotdir = $(ccenterdir)/Peripherals
-ccenterConduitsdir = $(ccenterPalmPilotdir)/Conduits
-ccenterConduits_in_files = e-address-conduit-control-applet.desktop.in 
-ccenterConduits_DATA = $(ccenterConduits_in_files:.desktop.in=.desktop)
-@XML_I18N_MERGE_DESKTOP_RULE@
-
-panelConduitsdir = $(datadir)/gnome/apps/Settings/Peripherals/Conduits
-panelConduits_DATA = $(ccenterConduits_DATA)
-
 Conduitdir = $(datadir)/gnome-pilot/conduits/
 Conduit_DATA = e-address.conduit
 
 EXTRA_DIST = \
-	e-address.conduit.in \
-        $(ccenterConduits_in_files)
+	e-address.conduit.in
 
 install-data-local:
-	$(mkinstalldirs) $(ccenterConduitsdir)
 	$(mkinstalldirs) $(Conduitdir)

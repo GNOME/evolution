@@ -1,3 +1,8 @@
+2001-03-09  JP Rosevear  <jpr@ximian.com>
+
+	* conduit/Makefile.am: PISOCK_INCLUDEDIR has become
+	PISOCK_CFLAGS in gnome-pilot.m4 and remove capplet foo
+
 2001-03-11  Jon Trowbridge  <trow@ximian.com>
 
 	* backend/ebook/e-book.c (e_book_simple_query): Added. A
@@ -6,6 +11,7 @@
 	(e_book_simple_query_cancel): Added. Cancels a running query.
 
 	* backend/ebook/e-book-types.h: Add enum EBookSimpleQueryStatus.
+
 
 2001-03-08  Jon Trowbridge  <trow@ximian.com>
 
