@@ -1,51 +1,57 @@
-Evolution 1.4.x, 2003-??-??
+Evolution 1.4.1, 2003-06-25
 ---------------------------
 
 Bugzilla bugs fixed (see http://bugzilla.ximian.com/show_bug.cgi):
 
   * Calendar
 
-    #41582 - display incorrect after switching between week and day
+    #41582 - Display incorrect after switching between week and day
              view (Rodrigo)
     #43585 - Ugly tasks printout (Hans Petter)
     #45273 - Tab through events in day view (Bolian Yin)
     #45275 - Shift+F10 to activate Popup menu in ToDo List (Bolian Yin)
-    #45423 - provide shortcus for "Go to today" and "Go to date" (Bolian Yin)
+    #45423 - Provide shortcus for "Go to today" and "Go to date" (Bolian Yin)
 
   * Mail
 
-    #44322 - Evolution crash with weird IMAP foldername (Michael)
-    #44121 - Invalid multipart/signed message showing empty (Michael)
-    #40788 - Broken POP3 server causing evolution to hang/crash (Jeff)
-    #44457 - Crash viewing video content as inline-text (Jeff)
-    #44344 - Dont use quoted-printable encoding on anything but text/*
-             parts, interoperation with Lookout and others (Jeff)
-    #44609 - HIG issue with vFolder properties editor (Michael)
-    #33593 - Message remains displayed after last message removed from
-             list (Michael)
-    #44519 - Popup message view redraws when new mail arrives (Michael)
-    #43972 - Invert selection doesn't work (Jeff)
     #22542 - Creating a folder in the vFolder store fails with a
              meaningless message (Michael)
-    #43974 - Cannot retrieve "Local Delivery" mail (Michael)
+    #31745 - Cannot view mails under '#mh' namespace.  Temporary
+             workaround, strip #'s (Michael)
+    #33593 - Message remains displayed after last message removed from
+             list (Michael)
+    #40788 - Broken POP3 server causing evolution to hang/crash (Jeff)
     #42630 - collapsed thread always shows as unread (Jeff)
-    #44139 - composer spacing is not HIG compliant (Jeff)
-    #44991 - cannot send mail in GB-2312 (Jeff)
-    #43917 - ECharsetPicker doesn't save user-specified charet strings
+    #43917 - ECharsetPicker doesn't save user-specified charset strings
              properly (Jeff)
+    #43972 - Invert selection doesn't work (Jeff)
+    #43974 - Cannot retrieve "Local Delivery" mail (Michael)
+    #44121 - Invalid multipart/signed message showing empty (Michael)
+    #44139 - Composer spacing is not HIG compliant (Jeff)
+    #44322 - Evolution crash with weird IMAP foldername (Michael)
+    #44344 - Dont use quoted-printable encoding on anything but text/*
+             parts, interoperation with Lookout and others (Jeff)
+    #44457 - Crash viewing video content as inline-text (Jeff)
+    #44519 - Popup message view redraws when new mail arrives (Michael)
+    #44609 - HIG issue with vFolder properties editor (Michael)
+    #44991 - Cannot send mail in GB-2312 (Jeff)
     #45082 - GB18030 BIG5HKSCS and EUC-TW charsets not supported in
              evolution mail (suresh.chandrasekharan@sun.com)
     #45063 - Message display refreshes when new mail arrives,
     	     introducted by #33593 (Michael)
-    #31745 - Cannot view mails under '#mh' namespace.  Temporary
-             workaround, strip #'s (Michael)
-    #45386 - warnings when sending mail (Michael)
-    #45368 - crash when closing the folder browser thingy
+    #45386 - Warnings when sending mail (Michael)
+    #45368 - Crash when closing the folder browser
+
+  * Summary
+
+    #44111 - Crash on exit (Ettore)
+    #44798 - Crash when closing print preview dialog (Ettore)
 
   * All
 
     #42691 - Build, make clean doesn't rebuild bonobo-activation
              .server files (Michael)
+    #44717 - Tarball cointains generated files (Frederic Crozat)
 
 Other bugs
 
@@ -66,9 +72,30 @@ Other bugs
     - Fix a degenerate algorithm case in vFolder shutdown which could
       cause excessive exit cpu usage (Michael)
 
+  * Shell
+
+    - Wrong version number used for configuration upgrade (Michael)
+
   * All
 
     - Lots of miscellaneous memory leaks
+
+Updated translations:
+
+  - cs (Miloslav Trmac, Stanislav Brabec)
+  - el (Kostas Papadimas)
+  - es (Francisco Javier F. Serrador)
+  - hu (Andras Timar)
+  - it (Marco Ciampa)
+  - ko (Kan Jeong-Hee)
+  - mk (Ivan Stojmirov)
+  - nl (Vincent van Adrighem)
+  - pt_BR (Gustavo Maciel Dias Vieira)
+  - sr, sr@Latn (prevod.org)
+  - sv (Christian Rose)
+  - tr (Gorkem Cetin)
+  - zh_CN (Wang Li, Funda Wang)
+
 
 Evolution 1.4, 2003-06-02
 -------------------------
