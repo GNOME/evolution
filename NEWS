@@ -1,26 +1,79 @@
-Evolution 1.0.2, ???
---------------------
+Evolution 1.0.2, 01-24-2002
+---------------------------
 
-Bugs fixed:
+Bugzilla Bugs Fixed (see http://bugzilla.ximian.com/show_bug.cgi):
 
-  * Summary
-   
-    # 18025: Fix crash if you click offline without viewing the summary.
+  * Addressbook
 
-    # 17377: Evolution doesn't work on multi-depth displays.
+    #17725 -- Non-ASCII letter headings are black when printing
+              (Zbigniew Chyla)
+
+  * Calendar
+
+    #6544  -- Make Timezone names translatable (Damon)
+    #18801 -- Alarms with specific trigger times are not shown (Damon)
   
+  * Importers
+
+    #16864 -- LDIF importer chokes on long description field (Toshok)
+    #17441 -- Crash trying to import VCards file into an LDAP folder
+             (Ettore)
+
   * Mail
 
-    #17694 -- Work around a bug in Exchange 5.5 that sometimes reports
-              2 messages as having the same UID.
+    #6896  -- message_list_select() with wraparound won't select very
+              first message (Jeff)
+    #11499 -- All recovered Composer windows have HTML enabled (Jeff)
+    #16947 -- Crash while setting up a new mail account (Jeff)
+    #17205 -- Crash of evolution-mail on start-up (Jeff)
+    #17634 -- Marking a message as unread should undelete it, as well
+             (Jeff)
+    #17694 -- Exchange 5.5 reporting 2 messages as having the same UID
+              breaks Evolution (Jeff)
+    #17759 -- Cancelling Send/Receive can lose mail for local case
+              (Jeff)
+    #18142 -- Mailer crash when trying to send an email (Jeff)
 
-    #16947 -- Make sure that the connect_op is non-NULL before unreffing
+Other fixes:
 
-           -- Follow symlinks for mbox files 
+  * Summary
+
+    - Change the list of items in the mail preferences (Iain)
+
+  * Calendar
+
+    - Make Tasks default to public as in Outlook (Rodrigo)
 
   * Importers
 
-    #17441 -- Crash trying to import VCards file into an LDAP folder
+    - Make the druid as a transient window for the main shell (Iain)
+
+  * Mail
+
+    - Follow symlinks for mbox files (Jeff)
+    - Fixed copy/paste problems in mail-account-gui.c (Ian Goldberg,
+      Jeff)
+    - Make Vfolders work with add-on storages (Dan)
+
+  * Shell
+
+    - Don't crash on missing icon on start-up (Michael Meeks)
+    - Change activation/deactivation order for views in order to
+      reduce flicker in the toolbars (Michael Meeks)
+
+Updated translations:
+
+  - bg (Alexander Shopov)
+  - el (Nick Niktaris, Panayotis Pakos, Simos Xenitellis)
+  - fr (Christophe Merlet)
+  - hu (Andras Timar)
+  - it (Clara Tattoni, Ettore)
+  - lv (Peteris Krisjanis)
+  - nn (Roy-Magne Mo)
+  - no (Kjartan Maraas)
+  - sk (Stanislav Visnovsky)
+  - sv (Christian Rose)
+
 
 Evolution 1.0.1, 12-18-2001
 ---------------------------
