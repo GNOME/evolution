@@ -2250,7 +2250,7 @@ do_view_messages (gpointer in_data, gpointer op_data, CamelException *ex)
 		CamelMimeMessage *message;
 
 		mail_op_set_message (_("Retrieving message %d of %d (uid \"%s\")"),
-				     i + 1, input->uids->len, input->uids->pdata[i]);
+				     i + 1, input->uids->len, (char *)input->uids->pdata[i]);
 
 		mail_tool_camel_lock_up ();
 		message = camel_folder_get_message (input->folder, input->uids->pdata[i], ex);
