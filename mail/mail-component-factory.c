@@ -54,10 +54,6 @@
 #define WIZARD_ID	"OAFIID:GNOME_Evolution_Mail_Wizard"
 
 
-/* EPFIXME: This stuff is here just to get it to compile, it should be moved
-   out of the way (was originally in component-factory.c).  */
-EvolutionShellClient *global_shell_client = NULL;
-
 static BonoboObject *
 factory (BonoboGenericFactory *factory,
 	 const char *component_id,

@@ -114,106 +114,11 @@ impl_prepareForOffline (PortableServer_Servant servant,
 struct _sync_info {
 	char *uri;		/* uri of folder being synced */
 	CamelOperation *cancel;	/* progress report/cancellation object */
-	GNOME_Evolution_SyncFolderProgressListener listener;
 	int pc;			/* percent complete (0-100) */
 	int lastpc;		/* last percent reported, so we dont overreport */
 	int id;			/* timeout id */
 	GHashTable *table;      /* the hashtable that we're registered in */
 };
-
-static void
-impl_cancelSyncFolder (PortableServer_Servant servant,
-		       const GNOME_Evolution_Folder *folder,
-		       CORBA_Environment *ev)
-{
-	MailOfflineHandler *offline_handler;
-	MailOfflineHandlerPrivate *priv;
-	struct _sync_info *info;
-
-	offline_handler = MAIL_OFFLINE_HANDLER (bonobo_object_from_servant (servant));
-	priv = offline_handler->priv;
-
-	info = g_hash_table_lookup(priv->sync_table, folder->physicalUri);
-	if (info)
-		camel_operation_cancel(info->cancel);
-	else
-		g_warning("Shell tried to cancel sync of '%s': no such folder", folder->physicalUri);
-}
-
-static int sync_timeout(struct _sync_info *info)
-{
-	CORBA_Environment ev;
-
-	if (info->pc != info->lastpc) {
-		CORBA_exception_init(&ev);
-		GNOME_Evolution_SyncFolderProgressListener_updateProgress(info->listener, info->pc/100.0, &ev);
-		if (ev._major != CORBA_NO_EXCEPTION)
-			g_warning("Error updating offline progress");
-		CORBA_exception_free(&ev);
-		info->lastpc = info->pc;
-	}
-
-	return TRUE;
-}
-
-static void sync_status(CamelOperation *op, const char *what, int pc, void *data)
-{
-	struct _sync_info *info = data;
-
-	if (pc == CAMEL_OPERATION_START)
-		pc = 0;
-	else if (pc == CAMEL_OPERATION_END)
-		pc = 100;
-
-	info->pc = pc;
-}
-
-static void
-sync_done(const char *uri, void *crap)
-{
-	CORBA_Environment ev;
-	struct _sync_info *info = crap;
-
-	g_source_remove(info->id);
-
-	CORBA_exception_init(&ev);
-	GNOME_Evolution_SyncFolderProgressListener_reportSuccess(info->listener, &ev);
-	if (ev._major != CORBA_NO_EXCEPTION)
-		g_warning("Error sending offline completion: hang likely");
-	CORBA_Object_release(info->listener, &ev);
-	CORBA_exception_free(&ev);
-
-	g_hash_table_remove (info->table, info->uri);
-	g_free(info->uri);
-	camel_operation_unref(info->cancel);
-	g_free(info);
-}
-
-static void
-impl_syncFolder (PortableServer_Servant servant,
-		 const GNOME_Evolution_Folder *folder,
-		 const GNOME_Evolution_SyncFolderProgressListener progress_listener,
-		 CORBA_Environment *ev)
-{
-	MailOfflineHandler *offline_handler;
-	MailOfflineHandlerPrivate *priv;
-	struct _sync_info *info;
-
-	offline_handler = MAIL_OFFLINE_HANDLER(bonobo_object_from_servant (servant));
-	priv = offline_handler->priv;
-
-	info = g_malloc(sizeof(*info));
-	info->listener = CORBA_Object_duplicate(progress_listener, ev);
-	info->pc = 0;
-	info->uri = g_strdup(folder->physicalUri);
-	info->id = g_timeout_add(500, (GSourceFunc)sync_timeout, info);
-	info->cancel = camel_operation_new(sync_status, info);
-	info->table = priv->sync_table;
-
-	g_hash_table_insert(priv->sync_table, info->uri, info);
-
-	mail_prep_offline(info->uri, info->cancel, sync_done, info);
-}
 
 static void
 went_offline (CamelStore *store, void *data)
@@ -323,8 +228,6 @@ mail_offline_handler_class_init (MailOfflineHandlerClass *klass)
 	epv = & klass->epv;
 	epv->_get_isOffline    = impl__get_isOffline;
 	epv->prepareForOffline = impl_prepareForOffline;
-	epv->syncFolder        = impl_syncFolder;
-	epv->cancelSyncFolder  = impl_cancelSyncFolder;
 	epv->goOffline         = impl_goOffline;
 	epv->goOnline          = impl_goOnline;
 

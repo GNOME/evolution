@@ -1,3 +1,16 @@
+2003-11-30  Ettore Perazzoli  <ettore@ximian.com>
+
+	* mail-offline-handler.c: Remove all the syncFolder stuff since
+	it's not in the Component interface anymore.
+
+	* mail-mt.c: Remove declaration for global_shell_client.  #if 0
+	all the code that uses that.
+
+	* mail-component-factory.c: Remove declaration for
+	global_shell_client.
+
+	* mail-vfolder.c: Remove declaration for global_shell_client.
+
 2003-11-26  JP Rosevear  <jpr@ximian.com>
 
 	* Makefile.am: turn on deprecated Gtk stuff

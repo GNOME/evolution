@@ -42,7 +42,6 @@ static void mail_operation_status(struct _CamelOperation *op, const char *what, 
 #define MAIL_MT_LOCK(x) pthread_mutex_lock(&x)
 #define MAIL_MT_UNLOCK(x) pthread_mutex_unlock(&x)
 #endif
-extern EvolutionShellClient *global_shell_client;
 
 /* background operation status stuff */
 struct _mail_msg_priv {
@@ -797,8 +796,7 @@ static int busy_state;
 
 static void do_set_busy(struct _mail_msg *mm)
 {
-	if (global_shell_client)
-		set_stop(busy_state > 0);
+	set_stop(busy_state > 0);
 }
 
 struct _mail_msg_op set_busy_op = {
@@ -814,7 +812,7 @@ void mail_enable_stop(void)
 
 	MAIL_MT_LOCK(status_lock);
 	busy_state++;
-	if (busy_state == 1 && global_shell_client) {
+	if (busy_state == 1) {
 		m = mail_msg_new(&set_busy_op, NULL, sizeof(*m));
 		e_msgport_put(mail_gui_port, (EMsg *)m);
 	}
@@ -827,7 +825,7 @@ void mail_disable_stop(void)
 
 	MAIL_MT_LOCK(status_lock);
 	busy_state--;
-	if (busy_state == 0 && global_shell_client) {
+	if (busy_state == 0) {
 		m = mail_msg_new(&set_busy_op, NULL, sizeof(*m));
 		e_msgport_put(mail_gui_port, (EMsg *)m);
 	}
@@ -860,6 +858,7 @@ static void do_op_status(struct _mail_msg *mm)
 	
 	msg = g_hash_table_lookup (mail_msg_active_table, m->data);
 
+#if 0
 	/* shortcut processing, i.e. if we have no global_shell_client and no activity, we can't create one */
 	if (msg == NULL || (msg->priv->activity == NULL && global_shell_client == NULL)) {
 		MAIL_MT_UNLOCK (mail_msg_lock);
@@ -949,6 +948,7 @@ static void do_op_status(struct _mail_msg *mm)
 	} else {
 		MAIL_MT_UNLOCK (mail_msg_lock);
 	}
+#endif
 }
 
 static void
@@ -973,6 +973,7 @@ mail_operation_status (struct _CamelOperation *op, const char *what, int pc, voi
 	
 	d(printf("got operation statys: %s %d%%\n", what, pc));
 
+#if 0
 	if (global_shell_client == NULL)
 		return;
 	
@@ -990,6 +991,7 @@ mail_operation_status (struct _CamelOperation *op, const char *what, int pc, voi
 	m->pc = pc;
 	m->data = data;
 	e_msgport_put(mail_gui_port, (EMsg *)m);
+#endif
 }
 
 /* ******************** */

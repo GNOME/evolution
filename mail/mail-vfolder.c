@@ -61,8 +61,6 @@ static GList *source_folders_remote;	/* list of source folder uri's - remote one
 static GList *source_folders_local;	/* list of source folder uri's - local ones */
 static GHashTable *vfolder_hash;
 
-extern EvolutionShellClient *global_shell_client;
-
 /* more globals ... */
 extern CamelSession *session;
 
