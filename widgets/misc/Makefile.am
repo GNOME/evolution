@@ -23,6 +23,8 @@ libemiscwidgets_a_SOURCES = 	\
 	e-dateedit.h		\
 	e-dropdown-button.c	\
 	e-dropdown-button.h	\
+	e-filter-bar.c		\
+	e-filter-bar.h		\
 	e-messagebox.c		\
 	e-messagebox.h		\
 	e-search-bar.c		\

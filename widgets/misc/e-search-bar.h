@@ -63,7 +63,8 @@ struct _ESearchBar
 
 	/* PRIVATE */
 	GtkWidget *dropdown_holder;	/* holds the dropdown */
-	GtkWidget *menu;
+	GtkWidget *option_menu;
+	GtkWidget *dropdown_menu;
 
 	int        option_choice;
 };
@@ -72,6 +73,9 @@ struct _ESearchBarClass
 {
 	GtkHBoxClass parent_class;
 
+	void (*set_menu)       (ESearchBar *, ESearchBarItem *);
+	void (*set_option)     (ESearchBar *, ESearchBarItem *);
+
 	void (*query_changed)  (ESearchBar *search);
 	void (*menu_activated) (ESearchBar *search, int item);
 };
@@ -79,12 +83,16 @@ struct _ESearchBarClass
 
 GtkType    e_search_bar_get_type   (void);
 void       e_search_bar_set_menu   (ESearchBar *search_bar, ESearchBarItem *menu_items);
+void	   e_search_bar_add_menu   (ESearchBar *search_bar, ESearchBarItem *menu_item);
+
 void       e_search_bar_set_option (ESearchBar *search_bar, ESearchBarItem *option_items);
 void       e_search_bar_construct  (ESearchBar     *search_bar,
 				    ESearchBarItem *menu_items,
 				    ESearchBarItem *option_items);
 GtkWidget *e_search_bar_new        (ESearchBarItem *menu_items,
 				    ESearchBarItem *option_items);
+
+void       e_search_bar_set_menu_sensitive(ESearchBar *search_bar, int id, gboolean state);
 
 #ifdef __cplusplus
 }
