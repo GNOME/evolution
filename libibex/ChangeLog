@@ -1,3 +1,8 @@
+2001-10-28    <NotZed@Ximian.com>
+
+	* ibex_block.c (ibex_move): New api entry to move an ibex file in
+	an atomic way.
+
 2001-10-12    <NotZed@Ximian.com>
 
 	* ibex_block.c (ibex_use): Added environmental variable

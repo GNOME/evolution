@@ -43,6 +43,9 @@ int ibex_write (ibex *ib);
 /* only save if ibex has changed. */
 int ibex_save (ibex *ib);
 
+/* rename an ibex file to a new location */
+int ibex_move (ibex *ib, const char *newname);
+
 /* Write the ibex to disk if it has changed, and free all memory
  * associated with it.
  */

@@ -491,6 +491,30 @@ int ibex_close (ibex *ib)
 	return ret;
 }
 
+/* rename/move the ibex file */
+int ibex_move(ibex *ib, const char *newname)
+{
+	int ret = -1;
+
+	IBEX_LOCK(ib);
+
+	if (ib->blocks)
+		close_backend(ib);
+
+	if (rename(ib->name, newname) == -1)
+		goto error;
+
+	g_free(ib->name);
+	ib->name = g_strdup(newname);
+	ret = 0;
+
+error:
+	IBEX_UNLOCK(ib);
+
+	return ret;
+}
+
+
 /**
  * ibex_unindex:
  * @ib: 
