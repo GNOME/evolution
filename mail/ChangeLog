@@ -1,5 +1,8 @@
 2001-09-14  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* mail-ops.c (add_vtrash_info): Free the temporary path variable
+	here.
+
 	* subscribe-dialog.c (store_data_new): Added a refcount variable
 	so set the refcount to 1.
 	(sd_got_store): Unref the store-data.

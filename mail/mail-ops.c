@@ -1082,6 +1082,7 @@ add_vtrash_info (CamelStore *store, CamelFolderInfo *info)
 	url = camel_url_new (info->url, NULL);
 	path = g_strdup_printf ("/%s", CAMEL_VTRASH_NAME);
 	camel_url_set_path (url, path);
+	g_free (path);
 	uri = camel_url_to_string (url, CAMEL_URL_HIDE_ALL);
 	camel_url_free (url);
 	
