@@ -1,3 +1,13 @@
+2003-01-27  Ettore Perazzoli  <ettore@ximian.com>
+
+	* evolution-shell-component.c (owner_ping_callback): #if 0'ed out
+	for now, since it seems to cause trouble for local components.
+	(setup_owner_pinging): Likewise.
+
+	* e-shell-user-creatable-items-handler.c
+	(get_default_action_for_view): Return default_menu_item [instead
+	of NULL] if there is no view displayed.  [#32736]
+
 2003-01-23  Ettore Perazzoli  <ettore@ximian.com>
 
 	* e-shell-folder-title-bar.c (get_max_clipped_label_width): Use

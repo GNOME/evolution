@@ -202,6 +202,7 @@ fill_corba_sequence_from_null_terminated_string_array (CORBA_sequence_CORBA_stri
 
 /* Owner pinging.  */
 
+#if 0
 static gboolean
 owner_ping_callback (void *data)
 {
@@ -252,14 +253,19 @@ static void
 setup_owner_pinging (EvolutionShellComponent *shell_component)
 {
 	EvolutionShellComponentPrivate *priv;
+	GNOME_Evolution_Shell shell_corba_objref;
 
 	priv = shell_component->priv;
+
+	shell_corba_objref = evolution_shell_client_corba_objref (priv->owner_client);
 
 	if (priv->ping_timeout_id != -1)
 		g_source_remove (priv->ping_timeout_id);
 
 	priv->ping_timeout_id = g_timeout_add (PING_DELAY, owner_ping_callback, shell_component);
 }
+
+#endif
 
 
 /* CORBA interface implementation.  */
@@ -430,7 +436,12 @@ impl_setOwner (PortableServer_Servant servant,
 		priv->owner_client = evolution_shell_client_new (shell);
 		g_signal_emit (shell_component, signals[OWNER_SET], 0, priv->owner_client, evolution_homedir);
 
+#if 0
+		/* Disable this for now, it seems to cause trouble for local
+	   	   components.  We should be checking wether the component is
+	   	   local, and disable the pinging in that case. */
 		setup_owner_pinging (shell_component);
+#endif
 	}
 }
 
