@@ -1,3 +1,8 @@
+2001-06-26  jacob berkman  <jacob@ximian.com>
+
+	* mail-config.c (mail_config_get_show_preview): make ettore stop
+	complaining so i can get back to work
+
 2001-06-26  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* component-factory.c (message_rfc822_dnd): No longer returns a

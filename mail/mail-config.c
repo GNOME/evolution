@@ -819,6 +819,7 @@ mail_config_is_configured (void)
 gboolean
 mail_config_get_show_preview (const char *uri)
 {
+	return TRUE;
 	if (uri) {
 		gboolean value = FALSE;
 		
