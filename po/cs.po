@@ -8,14 +8,14 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution VERSION\n"
-"POT-Creation-Date: 2004-03-05 13:00-0500\n"
-"PO-Revision-Date: 2004-03-05 19:20+0100\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2004-03-09 03:19+0100\n"
+"PO-Revision-Date: 2004-03-09 20:48+0100\n"
 "Last-Translator: Miloslav Trmac <mitr@volny.cz>\n"
 "Language-Team: Czech <cs@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Report-Msgid-Bugs-To: \n"
 "Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%"
 "10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 
@@ -50,6 +50,7 @@ msgstr "Zde nastavte automatické dokončování"
 #. can not get name, should be a bug of e-book.Anyway, should set a default name.
 #.
 #. name = e_book_get_name (book);
+#. Create the contacts group
 #: addressbook/gui/component/GNOME_Evolution_Addressbook.server.in.in.h:4
 #: addressbook/tools/evolution-addressbook-export-list-folders.c:51
 #: calendar/gui/migration.c:363
@@ -193,6 +194,7 @@ msgid "Migrating `%s':"
 msgstr "Převádím `%s':"
 
 #. create the local source group
+#. On This Computer is always first and VFolders is always last
 #: addressbook/gui/component/addressbook-migrate.c:409
 #: calendar/gui/migration.c:426 calendar/gui/migration.c:503
 #: mail/em-folder-tree-model.c:163 mail/em-folder-tree-model.c:165
@@ -201,6 +203,7 @@ msgid "On This Computer"
 msgstr "V tomto počítači"
 
 #. Create the default Person addressbook
+#. orange
 #: addressbook/gui/component/addressbook-migrate.c:417
 #: calendar/gui/migration.c:434 calendar/gui/migration.c:511
 #: filter/filter-label.c:123 mail/em-migrate.c:925 mail/mail-config.c:65
@@ -991,10 +994,10 @@ msgstr "Ka_tegorie..."
 #: addressbook/gui/contact-editor/contact-editor.glade.h:33
 #: calendar/gui/dialogs/meeting-page.c:651 calendar/gui/e-cal-view.c:1300
 #: calendar/gui/e-cal-view.c:1331 calendar/gui/e-calendar-table.c:1057
-#: calendar/gui/e-calendar-table.c:1075 mail/em-folder-tree.c:2237
-#: mail/em-folder-view.c:775 ui/evolution-addressbook.xml.h:33
+#: calendar/gui/e-calendar-table.c:1075 mail/em-folder-tree.c:2355
+#: mail/em-folder-view.c:783 ui/evolution-addressbook.xml.h:33
 #: ui/evolution-calendar.xml.h:35 ui/evolution-comp-editor.xml.h:17
-#: ui/evolution-contact-editor.xml.h:14 ui/evolution-mail-message.xml.h:110
+#: ui/evolution-contact-editor.xml.h:14 ui/evolution-mail-message.xml.h:112
 #: ui/evolution-tasks.xml.h:19
 msgid "_Delete"
 msgstr "_Odstranit"
@@ -2517,7 +2520,7 @@ msgstr "Poslat kontaktu zprávu"
 
 #: addressbook/gui/widgets/e-addressbook-view.c:1061 calendar/gui/print.c:2481
 #: ui/evolution-addressbook.xml.h:16 ui/evolution-comp-editor.xml.h:8
-#: ui/evolution-contact-editor.xml.h:5 ui/evolution-mail-message.xml.h:78
+#: ui/evolution-contact-editor.xml.h:5 ui/evolution-mail-message.xml.h:80
 msgid "Print"
 msgstr "Tisknout"
 
@@ -3103,17 +3106,17 @@ msgstr "Zobrazení karty"
 msgid "GTK Tree View"
 msgstr "GTK Tree View"
 
-#: addressbook/gui/widgets/test-reflow.c:106
+#: addressbook/gui/widgets/test-reflow.c:119
 msgid "Reflow Test"
 msgstr "Test přeformátování"
 
-#: addressbook/gui/widgets/test-reflow.c:107
+#: addressbook/gui/widgets/test-reflow.c:120
 #: addressbook/printing/test-contact-print-style-editor.c:54
 #: addressbook/printing/test-print.c:53
 msgid "Copyright (C) 2000, Ximian, Inc."
 msgstr "Copyright © 2000, Ximian, Inc."
 
-#: addressbook/gui/widgets/test-reflow.c:109
+#: addressbook/gui/widgets/test-reflow.c:122
 msgid "This should test the reflow canvas item"
 msgstr "Toto by mělo otestovat položku canvasu přeformátování"
 
@@ -3772,7 +3775,7 @@ msgstr "Komentář obsahuje"
 msgid "Location contains"
 msgstr "Umístění obsahuje"
 
-#: calendar/gui/cal-search-bar.c:363 mail/mail-ops.c:1100
+#: calendar/gui/cal-search-bar.c:363 mail/mail-ops.c:1106
 msgid "Unmatched"
 msgstr "Nepřiřazené"
 
@@ -3806,6 +3809,10 @@ msgstr "%A %d %B %Y"
 
 #. strftime format %a = abbreviated weekday name, %d = day of month,
 #. %b = abbreviated month name. Don't use any other specifiers.
+#. strftime format %a = abbreviated weekday name,
+#. %d = day of month, %b = abbreviated month name.
+#. You can change the order but don't change the
+#. specifiers or add anything.
 #: calendar/gui/calendar-commands.c:434 calendar/gui/e-day-view-top-item.c:692
 #: calendar/gui/e-day-view.c:1367 calendar/gui/e-week-view-main-item.c:329
 msgid "%a %d %b"
@@ -4059,8 +4066,8 @@ msgstr "Připomínky"
 msgid "Run a program"
 msgstr "Spustit program"
 
-#: calendar/gui/dialogs/alarm-page.glade.h:8
-msgid "Send an Email"
+#: calendar/gui/dialogs/alarm-page.glade.h:8 calendar/gui/e-alarm-list.c:467
+msgid "Send an email"
 msgstr "Poslat e-mail"
 
 #: calendar/gui/dialogs/alarm-page.glade.h:9
@@ -4898,10 +4905,15 @@ msgid "_Start time:"
 msgstr "_Začátek:"
 
 #. an empty string is the same as 'None'
+#. add a "None" option to the stores menu
+#. Put the "None" and "UTC" entries at the top of the combo's list.
+#. When "None" is selected we want the field to be cleared.
+#. Note that we don't show this here, since by default a 'None' date
+#. is not permitted.
 #: calendar/gui/dialogs/meeting-page.c:311
 #: calendar/gui/dialogs/meeting-page.glade.h:3
 #: calendar/gui/e-cal-model-tasks.c:591 composer/e-msg-composer.c:2084
-#: mail/em-account-prefs.c:448 mail/em-folder-view.c:784
+#: mail/em-account-prefs.c:448 mail/em-folder-view.c:792
 #: mail/mail-account-gui.c:1258 mail/mail-account-gui.c:1782
 #: mail/mail-config.glade.h:80
 #: widgets/e-timezone-dialog/e-timezone-dialog.c:193
@@ -5425,10 +5437,6 @@ msgstr "%d sekund"
 msgid "1 second"
 msgstr "1 sekunda"
 
-#: calendar/gui/e-alarm-list.c:467
-msgid "Send an email"
-msgstr "Poslat e-mail"
-
 #: calendar/gui/e-alarm-list.c:477
 msgid "Unknown action to be performed"
 msgstr "Má se vykonat neznámá akce"
@@ -5607,7 +5615,7 @@ msgstr "Nový úkol"
 #: calendar/gui/e-cal-view.c:1351 calendar/gui/e-calendar-table.c:1040
 #: calendar/gui/e-calendar-table.c:1082 ui/evolution-addressbook.xml.h:40
 #: ui/evolution-calendar.xml.h:39 ui/evolution-comp-editor.xml.h:19
-#: ui/evolution-contact-editor.xml.h:17 ui/evolution-mail-message.xml.h:122
+#: ui/evolution-contact-editor.xml.h:17 ui/evolution-mail-message.xml.h:124
 #: ui/evolution-tasks.xml.h:23
 msgid "_Print..."
 msgstr "_Tisknout..."
@@ -5616,7 +5624,7 @@ msgstr "_Tisknout..."
 #: calendar/gui/e-cal-view.c:1349 calendar/gui/e-calendar-table.c:1046
 #: calendar/gui/e-calendar-table.c:1080 ui/evolution-addressbook.xml.h:38
 #: ui/evolution-calendar.xml.h:38 ui/evolution-composer-entries.xml.h:9
-#: ui/evolution-mail-message.xml.h:120 ui/evolution-tasks.xml.h:22
+#: ui/evolution-mail-message.xml.h:122 ui/evolution-tasks.xml.h:22
 msgid "_Paste"
 msgstr "V_ložit"
 
@@ -5635,14 +5643,14 @@ msgstr "_Zveřejnit informaci o volném/obsazeném čase"
 
 #: calendar/gui/e-cal-view.c:1282 calendar/gui/e-cal-view.c:1347
 #: calendar/gui/e-calendar-table.c:1037 calendar/gui/e-calendar-table.c:1078
-#: mail/em-folder-view.c:750 ui/evolution-addressbook.xml.h:37
+#: mail/em-folder-view.c:758 ui/evolution-addressbook.xml.h:37
 msgid "_Open"
 msgstr "_Otevřít"
 
 #: calendar/gui/e-cal-view.c:1283 calendar/gui/e-cal-view.c:1353
 #: calendar/gui/e-calendar-table.c:1039 calendar/gui/e-calendar-table.c:1084
-#: mail/em-folder-view.c:752 mail/em-popup.c:689 mail/em-popup.c:804
-#: ui/evolution-mail-message.xml.h:126
+#: mail/em-folder-view.c:760 mail/em-popup.c:689 mail/em-popup.c:804
+#: ui/evolution-mail-message.xml.h:128
 msgid "_Save As..."
 msgstr "_Uložit jako..."
 
@@ -5655,9 +5663,9 @@ msgstr "_Vyjmout"
 
 #: calendar/gui/e-cal-view.c:1290 calendar/gui/e-cal-view.c:1327
 #: calendar/gui/e-calendar-table.c:1045 calendar/gui/e-calendar-table.c:1071
-#: mail/em-folder-tree.c:2230 ui/evolution-addressbook.xml.h:31
+#: mail/em-folder-tree.c:2348 ui/evolution-addressbook.xml.h:31
 #: ui/evolution-calendar.xml.h:34 ui/evolution-composer-entries.xml.h:7
-#: ui/evolution-mail-message.xml.h:107 ui/evolution-tasks.xml.h:18
+#: ui/evolution-mail-message.xml.h:109 ui/evolution-tasks.xml.h:18
 msgid "_Copy"
 msgstr "_Kopírovat"
 
@@ -5793,12 +5801,20 @@ msgid "URL"
 msgstr "URL"
 
 #. strftime format of a weekday, a date and a time, 24-hour.
+#. strptime format of a weekday, a date and a time,
+#. in 24-hour format.
+#. strftime format of a weekday, a date and a
+#. time, in 24-hour format.
 #: calendar/gui/e-cell-date-edit-text.c:117 e-util/e-time-utils.c:180
 #: e-util/e-time-utils.c:393
 msgid "%a %m/%d/%Y %H:%M:%S"
 msgstr "%a %d/%m/%Y %H:%M:%S"
 
 #. strftime format of a weekday, a date and a time, 12-hour.
+#. strptime format of a weekday, a date and a time,
+#. in 12-hour format.
+#. strftime format of a weekday, a date and a
+#. time, in 12-hour format.
 #: calendar/gui/e-cell-date-edit-text.c:120 e-util/e-time-utils.c:175
 #: e-util/e-time-utils.c:402
 msgid "%a %m/%d/%Y %I:%M:%S %p"
@@ -5822,6 +5838,10 @@ msgstr "%02i rozdělení minuty"
 
 #. strftime format %A = full weekday name, %d = day of month,
 #. %B = full month name. Don't use any other specifiers.
+#. strftime format %A = full weekday name, %d = day of
+#. month, %B = full month name. You can change the
+#. order but don't change the specifiers or add
+#. anything.
 #: calendar/gui/e-day-view-top-item.c:688 calendar/gui/e-day-view.c:1350
 #: calendar/gui/e-week-view-main-item.c:320 calendar/gui/print.c:1514
 msgid "%A %d %B"
@@ -5829,6 +5849,9 @@ msgstr "%A %d %B"
 
 #. strftime format %d = day of month, %b = abbreviated month name.
 #. Don't use any other specifiers.
+#. strftime format %d = day of month, %b = abbreviated
+#. month name. You can change the order but don't
+#. change the specifiers or add anything.
 #: calendar/gui/e-day-view-top-item.c:696 calendar/gui/e-day-view.c:1383
 #: calendar/gui/e-week-view-main-item.c:343
 msgid "%d %b"
@@ -6388,6 +6411,10 @@ msgstr "%A, %B %d, %Y"
 
 #. This is a strftime() format string %a = abbreviated weekday
 #. name, %m = month number, %d = month day, %Y = full year.
+#. This is a strftime() format string %a = abbreviated weekday name,
+#. %m = month number, %d = month day, %Y = full year.
+#. strptime format of a weekday and a date.
+#. strftime format of a weekday and a date.
 #: calendar/gui/e-meeting-time-sel-item.c:456
 #: calendar/gui/e-meeting-time-sel.c:2093 e-util/e-time-utils.c:203
 #: e-util/e-time-utils.c:296 e-util/e-time-utils.c:384
@@ -6396,6 +6423,10 @@ msgstr "%a %d/%m/%Y"
 
 #. This is a strftime() format string %m = month number,
 #. %d = month day, %Y = full year.
+#. strptime format of a weekday and a date.
+#. This is the preferred date format for the locale.
+#. This is a strftime() format for a short date. %m = month,
+#. %d = day of month, %Y = year (all digits).
 #: calendar/gui/e-meeting-time-sel-item.c:460 e-util/e-time-utils.c:238
 #: e-util/e-time-utils.c:299 widgets/misc/e-dateedit.c:1606
 msgid "%m/%d/%Y"
@@ -6479,7 +6510,7 @@ msgstr "Naléhavost:"
 msgid "Web Page:"
 msgstr "WWW stránka:"
 
-#: calendar/gui/e-tasks.c:310 mail/em-folder-view.c:2179
+#: calendar/gui/e-tasks.c:310 mail/em-folder-view.c:2194
 #, c-format
 msgid "Click to open %s"
 msgstr "Kliknutím sem otevřete %s"
@@ -9416,12 +9447,12 @@ msgstr "Nemohu vytvořit složku: Neplatná operace pro tento sklad"
 msgid "Cannot delete folder: %s: Invalid operation"
 msgstr "Nemohu odstranit složku: %s: Neplatná operace"
 
-#: camel/camel-store.c:779 mail/mail-ops.c:1120
+#: camel/camel-store.c:779 mail/mail-ops.c:1126
 msgid "Trash"
 msgstr "Koš"
 
-#: camel/camel-store.c:781 filter/libfilter-i18n.h:35 mail/mail-ops.c:1124
-#: ui/evolution-mail-message.xml.h:46
+#: camel/camel-store.c:781 filter/libfilter-i18n.h:35 mail/mail-ops.c:1130
+#: ui/evolution-mail-message.xml.h:48
 msgid "Junk"
 msgstr "Smetí"
 
@@ -10410,7 +10441,7 @@ msgstr "Nemohu zavřít zdrojovou složku: %s: %s"
 msgid "Could not close temp folder: %s"
 msgstr "Nemohu zavřít dočasnou složku: %s"
 
-#: camel/providers/local/camel-mbox-summary.c:592 mail/em-folder-tree.c:2192
+#: camel/providers/local/camel-mbox-summary.c:592 mail/em-folder-tree.c:2310
 #, c-format
 msgid "Could not rename folder: %s"
 msgstr "Nemohu přejmenovat složku: %s"
@@ -11135,7 +11166,7 @@ msgstr "Doručení pošty SMTP pomocí %s"
 msgid "Cannot send message: sender address not valid."
 msgstr "Nemohu odeslat zprávu: adresa odesílatele není platná."
 
-#: camel/providers/smtp/camel-smtp-transport.c:691 mail/mail-ops.c:606
+#: camel/providers/smtp/camel-smtp-transport.c:691 mail/mail-ops.c:612
 msgid "Sending message"
 msgstr "Posílám zprávu"
 
@@ -11486,6 +11517,10 @@ msgstr ""
 "\n"
 "Chcete uložit změny?"
 
+#: composer/e-msg-composer.c:1560
+msgid "Untitled Message"
+msgstr "Nepojmenovaná zpráva"
+
 #: composer/e-msg-composer.c:1567
 msgid "Warning: Modified Message"
 msgstr "Varování: Změněná zpráva"
@@ -11551,7 +11586,7 @@ msgstr ""
 "nemohu vytvořit okno pro psaní zpráv:\n"
 "Nemohu aktivovat komponentu editoru HTML."
 
-#: composer/e-msg-composer.c:4237
+#: composer/e-msg-composer.c:4234
 msgid ""
 "<b>(The composer contains a non-text message body, which cannot be edited.)"
 "<b>"
@@ -11707,12 +11742,16 @@ msgstr "Synchronizované kategorie:"
 
 #. strptime format of a weekday, a date and a time,
 #. in 12-hour format, without seconds.
+#. strftime format of a weekday, a date and a
+#. time, in 12-hour format, without seconds.
 #: e-util/e-time-utils.c:185 e-util/e-time-utils.c:398
 msgid "%a %m/%d/%Y %I:%M %p"
 msgstr "%a %d. %m. %Y %I:%M %p"
 
 #. strptime format of a weekday, a date and a time,
 #. in 24-hour format, without seconds.
+#. strftime format of a weekday, a date and a
+#. time, in 24-hour format, without seconds.
 #: e-util/e-time-utils.c:190 e-util/e-time-utils.c:389
 msgid "%a %m/%d/%Y %H:%M"
 msgstr "%a %d. %m. %Y %H:%M"
@@ -11764,23 +11803,31 @@ msgid "%m/%d/%Y %H"
 msgstr "%d. %m. %Y %H"
 
 #. strptime format for a time of day, in 12-hour format.
+#. strftime format of a time in 12-hour format.
 #: e-util/e-time-utils.c:339 e-util/e-time-utils.c:438
 msgid "%I:%M:%S %p"
 msgstr "%H:%M:%S %p"
 
 #. strptime format for a time of day, in 24-hour format.
+#. strftime format of a time in 24-hour format.
 #: e-util/e-time-utils.c:343 e-util/e-time-utils.c:430
 msgid "%H:%M:%S"
 msgstr "%H:%M:%S"
 
 #. strptime format for time of day, without seconds,
 #. in 12-hour format.
+#. strftime format of a time in 12-hour format,
+#. without seconds.
+#. This is a strftime() format. %I = hour (1-12), %M = minute, %p = am/pm string.
 #: e-util/e-time-utils.c:348 e-util/e-time-utils.c:435
 #: widgets/misc/e-dateedit.c:1416 widgets/misc/e-dateedit.c:1641
 msgid "%I:%M %p"
 msgstr "%H:%M, %x"
 
 #. strptime format for time of day, without seconds 24-hour format.
+#. strftime format of a time in 24-hour format,
+#. without seconds.
+#. This is a strftime() format. %H = hour (0-23), %M = minute.
 #: e-util/e-time-utils.c:352 e-util/e-time-utils.c:427
 #: widgets/misc/e-dateedit.c:1413 widgets/misc/e-dateedit.c:1638
 msgid "%H:%M"
@@ -12201,7 +12248,7 @@ msgstr "není označený"
 msgid "Junk Test"
 msgstr "Test na smetí"
 
-#: filter/libfilter-i18n.h:37 mail/em-folder-view.c:783
+#: filter/libfilter-i18n.h:37 mail/em-folder-view.c:791
 #: widgets/misc/e-expander.c:189
 msgid "Label"
 msgstr "Štítek"
@@ -12580,7 +12627,7 @@ msgstr "<kliknutím zde vyberete složku>"
 msgid "Create New Folder"
 msgstr "Vytvořit novou složku"
 
-#: mail/em-folder-selector.c:137 mail/em-folder-tree.c:1950
+#: mail/em-folder-selector.c:137 mail/em-folder-tree.c:2068
 #: mail/mail-component.c:597
 #: shell/glade/e-shell-folder-creation-dialog.glade.h:4
 msgid "Specify where to create the folder:"
@@ -12618,7 +12665,7 @@ msgstr "Nelze upustit zprávy do úložiště nejvyšší úrovně"
 msgid "Cannot move folder `%s': illegal operation"
 msgstr "Nemohu přejmenovat složku `%s': Neplatná operace"
 
-#: mail/em-folder-tree.c:1827 mail/em-folder-tree.c:1915
+#: mail/em-folder-tree.c:1827 mail/em-folder-tree.c:2003
 #, c-format
 msgid "%s"
 msgstr "%s"
@@ -12629,219 +12676,228 @@ msgstr "%s"
 msgid "Select folder"
 msgstr "Vyberte složku"
 
-#: mail/em-folder-tree.c:1950 mail/mail-component.c:597
+#: mail/em-folder-tree.c:1883
+#, c-format
+msgid "Creating folder `%s'"
+msgstr "Vytvářím složku `%s'"
+
+#: mail/em-folder-tree.c:2068 mail/mail-component.c:597
 msgid "Create folder"
 msgstr "Vytvořit složku"
 
-#: mail/em-folder-tree.c:2069
+#: mail/em-folder-tree.c:2187
 #, c-format
 msgid "Could not delete folder: %s"
 msgstr "Nemohu odstranit složku: %s"
 
-#: mail/em-folder-tree.c:2094
+#: mail/em-folder-tree.c:2212
 #, c-format
 msgid "Cannot delete local %s folder."
 msgstr "Nemohu odstranit místní složku %s."
 
-#: mail/em-folder-tree.c:2100
+#: mail/em-folder-tree.c:2218
 #, c-format
 msgid "Really delete folder \"%s\" and all of its subfolders?"
 msgstr "Opravdu odstranit složku \"%s\" a všechny její podsložky?"
 
-#: mail/em-folder-tree.c:2110
+#: mail/em-folder-tree.c:2228
 #, c-format
 msgid "Delete \"%s\""
 msgstr "Odstranit \"%s\""
 
-#: mail/em-folder-tree.c:2144
+#: mail/em-folder-tree.c:2262
 #, c-format
 msgid "Cannot rename local %s folder."
 msgstr "Nemohu přejmenovat místní složku %s."
 
-#: mail/em-folder-tree.c:2153
+#: mail/em-folder-tree.c:2271
 #, c-format
 msgid "Rename the \"%s\" folder to:"
 msgstr "Přejmenovat složku \"%s\" na:"
 
-#: mail/em-folder-tree.c:2155
+#: mail/em-folder-tree.c:2273
 msgid "Rename Folder"
 msgstr "Přejmenovat složku"
 
-#: mail/em-folder-tree.c:2179
+#: mail/em-folder-tree.c:2297
 #, c-format
 msgid "A folder named \"%s\" already exists. Please use a different name."
 msgstr "Již existuje složka nazvaná \"%s\". Použijte prosím jiný název."
 
-#: mail/em-folder-tree.c:2225 ui/evolution-addressbook.xml.h:45
+#: mail/em-folder-tree.c:2343 ui/evolution-addressbook.xml.h:45
 #: ui/evolution-mail-global.xml.h:18 ui/evolution-mail-messagedisplay.xml.h:8
 #: ui/evolution-message-composer.xml.h:53 ui/evolution.xml.h:35
 msgid "_View"
 msgstr "_Zobrazení"
 
-#: mail/em-folder-tree.c:2226
+#: mail/em-folder-tree.c:2344
 msgid "Open in _New Window"
 msgstr "Otevřít v _novém okně"
 
-#: mail/em-folder-tree.c:2231
+#: mail/em-folder-tree.c:2349
 msgid "_Move"
 msgstr "_Přesunout"
 
 #. FIXME: need to disable for nochildren folders
-#: mail/em-folder-tree.c:2235
+#: mail/em-folder-tree.c:2353
 msgid "_New Folder..."
 msgstr "_Nová složka..."
 
-#: mail/em-folder-tree.c:2238
+#: mail/em-folder-tree.c:2356
 msgid "_Rename"
 msgstr "_Přejmenovat"
 
-#: mail/em-folder-tree.c:2241 ui/evolution-mail-list.xml.h:27
+#: mail/em-folder-tree.c:2359 ui/evolution-mail-list.xml.h:27
 msgid "_Properties..."
 msgstr "Vla_stnosti..."
 
 #. { EM_POPUP_ITEM, "00.select.00", N_("_Open"), G_CALLBACK(emp_popup_open), NULL, NULL, 0 },
-#: mail/em-folder-view.c:751 mail/em-popup.c:688
+#: mail/em-folder-view.c:759 mail/em-popup.c:688
 msgid "_Edit as New Message..."
 msgstr "_Upravit jako novou zprávu..."
 
-#: mail/em-folder-view.c:753
+#: mail/em-folder-view.c:761
 msgid "_Print"
 msgstr "_Tisknout"
 
-#: mail/em-folder-view.c:756 ui/evolution-mail-message.xml.h:124
+#: mail/em-folder-view.c:764 ui/evolution-mail-message.xml.h:126
 msgid "_Reply to Sender"
 msgstr "_Odpovědět odesílateli"
 
-#: mail/em-folder-view.c:757 mail/em-popup.c:808
-#: ui/evolution-mail-message.xml.h:86
+#: mail/em-folder-view.c:765 mail/em-popup.c:808
+#: ui/evolution-mail-message.xml.h:88
 msgid "Reply to _List"
 msgstr "Odpovědět _do konference"
 
-#: mail/em-folder-view.c:758 mail/em-popup.c:809
-#: ui/evolution-mail-message.xml.h:85
+#: mail/em-folder-view.c:766 mail/em-popup.c:809
+#: ui/evolution-mail-message.xml.h:87
 msgid "Reply to _All"
 msgstr "Odpovědět _všem"
 
-#: mail/em-folder-view.c:759 mail/em-popup.c:811
-#: ui/evolution-mail-message.xml.h:111
+#: mail/em-folder-view.c:767 mail/em-popup.c:811
+#: ui/evolution-mail-message.xml.h:113
 msgid "_Forward"
 msgstr "_Přeposlat"
 
-#: mail/em-folder-view.c:762
+#: mail/em-folder-view.c:770
 msgid "Follo_w Up..."
 msgstr "Follo_w Up..."
 
-#: mail/em-folder-view.c:763
+#: mail/em-folder-view.c:771
 msgid "Fla_g Completed"
 msgstr "Označit jako _dokončeno"
 
-#: mail/em-folder-view.c:764
+#: mail/em-folder-view.c:772
 msgid "Cl_ear Flag"
 msgstr "Zrušit _značku"
 
-#: mail/em-folder-view.c:767 ui/evolution-mail-message.xml.h:48
+#: mail/em-folder-view.c:775 ui/evolution-mail-message.xml.h:50
 msgid "Mar_k as Read"
 msgstr "Označit jako _přečtené"
 
-#: mail/em-folder-view.c:768
+#: mail/em-folder-view.c:776
 msgid "Mark as _Unread"
 msgstr "Označit jako ne_přečtené"
 
-#: mail/em-folder-view.c:769
+#: mail/em-folder-view.c:777
 msgid "Mark as _Important"
 msgstr "Označit jako _důležité"
 
-#: mail/em-folder-view.c:770
+#: mail/em-folder-view.c:778
 msgid "_Mark as Unimportant"
 msgstr "Označit jako ne_důležité"
 
-#: mail/em-folder-view.c:771 ui/evolution-mail-message.xml.h:52
+#: mail/em-folder-view.c:779 ui/evolution-mail-message.xml.h:54
 msgid "Mark as _Junk"
 msgstr "Označit jako _smetí"
 
-#: mail/em-folder-view.c:772 ui/evolution-mail-message.xml.h:53
+#: mail/em-folder-view.c:780 ui/evolution-mail-message.xml.h:55
 msgid "Mark as _Not Junk"
 msgstr "Označit jako ne _smetí"
 
-#: mail/em-folder-view.c:776
+#: mail/em-folder-view.c:784
 msgid "U_ndelete"
 msgstr "Obnovit _odstraněné"
 
-#: mail/em-folder-view.c:779
+#: mail/em-folder-view.c:787
 msgid "Mo_ve to Folder..."
 msgstr "Pře_sunout do složky..."
 
-#: mail/em-folder-view.c:780 ui/evolution-addressbook.xml.h:32
+#: mail/em-folder-view.c:788 ui/evolution-addressbook.xml.h:32
 msgid "_Copy to Folder..."
 msgstr "_Kopírovat do složky..."
 
-#: mail/em-folder-view.c:788
+#: mail/em-folder-view.c:796
 msgid "Add Sender to Address_book"
 msgstr "Přidat odesílatele do _adresáře"
 
-#: mail/em-folder-view.c:791
+#: mail/em-folder-view.c:799
 msgid "Appl_y Filters"
 msgstr "Použít _filtry"
 
-#: mail/em-folder-view.c:794
+#: mail/em-folder-view.c:800
+msgid "F_ilter Junk"
+msgstr "_Filtrovat smetí"
+
+#: mail/em-folder-view.c:803
 msgid "Crea_te Rule From Message"
 msgstr "Vy_tvořit pravidlo ze zprávy"
 
-#: mail/em-folder-view.c:795
+#: mail/em-folder-view.c:804
 msgid "VFolder on _Subject"
 msgstr "V-složka podle _předmětu"
 
-#: mail/em-folder-view.c:796
+#: mail/em-folder-view.c:805
 msgid "VFolder on Se_nder"
 msgstr "V-složka podle _odesílatele"
 
-#: mail/em-folder-view.c:797
+#: mail/em-folder-view.c:806
 msgid "VFolder on _Recipients"
 msgstr "V-složka podle příje_mců"
 
-#: mail/em-folder-view.c:798
+#: mail/em-folder-view.c:807
 msgid "VFolder on Mailing _List"
 msgstr "V-složka podle poštovní _konference"
 
-#: mail/em-folder-view.c:800
+#: mail/em-folder-view.c:809
 msgid "VFolder on Thread"
 msgstr "V-složka podle vlákna"
 
-#: mail/em-folder-view.c:804
+#: mail/em-folder-view.c:813
 msgid "Filter on Sub_ject"
 msgstr "Filtr podle _předmětu"
 
-#: mail/em-folder-view.c:805
+#: mail/em-folder-view.c:814
 msgid "Filter on Sen_der"
 msgstr "Filtr podle _odesílatele"
 
-#: mail/em-folder-view.c:806
+#: mail/em-folder-view.c:815
 msgid "Filter on Re_cipients"
 msgstr "Filtr podle příje_mců"
 
-#: mail/em-folder-view.c:807
+#: mail/em-folder-view.c:816
 msgid "Filter on _Mailing List"
 msgstr "Filtr podle poštovní _konference"
 
-#: mail/em-folder-view.c:809
+#: mail/em-folder-view.c:818
 msgid "Filter on Thread"
 msgstr "Filtr podle vlákna"
 
 #. default charset used in mail view
-#: mail/em-folder-view.c:1586 mail/em-folder-view.c:1624
+#: mail/em-folder-view.c:1601 mail/em-folder-view.c:1639
 #: mail/mail-config.glade.h:41
 msgid "Default"
 msgstr "Implicitní"
 
-#: mail/em-folder-view.c:1660
+#: mail/em-folder-view.c:1675
 msgid "Print Message"
 msgstr "Tisknout zprávu"
 
-#: mail/em-folder-view.c:1907
+#: mail/em-folder-view.c:1922
 msgid "_Copy Link Location"
 msgstr "_Kopírovat umístění odkazu"
 
-#: mail/em-folder-view.c:2174
+#: mail/em-folder-view.c:2189
 #, c-format
 msgid "Click to mail %s"
 msgstr "Kliknutím sem pošlete e-mail %s"
@@ -14754,16 +14810,16 @@ msgstr "Pracuji"
 msgid "Filtering Folder"
 msgstr "Filtruji složku"
 
-#: mail/mail-ops.c:243
+#: mail/mail-ops.c:249
 msgid "Fetching Mail"
 msgstr "Přijímám pošta"
 
-#: mail/mail-ops.c:528
+#: mail/mail-ops.c:534
 #, c-format
 msgid "Failed to apply outgoing filters: %s"
 msgstr "Nemohu použít odchozí filtry: %s"
 
-#: mail/mail-ops.c:553
+#: mail/mail-ops.c:559
 #, c-format
 msgid ""
 "Failed to append to %s: %s\n"
@@ -14772,116 +14828,116 @@ msgstr ""
 "Nemohu připojit do %s: %s\n"
 "Připojuji místo toho do místní složky `Odeslané'."
 
-#: mail/mail-ops.c:562
+#: mail/mail-ops.c:568
 #, c-format
 msgid "Failed to append to local `Sent' folder: %s"
 msgstr "Nemohu připojit do místní složky `Odeslané': %s"
 
-#: mail/mail-ops.c:604
+#: mail/mail-ops.c:610
 #, c-format
 msgid "Sending \"%s\""
 msgstr "Posílám \"%s\""
 
-#: mail/mail-ops.c:722
+#: mail/mail-ops.c:728
 #, c-format
 msgid "Sending message %d of %d"
 msgstr "Posílám zprávu %d z %d"
 
-#: mail/mail-ops.c:741
+#: mail/mail-ops.c:747
 #, c-format
 msgid "Failed on message %d of %d"
 msgstr "Selhání na zprávě %d z %d"
 
-#: mail/mail-ops.c:743
+#: mail/mail-ops.c:749
 msgid "Complete."
 msgstr "Dokončeno."
 
-#: mail/mail-ops.c:837
+#: mail/mail-ops.c:843
 msgid "Saving message to folder"
 msgstr "Ukládám zprávu do složky"
 
-#: mail/mail-ops.c:922
+#: mail/mail-ops.c:928
 #, c-format
 msgid "Moving messages to %s"
 msgstr "Přesouvám zprávy do %s"
 
-#: mail/mail-ops.c:922
+#: mail/mail-ops.c:928
 #, c-format
 msgid "Copying messages to %s"
 msgstr "Kopíruji zprávy do %s"
 
-#: mail/mail-ops.c:1035
+#: mail/mail-ops.c:1041
 #, c-format
 msgid "Scanning folders in \"%s\""
 msgstr "Procházím složky v \"%s\""
 
-#: mail/mail-ops.c:1231
+#: mail/mail-ops.c:1237
 msgid "Forwarded messages"
 msgstr "Přeposlané zprávy"
 
-#: mail/mail-ops.c:1274
+#: mail/mail-ops.c:1280
 #, c-format
 msgid "Opening folder %s"
 msgstr "Otevírám složku %s"
 
-#: mail/mail-ops.c:1346
+#: mail/mail-ops.c:1352
 #, c-format
 msgid "Opening store %s"
 msgstr "Otevírám úložiště %s"
 
-#: mail/mail-ops.c:1424
+#: mail/mail-ops.c:1430
 #, c-format
 msgid "Removing folder %s"
 msgstr "Odstraňuji složku %s"
 
-#: mail/mail-ops.c:1518
+#: mail/mail-ops.c:1524
 #, c-format
 msgid "Storing folder '%s'"
 msgstr "Ukládám složku '%s'"
 
-#: mail/mail-ops.c:1583
+#: mail/mail-ops.c:1589
 #, c-format
 msgid "Expunging and storing account '%s'"
 msgstr "Čistím a ukládám účet '%s'"
 
-#: mail/mail-ops.c:1584
+#: mail/mail-ops.c:1590
 #, c-format
 msgid "Storing account '%s'"
 msgstr "Ukládám účet '%s'"
 
-#: mail/mail-ops.c:1639
+#: mail/mail-ops.c:1645
 msgid "Refreshing folder"
 msgstr "Obnovuji složku"
 
-#: mail/mail-ops.c:1675 mail/mail-ops.c:1726
+#: mail/mail-ops.c:1681 mail/mail-ops.c:1732
 msgid "Expunging folder"
 msgstr "Čistím složku"
 
-#: mail/mail-ops.c:1723
+#: mail/mail-ops.c:1729
 #, c-format
 msgid "Emptying trash in '%s'"
 msgstr "Vyprazdňuji koš v '%s'"
 
-#: mail/mail-ops.c:1724
+#: mail/mail-ops.c:1730
 msgid "Local Folders"
 msgstr "Místní složky"
 
-#: mail/mail-ops.c:1807
+#: mail/mail-ops.c:1813
 #, c-format
 msgid "Retrieving message %s"
 msgstr "Získávám zprávu %s"
 
-#: mail/mail-ops.c:1879
+#: mail/mail-ops.c:1885
 #, c-format
 msgid "Retrieving %d message(s)"
 msgstr "Získávám %d zpráv"
 
-#: mail/mail-ops.c:1963
+#: mail/mail-ops.c:1969
 #, c-format
 msgid "Saving %d messsage(s)"
 msgstr "Ukládám %d zpráv"
 
-#: mail/mail-ops.c:2011
+#: mail/mail-ops.c:2017
 #, c-format
 msgid ""
 "Unable to create output file: %s\n"
@@ -14890,7 +14946,7 @@ msgstr ""
 "Nemohu vytvořit soubor výstupu: %s\n"
 " %s"
 
-#: mail/mail-ops.c:2039
+#: mail/mail-ops.c:2045
 #, c-format
 msgid ""
 "Error saving messages to: %s:\n"
@@ -14899,11 +14955,11 @@ msgstr ""
 "Chyba při ukládání zpráv do: %s:\n"
 " %s"
 
-#: mail/mail-ops.c:2110
+#: mail/mail-ops.c:2116
 msgid "Saving attachment"
 msgstr "Ukládám přílohu"
 
-#: mail/mail-ops.c:2127
+#: mail/mail-ops.c:2133
 #, c-format
 msgid ""
 "Cannot create output file: %s:\n"
@@ -14912,22 +14968,22 @@ msgstr ""
 "Nemohu vytvořit soubor výstupu: %s:\n"
 " %s"
 
-#: mail/mail-ops.c:2157
+#: mail/mail-ops.c:2163
 #, c-format
 msgid "Could not write data: %s"
 msgstr "Nemohu zapisovat data: %s"
 
-#: mail/mail-ops.c:2305
+#: mail/mail-ops.c:2311
 #, c-format
 msgid "Disconnecting from %s"
 msgstr "Odpojuji se od %s"
 
-#: mail/mail-ops.c:2305
+#: mail/mail-ops.c:2311
 #, c-format
 msgid "Reconnecting to %s"
 msgstr "Znovu se připojuji na %s"
 
-#: mail/mail-ops.c:2407
+#: mail/mail-ops.c:2413
 msgid "Changing junk status"
 msgstr "Měním stav smetí"
 
@@ -15222,7 +15278,7 @@ msgstr "Follow Up"
 msgid "For Your Information"
 msgstr "Pro vaši informaci"
 
-#: mail/message-tag-followup.c:66 ui/evolution-mail-message.xml.h:40
+#: mail/message-tag-followup.c:66 ui/evolution-mail-message.xml.h:42
 msgid "Forward"
 msgstr "Přeposlat"
 
@@ -15230,11 +15286,11 @@ msgstr "Přeposlat"
 msgid "No Response Necessary"
 msgstr "Není nutná odpověď"
 
-#: mail/message-tag-followup.c:69 ui/evolution-mail-message.xml.h:83
+#: mail/message-tag-followup.c:69 ui/evolution-mail-message.xml.h:85
 msgid "Reply"
 msgstr "Odpovědět"
 
-#: mail/message-tag-followup.c:70 ui/evolution-mail-message.xml.h:84
+#: mail/message-tag-followup.c:70 ui/evolution-mail-message.xml.h:86
 msgid "Reply to All"
 msgstr "Odpovědět všem"
 
@@ -15680,15 +15736,15 @@ msgstr "Nemohu spustit bug buddy."
 msgid "About Ximian Evolution"
 msgstr "O Ximian Evolution"
 
-#: shell/e-shell-window-commands.c:381
+#: shell/e-shell-window-commands.c:382
 msgid "_Work Online"
 msgstr "Pracovat _on-line"
 
-#: shell/e-shell-window-commands.c:394 ui/evolution.xml.h:37
+#: shell/e-shell-window-commands.c:395 ui/evolution.xml.h:37
 msgid "_Work Offline"
 msgstr "_Pracovat při odpojení"
 
-#: shell/e-shell-window-commands.c:407 ui/evolution.xml.h:22
+#: shell/e-shell-window-commands.c:408 ui/evolution.xml.h:22
 msgid "Work Offline"
 msgstr "Pracovat při odpojení"
 
@@ -16545,7 +16601,7 @@ msgid "Previews the contacts to be printed"
 msgstr "Náhled kontaktů před tiskem"
 
 #: ui/evolution-addressbook.xml.h:17 ui/evolution-calendar.xml.h:20
-#: ui/evolution-comp-editor.xml.h:9 ui/evolution-mail-message.xml.h:79
+#: ui/evolution-comp-editor.xml.h:9 ui/evolution-mail-message.xml.h:81
 #: ui/evolution-tasks.xml.h:13
 msgid "Print Pre_view"
 msgstr "_Náhled před tiskem"
@@ -16598,7 +16654,7 @@ msgstr "Zobrazit aktuální kontakt"
 #: ui/evolution-comp-editor.xml.h:16 ui/evolution-contact-editor.xml.h:13
 #: ui/evolution-contact-list-editor.xml.h:11
 #: ui/evolution-event-editor.xml.h:11 ui/evolution-mail-global.xml.h:15
-#: ui/evolution-mail-list.xml.h:23 ui/evolution-mail-message.xml.h:105
+#: ui/evolution-mail-list.xml.h:23 ui/evolution-mail-message.xml.h:107
 #: ui/evolution-mail-messagedisplay.xml.h:4 ui/evolution-task-editor.xml.h:9
 #: ui/evolution-tasks.xml.h:17 ui/evolution.xml.h:25
 msgid "_Actions"
@@ -16997,7 +17053,7 @@ msgstr "Označit vše jako př_ečtené"
 msgid "Mark all visible messages as read"
 msgstr "Označit všechny viditelné zprávy jako přečtené"
 
-#: ui/evolution-mail-list.xml.h:11 ui/evolution-mail-message.xml.h:72
+#: ui/evolution-mail-list.xml.h:11 ui/evolution-mail-message.xml.h:74
 msgid "Paste message(s) from the clipboard"
 msgstr "Vložit zprávy ze schránky"
 
@@ -17162,306 +17218,314 @@ msgid "F_orward As..."
 msgstr "Př_eposlat jako..."
 
 #: ui/evolution-mail-message.xml.h:33
+msgid "Filter _Junk"
+msgstr "_Filtrovat smetí"
+
+#: ui/evolution-mail-message.xml.h:34
 msgid "Filter on Mailing _List..."
 msgstr "Filtr podle poštovní _konference..."
 
-#: ui/evolution-mail-message.xml.h:34
+#: ui/evolution-mail-message.xml.h:35
 msgid "Filter on Se_nder..."
 msgstr "Filtr podle _odesílatele..."
 
-#: ui/evolution-mail-message.xml.h:35
+#: ui/evolution-mail-message.xml.h:36
 msgid "Filter on _Recipients..."
 msgstr "Filtr podle _příjemců..."
 
-#: ui/evolution-mail-message.xml.h:36
+#: ui/evolution-mail-message.xml.h:37
 msgid "Filter on _Subject..."
 msgstr "Filtr podle pře_dmětu..."
 
-#: ui/evolution-mail-message.xml.h:37
+#: ui/evolution-mail-message.xml.h:38
+msgid "Filter the selected messages for junk status"
+msgstr "Filtrovat smetí ve vybraných zprávách"
+
+#: ui/evolution-mail-message.xml.h:39
 msgid "Flag selected message(s) for follow-up"
 msgstr "Označit vybrané zprávy pro follow up"
 
-#: ui/evolution-mail-message.xml.h:38
+#: ui/evolution-mail-message.xml.h:40
 msgid "Follow _Up..."
 msgstr "Follow _Up..."
 
-#: ui/evolution-mail-message.xml.h:39
+#: ui/evolution-mail-message.xml.h:41
 msgid "Force images in HTML mail to be loaded"
 msgstr "Vždy nahrávat obrázky v HTML zprávách"
 
-#: ui/evolution-mail-message.xml.h:41
+#: ui/evolution-mail-message.xml.h:43
 msgid "Forward the selected message in the body of a new message"
 msgstr "Přeposlat vybranou zprávu v těle nové zprávy"
 
-#: ui/evolution-mail-message.xml.h:42
+#: ui/evolution-mail-message.xml.h:44
 msgid "Forward the selected message quoted like a reply"
 msgstr "Přeposlat vybranou zprávu uvedenou jako odpověď"
 
-#: ui/evolution-mail-message.xml.h:43
+#: ui/evolution-mail-message.xml.h:45
 msgid "Forward the selected message to someone"
 msgstr "Přeposlat někomu vybranou zprávu"
 
-#: ui/evolution-mail-message.xml.h:44
+#: ui/evolution-mail-message.xml.h:46
 msgid "Forward the selected message to someone as an attachment"
 msgstr "Přeposlat někomu vybranou zprávu jako přílohu"
 
-#: ui/evolution-mail-message.xml.h:45
+#: ui/evolution-mail-message.xml.h:47
 msgid "Increase the text size"
 msgstr "Zvětšit velikost textu"
 
-#: ui/evolution-mail-message.xml.h:47
+#: ui/evolution-mail-message.xml.h:49
 msgid "Load _Images"
 msgstr "Nahrávat _obrázky"
 
-#: ui/evolution-mail-message.xml.h:49
+#: ui/evolution-mail-message.xml.h:51
 msgid "Mark as I_mportant"
 msgstr "Označit jako _důležité"
 
-#: ui/evolution-mail-message.xml.h:50
+#: ui/evolution-mail-message.xml.h:52
 msgid "Mark as U_nread"
 msgstr "Označit jako _nepřečtené"
 
-#: ui/evolution-mail-message.xml.h:51
+#: ui/evolution-mail-message.xml.h:53
 msgid "Mark as Unimp_ortant"
 msgstr "Označit jako nedů_ležité"
 
-#: ui/evolution-mail-message.xml.h:54
+#: ui/evolution-mail-message.xml.h:56
 msgid "Mark the selected message(s) as having been read"
 msgstr "Označit vybrané zprávy jako přečtené"
 
-#: ui/evolution-mail-message.xml.h:55
+#: ui/evolution-mail-message.xml.h:57
 msgid "Mark the selected message(s) as important"
 msgstr "Označit vybrané zprávy jako důležité"
 
-#: ui/evolution-mail-message.xml.h:56
+#: ui/evolution-mail-message.xml.h:58
 msgid "Mark the selected message(s) as junk"
 msgstr "Označit vybrané zprávy jako smetí"
 
-#: ui/evolution-mail-message.xml.h:57
+#: ui/evolution-mail-message.xml.h:59
 msgid "Mark the selected message(s) as not being junk"
 msgstr "Označit vybrané zprávy, že nejsou smetí"
 
-#: ui/evolution-mail-message.xml.h:58
+#: ui/evolution-mail-message.xml.h:60
 msgid "Mark the selected message(s) as not having been read"
 msgstr "Označit vybrané zprávy jako nepřečtené"
 
-#: ui/evolution-mail-message.xml.h:59
+#: ui/evolution-mail-message.xml.h:61
 msgid "Mark the selected message(s) as unimportant"
 msgstr "Označit vybrané zprávy jako nedůležité"
 
-#: ui/evolution-mail-message.xml.h:60
+#: ui/evolution-mail-message.xml.h:62
 msgid "Mark the selected messages for deletion"
 msgstr "Označit vybrané zprávy pro odstranění"
 
-#: ui/evolution-mail-message.xml.h:61
+#: ui/evolution-mail-message.xml.h:63
 msgid "Move"
 msgstr "Přesunout"
 
-#: ui/evolution-mail-message.xml.h:62
+#: ui/evolution-mail-message.xml.h:64
 msgid "Move selected message(s) to another folder"
 msgstr "Přesunout vybrané zprávy do jiné složky"
 
-#: ui/evolution-mail-message.xml.h:63
+#: ui/evolution-mail-message.xml.h:65
 msgid "Next"
 msgstr "Další"
 
-#: ui/evolution-mail-message.xml.h:64
+#: ui/evolution-mail-message.xml.h:66
 msgid "Next _Important Message"
 msgstr "následující důležit_ou zprávu"
 
-#: ui/evolution-mail-message.xml.h:65
+#: ui/evolution-mail-message.xml.h:67
 msgid "Next _Thread"
 msgstr "následující _vlákno"
 
-#: ui/evolution-mail-message.xml.h:66
+#: ui/evolution-mail-message.xml.h:68
 msgid "Next _Unread Message"
 msgstr "ná_sledující nepřečtenou zprávu"
 
-#: ui/evolution-mail-message.xml.h:67
+#: ui/evolution-mail-message.xml.h:69
 msgid "Not Junk"
 msgstr "Není smetí"
 
-#: ui/evolution-mail-message.xml.h:68
+#: ui/evolution-mail-message.xml.h:70
 msgid "Open the selected message in a new window"
 msgstr "Otevřít vybranou zprávu v novém okně"
 
-#: ui/evolution-mail-message.xml.h:69
+#: ui/evolution-mail-message.xml.h:71
 msgid "Open the selected message in the composer to re-send it"
 msgstr "Otevřít vybranou zprávu a upravit ji pro znovu-poslání"
 
-#: ui/evolution-mail-message.xml.h:70
+#: ui/evolution-mail-message.xml.h:72
 msgid "Original Si_ze"
 msgstr "Původní _velikost"
 
-#: ui/evolution-mail-message.xml.h:71
+#: ui/evolution-mail-message.xml.h:73
 msgid "P_revious Unread Message"
 msgstr "pře_dchozí nepřečtenou zprávu"
 
-#: ui/evolution-mail-message.xml.h:73
+#: ui/evolution-mail-message.xml.h:75
 msgid "Post a Repl_y"
 msgstr "Poslat _odpověď"
 
-#: ui/evolution-mail-message.xml.h:74
+#: ui/evolution-mail-message.xml.h:76
 msgid "Post a reply to a message in a Public folder"
 msgstr "Poslat odpověď na zprávu do veřejné složky"
 
-#: ui/evolution-mail-message.xml.h:75
+#: ui/evolution-mail-message.xml.h:77
 msgid "Pr_evious Important Message"
 msgstr "př_edchozí důležitou zprávu"
 
-#: ui/evolution-mail-message.xml.h:76
+#: ui/evolution-mail-message.xml.h:78
 msgid "Preview the message to be printed"
 msgstr "Náhled zprávy před tiskem"
 
-#: ui/evolution-mail-message.xml.h:77
+#: ui/evolution-mail-message.xml.h:79
 msgid "Previous"
 msgstr "Předchozí"
 
-#: ui/evolution-mail-message.xml.h:80
+#: ui/evolution-mail-message.xml.h:82
 msgid "Print this message"
 msgstr "Vytisknout tuto zprávu"
 
-#: ui/evolution-mail-message.xml.h:81
+#: ui/evolution-mail-message.xml.h:83
 msgid "Re_direct"
 msgstr "Přesmě_rovat"
 
-#: ui/evolution-mail-message.xml.h:82
+#: ui/evolution-mail-message.xml.h:84
 msgid "Redirect (bounce) the selected message to someone"
 msgstr "Přesměruje (bounce) vybranou zprávu někomu jinému"
 
-#: ui/evolution-mail-message.xml.h:87
+#: ui/evolution-mail-message.xml.h:89
 msgid "Reset the text to its original size"
 msgstr "Obnovit text v jeho původní velikosti"
 
-#: ui/evolution-mail-message.xml.h:88
+#: ui/evolution-mail-message.xml.h:90
 msgid "S_earch in Message..."
 msgstr "_Hledat ve zprávě..."
 
-#: ui/evolution-mail-message.xml.h:89
+#: ui/evolution-mail-message.xml.h:91
 msgid "S_maller"
 msgstr "_Menší"
 
-#: ui/evolution-mail-message.xml.h:90
+#: ui/evolution-mail-message.xml.h:92
 msgid "Save the message as a text file"
 msgstr "Uložit tuto zprávu jako textový soubor"
 
-#: ui/evolution-mail-message.xml.h:91
+#: ui/evolution-mail-message.xml.h:93
 msgid "Search for text in the body of the displayed message"
 msgstr "Hledat text v těle zobrazené zprávy"
 
-#: ui/evolution-mail-message.xml.h:92
+#: ui/evolution-mail-message.xml.h:94
 msgid "Set up the page settings for your current printer"
 msgstr "Nastavit stránku pro vaši aktuální tiskárnu"
 
-#: ui/evolution-mail-message.xml.h:93
+#: ui/evolution-mail-message.xml.h:95
 msgid "Show Email _Source"
 msgstr "Zobrazit _zdroj e-mailu"
 
-#: ui/evolution-mail-message.xml.h:94
+#: ui/evolution-mail-message.xml.h:96
 msgid "Show Full _Headers"
 msgstr "Zobrazovat všechny _hlavičky"
 
-#: ui/evolution-mail-message.xml.h:95
+#: ui/evolution-mail-message.xml.h:97
 msgid "Show a blinking cursor in the body of displayed messages"
 msgstr "Zobrazovat blikající kurzor v těle zobrazovaných zpráv"
 
-#: ui/evolution-mail-message.xml.h:96
+#: ui/evolution-mail-message.xml.h:98
 msgid "Show message in the normal style"
 msgstr "Zobrazovat zprávu v normálním stylu"
 
-#: ui/evolution-mail-message.xml.h:97
+#: ui/evolution-mail-message.xml.h:99
 msgid "Show message with all email headers"
 msgstr "Zobrazovat zprávu se všemi hlavičkami e-mailu"
 
-#: ui/evolution-mail-message.xml.h:98
+#: ui/evolution-mail-message.xml.h:100
 msgid "Show the raw email source of the message"
 msgstr "Zobrazovat zdrojový formát poštovní zprávy"
 
-#: ui/evolution-mail-message.xml.h:99
+#: ui/evolution-mail-message.xml.h:101
 msgid "Text Si_ze"
 msgstr "_Velikost textu"
 
-#: ui/evolution-mail-message.xml.h:100
+#: ui/evolution-mail-message.xml.h:102
 msgid "Un-delete the selected messages"
 msgstr "Obnovit vybrané odstraněné zprávy"
 
-#: ui/evolution-mail-message.xml.h:101
+#: ui/evolution-mail-message.xml.h:103
 msgid "VFolder on Mailing _List..."
 msgstr "V-složku podle poštovní _konference..."
 
-#: ui/evolution-mail-message.xml.h:102
+#: ui/evolution-mail-message.xml.h:104
 msgid "VFolder on Se_nder..."
 msgstr "V-složku podle _odesílatele..."
 
-#: ui/evolution-mail-message.xml.h:103
+#: ui/evolution-mail-message.xml.h:105
 msgid "VFolder on _Recipients..."
 msgstr "V-složku podle _příjemců"
 
-#: ui/evolution-mail-message.xml.h:104
+#: ui/evolution-mail-message.xml.h:106
 msgid "VFolder on _Subject..."
 msgstr "V-složku podle pře_dmětu..."
 
-#: ui/evolution-mail-message.xml.h:106
+#: ui/evolution-mail-message.xml.h:108
 msgid "_Attached"
 msgstr "_Přiložené"
 
-#: ui/evolution-mail-message.xml.h:108
+#: ui/evolution-mail-message.xml.h:110
 msgid "_Copy to Folder"
 msgstr "_Kopírovat do složky"
 
-#: ui/evolution-mail-message.xml.h:109
+#: ui/evolution-mail-message.xml.h:111
 msgid "_Create Filter From Message"
 msgstr "Vytvořit fi_ltr ze zprávy"
 
-#: ui/evolution-mail-message.xml.h:112
+#: ui/evolution-mail-message.xml.h:114
 msgid "_Go To"
 msgstr "_Jít na"
 
-#: ui/evolution-mail-message.xml.h:113
+#: ui/evolution-mail-message.xml.h:115
 msgid "_Inline"
 msgstr "_Vložené"
 
-#: ui/evolution-mail-message.xml.h:114
+#: ui/evolution-mail-message.xml.h:116
 msgid "_Larger"
 msgstr "_Větší"
 
-#: ui/evolution-mail-message.xml.h:115
+#: ui/evolution-mail-message.xml.h:117
 msgid "_Message Display"
 msgstr "_Zobrazení zprávy"
 
-#: ui/evolution-mail-message.xml.h:116
+#: ui/evolution-mail-message.xml.h:118
 msgid "_Move to Folder"
 msgstr "_Přesunout do složky"
 
-#: ui/evolution-mail-message.xml.h:117
+#: ui/evolution-mail-message.xml.h:119
 msgid "_Next Message"
 msgstr "_následující zprávu"
 
-#: ui/evolution-mail-message.xml.h:118
+#: ui/evolution-mail-message.xml.h:120
 msgid "_Normal Display"
 msgstr "_Normální zobrazení"
 
-#: ui/evolution-mail-message.xml.h:119
+#: ui/evolution-mail-message.xml.h:121
 msgid "_Open Message"
 msgstr "_Otevřít zprávu"
 
-#: ui/evolution-mail-message.xml.h:121
+#: ui/evolution-mail-message.xml.h:123
 msgid "_Previous Message"
 msgstr "_předchozí zprávu"
 
-#: ui/evolution-mail-message.xml.h:123
+#: ui/evolution-mail-message.xml.h:125
 msgid "_Quoted"
 msgstr "_Citace"
 
-#: ui/evolution-mail-message.xml.h:125
+#: ui/evolution-mail-message.xml.h:127
 msgid "_Resend..."
 msgstr "_Znovu poslat..."
 
-#: ui/evolution-mail-message.xml.h:127 ui/evolution.xml.h:34
+#: ui/evolution-mail-message.xml.h:129 ui/evolution.xml.h:34
 msgid "_Tools"
 msgstr "_Nástroje"
 
-#: ui/evolution-mail-message.xml.h:128
+#: ui/evolution-mail-message.xml.h:130
 msgid "_Undelete"
 msgstr "O_bnovit odstraněné"
 
