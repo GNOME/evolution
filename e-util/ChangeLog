@@ -1,3 +1,9 @@
+2003-01-24  Hans Petter Jansson  <hpj@ximian.com>
+
+	* e-categories-config.c (initialize_categories_config): Enable
+	getting the categories master list from wombat.
+	(e_categories_config_open_dialog_for_entry): It's now a GtkDialog.
+
 2003-01-22  Ettore Perazzoli  <ettore@ximian.com>
 
 	* Makefile.am (eutilincludedir): Version using $(BASE_VERSION).

@@ -25,9 +25,7 @@ initialize_categories_config (void)
 {
 	g_return_if_fail (initialized == FALSE);
 
-#if 0
 	ecmlw = E_CATEGORIES_MASTER_LIST_WOMBAT (e_categories_master_list_wombat_new ());
-#endif
 	icons_table = g_hash_table_new (g_str_hash, g_str_equal);
 	/* FIXME: must free the two objects above when exiting */
 
@@ -175,7 +173,7 @@ e_categories_config_set_icon_for (const char *category, const char *icon_file)
 void
 e_categories_config_open_dialog_for_entry (GtkEntry *entry)
 {
-	GnomeDialog *dialog;
+	GtkDialog *dialog;
 	const char *text;
 	char *categories;
 	int result;
@@ -187,14 +185,14 @@ e_categories_config_open_dialog_for_entry (GtkEntry *entry)
 		initialize_categories_config ();
 	
 	text = gtk_entry_get_text (GTK_ENTRY (entry));
-	dialog = GNOME_DIALOG (e_categories_new (text));
+	dialog = GTK_DIALOG (e_categories_new (text));
 	
 	gtk_object_set (GTK_OBJECT (dialog),
 			"ecml", ecmlw,
 			NULL);
 	
 	/* run the dialog */
-	result = gnome_dialog_run (dialog);
+	result = gtk_dialog_run (dialog);
 	
 	if (result == 0) {
 		gtk_object_get (GTK_OBJECT (dialog),
