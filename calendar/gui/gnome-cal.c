@@ -238,11 +238,23 @@ gnome_calendar_update_all (GnomeCalendar *cal, iCalObject *object, int flags)
 
 
 static void
-gnome_calendar_changed_cb (GtkWidget *cal_client,
-			   const char *uid,
-			   GnomeCalendar  *gcal)
+gnome_calendar_object_updated_cb (GtkWidget *cal_client,
+				  const char *uid,
+				  GnomeCalendar  *gcal)
 {
-	printf ("gnome-cal: got changed_cb, uid='%s'\n", uid?uid:"<NULL>");
+	printf ("gnome-cal: got object changed_cb, uid='%s'\n",
+		uid?uid:"<NULL>");
+	gnome_calendar_update_all (gcal, NULL, CHANGE_NEW);
+}
+
+
+static void
+gnome_calendar_object_removed_cb (GtkWidget *cal_client,
+				  const char *uid,
+				  GnomeCalendar  *gcal)
+{
+	printf ("gnome-cal: got object removed _cb, uid='%s'\n",
+		uid?uid:"<NULL>");
 	gnome_calendar_update_all (gcal, NULL, CHANGE_ALL);
 }
 
@@ -262,9 +274,9 @@ gnome_calendar_new (char *title)
 	setup_widgets (gcal);
 
 	gtk_signal_connect (GTK_OBJECT (gcal->client), "obj_updated",
-			    gnome_calendar_changed_cb, gcal);
+			    gnome_calendar_object_updated_cb, gcal);
 	gtk_signal_connect (GTK_OBJECT (gcal->client), "obj_removed",
-			    gnome_calendar_changed_cb, gcal);
+			    gnome_calendar_object_removed_cb, gcal);
 
 	return retval;
 }
@@ -361,7 +373,6 @@ gnome_calendar_add_object (GnomeCalendar *gcal, iCalObject *obj)
 	obj_string = ical_object_to_string (obj);
 	cal_client_update_object (gcal->client, obj->uid, obj_string);
 	g_free (obj_string);
-	gnome_calendar_update_all (gcal, obj, CHANGE_NEW);
 }
 
 void
@@ -373,9 +384,7 @@ gnome_calendar_remove_object (GnomeCalendar *gcal, iCalObject *obj)
 	g_return_if_fail (GNOME_IS_CALENDAR (gcal));
 	g_return_if_fail (obj != NULL);
 
-	/* calendar_remove_object (gcal->cal, obj); DELETE */
 	r = cal_client_remove_object (gcal->client, obj->uid);
-	gnome_calendar_update_all (gcal, obj, CHANGE_ALL);
 }
 
 void
@@ -389,7 +398,6 @@ gnome_calendar_object_changed (GnomeCalendar *gcal, iCalObject *obj, int flags)
 	obj_string = ical_object_to_string (obj);
 	cal_client_update_object (gcal->client, obj->uid, obj_string);
 	g_free (obj_string);
-	gnome_calendar_update_all (gcal, obj, CHANGE_NEW);
 }
 
 static int

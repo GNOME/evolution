@@ -1,9 +1,16 @@
 2000-04-20  Seth Alves  <alves@hungry.com>
 
-	* gui/gnome-cal.c (gnome_calendar_changed_cb): callback for
-	obj_updated or obj_removed.
-	(gnome_calendar_new): hook up gnome_calendar_changed_cb so if
-	evolution is running twice, they will both see changes right away.
+	* gui/gnome-cal.c (gnome_calendar_changed_cb): new function: callback
+	for listener's object updated signal.
+	(gnome_calendar_object_removed_cb): new function: callback for
+	listener's object removed signal.
+	(gnome_calendar_new): hook up listener's "obj_updated" and
+	"obj_removed" signals so if evolution is running twice,
+	they will both see changes right away.
+	(gnome_calendar_object_changed): don't call update_all, since
+	it will be called by the listener.
+	(gnome_calendar_remove_object): don't call update_all
+	(gnome_calendar_add_object): don't call update_all
 
 	* gui/gncal-full-day.c (child_realize): create fullday's gcs
 	even if pixmap_bell has already been created.  this was
