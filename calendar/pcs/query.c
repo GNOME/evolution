@@ -30,6 +30,7 @@
 #include <gtk/gtksignal.h>
 #include <bonobo/bonobo-exception.h>
 #include <gal/widgets/e-unicode.h>
+#include <e-util/e-component-listener.h>
 #include <e-util/e-sexp.h>
 #include <cal-util/cal-recur.h>
 #include <cal-util/timeutil.h>
@@ -67,6 +68,7 @@ struct _QueryPrivate {
 
 	/* Listeners to which we report changes in the live query */
 	GList *listeners;
+	GList *component_listeners;
 
 	/* Sexp that defines the query */
 	char *sexp;
@@ -138,6 +140,7 @@ query_init (Query *query)
 	priv->qb = NULL;
 	priv->default_zone = NULL;
 	priv->listeners = NULL;
+	priv->component_listeners = NULL;
 	priv->sexp = NULL;
 
 	priv->timeout_id = 0;
@@ -209,6 +212,12 @@ query_destroy (GtkObject *object)
 
 		g_list_free (priv->listeners);
 		priv->listeners = NULL;
+	}
+
+	if (priv->component_listeners != NULL) {
+		g_list_foreach (priv->component_listeners, (GFunc) gtk_object_unref, NULL);
+		g_list_free (priv->component_listeners);
+		priv->component_listeners = NULL;
 	}
 
 	if (priv->sexp) {
@@ -1387,6 +1396,20 @@ start_query_cb (gpointer data)
 }
 
 static void
+listener_died_cb (EComponentListener *cl, gpointer data)
+{
+	QueryPrivate *priv;
+	Query *query = QUERY (data);
+
+	priv = query->priv;
+
+	priv->listeners = g_list_remove (priv->listeners, e_component_listener_get_component (cl));
+
+	priv->component_listeners = g_list_remove (priv->component_listeners, cl);
+	gtk_object_unref (GTK_OBJECT (cl));
+}
+
+static void
 notify_uid_cb (gpointer key, gpointer value, gpointer data)
 {
 	CORBA_Environment ev;
@@ -1415,6 +1438,7 @@ start_cached_query_cb (gpointer data)
 {
 	CORBA_Environment ev;
 	QueryPrivate *priv;
+	EComponentListener *cl;
 	StartCachedQueryInfo *info = (StartCachedQueryInfo *) data;
 
 	priv = info->query->priv;
@@ -1424,9 +1448,15 @@ start_cached_query_cb (gpointer data)
 	    priv->state == QUERY_WAIT_FOR_BACKEND) {
 		priv->listeners = g_list_append (priv->listeners, info->ql);
 
-		g_free (info);
+		cl = e_component_listener_new (info->ql, 0);
+		priv->component_listeners = g_list_append (priv->component_listeners, cl);
+		gtk_signal_connect (GTK_OBJECT (cl), "component_died",
+				    GTK_SIGNAL_FUNC (listener_died_cb), info->query);
+
 		priv->cached_timeouts = g_list_remove (priv->cached_timeouts,
 						       GPOINTER_TO_INT (info->tid));
+
+		g_free (info);
 
 		return FALSE;
 	} else if (priv->state == QUERY_IN_PROGRESS) {
@@ -1442,6 +1472,11 @@ start_cached_query_cb (gpointer data)
 	g_hash_table_foreach (priv->uids, (GHFunc) notify_uid_cb, info);
 
 	priv->listeners = g_list_append (priv->listeners, info->ql);
+
+	cl = e_component_listener_new (info->ql, 0);
+	priv->component_listeners = g_list_append (priv->component_listeners, cl);
+	gtk_signal_connect (GTK_OBJECT (cl), "component_died",
+			    GTK_SIGNAL_FUNC (listener_died_cb), info->query);
 
 	CORBA_exception_init (&ev);
 	GNOME_Evolution_Calendar_QueryListener_notifyQueryDone (

@@ -1,5 +1,14 @@
 2002-09-19  Rodrigo Moya <rodrigo@ximian.com>
 
+	* pcs/query.c: added a list of EComponentListener's to control the
+	lifetime of the listeners.
+	(query_init): initialize new member.
+	(query_destroy): free new member.
+	(start_cached_query_cb): create a EComponentListener for the new
+	listener being added.
+
+2002-09-19  Rodrigo Moya <rodrigo@ximian.com>
+
 	More fixes for #24210
 
 	* pcs/query.c: added list of cached queries and changed the Query
