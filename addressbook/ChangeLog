@@ -1,5 +1,14 @@
 2004-07-14  Chris Toshok  <toshok@ximian.com>
 
+	[ fixes #60873, and possibly other crashes ]
+	
+	* gui/widgets/e-addressbook-model.c (get_view): don't call
+	free_data before potentially making an async call.  Or rather,
+	don't call free_data without ensure we'll be emitting
+	MODEL_CHANGED shortly after.
+
+2004-07-14  Chris Toshok  <toshok@ximian.com>
+
 	* gui/contact-list-editor/.cvsignore: ignore
 	Evolution-Addressbook-SelectNames.h.
 
