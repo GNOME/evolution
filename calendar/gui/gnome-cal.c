@@ -419,10 +419,13 @@ timeout_beep (gpointer data)
 }
 
 void
-calendar_notify (time_t time, CalendarAlarm *which, void *data)
+calendar_notify (time_t activation_time, CalendarAlarm *which, void *data)
 {
 	iCalObject *ico = data;
 	guint beep_tag, timer_tag;
+	int ret;
+	gchar* snooze_button = (enable_snooze ? _("Snooze") : NULL);
+	time_t now, diff;
 
 	if (&ico->aalarm == which){
 		time_t app = ico->aalarm.trigger + ico->aalarm.offset;
@@ -434,7 +437,7 @@ calendar_notify (time_t time, CalendarAlarm *which, void *data)
 					ico->summary, "'", NULL);
 
 		/* Idea: we need Snooze option :-) */
-		w = gnome_message_box_new (msg, GNOME_MESSAGE_BOX_INFO, "Ok", NULL);
+		w = gnome_message_box_new (msg, GNOME_MESSAGE_BOX_INFO, _("Ok"), snooze_button, NULL);
 		beep_tag = gtk_timeout_add (1000, start_beeping, NULL);
 		if (enable_aalarm_timeout)
 			timer_tag = gtk_timeout_add (audio_alarm_timeout*1000, 
@@ -445,10 +448,23 @@ calendar_notify (time_t time, CalendarAlarm *which, void *data)
 				     GINT_TO_POINTER (timer_tag));
 		gtk_object_set_data (GTK_OBJECT (w), "beep_tag",
 				     GINT_TO_POINTER (beep_tag));
-		gtk_signal_connect (GTK_OBJECT (w), "destroy", stop_beeping, 
-				    NULL);
-		gtk_widget_show (w);
-
+		gtk_widget_ref (w);
+		ret = gnome_dialog_run (GNOME_DIALOG (w));
+		switch (ret) {
+		case 1:
+			stop_beeping (GTK_OBJECT (w), NULL);
+			now = time (NULL);
+			diff = now - which->trigger;
+			which->trigger = which->trigger + diff + snooze_secs;
+			which->offset  = which->offset - diff - snooze_secs;
+			alarm_add (which, &calendar_notify, data);
+			break;
+		default:
+			stop_beeping (GTK_OBJECT (w), NULL);
+			break;
+		}
+		
+		gtk_widget_unref (w);
 		return;
 	}
 
@@ -474,8 +490,21 @@ calendar_notify (time_t time, CalendarAlarm *which, void *data)
 		msg = g_strconcat (_("Reminder of your appointment at "),
 					ctime (&app), "`",
 					ico->summary, "'", NULL);
-		w = gnome_message_box_new (msg, GNOME_MESSAGE_BOX_INFO, "Ok", NULL);
-		gtk_widget_show (w);
+		w = gnome_message_box_new (msg, GNOME_MESSAGE_BOX_INFO, 
+					   _("Ok"), snooze_button, NULL);
+		ret = gnome_dialog_run (GNOME_DIALOG (w));
+		switch (ret) {
+		case 1:
+			now = time (NULL);
+			diff = now - which->trigger;
+			which->trigger = which->trigger + diff + snooze_secs;
+			which->offset  = which->offset - diff - snooze_secs;
+			alarm_add (which, &calendar_notify, data);
+			break;
+		default:
+			break;
+		}
+		
 		return;
 	}
 }

@@ -58,11 +58,14 @@ static GtkWidget *priority_show_button;
 static GtkWidget *enable_display_beep;
 static GtkWidget *to_cb;
 static GtkWidget *to_spin;
+static GtkWidget *snooze_cb;
+static GtkWidget *snooze_spin;
 
 /* prototypes */
 static void prop_apply_alarms (void);
 static void create_alarm_page (void);
 static void to_cb_changed (GtkWidget* object, gpointer data);
+static void snooze_cb_changed (GtkWidget* object, gpointer data);
 
 GtkWidget* make_spin_button (int val, int low, int high);
 void ee_create_ae (GtkTable *table, char *str, CalendarAlarm *alarm,
@@ -811,6 +814,23 @@ create_alarm_page (void)
 	gtk_box_pack_start (GTK_BOX (box), l, FALSE, FALSE, 0);
 	gtk_box_pack_start (GTK_BOX (misc_box), box, FALSE, FALSE, 0);
 	
+	/* snooze widgets */
+	box = gtk_hbox_new (FALSE, GNOME_PAD);
+	snooze_cb = gtk_check_button_new_with_label (_("Enable snoozing for "));
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (snooze_cb), 
+				      enable_snooze);
+	gtk_signal_connect (GTK_OBJECT (snooze_cb), "toggled",
+			    (GtkSignalFunc) snooze_cb_changed, NULL);
+	gtk_box_pack_start (GTK_BOX (box), snooze_cb, FALSE, FALSE, 0);
+	snooze_spin = make_spin_button (snooze_secs, 1, MAX_SNOOZE_SECS);
+	gtk_widget_set_sensitive (snooze_spin, enable_snooze);
+	gtk_signal_connect (GTK_OBJECT (snooze_spin), "changed",
+			    (GtkSignalFunc) prop_changed, NULL);
+	gtk_box_pack_start (GTK_BOX (box), snooze_spin, FALSE, FALSE, 0);
+	l = gtk_label_new (_(" seconds"));
+	gtk_box_pack_start (GTK_BOX (box), l, FALSE, FALSE, 0);
+	gtk_box_pack_start (GTK_BOX (misc_box), box, FALSE, FALSE, 0);
+	
 	/* populate default frame/box */
 	default_frame = gtk_frame_new (_("Defaults"));
 	gtk_container_set_border_width (GTK_CONTAINER (default_frame), GNOME_PAD_SMALL);
@@ -878,6 +898,10 @@ prop_apply_alarms ()
 	gnome_config_set_bool ("/calendar/alarms/enable_audio_timeout", enable_aalarm_timeout);
 	audio_alarm_timeout = gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON (to_spin));
 	gnome_config_set_int ("/calendar/alarms/audio_alarm_timeout", audio_alarm_timeout);
+	enable_snooze = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (snooze_cb));
+	gnome_config_set_bool ("/calendar/alarms/enable_snooze", enable_snooze);
+	snooze_secs = gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON (snooze_spin));
+	gnome_config_set_int ("/calendar/alarms/snooze_secs", snooze_secs);
 
 	gnome_config_sync();
 }
@@ -891,5 +915,13 @@ to_cb_changed (GtkWidget *object, gpointer data)
 	prop_changed ();
 }
 	
+static void
+snooze_cb_changed (GtkWidget *object, gpointer data)
+{
+	gboolean active =
+		gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (snooze_cb));
+	gtk_widget_set_sensitive (snooze_spin, active);
+	prop_changed ();
+}
 
 

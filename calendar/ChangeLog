@@ -7,6 +7,10 @@
 	* alarm.c: Enhanced debug support: can be toggled on and off by
 	SIGUSR1, reports alarms which could not be added
 
+	* gnome-cal.c, main.[ch], prop.c: Add snooze capability for audio
+	and display alarms.  Snooze interval can be configured in the
+	Properties box.
+
 1999-11-30  Eskil Heyn Olsen  <deity@eskil.dk>
 
 	* calendar-conduit.c (compare): Fixed compare bug. Also neated up

@@ -56,6 +56,9 @@ extern gboolean beep_on_display;
 extern gboolean enable_aalarm_timeout;
 extern guint audio_alarm_timeout;
 extern const guint MAX_AALARM_TIMEOUT;
+extern gboolean enable_snooze;
+extern guint snooze_secs;
+extern const guint MAX_SNOOZE_SECS;
 
 /* Creates and runs the preferences dialog box */
 void properties (GtkWidget *toplevel);

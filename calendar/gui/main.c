@@ -93,6 +93,9 @@ gboolean beep_on_display = 0;
 gboolean enable_aalarm_timeout = 0;
 guint audio_alarm_timeout = 0;
 const guint MAX_AALARM_TIMEOUT = 3600;
+const guint MAX_SNOOZE_SECS = 3600;
+gboolean enable_snooze = 0;
+guint snooze_secs = 60;
 
 /* Default values for alarms */
 CalendarAlarm alarm_defaults[4] = {
@@ -231,6 +234,13 @@ init_calendar (void)
 		audio_alarm_timeout = 1;
 	if (audio_alarm_timeout > MAX_AALARM_TIMEOUT)
 		audio_alarm_timeout = MAX_AALARM_TIMEOUT;
+	enable_snooze = gnome_config_get_bool ("/calendar/alarms/enable_snooze=FALSE");
+	snooze_secs = gnome_config_get_int ("/calendar/alarms/snooze_secs=300");
+	if (snooze_secs < 1)
+		snooze_secs = 1;
+	if (snooze_secs > MAX_SNOOZE_SECS)
+		snooze_secs = MAX_SNOOZE_SECS;
+
 	init_default_alarms ();
 	
 
