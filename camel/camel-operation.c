@@ -5,6 +5,9 @@
 #include <stdio.h>
 #ifdef ENABLE_THREADS
 #include <pthread.h>
+#ifdef HAVE_NSS
+#include <nspr.h>
+#endif
 #endif
 
 #include <sys/time.h>
@@ -42,6 +45,9 @@ struct _CamelOperation {
 #ifdef ENABLE_THREADS
 	EMsgPort *cancel_port;
 	int cancel_fd;
+#ifdef HAVE_NSS
+	PRFileDesc *cancel_prfd;
+#endif
 #endif
 };
 
@@ -435,6 +441,40 @@ int camel_operation_cancel_fd(CamelOperation *cc)
 
 	return cc->cancel_fd;
 }
+
+#ifdef HAVE_NSS
+/**
+ * camel_operation_cancel_prfd:
+ * @cc: 
+ * 
+ * Retrieve a file descriptor that can be waited on (select, or poll)
+ * for read, to asynchronously detect cancellation.
+ * 
+ * Return value: The fd, or NULL if cancellation is not available
+ * (blocked, or has not been registered for this thread).
+ **/
+PRFileDesc *camel_operation_cancel_prfd(CamelOperation *cc)
+{
+	CAMEL_ACTIVE_LOCK();
+
+	if (cc == NULL && operation_active) {
+		cc = g_hash_table_lookup(operation_active, (void *)pthread_self());
+	}
+
+	if (cc == NULL
+	    || cc->blocked) {
+		CAMEL_ACTIVE_UNLOCK();
+		return NULL;
+	}
+
+	if (cc->cancel_prfd == NULL)
+		cc->cancel_prfd = e_msgport_prfd(cc->cancel_port);
+
+	CAMEL_ACTIVE_UNLOCK();
+
+	return cc->cancel_prfd;
+}
+#endif /* HAVE_NSS */
 
 /**
  * camel_operation_start:

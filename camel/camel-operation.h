@@ -52,6 +52,9 @@ void camel_operation_cancel_block(CamelOperation *cc);
 void camel_operation_cancel_unblock(CamelOperation *cc);
 int camel_operation_cancel_check(CamelOperation *cc);
 int camel_operation_cancel_fd(CamelOperation *cc);
+#ifdef HAVE_NSS
+struct PRFileDesc *camel_operation_cancel_prfd(CamelOperation *cc);
+#endif
 /* return the registered operation for this thread, if there is one */
 CamelOperation *camel_operation_registered(void);
 

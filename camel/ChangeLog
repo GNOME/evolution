@@ -1,3 +1,16 @@
+2002-11-21  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* camel-tcp-stream-ssl.c (stream_read): Use the new
+	camel_operation_cancel_prfd() function to get the cancellation fd
+	so we can poll on it for cancellation stuff.
+	(stream_write): Same.
+
+2002-11-22  Not Zed  <NotZed@Ximian.com>
+
+	* camel-operation.c (camel_operation_cancel_prfd): Implement, gets
+	a nspr pr filedesc to poll/wait on
+	(struct _CamelOperation): include a pr filedesc.
+
 2002-11-21  Not Zed  <NotZed@Ximian.com>
 
 	* providers/imap/camel-imap-store-summary.c
