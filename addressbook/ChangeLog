@@ -1,4 +1,29 @@
 2001-09-18  JP Rosevear  <jpr@ximian.com>
+ 
+ 	* backend/ebook/e-card-simple.c (field_data): add caluri field data
+ 
+ 	* backend/ebook/e-card.c (e_card_get_vobject): add the caluri
+ 	property when appropriate
+ 	(parse_caluri): handle read caluri
+ 	(e_card_class_init): add caluri arg
+ 	(e_card_destroy): free the caluri
+ 	(e_card_get_arg): return caluri arg
+ 	(e_card_set_arg): set caluri from arg
+ 	(e_card_init): init caluri to null
+ 
+ 	* backend/ebook/e-card-simple.h: new simple field
+ 
+ 	* backend/ebook/e-card.h: new member
+ 
+ 	* gui/contact-editor/e-contact-editor.c (field_changed): util
+ 	callback to change the command state
+ 	(set_entry_changed_signal_field): hook up a change signal to above
+ 	(set_entry_changed_signals): use above function
+ 
+ 	* gui/contact-editor/e-contact-editor.glade: Add collaboration
+ 	page and fields
+	
+2001-09-18  JP Rosevear  <jpr@ximian.com>
 
 	* backend/pas/pas-backend-file.c
 	(pas_backend_file_build_cards_list): create a sexp and check if

@@ -67,6 +67,7 @@ struct _ECard {
 
 	char            *mailer;        /* Mailer                           */
 
+	char            *caluri;        /* Calendar URI                     */
 	char            *fburl;         /* Free Busy URL                    */
 
 	gint             timezone;      /* number of minutes from UTC as an int */

@@ -65,6 +65,7 @@ enum {
 	ARG_SPOUSE,
 	ARG_ANNIVERSARY,
 	ARG_MAILER,
+	ARG_CALURI,
 	ARG_FBURL,
 	ARG_NOTE,
 	ARG_RELATED_CONTACTS,
@@ -115,6 +116,7 @@ static void parse_nickname(ECard *card, VObject *object, char *default_charset);
 static void parse_spouse(ECard *card, VObject *object, char *default_charset);
 static void parse_anniversary(ECard *card, VObject *object, char *default_charset);
 static void parse_mailer(ECard *card, VObject *object, char *default_charset);
+static void parse_caluri(ECard *card, VObject *object, char *default_charset);
 static void parse_fburl(ECard *card, VObject *object, char *default_charset);
 static void parse_note(ECard *card, VObject *object, char *default_charset);
 static void parse_related_contacts(ECard *card, VObject *object, char *default_charset);
@@ -158,6 +160,7 @@ struct {
 	{ "X-EVOLUTION-SPOUSE",      parse_spouse },
 	{ "X-EVOLUTION-ANNIVERSARY", parse_anniversary },   
 	{ VCMailerProp,              parse_mailer },
+	{ "CALURI",                  parse_caluri },
 	{ "FBURL",                   parse_fburl },
 	{ VCNoteProp,                parse_note },
 	{ XEV_RELATED_CONTACTS,      parse_related_contacts },
@@ -550,6 +553,9 @@ e_card_get_vobject (ECard *card, gboolean assumeUTF8)
 		ADD_PROP_VALUE(vobj, VCMailerProp, card->mailer);
 	}
 	
+	if (card->caluri)
+		addPropValue(vobj, "CALURI", card->caluri);
+
 	if (card->fburl)
 		ADD_PROP_VALUE(vobj, "FBURL", card->fburl);
 	
@@ -978,6 +984,13 @@ parse_mailer(ECard *card, VObject *vobj, char *default_charset)
 }
 
 static void
+parse_caluri(ECard *card, VObject *vobj, char *default_charset)
+{
+ 	g_free(card->caluri);
+ 	assign_string(vobj, default_charset, &(card->caluri));
+}
+
+static void
 parse_fburl(ECard *card, VObject *vobj, char *default_charset)
 {
 	g_free(card->fburl);
@@ -1284,6 +1297,8 @@ e_card_class_init (ECardClass *klass)
 				 GTK_TYPE_POINTER, GTK_ARG_READWRITE, ARG_ANNIVERSARY);
 	gtk_object_add_arg_type ("ECard::mailer",
 				 GTK_TYPE_STRING, GTK_ARG_READWRITE, ARG_MAILER);
+	gtk_object_add_arg_type ("ECard::caluri",
+				 GTK_TYPE_STRING, GTK_ARG_READWRITE, ARG_CALURI);
 	gtk_object_add_arg_type ("ECard::fburl",
 				 GTK_TYPE_STRING, GTK_ARG_READWRITE, ARG_FBURL);
 	gtk_object_add_arg_type ("ECard::note",
@@ -1888,6 +1903,7 @@ e_card_destroy (GtkObject *object)
 	g_free(card->nickname);
 	g_free(card->spouse);
 	g_free(card->anniversary);
+	g_free(card->caluri);
 	g_free(card->fburl);
 	g_free(card->note);
 	g_free(card->related_contacts);
@@ -2027,6 +2043,10 @@ e_card_set_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 	case ARG_MAILER:
 		g_free(card->mailer);
 		card->mailer = g_strdup(GTK_VALUE_STRING(*arg));
+		break;
+	case ARG_CALURI:
+		g_free(card->caluri);
+		card->caluri = g_strdup(GTK_VALUE_STRING(*arg));
 		break;
 	case ARG_FBURL:
 		g_free(card->fburl);
@@ -2190,6 +2210,9 @@ e_card_get_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 	case ARG_MAILER:
 		GTK_VALUE_STRING(*arg) = card->mailer;
 		break;
+	case ARG_CALURI:
+		GTK_VALUE_STRING(*arg) = card->caluri;
+		break;
 	case ARG_FBURL:
 		GTK_VALUE_STRING(*arg) = card->fburl;
 		break;
@@ -2264,6 +2287,7 @@ e_card_init (ECard *card)
 	card->spouse = NULL;
 	card->anniversary = NULL;
 	card->mailer = NULL;
+	card->caluri = NULL;
 	card->fburl = NULL;
 	card->note = NULL;
 	card->related_contacts = NULL;

@@ -513,6 +513,15 @@ company_entry_changed (GtkWidget *widget, EContactEditor *editor)
 }
 
 static void
+field_changed (GtkWidget *widget, EContactEditor *editor)
+{
+	if (!editor->changed) {
+		editor->changed = TRUE;
+		command_state_changed (editor);
+	}
+}
+
+static void
 set_entry_changed_signal_phone(EContactEditor *editor, char *id)
 {
 	GtkWidget *widget = glade_xml_get_widget(editor->gui, id);
@@ -533,6 +542,15 @@ widget_changed (GtkWidget *widget, EContactEditor *editor)
 		editor->changed = TRUE;
 		command_state_changed (editor);
 	}
+}
+
+static void
+set_entry_changed_signal_field(EContactEditor *editor, char *id)
+{
+	GtkWidget *widget = glade_xml_get_widget(editor->gui, id);
+	if (widget && GTK_IS_ENTRY(widget))
+		gtk_signal_connect(GTK_OBJECT(widget), "changed",
+				   field_changed, editor);
 }
 
 static void
@@ -769,6 +787,9 @@ ensure_select_names_contact (EContactEditor *editor)
 						    "contacts",
 						    "Related Contacts");
 	}
+
+	set_entry_changed_signal_field(editor, "entry-caluri");
+	set_entry_changed_signal_field(editor, "entry-fburl");
 }
 
 static void
@@ -1955,6 +1976,8 @@ add_field_callback(GtkWidget *widget, EContactEditor *editor)
 		"text-address",
 		"checkbutton-mailingaddress",
 		"checkbutton-htmlmail",
+		"entry-caluri",
+		"entry-fburl",
 		NULL
 	};
 	name = glade_get_widget_name(widget);
@@ -1986,6 +2009,8 @@ static struct {
 	{ "entry-spouse", "spouse" },
 	{ "text-comments", "note" },
 	{ "entry-categories", "categories" },
+	{ "entry-caluri", "caluri" },
+	{ "entry-fburl", "fburl" },
 };
 
 static void
@@ -2092,7 +2117,10 @@ static struct {
 	{ "entry-fullname", E_CARD_SIMPLE_FIELD_FULL_NAME, TRUE },
 
 	{ "button-categories", E_CARD_SIMPLE_FIELD_CATEGORIES, TRUE },
-	{ "entry-categories", E_CARD_SIMPLE_FIELD_CATEGORIES, TRUE }
+	{ "entry-categories", E_CARD_SIMPLE_FIELD_CATEGORIES, TRUE },
+
+	{ "entry-caluri", E_CARD_SIMPLE_FIELD_CALURI, TRUE },
+	{ "entry-fburl", E_CARD_SIMPLE_FIELD_FBURL, TRUE }
 };
 static int num_widget_field_mappings = sizeof(widget_field_mappings) / sizeof (widget_field_mappings[0]);
 
