@@ -1,3 +1,12 @@
+2003-03-10  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-accounts.c (account_able_toggled): New callback function to
+	handle the checkbox getting toggled.
+	(mail_accounts_treeview_new): Save the toggle renderer so we can
+	later connect to it's toggled signal.
+	(mail_accounts_tab_construct): Connect to the toggle-cell's
+	toggled signal. Fixes bug #39325.
+
 2003-03-11  Not Zed  <NotZed@Ximian.com>
 
 	* mail-vfolder.c (vfolder_editor_response): Fix the response code,

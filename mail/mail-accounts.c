@@ -320,6 +320,47 @@ account_able_clicked (GtkButton *button, gpointer user_data)
 }
 
 static void
+account_able_toggled (GtkCellRendererToggle *renderer, char *arg1, gpointer user_data)
+{
+	MailAccountsTab *prefs = user_data;
+	GtkTreeSelection *selection;
+	EAccount *account = NULL;
+	GtkTreeModel *model;
+	GtkTreePath *path;
+	GtkTreeIter iter;
+	
+	path = gtk_tree_path_new_from_string (arg1);
+	model = gtk_tree_view_get_model (prefs->table);
+	selection = gtk_tree_view_get_selection (prefs->table);
+	
+	if (gtk_tree_model_get_iter (model, &iter, path)) {
+		gtk_tree_model_get (model, &iter, 3, &account, -1);
+		account->enabled = !account->enabled;
+		gtk_list_store_set ((GtkListStore *) model, &iter, 0, account->enabled, -1);
+		
+		if (gtk_tree_selection_iter_is_selected (selection, &iter))
+			gtk_button_set_label (prefs->mail_able, account->enabled ? _("Disable") : _("Enable"));
+	}
+	
+	gtk_tree_path_free (path);
+	
+	if (account) {
+		/* if the account got disabled, remove it from the
+		   folder-tree, otherwise add it to the folder-tree */
+		if (account->source->url) {
+			if (account->enabled)
+				mail_load_storage_by_uri (prefs->shell, account->source->url, account->name);
+			else
+				mail_remove_storage_by_uri (account->source->url);
+		}
+		
+		mail_autoreceive_setup ();
+		
+		mail_config_write ();
+	}
+}
+
+static void
 account_double_click (GtkTreeView *treeview, GtkTreePath *path,
 		      GtkTreeViewColumn *column, MailAccountsTab *prefs)
 {
@@ -423,12 +464,16 @@ mail_accounts_treeview_new (char *widget_name, char *string1, char *string2, int
 					GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
 	gtk_scrolled_window_set_shadow_type (GTK_SCROLLED_WINDOW (scrolled), GTK_SHADOW_IN);
 	
+	renderer = gtk_cell_renderer_toggle_new ();
+	g_object_set ((GObject *) renderer, "activatable", TRUE, NULL);
+	
 	model = gtk_list_store_new (4, G_TYPE_BOOLEAN, G_TYPE_STRING, G_TYPE_STRING, G_TYPE_POINTER);
 	table = gtk_tree_view_new_with_model ((GtkTreeModel *) model);
 	gtk_tree_view_insert_column_with_attributes ((GtkTreeView *) table, -1, _("Enabled"),
-						     gtk_cell_renderer_toggle_new (),
-						     "active", 0,
-						     NULL);
+						     renderer, "active", 0, NULL);
+	
+	g_object_set_data ((GObject *) scrolled, "renderer", renderer);
+	
 	renderer = gtk_cell_renderer_text_new ();
 	gtk_tree_view_insert_column_with_attributes ((GtkTreeView *) table, -1, _("Account name"),
 						     renderer, "text", 1, NULL);
@@ -440,7 +485,7 @@ mail_accounts_treeview_new (char *widget_name, char *string1, char *string2, int
 	
 	/* FIXME: column auto-resize? */
 	/* Is this needed?
-	   gtk_tree_view_column_set_alignment(gtk_tree_view_get_column(prefs->table, 0), 1.0);*/
+	   gtk_tree_view_column_set_alignment (gtk_tree_view_get_column (prefs->table, 0), 1.0);*/
 	
 	gtk_container_add (GTK_CONTAINER (scrolled), table);
 	
@@ -456,6 +501,7 @@ static void
 mail_accounts_tab_construct (MailAccountsTab *prefs)
 {
 	GtkWidget *toplevel, *widget;
+	GtkCellRenderer *renderer;
 	GladeXML *gui;
 	
 	gui = glade_xml_new (EVOLUTION_GLADEDIR "/mail-config.glade", "accounts_tab", NULL);
@@ -476,6 +522,9 @@ mail_accounts_tab_construct (MailAccountsTab *prefs)
 	g_signal_connect (gtk_tree_view_get_selection (prefs->table),
 			  "changed", G_CALLBACK (account_cursor_change), prefs);
 	g_signal_connect (prefs->table, "row-activated", G_CALLBACK (account_double_click), prefs);
+	
+	renderer = g_object_get_data ((GObject *) widget, "renderer");
+	g_signal_connect (renderer, "toggled", G_CALLBACK (account_able_toggled), prefs);
 	
 	mail_accounts_load (prefs);
 	
