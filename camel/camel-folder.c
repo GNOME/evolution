@@ -367,7 +367,7 @@ _create(CamelFolder *folder)
 	if (folder->parent_folder) camel_folder_create(folder->parent_folder);
 	else {   
 		if (folder->full_name) {
-			dich_result = g_string_dichotomy(folder->full_name, sep, &prefix, NULL, STRIP_TRAILING | RIGHT_DIR);
+			dich_result = g_string_dichotomy(folder->full_name, sep, &prefix, NULL, DICHOTOMY_STRIP_TRAILING | DICHOTOMY_RIGHT_DIR);
 			if (dich_result!='o') {
 				g_warning("I have to handle the case where the path is not OK\n"); 
 				return FALSE;

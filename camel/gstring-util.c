@@ -103,10 +103,10 @@ g_string_dichotomy (GString *string, gchar sep, GString **prefix, GString **suff
 	}
 	first = 0;
 	
-	if ( (options & STRIP_LEADING ) && (tmp[first] == sep) )
+	if ( (options & DICHOTOMY_STRIP_LEADING ) && (tmp[first] == sep) )
 	    do {first++;} while ( (first<len) && (tmp[first] == sep) );
 	
-	if (options & STRIP_TRAILING )
+	if (options & DICHOTOMY_STRIP_TRAILING )
 		while (tmp[len-1] == sep)
 			len--;
 	
@@ -117,7 +117,7 @@ g_string_dichotomy (GString *string, gchar sep, GString **prefix, GString **suff
 		return 'n';
 	}
 	
-	if (options & RIGHT_DIR) {
+	if (options & DICHOTOMY_RIGHT_DIR) {
 		pos = len;
 		
 		do {
@@ -253,7 +253,7 @@ g_string_list_free (GList *string_list)
 
 
 GList *
-g_string_split (GString *string, char sep)
+g_string_split (GString *string, char sep, gchar *trim_chars, TrimOption trim_options)
 {
 	GList *result = NULL;
 	gint first, last, pos;
@@ -271,11 +271,11 @@ g_string_split (GString *string, char sep)
 	/* strip leading and trailing separators */
 	while ( (first<=last) && (str[first]==sep) )
 		first++;
-	
 	while ( (first<=last) && (str[last]==sep) )
 		last--;
 
-	CAMEL_LOG(FULL_DEBUG,"g_string_split:: stripping done\n");
+	
+	CAMEL_LOG(FULL_DEBUG,"g_string_split:: trim options: %d\n", trim_options);
 
 	while (first<=last)  {
 		pos = first;
@@ -285,10 +285,47 @@ g_string_split (GString *string, char sep)
 			new_str = g_strndup (str+first, pos-first);
 			new_gstring = g_string_new (new_str);
 			g_free (new_str);
+			/* could do trimming in line to speed up this code */
+			if (trim_chars) g_string_trim (new_gstring, trim_chars, trim_options);
 			result = g_list_append (result, new_gstring);
 		}	
 		first = pos + 1;
 	}
 
 	return result;
+}
+
+
+
+
+void 
+g_string_trim (GString *string, gchar *chars, TrimOption options)
+{
+	gint first_ok;
+	gint last_ok;
+	guint length;
+	gchar *str;
+
+	CAMEL_LOG(FULL_DEBUG,"**\nentering g_string_trim::\n");
+
+	if ((!string) || (!string->str)) return; 
+	str = string->str;
+	length = strlen (str);
+	if (!length) return;
+
+	first_ok = 0;
+	last_ok = length - 1;
+	
+	CAMEL_LOG (FULL_DEBUG,"g_string_trim:: trim_options:%d\n", options);
+	if (options & TRIM_STRIP_LEADING)
+		while  ( (first_ok <= last_ok) && (strchr (chars, str[first_ok]) != NULL) )
+			first_ok++;
+
+	if (options & TRIM_STRIP_TRAILING)
+		while  ( (first_ok <= last_ok) && (strchr (chars, str[last_ok])) )
+			last_ok++;
+	CAMEL_LOG (FULL_DEBUG,"g_string_trim::\n\t\"%s\":first ok:%d last_ok:%d\n", string->str, first_ok, last_ok);
+	if (first_ok>0) g_string_erase (string, 0, first_ok);
+	if (last_ok<length-1) g_string_truncate (string, last_ok - first_ok +1);
+	
 }

@@ -1,3 +1,18 @@
+1999-05-30  bertrand  <Bertrand.Guiheneuf@inria.fr>
+
+        * camel/camel-mime-message.c (_set_recipient_list_from_string): 
+	remove leading and trailing spaces in recipient addresses.
+
+	* camel/gmime-utils.c (_store_header_pair_from_gstring): 
+	remove leading and trailing spaces from header values.
+
+	* camel/gstring-util.c (g_string_trim): new
+	func: remove leading or trailng chars from 
+	a specified char set.
+	(g_string_split): allow trimming of substrings.
+
+	* tests/test1.c (main): remove gtk_main call
+
 1999-05-28  bertrand  <Bertrand.Guiheneuf@inria.fr>
 
 	* camel/camel-mime-part.c 

@@ -558,7 +558,7 @@ _set_recipient_list_from_string (CamelMimeMessage *message, GString *recipient_t
 {
 	GList *recipients_list;
 	CAMEL_LOG (FULL_DEBUG,"CamelMimeMessage::_set_recipient_list_from_string parsing ##%s##\n", recipients_string->str);
-	recipients_list = g_string_split (recipients_string, ',');
+	recipients_list = g_string_split (recipients_string, ',', " ", TRIM_STRIP_TRAILING | TRIM_STRIP_LEADING);
 	g_hash_table_insert (message->recipients, recipient_type, recipients_list);
 
 }

@@ -99,14 +99,16 @@ _store_header_pair_from_gstring (GHashTable *header_table, GString *header_line)
 	
 	g_assert (header_table);
 	if ( (header_line) && (header_line->str) ) {
-		dich_result = g_string_dichotomy(header_line, ':', &header_name, &header_value, NONE);
+		dich_result = g_string_dichotomy(header_line, ':', &header_name, &header_value, DICHOTOMY_NONE);
 		if (dich_result != 'o')
 			camel_log(WARNING, 
 				  "store_header_pair_from_gstring : dichotomy result is %c"
 				  "header line is :\n--\n%s\n--\n");
 		
-		else
+		else {
+			g_string_trim (header_value, " \t", TRIM_STRIP_LEADING | TRIM_STRIP_TRAILING);
 			g_hash_table_insert (header_table, header_name, header_value);
+		}
 	}
 		
 }
@@ -159,7 +161,6 @@ get_header_table_from_file (FILE *file)
 			if (!end_of_header_line) next_char = fgetc (file);
 
 		} while ( !end_of_header_line );
-		
 		if ( strlen(header_line->str) ) 
 			_store_header_pair_from_gstring (header_table, header_line);
 		g_string_free (header_line, FALSE);

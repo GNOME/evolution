@@ -35,12 +35,19 @@ extern "C" {
 #include <glib.h>
 
 typedef enum {
-    NONE            =     0,
-    RIGHT_DIR       =     1,
-    STRIP_TRAILING  =     2,
-    STRIP_LEADING   =     4,
+    DICHOTOMY_NONE            =     0,
+    DICHOTOMY_RIGHT_DIR       =     1,
+    DICHOTOMY_STRIP_TRAILING  =     2,
+    DICHOTOMY_STRIP_LEADING   =     4,
     
 } DichotomyOption;
+
+typedef enum {
+    TRIM_NONE            =     0,
+    TRIM_STRIP_TRAILING  =     1,
+    TRIM_STRIP_LEADING   =     2,
+    
+} TrimOption;
 
 
 gboolean g_string_equals(GString *string1, GString *string2);
@@ -52,7 +59,9 @@ gboolean g_string_equal_for_hash (gconstpointer v, gconstpointer v2);
 gboolean g_string_equal_for_glist (gconstpointer v, gconstpointer v2);
 guint g_string_hash (gconstpointer v);
 void g_string_list_free (GList *string_list);
-GList *g_string_split (GString *string, char sep);
+
+GList *g_string_split (GString *string, char sep, gchar *trim_chars, TrimOption trim_options);
+void g_string_trim (GString *string, gchar *chars, TrimOption options);
 
 #ifdef __cplusplus
 }
