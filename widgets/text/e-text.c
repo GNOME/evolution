@@ -1378,10 +1378,7 @@ e_text_set_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 			      (color.green & 0xff00) << 8 |
 			      (color.blue & 0xff00) |
 			      0xff);
-		text->color = color;
 		color_changed = TRUE;
-		text->needs_redraw = 1;
-		needs_update = 1;
 		break;
 
 	case ARG_FILL_COLOR_GDK:
@@ -1394,17 +1391,15 @@ e_text_set_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 			      (color.green & 0xff00) << 8 |
 			      (color.blue & 0xff00) |
 			      0xff);
-		text->color = color;
 		color_changed = TRUE;
-		text->needs_redraw = 1;
-		needs_update = 1;
 		break;
 
         case ARG_FILL_COLOR_RGBA:
 		text->rgba = GTK_VALUE_UINT (*arg);
+		color.red = ((text->rgba >> 24) & 0xff) * 0x101;
+		color.green = ((text->rgba >> 16) & 0xff) * 0x101;
+		color.blue = ((text->rgba >> 8) & 0xff) * 0x101;
 		color_changed = TRUE;
-		text->needs_redraw = 1;
-		needs_update = 1;
 		break;
 
 	case ARG_FILL_STIPPLE:
@@ -1511,9 +1506,13 @@ e_text_set_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 		if (GNOME_CANVAS_ITEM_REALIZED & GTK_OBJECT_FLAGS(item))
 			gdk_color_context_query_color (item->canvas->cc, &color);
 
+		text->color = color;
+
 		if (!item->canvas->aa)
 			set_text_gc_foreground (text);
 
+		text->needs_redraw = 1;
+		needs_update = 1;
 	}
 
 	if ( needs_reflow )
