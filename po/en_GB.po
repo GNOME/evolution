@@ -5,14 +5,14 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution 0.6\n"
-"POT-Creation-Date: 2004-04-29 13:14-0400\n"
-"PO-Revision-Date: 2004-04-27 18:27-0400\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2004-05-02 15:56-0400\n"
+"PO-Revision-Date: 2004-05-02 16:05-0400\n"
 "Last-Translator: Gareth Owen <gowen72@yahoo.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Report-Msgid-Bugs-To: \n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: a11y/addressbook/ea-addressbook-view.c:94
@@ -72,8 +72,8 @@ msgid "Certificates"
 msgstr "Certificates"
 
 #: addressbook/gui/component/GNOME_Evolution_Addressbook.server.in.in.h:3
-msgid "Configure autocomple here"
-msgstr "Configure autocomple here"
+msgid "Configure autocomplete here"
+msgstr "Configure autocomplete here"
 
 #. Fix me *
 #. can not get name, should be a bug of e-book.Anyway, should set a default name.
@@ -157,31 +157,31 @@ msgstr "_Contacts Group"
 msgid "Create a new contacts group"
 msgstr "Create a new contacts group"
 
-#: addressbook/gui/component/addressbook-config.c:466
+#: addressbook/gui/component/addressbook-config.c:463
 msgid "Failed to connect to LDAP server"
 msgstr "Failed to connect to LDAP server"
 
-#: addressbook/gui/component/addressbook-config.c:490
+#: addressbook/gui/component/addressbook-config.c:487
 msgid "Failed to authenticate with LDAP server"
 msgstr "Failed to authenticate with LDAP server"
 
-#: addressbook/gui/component/addressbook-config.c:518
+#: addressbook/gui/component/addressbook-config.c:515
 msgid "Could not perform query on Root DSE"
 msgstr "Could not perform query on Root DSE"
 
-#: addressbook/gui/component/addressbook-config.c:822
+#: addressbook/gui/component/addressbook-config.c:820
 msgid "The server responded with no supported search bases"
 msgstr "The server responded with no supported search bases"
 
-#: addressbook/gui/component/addressbook-config.c:1216
+#: addressbook/gui/component/addressbook-config.c:1220
 msgid "This server does not support LDAPv3 schema information"
 msgstr "This server does not support LDAPv3 schema information"
 
-#: addressbook/gui/component/addressbook-config.c:1237
+#: addressbook/gui/component/addressbook-config.c:1241
 msgid "Error retrieving schema information"
 msgstr "Error retrieving schema information"
 
-#: addressbook/gui/component/addressbook-config.c:1245
+#: addressbook/gui/component/addressbook-config.c:1249
 msgid "Server did not respond with valid schema information"
 msgstr "Server did not respond with valid schema information"
 
@@ -452,6 +452,7 @@ msgid "Find Possible Search Bases"
 msgstr "Find Possible Search Bases"
 
 #: addressbook/gui/component/ldap-config.glade.h:32
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:20
 #: calendar/gui/dialogs/calendar-setup.glade.h:6 mail/mail-config.glade.h:84
 #: smime/gui/smime-ui.glade.h:27
 msgid "General"
@@ -2482,7 +2483,7 @@ msgid "Delete"
 msgstr "Delete"
 
 #: addressbook/gui/widgets/e-addressbook-view.c:1090
-#: calendar/gui/e-calendar-view.c:1262
+#: calendar/gui/e-calendar-view.c:1279
 msgid "Current View"
 msgstr "Current View"
 
@@ -3442,7 +3443,7 @@ msgstr "Input File"
 msgid "No filename provided."
 msgstr "No filename provided."
 
-#: addressbook/util/e-destination.c:576
+#: addressbook/util/e-destination.c:577
 msgid "Unnamed List"
 msgstr "Unnamed List"
 
@@ -3483,7 +3484,7 @@ msgid "Calendar and Tasks"
 msgstr "Calendar and Tasks"
 
 #: calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:2
-#: calendar/gui/calendar-component.c:944
+#: calendar/gui/calendar-component.c:954
 msgid "Calendars"
 msgstr "Calendars"
 
@@ -3524,8 +3525,8 @@ msgid "Evolution's Tasks component"
 msgstr "Evolution's Tasks component"
 
 #: calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:12
-#: calendar/gui/e-tasks.c:892 calendar/gui/print.c:1819
-#: calendar/gui/tasks-component.c:586 calendar/gui/tasks-control.c:516
+#: calendar/gui/e-tasks.c:991 calendar/gui/print.c:1819
+#: calendar/gui/tasks-component.c:591 calendar/gui/tasks-control.c:516
 #: calendar/importers/icalendar-importer.c:79
 #: calendar/importers/icalendar-importer.c:705
 msgid "Tasks"
@@ -3535,41 +3536,34 @@ msgstr "Tasks"
 msgid "Evolution Calendar alarm notification service"
 msgstr "Evolution Calendar alarm notification service"
 
-#: calendar/gui/alarm-notify/alarm-notify-dialog.c:212
+#: calendar/gui/alarm-notify/alarm-notify-dialog.c:213
 msgid "Starting:"
 msgstr "Starting:"
 
-#: calendar/gui/alarm-notify/alarm-notify-dialog.c:214
+#: calendar/gui/alarm-notify/alarm-notify-dialog.c:215
 msgid "Ending:"
 msgstr "Ending:"
 
-#: calendar/gui/alarm-notify/alarm-notify-dialog.c:258
+#: calendar/gui/alarm-notify/alarm-notify-dialog.c:259
 msgid "Evolution Alarm"
 msgstr "Evolution Alarm"
 
-#: calendar/gui/alarm-notify/alarm-notify-dialog.c:353
+#: calendar/gui/alarm-notify/alarm-notify-dialog.c:358
 #, c-format
 msgid "Alarm on %s"
 msgstr "Alarm on %s"
 
 #: calendar/gui/alarm-notify/alarm-notify.glade.h:1
-#: ui/evolution-comp-editor.xml.h:1 ui/evolution-contact-editor.xml.h:1
-#: ui/evolution-contact-list-editor.xml.h:1
-#: ui/evolution-signature-editor.xml.h:1
-msgid "C_lose"
-msgstr "C_lose"
+msgid "Snooze _time (minutes):"
+msgstr "Snooze _time (minutes):"
 
 #: calendar/gui/alarm-notify/alarm-notify.glade.h:2
-msgid "Snoo_ze"
-msgstr "Snoo_ze"
-
-#: calendar/gui/alarm-notify/alarm-notify.glade.h:3
-msgid "Snooze time (minutes)"
-msgstr "Snooze time (minutes)"
-
-#: calendar/gui/alarm-notify/alarm-notify.glade.h:4
 msgid "_Edit appointment"
 msgstr "_Edit appointment"
+
+#: calendar/gui/alarm-notify/alarm-notify.glade.h:3
+msgid "_Snooze"
+msgstr "_Snooze"
 
 #: calendar/gui/alarm-notify/alarm-queue.c:873
 #: ui/evolution-message-composer.xml.h:10
@@ -3799,7 +3793,7 @@ msgstr "Location contains"
 msgid "Unmatched"
 msgstr "Unmatched"
 
-#: calendar/gui/calendar-commands.c:116 calendar/gui/gnome-cal.c:1607
+#: calendar/gui/calendar-commands.c:116 calendar/gui/gnome-cal.c:1706
 #: camel/providers/groupwise/camel-gw-listener.c:304
 #: camel/providers/groupwise/camel-gw-listener.c:327
 msgid "Calendar"
@@ -3867,16 +3861,16 @@ msgstr "New Calendar"
 msgid "Properties..."
 msgstr "Properties..."
 
-#: calendar/gui/calendar-component.c:790
+#: calendar/gui/calendar-component.c:800
 #, c-format
 msgid "Unable to open the calendar '%s' for creating events and meetings"
 msgstr "Unable to open the calendar '%s' for creating events and meetings"
 
-#: calendar/gui/calendar-component.c:802
+#: calendar/gui/calendar-component.c:812
 msgid "There is no calendar available for creating events and meetings"
 msgstr "There is no calendar available for creating events and meetings"
 
-#: calendar/gui/calendar-component.c:836
+#: calendar/gui/calendar-component.c:846
 msgid ""
 "Selected calendar is read-only, events cannot be created. Please select a "
 "read-write calendar."
@@ -3884,51 +3878,51 @@ msgstr ""
 "Selected calendar is read-only, events cannot be created. Please select a "
 "read-write calendar."
 
-#: calendar/gui/calendar-component.c:1095
+#: calendar/gui/calendar-component.c:1110
 msgid "New appointment"
 msgstr "New appointment"
 
-#: calendar/gui/calendar-component.c:1096
+#: calendar/gui/calendar-component.c:1111
 msgid "_Appointment"
 msgstr "_Appointment"
 
-#: calendar/gui/calendar-component.c:1097
+#: calendar/gui/calendar-component.c:1112
 msgid "Create a new appointment"
 msgstr "Create a new appointment"
 
-#: calendar/gui/calendar-component.c:1103
+#: calendar/gui/calendar-component.c:1118
 msgid "New meeting"
 msgstr "New meeting"
 
-#: calendar/gui/calendar-component.c:1104
+#: calendar/gui/calendar-component.c:1119
 msgid "M_eeting"
 msgstr "M_eeting"
 
-#: calendar/gui/calendar-component.c:1105
+#: calendar/gui/calendar-component.c:1120
 msgid "Create a new meeting request"
 msgstr "Create a new meeting request"
 
-#: calendar/gui/calendar-component.c:1111
+#: calendar/gui/calendar-component.c:1126
 msgid "New all day appointment"
 msgstr "New all day appointment"
 
-#: calendar/gui/calendar-component.c:1112
+#: calendar/gui/calendar-component.c:1127
 msgid "All _Day Appointment"
 msgstr "All _Day Appointment"
 
-#: calendar/gui/calendar-component.c:1113
+#: calendar/gui/calendar-component.c:1128
 msgid "Create a new all-day appointment"
 msgstr "Create a new all-day appointment"
 
-#: calendar/gui/calendar-component.c:1119
+#: calendar/gui/calendar-component.c:1134
 msgid "New calendar"
 msgstr "New calendar"
 
-#: calendar/gui/calendar-component.c:1120
+#: calendar/gui/calendar-component.c:1135
 msgid "C_alendar"
 msgstr "C_alendar"
 
-#: calendar/gui/calendar-component.c:1121
+#: calendar/gui/calendar-component.c:1136
 msgid "Create a new calendar"
 msgstr "Create a new calendar"
 
@@ -4186,162 +4180,169 @@ msgid "60 minutes"
 msgstr "60 minutes"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:6
-msgid "Alerts"
-msgstr "Alerts"
+msgid "<b>Alerts</b>"
+msgstr "<b>Alerts</b>"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:7
+msgid "<b>General</b>"
+msgstr "<b>General</b>"
+
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:8
+msgid "<b>Task List</b>"
+msgstr "<b>Task List</b>"
+
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:9
+msgid "<b>Time</b>"
+msgstr "<b>Time</b>"
+
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:10
+msgid "<b>Work Week</b>"
+msgstr "<b>Work Week</b>"
+
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:11
 msgid "Calendar and Tasks Settings"
 msgstr "Calendar and Tasks Settings"
 
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:8
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:12
 msgid "Color for overdue tasks"
 msgstr "Colour for overdue tasks"
 
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:9
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:13
 msgid "Color for tasks due today"
 msgstr "Colour for tasks due today"
 
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:10
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:14
 msgid "Day _ends:"
 msgstr "Day _ends:"
 
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:11
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:15
 msgid "Days"
 msgstr "Days"
 
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:12
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:16
+msgid "Display"
+msgstr "Display"
+
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:17
 #: mail/mail-config.glade.h:74
 msgid "E_nable"
 msgstr "E_nable"
 
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:13
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:18
+msgid "Free/Busy Publishing"
+msgstr "Free/Busy Publishing"
+
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:19
 #: calendar/gui/dialogs/recurrence-page.c:1048
 #: calendar/gui/e-itip-control.c:563
 msgid "Friday"
 msgstr "Friday"
 
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:14
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:21
 msgid "Hours"
 msgstr "Hours"
 
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:15
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:22
 msgid "Minutes"
 msgstr "Minutes"
 
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:16
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:23
 #: calendar/gui/dialogs/recurrence-page.c:1044
 #: calendar/gui/e-itip-control.c:559
 msgid "Monday"
 msgstr "Monday"
 
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:17
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:24
 msgid "S_un"
 msgstr "S_un"
 
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:18
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:25
 #: calendar/gui/dialogs/recurrence-page.c:1049
 #: calendar/gui/e-itip-control.c:564
 msgid "Saturday"
 msgstr "Saturday"
 
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:19
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:26
 msgid "Sh_ow a reminder"
 msgstr "Sh_ow a reminder"
 
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:20
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:27
 msgid "Show week _numbers in date navigator"
 msgstr "Show week _numbers in date navigator"
 
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:21
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:28
 #: calendar/gui/dialogs/recurrence-page.c:1050
 #: calendar/gui/e-itip-control.c:558
 msgid "Sunday"
 msgstr "Sunday"
 
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:22
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:29
 msgid "T_asks due today:"
 msgstr "T_asks due today:"
 
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:23
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:30
 msgid "T_hu"
 msgstr "T_hu"
 
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:24
-msgid "Task List"
-msgstr "Task List"
-
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:25
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:31
 #: calendar/gui/dialogs/recurrence-page.c:1047
 #: calendar/gui/e-itip-control.c:562
 msgid "Thursday"
 msgstr "Thursday"
 
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:26
-msgid "Time"
-msgstr "Time"
-
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:27
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:32
 msgid "Time _zone:"
 msgstr "Time _zone:"
 
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:28
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:33
 msgid "Time format:"
 msgstr "Time format:"
 
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:29
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:34
 #: calendar/gui/dialogs/recurrence-page.c:1045
 #: calendar/gui/e-itip-control.c:560
 msgid "Tuesday"
 msgstr "Tuesday"
 
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:30
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:35
 msgid "W_eek starts:"
 msgstr "W_eek starts:"
 
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:31
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:36
 #: calendar/gui/dialogs/recurrence-page.c:1046
 #: calendar/gui/e-itip-control.c:561
 msgid "Wednesday"
 msgstr "Wednesday"
 
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:32
-#: ui/evolution-calendar.xml.h:37
-msgid "Work Week"
-msgstr "Work Week"
-
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:33
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:37
 msgid "Work days:"
 msgstr "Work days:"
 
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:34
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:38
 msgid "_12 hour (AM/PM)"
 msgstr "_12 hour (AM/PM)"
 
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:35
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:39
 msgid "_24 hour"
 msgstr "_24 hour"
 
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:36
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:40
 msgid "_Add URL"
 msgstr "_Add URL"
 
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:37
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:41
 msgid "_Ask for confirmation when deleting items"
 msgstr "_Ask for confirmation when deleting items"
 
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:38
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:42
 msgid "_Compress weekends in month view"
 msgstr "_Compress weekends in month view"
 
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:39
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:43
 msgid "_Day begins:"
 msgstr "_Day begins:"
 
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:40
-msgid "_Display"
-msgstr "_Display"
-
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:41 filter/filter.glade.h:12
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:44 filter/filter.glade.h:12
 #: mail/mail-config.glade.h:160 ui/evolution-addressbook.xml.h:34
 #: ui/evolution-calendar.xml.h:41 ui/evolution-composer-entries.xml.h:8
 #: ui/evolution-mail-list.xml.h:24 ui/evolution-mail-messagedisplay.xml.h:6
@@ -4351,51 +4352,43 @@ msgstr "_Display"
 msgid "_Edit"
 msgstr "_Edit"
 
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:42
-msgid "_Free/Busy Publishing"
-msgstr "_Free/Busy Publishing"
-
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:43
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:45
 msgid "_Fri"
 msgstr "_Fri"
 
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:44
-msgid "_General"
-msgstr "_General"
-
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:45
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:46
 msgid "_Hide completed tasks after"
 msgstr "_Hide completed tasks after"
 
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:46
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:47
 msgid "_Mon"
 msgstr "_Mon"
 
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:47
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:48
 msgid "_Overdue tasks:"
 msgstr "_Overdue tasks:"
 
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:48
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:49
 msgid "_Sat"
 msgstr "_Sat"
 
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:49
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:50
 msgid "_Show appointment end times in week and month views"
 msgstr "_Show appointment end times in week and month views"
 
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:50
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:51
 msgid "_Time divisions:"
 msgstr "_Time divisions:"
 
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:51
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:52
 msgid "_Tue"
 msgstr "_Tue"
 
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:52
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:53
 msgid "_Wed"
 msgstr "_Wed"
 
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:53
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:54
 msgid "before every appointment"
 msgstr "before every appointment"
 
@@ -4584,51 +4577,51 @@ msgstr " (Due "
 msgid "Due "
 msgstr "Due "
 
-#: calendar/gui/dialogs/comp-editor.c:431
+#: calendar/gui/dialogs/comp-editor.c:430
 msgid "Could not update object"
 msgstr "Could not update object"
 
-#: calendar/gui/dialogs/comp-editor.c:904
-#: calendar/gui/dialogs/comp-editor.c:941
+#: calendar/gui/dialogs/comp-editor.c:903
+#: calendar/gui/dialogs/comp-editor.c:940
 msgid "Edit Appointment"
 msgstr "Edit Appointment"
 
-#: calendar/gui/dialogs/comp-editor.c:909
-#: calendar/gui/dialogs/comp-editor.c:946
+#: calendar/gui/dialogs/comp-editor.c:908
+#: calendar/gui/dialogs/comp-editor.c:945
 #, c-format
 msgid "Appointment - %s"
 msgstr "Appointment - %s"
 
-#: calendar/gui/dialogs/comp-editor.c:912
-#: calendar/gui/dialogs/comp-editor.c:949
+#: calendar/gui/dialogs/comp-editor.c:911
+#: calendar/gui/dialogs/comp-editor.c:948
 #, c-format
 msgid "Task - %s"
 msgstr "Task - %s"
 
-#: calendar/gui/dialogs/comp-editor.c:915
-#: calendar/gui/dialogs/comp-editor.c:952
+#: calendar/gui/dialogs/comp-editor.c:914
+#: calendar/gui/dialogs/comp-editor.c:951
 #, c-format
 msgid "Journal entry - %s"
 msgstr "Journal entry - %s"
 
-#: calendar/gui/dialogs/comp-editor.c:926
-#: calendar/gui/dialogs/comp-editor.c:962
+#: calendar/gui/dialogs/comp-editor.c:925
+#: calendar/gui/dialogs/comp-editor.c:961
 msgid "No summary"
 msgstr "No summary"
 
-#: calendar/gui/dialogs/comp-editor.c:1377
-#: calendar/gui/e-calendar-table.c:1175 calendar/gui/e-calendar-view.c:1020
+#: calendar/gui/dialogs/comp-editor.c:1376
+#: calendar/gui/e-calendar-table.c:1175 calendar/gui/e-calendar-view.c:1037
 #: composer/e-msg-composer.c:1183
 msgid "Save as..."
 msgstr "Save as..."
 
-#: calendar/gui/dialogs/comp-editor.c:1480
-#: calendar/gui/dialogs/comp-editor.c:1515
-#: calendar/gui/dialogs/comp-editor.c:1541
+#: calendar/gui/dialogs/comp-editor.c:1479
+#: calendar/gui/dialogs/comp-editor.c:1514
+#: calendar/gui/dialogs/comp-editor.c:1540
 msgid "Changes made to this item may be discarded if an update arrives"
 msgstr "Changes made to this item may be discarded if an update arrives"
 
-#: calendar/gui/dialogs/comp-editor.c:1577
+#: calendar/gui/dialogs/comp-editor.c:1576
 msgid "Unable to use current version!"
 msgstr "Unable to use current version!"
 
@@ -4784,7 +4777,7 @@ msgstr "Event with no start date"
 msgid "Event with no end date"
 msgstr "Event with no end date"
 
-#: calendar/gui/dialogs/event-page.c:617 calendar/gui/dialogs/task-page.c:514
+#: calendar/gui/dialogs/event-page.c:617 calendar/gui/dialogs/task-page.c:513
 msgid "Start date is wrong"
 msgstr "Start date is wrong"
 
@@ -4892,15 +4885,15 @@ msgstr "An organiser is required."
 msgid "At least one attendee is required."
 msgstr "At least one attendee is required."
 
-#: calendar/gui/dialogs/meeting-page.c:650
+#: calendar/gui/dialogs/meeting-page.c:651
 msgid "_Delegate To..."
 msgstr "_Delegate To..."
 
 #. FIXME: need to disable for undeletable folders
-#: calendar/gui/dialogs/meeting-page.c:654
+#: calendar/gui/dialogs/meeting-page.c:655
 #: calendar/gui/e-calendar-table.c:1042 calendar/gui/e-calendar-table.c:1060
-#: calendar/gui/e-calendar-view.c:1295 calendar/gui/e-calendar-view.c:1327
-#: mail/em-folder-tree.c:2541 mail/em-folder-view.c:795
+#: calendar/gui/e-calendar-view.c:1312 calendar/gui/e-calendar-view.c:1344
+#: mail/em-folder-tree.c:2609 mail/em-folder-view.c:795
 #: ui/evolution-addressbook.xml.h:33 ui/evolution-calendar.xml.h:40
 #: ui/evolution-comp-editor.xml.h:17 ui/evolution-contact-editor.xml.h:14
 #: ui/evolution-mail-message.xml.h:112 ui/evolution-tasks.xml.h:21
@@ -5241,7 +5234,7 @@ msgid "Low"
 msgstr "Low"
 
 #: calendar/gui/dialogs/task-details-page.glade.h:8
-#: calendar/gui/e-cal-model.c:870 calendar/gui/e-calendar-table.c:375
+#: calendar/gui/e-cal-model.c:875 calendar/gui/e-calendar-table.c:375
 #: mail/message-list.c:922
 msgid "Normal"
 msgstr "Normal"
@@ -5283,11 +5276,11 @@ msgstr "_Web Page:"
 msgid "Assignment"
 msgstr "Assignment"
 
-#: calendar/gui/dialogs/task-page.c:487
+#: calendar/gui/dialogs/task-page.c:486
 msgid "Due date is wrong"
 msgstr "Due date is wrong"
 
-#: calendar/gui/dialogs/task-page.c:824
+#: calendar/gui/dialogs/task-page.c:823
 #, c-format
 msgid "Unable to open tasks in '%s'."
 msgstr "Unable to open tasks in '%s'."
@@ -5441,17 +5434,17 @@ msgstr "%s at %s"
 msgid "%s for an unknown trigger type"
 msgstr "%s for an unknown trigger type"
 
-#: calendar/gui/e-cal-list-view.c:255 calendar/gui/e-cal-model.c:316
-#: calendar/gui/e-cal-model.c:323 calendar/gui/e-calendar-table.c:352
+#: calendar/gui/e-cal-list-view.c:255 calendar/gui/e-cal-model.c:321
+#: calendar/gui/e-cal-model.c:328 calendar/gui/e-calendar-table.c:352
 msgid "Public"
 msgstr "Public"
 
-#: calendar/gui/e-cal-list-view.c:256 calendar/gui/e-cal-model.c:325
+#: calendar/gui/e-cal-list-view.c:256 calendar/gui/e-cal-model.c:330
 #: calendar/gui/e-calendar-table.c:353
 msgid "Private"
 msgstr "Private"
 
-#: calendar/gui/e-cal-list-view.c:257 calendar/gui/e-cal-model.c:327
+#: calendar/gui/e-cal-list-view.c:257 calendar/gui/e-cal-model.c:332
 #: calendar/gui/e-calendar-table.c:354
 msgid "Confidential"
 msgstr "Confidential"
@@ -5504,19 +5497,19 @@ msgstr ""
 "\n"
 "45.436845,125.862501"
 
-#: calendar/gui/e-cal-model-tasks.c:981 calendar/gui/e-cal-model.c:876
+#: calendar/gui/e-cal-model-tasks.c:981 calendar/gui/e-cal-model.c:881
 #: calendar/gui/e-meeting-list-view.c:168 calendar/gui/e-meeting-store.c:159
 #: calendar/gui/e-meeting-store.c:169 calendar/gui/e-meeting-store.c:765
 msgid "Yes"
 msgstr "Yes"
 
-#: calendar/gui/e-cal-model-tasks.c:981 calendar/gui/e-cal-model.c:876
+#: calendar/gui/e-cal-model-tasks.c:981 calendar/gui/e-cal-model.c:881
 #: calendar/gui/e-meeting-list-view.c:169 calendar/gui/e-meeting-store.c:171
 msgid "No"
 msgstr "No"
 
 #. This is the default filename used for temporary file creation
-#: calendar/gui/e-cal-model.c:329 calendar/gui/e-cal-model.c:332
+#: calendar/gui/e-cal-model.c:334 calendar/gui/e-cal-model.c:337
 #: calendar/gui/e-itip-control.c:967 calendar/gui/e-itip-control.c:1169
 #: calendar/gui/e-meeting-list-view.c:144
 #: calendar/gui/e-meeting-list-view.c:158 calendar/gui/e-meeting-store.c:115
@@ -5525,15 +5518,15 @@ msgstr "No"
 #: camel/camel-tcp-stream-openssl.c:631
 #: camel/providers/smtp/camel-smtp-transport.c:172
 #: camel/providers/smtp/camel-smtp-transport.c:227 mail/em-utils.c:2120
-#: shell/e-component-registry.c:168 widgets/misc/e-charset-picker.c:62
+#: shell/e-component-registry.c:170 widgets/misc/e-charset-picker.c:62
 msgid "Unknown"
 msgstr "Unknown"
 
-#: calendar/gui/e-cal-model.c:872
+#: calendar/gui/e-cal-model.c:877
 msgid "Recurring"
 msgstr "Recurring"
 
-#: calendar/gui/e-cal-model.c:874
+#: calendar/gui/e-cal-model.c:879
 msgid "Assigned"
 msgstr "Assigned"
 
@@ -5581,16 +5574,16 @@ msgstr "90%"
 msgid "100%"
 msgstr "100%"
 
-#: calendar/gui/e-calendar-table.c:683 calendar/gui/e-calendar-view.c:629
+#: calendar/gui/e-calendar-table.c:683 calendar/gui/e-calendar-view.c:646
 msgid "Deleting selected objects"
 msgstr "Deleting selected objects"
 
-#: calendar/gui/e-calendar-table.c:846 calendar/gui/e-calendar-view.c:730
+#: calendar/gui/e-calendar-table.c:846 calendar/gui/e-calendar-view.c:747
 msgid "Updating objects"
 msgstr "Updating objects"
 
 #: calendar/gui/e-calendar-table.c:1022 calendar/gui/e-calendar-table.c:1063
-#: calendar/gui/e-calendar-view.c:1275 calendar/gui/e-calendar-view.c:1355
+#: calendar/gui/e-calendar-view.c:1292 calendar/gui/e-calendar-view.c:1372
 #: mail/em-folder-view.c:770 ui/evolution-addressbook.xml.h:37
 msgid "_Open"
 msgstr "_Open"
@@ -5600,15 +5593,15 @@ msgid "Open _Web Page"
 msgstr "Open _Web Page"
 
 #: calendar/gui/e-calendar-table.c:1024 calendar/gui/e-calendar-table.c:1069
-#: calendar/gui/e-calendar-view.c:1276 calendar/gui/e-calendar-view.c:1361
+#: calendar/gui/e-calendar-view.c:1293 calendar/gui/e-calendar-view.c:1378
 #: mail/em-folder-view.c:772 mail/em-popup.c:690 mail/em-popup.c:805
 #: ui/evolution-mail-message.xml.h:128
 msgid "_Save As..."
 msgstr "_Save As..."
 
 #: calendar/gui/e-calendar-table.c:1025 calendar/gui/e-calendar-table.c:1067
-#: calendar/gui/e-calendar-view.c:1254 calendar/gui/e-calendar-view.c:1277
-#: calendar/gui/e-calendar-view.c:1359 ui/evolution-addressbook.xml.h:40
+#: calendar/gui/e-calendar-view.c:1271 calendar/gui/e-calendar-view.c:1294
+#: calendar/gui/e-calendar-view.c:1376 ui/evolution-addressbook.xml.h:40
 #: ui/evolution-calendar.xml.h:44 ui/evolution-comp-editor.xml.h:19
 #: ui/evolution-contact-editor.xml.h:17 ui/evolution-mail-message.xml.h:124
 #: ui/evolution-tasks.xml.h:25
@@ -5616,23 +5609,23 @@ msgid "_Print..."
 msgstr "_Print..."
 
 #: calendar/gui/e-calendar-table.c:1029 calendar/gui/e-calendar-table.c:1058
-#: calendar/gui/e-calendar-view.c:1282 calendar/gui/e-calendar-view.c:1325
+#: calendar/gui/e-calendar-view.c:1299 calendar/gui/e-calendar-view.c:1342
 #: ui/evolution-addressbook.xml.h:1 ui/evolution-calendar.xml.h:1
 #: ui/evolution-tasks.xml.h:1
 msgid "C_ut"
 msgstr "C_ut"
 
 #: calendar/gui/e-calendar-table.c:1030 calendar/gui/e-calendar-table.c:1056
-#: calendar/gui/e-calendar-view.c:1283 calendar/gui/e-calendar-view.c:1323
-#: mail/em-folder-tree.c:2534 ui/evolution-addressbook.xml.h:31
+#: calendar/gui/e-calendar-view.c:1300 calendar/gui/e-calendar-view.c:1340
+#: mail/em-folder-tree.c:2602 ui/evolution-addressbook.xml.h:31
 #: ui/evolution-calendar.xml.h:39 ui/evolution-composer-entries.xml.h:7
 #: ui/evolution-mail-message.xml.h:109 ui/evolution-tasks.xml.h:20
 msgid "_Copy"
 msgstr "_Copy"
 
 #: calendar/gui/e-calendar-table.c:1031 calendar/gui/e-calendar-table.c:1065
-#: calendar/gui/e-calendar-view.c:1258 calendar/gui/e-calendar-view.c:1284
-#: calendar/gui/e-calendar-view.c:1357 ui/evolution-addressbook.xml.h:38
+#: calendar/gui/e-calendar-view.c:1275 calendar/gui/e-calendar-view.c:1301
+#: calendar/gui/e-calendar-view.c:1374 ui/evolution-addressbook.xml.h:38
 #: ui/evolution-calendar.xml.h:43 ui/evolution-composer-entries.xml.h:9
 #: ui/evolution-mail-message.xml.h:122 ui/evolution-tasks.xml.h:24
 msgid "_Paste"
@@ -5693,67 +5686,67 @@ msgstr "Start date"
 msgid "Task sort"
 msgstr "Task sort"
 
-#: calendar/gui/e-calendar-view.c:1247 calendar/gui/e-calendar-view.c:1335
+#: calendar/gui/e-calendar-view.c:1264 calendar/gui/e-calendar-view.c:1352
 msgid "New _Appointment..."
 msgstr "New _Appointment..."
 
-#: calendar/gui/e-calendar-view.c:1248 calendar/gui/e-calendar-view.c:1340
+#: calendar/gui/e-calendar-view.c:1265 calendar/gui/e-calendar-view.c:1357
 msgid "New All Day _Event"
 msgstr "New All Day _Event"
 
-#: calendar/gui/e-calendar-view.c:1249 calendar/gui/e-calendar-view.c:1345
+#: calendar/gui/e-calendar-view.c:1266 calendar/gui/e-calendar-view.c:1362
 msgid "New Meeting"
 msgstr "New Meeting"
 
-#: calendar/gui/e-calendar-view.c:1250 calendar/gui/e-calendar-view.c:1350
+#: calendar/gui/e-calendar-view.c:1267 calendar/gui/e-calendar-view.c:1367
 msgid "New Task"
 msgstr "New Task"
 
-#: calendar/gui/e-calendar-view.c:1264 ui/evolution-calendar.xml.h:26
+#: calendar/gui/e-calendar-view.c:1281 ui/evolution-calendar.xml.h:26
 msgid "Select _Today"
 msgstr "Select _Today"
 
-#: calendar/gui/e-calendar-view.c:1265
+#: calendar/gui/e-calendar-view.c:1282
 msgid "_Select Date..."
 msgstr "_Select Date..."
 
-#: calendar/gui/e-calendar-view.c:1269 ui/evolution-calendar.xml.h:45
+#: calendar/gui/e-calendar-view.c:1286 ui/evolution-calendar.xml.h:45
 msgid "_Publish Free/Busy Information"
 msgstr "_Publish Free/Busy Information"
 
-#: calendar/gui/e-calendar-view.c:1288
+#: calendar/gui/e-calendar-view.c:1305
 msgid "Cop_y to Calendar..."
 msgstr "Cop_y to Calendar..."
 
-#: calendar/gui/e-calendar-view.c:1289
+#: calendar/gui/e-calendar-view.c:1306
 msgid "Mo_ve to Calendar..."
 msgstr "Mo_ve to Calendar..."
 
-#: calendar/gui/e-calendar-view.c:1290
+#: calendar/gui/e-calendar-view.c:1307
 msgid "_Schedule Meeting..."
 msgstr "_Schedule Meeting..."
 
-#: calendar/gui/e-calendar-view.c:1291
+#: calendar/gui/e-calendar-view.c:1308
 msgid "_Forward as iCalendar..."
 msgstr "_Forward as iCalendar..."
 
-#: calendar/gui/e-calendar-view.c:1296 calendar/gui/e-calendar-view.c:1328
+#: calendar/gui/e-calendar-view.c:1313 calendar/gui/e-calendar-view.c:1345
 msgid "Delete this _Occurrence"
 msgstr "Delete this _Occurrence"
 
-#: calendar/gui/e-calendar-view.c:1297 calendar/gui/e-calendar-view.c:1329
+#: calendar/gui/e-calendar-view.c:1314 calendar/gui/e-calendar-view.c:1346
 msgid "Delete _All Occurrences"
 msgstr "Delete _All Occurrences"
 
-#: calendar/gui/e-calendar-view.c:1331
+#: calendar/gui/e-calendar-view.c:1348
 msgid "Go to _Today"
 msgstr "Go to _Today"
 
-#: calendar/gui/e-calendar-view.c:1333
+#: calendar/gui/e-calendar-view.c:1350
 msgid "_Go to Date..."
 msgstr "_Go to Date..."
 
-#: calendar/gui/e-calendar-view.c:1363 ui/evolution.xml.h:33
+#: calendar/gui/e-calendar-view.c:1380 ui/evolution.xml.h:33
 msgid "_Settings..."
 msgstr "_Settings..."
 
@@ -6415,7 +6408,7 @@ msgstr "Meeting _start time:"
 msgid "Meeting _end time:"
 msgstr "Meeting _end time:"
 
-#: calendar/gui/e-tasks.c:525 calendar/gui/gnome-cal.c:1912
+#: calendar/gui/e-tasks.c:615 calendar/gui/gnome-cal.c:2021
 #, c-format
 msgid ""
 "Error on %s:\n"
@@ -6424,74 +6417,64 @@ msgstr ""
 "Error on %s:\n"
 " %s"
 
-#. FIXME: this doesn't remove the task list from the list or anything
-#: calendar/gui/e-tasks.c:544
-#, c-format
-msgid ""
-"The task backend for\n"
-"%s\n"
-" has crashed."
-msgstr ""
-"The task backend for\n"
-"%s\n"
-" has crashed."
-
-#: calendar/gui/e-tasks.c:624
-#, c-format
-msgid "Opening tasks at %s"
-msgstr "Opening tasks at %s"
-
-#: calendar/gui/e-tasks.c:645
-#, c-format
-msgid ""
-"Error opening %s:\n"
-"%s"
-msgstr ""
-"Error opening %s:\n"
-"%s"
-
-#: calendar/gui/e-tasks.c:664
-msgid "Loading tasks"
-msgstr "Loading tasks"
-
-#: calendar/gui/e-tasks.c:766
-msgid "Completing tasks..."
-msgstr "Completing tasks..."
-
-#: calendar/gui/e-tasks.c:789
-msgid "Deleting selected objects..."
-msgstr "Deleting selected objects..."
-
-#: calendar/gui/e-tasks.c:816
-msgid "Expunging"
-msgstr "Expunging"
-
-#: calendar/gui/gnome-cal.c:1773
-#, c-format
-msgid "Loading appointments at %s"
-msgstr "Loading appointments at %s"
-
-#: calendar/gui/gnome-cal.c:1792
-#, c-format
-msgid "Loading tasks at %s"
-msgstr "Loading tasks at %s"
-
-#: calendar/gui/gnome-cal.c:1812
-#, c-format
-msgid "Opening %s"
-msgstr "Opening %s"
-
-#: calendar/gui/gnome-cal.c:1941
-#, c-format
-msgid "The calendar backend for '%s' has crashed."
-msgstr "The calendar backend for '%s' has crashed."
-
-#: calendar/gui/gnome-cal.c:1953
+#: calendar/gui/e-tasks.c:643 calendar/gui/gnome-cal.c:2060
 #, c-format
 msgid "The task backend for '%s' has crashed."
 msgstr "The task backend for '%s' has crashed."
 
-#: calendar/gui/gnome-cal.c:2757
+#. FIXME Loading should be async
+#. FIXME With no event handling here the status message never actually changes
+#: calendar/gui/e-tasks.c:717
+#, c-format
+msgid "Opening tasks at %s"
+msgstr "Opening tasks at %s"
+
+#: calendar/gui/e-tasks.c:740
+#, c-format
+msgid ""
+"Error opening %s:\n"
+"%s"
+msgstr ""
+"Error opening %s:\n"
+"%s"
+
+#: calendar/gui/e-tasks.c:761
+msgid "Loading tasks"
+msgstr "Loading tasks"
+
+#: calendar/gui/e-tasks.c:865
+msgid "Completing tasks..."
+msgstr "Completing tasks..."
+
+#: calendar/gui/e-tasks.c:888
+msgid "Deleting selected objects..."
+msgstr "Deleting selected objects..."
+
+#: calendar/gui/e-tasks.c:915
+msgid "Expunging"
+msgstr "Expunging"
+
+#: calendar/gui/gnome-cal.c:1879
+#, c-format
+msgid "Loading appointments at %s"
+msgstr "Loading appointments at %s"
+
+#: calendar/gui/gnome-cal.c:1898
+#, c-format
+msgid "Loading tasks at %s"
+msgstr "Loading tasks at %s"
+
+#: calendar/gui/gnome-cal.c:1921
+#, c-format
+msgid "Opening %s"
+msgstr "Opening %s"
+
+#: calendar/gui/gnome-cal.c:2051
+#, c-format
+msgid "The calendar backend for '%s' has crashed."
+msgstr "The calendar backend for '%s' has crashed."
+
+#: calendar/gui/gnome-cal.c:2895
 msgid "Purging"
 msgstr "Purging"
 
@@ -6878,16 +6861,16 @@ msgstr "Task List '%s' will be removed. Are you sure you want to continue?"
 msgid "New Task List"
 msgstr "New Task List"
 
-#: calendar/gui/tasks-component.c:464
+#: calendar/gui/tasks-component.c:469
 #, c-format
 msgid "Unable to open the task list '%s' for creating events and meetings"
 msgstr "Unable to open the task list '%s' for creating events and meetings"
 
-#: calendar/gui/tasks-component.c:476
+#: calendar/gui/tasks-component.c:481
 msgid "There is no calendar available for creating tasks"
 msgstr "There is no calendar available for creating tasks"
 
-#: calendar/gui/tasks-component.c:514
+#: calendar/gui/tasks-component.c:519
 msgid ""
 "Selected task list is read-only, events cannot be created. Please select a "
 "read-write calendar."
@@ -6895,27 +6878,27 @@ msgstr ""
 "Selected task list is read-only, events cannot be created. Please select a "
 "read-write calendar."
 
-#: calendar/gui/tasks-component.c:722
+#: calendar/gui/tasks-component.c:732
 msgid "New task"
 msgstr "New task"
 
-#: calendar/gui/tasks-component.c:723
+#: calendar/gui/tasks-component.c:733
 msgid "_Task"
 msgstr "_Task"
 
-#: calendar/gui/tasks-component.c:724
+#: calendar/gui/tasks-component.c:734
 msgid "Create a new task"
 msgstr "Create a new task"
 
-#: calendar/gui/tasks-component.c:730
+#: calendar/gui/tasks-component.c:740
 msgid "New tasks group"
 msgstr "New tasks group"
 
-#: calendar/gui/tasks-component.c:731
+#: calendar/gui/tasks-component.c:741
 msgid "_Tasks Group"
 msgstr "_Tasks Group"
 
-#: calendar/gui/tasks-component.c:732
+#: calendar/gui/tasks-component.c:742
 msgid "Create a new tasks group"
 msgstr "Create a new tasks group"
 
@@ -9301,77 +9284,70 @@ msgid "Enter security pass-phrase for `%s'"
 msgstr "Enter security pass-phrase for `%s'"
 
 #: camel/camel-smime-context.c:261
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot find certificate for '%s'"
-msgstr "Cannot create folder `%s': %s"
+msgstr "Cannot find certificate for '%s'"
 
 #: camel/camel-smime-context.c:267
-#, fuzzy
 msgid "Cannot create CMS message"
-msgstr "Cannot open message"
+msgstr "Cannot create CMS message"
 
 #: camel/camel-smime-context.c:272
 msgid "Cannot create CMS signedData"
-msgstr ""
+msgstr "Cannot create CMS signedData"
 
 #: camel/camel-smime-context.c:278
-#, fuzzy
 msgid "Cannot attach CMS signedData"
-msgstr "Cannot attach file %s: %s"
+msgstr "Cannot attach CMS signedData"
 
 #: camel/camel-smime-context.c:285
-#, fuzzy
 msgid "Cannot attach CMS data"
-msgstr "Cannot attach file %s: %s"
+msgstr "Cannot attach CMS data"
 
 #: camel/camel-smime-context.c:291
 msgid "Cannot create CMS SignerInfo"
-msgstr ""
+msgstr "Cannot create CMS SignerInfo"
 
 #: camel/camel-smime-context.c:297
 msgid "Cannot find cert chain"
-msgstr ""
+msgstr "Cannot find cert chain"
 
 #: camel/camel-smime-context.c:303
 msgid "Cannot add CMS SigningTime"
-msgstr ""
+msgstr "Cannot add CMS SigningTime"
 
 #: camel/camel-smime-context.c:325 camel/camel-smime-context.c:337
-#, fuzzy, c-format
+#, c-format
 msgid "Encryption cert for '%s' does not exist"
-msgstr "Folder `%s' does not exist."
+msgstr "Encryption cert for '%s' does not exist"
 
 #: camel/camel-smime-context.c:344
 msgid "Cannot add SMIMEEncKeyPrefs attribute"
-msgstr ""
+msgstr "Cannot add SMIMEEncKeyPrefs attribute"
 
 #: camel/camel-smime-context.c:349
 msgid "Cannot add MS SMIMEEncKeyPrefs attribute"
-msgstr ""
+msgstr "Cannot add MS SMIMEEncKeyPrefs attribute"
 
 #: camel/camel-smime-context.c:354
-#, fuzzy
 msgid "Cannot add add encryption certificate"
-msgstr "Encry_ption certificate:"
+msgstr "Cannot add add encryption certificate"
 
 #: camel/camel-smime-context.c:360
 msgid "Cannot add CMS SignerInfo"
-msgstr ""
+msgstr "Cannot add CMS SignerInfo"
 
 #: camel/camel-smime-context.c:430
-#, fuzzy
 msgid "Cannot create encoder context"
-msgstr "Cannot create folder lock on %s: %s"
+msgstr "Cannot create encoder context"
 
 #: camel/camel-smime-context.c:436
-#, fuzzy
 msgid "Failed to add data to CMS encoder"
-msgstr "Failed to append to local `Sent' folder: %s"
+msgstr "Failed to add data to CMS encoder"
 
 #: camel/camel-smime-context.c:441 camel/camel-smime-context.c:890
-#, fuzzy
 msgid "Failed to encode data"
-msgstr "Failed to authenticate.\n"
+msgstr "Failed to encode data"
 
 #: camel/camel-smime-context.c:514
 msgid "Unverified"
@@ -9402,9 +9378,8 @@ msgid "Signature algorithm unknown"
 msgstr "Signature algorithm unknown"
 
 #: camel/camel-smime-context.c:528
-#, fuzzy
 msgid "Signature algorithm unsupported"
-msgstr "Siganture algorithm unsupported"
+msgstr "Signature algorithm unsupported"
 
 #: camel/camel-smime-context.c:530
 msgid "Malformed signature"
@@ -9415,41 +9390,36 @@ msgid "Processing error"
 msgstr "Processing error"
 
 #: camel/camel-smime-context.c:569
-#, fuzzy
 msgid "No signedData in signature"
-msgstr "Add script signature"
+msgstr "No signedData in signature"
 
 #: camel/camel-smime-context.c:576
 msgid "Digests missing from enveloped data"
-msgstr ""
+msgstr "Digests missing from enveloped data"
 
 #: camel/camel-smime-context.c:589 camel/camel-smime-context.c:599
-#, fuzzy
 msgid "Cannot calculate digests"
-msgstr "Cannot create folder: %s: %s"
+msgstr "Cannot calculate digests"
 
 #: camel/camel-smime-context.c:604
-#, fuzzy
 msgid "Cannot set message digests"
-msgstr "Cannot get message %s: %s"
+msgstr "Cannot set message digests"
 
 #: camel/camel-smime-context.c:614
-#, fuzzy
 msgid "Certificate import failed"
-msgstr "Certificate signature failure"
+msgstr "Certificate import failed"
 
 #: camel/camel-smime-context.c:624
 msgid "Certficate only message, cannot verify certificates"
-msgstr ""
+msgstr "Certficate only message, cannot verify certificates"
 
 #: camel/camel-smime-context.c:627
 msgid "Certficate only message, certificates imported and verified"
-msgstr ""
+msgstr "Certficate only message, certificates imported and verified"
 
 #: camel/camel-smime-context.c:631
-#, fuzzy
 msgid "Can't find signature digests"
-msgstr "Valid signature"
+msgstr "Can't find signature digests"
 
 #: camel/camel-smime-context.c:647
 #, c-format
@@ -9457,76 +9427,71 @@ msgid "Signer: %s <%s>: %s\n"
 msgstr "Signer: %s <%s>: %s\n"
 
 #: camel/camel-smime-context.c:748
-#, fuzzy
 msgid "Decoder failed"
-msgstr "DATA command failed"
+msgstr "Decoder failed"
 
 #: camel/camel-smime-context.c:800
-#, fuzzy, c-format
+#, c-format
 msgid "Can't find certificate for `%s'"
-msgstr "Cannot create folder `%s': %s"
+msgstr "Can't find certificate for `%s'"
 
 #: camel/camel-smime-context.c:807
 msgid "Can't find common bulk encryption algorithm"
-msgstr ""
+msgstr "Can't find common bulk encryption algorithm"
 
 #. PORT_GetError(); ??
 #: camel/camel-smime-context.c:816
 msgid "Can't allocate slot for encryption bulk key"
-msgstr ""
+msgstr "Can't allocate slot for encryption bulk key"
 
 #: camel/camel-smime-context.c:827
-#, fuzzy
 msgid "Can't create CMS Message"
-msgstr "Crea_te Rule From Message"
+msgstr "Can't create CMS Message"
 
 #: camel/camel-smime-context.c:833
 msgid "Can't create CMS EnvelopedData"
-msgstr ""
+msgstr "Can't create CMS EnvelopedData"
 
 #: camel/camel-smime-context.c:839
 msgid "Can't attach CMS EnvelopedData"
-msgstr ""
+msgstr "Can't attach CMS EnvelopedData"
 
 #: camel/camel-smime-context.c:845
 msgid "Can't attach CMS data object"
-msgstr ""
+msgstr "Can't attach CMS data object"
 
 #: camel/camel-smime-context.c:854
 msgid "Can't create CMS RecipientInfo"
-msgstr ""
+msgstr "Can't create CMS RecipientInfo"
 
 #: camel/camel-smime-context.c:859
 msgid "Can't add CMS RecipientInfo"
-msgstr ""
+msgstr "Can't add CMS RecipientInfo"
 
 #: camel/camel-smime-context.c:873
-#, fuzzy
 msgid "Can't create encoder context"
-msgstr "Cannot create folder lock on %s: %s"
+msgstr "Can't create encoder context"
 
 #: camel/camel-smime-context.c:884
-#, fuzzy
 msgid "Failed to add data to encoder"
-msgstr "Failed to send username to server"
+msgstr "Failed to add data to encoder"
 
 #: camel/camel-smime-context.c:970
 #, c-format
 msgid "Decoder failed, error %d"
-msgstr ""
+msgstr "Decoder failed, error %d"
 
 #: camel/camel-smime-context.c:977
 msgid "S/MIME Decrypt: No encrypted content found"
-msgstr ""
+msgstr "S/MIME Decrypt: No encrypted content found"
 
 #: camel/camel-smime-context.c:1004
-#, fuzzy
 msgid "import keys: unimplemented"
-msgstr "Command not implemented"
+msgstr "import keys: unimplemented"
 
 #: camel/camel-smime-context.c:1012
 msgid "export keys: unimplemented"
-msgstr ""
+msgstr "export keys: unimplemented"
 
 #: camel/camel-store.c:214
 msgid "Cannot get folder: Invalid operation on this store"
@@ -10898,8 +10863,8 @@ msgid "Could not get group: %s"
 msgstr "Could not get group: %s"
 
 #: camel/providers/nntp/camel-nntp-summary.c:333
-msgid "Could not get messages: unspecificed error"
-msgstr "Could not get messages: unspecificed error"
+msgid "Could not get messages: unspecified error"
+msgstr "Could not get messages: unspecified error"
 
 #: camel/providers/nntp/camel-nntp-summary.c:378
 #, c-format
@@ -11535,9 +11500,8 @@ msgstr ""
 "account"
 
 #: composer/e-msg-composer.c:1273
-#, fuzzy
 msgid "Could not open file"
-msgstr "Can not open file"
+msgstr "Could not open file"
 
 #: composer/e-msg-composer.c:1281
 msgid "Unable to retrieve message from editor"
@@ -11617,26 +11581,27 @@ msgstr ""
 
 #: composer/mail-composer-errors.xml.in.h:1
 msgid "${1}"
-msgstr ""
+msgstr "${1}"
 
 #: composer/mail-composer-errors.xml.in.h:2
 msgid "All accounts have been removed."
-msgstr ""
+msgstr "All accounts have been removed."
 
 #: composer/mail-composer-errors.xml.in.h:3
-#, fuzzy
 msgid ""
 "Are you sure you want to discard the message, titled '{0}', you are "
 "composing?"
-msgstr "Are you sure you want to delete this untitled appointment?"
+msgstr ""
+"Are you sure you want to discard the message, titled '{0}', you are "
+"composing?"
 
 #: composer/mail-composer-errors.xml.in.h:4
 msgid "Because \"${0}\", you may need to select different mail options."
-msgstr ""
+msgstr "Because \"${0}\", you may need to select different mail options."
 
 #: composer/mail-composer-errors.xml.in.h:5
 msgid "Because \"${1}\"."
-msgstr ""
+msgstr "Because \"${1}\"."
 
 #: composer/mail-composer-errors.xml.in.h:6
 msgid ""
@@ -11644,84 +11609,81 @@ msgid ""
 "you choose to save the message in your Drafts folder. This will allow you to "
 "continue the message at a later date."
 msgstr ""
+"Closing this composer window will discard the message permanently, unless "
+"you choose to save the message in your Drafts folder. This will allow you to "
+"continue the message at a later date."
 
 #: composer/mail-composer-errors.xml.in.h:7
-#, fuzzy
 msgid "Could not create message."
-msgstr "Could not create pipe: %s"
+msgstr "Could not create message."
 
 #: composer/mail-composer-errors.xml.in.h:8
-#, fuzzy
 msgid "Could not read signature file \"{0}\"."
-msgstr "Could not save signature file: %s"
+msgstr "Could not read signature file \"{0}\"."
 
 #: composer/mail-composer-errors.xml.in.h:9
-#, fuzzy
 msgid "Could not save to autosave file \"{0}\"."
-msgstr "Could not save signature file: %s"
+msgstr "Could not save to autosave file \"{0}\"."
 
 #: composer/mail-composer-errors.xml.in.h:10
 msgid "Directories can not be attached to Messages."
-msgstr ""
+msgstr "Directories can not be attached to Messages."
 
 #: composer/mail-composer-errors.xml.in.h:11
-#, fuzzy
 msgid "Discard Changes"
-msgstr "_Discard Changes"
+msgstr "Discard Changes"
 
 #: composer/mail-composer-errors.xml.in.h:12
-#, fuzzy
 msgid "Do you want to recover unfinished messages?"
-msgstr "Do you want to save changes?"
+msgstr "Do you want to recover unfinished messages?"
 
 #: composer/mail-composer-errors.xml.in.h:13
-#, fuzzy
 msgid "Don't Recover"
-msgstr "Don't Remove"
+msgstr "Don't Recover"
 
 #: composer/mail-composer-errors.xml.in.h:14
 msgid "Error saving to autosave because \"{1}\"."
-msgstr ""
+msgstr "Error saving to autosave because \"{1}\"."
 
 #: composer/mail-composer-errors.xml.in.h:15
 msgid ""
 "Evolution quit unexpectedly while you were composing a new message. "
 "Recovering the message will allow you to continue where you left off."
 msgstr ""
+"Evolution quit unexpectedly while you were composing a new message. "
+"Recovering the message will allow you to continue where you left off."
 
 #: composer/mail-composer-errors.xml.in.h:16
-#, fuzzy
 msgid "Recover"
-msgstr "Remove"
+msgstr "Recover"
 
 #: composer/mail-composer-errors.xml.in.h:17
-#, fuzzy
 msgid "Save Message"
-msgstr "Save Message..."
+msgstr "Save Message"
 
 #: composer/mail-composer-errors.xml.in.h:18
 msgid "The file `${0}' is not a regular file and cannot be sent in a message."
-msgstr ""
+msgstr "The file `${0}' is not a regular file and cannot be sent in a message."
 
 #: composer/mail-composer-errors.xml.in.h:19
 msgid ""
 "To attach the contents of this directory, either attach the files in this "
 "directory individually, or create an archive of the directory and attach it."
 msgstr ""
+"To attach the contents of this directory, either attach the files in this "
+"directory individually, or create an archive of the directory and attach it."
 
 #: composer/mail-composer-errors.xml.in.h:20
-#, fuzzy
 msgid "Unfinished messages found"
-msgstr "Unread messages"
+msgstr "Unfinished messages found"
 
 #: composer/mail-composer-errors.xml.in.h:21
 msgid "Warning: Modified Message"
 msgstr "Warning: Modified Message"
 
 #: composer/mail-composer-errors.xml.in.h:22
-#, fuzzy
 msgid "You cannot attach the file `${0}' to this message."
-msgstr "Attach a file to the message"
+msgstr "You cannot attach the file `${0}' to this message."
 
 #: composer/mail-composer-errors.xml.in.h:23
 msgid "You need to configure an account before you can compose mail."
@@ -12032,53 +11994,44 @@ msgid "_Filter Rules"
 msgstr "_Filter Rules"
 
 #: filter/filter-errors.xml.in.h:1
-#, fuzzy
 msgid "Bad regular expression \"{0}\"."
-msgstr ""
-"Error in regular expression '%s':\n"
-"%s"
+msgstr "Bad regular expression \"{0}\"."
 
 #: filter/filter-errors.xml.in.h:2
 msgid "Could not compile regular expression \"{1}\"."
-msgstr ""
+msgstr "Could not compile regular expression \"{1}\"."
 
 #: filter/filter-errors.xml.in.h:3
-#, fuzzy
 msgid "File \"{0}\" does not exist or is not a regular file."
-msgstr "File '%s' does not exist or is not a regular file."
+msgstr "File \"{0}\" does not exist or is not a regular file."
 
 #: filter/filter-errors.xml.in.h:4
-#, fuzzy
 msgid "Missing date."
-msgstr "Meeting Update"
+msgstr "Missing date."
 
 #: filter/filter-errors.xml.in.h:5
-#, fuzzy
 msgid "Missing file name."
-msgstr "Distinguished name"
+msgstr "Missing file name."
 
 #: filter/filter-errors.xml.in.h:6
-#, fuzzy
 msgid "Missing folder."
-msgstr "Synchronising \"%s\""
+msgstr "Missing folder."
 
 #: filter/filter-errors.xml.in.h:7
-#, fuzzy
 msgid "Missing name."
-msgstr "Distinguished name"
+msgstr "Missing name."
 
 #: filter/filter-errors.xml.in.h:8
 msgid "Name \"{0}\" already used."
-msgstr ""
+msgstr "Name \"{0}\" already used."
 
 #: filter/filter-errors.xml.in.h:9
-#, fuzzy
 msgid "No sources selected."
-msgstr "No server has been selected"
+msgstr "No sources selected."
 
 #: filter/filter-errors.xml.in.h:10
 msgid "Please choose another name."
-msgstr ""
+msgstr "Please choose another name."
 
 #: filter/filter-errors.xml.in.h:11
 msgid "You must choose a date."
@@ -12089,9 +12042,8 @@ msgid "You must name this filter."
 msgstr "You must name this filter."
 
 #: filter/filter-errors.xml.in.h:13
-#, fuzzy
 msgid "You must name this vFolder."
-msgstr "You must name this vfolder."
+msgstr "You must name this vFolder."
 
 #: filter/filter-errors.xml.in.h:14
 msgid "You must specify a file name."
@@ -12107,6 +12059,9 @@ msgid ""
 "folders individually, and/or by selecting all local folders, all remote "
 "folders, or both."
 msgstr ""
+"You must specify at least one folder as a source. Either by selecting the "
+"folders individually, and/or by selecting all local folders, all remote "
+"folders, or both."
 
 #: filter/filter-file.c:288
 msgid "Choose a file"
@@ -12690,7 +12645,7 @@ msgstr "<click here to select a folder>"
 msgid "Create New Folder"
 msgstr "Create New Folder"
 
-#: mail/em-folder-selector.c:166 mail/em-folder-tree.c:2266
+#: mail/em-folder-selector.c:166 mail/em-folder-tree.c:2334
 #: mail/mail-component.c:731
 msgid "Specify where to create the folder:"
 msgstr "Specify where to create the folder:"
@@ -12718,78 +12673,78 @@ msgstr "Inbox"
 msgid "Loading..."
 msgstr "Loading..."
 
-#: mail/em-folder-tree.c:924
+#: mail/em-folder-tree.c:934
 #, c-format
 msgid "Moving folder %s"
 msgstr "Moving folder %s"
 
-#: mail/em-folder-tree.c:926
+#: mail/em-folder-tree.c:936
 #, c-format
 msgid "Copying folder %s"
 msgstr "Copying folder %s"
 
-#: mail/em-folder-tree.c:933
+#: mail/em-folder-tree.c:943
 #, c-format
 msgid "Moving messages into folder %s"
 msgstr "Moving messages into folder %s"
 
-#: mail/em-folder-tree.c:935
+#: mail/em-folder-tree.c:945
 #, c-format
 msgid "Copying messages into folder %s"
 msgstr "Copying messages into folder %s"
 
-#: mail/em-folder-tree.c:951
+#: mail/em-folder-tree.c:961
 msgid "Cannot drop message(s) into toplevel store"
 msgstr "Cannot drop message(s) into toplevel store"
 
-#: mail/em-folder-tree.c:2040 mail/em-folder-tree.c:2053
+#: mail/em-folder-tree.c:2108 mail/em-folder-tree.c:2121
 #: mail/em-folder-view.c:672 mail/em-folder-view.c:686
 #: mail/importers/evolution-mbox-importer.c:119
 msgid "Select folder"
 msgstr "Select folder"
 
-#: mail/em-folder-tree.c:2080
+#: mail/em-folder-tree.c:2148
 #, c-format
 msgid "Creating folder `%s'"
 msgstr "Creating folder `%s'"
 
-#: mail/em-folder-tree.c:2266 mail/mail-component.c:731
+#: mail/em-folder-tree.c:2334 mail/mail-component.c:731
 msgid "Create folder"
 msgstr "Create folder"
 
-#: mail/em-folder-tree.c:2458
+#: mail/em-folder-tree.c:2526
 #, c-format
 msgid "Rename the \"%s\" folder to:"
 msgstr "Rename the \"%s\" folder to:"
 
-#: mail/em-folder-tree.c:2460
+#: mail/em-folder-tree.c:2528
 msgid "Rename Folder"
 msgstr "Rename Folder"
 
-#: mail/em-folder-tree.c:2529 ui/evolution-addressbook.xml.h:44
+#: mail/em-folder-tree.c:2597 ui/evolution-addressbook.xml.h:44
 #: ui/evolution-mail-global.xml.h:18 ui/evolution-mail-messagedisplay.xml.h:8
 #: ui/evolution-message-composer.xml.h:53 ui/evolution.xml.h:35
 msgid "_View"
 msgstr "_View"
 
-#: mail/em-folder-tree.c:2530
+#: mail/em-folder-tree.c:2598
 msgid "Open in _New Window"
 msgstr "Open in _New Window"
 
-#: mail/em-folder-tree.c:2535
+#: mail/em-folder-tree.c:2603
 msgid "_Move"
 msgstr "_Move"
 
 #. FIXME: need to disable for nochildren folders
-#: mail/em-folder-tree.c:2539
+#: mail/em-folder-tree.c:2607
 msgid "_New Folder..."
 msgstr "_New Folder..."
 
-#: mail/em-folder-tree.c:2542
+#: mail/em-folder-tree.c:2610
 msgid "_Rename"
 msgstr "_Rename"
 
-#: mail/em-folder-tree.c:2545 ui/evolution-mail-list.xml.h:27
+#: mail/em-folder-tree.c:2613 ui/evolution-mail-list.xml.h:27
 msgid "_Properties..."
 msgstr "_Properties..."
 
@@ -13366,11 +13321,11 @@ msgid "Check incoming mail being junk"
 msgstr "Check incoming mail being junk"
 
 #: mail/evolution-mail.schemas.in.in.h:4
-msgid "Citation highlight colour"
+msgid "Citation highlight color"
 msgstr "Citation highlight colour"
 
 #: mail/evolution-mail.schemas.in.in.h:5
-msgid "Citation highlight colour."
+msgid "Citation highlight color."
 msgstr "Citation highlight colour."
 
 #: mail/evolution-mail.schemas.in.in.h:6
@@ -13472,7 +13427,7 @@ msgid "Last time empty trash was run"
 msgstr "Last time empty trash was run"
 
 #: mail/evolution-mail.schemas.in.in.h:29
-msgid "List of Labels and their associated colours"
+msgid "List of Labels and their associated colors"
 msgstr "List of Labels and their associated colours"
 
 #: mail/evolution-mail.schemas.in.in.h:30
@@ -13494,7 +13449,7 @@ msgstr "List of custom headers and whether they are enabled."
 #: mail/evolution-mail.schemas.in.in.h:33
 msgid ""
 "List of labels known to the mail component of Evolution. The list contains "
-"strings containing name:colour where colour uses the HTML hex encoding."
+"strings containing name:color where color uses the HTML hex encoding."
 msgstr ""
 "List of labels known to the mail component of Evolution. The list contains "
 "strings containing name:colour where colour uses the HTML hex encoding."
@@ -13680,8 +13635,8 @@ msgid "Spell check inline"
 msgstr "Spell check inline"
 
 #: mail/evolution-mail.schemas.in.in.h:76
-msgid "Subscribe dialog default hight"
-msgstr "Subscribe dialogue default hight"
+msgid "Subscribe dialog default height"
+msgstr "Subscribe dialogue default height"
 
 #: mail/evolution-mail.schemas.in.in.h:77
 msgid "Subscribe dialog default width"
@@ -14487,8 +14442,8 @@ msgid "Execute Command..."
 msgstr "Execute Command..."
 
 #: mail/mail-config.glade.h:81
-msgid "Fi_xed -width:"
-msgstr "Fi_xed -width:"
+msgid "Fi_xed-width:"
+msgstr "Fi_xed-width:"
 
 #: mail/mail-config.glade.h:82
 msgid "Font Properties"
@@ -14797,250 +14752,220 @@ msgid "description"
 msgstr "description"
 
 #: mail/mail-errors.xml.in.h:1
-#, fuzzy
 msgid "A folder named \"{1}\" already exists. Please use a different name."
-msgstr "A folder named \"%s\" already exists. Please use a different name."
+msgstr "A folder named \"{1}\" already exists. Please use a different name."
 
 #: mail/mail-errors.xml.in.h:2
 msgid ""
 "Adding a meaningful Subject line to your messages will give your recipients "
 "an idea of what your mail is about."
 msgstr ""
+"Adding a meaningful Subject line to your messages will give your recipients "
+"an idea of what your mail is about."
 
 #: mail/mail-errors.xml.in.h:3
 msgid "Are you sure you want to delete this account?"
 msgstr "Are you sure you want to delete this account?"
 
 #: mail/mail-errors.xml.in.h:4
-#, fuzzy
 msgid ""
 "Are you sure you want to permanently remove all the deleted message in "
 "folder \"{0}\"?"
-msgstr "Permanently remove all deleted messages from this folder"
+msgstr ""
+"Are you sure you want to permanently remove all the deleted message in "
+"folder \"{0}\"?"
 
 #: mail/mail-errors.xml.in.h:5
-#, fuzzy
 msgid ""
 "Are you sure you want to permanently remove all the deleted messages in all "
 "folders?"
-msgstr "Permanently remove all deleted messages from all folders"
+msgstr ""
+"Are you sure you want to permanently remove all the deleted messages in all "
+"folders?"
 
 #: mail/mail-errors.xml.in.h:6
-#, fuzzy
 msgid "Are you sure you want to send a message in HTML format?"
-msgstr "Are you sure you want to remove this URL?"
+msgstr "Are you sure you want to send a message in HTML format?"
 
 #: mail/mail-errors.xml.in.h:7
-#, fuzzy
 msgid "Are you sure you want to send a message with only BCC recipients?"
-msgstr "Prompt when user tries to send a message with no To or Cc recipients."
+msgstr "Are you sure you want to send a message with only BCC recipients?"
 
 #: mail/mail-errors.xml.in.h:8
-#, fuzzy
 msgid "Are you sure you want to send a message without a subject?"
-msgstr ""
-"Prompt the user when he or she tries to send a message without a Subject."
+msgstr "Are you sure you want to send a message without a subject?"
 
 #: mail/mail-errors.xml.in.h:9
 msgid "Because \"{0}\"."
-msgstr ""
+msgstr "Because \"{0}\"."
 
 #: mail/mail-errors.xml.in.h:10
 msgid "Because \"{1}\"."
-msgstr ""
+msgstr "Because \"{1}\"."
 
 #: mail/mail-errors.xml.in.h:11
 msgid "Because \"{2}\"."
-msgstr ""
+msgstr "Because \"{2}\"."
 
 #: mail/mail-errors.xml.in.h:12
 msgid "Cannot add vFolder \"{0}\"."
-msgstr ""
+msgstr "Cannot add vFolder \"{0}\"."
 
 #: mail/mail-errors.xml.in.h:13
-#, fuzzy
 msgid "Cannot copy folder \"{0}\" to \"{1}\"."
-msgstr "Synchronising \"%s\""
+msgstr "Cannot copy folder \"{0}\" to \"{1}\"."
 
 #: mail/mail-errors.xml.in.h:14
-#, fuzzy
 msgid "Cannot create folder \"{0}\"."
-msgstr "Cannot create folder: %s: %s"
+msgstr "Cannot create folder \"{0}\"."
 
 #: mail/mail-errors.xml.in.h:15
-#, fuzzy
 msgid "Cannot create temporary save directory."
-msgstr "Could not create temporary directory: %s"
+msgstr "Cannot create temporary save directory."
 
 #: mail/mail-errors.xml.in.h:16
-#, fuzzy
 msgid "Cannot create the save directory, because \"{1}\""
-msgstr "Cannot create directory `%s': %s."
+msgstr "Cannot create the save directory, because \"{1}\""
 
 #: mail/mail-errors.xml.in.h:17
-#, fuzzy
 msgid "Cannot delete folder \"{0}\"."
-msgstr "Cannot delete local %s folder."
+msgstr "Cannot delete folder \"{0}\"."
 
 #: mail/mail-errors.xml.in.h:18
-#, fuzzy
 msgid "Cannot delete system folder \"{0}\"."
-msgstr "Cannot delete local %s folder."
+msgstr "Cannot delete system folder \"{0}\"."
 
 #: mail/mail-errors.xml.in.h:19
-#, fuzzy
 msgid "Cannot edit vFolder \"{0}\" as it does not exist."
-msgstr "Cannot get folder `%s': folder does not exist."
+msgstr "Cannot edit vFolder \"{0}\" as it does not exist."
 
 #: mail/mail-errors.xml.in.h:20
-#, fuzzy
 msgid "Cannot move folder \"{0}\" to \"{1}\"."
-msgstr "Synchronising \"%s\""
+msgstr "Cannot move folder \"{0}\" to \"{1}\"."
 
 #: mail/mail-errors.xml.in.h:21
-#, fuzzy
 msgid "Cannot open source \"{1}\""
-msgstr "Could not open source"
+msgstr "Cannot open source \"{1}\""
 
 #: mail/mail-errors.xml.in.h:22
-#, fuzzy
 msgid "Cannot open source \"{2}\"."
-msgstr "Could not open source"
+msgstr "Cannot open source \"{2}\"."
 
 #: mail/mail-errors.xml.in.h:23
-#, fuzzy
 msgid "Cannot open target \"{2}\"."
-msgstr "Cannot open message"
+msgstr "Cannot open target \"{2}\"."
 
 #: mail/mail-errors.xml.in.h:24
 msgid "Cannot rename \"{0}\" to \"{1}\"."
-msgstr ""
+msgstr "Cannot rename \"{0}\" to \"{1}\"."
 
 #: mail/mail-errors.xml.in.h:25
-#, fuzzy
 msgid "Cannot rename or move system folder \"{0}\"."
-msgstr "Cannot rename local %s folder."
+msgstr "Cannot rename or move system folder \"{0}\"."
 
 #: mail/mail-errors.xml.in.h:26
 msgid "Cannot save changes to account."
-msgstr ""
+msgstr "Cannot save changes to account."
 
 #: mail/mail-errors.xml.in.h:27
-#, fuzzy
 msgid "Cannot save to directory \"{0}\"."
-msgstr "Cannot create directory `%s': %s."
+msgstr "Cannot save to directory \"{0}\"."
 
 #: mail/mail-errors.xml.in.h:28
-#, fuzzy
 msgid "Cannot save to file \"{0}\"."
-msgstr ""
-"Cannot save to `%s'\n"
-" %s"
+msgstr "Cannot save to file \"{0}\"."
 
 #: mail/mail-errors.xml.in.h:29
-#, fuzzy
 msgid "Cannot set signature script \"{0}\"."
-msgstr "Add signature script"
+msgstr "Cannot set signature script \"{0}\"."
 
 #: mail/mail-errors.xml.in.h:30
 msgid ""
 "Check to make sure your password is spelled correctly. Remember that many "
 "passwords are case sensitive; your caps lock might be on."
 msgstr ""
+"Check to make sure your password is spelled correctly. Remember that many "
+"passwords are case sensitive; your caps lock might be on."
 
 #: mail/mail-errors.xml.in.h:31
-#, fuzzy
 msgid "Could not save signature file."
-msgstr "Could not save signature file: %s"
+msgstr "Could not save signature file."
 
 #: mail/mail-errors.xml.in.h:32
-#, fuzzy
 msgid "Delete \"{0}\"?"
-msgstr "Delete \"%s\""
+msgstr "Delete \"{0}\"?"
 
 #: mail/mail-errors.xml.in.h:33
-#, fuzzy
 msgid "Delete account?"
-msgstr "Delete selected contacts"
+msgstr "Delete account?"
 
 #: mail/mail-errors.xml.in.h:34
-#, fuzzy
 msgid "Discard changed?"
-msgstr "_Discard changes"
+msgstr "Discard changed?"
 
 #: mail/mail-errors.xml.in.h:35
-#, fuzzy
 msgid "Do you wish to save your changes?"
-msgstr "Do you want to save changes?"
+msgstr "Do you wish to save your changes?"
 
 #: mail/mail-errors.xml.in.h:36
 msgid "Don't delete"
 msgstr "Don't delete"
 
 #: mail/mail-errors.xml.in.h:37
-#, fuzzy
 msgid "Enter password."
-msgstr "Enter password"
+msgstr "Enter password."
 
 #: mail/mail-errors.xml.in.h:38
-#, fuzzy
 msgid "Error loading filter definitions."
-msgstr ""
-"Error loading filter information:\n"
-"%s"
+msgstr "Error loading filter definitions."
 
 #: mail/mail-errors.xml.in.h:39
-#, fuzzy
 msgid "Error while performing operation."
-msgstr ""
-"Error while performing operation:\n"
-"%s"
+msgstr "Error while performing operation."
 
 #: mail/mail-errors.xml.in.h:40
-#, fuzzy
 msgid "Error while {0}."
-msgstr ""
-"Error while '%s':\n"
-"%s"
+msgstr "Error while {0}."
 
 #: mail/mail-errors.xml.in.h:41
-#, fuzzy
 msgid "File exists but cannot overwrite it."
-msgstr "File exists, overwrite?"
+msgstr "File exists but cannot overwrite it."
 
 #: mail/mail-errors.xml.in.h:42
-#, fuzzy
 msgid "File exists but is not a regular file."
-msgstr "File '%s' does not exist or is not a regular file."
+msgstr "File exists but is not a regular file."
 
 #: mail/mail-errors.xml.in.h:43
 msgid "If you continue, you will not be able to recover these messages."
-msgstr ""
+msgstr "If you continue, you will not be able to recover these messages."
 
 #: mail/mail-errors.xml.in.h:44
 msgid ""
 "If you delete the folder, all of its contents and its subfolders contents "
 "will be deleted permanently."
 msgstr ""
+"If you delete the folder, all of its contents and its subfolders contents "
+"will be deleted permanently."
 
 #: mail/mail-errors.xml.in.h:45
 msgid "If you proceed, the account information will be deleted permanently."
-msgstr ""
+msgstr "If you proceed, the account information will be deleted permanently."
 
 #: mail/mail-errors.xml.in.h:46
 msgid ""
 "If you quit, these messages will not be sent until Evolution is started "
 "again."
 msgstr ""
+"If you quit, these messages will not be sent until Evolution is started "
+"again."
 
 #: mail/mail-errors.xml.in.h:47
-#, fuzzy
 msgid "Invalid authentication"
-msgstr "SMTP Authentication"
+msgstr "Invalid authentication"
 
 #: mail/mail-errors.xml.in.h:48
 msgid "Mail filters automatically updated."
-msgstr ""
+msgstr "Mail filters automatically updated."
 
 #: mail/mail-errors.xml.in.h:49
 msgid ""
@@ -15049,33 +14974,38 @@ msgid ""
 "your message anyway. To avoid this, you should add at least one To: or CC: "
 "recipient."
 msgstr ""
+"Many email systems add an Apparently-To header to messages that only have "
+"BCC recipients. This header, if added, will list all of your recipients to "
+"your message anyway. To avoid this, you should add at least one To: or CC: "
+"recipient."
 
 #: mail/mail-errors.xml.in.h:50
 msgid ""
 "Please enter a valid email address in the To: field. You can search for "
 "email addresses by clicking on the To: button next to the entry box."
 msgstr ""
+"Please enter a valid email address in the To: field. You can search for "
+"email addresses by clicking on the To: button next to the entry box."
 
 #: mail/mail-errors.xml.in.h:51
-#, fuzzy
 msgid ""
 "Please make sure the following recipients are willing and able to receive "
 "HTML email: {0} Send anyway?"
 msgstr ""
-"You are sending an HTML-formatted message. Please make sure that\n"
-"the following recipients are willing and able to receive HTML mail:\n"
-"%sSend anyway?"
+"Please make sure the following recipients are willing and able to receive "
+"HTML email: {0} Send anyway?"
 
 #: mail/mail-errors.xml.in.h:52
-#, fuzzy
 msgid "Really delete folder \"{0}\" and all of its subfolders?"
-msgstr "Really delete folder \"%s\" and all of its subfolders?"
+msgstr "Really delete folder \"{0}\" and all of its subfolders?"
 
 #: mail/mail-errors.xml.in.h:53
 msgid ""
 "System folders are required for Ximian Evolution to function correctly and "
 "cannot be renamed, moved, or deleted."
 msgstr ""
+"System folders are required for Ximian Evolution to function correctly and "
+"cannot be renamed, moved, or deleted."
 
 #: mail/mail-errors.xml.in.h:54
 msgid ""
@@ -15085,28 +15015,27 @@ msgid ""
 "your message. To avoid this, you should add at least one To: or CC: "
 "recipient."
 msgstr ""
+"The contact list you are sending to is configured to hide list recipients. "
+"Many email systems add an Apparently-To header to messages that only have "
+"BCC recipients. This header, if added, will list all of your recipients in "
+"your message. To avoid this, you should add at least one To: or CC: "
+"recipient."
 
 #: mail/mail-errors.xml.in.h:55
-#, fuzzy
 msgid ""
 "The following filter rule(s): {0} Used the now removed folder: \"{1}\" And "
 "have been updated."
 msgstr ""
-"The following vFolder(s):\n"
-"%sUsed the removed folder:\n"
-"    '%s'\n"
-"And have been updated."
+"The following filter rule(s): {0} Used the now removed folder: \"{1}\" And "
+"have been updated."
 
 #: mail/mail-errors.xml.in.h:56
-#, fuzzy
 msgid ""
 "The following vFolder(s): {0} Used the now removed folder: \"{1}\" And have "
 "been updated."
 msgstr ""
-"The following vFolder(s):\n"
-"%sUsed the removed folder:\n"
-"    '%s'\n"
-"And have been updated."
+"The following vFolder(s): {0} Used the now removed folder: \"{1}\" And have "
+"been updated."
 
 #: mail/mail-errors.xml.in.h:57
 msgid ""
@@ -15114,55 +15043,55 @@ msgid ""
 "reports the following error: status 67: mail not sent. The message is stored "
 "in the Outbox folder. Check the message for errors and resend."
 msgstr ""
+"The message was sent via the \"sendmail\" external application. Sendmail "
+"reports the following error: status 67: mail not sent. The message is stored "
+"in the Outbox folder. Check the message for errors and resend."
 
 #: mail/mail-errors.xml.in.h:58
 msgid "The script file must exist and be executable."
-msgstr ""
+msgstr "The script file must exist and be executable."
 
 #: mail/mail-errors.xml.in.h:59
 msgid ""
 "This folder may have been added implictly, go to the virtual folder editor "
 "to add it explictly, if required."
 msgstr ""
+"This folder may have been added implictly, go to the virtual folder editor "
+"to add it explictly, if required."
 
 #: mail/mail-errors.xml.in.h:60
 msgid ""
 "This message cannot be sent because you have not specified any Recipients"
 msgstr ""
+"This message cannot be sent because you have not specified any Recipients"
 
 #: mail/mail-errors.xml.in.h:61
-#, fuzzy
 msgid ""
 "This server does not support this type of authentication and may not support "
 "authentication at all."
-msgstr "SMTP server %s does not support requested authentication type %s."
+msgstr ""
+"This server does not support this type of authentication and may not support "
+"authentication at all."
 
 #: mail/mail-errors.xml.in.h:62
-#, fuzzy
 msgid "This signature has been changed, but has not been saved."
-msgstr ""
-"This signature has been changed, but hasn't been saved.\n"
-"\n"
-"Do you wish to save your changes?"
+msgstr "This signature has been changed, but has not been saved."
 
 #: mail/mail-errors.xml.in.h:63
-#, fuzzy
 msgid ""
 "Unable to open the drafts folder for this account. Use the system drafts "
 "folder instead?"
 msgstr ""
-"Unable to open the drafts folder for this account.\n"
-"Would you like to use the default drafts folder?"
+"Unable to open the drafts folder for this account. Use the system drafts "
+"folder instead?"
 
 #: mail/mail-errors.xml.in.h:64
-#, fuzzy
 msgid "Use _Default"
-msgstr "Default"
+msgstr "Use _Default"
 
 #: mail/mail-errors.xml.in.h:65
-#, fuzzy
 msgid "Use default drafts folder?"
-msgstr "Path to the default contacts folder"
+msgstr "Use default drafts folder?"
 
 #: mail/mail-errors.xml.in.h:66
 msgid "You have not filled in all of the required information."
@@ -15178,50 +15107,47 @@ msgstr "You may not create two accounts with the same name."
 
 #: mail/mail-errors.xml.in.h:69
 msgid "Your login to your server \"{0}\" as \"{0}\" failed."
-msgstr ""
+msgstr "Your login to your server \"{0}\" as \"{0}\" failed."
 
 #: mail/mail-errors.xml.in.h:70
 msgid "Your message message, with the subject \"{0}\" was not delivered."
-msgstr ""
+msgstr "Your message message, with the subject \"{0}\" was not delivered."
 
 #: mail/mail-errors.xml.in.h:71
 msgid "_Discard changes"
 msgstr "_Discard changes"
 
 #: mail/mail-errors.xml.in.h:72
-#, fuzzy
 msgid "_Empty Trash"
-msgstr "Empty _Trash"
+msgstr "_Empty Wastebasket"
 
 #: mail/mail-errors.xml.in.h:73
-#, fuzzy
 msgid "_Expunge"
-msgstr "E_xpunge"
+msgstr "_Expunge"
 
 #: mail/mail-errors.xml.in.h:74
-#, fuzzy
 msgid "_Send"
-msgstr "Send"
+msgstr "_Send"
 
 #: mail/mail-errors.xml.in.h:75
 msgid "vFolders automatically updated."
-msgstr ""
+msgstr "vFolders automatically updated."
 
 #: mail/mail-errors.xml.in.h:76
 msgid "{0}"
-msgstr ""
+msgstr "{0}"
 
 #: mail/mail-errors.xml.in.h:77
 msgid "{0}."
-msgstr ""
+msgstr "{0}."
 
 #: mail/mail-errors.xml.in.h:78
 msgid "{1}"
-msgstr ""
+msgstr "{1}"
 
 #: mail/mail-errors.xml.in.h:79
 msgid "{1}."
-msgstr ""
+msgstr "{1}."
 
 #: mail/mail-folder-cache.c:786
 #, c-format
@@ -15606,7 +15532,7 @@ msgstr "%d %b %l:%M %p"
 msgid "%b %d %Y"
 msgstr "%d %b %Y"
 
-#: mail/message-list.c:3109
+#: mail/message-list.c:3105
 msgid "Generating message list"
 msgstr "Generating message list"
 
@@ -15735,104 +15661,56 @@ msgid "480"
 msgstr "480"
 
 #: shell/apps_evolution_shell.schemas.in.in.h:2
-msgid "Default shortcut group"
-msgstr "Default shortcut group"
-
-#: shell/apps_evolution_shell.schemas.in.in.h:3
 msgid "Default width of the folder bar pane"
 msgstr "Default width of the folder bar pane"
 
-#: shell/apps_evolution_shell.schemas.in.in.h:4
-msgid "Default width of the shortcut bar pane"
-msgstr "Default width of the shortcut bar pane"
-
-#: shell/apps_evolution_shell.schemas.in.in.h:5
+#: shell/apps_evolution_shell.schemas.in.in.h:3
 msgid "Default window height"
 msgstr "Default window height"
 
-#: shell/apps_evolution_shell.schemas.in.in.h:6
+#: shell/apps_evolution_shell.schemas.in.in.h:4
 msgid "Default window width"
 msgstr "Default window width"
 
-#: shell/apps_evolution_shell.schemas.in.in.h:7
+#: shell/apps_evolution_shell.schemas.in.in.h:5
 msgid "Evolution configuration version"
 msgstr "Evolution configuration version"
 
-#: shell/apps_evolution_shell.schemas.in.in.h:8
+#: shell/apps_evolution_shell.schemas.in.in.h:6
 msgid "ID or alias of the component to be shown by default at start-up."
 msgstr "ID or alias of the component to be shown by default at start-up."
 
+#: shell/apps_evolution_shell.schemas.in.in.h:7
+msgid ""
+"If set to true, Evolution will start up in offline mode instead of online "
+"mode."
+msgstr ""
+"If set to true, Evolution will start up in offline mode instead of online "
+"mode."
+
+#: shell/apps_evolution_shell.schemas.in.in.h:8
+msgid ""
+"If set to true, the warning dialog in development versions of Evolution is "
+"not displayed."
+msgstr ""
+"If set to true, the warning dialog in development versions of Evolution is "
+"not displayed."
+
 #: shell/apps_evolution_shell.schemas.in.in.h:9
-msgid ""
-"If set to true, Evolution will start up in offline mode instead of online "
-"mode."
-msgstr ""
-"If set to true, Evolution will start up in offline mode instead of online "
-"mode."
-
-#: shell/apps_evolution_shell.schemas.in.in.h:10
-msgid ""
-"If set to true, the warning dialog in development versions of Evolution is "
-"not displayed."
-msgstr ""
-"If set to true, the warning dialog in development versions of Evolution is "
-"not displayed."
-
-#: shell/apps_evolution_shell.schemas.in.in.h:11
 msgid ""
 "List of paths for the folders to be synchronized to disk for offline usage"
 msgstr ""
 "List of paths for the folders to be synchronised to disk for offline usage"
 
-#: shell/apps_evolution_shell.schemas.in.in.h:12
-msgid "Path to the default calendar folder"
-msgstr "Path to the default calendar folder"
-
-#: shell/apps_evolution_shell.schemas.in.in.h:13
-msgid "Path to the default contacts folder"
-msgstr "Path to the default contacts folder"
-
-#: shell/apps_evolution_shell.schemas.in.in.h:14
-msgid "Path to the default mail folder"
-msgstr "Path to the default mail folder"
-
-#: shell/apps_evolution_shell.schemas.in.in.h:15
-msgid "Path to the default tasks folder"
-msgstr "Path to the default tasks folder"
-
-#: shell/apps_evolution_shell.schemas.in.in.h:16
-msgid "Physical URI to the default calendar folder"
-msgstr "Physical URI to the default calendar folder"
-
-#: shell/apps_evolution_shell.schemas.in.in.h:17
-msgid "Physical URI to the default contacts folder"
-msgstr "Physical URI to the default contacts folder"
-
-#: shell/apps_evolution_shell.schemas.in.in.h:18
-msgid "Physical URI to the default mail folder"
-msgstr "Physical URI to the default mail folder"
-
-#: shell/apps_evolution_shell.schemas.in.in.h:19
-msgid "Physical URI to the default tasks folder"
-msgstr "Physical URI to the default tasks folder"
-
-#: shell/apps_evolution_shell.schemas.in.in.h:20
+#: shell/apps_evolution_shell.schemas.in.in.h:10
 msgid "Whether Evolution should start up in offline mode"
 msgstr "Whether Evolution should start up in offline mode"
 
-#: shell/apps_evolution_shell.schemas.in.in.h:21
-msgid "Whether to show the folder bar"
-msgstr "Whether to show the folder bar"
-
-#: shell/apps_evolution_shell.schemas.in.in.h:22
-msgid "Whether to show the shortcut bar"
-msgstr "Whether to show the shortcut bar"
-
-#: shell/apps_evolution_shell.schemas.in.in.h:23
+#: shell/apps_evolution_shell.schemas.in.in.h:11
 msgid "Whether to skip the development warning dialog"
 msgstr "Whether to skip the development warning dialogue"
 
-#: shell/apps_evolution_shell.schemas.in.in.h:24
+#: shell/apps_evolution_shell.schemas.in.in.h:12
 msgid "mail"
 msgstr "mail"
 
@@ -15981,7 +15859,7 @@ msgstr "_Import"
 msgid "Closing connections..."
 msgstr "Closing connections..."
 
-#: shell/e-shell-settings-dialog.c:323
+#: shell/e-shell-settings-dialog.c:326
 msgid "Evolution Settings"
 msgstr "Evolution Settings"
 
@@ -16032,41 +15910,41 @@ msgstr "The GNOME Pilot tools do not appear to be installed on this system."
 msgid "Error executing %s."
 msgstr "Error executing %s."
 
-#: shell/e-shell-window-commands.c:121
+#: shell/e-shell-window-commands.c:120
 msgid "Bug buddy is not installed."
 msgstr "Bug buddy is not installed."
 
-#: shell/e-shell-window-commands.c:129
+#: shell/e-shell-window-commands.c:128
 msgid "Bug buddy could not be run."
 msgstr "Bug buddy could not be run."
 
-#: shell/e-shell-window-commands.c:171
+#: shell/e-shell-window-commands.c:170
 msgid "About Ximian Evolution"
 msgstr "About Ximian Evolution"
 
-#: shell/e-shell-window-commands.c:382
+#: shell/e-shell-window-commands.c:381
 msgid "_Work Online"
 msgstr "_Work Online"
 
-#: shell/e-shell-window-commands.c:395 ui/evolution.xml.h:36
+#: shell/e-shell-window-commands.c:394 ui/evolution.xml.h:36
 msgid "_Work Offline"
 msgstr "_Work Offline"
 
-#: shell/e-shell-window-commands.c:408 ui/evolution.xml.h:22
+#: shell/e-shell-window-commands.c:407 ui/evolution.xml.h:22
 msgid "Work Offline"
 msgstr "Work Offline"
 
-#: shell/e-shell-window.c:338
+#: shell/e-shell-window.c:336
 msgid ""
 "Ximian Evolution is currently online.  Click on this button to work offline."
 msgstr ""
 "Ximian Evolution is currently online.  Click on this button to work offline."
 
-#: shell/e-shell-window.c:345
+#: shell/e-shell-window.c:343
 msgid "Ximian Evolution is in the process of going offline."
 msgstr "Ximian Evolution is in the process of going offline."
 
-#: shell/e-shell-window.c:351
+#: shell/e-shell-window.c:349
 msgid ""
 "Ximian Evolution is currently offline.  Click on this button to work online."
 msgstr ""
@@ -16363,12 +16241,12 @@ msgstr ""
 "  Use %s --help for more information.\n"
 
 #: smime/gui/certificate-manager.c:128 smime/gui/certificate-manager.c:325
-#: smime/gui/certificate-manager.c:503
+#: smime/gui/certificate-manager.c:522
 msgid "Select a cert to import..."
 msgstr "Select a cert to import..."
 
 #: smime/gui/certificate-manager.c:243 smime/gui/certificate-manager.c:409
-#: smime/gui/certificate-manager.c:585
+#: smime/gui/certificate-manager.c:604
 msgid "Certificate Name"
 msgstr "Certificate Name"
 
@@ -16832,12 +16710,12 @@ msgstr "Default subject for the message."
 #. This most likely means that KILL_PROCESS_CMD wasn't
 #. * found, so just bail completely.
 #.
-#: tools/killev.c:63
+#: tools/killev.c:61
 #, c-format
 msgid "Could not execute '%s': %s\n"
 msgstr "Could not execute '%s': %s\n"
 
-#: tools/killev.c:78
+#: tools/killev.c:76
 #, c-format
 msgid "Shutting down %s (%s)\n"
 msgstr "Shutting down %s (%s)\n"
@@ -17075,9 +16953,19 @@ msgstr "View the current appointment"
 msgid "Week"
 msgstr "Week"
 
+#: ui/evolution-calendar.xml.h:37
+msgid "Work Week"
+msgstr "Work Week"
+
 #: ui/evolution-calendar.xml.h:42
 msgid "_Open Appointment"
 msgstr "_Open Appointment"
+
+#: ui/evolution-comp-editor.xml.h:1 ui/evolution-contact-editor.xml.h:1
+#: ui/evolution-contact-list-editor.xml.h:1
+#: ui/evolution-signature-editor.xml.h:1
+msgid "C_lose"
+msgstr "C_lose"
 
 #: ui/evolution-comp-editor.xml.h:2 ui/evolution-contact-editor.xml.h:2
 #: ui/evolution-contact-list-editor.xml.h:2
@@ -18553,6 +18441,63 @@ msgstr "%s (...)"
 msgid "%s (%d%% complete)"
 msgstr "%s (%d%% complete)"
 
+#~ msgid "Alerts"
+#~ msgstr "Alerts"
+
+#~ msgid "Task List"
+#~ msgstr "Task List"
+
+#~ msgid "Time"
+#~ msgstr "Time"
+
+#~ msgid "_General"
+#~ msgstr "_General"
+
+#~ msgid ""
+#~ "The task backend for\n"
+#~ "%s\n"
+#~ " has crashed."
+#~ msgstr ""
+#~ "The task backend for\n"
+#~ "%s\n"
+#~ " has crashed."
+
+#~ msgid "Default shortcut group"
+#~ msgstr "Default shortcut group"
+
+#~ msgid "Default width of the shortcut bar pane"
+#~ msgstr "Default width of the shortcut bar pane"
+
+#~ msgid "Path to the default calendar folder"
+#~ msgstr "Path to the default calendar folder"
+
+#~ msgid "Path to the default contacts folder"
+#~ msgstr "Path to the default contacts folder"
+
+#~ msgid "Path to the default mail folder"
+#~ msgstr "Path to the default mail folder"
+
+#~ msgid "Path to the default tasks folder"
+#~ msgstr "Path to the default tasks folder"
+
+#~ msgid "Physical URI to the default calendar folder"
+#~ msgstr "Physical URI to the default calendar folder"
+
+#~ msgid "Physical URI to the default contacts folder"
+#~ msgstr "Physical URI to the default contacts folder"
+
+#~ msgid "Physical URI to the default mail folder"
+#~ msgstr "Physical URI to the default mail folder"
+
+#~ msgid "Physical URI to the default tasks folder"
+#~ msgstr "Physical URI to the default tasks folder"
+
+#~ msgid "Whether to show the folder bar"
+#~ msgstr "Whether to show the folder bar"
+
+#~ msgid "Whether to show the shortcut bar"
+#~ msgstr "Whether to show the shortcut bar"
+
 #~ msgid "Due date is before start date!"
 #~ msgstr "Due date is before start date!"
 
@@ -19364,10 +19309,6 @@ msgstr "%s (%d%% complete)"
 #~ msgstr "Synchronising \"%s\""
 
 #, fuzzy
-#~ msgid "<b>Task List</b>"
-#~ msgstr "Organisation:"
-
-#, fuzzy
 #~ msgid "Could not create cache for new calendar"
 #~ msgstr "Cannot initialise Evolution's mail component."
 
@@ -19971,11 +19912,9 @@ msgstr "%s (%d%% complete)"
 #~ msgid "Cannot initialize Evolution's Summary component."
 #~ msgstr "Cannot initialise Evolution's mail component."
 
-#, fuzzy
 #~ msgid "All _folders:"
 #~ msgstr "Synchronising \"%s\""
 
-#, fuzzy
 #~ msgid "Cannot initialize Evolution's Executive Summary component."
 #~ msgstr "Cannot initialise Evolution's mail component."
 
