@@ -1,5 +1,14 @@
 2001-08-14  Christopher James Lahey  <clahey@ximian.com>
 
+	* gui/component/addressbook.c (addressbook_factory_new_control): 
+	(addressbook_query_changed): Fixed two const warnings here.
+
+	* printing/e-contact-print-envelope.c,
+	printing/e-contact-print-envelope.h: Fixed some missing includes
+	here.
+
+2001-08-14  Christopher James Lahey  <clahey@ximian.com>
+
 	* backend/ebook/e-book-view.c (add_book_iterator): Call
 	e_card_set_book here.
 

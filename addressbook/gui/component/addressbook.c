@@ -657,7 +657,8 @@ static void
 addressbook_query_changed (ESearchBar *esb, AddressbookView *view)
 {
 	ECategoriesMasterList *master_list;
-	char *search_word, *search_query, *category_name;
+	char *search_word, *search_query;
+	const char *category_name;
 	int search_type, subopt;
 
 	gtk_object_get(GTK_OBJECT(esb),
@@ -799,7 +800,7 @@ addressbook_factory_new_control (void)
 
 		for (i=0; i<N; ++i) {
 			subitems[i].id = i;
-			subitems[i].text = e_categories_master_list_nth (master_list, i);
+			subitems[i].text = (char *) e_categories_master_list_nth (master_list, i);
 		}
 		subitems[N].id = -1;
 		subitems[N].text = NULL;

@@ -20,6 +20,11 @@
  * Boston, MA 02111-1307, USA.
  */
 
+#include <config.h>
+#include "addressbook/printing/e-contact-print-envelope.h"
+#include <glib.h>
+#include <libgnome/gnome-defs.h>
+#include <libgnome/gnome-i18n.h>
 #include <time.h>
 #include <libgnome/gnome-paper.h>
 #include <libgnomeprint/gnome-print.h>
@@ -28,7 +33,6 @@
 #include <libgnomeprint/gnome-print-master-preview.h>
 #include "addressbook/backend/ebook/e-card.h"
 #include "addressbook/backend/ebook/e-card-simple.h"
-#include "addressbook/printing/e-contact-print-envelope.h"
 
 #define ENVELOPE_HEIGHT (72.0 * 4.0)
 #define ENVELOPE_WIDTH (72.0 * 9.5)
