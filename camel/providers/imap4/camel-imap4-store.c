@@ -45,6 +45,7 @@
 #include "camel-imap4-summary.h"
 #include "camel-imap4-store-summary.h"
 
+#define d(x) x
 
 static void camel_imap4_store_class_init (CamelIMAP4StoreClass *klass);
 static void camel_imap4_store_init (CamelIMAP4Store *store, CamelIMAP4StoreClass *klass);
@@ -384,7 +385,7 @@ sasl_auth (CamelIMAP4Engine *engine, CamelIMAP4Command *ic, const unsigned char 
 	if (!(challenge = camel_sasl_challenge_base64 (sasl, (const char *) linebuf, ex)))
 		return -1;
 	
-	fprintf (stderr, "sending : %s\r\n", challenge);
+	d(fprintf (stderr, "sending : %s\r\n", challenge));
 	
 	if (camel_stream_printf (engine->ostream, "%s\r\n", challenge) == -1) {
 		g_free (challenge);
@@ -496,6 +497,8 @@ imap4_reconnect (CamelIMAP4Engine *engine, CamelException *ex)
 		g_free (errmsg);
 		errmsg = g_strdup (lex.desc);
 		camel_exception_clear (&lex);
+		g_free (service->url->passwd);
+		service->url->passwd = NULL;
 		reprompt = TRUE;
 	}
 	g_free (errmsg);
