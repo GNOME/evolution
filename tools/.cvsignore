@@ -1,3 +1,7 @@
 Makefile
 Makefile.in
+evolution-addressbook-clean
+evolution-addressbook-import
+evolution-addressbook-export
 .deps
+.libs

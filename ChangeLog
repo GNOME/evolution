@@ -1,3 +1,27 @@
+2001-10-18  Christopher James Lahey  <clahey@ximian.com>
+
+	* configure.in: Bumped the required version of gal to 0.15.99.1
+	for use in evolution-addressbook-export.
+
+	* tools/.cvsignore: Added evolution-addressbook-clean,
+	evolution-addressbook-export, evolution-addressbook-import, and
+	.libs.
+
+	* tools/Makefile.am: Added evolution-addressbook-clean,
+	evolution-addressbook-export, and evolution-addressbook-import.
+
+	* tools/evolution-addressbook-clean.in: Main script to clean up
+	the local contact database.
+
+	* tools/evolution-addressbook-export.c: Exports the local
+	addressbook to the specified file
+	(--output-file).  If no --output-file is given, writes out to a
+	unique file in the /tmp directory.  In either case, prints the
+	filename to stdout.
+
+	* tools/evolution-addressbook-import.c: Imports the specified file
+	(--input-file) to the local addressbook.
+
 2001-10-18  Wang Jian  <lark@linux.net.cn>
 
 	* configure.in(ALL_LINGUAS): Added zh_CN for Simplified Chinese.
