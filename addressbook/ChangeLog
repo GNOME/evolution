@@ -1,3 +1,8 @@
+2001-05-11  Chris Toshok  <toshok@ximian.com>
+
+	* contact-editor/e-contact-editor.c (enable_writable_fields):
+	don't leak the ECard or ECardSimple.
+
 2001-05-08  Iain Holmes  <iain@ximian.com>
 
 	* backend/ebook/GNOME_Evolution_Addressbook_VCard_Importer.oaf.in:

@@ -1774,13 +1774,15 @@ enable_writable_fields(EContactEditor *editor)
 	EIterator *iter;
 	GHashTable *dropdown_hash, *supported_hash;
 	int i;
-	ECardSimple *card;
+	ECardSimple *simple;
+	ECard *card;
 	char *widget_name;
 
 	if (!fields)
 		return;
 
-	card = e_card_simple_new (e_card_new (""));
+	card = e_card_new ("");
+	simple = e_card_simple_new (card);
 
 	dropdown_hash = g_hash_table_new (g_str_hash, g_str_equal);
 	supported_hash = g_hash_table_new (g_str_hash, g_str_equal);
@@ -1789,17 +1791,17 @@ enable_writable_fields(EContactEditor *editor)
 	e_contact_editor_build_phone_ui (editor);
 	for (i = 0; i < E_CARD_SIMPLE_PHONE_ID_LAST; i ++)
 		g_hash_table_insert (dropdown_hash,
-				     (char*)e_card_simple_get_ecard_field(card, e_card_simple_map_phone_to_field (i)),
+				     (char*)e_card_simple_get_ecard_field(simple, e_card_simple_map_phone_to_field (i)),
 				     editor->phone_info[i].widget);
 	e_contact_editor_build_email_ui (editor);
 	for (i = 0; i < E_CARD_SIMPLE_EMAIL_ID_LAST; i ++)
 		g_hash_table_insert (dropdown_hash,
-				     (char*)e_card_simple_get_ecard_field(card, e_card_simple_map_email_to_field (i)),
+				     (char*)e_card_simple_get_ecard_field(simple, e_card_simple_map_email_to_field (i)),
 				     editor->email_info[i].widget);
 	e_contact_editor_build_address_ui (editor);
 	for (i = 0; i < E_CARD_SIMPLE_ADDRESS_ID_LAST; i ++)
 		g_hash_table_insert (dropdown_hash,
-				     (char*)e_card_simple_get_ecard_field(card, e_card_simple_map_address_to_field (i)),
+				     (char*)e_card_simple_get_ecard_field(simple, e_card_simple_map_address_to_field (i)),
 				     editor->address_info[i].widget);
 
 	/* then disable them all */
@@ -1843,18 +1845,18 @@ enable_writable_fields(EContactEditor *editor)
                    disabled label next to a drop down when the item in
                    the menu (the one reflected in the label) is
                    enabled. */
-		if (!strcmp (field, e_card_simple_get_ecard_field (card, e_card_simple_map_email_to_field(editor->email_choice)))) {
+		if (!strcmp (field, e_card_simple_get_ecard_field (simple, e_card_simple_map_email_to_field(editor->email_choice)))) {
 			gtk_widget_set_sensitive (glade_xml_get_widget (editor->gui, "label-email1"), TRUE);
 			gtk_widget_set_sensitive (glade_xml_get_widget (editor->gui, "entry-email1"), !editor->is_read_only);
 			gtk_widget_set_sensitive (glade_xml_get_widget (editor->gui, "checkbutton-htmlmail"), TRUE);
 		}
-		else if (!strcmp (field, e_card_simple_get_ecard_field (card, e_card_simple_map_address_to_field(editor->address_choice)))) {
+		else if (!strcmp (field, e_card_simple_get_ecard_field (simple, e_card_simple_map_address_to_field(editor->address_choice)))) {
 			gtk_widget_set_sensitive (glade_xml_get_widget (editor->gui, "label-address"), TRUE);
 			gtk_widget_set_sensitive (glade_xml_get_widget (editor->gui, "button-fulladdr"), !editor->is_read_only);
 			gtk_widget_set_sensitive (glade_xml_get_widget (editor->gui, "text-address"), !editor->is_read_only);
 		}
 		else for (i = 0; i < 4; i ++) {
-			if (!strcmp (field, e_card_simple_get_ecard_field (card, e_card_simple_map_phone_to_field(editor->phone_choice[i])))) {
+			if (!strcmp (field, e_card_simple_get_ecard_field (simple, e_card_simple_map_phone_to_field(editor->phone_choice[i])))) {
 				widget_name = g_strdup_printf ("label-phone%d", i+1);
 				gtk_widget_set_sensitive (glade_xml_get_widget (editor->gui, widget_name), TRUE);
 				g_free (widget_name);
@@ -1869,7 +1871,7 @@ enable_writable_fields(EContactEditor *editor)
 
 	for (i = 0; i < num_widget_field_mappings; i ++) {
 		gboolean enabled = g_hash_table_lookup (supported_hash,
-							e_card_simple_get_ecard_field (card,
+							e_card_simple_get_ecard_field (simple,
 										       widget_field_mappings[i].field_id)) != NULL;
 		gtk_widget_set_sensitive (glade_xml_get_widget(editor->gui,
 							       widget_field_mappings[i].widget_name), enabled);
@@ -1877,6 +1879,8 @@ enable_writable_fields(EContactEditor *editor)
 
 	g_hash_table_destroy (dropdown_hash);
 	g_hash_table_destroy (supported_hash);
+	gtk_object_unref (GTK_OBJECT(simple));
+	gtk_object_unref (GTK_OBJECT(card));
 }
 
 static void
