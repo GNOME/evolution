@@ -418,6 +418,10 @@ gboolean   e_week_view_get_24_hour_format	(EWeekView	*week_view);
 void	   e_week_view_set_24_hour_format	(EWeekView	*week_view,
 						 gboolean	 use_24_hour);
 
+/* Clipboard related functions */
+void       e_week_view_cut_clipboard            (EWeekView      *week_view);
+void       e_week_view_copy_clipboard           (EWeekView      *week_view);
+void       e_week_view_paste_clipboard          (EWeekView      *week_view);
 
 
 /*

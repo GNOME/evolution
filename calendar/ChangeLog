@@ -1,3 +1,24 @@
+2001-06-28  Rodrigo Moya <rodrigo@ximian.com>
+
+	* gui/component-factory.c: removed not-uses-anymore parameter in
+	call to evolution_shell_component_new
+
+	* gui/gnome-cal.[ch] (gnome_calendar_cut_clipboard),
+	(gnome_calendar_copy_clipboard), (gnome_calendar_paste_clipboard):
+	new functions for allowing execution of clipboard-related commands
+
+	* gui/e-day-view.[ch] (e_day_view_cut_clipboard),
+	(e_day_view_copy_clipboard), (e_day_view_paste_clipboard): ditto
+
+	* gui/e-week-view.[ch] (e_week_view_cut_clipboard),
+	(e_week_view_copy_clipboard), (e_week_view_paste_clipboard): ditto
+
+2001-06-27  Rodrigo Moya <rodrigo@ximian.com>
+
+	* gui/calendar-commands.c (cut_event_cmd),
+	(copy_event_cmd), (paste_event_cmd): added callbacks for the new
+	clipboard-related menu entries
+
 2001-06-27  Ettore Perazzoli  <ettore@ximian.com>
 
 	* gui/component-factory.c (factory_fn): Pass NULL as the

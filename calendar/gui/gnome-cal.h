@@ -134,6 +134,11 @@ void	   gnome_calendar_set_view_buttons	(GnomeCalendar	*gcal,
    just return without doing anything. */
 void	   gnome_calendar_update_view_buttons	(GnomeCalendar	*gcal);
 
+/* Clipboard operations */
+void       gnome_calendar_cut_clibpoard         (GnomeCalendar  *gcal);
+void       gnome_calendar_copy_clipboard        (GnomeCalendar  *gcal);
+void       gnome_calendar_paste_clipboard       (GnomeCalendar  *gcal);
+
 
 
 END_GNOME_DECLS

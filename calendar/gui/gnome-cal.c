@@ -1960,3 +1960,72 @@ gnome_calendar_update_view_buttons (GnomeCalendar *gcal)
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (button), TRUE);
 	gtk_signal_handler_unblock_by_data (GTK_OBJECT (button), gcal);
 }
+
+void
+gnome_calendar_cut_clipboard (GnomeCalendar *gcal)
+{
+	GnomeCalendarPrivate *priv;
+
+	priv = gcal->priv;
+
+	switch (priv->current_view_type) {
+	case GNOME_CAL_DAY_VIEW :
+		e_day_view_cut_clipboard (priv->day_view);
+		break;
+	case GNOME_CAL_WORK_WEEK_VIEW :
+		e_day_view_cut_clipboard (priv->work_week_view);
+		break;
+	case GNOME_CAL_WEEK_VIEW :
+		e_week_view_cut_clipboard (priv->week_view);
+		break;
+	case GNOME_CAL_MONTH_VIEW :
+		e_week_view_cut_clipboard (priv->month_view);
+		break;
+	}
+}
+
+void
+gnome_calendar_copy_clipboard (GnomeCalendar *gcal)
+{
+	GnomeCalendarPrivate *priv;
+
+	priv = gcal->priv;
+
+	switch (priv->current_view_type) {
+	case GNOME_CAL_DAY_VIEW :
+		e_day_view_copy_clipboard (priv->day_view);
+		break;
+	case GNOME_CAL_WORK_WEEK_VIEW :
+		e_day_view_copy_clipboard (priv->work_week_view);
+		break;
+	case GNOME_CAL_WEEK_VIEW :
+		e_week_view_copy_clipboard (priv->week_view);
+		break;
+	case GNOME_CAL_MONTH_VIEW :
+		e_week_view_copy_clipboard (priv->month_view);
+		break;
+	}
+}
+
+void
+gnome_calendar_paste_clipboard (GnomeCalendar *gcal)
+{
+	GnomeCalendarPrivate *priv;
+
+	priv = gcal->priv;
+
+	switch (priv->current_view_type) {
+	case GNOME_CAL_DAY_VIEW :
+		e_day_view_paste_clipboard (priv->day_view);
+		break;
+	case GNOME_CAL_WORK_WEEK_VIEW :
+		e_day_view_paste_clipboard (priv->work_week_view);
+		break;
+	case GNOME_CAL_WEEK_VIEW :
+		e_week_view_paste_clipboard (priv->week_view);
+		break;
+	case GNOME_CAL_MONTH_VIEW :
+		e_week_view_paste_clipboard (priv->month_view);
+		break;
+	}
+}

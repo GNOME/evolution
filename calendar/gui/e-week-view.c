@@ -1643,6 +1643,27 @@ e_week_view_set_24_hour_format	(EWeekView	*week_view,
 	gtk_widget_queue_draw (week_view->main_canvas);
 }
 
+void
+e_week_view_cut_clipboard (EWeekView *week_view)
+{
+	g_return_if_fail (E_IS_WEEK_VIEW (week_view));
+	e_week_view_on_cut (NULL, week_view);
+}
+
+void
+e_week_view_copy_clipboard (EWeekView *week_view)
+{
+	g_return_if_fail (E_IS_WEEK_VIEW (week_view));
+	e_week_view_on_copy (NULL, week_view);
+}
+
+void
+e_week_view_paste_clipboard (EWeekView *week_view)
+{
+	g_return_if_fail (E_IS_WEEK_VIEW (week_view));
+	e_week_view_on_paste (NULL, week_view);
+}
+
 
 static gboolean
 e_week_view_recalc_display_start_day	(EWeekView	*week_view)

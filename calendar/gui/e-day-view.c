@@ -2538,6 +2538,26 @@ e_day_view_set_week_start_day	(EDayView	*day_view,
 		e_day_view_recalc_work_week (day_view);
 }
 
+void
+e_day_view_cut_clipboard (EDayView *day_view)
+{
+	g_return_if_fail (E_IS_DAY_VIEW (day_view));
+	e_day_view_on_cut (NULL, day_view);
+}
+
+void
+e_day_view_copy_clipboard (EDayView *day_view)
+{
+	g_return_if_fail (E_IS_DAY_VIEW (day_view));
+	e_day_view_on_copy (NULL, day_view);
+}
+
+void
+e_day_view_paste_clipboard (EDayView *day_view)
+{
+	g_return_if_fail (E_IS_DAY_VIEW (day_view));
+	e_day_view_on_paste (NULL, day_view);
+}
 
 static void
 e_day_view_recalc_work_week	(EDayView	*day_view)

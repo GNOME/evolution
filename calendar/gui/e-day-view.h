@@ -561,6 +561,11 @@ gint	   e_day_view_get_week_start_day	(EDayView	*day_view);
 void	   e_day_view_set_week_start_day	(EDayView	*day_view,
 						 gint		 week_start_day);
 
+/* Clipboard-related functions */
+void       e_day_view_cut_clipboard             (EDayView       *day_view);
+void       e_day_view_copy_clipboard            (EDayView       *day_view);
+void       e_day_view_paste_clipboard           (EDayView       *day_view);
+
 /*
  * Internal functions called by the associated canvas items.
  */

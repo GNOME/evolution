@@ -365,6 +365,41 @@ properties_cmd (BonoboUIComponent *uic, gpointer data, const char *path)
 		cal_prefs_dialog_show (preferences_dialog);
 }
 
+static void
+cut_event_cmd (BonoboUIComponent *uic, gpointer data, const gchar *path)
+{
+	GnomeCalendar *gcal;
+
+	gcal = GNOME_CALENDAR (data);
+	set_clock_cursor (gcal);
+	gnome_calendar_cut_clipboard (gcal);
+	set_normal_cursor (gcal);
+}
+
+static void
+copy_event_cmd (BonoboUIComponent *uic, gpointer data, const gchar *path)
+{
+	GnomeCalendar *gcal;
+
+	gcal = GNOME_CALENDAR (data);
+
+	set_clock_cursor (gcal);
+	gnome_calendar_copy_clipboard (gcal);
+	set_normal_cursor (gcal);
+}
+
+static void
+paste_event_cmd (BonoboUIComponent *uic, gpointer data, const gchar *path)
+{
+	GnomeCalendar *gcal;
+
+	gcal = GNOME_CALENDAR (data);
+
+	set_clock_cursor (gcal);
+	gnome_calendar_paste_clipboard (gcal);
+	set_normal_cursor (gcal);
+}
+
 
 static BonoboUIVerb verbs [] = {
 	BONOBO_UI_VERB ("CalendarNew", new_calendar_cmd),
@@ -375,6 +410,10 @@ static BonoboUIVerb verbs [] = {
 	BONOBO_UI_VERB ("EditNewAppointment", new_appointment_cb),
 	BONOBO_UI_VERB ("EditNewEvent", new_event_cb),
 	BONOBO_UI_VERB ("CalendarPreferences", properties_cmd),
+
+	BONOBO_UI_VERB ("CutEvent", cut_event_cmd),
+	BONOBO_UI_VERB ("CopyEvent", copy_event_cmd),
+	BONOBO_UI_VERB ("PasteEvent", paste_event_cmd),
 
 	BONOBO_UI_VERB ("CalendarPrev", previous_clicked),
 	BONOBO_UI_VERB ("CalendarToday", today_clicked),
