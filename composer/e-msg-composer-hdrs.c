@@ -125,23 +125,23 @@ typedef struct {
 } EMsgComposerHdrsAndString;
 
 static void
-e_msg_composer_hdrs_and_string_free(EMsgComposerHdrsAndString *emchas)
+e_msg_composer_hdrs_and_string_free (EMsgComposerHdrsAndString *emchas)
 {
 	if (emchas->hdrs)
-		gtk_object_unref(GTK_OBJECT(emchas->hdrs));
-	g_free(emchas->string);
+		gtk_object_unref (GTK_OBJECT (emchas->hdrs));
+	g_free (emchas->string);
 }
 
 static EMsgComposerHdrsAndString *
-e_msg_composer_hdrs_and_string_create(EMsgComposerHdrs *hdrs, const char *string)
+e_msg_composer_hdrs_and_string_create (EMsgComposerHdrs *hdrs, const char *string)
 {
 	EMsgComposerHdrsAndString *emchas;
-
-	emchas = g_new(EMsgComposerHdrsAndString, 1);
+	
+	emchas = g_new (EMsgComposerHdrsAndString, 1);
 	emchas->hdrs = hdrs;
-	emchas->string = g_strdup(string);
+	emchas->string = g_strdup (string);
 	if (emchas->hdrs)
-		gtk_object_ref(GTK_OBJECT(emchas->hdrs));
+		gtk_object_ref (GTK_OBJECT (emchas->hdrs));
 
 	return emchas;
 }
@@ -154,16 +154,16 @@ address_button_clicked_cb (GtkButton *button,
 	EMsgComposerHdrs *hdrs;
 	EMsgComposerHdrsPrivate *priv;
 	CORBA_Environment ev;
-
+	
 	emchas = data;
 	hdrs = emchas->hdrs;
 	priv = hdrs->priv;
-
+	
 	CORBA_exception_init (&ev);
-
+	
 	GNOME_Evolution_Addressbook_SelectNames_activateDialog (
 		priv->corba_select_names, emchas->string, &ev);
-
+	
 	CORBA_exception_free (&ev);
 }
 
@@ -187,9 +187,9 @@ create_from_optionmenu (EMsgComposerHdrs *hdrs)
 	
 	omenu = gtk_option_menu_new ();
 	menu = gtk_menu_new ();
-
+	
 	default_account = mail_config_get_default_account_num ();
-
+	
 	accounts = mail_config_get_accounts ();
 	while (accounts) {
 		const MailConfigAccount *account;
@@ -235,8 +235,8 @@ create_from_optionmenu (EMsgComposerHdrs *hdrs)
 	}
 	
 	gtk_option_menu_set_menu (GTK_OPTION_MENU (omenu), menu);
-
-	if (first){
+	
+	if (first) {
 		gtk_option_menu_set_history (GTK_OPTION_MENU (omenu), history);
 		gtk_signal_emit_by_name (GTK_OBJECT (first), "activate", hdrs);
 	}

@@ -1,3 +1,8 @@
+2001-08-17  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* e-msg-composer.c (show_attachments): Toggle the
+	View->Attachments menu item. This fixes bug #6107.
+
 2001-07-12  Peter Williams  <peterw@ximian.com>
 
 	* e-msg-composer.c (map_default_cb): New function. Figure out

@@ -846,17 +846,9 @@ show_attachments (EMsgComposer *composer,
 	composer->attachment_bar_visible = show;
 	
 	/* Update the GUI.  */
-	
-#if 0
-	gtk_check_menu_item_set_active
-		(GTK_CHECK_MENU_ITEM
-		 (glade_xml_get_widget (composer->menubar_gui,
-					"menu_view_attachments")),
-		 show);
-#endif
-	
-	/* XXX we should update the toggle toolbar item as well.  At
-	   this point, it is not a toggle because Glade is broken.  */
+	bonobo_ui_component_set_prop (
+		composer->uic, "/commands/ViewAttach",
+		"state", show ? "1" : "0", NULL);
 }
 
 static void
@@ -1671,10 +1663,10 @@ static BonoboUIVerb verbs [] = {
 	BONOBO_UI_VERB ("FileSaveAs", menu_file_save_as_cb),
 	BONOBO_UI_VERB ("FileSaveDraft", menu_file_save_draft_cb),
 	BONOBO_UI_VERB ("FileClose",  menu_file_close_cb),
-		  
+	
 	BONOBO_UI_VERB ("FileInsertFile", menu_file_insert_file_cb),
 	BONOBO_UI_VERB ("FileAttach",     menu_file_add_attachment_cb),
-		  
+	
 	BONOBO_UI_VERB ("FileSend",       menu_file_send_cb),
 	BONOBO_UI_VERB ("FileSendLater",  menu_file_send_later_cb),
 	
@@ -1849,15 +1841,17 @@ attachment_bar_changed_cb (EMsgComposerAttachmentBar *bar,
 			   void *data)
 {
 	EMsgComposer *composer;
+	gboolean show = FALSE;
 	
 	composer = E_MSG_COMPOSER (data);
 	
 	if (e_msg_composer_attachment_bar_get_num_attachments (bar) > 0)
-		e_msg_composer_show_attachments (composer, TRUE);
-	else
-		e_msg_composer_show_attachments (composer, FALSE);
+		show = TRUE;
 	
-	/* Mark the composer as changed so it prompts about unsaved changes on close */
+	e_msg_composer_show_attachments (composer, show);
+	
+	/* Mark the composer as changed so it prompts about unsaved
+           changes on close */
 	e_msg_composer_set_changed (composer);
 }
 
@@ -2902,7 +2896,7 @@ e_msg_composer_show_attachments (EMsgComposer *composer,
 {
 	g_return_if_fail (composer != NULL);
 	g_return_if_fail (E_IS_MSG_COMPOSER (composer));
-
+	
 	show_attachments (composer, show);
 }
 
