@@ -1,3 +1,8 @@
+2002-07-09  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* evolution-mail-message.xml: s/Edit as New Message/Resend - this
+	was confusing people.
+
 2002-07-05  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* evolution-message-composer.xml: Removed the Send Later verb.

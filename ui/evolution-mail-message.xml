@@ -215,7 +215,7 @@
     <submenu name="File">
       <placeholder name="FileOps">
         <menuitem name="MessageOpen" verb="" _label="_Open Message"/>
-        <menuitem name="MessageResend" verb="" _label="_Edit as New Message..."/>
+        <menuitem name="MessageResend" verb="" _label="_Resend..."/>
         <menuitem name="MessageSaveAs" verb="" _label="_Save As..."/>
       </placeholder>
 
