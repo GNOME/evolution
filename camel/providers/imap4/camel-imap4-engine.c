@@ -269,10 +269,7 @@ camel_imap4_engine_capability (CamelIMAP4Engine *engine, CamelException *ex)
 	while ((id = camel_imap4_engine_iterate (engine)) < ic->id && id != -1)
 		;
 	
-	fprintf (stderr, "id = %d; status = %d\n", id, ic->status);
-	
 	if (id == -1 || ic->status != CAMEL_IMAP4_COMMAND_COMPLETE) {
-		fprintf (stderr, "exception: %s\n", ic->ex.desc);
 		camel_exception_xfer (ex, &ic->ex);
 		retval = -1;
 	}
