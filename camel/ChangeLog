@@ -1,3 +1,9 @@
+2002-04-04  Not Zed  <NotZed@Ximian.com>
+
+	* camel-remote-store.c (remote_connect): Reset the keepalive
+	timeout to 10 minutes rather than the 30 seconds I was using for
+	testing.
+
 2002-04-03  Dan Winship  <danw@ximian.com>
 
 	* camel-provider.h (CamelProvider): make service_cache be an array
