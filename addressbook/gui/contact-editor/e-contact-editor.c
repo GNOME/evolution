@@ -77,9 +77,6 @@ static void e_contact_editor_set_property (GObject *object, guint prop_id, const
 static void e_contact_editor_get_property (GObject *object, guint prop_id, GValue *value, GParamSpec *pspec);
 static void e_contact_editor_dispose (GObject *object);
 
-#if 0
-static GtkWidget *e_contact_editor_build_dialog(EContactEditor *editor, gchar *entry_id, gchar *label_id, gchar *title, GList **list, GnomeUIInfo **info);
-#endif
 static void _email_arrow_pressed (GtkWidget *widget, GdkEventButton *button, EContactEditor *editor);
 static void _phone_arrow_pressed (GtkWidget *widget, GdkEventButton *button, EContactEditor *editor);
 static void _address_arrow_pressed (GtkWidget *widget, GdkEventButton *button, EContactEditor *editor);
@@ -237,32 +234,24 @@ e_contact_editor_class_init (EContactEditorClass *klass)
 }
 
 static void
-_replace_button(EContactEditor *editor, gchar *button_xml, gchar *image, GCallback func)
+connect_arrow_button_signal (EContactEditor *editor, gchar *button_xml, GCallback func)
 {
 	GladeXML *gui = editor->gui;
 	GtkWidget *button = glade_xml_get_widget(gui, button_xml);
-	GtkWidget *pixmap;
-	gchar *image_temp;
 	if (button && GTK_IS_BUTTON(button)) {
-		image_temp = g_strdup_printf("%s/%s", EVOLUTION_IMAGESDIR, image);
-		pixmap = e_create_image_widget(NULL, image_temp, NULL, 0, 0);
-		gtk_container_add(GTK_CONTAINER(button),
-				  pixmap);
-		g_free(image_temp);
-		gtk_widget_show(pixmap);
 		g_signal_connect(button, "button_press_event", func, editor);
 	}
 }
 
 static void
-_replace_buttons(EContactEditor *editor)
+connect_arrow_button_signals (EContactEditor *editor)
 {
-	_replace_button(editor, "button-phone1", "arrow.png", G_CALLBACK (_phone_arrow_pressed));
-	_replace_button(editor, "button-phone2", "arrow.png", G_CALLBACK (_phone_arrow_pressed));
-	_replace_button(editor, "button-phone3", "arrow.png", G_CALLBACK (_phone_arrow_pressed));
-	_replace_button(editor, "button-phone4", "arrow.png", G_CALLBACK (_phone_arrow_pressed));
-	_replace_button(editor, "button-address", "arrow.png", G_CALLBACK (_address_arrow_pressed));
-	_replace_button(editor, "button-email1", "arrow.png", G_CALLBACK (_email_arrow_pressed));
+	connect_arrow_button_signal(editor, "button-phone1", G_CALLBACK (_phone_arrow_pressed));
+	connect_arrow_button_signal(editor, "button-phone2", G_CALLBACK (_phone_arrow_pressed));
+	connect_arrow_button_signal(editor, "button-phone3", G_CALLBACK (_phone_arrow_pressed));
+	connect_arrow_button_signal(editor, "button-phone4", G_CALLBACK (_phone_arrow_pressed));
+	connect_arrow_button_signal(editor, "button-address", G_CALLBACK (_address_arrow_pressed));
+	connect_arrow_button_signal(editor, "button-email1", G_CALLBACK (_email_arrow_pressed));
 }
 
 static void
@@ -1320,7 +1309,7 @@ e_contact_editor_init (EContactEditor *e_contact_editor)
 				  (GtkCallback) add_field_callback,
 				  e_contact_editor);
 
-	_replace_buttons(e_contact_editor);
+	connect_arrow_button_signals(e_contact_editor);
 	set_entry_changed_signals(e_contact_editor);
 
 	wants_html = glade_xml_get_widget(e_contact_editor->gui, "checkbutton-htmlmail");
@@ -1696,7 +1685,7 @@ _popup_position(GtkMenu *menu,
 }
 
 static gint
-_arrow_pressed (GtkWidget *widget, GdkEventButton *button, EContactEditor *editor, GtkWidget *popup, GList **list, GnomeUIInfo **info, gchar *label, gchar *entry, gchar *dialog_title)
+_arrow_pressed (GtkWidget *widget, GdkEventButton *button, EContactEditor *editor, GtkWidget *popup, GList **list, GnomeUIInfo **info, gchar *label)
 {
 	gint menu_item;
 
@@ -1705,20 +1694,12 @@ _arrow_pressed (GtkWidget *widget, GdkEventButton *button, EContactEditor *edito
 	gtk_widget_realize(popup);
 	menu_item = gnome_popup_menu_do_popup_modal(popup, _popup_position, widget, button, editor, widget);
 	if ( menu_item != -1 ) {
-#if 0
-		if (menu_item == g_list_length (*list)) {
-			e_contact_editor_build_dialog(editor, entry, label, dialog_title, list, info);
-		} else {
-#endif
-			GtkWidget *label_widget = glade_xml_get_widget(editor->gui, label);
-			if (label_widget && GTK_IS_LABEL(label_widget)) {
-				g_object_set (label_widget,
-					       "label", _(g_list_nth_data(*list, menu_item)),
-					       NULL);
-			}
-#if 0
+		GtkWidget *label_widget = glade_xml_get_widget(editor->gui, label);
+		if (label_widget && GTK_IS_LABEL(label_widget)) {
+			g_object_set (label_widget,
+				      "label", _(g_list_nth_data(*list, menu_item)),
+				      NULL);
 		}
-#endif
 	}
 	return menu_item;
 }
@@ -1880,7 +1861,7 @@ _phone_arrow_pressed (GtkWidget *widget, GdkEventButton *button, EContactEditor 
 					       checked);
 	}
 	
-	result = _arrow_pressed (widget, button, editor, editor->phone_popup, &editor->phone_list, &editor->phone_info, label, entry, "Add new phone number type");
+	result = _arrow_pressed (widget, button, editor, editor->phone_popup, &editor->phone_list, &editor->phone_info, label);
 	
 	if (result != -1) {
 		editor->phone_choice[which - 1] = result;
@@ -1909,7 +1890,7 @@ _email_arrow_pressed (GtkWidget *widget, GdkEventButton *button, EContactEditor 
 					       checked);
 	}
 	
-	result = _arrow_pressed (widget, button, editor, editor->email_popup, &editor->email_list, &editor->email_info, "label-email1", "entry-email1", "Add new Email type");
+	result = _arrow_pressed (widget, button, editor, editor->email_popup, &editor->email_list, &editor->email_info, "label-email1");
 	
 	if (result != -1) {
 		editor->email_choice = result;
@@ -1938,7 +1919,7 @@ _address_arrow_pressed (GtkWidget *widget, GdkEventButton *button, EContactEdito
 					       checked);
 	}
 
-	result = _arrow_pressed (widget, button, editor, editor->address_popup, &editor->address_list, &editor->address_info, "label-address", "text-address", "Add new Address type");
+	result = _arrow_pressed (widget, button, editor, editor->address_popup, &editor->address_list, &editor->address_info, "label-address");
 
 	if (result != -1) {
 		set_address_field(editor, result);

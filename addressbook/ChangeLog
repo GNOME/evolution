@@ -1,5 +1,26 @@
 2003-03-23  Chris Toshok  <toshok@ximian.com>
 
+	* gui/contact-editor/arrow.png: nuke.
+	
+	* gui/contact-editor/Makefile.am (EXTRA_DIST): remove images_DATA
+	(images_DATA): nuke, don't need it anymore.
+	
+	* gui/contact-editor/e-contact-editor.c
+	(connect_arrow_button_signal): rename _replace_button to this.  we
+	no longer create an image, as it's a GtkArrow in the .glade file
+	now.
+	(connect_arrow_button_signals): rename _replace_buttons to this.
+	no longer pass the arrow.png's to _replace_button.
+	(e_contact_editor_init): _replace_buttons ->
+	connect_arrow_button_signals.
+	(_arrow_pressed): remove some dead code, and some args that aren't
+	used.
+	(_phone_arrow_pressed): track change to _arrow_pressed.
+	(_email_arrow_pressed): same.
+	(_address_arrow_pressed): same.
+
+2003-03-23  Chris Toshok  <toshok@ximian.com>
+
 	[ fixes bug #31786 ]
 	* gui/component/addressbook-config.c
 	(addressbook_source_dialog_set_source): fix some gtk warnings.

@@ -47,8 +47,6 @@ e-contact-editor-marshal.c: e-contact-editor-marshal.h
 
 MARSHAL_GENERATED = e-contact-editor-marshal.c e-contact-editor-marshal.h
 
-images_DATA = arrow.png
-
 glade_DATA = 				\
 	contact-editor.glade		\
 	fulladdr.glade			\
@@ -57,6 +55,5 @@ glade_DATA = 				\
 BUILT_SOURCES = $(MARSHAL_GENERATED)
 CLEANFILES = $(BUILT_SOURCES)
 
-EXTRA_DIST=	$(images_DATA)		\
-		$(glade_DATA)		\
+EXTRA_DIST=	$(glade_DATA)		\
 		e-contact-editor-marshal.list
