@@ -1,3 +1,9 @@
+2004-01-27  Rodney Dawes  <dobey@ximian.com>
+
+	* evolution-mail-message.xml: Enable [, ], ., and , as mail accels
+	again, but not in the menus, so that GTK+ doesn't grab them from the
+	search bar
+
 2004-01-26  Rodney Dawes  <dobey@ximian.com>
 
 	* evolution-addressbook.xml:

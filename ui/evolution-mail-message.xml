@@ -221,7 +221,11 @@
 
   <keybindings>
     <accel name="*Control*comma"        verb="MailPreviousUnread"/>
+    <accel name="comma"        verb="MailPreviousUnread"/>
+    <accel name="bracketleft"  verb="MailPreviousUnread"/>
     <accel name="*Control*period"       verb="MailNextUnread"/>
+    <accel name="period"       verb="MailNextUnread"/>
+    <accel name="bracketright" verb="MailNextUnread"/>
   </keybindings>
 
   <menu>
