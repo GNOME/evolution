@@ -818,6 +818,33 @@ partstat_to_text (CalComponentPartStat partstat)
 	return NULL;
 }
 
+static struct attendee *
+is_duplicate (MeetingPage *mpage, char *address)
+{
+	MeetingPagePrivate *priv;
+	struct attendee *a;
+	GSList *l;
+	
+	priv = mpage->priv;
+	
+	/* Make sure we can add the new delegatee person */
+	for (l = priv->attendees; l != NULL; l = l->next) {
+		a = l->data;
+			
+		if (a->address != NULL && !g_strcasecmp (itip_strip_mailto (a->address), itip_strip_mailto (address)))
+			return a;
+	}
+
+	return NULL;
+}
+
+static void
+duplicate_error (void)
+{
+	GtkWidget *dlg = gnome_error_dialog (_("That person is already attending the meeting!"));
+	gnome_dialog_run_and_close (GNOME_DIALOG (dlg));
+}
+
 static int
 column_count (ETableModel *etm, void *data)
 {
@@ -842,14 +869,21 @@ append_row (ETableModel *etm, ETableModel *model, int row, void *data)
 	MeetingPage *mpage;
 	MeetingPagePrivate *priv;
 	struct attendee *attendee;
+	char *address;
 	gint row_cnt;
 	
 	mpage = MEETING_PAGE (data);	
 	priv = mpage->priv;
-
+	
+	address = (char *) e_table_model_value_at (model, MEETING_ATTENDEE_COL, row);
+	if (is_duplicate (mpage, address) != NULL) {
+		duplicate_error ();
+		return;
+	}
+	
 	attendee = g_new0 (struct attendee, 1);
 	
-	attendee->address = g_strdup_printf ("MAILTO:%s", (char *) e_table_model_value_at (model, MEETING_ATTENDEE_COL, row));
+	attendee->address = g_strdup_printf ("MAILTO:%s", address);
 	attendee->member = g_strdup (e_table_model_value_at (model, MEETING_MEMBER_COL, row));
 	attendee->cutype = text_to_type (e_table_model_value_at (model, MEETING_TYPE_COL, row));
 	attendee->role = text_to_role (e_table_model_value_at (model, MEETING_ROLE_COL, row));
@@ -883,7 +917,7 @@ value_at (ETableModel *etm, int col, int row, void *data)
 	
 	switch (col) {
 	case MEETING_ATTENDEE_COL:
-		return itip_strip_mailto (attendee->address);
+		return (void *)itip_strip_mailto (attendee->address);
 	case MEETING_MEMBER_COL:
 		return attendee->member;
 	case MEETING_TYPE_COL:
@@ -893,9 +927,9 @@ value_at (ETableModel *etm, int col, int row, void *data)
 	case MEETING_RSVP_COL:
 		return boolean_to_text (attendee->rsvp);
 	case MEETING_DELTO_COL:
-		return itip_strip_mailto (attendee->delto);
+		return (void *)itip_strip_mailto (attendee->delto);
 	case MEETING_DELFROM_COL:
-		return itip_strip_mailto (attendee->delfrom);
+		return (void *)itip_strip_mailto (attendee->delfrom);
 	case MEETING_STATUS_COL:
 		return partstat_to_text (attendee->status);
 	case MEETING_CN_COL:
@@ -1179,26 +1213,33 @@ popup_delegate_cb (GtkWidget *widget, gpointer data)
 	if (gnome_dialog_run_and_close (GNOME_DIALOG (dialog)) == 0){
 		struct attendee *a;
 		char *str;
-		GSList *l;
 		
 		name = e_delegate_dialog_get_delegate_name (edd);
 		address = e_delegate_dialog_get_delegate (edd);
-		
-		for (l = priv->attendees; l != NULL; l = l->next) {
-			a = l->data;
-			
-			if (a->address != NULL && !g_strcasecmp (itip_strip_mailto (a->address), address)) {
-				GtkWidget *dlg = gnome_error_dialog ("That person is already attending the meeting!");
-				gnome_dialog_run_and_close (GNOME_DIALOG (dlg));
-				goto cleanup;
-			}
+
+		/* Make sure we can add the new delegatee person */
+		if (is_duplicate (mpage, address) != NULL) {
+			duplicate_error ();
+			goto cleanup;
 		}
 		
+		/* Update information for attendee */
 		a = g_slist_nth_data (priv->attendees, priv->row);		
-		if (a->delto)
+		if (a->delto) {
+			struct attendee *b;
+			
+			b = is_duplicate (mpage, a->delto);
+			if (b != NULL) {				
+				priv->attendees = g_slist_remove (priv->attendees, b);
+				
+				e_table_model_row_deleted (priv->model, priv->row);
+			}			
 			g_free (a->delto);
+		}
+		
 		a->delto = g_strdup_printf ("MAILTO:%s", address);
 
+		/* Construct delegatee information */
 		a = g_new0 (struct attendee, 1);
 		
 		a->address = g_strdup_printf ("MAILTO:%s", address);

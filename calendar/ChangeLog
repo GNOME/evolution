@@ -1,3 +1,14 @@
+2001-07-25  JP Rosevear  <jpr@ximian.com>
+
+	* gui/dialogs/meeting-page.c (is_duplicate): see if the address is
+	already in the list of attendees
+	(duplicate_error): throw up an error dialog
+	(popup_delegate_cb): if the attendee has already delegated, delete
+	the old delegatee
+	(value_at): cast to kill warnings
+	(append_row): don't add the new attendee if they are already in
+	the list
+
 2001-07-24  Damon Chaplin  <damon@ximian.com>
 
 	* gui/dialogs/recurrence-page.c (get_exception_string): calculate
