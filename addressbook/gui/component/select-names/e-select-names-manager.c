@@ -134,7 +134,9 @@ e_select_names_manager_new (void)
 	else
 		manager->completion_book = NULL;
 
-	bonobo_object_unref (BONOBO_OBJECT (db));
+	CORBA_exception_init (&ev);
+	bonobo_object_release_unref (db, &ev);
+	CORBA_exception_free (&ev);
 
 	return manager;
 }
@@ -178,6 +180,13 @@ e_select_names_manager_destroy (GtkObject *object)
 
 	gtk_object_unref(GTK_OBJECT(manager->sections));
 	gtk_object_unref(GTK_OBJECT(manager->entries));
+
+#ifdef E_SELECT_NAMES_MANAGERS_EVER_START_DYING
+	if (manager->names) {
+		gtk_widget_destroy (GTK_WIDGET (manager->names));
+		manager->names = NULL;
+	}
+#endif
 }
 
 
