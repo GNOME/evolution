@@ -112,7 +112,6 @@ void              e_msg_composer_set_headers          (EMsgComposer     *compose
 						       const char       *subject);
 void              e_msg_composer_set_body_text        (EMsgComposer     *composer,
 						       const char       *text);
-void              e_msg_composer_mark_text_orig       (EMsgComposer     *composer);
 void              e_msg_composer_add_header           (EMsgComposer     *composer,
 						       const char       *name,
 						       const char       *value);

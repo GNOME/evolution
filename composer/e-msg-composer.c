@@ -182,7 +182,7 @@ best_content (gchar *plain)
 	} else {
 		result = g_strdup ("text/plain");
 	}
-	
+
 	return result;
 }
 
@@ -508,7 +508,7 @@ build_message (EMsgComposer *composer)
 }
 
 static char *
-get_signature (const char *sigfile, gboolean in_html)
+get_sig_file_content (const char *sigfile, gboolean in_html)
 {
 	GString *rawsig;
 	gchar  buf[1024];
@@ -578,67 +578,49 @@ prepare_engine (EMsgComposer *composer)
 	CORBA_exception_free (&ev);
 }
 
-void
-e_msg_composer_mark_text_orig (EMsgComposer *composer)
+static gchar *
+get_signature_html (EMsgComposer *composer)
 {
-	g_assert (composer);
-	g_assert (E_IS_MSG_COMPOSER (composer));
+	gboolean format_html = composer->send_html;
+	gchar *text, *html = NULL;
 
-	if (composer->editor_engine != CORBA_OBJECT_NIL) {
-		CORBA_Environment ev;
-		CORBA_any *flag = bonobo_arg_new (TC_boolean);
-		*((CORBA_boolean *) flag->_value) = CORBA_TRUE;
-
-		CORBA_exception_init (&ev);
-		GNOME_GtkHTML_Editor_Engine_setObjectDataByType (composer->editor_engine, "ClueFlow", "orig", flag, &ev);
-		CORBA_free (flag);
-		CORBA_exception_free (&ev);
+	text = get_sig_file_content (composer->sig_file, format_html);
+	/* if we tried HTML sig and it's not available, try also non HTML signature */
+	if (format_html && !text) {
+		format_html = FALSE;
+		text        = get_sig_file_content (composer->sig_file, format_html);
 	}
+
+	if (text) {
+		html = g_strdup_printf ("<!--+GtkHTML:<DATA class=\"ClueFlow\" key=\"signature\" value=\"1\">-->%s%s%s%s",
+					format_html ? "" : "<PRE>\n",
+					format_html || !strncmp ("-- \n", text, 3) ? "" : "--\n",
+					text,
+					format_html ? "" : "</PRE>\n");
+		g_free (text);
+		text = html;
+	}
+
+	return text;
 }
 
 static void
-set_editor_text (EMsgComposer *composer, const char *sig_file, const char *text)
+set_editor_text (EMsgComposer *composer, const char *text)
 {
 	Bonobo_PersistStream persist;
 	BonoboStream *stream;
 	BonoboWidget *editor;
 	CORBA_Environment ev;
-	char *sig, *fulltext;
-	gboolean html_sig = composer->send_html;
 
 	editor = BONOBO_WIDGET (composer->editor);
-	sig    = get_signature (sig_file, html_sig);
-	/* if we tried HTML sig and it's not available, try also non HTML signature */
-	if (html_sig && !sig) {
-		html_sig = FALSE;
-		sig      = get_signature (sig_file, html_sig);
-	}
-		
-	if (sig) {
-		if (html_sig)
-			fulltext = g_strdup_printf ("%s<br>%s",
-						    text, sig);
-		else if (!strncmp ("-- \n", sig, 3))
-			fulltext = g_strdup_printf ("%s<br>\n<pre>\n%s</pre>",
-						    text, sig);
-		else
-			fulltext = g_strdup_printf ("%s<br>\n<pre>\n-- \n%s</pre>",
-						    text, sig);
-	} else {
-		if (!*text)
-			return;
-		fulltext = (char*)text;
-	}
 	
 	CORBA_exception_init (&ev);
 	persist = (Bonobo_PersistStream) bonobo_object_client_query_interface (
 		bonobo_widget_get_server (editor), "IDL:Bonobo/PersistStream:1.0", &ev);
 	g_assert (persist != CORBA_OBJECT_NIL);
 	
-	stream = bonobo_stream_mem_create (fulltext, strlen (fulltext),
+	stream = bonobo_stream_mem_create (text, strlen (text),
 					   TRUE, FALSE);
-	if (sig)
-		g_free (fulltext);
 	Bonobo_PersistStream_load (persist, (Bonobo_Stream)bonobo_object_corba_objref (BONOBO_OBJECT (stream)),
 				   "text/html", &ev);
 	if (ev._major != CORBA_NO_EXCEPTION) {
@@ -1422,6 +1404,17 @@ hdrs_changed_cb (EMsgComposerHdrs *hdrs,
 	e_msg_composer_set_changed (composer);
 }
 
+static void
+from_changed_cb (EMsgComposerHdrs *hdrs,
+		 void *data)
+{
+	EMsgComposer *composer;
+
+	composer = E_MSG_COMPOSER (data);
+
+	e_msg_composer_set_sig_file (composer, hdrs->account->id->signature);
+}
+
 
 /* GtkObject methods.  */
 
@@ -1759,6 +1752,8 @@ e_msg_composer_construct (EMsgComposer *composer)
 			    GTK_SIGNAL_FUNC (subject_changed_cb), composer);
 	gtk_signal_connect (GTK_OBJECT (composer->hdrs), "hdrs_changed",
 			    GTK_SIGNAL_FUNC (hdrs_changed_cb), composer);
+	gtk_signal_connect (GTK_OBJECT (composer->hdrs), "from_changed",
+			    GTK_SIGNAL_FUNC (from_changed_cb), composer);
 	gtk_widget_show (composer->hdrs);
 	
 	/* Editor component.  */
@@ -1849,11 +1844,9 @@ e_msg_composer_new (void)
 	EMsgComposer *new;
 	
 	new = create_composer ();
-	if (new) {
-		/* Load the signature, if any. */
-		set_editor_text (new, NULL, "");
-	}
-	
+	if (new)
+		set_editor_text (new, "<BR>");
+
 	return new;
 }
 
@@ -1868,15 +1861,15 @@ EMsgComposer *
 e_msg_composer_new_with_sig_file (const char *sig_file, gboolean send_html)
 {
 	EMsgComposer *new;
-	
+
 	new = create_composer ();
 	if (new) {
 		e_msg_composer_set_send_html (new, send_html);
-		/* Load the signature, if any. */
-		set_editor_text (new, sig_file, "");
-		
+		set_editor_text (new, "<BR>");
 		e_msg_composer_set_sig_file (new, sig_file);
 	}
+
+	/* printf ("e_msg_composer_new_with_sig_file %p\n", new); */
 	
 	return new;
 }
@@ -2240,7 +2233,7 @@ e_msg_composer_new_from_url (const char *url)
 	
 	if (body) {
 		char *htmlbody = e_text_to_html (body, E_TEXT_TO_HTML_PRE);
-		set_editor_text (composer, NULL, htmlbody);
+		set_editor_text (composer, htmlbody);
 		g_free (htmlbody);
 	}
 	
@@ -2310,7 +2303,8 @@ e_msg_composer_set_body_text (EMsgComposer *composer, const char *text)
 {
 	g_return_if_fail (E_IS_MSG_COMPOSER (composer));
 	
-	set_editor_text (composer, composer->sig_file, text);
+	set_editor_text (composer, text);
+	e_msg_composer_set_sig_file (composer, composer->sig_file);
 }
 
 
@@ -2378,6 +2372,28 @@ e_msg_composer_get_message (EMsgComposer *composer)
 
 
 
+static void
+delete_old_signature (EMsgComposer *composer)
+{
+	CORBA_Environment ev;
+	CORBA_boolean rv;
+
+	/* printf ("delete_old_signature\n"); */
+	CORBA_exception_init (&ev);
+	GNOME_GtkHTML_Editor_Engine_runCommand (composer->editor_engine, "cursor-bod", &ev);
+	while (GNOME_GtkHTML_Editor_Engine_searchByData (composer->editor_engine, 1, "ClueFlow", "signature", "1", &ev)) {
+		/* printf ("found\n"); */
+		GNOME_GtkHTML_Editor_Engine_runCommand (composer->editor_engine, "select-paragraph", &ev);
+		rv = GNOME_GtkHTML_Editor_Engine_runCommand (composer->editor_engine, "selection-move-right", &ev);
+		GNOME_GtkHTML_Editor_Engine_runCommand (composer->editor_engine, "delete", &ev);
+		/* selection-move-right doesn't succeed means that we are already on the end of document */
+		if (!rv)
+			break;
+	}
+	GNOME_GtkHTML_Editor_Engine_setParagraphData (composer->editor_engine, "signature", "0", &ev);
+	CORBA_exception_free (&ev);
+}
+
 /**
  * e_msg_composer_set_sig:
  * @composer: A message composer widget
@@ -2388,10 +2404,39 @@ e_msg_composer_get_message (EMsgComposer *composer)
 void
 e_msg_composer_set_sig_file (EMsgComposer *composer, const char *sig_file)
 {
+	CORBA_Environment ev;
+	gchar *html;
+
 	g_return_if_fail (composer != NULL);
 	g_return_if_fail (E_IS_MSG_COMPOSER (composer));
-	
-	composer->sig_file = g_strdup (sig_file);
+
+	/* printf ("set sig '%s' '%s'\n", sig_file, composer->sig_file); */
+
+	CORBA_exception_init (&ev);
+	GNOME_GtkHTML_Editor_Engine_freeze (composer->editor_engine, &ev);
+	GNOME_GtkHTML_Editor_Engine_runCommand (composer->editor_engine, "cursor-position-save", &ev);
+	GNOME_GtkHTML_Editor_Engine_undo_begin (composer->editor_engine, "Set signature", "Reset signature", &ev);
+	if (composer->sig_file)
+		delete_old_signature (composer);
+
+	if (composer->sig_file != sig_file && (!sig_file || !composer->sig_file || strcmp (composer->sig_file, sig_file))) {
+		g_free (composer->sig_file);
+		composer->sig_file = g_strdup (sig_file);
+	}
+
+	html = get_signature_html (composer);
+	if (html) {
+		GNOME_GtkHTML_Editor_Engine_runCommand (composer->editor_engine, "cursor-eod", &ev);
+		if (!GNOME_GtkHTML_Editor_Engine_isParagraphEmpty (composer->editor_engine, &ev))
+			GNOME_GtkHTML_Editor_Engine_runCommand (composer->editor_engine, "insert-paragraph", &ev);
+		/* printf ("insert %s\n", html); */
+		GNOME_GtkHTML_Editor_Engine_insertHTML (composer->editor_engine, html, &ev);
+		g_free (html);
+	}
+	GNOME_GtkHTML_Editor_Engine_undo_end (composer->editor_engine, &ev);
+	GNOME_GtkHTML_Editor_Engine_runCommand (composer->editor_engine, "cursor-position-restore", &ev);
+	GNOME_GtkHTML_Editor_Engine_thaw (composer->editor_engine, &ev);
+	CORBA_exception_free (&ev);
 }
 
 /**
@@ -2442,6 +2487,8 @@ e_msg_composer_set_send_html (EMsgComposer *composer,
 				    composer->send_html, NULL);
 
 	set_config (composer, "FormatHTML", composer->send_html);
+	if (composer->sig_file)
+		e_msg_composer_set_sig_file (composer, composer->sig_file);
 }
 
 /**

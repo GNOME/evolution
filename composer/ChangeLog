@@ -1,3 +1,22 @@
+2001-04-25  Radek Doulik  <rodo@ximian.com>
+
+	* listener.c (impl_event): reflect object data type change
+
+	* e-msg-composer.c (get_sig_file_content): renamed from
+	get_signature
+	(get_signature_html): new helper function, uses
+	get_sig_file_content
+	(set_editor_text): removed signature parameters
+	(from_changed_cb): new signal handler, sets signature by identity
+	change
+	(delete_old_signature): new function, deletes old signature from
+	the document
+	(e_msg_composer_set_sig_file): new method, set's signature
+	filename
+	(e_msg_composer_mark_text_orig): removed (obsolete)
+
+	* e-msg-composer-hdrs.c: added signal FROM_CHANGED
+
 2001-04-21  Duncan Mak  <duncan@ximian.com>
 
 	* e-msg-composer.c (e_msg_composer_construct): Set window_icon to

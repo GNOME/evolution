@@ -62,6 +62,8 @@ struct _EMsgComposerHdrsClass {
 	void (* subject_changed) (EMsgComposerHdrs *hdrs, gchar *subject);
 
 	void (* hdrs_changed) (EMsgComposerHdrs *hdrs);
+
+	void (* from_changed) (EMsgComposerHdrs *hdrs);
 };
 
 typedef enum {

@@ -83,6 +83,7 @@ enum {
 	SHOW_ADDRESS_DIALOG,
 	SUBJECT_CHANGED,
 	HDRS_CHANGED,
+	FROM_CHANGED,
 	LAST_SIGNAL
 };
 
@@ -170,6 +171,7 @@ from_changed (GtkWidget *item, gpointer data)
 	EMsgComposerHdrs *hdrs = E_MSG_COMPOSER_HDRS (data);
 	
 	hdrs->account = gtk_object_get_data (GTK_OBJECT (item), "account");
+	gtk_signal_emit (GTK_OBJECT (hdrs), signals [FROM_CHANGED]);
 }
 
 static GtkWidget *
@@ -554,6 +556,15 @@ class_init (EMsgComposerHdrsClass *class)
 				object_class->type,
 				GTK_SIGNAL_OFFSET (EMsgComposerHdrsClass,
 						   hdrs_changed),
+				gtk_marshal_NONE__NONE,
+				GTK_TYPE_NONE, 0);
+
+	signals[FROM_CHANGED] =
+		gtk_signal_new ("from_changed",
+				GTK_RUN_LAST,
+				object_class->type,
+				GTK_SIGNAL_OFFSET (EMsgComposerHdrsClass,
+						   from_changed),
 				gtk_marshal_NONE__NONE,
 				GTK_TYPE_NONE, 0);
 

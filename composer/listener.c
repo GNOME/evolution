@@ -96,23 +96,22 @@ reply_indent (EditorListener *l, CORBA_Environment * ev)
 
 static CORBA_any *
 impl_event (PortableServer_Servant _servant,
-       const CORBA_char * name, const CORBA_any * arg,
-       CORBA_Environment * ev)
+	    const CORBA_char * name, const CORBA_any * arg,
+	    CORBA_Environment * ev)
 {
 	EditorListener *l = listener_from_servant (_servant);
-	BonoboArg *data;
-	CORBA_any *rv = NULL;
+	CORBA_any  *rv = NULL;
+	CORBA_char *orig;
 
 	/* printf ("impl_event\n"); */
 
 	if (!strcmp (name, "command")) {
 		/* FIXME check for insert-paragraph command */
-		data = GNOME_GtkHTML_Editor_Engine_getParagraphData (l->composer->editor_engine, "orig", ev);
-		if (ev->_major == CORBA_NO_EXCEPTION && data) {
-			if (CORBA_TypeCode_equal (data->_type, TC_boolean, ev) && BONOBO_ARG_GET_BOOLEAN (data))
+		orig = GNOME_GtkHTML_Editor_Engine_getParagraphData (l->composer->editor_engine, "orig", ev);
+		if (ev->_major == CORBA_NO_EXCEPTION) {
+			if (!strcmp (orig, "1"))
 				reply_indent (l, ev);
-			BONOBO_ARG_SET_BOOLEAN (data, CORBA_FALSE);
-			GNOME_GtkHTML_Editor_Engine_setParagraphData (l->composer->editor_engine, "orig", data, ev);
+			GNOME_GtkHTML_Editor_Engine_setParagraphData (l->composer->editor_engine, "orig", "0", ev);
 		}
 	} else if (!strcmp (name, "image_url")) {
 		gchar *url;
