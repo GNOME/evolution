@@ -26,7 +26,6 @@ SUBDIRS =			\
         e-util                  \
         widgets                 \
         shell                   \
-	executive-summary	\
         libibex                 \
         camel                   \
         filter                  \

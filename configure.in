@@ -618,12 +618,6 @@ calendar/gui/dialogs/Makefile
 calendar/conduits/Makefile
 calendar/conduits/calendar/Makefile
 calendar/conduits/todo/Makefile
-executive-summary/Makefile
-executive-summary/idl/Makefile
-executive-summary/evolution-services/Makefile
-executive-summary/widgets/Makefile
-executive-summary/component/Makefile
-executive-summary/test-service/Makefile
 filter/Makefile
 wombat/Makefile
 art/Makefile
