@@ -45,9 +45,14 @@ mail_request_dialog (const char *prompt, gboolean secret, const char *key,
 					       request_callback, &ans, NULL);
 		if (!dialog)
 			return NULL;
+		GDK_THREADS_ENTER ();
 		if (gnome_dialog_run_and_close (GNOME_DIALOG (dialog)) == -1 ||
-		    ans == NULL)
+		    ans == NULL) {
+			GDK_THREADS_LEAVE ();
 			return NULL;
+		}
+
+		GDK_THREADS_LEAVE ();
 	} else {
 		if (!mail_op_get_password ((char *) prompt, secret, &ans))
 			return NULL;
