@@ -1,3 +1,12 @@
+2001-04-06  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* Makefile.am: Added camel-pgp-context.[c,h] to the build. Also
+	added tests/smime/pgp.c and Makefile.am
+
+	* tests/smime/pgp.c: New test suite for PGP functions.
+
+	* camel-pgp-context.c: Various fixes to get it to build.
+
 2001-04-07  Peter Williams  <peterw@ximian.com>
 
 	* providers/imap/camel-imap-utils.c (imap_parse_string_generic): It
@@ -69,7 +78,8 @@
 
 2001-04-02  Jeffrey Stedfast  <fejj@ximian.com>
 
-	* camel-pgp-context.c (camel_pgp_sign): mutex lock & unlock the context.
+	* camel-pgp-context.c (camel_pgp_sign): mutex lock & unlock the
+	context.
 	(camel_pgp_clearsign): Same.
 	(camel_pgp_verify): Same.
 	(camel_pgp_encrypt): Same.

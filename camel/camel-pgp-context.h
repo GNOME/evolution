@@ -68,6 +68,12 @@ typedef struct _CamelPgpContext {
 	
 } CamelPgpContext;
 
+typedef struct _CamelPgpContextClass {
+	CamelObjectClass parent_class;
+	
+} CamelPgpContextClass;
+
+typedef struct _CamelPgpValidity CamelPgpValidity;
 
 CamelType         camel_pgp_context_get_type (void);
 
@@ -91,8 +97,6 @@ int               camel_pgp_decrypt (CamelPgpContext *context, CamelStream *istr
 				     CamelException *ex);
 
 /* CamelPgpValidity utility functions */
-typedef struct _CamelPgpValidity CamelPgpValidity;
-
 CamelPgpValidity *camel_pgp_validity_new (void);
 
 void              camel_pgp_validity_init (CamelPgpValidity *validity);

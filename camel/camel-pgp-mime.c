@@ -255,8 +255,8 @@ camel_pgp_mime_part_sign (CamelPgpContext *context, CamelMimePart **mime_part, c
 	g_slist_free (encodings);
 	
 	/* construct the pgp-signature mime part */
-	d(fprintf (stderr, "signature:\n%*.s\n", CAMEL_STREAM_MEM (sigstream)->buf->len,
-		   CAMEL_STREAM_MEM (sigstream)->buf->data));
+	d(fprintf (stderr, "signature:\n%*.s\n", CAMEL_STREAM_MEM (sigstream)->buffer->len,
+		   CAMEL_STREAM_MEM (sigstream)->buffer->data));
 	signed_part = camel_mime_part_new ();
 	camel_data_wrapper_construct_from_stream (CAMEL_DATA_WRAPPER (signed_part), sigstream);
 	camel_object_unref (CAMEL_OBJECT (sigstream));
