@@ -64,7 +64,6 @@ calendar/gui/gnome-cal.c
 calendar/gui/goto.c
 calendar/gui/goto-dialog.glade
 calendar/gui/main.c
-calendar/gui/popup-menu.c
 calendar/gui/print.c
 calendar/gui/tasks-control.c
 calendar/gui/weekday-picker.c

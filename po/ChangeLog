@@ -1,3 +1,7 @@
+2001-03-05  JP Rosevear  <jpr@ximian.com>
+
+	* POTFILES.in: update
+
 2001-03-04  Damon Chaplin  <damon@ximian.com>
 
 	* POTFILES.in: added e-util/e-time-utils.c and
