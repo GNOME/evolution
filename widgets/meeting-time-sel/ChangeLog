@@ -1,3 +1,8 @@
+2001-03-29  Larry Ewing  <lewing@ximian.com>
+
+	* e-meeting-time-sel-list-item.c: s/#include/#ifdef/ to fix
+	Kjartan's commit.
+
 2001-03-29  Kjartan Maraas  <kmaraas@gnome.org>
 
 	* e-meeting-time-sel-item.c: #ifdef HAVE_CONFIG_H
