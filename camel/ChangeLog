@@ -1,3 +1,15 @@
+2004-08-11  Jeffrey Stedfast  <fejj@novell.com>
+
+	Fix for bug #62771
+
+	* camel-mime-utils.c (append_quoted_pair): New function to append
+	a string of text that may contain quoted-pairs.
+	(header_decode_text): Now takes a ctext argument specifying
+	whether or not to expect comments and to handle them.
+	(camel_header_decode_string): Pass FALSE as ctext argument.
+	(camel_header_format_ctext): New function to format text|comment
+	header field bodies.
+
 2004-08-10  Not Zed  <NotZed@Ximian.com>
 
 	* providers/groupwise/camel-gw-listener.c

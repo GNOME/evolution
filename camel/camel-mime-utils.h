@@ -194,6 +194,9 @@ int camel_header_decode_int (const char **in);
 char *camel_header_decode_string (const char *in, const char *default_charset);
 char *camel_header_encode_string (const unsigned char *in);
 
+/* decode (text | comment) - a one-way op */
+char *camel_header_format_ctext (const char *in, const char *default_charset);
+
 /* encode a phrase, like the real name of an address */
 char *camel_header_encode_phrase (const unsigned char *in);
 

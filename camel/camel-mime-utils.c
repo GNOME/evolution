@@ -1118,15 +1118,41 @@ append_8bit (GString *out, const char *inbuf, size_t inlen, const char *charset)
 	
 }
 
+static void
+append_quoted_pair (GString *str, const char *in, int inlen)
+{
+	register const char *inptr = in;
+	const char *inend = in + inlen;
+	char c;
+	
+	while (inptr < inend) {
+		c = *inptr++;
+		if (c == '\\' && inptr < inend)
+			g_string_append_c (str, *inptr++);
+		else
+			g_string_append_c (str, c);
+	}
+}
+
 /* decodes a simple text, rfc822 + rfc2047 */
 static char *
-header_decode_text (const char *in, size_t inlen, const char *default_charset)
+header_decode_text (const char *in, size_t inlen, int ctext, const char *default_charset)
 {
 	GString *out;
 	const char *inptr, *inend, *start, *chunk, *locale_charset;
+	void (* append) (GString *, const char *, int);
 	char *dword = NULL;
+	guint32 mask;
 	
 	locale_charset = e_iconv_locale_charset ();
+	
+	if (ctext) {
+		mask = (CAMEL_MIME_IS_SPECIAL | CAMEL_MIME_IS_SPACE | CAMEL_MIME_IS_CTRL);
+		append = append_quoted_pair;
+	} else {
+		mask = (CAMEL_MIME_IS_LWSP);
+		append = g_string_append;
+	}
 	
 	out = g_string_new ("");
 	inptr = in;
@@ -1135,20 +1161,20 @@ header_decode_text (const char *in, size_t inlen, const char *default_charset)
 
 	while (inptr < inend) {
 		start = inptr;
-		while (inptr < inend && camel_mime_is_lwsp(*inptr))
+		while (inptr < inend && camel_mime_is_type (*inptr, mask))
 			inptr++;
 
 		if (inptr == inend) {
-			g_string_append_len(out, start, inptr-start);
+			append (out, start, inptr - start);
 			break;
 		} else if (dword == NULL) {
-			g_string_append_len(out, start, inptr-start);
+			append (out, start, inptr - start);
 		} else {
 			chunk = start;
 		}
 
 		start = inptr;
-		while (inptr < inend && !camel_mime_is_lwsp(*inptr))
+		while (inptr < inend && !camel_mime_is_type (*inptr, mask))
 			inptr++;
 
 		dword = rfc2047_decode_word(start, inptr-start);
@@ -1178,7 +1204,15 @@ camel_header_decode_string (const char *in, const char *default_charset)
 {
 	if (in == NULL)
 		return NULL;
-	return header_decode_text (in, strlen (in), default_charset);
+	return header_decode_text (in, strlen (in), FALSE, default_charset);
+}
+
+char *
+camel_header_format_ctext (const char *in, const char *default_charset)
+{
+	if (in == NULL)
+		return NULL;
+	return header_decode_text (in, strlen (in), TRUE, default_charset);
 }
 
 /* how long a sequence of pre-encoded words should be less than, to attempt to 
@@ -2830,7 +2864,7 @@ header_append_param(struct _camel_header_param *last, char *name, char *value)
 	node->next = NULL;
 	node->name = name;
 	if (strncmp(value, "=?", 2) == 0
-	    && (node->value = header_decode_text(value, strlen(value), NULL))) {
+	    && (node->value = header_decode_text(value, strlen(value), FALSE, NULL))) {
 		g_free(value);
 	} else if (!g_utf8_validate(value, -1, NULL)) {
 		const char * charset = e_iconv_locale_charset();
