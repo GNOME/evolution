@@ -46,7 +46,8 @@ struct _ESelectNamesBonoboPrivate {
 };
 
 enum _EntryPropertyID {
-	ENTRY_PROPERTY_ID_TEXT
+	ENTRY_PROPERTY_ID_TEXT,
+	ENTRY_PROPERTY_ID_ENTRY_CHANGED
 };
 typedef enum _EntryPropertyID EntryPropertyID;
 
@@ -91,6 +92,9 @@ entry_set_property_fn (BonoboPropertyBag *bag,
 	case ENTRY_PROPERTY_ID_TEXT:
 		text = BONOBO_ARG_GET_STRING (arg);
 		gtk_object_set (GTK_OBJECT (widget), "text", text, NULL);
+		break;
+	case ENTRY_PROPERTY_ID_ENTRY_CHANGED:
+		gtk_object_set_data (GTK_OBJECT (widget), "entry_property_id_changed", GUINT_TO_POINTER (1));
 		break;
 	default:
 		break;
@@ -142,6 +146,15 @@ impl_SelectNames_add_section (PortableServer_Servant servant,
 	e_select_names_manager_add_section (priv->manager, id, title);
 }
 
+static void
+entry_changed (GtkWidget *widget, BonoboControl *control)
+{
+	gboolean changed = GPOINTER_TO_UINT (gtk_object_get_data (GTK_OBJECT (widget), "entry_property_id_changed"));
+
+	if (!changed)
+		bonobo_control_set_property (control, "entry_changed", TRUE, NULL);
+}
+
 static Bonobo_Control
 impl_SelectNames_get_entry_for_section (PortableServer_Servant servant,
 					const CORBA_char *section_id,
@@ -175,8 +188,14 @@ impl_SelectNames_get_entry_for_section (PortableServer_Servant servant,
 	bonobo_property_bag_add (property_bag, "text", ENTRY_PROPERTY_ID_TEXT,
 				 BONOBO_ARG_STRING, NULL, NULL,
 				 BONOBO_PROPERTY_READABLE | BONOBO_PROPERTY_WRITEABLE);
+	bonobo_property_bag_add (property_bag, "entry_changed", ENTRY_PROPERTY_ID_ENTRY_CHANGED,
+				 BONOBO_ARG_BOOLEAN, NULL, NULL,
+				 BONOBO_PROPERTY_WRITEABLE);
 
 	bonobo_control_set_properties (control, property_bag);
+
+	gtk_signal_connect (GTK_OBJECT (entry_widget), "changed",
+			    GTK_SIGNAL_FUNC (entry_changed), control);
 
 	return CORBA_Object_duplicate (bonobo_object_corba_objref (BONOBO_OBJECT (control)), ev);
 }

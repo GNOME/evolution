@@ -191,6 +191,18 @@ create_optionmenu (EMsgComposerHdrs *hdrs,
 	return omenu;
 }
 
+static void
+addressbook_entry_changed (BonoboListener    *listener,
+			   char              *event_name,
+			   CORBA_any         *arg,
+			   CORBA_Environment *ev,
+			   gpointer           user_data)
+{
+	EMsgComposerHdrs *hdrs = E_MSG_COMPOSER_HDRS (user_data);
+
+	hdrs->has_changed = TRUE;
+}
+
 static GtkWidget *
 create_addressbook_entry (EMsgComposerHdrs *hdrs,
 			  const char *name)
@@ -200,6 +212,8 @@ create_addressbook_entry (EMsgComposerHdrs *hdrs,
 	Bonobo_Control corba_control;
 	GtkWidget *control_widget;
 	CORBA_Environment ev;
+	BonoboControlFrame *cf;
+	Bonobo_PropertyBag pb = CORBA_OBJECT_NIL;
 
 	priv = hdrs->priv;
 	corba_select_names = priv->corba_select_names;
@@ -223,6 +237,13 @@ create_addressbook_entry (EMsgComposerHdrs *hdrs,
 
 	control_widget = bonobo_widget_new_control_from_objref (corba_control, CORBA_OBJECT_NIL);
 
+	cf = bonobo_widget_get_control_frame (BONOBO_WIDGET (control_widget));
+	pb = bonobo_control_frame_get_control_property_bag (cf, NULL);
+
+	bonobo_event_source_client_add_listener (pb, addressbook_entry_changed,
+						 "Bonobo/Property:change:entry_changed",
+						 NULL, hdrs);
+
 	return control_widget;
 }
 
@@ -232,7 +253,7 @@ entry_changed (GtkWidget *entry, EMsgComposerHdrs *hdrs)
 	gchar *tmp;
 	gchar *subject;
 
-	/* Mark the headers as changed */
+	/* Mark the composer as changed so it prompts to save on close */
 	hdrs->has_changed = TRUE;
 
 	tmp = e_msg_composer_hdrs_get_subject (hdrs);

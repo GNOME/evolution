@@ -1,3 +1,11 @@
+2001-01-19  Jason Leach  <jasonleach@usa.net>
+
+	* e-msg-composer-hdrs.c (create_addressbook_entry): Listen for
+	property bag changes to "entry_changed" on here, which means on
+	the To, Cc, and Bcc entries.
+	(addressbook_entry_changed): New function that gets called when
+	"entry_changed" property is changed (to TRUE).
+
 2001-01-18  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* e-msg-composer.c (build_message): Updated to reflect changes to

@@ -1,3 +1,17 @@
+2001-01-19  Jason Leach  <jasonleach@usa.net>
+
+	(Adding a boolean "entry_changed" BonoboPropertyBag arg)
+	
+	* gui/component/select-names/e-select-names-bonobo.c
+	(entry_set_property_fn): Use a gtk_object_set_data to set the
+	property to TRUE here.
+
+	(entry_changed): New function, calls bonobo_control_set_property
+	if entry_changed hasn't been set to TRUE yet.
+	
+	(impl_SelectNames_get_entry_for_section): Connect "changed" on
+	each entry_widget to the new entry_changed() func.
+
 2001-01-19  JP Rosevear  <jpr@ximian.com>
 
 	* conduit/address-conduit.c (ecard_from_remote_record): always free 
