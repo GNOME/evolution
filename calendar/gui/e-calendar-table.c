@@ -224,6 +224,8 @@ e_calendar_table_init (ECalendarTable *cal_table)
 
 	table = e_table_scrolled_new (model, extras, E_CALENDAR_TABLE_SPEC,
 				      NULL);
+	gtk_object_unref (GTK_OBJECT (extras));
+
 	cal_table->etable = table;
 	gtk_table_attach (GTK_TABLE (cal_table), table, 0, 1, 0, 1,
 			  GTK_EXPAND | GTK_FILL, GTK_EXPAND | GTK_FILL, 0, 0);

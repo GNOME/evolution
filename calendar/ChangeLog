@@ -1,5 +1,10 @@
 2000-11-24  Federico Mena Quintero  <federico@helixcode.com>
 
+	* gui/e-calendar-table.c (e_calendar_table_init): Unref the ETable
+	extras.
+
+2000-11-24  Federico Mena Quintero  <federico@helixcode.com>
+
 	* cal-util/cal-component.c (free_icalcomponent): DOH, fixed
 	reversed test for the presence of the icalcomp's parent.  This was
 	causing memory leaks in the Wombat and elsewhere.
