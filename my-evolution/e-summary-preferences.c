@@ -917,6 +917,14 @@ weather_all_select_row_cb (GtkCTree *ctree,
 			   int column,
 			   PropertyData *pd)
 {
+	ESummaryWeatherLocation *location;
+
+	location = gtk_ctree_node_get_row_data (GTK_CTREE (pd->weather->all), row);
+	if (location == NULL) {
+		gtk_ctree_unselect (ctree, row);
+		return;
+	}
+
 	gtk_widget_set_sensitive (pd->weather->add, TRUE);
 	pd->weather->selected_node = row;
 }
@@ -964,6 +972,8 @@ weather_add_clicked_cb (GtkButton *button,
 	char *text[1];
 
 	location = gtk_ctree_node_get_row_data (GTK_CTREE (pd->weather->all), pd->weather->selected_node);
+
+	g_return_if_fail (location != NULL);
 
 	for (p = pd->summary->preferences->stations; p; p = p->next) {
 		if (strcmp (location->code, p->data) == 0) {

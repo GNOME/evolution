@@ -1,3 +1,9 @@
+2001-08-17  Iain Holmes  <iain@ximian.com>
+
+	* e-summary-preferences.c (weather_all_select_row_cb): Unselect the 
+	row if it isn't a leaf node.
+	(weather_add_clicked_cb): Return if location == NULL.
+
 2001-08-15  Iain Holmes  <iain@ximian.com>
 
 	* e-summary.c (e_summary_draw): Use the US format for dates (Yeeech)
