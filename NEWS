@@ -8,6 +8,26 @@ Mailer:
   - Bcc: addresses are now visible when browsing messages in
     the "Sent" folder. (Trow)
 
+  - Various backend fixes like thread safeness of concurrent
+    triggered events, more forgiving address header decoding,
+    fixes for recent breakage to progress reports, adding a deleted
+    event/state for folders, various deadlocks. (Michael, Jeff)
+
+  - Fixed quick-searching by receipients to work. (Michael)
+
+  - Caching of iconv handles to improve performance of many internal
+    mail reading/indexing operations. (Michael)
+
+  - Major oops in mbox code that caused significant performance
+    problems getting/filtering mail fixed. (Michael)
+
+  - File->Folder->Properties and Delete Folder now work for VFolders.
+
+  - VFolders, Filters and Searches are saved in a safe manner so that
+    they should not be lost with quota/filled disk problems. (Michael)
+ 
+  - VFolders now update with new mail on their sources. (Michael)
+
 Addressbook:
 
   - Fixed crashes related to editing the Master Category List. (Trow)

@@ -1,3 +1,7 @@
+2001-10-09    <NotZed@Ximian.com>
+
+	* NEWS (Mailer): Updated for beta 6.
+
 2001-10-09  Rodrigo Moya <rodrigo@ximian.com>
 
 	* configure.in: add libart to list of libraries to use in
