@@ -39,6 +39,7 @@
 #include <libgnomeui/gnome-stock.h>
 #include <libgnomeui/gnome-uidefs.h>
 #include <gal/util/e-util.h>
+#include <gal/widgets/e-unicode.h>
 
 #include "e-util/e-request.h"
 
@@ -161,16 +162,18 @@ destroy_group_cb (GtkWidget *widget,
 	EShortcutsView *shortcuts_view;
 	EShortcutsViewPrivate *priv;
 	GtkWidget *message_box;
-	char *question;
+	char *question, *title;
 
 	menu_data = (RightClickMenuData *) data;
 	shortcuts_view = menu_data->shortcuts_view;
 	priv = shortcuts_view->priv;
 	shortcuts = priv->shortcuts;
 
+	title = e_utf8_to_locale_string (e_shortcuts_get_group_title (
+	                                 shortcuts, menu_data->group_num));
 	question = g_strdup_printf (_("Do you really want to remove group\n"
-				      "`%s' from the shortcut bar?"),
-				    e_shortcuts_get_group_title (shortcuts, menu_data->group_num));
+	                              "`%s' from the shortcut bar?"), title);
+	g_free (title);
 
 	message_box = gnome_message_box_new (question, GNOME_MESSAGE_BOX_QUESTION,
 					     _("Remove"), _("Don't remove"), NULL);
