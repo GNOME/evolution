@@ -5,6 +5,7 @@
 #include "e-addressbook-table-adapter.h"
 #include "e-card-merging.h"
 #include "e-addressbook-util.h"
+#include "ebook/e-destination.h"
 #include <libxml/tree.h>
 #include <libxml/parser.h>
 #include <libxml/xmlmemory.h>

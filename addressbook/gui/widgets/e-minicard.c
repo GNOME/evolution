@@ -37,6 +37,7 @@
 #include "e-minicard-view.h"
 #include "e-contact-editor.h"
 #include "e-card-merging.h"
+#include "ebook/e-destination.h"
 
 static void e_minicard_init		(EMinicard		 *card);
 static void e_minicard_class_init	(EMinicardClass	 *klass);

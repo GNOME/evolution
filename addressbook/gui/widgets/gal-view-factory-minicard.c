@@ -12,6 +12,7 @@
 #include <libgnome/gnome-i18n.h>
 #include "gal-view-factory-minicard.h"
 #include "gal-view-minicard.h"
+#include "gal/util/e-util.h"
 
 #define PARENT_TYPE GAL_VIEW_FACTORY_TYPE
 

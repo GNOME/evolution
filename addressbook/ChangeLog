@@ -1,5 +1,26 @@
 2003-01-09  Chris Toshok  <toshok@ximian.com>
 
+	* gui/widgets/gal-view-minicard.c (column_width_changed): fix
+	parameter types here (this signal isn't generated from an ETable.)
+
+	* gui/widgets/gal-view-factory-minicard.c: include e-util.h
+
+	* gui/widgets/e-minicard.h: include gnome-canvas.h here.
+
+	* gui/widgets/e-addressbook-table-adapter.c: #include
+	e-destination.h here.
+
+	* gui/widgets/e-minicard.c: same.
+
+2003-01-09  Chris Toshok  <toshok@ximian.com>
+
+	* gui/contact-editor/e-contact-editor.[ch]: remove the select
+	names stuff (the Related Contacts button/entry.)
+
+	* gui/contact-editor/contact-editor.glade: same.
+
+2003-01-09  Chris Toshok  <toshok@ximian.com>
+
 	* gui/component/select-names/GNOME_Evolution_Addressbook_SelectNames.server.in.in:
 	comment out the factory oaf_server, and change the location of the
 	SelectNames controls to be
