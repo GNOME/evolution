@@ -1,3 +1,30 @@
+2004-04-08  Not Zed  <NotZed@Ximian.com>
+
+	* camel-folder.c: include camel-debug.h
+
+	* providers/local/camel-mbox-folder.c
+	(mbox_set_message_user_flag): message changed to folder_changed.
+	(mbox_set_message_user_tag): ditto.
+
+	* camel-vee-folder.c (camel_vee_folder_finalise): dont hook onto
+	message_changed.
+	(camel_vee_folder_add_folder): or unhook.
+	(camel_vee_folder_remove_folder): "
+	(message_changed): or proxy.
+
+	* camel-folder.c (camel_folder_class_init): removed the
+	message_changed event - its redundant, and covered by
+	folder_changed, and just makes life difficult for everything using
+	message_changed/folder_changed (and nothing uses it anyway).
+	(message_changed): removed.
+	(set_message_user_flag): emit a folder_changed event instead of
+	message changed.
+	(set_message_user_tag): "
+	(set_message_flags): "
+
+	* camel-object.h: revered the CAMEL_OBJECT_TYPE change, it should
+	be a global variable access.
+
 2004-04-06  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* providers/imap4/camel-imap4-folder.c: Added mutex locking where

@@ -522,9 +522,14 @@ mbox_set_message_user_flag(CamelFolder *folder, const char *uid, const char *nam
 		return;
 
 	if (camel_flag_set(&info->user_flags, name, value)) {
+		CamelFolderChangeInfo *changes = camel_folder_change_info_new();
+
 		info->flags |= CAMEL_MESSAGE_FOLDER_FLAGGED|CAMEL_MESSAGE_FOLDER_XEVCHANGE;
 		camel_folder_summary_touch(folder->summary);
-		camel_object_trigger_event(CAMEL_OBJECT(folder), "message_changed", (char *) uid);
+
+		camel_folder_change_info_change_uid(changes, uid);
+		camel_object_trigger_event(folder, "folder_changed", changes);
+		camel_folder_change_info_free(changes);
 	}
 	camel_folder_summary_info_free(folder->summary, info);
 }
@@ -541,9 +546,14 @@ mbox_set_message_user_tag(CamelFolder *folder, const char *uid, const char *name
 		return;
 
 	if (camel_tag_set(&info->user_tags, name, value)) {
+		CamelFolderChangeInfo *changes = camel_folder_change_info_new();
+
 		info->flags |= CAMEL_MESSAGE_FOLDER_FLAGGED|CAMEL_MESSAGE_FOLDER_XEVCHANGE;
 		camel_folder_summary_touch(folder->summary);
-		camel_object_trigger_event(CAMEL_OBJECT(folder), "message_changed", (char *) uid);
+
+		camel_folder_change_info_change_uid(changes, uid);
+		camel_object_trigger_event (folder, "folder_changed", changes);
+		camel_folder_change_info_free(changes);
 	}
 	camel_folder_summary_info_free(folder->summary, info);
 }

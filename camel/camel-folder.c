@@ -22,7 +22,6 @@
  * USA
  */
 
-
 #ifdef HAVE_CONFIG_H
 #include <config.h>
 #endif
@@ -33,6 +32,7 @@
 #include "camel-exception.h"
 #include "camel-store.h"
 #include "camel-mime-message.h"
+#include "camel-debug.h"
 
 #include "e-util/e-memory.h"
 #include "camel-operation.h"
@@ -116,8 +116,6 @@ static gboolean        is_frozen             (CamelFolder *folder);
 
 static gboolean        folder_changed        (CamelObject *object,
 					      gpointer event_data);
-static gboolean        message_changed       (CamelObject *object,
-					      /*const char *uid*/gpointer event_data);
 
 static void
 camel_folder_class_init (CamelFolderClass *camel_folder_class)
@@ -168,7 +166,6 @@ camel_folder_class_init (CamelFolderClass *camel_folder_class)
 
 	/* events */
 	camel_object_class_add_event(camel_object_class, "folder_changed", folder_changed);
-	camel_object_class_add_event(camel_object_class, "message_changed", message_changed);
 	camel_object_class_add_event(camel_object_class, "deleted", NULL);
 	camel_object_class_add_event(camel_object_class, "renamed", NULL);
 }
@@ -725,6 +722,7 @@ static gboolean
 set_message_flags(CamelFolder *folder, const char *uid, guint32 flags, guint32 set)
 {
 	CamelMessageInfo *info;
+	CamelFolderChangeInfo *changes;
 	guint32 new;
 
 	g_return_val_if_fail(folder->summary != NULL, FALSE);
@@ -743,7 +741,10 @@ set_message_flags(CamelFolder *folder, const char *uid, guint32 flags, guint32 s
 	camel_folder_summary_touch(folder->summary);
 	camel_folder_summary_info_free(folder->summary, info);
 
-	camel_object_trigger_event(folder, "message_changed", (char *) uid);
+	changes = camel_folder_change_info_new();
+	camel_folder_change_info_change_uid(changes, uid);
+	camel_object_trigger_event(folder, "folder_changed", changes);
+	camel_folder_change_info_free(changes);
 
 	return TRUE;
 }
@@ -825,9 +826,13 @@ set_message_user_flag(CamelFolder *folder, const char *uid, const char *name, gb
 		return;
 
 	if (camel_flag_set(&info->user_flags, name, value)) {
+		CamelFolderChangeInfo *changes = camel_folder_change_info_new();
+
 		info->flags |= CAMEL_MESSAGE_FOLDER_FLAGGED;
 		camel_folder_summary_touch(folder->summary);
-		camel_object_trigger_event (folder, "message_changed", (char *) uid);
+		camel_folder_change_info_change_uid(changes, uid);
+		camel_object_trigger_event (folder, "folder_changed", changes);
+		camel_folder_change_info_free(changes);
 	}
 	camel_folder_summary_info_free(folder->summary, info);
 }
@@ -905,9 +910,13 @@ set_message_user_tag(CamelFolder *folder, const char *uid, const char *name, con
 		return;
 
 	if (camel_tag_set(&info->user_tags, name, value)) {
+		CamelFolderChangeInfo *changes = camel_folder_change_info_new();
+
 		info->flags |= CAMEL_MESSAGE_FOLDER_FLAGGED;
 		camel_folder_summary_touch(folder->summary);
-		camel_object_trigger_event (folder, "message_changed", (char *) uid);
+		camel_folder_change_info_change_uid(changes, uid);
+		camel_object_trigger_event (folder, "folder_changed", changes);
+		camel_folder_change_info_free(changes);
 	}
 	camel_folder_summary_info_free(folder->summary, info);
 }
@@ -1522,7 +1531,7 @@ freeze (CamelFolder *folder)
  * @folder: a folder
  *
  * Freezes the folder so that a series of operation can be performed
- * without "message_changed" and "folder_changed" signals being emitted.
+ * without "folder_changed" signals being emitted.
  * When the folder is later thawed with camel_folder_thaw(), the
  * suppressed signals will be emitted.
  **/
@@ -1565,8 +1574,8 @@ thaw (CamelFolder * folder)
  * camel_folder_thaw:
  * @folder: a folder
  *
- * Thaws the folder and emits any pending folder_changed or
- * message_changed signals.
+ * Thaws the folder and emits any pending folder_changed
+ * signals.
  **/
 void
 camel_folder_thaw (CamelFolder *folder)
@@ -1817,26 +1826,6 @@ folder_changed (CamelObject *obj, gpointer event_data)
 		ret = FALSE;
 	}
 	CAMEL_FOLDER_UNLOCK(folder, change_lock);
-
-	return ret;
-}
-
-static gboolean
-message_changed (CamelObject *obj, /*const char *uid*/gpointer event_data)
-{
-	CamelFolder *folder = CAMEL_FOLDER (obj);
-	gboolean ret = TRUE;
-
-	d(printf ("message_changed(%p, %p), frozen=%d\n", folder, event_data, folder->priv->frozen));
-
-	if (folder->priv->frozen) {
-		CAMEL_FOLDER_LOCK(folder, change_lock);
-	
-		camel_folder_change_info_change_uid(folder->priv->changed_frozen, (char *)event_data);
-		ret = FALSE;
-
-		CAMEL_FOLDER_UNLOCK(folder, change_lock);
-	}
 
 	return ret;
 }
