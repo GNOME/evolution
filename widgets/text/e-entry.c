@@ -805,14 +805,14 @@ e_entry_enable_completion_full (EEntry *entry, ECompletion *completion, gint del
 			    GTK_SIGNAL_FUNC (key_release_cb),
 			    entry->canvas);
 
+	e_completion_view_connect_keys (E_COMPLETION_VIEW (entry->priv->completion_view),
+					GTK_WIDGET (entry->canvas));
+
 	gtk_object_ref (GTK_OBJECT (entry->priv->completion_view_popup));
 	gtk_object_sink (GTK_OBJECT (entry->priv->completion_view_popup));
 	gtk_window_set_policy (GTK_WINDOW (entry->priv->completion_view_popup), TRUE, TRUE, TRUE);
 	gtk_container_add (GTK_CONTAINER (entry->priv->completion_view_popup), entry->priv->completion_view);
 	gtk_widget_show (entry->priv->completion_view);
-
-	e_completion_view_connect_keys (E_COMPLETION_VIEW (entry->priv->completion_view),
-					GTK_WIDGET (entry->canvas));
 }
 
 gboolean
