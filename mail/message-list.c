@@ -279,7 +279,10 @@ ml_value_at (ETableModel *etm, int col, int row, void *data)
 		break;
 		
 	case COL_TO:
-		retval = msg_info->to;
+		if (msg_info->to)
+			retval = msg_info->to;
+		else
+			retval = "";
 		break;
 		
 	case COL_SIZE:
@@ -307,10 +310,27 @@ ml_value_at (ETableModel *etm, int col, int row, void *data)
 	 * in the case there is nothing to look at, 
 	 * notify the user.
 	 */
-	if (col == COL_SUBJECT)
+	switch (col){
+	case COL_ONLINE_STATUS:
+	case COL_MESSAGE_STATUS:
+	case COL_PRIORITY:
+	case COL_ATTACHMENT:
+	case COL_DELETED:
+	case COL_UNREAD:
+	case COL_SENT:
+	case COL_RECEIVED:
+		return (void *) 0;
+
+	case COL_SUBJECT:
 		return "No item in this view";
-	else 
-		return NULL;	  
+	case COL_FROM:
+	case COL_TO:
+	case COL_SIZE:
+		return "";
+	default:
+		g_assert_not_reached ();
+		return NULL;
+	}
 }
 
 static void
