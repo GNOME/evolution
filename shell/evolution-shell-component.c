@@ -267,6 +267,7 @@ impl_ShellComponent_async_remove_folder (PortableServer_Servant servant,
 	(* priv->remove_folder_fn) (shell_component, physical_uri, listener, priv->closure);
 }
 
+#if 0
 static void
 impl_ShellComponent_async_copy_folder (PortableServer_Servant servant,
 				       const GNOME_Evolution_ShellComponentListener listener,
@@ -297,6 +298,7 @@ impl_ShellComponent_async_copy_folder (PortableServer_Servant servant,
 				  listener,
 				  priv->closure);
 }
+#endif
 
 static void
 impl_ShellComponent_populate_folder_context_menu (PortableServer_Servant servant,

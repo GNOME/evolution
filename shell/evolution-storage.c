@@ -252,8 +252,6 @@ impl_Storage__get_name (PortableServer_Servant servant,
 static GNOME_Evolution_Storage_Result
 storage_gtk_to_corba_result (EvolutionStorageResult result)
 {
-	GNOME_Evolution_Storage_Result corba_result;
-
 	switch (result) {
 	case EVOLUTION_STORAGE_OK:
 		return GNOME_Evolution_Storage_OK;

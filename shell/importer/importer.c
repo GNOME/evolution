@@ -34,6 +34,7 @@
 #include <glade/glade.h>
 #include <gtkhtml/gtkhtml.h>
 #include <e-util/e-html-utils.h>
+#include <gal/widgets/e-gui-utils.h>
 
 #include "importer.h"
 #include "GNOME_Evolution_Importer.h"

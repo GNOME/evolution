@@ -1,3 +1,19 @@
+2001-02-17  Christopher James Lahey  <clahey@ximian.com>
+
+	* e-shell-view-menu.c (file_verbs): Cast this fucntion pointer.
+
+	* e-storage-set-view.c (ETABLE_SPEC): Turn on horizontal scrolling
+	here.
+
+	* evolution-shell-component.c
+	(impl_ShellComponent_async_copy_folder): Commented out this unused
+	function.
+
+	* evolution-storage.c (storage_gtk_to_corba_result): Removed an
+	unused variable here.
+
+	* importer/importer.c: Include gal/widets/e-gui-utils.h.
+
 2001-02-14  Dan Winship  <danw@ximian.com>
 
 	* Evolution-Storage.idl: add asyncCreateFolder and
