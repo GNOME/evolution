@@ -35,6 +35,8 @@
 
 #include "e-storage-set-view.h"
 
+#include "e-local-storage.h"
+
 #include <gal/e-table/e-tree-memory-callbacks.h>
 #include <gal/e-table/e-cell-tree.h>
 #include <gal/e-table/e-cell-text.h>
@@ -131,7 +133,33 @@ static const int num_destination_drag_types = sizeof (destination_drag_types) / 
 static GtkTargetList *target_list;
 
 
+static int
+storage_sort_callback (ETreeMemory *etmm, ETreePath node1, ETreePath node2, gpointer closure)
+{
+	char *folder_path1 = e_tree_memory_node_get_data(etmm, node1);
+	char *folder_path2 = e_tree_memory_node_get_data(etmm, node1);
+	gboolean path1_local;
+	gboolean path2_local;
+	path1_local = !strcmp(folder_path1, G_DIR_SEPARATOR_S E_LOCAL_STORAGE_NAME);
+	path2_local = !strcmp(folder_path2, G_DIR_SEPARATOR_S E_LOCAL_STORAGE_NAME);
+	if (path1_local && path2_local)
+		return 0;
+	if (path1_local)
+		return -1;
+	if (path2_local)
+		return 1;
+	
+	return strcmp(e_tree_model_value_at(E_TREE_MODEL(etmm), node1, 0), e_tree_model_value_at(E_TREE_MODEL(etmm), node2, 0));
+}
+
+static int
+folder_sort_callback (ETreeMemory *etmm, ETreePath path1, ETreePath path2, gpointer closure)
+{
+	return strcmp(e_tree_model_value_at(E_TREE_MODEL(etmm), path1, 0), e_tree_model_value_at(E_TREE_MODEL(etmm), path2, 0));
+}
+
 /* Helper functions.  */
+
 
 static gboolean
 add_node_to_hash (EStorageSetView *storage_set_view,
@@ -1167,29 +1195,7 @@ etree_has_save_id (ETreeModel *etm, void *data)
 static gchar *
 etree_get_save_id (ETreeModel *etm, ETreePath node, void *model_data)
 {
-	EStorageSetView *storage_set_view;
-	EStorageSet *storage_set;
-	EStorage *storage;
-	EFolder *folder;
-	char *path;
-
-	storage_set_view = E_STORAGE_SET_VIEW (model_data);
-	storage_set = storage_set_view->priv->storage_set;
-
-	if (storage_set != NULL) {
-		path = (char *) e_tree_memory_node_get_data (E_TREE_MEMORY(etm), node);
-
-		folder = e_storage_set_get_folder (storage_set, path);
-		if (folder != NULL) {
-			return g_strdup (e_folder_get_name (folder));
-		}
-
-		storage = e_storage_set_get_storage (storage_set, path + 1);
-		if (storage != NULL)
-			return g_strdup (e_storage_get_name (storage));
-	}
-
-	return g_strdup("root");
+	return g_strdup(e_tree_memory_node_get_data (E_TREE_MEMORY(etm), node));
 }
 
 static void *
@@ -1303,6 +1309,7 @@ new_storage_cb (EStorageSet *storage_set,
 	node = e_tree_memory_node_insert_id (E_TREE_MEMORY(priv->etree_model),
 					     priv->root_node,
 					     -1, path, path);
+	e_tree_memory_sort_node(E_TREE_MEMORY(priv->etree_model), priv->root_node, storage_sort_callback, storage_set_view);
 
 	e_tree_node_set_expanded (E_TREE(storage_set), node, TRUE);
 
@@ -1372,6 +1379,7 @@ new_folder_cb (EStorageSet *storage_set,
 
 	copy_of_path = g_strdup (path);
 	new_node = e_tree_memory_node_insert_id (E_TREE_MEMORY(etree), parent_node, -1, copy_of_path, copy_of_path);
+	e_tree_memory_sort_node(E_TREE_MEMORY(etree), parent_node, folder_sort_callback, storage_set_view);
 
 	if (! add_node_to_hash (storage_set_view, path, new_node)) {
 		e_tree_memory_node_remove (E_TREE_MEMORY(etree), new_node);
@@ -1588,6 +1596,7 @@ insert_folders (EStorageSetView *storage_set_view,
 
 		full_path = g_strconcat ("/", storage_name, folder_path, NULL);
 		node = e_tree_memory_node_insert_id (E_TREE_MEMORY(etree), parent, -1, (void *) full_path, full_path);
+		e_tree_memory_sort_node(E_TREE_MEMORY(etree), parent, folder_sort_callback, storage_set_view);
 		add_node_to_hash (storage_set_view, full_path, node);
 
 		insert_folders (storage_set_view, node, storage, folder_path);
@@ -1633,6 +1642,7 @@ insert_storages (EStorageSetView *storage_set_view)
 
 		parent = e_tree_memory_node_insert_id (E_TREE_MEMORY(priv->etree_model), priv->root_node,
 						   -1, path, path);
+		e_tree_memory_sort_node(E_TREE_MEMORY(priv->etree_model), priv->root_node, storage_sort_callback, storage_set_view);
 		e_tree_node_set_expanded (E_TREE(storage_set_view), parent, TRUE);
 
 		g_hash_table_insert (priv->path_to_etree_node, path, parent);
