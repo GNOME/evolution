@@ -2,14 +2,16 @@
  *
  * Copyright (C) 1998 The Free Software Foundation
  *
- * Author: Federico Mena <quartic@gimp.org>
+ * Authors: Federico Mena   <quartic@gimp.org>
+ *          Miguel de Icaza <miguel@kernel.org>
  */
 
 #include <gtk/gtksignal.h>
 #include "gncal-day-view.h"
 #include "timeutil.h"
 #include "view-utils.h"
-
+#include "main.h"
+#include "eventedit.h"
 
 #define TEXT_BORDER 2
 #define MIN_INFO_WIDTH 50
@@ -23,6 +25,8 @@ static void gncal_day_view_size_request (GtkWidget         *widget,
 					 GtkRequisition    *requisition);
 static gint gncal_day_view_expose       (GtkWidget         *widget,
 					 GdkEventExpose    *event);
+static gint gncal_day_view_button_press (GtkWidget         *widget,
+					 GdkEventButton    *event);
 
 
 static GtkWidgetClass *parent_class;
@@ -66,6 +70,7 @@ gncal_day_view_class_init (GncalDayViewClass *class)
 	widget_class->realize = gncal_day_view_realize;
 	widget_class->size_request = gncal_day_view_size_request;
 	widget_class->expose_event = gncal_day_view_expose;
+	widget_class->button_press_event = gncal_day_view_button_press;
 }
 
 static void
@@ -98,6 +103,59 @@ gncal_day_view_destroy (GtkObject *object)
 	
 	if (GTK_OBJECT_CLASS (parent_class)->destroy)
 		(* GTK_OBJECT_CLASS (parent_class)->destroy) (object);
+}
+
+static int
+new_appointment (GtkWidget *widget, gpointer data)
+{
+	GncalDayView *dayview = GNCAL_DAY_VIEW (data);
+	iCalObject *ico;
+	GtkWidget *ee;
+	struct tm tm;
+	
+	ico = ical_new ("", user_name, "");
+	ico->new = 1;
+
+	tm = *localtime (&dayview->lower);
+	tm.tm_hour = day_begin;
+	ico->dtstart = mktime (&tm);
+	tm.tm_hour++;
+	ico->dtend   = mktime (&tm);
+	ee = event_editor_new (dayview->calendar, ico);
+	gtk_widget_show (ee);
+	return 1;
+}
+
+static void
+context_menu (GncalDayView *dayview, GdkEventButton *event)
+{
+	static struct menu_item main_items[] = {
+		{ N_("New appointment..."), (GtkSignalFunc) new_appointment, NULL, TRUE }
+	};
+
+	main_items [0].data = dayview;
+	popup_menu (main_items, 1, event->time);
+}
+
+static void
+switch_to_day (GncalDayView *dayview)
+{
+}
+
+static gint
+gncal_day_view_button_press (GtkWidget *widget, GdkEventButton *event)
+{
+	GncalDayView *dayview;
+
+	dayview = GNCAL_DAY_VIEW (widget);
+
+	if (event->button == 3)
+		context_menu (dayview, event);
+
+	if (event->button == 1 && event->type == GDK_2BUTTON_PRESS)
+		gnome_calendar_dayjump (dayview->calendar, dayview->lower);
+
+	return TRUE;
 }
 
 GtkWidget *

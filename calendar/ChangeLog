@@ -1,4 +1,23 @@
+1998-04-22  Miguel de Icaza  <miguel@nuclecu.unam.mx>
+
+	* prop.c (properties): Added Calendar properties editor.
+
+	* main.c: Save/load properties (fix to old commit).
+
 1998-04-21  Miguel de Icaza  <miguel@nuclecu.unam.mx>
+
+	* timeutil.c (isodate_from_time_t): Do not save with the global
+	time flag (Z at the end of the isodate).  When we figure out a way
+	to load times in GMT time, we will add this back 
+
+	* view-utils.c (popup_menu): Moved this routine here as there are
+	more users of this code. 
+
+	* gncal-day-view.c (gncal_day_view_class_init): Add button press
+	handler. 
+	(new_appointment): New routine for creating appointments on a day.
+
+	
 
 	* main.c (save_ok): Added call to gtk_window_set_wmclass.
 

@@ -8,7 +8,7 @@
 
 #include <string.h>
 #include "gncal-week-view.h"
-
+#include "timeutil.h"
 
 static void gncal_week_view_init (GncalWeekView *wview);
 

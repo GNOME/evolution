@@ -30,6 +30,7 @@ gnomecal_SOURCES = \
 	gnome-cal.c		\
 	gnome-cal.h		\
 	main.c			\
+	prop.c			\
 	timeutil.c		\
 	timeutil.h		\
 	view-utils.h		\

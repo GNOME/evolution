@@ -24,6 +24,14 @@ void view_utils_draw_events (GtkWidget *widget, GdkWindow *window, GdkGC *gc, Gd
 
 void view_utils_draw_textured_frame (GtkWidget *widget, GdkWindow *window, GdkRectangle *rect, GtkShadowType shadow);
 
-extern int am_pm_flag;
+
+struct menu_item {
+	char *text;
+	GtkSignalFunc callback;
+	gpointer data;
+	int sensitive;
+};
+
+void popup_menu (struct menu_item *items, int nitems, guint32 time);
 
 #endif

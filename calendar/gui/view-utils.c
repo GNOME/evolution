@@ -18,14 +18,14 @@ nicetime (struct tm *tm)
 		
 	if (am_pm_flag){
 		if (tm->tm_min)
-			strftime (buf, sizeof (buf), "%I:%M%p", tm);
+			strftime (buf, sizeof (buf), "%l:%M%p", tm);
 		else
-			strftime (buf, sizeof (buf), "%I%p", tm);
+			strftime (buf, sizeof (buf), "%l%p", tm);
 	} else {
 		if (tm->tm_min)
-			strftime (buf, sizeof (buf), "%H:%M", tm);
+			strftime (buf, sizeof (buf), "%k:%M", tm);
 		else
-			strftime (buf, sizeof (buf), "%H", tm);
+			strftime (buf, sizeof (buf), "%k", tm);
 	}
 	return buf;
 }
@@ -123,4 +123,30 @@ view_utils_draw_textured_frame (GtkWidget *widget, GdkWindow *window, GdkRectang
 			 GTK_STATE_NORMAL, shadow,
 			 rect->x, rect->y,
 			 rect->width, rect->height);
+}
+
+void
+popup_menu (struct menu_item *items, int nitems, guint32 time)
+{
+	GtkWidget *menu;
+	GtkWidget *item;
+	int i;
+
+	menu = gtk_menu_new (); /* FIXME: this baby is never freed */
+
+	for (i = 0; i < nitems; i++) {
+		if (items[i].text) {
+			item = gtk_menu_item_new_with_label (_(items[i].text));
+			gtk_signal_connect (GTK_OBJECT (item), "activate",
+					    items[i].callback,
+					    items[i].data);
+			gtk_widget_set_sensitive (item, items[i].sensitive);
+		} else
+			item = gtk_menu_item_new ();
+
+		gtk_widget_show (item);
+		gtk_menu_append (GTK_MENU (menu), item);
+	}
+
+	gtk_menu_popup (GTK_MENU (menu), NULL, NULL, NULL, NULL, 3, time);
 }

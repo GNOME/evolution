@@ -93,11 +93,11 @@ init_calendar (void)
 {
 	init_username ();
 	user_calendar_file = g_concat_dir_and_file (gnome_util_user_home (), ".gnome/user-cal.vcf");
-	calendar_settings  = g_copy_strings ("=", gnome_util_user_home (), ".gnome/calendar=", NULL);
 
 	gnome_config_push_prefix (calendar_settings);
-	day_begin = range_check_hour (gnome_config_get_int ("/Calendar/Day start=8"));
-	day_end   = range_check_hour (gnome_config_get_int ("/Calendar/Day end=17"));
+	day_begin  = range_check_hour (gnome_config_get_int  ("/calendar/Calendar/Day start=8"));
+	day_end    = range_check_hour (gnome_config_get_int  ("/calendar/Calendar/Day end=17"));
+	am_pm_flag = range_check_hour (gnome_config_get_bool ("/calendar/Calendar/AM PM flag=0"));
 
 	if (day_end < day_begin){
 		day_begin = 8;
@@ -153,6 +153,21 @@ close_cmd (GtkWidget *widget, GnomeCalendar *gcal)
 	
 	if (active_calendars == 0)
 		gtk_main_quit ();
+}
+
+/*
+ * Updates all of the open calendars when the day_begin/day_end values have changed
+ */
+void
+day_range_changed (void)
+{
+	GList *l;
+
+	for (l = all_calendars; l; l = l->next){
+		GnomeCalendar *cal = GNOME_CALENDAR (l->data);
+
+		gtk_widget_queue_draw (cal->notebook);
+	}
 }
 
 static void
@@ -306,6 +321,8 @@ static GnomeUIInfo gnome_cal_about_menu [] = {
 
 static GnomeUIInfo gnome_cal_edit_menu [] = {
 	{ GNOME_APP_UI_ITEM, N_("New appointment"), NULL, display_objedit },
+	{ GNOME_APP_UI_ITEM, N_("Properties"),      NULL, properties, NULL, NULL,
+	  GNOME_APP_PIXMAP_STOCK, GNOME_STOCK_MENU_PROP },
 	GNOMEUIINFO_END
 };
 
@@ -490,7 +507,7 @@ main(int argc, char *argv[])
 	bindtextdomain(PACKAGE, GNOMELOCALEDIR);
 	textdomain(PACKAGE);
 
-	gnome_init ("gncal", &parser, argc, argv, 0, NULL);
+	gnome_init ("calendar", &parser, argc, argv, 0, NULL);
 
 	process_dates ();
 	alarm_init ();

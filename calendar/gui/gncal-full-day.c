@@ -61,14 +61,6 @@ struct drag_info {
 	guint32 click_time;
 };
 
-struct menu_item {
-	char *text;
-	GtkSignalFunc callback;
-	gpointer data;
-	int sensitive;
-};
-
-
 enum {
 	RANGE_ACTIVATED,
 	LAST_SIGNAL
@@ -310,32 +302,6 @@ child_range_changed (GncalFullDay *fullday, Child *child)
 
 	child->lower_row = lower_row - f_lower_row;
 	child->rows_used = rows_used;
-}
-
-static void
-popup_menu (struct menu_item *items, int nitems, guint32 time)
-{
-	GtkWidget *menu;
-	GtkWidget *item;
-	int i;
-
-	menu = gtk_menu_new (); /* FIXME: this baby is never freed */
-
-	for (i = 0; i < nitems; i++) {
-		if (items[i].text) {
-			item = gtk_menu_item_new_with_label (_(items[i].text));
-			gtk_signal_connect (GTK_OBJECT (item), "activate",
-					    items[i].callback,
-					    items[i].data);
-			gtk_widget_set_sensitive (item, items[i].sensitive);
-		} else
-			item = gtk_menu_item_new ();
-
-		gtk_widget_show (item);
-		gtk_menu_append (GTK_MENU (menu), item);
-	}
-
-	gtk_menu_popup (GTK_MENU (menu), NULL, NULL, NULL, NULL, 3, time);
 }
 
 static void

@@ -106,6 +106,7 @@ gnome_calendar_direction (GnomeCalendar *gcal, int direction)
 	else {
 		g_warning ("Weee!  Where did the penguin go?");
 		g_assert_not_reached ();
+		new_time = 0;
 	}
 
 	gnome_calendar_goto (gcal, new_time);
