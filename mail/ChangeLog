@@ -1,3 +1,11 @@
+2000-06-01  Jeffrey Stedfast  <fejj@helixcode.com>
+
+	* mail-config.c: Config dialogs are completed.
+
+	* folder-browser-factory.c: Renamed Tool/ menu items
+	Vfolder was changed to Virtual Folder and
+	Configure Camel Providers was changed to Mail Configuration
+
 2000-06-01  Ettore Perazzoli  <ettore@helixcode.com>
 
 	* Makefile.am (evolution_mail_LDADD): Link with

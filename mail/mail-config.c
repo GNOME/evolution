@@ -1380,6 +1380,7 @@ on_SourceConfigDialogButton_clicked (GnomeDialog *dialog, int button, gpointer u
 					g_strdup (data->source));
 		break;
 	case 1: /* Cancel clicked */
+		g_print ("Cancel clicked\n");
 		if (data && data->new_entry) {
 			gtk_clist_remove (GTK_CLIST (data->clist), source_row);
 			source_row = -1;
@@ -1393,7 +1394,7 @@ on_SourceConfigDialogButton_clicked (GnomeDialog *dialog, int button, gpointer u
 }
 
 static GtkWidget*
-create_source_config_dialog (gboolean edit_mode, char *sourcep, GtkWidget *clist)
+create_source_config_dialog (gboolean edit_mode, char **sourcep, GtkWidget *clist)
 {
 	GtkWidget *config_dialog;
 	GtkWidget *dialog_vbox1;
@@ -1476,11 +1477,11 @@ create_source_config_dialog (gboolean edit_mode, char *sourcep, GtkWidget *clist
 	GTK_WIDGET_SET_FLAGS (cmdConfigDialogCancel, GTK_CAN_DEFAULT);
 	
         /* create/pack our source widget */
-	create_source_page (vbox, sources, &sourcep);
+	create_source_page (vbox, sources, sourcep);
 	
 	data = g_malloc0 (sizeof (struct source_dialog_data));
 	data->clist = clist;
-	data->source = sourcep;
+	data->source = *sourcep;
 	data->new_entry = !edit_mode;
 
 	gtk_signal_connect(GTK_OBJECT (config_dialog), "clicked",
@@ -1573,7 +1574,7 @@ on_cmdSourcesAdd_clicked (GtkWidget *widget, gpointer user_data)
 	gtk_clist_select_row (GTK_CLIST (user_data), source_row + 1, 0);
 
 	/* now create the editing dialog */
-	dialog = create_source_config_dialog (FALSE, source, GTK_WIDGET (user_data));
+	dialog = create_source_config_dialog (FALSE, &source, GTK_WIDGET (user_data));
 	gtk_widget_show (dialog);
 }
 
@@ -1592,7 +1593,7 @@ on_cmdSourcesEdit_clicked (GtkWidget *widget, gpointer user_data)
 	}
 
 	/* now create the editing dialog */
-	dialog = create_source_config_dialog (TRUE, sourcep, GTK_WIDGET (user_data));
+	dialog = create_source_config_dialog (TRUE, &sourcep, GTK_WIDGET (user_data));
 	gtk_widget_show (dialog);
 }
 
