@@ -40,12 +40,31 @@
 #include "camel-url.h"
 #include "hash-table-utils.h"
 #include <gal/util/e-util.h>
+#include "camel-vee-store.h"
 
 #include "camel-private.h"
 
 #define d(x)
 
 static CamelObjectClass *parent_class;
+
+/* The vfolder provider is always avilable */
+static CamelProvider vee_provider = {
+	"vfolder",
+	N_("Virtual folder email provider"),
+
+	N_("For reading mail as a query of another set of folders"),
+
+	"vfolder",
+
+	0,
+
+	0,
+
+	{ 0, 0 },
+
+	NULL
+};
 
 static void
 camel_session_init (CamelSession *session)
@@ -135,6 +154,11 @@ camel_session_new (const char *storage_path,
 	session->authenticator = authenticator;
 	session->registrar = registrar;
 	session->remover = remover;
+
+	vee_provider.object_types[CAMEL_PROVIDER_STORE] = camel_vee_store_get_type();
+	vee_provider.service_cache = g_hash_table_new(camel_url_hash, camel_url_equal);
+	camel_session_register_provider(session, &vee_provider);
+
 	return session;
 }
 

@@ -1,5 +1,20 @@
 2001-02-22  Not Zed  <NotZed@Ximian.com>
 
+	* providers/vee/*: Removed all files.
+	
+	* camel-private.h: Move camel-vee-private.h stuff into here.
+
+	* camel-session.c: Move the vee_provider here, and initialise it
+	always as part of a session.  The vfolder provider is always
+	available.
+
+	* providers/Makefile.am: Remove "vee" from the build list, now
+	built as part of the main library.
+
+	* Makefile.am (libcamelinclude_HEADERS): 
+	(libcamel_la_SOURCES): Added camel-vee-store.[ch],
+	camel-vee-folder.[ch].
+
 	* providers/vee/camel-vee-folder.c (vee_folder_build): Removed,
 	not used.
 	(camel_vee_folder_new): Removed call to build_folder.

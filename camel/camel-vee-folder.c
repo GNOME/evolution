@@ -28,7 +28,7 @@
 #include "camel-folder-search.h"
 
 #include "camel-vee-store.h"	/* for open flags */
-#include "camel-vee-private.h"
+#include "camel-private.h"
 
 #ifdef DOESTRV
 #include "e-util/e-memory.h"

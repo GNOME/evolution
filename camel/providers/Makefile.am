@@ -5,10 +5,7 @@ NNTP_DIR=nntp
 endif
 
 # SUBDIRS = mbox pop3 sendmail smtp vee
-SUBDIRS = pop3 sendmail smtp vee imap $(NNTP_DIR) local
-
-# these ones are disabled for the moment.
-# maildir
+SUBDIRS = pop3 sendmail smtp imap $(NNTP_DIR) local
 
 # these ones are deprecated, and will no longer be maintained
-# mbox mh
+# mbox mh maildir vee
