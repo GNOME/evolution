@@ -315,7 +315,7 @@ _can_hold_messages (CamelFolder *folder)
 
 
 /**
- * _exists: tests if the folder object exists in its parent  store.
+ * _exists: tests if the folder object exists in its parent store.
  * @folder: folder object
  * 
  * Test if a folder exists on a store. A folder can be 
@@ -327,7 +327,7 @@ _can_hold_messages (CamelFolder *folder)
 static gboolean
 _exists (CamelFolder *folder)
 {
-    return folder->exists_on_store;
+    return FALSE;
 }
 
 
@@ -350,30 +350,32 @@ _is_open (CamelFolder *folder)
 
 
 
-/** 
- * _get_folder: return the (sub)folder object that is specified.
- *
- * @folder : the folder
- * @folder_name: subfolder path. 
- *
- * This method returns a folder objects. This folder
- * is necessarily a subfolder of the current folder. 
- * It is an error to ask a folder begining with the 
- * folder separator character.  
- * 
- * 
- * Return value: Required folder. NULL if the subfolder object
- *        could not be obtained
- **/
+
 static CamelFolder *
 _get_folder (CamelFolder *folder, const gchar *folder_name)
 {
-    g_warning("getFolder called on the abstract CamelFolder class\n");
-    return NULL;
+	CamelFolder *new_folder;
+	gchar *full_name;
+	const gchar *current_folder_full_name;
+	gchar separator;
+
+	g_assert (folder);
+	g_assert (folder_name);
+
+	if (!folder->parent_store) return NULL;
+	
+	current_folder_full_name = camel_folder_get_full_name (folder);
+	if (!current_folder_full_name) return NULL;
+
+	separator = camel_store_get_separator (folder->parent_store);
+	full_name = g_strdup_printf ("%s%d%s", current_folder_full_name, separator, folder_name);
+	
+	new_folder = camel_store_get_folder (folder->parent_store, full_name);
+	return new_folder;
 }
 
 /** 
- * _get_folder: return the (sub)folder object that is specified.
+ * camel_folder_get_folder: return the (sub)folder object that is specified.
  *
  * @folder : the folder
  * @folder_name: subfolder path. 
@@ -396,16 +398,18 @@ camel_folder_get_folder(CamelFolder *folder, gchar *folder_name)
 
 
 /**
- * _create:
- * @folder: 
+ * _create: creates a folder on its store
+ * @folder: a CamelFolder object.
  * 
  * this routine handles the recursion mechanism.
  * Children classes have to implement the actual
  * creation mechanism. They must call this method
  * before physically creating the folder in order
  * to be sure the parent folder exists.
+ * Calling this routine on an existing folder is
+ * not an error, and returns %TRUE.
  * 
- * Return value: 
+ * Return value: %TRUE if the folder exists, %FALSE otherwise 
  **/
 static gboolean
 _create(CamelFolder *folder)
@@ -415,9 +419,9 @@ _create(CamelFolder *folder)
 	CamelFolder *parent;
 	gchar sep;
 
-
-	g_assert(folder->parent_store);
-	g_assert(folder->name);
+	g_assert (folder);
+	g_assert (folder->parent_store);
+	g_assert (folder->name);
 
 	if (CF_CLASS(folder)->exists (folder))
 		return TRUE;
@@ -511,7 +515,7 @@ _delete (CamelFolder *folder, gboolean recurse)
 		if (subfolders) {
 			sf = subfolders;
 			do {
-				CF_CLASS(sf->data)->delete(sf->data, TRUE);;
+				/*  CF_CLASS(sf->data)->delete(sf->data, TRUE); */
 			} while (sf = sf->next);
 		}
 	} else if (subfolders) return FALSE;

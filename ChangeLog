@@ -1,5 +1,21 @@
 1999-08-03  bertrand  <Bertrand.Guiheneuf@aful.org>
 
+	* camel/providers/MH/camel-mh-folder.c (_create): 
+	implemented.
+	(_delete): started implementation.
+
+	* camel/camel-folder.c (_get_folder): default implementation 
+	calls camel_store_get_folder ().
+
+	* camel/providers/MH/camel-mh-folder.c (_init_with_store): 
+	implemented.
+
+	* camel/camel-folder.h (struct _CamelFolder): 
+	remove useless exist_on_store field.
+
+	* camel/camel-folder.c (_exists): 
+	do not use exist_on_store field.
+
 	* camel/camel-folder.c (camel_folder_set_name): 
 	(camel_folder_get_name): 
 	new public functions 

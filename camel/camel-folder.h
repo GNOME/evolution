@@ -61,7 +61,6 @@ struct _CamelFolder
 
 	gboolean can_hold_folders;
 	gboolean can_hold_messages;
-	gboolean exists_on_store;
 	CamelFolderOpenMode open_mode;
 	CamelFolderState open_state;
 	gchar *name;

@@ -24,6 +24,11 @@
 #include "camel-mh-folder.h"
 #include "camel-mh-store.h"
 #include "gstring-util.h"
+#include <sys/stat.h>
+#include <unistd.h>
+#include <sys/types.h>
+#include <fcntl.h>
+ 
 
 
 static CamelFolderClass *parent_class=NULL;
@@ -34,16 +39,23 @@ static CamelFolderClass *parent_class=NULL;
 #define CMHS_CLASS(so) CAMEL_STORE_CLASS (GTK_OBJECT(so)->klass)
 
 static void _set_name(CamelFolder *folder, const gchar *name);
-
+static void _init_with_store (CamelFolder *folder, CamelStore *parent_store);
+static gboolean _exists (CamelFolder *folder);
+static gboolean _create(CamelFolder *folder);
 
 static void
 camel_mh_folder_class_init (CamelMhFolderClass *camel_mh_folder_class)
 {
+	CamelFolderClass *camel_folder_class = CAMEL_FOLDER_CLASS(camel_mh_folder_class);
+
 	parent_class = gtk_type_class (camel_folder_get_type ());
-	
+		
 	/* virtual method definition */
 	/* virtual method overload */
-	CAMEL_FOLDER_CLASS(camel_mh_folder_class)->set_name = _set_name;
+	camel_folder_class->init_with_store = _init_with_store;
+	camel_folder_class->set_name = _set_name;
+	camel_folder_class->exists = _exists;
+	
 }
 
 
@@ -77,6 +89,20 @@ camel_mh_folder_get_type (void)
 }
 
 
+
+
+static void 
+_init_with_store (CamelFolder *folder, CamelStore *parent_store)
+{
+	/* call parent method */
+	parent_class->init_with_store (folder, parent_store);
+	
+	folder->can_hold_messages = TRUE;
+	folder->can_hold_folders = TRUE;
+}
+
+
+
 /**
  * camel_mh_folder_set_name: set the name of an MH folder
  * @folder: the folder to set the name
@@ -88,10 +114,10 @@ camel_mh_folder_get_type (void)
 static void
 _set_name (CamelFolder *folder, const gchar *name)
 {
+	CamelMhFolder *mh_folder = CAMEL_MH_FOLDER(folder);
 	const gchar *root_dir_path;
 	gchar *full_name;
 	const gchar *parent_full_name;
-	CamelMhFolder *mh_folder = CAMEL_MH_FOLDER(folder);
 	gchar separator;
 
 	g_assert(folder);
@@ -110,3 +136,71 @@ _set_name (CamelFolder *folder, const gchar *name)
 
 }
 
+
+
+static gboolean
+_exists (CamelFolder *folder)
+{
+	CamelMhFolder *mh_folder = CAMEL_MH_FOLDER(folder);
+	struct stat stat_buf;
+	gint stat_error;
+	gboolean exists;
+
+	g_assert (folder);
+
+	if (!mh_folder->directory_path)  return FALSE;
+
+	stat_error = stat (mh_folder->directory_path, &stat_buf);
+	if (stat_error == -1)  return FALSE;
+
+	exists = S_ISDIR(stat_buf.st_mode);
+	return exists;
+}
+
+
+static gboolean
+_create(CamelFolder *folder)
+{
+	CamelMhFolder *mh_folder = CAMEL_MH_FOLDER(folder);
+	const gchar *directory_path;
+	mode_t dir_mode = S_IRWXU;
+	gint mkdir_error;
+
+	g_assert(folder);
+
+	/* call default implementation */
+	parent_class->create (folder);
+
+	directory_path = mh_folder->directory_path;
+	if (!directory_path) return FALSE;
+	
+	if (camel_folder_exists (folder)) return TRUE;
+	
+	mkdir_error = mkdir (directory_path, dir_mode);
+	return (mkdir_error == -1);
+}
+
+
+
+static gboolean
+_delete (CamelFolder *folder, gboolean recurse)
+{
+
+	CamelMhFolder *mh_folder = CAMEL_MH_FOLDER(folder);
+	const gchar *directory_path;
+	gint rmdir_error;
+	
+	g_assert(folder);
+
+	/* call default implementation */
+	parent_class->delete (folder, recurse);
+
+	directory_path = mh_folder->directory_path;
+	if (!directory_path) return FALSE;
+	
+	if (!camel_folder_exists (folder)) return TRUE;
+
+	
+	rmdir_error = rmdir (directory_path);
+
+}
