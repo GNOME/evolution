@@ -120,7 +120,6 @@ images_DATA = \
 	service-up-disabled.png		\
 	show_all_messages.xpm		\
 	splash.png			\
-	timezone.png			\
 	talking-heads.png		\
 	task.xpm			\
 	thankyou.png			\
