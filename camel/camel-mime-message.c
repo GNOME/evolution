@@ -61,6 +61,7 @@ static void _write_to_file(CamelDataWrapper *data_wrapper, FILE *file);
 
 /* Returns the class for a CamelMimeMessage */
 #define CMM_CLASS(so) CAMEL_MIME_MESSAGE_CLASS (GTK_OBJECT(so)->klass)
+#define CDW_CLASS(so) CAMEL_DATA_WRAPPER_CLASS (GTK_OBJECT(so)->klass)
 
 
 
@@ -183,7 +184,7 @@ _set_received_date (CamelMimeMessage *mime_message, GString *received_date)
 }
 
 void
-set_received_date (CamelMimeMessage *mime_message, GString *received_date)
+camel_mime_message_set_received_date (CamelMimeMessage *mime_message, GString *received_date)
 {
 	 CMM_CLASS (mime_message)->set_received_date (mime_message, received_date);
 }
@@ -196,7 +197,7 @@ _get_received_date (CamelMimeMessage *mime_message)
 }
 
 GString *
-get_received_date (CamelMimeMessage *mime_message)
+camel_mime_message_get_received_date (CamelMimeMessage *mime_message)
 {
 	 return CMM_CLASS (mime_message)->get_received_date (mime_message);
 }
@@ -213,7 +214,7 @@ _get_sent_date (CamelMimeMessage *mime_message)
 }
 
 GString *
-get_sent_date (CamelMimeMessage *mime_message)
+camel_mime_message_get_sent_date (CamelMimeMessage *mime_message)
 {
 	 return CMM_CLASS (mime_message)->get_sent_date (mime_message);
 }
@@ -229,7 +230,7 @@ _set_reply_to (CamelMimeMessage *mime_message, GString *reply_to)
 }
 
 void
-set_reply_to (CamelMimeMessage *mime_message, GString *reply_to)
+camel_mime_message_set_reply_to (CamelMimeMessage *mime_message, GString *reply_to)
 {
 	 CMM_CLASS (mime_message)->set_reply_to (mime_message, reply_to);
 }
@@ -242,7 +243,7 @@ _get_reply_to (CamelMimeMessage *mime_message)
 }
 
 GString *
-get_reply_to (CamelMimeMessage *mime_message)
+camel_mime_message_get_reply_to (CamelMimeMessage *mime_message)
 {
 	 return CMM_CLASS (mime_message)->get_reply_to (mime_message);
 }
@@ -257,7 +258,7 @@ _set_subject (CamelMimeMessage *mime_message, GString *subject)
 }
 
 void
-set_subject (CamelMimeMessage *mime_message, GString *subject)
+camel_mime_message_set_subject (CamelMimeMessage *mime_message, GString *subject)
 {
 	 CMM_CLASS (mime_message)->set_subject (mime_message, subject);
 }
@@ -270,7 +271,7 @@ _get_subject (CamelMimeMessage *mime_message)
 }
 
 GString *
-get_subject (CamelMimeMessage *mime_message)
+camel_mime_message_get_subject (CamelMimeMessage *mime_message)
 {
 	 return CMM_CLASS (mime_message)->get_subject (mime_message);
 }
@@ -285,7 +286,7 @@ _set_from (CamelMimeMessage *mime_message, GString *from)
 }
 
 void
-set_from (CamelMimeMessage *mime_message, GString *from)
+camel_mime_message_set_from (CamelMimeMessage *mime_message, GString *from)
 {
 	 CMM_CLASS (mime_message)->set_from (mime_message, from);
 }
@@ -298,7 +299,7 @@ _get_from (CamelMimeMessage *mime_message)
 }
 
 GString *
-get_from (CamelMimeMessage *mime_message)
+camel_mime_message_get_from (CamelMimeMessage *mime_message)
 {
 	 return CMM_CLASS (mime_message)->get_from (mime_message);
 }
@@ -346,7 +347,7 @@ _add_recipient (CamelMimeMessage *mime_message, GString *recipient_type, GString
  * @recipient may be freed within this func
  **/
 void
-add_recipient (CamelMimeMessage *mime_message, GString *recipient_type, GString *recipient) 
+camel_mime_message_add_recipient (CamelMimeMessage *mime_message, GString *recipient_type, GString *recipient) 
 {
 	 CMM_CLASS (mime_message)->add_recipient (mime_message, recipient_type, recipient);
 }
@@ -394,7 +395,7 @@ _remove_recipient (CamelMimeMessage *mime_message, GString *recipient_type, GStr
 
 
 void
-remove_recipient (CamelMimeMessage *mime_message, GString *recipient_type, GString *recipient) 
+camel_mime_message_remove_recipient (CamelMimeMessage *mime_message, GString *recipient_type, GString *recipient) 
 {
 	 CMM_CLASS (mime_message)->remove_recipient (mime_message, recipient_type, recipient);
 }
@@ -409,7 +410,7 @@ _get_recipients (CamelMimeMessage *mime_message, GString *recipient_type)
 }
 
 GList *
-get_recipients (CamelMimeMessage *mime_message, GString *recipient_type)
+camel_mime_message_get_recipients (CamelMimeMessage *mime_message, GString *recipient_type)
 {
 	return CMM_CLASS (mime_message)->get_recipients (mime_message, recipient_type);
 }
@@ -437,7 +438,7 @@ _set_flag (CamelMimeMessage *mime_message, GString *flag, gboolean value)
 }
 
 void
-set_flag (CamelMimeMessage *mime_message, GString *flag, gboolean value)
+camel_mime_message_set_flag (CamelMimeMessage *mime_message, GString *flag, gboolean value)
 {
 	CMM_CLASS (mime_message)->set_flag (mime_message, flag, value);
 }
@@ -453,7 +454,7 @@ _get_flag (CamelMimeMessage *mime_message, GString *flag)
 }
 
 gboolean 
-get_flag (CamelMimeMessage *mime_message, GString *flag)
+camel_mime_message_get_flag (CamelMimeMessage *mime_message, GString *flag)
 {
 	return CMM_CLASS (mime_message)->get_flag (mime_message, flag);
 }
@@ -476,7 +477,7 @@ _get_message_number (CamelMimeMessage *mime_message)
 
 
 guint
-get_message_number (CamelMimeMessage *mime_message)
+camel_mime_message_get_message_number (CamelMimeMessage *mime_message)
 {
 	return CMM_CLASS (mime_message)->get_message_number (mime_message);
 }
@@ -497,7 +498,8 @@ _write_to_file(CamelDataWrapper *data_wrapper, FILE *file)
 {
 	CamelMimeMessage *mm = CAMEL_MIME_MESSAGE (data_wrapper);
 	
-	WHPTF ("Date", mm->sent_date);
+	WHPTF (file, "Date", mm->received_date);
 	CAMEL_DATA_WRAPPER_CLASS (parent_class)->write_to_file (data_wrapper, file);
 	
 }
+

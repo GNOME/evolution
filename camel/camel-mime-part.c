@@ -496,7 +496,7 @@ _write_to_file(CamelDataWrapper *data_wrapper, FILE *file)
 	WHPTF (file, "Content-MD5", mp->content_MD5);
 	WHPTF (file, "Content-id", mp->content_id);
 	fprintf(file,"\n");
-	camel_data_wrapper_write_to_file (mp->content, file);
+	if (mp->content) camel_data_wrapper_write_to_file (mp->content, file);
 	
 }
 

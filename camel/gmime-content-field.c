@@ -78,7 +78,7 @@ _print_parameter (gpointer name, gpointer value, gpointer user_data)
 void
 gmime_content_field_write_to_file(GMimeContentField *content_field, FILE *file)
 {
-	g_assert(content_field);
+	if (!content_field) return;
 	if ((content_field->type) && ((content_field->type)->str)) {
 		fprintf (file, "Content-Type: %s", content_field->type->str);
 		if ((content_field->subtype) && ((content_field->subtype)->str)) {
