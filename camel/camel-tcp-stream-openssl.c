@@ -443,7 +443,6 @@ static int
 ssl_verify (int ok, X509_STORE_CTX *ctx)
 {
 	CamelTcpStreamOpenSSL *stream;
-	CamelService *service;
 	X509 *cert;
 	SSL *ssl;
 	int err;
@@ -451,12 +450,12 @@ ssl_verify (int ok, X509_STORE_CTX *ctx)
 	ssl = X509_STORE_CTX_get_ex_data (ctx, SSL_get_ex_data_X509_STORE_CTX_idx ());
 	
 	stream = SSL_CTX_get_app_data (ssl->ctx);
-	service = stream ? stream->priv->service : NULL;
 	
 	cert = X509_STORE_CTX_get_current_cert (ctx);
 	err = X509_STORE_CTX_get_error (ctx);
 	
-	if (!ok && stream && camel_session_is_interactive (service->session)) {
+	if (!ok && stream) {
+		CamelService *service = stream->priv->service;
 		char *prompt, *cert_str;
 		char buf[257];
 		
