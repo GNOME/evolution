@@ -167,6 +167,20 @@ Calendar:
 
 Conduits:
 
+  - Addressbook phone numbers now preserved if they can't all be
+    synced to desktop (JP)
+
+  - Various memory leak fixes (JP)
+
+  - Handle multi-day calendar events (without recurrences) (JP)
+
+  - Make sure task records are marked complete in every relevant field
+    (JP)
+
+  - Use new timezone stuff everywhere (JP, Damon)
+
+  - Translate task priorities better (JP)
+
 Version 0.17 (Beta 7), 2001-10-15
 ---------------------------------
 

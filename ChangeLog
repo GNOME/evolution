@@ -1,3 +1,7 @@
+2001-10-31  JP Rosevear  <jpr@ximian.com>
+
+	* NEWS (Conduits): update
+
 2001-10-30  Ettore Perazzoli  <ettore@ximian.com>
 
 	* configure.in: Add oaf to MAILER_CFLAGS and MAILER_LIBS too.
