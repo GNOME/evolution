@@ -682,16 +682,29 @@ pas_backend_file_process_modify_card (PASBackend *backend,
 }
 
 static void
-pas_backend_file_build_all_cards_list(PASBackend *backend,
-				      PASBackendFileCursorPrivate *cursor_data)
+pas_backend_file_build_cards_list(PASBackend *backend,
+				      PASBackendFileCursorPrivate *cursor_data,
+				      char *search)
 {
 	PASBackendFile *bf = PAS_BACKEND_FILE (backend);
 	DB             *db = bf->priv->file_db;
 	DBC            *dbc;
 	int            db_error;
 	DBT  id_dbt, vcard_dbt;
-  
+	PASBackendCardSExp *card_sexp = NULL;
+	gboolean search_needed;
+	
 	cursor_data->elements = NULL;
+
+	search_needed = TRUE;
+
+	if (!strcmp (search, "(contains \"x-evolution-any-field\" \"\")"))
+		search_needed = FALSE;
+
+	card_sexp = pas_backend_card_sexp_new (search);
+	
+	if (!card_sexp)
+		g_warning ("pas_backend_file_build_all_cards_list: error building list\n");
 
 	db_error = db->cursor (db, NULL, &dbc, 0);
 
@@ -709,9 +722,9 @@ pas_backend_file_build_all_cards_list(PASBackend *backend,
 		if (id_dbt.size != strlen(PAS_BACKEND_FILE_VERSION_NAME) + 1
 		    || strcmp (id_dbt.data, PAS_BACKEND_FILE_VERSION_NAME)) {
 
-			cursor_data->elements = g_list_append(cursor_data->elements,
-							      g_strdup(vcard_dbt.data));
-
+			if ((!search_needed) || (card_sexp != NULL && pas_backend_card_sexp_match_vcard  (card_sexp, vcard_dbt.data))) {
+				cursor_data->elements = g_list_prepend (cursor_data->elements, g_strdup (vcard_dbt.data));
+			}
 		}
 
 		db_error = dbc->c_get(dbc, &id_dbt, &vcard_dbt, DB_NEXT);
@@ -723,6 +736,7 @@ pas_backend_file_build_all_cards_list(PASBackend *backend,
 	}
 	else {
 		cursor_data->num_elements = g_list_length (cursor_data->elements);
+		cursor_data->elements = g_list_reverse (cursor_data->elements);
 	}
 }
 
@@ -779,7 +793,7 @@ pas_backend_file_process_get_cursor (PASBackend *backend,
 	cursor_data->backend = backend;
 	cursor_data->book = book;
 
-	pas_backend_file_build_all_cards_list(backend, cursor_data);
+	pas_backend_file_build_cards_list(backend, cursor_data, req->search);
 
 	corba_book = bonobo_object_corba_objref(BONOBO_OBJECT(book));
 

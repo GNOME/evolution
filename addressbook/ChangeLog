@@ -1,3 +1,10 @@
+2001-09-18  JP Rosevear  <jpr@ximian.com>
+
+	* backend/pas/pas-backend-file.c
+	(pas_backend_file_build_cards_list): create a sexp and check if
+	the cards match before adding them to the list
+	(pas_backend_file_process_get_cursor): send extra param
+
 2001-09-18  Larry Ewing  <lewing@ximian.com>
 
 	* gui/component/select-names/e-select-names-completion.c
