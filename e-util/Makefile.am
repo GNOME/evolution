@@ -7,6 +7,7 @@ INCLUDES =					\
 	-I$(top_srcdir)				\
 	$(GNOME_INCLUDEDIR)			\
 	$(EXTRA_GNOME_CFLAGS)			\
+	$(BONOBO_CONF_CFLAGS)			\
 	$(PISOCK_CFLAGS)			\
 	-DEVOLUTION_IMAGES=\""$(imagesdir)"\"	\
 	-DG_LOG_DOMAIN=\"e-utils\"
