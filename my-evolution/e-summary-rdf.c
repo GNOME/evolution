@@ -476,7 +476,7 @@ make_connection (RDF *r)
 
 	d = g_new (ESummaryConnectionData, 1);
 	d->hostname = g_strdup (r->uri);
-	d->type = g_strdup (_("RDF Summary"));
+	d->type = g_strdup (_("News Feed"));
 
 	return d;
 }
@@ -504,7 +504,33 @@ e_summary_rdf_add (ESummary *summary,
 }
 
 static void
+rdf_free (RDF *r)
+{
+	/* Stop the download */
+	if (r->handle) {
+		gnome_vfs_async_cancel (r->handle);
+	}
+	if (r->uri) {
+		g_free (r->uri);
+	}
+	if (r->html) {
+		g_free (r->html);
+	}
+	if (r->string) {
+		g_string_free (r->string, TRUE);
+	}
+	if (r->buffer) {
+		g_free (r->buffer);
+	}
+	if (r->cache) {
+		xmlFreeDoc (r->cache);
+	}
+	g_free (r);
+}
+
+static void
 e_summary_rdf_set_online (ESummary *summary,
+			  GNOME_Evolution_OfflineProgressListener progress,
 			  gboolean online,
 			  void *data)
 {
@@ -572,31 +598,6 @@ e_summary_rdf_init (ESummary *summary)
 					(GtkFunction) e_summary_rdf_update, summary);
 
 	return;
-}
-
-static void
-rdf_free (RDF *r)
-{
-	/* Stop the download */
-	if (r->handle) {
-		gnome_vfs_async_cancel (r->handle);
-	}
-	if (r->uri) {
-		g_free (r->uri);
-	}
-	if (r->html) {
-		g_free (r->html);
-	}
-	if (r->string) {
-		g_string_free (r->string, TRUE);
-	}
-	if (r->buffer) {
-		g_free (r->buffer);
-	}
-	if (r->cache) {
-		xmlFreeDoc (r->cache);
-	}
-	g_free (r);
 }
 
 void

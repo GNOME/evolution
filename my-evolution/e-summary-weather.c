@@ -538,6 +538,7 @@ e_summary_weather_add (ESummary *summary,
 
 static void
 e_summary_weather_set_online (ESummary *summary,
+			      GNOME_Evolution_OfflineProgressListener listener,
 			      gboolean online,
 			      void *data)
 {

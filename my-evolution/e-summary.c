@@ -697,6 +697,7 @@ e_summary_add_connections (ESummary *summary)
 
 void
 e_summary_set_online (ESummary *summary,
+		      GNOME_Evolution_OfflineProgressListener progress,
 		      gboolean online,
 		      ESummaryOnlineCallback callback,
 		      void *closure)
@@ -714,7 +715,7 @@ e_summary_set_online (ESummary *summary,
 		c->callback = callback;
 		c->callback_closure = closure;
 
-		c->set_online (summary, online, c->closure);
+		c->set_online (summary, progress, online, c->closure);
 	}
 }
 

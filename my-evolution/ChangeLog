@@ -1,3 +1,24 @@
+2001-08-22  Iain Holmes  <iain@ximian.com>
+
+	* e-summary-mail.c (make_pretty_foldername): If show_full_path is TRUE
+	then return the full path. Take in the ESummary as well.
+	(folder_gen_html): Pass ESummary to make_pretty_foldername.
+	(e_summary_mail_generate_html): Pass the ESummary to folder_gen_html.
+
+	* e-summary-rdf.c (e_summary_rdf_set_online): Take in a 
+	GNOME_Evolution_OfflineProgressListener in case we want to do
+	individual reporting of rdf's being destroyed.
+	(make_connection): Call the RDF Feed a News Feed instead.
+
+	* e-summary-weather.c (e_summary_weather_set_online): Same.
+
+	* e-summary.c (e_summary_set_online): Pass in the 
+	GNOME_Evolution_OfflineProgressListener to the set_online callback.
+
+	* e-summary-offline-handler.c (impl_goOffline): Pass the listener to the
+	callback.
+	(impl_goOnline): Pass NULL for the listener.
+	
 2001-08-21  Iain Holmes  <iain@ximian.com>
 
 	* my-evolution-html.h: Set the text colour to black.

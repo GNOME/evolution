@@ -39,6 +39,7 @@ typedef int (* ESummaryConnectionCount) (ESummary *summary,
 typedef GList *(* ESummaryConnectionAdd) (ESummary *summary,
 					  void *closure);
 typedef void (* ESummaryConnectionSetOnline) (ESummary *summary,
+					      GNOME_Evolution_OfflineProgressListener progress,
 					      gboolean online,
 					      void *closure);
 typedef void (*ESummaryOnlineCallback) (ESummary *summary,
@@ -125,6 +126,7 @@ void e_summary_reconfigure (ESummary *summary);
 int e_summary_count_connections (ESummary *summary);
 GList *e_summary_add_connections (ESummary *summary);
 void e_summary_set_online (ESummary *summary,
+			   GNOME_Evolution_OfflineProgressListener listener,
 			   gboolean online,
 			   ESummaryOnlineCallback callback,
 			   void *closure);

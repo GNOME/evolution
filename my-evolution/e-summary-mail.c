@@ -60,24 +60,30 @@ e_summary_mail_get_html (ESummary *summary)
 
 /* Work out what to do with folder names */
 static char *
-make_pretty_foldername (const char *foldername)
+make_pretty_foldername (ESummary *summary,
+			const char *foldername)
 {
 	char *pretty;
 
-	if ((pretty = strrchr (foldername, '/'))) {
-		return g_strdup (pretty + 1);
+	if (summary->preferences->show_full_path == FALSE) {
+		if ((pretty = strrchr (foldername, '/'))) {
+			return g_strdup (pretty + 1);
+		} else {
+			return g_strdup (foldername);
+		}
 	} else {
 		return g_strdup (foldername);
 	}
 }
 
 static void
-folder_gen_html (ESummaryMailFolder *folder,
+folder_gen_html (ESummary *summary,
+		 ESummaryMailFolder *folder,
 		 GString *string)
 {
 	char *str, *pretty_name, *uri;
 	
-	pretty_name = make_pretty_foldername (folder->name);
+	pretty_name = make_pretty_foldername (summary, folder->name);
 	uri = g_strconcat ("evolution:/local", folder->name, NULL); 
 	str = g_strdup_printf ("<tr><td><a href=\"%s\"><pre>%s</pre></a></td><td align=\"Left\"><pre>%d/%d</pre></td></tr>", 
 			       uri, pretty_name, folder->unread, folder->count);
@@ -108,7 +114,7 @@ e_summary_mail_generate_html (ESummary *summary)
 	g_string_append (string, "</a></b></dt><dd><table numcols=\"2\" width=\"100%\">");
 	
 	for (p = mail->shown; p; p = p->next) {
-		folder_gen_html (p->data, string);
+		folder_gen_html (summary, p->data, string);
 	}
 
 	g_string_append (string, "</table></dd></dl>");

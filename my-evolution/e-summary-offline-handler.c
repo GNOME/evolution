@@ -27,8 +27,8 @@ struct _ESummaryOfflineHandlerPriv {
 	GNOME_Evolution_OfflineProgressListener listener_interface;
 };
 
-static GNOME_Evolution_ConnectionList *
-create_connection_list (ESummary *summary)
+GNOME_Evolution_ConnectionList *
+e_summary_offline_handler_create_connection_list (ESummary *summary)
 {
 	GNOME_Evolution_ConnectionList *list;
 	GList *connections, *p;
@@ -78,7 +78,7 @@ impl_prepareForOffline (PortableServer_Servant servant,
 	offline_handler = E_SUMMARY_OFFLINE_HANDLER (bonobo_object_from_servant (servant));
 	priv = offline_handler->priv;
 
-	*active_connection_list = create_connection_list (priv->summary);
+	*active_connection_list = e_summary_offline_handler_create_connection_list (priv->summary);
 }
 
 static void
@@ -95,14 +95,15 @@ went_offline (ESummary *summary,
 	g_return_if_fail (offline_handler != NULL);
 
 	priv = offline_handler->priv;
-	connection_list = create_connection_list (summary);
+	connection_list = e_summary_offline_handler_create_connection_list (summary);
 
 	CORBA_exception_init (&ev);
 
 	g_warning ("Went offline");
 	GNOME_Evolution_OfflineProgressListener_updateProgress (priv->listener_interface, connection_list, &ev);
 	if (BONOBO_EX (&ev)) {
-		g_warning ("Error updating offline progress");
+		g_warning ("Error updating offline progress: %s",
+			   CORBA_exception_id (&ev));
 	}
 
 	CORBA_exception_free (&ev);
@@ -121,7 +122,7 @@ impl_goOffline (PortableServer_Servant servant,
 
 	priv->listener_interface = CORBA_Object_duplicate (progress_listener, ev);
 
-	e_summary_set_online (priv->summary, FALSE, went_offline, offline_handler);
+	e_summary_set_online (priv->summary, progress_listener, FALSE, went_offline, offline_handler);
 }
 
 static void
@@ -131,7 +132,7 @@ impl_goOnline (PortableServer_Servant servant,
 	ESummaryOfflineHandler *offline_handler;
 
 	offline_handler = E_SUMMARY_OFFLINE_HANDLER (bonobo_object_from_servant (servant));
-	e_summary_set_online (offline_handler->priv->summary, TRUE, NULL, NULL);
+	e_summary_set_online (offline_handler->priv->summary, NULL, TRUE, NULL, NULL);
 }
 
 /* GtkObject methods */

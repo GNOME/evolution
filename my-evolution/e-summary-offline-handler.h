@@ -48,6 +48,8 @@ GtkType e_summary_offline_handler_get_type (void);
 ESummaryOfflineHandler *e_summary_offline_handler_new (void);
 void e_summary_offline_handler_set_summary (ESummaryOfflineHandler *handler,
 					    ESummary *summary);
+GNOME_Evolution_ConnectionList *e_summary_offline_handler_create_connection_list (ESummary *summary);
+
 #ifdef __cplusplus
 }
 #endif
