@@ -847,7 +847,7 @@ e_select_names_add_section(ESelectNames *e_select_names, char *name, char *id, E
 			 e_select_names->child_count + 1,
 			 GTK_FILL, GTK_FILL,
 			 0, 0);
-	
+
 	model = e_select_names_table_model_new(source);
 	etable = e_table_scrolled_new (model, NULL, SPEC2, NULL);
 

@@ -1,3 +1,14 @@
+2001-12-07  Jon Trowbridge  <trow@ximian.com>
+
+	* gui/component/select-names/e-select-names-manager.c: Extensively
+	refactored -- this code had gotten _really_ ugly.  Untangle things
+	to the point where our reference counting problems are fixable.
+
+	* gui/component/select-names/e-select-names-bonobo.c
+	(impl_destroy): Remove all of the ugly hacks to work around our
+	memory management problems, and just unref the manager.
+	(Fixes #14412)
+
 2001-12-05  Chris Toshok  <toshok@ximian.com>
 
 	* backend/pas/pas-backend-ldap.c

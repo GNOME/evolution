@@ -27,8 +27,8 @@ typedef struct _ESelectNamesManagerClass ESelectNamesManagerClass;
 struct _ESelectNamesManager {
 	GtkObject object;
 	
-	EList *sections;
-	EList *entries;
+	GList *sections;
+	GList *entries;
 
 	ESelectNames *names;
 
@@ -40,6 +40,7 @@ struct _ESelectNamesManagerClass {
 
 	void (*changed) (ESelectNamesManager *, const gchar *section_id, gint changed_working_copy);
 	void (*ok)      (ESelectNamesManager *);
+	void (*cancel)  (ESelectNamesManager *);
 };
 
 ESelectNamesManager *e_select_names_manager_new                    (void);
@@ -51,12 +52,11 @@ void                 e_select_names_manager_add_section_with_limit (ESelectNames
 								    const char *title,
 								    gint limit);
 ESelectNamesModel   *e_select_names_manager_get_source             (ESelectNamesManager *manager,
-							            const char *id);
+								    const char *id);
 GtkWidget           *e_select_names_manager_create_entry           (ESelectNamesManager *manager,
 							            const char *id);
 void                 e_select_names_manager_activate_dialog        (ESelectNamesManager *manager,
 							            const char *id);
-
 /* Standard Gtk function */			      
 GtkType              e_select_names_manager_get_type               (void);
 

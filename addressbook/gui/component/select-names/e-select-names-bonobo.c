@@ -348,18 +348,11 @@ impl_SelectNames_activate_dialog (PortableServer_Servant servant,
 
 /* GtkObject methods.  */
 
-/* ACK! */
-typedef struct {
-	char *id;
-	EEntry *entry;
-} ESelectNamesManagerEntry;
-
 static void
 impl_destroy (GtkObject *object)
 {
 	ESelectNamesBonobo *select_names;
 	ESelectNamesBonoboPrivate *priv;
-	EIterator *iterator;
 
 	select_names = E_SELECT_NAMES_BONOBO (object);
 	priv = select_names->priv;
@@ -369,17 +362,7 @@ impl_destroy (GtkObject *object)
 		priv->manager->names = NULL;
 	}
 
-	/* More suckage */
-	iterator = e_list_get_iterator (priv->manager->entries);
-	for (e_iterator_reset (iterator); e_iterator_is_valid (iterator); e_iterator_next (iterator)) {
-		ESelectNamesManagerEntry *entry = (ESelectNamesManagerEntry *)e_iterator_get (iterator);
-		if (entry && entry->entry)
-			gtk_widget_destroy (GTK_WIDGET (entry->entry));
-	}
-	gtk_object_unref (GTK_OBJECT (iterator));
-	
-	/* FIXME: We leak on purpose.  This sucks. */
-	/* gtk_object_unref (GTK_OBJECT (priv->manager)); */
+	gtk_object_unref (GTK_OBJECT (priv->manager));
 
 	g_free (priv);
 }
