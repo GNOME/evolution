@@ -420,7 +420,14 @@ xfer_folder (EvolutionShellComponent *shell_component,
 	camel_url_free(dst);
 }
 
-#if 0
+static void
+configure_folder_popup(BonoboUIComponent *component, void *user_data, const char *cname)
+{
+	char *uri = user_data;
+
+	vfolder_edit_rule(uri);
+}
+
 static void
 populate_folder_context_menu (EvolutionShellComponent *shell_component,
 			      BonoboUIComponent *uic,
@@ -432,16 +439,23 @@ populate_folder_context_menu (EvolutionShellComponent *shell_component,
 	static char popup_xml_i18n[] = {N_("Properties..."), N_("Change this folder's properties")};
 #endif
 	static char popup_xml[] =
-		"<menuitem name=\"ChangeFolderProperties\" verb=\"ChangeFolderProperties\""
+		"<menuitem name=\"ChangeFolderPropertiesPopUp\" verb=\"ChangeFolderPropertiesPopUp\""
 		"          _label=\"Properties...\" _tip=\"Change this folder's properties\"/>";
-	
+
 	if (strcmp (type, "mail") != 0)
 		return;
-	
-	bonobo_ui_component_set_translate (uic, EVOLUTION_SHELL_COMPONENT_POPUP_PLACEHOLDER,
-					   popup_xml, NULL);
+
+	/* FIXME: handle other types */
+
+	/* the unmatched test is a bit of a hack but it works */
+	if (strncmp(physical_uri, "vfolder:", 8) != 0
+	    || strstr(physical_uri, "#" CAMEL_UNMATCHED_NAME) != NULL)
+		return;
+
+	bonobo_ui_component_add_verb_full(uic, "ChangeFolderPropertiesPopUp", configure_folder_popup, g_strdup(physical_uri), g_free);
+
+	bonobo_ui_component_set_translate (uic, EVOLUTION_SHELL_COMPONENT_POPUP_PLACEHOLDER,  popup_xml, NULL);
 }
-#endif
 
 static char *
 get_dnd_selection (EvolutionShellComponent *shell_component,
@@ -938,7 +952,7 @@ create_component (void)
 							 create_folder,
 							 remove_folder,
 							 xfer_folder,
-							 /*populate_folder_context_menu*/NULL,
+							 populate_folder_context_menu,
 							 get_dnd_selection,
 							 NULL);
 	
