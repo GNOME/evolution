@@ -43,7 +43,7 @@
 static EShell *shell = NULL;
 static char *evolution_directory = NULL;
 static gboolean no_splash = FALSE;
-char *debug_log = NULL;
+extern char *evolution_debug_log;
 
 
 static void
@@ -175,7 +175,7 @@ main (int argc, char **argv)
 {
 	struct poptOption options[] = {
 		{ "no-splash", '\0', POPT_ARG_NONE, &no_splash, 0, N_("Disable splash screen"), NULL },
-		{ "debug", '\0', POPT_ARG_STRING, &debug_log, 0, N_("Send the debugging output of all components to a file."), NULL },
+		{ "debug", '\0', POPT_ARG_STRING, &evolution_debug_log, 0, N_("Send the debugging output of all components to a file."), NULL },
 		{ NULL, '\0', POPT_ARG_INCLUDE_TABLE, &oaf_popt_options, 0, NULL, NULL },
 		POPT_AUTOHELP
 		{ NULL, '\0', 0, NULL, 0, NULL, NULL }
@@ -186,10 +186,10 @@ main (int argc, char **argv)
 
 	gnome_init_with_popt_table ("Evolution", VERSION, argc, argv, options, 0, NULL);
 
-	if (debug_log) {
+	if (evolution_debug_log) {
 		int fd;
 
-		fd = open (debug_log, O_WRONLY | O_CREAT | O_TRUNC, 0600);
+		fd = open (evolution_debug_log, O_WRONLY | O_CREAT | O_TRUNC, 0600);
 		if (fd) {
 			dup2 (fd, STDOUT_FILENO);
 			dup2 (fd, STDERR_FILENO);
