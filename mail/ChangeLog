@@ -1,3 +1,15 @@
+2003-05-20  Larry Ewing  <lewing@ximian.com>
+
+	* mail-config-factory.c: remove references to font prefs.
+
+	* component-factory.c: Remove stale refernces the the font prefs.
+	(make_factory): remove unused variables.
+
+	* mail-config.c (mail_config_init): add a notify callback to the
+	spelling color.
+	(config_write_style): rename and write out the spell color as
+	well.
+
 2003-05-20  Not Zed  <notzed@lostzed.mmc.com.au>
 
 	** See bug #43234

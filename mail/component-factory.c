@@ -1597,14 +1597,9 @@ factory (BonoboGenericFactory *factory,
 		return evolution_folder_info_new();
 	else if (strcmp(component_id, WIZARD_IID) == 0)
 		return evolution_mail_config_wizard_new();
-
-#warning "font prefs"
-#define MAIL_FONT_PREFS_CONTROL_ID "OAFIID:GNOME_Evolution_Mail_FontPrefs_ConfigControl"
-
 	else if (strcmp (component_id, MAIL_ACCOUNTS_CONTROL_ID) == 0
 		 || strcmp (component_id, MAIL_PREFERENCES_CONTROL_ID) == 0
-		 || strcmp (component_id, MAIL_COMPOSER_PREFS_CONTROL_ID) == 0
-		 /* || strcmp (component_id, MAIL_FONT_PREFS_CONTROL_ID) == 0 */)
+		 || strcmp (component_id, MAIL_COMPOSER_PREFS_CONTROL_ID) == 0)
 		return mail_config_control_factory_cb (factory, component_id, evolution_shell_client_corba_objref (global_shell_client));
 	else if (strcmp(component_id, COMPOSER_IID) == 0)
 		return (BonoboObject *)evolution_composer_new(composer_send_cb, composer_save_draft_cb);
@@ -1616,7 +1611,6 @@ factory (BonoboGenericFactory *factory,
 static Bonobo_Unknown
 make_factory (PortableServer_POA poa, const char *iid, gpointer impl_ptr, CORBA_Environment *ev)
 {
-	struct sigaction sa, osa;
 	static int init = 0;
 
 	if (!init) {

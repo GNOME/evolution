@@ -87,7 +87,8 @@ typedef struct {
 	guint label_notify_id;
 	
 	guint font_notify_id;
-	
+	guint spell_notify_id;
+
 	GPtrArray *mime_types;
 	guint mime_types_notify_id;
 } MailConfig;
@@ -429,20 +430,24 @@ config_cache_mime_types (void)
 }
 
 static void
-config_write_fonts (void)
+config_write_style (void)
 {
 	char *filename;
 	FILE *rc;
 	gboolean custom;
 	char *fix_font;
 	char *var_font;
+	gint red, green, blue;
 	
-	if (!evolution_dir) {
-		g_warning ("evolution_dir empty");
-		return;
-	}
+	/*
+	 * This is the wrong way to get the path but it needs to 
+	 * always be the same as the gtk_rc_parse call and evolution_dir 
+	 * may not have been set yet
+	 *
+	 * filename = g_build_filename (evolution_dir, MAIL_CONFIG_RC, NULL);
+	 */
+	filename = g_build_filename (g_get_home_dir (), "evolution", MAIL_CONFIG_RC, NULL);
 
-	filename = g_build_filename (evolution_dir, MAIL_CONFIG_RC, NULL);
 	rc = fopen (filename, "w");
 
 	if (!rc) {
@@ -456,8 +461,14 @@ config_write_fonts (void)
 	var_font = gconf_client_get_string (config->gconf, "/apps/evolution/mail/display/fonts/variable", NULL);
 	fix_font = gconf_client_get_string (config->gconf, "/apps/evolution/mail/display/fonts/monospace", NULL);
 
+	red   = gconf_client_get_int (config->gconf, "/GNOME/Spell/spell_error_color_red", NULL);
+	green = gconf_client_get_int (config->gconf, "/GNOME/Spell/spell_error_color_green", NULL);
+	blue  = gconf_client_get_int (config->gconf, "/GNOME/Spell/spell_error_color_blue", NULL);
 
 	fprintf (rc, "style \"evolution-mail-custom-fonts\" {\n");
+	fprintf (rc, "        GtkHTML::spell_error_color = \"#%2x%2x%2x\"\n",
+		 red >> 8, green >> 8, blue >> 8);
+
 	if (custom && var_font && fix_font) {
 		fprintf (rc,
 			 "        GtkHTML::fixed_font_name = \"%s\"\n"
@@ -484,10 +495,10 @@ gconf_labels_changed (GConfClient *client, guint cnxn_id,
 }
 
 static void
-gconf_fonts_changed (GConfClient *client, guint cnxn_id,
+gconf_style_changed (GConfClient *client, guint cnxn_id,
 		     GConfEntry *entry, gpointer user_data)
 {
-	config_write_fonts ();
+	config_write_style ();
 }
 
 static void
@@ -514,17 +525,20 @@ mail_config_init (void)
 	mail_config_clear ();
 
 	/*
-	  config_write_fonts ();
 	  filename = g_build_filename (evolution_dir, MAIL_CONFIG_RC, NULL);
 	*/
-	filename = g_build_filename (g_get_home_dir (), "/evolution", MAIL_CONFIG_RC, NULL);
+	filename = g_build_filename (g_get_home_dir (), "evolution", MAIL_CONFIG_RC, NULL);
 	gtk_rc_parse (filename);
 	g_free (filename);
 	
 	gconf_client_add_dir (config->gconf, "/apps/evolution/mail/display/fonts", 			      
 			      GCONF_CLIENT_PRELOAD_ONELEVEL, NULL);
+	gconf_client_add_dir (config->gconf, "/GNOME/Spell", 			      
+			      GCONF_CLIENT_PRELOAD_ONELEVEL, NULL);
 	config->font_notify_id = gconf_client_notify_add (config->gconf, "/apps/evolution/mail/display/fonts",
-							  gconf_fonts_changed, NULL, NULL, NULL);
+							  gconf_style_changed, NULL, NULL, NULL);
+	config->spell_notify_id = gconf_client_notify_add (config->gconf, "/GNOME/Spell",
+							   gconf_style_changed, NULL, NULL, NULL);
 
 	gconf_client_add_dir (config->gconf, "/apps/evolution/mail/labels",
 			      GCONF_CLIENT_PRELOAD_ONELEVEL, NULL);
