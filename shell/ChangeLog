@@ -1,5 +1,9 @@
 2005-01-21  JP Rosevear  <jpr@novell.com>
 
+	* apps_evolution_shell.schemas.in.in: close long tag
+
+2005-01-21  JP Rosevear  <jpr@novell.com>
+
 	* apps_evolution_shell.schemas.in.in: add print_config schema item
 
 2005-01-21  JP Rosevear  <jpr@novell.com>

@@ -164,7 +164,7 @@
       <type>string</type>
       <locale name="C">
         <short>Printer settings</short>
-        <long>A GNOME Print description of the current printer settings</>
+        <long>A GNOME Print description of the current printer settings</long>
       </locale>
     </schema>
 
