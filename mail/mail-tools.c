@@ -355,8 +355,7 @@ mail_tool_uri_to_folder (const char *uri, CamelException *ex)
 		if (offset)
 			folder = camel_store_get_trash (store, ex);
 		else
-			folder = camel_store_get_folder (store, name,
-							 CAMEL_STORE_FOLDER_CREATE, ex);
+			folder = camel_store_get_folder (store, name, 0, ex);
 		camel_object_unref (CAMEL_OBJECT (store));
 	}
 	

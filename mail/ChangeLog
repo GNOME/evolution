@@ -1,3 +1,8 @@
+2001-10-01  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-tools.c (mail_tool_uri_to_folder): Don't pass the CREATE
+	flag, we shouldn't ever need this...
+
 2001-10-01  Larry Ewing  <lewing@ximian.com>
 
 	* mail-identify.c (mail_identify_mime_part): if gnome-vfs returns
