@@ -368,17 +368,20 @@ rename_folder (CamelStore *store, const char *old_name, const char *new_name, Ca
  * Rename a named folder to a new name.
  **/
 void
-camel_store_rename_folder (CamelStore *store, const char *old_name, const char *new_name, CamelException *ex)
+camel_store_rename_folder (CamelStore *store, const char *old_namein, const char *new_name, CamelException *ex)
 {
 	CamelFolder *folder;
 	int i, oldlen, namelen;
 	GPtrArray *folders;
+	char *old_name;
 
 	d(printf("store rename folder %s '%s' '%s'\n", ((CamelService *)store)->url->protocol, old_name, new_name));
 
 	if (strcmp(old_name, new_name) == 0)
 		return;
 
+	/* need to save this, since old_namein might be folder->full_name, which could go away */
+	old_name = g_strdup(old_namein);
 	oldlen = strlen(old_name);
 
 	CAMEL_STORE_LOCK(store, folder_lock);
@@ -449,6 +452,7 @@ camel_store_rename_folder (CamelStore *store, const char *old_name, const char *
 	CAMEL_STORE_UNLOCK(store, folder_lock);
 
 	g_ptr_array_free(folders, TRUE);
+	g_free(old_name);
 }
 
 

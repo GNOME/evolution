@@ -1,3 +1,9 @@
+2004-01-30  Not Zed  <NotZed@Ximian.com>
+
+	* camel-store.c (camel_store_rename_folder): copy the old_name
+	that comes in, since it might be the actual folder_name, which
+	will go away during processing.  Related to #53123.
+
 2004-01-29  Not Zed  <NotZed@Ximian.com>
 
 	** See bug #53269.
