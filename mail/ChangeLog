@@ -1,3 +1,12 @@
+2003-11-19  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* em-utils.c (em_utils_selection_set_urilist): Same.
+
+	* em-format-html-display.c (efhd_drag_data_get): Same as below.
+
+	* em-folder-tree.c (drag_text_uri_list): Terminate each url of a
+	text/uri-list with a \r\n.
+
 2003-11-19  Ettore Perazzoli  <ettore@ximian.com>
 
 	* GNOME_Evolution_Mail.server.in.in: Add an

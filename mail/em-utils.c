@@ -1837,7 +1837,7 @@ em_utils_selection_set_urilist(GtkSelectionData *data, CamelFolder *folder, GPtr
 {
 	const char *tmpdir;
 	CamelStream *fstream;
-	char *uri;
+	char *uri, *p;
 	int fd;
 
 	tmpdir = e_mkdtemp("drag-n-drop-XXXXXX");
@@ -1847,16 +1847,19 @@ em_utils_selection_set_urilist(GtkSelectionData *data, CamelFolder *folder, GPtr
 	/* FIXME: this used to save a single message with the subject
 	   as the filename but it was unsafe, and makes this messier,
 	   the pain */
-
-	uri = alloca(strlen(tmpdir)+16);
-	sprintf(uri, "file:///%s/mbox", tmpdir);
+	
+	p = uri = g_alloca (strlen (tmpdir) + 16);
+	p += sprintf (uri, "file:///%s/mbox", tmpdir);
 	
 	fd = open(uri + 7, O_WRONLY | O_CREAT | O_EXCL, 0666);
 	if (fd == -1)
 		return;
-		
+	
 	fstream = camel_stream_fs_new_with_fd(fd);
 	if (fstream) {
+		/* terminate with \r\n to be compliant with the spec */
+		strcpy (p, "\r\n");
+		
 		if (em_utils_write_messages_to_stream(folder, uids, fstream) == 0)
 			gtk_selection_data_set(data, data->target, 8, uri, strlen(uri));
 

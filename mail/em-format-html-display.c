@@ -984,10 +984,10 @@ efhd_drag_data_get(GtkWidget *w, GdkDragContext *drag, GtkSelectionData *data, g
 		stream = camel_stream_mem_new();
 		/* TODO: shoudl format_format_text run on the content-object? */
 		/* TODO: should we just do format_content? */
-		if (camel_content_type_is (((CamelDataWrapper *)part)->mime_type, "text", "*"))
+		if (camel_content_type_is (((CamelDataWrapper *)part)->mime_type, "text", "*")) {
 			/* FIXME: this should be an em_utils method, it only needs a default charset param */
 			em_format_format_text((EMFormat *)pobject->format, stream, (CamelDataWrapper *)part);
-		else {
+		} else {
 			CamelDataWrapper *dw = camel_medium_get_content_object((CamelMedium *)part);
 
 			camel_data_wrapper_decode_to_stream(dw, stream);
@@ -1010,7 +1010,7 @@ efhd_drag_data_get(GtkWidget *w, GdkDragContext *drag, GtkSelectionData *data, g
 		if (path == NULL)
 			return;
 
-		uri = g_strdup_printf("file://%s", path);
+		uri = g_strdup_printf("file://%s\r\n", path);
 		g_free(path);
 		gtk_selection_data_set(data, data->target, 8, uri, strlen(uri));
 		g_object_set_data_full((GObject *)w, "e-drag-uri", uri, g_free);

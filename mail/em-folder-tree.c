@@ -698,7 +698,7 @@ drag_text_uri_list (EMFolderTree *emft, CamelFolder *src, GtkSelectionData *sele
 	const char *tmpdir;
 	CamelStore *store;
 	GPtrArray *uids;
-	char *url;
+	GString *url;
 	
 	if (!(tmpdir = e_mkdtemp ("drag-n-drop-XXXXXX"))) {
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
@@ -707,12 +707,13 @@ drag_text_uri_list (EMFolderTree *emft, CamelFolder *src, GtkSelectionData *sele
 		return;
 	}
 	
-	url = g_strdup_printf ("mbox:%s", tmpdir);
-	if (!(store = camel_session_get_store (session, url, ex))) {
+	url = g_string_new ("mbox:");
+	g_string_append (url, tmpdir);
+	if (!(store = camel_session_get_store (session, url->str, ex))) {
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
 				      _("Could not create temporary mbox store: %s"),
 				      camel_exception_get_description (ex));
-		g_free (url);
+		g_string_free (url, TRUE);
 		
 		return;
 	}
@@ -723,7 +724,7 @@ drag_text_uri_list (EMFolderTree *emft, CamelFolder *src, GtkSelectionData *sele
 				      camel_exception_get_description (ex));
 		
 		camel_object_unref (store);
-		g_free (url);
+		g_string_free (url, TRUE);
 		
 		return;
 	}
@@ -737,13 +738,15 @@ drag_text_uri_list (EMFolderTree *emft, CamelFolder *src, GtkSelectionData *sele
 				      _("Could not copy messages to temporary mbox folder: %s"),
 				      camel_exception_get_description (ex));
 	} else {
-		memcpy (url, "file", 4);
-		gtk_selection_data_set (selection, selection->target, 8, url, strlen (url));
+		/* replace "mbox:" with "file:" */
+		memcpy (url->str, "file", 4);
+		g_string_append (url, "\r\n");
+		gtk_selection_data_set (selection, selection->target, 8, url->str, url->len);
 	}
 	
 	camel_folder_free_uids (src, uids);
 	camel_object_unref (dest);
-	g_free (url);
+	g_string_free (url, TRUE);
 }
 
 static gboolean

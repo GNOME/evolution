@@ -1508,13 +1508,13 @@ ml_tree_drag_data_get (ETree *tree, int row, ETreePath path, int col,
 
 	if (uids->len > 0) {
 		switch (info) {
-		case 0 /*DND_TARGET_TYPE_X_UID_LIST */:
+		case 0 /* DND_TARGET_TYPE_X_UID_LIST */:
 			em_utils_selection_set_uidlist(data, ml->folder_uri, uids);
 			break;
-		case 1 /*DND_TARGET_TYPE_MESSAGE_RFC822*/:
+		case 1 /* DND_TARGET_TYPE_MESSAGE_RFC822 */:
 			em_utils_selection_set_mailbox(data, ml->folder, uids);
 			break;
-		case 2 /*DND_TARGET_TYPE_TEXT_URI_LIST*/:
+		case 2 /* DND_TARGET_TYPE_TEXT_URI_LIST */:
 			em_utils_selection_set_urilist(data, ml->folder, uids);
 			break;
 		}
@@ -1537,10 +1537,10 @@ ml_tree_drag_data_received (ETree *tree, int row, ETreePath path, int col,
 	   guarantee on what the content would be */
 	
 	switch (info) {
-	case 1 /*DND_TARGET_TYPE_MESSAGE_RFC822*/:
+	case 1 /* DND_TARGET_TYPE_MESSAGE_RFC822 */:
 		em_utils_selection_get_mailbox(data, ml->folder);
 		break;
-	case 0 /*DND_TARGET_TYPE_X_EVOLUTION_MESSAGE*/:
+	case 0 /* DND_TARGET_TYPE_X_UID_LIST */:
 		ml_selection_received_uidlist(ml, data);
 		break;
 	}
