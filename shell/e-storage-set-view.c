@@ -46,6 +46,12 @@ struct _EStorageSetViewPrivate {
 	/* Path of the row selected by the latest "tree_select_row" signal.  */
 	const char *selected_row_path;
 
+	/* Path of the row currently being dragged.  */
+	const char *dragged_row_path;
+
+	/* Path of the row that was selected before the latest click.  */
+	const char *selected_row_path_before_click;
+
 	/* Whether we are currently performing a drag from this view.  */
 	int in_drag : 1;
 
@@ -127,10 +133,12 @@ button_press_event (GtkWidget *widget,
 	EStorageSetView *storage_set_view;
 	EStorageSetViewPrivate *priv;
 
-	(* GTK_WIDGET_CLASS (parent_class)->button_press_event) (widget, event);
-
 	storage_set_view = E_STORAGE_SET_VIEW (widget);
 	priv = storage_set_view->priv;
+
+	priv->selected_row_path_before_click = priv->selected_row_path;
+
+	(* GTK_WIDGET_CLASS (parent_class)->button_press_event) (widget, event);
 
 	if (priv->in_drag)
 		return FALSE;
@@ -170,6 +178,7 @@ motion_notify_event (GtkWidget *widget,
 		return FALSE;
 
 	priv->in_drag = TRUE;
+	priv->dragged_row_path = priv->selected_row_path;
 
 	gtk_drag_begin (widget, target_list, GDK_ACTION_MOVE,
 			priv->drag_button, (GdkEvent *) event);
@@ -199,6 +208,8 @@ button_release_event (GtkWidget *widget,
 		priv->selected_row_path = NULL;
 	}
 
+	priv->selected_row_path_before_click = NULL;
+
 	return TRUE;
 }
 
@@ -212,8 +223,13 @@ drag_end (GtkWidget *widget,
 	storage_set_view = E_STORAGE_SET_VIEW (widget);
 	priv = storage_set_view->priv;
 
+	if (priv->dragged_row_path != NULL)
+		e_storage_set_view_set_current_folder (storage_set_view,
+						       priv->selected_row_path_before_click);
+
 	priv->in_drag = FALSE;
 	priv->drag_button = 0;
+	priv->dragged_row_path = NULL;
 }
 
 static void
@@ -373,11 +389,13 @@ init (EStorageSetView *storage_set_view)
 
 	priv = g_new (EStorageSetViewPrivate, 1);
 
-	priv->storage_set        = NULL;
-	priv->ctree_node_to_path = g_hash_table_new (g_direct_hash, g_direct_equal);
-	priv->path_to_ctree_node = g_hash_table_new (g_str_hash, g_str_equal);
-	priv->selected_row_path  = NULL;
-	priv->in_drag            = FALSE;
+	priv->storage_set                    = NULL;
+	priv->ctree_node_to_path             = g_hash_table_new (g_direct_hash, g_direct_equal);
+	priv->path_to_ctree_node             = g_hash_table_new (g_str_hash, g_str_equal);
+	priv->selected_row_path              = NULL;
+	priv->dragged_row_path               = NULL;
+	priv->selected_row_path_before_click = NULL;
+	priv->in_drag                        = FALSE;
 
 	storage_set_view->priv = priv;
 }

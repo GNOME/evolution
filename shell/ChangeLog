@@ -1,5 +1,20 @@
 2000-05-15  Ettore Perazzoli  <ettore@helixcode.com>
 
+	* e-storage-set-view.c: New members `dragged_row_path',
+	`selected_row_path_before_click' in `EStorageSetViewPrivate'.
+	(init): Initialize them to NULL.
+	(motion_notify_event): Set `dragged_row_path' from
+	`selected_row_path'.
+	(button_press_event): Initialize `selected_row_path_before_click'
+	from `selected_row_path'.
+	(button_release_event): Set `selected_row_path_before_click' to
+	NULL.
+	(drag_end): Restore the current selection from
+	`selected_row_path_before_click'; then set both `dragged_row_path'
+	to NULL.
+
+2000-05-15  Ettore Perazzoli  <ettore@helixcode.com>
+
 	* e-storage-set-view.c: New members `in_drag' and `drag_button' in
 	`EStorageSetViewPrivate'.  New static variables `drag_types',
 	`num_drag_types', `target_list'.
