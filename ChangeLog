@@ -1,5 +1,9 @@
 2004-04-26  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* configure.in (UPGRADE_REVISION): Changed to 11.
+
+2004-04-26  Jeffrey Stedfast  <fejj@ximian.com>
+
 	* configure.in (UPGRADE_REVISION): Changed to 10.
 
 2004-04-26  Radek Doulik  <rodo@ximian.com>
