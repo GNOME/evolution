@@ -1,3 +1,9 @@
+2005-02-24  Björn Torkelsson  <torkel@acc.umu.se>
+
+       * org-gnome-shared-folder.eplug.in: Added Groupwise to name.
+       Fixed description and added author.
+       Added xml tag.
+	
 2005-02-17  Vivek Jain <jvivek@novell.com>
 	
 	* share-folder-common.c : (get_cnc):

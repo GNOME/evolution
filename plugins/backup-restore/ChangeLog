@@ -1,3 +1,7 @@
+2005-02-24  Björn Torkelsson  <torkel@acc.umu.se>
+
+	* org-gnome-backup-restore.eplug.in: Added author and fixed description.
+
 2004-12-16  JP Rosevear  <jpr@novell.com>
 
 	* Imported backup/restore plugin

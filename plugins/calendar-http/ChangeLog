@@ -1,3 +1,7 @@
+2005-02-24  Björn Torkelsson  <torkel@acc.umu.se>
+
+	* org-gnome-calendar-http.eplug.in: Added author and description.
+
 2005-01-06  JP Rosevear  <jpr@novell.com>
 
 	* Makefile.am: include top_srcdir

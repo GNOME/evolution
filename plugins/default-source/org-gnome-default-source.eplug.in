@@ -5,6 +5,8 @@
      location="@PLUGINDIR@/liborg-gnome-default-source.so"
      id="org.gnome.evolution.plugin.default-source"
      name="Default Sources">
+     <author name="Sivaiah Nallagatla" email="snallagatla@novell.com"/>
+     <description>Provides functionallity for marking a calendar or addressbook as the default one.</description>
         <hook class="org.gnome.evolution.calendar.config:1.0">
             <group
 	     target="source"

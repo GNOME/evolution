@@ -5,8 +5,9 @@
     id="org.gnome.evolution.plugin.exchange-account-settings"
     location="@PLUGINDIR@/liborg-gnome-exchange-account-settings.so"
     load-on-startup="true"
-    name="Exchange Account Setup"
-    description="A pluign for Exchange account specific settings">
+    name="Exchange Account Setup">
+    <author name="Sushma Rai" email="rsushma@novell.com"/>
+    <description>A plugin for Exchange account specific settings.</description>
 	
     <hook class="org.gnome.evolution.mail.config:1.0">
       	<group 

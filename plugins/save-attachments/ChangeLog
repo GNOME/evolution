@@ -1,3 +1,9 @@
+2005-02-24  Björn Torkelsson  <torkel@acc.umu.se>
+
+	* org-gnome-save-attachments.eplug.in: Removed plugin from the
+	name.
+	Fixed description and added author
+
 2005-02-07  Not Zed  <NotZed@Ximian.com>
 
 	* save-attachments.c (save_part): fix the access() call test.

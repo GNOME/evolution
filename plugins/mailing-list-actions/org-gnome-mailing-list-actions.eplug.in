@@ -5,8 +5,9 @@
 		id="org.gnome.plugin.mailing-list.actions"
 		domain="eplug-mailing-list-actions"
 		location="@PLUGINDIR@/liborg-gnome-mailing-list-actions.so"
-		name="Mailing List Actions plugin"
-		description="Provide actions for common mailing list commands (subscribe, unsubscribe, ...)">
+		name="Mailing List Actions">
+	    	<author name="Meilof Veeningen" email="meilof@wanadoo.nl"/>
+		<description>Provide actions for common mailing list commands (subscribe, unsubscribe, ...).</description>
 		<hook class="org.gnome.evolution.mail.bonobomenu:1.0">
 			<menu id="org.gnome.evolution.mail.browser" target="select">
 				<ui file="@PLUGINDIR@/org-gnome-mailing-list-actions.xml"/>

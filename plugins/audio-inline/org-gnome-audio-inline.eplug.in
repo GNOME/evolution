@@ -6,7 +6,7 @@
     location="@PLUGINDIR@/liborg-gnome-audio-inline.la"
     name="Audio inline plugin">
 
-    <description>A formatter plugin which displays audio attachments inline and allows you to play them directly from evolution</description>
+    <description>A formatter plugin which displays audio attachments inline and allows you to play them directly from evolution.</description>
     <author name="Radek Doulík" email="rodo@novell.com"/>
 
     <hook class="org.gnome.evolution.mail.format:1.0">

@@ -1,3 +1,7 @@
+2005-02-24  Björn Torkelsson  <torkel@acc.umu.se>
+
+	* org-gnome-audio-inline.eplug.in: Added a . to the end of description.
+
 2004-11-26  JP Rosevear  <jpr@novell.com>
 
 	* audio-inline.c (org_gnome_audio_inline_add_button): get image

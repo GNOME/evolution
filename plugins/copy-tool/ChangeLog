@@ -1,3 +1,7 @@
+2005-02-24  Björn Torkelsson  <torkel@acc.umu.se>
+
+	* org-gnome-copy-tool.eplug.in: Added a . to the end of description.
+
 2004-11-03  Not Zed  <NotZed@Ximian.com>
 
 	* org-gnome-copy-tool.eplug.in: gave it a better name and fixed

@@ -4,8 +4,13 @@
     type="shlib"
     id="org.gnome.evolution.plugin.preferPlain"
     location="@PLUGINDIR@/liborg-gnome-prefer-plain.so"
-    name="Prefer plain-text plugin"
-    description="A test plugin which demonstrates a formatter plugin which lets you choose to disable HTML mails">
+    name="Prefer plain-text">
+
+
+    <description>A test plugin which demonstrates a formatter plugin
+    which lets you choose to disable HTML mails.</description>
+    <author name="Michael Zucchi" email="NotZed@Ximian.com"/>
+
 
     <!-- hook into the 'html mail' preferences page -->
     <hook class="org.gnome.evolution.mail.config:1.0">

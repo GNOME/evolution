@@ -1,3 +1,8 @@
+2005-02-24  Björn Torkelsson  <torkel@acc.umu.se>
+
+	* org-gnome-mail-to-meeting.eplug.in: Shortened the name and added
+	a . to the end of the description.
+
 2004-11-04  Rodrigo Moya <rodrigo@novell.com>
 
 	* org-gnome-mail-to-meeting.eplug.in: fixed description and added

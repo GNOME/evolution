@@ -1,3 +1,7 @@
+2005-02-24  Björn Torkelsson  <torkel@acc.umu.se>
+
+	* org-gnome-addressbook-file.eplug.in: Added author and description.
+
 2005-01-21 Sivaiah Nallagatla <snallagatla@novell.com>
 
 	* initial commit 

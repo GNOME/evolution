@@ -1,3 +1,10 @@
+2005-02-24  Björn Torkelsson  <torkel@acc.umu.se>
+
+	* org-gnome-mark-calendar-offline.eplug.in: Shortened the
+	name. 
+	Added author and description.
+	Added xml tag.
+
 2004-11-01  JP Rosevear  <jpr@novell.com>
 
 	* Makefile.am: dist .eplug.in file

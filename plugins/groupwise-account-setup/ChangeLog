@@ -1,3 +1,8 @@
+2005-02-24  Björn Torkelsson  <torkel@acc.umu.se>
+
+        * org-gnome-gw-account-setup.eplug.in: Added author and fixed
+	description.
+
 2005-02-23  Hans Petter Jansson  <hpj@novell.com>
 
 	* camel-gw-listener.c: Include <libedataserverui/e-passwords.h>.

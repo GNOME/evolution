@@ -5,6 +5,8 @@
      location="@PLUGINDIR@/liborg-gnome-addressbook-groupwise.so"
      id="org.gnome.evolution.addressbook.groupwise"
      name="Groupwise Address Books">
+     <author name="Sivaiah Nallagatla" email="snallagatla@novell.com"/>
+     <description>Provides core functionallity for Groupwise address books.</description>
         <hook class="org.gnome.evolution.addressbook.config:1.0">
             <group
 	     target="source"

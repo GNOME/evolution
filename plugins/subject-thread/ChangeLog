@@ -1,3 +1,8 @@
+2005-02-24  Björn Torkelsson  <torkel@acc.umu.se>
+
+	* org-gnome-subject-thread.eplug.in: Added xml tag. 
+	Fixed description and added author. 
+
 2005-02-07  JP Rosevear  <jpr@novell.com>
 
 	* org-gnome-subject-thread.eplug.in: specify id

@@ -1,3 +1,9 @@
+2005-02-24  Björn Torkelsson  <torkel@acc.umu.se>
+
+	* org-gnome-select-one-source.eplug.in: Fixed description and
+	added author.
+	Added xml tag.
+
 2004-11-01  JP Rosevear  <jpr@novell.com>
 
 	* Makefile.am: dist .eplug.in file

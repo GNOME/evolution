@@ -1,3 +1,8 @@
+2005-02-24  Björn Torkelsson  <torkel@acc.umu.se>
+
+	* org-gnome-exchange-account-setup.eplug.in: Added author and
+	fixed description.
+	
 2005-02-21  Not Zed  <NotZed@Ximian.com>
 
 	* exchange-account-setup.c (org_gnome_exchange_owa_url): if the

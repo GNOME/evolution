@@ -4,8 +4,8 @@
 		type="shlib"
 		id="org.gnome.evolution.plugin.status.track"
 		location="@PLUGINDIR@/liborg-gnome-status-track.so"
-		name="Track status of a sent mail in a groupwise account">
-	<description>A plugin which allows status tracking. This is applicable for groupwise mailboxes only</description>
+		name="Groupwise mail status tracking">
+	<description>A plugin which allows status tracking of sent mails. This is applicable for groupwise mailboxes only.</description>
 	<author name="Parthasarathi Susarla" email="sparthasarathi@novell.com"/>
 
 	<!-- hook into the uri popup menu -->

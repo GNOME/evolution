@@ -1,6 +1,10 @@
+<?xml version="1.0"?>
 <e-plugin-list>
-	<e-plugin id="org.gnome.evolution.save_calendar" type="shlib" name="Save Selected Calendar or Tasks List" description="Saves selected calendar or tasks list to disk"
-		location="@PLUGINDIR@/liborg-gnome-save-calendar.so">
+    <e-plugin id="org.gnome.evolution.save_calendar" type="shlib" 
+	name="Save Selected"
+	    location="@PLUGINDIR@/liborg-gnome-save-calendar.so"> 
+	    <author name="Rodrigo Moya" email="rodrigo@novell.com"/>
+		<description>Saves selected calendar or tasks list to disk.</description>
 	
 		<hook class="org.gnome.evolution.calendar.popup:1.0">
 			<menu id="org.gnome.evolution.tasks.source.popup" target="source">

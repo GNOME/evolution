@@ -1,7 +1,11 @@
+<?xml version="1.0"?>
 <e-plugin-list>
-	<e-plugin id="org.gnome.evolution.mark_calendar_offline" type="shlib" name="Mark calendar offline" description="Marks the selected calendar for offline viewing"
-		location="@PLUGINDIR@/liborg-gnome-mark-calendar-offline.so">
-	
+    <e-plugin id="org.gnome.evolution.mark_calendar_offline" type="shlib" 
+	name="Mark calendar offline" 
+	location="@PLUGINDIR@/liborg-gnome-mark-calendar-offline.so">
+	<author name="Harish Krishnaswamy" email="kharish@novell.com"/>
+       	<description>Marks the selected calendar for offline viewing.</description>
+
 		<hook class="org.gnome.evolution.calendar.popup:1.0">
 			<menu id="org.gnome.evolution.calendar.source.popup" target="source">
 				<item type="item" path="28.mark_calendar_offline" label="_Mark Calendar for offline use" icon="stock_disconnect"  visible="offline" activate="org_gnome_mark_calendar_offline"/>

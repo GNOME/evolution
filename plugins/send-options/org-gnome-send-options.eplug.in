@@ -1,7 +1,9 @@
 <?xml version="1.0"?>
 <e-plugin-list>
-	<e-plugin id="org.gnome.evolution.send_options" type="shlib" name="send options" description="Creates an global send options page"
+	<e-plugin id="org.gnome.evolution.send_options" type="shlib" name="Groupwise send options" 
 		location="@PLUGINDIR@/liborg-gnome-send-options.so">
+		<description>Creates an global send options page for Groupwise account.</description>
+		<author name="Chenthill Palanisamy" email="pchenthill@novell.com"/>
 	
 		<hook class="org.gnome.evolution.mail.config:1.0">
 			<group id="org.gnome.evolution.mail.config.accountEditor" 

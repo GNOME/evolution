@@ -5,6 +5,8 @@
      location="@PLUGINDIR@/liborg-gnome-calendar-file.so"
      id="org.gnome.evolution.calendar.file"
      name="Local Calendars">
+     <author name="JP Rosevear" email="jpr@novell.com"/>
+     <description>Provides core functionality for local calendars.</description>
         <hook class="org.gnome.evolution.calendar.config:1.0">
             <group
 	     target="source"

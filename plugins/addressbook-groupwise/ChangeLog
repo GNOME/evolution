@@ -1,3 +1,7 @@
+2005-02-24  Björn Torkelsson  <torkel@acc.umu.se>
+
+	* org-gnome-addressbook-groupwise.eplug.in: Added author and description.
+
 2005-01-29 Sivaiah Nallagatla <snallagatla@novell.com>
 
 	* initial commit 

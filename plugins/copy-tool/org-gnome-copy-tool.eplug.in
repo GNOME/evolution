@@ -5,7 +5,7 @@
     id="org.gnome.evolution.plugin.copyTool"
     location="@PLUGINDIR@/liborg-gnome-copy-tool.so"
     name="Copy tool">
-    <description>A test plugin which demonstrates a popup menu plugin which lets you copy things to the clipboard</description>
+    <description>A test plugin which demonstrates a popup menu plugin which lets you copy things to the clipboard.</description>
     <author name="Michael Zucchi" email="notzed@ximian.com"/>
 
     <!-- hook into the uri popup menu -->

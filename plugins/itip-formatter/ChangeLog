@@ -1,3 +1,9 @@
+2005-02-24  Björn Torkelsson  <torkel@acc.umu.se>
+
+	* org-gnome-itip-formatter.eplug.in: Added author and description.
+	s/bbdb/itip/
+	Added xml tag.
+
 2005-02-07  JP Rosevear  <jpr@novell.com>
 
 	* org-gnome-itip-formatter.eplug.in: specify id for config page

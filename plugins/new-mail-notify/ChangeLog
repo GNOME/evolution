@@ -1,3 +1,7 @@
+2005-02-24  Björn Torkelsson  <torkel@acc.umu.se>
+
+	* org-gnome-new-mail-notify.eplug.in: Added id for mail preferences.
+
 2005-01-13  Not Zed  <NotZed@Ximian.com>
 
 	* new-mail-notify.c: added prototypes for exported functions,

@@ -4,8 +4,8 @@
     type="shlib"
     id="org.gnome.evolution.plugin.compose.sendoptions"
     location="@PLUGINDIR@/liborg-gnome-compose-send-options.so"
-    name="Send options in compose for GW">
-    <description>Lets you have the send options menu item in the composer window for groupwise mails</description>
+    name="Groupwise send options">
+    <description>Lets you have the send options menu item in the composer window for groupwise mails.</description>
     <author name="Parthasarathi Susarla" email="sparthasarathi@novell.com"/>
 
     <!-- hook into the popup menu -->

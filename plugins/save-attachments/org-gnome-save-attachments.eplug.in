@@ -5,8 +5,11 @@
     id="org.gnome.plugin.attachments.save"
     type="shlib"
     location="@PLUGINDIR@/liborg-gnome-save-attachments.so"
-    name="Save attachments plugin"
-    description="A plugin for saving all attachments or parts of a message at once.">
+    name="Save attachments">
+    
+    <author name="Not Zed" email="NotZed@Ximian.com"/>
+    <description>A plugin for saving all attachments or parts of a message at once.</description>
+
     <hook class="org.gnome.evolution.mail.bonobomenu:1.0">
       <menu id="org.gnome.evolution.mail.browser" target="select">
 	<!-- the path to the bonobo menu description -->

@@ -1,6 +1,9 @@
+<?xml version="1.0"?>
 <e-plugin-list>
-	<e-plugin id="org.gnome.evolution.mail_shared_folder" type="shlib" name="Shared folder" description="shared folder properties "
-		location="@PLUGINDIR@/liborg-gnome-shared-folder.so">
+	<e-plugin id="org.gnome.evolution.mail_shared_folder" type="shlib" name="Groupwise shared folder" 
+	    location="@PLUGINDIR@/liborg-gnome-shared-folder.so">
+	    <author name="Vivek Jain" email="jvivek@novell.com"/>
+	    <description>A plugin for setting shared folder properties on Groupwise accounts.</description>
 		<hook class="org.gnome.evolution.mail.config:1.0">
 			<group 
 			 id="org.gnome.evolution.mail.folderConfig"
@@ -12,8 +15,13 @@
 			</group>
 		</hook>
 	</e-plugin>
-	<e-plugin id="org.gnome.evolution.mail_view" type="shlib" name="mail view" description="viewing the mail"
+
+	<e-plugin id="org.gnome.evolution.mail_view" type="shlib" 
+                name="Groupwise mail view" 
 		location="@PLUGINDIR@/liborg-gnome-shared-folder.so">
+
+		<description>A plugin for viewing Groupwise mails.</description>
+               <author name="Vivek Jain" email="jvivek@novell.com"/>
 	
 <hook class="org.gnome.evolution.mail.events:1.0">
 <event
@@ -25,9 +33,9 @@
 </e-plugin>
 
   <e-plugin id="org.gnome.mail.folder.create_option" 
-   type="shlib" domain="evolution" name="CREATE Folders"
+   type="shlib" domain="evolution" name="Groupwise Create Folders"
    location="@PLUGINDIR@/liborg-gnome-shared-folder.so">
-    <description>Allows creating shared folders in the folder tree context menu</description>
+    <description>Allows creating Groupwise shared folders in the folder tree context menu</description>
     <author name="Vivek Jain" email="jvivek@novell.com"/>
     <hook class="org.gnome.evolution.mail.popup:1.0">
       <menu id="org.gnome.evolution.mail.foldertree.popup" target="folder">

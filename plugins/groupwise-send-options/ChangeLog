@@ -1,3 +1,10 @@
+2005-02-24  Björn Torkelsson  <torkel@acc.umu.se>
+
+	* org-gnome-compose-send-options.eplug.in: Shortened the name of
+	the plugin.
+	Updated the description.
+	
+
 2005-02-03  Chenthill Palanisamy  <pchenthill@novell.com>
 
 	* send-options.c: (add_day_to_time), (send_options_commit),

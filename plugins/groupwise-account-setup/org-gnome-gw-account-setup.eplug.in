@@ -5,9 +5,9 @@
     id="org.gnome.evolution.plugin.gw-account-setup"
     location="@PLUGINDIR@/liborg-gnome-gw-account-setup.so"
     load-on-startup="true"
-    name="Groupwise Account Setup"
-    description="A pluign to setup groupwise calendar and contacts sources">
-	
+    name="Groupwise Account Setup">
+    <author name="Sivaiah Nallagatla" email="snallagatla@novell.com"/>
+    <description>A plugin to setup groupwise calendar and contacts sources.</description>
     
     <hook class="org.gnome.evolution.mail.config:1.0">
       <group target="account" id="org.gnome.evolution.mail.config.accountDruid">
