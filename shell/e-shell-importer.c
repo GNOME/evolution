@@ -386,7 +386,7 @@ show_error (const char *message,
 {
 	GtkWidget *box;
 
-	box = gnome_message_box_new (message, GNOME_MESSAGE_BOX_ERROR, GNOME_STOCK_BUTTON_OK);
+	box = gnome_message_box_new (message, GNOME_MESSAGE_BOX_ERROR, GNOME_STOCK_BUTTON_OK, NULL);
 	gtk_window_set_title (GTK_WINDOW (box), title);
 
 	gtk_widget_show (box);
