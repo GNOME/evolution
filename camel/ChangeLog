@@ -1,3 +1,11 @@
+2001-09-25    <NotZed@Ximian.com>
+
+	* camel-stream-buffer.c (stream_write_all): A "safe write"
+	function that always writes out all data asked of it, till
+	finished.
+	(stream_write): Rewritten.  What was i on when i wrote that
+	originally, how did it ever work with tcp streams ...
+
 2001-09-24    <NotZed@Ximian.com>
 
 	* camel-folder.c (append_message): Set the exception to

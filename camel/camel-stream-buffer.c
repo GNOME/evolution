@@ -270,49 +270,60 @@ stream_read (CamelStream *stream, char *buffer, size_t n)
 	return (ssize_t)(bptr - buffer);
 }
 
+/* only returns the number passed in, or -1 on an error */
+static ssize_t
+stream_write_all(CamelStream *stream, const char *buffer, size_t n)
+{
+	size_t left = n, w;
+
+	while (left > 0) {
+		w = camel_stream_write(stream, buffer, left);
+		if (w == -1)
+			return -1;
+		left -= w;
+		buffer += w;
+	}
+
+	return n;
+}
+
 static ssize_t
 stream_write (CamelStream *stream, const char *buffer, size_t n)
 {
 	CamelStreamBuffer *sbf = CAMEL_STREAM_BUFFER (stream);
-	const char *bptr = buffer;
-	ssize_t bytes_written = 1;
-        ssize_t bytes_left;
 	ssize_t total = n;
+	ssize_t left, todo;
 
 	g_return_val_if_fail( (sbf->mode & CAMEL_STREAM_BUFFER_MODE) == CAMEL_STREAM_BUFFER_WRITE, 0);
 
-	while (n && bytes_written > 0) {
-		bytes_left = sbf->size - (sbf->ptr-sbf->buf);
-		if (bytes_left<n) {
-			memcpy(sbf->ptr, bptr, bytes_left);
-			n -= bytes_left;
-			bptr += bytes_left;
-			bytes_written = camel_stream_write(sbf->stream, sbf->buf, sbf->size);
-			sbf->ptr = sbf->buf;
-			/* if we are writing a lot, write directly to the stream */
-			if (n >= sbf->size/3) {
-				bytes_written = camel_stream_write(sbf->stream, bptr, n);
-				if (bytes_written >0) {
-					bytes_written = n;
-					n -= bytes_written;
-					bptr += bytes_written;
-				}
-			} else {
-				memcpy(sbf->ptr, bptr, n);
-				sbf->ptr += n;
-				bptr += n;
-				n = 0;
-			}
+	/* first, copy as much as we can */
+	left = sbf->size - (sbf->ptr-sbf->buf);
+	todo = MIN(left, n);
+
+	memcpy(sbf->ptr, buffer, todo);
+	n -= todo;
+	buffer += todo;
+	sbf->ptr += todo;
+
+	/* if we've filled the buffer, write it out, reset buffer */
+	if (left == todo) {
+		if (stream_write_all(sbf->stream, sbf->buf, sbf->size) == -1)
+			return -1;
+
+		sbf->ptr = sbf->buf;
+	}
+
+	/* if we still have more, write directly, or copy to buffer */
+	if (n > 0) {
+		if (n >= sbf->size/3) {
+			if (stream_write_all(sbf->stream, buffer, n) == -1)
+				return -1;
 		} else {
-			memcpy(sbf->ptr, bptr, n);
+			memcpy(sbf->ptr, buffer, n);
 			sbf->ptr += n;
-			bptr += n;
-			n = 0;
 		}
 	}
-	if (bytes_written == -1)
-		return -1;
-	
+
 	return total;
 }
 
