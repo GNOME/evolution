@@ -225,46 +225,42 @@ display_license (CamelProvider *prov)
 	char *label_text, *dialog_title;
 	gboolean status;
 	
-	xml = glade_xml_new (EVOLUTION_GLADEDIR "/mail-license.glade", 
-				"lic_dialog", NULL);
+	xml = glade_xml_new (EVOLUTION_GLADEDIR "/mail-license.glade", "lic_dialog", NULL);
 	
 	top_widget = glade_xml_get_widget (xml, "lic_dialog");
 	text_entry = GTK_TEXT_VIEW (glade_xml_get_widget (xml, "textview1"));
-	status = populate_text_entry (GTK_TEXT_VIEW (text_entry), prov->license_file);
-	if (!status)
+	if (!(status = populate_text_entry (GTK_TEXT_VIEW (text_entry), prov->license_file)))
 		goto failed;
-
+	
 	gtk_text_view_set_editable (GTK_TEXT_VIEW (text_entry), FALSE);
-
+	
 	button_yes = GTK_BUTTON (glade_xml_get_widget (xml, "lic_yes_button"));
 	gtk_widget_set_sensitive (GTK_WIDGET (button_yes), FALSE);
-
+	
 	button_no = GTK_BUTTON (glade_xml_get_widget (xml, "lic_no_button"));
-
-	check_button = GTK_CHECK_BUTTON (glade_xml_get_widget (xml, 
-							"lic_checkbutton"));
-
+	
+	check_button = GTK_CHECK_BUTTON (glade_xml_get_widget (xml, "lic_checkbutton"));
+	
 	top_label = GTK_LABEL (glade_xml_get_widget (xml, "lic_top_label"));
-
-	label_text = g_strdup_printf (_("\n Please read carefully the license agreement\n" 
-					" for %s displayed below\n" 
-					" and tick the check box for accepting it\n"), prov->license_name);
-
+	
+	label_text = g_strdup_printf (_("\nPlease read carefully the license agreement\n" 
+					"for %s displayed below\n" 
+					"and tick the check box for accepting it\n"), prov->license);
+	
 	gtk_label_set_label (top_label, label_text);
-
-	dialog_title = g_strdup_printf (_("%s License Agreement"), prov->license_name);
+	
+	dialog_title = g_strdup_printf (_("%s License Agreement"), prov->license);
 	
 	gtk_window_set_title (GTK_WINDOW (top_widget), dialog_title);
-
-	g_signal_connect (check_button, "toggled", 
-				G_CALLBACK (check_button_state), button_yes);
+	
+	g_signal_connect (check_button, "toggled", G_CALLBACK (check_button_state), button_yes);
 	
 	response = gtk_dialog_run (GTK_DIALOG (top_widget));
 	
 	g_free (label_text);
 	g_free (dialog_title);
-
-failed:
+	
+ failed:
 	gtk_widget_destroy (top_widget);
 	g_object_unref (xml);
 	
@@ -1464,6 +1460,16 @@ construct_ssl_menu (MailAccountGuiService *service)
 }
 
 static void
+sig_activate (GtkWidget *item, MailAccountGui *gui)
+{
+	ESignature *sig;
+	
+	sig = g_object_get_data ((GObject *) item, "sig");
+	
+	gui->sig_uid = sig ? sig->uid : NULL;
+}
+
+static void
 signature_added (ESignatureList *signatures, ESignature *sig, MailAccountGui *gui)
 {
 	GtkWidget *menu, *item;
@@ -1474,6 +1480,7 @@ signature_added (ESignatureList *signatures, ESignature *sig, MailAccountGui *gu
 	else
 		item = gtk_menu_item_new_with_label (sig->name);
 	g_object_set_data ((GObject *) item, "sig", sig);
+	g_signal_connect (item, "activate", G_CALLBACK (sig_activate), gui);
 	gtk_widget_show (item);
 	
 	gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
@@ -1574,18 +1581,6 @@ sig_fill_menu (MailAccountGui *gui)
 }
 
 static void
-sig_changed (GtkWidget *menu, MailAccountGui *gui)
-{
-	GtkWidget *active;
-	ESignature *sig;
-	
-	active = gtk_menu_get_active (GTK_MENU (menu));
-	sig = g_object_get_data ((GObject *) active, "sig");
-	
-	gui->sig_uid = sig ? sig->uid : NULL;
-}
-
-static void
 sig_switch_to_list (GtkWidget *w, MailAccountGui *gui)
 {
 	gtk_window_set_transient_for (GTK_WINDOW (gtk_widget_get_toplevel (w)), NULL);
@@ -1631,6 +1626,7 @@ select_account_signature (MailAccountGui *gui)
 		cur = g_object_get_data (items->data, "sig");
 		if (cur == sig) {
 			gtk_option_menu_set_history (gui->sig_menu, i);
+			gtk_menu_item_activate (items->data);
 			break;
 		}
 		items = items->next;
@@ -1645,9 +1641,6 @@ prepare_signatures (MailAccountGui *gui)
 	
 	gui->sig_menu = (GtkOptionMenu *) glade_xml_get_widget (gui->xml, "sigOption");
 	sig_fill_menu (gui);
-	
-	g_signal_connect (gtk_option_menu_get_menu (gui->sig_menu),
-			  "selection-done", G_CALLBACK(sig_changed), gui);
 	
 	button = glade_xml_get_widget (gui->xml, "sigAddNew");
 	g_signal_connect (button, "clicked", G_CALLBACK (sig_add_new_signature), gui);

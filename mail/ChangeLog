@@ -1,3 +1,15 @@
+2004-05-04  Jeffrey Stedfast  <fejj@ximian.com>
+
+	Fix for bug #58004.
+
+	* mail-account-gui.c (display_license): Fixed to compile.
+	(select_account_signature): Activate the signature menu item.
+	(signature_added): Connect to the activate signal for each item.
+	(sig_changed): Removed.
+	(prepare_signatures): Don't bother connecting to the
+	"selection-done" signal, it doesn't seem to work the way we
+	expected it to work.
+
 2004-05-04  Sarfraaz Ahmed <asarfraaz@novell.com>
 
 	* mail-account-gui.c (display_license): This now takes CamelProvider
