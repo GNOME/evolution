@@ -446,7 +446,7 @@ static void emfh_gethttp(struct _EMFormatHTMLJob *job, int cancelled)
 		if (!(job->format->load_http_now
 		      || job->format->load_http == MAIL_CONFIG_HTTP_ALWAYS
 		      || (job->format->load_http == MAIL_CONFIG_HTTP_SOMETIMES
-			  && em_utils_in_addressbook(camel_mime_message_get_from(job->format->format.message))))) {
+			  && em_utils_in_addressbook((CamelInternetAddress *)camel_mime_message_get_from(job->format->format.message))))) {
 			/* TODO: Ideally we would put the http requests into another queue and only send them out
 			   if the user selects 'load images', when they do.  The problem is how to maintain this
 			   state with multiple renderings, and how to adjust the thread dispatch/setup routine to handle it */
@@ -1622,7 +1622,8 @@ efh_format_headers(EMFormatHTML *efh, CamelStream *stream, CamelMedium *part)
 	const char *charset;
 	CamelContentType *ct;
 	struct _camel_header_raw *header;
-	
+	int rupert = FALSE;
+			
 	ct = camel_mime_part_get_content_type((CamelMimePart *)part);
 	charset = camel_content_type_param (ct, "charset");
 	charset = e_iconv_charset_name(charset);	
@@ -1630,7 +1631,7 @@ efh_format_headers(EMFormatHTML *efh, CamelStream *stream, CamelMedium *part)
 	if (!efh->simple_headers)
 		camel_stream_printf(stream,
 				    "<font color=\"#%06x\">\n"
-				    "<table cellpadding=0>\n",
+				    "<table cellpadding=\"0\" width=\"100%\"><tr><td><table cellpadding=\"0\">\n",
 				    efh->text_colour & 0xffffff);
 
 	/* dump selected headers */
@@ -1644,9 +1645,8 @@ efh_format_headers(EMFormatHTML *efh, CamelStream *stream, CamelMedium *part)
 	} else {
 		while (h->next) {
 			int mailer;
-			
+
 			header = ((CamelMimePart *)part)->headers;
-			
 			mailer = !g_ascii_strcasecmp (h->name, "X-Evolution-Mailer");
 			
 			while (header) {
@@ -1658,6 +1658,8 @@ efh_format_headers(EMFormatHTML *efh, CamelStream *stream, CamelMedium *part)
 					xmailer.value = header->value;
 					
 					efh_format_header (emf, stream, part, &xmailer, h->flags, charset);
+					if (strstr(header->value, "Evolution"))
+						rupert = TRUE;
 				} else if (!g_ascii_strcasecmp (header->name, h->name)) {
 					efh_format_header(emf, stream, part, header, h->flags, charset);
 				}
@@ -1667,8 +1669,24 @@ efh_format_headers(EMFormatHTML *efh, CamelStream *stream, CamelMedium *part)
 		}
 	}
 	
-	if (!efh->simple_headers)
-		camel_stream_printf (stream, "</table>\n</font>\n");
+	if (!efh->simple_headers) {
+		camel_stream_printf(stream, "</table></td>");
+
+		if (rupert) {
+			char *classid;
+			CamelMimePart *iconpart;
+
+			classid = g_strdup_printf("icon:///em-format-html/%s/icon/header", emf->part_id->str);
+			camel_stream_printf(stream, "<td align=\"right\" valign=\"top\"><img src=\"%s\"></td>", classid);
+			iconpart = em_format_html_file_part((EMFormatHTML *)emf, "image/png", EVOLUTION_ICONSDIR, "monkey-16.png");
+			if (iconpart) {
+				em_format_add_puri(emf, sizeof(EMFormatPURI), classid, iconpart, efh_write_image);
+				camel_object_unref(iconpart);
+			}
+			g_free(classid);
+		}
+		camel_stream_printf (stream, "</tr></table>\n</font>\n");
+	}
 }
 
 static void efh_format_message(EMFormat *emf, CamelStream *stream, CamelMedium *part)

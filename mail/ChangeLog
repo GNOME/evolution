@@ -1,5 +1,9 @@
 2004-04-08  Not Zed  <NotZed@Ximian.com>
 
+	* em-format-html.c (efh_format_headers): add the monkey button if
+	we're from evolution.  See #52977.
+	(emfh_gethttp): cast away a warning.
+
 	* mail-folder-cache.c:
 	(update_1folder): VJUNK_FOLDER's dont exist, they're VTRASH
 	folders now.
