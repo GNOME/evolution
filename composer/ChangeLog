@@ -1,3 +1,20 @@
+2000-07-23  Ettore Perazzoli  <ettore@helixcode.com>
+
+	* e-msg-composer.c: Changed to use BonoboUIHandler stuff directly
+	instead of translating from GnomeUIInfo.
+	(create_menubar_file): New.
+	(create_menubar_edit): New.
+	(create_menubar_view): New.
+	(create_menubar_options): New.
+	(create_menubar): Use these functions to set up the menu bar.
+	(create_toolbar): Use BonoboUIHandler directly instead of
+	converting from GnomeUIInfo.
+	(toolbar_view_attachments_clicked_cb): Removed.
+	(address_dialog_cb): Removed.
+	(address_dialog_destroy_cb): Removed.
+	(address_dialog_apply_cb): Removed.
+	(setup_address_dialog): Removed.
+
 2000-07-12  Peter Williams  <peterw@helixcode.com>
 
 	* e-msg-composer.c: (view_tree) Make the "View Attachments" item
