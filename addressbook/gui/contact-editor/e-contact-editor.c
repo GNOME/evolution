@@ -1115,6 +1115,7 @@ init_address_record (EContactEditor *editor, gint record)
 	init_address_field (editor, record, "state");
 	init_address_field (editor, record, "zip");
 	init_address_field (editor, record, "country");
+	init_address_field (editor, record, "pobox");
 }
 
 static void
@@ -1173,6 +1174,7 @@ fill_in_address_record (EContactEditor *editor, gint record)
 	fill_in_address_field (editor, record, "state", address->region);
 	fill_in_address_field (editor, record, "zip", address->code);
 	fill_in_address_field (editor, record, "country", address->country);
+	fill_in_address_field (editor, record, "pobox", address->po);
 
 	g_boxed_free (e_contact_address_get_type (), address);
 }
@@ -1250,6 +1252,7 @@ extract_address_record (EContactEditor *editor, gint record)
 	address->region   = extract_address_field (editor, record, "state");
 	address->code     = extract_address_field (editor, record, "zip");
 	address->country  = extract_address_field (editor, record, "country");
+	address->po       = extract_address_field (editor, record, "pobox");
 
 	if (nonempty (address->street) ||
 	    nonempty (address->ext) ||
