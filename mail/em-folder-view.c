@@ -66,6 +66,7 @@
 #include "em-message-browser.h"
 #include "message-list.h"
 #include "em-utils.h"
+#include "em-marshal.h"
 
 #include <gtkhtml/gtkhtml.h>
 #include <gtkhtml/htmlobject.h>
@@ -103,6 +104,9 @@ static void filter_type_current (EMFolderView *emfv, int type);
 
 static void emfv_setting_setup(EMFolderView *emfv);
 
+static void emfv_on_url_cb(GObject *emitter, const char *url, EMFolderView *emfv);
+static void emfv_on_url(EMFolderView *emfv, const char *uri, const char *nice_uri);
+
 static const EMFolderViewEnable emfv_enable_map[];
 
 struct _EMFolderViewPrivate {
@@ -119,6 +123,13 @@ struct _EMFolderViewPrivate {
 
 static GtkVBoxClass *emfv_parent;
 
+enum {
+	EMFV_ON_URL,
+	LAST_SIGNAL
+};
+
+static guint signals[LAST_SIGNAL];
+
 static void emfv_selection_get(GtkWidget *widget, GtkSelectionData *data, guint info, guint time_stamp, EMFolderView *emfv);
 static void emfv_selection_clear_event(GtkWidget *widget, GdkEventSelection *event, EMFolderView *emfv);
 
@@ -132,6 +143,8 @@ emfv_init(GObject *o)
 
 	p = emfv->priv = g_malloc0(sizeof(struct _EMFolderViewPrivate));
 
+	emfv->statusbar_active = TRUE;
+	
 	emfv->ui_files = g_slist_append(NULL, EVOLUTION_UIDIR "/evolution-mail-message.xml");
 	emfv->ui_app_name = "evolution-mail";
 
@@ -148,6 +161,7 @@ emfv_init(GObject *o)
 	emfv->preview = (EMFormatHTMLDisplay *)em_format_html_display_new();
 	g_signal_connect(emfv->preview, "link_clicked", G_CALLBACK(emfv_format_link_clicked), emfv);
 	g_signal_connect(emfv->preview, "popup_event", G_CALLBACK(emfv_format_popup_event), emfv);
+	g_signal_connect (emfv->preview, "on_url", G_CALLBACK (emfv_on_url_cb), emfv);
 
 	p->invisible = gtk_invisible_new();
 	g_object_ref(p->invisible);
@@ -229,6 +243,17 @@ emfv_class_init(GObjectClass *klass)
 	((EMFolderViewClass *)klass)->set_folder_uri = emfv_set_folder_uri;
 	((EMFolderViewClass *)klass)->set_message = emfv_set_message;
 	((EMFolderViewClass *)klass)->activate = emfv_activate;
+
+	((EMFolderViewClass *)klass)->on_url = emfv_on_url;
+
+	signals[EMFV_ON_URL] = g_signal_new ("on-url",
+					     G_OBJECT_CLASS_TYPE (klass),
+					     G_SIGNAL_RUN_LAST,
+					     G_STRUCT_OFFSET (EMFolderViewClass, on_url),
+					     NULL, NULL,
+					     em_marshal_VOID__STRING_STRING,
+					     G_TYPE_NONE,
+					     2, G_TYPE_STRING, G_TYPE_STRING);
 }
 
 GType
@@ -1550,6 +1575,8 @@ emfv_activate(EMFolderView *emfv, BonoboUIComponent *uic, int act)
 		e_charset_picker_bonobo_ui_populate (uic, "/menu/View", _("Default"), emfv_charset_changed, emfv);
 
 		emfv_enable_menus(emfv);
+		if (emfv->statusbar_active)
+			bonobo_ui_component_set_translate (uic, "/", "<status><item name=\"main\"/></status>", NULL);
 	} else {
 		const BonoboUIVerb *v;
 
@@ -1626,6 +1653,18 @@ em_folder_view_get_popup_target(EMFolderView *emfv)
 		t->mask &= ~EM_FOLDER_VIEW_SELECT_HIDDEN;
 
 	return t;
+}
+
+void
+em_folder_view_set_statusbar (EMFolderView *emfv, gboolean statusbar)
+{
+	g_return_if_fail (emfv);
+	
+	emfv->statusbar_active = statusbar;
+
+	if (statusbar && emfv->uic)
+		bonobo_ui_component_set_translate (emfv->uic, "/",
+						   "<status><item name=\"main\"/></status>", NULL);
 }
 
 /* ********************************************************************** */
@@ -2048,4 +2087,35 @@ emfv_setting_setup(EMFolderView *emfv)
 								(GConfClientNotifyFunc)emfv_setting_notify,
 								emfv, NULL, NULL);
 	g_object_unref(gconf);
+}
+
+static void
+emfv_on_url (EMFolderView *emfv, const char *uri, const char *nice_uri)
+{
+	if (emfv->statusbar_active) {
+		if (emfv->uic) {
+			bonobo_ui_component_set_status (emfv->uic, nice_uri, NULL);
+			/* Make sure the node keeps existing if nice_url == NULL */
+			if (!nice_uri)
+				bonobo_ui_component_set_translate (
+					emfv->uic, "/", "<status><item name=\"main\"/></status>", NULL);
+		}
+	}
+}
+
+static void
+emfv_on_url_cb (GObject *emitter, const char *url, EMFolderView *emfv)
+{
+	char *nice_url = NULL;
+
+	if (url) {
+		if (strncmp (url, "mailto:", 7) == 0)
+			nice_url = g_strdup_printf (_("Click to mail %s"), url + 7);
+		else
+			nice_url = g_strdup_printf (_("Click to open %s"), url);
+	}
+	
+	g_signal_emit (emfv, signals[EMFV_ON_URL], 0, url, nice_url);
+	
+	g_free (nice_url);
 }

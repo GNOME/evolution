@@ -279,6 +279,30 @@ e_activity_handler_new (void)
 	return g_object_new (e_activity_handler_get_type (), 0);
 }
 
+void
+e_activity_handler_set_message (EActivityHandler *activity_handler,
+				const char       *message)
+{
+	EActivityHandlerPrivate *priv;
+	GSList *i;
+
+	priv = activity_handler->priv;
+
+	for (i = priv->task_bars; i; i = i->next)
+		e_task_bar_set_message (E_TASK_BAR (i->data), message);
+}
+
+void
+e_activity_handler_unset_message (EActivityHandler *activity_handler)
+{
+	EActivityHandlerPrivate *priv;
+	GSList *i;
+
+	priv = activity_handler->priv;
+
+	for (i = priv->task_bars; i; i = i->next)
+		e_task_bar_unset_message (E_TASK_BAR (i->data));
+}
 
 void
 e_activity_handler_attach_task_bar (EActivityHandler *activity_handler,

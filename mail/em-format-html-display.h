@@ -35,6 +35,8 @@ struct _EMFormatHTMLDisplayClass {
 	void (*link_clicked)(EMFormatHTMLDisplay *efhd, const char *uri);
 	/* a part or a link button pressed event */
 	int (*popup_event)(EMFormatHTMLDisplay *efhd, GdkEventButton *event, const char *uri, struct _CamelMimePart *part);
+	/* the mouse is over a link */
+	void (*on_url)(EMFormatHTMLDisplay *efhd, const char *uri);
 };
 
 GType em_format_html_display_get_type(void);

@@ -319,6 +319,13 @@ impl_finalize (GObject *object)
 	(* G_OBJECT_CLASS (parent_class)->finalize) (object);
 }
 
+static void
+view_on_url (GObject *emitter, const char *url, const char *nice_url, MailComponent *mail_component)
+{
+	MailComponentPrivate *priv = mail_component->priv;
+	
+	e_activity_handler_set_message (priv->activity_handler, nice_url);
+}
 
 /* Evolution::Component CORBA methods.  */
 
@@ -342,6 +349,9 @@ impl_createControls (PortableServer_Servant servant,
 	tree_widget = (GtkWidget *) em_folder_tree_new_with_model (priv->model);
 	em_folder_tree_enable_drag_and_drop ((EMFolderTree *) tree_widget);
 	em_format_set_session ((EMFormat *) ((EMFolderView *) view_widget)->preview, session);
+
+	g_signal_connect (view_widget, "on-url", G_CALLBACK (view_on_url), mail_component);
+	em_folder_view_set_statusbar ((EMFolderView*)view_widget, FALSE);
 	
 	statusbar_widget = e_task_bar_new ();
 	e_activity_handler_attach_task_bar (priv->activity_handler, E_TASK_BAR (statusbar_widget));

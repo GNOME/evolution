@@ -78,6 +78,7 @@ struct _EMFolderView {
 	int mark_seen_timeout;	/* local copy of gconf stuff */
 	int mark_seen:1;
 	int preview_active:1;	/* is preview being used */
+	int statusbar_active:1; /* should we manage the statusbar messages ourselves? */
 };
 
 struct _EMFolderViewClass {
@@ -89,6 +90,9 @@ struct _EMFolderViewClass {
 	void (*set_folder_uri)(EMFolderView *emfv, const char *uri);
 	void (*set_folder)(EMFolderView *emfv, struct _CamelFolder *folder, const char *uri);
 	void (*set_message)(EMFolderView *emfv, const char *uid);
+
+	/* Signals */
+	void (*on_url)(EMFolderView *emfv, const char *uri, const char *nice_uri);
 };
 
 GType em_folder_view_get_type(void);
@@ -109,6 +113,8 @@ int em_folder_view_print(EMFolderView *emfv, int preview);
 
 /* this could be on message-list */
 guint32 em_folder_view_disable_mask(EMFolderView *emfv);
+
+void em_folder_view_set_statusbar (EMFolderView *emfv, gboolean statusbar);
 
 #ifdef __cplusplus
 }

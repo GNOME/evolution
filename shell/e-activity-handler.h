@@ -63,6 +63,11 @@ EActivityHandler *e_activity_handler_new  (void);
 void  e_activity_handler_attach_task_bar  (EActivityHandler *activity_hanlder,
 					   ETaskBar         *task_bar);
 
+void  e_activity_handler_set_message   (EActivityHandler *activity_handler,
+				        const char       *message);
+
+void  e_activity_handler_unset_message (EActivityHandler *activity_handler);
+
 guint  e_activity_handler_operation_started  (EActivityHandler *activity_handler,
 					      const char       *component_id,
 					      GdkPixbuf        *icon_pixbuf,

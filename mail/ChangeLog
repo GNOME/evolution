@@ -56,6 +56,21 @@
 	* em-format.c (em_format_find_handler): make virtual, rename to
 	emf_find_handler.
 
+2004-01-04  ERDI Gergo  <cactus@cactus.rulez.org>
+
+	* em-folder-view.c (emfv_on_url_cb): Emit a hover-url signal when
+	the user mouses over a URL, ...
+	(emfv_hover_url_impl): ... and use BonoboUI to change the status
+	bar message...
+	(em_folder_view_set_statusbar): ... unless we are asked not to, ...
+
+	* mail-component.c (impl_createControls): ... like in the case of
+	the mail component, ...
+	(view_hover_url_cb): ... that uses the ActivityHandler to do the
+	same
+
+	Add these together, and #127536 is neatly solved.
+
 2004-01-04  David Woodhouse  <dwmw2@infradead.org>
 
 	* em-format-html-display.c: Mail warning grammar typo fix.

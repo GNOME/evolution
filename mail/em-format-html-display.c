@@ -106,6 +106,7 @@ struct _EMFormatHTMLDisplayPrivate {
 
 static int efhd_html_button_press_event (GtkWidget *widget, GdkEventButton *event, EMFormatHTMLDisplay *efh);
 static void efhd_html_link_clicked (GtkHTML *html, const char *url, EMFormatHTMLDisplay *efhd);
+static void efhd_html_on_url (GtkHTML *html, const char *url, EMFormatHTMLDisplay *efhd);
 
 struct _attach_puri {
 	EMFormatPURI puri;
@@ -140,6 +141,7 @@ static void efhd_builtin_init(EMFormatHTMLDisplayClass *efhc);
 enum {
 	EFHD_LINK_CLICKED,
 	EFHD_POPUP_EVENT,
+	EFHD_ON_URL,
 	EFHD_LAST_SIGNAL,
 };
 
@@ -290,6 +292,16 @@ efhd_class_init(GObjectClass *klass)
 			     GDK_TYPE_EVENT | G_SIGNAL_TYPE_STATIC_SCOPE,
 			     G_TYPE_POINTER, G_TYPE_POINTER);
 
+	efhd_signals[EFHD_ON_URL] = 
+		g_signal_new("on_url",
+			     G_TYPE_FROM_CLASS(klass),
+			     G_SIGNAL_RUN_LAST,
+			     G_STRUCT_OFFSET(EMFormatHTMLDisplayClass, on_url),
+			     NULL, NULL,
+			     gtk_marshal_VOID__STRING,
+			     G_TYPE_NONE, 1,
+			     G_TYPE_STRING);
+
 	efhd_builtin_init((EMFormatHTMLDisplayClass *)klass);
 }
 
@@ -324,6 +336,7 @@ EMFormatHTMLDisplay *em_format_html_display_new(void)
 
 	g_signal_connect(efhd->formathtml.html, "iframe_created", G_CALLBACK(efhd_iframe_created), efhd);
 	g_signal_connect(efhd->formathtml.html, "link_clicked", G_CALLBACK(efhd_html_link_clicked), efhd);
+	g_signal_connect(efhd->formathtml.html, "on_url", G_CALLBACK(efhd_html_on_url), efhd);
 	g_signal_connect(efhd->formathtml.html, "button_press_event", G_CALLBACK(efhd_html_button_press_event), efhd);
 
 	return efhd;
@@ -590,6 +603,13 @@ efhd_html_link_clicked (GtkHTML *html, const char *url, EMFormatHTMLDisplay *efh
 {
 	d(printf("link clicked event '%s'\n", url));
 	g_signal_emit((GObject *)efhd, efhd_signals[EFHD_LINK_CLICKED], 0, url);
+}
+
+static void
+efhd_html_on_url (GtkHTML *html, const char *url, EMFormatHTMLDisplay *efhd)
+{
+	d(printf("on_url event '%s'\n", url));
+	g_signal_emit((GObject *)efhd, efhd_signals[EFHD_ON_URL], 0, url);
 }
 
 static void

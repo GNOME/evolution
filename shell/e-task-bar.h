@@ -44,7 +44,9 @@ typedef struct _ETaskBarPrivate ETaskBarPrivate;
 typedef struct _ETaskBarClass   ETaskBarClass;
 
 struct _ETaskBar {
-	GtkHBox parent;
+	GtkHBox          parent;
+	
+	ETaskBarPrivate *priv;
 };
 
 struct _ETaskBarClass {
@@ -55,6 +57,10 @@ struct _ETaskBarClass {
 GtkType      e_task_bar_get_type         (void);
 void         e_task_bar_construct        (ETaskBar    *task_bar);
 GtkWidget   *e_task_bar_new              (void);
+
+void         e_task_bar_set_message      (ETaskBar    *task_bar,
+					  const char  *message);
+void         e_task_bar_unset_message    (ETaskBar    *task_bar);
 
 void         e_task_bar_prepend_task     (ETaskBar    *task_bar,
 					  ETaskWidget *task_widget);

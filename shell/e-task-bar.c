@@ -27,8 +27,15 @@
 #include "e-task-bar.h"
 
 #include <gal/util/e-util.h>
+#include <gtk/gtklabel.h>
 
 
+struct _ETaskBarPrivate
+{
+	GtkLabel *message_label;
+	GtkHBox  *hbox;
+};
+
 #define PARENT_TYPE gtk_hbox_get_type ()
 static GtkHBoxClass *parent_class = NULL;
 
@@ -46,7 +53,7 @@ reduce_displayed_activities_per_component (ETaskBar *task_bar)
 
 	component_ids_hash = g_hash_table_new (g_str_hash, g_str_equal);
 
-	box = GTK_BOX (task_bar);
+	box = GTK_BOX (task_bar->priv->hbox);
 
 	for (p = box->children; p != NULL; p = p->next) {
 		GtkBoxChild *child;
@@ -90,7 +97,22 @@ class_init (GtkObjectClass *object_class)
 static void
 init (ETaskBar *task_bar)
 {
-	/* Nothing to do here.  */
+	GtkWidget *label, *hbox;
+	
+	task_bar->priv = g_new (ETaskBarPrivate, 1);
+
+	gtk_box_set_spacing (GTK_BOX (task_bar), 10);
+	
+	label = gtk_label_new ("");
+	gtk_widget_show (label);
+	gtk_box_pack_start (GTK_BOX (task_bar), label, FALSE, TRUE, 0);
+	gtk_misc_set_alignment (GTK_MISC (label), 0, 0.5); 
+	task_bar->priv->message_label = GTK_LABEL (label);
+
+	hbox = gtk_hbox_new (0, FALSE);
+	gtk_widget_show (hbox);
+	gtk_container_add (GTK_CONTAINER (task_bar), hbox);	
+	task_bar->priv->hbox = GTK_HBOX (hbox);
 }
 
 
@@ -115,6 +137,24 @@ e_task_bar_new (void)
 }
 
 void
+e_task_bar_set_message (ETaskBar   *task_bar,
+			const char *message)
+{
+	if (message) {
+		gtk_widget_show (GTK_WIDGET (task_bar->priv->message_label));
+		gtk_label_set_text (task_bar->priv->message_label, message);
+	} else {
+		e_task_bar_unset_message (task_bar);
+	}
+}
+
+void
+e_task_bar_unset_message (ETaskBar   *task_bar)
+{
+	gtk_widget_hide (GTK_WIDGET (task_bar->priv->message_label));
+}
+
+void
 e_task_bar_prepend_task (ETaskBar *task_bar,
 			 ETaskWidget *task_widget)
 {
@@ -135,11 +175,11 @@ e_task_bar_prepend_task (ETaskBar *task_bar,
 	child_info->fill = TRUE;
 	child_info->pack = GTK_PACK_START;
 
-	box = GTK_BOX (task_bar);
+	box = GTK_BOX (task_bar->priv->hbox);
 
 	box->children = g_list_prepend (box->children, child_info);
 
-	gtk_widget_set_parent (GTK_WIDGET (task_widget), GTK_WIDGET (task_bar));
+	gtk_widget_set_parent (GTK_WIDGET (task_widget), GTK_WIDGET (task_bar->priv->hbox));
 
 	if (GTK_WIDGET_REALIZED (task_bar))
 		gtk_widget_realize (GTK_WIDGET (task_widget));
@@ -178,7 +218,7 @@ e_task_bar_get_task_widget (ETaskBar *task_bar,
 	g_return_val_if_fail (task_bar != NULL, NULL);
 	g_return_val_if_fail (E_IS_TASK_BAR (task_bar), NULL);
 
-	child_info = (GtkBoxChild *) g_list_nth (GTK_BOX (task_bar)->children, n)->data;
+	child_info = (GtkBoxChild *) g_list_nth (GTK_BOX (task_bar->priv->hbox)->children, n)->data;
 
 	return E_TASK_WIDGET (child_info->widget);
 }
