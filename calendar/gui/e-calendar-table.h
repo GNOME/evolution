@@ -87,6 +87,7 @@ struct _ECalendarTable
 	/* The invisible widget used for cut/copy/paste */
 	GtkWidget *invisible;
 	gchar *clipboard_selection;
+	icalcomponent *tmp_vcal;
 };
 
 struct _ECalendarTableClass
