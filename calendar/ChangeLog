@@ -1,3 +1,8 @@
+1999-05-25  Miguel de Icaza  <miguel@nuclecu.unam.mx>
+
+	* calobj.c (load_recurrence): Make intervals always exist.  a 0
+	interval is wrong.
+
 1999-05-25  Federico Mena Quintero  <federico@nuclecu.unam.mx>
 
 	* year-view.c: Removed unused macro CALENDAR_HEIGHT.

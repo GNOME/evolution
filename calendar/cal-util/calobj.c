@@ -412,6 +412,10 @@ load_recurrence (iCalObject *o, char *str)
 	/* Get the interval */
 	for (;*str && isdigit (*str);str++)
 		interval = interval * 10 + (*str-'0');
+
+	if (interval == 0)
+		interval = 1;
+	
 	o->recur->interval = interval;
 
 	/* this is the default per the spec */
