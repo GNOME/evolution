@@ -1,3 +1,8 @@
+2002-09-04  Not Zed  <NotZed@Ximian.com>
+
+	* component-factory.c (storage_xfer_folder): Dont translate / to
+	dir_sep anymore, we always use /.
+
 2002-08-30  Radek Doulik  <rodo@ximian.com>
 
 	* mail-display.c (mail_display_render): don't set margins for raw

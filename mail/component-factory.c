@@ -1231,18 +1231,6 @@ storage_xfer_folder (EvolutionStorage *storage,
 	sep = store->dir_sep;
 	src = g_strdup(source_path[0]=='/'?source_path+1:source_path);
 	dst = g_strdup(destination_path[0]=='/'?destination_path+1:destination_path);
-	if (sep != '/') {
-		p = src;
-		while ((c = *p++))
-			if (c == '/')
-				p[-1] = sep;
-		
-		p = dst;
-		while ((c = *p++))
-			if (c == '/')
-				p[-1] = sep;
-	}
-
 	camel_exception_init (&ex);
 	if (remove_source) {
 		d(printf("trying to rename\n"));
