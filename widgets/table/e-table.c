@@ -65,9 +65,6 @@ et_destroy (GtkObject *object)
 			       et->table_row_change_id);
 	gtk_signal_disconnect (GTK_OBJECT (et->model),
 			       et->table_cell_change_id);
-	if (et->sort_info_change_id)
-		gtk_signal_disconnect (GTK_OBJECT (et->sort_info),
-				       et->sort_info_change_id);
 	if (et->group_info_change_id)
 		gtk_signal_disconnect (GTK_OBJECT (et->sort_info),
 				       et->group_info_change_id);
@@ -96,7 +93,6 @@ e_table_init (GtkObject *object)
 	gtk_table->homogeneous = FALSE;
 	
 	e_table->sort_info = NULL;
-	e_table->sort_info_change_id = 0;
 	e_table->group_info_change_id = 0;
 
 	e_table->draw_grid = 1;
@@ -149,6 +145,7 @@ e_table_setup_header (ETable *e_table)
 }
 
 static void
+
 table_canvas_size_allocate (GtkWidget *widget, GtkAllocation *alloc,
 			    ETable *e_table)
 {
@@ -361,9 +358,6 @@ et_grouping_xml_to_sort_info (ETable *table, xmlNode *grouping)
 		e_table_sort_info_sorting_set_nth(table->sort_info, i++, column);
 	}
 
-	table->sort_info_change_id = 
-		gtk_signal_connect (GTK_OBJECT (table->sort_info), "sort_info_changed", 
-				    GTK_SIGNAL_FUNC (sort_info_changed), table);
 	table->group_info_change_id = 
 		gtk_signal_connect (GTK_OBJECT (table->sort_info), "group_info_changed", 
 				    GTK_SIGNAL_FUNC (sort_info_changed), table);
@@ -584,6 +578,12 @@ e_table_save_specification (ETable *e_table, gchar *filename)
 
 	xmlSaveFile (filename, doc);
 	xmlFreeDoc (doc);
+}
+
+void
+e_table_select_row (ETable *e_table, int row)
+{
+	
 }
 
 static void

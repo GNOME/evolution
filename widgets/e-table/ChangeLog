@@ -1,3 +1,19 @@
+2000-04-30  Christopher James Lahey  <clahey@helixcode.com>
+
+	* e-table-header-item.c: Made this more reentrant.
+
+	* e-table-sorted-variable.c, e-table-sorted-variable.h: Does a
+	proper resort when the sorting info changes.
+
+	* e-table.c, e-table.h: Made it so that ETable doesn't destroy and
+	recreate the entire table when sorting info changes.
+
+2000-04-27  Christopher James Lahey  <clahey@helixcode.com>
+
+	* arrow-down.xpm, arrow-up.xpm, e-cell-text.c, e-cell-toggle.c,
+	e-table-col.c, e-table-config.c, e-table-header-item.c: Fixed some
+	warnings.
+
 2000-04-26  Christopher James Lahey  <clahey@helixcode.com>
 
 	* e-table-header-item.c: Added a missing include.

@@ -953,6 +953,7 @@ ethi_event (GnomeCanvasItem *item, GdkEvent *e)
 	GnomeCanvas *canvas = item->canvas;
 	const gboolean resizing = ETHI_RESIZING (ethi);
 	int x, y, start, col;
+	int was_maybe_drag = 0;
 	
 	switch (e->type){
 	case GDK_ENTER_NOTIFY:
@@ -1042,11 +1043,15 @@ ethi_event (GnomeCanvasItem *item, GdkEvent *e)
 		
 	case GDK_BUTTON_RELEASE: {
 		gboolean needs_ungrab = FALSE;
+		
+		was_maybe_drag = ethi->maybe_drag;
+
+		ethi->maybe_drag = FALSE;
 
 		if (ethi->resize_col != -1){
 			needs_ungrab = (ethi->resize_guide != NULL);
 			ethi_end_resize (ethi, ethi->resize_width);
-		} else if (ethi->maybe_drag && ethi->sort_info) {
+		} else if (was_maybe_drag && ethi->sort_info) {
 			ETableCol *col;
 			int model_col;
 			int length;
@@ -1090,10 +1095,10 @@ ethi_event (GnomeCanvasItem *item, GdkEvent *e)
 				e_table_sort_info_sorting_set_nth(ethi->sort_info, length - 1, column);
 			}
 		}
+
 		if (needs_ungrab)
 			gnome_canvas_item_ungrab (item, e->button.time);
 
-		ethi->maybe_drag = FALSE;
 		break;
 	}
 	

@@ -23,6 +23,7 @@ static ETableSubsetVariableClass *etsv_parent_class;
 static void etsv_proxy_model_changed (ETableModel *etm, ETableSortedVariable *etsv);
 static void etsv_proxy_model_row_changed (ETableModel *etm, int row, ETableSortedVariable *etsv);
 static void etsv_proxy_model_cell_changed (ETableModel *etm, int col, int row, ETableSortedVariable *etsv);
+static void etsv_sort_info_changed (ETableSortInfo *info, ETableSortedVariable *etsv);
 static void etsv_add       (ETableSubsetVariable *etssv, gint                  row);
 
 static void
@@ -37,6 +38,8 @@ etsv_destroy (GtkObject *object)
 			       etsv->table_model_row_changed_id);
 	gtk_signal_disconnect (GTK_OBJECT (etss->source),
 			       etsv->table_model_cell_changed_id);
+	gtk_signal_disconnect (GTK_OBJECT (etsv->sort_info),
+			       etsv->sort_info_changed_id);
 
 	etsv->table_model_changed_id = 0;
 	etsv->table_model_row_changed_id = 0;
@@ -137,6 +140,8 @@ e_table_sorted_variable_new (ETableModel *source, ETableHeader *full_header, ETa
 							       GTK_SIGNAL_FUNC (etsv_proxy_model_row_changed), etsv);
 	etsv->table_model_cell_changed_id = gtk_signal_connect (GTK_OBJECT (source), "model_cell_changed",
 								GTK_SIGNAL_FUNC (etsv_proxy_model_cell_changed), etsv);
+	etsv->sort_info_changed_id = gtk_signal_connect (GTK_OBJECT (sort_info), "sort_info_changed",
+							 GTK_SIGNAL_FUNC (etsv_sort_info_changed), etsv);
 	
 	return E_TABLE_MODEL(etsv);
 }
@@ -169,3 +174,47 @@ etsv_proxy_model_cell_changed (ETableModel *etm, int col, int row, ETableSortedV
 	}
 }
 
+static ETableSortedVariable *etsv_closure;
+
+static int
+qsort_callback(const void *data1, const void *data2)
+{
+	int j;
+	int comp_val = 0;
+	int ascending = 1;
+	int sort_count = e_table_sort_info_sorting_get_count(etsv_closure->sort_info);
+	int row1 = *(int *)data1;
+	int row2 = *(int *)data2;
+
+	while(gtk_events_pending())
+		gtk_main_iteration();
+	for (j = 0; j < sort_count; j++) {
+		ETableSortColumn column = e_table_sort_info_sorting_get_nth(etsv_closure->sort_info, j);
+		ETableCol *col;
+		void *val;
+		if (column.column > e_table_header_count (etsv_closure->full_header))
+			col = e_table_header_get_columns (etsv_closure->full_header)[e_table_header_count (etsv_closure->full_header) - 1];
+		else
+			col = e_table_header_get_columns (etsv_closure->full_header)[column.column];
+		val = e_table_model_value_at (E_TABLE_SUBSET(etsv_closure)->source, col->col_idx, row1);
+		comp_val = (*col->compare)(val, e_table_model_value_at (E_TABLE_SUBSET(etsv_closure)->source, col->col_idx, row2));
+		ascending = column.ascending;
+		if (comp_val != 0)
+			break;
+	}
+	if (((ascending && comp_val < 0) || ((!ascending) && comp_val > 0)))
+		return -1;
+	
+	if (comp_val == 0)
+		if ((ascending && row1 < row2) || ((!ascending) && row1 > row2))
+			return -1;
+	return 1;
+}
+
+static void
+etsv_sort_info_changed (ETableSortInfo *info, ETableSortedVariable *etsv)
+{
+	etsv_closure = etsv;
+	qsort(E_TABLE_SUBSET(etsv)->map_table, E_TABLE_SUBSET(etsv)->n_map, sizeof(int), qsort_callback);
+	e_table_model_changed (E_TABLE_MODEL(etsv));
+}

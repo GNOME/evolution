@@ -24,6 +24,7 @@ typedef struct {
 	int              table_model_changed_id;
 	int              table_model_row_changed_id;
 	int              table_model_cell_changed_id;
+	int              sort_info_changed_id;
 } ETableSortedVariable;
 
 typedef struct {
