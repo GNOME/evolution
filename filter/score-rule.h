@@ -1,7 +1,9 @@
+/* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
- *  Copyright (C) 2000 Ximian Inc.
+ *  Copyright (C) 2000-2002 Ximian Inc.
  *
  *  Authors: Not Zed <notzed@lostzed.mmc.com.au>
+ *           Jeffrey Stedfast <fejj@ximian.com>
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2 of the GNU General Public
@@ -18,37 +20,41 @@
  * Boston, MA 02111-1307, USA.
  */
 
+
 #ifndef _SCORE_RULE_H
 #define _SCORE_RULE_H
 
 #include "filter-rule.h"
 
-#define SCORE_RULE(obj)	GTK_CHECK_CAST (obj, score_rule_get_type (), ScoreRule)
-#define SCORE_RULE_CLASS(klass)	GTK_CHECK_CLASS_CAST (klass, score_rule_get_type (), ScoreRuleClass)
-#define IS_SCORE_RULE(obj)      GTK_CHECK_TYPE (obj, score_rule_get_type ())
+#define SCORE_TYPE_RULE            (score_rule_get_type ())
+#define SCORE_RULE(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), SCORE_TYPE_RULE, ScoreRule))
+#define SCORE_RULE_CLASS(klass)    (G_TYPE_CHECK_CLASS_CAST ((klass), SCORE_TYPE_RULE, ScoreRuleClass))
+#define IS_SCORE_RULE(obj)         (G_TYPE_CHECK_INSTANCE_TYPE ((obj), SCORE_TYPE_RULE))
+#define IS_SCORE_RULE_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), SCORE_TYPE_RULE))
+#define SCORE_RULE_GET_CLASS(obj)  (G_TYPE_INSTANCE_GET_CLASS ((obj), SCORE_TYPE_RULE, ScoreRuleClass))
 
-typedef struct _ScoreRule	ScoreRule;
-typedef struct _ScoreRuleClass	ScoreRuleClass;
+typedef struct _ScoreRule ScoreRule;
+typedef struct _ScoreRuleClass ScoreRuleClass;
 
 struct _ScoreRule {
-	FilterRule parent;
-	struct _ScoreRulePrivate *priv;
-
+	FilterRule parent_object;
+	
 	int score;
 };
 
 struct _ScoreRuleClass {
 	FilterRuleClass parent_class;
-
+	
 	/* virtual methods */
-
+	
 	/* signals */
 };
 
-guint		score_rule_get_type	(void);
-ScoreRule	*score_rule_new	(void);
+
+GType score_rule_get_type (void);
+
+ScoreRule *score_rule_new (void);
 
 /* methods */
 
 #endif /* ! _SCORE_RULE_H */
-

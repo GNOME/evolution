@@ -42,7 +42,7 @@ static void filter_editor_init (FilterEditor *fe);
 static void filter_editor_finalise (GObject *obj);
 
 
-static GnomeDialogClass *parent_class = NULL;
+static RuleEditorClass *parent_class = NULL;
 
 
 GtkType
@@ -75,7 +75,7 @@ filter_editor_class_init (FilterEditorClass *klass)
 	GtkObjectClass *object_class = (GtkObjectClass *) klass;
 	RuleEditorClass *re_class = (RuleEditorClass *) klass;
 	
-	parent_class = gtk_type_class (gnome_dialog_get_type ());
+	parent_class = gtk_type_class (rule_editor_get_type ());
 	
 	gobject_class->finalize = filter_editor_finalise;
 	
@@ -86,16 +86,12 @@ filter_editor_class_init (FilterEditorClass *klass)
 static void
 filter_editor_init (FilterEditor *fe)
 {
-	fe->priv = g_malloc0 (sizeof (*fe->priv));
+	;
 }
 
 static void
 filter_editor_finalise (GObject *obj)
 {
-	FilterEditor *fe = (FilterEditor *) obj;
-	
-	g_free (fe->priv);
-	
         G_OBJECT_CLASS (parent_class)->finalize (obj);
 }
 

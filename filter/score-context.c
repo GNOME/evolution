@@ -1,7 +1,9 @@
+/* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
- *  Copyright (C) 2000 Ximian Inc.
+ *  Copyright (C) 2000-2002 Ximian Inc.
  *
  *  Authors: Not Zed <notzed@lostzed.mmc.com.au>
+ *           Jeffrey Stedfast <fejj@ximian.com>
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2 of the GNU General Public
@@ -18,75 +20,71 @@
  * Boston, MA 02111-1307, USA.
  */
 
+
 #ifdef HAVE_CONFIG_H
 #include <config.h>
 #endif
-
-#include <gtk/gtkobject.h>
 
 #include "score-context.h"
 #include "score-rule.h"
 
 
-static void score_context_class_init	(ScoreContextClass *class);
-static void score_context_init	(ScoreContext *gspaper);
-static void score_context_finalise	(GtkObject *obj);
+static void score_context_class_init (ScoreContextClass *klass);
+static void score_context_init (ScoreContext *sc);
+static void score_context_finalise (GObject *obj);
 
-static RuleContextClass *parent_class;
 
-guint
+static RuleContextClass *parent_class = NULL;
+
+
+GType
 score_context_get_type (void)
 {
-	static guint type = 0;
+	static GType type = 0;
 	
 	if (!type) {
-		GtkTypeInfo type_info = {
-			"ScoreContext",
-			sizeof(ScoreContext),
-			sizeof(ScoreContextClass),
-			(GtkClassInitFunc)score_context_class_init,
-			(GtkObjectInitFunc)score_context_init,
-			(GtkArgSetFunc)NULL,
-			(GtkArgGetFunc)NULL
+		static const GTypeInfo info = {
+			sizeof (ScoreContextClass),
+			NULL, /* base_class_init */
+			NULL, /* base_class_finalize */
+			(GClassInitFunc) score_context_class_init,
+			NULL, /* class_finalize */
+			NULL, /* class_data */
+			sizeof (ScoreContext),
+			0,    /* n_preallocs */
+			(GInstanceInitFunc) score_context_init,
 		};
 		
-		type = gtk_type_unique(rule_context_get_type (), &type_info);
+		type = g_type_register_static (RULE_TYPE_CONTEXT, "ScoreContext", &info, 0);
 	}
 	
 	return type;
 }
 
 static void
-score_context_class_init (ScoreContextClass *class)
+score_context_class_init (ScoreContextClass *klass)
 {
-	GtkObjectClass *object_class;
+	GObjectClass *object_class = G_OBJECT_CLASS (klass);
 	
-	object_class = (GtkObjectClass *)class;
-	parent_class = gtk_type_class(rule_context_get_type ());
-
+	parent_class = g_type_class_ref (rule_context_get_type ());
+	
 	object_class->finalize = score_context_finalise;
-	/* override methods */
-
 }
 
 static void
-score_context_init (ScoreContext *o)
+score_context_init (ScoreContext *sc)
 {
-	rule_context_add_part_set((RuleContext *)o, "partset", filter_part_get_type(),
-				  rule_context_add_part, rule_context_next_part);
+	rule_context_add_part_set ((RuleContext *) sc, "partset", filter_part_get_type (),
+				   rule_context_add_part, rule_context_next_part);
 	
-	rule_context_add_rule_set((RuleContext *)o, "ruleset", score_rule_get_type(),
-				  rule_context_add_rule, rule_context_next_rule);
+	rule_context_add_rule_set ((RuleContext *) sc, "ruleset", score_rule_get_type (),
+				   rule_context_add_rule, rule_context_next_rule);
 }
 
 static void
-score_context_finalise(GtkObject *obj)
+score_context_finalise (GObject *obj)
 {
-	ScoreContext *o = (ScoreContext *)obj;
-
-	o = o;
-
-        ((GtkObjectClass *)(parent_class))->finalize(obj);
+        G_OBJECT_CLASS (parent_class)->finalize (obj);
 }
 
 /**
@@ -97,8 +95,7 @@ score_context_finalise(GtkObject *obj)
  * Return value: A new #ScoreContext object.
  **/
 ScoreContext *
-score_context_new(void)
+score_context_new (void)
 {
-	ScoreContext *o = (ScoreContext *)gtk_type_new(score_context_get_type ());
-	return o;
+	return (ScoreContext *) g_object_new (SCORE_TYPE_CONTEXT, NULL, NULL);
 }

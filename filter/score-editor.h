@@ -1,7 +1,9 @@
+/* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
- *  Copyright (C) 2000 Ximian Inc.
+ *  Copyright (C) 2000-2002 Ximian Inc.
  *
  *  Authors: Not Zed <notzed@lostzed.mmc.com.au>
+ *           Jeffrey Stedfast <fejj@ximian.com>
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2 of the GNU General Public
@@ -18,36 +20,39 @@
  * Boston, MA 02111-1307, USA.
  */
 
+
 #ifndef _SCORE_EDITOR_H
 #define _SCORE_EDITOR_H
 
 #include "rule-editor.h"
+#include "score-context.h"
 
-#define SCORE_EDITOR(obj)	GTK_CHECK_CAST (obj, score_editor_get_type (), ScoreEditor)
-#define SCORE_EDITOR_CLASS(klass)	GTK_CHECK_CLASS_CAST (klass, score_editor_get_type (), ScoreEditorClass)
-#define IS_SCORE_EDITOR(obj)      GTK_CHECK_TYPE (obj, score_editor_get_type ())
+#define SCORE_TYPE_EDITOR            (score_editor_get_type ())
+#define SCORE_EDITOR(obj)            (GTK_CHECK_CAST ((obj), SCORE_TYPE_EDITOR, ScoreEditor))
+#define SCORE_EDITOR_CLASS(klass)    (GTK_CHECK_CLASS_CAST ((klass), SCORE_TYPE_EDITOR, ScoreEditorClass))
+#define IS_SCORE_EDITOR(obj)         (GTK_CHECK_TYPE ((obj), SCORE_TYPE_EDITOR))
+#define IS_SCORE_EDITOR_CLASS(klass) (GTK_CHECK_CLASS_TYPE ((klass), SCORE_TYPE_EDITOR))
+#define SCORE_EDITOR_GET_CLASS(obj)  (GTK_CHECK_GET_CLASS ((obj), SCORE_TYPE_EDITOR, ScoreEditorClass))
 
-typedef struct _ScoreEditor	ScoreEditor;
-typedef struct _ScoreEditorClass	ScoreEditorClass;
+typedef struct _ScoreEditor ScoreEditor;
+typedef struct _ScoreEditorClass ScoreEditorClass;
 
 struct _ScoreEditor {
-	RuleEditor parent;
-
-	struct _ScoreEditorPrivate *priv;
+	RuleEditor parent_object;
+	
 };
 
 struct _ScoreEditorClass {
 	RuleEditorClass parent_class;
-
+	
 	/* virtual methods */
-
+	
 	/* signals */
 };
 
-struct _ScoreContext;
 
-guint		score_editor_get_type	(void);
-ScoreEditor	*score_editor_new	(struct _ScoreContext *f);
+GType score_editor_get_type (void);
+
+ScoreEditor *score_editor_new (ScoreContext *sc);
 
 #endif /* ! _SCORE_EDITOR_H */
-

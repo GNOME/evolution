@@ -1,3 +1,12 @@
+2002-11-05  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* score-rule.c: Ported.
+
+	* score-editor.c: Ported. Again, thise code seems to be unused.
+
+	* score-context.c: Ported. Although it seems this code isn't
+	really used anywhere?
+
 2002-11-04  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* filter-part.c: Ported.

@@ -1,5 +1,6 @@
+/* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
- *  Copyright (C) 2000 Ximian Inc.
+ *  Copyright (C) 2000-2002 Ximian Inc.
  *
  *  Authors: Not Zed <notzed@lostzed.mmc.com.au>
  *           Jeffrey Stedfast <fejj@ximian.com>
@@ -19,11 +20,13 @@
  * Boston, MA 02111-1307, USA.
  */
 
+
+#ifdef HAVE_CONFIG_H
 #include <config.h>
+#endif
 
 #include <string.h>
 
-#include <glib.h>
 #include <gtk/gtkbox.h>
 #include <gtk/gtkframe.h>
 #include <gtk/gtkhbox.h>
@@ -40,53 +43,45 @@ static int xml_decode(FilterRule *, xmlNodePtr, struct _RuleContext *f);
 /*static void build_code(FilterRule *, GString *out);*/
 static GtkWidget *get_widget(FilterRule *fr, struct _RuleContext *f);
 
-static void score_rule_class_init	(ScoreRuleClass *class);
-static void score_rule_init	(ScoreRule *gspaper);
-static void score_rule_finalise	(GtkObject *obj);
+static void score_rule_class_init (ScoreRuleClass *klass);
+static void score_rule_init (ScoreRule *sr);
+static void score_rule_finalise (GObject *obj);
 
-#define _PRIVATE(x) (((ScoreRule *)(x))->priv)
 
-struct _ScoreRulePrivate {
-};
+static FilterRuleClass *parent_class = NULL;
 
-static FilterRuleClass *parent_class;
 
-enum {
-	LAST_SIGNAL
-};
-
-static guint signals[LAST_SIGNAL] = { 0 };
-
-guint
+GType
 score_rule_get_type (void)
 {
-	static guint type = 0;
+	static GType type = 0;
 	
 	if (!type) {
-		GtkTypeInfo type_info = {
-			"ScoreRule",
-			sizeof(ScoreRule),
-			sizeof(ScoreRuleClass),
-			(GtkClassInitFunc)score_rule_class_init,
-			(GtkObjectInitFunc)score_rule_init,
-			(GtkArgSetFunc)NULL,
-			(GtkArgGetFunc)NULL
+		static const GTypeInfo info = {
+			sizeof (ScoreRuleClass),
+			NULL, /* base_class_init */
+			NULL, /* base_class_finalize */
+			(GClassInitFunc) score_rule_class_init,
+			NULL, /* class_finalize */
+			NULL, /* class_data */
+			sizeof (ScoreRule),
+			0,    /* n_preallocs */
+			(GInstanceInitFunc) score_rule_init,
 		};
 		
-		type = gtk_type_unique (filter_rule_get_type (), &type_info);
+		type = g_type_register_static (FILTER_TYPE_RULE, "ScoreRule", &info, 0);
 	}
 	
 	return type;
 }
 
 static void
-score_rule_class_init (ScoreRuleClass *class)
+score_rule_class_init (ScoreRuleClass *klass)
 {
-	GtkObjectClass *object_class;
-	FilterRuleClass *rule_class = (FilterRuleClass *)class;
+	GObjectClass *object_class = G_OBJECT_CLASS (klass);
+	FilterRuleClass *rule_class = (FilterRuleClass *) klass;
 	
-	object_class = (GtkObjectClass *)class;
-	parent_class = gtk_type_class (filter_rule_get_type ());
+	parent_class = g_type_class_ref (FILTER_TYPE_RULE);
 	
 	object_class->finalize = score_rule_finalise;
 	
@@ -95,26 +90,18 @@ score_rule_class_init (ScoreRuleClass *class)
 	rule_class->xml_decode = xml_decode;
 /*	rule_class->build_code = build_code;*/
 	rule_class->get_widget = get_widget;
-	
-	/* signals */
-	
-	gtk_object_class_add_signals (object_class, signals, LAST_SIGNAL);
 }
 
 static void
-score_rule_init (ScoreRule *o)
+score_rule_init (ScoreRule *sr)
 {
-	o->priv = g_malloc0 (sizeof (*o->priv));
+	;
 }
 
 static void
-score_rule_finalise (GtkObject *obj)
+score_rule_finalise (GObject *obj)
 {
-	ScoreRule *o = (ScoreRule *)obj;
-	
-	o = o;
-	
-        ((GtkObjectClass *)(parent_class))->finalize (obj);
+        G_OBJECT_CLASS (parent_class)->finalize (obj);
 }
 
 /**
@@ -127,8 +114,7 @@ score_rule_finalise (GtkObject *obj)
 ScoreRule *
 score_rule_new (void)
 {
-	ScoreRule *o = (ScoreRule *)gtk_type_new (score_rule_get_type ());
-	return o;
+	return (ScoreRule *) g_object_new (SCORE_TYPE_RULE, NULL, NULL);
 }
 
 static xmlNodePtr
@@ -138,7 +124,7 @@ xml_encode (FilterRule *fr)
 	xmlNodePtr node, value;
 	char number[16];
 	
-	node = ((FilterRuleClass *)(parent_class))->xml_encode (fr);
+	node = FILTER_RULE_CLASS (parent_class)->xml_encode (fr);
 	sprintf (number, "%d", sr->score);
 	value = xmlNewNode (NULL, "score");
 	xmlSetProp (value, "value", number);
@@ -150,12 +136,12 @@ xml_encode (FilterRule *fr)
 static int
 xml_decode (FilterRule *fr, xmlNodePtr node, struct _RuleContext *f)
 {
-	ScoreRule *sr = (ScoreRule *)fr;
+	ScoreRule *sr = (ScoreRule *) fr;
 	xmlNodePtr value;
 	int result;
 	char *str;
 	
-	result = ((FilterRuleClass *)(parent_class))->xml_decode (fr, node, f);
+	result = FILTER_RULE_CLASS (parent_class)->xml_decode (fr, node, f);
 	if (result != 0)
 		return result;
 	
@@ -199,15 +185,15 @@ get_widget (FilterRule *fr, struct _RuleContext *f)
 	ScoreRule *sr = (ScoreRule *)fr;
 	GtkWidget *spin;
 	
-        widget = ((FilterRuleClass *)(parent_class))->get_widget (fr, f);
+        widget = FILTER_RULE_CLASS (parent_class)->get_widget (fr, f);
 	
 	frame = gtk_frame_new (_("Score"));
 	hbox = gtk_hbox_new (FALSE, 3);
 	label = gtk_label_new (_("Score"));
 	
 	gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, 3);
-	adj = (GtkAdjustment *)gtk_adjustment_new ((float) sr->score, -3.0, 3.0, 1.0, 1.0, 1.0);
-	gtk_signal_connect (GTK_OBJECT (adj), "value_changed", spin_changed, sr);
+	adj = (GtkAdjustment *) gtk_adjustment_new ((float) sr->score, -3.0, 3.0, 1.0, 1.0, 1.0);
+	g_signal_connect (adj, "value_changed", spin_changed, sr);
 	
 	spin = gtk_spin_button_new (adj, 1.0, 0);
 	gtk_box_pack_start (GTK_BOX (hbox), spin, FALSE, FALSE, 3);
