@@ -1,3 +1,7 @@
+2001-01-24  Kjartan Maraas  <kmaraas@gnome.org>
+
+	* importer/GNOME_Evolution_Importer.idl: Fix missing ';'.
+	
 2001-01-23  Ettore Perazzoli  <ettore@ximian.com>
 
 	* e-corba-storage.c (impl_StorageListener_update_folder): Don't

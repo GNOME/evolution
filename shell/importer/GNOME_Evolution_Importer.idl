@@ -45,7 +45,7 @@ module Evolution {
 		 * Processes the next item.
 		 *
 		 */
-		oneway void processItem (in ImporterListener listener)
+		oneway void processItem (in ImporterListener listener);
 
 		/**
 		 * getError:
