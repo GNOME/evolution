@@ -467,7 +467,8 @@ send_to_url (const char *url)
 
 static GList *
 list_add_addresses (GList *list, const CamelInternetAddress *cia, const GSList *accounts,
-		    const MailConfigAccount **me, const char *ignore_addr)
+		    GHashTable *rcpt_hash, const MailConfigAccount **me,
+		    const char *ignore_addr)
 {
 	const char *name, *addr;
 	const GSList *l;
@@ -502,9 +503,10 @@ list_add_addresses (GList *list, const CamelInternetAddress *cia, const GSList *
 				l = l->next;
 			}
 			
-			if (notme)
+			if (notme && !g_hash_table_lookup (rcpt_hash, addr)) {
+				g_hash_table_insert (rcpt_hash, g_strdup (addr), GINT_TO_POINTER (1));
 				list = g_list_append (list, full);
-			else
+			} else
 				g_free (full);
 		}
 	}
@@ -645,6 +647,10 @@ mail_generate_reply (CamelFolder *folder, CamelMimeMessage *message, const char 
 			to = address && i != max ? g_list_append (to, g_strdup (address)) : to;
 		}
 	} else {
+		GHashTable *rcpt_hash;
+			
+		rcpt_hash = g_hash_table_new (g_str_hash, g_str_equal);
+		
 		reply_to = camel_mime_message_get_reply_to (message);
 		if (!reply_to)
 			reply_to = camel_mime_message_get_from (message);
@@ -652,6 +658,7 @@ mail_generate_reply (CamelFolder *folder, CamelMimeMessage *message, const char 
 			/* Get the Reply-To address so we can ignore references to it in the Cc: list */
 			camel_internet_address_get (reply_to, 0, NULL, &reply_addr);
 			
+			g_hash_table_insert (rcpt_hash, reply_addr, GINT_TO_POINTER (1));
 			to = g_list_append (to, camel_address_format (CAMEL_ADDRESS (reply_to)));
 		}
 		
@@ -659,11 +666,13 @@ mail_generate_reply (CamelFolder *folder, CamelMimeMessage *message, const char 
 		cc_addrs = camel_mime_message_get_recipients (message, CAMEL_RECIPIENT_TYPE_CC);
 		
 		if (mode == REPLY_ALL) {
-			cc = list_add_addresses (cc, to_addrs, accounts, &me, NULL);
-			cc = list_add_addresses (cc, cc_addrs, accounts, me ? NULL : &me, reply_addr);
+			cc = list_add_addresses (cc, to_addrs, accounts, rcpt_hash, &me, NULL);
+			cc = list_add_addresses (cc, cc_addrs, accounts, rcpt_hash, me ? NULL : &me, reply_addr);
 		} else if (me == NULL) {
 			me = guess_me (to_addrs, cc_addrs, accounts);
 		}
+		
+		g_hash_table_destroy (rcpt_hash);
 	}
 	
 	/* Set the subject of the new message. */

@@ -1,3 +1,10 @@
+2001-06-18  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-callbacks.c (list_add_addresses): Now takes a hash table of
+	already-used-recipients so that we don't get duplicates.
+	(mail_generate_reply): Pass in a rcpt_hash argument to
+	list_add_addresses(). These changes fix bug #1639.
+
 2001-06-18  Dan Winship  <danw@ximian.com>
 
 	* Makefile.am (evolution_mail_LDADD): Remove DB3_LDADD
