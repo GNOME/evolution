@@ -37,7 +37,15 @@ primary_selection_changed_cb (ESourceSelector *selector, gpointer user_data)
 
 	if (*our_selection)
 		g_object_unref (*our_selection);
-	*our_selection = g_object_ref (e_source_selector_peek_primary_selection (selector));
+	*our_selection = e_source_selector_peek_primary_selection (selector);
+	if (*our_selection) {
+		g_object_ref (*our_selection);
+		gtk_dialog_set_response_sensitive (
+			GTK_DIALOG (gtk_widget_get_toplevel (selector)), GTK_RESPONSE_OK, TRUE);
+	} else {
+		gtk_dialog_set_response_sensitive (
+			GTK_DIALOG (gtk_widget_get_toplevel (selector)), GTK_RESPONSE_OK, FALSE);
+	}
 }
 
 /**
@@ -80,7 +88,7 @@ select_source_dialog (GtkWindow *parent, ECalSourceType obj_type)
 				GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
 				GTK_STOCK_OK, GTK_RESPONSE_OK,
 				NULL);
-	/* gtk_dialog_set_response_sensitive (GTK_DIALOG (dialog), GTK_RESPONSE_OK, FALSE); */
+	gtk_dialog_set_response_sensitive (GTK_DIALOG (dialog), GTK_RESPONSE_OK, FALSE);
 
 	vbox = gtk_vbox_new (FALSE, 12);
 	gtk_container_set_border_width (GTK_CONTAINER (vbox), 12);
