@@ -359,6 +359,7 @@ e_charset_picker_dialog (const char *title, const char *prompt,
 /**
  * e_charset_picker_bonobo_ui_populate:
  * @uic: Bonobo UI Component
+ * @path: menu path
  * @default_charset: the default character set, or %NULL to use the
  * locale character set.
  * @cb: Callback function
@@ -373,7 +374,8 @@ e_charset_picker_dialog (const char *title, const char *prompt,
  * sets.
  **/
 void
-e_charset_picker_bonobo_ui_populate (BonoboUIComponent *uic, const char *default_charset,
+e_charset_picker_bonobo_ui_populate (BonoboUIComponent *uic, const char *path,
+				     const char *default_charset,
 				     BonoboUIListenerFn cb, gpointer user_data)
 {
 	char *locale_charset, *encoded_label, *label;
@@ -459,6 +461,6 @@ e_charset_picker_bonobo_ui_populate (BonoboUIComponent *uic, const char *default
 	
 	g_string_append (menuitems, "</submenu>\n");
 	
-	bonobo_ui_component_set (uic, "/menu/Edit", menuitems->str, NULL);
+	bonobo_ui_component_set (uic, path, menuitems->str, NULL);
 	g_string_free (menuitems, TRUE);
 }

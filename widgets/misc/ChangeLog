@@ -1,3 +1,8 @@
+2001-10-09  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* e-charset-picker.c (e_charset_picker_bonobo_ui_populate): Now
+	takes a menu path argument.
+
 2001-10-04  Rodrigo Moya <rodrigo@ximian.com>
 
 	* Makefile.am: added BONOBO_GNOME_CFLAGS to make it compile with
