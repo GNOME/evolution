@@ -2,6 +2,7 @@ imagesdir = $(datadir)/images/evolution
 
 images_DATA = \
 	briefcase.png       		\
+	butterfly.png			\
 	cellphone.png       		\
 	envelope.png        		\
 	evolution-calendar-mini.png 	\
@@ -15,6 +16,8 @@ images_DATA = \
 	evolution-tasks-mini.png 	\
 	evolution-tasks.png 		\
 	evolution-today.png 		\
+	executive-summary-bg.png	\
+	executive-summary-curve.png	\
 	globe.png           		\
 	house.png           		\
 	malehead.png			\
