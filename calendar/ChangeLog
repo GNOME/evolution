@@ -1,3 +1,13 @@
+2002-12-11  Jack Jia  <jack.jia@sun.com>
+
+	Fixes #34933
+
+	* gui/e-day-view.c (e_day_view_on_editing_stopped): Don't update
+	appointment if both the old and the new summary texts are empty.
+
+	* gui/e-week-view.c (e_day_view_on_editing_stopped): Don't update
+	appointment if both the old and the new summary texts are empty.
+
 2002-12-06  Rodrigo Moya <rodrigo@ximian.com>
 
 	Fixes #35003

@@ -6262,7 +6262,7 @@ e_day_view_on_editing_stopped (EDayView *day_view,
 		else
 			e_day_view_update_event_label (day_view, day,
 						       event_num);
-	} else {
+	} else if (summary.value || !string_is_empty (text)) {
 		summary.value = text;
 		summary.altrep = NULL;
 		cal_component_set_summary (event->comp, &summary);
