@@ -50,18 +50,14 @@ evolution_mail_SOURCES =		\
 	folder-browser.h		\
 	folder-browser-factory.c	\
 	folder-browser-factory.h	\
-	mail-accounts.c			\
-	mail-accounts.h			\
-	mail-account-editor.c		\
-	mail-account-editor.h		\
 	mail-autofilter.c		\
 	mail-autofilter.h		\
 	mail-callbacks.c		\
 	mail-callbacks.h		\
 	mail-config.c			\
 	mail-config.h			\
-	mail-config-druid.c		\
-	mail-config-druid.h		\
+	mail-config-gui.c		\
+	mail-config-gui.h		\
 	mail-crypto.c			\
 	mail-crypto.h			\
 	mail-display.c			\

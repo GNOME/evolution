@@ -171,12 +171,12 @@ owner_set_cb (EvolutionShellComponent *shell_component,
 	      const char *evolution_homedir,
 	      gpointer user_data)
 {
-	GNOME_Evolution_Shell corba_shell;
 	GSList *sources;
+	GNOME_Evolution_Shell corba_shell;
 	int i;
 
 	g_print ("evolution-mail: Yeeeh! We have an owner!\n");	/* FIXME */
-
+	
 	evolution_dir = g_strdup (evolution_homedir);
 	mail_session_init ();
 	mail_config_init ();
@@ -189,18 +189,15 @@ owner_set_cb (EvolutionShellComponent *shell_component,
 
 	sources = mail_config_get_sources ();
 	mail_load_storages (corba_shell, sources);
-	/* only this one gets free'd because it's created on-the-fly */
-	g_slist_free (sources);
-	
-	sources = (GSList *) mail_config_get_news ();
+	sources = mail_config_get_news ();
 	mail_load_storages (corba_shell, sources);
 
 	mail_local_storage_startup (shell_client, evolution_dir);
 
-	for (i = 0; i < sizeof (standard_folders) / sizeof (standard_folders[0]); i++) {
+	for (i=0;i<sizeof(standard_folders)/sizeof(standard_folders[0]);i++) {
 		char *uri = g_strdup_printf ("file://%s/local/%s", evolution_dir, standard_folders[i].name);
-		mail_msg_wait (mail_get_folder (uri, got_folder, standard_folders[i].folder));
-		g_free (uri);
+		mail_msg_wait(mail_get_folder(uri, got_folder, standard_folders[i].folder));
+		g_free(uri);
 	}
 
 	mail_session_enable_interaction (TRUE);

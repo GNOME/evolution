@@ -1,5 +1,18 @@
 2001-01-08  Jeffrey Stedfast  <fejj@helixcode.com>
 
+	* Makefile.am: 
+	* component-factory.c: 
+	* folder-browser-factory.c:
+	* folder-browser.c: 
+	* mail-callbacks.c: 
+	* mail-config.[c,h]: 
+	* mail-display.c: 
+	* mail-format.c: 
+	* mail-tools.c: Reverted mail-config changes temporarily until 
+	I get it working correctly.
+
+2001-01-08  Jeffrey Stedfast  <fejj@helixcode.com>
+
 	* mail-config-druid.c: More lovely fixes...
 
 	* mail-callbacks.c: Don't segfault if a default account doesn't
