@@ -1,3 +1,9 @@
+2003-01-08  Ettore Perazzoli  <ettore@ximian.com>
+
+	* e-summary.c (e_pixmap_file): Update to use
+	$(datadir)/evolution/images/ instead of
+	$(datadir)/images/evolution to fetch the icons.
+
 2002-12-16  Ettore Perazzoli  <ettore@ximian.com>
 
 	* e-summary-shown.c (make_table): Do not ref/sink the ETreeMemory
@@ -5,9 +11,11 @@
 
 2002-12-11  Kevin Breit  <mrproper@ximian.com>
 
-	* Locations: Removed Marquette from the listing, it is no longer listed by METAR.  This is per bug 29693.
+	* Locations: Removed Marquette from the listing, it is no longer
+	listed by METAR.  This is per bug 29693.
 
-	* Locations.h: Removed Marquette from the listing, it is no longer listed by METAR.
+	* Locations.h: Removed Marquette from the listing, it is no longer
+	listed by METAR.
 
 2002-12-06  Ettore Perazzoli  <ettore@ximian.com>
 
