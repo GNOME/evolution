@@ -197,7 +197,12 @@ add_uri_to_load (GnomeVFSURI *uri)
 	g_assert (str_uri != NULL);
 
 	loaded_uris = get_calendars_to_load ();
-	g_assert (loaded_uris != NULL);
+	if (!loaded_uris) {
+		g_message ("add_uri_to_load(): Could not get the list of calendars to load; "
+			   "will not add `%s'", str_uri);
+		g_free (str_uri);
+		return;
+	}
 
 	/* Look for the URI in the list of calendars to load */
 
@@ -232,7 +237,12 @@ remove_uri_to_load (GnomeVFSURI *uri)
 	g_assert (str_uri != NULL);
 
 	loaded_uris = get_calendars_to_load ();
-	g_assert (loaded_uris != NULL);
+	if (!loaded_uris) {
+		g_message ("remove_uri_to_load(): Could not get the list of calendars to load; "
+			   "will not add `%s'", str_uri);
+		g_free (str_uri);
+		return;
+	}
 
 	/* Look for the URI in the list of calendars to load */
 

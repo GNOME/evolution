@@ -383,7 +383,12 @@ load_missed_alarms (ClientAlarms *ca)
 	now = time (NULL);
 
 	g_assert (saved_notification_time != -1);
-	load_alarms (ca, saved_notification_time, now);
+
+	/* We add 1 to the saved_notification_time to make the time ranges
+	 * half-open; we do not want to display the "last" displayed alarm
+	 * twice, once when it occurs and once when the alarm daemon restarts.
+	 */
+	load_alarms (ca, saved_notification_time + 1, now);
 }
 
 /* Called when a calendar client finished loading; we load its alarms */

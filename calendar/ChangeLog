@@ -1,3 +1,16 @@
+2001-10-19  Federico Mena Quintero  <federico@ximian.com>
+
+	* gui/alarm-notify/alarm-notify.c (add_uri_to_load): Do not assert
+	if we fail to load the URI list.  This would of course have been a
+	bonobo-conf activation problem.
+	(remove_uri_to_load): Likewise.
+
+	* gui/alarm-notify/notify-main.c (load_calendars): Likewise.
+
+	* gui/alarm-notify/alarm-queue.c (load_missed_alarms): Make the
+	time range half-open so that we do not display the last alarm
+	twice.
+
 2001-10-19  Rodrigo Moya <rodrigo@ximian.com>
 
 	* gui/calendar-model.c (calendar_model_set_status_message): make

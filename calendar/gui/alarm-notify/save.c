@@ -177,11 +177,8 @@ save_calendars_to_load (GPtrArray *uris)
 	/* Save it */
 
 	any = bonobo_arg_new (TC_GNOME_Evolution_Calendar_StringSeq);
-#if 0
-	*((GNOME_Evolution_Calendar_StringSeq **) any->_value) = seq;
-#else
 	any->_value = seq;
-#endif
+
 	CORBA_exception_init (&ev);
 
 	bonobo_config_set_value (db, KEY_CALENDARS_TO_LOAD, any, &ev);
@@ -248,11 +245,8 @@ get_calendars_to_load (void)
 	CORBA_exception_free (&ev);
 
 	/* Decode the value */
-#if 0
-	seq = *((GNOME_Evolution_Calendar_StringSeq **) any->_value);
-#else
+
 	seq = any->_value;
-#endif
 	len = seq->_length;
 
 	uris = g_ptr_array_new ();
@@ -261,7 +255,12 @@ get_calendars_to_load (void)
 	for (i = 0; i < len; i++)
 		uris->pdata[i] = g_strdup (seq->_buffer[i]);
 
+#if 0
+	/* FIXME: The any and sequence are leaked.  If we release them this way,
+	 * we crash inside the ORB freeing routines :(
+	 */
 	bonobo_arg_release (any);
+#endif
 
 	return uris;
 }

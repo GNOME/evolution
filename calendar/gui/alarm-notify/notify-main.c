@@ -117,7 +117,10 @@ load_calendars (void)
 	int i;
 
 	uris = get_calendars_to_load ();
-	g_assert (uris != NULL);
+	if (!uris) {
+		g_message ("load_calendars(): Could not get the list of calendars to load");
+		return;
+	}
 
 	for (i = 0; i < uris->len; i++) {
 		char *uri;
