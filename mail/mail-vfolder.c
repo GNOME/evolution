@@ -371,9 +371,9 @@ vfolder_edit(void)
 {
 	GtkWidget *w;
 
-	w = vfolder_editor_new(context);
-	gtk_signal_connect((GtkObject *)w, "clicked", vfolder_editor_clicked, NULL);
-	gtk_widget_show(w);
+	w = GTK_WIDGET (vfolder_editor_new (context));
+	gtk_signal_connect (GTK_OBJECT (w), "clicked", vfolder_editor_clicked, NULL);
+	gtk_widget_show (w);
 }
 
 static void

@@ -1,3 +1,17 @@
+2001-04-14  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-crypto.c (mail_crypto_pgp_mime_part_verify): Only use
+	non-NULL contexts.
+	(mail_crypto_pgp_mime_part_encrypt): Same.
+	(mail_crypto_pgp_mime_part_decrypt): And here too.
+
+	* mail-format.c (try_inline_pgp_sig): Make sure to not use the
+	context if it is NULL.
+	(decode_pgp): Same.
+
+	* folder-browser-factory.c: Added stuff for filtering/vfoldering
+	on mailinglists.
+
 2001-04-13  Dan Winship  <danw@ximian.com>
 
 	* Makefile.am (evolution_mail_LDADD): Remove some redundant LIBS

@@ -1027,9 +1027,14 @@ decode_pgp (CamelStream *ciphertext, CamelStream *plaintext, MailDisplay *md)
 		ctx = camel_pgp_context_new (session, mail_config_get_pgp_type (),
 					     mail_config_get_pgp_path ());
 		
-		camel_pgp_decrypt (ctx, ciphertext, plaintext, &ex);
-		camel_object_unref (CAMEL_OBJECT (ctx));
-		camel_stream_reset (plaintext);
+		if (ctx) {
+			camel_pgp_decrypt (ctx, ciphertext, plaintext, &ex);
+			camel_object_unref (CAMEL_OBJECT (ctx));
+			camel_stream_reset (plaintext);
+		} else {
+			camel_exception_setv (&ex, CAMEL_EXCEPTION_SYSTEM,
+					      _("No GPG/PGP program configured."));
+		}
 		
 		if (!camel_exception_is_set (&ex))
 			return;
@@ -1040,7 +1045,7 @@ decode_pgp (CamelStream *ciphertext, CamelStream *plaintext, MailDisplay *md)
 			 "<a href=\"x-evolution-decode-pgp:\">"
 			 "<img src=\"%s\"></a></td><td>",
 			 get_url_for_icon ("gnome-lockscreen.png", md));
-
+	
 	if (camel_exception_is_set (&ex)) {
 		mail_html_write (md->html, md->stream, "%s<br><br>\n",
 				 _("Encrypted message not displayed"));
@@ -1052,7 +1057,7 @@ decode_pgp (CamelStream *ciphertext, CamelStream *plaintext, MailDisplay *md)
 				 _("Encrypted message"),
 				 _("Click icon to decrypt."));
 	}
-
+	
 	mail_html_write (md->html, md->stream, "</td></tr></table>");
 }
 
@@ -1099,10 +1104,8 @@ try_inline_pgp (char *start, MailDisplay *md)
 static char *
 try_inline_pgp_sig (char *start, MailDisplay *md)
 {
+	CamelCipherValidity *valid = NULL;
 	CamelPgpContext *context;
-	CamelStream *ciphertext;
-	CamelCipherValidity *valid;
-	CamelException *ex;
 	char *end;
 	
 	end = strstr (start, "-----END PGP SIGNATURE-----");
@@ -1116,14 +1119,22 @@ try_inline_pgp_sig (char *start, MailDisplay *md)
 	context = camel_pgp_context_new (session, mail_config_get_pgp_type (),
 					 mail_config_get_pgp_path ());
 	
-	ciphertext = camel_stream_mem_new ();
-	camel_stream_write (ciphertext, start, end - start);
-	camel_stream_reset (ciphertext);
-	
-	ex = camel_exception_new ();
-	valid = camel_pgp_verify (context, ciphertext, NULL, ex);
-	camel_object_unref (CAMEL_OBJECT (ciphertext));
-	camel_object_unref (CAMEL_OBJECT (context));
+	if (context) {
+		CamelStream *ciphertext;
+		CamelException *ex;
+		
+		ex = camel_exception_new ();
+		
+		ciphertext = camel_stream_mem_new ();
+		camel_stream_write (ciphertext, start, end - start);
+		camel_stream_reset (ciphertext);
+		
+		valid = camel_pgp_verify (context, ciphertext, NULL, ex);
+		camel_object_unref (CAMEL_OBJECT (ciphertext));
+		camel_object_unref (CAMEL_OBJECT (context));
+		
+		camel_exception_free (ex);
+	}
 	
 	mail_text_write (md->html, md->stream, "%.*s", end - start, start);
 	
@@ -1154,7 +1165,6 @@ try_inline_pgp_sig (char *start, MailDisplay *md)
 	
 	mail_html_write (md->html, md->stream, "</font></td></table>");
 	
-	camel_exception_free (ex);
 	camel_cipher_validity_free (valid);
 	
 	return end;

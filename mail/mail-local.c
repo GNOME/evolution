@@ -803,7 +803,6 @@ reconfigure_folder_reconfigure(struct _mail_msg *mm)
 	char *fromurl = NULL, *tourl = NULL;
 	CamelFolder *fromfolder = NULL, *tofolder = NULL;
 	GPtrArray *uids;
-	int i;
 	char *metapath;
 	char *tmpname;
 	CamelURL *url = NULL;
