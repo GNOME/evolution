@@ -1,3 +1,23 @@
+2003-11-05  Not Zed  <NotZed@Ximian.com>
+
+	* camel-smime-context.c (camel_smime_context_describe_part): new
+	(unfinished) api to peek inside smime parts to tell us whats in
+	it.
+
+2003-11-03  Not Zed  <NotZed@Ximian.com>
+
+	* camel-gpg-context.c (gpg_encrypt): Make this output the
+	full multipart/encrypted part, not just the encrypted content part.
+
+	* camel-cipher-context.c (camel_cipher_sign): change to output
+	full mime part, not just a stream.
+	(camel_cipher_canonical_to_stream): utility function to
+	canonicalise a mimepart to a stream.
+
+	* camel-smime-context.c (sm_encode_cmsmessage): removed.
+	(sm_sign): change interface to output a full mime-part, not just a
+	part of a mime part in multipart/signed mode.
+
 2003-11-04  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* camel-gpg-context.c (gpg_ctx_parse_status): We might need to

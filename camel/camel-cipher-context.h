@@ -71,7 +71,7 @@ typedef struct _CamelCipherContextClass {
 	const char *	      (*hash_to_id)(CamelCipherContext *context, CamelCipherHash hash);
 	
 	int                   (*sign)      (CamelCipherContext *context, const char *userid, CamelCipherHash hash,
-					    struct _CamelStream *istream, struct _CamelMimePart *sigpart, CamelException *ex);
+					    struct _CamelMimePart *ipart, struct _CamelMimePart *opart, CamelException *ex);
 	
 	CamelCipherValidity * (*verify)    (CamelCipherContext *context, CamelCipherHash hash,
 					    struct _CamelStream *istream, struct _CamelMimePart *sigpart,
@@ -107,7 +107,7 @@ const char *	     camel_cipher_hash_to_id (CamelCipherContext *context, CamelCip
 
 /* cipher routines */
 int                  camel_cipher_sign (CamelCipherContext *context, const char *userid, CamelCipherHash hash,
-					struct _CamelStream *istream, struct _CamelMimePart *sigpart, CamelException *ex);
+					struct _CamelMimePart *ipart, struct _CamelMimePart *opart, CamelException *ex);
 CamelCipherValidity *camel_cipher_verify (CamelCipherContext *context, CamelCipherHash hash,
 					  struct _CamelStream *istream, struct _CamelMimePart *sigpart,
 					  CamelException *ex);
@@ -131,6 +131,9 @@ char                *camel_cipher_validity_get_description (CamelCipherValidity 
 void                 camel_cipher_validity_set_description (CamelCipherValidity *validity, const char *description);
 void                 camel_cipher_validity_clear (CamelCipherValidity *validity);
 void                 camel_cipher_validity_free (CamelCipherValidity *validity);
+
+/* utility functions */
+int		     camel_cipher_canonical_to_stream(CamelMimePart *part, CamelStream *ostream);
 
 #ifdef __cplusplus
 }

@@ -41,6 +41,12 @@ typedef enum _camel_smime_sign_t {
 	CAMEL_SMIME_SIGN_ENVELOPED
 } camel_smime_sign_t;
 
+typedef enum _camel_smime_describe_t {
+	CAMEL_SMIME_SIGNED = 1,
+	CAMEL_SMIME_ENCRYPTED = 2,
+	CAMEL_SMIME_CERTS = 4,
+} camel_smime_describe_t;
+
 typedef struct _CamelSMIMEContext CamelSMIMEContext;
 typedef struct _CamelSMIMEContextClass CamelSMIMEContextClass;
 
@@ -62,6 +68,8 @@ CamelCipherContext *camel_smime_context_new(CamelSession *session);
 void camel_smime_context_set_encrypt_key(CamelSMIMEContext *context, gboolean use, const char *key);
 /* set signing mode, clearsigned multipart/signed or enveloped */
 void camel_smime_context_set_sign_mode(CamelSMIMEContext *context, camel_smime_sign_t type);
+
+guint32 camel_smime_context_describe_part(CamelSMIMEContext *, struct _CamelMimePart *);
 
 #ifdef __cplusplus
 }

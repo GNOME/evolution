@@ -30,6 +30,13 @@
 #include "camel-cipher-context.h"
 #include "camel-stream.h"
 
+#include "camel-mime-utils.h"
+#include "camel-medium.h"
+#include "camel-multipart.h"
+#include "camel-mime-message.h"
+#include "camel-mime-filter-canon.h"
+#include "camel-stream-filter.h"
+
 #define CIPHER_LOCK(ctx)   g_mutex_lock (((CamelCipherContext *) ctx)->priv->lock)
 #define CIPHER_UNLOCK(ctx) g_mutex_unlock (((CamelCipherContext *) ctx)->priv->lock);
 
@@ -86,7 +93,7 @@ camel_cipher_context_construct (CamelCipherContext *context, CamelSession *sessi
 
 static int
 cipher_sign (CamelCipherContext *ctx, const char *userid, CamelCipherHash hash,
-	     struct _CamelStream *istream, struct _CamelMimePart *sigpart, CamelException *ex)
+	     struct _CamelMimePart *ipart, struct _CamelMimePart *opart, CamelException *ex)
 {
 	camel_exception_set (ex, CAMEL_EXCEPTION_SYSTEM,
 			     _("Signing is not supported by this cipher"));
@@ -98,17 +105,18 @@ cipher_sign (CamelCipherContext *ctx, const char *userid, CamelCipherHash hash,
  * @context: Cipher Context
  * @userid: private key to use to sign the stream
  * @hash: preferred Message-Integrity-Check hash algorithm
- * @istream: input stream
- * @sigpart: output signature part.
+ * @ipart: Input part.
+ * @opart: output part.
  * @ex: exception
  *
- * Signs the input stream and writes the resulting signature to output @sigpart.
+ * Converts the (unsigned) part @ipart into a new self-contained mime part @opart.
+ * This may be a multipart/signed part, or a simple part for enveloped types.
  *
  * Return value: 0 for success or -1 for failure.
  **/
 int
 camel_cipher_sign (CamelCipherContext *context, const char *userid, CamelCipherHash hash,
-		   struct _CamelStream *istream, struct _CamelMimePart *sigpart, CamelException *ex)
+		   struct _CamelMimePart *ipart, struct _CamelMimePart *opart, CamelException *ex)
 {
 	int retval;
 	
@@ -116,7 +124,7 @@ camel_cipher_sign (CamelCipherContext *context, const char *userid, CamelCipherH
 	
 	CIPHER_LOCK(context);
 	
-	retval = CCC_CLASS (context)->sign (context, userid, hash, istream, sigpart, ex);
+	retval = CCC_CLASS (context)->sign (context, userid, hash, ipart, opart, ex);
 	
 	CIPHER_UNLOCK(context);
 	
@@ -467,4 +475,70 @@ camel_cipher_context_get_type (void)
 	}
 	
 	return type;
+}
+
+/* See rfc3156, section 2 and others */
+/* We do this simply: Anything not base64 must be qp
+   This is so that we can safely translate any occurance of "From "
+   into the quoted-printable escaped version safely. */
+static void
+cc_prepare_sign(CamelMimePart *part)
+{
+	CamelDataWrapper *dw;
+	CamelTransferEncoding encoding;
+	int parts, i;
+	
+	dw = camel_medium_get_content_object((CamelMedium *)part);
+	if (!dw)
+		return;
+	
+	if (CAMEL_IS_MULTIPART (dw)) {
+		parts = camel_multipart_get_number((CamelMultipart *)dw);
+		for (i = 0; i < parts; i++)
+			cc_prepare_sign(camel_multipart_get_part((CamelMultipart *)dw, i));
+	} else if (CAMEL_IS_MIME_MESSAGE (dw)) {
+		cc_prepare_sign((CamelMimePart *)dw);
+	} else {
+		encoding = camel_mime_part_get_encoding(part);
+
+		if (encoding != CAMEL_TRANSFER_ENCODING_BASE64
+		    && encoding != CAMEL_TRANSFER_ENCODING_QUOTEDPRINTABLE) {
+			camel_mime_part_set_encoding(part, CAMEL_TRANSFER_ENCODING_QUOTEDPRINTABLE);
+		}
+	}
+}
+
+/**
+ * camel_cipher_canonical_to_stream:
+ * @part: Part to write.
+ * @ostream: stream to write canonicalised output to.
+ * 
+ * Writes a part to a stream in a canonicalised format, suitable for signing/encrypting.
+ *
+ * The transfer encoding paramaters for the part may be changed by this function.
+ * 
+ * Return value: -1 on error;
+ **/
+int
+camel_cipher_canonical_to_stream(CamelMimePart *part, CamelStream *ostream)
+{
+	CamelStreamFilter *filter;
+	CamelMimeFilter *canon;
+	int res = -1;
+
+	cc_prepare_sign(part);
+
+	filter = camel_stream_filter_new_with_stream(ostream);
+	canon = camel_mime_filter_canon_new(CAMEL_MIME_FILTER_CANON_STRIP|CAMEL_MIME_FILTER_CANON_CRLF|CAMEL_MIME_FILTER_CANON_FROM);
+	camel_stream_filter_add(filter, canon);
+	camel_object_unref(canon);
+
+	if (camel_data_wrapper_write_to_stream((CamelDataWrapper *)part, (CamelStream *)filter) != -1
+	    && camel_stream_flush((CamelStream *)filter) != -1)
+		res = 0;
+
+	camel_object_unref(filter);
+	camel_stream_reset(ostream);
+
+	return res;
 }

@@ -52,6 +52,9 @@
 #include "camel-mime-part.h"
 #include "camel-mime-filter-canon.h"
 
+#include "camel-multipart-signed.h"
+#include "camel-multipart-encrypted.h"
+
 #define d(x)
 
 static CamelCipherContextClass *parent_class = NULL;
@@ -1209,14 +1212,26 @@ gpg_ctx_op_wait (struct _GpgCtx *gpg)
 
 
 static int
-gpg_sign (CamelCipherContext *context, const char *userid, CamelCipherHash hash,
-	  CamelStream *istream, CamelMimePart *sigpart, CamelException *ex)
+gpg_sign (CamelCipherContext *context, const char *userid, CamelCipherHash hash, CamelMimePart *ipart, CamelMimePart *opart, CamelException *ex)
 {
 	struct _GpgCtx *gpg;
-	CamelStream *ostream = camel_stream_mem_new();
+	CamelStream *ostream = camel_stream_mem_new(), *istream;
 	CamelDataWrapper *dw;
 	CamelContentType *ct;
 	int res = -1;
+	CamelMimePart *sigpart;
+	CamelMultipartSigned *mps;
+
+	/* Note: see rfc2015 or rfc3156, section 5 */
+
+	/* FIXME: stream this, we stream output at least */
+	/*prepare_sign(content);*/
+	istream = camel_stream_mem_new();
+	if (camel_cipher_canonical_to_stream(ipart, istream) == -1) {
+		camel_exception_setv(ex, CAMEL_EXCEPTION_SYSTEM,
+				     _("Could not generate signing data: %s"), g_strerror(errno));
+		goto fail;
+	}
 
 	gpg = gpg_ctx_new (context->session);
 	gpg_ctx_set_mode (gpg, GPG_CTX_MODE_SIGN);
@@ -1262,6 +1277,7 @@ gpg_sign (CamelCipherContext *context, const char *userid, CamelCipherHash hash,
 	camel_stream_reset(ostream);
 	camel_data_wrapper_construct_from_stream(dw, ostream);
 
+	sigpart = camel_mime_part_new();
 	ct = camel_content_type_new("application", "pgp-signature");
 	camel_content_type_set_param(ct, "name", "signature.asc");
 	camel_data_wrapper_set_mime_type_field(dw, ct);
@@ -1269,8 +1285,23 @@ gpg_sign (CamelCipherContext *context, const char *userid, CamelCipherHash hash,
 
 	camel_medium_set_content_object((CamelMedium *)sigpart, dw);
 	camel_object_unref(dw);
+
 	camel_mime_part_set_description(sigpart, _("This is a digitally signed message part"));
 
+	mps = camel_multipart_signed_new();
+	ct = camel_content_type_new("multipart", "signed");
+	camel_content_type_set_param(ct, "micalg", camel_cipher_hash_to_id(context, hash));
+	camel_content_type_set_param(ct, "protocol", context->sign_protocol);
+	camel_data_wrapper_set_mime_type_field((CamelDataWrapper *)mps, ct);
+	camel_content_type_unref(ct);
+	camel_multipart_set_boundary((CamelMultipart *)mps, NULL);
+
+	mps->signature = sigpart;
+	mps->contentraw = istream;
+	camel_stream_reset(istream);
+	camel_object_ref(istream);
+
+	camel_medium_set_content_object((CamelMedium *)opart, (CamelDataWrapper *)mps);
 fail:
 	camel_object_unref(ostream);
 	gpg_ctx_free (gpg);
@@ -1397,33 +1428,25 @@ gpg_encrypt (CamelCipherContext *context, const char *userid, GPtrArray *recipie
 	CamelGpgContext *ctx = (CamelGpgContext *) context;
 	struct _GpgCtx *gpg;
 	int i, res = -1;
-	CamelStream *istream, *filtered_stream, *ostream;
-	CamelMimeFilter *filter;
+	CamelStream *istream, *ostream, *vstream;
+	CamelMimePart *encpart, *verpart;
 	CamelDataWrapper *dw;
 	CamelContentType *ct;
+	CamelMultipartEncrypted *mpe;
 
 	ostream = camel_stream_mem_new();
-
-	/* TODO: Should this just return a mimepart with an embedded multipart-encrypted? */
-
-	/* Canonicalise the input */
-	/* FIXME: Move this to a common routine */
 	istream = camel_stream_mem_new();
-	filtered_stream = (CamelStream *)camel_stream_filter_new_with_stream(istream);
-	filter = camel_mime_filter_canon_new(CAMEL_MIME_FILTER_CANON_CRLF);
-	camel_stream_filter_add((CamelStreamFilter *)filtered_stream, filter);
-	camel_object_unref(filter);
-	camel_data_wrapper_write_to_stream((CamelDataWrapper *)ipart, filtered_stream);
-	camel_stream_flush(filtered_stream);
-	camel_object_unref(filtered_stream);
-	camel_stream_reset(istream);
+	if (camel_cipher_canonical_to_stream(ipart, istream) == -1) {
+		camel_exception_setv(ex, CAMEL_EXCEPTION_SYSTEM,
+				     _("Could not generate encrypting data: %s"), g_strerror(errno));
+		goto fail1;
+	}
 	
 	gpg = gpg_ctx_new (context->session);
 	gpg_ctx_set_mode (gpg, GPG_CTX_MODE_ENCRYPT);
 	gpg_ctx_set_armor (gpg, TRUE);
 	gpg_ctx_set_userid (gpg, userid);
 	gpg_ctx_set_istream (gpg, istream);
-	camel_object_unref(istream);
 	gpg_ctx_set_ostream (gpg, ostream);
 	gpg_ctx_set_always_trust (gpg, ctx->always_trust);
 
@@ -1462,17 +1485,52 @@ gpg_encrypt (CamelCipherContext *context, const char *userid, GPtrArray *recipie
 	res = 0;
 
 	dw = camel_data_wrapper_new();
+	camel_data_wrapper_construct_from_stream(dw, ostream);
+
+	encpart = camel_mime_part_new();
 	ct = camel_content_type_new("application", "octet-stream");
 	camel_content_type_set_param(ct, "name", "encrypted.asc");
 	camel_data_wrapper_set_mime_type_field(dw, ct);
 	camel_content_type_unref(ct);
-	camel_data_wrapper_construct_from_stream(dw, ostream);
-	camel_medium_set_content_object((CamelMedium *)opart, dw);
+
+	camel_medium_set_content_object((CamelMedium *)encpart, dw);
 	camel_object_unref(dw);
 
+	camel_mime_part_set_description(encpart, _("This is a digitally encrypted message part"));
+
+	vstream = camel_stream_mem_new();
+	camel_stream_write(vstream, "Version: 1\n", strlen("Version: 1\n"));
+	camel_stream_reset(vstream);
+
+	verpart = camel_mime_part_new();
+	dw = camel_data_wrapper_new();
+	camel_data_wrapper_set_mime_type(dw, context->encrypt_protocol);
+	camel_data_wrapper_construct_from_stream(dw, vstream);
+	camel_object_unref(vstream);
+	camel_medium_set_content_object((CamelMedium *)verpart, dw);
+	camel_object_unref(dw);
+
+	mpe = camel_multipart_encrypted_new();
+	ct = camel_content_type_new("multipart", "encrypted");
+	camel_content_type_set_param(ct, "protocol", context->sign_protocol);
+	camel_data_wrapper_set_mime_type_field((CamelDataWrapper *)mpe, ct);
+	camel_content_type_unref(ct);
+	camel_multipart_set_boundary((CamelMultipart *)mpe, NULL);
+
+	mpe->decrypted = ipart;
+	camel_object_ref(ipart);
+
+	camel_multipart_add_part((CamelMultipart *)mpe, verpart);
+	camel_object_unref(verpart);
+	camel_multipart_add_part((CamelMultipart *)mpe, encpart);
+	camel_object_unref(encpart);
+
+	camel_medium_set_content_object((CamelMedium *)opart, (CamelDataWrapper *)mpe);
 fail:
-	camel_object_unref(ostream);
 	gpg_ctx_free(gpg);
+fail1:
+	camel_object_unref(istream);
+	camel_object_unref(ostream);
 		
 	return res;
 }

@@ -142,6 +142,9 @@ camel_multipart_encrypted_encrypt (CamelMultipartEncrypted *mpe, CamelMimePart *
 				   CamelCipherContext *cipher, const char *userid,
 				   GPtrArray *recipients, CamelException *ex)
 {
+	abort();
+
+#if 0
 	CamelMimePart *version_part, *encrypted_part;
 	CamelContentType *mime_type;
 	CamelDataWrapper *wrapper;
@@ -189,7 +192,8 @@ camel_multipart_encrypted_encrypt (CamelMultipartEncrypted *mpe, CamelMimePart *
 	camel_data_wrapper_set_mime_type_field (CAMEL_DATA_WRAPPER (mpe), mime_type);
 	camel_content_type_unref (mime_type);
 	camel_multipart_set_boundary ((CamelMultipart *) mpe, NULL);
-	
+#endif
+
 	return 0;
 }
 

@@ -592,6 +592,8 @@ prepare_sign(CamelMimePart *mime_part)
 int
 camel_multipart_signed_sign(CamelMultipartSigned *mps, CamelCipherContext *context, CamelMimePart *content, const char *userid, CamelCipherHash hash, CamelException *ex)
 {
+	abort();
+#if 0
 	CamelMimeFilter *canon_filter;
 	CamelStream *mem;
 	CamelStreamFilter *filter;
@@ -649,7 +651,7 @@ camel_multipart_signed_sign(CamelMultipartSigned *mps, CamelCipherContext *conte
 		camel_object_unref((CamelObject *) ((CamelDataWrapper *)mps)->stream);
 		((CamelDataWrapper *)mps)->stream = NULL;
 	}
-
+#endif
 	return 0;
 }
 

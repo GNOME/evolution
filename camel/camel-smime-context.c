@@ -39,11 +39,14 @@
 #include <pkcs11t.h>
 #include <pk11func.h>
 
+#include <errno.h>
+
 #include <camel/camel-exception.h>
 #include <camel/camel-stream-mem.h>
 #include <camel/camel-data-wrapper.h>
 
 #include <camel/camel-mime-part.h>
+#include <camel/camel-multipart-signed.h>
 #include <camel/camel-stream-fs.h>
 #include <camel/camel-stream-filter.h>
 #include <camel/camel-mime-filter-basic.h>
@@ -103,6 +106,12 @@ void
 camel_smime_context_set_sign_mode(CamelSMIMEContext *context, camel_smime_sign_t type)
 {
 	context->priv->sign_mode = type;
+}
+
+guint32
+camel_smime_context_describe_part(CamelSMIMEContext *context, CamelMimePart *part)
+{
+	return 0;
 }
 
 static const char *
@@ -307,57 +316,15 @@ fail:
 }
 
 static int
-sm_encode_cmsmessage(CamelSMIMEContext *context, NSSCMSMessage *cmsg, CamelStream *instream, CamelStream *out, CamelException *ex)
+sm_sign(CamelCipherContext *context, const char *userid, CamelCipherHash hash, CamelMimePart *ipart, CamelMimePart *opart, CamelException *ex)
 {
-	NSSCMSEncoderContext *enc;
-	CamelStreamMem *mem = NULL;
-
-	enc = NSS_CMSEncoder_Start(cmsg, 
-				   sm_write_stream, out, /* DER output callback  */
-				   NULL, NULL, /* destination storage  */
-				   sm_get_passwd, context, /* password callback    */
-				   NULL, NULL,     /* decrypt key callback */
-				   NULL, NULL );   /* detached digests    */
-	if (!enc) {
-		camel_exception_setv(ex, 1, "Cannot create encoder context");
-		goto fail;
-	}
-
-	/* Note: see rfc2015 or rfc3156, section 5 */
-
-	/* FIXME: stream this, we stream output at least */
-	mem = (CamelStreamMem *)camel_stream_mem_new();
-	camel_stream_write_to_stream(instream, (CamelStream *)mem);
-
-	if (NSS_CMSEncoder_Update(enc, mem->buffer->data, mem->buffer->len) != SECSuccess) {
-		NSS_CMSEncoder_Cancel(enc);
-		camel_exception_setv(ex, 1, "Failed to add data to CMS encoder");
-		goto fail;
-	}
-
-	if (NSS_CMSEncoder_Finish(enc) != SECSuccess) {
-		camel_exception_setv(ex, 1, "Failed to encode data");
-		goto fail;
-	}
-
-	camel_object_unref(mem);
-
-	return 0;
-
-fail:
-	if (mem)
-		camel_object_unref(mem);
-
-	return -1;
-}
-
-static int
-sm_sign(CamelCipherContext *ctx, const char *userid, CamelCipherHash hash, CamelStream *istream, CamelMimePart *sigpart, CamelException *ex)
-{
-	int res;
+	int res = -1;
 	NSSCMSMessage *cmsg;
-	CamelStream *ostream;
+	CamelStream *ostream, *istream;
 	SECOidTag sechash;
+	NSSCMSEncoderContext *enc;
+	CamelDataWrapper *dw;
+	CamelContentType *ct;
 
 	switch (hash) {
 	case CAMEL_CIPHER_HASH_SHA1:
@@ -370,51 +337,99 @@ sm_sign(CamelCipherContext *ctx, const char *userid, CamelCipherHash hash, Camel
 		break;
 	}
 
-	cmsg = sm_signing_cmsmessage((CamelSMIMEContext *)ctx, userid, sechash,
-				     ((CamelSMIMEContext *)ctx)->priv->sign_mode == CAMEL_SMIME_SIGN_CLEARSIGN, ex);
+	cmsg = sm_signing_cmsmessage((CamelSMIMEContext *)context, userid, sechash,
+				     ((CamelSMIMEContext *)context)->priv->sign_mode == CAMEL_SMIME_SIGN_CLEARSIGN, ex);
 	if (cmsg == NULL)
 		return -1;
 
 	ostream = camel_stream_mem_new();
-	res = sm_encode_cmsmessage((CamelSMIMEContext *)ctx, cmsg, istream, ostream, ex);
-	NSS_CMSMessage_Destroy(cmsg);
 
-	if (res == 0) {
-		CamelDataWrapper *dw;
-		CamelContentType *ct;
+	/* FIXME: stream this, we stream output at least */
+	istream = camel_stream_mem_new();
+	if (camel_cipher_canonical_to_stream(ipart, istream) == -1) {
+		camel_exception_setv(ex, CAMEL_EXCEPTION_SYSTEM,
+				     _("Could not generate signing data: %s"), g_strerror(errno));
+		goto fail;
+	}
 
-		dw = camel_data_wrapper_new();
-		camel_stream_reset(ostream);
-		camel_data_wrapper_construct_from_stream(dw, ostream);
-		dw->encoding = CAMEL_TRANSFER_ENCODING_BINARY;
+	enc = NSS_CMSEncoder_Start(cmsg, 
+				   sm_write_stream, ostream, /* DER output callback  */
+				   NULL, NULL, /* destination storage  */
+				   sm_get_passwd, context, /* password callback    */
+				   NULL, NULL,     /* decrypt key callback */
+				   NULL, NULL );   /* detached digests    */
+	if (!enc) {
+		camel_exception_setv(ex, 1, "Cannot create encoder context");
+		goto fail;
+	}
 
-		if (((CamelSMIMEContext *)ctx)->priv->sign_mode == CAMEL_SMIME_SIGN_CLEARSIGN) {
-			ct = camel_content_type_new("application", "x-pkcs7-signature");
-			camel_content_type_set_param(ct, "name", "smime.p7s");
-			camel_data_wrapper_set_mime_type_field(dw, ct);
-			camel_content_type_unref(ct);
+	if (NSS_CMSEncoder_Update(enc, ((CamelStreamMem *)istream)->buffer->data, ((CamelStreamMem *)istream)->buffer->len) != SECSuccess) {
+		NSS_CMSEncoder_Cancel(enc);
+		camel_exception_setv(ex, 1, "Failed to add data to CMS encoder");
+		goto fail;
+	}
 
-			camel_mime_part_set_filename(sigpart, "smime.p7s");
-		} else {
-			ct = camel_content_type_new("application", "x-pkcs7-mime");
-			camel_content_type_set_param(ct, "name", "smime.p7m");
-			camel_content_type_set_param(ct, "smime-type", "signed-data");
-			camel_data_wrapper_set_mime_type_field(dw, ct);
-			camel_content_type_unref(ct);
+	if (NSS_CMSEncoder_Finish(enc) != SECSuccess) {
+		camel_exception_setv(ex, 1, "Failed to encode data");
+		goto fail;
+	}
 
-			camel_mime_part_set_filename(sigpart, "smime.p7m");
-			camel_mime_part_set_description(sigpart, "S/MIME Signed Message");
-		}
+	res = 0;
 
+	dw = camel_data_wrapper_new();
+	camel_stream_reset(ostream);
+	camel_data_wrapper_construct_from_stream(dw, ostream);
+	dw->encoding = CAMEL_TRANSFER_ENCODING_BINARY;
+
+	if (((CamelSMIMEContext *)context)->priv->sign_mode == CAMEL_SMIME_SIGN_CLEARSIGN) {
+		CamelMultipartSigned *mps;
+		CamelMimePart *sigpart;
+
+		sigpart = camel_mime_part_new();
+		ct = camel_content_type_new("application", "x-pkcs7-signature");
+		camel_content_type_set_param(ct, "name", "smime.p7s");
+		camel_data_wrapper_set_mime_type_field(dw, ct);
+		camel_content_type_unref(ct);
+
+		camel_medium_set_content_object((CamelMedium *)sigpart, dw);
+
+		camel_mime_part_set_filename(sigpart, "smime.p7s");
 		camel_mime_part_set_disposition(sigpart, "attachment");
 		camel_mime_part_set_encoding(sigpart, CAMEL_TRANSFER_ENCODING_BASE64);
 
-		camel_medium_set_content_object((CamelMedium *)sigpart, dw);
-		camel_object_unref(dw);
+		mps = camel_multipart_signed_new();
+		ct = camel_content_type_new("multipart", "signed");
+		camel_content_type_set_param(ct, "micalg", camel_cipher_hash_to_id(context, hash));
+		camel_content_type_set_param(ct, "protocol", context->sign_protocol);
+		camel_data_wrapper_set_mime_type_field((CamelDataWrapper *)mps, ct);
+		camel_content_type_unref(ct);
+		camel_multipart_set_boundary((CamelMultipart *)mps, NULL);
+
+		mps->signature = sigpart;
+		mps->contentraw = istream;
+		camel_stream_reset(istream);
+		camel_object_ref(istream);
+		
+		camel_medium_set_content_object((CamelMedium *)opart, (CamelDataWrapper *)mps);
+	} else {
+		ct = camel_content_type_new("application", "x-pkcs7-mime");
+		camel_content_type_set_param(ct, "name", "smime.p7m");
+		camel_content_type_set_param(ct, "smime-type", "signed-data");
+		camel_data_wrapper_set_mime_type_field(dw, ct);
+		camel_content_type_unref(ct);
+		
+		camel_medium_set_content_object((CamelMedium *)opart, dw);
+
+		camel_mime_part_set_filename(opart, "smime.p7m");
+		camel_mime_part_set_description(opart, "S/MIME Signed Message");
+		camel_mime_part_set_disposition(opart, "attachment");
+		camel_mime_part_set_encoding(opart, CAMEL_TRANSFER_ENCODING_BASE64);
 	}
-
-
+	
+	camel_object_unref(dw);
+fail:	
 	camel_object_unref(ostream);
+	camel_object_unref(istream);
 
 	return res;
 }
