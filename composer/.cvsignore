@@ -1,7 +1,0 @@
-.deps
-.libs
-evolution-msg-composer
-Makefile
-Makefile.in
-*.lo
-*.la
