@@ -61,8 +61,8 @@ struct _system_flag {
 	char *value;
 } system_flags[] = {
 	{ _("Replied to"), "Answered" },
-	{ _("Deleted"), "Deleted" },
-	{ _("Draft"), "Draft" },
+	/*{ _("Deleted"), "Deleted" },*/
+	/*{ _("Draft"), "Draft" },*/
 	{ _("Important"), "Flagged" },
 	{ _("Read"), "Seen" },
 	{ NULL, NULL }
@@ -170,7 +170,7 @@ xml_encode (FilterElement *fe)
 	FilterSystemFlag *fsf = (FilterSystemFlag *) fe;
 	xmlNodePtr value;
 	
-	d(printf ("Encoding %s as xml\n", type));
+	d(printf ("Encoding system-flag as xml\n"));
 	value = xmlNewNode (NULL, "value");
 	xmlSetProp (value, "name", fe->name);
 	xmlSetProp (value, "type", "system-flag");
@@ -228,7 +228,7 @@ get_widget (FilterElement *fe)
 		gtk_signal_connect (GTK_OBJECT (item), "select", item_selected, fe);
 		gtk_menu_append (GTK_MENU (menu), item);
 		gtk_widget_show (item);
-		if (!g_strcasecmp (fsf->value, flag->value))
+		if (!strcmp (fsf->value, flag->value))
 			current = index;
 		index++;
 	}
