@@ -262,6 +262,7 @@ static CamelStream *
 insert_finish (CamelImapMessageCache *cache, const char *uid, char *path,
 	       char *key, CamelStream *stream)
 {
+	camel_stream_flush (stream);
 	camel_stream_reset (stream);
 	cache_put (cache, uid, key, stream);
 	g_free (path);
