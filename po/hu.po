@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution VERSION\n"
 "POT-Creation-Date: 2001-05-15 17:37+0200\n"
-"PO-Revision-Date: 2001-05-15 18:21+02:00\n"
+"PO-Revision-Date: 2001-05-15 18:35+02:00\n"
 "Last-Translator: András Tímár <timar@gnome.hu>\n"
 "Language-Team: Hungarian <hu@gnome.hu>\n"
 "MIME-Version: 1.0\n"
@@ -2700,11 +2700,11 @@ msgstr " 1 óra"
 #: calendar/gui/event-editor.c:1558
 #, c-format
 msgid " %d minutes"
-msgstr " %d perc"
+msgstr " %d perccel"
 
 #: calendar/gui/event-editor.c:1560
 msgid " 1 minute"
-msgstr " 1 perc"
+msgstr " 1 perccel"
 
 #: calendar/gui/event-editor.c:1563
 #, c-format
@@ -2737,24 +2737,24 @@ msgstr "Program futtatása"
 
 #: calendar/gui/event-editor.c:1612
 msgid " before start of appointment"
-msgstr "találkozó kezdete elõtt"
+msgstr " találkozó kezdete elõtt"
 
 #: calendar/gui/event-editor.c:1614
 msgid " after start of appointment"
-msgstr "találkozó kezdete után"
+msgstr " találkozó kezdete után"
 
 #: calendar/gui/event-editor.c:1622
 msgid " before end of appointment"
-msgstr "találkozó vége elõtt"
+msgstr " találkozó vége elõtt"
 
 #: calendar/gui/event-editor.c:1624
 msgid " after end of appointment"
-msgstr "találkozó vége után"
+msgstr " találkozó vége után"
 
 #: calendar/gui/event-editor.c:3132 calendar/gui/print.c:1097
 #: calendar/gui/print.c:1099 calendar/gui/print.c:1100
 msgid "%a %b %d %Y"
-msgstr "%a %b %d %Y"
+msgstr "%Y %b %d, %a"
 
 #: calendar/gui/event-editor-dialog.glade.h:1
 msgid "A_ll day event"
@@ -3173,15 +3173,15 @@ msgstr "Szo"
 #. Day
 #: calendar/gui/print.c:1078
 msgid "Current day (%a %b %d %Y)"
-msgstr "Mai nap (%a %b %d %Y)"
+msgstr "Mai nap (%Y %b %d, %a)"
 
 #: calendar/gui/print.c:1092 calendar/gui/print.c:1096
 msgid "%a %b %d"
-msgstr "%a %b %d"
+msgstr "%b %d, %a"
 
 #: calendar/gui/print.c:1093
 msgid "%a %d %Y"
-msgstr "%a %d %Y"
+msgstr "%Y %d, %a"
 
 #: calendar/gui/print.c:1104
 #, c-format
@@ -7416,7 +7416,7 @@ msgstr "Válassz mappát"
 
 #: shell/e-shell-offline-handler.c:554
 msgid "Closing connections..."
-msgstr ""
+msgstr "Kapcsolatok bezárása..."
 
 #: shell/e-shell-view.c:149
 msgid "(No folder displayed)"
@@ -8948,7 +8948,7 @@ msgstr "A _Levelezõ használata"
 
 #: ui/evolution.xml.h:26
 msgid "Work Offline"
-msgstr "K_apcsolat nélkül"
+msgstr "K_apcsolat nélküli munka"
 
 #: ui/evolution.xml.h:27
 msgid "_About Evolution..."
@@ -8987,9 +8987,8 @@ msgid "_Shortcut Bar"
 msgstr "_Indítósáv"
 
 #: ui/evolution.xml.h:47
-#, fuzzy
 msgid "_Work Offline"
-msgstr "K_apcsolat nélkül"
+msgstr "K_apcsolat nélküli munka"
 
 #: views/addressbook/galview.xml.h:1
 msgid "Adress Cards"
