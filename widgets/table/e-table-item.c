@@ -816,6 +816,24 @@ eti_maybe_show_cursor(ETableItem *eti, int delay)
 	eti_check_cursor_bounds (eti);
 }
 
+static gboolean
+eti_idle_maybe_show_cursor_cb (gpointer data)
+{
+	ETableItem *eti = data;
+	if (!GTK_OBJECT_DESTROYED (eti)) {
+		eti_maybe_show_cursor (eti, 0);
+	}
+	gtk_object_unref (GTK_OBJECT (eti));
+	return FALSE;
+}
+
+static void
+eti_idle_maybe_show_cursor(ETableItem *eti)
+{
+	gtk_object_ref (GTK_OBJECT (eti));
+	g_idle_add (eti_idle_maybe_show_cursor_cb, eti);
+}
+
 /*
  * Callback routine: invoked before the ETableModel has suffers a change
  */
@@ -845,7 +863,7 @@ eti_table_model_changed (ETableModel *table_model, ETableItem *eti)
 	eti->needs_redraw = 1;
 	gnome_canvas_item_request_update (GNOME_CANVAS_ITEM (eti));
 
-	eti_maybe_show_cursor(eti, 0);
+	eti_idle_maybe_show_cursor(eti);
 }
 
 static void
@@ -893,6 +911,8 @@ eti_table_model_rows_inserted (ETableModel *table_model, int row, int count, ETa
 			eti->height_cache[i] = -1;
 	}
 
+	eti_idle_maybe_show_cursor(eti);
+
 	eti->needs_compute_height = 1;
 	e_canvas_item_request_reflow (GNOME_CANVAS_ITEM (eti));
 	eti->needs_redraw = 1;
@@ -914,6 +934,8 @@ eti_table_model_rows_deleted (ETableModel *table_model, int row, int count, ETab
 	if (eti->height_cache) {
 		memmove(eti->height_cache + row, eti->height_cache + row + count, (eti->rows - row) * sizeof(int));
 	}
+
+	eti_idle_maybe_show_cursor(eti);
 
 	eti->needs_compute_height = 1;
 	e_canvas_item_request_reflow (GNOME_CANVAS_ITEM (eti));

@@ -438,18 +438,18 @@ add_model(ETreeSelectionModel *etsm, ETreeModel *model)
 		return;
 
 	gtk_object_ref(GTK_OBJECT(priv->model));
-	priv->tree_model_pre_change_id        = gtk_signal_connect (GTK_OBJECT (priv->model), "pre_change",
-								    GTK_SIGNAL_FUNC (etsm_pre_change), etsm);
-	priv->tree_model_node_changed_id      = gtk_signal_connect (GTK_OBJECT (priv->model), "node_changed",
-								    GTK_SIGNAL_FUNC (etsm_node_changed), etsm);
-	priv->tree_model_node_data_changed_id = gtk_signal_connect (GTK_OBJECT (priv->model), "node_data_changed",
-								    GTK_SIGNAL_FUNC (etsm_node_data_changed), etsm);
-	priv->tree_model_node_col_changed_id  = gtk_signal_connect (GTK_OBJECT (priv->model), "node_col_changed",
-								    GTK_SIGNAL_FUNC (etsm_node_col_changed), etsm);
-	priv->tree_model_node_inserted_id     = gtk_signal_connect (GTK_OBJECT (priv->model), "node_inserted",
-								    GTK_SIGNAL_FUNC (etsm_node_inserted), etsm);
-	priv->tree_model_node_removed_id      = gtk_signal_connect (GTK_OBJECT (priv->model), "node_removed",
-								    GTK_SIGNAL_FUNC (etsm_node_removed), etsm);
+	priv->tree_model_pre_change_id        = gtk_signal_connect_after (GTK_OBJECT (priv->model), "pre_change",
+									  GTK_SIGNAL_FUNC (etsm_pre_change), etsm);
+	priv->tree_model_node_changed_id      = gtk_signal_connect_after (GTK_OBJECT (priv->model), "node_changed",
+									  GTK_SIGNAL_FUNC (etsm_node_changed), etsm);
+	priv->tree_model_node_data_changed_id = gtk_signal_connect_after (GTK_OBJECT (priv->model), "node_data_changed",
+									  GTK_SIGNAL_FUNC (etsm_node_data_changed), etsm);
+	priv->tree_model_node_col_changed_id  = gtk_signal_connect_after (GTK_OBJECT (priv->model), "node_col_changed",
+									  GTK_SIGNAL_FUNC (etsm_node_col_changed), etsm);
+	priv->tree_model_node_inserted_id     = gtk_signal_connect_after (GTK_OBJECT (priv->model), "node_inserted",
+									  GTK_SIGNAL_FUNC (etsm_node_inserted), etsm);
+	priv->tree_model_node_removed_id      = gtk_signal_connect_after (GTK_OBJECT (priv->model), "node_removed",
+									  GTK_SIGNAL_FUNC (etsm_node_removed), etsm);
 }
 
 static void
