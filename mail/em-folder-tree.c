@@ -1686,6 +1686,7 @@ emft_copy_folders__copy (struct _mail_msg *mm)
 		while (info) {
 			CamelFolder *fromfolder, *tofolder;
 			GPtrArray *uids;
+			int deleted = 0;
 			
 			if (info->child)
 				pending = g_list_append (pending, info->child);
@@ -1701,33 +1702,46 @@ emft_copy_folders__copy (struct _mail_msg *mm)
 			/* Not sure if this is really the 'right thing', e.g. for spool stores, but it makes the ui work */
 			if ((info->flags & CAMEL_FOLDER_NOSELECT) == 0) {
 				d(printf ("this folder is selectable\n"));
-				if (!(fromfolder = camel_store_get_folder (m->fromstore, info->full_name, 0, &mm->ex)))
-					goto exception;
-				
-				if (!(tofolder = camel_store_get_folder (m->tostore, toname->str, CAMEL_STORE_FOLDER_CREATE, &mm->ex))) {
+				if (m->tostore == m->fromstore && m->delete) {
+					camel_store_rename_folder (m->fromstore, info->full_name, toname->str, &mm->ex);
+					if (camel_exception_is_set (&mm->ex))
+						goto exception;
+					
+					/* this folder no longer exists, unsubscribe it */
+					if (camel_store_supports_subscriptions (m->fromstore))
+						camel_store_unsubscribe_folder (m->fromstore, info->full_name, NULL);
+					
+					deleted = 1;
+				} else {
+					if (!(fromfolder = camel_store_get_folder (m->fromstore, info->full_name, 0, &mm->ex)))
+						goto exception;
+					
+					if (!(tofolder = camel_store_get_folder (m->tostore, toname->str, CAMEL_STORE_FOLDER_CREATE, &mm->ex))) {
+						camel_object_unref (fromfolder);
+						goto exception;
+					}
+					
+					uids = camel_folder_get_uids (fromfolder);
+					camel_folder_transfer_messages_to (fromfolder, uids, tofolder, NULL, m->delete, &mm->ex);
+					camel_folder_free_uids (fromfolder, uids);
+					
+					if (m->delete)
+						camel_folder_sync(fromfolder, TRUE, NULL);
+					
 					camel_object_unref (fromfolder);
-					goto exception;
+					camel_object_unref (tofolder);
 				}
-				
-				if (camel_store_supports_subscriptions (m->tostore)
-				    && !camel_store_folder_subscribed (m->tostore, toname->str))
-					camel_store_subscribe_folder (m->tostore, toname->str, NULL);
-				
-				uids = camel_folder_get_uids (fromfolder);
-				camel_folder_transfer_messages_to (fromfolder, uids, tofolder, NULL, m->delete, &mm->ex);
-				camel_folder_free_uids (fromfolder, uids);
-				
-				if (m->delete)
-					camel_folder_sync(fromfolder, TRUE, NULL);
-
-				camel_object_unref (fromfolder);
-				camel_object_unref (tofolder);
 			}
 			
 			if (camel_exception_is_set (&mm->ex))
 				goto exception;
-			else if (m->delete)
+			else if (m->delete && !deleted)
 				deleting = g_list_prepend (deleting, info);
+			
+			/* subscribe to the new folder if appropriate */
+			if (camel_store_supports_subscriptions (m->tostore)
+			    && !camel_store_folder_subscribed (m->tostore, toname->str))
+				camel_store_subscribe_folder (m->tostore, toname->str, NULL);
 			
 			info = info->next;
 		}
@@ -1839,7 +1853,7 @@ emft_popup_copy_folder_selected (const char *uri, void *data)
 	}
 	
 	url = camel_url_new (uri, NULL);
-	if ( ((CamelService *)tostore)->provider->url_flags & CAMEL_URL_FRAGMENT_IS_PATH )
+	if (((CamelService *)tostore)->provider->url_flags & CAMEL_URL_FRAGMENT_IS_PATH)
 		tobase = url->fragment;
 	else if (url->path && url->path[0])
 		tobase = url->path+1;
