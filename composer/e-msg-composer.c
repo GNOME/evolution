@@ -1884,57 +1884,6 @@ signature_cb (GtkWidget *w, EMsgComposer *composer)
 		}
 		if (old_sig != composer->signature || old_auto != composer->auto_signature)
 			e_msg_composer_show_sig_file (composer);
-	} else if (idx == len - 2) {
-		/* separator */
-		sig_select_item (composer);
-	} else if (idx == len - 1 && composer->hdrs && E_MSG_COMPOSER_HDRS (composer->hdrs)->account) {
-		const MailConfigAccount *account = E_MSG_COMPOSER_HDRS (composer->hdrs)->account;
-		
-		if (account->id) {
-			GtkWidget *omenu, *menu;
-			MailConfigAccount *orig_acc;
-			int i;
-			
-			/*
-			 * this is not exact, because the composer uses duplicates of accounts
-			 * so I have to guess which account it is.
-			 * in 1.4 we have to have account derived from gobject and composer should just
-			 * ref it and not duplicate
-			 */
-			
-			omenu = e_msg_composer_hdrs_get_from_omenu (E_MSG_COMPOSER_HDRS (composer->hdrs));
-			menu = gtk_option_menu_get_menu (GTK_OPTION_MENU (omenu));
-			i = g_list_index (GTK_MENU_SHELL (menu)->children, gtk_menu_get_active (GTK_MENU (menu)));
-			
-			orig_acc = g_slist_nth_data ((GSList *) mail_config_get_accounts (), i);
-			if (orig_acc) {
-				if (orig_acc->name && account->name && !strcmp (orig_acc->name, account->name)
-				    && ((orig_acc->id->name == NULL && account->id->name == NULL)
-					|| (orig_acc->id->name && account->id->name
-					    && !strcmp (orig_acc->id->name, account->id->name)))
-				    && ((orig_acc->id->address == NULL && account->id->address == NULL)
-					|| (orig_acc->id->address && account->id->address
-					    && !strcmp (orig_acc->id->address, account->id->address)))
-				    && ((orig_acc->id->reply_to == NULL && account->id->reply_to == NULL)
-					|| (orig_acc->id->reply_to && account->id->reply_to
-					    && !strcmp (orig_acc->id->reply_to, account->id->reply_to)))
-				    && ((orig_acc->id->reply_to == NULL && account->id->reply_to == NULL)
-					|| (orig_acc->id->reply_to && account->id->reply_to
-					    && !strcmp (orig_acc->id->reply_to, account->id->reply_to)))
-				    && ((orig_acc->id->organization == NULL && account->id->organization == NULL)
-					|| (orig_acc->id->organization && account->id->organization
-					    && !strcmp (orig_acc->id->organization, account->id->organization)))) {
-					
-					orig_acc->id->def_signature = composer->signature;
-					orig_acc->id->auto_signature = composer->auto_signature;
-					mail_config_write_account_sig (orig_acc, -1);
-					sig_select_item (composer);
-					return;
-				}
-			}
-			gnome_error_dialog (_("Can't set default signature for this account. "
-					      "Maybe accounts were modified meanwhile?"));
-		}
 	}
 	/* printf ("signature_cb end\n"); */
 }
@@ -2021,8 +1970,6 @@ setup_signatures_menu (EMsgComposer *composer)
 			ADD (gtk_str);
 			g_free (gtk_str);
 		}
-	ADD (NULL);
-	ADD (_("Set as default"));
 #undef ADD
 
 	gtk_widget_show (menu);
