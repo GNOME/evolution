@@ -334,8 +334,8 @@ factory_fn (BonoboGenericFactory *factory,
 	shell_component = evolution_shell_component_new (folder_types, NULL,
 							 create_view, create_folder,
 							 remove_folder, xfer_folder,
-							 get_dnd_selection,
 							 NULL,
+							 get_dnd_selection,
 							 NULL);
 
 	destination_interface = evolution_shell_component_dnd_destination_folder_new (destination_folder_handle_motion,

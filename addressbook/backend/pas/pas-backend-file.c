@@ -1476,6 +1476,8 @@ pas_backend_file_load_uri (PASBackend             *backend,
 		db_error = db->open (db, filename, NULL, DB_HASH, 0, 0666);
 	}
 
+	bf->priv->file_db = db;
+
 	if (db_error == 0) {
 		writable = TRUE;
 	} else {
@@ -1507,12 +1509,13 @@ pas_backend_file_load_uri (PASBackend             *backend,
 
 	g_free (filename);
 
+
 	if (db_error != 0) {
+		bf->priv->file_db = NULL;
 		return FALSE;
 	}
 
 	bf->priv->writable = writable;
-	bf->priv->file_db = db;
 
 	if (pas_backend_file_maybe_upgrade_db (bf))
 		bf->priv->loaded = TRUE;
