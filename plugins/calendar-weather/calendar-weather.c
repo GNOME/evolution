@@ -266,11 +266,11 @@ create_source_selector (ESource *source)
 		return NULL;
 
 	dialog = gtk_dialog_new_with_buttons (
-	    		_("Select a location"),
-	    		NULL, GTK_DIALOG_MODAL,
-			GTK_STOCK_OK, GTK_RESPONSE_OK,
-			GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
-			NULL);
+		_("Select a location"),
+		NULL, GTK_DIALOG_MODAL,
+		GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
+		GTK_STOCK_OK, GTK_RESPONSE_OK,
+		NULL);
 	gtk_container_set_border_width (GTK_CONTAINER (dialog), 6);
 
 	scrolledwindow = gtk_scrolled_window_new (NULL, NULL);
