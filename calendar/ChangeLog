@@ -1,5 +1,13 @@
 2001-06-13  JP Rosevear  <jpr@ximian.com>
 
+	* gui/dialogs/comp-editor-util.c (comp_editor_date_label): remove
+	unnecessary space
+
+	* gui/dialogs/task-page.c (task_page_set_summary): indicate we are
+	updating, Fixes #3307
+
+2001-06-13  JP Rosevear  <jpr@ximian.com>
+
 	* gui/dialogs/task-details-page.c (task_details_page_set_dates):
 	set the completed time in the date editor if appropriate
 

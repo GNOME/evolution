@@ -115,7 +115,7 @@ comp_editor_date_label (CompEditorPageDates *dates, GtkWidget *label)
 		if (dates->start > 0)
 			write_label_piece (dates->complete, buffer, 1024, _(" (Completed "), ")");
 		else
-			write_label_piece (dates->complete, buffer, 1024, _(" Completed "), NULL);
+			write_label_piece (dates->complete, buffer, 1024, _("Completed "), NULL);
 	}
 	
 	if (dates->due > 0 && dates->complete == 0) {

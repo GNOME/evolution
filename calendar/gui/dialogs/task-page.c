@@ -558,7 +558,9 @@ task_page_set_summary (CompEditorPage *page, const char *summary)
 	tpage = TASK_PAGE (page);
 	priv = tpage->priv;
 
+	priv->updating = TRUE;
 	e_utf8_gtk_entry_set_text (GTK_ENTRY (priv->summary), summary);
+	priv->updating = FALSE;
 }
 
 static void
