@@ -2848,7 +2848,8 @@ e_week_view_start_editing_event (EWeekView *week_view,
 	EWeekViewEventSpan *span;
 	ETextEventProcessor *event_processor = NULL;
 	ETextEventProcessorCommand command;
-
+	ECalModelComponent *comp_data;
+	
 	/* If we are already editing the event, just return. */
 	if (event_num == week_view->editing_event_num
 	    && span_num == week_view->editing_span_num)
@@ -2868,11 +2869,28 @@ e_week_view_start_editing_event (EWeekView *week_view,
 				       NULL);
 	}
 
-	/* FIXME: This implicitly stops any edit of another item, causing it
-	   to be sent to the server and resulting in a call to obj_updated_cb()
-	   which may reload all the events and so our span and text item may
-	   actually be destroyed. So we often get a SEGV. */
+	/* Save the comp_data value because we use that as our invariant */
+	comp_data = event->comp_data;
+	
 	e_canvas_item_grab_focus (span->text_item, TRUE);
+	
+	/* If the above focus caused things to redraw, then find the
+	 * the event and the span again */
+	if (event_num < week_view->events->len)
+		event = &g_array_index (week_view->events, EWeekViewEvent, event_num);
+	
+	if (event_num >= week_view->events->len || event->comp_data != comp_data) {
+		/* Unfocussing can cause a removal but not a new
+		 * addition so just run backwards through the
+		 * events */
+		for (event_num--; event_num >= 0; event_num--){
+			event = &g_array_index (week_view->events, EWeekViewEvent, event_num);
+			if (event->comp_data == comp_data)
+				break;
+		}
+		g_assert (event_num >= 0);		
+	}	
+	span = &g_array_index (week_view->spans, EWeekViewEventSpan,  event->spans_index + span_num);
 
 	/* Try to move the cursor to the end of the text. */
 	g_object_get (G_OBJECT (span->text_item), "event_processor", &event_processor, NULL);
