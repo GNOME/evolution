@@ -322,9 +322,8 @@ msgstr "%x"
 
 #: addressbook/backend/ebook/e-card-simple.c:853
 #: addressbook/backend/ebook/e-destination.c:706
-#, fuzzy
 msgid "Unnamed List"
-msgstr "Неназваний контактний список"
+msgstr "Неназваний список"
 
 #: addressbook/backend/ebook/e-card.c:2683
 msgid "Multiple VCards"
@@ -560,9 +559,8 @@ msgid "Server did not respond with valid schema information"
 msgstr "Відповідь сервера IMAP не містить інформації про %s"
 
 #: addressbook/gui/component/addressbook-config.c:1630
-#, fuzzy
 msgid "LDAP was not enabled in this build of Evolution"
-msgstr "(у цій версії Evolution SSL не підтримується)"
+msgstr "у цій версії Evolution LDAP не підтримується"
 
 #: addressbook/gui/component/addressbook-config.etspec.h:1
 #, fuzzy
@@ -2917,9 +2915,8 @@ msgid "TLS not Available"
 msgstr ""
 
 #: addressbook/gui/widgets/e-addressbook-util.c:46
-#, fuzzy
 msgid "Addressbook does not exist"
-msgstr "Файлу %s не існує"
+msgstr "Адресна книга не існує"
 
 #: addressbook/gui/widgets/e-addressbook-util.c:47
 msgid "Other error"
@@ -2954,9 +2951,8 @@ msgid "Error removing card"
 msgstr "Помилка видалення картки"
 
 #: addressbook/gui/widgets/e-addressbook-util.c:208
-#, fuzzy
 msgid "Display Cards?"
-msgstr "Відобразити"
+msgstr "Відобразити картки?"
 
 #: addressbook/gui/widgets/e-addressbook-util.c:209
 msgid "Display Cards"
@@ -3807,12 +3803,10 @@ msgid "Public folder containing to-do items"
 msgstr "Тека, що містить елементи \"Виконати\""
 
 #: calendar/gui/component-factory.c:750
-#, fuzzy
 msgid "New appointment"
 msgstr "Нова зустріч"
 
 #: calendar/gui/component-factory.c:750
-#, fuzzy
 msgid "_Appointment"
 msgstr "Зустріч"
 
@@ -3821,12 +3815,10 @@ msgid "Create a new appointment"
 msgstr "Створити нову зустріч"
 
 #: calendar/gui/component-factory.c:755
-#, fuzzy
 msgid "New meeting"
-msgstr "Параметри новин"
+msgstr "Нове засідання"
 
 #: calendar/gui/component-factory.c:755
-#, fuzzy
 msgid "_Meeting"
 msgstr "Засідання"
 
@@ -3836,7 +3828,6 @@ msgid "Create a new meeting request"
 msgstr "Створити нову завдання"
 
 #: calendar/gui/component-factory.c:760
-#, fuzzy
 msgid "New task"
 msgstr "Нове завдання"
 
@@ -3846,7 +3837,7 @@ msgstr "Завдання"
 
 #: calendar/gui/component-factory.c:761
 msgid "Create a new task"
-msgstr "Створити нову завдання"
+msgstr "Створити нове завдання"
 
 #: calendar/gui/component-factory.c:765
 #, fuzzy
@@ -3901,13 +3892,12 @@ msgid "Alarm Repeat"
 msgstr "Повторення сповіщення"
 
 #: calendar/gui/dialogs/alarm-options.glade.h:2
-#, fuzzy
 msgid ""
 "Evolution does not yet support email notification for reminders.  You will "
 "not be able to edit the options for this reminder."
 msgstr ""
 "Це нагадування по ел.пошті, але Evolution поки що не підтримує такий тип "
-"нагадування. Ви не зможете редагувати параметри цього нагадування."
+"нагадування.  Ви не зможете редагувати параметри цього нагадування."
 
 #: calendar/gui/dialogs/alarm-options.glade.h:3
 msgid "Message to Display"
@@ -4175,7 +4165,6 @@ msgid "Monday"
 msgstr "Понеділок"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:16
-#, fuzzy
 msgid "S_un"
 msgstr "Ндл"
 
@@ -4200,7 +4189,6 @@ msgid "Sunday"
 msgstr "Неділя"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:21
-#, fuzzy
 msgid "T_asks due today:"
 msgstr "Завдання на сьогодні:"
 
@@ -4209,7 +4197,6 @@ msgid "T_hu"
 msgstr "Чтв"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:23
-#, fuzzy
 msgid "Task List"
 msgstr "Список завдань"
 
@@ -4313,12 +4300,10 @@ msgid "_Show appointment end times in week and month views"
 msgstr "Показати час завершення зустрічей при перегляді тижню та місяцю"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:46
-#, fuzzy
 msgid "_Time divisions:"
 msgstr "Розділювачі часу:"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:47
-#, fuzzy
 msgid "_Tue"
 msgstr "Втр"
 
@@ -4444,9 +4429,8 @@ msgid "You don't have permissions to update this object"
 msgstr ""
 
 #: calendar/gui/dialogs/comp-editor.c:352
-#, fuzzy
 msgid "Could not update object"
-msgstr "Не вдалося оновити об'єкт!"
+msgstr "Не вдалося оновити об'єкт"
 
 #: calendar/gui/dialogs/comp-editor.c:798
 msgid "Edit Appointment"
@@ -4567,18 +4551,16 @@ msgid "Meeting"
 msgstr "Засідання"
 
 #: calendar/gui/dialogs/event-page.c:656 calendar/gui/dialogs/task-page.c:567
-#, fuzzy
 msgid "Start date is wrong"
-msgstr "Дата початку"
+msgstr "Дата початку невірна"
 
 #: calendar/gui/dialogs/event-page.c:666
 msgid "End date is wrong"
 msgstr ""
 
 #: calendar/gui/dialogs/event-page.c:689
-#, fuzzy
 msgid "Start time is wrong"
-msgstr "Дата початку:"
+msgstr "Невірний час початку"
 
 #: calendar/gui/dialogs/event-page.c:696
 msgid "End time is wrong"
@@ -4834,14 +4816,12 @@ msgid "fourth"
 msgstr "Північ"
 
 #: calendar/gui/dialogs/recurrence-page.c:1076
-#, fuzzy
 msgid "last"
-msgstr "список"
+msgstr "останній"
 
 #: calendar/gui/dialogs/recurrence-page.c:1102
-#, fuzzy
 msgid "Other Date"
-msgstr "Інший факс"
+msgstr "Інша дата"
 
 #: calendar/gui/dialogs/recurrence-page.c:1130 filter/filter-datespec.c:73
 msgid "day"
@@ -4916,9 +4896,8 @@ msgid "year(s)"
 msgstr "рік(ів)"
 
 #: calendar/gui/dialogs/send-comp.c:56
-#, fuzzy
 msgid "The meeting information has been created. Send it?"
-msgstr "Змінилась інформація про засідання. Надіслати оновлену версію?"
+msgstr "Створено інформацію про засідання. Надіслати?"
 
 #: calendar/gui/dialogs/send-comp.c:59
 msgid "The meeting information has changed. Send an updated version?"
@@ -4934,9 +4913,8 @@ msgid "The task information has changed. Send an updated version?"
 msgstr "Змінилась інформація про завдання. Надіслати оновлену версію?"
 
 #: calendar/gui/dialogs/task-details-page.c:420
-#, fuzzy
 msgid "Completed date is wrong"
-msgstr "Виконано "
+msgstr "Невірна дата виконання"
 
 #: calendar/gui/dialogs/task-details-page.glade.h:2
 #: calendar/gui/e-calendar-table.etspec.h:2
@@ -5066,7 +5044,6 @@ msgid "_Open"
 msgstr "Відкрити"
 
 #: calendar/gui/e-calendar-table.c:988
-#, fuzzy
 msgid "_Save as..."
 msgstr "Зберегти як..."
 
@@ -5105,7 +5082,6 @@ msgid "_Assign Task"
 msgstr "Призначити завдання"
 
 #: calendar/gui/e-calendar-table.c:1000
-#, fuzzy
 msgid "_Forward as iCalendar"
 msgstr "Переслати як i_Calendar"
 
@@ -5114,9 +5090,8 @@ msgid "_Mark as Complete"
 msgstr "Позначити як виконане"
 
 #: calendar/gui/e-calendar-table.c:1002
-#, fuzzy
 msgid "_Mark Selected Tasks as Complete"
-msgstr "Позначити завдання як виконані"
+msgstr "Позначити вибрані завдання як виконані"
 
 #: calendar/gui/e-calendar-table.c:1007
 msgid "_Delete Selected Tasks"
@@ -5242,9 +5217,8 @@ msgid "New All Day _Event"
 msgstr "Нова щоденна подія"
 
 #: calendar/gui/e-day-view.c:3709 calendar/gui/e-week-view.c:3515
-#, fuzzy
 msgid "New Meeting"
-msgstr "Засідання"
+msgstr "Нове засідання"
 
 #: calendar/gui/e-day-view.c:3711 calendar/gui/e-week-view.c:3516
 msgid "New Task"
@@ -5270,9 +5244,8 @@ msgstr "Опублікувати інформацію про зайнятіст�
 
 #: calendar/gui/e-day-view.c:3740 calendar/gui/e-week-view.c:3539
 #: ui/evolution.xml.h:62
-#, fuzzy
 msgid "_Settings..."
-msgstr "Параметри"
+msgstr "Параметри..."
 
 #: calendar/gui/e-day-view.c:3749 calendar/gui/e-week-view.c:3546
 #: mail/folder-browser.c:1731 ui/evolution-mail-message.xml.h:112
@@ -5285,9 +5258,8 @@ msgid "_Schedule Meeting..."
 msgstr "Планувати зустріч"
 
 #: calendar/gui/e-day-view.c:3762 calendar/gui/e-week-view.c:3559
-#, fuzzy
 msgid "_Forward as iCalendar..."
-msgstr "Переслати як i_Calendar"
+msgstr "Переслати як i_Calendar..."
 
 #: calendar/gui/e-day-view.c:3767 calendar/gui/e-week-view.c:3564
 msgid "Make this Occurrence _Movable"
@@ -5307,9 +5279,8 @@ msgid "Yes. (Complex Recurrence)"
 msgstr "Проста періодичність"
 
 #: calendar/gui/e-itip-control.c:696
-#, fuzzy
 msgid "Every day"
-msgstr "Кожен"
+msgstr "Кожен день"
 
 #: calendar/gui/e-itip-control.c:698
 #, fuzzy, c-format
@@ -5317,9 +5288,8 @@ msgid "Every %d days"
 msgstr "%d діб"
 
 #: calendar/gui/e-itip-control.c:704
-#, fuzzy
 msgid "Every week"
-msgstr "Кожен"
+msgstr "Кожен тиждень"
 
 #: calendar/gui/e-itip-control.c:706
 #, fuzzy, c-format
@@ -5328,17 +5298,16 @@ msgstr "%d тижнів"
 
 #: calendar/gui/e-itip-control.c:709
 msgid "Every week on "
-msgstr ""
+msgstr "Щотижнево у "
 
 #: calendar/gui/e-itip-control.c:711
-#, fuzzy, c-format
+#, c-format
 msgid "Every %d weeks on "
-msgstr "%d тижнів"
+msgstr "Кожен %d тиждень у "
 
 #: calendar/gui/e-itip-control.c:719
-#, fuzzy
 msgid " and "
-msgstr "Пісок"
+msgstr " та "
 
 #: calendar/gui/e-itip-control.c:726
 #, c-format
@@ -5351,24 +5320,22 @@ msgid "The %s %s of "
 msgstr ""
 
 #: calendar/gui/e-itip-control.c:744
-#, fuzzy
 msgid "every month"
-msgstr "Один місяць"
+msgstr "кожен місяць"
 
 #: calendar/gui/e-itip-control.c:749
 #, c-format
 msgid "every %d months"
-msgstr ""
+msgstr "кожен %d місяць"
 
 #: calendar/gui/e-itip-control.c:755
-#, fuzzy
 msgid "Every year"
-msgstr "Кожен"
+msgstr "Кожен рік"
 
 #: calendar/gui/e-itip-control.c:757
 #, c-format
 msgid "Every %d years"
-msgstr ""
+msgstr "Кожен %d рік"
 
 #: calendar/gui/e-itip-control.c:769
 #, c-format
@@ -5384,14 +5351,12 @@ msgid "<b>Starts:</b> "
 msgstr ""
 
 #: calendar/gui/e-itip-control.c:811
-#, fuzzy
 msgid "<b>Ends:</b> "
-msgstr "Закінчується: <b>"
+msgstr "<b>Закінчується: </b>"
 
 #: calendar/gui/e-itip-control.c:831
-#, fuzzy
 msgid "<b>Completed:</b> "
-msgstr "Виконано "
+msgstr "<b>Виконано:</b>"
 
 #: calendar/gui/e-itip-control.c:841
 msgid "<b>Due:</b> "
@@ -5516,9 +5481,9 @@ msgid "Meeting Information"
 msgstr "Інформація про засідання"
 
 #: calendar/gui/e-itip-control.c:1300
-#, fuzzy, c-format
+#, c-format
 msgid "<b>%s</b> requests the presence of %s at a meeting."
-msgstr "<b>%s</b> запитує вашу присутність на засіданні."
+msgstr "<b>%s</b> запитує присутність %s на засіданні."
 
 #: calendar/gui/e-itip-control.c:1302
 #, c-format
@@ -5592,7 +5557,7 @@ msgstr "<b>%s</b> пропонує вам прийняти участь у за�
 #: calendar/gui/e-itip-control.c:1369
 #, c-format
 msgid "<b>%s</b> requests you perform a task."
-msgstr "<b>%s</b> пропонує вам прийняти участь у засіданні."
+msgstr "<b>%s</b> пропонує вам виконати завдання."
 
 #: calendar/gui/e-itip-control.c:1370
 msgid "Task Proposal"
@@ -5675,11 +5640,11 @@ msgstr "Повідомлення невірно сформовано"
 
 #: calendar/gui/e-itip-control.c:1575
 msgid "The message contains only unsupported requests."
-msgstr "Повідомлення містить тільки відповіді, що підтримуються"
+msgstr "Повідомлення містить тільки запити, що не підтримуються"
 
 #: calendar/gui/e-itip-control.c:1603 calendar/gui/e-itip-control.c:1609
 msgid "The attachment does not contain a valid calendar message"
-msgstr "Під'єднаний файл не містить вірно сформованого повідомлення"
+msgstr "Під'єднаний файл не містить вірно сформованого повідомлення календаря"
 
 #: calendar/gui/e-itip-control.c:1634
 msgid "The attachment has no viewable calendar items"
@@ -5694,9 +5659,8 @@ msgid "There was an error on the CORBA system\n"
 msgstr ""
 
 #: calendar/gui/e-itip-control.c:1862 calendar/gui/e-itip-control.c:1954
-#, fuzzy
 msgid "Object could not be found\n"
-msgstr "Елемент не може бути відіслано!\n"
+msgstr "Об'єкт не знайдено!\n"
 
 #: calendar/gui/e-itip-control.c:1865
 #, fuzzy
@@ -5977,9 +5941,8 @@ msgid ""
 msgstr "Помилка запуску %s"
 
 #: calendar/gui/e-tasks.c:540
-#, fuzzy
 msgid "Completing tasks..."
-msgstr "Дата завершення"
+msgstr "Виконання завдань..."
 
 #: calendar/gui/e-tasks.c:563
 #, fuzzy
@@ -6148,9 +6111,8 @@ msgid "You must be an attendee of the event."
 msgstr "Ви маєте бути відвідувачем події."
 
 #: calendar/gui/main.c:70
-#, fuzzy
 msgid "Could not activate Bonobo"
-msgstr "Не вдалось ініціалізувати Bonobo"
+msgstr "Не вдалось активізувати Bonobo"
 
 #: calendar/gui/main.c:99
 msgid "Could not create the component editor factory"
@@ -6404,17 +6366,16 @@ msgid "The URI of the tasks folder to display"
 msgstr "URI, що буде показано у папці завдань"
 
 #: calendar/gui/tasks-control.c:462
-#, fuzzy
 msgid ""
 "This operation will permanently erase all tasks marked as completed. If you "
 "continue, you will not be able to recover these tasks.\n"
 "\n"
 "Really erase these tasks?"
 msgstr ""
-"Ця операція безповоротно зітре всі повідомлення, відзначені як стерті.Якщо "
-"ви продовжите: ви не зможете відновити ці повідомлення.\n"
+"Ця операція безповоротно зітре всі завдання, що позначено як виконані. Якщо "
+"ви продовжите, ви не зможете відновити ці завдання.\n"
 "\n"
-"Дійсно стерти ці повідомлення?"
+"Дійсно стерти ці завдання?"
 
 #: calendar/gui/tasks-control.c:469 mail/mail-callbacks.c:2696
 #: mail/mail-callbacks.c:2938
@@ -6422,9 +6383,8 @@ msgid "Do not ask me again."
 msgstr "Не питати знову."
 
 #: calendar/gui/tasks-control.c:618
-#, fuzzy
 msgid "Print Tasks"
-msgstr "Надрукувати картки"
+msgstr "Надрукувати завдання"
 
 #: calendar/gui/tasks-migrate.c:105
 msgid ""
@@ -6469,26 +6429,21 @@ msgid "SMTWTFS"
 msgstr "НПВСЧПС"
 
 #: calendar/importers/GNOME_Evolution_Calendar_Importer.oaf.in.h:1
-#, fuzzy
 msgid "Factory to import iCalendar files into Evolution"
-msgstr "Фабрика імпорту файлів VCard у Evolutuion."
+msgstr "Фабрика імпорту файлів iCalendar у Evolutuion."
 
 #: calendar/importers/GNOME_Evolution_Calendar_Importer.oaf.in.h:2
-#, fuzzy
 msgid "Imports iCalendar files into Evolution"
-msgstr "Імпорт файлів VCard у Evolution."
+msgstr "Імпорт файлів iCalendar у Evolution."
 
 #: calendar/importers/GNOME_Evolution_Calendar_Importer.oaf.in.h:3
-#, fuzzy
 msgid "Imports vCalendar files into Evolution"
-msgstr "Імпорт файлів VCard у Evolution."
+msgstr "Імпорт файлів vCalendar у Evolution."
 
 #: calendar/importers/icalendar-importer.c:168
-#, fuzzy, c-format
+#, c-format
 msgid "Can't get storage list from registry: %s"
-msgstr ""
-"Неможливо отримати повідомлення \"%s\" з теки \"%s\"\n"
-"  %s"
+msgstr "Неможливо отримати список сховищ з реєстру: %s"
 
 #: calendar/importers/icalendar-importer.c:180
 #, c-format
@@ -6496,9 +6451,8 @@ msgid "Can't call getFolderAtPath on storage: %s"
 msgstr ""
 
 #: calendar/importers/icalendar-importer.c:483
-#, fuzzy
 msgid "Reminder!!"
-msgstr "Нагадування"
+msgstr "Нагадування!"
 
 #: calendar/importers/icalendar-importer.c:697
 #, fuzzy
@@ -6506,18 +6460,16 @@ msgid "Calendar Events"
 msgstr "Календарне повідомлення"
 
 #: calendar/importers/icalendar-importer.c:722
-#, fuzzy
 msgid ""
 "Evolution has found Gnome Calendar files.\n"
 "Would you like to import them into Evolution?"
 msgstr ""
-"Evolution знайшов поштові файли Pine.\n"
+"Evolution знайшов файли Gnome Calendar.\n"
 "Чи бажаєте ви імпортувати їх у Evolution?"
 
 #: calendar/importers/icalendar-importer.c:729
-#, fuzzy
 msgid "Gnome Calendar"
-msgstr "Календар"
+msgstr "Календар Gnome"
 
 #: calendar/pcs/query.c:289
 msgid "time-now expects 0 arguments"
@@ -6799,15 +6751,15 @@ msgstr "Африка/Могадішо"
 
 #: calendar/zones.h:47
 msgid "Africa/Monrovia"
-msgstr ""
+msgstr "Африка/Монровія"
 
 #: calendar/zones.h:48
 msgid "Africa/Nairobi"
-msgstr ""
+msgstr "Африка/Найробі"
 
 #: calendar/zones.h:49
 msgid "Africa/Ndjamena"
-msgstr ""
+msgstr "Африка/Нджамена"
 
 #: calendar/zones.h:50
 msgid "Africa/Niamey"
@@ -6899,7 +6851,7 @@ msgstr ""
 
 #: calendar/zones.h:72
 msgid "America/Buenos_Aires"
-msgstr ""
+msgstr "Америка/Буенос-Айрес"
 
 #: calendar/zones.h:73
 msgid "America/Cambridge_Bay"
@@ -7107,7 +7059,7 @@ msgstr ""
 
 #: calendar/zones.h:124
 msgid "America/Managua"
-msgstr ""
+msgstr "Америка/Манагуа"
 
 #: calendar/zones.h:125
 msgid "America/Manaus"
@@ -7147,7 +7099,7 @@ msgstr ""
 
 #: calendar/zones.h:134
 msgid "America/Montevideo"
-msgstr ""
+msgstr "Америка/Монтевідео"
 
 #: calendar/zones.h:135
 msgid "America/Montreal"
@@ -7171,7 +7123,7 @@ msgstr ""
 
 #: calendar/zones.h:140
 msgid "America/Nome"
-msgstr ""
+msgstr "Америка/Ном"
 
 #: calendar/zones.h:141
 msgid "America/Noronha"
@@ -7211,7 +7163,7 @@ msgstr ""
 
 #: calendar/zones.h:150
 msgid "America/Puerto_Rico"
-msgstr ""
+msgstr "Америка/Пуерто-Ріко"
 
 #: calendar/zones.h:151
 msgid "America/Rainy_River"
@@ -7387,7 +7339,7 @@ msgstr ""
 
 #: calendar/zones.h:194
 msgid "Asia/Ashgabat"
-msgstr ""
+msgstr "Азія/Ашхабад"
 
 #: calendar/zones.h:195
 msgid "Asia/Baghdad"
@@ -7407,7 +7359,7 @@ msgstr "Азія/Бангкок"
 
 #: calendar/zones.h:199
 msgid "Asia/Beirut"
-msgstr ""
+msgstr "Азія/Бейрут"
 
 #: calendar/zones.h:200
 msgid "Asia/Bishkek"
@@ -7415,7 +7367,7 @@ msgstr ""
 
 #: calendar/zones.h:201
 msgid "Asia/Brunei"
-msgstr ""
+msgstr "Азія/Бруней"
 
 #: calendar/zones.h:202
 msgid "Asia/Calcutta"
@@ -7455,11 +7407,11 @@ msgstr "Азія/Душанбе"
 
 #: calendar/zones.h:211
 msgid "Asia/Gaza"
-msgstr ""
+msgstr "Азія/Газа"
 
 #: calendar/zones.h:212
 msgid "Asia/Harbin"
-msgstr ""
+msgstr "Азія/Харбін"
 
 #: calendar/zones.h:213
 msgid "Asia/Hong_Kong"
@@ -7479,7 +7431,7 @@ msgstr "Азія/Стамбул"
 
 #: calendar/zones.h:217
 msgid "Asia/Jakarta"
-msgstr ""
+msgstr "Азія/Джакарта"
 
 #: calendar/zones.h:218
 msgid "Asia/Jayapura"
@@ -7499,7 +7451,7 @@ msgstr "Азія/Камчатка"
 
 #: calendar/zones.h:222
 msgid "Asia/Karachi"
-msgstr ""
+msgstr "Азія/Карачі"
 
 #: calendar/zones.h:223
 msgid "Asia/Kashgar"
@@ -7507,7 +7459,7 @@ msgstr ""
 
 #: calendar/zones.h:224
 msgid "Asia/Katmandu"
-msgstr ""
+msgstr "Азія/Катманду"
 
 #: calendar/zones.h:225
 msgid "Asia/Krasnoyarsk"
@@ -7527,7 +7479,7 @@ msgstr "Азія/Кувейт"
 
 #: calendar/zones.h:229
 msgid "Asia/Macao"
-msgstr ""
+msgstr "Азія/Макао"
 
 #: calendar/zones.h:230
 #, fuzzy
@@ -7582,7 +7534,7 @@ msgstr "Азія/Пхеньян"
 
 #: calendar/zones.h:242
 msgid "Asia/Qatar"
-msgstr ""
+msgstr "Азія/Катар"
 
 #: calendar/zones.h:243
 msgid "Asia/Qyzylorda"
@@ -7590,7 +7542,7 @@ msgstr ""
 
 #: calendar/zones.h:244
 msgid "Asia/Rangoon"
-msgstr ""
+msgstr "Азія/Рангун"
 
 #: calendar/zones.h:245
 msgid "Asia/Riyadh"
@@ -7606,7 +7558,7 @@ msgstr "Азія/Сахалін"
 
 #: calendar/zones.h:248
 msgid "Asia/Samarkand"
-msgstr ""
+msgstr "Азія/Самарканд"
 
 #: calendar/zones.h:249
 msgid "Asia/Seoul"
@@ -8355,9 +8307,8 @@ msgid "Moving messages"
 msgstr "Перенесення повідомлень"
 
 #: camel/camel-folder.c:1319
-#, fuzzy
 msgid "Copying messages"
-msgstr "Копіювання повідомлень у %s"
+msgstr "Копіювання повідомлень"
 
 #: camel/camel-gpg-context.c:697
 #, c-format
@@ -8393,9 +8344,9 @@ msgid "Failed to unlock secret key: 3 bad passphrases given."
 msgstr ""
 
 #: camel/camel-gpg-context.c:777
-#, fuzzy, c-format
+#, c-format
 msgid "Unexpected response from GnuPG: %s"
-msgstr "Неочікувана відповідь від сервера POP: %s"
+msgstr "Неочікувана відповідь від GnuPG: %s"
 
 #: camel/camel-gpg-context.c:787
 #, fuzzy
@@ -8403,9 +8354,8 @@ msgid "No data provided"
 msgstr "Не вказано назви файлу."
 
 #: camel/camel-gpg-context.c:830
-#, fuzzy
 msgid "Failed to encrypt: No valid recipients specified."
-msgstr "Неможливо зашифрувати повідомлення: не визначено отримувачів"
+msgstr "Неможливо зашифрувати повідомлення: не визначено отримувачів."
 
 #: camel/camel-gpg-context.c:1082
 #, fuzzy, c-format
@@ -8421,22 +8371,22 @@ msgid "Failed to GPG %s message: %s\n"
 msgstr "Збій кешування повідомлення %s: %s"
 
 #: camel/camel-gpg-context.c:1197
-#, fuzzy, c-format
+#, c-format
 msgid "Failed to execute gpg: %s"
-msgstr "Збій декодування повідомлення."
+msgstr "Збій виконання gpg: %s"
 
 #: camel/camel-gpg-context.c:1227 camel/camel-gpg-context.c:1305
 #: camel/camel-gpg-context.c:1379 camel/camel-gpg-context.c:1409
 #: camel/camel-gpg-context.c:1436 camel/camel-gpg-context.c:1466
-#, fuzzy
 msgid "Failed to execute gpg."
-msgstr "Збій декодування повідомлення."
+msgstr "Збій виконання gpg."
 
 #: camel/camel-gpg-context.c:1290
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot verify message signature: could not create temp file: %s"
 msgstr ""
-"Неможливо перевірити повідомлення: не вдалося створити тимчасовий файл: %s"
+"Неможливо перевірити підпис повідомлення: не вдалося створити тимчасовий "
+"файл: %s"
 
 #: camel/camel-lock-client.c:111
 #, c-format
@@ -8771,14 +8721,12 @@ msgid "Resolving address"
 msgstr "Розв'язання: %s"
 
 #: camel/camel-service.c:913
-#, fuzzy
 msgid "Host lookup failed: host not found"
-msgstr "Помилка при пошуку хоста: %s: хост не знайдено"
+msgstr "Помилка при пошуку хоста: хост не знайдено"
 
 #: camel/camel-service.c:916
-#, fuzzy
 msgid "Host lookup failed: unknown reason"
-msgstr "Помилка при пошуку хоста: %s: причина невідома"
+msgstr "Помилка при пошуку хоста: причина невідома"
 
 #: camel/camel-session.c:75
 msgid "Virtual folder email provider"
@@ -9058,9 +9006,9 @@ msgid "Could not parse URL `%s'"
 msgstr "Неможливо проаналізувати URL \"%s\""
 
 #: camel/camel-vee-folder.c:618
-#, fuzzy, c-format
+#, c-format
 msgid "Error storing `%s': %s"
-msgstr "Помилка запуску %s"
+msgstr "Помилка збереження `%s': %s"
 
 #: camel/camel-vee-folder.c:656
 #, c-format
@@ -9289,17 +9237,14 @@ msgstr "Не вдалося з'єднатись з %s (порт %d): %s"
 
 #: camel/providers/imap/camel-imap-store.c:646
 #: camel/providers/imap/camel-imap-store.c:677
-#, fuzzy, c-format
+#, c-format
 msgid "Failed to connect to IMAP server %s in secure mode: %s"
-msgstr ""
-"Неможливо під'єднатись до POP серверу.\n"
-"Помилка при передачі імені користувача: %s"
+msgstr "Неможливо під'єднатись до IMAP серверу %s у безпечному режимі: %s"
 
 #: camel/providers/imap/camel-imap-store.c:647
 #: camel/providers/pop3/camel-pop3-store.c:213
-#, fuzzy
 msgid "SSL/TLS extension not supported."
-msgstr "Операція не підтримується"
+msgstr "Розширення SSL/TLS не підтримуються."
 
 #: camel/providers/imap/camel-imap-store.c:678
 #: camel/providers/pop3/camel-pop3-store.c:254
@@ -9468,9 +9413,9 @@ msgid "Could not rename folder %s to %s: %s"
 msgstr "Не вдалося перейменувати теку \"%s\" на \"%s\": %s"
 
 #: camel/providers/local/camel-local-store.c:363
-#, fuzzy, c-format
+#, c-format
 msgid "Could not rename '%s': %s"
-msgstr "Не вдалося перейменувати теку: %s"
+msgstr "Не вдалося перейменувати `%s': %s"
 
 #: camel/providers/local/camel-local-store.c:384
 #, c-format
@@ -9758,9 +9703,9 @@ msgid "Spool `%s' cannot be opened: %s"
 msgstr "Накопичувальні теки не можна перейменовувати"
 
 #: camel/providers/local/camel-spool-store.c:130
-#, fuzzy, c-format
+#, c-format
 msgid "Spool `%s' is not a regular file or directory"
-msgstr "Сховище %s не є каталог"
+msgstr "Сховище `%s' не є звичайним фалом або каталогом"
 
 #: camel/providers/local/camel-spool-store.c:150
 #, c-format
@@ -9833,7 +9778,7 @@ msgstr "Не вдалося створити каталог %s: %s"
 #: camel/providers/nntp/camel-nntp-store.c:163
 #, c-format
 msgid "NNTP server %s returned error code %d: %s"
-msgstr ""
+msgstr "NNTP сервер %s повернув код помилки %d: %s"
 
 #: camel/providers/nntp/camel-nntp-store.c:262
 #, c-format
@@ -9859,9 +9804,9 @@ msgid "Could not get group: %s"
 msgstr "Не вдалося створити канал: %s"
 
 #: camel/providers/nntp/camel-nntp-summary.c:344
-#, fuzzy, c-format
+#, c-format
 msgid "NNTP Command failed: %s"
-msgstr "Збій команди IMAP: %s"
+msgstr "Збій команди NNTP: %s"
 
 #: camel/providers/nntp/camel-nntp-summary.c:404
 #: camel/providers/nntp/camel-nntp-summary.c:505
@@ -9870,9 +9815,9 @@ msgid "%s: Scanning new messages"
 msgstr "Пошук нових повідомлень"
 
 #: camel/providers/nntp/camel-nntp-summary.c:520
-#, fuzzy, c-format
+#, c-format
 msgid "Unknown server response: %s"
-msgstr "Невідома помилка: %s"
+msgstr "Невідома відповідь сервера: %s"
 
 #: camel/providers/nntp/camel-nntp-summary.c:566
 #, fuzzy
@@ -9921,11 +9866,9 @@ msgstr "Отримання повідомлення POP %d"
 #: camel/providers/pop3/camel-pop3-folder.c:488
 #: camel/providers/pop3/camel-pop3-folder.c:495
 #: camel/providers/pop3/camel-pop3-folder.c:505
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot get message %s: %s"
-msgstr ""
-"Неможливо отримати повідомлення: %s\n"
-"  %s"
+msgstr "Неможливо отримати повідомлення %s: %s"
 
 #: camel/providers/pop3/camel-pop3-folder.c:495
 #, fuzzy
@@ -9972,23 +9915,21 @@ msgstr ""
 "користувачів, навіть якщо сервер нібито його підтримує."
 
 #: camel/providers/pop3/camel-pop3-store.c:183
-#, fuzzy, c-format
+#, c-format
 msgid "Could not connect to POP server %s (port %d): %s"
-msgstr "Не вдалося з'єднатись з %s (порт %d): %s"
+msgstr "Не вдалося з'єднатись з сервером POP%s (порт %d): %s"
 
 #: camel/providers/pop3/camel-pop3-store.c:212
 #: camel/providers/pop3/camel-pop3-store.c:241
 #: camel/providers/pop3/camel-pop3-store.c:253
-#, fuzzy, c-format
+#, c-format
 msgid "Failed to connect to POP server %s in secure mode: %s"
-msgstr ""
-"Неможливо під'єднатись до POP серверу.\n"
-"Помилка при передачі імені користувача: %s"
+msgstr "Неможливо під'єднатись до POP серверу %s у безпечному режимі: %s"
 
 #: camel/providers/pop3/camel-pop3-store.c:351
-#, fuzzy, c-format
+#, c-format
 msgid "Could not connect to POP server %s"
-msgstr "Не вдалося з'єднатись з сервером POP на %s."
+msgstr "Не вдалося з'єднатись з сервером POP %s"
 
 #: camel/providers/pop3/camel-pop3-store.c:392
 #: camel/providers/pop3/camel-pop3-store.c:502
@@ -9997,8 +9938,8 @@ msgid ""
 "Unable to connect to POP server %s: No support for requested authentication "
 "mechanism."
 msgstr ""
-"Неможливо під'єднатись до POP серверу.\n"
-"Відсутня підтримка потрібного механізму автенфікації."
+"Неможливо під'єднатись до POP серверу %s: відсутня підтримка потрібного "
+"механізму автентифікації."
 
 #: camel/providers/pop3/camel-pop3-store.c:408
 #, fuzzy, c-format
@@ -10011,12 +9952,9 @@ msgid "Cannot login to POP server %s: SASL Protocol error"
 msgstr ""
 
 #: camel/providers/pop3/camel-pop3-store.c:439
-#, fuzzy, c-format
+#, c-format
 msgid "Failed to authenticate on POP server %s: %s"
-msgstr ""
-"Неможливо автентифікуватися на сервері IMAP.\n"
-"%s\n"
-"\n"
+msgstr "Неможливо автентифікуватися на сервері POP %s: %s"
 
 #: camel/providers/pop3/camel-pop3-store.c:462
 #, fuzzy, c-format
