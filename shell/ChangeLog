@@ -1,3 +1,17 @@
+2001-10-02  Ettore Perazzoli  <ettore@ximian.com>
+
+	* e-shell-view.c (storage_set_removed_folder_callback): New,
+	callback for the ::removed_folder signal on the shell's
+	EStorageSet.
+	(e_shell_view_construct): Connect.
+	(e_shell_view_remove_control_for_uri): Removed.
+
+	* e-shell-folder-commands.c
+	(folder_selection_dialog_folder_selected_callback): Don't call
+	`e_shell_view_remove_control_for_uri()'.
+	(e_shell_command_delete_folder): Not here either.  And don't
+	display the default URI either.
+
 2001-09-28  Ettore Perazzoli  <ettore@ximian.com>
 
 	[Fix #8053, `GNOME_Evolution_Shortcuts' doesn't seem to work.]

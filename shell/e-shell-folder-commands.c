@@ -196,10 +196,6 @@ folder_selection_dialog_folder_selected_callback (EShellFolderSelectionDialog *f
 
 	storage_set = e_shell_get_storage_set (folder_command_data->shell);
 
-	if (remove_source)
-		e_shell_view_remove_control_for_uri (folder_command_data->shell_view,
-						     e_shell_view_get_current_uri (folder_command_data->shell_view));
-
 	e_storage_set_async_xfer_folder (storage_set,
 					 folder_command_data->source_path,
 					 folder_command_data->destination_path,
@@ -445,17 +441,8 @@ e_shell_command_delete_folder (EShell *shell,
 	if (folder_path == NULL)
 		folder_path = e_shell_view_get_current_path (shell_view);
 
-	if (delete_dialog (shell_view, get_folder_name (shell, folder_path)) == 0) {
-		char *uri;
-
-		uri = g_strconcat (E_SHELL_URI_PREFIX, folder_path, NULL);
-		e_shell_view_remove_control_for_uri (shell_view, uri);
-		g_free (uri);
-
+	if (delete_dialog (shell_view, get_folder_name (shell, folder_path)) == 0)
 		e_storage_set_async_remove_folder (storage_set, folder_path, delete_cb, shell_view);
-
-		e_shell_view_display_uri (shell_view, E_SHELL_VIEW_DEFAULT_URI);
-	}
 }
 
 

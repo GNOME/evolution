@@ -275,6 +275,27 @@ cleanup_delayed_selection (EShellView *shell_view)
 	}
 }
 
+static GtkWidget *
+find_socket (GtkContainer *container)
+{
+	GList *children, *tmp;
+
+	children = gtk_container_children (container);
+	while (children) {
+		if (BONOBO_IS_SOCKET (children->data))
+			return children->data;
+		else if (GTK_IS_CONTAINER (children->data)) {
+			GtkWidget *socket = find_socket (children->data);
+			if (socket)
+				return socket;
+		}
+		tmp = children->next;
+		g_list_free_1 (children);
+		children = tmp;
+	}
+	return NULL;
+}
+
 static void
 setup_verb_sensitivity_for_folder (EShellView *shell_view,
 				   const char *path)
@@ -306,6 +327,51 @@ setup_verb_sensitivity_for_folder (EShellView *shell_view,
 	bonobo_ui_component_set_prop (ui_component, "/commands/CopyFolder", "sensitive", prop, NULL);
 	bonobo_ui_component_set_prop (ui_component, "/commands/DeleteFolder", "sensitive", prop, NULL);
 	bonobo_ui_component_set_prop (ui_component, "/commands/RenameFolder", "sensitive", prop, NULL);
+}
+
+
+/* Callbacks for the EStorageSet.  */
+
+static void
+storage_set_removed_folder_callback (EStorageSet *storage_set,
+				     const char *path,
+				     void *data)
+{
+	EShellView *shell_view;
+	EShellViewPrivate *priv;
+	GtkWidget *socket;
+	View *view;
+	int destroy_connection_id;
+	int page_num;
+	char *uri;
+
+	shell_view = E_SHELL_VIEW (data);
+	priv = shell_view->priv;
+
+	uri = g_strconcat (E_SHELL_URI_PREFIX, path, NULL);
+	view = g_hash_table_lookup (priv->uri_to_view, uri);
+	g_free (uri);
+
+	if (view == NULL)
+		return;
+
+	socket = find_socket (GTK_CONTAINER (view->control));
+	priv->sockets = g_list_remove (priv->sockets, socket);
+
+	destroy_connection_id = GPOINTER_TO_INT (gtk_object_get_data (GTK_OBJECT (socket),
+								      "e_shell_view_destroy_connection_id"));
+	gtk_signal_disconnect (GTK_OBJECT (socket), destroy_connection_id);
+
+	page_num = gtk_notebook_page_num (GTK_NOTEBOOK (priv->notebook), view->control);
+
+	gtk_widget_destroy (view->control);
+
+	g_hash_table_remove (priv->uri_to_view, view->uri);
+	view_destroy (view);
+
+	gtk_notebook_remove_page (GTK_NOTEBOOK (priv->notebook), page_num);
+
+	e_shell_view_display_uri (shell_view, E_SHELL_VIEW_DEFAULT_URI);
 }
 
 
@@ -1331,8 +1397,11 @@ e_shell_view_construct (EShellView *shell_view,
 	bonobo_ui_component_thaw (priv->ui_component, NULL);
 
 	gtk_signal_connect_while_alive (GTK_OBJECT (shell), "line_status_changed",
-					GTK_SIGNAL_FUNC (shell_line_status_changed_cb), view,
-					GTK_OBJECT (view));
+					GTK_SIGNAL_FUNC (shell_line_status_changed_cb), shell_view,
+					GTK_OBJECT (shell_view));
+
+	gtk_signal_connect (GTK_OBJECT (e_shell_get_storage_set (shell)), "removed_folder",
+			    GTK_SIGNAL_FUNC (storage_set_removed_folder_callback), shell_view);
 
 	e_shell_user_creatable_items_handler_setup_menus (e_shell_get_user_creatable_items_handler (priv->shell),
 							  shell_view);
@@ -1664,27 +1733,6 @@ setup_corba_interface (EShellView *shell_view,
 
 /* Socket destruction handling.  */
 
-static GtkWidget *
-find_socket (GtkContainer *container)
-{
-	GList *children, *tmp;
-
-	children = gtk_container_children (container);
-	while (children) {
-		if (BONOBO_IS_SOCKET (children->data))
-			return children->data;
-		else if (GTK_IS_CONTAINER (children->data)) {
-			GtkWidget *socket = find_socket (children->data);
-			if (socket)
-				return socket;
-		}
-		tmp = children->next;
-		g_list_free_1 (children);
-		children = tmp;
-	}
-	return NULL;
-}
-
 static void
 socket_destroy_cb (GtkWidget *socket_widget, gpointer data)
 {
@@ -2013,49 +2061,6 @@ e_shell_view_display_uri (EShellView *shell_view,
 	bonobo_window_thaw (BONOBO_WINDOW (shell_view));
 
 	return retval;
-}
-
-gboolean
-e_shell_view_remove_control_for_uri (EShellView *shell_view,
-				     const char *uri)
-{
-	EShellViewPrivate *priv;
-	View *view;
-	GtkWidget *socket;
-	GtkWidget *control;
-	int page_num;
-	int destroy_connection_id;
-
-	g_return_val_if_fail (shell_view != NULL, FALSE);
-	g_return_val_if_fail (E_IS_SHELL_VIEW (shell_view), FALSE);
-
-	priv = shell_view->priv;
-
-	/* Get the control, remove it from our hash of controls */
-	view = g_hash_table_lookup (priv->uri_to_view, uri);
-	if (view == NULL) {
-		g_message ("Trying to remove view for non-existing URI -- %s", uri);
-		return FALSE;
-	}
-
-	control = view->control;
-	g_hash_table_remove (priv->uri_to_view, view->uri);
-	view_destroy (view);
-
-	/* Get the socket, remove it from our list of sockets */
-	socket = find_socket (GTK_CONTAINER (control));
-	priv->sockets = g_list_remove (priv->sockets, socket);
-
-	/* disconnect from the destroy signal */
-	destroy_connection_id = GPOINTER_TO_INT (gtk_object_get_data (GTK_OBJECT (socket),
-								      "e_shell_view_destroy_connection_id"));
-	gtk_signal_disconnect (GTK_OBJECT (socket), destroy_connection_id);
-
-	/* Remove the notebook page, destroying the control and socket */
-	page_num = gtk_notebook_page_num (GTK_NOTEBOOK (priv->notebook), control);
-	gtk_notebook_remove_page (GTK_NOTEBOOK (priv->notebook), page_num);
-
-	return TRUE;
 }
 
 
