@@ -4,6 +4,12 @@
 	once we have the bonobo control widget, 
 	disable the autoactivation and activate
 	the control frame.
+	(get_view): added a parameter to have
+	a reference to the EShellView.
+	(get_view): In the case of the mail component
+	use the Evolution_ServiceRepository to 
+	give the component a reference to the 
+	Shell server.
 
 2000-03-12  bertrand  <bertrand@helixcode.com>
 

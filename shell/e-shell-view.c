@@ -15,6 +15,7 @@
 #include "e-shell-view.h"
 #include "e-shell-view-menu.h"
 #include "e-shell-shortcut.h"
+#include "Evolution.h"
 
 #include <bonobo.h>
 #include <libgnorba/gnorba.h>
@@ -71,38 +72,62 @@ e_shell_view_setup_shortcut_display (EShellView *eshell_view)
 }
 
 static GtkWidget *
-get_view (EFolder *efolder, Bonobo_UIHandler uih)
+get_view (EShellView *eshell_view, EFolder *efolder, Bonobo_UIHandler uih)
 {
   	GtkWidget *w = NULL;
 	EFolderType e_folder_type;
-	BonoboControlFrame *control_frame;
-	
-	
+	BonoboControlFrame *control_frame = NULL;
+	BonoboObjectClient *server;
+	EShell *shell_model;
+	Evolution_Shell corba_shell = CORBA_OBJECT_NIL;
+	CORBA_Environment ev;
 
-	printf ("I am the view for %s\n",
-		e_folder_get_description (efolder));
 	
+	shell_model = eshell_view->eshell;
+	if (shell_model)
+		corba_shell = bonobo_object_corba_objref (BONOBO_OBJECT (shell_model));
+	else 
+		g_warning ("The shell Bonobo object does not have an associated CORBA object\n");
 	
 
 	/* get the folder type */
 	e_folder_type = e_folder_get_folder_type (efolder);
 
-	
+	/* initialize the corba environment */
+	CORBA_exception_init (&ev);
+
 	/* depending on the type of folder, 
 	 * we launch a different bonobo component */
 	switch (e_folder_type) {
 
 	case E_FOLDER_MAIL :
-		w = bonobo_widget_new_control ("control:evolution-mail",
-					       uih );
-		break;
+		{
+			Evolution_ServiceRepository corba_sr;
 
+			w = bonobo_widget_new_control ("control:evolution-mail",
+						       uih);
+			server = bonobo_widget_get_server (BONOBO_WIDGET (w));
+			
+			corba_sr = (Evolution_ServiceRepository) 
+				bonobo_object_client_query_interface (server,
+								      "IDL:Evolution/ServiceRepository:1.0",
+								      NULL);
+			if (corba_sr != CORBA_OBJECT_NIL) {
+				Evolution_ServiceRepository_set_shell (corba_sr, corba_shell, &ev);
+			} else {
+				g_warning ("The bonobo component for the mail doesn't seem to implement the "
+					   "Evolution::ServiceRepository interface\n");
+			}
+		}
+		break;
+ 
 	default : 
 		printf ("No bonobo component associated to %s\n", 
 			e_folder_get_description (efolder));
 	}
   	
-	control_frame = bonobo_widget_get_control_frame (w);
+	if (!control_frame)
+		control_frame = bonobo_widget_get_control_frame (BONOBO_WIDGET (w));
 	bonobo_control_frame_set_autoactivate (control_frame, FALSE);
 	bonobo_control_frame_control_activate (control_frame);
 
@@ -120,7 +145,7 @@ e_shell_view_set_view (EShellView *eshell_view, EFolder *efolder)
 
 	uih = bonobo_object_corba_objref (BONOBO_OBJECT (eshell_view->uih));
 
-	w = get_view (efolder, uih);
+	w = get_view (eshell_view, efolder, uih);
 
 	if (eshell_view->contents){
 		gtk_widget_destroy (eshell_view->contents);

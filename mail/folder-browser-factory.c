@@ -39,7 +39,7 @@ folder_browser_set_shell (EvolutionServiceRepository *sr,
 	g_return_if_fail (shell != CORBA_OBJECT_NIL);
 
 	folder_browser = FOLDER_BROWSER (closure);
-	
+	printf ("I AM A FOLDER BROWSER AND I AM STORING THE SHELL\n");
 	/* FIXME : ref the shell here */
 	folder_browser->shell = shell;
 	
