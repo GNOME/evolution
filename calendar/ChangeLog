@@ -1,5 +1,10 @@
 2004-04-27  JP Rosevear  <jpr@ximian.com>
 
+	* gui/cal-search-bar.c: disable comment searching which is
+	currently useless
+
+2004-04-27  JP Rosevear  <jpr@ximian.com>
+
 	Fixes #52270 and #57593
 	
 	* gui/e-cal-model-tasks.c (ecmt_set_value_at): remove checks for
