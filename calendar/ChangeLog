@@ -1,3 +1,12 @@
+1999-02-23  Miguel de Icaza  <miguel@nuclecu.unam.mx>
+
+	* calobj.c (ical_object_to_vobject): Save the owner/organizer of
+	the event. 
+	(ical_object_create_from_vobject): Load the owner/organizer of the event.
+
+	* gncal-full-day.c (delete_occurance): Assign child to data (fixes
+	crash on "delete this occurrance").
+
 1999-02-22  Timur Bakeyev  <mc@bat.ru>
 
 	* calendar.c: According to configured values, use either tm.tm_zone

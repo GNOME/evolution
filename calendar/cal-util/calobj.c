@@ -623,6 +623,12 @@ ical_object_create_from_vobject (VObject *o, const char *object_name)
 		free (the_str);
 	}
 
+	/* Organizer */
+	if (has (o, VCOrgNameProp)){
+		ical->organizer = g_strdup (str_val (vo));
+		free (the_str);
+	}
+					   
 	/* related */
 	if (has (o, VCRelatedToProp)){
 		ical->related = set_list (str_val (vo));
@@ -899,6 +905,10 @@ ical_object_to_vobject (iCalObject *ical)
 	/* transparency */
 	addPropValue (o, VCTranspProp, to_str (ical->transp));
 
+	/* Owenr/organizer */
+	if (ical->organizer)
+		addPropValue (o, VCOrgNameProp, ical->organizer);
+	
 	/* related */
 	if (ical->related)
 		store_list (o, VCRelatedToProp, ical->related);

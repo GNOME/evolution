@@ -428,7 +428,7 @@ edit_appointment (GtkWidget *widget, gpointer data)
 static void
 delete_occurance (GtkWidget *widget, gpointer data)
 {
-	Child *child;
+	Child *child = data;
 	iCalObject *ical;
 	time_t *t;
 	GnomeCalendar *gcal = GNCAL_FULL_DAY (child->widget->parent)->calendar;
