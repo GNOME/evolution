@@ -67,8 +67,8 @@
 	  </para>
 
 	  <para>
-	    You can check the status of snapshots at <ulink
-							    url="http://primates.ximian.com/~snapshot">http://primates.ximian.com/~snapshot</ulink>.
+	    You can check the status of snapshots at
+	    <ulink url="http://primates.ximian.com/~snapshot">http://primates.ximian.com/~snapshot</ulink>.
 	  </para>
 	</answer>
       </qandaentry>
@@ -94,8 +94,8 @@
 	</question>
 	<answer>
 	  <para>
-	    If you already have <ulink
-				       url="http://cvs.gnome.org">GNOME CVS</ulink> access,
+	    If you already have
+	    <ulink url="http://cvs.gnome.org">GNOME CVS</ulink> access,
 	    simply check out the following modules: evolution,
 	    gtkhtml, gal.
 	  </para>
@@ -475,8 +475,8 @@
 	<answer>
 	  <para>
 	    You should report bugs about Evolution into the Ximian bug
-	    reporting system (Bugzilla), located at <ulink
-							   url="http://bugzilla.ximian.com">http://bugzilla.ximian.com</ulink>.
+	    reporting system (Bugzilla), located at
+	    <ulink url="http://bugzilla.ximian.com">http://bugzilla.ximian.com</ulink>.
 	  </para>
 	  
 	  <para>
