@@ -240,11 +240,7 @@ struct _EDayView
 
 	GtkWidget *vscrollbar;
 
-	/* Calendar client object we are monitoring */
-	CalClient *client;
-
 	/* S-expression for query and the query object */
-	char *sexp;
 	CalQuery *query;
 
 	/* The start and end of the days shown. */
@@ -491,10 +487,6 @@ struct _EDayView
 	gint am_string_width;
 	gint pm_string_width;
 
-	/* the invisible widget to manage the clipboard selections */
-	GtkWidget *invisible;
-	gchar *clipboard_selection;
-
 	/* The default category for new events */
 	char *default_category;
 
@@ -511,27 +503,11 @@ struct _EDayViewClass
 GtkType	   e_day_view_get_type			(void);
 GtkWidget* e_day_view_new			(void);
 
-void       e_day_view_set_cal_client		(EDayView	*day_view,
-						 CalClient	*client);
-
 void       e_day_view_set_query			(EDayView	*day_view,
 						 const char	*sexp);
 
 void       e_day_view_set_default_category	(EDayView	*day_view,
 						 const char	*category);
-
-/* This sets the selected time range. The EDayView will show the day or week
-   corresponding to the start time. If the start_time & end_time are not equal
-   and are both visible in the view, then the selection is set to those times,
-   otherwise it is set to 1 hour from the start of the working day. */
-void       e_day_view_set_selected_time_range	(EDayView	*day_view,
-						 time_t		 start_time,
-						 time_t		 end_time);
-
-/* Returns the selected time range. */
-void       e_day_view_get_selected_time_range	(EDayView	*day_view,
-						 time_t		*start_time,
-						 time_t		*end_time);
 
 /* Gets the visible time range. Returns FALSE if no time range has been set. */
 gboolean   e_day_view_get_visible_time_range	(EDayView	*day_view,

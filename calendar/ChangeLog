@@ -1,3 +1,29 @@
+2003-07-22  Rodrigo Moya <rodrigo@ximian.com>
+
+	* gui/e-cal-view.[ch]: added "get_selected_events",
+	and "update_query" virtual methods.
+	(e_cal_view_class_init): initialize new virtual methods.
+	(e_cal_view_destroy): destroy new private members.
+	(e_cal_view_get_selected_events, e_cal_view_set_cal_client,
+	 e_cal_view_get_cal_client): new functions.
+	(e_cal_view_cut_clipboard, e_cal_view_copy_clipboard,
+	 e_cal_view_paste_clipboard): merged clipboard stuff.
+
+	* gui/e-day-view.c (e_day_view_cut_clipboard,
+	  e_day_view_copy_clipboard, e_day_view_paste_clipboard): removed.
+	(e_day_view_get_selected_events): made these private as the
+	implementation of the 'get_selected_events' base class virtual method.
+
+	* gui/e-week-view.c (e_week_view_get_selected_events): ditto.
+	(e_week_view_cut_clipboard, e_week_view_copy_clipboard,
+	 e_week_view_paste_clipboard): removed.
+	
+	* gui/calendar-commands.c (sensitize_calendar_commands): call
+	e_cal_view_get_selected_events.
+
+	* gui/gnome-cal.c: removed a lot of redundant code thanks to the
+	above changes.
+
 2003-07-21  Rodrigo Moya <rodrigo@ximian.com>
 
 	* gui/e-day-view.[ch]: removed e_day_view_set_calendar prototype.

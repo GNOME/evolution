@@ -665,28 +665,7 @@ gnome_calendar_set_query (GnomeCalendar *gcal, const char *sexp)
 	update_query (gcal);
 
 	/* Set the query on the main view */
-
-	switch (priv->current_view_type) {
-	case GNOME_CAL_DAY_VIEW:
-		e_day_view_set_query (E_DAY_VIEW (priv->day_view), sexp);
-		break;
-
-	case GNOME_CAL_WORK_WEEK_VIEW:
-		e_day_view_set_query (E_DAY_VIEW (priv->work_week_view), sexp);
-		break;
-
-	case GNOME_CAL_WEEK_VIEW:
-		e_week_view_set_query (E_WEEK_VIEW (priv->week_view), sexp);
-		break;
-
-	case GNOME_CAL_MONTH_VIEW:
-		e_week_view_set_query (E_WEEK_VIEW (priv->month_view), sexp);
-		break;
-
-	default:
-		g_warning ("A penguin bit my hand!");
-		g_assert_not_reached ();
-	}
+	e_cal_view_set_query (E_CAL_VIEW (gnome_calendar_get_current_view_widget (gcal)), sexp);
 
 	/* Set the query on the task pad */
 
@@ -1211,35 +1190,9 @@ gnome_calendar_update_view_times (GnomeCalendar *gcal)
 
 	priv = gcal->priv;
 
-	switch (priv->current_view_type) {
-	case GNOME_CAL_DAY_VIEW:
-		e_day_view_set_selected_time_range (E_DAY_VIEW (priv->day_view),
-						    priv->selection_start_time,
-						    priv->selection_end_time);
-		break;
-
-	case GNOME_CAL_WORK_WEEK_VIEW:
-		e_day_view_set_selected_time_range (E_DAY_VIEW (priv->work_week_view),
-						    priv->selection_start_time,
-						    priv->selection_end_time);
-		break;
-
-	case GNOME_CAL_WEEK_VIEW:
-		e_week_view_set_selected_time_range (E_WEEK_VIEW (priv->week_view),
-						     priv->selection_start_time,
-						     priv->selection_end_time);
-		break;
-
-	case GNOME_CAL_MONTH_VIEW:
-		e_week_view_set_selected_time_range (E_WEEK_VIEW (priv->month_view),
-						     priv->selection_start_time,
-						     priv->selection_end_time);
-		break;
-
-	default:
-		g_warning ("My penguin is gone!");
-		g_assert_not_reached ();
-	}
+	e_cal_view_set_selected_time_range (E_CAL_VIEW (gnome_calendar_get_current_view_widget (gcal)),
+					    priv->selection_start_time,
+					    priv->selection_end_time);
 }
 
 static void
@@ -2002,14 +1955,10 @@ gnome_calendar_construct (GnomeCalendar *gcal)
 	g_signal_connect (priv->client, "backend_died",
 			  G_CALLBACK (backend_died_cb), gcal);
 
-	e_day_view_set_cal_client (E_DAY_VIEW (priv->day_view),
-				   priv->client);
-	e_day_view_set_cal_client (E_DAY_VIEW (priv->work_week_view),
-				   priv->client);
-	e_week_view_set_cal_client (E_WEEK_VIEW (priv->week_view),
-				    priv->client);
-	e_week_view_set_cal_client (E_WEEK_VIEW (priv->month_view),
-				    priv->client);
+	e_cal_view_set_cal_client (E_CAL_VIEW (priv->day_view), priv->client);
+	e_cal_view_set_cal_client (E_CAL_VIEW (priv->work_week_view), priv->client);
+	e_cal_view_set_cal_client (E_CAL_VIEW (priv->week_view), priv->client);
+	e_cal_view_set_cal_client (E_CAL_VIEW (priv->month_view), priv->client);
 
 	/*
 	 * TaskPad Folder Client.
@@ -2587,31 +2536,8 @@ gnome_calendar_get_current_time_range (GnomeCalendar *gcal,
 
 	priv = gcal->priv;
 
-	switch (priv->current_view_type) {
-	case GNOME_CAL_DAY_VIEW:
-		e_day_view_get_selected_time_range (E_DAY_VIEW (priv->day_view),
-						    start_time, end_time);
-		break;
-
-	case GNOME_CAL_WORK_WEEK_VIEW:
-		e_day_view_get_selected_time_range (E_DAY_VIEW (priv->work_week_view),
-						    start_time, end_time);
-		break;
-
-	case GNOME_CAL_WEEK_VIEW:
-		e_week_view_get_selected_time_range (E_WEEK_VIEW (priv->week_view),
-						     start_time, end_time);
-		break;
-
-	case GNOME_CAL_MONTH_VIEW:
-		e_week_view_get_selected_time_range (E_WEEK_VIEW (priv->month_view),
-						     start_time, end_time);
-		break;
-
-	default:
-		g_message ("My penguin is gone!");
-		g_assert_not_reached ();
-	}
+	e_cal_view_get_selected_time_range (E_CAL_VIEW (gnome_calendar_get_current_view_widget (gcal)),
+					    start_time, end_time);
 }
 
 

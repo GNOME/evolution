@@ -192,11 +192,7 @@ struct _EWeekView
 
 	GtkWidget *vscrollbar;
 
-	/* Calendar client object we are monitoring */
-	CalClient *client;
-
-	/* S-expression for query and the query object */
-	char *sexp;
+	/* The query object */
 	CalQuery *query;
 
 	/* The array of EWeekViewEvent elements. */
@@ -358,10 +354,6 @@ struct _EWeekView
 	gint am_string_width;
 	gint pm_string_width;
 
-	/* the invisible widget to manage the clipboard selections */
-	GtkWidget *invisible;
-	gchar *clipboard_selection;
-
 	/* The default category for new events */
 	char *default_category;
 };
@@ -375,9 +367,6 @@ struct _EWeekViewClass
 GtkType	   e_week_view_get_type			(void);
 GtkWidget* e_week_view_new			(void);
 
-void       e_week_view_set_calendar		(EWeekView	*week_view,
-						 GnomeCalendar	*calendar);
-
 /* The first day shown. Note that it will be rounded down to the start of a
    week when set. The returned value will be invalid if no date has been set
    yet. */
@@ -386,25 +375,12 @@ void	   e_week_view_get_first_day_shown	(EWeekView	*week_view,
 void	   e_week_view_set_first_day_shown	(EWeekView	*week_view,
 						 GDate		*date);
 
-void       e_week_view_set_cal_client		(EWeekView	*week_view,
-						 CalClient	*client);
-
-void       e_week_view_set_query		(EWeekView	*week_view,
-						 const char	*sexp);
-
 void       e_week_view_set_default_category	(EWeekView	*week_view,
 						 const char	*category);
 
 /* The selected time range. The EWeekView will show the corresponding
    month and the days between start_time and end_time will be selected.
    To select a single day, use the same value for start_time & end_time. */
-void       e_week_view_get_selected_time_range	(EWeekView	*week_view,
-						 time_t		*start_time,
-						 time_t		*end_time);
-void	   e_week_view_set_selected_time_range	(EWeekView	*week_view,
-						 time_t		 start_time,
-						 time_t		 end_time);
-
 void       e_week_view_set_selected_time_range_visible	(EWeekView	*week_view,
 							 time_t		 start_time,
 							 time_t		 end_time);

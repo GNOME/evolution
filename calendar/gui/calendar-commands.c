@@ -8,6 +8,7 @@
  * Authors: Miguel de Icaza <miguel@ximian.com>
  *          Federico Mena-Quintero <federico@ximian.com>
  *          Seth Alves <alves@hungry.com>
+ *          Rodrigo Moya <rodrigo@ximian.com>
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2 of the GNU General Public
@@ -598,14 +599,15 @@ sensitize_calendar_commands (GnomeCalendar *gcal, BonoboControl *control, gboole
 	has_recurrences = FALSE;
 	if (n_selected > 0 && !read_only) {
 		CalComponent *comp;
+		GList *list;
 		GtkWidget *view;
 
 		view = gnome_calendar_get_current_view_widget (gcal);
-		if (E_IS_DAY_VIEW (view))
-			comp = e_day_view_get_selected_event (E_DAY_VIEW (view));
-		else if (E_IS_WEEK_VIEW (view))
-			comp = e_week_view_get_selected_event (E_WEEK_VIEW (view));
-		else
+		list = e_cal_view_get_selected_events (E_CAL_VIEW (view));
+		if (list) {
+			comp = (CalComponent *) list->data;
+			g_list_free (list);
+		} else
 			comp = NULL;
 
 		if (comp) {
