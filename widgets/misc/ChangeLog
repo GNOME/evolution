@@ -1,3 +1,9 @@
+2004-05-18  Not Zed  <NotZed@Ximian.com>
+
+	* e-error.c (ee_load): load the <help> tag if present.
+	(ee_response): handle the help response and swallow the signal.
+	(e_error_newv): setup help button if we have a help uri.
+
 2004-05-17  Jeffrey Stedfast  <fejj@novell.com>
 
 	* e-url-entry.c (init): Use E_ICON_SIZE_BUTTON for the icon size

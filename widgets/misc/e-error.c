@@ -36,6 +36,7 @@
 #include <gtk/gtkimage.h>
 
 #include <libgnome/gnome-i18n.h>
+#include <libgnome/gnome-url.h>
 
 #include "e-error.h"
 
@@ -56,6 +57,7 @@ struct _e_error {
 	char *title;
 	char *primary;
 	char *secondary;
+	char *help_uri;
 	struct _e_error_button *buttons;
 };
 
@@ -73,10 +75,10 @@ static struct _e_error_button default_ok_button = {
 };
 
 static struct _e_error default_errors[] = {
-	{ GTK_DIALOG_MODAL, "error", 3, GTK_RESPONSE_OK, N_("Evolution Error"), "{0}", "{1}", &default_ok_button },
-	{ GTK_DIALOG_MODAL, "error-primary", 3, GTK_RESPONSE_OK, N_("Evolution Error"), "{0}", NULL, &default_ok_button },
-	{ GTK_DIALOG_MODAL, "warning", 1, GTK_RESPONSE_OK, N_("Evolution Warning"), "{0}", "{1}", &default_ok_button },
-	{ GTK_DIALOG_MODAL, "warning-primary", 1, GTK_RESPONSE_OK, N_("Evolution Warning"), "{0}", NULL, &default_ok_button },
+	{ GTK_DIALOG_MODAL, "error", 3, GTK_RESPONSE_OK, N_("Evolution Error"), "{0}", "{1}", NULL, &default_ok_button },
+	{ GTK_DIALOG_MODAL, "error-primary", 3, GTK_RESPONSE_OK, N_("Evolution Error"), "{0}", NULL, NULL, &default_ok_button },
+	{ GTK_DIALOG_MODAL, "warning", 1, GTK_RESPONSE_OK, N_("Evolution Warning"), "{0}", "{1}", NULL, &default_ok_button },
+	{ GTK_DIALOG_MODAL, "warning-primary", 1, GTK_RESPONSE_OK, N_("Evolution Warning"), "{0}", NULL, NULL, &default_ok_button },
 };
 
 /* ********************************************************************** */
@@ -137,18 +139,16 @@ map_type(const char *name)
   XML format:
 
  <error id="error-id" type="info|warning|question|error"? response="default_response"? modal="true"? >
-  <_title>Window Title</_title>?
-  <_primary>Primary error text.</_primary>?
-  <_secondary>Secondary error text.</_secondary>?
-  <button stock="stock-button-id"? _label="button label"? response="response_id"? > *
+  <title>Window Title</title>?
+  <primary>Primary error text.</primary>?
+  <secondary>Secondary error text.</secondary>?
+  <help uri="help uri"/> ?
+  <button stock="stock-button-id"? label="button label"? response="response_id"? /> *
  </error>
 
- Because we use intltool we need to do some weird shit to do with
- languages.  title, primary and secondary will be expanded into
- per-language tags, specified using xml:lang property.
+ The tool e-error-tool is used to extract the translatable strings for
+ translation.
 
- The _label property will remain as plain english and we need to use
- gettext to extract it.
 */
 static void
 ee_load(const char *path)
@@ -230,6 +230,12 @@ ee_load(const char *path)
 				} else if (!strcmp(scan->name, "title")) {
 					if ((tmp = xmlNodeGetContent(scan))) {
 						e->title = g_strdup(_(tmp));
+						xmlFree(tmp);
+					}
+				} else if (!strcmp(scan->name, "help")) {
+					tmp = xmlGetProp(scan, "uri");
+					if (tmp) {
+						e->help_uri = g_strdup(tmp);
 						xmlFree(tmp);
 					}
 				} else if (!strcmp(scan->name, "button")) {
@@ -355,6 +361,21 @@ ee_build_label(GString *out, const char *fmt, GPtrArray *args)
 	g_string_append(out, fmt);
 }
 
+static void
+ee_response(GtkWidget *w, guint button, struct _e_error *e)
+{
+	GError *err = NULL;
+
+	if (button == GTK_RESPONSE_HELP) {
+		g_signal_stop_emission_by_name(w, "response");
+		gnome_url_show(e->help_uri, &err);
+		if (err) {
+			g_warning("Unable to run help uri: %s", err->message);
+			g_error_free(err);
+		}
+	}
+}
+
 GtkWidget *
 e_error_newv(GtkWindow *parent, const char *tag, const char *arg0, va_list ap)
 {
@@ -400,6 +421,11 @@ e_error_newv(GtkWindow *parent, const char *tag, const char *arg0, va_list ap)
 	if (e->flags & GTK_DIALOG_MODAL)
 		gtk_window_set_modal((GtkWindow *)dialog, TRUE);
 	gtk_window_set_destroy_with_parent((GtkWindow *)dialog, TRUE);
+
+	if (e->help_uri) {
+		w = gtk_dialog_add_button(dialog, GTK_STOCK_HELP, GTK_RESPONSE_HELP);
+		g_signal_connect(dialog, "response", G_CALLBACK(ee_response), e);
+	}
 
 	b = e->buttons;
 	if (b == NULL) {
