@@ -1,3 +1,8 @@
+2003-01-22  Ettore Perazzoli  <ettore@ximian.com>
+
+	* netscape-importer.c (netscape_import_filters): Look for
+	filtertypes.xml in the new location.
+
 2002-09-23  Dan Winship  <danw@ximian.com>
 
 	* netscape-importer.c (netscape_filter_to_evol_filter): fix
