@@ -318,13 +318,13 @@ save_part (CamelMimePart *part)
 		gtk_file_selection_new (_("Save Attachment")));
 	gtk_file_selection_set_filename (file_select, filename);
 	/* set the GtkEntry with the locale filename by breaking abstraction */
-	base = g_path_get_basename(filename);
-	gtk_entry_set_text(GTK_ENTRY (file_select->selection_entry), base);
-	g_free(base);
+	base = g_path_get_basename (filename);
+	gtk_entry_set_text (GTK_ENTRY (file_select->selection_entry), base);
 	g_free (filename);
+	g_free (base);
 	
-	g_signal_connect(file_select->ok_button, "clicked", 
-			 G_CALLBACK (save_data_cb), part);
+	g_signal_connect (file_select->ok_button, "clicked", 
+			  G_CALLBACK (save_data_cb), part);
 	/* FIXME: deprecated */
 	gtk_signal_connect_object (GTK_OBJECT (file_select->cancel_button),
 				   "clicked",
