@@ -1,3 +1,8 @@
+2001-06-14  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* gui/component/addressbook-component.c: Set the
+	"expoted_dnd_types" to NULL in the folder_types.
+
 2001-06-11  Dan Winship  <danw@ximian.com>
 
 	* gui/component/select-names/e-select-names-completion.c
