@@ -221,7 +221,7 @@ apply_changes (MailAccountEditor *editor)
 	
 	/* check to make sure the source works */
 	if (source_url) {
-		if (!mail_config_check_service (source_url, CAMEL_PROVIDER_STORE, NULL)) {
+		if (mail_config_check_service (source_url, CAMEL_PROVIDER_STORE, NULL)) {
 			/* set the new source url */
 			g_free (account->source->url);
 			account->source->url = camel_url_to_string (source_url, FALSE);
@@ -238,7 +238,7 @@ apply_changes (MailAccountEditor *editor)
 	}
 	
 	/* check to make sure the transport works */
-	if (!mail_config_check_service (transport_url, CAMEL_PROVIDER_TRANSPORT, NULL)) {	
+	if (mail_config_check_service (transport_url, CAMEL_PROVIDER_TRANSPORT, NULL)) {	
 		/* set the new transport url */
 		g_free (account->transport->url);
 		account->transport->url = camel_url_to_string (transport_url, FALSE);
@@ -661,12 +661,16 @@ construct (MailAccountEditor *editor, const MailConfigAccount *account)
 	gtk_entry_set_text (editor->email, account->id->address);
 	gtk_signal_connect (GTK_OBJECT (editor->email), "changed", entry_changed, editor);
 	editor->reply_to = GTK_ENTRY (glade_xml_get_widget (gui, "txtReplyTo"));
-	gtk_entry_set_text (editor->reply_to, account->id->reply_to ? account->id->reply_to : "");
+	if (editor->reply_to)
+		gtk_entry_set_text (editor->reply_to, account->id->reply_to ? account->id->reply_to : "");
 	editor->organization = GTK_ENTRY (glade_xml_get_widget (gui, "txtOrganization"));
-	gtk_entry_set_text (editor->organization, account->id->organization);
+	if (editor->organization)
+		gtk_entry_set_text (editor->organization, account->id->organization);
 	editor->signature = GNOME_FILE_ENTRY (glade_xml_get_widget (gui, "fileSignature"));
-	entry = gnome_file_entry_gtk_entry (editor->signature);
-	gtk_entry_set_text (GTK_ENTRY (entry), account->id->signature);
+	if (editor->signature) {
+		entry = gnome_file_entry_gtk_entry (editor->signature);
+		gtk_entry_set_text (GTK_ENTRY (entry), account->id->signature);
+	}
 	
 	/* Servers */
 	if (account->source->url)
