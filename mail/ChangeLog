@@ -1,5 +1,15 @@
 2000-10-16  Jeffrey Stedfast  <fejj@helixcode.com>
 
+	* folder-browser.c (search_full_clicked): Un #if 0'd out
+	(search_full): Same.
+	(folder_browser_gui_init): Connect search_full and search_activate.
+	(search_set): Uncomment search_full()
+
+	* Makefile.am: Re-add `mail-search-dialogue.h' and
+	`mail-search-dialogue.c'.
+
+2000-10-16  Jeffrey Stedfast  <fejj@helixcode.com>
+
 	* mail-format.c (mail_generate_reply): Decode recipient names so
 	that they display nicely in the To and Cc fields.
 	(write_field_to_stream): Now takes another argument

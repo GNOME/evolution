@@ -65,6 +65,8 @@ evolution_mail_SOURCES =		\
 	mail-mlist-magic.h		\
 	mail-ops.c			\
 	mail-ops.h			\
+	mail-search-dialogue.c		\
+	mail-search-dialogue.h		\
 	mail-threads.c			\
 	mail-threads.h			\
 	mail-tools.c			\
