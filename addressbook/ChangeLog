@@ -1,3 +1,11 @@
+2004-08-25  Sivaiah Nallagatla <snallagatla@novell.com>
+
+       * gui/component/addressbook-config.c (source_to_dialog) :
+       disbale the display name widget in case of groupwise as we can not handle renames as
+       of now
+       (dialog_to_source) also copy "use_ssl" property to new source so that
+       new books also use ssl
+
 2004-08-25  Hans Petter Jansson  <hpj@ximian.com>
 
 	May fix #61833.

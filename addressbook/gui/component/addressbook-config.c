@@ -258,6 +258,8 @@ dialog_to_source (AddressbookSourceDialog *dialog, ESource *source, gboolean tem
                         e_source_set_property (source, "auth", property_value);
                         property_value = e_source_get_property (existing_source, "user");
                         e_source_set_property (source, "user", property_value);
+			property_value = e_source_get_property (existing_source, "use_ssl");
+			e_source_set_property (source, "use_ssl", property_value);
                 }
                 e_source_set_property (source, "auth-domain", "Groupwise");
                 str = g_strconcat (";", gtk_entry_get_text (GTK_ENTRY (dialog->display_name)), NULL);
@@ -334,9 +336,13 @@ static void
 source_to_dialog (AddressbookSourceDialog *dialog)
 {
 	ESource *source = dialog->source;
-
+	const char *base_uri;
+	
 	gtk_entry_set_text (GTK_ENTRY (dialog->display_name), source ? e_source_peek_name (source) : "");
-
+	base_uri = e_source_group_peek_base_uri (dialog->source_group);
+	if (source && base_uri && g_str_has_prefix (base_uri, "groupwise://"))
+		gtk_widget_set_sensitive (GTK_WIDGET(dialog->display_name), FALSE);
+		
 #ifdef HAVE_LDAP
 	gtk_spin_button_set_value ( GTK_SPIN_BUTTON (dialog->limit_spinbutton),
 				    g_strtod ( source && e_source_get_property (source, "limit") ?
