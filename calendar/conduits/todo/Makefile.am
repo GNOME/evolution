@@ -32,8 +32,7 @@ libetodo_conduit_la_LIBADD = 						\
 	$(BONOBO_CONF_LIBS)						\
 	$(PISOCK_LIBS) 							\
 	$(GNOME_LIBDIR) 						\
-	$(GNOME_LIBS)							\
-	$(LIBGCC_A_FILENAME)
+	$(GNOME_LIBS)
 
 e-todo.conduit: e-todo.conduit.in Makefile
 	sed -e 's^\@prefix\@^$(prefix)^g' 				\

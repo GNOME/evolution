@@ -63,6 +63,12 @@ gboolean      comp_editor_get_changed      (CompEditor             *editor);
 void          comp_editor_set_needs_send   (CompEditor             *editor,
 					    gboolean                needs_send);
 gboolean      comp_editor_get_needs_send   (CompEditor             *editor);
+void          comp_editor_set_existing_org (CompEditor             *editor,
+					    gboolean                existing_org);
+gboolean      comp_editor_get_existing_org (CompEditor             *editor);
+void          comp_editor_set_user_org     (CompEditor             *editor,
+					    gboolean                user_org);
+gboolean      comp_editor_get_user_org     (CompEditor             *editor);
 void          comp_editor_append_page      (CompEditor             *editor,
 					    CompEditorPage         *page,
 					    const char             *label);

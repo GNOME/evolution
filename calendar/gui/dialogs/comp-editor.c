@@ -67,6 +67,12 @@ struct _CompEditorPrivate {
 
 	gboolean changed;
 	gboolean needs_send;
+
+	gboolean existing_org;
+	gboolean user_org;
+
+	gboolean warned;
+	
 	gboolean updating;
 };
 
@@ -233,6 +239,9 @@ comp_editor_init (CompEditor *editor)
 	priv->pages = NULL;
 	priv->changed = FALSE;
 	priv->needs_send = FALSE;
+	priv->existing_org = FALSE;
+	priv->user_org = FALSE;
+	priv->warned = FALSE;
 }
 
 /* Destroy handler for the calendar component editor */
@@ -291,7 +300,13 @@ save_comp (CompEditor *editor)
 			return FALSE;
 		}
 	}
-	cal_component_commit_sequence (clone);
+	
+	/* If we are not the organizer, we don't update the sequence number */
+	if (!cal_component_has_organizer (clone) || itip_organizer_is_user (clone))
+		cal_component_commit_sequence (clone);
+	else
+		cal_component_abort_sequence (clone);
+
 	gtk_object_unref (GTK_OBJECT (priv->comp));
 	priv->comp = clone;
 
@@ -326,9 +341,13 @@ save_comp_with_send (CompEditor *editor)
 	if (!save_comp (editor))
 		return FALSE;
 
-	if (send && send_component_dialog (priv->comp))
-		comp_editor_send_comp (editor, CAL_COMPONENT_METHOD_REQUEST);
-
+	if (send && send_component_dialog (priv->comp)) {
+		if (itip_organizer_is_user (priv->comp))
+			comp_editor_send_comp (editor, CAL_COMPONENT_METHOD_REQUEST);
+		else
+			comp_editor_send_comp (editor, CAL_COMPONENT_METHOD_REPLY);
+	}
+	
 	return TRUE;
 }
 
@@ -387,6 +406,59 @@ close_dialog (CompEditor *editor)
 }
 
 
+
+void
+comp_editor_set_existing_org (CompEditor *editor, gboolean existing_org)
+{
+	CompEditorPrivate *priv;
+
+	g_return_if_fail (editor != NULL);
+	g_return_if_fail (IS_COMP_EDITOR (editor));
+
+	priv = editor->priv;
+
+	priv->existing_org = existing_org;
+}
+
+gboolean
+comp_editor_get_existing_org (CompEditor *editor)
+{
+	CompEditorPrivate *priv;
+
+	g_return_val_if_fail (editor != NULL, FALSE);
+	g_return_val_if_fail (IS_COMP_EDITOR (editor), FALSE);
+
+	priv = editor->priv;
+
+	return priv->existing_org;
+}
+
+void
+comp_editor_set_user_org (CompEditor *editor, gboolean user_org)
+{
+	CompEditorPrivate *priv;
+
+	g_return_if_fail (editor != NULL);
+	g_return_if_fail (IS_COMP_EDITOR (editor));
+
+	priv = editor->priv;
+
+	priv->user_org = user_org;
+}
+
+gboolean
+comp_editor_get_user_org (CompEditor *editor)
+{
+	CompEditorPrivate *priv;
+
+	g_return_val_if_fail (editor != NULL, FALSE);
+	g_return_val_if_fail (IS_COMP_EDITOR (editor), FALSE);
+
+	priv = editor->priv;
+
+	return priv->user_org;
+}
+
 
 /**
  * comp_editor_set_changed:
@@ -806,7 +878,7 @@ static void
 real_edit_comp (CompEditor *editor, CalComponent *comp)
 {
 	CompEditorPrivate *priv;
-
+	
 	g_return_if_fail (editor != NULL);
 	g_return_if_fail (IS_COMP_EDITOR (editor));
 
@@ -820,6 +892,10 @@ real_edit_comp (CompEditor *editor, CalComponent *comp)
 	if (comp)
 		priv->comp = cal_component_clone (comp);
 
+	priv->existing_org = cal_component_has_organizer (comp);
+	priv->user_org = itip_organizer_is_user (comp);
+	priv->warned = FALSE;
+	
 	set_title_from_comp (editor);
 	set_icon_from_comp (editor);
 	fill_widgets (editor);
@@ -1199,6 +1275,13 @@ page_changed_cb (GtkObject *obj, gpointer data)
 	priv = editor->priv;
 
 	priv->changed = TRUE;
+
+	if (!priv->warned && priv->existing_org && !priv->user_org) {
+		e_notice (NULL, GNOME_MESSAGE_BOX_INFO,
+			  _("Changes made to this item may be discarded if an update arrives via email"));
+		priv->warned = TRUE;
+	}
+	
 }
 
 static void
@@ -1227,6 +1310,12 @@ page_summary_changed_cb (GtkObject *obj, const char *summary, gpointer data)
 			comp_editor_page_set_summary (l->data, summary);
 
 	priv->changed = TRUE;
+
+	if (!priv->warned && priv->existing_org && !priv->user_org) {
+		e_notice (NULL, GNOME_MESSAGE_BOX_INFO,
+			  _("Changes made to this item may be discarded if an update arrives via email"));
+		priv->warned = TRUE;
+	}
 }
 
 static void
@@ -1245,6 +1334,12 @@ page_dates_changed_cb (GtkObject *obj,
 			comp_editor_page_set_dates (l->data, dates);
 
 	priv->changed = TRUE;
+
+	if (!priv->warned && priv->existing_org && !priv->user_org) {
+		e_notice (NULL, GNOME_MESSAGE_BOX_INFO,
+			  _("Changes made to this item may be discarded if an update arrives via email"));
+		priv->warned = TRUE;
+	}
 }
 
 static void

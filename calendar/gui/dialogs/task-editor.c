@@ -43,7 +43,6 @@ struct _TaskEditorPrivate {
 	EMeetingModel *model;
 	
 	gboolean meeting_shown;
-	gboolean existing_org;
 	gboolean updating;	
 };
 
@@ -130,19 +129,24 @@ static void
 set_menu_sens (TaskEditor *te) 
 {
 	TaskEditorPrivate *priv;
-	gboolean sens;
+	gboolean sens, existing, user;
 	
 	priv = te->priv;
+
+	existing = comp_editor_get_existing_org (COMP_EDITOR (te));
+	user = comp_editor_get_user_org (COMP_EDITOR (te));
 
 	sens = priv->meeting_shown;
 	comp_editor_set_ui_prop (COMP_EDITOR (te), 
 				 "/commands/ActionAssignTask", 
 				 "sensitive", sens ? "0" : "1");
 
-	sens = sens && priv->existing_org;
+	sens = priv->meeting_shown && existing && !user;
 	comp_editor_set_ui_prop (COMP_EDITOR (te), 
 				 "/commands/ActionRefreshTask", 
 				 "sensitive", sens ? "1" : "0");
+
+	sens = priv->meeting_shown && existing && user;
 	comp_editor_set_ui_prop (COMP_EDITOR (te), 
 				 "/commands/ActionCancelTask", 
 				 "sensitive", sens ? "1" : "0");
@@ -192,7 +196,6 @@ task_editor_init (TaskEditor *te)
 	comp_editor_merge_ui (COMP_EDITOR (te), "evolution-task-editor.xml", verbs);
 
 	priv->meeting_shown = TRUE;
-	priv->existing_org = FALSE;
 	priv->updating = FALSE;	
 
 	init_widgets (te);
@@ -204,6 +207,7 @@ task_editor_edit_comp (CompEditor *editor, CalComponent *comp)
 {
 	TaskEditor *te;
 	TaskEditorPrivate *priv;
+	CalComponentOrganizer organizer;
 	GSList *attendees = NULL;
 	
 	te = TASK_EDITOR (editor);
@@ -211,10 +215,17 @@ task_editor_edit_comp (CompEditor *editor, CalComponent *comp)
 
 	priv->updating = TRUE;
 
-	priv->existing_org = cal_component_has_organizer (comp);
+	if (parent_class->edit_comp)
+		parent_class->edit_comp (editor, comp);
+
+	/* Get meeting related stuff */
+	cal_component_get_organizer (comp, &organizer);
 	cal_component_get_attendee_list (comp, &attendees);
 
+	/* Clear things up */
+	e_meeting_model_restricted_clear (priv->model);
 	e_meeting_model_remove_all_attendees (priv->model);
+
 	if (attendees == NULL) {
 		comp_editor_remove_page (editor, COMP_EDITOR_PAGE (priv->meet_page));
 		priv->meeting_shown = FALSE;
@@ -233,17 +244,35 @@ task_editor_edit_comp (CompEditor *editor, CalComponent *comp)
 			e_meeting_model_add_attendee (priv->model, ia);
 			gtk_object_unref (GTK_OBJECT (ia));
 		}
+
+		if (organizer.value != NULL) {
+			GList *addresses, *l;
+			const char *strip;
+			int row;
+
+			strip = itip_strip_mailto (organizer.value);
+
+			addresses = itip_addresses_get ();
+			for (l = addresses; l != NULL; l = l->next) {
+				ItipAddress *a = l->data;
+				
+				if (e_meeting_model_find_attendee (priv->model, a->address, &row))
+					e_meeting_model_restricted_add (priv->model, row);
+			}
+			itip_addresses_free (addresses);
+		}
+		
+		if (comp_editor_get_user_org (editor))
+			e_meeting_model_restricted_clear (priv->model);
+		
 		priv->meeting_shown = TRUE;		
 	}
 	cal_component_free_attendee_list (attendees);
 
 	set_menu_sens (te);
-	comp_editor_set_needs_send (COMP_EDITOR (te), priv->meeting_shown);
+	comp_editor_set_needs_send (COMP_EDITOR (te), priv->meeting_shown && itip_organizer_is_user (comp));
 
 	priv->updating = FALSE;
-	
-	if (parent_class->edit_comp)
-		parent_class->edit_comp (editor, comp);
 }
 
 static void
@@ -370,9 +399,11 @@ model_row_changed_cb (ETableModel *etm, int row, gpointer data)
 	TaskEditorPrivate *priv;
 	
 	priv = te->priv;
-	
-	if (!priv->updating)
+
+	if (!priv->updating) {
 		comp_editor_set_changed (COMP_EDITOR (te), TRUE);
+		comp_editor_set_needs_send (COMP_EDITOR (te), TRUE);
+	}	
 }
 
 static void
@@ -382,7 +413,9 @@ row_count_changed_cb (ETableModel *etm, int row, int count, gpointer data)
 	TaskEditorPrivate *priv;
 	
 	priv = te->priv;
-	
-	if (!priv->updating)
+
+	if (!priv->updating) {
 		comp_editor_set_changed (COMP_EDITOR (te), TRUE);
+		comp_editor_set_needs_send (COMP_EDITOR (te), TRUE);
+	}	
 }

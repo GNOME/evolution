@@ -1447,7 +1447,6 @@ update_attendee_status (EItipControl *itip)
 									"attendee.  Add as an attendee?"),
 								      NULL, NULL);
 				if (gnome_dialog_run_and_close (GNOME_DIALOG (dialog)) == GNOME_YES) {
-					icalparameter *param;
 					change_status (cal_component_get_icalcomponent (comp),
 						       itip_strip_mailto (a->value),
 						       a->status);
