@@ -187,9 +187,8 @@ file_selection_info_destroy_notify (void *data)
 	
 	info = (FileSelectionInfo *) data;
 	
-	if (info->widget != NULL) {
-		gtk_object_unref (GTK_OBJECT (info->widget));
-	}
+	if (info->widget != NULL)
+		gtk_widget_destroy (GTK_OBJECT (info->widget));
 	
 	if (info->selected_files) {
 		for (i = 0; i < info->selected_files->len; i++)

@@ -2140,10 +2140,10 @@ message_rfc822_dnd (EMsgComposer *composer, CamelStream *stream)
 
 static void
 drag_data_received (EMsgComposer *composer, GdkDragContext *context,
-		    gint x, gint y, GtkSelectionData *selection,
+		    int x, int y, GtkSelectionData *selection,
 		    guint info, guint time)
 {
-	gchar *tmp, *filename, **filenames;
+	char *tmp, *filename, **filenames;
 	CamelMimePart *mime_part;
 	CamelStream *stream;
 	CamelURL *url;
@@ -2183,6 +2183,7 @@ drag_data_received (EMsgComposer *composer, GdkDragContext *context,
 		g_free (filenames);
 		break;
 	case DND_TYPE_TEXT_VCARD:
+		printf ("dropping a text/x-vcard\n");
 		mime_part = camel_mime_part_new ();
 		camel_mime_part_set_content (mime_part, selection->data,
 					     selection->length, "text/x-vcard");
@@ -2194,6 +2195,7 @@ drag_data_received (EMsgComposer *composer, GdkDragContext *context,
 		
 		camel_object_unref (CAMEL_OBJECT (mime_part));
 	default:
+		printf ("dropping an unknown\n");
 		break;
 	}
 }

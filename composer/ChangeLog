@@ -1,3 +1,9 @@
+2001-12-11  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* e-msg-composer-select-file.c
+	(file_selection_info_destroy_notify): If the widget is non-NULL,
+	then gtk_widget_destroy that bad boy...
+
 2001-12-10  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* e-msg-composer-attachment-bar.c (add_from_user):
