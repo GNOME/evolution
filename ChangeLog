@@ -1,5 +1,9 @@
 2003-10-22  Rodney Dawes  <dobey@ximian.com>
 
+	* configure.in: Require ORBit 2.8.0 or newer for threading
+
+2003-10-22  Rodney Dawes  <dobey@ximian.com>
+
 	* configure.in: Revert broken previous commit and actually remove
 	mail/importers/Makefile from AC_OUTPUT
 
