@@ -57,7 +57,6 @@
 #include <glib.h>
 #include "camel-mbox-utils.h"
 #include "camel-mbox-parser.h"
-#include "camel-folder-summary.h"
 #include "camel-mbox-summary.h"
 
 
@@ -367,19 +366,23 @@ parsed_information_to_mbox_summary (GArray *parsed_information)
 		cur_sum_info->x_evolution_offset = cur_msg_info->x_evolution_offset;
 
 		cur_sum_info->uid = cur_msg_info->uid;
+		cur_sum_info->headers.uid = g_strdup_printf ("%d",
+							     cur_sum_info->uid);
 
 		cur_sum_info->status = cur_msg_info->status;
 
-		cur_sum_info->subject = cur_msg_info->subject;
+		cur_sum_info->headers.subject = cur_msg_info->subject;
 		cur_msg_info->subject = NULL;
 
-		cur_sum_info->sender =  cur_msg_info->from;
+		cur_sum_info->headers.sender =  cur_msg_info->from;
 		cur_msg_info->from = NULL;
 	
-		cur_sum_info->to =  cur_msg_info->to;
+		cur_sum_info->headers.to =  cur_msg_info->to;
 		cur_msg_info->to = NULL;		
 
-		cur_sum_info->date =  cur_msg_info->date;
+		/* XXX I'm guessing one of these is wrong. */
+		cur_sum_info->headers.received_date =  cur_msg_info->date;
+		cur_sum_info->headers.sent_date = g_strdup (cur_msg_info->date);
 		cur_msg_info->date = NULL;		
 		
 	}

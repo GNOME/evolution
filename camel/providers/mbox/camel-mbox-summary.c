@@ -28,7 +28,6 @@
 #include "camel-exception.h"
 #include "camel-mbox-folder.h"
 #include "camel-mbox-summary.h"
-#include "camel-folder-summary.h"
 #include "md5-utils.h"
 
 
@@ -41,104 +40,230 @@
 #include <string.h>
 #include <errno.h>
 
+static CamelFolderSummaryClass *parent_class = NULL;
+
+static int count_messages (CamelFolderSummary *summary);
+static int count_subfolders (CamelFolderSummary *summary);
+static GPtrArray *get_subfolder_info (CamelFolderSummary *summary,
+				      int first, int count);
+static GPtrArray *get_message_info (CamelFolderSummary *summary,
+				    int first, int count);
+static void finalize (GtkObject *object);
+
+static void
+camel_mbox_summary_class_init (CamelMboxSummaryClass *camel_mbox_summary_class)
+{
+	GtkObjectClass *gtk_object_class =
+		GTK_OBJECT_CLASS (camel_mbox_summary_class);
+	CamelFolderSummaryClass *camel_folder_summary_class =
+		CAMEL_FOLDER_SUMMARY_CLASS (camel_mbox_summary_class);
+
+	parent_class = gtk_type_class (camel_folder_summary_get_type ());
+
+	/* virtual method override */
+	camel_folder_summary_class->count_messages = count_messages;
+	camel_folder_summary_class->count_subfolders = count_subfolders;
+	camel_folder_summary_class->get_subfolder_info = get_subfolder_info;
+	camel_folder_summary_class->get_message_info = get_message_info;
+
+	gtk_object_class->finalize = finalize;
+}
 
 
+GtkType
+camel_mbox_summary_get_type (void)
+{
+	static GtkType camel_mbox_summary_type = 0;
 
-/* 
- * The mbox provider uses a summary files, 
- * so that it has an internal and an external
- * summary. The internal summary is a summary
- * containing a lot of information, including
- * infos on how to access mails in the mbox file
- * 
- * On the other hand, the external summary is 
- * an implementation of the structure defined in 
- * the camel-folder-summary file (toplevel camel
- * directory)
- *
- * To sum up, the internal summary is only a
- * subset of the internal summary. 
- */
+	if (!camel_mbox_summary_type) {
+		GtkTypeInfo camel_mbox_summary_info =	
+		{
+			"CamelMboxSummary",
+			sizeof (CamelMboxSummary),
+			sizeof (CamelMboxSummaryClass),
+			(GtkClassInitFunc) camel_mbox_summary_class_init,
+			(GtkObjectInitFunc) NULL,
+				/* reserved_1 */ NULL,
+				/* reserved_2 */ NULL,
+			(GtkClassInitFunc) NULL,
+		};
 
+		camel_mbox_summary_type = gtk_type_unique (camel_folder_summary_get_type (), &camel_mbox_summary_info);
+	}
 
+	return camel_mbox_summary_type;
+}
+
+static void
+finalize (GtkObject *object)
+{
+	CamelMboxSummary *summary = CAMEL_MBOX_SUMMARY (object);
+	CamelMboxSummaryInformation *info;
+	int i;
+
+	for (i = 0; i < summary->message_info->len; i++) {
+		info = &(((CamelMboxSummaryInformation *)summary->message_info->data)[i]);
+		g_free (info->headers.subject);
+		g_free (info->headers.sender);
+		g_free (info->headers.to);
+		g_free (info->headers.sent_date);
+		g_free (info->headers.received_date);
+		g_free (info->headers.uid);
+	}
+	g_array_free (summary->message_info, TRUE);		
+
+	GTK_OBJECT_CLASS (parent_class)->finalize (object);
+}	
+
+static int
+count_messages (CamelFolderSummary *summary)
+{
+	return CAMEL_MBOX_SUMMARY (summary)->nb_message;
+}
+
+static int
+count_subfolders (CamelFolderSummary *summary)
+{
+	/* XXX */
+	g_warning ("CamelMboxSummary::count_subfolders not implemented");
+	return 0;
+}
+
+static GPtrArray *
+get_subfolder_info (CamelFolderSummary *summary, int first, int count)
+{
+	/* XXX */
+	g_warning ("CamelMboxSummary::count_subfolders not implemented");
+	return 0;
+}
+
+static GPtrArray *
+get_message_info (CamelFolderSummary *summary, int first, int count)
+{
+	CamelMboxSummary *mbox_summary = CAMEL_MBOX_SUMMARY (summary);
+	CamelMboxSummaryInformation *info;
+	GPtrArray *arr;
+
+	/* XXX bounds check */
+
+	arr = g_ptr_array_new ();
+	for (; count; count--) {
+		info = &((CamelMboxSummaryInformation *)mbox_summary->message_info->data)[first++];
+		g_ptr_array_add (arr, info);
+	}
+
+	return arr;
+}
 
 /**
- * camel_mbox_save_summary:
+ * camel_mbox_summary_save:
  * @summary: 
  * @filename: 
  * @ex: 
  * 
- * save the internal summary into a file 
+ * save the summary into a file 
  **/
 void 
-camel_mbox_save_summary (CamelMboxSummary *summary, const gchar *filename, CamelException *ex)
+camel_mbox_summary_save (CamelMboxSummary *summary, const gchar *filename,
+			 CamelException *ex)
 {
 	CamelMboxSummaryInformation *msg_info;
 	guint cur_msg;
-	guint field_lgth;
+	guint field_length;
 	gint fd;
-	gint write_result;
+	gint write_result; /* XXX use this */
+	guint32 data;
 
 	CAMEL_LOG_FULL_DEBUG ("CamelMboxFolder::save_summary entering \n");
 
-	fd = open (filename, 
-		   O_WRONLY | O_CREAT | O_TRUNC,
-		   S_IRUSR  | S_IWUSR);
+	fd = open (filename, O_WRONLY | O_CREAT | O_TRUNC,
+		   S_IRUSR | S_IWUSR);
 	if (fd == -1) {
-			camel_exception_setv (ex, 
-					     CAMEL_EXCEPTION_FOLDER_INSUFFICIENT_PERMISSION,
-					     "could not create the mbox summary file\n"
-					      "\t%s\n"
-					      "Full error is : %s\n",
-					      filename,
-					      strerror (errno));
-			return;
-		}
-	
-	/* compute and write the mbox file md5 signature */
-	//md5_get_digest_from_file (filename, summary->md5_digest);
-
-	/* write the number of messages  + the md5 signatures 
-	 + next UID + mbox file size */
-	write_result = write (fd, summary, G_STRUCT_OFFSET (CamelMboxSummary, message_info));
-
-	
-	for (cur_msg=0; cur_msg < summary->nb_message; cur_msg++) {
-
-		msg_info = (CamelMboxSummaryInformation *)(summary->message_info->data) + cur_msg;
-
-		/* write message position + message size 
-		   + x-evolution offset + uid + status */
-		write (fd, (gchar *)msg_info, 
-		       sizeof (guint32) + 2 * sizeof (guint) + 
-		       sizeof (guint32) + sizeof (guchar));
-		
-		/* write subject */
-		field_lgth = msg_info->subject ? strlen (msg_info->subject) : 0;
-		write (fd, &field_lgth, sizeof (guint));
-		if (field_lgth)
-			write (fd, msg_info->subject, field_lgth);
-		/* write sender */
-		field_lgth = msg_info->sender ? strlen (msg_info->sender) : 0;
-		write (fd, &field_lgth, sizeof (gint));
-		if (field_lgth)
-			write (fd, msg_info->sender, field_lgth);
-
-		/* write to */
-		field_lgth = msg_info->to ? strlen (msg_info->to) : 0;
-		write (fd, &field_lgth, sizeof (gint));
-		if (field_lgth)
-			write (fd, msg_info->to, field_lgth);
-
-		/* write date */
-		field_lgth = msg_info->date ? strlen (msg_info->date) : 0;
-		write (fd, &field_lgth, sizeof (guint));
-		if (field_lgth)
-			write (fd, msg_info->date, field_lgth);
-
-
+		camel_exception_setv (ex, CAMEL_EXCEPTION_FOLDER_INSUFFICIENT_PERMISSION,
+				      "could not create the mbox summary "
+				      "file\n\t%s\nFull error is : %s\n",
+				      filename,
+				      strerror (errno));
+		return;
 	}
-			
+
+	/* We write the file out in network byte order, not because
+	 * that makes sense, but because it's easy.
+	 */
+
+	data = htons (CAMEL_MBOX_SUMMARY_VERSION);
+	write (fd, &data, sizeof (data));
+
+	data = htons (summary->nb_message);
+	write (fd, &data, sizeof (data));
+	data = htons (summary->next_uid);
+	write (fd, &data, sizeof (data));
+	data = htons (summary->mbox_file_size);
+	write (fd, &data, sizeof (data));
+	data = htons (summary->mbox_modtime);
+	write (fd, &data, sizeof (data));
+
+	for (cur_msg = 0; cur_msg < summary->nb_message; cur_msg++) {
+		msg_info = (CamelMboxSummaryInformation *)
+			(summary->message_info->data) + cur_msg;
+
+		/* Write meta-info. */
+		data = htons (msg_info->position);
+		write (fd, &data, sizeof (data));
+		data = htons (msg_info->size);
+		write (fd, &data, sizeof (data));
+		data = htons (msg_info->x_evolution_offset);
+		write (fd, &data, sizeof (data));
+		data = htons (msg_info->uid);
+		write (fd, &data, sizeof (data));
+		write (fd, &msg_info->status, 1);
+
+		/* Write subject. */
+		if (msg_info->headers.subject)
+			field_length = htons (strlen (msg_info->headers.subject));
+		else
+			field_length = 0;
+		write (fd, &field_length, sizeof (field_length));
+		if (msg_info->headers.subject)
+			write (fd, msg_info->headers.subject, field_length);
+
+		/* Write sender. */
+		if (msg_info->headers.sender)
+			field_length = htons (strlen (msg_info->headers.sender));
+		else
+			field_length = 0;
+		write (fd, &field_length, sizeof (field_length));
+		if (msg_info->headers.sender)
+			write (fd, msg_info->headers.sender, field_length);
+
+		/* Write to. */
+		if (msg_info->headers.to)
+			field_length = htons (strlen (msg_info->headers.to));
+		else
+			field_length = 0;
+		write (fd, &field_length, sizeof (field_length));
+		if (msg_info->headers.to)
+			write (fd, msg_info->headers.to, field_length);
+
+		/* Write sent date. */
+		if (msg_info->headers.sent_date)
+			field_length = htons (strlen (msg_info->headers.sent_date));
+		else
+			field_length = 0;
+		write (fd, &field_length, sizeof (field_length));
+		if (msg_info->headers.sent_date)
+			write (fd, msg_info->headers.sent_date, field_length);
+
+		/* Write received date. */
+		if (msg_info->headers.received_date)
+			field_length = htons (strlen (msg_info->headers.received_date));
+		else
+			field_length = 0;
+		write (fd, &field_length, sizeof (field_length));
+		if (msg_info->headers.received_date)
+			write (fd, msg_info->headers.received_date, field_length);
+	}
+		
 	close (fd);
 
 	CAMEL_LOG_FULL_DEBUG ("CamelMboxFolder::save_summary leaving \n");
@@ -146,163 +271,138 @@ camel_mbox_save_summary (CamelMboxSummary *summary, const gchar *filename, Camel
 
 
 
-
-
 /**
- * camel_mbox_load_summary:
+ * camel_mbox_summary_load:
  * @filename: 
  * @ex: 
  * 
- * load the internal summary from a file 
+ * load the summary from a file 
  * 
  * Return value: 
  **/
 CamelMboxSummary *
-camel_mbox_load_summary (const gchar *filename, CamelException *ex)
+camel_mbox_summary_load (const gchar *filename, CamelException *ex)
 {
 	CamelMboxSummaryInformation *msg_info;
 	guint cur_msg;
-	guint field_lgth;
+	guint field_length;
 	gint fd;
 	CamelMboxSummary *summary;
 	gint read_result;
+	guint32 data;
 
 	CAMEL_LOG_FULL_DEBUG ("CamelMboxFolder::save_summary entering \n");
 
 	fd = open (filename, O_RDONLY);
 	if (fd == -1) {
-			camel_exception_setv (ex, 
-					     CAMEL_EXCEPTION_FOLDER_INSUFFICIENT_PERMISSION,
-					     "could not open the mbox summary file\n"
-					      "\t%s\n"
-					      "Full error is : %s\n",
-					      filename,
-					      strerror (errno));
-			return NULL;
-		}
-	summary = g_new0 (CamelMboxSummary, 1);
+		camel_exception_setv (ex, CAMEL_EXCEPTION_FOLDER_INSUFFICIENT_PERMISSION,
+				      "could not open the mbox summary file\n"
+				      "\t%s\nFull error is : %s\n",
+				      filename, strerror (errno));
+		return NULL;
+	}
 
-	/* read the message number, the md5 signature 
-	 and the next available UID + mbox file size */
-	read_result = read (fd, summary, G_STRUCT_OFFSET (CamelMboxSummary, message_info));
+	/* Verify version number. */
+	read (fd, &data, sizeof(data));
+	data = ntohs (data);
 
+	if (data != CAMEL_MBOX_SUMMARY_VERSION) {
+		camel_exception_setv (ex, CAMEL_EXCEPTION_FOLDER_SUMMARY_INVALID,
+				      "This folder summary was written by "
+				      "%s version of this software.",
+				      data < CAMEL_MBOX_SUMMARY_VERSION ?
+				      "an older" : "a newer");
+		return NULL;
+	}
 
-	summary->message_info = g_array_new (FALSE, FALSE, sizeof (CamelMboxSummaryInformation));
-	summary->message_info =  g_array_set_size (summary->message_info, summary->nb_message);
+	summary = CAMEL_MBOX_SUMMARY (gtk_object_new (camel_mbox_summary_get_type (), NULL));
 
-	
-	for (cur_msg=0; cur_msg < summary->nb_message; cur_msg++)  {
-		
-		msg_info = (CamelMboxSummaryInformation *)(summary->message_info->data) + cur_msg;
-		
-		/* read message position  + message size 
-		   + x-evolution offset + uid + status */
-		read (fd, (gchar *)msg_info, 
-		       sizeof (guint32) + 2 * sizeof (guint) + 
-		       sizeof (guint32) + sizeof (guchar));
-		
+	read (fd, &data, sizeof(data));
+	summary->nb_message = ntohs (data);
+	read (fd, &data, sizeof(data));
+	summary->next_uid = ntohs (data);
+	read (fd, &data, sizeof(data));
+	summary->mbox_file_size = ntohs (data);
+	read (fd, &data, sizeof(data));
+	summary->mbox_modtime = ntohs (data);
 
-		/* read the subject */
-		read (fd, &field_lgth, sizeof (gint));
-		if (field_lgth > 0) {			
-			msg_info->subject = g_new0 (gchar, field_lgth + 1);
-			read (fd, msg_info->subject, field_lgth);
+	summary->message_info =
+		g_array_new (FALSE, FALSE,
+			     sizeof (CamelMboxSummaryInformation));
+	g_array_set_size (summary->message_info, summary->nb_message);
+
+	for (cur_msg = 0; cur_msg < summary->nb_message; cur_msg++)  {
+		msg_info = (CamelMboxSummaryInformation *)
+			(summary->message_info->data) + cur_msg;
+
+		/* Read the meta-info. */
+		read (fd, &data, sizeof(data));
+		msg_info->position = ntohs (data);
+		read (fd, &data, sizeof(data));
+		msg_info->size = ntohs (data);
+		read (fd, &data, sizeof(data));
+		msg_info->x_evolution_offset = ntohs (data);
+		read (fd, &(msg_info->status), 1);
+		read (fd, &data, sizeof(data));
+		msg_info->uid = ntohs (data);
+		msg_info->headers.uid = g_strdup_printf ("%d", msg_info->uid);
+		read (fd, &msg_info->status, 1);
+
+		/* Read the subject. */
+		read (fd, &field_length, sizeof (field_length));
+		field_length = ntohs (field_length);
+		if (field_length > 0) {			
+			msg_info->headers.subject =
+				g_new0 (gchar, field_length + 1);
+			read (fd, msg_info->headers.subject, field_length);
 		} else 
-			msg_info->subject = NULL;
+			msg_info->headers.subject = NULL;
 		
-		/* read the sender */
-		read (fd, &field_lgth, sizeof (gint));
-		if (field_lgth > 0) {			
-			msg_info->sender = g_new0 (gchar, field_lgth + 1);
-			read (fd, msg_info->sender, field_lgth);
+		/* Read the sender. */
+		read (fd, &field_length, sizeof (field_length));
+		field_length = ntohs (field_length);
+		if (field_length > 0) {			
+			msg_info->headers.sender =
+				g_new0 (gchar, field_length + 1);
+			read (fd, msg_info->headers.sender, field_length);
 		} else 
-			msg_info->sender = NULL;
+			msg_info->headers.sender = NULL;
 		
-		/* read the "to" field */
-		read (fd, &field_lgth, sizeof (gint));
-		if (field_lgth > 0) {			
-			msg_info->to = g_new0 (gchar, field_lgth + 1);
-			read (fd, msg_info->to, field_lgth);
+		/* Read the "to" field. */
+		read (fd, &field_length, sizeof (field_length));
+		field_length = ntohs (field_length);
+		if (field_length > 0) {			
+			msg_info->headers.to =
+				g_new0 (gchar, field_length + 1);
+			read (fd, msg_info->headers.to, field_length);
 		} else 
-			msg_info->to = NULL;
-		
-		/* read the "date" field */
-		read (fd, &field_lgth, sizeof (gint));
-		if (field_lgth > 0) {			
-			msg_info->date = g_new0 (gchar, field_lgth + 1);
-			read (fd, msg_info->date, field_lgth);
-		} else 
-			msg_info->date = NULL;
-		
+			msg_info->headers.to = NULL;
 
-		
-		
+		/* Read the sent date field. */
+		read (fd, &field_length, sizeof (field_length));
+		field_length = ntohs (field_length);
+		if (field_length > 0) {			
+			msg_info->headers.sent_date =
+				g_new0 (gchar, field_length + 1);
+			read (fd, msg_info->headers.sent_date, field_length);
+		} else 
+			msg_info->headers.sent_date = NULL;
+
+		/* Read the received date field. */
+		read (fd, &field_length, sizeof (field_length));
+		field_length = ntohs (field_length);
+		if (field_length > 0) {			
+			msg_info->headers.received_date =
+				g_new0 (gchar, field_length + 1);
+			read (fd, msg_info->headers.received_date,
+			      field_length);
+		} else 
+			msg_info->headers.received_date = NULL;
 	}		
-	
+
 	close (fd);
 	return summary;
 }
-
-
-
-
-
-
-
-
-
-/**
- * camel_mbox_check_summary_sync:
- * @summary_filename: 
- * @mbox_filename: 
- * @ex: 
- * 
- * check if the summary file is in sync with the mbox file
- * 
- * Return value: 
- **/
-gboolean
-camel_mbox_check_summary_sync (gchar *summary_filename,
-			       gchar *mbox_filename,
-			       CamelException *ex)
-
-{
-	gint fd;
-	guchar summary_md5[16];
-	guchar real_md5[16];
-
-	
-	CAMEL_LOG_FULL_DEBUG ("CamelMboxFolder::save_summary entering \n");
-
-	fd = open (summary_filename, O_RDONLY);
-	if (fd == -1) {
-			camel_exception_setv (ex, 
-					     CAMEL_EXCEPTION_FOLDER_INSUFFICIENT_PERMISSION,
-					     "could not open the mbox summary file\n"
-					      "\t%s\n"
-					      "Full error is : %s\n",
-					      summary_filename,
-					      strerror (errno));
-			return FALSE;
-		}
-	
-	/* skip the message number field */
-	lseek (fd, sizeof (guint), SEEK_SET);
-	
-	/* read the md5 signature stored in the summary file */
-	read (fd, summary_md5, sizeof (guchar) * 16);
-	close (fd);
-	/* ** FIXME : check for exception in all these operations */
-	
-	/* compute the actual md5 signature on the 
-	   mbox file */
-	md5_get_digest_from_file (mbox_filename, real_md5);
-	
-	return (strncmp (real_md5, summary_md5, 16) == 0);
-}
-
-
-
 
 
 /**
@@ -310,63 +410,13 @@ camel_mbox_check_summary_sync (gchar *summary_filename,
  * @summary: 
  * @entries: 
  * 
- * append an entry to an internal summary
+ * append an entry to a summary
  **/
 void
 camel_mbox_summary_append_entries (CamelMboxSummary *summary, GArray *entries)
 {
-		
-	summary->message_info = g_array_append_vals (summary->message_info, entries->data, entries->len);
-	
+
+	summary->message_info = g_array_append_vals (summary->message_info,
+						     entries->data,
+						     entries->len);
 }
-
-
-
-
-
-/**
- * camel_mbox_summary_append_internal_to_external:
- * @internal: 
- * @external: 
- * @first_entry: first entry to append.
- * 
- * append some entries from the internal summary to 
- * the external one.
- **/
-void 
-camel_mbox_summary_append_internal_to_external (CamelMboxSummary *internal, 
-						CamelFolderSummary *external, 
-						guint first_entry)
-{
-	GArray *internal_array;
-	GArray *external_array;
-	
-	CamelMessageInfo external_entry;
-	CamelMboxSummaryInformation *internal_entry;
-	
-	int i;
-
-	
-	internal_array = internal->message_info;
-	external_array = external->message_info_list;
-	
-	/* we don't set any extra fields */
-	external_entry.extended_fields = NULL;
-
-
-	for (i=first_entry; i<internal_array->len; i++) {
-		internal_entry = (CamelMboxSummaryInformation *)(internal_array->data) + i;
-		
-		external_entry.subject = internal_entry->subject ? strdup (internal_entry->subject) : NULL;
-		external_entry.uid = g_strdup_printf ("%u", internal_entry->uid);
-		external_entry.sent_date = internal_entry->date ? strdup (internal_entry->date) : NULL;
-		external_entry.sender = internal_entry->sender ? strdup (internal_entry->sender) : NULL;
-		external_entry.size = internal_entry->size;
-
-		g_array_append_vals (external_array, &external_entry, 1);
-		
-	}
-	
-	
-}
-

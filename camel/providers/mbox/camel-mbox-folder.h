@@ -35,7 +35,6 @@ extern "C" {
 
 #include <gtk/gtk.h>
 #include "camel-folder.h"
-#include "camel-mbox-summary.h"
 
 /*  #include "camel-store.h" */
 
@@ -48,15 +47,11 @@ extern "C" {
 typedef struct {
 	CamelFolder parent_object;
 
-	CamelFolderSummary *external_summary; 
-	/* the external summary is intended to be read by callers */
-	
 	gchar *folder_file_path;   /* contains the messages */
 	gchar *summary_file_path;  /* contains the messages summary */
 	gchar *folder_dir_path;    /* contains the subfolders */
 	gchar *index_file_path;	   /* index of body contents */
 
-	CamelMboxSummary *internal_summary; /* internal summary object */
 	GList  *uid_array;
 
 	int search_id;		/* next search id */

@@ -28,13 +28,13 @@
 
 #include <camel/gmime-utils.h>
 #include <camel/camel-log.h>
-#include "camel/camel-folder-summary.h"
 #include "camel/camel-mime-message.h"
 #include "camel/camel-mime-part.h"
 #include "camel/camel-stream.h"
 #include "camel/camel-stream-fs.h"
 #include "camel/camel.h"
 #include "camel-mbox-folder.h"
+#include "camel-mbox-summary.h"
 
 #include "camel-mbox-search.h"
 #define HAVE_FILTER
@@ -300,7 +300,7 @@ int camel_mbox_folder_search_by_expression(CamelFolder *folder, const char *expr
 	gtk_object_ref((GtkObject *)ctx->summary);
 
 	/* FIXME: the index should be global to the folder */
-	ctx->message_info = camel_folder_summary_get_message_info_list(ctx->summary);
+	ctx->message_info = CAMEL_MBOX_SUMMARY(ctx->summary)->message_info;
 	ctx->message_current = NULL;
 	ctx->index = ibex_open(CAMEL_MBOX_FOLDER(folder)->index_file_path, FALSE);
 	if (!ctx->index) {

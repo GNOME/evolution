@@ -51,8 +51,6 @@ typedef struct {
 	gint nb_message;
 	gint nb_unread_message;
 	gint nb_deleted_message;
-	
-	GHashTable *extended_fields;
 } CamelFolderInfo;
 
 
@@ -71,9 +69,6 @@ typedef struct {
 	
 	guint32 size;
 	gchar *uid;
-
-	GHashTable *extended_fields;
-
 } CamelMessageInfo;
 
 
@@ -81,9 +76,6 @@ typedef struct {
 
 struct _CamelFolderSummary {
 	GtkObject parent_object;
- 
-	GArray *subfolder_info_list; /* informations on subfolders */
-	GArray *message_info_list;   /* informations on messages */
 
 };
 
@@ -94,8 +86,13 @@ typedef struct {
 	GtkObjectClass parent_class;
 	
 	/* Virtual methods */	
-	const GArray *  (*get_subfolder_info_list) (CamelFolderSummary *summary);
-	const GArray *  (*get_message_info_list) (CamelFolderSummary *summary);
+	int (*count_messages) (CamelFolderSummary *summary);
+	int (*count_subfolders) (CamelFolderSummary *summary);
+
+	GPtrArray * (*get_subfolder_info) (CamelFolderSummary *summary,
+					   int first, int count);
+	GPtrArray * (*get_message_info) (CamelFolderSummary *summary,
+					 int first, int count);
 
 } CamelFolderSummaryClass;
 
@@ -106,11 +103,13 @@ GtkType camel_folder_summary_get_type (void);
 
 
 /* public methods */
-CamelFolderSummary *camel_folder_summary_new ();
+int camel_folder_summary_count_messages (CamelFolderSummary *summary);
+int camel_folder_summary_count_subfolders (CamelFolderSummary *summary);
 
-/* get information about the messages and the subfolders in the directory */
-const GArray *camel_folder_summary_get_subfolder_info_list (CamelFolderSummary *summary);
-const GArray *camel_folder_summary_get_message_info_list (CamelFolderSummary *summary);
+GPtrArray *camel_folder_summary_get_subfolder_info (CamelFolderSummary *summary,
+						    int first, int count);
+GPtrArray *camel_folder_summary_get_message_info (CamelFolderSummary *summary,
+						  int first, int count);
 
 
 

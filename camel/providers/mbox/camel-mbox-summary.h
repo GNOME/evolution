@@ -25,61 +25,61 @@
 #ifndef MBOX_SUMMARY_H
 #define MBOX_SUMMARY_H 1
 
-#include <glib.h>
+#include <camel-folder-summary.h>
+
+#define CAMEL_MBOX_SUMMARY_TYPE     (camel_mbox_summary_get_type ())
+#define CAMEL_MBOX_SUMMARY(obj)     (GTK_CHECK_CAST((obj), CAMEL_MBOX_SUMMARY_TYPE, CamelMboxSummary))
+#define CAMEL_MBOX_SUMMARY_CLASS(k) (GTK_CHECK_CLASS_CAST ((k), CAMEL_MBOX_SUMMARY_TYPE, CamelMboxSummaryClass))
+#define CAMEL_IS_MBOX_SUMMARY(o)    (GTK_CHECK_TYPE((o), CAMEL_MBOX_SUMMARY_TYPE))
 
 
+#define CAMEL_MBOX_SUMMARY_VERSION 1
 
-/* This contains information about one message inside 
- * the mbox file. This is used in the intenal summary */
+
 typedef struct {
+	CamelMessageInfo headers;
 
 	guint32  position;
 	guint    size;
 	guint    x_evolution_offset;
 	guint32  uid;
 	guchar   status;
-	gchar   *subject;
-	gchar   *sender;
-	gchar   *to;
-	gchar   *date;
-	gchar   *received_date;
 
 } CamelMboxSummaryInformation;
 
 
 /* this contains informations about the whole mbox file */
 typedef struct {
-	
-	guint nb_message;      /* number of messages in the summary    */
-	guchar md5_digest[16];   /* md5 signature of the mbox file     */
+	CamelFolderSummary parent_object;
+
+	guint nb_message;	/* number of messages in the summary	*/
 	guint32 next_uid;
 	guint32 mbox_file_size;
-	
-	GArray *message_info;    /* array of CamelMboxSummaryInformation */
-	
+	guint32 mbox_modtime;
+
+	GArray *message_info;	/* array of CamelMboxSummaryInformation	*/
+
 } CamelMboxSummary;
 
+typedef struct {
+	CamelFolderSummaryClass parent_class;
 
-void 
-camel_mbox_save_summary (CamelMboxSummary *summary, const gchar *filename, CamelException *ex);
-
-CamelMboxSummary *
-camel_mbox_load_summary (const gchar *filename, CamelException *ex);
-
-gboolean
-camel_mbox_check_summary_sync (gchar *summary_filename,
-			       gchar *mbox_filename,
-			       CamelException *ex);
-
-void
-camel_mbox_summary_append_entries (CamelMboxSummary *summary, GArray *entries);
+} CamelMboxSummaryClass;
 
 
+GtkType camel_mbox_summary_get_type (void);
 
-void 
-camel_mbox_summary_append_internal_to_external (CamelMboxSummary *internal, 
-						CamelFolderSummary *external, 
-						guint first_entry);
+void camel_mbox_summary_save (CamelMboxSummary *summary,
+			      const gchar *filename, CamelException *ex);
+CamelMboxSummary *camel_mbox_summary_load (const gchar *filename,
+					   CamelException *ex);
+
+gboolean camel_mbox_summary_check_sync (gchar *summary_filename,
+					gchar *mbox_filename,
+					CamelException *ex);
+
+void camel_mbox_summary_append_entries (CamelMboxSummary *summary,
+					GArray *entries);
 
 
-#endif /* MH_SUMMARY_H */
+#endif /* MBOX_SUMMARY_H */

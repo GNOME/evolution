@@ -28,46 +28,29 @@
 #include "camel-folder-summary.h"
 #include "camel-log.h"
 
-static GtkObjectClass *parent_class=NULL;
+static GtkObjectClass *parent_class = NULL;
 
 /* Returns the class for a CamelFolderSummary */
 #define CFS_CLASS(so) CAMEL_FOLDER_SUMMARY_CLASS (GTK_OBJECT(so)->klass)
 
 
-static const GArray *_get_subfolder_info_list (CamelFolderSummary *summary);
-static const GArray *_get_message_info_list (CamelFolderSummary *summary);
-
-static void _finalize (GtkObject *object);
+static int count_messages (CamelFolderSummary *summary);
+static int count_subfolders (CamelFolderSummary *summary);
+static GPtrArray *get_subfolder_info (CamelFolderSummary *summary,
+				      int first, int count);
+static GPtrArray *get_message_info (CamelFolderSummary *summary,
+				    int first, int count);
 
 static void
 camel_folder_summary_class_init (CamelFolderSummaryClass *camel_folder_summary_class)
 {
-	GtkObjectClass *gtk_object_class = GTK_OBJECT_CLASS (camel_folder_summary_class);
-
 	parent_class = gtk_type_class (gtk_object_get_type ());
-	
+
 	/* virtual method definition */
-	camel_folder_summary_class->get_subfolder_info_list = _get_subfolder_info_list;
-	camel_folder_summary_class->get_message_info_list = _get_message_info_list;
-
-
-	/* virtual method overload */
-	gtk_object_class->finalize = _finalize;
-}
-
-
-
-
-
-static void
-camel_folder_summary_init (gpointer   object,  gpointer   klass)
-{
-	CamelFolderSummary *summary = CAMEL_FOLDER_SUMMARY (object);
-
-	CAMEL_LOG_FULL_DEBUG ( "camel_folder_summary_init:: Entering\n");
-	summary->subfolder_info_list = g_array_new (FALSE, FALSE, sizeof (CamelFolderInfo));
-	summary->message_info_list = g_array_new (FALSE, FALSE, sizeof (CamelMessageInfo));
-	CAMEL_LOG_FULL_DEBUG ( "camel_folder_summary_init:: Leaving\n");
+	camel_folder_summary_class->count_messages = count_messages;
+	camel_folder_summary_class->count_subfolders = count_subfolders;
+	camel_folder_summary_class->get_subfolder_info = get_subfolder_info;
+	camel_folder_summary_class->get_message_info = get_message_info;
 }
 
 
@@ -84,7 +67,7 @@ camel_folder_summary_get_type (void)
 			sizeof (CamelFolderSummary),
 			sizeof (CamelFolderSummaryClass),
 			(GtkClassInitFunc) camel_folder_summary_class_init,
-			(GtkObjectInitFunc) camel_folder_summary_init,
+			(GtkObjectInitFunc) NULL,
 				/* reserved_1 */ NULL,
 				/* reserved_2 */ NULL,
 			(GtkClassInitFunc) NULL,
@@ -97,66 +80,99 @@ camel_folder_summary_get_type (void)
 }
 
 
-static void           
-_finalize (GtkObject *object)
+static int
+count_messages (CamelFolderSummary *summary)
 {
-	CamelFolderSummary *camel_folder_summary = CAMEL_FOLDER_SUMMARY (object);
+	g_warning ("CamelFolderSummary::count_messages not implemented for `%s'", gtk_type_name (GTK_OBJECT_TYPE (summary)));
+	return 0;
+}
 
-	CAMEL_LOG_FULL_DEBUG ("Entering CamelFolderSummary::finalize\n");
-	CAMEL_LOG_FULL_DEBUG  ("CamelFolderSummary::finalize, finalizing object %p\n", object);
-	
-	parent_class->finalize (object);
-	CAMEL_LOG_FULL_DEBUG ("Leaving CamelFolderSummary::finalize\n");
+/**
+ * camel_folder_summary_count_messages: return the number of messages
+ * in the folder.
+ * @summary: the summary
+ *
+ * Return value: the number of messages in the folder.
+ **/
+int
+camel_folder_summary_count_messages (CamelFolderSummary *summary)
+{
+	return CFS_CLASS (summary)->count_messages (summary);
 }
 
 
-CamelFolderSummary *
-camel_folder_summary_new ()
+static int
+count_subfolders (CamelFolderSummary *summary)
 {
-	CamelFolderSummary *folder_summary;
-	
-	folder_summary = gtk_type_new (CAMEL_FOLDER_SUMMARY_TYPE);
-	folder_summary->message_info_list = g_array_new (FALSE, FALSE, sizeof (CamelMessageInfo));
-	folder_summary->subfolder_info_list = g_array_new (FALSE, FALSE, sizeof (CamelFolderInfo));
-
-	return folder_summary;
-	
+	g_warning ("CamelFolderSummary::count_subfolders not implemented for `%s'", gtk_type_name (GTK_OBJECT_TYPE (summary)));
+	return 0;
 }
 
-static const GArray *
-_get_subfolder_info_list (CamelFolderSummary *summary)
+/**
+ * camel_folder_summary_count_subfolders: return the number of subfolders
+ * in the folder.
+ * @summary: the summary
+ *
+ * Return value: the number of subfolders in the folder.
+ **/
+int
+camel_folder_summary_count_subfolders (CamelFolderSummary *summary)
 {
-	return summary->subfolder_info_list;
-}
-
-
-const GArray *
-camel_folder_summary_get_subfolder_info_list (CamelFolderSummary *summary)
-{
-	return CFS_CLASS (summary)->get_subfolder_info_list (summary);
+	return CFS_CLASS (summary)->count_subfolders (summary);
 }
 
 
-
-
-static const GArray *
-_get_message_info_list (CamelFolderSummary *summary)
+static GPtrArray *
+get_subfolder_info (CamelFolderSummary *summary, int first, int count)
 {
-	return summary->message_info_list;
+	g_warning ("CamelFolderSummary::get_subfolder_info not implemented for `%s'", gtk_type_name (GTK_OBJECT_TYPE (summary)));
+	return NULL;
 }
 
-const GArray *
-camel_folder_summary_get_message_info_list (CamelFolderSummary *summary)
+/**
+ * camel_folder_summary_get_subfolder_info: return an array of subfolders
+ * @summary: a summary
+ * @first: the index of the first subfolder to return information for
+ * (starting from 0)
+ * @count: the number of subfolders to return information for
+ *
+ * Returns an array of pointers to CamelFolderInfo objects. The caller
+ * must free the array when it is done with it, but should not modify
+ * the elements.
+ *
+ * Return value: an array containing information about the subfolders.
+ **/
+GPtrArray *
+camel_folder_summary_get_subfolder_info (CamelFolderSummary *summary,
+					 int first, int count)
 {
-	return CFS_CLASS (summary)->get_message_info_list (summary);
+	return CFS_CLASS (summary)->get_subfolder_info (summary, first, count);
 }
 
 
+static GPtrArray *
+get_message_info (CamelFolderSummary *summary, int first, int count)
+{
+	g_warning ("CamelFolderSummary::get_message_info not implemented for `%s'", gtk_type_name (GTK_OBJECT_TYPE (summary)));
+	return NULL;
+}
 
-
-
-
-
-
-
-
+/**
+ * camel_folder_summary_get_message_info: return an array of messages
+ * @summary: a summary
+ * @first: the index of the first message to return information for
+ * (starting from 0)
+ * @count: the number of messages to return information for
+ *
+ * Returns an array of pointers to CamelMessageInfo objects. The caller
+ * must free the array when it is done with it, but should not modify
+ * the elements.
+ *
+ * Return value: an array containing information about the messages.
+ **/
+GPtrArray *
+camel_folder_summary_get_message_info (CamelFolderSummary *summary,
+				       int first, int count)
+{
+	return CFS_CLASS (summary)->get_message_info (summary, first, count);
+}

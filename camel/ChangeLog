@@ -1,3 +1,25 @@
+2000-03-25  Dan Winship  <danw@helixcode.com>
+
+	* camel-folder-summary.[ch]: change the CamelFolderSummary
+	interfaces to allow partial summary queries (for dealing
+	with very large folders). Remove the "extended_fields" from
+	CamelFolderInfo and CamelMessageInfo: this is better dealt
+	with by subtyping.
+
+	* providers/mbox/camel-mbox-summary.[ch]: Make CamelMboxSummary a
+	subclass of CamelFolderSummary. Update interfaces for that. Remove
+	the internal/external summary distinction. Remove the (unused) md5
+	checksum in the folder summary. Change the summary file format
+	(primarily to make it no longer byte-order dependent) and add a
+	version number to it so it will be easier to change in the future.
+	
+	* providers/mbox/camel-mbox-folder.[ch]
+	* providers/mbox/camel-mbox-search.c
+	* providers/mbox/camel-mbox-utils.c: update for summary changes
+
+	* camel-exception-list.def: add
+	CAMEL_EXCEPTION_FOLDER_SUMMARY_INVALID
+	
 2000-03-23  NotZed  <NotZed@HelixCode.com>
 
 	* providers/mbox/camel-mbox-provider.c: Added flag to provider
