@@ -6,13 +6,13 @@
 # Martin Norbäck <d95mback@dtek.chalmers.se>, 2001.
 # Johan Dahlin <zilch.am@home.se>, 2001.
 #
-# $Id: sv.po,v 1.171 2003/04/26 21:17:35 menthos Exp $
+# $Id: sv.po,v 1.172 2003/04/28 19:47:44 menthos Exp $
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
-"POT-Creation-Date: 2003-04-26 23:15+0200\n"
-"PO-Revision-Date: 2003-04-26 23:16+0200\n"
+"POT-Creation-Date: 2003-04-28 21:45+0200\n"
+"PO-Revision-Date: 2003-04-28 21:47+0200\n"
 "Last-Translator: Christian Rose <menthos@menthos.com>\n"
 "Language-Team: Swedish <sv@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -400,7 +400,7 @@ msgstr "Organisationsenhet"
 msgid "Role"
 msgstr "Roll"
 
-#: addressbook/backend/ebook/e-card.c:1431 mail/mail-format.c:935
+#: addressbook/backend/ebook/e-card.c:1431 mail/mail-format.c:960
 msgid "Mailer"
 msgstr "E-postprogram"
 
@@ -1234,7 +1234,6 @@ msgstr "Närsomhelst"
 #: addressbook/gui/component/ldap-config.glade.h:86
 #: addressbook/gui/contact-editor/contact-editor.glade.h:29
 #: addressbook/gui/contact-list-editor/contact-list-editor.glade.h:7
-#: calendar/gui/dialogs/alarm-page.glade.h:9 mail/mail-config.glade.h:135
 msgid "_Add"
 msgstr "_Lägg till"
 
@@ -1247,7 +1246,7 @@ msgid "_Download limit:"
 msgstr "_Hämtningsgräns:"
 
 #: addressbook/gui/component/ldap-config.glade.h:89 filter/filter.glade.h:14
-#: mail/mail-config.glade.h:150 ui/evolution-addressbook.xml.h:33
+#: mail/mail-config.glade.h:148 ui/evolution-addressbook.xml.h:33
 #: ui/evolution-calendar.xml.h:31 ui/evolution-composer-entries.xml.h:8
 #: ui/evolution-mail-list.xml.h:25 ui/evolution-mail-messagedisplay.xml.h:6
 #: ui/evolution-message-composer.xml.h:41
@@ -1302,7 +1301,7 @@ msgstr "Ta bort alla"
 
 #: addressbook/gui/component/select-names/e-select-names-popup.c:211
 #: addressbook/gui/component/select-names/e-select-names.c:692
-#: composer/e-msg-composer-attachment-bar.c:502
+#: composer/e-msg-composer-attachment-bar.c:507
 msgid "Remove"
 msgstr "Ta bort"
 
@@ -1460,13 +1459,11 @@ msgid "Wants to receive _HTML mail"
 msgstr "Vill ha _HTML-post"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:30
-#: calendar/gui/dialogs/alarm-page.glade.h:10
 #: calendar/gui/dialogs/meeting-page.c:715 calendar/gui/e-calendar-table.c:967
 #: calendar/gui/e-day-view.c:3706 calendar/gui/e-week-view.c:3590
-#: mail/folder-browser.c:1783 mail/mail-config.glade.h:148
-#: ui/evolution-addressbook.xml.h:32 ui/evolution-calendar.xml.h:30
-#: ui/evolution-mail-message.xml.h:97 ui/evolution-tasks.xml.h:16
-#: ui/evolution.xml.h:45
+#: mail/folder-browser.c:1783 ui/evolution-addressbook.xml.h:32
+#: ui/evolution-calendar.xml.h:30 ui/evolution-mail-message.xml.h:97
+#: ui/evolution-tasks.xml.h:16 ui/evolution.xml.h:45
 msgid "_Delete"
 msgstr "_Ta bort"
 
@@ -3873,8 +3870,8 @@ msgid "New meeting"
 msgstr "Nytt möte"
 
 #: calendar/gui/calendar-component.c:737
-msgid "_Meeting"
-msgstr "_Möte"
+msgid "M_eeting"
+msgstr "M_öte"
 
 #: calendar/gui/calendar-component.c:738
 msgid "Create a new meeting request"
@@ -4071,8 +4068,8 @@ msgid "Alarm Repeat"
 msgstr "Alarmupprepning"
 
 #: calendar/gui/dialogs/alarm-options.glade.h:3
-msgid "Message to Display"
-msgstr "Meddelande att visa"
+msgid "Message to Display:"
+msgstr "Meddelande att visa:"
 
 #: calendar/gui/dialogs/alarm-options.glade.h:4
 msgid "Message to Send"
@@ -4154,36 +4151,36 @@ msgstr "Skicka ett e-brev"
 msgid "Summary:"
 msgstr "Sammanfattning:"
 
-#: calendar/gui/dialogs/alarm-page.glade.h:11
+#: calendar/gui/dialogs/alarm-page.glade.h:9
 msgid "_Options..."
 msgstr "_Alternativ..."
 
-#: calendar/gui/dialogs/alarm-page.glade.h:12
+#: calendar/gui/dialogs/alarm-page.glade.h:10
 msgid "after"
 msgstr "efter"
 
-#: calendar/gui/dialogs/alarm-page.glade.h:13
+#: calendar/gui/dialogs/alarm-page.glade.h:11
 msgid "before"
 msgstr "före"
 
-#: calendar/gui/dialogs/alarm-page.glade.h:14
+#: calendar/gui/dialogs/alarm-page.glade.h:12
 #: calendar/gui/dialogs/recurrence-page.glade.h:14
 msgid "day(s)"
 msgstr "dag"
 
-#: calendar/gui/dialogs/alarm-page.glade.h:15
+#: calendar/gui/dialogs/alarm-page.glade.h:13
 msgid "end of appointment"
 msgstr "slut på möte"
 
-#: calendar/gui/dialogs/alarm-page.glade.h:16
+#: calendar/gui/dialogs/alarm-page.glade.h:14
 msgid "hour(s)"
 msgstr "timme/timmar"
 
-#: calendar/gui/dialogs/alarm-page.glade.h:17 mail/mail-config.glade.h:181
+#: calendar/gui/dialogs/alarm-page.glade.h:15 mail/mail-config.glade.h:178
 msgid "minute(s)"
 msgstr "minut(er)"
 
-#: calendar/gui/dialogs/alarm-page.glade.h:18
+#: calendar/gui/dialogs/alarm-page.glade.h:16
 msgid "start of appointment"
 msgstr "start på möte"
 
@@ -4359,7 +4356,7 @@ msgid "_Fri"
 msgstr "_fre"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:40
-#: mail/mail-config.glade.h:154
+#: mail/mail-config.glade.h:152
 msgid "_General"
 msgstr "Allm_änt"
 
@@ -10408,19 +10405,19 @@ msgid "%.0fG"
 msgstr "%.0f G"
 
 #. This is a filename. Translators take note.
-#: composer/e-msg-composer-attachment-bar.c:365 mail/mail-display.c:223
+#: composer/e-msg-composer-attachment-bar.c:370 mail/mail-display.c:223
 msgid "attachment"
 msgstr "bilaga"
 
-#: composer/e-msg-composer-attachment-bar.c:503
+#: composer/e-msg-composer-attachment-bar.c:508
 msgid "Remove selected items from the attachment list"
 msgstr "Ta bort markerade objekt från bifogningslistan"
 
-#: composer/e-msg-composer-attachment-bar.c:533
+#: composer/e-msg-composer-attachment-bar.c:538
 msgid "Add attachment..."
 msgstr "Lägg till bilaga..."
 
-#: composer/e-msg-composer-attachment-bar.c:534
+#: composer/e-msg-composer-attachment-bar.c:539
 msgid "Attach a file to the message"
 msgstr "Bifoga en fil till meddelandet"
 
@@ -11219,7 +11216,7 @@ msgstr "sedan"
 msgid "months"
 msgstr "månader"
 
-#: filter/filter.glade.h:21 mail/mail-config.glade.h:182
+#: filter/filter.glade.h:21 mail/mail-config.glade.h:179
 msgid "seconds"
 msgstr "sekunder"
 
@@ -11482,7 +11479,7 @@ msgstr "börjar med"
 msgid "Stop Processing"
 msgstr "Stoppa behandling"
 
-#: filter/libfilter-i18n.h:60 mail/mail-format.c:908
+#: filter/libfilter-i18n.h:60 mail/mail-format.c:933
 #: mail/message-list.etspec.h:13 mail/message-tag-followup.c:307
 msgid "Subject"
 msgstr "Ämne"
@@ -12111,7 +12108,7 @@ msgstr "Du har inte fyllt i all nödvändig information."
 msgid "Evolution Account Editor"
 msgstr "Evolutions kontoredigerare"
 
-#: mail/mail-account-gui.c:751 mail/mail-config.glade.h:156
+#: mail/mail-account-gui.c:751 mail/mail-config.glade.h:154
 msgid "_Host:"
 msgstr "_Värd:"
 
@@ -12119,7 +12116,7 @@ msgstr "_Värd:"
 msgid "User_name:"
 msgstr "Användar_namn:"
 
-#: mail/mail-account-gui.c:759 mail/mail-config.glade.h:163
+#: mail/mail-account-gui.c:759 mail/mail-config.glade.h:161
 msgid "_Path:"
 msgstr "_Sökväg:"
 
@@ -12416,7 +12413,7 @@ msgstr ""
 "Är du säker på att du vill öppna alla %d meddelanden i separata fönster?"
 
 #: mail/mail-composer-prefs.c:227 mail/mail-composer-prefs.c:350
-#: mail/mail-config.c:1290
+#: mail/mail-config.c:1344
 msgid "Unnamed"
 msgstr "Namnlös"
 
@@ -12499,11 +12496,11 @@ msgstr ""
 "att sammanställas för att skapa ett Evolution-epostkonto. Ange ett namn för "
 "detta konto nedan. Detta namn kommer endast att användas för visning."
 
-#: mail/mail-config.c:994
+#: mail/mail-config.c:1048
 msgid "Checking Service"
 msgstr "Kontrollerar tjänst"
 
-#: mail/mail-config.c:1072 mail/mail-config.c:1076
+#: mail/mail-config.c:1126 mail/mail-config.c:1130
 msgid "Connecting to server..."
 msgstr "Ansluter till server..."
 
@@ -12943,164 +12940,160 @@ msgstr ""
 msgid "XEmacs"
 msgstr "XEmacs"
 
-#: mail/mail-config.glade.h:136
+#: mail/mail-config.glade.h:135
 msgid "_Add Signature"
 msgstr "_Lägg till signatur"
 
-#: mail/mail-config.glade.h:137
+#: mail/mail-config.glade.h:136
 msgid "_Always load images off the net"
 msgstr "Läs alltid in _bilder från nätet"
 
-#: mail/mail-config.glade.h:138
+#: mail/mail-config.glade.h:137
 msgid "_Always sign outgoing messages when using this account"
 msgstr "Signera _alltid utgående meddelanden när detta konto används"
 
-#: mail/mail-config.glade.h:139
+#: mail/mail-config.glade.h:138
 msgid "_Authentication Type: "
 msgstr "_Autentiseringstyp: "
 
-#: mail/mail-config.glade.h:140
+#: mail/mail-config.glade.h:139
 msgid "_Authentication type: "
 msgstr "_Autentiseringstyp: "
 
 # Låter konstigt
-#: mail/mail-config.glade.h:141
-msgid "_Automatically check for new mail"
-msgstr "Kontrollera _automatiskt ny e-post"
+#: mail/mail-config.glade.h:140
+msgid "_Automatically check for new mail every"
+msgstr "Kontrollera _automatiskt ny e-post var"
 
-#: mail/mail-config.glade.h:142
+#: mail/mail-config.glade.h:141
 msgid "_Automatically insert smiley images"
 msgstr "Infoga _automatiskt smilisbilder"
 
-#: mail/mail-config.glade.h:143
+#: mail/mail-config.glade.h:142
 msgid "_Beep when new mail arrives"
 msgstr "_Pip då ny post anländer"
 
-#: mail/mail-config.glade.h:144
+#: mail/mail-config.glade.h:143
 msgid "_Certificate ID:"
 msgstr "_Certifikat-ID:"
 
-#: mail/mail-config.glade.h:145
+#: mail/mail-config.glade.h:144
 msgid "_Confirm when expunging a folder"
 msgstr "_Bekräfta vid tömning av mapp"
 
-#: mail/mail-config.glade.h:146
+#: mail/mail-config.glade.h:145
 msgid "_Default signature:"
 msgstr "_Standardsignatur:"
 
-#: mail/mail-config.glade.h:147
+#: mail/mail-config.glade.h:146
 msgid "_Defaults"
 msgstr "_Standardvärden"
 
-#: mail/mail-config.glade.h:149
+#: mail/mail-config.glade.h:147
 msgid "_Do not notify me when new mail arrives"
 msgstr "_Notifiera inte mig när ny post anländer"
 
-#: mail/mail-config.glade.h:151
+#: mail/mail-config.glade.h:149
 msgid "_Enable"
 msgstr "_Aktivera"
 
-#: mail/mail-config.glade.h:152
+#: mail/mail-config.glade.h:150
 msgid "_Forward style:"
 msgstr "Stil för _vidarebefordran:"
 
-#: mail/mail-config.glade.h:153
+#: mail/mail-config.glade.h:151
 msgid "_Full name:"
 msgstr "_Fullständigt namn:"
 
-#: mail/mail-config.glade.h:155
+#: mail/mail-config.glade.h:153
 msgid "_HTML Mail"
 msgstr "_HTML-brev"
 
-#: mail/mail-config.glade.h:157
+#: mail/mail-config.glade.h:155
 msgid "_Identity"
 msgstr "_Identitet"
 
-#: mail/mail-config.glade.h:158
+#: mail/mail-config.glade.h:156
 msgid "_Load images if sender is in addressbook"
 msgstr "Läs _in bilder om avsändaren finns i adressboken"
 
-#: mail/mail-config.glade.h:159
+#: mail/mail-config.glade.h:157
 msgid "_Make this my default account"
 msgstr "_Gör detta till mitt standardkonto"
 
-#: mail/mail-config.glade.h:160
+#: mail/mail-config.glade.h:158
 msgid "_Mark messages as read after"
 msgstr "_Markera meddelanden som lästa efter"
 
-#: mail/mail-config.glade.h:161
+#: mail/mail-config.glade.h:159
 msgid "_Name:"
 msgstr "_Namn:"
 
-#: mail/mail-config.glade.h:162
+#: mail/mail-config.glade.h:160
 msgid "_Never load images off the net"
 msgstr "_Läs aldrig in bilder från nätet"
 
-#: mail/mail-config.glade.h:164
+#: mail/mail-config.glade.h:162
 msgid "_Play sound file when new mail arrives"
 msgstr "_Spela ljudfil då ny post anländer"
 
-#: mail/mail-config.glade.h:165
+#: mail/mail-config.glade.h:163
 msgid "_Prompt when sending HTML messages to contacts that don't want them"
 msgstr "_Fråga då HTML-meddelanden skickas till kontakter som inte vill ha dem"
 
-#: mail/mail-config.glade.h:166
+#: mail/mail-config.glade.h:164
 msgid "_Prompt when sending messages with an empty subject line"
 msgstr "_Fråga då meddelanden skickas med en _tom ämnesrad"
 
-#: mail/mail-config.glade.h:167
+#: mail/mail-config.glade.h:165
 msgid "_Receiving Mail"
 msgstr "_Mottagande av post"
 
-#: mail/mail-config.glade.h:168
+#: mail/mail-config.glade.h:166
 msgid "_Reply style:"
 msgstr "_Svarsstil:"
 
-#: mail/mail-config.glade.h:169
+#: mail/mail-config.glade.h:167
 msgid "_Restore defaults"
 msgstr "_Återställ standardalternativ"
 
-#: mail/mail-config.glade.h:170
+#: mail/mail-config.glade.h:168
 msgid "_Script:"
 msgstr "_Skript:"
 
-#: mail/mail-config.glade.h:171
+#: mail/mail-config.glade.h:169
 msgid "_Sending Mail"
 msgstr "_Skickande av post"
 
-#: mail/mail-config.glade.h:172
+#: mail/mail-config.glade.h:170
 msgid "_Show animated images"
 msgstr "_Visa animerade bilder"
 
-#: mail/mail-config.glade.h:173
+#: mail/mail-config.glade.h:171
 msgid "_Signatures"
 msgstr "_Signaturer"
 
-#: mail/mail-config.glade.h:174
+#: mail/mail-config.glade.h:172
 msgid "_Standard Font:"
 msgstr "_Standardtypsnitt:"
 
-#: mail/mail-config.glade.h:175
+#: mail/mail-config.glade.h:173
 msgid "_Terminal Font:"
 msgstr "_Terminaltypsnitt:"
 
-#: mail/mail-config.glade.h:176
+#: mail/mail-config.glade.h:174
 msgid "_Use secure connection (SSL):"
 msgstr "_Använd säker anslutning (SSL):"
 
-#: mail/mail-config.glade.h:177
+#: mail/mail-config.glade.h:175
 msgid "_Use the same fonts as other applications"
 msgstr "_Använd samma typsnitt som andra program"
 
-#: mail/mail-config.glade.h:178
-msgid "_every"
-msgstr "_var"
-
-#: mail/mail-config.glade.h:179
+#: mail/mail-config.glade.h:176
 msgid "color"
 msgstr "färg"
 
-#: mail/mail-config.glade.h:180
+#: mail/mail-config.glade.h:177
 msgid "description"
 msgstr "beskrivning"
 
@@ -13205,90 +13198,90 @@ msgstr "Spara bild som..."
 msgid "Pinging %s"
 msgstr "Pingar %s"
 
-#: mail/mail-format.c:640
+#: mail/mail-format.c:665
 #, c-format
 msgid "%s attachment"
 msgstr "%s-bilaga"
 
-#: mail/mail-format.c:682 mail/mail-format.c:1339 mail/mail-format.c:1408
-#: mail/mail-format.c:1528 mail/mail-format.c:1652 mail/mail-format.c:1677
+#: mail/mail-format.c:707 mail/mail-format.c:1364 mail/mail-format.c:1433
+#: mail/mail-format.c:1553 mail/mail-format.c:1677 mail/mail-format.c:1702
 msgid "Could not parse MIME message. Displaying as source."
 msgstr "Kunde inte tolka MIME-meddelande. Visar som källkod."
 
-#: mail/mail-format.c:759 mail/message-list.etspec.h:2
+#: mail/mail-format.c:784 mail/message-list.etspec.h:2
 msgid "Date"
 msgstr "Datum"
 
-#: mail/mail-format.c:845
+#: mail/mail-format.c:870
 msgid "Bad Address"
 msgstr "Felaktig adress"
 
-#: mail/mail-format.c:886 mail/message-list.etspec.h:7
+#: mail/mail-format.c:911 mail/message-list.etspec.h:7
 #: mail/message-tag-followup.c:303
 msgid "From"
 msgstr "Från"
 
-#: mail/mail-format.c:890
+#: mail/mail-format.c:915
 msgid "Reply-To"
 msgstr "Svara till"
 
-#: mail/mail-format.c:895 mail/message-list.etspec.h:14
+#: mail/mail-format.c:920 mail/message-list.etspec.h:14
 msgid "To"
 msgstr "Till"
 
-#: mail/mail-format.c:900
+#: mail/mail-format.c:925
 msgid "Cc"
 msgstr "Kopia"
 
-#: mail/mail-format.c:905
+#: mail/mail-format.c:930
 msgid "Bcc"
 msgstr "Blindkopia"
 
-#: mail/mail-format.c:1451
+#: mail/mail-format.c:1476
 msgid ""
 "This message is digitally signed. Click the lock icon for more information."
 msgstr ""
 "Detta meddelande är digitalt signerat. Klicka på låsikonen för mer "
 "information."
 
-#: mail/mail-format.c:1479
+#: mail/mail-format.c:1504
 msgid "Could not create a PGP verfication context"
 msgstr "Kunde inte skapa ett PGP-verifieringssammanhang"
 
-#: mail/mail-format.c:1487
+#: mail/mail-format.c:1512
 msgid "This message is digitally signed and has been found to be authentic."
 msgstr "Detta meddelande är digitalt signerat och har befunnits äkta."
 
-#: mail/mail-format.c:1494
+#: mail/mail-format.c:1519
 msgid "This message is digitally signed but can not be proven to be authentic."
 msgstr "Detta meddelande är digitalt signerat men äktheten kan inte bevisas."
 
-#: mail/mail-format.c:1758
+#: mail/mail-format.c:1783
 #, c-format
 msgid "Pointer to FTP site (%s)"
 msgstr "Pekare till FTP-plats (%s)"
 
-#: mail/mail-format.c:1769
+#: mail/mail-format.c:1794
 #, c-format
 msgid "Pointer to local file (%s) valid at site \"%s\""
 msgstr "Pekare till lokal fil (%s) giltig på platsen \"%s\""
 
-#: mail/mail-format.c:1772
+#: mail/mail-format.c:1797
 #, c-format
 msgid "Pointer to local file (%s)"
 msgstr "Pekare till lokal fil (%s)"
 
-#: mail/mail-format.c:1799
+#: mail/mail-format.c:1824
 #, c-format
 msgid "Pointer to remote data (%s)"
 msgstr "Pekare till fjärrdata (%s)"
 
-#: mail/mail-format.c:1805
+#: mail/mail-format.c:1830
 #, c-format
 msgid "Pointer to unknown external data (\"%s\" type)"
 msgstr "Pekare till okänd extern data (typen \"%s\")"
 
-#: mail/mail-format.c:1807
+#: mail/mail-format.c:1832
 msgid "Malformed external-body part."
 msgstr "Felaktig del med extern meddelandetext."
 
@@ -27787,20 +27780,20 @@ msgstr ""
 "och välja en tidszon.\n"
 " Använd höger musknapp för att zooma ut."
 
-#: widgets/menus/gal-view-menus.c:288
+#: widgets/menus/gal-view-menus.c:287
 msgid "_Current View"
 msgstr "_Aktuell vy"
 
 #. bonobo displays this string so it must be in locale
-#: widgets/menus/gal-view-menus.c:350
+#: widgets/menus/gal-view-menus.c:346
 msgid "Custom View"
 msgstr "Anpassad vy"
 
-#: widgets/menus/gal-view-menus.c:359
+#: widgets/menus/gal-view-menus.c:355
 msgid "Save Custom View..."
 msgstr "Spara anpassad vy..."
 
-#: widgets/menus/gal-view-menus.c:372
+#: widgets/menus/gal-view-menus.c:368
 msgid "Define Views..."
 msgstr "Definiera vyer..."
 
@@ -27994,6 +27987,18 @@ msgstr "Evolutions kalenderbakände för lokal fil"
 #: wombat/GNOME_Evolution_WombatNOLDAP.server.in.in.h:1
 msgid "Evolution Addressbook local file backend"
 msgstr "Evolutions adressboksbakände för lokal fil"
+
+#~ msgid "Message to Display"
+#~ msgstr "Meddelande att visa"
+
+#~ msgid "_Automatically check for new mail"
+#~ msgstr "Kontrollera _automatiskt ny e-post"
+
+#~ msgid "_Meeting"
+#~ msgstr "_Möte"
+
+#~ msgid "_every"
+#~ msgstr "_var"
 
 #~ msgid "Folder name:"
 #~ msgstr "Mappnamn:"
