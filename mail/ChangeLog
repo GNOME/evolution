@@ -1,5 +1,12 @@
 2000-04-26  Dan Winship  <danw@helixcode.com>
 
+	* mail-format.c (text_to_html): Reorganize a bit and add a new
+	flag, TEXT_TO_HTML_CONVERT_URLS to recognize and wrap URLs
+	in text.
+
+	* mail-display.c (mail_html_new): Add link_clicked signal handler.
+	(on_link_clicked): Use gnome_url_show to launch a browser.
+
 	* mail-format.c: update for CamelStream changes. Update for
 	CamelMimeBodyPart -> CamelMimePart
 

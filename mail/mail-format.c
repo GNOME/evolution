@@ -77,13 +77,6 @@ static void handle_via_bonobo            (CamelMimePart *part,
 					  CamelMimeMessage *root,
 					  GtkBox *box);
 
-/* encodes some characters into their 'escaped' version;
- * so '<' turns into '&lt;', and '"' turns into '&quot;' */
-static gchar *text_to_html (const guchar *input, guint len,
-			    guint *encoded_len_return, gboolean add_pre,
-			    gboolean convert_newlines_to_br,
-			    gboolean convert_space_hack);
-
 /* writes the header info for a mime message into an html stream */
 static void write_headers (CamelMimeMessage *mime_message, GtkBox *box);
 
@@ -346,35 +339,106 @@ call_handler_function (CamelMimePart *part, CamelMimeMessage *root,
 		handle_unknown_type (part, root, box);
 }
 
+int tth_interesting[] = {
+	4, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3,	/* 0x00 - 0x0f */
+	3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3,	/* 0x10 - 0x1f */
+	1, 2, 1, 2, 2, 2, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2,	/*   sp - /    */
+	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 1, 2, 1, 2,	/*    0 - ?    */
+	2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,	/*    @ - O    */
+	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2,	/*    P - _    */
+	2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,	/*    ` - o    */
+	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2,	/*    p - del  */
+	3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3,	/* 0x80 - 0x8f */
+	3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3,	/* 0x90 - 0x9f */
+	3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3,	/* 0xa0 - 0xaf */
+	3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3,	/* 0xb0 - 0xbf */
+	3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3,	/* 0xc0 - 0xcf */
+	3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3,	/* 0xd0 - 0xdf */
+	3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3,	/* 0xe0 - 0xef */
+	3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3	/* 0xf0 - 0xff */
+};
+#define TTH_SPECIAL     1
+#define TTH_PUNCTUATION 2
+#define TTH_ESCAPED     3
+#define TTH_EOF         4
+
+#define TEXT_TO_HTML_PRE            (1 << 0)
+#define TEXT_TO_HTML_CONVERT_NL     (1 << 1)
+#define TEXT_TO_HTML_CONVERT_SPACES (1 << 2)
+#define TEXT_TO_HTML_CONVERT_URLS   (1 << 3)
+
+static char *
+check_size (char **buffer, int *buffer_size, char *out, int len)
+{
+	if (out + len > *buffer + *buffer_size) {
+		int index = out - *buffer;
+
+		*buffer_size *= 2;
+		*buffer = g_realloc (*buffer, *buffer_size);
+		out = *buffer + index;
+	}
+	return out;
+}
 
 /* Convert plain text into equivalent-looking valid HTML. */
-static gchar *
-text_to_html (const guchar *input, guint len,
-	      guint *encoded_len_return, gboolean add_pre,
-	      gboolean convert_newlines_to_br,
-	      gboolean convert_space_hack)
+static char *
+text_to_html (const unsigned char *input, unsigned int flags)
 {
-	const guchar *cur = input;
-	guchar *buffer = NULL;
-	guchar *out = NULL;
-	gint buffer_size = 0;
+	const unsigned char *cur = input, *end;
+	char *buffer = NULL;
+	char *out = NULL;
+	int buffer_size = 0;
 
 	/* Allocate a translation buffer.  */
-	buffer_size = len * 2 + 5;
+	buffer_size = strlen (input) * 2 + 5;
 	buffer = g_malloc (buffer_size);
 
 	out = buffer;
-	if (add_pre)
+	if (flags & TEXT_TO_HTML_PRE)
 		out += sprintf (out, "<PRE>\n");
 
-	while (len--) {
-		if (out - buffer > buffer_size - 100) {
-			gint index = out - buffer;
+	while (*cur) {
+		if (isalpha (*cur) && (flags & TEXT_TO_HTML_CONVERT_URLS)) {
+			if (!strncasecmp (cur, "http://", 7) ||
+			    !strncasecmp (cur, "ftp://", 6) ||
+			    !strncasecmp (cur, "nntp://", 7) ||
+			    !strncasecmp (cur, "mailto:", 7) ||
+			    !strncasecmp (cur, "news:", 5)) {
+				/* Skip to end of URL. */
+				end = cur;
+				while (*end && !isspace (*end) && *end != '"')
+					end++;
 
-			buffer_size *= 2;
-			buffer = g_realloc (buffer, buffer_size);
-			out = buffer + index;
+				/* Back up if we probably went too far. */
+				while (end > cur &&
+				       strchr (",.!?;:>", *(end - 1)))
+					end--;
+
+				out = check_size (&buffer, &buffer_size, out,
+						  (end - cur) * 2 + 15);
+				out += sprintf (out,
+						"<a href=\"%.*s\">%.*s</a>",
+						end - cur, cur,
+						end - cur, cur);
+				cur = end;
+			}
 		}
+
+		/* Skip until we need to care. */
+		end = cur;
+		while (!tth_interesting[*end] ||
+			(tth_interesting[*end] == TTH_PUNCTUATION &&
+			 !(flags & TEXT_TO_HTML_CONVERT_URLS)))
+			end++;
+
+		out = check_size (&buffer, &buffer_size, out,
+				  end - cur + 10);
+		memcpy (out, cur, end - cur);
+		out += end - cur;
+
+		if (!*end)
+			break;
+		cur = end;
 
 		switch (*cur) {
 		case '<':
@@ -399,16 +463,15 @@ text_to_html (const guchar *input, guint len,
 
 		case '\n':
 			*out++ = *cur;
-			if (convert_newlines_to_br) {
+			if (flags & TEXT_TO_HTML_CONVERT_NL) {
 				strcpy (out, "<br>");
 				out += 4;
 			}
 			break;
 
 		case ' ':
-			if (convert_space_hack) {
-				if (cur == input ||
-				    (len > 0 && *(cur + 1) == ' ')) {
+			if (flags & TEXT_TO_HTML_CONVERT_SPACES) {
+				if (cur == input || *(cur + 1) == ' ') {
 					strcpy (out, "&nbsp;");
 					out += 6;
 					break;
@@ -429,12 +492,11 @@ text_to_html (const guchar *input, guint len,
 		cur++;
 	}
 
-	if (add_pre)
+	out = check_size (&buffer, &buffer_size, out, 7);
+	if (flags & TEXT_TO_HTML_PRE)
 		strcpy (out, "</PRE>");
 	else
 		*out = '\0';
-	if (encoded_len_return)
-		*encoded_len_return = out - buffer;
 
 	return buffer;
 }
@@ -449,8 +511,8 @@ write_field_to_stream (const char *description, const char *value,
 	if (value) {
 		unsigned char *p;
 
-		encoded_value = text_to_html (value, strlen(value),
-					      NULL, FALSE, TRUE, FALSE);
+		encoded_value = text_to_html (value, TEXT_TO_HTML_CONVERT_NL |
+					      TEXT_TO_HTML_CONVERT_URLS);
 		for (p = (unsigned char *)encoded_value; *p; p++) {
 			if (!isprint (*p))
 				*p = '?';
@@ -543,6 +605,25 @@ write_headers (CamelMimeMessage *mime_message, GtkBox *box)
 #define MIME_TYPE_SUB(a)   ((camel_mime_part_get_content_type (CAMEL_MIME_PART (a)))->subtype)
 
 
+static char *
+get_data_wrapper_text (CamelDataWrapper *data)
+{
+	CamelStream *memstream;
+	GByteArray *ba;
+	char *text;
+
+	ba = g_byte_array_new ();
+	memstream = camel_stream_mem_new_with_byte_array (ba);
+
+	camel_data_wrapper_write_to_stream (data, memstream);
+	text = g_malloc (ba->len + 1);
+	memcpy (text, ba->data, ba->len);
+	text[ba->len] = '\0';
+
+	camel_stream_close (memstream);
+	return text;
+}
+
 /*----------------------------------------------------------------------*
  *                     Mime handling functions
  *----------------------------------------------------------------------*/
@@ -554,11 +635,7 @@ handle_text_plain (CamelMimePart *part, CamelMimeMessage *root, GtkBox *box)
 	GtkHTMLStreamHandle *stream;
 	CamelDataWrapper *wrapper =
 		camel_medium_get_content_object (CAMEL_MEDIUM (part));
-	char *text;
-	CamelStream *wrapper_output_stream;
-	gchar tmp_buffer[4096];
-	gint nb_bytes_read;
-	gboolean empty_text = TRUE;
+	char *text, *htmltext;
 	GMimeContentField *type;
 	const char *format;
 
@@ -573,35 +650,14 @@ handle_text_plain (CamelMimePart *part, CamelMimeMessage *root, GtkBox *box)
 		return;
 	}
 
-	/* Get the output stream of the data wrapper. */
-	wrapper_output_stream = camel_data_wrapper_get_output_stream (wrapper);
-	camel_stream_reset (wrapper_output_stream);
-
-	do {
-		/* Read next chunk of text. */
-		nb_bytes_read = camel_stream_read (wrapper_output_stream,
-						   tmp_buffer,
-						   sizeof (tmp_buffer));
-
-		/* If there's any text, write it to the stream. */
-		if (nb_bytes_read > 0) {
-			int returned_strlen;
-
-			empty_text = FALSE;
-
-			/* replace '<' with '&lt;', etc. */
-			text = text_to_html (tmp_buffer,
-					     nb_bytes_read,
-					     &returned_strlen,
-					     FALSE, FALSE, FALSE);
-			gtk_html_write (html, stream, text,
-					returned_strlen);
-			g_free (text);
-		}
-	} while (!camel_stream_eos (wrapper_output_stream));
-
-	if (empty_text)
+	text = get_data_wrapper_text (wrapper);
+	if (text && *text) {
+		htmltext = text_to_html (text, TEXT_TO_HTML_CONVERT_URLS);
+		mail_html_write (html, stream, htmltext);
+		g_free (htmltext);
+	} else
 		mail_html_write (html, stream, "<b>(empty)</b>");
+	g_free (text);
 
 	mail_html_write (html, stream, "</pre>\n");
 	mail_html_end (html, stream, TRUE, box);
@@ -617,7 +673,7 @@ handle_text_plain_flowed (CamelMimePart *part, CamelMimeMessage *root,
 		camel_medium_get_content_object (CAMEL_MEDIUM (part));
 	char *text, *line, *p;
 	CamelStream *wrapper_output_stream, *buffer;
-	int prevquoting = 0, quoting, len, returned_strlen;
+	int prevquoting = 0, quoting, len;
 	gboolean br_pending = FALSE;
 
 	mail_html_new (&html, &stream, root, TRUE);
@@ -662,15 +718,14 @@ handle_text_plain_flowed (CamelMimePart *part, CamelMimeMessage *root,
 		if (*p == ' ')
 			p++;
 
-		len = strlen (p);
-
 		/* replace '<' with '&lt;', etc. */
-		text = text_to_html (p, len, &returned_strlen,
-				     FALSE, FALSE, TRUE);
-		if (returned_strlen)
-			gtk_html_write (html, stream, text, returned_strlen);
+		text = text_to_html (p, TEXT_TO_HTML_CONVERT_SPACES |
+				     TEXT_TO_HTML_CONVERT_URLS);
+		if (text && *text)
+			mail_html_write (html, stream, text);
 		g_free (text);
 
+		len = strlen (p);
 		if (len == 0 || p[len - 1] != ' ' || !strcmp (p, "-- "))
 			br_pending = TRUE;
 		g_free (line);
@@ -1179,25 +1234,6 @@ handle_via_bonobo (CamelMimePart *part, CamelMimeMessage *root, GtkBox *box)
 
 
 static char *
-get_data_wrapper_text (CamelDataWrapper *data)
-{
-	CamelStream *memstream;
-	GByteArray *ba;
-	char *text;
-
-	ba = g_byte_array_new ();
-	memstream = camel_stream_mem_new_with_byte_array (ba);
-
-	camel_data_wrapper_write_to_stream (data, memstream);
-	text = g_malloc (ba->len + 1);
-	memcpy (text, ba->data, ba->len);
-	text[ba->len] = '\0';
-
-	camel_stream_close (memstream);
-	return text;
-}
-
-static char *
 reply_body (CamelDataWrapper *data, gboolean *html)
 {
 	CamelMultipart *mp;
@@ -1340,8 +1376,7 @@ mail_generate_reply (CamelMimeMessage *message, gboolean to_all)
 
 			/* Now convert that to HTML. */
 			repl_text = text_to_html (quoted_text,
-						  strlen (quoted_text),
-						  &len, TRUE, FALSE, FALSE);
+						  TEXT_TO_HTML_PRE);
 			g_free (quoted_text);
 		}
 		e_msg_composer_set_body_text (composer, repl_text);

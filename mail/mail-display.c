@@ -35,6 +35,12 @@ cid_stream (const char *cid, CamelMimeMessage *message)
 }	
 
 static void
+on_link_clicked (GtkHTML *html, const char *url, gpointer user_data)
+{
+	gnome_url_show (url);
+}
+
+static void
 on_url_requested (GtkHTML *html, const char *url, GtkHTMLStreamHandle handle,
 		  gpointer user_data)
 {
@@ -78,6 +84,8 @@ mail_html_new (GtkHTML **html, GtkHTMLStreamHandle **stream,
 			    GTK_SIGNAL_FUNC (html_size_req), NULL);
 	gtk_signal_connect (GTK_OBJECT (*html), "url_requested",
 			    GTK_SIGNAL_FUNC (on_url_requested), root);
+	gtk_signal_connect (GTK_OBJECT (*html), "link_clicked",
+			    GTK_SIGNAL_FUNC (on_link_clicked), root);
 
 	*stream = gtk_html_begin (*html, "");
 	if (init) {
