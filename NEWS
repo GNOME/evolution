@@ -6,6 +6,7 @@ Bugzilla Bugs Fixed (see http://bugzilla.ximian.com/show_bug.cgi):
   * Addressbook
     #16870 -- fix CRLF check for empty lines in ldif importre (Sean Gao)
     #25540 -- fix sensitivity issues in the contact editor (Toshok)
+    #28945 -- contact lists saved as invalid vcards (Toshok)
     #33097 -- Fix crash when changing autocomplete folder list.  Also
               fixes #30323, #33930, and #33332. (Toshok)
     #34254 -- fix case sensitive nature of vcard importer (Sean Gao)
@@ -15,11 +16,12 @@ Other fixes:
   * Addressbook
 
     - Fix scope problem where scopes would be saved as "base" and
-      "one" instead of "one" and "sub" repectively.
+      "one" instead of "one" and "sub" repectively. (Toshok)
     - Fixed a possible (and very probable) crash involving the
-      minicard view.
+      minicard view. (Toshok)
+    - Fixed a crash in the file backend (Toshok)
     - The LDAP backend should be much more robust in the face of more
-      restrictive ACL's.
+      restrictive ACL's. (Toshok)
 
 Evolution 1.2.0, 2002-11-06
 ---------------------------
