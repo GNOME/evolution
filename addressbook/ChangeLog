@@ -1,3 +1,10 @@
+2004-11-22  Rodney Dawes  <dobey@novell.com>
+
+	* importers/GNOME_Evolution_Addressbook_VCard_Importer.server.in.in:
+	Fix name attribute values to be identical
+
+	Fixes #61976
+
 2004-11-21  Sivaiah Nallagatla <snallagatla@novell.com>
 
 	* rever last commit , it is supposed to for offline 

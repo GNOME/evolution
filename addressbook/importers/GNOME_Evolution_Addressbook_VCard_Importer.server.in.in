@@ -9,7 +9,7 @@
 	</oaf_attribute>
 
 	<oaf_attribute name="name" type="string"
-		       _value="Evolution VCard importer"/>
+		       _value="Evolution VCard Importer"/>
 </oaf_server>
 
 <oaf_server iid="OAFIID:GNOME_Evolution_Addressbook_VCard_Importer:@VERSION@"
