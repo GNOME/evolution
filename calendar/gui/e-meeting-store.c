@@ -1255,7 +1255,7 @@ freebusy_async (gpointer data)
 	/* Check for free busy info on the default server */
 	default_fb_uri = g_strdup (fbd->fb_uri);
 
-	if (default_fb_uri != NULL || !g_str_equal (default_fb_uri, "")) {
+	if (default_fb_uri != NULL && !g_str_equal (default_fb_uri, "")) {
 		GnomeVFSAsyncHandle *handle;
 		gchar *tmp_fb_uri;
 		gchar **split_email;
