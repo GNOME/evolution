@@ -255,7 +255,6 @@
 	`mail-search-dialogue.h' and `mail-search-dialogue.c' as NotZed
 	forgot to put them into CVS.
 
->>>>>>> 1.631
 2000-10-06  Not Zed  <NotZed@HelixCode.com>
 
 	* mail-search-dialogue.c: New widget, full search dialogue for
@@ -447,7 +446,6 @@
 	* mail-ops.c (do_scan_subfolders): Don't try to add_folders if
 	get_folder_info returned NULL.
 
->>>>>>> 1.611
 2000-10-04  Not Zed  <NotZed@HelixCode.com>
 
 	* message-list.c (message_list_init_header): Fix the attachment
