@@ -376,8 +376,6 @@ text_cell_data_func (GtkTreeViewColumn *column,
 			      NULL);
 	} else {
 		ESource *source;
-		guint32 color;
-		gboolean has_color;
 		
 		g_assert (E_IS_SOURCE (data));
 		source = E_SOURCE (data);
@@ -410,8 +408,7 @@ pixbuf_cell_data_func (GtkTreeViewColumn *column,
 	} else {	
 		ESource *source;
 		guint32 color;
-		gboolean has_color;
-		GdkPixbuf *pixbuf = NULL;
+		GdkPixbuf *pixbuf;
 
 		g_assert (E_IS_SOURCE (data));
 		source = E_SOURCE (data);
