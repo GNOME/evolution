@@ -1,12 +1,18 @@
+2001-01-06  Jeffrey Stedfast  <fejj@helixcode.com>
+
+	* mail-account-editor.c: Coded a bunch of the methods.
+
 2001-01-04  Iain Holmes  <iain@helixcode.com>
 
-	* mail-summary.c (idle_check): Check if the HTML for the current summary
-	has been created, and if not then keep trying until it has.
+	* mail-summary.c (idle_check): Check if the HTML for the current
+	summary has been created, and if not then keep trying until it
+	has.
 	(new_folder_cb)
 	(removed_folder_cb)
-	(create_summary_view): Use the idle_check function to generate the 
+	(create_summary_view): Use the idle_check function to generate the
 	summary.
-	(create_summary_view): Don't set the HTML here. Set it via the pipe.
+	(create_summary_view): Don't set the HTML here. Set it via the
+	pipe.
 
 2001-01-05  Jeffrey Stedfast  <fejj@helixcode.com>
 

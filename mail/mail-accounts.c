@@ -55,7 +55,7 @@ mail_accounts_dialog_get_type ()
 }
 
 static void
-mail_accounts_dialog_class_init (MailConfigDruidClass *class)
+mail_accounts_dialog_class_init (MailAccountsDialogClass *class)
 {
 	GtkObjectClass *object_class;
 	
@@ -76,7 +76,7 @@ mail_accounts_dialog_init (MailAccountsDialog *o)
 static void
 mail_accounts_dialog_finalise (GtkObject *obj)
 {
-	MailAccountsDialog *dialog = (MailConfigDruid *) obj;
+	MailAccountsDialog *dialog = (MailAccountsDialog *) obj;
 	
 	gtk_object_unref (GTK_OBJECT (dialog->gui));
 	

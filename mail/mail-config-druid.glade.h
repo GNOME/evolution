@@ -81,10 +81,8 @@ gchar *s = N_("Sendmail\n"
               "SMTP\n"
               "");
 gchar *s = N_("Servers");
-gchar *s = N_("Server Timeouts");
+gchar *s = N_("Miscellaneous");
 gchar *s = N_("Keep mail on server");
-gchar *s = N_("Automatically check mail every ");
-gchar *s = N_("minute(s)");
 gchar *s = N_("Advanced");
 gchar *s = N_("Evolution Mail Configuration");
 gchar *s = N_("Account");

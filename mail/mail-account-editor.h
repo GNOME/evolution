@@ -57,17 +57,17 @@ struct _MailAccountEditor {
 	GtkEntry *source_host;
 	GtkEntry *source_user;
 	GtkEntry *source_passwd;
-	GtkCheckBox *save_passwd;
+	GtkCheckButton *save_passwd;
 	GtkOptionMenu *source_auth;
-	GtkCheckBox *source_ssl;
+	GtkCheckButton *source_ssl;
 	
 	GtkOptionMenu *transport_type;
 	GtkEntry *transport_host;
 	GtkOptionMenu *transport_auth;
-	GtkCheckBox *transport_ssl;
+	GtkCheckButton *transport_ssl;
 	
 	GtkSpinButton *auto_mail_check;
-	GtkCheckBox *keep_on_server;
+	GtkCheckButton *keep_on_server;
 	
 	const CamelProvider *transport;
 };
@@ -83,7 +83,7 @@ typedef struct {
 
 GtkType mail_account_editor_get_type (void);
 
-MailAccountEditor *mail_account_editor_new (void);
+MailAccountEditor *mail_account_editor_new (const MailConfigAccount *account);
 
 #ifdef __cplusplus
 }
