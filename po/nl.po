@@ -15,14 +15,14 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Evolution\n"
-"POT-Creation-Date: 2004-01-12 22:53-0500\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2004-01-13 03:16+0100\n"
 "PO-Revision-Date: 2003-06-15 14:37+0100\n"
 "Last-Translator: Vincent van Adrighem <V.vanAdrighem@dirck.mine.nu>\n"
 "Language-Team: Dutch <nl@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Report-Msgid-Bugs-To: \n"
 
 #: addressbook/conduit/address-conduit.c:272
 msgid "Default Sync Address:"
@@ -60,7 +60,7 @@ msgstr "Hier kunt u uw e-mail accounts instellen"
 #. name = e_book_get_name (book);
 #: addressbook/gui/component/GNOME_Evolution_Addressbook.server.in.in.h:4
 #: addressbook/tools/evolution-addressbook-export-list-folders.c:51
-#: calendar/gui/calendar-component.c:583
+#: calendar/gui/calendar-component.c:561
 #: mail/importers/netscape-importer.c:1844 shell/e-shortcuts.c:1088
 msgid "Contacts"
 msgstr "Adresboek"
@@ -115,7 +115,7 @@ msgstr "Adresboek"
 
 #: addressbook/gui/component/addressbook-component.c:259
 #: addressbook/gui/widgets/e-addressbook-view.c:1017
-#: calendar/gui/calendar-component.c:410 calendar/gui/tasks-component.c:399
+#: calendar/gui/calendar-component.c:407 calendar/gui/tasks-component.c:399
 #: filter/libfilter-i18n.h:10 mail/em-account-prefs.c:236
 #: ui/evolution-addressbook.xml.h:8 ui/evolution-comp-editor.xml.h:4
 #: ui/evolution-contact-editor.xml.h:3
@@ -124,7 +124,7 @@ msgid "Delete"
 msgstr "Verwijderen"
 
 #: addressbook/gui/component/addressbook-component.c:260
-#: calendar/gui/calendar-component.c:411 calendar/gui/tasks-component.c:401
+#: calendar/gui/calendar-component.c:408 calendar/gui/tasks-component.c:401
 msgid "Properties..."
 msgstr "Eigenschappen..."
 
@@ -207,15 +207,16 @@ msgid "Migrating `%s':"
 msgstr "%s wordt opgezocht"
 
 #. create the local source group
+#. create the source group
 #: addressbook/gui/component/addressbook-migrate.c:313
-#: calendar/gui/calendar-component.c:540 calendar/gui/calendar-component.c:550
+#: calendar/gui/calendar-component.c:518 calendar/gui/calendar-component.c:528
 #: calendar/gui/tasks-component.c:502 calendar/gui/tasks-component.c:508
 msgid "On This Computer"
 msgstr ""
 
 #. orange
 #: addressbook/gui/component/addressbook-migrate.c:323
-#: calendar/gui/calendar-component.c:557 calendar/gui/migration.c:124
+#: calendar/gui/calendar-component.c:535 calendar/gui/migration.c:124
 #: calendar/gui/migration.c:147 calendar/gui/tasks-component.c:515
 #: filter/filter-label.c:123 mail/mail-config.c:65 mail/mail-config.glade.h:88
 #: shell/e-config-upgrade.c:1456
@@ -503,7 +504,7 @@ msgid "S_earch scope: "
 msgstr "Zoek_gebied: "
 
 #: addressbook/gui/component/ldap-config.glade.h:34
-#: calendar/gui/e-cal-list-view.c:396 calendar/gui/e-cal-view.c:660
+#: calendar/gui/e-cal-list-view.c:396 calendar/gui/e-cal-view.c:659
 #: calendar/gui/gnome-cal.c:586
 msgid "Searching"
 msgstr "Zoeken"
@@ -754,10 +755,10 @@ msgstr "_Downloadlimiet:"
 
 #: addressbook/gui/component/ldap-config.glade.h:87
 #: addressbook/gui/contact-editor/contact-editor.glade.h:34
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:41 filter/filter.glade.h:14
-#: mail/mail-config.glade.h:148 ui/evolution-addressbook.xml.h:34
-#: ui/evolution-calendar.xml.h:36 ui/evolution-composer-entries.xml.h:8
-#: ui/evolution-mail-list.xml.h:24 ui/evolution-mail-messagedisplay.xml.h:6
+#: filter/filter.glade.h:14 mail/mail-config.glade.h:148
+#: ui/evolution-addressbook.xml.h:34 ui/evolution-calendar.xml.h:36
+#: ui/evolution-composer-entries.xml.h:8 ui/evolution-mail-list.xml.h:24
+#: ui/evolution-mail-messagedisplay.xml.h:6
 #: ui/evolution-message-composer.xml.h:43
 #: ui/evolution-signature-editor.xml.h:12 ui/evolution-subscribe.xml.h:10
 #: ui/evolution-tasks.xml.h:20
@@ -879,9 +880,8 @@ msgid "Select Contacts from Address Book"
 msgstr "Selecteer contacten uit het adresboek"
 
 #: addressbook/gui/component/select-names/select-names.glade.h:7
-#, fuzzy
 msgid "_Find"
-msgstr "Zoek"
+msgstr "_Zoeken"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:1
 msgid " B_usiness:"
@@ -986,8 +986,6 @@ msgstr "Nieuw telefoontype"
 msgid "No_tes:"
 msgstr "Aa_ntekeningen:"
 
-#
-#: addressbook/gui/contact-editor/contact-editor.glade.h:25
 msgid "Organi_zation:"
 msgstr "_Organisatie:"
 
@@ -1020,8 +1018,8 @@ msgid "_Categories..."
 msgstr "_Categorieën..."
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:33
-#: calendar/gui/dialogs/meeting-page.c:649 calendar/gui/e-cal-view.c:1264
-#: calendar/gui/e-cal-view.c:1295 calendar/gui/e-calendar-table.c:1055
+#: calendar/gui/dialogs/meeting-page.c:649 calendar/gui/e-cal-view.c:1290
+#: calendar/gui/e-cal-view.c:1321 calendar/gui/e-calendar-table.c:1055
 #: calendar/gui/e-calendar-table.c:1073 mail/em-folder-tree.c:1654
 #: mail/em-folder-view.c:731 ui/evolution-addressbook.xml.h:33
 #: ui/evolution-calendar.xml.h:35 ui/evolution-comp-editor.xml.h:17
@@ -2512,7 +2510,7 @@ msgstr "Knippen"
 
 #. create the dialog
 #: addressbook/gui/widgets/e-addressbook-view.c:1015
-#: calendar/gui/calendar-component.c:408
+#: calendar/gui/calendar-component.c:405
 #: calendar/gui/dialogs/copy-source-dialog.c:136
 #: calendar/gui/tasks-component.c:397 ui/evolution-addressbook.xml.h:2
 #: ui/evolution-mail-message.xml.h:9 ui/evolution-tasks.xml.h:2
@@ -2525,7 +2523,7 @@ msgid "Paste"
 msgstr "Plakken"
 
 #: addressbook/gui/widgets/e-addressbook-view.c:1021
-#: calendar/gui/e-cal-view.c:1233
+#: calendar/gui/e-cal-view.c:1259
 msgid "Current View"
 msgstr "Huidige weergave"
 
@@ -3068,17 +3066,17 @@ msgstr "Kaartweergave"
 msgid "GTK Tree View"
 msgstr "GTK boomweergave"
 
-#: addressbook/gui/widgets/test-reflow.c:106
+#: addressbook/gui/widgets/test-reflow.c:119
 msgid "Reflow Test"
 msgstr ""
 
-#: addressbook/gui/widgets/test-reflow.c:107
+#: addressbook/gui/widgets/test-reflow.c:120
 #: addressbook/printing/test-contact-print-style-editor.c:54
 #: addressbook/printing/test-print.c:53
 msgid "Copyright (C) 2000, Ximian, Inc."
 msgstr ""
 
-#: addressbook/gui/widgets/test-reflow.c:109
+#: addressbook/gui/widgets/test-reflow.c:122
 msgid "This should test the reflow canvas item"
 msgstr ""
 
@@ -3329,7 +3327,7 @@ msgstr ""
 
 #: addressbook/tools/evolution-addressbook-export.c:63
 msgid "NUMBER"
-msgstr ""
+msgstr "NUMMER"
 
 #: addressbook/tools/evolution-addressbook-export.c:91
 msgid ""
@@ -3369,8 +3367,7 @@ msgstr "Geen bestandsnaam opgegeven."
 msgid "Unnamed List"
 msgstr "Lijst van onbenoemden"
 
-#: calendar/common/authentication.c:34 calendar/gui/itip-utils.c:1156
-#: smime/gui/component.c:39
+#: calendar/common/authentication.c:34 smime/gui/component.c:39
 #, fuzzy
 msgid "Enter password"
 msgstr "Voer Wachtwoord in"
@@ -3484,7 +3481,7 @@ msgstr "Alarm op %s"
 #: ui/evolution-contact-list-editor.xml.h:1
 #: ui/evolution-signature-editor.xml.h:1
 msgid "C_lose"
-msgstr "Afsluiten"
+msgstr "Sl_uiten"
 
 #: calendar/gui/alarm-notify/alarm-notify.glade.h:2
 msgid "Snoo_ze"
@@ -3498,8 +3495,8 @@ msgstr "Sluimertijd (minuten)"
 msgid "_Edit appointment"
 msgstr "_Afspraak bewerken"
 
-#: calendar/gui/alarm-notify/alarm-queue.c:900 calendar/gui/e-cal-view.c:1246
-#: calendar/gui/e-cal-view.c:1311 calendar/gui/e-calendar-table.c:1035
+#: calendar/gui/alarm-notify/alarm-queue.c:900 calendar/gui/e-cal-view.c:1272
+#: calendar/gui/e-cal-view.c:1337 calendar/gui/e-calendar-table.c:1035
 #: calendar/gui/e-calendar-table.c:1076 mail/em-folder-view.c:706
 #: shell/e-shortcuts-view.c:422 ui/evolution-addressbook.xml.h:37
 msgid "_Open"
@@ -3620,99 +3617,95 @@ msgid "Intervals shown in Day and Work Week views"
 msgstr ""
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:10
-msgid "List of urls for free/busy publishing"
-msgstr ""
-
-#: calendar/gui/apps_evolution_calendar.schemas.in.in.h:11
 msgid "Minute the workday ends on"
 msgstr ""
 
-#: calendar/gui/apps_evolution_calendar.schemas.in.in.h:12
+#: calendar/gui/apps_evolution_calendar.schemas.in.in.h:11
 msgid "Minute the workday starts on"
 msgstr ""
 
-#: calendar/gui/apps_evolution_calendar.schemas.in.in.h:13
+#: calendar/gui/apps_evolution_calendar.schemas.in.in.h:12
 msgid "Number of units for default reminder"
 msgstr ""
 
-#: calendar/gui/apps_evolution_calendar.schemas.in.in.h:14
+#: calendar/gui/apps_evolution_calendar.schemas.in.in.h:13
 msgid "Number of units for determining when to hide tasks"
 msgstr ""
 
-#: calendar/gui/apps_evolution_calendar.schemas.in.in.h:15
+#: calendar/gui/apps_evolution_calendar.schemas.in.in.h:14
 msgid "Position of the horizontal pane"
 msgstr ""
 
-#: calendar/gui/apps_evolution_calendar.schemas.in.in.h:16
+#: calendar/gui/apps_evolution_calendar.schemas.in.in.h:15
 msgid "Position of the horizontal pane in the month view"
 msgstr ""
 
-#: calendar/gui/apps_evolution_calendar.schemas.in.in.h:17
+#: calendar/gui/apps_evolution_calendar.schemas.in.in.h:16
 msgid "Position of the vertical pane"
 msgstr ""
 
-#: calendar/gui/apps_evolution_calendar.schemas.in.in.h:18
+#: calendar/gui/apps_evolution_calendar.schemas.in.in.h:17
 msgid "Position of the vertical pane in the month view"
 msgstr ""
 
-#: calendar/gui/apps_evolution_calendar.schemas.in.in.h:19
+#: calendar/gui/apps_evolution_calendar.schemas.in.in.h:18
 msgid "Position of the vertical pane in the task view"
 msgstr ""
 
-#: calendar/gui/apps_evolution_calendar.schemas.in.in.h:20
+#: calendar/gui/apps_evolution_calendar.schemas.in.in.h:19
 msgid "Programs that can run as part of alarms"
 msgstr ""
 
-#: calendar/gui/apps_evolution_calendar.schemas.in.in.h:21
+#: calendar/gui/apps_evolution_calendar.schemas.in.in.h:20
 #, fuzzy
 msgid "Show where events end in week and month views"
 msgstr "Eindtijden van afspraken tonen in week- en maandweergave"
 
-#: calendar/gui/apps_evolution_calendar.schemas.in.in.h:22
+#: calendar/gui/apps_evolution_calendar.schemas.in.in.h:21
 #, fuzzy
 msgid "The view showing when the calendar starts"
 msgstr "Geeft een afdrukvoorbeeld van de kalender"
 
-#: calendar/gui/apps_evolution_calendar.schemas.in.in.h:23
+#: calendar/gui/apps_evolution_calendar.schemas.in.in.h:22
 msgid "Time last alarm ran"
 msgstr ""
 
-#: calendar/gui/apps_evolution_calendar.schemas.in.in.h:24
+#: calendar/gui/apps_evolution_calendar.schemas.in.in.h:23
 msgid "Units for determining when to hide tasks"
 msgstr ""
 
-#: calendar/gui/apps_evolution_calendar.schemas.in.in.h:25
+#: calendar/gui/apps_evolution_calendar.schemas.in.in.h:24
 msgid "Units of default reminder"
 msgstr ""
 
-#: calendar/gui/apps_evolution_calendar.schemas.in.in.h:26
+#: calendar/gui/apps_evolution_calendar.schemas.in.in.h:25
 msgid "Weekday the week starts on"
 msgstr ""
 
-#: calendar/gui/apps_evolution_calendar.schemas.in.in.h:27
+#: calendar/gui/apps_evolution_calendar.schemas.in.in.h:26
 #, fuzzy
 msgid "Whether to ask for confirmation on appointment deletion"
 msgstr "Vr_aag om bevestiging bij het wissen van items"
 
-#: calendar/gui/apps_evolution_calendar.schemas.in.in.h:28
+#: calendar/gui/apps_evolution_calendar.schemas.in.in.h:27
 #, fuzzy
 msgid "Whether to ask for confirmation when folder is expunged"
 msgstr "Vr_aag om bevestiging bij het wissen van items"
 
-#: calendar/gui/apps_evolution_calendar.schemas.in.in.h:29
+#: calendar/gui/apps_evolution_calendar.schemas.in.in.h:28
 #, fuzzy
 msgid "Whether to hide completed tasks"
 msgstr "Verwijder de voltooide taken"
 
-#: calendar/gui/apps_evolution_calendar.schemas.in.in.h:30
+#: calendar/gui/apps_evolution_calendar.schemas.in.in.h:29
 msgid "Whether to set a default reminder for events"
 msgstr ""
 
-#: calendar/gui/apps_evolution_calendar.schemas.in.in.h:31
+#: calendar/gui/apps_evolution_calendar.schemas.in.in.h:30
 msgid "Whether to show times in 24h format instead of using am/pm"
 msgstr ""
 
-#: calendar/gui/apps_evolution_calendar.schemas.in.in.h:32
+#: calendar/gui/apps_evolution_calendar.schemas.in.in.h:31
 #, fuzzy
 msgid "Whether to show week numbers in date navigator"
 msgstr "Week_nummers tonen in datum navigator"
@@ -3733,7 +3726,7 @@ msgstr "Commentaar bevat"
 msgid "Unmatched"
 msgstr "Niet passend"
 
-#: calendar/gui/calendar-commands.c:342
+#: calendar/gui/calendar-commands.c:370
 #, fuzzy
 msgid ""
 "This operation will permanently erase all events older than the selected "
@@ -3745,137 +3738,141 @@ msgstr ""
 "\n"
 "De taken echt verwijderen?"
 
-#: calendar/gui/calendar-commands.c:348
+#: calendar/gui/calendar-commands.c:376
 #, fuzzy
 msgid "Purge events older than"
 msgstr "geeft kleiner dan"
 
-#: calendar/gui/calendar-commands.c:353
+#: calendar/gui/calendar-commands.c:381
 #: calendar/gui/dialogs/alarm-options.glade.h:10 filter/filter.glade.h:17
 msgid "days"
 msgstr "dagen"
 
-#: calendar/gui/calendar-commands.c:422
+#: calendar/gui/calendar-commands.c:450
 msgid "%A %d %B %Y"
 msgstr "%A %d %B %Y"
 
 #. strftime format %a = abbreviated weekday name, %d = day of month,
 #. %b = abbreviated month name. Don't use any other specifiers.
-#: calendar/gui/calendar-commands.c:425 calendar/gui/e-day-view-top-item.c:692
+#. strftime format %a = abbreviated weekday name,
+#. %d = day of month, %b = abbreviated month name.
+#. You can change the order but don't change the
+#. specifiers or add anything.
+#: calendar/gui/calendar-commands.c:453 calendar/gui/e-day-view-top-item.c:692
 #: calendar/gui/e-day-view.c:1365 calendar/gui/e-week-view-main-item.c:329
 msgid "%a %d %b"
 msgstr "%a %d %b"
 
-#: calendar/gui/calendar-commands.c:427 calendar/gui/calendar-commands.c:432
-#: calendar/gui/calendar-commands.c:434
+#: calendar/gui/calendar-commands.c:455 calendar/gui/calendar-commands.c:460
+#: calendar/gui/calendar-commands.c:462
 msgid "%a %d %b %Y"
 msgstr "%a %d %b %Y"
 
-#: calendar/gui/calendar-commands.c:451 calendar/gui/calendar-commands.c:457
-#: calendar/gui/calendar-commands.c:463 calendar/gui/calendar-commands.c:465
+#: calendar/gui/calendar-commands.c:479 calendar/gui/calendar-commands.c:485
+#: calendar/gui/calendar-commands.c:491 calendar/gui/calendar-commands.c:493
 msgid "%d %B %Y"
 msgstr "%d %B %Y"
 
 #. strftime format %d = day of month, %B = full
 #. month name. You can change the order but don't
 #. change the specifiers or add anything.
-#: calendar/gui/calendar-commands.c:455
+#: calendar/gui/calendar-commands.c:483
 #: calendar/gui/e-week-view-main-item.c:337 calendar/gui/print.c:1516
 msgid "%d %B"
 msgstr "%d %B"
 
-#: calendar/gui/calendar-component.c:361
+#: calendar/gui/calendar-component.c:358
 #, c-format
 msgid "Calendar '%s' will be removed. Are you sure you want to continue?"
 msgstr ""
 
-#: calendar/gui/calendar-component.c:406
+#: calendar/gui/calendar-component.c:403
 #: calendar/gui/dialogs/calendar-setup.glade.h:13
 #, fuzzy
 msgid "New Calendar"
 msgstr "Nieuw Caledonië"
 
 #. create the remote source group
-#: calendar/gui/calendar-component.c:544 calendar/gui/calendar-component.c:573
+#: calendar/gui/calendar-component.c:522 calendar/gui/calendar-component.c:551
 msgid "On The Web"
 msgstr ""
 
 #. red
-#: calendar/gui/calendar-component.c:564 filter/filter-label.c:122
+#: calendar/gui/calendar-component.c:542 filter/filter-label.c:122
 #: mail/mail-config.c:64 mail/mail-config.glade.h:135
 #: shell/e-config-upgrade.c:1455
 msgid "Work"
 msgstr "Werk"
 
-#: calendar/gui/calendar-component.c:584 calendar/gui/calendar-component.c:596
+#: calendar/gui/calendar-component.c:562 calendar/gui/calendar-component.c:574
 msgid "Birthdays & Anniversaries"
 msgstr ""
 
-#: calendar/gui/calendar-component.c:595
+#: calendar/gui/calendar-component.c:573
 #, fuzzy
 msgid "Birthdays"
 msgstr "Geboortedat_um:"
 
-#: calendar/gui/calendar-component.c:720
+#: calendar/gui/calendar-component.c:677
 msgid "New appointment"
 msgstr "Nieuwe afspraak"
 
-#: calendar/gui/calendar-component.c:721
+#: calendar/gui/calendar-component.c:678
 msgid "_Appointment"
 msgstr "_Afspraak"
 
-#: calendar/gui/calendar-component.c:722
+#: calendar/gui/calendar-component.c:679
 msgid "Create a new appointment"
 msgstr "Maak een nieuwe afspraak"
 
-#: calendar/gui/calendar-component.c:727
+#: calendar/gui/calendar-component.c:684
 msgid "New meeting"
 msgstr "Nieuwe vergadering"
 
-#: calendar/gui/calendar-component.c:728
+#: calendar/gui/calendar-component.c:685
 msgid "M_eeting"
 msgstr "Ver_gadering"
 
-#: calendar/gui/calendar-component.c:729
+#: calendar/gui/calendar-component.c:686
 #, fuzzy
 msgid "Create a new meeting request"
 msgstr "Maak een nieuw bijeenkomstverzoek"
 
-#: calendar/gui/calendar-component.c:734
+#: calendar/gui/calendar-component.c:691
 #, fuzzy
 msgid "New all day appointment"
 msgstr "Nieuwe dag-omvattende afspraak"
 
-#: calendar/gui/calendar-component.c:735
+#: calendar/gui/calendar-component.c:692
 msgid "All _Day Appointment"
 msgstr "_Dag-omvattende afspraak"
 
-#: calendar/gui/calendar-component.c:736
+#: calendar/gui/calendar-component.c:693
 #, fuzzy
 msgid "Create a new all-day appointment"
 msgstr "Maak een nieuwe afspraak"
 
-#: calendar/gui/calendar-component.c:741
+#: calendar/gui/calendar-component.c:698
 #, fuzzy
 msgid "New calendar"
 msgstr "Nieuw Caledonië"
 
-#: calendar/gui/calendar-component.c:742
+#: calendar/gui/calendar-component.c:699
 #, fuzzy
 msgid "C_alendar"
 msgstr "K_alender:"
 
-#: calendar/gui/calendar-component.c:743
+#: calendar/gui/calendar-component.c:700
 #, fuzzy
 msgid "Create a new calendar"
 msgstr "Maak een nieuwe map aan"
 
-#: calendar/gui/calendar-component.c:810
+#: calendar/gui/calendar-component.c:767
 #, c-format
 msgid "Unable to open the calendar '%s' for creating events and meetings"
 msgstr ""
 
-#: calendar/gui/calendar-component.c:822
+#: calendar/gui/calendar-component.c:779
 msgid "There is no calendar available for creating events and meetings"
 msgstr ""
 
@@ -4131,186 +4128,171 @@ msgid "Days"
 msgstr "Dagen"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:12
-#: mail/mail-config.glade.h:51
-msgid "E_nable"
-msgstr "Aanzetten"
-
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:13
 #: calendar/gui/dialogs/recurrence-page.c:1048
 #: calendar/gui/e-itip-control.c:557
 msgid "Friday"
 msgstr "Vrijdag"
 
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:14
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:13
 msgid "Hours"
 msgstr "Uren"
 
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:15
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:14
 msgid "Minutes"
 msgstr "Minuten"
 
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:16
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:15
 #: calendar/gui/dialogs/recurrence-page.c:1044
 #: calendar/gui/e-itip-control.c:553
 msgid "Monday"
 msgstr "Maandag"
 
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:17
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:16
 msgid "S_un"
 msgstr "Z_on"
 
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:18
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:17
 #: calendar/gui/dialogs/recurrence-page.c:1049
 #: calendar/gui/e-itip-control.c:558
 msgid "Saturday"
 msgstr "Zaterdag"
 
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:19
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:18
 msgid "Sh_ow a reminder"
 msgstr "Laat herinnering zien"
 
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:20
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:19
 msgid "Show week _numbers in date navigator"
 msgstr "Week_nummers tonen in datum navigator"
 
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:21
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:20
 #: calendar/gui/dialogs/recurrence-page.c:1050
 #: calendar/gui/e-itip-control.c:552
 msgid "Sunday"
 msgstr "Zondag"
 
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:22
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:21
 msgid "T_asks due today:"
 msgstr "T_aken die vandaag verlopen:"
 
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:23
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:22
 msgid "T_hu"
 msgstr "D_on"
 
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:24
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:23
 #, fuzzy
 msgid "Task List"
 msgstr "Takenlijst"
 
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:25
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:24
 #: calendar/gui/dialogs/recurrence-page.c:1047
 #: calendar/gui/e-itip-control.c:556
 msgid "Thursday"
 msgstr "Donderdag"
 
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:26
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:25
 msgid "Time"
 msgstr "Tijd"
 
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:27
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:26
 msgid "Time _zone:"
 msgstr "Tijd_zone:"
 
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:28
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:27
 msgid "Time format:"
 msgstr "Tijdsformaat:"
 
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:29
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:28
 #: calendar/gui/dialogs/recurrence-page.c:1045
 #: calendar/gui/e-itip-control.c:554
 msgid "Tuesday"
 msgstr "Dinsdag"
 
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:30
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:29
 msgid "W_eek starts:"
 msgstr "W_eek begint:"
 
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:31
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:30
 #: calendar/gui/dialogs/recurrence-page.c:1046
 #: calendar/gui/e-itip-control.c:555
 msgid "Wednesday"
 msgstr "Woensdag"
 
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:32
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:31
 #: ui/evolution-calendar.xml.h:32
 msgid "Work Week"
 msgstr "Werkweek"
 
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:33
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:32
 msgid "Work days:"
 msgstr "Werkdagen:"
 
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:34
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:33
 msgid "_12 hour (AM/PM)"
 msgstr "_12-uurs (am/pm)"
 
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:35
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:34
 msgid "_24 hour"
 msgstr "_24-uurs"
 
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:36
-#, fuzzy
-msgid "_Add URL"
-msgstr "_Toevoegen"
-
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:37
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:35
 msgid "_Ask for confirmation when deleting items"
 msgstr "Vr_aag om bevestiging bij het wissen van items"
 
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:38
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:36
 msgid "_Compress weekends in month view"
 msgstr "Weekeinden comprimeren in maand weergave"
 
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:39
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:37
 msgid "_Day begins:"
 msgstr "_Dag begint:"
 
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:40
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:38
 msgid "_Display"
 msgstr "_Weergave"
 
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:42
-#, fuzzy
-msgid "_Free/Busy Publishing"
-msgstr "Vrij/Bezet Verzoek"
-
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:43
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:39
 msgid "_Fri"
 msgstr "_Vrij"
 
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:44
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:40
 #: mail/mail-config.glade.h:153
 msgid "_General"
 msgstr "_Algemeen"
 
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:45
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:41
 msgid "_Hide completed tasks after"
 msgstr "Verberg voltooide _taken na"
 
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:46
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:42
 msgid "_Mon"
 msgstr "_Maa"
 
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:47
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:43
 msgid "_Overdue tasks:"
 msgstr "Verl_open taken:"
 
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:48
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:44
 msgid "_Sat"
 msgstr "_Zat"
 
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:49
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:45
 msgid "_Show appointment end times in week and month views"
 msgstr "Eindtijden van afspraken tonen in week- en maandweergave"
 
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:50
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:46
 msgid "_Time divisions:"
 msgstr "Tijd_verdeling:"
 
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:51
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:47
 msgid "_Tue"
 msgstr "_Din"
 
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:52
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:48
 msgid "_Wed"
 msgstr "_Woe"
 
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:53
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:49
 msgid "before every appointment"
 msgstr "voor het begin van elke afspraak"
 
@@ -4616,7 +4598,7 @@ msgstr "Dagboekelement - %s"
 msgid "No summary"
 msgstr "Geen samenvatting"
 
-#: calendar/gui/dialogs/comp-editor.c:1353 calendar/gui/e-cal-view.c:1047
+#: calendar/gui/dialogs/comp-editor.c:1353 calendar/gui/e-cal-view.c:1046
 #: calendar/gui/e-calendar-table.c:1187 composer/e-msg-composer.c:1128
 msgid "Save as..."
 msgstr "Opslaan als..."
@@ -4866,6 +4848,11 @@ msgid "_Start time:"
 msgstr "_Begintijd:"
 
 #. an empty string is the same as 'None'
+#. add a "None" option to the stores menu
+#. Put the "None" and "UTC" entries at the top of the combo's list.
+#. When "None" is selected we want the field to be cleared.
+#. Note that we don't show this here, since by default a 'None' date
+#. is not permitted.
 #: calendar/gui/dialogs/meeting-page.c:311
 #: calendar/gui/dialogs/meeting-page.glade.h:3
 #: calendar/gui/e-cal-model-tasks.c:592 composer/e-msg-composer.c:2066
@@ -5134,7 +5121,7 @@ msgstr "_Geen herhaling"
 
 #: calendar/gui/dialogs/recurrence-page.glade.h:12
 msgid "_Remove"
-msgstr "Ve_rwijderen"
+msgstr "_Verwijderen"
 
 #: calendar/gui/dialogs/recurrence-page.glade.h:13
 msgid "_Simple recurrence"
@@ -5433,9 +5420,8 @@ msgstr "Vertrouwelijk"
 
 #: calendar/gui/e-cal-list-view.etspec.h:3
 #: calendar/gui/e-calendar-table.etspec.h:9
-#, fuzzy
 msgid "Description"
-msgstr "Omschrijving:"
+msgstr "Beschrijving"
 
 #: calendar/gui/e-cal-list-view.etspec.h:4
 #: calendar/gui/e-calendar-table.etspec.h:13
@@ -5530,32 +5516,32 @@ msgstr "Herhalend"
 msgid "Assigned"
 msgstr "Toegewezen"
 
-#: calendar/gui/e-cal-view.c:681 calendar/gui/e-calendar-table.c:698
+#: calendar/gui/e-cal-view.c:680 calendar/gui/e-calendar-table.c:698
 msgid "Deleting selected objects"
 msgstr "Geselecteerde objecten verwijderen"
 
-#: calendar/gui/e-cal-view.c:785 calendar/gui/e-calendar-table.c:859
+#: calendar/gui/e-cal-view.c:784 calendar/gui/e-calendar-table.c:859
 msgid "Updating objects"
 msgstr "Objecten worden ververst"
 
-#: calendar/gui/e-cal-view.c:1218 calendar/gui/e-cal-view.c:1303
+#: calendar/gui/e-cal-view.c:1244 calendar/gui/e-cal-view.c:1329
 msgid "New _Appointment..."
 msgstr "Nieuwe _Afspraak..."
 
-#: calendar/gui/e-cal-view.c:1219 calendar/gui/e-cal-view.c:1305
+#: calendar/gui/e-cal-view.c:1245 calendar/gui/e-cal-view.c:1331
 msgid "New All Day _Event"
 msgstr "Gebeurtenis voor de hele dag"
 
-#: calendar/gui/e-cal-view.c:1220 calendar/gui/e-cal-view.c:1307
+#: calendar/gui/e-cal-view.c:1246 calendar/gui/e-cal-view.c:1333
 msgid "New Meeting"
 msgstr "Nieuwe bijeenkomst"
 
-#: calendar/gui/e-cal-view.c:1221 calendar/gui/e-cal-view.c:1309
+#: calendar/gui/e-cal-view.c:1247 calendar/gui/e-cal-view.c:1335
 msgid "New Task"
 msgstr "Nieuwe taak"
 
-#: calendar/gui/e-cal-view.c:1225 calendar/gui/e-cal-view.c:1248
-#: calendar/gui/e-cal-view.c:1315 calendar/gui/e-calendar-table.c:1038
+#: calendar/gui/e-cal-view.c:1251 calendar/gui/e-cal-view.c:1274
+#: calendar/gui/e-cal-view.c:1341 calendar/gui/e-calendar-table.c:1038
 #: calendar/gui/e-calendar-table.c:1080 ui/evolution-addressbook.xml.h:40
 #: ui/evolution-calendar.xml.h:39 ui/evolution-comp-editor.xml.h:19
 #: ui/evolution-contact-editor.xml.h:17 ui/evolution-mail-message.xml.h:122
@@ -5563,42 +5549,42 @@ msgstr "Nieuwe taak"
 msgid "_Print..."
 msgstr "Af_drukken..."
 
-#: calendar/gui/e-cal-view.c:1229 calendar/gui/e-cal-view.c:1255
-#: calendar/gui/e-cal-view.c:1313 calendar/gui/e-calendar-table.c:1044
+#: calendar/gui/e-cal-view.c:1255 calendar/gui/e-cal-view.c:1281
+#: calendar/gui/e-cal-view.c:1339 calendar/gui/e-calendar-table.c:1044
 #: calendar/gui/e-calendar-table.c:1078 ui/evolution-addressbook.xml.h:38
 #: ui/evolution-calendar.xml.h:38 ui/evolution-composer-entries.xml.h:9
 #: ui/evolution-mail-message.xml.h:120 ui/evolution-tasks.xml.h:22
 msgid "_Paste"
 msgstr "_Plakken"
 
-#: calendar/gui/e-cal-view.c:1235 calendar/gui/e-cal-view.c:1299
+#: calendar/gui/e-cal-view.c:1261 calendar/gui/e-cal-view.c:1325
 #: ui/evolution-calendar.xml.h:13
 msgid "Go to _Today"
 msgstr "Ga Naar _Vandaag"
 
-#: calendar/gui/e-cal-view.c:1236 calendar/gui/e-cal-view.c:1301
+#: calendar/gui/e-cal-view.c:1262 calendar/gui/e-cal-view.c:1327
 msgid "_Go to Date..."
 msgstr "_Ga Naar Datum..."
 
-#: calendar/gui/e-cal-view.c:1240 ui/evolution-calendar.xml.h:40
+#: calendar/gui/e-cal-view.c:1266 ui/evolution-calendar.xml.h:40
 msgid "_Publish Free/Busy Information"
 msgstr "_Publiceer Beschikbaarheidsinformatie"
 
-#: calendar/gui/e-cal-view.c:1247 calendar/gui/e-cal-view.c:1317
+#: calendar/gui/e-cal-view.c:1273 calendar/gui/e-cal-view.c:1343
 #: calendar/gui/e-calendar-table.c:1037 calendar/gui/e-calendar-table.c:1082
 #: mail/em-folder-view.c:708 mail/em-popup.c:597 mail/em-popup.c:712
 #: ui/evolution-mail-message.xml.h:126
 msgid "_Save As..."
 msgstr "_Opslaan als..."
 
-#: calendar/gui/e-cal-view.c:1253 calendar/gui/e-cal-view.c:1293
+#: calendar/gui/e-cal-view.c:1279 calendar/gui/e-cal-view.c:1319
 #: calendar/gui/e-calendar-table.c:1042 calendar/gui/e-calendar-table.c:1071
 #: ui/evolution-addressbook.xml.h:1 ui/evolution-calendar.xml.h:1
 #: ui/evolution-tasks.xml.h:1
 msgid "C_ut"
 msgstr "K_nippen"
 
-#: calendar/gui/e-cal-view.c:1254 calendar/gui/e-cal-view.c:1291
+#: calendar/gui/e-cal-view.c:1280 calendar/gui/e-cal-view.c:1317
 #: calendar/gui/e-calendar-table.c:1043 calendar/gui/e-calendar-table.c:1069
 #: mail/em-folder-tree.c:1649 ui/evolution-addressbook.xml.h:31
 #: ui/evolution-calendar.xml.h:34 ui/evolution-composer-entries.xml.h:7
@@ -5606,23 +5592,23 @@ msgstr "K_nippen"
 msgid "_Copy"
 msgstr "_Kopiëren"
 
-#: calendar/gui/e-cal-view.c:1259
+#: calendar/gui/e-cal-view.c:1285
 msgid "_Schedule Meeting..."
 msgstr "_Bijeenkomst Plannen..."
 
-#: calendar/gui/e-cal-view.c:1260
+#: calendar/gui/e-cal-view.c:1286
 msgid "_Forward as iCalendar..."
 msgstr "_Doorsturen als iKalender"
 
-#: calendar/gui/e-cal-view.c:1265 calendar/gui/e-cal-view.c:1296
+#: calendar/gui/e-cal-view.c:1291 calendar/gui/e-cal-view.c:1322
 msgid "Delete this _Occurrence"
 msgstr "Verwijder deze Gebeurtenis"
 
-#: calendar/gui/e-cal-view.c:1266 calendar/gui/e-cal-view.c:1297
+#: calendar/gui/e-cal-view.c:1292 calendar/gui/e-cal-view.c:1323
 msgid "Delete _All Occurrences"
 msgstr "Verwijder alle Gebeurtenissen"
 
-#: calendar/gui/e-cal-view.c:1319 ui/evolution.xml.h:30
+#: calendar/gui/e-cal-view.c:1345 ui/evolution.xml.h:30
 msgid "_Settings..."
 msgstr "_Instellingen..."
 
@@ -5739,12 +5725,20 @@ msgid "URL"
 msgstr "URL"
 
 #. strftime format of a weekday, a date and a time, 24-hour.
+#. strptime format of a weekday, a date and a time,
+#. in 24-hour format.
+#. strftime format of a weekday, a date and a
+#. time, in 24-hour format.
 #: calendar/gui/e-cell-date-edit-text.c:117 e-util/e-time-utils.c:180
 #: e-util/e-time-utils.c:393
 msgid "%a %m/%d/%Y %H:%M:%S"
 msgstr "%a %d-%m-%Y %H:%M:%S"
 
 #. strftime format of a weekday, a date and a time, 12-hour.
+#. strptime format of a weekday, a date and a time,
+#. in 12-hour format.
+#. strftime format of a weekday, a date and a
+#. time, in 12-hour format.
 #: calendar/gui/e-cell-date-edit-text.c:120 e-util/e-time-utils.c:175
 #: e-util/e-time-utils.c:402
 msgid "%a %m/%d/%Y %I:%M:%S %p"
@@ -5768,6 +5762,10 @@ msgstr "%02i minuten delingen"
 
 #. strftime format %A = full weekday name, %d = day of month,
 #. %B = full month name. Don't use any other specifiers.
+#. strftime format %A = full weekday name, %d = day of
+#. month, %B = full month name. You can change the
+#. order but don't change the specifiers or add
+#. anything.
 #: calendar/gui/e-day-view-top-item.c:688 calendar/gui/e-day-view.c:1348
 #: calendar/gui/e-week-view-main-item.c:320 calendar/gui/print.c:1532
 msgid "%A %d %B"
@@ -5775,6 +5773,9 @@ msgstr "%A %d %B"
 
 #. strftime format %d = day of month, %b = abbreviated month name.
 #. Don't use any other specifiers.
+#. strftime format %d = day of month, %b = abbreviated
+#. month name. You can change the order but don't
+#. change the specifiers or add anything.
 #: calendar/gui/e-day-view-top-item.c:696 calendar/gui/e-day-view.c:1381
 #: calendar/gui/e-week-view-main-item.c:343
 msgid "%d %b"
@@ -5894,7 +5895,6 @@ msgstr "iCalendar Fout"
 msgid "An unknown person"
 msgstr "Een onbekende persoon"
 
-#. Describe what the user can do
 #: calendar/gui/e-itip-control.c:916
 msgid ""
 "<br> Please review the following information, and then select an action from "
@@ -5919,19 +5919,19 @@ msgstr "Status:"
 #: calendar/gui/e-itip-control.c:961 calendar/gui/e-meeting-list-view.c:180
 #: calendar/gui/e-meeting-model.c:281 calendar/gui/e-meeting-model.c:304
 #: calendar/gui/e-meeting-model.c:796 calendar/gui/e-meeting-store.c:179
-#: calendar/gui/e-meeting-store.c:202 calendar/gui/itip-utils.c:422
+#: calendar/gui/e-meeting-store.c:202 calendar/gui/itip-utils.c:418
 msgid "Accepted"
 msgstr "Geaccepteerd"
 
-#: calendar/gui/e-itip-control.c:965 calendar/gui/itip-utils.c:425
+#: calendar/gui/e-itip-control.c:965 calendar/gui/itip-utils.c:421
 msgid "Tentatively Accepted"
 msgstr "Voorlopig Geaccepteerd"
 
 #: calendar/gui/e-itip-control.c:969 calendar/gui/e-meeting-list-view.c:181
 #: calendar/gui/e-meeting-model.c:283 calendar/gui/e-meeting-model.c:306
 #: calendar/gui/e-meeting-model.c:797 calendar/gui/e-meeting-store.c:181
-#: calendar/gui/e-meeting-store.c:204 calendar/gui/itip-utils.c:428
-#: calendar/gui/itip-utils.c:454
+#: calendar/gui/e-meeting-store.c:204 calendar/gui/itip-utils.c:424
+#: calendar/gui/itip-utils.c:450
 msgid "Declined"
 msgstr "Geweigerd"
 
@@ -5976,7 +5976,7 @@ msgstr "Ververs antwoordstatus"
 msgid "Send Latest Information"
 msgstr "Verstuur Laatste Informatie"
 
-#: calendar/gui/e-itip-control.c:1122 calendar/gui/itip-utils.c:442
+#: calendar/gui/e-itip-control.c:1122 calendar/gui/itip-utils.c:438
 #: mail/mail-send-recv.c:388 mail/mail-send-recv.c:440
 #: shell/e-shell-startup-wizard.c:794 ui/evolution-mail-global.xml.h:1
 msgid "Cancel"
@@ -6360,6 +6360,10 @@ msgstr "%A, %d %B, %Y"
 
 #. This is a strftime() format string %a = abbreviated weekday
 #. name, %m = month number, %d = month day, %Y = full year.
+#. This is a strftime() format string %a = abbreviated weekday name,
+#. %m = month number, %d = month day, %Y = full year.
+#. strptime format of a weekday and a date.
+#. strftime format of a weekday and a date.
 #: calendar/gui/e-meeting-time-sel-item.c:456
 #: calendar/gui/e-meeting-time-sel.c:2093 e-util/e-time-utils.c:203
 #: e-util/e-time-utils.c:296 e-util/e-time-utils.c:384
@@ -6368,6 +6372,10 @@ msgstr "%a %d-%m-%Y"
 
 #. This is a strftime() format string %m = month number,
 #. %d = month day, %Y = full year.
+#. strptime format of a weekday and a date.
+#. This is the preferred date format for the locale.
+#. This is a strftime() format for a short date. %m = month,
+#. %d = day of month, %Y = year (all digits).
 #: calendar/gui/e-meeting-time-sel-item.c:460 e-util/e-time-utils.c:238
 #: e-util/e-time-utils.c:299 widgets/misc/e-dateedit.c:1606
 msgid "%m/%d/%Y"
@@ -6593,64 +6601,59 @@ msgstr "Oktober"
 msgid "September"
 msgstr "September"
 
-#: calendar/gui/itip-utils.c:271 calendar/gui/itip-utils.c:319
-#: calendar/gui/itip-utils.c:351
+#: calendar/gui/itip-utils.c:267 calendar/gui/itip-utils.c:315
+#: calendar/gui/itip-utils.c:347
 msgid "An organizer must be set."
 msgstr "Er moet een organisator ingesteld worden."
 
-#: calendar/gui/itip-utils.c:306
+#: calendar/gui/itip-utils.c:302
 msgid "At least one attendee is necessary"
 msgstr "Er is minstens één bezoeker nodig"
 
-#: calendar/gui/itip-utils.c:394 calendar/gui/itip-utils.c:503
+#: calendar/gui/itip-utils.c:390 calendar/gui/itip-utils.c:499
 msgid "Event information"
 msgstr "Gebeurtenis informatie"
 
-#: calendar/gui/itip-utils.c:396 calendar/gui/itip-utils.c:505
+#: calendar/gui/itip-utils.c:392 calendar/gui/itip-utils.c:501
 msgid "Task information"
 msgstr "Taak informatie"
 
-#: calendar/gui/itip-utils.c:398 calendar/gui/itip-utils.c:507
+#: calendar/gui/itip-utils.c:394 calendar/gui/itip-utils.c:503
 msgid "Journal information"
 msgstr "Journaal informatie"
 
-#: calendar/gui/itip-utils.c:400 calendar/gui/itip-utils.c:525
+#: calendar/gui/itip-utils.c:396 calendar/gui/itip-utils.c:521
 msgid "Free/Busy information"
 msgstr "Vrij/Bezet informatie"
 
-#: calendar/gui/itip-utils.c:402
+#: calendar/gui/itip-utils.c:398
 msgid "Calendar information"
 msgstr "Kalenderinformatie"
 
-#: calendar/gui/itip-utils.c:438
+#: calendar/gui/itip-utils.c:434
 msgid "Updated"
 msgstr "Vernieuwd"
 
-#: calendar/gui/itip-utils.c:446
+#: calendar/gui/itip-utils.c:442
 msgid "Refresh"
 msgstr "Vernieuwen"
 
-#: calendar/gui/itip-utils.c:450
+#: calendar/gui/itip-utils.c:446
 msgid "Counter-proposal"
 msgstr "Tegenvoorstel"
 
-#: calendar/gui/itip-utils.c:521
+#: calendar/gui/itip-utils.c:517
 #, c-format
 msgid "Free/Busy information (%s to %s)"
 msgstr "Vrij/Bezet informatie (%s tot %s)"
 
-#: calendar/gui/itip-utils.c:531
+#: calendar/gui/itip-utils.c:527
 msgid "iCalendar information"
 msgstr "iCalendar informatie"
 
-#: calendar/gui/itip-utils.c:671
+#: calendar/gui/itip-utils.c:667
 msgid "You must be an attendee of the event."
 msgstr "U moet een bezoeker zijn van het evenement."
-
-#: calendar/gui/itip-utils.c:1155
-#, fuzzy, c-format
-msgid "Enter the password for %s"
-msgstr "Voer uw Wachtwoord in voor %s"
 
 #: calendar/gui/print.c:476
 msgid "1st"
@@ -9541,6 +9544,8 @@ msgstr ""
 "\n"
 "%s\n"
 "\n"
+"%s\n"
+"\n"
 "Wilt u het alsnog accepteren?"
 
 #. construct our user prompt
@@ -11665,12 +11670,16 @@ msgstr "Categorieën Actualiseren:"
 
 #. strptime format of a weekday, a date and a time,
 #. in 12-hour format, without seconds.
+#. strftime format of a weekday, a date and a
+#. time, in 12-hour format, without seconds.
 #: e-util/e-time-utils.c:185 e-util/e-time-utils.c:398
 msgid "%a %m/%d/%Y %I:%M %p"
 msgstr "%a %m/%d/%Y %I:%M %p"
 
 #. strptime format of a weekday, a date and a time,
 #. in 24-hour format, without seconds.
+#. strftime format of a weekday, a date and a
+#. time, in 24-hour format, without seconds.
 #: e-util/e-time-utils.c:190 e-util/e-time-utils.c:389
 msgid "%a %m/%d/%Y %H:%M"
 msgstr "%a %d-%m-%Y %H:%M:%S"
@@ -11722,23 +11731,31 @@ msgid "%m/%d/%Y %H"
 msgstr "%m/%d/%Y %H"
 
 #. strptime format for a time of day, in 12-hour format.
+#. strftime format of a time in 12-hour format.
 #: e-util/e-time-utils.c:339 e-util/e-time-utils.c:438
 msgid "%I:%M:%S %p"
 msgstr "%I:%M:%S %p%n"
 
 #. strptime format for a time of day, in 24-hour format.
+#. strftime format of a time in 24-hour format.
 #: e-util/e-time-utils.c:343 e-util/e-time-utils.c:430
 msgid "%H:%M:%S"
 msgstr "%H:%M:%S%n"
 
 #. strptime format for time of day, without seconds,
 #. in 12-hour format.
+#. strftime format of a time in 12-hour format,
+#. without seconds.
+#. This is a strftime() format. %I = hour (1-12), %M = minute, %p = am/pm string.
 #: e-util/e-time-utils.c:348 e-util/e-time-utils.c:435
 #: widgets/misc/e-dateedit.c:1416 widgets/misc/e-dateedit.c:1641
 msgid "%I:%M %p"
 msgstr "%I:%M %p"
 
 #. strptime format for time of day, without seconds 24-hour format.
+#. strftime format of a time in 24-hour format,
+#. without seconds.
+#. This is a strftime() format. %H = hour (0-23), %M = minute.
 #: e-util/e-time-utils.c:352 e-util/e-time-utils.c:427
 #: widgets/misc/e-dateedit.c:1413 widgets/misc/e-dateedit.c:1638
 msgid "%H:%M"
@@ -12568,7 +12585,7 @@ msgstr "Bezig met laden..."
 #: mail/em-folder-tree.c:1067 mail/em-folder-tree.c:1154
 #, c-format
 msgid "%s"
-msgstr ""
+msgstr "%s"
 
 #: mail/em-folder-tree.c:1083 mail/em-folder-tree.c:1096
 #: mail/em-folder-view.c:616 mail/em-folder-view.c:630
@@ -12648,9 +12665,8 @@ msgid "Open in _New Window"
 msgstr "Open in Nieuw Venster"
 
 #: mail/em-folder-tree.c:1650
-#, fuzzy
 msgid "_Move"
-msgstr "Verplaatsen"
+msgstr "_Verplaatsen"
 
 #: mail/em-folder-tree.c:1653
 msgid "_New Folder..."
@@ -13108,7 +13124,7 @@ msgstr "Naamloos Bericht"
 
 #: mail/em-popup.c:713
 msgid "Set as _Background"
-msgstr ""
+msgstr "Als _achtergrond instellen"
 
 #: mail/em-popup.c:715
 #, fuzzy
@@ -13797,7 +13813,7 @@ msgstr "Importeren wordt gestart"
 
 #: mail/importers/netscape-importer.c:2090
 msgid "Settings"
-msgstr "Instellingen:"
+msgstr "Instellingen"
 
 #: mail/importers/netscape-importer.c:2095
 msgid "Mail Filters"
@@ -14189,6 +14205,10 @@ msgstr "Klaar"
 #: mail/mail-config.glade.h:50
 msgid "Drafts _folder:"
 msgstr "_Klad-map:"
+
+#: mail/mail-config.glade.h:51
+msgid "E_nable"
+msgstr "Aanzetten"
 
 #: mail/mail-config.glade.h:52
 msgid "Email Accounts"
@@ -14852,9 +14872,8 @@ msgid "Find:"
 msgstr "Zoek:"
 
 #: mail/mail-search.glade.h:5
-#, fuzzy
 msgid "Search"
-msgstr "_Zoeken"
+msgstr "Zoeken"
 
 #: mail/mail-security.glade.h:2
 #, fuzzy
@@ -15839,7 +15858,7 @@ msgstr "Hernoem deze snelkoppeling"
 
 #: shell/e-shortcuts-view.c:429
 msgid "Re_move"
-msgstr "Verwijderen"
+msgstr "_Verwijderen"
 
 #: shell/e-shortcuts-view.c:429
 msgid "Remove this shortcut from the shortcut bar"
@@ -16088,9 +16107,8 @@ msgstr "Evolution"
 msgid "Evolution is now exiting ..."
 msgstr "Bezig met afsluiten ..."
 
-#. Preview/Alpha/Beta version warning message
 #: shell/main.c:269
-#, no-c-format
+#, c-format
 msgid ""
 "Hi.  Thanks for taking the time to download this preview release\n"
 "of the Ximian Evolution groupware suite.\n"
@@ -16263,7 +16281,7 @@ msgstr "<b>E-mail wordt verstuurd:</b>"
 
 #: smime/gui/smime-ui.glade.h:5
 msgid "<b>Fingerprints</b>"
-msgstr ""
+msgstr "<b>Vingerafdrukken</b>"
 
 #: smime/gui/smime-ui.glade.h:6
 #, fuzzy
@@ -16340,9 +16358,8 @@ msgid "Dummy window only"
 msgstr ""
 
 #: smime/gui/smime-ui.glade.h:23
-#, fuzzy
 msgid "Edit"
-msgstr "Be_werken"
+msgstr "Bewerken"
 
 #: smime/gui/smime-ui.glade.h:24
 msgid "Email Recipient Certificate"
@@ -16496,7 +16513,7 @@ msgstr "OK"
 
 #: smime/lib/e-cert.c:597
 msgid "L"
-msgstr ""
+msgstr "L"
 
 #: smime/lib/e-cert.c:600
 #, fuzzy
@@ -16760,7 +16777,7 @@ msgstr "De geselecteerde contacten opslaan als een VCard."
 
 #: ui/evolution-addressbook.xml.h:21
 msgid "Select All"
-msgstr "Alles Selecteren"
+msgstr "Alles selecteren"
 
 #: ui/evolution-addressbook.xml.h:22
 msgid "Select all contacts"
@@ -16827,7 +16844,7 @@ msgstr "_Zoek naar Contacten"
 
 #: ui/evolution-addressbook.xml.h:43
 msgid "_Select All"
-msgstr "Alles _Selecteren"
+msgstr "_Alles selecteren"
 
 #: ui/evolution-addressbook.xml.h:44
 msgid "_Send Message to Contact..."
@@ -17012,7 +17029,7 @@ msgstr "_Bestand"
 #: ui/evolution-message-composer.xml.h:50
 #: ui/evolution-signature-editor.xml.h:15
 msgid "_Save"
-msgstr "_Opslaan"
+msgstr "Op_slaan"
 
 #: ui/evolution-composer-entries.xml.h:1
 msgid "Copy selected text to the clipboard"
@@ -17020,7 +17037,7 @@ msgstr "Geselecteerde tekst naar klembord kopiëren"
 
 #: ui/evolution-composer-entries.xml.h:2 ui/evolution-mail-message.xml.h:21
 msgid "Cu_t"
-msgstr "Knippen"
+msgstr "K_nippen"
 
 #: ui/evolution-composer-entries.xml.h:3
 msgid "Cut selected text to the clipboard"
@@ -17691,7 +17708,7 @@ msgstr "_Opnieuw sturen..."
 
 #: ui/evolution-mail-message.xml.h:127 ui/evolution.xml.h:31
 msgid "_Tools"
-msgstr "_Gereedschap"
+msgstr "E_xtra"
 
 #: ui/evolution-mail-message.xml.h:128
 msgid "_Undelete"
@@ -17705,7 +17722,7 @@ msgstr "Dit venster sluiten"
 #: ui/evolution-message-composer.xml.h:41 ui/evolution-subscribe.xml.h:9
 #: ui/evolution.xml.h:24
 msgid "_Close"
-msgstr "_Sluiten"
+msgstr "Sl_uiten"
 
 #: ui/evolution-message-composer.xml.h:1
 msgid "Attach"
@@ -18021,7 +18038,7 @@ msgstr "Maak een nieuw bijeenkomstverzoek"
 
 #: ui/evolution.xml.h:6
 msgid "E_xit"
-msgstr "_Afsluiten"
+msgstr "A_fsluiten"
 
 #: ui/evolution.xml.h:7
 msgid "Exit the program"
