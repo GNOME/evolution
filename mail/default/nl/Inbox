@@ -12,11 +12,11 @@ Received: from smtp.ximian.com (HELO localhost) (141.154.95.10) by
 From: "Het Evolution-team" <evolution@ximian.com>
 To: Evolution gebruikers <evolution@ximian.com>
 Content-Type: multipart/related; type="multipart/alternative"; boundary="=-t4dRE6cqcdSBHOrMdTQ1"
-X-Mailer: Evolution/1.1.99 (Preview Release)
+X-Mailer: Evolution/2.0
 Date: 25 June 2002 14:45:00 +0300
 Message-Id: <1001418302.27070.20.camel@spectrolite>
 Mime-Version: 1.0
-Subject: Welcome bij Evolution!
+Subject: Welkom bij Evolution!
 Sender: evolution@ximian.com
 Errors-To: evolution@ximian.com
 X-Mailman-Version: 1.1
