@@ -116,6 +116,9 @@ get_view (EShellView *eshell_view, EFolder *efolder, Bonobo_UIHandler uih)
 		break;
 
 	case E_FOLDER_CALENDAR :
+		w = bonobo_widget_new_control ("control:calendar", uih);
+		break;
+
 	case E_FOLDER_TASKS :
 	case E_FOLDER_OTHER :		
 	default : 
