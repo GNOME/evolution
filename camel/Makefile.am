@@ -1,6 +1,6 @@
 ## Process this file with automake to produce Makefile.in
 
-SUBDIRS = providers
+SUBDIRS = #providers
 
 libcamelincludedir = $(includedir)/camel
 
@@ -37,6 +37,7 @@ libcamel_la_SOURCES = 				\
 	camel-folder.c				\
 	camel-folder-summary.c			\
 	camel-medium.c				\
+	camel-marshal-utils.c			\
 	camel-mime-body-part.c			\
 	camel-mime-message.c			\
 	camel-mime-part.c			\
@@ -71,6 +72,7 @@ libcamelinclude_HEADERS =			\
 	camel-folder.h				\
 	camel-folder-summary.h			\
 	camel-mime-body-part.h			\
+	camel-marshal-utils.h			\
 	camel-medium.h				\
 	camel-mime-message.h			\
 	camel-mime-part.h			\

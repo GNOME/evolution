@@ -19,10 +19,18 @@
  * USA
  */
 
+
+/* MT safe */
+
+
 #include "camel-op-queue.h"
 
 #define NB_OP_CHUNKS 20
 static GMemChunk *op_chunk=NULL;
+
+static GStaticMutex op_queue_mutex = G_STATIC_MUTEX_INIT;
+
+
 
 /**
  * camel_op_queue_new: create a new operation queue
@@ -35,11 +43,14 @@ CamelOpQueue *
 camel_op_queue_new ()
 {
 	CamelOpQueue *op_queue;
+
+	g_static_mutex_lock (&op_queue_mutex);
 	if (!op_chunk)
 		op_chunk = g_mem_chunk_create (CamelOp, 
 					       NB_OP_CHUNKS,
 					       G_ALLOC_AND_FREE);
-	
+	g_static_mutex_unlock (&op_queue_mutex);
+
 	op_queue = g_new (CamelOpQueue, 1);
 	op_queue->ops_tail = NULL;
 	op_queue->ops_head = NULL;
@@ -61,13 +72,13 @@ camel_op_queue_push_op (CamelOpQueue *queue, CamelOp *op)
 	GList *new_op;
 
 	g_assert (queue);
-
+	g_static_mutex_lock (&op_queue_mutex);
 	if (!queue->ops_tail) {
 		queue->ops_head = g_list_prepend (NULL, op);
 		queue->ops_tail = queue->ops_head;
 	} else 
-		queue->ops_head = g_list_prepend (queue->ops_head, op);
-	
+		queue->ops_head = g_list_prepend (queue->ops_head, op);	
+	g_static_mutex_unlock (&op_queue_mutex);
 }
 
 
@@ -82,14 +93,18 @@ camel_op_queue_push_op (CamelOpQueue *queue, CamelOp *op)
 CamelOp *
 camel_op_queue_pop_op (CamelOpQueue *queue)
 {
-	GList *op;
-	
-	g_assert (queue);
-	
-	op = queue->ops_tail;
-	queue->ops_tail = queue->ops_tail->prev;
+	GList *op_list;
+	CamelOp *op;
 
-	return (CamelOp *)op->data;
+	g_assert (queue);
+
+	g_static_mutex_lock (&op_queue_mutex);
+	op_list = queue->ops_tail;
+	queue->ops_tail = queue->ops_tail->prev;
+	op = (CamelOp *)op_list->data;
+	g_static_mutex_unlock (&op_queue_mutex);
+
+	return op;
 }
 
 
@@ -109,8 +124,7 @@ camel_op_queue_run_next_op (CamelOpQueue *queue)
 	op = camel_op_queue_pop_op (queue);
 	if (!op) return FALSE;
 
-	/* run the operation */
-	op->func (op->param);	
+	
 
 	return FALSE;
 }
@@ -125,7 +139,9 @@ camel_op_queue_run_next_op (CamelOpQueue *queue)
 void
 camel_op_queue_set_service_availability (CamelOpQueue *queue, gboolean available)
 {
-	queue->service_available = available;	
+	g_static_mutex_lock (&op_queue_mutex);
+	queue->service_available = available;
+	g_static_mutex_unlock (&op_queue_mutex);
 }
 
 /**
@@ -139,7 +155,11 @@ camel_op_queue_set_service_availability (CamelOpQueue *queue, gboolean available
 gboolean
 camel_op_queue_get_service_availability (CamelOpQueue *queue)
 {
-	return queue->service_available;
+	gboolean available;
+	g_static_mutex_lock (&op_queue_mutex);
+	available = queue->service_available;
+	g_static_mutex_unlock (&op_queue_mutex);
+	return available;
 }
 
 /**
@@ -151,9 +171,15 @@ camel_op_queue_get_service_availability (CamelOpQueue *queue)
  * Return value: the newly allocated CamelOp object
  **/
 CamelOp *
-camel_op_new ()
+camel_op_new (CamelFuncDef *func_def)
 {
-	return g_chunk_new (CamelOp, op_chunk);
+	CamelOp *op;
+
+	op = g_chunk_new (CamelOp, op_chunk);
+	op->func_def = func_def;
+	op->params = g_new (GtkArg, func_def->n_params);
+	
+	return op;	
 }
 
 /**
@@ -167,7 +193,28 @@ camel_op_new ()
 void 
 camel_op_free (CamelOp *op)
 {
+	g_free (op->params);
 	g_chunk_free (op, op_chunk);
 }
 
 
+/**
+ * camel_op_run: run an operation 
+ * @op: the opertaion object
+ * 
+ * run an operation 
+ * 
+ * Return value: 
+ **/
+gboolean
+camel_op_run (CamelOp *op)
+{
+	GtkArg	*params;
+	gboolean error;
+	
+	g_assert (op);
+	g_assert (op->func_def);
+	g_assert (op->params);
+
+	return  (op->func_def->marshal (op->func_def->func, op->params));
+}

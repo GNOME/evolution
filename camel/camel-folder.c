@@ -31,7 +31,11 @@ static GtkObjectClass *parent_class=NULL;
 #define CF_CLASS(so) CAMEL_FOLDER_CLASS (GTK_OBJECT(so)->klass)
 
 static void _init_with_store (CamelFolder *folder, CamelStore *parent_store, CamelException *ex);
-static void _open (CamelFolder *folder, CamelFolderOpenMode mode, CamelException *ex);
+static void _open (CamelFolder *folder, 
+		   CamelFolderOpenMode mode, 
+		   CamelFolderAsyncCallback callback, 
+		   gpointer user_data, 
+		   CamelException *ex);
 static void _close (CamelFolder *folder, gboolean expunge, CamelException *ex);
 static void _set_name (CamelFolder *folder, const gchar *name, CamelException *ex);
 /*  static void _set_full_name (CamelFolder *folder, const gchar *name); */
@@ -193,16 +197,25 @@ _init_with_store (CamelFolder *folder, CamelStore *parent_store, CamelException 
  * 
  **/
 static void
-_open (CamelFolder *folder, CamelFolderOpenMode mode, CamelException *ex)
+_open (CamelFolder *folder, 
+       CamelFolderOpenMode mode, 
+       CamelFolderAsyncCallback callback, 
+       gpointer user_data, 
+       CamelException *ex)
 {
-	folder->open_state = FOLDER_OPEN;
-	folder->open_mode = mode;
+/*  	folder->open_state = FOLDER_OPEN; */
+/*  	folder->open_mode = mode; */
 }
 
 
-void camel_folder_open (CamelFolder *folder, CamelFolderOpenMode mode, CamelException *ex)
+void 
+camel_folder_open (CamelFolder *folder, 
+		   CamelFolderOpenMode mode, 
+		   CamelFolderAsyncCallback callback, 
+		   gpointer user_data, 
+		   CamelException *ex)
 {	
-	CF_CLASS(folder)->open (folder, mode, ex);
+	CF_CLASS(folder)->open (folder, mode, callback, user_data, ex);
 }
 
 

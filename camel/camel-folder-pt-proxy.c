@@ -26,6 +26,7 @@
 #include <config.h>
 #include "camel-folder-pt-proxy.h"
 #include "camel-log.h"
+#include "camel-marshal-utils.h"
 #include <pthread.h>
 #include <unistd.h>
 #include <string.h>
@@ -42,8 +43,23 @@ static CamelFolderClass *parent_class=NULL;
 #define CFPP_CLASS(so) CAMEL_FOLDER_PT_PROXY_CLASS (GTK_OBJECT(so)->klass)
 #define CF_CLASS(so) CAMEL_FOLDER_CLASS (GTK_OBJECT(so)->klass)
 
+
+enum CamelFolderFunc {
+	CAMEL_FOLDER_OPEN,
+	CAMEL_FOLDER_CLOSE,
+	CAMEL_FOLDER__LAST_FUNC
+};
+
+static CamelFuncDef _camel_func_def [CAMEL_FOLDER__LAST_FUNC];
+
+
+
 static void _init_with_store (CamelFolder *folder, CamelStore *parent_store, CamelException *ex);
-static void _open (CamelFolder *folder, CamelFolderOpenMode mode, CamelException *ex);
+static void _open (CamelFolder *folder, 
+		   CamelFolderOpenMode mode, 
+		   CamelFolderAsyncCallback callback, 
+		   gpointer user_data, 
+		   CamelException *ex);
 static void _close (CamelFolder *folder, gboolean expunge, CamelException *ex);
 static void _set_name (CamelFolder *folder, const gchar *name, CamelException *ex);
 static const gchar *_get_name (CamelFolder *folder, CamelException *ex);
@@ -174,39 +190,15 @@ _finalize (GtkObject *object)
 
 /* generic operation handling */
 
-
-/**
- * _op_exec_or_plan_for_exec:
- * @proxy_folder: 
- * @op: 
- * 
- * if no thread is currently running, executes
- * op, otherwise push the operation in the operation 
- * queue.
- **/
-static void 
-_op_exec_or_plan_for_exec (CamelFolderPtProxy *proxy_folder, CamelOp *op)
+void
+_op_run_free_notify (CamelOp *op)
 {
-	CamelOpQueue *op_queue;
-	pthread_t thread;
+	gboolean error;
 	
-	op_queue = proxy_folder->op_queue;
-
-	if (camel_op_queue_get_service_availability (op_queue)) {
-		/* no thread is currently running, run 
-		 * the operation directly */
-		camel_op_queue_set_service_availability (op_queue, FALSE);
-		pthread_create (&thread, NULL , (thread_call_func)(op->func), op->param);
-		camel_op_free (op);
-	} else {
-		/* a child thread is already running, 
-		 * push the operation in the queue */
-		camel_op_queue_push_op (op_queue, op);
-	}
-
+	error = camel_op_run (op);
+	camel_op_free (op);
+	
 }
-
-
 
 /**
  * _maybe_run_next_op: run next operation in queue, if any
@@ -230,9 +222,43 @@ _maybe_run_next_op (CamelFolderPtProxy *proxy_folder)
 	}
 	
 	/* run the operation in a child thread */
-	pthread_create (&thread, NULL , (thread_call_func)(op->func), op->param);
-	camel_op_free (op);
+	pthread_create (&thread, NULL, (thread_call_func) camel_op_run_and_free, op);
+	
 }
+
+static void 
+_maybe_run_next_op_in_thread (CamelFolderPtProxy *proxy_folder)
+{
+	
+}
+
+
+/**
+ * _op_exec_or_plan_for_exec:
+ * @proxy_folder: 
+ * @op: 
+ * 
+ * if no thread is currently running, executes
+ * op, otherwise push the operation in the operation 
+ * queue.
+ **/
+static void 
+_op_exec_or_plan_for_exec (CamelFolderPtProxy *proxy_folder, CamelOp *op)
+{
+	CamelOpQueue *op_queue;
+	pthread_t thread;
+	
+	op_queue = proxy_folder->op_queue;
+	camel_op_queue_push_op (op_queue, op);
+	if (camel_op_queue_get_service_availability (op_queue)) {
+		/* no thread is currently running, run 
+		 * the operation next op.*/
+		camel_op_queue_set_service_availability (op_queue, FALSE);
+		_maybe_run_next_op (proxy_folder);		
+	}
+}
+
+
 
 
 
@@ -453,41 +479,10 @@ _thread_notification_catch (GIOChannel *source,
  */
 
 /* folder->init_with_store implementation */
-
-typedef struct {
-	CamelFolder *folder;
-	CamelStore *parent_store;
-	CamelException *ex;
-} _InitStoreParam;
-
-static void
-_async_init_with_store (gpointer param)
-{
-	_InitStoreParam *init_store_param;
-	CamelFolder *folder;
-	CamelException *ex;
-	
-	init_store_param =  (_InitStoreParam *)param;
-
-	folder = init_store_param->folder;
-
-	CF_CLASS (folder)->init_with_store (folder, 
-					    init_store_param->parent_store, 
-					    NULL);
-	g_free (param);
-	
-	/* tell the main thread we are completed */
-	_notify_availability (folder, 'a');
-
-}
-
-
 static void 
 _init_with_store (CamelFolder *folder, CamelStore *parent_store, CamelException *ex)
 {
 	CamelFolderPtProxy *proxy_folder = CAMEL_FOLDER_PT_PROXY (folder);
-	_InitStoreParam *param;
-	CamelOp *op;
 
 #warning Notify io_channel initialization should be elsewhere
 	/* it can not be in camel_folder_proxy_init 
@@ -497,17 +492,9 @@ _init_with_store (CamelFolder *folder, CamelStore *parent_store, CamelException 
 			     "proxy_folder",
 			     proxy_folder);
 
-	op = camel_op_new ();
-	/* param will be freed in _async_init_with_store */
-	param = g_new (_InitStoreParam, 1);
-	param->folder = proxy_folder->real_folder;
-	param->parent_store = parent_store;
-	
-	op->func = _async_init_with_store;
-	op->param =  param;
-	
-	_op_exec_or_plan_for_exec (proxy_folder, op);
-	
+	camel_folder_init_with_store (proxy_folder->real_folder,
+				      parent_store,
+				      ex);
 }
 
 
@@ -517,8 +504,39 @@ _init_with_store (CamelFolder *folder, CamelStore *parent_store, CamelException 
 typedef struct {
 	CamelFolder *folder;
 	CamelFolderOpenMode mode;
+	CamelFolderAsyncCallback callback;
+	gpointer user_data;
 	CamelException *ex;
 } _OpenFolderParam;
+
+
+void 
+_folder_open_cb (CamelFolder *folder,
+		 gpointer user_data,
+		 CamelException *ex)
+{
+	CamelFolderPtProxy *proxy_folder;
+	CamelFolderAsyncCallback callback;
+	_OpenFolderParam *param;
+	CamelOp *op;
+
+
+
+
+	proxy_folder = gtk_object_get_data (GTK_OBJECT (folder),
+					    "proxy_folder");
+	callback = (CamelFolderAsyncCallback)user_data;
+
+	g_assert (proxy_folder);
+	g_assert (callback);
+	op = camel_op_new ();
+	
+	param = g_new (_OpenFolderParam, 1);
+	param->folder = proxy_folder;
+	param->user_data = user_data;
+	
+	
+}
 
 static void  
 _async_open (gpointer param)
@@ -532,15 +550,23 @@ _async_open (gpointer param)
 	folder = open_folder_param->folder;
 	
 	CF_CLASS (folder)->open (folder, 
-				 open_folder_param->mode, 
+				 open_folder_param->mode,
+				 open_folder_param->callback,
+				 open_folder_param->user_data,
 				 NULL);
 	g_free (param);
 	_notify_availability (folder, 'a');
 
 }
 
+
+
 static void
-_open (CamelFolder *folder, CamelFolderOpenMode mode, CamelException *ex)
+_open (CamelFolder *folder, 
+       CamelFolderOpenMode mode, 
+       CamelFolderAsyncCallback callback, 
+       gpointer user_data, 
+       CamelException *ex)
 {
 	CamelFolderPtProxy *proxy_folder = CAMEL_FOLDER_PT_PROXY (folder);
 	_OpenFolderParam *param;
@@ -551,7 +577,10 @@ _open (CamelFolder *folder, CamelFolderOpenMode mode, CamelException *ex)
 	param = g_new (_OpenFolderParam, 1);
 	param->folder = proxy_folder->real_folder;
 	param->mode = mode;
+	param->callback = callback;
+	param->user_data = user_data;
 	
+
 	op->func = _async_open;
 	op->param =  param;
 	

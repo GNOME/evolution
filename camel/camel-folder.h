@@ -57,7 +57,7 @@ typedef enum {
 	FOLDER_OPEN_RW      = 3    /* folder is read/write        */ 
 } CamelFolderOpenMode;
 
-
+typedef void (*CamelFolderAsyncCallback) ();
 
 struct _CamelFolder
 {
@@ -89,7 +89,11 @@ typedef struct {
 	
 	/* Virtual methods */	
 	void   (*init_with_store) (CamelFolder *folder, CamelStore *parent_store, CamelException *ex);
-	void   (*open) (CamelFolder *object, CamelFolderOpenMode mode, CamelException *ex);
+	void   (*open) (CamelFolder *folder, 
+			CamelFolderOpenMode mode, 
+			CamelFolderAsyncCallback callback, 
+			gpointer user_data, 
+			CamelException *ex);
 	void   (*close) (CamelFolder *folder, gboolean expunge, CamelException *ex);
 	void   (*set_name) (CamelFolder *folder, const gchar *name, CamelException *ex);
 	/*  	void   (*set_full_name) (CamelFolder *folder, const gchar *name); */
@@ -128,7 +132,13 @@ GtkType camel_folder_get_type (void);
 
 /* public methods */
 CamelFolder *camel_folder_get_folder (CamelFolder *folder, gchar *folder_name, CamelException *ex);
-void camel_folder_open (CamelFolder *folder, CamelFolderOpenMode mod, CamelException *exe);
+
+void camel_folder_open (CamelFolder *folder, 
+			CamelFolderOpenMode mode, 
+			CamelFolderAsyncCallback callback, 
+			gpointer user_data, 
+			CamelException *ex);
+
 void camel_folder_close (CamelFolder *folder, gboolean expunge, CamelException *ex);
 gboolean camel_folder_create (CamelFolder *folder, CamelException *ex);
 gboolean camel_folder_delete (CamelFolder *folder, gboolean recurse, CamelException *ex);

@@ -42,6 +42,8 @@ typedef struct {
 	GtkArg *args;
 } PtProxySignaData;
 
+
+
 typedef struct {
 	CamelFolder parent;
 	
@@ -65,6 +67,13 @@ typedef struct {
 	CamelFolderClass parent_class;
 
 } CamelFolderPtProxyClass;
+
+/* some marshallers */
+void camel_marshal_NONE__POINTER_INT (CamelFunc func, 
+				      GtkArg *args);
+
+void camel_marshal_NONE__POINTER_INT_POINTER (CamelFunc func, 
+					      GtkArg *args);
 
 
 

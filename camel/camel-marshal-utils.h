@@ -1,6 +1,8 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
+/* camel-maeshal-utils.h : marshal utils */
 
 /* 
+ *
  * Copyright (C) 1999 Bertrand Guiheneuf <Bertrand.Guiheneuf@aful.org> .
  *
  * This program is free software; you can redistribute it and/or 
@@ -20,8 +22,9 @@
  */
 
 
-#ifndef CAMEL_OP_QUEUE_H
-#define CAMEL_OP_QUEUE_H 1
+
+#ifndef CAMEL_MARSHAL_UTILS_H
+#define CAMEL_MARSHAL_UTILS_H 1
 
 
 #ifdef __cplusplus
@@ -29,43 +32,28 @@ extern "C" {
 #pragma }
 #endif /* __cplusplus }*/
 
-#include <glib.h>
-#include "camel-marshal-utils.h"
+#include <gtk/gtk.h>
 
+typedef void (*CamelFunc) ();
 
+typedef gboolean ( *CamelMarshal) (CamelFunc func,
+				   GtkArg *args);
 
 typedef struct {
-	CamelFuncDef *func_def;
-	GtkArg	*params;
-} CamelOp;
+	CamelMarshal marshal;
+	CamelFunc func;
+	guint n_params;
+	GtkType	 *params_type;
+
+} CamelFuncDef;
 
 
-typedef struct 
-{
-	GList *ops_head;
-	GList *ops_tail;
-	gboolean service_available;
 
-} CamelOpQueue;
-
-
-/* public methods */
-CamelOpQueue *camel_op_queue_new ();
-void camel_op_queue_push_op (CamelOpQueue *queue, CamelOp *op);
-CamelOp *camel_op_queue_pop_op (CamelOpQueue *queue);
-gboolean camel_op_queue_run_next_op (CamelOpQueue *queue);
-gboolean camel_op_queue_get_service_availability (CamelOpQueue *queue);
-void camel_op_queue_set_service_availability (CamelOpQueue *queue, gboolean available);
-
-CamelOp *camel_op_new (CamelFuncDef *func_def);
-void camel_op_free (CamelOp *op);
-gboolean camel_op_run (CamelOp *op);
-gboolean camel_op_run_and_free (CamelOp *op);
 
 
 #ifdef __cplusplus
 }
 #endif /* __cplusplus */
 
-#endif /* CAMEL_OP_QUEUE_H */
+#endif /* CAMEL_MARSHAL_UTILS_H */
 
