@@ -1,3 +1,8 @@
+2003-10-29  Dan Winship  <danw@ximian.com>
+
+	* Evolution-Component.idl: declare an exception for createControls
+	to return, so we don't have to just crash if it fails.
+
 2003-10-28  Rodney Dawes  <dobey@ximian.com>
 
 	* Makefile.am: Add e-shell-view.h to evolution_SOURCES

@@ -14,9 +14,12 @@ module GNOME {
 module Evolution {
 
 	interface Component : Bonobo::Unknown {
+		exception Failed {};
+
 		/* Create the controls for embedding in the shell.  */
 		void createControls (out Bonobo::Control sidebar_control,
-				     out Bonobo::Control view_control);
+				     out Bonobo::Control view_control)
+			raises (Failed);
 
 		/* Request the component to quit.  The component will reply
 		   with an event named "quit", with a boolean value of TRUE if
