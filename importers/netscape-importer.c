@@ -3,6 +3,7 @@
  * 
  * Authors: 
  *    Iain Holmes  <iain@ximian.com>
+ *    Christian Kreibich <cK@whoop.org> (email filter import)
  *
  * Copyright 2001 Ximian, Inc. (www.ximian.com)
  *
@@ -50,10 +51,23 @@
 #include <importer/GNOME_Evolution_Importer.h>
 #include <importer/evolution-importer-client.h>
 
+#include <filter/filter-context.h>
+#include <filter/filter-filter.h>
+#include <filter/filter-rule.h>
+#include <filter/filter-option.h>
+#include <filter/filter-folder.h>
+#include <filter/filter-score.h>
+#include <shell/evolution-shell-client.h>
+
 #include "Mail.h"
 
 static char *nsmail_dir = NULL;
 static GHashTable *user_prefs = NULL;
+
+/* This is rather ugly -- libfilter needs this symbol: */
+EvolutionShellClient *global_shell_client = NULL;
+
+static char          *filter_name = N_("Priority Filter \"%s\"");
 
 #define FACTORY_IID "OAFIID:GNOME_Evolution_Netscape_Intelligent_Importer_Factory"
 #define MBOX_IMPORTER_IID "OAFIID:GNOME_Evolution_Mail_Mbox_Importer"
@@ -67,6 +81,8 @@ static GHashTable *user_prefs = NULL;
 #else
 #define d(x)
 #endif
+
+#define MAXLEN 4096
 
 typedef struct {
 	GList *dir_list;
@@ -82,9 +98,9 @@ typedef struct {
 /*
   GtkWidget *addrs;
   gboolean do_addrs;
-  GtkWidget *filters;
-  gboolean do_filters;
 */
+	GtkWidget *filters;
+	gboolean do_filters;
 	GtkWidget *settings;
 	gboolean do_settings;
 
@@ -94,12 +110,1110 @@ typedef struct {
 	GtkWidget *dialog;
 	GtkWidget *label;
 	GtkWidget *progressbar;
-} NetscapeImporter;
+} NsImporter;
 
-static void import_next (NetscapeImporter *importer);
+
+/* Email filter datastructures  ---------------------------------------------- */
+
+
+typedef enum {
+	MOVE_TO_FOLDER, CHANGE_PRIORITY, DELETE,
+	MARK_READ, IGNORE_THREAD, WATCH_THREAD
+} NsFilterActionType;
+
+static char* ns_filter_action_types[] =
+{
+	"Move to folder", "Change priority", "Delete",
+	"Mark read", "Ignore thread", "Watch thread"
+};
+
+
+typedef enum {
+	HIGHEST, HIGH, NORMAL, LOW, LOWEST, FREE, NONE
+} NsFilterActionValueType;
+
+static char *ns_filter_action_value_types[] =
+{
+	"Highest", "High", "Normal", "Low", "Lowest"
+};
+
+
+typedef enum {
+	FROM, SUBJECT, TO, CC, TO_OR_CC, BODY, DATE, PRIORITY,
+	STATUS, AGE_IN_DAYS, X_MSG_HEADER
+} NsFilterConditionType;
+
+static char *ns_filter_condition_types[] =
+{
+	"from", "subject", "to", "CC", "to or CC", "body", "date",
+	"priority", "age in days"
+};
+
+
+typedef enum {
+	CONTAINS, CONTAINS_NOT, IS, IS_NOT, BEGINS_WITH, ENDS_WITH,
+	IS_BEFORE, IS_AFTER, IS_GREATER_THAN, IS_LESS_THAN, READ,
+	REPLIED, IS_HIGHER_THAN, IS_LOWER_THAN
+} NsFilterConditionPropertyType;
+
+static char *ns_filter_condition_property_types[] =
+{
+	"contains", "doesn't contain", "is", "isn't", "begins with",
+	"ends with", "is before", "is after", "is greater than",
+        "is less than", "read", "replied", "is higher than",
+        "is lower than"
+};
+
+
+typedef struct
+{
+	NsFilterConditionType          type;
+	NsFilterConditionPropertyType  prop;
+	NsFilterActionValueType        prop_val_id;  /* for dealing with priority levels */	
+	char                          *prop_val_str;
+} NsFilterCondition;
+
+typedef struct {
+	char                     *name;
+	char                     *description;
+
+	gboolean                  enabled;
+
+	NsFilterActionType        action;
+	NsFilterActionValueType   action_val_id;
+	char                     *action_val_str;
+
+	enum _filter_grouping_t   grouping;
+	GList                    *conditions; /* List of NSFilterConditions */
+} NsFilter;
+
+
+/* Prototypes ------------------------------------------------------------- */
+static void  netscape_filter_cleanup (NsFilter *nsf);
+static char *fix_netscape_folder_names (const char *original_name);
+static void  import_next (NsImporter *importer);
+
+
+
+/* Email filter stuff ----------------------------------------------------- */
+
+static gboolean
+netscape_filter_flatfile_get_entry (FILE *f, char *key, char *val)
+{
+	char line[MAXLEN];
+	char *ptr = NULL;
+	char *ptr2 = NULL;
+
+	if (fgets (line, MAXLEN, f)) {
+		
+		ptr = strchr(line, '=');
+		*ptr = '\0';
+
+		memcpy (key, line, strlen(line)+1);
+
+		ptr += 2; /* Skip '=' and '"' */
+		ptr2 = strrchr (ptr, '"');
+		*ptr2 = '\0';
+		
+		memcpy (val, ptr, strlen(ptr)+1);
+
+		d(g_warning ("Parsing key/val '%s' '%s'", key, val));
+		return TRUE;
+		       
+	}
+
+	*key = '\0'; *val = '\0';
+	return FALSE;
+}
+
+/* This function parses the filtering condition strings.
+   Netscape describes the conditions that determine when
+   to apply a filter through a string of the form
+
+         " OR (type, property, value) OR (type, property, value) ... "
+
+   or 
+         " AND (type, property, value) AND (type, property, value) ... "
+
+   where type can be "subject", "from", "to", "CC" etc, property
+   is "contains" etc, and value is the according pattern.
+*/
+static void
+netscape_filter_parse_conditions (NsFilter *nsf, FILE *f, char *condition)
+{
+	char *ptr = condition, *ptr2 = NULL;
+	char  type[MAXLEN];
+	char  prop[MAXLEN];
+	char  val[MAXLEN];
+	NsFilterCondition *cond;
+
+	if ( (ptr = strstr (condition, "OR")) == NULL) {
+		nsf->grouping = FILTER_GROUP_ALL;
+	} else {
+		nsf->grouping = FILTER_GROUP_ANY;
+	}
+
+	ptr = condition;
+	while ( (ptr = strchr (ptr, '(')) != NULL) {
+
+		/* Move ptr to start of type */
+		ptr++; 
+
+		/* Move ptr2 up to next comma: */
+		if ( (ptr2 = strchr (ptr,  ',')) == NULL)
+			continue;
+
+		memcpy (type, ptr, ptr2-ptr);
+		type[ptr2-ptr] = '\0';
+
+		/* Move ptr to start of property */
+		ptr = ptr2 + 1;
+
+		/* Move ptr2 up to next comma: */
+		if ( (ptr2 = strchr (ptr,  ',')) == NULL)
+			continue;
+
+		memcpy (prop, ptr, ptr2-ptr);
+		prop[ptr2-ptr] = '\0';
+
+		/* Move ptr to start of value */
+		ptr = ptr2 + 1;
+
+		/* Move ptr2 to end of value: */
+		if ( (ptr2 = strchr (ptr,  ')')) == NULL)
+			continue;
+		
+		memcpy (val, ptr, ptr2-ptr);
+		val[ptr2-ptr] = '\0';
+
+		cond = g_new0 (NsFilterCondition, 1);
+
+		if (!strcmp (type, ns_filter_condition_types[FROM])) {
+			cond->type = FROM;
+		} else if (!strcmp (type, ns_filter_condition_types[SUBJECT])) {
+			cond->type = FROM;
+		} else if (!strcmp (type, ns_filter_condition_types[TO])) {
+			cond->type = TO;
+		} else if (!strcmp (type, ns_filter_condition_types[CC])) {
+			cond->type = CC;
+		} else if (!strcmp (type, ns_filter_condition_types[TO_OR_CC])) {
+			cond->type = TO_OR_CC;
+		} else if (!strcmp (type, ns_filter_condition_types[BODY])) {
+			cond->type = BODY;
+		} else if (!strcmp (type, ns_filter_condition_types[DATE])) {
+			cond->type = DATE;
+		} else if (!strcmp (type, ns_filter_condition_types[PRIORITY])) {
+			cond->type = PRIORITY;
+		} else if (!strcmp (type, ns_filter_condition_types[STATUS])) {
+			cond->type = STATUS;
+		} else if (!strcmp (type, ns_filter_condition_types[AGE_IN_DAYS])) {
+			cond->type = AGE_IN_DAYS;
+		} else if (!strcmp (type, ns_filter_condition_types[X_MSG_HEADER])) {
+			cond->type = X_MSG_HEADER;
+		} else {
+			d(g_warning ("Unknown condition type '%s' encountered -- skipping.", type));
+			g_free (cond);
+			continue;
+		}
+
+
+		if (!strcmp (prop, ns_filter_condition_property_types[CONTAINS])) {
+			cond->prop = CONTAINS;
+		} else if (!strcmp (prop, ns_filter_condition_property_types[CONTAINS_NOT])) {
+			cond->prop = CONTAINS_NOT;
+		} else if (!strcmp (prop, ns_filter_condition_property_types[IS])) {
+			cond->prop = IS;
+		} else if (!strcmp (prop, ns_filter_condition_property_types[IS_NOT])) {
+			cond->prop = IS_NOT;
+		} else if (!strcmp (prop, ns_filter_condition_property_types[BEGINS_WITH])) {
+			cond->prop = BEGINS_WITH;
+		} else if (!strcmp (prop, ns_filter_condition_property_types[ENDS_WITH])) {
+			cond->prop = ENDS_WITH;
+		} else if (!strcmp (prop, ns_filter_condition_property_types[IS_BEFORE])) {
+			cond->prop = IS_BEFORE;
+		} else if (!strcmp (prop, ns_filter_condition_property_types[IS_AFTER])) {
+			cond->prop = IS_AFTER;
+		} else if (!strcmp (prop, ns_filter_condition_property_types[IS_GREATER_THAN])) {
+			cond->prop = IS_GREATER_THAN;
+		} else if (!strcmp (prop, ns_filter_condition_property_types[IS_LESS_THAN])) {
+			cond->prop = IS_LESS_THAN;
+		} else if (!strcmp (prop, ns_filter_condition_property_types[READ])) {
+			cond->prop = READ;
+		} else if (!strcmp (prop, ns_filter_condition_property_types[REPLIED])) {
+			cond->prop = REPLIED;
+		} else if (!strcmp (prop, ns_filter_condition_property_types[IS_HIGHER_THAN])) {
+			cond->prop = IS_HIGHER_THAN;
+		} else if (!strcmp (prop, ns_filter_condition_property_types[IS_LOWER_THAN])) {
+			cond->prop = IS_LOWER_THAN;
+		} else {
+			d(g_warning ("Unknown condition property '%s' encountered -- skipping.", prop));
+			g_free (cond);
+			continue;
+		}
+
+		cond->prop_val_id = FREE;
+
+		if (!strcmp (val, ns_filter_action_value_types[LOWEST])) {
+			cond->prop_val_id = LOWEST;
+		} else if (!strcmp (val, ns_filter_action_value_types[LOW])) {
+			cond->prop_val_id = LOW;
+		} else if (!strcmp (val, ns_filter_action_value_types[NORMAL])) {
+			cond->prop_val_id = NORMAL;
+		} else if (!strcmp (val, ns_filter_action_value_types[HIGH])) {
+			cond->prop_val_id = HIGH;
+		} else if (!strcmp (val, ns_filter_action_value_types[HIGHEST])) {
+			cond->prop_val_id = HIGHEST;
+		}
+
+		cond->prop_val_str = g_strdup (val);
+		nsf->conditions = g_list_append (nsf->conditions, cond);		
+	}
+}
+	
+
+static NsFilter *
+netscape_filter_read_next (FILE *mailrule_handle)
+{
+	NsFilter *nsf;
+	char      key[MAXLEN];
+	char      val[MAXLEN];	
+
+	key[0] = '\0';
+
+	for ( ; ; ) {
+
+		/* Skip stuff at the beginning, until beginning of next filter
+		   is read: */
+	   
+		do {	    
+			if (!netscape_filter_flatfile_get_entry (mailrule_handle, key, val))
+				return NULL;
+
+		} while (strcmp(key, "name"));
+	
+		nsf = g_new0 (NsFilter, 1);
+		nsf->name = g_strdup (val);
+
+
+		/* Read value for "enabled" setting */
+		
+		if (!netscape_filter_flatfile_get_entry (mailrule_handle, key, val))
+			goto cleanup;
+		if (strcmp (key, "enabled")) {
+			goto cleanup;
+		}
+		if (strcmp (val, "true"))
+			nsf->enabled = TRUE;
+		else
+			nsf->enabled = FALSE;
+
+
+		/* Read filter description */
+
+		if (!netscape_filter_flatfile_get_entry (mailrule_handle, key, val))
+			goto cleanup;
+		if (strcmp (key, "description")) {
+			goto cleanup;
+		}
+		nsf->description = g_strdup (val);
+
+
+		/* Skip one line -- it's a "type" entry and always seems to be "1"? */
+
+		if (!netscape_filter_flatfile_get_entry (mailrule_handle, key, val))
+			goto cleanup;
+		if (strcmp (key, "type")) {
+			goto cleanup;
+		}
+
+		/* Read filter action and handle action value accordingly */
+		
+		if (!netscape_filter_flatfile_get_entry (mailrule_handle, key, val))
+			goto cleanup;
+		if (strcmp (key, "action")) {
+			goto cleanup;
+		}
+		if (!strcmp (val, ns_filter_action_types[MOVE_TO_FOLDER])) {
+
+			if (!netscape_filter_flatfile_get_entry (mailrule_handle, key, val))
+				goto cleanup;
+			if (strcmp (key, "actionValue")) {
+				goto cleanup;
+			}
+			nsf->action = MOVE_TO_FOLDER;
+			nsf->action_val_id = FREE;
+			nsf->action_val_str = g_strdup(val);
+		}	
+		else if (!strcmp (val, ns_filter_action_types[CHANGE_PRIORITY])) {
+
+			if (!netscape_filter_flatfile_get_entry (mailrule_handle, key, val))
+				goto cleanup;
+			if (strcmp (key, "actionValue")) {
+				goto cleanup;
+			}
+
+			nsf->action = CHANGE_PRIORITY;
+
+			if (!strcmp (val, ns_filter_action_value_types[LOWEST])) {
+				nsf->action_val_id = LOWEST;
+			} else if (!strcmp (val, ns_filter_action_value_types[LOW])) {
+				nsf->action_val_id = LOW;
+			} else if (!strcmp (val, ns_filter_action_value_types[NORMAL])) {
+				nsf->action_val_id = NORMAL;
+			} else if (!strcmp (val, ns_filter_action_value_types[HIGH])) {
+				nsf->action_val_id = HIGH;
+			} else if (!strcmp (val, ns_filter_action_value_types[HIGHEST])) {
+				nsf->action_val_id = HIGHEST;
+			} else {
+				d(g_warning ("Unknown Netscape filter action value '%s' for action '%s'",
+					     val, ns_filter_action_types[CHANGE_PRIORITY]));
+				goto cleanup;
+			}
+
+			nsf->action_val_str = NULL;
+			
+		}	
+		else if (!strcmp (val, ns_filter_action_types[DELETE])) {
+
+			nsf->action = DELETE;
+			nsf->action_val_id = NONE;
+		}	
+		else if (!strcmp (val, ns_filter_action_types[MARK_READ])) {
+
+			nsf->action = MARK_READ;	
+			nsf->action_val_id = NONE;
+		}
+		else if (!strcmp (val, ns_filter_action_types[IGNORE_THREAD])) {
+
+			nsf->action = IGNORE_THREAD;	
+			nsf->action_val_id = NONE;
+		}
+		else if (!strcmp (val, ns_filter_action_types[WATCH_THREAD])) {
+
+			nsf->action = WATCH_THREAD;		 
+			nsf->action_val_id = NONE;
+		}
+		else {
+			d(g_warning ("Unknown Netscape filter action '%s'", val));
+			goto cleanup;
+		}
+		        
+
+		/* Read conditions, the fun part ... */
+
+		if (!netscape_filter_flatfile_get_entry (mailrule_handle, key, val))
+			goto cleanup;
+		if (strcmp (key, "condition")) {
+			goto cleanup;		
+		}
+		netscape_filter_parse_conditions (nsf, mailrule_handle, val);
+
+		return nsf;
+
+	cleanup:
+		netscape_filter_cleanup (nsf);
+	}
+
+	return NULL;
+}
+
+
+static void
+netscape_filter_cleanup (NsFilter *nsf)
+{
+	GList *l;
+
+	g_free (nsf->name);
+	g_free (nsf->description);
+	g_free (nsf->action_val_str);
+
+	for (l = nsf->conditions; l; l = l->next) {
+
+		NsFilterCondition *cond = (NsFilterCondition *)l->data;
+
+		g_free (cond->prop_val_str);
+		g_free (cond);
+	}
+
+	g_list_free (nsf->conditions);
+	g_free (nsf);
+}
+
+
+static gboolean
+netscape_filter_set_opt_for_cond (NsFilterCondition *cond, FilterOption* op)
+{
+	switch (cond->prop) {
+	case CONTAINS:
+		filter_option_set_current (op, "contains");
+		break;
+	case CONTAINS_NOT:
+		filter_option_set_current (op, "does not contain");
+		break;
+	case IS:
+		filter_option_set_current (op, "is");
+		break;
+	case IS_NOT:
+		filter_option_set_current (op, "is not");
+		break;
+	case BEGINS_WITH:
+		filter_option_set_current (op, "starts with");
+		break;
+	case ENDS_WITH:
+		filter_option_set_current (op, "ends with");
+		break;
+	default:
+		return FALSE;
+	}
+
+	return TRUE;
+}
+
+
+/* Translates a string of the form   
+   folder1.sbd/folder2.sbd/.../folderN.sbd/folder
+
+   into one that looks like this:
+
+   folder1/folder2/.../folderN/folder
+*/
+static char*
+netscape_filter_strip_sbd (char *ns_folder)
+{
+	char *folder_copy;
+	char s[MAXLEN];
+	char *ptr, *ptr2;
+	char *fixed_folder;
+	
+	folder_copy = g_strdup (ns_folder);
+	ptr = folder_copy;
+	s[0] = '\0';
+
+	while (ptr) {
+		if ( (ptr2 = strstr (ptr, ".sbd")) == NULL)
+			break;
+
+		*ptr2 = '\0';
+		strcat (s, ptr);
+
+		ptr = ptr2 + 4; /* skip ".sbd" */
+	}
+
+	fixed_folder = fix_netscape_folder_names (ptr);
+	strcat (s, fixed_folder);
+	g_free (folder_copy);
+	g_free (fixed_folder);
+
+	d(g_warning ("Stripped '%s' to '%s'", ns_folder, s));
+	
+	return g_strdup (s);
+}
+
+
+static char *
+netscape_filter_map_folder_to_uri (char *folder)
+{
+	char *folder_copy;
+	char s[MAXLEN];
+	char *ptr, *ptr2;
+	
+	folder_copy = g_strdup (folder);
+	ptr = folder_copy;
+
+	g_snprintf (s, MAXLEN, "file://%s/evolution/local/", g_get_home_dir ());
+
+	while (ptr) {
+		if ( (ptr2 = strchr (ptr, '/')) == NULL)
+			break;
+
+		*ptr2 = '\0';
+		strcat (s, ptr);
+		strcat (s, "/subfolders/");
+
+		ptr = ptr2 + 1;
+	}
+
+	strcat (s, ptr);
+	g_free (folder_copy);
+
+	d(g_warning ("Mapped '%s' to '%s'", folder, s));
+	
+	return g_strdup (s);
+}
+
+
+static void
+netscape_filter_change_priority_warning (void)
+{
+	GtkWidget *dialog;
+	static gboolean already_shown = FALSE;
+
+	if (!already_shown) {
+		already_shown = TRUE;
+		dialog = gnome_ok_dialog (_("Some of your Netscape email filters are based on\n"
+					    "email priorities, which are not used in Evolution.\n"
+					    "Instead, Evolution provides scores in the range of\n"
+					    "-3 to 3 that can be assigned to emails and filtered\n"
+					    "accordingly.\n"
+					    "\n"
+					    "As a workaround, a set of filters called \"Priority Filter\"\n"
+					    "was added that converts Netscape's email priorities into\n"
+					    "Evolution's scores, and the affected filters use scores instead\n"
+					    "of priorities. Check the imported filters to make sure\n"
+					    "everything still works as intended."));
+		gnome_dialog_run_and_close (GNOME_DIALOG (dialog));
+	}
+}
+
+
+static void
+netscape_filter_threads_action_not_supported (void)
+{
+	GtkWidget *dialog;
+	static gboolean already_shown = FALSE;
+
+	if (!already_shown) {
+		already_shown = TRUE;
+		dialog = gnome_ok_dialog (_("Some of your Netscape email filters use\n"
+					    "the \"Ignore Thread\" or \"Watch Thread\"\n"
+					    "feature, which is not supported in Evolution.\n"
+					    "These filters will be dropped."));
+		gnome_dialog_run_and_close (GNOME_DIALOG (dialog));
+	}
+}
+
+
+static void
+netscape_filter_body_is_not_supported (void)
+{
+	GtkWidget *dialog;
+	static gboolean already_shown = FALSE;
+
+	if (!already_shown) {
+		already_shown = TRUE;
+		dialog = gnome_ok_dialog (_("Some of your Netscape email filters test the\n"
+					    "body of emails for (in)equality to a given string,\n"
+					    "which is not supported in Evolution. Those filters\n"
+					    "were modified to test whether that string is or is not\n"
+					    "contained in the message body."));
+		gnome_dialog_run_and_close (GNOME_DIALOG (dialog));
+	}
+}
+
+
+static FilterRule*
+netscape_create_priority_converter (FilterContext *fc, NsFilterActionValueType priority)
+{
+	FilterFilter *ff;
+	FilterPart   *fp;
+	FilterRule   *fr;
+	FilterElement *el;
+	char           s[MAXLEN];
+
+	ff = filter_filter_new ();
+	fr = FILTER_RULE(ff);
+	
+	g_snprintf (s, MAXLEN, filter_name, ns_filter_action_value_types[priority]);
+	filter_rule_set_name (fr, s);
+	filter_rule_set_source (fr, FILTER_SOURCE_INCOMING);
+
+	fp = rule_context_create_part (RULE_CONTEXT(fc), "header");
+	filter_rule_add_part (fr, fp);
+	el = filter_part_find_element (fp, "header-field");
+	filter_input_set_value ((FilterInput*)el, "X-Priority");
+	el = filter_part_find_element (fp, "header-type");
+	filter_option_set_current ((FilterOption*)el, "contains");
+	el = filter_part_find_element (fp, "word");
+	filter_input_set_value ((FilterInput*)el,
+				ns_filter_action_value_types[priority]);
+	
+	fp = filter_context_create_action (fc, "score");
+	el = filter_part_find_element (fp, "score");
+
+	switch (priority) {
+	case LOWEST:		
+		((FilterScore *)el)->score = -2;
+		break;
+	case LOW:
+		((FilterScore *)el)->score = -1;
+		break;
+	case NORMAL:
+		((FilterScore *)el)->score = 0;
+		break;
+	case HIGH:
+		((FilterScore *)el)->score = 1;
+		break;
+	case HIGHEST:
+		((FilterScore *)el)->score = 2;
+		break;
+	default:
+		gtk_object_unref (GTK_OBJECT(ff));
+		return NULL;
+	}
+
+	filter_filter_add_action (ff, fp);
+
+	return FILTER_RULE(ff);
+}
+
+
+static void
+netscape_add_priority_workaround_filters (FilterContext *fc)
+{
+	FilterRule *fr;
+
+	fr = netscape_create_priority_converter (fc, LOWEST);
+	rule_context_add_rule (RULE_CONTEXT(fc), FILTER_RULE(fr));
+	rule_context_rank_rule (RULE_CONTEXT(fc), FILTER_RULE(fr), 0);
+
+	fr = netscape_create_priority_converter (fc, LOW);
+	rule_context_add_rule (RULE_CONTEXT(fc), FILTER_RULE(fr));
+	rule_context_rank_rule (RULE_CONTEXT(fc), FILTER_RULE(fr), 1);
+
+	fr = netscape_create_priority_converter (fc, HIGH);
+	rule_context_add_rule (RULE_CONTEXT(fc), FILTER_RULE(fr));
+	rule_context_rank_rule (RULE_CONTEXT(fc), FILTER_RULE(fr), 2);
+
+	fr = netscape_create_priority_converter (fc, HIGHEST);
+	rule_context_add_rule (RULE_CONTEXT(fc), FILTER_RULE(fr));
+	rule_context_rank_rule (RULE_CONTEXT(fc), FILTER_RULE(fr), 3);
+}
+
+
+static gboolean
+netscape_filter_score_set (NsFilterCondition *cond, FilterScore *el)
+{
+	switch (cond->prop_val_id) {
+	case LOWEST:
+		el->score = -2;
+		break;
+	case LOW:
+		el->score = -1;
+		break;
+	case NORMAL:
+		el->score = 0;
+		break;
+	case HIGH:
+		el->score = 1;
+		break;
+	case HIGHEST:
+		el->score = 2;
+		break;
+	default:
+		return FALSE;
+	}
+
+	return TRUE;
+}
+
+
+static FilterFilter *
+netscape_filter_to_evol_filter (FilterContext *fc, NsFilter *nsf, gboolean *priority_needed)
+{
+	RuleContext  *rc = RULE_CONTEXT(fc);
+	FilterFilter *ff = NULL;
+	FilterPart   *fp;
+	FilterRule   *fr;
+	FilterElement *el;
+	GList        *l;
+	gboolean      part_added = FALSE, action_added = FALSE;
+
+
+	ff = filter_filter_new ();
+	fr = FILTER_RULE(ff);
+
+	filter_rule_set_name (fr, nsf->name);
+	filter_rule_set_source (fr, FILTER_SOURCE_INCOMING);
+	fr->grouping = nsf->grouping;
+	
+
+	/* build and add partset */
+	
+	for (l = nsf->conditions; l; l = l->next) {
+		
+		NsFilterCondition *cond = (NsFilterCondition*) l->data;
+
+		fp = NULL;
+
+		switch (cond->type) {
+		case FROM:
+			fp = rule_context_create_part (rc, "sender");
+			filter_rule_add_part (fr, fp);
+			el = filter_part_find_element (fp, "sender-type");
+
+			if (!netscape_filter_set_opt_for_cond (cond, (FilterOption*)el)) {
+				filter_rule_remove_part (fr, fp);
+				gtk_object_unref (GTK_OBJECT(fp));
+				continue;
+			}
+
+			el = filter_part_find_element (fp, "sender");
+			filter_input_set_value ((FilterInput *)el, cond->prop_val_str);
+			part_added = TRUE;
+			break;
+
+		case SUBJECT:
+			fp = rule_context_create_part (rc, "subject");
+			filter_rule_add_part (fr, fp);
+			el = filter_part_find_element (fp, "subject-type");
+
+			if (!netscape_filter_set_opt_for_cond (cond, (FilterOption*)el)) {
+				filter_rule_remove_part (fr, fp);
+				gtk_object_unref (GTK_OBJECT(fp));
+				continue;
+			}
+
+			el = filter_part_find_element (fp, "subject");
+			filter_input_set_value ((FilterInput *)el, cond->prop_val_str);
+			part_added = TRUE;
+			break;
+		case TO:
+		case CC:
+		case TO_OR_CC:
+			fp = rule_context_create_part (rc, "to");
+			filter_rule_add_part (fr, fp);
+			el = filter_part_find_element (fp, "recipient-type");
+
+			if (!netscape_filter_set_opt_for_cond (cond, (FilterOption*)el)) {
+				filter_rule_remove_part (fr, fp);
+				gtk_object_unref (GTK_OBJECT(fp));
+				continue;
+			}
+
+			el = filter_part_find_element (fp, "recipient");
+			filter_input_set_value ((FilterInput *)el, cond->prop_val_str);
+			part_added = TRUE;
+			break;
+		case BODY:
+			fp = rule_context_create_part (rc, "body");
+			filter_rule_add_part (fr, fp);
+			el = filter_part_find_element (fp, "body-type");
+
+			switch (cond->prop) {
+			case CONTAINS:
+				filter_option_set_current ((FilterOption*)el, "contains");
+				break;
+			case CONTAINS_NOT:
+				filter_option_set_current ((FilterOption*)el, "not contains");
+				break;
+			case IS:
+				netscape_filter_body_is_not_supported ();
+				filter_option_set_current ((FilterOption*)el, "contains");
+				break;
+			case IS_NOT:
+				netscape_filter_body_is_not_supported ();
+				filter_option_set_current ((FilterOption*)el, "not contains");
+				break;
+			default:
+				g_warning("Body rule dropped");
+				filter_rule_remove_part (fr, fp);
+				gtk_object_unref (GTK_OBJECT(fp));
+				continue;
+			}
+
+			el = filter_part_find_element (fp, "word");
+			filter_input_set_value ((FilterInput *)el, cond->prop_val_str);
+			part_added = TRUE;
+			break;
+		case DATE:
+			fp = rule_context_create_part (rc, "sent-date");
+			filter_rule_add_part (fr, fp);
+			el = filter_part_find_element (fp, "date-spec-type");
+
+			switch (cond->prop) {
+			case IS:
+				filter_option_set_current ((FilterOption*)el, "is");
+				break;
+			case IS_NOT:
+				filter_option_set_current ((FilterOption*)el, "is-not");
+				break;
+			case IS_BEFORE:
+				filter_option_set_current ((FilterOption*)el, "before");
+				break;
+			case IS_AFTER:
+				filter_option_set_current ((FilterOption*)el, "after");
+				break;
+			default:
+				filter_rule_remove_part (fr, fp);
+				gtk_object_unref (GTK_OBJECT(fp));
+				continue;
+			}
+
+			el = filter_part_find_element (fp, "versus");
+			filter_input_set_value ((FilterInput *)el, cond->prop_val_str);
+			part_added = TRUE;
+			break;
+		case PRIORITY:
+			switch (cond->prop) {
+			case IS:
+				*priority_needed = TRUE;
+				fp = rule_context_create_part (rc, "score");
+				filter_rule_add_part (fr, fp);
+				el = filter_part_find_element (fp, "score-type");
+				filter_option_set_current ((FilterOption*)el, "is");
+				el = filter_part_find_element (fp, "versus");
+
+				if (!netscape_filter_score_set(cond, (FilterScore*)el)) {
+					filter_rule_remove_part (fr, fp);
+					gtk_object_unref (GTK_OBJECT(fp));
+					continue;
+				}
+
+				break;
+			case IS_NOT:
+				*priority_needed = TRUE;
+				fp = rule_context_create_part (rc, "score");
+				filter_rule_add_part (fr, fp);
+				el = filter_part_find_element (fp, "score-type");
+				filter_option_set_current ((FilterOption*)el, "is-not");
+				el = filter_part_find_element (fp, "versus");
+
+				if (!netscape_filter_score_set(cond, (FilterScore*)el)) {
+					filter_rule_remove_part (fr, fp);
+					gtk_object_unref (GTK_OBJECT(fp));
+					continue;
+				}
+
+				break;
+			case IS_HIGHER_THAN:
+				*priority_needed = TRUE;
+				fp = rule_context_create_part (rc, "score");
+				filter_rule_add_part (fr, fp);
+				el = filter_part_find_element (fp, "score-type");
+				filter_option_set_current ((FilterOption*)el, "greater-than");
+				el = filter_part_find_element (fp, "versus");
+
+				if (!netscape_filter_score_set(cond, (FilterScore*)el)) {
+					filter_rule_remove_part (fr, fp);
+					gtk_object_unref (GTK_OBJECT(fp));
+					continue;
+				}
+
+				break;
+			case IS_LOWER_THAN:
+				*priority_needed = TRUE;
+				fp = rule_context_create_part (rc, "score");
+				filter_rule_add_part (fr, fp);
+				el = filter_part_find_element (fp, "score-type");
+				filter_option_set_current ((FilterOption*)el, "less-than");
+				el = filter_part_find_element (fp, "versus");
+
+				if (!netscape_filter_score_set(cond, (FilterScore*)el)) {
+					filter_rule_remove_part (fr, fp);
+					gtk_object_unref (GTK_OBJECT(fp));
+					continue;
+				}
+				break;
+			default:
+				filter_rule_remove_part (fr, fp);
+				gtk_object_unref (GTK_OBJECT(fp));
+				continue;
+			}
+			part_added = TRUE;
+			break;
+
+		case STATUS:
+			fp = rule_context_create_part (rc, "status");
+			filter_rule_add_part (fr, fp);
+			el = filter_part_find_element (fp, "match-type");
+
+			switch (cond->prop) {
+			case IS:
+				filter_option_set_current ((FilterOption*)el, "is");
+				el = filter_part_find_element (fp, "flag");
+
+				if (!strcmp (cond->prop_val_str,
+					    ns_filter_condition_property_types[READ])) {
+					filter_option_set_current ((FilterOption*)el, "Seen");
+				} else if (!strcmp (cond->prop_val_str,
+					   ns_filter_condition_property_types[REPLIED])) {
+					filter_option_set_current ((FilterOption*)el, "Answered");
+				}
+				break;
+			case IS_NOT:
+				filter_option_set_current ((FilterOption*)el, "is not");
+				el = filter_part_find_element (fp, "flag");
+
+				if (!strcmp (cond->prop_val_str,
+					    ns_filter_condition_property_types[READ])) {
+					filter_option_set_current ((FilterOption*)el, "Seen");
+				} else if (!strcmp (cond->prop_val_str,
+					   ns_filter_condition_property_types[REPLIED])) {
+					filter_option_set_current ((FilterOption*)el, "Answered");
+				}
+			default:
+				filter_rule_remove_part (fr, fp);
+				gtk_object_unref (GTK_OBJECT(fp));
+				continue;
+			}
+			part_added = TRUE;
+			break;
+		case AGE_IN_DAYS:
+			/* I guess we can skip that -- Netscape crashes anyway
+			   whenever you try to use that setting ... :) */
+			break;
+		case X_MSG_HEADER:
+			fp = rule_context_create_part (rc, "header");
+			filter_rule_add_part (fr, fp);
+			el = filter_part_find_element (fp, "header-field");
+			filter_input_set_value ((FilterInput *)el, cond->prop_val_str);
+			el = filter_part_find_element (fp, "header-type");
+			filter_option_set_current ((FilterOption*)el, "exists");			
+			part_added = TRUE;
+			break;
+		default:
+			continue;
+		}
+	}
+
+	if (!part_added) {
+		gtk_object_unref (GTK_OBJECT(ff));
+		return NULL;
+	}
+	
+	/* build and add actionset */
+
+	switch (nsf->action) {
+	case MOVE_TO_FOLDER:
+		{
+			char *evol_folder;
+			char *evol_folder_uri;
+
+			fp = filter_context_create_action (fc, "move-to-folder");
+			filter_filter_add_action (ff, fp);
+			el = filter_part_find_element (fp, "folder");
+
+			evol_folder = netscape_filter_strip_sbd (nsf->action_val_str);
+			evol_folder_uri = netscape_filter_map_folder_to_uri (evol_folder);
+			filter_folder_set_value ((FilterFolder *)el, evol_folder_uri);
+			g_free (evol_folder);
+			g_free (evol_folder_uri);
+
+			action_added = TRUE;
+		}
+		break;
+	case CHANGE_PRIORITY:
+		fp = filter_context_create_action (fc, "score");
+		el = filter_part_find_element (fp, "score");
+
+		switch (nsf->action_val_id) {
+		case LOWEST:
+			((FilterScore *)el)->score = -2;
+			action_added = TRUE;
+			break;
+		case LOW:
+			((FilterScore *)el)->score = -1;
+			action_added = TRUE;
+			break;
+		case NORMAL:
+			((FilterScore *)el)->score = 0;
+			action_added = TRUE;
+			break;
+		case HIGH:
+			((FilterScore *)el)->score = 1;
+			action_added = TRUE;
+			break;
+		case HIGHEST:
+			((FilterScore *)el)->score = 2;
+			action_added = TRUE;
+			break;
+		default:
+			gtk_object_unref (GTK_OBJECT(fp));
+		}
+		if (action_added) {
+			*priority_needed = TRUE;
+			filter_filter_add_action (ff, fp);
+		}
+		break;
+	case DELETE:
+		fp = filter_context_create_action (fc, "delete");
+		filter_filter_add_action (ff, fp);
+		action_added = TRUE;
+		break;
+	case MARK_READ:
+		fp = filter_context_create_action (fc, "set-status");
+		el = filter_part_find_element (fp, "flag");
+		filter_option_set_current ((FilterOption *)el, "Seen");
+		filter_filter_add_action (ff, fp);
+		action_added = TRUE;
+		break;
+	case IGNORE_THREAD:
+	case WATCH_THREAD:
+		netscape_filter_threads_action_not_supported ();
+		break;
+	default:
+	}
+
+	if (!action_added) {
+		gtk_object_unref (GTK_OBJECT(ff));
+		return NULL;
+	}
+
+	return ff;
+}
+
+
+static void
+netscape_import_filters (NsImporter *importer)
+{
+	FilterContext *fc;
+	char *user, *system;
+	FILE *mailrule_handle;
+	char *ns_mailrule;
+	NsFilter      *nsf;
+	FilterFilter  *ff;
+	gboolean       priority_needed = FALSE;
+
+	ns_mailrule = gnome_util_prepend_user_home (".netscape/mailrule");
+	mailrule_handle = fopen (ns_mailrule, "r");
+	g_free (ns_mailrule);
+
+	if (mailrule_handle == NULL) {
+		d(g_warning ("No .netscape/mailrule found."));
+		user_prefs = NULL;
+		return;
+	}
+
+	fc = filter_context_new ();
+	user = g_concat_dir_and_file (g_get_home_dir (),
+				      "evolution/filters.xml");
+	system = EVOLUTION_DATADIR "/evolution/filtertypes.xml";
+
+	if (rule_context_load ((RuleContext *)fc, system, user) < 0) {
+		g_warning ("Could not load rule context.");
+		goto exit;
+	}
+
+	while ( (nsf = netscape_filter_read_next (mailrule_handle)) != NULL) {
+
+		if ( (ff = netscape_filter_to_evol_filter (fc, nsf, &priority_needed)) != NULL)
+			rule_context_add_rule (RULE_CONTEXT(fc), FILTER_RULE(ff));
+		netscape_filter_cleanup (nsf);
+	}
+	
+	if (priority_needed) {
+		netscape_filter_change_priority_warning ();
+		netscape_add_priority_workaround_filters (fc);
+	}
+
+	if (rule_context_save(RULE_CONTEXT(fc), user) < 0) {
+		g_warning ("Could not save user's rule context.");
+	}
+
+ exit:
+	g_free(user);
+	gtk_object_unref (GTK_OBJECT (fc));
+
+}
+
+
+
+
+/* Email folder & accounts stuff ----------------------------------------------- */
+
 
 static GtkWidget *
-create_importer_gui (NetscapeImporter *importer)
+create_importer_gui (NsImporter *importer)
 {
 	GtkWidget *dialog;
 
@@ -118,19 +1232,22 @@ create_importer_gui (NetscapeImporter *importer)
 }
 
 static void
-netscape_store_settings (NetscapeImporter *importer)
+netscape_store_settings (NsImporter *importer)
 {
 	bonobo_config_set_boolean (importer->db, "/Importer/Netscape/mail", 
 				   importer->do_mail, NULL);
 	bonobo_config_set_boolean (importer->db, "/Importer/Netscape/settings",
 				   importer->do_settings, NULL);
+	bonobo_config_set_boolean (importer->db, "/Importer/Netscape/filters",
+				   importer->do_filters, NULL);
 }
 
 static void
-netscape_restore_settings (NetscapeImporter *importer)
+netscape_restore_settings (NsImporter *importer)
 {
 	importer->do_mail = FALSE;
 	importer->do_settings = FALSE;
+	importer->do_filters = FALSE;
 }
 
 static const char *
@@ -259,7 +1376,7 @@ netscape_init_prefs (void)
 {
 	FILE *prefs_handle;
 	char *nsprefs;
-	char line[4096];
+	char line[MAXLEN];
 
 	user_prefs = g_hash_table_new (g_str_hash, g_str_equal);
 
@@ -275,7 +1392,7 @@ netscape_init_prefs (void)
 	}
 
 	/* Find the user mail dir */
-	while (fgets (line, 4096, prefs_handle)) {
+	while (fgets (line, MAXLEN, prefs_handle)) {
 		char *key, *value;
 
 		if (*line == 0) {
@@ -338,7 +1455,7 @@ get_user_fullname (void)
 }
 
 static void
-netscape_import_accounts (NetscapeImporter *importer)
+netscape_import_accounts (NsImporter *importer)
 {
 	char *username;
 	const char *nstr;
@@ -587,9 +1704,6 @@ static gboolean
 netscape_can_import (EvolutionIntelligentImporter *ii,
 		     void *closure)
 {
-	NetscapeImporter *importer = closure;
-	gboolean mail, settings;
-
 	if (user_prefs == NULL) {
 		netscape_init_prefs ();
 	}
@@ -610,7 +1724,7 @@ netscape_can_import (EvolutionIntelligentImporter *ii,
 static gboolean
 importer_timeout_fn (gpointer data)
 {
-	NetscapeImporter *importer = (NetscapeImporter *) data;
+	NsImporter *importer = (NsImporter *) data;
 	CORBA_Object objref;
 	CORBA_Environment ev;
 
@@ -628,7 +1742,7 @@ importer_cb (EvolutionImporterListener *listener,
 	     gboolean more_items,
 	     void *data)
 {
-	NetscapeImporter *importer = (NetscapeImporter *) data;
+	NsImporter *importer = (NsImporter *) data;
 	CORBA_Object objref;
 	CORBA_Environment ev;
 
@@ -670,7 +1784,7 @@ importer_cb (EvolutionImporterListener *listener,
 }
 
 static gboolean
-netscape_import_file (NetscapeImporter *importer,
+netscape_import_file (NsImporter *importer,
 		      const char *path,
 		      const char *folderpath)
 {
@@ -680,7 +1794,7 @@ netscape_import_file (NetscapeImporter *importer,
 	char *str;
 
 	/* Do import */
-	d(g_warning ("Importing %s as %s\n", path, folderpath));
+	d(g_warning ("Importing %s as %s", path, folderpath));
 
 	CORBA_exception_init (&ev);
 	
@@ -718,14 +1832,14 @@ netscape_import_file (NetscapeImporter *importer,
 }
 
 typedef struct {
-	NetscapeImporter *importer;
+	NsImporter *importer;
 	char *parent;
 	char *path;
 	char *foldername;
 } NetscapeCreateDirectoryData;
 
 static void
-import_next (NetscapeImporter *importer)
+import_next (NsImporter *importer)
 {
 	NetscapeCreateDirectoryData *data;
 
@@ -746,12 +1860,28 @@ import_next (NetscapeImporter *importer)
 	}
 }
 
+/* We don't allow any mail to be imported into a reservered Evolution folder name */
+static char *reserved_names[] = {
+	N_("Trash"),
+	N_("Calendar"),
+	N_("Contacts"),
+	N_("Tasks"),
+	NULL
+};
+	
 static char *
-maybe_replace_name (const char *original_name)
+fix_netscape_folder_names (const char *original_name)
 {
-	if (strcmp (original_name, "Trash") == 0) {
-		return g_strdup ("Netscape-Trash"); /* Trash is an invalid name */
-	} else if (strcmp (original_name, "Unsent Messages") == 0) {
+	int i;
+
+	for (i = 0; reserved_names[i] != NULL; i++) {
+		if (strcmp (original_name, _(reserved_names[i])) == 0) {
+			return g_strdup_printf ("Netscape-%s",
+						_(reserved_names[i]));
+		}
+	}
+	
+	if (strcmp (original_name, "Unsent Messages") == 0) {
 		return g_strdup ("Outbox");
 	} 
 
@@ -761,7 +1891,7 @@ maybe_replace_name (const char *original_name)
 /* This function basically flattens the tree structure.
    It makes a list of all the directories that are to be imported. */
 static void
-scan_dir (NetscapeImporter *importer,
+scan_dir (NsImporter *importer,
 	  const char *orig_parent,
 	  const char *dirname)
 {
@@ -797,7 +1927,7 @@ scan_dir (NetscapeImporter *importer,
 		}
 
 		if (*orig_parent == '/') {
-			foldername = maybe_replace_name (current->d_name);
+			foldername = fix_netscape_folder_names (current->d_name);
 		} else {
 			foldername = g_strdup (current->d_name);
 		}
@@ -846,12 +1976,13 @@ scan_dir (NetscapeImporter *importer,
 	}
 }
 
+
 static void
 netscape_create_structure (EvolutionIntelligentImporter *ii,
 			   void *closure)
 {
 	CORBA_Environment ev;
-	NetscapeImporter *importer = closure;
+	NsImporter *importer = closure;
 
 	g_return_if_fail (nsmail_dir != NULL);
 
@@ -862,6 +1993,8 @@ netscape_create_structure (EvolutionIntelligentImporter *ii,
 	netscape_store_settings (importer);
 
 	/* Create a dialog if we're going to be active */
+	/* Importing mail filters is not a criterion because it makes
+	   little sense to import the filters but not the mail folders. */
 	if (importer->do_settings == TRUE ||
 	    importer->do_mail == TRUE) {
 		importer->dialog = create_importer_gui (importer);
@@ -878,6 +2011,18 @@ netscape_create_structure (EvolutionIntelligentImporter *ii,
 	}
 
 	if (importer->do_mail == TRUE) {
+
+		/* Import the mail filters if needed ... */
+		if (importer->do_filters == TRUE) {
+			bonobo_config_set_boolean (importer->db, 
+			  "/Importer/Netscape/filters-imported", TRUE, NULL);
+
+			gtk_label_set_text (GTK_LABEL (importer->label), 
+					    _("Scanning mail filters"));
+
+			netscape_import_filters (importer);
+		}
+
 		bonobo_config_set_boolean (importer->db, 
                 "/Importer/Netscape/mail-imported", TRUE, NULL);
 		/* Scan the nsmail folder and find out what folders 
@@ -896,8 +2041,8 @@ netscape_create_structure (EvolutionIntelligentImporter *ii,
 		while (gtk_events_pending ()) {
 			gtk_main_iteration ();
 		}
-		import_next (importer);
-	}
+		import_next (importer);		
+       	}
 
 	CORBA_exception_init (&ev);
 	Bonobo_ConfigDatabase_sync (importer->db, &ev);
@@ -913,7 +2058,7 @@ netscape_create_structure (EvolutionIntelligentImporter *ii,
 
 static void
 netscape_destroy_cb (GtkObject *object,
-		     NetscapeImporter *importer)
+		     NsImporter *importer)
 {
 	CORBA_Environment ev;
 
@@ -940,13 +2085,33 @@ netscape_destroy_cb (GtkObject *object,
 /* Fun with aggregation */
 static void
 checkbox_toggle_cb (GtkToggleButton *tb,
-		    gboolean *do_item)
+		    NsImporter *importer)
 {
-	*do_item = gtk_toggle_button_get_active (tb);
+	/* Some extra logic here to make the filters choice
+	   depending on the mail choice */
+	if (GTK_WIDGET(tb) == importer->mail) {
+		importer->do_mail = gtk_toggle_button_get_active (tb);
+		
+		if (importer->do_mail == FALSE) {
+			gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(importer->filters), FALSE);
+			gtk_widget_set_sensitive(GTK_WIDGET(importer->filters), FALSE);
+			importer->do_filters = FALSE;
+		} else {
+			gtk_widget_set_sensitive(GTK_WIDGET(importer->filters), TRUE);
+		}
+
+	} else if (GTK_WIDGET(tb) == importer->settings) {
+		importer->do_settings = gtk_toggle_button_get_active (tb);
+
+	} else if (GTK_WIDGET(tb) == importer->filters) {
+		importer->do_filters = gtk_toggle_button_get_active (tb);
+
+	}
+	/* *do_item = gtk_toggle_button_get_active (tb); */
 }
 
 static BonoboControl *
-create_checkboxes_control (NetscapeImporter *importer)
+create_checkboxes_control (NsImporter *importer)
 {
 	GtkWidget *hbox;
 	BonoboControl *control;
@@ -956,15 +2121,22 @@ create_checkboxes_control (NetscapeImporter *importer)
 	importer->mail = gtk_check_button_new_with_label (_("Mail"));
 	gtk_signal_connect (GTK_OBJECT (importer->mail), "toggled",
 			    GTK_SIGNAL_FUNC (checkbox_toggle_cb),
-			    &importer->do_mail);
+			    importer);
 
 	importer->settings = gtk_check_button_new_with_label (_("Settings"));
 	gtk_signal_connect (GTK_OBJECT (importer->settings), "toggled",
 			    GTK_SIGNAL_FUNC (checkbox_toggle_cb),
-			    &importer->do_settings);
+			    importer);
+
+	importer->filters = gtk_check_button_new_with_label (_("Mail Filters"));
+	gtk_widget_set_sensitive(GTK_WIDGET(importer->filters), FALSE);
+	gtk_signal_connect (GTK_OBJECT (importer->filters), "toggled",
+			    GTK_SIGNAL_FUNC (checkbox_toggle_cb),
+			    importer);
 
 	gtk_box_pack_start (GTK_BOX (hbox), importer->mail, FALSE, FALSE, 0);
 	gtk_box_pack_start (GTK_BOX (hbox), importer->settings, FALSE, FALSE, 0);
+	gtk_box_pack_start (GTK_BOX (hbox), importer->filters, FALSE, FALSE, 0);
 
 	gtk_widget_show_all (hbox);
 	control = bonobo_control_new (hbox);
@@ -977,12 +2149,12 @@ factory_fn (BonoboGenericFactory *_factory,
 {
 	EvolutionIntelligentImporter *importer;
 	BonoboControl *control;
-	NetscapeImporter *netscape;
+	NsImporter *netscape;
 	CORBA_Environment ev;
 	char *message = N_("Evolution has found Netscape mail files.\n"
 			   "Would you like them to be imported into Evolution?");
 	
-	netscape = g_new0 (NetscapeImporter, 1);
+	netscape = g_new0 (NsImporter, 1);
 
 	CORBA_exception_init (&ev);
 

@@ -5,6 +5,7 @@ bin_PROGRAMS = evolution-netscape-importer 	\
 
 INCLUDES = 						\
 	-DEVOLUTION_LOCALEDIR=\""$(localedir)"\"	\
+	-DEVOLUTION_DATADIR=\""$(datadir)"\"		\
 	-DG_LOG_DOMAIN=\"Evolution-Importer\"		\
 	-I$(top_srcdir)					\
 	-I$(top_builddir)/shell				\
@@ -30,7 +31,10 @@ evolution_netscape_importer_SOURCES =	\
 
 evolution_netscape_importer_LDADD =				\
 	$(top_builddir)/shell/importer/libevolution-importer.la \
+	$(top_builddir)/camel/libcamel.la			\
 	$(top_builddir)/e-util/libeutil.la			\
+	$(top_builddir)/filter/libfilter.la			\
+	$(top_builddir)/shell/libeshell.la			\
 	$(IMPORTERS_LIBS)
 
 evolution_elm_importer_SOURCES =	\
