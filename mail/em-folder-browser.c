@@ -706,12 +706,12 @@ static BonoboUIVerb emfb_verbs[] = {
 };
 
 static EPixmap emfb_pixmaps[] = {
-	E_PIXMAP ("/commands/ChangeFolderProperties", "stock_folder-properties", 16),
-	E_PIXMAP ("/commands/ViewHideRead", "stock_mail-hide-read", 16),
-	E_PIXMAP ("/commands/ViewHideSelected", "stock_mail-hide-selected", 16),
-	E_PIXMAP ("/commands/ViewShowAll", "stock_show-all", 16),
+	E_PIXMAP ("/commands/ChangeFolderProperties", "stock_folder-properties", E_ICON_SIZE_MENU),
+	E_PIXMAP ("/commands/ViewHideRead", "stock_mail-hide-read", E_ICON_SIZE_MENU),
+	E_PIXMAP ("/commands/ViewHideSelected", "stock_mail-hide-selected", E_ICON_SIZE_MENU),
+	E_PIXMAP ("/commands/ViewShowAll", "stock_show-all", E_ICON_SIZE_MENU),
 	
-	E_PIXMAP ("/commands/MailCompose", "stock_mail-compose", 16),
+	E_PIXMAP ("/commands/MailCompose", "stock_mail-compose", E_ICON_SIZE_MENU),
 
 	E_PIXMAP_END
 };

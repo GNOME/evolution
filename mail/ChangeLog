@@ -1,5 +1,8 @@
 2004-04-19  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* em-folder-browser.c: Use E_ICON_SIZE_* enums for the menu icon
+	sizes.
+
 	* em-folder-view.c: Use E_ICON_SIZE_* enums for the menu/toolbar
 	icon sizes.
 
