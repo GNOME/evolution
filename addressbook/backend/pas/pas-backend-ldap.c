@@ -564,7 +564,7 @@ query_ldap_root_dse (PASBackendLDAP *bl)
 					"(objectclass=*)",
 					attrs, 0, NULL, NULL, &timeout, LDAP_NO_LIMIT, &resp);
 	if (ldap_error != LDAP_SUCCESS) {
-		g_warning ("could not perform query on Root DSE");
+		g_warning ("could not perform query on Root DSE (ldap_error 0x%02x)", ldap_error);
 		return ldap_error;
 	}
 
@@ -634,34 +634,43 @@ pas_backend_ldap_connect (PASBackendLDAP *bl)
 	if (NULL != blpriv->ldap) {
 		int ldap_error;
 
-		int protocol_version = LDAP_VERSION3;
-		ldap_error = ldap_set_option (blpriv->ldap, LDAP_OPT_PROTOCOL_VERSION, &protocol_version);
-		if (LDAP_OPT_SUCCESS != ldap_error) {
-			g_warning ("failed to set protocol version to LDAPv3");
-			bl->priv->ldap_v3 = FALSE;
-		}
-		else
-			bl->priv->ldap_v3 = TRUE;
-
-		if (bl->priv->ldap_port == LDAPS_PORT && bl->priv->use_tls == PAS_BACKEND_LDAP_TLS_ALWAYS) {
-			int tls_level = LDAP_OPT_X_TLS_HARD;
-			ldap_set_option (blpriv->ldap, LDAP_OPT_X_TLS, &tls_level);
-		}
-		else if (bl->priv->use_tls) {
-			ldap_error = ldap_start_tls_s (blpriv->ldap, NULL, NULL);
-			if (LDAP_SUCCESS != ldap_error) {
-				if (bl->priv->use_tls == PAS_BACKEND_LDAP_TLS_ALWAYS) {
-					g_message ("TLS not available (fatal version), (ldap_error 0x%02x)", ldap_error);
-					ldap_unbind (blpriv->ldap);
-					blpriv->ldap = NULL;
-					return GNOME_Evolution_Addressbook_BookListener_TLSNotAvailable;
-				}
-				else {
-					g_message ("TLS not available (ldap_error 0x%02x)", ldap_error);
-				}
+		if (bl->priv->use_tls != PAS_BACKEND_LDAP_TLS_NO) {
+			int protocol_version = LDAP_VERSION3;
+			ldap_error = ldap_set_option (blpriv->ldap, LDAP_OPT_PROTOCOL_VERSION, &protocol_version);
+			if (LDAP_OPT_SUCCESS != ldap_error) {
+				g_warning ("failed to set protocol version to LDAPv3");
+				bl->priv->ldap_v3 = FALSE;
 			}
 			else
-				g_message ("TLS active");
+				bl->priv->ldap_v3 = TRUE;
+
+			if (!bl->priv->ldap_v3 && bl->priv->use_tls == PAS_BACKEND_LDAP_TLS_ALWAYS) {
+				g_message ("TLS not available (fatal version), v3 protocol could not be established (ldap_error 0x%02x)", ldap_error);
+				ldap_unbind (blpriv->ldap);
+				blpriv->ldap = NULL;
+				return GNOME_Evolution_Addressbook_BookListener_TLSNotAvailable;
+			}
+
+			if (bl->priv->ldap_port == LDAPS_PORT && bl->priv->use_tls == PAS_BACKEND_LDAP_TLS_ALWAYS) {
+				int tls_level = LDAP_OPT_X_TLS_HARD;
+				ldap_set_option (blpriv->ldap, LDAP_OPT_X_TLS, &tls_level);
+			}
+			else if (bl->priv->use_tls) {
+				ldap_error = ldap_start_tls_s (blpriv->ldap, NULL, NULL);
+				if (LDAP_SUCCESS != ldap_error) {
+					if (bl->priv->use_tls == PAS_BACKEND_LDAP_TLS_ALWAYS) {
+						g_message ("TLS not available (fatal version), (ldap_error 0x%02x)", ldap_error);
+						ldap_unbind (blpriv->ldap);
+						blpriv->ldap = NULL;
+						return GNOME_Evolution_Addressbook_BookListener_TLSNotAvailable;
+					}
+					else {
+						g_message ("TLS not available (ldap_error 0x%02x)", ldap_error);
+					}
+				}
+				else
+					g_message ("TLS active");
+			}
 		}
 
 		ldap_error = query_ldap_root_dse (bl);
@@ -669,7 +678,11 @@ pas_backend_ldap_connect (PASBackendLDAP *bl)
 		   connect(), so any tcpip problems will show up
 		   here */
 
-		if (LDAP_SUCCESS == ldap_error) {
+		/* we can't just check for LDAP_SUCCESS here since in
+		   older servers (namely openldap1.x servers), there's
+		   not a root DSE at all, so the query will fail with
+		   LDAP_NO_SUCH_OBJECT. */
+		if (ldap_error == LDAP_SUCCESS || LDAP_NAME_ERROR (ldap_error)) {
 			blpriv->connected = TRUE;
 
 			/* check to see if evolutionPerson is supported, if we can (me
@@ -682,7 +695,6 @@ pas_backend_ldap_connect (PASBackendLDAP *bl)
 		}
 		else
 			g_warning ("Failed to perform root dse query anonymously, (ldap_error 0x%02x)", ldap_error);
-
 	}
 
 	g_warning ("pas_backend_ldap_connect failed for "
@@ -3295,7 +3307,7 @@ pas_backend_ldap_load_uri (PASBackend             *backend,
 				else if (!strncmp (value, "whenever_possible", 3)) {
 					bl->priv->use_tls = PAS_BACKEND_LDAP_TLS_WHEN_POSSIBLE;
 				}
-				else {
+				else if (strncmp (value, "never", 5)) {
 					g_warning ("unhandled value for use_tls, not using it");
 				}
 			}

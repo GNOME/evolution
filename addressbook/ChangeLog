@@ -1,3 +1,11 @@
+2002-11-30  Chris Toshok  <toshok@ximian.com>
+
+	* backend/pas/pas-backend-ldap.c (pas_backend_ldap_connect): only
+	enable the LDAPv3 stuff if TLS is being used.  Also, deal with
+	naming errors returned from query_ldap_root_dse, as some servers
+	(older openldap servers among others i'm sure) don't have a root
+	dse at all.
+	
 2002-12-02  Not Zed  <NotZed@Ximian.com>
 
 	* gui/widgets/e-addressbook-view.c (e_contact_print_button):
