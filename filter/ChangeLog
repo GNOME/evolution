@@ -1,3 +1,8 @@
+2003-02-05  Dan Winship  <danw@ximian.com>
+
+	* Makefile.am (gladedir): Defined in configure.in now
+	(filterdir): Define using privdatadir
+
 2003-01-22  Ettore Perazzoli  <ettore@ximian.com>
 
 	* Makefile.am (gladedir): Version using $(BASE_VERSION).

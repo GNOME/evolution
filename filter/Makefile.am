@@ -1,5 +1,4 @@
 
-gladedir = $(datadir)/evolution-$(BASE_VERSION)/glade
 glade_DATA = filter.glade
 
 INCLUDES = 					\
@@ -74,7 +73,7 @@ EXTRA_DIST = filtertypes.xml vfoldertypes.xml \
 	$(glade_DATA) libfilter-i18n.h filter-marshal.list
 
 # basic rules.
-filterdir = $(datadir)/evolution-$(BASE_VERSION)
+filterdir = $(privdatadir)
 filter_DATA = filtertypes.xml vfoldertypes.xml
 
 libfilter-i18n.h: filtertypes.xml vfoldertypes.xml
