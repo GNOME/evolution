@@ -1,5 +1,16 @@
 2004-05-14  Jeffrey Stedfast  <fejj@novell.com>
 
+	* em-popup.c (emp_popup_resend): Updated the #if 0'd code for the
+	API chanegs made to em_utils_edit_messages().
+
+	* em-folder-view.c (em_folder_view_open_selected): Pass TRUE as
+	the replace argument to em_utils_edit_messages() here.
+	(emfv_popup_resend): Pass FALSE here. Fixes bug #58357.
+
+	* em-composer-utils.c (em_utils_edit_messages): Now takes a
+	'replace' argument specifying whether or not the original message
+	should be deleted when the edited message is sent or saved.
+
 	* em-format-html.c (efh_format_secure): Same. Also changed the
 	"Valid signature, cannot verify sender" string to "Valid signature
 	but cannot verify sender" as I think it reads nicer.

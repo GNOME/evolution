@@ -675,7 +675,7 @@ emp_popup_resend(GtkWidget *w, EMPopupTarget *t)
 	if (!em_utils_check_user_can_send_mail(t->widget))
 		return;
 	
-	em_utils_edit_messages(t->widget, t->data.select.folder, em_utils_uids_copy(t->data.select.uids));
+	em_utils_edit_messages(t->widget, t->data.select.folder, em_utils_uids_copy(t->data.select.uids), FALSE);
 }
 
 static void

@@ -359,7 +359,7 @@ em_folder_view_open_selected(EMFolderView *emfv)
 
 	if (em_utils_folder_is_drafts(emfv->folder, emfv->folder_uri)
 	    || em_utils_folder_is_outbox(emfv->folder, emfv->folder_uri)) {
-		em_utils_edit_messages (emfv->folder, uids);
+		em_utils_edit_messages (emfv->folder, uids, TRUE);
 	} else {
 		/* TODO: have an em_utils_open_messages call? */
 
@@ -606,7 +606,7 @@ emfv_popup_resend(GtkWidget *w, EMFolderView *emfv)
 		return;
 	
 	uids = message_list_get_selected(emfv->list);
-	em_utils_edit_messages (emfv->folder, uids);
+	em_utils_edit_messages (emfv->folder, uids, FALSE);
 }
 
 static void

@@ -787,6 +787,7 @@ em_utils_edit_message (CamelMimeMessage *message)
 static void
 edit_messages (CamelFolder *folder, GPtrArray *uids, GPtrArray *msgs, void *user_data)
 {
+	gboolean replace = GPOINTER_TO_INT (user_data);
 	int i;
 	
 	if (msgs == NULL)
@@ -795,7 +796,10 @@ edit_messages (CamelFolder *folder, GPtrArray *uids, GPtrArray *msgs, void *user
 	for (i = 0; i < msgs->len; i++) {
 		camel_medium_remove_header (CAMEL_MEDIUM (msgs->pdata[i]), "X-Mailer");
 		
-		edit_message (msgs->pdata[i], folder, uids->pdata[i]);
+		if (replace)
+			edit_message (msgs->pdata[i], folder, uids->pdata[i]);
+		else
+			edit_message (msgs->pdata[i], NULL, NULL);
 	}
 }
 
@@ -803,16 +807,17 @@ edit_messages (CamelFolder *folder, GPtrArray *uids, GPtrArray *msgs, void *user
  * em_utils_edit_messages:
  * @folder: folder containing messages to edit
  * @uids: uids of messages to edit
+ * @replace: replace the existing message(s) when sent or saved.
  *
  * Opens a composer for each message to be edited.
  **/
 void
-em_utils_edit_messages (CamelFolder *folder, GPtrArray *uids)
+em_utils_edit_messages (CamelFolder *folder, GPtrArray *uids, gboolean replace)
 {
 	g_return_if_fail (CAMEL_IS_FOLDER (folder));
 	g_return_if_fail (uids != NULL);
 	
-	mail_get_messages (folder, uids, edit_messages, NULL);
+	mail_get_messages (folder, uids, edit_messages, GINT_TO_POINTER (replace));
 }
 
 /* Forwarding messages... */
