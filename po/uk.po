@@ -9191,23 +9191,20 @@ msgid "_Check for supported types"
 msgstr "Визначити типи, що п╕дтримуються..."
 
 #: mail/mail-config.glade.h:98
-#, fuzzy
 msgid "_Email Address:"
 msgstr "Електронна адреса:"
 
 #: mail/mail-config.glade.h:99
 msgid "_Empty trash folders on exit"
-msgstr ""
+msgstr "Спорожнити теку см╕тника на виход╕"
 
 #: mail/mail-config.glade.h:100
-#, fuzzy
 msgid "_Full Name:"
 msgstr "Повне ╕м'я:"
 
 #: mail/mail-config.glade.h:101
-#, fuzzy
 msgid "_HTML Signature:"
-msgstr "Файл п╕дпису:"
+msgstr "П╕дпис HTML:"
 
 #: mail/mail-config.glade.h:102
 msgid "_Highlight citations with"
@@ -9231,7 +9228,6 @@ msgid "_Mark messages as Read after"
 msgstr "Зберегти пов╕домлення у вказан╕й тец╕"
 
 #: mail/mail-config.glade.h:107
-#, fuzzy
 msgid "_Name:"
 msgstr "╤м'я:"
 
@@ -9250,7 +9246,6 @@ msgid "_PGP binary path:"
 msgstr "Шифрування PGP"
 
 #: mail/mail-config.glade.h:111
-#, fuzzy
 msgid "_Path:"
 msgstr "Шлях:"
 
@@ -9265,19 +9260,16 @@ msgid "_Send mail in HTML format by default."
 msgstr "В╕д╕слати пошту в формат╕ HTML"
 
 #: mail/mail-config.glade.h:114
-#, fuzzy
 msgid "_Signature file:"
 msgstr "Файл п╕дпису:"
 
 #: mail/mail-config.glade.h:115
-#, fuzzy
 msgid "_Username:"
 msgstr "Назва користувача:"
 
 #: mail/mail-config.glade.h:116
-#, fuzzy
 msgid "description"
-msgstr "Опис:"
+msgstr "опис"
 
 #: mail/mail-config.glade.h:118
 msgid "newswindow1"
@@ -9387,37 +9379,33 @@ msgid "Save Link as (FIXME)"
 msgstr "Завдання"
 
 #: mail/mail-display.c:1595
-#, fuzzy
 msgid "Save Image as..."
-msgstr "Зберегти як..."
+msgstr "Зберегти зображення як..."
 
 #: mail/mail-format.c:628
-#, fuzzy, c-format
+#, c-format
 msgid "%s attachment"
-msgstr "долучення"
+msgstr "долучення %s"
 
 #: mail/mail-format.c:681
 msgid "Could not parse MIME message. Displaying as source."
 msgstr ""
 
 #: mail/mail-format.c:765
-#, fuzzy
 msgid "Date"
-msgstr "п╕сля"
+msgstr "Дата"
 
 #: mail/mail-format.c:867
-#, fuzzy
 msgid "Bad Address"
-msgstr "Електронна адреса:"
+msgstr "Нев╕рна адреса"
 
 #: mail/mail-format.c:908 mail/message-list.etspec.h:3
 msgid "From"
 msgstr "В╕д"
 
 #: mail/mail-format.c:911
-#, fuzzy
 msgid "Reply-To"
-msgstr "В╕дпов╕дати на:"
+msgstr "В╕дпов╕дати на"
 
 #: mail/mail-format.c:915 mail/message-list.etspec.h:10
 msgid "To"
@@ -9565,14 +9553,13 @@ msgid "Remember this password for the remainder of this session"
 msgstr ""
 
 #: mail/mail-mt.c:564
-#, fuzzy, c-format
+#, c-format
 msgid "Enter Password for %s"
 msgstr "Введ╕ть пароль для %s"
 
 #: mail/mail-mt.c:567
-#, fuzzy
 msgid "Enter Password"
-msgstr "Введ╕ть пароль для %s"
+msgstr "Вв╕д пароля"
 
 #: mail/mail-mt.c:883
 #, fuzzy
@@ -9614,19 +9601,18 @@ msgid "Complete."
 msgstr "% завершення:"
 
 #: mail/mail-ops.c:775
-#, fuzzy
 msgid "Saving message to folder"
-msgstr "Збереження пов╕домлень з теки \"%s\""
+msgstr "Збереження пов╕домлення у тец╕"
 
 #: mail/mail-ops.c:855
-#, fuzzy, c-format
+#, c-format
 msgid "Moving messages to %s"
-msgstr "В╕д╕слан╕ пов╕домлення"
+msgstr "Перенесення пов╕домлень у %s"
 
 #: mail/mail-ops.c:855
-#, fuzzy, c-format
+#, c-format
 msgid "Copying messages to %s"
-msgstr "Коп╕ювання пов╕домлень"
+msgstr "Коп╕ювання пов╕домлень у %s"
 
 #: mail/mail-ops.c:877
 #, fuzzy, c-format
@@ -9762,7 +9748,7 @@ msgstr "Виправити пов╕домлення"
 
 #: mail/mail-search.c:322
 msgid "Case Sensitive"
-msgstr ""
+msgstr "Ре╜╕строва чутлив╕сть"
 
 #: mail/mail-search.c:324
 #, fuzzy
@@ -9780,42 +9766,37 @@ msgid "Matches:"
 msgstr "Шлях:"
 
 #: mail/mail-send-recv.c:139
-#, fuzzy
 msgid "Cancelling..."
-msgstr "В╕дм╕нити"
+msgstr "Скасування..."
 
 #: mail/mail-send-recv.c:243
-#, fuzzy, c-format
+#, c-format
 msgid "Server: %s, Type: %s"
-msgstr "Сервер:"
+msgstr "Сервер: %s, Тип: %s"
 
 #: mail/mail-send-recv.c:245
 #, c-format
 msgid "Path: %s, Type: %s"
-msgstr ""
+msgstr "Шлях: %s, Тип: %s"
 
 #: mail/mail-send-recv.c:247
-#, fuzzy, c-format
+#, c-format
 msgid "Type: %s"
-msgstr "Тип:"
+msgstr "Тип: %s"
 
 #: mail/mail-send-recv.c:283
-#, fuzzy
 msgid "Send & Receive Mail"
-msgstr "Sendmail"
+msgstr "В╕д╕слати й отримати пошту"
 
 #: mail/mail-send-recv.c:284
-#, fuzzy
 msgid "Cancel All"
-msgstr "В╕дм╕нено"
+msgstr "Скасувати все"
 
 #: mail/mail-send-recv.c:333
-#, fuzzy
 msgid "Updating..."
 msgstr "Оновлення..."
 
 #: mail/mail-send-recv.c:334 mail/mail-send-recv.c:387
-#, fuzzy
 msgid "Waiting..."
 msgstr "Оч╕кування..."
 
@@ -9955,9 +9936,8 @@ msgid "Flagged"
 msgstr ""
 
 #: mail/message-list.etspec.h:4
-#, fuzzy
 msgid "Received"
-msgstr "Дата отримання"
+msgstr "Отримано"
 
 #: mail/message-list.etspec.h:7
 msgid "Size"
