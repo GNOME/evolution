@@ -1,3 +1,8 @@
+2004-03-25  Martyn Russell  <ginxd@btopenworld.com>
+
+	* providers/smtp/camel-smtp-provider.c: Removed newline character
+	from the provider description
+
 2004-03-25  Sivaiah Nallagatla <snallagatla@novell.com>
                                                                                                                              
         * providers/groupwise/camel-groupwise-provider.c : removed
