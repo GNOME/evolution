@@ -66,6 +66,8 @@ libetable_a_SOURCES = 				\
 	e-table-model.h				\
 	e-table-one.c				\
 	e-table-one.h				\
+	e-table-scrolled.c			\
+	e-table-scrolled.h			\
 	e-table-simple.c			\
 	e-table-simple.h			\
 	e-table-sort-info.c			\

@@ -1,5 +1,18 @@
 2000-07-09  Christopher James Lahey  <clahey@helixcode.com>
 
+	* Makefile.am: Add e-table-scrolled.c and e-table-scrolled.h.
+
+	* e-table-item.c: Make sure that find_cell returns FALSE if the
+	item doesn't have any cells.
+
+	* e-table-scrolled.c, e-table-scrolled.h: Added a widget to
+	contain an ETable and provide scrollbars (for ease of use.)
+
+	* e-table.c, e-table.h: Make this support the scrollable interface
+	and not contain its own scrollbars.
+
+2000-07-09  Christopher James Lahey  <clahey@helixcode.com>
+
 	* e-table-item.c (eti_event): Put back e_cell_event sometimes when
 	we're not editing.
 

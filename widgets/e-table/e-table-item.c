@@ -1170,6 +1170,9 @@ find_cell (ETableItem *eti, double x, double y, int *col_res, int *row_res, doub
 	int col, row;
 	
 	/* FIXME: this routine is inneficient, fix later */
+	
+	if (cols == 0 || rows == 0)
+		return FALSE;
 
 	x -= eti->x1;
 	y -= eti->y1;

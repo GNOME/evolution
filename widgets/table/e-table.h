@@ -73,6 +73,10 @@ typedef struct {
 	void        (*double_click)       (ETable *et, int row);
 	gint        (*right_click)        (ETable *et, int row, int col, GdkEvent *event);
 	gint        (*key_press)          (ETable *et, int row, int col, GdkEvent *event);
+
+	void  (*set_scroll_adjustments)   (ETable	 *table,
+					   GtkAdjustment *hadjustment,
+					   GtkAdjustment *vadjustment);
 } ETableClass;
 
 GtkType     e_table_get_type   		    (void);

@@ -21,8 +21,6 @@
 #include <gnome-xml/parser.h>
 #include <gnome-xml/xmlmemory.h>
 
-#include "widgets/misc/e-scroll-frame.h"
-
 #include "e-util/e-util.h"
 #include "e-util/e-xml-utils.h"
 #include "e-util/e-canvas.h"
@@ -177,10 +175,12 @@ table_canvas_reflow_idle (ETable *e_table)
 			"height", &height,
 			"width", &width,
 			NULL);
+	height = MAX ((int)height, alloc->height);
+	width = MAX((int)width, alloc->width);
 	/* I have no idea why this needs to be -1, but it works. */
 	gnome_canvas_set_scroll_region (
 		GNOME_CANVAS (e_table->table_canvas),
-		0, 0, MAX((int)width, alloc->width) - 1, MAX ((int)height, alloc->height) - 1);
+		0, 0, width - 1, height - 1);
 	e_table->reflow_idle_id = 0;
 	return FALSE;
 }
@@ -362,6 +362,7 @@ e_table_setup_table (ETable *e_table, ETableHeader *full_header, ETableHeader *h
 				 
 	gtk_widget_show (GTK_WIDGET (e_table->table_canvas));
 
+
 	e_table->canvas_vbox = gnome_canvas_item_new(gnome_canvas_root(e_table->table_canvas),
 						     e_canvas_vbox_get_type(),
 						     "spacing", 10.0,
@@ -381,7 +382,6 @@ e_table_setup_table (ETable *e_table, ETableHeader *full_header, ETableHeader *h
 		e_canvas_vbox_add_item(E_CANVAS_VBOX(e_table->canvas_vbox), e_table->click_to_add);
 	}
 
-	
 	e_table->group = e_table_group_new (
 		GNOME_CANVAS_GROUP (e_table->canvas_vbox),
 		full_header, header,
@@ -507,9 +507,6 @@ et_real_construct (ETable *e_table, ETableHeader *full_header, ETableModel *etm,
 	gboolean no_header;
 	int row = 0;
 
-	GtkWidget *internal_table;
-	GtkWidget *scrollframe;
-
 	xmlRoot = xmlDocGetRootElement (xmlSpec);
 	xmlColumns = e_xml_get_child_by_name (xmlRoot, "columns-shown");
 	xmlGrouping = e_xml_get_child_by_name (xmlRoot, "grouping");
@@ -543,54 +540,25 @@ et_real_construct (ETable *e_table, ETableHeader *full_header, ETableModel *etm,
 	e_table_setup_table (e_table, full_header, e_table->header, etm);
 	e_table_fill_table (e_table, etm);
 
-	scrollframe = e_scroll_frame_new (
-		gtk_layout_get_hadjustment (GTK_LAYOUT (e_table->table_canvas)),
-		gtk_layout_get_vadjustment (GTK_LAYOUT (e_table->table_canvas)));
-
 	gtk_layout_get_vadjustment (GTK_LAYOUT (e_table->table_canvas))->step_increment = 20;
 	gtk_adjustment_changed(gtk_layout_get_vadjustment (GTK_LAYOUT (e_table->table_canvas)));
 
-	e_scroll_frame_set_shadow_type (E_SCROLL_FRAME (scrollframe),
-					GTK_SHADOW_IN);
-			       
-	
-	e_scroll_frame_set_policy (
-		E_SCROLL_FRAME (scrollframe),
-		GTK_POLICY_AUTOMATIC,
-		GTK_POLICY_AUTOMATIC);
-
-	internal_table = gtk_table_new(1, 2, FALSE);
 	if (!no_header) {
 		/*
 		 * The header
 		 */
-		gtk_table_attach (GTK_TABLE (internal_table), GTK_WIDGET (e_table->header_canvas),
+		gtk_table_attach (GTK_TABLE (e_table), GTK_WIDGET (e_table->header_canvas),
 				  0, 1, 0 + row, 1 + row,
 				  GTK_FILL | GTK_EXPAND,
 				  GTK_FILL, 0, 0);
 		row ++;
 	}
-	gtk_table_attach (GTK_TABLE (internal_table), GTK_WIDGET (e_table->table_canvas),
+	gtk_table_attach (GTK_TABLE (e_table), GTK_WIDGET (e_table->table_canvas),
 			  0, 1, 0 + row, 1 + row,
 			  GTK_FILL | GTK_EXPAND,
 			  GTK_FILL | GTK_EXPAND,
 			  0, 0);
-	gtk_widget_show(internal_table);
 	
-	gtk_container_add (
-		GTK_CONTAINER (scrollframe),
-		internal_table);
-	gtk_widget_show (scrollframe);
-	
-	/*
-	 * The body
-	 */
-	gtk_table_attach (
-		GTK_TABLE (e_table), GTK_WIDGET (scrollframe),
-		0, 1, 0, 1,
-		GTK_FILL | GTK_EXPAND,
-		GTK_FILL | GTK_EXPAND, 0, 0);
-		
 	gtk_widget_pop_colormap ();
 	gtk_widget_pop_visual ();
 
@@ -851,9 +819,26 @@ et_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 }
 	
 static void
+set_scroll_adjustments   (ETable *table,
+			  GtkAdjustment *hadjustment,
+			  GtkAdjustment *vadjustment)
+{
+	vadjustment->step_increment = 20;
+	gtk_adjustment_changed(vadjustment);
+	gtk_layout_set_hadjustment (GTK_LAYOUT(table->table_canvas),
+				    hadjustment);
+	gtk_layout_set_vadjustment (GTK_LAYOUT(table->table_canvas),
+				    vadjustment);
+	gtk_layout_set_hadjustment (GTK_LAYOUT(table->header_canvas),
+				    hadjustment);
+}
+
+static void
 e_table_class_init (GtkObjectClass *object_class)
 {
 	ETableClass *klass = E_TABLE_CLASS(object_class);
+	GtkWidgetClass *widget_class = GTK_WIDGET_CLASS(object_class);
+
 	e_table_parent_class = gtk_type_class (PARENT_TYPE);
 
 	object_class->destroy = et_destroy;
@@ -905,9 +890,19 @@ e_table_class_init (GtkObjectClass *object_class)
 				GTK_SIGNAL_OFFSET (ETableClass, key_press),
 				e_marshal_INT__INT_INT_POINTER,
 				GTK_TYPE_INT, 3, GTK_TYPE_INT, GTK_TYPE_INT, GTK_TYPE_POINTER);
-	
+
 	gtk_object_class_add_signals (object_class, et_signals, LAST_SIGNAL);
 
+	klass->set_scroll_adjustments = set_scroll_adjustments;
+	
+	widget_class->set_scroll_adjustments_signal =
+		gtk_signal_new ("set_scroll_adjustments",
+				GTK_RUN_LAST,
+				object_class->type,
+				GTK_SIGNAL_OFFSET (ETableClass, set_scroll_adjustments),
+				gtk_marshal_NONE__POINTER_POINTER,
+				GTK_TYPE_NONE, 2, GTK_TYPE_ADJUSTMENT, GTK_TYPE_ADJUSTMENT);
+	
 	gtk_object_add_arg_type ("ETable::drawgrid", GTK_TYPE_BOOL,
 				 GTK_ARG_READWRITE, ARG_TABLE_DRAW_GRID);
 	gtk_object_add_arg_type ("ETable::drawfocus", GTK_TYPE_BOOL,

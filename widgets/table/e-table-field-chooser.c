@@ -96,7 +96,7 @@ static void allocate_callback(GtkWidget *canvas, GtkAllocation *allocation, ETab
 		       "height", &height,
 		       NULL);
 	height = MAX(height, allocation->height);
-	gnome_canvas_set_scroll_region(GNOME_CANVAS( etfc->canvas ), 0, 0, allocation->width, height);
+	gnome_canvas_set_scroll_region(GNOME_CANVAS( etfc->canvas ), 0, 0, allocation->width - 1, height - 1);
 	gnome_canvas_item_set( etfc->rect,
 			       "x2", (double) allocation->width,
 			       "y2", (double) height,
@@ -112,7 +112,7 @@ static void resize(GnomeCanvas *canvas, ETableFieldChooser *etfc)
 
 	height = MAX(height, etfc->last_alloc.height);
 
-	gnome_canvas_set_scroll_region (GNOME_CANVAS(etfc->canvas), 0, 0, etfc->last_alloc.width, height);
+	gnome_canvas_set_scroll_region (GNOME_CANVAS(etfc->canvas), 0, 0, etfc->last_alloc.width - 1, height - 1);
 	gnome_canvas_item_set( etfc->rect,
 			       "x2", (double) etfc->last_alloc.width,
 			       "y2", (double) height,
