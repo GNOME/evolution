@@ -1,3 +1,8 @@
+2001-10-22  Christopher James Lahey  <clahey@ximian.com>
+
+	* message-list.etspec (Score): disable this column.  Fixes Ximian
+	bug #12381.
+
 2001-10-22  Ettore Perazzoli  <ettore@ximian.com>
 
 	* mail-mt.c: #include "component-factory.h".
