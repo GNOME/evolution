@@ -1,7 +1,7 @@
 /* -*- Mode: C; indent-tabs-mode: t; c-basic-offset: 8; tab-width: 8 -*- */
 /* e-shortcuts.c
  *
- * Copyright (C) 2000, 2001 Ximian, Inc.
+ * Copyright (C) 2000, 2001, 2002 Ximian, Inc.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2 of the GNU General Public
@@ -52,11 +52,11 @@
 #include <gtk/gtksignal.h>
 #include <gtk/gtktypeutils.h>
 
-#include <libxml/parser.h>
-#include <libxml/xmlmemory.h>
+#include <gnome-xml/parser.h>
+#include <gnome-xml/xmlmemory.h>
 
+#include <libgnome/gnome-defs.h>
 #include <libgnome/gnome-i18n.h>
-
 #include <gal/util/e-util.h>
 #include <gal/util/e-xml-utils.h>
 #include <gal/widgets/e-unicode.h>
@@ -65,7 +65,6 @@
 #include "e-shortcuts-view.h"
 
 #include "e-shell-constants.h"
-#include "e-shell-marshal.h"
 
 
 #define PARENT_TYPE GTK_TYPE_OBJECT
@@ -234,22 +233,15 @@ update_shortcut_and_emit_signal (EShortcuts *shortcuts,
 				 const char *type,
 				 const char *custom_icon_name)
 {
-	/* Only thing that changed was the unread count */
-	if (shortcut_item->unread_count != unread_count
-	    && !shortcut_item_update (shortcut_item, uri, name, unread_count, type, custom_icon_name)) {
-		gtk_signal_emit (GTK_OBJECT (shortcuts), signals[UPDATE_SHORTCUT], group_num, num);
-		return FALSE;
-	}
+	gboolean shortcut_changed;
 
-	/* Unread count is the same, but other stuff changed */
-	else if (shortcut_item_update (shortcut_item, uri, name, unread_count, type, custom_icon_name)) {
+	shortcut_changed = shortcut_item_update (shortcut_item, uri, name, unread_count, type, custom_icon_name);
+	if (shortcut_changed) {
 		gtk_signal_emit (GTK_OBJECT (shortcuts), signals[UPDATE_SHORTCUT], group_num, num);
 		return TRUE;
 	}
 
-	/* Nothing at all changed, return false only */
-	else
-		return FALSE;
+	return FALSE;
 }
 
 static void
@@ -305,7 +297,7 @@ load_shortcuts (EShortcuts *shortcuts,
 
 	unload_shortcuts (shortcuts);
 
-	for (p = root->children; p != NULL; p = p->next) {
+	for (p = root->childs; p != NULL; p = p->next) {
 		ShortcutGroup *shortcut_group;
 		xmlChar *shortcut_group_title;
 		xmlChar *icon_size;
@@ -327,7 +319,7 @@ load_shortcuts (EShortcuts *shortcuts,
 			shortcut_group->use_small_icons = FALSE;
 		xmlFree (icon_size);
 
-		for (q = p->children; q != NULL; q = q->next) {
+		for (q = p->childs; q != NULL; q = q->next) {
 			EShortcutItem *shortcut_item;
 			xmlChar *uri;
 			xmlChar *name;
@@ -338,7 +330,7 @@ load_shortcuts (EShortcuts *shortcuts,
 			if (strcmp ((char *) q->name, "item") != 0)
 				continue;
 
-			uri  = xmlNodeListGetString (doc, q->children, 1);
+			uri  = xmlNodeListGetString (doc, q->childs, 1);
 			if (uri == NULL)
 				continue;
 
@@ -506,14 +498,11 @@ update_shortcuts_by_path (EShortcuts *shortcuts,
 	EShortcutsPrivate *priv;
 	EFolder *folder;
 	const GSList *p, *q;
-	char *evolution_uri;
 	int group_num, num;
 	gboolean changed = FALSE;
 
 	priv = shortcuts->priv;
 	folder = e_storage_set_get_folder (e_shell_get_storage_set (priv->shell), path);
-
-	evolution_uri = g_strconcat (E_SHELL_URI_PREFIX, path, NULL);
 
 	group_num = 0;
 	for (p = priv->groups; p != NULL; p = p->next, group_num++) {
@@ -523,24 +512,30 @@ update_shortcuts_by_path (EShortcuts *shortcuts,
 		num = 0;
 		for (q = group->shortcuts; q != NULL; q = q->next, num++) {
 			EShortcutItem *shortcut_item;
+			char *shortcut_path;
 
 			shortcut_item = (EShortcutItem *) q->data;
 
-			if (strcmp (shortcut_item->uri, evolution_uri) == 0) {
+			if (! e_shell_parse_uri (priv->shell, shortcut_item->uri, &shortcut_path, NULL)) {
+				/* Ignore bogus URIs.  */
+				continue;
+			}
+
+			if (strcmp (shortcut_path, path) == 0) {
 				changed = update_shortcut_and_emit_signal (shortcuts,
 									   shortcut_item,
 									   group_num,
 									   num,
-									   evolution_uri,
+									   shortcut_item->uri,
 									   shortcut_item->name,
 									   e_folder_get_unread_count (folder),
 									   e_folder_get_type_string (folder),
 									   e_folder_get_custom_icon_name (folder));
 			}
+
+			g_free (shortcut_path);
 		}
 	}
-
-	g_free (evolution_uri);
 
 	if (changed)
 		make_dirty (shortcuts);
@@ -659,27 +654,27 @@ class_init (EShortcutsClass *klass)
 	signals[NEW_GROUP]
 		= gtk_signal_new ("new_group",
 				  GTK_RUN_FIRST,
-				  GTK_CLASS_TYPE (object_class),
+				  object_class->type,
 				  GTK_SIGNAL_OFFSET (EShortcutsClass, new_group),
-				  e_shell_marshal_NONE__INT,
+				  gtk_marshal_NONE__INT,
 				  GTK_TYPE_NONE, 1,
 				  GTK_TYPE_INT);
 
 	signals[REMOVE_GROUP]
 		= gtk_signal_new ("remove_group",
 				  GTK_RUN_FIRST,
-				  GTK_CLASS_TYPE (object_class),
+				  object_class->type,
 				  GTK_SIGNAL_OFFSET (EShortcutsClass, remove_group),
-				  e_shell_marshal_NONE__INT,
+				  gtk_marshal_NONE__INT,
 				  GTK_TYPE_NONE, 1,
 				  GTK_TYPE_INT);
 
 	signals[RENAME_GROUP]
 		= gtk_signal_new ("rename_group",
 				  GTK_RUN_FIRST,
-				  GTK_CLASS_TYPE (object_class),
+				  object_class->type,
 				  GTK_SIGNAL_OFFSET (EShortcutsClass, rename_group),
-				  e_shell_marshal_NONE__INT_POINTER,
+				  gtk_marshal_NONE__INT_POINTER,
 				  GTK_TYPE_NONE, 2,
 				  GTK_TYPE_INT,
 				  GTK_TYPE_STRING);
@@ -687,9 +682,9 @@ class_init (EShortcutsClass *klass)
 	signals[GROUP_CHANGE_ICON_SIZE]
 		= gtk_signal_new ("group_change_icon_size",
 				  GTK_RUN_FIRST,
-				  GTK_CLASS_TYPE (object_class),
+				  object_class->type,
 				  GTK_SIGNAL_OFFSET (EShortcutsClass, group_change_icon_size),
-				  e_shell_marshal_NONE__INT_INT,
+				  gtk_marshal_NONE__INT_INT,
 				  GTK_TYPE_NONE, 2,
 				  GTK_TYPE_INT,
 				  GTK_TYPE_INT);
@@ -697,9 +692,9 @@ class_init (EShortcutsClass *klass)
 	signals[NEW_SHORTCUT]
 		= gtk_signal_new ("new_shortcut",
 				  GTK_RUN_FIRST,
-				  GTK_CLASS_TYPE (object_class),
+				  object_class->type,
 				  GTK_SIGNAL_OFFSET (EShortcutsClass, new_shortcut),
-				  e_shell_marshal_NONE__INT_INT,
+				  gtk_marshal_NONE__INT_INT,
 				  GTK_TYPE_NONE, 2,
 				  GTK_TYPE_INT,
 				  GTK_TYPE_INT);
@@ -707,9 +702,9 @@ class_init (EShortcutsClass *klass)
 	signals[REMOVE_SHORTCUT]
 		= gtk_signal_new ("remove_shortcut",
 				  GTK_RUN_FIRST,
-				  GTK_CLASS_TYPE (object_class),
+				  object_class->type,
 				  GTK_SIGNAL_OFFSET (EShortcutsClass, remove_shortcut),
-				  e_shell_marshal_NONE__INT_INT,
+				  gtk_marshal_NONE__INT_INT,
 				  GTK_TYPE_NONE, 2,
 				  GTK_TYPE_INT,
 				  GTK_TYPE_INT);
@@ -717,12 +712,14 @@ class_init (EShortcutsClass *klass)
 	signals[UPDATE_SHORTCUT]
 		= gtk_signal_new ("update_shortcut",
 				  GTK_RUN_FIRST,
-				  GTK_CLASS_TYPE (object_class),
+				  object_class->type,
 				  GTK_SIGNAL_OFFSET (EShortcutsClass, update_shortcut),
-				  e_shell_marshal_NONE__INT_INT,
+				  gtk_marshal_NONE__INT_INT,
 				  GTK_TYPE_NONE, 2,
 				  GTK_TYPE_INT,
 				  GTK_TYPE_INT);
+
+	gtk_object_class_add_signals (object_class, signals, LAST_SIGNAL);
 }
 
 
@@ -764,10 +761,12 @@ e_shortcuts_construct (EShortcuts *shortcuts,
 
 	storage_set = e_shell_get_storage_set (shell);
 
-	g_signal_connect_object (storage_set, "new_folder",
-				 G_CALLBACK (storage_set_new_folder_callback), shortcuts, 0);
-	g_signal_connect_object (storage_set, "updated_folder",
-				 G_CALLBACK (storage_set_updated_folder_callback), shortcuts, 0);
+	gtk_signal_connect_while_alive (GTK_OBJECT (storage_set), "new_folder",
+					GTK_SIGNAL_FUNC (storage_set_new_folder_callback),
+					shortcuts, GTK_OBJECT (shortcuts));
+	gtk_signal_connect_while_alive (GTK_OBJECT (storage_set), "updated_folder",
+					GTK_SIGNAL_FUNC (storage_set_updated_folder_callback),
+					shortcuts, GTK_OBJECT (shortcuts));
 }
 
 EShortcuts *
@@ -868,7 +867,7 @@ e_shortcuts_new_view (EShortcuts *shortcuts)
 	new = e_shortcuts_view_new (shortcuts);
 	priv->views = g_slist_prepend (priv->views, new);
 
-	gtk_signal_connect (GTK_OBJECT (new), "destroy", GTK_SIGNAL_FUNC (view_destroyed_cb), shortcuts);
+	gtk_signal_connect (GTK_OBJECT (new), "destroy", view_destroyed_cb, shortcuts);
 
 	return new;
 }
