@@ -1,3 +1,16 @@
+2000-06-14  Aaron Weber  <aaron@helixcode.com>
+
+	* C/usage-mainwindow.sgml: added sect on menubar, other minor changes.
+
+	* C/usage-mail.sgml: Improved filter and vfolder
+	description, and some minor changes from me and Kevin.
+
+2000-06-07  Aaron Weber  <aaron@helixcode.com>
+
+	* C/config-prefs.sgml: finished adding calendar prefs. screenshots.
+	* C/fig/config-cal.png: new file (screenshot for above)
+	* C/fig/config-mail.png: same
+	
 2000-06-05  Aaron Weber  <aaron@helixcode.com>
 
 	* C/usage-calendar.sgml: Incorporated chgs from Kevin.

@@ -1,261 +1,310 @@
 
-    <chapter id="usage-mainwindow">
+<chapter id="usage-mainwindow">
 
-    <title>The Main Window: Evolution Basics</title>
-      <para>
-	
-        Start <application>Evolution</application> by selecting
-	<guimenuitem>Evolution</guimenuitem> from the
-	<guisubmenu>Applications</guisubmenu> of the <guimenu>Main
-	Panel Menu</guimenu>, or by typing
-	<command>evolution</command> at the command-line.After
-	<application>Evolution</application> starts up, you will see
-	the <interface>main window</interface>, which looks a lot like
-	in <xref linkend="usage-mainwindow-fig">. On the left of the
-	<interface>main window</interface> are the <interface>shortcut
-	bar</interface> and the <interface>tree-view</interface>.
-	Just underneath the title bar is a series of menus in the
-	<interface>menu bar</interface>, and below that, the
-	<interface>tool bar</interface> with buttons for different
-	functions. The largest part of the <interface>main
-	window</interface> is taken up by a welcome message.  <!--
-	para does not end here but after fig! -->
+  <title>The Main Window: Evolution Basics</title>
+  <para>
+     Start <application>Evolution</application> by selecting
+     <guimenuitem>Evolution</guimenuitem> from the
+     <guisubmenu>Applications</guisubmenu> of the <guimenu>Main Panel
+     Menu</guimenu>, or by typing <command>evolution</command> at the
+     command-line.  After <application>Evolution</application> starts
+     up, you will see the <interface>main window</interface>, with the
+     <interface>Inbox</interface> open.  It should look a lot like the
+     picture in <xref linkend="usage-mainwindow-fig">. On the left of
+     the <interface>main window</interface> is the <interface>shortcut
+     bar</interface>, with several buttons in it.  Just underneath the
+     title bar is a series of menus in the <interface>menu
+     bar</interface>, and below that, the <interface>tool
+     bar</interface> with buttons for different functions. The largest
+     part of the <interface>main window</interface> is taken up by the
+     actual <interface>Inbox</interface>, with a listing of messages
+     you have recieved.  If you're running the program for the first
+     time, you'll just have one: a welcome message from Helix Code.
+
 
 <!-- ==============Figure=================================== -->
 
 <!--
-Make sure that this figure meets its descriptions below: it should
-show the shortcut bar, the tree view with some trees expanded, and so
-forth.  Can these things be labelled with little arrows & stuff?
- -->
+Make sure that this figure meets its descriptions.
+Can these things be labelled with little arrows & stuff?
+-->
 
-	<figure id="usage-mainwindow-fig">
-	<title>Evolution Main Window and Inbox</title>
-	<screenshot>
-	  <screeninfo>Evolution Main Window</screeninfo>
-	  <graphic fileref="fig/mainwindow-pic" format="png" srccredit="Aaron Weber">
-	    </graphic>
-	</screenshot>
-	</figure>
+    <figure id="usage-mainwindow-fig">
+    <title>Evolution Main Window and Inbox</title>
+    <screenshot>
+      <screeninfo>Evolution Main Window</screeninfo>
+      <graphic fileref="fig/mainwindow-pic" format="png" srccredit="Aaron Weber">
+	</graphic>
+    </screenshot>
+    </figure>
 <!-- ==============End of Figure=================================== -->
+</para>
 
-
-        <note>
-	  <title>The Way Evolution Looks</title>
-	  <para>
- 	    The appearance of both
-	    <application>Evolution</application> and
-	    <application>GNOME</application> is very easy to
-	    customize, so your screen might not look like this
-	    picture.  You might configure
-	    <application>Evolution</application> to start with a
-	    different view, or without the <interface>shortcut
-	    bar</interface> or <interface>tree view</interface>.
-          </para>
-	</note>
+   <para>
+    <note>
+      <title>The Way Evolution Looks</title>
+      <para>
+	The appearance of both
+	<application>Evolution</application> and
+	<application>GNOME</application> is very easy to
+	customize, so your screen might not look like this
+	picture.  You might configure
+	<application>Evolution</application> to start with a
+	different view, or without the <interface>shortcut
+	bar</interface> or <interface>folder view</interface>.
       </para>
+    </note>
+  </para>
+  
+  <sect1 id="usage-mainwindow-shortcutbar">
+    <title>The Shortcut Bar</title>
+    <para>
+        One of <application>Evolution</application>'s most important
+        job is to give you access to your information, and help you
+        use it quickly.  One way it does that is through the
+        <interface>shortcut bar</interface>, that column of buttons on
+        the left hand side of the main window.  There are actually two
+        kinds of buttons in the shortcut bar: familiar looking icons,
+        and the thin rectangles at the top and bottom of the column
+        which separate your shortcuts by category.
+    </para>
+    <para>
+       The category buttons, labelled <guilabel>Evolution
+       Shortcuts</guilabel> and <guilabel>Internet
+       Directories</guilabel>, slide up and down when you click on
+       them.  When you first start
+       <application>Evolution</application>, you are lookig at the
+       <guilabel>Evolution Shortcuts</guilabel>.  If you click
+       <guilabel>Internet Directories</guilabel>, it will slide up and
+       you'll see buttons for the <guilabel>Bigfoot</guilabel> and
+       <guilabel>Netcenter</guilabel> directories, as well as any
+       others you or your system administrator might have added.
+       Click on <guibutton>Evolution Shortcuts</guibutton> to look at
+       the shortcuts again.  Those buttons give you fast access to the
+       major fucntions that <application>Evolution</application>
+       provides for you.
+    </para>
+    <para>
+     They are:
+      <itemizedlist>
 
-      <sect1 id="usage-mainwindow-shortcutbar">
-	<title>The Shortcut Bar</title>
-	<para>
-          The buttons in the <interface>shortcut bar</interface> give
-          you quick access to the different functions that
-          <application>Evolution</application> provides.
-        </para>
-	<para>
-          The buttons in the <interface>shortcut bar</interface> are:
-          <itemizedlist>
-	    <listitem>
-	      <para>
-                <guibutton>Today</guibutton>, which will bring up a summary
-                of any new messages you've recieved, along with the tasks and
-                appointments you have lined up for today.
-              </para>
-	    </listitem>
-
-	    <listitem>
-	      <para>
-                <guibutton>Inbox</guibutton>, which will show you all
-                of your email.  Your Inbox is also where you can
-                access Evolution's tools to filter, sort, organize,
-                and search your mail.
-              </para>
-	    </listitem>
-
-	    <listitem>
-	       <para>
-                  The <guibutton>Calendar</guibutton>, which can store
-                  appointments for you.  Connected to a network, you
-                  can use it to keep a group of people on schedule and
-                  up to date.
-               </para>
-            </listitem>
-
-	    <listitem>
-	      <para>
-                The <guibutton>Contacts</guibutton> tool holds your
-                addresses, phone numbers, and contact information.
-                Like calendar information, contact data can be
-                synchronized with hand-held devices and shared over a
-                network.  
-              </para>
-	    </listitem>
-
-	    <listitem>
-	      <para>
-                 The <guibutton>Tasks</guibutton> tool combines a "to
-                 do" list with reminders to help you keep track of
-                 daily events.
-              </para>
-	    </listitem>
-
-	    <listitem>
-	      <para> <guibutton>Notes</guibutton> is your catch-all
-                notepad: write <glossterm>haiku</glossterm>, take down
-                messages from phone conversations, or keep small
-                things organized.
-              </para>
-	    </listitem>
-	  </itemizedlist>
-
-
-        </para>
-	<para>
-          If you prefer to use a keyboard shortcut, or <glossterm>hot
-          key</glossterm>, you can use those instead.  They're
-          shown... (INSERT DESCRIPTION) You can also set your own hot
-          keys for functions that don't have any; this is covered in
-          <xref linkend="config">.  If you're using the keyboard
-          shortcuts you may also want to hide the <interface>shortcut
-          bar</interface> by selecting <guimenuitem>Hide/Show Shortcut
-          Bar</guimenuitem> from the <guimenu>MENU</guimenu> menu.
-        </para>
-     </sect1>
-
-      <sect1 id="usage-mainwindow-treeview">
-	<title>The Tree View</title>
-	<para>
-          The <interface>tree view</interface> is the most comprehensive way to
-          get to your information: it can show you everything you've
-          stored with <application>Evolution</application>
-          appointments, address cards, emails, and so forth.
-        
-          The <interface>tree view</interface> display presents your
-          data like a <glossterm>file tree</glossterm>&mdash; it
-          starts small at the top, and branches downwards. There are a
-          few folders you will always see, because they're at the top.
-          On my computer, I have only one: <guilabel>Local</guilabel>.
-          When I click on the plus sign next to the label, I see the
-          contents:
-          <itemizedlist>
-             <listitem>
-                <para>
-                  <guilabel>Calendar</guilabel>, where you'll find your
-                  appointments and event listings.
-               </para>
-             </listitem> 
-             <listitem>
-                <para>
-                <guilabel>Contacts</guilabel>, where your address
-                cards are stored.
-               </para>
-             </listitem>
-             <listitem>
-                <para>
-              <guilabel>Directories</guilabel>, for search directories, which
-              have not been implemented yet.
-               </para>
-             </listitem>
-             <listitem>
-                <para>
-                 <guilabel>Inbox</guilabel>, for your incoming mail.
-                 This is where you will make the most subfolders.
-               </para>
-             </listitem>
-            <listitem>
-                <para>
-                <guilabel>Outbox</guilabel>, where you can store
-                copies of mail you have sent, or unsent drafts.
-               </para>
-             </listitem>
-             <listitem>
-                <para>
-                <guilabel>Trash</guilabel>, where you can throw things away.
-               </para>
-             </listitem>
-          </itemizedlist>
-
-        </para>
-
-	<para>
-          Right-clicking will bring up a menu for just about anything
-          in GNOME, and <application>Evolution</application> is no
-          exception.  If you right-click on a folder, you'll have a
-          menu with the following options:
-	  <itemizedlist>
-	    <listitem><para>Something</para></listitem>
-	    <listitem><para>Something</para></listitem>
-	    <listitem><para>Something</para></listitem>
-	  </itemizedlist>.
-        </para>
-
-	<tip>
-         <title>Context-Sensitive Help</title>
+<!--  NOT IMPLEMENTED! 
+	<listitem>
 	  <para>
-            You can almost always get help on an item by
-	    right-clicking it.  If you're not sure what something is,
-	    or don't know what you can do with it, right-clicking and
-	    choosing <guimenuitem>Help</guimenuitem> is a good way to
-	    find out.
-          </para>
-        </tip>
-	
-	<para>
-          If a folder has other folders in it, there will be a plus
-          sign next to it. Click on the plus sign, and the folder will
-          open to let you see the other folders inside.  This may
-          change in the future to something more attractive, like
-          triangles that drop down as you click on them to display the
-          rest of the tree.
-        </para>
+	    <guibutton>Today</guibutton>, which will bring up a summary
+	    of any new messages you've recieved, along with the tasks and
+	    appointments you have lined up for today.
+	  </para>
+	</listitem>
+-->
+	<listitem>
+	  <para>
+	    <guibutton>Inbox</guibutton>, which will show you all
+	    of your email.  Your Inbox is also where you can
+	    access Evolution's tools to filter, sort, organize,
+	    and search your mail.
+	  </para>
+	</listitem>
 
-	<para>
-          Any time new information arrives in a folder, that folder
-          will be highlighted, or its label displayed as bold
-          text. You can learn more about customizing
-          <application>Evolution</application> alerts and appearance
-          in <xref linkend="config">.
-        </para>
+	<listitem>
+	   <para>
+	      The <guibutton>Calendar</guibutton>, which can store
+	      appointments for you.  Connected to a network, you
+	      can use it to keep a group of people on schedule and
+	      up to date.
+	   </para>
+	</listitem>
 
-	<para>
-          Moving and deleting folders and other items works in one of
-          two ways: using <glossterm>drag-and-drop</glossterm> or by
-          right-clicking and selecting an item from the
-          <interface>right-click menu</interface>.  You can drag the
-          folders inside the tree view to change their order or put
-          one folder inside another.  To delete a folder, drag it into
-          the trash folder or right-click it and select
-          <guimenuitem>Delete</guimenuitem> from the menu that pops
-          up.  The same goes for individual messages, appointments,
-          and address cards, whether they're in the <interface>tree
-          view</interface> or not: drag them where you want them, and
-          they will go there.  <!-- ****This paragraph could use some
-          work**** -->
-        </para>
-	<para>
-          You can also use the <guimenu>right-click menu</guimenu> to
-          move, rename, and delete folders.
-          <guimenuitem>Delete</guimenuitem> function from the
-          <guimenu>right-click menu</guimenu>.
-        </para>
-	<para>
-          Once you've familiarized yourself with the <interface>main
-          window</interface> you can start doing things with it.
-          We'll start with your email inbox: you've got a letter
-          waiting for you already.
-        </para>
-      </sect1>
-    </chapter>
+	<listitem>
+	  <para>
+	    The <guibutton>Contacts</guibutton> tool holds your
+	    addresses, phone numbers, and contact information.
+	    Like calendar information, contact data can be
+	    synchronized with hand-held devices and shared over a
+	    network.  
+	  </para>
+	</listitem>
+
+<!-- NOT IMPLEMENTED YET
+
+	<listitem>
+	  <para>
+	     The <guibutton>Tasks</guibutton> tool combines a "to
+	     do" list with reminders to help you keep track of
+	     daily events.
+	  </para>
+	</listitem>
+
+	<listitem>
+	  <para> <guibutton>Notes</guibutton> is your catch-all
+	    notepad: write <glossterm>haiku</glossterm>, take down
+	    messages from phone conversations, or keep small
+	    things organized.
+	  </para>
+	</listitem>
+-->
+
+      </itemizedlist>
+
+
+    </para>
+    <para>
+      If you prefer to use a keyboard shortcut, or <glossterm>hot
+      key</glossterm>, you can use those instead.  They're shown next
+      to their equivalent menu items in the menu bar. You can also set
+      your own hot keys for functions that don't have any; this is
+      covered in <xref linkend="config">.  If you're using the
+      keyboard shortcuts you may also want to hide the
+      <interface>shortcut bar</interface> by selecting
+      <guimenuitem>Hide/Show Shortcut Bar</guimenuitem> from the
+      <guimenu>MENU</guimenu> menu.
+    </para>
+ </sect1>
+
+  <sect1 id="usage-mainwindow-folderview">
+    <title>The Folder View</title>
+    <para>
+      The <interface>folder view</interface> is the most comprehensive way to
+      get to your information. It can show you everything you've
+      stored with <application>Evolution</application>&mdash;
+      appointments, address cards, emails, and so forth.
+
+      The <interface>folder view</interface> display presents your
+      data like a <glossterm>file tree</glossterm>&mdash; it
+      starts small at the top, and branches downwards. There are a
+      few folders you will always see, because they're at the top.
+      On my computer, I have only one: <guilabel>Local</guilabel>.
+      When I click on the plus sign next to the label, I see the
+      contents:
+      <itemizedlist>
+	 <listitem>
+	    <para>
+	      <guilabel>Calendar</guilabel>, where you'll find your
+	      appointments and event listings.
+	   </para>
+	 </listitem> 
+	 <listitem>
+	    <para>
+	    <guilabel>Contacts</guilabel>, where your address
+	    cards are stored.
+	   </para>
+	 </listitem>
+	 <listitem>
+	    <para>
+	  <guilabel>Directories</guilabel>, for search directories, which
+	  have not been implemented yet.
+	   </para>
+	 </listitem>
+	 <listitem>
+	    <para>
+	     <guilabel>Inbox</guilabel>, for your incoming mail.
+	     This is where you will make the most subfolders.
+	   </para>
+	 </listitem>
+	<listitem>
+	    <para>
+	    <guilabel>Outbox</guilabel>, where you can store
+	    copies of mail you have sent, or unsent drafts.
+	   </para>
+	 </listitem>
+	 <listitem>
+	    <para>
+	    <guilabel>Trash</guilabel>, where you can throw things away.
+	   </para>
+	 </listitem>
+      </itemizedlist>
+
+    </para>
+
+    <para>
+      Right-clicking will bring up a menu for just about anything
+      in GNOME, and <application>Evolution</application> is no
+      exception.  If you right-click on a folder, you'll have a
+      menu with the following options:
+      <itemizedlist>
+	<listitem><para>Something</para></listitem>
+	<listitem><para>Something</para></listitem>
+	<listitem><para>Something</para></listitem>
+      </itemizedlist>.
+    </para>
+
+    <tip>
+     <title>Context-Sensitive Help</title>
+      <para>
+	You can almost always get help on an item by
+	right-clicking it.  If you're not sure what something is,
+	or don't know what you can do with it, right-clicking and
+	choosing <guimenuitem>Help</guimenuitem> is a good way to
+	find out.
+      </para>
+    </tip>
+
+    <para>
+      If a folder has other folders in it, there will be a plus
+      sign next to it. Click on the plus sign, and the folder will
+      open to let you see the other folders inside.  This may
+      change in the future to something more attractive, like
+      triangles that drop down as you click on them to display the
+      rest of the tree.
+    </para>
+
+    <para>
+      Any time new information arrives in a folder, that folder
+      will be highlighted, or its label displayed as bold
+      text. You can learn more about customizing
+      <application>Evolution</application> alerts and appearance
+      in <xref linkend="config">.
+    </para>
+
+    <para>
+      Moving and deleting folders and other items works in one of
+      two ways: using <glossterm>drag-and-drop</glossterm> or by
+      right-clicking and selecting an item from the
+      <interface>right-click menu</interface>.  You can drag the
+      folders inside the folder view to change their order or put
+      one folder inside another.  To delete a folder, drag it into
+      the trash folder or right-click it and select
+      <guimenuitem>Delete</guimenuitem> from the menu that pops
+      up.  The same goes for individual messages, appointments,
+      and address cards, whether they're in the <interface>folder
+      view</interface> or not: drag them where you want them, and
+      they will go there.  <!-- ****This paragraph could use some
+      work**** -->
+    </para>
+    <para>
+      You can also use the <guimenu>right-click menu</guimenu> to
+      move, rename, and delete folders.
+      <guimenuitem>Delete</guimenuitem> function from the
+      <guimenu>right-click menu</guimenu>.
+    </para>
+  </sect1>
+  <sect1 id="usage-mainwindow-menubar">
+    <title>The Menu Bar</title>
+    <para>
+      The <interface>menu bar</interface>'s contents will always
+      provide all the possible actions for any view of your data.
+      That means that, depending on the context, menu bar items will
+      change.  If you're looking at your Inbox, most of the menu items
+      will relate to mail; some will relate to other components of
+      <application>Evolution</application> and some, especially those
+      in the <guimenu>File Menu</guimenu> will relate to the
+      application as a whole. You can probably guess that the
+      <guimenu>Help Menu</guimenu> is where to go for help, and that
+      the <guimenu>View</guimenu> menu controls the way that
+      <application>Evolution</application> looks.  Other menu items
+      are a little less obvious, and change a little more, so we'll
+      cover them later on as we discuss the things you can do with
+      <application>Evolution</application>.
+    </para>
+  </sect1>
+    <para>
+      Once you've familiarized yourself with the <interface>main
+      window</interface> you can start doing things with it.
+      We'll start with your email inbox: you've got a letter
+      waiting for you already.
+    </para>
+
+</chapter>
 
 
 
