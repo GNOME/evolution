@@ -703,10 +703,9 @@ create_folder (CamelStore *store, const char *parent_name,
 	CamelFolderInfo *fi;
 	char *full_name;
 
-	if (parent_name)
-		full_name = imap_concat (imap_store, parent_name, folder_name);
-	else
-		full_name = g_strdup (folder_name);
+	if (!parent_name)
+		parent_name = imap_store->namespace;
+	full_name = imap_concat (imap_store, parent_name, folder_name);
 
 	imap_create (imap_store, full_name, ex);
 	if (camel_exception_is_set (ex)) {

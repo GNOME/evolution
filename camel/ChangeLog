@@ -4,7 +4,8 @@
 	a folder when you don't know its full name.
 
 	* providers/imap/camel-imap-store.c (create_folder): Implement.
-
+	(create_folder): Oops, and fix bug involving namespaces
+	
 2001-02-12  Not Zed  <NotZed@Ximian.com>
 
 	* camel-mime-part.c (init_header_name_table): Add address headers
