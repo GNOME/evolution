@@ -1,5 +1,13 @@
 2004-01-20  Not Zed  <NotZed@Ximian.com>
 
+	** See bug #52885.
+
+	* em-folder-browser.c (emfb_create_view_menus): unref the view
+	instance/menu's rather than asserting, if they exist.
+	(emfb_set_folder): call create_view_menu's rather than
+	create_view_instance, so the view menu's are properly setup.
+	(emfb_set_folder): call superclass first.
+
 	** See bug #53028.
 
 	* message-list.c (on_selection_changed_cmd): emit the

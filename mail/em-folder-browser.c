@@ -885,6 +885,8 @@ static void
 emfb_set_folder(EMFolderView *emfv, CamelFolder *folder, const char *uri)
 {
 	EMFolderBrowser *emfb = (EMFolderBrowser *) emfv;
+
+	emfb_parent->set_folder(emfv, folder, uri);
 	
 	/* This is required since we get activated the first time
 	   before the folder is open and need to override the
@@ -909,10 +911,10 @@ emfb_set_folder(EMFolderView *emfv, CamelFolder *folder, const char *uri)
 			emfb->priv->list_built_id =
 				g_signal_connect (emfv->list, "message_list_built", G_CALLBACK (emfb_list_built), emfv);
 		
-		emfb_create_view_instance ((EMFolderBrowser *) emfv, folder, uri);
+		/*emfb_create_view_instance ((EMFolderBrowser *) emfv, folder, uri);*/
+		if (emfv->uic)
+			emfb_create_view_menus((EMFolderBrowser *)emfv, emfv->uic);
 	}
-	
-	emfb_parent->set_folder(emfv, folder, uri);
 }
 
 /* TODO: All this mess should sit directly on MessageList, but it would
@@ -922,9 +924,19 @@ static void
 emfb_create_view_menus(EMFolderBrowser *emfb, BonoboUIComponent *uic)
 {
 	struct _EMFolderBrowserPrivate *p = emfb->priv;
-	
-	g_assert(p->view_instance == NULL);
-	g_assert(p->view_menus == NULL);
+
+	if (p->view_instance) {
+		g_object_unref(p->view_instance);
+		p->view_instance = NULL;
+	}
+
+	if (p->view_menus) {
+		g_object_unref(p->view_menus);
+		p->view_menus = NULL;
+	}
+
+	/*g_assert(p->view_instance == NULL);
+	  g_assert(p->view_menus == NULL);*/
 	
 	collection_init ();
 	
