@@ -1,5 +1,14 @@
 2001-09-18  Iain Holmes  <iain@ximian.com>
 
+	* e-summary-preferences.c (mail_remove_clicked_cb): Select the next
+	folder for removal.
+
+	* e-summary-mail.c (e_summary_mail_reconfigure): Don't do the hashtable
+	thing to get folders. Just iterate through the list lookuping the 
+	folders instead. This keeps the required order.
+
+2001-09-18  Iain Holmes  <iain@ximian.com>
+
 	* e-summary-preferences.c (mail_add_clicked_cb): Don't add folders that
 	are already in the list
 

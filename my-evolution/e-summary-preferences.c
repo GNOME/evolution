@@ -704,8 +704,8 @@ mail_add_clicked_cb (GtkButton *button,
 	text[0] = rd->name + 1;
 	row = gtk_clist_append (GTK_CLIST (pd->mail->shown), text);
 
-	pd->summary->preferences->display_folders = g_list_prepend (pd->summary->preferences->display_folders,
-								    g_strdup (rd->uri + 7));
+	pd->summary->preferences->display_folders = g_list_append (pd->summary->preferences->display_folders,
+								   g_strdup (rd->uri + 7));
 	gtk_clist_set_row_data (GTK_CLIST (pd->mail->shown), row, pd->summary->preferences->display_folders);
 
 	gnome_property_box_changed (pd->box);
@@ -726,6 +726,7 @@ mail_remove_clicked_cb (GtkButton *button,
 	g_free (p->data);
 	g_list_free (p);
 
+	gtk_clist_select_row (GTK_CLIST (pd->mail->shown), row, 0);
 	gnome_property_box_changed (pd->box);
 }
 

@@ -116,6 +116,8 @@ e_summary_mail_generate_html (ESummary *summary)
 	g_string_append (string, "</a></b></dt><dd><table numcols=\"2\" width=\"100%\">");
 	
 	for (p = mail->shown; p; p = p->next) {
+		ESummaryMailFolder *f = p->data;
+
 		folder_gen_html (summary, p->data, string);
 	}
 
@@ -183,7 +185,7 @@ new_folder_cb (EvolutionStorageListener *listener,
 
 		uri = g_strconcat ("file://", p->data, NULL);
 		if (strcmp (uri, mail_folder->path) == 0) {
-			mail->shown = g_list_prepend (mail->shown, mail_folder);
+			mail->shown = g_list_append (mail->shown, mail_folder);
 		}
 
 		g_free (uri);
@@ -426,7 +428,7 @@ void
 e_summary_mail_reconfigure (ESummary *summary)
 {
 	ESummaryMail *mail;
-	GList *old;
+	GList *old, *p;
 
 	g_return_if_fail (summary != NULL);
 	g_return_if_fail (IS_E_SUMMARY (summary));
@@ -434,12 +436,28 @@ e_summary_mail_reconfigure (ESummary *summary)
 	mail = summary->mail;
 	old = mail->shown;
 	mail->shown = NULL;
+#if 0
 	g_hash_table_foreach (mail->folders, maybe_add_to_shown, summary);
 	e_summary_mail_generate_html (summary);
+#endif
+
+	for (p = summary->preferences->display_folders; p; p = p->next) {
+		ESummaryMailFolder *folder;
+		char *uri;
+
+		uri = g_strconcat ("file://", p->data, NULL);
+		folder = g_hash_table_lookup (mail->folders, uri);
+		if (folder != NULL) {
+			mail->shown = g_list_append (mail->shown, folder);
+		}
+
+		g_free (uri);
+	}
 
 	/* Free the old list */
 	g_list_free (old);
 
+	e_summary_mail_generate_html (summary);
 	e_summary_draw (summary);
 }
 
