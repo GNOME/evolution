@@ -37,18 +37,22 @@ typedef struct {
 GType                 e_config_listener_get_type (void);
 EConfigListener      *e_config_listener_new (void);
 
+gboolean              e_config_listener_get_boolean (EConfigListener *cl, const char *key);
 gboolean              e_config_listener_get_boolean_with_default (EConfigListener *cl,
 								  const char *key,
 								  gboolean def,
 								  gboolean *used_default);
+float                 e_config_listener_get_float (EConfigListener *cl, const char *key);
 float                 e_config_listener_get_float_with_default (EConfigListener *cl,
 								const char *key,
 								float def,
 								gboolean *used_default);
+long                  e_config_listener_get_long (EConfigListener *cl, const char *key);
 long                  e_config_listener_get_long_with_default (EConfigListener *cl,
 							       const char *key,
 							       long def,
 							       gboolean *used_default);
+char                 *e_config_listener_get_string (EConfigListener *cl, const char *key);
 char                 *e_config_listener_get_string_with_default (EConfigListener *cl,
 								 const char *key,
 								 const char *def,

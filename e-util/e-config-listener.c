@@ -241,6 +241,12 @@ add_key (EConfigListener *cl, const char *key, GConfValueType type,
 }
 
 gboolean
+e_config_listener_get_boolean (EConfigListener *cl, const char *key)
+{
+	return e_config_listener_get_boolean_with_default (cl, key, FALSE, NULL);
+}
+
+gboolean
 e_config_listener_get_boolean_with_default (EConfigListener *cl,
 					    const char *key,
 					    gboolean def,
@@ -285,6 +291,12 @@ e_config_listener_get_boolean_with_default (EConfigListener *cl,
 	}
 
 	return value;
+}
+
+float
+e_config_listener_get_float (EConfigListener *cl, const char *key)
+{
+	return e_config_listener_get_float_with_default (cl, key, 0.0, NULL);
 }
 
 float
@@ -335,6 +347,12 @@ e_config_listener_get_float_with_default (EConfigListener *cl,
 }
 
 long
+e_config_listener_get_long (EConfigListener *cl, const char *key)
+{
+	return e_config_listener_get_long_with_default (cl, key, 0, NULL);
+}
+
+long
 e_config_listener_get_long_with_default (EConfigListener *cl,
 					 const char *key,
 					 long def,
@@ -379,6 +397,12 @@ e_config_listener_get_long_with_default (EConfigListener *cl,
 	}
 
 	return value;
+}
+
+char *
+e_config_listener_get_string (EConfigListener *cl, const char *key)
+{
+	return e_config_listener_get_string_with_default (cl, key, NULL, NULL);
 }
 
 char *
