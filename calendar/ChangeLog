@@ -1,3 +1,15 @@
+1999-11-12  Russell Steinthal  <rms39@columbia.edu>
+
+	* prop.c: Config code for timeout, make Alarms property page use a
+	vbox instead of an hbox so that the propbox stays a reasonable width.
+
+	* gnome-cal.c, main.[ch]: Add timeout for audio alarms, code to load
+	from config file
+
+	* eventedit.c: Give some static functions external linkage so they
+	can be used elsewhere (make_spin_button); add some prototypes to
+	appease gcc.	
+
 1999-11-11  Russell Steinthal  <rms39@columbia.edu>
 
 	* calendar.c (calendar_day_change): Add call to

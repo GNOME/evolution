@@ -44,9 +44,12 @@ extern gboolean todo_style_changed;
 extern gint todo_current_sort_column;
 extern gint todo_current_sort_type;
 
-/* default alarm stuff */
+/* alarm stuff */
 extern CalendarAlarm alarm_defaults[4];
 extern gboolean beep_on_display;
+extern gboolean enable_aalarm_timeout;
+extern guint audio_alarm_timeout;
+extern const guint MAX_AALARM_TIMEOUT;
 
 /* Creates and runs the preferences dialog box */
 void properties (GtkWidget *toplevel);

@@ -86,6 +86,12 @@ static int show_todo;
 /* If set, beep on display alarms */
 gboolean beep_on_display = 0;
 
+/* If true, timeout the beeper on audio alarms */
+
+gboolean enable_aalarm_timeout = 0;
+guint audio_alarm_timeout = 0;
+const guint MAX_AALARM_TIMEOUT = 3600;
+
 /* Default values for alarms */
 CalendarAlarm alarm_defaults[4] = {
 	{ ALARM_MAIL, 0, 15, ALARM_MINUTES },
@@ -212,6 +218,12 @@ init_calendar (void)
 
 	/* read alarm settings */
 	beep_on_display = gnome_config_get_bool ("/calendar/alarms/beep_on_display=FALSE");
+	enable_aalarm_timeout = gnome_config_get_bool ("/calendar/alarms/enable_audio_timeout=FALSE");
+	audio_alarm_timeout = gnome_config_get_int ("/calendar/alarms/audio_alarm_timeout=60");
+	if (audio_alarm_timeout < 1)
+		audio_alarm_timeout = 1;
+	if (audio_alarm_timeout > MAX_AALARM_TIMEOUT)
+		audio_alarm_timeout = MAX_AALARM_TIMEOUT;
 	init_default_alarms ();
 	
 

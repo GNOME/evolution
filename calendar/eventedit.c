@@ -18,6 +18,11 @@ static void event_editor_class_init (EventEditorClass *class);
 static void event_editor_init       (EventEditor      *ee);
 static void event_editor_destroy    (GtkObject        *object);
 
+GtkWidget* make_spin_button (int val, int low, int high);
+void ee_create_ae (GtkTable *table, char *str, CalendarAlarm *alarm, enum AlarmType type, 
+		   int y, gboolean control_sens, GtkSignalFunc dirty_func);
+void ee_store_alarm (CalendarAlarm *alarm, enum AlarmType type);
+
 /* Note: do not i18n these strings, they are part of the vCalendar protocol */
 static char *class_names [] = { "PUBLIC", "PRIVATE", "CONFIDENTIAL" };
 
@@ -59,7 +64,7 @@ event_editor_class_init (EventEditorClass *class)
 	object_class->destroy = event_editor_destroy;
 }
 
-static GtkWidget *
+GtkWidget *
 make_spin_button (int val, int low, int high)
 {
 	GtkAdjustment *adj;

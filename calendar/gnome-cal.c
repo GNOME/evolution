@@ -387,11 +387,20 @@ mail_notify (char *mail_address, char *text, time_t app_time)
 }
 
 static void
-stop_beeping (GtkObject *object, gpointer tagp)
+stop_beeping (GtkObject* object, gpointer data)
 {
-	guint tag = GPOINTER_TO_INT (tagp);
-
-	gtk_timeout_remove (tag);
+	guint timer_tag, beep_tag;
+	timer_tag = GPOINTER_TO_INT (gtk_object_get_data (object, "timer_tag"));
+	beep_tag  = GPOINTER_TO_INT (gtk_object_get_data (object, "beep_tag"));
+	
+	if (beep_tag > 0) {
+		gtk_timeout_remove (beep_tag);
+		gtk_object_set_data (object, "beep_tag", GINT_TO_POINTER (0));
+	}
+	if (timer_tag > 0) {
+		gtk_timeout_remove (timer_tag);
+		gtk_object_set_data (object, "timer_tag", GINT_TO_POINTER (0));
+	}
 }
 
 static gint
@@ -402,11 +411,18 @@ start_beeping (gpointer data)
 	return TRUE;
 }
 
+static gint
+timeout_beep (gpointer data)
+{
+	stop_beeping (data, NULL);
+	return FALSE;
+}
+
 void
 calendar_notify (time_t time, CalendarAlarm *which, void *data)
 {
 	iCalObject *ico = data;
-	guint tag;
+	guint beep_tag, timer_tag;
 
 	if (&ico->aalarm == which){
 		time_t app = ico->aalarm.trigger + ico->aalarm.offset;
@@ -419,8 +435,18 @@ calendar_notify (time_t time, CalendarAlarm *which, void *data)
 
 		/* Idea: we need Snooze option :-) */
 		w = gnome_message_box_new (msg, GNOME_MESSAGE_BOX_INFO, "Ok", NULL);
-		tag = gtk_timeout_add (1000, start_beeping, NULL);
-		gtk_signal_connect (GTK_OBJECT (w), "destroy", stop_beeping, GINT_TO_POINTER (tag));
+		beep_tag = gtk_timeout_add (1000, start_beeping, NULL);
+		if (enable_aalarm_timeout)
+			timer_tag = gtk_timeout_add (audio_alarm_timeout*1000, 
+						     timeout_beep, w);
+		else
+			timer_tag = 0;
+		gtk_object_set_data (GTK_OBJECT (w), "timer_tag",
+				     GINT_TO_POINTER (timer_tag));
+		gtk_object_set_data (GTK_OBJECT (w), "beep_tag",
+				     GINT_TO_POINTER (beep_tag));
+		gtk_signal_connect (GTK_OBJECT (w), "destroy", stop_beeping, 
+				    NULL);
 		gtk_widget_show (w);
 
 		return;

@@ -50,10 +50,19 @@ static GtkWidget *priority_show_button;
 
 /* Widgets for the alarm page */
 static GtkWidget *enable_display_beep;
+static GtkWidget *to_cb;
+static GtkWidget *to_spin;
 
 /* prototypes */
 static void prop_apply_alarms (void);
 static void create_alarm_page (void);
+static void to_cb_changed (GtkWidget* object, gpointer data);
+
+GtkWidget* make_spin_button (int val, int low, int high);
+void ee_create_ae (GtkTable *table, char *str, CalendarAlarm *alarm,
+		   enum AlarmType type, int y, gboolean sens,
+		   GtkSignalFunc dirty_func);
+void ee_store_alarm (CalendarAlarm *alarm, enum AlarmType type);
 
 /* Callback used when the property box is closed -- just sets the prop_win variable to null. */
 static int
@@ -723,8 +732,9 @@ create_alarm_page (void)
 	GtkWidget *default_table;
 	GtkWidget *misc_frame;
 	GtkWidget *misc_box;
+	GtkWidget *box, *l;
 
-	main_box = gtk_hbox_new (FALSE, GNOME_PAD);
+	main_box = gtk_vbox_new (FALSE, GNOME_PAD);
 	gtk_container_set_border_width (GTK_CONTAINER (main_box), GNOME_PAD_SMALL);
 	gnome_property_box_append_page (GNOME_PROPERTY_BOX (prop_win), 
 				       main_box, gtk_label_new (_("Alarms")));
@@ -748,6 +758,23 @@ create_alarm_page (void)
 			    (GtkSignalFunc) prop_changed,
 			    NULL);
 
+	/* audio timeout widgets */
+	box = gtk_hbox_new (FALSE, GNOME_PAD);
+	to_cb = gtk_check_button_new_with_label (_("Audio alarms timeout after"));
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (to_cb), 
+				      enable_aalarm_timeout);
+	gtk_signal_connect (GTK_OBJECT (to_cb), "toggled",
+			    (GtkSignalFunc) to_cb_changed, NULL);
+	gtk_box_pack_start (GTK_BOX (box), to_cb, FALSE, FALSE, 0);
+	to_spin = make_spin_button (audio_alarm_timeout, 1, MAX_AALARM_TIMEOUT);
+	gtk_widget_set_sensitive (to_spin, enable_aalarm_timeout);
+	gtk_signal_connect (GTK_OBJECT (to_spin), "changed",
+			    (GtkSignalFunc) prop_changed, NULL);
+	gtk_box_pack_start (GTK_BOX (box), to_spin, FALSE, FALSE, 0);
+	l = gtk_label_new (_(" seconds"));
+	gtk_box_pack_start (GTK_BOX (box), l, FALSE, FALSE, 0);
+	gtk_box_pack_start (GTK_BOX (misc_box), box, FALSE, FALSE, 0);
+	
 	/* populate default frame/box */
 	default_frame = gtk_frame_new (_("Defaults"));
 	gtk_container_set_border_width (GTK_CONTAINER (default_frame), GNOME_PAD_SMALL);
@@ -811,5 +838,22 @@ prop_apply_alarms ()
 
 	beep_on_display = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (enable_display_beep));
 	gnome_config_set_bool ("/calendar/alarms/beep_on_display", beep_on_display);
+	enable_aalarm_timeout = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (to_cb));
+	gnome_config_set_bool ("/calendar/alarms/enable_audio_timeout", enable_aalarm_timeout);
+	audio_alarm_timeout = gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON (to_spin));
+	gnome_config_set_int ("/calendar/alarms/audio_alarm_timeout", audio_alarm_timeout);
+
 	gnome_config_sync();
 }
+
+static void
+to_cb_changed (GtkWidget *object, gpointer data)
+{
+	gboolean active = 
+		gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (to_cb));
+	gtk_widget_set_sensitive (to_spin, active);
+	prop_changed ();
+}
+	
+
+
