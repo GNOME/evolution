@@ -104,6 +104,7 @@ struct _EMsgComposerClass {
 	
 	void (* send) (EMsgComposer *composer);
 	void (* postpone) (EMsgComposer *composer);
+	void (* save_draft) (EMsgComposer *composer, int quit);
 };
 
 

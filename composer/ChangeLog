@@ -1,3 +1,11 @@
+2001-12-14  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* e-msg-composer.c (class_init): Setup the SAVE_DRAFT signal.
+	(menu_file_save_draft_cb): Emit the SAVE_DRAFT signal.
+	(exit_dialog_cb): Same here.
+	(save_draft): Removed. This code is now a signal that
+	mail-callbacks will connect to.
+
 2001-12-11  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* e-msg-composer-attachment.c (e_msg_composer_attachment_edit):

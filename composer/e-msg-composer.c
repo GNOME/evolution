@@ -104,6 +104,7 @@
 enum {
 	SEND,
 	POSTPONE,
+	SAVE_DRAFT,
 	LAST_SIGNAL
 };
 
@@ -1002,96 +1003,6 @@ load (EMsgComposer *composer, const char *file_name)
 	CORBA_exception_free (&ev);
 }
 
-/* Exit dialog.  (Displays a "Save composition to 'Drafts' before exiting?" warning before actually exiting.)  */
-
-enum { REPLY_YES = 0, REPLY_NO, REPLY_CANCEL };
-
-struct _save_info {
-	EMsgComposer *composer;
-	int quitok;
-};
-
-static void
-save_done (CamelFolder *folder, CamelMimeMessage *msg, CamelMessageInfo *info, int ok, void *data)
-{
-	struct _save_info *si = data;
-	
-	if (ok && si->quitok)
-		gtk_widget_destroy (GTK_WIDGET (si->composer));
-	else
-		gtk_object_unref (GTK_OBJECT (si->composer));
-	
-	g_free (info);
-	g_free (si);
-}
-
-extern CamelFolder *drafts_folder;
-extern char *default_drafts_folder_uri;
-
-static void
-use_default_drafts_cb (gint reply, gpointer data)
-{
-	CamelFolder **folder = data;
-	
-	if (reply == 0)
-		*folder = drafts_folder;
-}
-
-static void
-save_folder (char *uri, CamelFolder *folder, gpointer data)
-{
-	CamelFolder **save = data;
-	
-	if (folder) {
-		*save = folder;
-		camel_object_ref (CAMEL_OBJECT (folder));
-	}
-}
-
-static void
-save_draft (EMsgComposer *composer, int quitok)
-{
-	CamelMimeMessage *msg;
-	CamelMessageInfo *info;
-	const MailConfigAccount *account;
-	struct _save_info *si;
-	CamelFolder *folder = NULL;
-	
-	account = e_msg_composer_get_preferred_account (composer);
-	if (account && account->drafts_folder_uri &&
-	    strcmp (account->drafts_folder_uri, default_drafts_folder_uri) != 0) {
-		int id;
-		
-		id = mail_get_folder (account->drafts_folder_uri, 0, save_folder, &folder, mail_thread_new);
-		mail_msg_wait (id);
-		
-		if (!folder) {
-			GtkWidget *dialog;
-			
-			dialog = gnome_ok_cancel_dialog_parented (_("Unable to open the drafts folder for this account.\n"
-								    "Would you like to use the default drafts folder?"),
-								  use_default_drafts_cb, &folder, GTK_WINDOW (composer));
-			gnome_dialog_run_and_close (GNOME_DIALOG (dialog));
-			if (!folder)
-				return;
-		}
-	} else
-		folder = drafts_folder;
-	
-	msg = e_msg_composer_get_message_draft (composer);
-	
-	info = g_new0 (CamelMessageInfo, 1);
-	info->flags = CAMEL_MESSAGE_DRAFT | CAMEL_MESSAGE_SEEN;
-	
-	si = g_malloc (sizeof (*si));
-	si->composer = composer;
-	gtk_object_ref (GTK_OBJECT (composer));
-	si->quitok = quitok;
-	
-	mail_append_mail (folder, msg, info, save_done, si);
-	camel_object_unref (CAMEL_OBJECT (msg));
-}
-
 #define AUTOSAVE_SEED ".evolution-composer.autosave-XXXXXX"
 #define AUTOSAVE_INTERVAL 60000
 
@@ -1377,17 +1288,20 @@ autosave_manager_unregister (AutosaveManager *am, EMsgComposer *composer)
 static void
 menu_file_save_draft_cb (BonoboUIComponent *uic, void *data, const char *path)
 {
-	save_draft (E_MSG_COMPOSER (data), FALSE);
+	gtk_signal_emit (GTK_OBJECT (data), signals[SAVE_DRAFT], FALSE);
 	e_msg_composer_unset_changed (E_MSG_COMPOSER (data));
 }
+
+/* Exit dialog.  (Displays a "Save composition to 'Drafts' before exiting?" warning before actually exiting.)  */
+
+enum { REPLY_YES = 0, REPLY_NO, REPLY_CANCEL };
 
 static void
 exit_dialog_cb (int reply, EMsgComposer *composer)
 {
 	switch (reply) {
 	case REPLY_YES:
-		/* this has to be done async */
-		save_draft (composer, TRUE);
+		gtk_signal_emit (GTK_OBJECT (composer), signals[SAVE_DRAFT], TRUE);
 		e_msg_composer_unset_changed (composer);
 		break;
 	case REPLY_NO:
@@ -2202,6 +2116,17 @@ drag_data_received (EMsgComposer *composer, GdkDragContext *context,
 	}
 }
 
+typedef void (*GtkSignal_NONE__NONE_INT) (GtkObject *, int, gpointer);
+
+static void marshal_NONE__NONE_INT (GtkObject *object, GtkSignalFunc func,
+				    gpointer func_data, GtkArg *args)
+{
+	GtkSignal_NONE__NONE_INT rfunc;
+	
+	rfunc = (GtkSignal_NONE__NONE_INT) func;
+	(*rfunc)(object, GTK_VALUE_INT (args[0]), func_data);
+}
+
 
 static void
 class_init (EMsgComposerClass *klass)
@@ -2234,6 +2159,14 @@ class_init (EMsgComposerClass *klass)
 				GTK_SIGNAL_OFFSET (EMsgComposerClass, postpone),
 				gtk_marshal_NONE__NONE,
 				GTK_TYPE_NONE, 0);
+	
+	signals[SAVE_DRAFT] =
+		gtk_signal_new ("save-draft",
+				GTK_RUN_LAST,
+				object_class->type,
+				GTK_SIGNAL_OFFSET (EMsgComposerClass, save_draft),
+				marshal_NONE__NONE_INT,
+				GTK_TYPE_NONE, 1);
 	
 	gtk_object_class_add_signals (object_class, signals, LAST_SIGNAL);
 }
