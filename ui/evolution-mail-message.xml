@@ -219,7 +219,7 @@
       </placeholder>
 
       <placeholder name="Print">
-        <menuitem name="PrintPreviewMessage" verb="" _label="Print Preview"/>
+        <menuitem name="PrintPreviewMessage" verb="" _label="Print Pre_view"/>
         <menuitem name="PrintMessage" verb="" _label="_Print..."/>
       </placeholder>
     </submenu>

@@ -86,7 +86,7 @@
       <placeholder name="Print">
 
 	<menuitem name="ContactsPrintPreview" verb=""
-		  _label="Print Preview"
+		  _label="Print Pre_view"
 		  pixtype="pixbuf"/>
 	<menuitem name="ContactsPrint" verb=""
 		  _label="_Print..."
@@ -108,7 +108,7 @@
 		  pixtype="pixbuf"/>
 
 	<menuitem name="ContactDelete" verb=""
-		  _label="Delete" pixtype="pixbuf"/>
+		  _label="_Delete" pixtype="pixbuf"/>
 	<separator f="" name="eadbk2"/>
 
 	<menuitem name="ContactsSelectAll" verb="" _label="_Select All"/>
