@@ -1,3 +1,7 @@
+2001-12-11  Ettore Perazzoli  <ettore@ximian.com>
+
+	* configure.in: Up VERSION to 1.1.0.99.
+
 2001-12-06  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* configure.in: s/PREVIEW_VERSION/VERSION_COMMENT
@@ -6,15 +10,6 @@
 
 	* configure.in: Add a AC_DEFINE for PREVIEW_RELEASE which is a
 	string that will be appended to the X-Mailer header.
-
-2001-12-05  Ettore Perazzoli  <ettore@ximian.com>
-
-	* HACKING: Put the patch review policy here.
-
-2001-12-04  Ettore Perazzoli  <ettore@ximian.com>
-
-	* configure.in: Update version number to 1.0.0.99 for snapshot
-	purposes.
 
 2001-11-21  Jeffrey Stedfast  <fejj@ximian.com>
  
@@ -27,13 +22,6 @@
  
 	* configure.in: Remove checks for OpenSSL libraries.
  
-2001-11-21  Ettore Perazzoli  <ettore@ximian.com>
-
-	* configure.in: Version 1.0.  Require GtkHTML 1.0.
-
-	* data/evolution.desktop.in: Say "Ximian Evolution", not
-	"Evolution".
-
 2001-11-20  Wang Jian  <lark@linux.net.cn>
 
 	* configure.in(ALL_LINGUAS): Re-Added zh_CN. It is checked 
