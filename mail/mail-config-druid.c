@@ -625,7 +625,7 @@ MailConfigDruid *
 mail_config_druid_new (void)
 {
 	MailConfigWizard *mcw;
-	GtkWidget *page;
+	GtkWidget *new, *page;
 	int i;
 
 	mcw = config_wizard_new ();
@@ -663,8 +663,11 @@ mail_config_druid_new (void)
 	gnome_druid_set_buttons_sensitive (mcw->druid, FALSE, TRUE, TRUE, FALSE);
 	gtk_widget_show_all (GTK_WIDGET (mcw->druid));
 	mail_account_gui_setup (mcw->gui, NULL);
-
-	return (MailConfigDruid *)glade_xml_get_widget (mcw->gui->xml, "account_druid");
+	
+	new = glade_xml_get_widget (mcw->gui->xml, "account_druid");
+	gtk_window_set_type_hint ((GtkWindow *) new, GDK_WINDOW_TYPE_HINT_DIALOG);
+	
+	return (MailConfigDruid *) new;
 }
 
 

@@ -1,3 +1,9 @@
+2003-03-18  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-config-druid.c (mail_config_druid_new): Set the type hint
+	to DIALOG so that Metacity shows this window on top. Fixes bug
+	#39914.
+
 2003-03-18  Not Zed  <NotZed@Ximian.com>
 
 	* mail-vfolder.c (new_rule_clicked): validate rule & rule is
