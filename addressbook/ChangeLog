@@ -1,5 +1,11 @@
 2002-08-29  Chris Toshok  <toshok@ximian.com>
 
+	* gui/component/addressbook-component.c (add_creatable_item): call
+	evolution_shell_component_add_user_creatable_item twice here, once
+	for the "contacts" folder type, and once for "ldap-contacts".
+
+2002-08-29  Chris Toshok  <toshok@ximian.com>
+
 	[ fixes #20347 ]
 	* gui/widgets/e-addressbook-view.c (e_addressbook_view_init): hook
 	up the backend_died signal.
