@@ -18,8 +18,6 @@ char *s = N_("Could not get schema information for LDAP server.");
 char *s = N_("LDAP server did not respond with valid schema information.");
 /* addressbook:remove-addressbook primary */
 char *s = N_("Could not remove addressbook.");
-/* addressbook:remove-addressbook secondary */
-char *s = N_("{0}");
 /* addressbook:edit-categories primary */
 char *s = N_("Category editor not available.");
 /* addressbook:generic-error primary */
