@@ -47,7 +47,8 @@ typedef struct {
 	CamelStore parent_object;
 
 	CamelStream *istream, *ostream;
-	
+	char *apop_timestamp;
+
 } CamelPop3Store;
 
 

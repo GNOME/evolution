@@ -1,5 +1,18 @@
 2000-05-28  Dan Winship  <danw@helixcode.com>
 
+	* providers/pop3/camel-pop3-store.c: Split apart password and APOP
+	auth, since some servers seem to do both, but don't really.
+	(connect_to_server): Renamed from try_connect. Now actually does
+	the connection up to the point of checking the greeting for APOP
+	support.
+	(query_auth_types): Return APOP, if appropriate. Call
+	pop3_disconnect after connect_to_server since we don't really want
+	to be connected.
+	(pop3_connect): Use connect_to_server rather than duplicating
+	code. Fix a one-byte buffer overrun in the APOP code.
+	(pop3_disconnect): Make this able to clean up after a partial
+	connect.
+
 	* camel-mime-utils.c (header_address_list_format_append): Use
 	`foo@bar' rather than `"" <foo@bar>' for email addresses with no
 	name component.

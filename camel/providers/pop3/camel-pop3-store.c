@@ -149,10 +149,21 @@ finalize (GtkObject *object)
 static CamelServiceAuthType password_authtype = {
 	"Password",
 
-	"This option will connect to the POP server using the APOP "
-	"protocol if possible, or a plaintext password if not.",
+	"This option will connect to the POP server using a plaintext "
+	"password. This is the only option supported by many POP servers.",
 
 	"",
+	TRUE
+};
+
+static CamelServiceAuthType apop_authtype = {
+	"APOP",
+
+	"This option will connect to the POP server using an encrypted "
+	"password via the APOP protocol. This may not work for all users "
+	"even on servers that claim to support it.",
+
+	"+APOP",
 	TRUE
 };
 
@@ -169,11 +180,16 @@ static CamelServiceAuthType kpop_authtype = {
 #endif
 
 static gboolean
-try_connect (CamelService *service, CamelException *ex)
+connect_to_server (CamelService *service, gboolean real, CamelException *ex)
 {
+	CamelPop3Store *store = CAMEL_POP3_STORE (service);
 	struct hostent *h;
 	struct sockaddr_in sin;
 	int fd;
+	char *buf, *apoptime, *apopend;
+#ifdef HAVE_KRB4
+	gboolean kpop = (service->url->port == KPOP_PORT);
+#endif
 
 	h = camel_service_gethost (service, ex);
 	if (!h)
@@ -189,41 +205,111 @@ try_connect (CamelService *service, CamelException *ex)
 	fd = socket (h->h_addrtype, SOCK_STREAM, 0);
 	if (fd == -1 ||
 	    connect (fd, (struct sockaddr *)&sin, sizeof(sin)) == -1) {
+		if (real) {
+			camel_exception_setv (ex, CAMEL_EXCEPTION_SERVICE_UNAVAILABLE,
+					      "Could not connect to %s "
+					      "(port %d): %s", h->h_name,
+					      service->url->port,
+					      g_strerror(errno));
+		}
 		if (fd > -1)
 			close (fd);
 		return FALSE;
 	}
 
-	close (fd);
+#ifdef HAVE_KRB4
+	if (kpop) {
+		KTEXT_ST ticket_st;
+		MSG_DAT msg_data;
+		CREDENTIALS cred;
+		Key_schedule schedule;
+		char *hostname;
+
+		/* Need to copy hostname, because krb_realmofhost will
+		 * call gethostbyname as well, and gethostbyname uses
+		 * static storage.
+		 */
+		hostname = g_strdup (h->h_name);
+		status = krb_sendauth (0, fd, &ticket_st, "pop", hostname,
+				       krb_realmofhost (hostname), 0,
+				       &msg_data, &cred, schedule,
+				       NULL, NULL, "KPOPV0.1");
+		g_free (hostname);
+		if (status != KSUCCESS) {
+			if (real) {
+				camel_exception_setv (ex, CAMEL_EXCEPTION_SERVICE_UNAVAILABLE,
+						      "Could not authenticate "
+						      "to KPOP server: %s",
+						      krb_err_txt[status]);
+			}
+			close (fd);
+			return FALSE;
+		}
+
+		if (!service->url->passwd)
+			service->url->passwd = g_strdup (service->url->user);
+	}
+#endif /* HAVE_KRB4 */
+
+	store->ostream = camel_stream_fs_new_with_fd (fd);
+	store->istream = camel_stream_buffer_new (store->ostream,
+						  CAMEL_STREAM_BUFFER_READ);
+
+	/* Read the greeting, note APOP timestamp, if any. */
+	buf = camel_stream_buffer_read_line (CAMEL_STREAM_BUFFER (store->istream));
+	if (!buf) {
+		camel_exception_setv (ex, CAMEL_EXCEPTION_SERVICE_UNAVAILABLE,
+				      "Could not read greeting from POP "
+				      "server: %s",
+				      camel_exception_get_description (ex));
+		pop3_disconnect (service, ex);
+		return FALSE;
+	}
+	apoptime = strchr (buf, '<');
+	apopend = apoptime ? strchr (apoptime, '>') : NULL;
+	if (apoptime && apopend) {
+		store->apop_timestamp = g_strndup (apoptime,
+						   apopend - apoptime + 1);
+	}
+	g_free (buf);
+
 	return TRUE;
 }
 
 static GList *
 query_auth_types (CamelService *service, CamelException *ex)
 {
+	CamelPop3Store *store = CAMEL_POP3_STORE (service);
 	GList *ret = NULL;
-	gboolean passwd = TRUE;
+	gboolean passwd = TRUE, apop = TRUE;
 #ifdef HAVE_KRB4
 	gboolean kpop = TRUE;
 	int saved_port;
 #endif
 
 	if (service->url) {
-		passwd = try_connect (service, ex);
+		passwd = connect_to_server (service, FALSE, ex);
 		if (camel_exception_get_id (ex) != CAMEL_EXCEPTION_NONE)
 			return NULL;
+		apop = store->apop_timestamp != NULL;
+		if (passwd)
+			pop3_disconnect (service, ex);
 #ifdef HAVE_KRB4
 		saved_port = service->url->port;
 		service->url->port = KPOP_PORT;
-		kpop = try_connect (service, ex);
+		kpop = connect_to_server (service, FALSE, ex);
 		service->url->port = saved_port;
 		if (camel_exception_get_id (ex) != CAMEL_EXCEPTION_NONE)
 			return NULL;
+		if (kpop)
+			pop3_disconnect (service, ex);
 #endif
 	}
 
 	if (passwd)
 		ret = g_list_append (ret, &password_authtype);
+	if (apop)
+		ret = g_list_append (ret, &apop_authtype);
 #ifdef HAVE_KRB4
 	if (kpop)
 		ret = g_list_append (ret, &kpop_authtype);
@@ -289,129 +375,42 @@ camel_pop3_store_close (CamelPop3Store *store, gboolean expunge,
 static gboolean
 pop3_connect (CamelService *service, CamelException *ex)
 {
-	struct hostent *h;
-	struct sockaddr_in sin;
-	int fd, status;
-	char *buf, *apoptime, *apopend, *msg;
 	CamelPop3Store *store = CAMEL_POP3_STORE (service);
+	int status;
+	char *msg;
 #ifdef HAVE_KRB4
 	gboolean kpop = (service->url->authmech &&
 			 !strcmp (service->url->authmech, "+KPOP"));
+
+	if (kpop && service->url->port == 0)
+		service->url->port = KPOP_PORT;
 #endif
 
-	h = camel_service_gethost (service, ex);
-	if (!h)
+	if (!connect_to_server (service, TRUE, ex))
 		return FALSE;
 
-	if (!service->url->authmech && !service->url->passwd) {
+	/* The KPOP code will have set the password to be the username
+	 * in connect_to_server. Password and APOP are the only other
+	 * cases, and they both need a password.
+	 */
+	if (!service->url->passwd) {
 		char *prompt = g_strdup_printf ("Please enter the POP3 password for %s@%s",
-						service->url->user, h->h_name);
+						service->url->user,
+						service->url->host);
 		service->url->passwd =
 			camel_session_query_authenticator (camel_service_get_session (service),
 							   prompt, TRUE,
 							   service, "password",
 							   ex);
 		g_free (prompt);
-		if (!service->url->passwd)
-			return FALSE;
-	}
-
-	sin.sin_family = h->h_addrtype;
-	if (service->url->port)
-		sin.sin_port = service->url->port;
-#ifdef HAVE_KRB4
-	else if (kpop)
-		sin.sin_port = KPOP_PORT;
-#endif
-	else
-		sin.sin_port = POP3_PORT;
-	sin.sin_port = htons (sin.sin_port);
-	memcpy (&sin.sin_addr, h->h_addr, sizeof (sin.sin_addr));
-
-	fd = socket (h->h_addrtype, SOCK_STREAM, 0);
-	if (fd == -1 ||
-	    connect (fd, (struct sockaddr *)&sin, sizeof(sin)) == -1) {
-		camel_exception_setv (ex, CAMEL_EXCEPTION_SERVICE_UNAVAILABLE,
-				      "Could not connect to %s (port %s): %s",
-				      service->url->host, service->url->port,
-				      strerror(errno));
-		if (fd > -1)
-			close (fd);
-		return FALSE;
-	}
-
-#ifdef HAVE_KRB4
-	if (kpop) {
-		KTEXT_ST ticket_st;
-		MSG_DAT msg_data;
-		CREDENTIALS cred;
-		Key_schedule schedule;
-		char *hostname;
-
-		/* Need to copy hostname, because krb_realmofhost will
-		 * call gethostbyname as well, and gethostbyname uses
-		 * static storage.
-		 */
-		hostname = g_strdup (h->h_name);
-		status = krb_sendauth (0, fd, &ticket_st, "pop", hostname,
-				       krb_realmofhost (hostname), 0,
-				       &msg_data, &cred, schedule,
-				       NULL, NULL, "KPOPV0.1");
-		g_free (hostname);
-		if (status != KSUCCESS) {
-			camel_exception_setv (ex, CAMEL_EXCEPTION_SERVICE_UNAVAILABLE,
-					      "Could not authenticate to KPOP "
-					      "server: %s",
-					      krb_err_txt[status]);
-			close (fd);
+		if (!service->url->passwd) {
+			pop3_disconnect (service, ex);
 			return FALSE;
 		}
-
-		if (!service->url->passwd)
-			service->url->passwd = g_strdup (service->url->user);
 	}
-#endif /* HAVE_KRB4 */
 
-	store->ostream = camel_stream_fs_new_with_fd (fd);
-	store->istream = camel_stream_buffer_new (store->ostream,
-						  CAMEL_STREAM_BUFFER_READ);
-
-	/* Read the greeting, note APOP timestamp, if any. */
-	buf = camel_stream_buffer_read_line (CAMEL_STREAM_BUFFER (store->istream));
-	if (!buf) {
-		camel_exception_setv (ex, CAMEL_EXCEPTION_SERVICE_UNAVAILABLE,
-				      "Could not read greeting from POP "
-				      "server: %s",
-				      camel_exception_get_description (ex));
-		gtk_object_unref (GTK_OBJECT (store->ostream));
-		gtk_object_unref (GTK_OBJECT (store->istream));
-		return FALSE;
-	}
-	apoptime = strchr (buf, '<');
-	apopend = apoptime ? strchr (apoptime, '>') : NULL;
-	if (apoptime && apopend)
-		apoptime = g_strndup (apoptime, apopend - apoptime + 1);
-	else
-		apoptime = NULL;
-	g_free (buf);
-
-	/* Authenticate via APOP if we can, USER/PASS if we can't. */
-	if (apoptime) {
-		char *secret, md5asc[32], *d;
-		unsigned char md5sum[16], *s;
-
-		secret = g_strdup_printf ("%s%s", apoptime,
-					  service->url->passwd);
-		md5_get_digest (secret, strlen (secret), md5sum);
-		g_free (apoptime);
-		g_free (secret);
-
-		for (s = md5sum, d = md5asc; d < md5asc + 32; s++, d += 2)
-			sprintf (d, "%.2x", *s);
-
-		status = camel_pop3_command (store, &msg, "APOP %s %s",
-					     service->url->user, md5asc);
-	} else {
+	if (!service->url->authmech ||
+	    !strcmp (service->url->authmech, "+KPOP")) {
 		status = camel_pop3_command (store, &msg, "USER %s",
 					     service->url->user);
 		if (status != CAMEL_POP3_OK) {
@@ -420,13 +419,32 @@ pop3_connect (CamelService *service, CamelException *ex)
 					      "server. Error sending username:"
 					      " %s", msg ? msg : "(Unknown)");
 			g_free (msg);
-			gtk_object_unref (GTK_OBJECT (store->ostream));
-			gtk_object_unref (GTK_OBJECT (store->istream));
-			return FALSE;
+			pop3_disconnect (service, ex);
 		}
 
-		status = camel_pop3_command(store, &msg, "PASS %s",
-					    service->url->passwd);
+		status = camel_pop3_command (store, &msg, "PASS %s",
+					     service->url->passwd);
+	} else if (!strcmp (service->url->authmech, "+APOP")
+		   && store->apop_timestamp) {
+		char *secret, md5asc[33], *d;
+		unsigned char md5sum[16], *s;
+
+		secret = g_strdup_printf ("%s%s", store->apop_timestamp,
+					  service->url->passwd);
+		md5_get_digest (secret, strlen (secret), md5sum);
+		g_free (secret);
+
+		for (s = md5sum, d = md5asc; d < md5asc + 32; s++, d += 2)
+			sprintf (d, "%.2x", *s);
+
+		status = camel_pop3_command (store, &msg, "APOP %s %s",
+					     service->url->user, md5asc);
+	} else {
+		camel_exception_set (ex, CAMEL_EXCEPTION_SERVICE_CANT_AUTHENTICATE,
+				     "No support for requested "
+				     "authentication mechanism.");
+		pop3_disconnect (service, ex);
+		return FALSE;
 	}
 
 	if (status != CAMEL_POP3_OK) {
@@ -435,8 +453,7 @@ pop3_connect (CamelService *service, CamelException *ex)
 				      "server. Error sending password:"
 				      " %s", msg ? msg : "(Unknown)");
 		g_free (msg);
-		gtk_object_unref (GTK_OBJECT (store->ostream));
-		gtk_object_unref (GTK_OBJECT (store->istream));
+		pop3_disconnect (service, ex);
 		return FALSE;
 	}
 
@@ -449,16 +466,23 @@ pop3_disconnect (CamelService *service, CamelException *ex)
 {
 	CamelPop3Store *store = CAMEL_POP3_STORE (service);
 
-	if (!service->connected)
-		return TRUE;
-
 	if (!service_class->disconnect (service, ex))
 		return FALSE;
 
-	gtk_object_unref (GTK_OBJECT (store->ostream));
-	gtk_object_unref (GTK_OBJECT (store->istream));
-	store->ostream = NULL;
-	store->istream = NULL;
+	if (store->ostream) {
+		gtk_object_unref (GTK_OBJECT (store->ostream));
+		store->ostream = NULL;
+	}
+	if (store->istream) {
+		gtk_object_unref (GTK_OBJECT (store->istream));
+		store->istream = NULL;
+	}
+
+	if (store->apop_timestamp) {
+		g_free (store->apop_timestamp);
+		store->apop_timestamp = NULL;
+	}
+
 	return TRUE;
 }
 
