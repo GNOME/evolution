@@ -182,6 +182,9 @@
 	<oaf_attribute name="evolution:config_item:description" type="string"
 		       _value="This page can be used to configure your calendar settings"/>
 
+	<oaf_attribute name="evolution:config_item:icon_name" type="string"
+		       value="evolution-calendar.png"/>
+
 	<oaf_attribute name="description" type="string"
 		       _value="Configuration control for the Evolution Calendar."/>
 
