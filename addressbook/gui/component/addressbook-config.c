@@ -10,6 +10,7 @@
 
 #include <config.h>
 
+#include <string.h>
 #include <stdlib.h>
 #include <sys/time.h>
 
@@ -181,8 +182,7 @@ struct _AddressbookSourceDialog {
 	/* stuff for the account editor window */
 	GtkTreeIter *source_model_row;
 	GtkWidget *ok_button;
-	GtkWidget *apply_button;
-	GtkWidget *close_button;
+	GtkWidget *cancel_button;
 	GtkWidget *advanced_button_notebook;
 	GtkWidget *notebook; /* the toplevel notebook */
 
@@ -362,7 +362,7 @@ addressbook_source_dialog_destroy (gpointer data, GObject *where_object_was)
 		dialog->source_model_row = NULL;
 	}
 
-	gtk_widget_destroy (GTK_WIDGET (dialog->gui));
+	g_object_unref (dialog->gui);
 
 	g_free (dialog);
 }
@@ -1102,6 +1102,7 @@ addressbook_add_server_druid (AddressbookDialog *dialog)
 	/* make sure we fill in the default values */
 	addressbook_source_dialog_set_source (sdialog, NULL);
 
+	gtk_window_set_type_hint (GTK_WINDOW (sdialog->window), GDK_WINDOW_TYPE_HINT_DIALOG);
 	gtk_window_set_modal (GTK_WINDOW (sdialog->window), TRUE);
 
 	gtk_widget_show_all (sdialog->window);
@@ -1125,7 +1126,6 @@ editor_modify_cb (GtkWidget *item, AddressbookSourceDialog *dialog)
 #endif
 
 	gtk_widget_set_sensitive (dialog->ok_button, valid);
-	gtk_widget_set_sensitive (dialog->apply_button, valid);
 }
 
 static void
@@ -1320,18 +1320,7 @@ edit_dialog_store_change (AddressbookSourceDialog *sdialog)
 }
 
 static void
-edit_dialog_apply_clicked (GtkWidget *item, AddressbookSourceDialog *sdialog)
-{
-	if (!edit_dialog_store_change (sdialog))
-		return;
-
-	/* resensitize the buttons */
-	gtk_widget_set_sensitive (sdialog->ok_button, FALSE);
-	gtk_widget_set_sensitive (sdialog->apply_button, FALSE);
-}
-
-static void
-edit_dialog_close_clicked (GtkWidget *item, AddressbookSourceDialog *sdialog)
+edit_dialog_cancel_clicked (GtkWidget *item, AddressbookSourceDialog *sdialog)
 {
 	gtk_widget_destroy (sdialog->window);
 }
@@ -1339,8 +1328,9 @@ edit_dialog_close_clicked (GtkWidget *item, AddressbookSourceDialog *sdialog)
 static void
 edit_dialog_ok_clicked (GtkWidget *item, AddressbookSourceDialog *sdialog)
 {
-	if (edit_dialog_store_change (sdialog))
-		edit_dialog_close_clicked (item, sdialog);
+	if (edit_dialog_store_change (sdialog)) {
+		gtk_widget_destroy (sdialog->window);
+	}
 }
 
 static AddressbookSourceDialog*
@@ -1398,8 +1388,7 @@ addressbook_edit_server_dialog (GtkTreeModel      *model,
 #endif
 
 	sdialog->ok_button = glade_xml_get_widget (sdialog->gui, "account-editor-ok-button");
-	sdialog->apply_button = glade_xml_get_widget (sdialog->gui, "account-editor-apply-button");
-	sdialog->close_button = glade_xml_get_widget (sdialog->gui, "account-editor-close-button");
+	sdialog->cancel_button = glade_xml_get_widget (sdialog->gui, "account-editor-cancel-button");
 
 	sdialog->advanced_button_notebook = glade_xml_get_widget (sdialog->gui, "account-editor-advanced-button-notebook");
 	fewer_options_button = glade_xml_get_widget (sdialog->gui, "account-editor-fewer-options-button");
@@ -1443,16 +1432,14 @@ addressbook_edit_server_dialog (GtkTreeModel      *model,
 
 	g_signal_connect (sdialog->ok_button,
 			  "clicked", G_CALLBACK(edit_dialog_ok_clicked), sdialog);
-	g_signal_connect (sdialog->apply_button,
-			  "clicked", G_CALLBACK(edit_dialog_apply_clicked), sdialog);
-	g_signal_connect (sdialog->close_button,
-			  "clicked", G_CALLBACK(edit_dialog_close_clicked), sdialog);
+	g_signal_connect (sdialog->cancel_button,
+			  "clicked", G_CALLBACK(edit_dialog_cancel_clicked), sdialog);
 	g_object_weak_ref (G_OBJECT (sdialog->window),
 			   addressbook_source_dialog_destroy, sdialog);
 
 	gtk_widget_set_sensitive (sdialog->ok_button, FALSE);
-	gtk_widget_set_sensitive (sdialog->apply_button, FALSE);
 
+	gtk_window_set_type_hint (GTK_WINDOW (sdialog->window), GDK_WINDOW_TYPE_HINT_DIALOG);
 	gtk_window_set_modal (GTK_WINDOW (sdialog->window), TRUE);
 
 	gtk_widget_show (sdialog->window);
@@ -1567,7 +1554,6 @@ ldap_dialog_new (GNOME_Evolution_Shell shell)
 {
 	AddressbookDialog *dialog;
 	GList *l;
-	ETable *et;
 	GtkWidget *scrolled;
 
 	dialog = g_new0 (AddressbookDialog, 1);
@@ -1634,7 +1620,6 @@ addressbook_dialog_create_sources_table (char *name, char *string1, char *string
 	GtkTreeSelection *selection;
 	GtkCellRenderer *renderer;
 	GtkListStore *model;
-	char *titles[2];
 
 	scrolled = gtk_scrolled_window_new (NULL, NULL);
 	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scrolled),

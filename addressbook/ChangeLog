@@ -1,5 +1,27 @@
 2003-03-18  Chris Toshok  <toshok@ximian.com>
 
+	[ Fixes addressbook bug #39730 ]
+	* gui/component/ldap-config.glade: add response ids to the search
+	base dialog.
+
+	* gui/component/addressbook-config.c
+	(addressbook_source_dialog_destroy): use g_object_unref, not
+	gtk_widget_destroy, on the GladeXML.
+	(addressbook_add_server_druid): call gtk_window_set_type_hint
+	GDK_WINDOW_TYPE_HINT_DIALOG so this window looks like a dialog.
+	(editor_modify_cb): no more apply button.
+	(edit_dialog_apply_clicked): nuked.
+	(edit_dialog_close_clicked): rename to _cancal_clicked.
+	(edit_dialog_ok_clicked): call gtk_widget_destroy here instead of
+	calling _cancel_clicked.
+	(addressbook_edit_server_dialog): no more apply button, and
+	close_button -> cancel_button.  Also, set the hint to
+	GDK_WINDOW_TYPE_HINT_DIALOG.
+	(ldap_dialog_new): fix compiler warning.
+	(addressbook_dialog_create_sources_table): same.
+
+2003-03-18  Chris Toshok  <toshok@ximian.com>
+
 	* gui/component/select-names/e-select-names-section.etspec: use
 	alternating-row-colors="false"
 

@@ -1001,23 +1001,11 @@ LDAP attribute to associate with it.</property>
 	      </child>
 
 	      <child>
-		<widget class="GtkButton" id="account-editor-apply-button">
-		  <property name="visible">True</property>
-		  <property name="sensitive">False</property>
-		  <property name="can_default">True</property>
-		  <property name="can_focus">True</property>
-		  <property name="label">gtk-apply</property>
-		  <property name="use_stock">True</property>
-		  <property name="relief">GTK_RELIEF_NORMAL</property>
-		</widget>
-	      </child>
-
-	      <child>
-		<widget class="GtkButton" id="account-editor-close-button">
+		<widget class="GtkButton" id="account-editor-cancel-button">
 		  <property name="visible">True</property>
 		  <property name="can_default">True</property>
 		  <property name="can_focus">True</property>
-		  <property name="label">gtk-close</property>
+		  <property name="label">gtk-cancel</property>
 		  <property name="use_stock">True</property>
 		  <property name="relief">GTK_RELIEF_NORMAL</property>
 		</widget>
@@ -1077,9 +1065,9 @@ need help finding this information.</property>
 	<widget class="GnomeDruidPageStandard" id="add-server-druid-info-page">
 	  <property name="visible">True</property>
 	  <property name="title" translatable="yes">Step 1: Server Information</property>
-	  <property name="title_foreground">#e700bfffe4b8</property>
-	  <property name="background">#3c0c0811e4b8</property>
-	  <property name="logo_background">#fa68081cc8cc</property>
+	  <property name="title_foreground">#e6d0bfffe488</property>
+	  <property name="background">#c5d80812e488</property>
+	  <property name="logo_background">#a440081dc8cc</property>
 
 	  <child internal-child="vbox">
 	    <widget class="GtkVBox" id="druid-vbox1">
@@ -1143,9 +1131,9 @@ information. Please ask your system administrator if you are unsure of this info
 	<widget class="GnomeDruidPageStandard" id="add-server-druid-connecting-page">
 	  <property name="visible">True</property>
 	  <property name="title" translatable="yes">Step 2: Connecting to Server</property>
-	  <property name="title_foreground">#e700bfffe4b8</property>
-	  <property name="background">#3c0c0811e4b8</property>
-	  <property name="logo_background">#fa68081cc8cc</property>
+	  <property name="title_foreground">#e6d0bfffe488</property>
+	  <property name="background">#c5d80812e488</property>
+	  <property name="logo_background">#a440081dc8cc</property>
 
 	  <child internal-child="vbox">
 	    <widget class="GtkVBox" id="druid-vbox2">
@@ -1210,9 +1198,9 @@ your connection. Ask your system administrator if your LDAP server uses these pr
 	<widget class="GnomeDruidPageStandard" id="add-server-druid-searching-page">
 	  <property name="visible">True</property>
 	  <property name="title" translatable="yes">Step 3: Searching the Directory</property>
-	  <property name="title_foreground">#e700bfffe4b8</property>
-	  <property name="background">#3c0c0811e4b8</property>
-	  <property name="logo_background">#fa68081cc8cc</property>
+	  <property name="title_foreground">#e6d0bfffe488</property>
+	  <property name="background">#c5d80812e488</property>
+	  <property name="logo_background">#a440081dc8cc</property>
 
 	  <child internal-child="vbox">
 	    <widget class="GtkVBox" id="vbox23">
@@ -1277,9 +1265,9 @@ need to change these options.</property>
 	<widget class="GnomeDruidPageStandard" id="add-server-druid-display-name-page">
 	  <property name="visible">True</property>
 	  <property name="title" translatable="yes">Step 4: Display Name</property>
-	  <property name="title_foreground">#e700bfffe4b8</property>
-	  <property name="background">#3c0c0811e4b8</property>
-	  <property name="logo_background">#fa68081cc8cc</property>
+	  <property name="title_foreground">#e6d0bfffe488</property>
+	  <property name="background">#c5d80812e488</property>
+	  <property name="logo_background">#a440081dc8cc</property>
 
 	  <child internal-child="vbox">
 	    <widget class="GtkVBox" id="druid-vbox5">
@@ -5828,7 +5816,7 @@ searches, and for creating and editing contacts. </property>
 	      <property name="label">gtk-ok</property>
 	      <property name="use_stock">True</property>
 	      <property name="relief">GTK_RELIEF_NORMAL</property>
-	      <property name="response_id">0</property>
+	      <property name="response_id">-5</property>
 	    </widget>
 	  </child>
 
@@ -5840,7 +5828,7 @@ searches, and for creating and editing contacts. </property>
 	      <property name="label">gtk-cancel</property>
 	      <property name="use_stock">True</property>
 	      <property name="relief">GTK_RELIEF_NORMAL</property>
-	      <property name="response_id">0</property>
+	      <property name="response_id">-6</property>
 	    </widget>
 	  </child>
 	</widget>
