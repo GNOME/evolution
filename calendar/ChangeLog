@@ -1,3 +1,11 @@
+2004-11-08  Rodney Dawes  <dobey@novell.com>
+
+	* gui/alarm-notify/alarm-notify-dialog.c (write_html_heading):
+	Don't try to convert the results of timet_to_str_with_zone to UTF-8,
+	since the return value is already encoded in UTF-8
+
+	Fixes #47529
+
 2004-11-04  Rodrigo Moya <rodrigo@novell.com>
 
 	* gui/dialogs/event-page.glade:
