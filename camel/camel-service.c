@@ -731,20 +731,22 @@ get_hostbyname(void *data)
 }
 
 struct hostent *
-camel_gethostbyname (const char *name, CamelException *ex)
+camel_gethostbyname (const char *name, CamelException *exout)
 {
 #ifdef ENABLE_THREADS
 	int fdmax, status, fd, cancel_fd;
 #endif
 	struct _lookup_msg *msg;
+	CamelException ex;
 
 	g_return_val_if_fail(name != NULL, NULL);
 
 	if (camel_operation_cancel_check(NULL)) {
-		camel_exception_set (ex, CAMEL_EXCEPTION_USER_CANCEL, _("Cancelled"));
+		camel_exception_set (exout, CAMEL_EXCEPTION_USER_CANCEL, _("Cancelled"));
 		return NULL;
 	}
 
+	camel_exception_init(&ex);
 	camel_operation_start_transient(NULL, _("Resolving: %s"), name);
 
 	msg = g_malloc0(sizeof(*msg));
@@ -778,9 +780,9 @@ camel_gethostbyname (const char *name, CamelException *ex)
 
 			if (status == -1 || FD_ISSET(cancel_fd, &rdset)) {
 				if (status == -1)
-					camel_exception_setv(ex, CAMEL_EXCEPTION_SYSTEM, _("Failure in name lookup: %s"), g_strerror(errno));
+					camel_exception_setv(&ex, CAMEL_EXCEPTION_SYSTEM, _("Failure in name lookup: %s"), g_strerror(errno));
 				else
-					camel_exception_setv(ex, CAMEL_EXCEPTION_USER_CANCEL, _("Cancelled"));
+					camel_exception_setv(&ex, CAMEL_EXCEPTION_USER_CANCEL, _("Cancelled"));
 
 				/* We cancel so if the thread impl is decent it causes immediate exit.
 				   We detach so we dont need to wait for it to exit if it isn't.
@@ -799,7 +801,7 @@ camel_gethostbyname (const char *name, CamelException *ex)
 				d(printf("child done\n"));
 			}
 		} else {
-			camel_exception_setv(ex, CAMEL_EXCEPTION_SYSTEM, _("Host lookup failed: cannot create thread: %s"), g_strerror(errno));
+			camel_exception_setv(&ex, CAMEL_EXCEPTION_SYSTEM, _("Host lookup failed: cannot create thread: %s"), g_strerror(errno));
 		}
 		e_msgport_destroy(reply_port);
 	}
@@ -807,15 +809,15 @@ camel_gethostbyname (const char *name, CamelException *ex)
 
 	camel_operation_end(NULL);
 
-	if (!camel_exception_is_set(ex)) {
+	if (!camel_exception_is_set(&ex)) {
 		if (msg->result == 0)
 			return &msg->hostbuf;
 
 		if (msg->herr == HOST_NOT_FOUND || msg->herr == NO_DATA)
-			camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
+			camel_exception_setv (&ex, CAMEL_EXCEPTION_SYSTEM,
 					      _("Host lookup failed: %s: host not found"), name);
 		else
-			camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
+			camel_exception_setv (&ex, CAMEL_EXCEPTION_SYSTEM,
 					      _("Host lookup failed: %s: unknown reason"), name);
 	}
 
@@ -823,6 +825,8 @@ camel_gethostbyname (const char *name, CamelException *ex)
 		g_free(msg->hostbufmem);
 		g_free(msg);
 	}
+
+	camel_exception_xfer(exout, &ex);
 
 	return NULL;
 }
@@ -857,20 +861,22 @@ get_hostbyaddr (void *data)
 
 
 struct hostent *
-camel_gethostbyaddr (const char *addr, int len, int type, CamelException *ex)
+camel_gethostbyaddr (const char *addr, int len, int type, CamelException *exout)
 {
 #ifdef ENABLE_THREADS
 	int fdmax, status, fd, cancel_fd;
 #endif
 	struct _lookup_msg *msg;
-	
+	CamelException ex;
+
 	g_return_val_if_fail (addr != NULL, NULL);
 	
 	if (camel_operation_cancel_check (NULL)) {
-		camel_exception_set (ex, CAMEL_EXCEPTION_USER_CANCEL, _("Cancelled"));
+		camel_exception_set (exout, CAMEL_EXCEPTION_USER_CANCEL, _("Cancelled"));
 		return NULL;
 	}
-	
+
+	camel_exception_init(&ex);
 	camel_operation_start_transient (NULL, _("Resolving address"));
 	
 	msg = g_malloc0 (sizeof (struct _lookup_msg));
@@ -906,9 +912,9 @@ camel_gethostbyaddr (const char *addr, int len, int type, CamelException *ex)
 			
 			if (status == -1 || FD_ISSET(cancel_fd, &rdset)) {
 				if (status == -1)
-					camel_exception_setv(ex, CAMEL_EXCEPTION_SYSTEM, _("Failure in name lookup: %s"), g_strerror(errno));
+					camel_exception_setv(&ex, CAMEL_EXCEPTION_SYSTEM, _("Failure in name lookup: %s"), g_strerror(errno));
 				else
-					camel_exception_setv(ex, CAMEL_EXCEPTION_USER_CANCEL, _("Cancelled"));
+					camel_exception_setv(&ex, CAMEL_EXCEPTION_USER_CANCEL, _("Cancelled"));
 
 				/* We cancel so if the thread impl is decent it causes immediate exit.
 				   We detach so we dont need to wait for it to exit if it isn't.
@@ -934,15 +940,15 @@ camel_gethostbyaddr (const char *addr, int len, int type, CamelException *ex)
 	
 	camel_operation_end (NULL);
 
-	if (!camel_exception_is_set(ex)) {
+	if (!camel_exception_is_set(&ex)) {
 		if (msg->result == 0)
 			return &msg->hostbuf;
 
 		if (msg->herr == HOST_NOT_FOUND || msg->herr == NO_DATA)
-			camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
+			camel_exception_setv (&ex, CAMEL_EXCEPTION_SYSTEM,
 					      _("Host lookup failed: host not found"));
 		else
-			camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
+			camel_exception_setv (&ex, CAMEL_EXCEPTION_SYSTEM,
 					      _("Host lookup failed: unknown reason"));
 	}
 
@@ -950,6 +956,8 @@ camel_gethostbyaddr (const char *addr, int len, int type, CamelException *ex)
 		g_free(msg->hostbufmem);
 		g_free(msg);
 	}
+
+	camel_exception_xfer(exout, &ex);
 
 	return NULL;
 }
