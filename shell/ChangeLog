@@ -1,3 +1,7 @@
+2003-09-22  Hans Petter Jansson  <hpj@ximian.com>
+
+	* Makefile.am (evolution_LDADD): libical.la -> libical-evolution.la
+
 2003-09-12  Frederic Crozat  <fcrozat@mandrakesoft.com>
 
 	* e-config-upgrade.c: (utf8_reencode), (upgrade_xml_1_2_rec),

@@ -2,7 +2,7 @@
 #  FILE: Makefile.am
 #  CREATOR: eric 
 #  
-#  $Id: Makefile.am,v 1.37 2003/09/12 18:14:01 hansp Exp $
+#  $Id: Makefile.am,v 1.38 2003/09/22 07:32:29 hansp Exp $
 #
 #
 # (C) COPYRIGHT 2000, Eric Busboom, http://www.softwarestudio.org
@@ -26,19 +26,19 @@
 DESIGNDATA = $(top_srcdir)/design-data
 ICALSCRIPTS = $(top_srcdir)/scripts
 
-if WITH_CXX
-cxx_lib=libical_cxx.la
+if WITH_CXX_BINDINGS
+cxx_lib=libical-evolution_cxx.la
 cxx_headers=vcomponent.h icalparameter_cxx.h icalproperty_cxx.h icalvalue_cxx.h icptrholder.h
 else
 cxx_lib=
 cxx_headers=
 endif
 
-lib_LTLIBRARIES = libical.la $(cxx_lib)
+privlib_LTLIBRARIES = libical-evolution.la $(cxx_lib)
 
-noinst_LTLIBRARIES = libical-static.la
-libical_static_la_SOURCES = $(libical_la_SOURCES)
-libical_static_la_LDFLAGS = --all-static
+noinst_LTLIBRARIES = libical-evolution-static.la
+libical_evolution_static_la_SOURCES = $(libical_evolution_la_SOURCES)
+libical_evolution_static_la_LDFLAGS = --all-static
 
 CPPFLAGS = -DPACKAGE_DATA_DIR=\""$(privdatadir)"\"
 
@@ -52,10 +52,10 @@ INCLUDES =			\
 	-I$(top_builddir)/src	\
 	-I$(srcdir)
 
-libical_la_LDFLAGS = -version-info 0:0:0
+libical_evolution_la_LDFLAGS = -version-info 0:0:0
 
 
-libical_la_SOURCES =		\
+libical_evolution_la_SOURCES =		\
 	$(BUILT_SOURCES)	\
 	icalarray.c		\
 	icalarray.h		\
@@ -105,9 +105,9 @@ libical_la_SOURCES =		\
 	caldate.c \
 	astime.h 
 
-if WITH_CXX
-libical_cxx_la_SOURCES =	\
-	$(libical_la_SOURCES)	\
+if WITH_CXX_BINDINGS
+libical_evolution_cxx_la_SOURCES =	\
+	$(libical_evolution_la_SOURCES)	\
 	vcomponent.h		\
 	vcomponent.cpp		\
 	icalproperty_cxx.h	\
@@ -119,9 +119,9 @@ libical_cxx_la_SOURCES =	\
 	icptrholder.h
 endif
 
-libicalincludedir = $(includedir)
+libical_evolutionincludedir = $(privincludedir)/libical
 
-libicalinclude_HEADERS = ical.h icalmemory.h icalerror.h $(cxx_headers)
+libical_evolutioninclude_HEADERS = ical.h icalmemory.h icalerror.h $(cxx_headers)
 
 # ORDERING OF HEADERS IS SIGNIFICANT. Don't change this ordering. It
 # is required to make the combined header ical.h properly

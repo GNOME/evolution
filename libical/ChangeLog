@@ -1,3 +1,36 @@
+2002-09-22  Hans Petter Jansson  <hpj@ximian.com>
+
+	* configure.in: Require flex 2.5.31 and add a test for it. Rename
+	WITH_CXX conditional to WITH_CXX_BINDINGS.
+
+	* examples/Makefile.am (doesnothing_LDADD): Add -evolution to lib
+	names.
+
+	* src/test/Makefile.am: WITH_CXX -> WITH_CXX_BINDINGS. Add -evolution
+	to lib names.
+
+	* src/test/regression.c (main): WITH_CXX -> WITH_CXX_BINDINGS.
+
+	* src/libicalcap/Makefile.am: Add -evolution to lib names. Install to
+	Evolution's priv dirs.
+
+	* src/libicalvcal/Makefile.am: Ditto.
+
+	* src/libical/Makefile.am: WITH_CXX -> WITH_CXX_BINDINGS. Add
+	-evolution to lib names. Install in privlibdir. Install includes to
+	$(privincludedir)/libical.
+
+	* src/libicalss/Makefile.am: Ditto.
+
+	* src/libicalss/icalsslexer.l: Replace option reentrant-bison with
+	reentrant and bison-bridge. Use new Flex variable names.
+
+	* src/libical/icallexer.l:
+	* src/libical/icalyacc.y:
+	* src/libicalss/icalsslexer.c:
+	* src/libicalss/icalssyacc.c:
+	* src/libicalss/icalssyacc.h: Removed from repository.
+
 2002-09-12  Hans Petter Jansson  <hpj@ximian.com>
 
 	* configure.in: Subst in Evolution install variables.

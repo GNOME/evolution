@@ -1,3 +1,11 @@
+2003-09-22  Hans Petter Jansson  <hpj@ximian.com>
+
+	* cal-util/Makefile.am (libical_util_la_LIBADD):
+	libical.la -> libical-evolution.la
+
+	* importers/Makefile.am (libevolution_calendar_importers_la_LIBADD):
+	libicalvcal.la -> libicalvcal-evolution.la
+
 2003-09-16  Rodrigo Moya <rodrigo@ximian.com>
 
 	* conduits/todo/Makefile.am: removed libwombat reference.

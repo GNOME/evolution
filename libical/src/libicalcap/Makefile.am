@@ -2,7 +2,7 @@
 #  FILE: Makefile.am
 #  CREATOR: acampi 
 #  
-#  $Id: Makefile.am,v 1.1 2003/09/11 22:04:28 hansp Exp $
+#  $Id: Makefile.am,v 1.2 2003/09/22 07:32:30 hansp Exp $
 #
 #
 # (C) COPYRIGHT 2003, Andrea Campi, mailto:a.campi@inet.it
@@ -23,11 +23,11 @@
 #======================================================================
 
 
-lib_LTLIBRARIES = libicalcap.la
+lib_LTLIBRARIES = libicalcap-evolution.la
 
-noinst_LTLIBRARIES = libicalcap-static.la
-libicalcap_static_la_SOURCES = $(libicalcap_la_SOURCES)
-libicalcap_static_la_LDFLAGS = --all-static
+noinst_LTLIBRARIES = libicalcap-evolution-static.la
+libicalcap_evolution_static_la_SOURCES = $(libicalcap_evolution_la_SOURCES)
+libicalcap_evolution_static_la_LDFLAGS = --all-static
 
 INCLUDES =			\
 	-I$(top_builddir)	\
@@ -38,10 +38,10 @@ INCLUDES =			\
 	-I$(srcdir)		\
 	-DWITH_RR $(RRCAP_CFLAGS)
 
-libicalcap_la_LDFLAGS = $(RRCAP_LIBS) -version-info 0:0:0
+libicalcap_evolution_la_LDFLAGS = $(RRCAP_LIBS) -version-info 0:0:0
 
 
-libicalcap_la_SOURCES =		\
+libicalcap_evolution_la_SOURCES =		\
 	icalcap.c		\
 	icalcap.h		\
 	icalcap_impl.h		\
@@ -56,9 +56,9 @@ libicalcap_la_SOURCES =		\
 	icalcap_session_impl.h	\
 	icalcap_utils.c
 
-libicalcapincludedir = $(includedir)
+libicalcap_evolutionincludedir = $(includedir)
 
-libicalcapinclude_HEADERS =	\
+libicalcap_evolutioninclude_HEADERS =	\
 	icalcap.h		\
 	icalcap_impl.h		\
 	icalcap_message_impl.h	\
@@ -70,7 +70,7 @@ libicalcapinclude_HEADERS =	\
 
 noinst_PROGRAMS = client
 
-LDADD =  ../libicalss/.libs/libicalss.a ../libicalvcal/.libs/libicalvcal.a $(cxx_libs) ../libical/.libs/libical.a libicalcap.la $(RRCAP_LIBS)
+LDADD =  ../libicalss/libicalss-evolution.la ../libicalvcal/libicalvcal-evolution.la $(cxx_libs) ../libical/libical-evolution.la libicalcap-evolution.la $(RRCAP_LIBS)
 
 
 client_SOURCES = client.c

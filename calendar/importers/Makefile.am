@@ -29,7 +29,7 @@ libevolution_calendar_importers_la_LDFLAGS = -avoid-version -module
 
 libevolution_calendar_importers_la_LIBADD = \
 	$(top_builddir)/shell/importer/libevolution-importer.la \
-	$(top_builddir)/libical/src/libicalvcal/libicalvcal.la \
+	$(top_builddir)/libical/src/libicalvcal/libicalvcal-evolution.la \
 	$(IMPORTERS_LIBS)
 
 # evolution_calendar_importer_SOURCES = 	\

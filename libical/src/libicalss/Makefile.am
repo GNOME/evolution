@@ -2,7 +2,7 @@
 #  FILE: Makefile.am
 #  CREATOR: eric 
 #  
-#  $Id: Makefile.am,v 1.19 2003/09/11 22:04:30 hansp Exp $
+#  $Id: Makefile.am,v 1.20 2003/09/22 07:32:31 hansp Exp $
 #
 #
 # (C) COPYRIGHT 2000, Eric Busboom, http://www.softwarestudio.org
@@ -46,15 +46,15 @@ BDB_SOURCEFILES=
 BDB_HEADERFILES=
 endif
 
-if WITH_CXX
-cxx_lib=libicalss_cxx.la
+if WITH_CXX_BINDINGS
+cxx_lib=libicalss-evolution_cxx.la
 cxx_headers=icalspanlist_cxx.h
 else
 cxx_lib=
 cxx_headers=
 endif
 
-lib_LTLIBRARIES = libicalss.la $(cxx_lib)
+privlib_LTLIBRARIES = libicalss-evolution.la $(cxx_lib)
 
 INCLUDES =			\
 	-I$(top_srcdir)/src	\
@@ -63,16 +63,16 @@ INCLUDES =			\
 	-I$(top_builddir)/libical \
 	$(BDB_INCLUDE)
 
-libicalss_la_LDFLAGS = -version-info 0:0:0
-libicalss_la_LIBADD = $(BDB_LIBFILES)
+libicalss_evolution_la_LDFLAGS = -version-info 0:0:0
+libicalss_evolution_la_LIBADD = $(BDB_LIBFILES)
 
 if DEV
-libicalss_la_DEVSOURCES = icalsslexer.l icalssyacc.y
+libicalss_evolution_la_DEVSOURCES = icalsslexer.l icalssyacc.y
 else
-libicalss_la_DEVSOURCES = icalsslexer.c icalssyacc.c
+libicalss_evolution_la_DEVSOURCES = icalsslexer.c icalssyacc.c
 endif
 
-libicalss_la_SOURCES =		\
+libicalss_evolution_la_SOURCES =		\
 	icalcalendar.c		\
 	icalcalendar.h		\
 	icalclassify.c		\
@@ -97,9 +97,9 @@ libicalss_la_SOURCES =		\
 	icalmessage.c		\
 	icalmessage.h		\
 	$(BDB_SOURCEFILES)	\
-	$(libicalss_la_DEVSOURCES)
+	$(libicalss_evolution_la_DEVSOURCES)
 
-libicalssincludedir = $(includedir)
+libicalssincludedir = $(privincludedir)/libical
 
 COMBINEDHEADERS = \
         $(srcdir)/icalgauge.h \
@@ -130,9 +130,9 @@ icalss.h: $(COMBINEDHEADERS)
 	echo '#endif'                     >> icalss.h
 
 
-if WITH_CXX
-libicalss_cxx_la_SOURCES =	\
-	$(libicalss_la_SOURCES)	\
+if WITH_CXX_BINDINGS
+libicalss_evolution_cxx_la_SOURCES =	\
+	$(libicalss_evolution_la_SOURCES)	\
 	icalspanlist_cxx.h	\
 	icalspanlist_cxx.cpp
 

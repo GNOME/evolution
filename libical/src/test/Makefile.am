@@ -1,12 +1,12 @@
-if WITH_CXX
-cxx_inc=-DWITH_CXX
-cxx_libs=../libical/libical_cxx.la
+if WITH_CXX_BINDINGS
+cxx_inc=-DWITH_CXX_BINDINGS
+cxx_libs=../libical/libical-evolution_cxx.la
 regression_cxx = regression-cxx.cpp
 else
 cxx_inc=
 cxx_libs=
 regression_cxx = 
-CXX=@CC@
+AM_CXX=@CC@
 endif
 
 if WITH_BDB4
@@ -19,7 +19,7 @@ endif
 
 noinst_PROGRAMS = copycluster regression parser stow recur testmime testvcal process
 
-LDADD =  ../libicalss/libicalss.la ../libicalvcal/libicalvcal.la $(cxx_libs) ../libical/libical.la $(bdb4_libs)
+LDADD =  ../libicalss/libicalss-evolution.la ../libicalvcal/libicalvcal-evolution.la $(cxx_libs) ../libical/libical-evolution.la $(bdb4_libs)
 
 LIBS = @PTHREAD_LIBS@
 

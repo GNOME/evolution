@@ -6,7 +6,7 @@
   
   DESCRIPTION:
   
-  $Id: icalsslexer.l,v 1.2 2003/09/11 22:04:30 hansp Exp $
+  $Id: icalsslexer.l,v 1.3 2003/09/22 07:32:31 hansp Exp $
   $Locker:  $
 
 (C) COPYRIGHT 2000, Eric Busboom, http://www.softwarestudio.org
@@ -57,7 +57,8 @@ digit		[0-9]
 %array /* Make yytext an array. Slow, but handy. HACK */
 
 %option caseless
-%option reentrant-bison
+%option reentrant bison-bridge
+%option yylineno
 
 %s sql string_value
 
@@ -90,10 +91,10 @@ NULL			{ return SQLNULL; }
 ;			{ return EOL; }
 
 \'[\@\*A-Za-z0-9\-\.\:\ ]+\' {
-	int c = input(yy_globals);
+	int c = input(yyscanner);
 	unput(c);
 	if(c!='\''){
-		yylvalp->v_string= icalmemory_tmp_copy(yytext);
+		yylval_param->v_string= icalmemory_tmp_copy(yytext);
 		return STRING;
 	} else {
 		/*ssmore();*/
@@ -110,7 +111,7 @@ NULL			{ return SQLNULL; }
 
 %% 
 
-int yywrap(yyscan_t yy_globals)
+int yywrap(yyscan_t yyscanner)
 {
      return 1;
 }

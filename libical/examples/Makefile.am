@@ -2,9 +2,9 @@
 noinst_PROGRAMS = doesnothing
 
 if WITH_BDB4
-doesnothing_LDADD = ../src/libical/libical.la ../src/libicalss/libicalss.la ../src/libicalvcal/libicalvcal.la @BDB_DIR_LIB@/@BDB_LIB@
+doesnothing_LDADD = ../src/libical/libical-evolution.la ../src/libicalss/libicalss-evolution.la ../src/libicalvcal/libicalvcal-evolution.la @BDB_DIR_LIB@/@BDB_LIB@
 else
-doesnothing_LDADD = ../src/libical/libical.la ../src/libicalss/libicalss.la ../src/libicalvcal/libicalvcal.la
+doesnothing_LDADD = ../src/libical/libical-evolution.la ../src/libicalss/libicalss-evolution.la ../src/libicalvcal/libicalvcal-evolution.la
 endif
 
 LIBS = @PTHREAD_LIBS@

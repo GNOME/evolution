@@ -95,21 +95,25 @@ AM_CONDITIONAL(WITH_BDB4, test x$WITH_BDB4 = xyes)
 
 dnl *** Yacc/Bison support
 
-AC_MSG_CHECKING(whether to support development)
-AC_ARG_WITH(devel, [  --with-devel            Add development options],
-[case $with_devel in  
-    yes)	DEV="yes"
-		AC_MSG_RESULT(yes)
-		AC_MSG_RESULT(Setting up for development: -Wall, flex, bison)
-		AC_MSG_RESULT(** Note that you will need flex 2.5.7 or higher)
-		;;
-    no)		AC_MSG_RESULT(no)
-		;;
-    *)		AC_MSG_RESULT(no)
-		AC_MSG_RESULT(Ignoring unknown argument to --with-devel: $with_devel)
-		;;
-esac],
-AC_MSG_RESULT(no))
+if test "x$USE_MAINTAINER_MODE" == xyes; then
+	DEV="yes"
+	AC_MSG_RESULT([Setting up for development: -Wall, flex, bison])
+
+	AC_MSG_CHECKING(for flex >= 2.5.31)
+	flex_major=$(flex --version | sed 's/flex \(version\)\? \?'// | cut -d '.' -f 1    2>/dev/null)
+	flex_minor=$(flex --version | sed 's/flex \(version\)\? \?'// | cut -d '.' -f 2    2>/dev/null)
+	flex_revision=$(flex --version | sed 's/flex \(version\)\? \?'// | cut -d '.' -f 3 2>/dev/null)
+
+	if (( $flex_major < 2 || \
+	       ($flex_major == 2 && $flex_minor < 5) || \
+	       ($flex_major == 2 && $flex_minor == 5 && $flex_revision < 31) )); then
+		AC_MSG_RESULT($flex_major.$flex_minor.$flex_revision - no)
+		AC_MSG_ERROR([You need flex >= 2.5.31 to build libical for development - http://lex.sourceforge.net/])
+	else
+		AC_MSG_RESULT($flex_major.$flex_minor.$flex_revision - yes)
+	fi
+fi
+
 AM_CONDITIONAL(DEV, test x$DEV = xyes)
 
 AC_CHECK_PROGS(AR, ar aal, ar)
@@ -214,7 +218,7 @@ dnl **************************************************
 
 AC_ARG_ENABLE(cxx, 
 [  --enable-cxx           Enable C++ bindings],,enable_cxx="no")
-AM_CONDITIONAL(WITH_CXX, test x$enable_cxx = "xyes")
+AM_CONDITIONAL(WITH_CXX_BINDINGS, test x$enable_cxx = "xyes")
 
 dnl **************************************************
 dnl * Check for Java

@@ -3646,7 +3646,7 @@ int main(int argc, char *argv[])
 
     /** OPTIONAL TESTS go here... **/
 
-#ifdef WITH_CXX
+#ifdef WITH_CXX_BINDINGS
     test_run("Test C++ API", test_cxx, do_test, do_header);
 #endif
 
