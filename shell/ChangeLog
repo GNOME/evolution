@@ -1,3 +1,13 @@
+2001-10-28  Ettore Perazzoli  <ettore@ximian.com>
+
+	[The following should fix #13802, crash on exit.]
+
+	* evolution-shell-component.c (impl_unsetOwner): Set the ping
+	timeout ID to -1 when removing the source.
+	(impl_destroy): Likewise.
+	(impl_unsetOwner): Remove the timeout before unreffing, not after
+	unreffing.
+
 2001-10-28  Jon Trowbridge  <trow@ximian.com>
 
 	* e-shell-about-box.c: Distribute credit equally.
