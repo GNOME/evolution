@@ -20,9 +20,10 @@
  * Boston, MA 02111-1307, USA.
  */
 
+#include <locale.h>
 #include "e-xml-utils.h"
 #include <gnome-xml/parser.h>
-#include <locale.h>
+
 
 xmlNode *e_xml_get_child_by_name(xmlNode *parent, xmlChar *child_name)
 {
