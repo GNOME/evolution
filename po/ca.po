@@ -1012,7 +1012,7 @@ msgstr "<b>Correu electrònic:</b>"
 # fitxer: calendar.ca.po.3
 #: addressbook/gui/contact-editor/contact-editor.glade.h:3
 msgid "<b>Home</b>"
-msgstr "<b>Llar</b>"
+msgstr "<b>Casa</b>"
 
 # fitxer: addressbook.gui.contact-editor.ca.po
 #: addressbook/gui/contact-editor/contact-editor.glade.h:4
@@ -1046,7 +1046,7 @@ msgstr "<b>Adreces web</b>"
 # fitxer: calendar.ca.po.3
 #: addressbook/gui/contact-editor/contact-editor.glade.h:10
 msgid "<b>Work</b>"
-msgstr "<b>Treball</b>"
+msgstr "<b>Feina</b>"
 
 # fitxer: addressbook.gui.contact-editor.ca.po
 #: addressbook/gui/contact-editor/contact-editor.glade.h:11
