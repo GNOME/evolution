@@ -789,7 +789,6 @@ camel_filter_driver_filter_message (CamelFilterDriver *driver, CamelMimeMessage 
 		filtered = TRUE;
 		camel_filter_driver_log (driver, FILTER_LOG_ACTION, "Copy to default folder");
 		camel_folder_append_message (p->defaultfolder, p->message, p->info, p->ex);
-		printf("copying to default folder\n");
 	}
 
 error:	

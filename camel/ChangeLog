@@ -2,6 +2,8 @@
 
 	* camel-filter-driver.c (camel_filter_driver_filter_mbox): Remove
 	the 'finished message' bit.
+	(camel_filter_driver_filter_message): Remove an accidentally
+	checked in debug.
 
 2001-01-23  Dan Winship  <danw@ximian.com>
 
