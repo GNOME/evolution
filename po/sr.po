@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution 2.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-09-03 16:37+0200\n"
-"PO-Revision-Date: 2004-09-03 16:39+0200\n"
+"POT-Creation-Date: 2004-09-14 17:05+0200\n"
+"PO-Revision-Date: 2004-09-14 17:12+0200\n"
 "Last-Translator: Данило Шеган <danilo@prevod.org>\n"
 "Language-Team: Serbian (sr) <gnom@prevod.org>\n"
 "MIME-Version: 1.0\n"
@@ -2115,19 +2115,19 @@ msgstr "Поља за упис"
 msgid "Changed"
 msgstr "Промењен"
 
-#: addressbook/gui/contact-editor/e-contact-editor.c:2456
+#: addressbook/gui/contact-editor/e-contact-editor.c:2457
 msgid "This contact belongs to these categories:"
 msgstr "Овај контакт припада овим категоријама"
 
-#: addressbook/gui/contact-editor/e-contact-editor.c:2549
+#: addressbook/gui/contact-editor/e-contact-editor.c:2550
 msgid "Please select an image for this contact"
 msgstr "Изаберите слику за овај контакт"
 
-#: addressbook/gui/contact-editor/e-contact-editor.c:2550
+#: addressbook/gui/contact-editor/e-contact-editor.c:2551
 msgid "No image"
 msgstr "Без слике"
 
-#: addressbook/gui/contact-editor/e-contact-editor.c:2778
+#: addressbook/gui/contact-editor/e-contact-editor.c:2779
 msgid ""
 "The contact data is invalid:\n"
 "\n"
@@ -2135,7 +2135,7 @@ msgstr ""
 "Подаци контакта су неисправни:\n"
 "\n"
 
-#: addressbook/gui/contact-editor/e-contact-editor.c:2806
+#: addressbook/gui/contact-editor/e-contact-editor.c:2807
 msgid "Invalid contact."
 msgstr "Неисправан контакт."
 
@@ -3900,20 +3900,20 @@ msgstr "_Измени састанак"
 msgid "_Snooze"
 msgstr "Дре_мај"
 
-#: calendar/gui/alarm-notify/alarm-queue.c:903
+#: calendar/gui/alarm-notify/alarm-queue.c:904
 #: ui/evolution-message-composer.xml.h:10
 msgid "Open"
 msgstr "Отвори"
 
-#: calendar/gui/alarm-notify/alarm-queue.c:905
+#: calendar/gui/alarm-notify/alarm-queue.c:906
 msgid "Dismiss"
 msgstr "Одбаци"
 
-#: calendar/gui/alarm-notify/alarm-queue.c:907
+#: calendar/gui/alarm-notify/alarm-queue.c:908
 msgid "Dismiss All"
 msgstr "Одбаци све"
 
-#: calendar/gui/alarm-notify/alarm-queue.c:972
+#: calendar/gui/alarm-notify/alarm-queue.c:973
 msgid "No description available."
 msgstr "Нема описа."
 
@@ -4553,7 +4553,7 @@ msgstr "Објава стања слободан/заузет"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:19
 #: calendar/gui/dialogs/recurrence-page.c:1038
-#: calendar/gui/e-itip-control.c:751
+#: calendar/gui/e-itip-control.c:739
 msgid "Friday"
 msgstr "Петак"
 
@@ -4567,7 +4567,7 @@ msgstr "Минути"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:23
 #: calendar/gui/dialogs/recurrence-page.c:1034
-#: calendar/gui/e-itip-control.c:747
+#: calendar/gui/e-itip-control.c:735
 msgid "Monday"
 msgstr "Понедељак"
 
@@ -4577,7 +4577,7 @@ msgstr "Н_ед"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:25
 #: calendar/gui/dialogs/recurrence-page.c:1039
-#: calendar/gui/e-itip-control.c:752
+#: calendar/gui/e-itip-control.c:740
 msgid "Saturday"
 msgstr "Субота"
 
@@ -4591,7 +4591,7 @@ msgstr "Покажи _бројеве недеља у навигатору за �
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:28
 #: calendar/gui/dialogs/recurrence-page.c:1040
-#: calendar/gui/e-itip-control.c:746
+#: calendar/gui/e-itip-control.c:734
 msgid "Sunday"
 msgstr "Недеља"
 
@@ -4605,7 +4605,7 @@ msgstr "У_то"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:31
 #: calendar/gui/dialogs/recurrence-page.c:1037
-#: calendar/gui/e-itip-control.c:750
+#: calendar/gui/e-itip-control.c:738
 msgid "Thursday"
 msgstr "Четвртак"
 
@@ -4619,7 +4619,7 @@ msgstr "Формат за време:"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:34
 #: calendar/gui/dialogs/recurrence-page.c:1035
-#: calendar/gui/e-itip-control.c:748
+#: calendar/gui/e-itip-control.c:736
 msgid "Tuesday"
 msgstr "Уторак"
 
@@ -4629,7 +4629,7 @@ msgstr "Почетак н_едеље:"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:36
 #: calendar/gui/dialogs/recurrence-page.c:1036
-#: calendar/gui/e-itip-control.c:749
+#: calendar/gui/e-itip-control.c:737
 msgid "Wednesday"
 msgstr "Среда"
 
@@ -5141,12 +5141,12 @@ msgstr "_Почетно време:"
 #. is not permitted.
 #: calendar/gui/dialogs/meeting-page.c:316
 #: calendar/gui/dialogs/meeting-page.glade.h:5
-#: calendar/gui/e-cal-model-tasks.c:648 calendar/gui/e-itip-control.c:1123
+#: calendar/gui/e-cal-model-tasks.c:648 calendar/gui/e-itip-control.c:1111
 #: composer/e-msg-composer.c:2097 filter/filter-rule.c:877
 #: mail/em-account-prefs.c:427 mail/em-folder-view.c:933
-#: mail/mail-account-gui.c:1571 mail/mail-account-gui.c:1967
+#: mail/mail-account-gui.c:1571 mail/mail-account-gui.c:1968
 #: mail/mail-config.glade.h:103
-#: widgets/e-timezone-dialog/e-timezone-dialog.c:192
+#: widgets/e-timezone-dialog/e-timezone-dialog.c:193
 #: widgets/misc/e-cell-date-edit.c:257 widgets/misc/e-dateedit.c:443
 #: widgets/misc/e-dateedit.c:1480 widgets/misc/e-dateedit.c:1595
 msgid "None"
@@ -5439,7 +5439,7 @@ msgstr "<span weight=\"bold\">Стање</span>"
 #: calendar/gui/dialogs/task-details-page.glade.h:4
 #: calendar/gui/e-cal-component-preview.c:230
 #: calendar/gui/e-cal-model-tasks.c:351 calendar/gui/e-cal-model-tasks.c:654
-#: calendar/gui/e-calendar-table.c:472 calendar/gui/e-itip-control.c:915
+#: calendar/gui/e-calendar-table.c:472 calendar/gui/e-itip-control.c:903
 #: calendar/gui/e-meeting-store.c:187 calendar/gui/e-meeting-store.c:210
 #: calendar/gui/print.c:2346
 msgid "Completed"
@@ -5680,7 +5680,7 @@ msgid "Untitled"
 msgstr "Без имена"
 
 #: calendar/gui/e-cal-component-preview.c:187
-#: calendar/gui/e-itip-control.c:1127 calendar/gui/e-itip-control.glade.h:11
+#: calendar/gui/e-itip-control.c:1115 calendar/gui/e-itip-control.glade.h:11
 msgid "Summary:"
 msgstr "Закључак:"
 
@@ -5695,7 +5695,7 @@ msgstr "Датум завршетка:"
 
 #. write status
 #: calendar/gui/e-cal-component-preview.c:223
-#: calendar/gui/e-itip-control.c:1151
+#: calendar/gui/e-itip-control.c:1139
 msgid "Status:"
 msgstr "Стање:"
 
@@ -5704,7 +5704,7 @@ msgid "Priority:"
 msgstr "Важност:"
 
 #: calendar/gui/e-cal-component-preview.c:268
-#: calendar/gui/e-itip-control.c:1183 calendar/gui/e-itip-control.glade.h:6
+#: calendar/gui/e-itip-control.c:1171 calendar/gui/e-itip-control.glade.h:6
 #: composer/e-msg-composer-attachment.glade.h:3 mail/mail-config.glade.h:71
 msgid "Description:"
 msgstr "Опис:"
@@ -5774,7 +5774,7 @@ msgstr "Не"
 
 #. This is the default filename used for temporary file creation
 #: calendar/gui/e-cal-model.c:357 calendar/gui/e-cal-model.c:360
-#: calendar/gui/e-itip-control.c:1168 calendar/gui/e-itip-control.c:1309
+#: calendar/gui/e-itip-control.c:1156 calendar/gui/e-itip-control.c:1297
 #: calendar/gui/e-meeting-list-view.c:122
 #: calendar/gui/e-meeting-list-view.c:136 calendar/gui/e-meeting-store.c:115
 #: calendar/gui/e-meeting-store.c:150 calendar/gui/e-meeting-store.c:215
@@ -6108,11 +6108,11 @@ msgstr "am"
 msgid "pm"
 msgstr "pm"
 
-#: calendar/gui/e-itip-control.c:780
+#: calendar/gui/e-itip-control.c:768
 msgid "Yes. (Complex Recurrence)"
 msgstr "Да. (Сложени повраћај)"
 
-#: calendar/gui/e-itip-control.c:791
+#: calendar/gui/e-itip-control.c:779
 #, c-format
 msgid "Every day"
 msgid_plural "Every %d days"
@@ -6120,7 +6120,7 @@ msgstr[0] "Сваки %d дан"
 msgstr[1] "Свака %d дана"
 msgstr[2] "Сваких %d дана"
 
-#: calendar/gui/e-itip-control.c:796
+#: calendar/gui/e-itip-control.c:784
 #, c-format
 msgid "Every week"
 msgid_plural "Every %d weeks"
@@ -6129,7 +6129,7 @@ msgstr[1] "Сваке %d недеље"
 msgstr[2] "Сваких %d недеља"
 
 # ово ће тешко бити 21, 31, 41, ...
-#: calendar/gui/e-itip-control.c:798
+#: calendar/gui/e-itip-control.c:786
 #, c-format
 msgid "Every week on "
 msgid_plural "Every %d weeks on "
@@ -6137,22 +6137,22 @@ msgstr[0] "Сваке недеље у "
 msgstr[1] "Сваке %d недеље у "
 msgstr[2] "Сваких %d недеља у "
 
-#: calendar/gui/e-itip-control.c:806
+#: calendar/gui/e-itip-control.c:794
 msgid " and "
 msgstr " и "
 
-#: calendar/gui/e-itip-control.c:813
+#: calendar/gui/e-itip-control.c:801
 #, c-format
 msgid "The %s day of "
 msgstr "%s дан "
 
-#: calendar/gui/e-itip-control.c:826
+#: calendar/gui/e-itip-control.c:814
 #, c-format
 msgid "The %s %s of "
 msgstr "%s %s "
 
 # слично као за недеље
-#: calendar/gui/e-itip-control.c:833
+#: calendar/gui/e-itip-control.c:821
 #, c-format
 msgid "every month"
 msgid_plural "every %d months"
@@ -6161,7 +6161,7 @@ msgstr[1] "свака %d месеца"
 msgstr[2] "сваких %d месеци"
 
 # слично као за месеце и недеље
-#: calendar/gui/e-itip-control.c:837
+#: calendar/gui/e-itip-control.c:825
 #, c-format
 msgid "Every year"
 msgid_plural "Every %d years"
@@ -6169,7 +6169,7 @@ msgstr[0] "Сваке године"
 msgstr[1] "Сваке %d године"
 msgstr[2] "Сваких %d година"
 
-#: calendar/gui/e-itip-control.c:848
+#: calendar/gui/e-itip-control.c:836
 #, c-format
 msgid "a total of %d time"
 msgid_plural " a total of %d times"
@@ -6177,38 +6177,38 @@ msgstr[0] "укупно %d пут"
 msgstr[1] "укупно %d пута"
 msgstr[2] "укупно %d пута"
 
-#: calendar/gui/e-itip-control.c:857
+#: calendar/gui/e-itip-control.c:845
 msgid ", ending on "
 msgstr ", завршавајући се "
 
-#: calendar/gui/e-itip-control.c:881
+#: calendar/gui/e-itip-control.c:869
 msgid "Starts"
 msgstr "Почиње"
 
-#: calendar/gui/e-itip-control.c:894
+#: calendar/gui/e-itip-control.c:882
 msgid "Ends"
 msgstr "Завршава се"
 
-#: calendar/gui/e-itip-control.c:928
+#: calendar/gui/e-itip-control.c:916
 msgid "Due"
 msgstr "Рок"
 
-#: calendar/gui/e-itip-control.c:968 calendar/gui/e-itip-control.c:1025
+#: calendar/gui/e-itip-control.c:956 calendar/gui/e-itip-control.c:1013
 msgid "iCalendar Information"
 msgstr "iCalendar подаци"
 
 #. Title
-#: calendar/gui/e-itip-control.c:985
+#: calendar/gui/e-itip-control.c:973
 msgid "iCalendar Error"
 msgstr "iCalendar грешка"
 
-#: calendar/gui/e-itip-control.c:1057 calendar/gui/e-itip-control.c:1073
-#: calendar/gui/e-itip-control.c:1084 calendar/gui/e-itip-control.c:1101
+#: calendar/gui/e-itip-control.c:1045 calendar/gui/e-itip-control.c:1061
+#: calendar/gui/e-itip-control.c:1072 calendar/gui/e-itip-control.c:1089
 msgid "An unknown person"
 msgstr "Непозната особа"
 
 #. Describe what the user can do
-#: calendar/gui/e-itip-control.c:1108
+#: calendar/gui/e-itip-control.c:1096
 msgid ""
 "<br> Please review the following information, and then select an action from "
 "the menu below."
@@ -6216,288 +6216,288 @@ msgstr ""
 "<br> Молим проверите следећу информацију, и потом одаберите акцију из доњег "
 "менија."
 
-#: calendar/gui/e-itip-control.c:1137
+#: calendar/gui/e-itip-control.c:1125
 msgid "Location:"
 msgstr "Место:"
 
-#: calendar/gui/e-itip-control.c:1156 calendar/gui/e-meeting-list-view.c:158
+#: calendar/gui/e-itip-control.c:1144 calendar/gui/e-meeting-list-view.c:158
 #: calendar/gui/e-meeting-store.c:179 calendar/gui/e-meeting-store.c:202
 #: calendar/gui/itip-utils.c:422
 msgid "Accepted"
 msgstr "Прихваћено"
 
-#: calendar/gui/e-itip-control.c:1160 calendar/gui/itip-utils.c:425
+#: calendar/gui/e-itip-control.c:1148 calendar/gui/itip-utils.c:425
 msgid "Tentatively Accepted"
 msgstr "Прихваћено с резервом"
 
-#: calendar/gui/e-itip-control.c:1164 calendar/gui/e-meeting-list-view.c:159
+#: calendar/gui/e-itip-control.c:1152 calendar/gui/e-meeting-list-view.c:159
 #: calendar/gui/e-meeting-store.c:181 calendar/gui/e-meeting-store.c:204
 #: calendar/gui/itip-utils.c:428 calendar/gui/itip-utils.c:454
 msgid "Declined"
 msgstr "Одбијено"
 
-#: calendar/gui/e-itip-control.c:1248
+#: calendar/gui/e-itip-control.c:1236
 msgid ""
 "The meeting has been cancelled, however it could not be found in your "
 "calendars"
 msgstr "Састанак је отказан, међутим, не може се наћи у вашим роковницима"
 
-#: calendar/gui/e-itip-control.c:1250
+#: calendar/gui/e-itip-control.c:1238
 msgid ""
 "The task has been cancelled, however it could not be found in your task lists"
 msgstr ""
 "Задужење је отказано, међутим, не може се наћи у вашим списковима задужења"
 
-#: calendar/gui/e-itip-control.c:1329
+#: calendar/gui/e-itip-control.c:1317
 #, c-format
 msgid "<b>%s</b> has published meeting information."
 msgstr "<b>%s</b> је објавио информацију о састанку."
 
-#: calendar/gui/e-itip-control.c:1330
+#: calendar/gui/e-itip-control.c:1318
 msgid "Meeting Information"
 msgstr "Информација о састанку"
 
-#: calendar/gui/e-itip-control.c:1336
+#: calendar/gui/e-itip-control.c:1324
 #, c-format
 msgid "<b>%s</b> requests the presence of %s at a meeting."
 msgstr "<b>%s</b> тражи присуство %s на састанку."
 
-#: calendar/gui/e-itip-control.c:1338
+#: calendar/gui/e-itip-control.c:1326
 #, c-format
 msgid "<b>%s</b> requests your presence at a meeting."
 msgstr "<b>%s</b> тражи Ваше присуство на састанку."
 
-#: calendar/gui/e-itip-control.c:1339
+#: calendar/gui/e-itip-control.c:1327
 msgid "Meeting Proposal"
 msgstr "Предлог за састанак"
 
 #. FIXME Whats going on here?
-#: calendar/gui/e-itip-control.c:1345
+#: calendar/gui/e-itip-control.c:1333
 #, c-format
 msgid "<b>%s</b> wishes to add to an existing meeting."
 msgstr "<b>%s</b> жели да дода постојећем састанку"
 
-#: calendar/gui/e-itip-control.c:1346
+#: calendar/gui/e-itip-control.c:1334
 msgid "Meeting Update"
 msgstr "Промена састанка"
 
-#: calendar/gui/e-itip-control.c:1350
+#: calendar/gui/e-itip-control.c:1338
 #, c-format
 msgid "<b>%s</b> wishes to receive the latest meeting information."
 msgstr "<b>%s</b> жели да добије најновију информацију о састанку."
 
-#: calendar/gui/e-itip-control.c:1351
+#: calendar/gui/e-itip-control.c:1339
 msgid "Meeting Update Request"
 msgstr "Захтев за новим подацима о састанку"
 
-#: calendar/gui/e-itip-control.c:1358
+#: calendar/gui/e-itip-control.c:1346
 #, c-format
 msgid "<b>%s</b> has replied to a meeting request."
 msgstr "<b>%s</b> је одговорио на захтев о састанку."
 
-#: calendar/gui/e-itip-control.c:1359
+#: calendar/gui/e-itip-control.c:1347
 msgid "Meeting Reply"
 msgstr "Одговор за састанак"
 
-#: calendar/gui/e-itip-control.c:1366
+#: calendar/gui/e-itip-control.c:1354
 #, c-format
 msgid "<b>%s</b> has cancelled a meeting."
 msgstr "<b>%s</b> је отказо састанак."
 
-#: calendar/gui/e-itip-control.c:1367
+#: calendar/gui/e-itip-control.c:1355
 msgid "Meeting Cancellation"
 msgstr "Отказивање састанка"
 
-#: calendar/gui/e-itip-control.c:1377 calendar/gui/e-itip-control.c:1454
-#: calendar/gui/e-itip-control.c:1494
+#: calendar/gui/e-itip-control.c:1365 calendar/gui/e-itip-control.c:1442
+#: calendar/gui/e-itip-control.c:1482
 #, c-format
 msgid "<b>%s</b> has sent an unintelligible message."
 msgstr "<b>%s</b> је послао неразумљиву поруку."
 
-#: calendar/gui/e-itip-control.c:1378
+#: calendar/gui/e-itip-control.c:1366
 msgid "Bad Meeting Message"
 msgstr "Лоша порука о састанку"
 
-#: calendar/gui/e-itip-control.c:1405
+#: calendar/gui/e-itip-control.c:1393
 #, c-format
 msgid "<b>%s</b> has published task information."
 msgstr "<b>%s</b> је објавио информацију о задужењу."
 
-#: calendar/gui/e-itip-control.c:1406
+#: calendar/gui/e-itip-control.c:1394
 msgid "Task Information"
 msgstr "Информација о задужењу"
 
-#: calendar/gui/e-itip-control.c:1413
+#: calendar/gui/e-itip-control.c:1401
 #, c-format
 msgid "<b>%s</b> requests %s to perform a task."
 msgstr "<b>%s</b> тражи %s за обављање задужења."
 
-#: calendar/gui/e-itip-control.c:1415
+#: calendar/gui/e-itip-control.c:1403
 #, c-format
 msgid "<b>%s</b> requests you perform a task."
 msgstr "<b>%s</b> тражи да Ви извршите задужење."
 
-#: calendar/gui/e-itip-control.c:1416
+#: calendar/gui/e-itip-control.c:1404
 msgid "Task Proposal"
 msgstr "Предлог за задужење"
 
 #. FIXME Whats going on here?
-#: calendar/gui/e-itip-control.c:1422
+#: calendar/gui/e-itip-control.c:1410
 #, c-format
 msgid "<b>%s</b> wishes to add to an existing task."
 msgstr "<b>%s</b жели да дода на постојеће задужење."
 
-#: calendar/gui/e-itip-control.c:1423
+#: calendar/gui/e-itip-control.c:1411
 msgid "Task Update"
 msgstr "Ажурирање задужења"
 
-#: calendar/gui/e-itip-control.c:1427
+#: calendar/gui/e-itip-control.c:1415
 #, c-format
 msgid "<b>%s</b> wishes to receive the latest task information."
 msgstr "<b>%s</b> жели да прими најновију информацију о задужењу."
 
-#: calendar/gui/e-itip-control.c:1428
+#: calendar/gui/e-itip-control.c:1416
 msgid "Task Update Request"
 msgstr "Захтев за променама задужења"
 
-#: calendar/gui/e-itip-control.c:1435
+#: calendar/gui/e-itip-control.c:1423
 #, c-format
 msgid "<b>%s</b> has replied to a task assignment."
 msgstr "<b>%s</b> је одговорио на додељено задужење."
 
-#: calendar/gui/e-itip-control.c:1436
+#: calendar/gui/e-itip-control.c:1424
 msgid "Task Reply"
 msgstr "Одговор на задужење"
 
-#: calendar/gui/e-itip-control.c:1443
+#: calendar/gui/e-itip-control.c:1431
 #, c-format
 msgid "<b>%s</b> has cancelled a task."
 msgstr "<b>%s</b> је отказао задужење."
 
-#: calendar/gui/e-itip-control.c:1444
+#: calendar/gui/e-itip-control.c:1432
 msgid "Task Cancellation"
 msgstr "Отказивање задужења"
 
-#: calendar/gui/e-itip-control.c:1455
+#: calendar/gui/e-itip-control.c:1443
 msgid "Bad Task Message"
 msgstr "Лоша порука о задужењу"
 
-#: calendar/gui/e-itip-control.c:1479
+#: calendar/gui/e-itip-control.c:1467
 #, c-format
 msgid "<b>%s</b> has published free/busy information."
 msgstr "<b>%s</b> је објавио слободан/заузет информацију."
 
-#: calendar/gui/e-itip-control.c:1480
+#: calendar/gui/e-itip-control.c:1468
 msgid "Free/Busy Information"
 msgstr "Слободан/заузет информација"
 
-#: calendar/gui/e-itip-control.c:1484
+#: calendar/gui/e-itip-control.c:1472
 #, c-format
 msgid "<b>%s</b> requests your free/busy information."
 msgstr "<b>%s</b> тражи Вашу слободан/заузет информацију."
 
-#: calendar/gui/e-itip-control.c:1485
+#: calendar/gui/e-itip-control.c:1473
 msgid "Free/Busy Request"
 msgstr "Слободан/заузет захтев"
 
-#: calendar/gui/e-itip-control.c:1489
+#: calendar/gui/e-itip-control.c:1477
 #, c-format
 msgid "<b>%s</b> has replied to a free/busy request."
 msgstr "<b>%s</b> је одговорио на слободан/заузет захтев."
 
-#: calendar/gui/e-itip-control.c:1490
+#: calendar/gui/e-itip-control.c:1478
 msgid "Free/Busy Reply"
 msgstr "Слободан/заузет одговор"
 
-#: calendar/gui/e-itip-control.c:1495
+#: calendar/gui/e-itip-control.c:1483
 msgid "Bad Free/Busy Message"
 msgstr "Лоша слободан/заузет порука"
 
-#: calendar/gui/e-itip-control.c:1570
+#: calendar/gui/e-itip-control.c:1558
 msgid "The message does not appear to be properly formed"
 msgstr "Порука изгледа да није исправно сачињена"
 
-#: calendar/gui/e-itip-control.c:1629
+#: calendar/gui/e-itip-control.c:1617
 msgid "The message contains only unsupported requests."
 msgstr "Порука садржи само неподржане захтеве."
 
-#: calendar/gui/e-itip-control.c:1660
+#: calendar/gui/e-itip-control.c:1648
 msgid "The attachment does not contain a valid calendar message"
 msgstr "Прилог не садржи исправну поруку за календар"
 
-#: calendar/gui/e-itip-control.c:1692
+#: calendar/gui/e-itip-control.c:1680
 msgid "The attachment has no viewable calendar items"
 msgstr "Прилог нема делове календара који се могу прегледати"
 
-#: calendar/gui/e-itip-control.c:1926
+#: calendar/gui/e-itip-control.c:1914
 msgid "Update complete\n"
 msgstr "Ажурирање завршено\n"
 
-#: calendar/gui/e-itip-control.c:1954
+#: calendar/gui/e-itip-control.c:1942
 msgid "Object is invalid and cannot be updated\n"
 msgstr "Објекат је неисправан и не може бити ажуриран\n"
 
-#: calendar/gui/e-itip-control.c:1964
+#: calendar/gui/e-itip-control.c:1952
 msgid "This response is not from a current attendee.  Add as an attendee?"
 msgstr "Овај одговор није послао тренутно присутан. Да га додам у присутне?"
 
-#: calendar/gui/e-itip-control.c:1976
+#: calendar/gui/e-itip-control.c:1964
 msgid "Attendee status could not be updated because of an invalid status!\n"
 msgstr "Стање присутног није могло бити ажурирано због неисправног стања!\n"
 
-#: calendar/gui/e-itip-control.c:1993
+#: calendar/gui/e-itip-control.c:1981
 msgid "Attendee status updated\n"
 msgstr "Ажурирано стање присутног\n"
 
-#: calendar/gui/e-itip-control.c:1996
+#: calendar/gui/e-itip-control.c:1984
 msgid "Attendee status can not be updated because the item no longer exists"
 msgstr "Стање присутног не може бити ажурирано јер унос више не постоји"
 
-#: calendar/gui/e-itip-control.c:2023
+#: calendar/gui/e-itip-control.c:2011
 msgid "Removal Complete"
 msgstr "Уклањање завршено"
 
-#: calendar/gui/e-itip-control.c:2046 calendar/gui/e-itip-control.c:2094
+#: calendar/gui/e-itip-control.c:2034 calendar/gui/e-itip-control.c:2082
 msgid "Item sent!\n"
 msgstr "Унос послат!\n"
 
-#: calendar/gui/e-itip-control.c:2048 calendar/gui/e-itip-control.c:2098
+#: calendar/gui/e-itip-control.c:2036 calendar/gui/e-itip-control.c:2086
 msgid "The item could not be sent!\n"
 msgstr "Унос није могао бити послат!\n"
 
-#: calendar/gui/e-itip-control.c:2178
+#: calendar/gui/e-itip-control.c:2166
 msgid "Choose an action:"
 msgstr "Изабери акцију:"
 
-#: calendar/gui/e-itip-control.c:2249
+#: calendar/gui/e-itip-control.c:2237
 msgid "Update"
 msgstr "Ажурирај"
 
-#: calendar/gui/e-itip-control.c:2277
+#: calendar/gui/e-itip-control.c:2265
 msgid "Accept"
 msgstr "Прихвати"
 
-#: calendar/gui/e-itip-control.c:2278
+#: calendar/gui/e-itip-control.c:2266
 msgid "Tentatively accept"
 msgstr "Прихвати са резервом"
 
-#: calendar/gui/e-itip-control.c:2279
+#: calendar/gui/e-itip-control.c:2267
 msgid "Decline"
 msgstr "Одбиј"
 
-#: calendar/gui/e-itip-control.c:2308
+#: calendar/gui/e-itip-control.c:2296
 msgid "Send Free/Busy Information"
 msgstr "Пошаљи слободан/заузет информацију"
 
-#: calendar/gui/e-itip-control.c:2336
+#: calendar/gui/e-itip-control.c:2324
 msgid "Update respondent status"
 msgstr "Ажурирај стање странке"
 
-#: calendar/gui/e-itip-control.c:2364
+#: calendar/gui/e-itip-control.c:2352
 msgid "Send Latest Information"
 msgstr "Пошаљи најновију информацију"
 
-#: calendar/gui/e-itip-control.c:2392 calendar/gui/itip-utils.c:442
+#: calendar/gui/e-itip-control.c:2380 calendar/gui/itip-utils.c:442
 #: mail/mail-send-recv.c:410 mail/mail-send-recv.c:464
 #: ui/evolution-mail-global.xml.h:1
 msgid "Cancel"
@@ -7811,7 +7811,7 @@ msgstr "Америка/Монсерат"
 msgid "America/Nassau"
 msgstr "Америка/Насау"
 
-#: calendar/zones.h:138
+#: calendar/zones.h:138 widgets/e-timezone-dialog/e-timezone-dialog.glade.h:4
 msgid "America/New_York"
 msgstr "Америка/Њујорк"
 
@@ -13223,7 +13223,7 @@ msgid "Stop Processing"
 msgstr "Прекини са обрадом"
 
 #: mail/em-filter-i18n.h:64 mail/em-format-html.c:1550
-#: mail/em-format-quote.c:305 mail/em-format.c:805 mail/em-mailer-prefs.c:87
+#: mail/em-format-quote.c:305 mail/em-format.c:808 mail/em-mailer-prefs.c:87
 #: mail/message-list.etspec.h:13 mail/message-tag-followup.c:329
 #: smime/lib/e-cert.c:1131
 msgid "Subject"
@@ -13722,28 +13722,28 @@ msgstr "Показивач на напознати спољни податак (
 msgid "Formatting message"
 msgstr "Обликујем поруку"
 
-#: mail/em-format-html.c:1441 mail/em-format-quote.c:192 mail/em-format.c:800
+#: mail/em-format-html.c:1441 mail/em-format-quote.c:192 mail/em-format.c:803
 #: mail/em-mailer-prefs.c:82 mail/message-list.etspec.h:7
 #: mail/message-tag-followup.c:325
 msgid "From"
 msgstr "Од"
 
-#: mail/em-format-html.c:1441 mail/em-format-quote.c:192 mail/em-format.c:801
+#: mail/em-format-html.c:1441 mail/em-format-quote.c:192 mail/em-format.c:804
 #: mail/em-mailer-prefs.c:83
 msgid "Reply-To"
 msgstr "Одговор-за"
 
-#: mail/em-format-html.c:1441 mail/em-format-quote.c:192 mail/em-format.c:802
+#: mail/em-format-html.c:1441 mail/em-format-quote.c:192 mail/em-format.c:805
 #: mail/em-mailer-prefs.c:84 mail/message-list.etspec.h:14
 msgid "To"
 msgstr "Коме"
 
-#: mail/em-format-html.c:1441 mail/em-format-quote.c:192 mail/em-format.c:803
+#: mail/em-format-html.c:1441 mail/em-format-quote.c:192 mail/em-format.c:806
 #: mail/em-mailer-prefs.c:85
 msgid "Cc"
 msgstr "Cc (копија)"
 
-#: mail/em-format-html.c:1441 mail/em-format-quote.c:192 mail/em-format.c:804
+#: mail/em-format-html.c:1441 mail/em-format-quote.c:192 mail/em-format.c:807
 #: mail/em-mailer-prefs.c:86
 msgid "Bcc"
 msgstr "Bcc (невидљива копија)"
@@ -13764,41 +13764,41 @@ msgstr "<I> (%a, %R %Z)</I>"
 msgid "<I> (%R %Z)</I>"
 msgstr "<I> (%R %Z)</I>"
 
-#: mail/em-format-html.c:1594 mail/em-format-quote.c:321 mail/em-format.c:806
+#: mail/em-format-html.c:1594 mail/em-format-quote.c:321 mail/em-format.c:809
 #: mail/em-mailer-prefs.c:88 mail/message-list.etspec.h:2
 msgid "Date"
 msgstr "Датум"
 
-#: mail/em-format-html.c:1617 mail/em-format.c:807 mail/em-mailer-prefs.c:89
+#: mail/em-format-html.c:1617 mail/em-format.c:810 mail/em-mailer-prefs.c:89
 msgid "Newsgroups"
 msgstr "Дискусионе групе"
 
-#: mail/em-format.c:1056
+#: mail/em-format.c:1059
 #, c-format
 msgid "%s attachment"
 msgstr "%s прилог"
 
-#: mail/em-format.c:1095 mail/em-format.c:1228
+#: mail/em-format.c:1098 mail/em-format.c:1231
 msgid "Could not parse S/MIME message: Unknown error"
 msgstr "Не могу да обрадим С/МИМЕ поруку: непозната грешка"
 
-#: mail/em-format.c:1218
+#: mail/em-format.c:1221
 msgid "Unsupported encryption type for multipart/encrypted"
 msgstr "Неподржана врста шифровања за multipart/encrypted"
 
-#: mail/em-format.c:1379
+#: mail/em-format.c:1382
 msgid "Could not parse MIME message. Displaying as source."
 msgstr "Нисам могао да обрадим MIME поруку. Показујем као извор."
 
-#: mail/em-format.c:1398
+#: mail/em-format.c:1401
 msgid "Unsupported signature format"
 msgstr "Неподржан облик потписа"
 
-#: mail/em-format.c:1406
+#: mail/em-format.c:1409
 msgid "Error verifying signature"
 msgstr "Грешка при провери потписа"
 
-#: mail/em-format.c:1406
+#: mail/em-format.c:1409
 msgid "Unknown error verifying signature"
 msgstr "Непозната грешка при провери потписа"
 
@@ -16121,7 +16121,9 @@ msgstr ""
 msgid ""
 "\n"
 "Please check your account settings and try again.\n"
-msgstr "\nПроверите подешавања вашег налог и покушајте поново.\n"
+msgstr ""
+"\n"
+"Проверите подешавања вашег налог и покушајте поново.\n"
 
 #: mail/mail-folder-cache.c:795
 #, c-format
@@ -16591,30 +16593,26 @@ msgid "Evolution Test component"
 msgstr "Пробни део Еволуције"
 
 #: shell/apps_evolution_shell.schemas.in.in.h:1
-msgid "480"
-msgstr "480"
-
-#: shell/apps_evolution_shell.schemas.in.in.h:2
 msgid "Default width of the folder bar pane"
 msgstr "Подразумевана ширина површи са директоријумима"
 
-#: shell/apps_evolution_shell.schemas.in.in.h:3
+#: shell/apps_evolution_shell.schemas.in.in.h:2
 msgid "Default window height"
 msgstr "Подразумевана висина прозора"
 
-#: shell/apps_evolution_shell.schemas.in.in.h:4
+#: shell/apps_evolution_shell.schemas.in.in.h:3
 msgid "Default window width"
 msgstr "Подразумевана ширина прозора"
 
-#: shell/apps_evolution_shell.schemas.in.in.h:5
+#: shell/apps_evolution_shell.schemas.in.in.h:4
 msgid "Evolution configuration version"
 msgstr "Издање алата за подешавање Еволуције"
 
-#: shell/apps_evolution_shell.schemas.in.in.h:6
+#: shell/apps_evolution_shell.schemas.in.in.h:5
 msgid "ID or alias of the component to be shown by default at start-up."
 msgstr "ИБ или надимак дела који се уобичајено приказује по покретању."
 
-#: shell/apps_evolution_shell.schemas.in.in.h:7
+#: shell/apps_evolution_shell.schemas.in.in.h:6
 msgid ""
 "If set to true, Evolution will start up in offline mode instead of online "
 "mode."
@@ -16622,7 +16620,7 @@ msgstr ""
 "Ако је постављено, Еволуција ће се покренути у неповезаном режиму уместо у "
 "повезаном режиму."
 
-#: shell/apps_evolution_shell.schemas.in.in.h:8
+#: shell/apps_evolution_shell.schemas.in.in.h:7
 msgid ""
 "If set to true, the warning dialog in development versions of Evolution is "
 "not displayed."
@@ -16630,29 +16628,29 @@ msgstr ""
 "Ако је постављено, прозорче са упозорењем у развојним издањима Еволуције се "
 "неће приказивати."
 
-#: shell/apps_evolution_shell.schemas.in.in.h:9
+#: shell/apps_evolution_shell.schemas.in.in.h:8
 msgid "Last upgraded Evolution configuration version"
 msgstr "Последње издање алата за подешавање Еволуције"
 
-#: shell/apps_evolution_shell.schemas.in.in.h:10
+#: shell/apps_evolution_shell.schemas.in.in.h:9
 msgid ""
 "List of paths for the folders to be synchronized to disk for offline usage"
 msgstr ""
 "Списак путања директоријума који се усклађују надиску за неповезану употребу"
 
-#: shell/apps_evolution_shell.schemas.in.in.h:11
+#: shell/apps_evolution_shell.schemas.in.in.h:10
 msgid "Toolbar is visible"
 msgstr "Трака алатки је приказана"
 
-#: shell/apps_evolution_shell.schemas.in.in.h:12
+#: shell/apps_evolution_shell.schemas.in.in.h:11
 msgid "Whether Evolution should start up in offline mode"
 msgstr "Да ли се Еволуција покреће у неповезаном режиму"
 
-#: shell/apps_evolution_shell.schemas.in.in.h:13
+#: shell/apps_evolution_shell.schemas.in.in.h:12
 msgid "Whether the toolbar should be visible."
 msgstr "Да ли се приказује трака алатки."
 
-#: shell/apps_evolution_shell.schemas.in.in.h:14
+#: shell/apps_evolution_shell.schemas.in.in.h:13
 msgid "Whether to skip the development warning dialog"
 msgstr "Да ли да прескочи прозорче са упозорењем о развоју"
 
@@ -16694,7 +16692,7 @@ msgstr ""
 msgid "Choose the destination for this import"
 msgstr "Изаберите одредиште за овај увоз"
 
-#: shell/e-shell-importer.c:158 shell/e-shell-startup-wizard.c:748
+#: shell/e-shell-importer.c:158 shell/e-shell-startup-wizard.c:750
 msgid "Please select the information that you would like to import:"
 msgstr "Молим изаберите податке које желите да увезете:"
 
@@ -16710,7 +16708,7 @@ msgstr ""
 "подешавања која би се могла искористити. Уколико желите\n"
 "да пробате поново, притисните дугме „Назад“.\n"
 
-#: shell/e-shell-importer.c:229 shell/e-shell-importer.c:260
+#: shell/e-shell-importer.c:232 shell/e-shell-importer.c:266
 #, c-format
 msgid ""
 "Importing %s\n"
@@ -16719,30 +16717,30 @@ msgstr ""
 "Увозим %s\n"
 "Увозим %d. ставку."
 
-#: shell/e-shell-importer.c:333
+#: shell/e-shell-importer.c:340
 msgid "Select importer"
 msgstr "Изаберите увозника"
 
-#: shell/e-shell-importer.c:451 shell/e-shell-importer.c:1056
+#: shell/e-shell-importer.c:461 shell/e-shell-importer.c:1073
 #, c-format
 msgid "File %s does not exist"
 msgstr "Датотека %s не постоји"
 
-#: shell/e-shell-importer.c:459
+#: shell/e-shell-importer.c:469
 msgid "Importing"
 msgstr "Увозим"
 
-#: shell/e-shell-importer.c:467
+#: shell/e-shell-importer.c:477
 #, c-format
 msgid "Importing %s.\n"
 msgstr "Увозим %s.\n"
 
-#: shell/e-shell-importer.c:477 shell/e-shell-importer.c:478
+#: shell/e-shell-importer.c:487 shell/e-shell-importer.c:488
 #, c-format
 msgid "Error loading %s"
 msgstr "Грешка код учитавања %s"
 
-#: shell/e-shell-importer.c:495
+#: shell/e-shell-importer.c:506
 #, c-format
 msgid ""
 "Importing %s\n"
@@ -16751,31 +16749,31 @@ msgstr ""
 "Увозим %s\n"
 "Увозим 1. ставку."
 
-#: shell/e-shell-importer.c:570
+#: shell/e-shell-importer.c:582
 msgid "Automatic"
 msgstr "Аутоматско"
 
-#: shell/e-shell-importer.c:626
+#: shell/e-shell-importer.c:638
 msgid "F_ilename:"
 msgstr "_Назив датотеке:"
 
-#: shell/e-shell-importer.c:631
+#: shell/e-shell-importer.c:643
 msgid "Select a file"
 msgstr "Одаберите датотеку"
 
-#: shell/e-shell-importer.c:643
+#: shell/e-shell-importer.c:655
 msgid "File _type:"
 msgstr "_Врста датотеке:"
 
-#: shell/e-shell-importer.c:682
+#: shell/e-shell-importer.c:694
 msgid "Import data and settings from _older programs"
 msgstr "Увези податке и подешавања из _старијих програма"
 
-#: shell/e-shell-importer.c:685
+#: shell/e-shell-importer.c:697
 msgid "Import a _single file"
 msgstr "Увези _једну датотеку"
 
-#: shell/e-shell-importer.c:753 shell/e-shell-startup-wizard.c:571
+#: shell/e-shell-importer.c:765 shell/e-shell-startup-wizard.c:571
 msgid ""
 "Please wait...\n"
 "Scanning for existing setups"
@@ -16783,25 +16781,25 @@ msgstr ""
 "Молим сачекајте...\n"
 "Тражим постојећа подешавања"
 
-#: shell/e-shell-importer.c:757
+#: shell/e-shell-importer.c:772
 msgid "Starting Intelligent Importers"
 msgstr "Покрећем интелигентне увознике"
 
-#: shell/e-shell-importer.c:883 shell/e-shell-startup-wizard.c:698
+#: shell/e-shell-importer.c:898 shell/e-shell-startup-wizard.c:700
 #, c-format
 msgid "From %s:"
 msgstr "Од %s:"
 
-#: shell/e-shell-importer.c:1074
+#: shell/e-shell-importer.c:1092
 #, c-format
 msgid "No importer available for file %s"
 msgstr "Нема доступног увозника за датотеку „%s“"
 
-#: shell/e-shell-importer.c:1086
+#: shell/e-shell-importer.c:1106
 msgid "Unable to execute importer"
 msgstr "Нисам могао да покренем увозника."
 
-#: shell/e-shell-importer.c:1200
+#: shell/e-shell-importer.c:1220
 msgid "_Import"
 msgstr "У_воз"
 
@@ -16813,11 +16811,11 @@ msgstr "Затварам везе..."
 msgid "Evolution Settings"
 msgstr "Подешавања Еволуције"
 
-#: shell/e-shell-startup-wizard.c:575
+#: shell/e-shell-startup-wizard.c:577
 msgid "Starting import"
 msgstr "Почињем увоз"
 
-#: shell/e-shell-startup-wizard.c:795
+#: shell/e-shell-startup-wizard.c:797
 msgid ""
 "If you quit the Evolution Setup Assistant now, all of the information that "
 "you have entered will be forgotten. You will need to run this assistant "
@@ -16868,19 +16866,30 @@ msgstr "Bug buddy није инсталиран."
 msgid "Bug buddy could not be run."
 msgstr "Bug buddy не може да се покрене."
 
-#: shell/e-shell-window-commands.c:323
+#. The translator-credits string is for translators to list
+#. * per language credits for translation, displayed in the
+#. * about box
+#: shell/e-shell-window-commands.c:424
+msgid "translator-credits"
+msgstr ""
+"Игор Несторовић <jung@one.ekof.bg.ac.yu>\n"
+"Данило Шеган <danilo@gnome.org>\n"
+"\n"
+"Prevod.org — превод на српски језик."
+
+#: shell/e-shell-window-commands.c:438
 msgid "Groupware Suite"
 msgstr "Групвајз пакет"
 
-#: shell/e-shell-window-commands.c:563
+#: shell/e-shell-window-commands.c:678
 msgid "_Work Online"
 msgstr "_На мрежи"
 
-#: shell/e-shell-window-commands.c:576 ui/evolution.xml.h:39
+#: shell/e-shell-window-commands.c:691 ui/evolution.xml.h:39
 msgid "_Work Offline"
 msgstr "_Није на мрежи"
 
-#: shell/e-shell-window-commands.c:589 ui/evolution.xml.h:25
+#: shell/e-shell-window-commands.c:704 ui/evolution.xml.h:25
 msgid "Work Offline"
 msgstr "Ради без мреже"
 
@@ -17748,15 +17757,15 @@ msgstr "Јединствени ИБ субјекта"
 msgid "Certificate Signature Value"
 msgstr "Вредност потписа сертификата"
 
-#: smime/lib/e-pkcs12.c:263
+#: smime/lib/e-pkcs12.c:264
 msgid "PKCS12 File Password"
 msgstr "PKCS12 лозинка датотеке"
 
-#: smime/lib/e-pkcs12.c:263
+#: smime/lib/e-pkcs12.c:264
 msgid "Enter password for PKCS12 file:"
 msgstr "Унесите лозинку за PKCS12 датотеку:"
 
-#: smime/lib/e-pkcs12.c:362
+#: smime/lib/e-pkcs12.c:363
 msgid "Imported Certificate"
 msgstr "Увежен сертификат"
 
@@ -19240,8 +19249,8 @@ msgid "With _Status"
 msgstr "Са _стањем"
 
 # Универзално време, или УТ
-#: widgets/e-timezone-dialog/e-timezone-dialog.c:197
-#: widgets/e-timezone-dialog/e-timezone-dialog.c:635
+#: widgets/e-timezone-dialog/e-timezone-dialog.c:198
+#: widgets/e-timezone-dialog/e-timezone-dialog.c:640
 msgid "UTC"
 msgstr "УТ"
 
@@ -19253,11 +19262,11 @@ msgstr "<b>Временске зоне</b>"
 msgid "<b>_Selection</b>"
 msgstr "<b>_Избор</b>"
 
-#: widgets/e-timezone-dialog/e-timezone-dialog.glade.h:4
+#: widgets/e-timezone-dialog/e-timezone-dialog.glade.h:5
 msgid "Select a Time Zone"
 msgstr "Изаберите временску зону"
 
-#: widgets/e-timezone-dialog/e-timezone-dialog.glade.h:5
+#: widgets/e-timezone-dialog/e-timezone-dialog.glade.h:6
 msgid ""
 "Use the left mouse button to zoom in on an area of the map and select a time "
 "zone.\n"
@@ -19575,6 +19584,9 @@ msgstr "%s (...)"
 #, c-format
 msgid "%s (%d%% complete)"
 msgstr "%s (%d%% завршено)"
+
+#~ msgid "480"
+#~ msgstr "480"
 
 #~ msgid "*Control*F2"
 #~ msgstr "*Control*F2"
