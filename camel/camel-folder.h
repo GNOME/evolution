@@ -151,8 +151,9 @@ typedef struct {
 				  CamelFolder *destination,
 				  CamelException *ex);
 
-	void (*freeze) (CamelFolder *folder);
-	void (*thaw)   (CamelFolder *folder);
+	void     (*freeze)    (CamelFolder *folder);
+	void     (*thaw)      (CamelFolder *folder);
+	gboolean (*is_frozen) (CamelFolder *folder);
 } CamelFolderClass;
 
 /* Standard Camel function */
@@ -269,6 +270,7 @@ void               camel_folder_move_messages_to       (CamelFolder *source,
 /* stop/restart getting events */
 void               camel_folder_freeze                (CamelFolder *folder);
 void               camel_folder_thaw                  (CamelFolder *folder);
+gboolean           camel_folder_is_frozen             (CamelFolder *folder);
 
 #if 0
 /* lock/unlock at the thread level, NOTE: only used internally */

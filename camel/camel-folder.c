@@ -109,6 +109,7 @@ static void            move_messages_to       (CamelFolder *source,
 
 static void            freeze                (CamelFolder *folder);
 static void            thaw                  (CamelFolder *folder);
+static gboolean        is_frozen             (CamelFolder *folder);
 
 static gboolean        folder_changed        (CamelObject *object,
 					      gpointer event_data);
@@ -154,6 +155,7 @@ camel_folder_class_init (CamelFolderClass *camel_folder_class)
 	camel_folder_class->move_messages_to = move_messages_to;
 	camel_folder_class->freeze = freeze;
 	camel_folder_class->thaw = thaw;
+	camel_folder_class->is_frozen = is_frozen;
 
 	/* virtual method overload */
 	camel_object_class_declare_event (camel_object_class,
@@ -1308,6 +1310,26 @@ camel_folder_thaw (CamelFolder *folder)
 	g_return_if_fail (folder->priv->frozen != 0);
 
 	CF_CLASS (folder)->thaw (folder);
+}
+
+static gboolean
+is_frozen (CamelFolder *folder)
+{
+	return folder->priv->frozen != 0;
+}
+
+/**
+ * camel_folder_is_frozen:
+ * @folder: a folder
+ *
+ * Return value: whether or not the folder is frozen.
+ **/
+gboolean
+camel_folder_is_frozen (CamelFolder *folder)
+{
+	g_return_val_if_fail (CAMEL_IS_FOLDER (folder), FALSE);
+
+	return CF_CLASS (folder)->is_frozen (folder);
 }
 
 

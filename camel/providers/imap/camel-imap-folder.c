@@ -100,6 +100,8 @@ static void imap_move_messages_to (CamelFolder *source, GPtrArray *uids,
 static GPtrArray *imap_search_by_expression (CamelFolder *folder, const char *expression, CamelException *ex);
 static void       imap_search_free          (CamelFolder *folder, GPtrArray *uids);
 
+static void imap_thaw (CamelFolder *folder);
+
 GData *parse_fetch_response (CamelImapFolder *imap_folder, char *msg_att);
 
 static void
@@ -116,6 +118,7 @@ camel_imap_folder_class_init (CamelImapFolderClass *camel_imap_folder_class)
 	camel_folder_class->move_messages_to = imap_move_messages_to;
 	camel_folder_class->search_by_expression = imap_search_by_expression;
 	camel_folder_class->search_free = imap_search_free;
+	camel_folder_class->thaw = imap_thaw;
 
 	camel_disco_folder_class->refresh_info_online = imap_refresh_info;
 	camel_disco_folder_class->sync_online = imap_sync_online;
@@ -370,6 +373,11 @@ imap_refresh_info (CamelFolder *folder, CamelException *ex)
 
 	if (camel_disco_store_status (CAMEL_DISCO_STORE (imap_store)) == CAMEL_DISCO_STORE_OFFLINE)
 		return;
+
+	if (camel_folder_is_frozen (folder)) {
+		imap_folder->need_refresh = TRUE;
+		return;
+	}
 
 	/* If the folder isn't selected, select it (which will force
 	 * a rescan if one is needed.
@@ -935,6 +943,8 @@ do_append (CamelFolder *folder, CamelMimeMessage *message,
 	g_byte_array_append (ba, "\0", 3);
 	response = camel_imap_command_continuation (store, ex, ba->data);
 	g_byte_array_free (ba, TRUE);
+	if (!response)
+		return response;
 
 	if (store->capabilities & IMAP_CAPABILITY_UIDPLUS) {
 		*uid = strstrcase (response->status, "[APPENDUID ");
@@ -961,7 +971,9 @@ imap_append_online (CamelFolder *folder, CamelMimeMessage *message,
 	CamelImapStore *store = CAMEL_IMAP_STORE (folder->parent_store);
 	CamelImapResponse *response;
 	char *uid;
+	int count;
 
+	count = camel_folder_summary_count (folder->summary);
 	response = do_append (folder, message, info, &uid, ex);
 	if (!response)
 		return;
@@ -979,6 +991,11 @@ imap_append_online (CamelFolder *folder, CamelMimeMessage *message,
 	}
 
 	camel_imap_response_free (store, response);
+
+	/* Make sure a "folder_changed" is emitted. */
+	if (store->current_folder != folder ||
+	    camel_folder_summary_count (folder->summary) == count)
+		imap_refresh_info (folder, ex);
 }
 
 static void
@@ -1142,21 +1159,24 @@ imap_copy_online (CamelFolder *source, GPtrArray *uids,
 		  CamelFolder *destination, CamelException *ex)
 {
 	CamelImapStore *store = CAMEL_IMAP_STORE (source->parent_store);
-	CamelImapResponse *response;
+	int count;
 
 	/* Sync message flags if needed. */
 	imap_sync_online (source, ex);
 	if (camel_exception_is_set (ex))
 		return;
 
+	count = camel_folder_summary_count (destination->summary);
+
 	/* Now copy the messages */
 	do_copy (source, uids, destination, ex);
 	if (camel_exception_is_set (ex))
 		return;
 
-	/* Force the destination folder to notice its new messages. */
-	response = camel_imap_command (store, destination, NULL, "NOOP");
-	camel_imap_response_free (store, response);
+	/* Make the destination notice its new messages */
+	if (store->current_folder != destination ||
+	    camel_folder_summary_count (destination->summary) == count)
+		camel_folder_refresh_info (destination, ex);
 }
 
 static void
@@ -1650,6 +1670,22 @@ camel_imap_folder_changed (CamelFolder *folder, int exists,
 	camel_folder_change_info_free (changes);
 
 	camel_folder_summary_save (folder->summary);
+}
+
+static void
+imap_thaw (CamelFolder *folder)
+{
+	CamelImapFolder *imap_folder;
+
+	CAMEL_FOLDER_CLASS (disco_folder_class)->thaw (folder);
+	if (camel_folder_is_frozen (folder))
+		return;
+
+	imap_folder = CAMEL_IMAP_FOLDER (folder);
+	if (imap_folder->need_refresh) {
+		imap_folder->need_refresh = FALSE;
+		imap_refresh_info (folder, NULL);
+	}
 }
 
 

@@ -1,3 +1,20 @@
+2001-06-28  Dan Winship  <danw@ximian.com>
+
+	* providers/imap/camel-imap-folder.c (imap_refresh_info): If the
+	folder is frozen, don't refresh, just record that we need to do it
+	later.
+	(imap_append_online): If the APPEND doesn't trigger an immediate
+	EXISTS response (because the folder isn't the selected folder, or
+	because the server doesn't do that until the next command), call
+	imap_refresh_info on the folder.
+	(imap_copy_online): Likewise. (Replacing the unconditional NOOP
+	that was there before, which absolutely killed filter performance
+	by forcing the IMAP provider to switch back and forth between
+	folders after every copy or move.)
+	(imap_thaw): If the folder needs a refresh, do it.
+
+	* camel-folder.c (camel_folder_is_frozen): New method
+
 2001-06-27  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* camel-transport.c (camel_transport_init): Initialize the private
