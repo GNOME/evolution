@@ -27,6 +27,7 @@ struct _MailDisplay {
 	EScrollFrame *scroll;
 	GtkHTML *html;
 	GtkHTMLStream *stream;
+	gint redisplay_counter;
 	gpointer last_active;
 	guint idle_id;
 
@@ -55,6 +56,12 @@ void           mail_display_redisplay_when_loaded (MailDisplay *md,
 						   gconstpointer key,
 						   void (*callback)(MailDisplay *, gpointer),
 						   gpointer data);
+void           mail_display_stream_write_when_loaded (MailDisplay *md,
+						      gconstpointer key,
+						      const gchar *url,
+						      void (*callback)(MailDisplay *, gpointer),
+						      GtkHTMLStream *handle,
+						      gpointer data);
 
 void           mail_display_set_message (MailDisplay *mail_display, 
 					 CamelMedium *medium);

@@ -40,7 +40,11 @@ void mail_format_mime_message (CamelMimeMessage *mime_message,
 			       MailDisplay *md);
 void mail_format_raw_message (CamelMimeMessage *mime_message,
 			      MailDisplay *md);
-gboolean mail_content_loaded (CamelDataWrapper *wrapper, MailDisplay *display);
+gboolean mail_content_loaded (CamelDataWrapper *wrapper,
+			      MailDisplay *display,
+			      gboolean redisplay,
+			      const gchar *url,
+			      GtkHTMLStream *handle);
 
 typedef gboolean (*MailMimeHandlerFn) (CamelMimePart *part,
 				       const char *mime_type,

@@ -1,3 +1,40 @@
+2001-09-06  Radek Doulik  <rodo@ximian.com>
+
+	* everywhere updated for new mail_content_loaded definition
+	(prototype)
+
+2001-09-05  Radek Doulik  <rodo@ximian.com>
+
+	* mail-display.c (mail_display_redisplay): increase
+	redisplay_counter
+	(try_part_urls): new helper function
+	(try_data_urls): ditto
+	(load_content_loaded): if it has stream handle available and if
+	it's still valid, it writes to this stream instead of
+	redisplaying, uses try_part_urls and try_data_urls
+
+	* mail-display.h: added redisplay_counter to MailDisplay, I use
+	it in load_content_loaded to be sure that there wasn't any
+	redisplay and that remembered handle is still valid
+
+	* mail-display.c (on_url_requested): don't end stream with error
+	if part is not loaded yet
+	(on_url_requested): don't end stream in cases when we are going to
+	load image using http
+	(stream_write_or_redisplay_when_loaded): new helper function,
+	which is extracted from mail_display_redisplay_when_loaded. it's
+	extended to handle gtkhtml stream writting
+	(mail_display_redisplay_when_loaded): use
+	stream_write_or_redisplay_when_loaded
+	(mail_display_stream_write_when_loaded): new function, uses
+	stream_write_or_redisplay_when_loaded
+	struct _load_content_msg: added handle, url and redisplay_counter
+	fields
+
+	* mail-format.c (mail_content_loaded): added redisplay, url and
+	handle parameter for case when we are loading image content and
+	want it write to stream instead of redisplaying
+
 2001-09-05  Ettore Perazzoli  <ettore@ximian.com>
 
 	* message-browser.c (message_browser_new): s/Evolution/Ximian

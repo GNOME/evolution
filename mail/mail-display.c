@@ -705,7 +705,7 @@ save_url (MailDisplay *md, const char *url)
 		g_return_val_if_fail (CAMEL_IS_MIME_PART (part), NULL);
 
 		data = camel_medium_get_content_object ((CamelMedium *)part);
-		if (!mail_content_loaded (data, md)) {
+		if (!mail_content_loaded (data, md, TRUE, NULL, NULL)) {
 			return NULL;
 		}
 
@@ -984,14 +984,15 @@ on_url_requested (GtkHTML *html, const char *url, GtkHTMLStream *handle,
 		g_return_if_fail (CAMEL_IS_MEDIUM (medium));
 
 		data = camel_medium_get_content_object (medium);
-		if (!mail_content_loaded (data, md)) {
-			gtk_html_end (html, handle, GTK_HTML_STREAM_ERROR);
+		if (!mail_content_loaded (data, md, FALSE, url, handle))
 			return;
-		}
 
 		ba = g_byte_array_new ();
 		stream_mem = camel_stream_mem_new_with_byte_array (ba);
 		camel_data_wrapper_write_to_stream (data, stream_mem);
+		/* printf ("-- begin --\n");
+		   printf (ba->data);
+		   printf ("-- end --\n"); */
 		gtk_html_write (html, handle, ba->data, ba->len);
 		camel_object_unref (CAMEL_OBJECT (stream_mem));
 
@@ -1005,8 +1006,12 @@ on_url_requested (GtkHTML *html, const char *url, GtkHTMLStream *handle,
 	/* See if it's some piece of cached data */
 	ba = g_hash_table_lookup (urls, url);
 	if (ba) {
-		if (ba->len)
+		if (ba->len) {
 			gtk_html_write (html, handle, ba->data, ba->len);
+			/* printf ("-- begin --\n");
+			   printf (ba->data);
+			   printf ("-- end --\n"); */
+		}
 		gtk_html_end (html, handle, GTK_HTML_STREAM_OK);
 		return;
 	}
@@ -1017,8 +1022,8 @@ on_url_requested (GtkHTML *html, const char *url, GtkHTMLStream *handle,
 		    g_datalist_get_data (md->data, "load_images")) {
 			ba = g_byte_array_new ();
 			g_hash_table_insert (urls, g_strdup (url), ba);
-			mail_display_redisplay_when_loaded (md, ba, load_http,
-							    g_strdup (url));
+			mail_display_stream_write_when_loaded (md, ba, url, load_http, handle,
+							       g_strdup (url));
 		} else if (mail_config_get_http_mode () == MAIL_CONFIG_HTTP_SOMETIMES &&
 			   !g_datalist_get_data (md->data, "checking_from")) {
 			const CamelInternetAddress *from = camel_mime_message_get_from (md->current_message);
@@ -1028,16 +1033,20 @@ on_url_requested (GtkHTML *html, const char *url, GtkHTMLStream *handle,
 					     GINT_TO_POINTER (1));
 			if (camel_internet_address_get (from, 0, &name, &addr))
 				e_book_query_address_locally (addr, ebook_callback, md);
+			else
+				gtk_html_end (html, handle, GTK_HTML_STREAM_ERROR);
 		}
 	}
-
-	gtk_html_end (html, handle, GTK_HTML_STREAM_ERROR);
 }
 
 struct _load_content_msg {
 	struct _mail_msg msg;
 
 	MailDisplay *display;
+	
+	GtkHTMLStream *handle;
+	gint redisplay_counter;
+	gchar *url;
 	CamelMimeMessage *message;
 	void (*callback)(MailDisplay *, gpointer);
 	gpointer data;
@@ -1057,13 +1066,85 @@ load_content_load (struct _mail_msg *mm)
 	m->callback (m->display, m->data);
 }
 
+static gboolean
+try_part_urls (struct _load_content_msg *m)
+{
+	GHashTable *urls;
+	CamelMedium *medium;
+	GByteArray *ba;
+
+	urls = g_datalist_get_data (m->display->data, "part_urls");
+	g_return_val_if_fail (urls != NULL, FALSE);
+
+	/* See if it refers to a MIME part (cid: or http:) */
+	medium = g_hash_table_lookup (urls, m->url);
+	if (medium) {
+		CamelDataWrapper *data;
+		CamelStream *stream_mem;
+
+		g_return_val_if_fail (CAMEL_IS_MEDIUM (medium), FALSE);
+
+		data = camel_medium_get_content_object (medium);
+		if (!mail_content_loaded (data, m->display, FALSE, m->url, m->handle)) {
+			g_warning ("This code should not be reached\n");
+			return TRUE;
+		}
+
+		ba = g_byte_array_new ();
+		stream_mem = camel_stream_mem_new_with_byte_array (ba);
+		camel_data_wrapper_write_to_stream (data, stream_mem);
+		/* printf ("-- begin --\n");
+		   printf (ba->data);
+		   printf ("-- end --\n"); */
+		gtk_html_write (m->display->html, m->handle, ba->data, ba->len);
+		camel_object_unref (CAMEL_OBJECT (stream_mem));
+
+		gtk_html_end (m->display->html, m->handle, GTK_HTML_STREAM_OK);
+		return TRUE;
+	}
+
+	return FALSE;
+}
+
+static gboolean
+try_data_urls (struct _load_content_msg *m)
+{
+	GHashTable *urls;
+	GByteArray *ba;
+
+	urls = g_datalist_get_data (m->display->data, "data_urls");
+	ba   = g_hash_table_lookup (urls, m->url);
+
+	printf ("url: %s data: %p len: %d\n", m->url, ba, ba ? ba->len : -1);
+	if (ba) {
+		if (ba->len) {
+			printf ("writing ...\n");
+			gtk_html_write (m->display->html, m->handle, ba->data, ba->len);
+		}
+		gtk_html_end (m->display->html, m->handle, GTK_HTML_STREAM_OK);
+		return TRUE;
+	}
+
+	return FALSE;
+}
+
 static void
 load_content_loaded (struct _mail_msg *mm)
 {
 	struct _load_content_msg *m = (struct _load_content_msg *)mm;
 
-	if (m->display->current_message == m->message)
-		mail_display_queue_redisplay (m->display);
+	if (m->display->current_message == m->message) {
+		if (m->handle) {
+			printf ("handle: %p orig: %d actual: %d\n", m->handle,
+				m->redisplay_counter,
+				m->display->redisplay_counter);
+			if (m->redisplay_counter == m->display->redisplay_counter) {
+				if (!try_part_urls (m) && !try_data_urls (m))
+					gtk_html_end (m->display->html, m->handle, GTK_HTML_STREAM_ERROR);
+			}
+		} else
+			mail_display_redisplay (m->display, FALSE);
+	}
 }
 
 static void
@@ -1071,6 +1152,7 @@ load_content_free (struct _mail_msg *mm)
 {
 	struct _load_content_msg *m = (struct _load_content_msg *)mm;
 
+	g_free (m->url);
 	gtk_object_unref (GTK_OBJECT (m->display));
 	camel_object_unref (CAMEL_OBJECT (m->message));
 }
@@ -1082,11 +1164,13 @@ static struct _mail_msg_op load_content_op = {
 	load_content_free,
 };
 
-void
-mail_display_redisplay_when_loaded (MailDisplay *md,
-				    gconstpointer key,
-				    void (*callback)(MailDisplay *, gpointer),
-				    gpointer data)
+static void
+stream_write_or_redisplay_when_loaded (MailDisplay *md,
+				       gconstpointer key,
+				       const gchar *url,
+				       void (*callback)(MailDisplay *, gpointer),
+				       GtkHTMLStream *handle,
+				       gpointer data)
 {
 	struct _load_content_msg *m;
 	GHashTable *loading;
@@ -1104,6 +1188,9 @@ mail_display_redisplay_when_loaded (MailDisplay *md,
 
 	m = mail_msg_new (&load_content_op, NULL, sizeof (*m));
 	m->display = md;
+	m->handle = handle;
+	m->url = g_strdup (url);
+	m->redisplay_counter = md->redisplay_counter;
 	gtk_object_ref (GTK_OBJECT (m->display));
 	m->message = md->current_message;
 	camel_object_ref (CAMEL_OBJECT (m->message));
@@ -1112,6 +1199,26 @@ mail_display_redisplay_when_loaded (MailDisplay *md,
 
 	e_thread_put (mail_thread_queued, (EMsg *)m);
 	return;
+}
+
+void
+mail_display_stream_write_when_loaded (MailDisplay *md,
+				       gconstpointer key,
+				       const gchar *url,
+				       void (*callback)(MailDisplay *, gpointer),
+				       GtkHTMLStream *handle,
+				       gpointer data)
+{
+	stream_write_or_redisplay_when_loaded (md, key, url, callback, handle, data);
+}
+
+void
+mail_display_redisplay_when_loaded (MailDisplay *md,
+				    gconstpointer key,
+				    void (*callback)(MailDisplay *, gpointer),
+				    gpointer data)
+{
+	stream_write_or_redisplay_when_loaded (md, key, NULL, callback, NULL, data);
 }
 
 void
@@ -1125,6 +1232,7 @@ mail_html_write (GtkHTML *html, GtkHTMLStream *stream,
 	buf = g_strdup_vprintf (format, ap);
 	va_end (ap);
 	gtk_html_write (html, stream, buf, strlen (buf));
+	/* printf (buf); */
 	g_free (buf);
 }
 
@@ -1191,6 +1299,9 @@ void
 mail_display_redisplay (MailDisplay *md, gboolean unscroll)
 {
 	md->last_active = NULL;
+	md->redisplay_counter ++;
+	/* printf ("md %p redisplay %d\n", md, md->redisplay_counter); */
+
 	md->stream = gtk_html_begin (GTK_HTML (md->html));
 	if (!unscroll) {
 		/* This is a hack until there's a clean way to do this. */
@@ -1266,19 +1377,20 @@ mail_display_init (GtkObject *object)
 {
 	MailDisplay *mail_display = MAIL_DISPLAY (object);
 
-	mail_display->current_message = NULL;
-	mail_display->scroll          = NULL;
-	mail_display->html            = NULL;
-	mail_display->stream          = NULL;
-	mail_display->last_active     = NULL;
-	mail_display->idle_id         = 0;
-	mail_display->selection       = NULL;
-	mail_display->current_message = NULL;
-	mail_display->data            = NULL;
+	mail_display->current_message   = NULL;
+	mail_display->scroll            = NULL;
+	mail_display->html              = NULL;
+	mail_display->redisplay_counter = 0;
+	mail_display->stream            = NULL;
+	mail_display->last_active       = NULL;
+	mail_display->idle_id           = 0;
+	mail_display->selection         = NULL;
+	mail_display->current_message   = NULL;
+	mail_display->data              = NULL;
 
-	mail_display->invisible       = gtk_invisible_new ();
+	mail_display->invisible         = gtk_invisible_new ();
 
-	mail_display->display_style   = mail_config_get_message_display_style ();
+	mail_display->display_style     = mail_config_get_message_display_style ();
 }
 
 static void

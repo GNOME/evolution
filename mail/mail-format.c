@@ -676,7 +676,7 @@ format_mime_part (CamelMimePart *part, MailDisplay *md)
 		mesg = e_utf8_from_locale_string (_("Could not parse MIME message. Displaying as source."));
 		mail_error_write (md->html, md->stream, "%s", mesg);
 		g_free (mesg);
-		if (mail_content_loaded (wrapper, md))
+		if (mail_content_loaded (wrapper, md, TRUE, NULL, NULL))
 			handle_text_plain (part, "text/plain", md);
 		return TRUE;
 	}
@@ -712,7 +712,7 @@ format_mime_part (CamelMimePart *part, MailDisplay *md)
 		attachment_header (part, mime_type, md);
 	
 	if (handler && handler->builtin && inline_flags & I_DISPLAYED &&
-	    mail_content_loaded (wrapper, md))
+	    mail_content_loaded (wrapper, md, TRUE, NULL, NULL))
 		output = (*handler->builtin) (part, mime_type, md);
 	else
 		output = TRUE;
@@ -990,13 +990,16 @@ load_offline_content (MailDisplay *md, gpointer data)
 }
 
 gboolean
-mail_content_loaded (CamelDataWrapper *wrapper, MailDisplay *md)
+mail_content_loaded (CamelDataWrapper *wrapper, MailDisplay *md, gboolean redisplay, const gchar *url, GtkHTMLStream *handle)
 {
 	if (!camel_data_wrapper_is_offline (wrapper))
 		return TRUE;
 	
 	camel_object_ref (CAMEL_OBJECT (wrapper));
-	mail_display_redisplay_when_loaded (md, wrapper, load_offline_content, wrapper);
+	if (redisplay)
+		mail_display_redisplay_when_loaded (md, wrapper, load_offline_content, wrapper);
+	else
+		mail_display_stream_write_when_loaded (md, wrapper, url, load_offline_content, handle, wrapper);
 	
 	return FALSE;
 }

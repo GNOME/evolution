@@ -95,7 +95,7 @@ mail_identify_mime_part (CamelMimePart *part, MailDisplay *md)
 	 * just to identify the MIME type.
 	 */
 	if (camel_data_wrapper_is_offline (data))
-		mail_content_loaded (data, md);
+		mail_content_loaded (data, md, TRUE, NULL, NULL);
 
 	return NULL;
 }
