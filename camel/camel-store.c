@@ -268,6 +268,9 @@ create_folder (CamelStore *store, const char *parent_name,
 {
 	g_warning ("CamelStore::create_folder not implemented for `%s'",
 		   camel_type_to_name (CAMEL_OBJECT_GET_TYPE (store)));
+
+	camel_exception_setv(ex, CAMEL_EXCEPTION_STORE_INVALID,
+			     _("Cannot create folder: Invalid operation on this store"));
 	return NULL;
 }
 
