@@ -405,7 +405,7 @@
    </glossdef>
   </glossentry> 
 
-  <glossentry id="SMTP">
+  <glossentry id="smtp">
    <glossterm>SMTP:</glossterm>
    <glossdef>
     <para>

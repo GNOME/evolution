@@ -10,7 +10,7 @@
         any amount of contact information, share addresses over a
         network, and several ways to save time with everyday tasks. To
         learn about configuring the addressbook, see <xref
-        linkend="config-prefs-contact">. You can import contacts from
+        linkend="config-prefs-contact"/>. You can import contacts from
         other contact management tools with the Import tool by
         selecting
         <menuchoice><guimenu>File</guimenu><guimenuitem>Import</guimenuitem></menuchoice>,
@@ -89,8 +89,8 @@
       <screenshot>
 	<screeninfo>Evolution Contact Editor</screeninfo>
 	<mediaobject><imageobject><imagedata
-	fileref="figures/contact-editor" format="png" srccredit="Aaron
-	Weber">
+	fileref="figures/contact-editor" format="PNG" srccredit="Aaron
+	Weber"/>
 	</imageobject></mediaobject>
       </screenshot>
     </figure>
@@ -204,7 +204,7 @@
       The last item in the <guilabel>General</guilabel> tab is the
        <guilabel>Categories</guilabel> organization tool; for
        information on that, read <xref
-       linkend="usage-contact-organize">.
+       linkend="usage-contact-organize"/>.
      </para>
      <para>
        The <guilabel>Details</guilabel> tab is much simpler:
@@ -317,7 +317,7 @@
        does, however, allow each card to fall under several
        categories, and allow you to create your own categories.  To
        learn about categories, read <xref
-       linkend="usage-contact-organize-group-category">.
+       linkend="usage-contact-organize-group-category"/>.
     </para>
 
 <!-- UNIMPLEMENTED FEATURE
@@ -349,7 +349,7 @@
 	   The simplest way to group address cards is to use folders.
 	   By default, cards start in the
 	   <guilabel>Contacts</guilabel> folder.  If you've read <xref
-	   linkend="usage-mainwindow"> then you already know that you
+	   linkend="usage-mainwindow"/> then you already know that you
 	   can create a new folder by selecting 
            <menuchoice>
            <guimenu>File</guimenu>
@@ -360,7 +360,7 @@
 	   like with mail, cards must be in a card folder, and no card
 	   can be in two places at once.  If you want more
 	   flexibility, try <xref
-	   linkend="usage-contact-organize-group-category">.
+	   linkend="usage-contact-organize-group-category"/>.
 	 </para>
 	<para>
           To put a card into a folder, just drag it there from the
@@ -446,7 +446,7 @@
                  Unless it is a very small list, it is recommended
                  that you leave the addresses hidden.  This is the
                  same thing as using the "Bcc:" feature discussed in
-                 <xref linkend="usage-mail-getnsend-send-to-types">.
+                 <xref linkend="usage-mail-getnsend-send-to-types"/>.
               </para>
 	    </listitem>
 	    
@@ -488,7 +488,7 @@
 
     <para>
        To learn how to add a remote directory to your available
-       contact folders, see <xref linkend="config-prefs-contact">.
+       contact folders, see <xref linkend="config-prefs-contact"/>.
        Once you have a LDAP connection, the network contacts folder or
        folders will appear inside the <guilabel>External
        Directories</guilabel> folder in the folder bar.  It will work
@@ -546,7 +546,7 @@
 	Card</guimenuitem> from the menu that appears.
       <application> Evolution</application> can also add cards from a
       hand-held device during HotSync operation.  For more
-      information about that, see <xref linkend="usage-sync">.
+      information about that, see <xref linkend="usage-sync"/>.
     </para>
   </sect1>
   

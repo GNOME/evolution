@@ -335,7 +335,7 @@ There are, however, some features which are not available:
 	  server, click the <guibutton>Add</guibutton> button in the
 	  accounts list. The account creation assistant will guide you
 	  through the process, which is also described in <xref
-	  linkend="usage-mainwindow-starting">. If you're not sure
+	  linkend="usage-mainwindow-starting"/>. If you're not sure
 	  about any of the information you need, just ask your system
 	  administrator.
         </para>
@@ -474,7 +474,7 @@ There are, however, some features which are not available:
 	<screenshot>
 	  <screeninfo>Creating an Exchange Account, Step One: Identity</screeninfo>
 	  <mediaobject><imageobject>
-	      <imagedata  format="png" fileref="figures/exchange-identity" srccredit="Aaron Weber">
+	      <imagedata  format="PNG" fileref="figures/exchange-identity" srccredit="Aaron Weber"/>
 	    </imageobject></mediaobject>
 	</screenshot>
       </figure>
@@ -484,7 +484,7 @@ There are, however, some features which are not available:
 	<screenshot>
 	  <screeninfo>Creating an Exchange Account, Step Two: Receiving Mail</screeninfo>
 	  <mediaobject><imageobject>
-	      <imagedata  format="png" fileref="figures/exchange-receive" srccredit="Aaron Weber">
+	      <imagedata  format="PNG" fileref="figures/exchange-receive" srccredit="Aaron Weber"/>
 	    </imageobject></mediaobject>
 	</screenshot>
       </figure>
@@ -494,7 +494,7 @@ There are, however, some features which are not available:
 	<screenshot>
 	  <screeninfo>Creating an Exchange Account, Step Three: Mail Options</screeninfo>
 	  <mediaobject><imageobject>
-	      <imagedata  format="png" fileref="figures/exchange-receive-options" srccredit="Aaron Weber">
+	      <imagedata  format="PNG" fileref="figures/exchange-receive-options" srccredit="Aaron Weber"/>
 	    </imageobject></mediaobject>
 	</screenshot>
       </figure>
@@ -684,7 +684,7 @@ There are, however, some features which are not available:
 	<screenshot>
 	  <screeninfo>Using the Free/Busy Feature</screeninfo>
 	  <mediaobject><imageobject>
-	      <imagedata  format="png" fileref="figures/schedule" srccredit="Aaron Weber">
+	      <imagedata  format="PNG" fileref="figures/schedule" srccredit="Aaron Weber"/>
 	    </imageobject></mediaobject>
 	</screenshot>
       </figure>

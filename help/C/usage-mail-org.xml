@@ -548,13 +548,13 @@
 	
 		<listitem><para> Date sent - Filter messages according to the date on
 		    which they were sent: First, choose the conditions you
-		    want a message to meet &mdash; <guilabel>before</guilabel>
+		    want a message to meet -- <guilabel>before</guilabel>
 		    a given time, <guilabel>after</guilabel> it, and so forth.
 		    Then, choose the time. The filter will compare the
 		    message's time-stamp to the system clock when the filter
 		    is run, or to a specific time and date you choose from a
 		    calendar.  You can even have it look for messages within a
-		    range of time relative to the filter &mdash; perhaps you're
+		    range of time relative to the filter -- perhaps you're
 		    looking for messages less than two days old.
 		  </para></listitem>
 		
@@ -926,7 +926,7 @@
     </note>
 
 
-    <example id="usage-mail-organize-vFolders-ex">
+    <example id="usage-mail-organize-vfolders-ex">
       <title>Using Folders, Searches, and vFolders</title>
       <para>
 	To organize his mailbox, Jim sets up a virtual volder for emails from
@@ -1008,13 +1008,13 @@
 		
 		<listitem><para> Date sent - Search messages according to the date on
 		    which they were sent: First, choose the conditions you
-		    want a message to meet &mdash; <guilabel>before</guilabel>
+		    want a message to meet -- <guilabel>before</guilabel>
 		    a given time, <guilabel>after</guilabel> it, and so forth.
 		    Then, choose the time. The vFolder will compare the
 		    message's time-stamp to the system clock when the filter
 		    is run, or to a specific time and date you choose from a
 		    calendar.  You can even have it look for messages within a
-		    range of time relative to the filter &mdash; perhaps you're
+		    range of time relative to the filter -- perhaps you're
 		    looking for messages less than two days old.
 		  </para></listitem>
 		
@@ -1118,7 +1118,7 @@
 	    <mediaobject>
 	      <imageobject>
 		<imagedata fileref="figures/vfolder-createrule-fig" format="PNG"
-			   srccredit="Aaron Weber">
+			   srccredit="Aaron Weber"/>
 	      </imageobject>
 	    </mediaobject>
 	  </screenshot>

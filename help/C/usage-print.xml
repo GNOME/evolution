@@ -45,7 +45,7 @@
 	  <title>Print Preview</title>
 	  <screenshot>
 	    <screeninfo>Print Preview</screeninfo>
-	    <mediaobject><imageobject><imagedata fileref="figures/print-preview" format="png" srccredit="Aaron Weber">
+	    <mediaobject><imageobject><imagedata fileref="figures/print-preview" format="PNG" srccredit="Aaron Weber"/>
 	</imageobject></mediaobject>
 	</screenshot>
       </figure>
@@ -57,8 +57,8 @@
     <title>File or Printer?</title>
     <para>
        The printer selection window, shown in <xref
-       linkend="print-dest">, lets you choose the format for
-       printing&mdash; <guilabel>Generic Postscript</guilabel>,
+       linkend="print-dest"/>, lets you choose the format for
+       printing-- <guilabel>Generic Postscript</guilabel>,
        whether to write to a PDF file, and whether to print to a file
        or to an actual printer in Generic Postscript.  If you choose a
        printer, you'll be asked for the printer command (probably
@@ -85,7 +85,7 @@
 	  <title>Choosing a Printer</title>
 	  <screenshot>
 	    <screeninfo>Choosing a Printer</screeninfo>
-	    <mediaobject><imageobject><imagedata fileref="figures/print-dest" format="png" srccredit="Aaron Weber">
+	    <mediaobject><imageobject><imagedata fileref="figures/print-dest" format="PNG" srccredit="Aaron Weber"/>
 	</imageobject></mediaobject>
 	</screenshot>
       </figure>

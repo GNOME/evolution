@@ -29,7 +29,7 @@
 	<title>Changing Mail Settings</title>
 	<screenshot>
 	  <screeninfo>Changing Mail Settings</screeninfo>
-	  <mediaobject><imageobject><imagedata fileref="figures/config-mail" format="png" srccredit="Aaron Weber">
+	  <mediaobject><imageobject><imagedata fileref="figures/config-mail" format="PNG" srccredit="Aaron Weber"/>
 	    </imageobject></mediaobject>
 	</screenshot>
       </figure>
@@ -47,7 +47,7 @@
              accounts: the servers to which you connect, the way you
              download mail, your password authentication mode, and so
              forth. This is the most complex item in the list, and is
-             covered in <xref linkend="config-prefs-mail-identity">.
+             covered in <xref linkend="config-prefs-mail-identity"/>.
           </para>
 	</listitem>
       </varlistentry>
@@ -72,7 +72,7 @@
              These are overall mail reading preferences: display
              settings, notification options, security, and so
              forth. These are covered in <xref
-             linkend="config-prefs-mail-display">.
+             linkend="config-prefs-mail-display"/>.
           </para>
 	</listitem>
       </varlistentry>
@@ -86,7 +86,7 @@
              feature here is the ability to substitute graphical
              smiley-faces for "emoticons" such as :) that many people
              use in email. This tool is covered in <xref
-             linkend="config-prefs-mail-composer">.
+             linkend="config-prefs-mail-composer"/>.
           </para>
 	</listitem>
       </varlistentry>
@@ -351,7 +351,7 @@ smtp.omniport.com:143
               specific directory where your server stores mail for
               you.  Typical values are "mail" and "Mail."  For more
               information about how to use IMAP mail, see <xref
-              linkend="usage-mail-subscriptions">.</para>
+              linkend="usage-mail-subscriptions"/>.</para>
 	  </listitem>
 
 	  <listitem>
@@ -410,7 +410,7 @@ smtp.omniport.com:143
               this account. Enter your PGP Key ID and decide how
               frequently to encrypt and sign your messages. You can
               learn more about PGP and encryption in <xref
-              linkend="encryption">.
+              linkend="encryption"/>.
             </para>
 	  </listitem>
 	  </varlistentry>
@@ -432,7 +432,7 @@ smtp.omniport.com:143
         <application>Ximian Evolution</application> to handle inline
         images in HTML mail that you get. There is a detailed
         discussion of the issues surrounding these options in <xref
-        linkend="usage-mail-getnsend-get-attach-html">.
+        linkend="usage-mail-getnsend-get-attach-html"/>.
      </para>
      <para>
        To hange the font which <application>Ximian
@@ -586,14 +586,14 @@ smtp.omniport.com:143
           The calendar configuration tool has two tabs
           <guilabel>General</guilabel> and
           <guilabel>Display</guilabel>, and is illustrated in <xref
-          linkend="config-prefs-cal-fig">.
+          linkend="config-prefs-cal-fig"/>.
 
       <!-- ==============Figure===================== -->
       <figure id="config-prefs-cal-fig">
 	<title>Calendar Preferences Dialog</title>
 	<screenshot>
 	  <screeninfo>Calendar Configuration</screeninfo>
-	  <mediaobject><imageobject><imagedata fileref="figures/config-cal" format="png" srccredit="Aaron Weber">
+	  <mediaobject><imageobject><imagedata fileref="figures/config-cal" format="PNG" srccredit="Aaron Weber"/>
 	    </imageobject></mediaobject>
 	</screenshot>
       </figure>

@@ -71,7 +71,7 @@
       appointments, set alarms, and determine appointment
       recurrence. If you have installed the Ximian Connector for
       Microsoft Exchange, you can also read <xref
-      linkend="full-advantage"> to learn about how to take full
+      linkend="full-advantage"/> to learn about how to take full
       advantage of the collaborative group scheduling functions
       available on the Microsoft Exchange Server.
     </para>
@@ -101,8 +101,8 @@
       </tip>
 
       <para>
-        Your appointment must have a starting and ending date &mdash; by
-        default, today &mdash; but you can choose whether to give it
+        Your appointment must have a starting and ending date (by
+        default, today) but you can choose whether to give it
         starting and ending times or to mark it as an <guilabel>All
         day event</guilabel>. An <guilabel>All day event</guilabel>
         appears at the top of a day's appointment list, in the grey header under the date, rather than inside
@@ -225,7 +225,7 @@
 	<application>Evolution</application> can handle free/busy
 	scheduling Using the Ximian Connector on a Microsoft Exchange
 	2000 server. For more information about Ximian Connector, see
-	<xref linkend="usage-exchange">.
+	<xref linkend="usage-exchange"/>.
       </para>
       <para>
 	To set your appointment to be free or busy, simply click the
@@ -518,15 +518,15 @@
 	<screenshot>
 	  <screeninfo>Appointment Scheduling Window</screeninfo>
 	  <mediaobject><imageobject>
-	      <imagedata  format="png" fileref="figures/schedule"
-	  srccredit="Kevin Breit">
+	      <imagedata  format="PNG" fileref="figures/schedule"
+	  srccredit="Kevin Breit"/>
 	    </imageobject></mediaobject>
 	</screenshot>
       </figure>
       <para>
 	<inlinemediaobject>
 	  <imageobject>
-	    <imagedata fileref="figures/full-1" format="png">
+	    <imagedata fileref="figures/full-1" format="PNG"/>
 	  </imageobject>
 	</inlinemediaobject>
 	<guilabel>Invitee List</guilabel>
@@ -539,7 +539,7 @@
       <para>
 	<inlinemediaobject>
 	  <imageobject>
-	    <imagedata fileref="figures/full-2" format="png">
+	    <imagedata fileref="figures/full-2" format="PNG"/>
 	  </imageobject>
 	</inlinemediaobject>
 	<guilabel>Schedule Grid</guilabel>
@@ -553,7 +553,7 @@
       <para>
 	<inlinemediaobject>
 	  <imageobject>
-	    <imagedata fileref="figures/full-3" format="png">
+	    <imagedata fileref="figures/full-3" format="PNG"/>
 	  </imageobject>
 	</inlinemediaobject>
 	<guilabel>Meeting Scheduler</guilabel>
@@ -590,7 +590,7 @@
         </para>
 
         <para>
-         Read <xref linkend="full-advantage"> to learn about how to
+         Read <xref linkend="full-advantage"/> to learn about how to
 	 use this feature with the Ximian Connector for Microsoft
 	 Exchange.
        </para>

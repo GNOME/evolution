@@ -1,22 +1,26 @@
-<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook V4.1//EN"[
-
-<!ENTITY PREFACE SYSTEM "preface.sgml">
-<!ENTITY USAGE-MAINWINDOW SYSTEM "usage-mainwindow.sgml">
-<!ENTITY USAGE-EXEC-SUMMARY SYSTEM "usage-exec-summary.sgml">
-<!ENTITY USAGE-MAIL SYSTEM "usage-mail.sgml">
-<!ENTITY USAGE-MAIL-ORG SYSTEM "usage-mail-org.sgml">
-<!ENTITY USAGE-CONTACT SYSTEM "usage-contact.sgml">
-<!ENTITY USAGE-CALENDAR SYSTEM "usage-calendar.sgml">
-<!ENTITY USAGE-EXCHANGE SYSTEM "usage-exchange.sgml">
-<!ENTITY USAGE-SYNC SYSTEM "usage-sync.sgml">
-<!ENTITY USAGE-PRINT SYSTEM "usage-print.sgml">
-<!ENTITY CONFIG-PREFS SYSTEM "config-prefs.sgml">
-<!ENTITY CONFIG-SYNC SYSTEM "config-sync.sgml">
-<!ENTITY MENUREF SYSTEM "menuref.sgml">
-<!ENTITY APX-GLOSS SYSTEM "apx-gloss.sgml">
-<!ENTITY APX-COMMON-TASKS SYSTEM "apx-common-tasks.sgml">
-<!ENTITY APX-BUGS SYSTEM "apx-bugs.sgml">
-<!ENTITY APX-AUTHORS SYSTEM "apx-authors.sgml">
+<?xml version='1.0'?>
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.1.2//EN"
+    "http://www.oasis-open.org/docbook/xml/4.1.2/docbookx.dtd" [
+  
+<!ENTITY LEGAL SYSTEM "legal.xml">
+<!ENTITY GFDL SYSTEM "apx-fdl.xml">
+<!ENTITY PREFACE SYSTEM "preface.xml">
+<!ENTITY USAGE-MAINWINDOW SYSTEM "usage-mainwindow.xml">
+<!ENTITY USAGE-EXEC-SUMMARY SYSTEM "usage-exec-summary.xml">
+<!ENTITY USAGE-MAIL SYSTEM "usage-mail.xml">
+<!ENTITY USAGE-MAIL-ORG SYSTEM "usage-mail-org.xml">
+<!ENTITY USAGE-CONTACT SYSTEM "usage-contact.xml">
+<!ENTITY USAGE-CALENDAR SYSTEM "usage-calendar.xml">
+<!ENTITY USAGE-EXCHANGE SYSTEM "usage-exchange.xml">
+<!ENTITY USAGE-SYNC SYSTEM "usage-sync.xml">
+<!ENTITY USAGE-PRINT SYSTEM "usage-print.xml">
+<!ENTITY CONFIG-PREFS SYSTEM "config-prefs.xml">
+<!ENTITY CONFIG-SYNC SYSTEM "config-sync.xml">
+<!ENTITY MENUREF SYSTEM "menuref.xml">
+<!ENTITY APX-GLOSS SYSTEM "apx-gloss.xml">
+<!ENTITY APX-COMMON-TASKS SYSTEM "apx-common-tasks.xml">
+<!ENTITY APX-BUGS SYSTEM "apx-bugs.xml">
+<!ENTITY APX-AUTHORS SYSTEM "apx-authors.xml">
 
 ]>
 
@@ -38,38 +42,15 @@ entity names correspond.  APX is for appendix.  -->
       <holder>Ximian, Inc.</holder>
     </copyright>
     
-    <legalnotice id="legalnotice">
- 
-     <para>
-         Permission is granted to copy, distribute and/or modify this
-         document under the terms of the <ulink type="help"
-         url="gnome-help:fdl"><citetitle>GNU Free Documentation
-         License</citetitle></ulink>, Version 1.1 or any later version
-         published by the Free Software Foundation with no Invariant
-         Sections, no Front-Cover Texts, and no Back-Cover Texts. You
-         may obtain a copy of the <citetitle>GNU Free Documentation
-         License</citetitle> from the Free Software Foundation by
-         visiting <ulink type="http" url="http://www.fsf.org">their
-         Web site</ulink> or by writing to: Free Software Foundation,
-         Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307,
-         USA.
-       </para>
-       <para>
-         Many of the names used by companies to distinguish their
-         products and services are claimed as trademarks. Where those
-         names appear in any GNOME documentation, and those trademarks
-         are made aware to the members of the GNOME Documentation
-         Project, the names have been printed in caps or initial caps.
-       </para>
-    </legalnotice>
-
    <releaseinfo>
-      This is version 1.2 of the Ximian Evolution manual. It describes
-      version 1.2 of the Ximian Evolution groupware suite.
+      This is version 1.4 of the Ximian Evolution manual. It describes
+      version 1.4 of the Ximian Evolution groupware suite.
    </releaseinfo>
 
   </bookinfo>
 
+
+  &LEGAL;
   &PREFACE;
   
   <part id="usage">

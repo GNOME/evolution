@@ -37,7 +37,7 @@
             in</userinput></member> <member><computeroutput>Text
             output from a computer</computeroutput></member>
 	  <member><glossterm linkend="apx-gloss">Words</glossterm>
-            that are defined in the <xref linkend="apx-gloss">.</member>
+            that are defined in the <xref linkend="apx-gloss"/>.</member>
 	  </simplelist>
 </para>
 <para>
@@ -116,7 +116,7 @@ Lastly, we'll have warnings, in cases where you should be careful:
                   </guimenuitem>
 		</menuchoice>. Detailed help for the preferences
 		dialogs has been added to <xref
-		linkend="config-prefs">.
+		linkend="config-prefs"/>.
               </para>
 	    </listitem>
 	  </varlistentry>

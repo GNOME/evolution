@@ -1,3 +1,18 @@
+2002-11-04  Aaron Weber  <aaron@ximian.com>
+
+	* C/*.sgml: All sgml files replaced with xml files. XML files
+	validated. Two new XML files-- apx-fdl.xml and legal.xml
+
+	* C/evolution-C.omf: Altered to fit the GDP template. This may now
+	work with the GNOME 2.0 DTD, although I could be wrong.
+
+	* sgmldocs.make: removed and replaced with xmldocs.make. This will
+	break all translations until they are also ported to XML. I will
+	probably begin doing that tomorrow, since it's just markup and not
+	language stuff.
+
+	* C/Makefile.am: added two files
+
 2002-10-22  Aaron Weber  <aaron@ximian.com>
 
 	* C/usage-mail.sgml: Edit-->Undelete, not Actions-->Undelete

@@ -49,7 +49,7 @@
       makes displays faster and more efficient, so searches are faster
       and memory usage is lower.  People who get lots of mail will
       appreciate advanced features like <link
-      linkend="usage-mail-organize-vFolders"><trademark>VFolders</trademark></link>,
+      linkend="usage-mail-organize-vfolders"><trademark>VFolders</trademark></link>,
       which let you save searches as though they were ordinary mail
       folders.
     </para>
@@ -319,7 +319,7 @@
         </guimenuitem></menuchoice>, click the <guibutton>Mail
         Accounts</guibutton> button. Then, select the account you want
         to change and click <guibutton>Edit</guibutton>. See <xref
-        linkend="config-prefs-mail"> for details.
+        linkend="config-prefs-mail"/> for details.
       </para>
         <variablelist>
 	 <varlistentry>
@@ -424,7 +424,7 @@
               specific directory where your server stores mail for
               you.  Typical values are "mail" and "Mail."  For more
               information about how to use IMAP mail, see <xref
-              linkend="usage-mail-subscriptions">.</para>
+              linkend="usage-mail-subscriptions"/>.</para>
 	  </listitem>
 
 	  <listitem>
@@ -451,7 +451,7 @@
 		    If you prefer, you can choose to subscribe to
 		    individual mail folders one at a time. For more
 		    information about how to use IMAP mail, see <xref
-		    linkend="usage-mail-subscriptions">.
+		    linkend="usage-mail-subscriptions"/>.
                </para>
              </note>
 
@@ -796,14 +796,18 @@ the workaround described in the note below.
       <title>The Ximian Evolution Main Window</title>
       <screenshot>
 	<screeninfo>Inbox</screeninfo>
-	<mediaobject><imageobject><imagedata
-	fileref="figures/mainwindow-pic" format="png" srccredit="Kevin
-	Breit"> </imageobject></mediaobject>
+	  <mediaobject>
+             <imageobject>
+                 <imagedata fileref="figures/mainwindow-pic" format="PNG" srccredit="Kevin Breit"/> 
+             </imageobject>
+          </mediaobject>
       </screenshot>
     </figure>
     
     <para>
-      <inlinemediaobject><imageobject><imagedata  fileref="figures/full-1" format="png"></imageobject></inlinemediaobject>
+      <inlinemediaobject>
+        <imageobject>
+          <imagedata  fileref="figures/full-1" format="PNG"/></imageobject></inlinemediaobject>
       <guilabel>Menubar</guilabel>
     </para>
     
@@ -813,7 +817,7 @@ the workaround described in the note below.
     </para>
 
     <para>
-      <inlinemediaobject><imageobject><imagedata  fileref="figures/full-2" format="png"></imageobject></inlinemediaobject>
+      <inlinemediaobject><imageobject><imagedata  fileref="figures/full-2" format="PNG"/></imageobject></inlinemediaobject>
       <guilabel>Toolbar</guilabel>
     </para>
 
@@ -823,7 +827,7 @@ the workaround described in the note below.
     </para>
     
     <para>
-      <inlinemediaobject><imageobject><imagedata  fileref="figures/full-3" format="png"></imageobject></inlinemediaobject>
+      <inlinemediaobject><imageobject><imagedata  fileref="figures/full-3" format="PNG"/></imageobject></inlinemediaobject>
       <guilabel>Shortcut Bar</guilabel>
     </para>
     
@@ -833,7 +837,7 @@ the workaround described in the note below.
     </para>
     
     <para>
-      <inlinemediaobject><imageobject><imagedata  fileref="figures/full-4" format="png"></imageobject></inlinemediaobject>
+      <inlinemediaobject><imageobject><imagedata  fileref="figures/full-4" format="PNG"/></imageobject></inlinemediaobject>
       <guilabel>Status Bar</guilabel>
     </para>
     
@@ -845,7 +849,7 @@ the workaround described in the note below.
     </para>
     
     <para>
-      <inlinemediaobject><imageobject><imagedata  fileref="figures/full-5" format="png"></imageobject></inlinemediaobject>
+      <inlinemediaobject><imageobject><imagedata  fileref="figures/full-5" format="PNG"/></imageobject></inlinemediaobject>
       <guilabel>Search Tool</guilabel>
     </para>
     
@@ -953,7 +957,7 @@ the workaround described in the note below.
       directories, and <glossterm linkend="imap">IMAP</glossterm> mail
       folders to which you subscribe.  Lastly, there are
       <guilabel>vFolders</guilabel>, or virtual folders, discussed in
-      <xref linkend="usage-mail-organize-vfolders">,
+      <xref linkend="usage-mail-organize-vfolders"/>,
     </para>
     <para>
        
@@ -1220,37 +1224,37 @@ the workaround described in the note below.
 	<title>The Evolution Summary</title>
 
 <screenshot>
-<graphic  format="png" fileref="figures/summary" srccredit="Kevin Breit">
+<graphic  format="PNG" fileref="figures/summary" srccredit="Kevin Breit"/>
 </screenshot>
 </figure>
       </para>
 
 <para>
-<inlinemediaobject><imageobject><imagedata fileref="figures/full-1" format="png"></imageobject></inlinemediaobject> <guilabel>Weather Summary</guilabel>
+<inlinemediaobject><imageobject><imagedata fileref="figures/full-1" format="PNG"/></imageobject></inlinemediaobject> <guilabel>Weather Summary</guilabel>
 </para>
 <para>
 Shows you the latest weather updates from hundreds of cities around the world.
 </para>
 <para>
-<inlinemediaobject><imageobject><imagedata fileref="figures/full-2" format="png"></imageobject></inlinemediaobject> <guilabel>News Feeds</guilabel>
+<inlinemediaobject><imageobject><imagedata fileref="figures/full-2" format="PNG"/></imageobject></inlinemediaobject> <guilabel>News Feeds</guilabel>
 </para>
 <para>
 Displays up to the minute news from your favorite websites.
 </para>
 <para>
-<inlinemediaobject><imageobject><imagedata fileref="figures/full-3" format="png"></imageobject></inlinemediaobject> <guilabel>Mail Summary</guilabel>
+<inlinemediaobject><imageobject><imagedata fileref="figures/full-3" format="PNG"/></imageobject></inlinemediaobject> <guilabel>Mail Summary</guilabel>
 </para>
 <para>
 Shows you how many email messages you have in your selected folders, waiting to be read.
 </para>
 <para>
-<inlinemediaobject><imageobject><imagedata fileref="figures/full-4" format="png"></imageobject></inlinemediaobject> <guilabel>Calendar Summary</guilabel>
+<inlinemediaobject><imageobject><imagedata fileref="figures/full-4" format="PNG"/></imageobject></inlinemediaobject> <guilabel>Calendar Summary</guilabel>
 </para>
 <para>
 Shows you your calendar.
 </para>
 <para>
-<inlinemediaobject><imageobject><imagedata fileref="figures/full-5" format="png"></imageobject></inlinemediaobject> <guilabel>Tasks</guilabel>
+<inlinemediaobject><imageobject><imagedata fileref="figures/full-5" format="PNG"/></imageobject></inlinemediaobject> <guilabel>Tasks</guilabel>
 </para>
 <para>
 Shows your pending tasks
@@ -1311,7 +1315,7 @@ Shows your pending tasks
         <link linkend="usage-mail-organize-search">searching</link>
         functions were built for speed and efficiency on large volumes
         of mail. There's also the <application>Ximian Evolution</application>
-        <link linkend="usage-mail-organize-vFolders">vFolder</link>,
+        <link linkend="usage-mail-organize-vfolders">vFolder</link>,
         an advanced organizational feature not found in mainstream
         mail clients.  If you get a lot of mail, or if you keep every
         message you get in case you need to refer to it later, you'll
@@ -1326,7 +1330,7 @@ Shows your pending tasks
           <title>Ximian Evolution Mail</title>
           <screenshot>
             <screeninfo>Inbox</screeninfo>
-            <mediaobject><imageobject><imagedata  fileref="figures/mail-inbox" format="png" srccredit="Kevin Breit">
+            <mediaobject><imageobject><imagedata  fileref="figures/mail-inbox" format="PNG" srccredit="Kevin Breit"/>
         </imageobject></mediaobject>
         </screenshot>
       </figure>
@@ -1334,7 +1338,7 @@ Shows your pending tasks
 </para>
       <para>
         <inlinemediaobject><imageobject><imagedata  fileref="figures/full-1"
-        format="png"></imageobject></inlinemediaobject> <guilabel>Email
+        format="PNG"/></imageobject></inlinemediaobject> <guilabel>Email
         Viewer</guilabel>
       </para>
     
@@ -1344,7 +1348,7 @@ Shows your pending tasks
 
       <para>
         <inlinemediaobject><imageobject><imagedata  fileref="figures/full-2"
-        format="png"></imageobject></inlinemediaobject> <guilabel>Message List</guilabel>
+        format="PNG"/></imageobject></inlinemediaobject> <guilabel>Message List</guilabel>
       </para>
     
       <para>
@@ -1383,7 +1387,7 @@ Shows your pending tasks
 
        <para>
          For an in-depth guide to the email capabilities of Ximian
-         Evolution, read <xref linkend="usage-mail">.
+         Evolution, read <xref linkend="usage-mail"/>.
       </para>
     </sect2>
     <sect2 id="basics-calendar">
@@ -1403,7 +1407,7 @@ Shows your pending tasks
       <title>Ximian Evolution Calendar View</title>
       <screenshot>
 	<screeninfo>Ximian Evolution Contact Manager Window</screeninfo>
-	<mediaobject><imageobject><imagedata  fileref="figures/calendar" format="png" srccredit="Aaron Weber">
+	<mediaobject><imageobject><imagedata  fileref="figures/calendar" format="PNG" srccredit="Aaron Weber"/>
 	</imageobject></mediaobject>
       </screenshot>
     </figure>
@@ -1413,7 +1417,7 @@ Shows your pending tasks
 
       <para>
         <inlinemediaobject><imageobject><imagedata  fileref="figures/full-1"
-        format="png"></imageobject></inlinemediaobject> <guilabel>Appointment
+        format="PNG"/></imageobject></inlinemediaobject> <guilabel>Appointment
         List</guilabel>
       </para>
   
@@ -1424,7 +1428,7 @@ Shows your pending tasks
       </para>
 
       <para>
-	<inlinemediaobject><imageobject><imagedata  fileref="figures/full-2" format="png"></imageobject></inlinemediaobject>
+	<inlinemediaobject><imageobject><imagedata  fileref="figures/full-2" format="PNG"/></imageobject></inlinemediaobject>
 	<guilabel>Task List</guilabel>
       </para>
 
@@ -1437,7 +1441,7 @@ Shows your pending tasks
       </para>
 
       <para>
-	<inlinemediaobject><imageobject><imagedata  fileref="figures/full-3" format="png"></imageobject></inlinemediaobject>
+	<inlinemediaobject><imageobject><imagedata  fileref="figures/full-3" format="PNG"/></imageobject></inlinemediaobject>
 	<guilabel>Calendar Window</guilabel>
       </para>
 
@@ -1449,7 +1453,7 @@ Shows your pending tasks
 
       <para>
           For more information about the calendar
-          read <xref linkend="usage-calendar">.
+          read <xref linkend="usage-calendar"/>.
       </para>
 
     </sect2>
@@ -1475,7 +1479,7 @@ Shows your pending tasks
         To open your address book, click on
         <guibutton>Contacts</guibutton> in the shortcut bar, or select
         one of your contacts folders from the folder bar.  <xref
-        linkend="usage-contact-fig"> shows the address book in all its
+        linkend="usage-contact-fig"/> shows the address book in all its
         organizational glory.  By default, the address book shows all
         your cards in alphabetical order, in a <glossterm
         linkend="minicard">minicard</glossterm> view.  You can select
@@ -1490,14 +1494,14 @@ Shows your pending tasks
 	<title>Ximian Evolution Contact Interface</title>
 	<screenshot>
 	  <screeninfo>Ximian Evolution Contact List Window</screeninfo>
-	  <mediaobject><imageobject><imagedata  fileref="figures/contact" format="png" srccredit="Kevin Breit">
+	  <mediaobject><imageobject><imagedata  fileref="figures/contact" format="PNG" srccredit="Kevin Breit"/>
   	  </imageobject></mediaobject>
 	</screenshot>
       </figure>
      </para>
       <para>
         <inlinemediaobject><imageobject><imagedata  fileref="figures/full-1"
-        format="png"></imageobject></inlinemediaobject> <guilabel>Contact
+        format="PNG"/></imageobject></inlinemediaobject> <guilabel>Contact
         List</guilabel>
       </para>
       <para>
@@ -1505,7 +1509,7 @@ Shows your pending tasks
       </para>
       <para>
           For detailed instructions on how to use the address book,
-          read <xref linkend="usage-contact">.
+          read <xref linkend="usage-contact"/>.
       </para>
     </sect2>
   </sect1>
