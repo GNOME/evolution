@@ -19,6 +19,7 @@ images_DATA = \
 	es-weather.png			\
 	folder.xpm			\
 	forward.xpm			\
+	goto-16.png			\
 	ico-calendar.png		\
 	ico-mail.png			\
 	ico-rdf.png			\
@@ -94,6 +95,7 @@ images_DATA = \
 	new_appointment.xpm		\
 	new_contact.xpm			\
 	new-message.xpm			\
+	new_task-16.png			\
 	save-16.png			\
 	save-as-16.png			\
 	search-16.png			\
