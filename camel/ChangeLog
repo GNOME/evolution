@@ -1,3 +1,8 @@
+2004-03-26  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* providers/imap/camel-imap-folder.c (imap_update_summary):
+	Reverted imap.web.de fix.
+
 2004-03-26  Not Zed  <NotZed@Ximian.com>
 
 	* providers/local/camel-maildir-summary.c (flagbits[]): Added new

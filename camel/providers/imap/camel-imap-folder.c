@@ -2237,12 +2237,9 @@ imap_update_summary (CamelFolder *folder, int exists,
 	GData *data;
 	
 	CAMEL_SERVICE_ASSERT_LOCKED (store, connect_lock);
-	if (store->server_level >= IMAP_LEVEL_IMAP4REV1) {
-		if (g_ascii_strcasecmp (((CamelService *) store)->url->host, "imap.web.de") != 0)
-			header_spec = "HEADER.FIELDS.NOT (RECEIVED)";
-		else
-			header_spec = "HEADER";
-	} else
+	if (store->server_level >= IMAP_LEVEL_IMAP4REV1)
+		header_spec = "HEADER.FIELDS.NOT (RECEIVED)";
+	else
 		header_spec = "0";
 	
 	/* Figure out if any of the new messages are already cached (which
