@@ -1459,7 +1459,6 @@ empty_trash (BonoboUIComponent *uih, void *user_data, const char *path)
 {
 	MailConfigAccount *account;
 	CamelProvider *provider;
-	CamelService *service;
 	CamelFolder *vtrash;
 	const GSList *accounts;
 	CamelException *ex;
@@ -1473,30 +1472,22 @@ empty_trash (BonoboUIComponent *uih, void *user_data, const char *path)
 		
 		/* make sure this is a valid source */
 		if (account->source && account->source->url) {
-			service = camel_session_get_service (session, account->source->url,
-							     CAMEL_PROVIDER_STORE, ex);
-			
-			if (service) {
-				provider = camel_service_get_provider (service);
-				
+			provider = camel_session_get_provider (session, account->source->url, NULL);			
+			if (provider) {
 				/* make sure this store is a remote store */
 				if (provider->flags & CAMEL_PROVIDER_IS_STORAGE &&
 				    provider->flags & CAMEL_PROVIDER_IS_REMOTE) {
 					char *url;
 					
 					url = g_strdup_printf ("vtrash:%s", account->source->url);
-					vtrash = mail_tool_uri_to_folder (url, ex);
+					vtrash = mail_tool_uri_to_folder (url, NULL);
 					g_free (url);
 					
 					if (vtrash)
 						mail_expunge_folder (vtrash, empty_trash_expunged_cb, NULL);
 				}
-				
-				camel_object_unref (CAMEL_OBJECT (service));
 			}
 		}
-		
-		camel_exception_clear (ex);
 		accounts = accounts->next;
 	}
 	

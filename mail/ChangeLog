@@ -1,3 +1,11 @@
+2001-03-26  Dan Winship  <danw@ximian.com>
+
+	* component-factory.c (mail_load_storages): Simplify a bit using
+	camel_session_get_provider.
+
+	* mail-callbacks.c (empty_trash): Ditto, and fix up use of
+	CamelException.
+
 2001-03-26  Radek Doulik  <rodo@ximian.com>
 
 	* mail-format.c (write_address): clear name and email data after

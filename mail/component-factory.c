@@ -414,7 +414,8 @@ mail_load_storages (GNOME_Evolution_Shell shell, const GSList *sources, gboolean
 		const MailConfigService *service = NULL;
 		CamelService *store;
 		CamelProvider *prov;
-		
+		char *name;
+
 		if (is_account_data) {
 			account = iter->data;
 			service = account->source;
@@ -425,7 +426,25 @@ mail_load_storages (GNOME_Evolution_Shell shell, const GSList *sources, gboolean
 		if (service->url == NULL || service->url[0] == '\0')
 			continue;
 
-		store = camel_session_get_service (session, service->url, 
+		prov = camel_session_get_provider (session, service->url, &ex);
+		if (prov == NULL) {
+			/* FIXME: real error dialog */
+			g_warning ("couldn't get service %s: %s\n", service->url,
+				   camel_exception_get_description (&ex));
+			camel_exception_clear (&ex);
+			continue;
+		}
+
+		/* FIXME: this case is ambiguous for things like the
+		 * mbox provider, which can really be a spool
+		 * (/var/spool/mail/user) or a storage (~/mail/, eg).
+		 * That issue can't be resolved on the provider level
+		 * -- it's a per-URL problem.
+		 */
+		if (!(prov->flags & (CAMEL_PROVIDER_IS_STORAGE | CAMEL_PROVIDER_IS_REMOTE)))
+			continue;
+
+		store = camel_session_get_service (session, service->url,
 						   CAMEL_PROVIDER_STORE, &ex);
 		if (store == NULL) {
 			/* FIXME: real error dialog */
@@ -435,31 +454,19 @@ mail_load_storages (GNOME_Evolution_Shell shell, const GSList *sources, gboolean
 			continue;
 		}
 
-		prov = camel_service_get_provider (store);
+		if (is_account_data)
+			name = g_strdup (account->name);
+		else
+			name = camel_service_get_name (store, TRUE);
 
-		/* FIXME: this case is ambiguous for things like the
-		 * mbox provider, which can really be a spool
-		 * (/var/spool/mail/user) or a storage (~/mail/, eg).
-		 * That issue can't be resolved on the provider level
-		 * -- it's a per-URL problem.
-		 */
-		if (prov->flags & CAMEL_PROVIDER_IS_STORAGE && prov->flags & CAMEL_PROVIDER_IS_REMOTE) {
-			char *name;
-			
-			if (is_account_data) {
-				name = g_strdup (account->name);
-			} else {
-				name = camel_service_get_name (store, TRUE);
-			}
-			add_storage (name, service->url, store, shell, &ex);
-			g_free (name);
-			
-			if (camel_exception_is_set (&ex)) {
-				/* FIXME: real error dialog */
-				g_warning ("Cannot load storage: %s",
-					   camel_exception_get_description (&ex));
-				camel_exception_clear (&ex);
-			}
+		add_storage (name, service->url, store, shell, &ex);
+		g_free (name);
+
+		if (camel_exception_is_set (&ex)) {
+			/* FIXME: real error dialog */
+			g_warning ("Cannot load storage: %s",
+				   camel_exception_get_description (&ex));
+			camel_exception_clear (&ex);
 		}
 		
 		camel_object_unref (CAMEL_OBJECT (store));
