@@ -1,3 +1,11 @@
+2002-04-17  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-local.c (mail_local_folder_construct): Just use g_basename.
+	(mlf_finalize): Free the real_path.
+
+	* folder-browser.c (on_right_click): Unref the GdkGC so we don't
+	leak it.
+
 2002-04-16  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-tools.c (mail_tool_destroy_xevolution): Free the format

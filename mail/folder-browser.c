@@ -1950,6 +1950,7 @@ on_right_click (ETree *tree, gint row, ETreePath path, gint col, GdkEvent *event
 		gc = gdk_gc_new (GTK_WIDGET (fb)->window);
 		gdk_gc_set_foreground (gc, &color);
 		gdk_draw_rectangle (pixmap, gc, TRUE, 0, 0, 16, 16);
+		gdk_gc_unref (gc);
 		
 		closure = g_new (struct _colour_data, 1);
 		gtk_object_ref (GTK_OBJECT (fb));

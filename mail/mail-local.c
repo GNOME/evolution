@@ -555,6 +555,8 @@ mlf_finalize (CamelObject *obj)
 
 	free_metainfo(mlf->meta);
 	
+	g_free (mlf->real_path);
+	
 #ifdef ENABLE_THREADS
 	g_mutex_free (mlf->real_folder_lock);
 #endif
@@ -585,12 +587,9 @@ mail_local_folder_construct(MailLocalFolder *mlf, MailLocalStore  *parent_store,
 {
 	const char *name;
 	char *metapath;
-
-	name = strrchr(full_name, '/');
-	if (name == NULL)
-		name = full_name;
-	name = name + 1;
-
+	
+	name = g_basename (full_name);
+	
 	d(printf("constructing local folder: full = %s, name = %s\n", full_name, name));
 
 	camel_folder_construct(CAMEL_FOLDER (mlf), CAMEL_STORE(parent_store), full_name, name);
