@@ -60,8 +60,6 @@ struct _EMinicardLabel
 	GnomeCanvasItem *fieldname;
 	GnomeCanvasItem *field;
 	GnomeCanvasItem *rect;
-	char *fieldname_text;
-	char *field_text;
 
 	gboolean has_focus;
 };
@@ -73,6 +71,8 @@ struct _EMinicardLabelClass
 
 
 GtkType    e_minicard_label_get_type (void);
+GnomeCanvasItem *e_minicard_label_new(GnomeCanvasGroup *parent);
+void e_minicard_label_construct (GnomeCanvasItem *item);
 
 #ifdef __cplusplus
 }

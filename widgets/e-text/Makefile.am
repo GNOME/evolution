@@ -10,13 +10,15 @@ libetext_a_SOURCES = 		\
 	e-text-event-processor.c		\
 	e-text-event-processor.h		\
 	e-text-event-processor-emacs-like.c	\
-	e-text-event-processor-emacs-like.h
+	e-text-event-processor-emacs-like.h	\
+	e-text-model.c				\
+	e-text-model.h
 
 noinst_PROGRAMS =	\
- 	e-text-test
+	e-text-test
 
 e_text_test_SOURCES =	\
- 	e-text-test.c
+	e-text-test.c
 
 e_text_test_LDADD =				\
 	libetext.a				\

@@ -264,6 +264,7 @@ widgets/shortcut-bar/Makefile
 widgets/e-table/Makefile
 addressbook/Makefile
 addressbook/contact-editor/Makefile
+addressbook/demo/Makefile
 addressbook/printing/Makefile
 shell/Makefile
 mail/Makefile

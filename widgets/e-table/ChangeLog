@@ -1,3 +1,23 @@
+2000-03-12  Christopher James Lahey  <clahey@helixcode.com>
+
+	* e-table.c: Made this use an ECanvas.  Fixed a bug where
+	e_table_new_from_spec_file was calling e_table_construct instead
+	of e_table_construct_from_spec_file.
+
+	* e-table-item.c, e-table-header-item.c, e-table-column-item.c:
+	Switched these to use GTK_TYPE_OBJECT and GTK_VALUE_OBJECT instead
+	of GTK_TYPE_POINTER and GTK_TYPE_OBJECT.
+
+	* e-cell-text.c: Got rid of a crashing bug.
+
+	* e-table-text-model.c, e-table-text-model.h: A new object which
+	is an e-text-model which uses an e-table-model for its data.
+
+	* Makefile.am: Added e-table-text-model.c and
+	e-table-text-model.h.
+
+	* .cvsignore: Added table-example-1 and table-example-2.
+
 2000-03-08  Christopher James Lahey  <clahey@helixcode.com>
 
 	* e-table.c: Changed the destroy function to disconnect from

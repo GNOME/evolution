@@ -545,12 +545,12 @@ eti_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 	switch (arg_id){
 	case ARG_TABLE_HEADER:
 		eti_remove_header_model (eti);
-		eti_add_header_model (eti, GTK_VALUE_POINTER (*arg));
+		eti_add_header_model (eti, E_TABLE_HEADER(GTK_VALUE_OBJECT (*arg)));
 		break;
 
 	case ARG_TABLE_MODEL:
 		eti_remove_table_model (eti);
-		eti_add_table_model (eti, GTK_VALUE_POINTER (*arg));
+		eti_add_table_model (eti, E_TABLE_MODEL(GTK_VALUE_OBJECT (*arg)));
 		break;
 		
 	case ARG_LENGHT_THRESHOLD:
@@ -1137,9 +1137,9 @@ eti_class_init (GtkObjectClass *object_class)
 	
 	eti_class->row_selection = eti_row_selection;
 
-	gtk_object_add_arg_type ("ETableItem::ETableHeader", GTK_TYPE_POINTER,
+	gtk_object_add_arg_type ("ETableItem::ETableHeader", GTK_TYPE_OBJECT,
 				 GTK_ARG_WRITABLE, ARG_TABLE_HEADER);
-	gtk_object_add_arg_type ("ETableItem::ETableModel", GTK_TYPE_POINTER,
+	gtk_object_add_arg_type ("ETableItem::ETableModel", GTK_TYPE_OBJECT,
 				 GTK_ARG_WRITABLE, ARG_TABLE_MODEL);
 	gtk_object_add_arg_type ("ETableItem::drawgrid", GTK_TYPE_BOOL,
 				 GTK_ARG_WRITABLE, ARG_TABLE_DRAW_GRID);

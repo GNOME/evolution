@@ -21,6 +21,7 @@
 
 #include <gnome.h>
 #include "e-minicard-label.h"
+#include "e-canvas.h"
 
 /* This is a horrible thing to do, but it is just a test. */
 GnomeCanvasItem *label;
@@ -80,7 +81,7 @@ int main( int argc, char *argv[] )
   gnome_init( "Minicard Label Test", VERSION, argc, argv);
   app = gnome_app_new("Minicard Label Test", NULL);
 
-  canvas = gnome_canvas_new();
+  canvas = e_canvas_new();
   rect = gnome_canvas_item_new( gnome_canvas_root( GNOME_CANVAS( canvas ) ),
 				gnome_canvas_rect_get_type(),
 				"x1", (double) 0,
@@ -89,15 +90,15 @@ int main( int argc, char *argv[] )
 				"y2", (double) 100,
 				"fill_color", "white",
 				NULL );
-  label = gnome_canvas_item_new( gnome_canvas_root( GNOME_CANVAS( canvas ) ),
-				 e_minicard_label_get_type(),
-				 "x", (double) 0,
-				 "y", (double) 0,
-				 "width", (double) 100,
-				 "height", (double) 100,
-				 "fieldname", "Full Name:",
-				 "field", "Christopher James Lahey",
-				 NULL );
+  label = e_minicard_label_new(gnome_canvas_root( GNOME_CANVAS( canvas ) ));
+  gnome_canvas_item_set( label,
+			 "x", (double) 0,
+			 "y", (double) 0,
+			 "width", (double) 100,
+			 "height", (double) 100,
+			 "fieldname", "Full Name:",
+			 "field", "Christopher James Lahey",
+			 NULL );
   gnome_canvas_set_scroll_region ( GNOME_CANVAS( canvas ),
 				   0, 0,
 				   100, 100 );

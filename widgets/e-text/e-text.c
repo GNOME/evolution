@@ -52,6 +52,7 @@ struct line {
 /* Object argument IDs */
 enum {
 	ARG_0,
+	ARG_MODEL,
 	ARG_TEXT,
 	ARG_X,
 	ARG_Y,
@@ -117,6 +118,8 @@ static void e_text_command(ETextEventProcessor *tep, ETextEventProcessorCommand 
 static void e_text_get_selection(EText *text, GdkAtom selection, guint32 time);
 static void e_text_supply_selection (EText *text, guint time, GdkAtom selection, guchar *data, gint length);
 
+static void e_text_text_model_changed(ETextModel *model, EText *text);
+
 static GtkWidget *e_text_get_invisible(EText *text);
 static void _selection_clear_event (GtkInvisible *invisible,
 				    GdkEventSelection *event,
@@ -133,6 +136,7 @@ static void _selection_received (GtkInvisible *invisible,
 
 static ETextSuckFont *e_suck_font (GdkFont *font);
 static void e_suck_font_free (ETextSuckFont *suckfont);
+static void e_text_free_lines(EText *text);
 
 
 static GnomeCanvasItemClass *parent_class;
@@ -203,7 +207,9 @@ e_text_class_init (ETextClass *klass)
 
 
 	gtk_object_class_add_signals (object_class, e_text_signals, E_TEXT_LAST_SIGNAL);
-  
+
+	gtk_object_add_arg_type ("EText::model",
+				 GTK_TYPE_OBJECT, GTK_ARG_READWRITE, ARG_MODEL);  
 	gtk_object_add_arg_type ("EText::text",
 				 GTK_TYPE_STRING, GTK_ARG_READWRITE, ARG_TEXT);
 	gtk_object_add_arg_type ("EText::x",
@@ -285,6 +291,16 @@ e_text_class_init (ETextClass *klass)
 static void
 e_text_init (EText *text)
 {
+	text->text = NULL;
+	text->model = e_text_model_new();
+	gtk_object_ref(GTK_OBJECT(text->model));
+	gtk_object_sink(GTK_OBJECT(text->model));
+	text->model_changed_signal_id =
+		gtk_signal_connect(GTK_OBJECT(text->model),
+				   "changed",
+				   GTK_SIGNAL_FUNC(e_text_text_model_changed),
+				   text);
+
 	text->x = 0.0;
 	text->y = 0.0;
 	text->anchor = GTK_ANCHOR_CENTER;
@@ -348,8 +364,12 @@ e_text_destroy (GtkObject *object)
 
 	text = E_TEXT (object);
 
-	if (text->text)
-		g_free (text->text);
+	if (text->model_changed_signal_id)
+		gtk_signal_disconnect(GTK_OBJECT(text->model), 
+				      text->model_changed_signal_id);
+
+	if (text->model)
+		gtk_object_unref(GTK_OBJECT(text->model));
 
 	if (text->tep)
 		gtk_object_unref (GTK_OBJECT(text->tep));
@@ -371,6 +391,15 @@ e_text_destroy (GtkObject *object)
 
 	if (GTK_OBJECT_CLASS (parent_class)->destroy)
 		(* GTK_OBJECT_CLASS (parent_class)->destroy) (object);
+}
+
+static void
+e_text_text_model_changed (ETextModel *model, EText *text)
+{
+	text->text = e_text_model_get_text(model);
+	e_text_free_lines(text);
+	text->needs_split_into_lines = 1;
+	e_canvas_item_request_reflow (GNOME_CANVAS_ITEM(text));
 }
 
 static void
@@ -663,8 +692,6 @@ split_into_lines (EText *text)
 	/* Free old array of lines */
 	e_text_free_lines(text);
 
-	text->num_lines = 0;
-
 	if (!text->text)
 		return;
 
@@ -870,14 +897,29 @@ e_text_set_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 	have_pixel = FALSE;
 
 	switch (arg_id) {
-	case ARG_TEXT:
-		if (text->text)
-			g_free (text->text);
+	case ARG_MODEL:
+		if ( text->model_changed_signal_id )
+			gtk_signal_disconnect(GTK_OBJECT(text->model),
+					      text->model_changed_signal_id);
+		gtk_object_unref(GTK_OBJECT(text->model));
+		text->model = E_TEXT_MODEL(GTK_VALUE_OBJECT (*arg));
+		gtk_object_ref(GTK_OBJECT(text->model));
 
-		text->text = g_strdup (GTK_VALUE_STRING (*arg));
+		text->model_changed_signal_id =
+			gtk_signal_connect(GTK_OBJECT(text->model),
+					   "changed",
+					   GTK_SIGNAL_FUNC(e_text_text_model_changed),
+					   text);
+
 		e_text_free_lines(text);
+		text->text = e_text_model_get_text(text->model);
+
 		text->needs_split_into_lines = 1;
 		needs_reflow = 1;
+		break;
+
+	case ARG_TEXT:
+		e_text_model_set_text(text->model, GTK_VALUE_STRING (*arg));
 		break;
 
 	case ARG_X:
@@ -1134,6 +1176,10 @@ e_text_get_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 	text = E_TEXT (object);
 
 	switch (arg_id) {
+	case ARG_MODEL:
+		GTK_VALUE_OBJECT (*arg) = GTK_OBJECT(text->model);
+		break;
+
 	case ARG_TEXT:
 		GTK_VALUE_STRING (*arg) = g_strdup (text->text);
 		break;
@@ -1253,10 +1299,36 @@ e_text_reflow (GnomeCanvasItem *item, int flags)
 		text->needs_calc_line_widths = 1;
 	}
 	if ( text->needs_calc_line_widths ) {
+		int x;
+		int i;
+		struct line *lines;
 		calc_line_widths(text);
 		text->needs_calc_line_widths = 0;
 		text->needs_calc_height = 1;
 		text->needs_redraw = 1;
+
+		lines = text->lines;
+		if ( !lines )
+			return;
+
+		for (lines = text->lines, i = 0; i < text->num_lines ; i++, lines ++) {
+			if (lines->text - text->text > text->selection_end) {
+				break;
+			}
+		}
+		lines --;
+		x = gdk_text_width(text->font,
+				   lines->text, 
+				   text->selection_end - (lines->text - text->text));
+		
+
+		if (x < text->xofs_edit) {
+			text->xofs_edit = x;
+		}
+
+		if (2 + x - text->clip_width > text->xofs_edit) {
+			text->xofs_edit = 2 + x - text->clip_width;
+		}
 	}
 	if ( text->needs_calc_height ) {
 		calc_height (text);
@@ -1489,8 +1561,10 @@ e_text_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 		return;
 
 	lines = text->lines;
-	if ( !lines )
-		return;
+	if ( !lines ) {
+		text->needs_split_into_lines = 1;
+		e_canvas_item_request_reflow (item);
+	}
 
 	clip_rect = NULL;
 	if (text->clip) {
@@ -2159,6 +2233,7 @@ e_text_event (GnomeCanvasItem *item, GdkEvent *event)
 			gtk_widget_destroy (text->tooltip_window);
 			text->tooltip_window = NULL;
 		}
+#if 0
 		if ((!text->editing) 
 		    && text->editable 
 		    && event->type == GDK_BUTTON_RELEASE
@@ -2177,6 +2252,13 @@ e_text_event (GnomeCanvasItem *item, GdkEvent *event)
 									  &e_tep_event);
 			e_tep_event.type = GDK_BUTTON_RELEASE;
 		}		
+#else
+		if ((!text->editing) 
+		    && text->editable 
+		    && event->button.button == 1) {
+			gnome_canvas_item_grab_focus (item);
+		}		
+#endif
 		if (text->editing) {
 			GdkEventButton button = event->button;
 			e_tep_event.button.time = button.time;
@@ -2346,33 +2428,21 @@ _get_position(EText *text, ETextEventProcessorCommand *command)
 static void
 _delete_selection(EText *text)
 {
-	gint length = strlen(text->text);
-	if (text->selection_end == text->selection_start)
-		return;
-	if (text->selection_end < text->selection_start) {
-		text->selection_end ^= text->selection_start;
-		text->selection_start ^= text->selection_end;
-		text->selection_end ^= text->selection_start;
+	if ( text->selection_start < text->selection_end ) {
+		e_text_model_delete(text->model, text->selection_start, text->selection_end - text->selection_start);
+		text->selection_end = text->selection_start;
+	} else {
+		e_text_model_delete(text->model, text->selection_end, text->selection_start - text->selection_end);
+		text->selection_start = text->selection_end;
 	}
-	memmove( text->text + text->selection_start,
-		 text->text + text->selection_end,
-		 length - text->selection_end + 1 );
-	length -= text->selection_end - text->selection_start;
-	text->selection_end = text->selection_start;
 }
 
 static void
 _insert(EText *text, char *string, int value)
 {
 	if (value > 0) {
-		char *temp;
-		gint length = strlen(text->text);
-		temp = g_new(gchar, length + value + 1);
-		strncpy(temp, text->text, text->selection_start);
-		strncpy(temp + text->selection_start, string, value);
-		strcpy(temp + text->selection_start + value, text->text + text->selection_start);
-		g_free(text->text);
-		text->text = temp;
+		e_text_model_insert_length(text->model, text->selection_start, string, value);
+		
 		text->selection_start += value;
 		text->selection_end = text->selection_start;
 	}
@@ -2406,9 +2476,6 @@ e_text_command(ETextEventProcessor *tep, ETextEventProcessorCommand *command, gp
 			text->selection_end = _get_position(text, command);
 		}
 		_delete_selection(text);
-		e_text_free_lines(text);
-		text->needs_split_into_lines = 1;
-		e_canvas_item_request_reflow (GNOME_CANVAS_ITEM(text));
 		if (text->timer) {
 			g_timer_reset(text->timer);
 		}
@@ -2419,9 +2486,6 @@ e_text_command(ETextEventProcessor *tep, ETextEventProcessorCommand *command, gp
 			_delete_selection(text);
 		}
 		_insert(text, command->string, command->value);
-		e_text_free_lines(text);
-		text->needs_split_into_lines = 1;
-		e_canvas_item_request_reflow (GNOME_CANVAS_ITEM(text));
 		if (text->timer) {
 			g_timer_reset(text->timer);
 		}

@@ -1,6 +1,7 @@
 INCLUDES =					\
 	-I$(top_srcdir)/widgets/e-text		\
 	-I$(top_srcdir)/e-util			\
+	-I$(top_srcdir)/widgets/e-table		\
 	$(GNOME_INCLUDEDIR)
 
 noinst_LIBRARIES =				\
@@ -26,7 +27,8 @@ minicard_label_test_LDADD =	\
 	$(EXTRA_GNOME_LIBS)	\
 	libeminicard.a		\
 	$(top_builddir)/e-util/libeutil.la	\
-	$(top_builddir)/widgets/e-text/libetext.a
+	$(top_builddir)/widgets/e-text/libetext.a	\
+	$(top_builddir)/widgets/e-table/libetable.a
 
 minicard_test_SOURCES = 	\
 	test-minicard.c
@@ -35,7 +37,8 @@ minicard_test_LDADD =	\
 	$(EXTRA_GNOME_LIBS)	\
 	libeminicard.a	\
 	$(top_builddir)/e-util/libeutil.la	\
-	$(top_builddir)/widgets/e-text/libetext.a
+	$(top_builddir)/widgets/e-text/libetext.a	\
+	$(top_builddir)/widgets/e-table/libetable.a
 
 reflow_test_SOURCES = 	\
 	test-reflow.c
@@ -44,4 +47,5 @@ reflow_test_LDADD =	\
 	$(EXTRA_GNOME_LIBS)	\
 	libeminicard.a	\
 	$(top_builddir)/e-util/libeutil.la	\
-	$(top_builddir)/widgets/e-text/libetext.a
+	$(top_builddir)/widgets/e-text/libetext.a	\
+	$(top_builddir)/widgets/e-table/libetable.a

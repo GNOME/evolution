@@ -675,7 +675,7 @@ et_table_cell_changed (ETableModel *table_model, int view_col, int row, ETable *
 static void
 e_table_setup_table (ETable *e_table, ETableHeader *full_header, ETableHeader *header, ETableModel *model, xmlNode *xml_grouping)
 {
-	e_table->table_canvas = GNOME_CANVAS(gnome_canvas_new ());
+	e_table->table_canvas = GNOME_CANVAS(e_canvas_new ());
 	gtk_signal_connect (
 		GTK_OBJECT (e_table->table_canvas), "size_allocate",
 		GTK_SIGNAL_FUNC (table_canvas_size_allocate), e_table);
@@ -809,7 +809,7 @@ e_table_new_from_spec_file (ETableHeader *full_header, ETableModel *etm, const c
 
 	e_table = gtk_type_new (e_table_get_type ());
 
-	e_table_construct (e_table, full_header, etm, filename);
+	e_table_construct_from_spec_file (e_table, full_header, etm, filename);
 		
 	return (GtkWidget *) e_table;
 }

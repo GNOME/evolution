@@ -191,7 +191,7 @@ ethi_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 	switch (arg_id){
 	case ARG_TABLE_HEADER:
 		ethi_drop_table_header (ethi);
-		ethi_add_table_header (ethi, GTK_VALUE_POINTER (*arg));
+		ethi_add_table_header (ethi, E_TABLE_HEADER(GTK_VALUE_OBJECT (*arg)));
 		break;
 
 	case ARG_TABLE_X:
@@ -990,7 +990,7 @@ ethi_class_init (GtkObjectClass *object_class)
 	item_class->point       = ethi_point;
 	item_class->event       = ethi_event;
 	
-	gtk_object_add_arg_type ("ETableHeaderItem::ETableHeader", GTK_TYPE_POINTER,
+	gtk_object_add_arg_type ("ETableHeaderItem::ETableHeader", GTK_TYPE_OBJECT,
 				 GTK_ARG_WRITABLE, ARG_TABLE_HEADER);
 	gtk_object_add_arg_type ("ETableHeaderItem::x", GTK_TYPE_INT,
 				 GTK_ARG_WRITABLE, ARG_TABLE_X);

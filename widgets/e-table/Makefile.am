@@ -46,7 +46,9 @@ libetable_a_SOURCES = 				\
 	e-table-subset.c			\
 	e-table-subset.h			\
 	e-table-subset-variable.c		\
-	e-table-subset-variable.h
+	e-table-subset-variable.h		\
+	e-table-text-model.c			\
+	e-table-text-model.h
 
 noinst_PROGRAMS =	\
 	table-test table-example-1 table-example-2

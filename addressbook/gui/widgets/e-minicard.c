@@ -24,6 +24,7 @@
 #include "e-minicard.h"
 #include "e-minicard-label.h"
 #include "e-text.h"
+#include "e-table-text-model.h"
 #include "e-canvas.h"
 #include "e-util.h"
 #include "e-canvas-utils.h"
@@ -37,6 +38,7 @@ static void e_minicard_unrealize (GnomeCanvasItem *item);
 static void e_minicard_reflow ( GnomeCanvasItem *item, int flags );
 
 static void e_minicard_resize_children( EMinicard *e_minicard );
+static void remodel( EMinicard *e_minicard );
 
 static GnomeCanvasGroupClass *parent_class = NULL;
 
@@ -46,7 +48,9 @@ enum {
 	ARG_WIDTH,
 	ARG_HEIGHT,
 	ARG_HAS_FOCUS,
-	ARG_CARD
+	ARG_CARD,
+	ARG_MODEL,
+	ARG_ROW
 };
 
 GtkType
@@ -93,6 +97,10 @@ e_minicard_class_init (EMinicardClass *klass)
 			   GTK_ARG_READWRITE, ARG_HAS_FOCUS);
   gtk_object_add_arg_type ("EMinicard::card", GTK_TYPE_OBJECT, 
 			   GTK_ARG_READWRITE, ARG_CARD);
+  gtk_object_add_arg_type ("EMinicard::model", GTK_TYPE_OBJECT, 
+			   GTK_ARG_READWRITE, ARG_MODEL);
+  gtk_object_add_arg_type ("EMinicard::row", GTK_TYPE_INT,
+			   GTK_ARG_READWRITE, ARG_ROW);
  
   object_class->set_arg = e_minicard_set_arg;
   object_class->get_arg = e_minicard_get_arg;
@@ -113,6 +121,9 @@ e_minicard_init (EMinicard *minicard)
   minicard->width = 10;
   minicard->height = 10;
   minicard->has_focus = FALSE;
+  
+  minicard->model = NULL;
+  minicard->row = 0;
 
   e_canvas_item_set_reflow_callback(GNOME_CANVAS_ITEM(minicard), e_minicard_reflow);
 }
@@ -131,7 +142,8 @@ e_minicard_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 		if (e_minicard->width != GTK_VALUE_DOUBLE (*arg)) {
 			e_minicard->width = GTK_VALUE_DOUBLE (*arg);
 			e_minicard_resize_children(e_minicard);
-			e_canvas_item_request_reflow(item);
+			if ( GTK_OBJECT_FLAGS( e_minicard ) & GNOME_CANVAS_ITEM_REALIZED )
+				e_canvas_item_request_reflow(item);
 		}
 	  break;
 	case ARG_HAS_FOCUS:
@@ -148,13 +160,23 @@ e_minicard_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 			}
 		}
 		else
-			e_canvas_item_grab_focus(GNOME_CANVAS_ITEM(e_minicard));
+			e_canvas_item_grab_focus(item);
 		break;
 	case ARG_CARD:
-	  /*	  e_minicard->card = GTK_VALUE_POINTER (*arg);
+	  /*	  e_minicard->card = GTK_VALUE_OBJECT (*arg);
 	  _update_card(e_minicard);
 	  gnome_canvas_item_request_update (item);*/
 	  break;
+	case ARG_MODEL:
+		e_minicard->model = E_TABLE_MODEL(GTK_VALUE_OBJECT (*arg));
+		remodel(e_minicard);
+		e_canvas_item_request_reflow(item);
+		break;
+	case ARG_ROW:
+		e_minicard->row = GTK_VALUE_INT (*arg);
+		remodel(e_minicard);
+		e_canvas_item_request_reflow(item);
+		break;
 	}
 }
 
@@ -176,8 +198,14 @@ e_minicard_get_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 		GTK_VALUE_ENUM (*arg) = e_minicard->has_focus ? E_FOCUS_CURRENT : E_FOCUS_NONE;
 		break;
 	case ARG_CARD:
-	  /* GTK_VALUE_POINTER (*arg) = e_minicard->card; */
+	  /* GTK_VALUE_OBJECT (*arg) = e_minicard->card; */
 	  break;
+	case ARG_MODEL:
+		GTK_VALUE_OBJECT (*arg) = GTK_OBJECT(e_minicard->model);
+		break;
+	case ARG_ROW:
+		GTK_VALUE_INT (*arg) = e_minicard->row;
+		break;
 	default:
 	  arg->type = GTK_TYPE_INVALID;
 	  break;
@@ -229,41 +257,46 @@ e_minicard_realize (GnomeCanvasItem *item)
 				 "text", "Chris Lahey",
 				 NULL );
 	e_canvas_item_move_absolute(e_minicard->header_text, 6, 6);
+
+	new_item = e_minicard_label_new(group);
+	gnome_canvas_item_set( new_item,
+			       "width", e_minicard->width - 4.0,
+			       "fieldname", "Email:",
+			       "field", "clahey@address.com",
+			       NULL );
+	e_minicard->fields = g_list_append( e_minicard->fields, new_item);
+	e_canvas_item_move_absolute(new_item, 2, e_minicard->height);
+		
+	new_item = e_minicard_label_new(group);
+	gnome_canvas_item_set( new_item,
+			       "width", e_minicard->width - 4,
+			       "fieldname", "Full Name:",
+			       "field", "Christopher James Lahey",
+			       NULL );
+	e_minicard->fields = g_list_append( e_minicard->fields, new_item);
+	e_canvas_item_move_absolute(new_item, 2, e_minicard->height);
 	
-	if ( rand() % 2 ) {
-		new_item = gnome_canvas_item_new( group,
-						  e_minicard_label_get_type(),
-						  "width", e_minicard->width - 4,
-						  "fieldname", "Full Name:",
-						  "field", "Christopher James Lahey",
-						  NULL );
-		e_minicard->fields = g_list_append( e_minicard->fields, new_item);
-		e_canvas_item_move_absolute(new_item, 2, e_minicard->height);
-	}
-	
-	if (rand() % 2) {
-		new_item = gnome_canvas_item_new( group,
-						  e_minicard_label_get_type(),
-						  "width", e_minicard->width - 4,
-						  "fieldname", "Address:",
-						  "field", "100 Main St\nHome town, USA",
-						  NULL );
-		e_minicard->fields = g_list_append( e_minicard->fields, new_item);
-		e_canvas_item_move_absolute(new_item, 2, e_minicard->height);
-	}
-       
-	if (rand() % 2) {
-		new_item = gnome_canvas_item_new( group,
-						  e_minicard_label_get_type(),
-						  "width", e_minicard->width - 4.0,
-						  "fieldname", "Email:",
-						  "field", "clahey@address.com",
-						  NULL );
-		e_minicard->fields = g_list_append( e_minicard->fields, new_item);
-		e_canvas_item_move_absolute(new_item, 2, e_minicard->height);
-	}
+	new_item = e_minicard_label_new(group);
+	gnome_canvas_item_set( new_item,
+			       "width", e_minicard->width - 4,
+			       "fieldname", "Street Address:",
+			       "field", "100 Main St\nHome town, USA",
+			       NULL );
+	e_minicard->fields = g_list_append( e_minicard->fields, new_item);
+	e_canvas_item_move_absolute(new_item, 2, e_minicard->height);
+
+	new_item = e_minicard_label_new(group);
+	gnome_canvas_item_set( new_item,
+			       "width", e_minicard->width - 4,
+			       "fieldname", "Phone:",
+			       "field", "000-0000",
+			       NULL );
+	e_minicard->fields = g_list_append( e_minicard->fields, new_item);
+	e_canvas_item_move_absolute(new_item, 2, e_minicard->height);
+
+	remodel(e_minicard);
 	e_canvas_item_request_reflow(item);
-	
+
 	if (!item->canvas->aa) {
 	}
 }
@@ -384,6 +417,35 @@ e_minicard_resize_children( EMinicard *e_minicard )
 }
 
 static void
+remodel( EMinicard *e_minicard )
+{
+	GnomeCanvasGroup *group;
+
+	group = GNOME_CANVAS_GROUP( e_minicard );
+
+	if ( e_minicard->model ) {
+		gint column = 0;
+		GList *list = e_minicard->fields;
+		ETableTextModel *model;
+		for ( ; list; list = list->next, column++ ) {
+			ETableTextModel *model = e_table_text_model_new(e_minicard->model, e_minicard->row, column);
+			gnome_canvas_item_set(GNOME_CANVAS_ITEM(list->data),
+					      "text_model", model,
+					      NULL);
+			gtk_object_sink(GTK_OBJECT(model));
+		}
+		if ( e_minicard->header_text ) {
+			model = e_table_text_model_new(e_minicard->model, e_minicard->row, 1);
+			gnome_canvas_item_set(GNOME_CANVAS_ITEM(e_minicard->header_text),
+					      "model", model,
+					      NULL);
+			gtk_object_sink(GTK_OBJECT(model));
+		}
+		
+	}
+}
+
+static void
 e_minicard_reflow( GnomeCanvasItem *item, int flags )
 {
 	EMinicard *e_minicard = E_MINICARD(item);
@@ -391,7 +453,7 @@ e_minicard_reflow( GnomeCanvasItem *item, int flags )
 		GList *list;
 		gdouble text_height;
 		gint old_height;
-
+		
 		old_height = e_minicard->height;
 
 		gtk_object_get( GTK_OBJECT( e_minicard->header_text ),

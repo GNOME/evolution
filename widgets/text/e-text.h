@@ -21,6 +21,7 @@
 
 #include <gnome.h>
 #include "e-text-event-processor.h"
+#include "e-text-model.h"
 
 
 BEGIN_GNOME_DECLS
@@ -101,6 +102,9 @@ struct _ETextSuckFont {
 
 struct _EText {
 	GnomeCanvasItem item;
+	
+	ETextModel *model;
+	gint model_changed_signal_id;
 
 	char *text;			/* Text to display */
 	gpointer lines;			/* Text split into lines (private field) */

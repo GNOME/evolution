@@ -1,3 +1,41 @@
+2000-03-12  Christopher James Lahey  <clahey@helixcode.com>
+
+	* widgets/Makefile.am: Rearranged SUBDIRS for dependencies.
+
+	* widgets/e-text/e-text-model.c, widgets/e-text-model.h: New
+	object which stores a piece of text data.  All methods are
+	virtual.
+
+	* widgets/e-text/e-text.c, widgets/e-text/e-text.h: Modified this
+	to use an ETextModel for its data.
+
+	* widgets/e-text/Makefile.am: Added e-text-model.c and e-text-model.h.
+
+	* widgets/e-minicard/test-minicard-label.c: Made this work again.
+
+	* widgets/e-minicard/e-minicard.c,
+	widgets/e-minicard/e-minicard.h: Made this use an ETableModel to
+	get its data.
+
+	* widgets/e-minicard/e-minicard-label.c,
+	widgets/e-minicard/e-minicard-label.h: Added the ability to set
+	the text model used for the contained text widget.
+
+	* widgets/e-minicard/Makefile.am: Added e-table since e-minicard
+	is now dependent on an e-table-model for its data.
+
+	* e-util/e-canvas.c, e-util/e-canvas.h: Fixed some bugs here to
+	speed up reflow and to make it fail less often.
+
+	* addressbook/demo, addressbook/demo/.cvsignore,
+	addressbook/demo/Makefile.am, addressbook/demo/demo.c,
+	addressbook/demo/spec: A new program to test ETable and EMinicard
+	integration.
+
+	* configure.in: Added addressbook/demo/Makefile.
+
+	* addressbook/Makefile.am: Added the demo/ subdirectory.
+
 2000-03-12  bertrand  <bertrand@helixcode.com>
 
 	* shell/e-folder.h: add a field refering to a

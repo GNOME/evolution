@@ -93,7 +93,7 @@ e_canvas_class_init (ECanvasClass *klass)
 				GTK_RUN_LAST,
 				object_class->type,
 				GTK_SIGNAL_OFFSET (ECanvasClass, reflow),
-				gtk_marshal_NONE__INT_INT,
+				gtk_marshal_NONE__NONE,
 				GTK_TYPE_NONE, 0);
 
 	gtk_object_class_add_signals (object_class, e_canvas_signals, LAST_SIGNAL);
@@ -321,39 +321,39 @@ e_canvas_focus_out (GtkWidget *widget, GdkEventFocus *event)
 
 
 static void
-e_canvas_item_invoke_update (GnomeCanvasItem *item, int flags)
+e_canvas_item_invoke_reflow (GnomeCanvasItem *item, int flags)
 {
 	GnomeCanvasGroup *group;
 	GList *list;
 	GnomeCanvasItem *child;
-	if ( ! gtk_object_get_data(GTK_OBJECT(item), "ECanvasItem::descendent_needs_reflow") )
-		return;
 
 	if ( GNOME_IS_CANVAS_GROUP( item ) ) {
 		group = GNOME_CANVAS_GROUP( item );
 		for ( list = group->item_list; list; list = list->next ) {
 			child = GNOME_CANVAS_ITEM(list->data);
-			e_canvas_item_invoke_update(child, flags);
+			if ( child->object.flags & E_CANVAS_ITEM_DESCENDENT_NEEDS_REFLOW )
+				e_canvas_item_invoke_reflow(child, flags);
 		}
 	}
-
-	if ( gtk_object_get_data(GTK_OBJECT(item), "ECanvasItem::needs_reflow") ) {
+	
+	if ( item->object.flags & E_CANVAS_ITEM_NEEDS_REFLOW ) {
 		ECanvasItemReflowFunc func = gtk_object_get_data(GTK_OBJECT(item), "ECanvasItem::reflow_callback");
 		if ( func )
 			func(item, flags);
 	}
 
-	gtk_object_set_data(GTK_OBJECT(item), "ECanvasItem::needs_reflow", (gpointer) 0);
-	gtk_object_set_data(GTK_OBJECT(item), "ECanvasItem::descendent_needs_reflow", (gpointer) 0);
+	item->object.flags &= ~E_CANVAS_ITEM_NEEDS_REFLOW;
+	item->object.flags &= ~E_CANVAS_ITEM_DESCENDENT_NEEDS_REFLOW;
 }
 
 static void
-do_update (ECanvas *canvas)
+do_reflow (ECanvas *canvas)
 {
-	e_canvas_item_invoke_update (GNOME_CANVAS(canvas)->root, 0);
+	if ( GNOME_CANVAS(canvas)->root->object.flags & E_CANVAS_ITEM_DESCENDENT_NEEDS_REFLOW )
+		e_canvas_item_invoke_reflow (GNOME_CANVAS(canvas)->root, 0);
 }
 
-/* Idle handler for the canvas.  It deals with pending updates and redraws. */
+/* Idle handler for the e-canvas.  It deals with pending reflows. */
 static gint
 idle_handler (gpointer data)
 {
@@ -362,7 +362,7 @@ idle_handler (gpointer data)
 	GDK_THREADS_ENTER ();
 
 	canvas = E_CANVAS (data);
-	do_update (canvas);
+	do_reflow (canvas);
 
 	/* Reset idle id */
 	canvas->idle_id = 0;
@@ -388,9 +388,10 @@ add_idle (ECanvas *canvas)
 static void
 e_canvas_item_descendent_needs_reflow (GnomeCanvasItem *item)
 {
-	if ( gtk_object_get_data(GTK_OBJECT(item), "ECanvasItem::descendent_needs_reflow") )
+	if ( item->object.flags & E_CANVAS_ITEM_DESCENDENT_NEEDS_REFLOW )
 		return;
-	gtk_object_set_data(GTK_OBJECT(item), "ECanvasItem::descendent_needs_reflow", (gpointer) 1);
+
+	item->object.flags |= E_CANVAS_ITEM_DESCENDENT_NEEDS_REFLOW;
 	if ( item->parent )
 		e_canvas_item_descendent_needs_reflow(item->parent);
 }
@@ -398,9 +399,11 @@ e_canvas_item_descendent_needs_reflow (GnomeCanvasItem *item)
 void
 e_canvas_item_request_reflow (GnomeCanvasItem *item)
 {
-	gtk_object_set_data(GTK_OBJECT(item), "ECanvasItem::needs_reflow", (gpointer) 1);
-	e_canvas_item_descendent_needs_reflow(item);
-	add_idle(E_CANVAS(item->canvas));
+	if ( item->object.flags & GNOME_CANVAS_ITEM_REALIZED ) {
+		item->object.flags |= E_CANVAS_ITEM_NEEDS_REFLOW;
+		e_canvas_item_descendent_needs_reflow(item);
+		add_idle(E_CANVAS(item->canvas));
+	}
 }
 
 void

@@ -55,7 +55,7 @@ etci_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 
 	switch (arg_id){
 	case ARG_TABLE_COLUMN:
-		etci->etci = GTK_VALUE_POINTER (*arg);
+		etci->etci = GTK_VALUE_OBJECT (*arg);
 		break;
 	}
 	etci_update (item, NULL, NULL, 0);
@@ -159,7 +159,7 @@ etci_class_init (GtkObjectClass *object_class)
 	item_class->point       = etci_point;
 	item_class->event       = etci_event;
 	
-	gtk_object_add_arg_type ("ETableColumnItem::ETableColumn", GTK_TYPE_POINTER,
+	gtk_object_add_arg_type ("ETableColumnItem::ETableColumn", GTK_TYPE_OBJECT,
 				 GTK_ARG_WRITABLE, ARG_TABLE_COLUMN);
 }
 

@@ -319,8 +319,8 @@ static void
 ect_kill_view (ECellView *ecv)
 {
 	ECellTextView *text_view = (ECellTextView *) ecv;
-	
-	g_free (text_view);
+
+	g_free(text_view);
 }
 
 /*
@@ -351,7 +351,11 @@ ect_unrealize (ECellView *ecv)
 
 	gdk_gc_unref (text_view->gc);
 	text_view->gc = NULL;
-	
+
+	if ( text_view->edit ) {
+		ect_cancel_edit (text_view);
+	}
+
 	if (text_view->font)
 		gdk_font_unref (text_view->font);
 	
