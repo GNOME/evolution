@@ -2085,9 +2085,7 @@ e_shell_show_settings (EShell *shell, const char *type, EShellView *shell_view)
 	gtk_signal_connect (GTK_OBJECT (priv->settings_dialog), "destroy",
 			    GTK_SIGNAL_FUNC (settings_dialog_destroy_cb), shell);
 
-	gtk_window_set_transient_for (GTK_WINDOW (priv->settings_dialog), GTK_WINDOW (shell_view));
 	gtk_widget_show (priv->settings_dialog);
-
 }
 
 
