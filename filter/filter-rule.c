@@ -547,19 +547,19 @@ get_widget(FilterRule * fr, struct _RuleContext *f)
 	gtk_widget_show(omenu);
 
 	pixmap = gnome_stock_new_with_icon(GNOME_STOCK_PIXMAP_ADD);
-	button = gnome_pixmap_button(pixmap, _("More criterion"));
+	button = gnome_pixmap_button(pixmap, _("More criteria"));
 	gtk_button_set_relief(GTK_BUTTON(button), GTK_RELIEF_NONE);
 	gtk_signal_connect(GTK_OBJECT(button), "clicked", more_parts, data);
 	gtk_box_pack_start(GTK_BOX(hbox), button, FALSE, FALSE, 3);
 
 	pixmap = gnome_stock_new_with_icon(GNOME_STOCK_PIXMAP_REMOVE);
-	button = gnome_pixmap_button(pixmap, _("Fewer criterion"));
+	button = gnome_pixmap_button(pixmap, _("Fewer criteria"));
 	gtk_button_set_relief(GTK_BUTTON(button), GTK_RELIEF_NONE);
 	gtk_signal_connect(GTK_OBJECT(button), "clicked", less_parts, data);
 	gtk_box_pack_start(GTK_BOX(hbox), button, FALSE, FALSE, 3);
 
-	gtk_box_pack_start(GTK_BOX(hbox), label, FALSE, FALSE, 0);
-	gtk_box_pack_start(GTK_BOX(hbox), omenu, FALSE, FALSE, 0);
+	gtk_box_pack_end(GTK_BOX(hbox), omenu, FALSE, FALSE, 0);
+	gtk_box_pack_end(GTK_BOX(hbox), label, FALSE, FALSE, 0);
 
 	gtk_box_pack_start(GTK_BOX(inframe), hbox, FALSE, FALSE, 3);
 
@@ -578,11 +578,11 @@ get_widget(FilterRule * fr, struct _RuleContext *f)
 
 	gtk_scrolled_window_add_with_viewport(GTK_SCROLLED_WINDOW(scrolledwindow), parts);
 
-	gtk_box_pack_start(GTK_BOX(inframe), scrolledwindow, FALSE, FALSE, 3);
+	gtk_box_pack_start(GTK_BOX(inframe), scrolledwindow, TRUE, TRUE, 3);
 
 	/*gtk_box_pack_start (GTK_BOX (inframe), parts, FALSE, FALSE, 3); */
 
-	gtk_box_pack_start(GTK_BOX(vbox), frame, FALSE, FALSE, 3);
+	gtk_box_pack_start(GTK_BOX(vbox), frame, TRUE, TRUE, 3);
 
 	gtk_widget_show_all(vbox);
 

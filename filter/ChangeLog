@@ -1,3 +1,9 @@
+2000-10-23  Christopher James Lahey  <clahey@helixcode.com>
+
+	* filter-editor.c, filter-filter.c, filter-folder.c,
+	filter-part.c, filter-rule.c, rule-context.c, score-editor.c,
+	vfolder-editor.c: Fixed these widgets to resize properly.
+
 2000-10-20  Jeffrey Stedfast  <fejj@helixcode.com>
 
 	* Makefile.am: Added filter-url.[c,h].

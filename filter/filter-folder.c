@@ -209,6 +209,7 @@ static void button_clicked(GtkButton *button, FilterFolder *ff)
 	gd = (GnomeDialog *)gnome_dialog_new(_("Enter folder URI"),
 					     GNOME_STOCK_BUTTON_OK, GNOME_STOCK_BUTTON_CANCEL,
 					     NULL);
+	gtk_window_set_policy(GTK_WINDOW(gd), FALSE, TRUE, FALSE);
 	entry = (GtkEntry *)gtk_entry_new();
 	if (ff->uri) {
 		e_utf8_gtk_entry_set_text(entry, ff->uri);

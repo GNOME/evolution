@@ -436,13 +436,13 @@ get_widget (FilterRule *fr, struct _RuleContext *f)
 	
 	gtk_scrolled_window_add_with_viewport (GTK_SCROLLED_WINDOW (scrolledwindow), parts);
 	
-	gtk_box_pack_start (GTK_BOX (inframe), scrolledwindow, FALSE, FALSE, 3);
+	gtk_box_pack_start (GTK_BOX (inframe), scrolledwindow, TRUE, TRUE, 3);
 	
 	/*gtk_box_pack_start (GTK_BOX (inframe), parts, FALSE, FALSE, 3);*/
 	
 	gtk_widget_show_all (frame);
 	
-	gtk_box_pack_start (GTK_BOX (widget), frame, FALSE, FALSE, 3);
+	gtk_box_pack_start (GTK_BOX (widget), frame, TRUE, TRUE, 3);
 	
 	return widget;
 }
