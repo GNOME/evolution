@@ -174,13 +174,6 @@ e_tree_model_node_traverse (ETreeModel *model, ETreePath *path, ETreePathFunc fu
 
 /* virtual methods */
 
-static gboolean
-expanded_remove_func (gpointer key, gpointer value, gpointer user_data)
-{
-	g_free (key);
-	return TRUE;
-}
-
 static void
 etree_destroy (GtkObject *object)
 {
@@ -189,8 +182,7 @@ etree_destroy (GtkObject *object)
 
 	/* XXX lots of stuff to free here */
 	g_array_free (priv->row_array, TRUE);
-	g_hash_table_foreach_remove (priv->expanded_state,
-				     expanded_remove_func, NULL);
+	g_hash_table_destroy (priv->expanded_state);
 
 	g_string_free(priv->sort_group, TRUE);
 
@@ -924,6 +916,9 @@ e_tree_model_node_insert (ETreeModel *tree_model,
 
 			e_table_model_row_inserted (E_TABLE_MODEL(tree_model), parent_row + position + 1);
 		}
+
+		if (parent_path->compare)
+			e_tree_model_node_sort (tree_model, parent_path);
 	}
 	else {
 		priv->root = new_path;
@@ -1020,6 +1015,8 @@ e_tree_model_node_remove (ETreeModel *etree, ETreePath *path)
 	e_tree_path_unlink (path);
 
 	/* now free up the storage from that path */
+	if (path->save_id)
+		g_hash_table_remove (priv->expanded_state, path->save_id);
 	g_free (path->save_id);
 	g_chunk_free (path, priv->node_chunk);
 
