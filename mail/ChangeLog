@@ -1,3 +1,10 @@
+2000-09-23  Ettore Perazzoli  <ettore@helixcode.com>
+
+	* message-list.c (internet_address_new_from_string): Skip spaces
+	at the beginning of the string first before doing anything else.
+	The code that follows doesn't like the first character of the
+	string to be a space.
+
 2000-09-22  Jeffrey Stedfast  <fejj@helixcode.com>
 
 	* message-list.c (address_compare): New comparison function for

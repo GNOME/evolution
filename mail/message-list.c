@@ -124,15 +124,22 @@ internet_address_new_from_string (const gchar *string)
 	*/
 	InternetAddress *ia;
 	gchar *name = NULL, *address = NULL;
-	gchar *ptr, *padding = NULL;
+	const gchar *ptr;
+	const gchar *padding;
 	gboolean in_quotes = FALSE;
 	gboolean name_first = FALSE;
 	
 	g_return_val_if_fail (string != NULL, NULL);
 	g_return_val_if_fail (*string != '\0', NULL);
+
+	padding = NULL;
+
+	ptr = string;
+	while (isspace (*ptr))
+		ptr++;
 	
 	/* look for padding between parts... */
-	for (ptr = (gchar *) string; *ptr; ptr++) {
+	for (; *ptr; ptr++) {
 		if (*ptr == '"') {
 			in_quotes = !in_quotes;
 			name_first = TRUE;
