@@ -1,3 +1,10 @@
+2002-09-30  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* camel-store.c (camel_folder_info_build): Don't strip the
+	namespace from the fi->full_name when hasing or creating fake
+	parent folders. Fixes a bug I found while trying to reproduce bug
+	#31456.
+
 2002-09-30  Not Zed  <NotZed@Ximian.com>
 
 	* providers/imap/camel-imap-folder.c (imap_get_message): Remove

@@ -911,7 +911,7 @@ imap_forget_folder (CamelImapStore *imap_store, const char *folder_name, CamelEx
 	
 	unlink (summary_file);
 	g_free (summary_file);
-		
+	
 	journal_file = g_strdup_printf ("%s/summary", folder_dir);
 	unlink (journal_file);
 	g_free (journal_file);

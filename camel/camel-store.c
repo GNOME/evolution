@@ -874,25 +874,14 @@ camel_folder_info_build (GPtrArray *folders, const char *namespace,
 	hash = g_hash_table_new (g_str_hash, g_str_equal);
 	for (i = 0; i < folders->len; i++) {
 		fi = folders->pdata[i];
-		if (!strncmp (namespace, fi->full_name, nlen))
-			name = fi->full_name + nlen;
-		else
-			name = fi->full_name;
-		if (*name == separator)
-			name++;
-		g_hash_table_insert (hash, name, fi);
+		g_hash_table_insert (hash, fi->full_name, fi);
 	}
 	
 	/* Now find parents. */
 	for (i = 0; i < folders->len; i++) {
 		fi = folders->pdata[i];
-		if (!strncmp (namespace, fi->full_name, nlen))
-			name = fi->full_name + nlen;
-		else
-			name = fi->full_name;
-		if (*name == separator)
-			name++;
-
+		name = fi->full_name;
+		
 		/* set the path if it isn't already set */
 		if (!fi->path)
 			camel_folder_info_build_path (fi, separator);
