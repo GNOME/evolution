@@ -114,7 +114,7 @@ e_task_widget_construct (ETaskWidget *task_widget,
 	gtk_container_add (GTK_CONTAINER (frame), box);
 	gtk_widget_show (box);
 
-	gtk_widget_set_usize (box, 0, 0);
+	gtk_widget_set_usize (box, 1, -1);
 
 	priv->icon_pixbuf = gdk_pixbuf_ref (icon_pixbuf);
 

@@ -1,5 +1,10 @@
 2001-07-23  Ettore Perazzoli  <ettore@ximian.com>
 
+	* e-task-widget.c (e_task_widget_construct): Uhm, set the usize to
+	`1, -1' instead.
+
+2001-07-23  Ettore Perazzoli  <ettore@ximian.com>
+
 	* e-task-widget.c (e_task_widget_construct): Set the usize for the
 	contained hbox to 0x0.
 
