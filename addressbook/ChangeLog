@@ -1,3 +1,13 @@
+2001-01-02  Christopher James Lahey  <clahey@helixcode.com>
+
+	* contact-editor/e-contact-editor.c (delete_cb): Make sure this
+	won't crash if the given contact is removed from the database
+	while this function is being called.
+
+	* gui/widgets/e-minicard.c: Made sure this won't crash if the
+	given contact is removed from the database while the right click
+	menu is being displayed.
+
 2000-12-30  Chris Toshok  <toshok@helixcode.com>
 
 	* gui/component/addressbook-config.c (edit_source_clicked): copy

@@ -716,18 +716,26 @@ static void
 delete_cb (GtkWidget *widget, gpointer data)
 {
 	EContactEditor *ce = E_CONTACT_EDITOR (data);
+	ECard *card = ce->card;
+	ECardSimple *simple = ce->simple;
+
+	gtk_object_ref(GTK_OBJECT(card));
+	gtk_object_ref(GTK_OBJECT(simple));
 
 	if (e_contact_editor_confirm_delete(GTK_WINDOW(ce->app))) {
 
 		extract_info (ce);
-		e_card_simple_sync_card (ce->simple);
+		e_card_simple_sync_card (simple);
 		
 		if (!ce->is_new_card)
 			gtk_signal_emit (GTK_OBJECT (ce), contact_editor_signals[DELETE_CARD],
-					 ce->card);
+					 card);
 		
 		file_close_cb(widget, data);
 	}
+
+	gtk_object_unref(GTK_OBJECT(card));
+	gtk_object_unref(GTK_OBJECT(simple));
 }
 
 /* Emits the signal to request printing a card */
