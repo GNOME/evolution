@@ -1,3 +1,8 @@
+2001-05-24  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* camel-smime-context.c (camel_smime_context_new): Oops, I spelled
+	the get-default-db function name wrong.
+
 2001-05-23  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* providers/local/camel-local-folder.c

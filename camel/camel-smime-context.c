@@ -34,6 +34,7 @@
 #include <cert.h>
 #include <certt.h>
 #include <certdb.h>
+#include <hasht.h>
 #include <keylow.h>
 #include <secpkcs7.h>
 #include <secmime.h>
@@ -136,7 +137,7 @@ camel_smime_context_new (CamelSession *session)
 	
 	camel_cipher_context_construct (CAMEL_CIPHER_CONTEXT (context), session);
 	
-	handle = CERT_CertGetDefaultCertDBHandle ();
+	handle = CERT_GetDefaultCertDB ();
 	if (!handle) {
 		camel_object_unref (CAMEL_OBJECT (context));
 		return NULL;
