@@ -1,7 +1,8 @@
 2005-02-01  Priit Laes <amd@store20.com>
 
-	* configure.in : Remove duplicate entry for addressbook-groupwise in
-	plugins list.
+	* configure.in : Remove duplicate entries for addressbook-groupwise,
+	groupwise-status-tracking and default-source in plugins list. Fixes
+	make distclean.
 
 2005-02-01  JP Rosevear  <jpr@novell.com>
 
