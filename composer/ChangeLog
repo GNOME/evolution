@@ -1,3 +1,8 @@
+2001-06-08  Dan Winship  <danw@ximian.com>
+
+	* e-msg-composer.c (best_charset): Don't use the default charset
+	if the message is US-ASCII.
+
 2001-06-07  Radek Doulik  <rodo@ximian.com>
 
 	* e-msg-composer.c (e_msg_composer_new_with_sig_file): just set
