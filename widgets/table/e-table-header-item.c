@@ -1179,7 +1179,7 @@ ethi_header_context_menu (ETableHeaderItem *ethi, GdkEventButton *event)
 	info->ethi = ethi;
 	info->col = ethi_find_col_by_x (ethi, event->x);
 	col = e_table_header_get_column (ethi->eth, info->col);
-	e_popup_menu_run (ethi_context_menu, event, 1 + (col->sortable ? 0 : 2), info);
+	e_popup_menu_run (ethi_context_menu, event, 1 + (col->sortable ? 0 : 2), 0, info);
 }
 
 static void
