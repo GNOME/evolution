@@ -109,9 +109,7 @@ fill_corba_sequence_from_null_terminated_string_array (CORBA_sequence_CORBA_stri
 	g_assert (corba_sequence != NULL);
 	g_assert (array != NULL);
 
-	/* We won't be reallocating the strings, so we don't want them to be
-	   freed when the sequence is freed.  */
-	CORBA_sequence_set_release (corba_sequence, FALSE);
+	CORBA_sequence_set_release (corba_sequence, TRUE);
 
 	count = 0;
 	while (array[count] != NULL)
@@ -122,7 +120,7 @@ fill_corba_sequence_from_null_terminated_string_array (CORBA_sequence_CORBA_stri
 	corba_sequence->_buffer = CORBA_sequence_CORBA_string_allocbuf (count);
 
 	for (i = 0; i < count; i++)
-		corba_sequence->_buffer[i] = (CORBA_char *) array[i];
+		corba_sequence->_buffer[i] = CORBA_string_dup (array[i]);
 }
 
 

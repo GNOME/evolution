@@ -1,6 +1,13 @@
 2001-08-08  Ettore Perazzoli  <ettore@ximian.com>
 
 	* evolution-shell-component.c
+	(fill_corba_sequence_from_null_terminated_string_array): Set the
+	release flag on the sequence, and CORBA_string_dup() the strings
+	anyway.
+
+2001-08-08  Ettore Perazzoli  <ettore@ximian.com>
+
+	* evolution-shell-component.c
 	(impl_ShellComponent__get_supported_types): Set the release flag
 	on the returned folder type list too.
 
