@@ -89,7 +89,7 @@ e_proxy_init ()
 	gconf_client_add_dir (client, "/system/http_proxy",
 			      GCONF_CLIENT_PRELOAD_ONELEVEL, NULL);
 	
-	gconf_client_notify_add (client, "/system/http_proxy/",
+	gconf_client_notify_add (client, "/system/http_proxy",
 				 proxy_setting_changed, NULL, NULL, NULL);
 	
 	set_proxy (client);
