@@ -25,9 +25,9 @@
 
 #include <glib.h>
 #include <libgnome/gnome-i18n.h>
-#include <libgnomeui/gnome-messagebox.h>
-#include <libgnomeui/gnome-stock-icons.h>
 #include <gal/widgets/e-unicode.h>
+#include <gtk/gtkmessagedialog.h>
+#include <gtk/gtkstock.h>
 #include "save-comp.h"
 
 
@@ -41,28 +41,31 @@
  * 
  * Return value: the response_id of the button selected.
  **/
+
 GtkResponseType
 save_component_dialog (GtkWindow *parent)
 {
 	GtkWidget *dialog;
 	gint r;
 
-	dialog = gnome_message_box_new (_("Do you want to save changes?"),
-					GNOME_MESSAGE_BOX_QUESTION,
-					GTK_STOCK_CANCEL,
-					GTK_STOCK_NO,
-					GTK_STOCK_YES,
-					NULL);
+	dialog = gtk_message_dialog_new (GTK_WINDOW (parent),
+					 GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT,
+					 GTK_MESSAGE_QUESTION, GTK_BUTTONS_NONE,
+					 _("This event has been changed, but has not been saved.\n\n"
+					   "Do you wish to save your changes?"));
+       
+	gtk_dialog_add_buttons (GTK_DIALOG (dialog),
+				_("_Discard Changes"),GTK_RESPONSE_NO,
+				GTK_STOCK_CANCEL,GTK_RESPONSE_CANCEL,
+				GTK_STOCK_SAVE, GTK_RESPONSE_YES,
+				NULL);
 
-	gnome_dialog_set_default (GNOME_DIALOG (dialog), 0);
-	gnome_dialog_grab_focus (GNOME_DIALOG (dialog), 0);
-	gnome_dialog_set_parent (GNOME_DIALOG (dialog), parent);
+	gtk_window_set_title (GTK_WINDOW (dialog), _("Save Event"));
+	gtk_dialog_set_default_response (GTK_DIALOG (dialog), GTK_RESPONSE_YES);
 
-	r = gnome_dialog_run_and_close (GNOME_DIALOG (dialog));
-	if (r == 1)
-		return GTK_RESPONSE_NO;
-	else if (r == 2)
-		return GTK_RESPONSE_YES;
+	r = gtk_dialog_run (GTK_DIALOG (dialog));
+	gtk_widget_destroy (dialog);
 
-	return GTK_RESPONSE_CANCEL;
+	return r;
+
 }

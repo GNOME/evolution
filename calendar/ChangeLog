@@ -1,3 +1,10 @@
+2003-05-20  Anna Marie Dirks  <anna@ximian.com>
+
+	* gui/dialogs/save-comp.c (save_component_dialog): Change this
+	dialog from using a gnome_message_box (which has been deprecated), 
+	to using a gtk_message_dialog. This HIG-ifies this dialog, and 
+	fixes bug #42046.
+
 2003-05-20  Hans Petter Jansson  <hpj@ximian.com>
 
 	Fixes #42056
