@@ -150,6 +150,9 @@ file_selection_info_destroy_notify (void *data)
 
 	info = (FileSelectionInfo *) data;
 
+	if (info->widget != NULL) {
+		gtk_object_unref (GTK_OBJECT (info->widget));
+	}
 	g_free (info->selected_file);
 	g_free (info);
 }
