@@ -399,7 +399,7 @@ imap_connect (CamelService *service, CamelException *ex)
 	CamelImapResponse *response;
 	int len, i, flags;
 	
-	if (!g_strcasecmp (service->url->protocol, "imaps")) {
+	if (!g_strcasecmp (service->url->protocol, "simap")) {
 		CamelRemoteStore *rstore = CAMEL_REMOTE_STORE (service);
 		
 		rstore->default_port = 993;

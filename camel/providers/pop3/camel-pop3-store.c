@@ -460,11 +460,11 @@ pop3_connect (CamelService *service, CamelException *ex)
 	}
 #endif
 	
-	if (!g_strcasecmp (service->url->protocol, "pops")) {
+	if (!g_strcasecmp (service->url->protocol, "spop")) {
 		CamelRemoteStore *rstore = CAMEL_REMOTE_STORE (service);
 		
 		/* FIXME: what should this port be?? */
-		rstore->default_port = 993;
+		rstore->default_port = 995;
 		rstore->use_ssl = TRUE;
 	}
 	
