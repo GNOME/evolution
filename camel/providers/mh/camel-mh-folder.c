@@ -115,8 +115,8 @@ static void camel_mh_folder_class_init(CamelObjectClass * camel_mh_folder_class)
 	camel_folder_class->set_message_flags = mh_set_message_flags;
 	camel_folder_class->get_message_user_flag = mh_get_message_user_flag;
 	camel_folder_class->set_message_user_flag = mh_set_message_user_flag;
-	camel_folder_class->get_message_user_flag = mh_get_message_user_tag;
-	camel_folder_class->set_message_user_flag = mh_set_message_user_tag;
+	camel_folder_class->get_message_user_tag = mh_get_message_user_tag;
+	camel_folder_class->set_message_user_tag = mh_set_message_user_tag;
 }
 
 static void mh_finalize(CamelObject * object)
