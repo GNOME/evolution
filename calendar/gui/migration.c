@@ -360,12 +360,13 @@ create_calendar_contact_source (ESourceList *source_list)
 	
 	/* Create the contacts group */
 	group = e_source_group_new (_("Contacts"), CONTACT_BASE_URI);
-	e_source_group_set_readonly (group, TRUE);
 	e_source_list_add_group (source_list, group, -1);
-	
+
 	source = e_source_new (_("Birthdays & Anniversaries"), "/");
 	e_source_group_add_source (group, source, -1);
 	g_object_unref (source);
+
+	e_source_group_set_readonly (group, TRUE);
 
 	return group;
 }

@@ -1,5 +1,10 @@
 2004-01-29  JP Rosevear <jpr@ximian.com>
 
+	* gui/migration.c (create_calendar_contact_source): don't set the
+	group to be read only until after the source is added.
+
+2004-01-29  JP Rosevear <jpr@ximian.com>
+
 	* gui/migration.c (migrate_ical_folder_to_source): migrate to a
 	specific source
 	(migrate_ical_folder): create a new source based on the new source
