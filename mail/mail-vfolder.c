@@ -22,6 +22,7 @@
 #include "mail-vfolder.h"
 #include "mail-tools.h"
 #include "mail-autofilter.h"
+#include "mail-folder-cache.h"
 #include "mail.h"
 
 #include "camel/camel.h"
@@ -302,6 +303,9 @@ vfolder_uri_to_folder(const char *uri, CamelException *ex)
 	/* we dont have indexing on vfolders */
 	folder = mail_tool_get_folder_from_urlname (storeuri, foldername, CAMEL_STORE_FOLDER_CREATE, ex);
 	info->folder = (CamelVeeFolder *)folder;
+
+	mail_folder_cache_set_update_estorage (uri, vfolder_storage);
+	mail_folder_cache_note_folder (uri, info->folder);
 
 	bonobo_object_ref (BONOBO_OBJECT (vfolder_storage));
 	mail_hash_storage ((CamelService *)folder->parent_store, vfolder_storage);

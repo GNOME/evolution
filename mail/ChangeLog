@@ -1,5 +1,7 @@
 2001-07-05  Peter Williams  <peterw@ximian.com>
 
+	* mail-vfolder.c (vfolder_uri_to_folder): Add mail folder cache hookups.
+
 	* mail-folder-cache.c (mail_folder_cache_set_folder_browser): Clear the
 	shell view label if mailer loses focus.
 
