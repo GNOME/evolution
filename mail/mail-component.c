@@ -227,9 +227,9 @@ static void
 folder_selected_cb (EMFolderTree *emft, const char *path, const char *uri, EMFolderView *view)
 {
 	if (!path || !strcmp (path, "/"))
-		return;
-	
-	em_folder_view_set_folder_uri (view, uri);
+		em_folder_view_set_folder (view, NULL, NULL);
+	else
+		em_folder_view_set_folder_uri (view, uri);
 }
 
 
