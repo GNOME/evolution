@@ -1,3 +1,12 @@
+2002-07-18  Peter Williams  <peterw@ximian.com>
+
+	* folder-browser-window.c (folder_browser_window_new): Load the
+	messagedisplay XML file as a base for the UI, so that things
+	appear. Don't add the global UI items as they don't make sense
+	here.
+	(fb_window_close): New function, used to ... close the window,
+	suprisingly.
+
 2002-07-18  Not Zed  <NotZed@Ximian.com>
 
 	* main.c (main): Put the mcheck stuff back in, which was removed

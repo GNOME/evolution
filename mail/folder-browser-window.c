@@ -93,6 +93,18 @@ set_default_size (GtkWidget *widget)
 	gtk_window_set_default_size (GTK_WINDOW (widget), width, height);
 }
 
+static void
+fb_window_close (BonoboUIComponent *uih, gpointer user, const char *path)
+{
+	gtk_widget_destroy (GTK_WIDGET (user));
+}
+
+static BonoboUIVerb
+verbs[] = {
+	BONOBO_UI_VERB ("MessageBrowserClose", fb_window_close),
+	BONOBO_UI_VERB_END
+};
+
 GtkWidget *
 folder_browser_window_new (FolderBrowser *fb)
 {
@@ -117,15 +129,16 @@ folder_browser_window_new (FolderBrowser *fb)
 	
 	uic = bonobo_ui_component_new_default ();
 	bonobo_ui_component_set_container (uic, BONOBO_OBJREF (uicont));
-	
+	bonobo_ui_component_add_verb_list_with_data (uic, verbs, new);
+
 	folder_browser_set_ui_component (FOLDER_BROWSER (fb), uic);
 	
-	bonobo_ui_util_set_ui (uic, EVOLUTION_DATADIR, "evolution-mail-global.xml", "evolution-mail");
+	/* ok, not quite the UI the message display was intended for, but close enough */
+	bonobo_ui_util_set_ui (uic, EVOLUTION_DATADIR, "evolution-mail-messagedisplay.xml", "evolution-mail");
 	
-	folder_browser_ui_add_global (fb);
 	folder_browser_ui_add_list (fb);
 	folder_browser_ui_add_message (fb);
-	
+
 	/*folder_browser_set_shell_view (fb, fb_get_svi (control));*/
 	
 	gtk_signal_connect (GTK_OBJECT (new), "size_allocate", 
