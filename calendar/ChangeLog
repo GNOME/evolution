@@ -1,3 +1,8 @@
+2004-04-27  Kidd Wang  <kidd.wang@sun.com>
+
+	* gui/e-cal-model-tasks.c: (ecmt_set_value_at): compare the start
+	time and the due time only when both are not null.
+
 2004-04-26  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* gui/migration.c (migrate_pilot_data): New function to migrate

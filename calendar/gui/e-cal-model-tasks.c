@@ -733,10 +733,15 @@ ecmt_set_value_at (ETableModel *etm, int col, int row, const void *value)
 	if (col < E_CAL_MODEL_FIELD_LAST) {
 		if (col == E_CAL_MODEL_FIELD_DTSTART) {
 			dv = (ECellDateEditValue *) value;
-			start_tt = dv->tt;
+			if (dv)
+				start_tt = dv->tt;
+			else
+				start_tt = icaltime_null_time();
 			due_tt = icalcomponent_get_due (comp_data->icalcomp);
 
-			if (icaltime_compare (start_tt, due_tt) > 0) {
+			if (!icaltime_is_null_time(start_tt) &&
+			    !icaltime_is_null_time(due_tt) &&
+			    icaltime_compare (start_tt, due_tt) > 0) {
 				dialog = gtk_message_dialog_new (NULL, 0,
 						GTK_MESSAGE_ERROR,
 						GTK_BUTTONS_OK,
@@ -762,9 +767,14 @@ ecmt_set_value_at (ETableModel *etm, int col, int row, const void *value)
 	case E_CAL_MODEL_TASKS_FIELD_DUE :
 		dv = (ECellDateEditValue *) value;
 		start_tt = icalcomponent_get_dtstart (comp_data->icalcomp);
-		due_tt = dv->tt;
+		if (dv)
+			due_tt = dv->tt;
+		else
+			due_tt = icaltime_null_time();
 		
-		if (icaltime_compare (start_tt, due_tt) > 0) {
+		if (!icaltime_is_null_time(start_tt) &&
+		    !icaltime_is_null_time(due_tt) &&
+		    icaltime_compare (start_tt, due_tt) > 0) {
 			dialog = gtk_message_dialog_new (NULL, 0,
 					GTK_MESSAGE_ERROR,
 					GTK_BUTTONS_OK,
