@@ -66,3 +66,6 @@ test_recur_LDADD = 							\
 	 $(top_builddir)/libversit/libversit.a				\
 	 $(top_builddir)/libical/src/libical/libical-evolution.la	\
 	 $(EVOLUTION_CALENDAR_LIBS)
+
+EXTRA_DIST = \
+	cal-util-marshal.list
