@@ -427,11 +427,12 @@ print_month_small (GnomePrintContext *pc, GnomeCalendar *gcal,
 
 /* wraps text into the print context, not taking up more than its allowed space */
 static double
-bound_text(GnomePrintContext *pc, GnomeFont *font, char *text, double left, double right, double top, double bottom, double indent)
+bound_text(GnomePrintContext *pc, GnomeFont *font, const char *text,
+	   double left, double right, double top, double bottom, double indent)
 {
 	double maxwidth = right-left;
 	double width;
-	char *p;
+	const char *p;
 	char *wordstart;
 	int c;
 	char *outbuffer, *o, *outbuffendmarker;
@@ -915,32 +916,12 @@ print_month_summary (GnomePrintContext *pc, GnomeCalendar *gcal, time_t whence,
 	}
 }
 
-/*
- * Print to do details
- */
-static gboolean
-print_todo_details_cb (CalComponent *comp, time_t istart, time_t iend, gpointer data)
-{
-	CalComponentText text;
-	struct ptinfo *pti = (struct ptinfo *)data;
-	struct einfo *ei;
-
-	ei = g_new0 (struct einfo, 1);
-
-	cal_component_get_summary (comp, &text);
-	ei->text = g_strdup (text.value);
-
-	pti->todos = g_list_append (pti->todos, ei);
-
-	return TRUE;
-}
-
 static void
 print_todo_details (GnomePrintContext *pc, GnomeCalendar *gcal, time_t start, time_t end,
 		    double left, double right, double top, double bottom)
 {
 	CalClient *client;
-	struct ptinfo pti;
+	GList *uids;
 	GList *l;
 	GnomeFont *font_summary;
 	double y, yend, x, xend;
@@ -952,36 +933,61 @@ print_todo_details (GnomePrintContext *pc, GnomeCalendar *gcal, time_t start, ti
 	gnome_print_setrgbcolor (pc, 0, 0, 0);
 	gnome_print_setlinewidth (pc, 0.0);
 
-	titled_box (pc, _("TODO Items"), font_summary,
+	titled_box (pc, _("Tasks"), font_summary,
 		    ALIGN_CENTRE | ALIGN_BORDER, &left, &right, &top, &bottom, 1.0);
 
 	y = top - 3;
 	yend = bottom - 2;
 
-	pti.todos = NULL;
+	uids = cal_client_get_uids (client, CALOBJ_TYPE_TODO);
 
-	cal_client_generate_instances (client, CALOBJ_TYPE_TODO, start, end,
-				       print_todo_details_cb, &pti);
+	for (l = uids; l; l = l->next) {
+		char *uid;
+		CalComponent *comp;
+		CalClientGetStatus status;
+		CalComponentText summary;
 
-	for (l = pti.todos; l; l = l->next) {
-		struct einfo *ei = (struct einfo *)l->data;
+		uid = l->data;
+
+		status = cal_client_get_object (client, uid, &comp);
+
+		switch (status) {
+		case CAL_CLIENT_GET_SUCCESS:
+			break;
+
+		case CAL_CLIENT_GET_NOT_FOUND:
+			/* Nothing: the object may have been removed from the server */
+			continue;
+
+		case CAL_CLIENT_GET_SYNTAX_ERROR:
+			g_message ("print_todo_details(): Syntax error while getting object `%s'",
+				   uid);
+			continue;
+
+		default:
+			g_assert_not_reached ();
+		}
+
+		cal_component_get_summary (comp, &summary);
+
+		if (!summary.value)
+			continue;
 
 		x = left;
-		xend = right-2;
+		xend = right - 2;
 
 		if (y < bottom)
 			break;
 
-		y = bound_text (pc, font_summary, ei->text, x + 2, xend, y, yend, 0);
+		y = bound_text (pc, font_summary, summary.value, x + 2, xend, y, yend, 0);
 		y += gnome_font_get_size (font_summary);
 		gnome_print_moveto (pc, x, y - 3);
 		gnome_print_lineto (pc, xend, y - 3);
 		gnome_print_stroke (pc);
 		y -= 3;
-
-		g_free (ei);
 	}
-	g_list_free (pti.todos);
+
+	cal_obj_uid_list_free (uids);
 
 	gtk_object_unref (GTK_OBJECT (font_summary));
 }

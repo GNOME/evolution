@@ -1,5 +1,9 @@
 2000-10-04  Federico Mena Quintero  <federico@helixcode.com>
 
+	* gui/print.c (print_todo_details): As a temporary solution to the
+	to-do printing, just print the summaries.  We'll use the ETable
+	printing stuff later.
+
 	* gui/print.c (print_day_summary_cb): Use g_list_append() correctly.
 	(print_todo_details_cb): Likewise.
 	(print_day_summary): Initialize psi.events.  This code was
