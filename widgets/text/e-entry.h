@@ -21,6 +21,8 @@ typedef struct {
 	GnomeCanvas *canvas;
 	EText *item;
 	GtkJustification justification;
+
+	gboolean draw_borders;
 } EEntry;
 
 typedef struct {
