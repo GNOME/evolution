@@ -1,3 +1,8 @@
+2001-08-17  Christopher James Lahey  <clahey@ximian.com>
+
+	* message-list.etspec: Made the default values for column
+	expansions here more reasonable.
+
 2001-08-16  Iain Holmes  <iain@ximian.com>
 
 	* GNOME_Evolution_Mail.oaf.in: Add the Wizard stuff.
