@@ -1,3 +1,11 @@
+2004-04-18  Chris Toshok  <toshok@ximian.com>
+
+	* gui/contact-editor/e-contact-editor.c (nonempty): new macro.
+	(extract_email): only create/add the attribute if the email
+	address is nonempty.
+	(extract_im): same, but for im accounts.
+	(extract_address_record): same, but for addresses.
+
 2004-04-16  Hans Petter Jansson  <hpj@ximian.com>
 
 	* gui/contact-editor/contact-editor.glade: Add "wants HTML" checkbox.

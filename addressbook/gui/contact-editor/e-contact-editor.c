@@ -190,6 +190,8 @@ im_location [] =
 	{ "OTHER", N_ ("Other") }
 };
 
+#define nonempty(x) ((x) && *(x))
+
 GType
 e_contact_editor_get_type (void)
 {
@@ -439,22 +441,26 @@ extract_email (EContactEditor *editor)
 	gint   i;
 
 	for (i = 1; i <= 4; i++) {
-		EVCardAttribute *attr;
 		gchar           *address;
 		gint             location;
 
 		extract_email_record (editor, i, &address, &location);
 
-		attr = e_vcard_attribute_new ("", e_contact_vcard_attribute (E_CONTACT_EMAIL));
+		if (nonempty (address)) {
+			EVCardAttribute *attr;
+			attr = e_vcard_attribute_new ("", e_contact_vcard_attribute (E_CONTACT_EMAIL));
 
-		if (location >= 0)
-			e_vcard_attribute_add_param_with_value (attr,
-								e_vcard_attribute_param_new (EVC_TYPE),
-								email_index_to_location (location));
+			if (location >= 0)
+				e_vcard_attribute_add_param_with_value (attr,
+									e_vcard_attribute_param_new (EVC_TYPE),
+									email_index_to_location (location));
 
-		e_vcard_attribute_add_value (attr, address);
+			e_vcard_attribute_add_value (attr, address);
 
-		attr_list = g_list_append (attr_list, attr);
+			attr_list = g_list_append (attr_list, attr);
+		}
+
+		g_free (address);
 	}
 
 	e_contact_set_attributes (editor->contact, E_CONTACT_EMAIL, attr_list);
@@ -633,16 +639,20 @@ extract_im (EContactEditor *editor)
 
 		extract_im_record (editor, i, &service, &name, &location);
 
-		attr = e_vcard_attribute_new ("", e_contact_vcard_attribute (im_service [service].field));
+		if (nonempty (name)) {
+			attr = e_vcard_attribute_new ("", e_contact_vcard_attribute (im_service [service].field));
 
-		if (location >= 0)
-			e_vcard_attribute_add_param_with_value (attr,
-								e_vcard_attribute_param_new (EVC_TYPE),
-								im_index_to_location (location));
+			if (location >= 0)
+				e_vcard_attribute_add_param_with_value (attr,
+									e_vcard_attribute_param_new (EVC_TYPE),
+									im_index_to_location (location));
 
-		e_vcard_attribute_add_value (attr, name);
+			e_vcard_attribute_add_value (attr, name);
 
-		service_attr_list [service] = g_list_append (service_attr_list [service], attr);
+			service_attr_list [service] = g_list_append (service_attr_list [service], attr);
+		}
+
+		g_free (name);
 	}
 
 	for (i = 0; i < G_N_ELEMENTS (im_service); i++) {
@@ -753,7 +763,15 @@ extract_address_record (EContactEditor *editor, gint record)
 	address->code     = extract_address_field (editor, record, "zip");
 	address->country  = extract_address_field (editor, record, "country");
 
-	e_contact_set (editor->contact, addresses [record], address);
+	if (nonempty (address->street) ||
+	    nonempty (address->ext) ||
+	    nonempty (address->locality) ||
+	    nonempty (address->region) ||
+	    nonempty (address->code) ||
+	    nonempty (address->country))
+		e_contact_set (editor->contact, addresses [record], address);
+	else
+		e_contact_set (editor->contact, addresses [record], NULL);
 
 	g_boxed_free (e_contact_address_get_type (), address);
 }
