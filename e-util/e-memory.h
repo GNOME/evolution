@@ -28,6 +28,7 @@ typedef struct _EMemChunk EMemChunk;
 
 EMemChunk *e_memchunk_new(int atomcount, int atomsize);
 void *e_memchunk_alloc(EMemChunk *m);
+void *e_memchunk_alloc0(EMemChunk *m);
 void e_memchunk_free(EMemChunk *m, void *mem);
 void e_memchunk_empty(EMemChunk *m);
 void e_memchunk_clean(EMemChunk *m);

@@ -1,3 +1,8 @@
+2000-11-21  Not Zed  <NotZed@HelixCode.com>
+
+	* e-memory.c (e_memchunk_alloc0): New function to allocate a
+	zero'd out chunk.
+
 2000-11-20  Not Zed  <NotZed@HelixCode.com>
 
 	* e-memory.[ch]: New routines for fast memory management and

@@ -135,6 +135,16 @@ void *e_memchunk_alloc(MemChunk *m)
 	}
 }
 
+void *e_memchunk_alloc0(EMemChunk *m)
+{
+	void *mem;
+
+	mem = e_memchunk_alloc(m);
+	memset(mem, 0, m->atomsize);
+
+	return mem;
+}
+
 /**
  * e_memchunk_free:
  * @m: 
