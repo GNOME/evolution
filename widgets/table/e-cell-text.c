@@ -579,6 +579,7 @@ ect_draw (ECellView *ecell_view, GdkDrawable *drawable,
 				sel_rect.height = height;
 				gtk_paint_flat_box (canvas->style,
 						    drawable,
+
 						    edit->has_selection ? GTK_STATE_SELECTED : GTK_STATE_ACTIVE,
 						    GTK_SHADOW_NONE,
 						    clip_rect,
@@ -1225,6 +1226,7 @@ ect_show_tooltip (ECellView *ecell_view,
 					      "anchor", GTK_ANCHOR_NW,
 /*  					      "font_gdk", text_view->font, */
 					      "bold", (gboolean) ect->bold_column >= 0 && e_table_model_value_at(ecell_view->e_table_model, ect->bold_column, row),
+					      "strikeout", (gboolean) ect->strikeout_column >= 0 && e_table_model_value_at(ecell_view->e_table_model, ect->strikeout_column, row),
 					      "text", cell.text,
 					      "editable", FALSE,
 					      "clip_width", max_width,

@@ -33,6 +33,7 @@
 #define FOCUSED_BORDER 2
 
 /* #define DO_TOOLTIPS 1 */
+/* #define ALTERNATE_COLORS 1 */
 
 #define d(x)
 
@@ -1337,11 +1338,12 @@ eti_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int width,
 				background = &canvas->style->base [GTK_STATE_NORMAL];
 			}
 
-#if ALTERNATE_COLORS
+#ifdef ALTERNATE_COLORS
 			if (row % 2) {
 				
 			} else {
 				free_background = TRUE;
+				background = gdk_color_copy (background);
 				e_hsv_tweak (background, 0.0f, 0.0f, -0.05f);
 				gdk_color_alloc (gtk_widget_get_colormap (GTK_WIDGET (canvas)), background);
 			}
