@@ -715,12 +715,12 @@
          <title>Using a Filter to Avoid Spam</title>
          <para>
            Spam, also known as unsolicited commercial email (UCE), is
-           the bane of many email boxes, but it doesn't have to
+           the bane of many people's Inboxes, but it doesn't have to
            be. Using Ximian Evolution filters and an external Spam
            detection tool like SpamAssassin (<ulink
            url="http://spamassassin.org/">http://spamassassin.org/</ulink>),
-         you can catch the vast majority of junk mail and drop it
-         directly into the trash.
+           you can catch the vast majority of junk mail and drop it
+           directly into the trash.
          </para>
          <para>
            The easiest way to do this is to get your system
@@ -810,7 +810,7 @@
                </guimenuitem>
              </menuchoice> is the most convenient) and paste in the following:
              <screen>
-               spamassassin -e &lt;
+               spamassassin -e
              </screen>
              This will run the SpamAssassin command and report back 0
              if the message is not junk.
@@ -818,7 +818,7 @@
          </listitem>
          <listitem>
            <para>
-             Save file as "spam-filter.sh"
+             Save the file as "spam-filter.sh"
            </para>
          </listitem>
          <listitem>
