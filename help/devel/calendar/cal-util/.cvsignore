@@ -1,3 +1,7 @@
 sgml
 Makefile
 Makefile.in
+*-decl.txt
+*.signals
+*.hierarchy
+

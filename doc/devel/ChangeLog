@@ -1,3 +1,8 @@
+2001-04-25  Jon Trowbridge  <trow@ximian.com>
+
+	* Removed generated files from CVS, updated .cvsignore files
+	to include generated files.
+
 2001-04-23  Ettore Perazzoli  <ettore@ximian.com>
 
 	* executive-summary/Makefile.am (scan) [ENABLE_GTK_DOC]: Kludge

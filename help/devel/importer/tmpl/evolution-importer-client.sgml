@@ -57,6 +57,7 @@ Casts a #GtkObject into an #EvolutionImporterClient
 
 @client: 
 @filename: 
+@folderpath: 
 @Returns: 
 
 
