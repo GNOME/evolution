@@ -1,3 +1,31 @@
+2001-10-30  JP Rosevear  <jpr@ximian.com>
+
+	* gui/e-meeting-model.c (e_meeting_model_count_actual_attendees):
+	count the actual attendees (doesn't include people delegating
+
+	* gui/e-meeting-time-sel.c: use
+	e_meeting_model_count_actual_attendees (renamed)
+
+	* gui/e-meeting-time-sel-item.c: use
+	e_meeting_model_etable_view_to_model_row calls instead of calling
+	on the model directly, use e_meeting_model_count_actual_attendees
+
+	* gui/e-meeting-model.c
+	(e_meeting_model_etable_model_to_view_row): get the real mapping
+	(e_meeting_model_etable_view_to_model_row): ditto
+	(get_key): e-table-without callback
+	(duplicate_key): ditto
+	(free_gotten_key): ditto
+	(free_duplicated_key): ditto
+	(init): create without model
+	(e_meeting_model_etable_from_model): build etable from without
+	model
+
+	* gui/e-meeting-model.h: update protos
+
+	* gui/dialogs/meeting-page.c (right_click_cb): convert row from
+	view to model row
+
 2001-10-30  Damon Chaplin  <damon@ximian.com>
 
 	* gui/dialogs/task-page.c (task_page_fill_widgets): set to the default
@@ -90,7 +118,7 @@
 	alarm properties.
 
 2001-10-30  JP Rosevear  <jpr@ximian.com>
-
+	
 	* gui/e-meeting-model.c (process_section): process an individual
 	section here
 	(select_names_ok_cb): call above
