@@ -1,5 +1,9 @@
 2001-10-31  Iain Holmes  <iain@ximian.com>
 
+	* Locations: Fixed a spelling mistake.
+
+2001-10-31  Iain Holmes  <iain@ximian.com>
+
 	* e-summary-preferences.c (make_initial_rdf_list): Put this back.
 	(make_initial_weather_list): This too plus fixed a memory leak.
 	(vector_from_str_list): Allow a NULL list. Return "" instead of NULL.
