@@ -1643,15 +1643,16 @@ list_add_addresses(GList *list, const CamelInternetAddress *cia, const char *not
 EMsgComposer *
 mail_generate_reply (CamelMimeMessage *message, gboolean to_all)
 {
-	CamelDataWrapper *contents;
-	char *text, *subject;
+	char *text, *subject, *date_str;
 	EMsgComposer *composer;
-	gboolean want_plain, is_html;
 	const char *message_id, *references;
+	const char *name = NULL, *address = NULL;
 	GList *to = NULL, *cc = NULL;
 	MailConfigIdentity *id;
 	gchar *sig_file = NULL;
-	const CamelInternetAddress *reply_to;
+	const CamelInternetAddress *reply_to, *sender;
+	time_t date;
+	int offset;
 	
 	id = mail_config_get_default_identity ();
 	if (id)
@@ -1661,56 +1662,15 @@ mail_generate_reply (CamelMimeMessage *message, gboolean to_all)
 	if (!composer)
 		return NULL;
 	
-	want_plain = !mail_config_send_html ();
-	contents = camel_medium_get_content_object (CAMEL_MEDIUM (message));
-	text = mail_get_message_body (contents, want_plain, &is_html);
+	sender = camel_mime_message_get_from (message);
+	camel_internet_address_get (sender, 0, &name, &address);
+	date = camel_mime_message_get_date (message, &offset);
+	date_str = header_format_date (date, offset);
+	text = mail_tool_quote_message (message, _("On %s, %s wrote:\n"), date_str, name ? name : address);
+	g_free (date_str);
 	
-	/* Set the quoted reply text. */
 	if (text) {
-		char *repl_text;
-		
-		if (is_html) {
-			repl_text = g_strdup_printf ("<blockquote><i>\n%s\n"
-						     "</i></blockquote>\n",
-						     text);
-		} else {
-			char *s, *d, *quoted_text;
-			int lines, len;
-			
-			/* Count the number of lines in the body. If
-			 * the text ends with a \n, this will be one
-			 * too high, but that's ok. Allocate enough
-			 * space for the text and the "> "s.
-			 */
-			for (s = text, lines = 0; s; s = strchr (s + 1, '\n'))
-				lines++;
-			quoted_text = g_malloc (strlen (text) + lines * 2);
-			
-			s = text;
-			d = quoted_text;
-			
-			/* Copy text to quoted_text line by line,
-			 * prepending "> ".
-			 */
-			while (1) {
-				len = strcspn (s, "\n");
-				if (len == 0 && !*s)
-					break;
-				sprintf (d, "> %.*s\n", len, s);
-				s += len;
-				if (!*s++)
-					break;
-				d += len + 3;
-			}
-			*d = '\0';
-			
-			/* Now convert that to HTML. */
-			repl_text = e_text_to_html (quoted_text, E_TEXT_TO_HTML_PRE);
-			g_free (quoted_text);
-		}
-		
-		e_msg_composer_set_body_text (composer, repl_text);
-		g_free (repl_text);
+		e_msg_composer_set_body_text (composer, text);
 		g_free (text);
 	}
 	

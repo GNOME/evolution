@@ -99,4 +99,6 @@ mail_lookup_url_table (CamelMimeMessage *mime_message);
 CamelFolder *
 mail_tool_filter_get_folder_func (FilterDriver *d, const char *uri, void *data);
 
+gchar *mail_tool_quote_message (CamelMimeMessage *message, const char *fmt, ...);
+
 #endif

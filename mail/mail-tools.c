@@ -2,9 +2,10 @@
 /* mail-ops.c: callbacks for the mail toolbar/menus */
 
 /* 
- * Author : 
+ * Authors: 
  *  Dan Winship <danw@helixcode.com>
  *  Peter Williams <peterw@helixcode.com>
+ *  Jeffrey Stedfast <fejj@helixcode.com>
  *
  * Copyright 2000 Helix Code, Inc. (http://www.helixcode.com)
  *
@@ -38,6 +39,7 @@
 #include "mail.h" /*session*/
 #include "mail-tools.h"
 #include "mail-local.h"
+#include "e-util/e-html-utils.h"
 
 /* **************************************** */
 
@@ -529,4 +531,95 @@ mail_tool_uri_to_folder_noex (const char *uri)
 	}
 
 	return result;
+}
+
+/**
+ * mail_tool_quote_message:
+ * @message: mime message to quote
+ * @fmt: credits format - example: "On %s, %s wrote:\n"
+ * @Varargs: arguments
+ *
+ * Returns an allocated buffer containing the quoted message.
+ */
+gchar *
+mail_tool_quote_message (CamelMimeMessage *message, const char *fmt, ...)
+{
+	CamelDataWrapper *contents;
+	gboolean want_plain, is_html;
+	gchar *text;
+	
+	want_plain = !mail_config_send_html ();
+	contents = camel_medium_get_content_object (CAMEL_MEDIUM (message));
+	text = mail_get_message_body (contents, want_plain, &is_html);
+	
+	/* Set the quoted reply text. */
+	if (text) {
+		gchar *ret_text, *credits = NULL;
+		
+		/* create credits */
+		if (fmt) {
+			gchar *buf;
+			va_list ap;
+			
+			va_start (ap, fmt);
+			credits = g_strdup_vprintf (fmt, ap);
+			va_end (ap);
+		}
+		
+		if (is_html) {
+			if (credits) {
+				ret_text = g_strdup_printf ("<blockquote><i>\n%s\n%s\n"
+							    "</i></blockquote>\n",
+							    credits, text);
+			} else {
+				ret_text = g_strdup_printf ("<blockquote><i>\n%s\n"
+							    "</i></blockquote>\n",
+							    text);
+			}
+		} else {
+			gchar *s, *d, *quoted_text;
+			gint lines, len, offset = 0;
+			
+			/* Count the number of lines in the body. If
+			 * the text ends with a \n, this will be one
+			 * too high, but that's ok. Allocate enough
+			 * space for the text and the "> "s.
+			 */
+			for (s = text, lines = 0; s; s = strchr (s + 1, '\n'))
+				lines++;
+			
+			offset = credits ? strlen (credits) : 0;
+			quoted_text = g_malloc (offset + strlen (text) + lines * 2);
+			
+			if (credits)
+				memcpy (quoted_text, credits, offset);
+			
+			s = text;
+			d = quoted_text + offset;
+			
+			/* Copy text to quoted_text line by line,
+			 * prepending "> ".
+			 */
+			while (1) {
+				len = strcspn (s, "\n");
+				if (len == 0 && !*s)
+					break;
+				sprintf (d, "> %.*s\n", len, s);
+				s += len;
+				if (!*s++)
+					break;
+				d += len + 3;
+			}
+			*d = '\0';
+			
+			/* Now convert that to HTML. */
+			ret_text = e_text_to_html (quoted_text, E_TEXT_TO_HTML_PRE);
+			g_free (quoted_text);
+		}
+		
+		g_free (text);
+		return ret_text;
+	}
+	
+	return NULL;
 }

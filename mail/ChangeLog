@@ -1,3 +1,16 @@
+2000-11-17  Jeffrey Stedfast  <fejj@helixcode.com>
+
+	* mail-format.c (mail_generate_reply): Use the new quote_message
+	function and make it start with "On %s, %s wrote:" since people
+	seem to want that.
+
+	* mail-ops.c (cleanup_forward_messages): Use the new quote_message
+	function.
+
+	* mail-tools.c (mail_tool_quote_message): New convenience function
+	to quote a message body (since both the reply and forward code do
+	similar quoting)
+
 2000-11-17  Not Zed  <NotZed@HelixCode.com>
 
 	* message-list.c (message_list_destroy): Before we destroy

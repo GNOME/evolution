@@ -1612,62 +1612,12 @@ cleanup_forward_messages (gpointer in_data, gpointer op_data,
 		}
 	} else {
 		CamelMimeMessage *message = data->parts->pdata[0];
-		CamelDataWrapper *contents;
-		gboolean want_plain, is_html;
 		char *text;
 		
-		want_plain = !mail_config_send_html ();
-		contents = camel_medium_get_content_object (CAMEL_MEDIUM (message));
-		text = mail_get_message_body (contents, want_plain, &is_html);
+		text = mail_tool_quote_message (message, _("Forwarded message:\n"));
 		
-		/* FIXME: we should share this code with Reply */
-		
-		/* Set the quoted reply text. */
 		if (text) {
-			char *repl_text;
-			
-			if (is_html) {
-				repl_text = g_strdup_printf ("<blockquote><i>\n%s\n"
-							     "</i></blockquote>\n",
-							     text);
-			} else {
-				char *s, *d, *quoted_text;
-				int lines, len;
-				
-				/* Count the number of lines in the body. If
-				 * the text ends with a \n, this will be one
-				 * too high, but that's ok. Allocate enough
-				 * space for the text and the "> "s.
-				 */
-				for (s = text, lines = 0; s; s = strchr (s + 1, '\n'))
-					lines++;
-				quoted_text = g_malloc (strlen (text) + lines * 2);
-				
-				s = text;
-				d = quoted_text;
-				
-				/* Copy text to quoted_text line by line,
-				 * prepending "> ".
-				 */
-				while (1) {
-					len = strcspn (s, "\n");
-					if (len == 0 && !*s)
-						break;
-					sprintf (d, "> %.*s\n", len, s);
-					s += len;
-					if (!*s++)
-						break;
-					d += len + 3;
-				}
-				*d = '\0';
-				
-				/* Now convert that to HTML. */
-				repl_text = e_text_to_html (quoted_text, E_TEXT_TO_HTML_PRE);
-				g_free (quoted_text);
-			}
-			
-			e_msg_composer_set_body_text (input->composer, repl_text);
-			g_free (repl_text);
+			e_msg_composer_set_body_text (input->composer, text);
 			g_free (text);
 		}
 		
