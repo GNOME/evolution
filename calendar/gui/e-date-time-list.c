@@ -291,6 +291,12 @@ copy_datetime (const CalComponentDateTime *datetime)
 	return datetime_copy;
 }
 
+static gint
+compare_datetime (const CalComponentDateTime *datetime1, const CalComponentDateTime *datetime2)
+{
+	return icaltime_compare (*datetime1->value, *datetime2->value);
+}
+
 void
 e_date_time_list_set_date_time (EDateTimeList *date_time_list, GtkTreeIter *iter,
 				const CalComponentDateTime *datetime)
@@ -311,8 +317,10 @@ e_date_time_list_append (EDateTimeList *date_time_list, GtkTreeIter *iter,
 {
 	g_return_if_fail (datetime != NULL);
 
-	date_time_list->list = g_list_append (date_time_list->list, copy_datetime (datetime));
-	row_added (date_time_list, g_list_length (date_time_list->list) - 1);
+	if (g_list_find_custom (date_time_list->list, datetime, (GCompareFunc)compare_datetime) == NULL) {
+		date_time_list->list = g_list_append (date_time_list->list, copy_datetime (datetime));
+		row_added (date_time_list, g_list_length (date_time_list->list) - 1);
+	}
 
 	if (iter) {
 		iter->user_data = g_list_last (date_time_list->list);
