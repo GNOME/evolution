@@ -1,3 +1,9 @@
+2003-03-24  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* camel-sasl-gssapi.c: We don't want to #include <et/com_err.h",
+	we want to #include <com_err.h> instead.
+	#include <heimdal/gssapi.h> in the heimdal case.
+
 2003-03-20  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* camel-sasl.c: Plug in GSSAPI support.

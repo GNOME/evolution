@@ -28,12 +28,12 @@
 #ifdef HAVE_KRB5
 
 #include <string.h>
-#include <et/com_err.h>
+#include <com_err.h>
 #ifdef HAVE_MIT_KRB5
 #include <gssapi/gssapi.h>
 #include <gssapi/gssapi_generic.h>
 #else /* HAVE_HEIMDAL_KRB5 */
-#include <gssapi.h>
+#include <heimdal/gssapi.h>
 #endif
 #include <errno.h>
 
