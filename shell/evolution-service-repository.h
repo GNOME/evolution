@@ -14,29 +14,48 @@ BEGIN_GNOME_DECLS
 #define EVOLUTION_IS_SERVICE_REPOSITORY_CLASS(k) (GTK_CHECK_CLASS_TYPE ((k), EVOLUTION_SERVICE_REPOSITORY_TYPE))
 
 typedef struct _EvolutionServiceRepository EvolutionServiceRepositoryPrivate;
+typedef struct _EvolutionServiceRepository EvolutionServiceRepository;
+
+typedef void (*EvolutionServiceRepositorySetShellFn) (EvolutionServiceRepository *sr, const Evolution_Shell shell, void *closure);
 
 
-typedef struct {
+struct  _EvolutionServiceRepository {
 	BonoboObject object;
+
 	
+	EvolutionServiceRepositorySetShellFn set_shell_fn;
+
+	void *closure;
+
 	EvolutionServiceRepositoryPrivate *priv;
 
-} EvolutionServiceRepository;
+};
 
 
 
 typedef struct {
 	BonoboObjectClass parent_class;
 
+	void        (*set_shell) (EvolutionServiceRepository *sr, Evolution_Shell shell);
+
 } EvolutionServiceRepositoryClass;
 
 
 
-GtkType                     evolution_service_repository_get_type  (void);
-EvolutionServiceRepository *evolution_service_repository_construct (EvolutionServiceRepository *service_repository,
-								    Evolution_ServiceRepository corba_service_repository);
+GtkType                              evolution_service_repository_get_type  (void);
 
-POA_Evolution_ServiceRepository__epv *evolution_service_repository_get_epv (void);
+EvolutionServiceRepository *         evolution_service_repository_new       (
+					    EvolutionServiceRepositorySetShellFn set_shell_fn,
+					    void *closure);
+
+EvolutionServiceRepository *         evolution_service_repository_construct (
+					    EvolutionServiceRepository *sr,
+					    Evolution_ServiceRepository corba_service_repository,
+					    EvolutionServiceRepositorySetShellFn set_shell_fn,
+					    void *closure);
+
+
+POA_Evolution_ServiceRepository__epv *evolution_service_repository_get_epv  (void);
 
 extern POA_Evolution_ServiceRepository__vepv evolution_service_repository_vepv;
 
