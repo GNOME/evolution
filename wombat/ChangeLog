@@ -1,3 +1,7 @@
+2002-04-26  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* Makefile.am: Removed dependency on libibex.
+
 2002-04-04  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* Makefile.am: Re-Add $(WOMBAT_LIBS) so wombat actually links.

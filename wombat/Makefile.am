@@ -29,7 +29,6 @@ wombat_LDADD =								\
 	$(LDAP_LIBS)							\
 	$(top_builddir)/addressbook/backend/ebook/libebook.la		\
 	$(top_builddir)/camel/libcamel.la				\
-	$(top_builddir)/libibex/libibex.la				\
 	$(top_builddir)/e-util/ename/libename.la			\
 	$(top_builddir)/calendar/pcs/libpcs.a				\
 	$(top_builddir)/calendar/cal-util/libcal-util.la		\
