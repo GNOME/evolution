@@ -1,3 +1,7 @@
+2003-04-16  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* e-config-upgrade.c: Turn off debugging. Fixes bug #41469.
+
 2003-04-16  Ettore Perazzoli  <ettore@ximian.com>
 
 	* apps_evolution_shell.schemas: Increase the default value for

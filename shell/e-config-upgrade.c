@@ -42,7 +42,7 @@
 
 #include "e-config-upgrade.h"
 
-#define d(x) x
+#define d(x)
 
 /* output revision of configuration */
 #define CONF_MAJOR (1)
