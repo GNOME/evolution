@@ -1103,7 +1103,8 @@ message_list_destroy (GtkObject *object)
 	MessageList *message_list = MESSAGE_LIST (object);
 	int i;
 
-	save_tree_state(message_list);
+	if (message_list->folder)
+		save_tree_state(message_list);
 	
 	gtk_object_unref (GTK_OBJECT (message_list->table_model));
 	gtk_object_unref (GTK_OBJECT (message_list->header_model));

@@ -1,3 +1,14 @@
+2000-10-02  Dan Winship  <danw@helixcode.com>
+
+	* mail-ops.c (mail_do_scan_subfolders, etc): Update for
+	CamelFolderInfo changes.
+
+	* message-list.c (message_list_destroy): Don't save_tree_state if
+	there's no folder associated with the MessageList.
+
+	* folder-browser.c (folder_browser_set_uri): Only call
+	mail_do_load_folder if the URI is not "".
+
 2000-10-02  Iain Holmes  <iain@helixcode.com>
 
 	* mail-display.[ch]: Add a cache for the pixbufs, hashed on CID,

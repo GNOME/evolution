@@ -115,7 +115,8 @@ folder_browser_class_init (GtkObjectClass *object_class)
 
 gboolean folder_browser_set_uri (FolderBrowser *folder_browser, const char *uri)
 {
-	mail_do_load_folder (folder_browser, uri);
+	if (*uri)
+		mail_do_load_folder (folder_browser, uri);
 	return TRUE;
 }
 
