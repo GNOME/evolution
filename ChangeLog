@@ -1,3 +1,7 @@
+2001-05-29  JP Rosevear  <jpr@ximian.com>
+
+	* README: update version requirements
+
 2001-05-23  Dan Winship  <danw@ximian.com>
 
 	* README: Remove reference to verify-evolution-install.sh since it
