@@ -576,7 +576,7 @@ stringify_agoness (FilterDatespec *fds)
 			where++;
 		}
 		
-		g_string_append (str, " ago");
+		g_string_append (str, _(" ago"));
 	}
 	
 	ret = str->str;
