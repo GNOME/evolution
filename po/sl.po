@@ -3006,7 +3006,7 @@ msgstr "Ste prepričani, da želite zbrisati dnevniški vpis `%s'?"
 
 #: calendar/gui/dialogs/delete-comp.c:117
 msgid "Are you sure want to delete this untitled journal entry?"
-msgstr "Ste prepričani, da želite izbrisati ta neimenovan dnevniški vpis?"
+msgstr "Ste prepričani, da želite zbrisati ta neimenovan dnevniški vpis?"
 
 #: calendar/gui/dialogs/delete-comp.c:132
 #, c-format
@@ -26774,7 +26774,7 @@ msgstr "init_bonobo(): nisem mogel inicializirati Bonoba"
 #~ msgstr "Uredi trenutno sporočilo"
 
 #~ msgid "Finaly remove all mails tagged for deletion"
-#~ msgstr "Dokončno odstrani vso pošto označeno za izbris"
+#~ msgstr "Dokončno odstrani vso pošto označeno za zbris"
 
 #~ msgid "Forward this message in-line with your mail, so you can edit it"
 #~ msgstr "Posreduj to sporočilo kot del vaše pošte, da ga lahko uredite"
