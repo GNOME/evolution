@@ -1,3 +1,7 @@
+2001-10-15  Larry Ewing  <lewing@ximian.com>
+
+	* gui/dialogs/comp-editor.c (set_icon_from_comp): remove warnings.
+
 2001-10-15  JP Rosevear  <jpr@ximian.com>
 
 	* conduits/calendar/calendar-conduit.c (process_multi_day):

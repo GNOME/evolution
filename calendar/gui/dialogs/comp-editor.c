@@ -35,6 +35,7 @@
 #include <gal/widgets/e-unicode.h>
 #include <libgnomeui/gnome-dialog.h>
 #include <libgnomeui/gnome-dialog-util.h>
+#include <libgnomeui/gnome-window-icon.h>
 #include <evolution-shell-component-utils.h>
 #include "../print.h"
 #include "save-comp.h"
@@ -661,7 +662,6 @@ static const char *
 make_icon_from_comp (CalComponent *comp)
 {
 	CalComponentVType type;
-        const char *icon_path;
 	
 	if (!comp)
 		return EVOLUTION_ICONSDIR "/evolution-calendar-mini.png";
@@ -696,7 +696,7 @@ static void
 set_icon_from_comp (CompEditor *editor)
 {
 	CompEditorPrivate *priv;
-	char *file;
+	const char *file;
 
 	priv = editor->priv;
 	file = make_icon_from_comp (priv->comp);
