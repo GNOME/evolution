@@ -56,6 +56,7 @@ static GtkWidget *e_contact_editor_build_dialog(EContactEditor *editor, gchar *e
 static void _email_arrow_pressed (GtkWidget *widget, GdkEventButton *button, EContactEditor *editor);
 static void _phone_arrow_pressed (GtkWidget *widget, GdkEventButton *button, EContactEditor *editor);
 static void _address_arrow_pressed (GtkWidget *widget, GdkEventButton *button, EContactEditor *editor);
+static void enable_writable_fields(EContactEditor *editor);
 static void fill_in_info(EContactEditor *editor);
 static void extract_info(EContactEditor *editor);
 static void set_fields(EContactEditor *editor);
@@ -70,7 +71,8 @@ static guint contact_editor_signals[LAST_SIGNAL];
 enum {
 	ARG_0,
 	ARG_CARD,
-	ARG_IS_NEW_CARD
+	ARG_IS_NEW_CARD,
+	ARG_WRITABLE_FIELDS
 };
 
 enum {
@@ -117,6 +119,8 @@ e_contact_editor_class_init (EContactEditorClass *klass)
 			   GTK_ARG_READWRITE, ARG_CARD);
   gtk_object_add_arg_type ("EContactEditor::is_new_card", GTK_TYPE_BOOL,
 			   GTK_ARG_READWRITE, ARG_IS_NEW_CARD);
+  gtk_object_add_arg_type ("EContactEditor::writable_fields", GTK_TYPE_POINTER,
+			   GTK_ARG_READWRITE, ARG_WRITABLE_FIELDS);
 
   contact_editor_signals[ADD_CARD] =
 	  gtk_signal_new ("add_card",
@@ -972,7 +976,10 @@ e_contact_editor_init (EContactEditor *e_contact_editor)
 void
 e_contact_editor_destroy (GtkObject *object) {
 	EContactEditor *e_contact_editor = E_CONTACT_EDITOR(object);
-	
+
+	if (e_contact_editor->writable_fields) {
+		gtk_object_unref(GTK_OBJECT(e_contact_editor->writable_fields));
+	}
 	if (e_contact_editor->email_list) {
 		g_list_foreach(e_contact_editor->email_list, (GFunc) g_free, NULL);
 		g_list_free(e_contact_editor->email_list);
@@ -1018,7 +1025,7 @@ e_contact_editor_destroy (GtkObject *object) {
 }
 
 EContactEditor *
-e_contact_editor_new (ECard *card, gboolean is_new_card)
+e_contact_editor_new (ECard *card, gboolean is_new_card, EList *fields)
 {
 	EContactEditor *ce;
 
@@ -1027,6 +1034,7 @@ e_contact_editor_new (ECard *card, gboolean is_new_card)
 	gtk_object_set (GTK_OBJECT (ce),
 			"card", card,
 			"is_new_card", is_new_card,
+			"writable_fields", fields,
 			NULL);
 
 	gtk_widget_show (ce->app);
@@ -1053,6 +1061,12 @@ e_contact_editor_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 
 	case ARG_IS_NEW_CARD:
 		editor->is_new_card = GTK_VALUE_BOOL (*arg) ? TRUE : FALSE;
+		break;
+
+	case ARG_WRITABLE_FIELDS:
+		editor->writable_fields = GTK_VALUE_POINTER (*arg);
+		gtk_object_ref (GTK_OBJECT (editor->writable_fields));
+		enable_writable_fields (editor);
 		break;
 	}
 }
@@ -1164,6 +1178,99 @@ e_contact_editor_build_ui_info(GList *list, GnomeUIInfo **infop)
 	*infop = info;
 }
 
+static void
+e_contact_editor_build_phone_ui (EContactEditor *editor)
+{
+	int i;
+
+	if (editor->phone_list == NULL) {
+		static char *info[] = {
+			N_("Assistant"),
+			N_("Business"),
+			N_("Business 2"),
+			N_("Business Fax"),
+			N_("Callback"),
+			N_("Car"),
+			N_("Company"),
+			N_("Home"),
+			N_("Home 2"),
+			N_("Home Fax"),
+			N_("ISDN"),
+			N_("Mobile"),
+			N_("Other"),
+			N_("Other Fax"),
+			N_("Pager"),
+			N_("Primary"),
+			N_("Radio"),
+			N_("Telex"),
+			N_("TTY/TDD")
+		};
+		
+		for (i = 0; i < sizeof(info) / sizeof(info[0]); i++) {
+			editor->phone_list = g_list_append(editor->phone_list, g_strdup(info[i]));
+		}
+	}
+	if (editor->phone_info == NULL) {
+		e_contact_editor_build_ui_info(editor->phone_list, &editor->phone_info);
+		
+		if ( editor->phone_popup )
+			gtk_widget_unref(editor->phone_popup);
+		
+		editor->phone_popup = gnome_popup_menu_new(editor->phone_info);
+	}
+}
+
+static void
+e_contact_editor_build_email_ui (EContactEditor *editor)
+{
+	int i;
+
+	if (editor->email_list == NULL) {
+		static char *info[] = {
+			N_("Primary Email"),
+			N_("Email 2"),
+			N_("Email 3")
+		};
+		
+		for (i = 0; i < sizeof(info) / sizeof(info[0]); i++) {
+			editor->email_list = g_list_append(editor->email_list, g_strdup(info[i]));
+		}
+	}
+	if (editor->email_info == NULL) {
+		e_contact_editor_build_ui_info(editor->email_list, &editor->email_info);
+
+		if ( editor->email_popup )
+			gtk_widget_unref(editor->email_popup);
+		
+		editor->email_popup = gnome_popup_menu_new(editor->email_info);
+	}
+}
+
+static void
+e_contact_editor_build_address_ui (EContactEditor *editor)
+{
+	int i;
+
+	if (editor->address_list == NULL) {
+		static char *info[] = {
+			N_("Business"),
+			N_("Home"),
+			N_("Other")
+		};
+		
+		for (i = 0; i < sizeof(info) / sizeof(info[0]); i++) {
+			editor->address_list = g_list_append(editor->address_list, g_strdup(info[i]));
+		}
+	}
+	if (editor->address_info == NULL) {
+		e_contact_editor_build_ui_info(editor->address_list, &editor->address_info);
+
+		if ( editor->address_popup )
+			gtk_widget_unref(editor->address_popup);
+		
+		editor->address_popup = gnome_popup_menu_new(editor->address_info);
+	}
+}
 #if 0
 static void
 _dialog_clicked(GtkWidget *dialog, gint button, EContactEditor *editor)
@@ -1272,41 +1379,7 @@ _phone_arrow_pressed (GtkWidget *widget, GdkEventButton *button, EContactEditor 
 	label = g_strdup_printf("label-phone%d", which);
 	entry = g_strdup_printf("entry-phone%d", which);
 
-	if (editor->phone_list == NULL) {
-		static char *info[] = {
-			N_("Assistant"),
-			N_("Business"),
-			N_("Business 2"),
-			N_("Business Fax"),
-			N_("Callback"),
-			N_("Car"),
-			N_("Company"),
-			N_("Home"),
-			N_("Home 2"),
-			N_("Home Fax"),
-			N_("ISDN"),
-			N_("Mobile"),
-			N_("Other"),
-			N_("Other Fax"),
-			N_("Pager"),
-			N_("Primary"),
-			N_("Radio"),
-			N_("Telex"),
-			N_("TTY/TDD")
-		};
-		
-		for (i = 0; i < sizeof(info) / sizeof(info[0]); i++) {
-			editor->phone_list = g_list_append(editor->phone_list, g_strdup(info[i]));
-		}
-	}
-	if (editor->phone_info == NULL) {
-		e_contact_editor_build_ui_info(editor->phone_list, &editor->phone_info);
-		
-		if ( editor->phone_popup )
-			gtk_widget_unref(editor->phone_popup);
-		
-		editor->phone_popup = gnome_popup_menu_new(editor->phone_info);
-	}
+	e_contact_editor_build_phone_ui (editor);
 	
 	for(i = 0; i < E_CARD_SIMPLE_PHONE_ID_LAST; i++) {
 		const ECardPhone *phone = e_card_simple_get_phone(editor->simple, i);
@@ -1323,6 +1396,8 @@ _phone_arrow_pressed (GtkWidget *widget, GdkEventButton *button, EContactEditor 
 	if (result != -1) {
 		editor->phone_choice[which - 1] = result;
 		set_fields(editor);
+		gtk_widget_set_sensitive (glade_xml_get_widget (editor->gui, label), TRUE);
+		gtk_widget_set_sensitive (glade_xml_get_widget (editor->gui, entry), TRUE);
 	}
 
 	g_free(label);
@@ -1334,26 +1409,9 @@ _email_arrow_pressed (GtkWidget *widget, GdkEventButton *button, EContactEditor 
 {
 	int i;
 	int result;
-	if (editor->email_list == NULL) {
-		static char *info[] = {
-			N_("Primary Email"),
-			N_("Email 2"),
-			N_("Email 3")
-		};
-		
-		for (i = 0; i < sizeof(info) / sizeof(info[0]); i++) {
-			editor->email_list = g_list_append(editor->email_list, g_strdup(info[i]));
-		}
-	}
-	if (editor->email_info == NULL) {
-		e_contact_editor_build_ui_info(editor->email_list, &editor->email_info);
 
-		if ( editor->email_popup )
-			gtk_widget_unref(editor->email_popup);
-		
-		editor->email_popup = gnome_popup_menu_new(editor->email_info);
-	}
-	
+	e_contact_editor_build_email_ui (editor);
+
 	for(i = 0; i < E_CARD_SIMPLE_EMAIL_ID_LAST; i++) {
 		const char *string = e_card_simple_get_email(editor->simple, i);
 		gboolean checked;
@@ -1369,6 +1427,11 @@ _email_arrow_pressed (GtkWidget *widget, GdkEventButton *button, EContactEditor 
 	if (result != -1) {
 		editor->email_choice = result;
 		set_fields(editor);
+
+		/* make sure the buttons/entry is/are sensitive */
+		gtk_widget_set_sensitive (glade_xml_get_widget (editor->gui, "label-email1"), TRUE);
+		gtk_widget_set_sensitive (glade_xml_get_widget (editor->gui, "entry-email1"), TRUE);
+		gtk_widget_set_sensitive (glade_xml_get_widget (editor->gui, "checkbutton-htmlmail"), TRUE);
 	}
 }
 
@@ -1377,26 +1440,9 @@ _address_arrow_pressed (GtkWidget *widget, GdkEventButton *button, EContactEdito
 {
 	int i;
 	int result;
-	if (editor->address_list == NULL) {
-		static char *info[] = {
-			N_("Business"),
-			N_("Home"),
-			N_("Other")
-		};
-		
-		for (i = 0; i < sizeof(info) / sizeof(info[0]); i++) {
-			editor->address_list = g_list_append(editor->address_list, g_strdup(info[i]));
-		}
-	}
-	if (editor->address_info == NULL) {
-		e_contact_editor_build_ui_info(editor->address_list, &editor->address_info);
 
-		if ( editor->address_popup )
-			gtk_widget_unref(editor->address_popup);
-		
-		editor->address_popup = gnome_popup_menu_new(editor->address_info);
-	}
-	
+	e_contact_editor_build_address_ui (editor);
+
 	for(i = 0; i < E_CARD_SIMPLE_ADDRESS_ID_LAST; i++) {
 		const ECardAddrLabel *address = e_card_simple_get_address(editor->simple, i);
 		gboolean checked;
@@ -1411,6 +1457,11 @@ _address_arrow_pressed (GtkWidget *widget, GdkEventButton *button, EContactEdito
 
 	if (result != -1) {
 		set_address_field(editor, result);
+
+		/* make sure the buttons/entry is/are sensitive */
+		gtk_widget_set_sensitive (glade_xml_get_widget (editor->gui, "label-address"), TRUE);
+		gtk_widget_set_sensitive (glade_xml_get_widget (editor->gui, "button-fulladdr"), TRUE);
+		gtk_widget_set_sensitive (glade_xml_get_widget (editor->gui, "text-address"), TRUE);
 	}
 }
 
@@ -1597,6 +1648,173 @@ fill_in_single_field(EContactEditor *editor, char *name)
 			gtk_editable_insert_text(editable, u, strlen(u), &position);
 			g_free (u);
 		}
+	}
+}
+
+static void
+disable_widget_foreach (char *key, GtkWidget *widget, gpointer closure)
+{
+	gtk_widget_set_sensitive (widget, FALSE);
+}
+
+static struct {
+	char *widget_name;
+	ECardSimpleField field_id;
+} widget_field_mappings[] = {
+	{ "entry-web", E_CARD_SIMPLE_FIELD_URL },
+	{ "accellabel-web", E_CARD_SIMPLE_FIELD_URL },
+
+	{ "entry-jobtitle", E_CARD_SIMPLE_FIELD_TITLE },
+	{ "label-jobtitle", E_CARD_SIMPLE_FIELD_TITLE },
+
+	{ "entry-company", E_CARD_SIMPLE_FIELD_ORG },
+	{ "label-company", E_CARD_SIMPLE_FIELD_ORG },
+
+	{ "combo-file-as", E_CARD_SIMPLE_FIELD_FILE_AS },
+	{ "entry-file-as", E_CARD_SIMPLE_FIELD_FILE_AS },
+	{ "accellabel-fileas", E_CARD_SIMPLE_FIELD_FILE_AS },
+
+	{ "label-department", E_CARD_SIMPLE_FIELD_ORG_UNIT },
+	{ "entry-department", E_CARD_SIMPLE_FIELD_ORG_UNIT },
+
+	{ "label-office", E_CARD_SIMPLE_FIELD_OFFICE },
+	{ "entry-office", E_CARD_SIMPLE_FIELD_OFFICE },
+
+	{ "label-profession", E_CARD_SIMPLE_FIELD_ROLE },
+	{ "entry-profession", E_CARD_SIMPLE_FIELD_ROLE },
+
+	{ "label-manager", E_CARD_SIMPLE_FIELD_MANAGER },
+	{ "entry-manager", E_CARD_SIMPLE_FIELD_MANAGER },
+
+	{ "label-assistant", E_CARD_SIMPLE_FIELD_ASSISTANT },
+	{ "entry-assistant", E_CARD_SIMPLE_FIELD_ASSISTANT },
+
+	{ "label-nickname", E_CARD_SIMPLE_FIELD_NICKNAME },
+	{ "entry-nickname", E_CARD_SIMPLE_FIELD_NICKNAME },
+
+	{ "label-spouse", E_CARD_SIMPLE_FIELD_SPOUSE },
+	{ "entry-spouse", E_CARD_SIMPLE_FIELD_SPOUSE },
+
+	{ "label-birthday", E_CARD_SIMPLE_FIELD_BIRTH_DATE },
+	{ "dateedit-birthday", E_CARD_SIMPLE_FIELD_BIRTH_DATE },
+
+	{ "label-anniversary", E_CARD_SIMPLE_FIELD_ANNIVERSARY },
+	{ "dateedit-anniversary", E_CARD_SIMPLE_FIELD_ANNIVERSARY },
+
+	{ "label-comments", E_CARD_SIMPLE_FIELD_NOTE },
+	{ "text-comments", E_CARD_SIMPLE_FIELD_NOTE },
+
+	{ "button-fullname", E_CARD_SIMPLE_FIELD_FULL_NAME },
+	{ "entry-fullname", E_CARD_SIMPLE_FIELD_FULL_NAME }
+};
+static int num_widget_field_mappings = sizeof(widget_field_mappings) / sizeof (widget_field_mappings[0]);
+
+static void
+enable_writable_fields(EContactEditor *editor)
+{
+	EList *fields = editor->writable_fields;
+	EIterator *iter;
+	GHashTable *dropdown_hash, *supported_hash;
+	int i;
+	ECardSimple *card;
+	char *widget_name;
+
+	if (!fields)
+		return;
+
+	card = e_card_simple_new (e_card_new (""));
+
+	dropdown_hash = g_hash_table_new (g_str_hash, g_str_equal);
+	supported_hash = g_hash_table_new (g_str_hash, g_str_equal);
+
+	/* build our hashtable of the drop down menu items */
+	e_contact_editor_build_phone_ui (editor);
+	for (i = 0; i < E_CARD_SIMPLE_PHONE_ID_LAST; i ++)
+		g_hash_table_insert (dropdown_hash,
+				     (char*)e_card_simple_get_ecard_field(card, e_card_simple_map_phone_to_field (i)),
+				     editor->phone_info[i].widget);
+	e_contact_editor_build_email_ui (editor);
+	for (i = 0; i < E_CARD_SIMPLE_EMAIL_ID_LAST; i ++)
+		g_hash_table_insert (dropdown_hash,
+				     (char*)e_card_simple_get_ecard_field(card, e_card_simple_map_email_to_field (i)),
+				     editor->email_info[i].widget);
+	e_contact_editor_build_address_ui (editor);
+	for (i = 0; i < E_CARD_SIMPLE_ADDRESS_ID_LAST; i ++)
+		g_hash_table_insert (dropdown_hash,
+				     (char*)e_card_simple_get_ecard_field(card, e_card_simple_map_address_to_field (i)),
+				     editor->address_info[i].widget);
+
+	/* then disable them all */
+	g_hash_table_foreach (dropdown_hash, (GHFunc)disable_widget_foreach, NULL);
+
+	/* disable the label widgets for the dropdowns (4 phone, 1
+           email and the toggle button, and 1 address and one for
+           the full adress button */
+	for (i = 0; i < 4; i ++) {
+		widget_name = g_strdup_printf ("label-phone%d", i+1);
+		gtk_widget_set_sensitive (glade_xml_get_widget (editor->gui, widget_name), FALSE);
+		g_free (widget_name);
+		widget_name = g_strdup_printf ("entry-phone%d", i+1);
+		gtk_widget_set_sensitive (glade_xml_get_widget (editor->gui, widget_name), FALSE);
+		g_free (widget_name);
+	}
+	gtk_widget_set_sensitive (glade_xml_get_widget (editor->gui, "label-email1"), FALSE);
+	gtk_widget_set_sensitive (glade_xml_get_widget (editor->gui, "entry-email1"), FALSE);
+	gtk_widget_set_sensitive (glade_xml_get_widget (editor->gui, "checkbutton-htmlmail"), FALSE);
+	gtk_widget_set_sensitive (glade_xml_get_widget (editor->gui, "label-address"), FALSE);
+	gtk_widget_set_sensitive (glade_xml_get_widget (editor->gui, "button-fulladdr"), FALSE);
+	gtk_widget_set_sensitive (glade_xml_get_widget (editor->gui, "text-address"), FALSE);
+
+	/* enable widgets that map directly from a field to a widget (the drop down items) */
+	iter = e_list_get_iterator (fields);
+	for (; e_iterator_is_valid (iter); e_iterator_next (iter)) {
+		char *field = (char*)e_iterator_get (iter);
+		GtkWidget *widget = g_hash_table_lookup (dropdown_hash, field);
+
+		if (widget) {
+			gtk_widget_set_sensitive (widget, TRUE);
+		}
+		else {
+			/* if it's not a field that's handled by the
+                           dropdown items, add it to the has to be
+                           used in the second step */
+			g_hash_table_insert (supported_hash, field, field);
+		}
+
+		/* ugh - this is needed to make sure we don't have a
+                   disabled label next to a drop down when the item in
+                   the menu (the one reflected in the label) is
+                   enabled. */
+		if (!strcmp (field, e_card_simple_get_ecard_field (card, e_card_simple_map_email_to_field(editor->email_choice)))) {
+			gtk_widget_set_sensitive (glade_xml_get_widget (editor->gui, "label-email1"), TRUE);
+			gtk_widget_set_sensitive (glade_xml_get_widget (editor->gui, "entry-email1"), TRUE);
+			gtk_widget_set_sensitive (glade_xml_get_widget (editor->gui, "checkbutton-htmlmail"), TRUE);
+		}
+		else if (!strcmp (field, e_card_simple_get_ecard_field (card, e_card_simple_map_address_to_field(editor->address_choice)))) {
+			gtk_widget_set_sensitive (glade_xml_get_widget (editor->gui, "label-address"), TRUE);
+			gtk_widget_set_sensitive (glade_xml_get_widget (editor->gui, "button-fulladdr"), TRUE);
+			gtk_widget_set_sensitive (glade_xml_get_widget (editor->gui, "text-address"), TRUE);
+		}
+		else for (i = 0; i < 4; i ++) {
+			if (!strcmp (field, e_card_simple_get_ecard_field (card, e_card_simple_map_phone_to_field(editor->phone_choice[i])))) {
+				widget_name = g_strdup_printf ("label-phone%d", i+1);
+				gtk_widget_set_sensitive (glade_xml_get_widget (editor->gui, widget_name), TRUE);
+				g_free (widget_name);
+				widget_name = g_strdup_printf ("entry-phone%d", i+1);
+				gtk_widget_set_sensitive (glade_xml_get_widget (editor->gui, widget_name), TRUE);
+				g_free (widget_name);
+			}
+		}
+	}
+
+	/* handle the label next to the dropdown widgets */
+
+	for (i = 0; i < num_widget_field_mappings; i ++) {
+		gboolean enabled = g_hash_table_lookup (supported_hash,
+							e_card_simple_get_ecard_field (card,
+										       widget_field_mappings[i].field_id)) != NULL;
+		gtk_widget_set_sensitive (glade_xml_get_widget(editor->gui,
+							       widget_field_mappings[i].widget_name), enabled);
 	}
 }
 

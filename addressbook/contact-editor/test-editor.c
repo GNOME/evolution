@@ -127,11 +127,11 @@ int main( int argc, char *argv[] )
 	if (cardstr == NULL)
 		cardstr = TEST_VCARD;
 
-	ce = e_contact_editor_new (e_card_new (cardstr), TRUE);
+	ce = e_contact_editor_new (e_card_new (cardstr), TRUE, NULL);
 	gtk_signal_connect (GTK_OBJECT (ce), "editor_closed",
 			    GTK_SIGNAL_FUNC (editor_closed_cb), NULL);
 
-	ce = e_contact_editor_new (e_card_new (cardstr), TRUE);
+	ce = e_contact_editor_new (e_card_new (cardstr), TRUE, NULL);
 	gtk_signal_connect (GTK_OBJECT (ce), "editor_closed",
 			    GTK_SIGNAL_FUNC (editor_closed_cb), NULL);
 

@@ -1,5 +1,51 @@
 2001-03-02  Chris Toshok  <toshok@ximian.com>
 
+	* gui/widgets/e-minicard-view.c (supported_fields_cb): new
+	function.
+	(e_minicard_view_event): split out the creation of the contact
+	editor to the supported_fields callback.
+
+	* gui/widgets/e-minicard.c (supported_fields_cb): new function.
+	(e_minicard_event): split out the creation of the contact editor
+	to the supported_fields callback.
+
+	* gui/widgets/e-addressbook-view.c (table_double_click): split
+	function into two functions, since e_book_get_supported_fields
+	requires a callback now.
+	(supported_fields_cb): new function.
+
+	* gui/component/addressbook.c (new_contact_cb): split this into
+	two functions, since e_book_get_supported_fields requires a
+	callback now.
+	(supported_fields_cb): new function.
+
+	* contact-editor/test-editor.c (main): track change to
+	e_contact_editor_new (pass NULL for the writable_fields arg.)
+
+	* contact-editor/contact-editor.glade: fix several labels so they
+	make better sense (since we look them up in e-contact-editor.c.)
+
+	* contact-editor/e-contact-editor.h (struct _EContactEditor): add
+	writable_fields.  also, add it to e_contact_editor_new.
+	
+	* contact-editor/e-contact-editor.c (e_contact_editor_class_init):
+	add writable_fields arg.
+	(e_contact_editor_destroy): unref the writable_fields list.
+	(e_contact_editor_new): pass @fields as the writable_fields arg.
+	(e_contact_editor_set_arg): add writable_fields support.
+	(enable_writable_fields): new (very hairy) function, to disable
+	everything and reenable just the fields listed in the
+	writable_fields list.
+	(_email_arrow_pressed): set label-email1, entry-email1, and
+	checkbutton-htmlmail to be sensitive since the only way to get
+	here is to activate a writable field in the menu.
+	(_address_arrow_pressed): set label-address, button-fulladdr, and
+	text-address to be sensitive for the same reason.
+	(_phone_arrow_pressed): sensitize the label and entry for the same
+	reason.
+
+2001-03-02  Chris Toshok  <toshok@ximian.com>
+
 	* backend/ebook/e-card-simple.c (field_data): add new entries for
 	phone enums, and fill in the ecard_field with (bogus in all but a
 	few cases) strings.  these are the strings sent from wombat to

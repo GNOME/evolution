@@ -1494,7 +1494,7 @@
 
 	  <widget>
 	    <class>GtkLabel</class>
-	    <name>label34</name>
+	    <name>label-jobtitle</name>
 	    <cxx_use_heap>True</cxx_use_heap>
 	    <label>_Job title:</label>
 	    <justify>GTK_JUSTIFY_CENTER</justify>
@@ -1691,7 +1691,7 @@
 
 	<widget>
 	  <class>GtkLabel</class>
-	  <name>label35</name>
+	  <name>label-company</name>
 	  <cxx_use_heap>True</cxx_use_heap>
 	  <label>_Company:</label>
 	  <justify>GTK_JUSTIFY_CENTER</justify>
@@ -1767,7 +1767,7 @@
 
 	<widget>
 	  <class>GtkLabel</class>
-	  <name>label21</name>
+	  <name>label-department</name>
 	  <cxx_use_heap>True</cxx_use_heap>
 	  <label>_Department:</label>
 	  <justify>GTK_JUSTIFY_CENTER</justify>
@@ -1795,7 +1795,7 @@
 
 	<widget>
 	  <class>GtkLabel</class>
-	  <name>label22</name>
+	  <name>label-office</name>
 	  <cxx_use_heap>True</cxx_use_heap>
 	  <label>_Office:</label>
 	  <justify>GTK_JUSTIFY_CENTER</justify>
@@ -1823,7 +1823,7 @@
 
 	<widget>
 	  <class>GtkLabel</class>
-	  <name>label23</name>
+	  <name>label-profession</name>
 	  <cxx_use_heap>True</cxx_use_heap>
 	  <label>_Profession:</label>
 	  <justify>GTK_JUSTIFY_CENTER</justify>
@@ -1851,7 +1851,7 @@
 
 	<widget>
 	  <class>GtkLabel</class>
-	  <name>label24</name>
+	  <name>label-nickname</name>
 	  <cxx_use_heap>True</cxx_use_heap>
 	  <label>_Nickname:</label>
 	  <justify>GTK_JUSTIFY_CENTER</justify>
@@ -1879,7 +1879,7 @@
 
 	<widget>
 	  <class>GtkLabel</class>
-	  <name>label25</name>
+	  <name>label-spouse</name>
 	  <cxx_use_heap>True</cxx_use_heap>
 	  <label>_Spouse:</label>
 	  <justify>GTK_JUSTIFY_CENTER</justify>
@@ -1907,7 +1907,7 @@
 
 	<widget>
 	  <class>GtkLabel</class>
-	  <name>label31</name>
+	  <name>label-birthday</name>
 	  <cxx_use_heap>True</cxx_use_heap>
 	  <label>_Birthday:</label>
 	  <justify>GTK_JUSTIFY_CENTER</justify>
@@ -1934,7 +1934,7 @@
 
 	<widget>
 	  <class>GtkLabel</class>
-	  <name>label30</name>
+	  <name>label-assistant</name>
 	  <cxx_use_heap>True</cxx_use_heap>
 	  <label>_Assistant's name:</label>
 	  <justify>GTK_JUSTIFY_CENTER</justify>
@@ -1962,7 +1962,7 @@
 
 	<widget>
 	  <class>GtkLabel</class>
-	  <name>label29</name>
+	  <name>label-manager</name>
 	  <cxx_use_heap>True</cxx_use_heap>
 	  <label>_Manager's Name:</label>
 	  <justify>GTK_JUSTIFY_CENTER</justify>
@@ -1990,7 +1990,7 @@
 
 	<widget>
 	  <class>GtkLabel</class>
-	  <name>label32</name>
+	  <name>label-anniversary</name>
 	  <cxx_use_heap>True</cxx_use_heap>
 	  <label>Anni_versary:</label>
 	  <justify>GTK_JUSTIFY_CENTER</justify>
@@ -2262,7 +2262,7 @@
 
 	<widget>
 	  <class>GtkLabel</class>
-	  <name>label33</name>
+	  <name>label-comments</name>
 	  <cxx_use_heap>True</cxx_use_heap>
 	  <label>No_tes:</label>
 	  <justify>GTK_JUSTIFY_CENTER</justify>

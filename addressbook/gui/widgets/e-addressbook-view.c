@@ -392,13 +392,31 @@ editor_closed_cb (EContactEditor *ce, gpointer data)
 }
 
 static void
+supported_fields_cb (EBook *book, EBookStatus status, EList *fields, ECard *card)
+{
+	EContactEditor *ce;
+
+	ce = e_contact_editor_new (card, FALSE, fields);
+
+	gtk_signal_connect (GTK_OBJECT (ce), "add_card",
+			    GTK_SIGNAL_FUNC (add_card_cb), book);
+	gtk_signal_connect (GTK_OBJECT (ce), "commit_card",
+			    GTK_SIGNAL_FUNC (commit_card_cb), book);
+	gtk_signal_connect (GTK_OBJECT (ce), "delete_card",
+			    GTK_SIGNAL_FUNC (delete_card_cb), book);
+	gtk_signal_connect (GTK_OBJECT (ce), "editor_closed",
+			    GTK_SIGNAL_FUNC (editor_closed_cb), NULL);
+
+	gtk_object_unref(GTK_OBJECT(card));
+}
+
+static void
 table_double_click(ETableScrolled *table, gint row, EAddressbookView *view)
 {
 	if (E_IS_ADDRESSBOOK_MODEL(view->object)) {
 		EAddressbookModel *model = E_ADDRESSBOOK_MODEL(view->object);
 		ECard *card = e_addressbook_model_get_card(model, row);
 		EBook *book;
-		EContactEditor *ce;
 		
 		gtk_object_get(GTK_OBJECT(model),
 			       "book", &book,
@@ -406,18 +424,7 @@ table_double_click(ETableScrolled *table, gint row, EAddressbookView *view)
 		
 		g_assert (E_IS_BOOK (book));
 
-		ce = e_contact_editor_new (card, FALSE);
-
-		gtk_signal_connect (GTK_OBJECT (ce), "add_card",
-				    GTK_SIGNAL_FUNC (add_card_cb), book);
-		gtk_signal_connect (GTK_OBJECT (ce), "commit_card",
-				    GTK_SIGNAL_FUNC (commit_card_cb), book);
-		gtk_signal_connect (GTK_OBJECT (ce), "delete_card",
-				    GTK_SIGNAL_FUNC (delete_card_cb), book);
-		gtk_signal_connect (GTK_OBJECT (ce), "editor_closed",
-				    GTK_SIGNAL_FUNC (editor_closed_cb), NULL);
-
-		gtk_object_unref(GTK_OBJECT(card));
+		e_book_get_supported_fields (book, (EBookFieldsCallback)supported_fields_cb, card);
 	}
 }
 

@@ -98,22 +98,14 @@ editor_closed_cb (EContactEditor *ce, gpointer data)
 }
 
 static void
-new_contact_cb (BonoboUIComponent *uih, void *user_data, const char *path)
+supported_fields_cb (EBook *book, EBookStatus status, EList *fields, gpointer closure)
 {
-	ECard *card;
-	EBook *book;
 	EContactEditor *ce;
-	AddressbookView *view = (AddressbookView *) user_data;
+	ECard *card;
 
 	card = e_card_new("");
 
-	gtk_object_get(GTK_OBJECT(view->view),
-		       "book", &book,
-		       NULL);
-
-	g_assert (E_IS_BOOK (book));
-
-	ce = e_contact_editor_new (card, TRUE);
+	ce = e_contact_editor_new (card, TRUE, fields);
 
 	gtk_signal_connect (GTK_OBJECT (ce), "add_card",
 			    GTK_SIGNAL_FUNC (add_card_cb), book);
@@ -125,6 +117,21 @@ new_contact_cb (BonoboUIComponent *uih, void *user_data, const char *path)
 			    GTK_SIGNAL_FUNC (editor_closed_cb), NULL);
 
 	gtk_object_sink(GTK_OBJECT(card));
+}
+
+static void
+new_contact_cb (BonoboUIComponent *uih, void *user_data, const char *path)
+{
+	EBook *book;
+	AddressbookView *view = (AddressbookView *) user_data;
+
+	gtk_object_get(GTK_OBJECT(view->view),
+		       "book", &book,
+		       NULL);
+
+	g_assert (E_IS_BOOK (book));
+
+	e_book_get_supported_fields (book, supported_fields_cb, view);
 }
 
 static void

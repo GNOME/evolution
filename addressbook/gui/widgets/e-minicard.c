@@ -557,6 +557,24 @@ editor_closed_cb (EContactEditor *ce, gpointer data)
 	minicard->editor = NULL;
 }
 
+static void
+supported_fields_cb (EBook *book, EBookStatus status, EList *fields, EMinicard *e_minicard)
+{
+	e_minicard->editor = e_contact_editor_new (e_minicard->card, FALSE, fields);
+
+	if (book != NULL) {
+		gtk_signal_connect (GTK_OBJECT (e_minicard->editor), "add_card",
+				    GTK_SIGNAL_FUNC (add_card_cb), book);
+		gtk_signal_connect (GTK_OBJECT (e_minicard->editor), "commit_card",
+				    GTK_SIGNAL_FUNC (commit_card_cb), book);
+		gtk_signal_connect (GTK_OBJECT (e_minicard->editor), "delete_card",
+				    GTK_SIGNAL_FUNC (delete_card_cb), book);
+	}
+
+	gtk_signal_connect (GTK_OBJECT (e_minicard->editor), "editor_closed",
+			    GTK_SIGNAL_FUNC (editor_closed_cb), e_minicard);
+}
+
 static gboolean
 e_minicard_event (GnomeCanvasItem *item, GdkEvent *event)
 {
@@ -641,19 +659,12 @@ e_minicard_event (GnomeCanvasItem *item, GdkEvent *event)
 						       "book", &book,
 						       NULL);
 				}
-				e_minicard->editor = e_contact_editor_new (e_minicard->card, FALSE);
 
 				if (book != NULL) {
-					gtk_signal_connect (GTK_OBJECT (e_minicard->editor), "add_card",
-							    GTK_SIGNAL_FUNC (add_card_cb), book);
-					gtk_signal_connect (GTK_OBJECT (e_minicard->editor), "commit_card",
-							    GTK_SIGNAL_FUNC (commit_card_cb), book);
-					gtk_signal_connect (GTK_OBJECT (e_minicard->editor), "delete_card",
-							    GTK_SIGNAL_FUNC (delete_card_cb), book);
+					e_book_get_supported_fields (book,
+								     (EBookFieldsCallback)supported_fields_cb,
+								     e_minicard);
 				}
-
-				gtk_signal_connect (GTK_OBJECT (e_minicard->editor), "editor_closed",
-						    GTK_SIGNAL_FUNC (editor_closed_cb), e_minicard);
 			}
 			return TRUE;
 		}
