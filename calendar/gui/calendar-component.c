@@ -637,7 +637,9 @@ static gboolean
 selector_tree_drag_motion (GtkWidget *widget,
 			   GdkDragContext *context,
 			   int x,
-			   int y)
+			   int y,
+			   guint time,
+			   gpointer user_data)
 {
 	GtkTreePath *path = NULL;
 	gpointer data = NULL;

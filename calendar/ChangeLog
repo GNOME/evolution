@@ -1,3 +1,15 @@
+2004-04-14  Larry Ewing  <lewing@ximian.com>
+
+	* gui/calendar-component.c (selector_tree_drag_motion): fix
+	missing parameters, wow that was a mess.
+
+	* gui/dialogs/calendar-setup.glade: add the new "new" dialogs,
+	remove the old druids.
+
+	* gui/dialogs/calendar-setup.c (calendar_setup_new_calendar): use
+	the new dialogs, colors are still not functional.
+	(calendar_setup_new_task_list): use the new dialogs, with no colors.
+
 2004-04-14  JP Rosevear <jpr@ximian.com>
 
 	Fixes #56613
