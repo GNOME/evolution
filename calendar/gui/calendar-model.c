@@ -567,11 +567,38 @@ get_is_overdue (CalComponent *comp)
 
 	cal_component_get_due (comp, &dt);
 
+	/* First, do we have a due date? */
+
 	if (!dt.value)
 		retval = FALSE;
 	else {
-		
+		struct icaltimetype *completed;
+		time_t t;
+
+		/* Second, is it already completed? */
+
+		cal_component_get_completed (comp, &completed);
+
+		if (completed) {
+			retval = FALSE;
+
+			cal_component_free_icaltimetype (completed);
+			goto out;
+		}
+
+		/* Third, are we overdue as of right now?
+		 *
+		 * FIXME: should we check the PERCENT as well?  If it is at 100%
+		 * but the COMPLETED property is not set, is the component
+		 * really overdue?
+		 **/
+
+		t = time_from_icaltimetype (*dt.value);
+
+		/* FIXME */
 	}
+
+ out:
 
 	cal_component_free_datetime (&dt);
 
