@@ -6,6 +6,7 @@ icalitipl.c
 icallexer.c
 icalyacc.c
 icalyacc.h
+y.output
 *.lo
 *.la
 .libs
