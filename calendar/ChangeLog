@@ -1,3 +1,10 @@
+2001-12-05  Rodrigo Moya <rodrigo@ximian.com>
+
+	* gui/dialogs/event-page.glade: added entry for the LOCATION field
+
+	* gui/dialogs/event-page.c: added support for the new LOCATION entry
+	added in the Event editor.
+
 2001-12-05  Zbigniew Chyla  <cyba@gnome.pl>
 
 	* gui/itip-utils.c (comp_subject, comp_description):
