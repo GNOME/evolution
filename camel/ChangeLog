@@ -1,3 +1,10 @@
+2000-09-06  Jeffrey Stedfast  <fejj@helixcode.com>
+
+	* camel-mime-message.c (camel_mime_message_get_received_date):
+	Implemented (someone added these to camel-mime-message.h but never
+	implemented them!!) - though it may not be right.
+	(camel_mime_message_get_sent_date): Same.
+
 2000-09-05  Dan Winship  <danw@helixcode.com>
 
 	* camel-mime-part.c (camel_mime_part_get_filename): If a MIME part

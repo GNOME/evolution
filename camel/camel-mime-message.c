@@ -4,6 +4,7 @@
 /* 
  * Authors: Bertrand Guiheneuf <bertrand@helixcode.com>
  *	    Michael Zucchi <notzed@helixcode.com>
+ *          Jeffrey Stedfast <fejj@helixcode.com>
  *
  * Copyright 1999, 2000 Helix Code, Inc. (http://www.helixcode.com)
  *
@@ -210,10 +211,28 @@ camel_mime_message_get_date(CamelMimeMessage *message,  time_t *date, int *offse
 }
 
 char *
-camel_mime_message_get_date_string(CamelMimeMessage *message)
+camel_mime_message_get_date_string (CamelMimeMessage *message)
 {
 	if (message->date == CAMEL_MESSAGE_DATE_CURRENT)
-		camel_mime_message_set_date(message, CAMEL_MESSAGE_DATE_CURRENT, 0);
+		camel_mime_message_set_date (message, CAMEL_MESSAGE_DATE_CURRENT, 0);
+	return message->date_str;
+}
+
+const gchar *
+camel_mime_message_get_received_date (CamelMimeMessage *mime_message)
+{
+	/* FIXME: is this the received date? and if so then get_sent_date must be wrong */
+	if (message->date == CAMEL_MESSAGE_DATE_CURRENT)
+		camel_mime_message_set_date (message, CAMEL_MESSAGE_DATE_CURRENT, 0);
+	return message->date_str;
+}
+
+const gchar *
+camel_mime_message_get_sent_date (CamelMimeMessage *mime_message)
+{
+	/* FIXME: is this the sent date? and if so then get_received_date must be wrong */
+	if (message->date == CAMEL_MESSAGE_DATE_CURRENT)
+		camel_mime_message_set_date (message, CAMEL_MESSAGE_DATE_CURRENT, 0);
 	return message->date_str;
 }
 
@@ -529,4 +548,3 @@ remove_header(CamelMedium *medium, const char *header_name)
 	process_header(medium, header_name, NULL);
 	parent_class->parent_class.remove_header (medium, header_name);
 }
-
