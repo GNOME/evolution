@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: evolution HEAD\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2004-02-11 14:32+0900\n"
-"PO-Revision-Date: 2004-02-11 14:45+0900\n"
+"PO-Revision-Date: 2004-02-11 14:48+0900\n"
 "Last-Translator: Takeshi AIHANA <aihana@gnome.gr.jp>\n"
 "Language-Team: Japanese <gnome-translation@gnome.gr.jp>\n"
 "MIME-Version: 1.0\n"
@@ -3761,7 +3761,7 @@ msgstr "%Y/%m/%d (%a)"
 #: calendar/gui/calendar-commands.c:460 calendar/gui/calendar-commands.c:466
 #: calendar/gui/calendar-commands.c:472 calendar/gui/calendar-commands.c:474
 msgid "%d %B %Y"
-msgstr "%Y年 %B%d日"
+msgstr "%Y年 %B%e日"
 
 #. strftime format %d = day of month, %B = full
 #. month name. You can change the order but don't
@@ -3769,7 +3769,7 @@ msgstr "%Y年 %B%d日"
 #: calendar/gui/calendar-commands.c:464
 #: calendar/gui/e-week-view-main-item.c:337 calendar/gui/print.c:1498
 msgid "%d %B"
-msgstr "%B%d日"
+msgstr "%B%e日"
 
 #: calendar/gui/calendar-component.c:301
 #, c-format
@@ -5759,7 +5759,7 @@ msgstr "%B%e日 %A"
 #: calendar/gui/e-day-view-top-item.c:696 calendar/gui/e-day-view.c:1381
 #: calendar/gui/e-week-view-main-item.c:343
 msgid "%d %b"
-msgstr "%B%d日"
+msgstr "%B%e日"
 
 #. String to use in 12-hour time format for times in the morning.
 #: calendar/gui/e-day-view.c:602 calendar/gui/e-week-view.c:334
@@ -12880,7 +12880,7 @@ msgstr "この証明書は表示可能な形式ではありません"
 
 #: mail/em-format-html-display.c:976
 msgid "Completed on %B %d, %Y, %l:%M %p"
-msgstr "%Y年%B%d日 %p %l:%M に完了"
+msgstr "%Y年%B%e日 %p %l:%M に完了"
 
 #: mail/em-format-html-display.c:984
 msgid "Overdue:"
@@ -12888,7 +12888,7 @@ msgstr "期限切れ:"
 
 #: mail/em-format-html-display.c:987
 msgid "by %B %d, %Y, %l:%M %p"
-msgstr "%Y年%B%d日 %p %l:%M まで"
+msgstr "%Y年%B%e日 %p %l:%M まで"
 
 #: mail/em-format-html-display.c:1057
 msgid "_View Inline"
