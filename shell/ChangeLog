@@ -1,3 +1,21 @@
+2001-04-15  Ettore Perazzoli  <ettore@ximian.com>
+
+	* e-shell-folder-selection-dialog.c
+	(folder_creation_dialog_result_cb): Set the current folder only if
+	@result is `E_SHELL_FOLDER_CREATION_DIALOG_RESULT_SUCCESS'.
+
+	* e-shell-folder-creation-dialog.c (folder_name_entry_changed_cb):
+	Changed to get a pointer to the DialogData instead of just a
+	pointer to the dialog itself.  Don't set the OK button sensitive
+	if there is no folder selected in the storage set view.
+	(setup_folder_name_entry): Don't connect
+	`folder_name_entry_changed_cb' anymore.
+	(e_shell_show_folder_creation_dialog): Connect here instead.
+	(storage_set_view_folder_selected_cb): New callback for the
+	"folder_selected" signal in the EStorageSetView.  Make the OK
+	button sensitive if the entry is non-empty.
+	(e_shell_show_folder_creation_dialog): Connect it.
+
 2001-04-13  Ettore Perazzoli  <ettore@ximian.com>
 
 	* e-splash.c (impl_destroy): Call the parent class' ::destroy

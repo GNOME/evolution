@@ -25,10 +25,7 @@
 #include <config.h>
 #endif
 
-#include <glib.h>
-#include <libgnome/gnome-defs.h>
-#include <libgnome/gnome-i18n.h>
-#include <libgnome/gnome-util.h>
+#include <gnome.h>
 #include <glade/glade-xml.h>
 
 #include <gal/util/e-util.h>
@@ -207,16 +204,31 @@ static void
 folder_name_entry_changed_cb (GtkEditable *editable,
 			      void *data)
 {
-	GnomeDialog *dialog;
-	GtkEntry *entry;
+	DialogData *dialog_data;
+	const char *parent_path;
 
-	entry  = GTK_ENTRY (editable);
-	dialog = GNOME_DIALOG (data);
+	dialog_data = (DialogData *) data;
 
-	if (entry->text_length > 0)
-		gnome_dialog_set_sensitive (dialog, 0, TRUE);
+	parent_path = e_storage_set_view_get_current_folder (E_STORAGE_SET_VIEW (dialog_data->storage_set_view));
+
+	if (parent_path != NULL
+	    && GTK_ENTRY (dialog_data->folder_name_entry)->text_length > 0)
+		gnome_dialog_set_sensitive (GNOME_DIALOG (dialog_data->dialog), 0, TRUE);
 	else
-		gnome_dialog_set_sensitive (dialog, 0, FALSE);
+		gnome_dialog_set_sensitive (GNOME_DIALOG (dialog_data->dialog), 0, FALSE);
+}
+
+static void
+storage_set_view_folder_selected_cb (EStorageSetView *storage_set_view,
+				     const char *path,
+				     void *data)
+{
+	DialogData *dialog_data;
+
+	dialog_data = (DialogData *) data;
+
+	if (GTK_ENTRY (dialog_data->folder_name_entry)->text_length > 0)
+		gnome_dialog_set_sensitive (GNOME_DIALOG (dialog_data->dialog), 0, TRUE);
 }
 
 
@@ -263,9 +275,6 @@ setup_folder_name_entry (GtkWidget *dialog,
 	folder_name_entry = glade_xml_get_widget (gui, "folder_name_entry");
 
 	gnome_dialog_editable_enters (GNOME_DIALOG (dialog), GTK_EDITABLE (folder_name_entry));
-
-	gtk_signal_connect (GTK_OBJECT (folder_name_entry), "changed",
-			    GTK_SIGNAL_FUNC (folder_name_entry_changed_cb), dialog);
 }
 
 static GtkWidget *
@@ -418,6 +427,12 @@ e_shell_show_folder_creation_dialog (EShell *shell,
 			    GTK_SIGNAL_FUNC (dialog_clicked_cb), dialog_data);
 	gtk_signal_connect (GTK_OBJECT (dialog), "destroy",
 			    GTK_SIGNAL_FUNC (dialog_destroy_cb), dialog_data);
+
+	gtk_signal_connect (GTK_OBJECT (dialog_data->folder_name_entry), "changed",
+			    GTK_SIGNAL_FUNC (folder_name_entry_changed_cb), dialog_data);
+
+	gtk_signal_connect (GTK_OBJECT (dialog_data->storage_set_view), "folder_selected",
+			    storage_set_view_folder_selected_cb, dialog_data);
 
 	gtk_signal_connect_while_alive (GTK_OBJECT (shell), "destroy",
 					GTK_SIGNAL_FUNC (shell_destroy_cb), dialog_data,
