@@ -1,5 +1,12 @@
 2002-09-27  Chris Toshok  <toshok@ximian.com>
 
+	[ fixes #27521 ]
+	* gui/contact-editor/e-contact-quick-add.c (editor_closed_cb):
+	always unref the contact editor when we get the editor_closed
+	signal.
+
+2002-09-27  Chris Toshok  <toshok@ximian.com>
+
 	* backend/pas/pas-backend-ldap.c (check_schema_support): set the
 	timeout to 30 seconds.
 	(query_ldap_root_dse): same, and also return the ldap_error since

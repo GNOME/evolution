@@ -186,11 +186,11 @@ editor_closed_cb (GtkWidget *w, gpointer closure)
 {
 	QuickAdd *qa = (QuickAdd *) gtk_object_get_data (GTK_OBJECT (w), "quick_add");
 
-	if (qa) {
+	if (qa)
 		/* We don't need to unref qa because we set_data_full below */
 		gtk_object_set_data (GTK_OBJECT (w), "quick_add", NULL);
-		gtk_object_unref (GTK_OBJECT (w));
-	}
+
+	gtk_object_unref (GTK_OBJECT (w));
 }
 
 static void
