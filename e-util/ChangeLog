@@ -1,3 +1,7 @@
+2001-10-22  JP Rosevear  <jpr@ximian.com>
+
+	* e-pilot-map.c (map_set_node_timet): plug leak
+
 2001-10-23  Dan Winship  <danw@ximian.com>
 
 	* e-html-utils.c (e_text_to_html_full): Change " " to "&nbsp;" at
@@ -17,7 +21,7 @@
 	backtick in email addresses, or pipes following URLs.
 
 2001-10-22  JP Rosevear  <jpr@ximian.com>
-
+	
 	* e-dbhash.c (e_dbhash_foreach_key): null out DBT memory prior to
 	usage (from Edd Dumbill <edd@usefulinc.com>)
 	
