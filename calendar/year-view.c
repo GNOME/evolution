@@ -168,20 +168,21 @@ static void
 year_view_mark_day (iCalObject *ical, time_t start, time_t end, void *closure)
 {
 	GncalYearView *yview = (GncalYearView *) closure;
-	struct tm *tm_s;
+	struct tm tm_s;
 	int days, day;
-	
-	tm_s = localtime (&start);
-	days = difftime (end, start) / (60*60*24);
+	time_t t, day_end;
 
-	for (day = 0; day <= days; day++){
-		time_t new = mktime (tm_s);
-		struct tm *tm_day;
+	tm_s = *localtime (&start);
+	day_end = time_end_of_day (end);
+
+	for (t = start; t <= day_end; t+= 60*60*24){
+		time_t new = mktime (&tm_s);
+		struct tm tm_day;
 		
-		tm_day = localtime (&new);
-		gtk_calendar_mark_day (GTK_CALENDAR (yview->calendar [tm_day->tm_mon]),
-				       tm_day->tm_mday);
-		tm_s->tm_mday++;
+		tm_day = *localtime (&new);
+		gtk_calendar_mark_day (GTK_CALENDAR (yview->calendar [tm_day.tm_mon]),
+				       tm_day.tm_mday);
+		tm_s.tm_mday++;
 	}
 }
 

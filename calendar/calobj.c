@@ -1049,8 +1049,8 @@ ical_object_generate_events (iCalObject *ico, time_t start, time_t end, calendar
 	int first_week_day, i;
 	
 	if (!ico->recur){
-		if (time_in_range (ico->dtstart, start, end) ||
-		    time_in_range (ico->dtend, start, end)){
+		if ((end && (ico->dtstart < end) && ico->dtend > start) ||
+		    (end == 0 && ico->dtend > start)){
 			time_t ev_s, ev_e;
 
 			ev_s = ico->dtstart < start ? start : ico->dtstart;

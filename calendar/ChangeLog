@@ -1,3 +1,14 @@
+1998-05-15  Miguel de Icaza  <miguel@nuclecu.unam.mx>
+
+	* gnome-cal.c (mark_gtk_calendar_day): Bug free version of the
+	range computation in place. 
+
+	* gncal-year-view.c (year_view_mark_day): Use the same new version
+	of the range computation here. 
+
+	* calobj.c (ical_object_generate_events): Fix the begin/end
+	condition.  
+
 1998-05-14  Miguel de Icaza  <miguel@nuclecu.unam.mx>
 
 	* timeutil.c (isodate_from_time_t): Do not add the spurious
