@@ -1,3 +1,28 @@
+2001-08-21  Rodrigo Moya <rodrigo@ximian.com>
+
+	* pcs/cal-backend-util.[ch]: new files to contain utility functions
+	for calendar backends
+
+	* pcs/cal-backend.c (cal_backend_add_cal): implement it here, and not in
+	the calendar backends. Add a "cal_added" signal, so that backends are
+	notified when a new Cal is added, if they need to
+	(cal_backend_get_type_by_uid): implement it here
+
+	* pcs/cal-backend-file.c (fill_alarm_instances_seq): moved to
+	cal-backend-util.c
+	(cal_backend_file_add_cal): removed
+	(cal_backend_file_init): connect to the "cal_added" signal in the
+	CalBackend class so that we can update categories when a new Cal is
+	added
+	(cal_backend_file_get_type_by_uid): removed
+
+	* pcs/cal-backend-db.c (fill_alarm_instances_seq): moved to
+	cal-backend-util.c
+	(cal_backend_db_add_cal): removed
+	(cal_backend_db_get_type_by_uid): removed
+
+	* AUTHORS: added JP and Damon to list of authors
+
 2001-08-20  Rodrigo Moya <rodrigo@ximian.com>
 
 	* cal-util/cal-util.[ch] (cal_util_generate_alarms_for_list):

@@ -34,6 +34,8 @@ libpcs_a_SOURCES =		\
 	cal-backend.h		\
 	cal-backend-file.c	\
 	cal-backend-file.h	\
+	cal-backend-util.c	\
+	cal-backend-util.h	\
 	cal-common.h		\
 	cal-factory.c		\
 	cal-factory.h		\

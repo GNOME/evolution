@@ -38,6 +38,7 @@
 /* Signal IDs */
 enum {
 	LAST_CLIENT_GONE,
+	CAL_ADDED,
 	OPENED,
 	OBJ_UPDATED,
 	OBJ_REMOVED,
@@ -100,6 +101,14 @@ cal_backend_class_init (CalBackendClass *class)
 				GTK_SIGNAL_OFFSET (CalBackendClass, last_client_gone),
 				gtk_marshal_NONE__NONE,
 				GTK_TYPE_NONE, 0);
+	cal_backend_signals[CAL_ADDED] =
+		gtk_signal_new ("cal_added",
+				GTK_RUN_FIRST,
+				object_class->type,
+				GTK_SIGNAL_OFFSET (CalBackendClass, cal_added),
+				gtk_marshal_NONE__POINTER,
+				GTK_TYPE_NONE, 1,
+				GTK_TYPE_POINTER);
 	cal_backend_signals[OPENED] =
 		gtk_signal_new ("opened",
 				GTK_RUN_FIRST,
@@ -133,14 +142,12 @@ cal_backend_class_init (CalBackendClass *class)
 	class->obj_removed = NULL;
 
 	class->get_uri = NULL;
-	class->add_cal = NULL;
 	class->open = NULL;
 	class->is_loaded = NULL;
 	class->get_n_objects = NULL;
 	class->get_object = NULL;
 	class->get_object_component = NULL;
 	class->get_timezone_object = NULL;
-	class->get_type_by_uid = NULL;
 	class->get_uids = NULL;
 	class->get_objects_in_range = NULL;
 	class->get_free_busy = NULL;
@@ -172,6 +179,42 @@ cal_backend_get_uri (CalBackend *backend)
 	return (* CLASS (backend)->get_uri) (backend);
 }
 
+/* Callback used when a Cal is destroyed */
+static void
+cal_destroy_cb (GtkObject *object, gpointer data)
+{
+	Cal *cal;
+	Cal *lcal;
+	CalBackend *backend;
+	GList *l;
+
+	cal = CAL (object);
+
+	backend = CAL_BACKEND (data);
+
+	/* Find the cal in the list of clients */
+
+	for (l = backend->clients; l; l = l->next) {
+		lcal = CAL (l->data);
+
+		if (lcal == cal)
+			break;
+	}
+
+	g_assert (l != NULL);
+
+	/* Disconnect */
+
+	backend->clients = g_list_remove_link (backend->clients, l);
+	g_list_free_1 (l);
+
+	/* When all clients go away, notify the parent factory about it so that
+	 * it may decide whether to kill the backend or not.
+	 */
+	if (!backend->clients)
+		cal_backend_last_client_gone (backend);
+}
+
 /**
  * cal_backend_add_cal:
  * @backend: A calendar backend.
@@ -185,9 +228,20 @@ cal_backend_add_cal (CalBackend *backend, Cal *cal)
 {
 	g_return_if_fail (backend != NULL);
 	g_return_if_fail (IS_CAL_BACKEND (backend));
+	g_return_if_fail (IS_CAL (cal));
 
-	g_assert (CLASS (backend)->add_cal != NULL);
-	(* CLASS (backend)->add_cal) (backend, cal);
+	/* we do not keep a reference to the Cal since the Calendar
+	 * user agent owns it */
+	gtk_signal_connect (GTK_OBJECT (cal), "destroy",
+			    GTK_SIGNAL_FUNC (cal_destroy_cb),
+			    backend);
+
+	backend->clients = g_list_prepend (backend->clients, cal);
+
+	/* notify backend that a new Cal has been added */
+	gtk_signal_emit (GTK_OBJECT (backend),
+			 cal_backend_signals[CAL_ADDED],
+			 cal);
 }
 
 /**
@@ -324,6 +378,51 @@ cal_backend_get_timezone_object (CalBackend *backend, const char *tzid)
 
 	g_assert (CLASS (backend)->get_timezone_object != NULL);
 	return (* CLASS (backend)->get_timezone_object) (backend, tzid);
+}
+
+/**
+ * cal_backend_get_type_by_uid
+ * @backend: A calendar backend.
+ * @uid: Unique identifier for a Calendar object.
+ *
+ * Returns the type of the object identified by the @uid argument
+ */
+CalObjType
+cal_backend_get_type_by_uid (CalBackend *backend, const char *uid)
+{
+	icalcomponent *icalcomp;
+	char *comp_str;
+	CalObjType type = CAL_COMPONENT_NO_TYPE;
+
+	g_return_val_if_fail (IS_CAL_BACKEND (backend), CAL_COMPONENT_NO_TYPE);
+	g_return_val_if_fail (uid != NULL, CAL_COMPONENT_NO_TYPE);
+
+	comp_str = cal_backend_get_object (backend, uid);
+	if (!comp_str)
+		return CAL_COMPONENT_NO_TYPE;
+
+	icalcomp = icalparser_parse_string (comp_str);
+	if (icalcomp) {
+		switch (icalcomponent_isa (icalcomp)) {
+		case ICAL_VEVENT_COMPONENT :
+			type = CALOBJ_TYPE_EVENT;
+			break;
+		case ICAL_VTODO_COMPONENT :
+			type = CALOBJ_TYPE_TODO;
+			break;
+		case ICAL_VJOURNAL_COMPONENT :
+			type = CALOBJ_TYPE_JOURNAL;
+			break;
+		default :
+			type = CAL_COMPONENT_NO_TYPE;
+		}
+
+		icalcomponent_free (icalcomp);
+	}
+
+	g_free (comp_str);
+
+	return type;
 }
 
 /**

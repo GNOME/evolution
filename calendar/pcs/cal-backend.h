@@ -60,6 +60,7 @@ typedef enum {
 
 struct _CalBackend {
 	GtkObject object;
+	GList *clients;
 };
 
 struct _CalBackendClass {
@@ -67,6 +68,7 @@ struct _CalBackendClass {
 
 	/* Notification signals */
 	void (* last_client_gone) (CalBackend *backend);
+	void (* cal_added) (CalBackend *backend, Cal *cal);
 
 	void (* opened) (CalBackend *backend, CalBackendOpenStatus status);
 	void (* obj_updated) (CalBackend *backend, const char *uid);
@@ -74,7 +76,6 @@ struct _CalBackendClass {
 
 	/* Virtual methods */
 	GnomeVFSURI *(* get_uri) (CalBackend *backend);
-	void (* add_cal) (CalBackend *backend, Cal *cal);
 
 	CalBackendOpenStatus (* open) (CalBackend *backend, GnomeVFSURI *uri,
 				       gboolean only_if_exists);
@@ -86,7 +87,6 @@ struct _CalBackendClass {
 	char *(* get_object) (CalBackend *backend, const char *uid);
 	CalComponent *(* get_object_component) (CalBackend *backend, const char *uid);
 	char *(* get_timezone_object) (CalBackend *backend, const char *tzid);
-	CalObjType(* get_type_by_uid) (CalBackend *backend, const char *uid);
 	GList *(* get_uids) (CalBackend *backend, CalObjType type);
 
 	GList *(* get_objects_in_range) (CalBackend *backend, CalObjType type,
@@ -130,6 +130,8 @@ char *cal_backend_get_object (CalBackend *backend, const char *uid);
 CalComponent *cal_backend_get_object_component (CalBackend *backend, const char *uid);
 
 char *cal_backend_get_timezone_object (CalBackend *backend, const char *tzid);
+
+CalObjType cal_backend_get_type_by_uid (CalBackend *backend, const char *uid);
 
 GList *cal_backend_get_uids (CalBackend *backend, CalObjType type);
 

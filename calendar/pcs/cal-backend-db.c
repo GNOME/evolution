@@ -63,7 +63,6 @@ static void cal_backend_db_init (CalBackendDB *cbdb);
 static void cal_backend_db_destroy (GtkObject *object);
 
 static GnomeVFSURI *cal_backend_db_get_uri (CalBackend *backend);
-static void cal_backend_db_add_cal (CalBackend *backend, Cal *cal);
 static CalBackendOpenStatus cal_backend_db_open (CalBackend *backend,
                                                  GnomeVFSURI *uri,
                                                  gboolean only_if_exists);
@@ -71,7 +70,6 @@ static gboolean cal_backend_db_is_loaded (CalBackend *backend);
 
 static int cal_backend_db_get_n_objects (CalBackend *backend, CalObjType type);
 static char *cal_backend_db_get_object (CalBackend *backend, const char *uid);
-static CalObjType cal_backend_db_get_type_by_uid (CalBackend *backend, const char *uid);
 static GList* cal_backend_db_get_uids (CalBackend *backend, CalObjType type);
 static GList* cal_backend_db_get_objects_in_range (CalBackend *backend,
                                                    CalObjType type,
@@ -152,12 +150,10 @@ cal_backend_db_class_init (CalBackendDBClass *klass)
 	object_class->destroy = cal_backend_db_destroy;
 
 	backend_class->get_uri = cal_backend_db_get_uri;
-	backend_class->add_cal = cal_backend_db_add_cal;
 	backend_class->open = cal_backend_db_open;
 	backend_class->is_loaded = cal_backend_db_is_loaded;
 	backend_class->get_n_objects = cal_backend_db_get_n_objects;
 	backend_class->get_object = cal_backend_db_get_object;
-	backend_class->get_type_by_uid = cal_backend_db_get_type_by_uid;
 	backend_class->get_uids = cal_backend_db_get_uids;
 	backend_class->get_objects_in_range = cal_backend_db_get_objects_in_range;
 	backend_class->get_free_busy = cal_backend_db_get_free_busy;
@@ -451,28 +447,6 @@ destroy_cal_cb (GtkObject *object, gpointer data)
 	}
 }
 
-/* add_cal_handler for the DB backend */
-static void
-cal_backend_db_add_cal (CalBackend *backend, Cal *cal)
-{
-	CalBackendDB *cbdb;
-
-	cbdb = CAL_BACKEND_DB(backend);
-	g_return_if_fail(IS_CAL_BACKEND_DB(cbdb));
-	g_return_if_fail(cbdb->priv != NULL);
-	g_return_if_fail(IS_CAL(cal));
-
-	/* we do not keep a reference to the Cal since the calendar user agent
-	 * owns it
-	 */
-	gtk_signal_connect(GTK_OBJECT(cal),
-	                   "destroy",
-	                   GTK_SIGNAL_FUNC(destroy_cal_cb),
-	                   backend);
-
-	cbdb->priv->clients = g_list_prepend(cbdb->priv->clients, (gpointer) cal);
-}
-
 /* database file initialization */
 static gboolean
 open_database_file (CalBackendDB *cbdb, const gchar *str_uri, gboolean only_if_exists)
@@ -686,58 +660,6 @@ cal_backend_db_get_object (CalBackend *backend, const char *uid)
 	}
 	
 	return NULL;
-}
-
-/* get_type_by_uid handler for the DB backend */
-static CalObjType
-cal_backend_db_get_type_by_uid (CalBackend *backend, const char *uid)
-{
-	CalBackendDB *cbdb;
-	DBT key;
-	DBT data;
-	gint ret;
-
-	cbdb = CAL_BACKEND_DB(backend);
-	g_return_val_if_fail(IS_CAL_BACKEND_DB(cbdb), CAL_COMPONENT_NO_TYPE);
-	g_return_val_if_fail(cbdb->priv != NULL, CAL_COMPONENT_NO_TYPE);
-	g_return_val_if_fail(cbdb->priv->objects_db != NULL, CAL_COMPONENT_NO_TYPE);
-	g_return_val_if_fail(uid != NULL, CAL_COMPONENT_NO_TYPE);
-
-	memset(&key, 0, sizeof(key));
-	memset(&data, 0, sizeof(data));
-	key.data = (void *) uid;
-	key.size = strlen(uid); // + 1
-	
-	/* read record from database */
-	if ((ret = cbdb->priv->objects_db->get(cbdb->priv->objects_db,
-	                                       NULL,
-	                                       &key,
-	                                       &data,
-	                                       0)) == 0) {
-		icalcomponent *icalcomp = icalparser_parse_string((char *) data.data);
-		if (icalcomp) {
-			CalObjType type;
-			
-			switch (icalcomponent_isa(icalcomp)) {
-				case ICAL_VEVENT_COMPONENT :
-					type = CALOBJ_TYPE_EVENT;
-					break;
-				case ICAL_VTODO_COMPONENT :
-					type = CALOBJ_TYPE_TODO;
-					break;
-				case ICAL_VJOURNAL_COMPONENT :
-					type = CALOBJ_TYPE_JOURNAL;
-					break;
-				default :
-					type = CAL_COMPONENT_NO_TYPE;
-			}
-			
-			icalcomponent_free(icalcomp);
-			return type;
-		}
-	}
-
-	return CAL_COMPONENT_NO_TYPE;
 }
 
 static GList *
@@ -1002,33 +924,6 @@ get_list_of_alarms (CalBackendDBCursor *cursor, time_t start, time_t end)
 	return list;
 }
 
-/* fills a CORBA sequence of alarm instances */
-static void
-fill_alarm_instances_seq (GNOME_Evolution_Calendar_CalAlarmInstanceSeq *seq, GSList *alarms)
-{
-	int n_alarms;
-	GSList *l;
-	int i;
-
-	n_alarms = g_slist_length(alarms);
-
-	CORBA_sequence_set_release(seq, TRUE);
-	seq->_length = n_alarms;
-	seq->_buffer = CORBA_sequence_GNOME_Evolution_Calendar_CalAlarmInstance_allocbuf(n_alarms);
-
-	for (l = alarms, i = 0; l != NULL; l = l->next, i++) {
-		CalAlarmInstance *instance;
-		GNOME_Evolution_Calendar_CalAlarmInstance *corba_instance;
-
-		instance = (CalAlarmInstance *) l->data;
-		corba_instance = seq->_buffer + i;
-
-		corba_instance->auid = CORBA_string_dup(instance->auid);
-		corba_instance->trigger = (long) instance->trigger;
-		corba_instance->occur = (long) instance->occur;
-	}
-}
-
 /* get_alarms_in_range handler for the DB backend */
 static GNOME_Evolution_Calendar_CalComponentAlarmsSeq *
 cal_backend_db_get_alarms_in_range (CalBackend *backend, time_t start, time_t end)
@@ -1071,7 +966,8 @@ cal_backend_db_get_alarms_in_range (CalBackend *backend, time_t start, time_t en
 			seq->_buffer[i].calobj = CORBA_string_dup(comp_str);
 			g_free((gpointer) comp_str);
 
-			fill_alarm_instances_seq(&seq->_buffer[i].alarms, alarms->alarms);
+			cal_backend_util_fill_alarm_instances_seq (&seq->_buffer[i].alarms,
+								   alarms->alarms);
 			
 			cal_component_alarms_free(alarms);
 		}
@@ -1136,11 +1032,12 @@ cal_backend_db_get_alarms_for_object (CalBackend *backend,
 			/* populate the CORBA sequence */
 			alarms = generate_alarms_for_comp(comp, start, end);
 			if (alarms) {
-				fill_alarm_instances_seq(&corba_alarms->alarms, alarms->alarms);
+				cal_backend_util_fill_alarm_instances_seq (&corba_alarms->alarms,
+									   alarms->alarms);
 				cal_component_alarms_free(alarms);
 			}
 			else
-				fill_alarm_instances_seq(&corba_alarms->alarms, NULL);
+				cal_backend_fill_alarm_instances_seq (&corba_alarms->alarms, NULL);
 
 			gtk_object_unref(GTK_OBJECT(comp));
 			icalcomponent_free(icalcomp);
