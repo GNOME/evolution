@@ -1078,9 +1078,6 @@ ethi_popup_sort_descending(GtkWidget *widget, EthiHeaderInfo *info)
 static void
 ethi_popup_unsort(GtkWidget *widget, EthiHeaderInfo *info)
 {
-	int length;
-	int i;
-	int found = FALSE;
 	ETableHeaderItem *ethi = info->ethi;
 
 	e_table_sort_info_grouping_truncate(ethi->sort_info, 0);

@@ -5,6 +5,7 @@
 #include <libgnomeui/gnome-canvas.h>
 #include "e-table-model.h"
 #include "e-table-header.h"
+#include "e-table-defines.h"
 #include <e-util/e-printable.h>
 
 #define E_TABLE_ITEM_TYPE        (e_table_item_get_type ())
@@ -116,6 +117,10 @@ gint       e_table_item_get_focused_column (ETableItem *eti);
 const GSList *e_table_item_get_selection   (ETableItem *e_table_Item);
 gboolean      e_table_item_is_row_selected (ETableItem *e_table_Item,
 					    int row);
+
+void          e_table_item_selected_row_foreach (ETableItem        *eti,
+						 ETableForeachFunc  func,
+						 gpointer           closure);
 	     				   
 void          e_table_item_leave_edit      (ETableItem *eti);
 void          e_table_item_enter_edit      (ETableItem *eti, int col, int row);

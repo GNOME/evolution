@@ -128,7 +128,7 @@ add_sibling (GtkButton *button, gpointer data)
 	ETreePath *selected_node;
 	ETreePath *parent_node;
 
-	selected_row = e_table_get_selected_view_row (E_TABLE (e_table));
+	selected_row = e_table_get_cursor_row (E_TABLE (e_table));
 	if (selected_row == -1)
 		return;
 
@@ -150,7 +150,7 @@ add_child (GtkButton *button, gpointer data)
 	int selected_row;
 	ETreePath *selected_node;
 
-	selected_row = e_table_get_selected_view_row (E_TABLE (e_table));
+	selected_row = e_table_get_cursor_row (E_TABLE (e_table));
 	if (selected_row == -1)
 		return;
 
@@ -170,7 +170,7 @@ remove_node (GtkButton *button, gpointer data)
 	char *str;
 	ETreePath *selected_node;
 
-	selected_row = e_table_get_selected_view_row (E_TABLE (e_table));
+	selected_row = e_table_get_cursor_row (E_TABLE (e_table));
 	if (selected_row == -1)
 		return;
 
@@ -192,7 +192,7 @@ expand_all (GtkButton *button, gpointer data)
 	int selected_row;
 	ETreePath *selected_node;
 
-	selected_row = e_table_get_selected_view_row (E_TABLE (e_table));
+	selected_row = e_table_get_cursor_row (E_TABLE (e_table));
 	if (selected_row == -1)
 		return;
 
@@ -209,7 +209,7 @@ collapse_all (GtkButton *button, gpointer data)
 	int selected_row;
 	ETreePath *selected_node;
 
-	selected_row = e_table_get_selected_view_row (E_TABLE (e_table));
+	selected_row = e_table_get_cursor_row (E_TABLE (e_table));
 	if (selected_row == -1)
 		return;
 

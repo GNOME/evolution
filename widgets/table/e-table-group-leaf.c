@@ -16,9 +16,6 @@
 #include "e-util/e-util.h"
 #include "e-util/e-canvas.h"
 
-#define TITLE_HEIGHT         16
-#define GROUP_INDENT         10
-
 #define PARENT_TYPE e_table_group_get_type ()
 
 static GnomeCanvasGroupClass *etgl_parent_class;
@@ -214,7 +211,7 @@ etgl_set_focus (ETableGroup *etg, EFocus direction, gint view_col)
 }
 
 static void
-etgl_select_row (ETableGroup *etg, gint row)
+etgl_set_cursor_row (ETableGroup *etg, gint row)
 {
 	ETableGroupLeaf *etgl = E_TABLE_GROUP_LEAF (etg);
 	gnome_canvas_item_set(GNOME_CANVAS_ITEM(etgl->item),
@@ -223,7 +220,7 @@ etgl_select_row (ETableGroup *etg, gint row)
 }
 
 static int
-etgl_get_selected_view_row (ETableGroup *etg)
+etgl_get_cursor_row (ETableGroup *etg)
 {
 	ETableGroupLeaf *etgl = E_TABLE_GROUP_LEAF (etg);
 	int row;
@@ -245,6 +242,15 @@ etgl_get_printable (ETableGroup *etg)
 {
 	ETableGroupLeaf *etgl = E_TABLE_GROUP_LEAF (etg);
 	return e_table_item_get_printable (etgl->item);
+}
+
+static void
+etgl_selected_row_foreach(ETableGroup *etg,
+			  ETableForeachFunc func,
+			  gpointer closure)
+{
+	ETableGroupLeaf *etgl = E_TABLE_GROUP_LEAF (etg);
+	e_table_item_selected_row_foreach (etgl->item, func, closure);
 }
 
 static void
@@ -355,10 +361,11 @@ etgl_class_init (GtkObjectClass *object_class)
 	e_group_class->increment  = etgl_increment;
 	e_group_class->row_count  = etgl_row_count;
 	e_group_class->set_focus  = etgl_set_focus;
-	e_group_class->select_row = etgl_select_row;
-	e_group_class->get_selected_view_row = etgl_get_selected_view_row;
+	e_group_class->set_cursor_row = etgl_set_cursor_row;
+	e_group_class->get_cursor_row = etgl_get_cursor_row;
 	e_group_class->get_focus_column = etgl_get_focus_column;
 	e_group_class->get_printable = etgl_get_printable;
+	e_group_class->selected_row_foreach = etgl_selected_row_foreach;
 
 	gtk_object_add_arg_type ("ETableGroupLeaf::drawgrid", GTK_TYPE_BOOL,
 				 GTK_ARG_WRITABLE, ARG_TABLE_DRAW_GRID);

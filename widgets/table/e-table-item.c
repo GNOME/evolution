@@ -1617,6 +1617,16 @@ e_table_item_is_row_selected (ETableItem *eti, int row)
 		return FALSE;
 }
 
+void          e_table_item_selected_row_foreach (ETableItem        *eti,
+						 ETableForeachFunc  func,
+						 gpointer           closure)
+{
+	GSList *list = eti->selection;
+	for (; list; list = g_slist_next(list)) {
+		(func) (GPOINTER_TO_INT(list->data), closure);
+	}
+}
+
 static void
 e_table_item_unselect_row (ETableItem *eti, int row)
 {

@@ -484,7 +484,7 @@ etgc_increment (ETableGroup *etg, gint position, gint amount)
 }
 
 static void
-etgc_select_row (ETableGroup *etg, gint row)
+etgc_set_cursor_row (ETableGroup *etg, gint row)
 {
 	ETableGroupContainer *etgc = E_TABLE_GROUP_CONTAINER(etg);
 	GList *list;
@@ -492,7 +492,7 @@ etgc_select_row (ETableGroup *etg, gint row)
 		ETableGroup *group = ((ETableGroupContainerChildNode *)list->data)->child;
 		gint this_count = e_table_group_row_count(group);
 		if (row < this_count) {
-			e_table_group_select_row(group, row);
+			e_table_group_set_cursor_row(group, row);
 			return;
 		}
 		row -= this_count;
@@ -500,14 +500,14 @@ etgc_select_row (ETableGroup *etg, gint row)
 }
 
 static int
-etgc_get_selected_view_row (ETableGroup *etg)
+etgc_get_cursor_row (ETableGroup *etg)
 {
 	ETableGroupContainer *etgc = E_TABLE_GROUP_CONTAINER(etg);
 	GList *list;
 	int count = 0;
 	for (list = etgc->children; list; list = g_list_next(list)) {
 		ETableGroup *group = ((ETableGroupContainerChildNode *)list->data)->child;
-		int row = e_table_group_get_selected_view_row(group);
+		int row = e_table_group_get_cursor_row(group);
 		if (row != -1)
 			return count + row;
 		count += e_table_group_row_count(group);
@@ -545,6 +545,30 @@ etgc_get_focus_column (ETableGroup *etg)
 	}
 	return 0;
 }
+
+static void
+etgc_selected_row_foreach (ETableGroup *etg,
+			   ETableForeachFunc func,
+			   gpointer closure)
+{
+	ETableGroupContainer *etgc = E_TABLE_GROUP_CONTAINER(etg);
+	if (etgc->children) {
+		GList *list;
+		for (list = etgc->children; list; list = list->next) {
+			ETableGroupContainerChildNode *child_node = (ETableGroupContainerChildNode *)list->data;
+			ETableGroup *child = child_node->child;
+			e_table_group_selected_row_foreach (child, func, closure);
+		}
+	}
+}
+
+
+
+
+
+
+
+
 
 static void etgc_thaw (ETableGroup *etg)
 {
@@ -669,10 +693,11 @@ etgc_class_init (GtkObjectClass *object_class)
 	e_group_class->increment  = etgc_increment;
 	e_group_class->row_count  = etgc_row_count;
 	e_group_class->set_focus  = etgc_set_focus;
-	e_group_class->select_row = etgc_select_row;
-	e_group_class->get_selected_view_row = etgc_get_selected_view_row;
+	e_group_class->set_cursor_row = etgc_set_cursor_row;
+	e_group_class->get_cursor_row = etgc_get_cursor_row;
 	e_group_class->get_focus_column = etgc_get_focus_column;
 	e_group_class->get_printable = etgc_get_printable;
+	e_group_class->selected_row_foreach = etgc_selected_row_foreach;
 
 	gtk_object_add_arg_type ("ETableGroupContainer::drawgrid", GTK_TYPE_BOOL,
 				 GTK_ARG_WRITABLE, ARG_TABLE_DRAW_GRID);

@@ -93,10 +93,13 @@ GtkWidget  *e_table_new_from_spec_file       (ETableHeader *full_header,
 gchar      *e_table_get_specification        (ETable *e_table);
 void        e_table_save_specification       (ETable *e_table, gchar *filename);
 	   
-void        e_table_select_row               (ETable *e_table,
-	   				      int row);
-/* -1 means no selection. */
-int         e_table_get_selected_view_row    (ETable *e_table);
+void        e_table_set_cursor_row           (ETable *e_table,
+					      int row);
+/* -1 means we don't have the cursor. */
+int         e_table_get_cursor_row           (ETable *e_table);
+void        e_table_selected_row_foreach     (ETable *e_table,
+					      ETableForeachFunc callback,
+					      gpointer closure);
 EPrintable *e_table_get_printable            (ETable *e_table);
 
 END_GNOME_DECLS

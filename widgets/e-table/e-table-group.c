@@ -18,9 +18,6 @@
 #include <libgnomeui/gnome-canvas-rect-ellipse.h>
 #include "e-util/e-util.h"
 
-#define TITLE_HEIGHT         16
-#define GROUP_INDENT         10
-
 #define PARENT_TYPE gnome_canvas_group_get_type ()
 
 #define ETG_CLASS(e) (E_TABLE_GROUP_CLASS(GTK_OBJECT(e)->klass))
@@ -172,24 +169,24 @@ e_table_group_set_focus (ETableGroup *etg,
 }
 
 void
-e_table_group_select_row (ETableGroup *etg,
-			  gint row)
+e_table_group_set_cursor_row (ETableGroup *etg,
+			      gint row)
 {
 	g_return_if_fail (etg != NULL);
 	g_return_if_fail (E_IS_TABLE_GROUP (etg));
 
-	if (ETG_CLASS (etg)->select_row)
-		ETG_CLASS (etg)->select_row (etg, row);
+	if (ETG_CLASS (etg)->set_cursor_row)
+		ETG_CLASS (etg)->set_cursor_row (etg, row);
 }
 
 int
-e_table_group_get_selected_view_row (ETableGroup *etg)
+e_table_group_get_cursor_row (ETableGroup *etg)
 {
 	g_return_val_if_fail (etg != NULL, -1);
 	g_return_val_if_fail (E_IS_TABLE_GROUP (etg), -1);
 
-	if (ETG_CLASS (etg)->get_selected_view_row)
-		return ETG_CLASS (etg)->get_selected_view_row (etg);
+	if (ETG_CLASS (etg)->get_cursor_row)
+		return ETG_CLASS (etg)->get_cursor_row (etg);
 	else
 		return -1;
 }
@@ -241,6 +238,20 @@ e_table_group_get_printable (ETableGroup *etg)
 	else
 		return NULL;
 }
+
+void
+e_table_group_selected_row_foreach  (ETableGroup      *etg,
+				     ETableForeachFunc func,
+				     gpointer          closure)
+{
+	g_return_if_fail (etg != NULL);
+	g_return_if_fail (E_IS_TABLE_GROUP (etg));
+
+	if (ETG_CLASS (etg)->selected_row_foreach)
+		ETG_CLASS (etg)->selected_row_foreach (etg, func, closure);
+}
+
+
 
 void
 e_table_group_row_selection (ETableGroup *e_table_group, gint row, gboolean selected)
@@ -366,11 +377,12 @@ etg_class_init (GtkObjectClass *object_class)
 	klass->row_count  = NULL;
 	klass->increment  = NULL;
 	klass->set_focus  = NULL;
-	klass->select_row = NULL;
-	klass->get_selected_view_row = NULL;
+	klass->set_cursor_row = NULL;
+	klass->get_cursor_row = NULL;
 	klass->get_focus = etg_get_focus;
 	klass->get_ecol = NULL;
 	klass->get_printable = NULL;
+	klass->selected_row_foreach = NULL;
 
 	etg_parent_class = gtk_type_class (PARENT_TYPE);
 

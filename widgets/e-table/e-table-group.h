@@ -6,6 +6,7 @@
 #include "e-table-model.h"
 #include "e-table-header.h"
 #include "e-table-sort-info.h"
+#include "e-table-defines.h"
 #include "e-util/e-util.h"
 #include "e-util/e-printable.h"
 
@@ -44,26 +45,27 @@ typedef struct {
 	GnomeCanvasGroupClass parent_class;
 
 	/* Signals */
-	void        (*row_selection)  (ETableGroup *etg, int row, gboolean selected);
-	void        (*cursor_change)  (ETableGroup *etg, int row);
-	void        (*double_click)   (ETableGroup *etg, int row);
-	gint        (*right_click)    (ETableGroup *etg, int row, int col, GdkEvent *event);
-	gint        (*key_press)      (ETableGroup *etg, int row, int col, GdkEvent *event);
+	void        (*row_selection)         (ETableGroup *etg, int row, gboolean selected);
+	void        (*cursor_change)         (ETableGroup *etg, int row);
+	void        (*double_click)          (ETableGroup *etg, int row);
+	gint        (*right_click)           (ETableGroup *etg, int row, int col, GdkEvent *event);
+	gint        (*key_press)             (ETableGroup *etg, int row, int col, GdkEvent *event);
 
 	/* Virtual functions. */
-	void (*add) (ETableGroup *etg, gint row);
-	void (*add_all) (ETableGroup *etg);
-	gboolean (*remove) (ETableGroup *etg, gint row);
-	gint (*get_count) (ETableGroup *etg);
-	gint (*row_count) (ETableGroup *etg);
-	void (*increment) (ETableGroup *etg, gint position, gint amount);
-	void (*set_focus) (ETableGroup *etg, EFocus direction, gint view_col);
-	void (*select_row) (ETableGroup *etg, gint row);
-	int  (*get_selected_view_row) (ETableGroup *etg);
-	gboolean (*get_focus) (ETableGroup *etg);
-	gint (*get_focus_column) (ETableGroup *etg);
-	ETableCol *(*get_ecol) (ETableGroup *etg);
-	EPrintable *(*get_printable) (ETableGroup *etg);
+	void        (*add)                   (ETableGroup *etg, gint row);
+	void        (*add_all)               (ETableGroup *etg);
+	gboolean    (*remove)                (ETableGroup *etg, gint row);
+	gint        (*get_count)             (ETableGroup *etg);
+	gint        (*row_count)             (ETableGroup *etg);
+	void        (*increment)             (ETableGroup *etg, gint position, gint amount);
+	void        (*set_focus)             (ETableGroup *etg, EFocus direction, gint view_col);
+	void        (*set_cursor_row)        (ETableGroup *etg, gint row);
+	int         (*get_cursor_row)        (ETableGroup *etg);
+	gboolean    (*get_focus)             (ETableGroup *etg);
+	gint        (*get_focus_column)      (ETableGroup *etg);
+	ETableCol  *(*get_ecol)              (ETableGroup *etg);
+	EPrintable *(*get_printable)         (ETableGroup *etg);
+	void        (*selected_row_foreach)  (ETableGroup *etg, ETableForeachFunc func, gpointer closure);
 
 } ETableGroupClass;
 
@@ -81,14 +83,17 @@ gint             e_table_group_row_count   	     (ETableGroup      *etg);
 void             e_table_group_set_focus   	     (ETableGroup      *etg,
 					   	      EFocus            direction,
 					   	      gint              view_col);
-void             e_table_group_select_row  	     (ETableGroup     *etg,
+void             e_table_group_set_cursor_row  	     (ETableGroup     *etg,
 					   	      gint             row);
-int              e_table_group_get_selected_view_row (ETableGroup *etg);
+int              e_table_group_get_cursor_row        (ETableGroup *etg);
 gboolean         e_table_group_get_focus   	     (ETableGroup      *etg);
 gint             e_table_group_get_focus_column      (ETableGroup      *etg);
 ETableHeader    *e_table_group_get_header            (ETableGroup     *etg);
 ETableCol       *e_table_group_get_ecol              (ETableGroup      *etg);
 EPrintable      *e_table_group_get_printable         (ETableGroup      *etg);
+void             e_table_group_selected_row_foreach  (ETableGroup      *etg,
+						      ETableForeachFunc func,
+						      gpointer          closure);
 
 ETableGroup     *e_table_group_new       (GnomeCanvasGroup *parent,
 					  ETableHeader     *full_header,

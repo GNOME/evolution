@@ -642,7 +642,7 @@ delete_msg (GtkWidget *button, gpointer user_data)
 	/* Move the cursor down a row... FIXME: should skip other
 	 * deleted messages.
 	 */
-	e_table_select_row (E_TABLE (ml->etable), ml->selected_row + 1);
+	e_table_set_cursor_row (E_TABLE (ml->etable), ml->selected_row + 1);
 }
 
 static void real_expunge_folder( gpointer user_data )

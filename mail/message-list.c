@@ -1061,7 +1061,7 @@ on_cursor_change_cmd (ETable *table,
 static gint
 idle_select_row (gpointer user_data)
 {
-	e_table_select_row (user_data, 0);
+	e_table_set_cursor_row (user_data, 0);
 	return FALSE;
 }
 

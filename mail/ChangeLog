@@ -1,3 +1,8 @@
+2000-06-29  Christopher James Lahey  <clahey@helixcode.com>
+
+	* message-list.c, mail-ops.c: Changed the name of
+	e_table_select_row to e_table_set_cursor_row.
+
 2000-06-29  Peter Williams  <peterw@helixcode.com>
 
 	* message-list.c (message_list_init): Set the dnd_code of the

@@ -36,8 +36,6 @@
 #include "e-table-click-to-add.h"
 
 #define COLUMN_HEADER_HEIGHT 16
-#define TITLE_HEIGHT         16
-#define GROUP_INDENT         10
 
 #define PARENT_TYPE gtk_table_get_type ()
 
@@ -745,16 +743,27 @@ e_table_save_specification (ETable *e_table, gchar *filename)
 }
 
 void
-e_table_select_row (ETable *e_table, int row)
+e_table_set_cursor_row (ETable *e_table, int row)
 {
-	e_table_group_select_row(e_table->group, row);
+	e_table_group_set_cursor_row(e_table->group, row);
 }
 
 int
-e_table_get_selected_view_row (ETable *e_table)
+e_table_get_cursor_row (ETable *e_table)
 {
-	return e_table_group_get_selected_view_row(e_table->group);
+	return e_table_group_get_cursor_row(e_table->group);
 }
+
+void
+e_table_selected_row_foreach     (ETable *e_table,
+				  ETableForeachFunc callback,
+				  gpointer closure)
+{
+	e_table_group_selected_row_foreach(e_table->group,
+					   callback,
+					   closure);
+}
+
 
 EPrintable *
 e_table_get_printable (ETable *e_table)

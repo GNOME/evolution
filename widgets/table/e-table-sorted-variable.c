@@ -295,7 +295,6 @@ etsv_sort(ETableSortedVariable *etsv)
 	cols = e_table_sort_info_sorting_get_count(etsv->sort_info);
 	cols_closure = cols;
 	etsv_closure = etsv;
-	printf ("starting\n");
 	vals_closure = g_new(void *, total_rows * cols);
 	ascending_closure = g_new(int, cols);
 	compare_closure = g_new(GCompareFunc, cols);
@@ -318,13 +317,10 @@ etsv_sort(ETableSortedVariable *etsv)
 		compare_closure[j] = col->compare;
 		ascending_closure[j] = column.ascending;
 	}
-	printf("allocated\n");
 	qsort(E_TABLE_SUBSET(etsv)->map_table, rows, sizeof(int), qsort_callback);
-	printf ("sorted\n");
 	g_free(vals_closure);
 	g_free(ascending_closure);
 	g_free(compare_closure);
-	printf("freed\n");
 	e_table_model_changed (E_TABLE_MODEL(etsv));
 	reentering = 0;
 }

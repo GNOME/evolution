@@ -20,6 +20,7 @@
 #include "e-table-one.h"
 #include "widgets/e-text/e-text.h"
 #include "e-util/e-canvas.h"
+#include "e-util/e-canvas-utils.h"
 
 enum {
 	ROW_SELECTION,
@@ -172,7 +173,11 @@ etcta_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 					      NULL);
 		if (etcta->text)
 			gnome_canvas_item_set(etcta->text,
-					      "width", etcta->width,
+					      "width", etcta->width - 4,
+					      NULL);
+		if (etcta->rect)
+			gnome_canvas_item_set(etcta->rect,
+					      "x2", etcta->width - 1,
 					      NULL);
 		break;
 	}
@@ -216,7 +221,17 @@ etcta_realize (GnomeCanvasItem *item)
 					    e_text_get_type(),
 					    "text", etcta->message ? etcta->message : "",
 					    "anchor", GTK_ANCHOR_NW,
-					    "width", etcta->width,
+					    "width", etcta->width - 4,
+					    NULL);
+	e_canvas_item_move_absolute (etcta->text, 2, 2);
+	etcta->rect = gnome_canvas_item_new(GNOME_CANVAS_GROUP(item),
+					    gnome_canvas_rect_get_type(),
+					    "x1", (double) 0,
+					    "y1", (double) 0,
+					    "x2", (double) etcta->width - 1,
+					    "y2", (double) etcta->height - 1,
+					    "outline_color", "black", 
+					    "fill_color", NULL,
 					    NULL);
 
 	if (GNOME_CANVAS_ITEM_CLASS (etcta_parent_class)->realize)
@@ -252,6 +267,10 @@ etcta_event (GnomeCanvasItem *item, GdkEvent *e)
 		if (etcta->text) {
 			gtk_object_destroy(GTK_OBJECT(etcta->text));
 			etcta->text = NULL;
+		}
+		if (etcta->rect) {
+			gtk_object_destroy(GTK_OBJECT(etcta->rect));
+			etcta->rect = NULL;
 		}
 		if (!etcta->row) {
 			ETableModel *one;
@@ -295,17 +314,27 @@ etcta_reflow (GnomeCanvasItem *item, int flags)
 {
 	ETableClickToAdd *etcta = E_TABLE_CLICK_TO_ADD (item);
 	
+	double old_height = etcta->height;
+	
 	if (etcta->text) {
 		gtk_object_get(GTK_OBJECT(etcta->text),
 			       "height", &etcta->height,
 			       NULL);
+		etcta->height += 4;
 	}
 	if (etcta->row) {
 		gtk_object_get(GTK_OBJECT(etcta->row),
 			       "height", &etcta->height,
 			       NULL);
 	}
-	e_canvas_item_request_parent_reflow(item);
+
+	if (etcta->rect) {
+		gtk_object_set(GTK_OBJECT(etcta->rect),
+			       "y2", etcta->height - 1,
+			       NULL);
+	}
+	if (old_height != etcta->height)
+		e_canvas_item_request_parent_reflow(item);
 }
 
 static void
@@ -404,7 +433,19 @@ e_table_click_to_add_commit (ETableClickToAdd *etcta)
 							    e_text_get_type(),
 							    "text", etcta->message ? etcta->message : "",
 							    "anchor", GTK_ANCHOR_NW,
-							    "width", etcta->width,
+							    "width", etcta->width - 4,
+							    NULL);
+			e_canvas_item_move_absolute (etcta->text, 2, 2);
+		}
+		if (!etcta->rect) {
+			etcta->rect = gnome_canvas_item_new(GNOME_CANVAS_GROUP(etcta),
+							    gnome_canvas_rect_get_type(),
+							    "x1", (double) 0,
+							    "y1", (double) 0,
+							    "x2", (double) etcta->width - 1,
+							    "y2", (double) etcta->height - 1,
+							    "outline_color", "black", 
+							    "fill_color", NULL,
 							    NULL);
 		}
 }
