@@ -72,6 +72,9 @@ void     imap_uid_array_free       (GPtrArray *arr);
 char *imap_concat (CamelImapStore *imap_store, const char *prefix, const char *suffix);
 char *imap_namespace_concat (CamelImapStore *store, const char *name);
 
+char *imap_mailbox_encode (const unsigned char *in, int inlen);
+char *imap_mailbox_decode (const unsigned char *in, int inlen);
+
 #ifdef __cplusplus
 }
 #endif /* __cplusplus */

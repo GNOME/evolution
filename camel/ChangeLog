@@ -1,3 +1,11 @@
+2002-01-18  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* providers/imap/camel-imap-utils.c (imap_mailbox_decode): New
+	function to decode an IMAP mailbox name from modified UTF-7
+	encoding to UTF-8.
+	(imap_mailbox_encode): New function to convert a mailbox name from
+	UTF-8 to IMAP's modified UTF-7 encoding.
+
 2002-01-17  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* camel-mime-filter-basic.c (filter): Stop uudecoding once the
