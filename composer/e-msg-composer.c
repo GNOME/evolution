@@ -101,7 +101,7 @@
 #include "Editor.h"
 #include "listener.h"
 
-#define GNOME_GTKHTML_EDITOR_CONTROL_ID "OAFIID:GNOME_GtkHTML_Editor"
+#define GNOME_GTKHTML_EDITOR_CONTROL_ID "OAFIID:GNOME_GtkHTML_Editor:1.1"
 
 
 #define DEFAULT_WIDTH 600
@@ -1792,6 +1792,8 @@ sig_event_client (MailConfigSigEvent event, MailConfigSignature *sig, EMsgCompos
 	case MAIL_CONFIG_SIG_EVENT_ADDED:
 	case MAIL_CONFIG_SIG_EVENT_NAME_CHANGED:
 		setup_signatures_menu (composer);
+	default:
+		;
 	}
 	bonobo_ui_component_thaw (composer->uic, NULL);
 }

@@ -1,3 +1,7 @@
+2002-03-15  Radek Doulik  <rodo@ximian.com>
+
+	* e-msg-composer.c: use gtkhtml editor API version 1.1
+
 2002-03-11  Dan Winship  <danw@ximian.com>
 
 	* listener.c (impl_event): Remove the extremely verbose printf
