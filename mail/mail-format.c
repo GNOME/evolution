@@ -419,6 +419,12 @@ mail_lookup_handler (const char *mime_type)
 	if (handler)
 		return handler;
 
+	/* Special case MIME type: application/octet-stream
+	 * The point of this type is that there isn't a handler. 
+	 */
+	if (strcmp (mime_type, "application/octet-stream") == 0)
+		return NULL;
+	
 	/* No. Create a new one and look up application and full type
 	 * handler. If we find a builtin, create the handler and
 	 * register it.
