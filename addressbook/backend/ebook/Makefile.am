@@ -4,7 +4,7 @@ privlibexec_PROGRAMS =				\
 	evolution-vcard-importer		\
 	evolution-ldif-importer
 
-toolsdir = $(privdatadir)/tools
+toolsdir = $(privlibexecdir)/
 tools_PROGRAMS =				\
 	load-pine-addressbook			\
 	load-gnomecard-addressbook

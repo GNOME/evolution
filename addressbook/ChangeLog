@@ -1,3 +1,8 @@
+2003-05-16  Rodney Dawes  <dobey@ximian.com>
+
+	* addressbook/backend/ebook/Makefile.am: Move the tools to a
+ 	more appropriate directory, privlibexecdir
+	
 2003-05-15  Chris Toshok  <toshok@ximian.com>
 
 	* gui/component/addressbook.c (book_open_cb): backing out a tiny
