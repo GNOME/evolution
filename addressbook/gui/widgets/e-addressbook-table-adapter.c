@@ -252,8 +252,8 @@ create_card (EAddressbookModel *model,
 	for (i = 0; i < count; i ++) {
 		priv->simples[index + i] = e_card_simple_new (e_addressbook_model_card_at (priv->model, index + i));
 		gtk_object_ref (GTK_OBJECT (priv->simples[index + i]));
-		e_table_model_row_inserted (E_TABLE_MODEL (adapter), index + i);
 	}
+	e_table_model_rows_inserted (E_TABLE_MODEL (adapter), index, count);
 }
 
 static void

@@ -1,3 +1,11 @@
+2001-05-21  Chris Toshok  <toshok@ximian.com>
+
+	* gui/component/addressbook.c (change_view_type): update_view_type
+	is gone, since the menu item is gone.
+
+	* gui/widgets/e-addressbook-table-adapter.c (create_card): use
+	e_table_model_rows_inserted here.
+
 2001-05-20  Christopher James Lahey  <clahey@ximian.com>
 
 	* gui/component/addressbook-config.c
@@ -88,9 +96,9 @@
 
 	* gui/widgets/e-minicard-view-widget.h (struct
 	_EMinicardViewWidgetClass): add selection_change signal.  also,
-	add prototype for e_minicard_view_widget_selected_count.  *
-	gui/widgets/e-addressbook-view.c
-	
+	add prototype for e_minicard_view_widget_selected_count.  
+
+	* gui/widgets/e-addressbook-view.c
 	(e_addressbook_view_class_init): add our command_state_change
 	signal.
 	(e_addressbook_view_init): connect to the writable_status signal
