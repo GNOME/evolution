@@ -1,3 +1,10 @@
+2001-01-02  Jeffrey Stedfast  <fejj@helixcode.com>
+
+	* filter-driver.c (do_flag): Set the 'dirty' flag - this should
+	fix the problem of flags not being set (or, more precisely,
+	synced).
+	(filter_driver_filter_message): Here too.
+
 2000-12-21  Jeffrey Stedfast  <fejj@helixcode.com>
 
 	* filter-message-search.c (header_contains): Use

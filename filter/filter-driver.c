@@ -442,7 +442,7 @@ do_flag (struct _ESExp *f, int argc, struct _ESExpResult **argv, FilterDriver *d
 	
 	d(fprintf (stderr, "setting flag\n"));
 	if (argc == 1 && argv[0]->type == ESEXP_RES_STRING) {
-		p->info->flags |= camel_system_flag (argv[0]->value.string);
+		p->info->flags |= camel_system_flag (argv[0]->value.string) | CAMEL_MESSAGE_FOLDER_FLAGGED;
 		filter_driver_log (driver, FILTER_LOG_ACTION, "Set %s flag", argv[0]->value.string);
 	}
 	
@@ -761,7 +761,7 @@ filter_driver_filter_message (FilterDriver *driver, CamelMimeMessage *message, C
 	
 	/* *Now* we can set the DELETED flag... */
 	if (p->deleted)
-		info->flags = info->flags | CAMEL_MESSAGE_DELETED;
+		info->flags = info->flags | CAMEL_MESSAGE_DELETED | CAMEL_MESSAGE_FOLDER_FLAGGED;
 	
 	if (freeinfo)
 		camel_message_info_free (info);
