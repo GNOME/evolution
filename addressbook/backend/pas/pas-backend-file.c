@@ -8,7 +8,11 @@
   
 #include <gtk/gtksignal.h>
 #include <fcntl.h>
+#ifdef HAVE_DB_185_h
+#include <db_185.h>
+#else
 #include <db.h>
+#endif
 
 #include <pas-backend-file.h>
 #include <pas-book.h>
