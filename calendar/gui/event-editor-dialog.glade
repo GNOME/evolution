@@ -242,11 +242,11 @@
 		<xpad>0</xpad>
 		<ypad>0</ypad>
 		<xexpand>False</xexpand>
-		<yexpand>False</yexpand>
+		<yexpand>True</yexpand>
 		<xshrink>False</xshrink>
 		<yshrink>False</yshrink>
 		<xfill>False</xfill>
-		<yfill>False</yfill>
+		<yfill>True</yfill>
 	      </child>
 	    </widget>
 
@@ -265,11 +265,11 @@
 		<xpad>0</xpad>
 		<ypad>0</ypad>
 		<xexpand>False</xexpand>
-		<yexpand>False</yexpand>
+		<yexpand>True</yexpand>
 		<xshrink>False</xshrink>
 		<yshrink>False</yshrink>
 		<xfill>False</xfill>
-		<yfill>False</yfill>
+		<yfill>True</yfill>
 	      </child>
 	    </widget>
 	  </widget>
@@ -378,6 +378,7 @@
 	    <class>GtkButton</class>
 	    <name>categories-button</name>
 	    <can_focus>True</can_focus>
+	    <relief>GTK_RELIEF_NORMAL</relief>
 	    <child>
 	      <padding>0</padding>
 	      <expand>False</expand>
@@ -416,6 +417,7 @@
 	    <class>GtkButton</class>
 	    <name>categories-button</name>
 	    <can_focus>True</can_focus>
+	    <relief>GTK_RELIEF_NORMAL</relief>
 	    <child>
 	      <padding>0</padding>
 	      <expand>False</expand>
@@ -1346,6 +1348,7 @@ forever
 		    <name>recurrence-exception-add</name>
 		    <can_focus>True</can_focus>
 		    <label>Add</label>
+		    <relief>GTK_RELIEF_NORMAL</relief>
 		    <child>
 		      <padding>0</padding>
 		      <expand>False</expand>
@@ -1358,6 +1361,7 @@ forever
 		    <name>recurrence-exception-modify</name>
 		    <can_focus>True</can_focus>
 		    <label>Modify</label>
+		    <relief>GTK_RELIEF_NORMAL</relief>
 		    <child>
 		      <padding>0</padding>
 		      <expand>False</expand>
@@ -1370,6 +1374,7 @@ forever
 		    <name>recurrence-exception-delete</name>
 		    <can_focus>True</can_focus>
 		    <label>Delete</label>
+		    <relief>GTK_RELIEF_NORMAL</relief>
 		    <child>
 		      <padding>0</padding>
 		      <expand>False</expand>

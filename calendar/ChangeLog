@@ -1,3 +1,12 @@
+2001-01-20  Federico Mena Quintero  <federico@ximian.com>
+
+	* gui/event-editor-dialog.glade: Fix bug #1243.  Turn on the Y
+	expand/fill options for the date widgets in the General page.
+	This makes them be vertically aligned with the "All day event"
+	toggle so that they will get the focus in the proper order; the
+	toggle would get the focus before them because it was a pixel or
+	two above them.
+
 2001-01-19  Federico Mena Quintero  <federico@ximian.com>
 
 	* gui/weekday-picker.c (weekday_picker_init): Unset the
