@@ -1359,6 +1359,7 @@ make_ending_count_special (RecurrencePage *rpage)
 
 	adj = GTK_ADJUSTMENT (gtk_adjustment_new (1, 1, 10000, 1, 10, 10));
 	priv->ending_count_spin = gtk_spin_button_new (adj, 1, 0);
+	gtk_spin_button_set_numeric ((GtkSpinButton *)priv->ending_count_spin, TRUE);
 	gtk_box_pack_start (GTK_BOX (hbox), priv->ending_count_spin,
 			    FALSE, FALSE, 6);
 

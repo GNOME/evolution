@@ -1,3 +1,8 @@
+2003-11-17  Harry Lu  <harry.lu@sun.com>
+
+        * gui/dialogs/recurrence-page.c (make_ending_count_special):
+        Make ending count of occurrences of Recurrence tab numeric only.
+
 2003-11-16  JP Rosevear <jpr@ximian.com>
 
 	* gui/tasks-control.c (tasks_control_set_property): add a uri
