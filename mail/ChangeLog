@@ -1,5 +1,7 @@
 2000-09-05  Dan Winship  <danw@helixcode.com>
 
+	* component-factory.c (owner_set_cb): Re-rename "Sent".
+
 	* folder-browser.c (fb_resize_cb): Remove the "+ 90" here since it
 	seems to break things for me, and it's not commented anyway and
 	there's no excuse for adding 90 to a number with no explanation.

@@ -119,7 +119,7 @@ owner_set_cb (EvolutionShellComponent *shell_component,
 	mail_config_init ();
 	mail_do_setup_folder ("Drafts", &drafts_folder);
 	mail_do_setup_folder ("Outbox", &outbox_folder);
-	mail_do_setup_folder ("Sent Messages", &sent_folder);
+	mail_do_setup_folder ("Sent", &sent_folder);
 	/* Don't proceed until those _folder variables are valid. */
 	mail_operation_wait_for_finish ();
 
