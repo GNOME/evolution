@@ -1,3 +1,9 @@
+2004-06-10  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* providers/imap4/camel-imap4-engine.c
+	(camel_imap4_engine_handle_untagged_1): Don't always try and parse
+	a RESP-CODE in the BYE case as the RESP-CODE is optional.
+
 2004-06-10  Jeffrey Stedfast  <fejj@novell.com>
 
 	* providers/imap4/camel-imap4-store.c (imap4_build_folder_info):

@@ -978,7 +978,15 @@ camel_imap4_engine_handle_untagged_1 (CamelIMAP4Engine *engine, camel_imap4_toke
 	if (token->token == CAMEL_IMAP4_TOKEN_ATOM) {
 		if (!strcmp ("BYE", token->v.atom)) {
 			/* we don't care if we fail here, either way we've been disconnected */
-			camel_imap4_engine_parse_resp_code (engine, NULL);
+			if (camel_imap4_engine_next_token (engine, token, NULL) == 0) {
+				if (token->token == '[') {
+					camel_imap4_stream_unget_token (engine->istream, token);
+					camel_imap4_engine_parse_resp_code (engine, NULL);
+				} else {
+					camel_imap4_engine_line (engine, NULL, NULL, NULL);
+				}
+			}
+			
 			engine->state = CAMEL_IMAP4_ENGINE_DISCONNECTED;
 			
 			/* FIXME: emit a "disconnected" signal for our Store?
