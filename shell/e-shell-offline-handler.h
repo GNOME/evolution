@@ -26,7 +26,7 @@
 #include <gtk/gtkobject.h>
 #include <gtk/gtkwindow.h>
 
-#include "e-component-registry.h"
+#include "e-shell.h"
 
 
 #ifdef __cplusplus

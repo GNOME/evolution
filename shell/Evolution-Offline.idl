@@ -25,18 +25,6 @@ interface OfflineProgressListener {
 	void updateProgress (in ConnectionList current_active_connections);
 };
 
-interface SyncFolderProgressListener {
-	/* Report that syncing has progressed.  @progress has to be between 0.0
-	   and 1.0.  */
-	void updateProgress (in float progress);
-
-	/* Report that the operation has finished.  */
-	void reportSuccess ();
-
-	/* Report an error.  */
-	void reportFailure (in string message);
-};
-
 interface Offline : Bonobo::Unknown {
 	exception notPrepared {};
 	exception notSyncing {};
@@ -55,11 +43,6 @@ interface Offline : Bonobo::Unknown {
 		   and go off-line) or ::goOnline (operation cancelled).
 	*/
 	void prepareForOffline (out ConnectionList active_connection_list);
-
-	/* Request the component to sync the specified folder.  This has to
-	   happen after ::prepareForOffline.  */
-	oneway void syncFolder (in Folder folder,
-				in SyncFolderProgressListener listener);
 
 	/* Request the component to stop syncing the specified folder.  This
 	   has to happen after ::syncFolder.  */

@@ -1,3 +1,20 @@
+2003-11-30  Ettore Perazzoli  <ettore@ximian.com>
+
+	* e-shell.c (struct _EShellPrivate): New member offline_handler.
+	(offline_procedure_started_cb): New.
+	(offline_procedure_finished_cb): New.
+	(e_shell_go_offline): Implement (putting back the code that we had
+	#if 0'ed out).
+	(e_shell_go_online): Likewise.
+
+	* e-shell-offline-handler.c, e-shell-offline-handler.h: Put back
+	in, massage for the changes in the Offline interface.
+
+	* e-shell-offline-sync.c, e-shell-offline-sync.h: Remove from CVS.
+
+	* Evolution-Offline.idl (SyncFolderProgressListener): Remove.
+	(Offline::SyncFolder): Remove.
+
 2003-11-23  JP Rosevear  <jpr@ximian.com>
 
 	* Makefile.am: remove gtk deprecated flag

@@ -31,6 +31,7 @@
 #include "e-activity-handler.h"
 #include "e-setup.h"
 #include "e-shell-constants.h"
+#include "e-shell-offline-handler.h"
 #include "e-shell-settings-dialog.h"
 #include "e-shell-startup-wizard.h"
 
@@ -87,6 +88,10 @@ struct _EShellPrivate {
 
 	/* Line status.  */
 	EShellLineStatus line_status;
+
+	/* This object handles going off-line.  If the pointer is not NULL, it
+	   means we have a going-off-line process in progress.  */
+	EShellOfflineHandler *offline_handler;
 
 	/* Settings Dialog */
 	GtkWidget *settings_dialog;
@@ -358,6 +363,11 @@ impl_dispose (GObject *object)
 		priv->uri_schema_registry = NULL;
 	}
 #endif
+
+	if (priv->offline_handler != NULL) {
+		g_object_unref (priv->offline_handler);
+		priv->offline_handler = NULL;
+	}
 
 	for (p = priv->windows; p != NULL; p = p->next) {
 		EShellWindow *window;
@@ -826,6 +836,45 @@ e_shell_get_line_status (EShell *shell)
 	return shell->priv->line_status;
 }
 
+
+/* Offline/online handling.  */
+
+static void
+offline_procedure_started_cb (EShellOfflineHandler *offline_handler,
+			      void *data)
+{
+	EShell *shell;
+	EShellPrivate *priv;
+
+	shell = E_SHELL (data);
+	priv = shell->priv;
+
+	priv->line_status = E_SHELL_LINE_STATUS_GOING_OFFLINE;
+	g_signal_emit (shell, signals[LINE_STATUS_CHANGED], 0, priv->line_status);
+}
+
+static void
+offline_procedure_finished_cb (EShellOfflineHandler *offline_handler,
+			       gboolean now_offline,
+			       void *data)
+{
+	EShell *shell;
+	EShellPrivate *priv;
+
+	shell = E_SHELL (data);
+	priv = shell->priv;
+
+	if (now_offline)
+		priv->line_status = E_SHELL_LINE_STATUS_OFFLINE;
+	else
+		priv->line_status = E_SHELL_LINE_STATUS_ONLINE;
+
+	g_object_unref (priv->offline_handler);
+	priv->offline_handler = NULL;
+
+	g_signal_emit (shell, signals[LINE_STATUS_CHANGED], 0, priv->line_status);
+}
+
 /**
  * e_shell_go_offline:
  * @shell: 
@@ -849,17 +898,14 @@ e_shell_go_offline (EShell *shell,
 	if (priv->line_status != E_SHELL_LINE_STATUS_ONLINE)
 		return;
 
-#if 0
 	priv->offline_handler = e_shell_offline_handler_new (shell);
 
-	/* FIXME TODO */
 	g_signal_connect (priv->offline_handler, "offline_procedure_started",
 			  G_CALLBACK (offline_procedure_started_cb), shell);
 	g_signal_connect (priv->offline_handler, "offline_procedure_finished",
 			  G_CALLBACK (offline_procedure_finished_cb), shell);
 
 	e_shell_offline_handler_put_components_offline (priv->offline_handler, GTK_WINDOW (action_window));
-#endif
 }
 
 /**
@@ -873,10 +919,9 @@ void
 e_shell_go_online (EShell *shell,
 		   EShellWindow *action_window)
 {
-#if 0				/* FIXME TODO */
 	EShellPrivate *priv;
-	GList *component_ids;
-	GList *p;
+	GSList *component_infos;
+	GSList *p;
 
 	g_return_if_fail (shell != NULL);
 	g_return_if_fail (E_IS_SHELL (shell));
@@ -884,25 +929,22 @@ e_shell_go_online (EShell *shell,
 
 	priv = shell->priv;
 
-	component_ids = e_component_registry_get_id_list (priv->component_registry);
-
-	for (p = component_ids; p != NULL; p = p->next) {
+	component_infos = e_component_registry_peek_list (priv->component_registry);
+	for (p = component_infos; p != NULL; p = p->next) {
+		EComponentInfo *info = p->data;
 		CORBA_Environment ev;
-		EvolutionShellComponentClient *client;
 		GNOME_Evolution_Offline offline_interface;
 		const char *id;
 
-		id = (const char *) p->data;
-		client = e_component_registry_get_component_by_id (priv->component_registry, id);
-
 		CORBA_exception_init (&ev);
 
-		offline_interface = evolution_shell_component_client_get_offline_interface (client);
-
-		if (CORBA_Object_is_nil (offline_interface, &ev) || ev._major != CORBA_NO_EXCEPTION) {
+		offline_interface = Bonobo_Unknown_queryInterface (info->iface, "IDL:GNOME/Evolution/Offline:1.0", &ev);
+		if (ev._major != CORBA_NO_EXCEPTION || offline_interface == CORBA_OBJECT_NIL) {
 			CORBA_exception_free (&ev);
 			continue;
 		}
+
+		CORBA_exception_free (&ev);
 
 		GNOME_Evolution_Offline_goOnline (offline_interface, &ev);
 		if (ev._major != CORBA_NO_EXCEPTION)
@@ -911,11 +953,8 @@ e_shell_go_online (EShell *shell,
 		CORBA_exception_free (&ev);
 	}
 
-	e_free_string_list (component_ids);
-
 	priv->line_status = E_SHELL_LINE_STATUS_ONLINE;
 	g_signal_emit (shell, signals[LINE_STATUS_CHANGED], 0, priv->line_status);
-#endif
 }
 
 
