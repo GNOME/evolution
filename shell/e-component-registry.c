@@ -30,6 +30,7 @@
 
 #include "e-util/e-lang-utils.h"
 
+#include <libgnome/gnome-i18n.h>
 #include <gal/util/e-util.h>
 
 #include <bonobo/bonobo-object.h>
@@ -124,6 +125,10 @@ query_components (EComponentRegistry *registry)
 
 		id = info_list->_buffer[i].iid;
 		label = bonobo_server_info_prop_lookup (& info_list->_buffer[i], "evolution:button_label", language_list);
+		if (label == NULL) {
+			g_print ("no label for %s\n", id);
+			label = g_strdup (_("Unknown"));
+		}
 
 		icon_name = bonobo_server_info_prop_lookup (& info_list->_buffer[i], "evolution:button_icon", NULL);
 		if (icon_name == NULL) {
