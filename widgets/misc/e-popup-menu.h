@@ -4,6 +4,8 @@
 
 #include <gtk/gtkwidget.h>
 
+BEGIN_GNOME_DECLS
+
 typedef struct _EPopupMenu EPopupMenu;
 
 struct _EPopupMenu {
@@ -24,5 +26,7 @@ void     e_popup_menu_run     (EPopupMenu     *menu_list,
 			       guint32         disable_mask,
 			       guint32         hide_mask,
 			       void           *closure);
+
+END_GNOME_DECLS
 
 #endif /* E_POPUP_MENU_H */

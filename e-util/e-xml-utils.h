@@ -26,6 +26,8 @@
 #include <gnome.h>
 #include <gnome-xml/tree.h>
 
+BEGIN_GNOME_DECLS
+
 xmlNode *e_xml_get_child_by_name                     (const xmlNode *parent,
                                                       const xmlChar *child_name);
 /* lang set to NULL means use the current locale. */
@@ -86,5 +88,7 @@ void      e_xml_set_string_prop_by_name              (xmlNode       *parent,
 
 gchar    *e_xml_get_translated_string_prop_by_name   (const xmlNode *parent,
                                                       const xmlChar *prop_name);
+
+END_GNOME_DECLS
 
 #endif /* __E_XML_UTILS__ */

@@ -5,6 +5,11 @@
 #include <gtk/gtktypeutils.h>
 #include <sys/types.h>
 
+#ifdef __cplusplus
+extern "C" {
+#pragma }
+#endif /* __cplusplus */
+
 #define E_MAKE_TYPE(l,str,t,ci,i,parent) \
 GtkType l##_get_type(void)\
 {\
@@ -87,6 +92,11 @@ void      e_marshal_BOOL__INT_INT_POINTER_INT_INT_INT              (GtkObject   
 								    GtkSignalFunc  func,
 								    gpointer       func_data,
 								    GtkArg        *args);
+
+#ifdef __cplusplus
+}
+#endif /* __cplusplus */
+
 
 #define e_marshal_NONE__INT_INT_POINTER_INT_INT_POINTER_UINT_UINT e_marshal_NONE__INT_INT_POINTER_INT_INT_POINTER_INT_INT
 
