@@ -1,3 +1,16 @@
+2001-07-10  Jason Leach  <jleach@ximian.com>
+
+	[Fix bug #4388: ETableSpecification still in .c file]
+
+	* gui/dialogs/meeting-page.etspec: New file containing the spec
+	that was previously in meeting-page.c as a string.
+	
+	* gui/dialogs/meeting-page.c: One line change to get it to use
+	this spec file instead of a string.
+
+	* gui/dialogs/Makefile.am: Necessary changes to get the new
+	meeting-page.etspec installed.
+
 2001-07-10  Damon Chaplin  <damon@ximian.com>
 
 	* gui/calendar-model.c:

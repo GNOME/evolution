@@ -55,50 +55,6 @@
 
 #define SELECT_NAMES_OAFID "OAFIID:GNOME_Evolution_Addressbook_SelectNames"
 
-#define MEETING_PAGE_TABLE_SPEC						\
-	"<ETableSpecification click-to-add=\"true\" "			\
-	" _click-to-add-message=\"Click here to add an attendee\" "	\
-	" draw-grid=\"true\">"						\
-        "  <ETableColumn model_col= \"0\" _title=\"Attendee\" "	        \
-	"   expansion=\"2.0\" minimum_width=\"10\" resizable=\"true\" "	\
-	"   cell=\"string\" compare=\"string\"/>"			\
-        "  <ETableColumn model_col= \"1\" _title=\"Member\" "		\
-	"   expansion=\"2.0\" minimum_width=\"10\" resizable=\"true\" "	\
-	"   cell=\"string\" compare=\"string\"/>"			\
-        "  <ETableColumn model_col= \"2\" _title=\"Type\" "		\
-	"   expansion=\"1.0\" minimum_width=\"10\" resizable=\"true\" "	\
-	"   cell=\"typeedit\" compare=\"string\"/>"			\
-        "  <ETableColumn model_col= \"3\" _title=\"Role\" "	        \
-	"   expansion=\"1.0\" minimum_width=\"10\" resizable=\"true\" "	\
-	"   cell=\"roleedit\"   compare=\"string\"/>"		        \
-        "  <ETableColumn model_col= \"4\" _title=\"RSVP\" "	        \
-	"   expansion=\"1.0\" minimum_width=\"10\" resizable=\"true\" "	\
-	"   cell=\"rsvpedit\" compare=\"string\"/>"			\
-        "  <ETableColumn model_col= \"5\" _title=\"Delegated To\" "	\
-	"   expansion=\"1.0\" minimum_width=\"10\" resizable=\"true\" "	\
-	"   cell=\"rsvpedit\" compare=\"string\"/>"			\
-        "  <ETableColumn model_col= \"6\" _title=\"Delegated From\" "	\
-	"   expansion=\"1.0\" minimum_width=\"10\" resizable=\"true\" "	\
-	"   cell=\"rsvpedit\" compare=\"string\"/>"			\
-        "  <ETableColumn model_col= \"7\" _title=\"Status\" "		\
-	"   expansion=\"1.0\" minimum_width=\"10\" resizable=\"true\" "	\
-	"   cell=\"statusedit\" compare=\"string\"/>"			\
-        "  <ETableColumn model_col= \"8\" _title=\"Common Name\" "	\
-	"   expansion=\"2.0\" minimum_width=\"10\" resizable=\"true\" "	\
-	"   cell=\"string\" compare=\"string\"/>"			\
-        "  <ETableColumn model_col= \"9\" _title=\"Language\" "	        \
-	"   expansion=\"2.0\" minimum_width=\"10\" resizable=\"true\" "	\
-	"   cell=\"string\" compare=\"string\"/>"			\
-	"  <ETableState>"						\
-	"    <column source=\"0\"/>"					\
-	"    <column source=\"2\"/>"					\
-	"    <column source=\"3\"/>"					\
-	"    <column source=\"4\"/>"					\
-	"    <column source=\"7\"/>"					\
-	"    <grouping></grouping>"					\
-	"  </ETableState>"						\
-	"</ETableSpecification>"
-
 enum columns {
 	MEETING_ATTENDEE_COL,
 	MEETING_MEMBER_COL,
@@ -1183,8 +1139,10 @@ build_etable (MeetingPage *mpage)
 			"append_row", append_row,
 			NULL);
 	
-	priv->etable = e_table_scrolled_new (priv->model, extras, 
-					     MEETING_PAGE_TABLE_SPEC, NULL);
+	priv->etable = e_table_scrolled_new_from_spec_file (priv->model,
+							    extras, 
+							    EVOLUTION_ETSPECDIR "/meeting-page.etspec",
+							    NULL);
 	filename = g_strdup_printf ("%s/config/et-header-meeting-page", 
 				    evolution_dir);
 	real_table = e_table_scrolled_get_table (E_TABLE_SCROLLED (priv->etable));

@@ -14,6 +14,7 @@ INCLUDES = 						\
 	$(EXTRA_GNOME_CFLAGS)				\
 	-DEVOLUTION_DATADIR=\""$(datadir)"\"		\
 	-DEVOLUTION_GLADEDIR=\""$(gladedir)"\"		\
+	-DEVOLUTION_ETSPECDIR=\""$(etspecdir)"\"	\
 	$(BONOBO_VFS_GNOME_CFLAGS)			\
         -DGNOMELOCALEDIR=\""$(localedir)"\"
 
@@ -69,6 +70,9 @@ glade_DATA =				\
 	recurrence-page.glade		\
 	task-details-page.glade		\
 	task-page.glade
+
+etspecdir = $(datadir)/evolution/etspec/
+etspec_DATA = meeting-page.etspec
 
 EXTRA_DIST =			\
 	$(glade_DATA)
