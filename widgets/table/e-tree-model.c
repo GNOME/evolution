@@ -153,6 +153,15 @@ e_tree_path_unlink (ETreePath *path)
 	path->prev_sibling = NULL;
 }
 
+/**
+ * e_tree_model_node_traverse:
+ * @model: 
+ * @path: 
+ * @func: 
+ * @data: 
+ * 
+ * 
+ **/
 void
 e_tree_model_node_traverse (ETreeModel *model, ETreePath *path, ETreePathFunc func, gpointer data)
 {
@@ -174,6 +183,15 @@ e_tree_model_node_traverse (ETreeModel *model, ETreePath *path, ETreePathFunc fu
 
 
 
+/**
+ * e_tree_model_freeze:
+ * @etm: the ETreeModel to freeze.
+ * 
+ * This function prepares an ETreeModel for a period of much change.
+ * All signals regarding changes to the tree are deferred until we
+ * thaw the tree.
+ * 
+ **/
 void
 e_tree_model_freeze(ETreeModel *etm)
 {
@@ -182,6 +200,15 @@ e_tree_model_freeze(ETreeModel *etm)
 	priv->frozen ++;
 }
 
+/**
+ * e_tree_model_thaw:
+ * @etm: the ETreeModel to thaw.
+ * 
+ * This function thaws an ETreeModel.  All the defered signals can add
+ * up to a lot, we don't know - so we just emit a model_changed
+ * signal.
+ * 
+ **/
 void
 e_tree_model_thaw(ETreeModel *etm)
 {
@@ -204,6 +231,10 @@ etree_destroy (GtkObject *object)
 	ETreeModelPriv *priv = etree->priv;
 
 	/* XXX lots of stuff to free here */
+
+	if (priv->root)
+		e_tree_model_node_remove (etree, priv->root);
+
 	g_array_free (priv->row_array, TRUE);
 	g_hash_table_destroy (priv->expanded_state);
 
@@ -379,6 +410,13 @@ etree_set_expanded (ETreeModel *etm, ETreePath* node, gboolean expanded)
 	}
 }
 
+/**
+ * e_tree_model_set_expanded_default:
+ * @etree: The ETreeModel we're setting the default expanded behavior on.
+ * @expanded: Whether or not newly inserted parent nodes should be expanded by default.
+ * 
+ * 
+ **/
 void
 e_tree_model_show_node (ETreeModel *etm, ETreePath* node)
 {
@@ -639,6 +677,16 @@ E_MAKE_TYPE(e_tree_model, "ETreeModel", ETreeModel, e_tree_model_class_init, e_t
 
 
 /* signals */
+
+/**
+ * e_tree_model_node_changed:
+ * @tree_model: 
+ * @node: 
+ * 
+ * 
+ * 
+ * Return value: 
+ **/
 void
 e_tree_model_node_changed  (ETreeModel *tree_model, ETreePath *node)
 {
@@ -651,9 +699,17 @@ e_tree_model_node_changed  (ETreeModel *tree_model, ETreePath *node)
 		e_table_model_row_changed (E_TABLE_MODEL (tree_model), row);
 
 	gtk_signal_emit (GTK_OBJECT (tree_model),
-			 e_tree_model_signals [NODE_CHANGED]);
+			 e_tree_model_signals [NODE_CHANGED], node);
 }
 
+/**
+ * e_tree_model_node_inserted:
+ * @tree_model: 
+ * @parent_node: 
+ * @inserted_node: 
+ * 
+ * 
+ **/
 void
 e_tree_model_node_inserted (ETreeModel *tree_model,
 			    ETreePath *parent_node,
@@ -672,6 +728,14 @@ e_tree_model_node_inserted (ETreeModel *tree_model,
 			 parent_node, inserted_node);
 }
 
+/**
+ * e_tree_model_node_removed:
+ * @tree_model: 
+ * @parent_node: 
+ * @removed_node: 
+ * 
+ * 
+ **/
 void
 e_tree_model_node_removed  (ETreeModel *tree_model, ETreePath *parent_node, ETreePath *removed_node)
 {
@@ -689,6 +753,13 @@ e_tree_model_node_removed  (ETreeModel *tree_model, ETreePath *parent_node, ETre
 			 parent_node, removed_node);
 }
 
+/**
+ * e_tree_model_node_collapsed:
+ * @tree_model: 
+ * @node: 
+ * 
+ * 
+ **/
 void
 e_tree_model_node_collapsed (ETreeModel *tree_model, ETreePath *node)
 {
@@ -700,6 +771,14 @@ e_tree_model_node_collapsed (ETreeModel *tree_model, ETreePath *node)
 			 node);
 }
 
+/**
+ * e_tree_model_node_expanded:
+ * @tree_model: 
+ * @node: 
+ * @allow_expand: 
+ * 
+ * 
+ **/
 void
 e_tree_model_node_expanded  (ETreeModel *tree_model, ETreePath *node, gboolean *allow_expand)
 {
@@ -713,6 +792,12 @@ e_tree_model_node_expanded  (ETreeModel *tree_model, ETreePath *node, gboolean *
 
 
 
+/**
+ * e_tree_model_construct:
+ * @etree: 
+ * 
+ * 
+ **/
 void
 e_tree_model_construct (ETreeModel *etree)
 {
@@ -729,6 +814,13 @@ e_tree_model_construct (ETreeModel *etree)
 	priv->frozen = 0;
 }
 
+/**
+ * e_tree_model_new
+ *
+ * XXX docs here.
+ *
+ * return values: a newly constructed ETreeModel.
+ */
 ETreeModel *
 e_tree_model_new ()
 {
@@ -739,24 +831,57 @@ e_tree_model_new ()
 	return et;
 }
 
+/**
+ * e_tree_model_get_root
+ * @etree: the ETreeModel of which we want the root node.
+ *
+ * Accessor for the root node of @etree.
+ *
+ * return values: the ETreePath corresponding to the root node.
+ */
 ETreePath *
 e_tree_model_get_root (ETreeModel *etree)
 {
 	return ETM_CLASS(etree)->get_root(etree);
 }
 
+/**
+ * e_tree_model_node_at_row
+ * @etree: the ETreeModel.
+ * @row: 
+ *
+ * XXX docs here.
+ *
+ * return values: the ETreePath corresponding to @row.
+ */
 ETreePath *
 e_tree_model_node_at_row (ETreeModel *etree, int row)
 {
 	return ETM_CLASS(etree)->node_at_row (etree, row);
 }
 
+/**
+ * e_tree_model_icon_of_node
+ * @etree: The ETreeModel.
+ * @path: The ETreePath to the node we're getting the icon of.
+ *
+ * XXX docs here.
+ *
+ * return values: the GdkPixbuf associated with this node.
+ */
 GdkPixbuf *
 e_tree_model_icon_of_node (ETreeModel *etree, ETreePath *path)
 {
 	return ETM_CLASS(etree)->icon_at (etree, path);
 }
 
+/**
+ * e_tree_model_row_of_node
+ * @etree: The ETreeModel.
+ * @node: The node whose row we're looking up.
+ *
+ * return values: an int.
+ */
 int
 e_tree_model_row_of_node (ETreeModel *etree, ETreePath *node)
 {
@@ -770,6 +895,11 @@ e_tree_model_row_of_node (ETreeModel *etree, ETreePath *node)
 	return -1;
 }
 
+/**
+ * e_tree_model_root_node_set_visible
+ *
+ * return values: none
+ */
 void
 e_tree_model_root_node_set_visible (ETreeModel *etm, gboolean visible)
 {
@@ -792,6 +922,14 @@ e_tree_model_root_node_set_visible (ETreeModel *etm, gboolean visible)
 	}
 }
 
+/**
+ * e_tree_model_root_node_is_visible:
+ * @etm: 
+ * 
+ * 
+ * 
+ * Return value: 
+ **/
 gboolean
 e_tree_model_root_node_is_visible (ETreeModel *etm)
 {
@@ -799,12 +937,30 @@ e_tree_model_root_node_is_visible (ETreeModel *etm)
 	return priv->root_visible;
 }
 
+/**
+ * e_tree_model_node_get_first_child:
+ * @etree: 
+ * @node: 
+ * 
+ * 
+ * 
+ * Return value: 
+ **/
 ETreePath *
 e_tree_model_node_get_first_child (ETreeModel *etree, ETreePath *node)
 {
 	return ETM_CLASS(etree)->get_first_child(etree, node);
 }
 
+/**
+ * e_tree_model_node_get_last_child:
+ * @etree: 
+ * @node: 
+ * 
+ * 
+ * 
+ * Return value: 
+ **/
 ETreePath *
 e_tree_model_node_get_last_child (ETreeModel *etree, ETreePath *node)
 {
@@ -812,60 +968,148 @@ e_tree_model_node_get_last_child (ETreeModel *etree, ETreePath *node)
 }
 
 
+/**
+ * e_tree_model_node_get_next:
+ * @etree: 
+ * @node: 
+ * 
+ * 
+ * 
+ * Return value: 
+ **/
 ETreePath *
 e_tree_model_node_get_next (ETreeModel *etree, ETreePath *node)
 {
 	return ETM_CLASS(etree)->get_next(etree, node);
 }
 
+/**
+ * e_tree_model_node_get_prev:
+ * @etree: 
+ * @node: 
+ * 
+ * 
+ * 
+ * Return value: 
+ **/
 ETreePath *
 e_tree_model_node_get_prev (ETreeModel *etree, ETreePath *node)
 {
 	return ETM_CLASS(etree)->get_prev(etree, node);
 }
 
+/**
+ * e_tree_model_node_depth:
+ * @etree: 
+ * @path: 
+ * 
+ * 
+ * 
+ * Return value: 
+ **/
 guint
 e_tree_model_node_depth (ETreeModel *etree, ETreePath *path)
 {
 	return e_tree_path_depth (path) - 1;
 }
 
+/**
+ * e_tree_model_node_get_parent:
+ * @etree: 
+ * @path: 
+ * 
+ * 
+ * 
+ * Return value: 
+ **/
 ETreePath *
 e_tree_model_node_get_parent (ETreeModel *etree, ETreePath *path)
 {
 	return ETM_CLASS(etree)->get_parent(etree, path);
 }
 
+/**
+ * e_tree_model_node_is_root:
+ * @etree: 
+ * @path: 
+ * 
+ * 
+ * 
+ * Return value: 
+ **/
 gboolean
 e_tree_model_node_is_root (ETreeModel *etree, ETreePath *path)
 {
 	return (e_tree_model_node_depth (etree, path) == 0);
 }
 
+/**
+ * e_tree_model_node_is_expandable:
+ * @etree: 
+ * @path: 
+ * 
+ * 
+ * 
+ * Return value: 
+ **/
 gboolean
 e_tree_model_node_is_expandable (ETreeModel *etree, ETreePath *path)
 {
 	return (e_tree_model_node_get_children (etree, path, NULL) > 0);
 }
 
+/**
+ * e_tree_model_node_is_expanded:
+ * @etree: 
+ * @path: 
+ * 
+ * 
+ * 
+ * Return value: 
+ **/
 gboolean
 e_tree_model_node_is_expanded (ETreeModel *etree, ETreePath *path)
 {
 	return ETM_CLASS(etree)->is_expanded (etree, path);
 }
 
+/**
+ * e_tree_model_node_is_visible:
+ * @etree: 
+ * @path: 
+ * 
+ * 
+ * 
+ * Return value: 
+ **/
 gboolean
 e_tree_model_node_is_visible (ETreeModel *etree, ETreePath *path)
 {
 	return ETM_CLASS(etree)->is_visible (etree, path);
 }
 
+/**
+ * e_tree_model_node_set_expanded:
+ * @etree: 
+ * @path: 
+ * @expanded: 
+ * 
+ * 
+ **/
 void
 e_tree_model_node_set_expanded (ETreeModel *etree, ETreePath *path, gboolean expanded)
 {
 	ETM_CLASS(etree)->set_expanded (etree, path, expanded);
 }
 
+/**
+ * e_tree_model_node_set_expanded_recurse:
+ * @etree: 
+ * @path: 
+ * @expanded: 
+ * 
+ * 
+ **/
 void
 e_tree_model_node_set_expanded_recurse (ETreeModel *etree, ETreePath *path, gboolean expanded)
 {
@@ -878,12 +1122,30 @@ e_tree_model_node_get_children (ETreeModel *etree, ETreePath *path, ETreePath **
 	return ETM_CLASS(etree)->get_children (etree, path, paths);
 }
 
+/**
+ * e_tree_model_node_num_visible_descendents:
+ * @etm: 
+ * @node: 
+ * 
+ * 
+ * 
+ * Return value: 
+ **/
 guint
 e_tree_model_node_num_visible_descendents (ETreeModel *etm, ETreePath *node)
 {
 	return node->visible_descendents;
 }
 
+/**
+ * e_tree_model_node_get_data:
+ * @etm: 
+ * @node: 
+ * 
+ * 
+ * 
+ * Return value: 
+ **/
 gpointer
 e_tree_model_node_get_data (ETreeModel *etm, ETreePath *node)
 {
@@ -892,6 +1154,14 @@ e_tree_model_node_get_data (ETreeModel *etm, ETreePath *node)
 	return node->node_data;
 }
 
+/**
+ * e_tree_model_node_set_data:
+ * @etm: 
+ * @node: 
+ * @node_data: 
+ * 
+ * 
+ **/
 void
 e_tree_model_node_set_data (ETreeModel *etm, ETreePath *node, gpointer node_data)
 {
@@ -900,6 +1170,17 @@ e_tree_model_node_set_data (ETreeModel *etm, ETreePath *node, gpointer node_data
 	node->node_data = node_data;
 }
 
+/**
+ * e_tree_model_node_insert:
+ * @tree_model: 
+ * @parent_path: 
+ * @position: 
+ * @node_data: 
+ * 
+ * 
+ * 
+ * Return value: 
+ **/
 ETreePath*
 e_tree_model_node_insert (ETreeModel *tree_model,
 			  ETreePath *parent_path,
@@ -995,6 +1276,18 @@ e_tree_model_node_insert (ETreeModel *tree_model,
 	return new_path;
 }
 
+/**
+ * e_tree_model_node_insert_id:
+ * @tree_model: 
+ * @parent_path: 
+ * @position: 
+ * @node_data: 
+ * @save_id: 
+ * 
+ * 
+ * 
+ * Return value: 
+ **/
 ETreePath*
 e_tree_model_node_insert_id (ETreeModel *tree_model,
 			     ETreePath *parent_path,
@@ -1009,7 +1302,17 @@ e_tree_model_node_insert_id (ETreeModel *tree_model,
 	return path;
 }
 
-			  
+/**
+ * e_tree_model_node_insert_before:
+ * @etree: 
+ * @parent: 
+ * @sibling: 
+ * @node_data: 
+ * 
+ * 
+ * 
+ * Return value: 
+ **/
 ETreePath *
 e_tree_model_node_insert_before (ETreeModel *etree,
 				 ETreePath *parent,
@@ -1047,6 +1350,15 @@ child_free(ETreeModel *etree, ETreePath *node)
 	g_chunk_free(node, priv->node_chunk);
 }
 
+/**
+ * e_tree_model_node_remove:
+ * @etree: 
+ * @path: 
+ * 
+ * 
+ * 
+ * Return value: 
+ **/
 gpointer
 e_tree_model_node_remove (ETreeModel *etree, ETreePath *path)
 {
@@ -1158,6 +1470,15 @@ save_expanded_state_func (char *key, gboolean expanded, gpointer user_data)
 	}
 }
 
+/**
+ * e_tree_model_save_expanded_state:
+ * @etm: 
+ * @filename: 
+ * 
+ * 
+ * 
+ * Return value: 
+ **/
 gboolean
 e_tree_model_save_expanded_state (ETreeModel *etm, const char *filename)
 {
@@ -1223,6 +1544,15 @@ get_string_value (xmlNode *node,
 	return retval;
 }
 
+/**
+ * e_tree_model_load_expanded_state:
+ * @etm: 
+ * @filename: 
+ * 
+ * 
+ * 
+ * Return value: 
+ **/
 gboolean
 e_tree_model_load_expanded_state (ETreeModel *etm, const char *filename)
 {
@@ -1260,6 +1590,14 @@ e_tree_model_load_expanded_state (ETreeModel *etm, const char *filename)
 }
 
 
+/**
+ * e_tree_model_node_set_save_id:
+ * @etm: 
+ * @node: 
+ * @id: 
+ * 
+ * 
+ **/
 void
 e_tree_model_node_set_save_id (ETreeModel *etm, ETreePath *node, const char *id)
 {
@@ -1290,6 +1628,14 @@ e_tree_model_node_set_save_id (ETreeModel *etm, ETreePath *node, const char *id)
 
 
 
+/**
+ * e_tree_model_node_set_compare_function:
+ * @tree_model: 
+ * @node: 
+ * @compare: 
+ * 
+ * 
+ **/
 void
 e_tree_model_node_set_compare_function (ETreeModel *tree_model,
 					ETreePath *node,
@@ -1321,6 +1667,13 @@ e_tree_model_node_compare (ETreeSortInfo *info1, ETreeSortInfo *info2)
 	return info1->compare (info1->model, info1->path, info2->path);
 }
 
+/**
+ * e_tree_model_node_sort:
+ * @tree_model: 
+ * @node: 
+ * 
+ * 
+ **/
 void
 e_tree_model_node_sort (ETreeModel *tree_model,
 			ETreePath *node)
