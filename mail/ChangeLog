@@ -1,3 +1,11 @@
+2000-07-27  Jeffrey Stedfast  <fejj@helixcode.com>
+
+	* mail-config.c: Lets fix Dan's kludge the Right Way (tm)
+	(set_service_url): Only strip off the leading "/" from the 
+	url->path if url->host is NULL
+	(get_service_url): Only prepend a leading "/" to the path if the
+	host is NULL
+
 2000-07-27  Dan Winship  <danw@helixcode.com>
 
 	* mail-config.c (get_service_url): toss in a kludge to deal with
