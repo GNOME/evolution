@@ -1,21 +1,23 @@
 bin_PROGRAMS =	evolution-executive-summary
 
 INCLUDES = \
-	-I$(top_srcdir)/widgets				\
-	-I$(top_srcdir)/widgets/e-text			\
-	-I$(top_srcdir)					\
-	-I$(top_builddir)/shell				\
-	-I$(top_srcdir)/shell				\
+	-I$(top_srcdir)/widgets					\
+	-I$(top_srcdir)/widgets/e-text				\
+	-I$(top_srcdir)						\
+	-I$(top_builddir)/shell					\
+	-I$(top_srcdir)/shell					\
 	-I$(top_builddir)/executive-summary/evolution-services	\
-	-I$(top_srcdir)/executive-summary/widgets	\
-	$(GNOME_VFS_CFLAGS)				\
-	$(UNICODE_CFLAGS)				\
-	$(GTKHTML_CFLAGS)				\
-	-DEVOLUTION_VERSION=\""$(VERSION)"\"		\
-	-DEVOLUTION_GLADEDIR=\""$(gladedir)"\"		\
-	-DEVOLUTION_ICONSDIR=\""$(iconsdir)"\"		\
-	-DEVOLUTION_LOCALEDIR=\""$(datadir)/locale"\"	\
-	-DEVOLUTION_DATADIR=\""$(datadir)"\"            \
+	-I$(top_srcdir)/executive-summary/evolution-services	\
+	-I$(top_builddir)/executive-summary/widdets		\
+	-I$(top_srcdir)/executive-summary/widgets		\
+	$(GNOME_VFS_CFLAGS)					\
+	$(UNICODE_CFLAGS)					\
+	$(GTKHTML_CFLAGS)					\
+	-DEVOLUTION_VERSION=\""$(VERSION)"\"			\
+	-DEVOLUTION_GLADEDIR=\""$(gladedir)"\"			\
+	-DEVOLUTION_ICONSDIR=\""$(iconsdir)"\"			\
+	-DEVOLUTION_LOCALEDIR=\""$(datadir)/locale"\"		\
+	-DEVOLUTION_DATADIR=\""$(datadir)"\"            	\
 	-DG_LOG_DOMAIN=\"evolution-executive-summary\"
 
 CLEANFILES = $(IDL_GENERATED)

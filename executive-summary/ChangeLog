@@ -1,3 +1,7 @@
+2000-10-06  Ettore Perazzoli  <ettore@helixcode.com>
+
+	* component/Makefile.am (INCLUDES): Fix builddir != srcdir.
+
 2000-10-05  Chris Toshok  <toshok@helixcode.com>
 
 	* widgets/.cvsignore: ignore more stuff.
