@@ -1,5 +1,12 @@
 2000-10-18  Iain Holmes  <iain@helixcode.com>
 
+	* mail-config-gui.c (mail_config): Make all the CLists have passive
+	titles.
+	(identity_dialog): Make the default button the "OK" button, and set
+	the dialog to close on pressing return on the entryboxes.
+
+2000-10-17  Iain Holmes  <iain@helixcode.com>
+
 	* mail-config-gui.c (service_page_item_new): Disable the optionmenu
 	because it is empty.
 	(service_page_item_auth_fill): Enable the optionmenu as there's stuff
