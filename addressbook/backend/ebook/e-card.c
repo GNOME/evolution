@@ -3468,7 +3468,7 @@ e_card_send (ECard *card, ECardDisposition disposition)
 			       "full_name", &name,
 			       NULL);
 
-		content_type = CORBA_string_dup ("text/vcard");
+		content_type = CORBA_string_dup ("text/x-vcard");
 		filename = CORBA_string_dup ("");
 
 		tempstr = g_strdup_printf ("VCard for %s", name);
