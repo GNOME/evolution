@@ -1,3 +1,18 @@
+2004-06-11  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* providers/imap4/camel-imap4-summary.c
+	(camel_imap4_summary_flush_updates): Don't bother scanning summary
+	info if EXISTS was 0.
+	(camel_imap4_summary_set_uidvalidity): Emit the folder_changed
+	event after clearing the summary.
+	(camel_imap4_summary_expunge): Emit the folder_changed event after
+	removing the message from the summary.
+
+	* providers/imap4/camel-imap4-folder.c (imap4_sync): Flush updates
+	after an EXPUNGE and don't unset expunge if we didn't delete
+	anything (the logic was wrong anyway).
+	(imap4_refresh_info): Implemented.
+
 2004-06-10  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* providers/imap4/camel-imap4-engine.c

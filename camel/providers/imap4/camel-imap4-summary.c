@@ -998,14 +998,29 @@ void
 camel_imap4_summary_set_uidvalidity (CamelFolderSummary *summary, guint32 uidvalidity)
 {
 	CamelIMAP4Summary *imap4_summary = (CamelIMAP4Summary *) summary;
+	CamelFolderChangeInfo *changes;
+	CamelMessageInfo *info;
+	int i, count;
 	
 	g_return_if_fail (CAMEL_IS_IMAP4_SUMMARY (summary));
 	
 	if (imap4_summary->uidvalidity == uidvalidity)
 		return;
 	
-	/* FIXME: emit a signal or something first? */
+	changes = camel_folder_change_info_new ();
+	count = camel_folder_summary_count (summary);
+	for (i = 0; i < count; i++) {
+		if (!(info = camel_folder_summary_index (summary, i)))
+			continue;
+		
+		camel_folder_change_info_remove_uid (changes, camel_message_info_uid (info));
+		camel_folder_summary_info_free (summary, info);
+	}
+	
 	camel_folder_summary_clear (summary);
+	
+	camel_object_trigger_event (imap4_summary->folder, "folder_changed", changes);
+	camel_folder_change_info_free (changes);
 	
 	imap4_summary->uidvalidity = uidvalidity;
 	
@@ -1015,6 +1030,8 @@ camel_imap4_summary_set_uidvalidity (CamelFolderSummary *summary, guint32 uidval
 void
 camel_imap4_summary_expunge (CamelFolderSummary *summary, int seqid)
 {
+	CamelIMAP4Summary *imap4_summary = (CamelIMAP4Summary *) summary;
+	CamelFolderChangeInfo *changes;
 	CamelMessageInfo *info;
 	
 	g_return_if_fail (CAMEL_IS_IMAP4_SUMMARY (summary));
@@ -1022,11 +1039,10 @@ camel_imap4_summary_expunge (CamelFolderSummary *summary, int seqid)
 	if (!(info = camel_folder_summary_index (summary, seqid)))
 		return;
 	
-	/* FIXME: emit a signal or something that our Folder can proxy
-	 * up to the app so that it can update its display and
-	 * whatnot? */
-	
-	/* emit signal */
+	changes = camel_folder_change_info_new ();
+	camel_folder_change_info_remove_uid (changes, camel_message_info_uid (info));
+	camel_object_trigger_event (imap4_summary->folder, "folder_changed", changes);
+	camel_folder_change_info_free (changes);
 	
 	camel_folder_summary_info_free (summary, info);
 	camel_folder_summary_remove_index (summary, seqid);
@@ -1062,7 +1078,7 @@ camel_imap4_summary_flush_updates (CamelFolderSummary *summary, CamelException *
 	
 	if (imap4_summary->uidvalidity_changed) {
 		first = 1;
-	} else if (imap4_summary->exists_changed) {
+	} else if (imap4_summary->exists_changed && imap4_summary->exists > 0) {
 		scount = camel_folder_summary_count (summary);
 		ic = imap4_summary_fetch_flags (summary, 1, scount);
 		
@@ -1082,7 +1098,7 @@ camel_imap4_summary_flush_updates (CamelFolderSummary *summary, CamelException *
 		camel_imap4_command_unref (ic);
 	}
 	
-	if (first != 0) {
+	if (first != 0 && imap4_summary->exists > 0) {
 		ic = imap4_summary_fetch_all (summary, first, 0);
 		
 		while ((id = camel_imap4_engine_iterate (engine)) < ic->id && id != -1)

@@ -58,6 +58,7 @@ static void camel_imap4_folder_init (CamelIMAP4Folder *folder, CamelIMAP4FolderC
 static void camel_imap4_folder_finalize (CamelObject *object);
 
 static void imap4_sync (CamelFolder *folder, gboolean expunge, CamelException *ex);
+static void imap4_refresh_info (CamelFolder *folder, CamelException *ex);
 static void imap4_expunge (CamelFolder *folder, CamelException *ex);
 static CamelMimeMessage *imap4_get_message (CamelFolder *folder, const char *uid, CamelException *ex);
 static void imap4_append_message (CamelFolder *folder, CamelMimeMessage *message,
@@ -96,6 +97,7 @@ camel_imap4_folder_class_init (CamelIMAP4FolderClass *klass)
 	parent_class = (CamelFolderClass *) camel_type_get_global_classfuncs (CAMEL_FOLDER_TYPE);
 	
 	folder_class->sync = imap4_sync;
+	folder_class->refresh_info = imap4_refresh_info;
 	folder_class->expunge = imap4_expunge;
 	folder_class->get_message = imap4_get_message;
 	folder_class->append_message = imap4_append_message;
@@ -522,7 +524,6 @@ imap4_sync (CamelFolder *folder, gboolean expunge, CamelException *ex)
 	max = camel_folder_summary_count (folder->summary);
 	for (i = 0; i < max; i++) {
 		iinfo = (CamelIMAP4MessageInfo *) info = camel_folder_summary_index (folder->summary, i);
-		expunge = expunge && (info->flags & CAMEL_MESSAGE_DELETED);
 		if (info->flags & CAMEL_MESSAGE_FOLDER_FLAGGED) {
 			camel_imap4_flags_diff (&diff, iinfo->server_flags, info->flags);
 			diff.changed &= folder->permanent_flags;
@@ -557,6 +558,9 @@ imap4_sync (CamelFolder *folder, gboolean expunge, CamelException *ex)
 			;
 		
 		switch (ic->result) {
+		case CAMEL_IMAP4_RESULT_OK:
+			camel_imap4_summary_flush_updates (folder->summary, ex);
+			break;
 		case CAMEL_IMAP4_RESULT_NO:
 			/* FIXME: would be good to save the NO reason into the err message */
 			camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
@@ -571,6 +575,8 @@ imap4_sync (CamelFolder *folder, gboolean expunge, CamelException *ex)
 		}
 		
 		camel_imap4_command_unref (ic);
+	} else {
+		camel_imap4_summary_flush_updates (folder->summary, ex);
 	}
 	
 	camel_folder_summary_save (folder->summary);
@@ -586,6 +592,26 @@ imap4_expunge (CamelFolder *folder, CamelException *ex)
 	imap4_sync (folder, TRUE, ex);
 }
 
+static void
+imap4_refresh_info (CamelFolder *folder, CamelException *ex)
+{
+	CamelIMAP4Engine *engine = ((CamelIMAP4Store *) folder->parent_store)->engine;
+	CamelFolder *selected = (CamelFolder *) engine->folder;
+	
+	CAMEL_SERVICE_LOCK (folder->parent_store, connect_lock);
+	
+	if (folder != selected) {
+		if (camel_imap4_engine_select_folder (engine, folder, ex) == -1)
+			goto done;
+	}
+	
+	if (camel_imap4_summary_flush_updates (folder->summary, ex) == -1)
+		goto done;
+	
+ done:
+	
+	CAMEL_SERVICE_UNLOCK (folder->parent_store, connect_lock);
+}
 
 static int
 untagged_fetch (CamelIMAP4Engine *engine, CamelIMAP4Command *ic, guint32 index, camel_imap4_token_t *token, CamelException *ex)
