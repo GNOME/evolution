@@ -531,7 +531,7 @@ message_rfc822_dnd (CamelFolder *dest, CamelStream *stream, CamelException *ex)
 	camel_mime_parser_scan_from (mp, TRUE);
 	camel_mime_parser_init_with_stream (mp, stream);
 	
-	while (camel_mime_parser_step (mp, 0, 0) == HSCAN_FROM) {
+	while (camel_mime_parser_step (mp, 0, 0) == CAMEL_MIME_PARSER_STATE_FROM) {
 		CamelMessageInfo *info;
 		CamelMimeMessage *msg;
 		
