@@ -1,3 +1,9 @@
+2005-02-10  Chenthill Palanisamy  <pchenthill@novell.com>
+
+	* send-options.c: (e_sendoptions_clicked_cb): IF
+	we get a invalid session string back from the server
+	do the operation again.
+
 2005-01-24  Chenthill Palanisamy  <pchenthill@novell.com>
 
 

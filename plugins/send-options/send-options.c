@@ -161,6 +161,7 @@ e_send_options_load_default_data (EGwSendOptions *opts, ESendOptionsDialog *sod)
 static void
 e_sendoptions_clicked_cb (GtkWidget *button, gpointer data)
 {
+	EGwConnectionStatus status;
 	account = (EAccount *) data;
 	if (!sod) {
 		sod = e_sendoptions_dialog_new ();	
@@ -173,7 +174,13 @@ e_sendoptions_clicked_cb (GtkWidget *button, gpointer data)
 			return;
 		}
 			
-		e_gw_connection_get_settings (n_cnc, &opts);
+		status = e_gw_connection_get_settings (n_cnc, &opts);
+		if (status == E_GW_CONNECTION_STATUS_INVALID_CONNECTION)
+			status = e_gw_connection_get_settings (n_cnc, &opts);
+		if (status != E_GW_CONNECTION_STATUS_OK) {
+			g_warning ("Send Options: Could not get the settings from the server");
+			return;
+		}
 		e_send_options_load_default_data (opts, sod);
 	}
 	
