@@ -160,6 +160,7 @@ rfc2047_decode_word (const gchar *data, const gchar *into_what)
 		int b_len = 4096;
 		iconv_t i;
 		strncpy(q, charset, c - charset);
+		q[c - charset] = 0;
 		i = unicode_iconv_open(into_what, q);
 		if (!i) {
 			g_free(q);
@@ -167,9 +168,27 @@ rfc2047_decode_word (const gchar *data, const gchar *into_what)
 		}
 		unicode_iconv(i, &cook_2, &cook_len, &b, &b_len);
 		unicode_iconv_close(i);
+		*b = 0;
 	}
 
 	return g_strdup(buffer);
+}
+
+static gchar *
+find_end_of_encoded_word(const gchar *data) {
+	/* We can't just search for ?=,
+           because of the case :
+           "=?charset?q?=ff?=" :( */
+	if (!data) return NULL;
+	data = strstr(data, "=?");
+	if (!data) return NULL;
+	data = strchr(data+2, '?');
+	if (!data) return NULL;
+	data = strchr(data+1, '?');
+	if (!data) return NULL;
+	data = strstr(data+1, "?=");
+	if (!data) return NULL;
+	return data + 2;
 }
 
 gchar *
@@ -185,6 +204,7 @@ gmime_rfc2047_decode (const gchar *data, const gchar *into_what)
 		char *word_start = strstr(data, "=?"), *decoded;
 		if (!word_start) {
 			strcpy(b, data);
+			b[strlen(data)] = 0;
 			return buffer;
 		}
 		if (word_start != data) {
@@ -192,14 +212,16 @@ gmime_rfc2047_decode (const gchar *data, const gchar *into_what)
 			if (strspn(data, " \t\n\r") != (word_start - data)) {
 				strncpy(b, data, word_start - data);
 				b += word_start - data;
+				*b = 0;
 			}
 		}
 		decoded = rfc2047_decode_word(word_start, into_what);
 		strcpy(b, decoded);
 		b += strlen(decoded);
+		*b = 0;
 		g_free(decoded);
 
-		data = strstr(data, "?=") + 2;
+		data = find_end_of_encoded_word(data);
 	}
 
 	*b = 0;

@@ -1,3 +1,10 @@
+1999-08-06  Robert Brady  <rwb197@ecs.soton.ac.uk>
+
+	* tests/test6.c: encoder test.
+
+	* camel/gmime-rfc2047.c: Fixed decoder bug : sequence
+	?= is not always the terminator for an encoded-string.
+
 1999-08-06  bertrand  <Bertrand.Guiheneuf@aful.org>
 
 	* camel/providers/MH/camel-mh-folder.c (_list_subfolders): 
