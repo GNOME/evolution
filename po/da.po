@@ -24,8 +24,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-09-07 16:16+0200\n"
-"PO-Revision-Date: 2004-09-07 15:50+0200\n"
+"POT-Creation-Date: 2004-09-08 01:25+0200\n"
+"PO-Revision-Date: 2004-09-08 01:08+0200\n"
 "Last-Translator: Martin Willemoes Hansen <mwh@sysrq.dk>\n"
 "Language-Team: Danish <dansk@klid.dk>\n"
 "MIME-Version: 1.0\n"
@@ -9753,15 +9753,15 @@ msgstr "Ingen signedData i signaturen"
 
 #: camel/camel-smime-context.c:576
 msgid "Digests missing from enveloped data"
-msgstr "Digests mangler i konvolut-data"
+msgstr "Sammendrag mangler i konvolut-data"
 
 #: camel/camel-smime-context.c:589 camel/camel-smime-context.c:599
 msgid "Cannot calculate digests"
-msgstr "Kunne ikke udregne digests"
+msgstr "Kunne ikke udregne sammendrag"
 
 #: camel/camel-smime-context.c:604
 msgid "Cannot set message digests"
-msgstr "Kunne ikke sætte besked-digests"
+msgstr "Kunne ikke sætte besked-sammendrag"
 
 #: camel/camel-smime-context.c:614 camel/camel-smime-context.c:619
 msgid "Certificate import failed"
@@ -9780,7 +9780,7 @@ msgstr ""
 
 #: camel/camel-smime-context.c:635
 msgid "Cannot find signature digests"
-msgstr "Kunne ikke finde signatur-digests"
+msgstr "Kunne ikke finde signatur-sammendrag"
 
 #: camel/camel-smime-context.c:651
 #, c-format
@@ -10791,7 +10791,7 @@ msgstr "Kunne ikke tilslutte POP-serveren på %s"
 
 #: camel/providers/local/camel-local-folder.c:179
 msgid "Index message body data"
-msgstr "Indeksér besked-brødtekst"
+msgstr "Indeksér data i beskedens brødtekst"
 
 #. $HOME relative path + protocol string
 #: camel/providers/local/camel-local-folder.c:388
@@ -13138,7 +13138,7 @@ msgstr "E-post-liste"
 
 #: mail/em-filter-i18n.h:39
 msgid "Message Body"
-msgstr "Beskedkrop"
+msgstr "Beskedbrødtekst"
 
 #: mail/em-filter-i18n.h:40
 msgid "Message Header"
@@ -14178,11 +14178,11 @@ msgstr "Logfilen for filterhandlinger."
 
 #: mail/evolution-mail.schemas.in.in.h:43
 msgid "Mark as Seen after specified timeout"
-msgstr "Markér som set efter angivet tidsudløb"
+msgstr "Markér som set efter angivet tidsgrænse"
 
 #: mail/evolution-mail.schemas.in.in.h:44
 msgid "Mark as Seen after specified timeout."
-msgstr "Markér som set efter angivet tidsudløb."
+msgstr "Markér som set efter angivet tidsgrænse."
 
 #: mail/evolution-mail.schemas.in.in.h:45
 msgid "Mark citations in the message \"Preview\""
@@ -14226,12 +14226,14 @@ msgstr "Spørg ved tomt emne"
 
 #: mail/evolution-mail.schemas.in.in.h:55
 msgid "Prompt the user when he or she tries to expunge a folder."
-msgstr "Spørg brugeren når han eller hende prøver at tømme en folder."
+msgstr "Spørg brugeren når han eller hun prøver at tømme en folder."
 
 #: mail/evolution-mail.schemas.in.in.h:56
 msgid ""
 "Prompt the user when he or she tries to send a message without a Subject."
-msgstr "Spørg når brugeren forsøger at sende beskeder med et tomt emne."
+msgstr ""
+"Spørg når brugeren når han eller hun forsøger at sende beskeder med et tomt "
+"emne."
 
 #: mail/evolution-mail.schemas.in.in.h:57
 msgid "Prompt when user expunges"
@@ -14307,7 +14309,8 @@ msgstr "Lydfilen der skal afspilles når ny e-post ankommer."
 
 #: mail/evolution-mail.schemas.in.in.h:74
 msgid "Specifies the type of New Mail Notification the user wishes to use."
-msgstr "Anføre typen af påmindelse om ny e-post, som brugeren ønsker at bruge."
+msgstr ""
+"Anfører typen af påmindelse om ny e-post, som brugeren ønsker at bruge."
 
 #: mail/evolution-mail.schemas.in.in.h:75
 msgid "Spell check inline"
@@ -14362,11 +14365,11 @@ msgstr "Benyt tråde i beskedlisten baseret på emne"
 
 #: mail/evolution-mail.schemas.in.in.h:86
 msgid "Timeout for marking message as Seen"
-msgstr "Tidsudløb for at markere besked som set"
+msgstr "Tidsgrænse for at markere besked som set"
 
 #: mail/evolution-mail.schemas.in.in.h:87
 msgid "Timeout for marking message as Seen."
-msgstr "Tidsudløb for at markere besked som set."
+msgstr "Tidsgrænse for at markere besked som set."
 
 #: mail/evolution-mail.schemas.in.in.h:88
 msgid "UID string of the default account."
@@ -14600,7 +14603,7 @@ msgstr ""
 "(u)lighed med en given streng i beskedteksten i\n"
 "breve, hvilket ikke understøttes i Evolution. Disse filtre\n"
 "ændredes til at teste hvorvidt strengen findes\n"
-"eller ikke findes i beskedteksten."
+"eller ikke findes i beskedens brødtekst."
 
 #: mail/importers/netscape-importer.c:1250
 msgid "Evolution is importing your old Netscape data"
