@@ -1014,7 +1014,7 @@ static GPtrArray *
 get_uids(CamelFolder *folder)
 {
 	GPtrArray *array;
-	int i, count;
+	int i, j, count;
 
 	array = g_ptr_array_new();
 
@@ -1022,17 +1022,17 @@ get_uids(CamelFolder *folder)
 
 	count = camel_folder_summary_count(folder->summary);
 	g_ptr_array_set_size(array, count);
-	for (i=0; i<count; i++) {
+	for (i = 0, j = 0; i < count; i++) {
 		CamelMessageInfo *info = camel_folder_summary_index(folder->summary, i);
-
+		
 		if (info) {
-			array->pdata[i] = g_strdup(camel_message_info_uid(info));
+			array->pdata[j++] = g_strdup (camel_message_info_uid (info));
 			camel_folder_summary_info_free(folder->summary, info);
-		} else {
-			array->pdata[i] = g_strdup("xx unknown uid xx");
 		}
 	}
-
+	
+	g_ptr_array_set_size (array, j);
+	
 	return array;
 }
 

@@ -1,3 +1,10 @@
+2003-03-13  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* camel-folder.c (get_uids): Don't add bogus uids to the uid
+	array. Might fix bug #38868 (it's the only way I can figure that
+	camel_folder_get_message_info() could possibly return NULL for the
+	Outbox folder).
+
 2003-03-12  Not Zed  <NotZed@Ximian.com>
 
 	* camel-object.c (remove_bag): removed, it was double-freeing the
@@ -95,7 +102,6 @@
 	convert any CRLF sequences into plain old line-feeds to work
 	around a bug in some local transport programs.
 
->>>>>>> 1.1757
 2003-03-04  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* camel-object.h: s/class/klass in one place so that the header is
