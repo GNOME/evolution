@@ -152,7 +152,7 @@ maybe_remember_password (gpointer key, gpointer password, gpointer url)
 void
 mail_session_remember_password (const char *url)
 {
-	g_hash_table_foreach (passwords, maybe_remember_password, url);
+	g_hash_table_foreach (passwords, maybe_remember_password, (void *) url);
 }
 
 

@@ -94,7 +94,7 @@ create_view (EvolutionShellComponent *shell_component,
 		}
 
 		if (!gtk_object_get_data (GTK_OBJECT (storage), "connected"))
-			mail_do_scan_subfolders (store, storage);
+			mail_do_scan_subfolders (CAMEL_STORE(store), storage);
 		camel_object_unref (CAMEL_OBJECT (store));
 
 		control = folder_browser_factory_new_control ("", corba_shell);

@@ -34,6 +34,7 @@
 #include "mail-tools.h"
 #include "mail-ops.h"
 #include "mail-vfolder.h"
+#include "mail-summary.h"
 
 #include "Evolution.h"
 #include "evolution-storage.h"
@@ -133,6 +134,7 @@ check_compipes (void)
 	}
 }
 
+#if 0
 static void
 folder_free (FolderSummary *folder)
 {
@@ -165,6 +167,7 @@ view_destroy_cb (GtkObject *object,
 	summary_free (summary);
 	g_free (summary);
 }
+#endif
 
 static char *
 generate_html_summary (MailSummary *summary)
@@ -208,7 +211,7 @@ do_changed (MailSummary *summary)
 	char *ret_html;
 
 	ret_html = generate_html_summary (summary);
-	executive_summary_html_view_set_html(summary->view, (const char *) ret_html);
+	executive_summary_html_view_set_html(EXECUTIVE_SUMMARY_HTML_VIEW(summary->view), (const char *) ret_html);
 	g_free (ret_html);
 }
 
@@ -385,7 +388,8 @@ BonoboObject *
 create_summary_view (ExecutiveSummaryComponentFactory *_factory,
 		     void *closure)
 {
-	BonoboObject *component, *view, *bag;
+	BonoboObject *component, *view;
+	BonoboPropertyBag *bag;
 	char *html;
 	MailSummary *summary;
 
@@ -410,17 +414,17 @@ create_summary_view (ExecutiveSummaryComponentFactory *_factory,
 	summary->view = view;
 
 	bag = bonobo_property_bag_new (get_property, NULL, summary);
-	bonobo_property_bag_add (BONOBO_PROPERTY_BAG (bag),
+	bonobo_property_bag_add (bag,
 				 "window_title", PROPERTY_TITLE,
 				 BONOBO_ARG_STRING, NULL,
 				 "The title of this component's window", 
 				 BONOBO_PROPERTY_READABLE);
-	bonobo_property_bag_add (BONOBO_PROPERTY_BAG (bag),
+	bonobo_property_bag_add (bag,
 				 "window_icon", PROPERTY_ICON,
 				 BONOBO_ARG_STRING, NULL,
 				 "The icon for this component's window", 
 				 BONOBO_PROPERTY_READABLE);
-	bonobo_object_add_interface (component, bag);
+	bonobo_object_add_interface (component, BONOBO_OBJECT(bag));
 	g_free (html);
 
 	return component;
