@@ -7,7 +7,7 @@ providerdir = $(libdir)/evolution/camel-providers/$(VERSION)
 
 lib_LTLIBRARIES = libcamel.la
 
-INCLUDES = -I.. -I$(srcdir)/.. -I$(includedir)	 \
+INCLUDES = -I.. -I$(srcdir)/.. 			 \
 	-I$(top_srcdir)/intl			 \
 	-I$(top_srcdir)/e-util			 \
 	$(GLIB_CFLAGS)				 \

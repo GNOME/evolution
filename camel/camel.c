@@ -29,7 +29,7 @@
 #ifdef HAVE_NSS
 #include <nspr.h>
 #include <prthread.h>
-#include <nss.h>
+#include "nss.h"      /* Don't use <> here or it will include the system nss.h instead */
 #include <ssl.h>
 #endif /* HAVE_NSS */
 

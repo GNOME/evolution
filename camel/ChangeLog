@@ -1,3 +1,12 @@
+2001-03-17  Jeffrey Stedfast <fejj@ximian.com>
+
+	* Makefile.am: Don't include system include dir.
+
+	* camel.c: Use quotes around the nss.h include so it doesn't try
+	to use the systen nss.h file.
+
+	* camel-tcp-stream-ssl.c: Same here.
+
 2001-03-17  Not Zed  <NotZed@Ximian.com>
 
 	* providers/local/camel-maildir-summary.c (maildir_summary_sync): 

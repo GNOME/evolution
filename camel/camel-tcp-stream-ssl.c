@@ -37,7 +37,7 @@
 #include <prio.h>
 #include <prerror.h>
 #include <prerr.h>
-#include <nss.h>
+#include "nss.h"    /* Don't use <> here or it will include the system nss.h instead */
 #include <ssl.h>
 
 static CamelTcpStreamClass *parent_class = NULL;
@@ -335,7 +335,6 @@ ssl_bad_cert (void *data, PRFileDesc *sockfd)
 	CamelService *service;
 	char *prompt, *cert_str;
 	gpointer accept;
-	PRUint32 len;
 	
 	g_return_val_if_fail (data != NULL, SECFailure);
 	g_return_val_if_fail (CAMEL_IS_SERVICE (data), SECFailure);
