@@ -1,3 +1,7 @@
+2001-08-20  JP Rosevear  <jpr@ximian.com>
+
+	* evolution-comp-editor.xml: remove print setup option for consistency
+
 2001-08-20  Damon Chaplin  <damon@ximian.com>
 
 	* evolution-mail-message.xml: set MessageDelete pixtype to pixbuf.
