@@ -47,10 +47,10 @@
 #include "e-meeting-edit.h"
 
 /* Images */
-#include "bell.xpm"
-#include "recur.xpm"
+#include "art/bell.xpm"
+#include "art/recur.xpm"
 
-#include "jump.xpm"
+#include "art/jump.xpm"
 
 #define E_WEEK_VIEW_SMALL_FONT	\
 	"-adobe-utopia-regular-r-normal-*-*-100-*-*-p-*-iso8859-*"

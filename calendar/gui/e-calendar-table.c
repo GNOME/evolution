@@ -44,12 +44,12 @@
 #include "dialogs/task-editor.h"
 
 /* Pixmaps. */
-#include "task.xpm"
-#include "task-recurring.xpm"
-#include "task-assigned.xpm"
-#include "task-assigned-to.xpm"
+#include "art/task.xpm"
+#include "art/task-recurring.xpm"
+#include "art/task-assigned.xpm"
+#include "art/task-assigned-to.xpm"
 
-#include "check-filled.xpm"
+#include "art/check-filled.xpm"
 
 
 static void e_calendar_table_class_init		(ECalendarTableClass *class);

@@ -138,20 +138,7 @@ oaf_DATA = $(oaf_in_files:.oaf.in=.oaf)
 
 EXTRA_DIST =	 			\
 	$(glade_DATA)			\
-	bell.xpm			\
-	check-filled.xpm		\
-	dayview.xpm			\
-	jump.xpm			\
-	monthview.xpm			\
-	recur.xpm			\
-	task-assigned-to.xpm		\
-	task-assigned.xpm		\
-	task-recurring.xpm		\
-	task.xpm			\
-	weekview.xpm			\
-	workweekview.xpm		\
-	yearview.xpm			\
-	$(oaf_in_files) $(oaf_DATA)
+	$(oaf_in_files)
 
 install-data-local:
 	$(mkinstalldirs) $(DESTDIR)$(help_base)/C

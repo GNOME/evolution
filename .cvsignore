@@ -22,7 +22,5 @@ stamp-h.in
 stamp.h
 xlibtool
 xltmain.sh
-evolution.desktop
 evolution.spec
 xml-i18n-*
-

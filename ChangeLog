@@ -1,6 +1,12 @@
-2001-03-14  Gediminas Paulauskas <menesis@delfi.lt>
+2001-03-15  Gediminas Paulauskas <menesis@delfi.lt>
 
 	* configure.in: create doc/devel/executive-summary/Makefile
+	* evolution.png: moved to art/.
+	* evolution.desktop: moved to data/.
+	* Makefile.am: reflect those moves.
+	* art/*.xpm: moved 8 files from calendar/gui here.
+	* art/Makefile.am: added moved files.
+	distribute *.xpm, install *.png and *view.xpm.
 
 2001-03-12  Jeffrey Stedfast  <fejj@ximian.com>
 

@@ -1,5 +1,4 @@
 imagesdir = $(datadir)/images/evolution
-
 images_DATA = \
 	16_configure_addressbook.xpm	\
 	16_configure_addressbook.xpm	\
@@ -61,8 +60,8 @@ buttons_DATA = 				\
 	monthview.xpm  			\
 	move-message.png		\
 	new_appointment.png		\
-	reply-to-all.png		\
 	reply.png			\
+	reply-to-all.png		\
 	weekview.xpm  			\
 	workweekview.xpm		\
 	yearview.xpm	
@@ -76,31 +75,38 @@ conduits_DATA =				\
 	48_evo-address-conduit.png  	\
 	48_evo-todo-conduit.png
 
+appicondir = $(datadir)/pixmaps
+appicon_DATA = evolution.png
+
 EXTRA_DIST = \
-	add-service.png	\
-	attachment.xpm \
-	compose-message.png \
-	copy-message.png \
-	empty.xpm \
-	fetch-mail.png \
-	forward.png \
-	mail-new.xpm \
-	mail-read.xpm \
-	mail-replied.xpm \
-	mark.xpm \
-	meeting.xpm \
-	move-message.png \
-	priority-high.xpm \
-	priority-low.xpm \
-	reply.png \
-	reply-to-all.png \
-	tree-expanded.xpm \
-	tree-unexpanded.xpm \
-	score-lowest.xpm \
-	score-lower.xpm \
-	score-low.xpm \
-	score-normal.xpm \
-	score-high.xpm \
-	score-higher.xpm \
-	score-highest.xpm \
-	$(images_DATA)
+	attachment.xpm			\
+	bell.xpm			\
+	check-filled.xpm		\
+	empty.xpm			\
+	jump.xpm			\
+	mail-new.xpm			\
+	mail-read.xpm			\
+	mail-replied.xpm		\
+	mark.xpm			\
+	meeting.xpm			\
+	priority-high.xpm		\
+	priority-low.xpm		\
+	recur.xpm			\
+	score-higher.xpm		\
+	score-highest.xpm		\
+	score-high.xpm			\
+	score-lower.xpm			\
+	score-lowest.xpm		\
+	score-low.xpm			\
+	score-normal.xpm		\
+	task-assigned-to.xpm		\
+	task-assigned.xpm		\
+	task-recurring.xpm		\
+	task.xpm			\
+	tree-expanded.xpm		\
+	tree-unexpanded.xpm		\
+	$(images_DATA)			\
+	$(buttons_DATA)			\
+	$(conduits_DATA)		\
+	$(appicon_DATA)
+

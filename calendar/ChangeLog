@@ -1,3 +1,10 @@
+2001-03-15  Gediminas Paulauskas <menesis@delfi.lt>
+
+	* gui/*.xpm: moved to ../art.
+	* gui/Makefile.am: removed *.xpm and oaf_DATA from EXTRA_DIST.
+	* gui/e-calendar-table.c, gui/e-day-view.c, gui/e-week-view.c:
+	#include "art/*.xpm".
+
 2001-03-09  JP Rosevear  <jpr@ximian.com>
 
 	* conduits/todo/Makefile.am: PISOCK_INCLUDEDIR has become

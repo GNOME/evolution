@@ -46,8 +46,8 @@
 #include "e-meeting-edit.h"
 
 /* Images */
-#include "bell.xpm"
-#include "recur.xpm"
+#include "art/bell.xpm"
+#include "art/recur.xpm"
 
 /* The minimum amount of space wanted on each side of the date string. */
 #define E_DAY_VIEW_DATE_X_PAD	4
