@@ -236,7 +236,7 @@ identity_changed (GtkWidget *widget, gpointer data)
 	
 	if (gui->page != MAIL_CONFIG_WIZARD_PAGE_IDENTITY)
 		return;
-
+	
 	next_sensitive = mail_account_gui_identity_complete (gui->gui, &incomplete);
 	
 	evolution_wizard_set_buttons_sensitive (gui->wizard, TRUE, next_sensitive, TRUE, NULL);
@@ -782,6 +782,8 @@ get_fn (EvolutionWizard *wizard,
 		gtk_signal_connect (GTK_OBJECT (gui->gui->full_name), 
                                     "changed", identity_changed, gui);
                 gtk_signal_connect (GTK_OBJECT (gui->gui->email_address),
+                                    "changed", identity_changed, gui);
+		gtk_signal_connect (GTK_OBJECT (gui->gui->reply_to),
                                     "changed", identity_changed, gui);
 		gtk_signal_connect (GTK_OBJECT (gui->gui->source.hostname), 
 				    "changed", source_changed, gui);

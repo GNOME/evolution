@@ -1,5 +1,8 @@
 2002-10-01  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* mail-config-druid.c (get_fn): Connect to the changed signal for
+	the reply_to entry box. Fixes bugs #31553 and #31554.
+
 	* mail-composer-prefs.c (spell_setup): Only setup the languages if
 	the language_seq is not CORBA_OBJECT_NIL. Fixes bug #31559
 	(presumably at least).
