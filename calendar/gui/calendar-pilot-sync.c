@@ -245,9 +245,9 @@ update_record (GNOME_Calendar_Repository repo, int id, struct Appointment *a, in
 					obj->recur->weekday |= 1 << wd;
 
 			if (obj->recur->weekday == 0){
-				struct tm *tm = localtime (&obj->dtstart);
+				struct tm tm = *localtime (&obj->dtstart);
 
-				obj->recur->weekday = 1 << tm->tm_wday;
+				obj->recur->weekday = 1 << tm.tm_wday;
 			}
 			break;
 		}

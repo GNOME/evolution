@@ -749,15 +749,15 @@ static void
 gnome_month_item_init (GnomeMonthItem *mitem)
 {
 	time_t t;
-	struct tm *tm;
+	struct tm tm;
 
 	/* Initialize to the current month by default */
 
 	t = time (NULL);
-	tm = localtime (&t);
+	tm = *localtime (&t);
 
-	mitem->year = tm->tm_year + 1900;
-	mitem->month = tm->tm_mon;
+	mitem->year = tm.tm_year + 1900;
+	mitem->month = tm.tm_mon;
 
 	mitem->x = 0.0;
 	mitem->y = 0.0;

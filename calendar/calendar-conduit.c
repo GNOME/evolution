@@ -425,9 +425,9 @@ ical_from_remote_record(GnomePilotConduitStandardAbs *conduit,
 					obj->recur->weekday |= 1 << wd;
 
 			if (obj->recur->weekday == 0){
-				struct tm *tm = localtime (&obj->dtstart);
+				struct tm tm = *localtime (&obj->dtstart);
 
-				obj->recur->weekday = 1 << tm->tm_wday;
+				obj->recur->weekday = 1 << tm.tm_wday;
 			}
 			break;
 		}

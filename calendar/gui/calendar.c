@@ -358,15 +358,15 @@ vcalendar_create_from_calendar (Calendar *cal)
 	VObject *vcal;
 	GList   *l;
 	time_t  now = time (NULL);
-	struct tm *tm;
+	struct tm tm;
 	
 	/* WE call localtime for the side effect of setting tzname */
-	tm = localtime (&now);
+	tm = *localtime (&now);
 	
 	vcal = newVObject (VCCalProp);
 	addPropValue (vcal, VCProdIdProp, "-//GNOME//NONSGML GnomeCalendar//EN");
 #if defined(HAVE_TM_ZONE)
-	addPropValue (vcal, VCTimeZoneProp, tm->tm_zone);
+	addPropValue (vcal, VCTimeZoneProp, tm.tm_zone);
 #elif defined(HAVE_TZNAME)
 	addPropValue (vcal, VCTimeZoneProp, tzname[0]);
 #endif
@@ -390,6 +390,9 @@ vcalendar_create_from_calendar (Calendar *cal)
 		obj = ical_object_to_vobject ((iCalObject *) l->data);
 		addVObjectProp (vcal, obj);
 	}
+
+	cleanVObject (vcal);
+	cleanStrTbl ();
 
 	return vcal;
 }
@@ -417,8 +420,8 @@ calendar_save (Calendar *cal, char *fname)
 		g_free (backup_name);
 	}
 
-    fp = fopen(fname,"w");
-    if (fp) {
+	fp = fopen(fname,"w");
+	if (fp) {
 		writeVObject(fp, vcal);
 		fclose(fp);
 		if (strcmp(cal->filename, fname)) {
@@ -430,10 +433,10 @@ calendar_save (Calendar *cal, char *fname)
 		cal->file_time = s.st_mtime;
 	} else {
 		dlg = gnome_message_box_new(_("Failed to save calendar!"), 
-											GNOME_MESSAGE_BOX_ERROR, "Ok", NULL);
+					    GNOME_MESSAGE_BOX_ERROR, "Ok", NULL);
 		gtk_widget_show(dlg);
 	}
-
+	
 	cleanVObject (vcal);
 	cleanStrTbl ();
 }

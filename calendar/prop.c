@@ -412,7 +412,7 @@ fake_mark_days (void)
 static void
 set_current_day (void)
 {
-	struct tm *tm;
+	struct tm tm;
 	time_t t;
 	GnomeCanvasItem *item;
 	int day_index;
@@ -420,16 +420,16 @@ set_current_day (void)
 	/* Set the date */
 
 	t = time (NULL);
-	tm = localtime (&t);
+	tm = *localtime (&t);
 
 	gnome_canvas_item_set (month_item,
-			       "year", tm->tm_year + 1900,
-			       "month", tm->tm_mon,
+			       "year", tm.tm_year + 1900,
+			       "month", tm.tm_mon,
 			       NULL);
 
 	/* Highlight current day */
 
-	day_index = gnome_month_item_day2index (GNOME_MONTH_ITEM (month_item), tm->tm_mday);
+	day_index = gnome_month_item_day2index (GNOME_MONTH_ITEM (month_item), tm.tm_mday);
 	item = gnome_month_item_num2child (GNOME_MONTH_ITEM (month_item), GNOME_MONTH_ITEM_DAY_LABEL + day_index);
 	gnome_canvas_item_set (item,
 			       "fill_color", color_spec_from_picker (COLOR_PROP_CURRENT_DAY_FG),

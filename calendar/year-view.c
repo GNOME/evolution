@@ -629,7 +629,7 @@ static void
 mark_current_day (YearView *yv)
 {
 	time_t t;
-	struct tm *tm;
+	struct tm tm;
 	int month_index, day_index;
 	GnomeCanvasItem *item;
 
@@ -652,11 +652,11 @@ mark_current_day (YearView *yv)
 	/* Mark the new day */
 
 	t = time (NULL);
-	tm = localtime (&t);
+	tm = *localtime (&t);
 
-	if ((tm->tm_year + 1900) == yv->year) {
-		month_index = tm->tm_mon;
-		day_index = gnome_month_item_day2index (GNOME_MONTH_ITEM (yv->mitems[month_index]), tm->tm_mday);
+	if ((tm.tm_year + 1900) == yv->year) {
+		month_index = tm.tm_mon;
+		day_index = gnome_month_item_day2index (GNOME_MONTH_ITEM (yv->mitems[month_index]), tm.tm_mday);
 		g_assert (day_index != -1);
 
 		item = gnome_month_item_num2child (GNOME_MONTH_ITEM (yv->mitems[month_index]),
@@ -673,15 +673,15 @@ mark_current_day (YearView *yv)
 void
 year_view_set (YearView *yv, time_t year)
 {
-	struct tm *tm;
+	struct tm tm;
 	char buf[100];
 	int i;
 
 	g_return_if_fail (yv != NULL);
 	g_return_if_fail (IS_YEAR_VIEW (yv));
 
-	tm = localtime (&year);
-	yv->year = tm->tm_year + 1900;
+	tm = *localtime (&year);
+	yv->year = tm.tm_year + 1900;
 
 	/* Heading */
 

@@ -28,7 +28,7 @@ update (void)
 {
 	GnomeCanvasItem *item;
 	time_t t;
-	struct tm *tm;
+	struct tm tm;
 
 	unmark_month_item (month_item);
 	mark_month_item (month_item, gnome_calendar->cal);
@@ -44,10 +44,10 @@ update (void)
 	}
 
 	t = time (NULL);
-	tm = localtime (&t);
+	tm = *localtime (&t);
 
-	if (((tm->tm_year + 1900) == month_item->year) && (tm->tm_mon == month_item->month)) {
-		current_index = gnome_month_item_day2index (month_item, tm->tm_mday);
+	if (((tm.tm_year + 1900) == month_item->year) && (tm.tm_mon == month_item->month)) {
+		current_index = gnome_month_item_day2index (month_item, tm.tm_mday);
 		g_assert (current_index != -1);
 
 		item = gnome_month_item_num2child (month_item,
@@ -254,12 +254,12 @@ goto_dialog (GnomeCalendar *gcal)
 	GtkWidget *hbox;
 	GtkWidget *w;
 	GtkWidget *days;
-	struct tm *tm;
+	struct tm tm;
 
 	gnome_calendar = gcal;
 	current_index = -1;
 
-	tm = localtime (&gnome_calendar->current_display);
+	tm = *localtime (&gnome_calendar->current_display);
 
 	goto_win = gnome_dialog_new (_("Go to date"),
 				     GNOME_STOCK_BUTTON_CANCEL,
@@ -282,17 +282,17 @@ goto_dialog (GnomeCalendar *gcal)
 	 * month_item to be created.
 	 */
 
-	days = create_days (tm->tm_mday, tm->tm_mon, tm->tm_year + 1900);
+	days = create_days (tm.tm_mday, tm.tm_mon, tm.tm_year + 1900);
 
 	/* Year */
 
-	w = create_year (tm->tm_year + 1900);
+	w = create_year (tm.tm_year + 1900);
 	gtk_box_pack_start (GTK_BOX (vbox), w, FALSE, FALSE, 0);
 	gtk_widget_show (w);
 
 	/* Month */
 
-	w = create_months (tm->tm_mon);
+	w = create_months (tm.tm_mon);
 	gtk_box_pack_start (GTK_BOX (vbox), w, FALSE, FALSE, 0);
 	gtk_widget_show (w);
 

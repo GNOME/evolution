@@ -515,10 +515,10 @@ static char *
 convert_time_t_to_char (time_t t)
 {
 	char buf[100];
-	struct tm *tm;
+	struct tm tm;
 
-	tm = localtime (&t);
-	strftime(buf, sizeof (buf), "%m/%d/%Y", tm);
+	tm = *localtime (&t);
+	strftime(buf, sizeof (buf), "%m/%d/%Y", &tm);
 
 	return g_strdup (buf);
 }

@@ -621,7 +621,7 @@ static int
 add_event (iCalObject *ico, time_t start, time_t end, void *data)
 {
 	struct iter_info *ii;
-	struct tm *tm;
+	struct tm tm;
 	time_t t;
 	time_t day_begin_time, day_end_time;
 
@@ -638,8 +638,8 @@ add_event (iCalObject *ico, time_t start, time_t end, void *data)
 	 */
 
 	do {
-		tm = localtime (&day_begin_time);
-		g_string_sprintfa (ii->strings[ii->first_day_index + tm->tm_mday - 1], "%s\n", ico->summary);
+		tm = *localtime (&day_begin_time);
+		g_string_sprintfa (ii->strings[ii->first_day_index + tm.tm_mday - 1], "%s\n", ico->summary);
 
 		/* Next day */
 
@@ -703,7 +703,7 @@ static void
 mark_current_day (MonthView *mv)
 {
 	time_t t;
-	struct tm *tm;
+	struct tm tm;
 	GnomeCanvasItem *item;
 
 	/* Unmark the old day */
@@ -722,10 +722,10 @@ mark_current_day (MonthView *mv)
 	/* Mark the new day */
 
 	t = time (NULL);
-	tm = localtime (&t);
+	tm = *localtime (&t);
 
-	if (((tm->tm_year + 1900) == mv->year) && (tm->tm_mon == mv->month)) {
-		mv->old_current_index = gnome_month_item_day2index (GNOME_MONTH_ITEM (mv->mitem), tm->tm_mday);
+	if (((tm.tm_year + 1900) == mv->year) && (tm.tm_mon == mv->month)) {
+		mv->old_current_index = gnome_month_item_day2index (GNOME_MONTH_ITEM (mv->mitem), tm.tm_mday);
 		g_assert (mv->old_current_index != -1);
 
 		item = gnome_month_item_num2child (GNOME_MONTH_ITEM (mv->mitem),
@@ -740,7 +740,7 @@ mark_current_day (MonthView *mv)
 void
 month_view_set (MonthView *mv, time_t month)
 {
-	struct tm *tm;
+	struct tm tm;
 	char buf[100];
 
 	g_return_if_fail (mv != NULL);
@@ -748,12 +748,12 @@ month_view_set (MonthView *mv, time_t month)
 
 	/* Title */
 
-	tm = localtime (&month);
+	tm = *localtime (&month);
 
-	mv->year = tm->tm_year + 1900;
-	mv->month = tm->tm_mon;
+	mv->year = tm.tm_year + 1900;
+	mv->month = tm.tm_mon;
 	
-	strftime (buf, 100, _("%B %Y"), tm);
+	strftime (buf, 100, _("%B %Y"), &tm);
 
 	gnome_canvas_item_set (mv->title,
 			       "text", buf,

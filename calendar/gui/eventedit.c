@@ -182,22 +182,22 @@ check_times (GnomeDateEdit *gde, EventEditor *ee)
 static void
 set_all_day (GtkToggleButton *toggle, EventEditor *ee)
 {
-	struct tm *tm;
+	struct tm tm;
 	time_t start_t;
 
 	start_t = gnome_date_edit_get_date (GNOME_DATE_EDIT (ee->start_time));
-	tm = localtime (&start_t);
-	tm->tm_hour = day_begin;
-	tm->tm_min  = 0;
-	tm->tm_sec  = 0;
-	gnome_date_edit_set_time (GNOME_DATE_EDIT (ee->start_time), mktime (tm));
+	tm = *localtime (&start_t);
+	tm.tm_hour = day_begin;
+	tm.tm_min  = 0;
+	tm.tm_sec  = 0;
+	gnome_date_edit_set_time (GNOME_DATE_EDIT (ee->start_time), mktime (&tm));
 	
 	if (toggle->active)
-		tm->tm_hour = day_end;
+		tm.tm_hour = day_end;
 	else
-		tm->tm_hour++;
+		tm.tm_hour++;
 	
-	gnome_date_edit_set_time (GNOME_DATE_EDIT (ee->end_time), mktime (tm));
+	gnome_date_edit_set_time (GNOME_DATE_EDIT (ee->end_time), mktime (&tm));
 }
 
 /* Convenience function to create a properly-configured date editor widget */
@@ -951,9 +951,9 @@ ee_rp_init_rule (EventEditor *ee)
 	GSList      *group;
 	int          i, page, day_period, week_period, month_period, year_period;
 	int          week_vector, default_day, def_pos, def_off;
-	struct tm   *tm;
+	struct tm   tm;
 
-	tm = localtime (&ee->ical->dtstart);
+	tm = *localtime (&ee->ical->dtstart);
 	
 	f = gtk_frame_new (_("Recurrence rule"));
 
@@ -977,8 +977,8 @@ ee_rp_init_rule (EventEditor *ee)
 
 	/* Default to today */
 
-	week_vector = 1 << tm->tm_wday;
-	default_day = tm->tm_mday;
+	week_vector = 1 << tm.tm_wday;
+	default_day = tm.tm_mday;
 	def_pos = 0;
 	def_off = 0;
 

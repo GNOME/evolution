@@ -1,3 +1,27 @@
+1999-09-27  Miguel de Icaza  <miguel@nuclecu.unam.mx>
+
+	* month-view.c (add_event): ditto
+	(mark_current_day): ditto
+	(month_view_set): ditto
+
+	* goto.c (goto_dialog): ditto.
+
+	* gnome-month-item.c (gnome_month_item_init): ditto.
+
+	* gncal-day-panel.c (gncal_day_panel_new): ditto.
+
+	* getdate.c (RelativeDate): ditto.
+
+	* eventedit.c (set_all_day): ditto.
+	(ee_rp_init_rule): ditto.
+
+	* calendar.c (vcalendar_create_from_calendar): ditto.
+
+	* calendar-conduit.c (update_record): ditto.
+
+	* calobj.c (ical_object_generate_events): Get rid of pointers to
+	values returned from localtime, as it uses a static buffer.
+
 1999-09-26  Eskil Olsen <deity@eskil.dk>
 	* corba-cal.c: the g_free that was commented out since glib said
 	was a duplicate free, was supposed to be a free.

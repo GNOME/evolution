@@ -18,6 +18,7 @@
 #include "year-view.h"
 #include "timeutil.h"
 #include "main.h"
+#include "corba-cal.h"
 
 GnomeApp *parent_class;
 

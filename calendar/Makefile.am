@@ -9,16 +9,16 @@ gnorba_DATA = gnomecal.gnorba
 help_base = $(datadir)/gnome/help/cal
 
 if HAVE_GNOME_PILOT
-bin_PROGRAMS = gnomecal todo-conduit-control-applet calendar-conduit-control-applet
+bin_PROGRAMS = gnomecal todo-conduit-control-applet calendar-conduit-control-appleta calendar-pilot-sync
 else
 bin_PROGRAMS = gnomecal 
 endif
 
-INCLUDES = 			\
+INCLUDES = 						\
 	-I$(includedir)					\
 	$(GNOME_INCLUDEDIR)				\
-	$(GNOME_CONDUIT_INCLUDEDIR)				\
-	$(PISOCK_INCLUDEDIR)                  \
+	$(GNOME_CONDUIT_INCLUDEDIR)			\
+	$(PISOCK_INCLUDEDIR)                  		\
         -DGNOMELOCALEDIR=\""$(datadir)/locale"\"
 
 GNOMECAL_CORBA_GENERATED =	\
