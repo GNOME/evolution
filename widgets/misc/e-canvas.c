@@ -668,6 +668,7 @@ e_canvas_focus_out (GtkWidget *widget, GdkEventFocus *event)
 static void
 e_canvas_realize (GtkWidget *widget)
 {
+	gint width, height;
 	ECanvas *ecanvas = E_CANVAS (widget);
 
 	if (GTK_WIDGET_CLASS (parent_class)->realize)
@@ -682,11 +683,40 @@ e_canvas_realize (GtkWidget *widget)
 		GdkIMStyle style;
 		GdkIMStyle supported_style = GDK_IM_PREEDIT_NONE |
 			GDK_IM_PREEDIT_NOTHING |
+			GDK_IM_PREEDIT_POSITION |
 			GDK_IM_STATUS_NONE |
 			GDK_IM_STATUS_NOTHING;
 
+		if(widget->style && widget->style->font->type != GDK_FONT_FONTSET)
+			supported_style &= ~GDK_IM_PREEDIT_POSITION;
+
 		attr->style = style = gdk_im_decide_style (supported_style);
 		attr->client_window = ecanvas->parent.layout.bin_window;
+
+		switch (style & GDK_IM_PREEDIT_MASK)
+			{
+			case GDK_IM_PREEDIT_POSITION:
+				if (widget->style && widget->style->font->type != GDK_FONT_FONTSET)
+					{
+						g_warning ("over-the-spot style requires fontset");
+						break;
+					}
+				
+				gdk_window_get_size (attr->client_window, &width, &height);
+				height = widget->style->font->ascent +
+					widget->style->font->descent;
+
+				attrmask |= GDK_IC_PREEDIT_POSITION_REQ;
+				attr->spot_location.x = 0;
+				attr->spot_location.y = height;
+				attr->preedit_area.x = 0;
+				attr->preedit_area.y = 0;
+				attr->preedit_area.width = width;
+				attr->preedit_area.height = height;
+				attr->preedit_fontset = widget->style->font;
+
+				break;
+			}
 
 		ecanvas->ic = gdk_ic_new (attr, attrmask);
 		if (ecanvas->ic != NULL) {
