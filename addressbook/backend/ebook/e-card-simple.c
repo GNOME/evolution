@@ -1211,6 +1211,17 @@ void                  e_card_simple_set_arbitrary     (ECardSimple          *sim
 	}
 }
 
+void
+e_card_simple_set_name (ECardSimple *simple, ECardName *name)
+{
+	int style;
+	style = file_as_get_style(simple);
+	gtk_object_set (GTK_OBJECT (simple->card),
+			"name", name,
+			NULL);
+	file_as_set_style(simple, style);
+}
+
 /* These map between the individual list types and ECardSimpleField */
 ECardSimpleField
 e_card_simple_map_phone_to_field (ECardSimplePhoneId phone_id)

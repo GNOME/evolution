@@ -216,6 +216,8 @@ void                        e_card_simple_set_arbitrary          (ECardSimple   
 								  const char                   *key,
 								  const char                   *type,
 								  const char                   *value);
+void                        e_card_simple_set_name               (ECardSimple                  *simple,
+								  ECardName                    *name);
 void                        e_card_simple_sync_card              (ECardSimple                  *simple);
 
 /* These map between the individual list types and ECardSimpleField */

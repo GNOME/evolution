@@ -1,6 +1,12 @@
 2001-10-29  Christopher James Lahey  <clahey@ximian.com>
 
 	* backend/ebook/e-card-simple.c, backend/ebook/e-card-simple.h
+	(e_card_simple_set_name): New function to set the ECardName on
+	this card and fix the file_as if necessary.
+
+2001-10-29  Christopher James Lahey  <clahey@ximian.com>
+
+	* backend/ebook/e-card-simple.c, backend/ebook/e-card-simple.h
 	(e_card_simple_get): Handle returning dates here.
 	(e_card_simple_get_allow_newlines): New function.  Returns whether
 	it makes much sense to have newlines in this string.
