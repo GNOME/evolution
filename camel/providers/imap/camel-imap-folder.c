@@ -1129,12 +1129,12 @@ do_append (CamelFolder *folder, CamelMimeMessage *message,
 	   CamelException *ex)
 {
 	CamelImapStore *store = CAMEL_IMAP_STORE (folder->parent_store);
-	CamelImapResponse *response;
+	CamelImapResponse *response, *response2;
 	CamelStream *memstream;
 	CamelMimeFilter *crlf_filter;
 	CamelStreamFilter *streamfilter;
 	GByteArray *ba;
-	char *flagstr, *result, *end;
+	char *flagstr, *end;
 	
 	/* create flag string param */
 	if (info && info->flags)
@@ -1169,22 +1169,24 @@ do_append (CamelFolder *folder, CamelMimeMessage *message,
 		g_byte_array_free (ba, TRUE);
 		return NULL;
 	}
-	
-	result = camel_imap_response_extract_continuation (store, response, ex);
-	if (!result) {
+
+	if (*response->status != '+') {
+		camel_imap_response_free (store, response);
 		g_byte_array_free (ba, TRUE);
 		return NULL;
 	}
-	g_free (result);
 	
 	/* send the rest of our data - the mime message */
-	response = camel_imap_command_continuation (store, ba->data, ba->len, ex);
+	response2 = camel_imap_command_continuation (store, ba->data, ba->len, ex);
 	g_byte_array_free (ba, TRUE);
-	if (!response)
-		return response;
+
+	/* free it only after message is sent. This may cause more FETCHes. */
+	camel_imap_response_free (store, response);
+	if (!response2)
+		return response2;
 	
 	if (store->capabilities & IMAP_CAPABILITY_UIDPLUS) {
-		*uid = camel_strstrcase (response->status, "[APPENDUID ");
+		*uid = camel_strstrcase (response2->status, "[APPENDUID ");
 		if (*uid)
 			*uid = strchr (*uid + 11, ' ');
 		if (*uid) {
@@ -1198,7 +1200,7 @@ do_append (CamelFolder *folder, CamelMimeMessage *message,
 	} else
 		*uid = NULL;
 	
-	return response;
+	return response2;
 }
 
 static void
