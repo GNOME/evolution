@@ -275,7 +275,7 @@ imap_parse_string_generic (char **str_p, int *len, int type)
 		return NULL;
 	} else if (type == IMAP_ASTRING &&
 		   imap_is_atom_char ((unsigned char)*str)) {
-		while (imap_is_atom_char ((unsigned char)*str))
+		while (imap_is_atom_char ((unsigned char)*str) && *str != '\0')
 			str++;
 
 		*len = str - *str_p;

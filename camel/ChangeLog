@@ -1,3 +1,10 @@
+2001-04-07  Peter Williams  <peterw@ximian.com>
+
+	* providers/imap/camel-imap-utils.c (imap_parse_string_generic): It
+	would be a good idea to recognize '\0'. Before, this code was running
+	off the ends of strings and intermittently coredumping (if it didn't
+	hit an imap_atom_char first) -- whoops!
+
 2001-04-05  Not Zed  <NotZed@Ximian.com>
 
 	* merge from evolution-0-10-branch to evolution-0-10-merge-0
