@@ -1,3 +1,24 @@
+2002-03-16  Aaron Weber  <aaron@ximian.com>
+
+	* C/usage-mail.sgml: Slight revisions to style.
+	
+
+2002-02-22  Aaron Weber  <aaron@ximian.com>
+
+	* C/usage-mail.sgml: 
+
+	* C/usage-mainwindow.sgml: validation issue.
+
+	* C/usage-exchange.sgml: spelling, use faker email addresses for
+	examples.
+
+	* C/usage-calendar.sgml: spelling.
+
+	* C/usage-mail.sgml: misspelled "receive"
+
+	* C/usage-mainwindow.sgml: tm on vfolders, link on
+	support.ximian.com
+
 2001-11-16  Ettore Perazzoli  <ettore@ximian.com>
 
 	* sgmldocs.make: Use `-f' instead of `-e' so installation of

@@ -1633,40 +1633,50 @@
 	  </figure>
 	</para>
 	<para>
-	  Notice how professional the email looks, but it gets the content across well.  Each section is broken up in its own subsection.  The title is bolded, while the text which follows is indented one time.
+	  This message is not only more attractive, but more
+	  informative.  Each section is broken down into subsctions.
+	  The title for each section is in bold text, with the
+	  following content indented.
 	</para>
 	<para>
-	Making your headlines a larger size instead of bold can help
-	as well.  Header size 4 is often the best alternative for
-	bold.  You can change your text to size 4 by selecting it and
-	pressing Ctrl+4.  You can set your text to regular size later
-	by hitting Ctrl+0.
+	You may want to increase the size of your section headlings
+	instead of merely putting them in bold.  Header size 4 is
+	often the best choice, since it is not too large.  You can
+	change your text to size 4 by selecting it and pressing
+	Ctrl+4.  You can set your text to the normal text size by
+	hitting Ctrl+0.
 	</para>
       </sect3>
       <sect3 id="bulleted-lists">
 	<title>Bulleted Lists</title>
 	<para>
-	  Often times, people use asterisks instead of real bullets.
-	  Not only do asterisks look nicer, but
-	  <application>Evolution</application> will word wrap for you,
-	  which makes your text looks nicer.
+	  Select the <guimenuitem>Bulleted List</guimenuitem> option
+	  from the text style drop-down box to begin making a bulleted
+	  list. <application>Evolution</application> will handle the
+	  word wrap and indentation for you.  If you prefer to send
+	  the message in plain text, you can still write it up in
+	  HTML, and <application>Evolution</application> will convert
+	  to a well-formed plain-text bulleted list, using asterisks
+	  instead of HTML bullets.
 	</para>
       </sect3>
       <sect3 id="inline-images">
 	<title>Images In Your Email</title>
 	<para>
-	  Images can help people to understand your point.  You should
-	  also consider using the HTML Picture Frame Template in
-	  <application>Evolution</application>, as it looks good and
-	  has captions below it.
+	  Images can help people to understand your point.  You can
+	  even use a HTML Picture Frame Template in
+	  <application>Evolution</application>, which looks very
+	  attractive and sets your image off from the rest of your
+	  message with a border and caption.
 	</para>
 	<para>
 	  If you do choose to use images, try to keep them narrow.  If
 	  your images are wider than 400 pixels, the image may not fit
 	  in the whole email window, making it hard for your reader to
-	  read the email and view the image.  Instead, you should
-	  consider using a thumbnail and creating a link on the image
-	  which opens a browser with the full image.
+	  read the email and view the image.  Consider using a smaller
+	  version ("thumbnail") of your image, and offering a link to
+	  the larger version your readers can view in a web browser if
+	  they want.
 	  <figure>
 	    <title>Images in an email</title>
 	    <screenshot>
