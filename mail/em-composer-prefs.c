@@ -355,9 +355,10 @@ sig_add_cb (GtkWidget *widget, EMComposerPrefs *prefs)
 static void
 sig_add_script_response (GtkWidget *widget, int button, EMComposerPrefs *prefs)
 {
-	const char *name;
-	char *script;
+	char *script, **argv = NULL;
 	GtkWidget *entry;
+	const char *name;
+	int argc;
 	
 	if (button == GTK_RESPONSE_ACCEPT) {
 		entry = glade_xml_get_widget (prefs->sig_script_gui, "fileentry_add_script_script");
@@ -365,10 +366,10 @@ sig_add_script_response (GtkWidget *widget, int button, EMComposerPrefs *prefs)
 		
 		entry = glade_xml_get_widget (prefs->sig_script_gui, "entry_add_script_name");
 		name = gtk_entry_get_text (GTK_ENTRY (entry));
-		if (script && *script) {
+		if (script && *script && g_shell_parse_argv (script, &argc, &argv, NULL)) {
 			struct stat st;
 			
-			if (stat (script, &st) && S_ISREG (st.st_mode) && access (script, X_OK) == 0) {
+			if (stat (argv[0], &st) && S_ISREG (st.st_mode) && access (argv[0], X_OK) == 0) {
 				GtkWidget *parent;
 				ESignature *sig;
 				
@@ -385,14 +386,16 @@ sig_add_script_response (GtkWidget *widget, int button, EMComposerPrefs *prefs)
 				}
 				
 				gtk_widget_hide (prefs->sig_script_dialog);
-				g_free(script);
+				g_strfreev (argv);
+				g_free (script);
 				
 				return;
 			}
 		}
 		
-		e_error_run((GtkWindow *)prefs->sig_script_dialog, "mail:signature-notscript", script, NULL);
-		g_free(script);
+		e_error_run((GtkWindow *)prefs->sig_script_dialog, "mail:signature-notscript", argv ? argv[0] : script, NULL);
+		g_strfreev (argv);
+		g_free (script);
 		return;
 	}
 	

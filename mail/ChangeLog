@@ -1,3 +1,10 @@
+2004-04-28  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* em-composer-prefs.c (sig_add_script_response): Use
+	g_shell_parse_argv() to get the actual script path and then check
+	that we can exec argv[0] rather than treating the entire
+	command-line as the signature script. Fixes bug #57305.
+
 2004-04-28  Not Zed  <NotZed@Ximian.com>
 
 	* message-list.c (ml_selection_clear_event): return the right
