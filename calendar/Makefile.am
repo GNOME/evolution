@@ -9,13 +9,11 @@ gnorba_DATA = gnomecal.gnorba
 help_base = $(datadir)/gnome/help/cal
 
 if HAVE_GNOME_PILOT
-bin_PROGRAMS = 				\
-	gnomecal 			\
-	calendar-conduit-control-applet	\
-	calendar-pilot-sync
-else
-bin_PROGRAMS = gnomecal 
+extra_pilot_bins = 				\
+		calendar-conduit-control-applet	\
+		calendar-pilot-sync
 endif
+bin_PROGRAMS = gnomecal $(extra_pilot_bins)
 
 INCLUDES = 						\
 	-I$(includedir)					\
@@ -120,9 +118,9 @@ calendar_pilot_sync_LDADD =	\
 if HAVE_GNOME_PILOT
 #calendar_conduit
 calendar_conduitsdir=$(libdir)/gnome-pilot/conduits
-endif 
 
 calendar_conduits_LTLIBRARIES = libcalendar_conduit.la
+endif 
 
 libcalendar_conduit_la_SOURCES = \
 	GnomeCal-common.c	\

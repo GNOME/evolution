@@ -1,3 +1,14 @@
+1999-11-14  Eskil Heyn Olsen  <deity@eskil.dk>
+
+	* Makefile.am: Stupid misplaced endif cause gncal to depend on an
+	install gnome-pilot... fixed... sorry.
+
+1999-11-12  Eskil Heyn Olsen  <deity@eskil.dk>
+
+	* Makefile.am (extra_pilot_bins): Fixed the if then else problem,
+	using solution suggested by James Henstridge, appears to be caused 
+	by a (by now fixed) bug in my automake.
+
 1999-11-12  Russell Steinthal  <rms39@columbia.edu>
 
 	* prop.c: Config code for timeout, make Alarms property page use a
