@@ -21,6 +21,15 @@
 	* mail-ops.c (do_fetch_mail): If we're fetching from an mbox
 	formatted file then we need to do some special-casing.
 
+2000-09-11  Ettore Perazzoli  <ettore@helixcode.com>
+
+	* component-factory.c (owner_set_cb): Call
+	`mail_local_storage_startup()' to set up handling of the local
+	storage.
+
+	* mail-local-storage.c: New.
+	* mail-local-storage.h: New.
+
 2000-09-11  Christopher James Lahey  <clahey@helixcode.com>
 
 	* mail-display.c: Fixed some warnings.
