@@ -1328,7 +1328,7 @@ setup_widgets (EShellView *shell_view)
 	gtk_paned_pack1 (GTK_PANED (priv->view_hpaned), priv->storage_set_view_box, FALSE, FALSE);
 	gtk_paned_pack2 (GTK_PANED (priv->view_hpaned), priv->notebook, TRUE, FALSE);
 
-	gray_bar = e_gray_bar_new ();
+	gray_bar = gtk_event_box_new ();
 	gtk_container_add (GTK_CONTAINER (gray_bar), priv->folder_title_bar);
 	gtk_box_pack_start (GTK_BOX (priv->view_vbox), gray_bar, FALSE, FALSE, 2);
 

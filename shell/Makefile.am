@@ -155,8 +155,6 @@ evolution_SOURCES =				\
 	e-folder-dnd-bridge.h			\
 	e-folder-type-registry.c		\
 	e-folder-type-registry.h		\
-	e-gray-bar.c				\
-	e-gray-bar.h				\
 	e-history.c				\
 	e-history.h				\
 	e-icon-factory.c			\

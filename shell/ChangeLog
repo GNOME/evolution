@@ -1,3 +1,13 @@
+2003-02-24  Rodney Dawes  <dobey@ximian.com>
+
+	* Makefile.am: We don't need e-gray-bar.[ch] anymore
+	* e-gray-bar.[ch]: Remove these unused files now
+	* e-shell-folder-title-bar.c: We are themeable now!!!!
+	Use GtkArrows now instead of pixmaps
+	Get rid of the hardcoded colors
+	Add an expose_event to paint a flat box for the background
+	* e-shell-view.c: Don't need e-gray-bar anymore
+	
 2003-02-24  Ettore Perazzoli  <ettore@ximian.com>
 
 	* evolution-shell-component.c (impl_populateFolderContextMenu):
@@ -16,6 +26,7 @@
 
 	* e-shell.c (save_settings_for_component): lower-case the config prefix.
 
+>>>>>>> 1.1176
 2003-02-20  Dan Winship  <danw@ximian.com>
 
 	* Makefile.am (evolution_LDADD):
