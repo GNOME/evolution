@@ -7,6 +7,7 @@
 
 #include <config.h>
 #include "month-view.h"
+#include "main.h"
 
 
 static void month_view_class_init    (MonthViewClass *class);
@@ -65,9 +66,7 @@ month_view_init (MonthView *mv)
 			       "y", 0.0,
 			       "anchor", GTK_ANCHOR_NW,
 			       "day_anchor", GTK_ANCHOR_NE,
-#if 0
-			       "start_on_monday", TRUE,
-#endif
+			       "start_on_monday", week_starts_on_monday,
 			       NULL);
 }
 

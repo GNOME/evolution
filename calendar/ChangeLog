@@ -1,3 +1,24 @@
+1998-08-24  Federico Mena Quintero  <federico@nuclecu.unam.mx>
+
+	* main.c: Changed the Properties menu item to Preferences.  These
+	are global application preferences, not a single calendar's
+	properties.
+
+	* prop.c (prop_apply): Save the week_starts_on_monday flag to the
+	configuration file.
+	(properties): Added a check button for weeks starting on Monday.
+	(properties): Beautified the Preferences dialog.
+
+	* month-view.c (month_view_init): 
+	* goto.c (create_days): Set the month item to start weeks on
+	Monday if appropriate.
+
+	* main.c (init_calendar): A boolean is not an hour, so don't
+	range_check_hour() on it.
+	(init_calendar): Added a global week_starts_on_monday flag.
+
+	* main.h: Added global week_starts_on_monday flag.
+
 1998-08-21  Miguel de Icaza  <miguel@nuclecu.unam.mx>
 
 	* calobj.c (ical_object_create_from_vobject): If mail alarm or

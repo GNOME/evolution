@@ -48,10 +48,8 @@ gnomecal_SOURCES = \
 	timeutil.c		\
 	timeutil.h		\
 	view-utils.h		\
-	view-utils.c		\
-	views.h			\
-	views.c
-	
+	view-utils.c
+
 LINK_FLAGS = \
 	$(GNOME_LIBDIR) \
 	$(GNOMEUI_LIBS) \
@@ -59,7 +57,6 @@ LINK_FLAGS = \
 
 
 #gncal_LDADD = $(LINK_FLAGS)
-#objedit_LDADD = $(LINK_FLAGS)
 
 gnomecal_LDADD = $(LINK_FLAGS)
 

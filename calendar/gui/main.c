@@ -38,6 +38,9 @@ char *calendar_settings;
 /* Day begin, day end parameters */
 int day_begin, day_end;
 
+/* Whether weeks starts on Sunday or Monday */
+int week_starts_on_monday;
+
 /* Number of calendars active */
 int active_calendars = 0;
 
@@ -107,7 +110,8 @@ init_calendar (void)
 	gnome_config_push_prefix (calendar_settings);
 	day_begin  = range_check_hour (gnome_config_get_int  ("/calendar/Calendar/Day start=8"));
 	day_end    = range_check_hour (gnome_config_get_int  ("/calendar/Calendar/Day end=17"));
-	am_pm_flag = range_check_hour (gnome_config_get_bool ("/calendar/Calendar/AM PM flag=0"));
+	am_pm_flag = gnome_config_get_bool ("/calendar/Calendar/AM PM flag=0");
+	week_starts_on_monday = gnome_config_get_bool ("/calendar/Calendar/Week starts on Monday=0");
 
 	if (day_end < day_begin){
 		day_begin = 8;
@@ -184,13 +188,12 @@ close_cmd (GtkWidget *widget, GnomeCalendar *gcal)
 		gtk_main_quit ();
 }
 
-/*
- * Updates all of the open calendars when the day_begin/day_end values have changed
- */
 void
-day_range_changed (void)
+time_format_changed (void)
 {
 	GList *l;
+
+	/* FIXME: update all the calendars and stuff */
 
 	for (l = all_calendars; l; l = l->next){
 		GnomeCalendar *cal = GNOME_CALENDAR (l->data);
@@ -358,8 +361,8 @@ static GnomeUIInfo gnome_cal_edit_menu [] = {
 	{ GNOME_APP_UI_ITEM, N_("New appointment..."), NULL, display_objedit },
 	{ GNOME_APP_UI_ITEM, N_("New appointment for today..."), NULL, display_objedit_today },
 	GNOMEUIINFO_SEPARATOR,
-	{ GNOME_APP_UI_ITEM, N_("Properties..."),      NULL, properties, NULL, NULL,
-	  GNOME_APP_PIXMAP_STOCK, GNOME_STOCK_MENU_PROP },
+	{ GNOME_APP_UI_ITEM, N_("Preferences..."),      NULL, properties, NULL, NULL,
+	  GNOME_APP_PIXMAP_STOCK, GNOME_STOCK_MENU_PREF },
 	GNOMEUIINFO_END
 };
 
