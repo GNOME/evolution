@@ -498,14 +498,15 @@ build_message (EMsgComposer *composer)
 			CamelInternetAddress *from = NULL;
 			const char *pgpid;
 			CamelMultipartSigned *mps;
-			CamelCipherContext *context;
-
-			context = (CamelCipherContext *)camel_pgp_context_new(session, mail_config_get_pgp_type(), mail_config_get_pgp_path());
-			if (context == NULL) {
-				camel_exception_setv(&ex, CAMEL_EXCEPTION_SYSTEM, _("Could not create a PGP signature context"));
+			CamelCipherContext *cipher;
+			
+			cipher = camel_gpg_context_new (session, mail_config_get_pgp_path ());
+			if (cipher == NULL) {
+				camel_exception_setv (&ex, CAMEL_EXCEPTION_SYSTEM,
+						      _("Could not create a PGP signature context"));
 				goto exception;
 			}
-
+			
 			if (hdrs->account && hdrs->account->pgp_key && *hdrs->account->pgp_key) {
 				pgpid = hdrs->account->pgp_key;
 			} else {
@@ -514,28 +515,30 @@ build_message (EMsgComposer *composer)
 				camel_internet_address_get (from, 0, NULL, &pgpid);
 			}
 			
-			mps = camel_multipart_signed_new();
-			camel_multipart_signed_sign(mps, context, part, pgpid, CAMEL_CIPHER_HASH_SHA1, &ex);
-
+			mps = camel_multipart_signed_new ();
+			camel_multipart_signed_sign (mps, cipher, part, pgpid, CAMEL_CIPHER_HASH_SHA1, &ex);
+			
 			if (from)
 				camel_object_unref (CAMEL_OBJECT (from));
-
+			
 			/* if cancelled, just leave part as is, otherwise, replace content with the multipart */
-			if (camel_exception_is_set(&ex)) {
-				if (camel_exception_get_id(&ex) == CAMEL_EXCEPTION_USER_CANCEL) {
-					camel_exception_clear(&ex);
+			if (camel_exception_is_set (&ex)) {
+				if (camel_exception_get_id (&ex) == CAMEL_EXCEPTION_USER_CANCEL) {
+					camel_exception_clear (&ex);
 				} else {
-					camel_object_unref((CamelObject *)mps);
-					camel_object_unref((CamelObject *)context);
+					camel_object_unref (CAMEL_OBJECT (mps));
+					camel_object_unref (CAMEL_OBJECT (cipher));
 					goto exception;
 				}
 			} else {
-				camel_medium_set_content_object(CAMEL_MEDIUM (part), (CamelDataWrapper *)mps);
+				camel_multipart_set_boundary (CAMEL_MULTIPART (mps), NULL);
+				camel_medium_set_content_object (CAMEL_MEDIUM (part), (CamelDataWrapper *) mps);
 			}
-			camel_object_unref((CamelObject *)mps);
-			camel_object_unref((CamelObject *)context);
+			
+			camel_object_unref (CAMEL_OBJECT (mps));
+			camel_object_unref (CAMEL_OBJECT (cipher));
 		}
-
+		
 		if (composer->pgp_encrypt) {
 			/* FIXME: recipients should be an array of key ids rather than email addresses */
 			const CamelInternetAddress *addr;
@@ -589,9 +592,9 @@ build_message (EMsgComposer *composer)
 			for (i = 0; i < recipients->len; i++)
 				g_free (recipients->pdata[i]);
 			g_ptr_array_free (recipients, TRUE);
-
-			if (camel_exception_is_set(&ex)
-			    && camel_exception_get_id(&ex) != CAMEL_EXCEPTION_USER_CANCEL)
+			
+			if (camel_exception_is_set (&ex)
+			    && camel_exception_get_id (&ex) != CAMEL_EXCEPTION_USER_CANCEL)
 				goto exception;
 		}
 		
