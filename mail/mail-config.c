@@ -141,6 +141,7 @@ typedef struct {
 } MailConfig;
 
 static MailConfig *config = NULL;
+static guint config_write_timeout = 0;
 
 #define MAIL_CONFIG_IID "OAFIID:GNOME_Evolution_MailConfig_Factory"
 
@@ -1207,6 +1208,12 @@ mail_config_write_on_exit (void)
 	char *path, *p;
 	int i;
 	
+	if (config_write_timeout) {
+		g_source_remove (config_write_timeout);
+		config_write_timeout = 0;
+		mail_config_write ();
+	}
+
 	/* Show Messages Threaded */
 	bonobo_config_set_boolean (config->db, "/Mail/Display/thread_list", 
 				   config->thread_list, NULL);
@@ -2769,6 +2776,14 @@ struct _EvolutionMailConfigClass {
 	POA_GNOME_Evolution_MailConfig__epv epv;
 };
 
+static gboolean
+do_config_write (gpointer data)
+{
+	config_write_timeout = 0;
+	mail_config_write ();
+	return FALSE;
+}
+
 static void
 impl_GNOME_Evolution_MailConfig_addAccount (PortableServer_Servant servant,
 					    const GNOME_Evolution_MailConfig_Account *account,
@@ -2833,6 +2848,12 @@ impl_GNOME_Evolution_MailConfig_addAccount (PortableServer_Servant servant,
 	
 	/* Add new account */
 	mail_config_add_account (mail_account);
+
+	/* Don't write out the config right away in case the remote
+	 * component is creating or removing multiple accounts.
+	 */
+	if (!config_write_timeout)
+		config_write_timeout = g_timeout_add (2000, do_config_write, NULL);
 }
 
 static void
@@ -2845,6 +2866,12 @@ impl_GNOME_Evolution_MailConfig_removeAccount (PortableServer_Servant servant,
 	account = (MailConfigAccount *)mail_config_get_account_by_name (name);
 	if (account)
 		mail_config_remove_account (account);
+
+	/* Don't write out the config right away in case the remote
+	 * component is creating or removing multiple accounts.
+	 */
+	if (!config_write_timeout)
+		config_write_timeout = g_timeout_add (2000, do_config_write, NULL);
 }
 
 static void

@@ -1,3 +1,13 @@
+2002-09-26  Dan Winship  <danw@ximian.com>
+
+	* mail-config.c (impl_GNOME_Evolution_MailConfig_addAccount,
+	impl_GNOME_Evolution_MailConfig_removeAccount): Set a timeout to
+	call mail_config_write() in 2 seconds. Otherwise changes made by
+	this interface would not be saved to disk unless the user also
+	changed some other preference.
+	(mail_config_write_on_exit): If there's a config_write_timeout
+	pending, call mail_config_write() too.
+
 2002-09-25  Dan Winship  <danw@ximian.com>
 
 	* mail-display.c (mail_display_render): Add a margin around the
