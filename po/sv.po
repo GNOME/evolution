@@ -5,13 +5,13 @@
 # Christian Rose <menthos@menthos.com>, 2000-2001.
 # Martin Norbäck <d95mback@dtek.chalmers.se>, 2001.
 #
-# $Id: sv.po,v 1.66 2001/04/11 16:29:27 menthos Exp $
+# $Id: sv.po,v 1.67 2001/04/12 00:26:45 menthos Exp $
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Evolution\n"
-"POT-Creation-Date: 2001-04-11 18:27+0200\n"
-"PO-Revision-Date: 2001-04-11 18:28+0200\n"
+"Project-Id-Version: evolution\n"
+"POT-Creation-Date: 2001-04-12 02:18+0200\n"
+"PO-Revision-Date: 2001-04-12 02:25+0200\n"
 "Last-Translator: Christian Rose <menthos@menthos.com>\n"
 "Language-Team: Swedish <sv@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -316,7 +316,7 @@ msgstr "Importerar GnomeCard-filer till Evolution."
 #: addressbook/backend/ebook/load-pine-addressbook.c:22
 #: addressbook/backend/ebook/test-client-list.c:23
 #: addressbook/backend/ebook/test-client.c:33
-#: addressbook/conduit/address-conduit.c:1089
+#: addressbook/conduit/address-conduit.c:1090
 #: addressbook/gui/component/addressbook-factory.c:43
 #: calendar/conduits/calendar/calendar-conduit.c:1151
 #: calendar/conduits/todo/todo-conduit.c:965
@@ -332,20 +332,20 @@ msgstr "Markören kunde inte läsas in\n"
 msgid "EBook not loaded\n"
 msgstr "EBook inte inläst\n"
 
-#: addressbook/conduit/address-conduit.c:651
+#: addressbook/conduit/address-conduit.c:652
 #: calendar/conduits/calendar/calendar-conduit.c:731
 #: calendar/conduits/todo/todo-conduit.c:545
 msgid "Could not start wombat server"
 msgstr "Kunde inte starta wombat-server"
 
-#: addressbook/conduit/address-conduit.c:652
+#: addressbook/conduit/address-conduit.c:653
 #: calendar/conduits/calendar/calendar-conduit.c:732
 #: calendar/conduits/todo/todo-conduit.c:546
 msgid "Could not start wombat"
 msgstr "Kunde inte starta wombat"
 
-#: addressbook/conduit/address-conduit.c:684
-#: addressbook/conduit/address-conduit.c:687
+#: addressbook/conduit/address-conduit.c:685
+#: addressbook/conduit/address-conduit.c:688
 msgid "Could not read pilot's Address application block"
 msgstr "Kunde inte läsa pilotens adressprogramblock"
 
@@ -1227,7 +1227,7 @@ msgstr "Primär telefon"
 
 #: addressbook/gui/widgets/e-addressbook-view.c:646
 msgid "Assistant Phone"
-msgstr "Telefonväxel"
+msgstr "Sekreterartelefon"
 
 #: addressbook/gui/widgets/e-addressbook-view.c:647
 msgid "Business Phone"
@@ -1235,7 +1235,7 @@ msgstr "Företagstelefon"
 
 #: addressbook/gui/widgets/e-addressbook-view.c:648
 msgid "Callback Phone"
-msgstr "Tillbakaxringningstelefon"
+msgstr "Tillbakaringningstelefon"
 
 #: addressbook/gui/widgets/e-addressbook-view.c:649
 msgid "Company Phone"
@@ -1670,7 +1670,7 @@ msgstr ""
 #: calendar/gui/calendar-model.c:1171 calendar/gui/e-calendar-table.c:329
 #: calendar/gui/e-calendar-table.c:404 mail/mail-account-gui.c:968
 #: mail/mail-accounts.c:120 mail/mail-accounts.c:164
-#: mail/mail-config.glade.h:37 shell/e-shell-view.c:1124
+#: mail/mail-config.glade.h:37 shell/e-shell-view.c:1129
 #: widgets/misc/e-cell-date-edit.c:234 widgets/misc/e-dateedit.c:430
 #: widgets/misc/e-dateedit.c:1339 widgets/misc/e-dateedit.c:1454
 msgid "None"
@@ -3141,7 +3141,7 @@ msgstr "Aktuellt år (%Y)"
 msgid "Print Calendar"
 msgstr "Skriv ut kalender"
 
-#: calendar/gui/print.c:1321 mail/mail-callbacks.c:1341
+#: calendar/gui/print.c:1321 mail/mail-callbacks.c:1342
 #: ui/evolution-addressbook.xml.h:10 ui/evolution-calendar.xml.h:24
 #: ui/evolution-mail.xml.h:30
 msgid "Print Preview"
@@ -3669,7 +3669,7 @@ msgstr "Kontrollerar ny e-post"
 msgid "Check for new messages in all folders"
 msgstr "Kontrollerar nya meddelanden i alla mappar"
 
-#: camel/providers/imap/camel-imap-provider.c:48 shell/e-shell-view.c:479
+#: camel/providers/imap/camel-imap-provider.c:48 shell/e-shell-view.c:484
 msgid "Folders"
 msgstr "Mappar"
 
@@ -5770,7 +5770,7 @@ msgstr "Spara meddelande som..."
 msgid "Save Messages As..."
 msgstr "Spara meddelanden som..."
 
-#: mail/mail-callbacks.c:1252
+#: mail/mail-callbacks.c:1253
 #, c-format
 msgid ""
 "Error loading filter information:\n"
@@ -5779,11 +5779,11 @@ msgstr ""
 "Fel vid läsning av filterinformation:\n"
 "%s"
 
-#: mail/mail-callbacks.c:1301
+#: mail/mail-callbacks.c:1302
 msgid "Print Message"
 msgstr "Skriv ut meddelande"
 
-#: mail/mail-callbacks.c:1348
+#: mail/mail-callbacks.c:1349
 msgid "Printing of message failed"
 msgstr "Utskrift av meddelande misslyckades"
 
@@ -6053,7 +6053,7 @@ msgid ""
 "name for this account in the space below. This name will be used for display "
 "purposes only."
 msgstr ""
-"Du är färdig med din e-postkonfiguration. Identiteten, den inkommande "
+"Du är nästan färdig med din e-postkonfiguration. Identiteten, den inkommande "
 "e-postservern och transportmetoden för utgående e-post som du angav kommer "
 "att sammanställas för att skapa ett Evolution-epostkonto. Ange ett namn för "
 "detta konto nedan. Detta namn kommer endast att användas för visning."
@@ -6123,47 +6123,47 @@ msgstr "Kunde inte tolka MIME-meddelande. Visar som källa."
 msgid "Loading message content"
 msgstr "Läser in meddelandeinnehåll"
 
-#: mail/mail-format.c:1025
+#: mail/mail-format.c:1033
 msgid "Encrypted message not displayed"
 msgstr "Krypterat meddelande visas inte"
 
-#: mail/mail-format.c:1031
+#: mail/mail-format.c:1039
 msgid "Encrypted message"
 msgstr "Krypterat meddelande"
 
-#: mail/mail-format.c:1032
+#: mail/mail-format.c:1040
 msgid "Click icon to decrypt."
 msgstr "Klicka på ikonen för att dekryptera."
 
-#: mail/mail-format.c:1101 mail/mail-format.c:1488
+#: mail/mail-format.c:1109 mail/mail-format.c:1496
 msgid "This message is digitally signed and has been found to be authentic."
 msgstr "Detta meddelande är digitalt signerat och har befunnits äkta."
 
-#: mail/mail-format.c:1109 mail/mail-format.c:1496
+#: mail/mail-format.c:1117 mail/mail-format.c:1504
 msgid "This message is digitally signed but can not be proven to be authentic."
 msgstr "Detta meddelande är digitalt signerat men äktheten kan inte bevisas."
 
-#: mail/mail-format.c:1709
+#: mail/mail-format.c:1717
 #, c-format
 msgid "Pointer to FTP site (%s)"
 msgstr "Pekare till FTP-plats (%s)"
 
-#: mail/mail-format.c:1721
+#: mail/mail-format.c:1729
 #, c-format
 msgid "Pointer to local file (%s) valid at site \"%s\""
 msgstr "Pekare till lokal fil (%s) giltig på platsen \"%s\""
 
-#: mail/mail-format.c:1725
+#: mail/mail-format.c:1733
 #, c-format
 msgid "Pointer to local file (%s)"
 msgstr "Pekare till lokal fil (%s)"
 
-#: mail/mail-format.c:1759
+#: mail/mail-format.c:1767
 #, c-format
 msgid "Pointer to unknown external data (\"%s\" type)"
 msgstr "Pekare till okänd extern data (typen \"%s\")"
 
-#: mail/mail-format.c:1764
+#: mail/mail-format.c:1772
 msgid "Malformed external-body part."
 msgstr "Felaktig del med extern meddelandetext."
 
@@ -6578,18 +6578,18 @@ msgstr "Ange din %s-lösenordsfras för %s"
 msgid "Please enter your %s passphrase"
 msgstr "Ange din %s-lösenordsfras"
 
-#: mail/openpgp-utils.c:455 mail/openpgp-utils.c:562 mail/openpgp-utils.c:766
-#: mail/openpgp-utils.c:920 mail/openpgp-utils.c:1079
+#: mail/openpgp-utils.c:455 mail/openpgp-utils.c:562 mail/openpgp-utils.c:763
+#: mail/openpgp-utils.c:917 mail/openpgp-utils.c:1076
 msgid "No GPG/PGP program available."
 msgstr "Inget GPG/PGP-program finns tillgängligt."
 
-#: mail/openpgp-utils.c:462 mail/openpgp-utils.c:571 mail/openpgp-utils.c:773
-#: mail/openpgp-utils.c:927
+#: mail/openpgp-utils.c:462 mail/openpgp-utils.c:571 mail/openpgp-utils.c:770
+#: mail/openpgp-utils.c:924
 msgid "No password provided."
 msgstr "Inget lösenord angavs."
 
-#: mail/openpgp-utils.c:470 mail/openpgp-utils.c:578 mail/openpgp-utils.c:779
-#: mail/openpgp-utils.c:935 mail/openpgp-utils.c:1085
+#: mail/openpgp-utils.c:470 mail/openpgp-utils.c:578 mail/openpgp-utils.c:776
+#: mail/openpgp-utils.c:932 mail/openpgp-utils.c:1082
 #, c-format
 msgid "Couldn't create pipe to GPG/PGP: %s"
 msgstr "Kunde inte skapa rör till GPG/PGP: %s"
@@ -6598,7 +6598,7 @@ msgstr "Kunde inte skapa rör till GPG/PGP: %s"
 msgid "No recipients specified"
 msgstr "Inga avsändare är angivna"
 
-#: mail/openpgp-utils.c:1096
+#: mail/openpgp-utils.c:1093
 #, c-format
 msgid "Couldn't create temp file: %s"
 msgstr "Kunde inte skapa temporär fil: %s"
@@ -6906,12 +6906,12 @@ msgstr "Gå till mapp..."
 msgid "(No folder displayed)"
 msgstr "(Ingen mapp visas)"
 
-#: shell/e-shell-view.c:1129
+#: shell/e-shell-view.c:1134
 #, c-format
 msgid "%s - Evolution %s"
 msgstr "%s - Evolution %s"
 
-#: shell/e-shell-view.c:1131
+#: shell/e-shell-view.c:1136
 #, c-format
 msgid "%s - Evolution %s [%s]"
 msgstr "%s - Evolution %s [%s]"
