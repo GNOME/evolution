@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: evolution.HEAD\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2004-07-14 03:30+0200\n"
-"PO-Revision-Date: 2004-07-28 15:08+0530\n"
+"PO-Revision-Date: 2004-07-28 18:28+0530\n"
 "Last-Translator: Ankit Patel <ankit@redhat.com>\n"
 "Language-Team: Gujarati\n"
 "MIME-Version: 1.0\n"
@@ -3022,12 +3022,17 @@ msgid ""
 "you want to use LDAP in Evolution, you must install an LDAP-enabled "
 "Evolution package."
 msgstr ""
+"ઈવોલ્યુશનની આવૃત્તિ પાસે તેમાં કમ્પાઈલ થયો હોય તેવો LDAP નો આધાર નથી. "
+"જો તમે LDAP ઈવોલ્યુશનમાં વાપરવા માંગતા હોય, તો તમારે LDAP-સક્રિય ઈવોલ્યુશન "
+"પેકેજ સ્થાપિત કરવું જ જોઈએ."
 
 #: addressbook/gui/widgets/eab-gui-util.c:110
 msgid ""
 "We were unable to open this addressbook.  This either means you have entered "
 "an incorrect URI, or the server is unreachable."
 msgstr ""
+"અમે આ સરનામાપોથી ખોલવા અસમર્થ છે. એનો અર્થ એ થાય કે તમે"
+"ખોટી URI દાખલ કરી છે, અથવા સર્વર પહોંચી શકાય એમ નથી."
 
 #: addressbook/gui/widgets/eab-gui-util.c:130
 msgid ""
@@ -3047,41 +3052,41 @@ msgstr ""
 
 #: addressbook/gui/widgets/eab-gui-util.c:142
 msgid "The backend for this addressbook was unable to parse this query."
-msgstr ""
+msgstr "આ સરનામાપોથી માટેનો પાશ્વ ભાગ આ પ્રશ્નનું પદચ્છેદન કરવા માટે અસમર્થ છે"
 
 #: addressbook/gui/widgets/eab-gui-util.c:145
 msgid "The backend for this addressbook refused to perform this query."
-msgstr ""
+msgstr "આ સરનામાપોથી માટેનો પાશ્વ ભાગ આ પ્રશ્ન ઉકેલવા માટે સહમત નથી."
 
 #: addressbook/gui/widgets/eab-gui-util.c:148
 msgid "This query did not complete successfully."
-msgstr ""
+msgstr "આ પ્રશ્ન સફળતાપૂર્વક પૂર્ણ થયો નહિં."
 
 #: addressbook/gui/widgets/eab-gui-util.c:170
 msgid "Error adding list"
-msgstr ""
+msgstr "યાદી ઉમેરવામાં ભૂલ"
 
 #: addressbook/gui/widgets/eab-gui-util.c:170
 #: addressbook/gui/widgets/eab-gui-util.c:581
 msgid "Error adding contact"
-msgstr ""
+msgstr "સંપર્ક ઉમેરવામાં ભૂલ"
 
 #: addressbook/gui/widgets/eab-gui-util.c:181
 msgid "Error modifying list"
-msgstr ""
+msgstr "યાદી સુધારવામાં ભૂલ"
 
 #: addressbook/gui/widgets/eab-gui-util.c:181
 msgid "Error modifying contact"
-msgstr ""
+msgstr "સંપર્ક સુધારવામાં ભૂલ"
 
 #: addressbook/gui/widgets/eab-gui-util.c:193
 msgid "Error removing list"
-msgstr ""
+msgstr "યાદી કાઢી નાંખવામાં ભૂલ"
 
 #: addressbook/gui/widgets/eab-gui-util.c:193
 #: addressbook/gui/widgets/eab-gui-util.c:539
 msgid "Error removing contact"
-msgstr ""
+msgstr "સંપર્ક કાઢી નાંખવામાં ભૂલ"
 
 #: addressbook/gui/widgets/eab-gui-util.c:275
 #, c-format
@@ -3089,6 +3094,8 @@ msgid ""
 "Opening %d contacts will open %d new windows as well.\n"
 "Do you really want to display all of these contacts?"
 msgstr ""
+"%d સંપર્કો ખોલવાનું %d નવી વિન્ડો ખોલવા જેવું જ છે.\n"
+"શું તમે ખરેખર આમાંના બધા સંપર્કો જોવા માંગો છો?"
 
 #: addressbook/gui/widgets/eab-gui-util.c:301
 #, c-format
@@ -3096,48 +3103,50 @@ msgid ""
 "%s already exists\n"
 "Do you want to overwrite it?"
 msgstr ""
+"%s પહેલાથી જ હાજર છે\n"
+"શું તમે તેના પર ફરીથી લખવા માંગો છો?"
 
 #: addressbook/gui/widgets/eab-gui-util.c:305
 msgid "Overwrite"
-msgstr ""
+msgstr "ઉપર ફરીથી લખો"
 
 #. This is a filename. Translators take note.
 #: addressbook/gui/widgets/eab-gui-util.c:366
 msgid "card.vcf"
-msgstr ""
+msgstr "card.vcf"
 
 #: addressbook/gui/widgets/eab-gui-util.c:500
 msgid "list"
-msgstr ""
+msgstr "યાદી"
 
 #: addressbook/gui/widgets/eab-gui-util.c:635
 msgid "Move contact to"
-msgstr ""
+msgstr "ને સંપર્ક ખસેડો"
 
 #: addressbook/gui/widgets/eab-gui-util.c:637
 msgid "Copy contact to"
-msgstr ""
+msgstr "સંપર્કની નકલ અંહિ કરો"
 
 #: addressbook/gui/widgets/eab-gui-util.c:640
 msgid "Move contacts to"
-msgstr ""
+msgstr "સંપર્કોને અંહિ ખસેડો"
 
 #: addressbook/gui/widgets/eab-gui-util.c:642
 msgid "Copy contacts to"
-msgstr ""
+msgstr "સંપર્કોની નકલ અંહિ કરો"
 
 #: addressbook/gui/widgets/eab-gui-util.c:645
 msgid "Select target addressbook."
-msgstr ""
+msgstr "લક્ષ્ય સરનામાપોથી પસંદ કરો."
 
 #: addressbook/gui/widgets/eab-gui-util.c:868
 msgid "Multiple VCards"
-msgstr ""
+msgstr "ઘણાબધા VCards"
 
 #: addressbook/gui/widgets/eab-gui-util.c:871
 #, c-format
 msgid "VCard for %s"
-msgstr ""
+msgstr "%s માટે VCard"
 
 #.
 #. * This is the code for the UI thingie that lets you manipulate the e-mail
@@ -3146,385 +3155,385 @@ msgstr ""
 #.
 #: addressbook/gui/widgets/eab-popup-control.c:198
 msgid "(none)"
-msgstr ""
+msgstr "(કોઈ નહિં)"
 
 #: addressbook/gui/widgets/eab-popup-control.c:431
 msgid "Primary Email"
-msgstr ""
+msgstr "પ્રાથમિક ઈ-મેઈલ"
 
 #: addressbook/gui/widgets/eab-popup-control.c:567
 msgid "Select an Action"
-msgstr ""
+msgstr "ક્રિયા પસંદ કરો"
 
 #: addressbook/gui/widgets/eab-popup-control.c:575
 #, c-format
 msgid "Create a new contact \"%s\""
-msgstr ""
+msgstr "નવો સંપર્ક \"%s\" બનાવો"
 
 #: addressbook/gui/widgets/eab-popup-control.c:591
 #, c-format
 msgid "Add address to existing contact \"%s\""
-msgstr ""
+msgstr "પહેલાના સંપર્ક \"%s\" માં સરનામુ ઉમેરો"
 
 #: addressbook/gui/widgets/eab-popup-control.c:869
 msgid "Querying Address Book..."
-msgstr ""
+msgstr "સરનામાપોથીને પ્રશ્ન પૂછી રહ્યા છીએ..."
 
 #: addressbook/gui/widgets/eab-popup-control.c:952
 msgid "Edit Contact Info"
-msgstr ""
+msgstr "સંપર્ક જાણકારીમાં ફેરફાર કરો"
 
 #: addressbook/gui/widgets/eab-popup-control.c:1007
 msgid "Merge E-Mail Address"
-msgstr ""
+msgstr "ઈ-મેઈલ સરનામુ ભેગુ કરો"
 
 #: addressbook/gui/widgets/eab-vcard-control.c:139
 #, c-format
 msgid "and one other contact."
 msgid_plural "and %d other contacts."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "અને બીજો સંપર્ક."
+msgstr[1] "અને બીજા %d સંપર્કો"
 
 #: addressbook/gui/widgets/eab-vcard-control.c:223
 #: addressbook/gui/widgets/eab-vcard-control.c:273
 msgid "Show Full VCard"
-msgstr ""
+msgstr "પૂરો VCard બતાવો"
 
 #: addressbook/gui/widgets/eab-vcard-control.c:227
 msgid "Show Compact VCard"
-msgstr ""
+msgstr "સંકુચિત VCard બતાવો"
 
 #: addressbook/gui/widgets/eab-vcard-control.c:278
 msgid "Save in addressbook"
-msgstr ""
+msgstr "સરનામાપોથીમાં સંગ્રહો"
 
 #: addressbook/gui/widgets/gal-view-factory-minicard.c:24
 msgid "Card View"
-msgstr ""
+msgstr "કાર્ડ દેખાવ"
 
 #: addressbook/gui/widgets/gal-view-factory-treeview.c:25
 msgid "GTK Tree View"
-msgstr ""
+msgstr "GTK ટ્રી જેવો દેખાવ"
 
 #: addressbook/gui/widgets/test-reflow.c:119
 msgid "Reflow Test"
-msgstr ""
+msgstr "રીફ્લો ચકાસણી"
 
 #: addressbook/gui/widgets/test-reflow.c:120
 #: addressbook/printing/test-contact-print-style-editor.c:54
 #: addressbook/printing/test-print.c:53
 msgid "Copyright (C) 2000, Ximian, Inc."
-msgstr ""
+msgstr "Copyright (C) 2000, Ximian, Inc."
 
 #: addressbook/gui/widgets/test-reflow.c:122
 msgid "This should test the reflow canvas item"
-msgstr ""
+msgstr "આ રીફ્લો કેન્વાસ વસ્તુઓને ચકાસશે"
 
 #: addressbook/importers/GNOME_Evolution_Addressbook_LDIF_Importer.server.in.in.h:1
 msgid "Evolution LDIF importer"
-msgstr ""
+msgstr "ઈવોલ્યુશન LDIF આયાત કરનાર"
 
 #: addressbook/importers/GNOME_Evolution_Addressbook_LDIF_Importer.server.in.in.h:2
 msgid "LDAP Data Interchange Format (.ldif)"
-msgstr ""
+msgstr "LDAP Data Interchange Format (.ldif)"
 
 #: addressbook/importers/GNOME_Evolution_Addressbook_VCard_Importer.server.in.in.h:1
 msgid "Evolution VCard Importer"
-msgstr ""
+msgstr "ઈવોલ્યુશન VCard આયાત કરનાર"
 
 #: addressbook/importers/GNOME_Evolution_Addressbook_VCard_Importer.server.in.in.h:2
 msgid "Evolution VCard importer"
-msgstr ""
+msgstr "ઈવોલ્યુશન VCard આયાત કરનાર"
 
 #: addressbook/importers/GNOME_Evolution_Addressbook_VCard_Importer.server.in.in.h:3
 msgid "VCard (.vcf, .gcrd)"
-msgstr ""
+msgstr "VCard (.vcf, .gcrd)"
 
 #: addressbook/printing/e-contact-print-envelope.c:212
 #: addressbook/printing/e-contact-print-envelope.c:233
 msgid "Print envelope"
-msgstr ""
+msgstr "કવર છાપો"
 
 #: addressbook/printing/e-contact-print.c:1000
 msgid "Print contacts"
-msgstr ""
+msgstr "સંપર્કો છાપો"
 
 #: addressbook/printing/e-contact-print.c:1066
 #: addressbook/printing/e-contact-print.c:1093
 msgid "Print contact"
-msgstr ""
+msgstr "સંપર્ક છાપો"
 
 #: addressbook/printing/e-contact-print.glade.h:1
 msgid "10 pt. Tahoma"
-msgstr ""
+msgstr "10 pt. Tahoma"
 
 #: addressbook/printing/e-contact-print.glade.h:2
 msgid "8 pt. Tahoma"
-msgstr ""
+msgstr "8 pt. Tahoma"
 
 #: addressbook/printing/e-contact-print.glade.h:3
 msgid "Blank forms at end:"
-msgstr ""
+msgstr "અંતે કોરા ફોર્મ:"
 
 #: addressbook/printing/e-contact-print.glade.h:4
 msgid "Body"
-msgstr ""
+msgstr "શરીર"
 
 #: addressbook/printing/e-contact-print.glade.h:5
 msgid "Bottom:"
-msgstr ""
+msgstr "નીચે:"
 
 #: addressbook/printing/e-contact-print.glade.h:6
 msgid "Dimensions:"
-msgstr ""
+msgstr "પરિમાણો:"
 
 #: addressbook/printing/e-contact-print.glade.h:7
 msgid "F_ont..."
-msgstr ""
+msgstr "ફોન્ટ (_o)..."
 
 #: addressbook/printing/e-contact-print.glade.h:8
 msgid "Fonts"
-msgstr ""
+msgstr "ફોન્ટ"
 
 #: addressbook/printing/e-contact-print.glade.h:9
 msgid "Footer:"
-msgstr ""
+msgstr "ફુટર:"
 
 #: addressbook/printing/e-contact-print.glade.h:10
 msgid "Format"
-msgstr ""
+msgstr "બંધારણ"
 
 #: addressbook/printing/e-contact-print.glade.h:11
 msgid "Header"
-msgstr ""
+msgstr "હેડર"
 
 #: addressbook/printing/e-contact-print.glade.h:12
 msgid "Header/Footer"
-msgstr ""
+msgstr "હેડર/ફુટર"
 
 #: addressbook/printing/e-contact-print.glade.h:13
 msgid "Headings"
-msgstr ""
+msgstr "મથાળુ"
 
 #: addressbook/printing/e-contact-print.glade.h:14
 msgid "Headings for each letter"
-msgstr ""
+msgstr "દરેક પત્ર માટે મથાળુ"
 
 #: addressbook/printing/e-contact-print.glade.h:15
 msgid "Height:"
-msgstr ""
+msgstr "ઊંચાઈ:"
 
 #: addressbook/printing/e-contact-print.glade.h:16
 msgid "Immediately follow each other"
-msgstr ""
+msgstr "તુરંત એકબીજાને અનુસરો"
 
 #: addressbook/printing/e-contact-print.glade.h:17
 msgid "Include:"
-msgstr ""
+msgstr "સમાવો:"
 
 #: addressbook/printing/e-contact-print.glade.h:18
 msgid "Landscape"
-msgstr ""
+msgstr "સૃષ્ટિસૌંદર્ય"
 
 #: addressbook/printing/e-contact-print.glade.h:19
 msgid "Left:"
-msgstr ""
+msgstr "ડાબુ:"
 
 #: addressbook/printing/e-contact-print.glade.h:20
 msgid "Letter tabs on side"
-msgstr ""
+msgstr "અક્ષરોની ટેબો બાજુમાં છે"
 
 #: addressbook/printing/e-contact-print.glade.h:21
 msgid "Margins"
-msgstr ""
+msgstr "હાંસિયાઓ"
 
 #: addressbook/printing/e-contact-print.glade.h:22
 msgid "Number of columns:"
-msgstr ""
+msgstr "સ્તંભોની સંખ્યા:"
 
 #: addressbook/printing/e-contact-print.glade.h:23
 msgid "Options"
-msgstr ""
+msgstr "વિકલ્પો"
 
 #: addressbook/printing/e-contact-print.glade.h:24
 msgid "Orientation"
-msgstr ""
+msgstr "દિશા"
 
 #: addressbook/printing/e-contact-print.glade.h:25
 msgid "Page"
-msgstr ""
+msgstr "પાનુ"
 
 #: addressbook/printing/e-contact-print.glade.h:26
 msgid "Page Setup:"
-msgstr ""
+msgstr "પાનાનું સુયોજન:"
 
 #: addressbook/printing/e-contact-print.glade.h:27
 msgid "Paper"
-msgstr ""
+msgstr "કાગળ"
 
 #: addressbook/printing/e-contact-print.glade.h:28
 msgid "Paper source:"
-msgstr ""
+msgstr "કાગળ સ્રોત:"
 
 #: addressbook/printing/e-contact-print.glade.h:29
 msgid "Portrait"
-msgstr ""
+msgstr "છબી"
 
 #: addressbook/printing/e-contact-print.glade.h:30
 msgid "Preview:"
-msgstr ""
+msgstr "પૂર્વદર્શન:"
 
 #: addressbook/printing/e-contact-print.glade.h:31
 msgid "Print using gray shading"
-msgstr ""
+msgstr "ભૂખરા છાયાપ્રકાશથી છાપો"
 
 #: addressbook/printing/e-contact-print.glade.h:32
 msgid "Reverse on even pages"
-msgstr ""
+msgstr "બેકી સંખ્યાના પાના પર ઉલટું કરો"
 
 #: addressbook/printing/e-contact-print.glade.h:33
 msgid "Right:"
-msgstr ""
+msgstr "જમણુ:"
 
 #: addressbook/printing/e-contact-print.glade.h:34
 msgid "Sections:"
-msgstr ""
+msgstr "વિભાગો:"
 
 #: addressbook/printing/e-contact-print.glade.h:35
 msgid "Shading"
-msgstr ""
+msgstr "છાયા"
 
 #: addressbook/printing/e-contact-print.glade.h:36
 msgid "Size:"
-msgstr ""
+msgstr "માપ:"
 
 #: addressbook/printing/e-contact-print.glade.h:37
 msgid "Start on a new page"
-msgstr ""
+msgstr "નવા પાના પર શરુ કરો"
 
 #: addressbook/printing/e-contact-print.glade.h:38
 msgid "Style name:"
-msgstr ""
+msgstr "શૈલીનું નામ:"
 
 #: addressbook/printing/e-contact-print.glade.h:39
 msgid "Top:"
-msgstr ""
+msgstr "ઉપર:"
 
 #: addressbook/printing/e-contact-print.glade.h:40
 msgid "Type:"
-msgstr ""
+msgstr "પ્રકાર:"
 
 #: addressbook/printing/e-contact-print.glade.h:41
 msgid "Width:"
-msgstr ""
+msgstr "પહોળાઈ:"
 
 #: addressbook/printing/e-contact-print.glade.h:42
 msgid "_Font..."
-msgstr ""
+msgstr "ફોન્ટ (_F)..."
 
 #: addressbook/printing/test-contact-print-style-editor.c:53
 msgid "Contact Print Style Editor Test"
-msgstr ""
+msgstr "છાપનની શૈલી સંપાદક ચકાસણીનો સંપર્ક કરો"
 
 #: addressbook/printing/test-contact-print-style-editor.c:56
 msgid "This should test the contact print style editor widget"
-msgstr ""
+msgstr "આ સંપર્ક છાપન શૈલી સંપાદક વિજેટને ચકાસશે"
 
 #: addressbook/printing/test-print.c:52
 msgid "Contact Print Test"
-msgstr ""
+msgstr "સંપર્ક છાપન ચકાસણી"
 
 #: addressbook/printing/test-print.c:55
 msgid "This should test the contact print code"
-msgstr ""
+msgstr "આ સંપર્ક છાપન કોડને ચકાસશે"
 
 #: addressbook/tools/evolution-addressbook-export-list-cards.c:657
 #: addressbook/tools/evolution-addressbook-export-list-cards.c:693
 #: addressbook/tools/evolution-addressbook-export-list-folders.c:49
 msgid "Can not open file"
-msgstr ""
+msgstr "ફાઈલ ખોલી શકાસે નહિં"
 
 #: addressbook/tools/evolution-addressbook-export-list-folders.c:43
 msgid "Couldn't get list of addressbooks"
-msgstr ""
+msgstr "સરનામાપોથીઓની યાદી મેળવી શકાઈ નહિં"
 
 #: addressbook/tools/evolution-addressbook-export-list-folders.c:71
 msgid "failed to open book"
-msgstr ""
+msgstr "પુસ્તક ખોલવામાં નિષ્ફળ"
 
 #: addressbook/tools/evolution-addressbook-export.c:56
 msgid "Specify the output file instead of standard output"
-msgstr ""
+msgstr "પ્રમાણભૂત આઉટપુટ ને બદલે આઉટપુટ ફાઈલ સ્પષ્ટ કરો"
 
 #: addressbook/tools/evolution-addressbook-export.c:57
 msgid "OUTPUTFILE"
-msgstr ""
+msgstr "OUTPUTFILE"
 
 #: addressbook/tools/evolution-addressbook-export.c:58
 msgid "List local addressbook folders"
-msgstr ""
+msgstr "સ્થાનિક સરનામાપોથી ફોલ્ડરોની યાદી આપો"
 
 #: addressbook/tools/evolution-addressbook-export.c:60
 msgid "Show cards as vcard or csv file"
-msgstr ""
+msgstr "કાર્ડોને vcard અથવા csv ફાઈલ તરીકે બતાવો"
 
 #: addressbook/tools/evolution-addressbook-export.c:60
 msgid "[vcard|csv]"
-msgstr ""
+msgstr "[vcard|csv]"
 
 #: addressbook/tools/evolution-addressbook-export.c:61
 msgid "Export in asynchronous mode "
-msgstr ""
+msgstr "સુમેળ નહિં હોય તેવી સ્થિતિમાં નિકાસ કરો"
 
 #: addressbook/tools/evolution-addressbook-export.c:63
 msgid "The number of cards in one output file in asychronous mode,default size 100."
-msgstr ""
+msgstr "એક આઉટપુટ ફાઈલમાં સુમેળ નહિં હોય તેવી સ્થિતિમાં કાર્ડોની સંખ્યા, મૂળભુત માપ ૧૦૦."
 
 #: addressbook/tools/evolution-addressbook-export.c:63
 msgid "NUMBER"
-msgstr ""
+msgstr "NUMBER"
 
 #: addressbook/tools/evolution-addressbook-export.c:91
 msgid "Command line arguments error, please use --help option to see the usage."
-msgstr ""
+msgstr "આદેશ વાક્ય દલીલ ભૂલ, મહેરબાની કરીને વપરાશ જોવા માટે --help વિકલ્પ વાપરો."
 
 #: addressbook/tools/evolution-addressbook-export.c:105
 msgid "Only support csv or vcard format."
-msgstr ""
+msgstr "માત્ર csv અથવા vcard બંધારણને આધાર આપે છે."
 
 #: addressbook/tools/evolution-addressbook-export.c:114
 msgid "In async mode, output must be file."
-msgstr ""
+msgstr "સુમેળ નહિં હોય એવી સ્થિતિમાં, આઉટપુટ ફાઈલ જ હોવી જોઈએ."
 
 #: addressbook/tools/evolution-addressbook-export.c:122
 msgid "In normal mode, there should not need size option."
-msgstr ""
+msgstr "સામાન્ય સ્થિતિમાં, ત્યાં માપ વિકલ્પ જરુરી નથી."
 
 #: addressbook/tools/evolution-addressbook-export.c:153
 msgid "Impossible internal error."
-msgstr ""
+msgstr "અશક્ય આંતરિક ભૂલ."
 
 #: addressbook/tools/evolution-addressbook-import.c:46
 msgid "Error loading default addressbook."
-msgstr ""
+msgstr "મૂળભુત સરનામાપોથી લાવવામાં ભૂલ."
 
 #: addressbook/tools/evolution-addressbook-import.c:67
 msgid "Input File"
-msgstr ""
+msgstr "ઈનપુટ ફાઈલ"
 
 #: addressbook/tools/evolution-addressbook-import.c:82
 msgid "No filename provided."
-msgstr ""
+msgstr "કોઈ ફાઈલનું નામ પૂરુ પાડવામાં આવેલ નથી."
 
 #: addressbook/util/e-destination.c:577
 msgid "Unnamed List"
-msgstr ""
+msgstr "નામ વગરની યાદી"
 
 #. calendar:prompt-cancel-meeting primary
 #. calendar:prompt-cancel-task primary
 #: calendar/calendar-errors.xml.h:2 calendar/calendar-errors.xml.h:12
 msgid "Would you like to send all the participants a cancellation notice?"
-msgstr ""
+msgstr "શું તમે બધા સ્પર્ધકોને નકારાત્મક સૂચન મોકલવા માંગો છો?"
 
 #. calendar:prompt-cancel-meeting secondary
 #: calendar/calendar-errors.xml.h:4
@@ -3532,28 +3541,30 @@ msgid ""
 "If you don't send a cancellation notice, the other participants may not know "
 "the meeting is canceled."
 msgstr ""
+"જો તમે નકારાત્મક સૂચન મોકલો નહિં, તો બીજા સ્પર્ધકોને ખબર નહિં પડે "
+"કે મંત્રણા રદ થઈ ગઈ છે."
 
 #: calendar/calendar-errors.xml.h:5 calendar/calendar-errors.xml.h:15
 #: calendar/calendar-errors.xml.h:25 calendar/calendar-errors.xml.h:79
 #: calendar/calendar-errors.xml.h:85 calendar/calendar-errors.xml.h:91
 #: calendar/calendar-errors.xml.h:97
 msgid "Don't Send"
-msgstr ""
+msgstr "મોકલો નહિં"
 
 #: calendar/calendar-errors.xml.h:6 calendar/calendar-errors.xml.h:16
 #: calendar/calendar-errors.xml.h:26
 msgid "Send Notice"
-msgstr ""
+msgstr "સૂચન મોકલો"
 
 #. calendar:prompt-delete-meeting primary
 #: calendar/calendar-errors.xml.h:8
 msgid "Are you sure you want to delete this meeting?"
-msgstr ""
+msgstr "શું તમે ખરેખર આ મંત્રણા કાઢી નાંખવા માંગો છો?"
 
 #. calendar:prompt-delete-meeting secondary
 #: calendar/calendar-errors.xml.h:10
 msgid "All information on this meeting will be deleted and can not be restored."
-msgstr ""
+msgstr "આ મંત્રણાની બધી જાણકારી કાઢી નાંખવામાં આવેલ છે અને ફરીથી સંગ્રહી શકાતી નથી."
 
 #. calendar:prompt-cancel-task secondary
 #: calendar/calendar-errors.xml.h:14
@@ -3561,11 +3572,13 @@ msgid ""
 "If you don't send a cancellation notice, the other participants may not know "
 "the task has been deleted."
 msgstr ""
+"જો તમે નકારાત્મક સૂચન મોકલો નહિં, તો બીજા સ્પર્ધકોને ખબર નહિં પડે કે "
+"બાબત કાઢી નંખાયેલ છે."
 
 #. calendar:prompt-delete-task primary
 #: calendar/calendar-errors.xml.h:18 calendar/calendar-errors.xml.h:44
 msgid "Are you sure you want to delete this task?"
-msgstr ""
+msgstr "શું તમે ખરેખર આ બાબત કાઢી નાંખવા માંગો છો?"
 
 #. calendar:prompt-delete-task secondary
 #. calendar:prompt-delete-named-task secondary
@@ -3573,12 +3586,12 @@ msgstr ""
 #: calendar/calendar-errors.xml.h:20 calendar/calendar-errors.xml.h:42
 #: calendar/calendar-errors.xml.h:46
 msgid "All information on this task will be deleted and can not be restored."
-msgstr ""
+msgstr "આ બાબતની બધી જાણકારી કાઢી નંખાયેલ છે અને ફરીથી સંગ્રહી શકાતી નથી."
 
 #. calendar:prompt-cancel-journal primary
 #: calendar/calendar-errors.xml.h:22
 msgid "Would you like to send a cancellation notice for this journal entry?"
-msgstr ""
+msgstr "શું તમે આ જર્નલ પ્રવેશ માટે નકારાત્મક સૂચન મોકલવા માંગો છો?"
 
 #. calendar:prompt-cancel-journal secondary
 #: calendar/calendar-errors.xml.h:24
@@ -3586,77 +3599,81 @@ msgid ""
 "If you don't send a cancellation notice, the other participants may not know "
 "the journal has been deleted."
 msgstr ""
+"જો તમે નકારાત્મક સૂચન મોકલો નહિં, તો બીજા સ્પર્ધકોને ખબર નહિં પડે કે "
+"જર્નલત કાઢી નંખાયેલ છે."
 
 #. calendar:prompt-delete-journal primary
 #: calendar/calendar-errors.xml.h:28 calendar/calendar-errors.xml.h:52
 msgid "Are you sure you want to delete this journal entry?"
-msgstr ""
+msgstr "શું તમે ખરેખર આ જર્નલ પ્રવેશ કાઢી નાંખવા માંગો છો?"
 
 #. calendar:prompt-delete-journal secondary
 #: calendar/calendar-errors.xml.h:30
 msgid ""
 "All information on this journal entry will be deleted and can not be "
 "restored."
-msgstr ""
+msgstr "આ જર્નલ પ્રવેશની બધી જાણકારી કાઢી નંખાયેલ છે અને ફરીથી સંગ્રહી શકાતી નથી."
 
 #. calendar:prompt-delete-titled-appointment primary
 #: calendar/calendar-errors.xml.h:32
 msgid "Are you sure you want to delete the appointment titled '{0}'?"
-msgstr ""
+msgstr "શું તમે ખરેખર '{0}' શીર્ષકવાળી મુલાકાત કાઢી નાંખવા માંગો છો?"
 
 #. calendar:prompt-delete-titled-appointment secondary
 #. calendar:prompt-delete-appointment secondary
 #: calendar/calendar-errors.xml.h:34 calendar/calendar-errors.xml.h:38
 msgid "All information on this appointment will be deleted and can not be restored."
 msgstr ""
+"આ મુલાકાતની બધી જાણકારી કાઢી નાંખવામાં આવે છે અને ફરીથી સંગ્રહી "
+"શકાશે નહિં."
 
 #. calendar:prompt-delete-appointment primary
 #: calendar/calendar-errors.xml.h:36
 msgid "Are you sure you want to delete this appointment?"
-msgstr ""
+msgstr "શું તમે ખરેખર આ મુલાકાત કાઢી નાંખવા માંગો છો?"
 
 #. calendar:prompt-delete-named-task primary
 #: calendar/calendar-errors.xml.h:40
 msgid "Are you sure you want to delete the '{0}' task?"
-msgstr ""
+msgstr "શું તમે ખરેખર બાબત '{0}' કાઢી નાંખવા માંગો છો?"
 
 #. calendar:prompt-delete-named-journal primary
 #: calendar/calendar-errors.xml.h:48
 msgid "Are you sure you want to delete the journal entry '{0}'?"
-msgstr ""
+msgstr "શું તમે ખરેખર જર્નલ પ્રવેશ '{0}' કાઢી નાંખવા માંગો છો?"
 
 #. calendar:prompt-delete-named-journal secondary
 #. calendar:prompt-delete-journal secondary
 #: calendar/calendar-errors.xml.h:50 calendar/calendar-errors.xml.h:54
 msgid "All information in this journal will be deleted and can not be restored."
-msgstr ""
+msgstr "આ જર્નલની બધી જાણકારી કાઢી નાંખવામાં આવશે અને ફરીથી સંગ્રહી શકાશે નહિં."
 
 #. calendar:prompt-delete-appointments primary
 #: calendar/calendar-errors.xml.h:56
 msgid "Are you sure you want to delete these {0} appointments?"
-msgstr ""
+msgstr "શું તમે ખરેખર {0} મુલાકાતો કાઢી નાંખવા માંગો છો?"
 
 #. calendar:prompt-delete-appointments secondary
 #: calendar/calendar-errors.xml.h:58
 msgid ""
 "All information on these appointments will be deleted and can not be "
 "restored."
-msgstr ""
+msgstr "આ મુલાકાતો બધી જાણકારી કાઢી નંખાશે અને ફરીથી સંગ્રહી શકાશે નહિં."
 
 #. calendar:prompt-delete-tasks primary
 #: calendar/calendar-errors.xml.h:60
 msgid "Are you sure you want to delete these {0} tasks?"
-msgstr ""
+msgstr "શું તમે ખરેખર આ {0} બાબતો કાઢી નાંખવા માંગો છો?"
 
 #. calendar:prompt-delete-tasks secondary
 #: calendar/calendar-errors.xml.h:62
 msgid "All information on these tasks will be deleted and can not be restored."
-msgstr ""
+msgstr "આ બાબતોની બધી જાણકારી કાઢી નંખાશે અને ફરીથી સંગ્રહી શકાશે નહિં."
 
 #. calendar:prompt-delete-journals primary
 #: calendar/calendar-errors.xml.h:64
 msgid "Are you sure you want to delete these {0} journal entries?"
-msgstr ""
+msgstr "શું તમે ખરેખર આ {0} જર્નલ પ્રવેશો કાઢી નાંખવા માંગો છો?"
 
 #. calendar:prompt-delete-journals secondary
 #: calendar/calendar-errors.xml.h:66
@@ -3664,50 +3681,54 @@ msgid ""
 "All information in these journal entries will be deleted and can not be "
 "restored."
 msgstr ""
+"આ જર્નલ પ્રવેશો માટેની બધી જાણકારી કાઢી નંખાસે અને તે ફરીથી સંગ્રહી "
+"શકાશે નહિં."
 
 #. calendar:prompt-save-appointment title
 #: calendar/calendar-errors.xml.h:68
 msgid "Save Appointment"
-msgstr ""
+msgstr "મુલાકાત સંગ્રહો"
 
 #. calendar:prompt-save-appointment primary
 #: calendar/calendar-errors.xml.h:70
 msgid "Would you like to save your changes to this appointment?"
-msgstr ""
+msgstr "શું તમે આ મુલાકાતના બદલાવો સંગ્રહવા માંગો છો?"
 
 #. calendar:prompt-save-appointment secondary
 #: calendar/calendar-errors.xml.h:72
 msgid "You have made changes to this appointment, but not yet saved them."
-msgstr ""
+msgstr "તમે આ મુલાકાતમાં ફેરફારો કર્યા છે, પરંતુ તેમને હજુ સંગ્રહ્યા નથી."
 
 #: calendar/calendar-errors.xml.h:73 composer/mail-composer-errors.xml.h:33
 msgid "Discard Changes"
-msgstr ""
+msgstr "ફેરફારો અવગણો"
 
 #: calendar/calendar-errors.xml.h:74
 msgid "Save Changes"
-msgstr ""
+msgstr "ફેરફારો સંગ્રહો"
 
 #. calendar:prompt-meeting-invite primary
 #: calendar/calendar-errors.xml.h:76
 msgid "Would you like to send meeting invitations to participants?"
-msgstr ""
+msgstr "શું તમે મંત્રણાનું આમંત્રણ સ્પર્ધકોને મોકલવા માંગો છો?"
 
 #. calendar:prompt-meeting-invite secondary
 #: calendar/calendar-errors.xml.h:78
 msgid "Email invitations will be sent to all participants and allow them to RSVP."
 msgstr ""
+"ઈ-મેઈલ આમંત્રણ બધા સ્પર્ધકોને મોકલવામાં આવશે અને તેમને RSVP "
+"વાપરવાની પરવાનગી આપશે."
 
 #: calendar/calendar-errors.xml.h:80 calendar/calendar-errors.xml.h:86
 #: calendar/calendar-errors.xml.h:92 calendar/calendar-errors.xml.h:98
 #: ui/evolution-message-composer.xml.h:24
 msgid "Send"
-msgstr ""
+msgstr "મોકલો"
 
 #. calendar:prompt-send-updated-meeting-info primary
 #: calendar/calendar-errors.xml.h:82
 msgid "Would you like to send updated meeting information to participants?"
-msgstr ""
+msgstr "શું તમે મંત્રણાની સુધારાયેલ જાણકારી સ્પર્ધકોને મોકલવા માંગો છો?"
 
 #. calendar:prompt-send-updated-meeting-info secondary
 #: calendar/calendar-errors.xml.h:84
@@ -3715,11 +3736,13 @@ msgid ""
 "Sending updated information allows other participants to keep their "
 "calendars up to date."
 msgstr ""
+"સુધારેલી જાણકારી સ્પર્ધકોને મોકલવાથી તેઓ પોતાના કેલેન્ડર પર "
+"રાખી શકે છે."
 
 #. calendar:prompt-send-task primary
 #: calendar/calendar-errors.xml.h:88
 msgid "Would you like to send this task to participants?"
-msgstr ""
+msgstr "શું તમે આ બાબત સ્પર્ધકોને મોકલવા માંગો છો?"
 
 #. calendar:prompt-send-task secondary
 #: calendar/calendar-errors.xml.h:90
@@ -3727,11 +3750,13 @@ msgid ""
 "Email invitations will be sent to all participants and allow them to accept "
 "this task."
 msgstr ""
+"ઈ-મેઈલનું આમંત્રણ બધા સ્પર્ધકોને મોકલવામાં આવે છે અને તેમને આ બાબત "
+"સ્વીકારવાની પરવાનગી આપે છે."
 
 #. calendar:prompt-send-updated-task-info primary
 #: calendar/calendar-errors.xml.h:94
 msgid "Would you like to send updated task information to participants?"
-msgstr ""
+msgstr "શું તમે સુધારેલી બાબતની જાણકારી સ્પર્ધકોને મોકલવા માંગો છો?"
 
 #. calendar:prompt-send-updated-task-info secondary
 #: calendar/calendar-errors.xml.h:96
@@ -3739,101 +3764,103 @@ msgid ""
 "Sending updated information allows other participants to keep their task "
 "lists up to date."
 msgstr ""
+"સ્પર્ધકોને સુધારેલી જાણકારી મોકલવાથી તેઓ પોતાની બાબતોની યાદી "
+"સાચવી શકે છે."
 
 #. calendar:tasks-crashed primary
 #: calendar/calendar-errors.xml.h:100
 msgid "The Evolution tasks have quit unexpectedly."
-msgstr ""
+msgstr "ઈવોલ્યુશન બાબતો અનિચ્છનિય રીતે બહાર નીકળી ગઈ."
 
 #. calendar:tasks-crashed secondary
 #: calendar/calendar-errors.xml.h:102
 msgid "Your tasks will not be available until Evolution is restarted."
-msgstr ""
+msgstr "જ્યાં સુધી ઈવોલ્યુશન ફરીથી ચાલુ નહિં થાય ત્યાં સુધી તમારી બાબતો ઉપ્લબ્ધ નહિં હોય."
 
 #. calendar:calendar-crashed primary
 #: calendar/calendar-errors.xml.h:104
 msgid "The Evolution calendar has quit unexpectedly."
-msgstr ""
+msgstr "ઈવોલ્યુશન કેલેન્ડરમાંથી અનિચ્છનિય રીતે બહાર નીકળી ગયા"
 
 #. calendar:calendar-crashed secondary
 #: calendar/calendar-errors.xml.h:106
 msgid "Your calendars will not be available until Evolution is restarted."
-msgstr ""
+msgstr "તમારા કેલેન્ડરો જ્યાં સુધી ઈવોલ્યુશન ફરીથી ચાલુ નહિં થાય ત્યાં સુધી ઉપ્લબ્ધ નહિં હોય."
 
 #: calendar/common/authentication.c:44 calendar/gui/e-pub-utils.c:301
 #: smime/gui/component.c:48
 msgid "Enter password"
-msgstr ""
+msgstr "પાસવર્ડ દાખલ કરો"
 
 #: calendar/conduits/calendar/calendar-conduit.c:223
 msgid "Split Multi-Day Events:"
-msgstr ""
+msgstr "ઘણા બધા દિવસોની બાબતો છુટી પાડો:"
 
 #: calendar/conduits/calendar/calendar-conduit.c:1330
 #: calendar/conduits/calendar/calendar-conduit.c:1331
 #: calendar/conduits/todo/todo-conduit.c:852
 #: calendar/conduits/todo/todo-conduit.c:853
 msgid "Could not start evolution-data-server"
-msgstr ""
+msgstr "ઈવોલ્યુશન-ડેટા-સર્વર ચાલુ કરી શકાયુ નહિં."
 
 #: calendar/conduits/calendar/calendar-conduit.c:1439
 #: calendar/conduits/calendar/calendar-conduit.c:1442
 msgid "Could not read pilot's Calendar application block"
-msgstr ""
+msgstr "પાયલોટનો કેલેન્ડર કાર્યક્રમ બ્લોક વાંચી શક્યા નથી"
 
 #: calendar/conduits/todo/todo-conduit.c:209
 msgid "Default Priority:"
-msgstr ""
+msgstr "મૂળભુ પ્રાધાન્ય:"
 
 #: calendar/conduits/todo/todo-conduit.c:932
 #: calendar/conduits/todo/todo-conduit.c:935
 msgid "Could not read pilot's ToDo application block"
-msgstr ""
+msgstr "પાયલોટના કરવાના કાર્યક્રમોનો બ્લોક વાંચી શકાયો નથી"
 
 #: calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:1
 msgid "*Control*F3"
-msgstr ""
+msgstr "*Control*F3"
 
 #: calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:2
 msgid "*Control*F4"
-msgstr ""
+msgstr "*Control*F4"
 
 #: calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:3
 msgid "Calendar and Tasks"
-msgstr ""
+msgstr "કેલેન્ડર અને બાબતો"
 
 #: calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:4
 #: calendar/gui/calendar-component.c:1060
 msgid "Calendars"
-msgstr ""
+msgstr "કેલેન્ડરો"
 
 #: calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:5
 msgid "Configure your timezone, Calendar and Task List here "
-msgstr ""
+msgstr "તમારો ટાઈમઝોન રુપરેખાંકિત કરો, અંહિ કેલેન્ડર અને બાબતોની યાદી"
 
 #: calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:6
 msgid "Evolution Calendar and Tasks"
-msgstr ""
+msgstr "ઈવોલ્યુશન કેલેન્ડર અને બાબતો"
 
 #: calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:7
 msgid "Evolution Calendar configuration control"
-msgstr ""
+msgstr "ઈવોલ્યુશન કેલેન્ડર રુપરેખાંકન નિયંત્રણ"
 
 #: calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:8
 msgid "Evolution Calendar scheduling message viewer"
-msgstr ""
+msgstr "ઈવોલ્યુશન કેલેન્ડર સમયક્રમ સંદેશા દર્શક"
 
 #: calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:9
 msgid "Evolution Calendar/Task editor"
-msgstr ""
+msgstr "ઈવોલ્યુશન કેલેન્ડર/બાબત સંપાદક"
 
 #: calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:10
 msgid "Evolution's Calendar component"
-msgstr ""
+msgstr "ઈવોલ્યુશનનો કેલેન્ડર કમ્પોનન્ટ"
 
 #: calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:11
 msgid "Evolution's Tasks component"
-msgstr ""
+msgstr "ઈવોલ્યુશનની બાબતોનો કમ્પોનન્ટ"
 
 #: calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:12
 #: calendar/gui/e-tasks.c:1099 calendar/gui/print.c:1819
@@ -3841,66 +3868,66 @@ msgstr ""
 #: calendar/gui/tasks-control.c:405 calendar/importers/icalendar-importer.c:79
 #: calendar/importers/icalendar-importer.c:705
 msgid "Tasks"
-msgstr ""
+msgstr "બાબતો"
 
 #: calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:13
 msgid "_Calendars"
-msgstr ""
+msgstr "કેલેન્ડરો (_C)"
 
 #: calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:14
 #: views/tasks/galview.xml.h:3
 msgid "_Tasks"
-msgstr ""
+msgstr "બાબતો (_T)"
 
 #: calendar/gui/alarm-notify/GNOME_Evolution_Calendar_AlarmNotify.server.in.in.h:1
 msgid "Evolution Calendar alarm notification service"
-msgstr ""
+msgstr "ઈવોલ્યુશન કેલેન્ડર એલાર્મ સૂચન સેવા"
 
 #: calendar/gui/alarm-notify/alarm-notify-dialog.c:213
 msgid "Starting:"
-msgstr ""
+msgstr "શરુ કરી રહ્યા છીએ:"
 
 #: calendar/gui/alarm-notify/alarm-notify-dialog.c:215
 msgid "Ending:"
-msgstr ""
+msgstr "અંત કરી રહ્યા છીએ:"
 
 #: calendar/gui/alarm-notify/alarm-notify-dialog.c:259
 msgid "Evolution Alarm"
-msgstr ""
+msgstr "ઈવોલ્યુશન એલાર્મ"
 
 #: calendar/gui/alarm-notify/alarm-notify-dialog.c:358
 #, c-format
 msgid "Alarm on %s"
-msgstr ""
+msgstr "એલાર્મ ચાલુ છે %s"
 
 #: calendar/gui/alarm-notify/alarm-notify.glade.h:1
 msgid "Snooze _time (minutes):"
-msgstr ""
+msgstr "પુનરાવર્તન સમય (_t) (મિનિટો):"
 
 #: calendar/gui/alarm-notify/alarm-notify.glade.h:2
 msgid "_Edit appointment"
-msgstr ""
+msgstr "મુલાકાતમાં ફેરફાર કરો (_E)"
 
 #: calendar/gui/alarm-notify/alarm-notify.glade.h:3
 msgid "_Snooze"
-msgstr ""
+msgstr "પુનરાવર્તન (_S)"
 
 #: calendar/gui/alarm-notify/alarm-queue.c:881
 #: ui/evolution-message-composer.xml.h:10
 msgid "Open"
-msgstr ""
+msgstr "ખોલો"
 
 #: calendar/gui/alarm-notify/alarm-queue.c:883
 msgid "Dismiss"
-msgstr ""
+msgstr "રદ"
 
 #: calendar/gui/alarm-notify/alarm-queue.c:885
 msgid "Dismiss All"
-msgstr ""
+msgstr "બધુ રદ"
 
 #: calendar/gui/alarm-notify/alarm-queue.c:949
 msgid "No description available."
-msgstr ""
+msgstr "કોઈ વર્ણન ઉપ્લબ્ધ નથી."
 
 #: calendar/gui/alarm-notify/alarm-queue.c:969
 #, c-format
@@ -3910,11 +3937,15 @@ msgid ""
 "Starting at %s\n"
 "Ending at %s"
 msgstr ""
+"એલાર્મ ચાલુ છે %s\n"
+"%s\n"
+"%s વાગ્યે ચાલુ થાય છે\n"
+"%s વાગ્યે બંધ થાય છે"
 
 #: calendar/gui/alarm-notify/alarm-queue.c:1069
 #: calendar/gui/alarm-notify/alarm-queue.c:1093
 msgid "Warning"
-msgstr ""
+msgstr "ચેતવણી"
 
 #: calendar/gui/alarm-notify/alarm-queue.c:1073
 msgid ""
@@ -3923,6 +3954,10 @@ msgid ""
 "configured to send an email.  Evolution will display\n"
 "a normal reminder dialog box instead."
 msgstr ""
+"ઈવોલ્યુશન ઈ-મેઈલ સૂચનો સાથે હજુ સુધી કેલેન્ડર \n"
+"રીમાઈન્ડર સાથે આધાર આપતા નથી, પરંતુ આ રીમાઈન્ડર\n"
+"ઈ-મેઈલ મોકલવા સાથે રુપરેખાંકિત થયો નથી. ઈવોલ્યુશન\n"
+"સામાન્ય રીમાઈન્ડર સાથે સંવાદ બોક્સ પ્રદર્શિત થશે."
 
 #: calendar/gui/alarm-notify/alarm-queue.c:1099
 #, c-format
@@ -3934,170 +3969,176 @@ msgid ""
 "\n"
 "Are you sure you want to run this program?"
 msgstr ""
+"ઈવોલ્યુશન કેલેન્ડર રીમાઈન્ડર ફેરબદલી કરવા માટે છે. આ રીમાઈન્ડર "
+"નીચેનો કાર્યક્રમ ચલાવવા માટે રુપરેખાંકિત થયેલ છે:\n"
+"\n"
+"        %s\n"
+"\n"
+"શું તમે ખરેખર આ કાર્યક્રમ ચલાવવા માંગો છો?"
 
 #: calendar/gui/alarm-notify/alarm-queue.c:1113
 msgid "Do not ask me about this program again."
-msgstr ""
+msgstr "મને આ કાર્યક્રમ વિશે ફરીથી પૂછશો નહિં."
 
 #: calendar/gui/alarm-notify/notify-main.c:139
 msgid "Could not initialize Bonobo"
-msgstr ""
+msgstr "બોનોબો શરુ કરી શક્યા નથી"
 
 #: calendar/gui/alarm-notify/notify-main.c:150
 msgid "Could not create the alarm notify service factory"
-msgstr ""
+msgstr "એલાર્મ સૂચન સેવા કારખાનું બનાવી શક્યા નથી"
 
 #: calendar/gui/alarm-notify/util.c:37
 msgid "invalid time"
-msgstr ""
+msgstr "અયોગ્ય સમય"
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:1
 msgid "Allocate less space to weekend appointments"
-msgstr ""
+msgstr "અઠવાડિયાના અંતે મુલાકાતોને ઓછી જગ્યા નક્કી કરો"
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:2
 msgid "Calendars to run alarms for"
-msgstr ""
+msgstr "ના માટે એલાર્મ ચલાવવાના કેલેન્ડર"
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:3
 msgid "Color of tasks that are due today"
-msgstr ""
+msgstr "બાબતોનો રંગ કે જે આજની છે"
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:4
 msgid "Color of tasks that are overdue"
-msgstr ""
+msgstr "બાબતોનો રંગ કે જે પહેલાની હતી"
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:5
 msgid "Days that are work days"
-msgstr ""
+msgstr "દિવસો કે જે કામ કરવાના હતા"
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:6
 msgid "Default timezone for meetings"
-msgstr ""
+msgstr "મંત્રણાઓ માટેનો મૂળભુત ટાઈમ ઝોન"
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:7
 msgid "Hour the workday ends on"
-msgstr ""
+msgstr "કામ કરવાનો દિવસ અંત થાય ત્યારનોીના કાકો"
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:8
 msgid "Hour the workday starts on"
-msgstr ""
+msgstr "કામ કરવાનો દિવસ શરુ થાય ત્યારનો કલાક"
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:9
 msgid "Intervals shown in Day and Work Week views"
-msgstr ""
+msgstr "કામ કરવાના દિવસ અને અઠવાડિયાનો અંતરાલ દેખાય છે"
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:10
 msgid "List of urls for free/busy publishing"
-msgstr ""
+msgstr "મુક્ત/વ્યસ્ત પ્રકાશનો માટેની url ની યાદી"
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:11
 msgid "Minute the workday ends on"
-msgstr ""
+msgstr "કામ કરવાનો દિવસ અંત થાય ત્યારની મિનિટ"
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:12
 msgid "Minute the workday starts on"
-msgstr ""
+msgstr "કામ કરવાનો દિવસ શરુ થાય ત્યારની મિનિટ"
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:13
 msgid "Number of units for default reminder"
-msgstr ""
+msgstr "મૂળભુત રીમાઈન્ડર માટે એકમોની સંખ્યા"
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:14
 msgid "Number of units for determining when to hide tasks"
-msgstr ""
+msgstr "ક્યારે બાબતો સંતાડવી તે નક્કી કરવાના એકમોની સંખ્યા"
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:15
 msgid "Position of the horizontal pane"
-msgstr ""
+msgstr "આડી તકતીની સ્થિતિ"
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:16
 msgid "Position of the horizontal pane in the month view"
-msgstr ""
+msgstr "મહિનાના દેખાવમાં આડી તકતીની સ્થિતિ"
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:17
 msgid "Position of the vertical pane"
-msgstr ""
+msgstr "ઊભી તકતીની સ્થિતિ"
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:18
 msgid "Position of the vertical pane in the month view"
-msgstr ""
+msgstr "મહિનાના દેખાવમાં ઊભી તકતીની સ્થિતિ"
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:19
 msgid "Position of the vertical pane in the task view"
-msgstr ""
+msgstr "બાબતના દેખાવમાં ઊભી તકતીની સ્થિતિ"
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:20
 msgid "Programs that can run as part of alarms"
-msgstr ""
+msgstr "કાર્યક્રમો કે જે એલાર્મના ભાગ તરીકે ચાલે છે"
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:21
 msgid "Show where events end in week and month views"
-msgstr ""
+msgstr "બતાવો કે ક્યારે ઘટનાઓ અઠવાડિયા અને મહિનામાં પૂરી થાય છે"
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:22
 msgid "Time last alarm ran"
-msgstr ""
+msgstr "આ સમય છેલ્લુ એલાર્મ ચાલ્યુ હતુ"
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:23
 msgid "Units for determining when to hide tasks"
-msgstr ""
+msgstr "ક્યારે બાબતો સંતાડવી તે નક્કી કરતા એકમો"
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:24
 msgid "Units of default reminder"
-msgstr ""
+msgstr "મૂળભુત રીમાઈન્ડરના એકમો"
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:25
 msgid "Weekday the week starts on"
-msgstr ""
+msgstr "અઠવાડિયાનો દિવસ કે જ્યારે અઠવાડિયુ શરુ થાય છે"
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:26
 msgid "Whether or not to use the notification tray for display alarms"
-msgstr ""
+msgstr "ડિસ્પ્લે એલાર્મ માટેની સૂચન ટ્રે વાપરવાની કે નહિં"
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:27
 msgid "Whether to ask for confirmation on appointment deletion"
-msgstr ""
+msgstr "મુલાકાતને કાઢી નાખવા માટે ખાતરી કરવા માટે પૂછવાનું કે નહિં"
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:28
 msgid "Whether to ask for confirmation when folder is expunged"
-msgstr ""
+msgstr "જ્યારે ફોલ્ડર બગડી ગયું હોય ત્યારે ખાતરી માટે પૂછવાનું કે નહિં"
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:29
 msgid "Whether to hide completed tasks"
-msgstr ""
+msgstr "શું પૂરી થયેલી બાબતો સંતાડવાની કે નહિં"
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:30
 msgid "Whether to set a default reminder for events"
-msgstr ""
+msgstr "ઘટનાઓ માટે મૂળભુત રીમાઈન્ડર સુયોજિત કરવાનું કે નહિં"
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:31
 msgid "Whether to show times in 24h format instead of using am/pm"
-msgstr ""
+msgstr "શું સમયનું બંધારણ ૨૪ કલાકનુ વાપરવાનું am/pm ની જગ્યાએ"
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:32
 msgid "Whether to show week numbers in date navigator"
-msgstr ""
+msgstr "શું અઠવાડિયાનો ક્રમાંક તારીખ શોધકમાં બતાવવો"
 
 #: calendar/gui/cal-search-bar.c:50
 msgid "Summary contains"
-msgstr ""
+msgstr "સાર સમાવે છે"
 
 #: calendar/gui/cal-search-bar.c:51
 msgid "Description contains"
-msgstr ""
+msgstr "વર્ણન સમાવે છે"
 
 #: calendar/gui/cal-search-bar.c:52
 msgid "Comment contains"
-msgstr ""
+msgstr "ટિપ્પળી સમાવે છે"
 
 #: calendar/gui/cal-search-bar.c:53
 msgid "Location contains"
-msgstr ""
+msgstr "સ્થાન સમાવે છે"
 
 #: calendar/gui/cal-search-bar.c:362 camel/camel-vee-store.c:327
 msgid "Unmatched"
-msgstr ""
+msgstr "બંધબેસતા નથી"
 
 #: calendar/gui/calendar-commands.c:117 calendar/gui/calendar-component.c:552
 #: calendar/gui/dialogs/select-source-dialog.c:108
@@ -4105,7 +4146,7 @@ msgstr ""
 #: camel/providers/groupwise/camel-gw-listener.c:315
 #: camel/providers/groupwise/camel-gw-listener.c:338
 msgid "Calendar"
-msgstr ""
+msgstr "કેલેન્ડર"
 
 #: calendar/gui/calendar-commands.c:352
 msgid ""
@@ -4113,20 +4154,22 @@ msgid ""
 "amount of time. If you continue, you will not be able to recover these "
 "events."
 msgstr ""
+"આ પ્રક્રિયા પસંદ કરેલ સમય કરતાં જૂની બધી ઘટનાઓને કાયમ માટે કાઢી "
+"નાંખશે. જો તમે ચાલુ રાખો, તો તમે આ ઘટનાઓને ફરીથી મેળવી શકો નહિં."
 
 #: calendar/gui/calendar-commands.c:358
 msgid "Purge events older than"
-msgstr ""
+msgstr "ના કરતાં જૂની ઘટનાઓ કાઢો"
 
 #: calendar/gui/calendar-commands.c:363
 #: calendar/gui/dialogs/alarm-dialog.glade.h:21
 #: calendar/gui/dialogs/calendar-setup.glade.h:12 filter/filter.glade.h:13
 msgid "days"
-msgstr ""
+msgstr "દિવસો"
 
 #: calendar/gui/calendar-commands.c:432 calendar/gui/calendar-component.c:504
 msgid "%A %d %B %Y"
-msgstr ""
+msgstr "%A %d %B %Y"
 
 #. strftime format %a = abbreviated weekday name, %d = day of month,
 #. %b = abbreviated month name. Don't use any other specifiers.
@@ -4138,20 +4181,20 @@ msgstr ""
 #: calendar/gui/e-day-view-top-item.c:714 calendar/gui/e-day-view.c:1588
 #: calendar/gui/e-week-view-main-item.c:329
 msgid "%a %d %b"
-msgstr ""
+msgstr "%a %d %b"
 
 #: calendar/gui/calendar-commands.c:437 calendar/gui/calendar-commands.c:442
 #: calendar/gui/calendar-commands.c:444 calendar/gui/calendar-component.c:509
 #: calendar/gui/calendar-component.c:514 calendar/gui/calendar-component.c:516
 msgid "%a %d %b %Y"
-msgstr ""
+msgstr "%a %d %b %Y"
 
 #: calendar/gui/calendar-commands.c:461 calendar/gui/calendar-commands.c:467
 #: calendar/gui/calendar-commands.c:473 calendar/gui/calendar-commands.c:475
 #: calendar/gui/calendar-component.c:528 calendar/gui/calendar-component.c:535
 #: calendar/gui/calendar-component.c:541 calendar/gui/calendar-component.c:543
 msgid "%d %B %Y"
-msgstr ""
+msgstr "%d %B %Y"
 
 #. strftime format %d = day of month, %B = full
 #. month name. You can change the order but don't
@@ -4159,252 +4202,252 @@ msgstr ""
 #: calendar/gui/calendar-commands.c:465 calendar/gui/calendar-component.c:533
 #: calendar/gui/e-week-view-main-item.c:337 calendar/gui/print.c:1498
 msgid "%d %B"
-msgstr ""
+msgstr "%d %B"
 
 #: calendar/gui/calendar-component.c:370
 #, c-format
 msgid "Calendar '%s' will be removed. Are you sure you want to continue?"
-msgstr ""
+msgstr "કેલેન્ડર '%s' કાઢી નાંખવામાં આવશે. શું તમે ખરેખર ચાલુ રાખવા માંગો છો?"
 
 #: calendar/gui/calendar-component.c:426
 msgid "New Calendar"
-msgstr ""
+msgstr "નવું કેલેન્ડર"
 
 #: calendar/gui/calendar-component.c:623
 msgid "Failed upgrading calendars."
-msgstr ""
+msgstr "કેલેન્ડરો સુધારવામાં નિષ્ફળ."
 
 #: calendar/gui/calendar-component.c:917
 #, c-format
 msgid "Unable to open the calendar '%s' for creating events and meetings"
-msgstr ""
+msgstr "ઘટનાઓ અને મંત્રણાઓ બનાવવા માટે કેલેન્ડર '%s' ખોલવા માટે અસમર્થ"
 
 #: calendar/gui/calendar-component.c:929
 msgid "There is no calendar available for creating events and meetings"
-msgstr ""
+msgstr "ત્યાં ઘટનાઓ અને મંત્રણાઓ બનાવવા ામટે કોઈ કેલેન્ડર ઉપ્લબ્ધ નથી"
 
 #: calendar/gui/calendar-component.c:1224
 msgid "New appointment"
-msgstr ""
+msgstr "નવી મુલાકાત"
 
 #: calendar/gui/calendar-component.c:1225
 msgid "_Appointment"
-msgstr ""
+msgstr "મુલાકાત (_A)"
 
 #: calendar/gui/calendar-component.c:1226
 msgid "Create a new appointment"
-msgstr ""
+msgstr "નવી મુલાકાત બનાવો"
 
 #: calendar/gui/calendar-component.c:1232
 msgid "New meeting"
-msgstr ""
+msgstr "નવી મંત્રણા"
 
 #: calendar/gui/calendar-component.c:1233
 msgid "M_eeting"
-msgstr ""
+msgstr "મંત્રણા (_e)"
 
 #: calendar/gui/calendar-component.c:1234
 msgid "Create a new meeting request"
-msgstr ""
+msgstr "નવી મંત્રણા મંજૂરી બનાવો"
 
 #: calendar/gui/calendar-component.c:1240
 msgid "New all day appointment"
-msgstr ""
+msgstr "નવી બધા દિવસની મુલાકાત"
 
 #: calendar/gui/calendar-component.c:1241
 msgid "All _Day Appointment"
-msgstr ""
+msgstr "બધા દિવસની મુલાકાત (_D)"
 
 #: calendar/gui/calendar-component.c:1242
 msgid "Create a new all-day appointment"
-msgstr ""
+msgstr "નવી બધા દિવસની મુલાકાત બનાવો"
 
 #: calendar/gui/calendar-component.c:1248
 msgid "New calendar"
-msgstr ""
+msgstr "નવું કેલેન્ડર"
 
 #: calendar/gui/calendar-component.c:1249
 msgid "Cale_ndar"
-msgstr ""
+msgstr "કેલેન્ડર (_n)"
 
 #: calendar/gui/calendar-component.c:1250
 msgid "Create a new calendar"
-msgstr ""
+msgstr "નવું કેલેન્ડર બનાવો"
 
 #: calendar/gui/calendar-offline-handler.c:192
 #, c-format
 msgid "backend_go_offline(): %s"
-msgstr ""
+msgstr "backend_go_offline(): %s"
 
 #: calendar/gui/calendar-offline-handler.c:215
 #, c-format
 msgid "backend_go_online(): %s"
-msgstr ""
+msgstr "backend_go_online(): %s"
 
 #: calendar/gui/calendar-view-factory.c:118
 msgid "Day View"
-msgstr ""
+msgstr "દિવસનો દેખાવ"
 
 #: calendar/gui/calendar-view-factory.c:121
 msgid "Work Week View"
-msgstr ""
+msgstr "કામ કરવાના અઠવાડિયાનો દેખાવ"
 
 #: calendar/gui/calendar-view-factory.c:124
 msgid "Week View"
-msgstr ""
+msgstr "અઠવાડિયાનો દેખાવ"
 
 #: calendar/gui/calendar-view-factory.c:127
 msgid "Month View"
-msgstr ""
+msgstr "મહિનાનો દેખાવ"
 
 #: calendar/gui/comp-editor-factory.c:409
 msgid "Error while opening the calendar"
-msgstr ""
+msgstr "કેલેન્ડર ખોલતી વખતે ભૂલ"
 
 #: calendar/gui/comp-editor-factory.c:420
 msgid "Method not supported when opening the calendar"
-msgstr ""
+msgstr "કેલેન્ડર ખોલતી વખતે પદ્ધતિ આધાર આપતી નથી"
 
 #: calendar/gui/comp-editor-factory.c:426
 msgid "Permission denied to open the calendar"
-msgstr ""
+msgstr "કેલેન્ડર ખોલવા માટે પરવાનગી નથી"
 
 #: calendar/gui/comp-editor-factory.c:474
 #, c-format
 msgid "open_client(): %s"
-msgstr ""
+msgstr "open_client(): %s"
 
 #: calendar/gui/dialogs/alarm-dialog.glade.h:2
 msgid "<b>Alarm</b>\t"
-msgstr ""
+msgstr "<b>એલાર્મ</b>\t"
 
 #: calendar/gui/dialogs/alarm-dialog.glade.h:3
 msgid "<b>Options</b>"
-msgstr ""
+msgstr "<b>વિકલ્પો</b>"
 
 #: calendar/gui/dialogs/alarm-dialog.glade.h:4
 msgid "<b>Repeat</b>"
-msgstr ""
+msgstr "<b>પુનરાવર્તન</b>"
 
 #: calendar/gui/dialogs/alarm-dialog.glade.h:5
 msgid "Add Alarm"
-msgstr ""
+msgstr "એલાર્મ ઉમેરો"
 
 #: calendar/gui/dialogs/alarm-dialog.glade.h:6
 msgid "Custom _message"
-msgstr ""
+msgstr "કસ્ટમ સંદેશો (_m)"
 
 #: calendar/gui/dialogs/alarm-dialog.glade.h:7
 msgid "Custom alarm sound"
-msgstr ""
+msgstr "કસ્ટમ એલાર્મ ધ્વનિ"
 
 #: calendar/gui/dialogs/alarm-dialog.glade.h:8
 msgid "Mes_sage:"
-msgstr ""
+msgstr "સંદેશો (_s):"
 
 #: calendar/gui/dialogs/alarm-dialog.glade.h:9 calendar/gui/e-alarm-list.c:444
 msgid "Play a sound"
-msgstr ""
+msgstr "ધ્વનિ વગાડો"
 
 #: calendar/gui/dialogs/alarm-dialog.glade.h:10
 #: calendar/gui/e-alarm-list.c:448
 msgid "Pop up an alert"
-msgstr ""
+msgstr "ચેતવણી દર્શાવો"
 
 #: calendar/gui/dialogs/alarm-dialog.glade.h:11
 #: calendar/gui/e-alarm-list.c:456
 msgid "Run a program"
-msgstr ""
+msgstr "કાર્યક્રમ ચલાવો"
 
 #: calendar/gui/dialogs/alarm-dialog.glade.h:12
 msgid "Send To:"
-msgstr ""
+msgstr "ને મોકલો:"
 
 #: calendar/gui/dialogs/alarm-dialog.glade.h:13
 #: calendar/gui/e-alarm-list.c:452
 msgid "Send an email"
-msgstr ""
+msgstr "ઈ-મેઈલ મોકલો"
 
 #: calendar/gui/dialogs/alarm-dialog.glade.h:14
 msgid "_Arguments:"
-msgstr ""
+msgstr "દલીલો (_A):"
 
 #: calendar/gui/dialogs/alarm-dialog.glade.h:15
 msgid "_Program:"
-msgstr ""
+msgstr "કાર્યક્રમ (_P):"
 
 #: calendar/gui/dialogs/alarm-dialog.glade.h:16
 msgid "_Repeat the alarm"
-msgstr ""
+msgstr "એલાર્મ પુનઃ કરો (_R)"
 
 #: calendar/gui/dialogs/alarm-dialog.glade.h:17
 msgid "_Sound:"
-msgstr ""
+msgstr "ધ્વનિ (_S):"
 
 #: calendar/gui/dialogs/alarm-dialog.glade.h:18
 msgid "after"
-msgstr ""
+msgstr "પછી"
 
 #: calendar/gui/dialogs/alarm-dialog.glade.h:19
 msgid "before"
-msgstr ""
+msgstr "પહેલા"
 
 #: calendar/gui/dialogs/alarm-dialog.glade.h:20
 #: calendar/gui/dialogs/recurrence-page.glade.h:7
 msgid "day(s)"
-msgstr ""
+msgstr "દિવસ(ો)"
 
 #: calendar/gui/dialogs/alarm-dialog.glade.h:22
 msgid "end of appointment"
-msgstr ""
+msgstr "મુલાકાતનો અંત"
 
 #: calendar/gui/dialogs/alarm-dialog.glade.h:23
 msgid "extra times every"
-msgstr ""
+msgstr "દરેક માટે વધારાનો સમય"
 
 #: calendar/gui/dialogs/alarm-dialog.glade.h:24
 msgid "hour(s)"
-msgstr ""
+msgstr "કલાક(ો)"
 
 #: calendar/gui/dialogs/alarm-dialog.glade.h:25
 #: calendar/gui/dialogs/calendar-setup.glade.h:13 filter/filter.glade.h:14
 msgid "hours"
-msgstr ""
+msgstr "કલાકો"
 
 #: calendar/gui/dialogs/alarm-dialog.glade.h:26
 msgid "minute(s)"
-msgstr ""
+msgstr "મિનિટ(ો)"
 
 #: calendar/gui/dialogs/alarm-dialog.glade.h:28
 msgid "start of appointment"
-msgstr ""
+msgstr "મુલાકાતની શરુઆત"
 
 #: calendar/gui/dialogs/alarm-list-dialog.c:192
 msgid "Action/Trigger"
-msgstr ""
+msgstr "ક્રિયા/ફેરબદલી"
 
 #: calendar/gui/dialogs/alarm-list-dialog.glade.h:1
 msgid "A_dd"
-msgstr ""
+msgstr "ઉમેરો (_d)"
 
 #: calendar/gui/dialogs/alarm-list-dialog.glade.h:2
 msgid "Alarms"
-msgstr ""
+msgstr "એલાર્મ"
 
 #. FIXME: This routine should just be a "toggled" event handler on the checkbox cell renderer which
 #. has "activatable" set.
 #: calendar/gui/dialogs/cal-prefs-dialog.c:567 mail/em-account-prefs.c:466
 #: mail/em-composer-prefs.c:677 mail/em-composer-prefs.c:905
 msgid "Enabled"
-msgstr ""
+msgstr "સક્રિય કરેલ છે"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.c:721
 msgid "Are you sure you want to remove this URL?"
-msgstr ""
+msgstr "શું તમે ખરેખર આ URL દૂર કરવા માંગો છો?"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.c:729
 msgid "Don't Remove"
-msgstr ""
+msgstr "કાઢશો નહિં"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.c:778
 #: calendar/gui/dialogs/cal-prefs-dialog.c:811
@@ -4413,7 +4456,7 @@ msgstr ""
 #: mail/em-composer-prefs.c:596 mail/em-composer-prefs.c:654
 #: mail/em-composer-prefs.c:684
 msgid "Disable"
-msgstr ""
+msgstr "નિષ્ક્રિય"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.c:778
 #: calendar/gui/dialogs/cal-prefs-dialog.c:811
@@ -4422,190 +4465,190 @@ msgstr ""
 #: mail/em-composer-prefs.c:596 mail/em-composer-prefs.c:654
 #: mail/em-composer-prefs.c:684
 msgid "Enable"
-msgstr ""
+msgstr "સક્રિય"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:1
 msgid "05 minutes"
-msgstr ""
+msgstr "૦૫ મિનિટો"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:2
 msgid "10 minutes"
-msgstr ""
+msgstr "૧૦ મિનિટો"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:3
 msgid "15 minutes"
-msgstr ""
+msgstr "૧૫ મિનિટો"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:4
 msgid "30 minutes"
-msgstr ""
+msgstr "૩૦ મિનિટો"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:5
 msgid "60 minutes"
-msgstr ""
+msgstr "૬૦ મિનિટો"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:6
 msgid "<b>Alerts</b>"
-msgstr ""
+msgstr "<b>ચેતવે છે</b>"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:7
 msgid "<b>General</b>"
-msgstr ""
+msgstr "<b>સામાન્ય</b>"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:8
 msgid "<b>Task List</b>"
-msgstr ""
+msgstr "<b>બાબતોની યાદી</b>"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:9
 msgid "<b>Time</b>"
-msgstr ""
+msgstr "<b>સમય</b>"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:10
 msgid "<b>Work Week</b>"
-msgstr ""
+msgstr "<b>કામ કરવાનું અઠવાડિયુ</b>"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:11
 msgid "Calendar and Tasks Settings"
-msgstr ""
+msgstr "કેલેન્ડર અને બાબતોના સુયોજનો"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:12
 msgid "Color for overdue tasks"
-msgstr ""
+msgstr "પહેલાની બાબતોનો રંગ"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:13
 msgid "Color for tasks due today"
-msgstr ""
+msgstr "આજ સુધીની બાબતોનો રંગ"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:14
 msgid "Day _ends:"
-msgstr ""
+msgstr "દિવસ અંત થાય છે (_e):"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:15
 msgid "Days"
-msgstr ""
+msgstr "દિવસો"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:16
 msgid "Display"
-msgstr ""
+msgstr "ડિસ્પ્લે"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:17
 #: mail/mail-config.glade.h:76
 msgid "E_nable"
-msgstr ""
+msgstr "સક્રિય કરો (_n)"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:18
 msgid "Free/Busy Publishing"
-msgstr ""
+msgstr "મુક્ત/વ્યસ્ત પ્રકાશન"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:19
 #: calendar/gui/dialogs/recurrence-page.c:1038
 #: calendar/gui/e-itip-control.c:556
 msgid "Friday"
-msgstr ""
+msgstr "શુક્રવાર"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:21
 msgid "Hours"
-msgstr ""
+msgstr "કલાકો"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:22
 msgid "Minutes"
-msgstr ""
+msgstr "મિનિટો"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:23
 #: calendar/gui/dialogs/recurrence-page.c:1034
 #: calendar/gui/e-itip-control.c:552
 msgid "Monday"
-msgstr ""
+msgstr "સોમવાર"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:24
 msgid "S_un"
-msgstr ""
+msgstr "સુર્ય (_u)"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:25
 #: calendar/gui/dialogs/recurrence-page.c:1039
 #: calendar/gui/e-itip-control.c:557
 msgid "Saturday"
-msgstr ""
+msgstr "શનિવાર"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:26
 msgid "Sh_ow a reminder"
-msgstr ""
+msgstr "રીમાઈન્ડર બતાવો (_o)"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:27
 msgid "Show week _numbers in date navigator"
-msgstr ""
+msgstr "તારીખ બતાવનારમાં અઠવાડિયાનો ક્રમાંક બતાવો (_n)"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:28
 #: calendar/gui/dialogs/recurrence-page.c:1040
 #: calendar/gui/e-itip-control.c:551
 msgid "Sunday"
-msgstr ""
+msgstr "રવિવાર"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:29
 msgid "T_asks due today:"
-msgstr ""
+msgstr "આજ સુધીની બાબતો (_a):"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:30
 msgid "T_hu"
-msgstr ""
+msgstr "ગુરુ (_h)"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:31
 #: calendar/gui/dialogs/recurrence-page.c:1037
 #: calendar/gui/e-itip-control.c:555
 msgid "Thursday"
-msgstr ""
+msgstr "ગુરુવાર"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:32
 msgid "Time _zone:"
-msgstr ""
+msgstr "ટાઈમ ઝોન (_z):"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:33
 msgid "Time format:"
-msgstr ""
+msgstr "સમયનું બંધારણ:"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:34
 #: calendar/gui/dialogs/recurrence-page.c:1035
 #: calendar/gui/e-itip-control.c:553
 msgid "Tuesday"
-msgstr ""
+msgstr "મંગળવાર"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:35
 msgid "W_eek starts:"
-msgstr ""
+msgstr "અઠવાડિયુ શરુ થાય છે (_e):"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:36
 #: calendar/gui/dialogs/recurrence-page.c:1036
 #: calendar/gui/e-itip-control.c:554
 msgid "Wednesday"
-msgstr ""
+msgstr "બુધવાર"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:37
 msgid "Work days:"
-msgstr ""
+msgstr "કામ કરવાના દિવસો:"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:38
 msgid "_12 hour (AM/PM)"
-msgstr ""
+msgstr "_12 કલાક (AM/PM)"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:39
 msgid "_24 hour"
-msgstr ""
+msgstr "_24 કલાક"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:40
 msgid "_Add URL"
-msgstr ""
+msgstr "URL ઉમેરો (_A)"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:41
 msgid "_Ask for confirmation when deleting items"
-msgstr ""
+msgstr "વસ્તુઓ કાઢી નાખતી વખતે ખાતરી માટે પૂછો (_A)"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:42
 msgid "_Compress weekends in month view"
-msgstr ""
+msgstr "મહિનાના દેખાવમાં અઠવાડિયાના અંતે સંકોચો (_C)"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:43
 msgid "_Day begins:"
-msgstr ""
+msgstr "દિવસ શરુ થાય છે (_D):"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:44
 #: calendar/gui/dialogs/recurrence-page.glade.h:6 filter/filter.glade.h:10
@@ -4616,66 +4659,66 @@ msgstr ""
 #: ui/evolution-signature-editor.xml.h:12 ui/evolution-subscribe.xml.h:10
 #: ui/evolution-tasks.xml.h:22
 msgid "_Edit"
-msgstr ""
+msgstr "ફેરફાર કરો (_E)"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:45
 msgid "_Fri"
-msgstr ""
+msgstr "શુક્ર (_F)"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:46
 msgid "_Hide completed tasks after"
-msgstr ""
+msgstr "પછી પૂર્ણ થયેલ બાબતો છુપાવો (_H)"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:47
 msgid "_Mon"
-msgstr ""
+msgstr "સોમ (_M)"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:48
 msgid "_Overdue tasks:"
-msgstr ""
+msgstr "પછીની બાબતો (_O):"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:49
 msgid "_Sat"
-msgstr ""
+msgstr "શનિ (_S)"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:50
 msgid "_Show appointment end times in week and month views"
-msgstr ""
+msgstr "અઠવાડિયા અને મહિનાના અંતે મુલાકાતના સમયો બતાવો (_S)"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:51
 msgid "_Time divisions:"
-msgstr ""
+msgstr "સમયની વહેંચણી (_T):"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:52
 msgid "_Tue"
-msgstr ""
+msgstr "મંગળ (_T)"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:53
 msgid "_Wed"
-msgstr ""
+msgstr "બુધ (_W)"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:54
 msgid "before every appointment"
-msgstr ""
+msgstr "દરેક મુલાકાત પહેલા"
 
 #: calendar/gui/dialogs/calendar-setup.c:172
 msgid "You must specify a location to get the calendar from."
-msgstr ""
+msgstr "તમારે કેલેન્ડર ફોર્મ મેળવવા માટે જગ્યા સ્પષ્ટ કરવી જ પડે છે."
 
 #: calendar/gui/dialogs/calendar-setup.c:180
 #, c-format
 msgid "The source location '%s' is not well-formed."
-msgstr ""
+msgstr "સ્રોત જગ્યા '%s' એ યોગ્ય રીતે ઘડાયેલ નથી."
 
 #: calendar/gui/dialogs/calendar-setup.c:195
 #, c-format
 msgid "The source location '%s' is not a webcal source."
-msgstr ""
+msgstr "સ્રોત જગ્યા '%s' એ વેબકોલ સ્રોત નથી."
 
 #: calendar/gui/dialogs/calendar-setup.c:275
 #, c-format
 msgid "Source with name '%s' already exists in the selected group"
-msgstr ""
+msgstr "પસંદ કરેલ જૂથમાં %s નામવાળો સ્રોત પહેલાથી જ હાજર છે"
 
 #: calendar/gui/dialogs/calendar-setup.c:288
 #, c-format
@@ -4683,217 +4726,219 @@ msgid ""
 "The group '%s' is remote. You must specify a location to get the calendar "
 "from"
 msgstr ""
+"જૂથ '%s' દૂરસ્થ છે. તમારે તેમાંથી કેલેન્ડર મેળવવા માટે જગ્યા સ્પષ્ટ કરવી જ "
+"પડે છે"
 
 #: calendar/gui/dialogs/calendar-setup.glade.h:2
 msgid "Add Calendar"
-msgstr ""
+msgstr "કેલેન્ડર ઉમેરો"
 
 #: calendar/gui/dialogs/calendar-setup.glade.h:3
 msgid "Add Tasks Group"
-msgstr ""
+msgstr "બાબતોનું જૂથ ઉમેરો"
 
 #: calendar/gui/dialogs/calendar-setup.glade.h:4
 msgid "C_olor:"
-msgstr ""
+msgstr "રંગ (_o):"
 
 #: calendar/gui/dialogs/calendar-setup.glade.h:5 mail/mail-config.glade.h:110
 msgid "Pick a color"
-msgstr ""
+msgstr "રંગ પસંદ કરો"
 
 #: calendar/gui/dialogs/calendar-setup.glade.h:6
 msgid "_Add Calendar"
-msgstr ""
+msgstr "કેલેન્ડર ઉમેરો (_A)"
 
 #: calendar/gui/dialogs/calendar-setup.glade.h:7
 msgid "_Add Group"
-msgstr ""
+msgstr "જૂથ ઉમેરો (_A)"
 
 #: calendar/gui/dialogs/calendar-setup.glade.h:9
 msgid "_Refresh:"
-msgstr ""
+msgstr "ફરીથી તાજુ કરો (_R):"
 
 #: calendar/gui/dialogs/calendar-setup.glade.h:10
 msgid "_Type:"
-msgstr ""
+msgstr "પ્રકાર (_T):"
 
 #: calendar/gui/dialogs/calendar-setup.glade.h:11
 msgid "_URL:"
-msgstr ""
+msgstr "_URL:"
 
 #: calendar/gui/dialogs/calendar-setup.glade.h:15 filter/filter.glade.h:20
 msgid "weeks"
-msgstr ""
+msgstr "અઠવાડિયાઓ"
 
 #: calendar/gui/dialogs/changed-comp.c:60
 msgid "This event has been deleted."
-msgstr ""
+msgstr "આ બાબત કાઢી નંખાયેલ છે"
 
 #: calendar/gui/dialogs/changed-comp.c:64
 msgid "This task has been deleted."
-msgstr ""
+msgstr "આ બાબત કાઢી નંખાયેલ છે."
 
 #: calendar/gui/dialogs/changed-comp.c:68
 msgid "This journal entry has been deleted."
-msgstr ""
+msgstr "આ જર્નલ પ્રવેશ કાઢી નંખાયેલ છે."
 
 #: calendar/gui/dialogs/changed-comp.c:77
 #, c-format
 msgid "%s  You have made changes. Forget those changes and close the editor?"
-msgstr ""
+msgstr "%s  તમે બદલાવો કર્યા છે. તે બદલાવો ભૂલી જાઓ અને સંપાદક બંધ કરો?"
 
 #: calendar/gui/dialogs/changed-comp.c:79
 #, c-format
 msgid "%s  You have made no changes, close the editor?"
-msgstr ""
+msgstr "%s  તમે કોઈ ફેરફારો કર્યા નથી, સંપાદક બંધ કરવા માંગો છો?"
 
 #: calendar/gui/dialogs/changed-comp.c:84
 msgid "This event has been changed."
-msgstr ""
+msgstr "આ ઘટના પહેલાથી જ બદલાઈ ગઈ છે."
 
 #: calendar/gui/dialogs/changed-comp.c:88
 msgid "This task has been changed."
-msgstr ""
+msgstr "બાબત બદલાઈ ગયેલ છે."
 
 #: calendar/gui/dialogs/changed-comp.c:92
 msgid "This journal entry has been changed."
-msgstr ""
+msgstr "જર્નલ પ્રવેશ બદલાઈ ગયો છે."
 
 #: calendar/gui/dialogs/changed-comp.c:101
 #, c-format
 msgid "%s  You have made changes. Forget those changes and update the editor?"
-msgstr ""
+msgstr "%s  તમે ફેરફારો કર્યા છે. આ બદલાવો ભુલી જાવ અને સંપાદક સુધારો?"
 
 #: calendar/gui/dialogs/changed-comp.c:103
 #, c-format
 msgid "%s  You have made no changes, update the editor?"
-msgstr ""
+msgstr "%s  તમે કોઈ ફેરફારો કર્યા નથી, સંપાદક સુધારવા માંગો છો?"
 
 #: calendar/gui/dialogs/comp-editor-page.c:464
 #, c-format
 msgid "Validation error: %s"
-msgstr ""
+msgstr "ચકાસણી ભૂલ: %s"
 
 #: calendar/gui/dialogs/comp-editor-util.c:187 calendar/gui/print.c:2258
 msgid " to "
-msgstr ""
+msgstr " પ્રતિ "
 
 #: calendar/gui/dialogs/comp-editor-util.c:191 calendar/gui/print.c:2262
 msgid " (Completed "
-msgstr ""
+msgstr " (પૂર્ણ થયું "
 
 #: calendar/gui/dialogs/comp-editor-util.c:193 calendar/gui/print.c:2264
 msgid "Completed "
-msgstr ""
+msgstr "પૂર્ણ થયું "
 
 #: calendar/gui/dialogs/comp-editor-util.c:198 calendar/gui/print.c:2269
 msgid " (Due "
-msgstr ""
+msgstr " (કારણે "
 
 #: calendar/gui/dialogs/comp-editor-util.c:200 calendar/gui/print.c:2271
 msgid "Due "
-msgstr ""
+msgstr "કારણે "
 
 #: calendar/gui/dialogs/comp-editor.c:264
 msgid "Could not update object"
-msgstr ""
+msgstr "ઓબ્જેક્ટ સુધારી શક્યા નથી"
 
 #: calendar/gui/dialogs/comp-editor.c:878
 #: calendar/gui/dialogs/comp-editor.c:915
 msgid "Edit Appointment"
-msgstr ""
+msgstr "મુલાકાતમાં ફેરફાર કરો"
 
 #: calendar/gui/dialogs/comp-editor.c:883
 #: calendar/gui/dialogs/comp-editor.c:920
 #, c-format
 msgid "Appointment - %s"
-msgstr ""
+msgstr "મુલાકાત - %s"
 
 #: calendar/gui/dialogs/comp-editor.c:886
 #: calendar/gui/dialogs/comp-editor.c:923
 #, c-format
 msgid "Task - %s"
-msgstr ""
+msgstr "બાબત - %s"
 
 #: calendar/gui/dialogs/comp-editor.c:889
 #: calendar/gui/dialogs/comp-editor.c:926
 #, c-format
 msgid "Journal entry - %s"
-msgstr ""
+msgstr "જર્નલ પ્રવેશ - %s"
 
 #: calendar/gui/dialogs/comp-editor.c:900
 #: calendar/gui/dialogs/comp-editor.c:936
 msgid "No summary"
-msgstr ""
+msgstr "કોઈ સાર નથી"
 
 #: calendar/gui/dialogs/comp-editor.c:1302
 #: calendar/gui/dialogs/comp-editor.c:1337
 #: calendar/gui/dialogs/comp-editor.c:1363
 msgid "Changes made to this item may be discarded if an update arrives"
-msgstr ""
+msgstr "આ વસ્તુમાં કરેલા ફેરફારો રદ કરાશે જો સુધારો થાય તો"
 
 #: calendar/gui/dialogs/comp-editor.c:1387
 msgid "Unable to use current version!"
-msgstr ""
+msgstr "વર્તમાન આવૃત્તિ વાપરવા માટે અસમર્થ!"
 
 #: calendar/gui/dialogs/copy-source-dialog.c:57
 msgid "Could not open source"
-msgstr ""
+msgstr "સ્રોત ખોલી શક્યા નથી"
 
 #: calendar/gui/dialogs/copy-source-dialog.c:65
 msgid "Could not open destination"
-msgstr ""
+msgstr "અંતિમ મુકામ ખોલી શક્યા નથી"
 
 #: calendar/gui/dialogs/copy-source-dialog.c:74
 msgid "Destination is read only"
-msgstr ""
+msgstr "અંતિમ મુકામ માત્ર વાંચી શકાય તેવું છે"
 
 #: calendar/gui/dialogs/delete-error.c:54
 msgid "The event could not be deleted due to a corba error"
-msgstr ""
+msgstr "કોર્બા ભૂલને કારણે ઘટના કાઢી શકાય નહિં"
 
 #: calendar/gui/dialogs/delete-error.c:57
 msgid "The task could not be deleted due to a corba error"
-msgstr ""
+msgstr "કોર્બા ભૂલને કારણે બાબત કાઢી શકાઈ નહિં"
 
 #: calendar/gui/dialogs/delete-error.c:60
 msgid "The journal entry could not be deleted due to a corba error"
-msgstr ""
+msgstr "કોર્બા ભૂલને કારણે જર્નલ પ્રવેશ કાઢી શકાશે નહિં"
 
 #: calendar/gui/dialogs/delete-error.c:63
 msgid "The item could not be deleted due to a corba error"
-msgstr ""
+msgstr "કોર્બા ભૂલને કારણે વસ્તુ કાઢી શકાઈ નહિં"
 
 #: calendar/gui/dialogs/delete-error.c:70
 msgid "The event could not be deleted because permission was denied"
-msgstr ""
+msgstr "પરવાનગી મળી નહિં આથી ઘટના કાઢી શકાઈ નહિં"
 
 #: calendar/gui/dialogs/delete-error.c:73
 msgid "The task could not be deleted because permission was denied"
-msgstr ""
+msgstr "બાબત કાઢી શકાઈ નહિં કારણકે પરવાનગી નથી"
 
 #: calendar/gui/dialogs/delete-error.c:76
 msgid "The journal entry could not be deleted because permission was denied"
-msgstr ""
+msgstr "જર્નલ પ્રવેશ કાઢી શકાયો નહિં કારણકે પરવાનગી નથી"
 
 #: calendar/gui/dialogs/delete-error.c:79
 msgid "The item could not be deleted because permission was denied"
-msgstr ""
+msgstr "વસ્તુ કાઢી શકાઈ નહિં કારણકે પરવાનગી નથી"
 
 #: calendar/gui/dialogs/delete-error.c:86
 msgid "The event could not be deleted due to an error"
-msgstr ""
+msgstr "ઘટના ભૂલને કારણે કાઢી શકાઈ નહિં"
 
 #: calendar/gui/dialogs/delete-error.c:89
 msgid "The task could not be deleted due to an error"
-msgstr ""
+msgstr "ભૂલને કારણે બાબત કાઢી શકાઈ નહિં"
 
 #: calendar/gui/dialogs/delete-error.c:92
 msgid "The journal entry could not be deleted due to an error"
-msgstr ""
+msgstr "ભૂલને કારણે જર્નલ પ્રવેશ કાઢી શકાયો નહિં"
 
 #: calendar/gui/dialogs/delete-error.c:95
 msgid "The item could not be deleted due to an error"
-msgstr ""
+msgstr "ભૂલને કારણે વસ્તુ કાઢી શકાઈ નહિં"
 
 #: calendar/gui/dialogs/e-delegate-dialog.glade.h:1
 msgid "Contacts..."
