@@ -11,7 +11,7 @@
 <!entity libical "<application>libical</application>">
 ]>
 
-<book>
+<book id="index">
   <bookinfo>
     <title>Evolution Developer's Guide</title>
 
