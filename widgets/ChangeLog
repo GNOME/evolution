@@ -1,3 +1,13 @@
+2001-08-26  Zbigniew Chyla  <cyba@gnome.pl>
+
+	Fixes #2465
+
+	* menus/gal-view-menus.c (build_menus):
+	Encode the label using bonobo_ui_util_encode_str and set "label"
+	attribute, not "_label".
+	I have no idea what the previous code was trying to do but it was
+	definitely wrong.
+
 2001-08-27  Ettore Perazzoli  <ettore@ximian.com>
 
 	* e-timezone-dialog/e-timezone-dialog.h

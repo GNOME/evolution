@@ -222,7 +222,7 @@ build_menus(GalViewMenus *menus)
 	menus->priv->listenerClosures = e_list_new (NULL, closure_free, menus);
 
 	for (i = 0; i < length; i++) {
-		char *label;
+		char *label, *encoded_label;
 		GalViewCollectionItem *item = gal_view_collection_get_view_item(collection, i);
 		ListenerClosure *closure;
 
@@ -234,9 +234,9 @@ build_menus(GalViewMenus *menus)
 
 		/* bonobo displays this string so it must be in locale */
 		label = e_utf8_to_locale_string(item->title);
-		/* All labels are bonobo_ui_util_decode_str()ed,
-		 * so even translated label must be set with _label */
-		bonobo_ui_node_set_attr(menuitem, "_label", label);
+		encoded_label = bonobo_ui_util_encode_str (label);
+		bonobo_ui_node_set_attr(menuitem, "label", encoded_label);
+		g_free (encoded_label);
 		g_free(label);
 
 		closure = g_new (ListenerClosure, 1);
