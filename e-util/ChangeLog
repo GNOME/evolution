@@ -1,3 +1,8 @@
+2001-07-02  Rodrigo Moya <rodrigo@ximian.com>
+
+	* e-categories-config.[ch]: new file for a set of functions for
+	managing category-related (icons, colors) configuration
+
 2001-07-01  Ettore Perazzoli  <ettore@ximian.com>
 
 	* e-request.c: New.
