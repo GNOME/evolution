@@ -1,5 +1,7 @@
 2000-10-24  Jeffrey Stedfast  <fejj@helixcode.com>
 
+	* filtertypes.xml: Take out the reference to "Source".
+
 	* filter-element.c (filter_element_new_type_name): Remove
 	filter-url code.
 
