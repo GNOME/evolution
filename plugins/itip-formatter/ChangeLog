@@ -1,3 +1,8 @@
+2005-03-11  JP Rosevear  <jpr@novell.com>
+
+	* itip-formatter.c (extract_itip_data): set the type appropriately
+	so that assigned tasks can be handled
+
 2005-02-24  Björn Torkelsson  <torkel@acc.umu.se>
 
 	* org-gnome-itip-formatter.eplug.in: Added author and description.

@@ -1010,6 +1010,20 @@ extract_itip_data (FormatItipPObject *pitip, GtkContainer *container)
 
 		return FALSE;	       
 	}
+
+	switch (kind) {
+	case ICAL_VEVENT_COMPONENT:
+		pitip->type = E_CAL_SOURCE_TYPE_EVENT;
+		break;
+	case ICAL_VTODO_COMPONENT:
+		pitip->type = E_CAL_SOURCE_TYPE_TODO;
+		break;
+	default:
+		set_itip_error (pitip, container, 
+				_("The item in the calendar is not valid"), 
+				_("The message does contain a calendar, but the calendar contains no events, tasks or free/busy information"));
+		return FALSE;
+	}
 	
 	pitip->total = icalcomponent_count_components (pitip->main_comp, ICAL_VEVENT_COMPONENT);
 	pitip->total += icalcomponent_count_components (pitip->main_comp, ICAL_VTODO_COMPONENT);
