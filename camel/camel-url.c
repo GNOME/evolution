@@ -6,6 +6,7 @@
  * Authors:
  *  Bertrand Guiheneuf <bertrand@helixcode.com>
  *  Dan Winship <danw@helixcode.com>
+ *  Tiago Antào <tiagoantao@bigfoot.com>
  *
  * Copyright 1999, 2000 Helix Code, Inc. (http://www.helixcode.com)
  *
@@ -25,18 +26,18 @@
  * USA
  */
 
-
-
-/* XXX TODO:
- * recover the words between #'s or ?'s after the path
- * % escapes
- */
-
 #include <config.h>
+
+#include <ctype.h>
+#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include "camel-url.h"
 #include "camel-exception.h"
+
+static char *url_encode (char *part, gboolean escape_unsafe,
+			 char *escape_extra);
+static void url_decode (char *part);
 
 /**
  * camel_url_new: create a CamelURL object from a string
@@ -66,6 +67,7 @@ camel_url_new (const char *url_string, CamelException *ex)
 {
 	CamelURL *url;
 	char *semi, *colon, *at, *slash;
+	char *p;
 
 	/* Find protocol: initial substring until ":" */
 	colon = strchr (url_string, ':');
@@ -78,10 +80,26 @@ camel_url_new (const char *url_string, CamelException *ex)
 
 	url = g_new0 (CamelURL, 1);
 	url->protocol = g_strndup (url_string, colon - url_string);
+	g_strdown (url->protocol);
+
+	/* Check protocol */
+	p = url->protocol;
+	while (*p) {
+		if (!((*p >= 'a' && *p <= 'z') ||
+		      (*p == '-') || (*p == '+') || (*p == '.'))) {
+			camel_exception_setv (ex, CAMEL_EXCEPTION_SERVICE_URL_INVALID,
+					      "URL string `%s' contains an invalid protocol",
+					      url_string);
+			return NULL;
+		}
+		p++;
+	}
 
 	if (strncmp (colon, "://", 3) != 0) {
-		if (*(colon + 1))
+		if (*(colon + 1)) {
 			url->path = g_strdup (colon + 1);
+			url_decode (url->path);
+		}
 		return url;
 	}
 
@@ -94,9 +112,10 @@ camel_url_new (const char *url_string, CamelException *ex)
 	at = strchr (url_string, '@');
 	if (at && (!slash || at < slash)) {
 		colon = strchr (url_string, ':');
-		if (colon && colon < at)
+		if (colon && colon < at) {
 			url->passwd = g_strndup (colon + 1, at - colon - 1);
-		else {
+			url_decode (url->passwd);
+		} else {
 			url->passwd = NULL;
 			colon = at;
 		}
@@ -106,12 +125,14 @@ camel_url_new (const char *url_string, CamelException *ex)
 		    !strncasecmp (semi, ";auth=", 6)) {
 			url->authmech = g_strndup (semi + 6,
 						     colon - semi - 6);
+			url_decode (url->authmech);
 		} else {
 			url->authmech = NULL;
 			semi = colon;
 		}
 
 		url->user = g_strndup (url_string, semi - url_string);
+		url_decode (url->user);
 		url_string = at + 1;
 	} else
 		url->user = url->passwd = url->authmech = NULL;
@@ -134,15 +155,18 @@ camel_url_new (const char *url_string, CamelException *ex)
 		}
 	} else if (slash) {
 		url->host = g_strndup (url_string, slash - url_string);
+		url_decode (url->host);
 		url->port = 0;
 	} else {
 		url->host = g_strdup (url_string);
+		url_decode (url->host);
 		url->port = 0;
 	}
 
 	if (!slash)
 		slash = "/";
 	url->path = g_strdup (slash);
+	url_decode (url->path);
 
 	return url;
 }
@@ -150,26 +174,46 @@ camel_url_new (const char *url_string, CamelException *ex)
 char *
 camel_url_to_string (CamelURL *url, gboolean show_passwd)
 {
+	char *return_result;
+	char *user = NULL, *authmech = NULL, *passwd = NULL;
+	char *host = NULL, *path = NULL;
 	char port[20];
 
+	if (url->user)
+		user = url_encode (url->user, TRUE, ":;@/");
+	if (url->authmech)
+		authmech = url_encode (url->authmech, TRUE, ":@/");
+	if (show_passwd && url->passwd)
+		passwd = url_encode (url->passwd, TRUE, "@/");
+	if (url->host)
+		host = url_encode (url->host, TRUE, ":/");
 	if (url->port)
 		g_snprintf (port, sizeof (port), "%d", url->port);
 	else
 		*port = '\0';
+	if (url->path)
+		path = url_encode (url->path, FALSE, NULL);
 
-	return g_strdup_printf ("%s:%s%s%s%s%s%s%s%s%s%s%s",
+	return_result = g_strdup_printf ("%s:%s%s%s%s%s%s%s%s%s%s%s",
 				url->protocol,
-				url->host ? "//" : "",
-				url->user ? url->user : "",
-				url->authmech ? ";auth=" : "",
-				url->authmech ? url->authmech : "",
-				url->passwd && show_passwd ? ":" : "",
-				url->passwd && show_passwd ? url->passwd : "",
-				url->user ? "@" : "",
-				url->host ? url->host : "",
-				url->port ? ":" : "",
+				host ? "//" : "",
+				user ? user : "",
+				authmech ? ";auth=" : "",
+				authmech ? authmech : "",
+				passwd ? ":" : "",
+				passwd ? passwd : "",
+				user ? "@" : "",
+				host ? host : "",
+				*port ? ":" : "",
 				port,
-				url->path ? url->path : "");
+				path ? path : "");
+	g_free (user);
+	g_free (authmech);
+	g_free (passwd);
+	g_free (host);
+	g_free (path);
+
+	return return_result;
 }
 
 void
@@ -185,4 +229,53 @@ camel_url_free (CamelURL *url)
 	g_free (url->path);
 
 	g_free (url);
+}
+
+
+static char *
+url_encode (char *part, gboolean escape_unsafe, char *escape_extra)
+{
+	char *work, *p;
+
+	/* worst case scenario = 3 times the initial */
+	p = work = g_malloc (3 * strlen (part) + 1);
+
+	while (*part) {
+		if (((guchar) *part >= 127) || ((guchar) *part <= ' ') ||
+		    (escape_unsafe && strchr ("\"%#<>{}|\\^~[]`", *part)) ||
+		    (escape_extra && strchr (escape_extra, *part))) {
+			sprintf (p, "%%%.02hX", (guchar) *part++);
+			p += 3;
+		} else
+			*p++ = *part++;
+	}
+	*p = '\0';
+
+	return work;
+}
+
+#define HEXVAL(c) (isdigit (c) ? (c) - '0' : tolower (c) - 'a' + 10)
+
+/* We decode URLs in place because: (a) the data passed in is always
+ * private to CamelURL, (b) we never want to keep the encoded version,
+ * (c) the decoded version is never longer than the encoded version,
+ * so it's safe to rewrite in place.
+ */
+static void
+url_decode (char *part)
+{
+	guchar *s, *d;
+
+	s = d = (guchar *)part;
+	while (*s) {
+		if (*s == '%') {
+			if (isxdigit (s[1]) && isxdigit (s[2])) {
+				*d++ = HEXVAL (s[1]) * 16 + HEXVAL (s[2]);
+				s += 3;
+			} else
+				*d++ = *s++;
+		} else
+			*d++ = *s++;
+	}
+	*d = '\0';
 }
