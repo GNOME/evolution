@@ -208,13 +208,13 @@ GnomeUIInfo gnome_cal_menu [] = {
 };
 
 GnomeUIInfo gnome_toolbar [] = {
-	{ GNOME_APP_UI_ITEM, N_("Prev"), N_("Previous"), previous_clicked, 0, 0,
+	{ GNOME_APP_UI_ITEM, N_("Prev"), NULL, previous_clicked, 0, 0,
 	  GNOME_APP_PIXMAP_STOCK, GNOME_STOCK_MENU_BACK },
 	
-	{ GNOME_APP_UI_ITEM, N_("Today"), N_("Today"), today_clicked, 0, 0,
+	{ GNOME_APP_UI_ITEM, N_("Today"), NULL, today_clicked, 0, 0,
 	  GNOME_APP_PIXMAP_STOCK, GNOME_STOCK_MENU_BACK },
 	
-	{ GNOME_APP_UI_ITEM, N_("Next"), N_("Next"), next_clicked, 0, 0,
+	{ GNOME_APP_UI_ITEM, N_("Next"), NULL, next_clicked, 0, 0,
 	  GNOME_APP_PIXMAP_STOCK, GNOME_STOCK_MENU_FORWARD },
 
 	GNOMEUIINFO_END

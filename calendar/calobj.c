@@ -9,6 +9,7 @@
 #include <string.h>
 #include <glib.h>
 #include "calobj.h"
+#include "timeutil.h"
 #include "versit/vcc.h"
 
 iCalObject *
@@ -66,9 +67,15 @@ ical_new (char *comment, char *organizer, char *summary)
 }
 
 static void
+my_free (gpointer data, gpointer user_dat_ignored)
+{
+	g_free (data);
+}
+
+static void
 list_free (GList *list)
 {
-	g_list_foreach (list, g_free, 0);
+	g_list_foreach (list, my_free, 0);
 	g_list_free (list);
 }
 
@@ -259,11 +266,37 @@ to_str (int num)
 	return buf;
 }
 
+/*
+ * stores a GList in the property, using SEP as the value separator
+ */
+static void
+store_list (VObject *o, char *prop, GList *values, char sep)
+{
+	GList *l;
+	int len;
+	char *result, *p;
+	
+	for (len = 0, l = values; l; l = l->next)
+		len += strlen (l->data) + 1;
+
+	result = g_malloc (len);
+	for (p = result, l = values; l; l = l->next){
+		int len = strlen (l->data);
+		
+		strcpy (p, l->data);
+		p [len] = sep;
+		p += len+1;
+	}
+	addPropValue (o, prop, result);
+	g_free (p);
+}
+
 VObject *
 ical_object_to_vobject (iCalObject *ical)
 {
 	VObject *o;
-
+	GList *l;
+	
 	if (ical->type == ICAL_EVENT)
 		o = newVObject (VCEventProp);
 	else
@@ -288,7 +321,54 @@ ical_object_to_vobject (iCalObject *ical)
 	/* completed */
 	if (ical->completed)
 		addPropValue (o, VCDTendProp, isodate_from_time_t (ical->completed));
-		
+
+	/* last_mod */
+	addPropValue (o, VCLastModifiedProp, isodate_from_time_t (ical->last_mod));
+
+	/* exdate */
+	if (ical->exdate)
+		store_list (o, VCExpDateProp, ical->exdate, ',');
+
+	/* description/comment */
+	if (ical->comment)
+		addPropValue (o, VCDescriptionProp, ical->comment);
+
+	/* summary */
+	if (ical->summary)
+		addPropValue (o, VCSummaryProp, ical->summary);
+	
+	/* status */
+	addPropValue (o, VCStatusProp, ical->status);
+
+	/* class */
+	addPropValue (o, VCClassProp, ical->class);
+
+	/* categories */
+	if (ical->categories)
+		store_list (o, VCCategoriesProp, ical->categories, ',');
+
+	/* resources */
+	if (ical->categories)
+		store_list (o, VCCategoriesProp, ical->resources, ";");
+
+	/* priority */
+	addPropValue (o, VCPriorityProp, to_str (ical->priority));
+
+	/* transparency */
+	addPropValue (o, VCTranspProp, to_str (ical->transp));
+
+	/* related */
+	store_list (o, VCRelatedToProp, ical->related, ";");
+
+	/* attach */
+	for (l = ical->attach; l; l = l->next)
+		addPropValue (o, VCAttachProp, l->data);
+
+	/* url */
+	if (ical->url)
+		addPropValue (o, VCURLProp, ical->url);
+
+	/* FIXME: alarms */
 	return o;
 }
 	

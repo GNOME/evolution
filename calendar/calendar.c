@@ -201,6 +201,7 @@ calendar_load (Calendar *cal, char *fname)
 	vcal = Parse_MIME_FromFileName (fname);
 	calendar_load_from_vobject (cal, vcal);
 	cleanVObject (vcal);
+	cleanStrTbl ();
 }
 
 void
@@ -226,5 +227,6 @@ calendar_save (Calendar *cal, char *fname)
 	}
 	writeVObjectToFile (fname, vcal);
 	cleanVObject (vcal);
+	cleanStrTbl ();
 }
 
