@@ -12,6 +12,7 @@ config.rpath
 config.status
 config.sub
 configure
+depcomp
 install-sh
 intl
 libtool
