@@ -17,7 +17,7 @@
 #define d(x) x
 
 #define NUM_CASES 1
-#define CHUNK_SIZE 32
+#define CHUNK_SIZE 4096
 
 enum {
 	CRLF_ENCODE,
@@ -49,7 +49,7 @@ main (int argc, char **argv)
 		
 		for (j = CRLF_ENCODE; j < CRLF_DONE; j++) {
 			CamelMimeFilterCRLFDirection direction;
-			char *infile, *outfile;
+			char *infile = NULL, *outfile = NULL;
 			
 			switch (j) {
 			case CRLF_ENCODE:
@@ -126,9 +126,6 @@ main (int argc, char **argv)
 					
 					comp_filter_chunk += delta;
 				}
-				
-				d(printf ("\n\nCORRECT: >>%.*s<<", comp_correct_chunk, comp_correct));
-				d(printf ("\nFILTER : >>%.*s<<\n", comp_filter_chunk, comp_filter));
 				
 				for (comp_i = 0; comp_i < comp_filter_chunk; comp_i++) {
 					if (comp_correct[comp_i] != comp_filter[comp_i]) {

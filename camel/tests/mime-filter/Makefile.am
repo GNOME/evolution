@@ -19,14 +19,19 @@ LDADD = \
 	$(INTLLIBS) 					\
 	$(EVOLUTION_MAIL_LIBS)
 
-EXTRA_DIST =			\
-	crlf-1.in		\
-	crlf-1.out
+EXTRA_DIST =				\
+	crlf-1.in			\
+	crlf-1.out			\
+	charset-iso-2022-jp.0.in	\
+	charset-iso-2022-jp.0.out	\
+	charset-gb2312.0.in		\
+	charset-gb2312.0.out
 
 check_PROGRAMS =  		\
-	test-crlf
+	test-crlf		\
+	test-charset
 
-TESTS = test-crlf
+TESTS = test-crlf test-charset
 
 
 
