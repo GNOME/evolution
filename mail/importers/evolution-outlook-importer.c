@@ -20,46 +20,68 @@
  * Boston, MA 02111-1307, USA.
  */
 
-
 #ifdef HAVE_CONFIG_H
 #include <config.h>
 #endif
 
-#include <bonobo/bonobo-object.h>
-#include <bonobo/bonobo-generic-factory.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <fcntl.h>
+#include <unistd.h>
+#include <errno.h>
 
 #include <stdio.h>
+#include <ctype.h>
+#include <string.h>
+
+#include <gtk/gtkhbox.h>
+#include <gtk/gtklabel.h>
+#include <gtk/gtkmessagedialog.h>
+#include <gtk/gtkprogressbar.h>
+
+#include <bonobo/bonobo-control.h>
+
+#include <camel/camel-exception.h>
+#include <camel/camel-folder.h>
+#include <camel/camel-stream-mem.h>
+#include <camel/camel-store.h>
 
 #include <importer/evolution-importer.h>
 #include <importer/GNOME_Evolution_Importer.h>
 
-#include <camel/camel-exception.h>
+#include "mail/em-folder-selection-button.h"
 
-#include "e-util/e-memory.h"
-#include "mail/mail-tools.h"
 #include "mail/mail-component.h"
+#include "mail/mail-mt.h"
+#include "mail/mail-tools.h"
 
 #include "mail-importer.h"
 
-extern char *evolution_dir;
+static int mail_importer_import_outlook(const char *path, const char *folderuri, CamelOperation *cancel);
+
 typedef struct {
-	MailImporter importer;
+	EvolutionImporter *ii;
 
-	char *filename;
-	gboolean oe4; /* Is file OE4 or not? */
-	FILE *handle;
-	long pos;
-	off_t size;
+	GMutex *status_lock;
+	char *status_what;
+	int status_pc;
+	int status_timeout_id;
+	CamelOperation *cancel;	/* cancel/status port */
 
-	gboolean busy;
+	GtkWidget *selector;
+	GtkWidget *label;
+	GtkWidget *progressbar;
+	GtkWidget *dialog;
+
+	char *uri;
 } OutlookImporter;
 
 struct oe_msg_segmentheader {
-	int self;
-	int increase;
-	int include;
-	int next;
-	int usenet;
+	gint32 self;
+	gint32 increase;
+	gint32 include;
+	gint32 next;
+	gint32 usenet;
 };
 
 typedef struct oe_msg_segmentheader oe_msg_segmentheader;
@@ -73,104 +95,19 @@ typedef struct oe_msg_segmentheader oe_msg_segmentheader;
    Copyright (C) 2001 Ximian, Inc. */
 
 static void
-process_item_fn (EvolutionImporter *eimporter,
-		 CORBA_Object listener,
-		 void *closure,
-		 CORBA_Environment *ev)
+process_item_fn(EvolutionImporter *eimporter, CORBA_Object listener, void *data, CORBA_Environment *ev)
 {
-	OutlookImporter *oli = (OutlookImporter *) closure;
-	MailImporter *importer = (MailImporter *) oli;
-	oe_msg_segmentheader *header;
-	gboolean more = TRUE;
-	char *cb, *sfull, *s;
-	long end_pos = 0;
-	int i;
-
-	if (oli->busy == TRUE) {
-		GNOME_Evolution_ImporterListener_notifyResult (listener, 
-							       GNOME_Evolution_ImporterListener_BUSY,
-							       more, ev);
-		return;
-	}
-
-	oli->busy = TRUE;
-	header = g_new (oe_msg_segmentheader, 1);
-	fread (header, 16, 1, oli->handle);
-
-	/* Write a From line */
-	mail_importer_add_line (importer, 
-				"From evolution-outlook-importer", FALSE);
-	end_pos = oli->pos + header->include;
-	if (end_pos >= oli->size) {
-		end_pos = oli->size;
-		more = FALSE;
-	}
-
-	oli->pos += 4;
-
-	cb = g_new (char, 4);
-	sfull = g_new (char, 65536);
-	s = sfull;
-
-	while (oli->pos < end_pos) {
-		fread (cb, 1, 4, oli->handle);
-		for (i = 0; i < 4; i++, oli->pos++) {
-			if (*(cb + i ) != 0x0d) {
-				*s++ = *(cb + i);
-
-				if (*(cb + i) == 0x0a) {
-					*s = '\0';
-					mail_importer_add_line (importer, 
-								sfull, FALSE);
-					s = sfull;
-				}
-			}
-		}
-	}
-
-	if (s != sfull) {
-		*s = '\0';
-		mail_importer_add_line (importer, sfull, FALSE);
-		s = sfull;
-	}
-
-	mail_importer_add_line (importer, "\n", TRUE);
-
-	oli->pos = end_pos;
-	fseek (oli->handle, oli->pos, SEEK_SET);
-
-	g_free (header);
-	g_free (sfull);
-	g_free (cb);
-
-	GNOME_Evolution_ImporterListener_notifyResult (listener, 
-						       GNOME_Evolution_ImporterListener_OK,
-						       more, ev);
-	if (more == FALSE) {
-		CamelException *ex;
-
-		ex = camel_exception_new ();
-		camel_folder_thaw (importer->folder);
-		camel_folder_sync (importer->folder, FALSE, ex);
-		camel_exception_free (ex);
-		fclose (oli->handle);
-		oli->handle = NULL;
-	}
-
-	oli->busy = FALSE;
-	return;
 }
 
 
 /* EvolutionImporterFactory methods */
 
 static gboolean
-support_format_fn (EvolutionImporter *importer,
-		   const char *filename,
-		   void *closure)
+support_format_fn(EvolutionImporter *importer, const char *filename, void *data)
 {
 	FILE *handle;
-	int signature[4];
+	guint32 signature[4];
+	int ok;
 
 	/* Outlook Express sniffer.
 	   Taken from liboe 0.92 (STABLE)
@@ -181,96 +118,118 @@ support_format_fn (EvolutionImporter *importer,
 		return FALSE; /* Can't open file: Can't support it :) */
 
 	  /* SIGNATURE */
-	fread (&signature, 16, 1, handle); 
-	if ((signature[0]!=0xFE12ADCF) || /* OE 5 & OE 5 BETA SIGNATURE */
-	    (signature[1]!=0x6F74FDC5) ||
-	    (signature[2]!=0x11D1E366) ||
-	    (signature[3]!=0xC0004E9A)) {
-		if ((signature[0]==0x36464D4A) &&
-		    (signature[1]==0x00010003)) /* OE4 SIGNATURE */ {
-			fclose (handle);
-			return TRUE; /* OE 4 */
-		}
-		fclose (handle);
-		return FALSE; /* Not Outlook 4 or 5 */
-	}
+	fread (&signature, 16, 1, handle);
+	/* This needs testing */
+#if G_BYTE_ORDER == G_BIG_ENDIAN
+	signature[0] = GUINT32_TO_BE(signature[0]);
+	signature[1] = GUINT32_TO_BE(signature[1]);
+	signature[2] = GUINT32_TO_BE(signature[2]);
+	signature[3] = GUINT32_TO_BE(signature[3]);
+#endif
+	ok = ((signature[0]!=0xFE12ADCF /* OE 5 & OE 5 BETA SIGNATURE */
+	       || signature[1]!=0x6F74FDC5
+	       || signature[2]!=0x11D1E366
+	       || signature[3]!=0xC0004E9A)
+	      && (signature[0]==0x36464D4A /* OE4 SIGNATURE */
+		  && signature[1]==0x00010003));
 
 	fclose (handle);
-	return FALSE; /* Can't handle OE 5 yet */
+	return ok; /* Can't handle OE 5 yet */
+}
+
+/* Note the similarity of most of this code to evolution-mbox-importer.
+   Yes it should be subclassed, or something ... */
+static void
+importer_destroy_cb(void *data, GObject *object)
+{
+	OutlookImporter *importer = data;
+
+	if (importer->status_timeout_id)
+		g_source_remove(importer->status_timeout_id);
+	g_free(importer->status_what);
+	g_mutex_free(importer->status_lock);
+
+	if (importer->dialog)
+		gtk_widget_destroy(importer->dialog);
+
+	g_free(importer);
 }
 
 static void
-importer_destroy_cb (void *data, GObject *object)
+outlook_status(CamelOperation *op, const char *what, int pc, void *data)
 {
-	OutlookImporter *oli = data;
-	MailImporter *importer = data;
+	OutlookImporter *importer = data;
 
-	if (importer->folder)
-		camel_object_unref (importer->folder);
+	if (pc == CAMEL_OPERATION_START)
+		pc = 0;
+	else if (pc == CAMEL_OPERATION_END)
+		pc = 100;
 
-	g_free (oli->filename);
-	if (oli->handle)
-		fclose (oli->handle);
-
-	g_free (oli);
+	g_mutex_lock(importer->status_lock);
+	g_free(importer->status_what);
+	importer->status_what = g_strdup(what);
+	importer->status_pc = pc;
+	g_mutex_unlock(importer->status_lock);
 }
 
 static gboolean
-load_file_fn (EvolutionImporter *eimporter,
-	      const char *filename,
-	      void *closure)
+outlook_status_timeout(void *data)
 {
-	OutlookImporter *oli;
-	MailImporter *importer;
-	struct stat buf;
-	long pos = 0x54;
-	char *uri;
+	OutlookImporter *importer = data;
+	int pc;
+	char *what;
 
-	oli = (OutlookImporter *) closure;
-	importer = (MailImporter *) oli;
+	if (!importer->status_what)
+		return TRUE;
 
-	oli->filename = g_strdup (filename);
-	/* Will return TRUE if oe4 format */
-	oli->oe4 = support_format_fn (NULL, filename, NULL);
-	if (oli->oe4 == FALSE) {
-		g_warning ("Not OE4 format");
-		return FALSE;
-	}
+	g_mutex_lock(importer->status_lock);
+	what = importer->status_what;
+	importer->status_what = NULL;
+	pc = importer->status_pc;
+	g_mutex_unlock(importer->status_lock);
 
-	oli->handle = fopen (filename, "rb");
-	if (oli->handle == NULL) {
-		g_warning ("Cannot open the file");
-		return FALSE;
-	}
-
-	/* Get size of file */
-	if (stat (filename, &buf) == -1) {
-		g_warning ("Cannot stat file");
-		return FALSE;
-	}
+	gtk_progress_bar_set_fraction((GtkProgressBar *)importer->progressbar, (gfloat)(pc/100.0));
+	gtk_progress_bar_set_text((GtkProgressBar *)importer->progressbar, what);
 	
-	oli->size = buf.st_size;
+	return TRUE;
+}
 
-	/* Set the fposition to the begining */
-	fseek (oli->handle, pos, SEEK_SET);
-	oli->pos = pos;
+static void
+outlook_importer_response(GtkWidget *w, guint button, void *data)
+{
+	OutlookImporter *importer = data;
 
-	importer->mstream = NULL;
+	if (button == GTK_RESPONSE_CANCEL
+	    && importer->cancel)
+		camel_operation_cancel(importer->cancel);
+}
 
-#warning "no uri for load file fn"
-	uri = NULL;
-	if (uri == NULL || *uri == 0)
-		importer->folder = mail_component_get_folder(NULL, MAIL_COMPONENT_FOLDER_INBOX);
-	else
-		importer->folder = mail_tool_uri_to_folder (uri, 0, NULL);
+static gboolean
+load_file_fn(EvolutionImporter *eimporter, const char *filename, void *data)
+{
+	OutlookImporter *importer = data;
 
-	if (importer->folder == NULL){
-		g_warning ("Bad folder");
-		return FALSE;
-	}
+	importer->dialog = gtk_message_dialog_new(NULL, 0/*GTK_DIALOG_NO_SEPARATOR*/,
+						  GTK_MESSAGE_INFO, GTK_BUTTONS_CANCEL,
+						  _("Importing `%s'"), filename);
+	gtk_window_set_title (GTK_WINDOW (importer->dialog), _("Importing..."));
 
-	camel_folder_freeze (importer->folder);
-	oli->busy = FALSE;
+	importer->label = gtk_label_new (_("Please wait"));
+	importer->progressbar = gtk_progress_bar_new ();
+	gtk_box_pack_start (GTK_BOX (GTK_DIALOG (importer->dialog)->vbox), importer->label, FALSE, FALSE, 0);
+	gtk_box_pack_start (GTK_BOX (GTK_DIALOG (importer->dialog)->vbox), importer->progressbar, FALSE, FALSE, 0);
+	g_signal_connect(importer->dialog, "response", G_CALLBACK(outlook_importer_response), importer);
+	gtk_widget_show_all(importer->dialog);
+
+	importer->status_timeout_id = g_timeout_add(100, outlook_status_timeout, importer);
+	importer->cancel = camel_operation_new(outlook_status, importer);
+
+	mail_msg_wait(mail_importer_import_outlook(filename, importer->uri, importer->cancel));
+
+	camel_operation_unref(importer->cancel);
+	g_source_remove(importer->status_timeout_id);
+	importer->status_timeout_id = 0;
+
 	return TRUE;
 }
 
@@ -286,4 +245,167 @@ outlook_importer_new(void)
 	g_object_weak_ref((GObject *)importer, importer_destroy_cb, oli);
 
 	return BONOBO_OBJECT (importer);
+}
+
+struct _import_outlook_msg {
+	struct _mail_msg msg;
+	
+	char *path;
+	char *uri;
+	CamelOperation *cancel;
+};
+
+static char *
+import_outlook_describe(struct _mail_msg *mm, int complete)
+{
+	return g_strdup (_("Importing mailbox"));
+}
+
+static void
+import_outlook_import(struct _mail_msg *mm)
+{
+	struct _import_outlook_msg *m = (struct _import_outlook_msg *) mm;
+	struct stat st;
+	CamelFolder *folder;
+
+	if (stat(m->path, &st) == -1) {
+		g_warning("cannot find source file to import '%s': %s", m->path, g_strerror(errno));
+		return;
+	}
+
+	if (m->uri == NULL || m->uri[0] == 0)
+		folder = mail_component_get_folder(NULL, MAIL_COMPONENT_FOLDER_INBOX);
+	else
+		folder = mail_tool_uri_to_folder(m->uri, CAMEL_STORE_FOLDER_CREATE, &mm->ex);
+
+	if (folder == NULL)
+		return;
+
+	if (S_ISREG(st.st_mode)) {
+		CamelOperation *oldcancel = NULL;
+		CamelMessageInfo *info;
+		GByteArray *buffer;
+		int fd;
+		off_t pos;
+
+		fd = open(m->path, O_RDONLY);
+		if (fd == -1) {
+			g_warning("cannot find source file to import '%s': %s", m->path, g_strerror(errno));
+			goto fail;
+		}
+
+		if (lseek(fd, 0x54, SEEK_SET) == -1)
+			goto fail;
+
+		if (m->cancel)
+			oldcancel = camel_operation_register(m->cancel);
+
+		camel_folder_freeze(folder);
+
+		buffer = g_byte_array_new();
+		pos = 0x54;
+		do {
+			oe_msg_segmentheader header;
+			int pc;
+			size_t len;
+			CamelStream *mem;
+			CamelMimeMessage *msg;
+
+			if (st.st_size > 0)
+				pc = (int)(100.0 * ((double)pos / (double)st.st_size));
+			camel_operation_progress(NULL, pc);
+
+			if (read(fd, &header, sizeof(header)) != sizeof(header))
+				goto fail2;
+
+			pos += sizeof(header);
+
+#if G_BYTE_ORDER == G_BIG_ENDIAN
+			header.include = GUINT32_TO_BE(header.include);
+#endif
+			/* the -4 is some magical value */
+			len = header.include - sizeof(header) - 4;
+			/* sanity check */
+			if (len > (pos + st.st_size))
+				goto fail2;
+			g_byte_array_set_size(buffer, len);
+			if (read(fd, buffer->data, len) != len)
+				goto fail2;
+
+			pos += len;
+
+			mem = camel_stream_mem_new();
+			camel_stream_mem_set_byte_array((CamelStreamMem *)mem, buffer);
+
+			msg = camel_mime_message_new();
+			if (camel_data_wrapper_construct_from_stream((CamelDataWrapper *)msg, mem) == -1) {
+				camel_object_unref(msg);
+				camel_object_unref(mem);
+				goto fail2;
+			}
+
+			info = camel_message_info_new();
+			/* any headers to read? */
+
+			camel_folder_append_message(folder, msg, info, NULL, &mm->ex);
+
+			camel_message_info_free(info);
+			camel_object_unref(msg);
+			camel_object_unref(mem);
+		} while (!camel_exception_is_set(&mm->ex) && pos < st.st_size);
+
+		camel_folder_sync(folder, FALSE, NULL);
+		camel_folder_thaw(folder);
+		camel_operation_end(NULL);
+	fail2:
+		/* TODO: these api's are a bit weird, registering the old is the same as deregistering */
+		if (m->cancel)
+			camel_operation_register(oldcancel);
+		g_byte_array_free(buffer, TRUE);
+	}
+fail:
+	camel_object_unref(folder);
+}
+
+static void
+import_outlook_done(struct _mail_msg *mm)
+{
+}
+
+static void
+import_outlook_free (struct _mail_msg *mm)
+{
+	struct _import_outlook_msg *m = (struct _import_outlook_msg *)mm;
+	
+	if (m->cancel)
+		camel_operation_unref(m->cancel);
+	g_free(m->uri);
+	g_free(m->path);
+}
+
+static struct _mail_msg_op import_outlook_op = {
+	import_outlook_describe,
+	import_outlook_import,
+	import_outlook_done,
+	import_outlook_free,
+};
+
+static int
+mail_importer_import_outlook(const char *path, const char *folderuri, CamelOperation *cancel)
+{
+	struct _import_outlook_msg *m;
+	int id;
+
+	m = mail_msg_new(&import_outlook_op, NULL, sizeof (*m));
+	m->path = g_strdup(path);
+	m->uri = g_strdup(folderuri);
+	if (cancel) {
+		m->cancel = cancel;
+		camel_operation_ref(cancel);
+	}
+
+	id = m->msg.seq;
+	e_thread_put(mail_thread_queued, (EMsg *)m);
+
+	return id;
 }

@@ -82,7 +82,10 @@ struct _MailImporterSpecial {
 };
 typedef struct _MailImporterSpecial MailImporterSpecial;
 
+/* mozilla format subdirs */
+#define MAIL_IMPORTER_MOZFMT (1<<0)
+
 /* api in flux */
-void mail_importer_import_folders_sync(const char *filepath, const char *folderparent, MailImporterSpecial special_folders[], struct _CamelOperation *cancel);
+void mail_importer_import_folders_sync(const char *filepath, MailImporterSpecial special_folders[], int flags, struct _CamelOperation *cancel);
 
 #endif

@@ -1,3 +1,31 @@
+2004-02-13  Not Zed  <NotZed@Ximian.com>
+
+	* importers/netscape-importer.c: use mail-importer to import the
+	mail tree, fix the account stuff to talk directly to mail config.
+	Added cancel button.  etc.  This is completely untested apart from
+	compiling with no warnings.
+
+	* importers/mail-importer.c (import_mbox_import): dont re-use the
+	exception for syncing.
+
+	* importers/evolution-outlook-importer.c: major reworking.  Some
+	platform fixes, runs in another thread, simpler/cleaner main loop.
+	This is completely untested apart from compiling with no warnings.
+
+	* importers/evolution-mbox-importer.c (support_format_fn): we dont
+	want to check the From_ line case insensitive!
+	(create_control_fn): implement this weird api.
+
+2004-02-12  Not Zed  <NotZed@Ximian.com>
+
+	* importers/elm-importer.c: rewrote all importing stuff.
+
+	* importers/mail-importer.c (mail_importer_import_folders_sync):
+	split out into a recursive function & entry.  Now handles mozilla
+	format stuff with a flag.
+	(import_mbox_import): made the cameloperation properly
+	save/restore multiple registrations.
+
 2004-02-12  Radek Doulik  <rodo@ximian.com>
 
 	* em-junk-filter.c (pipe_to_sa_with_error): use

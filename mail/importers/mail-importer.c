@@ -200,6 +200,8 @@ import_mbox_import(struct _mail_msg *mm)
 		return;
 
 	if (S_ISREG(st.st_mode)) {
+		CamelOperation *oldcancel = NULL;
+
 		fd = open(m->path, O_RDONLY);
 		if (fd == -1) {
 			g_warning("cannot find source file to import '%s': %s", m->path, g_strerror(errno));
@@ -213,7 +215,7 @@ import_mbox_import(struct _mail_msg *mm)
 		}
 
 		if (m->cancel)
-			camel_operation_register(m->cancel);
+			oldcancel = camel_operation_register(m->cancel);
 
 		camel_operation_start(NULL, _("Importing `%s'"), folder->full_name);
 		camel_folder_freeze(folder);
@@ -254,16 +256,17 @@ import_mbox_import(struct _mail_msg *mm)
 
 			camel_mime_parser_step(mp, 0, 0);
 		}
-		camel_folder_sync(folder, FALSE, &mm->ex);
+		camel_folder_sync(folder, FALSE, NULL);
 		camel_folder_thaw(folder);
 		camel_operation_end(NULL);
+		/* TODO: these api's are a bit weird, registering the old is the same as deregistering */
 		if (m->cancel)
-			camel_operation_unregister(m->cancel);
+			camel_operation_register(oldcancel);
 	fail2:
 		camel_object_unref(mp);
 	}
 fail1:
-	camel_folder_sync(folder, FALSE, &mm->ex);
+	camel_folder_sync(folder, FALSE, NULL);
 	camel_object_unref(folder);
 }
 
@@ -328,11 +331,15 @@ mail_importer_import_mbox_sync(const char *path, const char *folderuri, CamelOpe
 	mail_msg_free(&m->msg);
 }
 
-/* This should probably take a list of all folders, otherwise we need to duplicate it for netscape folders */
+struct _import_folders_data {
+	MailImporterSpecial *special_folders;
+	CamelOperation *cancel;
 
-/* pass folderparent = NULL first time */
-void
-mail_importer_import_folders_sync(const char *filepath, const char *folderparent, MailImporterSpecial special_folders[], CamelOperation *cancel)
+	int elmfmt:1;
+};
+
+static void
+import_folders_rec(struct _import_folders_data *m, const char *filepath, const char *folderparent)
 {
 	DIR *dir;
 	struct dirent *d;
@@ -347,13 +354,15 @@ mail_importer_import_folders_sync(const char *filepath, const char *folderparent
 	camel_operation_start(NULL, _("Scanning %s"), filepath);
 
 	while ( (d=readdir(dir)) ) {
-		if (strcmp(d->d_name, ".") == 0
-		    || strcmp(d->d_name, "..") == 0)
+		if (d->d_name[0] == '.')
 			continue;
 
 		filefull = g_build_filename(filepath, d->d_name, NULL);
+
+		/* skip non files and directories, and skip directories in mozilla mode */
 		if (stat(filefull, &st) == -1
-		    || !(S_ISREG(st.st_mode) || S_ISDIR(st.st_mode))) {
+		    || !(S_ISREG(st.st_mode)
+			 || (m->elmfmt && S_ISDIR(st.st_mode)))) {
 			g_free(filefull);
 			continue;
 		}
@@ -362,9 +371,9 @@ mail_importer_import_folders_sync(const char *filepath, const char *folderparent
 		if (folderparent == NULL) {
 			int i;
 
-			for (i=0;special_folders[i].orig;i++)
-				if (strcmp(special_folders[i].orig, folder) == 0) {
-					folder = special_folders[i].new;
+			for (i=0;m->special_folders[i].orig;i++)
+				if (strcmp(m->special_folders[i].orig, folder) == 0) {
+					folder = m->special_folders[i].new;
 					break;
 				}
 			/* FIXME: need a better way to get default store location */
@@ -374,12 +383,24 @@ mail_importer_import_folders_sync(const char *filepath, const char *folderparent
 		}
 
 		printf("importing to uri %s\n", uri);
-		mail_importer_import_mbox_sync(filefull, uri, cancel);
+		mail_importer_import_mbox_sync(filefull, uri, m->cancel);
 		g_free(uri);
+
+		/* This little gem re-uses the stat buffer and filefull to automagically scan mozilla-format folders */
+		if (!m->elmfmt) {
+			char *tmp = g_strdup_printf("%s.sbd", filefull);
+
+			g_free(filefull);
+			filefull = tmp;
+			if (stat(filefull, &st) == -1) {
+				g_free(filefull);
+				continue;
+			}
+		}
 
 		if (S_ISDIR(st.st_mode)) {
 			foldersub = folderparent?g_strdup_printf("%s/%s", folderparent, folder):g_strdup(folder);
-			mail_importer_import_folders_sync(filefull, foldersub, special_folders, cancel);
+			import_folders_rec(m, filefull, foldersub);
 			g_free(foldersub);
 		}
 
@@ -387,4 +408,38 @@ mail_importer_import_folders_sync(const char *filepath, const char *folderparent
 	}
 
 	camel_operation_end(NULL);
+}
+
+/**
+ * mail_importer_import_folders_sync:
+ * @filepath: 
+ * @: 
+ * @flags: 
+ * @cancel: 
+ * 
+ * import from a base path @filepath into the root local folder tree,
+ * scanning all sub-folders.
+ *
+ * if @flags is MAIL_IMPORTER_MOZFMT, then subfolders are assumed to
+ * be in mozilla/evolutoin 1.5 format, appending '.sbd' to the
+ * directory name. Otherwise they are in elm/mutt/pine format, using
+ * standard unix directories.
+ **/
+void
+mail_importer_import_folders_sync(const char *filepath, MailImporterSpecial special_folders[], int flags, CamelOperation *cancel)
+{
+	struct _import_folders_data m;
+	CamelOperation *oldcancel = NULL;
+
+	m.special_folders = special_folders;
+	m.elmfmt = (flags & MAIL_IMPORTER_MOZFMT) == 0;
+	m.cancel = cancel;
+
+	if (cancel)
+		oldcancel = camel_operation_register(cancel);
+
+	import_folders_rec(&m, filepath, NULL);
+
+	if (cancel)
+		camel_operation_register(oldcancel);
 }

@@ -317,7 +317,7 @@ pine_import_import(struct _mail_msg *mm)
 		char *path;
 
 		path = g_build_filename(g_get_home_dir(), "mail", NULL);
-		mail_importer_import_folders_sync(path, NULL, pine_special_folders, m->importer->cancel);
+		mail_importer_import_folders_sync(path, pine_special_folders, 0, m->importer->cancel);
 		g_free(path);
 	}
 }
@@ -430,10 +430,13 @@ pine_destroy_cb (PineImporter *importer, GtkObject *object)
 
 	if (importer->status_timeout_id)
 		g_source_remove(importer->status_timeout_id);
+	g_free(importer->status_what);
 	g_mutex_free(importer->status_lock);
 
 	if (importer->dialog)
 		gtk_widget_destroy(importer->dialog);
+
+	g_free(importer);
 }
 
 /* Fun inity stuff */
@@ -481,11 +484,8 @@ pine_intelligent_importer_new(void)
 			   "Would you like to import them into Evolution?");
 
 	pine = g_new0 (PineImporter, 1);
-
 	pine->status_lock = g_mutex_new();
-
-	pine_restore_settings (pine);
-
+	pine_restore_settings(pine);
 	importer = evolution_intelligent_importer_new (pine_can_import,
 						       pine_create_structure,
 						       _("Pine"),
@@ -493,8 +493,8 @@ pine_intelligent_importer_new(void)
 	g_object_weak_ref((GObject *)importer, (GWeakNotify)pine_destroy_cb, pine);
 	pine->ii = importer;
 
-	control = create_checkboxes_control (pine);
-	bonobo_object_add_interface (BONOBO_OBJECT (importer),
-				     BONOBO_OBJECT (control));
-	return BONOBO_OBJECT (importer);
+	control = create_checkboxes_control(pine);
+	bonobo_object_add_interface(BONOBO_OBJECT(importer), BONOBO_OBJECT(control));
+
+	return BONOBO_OBJECT(importer);
 }
