@@ -1,3 +1,9 @@
+2000-12-13  Federico Mena Quintero  <federico@helixcode.com>
+
+	* src/libical/Makefile.am (COMBINEDHEADERS): Removed the explicit
+	paths.  Why it did *not* work on my original try when they were
+	not there, well, now I don't know.
+
 2000-12-13  Ettore Perazzoli  <ettore@helixcode.com>
 
 	* src/libicalvcal/Makefile.am (INCLUDES): Add

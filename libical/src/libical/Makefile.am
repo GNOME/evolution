@@ -7,8 +7,6 @@ YFLAGS = -d -v -t -pical_yy
 LFLAGS = -Pical_yy
 LEX_OUTPUT_ROOT = lex.ical_yy
 
-BUILT_SOURCES = ical.h
-
 INCLUDES =			\
 	-I$(top_builddir)	\
 	-I$(top_srcdir)/src	\
@@ -58,23 +56,23 @@ libicalinclude_HEADERS =  ical.h
 
 # ORDERING OF HEADERS IS SIGNIFICANT. Don't change this ordering. It
 # is required to make the combined header ical.h properly
-COMBINEDHEADERS =					\
-	$(top_builddir)/src/libical/icalversion.h	\
-	$(top_srcdir)/src/libical/icaltime.h		\
-	$(top_srcdir)/src/libical/icalenums.h		\
-	$(top_srcdir)/src/libical/icaltypes.h		\
-	$(top_srcdir)/src/libical/icalrecur.h		\
-	$(top_builddir)/src/libical/icalvalue.h		\
-	$(top_builddir)/src/libical/icalparameter.h	\
-	$(top_builddir)/src/libical/icalproperty.h	\
-	$(top_srcdir)/src/libical/pvl.h			\
-	$(top_srcdir)/src/libical/icalcomponent.h	\
-	$(top_srcdir)/src/libical/icalparser.h		\
-	$(top_srcdir)/src/libical/icalmemory.h		\
-	$(top_srcdir)/src/libical/icalerror.h		\
-	$(top_srcdir)/src/libical/icalrestriction.h	\
-	$(top_srcdir)/src/libical/sspm.h		\
-	$(top_srcdir)/src/libical/icalmime.h 
+COMBINEDHEADERS =				\
+	icalversion.h				\
+	icaltime.h				\
+	icalenums.h				\
+	icaltypes.h				\
+	icalrecur.h				\
+	icalvalue.h				\
+	icalparameter.h				\
+	icalproperty.h				\
+	pvl.h					\
+	icalcomponent.h				\
+	icalparser.h				\
+	icalmemory.h				\
+	icalerror.h				\
+	icalrestriction.h			\
+	sspm.h					\
+	icalmime.h
 
 BUILT_SOURCES =			\
 	ical.h			\
