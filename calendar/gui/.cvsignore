@@ -11,6 +11,10 @@ evolution-calendar-common.c
 evolution-calendar-skels.c
 evolution-calendar-stubs.c
 *.lo
+Evolution-Addressbook-SelectNames-common.c
+Evolution-Addressbook-SelectNames-skels.c
+Evolution-Addressbook-SelectNames-stubs.c
+Evolution-Addressbook-SelectNames.h
 Evolution-Composer-common.c
 Evolution-Composer-skels.c
 Evolution-Composer-stubs.c
