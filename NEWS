@@ -74,9 +74,10 @@ Other bugs fixed:
 
   * Addressbook
 
-    - unref the EComponentListener before unloading the CORBA object. (Rodrigo)
+    - Unref the EComponentListener before unloading the CORBA object
+      (Rodrigo)
     - Chain lots of destroy/dispose methods throughout the addressbook,
-      and free some double free/unrefs.  (Hans Petter)
+      and free some double free/unrefs (Hans Petter)
     - Build/install related fixes for libebook/libeselectnames. (Dan)
 
   * Calendar
@@ -94,6 +95,8 @@ Other bugs fixed:
   * Mail
 
     - An automatic removal of 1 or 2 vFolder would fail (Michael)
+    - Made the To/Cc/Bcc buttons in the composer unfocusable, so you
+      can properly tab between the entries again (Ettore)
 
   * Shell
 
