@@ -1,3 +1,10 @@
+2003-04-08  Ettore Perazzoli  <ettore@ximian.com>
+
+	[#40912]
+
+	* e-shell-folder-selection-dialog.c (impl_dispose):
+	g_object_weak_unref() the shell here.
+
 2003-04-07  Dan Winship  <danw@ximian.com>
 
 	* evolution-storage.c (evolution_storage_class_init): Fix arg

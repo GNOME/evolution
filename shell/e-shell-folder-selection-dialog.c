@@ -194,6 +194,11 @@ impl_dispose (GObject *object)
 		priv->storage_set = NULL;
 	}
 
+	if (priv->shell != NULL) {
+		g_object_weak_unref (G_OBJECT (priv->shell), (GWeakNotify) gtk_widget_destroy, folder_selection_dialog);
+		priv->shell = NULL;
+	}
+
 	(* G_OBJECT_CLASS (parent_class)->dispose) (object);
 }
 
