@@ -35,8 +35,19 @@ AC_ARG_PROGRAM
 AC_PROG_INSTALL
 AC_PROG_LN_S
 AC_PROG_MAKE_SET
+
 AC_PATH_PROG(SENDMAIL, sendmail, /usr/sbin/sendmail, /usr/sbin:/usr/lib)
 AC_DEFINE_UNQUOTED(SENDMAIL_PATH, "$SENDMAIL")
+
+AC_MSG_CHECKING(system mail directory)
+if test -d /var/mail; then
+	system_mail_dir=/var/mail
+else
+	system_mail_dir=/var/spool/mail
+fi
+AC_MSG_RESULT($system_mail_dir)
+AC_DEFINE_UNQUOTED(SYSTEM_MAIL_DIR, "$system_mail_dir")
+
 
 ALL_LINGUAS="el gl no sv uk"
 
@@ -58,7 +69,7 @@ dnl **************************************************
 
 have_pthread=false
 
-AC_ARG_WITH(threads, [--with-threads inculde threads support],
+AC_ARG_WITH(threads, [--with-threads include threads support],
             [GNOME_PTHREAD_CHECK])
 
 if test "x$PTHREAD_LIB" = "x" ; then

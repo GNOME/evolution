@@ -10,6 +10,7 @@
 #undef CAMEL_HARD_LOG_LEVEL
 #undef ENABLE_THREADS
 #undef SENDMAIL_PATH
+#undef SYSTEM_MAIL_DIR
 
 /* Define this if you want to build against the development gtk */
 #undef HAVE_DEVGTK
