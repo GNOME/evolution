@@ -63,7 +63,7 @@ void print_error(char *text)
 		sprintf(buf, "%s (%s)", text, g_strerror(errno));
 
 	g_warning("%s\n", buf);
-	msgbox = gnome_messagebox_new(buf, "error", "OK", NULL, NULL);
+	msgbox = gnome_message_box_new(buf, "error", "OK", NULL, NULL);
 
 	gtk_widget_show(msgbox);
 }
