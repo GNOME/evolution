@@ -34,8 +34,7 @@
 #include <camel/camel.h>
 #include <gtk/gtknotebook.h>
 #include <gtk/gtktogglebutton.h>
-#include <libgnomevfs/gnome-vfs-utils.h>
-#include <libgnomevfs/gnome-vfs-mime-utils.h>
+#include <libgnomevfs/gnome-vfs-mime.h>
 
 #include "e-util/e-mktemp.h"
 
@@ -311,9 +310,7 @@ update_mime_type (DialogData *data)
 	
 	filename = gtk_entry_get_text (data->file_name_entry);
 	if (filename) {
-		mime_type = gnome_vfs_get_mime_type_from_name (filename);
-		
-		if ((mime_type = gnome_vfs_get_mime_type_from_name (filename))
+		if ((mime_type = gnome_vfs_mime_type_from_name (filename)))
 			gtk_entry_set_text (data->mime_type_entry, mime_type);
 	}
 }
