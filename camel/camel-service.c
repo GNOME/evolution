@@ -38,8 +38,8 @@ static CamelObjectClass *parent_class = NULL;
 
 static gboolean service_connect(CamelService *service, CamelException *ex);
 static gboolean service_disconnect(CamelService *service, CamelException *ex);
-static gboolean is_connected (CamelService *service);
-static GList *  query_auth_types (CamelService *service, CamelException *ex);
+/*static gboolean is_connected (CamelService *service);*/
+static GList *  query_auth_types_func (CamelService *service, CamelException *ex);
 static void     free_auth_types (CamelService *service, GList *authtypes);
 static char *   get_name (CamelService *service, gboolean brief);
 static gboolean check_url (CamelService *service, CamelException *ex);
@@ -53,8 +53,9 @@ camel_service_class_init (CamelServiceClass *camel_service_class)
 	/* virtual method definition */
 	camel_service_class->connect = service_connect;
 	camel_service_class->disconnect = service_disconnect;
-	camel_service_class->is_connected = is_connected;
-	camel_service_class->query_auth_types = query_auth_types;
+	/*camel_service_class->is_connected = is_connected;*/
+	camel_service_class->query_auth_types_connected = query_auth_types_func;
+	camel_service_class->query_auth_types_generic = query_auth_types_func;
 	camel_service_class->free_auth_types = free_auth_types;
 	camel_service_class->get_name = get_name;
 }
@@ -63,6 +64,19 @@ static void
 camel_service_finalize (CamelObject *object)
 {
 	CamelService *camel_service = CAMEL_SERVICE (object);
+
+	if (camel_service->connected) {
+		CamelException ex;
+
+		/*g_warning ("camel_service_finalize: finalizing while still connected!");*/
+		camel_exception_init (&ex);
+		CSERV_CLASS (camel_service)->disconnect (camel_service, &ex);
+		if (camel_exception_is_set (&ex)) {
+			g_warning ("camel_service_finalize: silent disconnect failure: %s",
+				   camel_exception_get_description(&ex));
+		}
+		camel_exception_clear (&ex);
+	}
 
 	if (camel_service->url)
 		camel_url_free (camel_service->url);
@@ -145,6 +159,9 @@ camel_service_new (CamelType type, CamelSession *session, CamelURL *url,
 	g_return_val_if_fail (CAMEL_IS_SESSION (session), NULL);
 
 	service = CAMEL_SERVICE (camel_object_new (type));
+
+	/*service->connect_level = 0;*/
+
 	service->url = url;
 	if (!url->empty && !check_url (service, ex)) {
 		camel_object_unref (CAMEL_OBJECT (service));
@@ -154,6 +171,17 @@ camel_service_new (CamelType type, CamelSession *session, CamelURL *url,
 	service->session = session;
 	camel_object_ref (CAMEL_OBJECT (session));
 
+	service->connected = FALSE;
+	
+	if (!url->empty) {
+		if (CSERV_CLASS (service)->connect (service, ex) == FALSE) {
+			camel_object_unref (CAMEL_OBJECT (service));
+			return NULL;
+		}
+
+		service->connected = TRUE;
+	}
+
 	return service;
 }
 
@@ -161,8 +189,10 @@ camel_service_new (CamelType type, CamelSession *session, CamelURL *url,
 static gboolean
 service_connect (CamelService *service, CamelException *ex)
 {
-	service->connected = TRUE;
-	return TRUE;
+	/* Things like the CamelMboxStore can validly
+	 * not define a connect function.
+	 */
+	 return TRUE;
 }
 
 /**
@@ -175,21 +205,31 @@ service_connect (CamelService *service, CamelException *ex)
  *
  * Return value: whether or not the connection succeeded
  **/
-gboolean
-camel_service_connect (CamelService *service, CamelException *ex)
-{
-	g_return_val_if_fail (CAMEL_IS_SERVICE (service), FALSE);
-	g_return_val_if_fail (service->session != NULL, FALSE);
-	g_return_val_if_fail (service->url != NULL, FALSE);
-
-	return CSERV_CLASS (service)->connect (service, ex);
-}
-
+/**
+ *gboolean
+ *camel_service_connect (CamelService *service, CamelException *ex)
+ *{
+ *	g_return_val_if_fail (CAMEL_IS_SERVICE (service), FALSE);
+ *	g_return_val_if_fail (service->session != NULL, FALSE);
+ *	g_return_val_if_fail (service->url != NULL, FALSE);
+ *
+ *	if (service->connect_level > 0) {
+ *		service->connect_level++;
+ *		return TRUE;
+ *	}
+ *
+ *	return CSERV_CLASS (service)->connect (service, ex);
+ *}
+ **/
 
 static gboolean
 service_disconnect (CamelService *service, CamelException *ex)
 {
-	service->connected = FALSE;
+	/*service->connect_level--;*/
+
+	/* We let people get away with not having a disconnect
+	 * function -- CamelMboxStore, for example. 
+	 */
 
 	return TRUE;
 }
@@ -204,19 +244,27 @@ service_disconnect (CamelService *service, CamelException *ex)
  * Return value: whether or not the disconnection succeeded without
  * errors. (Consult @ex if %FALSE.)
  **/
-gboolean
-camel_service_disconnect (CamelService *service, CamelException *ex)
-{
-	return CSERV_CLASS (service)->disconnect (service, ex);
-}
+/**
+ *gboolean
+ *camel_service_disconnect (CamelService *service, CamelException *ex)
+ *{
+ *	if (service->connect_level < 1) {
+ *		camel_exception_set (ex, CAMEL_EXCEPTION_SERVICE_NOT_CONNECTED,
+ *				     "Trying to disconnect from a service that isn't connected");
+ *		return FALSE;
+ *	}
+ *
+ *	return CSERV_CLASS (service)->disconnect (service, ex);
+ *}
+ **/
 
-
-static gboolean
-is_connected (CamelService *service)
-{
-	return service->connected;
-}
-
+/**
+ *static gboolean
+ *is_connected (CamelService *service)
+ *{
+ *	return (service->connect_level > 0);
+ *}
+ **/
 
 /**
  * camel_service_is_connected:
@@ -224,12 +272,13 @@ is_connected (CamelService *service)
  *
  * Return value: whether or not the service is connected
  **/
-gboolean
-camel_service_is_connected (CamelService *service)
-{
-	return CSERV_CLASS (service)->is_connected (service);
-}
-
+/**
+ *gboolean
+ *camel_service_is_connected (CamelService *service)
+ *{
+ *	return CSERV_CLASS (service)->is_connected (service);
+ *}
+ **/
 
 /**
  * camel_service_get_url:
@@ -294,7 +343,7 @@ camel_service_get_session (CamelService *service)
 
 
 GList *
-query_auth_types (CamelService *service, CamelException *ex)
+query_auth_types_func (CamelService *service, CamelException *ex)
 {
 	return NULL;
 }
@@ -321,7 +370,10 @@ query_auth_types (CamelService *service, CamelException *ex)
 GList *
 camel_service_query_auth_types (CamelService *service, CamelException *ex)
 {
-	return CSERV_CLASS (service)->query_auth_types (service, ex);
+	if (service->connected)
+		return CSERV_CLASS (service)->query_auth_types_connected (service, ex);
+	else
+		return CSERV_CLASS (service)->query_auth_types_generic (service, ex);
 }
 
 

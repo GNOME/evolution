@@ -48,6 +48,7 @@ typedef struct {
 	gboolean self_destruct;
 	gpointer unhook_func;
 	gpointer unhook_data;
+	gchar *path_to_unlink;
 } filter_mail_input_t;
 
 /* mail-thread filter functions */
@@ -418,7 +419,8 @@ static const mail_operation_spec op_filter_mail =
 void
 filter_driver_run (FilterDriver *d, CamelFolder *source, CamelFolder *inbox,
 		   enum _filter_source_t sourcetype,
-		   gboolean self_destruct, gpointer unhook_func, gpointer unhook_data)
+		   gboolean self_destruct, gpointer unhook_func, gpointer unhook_data,
+		   const char *path_to_unlink)
 {
 	filter_mail_input_t *input;
 
@@ -430,6 +432,7 @@ filter_driver_run (FilterDriver *d, CamelFolder *source, CamelFolder *inbox,
 	input->self_destruct = self_destruct;
 	input->unhook_func = unhook_func;
 	input->unhook_data = unhook_data;
+	input->path_to_unlink = g_strdup (path_to_unlink);
 
 	mail_operation_queue (&op_filter_mail, input, TRUE);
 }
@@ -618,9 +621,25 @@ do_filter_mail (gpointer in_data, gpointer op_data, CamelException *ex)
 	close_folders (d);
 	g_hash_table_destroy (p->folders);
 	mail_tool_camel_lock_up ();
-	camel_folder_sync (p->source, TRUE, ex);
+	camel_folder_sync (source, TRUE, ex);
+	if (inbox != source)
+		camel_folder_sync (inbox, FALSE, ex);
 	camel_folder_thaw (inbox);
 	mail_tool_camel_lock_down ();
+
+	if (input->path_to_unlink) {
+		struct stat sb;
+		
+		if (stat (input->path_to_unlink, &sb) < 0) {
+			camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
+					      _("Couldn't stat(2) movemail folder %s"),
+					      input->path_to_unlink);
+			return;
+		}
+
+		if (sb.st_size == 0)
+			unlink (input->path_to_unlink);
+	}
 }
 
 static void
@@ -630,6 +649,9 @@ cleanup_filter_mail (gpointer in_data, gpointer op_data, CamelException *ex)
 
 	camel_object_unref (CAMEL_OBJECT (input->source));
 	camel_object_unref (CAMEL_OBJECT (input->inbox));
+
+	if (input->path_to_unlink)
+		g_free (input->path_to_unlink);
 
 	if (input->self_destruct)
 		gtk_object_unref (GTK_OBJECT (input->driver));

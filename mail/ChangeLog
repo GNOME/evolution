@@ -9,6 +9,16 @@
 	* folder-browser.c: (fb_resize_cb) Added function to monitor resize
 	of the e_paned in the main view.
 
+2000-08-18  Peter Williams  <peterw@helixcode.com>
+
+	* mail-tools.c (mail_tool_filter_contents_into): Fix a race. filter_driver_run is an
+	async operation so it won't even be started by the time we sync the folders and check
+	for the movemailbox to be emtpy. Thus the empty check for the movemail would fail
+	99% of the time.
+
+	* mail-callbacks.c (run_filter_ondemand): Pass he new argument to the ever-mushrooming
+	filter_driver_run.
+
 2000-08-17  Peter Williams  <peterw@helixcode.com>
 
 	* folder-browser-factory.c (control_activate): Fix menu item names.

@@ -60,7 +60,8 @@ static void finalize (CamelObject *object);
 static gboolean imap_create (CamelFolder *folder, CamelException *ex);
 static gboolean imap_connect (CamelService *service, CamelException *ex);
 static gboolean imap_disconnect (CamelService *service, CamelException *ex);
-static GList *query_auth_types (CamelService *service, CamelException *ex);
+static GList *query_auth_types_generic (CamelService *service, CamelException *ex);
+static GList *query_auth_types_connected (CamelService *service, CamelException *ex);
 static void free_auth_types (CamelService *service, GList *authtypes);
 static char *get_name (CamelService *service, gboolean brief);
 static CamelFolder *get_folder (CamelStore *store, const char *folder_name, gboolean create,
@@ -84,7 +85,8 @@ camel_imap_store_class_init (CamelImapStoreClass *camel_imap_store_class)
 	/* virtual method overload */
 	camel_service_class->connect = imap_connect;
 	camel_service_class->disconnect = imap_disconnect;
-	camel_service_class->query_auth_types = query_auth_types;
+	camel_service_class->query_auth_types_generic = query_auth_types_generic;
+	camel_service_class->query_auth_types_connected = query_auth_types_connected;
 	camel_service_class->free_auth_types = free_auth_types;
 	camel_service_class->get_name = get_name;
 
@@ -129,11 +131,14 @@ camel_imap_store_get_type (void)
 static void
 finalize (CamelObject *object)
 {
-	CamelException ex;
-	
-	camel_exception_init (&ex);
-	imap_disconnect (CAMEL_SERVICE (object), &ex);
-	camel_exception_clear (&ex);
+	/* Done for us now */
+	/*
+	 *CamelException ex;
+	 *
+	 *camel_exception_init (&ex);
+	 *imap_disconnect (CAMEL_SERVICE (object), &ex);
+	 *camel_exception_clear (&ex);
+	 */
 }
 
 static CamelServiceAuthType password_authtype = {
@@ -178,17 +183,18 @@ try_connect (CamelService *service, CamelException *ex)
 #endif
 
 static GList *
-query_auth_types (CamelService *service, CamelException *ex)
+query_auth_types_connected (CamelService *service, CamelException *ex)
 {
+#if 0	
 	GList *ret = NULL;
 	gboolean passwd = TRUE;
-#if 0	
+
 	if (service->url) {
 		passwd = try_connect (service, ex);
 		if (camel_exception_get_id (ex) != CAMEL_EXCEPTION_NONE)
 			return NULL;
 	}
-#endif	
+
 	if (passwd)
 		ret = g_list_append (ret, &password_authtype);
 	
@@ -200,6 +206,16 @@ query_auth_types (CamelService *service, CamelException *ex)
 	}				      
 	
 	return ret;
+#else
+	g_warning ("imap::query_auth_types_connected: not implemented. Defaulting.");
+	return query_auth_types_generic (service, ex);
+#endif
+}
+
+static GList *
+query_auth_types_generic (CamelService *service, CamelException *ex)
+{
+	return g_list_append (NULL, &password_authtype);
 }
 
 static void
@@ -408,9 +424,11 @@ imap_disconnect (CamelService *service, CamelException *ex)
 	char *result;
 	int status;
 	
-	if (!service->connected)
-		return TRUE;
-	
+
+	/*if (!service->connected)
+	 *	return TRUE;
+	 */
+
 	/* send the logout command */
 	status = camel_imap_command_extended (CAMEL_IMAP_STORE (service), NULL, &result, "LOGOUT");
 	if (status != CAMEL_IMAP_OK) {

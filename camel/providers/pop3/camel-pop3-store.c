@@ -62,7 +62,8 @@ static void finalize (CamelObject *object);
 
 static gboolean pop3_connect (CamelService *service, CamelException *ex);
 static gboolean pop3_disconnect (CamelService *service, CamelException *ex);
-static GList *query_auth_types (CamelService *service, CamelException *ex);
+static GList *query_auth_types_connected (CamelService *service, CamelException *ex);
+static GList *query_auth_types_generic (CamelService *service, CamelException *ex);
 static void free_auth_types (CamelService *service, GList *authtypes);
 static char *get_name (CamelService *service, gboolean brief);
 
@@ -88,7 +89,8 @@ camel_pop3_store_class_init (CamelPop3StoreClass *camel_pop3_store_class)
 	/* virtual method overload */
 	camel_service_class->connect = pop3_connect;
 	camel_service_class->disconnect = pop3_disconnect;
-	camel_service_class->query_auth_types = query_auth_types;
+	camel_service_class->query_auth_types_connected = query_auth_types_connected;
+	camel_service_class->query_auth_types_generic = query_auth_types_generic;
 	camel_service_class->free_auth_types = free_auth_types;
 	camel_service_class->get_name = get_name;
 
@@ -129,11 +131,12 @@ static void
 finalize (CamelObject *object)
 {
 	CamelPop3Store *pop3_store = CAMEL_POP3_STORE (object);
-	CamelException ex;
+	/*CamelException ex;*/
 
-	camel_exception_init (&ex);
-	pop3_disconnect (CAMEL_SERVICE (object), &ex);
-	camel_exception_clear (&ex);
+	/*camel_exception_init (&ex);
+	 *pop3_disconnect (CAMEL_SERVICE (object), &ex);
+	 *camel_exception_clear (&ex);
+	 */
 
 	if (pop3_store->apop_timestamp)
 		g_free (pop3_store->apop_timestamp);
@@ -315,7 +318,7 @@ connect_to_server (CamelService *service, gboolean real, CamelException *ex)
 }
 
 static GList *
-query_auth_types (CamelService *service, CamelException *ex)
+query_auth_types_connected (CamelService *service, CamelException *ex)
 {
 	CamelPop3Store *store = CAMEL_POP3_STORE (service);
 	GList *ret = NULL;
@@ -358,6 +361,20 @@ query_auth_types (CamelService *service, CamelException *ex)
 				      "Could not connect to POP server on "
 				      "%s.", service->url->host);
 	}				      
+
+	return ret;
+}
+
+static GList *
+query_auth_types_generic (CamelService *service, CamelException *ex)
+{
+	GList *ret;
+
+	ret = g_list_append (NULL, &password_authtype);
+	ret = g_list_append (ret, &apop_authtype);
+#ifdef HAVE_KRB4
+	ret = g_list_append (ret, &kpop_authtype);
+#endif
 
 	return ret;
 }
@@ -556,10 +573,12 @@ get_folder (CamelStore *store, const char *folder_name,
 {
 	CamelService *service = CAMEL_SERVICE (store);
 
-	if (!camel_service_is_connected (service)) {
-		if (!camel_service_connect (service, ex))
-			return NULL;
-	}
+	/*	if (!camel_service_is_connected (service)) {
+	 *	if (!camel_service_connect (service, ex))
+	 *		return NULL;
+	 *}
+	 */
+
 	return camel_pop3_folder_new (store, ex);
 }
 
@@ -610,15 +629,17 @@ camel_pop3_command (CamelPop3Store *store, char **ret, char *fmt, ...)
 	va_list ap;
 
 	if (!store->ostream) {
-		CamelException ex;
+		/*CamelException ex;
+		 *
+		 *camel_exception_init (&ex);
+		 *if (!camel_service_connect (CAMEL_SERVICE (store), &ex)) {
+		 *	if (ret)
+		 *		*ret = g_strdup (camel_exception_get_description (&ex));
+		 *	camel_exception_clear (&ex);
+		 */
 
-		camel_exception_init (&ex);
-		if (!camel_service_connect (CAMEL_SERVICE (store), &ex)) {
-			if (ret)
-				*ret = g_strdup (camel_exception_get_description (&ex));
-			camel_exception_clear (&ex);
-			return CAMEL_POP3_FAIL;
-		}
+		return CAMEL_POP3_FAIL;
+		/*}*/
 	}
 
 	va_start (ap, fmt);

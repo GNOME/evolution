@@ -5,6 +5,7 @@
 #include "message-list.h"
 
 struct _container {
+	/* Next must be the first member */
 	struct _container *next,
 		*parent,
 		*child;

@@ -268,9 +268,6 @@ camel_store_get_folder (CamelStore *store, const char *folder_name,
 	char *name;
 	CamelFolder *folder = NULL;
 
-	if (!camel_service_is_connected (CAMEL_SERVICE (store)))
-		camel_service_connect (CAMEL_SERVICE (store), ex);
-
 	name = CS_CLASS (store)->get_folder_name (store, folder_name, ex);
 	if (name) {
 		folder = get_folder_internal (store, name, create, ex);

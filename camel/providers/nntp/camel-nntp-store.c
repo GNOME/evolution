@@ -123,8 +123,9 @@ nntp_store_disconnect (CamelService *service, CamelException *ex)
 {
 	CamelNNTPStore *store = CAMEL_NNTP_STORE (service);
 
-	if (!service->connected)
-		return TRUE;
+	/*if (!service->connected)
+	 *	return TRUE;
+	 */
 
 	camel_nntp_command (store, NULL, "QUIT");
 
@@ -188,11 +189,13 @@ nntp_store_get_folder_name (CamelStore *store, const char *folder_name,
 static void
 finalize (CamelObject *object)
 {
-	CamelException ex;
-
-	camel_exception_init (&ex);
-	nntp_store_disconnect (CAMEL_SERVICE (object), &ex);
-	camel_exception_clear (&ex);
+	/* Done for us now */
+	/*CamelException ex;
+	 *
+	 *camel_exception_init (&ex);
+	 *nntp_store_disconnect (CAMEL_SERVICE (object), &ex);
+	 *camel_exception_clear (&ex);
+	 */
 }
 
 static void

@@ -136,9 +136,9 @@ ask_confirm_for_empty_subject (EMsgComposer *composer)
 					     GNOME_STOCK_BUTTON_YES, GNOME_STOCK_BUTTON_NO,
 					     NULL);
 
-	GDK_THREADS_ENTER ();
+	/*GDK_THREADS_ENTER ();*/
 	button = gnome_dialog_run_and_close (GNOME_DIALOG (message_box));
-	GDK_THREADS_LEAVE ();
+	/*GDK_THREADS_LEAVE ();*/
 
 	if (button == 0)
 		return TRUE;
@@ -250,7 +250,7 @@ create_msg_composer (const char *url)
 
        if (id)
                sig_file = id->sig;
-       
+
        if (url != NULL)
                composer_widget = e_msg_composer_new_from_url (url);
        else
@@ -650,5 +650,5 @@ run_filter_ondemand (BonoboUIHandler *uih, gpointer user_data, const char *path)
 			       NULL);
 	filter_driver_run (d, oc->fb->folder, oc->fb->folder,
 			   FILTER_SOURCE_DEMAND, TRUE,
-			   NULL, NULL);
+			   NULL, NULL, NULL);
 }
