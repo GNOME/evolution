@@ -26,7 +26,6 @@
 
 #include <bonobo/bonobo-object.h>
 
-#include "GNOME_Evolution_Importer.h"
 #include "evolution-importer.h"
 
 #ifdef __cplusplus
@@ -46,7 +45,7 @@ typedef struct _EvolutionImporterClass   EvolutionImporterClass;
 typedef enum _EvolutionImporterResult EvolutionImporterResult;
 
 typedef void (* EvolutionImporterProcessItemFn) (EvolutionImporter *importer,
-						 GNOME_Evolution_ImporterListener listener,
+						 CORBA_Object listener,
 						 void *closure,
 						 CORBA_Environment *ev);
 typedef char *(* EvolutionImporterGetErrorFn) (EvolutionImporter *importer,

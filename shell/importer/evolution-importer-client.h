@@ -62,7 +62,7 @@ typedef void (* EvolutionImporterClientCallback) (EvolutionImporterClient *clien
 GtkType evolution_importer_client_get_type (void);
 void evolution_importer_client_construct (EvolutionImporterClient *client,
 					  CORBA_Object corba_object);
-EvolutionImporterClient *evolution_importer_client_new (const GNOME_Evolution_Importer objref);
+EvolutionImporterClient *evolution_importer_client_new (const CORBA_Object objref);
 
 void evolution_importer_client_process_item (EvolutionImporterClient *client,
 					     EvolutionImporterClientCallback callback,
