@@ -105,7 +105,7 @@ init (ETaskBar *task_bar)
 	
 	label = e_clipped_label_new ("", PANGO_WEIGHT_NORMAL, 1.0);
 	gtk_widget_show (label);
-	gtk_box_pack_start (GTK_BOX (task_bar), label, FALSE, TRUE, 0);
+	gtk_box_pack_start (GTK_BOX (task_bar), label, TRUE, TRUE, 0);
 	gtk_misc_set_alignment (GTK_MISC (label), 0, 0.5); 
 	task_bar->priv->message_label = E_CLIPPED_LABEL (label);
 

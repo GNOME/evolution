@@ -1,3 +1,11 @@
+2004-01-27  Rodney Dawes  <dobey@ximian.com>
+
+	* e-task-bar.c (init): Expand the label, this fixes the problem
+	that people were having in the shell window with the preview pane
+	and the weird warning from ECLippedLabel for urls
+
+	Fixes #52937 for good
+
 2004-01-26  David Trowbridge <trowbrds@cs.colorado.edu>
  
  	* Makefile.am: add definition for EVOLUTION_HELPDIR
