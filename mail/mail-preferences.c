@@ -171,8 +171,8 @@ mail_preferences_construct (MailPreferences *prefs)
 	
 	/* reparent */
 	gtk_widget_ref (toplevel);
-	gtk_widget_unparent (toplevel);
-	gtk_widget_set_parent (toplevel, GTK_WIDGET (prefs));
+	gtk_container_remove (GTK_CONTAINER (toplevel->parent), toplevel);
+	gtk_container_add (GTK_CONTAINER (prefs), toplevel);
 	gtk_widget_unref (toplevel);
 	
 	/* General tab */

@@ -149,7 +149,6 @@
 	* mail-preferences.c: Implements the mailer's Preferences tab in
 	Anna's new config GUI.
 
->>>>>>> 1.2089.2.5
 2002-03-19  Larry Ewing  <lewing@ximian.com>
 
 	* mail-display.c: add missing NULL closure data to popup menu
