@@ -163,6 +163,9 @@ best_encoding (GByteArray *buf, const char *charset)
 	int status, count = 0;
 	iconv_t cd;
 	
+	if (!charset)
+		return -1;
+
 	cd = iconv_open (charset, "utf-8");
 	g_return_val_if_fail (cd != (iconv_t)-1, -1);
 	

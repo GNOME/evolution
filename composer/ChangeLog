@@ -1,6 +1,8 @@
 2001-07-06  Larry Ewing  <lewing@ximian.com>
 
 	* e-msg-composer.c (autosave_manager_new): add missing static.
+	(best_encoding): make sure we don't try to call iconv_open with a
+	NULL tocode.
 
 2001-07-06  Jeffrey Stedfast  <fejj@ximian.com>
 
