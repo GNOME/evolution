@@ -1,5 +1,12 @@
 2004-02-06  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* em-format-html.c (efh_format_headers): Make private (only
+	EMFormatHTMLQuote used it and that class is no longer in use).
+	(efh_format_message): Updated for above change.
+
+	* em-format-quote.c (emfq_format_message): Always write a \n after
+	the credits line.
+
 	* em-subscribe-editor.c (sub_folderinfo_get): Set the NO_VIRTUAL
 	flag bit for get_folder_info(). Fixes bug #51887.
 

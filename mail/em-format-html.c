@@ -202,7 +202,7 @@ efh_class_init(GObjectClass *klass)
 	((EMFormatClass *)klass)->format_attachment = efh_format_attachment;
 	((EMFormatClass *)klass)->format_secure = efh_format_secure;
 	((EMFormatClass *)klass)->busy = efh_busy;
-
+	
 	klass->finalize = efh_finalise;
 }
 
@@ -1326,23 +1326,23 @@ static void efh_format_error(EMFormat *emf, CamelStream *stream, const char *txt
 }
 
 static void
-efh_format_text_header(EMFormat *emf, CamelStream *stream, const char *label, const char *value, guint32 flags)
+efh_format_text_header (EMFormatHTML *emfh, CamelStream *stream, const char *label, const char *value, guint32 flags)
 {
 	char *mhtml = NULL;
 	const char *fmt, *html;
-
+	
 	if (value == NULL)
 		return;
-
+	
 	while (*value == ' ')
 		value++;
-
+	
 	if (flags & EM_FORMAT_HTML_HEADER_HTML)
 		html = value;
 	else
-		html = mhtml = camel_text_to_html(value, ((EMFormatHTML *)emf)->text_html_flags, 0);
-
-	if (((EMFormatHTML *)emf)->simple_headers) {
+		html = mhtml = camel_text_to_html (value, emfh->text_html_flags, 0);
+	
+	if (emfh->simple_headers) {
 		fmt = "<b>%s</b>: %s<br>";
 	} else {
 		if (flags & EM_FORMAT_HTML_HEADER_NOCOLUMNS) {
@@ -1541,17 +1541,18 @@ efh_format_header(EMFormat *emf, CamelStream *stream, CamelMedium *part, const c
 		label = namein;
 	}
 	
-	efh_format_text_header (emf, stream, label, txt, flags);
+	efh_format_text_header (efh, stream, label, txt, flags);
+	
 	g_free (value);
 }
 
-void
-em_format_html_format_headers(EMFormatHTML *efh, CamelStream *stream, CamelMedium *part)
+static void
+efh_format_headers(EMFormatHTML *efh, CamelStream *stream, CamelMedium *part)
 {
+	EMFormat *emf = (EMFormat *) efh;
 	EMFormatHeader *h;
 	const char *charset;
 	CamelContentType *ct;
-#define emf ((EMFormat *)efh)
 	
 	ct = camel_mime_part_get_content_type((CamelMimePart *)part);
 	charset = camel_content_type_param (ct, "charset");
@@ -1579,17 +1580,15 @@ em_format_html_format_headers(EMFormatHTML *efh, CamelStream *stream, CamelMediu
 			h = h->next;
 		}
 	}
-
+	
 	if (!efh->simple_headers)
-		camel_stream_printf(stream,
-				    "</table>\n</font>\n");
-#undef emf
+		camel_stream_printf (stream, "</table>\n</font>\n");
 }
 
 static void efh_format_message(EMFormat *emf, CamelStream *stream, CamelMedium *part)
 {
-#define efh ((EMFormatHTML *)emf)
 	/* TODO: make this validity stuff a method */
+	EMFormatHTML *efh = (EMFormatHTML *) emf;
 	CamelCipherValidity *save = emf->valid, *save_parent = emf->valid_parent;
 
 	emf->valid = NULL;
@@ -1599,8 +1598,8 @@ static void efh_format_message(EMFormat *emf, CamelStream *stream, CamelMedium *
 		camel_stream_printf(stream, "<blockquote>\n");
 
 	if (!efh->hide_headers)
-		em_format_html_format_headers(efh, stream, part);
-
+		efh_format_headers(efh, stream, part);
+	
 	camel_stream_printf(stream, "<table height=6><tr><td><a></a></td></tr></table>\n");
 	em_format_part(emf, stream, (CamelMimePart *)part);
 
@@ -1611,7 +1610,6 @@ static void efh_format_message(EMFormat *emf, CamelStream *stream, CamelMedium *
 
 	emf->valid = save;
 	emf->valid_parent = save_parent;
-#undef efh
 }
 
 static void efh_format_source(EMFormat *emf, CamelStream *stream, CamelMimePart *part)

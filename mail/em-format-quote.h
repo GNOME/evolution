@@ -49,8 +49,8 @@ struct _EMFormatQuoteClass {
 	EMFormatClass format_class;
 };
 
-GType em_format_quote_get_type(void);
+GType em_format_quote_get_type (void);
 
-EMFormatQuote *em_format_quote_new(const char *, struct _CamelStream *, guint32 flags);
+EMFormatQuote *em_format_quote_new (const char *credits, struct _CamelStream *stream, guint32 flags);
 
 #endif /* !_EM_FORMAT_QUOTE_H */

@@ -129,8 +129,8 @@ em_format_quote_new(const char *credits, CamelStream *stream, guint32 flags)
 static void
 emfq_format_clone(EMFormat *emf, CamelFolder *folder, const char *uid, CamelMimeMessage *msg, EMFormat *src)
 {
-#define emfq ((EMFormatQuote *)emf)
-
+	EMFormatQuote *emfq = (EMFormatQuote *) emf;
+	
 	((EMFormatClass *)emfq_parent)->format_clone(emf, folder, uid, msg, src);
 
 	camel_stream_reset(emfq->stream);
@@ -138,30 +138,30 @@ emfq_format_clone(EMFormat *emf, CamelFolder *folder, const char *uid, CamelMime
 	camel_stream_flush(emfq->stream);
 
 	g_signal_emit_by_name(emf, "complete");
-#undef emfq
 }
 
 static void
 emfq_format_error(EMFormat *emf, CamelStream *stream, const char *txt)
 {
-	/* FIXME: should we even bother writign error text for quoting? probably not... */
+	/* FIXME: should we even bother writing error text for quoting? probably not... */
 }
 
 static void
 emfq_format_message(EMFormat *emf, CamelStream *stream, CamelMedium *part)
 {
-	EMFormatQuote *emfq =(EMFormatQuote *) emf;
+	EMFormatQuote *emfq = (EMFormatQuote *) emf;
 
 	if (emfq->credits)
 		camel_stream_printf(stream, "%s", emfq->credits);
-
 
 	if (emfq->flags & EM_FORMAT_QUOTE_CITE)
 		camel_stream_printf(stream, "<!--+GtkHTML:<DATA class=\"ClueFlow\" key=\"orig\" value=\"1\">-->\n"
 				    "<blockquote type=cite>\n"
 				    "<font color=\"#%06x\">\n",
 				    emfq->citation_colour & 0xffffff);
-
+	else
+		camel_stream_write (stream, "\n", 1);
+	
 	if (emfq->flags & EM_FORMAT_QUOTE_HEADERS) {
 		camel_stream_printf(stream, "<b>To: </b> Header goes here<br>");
 	}

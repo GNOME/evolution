@@ -124,6 +124,7 @@ struct _EMFormatHTML {
 
 struct _EMFormatHTMLClass {
 	EMFormatClass format_class;
+	
 };
 
 GType em_format_html_get_type(void);
@@ -134,9 +135,6 @@ void em_format_html_load_http(EMFormatHTML *emf);
 void em_format_html_set_load_http(EMFormatHTML *emf, int state);
 void em_format_html_set_mark_citations(EMFormatHTML *emf, int state, guint32 citation_colour);
 void em_format_html_set_xmailer_mask(EMFormatHTML *emf, unsigned int xmailer_mask);
-
-/* output headers */
-void em_format_html_format_headers(EMFormatHTML *efh, struct _CamelStream *stream, struct _CamelMedium *part);
 
 /* retrieves a pseudo-part icon wrapper for a file */
 struct _CamelMimePart *em_format_html_file_part(EMFormatHTML *efh, const char *mime_type, const char *path, const char *name);
