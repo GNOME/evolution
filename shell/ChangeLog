@@ -1,5 +1,10 @@
 2001-08-24  Ettore Perazzoli  <ettore@ximian.com>
 
+	* e-setup.c (copy_default_stuff): Remove the stupid "do you want
+	me to initialize stuff?" dialog.
+
+2001-08-24  Ettore Perazzoli  <ettore@ximian.com>
+
 	* e-storage-set-view.c: Change the `selected_row_path' to be
 	non-const.
 	(destroy): Free it.

@@ -184,36 +184,9 @@ check_evolution_directory (const char *evolution_directory)
 static gboolean
 copy_default_stuff (const char *evolution_directory)
 {
-	GtkWidget *dialog;
-	GtkWidget *label1;
-	GtkWidget *label2;
-	GtkWidget *label3;
 	gboolean retval;
 	char *command;
-	int result;
 	char *old_default_shortcuts_file;
-
-	dialog = gnome_dialog_new (_("Evolution installation"),
-				   GNOME_STOCK_BUTTON_OK, GNOME_STOCK_BUTTON_CANCEL,
-				   NULL);
-
-	label1 = gtk_label_new (_("This seems to be the first time you are running Evolution."));
-	label2 = gtk_label_new (_("Please click \"OK\" to install the Evolution user files under"));
-	label3 = gtk_label_new (evolution_directory);
-
-	gtk_box_pack_start (GTK_BOX (GNOME_DIALOG (dialog)->vbox), label1, TRUE, TRUE, 0);
-	gtk_box_pack_start (GTK_BOX (GNOME_DIALOG (dialog)->vbox), label2, TRUE, TRUE, 0);
-	gtk_box_pack_start (GTK_BOX (GNOME_DIALOG (dialog)->vbox), label3, TRUE, TRUE, 0);
-
-	gtk_widget_show (label1);
-	gtk_widget_show (label2);
-	gtk_widget_show (label3);
-
-	gtk_window_set_policy (GTK_WINDOW (dialog), FALSE, TRUE, FALSE);
-
-	result = gnome_dialog_run_and_close (GNOME_DIALOG (dialog));
-	if (result != 0)
-		return FALSE;
 
 	if (mkdir (evolution_directory, 0700)) {
 		e_notice (NULL, GNOME_MESSAGE_BOX_ERROR,
