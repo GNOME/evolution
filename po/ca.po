@@ -7,7 +7,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution 0.0.6\n"
-"POT-Creation-Date: 2003-04-09 14:07-0400\n"
+"POT-Creation-Date: 2003-04-11 14:30-0400\n"
 "PO-Revision-Date: 2000-11-01 00:40+0100\n"
 "Last-Translator: Quico Llach <tradgnome@softcatala.org>\n"
 "Language-Team: Catalan <linux@softcatala.org>\n"
@@ -630,8 +630,6 @@ msgstr "Conducte de la llibreta d'adreces de l'Evolution"
 
 #: addressbook/gui/component/addressbook-component.c:76
 #: addressbook/gui/component/addressbook-component.c:605
-#: calendar/gui/dialogs/comp-editor-util.c:309
-#: calendar/gui/dialogs/comp-editor-util.c:365
 #: importers/netscape-importer.c:1874 mail/importers/netscape-importer.c:1844
 #: shell/e-local-storage.c:178 shell/e-shortcuts.c:1087
 #, fuzzy
@@ -1473,7 +1471,7 @@ msgid "D_epartment:"
 msgstr "_Departament:"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:12
-#: calendar/gui/dialogs/task-editor.c:196
+#: calendar/gui/dialogs/task-editor.c:197
 msgid "Details"
 msgstr "Detalls"
 
@@ -1532,7 +1530,7 @@ msgstr "Vol rebre correu _HTML"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:30
 #: calendar/gui/dialogs/alarm-page.glade.h:10
-#: calendar/gui/dialogs/meeting-page.c:700 calendar/gui/e-calendar-table.c:969
+#: calendar/gui/dialogs/meeting-page.c:707 calendar/gui/e-calendar-table.c:969
 #: calendar/gui/e-day-view.c:3723 calendar/gui/e-week-view.c:3579
 #: filter/filter.glade.h:15 mail/folder-browser.c:1783
 #: mail/mail-config.glade.h:148 shell/glade/e-folder-list.glade.h:2
@@ -3973,19 +3971,19 @@ msgstr "Durada de l'snooze (minuts)"
 msgid "_Edit appointment"
 msgstr "Edita una cita"
 
-#: calendar/gui/alarm-notify/alarm-queue.c:774
+#: calendar/gui/alarm-notify/alarm-queue.c:776
 #, fuzzy
 msgid "No description available."
 msgstr "No hi ha cap resum disponible."
 
-#: calendar/gui/alarm-notify/alarm-queue.c:845
-#: calendar/gui/alarm-notify/alarm-queue.c:869
+#: calendar/gui/alarm-notify/alarm-queue.c:847
+#: calendar/gui/alarm-notify/alarm-queue.c:871
 #: calendar/gui/tasks-control.c:463 widgets/misc/e-messagebox.c:161
 #, fuzzy
 msgid "Warning"
 msgstr "S'està movent"
 
-#: calendar/gui/alarm-notify/alarm-queue.c:849
+#: calendar/gui/alarm-notify/alarm-queue.c:851
 msgid ""
 "Evolution does not support calendar reminders with\n"
 "email notifications yet, but this reminder was\n"
@@ -3993,7 +3991,7 @@ msgid ""
 "a normal reminder dialog box instead."
 msgstr ""
 
-#: calendar/gui/alarm-notify/alarm-queue.c:875
+#: calendar/gui/alarm-notify/alarm-queue.c:877
 #, c-format
 msgid ""
 "An Evolution Calendar reminder is about to trigger. This reminder is "
@@ -4004,7 +4002,7 @@ msgid ""
 "Are you sure you want to run this program?"
 msgstr ""
 
-#: calendar/gui/alarm-notify/alarm-queue.c:889
+#: calendar/gui/alarm-notify/alarm-queue.c:891
 #, fuzzy
 msgid "Do not ask me about this program again."
 msgstr "Envia aquest missatge"
@@ -4234,8 +4232,8 @@ msgstr "En procés"
 
 #: calendar/gui/calendar-model.c:751 calendar/gui/calendar-model.c:1177
 #: calendar/gui/dialogs/task-details-page.glade.h:4
-#: calendar/gui/e-calendar-table.c:468 calendar/gui/e-meeting-model.c:304
-#: calendar/gui/e-meeting-model.c:327 calendar/gui/print.c:2316
+#: calendar/gui/e-calendar-table.c:468 calendar/gui/e-meeting-model.c:296
+#: calendar/gui/e-meeting-model.c:319 calendar/gui/print.c:2316
 #, fuzzy
 msgid "Completed"
 msgstr "% comp_let:"
@@ -4251,7 +4249,7 @@ msgstr ""
 "45.436845,125.862501"
 
 #. An empty string is the same as 'None'.
-#: calendar/gui/calendar-model.c:1171 calendar/gui/dialogs/meeting-page.c:322
+#: calendar/gui/calendar-model.c:1171 calendar/gui/dialogs/meeting-page.c:325
 #: calendar/gui/dialogs/meeting-page.glade.h:1 composer/e-msg-composer.c:2054
 #: mail/folder-browser.c:1745 mail/mail-account-gui.c:1253
 #: mail/mail-account-gui.c:1685 mail/mail-accounts.c:442
@@ -4272,14 +4270,14 @@ msgstr "Recurrència"
 msgid "Assigned"
 msgstr "Assigna una puntuació"
 
-#: calendar/gui/calendar-model.c:1714 calendar/gui/e-meeting-model.c:276
-#: calendar/gui/e-meeting-model.c:286 calendar/gui/e-meeting-model.c:544
-#: calendar/gui/e-meeting-model.c:838
+#: calendar/gui/calendar-model.c:1714 calendar/gui/e-meeting-model.c:268
+#: calendar/gui/e-meeting-model.c:278 calendar/gui/e-meeting-model.c:536
+#: calendar/gui/e-meeting-model.c:835
 msgid "Yes"
 msgstr ""
 
-#: calendar/gui/calendar-model.c:1714 calendar/gui/e-meeting-model.c:288
-#: calendar/gui/e-meeting-model.c:839
+#: calendar/gui/calendar-model.c:1714 calendar/gui/e-meeting-model.c:280
+#: calendar/gui/e-meeting-model.c:836
 #, fuzzy
 msgid "No"
 msgstr "Ara"
@@ -4544,7 +4542,7 @@ msgid "Days"
 msgstr "Dies"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:12
-#: calendar/gui/dialogs/recurrence-page.c:1037
+#: calendar/gui/dialogs/recurrence-page.c:1040
 #: calendar/gui/e-itip-control.c:675
 msgid "Friday"
 msgstr "Divendres"
@@ -4558,7 +4556,7 @@ msgid "Minutes"
 msgstr "Minuts"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:15
-#: calendar/gui/dialogs/recurrence-page.c:1033
+#: calendar/gui/dialogs/recurrence-page.c:1036
 #: calendar/gui/e-itip-control.c:671
 msgid "Monday"
 msgstr "Dilluns"
@@ -4569,7 +4567,7 @@ msgid "S_un"
 msgstr "dg."
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:17
-#: calendar/gui/dialogs/recurrence-page.c:1038
+#: calendar/gui/dialogs/recurrence-page.c:1041
 #: calendar/gui/e-itip-control.c:676
 msgid "Saturday"
 msgstr "Dissabte"
@@ -4584,7 +4582,7 @@ msgid "Show week _numbers in date navigator"
 msgstr "Mostra els números de les setmanes"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:20
-#: calendar/gui/dialogs/recurrence-page.c:1039
+#: calendar/gui/dialogs/recurrence-page.c:1042
 #: calendar/gui/e-itip-control.c:670
 msgid "Sunday"
 msgstr "Diumenge"
@@ -4605,7 +4603,7 @@ msgid "Task List"
 msgstr "Tasques"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:24
-#: calendar/gui/dialogs/recurrence-page.c:1036
+#: calendar/gui/dialogs/recurrence-page.c:1039
 #: calendar/gui/e-itip-control.c:674
 msgid "Thursday"
 msgstr "Dijous"
@@ -4624,7 +4622,7 @@ msgid "Time format:"
 msgstr "Format de l'hora:"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:28
-#: calendar/gui/dialogs/recurrence-page.c:1034
+#: calendar/gui/dialogs/recurrence-page.c:1037
 #: calendar/gui/e-itip-control.c:672
 msgid "Tuesday"
 msgstr "Dimarts"
@@ -4634,7 +4632,7 @@ msgid "W_eek starts:"
 msgstr ""
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:30
-#: calendar/gui/dialogs/recurrence-page.c:1035
+#: calendar/gui/dialogs/recurrence-page.c:1038
 #: calendar/gui/e-itip-control.c:673
 msgid "Wednesday"
 msgstr "Dimecres"
@@ -4887,7 +4885,7 @@ msgid "No summary"
 msgstr "Sense resum"
 
 #: calendar/gui/dialogs/comp-editor.c:1230
-#: calendar/gui/e-calendar-table.c:1039 calendar/gui/e-day-view.c:3941
+#: calendar/gui/e-calendar-table.c:1040 calendar/gui/e-day-view.c:3941
 #: calendar/gui/e-week-view.c:3780 composer/e-msg-composer.c:1162
 msgid "Save as..."
 msgstr "Anomena i desa..."
@@ -5007,21 +5005,21 @@ msgstr "Seleccioneu una carpeta"
 msgid "Meeting"
 msgstr "Cancel·lat"
 
-#: calendar/gui/dialogs/event-page.c:600 calendar/gui/dialogs/task-page.c:554
+#: calendar/gui/dialogs/event-page.c:603 calendar/gui/dialogs/task-page.c:507
 #, fuzzy
 msgid "Start date is wrong"
 msgstr "Data d'ini_ci:"
 
-#: calendar/gui/dialogs/event-page.c:610
+#: calendar/gui/dialogs/event-page.c:613
 msgid "End date is wrong"
 msgstr ""
 
-#: calendar/gui/dialogs/event-page.c:633
+#: calendar/gui/dialogs/event-page.c:636
 #, fuzzy
 msgid "Start time is wrong"
 msgstr "Hora d'_inici:"
 
-#: calendar/gui/dialogs/event-page.c:640
+#: calendar/gui/dialogs/event-page.c:643
 msgid "End time is wrong"
 msgstr ""
 
@@ -5092,23 +5090,23 @@ msgstr "Hora de _finalització:"
 msgid "_Start time:"
 msgstr "Hora d'_inici:"
 
-#: calendar/gui/dialogs/meeting-page.c:425
+#: calendar/gui/dialogs/meeting-page.c:432
 msgid "The organizer selected no longer has an account."
 msgstr ""
 
-#: calendar/gui/dialogs/meeting-page.c:431
+#: calendar/gui/dialogs/meeting-page.c:438
 msgid "An organizer is required."
 msgstr ""
 
-#: calendar/gui/dialogs/meeting-page.c:446
+#: calendar/gui/dialogs/meeting-page.c:453
 msgid "At least one attendee is required."
 msgstr ""
 
-#: calendar/gui/dialogs/meeting-page.c:616
+#: calendar/gui/dialogs/meeting-page.c:623
 msgid "That person is already attending the meeting!"
 msgstr ""
 
-#: calendar/gui/dialogs/meeting-page.c:696
+#: calendar/gui/dialogs/meeting-page.c:703
 #, fuzzy
 msgid "_Delegate To..."
 msgstr "Suprimeix"
@@ -5211,55 +5209,55 @@ msgstr ""
 msgid "All Instances"
 msgstr "Afegeix..."
 
-#: calendar/gui/dialogs/recurrence-page.c:532
+#: calendar/gui/dialogs/recurrence-page.c:535
 msgid "This appointment contains recurrences that Evolution cannot edit."
 msgstr ""
 
-#: calendar/gui/dialogs/recurrence-page.c:806
+#: calendar/gui/dialogs/recurrence-page.c:809
 msgid "Recurrence date is invalid"
 msgstr ""
 
-#: calendar/gui/dialogs/recurrence-page.c:916
+#: calendar/gui/dialogs/recurrence-page.c:919
 msgid "on"
 msgstr "el"
 
-#: calendar/gui/dialogs/recurrence-page.c:977
+#: calendar/gui/dialogs/recurrence-page.c:980
 msgid "first"
 msgstr "primer"
 
-#: calendar/gui/dialogs/recurrence-page.c:978
+#: calendar/gui/dialogs/recurrence-page.c:981
 msgid "second"
 msgstr "segon"
 
-#: calendar/gui/dialogs/recurrence-page.c:979
+#: calendar/gui/dialogs/recurrence-page.c:982
 msgid "third"
 msgstr "tercer"
 
-#: calendar/gui/dialogs/recurrence-page.c:980
+#: calendar/gui/dialogs/recurrence-page.c:983
 #, fuzzy
 msgid "fourth"
 msgstr "quart"
 
-#: calendar/gui/dialogs/recurrence-page.c:981
+#: calendar/gui/dialogs/recurrence-page.c:984
 #, fuzzy
 msgid "last"
 msgstr "és"
 
-#: calendar/gui/dialogs/recurrence-page.c:1004
+#: calendar/gui/dialogs/recurrence-page.c:1007
 #, fuzzy
 msgid "Other Date"
 msgstr "Un altre fax"
 
-#: calendar/gui/dialogs/recurrence-page.c:1032
+#: calendar/gui/dialogs/recurrence-page.c:1035
 msgid "day"
 msgstr "dia"
 
-#: calendar/gui/dialogs/recurrence-page.c:1169
+#: calendar/gui/dialogs/recurrence-page.c:1172
 #, fuzzy
 msgid "on the"
 msgstr "mes"
 
-#: calendar/gui/dialogs/recurrence-page.c:1354
+#: calendar/gui/dialogs/recurrence-page.c:1357
 #, fuzzy
 msgid "occurrences"
 msgstr "aparicions"
@@ -5346,7 +5344,7 @@ msgstr ""
 msgid "The task information has changed. Send an updated version?"
 msgstr ""
 
-#: calendar/gui/dialogs/task-details-page.c:397
+#: calendar/gui/dialogs/task-details-page.c:400
 #, fuzzy
 msgid "Completed date is wrong"
 msgstr "% comp_let:"
@@ -5380,19 +5378,19 @@ msgstr "_Prioritat:"
 msgid "_Status:"
 msgstr "_Estat:"
 
-#: calendar/gui/dialogs/task-editor.c:189
+#: calendar/gui/dialogs/task-editor.c:190
 #, fuzzy
 msgid "Basic"
 msgstr "Enganxa"
 
-#: calendar/gui/dialogs/task-editor.c:203
-#: calendar/gui/dialogs/task-editor.c:251
-#: calendar/gui/dialogs/task-editor.c:385
+#: calendar/gui/dialogs/task-editor.c:204
+#: calendar/gui/dialogs/task-editor.c:252
+#: calendar/gui/dialogs/task-editor.c:386
 #, fuzzy
 msgid "Assignment"
 msgstr "Assigna una puntuació"
 
-#: calendar/gui/dialogs/task-page.c:527
+#: calendar/gui/dialogs/task-page.c:480
 msgid "Due date is wrong"
 msgstr ""
 
@@ -5408,10 +5406,6 @@ msgid "Sta_rt Date:"
 msgstr "Data d'ini_ci:"
 
 #: calendar/gui/dialogs/task-page.glade.h:10
-msgid "_Contacts..."
-msgstr "_Contactes..."
-
-#: calendar/gui/dialogs/task-page.glade.h:11
 msgid "_Due Date:"
 msgstr "_Data de venciment:"
 
@@ -5646,12 +5640,12 @@ msgstr "Marca com a completa"
 msgid "_Delete Selected Tasks"
 msgstr "Suprimeix la tasca"
 
-#: calendar/gui/e-calendar-table.c:1244 calendar/gui/e-day-view.c:7635
+#: calendar/gui/e-calendar-table.c:1245 calendar/gui/e-day-view.c:7635
 #: calendar/gui/e-week-view.c:4269
 msgid "Updating objects"
 msgstr ""
 
-#: calendar/gui/e-calendar-table.c:1327
+#: calendar/gui/e-calendar-table.c:1328
 #: calendar/gui/e-calendar-table.etspec.h:6
 #, fuzzy
 msgid "Click to add a task"
@@ -5973,8 +5967,8 @@ msgstr "_Accions"
 msgid "Status:"
 msgstr "_Estat:"
 
-#: calendar/gui/e-itip-control.c:1078 calendar/gui/e-meeting-model.c:296
-#: calendar/gui/e-meeting-model.c:319 calendar/gui/e-meeting-model.c:852
+#: calendar/gui/e-itip-control.c:1078 calendar/gui/e-meeting-model.c:288
+#: calendar/gui/e-meeting-model.c:311 calendar/gui/e-meeting-model.c:849
 #: calendar/gui/itip-utils.c:414
 #, fuzzy
 msgid "Accepted"
@@ -5985,20 +5979,20 @@ msgstr "set"
 msgid "Tentatively Accepted"
 msgstr "Tentatiu"
 
-#: calendar/gui/e-itip-control.c:1086 calendar/gui/e-meeting-model.c:298
-#: calendar/gui/e-meeting-model.c:321 calendar/gui/e-meeting-model.c:853
+#: calendar/gui/e-itip-control.c:1086 calendar/gui/e-meeting-model.c:290
+#: calendar/gui/e-meeting-model.c:313 calendar/gui/e-meeting-model.c:850
 #: calendar/gui/itip-utils.c:420 calendar/gui/itip-utils.c:446
 #, fuzzy
 msgid "Declined"
 msgstr "Suprimeix"
 
 #: calendar/gui/e-itip-control.c:1090 calendar/gui/e-itip-control.c:1298
-#: calendar/gui/e-meeting-model.c:232 calendar/gui/e-meeting-model.c:267
-#: calendar/gui/e-meeting-model.c:332 calendar/gui/e-meeting-model.c:810
-#: calendar/gui/e-meeting-model.c:826 camel/camel-gpg-context.c:1534
-#: camel/camel-gpg-context.c:1584 camel/camel-tcp-stream-openssl.c:634
-#: camel/providers/smtp/camel-smtp-transport.c:171
-#: camel/providers/smtp/camel-smtp-transport.c:226 mail/folder-browser.c:345
+#: calendar/gui/e-meeting-model.c:224 calendar/gui/e-meeting-model.c:259
+#: calendar/gui/e-meeting-model.c:324 calendar/gui/e-meeting-model.c:807
+#: calendar/gui/e-meeting-model.c:823 camel/camel-gpg-context.c:1567
+#: camel/camel-gpg-context.c:1618 camel/camel-tcp-stream-openssl.c:634
+#: camel/providers/smtp/camel-smtp-transport.c:173
+#: camel/providers/smtp/camel-smtp-transport.c:228 mail/folder-browser.c:345
 #: mail/mail-display.c:950 widgets/misc/e-charset-picker.c:60
 #: widgets/misc/e-charset-picker.c:510
 msgid "Unknown"
@@ -6381,109 +6375,109 @@ msgstr ""
 msgid "date-start"
 msgstr "Inici del dia:"
 
-#: calendar/gui/e-meeting-model.c:80
+#: calendar/gui/e-meeting-model.c:81
 msgid "Chair Persons"
 msgstr ""
 
-#: calendar/gui/e-meeting-model.c:81 calendar/gui/e-meeting-model.c:1695
+#: calendar/gui/e-meeting-model.c:82 calendar/gui/e-meeting-model.c:1697
 #, fuzzy
 msgid "Required Participants"
 msgstr "Persones _requerides"
 
-#: calendar/gui/e-meeting-model.c:82
+#: calendar/gui/e-meeting-model.c:83
 #, fuzzy
 msgid "Optional Participants"
 msgstr "Persones _requerides"
 
-#: calendar/gui/e-meeting-model.c:83
+#: calendar/gui/e-meeting-model.c:84
 #, fuzzy
 msgid "Resources"
 msgstr "Font"
 
-#: calendar/gui/e-meeting-model.c:207 calendar/gui/e-meeting-model.c:224
-#: calendar/gui/e-meeting-model.c:540 calendar/gui/e-meeting-model.c:806
+#: calendar/gui/e-meeting-model.c:199 calendar/gui/e-meeting-model.c:216
+#: calendar/gui/e-meeting-model.c:532 calendar/gui/e-meeting-model.c:803
 msgid "Individual"
 msgstr ""
 
-#: calendar/gui/e-meeting-model.c:209 calendar/gui/e-meeting-model.c:226
-#: calendar/gui/e-meeting-model.c:807
+#: calendar/gui/e-meeting-model.c:201 calendar/gui/e-meeting-model.c:218
+#: calendar/gui/e-meeting-model.c:804
 #, fuzzy
 msgid "Group"
 msgstr "Grup %i"
 
-#: calendar/gui/e-meeting-model.c:211 calendar/gui/e-meeting-model.c:228
-#: calendar/gui/e-meeting-model.c:808
+#: calendar/gui/e-meeting-model.c:203 calendar/gui/e-meeting-model.c:220
+#: calendar/gui/e-meeting-model.c:805
 #, fuzzy
 msgid "Resource"
 msgstr "Font"
 
-#: calendar/gui/e-meeting-model.c:213 calendar/gui/e-meeting-model.c:230
-#: calendar/gui/e-meeting-model.c:809
+#: calendar/gui/e-meeting-model.c:205 calendar/gui/e-meeting-model.c:222
+#: calendar/gui/e-meeting-model.c:806
 msgid "Room"
 msgstr ""
 
-#: calendar/gui/e-meeting-model.c:242 calendar/gui/e-meeting-model.c:259
-#: calendar/gui/e-meeting-model.c:822
+#: calendar/gui/e-meeting-model.c:234 calendar/gui/e-meeting-model.c:251
+#: calendar/gui/e-meeting-model.c:819
 #, fuzzy
 msgid "Chair"
 msgstr "Cotxe"
 
-#: calendar/gui/e-meeting-model.c:244 calendar/gui/e-meeting-model.c:261
-#: calendar/gui/e-meeting-model.c:542 calendar/gui/e-meeting-model.c:823
+#: calendar/gui/e-meeting-model.c:236 calendar/gui/e-meeting-model.c:253
+#: calendar/gui/e-meeting-model.c:534 calendar/gui/e-meeting-model.c:820
 #, fuzzy
 msgid "Required Participant"
 msgstr "Persones _requerides"
 
-#: calendar/gui/e-meeting-model.c:246 calendar/gui/e-meeting-model.c:263
-#: calendar/gui/e-meeting-model.c:824
+#: calendar/gui/e-meeting-model.c:238 calendar/gui/e-meeting-model.c:255
+#: calendar/gui/e-meeting-model.c:821
 msgid "Optional Participant"
 msgstr ""
 
-#: calendar/gui/e-meeting-model.c:248 calendar/gui/e-meeting-model.c:265
-#: calendar/gui/e-meeting-model.c:825
+#: calendar/gui/e-meeting-model.c:240 calendar/gui/e-meeting-model.c:257
+#: calendar/gui/e-meeting-model.c:822
 msgid "Non-Participant"
 msgstr ""
 
-#: calendar/gui/e-meeting-model.c:294 calendar/gui/e-meeting-model.c:317
-#: calendar/gui/e-meeting-model.c:550 calendar/gui/e-meeting-model.c:851
+#: calendar/gui/e-meeting-model.c:286 calendar/gui/e-meeting-model.c:309
+#: calendar/gui/e-meeting-model.c:542 calendar/gui/e-meeting-model.c:848
 #, fuzzy
 msgid "Needs Action"
 msgstr "Elimina una acció"
 
-#: calendar/gui/e-meeting-model.c:300 calendar/gui/e-meeting-model.c:323
-#: calendar/gui/e-meeting-model.c:854 calendar/gui/e-meeting-time-sel.c:406
+#: calendar/gui/e-meeting-model.c:292 calendar/gui/e-meeting-model.c:315
+#: calendar/gui/e-meeting-model.c:851 calendar/gui/e-meeting-time-sel.c:406
 msgid "Tentative"
 msgstr "Tentatiu"
 
-#: calendar/gui/e-meeting-model.c:302 calendar/gui/e-meeting-model.c:325
-#: calendar/gui/e-meeting-model.c:855
+#: calendar/gui/e-meeting-model.c:294 calendar/gui/e-meeting-model.c:317
+#: calendar/gui/e-meeting-model.c:852
 #, fuzzy
 msgid "Delegated"
 msgstr "Suprimeix"
 
-#: calendar/gui/e-meeting-model.c:306 calendar/gui/e-meeting-model.c:329
+#: calendar/gui/e-meeting-model.c:298 calendar/gui/e-meeting-model.c:321
 #, fuzzy
 msgid "In Process"
 msgstr "En procés"
 
 #. This is a strftime() format string %A = full weekday name,
 #. %B = full month name, %d = month day, %Y = full year.
-#: calendar/gui/e-meeting-time-sel-item.c:452
-#: calendar/gui/e-meeting-time-sel.c:2092
+#: calendar/gui/e-meeting-time-sel-item.c:458
+#: calendar/gui/e-meeting-time-sel.c:2114
 msgid "%A, %B %d, %Y"
 msgstr "%A, %d de %B de %Y"
 
 #. This is a strftime() format string %a = abbreviated weekday
 #. name, %m = month number, %d = month day, %Y = full year.
-#: calendar/gui/e-meeting-time-sel-item.c:456
-#: calendar/gui/e-meeting-time-sel.c:2125 e-util/e-time-utils.c:189
+#: calendar/gui/e-meeting-time-sel-item.c:462
+#: calendar/gui/e-meeting-time-sel.c:2147 e-util/e-time-utils.c:189
 #: e-util/e-time-utils.c:282 e-util/e-time-utils.c:370
 msgid "%a %m/%d/%Y"
 msgstr "%a %d/%m/%Y"
 
 #. This is a strftime() format string %m = month number,
 #. %d = month day, %Y = full year.
-#: calendar/gui/e-meeting-time-sel-item.c:460 e-util/e-time-utils.c:224
+#: calendar/gui/e-meeting-time-sel-item.c:466 e-util/e-time-utils.c:224
 #: e-util/e-time-utils.c:285 widgets/misc/e-dateedit.c:1608
 msgid "%m/%d/%Y"
 msgstr "%d/%m/%Y"
@@ -8850,7 +8844,7 @@ msgstr "Còpia de missatges"
 msgid "Copying messages"
 msgstr "Còpia de missatges"
 
-#: camel/camel-gpg-context.c:724
+#: camel/camel-gpg-context.c:757
 #, c-format
 msgid ""
 "Unexpected GnuPG status message encountered:\n"
@@ -8858,73 +8852,74 @@ msgid ""
 "%s"
 msgstr ""
 
-#: camel/camel-gpg-context.c:738
+#: camel/camel-gpg-context.c:772
 msgid "Failed to parse gpg userid hint."
 msgstr ""
 
-#: camel/camel-gpg-context.c:761
+#: camel/camel-gpg-context.c:797
 msgid "Failed to parse gpg passphrase request."
 msgstr ""
 
-#: camel/camel-gpg-context.c:769
+#: camel/camel-gpg-context.c:805
 #, c-format
 msgid ""
 "You need a passphrase to unlock the key for\n"
 "user: \"%s\""
 msgstr ""
 
-#: camel/camel-gpg-context.c:780 camel/camel-gpg-context.c:1249
-#: camel/camel-gpg-context.c:1356 camel/camel-gpg-context.c:1431
-#: camel/camel-gpg-context.c:1488 mail/mail-send-recv.c:565
+#: camel/camel-gpg-context.c:816 camel/camel-gpg-context.c:1290
+#: camel/camel-gpg-context.c:1396 camel/camel-gpg-context.c:1466
+#: camel/camel-gpg-context.c:1522 mail/mail-send-recv.c:567
 #, fuzzy
 msgid "Cancelled."
 msgstr "Cancel·lat"
 
-#: camel/camel-gpg-context.c:798
+#: camel/camel-gpg-context.c:834
 msgid "Failed to unlock secret key: 3 bad passphrases given."
 msgstr ""
 
-#: camel/camel-gpg-context.c:804
+#: camel/camel-gpg-context.c:840
 #, fuzzy, c-format
 msgid "Unexpected response from GnuPG: %s"
 msgstr "Resposta inesperada del servidor IMAP: %s"
 
-#: camel/camel-gpg-context.c:814
+#: camel/camel-gpg-context.c:852
 #, fuzzy
 msgid "No data provided"
 msgstr "(Cap carpeta mostrada)"
 
-#: camel/camel-gpg-context.c:857
+#: camel/camel-gpg-context.c:895
 msgid "Failed to encrypt: No valid recipients specified."
 msgstr ""
 
-#: camel/camel-gpg-context.c:1125
+#: camel/camel-gpg-context.c:1167
 #, fuzzy, c-format
 msgid ""
 "Failed to GPG %s: %s\n"
 "\n"
-"%.*s"
+"%s"
 msgstr "Missatge de _correu (FIXME)"
 
-#: camel/camel-gpg-context.c:1131
+#: camel/camel-gpg-context.c:1172
 #, fuzzy, c-format
 msgid "Failed to GPG %s: %s\n"
 msgstr "Missatge de _correu (FIXME)"
 
-#: camel/camel-gpg-context.c:1240 camel/camel-gpg-context.c:1533
-#: camel/camel-gpg-context.c:1583
+#: camel/camel-gpg-context.c:1281 camel/camel-gpg-context.c:1566
+#: camel/camel-gpg-context.c:1617
 #, fuzzy, c-format
 msgid "Failed to execute gpg: %s"
 msgstr "Missatge de _correu (FIXME)"
 
-#: camel/camel-gpg-context.c:1270 camel/camel-gpg-context.c:1348
-#: camel/camel-gpg-context.c:1422 camel/camel-gpg-context.c:1452
-#: camel/camel-gpg-context.c:1479 camel/camel-gpg-context.c:1509
+#: camel/camel-gpg-context.c:1311 camel/camel-gpg-context.c:1388
+#: camel/camel-gpg-context.c:1457 camel/camel-gpg-context.c:1487
+#: camel/camel-gpg-context.c:1513 camel/camel-gpg-context.c:1543
+#: camel/camel-gpg-context.c:1588 camel/camel-gpg-context.c:1639
 #, fuzzy
 msgid "Failed to execute gpg."
 msgstr "Missatge de _correu (FIXME)"
 
-#: camel/camel-gpg-context.c:1333
+#: camel/camel-gpg-context.c:1373
 #, fuzzy, c-format
 msgid "Cannot verify message signature: could not create temp file: %s"
 msgstr "No s'ha pogut crear el conducte: %s"
@@ -9866,7 +9861,7 @@ msgstr "Cancel·lat"
 
 #: camel/providers/imap/camel-imap-store.c:590
 #: camel/providers/nntp/camel-nntp-store.c:133
-#: camel/providers/smtp/camel-smtp-transport.c:274
+#: camel/providers/smtp/camel-smtp-transport.c:276
 #, c-format
 msgid "Could not connect to %s (port %d): %s"
 msgstr "No s'ha pogut connectar a %s (port %d): %s"
@@ -9899,7 +9894,7 @@ msgstr ""
 "No hi ha suport per al mecanisme d'autenticació sol·licitat."
 
 #: camel/providers/imap/camel-imap-store.c:1085
-#: camel/providers/smtp/camel-smtp-transport.c:484
+#: camel/providers/smtp/camel-smtp-transport.c:486
 #, fuzzy, c-format
 msgid "No support for authentication type %s"
 msgstr "Autenticació:"
@@ -10709,154 +10704,154 @@ msgstr ""
 "Per al lliurament de correu mitjançant la connexió a un concentrador de "
 "correu utilitzant SMTP."
 
-#: camel/providers/smtp/camel-smtp-transport.c:173
+#: camel/providers/smtp/camel-smtp-transport.c:175
 msgid "Syntax error, command unrecognized"
 msgstr ""
 
-#: camel/providers/smtp/camel-smtp-transport.c:175
+#: camel/providers/smtp/camel-smtp-transport.c:177
 msgid "Syntax error in parameters or arguments"
 msgstr ""
 
-#: camel/providers/smtp/camel-smtp-transport.c:177
+#: camel/providers/smtp/camel-smtp-transport.c:179
 msgid "Command not implemented"
 msgstr ""
 
-#: camel/providers/smtp/camel-smtp-transport.c:179
+#: camel/providers/smtp/camel-smtp-transport.c:181
 msgid "Command parameter not implemented"
 msgstr ""
 
-#: camel/providers/smtp/camel-smtp-transport.c:181
+#: camel/providers/smtp/camel-smtp-transport.c:183
 msgid "System status, or system help reply"
 msgstr ""
 
-#: camel/providers/smtp/camel-smtp-transport.c:183
+#: camel/providers/smtp/camel-smtp-transport.c:185
 #, fuzzy
 msgid "Help message"
 msgstr "Mou el missatge"
 
-#: camel/providers/smtp/camel-smtp-transport.c:185
+#: camel/providers/smtp/camel-smtp-transport.c:187
 #, fuzzy
 msgid "Service ready"
 msgstr "Amaga"
 
-#: camel/providers/smtp/camel-smtp-transport.c:187
+#: camel/providers/smtp/camel-smtp-transport.c:189
 msgid "Service closing transmission channel"
 msgstr ""
 
-#: camel/providers/smtp/camel-smtp-transport.c:189
+#: camel/providers/smtp/camel-smtp-transport.c:191
 msgid "Service not available, closing transmission channel"
 msgstr ""
 
-#: camel/providers/smtp/camel-smtp-transport.c:191
+#: camel/providers/smtp/camel-smtp-transport.c:193
 msgid "Requested mail action okay, completed"
 msgstr ""
 
-#: camel/providers/smtp/camel-smtp-transport.c:193
+#: camel/providers/smtp/camel-smtp-transport.c:195
 msgid "User not local; will forward to <forward-path>"
 msgstr ""
 
-#: camel/providers/smtp/camel-smtp-transport.c:195
+#: camel/providers/smtp/camel-smtp-transport.c:197
 msgid "Requested mail action not taken: mailbox unavailable"
 msgstr ""
 
-#: camel/providers/smtp/camel-smtp-transport.c:197
+#: camel/providers/smtp/camel-smtp-transport.c:199
 msgid "Requested action not taken: mailbox unavailable"
 msgstr ""
 
-#: camel/providers/smtp/camel-smtp-transport.c:199
+#: camel/providers/smtp/camel-smtp-transport.c:201
 msgid "Requested action aborted: error in processing"
 msgstr ""
 
-#: camel/providers/smtp/camel-smtp-transport.c:201
+#: camel/providers/smtp/camel-smtp-transport.c:203
 msgid "User not local; please try <forward-path>"
 msgstr ""
 
-#: camel/providers/smtp/camel-smtp-transport.c:203
+#: camel/providers/smtp/camel-smtp-transport.c:205
 msgid "Requested action not taken: insufficient system storage"
 msgstr ""
 
-#: camel/providers/smtp/camel-smtp-transport.c:205
+#: camel/providers/smtp/camel-smtp-transport.c:207
 msgid "Requested mail action aborted: exceeded storage allocation"
 msgstr ""
 
-#: camel/providers/smtp/camel-smtp-transport.c:207
+#: camel/providers/smtp/camel-smtp-transport.c:209
 msgid "Requested action not taken: mailbox name not allowed"
 msgstr ""
 
-#: camel/providers/smtp/camel-smtp-transport.c:209
+#: camel/providers/smtp/camel-smtp-transport.c:211
 msgid "Start mail input; end with <CRLF>.<CRLF>"
 msgstr ""
 
-#: camel/providers/smtp/camel-smtp-transport.c:211
+#: camel/providers/smtp/camel-smtp-transport.c:213
 msgid "Transaction failed"
 msgstr ""
 
-#: camel/providers/smtp/camel-smtp-transport.c:215
+#: camel/providers/smtp/camel-smtp-transport.c:217
 #, fuzzy
 msgid "A password transition is needed"
 msgstr "No s'ha indicat cap contrasenya."
 
-#: camel/providers/smtp/camel-smtp-transport.c:217
+#: camel/providers/smtp/camel-smtp-transport.c:219
 msgid "Authentication mechanism is too weak"
 msgstr ""
 
-#: camel/providers/smtp/camel-smtp-transport.c:219
+#: camel/providers/smtp/camel-smtp-transport.c:221
 #, fuzzy
 msgid "Encryption required for requested authentication mechanism"
 msgstr ""
 "No es pot connectar al servidor POP.\n"
 "No hi ha suport per al mecanisme d'autenticació sol·licitat."
 
-#: camel/providers/smtp/camel-smtp-transport.c:221
+#: camel/providers/smtp/camel-smtp-transport.c:223
 #, fuzzy
 msgid "Temporary authentication failure"
 msgstr "Autenticació:"
 
-#: camel/providers/smtp/camel-smtp-transport.c:223
+#: camel/providers/smtp/camel-smtp-transport.c:225
 #, fuzzy
 msgid "Authentication required"
 msgstr "Autenticació:"
 
-#: camel/providers/smtp/camel-smtp-transport.c:297
+#: camel/providers/smtp/camel-smtp-transport.c:299
 #, fuzzy
 msgid "Welcome response error"
 msgstr "Error desconegut: %s"
 
-#: camel/providers/smtp/camel-smtp-transport.c:341
-#: camel/providers/smtp/camel-smtp-transport.c:380
+#: camel/providers/smtp/camel-smtp-transport.c:343
+#: camel/providers/smtp/camel-smtp-transport.c:382
 #, fuzzy, c-format
 msgid "Failed to connect to SMTP server %s in secure mode: %s"
 msgstr ""
 "No es pot connectar al servidor POP.\n"
 "Error en enviar el nom d'usuari: %s"
 
-#: camel/providers/smtp/camel-smtp-transport.c:342
+#: camel/providers/smtp/camel-smtp-transport.c:344
 msgid "server does not appear to support SSL"
 msgstr ""
 
-#: camel/providers/smtp/camel-smtp-transport.c:356
+#: camel/providers/smtp/camel-smtp-transport.c:358
 #, fuzzy, c-format
 msgid "STARTTLS request timed out: %s"
 msgstr "No s'ha pogut executar %s: no s'ha enviat el correu."
 
-#: camel/providers/smtp/camel-smtp-transport.c:371
+#: camel/providers/smtp/camel-smtp-transport.c:373
 #, fuzzy
 msgid "STARTTLS response error"
 msgstr "Error desconegut: %s"
 
-#: camel/providers/smtp/camel-smtp-transport.c:474
+#: camel/providers/smtp/camel-smtp-transport.c:476
 #, fuzzy, c-format
 msgid "SMTP server %s does not support requested authentication type %s."
 msgstr ""
 "No es pot connectar al servidor POP.\n"
 "No hi ha suport per al mecanisme d'autenticació sol·licitat."
 
-#: camel/providers/smtp/camel-smtp-transport.c:512
+#: camel/providers/smtp/camel-smtp-transport.c:514
 #, fuzzy, c-format
 msgid "%sPlease enter the SMTP password for %s@%s"
 msgstr "%sSi us plau, introduïu la contrasenya IMAP per a %s@%s"
 
-#: camel/providers/smtp/camel-smtp-transport.c:531
+#: camel/providers/smtp/camel-smtp-transport.c:533
 #, fuzzy, c-format
 msgid ""
 "Unable to authenticate to SMTP server.\n"
@@ -10867,95 +10862,95 @@ msgstr ""
 "%s\n"
 "\n"
 
-#: camel/providers/smtp/camel-smtp-transport.c:664
+#: camel/providers/smtp/camel-smtp-transport.c:666
 #, fuzzy, c-format
 msgid "SMTP server %s"
 msgstr "Servidor %s %s"
 
-#: camel/providers/smtp/camel-smtp-transport.c:666
+#: camel/providers/smtp/camel-smtp-transport.c:668
 #, fuzzy, c-format
 msgid "SMTP mail delivery via %s"
 msgstr "Lliurament de correu mitjançant el programa sendmail"
 
-#: camel/providers/smtp/camel-smtp-transport.c:684
+#: camel/providers/smtp/camel-smtp-transport.c:686
 msgid "Cannot send message: sender address not valid."
 msgstr ""
 
-#: camel/providers/smtp/camel-smtp-transport.c:689 mail/mail-ops.c:613
+#: camel/providers/smtp/camel-smtp-transport.c:691 mail/mail-ops.c:613
 #, fuzzy
 msgid "Sending message"
 msgstr "Envia aquest missatge"
 
-#: camel/providers/smtp/camel-smtp-transport.c:704
+#: camel/providers/smtp/camel-smtp-transport.c:706
 msgid "Cannot send message: no recipients defined."
 msgstr ""
 
-#: camel/providers/smtp/camel-smtp-transport.c:713
+#: camel/providers/smtp/camel-smtp-transport.c:715
 #, fuzzy
 msgid "Cannot send message: one or more invalid recipients"
 msgstr "No es pot afegir el missatge al fitxer mbox: %s"
 
-#: camel/providers/smtp/camel-smtp-transport.c:878
+#: camel/providers/smtp/camel-smtp-transport.c:880
 msgid "SMTP Greeting"
 msgstr ""
 
-#: camel/providers/smtp/camel-smtp-transport.c:924
+#: camel/providers/smtp/camel-smtp-transport.c:926
 #, fuzzy, c-format
 msgid "HELO request timed out: %s"
 msgstr "No s'ha pogut executar %s: no s'ha enviat el correu."
 
-#: camel/providers/smtp/camel-smtp-transport.c:946
+#: camel/providers/smtp/camel-smtp-transport.c:948
 #, fuzzy
 msgid "HELO response error"
 msgstr "Error desconegut: %s"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1012
+#: camel/providers/smtp/camel-smtp-transport.c:1014
 #, fuzzy
 msgid "SMTP Authentication"
 msgstr "Autenticació:"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1018
+#: camel/providers/smtp/camel-smtp-transport.c:1020
 msgid "Error creating SASL authentication object."
 msgstr ""
 
-#: camel/providers/smtp/camel-smtp-transport.c:1035
-#: camel/providers/smtp/camel-smtp-transport.c:1047
+#: camel/providers/smtp/camel-smtp-transport.c:1037
+#: camel/providers/smtp/camel-smtp-transport.c:1049
 #, fuzzy, c-format
 msgid "AUTH request timed out: %s"
 msgstr "No s'ha pogut executar %s: no s'ha enviat el correu."
 
-#: camel/providers/smtp/camel-smtp-transport.c:1056
+#: camel/providers/smtp/camel-smtp-transport.c:1058
 #, fuzzy
 msgid "AUTH request failed."
 msgstr "No s'ha pogut executar %s: no s'ha enviat el correu."
 
-#: camel/providers/smtp/camel-smtp-transport.c:1117
+#: camel/providers/smtp/camel-smtp-transport.c:1119
 #, fuzzy
 msgid "Bad authentication response from server.\n"
 msgstr "Resposta inesperada del servidor IMAP: %s"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1142
+#: camel/providers/smtp/camel-smtp-transport.c:1144
 #, c-format
 msgid "MAIL FROM request timed out: %s: mail not sent"
 msgstr ""
 
-#: camel/providers/smtp/camel-smtp-transport.c:1162
+#: camel/providers/smtp/camel-smtp-transport.c:1164
 #, fuzzy
 msgid "MAIL FROM response error"
 msgstr "Error desconegut: %s"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1186
+#: camel/providers/smtp/camel-smtp-transport.c:1188
 #, fuzzy, c-format
 msgid "RCPT TO request timed out: %s: mail not sent"
 msgstr ""
 "No s'ha pogut crear el conducte al sendmail: %s: no s'ha enviat el correu"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1208
+#: camel/providers/smtp/camel-smtp-transport.c:1210
 #, c-format
 msgid "RCPT TO <%s> failed"
 msgstr ""
 
-#: camel/providers/smtp/camel-smtp-transport.c:1247
+#: camel/providers/smtp/camel-smtp-transport.c:1249
 #, fuzzy, c-format
 msgid "DATA request timed out: %s: mail not sent"
 msgstr "No s'ha pogut executar %s: no s'ha enviat el correu."
@@ -10963,38 +10958,38 @@ msgstr "No s'ha pogut executar %s: no s'ha enviat el correu."
 #. we should have gotten instructions on how to use the DATA command:
 #. * 354 Enter mail, end with "." on a line by itself
 #.
-#: camel/providers/smtp/camel-smtp-transport.c:1267
+#: camel/providers/smtp/camel-smtp-transport.c:1269
 #, fuzzy
 msgid "DATA response error"
 msgstr "Error desconegut: %s"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1308
-#: camel/providers/smtp/camel-smtp-transport.c:1331
+#: camel/providers/smtp/camel-smtp-transport.c:1310
+#: camel/providers/smtp/camel-smtp-transport.c:1333
 #, fuzzy, c-format
 msgid "DATA send timed out: message termination: %s: mail not sent"
 msgstr "El sendmail ha acabat amb el senyal %s: no s'ha enviat el correu."
 
-#: camel/providers/smtp/camel-smtp-transport.c:1351
+#: camel/providers/smtp/camel-smtp-transport.c:1353
 #, fuzzy
 msgid "DATA termination response error"
 msgstr "Resposta inesperada del servidor IMAP: %s"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1374
+#: camel/providers/smtp/camel-smtp-transport.c:1376
 #, c-format
 msgid "RSET request timed out: %s"
 msgstr ""
 
-#: camel/providers/smtp/camel-smtp-transport.c:1394
+#: camel/providers/smtp/camel-smtp-transport.c:1396
 #, fuzzy
 msgid "RSET response error"
 msgstr "Error desconegut: %s"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1417
+#: camel/providers/smtp/camel-smtp-transport.c:1419
 #, fuzzy, c-format
 msgid "QUIT request timed out: %s"
 msgstr "No s'ha pogut executar %s: no s'ha enviat el correu."
 
-#: camel/providers/smtp/camel-smtp-transport.c:1437
+#: camel/providers/smtp/camel-smtp-transport.c:1439
 #, fuzzy
 msgid "QUIT response error"
 msgstr "Error desconegut: %s"
@@ -11245,18 +11240,18 @@ msgstr "Fitxer de signatura:"
 msgid "Autogenerated"
 msgstr ""
 
-#: composer/e-msg-composer.c:2234 composer/e-msg-composer.c:2873
-#: composer/e-msg-composer.c:2874
+#: composer/e-msg-composer.c:2233 composer/e-msg-composer.c:2872
+#: composer/e-msg-composer.c:2873
 msgid "Compose a message"
 msgstr "Redacta un missatge"
 
-#: composer/e-msg-composer.c:2905
+#: composer/e-msg-composer.c:2904
 msgid ""
 "Could not create composer window:\n"
 "Unable to activate address selector control."
 msgstr ""
 
-#: composer/e-msg-composer.c:2931
+#: composer/e-msg-composer.c:2930
 #, fuzzy
 msgid ""
 "Could not create composer window:\n"
@@ -11265,14 +11260,14 @@ msgid ""
 "of gtkhtml and libgtkhtml installed.\n"
 msgstr "No s'ha pogut crear la finestra del redactor."
 
-#: composer/e-msg-composer.c:2991
+#: composer/e-msg-composer.c:2990
 #, fuzzy
 msgid ""
 "Could not create composer window:\n"
 "Unable to activate HTML editor component."
 msgstr "No s'ha pogut crear la finestra del redactor."
 
-#: composer/e-msg-composer.c:4005
+#: composer/e-msg-composer.c:4004
 msgid ""
 "<b>(The composer contains a non-text message body, which cannot be edited.)"
 "<b>"
@@ -14209,7 +14204,7 @@ msgstr "S'està escrivint el missatge %d de %d"
 msgid "Failed on message %d of %d"
 msgstr "S'està marcant el missatge %d de %d"
 
-#: mail/mail-ops.c:750 mail/mail-send-recv.c:569
+#: mail/mail-ops.c:750 mail/mail-send-recv.c:571
 #, fuzzy
 msgid "Complete."
 msgstr "% comp_let:"
@@ -14345,25 +14340,25 @@ msgstr "_Edita el missatge"
 msgid "Find in Message"
 msgstr "_Edita el missatge"
 
-#: mail/mail-search.c:285
+#: mail/mail-search.c:287
 msgid "Search"
 msgstr "Cerca"
 
-#: mail/mail-search.c:311
+#: mail/mail-search.c:314
 msgid "Case Sensitive"
 msgstr ""
 
-#: mail/mail-search.c:313
+#: mail/mail-search.c:316
 #, fuzzy
 msgid "Search Forward"
 msgstr "Reenvia"
 
-#: mail/mail-search.c:333
+#: mail/mail-search.c:336
 #, fuzzy
 msgid "Find:"
 msgstr "Cerca"
 
-#: mail/mail-search.c:336
+#: mail/mail-search.c:340
 #, fuzzy
 msgid "Matches:"
 msgstr "Camí:"
@@ -14398,12 +14393,12 @@ msgstr "Sendmail"
 msgid "Cancel All"
 msgstr "Cancel·lat"
 
-#: mail/mail-send-recv.c:378
+#: mail/mail-send-recv.c:380
 #, fuzzy
 msgid "Updating..."
 msgstr "_Paràmetres"
 
-#: mail/mail-send-recv.c:379 mail/mail-send-recv.c:434
+#: mail/mail-send-recv.c:381 mail/mail-send-recv.c:436
 #, fuzzy
 msgid "Waiting..."
 msgstr "_Paràmetres"
@@ -14423,12 +14418,12 @@ msgstr "Si us plau, introduïu la contrasenya NNTP per a %s@%s"
 msgid "Enter Password"
 msgstr "Si us plau, introduïu la contrasenya NNTP per a %s@%s"
 
-#: mail/mail-session.c:280
+#: mail/mail-session.c:282
 #, fuzzy
 msgid "_Remember this password"
 msgstr "Desa com a VCard"
 
-#: mail/mail-session.c:281
+#: mail/mail-session.c:283
 msgid "_Remember this password for the remainder of this session"
 msgstr ""
 
@@ -29946,11 +29941,11 @@ msgstr "Cerca personalitzada"
 
 #: widgets/menus/gal-view-menus.c:359
 #, fuzzy
-msgid "Save Custom View"
+msgid "Save Custom View..."
 msgstr "Cerca personalitzada"
 
 #: widgets/menus/gal-view-menus.c:372
-msgid "Define Views"
+msgid "Define Views..."
 msgstr ""
 
 #. Translators: These are the first characters of each day of the
@@ -30170,6 +30165,9 @@ msgstr "Conducte de l'agenda de l'Evolution"
 #, fuzzy
 msgid "Evolution Addressbook local file backend"
 msgstr "Conducte de la llibreta d'adreces de l'Evolution"
+
+#~ msgid "_Contacts..."
+#~ msgstr "_Contactes..."
 
 #, fuzzy
 #~ msgid "Factory to import LDIF files into Evolution."

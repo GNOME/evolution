@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution VERSION\n"
-"POT-Creation-Date: 2003-04-11 03:35+0200\n"
+"POT-Creation-Date: 2003-04-11 14:30-0400\n"
 "PO-Revision-Date: 2003-04-11 08:41+0200\n"
 "Last-Translator: Miloslav Trmac <mitr@volny.cz>\n"
 "Language-Team: Czech <cs@li.org>\n"
@@ -562,8 +562,6 @@ msgstr "Prohlížeč složek adresáře Evolution"
 
 #: addressbook/gui/component/addressbook-component.c:76
 #: addressbook/gui/component/addressbook-component.c:605
-#: calendar/gui/dialogs/comp-editor-util.c:309
-#: calendar/gui/dialogs/comp-editor-util.c:365
 #: importers/netscape-importer.c:1874 mail/importers/netscape-importer.c:1844
 #: shell/e-local-storage.c:178 shell/e-shortcuts.c:1087
 msgid "Contacts"
@@ -1390,7 +1388,7 @@ msgid "D_epartment:"
 msgstr "O_ddělení:"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:12
-#: calendar/gui/dialogs/task-editor.c:196
+#: calendar/gui/dialogs/task-editor.c:197
 msgid "Details"
 msgstr "Podrobnosti"
 
@@ -1446,7 +1444,7 @@ msgstr "Chce dostávat poštu v _HTML formátu"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:30
 #: calendar/gui/dialogs/alarm-page.glade.h:10
-#: calendar/gui/dialogs/meeting-page.c:700 calendar/gui/e-calendar-table.c:969
+#: calendar/gui/dialogs/meeting-page.c:707 calendar/gui/e-calendar-table.c:969
 #: calendar/gui/e-day-view.c:3723 calendar/gui/e-week-view.c:3579
 #: filter/filter.glade.h:15 mail/folder-browser.c:1783
 #: mail/mail-config.glade.h:148 shell/glade/e-folder-list.glade.h:2
@@ -3946,8 +3944,8 @@ msgstr "Probíhá"
 
 #: calendar/gui/calendar-model.c:751 calendar/gui/calendar-model.c:1177
 #: calendar/gui/dialogs/task-details-page.glade.h:4
-#: calendar/gui/e-calendar-table.c:468 calendar/gui/e-meeting-model.c:304
-#: calendar/gui/e-meeting-model.c:327 calendar/gui/print.c:2316
+#: calendar/gui/e-calendar-table.c:468 calendar/gui/e-meeting-model.c:296
+#: calendar/gui/e-meeting-model.c:319 calendar/gui/print.c:2316
 msgid "Completed"
 msgstr "Dokončeno"
 
@@ -3962,7 +3960,7 @@ msgstr ""
 "\"45.436845,125.862501\""
 
 #. An empty string is the same as 'None'.
-#: calendar/gui/calendar-model.c:1171 calendar/gui/dialogs/meeting-page.c:322
+#: calendar/gui/calendar-model.c:1171 calendar/gui/dialogs/meeting-page.c:325
 #: calendar/gui/dialogs/meeting-page.glade.h:1 composer/e-msg-composer.c:2054
 #: mail/folder-browser.c:1745 mail/mail-account-gui.c:1253
 #: mail/mail-account-gui.c:1685 mail/mail-accounts.c:442
@@ -3981,14 +3979,14 @@ msgstr "Opakovaný"
 msgid "Assigned"
 msgstr "Přiřazeno"
 
-#: calendar/gui/calendar-model.c:1714 calendar/gui/e-meeting-model.c:276
-#: calendar/gui/e-meeting-model.c:286 calendar/gui/e-meeting-model.c:544
-#: calendar/gui/e-meeting-model.c:838
+#: calendar/gui/calendar-model.c:1714 calendar/gui/e-meeting-model.c:268
+#: calendar/gui/e-meeting-model.c:278 calendar/gui/e-meeting-model.c:536
+#: calendar/gui/e-meeting-model.c:835
 msgid "Yes"
 msgstr "Ano"
 
-#: calendar/gui/calendar-model.c:1714 calendar/gui/e-meeting-model.c:288
-#: calendar/gui/e-meeting-model.c:839
+#: calendar/gui/calendar-model.c:1714 calendar/gui/e-meeting-model.c:280
+#: calendar/gui/e-meeting-model.c:836
 msgid "No"
 msgstr "Ne"
 
@@ -4220,7 +4218,7 @@ msgid "Days"
 msgstr "den/dny/dní"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:12
-#: calendar/gui/dialogs/recurrence-page.c:1037
+#: calendar/gui/dialogs/recurrence-page.c:1040
 #: calendar/gui/e-itip-control.c:675
 msgid "Friday"
 msgstr "pátek"
@@ -4234,7 +4232,7 @@ msgid "Minutes"
 msgstr "minut(-u,-y)"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:15
-#: calendar/gui/dialogs/recurrence-page.c:1033
+#: calendar/gui/dialogs/recurrence-page.c:1036
 #: calendar/gui/e-itip-control.c:671
 msgid "Monday"
 msgstr "pondělí"
@@ -4244,7 +4242,7 @@ msgid "S_un"
 msgstr "_ne"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:17
-#: calendar/gui/dialogs/recurrence-page.c:1038
+#: calendar/gui/dialogs/recurrence-page.c:1041
 #: calendar/gui/e-itip-control.c:676
 msgid "Saturday"
 msgstr "sobota"
@@ -4258,7 +4256,7 @@ msgid "Show week _numbers in date navigator"
 msgstr "Ukazovat čísla _týdnů v měsíčním přehledu"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:20
-#: calendar/gui/dialogs/recurrence-page.c:1039
+#: calendar/gui/dialogs/recurrence-page.c:1042
 #: calendar/gui/e-itip-control.c:670
 msgid "Sunday"
 msgstr "neděle"
@@ -4276,7 +4274,7 @@ msgid "Task List"
 msgstr "Seznam úkolů"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:24
-#: calendar/gui/dialogs/recurrence-page.c:1036
+#: calendar/gui/dialogs/recurrence-page.c:1039
 #: calendar/gui/e-itip-control.c:674
 msgid "Thursday"
 msgstr "čtvrtek"
@@ -4294,7 +4292,7 @@ msgid "Time format:"
 msgstr "Formát času:"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:28
-#: calendar/gui/dialogs/recurrence-page.c:1034
+#: calendar/gui/dialogs/recurrence-page.c:1037
 #: calendar/gui/e-itip-control.c:672
 msgid "Tuesday"
 msgstr "úterý"
@@ -4304,7 +4302,7 @@ msgid "W_eek starts:"
 msgstr "_Týden začíná:"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:30
-#: calendar/gui/dialogs/recurrence-page.c:1035
+#: calendar/gui/dialogs/recurrence-page.c:1038
 #: calendar/gui/e-itip-control.c:673
 msgid "Wednesday"
 msgstr "středa"
@@ -4527,7 +4525,7 @@ msgid "No summary"
 msgstr "Není shrnutí"
 
 #: calendar/gui/dialogs/comp-editor.c:1230
-#: calendar/gui/e-calendar-table.c:1039 calendar/gui/e-day-view.c:3941
+#: calendar/gui/e-calendar-table.c:1040 calendar/gui/e-day-view.c:3941
 #: calendar/gui/e-week-view.c:3780 composer/e-msg-composer.c:1162
 msgid "Save as..."
 msgstr "Uložit jako..."
@@ -4621,19 +4619,19 @@ msgstr "Plánování"
 msgid "Meeting"
 msgstr "Schůzka"
 
-#: calendar/gui/dialogs/event-page.c:600 calendar/gui/dialogs/task-page.c:554
+#: calendar/gui/dialogs/event-page.c:603 calendar/gui/dialogs/task-page.c:507
 msgid "Start date is wrong"
 msgstr "Počáteční datum je chybné"
 
-#: calendar/gui/dialogs/event-page.c:610
+#: calendar/gui/dialogs/event-page.c:613
 msgid "End date is wrong"
 msgstr "Konečné datum je chybné"
 
-#: calendar/gui/dialogs/event-page.c:633
+#: calendar/gui/dialogs/event-page.c:636
 msgid "Start time is wrong"
 msgstr "Počáteční čas je chybný"
 
-#: calendar/gui/dialogs/event-page.c:640
+#: calendar/gui/dialogs/event-page.c:643
 msgid "End time is wrong"
 msgstr "Konečný čas je chybný"
 
@@ -4697,23 +4695,23 @@ msgstr "_Konec:"
 msgid "_Start time:"
 msgstr "_Začátek:"
 
-#: calendar/gui/dialogs/meeting-page.c:425
+#: calendar/gui/dialogs/meeting-page.c:432
 msgid "The organizer selected no longer has an account."
 msgstr "Vybraný organizátor už nemá účet."
 
-#: calendar/gui/dialogs/meeting-page.c:431
+#: calendar/gui/dialogs/meeting-page.c:438
 msgid "An organizer is required."
 msgstr "Je požadován organizátor."
 
-#: calendar/gui/dialogs/meeting-page.c:446
+#: calendar/gui/dialogs/meeting-page.c:453
 msgid "At least one attendee is required."
 msgstr "Je požadován alespoň jeden účastník."
 
-#: calendar/gui/dialogs/meeting-page.c:616
+#: calendar/gui/dialogs/meeting-page.c:623
 msgid "That person is already attending the meeting!"
 msgstr "Tato osoba se již schůzky účastní!"
 
-#: calendar/gui/dialogs/meeting-page.c:696
+#: calendar/gui/dialogs/meeting-page.c:703
 msgid "_Delegate To..."
 msgstr "_Postoupit komu..."
 
@@ -4804,52 +4802,52 @@ msgstr "Tuto a budoucí instance"
 msgid "All Instances"
 msgstr "Všechny instance"
 
-#: calendar/gui/dialogs/recurrence-page.c:532
+#: calendar/gui/dialogs/recurrence-page.c:535
 msgid "This appointment contains recurrences that Evolution cannot edit."
 msgstr ""
 "Tato událost obsahuje taková opakování, která Evolution nemůže editovat."
 
-#: calendar/gui/dialogs/recurrence-page.c:806
+#: calendar/gui/dialogs/recurrence-page.c:809
 msgid "Recurrence date is invalid"
 msgstr "Datum opakování je neplatné"
 
-#: calendar/gui/dialogs/recurrence-page.c:916
+#: calendar/gui/dialogs/recurrence-page.c:919
 msgid "on"
 msgstr "zapnuto"
 
-#: calendar/gui/dialogs/recurrence-page.c:977
+#: calendar/gui/dialogs/recurrence-page.c:980
 msgid "first"
 msgstr "1."
 
-#: calendar/gui/dialogs/recurrence-page.c:978
+#: calendar/gui/dialogs/recurrence-page.c:981
 msgid "second"
 msgstr "2."
 
-#: calendar/gui/dialogs/recurrence-page.c:979
+#: calendar/gui/dialogs/recurrence-page.c:982
 msgid "third"
 msgstr "3."
 
-#: calendar/gui/dialogs/recurrence-page.c:980
+#: calendar/gui/dialogs/recurrence-page.c:983
 msgid "fourth"
 msgstr "4."
 
-#: calendar/gui/dialogs/recurrence-page.c:981
+#: calendar/gui/dialogs/recurrence-page.c:984
 msgid "last"
 msgstr "poslední"
 
-#: calendar/gui/dialogs/recurrence-page.c:1004
+#: calendar/gui/dialogs/recurrence-page.c:1007
 msgid "Other Date"
 msgstr "Další data"
 
-#: calendar/gui/dialogs/recurrence-page.c:1032
+#: calendar/gui/dialogs/recurrence-page.c:1035
 msgid "day"
 msgstr "den"
 
-#: calendar/gui/dialogs/recurrence-page.c:1169
+#: calendar/gui/dialogs/recurrence-page.c:1172
 msgid "on the"
 msgstr "_"
 
-#: calendar/gui/dialogs/recurrence-page.c:1354
+#: calendar/gui/dialogs/recurrence-page.c:1357
 msgid "occurrences"
 msgstr "opakování"
 
@@ -4929,7 +4927,7 @@ msgstr "Byla vytvořena informace o předání úkolu. Poslat ji?"
 msgid "The task information has changed. Send an updated version?"
 msgstr "Informace o úkolu se změnila. Poslat aktualizovanou verzi?"
 
-#: calendar/gui/dialogs/task-details-page.c:397
+#: calendar/gui/dialogs/task-details-page.c:400
 msgid "Completed date is wrong"
 msgstr "Čas dokončení je chybný"
 
@@ -4960,17 +4958,17 @@ msgstr "_Naléhavost:"
 msgid "_Status:"
 msgstr "_Stav:"
 
-#: calendar/gui/dialogs/task-editor.c:189
+#: calendar/gui/dialogs/task-editor.c:190
 msgid "Basic"
 msgstr "Základní"
 
-#: calendar/gui/dialogs/task-editor.c:203
-#: calendar/gui/dialogs/task-editor.c:251
-#: calendar/gui/dialogs/task-editor.c:385
+#: calendar/gui/dialogs/task-editor.c:204
+#: calendar/gui/dialogs/task-editor.c:252
+#: calendar/gui/dialogs/task-editor.c:386
 msgid "Assignment"
 msgstr "Předání"
 
-#: calendar/gui/dialogs/task-page.c:527
+#: calendar/gui/dialogs/task-page.c:480
 msgid "Due date is wrong"
 msgstr "Datum splnění je chybné"
 
@@ -4985,10 +4983,6 @@ msgid "Sta_rt Date:"
 msgstr "_Začátek:"
 
 #: calendar/gui/dialogs/task-page.glade.h:10
-msgid "_Contacts..."
-msgstr "_Kontakty..."
-
-#: calendar/gui/dialogs/task-page.glade.h:11
 msgid "_Due Date:"
 msgstr "_Termín dokončení:"
 
@@ -5086,46 +5080,57 @@ msgid "%s for an unknown trigger type"
 msgstr "%s pro neznámý typ spouštění"
 
 #: calendar/gui/e-calendar-table.c:415
+#, c-format
 msgid "0%"
 msgstr "0%"
 
 #: calendar/gui/e-calendar-table.c:416
+#, c-format
 msgid "10%"
 msgstr "10%"
 
 #: calendar/gui/e-calendar-table.c:417
+#, c-format
 msgid "20%"
 msgstr "20%"
 
 #: calendar/gui/e-calendar-table.c:418
+#, c-format
 msgid "30%"
 msgstr "30%"
 
 #: calendar/gui/e-calendar-table.c:419
+#, c-format
 msgid "40%"
 msgstr "40%"
 
 #: calendar/gui/e-calendar-table.c:420
+#, c-format
 msgid "50%"
 msgstr "50%"
 
 #: calendar/gui/e-calendar-table.c:421
+#, c-format
 msgid "60%"
 msgstr "60%"
 
 #: calendar/gui/e-calendar-table.c:422
+#, c-format
 msgid "70%"
 msgstr "70%"
 
 #: calendar/gui/e-calendar-table.c:423
+#, c-format
 msgid "80%"
 msgstr "80%"
 
 #: calendar/gui/e-calendar-table.c:424
+#, c-format
 msgid "90%"
 msgstr "90%"
 
 #: calendar/gui/e-calendar-table.c:425
+#, c-format
 msgid "100%"
 msgstr "100%"
 
@@ -5193,12 +5198,12 @@ msgstr "Označit _vybrané úkoly jako dokončené"
 msgid "_Delete Selected Tasks"
 msgstr "_Smazat vybrané úkoly"
 
-#: calendar/gui/e-calendar-table.c:1244 calendar/gui/e-day-view.c:7635
+#: calendar/gui/e-calendar-table.c:1245 calendar/gui/e-day-view.c:7635
 #: calendar/gui/e-week-view.c:4269
 msgid "Updating objects"
 msgstr "Aktualizuji objekty"
 
-#: calendar/gui/e-calendar-table.c:1327
+#: calendar/gui/e-calendar-table.c:1328
 #: calendar/gui/e-calendar-table.etspec.h:6
 msgid "Click to add a task"
 msgstr "Úkol přidáte kliknutím zde"
@@ -5487,8 +5492,8 @@ msgstr "Místo:"
 msgid "Status:"
 msgstr "Stav"
 
-#: calendar/gui/e-itip-control.c:1078 calendar/gui/e-meeting-model.c:296
-#: calendar/gui/e-meeting-model.c:319 calendar/gui/e-meeting-model.c:852
+#: calendar/gui/e-itip-control.c:1078 calendar/gui/e-meeting-model.c:288
+#: calendar/gui/e-meeting-model.c:311 calendar/gui/e-meeting-model.c:849
 #: calendar/gui/itip-utils.c:414
 msgid "Accepted"
 msgstr "Akceptováno"
@@ -5497,16 +5502,16 @@ msgstr "Akceptováno"
 msgid "Tentatively Accepted"
 msgstr "Předběžně akceptováno"
 
-#: calendar/gui/e-itip-control.c:1086 calendar/gui/e-meeting-model.c:298
-#: calendar/gui/e-meeting-model.c:321 calendar/gui/e-meeting-model.c:853
+#: calendar/gui/e-itip-control.c:1086 calendar/gui/e-meeting-model.c:290
+#: calendar/gui/e-meeting-model.c:313 calendar/gui/e-meeting-model.c:850
 #: calendar/gui/itip-utils.c:420 calendar/gui/itip-utils.c:446
 msgid "Declined"
 msgstr "Zamítnuto"
 
 #: calendar/gui/e-itip-control.c:1090 calendar/gui/e-itip-control.c:1298
-#: calendar/gui/e-meeting-model.c:232 calendar/gui/e-meeting-model.c:267
-#: calendar/gui/e-meeting-model.c:332 calendar/gui/e-meeting-model.c:810
-#: calendar/gui/e-meeting-model.c:826 camel/camel-gpg-context.c:1567
+#: calendar/gui/e-meeting-model.c:224 calendar/gui/e-meeting-model.c:259
+#: calendar/gui/e-meeting-model.c:324 calendar/gui/e-meeting-model.c:807
+#: calendar/gui/e-meeting-model.c:823 camel/camel-gpg-context.c:1567
 #: camel/camel-gpg-context.c:1618 camel/camel-tcp-stream-openssl.c:634
 #: camel/providers/smtp/camel-smtp-transport.c:173
 #: camel/providers/smtp/camel-smtp-transport.c:228 mail/folder-browser.c:345
@@ -5847,91 +5852,91 @@ msgstr "datum ukončení"
 msgid "date-start"
 msgstr "datum začátku"
 
-#: calendar/gui/e-meeting-model.c:80
+#: calendar/gui/e-meeting-model.c:81
 msgid "Chair Persons"
 msgstr "Předsedové"
 
-#: calendar/gui/e-meeting-model.c:81 calendar/gui/e-meeting-model.c:1693
+#: calendar/gui/e-meeting-model.c:82 calendar/gui/e-meeting-model.c:1697
 msgid "Required Participants"
 msgstr "Vyžadovaní účastníci"
 
-#: calendar/gui/e-meeting-model.c:82
+#: calendar/gui/e-meeting-model.c:83
 msgid "Optional Participants"
 msgstr "Nepovinní účastníci"
 
-#: calendar/gui/e-meeting-model.c:83
+#: calendar/gui/e-meeting-model.c:84
 msgid "Resources"
 msgstr "Zdroje"
 
-#: calendar/gui/e-meeting-model.c:207 calendar/gui/e-meeting-model.c:224
-#: calendar/gui/e-meeting-model.c:540 calendar/gui/e-meeting-model.c:806
+#: calendar/gui/e-meeting-model.c:199 calendar/gui/e-meeting-model.c:216
+#: calendar/gui/e-meeting-model.c:532 calendar/gui/e-meeting-model.c:803
 msgid "Individual"
 msgstr "Individuálně"
 
-#: calendar/gui/e-meeting-model.c:209 calendar/gui/e-meeting-model.c:226
-#: calendar/gui/e-meeting-model.c:807
+#: calendar/gui/e-meeting-model.c:201 calendar/gui/e-meeting-model.c:218
+#: calendar/gui/e-meeting-model.c:804
 msgid "Group"
 msgstr "Skupina"
 
-#: calendar/gui/e-meeting-model.c:211 calendar/gui/e-meeting-model.c:228
-#: calendar/gui/e-meeting-model.c:808
+#: calendar/gui/e-meeting-model.c:203 calendar/gui/e-meeting-model.c:220
+#: calendar/gui/e-meeting-model.c:805
 msgid "Resource"
 msgstr "Zdroj"
 
-#: calendar/gui/e-meeting-model.c:213 calendar/gui/e-meeting-model.c:230
-#: calendar/gui/e-meeting-model.c:809
+#: calendar/gui/e-meeting-model.c:205 calendar/gui/e-meeting-model.c:222
+#: calendar/gui/e-meeting-model.c:806
 msgid "Room"
 msgstr "Místnost"
 
-#: calendar/gui/e-meeting-model.c:242 calendar/gui/e-meeting-model.c:259
-#: calendar/gui/e-meeting-model.c:822
+#: calendar/gui/e-meeting-model.c:234 calendar/gui/e-meeting-model.c:251
+#: calendar/gui/e-meeting-model.c:819
 msgid "Chair"
 msgstr "Předseda"
 
-#: calendar/gui/e-meeting-model.c:244 calendar/gui/e-meeting-model.c:261
-#: calendar/gui/e-meeting-model.c:542 calendar/gui/e-meeting-model.c:823
+#: calendar/gui/e-meeting-model.c:236 calendar/gui/e-meeting-model.c:253
+#: calendar/gui/e-meeting-model.c:534 calendar/gui/e-meeting-model.c:820
 msgid "Required Participant"
 msgstr "Vyžadovaný účastník"
 
-#: calendar/gui/e-meeting-model.c:246 calendar/gui/e-meeting-model.c:263
-#: calendar/gui/e-meeting-model.c:824
+#: calendar/gui/e-meeting-model.c:238 calendar/gui/e-meeting-model.c:255
+#: calendar/gui/e-meeting-model.c:821
 msgid "Optional Participant"
 msgstr "Nepovinný účastník"
 
-#: calendar/gui/e-meeting-model.c:248 calendar/gui/e-meeting-model.c:265
-#: calendar/gui/e-meeting-model.c:825
+#: calendar/gui/e-meeting-model.c:240 calendar/gui/e-meeting-model.c:257
+#: calendar/gui/e-meeting-model.c:822
 msgid "Non-Participant"
 msgstr "Bez účasti"
 
-#: calendar/gui/e-meeting-model.c:294 calendar/gui/e-meeting-model.c:317
-#: calendar/gui/e-meeting-model.c:550 calendar/gui/e-meeting-model.c:851
+#: calendar/gui/e-meeting-model.c:286 calendar/gui/e-meeting-model.c:309
+#: calendar/gui/e-meeting-model.c:542 calendar/gui/e-meeting-model.c:848
 msgid "Needs Action"
 msgstr "Potřebné akce"
 
-#: calendar/gui/e-meeting-model.c:300 calendar/gui/e-meeting-model.c:323
-#: calendar/gui/e-meeting-model.c:854 calendar/gui/e-meeting-time-sel.c:406
+#: calendar/gui/e-meeting-model.c:292 calendar/gui/e-meeting-model.c:315
+#: calendar/gui/e-meeting-model.c:851 calendar/gui/e-meeting-time-sel.c:406
 msgid "Tentative"
 msgstr "Předběžný"
 
-#: calendar/gui/e-meeting-model.c:302 calendar/gui/e-meeting-model.c:325
-#: calendar/gui/e-meeting-model.c:855
+#: calendar/gui/e-meeting-model.c:294 calendar/gui/e-meeting-model.c:317
+#: calendar/gui/e-meeting-model.c:852
 msgid "Delegated"
 msgstr "Delegováno"
 
-#: calendar/gui/e-meeting-model.c:306 calendar/gui/e-meeting-model.c:329
+#: calendar/gui/e-meeting-model.c:298 calendar/gui/e-meeting-model.c:321
 msgid "In Process"
 msgstr "Probíhá"
 
 #. This is a strftime() format string %A = full weekday name,
 #. %B = full month name, %d = month day, %Y = full year.
-#: calendar/gui/e-meeting-time-sel-item.c:452
+#: calendar/gui/e-meeting-time-sel-item.c:458
 #: calendar/gui/e-meeting-time-sel.c:2114
 msgid "%A, %B %d, %Y"
 msgstr "%A, %B %d, %Y"
 
 #. This is a strftime() format string %a = abbreviated weekday
 #. name, %m = month number, %d = month day, %Y = full year.
-#: calendar/gui/e-meeting-time-sel-item.c:456
+#: calendar/gui/e-meeting-time-sel-item.c:462
 #: calendar/gui/e-meeting-time-sel.c:2147 e-util/e-time-utils.c:189
 #: e-util/e-time-utils.c:282 e-util/e-time-utils.c:370
 msgid "%a %m/%d/%Y"
@@ -5939,7 +5944,7 @@ msgstr "%a %d/%m/%Y"
 
 #. This is a strftime() format string %m = month number,
 #. %d = month day, %Y = full year.
-#: calendar/gui/e-meeting-time-sel-item.c:460 e-util/e-time-utils.c:224
+#: calendar/gui/e-meeting-time-sel-item.c:466 e-util/e-time-utils.c:224
 #: e-util/e-time-utils.c:285 widgets/misc/e-dateedit.c:1608
 msgid "%m/%d/%Y"
 msgstr "%d/%m/%Y"
@@ -13486,11 +13491,11 @@ msgstr "Zadat heslo pro %s"
 msgid "Enter Password"
 msgstr "Zadat heslo"
 
-#: mail/mail-session.c:280
+#: mail/mail-session.c:282
 msgid "_Remember this password"
 msgstr "_Zapamatovat si toto heslo"
 
-#: mail/mail-session.c:281
+#: mail/mail-session.c:283
 msgid "_Remember this password for the remainder of this session"
 msgstr "_Zapamatovat si toto heslo pro zbytek tohoto sezení"
 
@@ -27858,6 +27863,9 @@ msgstr "Obsluha místního souboru kalendáře Evolution"
 #: wombat/GNOME_Evolution_WombatNOLDAP.server.in.in.h:1
 msgid "Evolution Addressbook local file backend"
 msgstr "Obsluha místního souboru adresáře Evolution"
+
+#~ msgid "_Contacts..."
+#~ msgstr "_Kontakty..."
 
 #~ msgid ""
 #~ "Evolution could not create directory\n"

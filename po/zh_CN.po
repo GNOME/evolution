@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
-"POT-Creation-Date: 2003-04-09 14:07-0400\n"
+"POT-Creation-Date: 2003-04-11 14:30-0400\n"
 "PO-Revision-Date: 2002-12-21 17:44+0800\n"
 "Last-Translator: Wang Li <charles@linux.net.cn>\n"
 "Language-Team: zh_CN <i18n-translation@lists.linux.net.cn>\n"
@@ -1176,8 +1176,6 @@ msgstr "Evolution 地址簿小卡片显示器"
 # shell/e-shortcuts.c:1061
 #: addressbook/gui/component/addressbook-component.c:76
 #: addressbook/gui/component/addressbook-component.c:605
-#: calendar/gui/dialogs/comp-editor-util.c:309
-#: calendar/gui/dialogs/comp-editor-util.c:365
 #: importers/netscape-importer.c:1874 mail/importers/netscape-importer.c:1844
 #: shell/e-local-storage.c:178 shell/e-shortcuts.c:1087
 msgid "Contacts"
@@ -2375,7 +2373,7 @@ msgstr "部门(_E)："
 # addressbook/gui/contact-editor/contact-editor.glade.h:12
 # calendar/gui/dialogs/task-editor.c:183
 #: addressbook/gui/contact-editor/contact-editor.glade.h:12
-#: calendar/gui/dialogs/task-editor.c:196
+#: calendar/gui/dialogs/task-editor.c:197
 msgid "Details"
 msgstr "细节"
 
@@ -2479,7 +2477,7 @@ msgstr "愿意接收 HTML 邮件(_H)"
 # ui/evolution-tasks.xml.h:18 ui/evolution.xml.h:35
 #: addressbook/gui/contact-editor/contact-editor.glade.h:30
 #: calendar/gui/dialogs/alarm-page.glade.h:10
-#: calendar/gui/dialogs/meeting-page.c:700 calendar/gui/e-calendar-table.c:969
+#: calendar/gui/dialogs/meeting-page.c:707 calendar/gui/e-calendar-table.c:969
 #: calendar/gui/e-day-view.c:3723 calendar/gui/e-week-view.c:3579
 #: filter/filter.glade.h:15 mail/folder-browser.c:1783
 #: mail/mail-config.glade.h:148 shell/glade/e-folder-list.glade.h:2
@@ -6513,7 +6511,7 @@ msgstr "编辑约会(_E)"
 # calendar/gui/alarm-notify/alarm-queue.c:670
 # calendar/gui/alarm-notify/alarm-queue.c:670
 # calendar/gui/alarm-notify/alarm-queue.c:675
-#: calendar/gui/alarm-notify/alarm-queue.c:774
+#: calendar/gui/alarm-notify/alarm-queue.c:776
 msgid "No description available."
 msgstr "没有描述。"
 
@@ -6522,8 +6520,8 @@ msgstr "没有描述。"
 # calendar/gui/alarm-notify/alarm-queue.c:753
 # calendar/gui/tasks-control.c:426 mail/mail-callbacks.c:2283
 # widgets/misc/e-messagebox.c:159
-#: calendar/gui/alarm-notify/alarm-queue.c:845
-#: calendar/gui/alarm-notify/alarm-queue.c:869
+#: calendar/gui/alarm-notify/alarm-queue.c:847
+#: calendar/gui/alarm-notify/alarm-queue.c:871
 #: calendar/gui/tasks-control.c:463 widgets/misc/e-messagebox.c:161
 msgid "Warning"
 msgstr "警告"
@@ -6531,7 +6529,7 @@ msgstr "警告"
 # calendar/gui/alarm-notify/alarm-queue.c:730
 # calendar/gui/alarm-notify/alarm-queue.c:730
 # calendar/gui/alarm-notify/alarm-queue.c:735
-#: calendar/gui/alarm-notify/alarm-queue.c:849
+#: calendar/gui/alarm-notify/alarm-queue.c:851
 msgid ""
 "Evolution does not support calendar reminders with\n"
 "email notifications yet, but this reminder was\n"
@@ -6546,7 +6544,7 @@ msgstr ""
 # calendar/gui/alarm-notify/alarm-queue.c:781
 # calendar/gui/alarm-notify/alarm-queue.c:781
 # calendar/gui/alarm-notify/alarm-queue.c:758
-#: calendar/gui/alarm-notify/alarm-queue.c:875
+#: calendar/gui/alarm-notify/alarm-queue.c:877
 #, c-format
 msgid ""
 "An Evolution Calendar reminder is about to trigger. This reminder is "
@@ -6565,7 +6563,7 @@ msgstr ""
 # mail/mail-callbacks.c:2142
 # mail/mail-callbacks.c:2261
 # calendar/gui/alarm-notify/alarm-queue.c:772
-#: calendar/gui/alarm-notify/alarm-queue.c:889
+#: calendar/gui/alarm-notify/alarm-queue.c:891
 msgid "Do not ask me about this program again."
 msgstr "不要再次询问该问题。"
 
@@ -6978,8 +6976,8 @@ msgstr "正在进行中"
 # calendar/gui/e-meeting-model.c:352 calendar/gui/print.c:2252
 #: calendar/gui/calendar-model.c:751 calendar/gui/calendar-model.c:1177
 #: calendar/gui/dialogs/task-details-page.glade.h:4
-#: calendar/gui/e-calendar-table.c:468 calendar/gui/e-meeting-model.c:304
-#: calendar/gui/e-meeting-model.c:327 calendar/gui/print.c:2316
+#: calendar/gui/e-calendar-table.c:468 calendar/gui/e-meeting-model.c:296
+#: calendar/gui/e-meeting-model.c:319 calendar/gui/print.c:2316
 msgid "Completed"
 msgstr "已完成"
 
@@ -7018,7 +7016,7 @@ msgstr ""
 # widgets/misc/e-cell-date-edit.c:250 widgets/misc/e-dateedit.c:452
 # widgets/misc/e-dateedit.c:1488 widgets/misc/e-dateedit.c:1603
 #. An empty string is the same as 'None'.
-#: calendar/gui/calendar-model.c:1171 calendar/gui/dialogs/meeting-page.c:322
+#: calendar/gui/calendar-model.c:1171 calendar/gui/dialogs/meeting-page.c:325
 #: calendar/gui/dialogs/meeting-page.glade.h:1 composer/e-msg-composer.c:2054
 #: mail/folder-browser.c:1745 mail/mail-account-gui.c:1253
 #: mail/mail-account-gui.c:1685 mail/mail-accounts.c:442
@@ -7052,9 +7050,9 @@ msgstr "已分派"
 # calendar/gui/calendar-model.c:1721 calendar/gui/e-meeting-model.c:301
 # calendar/gui/e-meeting-model.c:311 calendar/gui/e-meeting-model.c:536
 # calendar/gui/e-meeting-model.c:810
-#: calendar/gui/calendar-model.c:1714 calendar/gui/e-meeting-model.c:276
-#: calendar/gui/e-meeting-model.c:286 calendar/gui/e-meeting-model.c:544
-#: calendar/gui/e-meeting-model.c:838
+#: calendar/gui/calendar-model.c:1714 calendar/gui/e-meeting-model.c:268
+#: calendar/gui/e-meeting-model.c:278 calendar/gui/e-meeting-model.c:536
+#: calendar/gui/e-meeting-model.c:835
 msgid "Yes"
 msgstr "是"
 
@@ -7064,8 +7062,8 @@ msgstr "是"
 # calendar/gui/e-meeting-model.c:811
 # calendar/gui/calendar-model.c:1721 calendar/gui/e-meeting-model.c:313
 # calendar/gui/e-meeting-model.c:811
-#: calendar/gui/calendar-model.c:1714 calendar/gui/e-meeting-model.c:288
-#: calendar/gui/e-meeting-model.c:839
+#: calendar/gui/calendar-model.c:1714 calendar/gui/e-meeting-model.c:280
+#: calendar/gui/e-meeting-model.c:836
 msgid "No"
 msgstr "否"
 
@@ -7493,7 +7491,7 @@ msgstr "天数"
 # calendar/gui/dialogs/cal-prefs-dialog.glade.h:12
 # calendar/gui/dialogs/recurrence-page.c:963
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:12
-#: calendar/gui/dialogs/recurrence-page.c:1037
+#: calendar/gui/dialogs/recurrence-page.c:1040
 #: calendar/gui/e-itip-control.c:675
 msgid "Friday"
 msgstr "星期五"
@@ -7519,7 +7517,7 @@ msgstr "分钟"
 # calendar/gui/dialogs/cal-prefs-dialog.glade.h:15
 # calendar/gui/dialogs/recurrence-page.c:959
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:15
-#: calendar/gui/dialogs/recurrence-page.c:1033
+#: calendar/gui/dialogs/recurrence-page.c:1036
 #: calendar/gui/e-itip-control.c:671
 msgid "Monday"
 msgstr "星期一"
@@ -7538,7 +7536,7 @@ msgstr "星期日(_U)"
 # calendar/gui/dialogs/cal-prefs-dialog.glade.h:17
 # calendar/gui/dialogs/recurrence-page.c:964
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:17
-#: calendar/gui/dialogs/recurrence-page.c:1038
+#: calendar/gui/dialogs/recurrence-page.c:1041
 #: calendar/gui/e-itip-control.c:676
 msgid "Saturday"
 msgstr "星期六"
@@ -7561,7 +7559,7 @@ msgstr "在日期浏览器中显示周数(_N)"
 # calendar/gui/dialogs/cal-prefs-dialog.glade.h:22
 # calendar/gui/dialogs/recurrence-page.c:965
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:20
-#: calendar/gui/dialogs/recurrence-page.c:1039
+#: calendar/gui/dialogs/recurrence-page.c:1042
 #: calendar/gui/e-itip-control.c:670
 msgid "Sunday"
 msgstr "星期日"
@@ -7594,7 +7592,7 @@ msgstr "任务列表"
 # calendar/gui/dialogs/cal-prefs-dialog.glade.h:26
 # calendar/gui/dialogs/recurrence-page.c:962
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:24
-#: calendar/gui/dialogs/recurrence-page.c:1036
+#: calendar/gui/dialogs/recurrence-page.c:1039
 #: calendar/gui/e-itip-control.c:674
 msgid "Thursday"
 msgstr "星期四"
@@ -7627,7 +7625,7 @@ msgstr "时间格式："
 # calendar/gui/dialogs/cal-prefs-dialog.glade.h:31
 # calendar/gui/dialogs/recurrence-page.c:960
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:28
-#: calendar/gui/dialogs/recurrence-page.c:1034
+#: calendar/gui/dialogs/recurrence-page.c:1037
 #: calendar/gui/e-itip-control.c:672
 msgid "Tuesday"
 msgstr "星期二"
@@ -7643,7 +7641,7 @@ msgstr ""
 # calendar/gui/dialogs/cal-prefs-dialog.glade.h:32
 # calendar/gui/dialogs/recurrence-page.c:961
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:30
-#: calendar/gui/dialogs/recurrence-page.c:1035
+#: calendar/gui/dialogs/recurrence-page.c:1038
 #: calendar/gui/e-itip-control.c:673
 msgid "Wednesday"
 msgstr "星期三"
@@ -8009,7 +8007,7 @@ msgstr "没有概要"
 # composer/e-msg-composer.c:947
 # composer/e-msg-composer.c:912
 #: calendar/gui/dialogs/comp-editor.c:1230
-#: calendar/gui/e-calendar-table.c:1039 calendar/gui/e-day-view.c:3941
+#: calendar/gui/e-calendar-table.c:1040 calendar/gui/e-day-view.c:3941
 #: calendar/gui/e-week-view.c:3780 composer/e-msg-composer.c:1162
 msgid "Save as..."
 msgstr "另存为..."
@@ -8171,24 +8169,24 @@ msgstr "会见"
 # calendar/gui/e-calendar-table.etspec.h:14
 # calendar/gui/e-calendar-table.etspec.h:14
 # calendar/gui/e-calendar-table.etspec.h:14
-#: calendar/gui/dialogs/event-page.c:600 calendar/gui/dialogs/task-page.c:554
+#: calendar/gui/dialogs/event-page.c:603 calendar/gui/dialogs/task-page.c:507
 #, fuzzy
 msgid "Start date is wrong"
 msgstr "开始日期"
 
-#: calendar/gui/dialogs/event-page.c:610
+#: calendar/gui/dialogs/event-page.c:613
 msgid "End date is wrong"
 msgstr ""
 
 # calendar/gui/dialogs/event-page.glade.h:15
 # calendar/gui/dialogs/event-page.glade.h:15
 # calendar/gui/dialogs/event-page.glade.h:15
-#: calendar/gui/dialogs/event-page.c:633
+#: calendar/gui/dialogs/event-page.c:636
 #, fuzzy
 msgid "Start time is wrong"
 msgstr "开始时间(_S)："
 
-#: calendar/gui/dialogs/event-page.c:640
+#: calendar/gui/dialogs/event-page.c:643
 msgid "End time is wrong"
 msgstr ""
 
@@ -8315,35 +8313,35 @@ msgstr "结束时间(_E)："
 msgid "_Start time:"
 msgstr "开始时间(_S)："
 
-#: calendar/gui/dialogs/meeting-page.c:425
+#: calendar/gui/dialogs/meeting-page.c:432
 msgid "The organizer selected no longer has an account."
 msgstr ""
 
 # calendar/gui/dialogs/meeting-page.c:425
 # calendar/gui/dialogs/meeting-page.c:425
 # calendar/gui/dialogs/meeting-page.c:425
-#: calendar/gui/dialogs/meeting-page.c:431
+#: calendar/gui/dialogs/meeting-page.c:438
 msgid "An organizer is required."
 msgstr "需要一名组织者。"
 
 # calendar/gui/dialogs/meeting-page.c:446
 # calendar/gui/dialogs/meeting-page.c:446
 # calendar/gui/dialogs/meeting-page.c:446
-#: calendar/gui/dialogs/meeting-page.c:446
+#: calendar/gui/dialogs/meeting-page.c:453
 msgid "At least one attendee is required."
 msgstr "需要至少一个参加者。"
 
 # calendar/gui/dialogs/meeting-page.c:626
 # calendar/gui/dialogs/meeting-page.c:626
 # calendar/gui/dialogs/meeting-page.c:626
-#: calendar/gui/dialogs/meeting-page.c:616
+#: calendar/gui/dialogs/meeting-page.c:623
 msgid "That person is already attending the meeting!"
 msgstr "那个人已经参加了会议！"
 
 # calendar/gui/dialogs/meeting-page.c:701
 # calendar/gui/dialogs/meeting-page.c:701
 # calendar/gui/dialogs/meeting-page.c:701
-#: calendar/gui/dialogs/meeting-page.c:696
+#: calendar/gui/dialogs/meeting-page.c:703
 msgid "_Delegate To..."
 msgstr "授权于(_D)..."
 
@@ -8523,29 +8521,29 @@ msgstr "所有站点(_L)："
 # calendar/gui/dialogs/recurrence-page.c:571
 # calendar/gui/dialogs/recurrence-page.c:571
 # calendar/gui/dialogs/recurrence-page.c:571
-#: calendar/gui/dialogs/recurrence-page.c:532
+#: calendar/gui/dialogs/recurrence-page.c:535
 msgid "This appointment contains recurrences that Evolution cannot edit."
 msgstr "该约会含有 Evolution 无法编辑的循环。"
 
-#: calendar/gui/dialogs/recurrence-page.c:806
+#: calendar/gui/dialogs/recurrence-page.c:809
 msgid "Recurrence date is invalid"
 msgstr ""
 
 # calendar/gui/dialogs/recurrence-page.c:932
 # calendar/gui/dialogs/recurrence-page.c:932
 # calendar/gui/dialogs/recurrence-page.c:932
-#: calendar/gui/dialogs/recurrence-page.c:916
+#: calendar/gui/dialogs/recurrence-page.c:919
 msgid "on"
 msgstr "在"
 
 # my-evolution/metar.c:262
 # my-evolution/metar.c:262
 # my-evolution/metar.c:262
-#: calendar/gui/dialogs/recurrence-page.c:977
+#: calendar/gui/dialogs/recurrence-page.c:980
 msgid "first"
 msgstr "第一"
 
-#: calendar/gui/dialogs/recurrence-page.c:978
+#: calendar/gui/dialogs/recurrence-page.c:981
 msgid "second"
 msgstr "第二"
 
@@ -8560,21 +8558,21 @@ msgstr "第二"
 # addressbook/gui/contact-editor/e-contact-editor.c:1714
 # mail/mail-config.glade.h:49
 # my-evolution/Locations.h:1614
-#: calendar/gui/dialogs/recurrence-page.c:979
+#: calendar/gui/dialogs/recurrence-page.c:982
 msgid "third"
 msgstr "第三"
 
 # my-evolution/metar.c:64
 # my-evolution/metar.c:64
 # my-evolution/metar.c:64
-#: calendar/gui/dialogs/recurrence-page.c:980
+#: calendar/gui/dialogs/recurrence-page.c:983
 msgid "fourth"
 msgstr "第四"
 
 # addressbook/gui/contact-editor/e-contact-save-as.c:170
 # addressbook/gui/contact-editor/e-contact-save-as.c:170
 # addressbook/gui/contact-editor/e-contact-save-as.c:170
-#: calendar/gui/dialogs/recurrence-page.c:981
+#: calendar/gui/dialogs/recurrence-page.c:984
 msgid "last"
 msgstr "最后"
 
@@ -8587,28 +8585,28 @@ msgstr "最后"
 # addressbook/backend/ebook/e-card-simple.c:80
 # addressbook/gui/contact-editor/e-contact-editor.c:1657
 # addressbook/gui/widgets/e-addressbook-view.c:980
-#: calendar/gui/dialogs/recurrence-page.c:1004
+#: calendar/gui/dialogs/recurrence-page.c:1007
 msgid "Other Date"
 msgstr "其它日期"
 
 # calendar/gui/dialogs/recurrence-page.c:958 filter/filter-datespec.c:83
 # calendar/gui/dialogs/recurrence-page.c:958 filter/filter-datespec.c:83
 # calendar/gui/dialogs/recurrence-page.c:958 filter/filter-datespec.c:83
-#: calendar/gui/dialogs/recurrence-page.c:1032
+#: calendar/gui/dialogs/recurrence-page.c:1035
 msgid "day"
 msgstr "天"
 
 # calendar/gui/dialogs/recurrence-page.c:1088
 # calendar/gui/dialogs/recurrence-page.c:1088
 # calendar/gui/dialogs/recurrence-page.c:1088
-#: calendar/gui/dialogs/recurrence-page.c:1169
+#: calendar/gui/dialogs/recurrence-page.c:1172
 msgid "on the"
 msgstr "在"
 
 # calendar/gui/dialogs/recurrence-page.c:1269
 # calendar/gui/dialogs/recurrence-page.c:1269
 # calendar/gui/dialogs/recurrence-page.c:1269
-#: calendar/gui/dialogs/recurrence-page.c:1354
+#: calendar/gui/dialogs/recurrence-page.c:1357
 msgid "occurrences"
 msgstr "循环"
 
@@ -8748,7 +8746,7 @@ msgstr "任务信息已经改变。发送更新版本？"
 # calendar/gui/dialogs/comp-editor-util.c:194 calendar/gui/print.c:2170
 # calendar/gui/dialogs/comp-editor-util.c:194 calendar/gui/print.c:2170
 # calendar/gui/dialogs/comp-editor-util.c:194 calendar/gui/print.c:2170
-#: calendar/gui/dialogs/task-details-page.c:397
+#: calendar/gui/dialogs/task-details-page.c:400
 #, fuzzy
 msgid "Completed date is wrong"
 msgstr "已完成 "
@@ -8810,7 +8808,7 @@ msgstr "状态(_S)："
 # calendar/gui/dialogs/task-editor.c:178
 # addressbook/gui/component/addressbook-config.glade.h:9
 # calendar/gui/dialogs/task-editor.c:178
-#: calendar/gui/dialogs/task-editor.c:189
+#: calendar/gui/dialogs/task-editor.c:190
 msgid "Basic"
 msgstr "基本"
 
@@ -8823,13 +8821,13 @@ msgstr "基本"
 # calendar/gui/dialogs/task-editor.c:190
 # calendar/gui/dialogs/task-editor.c:227
 # calendar/gui/dialogs/task-editor.c:322
-#: calendar/gui/dialogs/task-editor.c:203
-#: calendar/gui/dialogs/task-editor.c:251
-#: calendar/gui/dialogs/task-editor.c:385
+#: calendar/gui/dialogs/task-editor.c:204
+#: calendar/gui/dialogs/task-editor.c:252
+#: calendar/gui/dialogs/task-editor.c:386
 msgid "Assignment"
 msgstr "分派"
 
-#: calendar/gui/dialogs/task-page.c:527
+#: calendar/gui/dialogs/task-page.c:480
 msgid "Due date is wrong"
 msgstr ""
 
@@ -8855,20 +8853,10 @@ msgstr "描述："
 msgid "Sta_rt Date:"
 msgstr "开始日期(_R)："
 
-# calendar/gui/dialogs/event-page.glade.h:13
-# calendar/gui/dialogs/task-page.glade.h:10
-# calendar/gui/dialogs/event-page.glade.h:13
-# calendar/gui/dialogs/task-page.glade.h:10
-# calendar/gui/dialogs/event-page.glade.h:13
-# calendar/gui/dialogs/task-page.glade.h:10
+# calendar/gui/dialogs/task-page.glade.h:11
+# calendar/gui/dialogs/task-page.glade.h:11
+# calendar/gui/dialogs/task-page.glade.h:11
 #: calendar/gui/dialogs/task-page.glade.h:10
-msgid "_Contacts..."
-msgstr "联系人(_C)..."
-
-# calendar/gui/dialogs/task-page.glade.h:11
-# calendar/gui/dialogs/task-page.glade.h:11
-# calendar/gui/dialogs/task-page.glade.h:11
-#: calendar/gui/dialogs/task-page.glade.h:11
 msgid "_Due Date:"
 msgstr "到期日期(_D)："
 
@@ -9261,7 +9249,7 @@ msgstr "删除选定的任务(_D)"
 # calendar/gui/e-week-view.c:3924
 # calendar/gui/e-calendar-table.c:1164 calendar/gui/e-day-view.c:7137
 # calendar/gui/e-week-view.c:3928
-#: calendar/gui/e-calendar-table.c:1244 calendar/gui/e-day-view.c:7635
+#: calendar/gui/e-calendar-table.c:1245 calendar/gui/e-day-view.c:7635
 #: calendar/gui/e-week-view.c:4269
 msgid "Updating objects"
 msgstr "更新对象"
@@ -9272,7 +9260,7 @@ msgstr "更新对象"
 # calendar/gui/e-calendar-table.etspec.h:6
 # calendar/gui/e-calendar-table.c:1247
 # calendar/gui/e-calendar-table.etspec.h:6
-#: calendar/gui/e-calendar-table.c:1327
+#: calendar/gui/e-calendar-table.c:1328
 #: calendar/gui/e-calendar-table.etspec.h:6
 msgid "Click to add a task"
 msgstr "点击以添加任务"
@@ -9760,8 +9748,8 @@ msgstr "状态："
 # calendar/gui/e-meeting-model.c:824
 # calendar/gui/e-meeting-model.c:321 calendar/gui/e-meeting-model.c:344
 # calendar/gui/e-meeting-model.c:824
-#: calendar/gui/e-itip-control.c:1078 calendar/gui/e-meeting-model.c:296
-#: calendar/gui/e-meeting-model.c:319 calendar/gui/e-meeting-model.c:852
+#: calendar/gui/e-itip-control.c:1078 calendar/gui/e-meeting-model.c:288
+#: calendar/gui/e-meeting-model.c:311 calendar/gui/e-meeting-model.c:849
 #: calendar/gui/itip-utils.c:414
 msgid "Accepted"
 msgstr "接受"
@@ -9779,8 +9767,8 @@ msgstr "暂时接受"
 # calendar/gui/e-meeting-model.c:825
 # calendar/gui/e-meeting-model.c:323 calendar/gui/e-meeting-model.c:346
 # calendar/gui/e-meeting-model.c:825
-#: calendar/gui/e-itip-control.c:1086 calendar/gui/e-meeting-model.c:298
-#: calendar/gui/e-meeting-model.c:321 calendar/gui/e-meeting-model.c:853
+#: calendar/gui/e-itip-control.c:1086 calendar/gui/e-meeting-model.c:290
+#: calendar/gui/e-meeting-model.c:313 calendar/gui/e-meeting-model.c:850
 #: calendar/gui/itip-utils.c:420 calendar/gui/itip-utils.c:446
 msgid "Declined"
 msgstr "否决"
@@ -9805,12 +9793,12 @@ msgstr "否决"
 # camel/providers/smtp/camel-smtp-transport.c:226
 # widgets/misc/e-charset-picker.c:58 widgets/misc/e-charset-picker.c:442
 #: calendar/gui/e-itip-control.c:1090 calendar/gui/e-itip-control.c:1298
-#: calendar/gui/e-meeting-model.c:232 calendar/gui/e-meeting-model.c:267
-#: calendar/gui/e-meeting-model.c:332 calendar/gui/e-meeting-model.c:810
-#: calendar/gui/e-meeting-model.c:826 camel/camel-gpg-context.c:1534
-#: camel/camel-gpg-context.c:1584 camel/camel-tcp-stream-openssl.c:634
-#: camel/providers/smtp/camel-smtp-transport.c:171
-#: camel/providers/smtp/camel-smtp-transport.c:226 mail/folder-browser.c:345
+#: calendar/gui/e-meeting-model.c:224 calendar/gui/e-meeting-model.c:259
+#: calendar/gui/e-meeting-model.c:324 calendar/gui/e-meeting-model.c:807
+#: calendar/gui/e-meeting-model.c:823 camel/camel-gpg-context.c:1567
+#: camel/camel-gpg-context.c:1618 camel/camel-tcp-stream-openssl.c:634
+#: camel/providers/smtp/camel-smtp-transport.c:173
+#: camel/providers/smtp/camel-smtp-transport.c:228 mail/folder-browser.c:345
 #: mail/mail-display.c:950 widgets/misc/e-charset-picker.c:60
 #: widgets/misc/e-charset-picker.c:510
 msgid "Unknown"
@@ -10386,21 +10374,21 @@ msgstr "日期-开始"
 # calendar/gui/e-meeting-model.c:95
 # calendar/gui/e-meeting-model.c:95
 # calendar/gui/e-meeting-model.c:95
-#: calendar/gui/e-meeting-model.c:80
+#: calendar/gui/e-meeting-model.c:81
 msgid "Chair Persons"
 msgstr "主席人员"
 
 # calendar/gui/e-meeting-model.c:96 calendar/gui/e-meeting-model.c:1550
 # calendar/gui/e-meeting-model.c:96 calendar/gui/e-meeting-model.c:1568
 # calendar/gui/e-meeting-model.c:96 calendar/gui/e-meeting-model.c:1568
-#: calendar/gui/e-meeting-model.c:81 calendar/gui/e-meeting-model.c:1695
+#: calendar/gui/e-meeting-model.c:82 calendar/gui/e-meeting-model.c:1697
 msgid "Required Participants"
 msgstr "必需的参与者"
 
 # calendar/gui/e-meeting-model.c:97
 # calendar/gui/e-meeting-model.c:97
 # calendar/gui/e-meeting-model.c:97
-#: calendar/gui/e-meeting-model.c:82
+#: calendar/gui/e-meeting-model.c:83
 msgid "Optional Participants"
 msgstr "可选的参与者"
 
@@ -10410,7 +10398,7 @@ msgstr "可选的参与者"
 # calendar/gui/e-meeting-model.c:780
 # calendar/gui/e-meeting-model.c:236 calendar/gui/e-meeting-model.c:253
 # calendar/gui/e-meeting-model.c:780
-#: calendar/gui/e-meeting-model.c:83
+#: calendar/gui/e-meeting-model.c:84
 msgid "Resources"
 msgstr "资源"
 
@@ -10420,8 +10408,8 @@ msgstr "资源"
 # calendar/gui/e-meeting-model.c:532 calendar/gui/e-meeting-model.c:778
 # calendar/gui/e-meeting-model.c:232 calendar/gui/e-meeting-model.c:249
 # calendar/gui/e-meeting-model.c:532 calendar/gui/e-meeting-model.c:778
-#: calendar/gui/e-meeting-model.c:207 calendar/gui/e-meeting-model.c:224
-#: calendar/gui/e-meeting-model.c:540 calendar/gui/e-meeting-model.c:806
+#: calendar/gui/e-meeting-model.c:199 calendar/gui/e-meeting-model.c:216
+#: calendar/gui/e-meeting-model.c:532 calendar/gui/e-meeting-model.c:803
 msgid "Individual"
 msgstr "个人"
 
@@ -10431,8 +10419,8 @@ msgstr "个人"
 # calendar/gui/e-meeting-model.c:779
 # calendar/gui/e-meeting-model.c:234 calendar/gui/e-meeting-model.c:251
 # calendar/gui/e-meeting-model.c:779
-#: calendar/gui/e-meeting-model.c:209 calendar/gui/e-meeting-model.c:226
-#: calendar/gui/e-meeting-model.c:807
+#: calendar/gui/e-meeting-model.c:201 calendar/gui/e-meeting-model.c:218
+#: calendar/gui/e-meeting-model.c:804
 msgid "Group"
 msgstr "组"
 
@@ -10442,8 +10430,8 @@ msgstr "组"
 # calendar/gui/e-meeting-model.c:780
 # calendar/gui/e-meeting-model.c:236 calendar/gui/e-meeting-model.c:253
 # calendar/gui/e-meeting-model.c:780
-#: calendar/gui/e-meeting-model.c:211 calendar/gui/e-meeting-model.c:228
-#: calendar/gui/e-meeting-model.c:808
+#: calendar/gui/e-meeting-model.c:203 calendar/gui/e-meeting-model.c:220
+#: calendar/gui/e-meeting-model.c:805
 msgid "Resource"
 msgstr "资源"
 
@@ -10453,8 +10441,8 @@ msgstr "资源"
 # calendar/gui/e-meeting-model.c:781
 # calendar/gui/e-meeting-model.c:238 calendar/gui/e-meeting-model.c:255
 # calendar/gui/e-meeting-model.c:781
-#: calendar/gui/e-meeting-model.c:213 calendar/gui/e-meeting-model.c:230
-#: calendar/gui/e-meeting-model.c:809
+#: calendar/gui/e-meeting-model.c:205 calendar/gui/e-meeting-model.c:222
+#: calendar/gui/e-meeting-model.c:806
 msgid "Room"
 msgstr "房间"
 
@@ -10464,8 +10452,8 @@ msgstr "房间"
 # calendar/gui/e-meeting-model.c:794
 # calendar/gui/e-meeting-model.c:267 calendar/gui/e-meeting-model.c:284
 # calendar/gui/e-meeting-model.c:794
-#: calendar/gui/e-meeting-model.c:242 calendar/gui/e-meeting-model.c:259
-#: calendar/gui/e-meeting-model.c:822
+#: calendar/gui/e-meeting-model.c:234 calendar/gui/e-meeting-model.c:251
+#: calendar/gui/e-meeting-model.c:819
 msgid "Chair"
 msgstr "主席"
 
@@ -10475,8 +10463,8 @@ msgstr "主席"
 # calendar/gui/e-meeting-model.c:534 calendar/gui/e-meeting-model.c:795
 # calendar/gui/e-meeting-model.c:269 calendar/gui/e-meeting-model.c:286
 # calendar/gui/e-meeting-model.c:534 calendar/gui/e-meeting-model.c:795
-#: calendar/gui/e-meeting-model.c:244 calendar/gui/e-meeting-model.c:261
-#: calendar/gui/e-meeting-model.c:542 calendar/gui/e-meeting-model.c:823
+#: calendar/gui/e-meeting-model.c:236 calendar/gui/e-meeting-model.c:253
+#: calendar/gui/e-meeting-model.c:534 calendar/gui/e-meeting-model.c:820
 msgid "Required Participant"
 msgstr "必需的参与者"
 
@@ -10486,8 +10474,8 @@ msgstr "必需的参与者"
 # calendar/gui/e-meeting-model.c:796
 # calendar/gui/e-meeting-model.c:271 calendar/gui/e-meeting-model.c:288
 # calendar/gui/e-meeting-model.c:796
-#: calendar/gui/e-meeting-model.c:246 calendar/gui/e-meeting-model.c:263
-#: calendar/gui/e-meeting-model.c:824
+#: calendar/gui/e-meeting-model.c:238 calendar/gui/e-meeting-model.c:255
+#: calendar/gui/e-meeting-model.c:821
 msgid "Optional Participant"
 msgstr "可选的参与者"
 
@@ -10497,8 +10485,8 @@ msgstr "可选的参与者"
 # calendar/gui/e-meeting-model.c:797
 # calendar/gui/e-meeting-model.c:273 calendar/gui/e-meeting-model.c:290
 # calendar/gui/e-meeting-model.c:797
-#: calendar/gui/e-meeting-model.c:248 calendar/gui/e-meeting-model.c:265
-#: calendar/gui/e-meeting-model.c:825
+#: calendar/gui/e-meeting-model.c:240 calendar/gui/e-meeting-model.c:257
+#: calendar/gui/e-meeting-model.c:822
 msgid "Non-Participant"
 msgstr "不参加"
 
@@ -10508,8 +10496,8 @@ msgstr "不参加"
 # calendar/gui/e-meeting-model.c:542 calendar/gui/e-meeting-model.c:823
 # calendar/gui/e-meeting-model.c:319 calendar/gui/e-meeting-model.c:342
 # calendar/gui/e-meeting-model.c:542 calendar/gui/e-meeting-model.c:823
-#: calendar/gui/e-meeting-model.c:294 calendar/gui/e-meeting-model.c:317
-#: calendar/gui/e-meeting-model.c:550 calendar/gui/e-meeting-model.c:851
+#: calendar/gui/e-meeting-model.c:286 calendar/gui/e-meeting-model.c:309
+#: calendar/gui/e-meeting-model.c:542 calendar/gui/e-meeting-model.c:848
 msgid "Needs Action"
 msgstr "需要动作"
 
@@ -10519,8 +10507,8 @@ msgstr "需要动作"
 # calendar/gui/e-meeting-model.c:826 calendar/gui/e-meeting-time-sel.c:431
 # calendar/gui/e-meeting-model.c:325 calendar/gui/e-meeting-model.c:348
 # calendar/gui/e-meeting-model.c:826 calendar/gui/e-meeting-time-sel.c:431
-#: calendar/gui/e-meeting-model.c:300 calendar/gui/e-meeting-model.c:323
-#: calendar/gui/e-meeting-model.c:854 calendar/gui/e-meeting-time-sel.c:406
+#: calendar/gui/e-meeting-model.c:292 calendar/gui/e-meeting-model.c:315
+#: calendar/gui/e-meeting-model.c:851 calendar/gui/e-meeting-time-sel.c:406
 msgid "Tentative"
 msgstr "暂时的"
 
@@ -10530,15 +10518,15 @@ msgstr "暂时的"
 # calendar/gui/e-meeting-model.c:827
 # calendar/gui/e-meeting-model.c:327 calendar/gui/e-meeting-model.c:350
 # calendar/gui/e-meeting-model.c:827
-#: calendar/gui/e-meeting-model.c:302 calendar/gui/e-meeting-model.c:325
-#: calendar/gui/e-meeting-model.c:855
+#: calendar/gui/e-meeting-model.c:294 calendar/gui/e-meeting-model.c:317
+#: calendar/gui/e-meeting-model.c:852
 msgid "Delegated"
 msgstr "被委任的"
 
 # calendar/gui/e-meeting-model.c:331 calendar/gui/e-meeting-model.c:354
 # calendar/gui/e-meeting-model.c:331 calendar/gui/e-meeting-model.c:354
 # calendar/gui/e-meeting-model.c:331 calendar/gui/e-meeting-model.c:354
-#: calendar/gui/e-meeting-model.c:306 calendar/gui/e-meeting-model.c:329
+#: calendar/gui/e-meeting-model.c:298 calendar/gui/e-meeting-model.c:321
 msgid "In Process"
 msgstr "正在处理"
 
@@ -10550,8 +10538,8 @@ msgstr "正在处理"
 # calendar/gui/e-meeting-time-sel.c:2102
 #. This is a strftime() format string %A = full weekday name,
 #. %B = full month name, %d = month day, %Y = full year.
-#: calendar/gui/e-meeting-time-sel-item.c:452
-#: calendar/gui/e-meeting-time-sel.c:2092
+#: calendar/gui/e-meeting-time-sel-item.c:458
+#: calendar/gui/e-meeting-time-sel.c:2114
 msgid "%A, %B %d, %Y"
 msgstr "%Y年%B月%d日 %A"
 
@@ -10566,8 +10554,8 @@ msgstr "%Y年%B月%d日 %A"
 # e-util/e-time-utils.c:276 e-util/e-time-utils.c:348
 #. This is a strftime() format string %a = abbreviated weekday
 #. name, %m = month number, %d = month day, %Y = full year.
-#: calendar/gui/e-meeting-time-sel-item.c:456
-#: calendar/gui/e-meeting-time-sel.c:2125 e-util/e-time-utils.c:189
+#: calendar/gui/e-meeting-time-sel-item.c:462
+#: calendar/gui/e-meeting-time-sel.c:2147 e-util/e-time-utils.c:189
 #: e-util/e-time-utils.c:282 e-util/e-time-utils.c:370
 msgid "%a %m/%d/%Y"
 msgstr "%Y年%m月%d日 %a"
@@ -10580,7 +10568,7 @@ msgstr "%Y年%m月%d日 %a"
 # e-util/e-time-utils.c:279 widgets/misc/e-dateedit.c:1612
 #. This is a strftime() format string %m = month number,
 #. %d = month day, %Y = full year.
-#: calendar/gui/e-meeting-time-sel-item.c:460 e-util/e-time-utils.c:224
+#: calendar/gui/e-meeting-time-sel-item.c:466 e-util/e-time-utils.c:224
 #: e-util/e-time-utils.c:285 widgets/misc/e-dateedit.c:1608
 msgid "%m/%d/%Y"
 msgstr "%Y年%m月%d日"
@@ -14248,7 +14236,7 @@ msgstr "正在移动邮件"
 msgid "Copying messages"
 msgstr "正在复制邮件"
 
-#: camel/camel-gpg-context.c:724
+#: camel/camel-gpg-context.c:757
 #, c-format
 msgid ""
 "Unexpected GnuPG status message encountered:\n"
@@ -14256,15 +14244,15 @@ msgid ""
 "%s"
 msgstr ""
 
-#: camel/camel-gpg-context.c:738
+#: camel/camel-gpg-context.c:772
 msgid "Failed to parse gpg userid hint."
 msgstr ""
 
-#: camel/camel-gpg-context.c:761
+#: camel/camel-gpg-context.c:797
 msgid "Failed to parse gpg passphrase request."
 msgstr ""
 
-#: camel/camel-gpg-context.c:769
+#: camel/camel-gpg-context.c:805
 #, c-format
 msgid ""
 "You need a passphrase to unlock the key for\n"
@@ -14274,20 +14262,20 @@ msgstr ""
 # mail/mail-send-recv.c:533
 # mail/mail-send-recv.c:541
 # mail/mail-send-recv.c:541
-#: camel/camel-gpg-context.c:780 camel/camel-gpg-context.c:1249
-#: camel/camel-gpg-context.c:1356 camel/camel-gpg-context.c:1431
-#: camel/camel-gpg-context.c:1488 mail/mail-send-recv.c:565
+#: camel/camel-gpg-context.c:816 camel/camel-gpg-context.c:1290
+#: camel/camel-gpg-context.c:1396 camel/camel-gpg-context.c:1466
+#: camel/camel-gpg-context.c:1522 mail/mail-send-recv.c:567
 msgid "Cancelled."
 msgstr "已取消"
 
-#: camel/camel-gpg-context.c:798
+#: camel/camel-gpg-context.c:834
 msgid "Failed to unlock secret key: 3 bad passphrases given."
 msgstr ""
 
 # camel/providers/pop3/camel-pop3-store.c:563
 # camel/providers/pop3/camel-pop3-store.c:563
 # camel/providers/pop3/camel-pop3-store.c:563
-#: camel/camel-gpg-context.c:804
+#: camel/camel-gpg-context.c:840
 #, fuzzy, c-format
 msgid "Unexpected response from GnuPG: %s"
 msgstr "来自 POP 服务器的意外应答： %s"
@@ -14295,14 +14283,14 @@ msgstr "来自 POP 服务器的意外应答： %s"
 # tools/evolution-addressbook-import.c:80
 # tools/evolution-addressbook-import.c:80
 # tools/evolution-addressbook-import.c:80
-#: camel/camel-gpg-context.c:814
+#: camel/camel-gpg-context.c:852
 msgid "No data provided"
 msgstr "未提供数据"
 
 # camel/camel-pgp-context.c:1169
 # camel/camel-pgp-context.c:1169
 # camel/camel-pgp-context.c:1169
-#: camel/camel-gpg-context.c:857
+#: camel/camel-gpg-context.c:895
 #, fuzzy
 msgid "Failed to encrypt: No valid recipients specified."
 msgstr "无法加密该邮件： 没有指明收件人"
@@ -14319,12 +14307,12 @@ msgstr "无法加密该邮件： 没有指明收件人"
 # camel/providers/imap/camel-imap-message-cache.c:313
 # camel/providers/imap/camel-imap-message-cache.c:344
 # camel/providers/imap/camel-imap-message-cache.c:376
-#: camel/camel-gpg-context.c:1125
+#: camel/camel-gpg-context.c:1167
 #, fuzzy, c-format
 msgid ""
 "Failed to GPG %s: %s\n"
 "\n"
-"%.*s"
+"%s"
 msgstr "缓冲邮件 %s 失败： %s"
 
 # camel/providers/imap/camel-imap-message-cache.c:256
@@ -14339,7 +14327,7 @@ msgstr "缓冲邮件 %s 失败： %s"
 # camel/providers/imap/camel-imap-message-cache.c:313
 # camel/providers/imap/camel-imap-message-cache.c:344
 # camel/providers/imap/camel-imap-message-cache.c:376
-#: camel/camel-gpg-context.c:1131
+#: camel/camel-gpg-context.c:1172
 #, fuzzy, c-format
 msgid "Failed to GPG %s: %s\n"
 msgstr "缓冲邮件 %s 失败： %s"
@@ -14347,8 +14335,8 @@ msgstr "缓冲邮件 %s 失败： %s"
 # camel/camel-smime-context.c:810
 # camel/camel-smime-context.c:810
 # camel/camel-smime-context.c:810
-#: camel/camel-gpg-context.c:1240 camel/camel-gpg-context.c:1533
-#: camel/camel-gpg-context.c:1583
+#: camel/camel-gpg-context.c:1281 camel/camel-gpg-context.c:1566
+#: camel/camel-gpg-context.c:1617
 #, c-format
 msgid "Failed to execute gpg: %s"
 msgstr "执行 gpg 失败：%s"
@@ -14356,16 +14344,17 @@ msgstr "执行 gpg 失败：%s"
 # camel/camel-smime-context.c:810
 # camel/camel-smime-context.c:810
 # camel/camel-smime-context.c:810
-#: camel/camel-gpg-context.c:1270 camel/camel-gpg-context.c:1348
-#: camel/camel-gpg-context.c:1422 camel/camel-gpg-context.c:1452
-#: camel/camel-gpg-context.c:1479 camel/camel-gpg-context.c:1509
+#: camel/camel-gpg-context.c:1311 camel/camel-gpg-context.c:1388
+#: camel/camel-gpg-context.c:1457 camel/camel-gpg-context.c:1487
+#: camel/camel-gpg-context.c:1513 camel/camel-gpg-context.c:1543
+#: camel/camel-gpg-context.c:1588 camel/camel-gpg-context.c:1639
 msgid "Failed to execute gpg."
 msgstr "执行 gpg 失败。"
 
 # camel/camel-pgp-context.c:970
 # camel/camel-pgp-context.c:970
 # camel/camel-pgp-context.c:970
-#: camel/camel-gpg-context.c:1333
+#: camel/camel-gpg-context.c:1373
 #, fuzzy, c-format
 msgid "Cannot verify message signature: could not create temp file: %s"
 msgstr "无法验证该邮件：无法创建临时文件： %s"
@@ -15789,7 +15778,7 @@ msgstr "连接已取消"
 # camel/providers/smtp/camel-smtp-transport.c:276
 #: camel/providers/imap/camel-imap-store.c:590
 #: camel/providers/nntp/camel-nntp-store.c:133
-#: camel/providers/smtp/camel-smtp-transport.c:274
+#: camel/providers/smtp/camel-smtp-transport.c:276
 #, c-format
 msgid "Could not connect to %s (port %d): %s"
 msgstr "无法连接到 %s (端口 %d)： %s"
@@ -15834,7 +15823,7 @@ msgstr "IMAP 服务器 %s 不支持要求的验证类型 %s"
 # camel/providers/imap/camel-imap-store.c:528
 # camel/providers/smtp/camel-smtp-transport.c:393
 #: camel/providers/imap/camel-imap-store.c:1085
-#: camel/providers/smtp/camel-smtp-transport.c:484
+#: camel/providers/smtp/camel-smtp-transport.c:486
 #, c-format
 msgid "No support for authentication type %s"
 msgstr "不支持验证类型 %s"
@@ -17225,190 +17214,190 @@ msgstr "通过SMTP连接到远程邮件服务器来发送邮件。\n"
 # camel/providers/smtp/camel-smtp-transport.c:172
 # camel/providers/smtp/camel-smtp-transport.c:172
 # camel/providers/smtp/camel-smtp-transport.c:173
-#: camel/providers/smtp/camel-smtp-transport.c:173
+#: camel/providers/smtp/camel-smtp-transport.c:175
 msgid "Syntax error, command unrecognized"
 msgstr "语法错误，无法识别的命令"
 
 # camel/providers/smtp/camel-smtp-transport.c:174
 # camel/providers/smtp/camel-smtp-transport.c:174
 # camel/providers/smtp/camel-smtp-transport.c:175
-#: camel/providers/smtp/camel-smtp-transport.c:175
+#: camel/providers/smtp/camel-smtp-transport.c:177
 msgid "Syntax error in parameters or arguments"
 msgstr "参数语法错误"
 
 # camel/providers/smtp/camel-smtp-transport.c:176
 # camel/providers/smtp/camel-smtp-transport.c:176
 # camel/providers/smtp/camel-smtp-transport.c:177
-#: camel/providers/smtp/camel-smtp-transport.c:177
+#: camel/providers/smtp/camel-smtp-transport.c:179
 msgid "Command not implemented"
 msgstr "命令尚未实现"
 
 # camel/providers/smtp/camel-smtp-transport.c:178
 # camel/providers/smtp/camel-smtp-transport.c:178
 # camel/providers/smtp/camel-smtp-transport.c:179
-#: camel/providers/smtp/camel-smtp-transport.c:179
+#: camel/providers/smtp/camel-smtp-transport.c:181
 msgid "Command parameter not implemented"
 msgstr "命令参数尚未实现"
 
 # camel/providers/smtp/camel-smtp-transport.c:180
 # camel/providers/smtp/camel-smtp-transport.c:180
 # camel/providers/smtp/camel-smtp-transport.c:181
-#: camel/providers/smtp/camel-smtp-transport.c:181
+#: camel/providers/smtp/camel-smtp-transport.c:183
 msgid "System status, or system help reply"
 msgstr "系统状态，或系统求助就绪"
 
 # camel/providers/smtp/camel-smtp-transport.c:182
 # camel/providers/smtp/camel-smtp-transport.c:182
 # camel/providers/smtp/camel-smtp-transport.c:183
-#: camel/providers/smtp/camel-smtp-transport.c:183
+#: camel/providers/smtp/camel-smtp-transport.c:185
 msgid "Help message"
 msgstr "求助消息"
 
 # camel/providers/smtp/camel-smtp-transport.c:184
 # camel/providers/smtp/camel-smtp-transport.c:184
 # camel/providers/smtp/camel-smtp-transport.c:185
-#: camel/providers/smtp/camel-smtp-transport.c:185
+#: camel/providers/smtp/camel-smtp-transport.c:187
 msgid "Service ready"
 msgstr "服务就绪"
 
 # camel/providers/smtp/camel-smtp-transport.c:186
 # camel/providers/smtp/camel-smtp-transport.c:186
 # camel/providers/smtp/camel-smtp-transport.c:187
-#: camel/providers/smtp/camel-smtp-transport.c:187
+#: camel/providers/smtp/camel-smtp-transport.c:189
 msgid "Service closing transmission channel"
 msgstr "服务正在关闭传输通道"
 
 # camel/providers/smtp/camel-smtp-transport.c:188
 # camel/providers/smtp/camel-smtp-transport.c:188
 # camel/providers/smtp/camel-smtp-transport.c:189
-#: camel/providers/smtp/camel-smtp-transport.c:189
+#: camel/providers/smtp/camel-smtp-transport.c:191
 msgid "Service not available, closing transmission channel"
 msgstr "服务不可用，正在关闭传输通道"
 
 # camel/providers/smtp/camel-smtp-transport.c:190
 # camel/providers/smtp/camel-smtp-transport.c:190
 # camel/providers/smtp/camel-smtp-transport.c:191
-#: camel/providers/smtp/camel-smtp-transport.c:191
+#: camel/providers/smtp/camel-smtp-transport.c:193
 msgid "Requested mail action okay, completed"
 msgstr "邮件动作请求确认，已完成"
 
 # camel/providers/smtp/camel-smtp-transport.c:192
 # camel/providers/smtp/camel-smtp-transport.c:192
 # camel/providers/smtp/camel-smtp-transport.c:193
-#: camel/providers/smtp/camel-smtp-transport.c:193
+#: camel/providers/smtp/camel-smtp-transport.c:195
 msgid "User not local; will forward to <forward-path>"
 msgstr "用户不在本地；将转发到 <转发路径>"
 
 # camel/providers/smtp/camel-smtp-transport.c:194
 # camel/providers/smtp/camel-smtp-transport.c:194
 # camel/providers/smtp/camel-smtp-transport.c:195
-#: camel/providers/smtp/camel-smtp-transport.c:195
+#: camel/providers/smtp/camel-smtp-transport.c:197
 msgid "Requested mail action not taken: mailbox unavailable"
 msgstr "邮件动作请求未发生：邮件箱无效"
 
 # camel/providers/smtp/camel-smtp-transport.c:196
 # camel/providers/smtp/camel-smtp-transport.c:196
 # camel/providers/smtp/camel-smtp-transport.c:197
-#: camel/providers/smtp/camel-smtp-transport.c:197
+#: camel/providers/smtp/camel-smtp-transport.c:199
 msgid "Requested action not taken: mailbox unavailable"
 msgstr "动作请求未发生：邮件箱无效"
 
 # camel/providers/smtp/camel-smtp-transport.c:198
 # camel/providers/smtp/camel-smtp-transport.c:198
 # camel/providers/smtp/camel-smtp-transport.c:199
-#: camel/providers/smtp/camel-smtp-transport.c:199
+#: camel/providers/smtp/camel-smtp-transport.c:201
 msgid "Requested action aborted: error in processing"
 msgstr "动作请求已放弃：处理中出错"
 
 # camel/providers/smtp/camel-smtp-transport.c:200
 # camel/providers/smtp/camel-smtp-transport.c:200
 # camel/providers/smtp/camel-smtp-transport.c:201
-#: camel/providers/smtp/camel-smtp-transport.c:201
+#: camel/providers/smtp/camel-smtp-transport.c:203
 msgid "User not local; please try <forward-path>"
 msgstr "用户不在本地；请尝试 <转发路径>"
 
 # camel/providers/smtp/camel-smtp-transport.c:202
 # camel/providers/smtp/camel-smtp-transport.c:202
 # camel/providers/smtp/camel-smtp-transport.c:203
-#: camel/providers/smtp/camel-smtp-transport.c:203
+#: camel/providers/smtp/camel-smtp-transport.c:205
 msgid "Requested action not taken: insufficient system storage"
 msgstr "动作请求未发生：系统存储空间不足"
 
 # camel/providers/smtp/camel-smtp-transport.c:204
 # camel/providers/smtp/camel-smtp-transport.c:204
 # camel/providers/smtp/camel-smtp-transport.c:205
-#: camel/providers/smtp/camel-smtp-transport.c:205
+#: camel/providers/smtp/camel-smtp-transport.c:207
 msgid "Requested mail action aborted: exceeded storage allocation"
 msgstr "邮件动作请求已放弃：超定额德存储分配"
 
 # camel/providers/smtp/camel-smtp-transport.c:206
 # camel/providers/smtp/camel-smtp-transport.c:206
 # camel/providers/smtp/camel-smtp-transport.c:207
-#: camel/providers/smtp/camel-smtp-transport.c:207
+#: camel/providers/smtp/camel-smtp-transport.c:209
 msgid "Requested action not taken: mailbox name not allowed"
 msgstr "动作请求未发生：不允许的邮件箱名称"
 
 # camel/providers/smtp/camel-smtp-transport.c:208
 # camel/providers/smtp/camel-smtp-transport.c:208
 # camel/providers/smtp/camel-smtp-transport.c:209
-#: camel/providers/smtp/camel-smtp-transport.c:209
+#: camel/providers/smtp/camel-smtp-transport.c:211
 msgid "Start mail input; end with <CRLF>.<CRLF>"
 msgstr "开始输入邮件；以 <CRLF>.<CRLF> 结束"
 
 # camel/providers/smtp/camel-smtp-transport.c:210
 # camel/providers/smtp/camel-smtp-transport.c:210
 # camel/providers/smtp/camel-smtp-transport.c:211
-#: camel/providers/smtp/camel-smtp-transport.c:211
+#: camel/providers/smtp/camel-smtp-transport.c:213
 msgid "Transaction failed"
 msgstr "事务失败"
 
 # camel/providers/smtp/camel-smtp-transport.c:214
 # camel/providers/smtp/camel-smtp-transport.c:214
 # camel/providers/smtp/camel-smtp-transport.c:215
-#: camel/providers/smtp/camel-smtp-transport.c:215
+#: camel/providers/smtp/camel-smtp-transport.c:217
 msgid "A password transition is needed"
 msgstr "必须传输密码"
 
 # camel/providers/smtp/camel-smtp-transport.c:216
 # camel/providers/smtp/camel-smtp-transport.c:216
 # camel/providers/smtp/camel-smtp-transport.c:217
-#: camel/providers/smtp/camel-smtp-transport.c:217
+#: camel/providers/smtp/camel-smtp-transport.c:219
 msgid "Authentication mechanism is too weak"
 msgstr "认证机制太弱"
 
 # camel/providers/smtp/camel-smtp-transport.c:218
 # camel/providers/smtp/camel-smtp-transport.c:218
 # camel/providers/smtp/camel-smtp-transport.c:219
-#: camel/providers/smtp/camel-smtp-transport.c:219
+#: camel/providers/smtp/camel-smtp-transport.c:221
 msgid "Encryption required for requested authentication mechanism"
 msgstr "请求的认证机制必须加密"
 
 # camel/providers/smtp/camel-smtp-transport.c:220
 # camel/providers/smtp/camel-smtp-transport.c:220
 # camel/providers/smtp/camel-smtp-transport.c:221
-#: camel/providers/smtp/camel-smtp-transport.c:221
+#: camel/providers/smtp/camel-smtp-transport.c:223
 msgid "Temporary authentication failure"
 msgstr "临时认证失败"
 
 # camel/providers/smtp/camel-smtp-transport.c:222
 # camel/providers/smtp/camel-smtp-transport.c:222
 # camel/providers/smtp/camel-smtp-transport.c:223
-#: camel/providers/smtp/camel-smtp-transport.c:223
+#: camel/providers/smtp/camel-smtp-transport.c:225
 msgid "Authentication required"
 msgstr "必须认证"
 
 # camel/providers/smtp/camel-smtp-transport.c:1110
 # camel/providers/smtp/camel-smtp-transport.c:1110
 # camel/providers/smtp/camel-smtp-transport.c:1250
-#: camel/providers/smtp/camel-smtp-transport.c:297
+#: camel/providers/smtp/camel-smtp-transport.c:299
 msgid "Welcome response error"
 msgstr "欢迎应答错误"
 
 # camel/providers/pop3/camel-pop3-store.c:377
 # camel/providers/pop3/camel-pop3-store.c:377
 # camel/providers/pop3/camel-pop3-store.c:377
-#: camel/providers/smtp/camel-smtp-transport.c:341
-#: camel/providers/smtp/camel-smtp-transport.c:380
+#: camel/providers/smtp/camel-smtp-transport.c:343
+#: camel/providers/smtp/camel-smtp-transport.c:382
 #, c-format
 msgid "Failed to connect to SMTP server %s in secure mode: %s"
 msgstr "以安全模式连接 SMTP 服务器 %s 失败：%s"
@@ -17416,14 +17405,14 @@ msgstr "以安全模式连接 SMTP 服务器 %s 失败：%s"
 # calendar/gui/e-itip-control.c:1064
 # calendar/gui/e-itip-control.c:1064
 # calendar/gui/e-itip-control.c:1138
-#: camel/providers/smtp/camel-smtp-transport.c:342
+#: camel/providers/smtp/camel-smtp-transport.c:344
 msgid "server does not appear to support SSL"
 msgstr "服务器似乎不支持 SSL"
 
 # camel/providers/smtp/camel-smtp-transport.c:1091
 # camel/providers/smtp/camel-smtp-transport.c:1091
 # camel/providers/smtp/camel-smtp-transport.c:1199
-#: camel/providers/smtp/camel-smtp-transport.c:356
+#: camel/providers/smtp/camel-smtp-transport.c:358
 #, c-format
 msgid "STARTTLS request timed out: %s"
 msgstr "STARTTLS 请求超时：%s"
@@ -17431,14 +17420,14 @@ msgstr "STARTTLS 请求超时：%s"
 # camel/providers/smtp/camel-smtp-transport.c:1110
 # camel/providers/smtp/camel-smtp-transport.c:1110
 # camel/providers/smtp/camel-smtp-transport.c:1104
-#: camel/providers/smtp/camel-smtp-transport.c:371
+#: camel/providers/smtp/camel-smtp-transport.c:373
 msgid "STARTTLS response error"
 msgstr "STARTTLS 响应错误"
 
 # camel/providers/smtp/camel-smtp-transport.c:379
 # camel/providers/smtp/camel-smtp-transport.c:379
 # camel/providers/smtp/camel-smtp-transport.c:383
-#: camel/providers/smtp/camel-smtp-transport.c:474
+#: camel/providers/smtp/camel-smtp-transport.c:476
 #, c-format
 msgid "SMTP server %s does not support requested authentication type %s."
 msgstr "SMTP 服务器 %s 不支持请求的认证类型 %s。"
@@ -17446,7 +17435,7 @@ msgstr "SMTP 服务器 %s 不支持请求的认证类型 %s。"
 # camel/providers/smtp/camel-smtp-transport.c:417
 # camel/providers/smtp/camel-smtp-transport.c:417
 # camel/providers/smtp/camel-smtp-transport.c:421
-#: camel/providers/smtp/camel-smtp-transport.c:512
+#: camel/providers/smtp/camel-smtp-transport.c:514
 #, c-format
 msgid "%sPlease enter the SMTP password for %s@%s"
 msgstr "%s请为 %s@%s 输入 SMTP 密码"
@@ -17454,7 +17443,7 @@ msgstr "%s请为 %s@%s 输入 SMTP 密码"
 # camel/providers/smtp/camel-smtp-transport.c:438
 # camel/providers/smtp/camel-smtp-transport.c:438
 # camel/providers/smtp/camel-smtp-transport.c:442
-#: camel/providers/smtp/camel-smtp-transport.c:531
+#: camel/providers/smtp/camel-smtp-transport.c:533
 #, c-format
 msgid ""
 "Unable to authenticate to SMTP server.\n"
@@ -17468,7 +17457,7 @@ msgstr ""
 # camel/providers/smtp/camel-smtp-transport.c:554
 # camel/providers/smtp/camel-smtp-transport.c:554
 # camel/providers/smtp/camel-smtp-transport.c:565
-#: camel/providers/smtp/camel-smtp-transport.c:664
+#: camel/providers/smtp/camel-smtp-transport.c:666
 #, c-format
 msgid "SMTP server %s"
 msgstr "SMTP 服务器 %s"
@@ -17476,7 +17465,7 @@ msgstr "SMTP 服务器 %s"
 # camel/providers/smtp/camel-smtp-transport.c:556
 # camel/providers/smtp/camel-smtp-transport.c:556
 # camel/providers/smtp/camel-smtp-transport.c:567
-#: camel/providers/smtp/camel-smtp-transport.c:666
+#: camel/providers/smtp/camel-smtp-transport.c:668
 #, c-format
 msgid "SMTP mail delivery via %s"
 msgstr "通过 %s 发送 SMTP 邮件"
@@ -17484,42 +17473,42 @@ msgstr "通过 %s 发送 SMTP 邮件"
 # camel/providers/smtp/camel-smtp-transport.c:588
 # camel/providers/smtp/camel-smtp-transport.c:588
 # camel/providers/smtp/camel-smtp-transport.c:598
-#: camel/providers/smtp/camel-smtp-transport.c:684
+#: camel/providers/smtp/camel-smtp-transport.c:686
 msgid "Cannot send message: sender address not valid."
 msgstr "无法发送邮件： 发件人地址不合法。"
 
 # camel/providers/smtp/camel-smtp-transport.c:593 mail/mail-ops.c:558
 # camel/providers/smtp/camel-smtp-transport.c:593 mail/mail-ops.c:560
 # camel/providers/smtp/camel-smtp-transport.c:603 mail/mail-ops.c:603
-#: camel/providers/smtp/camel-smtp-transport.c:689 mail/mail-ops.c:613
+#: camel/providers/smtp/camel-smtp-transport.c:691 mail/mail-ops.c:613
 msgid "Sending message"
 msgstr "正在发送邮件"
 
 # camel/providers/smtp/camel-smtp-transport.c:604
 # camel/providers/smtp/camel-smtp-transport.c:604
 # camel/providers/smtp/camel-smtp-transport.c:614
-#: camel/providers/smtp/camel-smtp-transport.c:704
+#: camel/providers/smtp/camel-smtp-transport.c:706
 msgid "Cannot send message: no recipients defined."
 msgstr "无法发送邮件： 没有定义收件人。"
 
 # camel/providers/smtp/camel-smtp-transport.c:604
 # camel/providers/smtp/camel-smtp-transport.c:604
 # camel/providers/smtp/camel-smtp-transport.c:624
-#: camel/providers/smtp/camel-smtp-transport.c:713
+#: camel/providers/smtp/camel-smtp-transport.c:715
 msgid "Cannot send message: one or more invalid recipients"
 msgstr "无法发送消息：一个或多个非法收件人"
 
 # camel/providers/smtp/camel-smtp-transport.c:684
 # camel/providers/smtp/camel-smtp-transport.c:684
 # camel/providers/smtp/camel-smtp-transport.c:798
-#: camel/providers/smtp/camel-smtp-transport.c:878
+#: camel/providers/smtp/camel-smtp-transport.c:880
 msgid "SMTP Greeting"
 msgstr "SMTP 欢迎"
 
 # camel/providers/smtp/camel-smtp-transport.c:1091
 # camel/providers/smtp/camel-smtp-transport.c:1091
 # camel/providers/smtp/camel-smtp-transport.c:1199
-#: camel/providers/smtp/camel-smtp-transport.c:924
+#: camel/providers/smtp/camel-smtp-transport.c:926
 #, fuzzy, c-format
 msgid "HELO request timed out: %s"
 msgstr "RSET 请求超时： %s"
@@ -17527,7 +17516,7 @@ msgstr "RSET 请求超时： %s"
 # camel/providers/smtp/camel-smtp-transport.c:1110
 # camel/providers/smtp/camel-smtp-transport.c:1110
 # camel/providers/smtp/camel-smtp-transport.c:1213
-#: camel/providers/smtp/camel-smtp-transport.c:946
+#: camel/providers/smtp/camel-smtp-transport.c:948
 #, fuzzy
 msgid "HELO response error"
 msgstr "RSET 应答错误"
@@ -17535,14 +17524,14 @@ msgstr "RSET 应答错误"
 # camel/providers/smtp/camel-smtp-transport.c:758
 # camel/providers/smtp/camel-smtp-transport.c:758
 # camel/providers/smtp/camel-smtp-transport.c:883
-#: camel/providers/smtp/camel-smtp-transport.c:1012
+#: camel/providers/smtp/camel-smtp-transport.c:1014
 msgid "SMTP Authentication"
 msgstr "SMTP 认证"
 
 # camel/providers/smtp/camel-smtp-transport.c:764
 # camel/providers/smtp/camel-smtp-transport.c:764
 # camel/providers/smtp/camel-smtp-transport.c:889
-#: camel/providers/smtp/camel-smtp-transport.c:1018
+#: camel/providers/smtp/camel-smtp-transport.c:1020
 msgid "Error creating SASL authentication object."
 msgstr "创建 SASL 认证对象错误。"
 
@@ -17552,8 +17541,8 @@ msgstr "创建 SASL 认证对象错误。"
 # camel/providers/smtp/camel-smtp-transport.c:791
 # camel/providers/smtp/camel-smtp-transport.c:904
 # camel/providers/smtp/camel-smtp-transport.c:916
-#: camel/providers/smtp/camel-smtp-transport.c:1035
-#: camel/providers/smtp/camel-smtp-transport.c:1047
+#: camel/providers/smtp/camel-smtp-transport.c:1037
+#: camel/providers/smtp/camel-smtp-transport.c:1049
 #, c-format
 msgid "AUTH request timed out: %s"
 msgstr "AUTH 请求超时： %s"
@@ -17561,21 +17550,21 @@ msgstr "AUTH 请求超时： %s"
 # camel/providers/smtp/camel-smtp-transport.c:800
 # camel/providers/smtp/camel-smtp-transport.c:800
 # camel/providers/smtp/camel-smtp-transport.c:925
-#: camel/providers/smtp/camel-smtp-transport.c:1056
+#: camel/providers/smtp/camel-smtp-transport.c:1058
 msgid "AUTH request failed."
 msgstr "AUTH 请求失败。"
 
 # camel/providers/smtp/camel-smtp-transport.c:848
 # camel/providers/smtp/camel-smtp-transport.c:848
 # camel/providers/smtp/camel-smtp-transport.c:973
-#: camel/providers/smtp/camel-smtp-transport.c:1117
+#: camel/providers/smtp/camel-smtp-transport.c:1119
 msgid "Bad authentication response from server.\n"
 msgstr "来自服务器的错误认证应答。\n"
 
 # camel/providers/smtp/camel-smtp-transport.c:874
 # camel/providers/smtp/camel-smtp-transport.c:874
 # camel/providers/smtp/camel-smtp-transport.c:999
-#: camel/providers/smtp/camel-smtp-transport.c:1142
+#: camel/providers/smtp/camel-smtp-transport.c:1144
 #, c-format
 msgid "MAIL FROM request timed out: %s: mail not sent"
 msgstr "MAIL FROM 请求超时： %s： 邮件未发送"
@@ -17583,20 +17572,20 @@ msgstr "MAIL FROM 请求超时： %s： 邮件未发送"
 # camel/providers/smtp/camel-smtp-transport.c:893
 # camel/providers/smtp/camel-smtp-transport.c:893
 # camel/providers/smtp/camel-smtp-transport.c:1013
-#: camel/providers/smtp/camel-smtp-transport.c:1162
+#: camel/providers/smtp/camel-smtp-transport.c:1164
 msgid "MAIL FROM response error"
 msgstr "MAIL FROM 应答错误"
 
 # camel/providers/smtp/camel-smtp-transport.c:918
 # camel/providers/smtp/camel-smtp-transport.c:918
 # camel/providers/smtp/camel-smtp-transport.c:1038
-#: camel/providers/smtp/camel-smtp-transport.c:1186
+#: camel/providers/smtp/camel-smtp-transport.c:1188
 #, c-format
 msgid "RCPT TO request timed out: %s: mail not sent"
 msgstr "RCPT TO 请求超时： %s： 邮件未发送"
 
 # camel/providers/smtp/camel-smtp-transport.c:1054
-#: camel/providers/smtp/camel-smtp-transport.c:1208
+#: camel/providers/smtp/camel-smtp-transport.c:1210
 #, c-format
 msgid "RCPT TO <%s> failed"
 msgstr "RCPT TO <%s> 失败"
@@ -17604,7 +17593,7 @@ msgstr "RCPT TO <%s> 失败"
 # camel/providers/smtp/camel-smtp-transport.c:971
 # camel/providers/smtp/camel-smtp-transport.c:971
 # camel/providers/smtp/camel-smtp-transport.c:1090
-#: camel/providers/smtp/camel-smtp-transport.c:1247
+#: camel/providers/smtp/camel-smtp-transport.c:1249
 #, c-format
 msgid "DATA request timed out: %s: mail not sent"
 msgstr "DATA 请求超时： %s： 邮件未发送"
@@ -17615,7 +17604,7 @@ msgstr "DATA 请求超时： %s： 邮件未发送"
 #. we should have gotten instructions on how to use the DATA command:
 #. * 354 Enter mail, end with "." on a line by itself
 #.
-#: camel/providers/smtp/camel-smtp-transport.c:1267
+#: camel/providers/smtp/camel-smtp-transport.c:1269
 msgid "DATA response error"
 msgstr "DATA 应答错误"
 
@@ -17625,8 +17614,8 @@ msgstr "DATA 应答错误"
 # camel/providers/smtp/camel-smtp-transport.c:1048
 # camel/providers/smtp/camel-smtp-transport.c:1144
 # camel/providers/smtp/camel-smtp-transport.c:1162
-#: camel/providers/smtp/camel-smtp-transport.c:1308
-#: camel/providers/smtp/camel-smtp-transport.c:1331
+#: camel/providers/smtp/camel-smtp-transport.c:1310
+#: camel/providers/smtp/camel-smtp-transport.c:1333
 #, c-format
 msgid "DATA send timed out: message termination: %s: mail not sent"
 msgstr "DATA 发送超时： 消息终止： %s： 邮件未发送"
@@ -17636,14 +17625,14 @@ msgstr "DATA 发送超时： 消息终止： %s： 邮件未发送"
 # camel/camel-sasl-kerberos4.c:218
 # camel/providers/imap/camel-imap-store.c:495
 # camel/providers/smtp/camel-smtp-transport.c:1176
-#: camel/providers/smtp/camel-smtp-transport.c:1351
+#: camel/providers/smtp/camel-smtp-transport.c:1353
 msgid "DATA termination response error"
 msgstr "DATA 终止应答错误"
 
 # camel/providers/smtp/camel-smtp-transport.c:1091
 # camel/providers/smtp/camel-smtp-transport.c:1091
 # camel/providers/smtp/camel-smtp-transport.c:1199
-#: camel/providers/smtp/camel-smtp-transport.c:1374
+#: camel/providers/smtp/camel-smtp-transport.c:1376
 #, c-format
 msgid "RSET request timed out: %s"
 msgstr "RSET 请求超时： %s"
@@ -17651,7 +17640,7 @@ msgstr "RSET 请求超时： %s"
 # camel/providers/smtp/camel-smtp-transport.c:1110
 # camel/providers/smtp/camel-smtp-transport.c:1110
 # camel/providers/smtp/camel-smtp-transport.c:1213
-#: camel/providers/smtp/camel-smtp-transport.c:1394
+#: camel/providers/smtp/camel-smtp-transport.c:1396
 msgid "RSET response error"
 msgstr "RSET 应答错误"
 
@@ -17661,7 +17650,7 @@ msgstr "RSET 应答错误"
 # camel/providers/smtp/camel-smtp-transport.c:791
 # camel/providers/smtp/camel-smtp-transport.c:904
 # camel/providers/smtp/camel-smtp-transport.c:916
-#: camel/providers/smtp/camel-smtp-transport.c:1417
+#: camel/providers/smtp/camel-smtp-transport.c:1419
 #, fuzzy, c-format
 msgid "QUIT request timed out: %s"
 msgstr "AUTH 请求超时： %s"
@@ -17669,7 +17658,7 @@ msgstr "AUTH 请求超时： %s"
 # camel/providers/smtp/camel-smtp-transport.c:1110
 # camel/providers/smtp/camel-smtp-transport.c:1110
 # camel/providers/smtp/camel-smtp-transport.c:1250
-#: camel/providers/smtp/camel-smtp-transport.c:1437
+#: camel/providers/smtp/camel-smtp-transport.c:1439
 msgid "QUIT response error"
 msgstr "QUIT 应答错误"
 
@@ -18061,15 +18050,15 @@ msgstr "已自动生成"
 # composer/e-msg-composer.c:1970 composer/e-msg-composer.c:2423
 # composer/e-msg-composer.c:1887 composer/e-msg-composer.c:2363
 # composer/e-msg-composer.c:1853 composer/e-msg-composer.c:2334
-#: composer/e-msg-composer.c:2234 composer/e-msg-composer.c:2873
-#: composer/e-msg-composer.c:2874
+#: composer/e-msg-composer.c:2233 composer/e-msg-composer.c:2872
+#: composer/e-msg-composer.c:2873
 msgid "Compose a message"
 msgstr "撰写邮件"
 
 # composer/e-msg-composer.c:2440
 # composer/e-msg-composer.c:2380
 # composer/e-msg-composer.c:2351
-#: composer/e-msg-composer.c:2905
+#: composer/e-msg-composer.c:2904
 msgid ""
 "Could not create composer window:\n"
 "Unable to activate address selector control."
@@ -18080,7 +18069,7 @@ msgstr ""
 # composer/e-msg-composer.c:2463 composer/e-msg-composer.c:2518
 # composer/e-msg-composer.c:2403 composer/e-msg-composer.c:2458
 # composer/e-msg-composer.c:2374 composer/e-msg-composer.c:2429
-#: composer/e-msg-composer.c:2931
+#: composer/e-msg-composer.c:2930
 #, fuzzy
 msgid ""
 "Could not create composer window:\n"
@@ -18094,7 +18083,7 @@ msgstr ""
 # composer/e-msg-composer.c:2463 composer/e-msg-composer.c:2518
 # composer/e-msg-composer.c:2403 composer/e-msg-composer.c:2458
 # composer/e-msg-composer.c:2374 composer/e-msg-composer.c:2429
-#: composer/e-msg-composer.c:2991
+#: composer/e-msg-composer.c:2990
 msgid ""
 "Could not create composer window:\n"
 "Unable to activate HTML editor component."
@@ -18102,7 +18091,7 @@ msgstr ""
 "无法创见撰写窗口：\n"
 "无法激活 HTML 编辑器组件。"
 
-#: composer/e-msg-composer.c:4005
+#: composer/e-msg-composer.c:4004
 msgid ""
 "<b>(The composer contains a non-text message body, which cannot be edited.)"
 "<b>"
@@ -22203,7 +22192,7 @@ msgstr "在第 %d 个邮件失败，共 %d 个"
 # mail/mail-ops.c:695 mail/mail-send-recv.c:537
 # mail/mail-ops.c:697 mail/mail-send-recv.c:545
 # mail/mail-ops.c:740 mail/mail-send-recv.c:545
-#: mail/mail-ops.c:750 mail/mail-send-recv.c:569
+#: mail/mail-ops.c:750 mail/mail-send-recv.c:571
 msgid "Complete."
 msgstr "完成。"
 
@@ -22416,35 +22405,35 @@ msgstr "在邮件中寻找"
 # mail/mail-search.c:263
 # addressbook/gui/search/e-addressbook-search-dialog.c:151
 # mail/mail-search.c:263
-#: mail/mail-search.c:285
+#: mail/mail-search.c:287
 msgid "Search"
 msgstr "搜索"
 
 # mail/mail-search.c:321
 # mail/mail-search.c:321
 # mail/mail-search.c:321
-#: mail/mail-search.c:311
+#: mail/mail-search.c:314
 msgid "Case Sensitive"
 msgstr "大小写敏感"
 
 # mail/mail-search.c:323
 # mail/mail-search.c:323
 # mail/mail-search.c:323
-#: mail/mail-search.c:313
+#: mail/mail-search.c:316
 msgid "Search Forward"
 msgstr "向前搜索"
 
 # mail/mail-search.c:343
 # mail/mail-search.c:343
 # mail/mail-search.c:343
-#: mail/mail-search.c:333
+#: mail/mail-search.c:336
 msgid "Find:"
 msgstr "寻找："
 
 # mail/mail-search.c:346
 # mail/mail-search.c:346
 # mail/mail-search.c:346
-#: mail/mail-search.c:336
+#: mail/mail-search.c:340
 msgid "Matches:"
 msgstr "匹配："
 
@@ -22496,14 +22485,14 @@ msgstr "全部取消"
 # mail/mail-send-recv.c:348
 # mail/mail-send-recv.c:354
 # mail/mail-send-recv.c:354
-#: mail/mail-send-recv.c:378
+#: mail/mail-send-recv.c:380
 msgid "Updating..."
 msgstr "正在更新..."
 
 # mail/mail-send-recv.c:349 mail/mail-send-recv.c:402
 # mail/mail-send-recv.c:355 mail/mail-send-recv.c:408
 # mail/mail-send-recv.c:355 mail/mail-send-recv.c:408
-#: mail/mail-send-recv.c:379 mail/mail-send-recv.c:434
+#: mail/mail-send-recv.c:381 mail/mail-send-recv.c:436
 msgid "Waiting..."
 msgstr "正在等待..."
 
@@ -22532,14 +22521,14 @@ msgstr "输入密码"
 # mail/mail-config.glade.h:113
 # mail/mail-config.glade.h:113
 # mail/mail-config.glade.h:122
-#: mail/mail-session.c:280
+#: mail/mail-session.c:282
 msgid "_Remember this password"
 msgstr "记住该密码(_R)"
 
 # e-util/e-passwords.c:362 mail/mail-session.c:268
 # e-util/e-passwords.c:362 mail/mail-session.c:268
 # e-util/e-passwords.c:362 mail/mail-session.c:270
-#: mail/mail-session.c:281
+#: mail/mail-session.c:283
 #, fuzzy
 msgid "_Remember this password for the remainder of this session"
 msgstr "在本会话中记住该密码"
@@ -45453,15 +45442,20 @@ msgstr "当前视图(_C)"
 msgid "Custom View"
 msgstr "当前视图(_C)"
 
+# widgets/menus/gal-view-menus.c:195
+# widgets/menus/gal-view-menus.c:195
+# widgets/menus/gal-view-menus.c:195
 #: widgets/menus/gal-view-menus.c:359
-msgid "Save Custom View"
-msgstr ""
+#, fuzzy
+msgid "Save Custom View..."
+msgstr "当前视图(_C)"
 
 # widgets/menus/gal-view-menus.c:222
 # widgets/menus/gal-view-menus.c:222
 # widgets/menus/gal-view-menus.c:222
 #: widgets/menus/gal-view-menus.c:372
-msgid "Define Views"
+#, fuzzy
+msgid "Define Views..."
 msgstr "定义视图"
 
 # widgets/misc/e-calendar-item.c:427
@@ -45797,6 +45791,15 @@ msgstr "Evolution 日历实施概要组件。"
 #, fuzzy
 msgid "Evolution Addressbook local file backend"
 msgstr "Evolution 地址簿小卡片显示器"
+
+# calendar/gui/dialogs/event-page.glade.h:13
+# calendar/gui/dialogs/task-page.glade.h:10
+# calendar/gui/dialogs/event-page.glade.h:13
+# calendar/gui/dialogs/task-page.glade.h:10
+# calendar/gui/dialogs/event-page.glade.h:13
+# calendar/gui/dialogs/task-page.glade.h:10
+#~ msgid "_Contacts..."
+#~ msgstr "联系人(_C)..."
 
 # addressbook/backend/ebook/GNOME_Evolution_Addressbook_LDIF_Importer.oaf.in.h:1
 # addressbook/backend/ebook/GNOME_Evolution_Addressbook_LDIF_Importer.oaf.in.h:1

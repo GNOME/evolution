@@ -7,7 +7,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution 1.0.5\n"
-"POT-Creation-Date: 2003-04-09 14:07-0400\n"
+"POT-Creation-Date: 2003-04-11 14:30-0400\n"
 "PO-Revision-Date: 2003-04-02 10:54--500\n"
 "Last-Translator: Yuriy Syrota <yuri@renome.rovno.ua>\n"
 "Language-Team: Ukrainian <uk@li.org>\n"
@@ -576,8 +576,6 @@ msgstr "Переглядач мінікартки адресної книги Ev
 
 #: addressbook/gui/component/addressbook-component.c:76
 #: addressbook/gui/component/addressbook-component.c:605
-#: calendar/gui/dialogs/comp-editor-util.c:309
-#: calendar/gui/dialogs/comp-editor-util.c:365
 #: importers/netscape-importer.c:1874 mail/importers/netscape-importer.c:1844
 #: shell/e-local-storage.c:178 shell/e-shortcuts.c:1087
 msgid "Contacts"
@@ -1412,7 +1410,7 @@ msgid "D_epartment:"
 msgstr "Відділ:"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:12
-#: calendar/gui/dialogs/task-editor.c:196
+#: calendar/gui/dialogs/task-editor.c:197
 msgid "Details"
 msgstr "Подробиці"
 
@@ -1467,7 +1465,7 @@ msgstr "Хоче отримувати листи в HTML"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:30
 #: calendar/gui/dialogs/alarm-page.glade.h:10
-#: calendar/gui/dialogs/meeting-page.c:700 calendar/gui/e-calendar-table.c:969
+#: calendar/gui/dialogs/meeting-page.c:707 calendar/gui/e-calendar-table.c:969
 #: calendar/gui/e-day-view.c:3723 calendar/gui/e-week-view.c:3579
 #: filter/filter.glade.h:15 mail/folder-browser.c:1783
 #: mail/mail-config.glade.h:148 shell/glade/e-folder-list.glade.h:2
@@ -3728,17 +3726,17 @@ msgstr "Час засипання (в хвилинах)"
 msgid "_Edit appointment"
 msgstr "Ви_правити зустріч"
 
-#: calendar/gui/alarm-notify/alarm-queue.c:774
+#: calendar/gui/alarm-notify/alarm-queue.c:776
 msgid "No description available."
 msgstr "Немає опису."
 
-#: calendar/gui/alarm-notify/alarm-queue.c:845
-#: calendar/gui/alarm-notify/alarm-queue.c:869
+#: calendar/gui/alarm-notify/alarm-queue.c:847
+#: calendar/gui/alarm-notify/alarm-queue.c:871
 #: calendar/gui/tasks-control.c:463 widgets/misc/e-messagebox.c:161
 msgid "Warning"
 msgstr "Попередження"
 
-#: calendar/gui/alarm-notify/alarm-queue.c:849
+#: calendar/gui/alarm-notify/alarm-queue.c:851
 msgid ""
 "Evolution does not support calendar reminders with\n"
 "email notifications yet, but this reminder was\n"
@@ -3750,7 +3748,7 @@ msgstr ""
 "Замість цього Evolution буде показувати звичайне вікно\n"
 "нагадування."
 
-#: calendar/gui/alarm-notify/alarm-queue.c:875
+#: calendar/gui/alarm-notify/alarm-queue.c:877
 #, c-format
 msgid ""
 "An Evolution Calendar reminder is about to trigger. This reminder is "
@@ -3767,7 +3765,7 @@ msgstr ""
 "\n"
 "Ви впевнені, що бажаєте виконати цю програму?"
 
-#: calendar/gui/alarm-notify/alarm-queue.c:889
+#: calendar/gui/alarm-notify/alarm-queue.c:891
 msgid "Do not ask me about this program again."
 msgstr "Не запитуйте мене знову про цю програму."
 
@@ -3973,8 +3971,8 @@ msgstr "Виконується"
 
 #: calendar/gui/calendar-model.c:751 calendar/gui/calendar-model.c:1177
 #: calendar/gui/dialogs/task-details-page.glade.h:4
-#: calendar/gui/e-calendar-table.c:468 calendar/gui/e-meeting-model.c:304
-#: calendar/gui/e-meeting-model.c:327 calendar/gui/print.c:2316
+#: calendar/gui/e-calendar-table.c:468 calendar/gui/e-meeting-model.c:296
+#: calendar/gui/e-meeting-model.c:319 calendar/gui/print.c:2316
 msgid "Completed"
 msgstr "Завершено"
 
@@ -3989,7 +3987,7 @@ msgstr ""
 "45.436845,125.862501"
 
 #. An empty string is the same as 'None'.
-#: calendar/gui/calendar-model.c:1171 calendar/gui/dialogs/meeting-page.c:322
+#: calendar/gui/calendar-model.c:1171 calendar/gui/dialogs/meeting-page.c:325
 #: calendar/gui/dialogs/meeting-page.glade.h:1 composer/e-msg-composer.c:2054
 #: mail/folder-browser.c:1745 mail/mail-account-gui.c:1253
 #: mail/mail-account-gui.c:1685 mail/mail-accounts.c:442
@@ -4008,14 +4006,14 @@ msgstr "Періодично"
 msgid "Assigned"
 msgstr "Прив'язано"
 
-#: calendar/gui/calendar-model.c:1714 calendar/gui/e-meeting-model.c:276
-#: calendar/gui/e-meeting-model.c:286 calendar/gui/e-meeting-model.c:544
-#: calendar/gui/e-meeting-model.c:838
+#: calendar/gui/calendar-model.c:1714 calendar/gui/e-meeting-model.c:268
+#: calendar/gui/e-meeting-model.c:278 calendar/gui/e-meeting-model.c:536
+#: calendar/gui/e-meeting-model.c:835
 msgid "Yes"
 msgstr "Так"
 
-#: calendar/gui/calendar-model.c:1714 calendar/gui/e-meeting-model.c:288
-#: calendar/gui/e-meeting-model.c:839
+#: calendar/gui/calendar-model.c:1714 calendar/gui/e-meeting-model.c:280
+#: calendar/gui/e-meeting-model.c:836
 msgid "No"
 msgstr "Ні"
 
@@ -4251,7 +4249,7 @@ msgid "Days"
 msgstr "Дні"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:12
-#: calendar/gui/dialogs/recurrence-page.c:1037
+#: calendar/gui/dialogs/recurrence-page.c:1040
 #: calendar/gui/e-itip-control.c:675
 msgid "Friday"
 msgstr "П'ятниця"
@@ -4265,7 +4263,7 @@ msgid "Minutes"
 msgstr "Хвилини"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:15
-#: calendar/gui/dialogs/recurrence-page.c:1033
+#: calendar/gui/dialogs/recurrence-page.c:1036
 #: calendar/gui/e-itip-control.c:671
 msgid "Monday"
 msgstr "Понеділок"
@@ -4275,7 +4273,7 @@ msgid "S_un"
 msgstr "_Ндл"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:17
-#: calendar/gui/dialogs/recurrence-page.c:1038
+#: calendar/gui/dialogs/recurrence-page.c:1041
 #: calendar/gui/e-itip-control.c:676
 msgid "Saturday"
 msgstr "Субота"
@@ -4289,7 +4287,7 @@ msgid "Show week _numbers in date navigator"
 msgstr "Показати номера тижнів у навігаторі дат"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:20
-#: calendar/gui/dialogs/recurrence-page.c:1039
+#: calendar/gui/dialogs/recurrence-page.c:1042
 #: calendar/gui/e-itip-control.c:670
 msgid "Sunday"
 msgstr "Неділя"
@@ -4307,7 +4305,7 @@ msgid "Task List"
 msgstr "Список завдань"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:24
-#: calendar/gui/dialogs/recurrence-page.c:1036
+#: calendar/gui/dialogs/recurrence-page.c:1039
 #: calendar/gui/e-itip-control.c:674
 msgid "Thursday"
 msgstr "Четвер"
@@ -4325,7 +4323,7 @@ msgid "Time format:"
 msgstr "Формат часу:"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:28
-#: calendar/gui/dialogs/recurrence-page.c:1034
+#: calendar/gui/dialogs/recurrence-page.c:1037
 #: calendar/gui/e-itip-control.c:672
 msgid "Tuesday"
 msgstr "Вівторок"
@@ -4335,7 +4333,7 @@ msgid "W_eek starts:"
 msgstr "_Тиждень починається:"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:30
-#: calendar/gui/dialogs/recurrence-page.c:1035
+#: calendar/gui/dialogs/recurrence-page.c:1038
 #: calendar/gui/e-itip-control.c:673
 msgid "Wednesday"
 msgstr "Середа"
@@ -4563,7 +4561,7 @@ msgid "No summary"
 msgstr "Немає зведення"
 
 #: calendar/gui/dialogs/comp-editor.c:1230
-#: calendar/gui/e-calendar-table.c:1039 calendar/gui/e-day-view.c:3941
+#: calendar/gui/e-calendar-table.c:1040 calendar/gui/e-day-view.c:3941
 #: calendar/gui/e-week-view.c:3780 composer/e-msg-composer.c:1162
 msgid "Save as..."
 msgstr "Зберегти як..."
@@ -4659,19 +4657,19 @@ msgstr "Планування"
 msgid "Meeting"
 msgstr "Засідання"
 
-#: calendar/gui/dialogs/event-page.c:600 calendar/gui/dialogs/task-page.c:554
+#: calendar/gui/dialogs/event-page.c:603 calendar/gui/dialogs/task-page.c:507
 msgid "Start date is wrong"
 msgstr "Неправильна дата початку"
 
-#: calendar/gui/dialogs/event-page.c:610
+#: calendar/gui/dialogs/event-page.c:613
 msgid "End date is wrong"
 msgstr "Неправильна дата закінчення"
 
-#: calendar/gui/dialogs/event-page.c:633
+#: calendar/gui/dialogs/event-page.c:636
 msgid "Start time is wrong"
 msgstr "Неправильний час початку:"
 
-#: calendar/gui/dialogs/event-page.c:640
+#: calendar/gui/dialogs/event-page.c:643
 msgid "End time is wrong"
 msgstr "Неправильний час закінчення"
 
@@ -4735,23 +4733,23 @@ msgstr "Час _завершення:"
 msgid "_Start time:"
 msgstr "Час _початку:"
 
-#: calendar/gui/dialogs/meeting-page.c:425
+#: calendar/gui/dialogs/meeting-page.c:432
 msgid "The organizer selected no longer has an account."
 msgstr ""
 
-#: calendar/gui/dialogs/meeting-page.c:431
+#: calendar/gui/dialogs/meeting-page.c:438
 msgid "An organizer is required."
 msgstr "Потрібно вказати організатора."
 
-#: calendar/gui/dialogs/meeting-page.c:446
+#: calendar/gui/dialogs/meeting-page.c:453
 msgid "At least one attendee is required."
 msgstr "Потрібен хоча б один учасник."
 
-#: calendar/gui/dialogs/meeting-page.c:616
+#: calendar/gui/dialogs/meeting-page.c:623
 msgid "That person is already attending the meeting!"
 msgstr "Ця персона вже є учасником засідання!"
 
-#: calendar/gui/dialogs/meeting-page.c:696
+#: calendar/gui/dialogs/meeting-page.c:703
 msgid "_Delegate To..."
 msgstr "Доручити..."
 
@@ -4842,52 +4840,52 @@ msgstr ""
 msgid "All Instances"
 msgstr ""
 
-#: calendar/gui/dialogs/recurrence-page.c:532
+#: calendar/gui/dialogs/recurrence-page.c:535
 msgid "This appointment contains recurrences that Evolution cannot edit."
 msgstr ""
 "Ця зустріч містить правила повторення, які Evolution не може редагувати."
 
-#: calendar/gui/dialogs/recurrence-page.c:806
+#: calendar/gui/dialogs/recurrence-page.c:809
 msgid "Recurrence date is invalid"
 msgstr "Неправильна дата повторення"
 
-#: calendar/gui/dialogs/recurrence-page.c:916
+#: calendar/gui/dialogs/recurrence-page.c:919
 msgid "on"
 msgstr "у"
 
-#: calendar/gui/dialogs/recurrence-page.c:977
+#: calendar/gui/dialogs/recurrence-page.c:980
 msgid "first"
 msgstr "перший"
 
-#: calendar/gui/dialogs/recurrence-page.c:978
+#: calendar/gui/dialogs/recurrence-page.c:981
 msgid "second"
 msgstr "другий"
 
-#: calendar/gui/dialogs/recurrence-page.c:979
+#: calendar/gui/dialogs/recurrence-page.c:982
 msgid "third"
 msgstr "третій"
 
-#: calendar/gui/dialogs/recurrence-page.c:980
+#: calendar/gui/dialogs/recurrence-page.c:983
 msgid "fourth"
 msgstr "четвертий"
 
-#: calendar/gui/dialogs/recurrence-page.c:981
+#: calendar/gui/dialogs/recurrence-page.c:984
 msgid "last"
 msgstr "останній"
 
-#: calendar/gui/dialogs/recurrence-page.c:1004
+#: calendar/gui/dialogs/recurrence-page.c:1007
 msgid "Other Date"
 msgstr "Інша дата"
 
-#: calendar/gui/dialogs/recurrence-page.c:1032
+#: calendar/gui/dialogs/recurrence-page.c:1035
 msgid "day"
 msgstr "день"
 
-#: calendar/gui/dialogs/recurrence-page.c:1169
+#: calendar/gui/dialogs/recurrence-page.c:1172
 msgid "on the"
 msgstr "у"
 
-#: calendar/gui/dialogs/recurrence-page.c:1354
+#: calendar/gui/dialogs/recurrence-page.c:1357
 msgid "occurrences"
 msgstr "випадки"
 
@@ -4967,7 +4965,7 @@ msgstr "Створено інформацію про призначення за
 msgid "The task information has changed. Send an updated version?"
 msgstr "Змінилась інформація про завдання. Надіслати оновлену версію?"
 
-#: calendar/gui/dialogs/task-details-page.c:397
+#: calendar/gui/dialogs/task-details-page.c:400
 msgid "Completed date is wrong"
 msgstr "Неправильна дата виконання"
 
@@ -4998,17 +4996,17 @@ msgstr "Пріоритет:"
 msgid "_Status:"
 msgstr "Стан:"
 
-#: calendar/gui/dialogs/task-editor.c:189
+#: calendar/gui/dialogs/task-editor.c:190
 msgid "Basic"
 msgstr "Основні"
 
-#: calendar/gui/dialogs/task-editor.c:203
-#: calendar/gui/dialogs/task-editor.c:251
-#: calendar/gui/dialogs/task-editor.c:385
+#: calendar/gui/dialogs/task-editor.c:204
+#: calendar/gui/dialogs/task-editor.c:252
+#: calendar/gui/dialogs/task-editor.c:386
 msgid "Assignment"
 msgstr "Призначення"
 
-#: calendar/gui/dialogs/task-page.c:527
+#: calendar/gui/dialogs/task-page.c:480
 msgid "Due date is wrong"
 msgstr "Неправильна дата виконання"
 
@@ -5023,10 +5021,6 @@ msgid "Sta_rt Date:"
 msgstr "Дата по_чатку:"
 
 #: calendar/gui/dialogs/task-page.glade.h:10
-msgid "_Contacts..."
-msgstr "_Контакти..."
-
-#: calendar/gui/dialogs/task-page.glade.h:11
 msgid "_Due Date:"
 msgstr "Дата ви_конання:"
 
@@ -5242,12 +5236,12 @@ msgstr "Позначити вибрані завдання як _виконан�
 msgid "_Delete Selected Tasks"
 msgstr "Стерти вибрані завдання"
 
-#: calendar/gui/e-calendar-table.c:1244 calendar/gui/e-day-view.c:7635
+#: calendar/gui/e-calendar-table.c:1245 calendar/gui/e-day-view.c:7635
 #: calendar/gui/e-week-view.c:4269
 msgid "Updating objects"
 msgstr "Оновити об'єкти"
 
-#: calendar/gui/e-calendar-table.c:1327
+#: calendar/gui/e-calendar-table.c:1328
 #: calendar/gui/e-calendar-table.etspec.h:6
 msgid "Click to add a task"
 msgstr "Клацніть щоб додати завдання"
@@ -5536,8 +5530,8 @@ msgstr "Розташування:"
 msgid "Status:"
 msgstr "Стан:"
 
-#: calendar/gui/e-itip-control.c:1078 calendar/gui/e-meeting-model.c:296
-#: calendar/gui/e-meeting-model.c:319 calendar/gui/e-meeting-model.c:852
+#: calendar/gui/e-itip-control.c:1078 calendar/gui/e-meeting-model.c:288
+#: calendar/gui/e-meeting-model.c:311 calendar/gui/e-meeting-model.c:849
 #: calendar/gui/itip-utils.c:414
 msgid "Accepted"
 msgstr "Прийнято"
@@ -5546,19 +5540,19 @@ msgstr "Прийнято"
 msgid "Tentatively Accepted"
 msgstr "Експериментальний"
 
-#: calendar/gui/e-itip-control.c:1086 calendar/gui/e-meeting-model.c:298
-#: calendar/gui/e-meeting-model.c:321 calendar/gui/e-meeting-model.c:853
+#: calendar/gui/e-itip-control.c:1086 calendar/gui/e-meeting-model.c:290
+#: calendar/gui/e-meeting-model.c:313 calendar/gui/e-meeting-model.c:850
 #: calendar/gui/itip-utils.c:420 calendar/gui/itip-utils.c:446
 msgid "Declined"
 msgstr "Відхилено"
 
 #: calendar/gui/e-itip-control.c:1090 calendar/gui/e-itip-control.c:1298
-#: calendar/gui/e-meeting-model.c:232 calendar/gui/e-meeting-model.c:267
-#: calendar/gui/e-meeting-model.c:332 calendar/gui/e-meeting-model.c:810
-#: calendar/gui/e-meeting-model.c:826 camel/camel-gpg-context.c:1534
-#: camel/camel-gpg-context.c:1584 camel/camel-tcp-stream-openssl.c:634
-#: camel/providers/smtp/camel-smtp-transport.c:171
-#: camel/providers/smtp/camel-smtp-transport.c:226 mail/folder-browser.c:345
+#: calendar/gui/e-meeting-model.c:224 calendar/gui/e-meeting-model.c:259
+#: calendar/gui/e-meeting-model.c:324 calendar/gui/e-meeting-model.c:807
+#: calendar/gui/e-meeting-model.c:823 camel/camel-gpg-context.c:1567
+#: camel/camel-gpg-context.c:1618 camel/camel-tcp-stream-openssl.c:634
+#: camel/providers/smtp/camel-smtp-transport.c:173
+#: camel/providers/smtp/camel-smtp-transport.c:228 mail/folder-browser.c:345
 #: mail/mail-display.c:950 widgets/misc/e-charset-picker.c:60
 #: widgets/misc/e-charset-picker.c:510
 msgid "Unknown"
@@ -5894,99 +5888,99 @@ msgstr "дата-завершення"
 msgid "date-start"
 msgstr "дата-початку"
 
-#: calendar/gui/e-meeting-model.c:80
+#: calendar/gui/e-meeting-model.c:81
 msgid "Chair Persons"
 msgstr "Головуючі"
 
-#: calendar/gui/e-meeting-model.c:81 calendar/gui/e-meeting-model.c:1695
+#: calendar/gui/e-meeting-model.c:82 calendar/gui/e-meeting-model.c:1697
 msgid "Required Participants"
 msgstr "Потрібні учасники"
 
-#: calendar/gui/e-meeting-model.c:82
+#: calendar/gui/e-meeting-model.c:83
 msgid "Optional Participants"
 msgstr "Необов'язкові учасники"
 
-#: calendar/gui/e-meeting-model.c:83
+#: calendar/gui/e-meeting-model.c:84
 msgid "Resources"
 msgstr "Ресурси"
 
-#: calendar/gui/e-meeting-model.c:207 calendar/gui/e-meeting-model.c:224
-#: calendar/gui/e-meeting-model.c:540 calendar/gui/e-meeting-model.c:806
+#: calendar/gui/e-meeting-model.c:199 calendar/gui/e-meeting-model.c:216
+#: calendar/gui/e-meeting-model.c:532 calendar/gui/e-meeting-model.c:803
 msgid "Individual"
 msgstr "Індивідуальне"
 
-#: calendar/gui/e-meeting-model.c:209 calendar/gui/e-meeting-model.c:226
-#: calendar/gui/e-meeting-model.c:807
+#: calendar/gui/e-meeting-model.c:201 calendar/gui/e-meeting-model.c:218
+#: calendar/gui/e-meeting-model.c:804
 msgid "Group"
 msgstr "Групове"
 
-#: calendar/gui/e-meeting-model.c:211 calendar/gui/e-meeting-model.c:228
-#: calendar/gui/e-meeting-model.c:808
+#: calendar/gui/e-meeting-model.c:203 calendar/gui/e-meeting-model.c:220
+#: calendar/gui/e-meeting-model.c:805
 msgid "Resource"
 msgstr "Ресурс"
 
-#: calendar/gui/e-meeting-model.c:213 calendar/gui/e-meeting-model.c:230
-#: calendar/gui/e-meeting-model.c:809
+#: calendar/gui/e-meeting-model.c:205 calendar/gui/e-meeting-model.c:222
+#: calendar/gui/e-meeting-model.c:806
 msgid "Room"
 msgstr "Кімната"
 
-#: calendar/gui/e-meeting-model.c:242 calendar/gui/e-meeting-model.c:259
-#: calendar/gui/e-meeting-model.c:822
+#: calendar/gui/e-meeting-model.c:234 calendar/gui/e-meeting-model.c:251
+#: calendar/gui/e-meeting-model.c:819
 msgid "Chair"
 msgstr "Місце"
 
-#: calendar/gui/e-meeting-model.c:244 calendar/gui/e-meeting-model.c:261
-#: calendar/gui/e-meeting-model.c:542 calendar/gui/e-meeting-model.c:823
+#: calendar/gui/e-meeting-model.c:236 calendar/gui/e-meeting-model.c:253
+#: calendar/gui/e-meeting-model.c:534 calendar/gui/e-meeting-model.c:820
 msgid "Required Participant"
 msgstr "Потрібний учасник"
 
-#: calendar/gui/e-meeting-model.c:246 calendar/gui/e-meeting-model.c:263
-#: calendar/gui/e-meeting-model.c:824
+#: calendar/gui/e-meeting-model.c:238 calendar/gui/e-meeting-model.c:255
+#: calendar/gui/e-meeting-model.c:821
 msgid "Optional Participant"
 msgstr "Необов'язковий учасник"
 
-#: calendar/gui/e-meeting-model.c:248 calendar/gui/e-meeting-model.c:265
-#: calendar/gui/e-meeting-model.c:825
+#: calendar/gui/e-meeting-model.c:240 calendar/gui/e-meeting-model.c:257
+#: calendar/gui/e-meeting-model.c:822
 msgid "Non-Participant"
 msgstr "Не учасник"
 
-#: calendar/gui/e-meeting-model.c:294 calendar/gui/e-meeting-model.c:317
-#: calendar/gui/e-meeting-model.c:550 calendar/gui/e-meeting-model.c:851
+#: calendar/gui/e-meeting-model.c:286 calendar/gui/e-meeting-model.c:309
+#: calendar/gui/e-meeting-model.c:542 calendar/gui/e-meeting-model.c:848
 msgid "Needs Action"
 msgstr "Необхідна дія"
 
-#: calendar/gui/e-meeting-model.c:300 calendar/gui/e-meeting-model.c:323
-#: calendar/gui/e-meeting-model.c:854 calendar/gui/e-meeting-time-sel.c:406
+#: calendar/gui/e-meeting-model.c:292 calendar/gui/e-meeting-model.c:315
+#: calendar/gui/e-meeting-model.c:851 calendar/gui/e-meeting-time-sel.c:406
 msgid "Tentative"
 msgstr "Експериментальний"
 
-#: calendar/gui/e-meeting-model.c:302 calendar/gui/e-meeting-model.c:325
-#: calendar/gui/e-meeting-model.c:855
+#: calendar/gui/e-meeting-model.c:294 calendar/gui/e-meeting-model.c:317
+#: calendar/gui/e-meeting-model.c:852
 msgid "Delegated"
 msgstr "Доручено"
 
-#: calendar/gui/e-meeting-model.c:306 calendar/gui/e-meeting-model.c:329
+#: calendar/gui/e-meeting-model.c:298 calendar/gui/e-meeting-model.c:321
 msgid "In Process"
 msgstr "Відбувається"
 
 #. This is a strftime() format string %A = full weekday name,
 #. %B = full month name, %d = month day, %Y = full year.
-#: calendar/gui/e-meeting-time-sel-item.c:452
-#: calendar/gui/e-meeting-time-sel.c:2092
+#: calendar/gui/e-meeting-time-sel-item.c:458
+#: calendar/gui/e-meeting-time-sel.c:2114
 msgid "%A, %B %d, %Y"
 msgstr "%A, %d %B %Y"
 
 #. This is a strftime() format string %a = abbreviated weekday
 #. name, %m = month number, %d = month day, %Y = full year.
-#: calendar/gui/e-meeting-time-sel-item.c:456
-#: calendar/gui/e-meeting-time-sel.c:2125 e-util/e-time-utils.c:189
+#: calendar/gui/e-meeting-time-sel-item.c:462
+#: calendar/gui/e-meeting-time-sel.c:2147 e-util/e-time-utils.c:189
 #: e-util/e-time-utils.c:282 e-util/e-time-utils.c:370
 msgid "%a %m/%d/%Y"
 msgstr "%a %d.%m.%Y"
 
 #. This is a strftime() format string %m = month number,
 #. %d = month day, %Y = full year.
-#: calendar/gui/e-meeting-time-sel-item.c:460 e-util/e-time-utils.c:224
+#: calendar/gui/e-meeting-time-sel-item.c:466 e-util/e-time-utils.c:224
 #: e-util/e-time-utils.c:285 widgets/misc/e-dateedit.c:1608
 msgid "%m/%d/%Y"
 msgstr "%d.%m.%Y"
@@ -8281,7 +8275,7 @@ msgstr "Перенесення повідомлень"
 msgid "Copying messages"
 msgstr "Копіювання повідомлень"
 
-#: camel/camel-gpg-context.c:724
+#: camel/camel-gpg-context.c:757
 #, c-format
 msgid ""
 "Unexpected GnuPG status message encountered:\n"
@@ -8292,15 +8286,15 @@ msgstr ""
 "\n"
 "%s"
 
-#: camel/camel-gpg-context.c:738
+#: camel/camel-gpg-context.c:772
 msgid "Failed to parse gpg userid hint."
 msgstr ""
 
-#: camel/camel-gpg-context.c:761
+#: camel/camel-gpg-context.c:797
 msgid "Failed to parse gpg passphrase request."
 msgstr "Неможливо проаналізувати запит паролю gpg."
 
-#: camel/camel-gpg-context.c:769
+#: camel/camel-gpg-context.c:805
 #, c-format
 msgid ""
 "You need a passphrase to unlock the key for\n"
@@ -8309,58 +8303,59 @@ msgstr ""
 "Потрібен пароль, щоб відкрити ключ для \n"
 "користувача: \"%s\""
 
-#: camel/camel-gpg-context.c:780 camel/camel-gpg-context.c:1249
-#: camel/camel-gpg-context.c:1356 camel/camel-gpg-context.c:1431
-#: camel/camel-gpg-context.c:1488 mail/mail-send-recv.c:565
+#: camel/camel-gpg-context.c:816 camel/camel-gpg-context.c:1290
+#: camel/camel-gpg-context.c:1396 camel/camel-gpg-context.c:1466
+#: camel/camel-gpg-context.c:1522 mail/mail-send-recv.c:567
 msgid "Cancelled."
 msgstr "Відмінено."
 
-#: camel/camel-gpg-context.c:798
+#: camel/camel-gpg-context.c:834
 msgid "Failed to unlock secret key: 3 bad passphrases given."
 msgstr "Неможливо відкрити секретний ключ: отримано 3 неправильних пароля."
 
-#: camel/camel-gpg-context.c:804
+#: camel/camel-gpg-context.c:840
 #, c-format
 msgid "Unexpected response from GnuPG: %s"
 msgstr "Неочікувана відповідь від GnuPG: %s"
 
-#: camel/camel-gpg-context.c:814
+#: camel/camel-gpg-context.c:852
 msgid "No data provided"
 msgstr "Нема даних"
 
-#: camel/camel-gpg-context.c:857
+#: camel/camel-gpg-context.c:895
 msgid "Failed to encrypt: No valid recipients specified."
 msgstr "Неможливо зашифрувати: не визначено жодного отримувачів"
 
-#: camel/camel-gpg-context.c:1125
-#, c-format
+#: camel/camel-gpg-context.c:1167
+#, fuzzy, c-format
 msgid ""
 "Failed to GPG %s: %s\n"
 "\n"
-"%.*s"
+"%s"
 msgstr ""
 "Збій GPG %s: %s\n"
 "\n"
 "%.*s"
 
-#: camel/camel-gpg-context.c:1131
+#: camel/camel-gpg-context.c:1172
 #, c-format
 msgid "Failed to GPG %s: %s\n"
 msgstr "Збій GPG %s: %s\n"
 
-#: camel/camel-gpg-context.c:1240 camel/camel-gpg-context.c:1533
-#: camel/camel-gpg-context.c:1583
+#: camel/camel-gpg-context.c:1281 camel/camel-gpg-context.c:1566
+#: camel/camel-gpg-context.c:1617
 #, c-format
 msgid "Failed to execute gpg: %s"
 msgstr "Неможливо виконати gpg: %s"
 
-#: camel/camel-gpg-context.c:1270 camel/camel-gpg-context.c:1348
-#: camel/camel-gpg-context.c:1422 camel/camel-gpg-context.c:1452
-#: camel/camel-gpg-context.c:1479 camel/camel-gpg-context.c:1509
+#: camel/camel-gpg-context.c:1311 camel/camel-gpg-context.c:1388
+#: camel/camel-gpg-context.c:1457 camel/camel-gpg-context.c:1487
+#: camel/camel-gpg-context.c:1513 camel/camel-gpg-context.c:1543
+#: camel/camel-gpg-context.c:1588 camel/camel-gpg-context.c:1639
 msgid "Failed to execute gpg."
 msgstr "Неможливо виконати gpg."
 
-#: camel/camel-gpg-context.c:1333
+#: camel/camel-gpg-context.c:1373
 #, c-format
 msgid "Cannot verify message signature: could not create temp file: %s"
 msgstr ""
@@ -9288,7 +9283,7 @@ msgstr "З'єднання скасовано"
 
 #: camel/providers/imap/camel-imap-store.c:590
 #: camel/providers/nntp/camel-nntp-store.c:133
-#: camel/providers/smtp/camel-smtp-transport.c:274
+#: camel/providers/smtp/camel-smtp-transport.c:276
 #, c-format
 msgid "Could not connect to %s (port %d): %s"
 msgstr "Не вдалося з'єднатись з %s (порт %d): %s"
@@ -9315,7 +9310,7 @@ msgid "IMAP server %s does not support requested authentication type %s"
 msgstr "Сервер IMAP %s не підтримує запитаного типу автентифікації %s"
 
 #: camel/providers/imap/camel-imap-store.c:1085
-#: camel/providers/smtp/camel-smtp-transport.c:484
+#: camel/providers/smtp/camel-smtp-transport.c:486
 #, c-format
 msgid "No support for authentication type %s"
 msgstr "Немає підтримки автентифікації типу %s"
@@ -10090,140 +10085,140 @@ msgid "For delivering mail by connecting to a remote mailhub using SMTP.\n"
 msgstr ""
 "Для надсилання пошти шляхом з'єднання з віддаленим поштовим сервером SMTP.\n"
 
-#: camel/providers/smtp/camel-smtp-transport.c:173
+#: camel/providers/smtp/camel-smtp-transport.c:175
 msgid "Syntax error, command unrecognized"
 msgstr "Синтаксична помилка, команду не розпізнано"
 
-#: camel/providers/smtp/camel-smtp-transport.c:175
+#: camel/providers/smtp/camel-smtp-transport.c:177
 msgid "Syntax error in parameters or arguments"
 msgstr "Синтаксична помилка у параметрах чи аргументах"
 
-#: camel/providers/smtp/camel-smtp-transport.c:177
+#: camel/providers/smtp/camel-smtp-transport.c:179
 msgid "Command not implemented"
 msgstr "Команди не реалізовано"
 
-#: camel/providers/smtp/camel-smtp-transport.c:179
+#: camel/providers/smtp/camel-smtp-transport.c:181
 msgid "Command parameter not implemented"
 msgstr "Параметр команди не реалізовано"
 
-#: camel/providers/smtp/camel-smtp-transport.c:181
+#: camel/providers/smtp/camel-smtp-transport.c:183
 msgid "System status, or system help reply"
 msgstr "Стан системи або відповідь довідки системи"
 
-#: camel/providers/smtp/camel-smtp-transport.c:183
+#: camel/providers/smtp/camel-smtp-transport.c:185
 msgid "Help message"
 msgstr "Довідкове повідомлення"
 
-#: camel/providers/smtp/camel-smtp-transport.c:185
+#: camel/providers/smtp/camel-smtp-transport.c:187
 msgid "Service ready"
 msgstr "Послуга готова"
 
-#: camel/providers/smtp/camel-smtp-transport.c:187
+#: camel/providers/smtp/camel-smtp-transport.c:189
 msgid "Service closing transmission channel"
 msgstr "Послуга закриває канал передачі"
 
-#: camel/providers/smtp/camel-smtp-transport.c:189
+#: camel/providers/smtp/camel-smtp-transport.c:191
 msgid "Service not available, closing transmission channel"
 msgstr "Послуга не доступна, закриття каналу передачі"
 
-#: camel/providers/smtp/camel-smtp-transport.c:191
+#: camel/providers/smtp/camel-smtp-transport.c:193
 msgid "Requested mail action okay, completed"
 msgstr "Запитана поштова дія успішно виконалася"
 
-#: camel/providers/smtp/camel-smtp-transport.c:193
+#: camel/providers/smtp/camel-smtp-transport.c:195
 msgid "User not local; will forward to <forward-path>"
 msgstr "Користувач не локальний; буде відправлено на <шлях-перенаправлення>"
 
-#: camel/providers/smtp/camel-smtp-transport.c:195
+#: camel/providers/smtp/camel-smtp-transport.c:197
 msgid "Requested mail action not taken: mailbox unavailable"
 msgstr "Запитана дія з поштою не виконана: немає поштової скриньки"
 
-#: camel/providers/smtp/camel-smtp-transport.c:197
+#: camel/providers/smtp/camel-smtp-transport.c:199
 msgid "Requested action not taken: mailbox unavailable"
 msgstr "Запитана дія не виконана: немає поштової скриньки"
 
-#: camel/providers/smtp/camel-smtp-transport.c:199
+#: camel/providers/smtp/camel-smtp-transport.c:201
 msgid "Requested action aborted: error in processing"
 msgstr "Запитану дію перервано: помилка при обробці"
 
-#: camel/providers/smtp/camel-smtp-transport.c:201
+#: camel/providers/smtp/camel-smtp-transport.c:203
 msgid "User not local; please try <forward-path>"
 msgstr "Користувач не локальний; будь ласка спробуйте <шлях-перенаправлення>"
 
-#: camel/providers/smtp/camel-smtp-transport.c:203
+#: camel/providers/smtp/camel-smtp-transport.c:205
 msgid "Requested action not taken: insufficient system storage"
 msgstr "Запитану дію не виконано: недостатньо системного сховища"
 
-#: camel/providers/smtp/camel-smtp-transport.c:205
+#: camel/providers/smtp/camel-smtp-transport.c:207
 msgid "Requested mail action aborted: exceeded storage allocation"
 msgstr "Запитану дію не виконано: скінчився вільний простір у сховищі"
 
-#: camel/providers/smtp/camel-smtp-transport.c:207
+#: camel/providers/smtp/camel-smtp-transport.c:209
 msgid "Requested action not taken: mailbox name not allowed"
 msgstr "Запитану дію не виконано: неприпустиме ім'я поштової скриньки"
 
-#: camel/providers/smtp/camel-smtp-transport.c:209
+#: camel/providers/smtp/camel-smtp-transport.c:211
 msgid "Start mail input; end with <CRLF>.<CRLF>"
 msgstr "Починається введення пошти; закінчення після  <CRLF>.<CRLF>"
 
-#: camel/providers/smtp/camel-smtp-transport.c:211
+#: camel/providers/smtp/camel-smtp-transport.c:213
 msgid "Transaction failed"
 msgstr "Збій транзакції"
 
-#: camel/providers/smtp/camel-smtp-transport.c:215
+#: camel/providers/smtp/camel-smtp-transport.c:217
 msgid "A password transition is needed"
 msgstr "Потрібно передати пароль"
 
-#: camel/providers/smtp/camel-smtp-transport.c:217
+#: camel/providers/smtp/camel-smtp-transport.c:219
 msgid "Authentication mechanism is too weak"
 msgstr "Механізм автентифікації надто слабкий"
 
-#: camel/providers/smtp/camel-smtp-transport.c:219
+#: camel/providers/smtp/camel-smtp-transport.c:221
 msgid "Encryption required for requested authentication mechanism"
 msgstr "Запитаний механізм автентифікації потребує шифрування"
 
-#: camel/providers/smtp/camel-smtp-transport.c:221
+#: camel/providers/smtp/camel-smtp-transport.c:223
 msgid "Temporary authentication failure"
 msgstr "Тимчасовий збій автентифікації"
 
-#: camel/providers/smtp/camel-smtp-transport.c:223
+#: camel/providers/smtp/camel-smtp-transport.c:225
 msgid "Authentication required"
 msgstr "Вимагається автентифікація"
 
-#: camel/providers/smtp/camel-smtp-transport.c:297
+#: camel/providers/smtp/camel-smtp-transport.c:299
 msgid "Welcome response error"
 msgstr "Помилка відповіді на запрошення"
 
-#: camel/providers/smtp/camel-smtp-transport.c:341
-#: camel/providers/smtp/camel-smtp-transport.c:380
+#: camel/providers/smtp/camel-smtp-transport.c:343
+#: camel/providers/smtp/camel-smtp-transport.c:382
 #, c-format
 msgid "Failed to connect to SMTP server %s in secure mode: %s"
 msgstr "Неможливо під'єднатися до POP серверу %s в безпечному режимі: %s"
 
-#: camel/providers/smtp/camel-smtp-transport.c:342
+#: camel/providers/smtp/camel-smtp-transport.c:344
 msgid "server does not appear to support SSL"
 msgstr "схоже, сервер не підтримує SSL"
 
-#: camel/providers/smtp/camel-smtp-transport.c:356
+#: camel/providers/smtp/camel-smtp-transport.c:358
 #, c-format
 msgid "STARTTLS request timed out: %s"
 msgstr "Затримка відповіді на STARTTLS: %s"
 
-#: camel/providers/smtp/camel-smtp-transport.c:371
+#: camel/providers/smtp/camel-smtp-transport.c:373
 msgid "STARTTLS response error"
 msgstr "Помилка відповіді на STARTTLS"
 
-#: camel/providers/smtp/camel-smtp-transport.c:474
+#: camel/providers/smtp/camel-smtp-transport.c:476
 #, c-format
 msgid "SMTP server %s does not support requested authentication type %s."
 msgstr "SMTP сервер %s не підтримує автентифікацію %s типу"
 
-#: camel/providers/smtp/camel-smtp-transport.c:512
+#: camel/providers/smtp/camel-smtp-transport.c:514
 #, c-format
 msgid "%sPlease enter the SMTP password for %s@%s"
 msgstr "%sВведіть SMTP пароль для %s@%s"
 
-#: camel/providers/smtp/camel-smtp-transport.c:531
+#: camel/providers/smtp/camel-smtp-transport.c:533
 #, c-format
 msgid ""
 "Unable to authenticate to SMTP server.\n"
@@ -10234,88 +10229,88 @@ msgstr ""
 "%s\n"
 "\n"
 
-#: camel/providers/smtp/camel-smtp-transport.c:664
+#: camel/providers/smtp/camel-smtp-transport.c:666
 #, c-format
 msgid "SMTP server %s"
 msgstr "Сервер SMTP %s"
 
-#: camel/providers/smtp/camel-smtp-transport.c:666
+#: camel/providers/smtp/camel-smtp-transport.c:668
 #, c-format
 msgid "SMTP mail delivery via %s"
 msgstr "Постачання пошти SMTP через %s"
 
-#: camel/providers/smtp/camel-smtp-transport.c:684
+#: camel/providers/smtp/camel-smtp-transport.c:686
 msgid "Cannot send message: sender address not valid."
 msgstr "Неможливо відіслати повідомлення: неправильна адреса відправника."
 
-#: camel/providers/smtp/camel-smtp-transport.c:689 mail/mail-ops.c:613
+#: camel/providers/smtp/camel-smtp-transport.c:691 mail/mail-ops.c:613
 msgid "Sending message"
 msgstr "Відсилання повідомлення"
 
-#: camel/providers/smtp/camel-smtp-transport.c:704
+#: camel/providers/smtp/camel-smtp-transport.c:706
 msgid "Cannot send message: no recipients defined."
 msgstr "Неможливо відіслати повідомлення: не визначено отримувачів"
 
-#: camel/providers/smtp/camel-smtp-transport.c:713
+#: camel/providers/smtp/camel-smtp-transport.c:715
 msgid "Cannot send message: one or more invalid recipients"
 msgstr ""
 "Неможливо відіслати повідомлення: один або більше неправильних отримувачів"
 
-#: camel/providers/smtp/camel-smtp-transport.c:878
+#: camel/providers/smtp/camel-smtp-transport.c:880
 msgid "SMTP Greeting"
 msgstr "Привітання SMTP"
 
-#: camel/providers/smtp/camel-smtp-transport.c:924
+#: camel/providers/smtp/camel-smtp-transport.c:926
 #, c-format
 msgid "HELO request timed out: %s"
 msgstr "Затримка відповіді на HELO: %s"
 
-#: camel/providers/smtp/camel-smtp-transport.c:946
+#: camel/providers/smtp/camel-smtp-transport.c:948
 msgid "HELO response error"
 msgstr "Помилка відповіді на HELO"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1012
+#: camel/providers/smtp/camel-smtp-transport.c:1014
 msgid "SMTP Authentication"
 msgstr "Автентифікація SMTP"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1018
+#: camel/providers/smtp/camel-smtp-transport.c:1020
 msgid "Error creating SASL authentication object."
 msgstr "Помилка створення об'єкта автентифікації SASL"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1035
-#: camel/providers/smtp/camel-smtp-transport.c:1047
+#: camel/providers/smtp/camel-smtp-transport.c:1037
+#: camel/providers/smtp/camel-smtp-transport.c:1049
 #, c-format
 msgid "AUTH request timed out: %s"
 msgstr "Перевищено час очікування відповіді на AUTH: %s"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1056
+#: camel/providers/smtp/camel-smtp-transport.c:1058
 msgid "AUTH request failed."
 msgstr "Збій запиту AUTH"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1117
+#: camel/providers/smtp/camel-smtp-transport.c:1119
 msgid "Bad authentication response from server.\n"
 msgstr "Неправильна автентифікаціна відповідь від сервера.\n"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1142
+#: camel/providers/smtp/camel-smtp-transport.c:1144
 #, c-format
 msgid "MAIL FROM request timed out: %s: mail not sent"
 msgstr "Затримка відповіді на MAIL FROM: %s: пошту не відіслано"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1162
+#: camel/providers/smtp/camel-smtp-transport.c:1164
 msgid "MAIL FROM response error"
 msgstr "Помилка відповіді на MAIL FROM"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1186
+#: camel/providers/smtp/camel-smtp-transport.c:1188
 #, c-format
 msgid "RCPT TO request timed out: %s: mail not sent"
 msgstr "Затримка відповіді на RCPT TO: %s: пошту не відіслано"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1208
+#: camel/providers/smtp/camel-smtp-transport.c:1210
 #, c-format
 msgid "RCPT TO <%s> failed"
 msgstr "Збій команди RCPT TO <%s>"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1247
+#: camel/providers/smtp/camel-smtp-transport.c:1249
 #, c-format
 msgid "DATA request timed out: %s: mail not sent"
 msgstr "Затримка відповіді на DATA: %s: пошту не відіслано"
@@ -10323,36 +10318,36 @@ msgstr "Затримка відповіді на DATA: %s: пошту не ві�
 #. we should have gotten instructions on how to use the DATA command:
 #. * 354 Enter mail, end with "." on a line by itself
 #.
-#: camel/providers/smtp/camel-smtp-transport.c:1267
+#: camel/providers/smtp/camel-smtp-transport.c:1269
 msgid "DATA response error"
 msgstr "Помилка відповіді на DATA"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1308
-#: camel/providers/smtp/camel-smtp-transport.c:1331
+#: camel/providers/smtp/camel-smtp-transport.c:1310
+#: camel/providers/smtp/camel-smtp-transport.c:1333
 #, c-format
 msgid "DATA send timed out: message termination: %s: mail not sent"
 msgstr ""
 "Вийшов час при надсиланні DATA: надсилання припинено: %s: пошту не відіслано"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1351
+#: camel/providers/smtp/camel-smtp-transport.c:1353
 msgid "DATA termination response error"
 msgstr "Помилка відповіді на завершення DATA"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1374
+#: camel/providers/smtp/camel-smtp-transport.c:1376
 #, c-format
 msgid "RSET request timed out: %s"
 msgstr "Затримка відповіді на RSET: %s"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1394
+#: camel/providers/smtp/camel-smtp-transport.c:1396
 msgid "RSET response error"
 msgstr "Помилка відповіді на RSET"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1417
+#: camel/providers/smtp/camel-smtp-transport.c:1419
 #, c-format
 msgid "QUIT request timed out: %s"
 msgstr "Затримка відповіді на QUIT: %s"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1437
+#: camel/providers/smtp/camel-smtp-transport.c:1439
 msgid "QUIT response error"
 msgstr "Помилка відповіді на QUIT"
 
@@ -10604,12 +10599,12 @@ msgstr "Підпис:"
 msgid "Autogenerated"
 msgstr "Згенеровано автоматично"
 
-#: composer/e-msg-composer.c:2234 composer/e-msg-composer.c:2873
-#: composer/e-msg-composer.c:2874
+#: composer/e-msg-composer.c:2233 composer/e-msg-composer.c:2872
+#: composer/e-msg-composer.c:2873
 msgid "Compose a message"
 msgstr "Підготувати повідомлення"
 
-#: composer/e-msg-composer.c:2905
+#: composer/e-msg-composer.c:2904
 msgid ""
 "Could not create composer window:\n"
 "Unable to activate address selector control."
@@ -10617,7 +10612,7 @@ msgstr ""
 "Не вдалося створити вікно редагування:\n"
 "Неможливо активувати керуючий елемент обрання адреси."
 
-#: composer/e-msg-composer.c:2931
+#: composer/e-msg-composer.c:2930
 msgid ""
 "Could not create composer window:\n"
 "Unable to activate HTML editor component.\n"
@@ -10629,7 +10624,7 @@ msgstr ""
 "Будь ласка, впевніться що у вас встановлено\n"
 "коректну версію gtkhtml та libgtkhtml.\n"
 
-#: composer/e-msg-composer.c:2991
+#: composer/e-msg-composer.c:2990
 msgid ""
 "Could not create composer window:\n"
 "Unable to activate HTML editor component."
@@ -10637,7 +10632,7 @@ msgstr ""
 "Не вдалося створити вікно редактора:\n"
 "Неможливо активувати компонент HTML-редактора."
 
-#: composer/e-msg-composer.c:4005
+#: composer/e-msg-composer.c:4004
 msgid ""
 "<b>(The composer contains a non-text message body, which cannot be edited.)"
 "<b>"
@@ -13366,7 +13361,7 @@ msgstr "Відсилання повідомлення %d з %d"
 msgid "Failed on message %d of %d"
 msgstr "Збій на повідомленні %d з %d"
 
-#: mail/mail-ops.c:750 mail/mail-send-recv.c:569
+#: mail/mail-ops.c:750 mail/mail-send-recv.c:571
 msgid "Complete."
 msgstr "Виконано."
 
@@ -13498,23 +13493,23 @@ msgstr "Порожнє повідомлення"
 msgid "Find in Message"
 msgstr "Знайти у повідомленні"
 
-#: mail/mail-search.c:285
+#: mail/mail-search.c:287
 msgid "Search"
 msgstr "Пошук"
 
-#: mail/mail-search.c:311
+#: mail/mail-search.c:314
 msgid "Case Sensitive"
 msgstr "Регістрова чутливість"
 
-#: mail/mail-search.c:313
+#: mail/mail-search.c:316
 msgid "Search Forward"
 msgstr "Пошук вперед"
 
-#: mail/mail-search.c:333
+#: mail/mail-search.c:336
 msgid "Find:"
 msgstr "Знайти:"
 
-#: mail/mail-search.c:336
+#: mail/mail-search.c:340
 msgid "Matches:"
 msgstr "Відповідності:"
 
@@ -13545,11 +13540,11 @@ msgstr "Відіслати й отримати пошту"
 msgid "Cancel All"
 msgstr "Скасувати все"
 
-#: mail/mail-send-recv.c:378
+#: mail/mail-send-recv.c:380
 msgid "Updating..."
 msgstr "Оновлення..."
 
-#: mail/mail-send-recv.c:379 mail/mail-send-recv.c:434
+#: mail/mail-send-recv.c:381 mail/mail-send-recv.c:436
 msgid "Waiting..."
 msgstr "Очікування..."
 
@@ -13566,11 +13561,11 @@ msgstr "Введіть пароль для %s"
 msgid "Enter Password"
 msgstr "Ввід пароля"
 
-#: mail/mail-session.c:280
+#: mail/mail-session.c:282
 msgid "_Remember this password"
 msgstr "Запам'ятати цей пароль"
 
-#: mail/mail-session.c:281
+#: mail/mail-session.c:283
 msgid "_Remember this password for the remainder of this session"
 msgstr "Пам'ятати цей пароль до закінчення поточного сеансу"
 
@@ -27870,11 +27865,13 @@ msgid "Custom View"
 msgstr "Спеціальний вигляд"
 
 #: widgets/menus/gal-view-menus.c:359
-msgid "Save Custom View"
+#, fuzzy
+msgid "Save Custom View..."
 msgstr "Зберегти спеціальний вигляд"
 
 #: widgets/menus/gal-view-menus.c:372
-msgid "Define Views"
+#, fuzzy
+msgid "Define Views..."
 msgstr "Визначити відображення"
 
 #. Translators: These are the first characters of each day of the
@@ -28070,6 +28067,9 @@ msgstr "Переглядач iTip/iMip з календарю Evolution"
 #, fuzzy
 msgid "Evolution Addressbook local file backend"
 msgstr "Переглядач мінікартки адресної книги Evolution"
+
+#~ msgid "_Contacts..."
+#~ msgstr "_Контакти..."
 
 #~ msgid "Factory to import LDIF files into Evolution."
 #~ msgstr "Майстер імпорту файлів LDIF у Evolutuion."

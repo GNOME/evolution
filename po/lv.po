@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Evolution for latvian\n"
-"POT-Creation-Date: 2003-04-09 14:07-0400\n"
+"POT-Creation-Date: 2003-04-11 14:30-0400\n"
 "PO-Revision-Date: 2003-02-03 23:02+0200\n"
 "Last-Translator: Pēteris Krišjānis <peteris.krisjanis@os.lv>\n"
 "Language-Team: Latvian <lv@li.org>\n"
@@ -591,8 +591,6 @@ msgstr "Evolution adrešu grāmatas minikaršu skatītājs"
 
 #: addressbook/gui/component/addressbook-component.c:76
 #: addressbook/gui/component/addressbook-component.c:605
-#: calendar/gui/dialogs/comp-editor-util.c:309
-#: calendar/gui/dialogs/comp-editor-util.c:365
 #: importers/netscape-importer.c:1874 mail/importers/netscape-importer.c:1844
 #: shell/e-local-storage.c:178 shell/e-shortcuts.c:1087
 msgid "Contacts"
@@ -1427,7 +1425,7 @@ msgid "D_epartment:"
 msgstr "D_epartaments:"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:12
-#: calendar/gui/dialogs/task-editor.c:196
+#: calendar/gui/dialogs/task-editor.c:197
 msgid "Details"
 msgstr "Detaļas"
 
@@ -1483,7 +1481,7 @@ msgstr "Grib saņemt _HTML pastu"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:30
 #: calendar/gui/dialogs/alarm-page.glade.h:10
-#: calendar/gui/dialogs/meeting-page.c:700 calendar/gui/e-calendar-table.c:969
+#: calendar/gui/dialogs/meeting-page.c:707 calendar/gui/e-calendar-table.c:969
 #: calendar/gui/e-day-view.c:3723 calendar/gui/e-week-view.c:3579
 #: filter/filter.glade.h:15 mail/folder-browser.c:1783
 #: mail/mail-config.glade.h:148 shell/glade/e-folder-list.glade.h:2
@@ -3766,17 +3764,17 @@ msgstr "Snaust kādu laiku (minūtes)"
 msgid "_Edit appointment"
 msgstr "R_ediģēt tikšanos"
 
-#: calendar/gui/alarm-notify/alarm-queue.c:774
+#: calendar/gui/alarm-notify/alarm-queue.c:776
 msgid "No description available."
 msgstr "Apraksts nav pieejams."
 
-#: calendar/gui/alarm-notify/alarm-queue.c:845
-#: calendar/gui/alarm-notify/alarm-queue.c:869
+#: calendar/gui/alarm-notify/alarm-queue.c:847
+#: calendar/gui/alarm-notify/alarm-queue.c:871
 #: calendar/gui/tasks-control.c:463 widgets/misc/e-messagebox.c:161
 msgid "Warning"
 msgstr "Brīdinājums"
 
-#: calendar/gui/alarm-notify/alarm-queue.c:849
+#: calendar/gui/alarm-notify/alarm-queue.c:851
 msgid ""
 "Evolution does not support calendar reminders with\n"
 "email notifications yet, but this reminder was\n"
@@ -3788,7 +3786,7 @@ msgstr ""
 "nokonfigurēta nosūtīt epastu. Evolution tā vietā attēlos\n"
 "normālu atgādinātāja dialoga logu."
 
-#: calendar/gui/alarm-notify/alarm-queue.c:875
+#: calendar/gui/alarm-notify/alarm-queue.c:877
 #, c-format
 msgid ""
 "An Evolution Calendar reminder is about to trigger. This reminder is "
@@ -3805,7 +3803,7 @@ msgstr ""
 "\n"
 "Vai jūs patiešām vēlaties laist šo programmu?"
 
-#: calendar/gui/alarm-notify/alarm-queue.c:889
+#: calendar/gui/alarm-notify/alarm-queue.c:891
 msgid "Do not ask me about this program again."
 msgstr "Neprasīt vairāk man par šo programmu."
 
@@ -4012,8 +4010,8 @@ msgstr "Progresā"
 
 #: calendar/gui/calendar-model.c:751 calendar/gui/calendar-model.c:1177
 #: calendar/gui/dialogs/task-details-page.glade.h:4
-#: calendar/gui/e-calendar-table.c:468 calendar/gui/e-meeting-model.c:304
-#: calendar/gui/e-meeting-model.c:327 calendar/gui/print.c:2316
+#: calendar/gui/e-calendar-table.c:468 calendar/gui/e-meeting-model.c:296
+#: calendar/gui/e-meeting-model.c:319 calendar/gui/print.c:2316
 msgid "Completed"
 msgstr "Pabeigts"
 
@@ -4028,7 +4026,7 @@ msgstr ""
 "45.436845,125.862501"
 
 #. An empty string is the same as 'None'.
-#: calendar/gui/calendar-model.c:1171 calendar/gui/dialogs/meeting-page.c:322
+#: calendar/gui/calendar-model.c:1171 calendar/gui/dialogs/meeting-page.c:325
 #: calendar/gui/dialogs/meeting-page.glade.h:1 composer/e-msg-composer.c:2054
 #: mail/folder-browser.c:1745 mail/mail-account-gui.c:1253
 #: mail/mail-account-gui.c:1685 mail/mail-accounts.c:442
@@ -4047,14 +4045,14 @@ msgstr "Periodisks"
 msgid "Assigned"
 msgstr "Asignēts"
 
-#: calendar/gui/calendar-model.c:1714 calendar/gui/e-meeting-model.c:276
-#: calendar/gui/e-meeting-model.c:286 calendar/gui/e-meeting-model.c:544
-#: calendar/gui/e-meeting-model.c:838
+#: calendar/gui/calendar-model.c:1714 calendar/gui/e-meeting-model.c:268
+#: calendar/gui/e-meeting-model.c:278 calendar/gui/e-meeting-model.c:536
+#: calendar/gui/e-meeting-model.c:835
 msgid "Yes"
 msgstr "Jā"
 
-#: calendar/gui/calendar-model.c:1714 calendar/gui/e-meeting-model.c:288
-#: calendar/gui/e-meeting-model.c:839
+#: calendar/gui/calendar-model.c:1714 calendar/gui/e-meeting-model.c:280
+#: calendar/gui/e-meeting-model.c:836
 msgid "No"
 msgstr "Nē"
 
@@ -4292,7 +4290,7 @@ msgid "Days"
 msgstr "Dienas"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:12
-#: calendar/gui/dialogs/recurrence-page.c:1037
+#: calendar/gui/dialogs/recurrence-page.c:1040
 #: calendar/gui/e-itip-control.c:675
 msgid "Friday"
 msgstr "Piekdiena"
@@ -4306,7 +4304,7 @@ msgid "Minutes"
 msgstr "Minūtes"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:15
-#: calendar/gui/dialogs/recurrence-page.c:1033
+#: calendar/gui/dialogs/recurrence-page.c:1036
 #: calendar/gui/e-itip-control.c:671
 msgid "Monday"
 msgstr "Pirmdiena"
@@ -4316,7 +4314,7 @@ msgid "S_un"
 msgstr "_Sv"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:17
-#: calendar/gui/dialogs/recurrence-page.c:1038
+#: calendar/gui/dialogs/recurrence-page.c:1041
 #: calendar/gui/e-itip-control.c:676
 msgid "Saturday"
 msgstr "Sesdiena"
@@ -4330,7 +4328,7 @@ msgid "Show week _numbers in date navigator"
 msgstr "Parādīt nedēļas _numurus datuma navigātorā"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:20
-#: calendar/gui/dialogs/recurrence-page.c:1039
+#: calendar/gui/dialogs/recurrence-page.c:1042
 #: calendar/gui/e-itip-control.c:670
 msgid "Sunday"
 msgstr "Svēdiena"
@@ -4348,7 +4346,7 @@ msgid "Task List"
 msgstr "Uzdevumu saraksts"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:24
-#: calendar/gui/dialogs/recurrence-page.c:1036
+#: calendar/gui/dialogs/recurrence-page.c:1039
 #: calendar/gui/e-itip-control.c:674
 msgid "Thursday"
 msgstr "Ceturdiena"
@@ -4366,7 +4364,7 @@ msgid "Time format:"
 msgstr "Laika formāts:"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:28
-#: calendar/gui/dialogs/recurrence-page.c:1034
+#: calendar/gui/dialogs/recurrence-page.c:1037
 #: calendar/gui/e-itip-control.c:672
 msgid "Tuesday"
 msgstr "Otradiena"
@@ -4376,7 +4374,7 @@ msgid "W_eek starts:"
 msgstr "N_edēļa sākas:"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:30
-#: calendar/gui/dialogs/recurrence-page.c:1035
+#: calendar/gui/dialogs/recurrence-page.c:1038
 #: calendar/gui/e-itip-control.c:673
 msgid "Wednesday"
 msgstr "Trešdiena"
@@ -4608,7 +4606,7 @@ msgid "No summary"
 msgstr "Nav kopsavilkuma"
 
 #: calendar/gui/dialogs/comp-editor.c:1230
-#: calendar/gui/e-calendar-table.c:1039 calendar/gui/e-day-view.c:3941
+#: calendar/gui/e-calendar-table.c:1040 calendar/gui/e-day-view.c:3941
 #: calendar/gui/e-week-view.c:3780 composer/e-msg-composer.c:1162
 msgid "Save as..."
 msgstr "Saglabāt kā..."
@@ -4708,19 +4706,19 @@ msgstr "Plānošana"
 msgid "Meeting"
 msgstr "Sanāksme"
 
-#: calendar/gui/dialogs/event-page.c:600 calendar/gui/dialogs/task-page.c:554
+#: calendar/gui/dialogs/event-page.c:603 calendar/gui/dialogs/task-page.c:507
 msgid "Start date is wrong"
 msgstr "Sākuma datums ir nepareizs"
 
-#: calendar/gui/dialogs/event-page.c:610
+#: calendar/gui/dialogs/event-page.c:613
 msgid "End date is wrong"
 msgstr "Beigu datums ir nepareizs"
 
-#: calendar/gui/dialogs/event-page.c:633
+#: calendar/gui/dialogs/event-page.c:636
 msgid "Start time is wrong"
 msgstr "Sākuma datums ir nepareizs"
 
-#: calendar/gui/dialogs/event-page.c:640
+#: calendar/gui/dialogs/event-page.c:643
 msgid "End time is wrong"
 msgstr "Beigu datums ir nepareizs"
 
@@ -4784,23 +4782,23 @@ msgstr "B_eigu laiks:"
 msgid "_Start time:"
 msgstr "_Sākuma laiks:"
 
-#: calendar/gui/dialogs/meeting-page.c:425
+#: calendar/gui/dialogs/meeting-page.c:432
 msgid "The organizer selected no longer has an account."
 msgstr ""
 
-#: calendar/gui/dialogs/meeting-page.c:431
+#: calendar/gui/dialogs/meeting-page.c:438
 msgid "An organizer is required."
 msgstr "Nepieciešams organizētajs."
 
-#: calendar/gui/dialogs/meeting-page.c:446
+#: calendar/gui/dialogs/meeting-page.c:453
 msgid "At least one attendee is required."
 msgstr "Tiek pieprasīts vismaz viens apmeklētājs."
 
-#: calendar/gui/dialogs/meeting-page.c:616
+#: calendar/gui/dialogs/meeting-page.c:623
 msgid "That person is already attending the meeting!"
 msgstr "Šī persona jau apmeklē sanāksmi!"
 
-#: calendar/gui/dialogs/meeting-page.c:696
+#: calendar/gui/dialogs/meeting-page.c:703
 msgid "_Delegate To..."
 msgstr "_Deleģēt uz..."
 
@@ -4893,52 +4891,52 @@ msgstr "Volisa un Futuna salas"
 msgid "All Instances"
 msgstr "Vi_sas stacijas:"
 
-#: calendar/gui/dialogs/recurrence-page.c:532
+#: calendar/gui/dialogs/recurrence-page.c:535
 msgid "This appointment contains recurrences that Evolution cannot edit."
 msgstr "Šī tikšanās satur atkārtošanās, ko Evolution nevar rediģēt."
 
-#: calendar/gui/dialogs/recurrence-page.c:806
+#: calendar/gui/dialogs/recurrence-page.c:809
 #, fuzzy
 msgid "Recurrence date is invalid"
 msgstr "Atkārtošanas datums ir nepareizs."
 
-#: calendar/gui/dialogs/recurrence-page.c:916
+#: calendar/gui/dialogs/recurrence-page.c:919
 msgid "on"
 msgstr "uz"
 
-#: calendar/gui/dialogs/recurrence-page.c:977
+#: calendar/gui/dialogs/recurrence-page.c:980
 msgid "first"
 msgstr "pirmais"
 
-#: calendar/gui/dialogs/recurrence-page.c:978
+#: calendar/gui/dialogs/recurrence-page.c:981
 msgid "second"
 msgstr "sekunde"
 
-#: calendar/gui/dialogs/recurrence-page.c:979
+#: calendar/gui/dialogs/recurrence-page.c:982
 msgid "third"
 msgstr "trešais"
 
-#: calendar/gui/dialogs/recurrence-page.c:980
+#: calendar/gui/dialogs/recurrence-page.c:983
 msgid "fourth"
 msgstr "ceturtais"
 
-#: calendar/gui/dialogs/recurrence-page.c:981
+#: calendar/gui/dialogs/recurrence-page.c:984
 msgid "last"
 msgstr "pēdējais"
 
-#: calendar/gui/dialogs/recurrence-page.c:1004
+#: calendar/gui/dialogs/recurrence-page.c:1007
 msgid "Other Date"
 msgstr "Cits datums"
 
-#: calendar/gui/dialogs/recurrence-page.c:1032
+#: calendar/gui/dialogs/recurrence-page.c:1035
 msgid "day"
 msgstr "dienā"
 
-#: calendar/gui/dialogs/recurrence-page.c:1169
+#: calendar/gui/dialogs/recurrence-page.c:1172
 msgid "on the"
 msgstr "uz"
 
-#: calendar/gui/dialogs/recurrence-page.c:1354
+#: calendar/gui/dialogs/recurrence-page.c:1357
 msgid "occurrences"
 msgstr "reizes"
 
@@ -5018,7 +5016,7 @@ msgstr "Informācija par uzdevuma norīkojumu ir izveidota. Nosūtīt to?"
 msgid "The task information has changed. Send an updated version?"
 msgstr "Informācija par uzdevumu ir izmainīta. Nosūtīt atjauninātu versiju?"
 
-#: calendar/gui/dialogs/task-details-page.c:397
+#: calendar/gui/dialogs/task-details-page.c:400
 msgid "Completed date is wrong"
 msgstr "Izpildīšanas datums ir nepareizs"
 
@@ -5049,17 +5047,17 @@ msgstr "_Prioritāte:"
 msgid "_Status:"
 msgstr "_Statuss:"
 
-#: calendar/gui/dialogs/task-editor.c:189
+#: calendar/gui/dialogs/task-editor.c:190
 msgid "Basic"
 msgstr "Pamata"
 
-#: calendar/gui/dialogs/task-editor.c:203
-#: calendar/gui/dialogs/task-editor.c:251
-#: calendar/gui/dialogs/task-editor.c:385
+#: calendar/gui/dialogs/task-editor.c:204
+#: calendar/gui/dialogs/task-editor.c:252
+#: calendar/gui/dialogs/task-editor.c:386
 msgid "Assignment"
 msgstr "Uzticējums"
 
-#: calendar/gui/dialogs/task-page.c:527
+#: calendar/gui/dialogs/task-page.c:480
 msgid "Due date is wrong"
 msgstr "Izpildes datums ir nepareizs"
 
@@ -5074,10 +5072,6 @@ msgid "Sta_rt Date:"
 msgstr "Sākum_a datums:"
 
 #: calendar/gui/dialogs/task-page.glade.h:10
-msgid "_Contacts..."
-msgstr "_Kontakti..."
-
-#: calendar/gui/dialogs/task-page.glade.h:11
 msgid "_Due Date:"
 msgstr "_Datuma laikā:"
 
@@ -5293,12 +5287,12 @@ msgstr "A_tzīmēt izvēlētos uzdevumus kā izpildītus"
 msgid "_Delete Selected Tasks"
 msgstr "_Dzēst izvēlētos uzdevumus"
 
-#: calendar/gui/e-calendar-table.c:1244 calendar/gui/e-day-view.c:7635
+#: calendar/gui/e-calendar-table.c:1245 calendar/gui/e-day-view.c:7635
 #: calendar/gui/e-week-view.c:4269
 msgid "Updating objects"
 msgstr "Atjaunināt objektus"
 
-#: calendar/gui/e-calendar-table.c:1327
+#: calendar/gui/e-calendar-table.c:1328
 #: calendar/gui/e-calendar-table.etspec.h:6
 msgid "Click to add a task"
 msgstr "Klikšķināt, lai pievienotu uzdevumu"
@@ -5587,8 +5581,8 @@ msgstr "Lokācija: "
 msgid "Status:"
 msgstr "Statuss:"
 
-#: calendar/gui/e-itip-control.c:1078 calendar/gui/e-meeting-model.c:296
-#: calendar/gui/e-meeting-model.c:319 calendar/gui/e-meeting-model.c:852
+#: calendar/gui/e-itip-control.c:1078 calendar/gui/e-meeting-model.c:288
+#: calendar/gui/e-meeting-model.c:311 calendar/gui/e-meeting-model.c:849
 #: calendar/gui/itip-utils.c:414
 msgid "Accepted"
 msgstr "Apstiprināts"
@@ -5597,19 +5591,19 @@ msgstr "Apstiprināts"
 msgid "Tentatively Accepted"
 msgstr "Pagaidām akceptēt"
 
-#: calendar/gui/e-itip-control.c:1086 calendar/gui/e-meeting-model.c:298
-#: calendar/gui/e-meeting-model.c:321 calendar/gui/e-meeting-model.c:853
+#: calendar/gui/e-itip-control.c:1086 calendar/gui/e-meeting-model.c:290
+#: calendar/gui/e-meeting-model.c:313 calendar/gui/e-meeting-model.c:850
 #: calendar/gui/itip-utils.c:420 calendar/gui/itip-utils.c:446
 msgid "Declined"
 msgstr "Noliegts"
 
 #: calendar/gui/e-itip-control.c:1090 calendar/gui/e-itip-control.c:1298
-#: calendar/gui/e-meeting-model.c:232 calendar/gui/e-meeting-model.c:267
-#: calendar/gui/e-meeting-model.c:332 calendar/gui/e-meeting-model.c:810
-#: calendar/gui/e-meeting-model.c:826 camel/camel-gpg-context.c:1534
-#: camel/camel-gpg-context.c:1584 camel/camel-tcp-stream-openssl.c:634
-#: camel/providers/smtp/camel-smtp-transport.c:171
-#: camel/providers/smtp/camel-smtp-transport.c:226 mail/folder-browser.c:345
+#: calendar/gui/e-meeting-model.c:224 calendar/gui/e-meeting-model.c:259
+#: calendar/gui/e-meeting-model.c:324 calendar/gui/e-meeting-model.c:807
+#: calendar/gui/e-meeting-model.c:823 camel/camel-gpg-context.c:1567
+#: camel/camel-gpg-context.c:1618 camel/camel-tcp-stream-openssl.c:634
+#: camel/providers/smtp/camel-smtp-transport.c:173
+#: camel/providers/smtp/camel-smtp-transport.c:228 mail/folder-browser.c:345
 #: mail/mail-display.c:950 widgets/misc/e-charset-picker.c:60
 #: widgets/misc/e-charset-picker.c:510
 msgid "Unknown"
@@ -5948,99 +5942,99 @@ msgstr "datums-sākums"
 msgid "date-start"
 msgstr "datums-beigas"
 
-#: calendar/gui/e-meeting-model.c:80
+#: calendar/gui/e-meeting-model.c:81
 msgid "Chair Persons"
 msgstr "Vadošās personas"
 
-#: calendar/gui/e-meeting-model.c:81 calendar/gui/e-meeting-model.c:1695
+#: calendar/gui/e-meeting-model.c:82 calendar/gui/e-meeting-model.c:1697
 msgid "Required Participants"
 msgstr "Pieprasītie dalībnieki"
 
-#: calendar/gui/e-meeting-model.c:82
+#: calendar/gui/e-meeting-model.c:83
 msgid "Optional Participants"
 msgstr "Iespējamie dalībnieki"
 
-#: calendar/gui/e-meeting-model.c:83
+#: calendar/gui/e-meeting-model.c:84
 msgid "Resources"
 msgstr "Resursi"
 
-#: calendar/gui/e-meeting-model.c:207 calendar/gui/e-meeting-model.c:224
-#: calendar/gui/e-meeting-model.c:540 calendar/gui/e-meeting-model.c:806
+#: calendar/gui/e-meeting-model.c:199 calendar/gui/e-meeting-model.c:216
+#: calendar/gui/e-meeting-model.c:532 calendar/gui/e-meeting-model.c:803
 msgid "Individual"
 msgstr "Individuāli"
 
-#: calendar/gui/e-meeting-model.c:209 calendar/gui/e-meeting-model.c:226
-#: calendar/gui/e-meeting-model.c:807
+#: calendar/gui/e-meeting-model.c:201 calendar/gui/e-meeting-model.c:218
+#: calendar/gui/e-meeting-model.c:804
 msgid "Group"
 msgstr "Grupa"
 
-#: calendar/gui/e-meeting-model.c:211 calendar/gui/e-meeting-model.c:228
-#: calendar/gui/e-meeting-model.c:808
+#: calendar/gui/e-meeting-model.c:203 calendar/gui/e-meeting-model.c:220
+#: calendar/gui/e-meeting-model.c:805
 msgid "Resource"
 msgstr "Resurss"
 
-#: calendar/gui/e-meeting-model.c:213 calendar/gui/e-meeting-model.c:230
-#: calendar/gui/e-meeting-model.c:809
+#: calendar/gui/e-meeting-model.c:205 calendar/gui/e-meeting-model.c:222
+#: calendar/gui/e-meeting-model.c:806
 msgid "Room"
 msgstr "Istaba"
 
-#: calendar/gui/e-meeting-model.c:242 calendar/gui/e-meeting-model.c:259
-#: calendar/gui/e-meeting-model.c:822
+#: calendar/gui/e-meeting-model.c:234 calendar/gui/e-meeting-model.c:251
+#: calendar/gui/e-meeting-model.c:819
 msgid "Chair"
 msgstr "Krēsls"
 
-#: calendar/gui/e-meeting-model.c:244 calendar/gui/e-meeting-model.c:261
-#: calendar/gui/e-meeting-model.c:542 calendar/gui/e-meeting-model.c:823
+#: calendar/gui/e-meeting-model.c:236 calendar/gui/e-meeting-model.c:253
+#: calendar/gui/e-meeting-model.c:534 calendar/gui/e-meeting-model.c:820
 msgid "Required Participant"
 msgstr "Pieprasītais dalībnieks"
 
-#: calendar/gui/e-meeting-model.c:246 calendar/gui/e-meeting-model.c:263
-#: calendar/gui/e-meeting-model.c:824
+#: calendar/gui/e-meeting-model.c:238 calendar/gui/e-meeting-model.c:255
+#: calendar/gui/e-meeting-model.c:821
 msgid "Optional Participant"
 msgstr "Iespējamais dalībnieks"
 
-#: calendar/gui/e-meeting-model.c:248 calendar/gui/e-meeting-model.c:265
-#: calendar/gui/e-meeting-model.c:825
+#: calendar/gui/e-meeting-model.c:240 calendar/gui/e-meeting-model.c:257
+#: calendar/gui/e-meeting-model.c:822
 msgid "Non-Participant"
 msgstr "Nepiedalās"
 
-#: calendar/gui/e-meeting-model.c:294 calendar/gui/e-meeting-model.c:317
-#: calendar/gui/e-meeting-model.c:550 calendar/gui/e-meeting-model.c:851
+#: calendar/gui/e-meeting-model.c:286 calendar/gui/e-meeting-model.c:309
+#: calendar/gui/e-meeting-model.c:542 calendar/gui/e-meeting-model.c:848
 msgid "Needs Action"
 msgstr "Pieprasa darbību"
 
-#: calendar/gui/e-meeting-model.c:300 calendar/gui/e-meeting-model.c:323
-#: calendar/gui/e-meeting-model.c:854 calendar/gui/e-meeting-time-sel.c:406
+#: calendar/gui/e-meeting-model.c:292 calendar/gui/e-meeting-model.c:315
+#: calendar/gui/e-meeting-model.c:851 calendar/gui/e-meeting-time-sel.c:406
 msgid "Tentative"
 msgstr "Pagaidu"
 
-#: calendar/gui/e-meeting-model.c:302 calendar/gui/e-meeting-model.c:325
-#: calendar/gui/e-meeting-model.c:855
+#: calendar/gui/e-meeting-model.c:294 calendar/gui/e-meeting-model.c:317
+#: calendar/gui/e-meeting-model.c:852
 msgid "Delegated"
 msgstr "Deleģēts"
 
-#: calendar/gui/e-meeting-model.c:306 calendar/gui/e-meeting-model.c:329
+#: calendar/gui/e-meeting-model.c:298 calendar/gui/e-meeting-model.c:321
 msgid "In Process"
 msgstr "Procesā"
 
 #. This is a strftime() format string %A = full weekday name,
 #. %B = full month name, %d = month day, %Y = full year.
-#: calendar/gui/e-meeting-time-sel-item.c:452
-#: calendar/gui/e-meeting-time-sel.c:2092
+#: calendar/gui/e-meeting-time-sel-item.c:458
+#: calendar/gui/e-meeting-time-sel.c:2114
 msgid "%A, %B %d, %Y"
 msgstr "%A, %B %d, %Y"
 
 #. This is a strftime() format string %a = abbreviated weekday
 #. name, %m = month number, %d = month day, %Y = full year.
-#: calendar/gui/e-meeting-time-sel-item.c:456
-#: calendar/gui/e-meeting-time-sel.c:2125 e-util/e-time-utils.c:189
+#: calendar/gui/e-meeting-time-sel-item.c:462
+#: calendar/gui/e-meeting-time-sel.c:2147 e-util/e-time-utils.c:189
 #: e-util/e-time-utils.c:282 e-util/e-time-utils.c:370
 msgid "%a %m/%d/%Y"
 msgstr "%a %m/%d/%Y"
 
 #. This is a strftime() format string %m = month number,
 #. %d = month day, %Y = full year.
-#: calendar/gui/e-meeting-time-sel-item.c:460 e-util/e-time-utils.c:224
+#: calendar/gui/e-meeting-time-sel-item.c:466 e-util/e-time-utils.c:224
 #: e-util/e-time-utils.c:285 widgets/misc/e-dateedit.c:1608
 msgid "%m/%d/%Y"
 msgstr "%m/%d/%Y"
@@ -8338,7 +8332,7 @@ msgstr "Pārvietojam vēstules"
 msgid "Copying messages"
 msgstr "Kopēju vēstules"
 
-#: camel/camel-gpg-context.c:724
+#: camel/camel-gpg-context.c:757
 #, c-format
 msgid ""
 "Unexpected GnuPG status message encountered:\n"
@@ -8349,15 +8343,15 @@ msgstr ""
 "\n"
 "%s"
 
-#: camel/camel-gpg-context.c:738
+#: camel/camel-gpg-context.c:772
 msgid "Failed to parse gpg userid hint."
 msgstr "Neizdevās noparsēt gpg userid padomu."
 
-#: camel/camel-gpg-context.c:761
+#: camel/camel-gpg-context.c:797
 msgid "Failed to parse gpg passphrase request."
 msgstr "Neizdevās noparsēt gpg paroļfrāzes pieprasījumu."
 
-#: camel/camel-gpg-context.c:769
+#: camel/camel-gpg-context.c:805
 #, c-format
 msgid ""
 "You need a passphrase to unlock the key for\n"
@@ -8366,58 +8360,59 @@ msgstr ""
 "Jums nepieciešama atslēgfrāze, lai atslēgtu atslēgu\n"
 "lietotājam: \"%s\""
 
-#: camel/camel-gpg-context.c:780 camel/camel-gpg-context.c:1249
-#: camel/camel-gpg-context.c:1356 camel/camel-gpg-context.c:1431
-#: camel/camel-gpg-context.c:1488 mail/mail-send-recv.c:565
+#: camel/camel-gpg-context.c:816 camel/camel-gpg-context.c:1290
+#: camel/camel-gpg-context.c:1396 camel/camel-gpg-context.c:1466
+#: camel/camel-gpg-context.c:1522 mail/mail-send-recv.c:567
 msgid "Cancelled."
 msgstr "Atsaukts."
 
-#: camel/camel-gpg-context.c:798
+#: camel/camel-gpg-context.c:834
 msgid "Failed to unlock secret key: 3 bad passphrases given."
 msgstr "Neizdevās atslēgt slepeno atslēgu: dotas 3 sliktas paroļfrāzes"
 
-#: camel/camel-gpg-context.c:804
+#: camel/camel-gpg-context.c:840
 #, c-format
 msgid "Unexpected response from GnuPG: %s"
 msgstr "Negaidīta atbilde no GnuPG: %s"
 
-#: camel/camel-gpg-context.c:814
+#: camel/camel-gpg-context.c:852
 msgid "No data provided"
 msgstr "Nav piegādāti dati"
 
-#: camel/camel-gpg-context.c:857
+#: camel/camel-gpg-context.c:895
 msgid "Failed to encrypt: No valid recipients specified."
 msgstr "Neizdevās kodēt: Nav norādīti atļauti adresāti."
 
-#: camel/camel-gpg-context.c:1125
+#: camel/camel-gpg-context.c:1167
 #, fuzzy, c-format
 msgid ""
 "Failed to GPG %s: %s\n"
 "\n"
-"%.*s"
+"%s"
 msgstr ""
 "Neizdevās GPG %s vēstuli: %s\n"
 "\n"
 "%.*s"
 
-#: camel/camel-gpg-context.c:1131
+#: camel/camel-gpg-context.c:1172
 #, fuzzy, c-format
 msgid "Failed to GPG %s: %s\n"
 msgstr "Neizdevās GPG %s vēstuli: %s\n"
 
-#: camel/camel-gpg-context.c:1240 camel/camel-gpg-context.c:1533
-#: camel/camel-gpg-context.c:1583
+#: camel/camel-gpg-context.c:1281 camel/camel-gpg-context.c:1566
+#: camel/camel-gpg-context.c:1617
 #, c-format
 msgid "Failed to execute gpg: %s"
 msgstr "Neizdevās palaist gpg: %s"
 
-#: camel/camel-gpg-context.c:1270 camel/camel-gpg-context.c:1348
-#: camel/camel-gpg-context.c:1422 camel/camel-gpg-context.c:1452
-#: camel/camel-gpg-context.c:1479 camel/camel-gpg-context.c:1509
+#: camel/camel-gpg-context.c:1311 camel/camel-gpg-context.c:1388
+#: camel/camel-gpg-context.c:1457 camel/camel-gpg-context.c:1487
+#: camel/camel-gpg-context.c:1513 camel/camel-gpg-context.c:1543
+#: camel/camel-gpg-context.c:1588 camel/camel-gpg-context.c:1639
 msgid "Failed to execute gpg."
 msgstr "Neizdevās palaist gpg."
 
-#: camel/camel-gpg-context.c:1333
+#: camel/camel-gpg-context.c:1373
 #, c-format
 msgid "Cannot verify message signature: could not create temp file: %s"
 msgstr ""
@@ -9337,7 +9332,7 @@ msgstr "Konekcija pārtraukta"
 
 #: camel/providers/imap/camel-imap-store.c:590
 #: camel/providers/nntp/camel-nntp-store.c:133
-#: camel/providers/smtp/camel-smtp-transport.c:274
+#: camel/providers/smtp/camel-smtp-transport.c:276
 #, c-format
 msgid "Could not connect to %s (port %d): %s"
 msgstr "Nevarēja savienoties ar %s (ports %d): %s"
@@ -9364,7 +9359,7 @@ msgid "IMAP server %s does not support requested authentication type %s"
 msgstr "IMAP serveris %s neatbalsta pieprasīto autentifikācijas tipu %s"
 
 #: camel/providers/imap/camel-imap-store.c:1085
-#: camel/providers/smtp/camel-smtp-transport.c:484
+#: camel/providers/smtp/camel-smtp-transport.c:486
 #, c-format
 msgid "No support for authentication type %s"
 msgstr "Neatbalstīts autentifikācijas tips %s"
@@ -10136,142 +10131,142 @@ msgid "For delivering mail by connecting to a remote mailhub using SMTP.\n"
 msgstr ""
 "Pasta izsūtīšanai savienojoties uz attālinātu pasta hubu, izmantojot SMTP.\n"
 
-#: camel/providers/smtp/camel-smtp-transport.c:173
+#: camel/providers/smtp/camel-smtp-transport.c:175
 msgid "Syntax error, command unrecognized"
 msgstr "Sintakses kļūda, komanda neatpazīta"
 
-#: camel/providers/smtp/camel-smtp-transport.c:175
+#: camel/providers/smtp/camel-smtp-transport.c:177
 msgid "Syntax error in parameters or arguments"
 msgstr "Sintakses kļūda parametros vai argumentos"
 
-#: camel/providers/smtp/camel-smtp-transport.c:177
+#: camel/providers/smtp/camel-smtp-transport.c:179
 msgid "Command not implemented"
 msgstr "Komanda nav ievietota"
 
-#: camel/providers/smtp/camel-smtp-transport.c:179
+#: camel/providers/smtp/camel-smtp-transport.c:181
 msgid "Command parameter not implemented"
 msgstr "Komandas parametri nav ievietoti"
 
-#: camel/providers/smtp/camel-smtp-transport.c:181
+#: camel/providers/smtp/camel-smtp-transport.c:183
 msgid "System status, or system help reply"
 msgstr "Sistēmas statuss, vai sistēmas palīdzības atbilde"
 
-#: camel/providers/smtp/camel-smtp-transport.c:183
+#: camel/providers/smtp/camel-smtp-transport.c:185
 msgid "Help message"
 msgstr "Palīdzības ziņojums"
 
-#: camel/providers/smtp/camel-smtp-transport.c:185
+#: camel/providers/smtp/camel-smtp-transport.c:187
 msgid "Service ready"
 msgstr "Serviss kārtībā"
 
-#: camel/providers/smtp/camel-smtp-transport.c:187
+#: camel/providers/smtp/camel-smtp-transport.c:189
 msgid "Service closing transmission channel"
 msgstr "Serviss aizver pārraides kanālu"
 
-#: camel/providers/smtp/camel-smtp-transport.c:189
+#: camel/providers/smtp/camel-smtp-transport.c:191
 msgid "Service not available, closing transmission channel"
 msgstr "Serviss nav pieejams, aizveram pārraides kanālu"
 
-#: camel/providers/smtp/camel-smtp-transport.c:191
+#: camel/providers/smtp/camel-smtp-transport.c:193
 msgid "Requested mail action okay, completed"
 msgstr "Pieprasītā pasta darbība atļauta, izpildīta"
 
-#: camel/providers/smtp/camel-smtp-transport.c:193
+#: camel/providers/smtp/camel-smtp-transport.c:195
 msgid "User not local; will forward to <forward-path>"
 msgstr "Lietotājs nav lokāls; tiks pārsūtīts uz <pārsūtītājceļš>"
 
-#: camel/providers/smtp/camel-smtp-transport.c:195
+#: camel/providers/smtp/camel-smtp-transport.c:197
 msgid "Requested mail action not taken: mailbox unavailable"
 msgstr "Pieprasītā pasta darbība nav veikta: pastkaste nepiejama"
 
-#: camel/providers/smtp/camel-smtp-transport.c:197
+#: camel/providers/smtp/camel-smtp-transport.c:199
 msgid "Requested action not taken: mailbox unavailable"
 msgstr "Pieprasītā darbība nav notikusi: pastkaste nepieejama"
 
-#: camel/providers/smtp/camel-smtp-transport.c:199
+#: camel/providers/smtp/camel-smtp-transport.c:201
 msgid "Requested action aborted: error in processing"
 msgstr "Pieprasītā darbība pārtraukta: kļūda izpildē"
 
-#: camel/providers/smtp/camel-smtp-transport.c:201
+#: camel/providers/smtp/camel-smtp-transport.c:203
 msgid "User not local; please try <forward-path>"
 msgstr "Lietotājs nav lokāls; lūdzu izmēģiniet <pārsūtītājceļš>"
 
-#: camel/providers/smtp/camel-smtp-transport.c:203
+#: camel/providers/smtp/camel-smtp-transport.c:205
 msgid "Requested action not taken: insufficient system storage"
 msgstr "Pieprasītā darbība nav notikusi: nepietiekama vieta sistēmā"
 
-#: camel/providers/smtp/camel-smtp-transport.c:205
+#: camel/providers/smtp/camel-smtp-transport.c:207
 msgid "Requested mail action aborted: exceeded storage allocation"
 msgstr ""
 "Pieprasītā pasta darbība pārtraukta: pārsniegta pieejamā glabātuves brīvā "
 "vieta"
 
-#: camel/providers/smtp/camel-smtp-transport.c:207
+#: camel/providers/smtp/camel-smtp-transport.c:209
 msgid "Requested action not taken: mailbox name not allowed"
 msgstr "Pieprasītā darbība nav notikusi: pastkastes nosaukums nav atļauts"
 
-#: camel/providers/smtp/camel-smtp-transport.c:209
+#: camel/providers/smtp/camel-smtp-transport.c:211
 msgid "Start mail input; end with <CRLF>.<CRLF>"
 msgstr "Sākt pasta ievadi; beigt ar <CRLF>.<CRLF>"
 
-#: camel/providers/smtp/camel-smtp-transport.c:211
+#: camel/providers/smtp/camel-smtp-transport.c:213
 msgid "Transaction failed"
 msgstr "Pāreja neizdevusies"
 
-#: camel/providers/smtp/camel-smtp-transport.c:215
+#: camel/providers/smtp/camel-smtp-transport.c:217
 msgid "A password transition is needed"
 msgstr "Nepieciešama paroles pāreja"
 
-#: camel/providers/smtp/camel-smtp-transport.c:217
+#: camel/providers/smtp/camel-smtp-transport.c:219
 msgid "Authentication mechanism is too weak"
 msgstr "Autentifikācijas mehānisms ir par vāju"
 
-#: camel/providers/smtp/camel-smtp-transport.c:219
+#: camel/providers/smtp/camel-smtp-transport.c:221
 msgid "Encryption required for requested authentication mechanism"
 msgstr "Pieprasītajam autentifikācijas mehānismam pieprasīta kodēšana"
 
-#: camel/providers/smtp/camel-smtp-transport.c:221
+#: camel/providers/smtp/camel-smtp-transport.c:223
 msgid "Temporary authentication failure"
 msgstr "Pagaidu autentifikācijas problēma"
 
-#: camel/providers/smtp/camel-smtp-transport.c:223
+#: camel/providers/smtp/camel-smtp-transport.c:225
 msgid "Authentication required"
 msgstr "Pieprasīta autentifikācija"
 
-#: camel/providers/smtp/camel-smtp-transport.c:297
+#: camel/providers/smtp/camel-smtp-transport.c:299
 msgid "Welcome response error"
 msgstr "Welcome atbildes kļūda"
 
-#: camel/providers/smtp/camel-smtp-transport.c:341
-#: camel/providers/smtp/camel-smtp-transport.c:380
+#: camel/providers/smtp/camel-smtp-transport.c:343
+#: camel/providers/smtp/camel-smtp-transport.c:382
 #, c-format
 msgid "Failed to connect to SMTP server %s in secure mode: %s"
 msgstr "Neizdevās savienoties ar SMTP serveri %s drošības režīmā: %s"
 
-#: camel/providers/smtp/camel-smtp-transport.c:342
+#: camel/providers/smtp/camel-smtp-transport.c:344
 msgid "server does not appear to support SSL"
 msgstr "serveris neatbalsta SSL protokolu"
 
-#: camel/providers/smtp/camel-smtp-transport.c:356
+#: camel/providers/smtp/camel-smtp-transport.c:358
 #, c-format
 msgid "STARTTLS request timed out: %s"
 msgstr "STARTTLS pieprasījums iztecējis: %s"
 
-#: camel/providers/smtp/camel-smtp-transport.c:371
+#: camel/providers/smtp/camel-smtp-transport.c:373
 msgid "STARTTLS response error"
 msgstr "STARTTLS atbildes kļūda"
 
-#: camel/providers/smtp/camel-smtp-transport.c:474
+#: camel/providers/smtp/camel-smtp-transport.c:476
 #, c-format
 msgid "SMTP server %s does not support requested authentication type %s."
 msgstr "SMTP serveris %s neatbalsta pieprasīto autentifikācijas tipu %s."
 
-#: camel/providers/smtp/camel-smtp-transport.c:512
+#: camel/providers/smtp/camel-smtp-transport.c:514
 #, c-format
 msgid "%sPlease enter the SMTP password for %s@%s"
 msgstr "%sLūdzu ievadiet %s@%s SMTP paroli"
 
-#: camel/providers/smtp/camel-smtp-transport.c:531
+#: camel/providers/smtp/camel-smtp-transport.c:533
 #, c-format
 msgid ""
 "Unable to authenticate to SMTP server.\n"
@@ -10282,87 +10277,87 @@ msgstr ""
 "%s\n"
 "\n"
 
-#: camel/providers/smtp/camel-smtp-transport.c:664
+#: camel/providers/smtp/camel-smtp-transport.c:666
 #, c-format
 msgid "SMTP server %s"
 msgstr "SMTP serveris %s"
 
-#: camel/providers/smtp/camel-smtp-transport.c:666
+#: camel/providers/smtp/camel-smtp-transport.c:668
 #, c-format
 msgid "SMTP mail delivery via %s"
 msgstr "SMTP pasta nosūtīšana caur  %s"
 
-#: camel/providers/smtp/camel-smtp-transport.c:684
+#: camel/providers/smtp/camel-smtp-transport.c:686
 msgid "Cannot send message: sender address not valid."
 msgstr "Nevar nosūtīt adresi: sūtītāja adrese nav pareiza."
 
-#: camel/providers/smtp/camel-smtp-transport.c:689 mail/mail-ops.c:613
+#: camel/providers/smtp/camel-smtp-transport.c:691 mail/mail-ops.c:613
 msgid "Sending message"
 msgstr "Sūtam vēstuli"
 
-#: camel/providers/smtp/camel-smtp-transport.c:704
+#: camel/providers/smtp/camel-smtp-transport.c:706
 msgid "Cannot send message: no recipients defined."
 msgstr "Nevaru nosūtīt vēstuli: nav norādīti adresāti."
 
-#: camel/providers/smtp/camel-smtp-transport.c:713
+#: camel/providers/smtp/camel-smtp-transport.c:715
 msgid "Cannot send message: one or more invalid recipients"
 msgstr "Nevaru nosūtīt vēstuli: viens vai vairaki nepareizi adresāti"
 
-#: camel/providers/smtp/camel-smtp-transport.c:878
+#: camel/providers/smtp/camel-smtp-transport.c:880
 msgid "SMTP Greeting"
 msgstr "SMTP apsveikums (Greeting)"
 
-#: camel/providers/smtp/camel-smtp-transport.c:924
+#: camel/providers/smtp/camel-smtp-transport.c:926
 #, c-format
 msgid "HELO request timed out: %s"
 msgstr "HELO pieprasījums iztecējis: %s"
 
-#: camel/providers/smtp/camel-smtp-transport.c:946
+#: camel/providers/smtp/camel-smtp-transport.c:948
 msgid "HELO response error"
 msgstr "HELO atbildes kļūda"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1012
+#: camel/providers/smtp/camel-smtp-transport.c:1014
 msgid "SMTP Authentication"
 msgstr "SMTP autentifikācija"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1018
+#: camel/providers/smtp/camel-smtp-transport.c:1020
 msgid "Error creating SASL authentication object."
 msgstr "Kļūda izveidojot SASL autentifikācijas objektu."
 
-#: camel/providers/smtp/camel-smtp-transport.c:1035
-#: camel/providers/smtp/camel-smtp-transport.c:1047
+#: camel/providers/smtp/camel-smtp-transport.c:1037
+#: camel/providers/smtp/camel-smtp-transport.c:1049
 #, c-format
 msgid "AUTH request timed out: %s"
 msgstr "AUTH pieprasījums iztecējis: %s"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1056
+#: camel/providers/smtp/camel-smtp-transport.c:1058
 msgid "AUTH request failed."
 msgstr "AUTH pieprasījums neveiksmīgs."
 
-#: camel/providers/smtp/camel-smtp-transport.c:1117
+#: camel/providers/smtp/camel-smtp-transport.c:1119
 msgid "Bad authentication response from server.\n"
 msgstr "Slikta autentifikācijas atbilde no servera.\n"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1142
+#: camel/providers/smtp/camel-smtp-transport.c:1144
 #, c-format
 msgid "MAIL FROM request timed out: %s: mail not sent"
 msgstr "MAIL FROM pieprasījums iztecējis: %s: pasts nav nosūtīts"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1162
+#: camel/providers/smtp/camel-smtp-transport.c:1164
 msgid "MAIL FROM response error"
 msgstr "MAIL FROM atbildes kļūda"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1186
+#: camel/providers/smtp/camel-smtp-transport.c:1188
 #, c-format
 msgid "RCPT TO request timed out: %s: mail not sent"
 msgstr "RCPT TO pieprasījums iztecējis: %s: pasts nav nosūtīts"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1208
+#: camel/providers/smtp/camel-smtp-transport.c:1210
 #, c-format
 msgid "RCPT TO <%s> failed"
 msgstr "RCPT TO (%s) neizdevies"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1247
+#: camel/providers/smtp/camel-smtp-transport.c:1249
 #, c-format
 msgid "DATA request timed out: %s: mail not sent"
 msgstr "DATA pieprasījums iztecējis: %s: pasts nav nosūtīts"
@@ -10370,35 +10365,35 @@ msgstr "DATA pieprasījums iztecējis: %s: pasts nav nosūtīts"
 #. we should have gotten instructions on how to use the DATA command:
 #. * 354 Enter mail, end with "." on a line by itself
 #.
-#: camel/providers/smtp/camel-smtp-transport.c:1267
+#: camel/providers/smtp/camel-smtp-transport.c:1269
 msgid "DATA response error"
 msgstr "DATA atbildes kļūda"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1308
-#: camel/providers/smtp/camel-smtp-transport.c:1331
+#: camel/providers/smtp/camel-smtp-transport.c:1310
+#: camel/providers/smtp/camel-smtp-transport.c:1333
 #, c-format
 msgid "DATA send timed out: message termination: %s: mail not sent"
 msgstr "DATA sūtijums iztecējis: vēstules pārtraukšana: %s: pasts nav nosūtīts"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1351
+#: camel/providers/smtp/camel-smtp-transport.c:1353
 msgid "DATA termination response error"
 msgstr "DATA pārtraukuma atbildes kļūda"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1374
+#: camel/providers/smtp/camel-smtp-transport.c:1376
 #, c-format
 msgid "RSET request timed out: %s"
 msgstr "RSET pieprasījums iztecējis: %s"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1394
+#: camel/providers/smtp/camel-smtp-transport.c:1396
 msgid "RSET response error"
 msgstr "RSET atbildes kļūda"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1417
+#: camel/providers/smtp/camel-smtp-transport.c:1419
 #, c-format
 msgid "QUIT request timed out: %s"
 msgstr "QUIT pieprasījums iztecējis: %s"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1437
+#: camel/providers/smtp/camel-smtp-transport.c:1439
 msgid "QUIT response error"
 msgstr "QUIT atbildes kļūda"
 
@@ -10651,12 +10646,12 @@ msgstr "Paraksts:"
 msgid "Autogenerated"
 msgstr "Autoģenerēts"
 
-#: composer/e-msg-composer.c:2234 composer/e-msg-composer.c:2873
-#: composer/e-msg-composer.c:2874
+#: composer/e-msg-composer.c:2233 composer/e-msg-composer.c:2872
+#: composer/e-msg-composer.c:2873
 msgid "Compose a message"
 msgstr "Uzrakstīt vēstuli"
 
-#: composer/e-msg-composer.c:2905
+#: composer/e-msg-composer.c:2904
 msgid ""
 "Could not create composer window:\n"
 "Unable to activate address selector control."
@@ -10664,7 +10659,7 @@ msgstr ""
 "Nevarēju izveidot sacerētāja logu:\n"
 "Neizdevās aktivizēt adrešu izvēlētāja kontroli."
 
-#: composer/e-msg-composer.c:2931
+#: composer/e-msg-composer.c:2930
 msgid ""
 "Could not create composer window:\n"
 "Unable to activate HTML editor component.\n"
@@ -10676,7 +10671,7 @@ msgstr ""
 "Lūdzu pārliecinieties, ka jums ir uzstādītas gtkhtml\n"
 "un libgtkhtml pareizās versijas.\n"
 
-#: composer/e-msg-composer.c:2991
+#: composer/e-msg-composer.c:2990
 msgid ""
 "Could not create composer window:\n"
 "Unable to activate HTML editor component."
@@ -10684,7 +10679,7 @@ msgstr ""
 "Nevarēju izveidot sacerētāja logu:\n"
 "Nespēju aktivizēt HTML redaktora komponenti."
 
-#: composer/e-msg-composer.c:4005
+#: composer/e-msg-composer.c:4004
 msgid ""
 "<b>(The composer contains a non-text message body, which cannot be edited.)"
 "<b>"
@@ -13424,7 +13419,7 @@ msgstr "Sūtam %d. vēstuli no %d"
 msgid "Failed on message %d of %d"
 msgstr "Kļūda pie %d vēstules no %d"
 
-#: mail/mail-ops.c:750 mail/mail-send-recv.c:569
+#: mail/mail-ops.c:750 mail/mail-send-recv.c:571
 msgid "Complete."
 msgstr "Izpildīts."
 
@@ -13556,23 +13551,23 @@ msgstr "Tukša vēstule"
 msgid "Find in Message"
 msgstr "Meklēt vēstulē"
 
-#: mail/mail-search.c:285
+#: mail/mail-search.c:287
 msgid "Search"
 msgstr "Meklēšana"
 
-#: mail/mail-search.c:311
+#: mail/mail-search.c:314
 msgid "Case Sensitive"
 msgstr "Reģistrjūtīgs"
 
-#: mail/mail-search.c:313
+#: mail/mail-search.c:316
 msgid "Search Forward"
 msgstr "Meklēt uz priekšu"
 
-#: mail/mail-search.c:333
+#: mail/mail-search.c:336
 msgid "Find:"
 msgstr "Meklēt:"
 
-#: mail/mail-search.c:336
+#: mail/mail-search.c:340
 msgid "Matches:"
 msgstr "Atbilstumi:"
 
@@ -13603,11 +13598,11 @@ msgstr "Sūtīt un saņemt pastu"
 msgid "Cancel All"
 msgstr "Atcelt Visu"
 
-#: mail/mail-send-recv.c:378
+#: mail/mail-send-recv.c:380
 msgid "Updating..."
 msgstr "Atjauninu..."
 
-#: mail/mail-send-recv.c:379 mail/mail-send-recv.c:434
+#: mail/mail-send-recv.c:381 mail/mail-send-recv.c:436
 msgid "Waiting..."
 msgstr "Gaidu..."
 
@@ -13624,11 +13619,11 @@ msgstr "Ievadiet %s paroli"
 msgid "Enter Password"
 msgstr "Ievadiet paroli"
 
-#: mail/mail-session.c:280
+#: mail/mail-session.c:282
 msgid "_Remember this password"
 msgstr "_Atcerēties šo paroli"
 
-#: mail/mail-session.c:281
+#: mail/mail-session.c:283
 msgid "_Remember this password for the remainder of this session"
 msgstr "_Atcerēties šo paroli uz visu atlikušo sesijas laiku"
 
@@ -27817,11 +27812,13 @@ msgid "Custom View"
 msgstr "Skats pēc izvēles"
 
 #: widgets/menus/gal-view-menus.c:359
-msgid "Save Custom View"
+#, fuzzy
+msgid "Save Custom View..."
 msgstr "Saglabāt skatu pēc izvēles"
 
 #: widgets/menus/gal-view-menus.c:372
-msgid "Define Views"
+#, fuzzy
+msgid "Define Views..."
 msgstr "_Definēt skatus"
 
 #. Translators: These are the first characters of each day of the
@@ -28018,6 +28015,9 @@ msgstr "Evolution kalendāra kopsavilkuma komponente."
 #, fuzzy
 msgid "Evolution Addressbook local file backend"
 msgstr "Evolution adrešu grāmatas minikaršu skatītājs"
+
+#~ msgid "_Contacts..."
+#~ msgstr "_Kontakti..."
 
 #~ msgid "Factory to import LDIF files into Evolution."
 #~ msgstr "Ražotne LDIF failu importēšanai Evolution."

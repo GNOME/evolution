@@ -1,4 +1,4 @@
-Evolution 1.3.2, 2003-04-09
+Evolution 1.3.2, 2003-04-11
 ---------------------------
 
 Bugzilla bugs fixed (see http://bugzilla.ximian.com/show_bug.cgi):
@@ -147,13 +147,14 @@ Bugzilla bugs fixed (see http://bugzilla.ximian.com/show_bug.cgi):
     #40536 - Send/receive dialogue should transient for parent.
              (Michael)
     #40608 - Crash saving attachment.  (Jeff)
-    #40679 - composer crash browsing files to attach.  (Jeff)
-    #40728 - crash while scrolling  (Jeff)
-    #40764 - composer backs up drafts too often.  (Jeff)
+    #40679 - Composer crash browsing files to attach.  (Jeff)
+    #40728 - Crash while scrolling.  (Jeff)
+    #40764 - Composer backs up drafts too often.  (Jeff)
     #40778 - incorrect IMAP BODY parsing/display  (Jeff)
-    #40900 - vfolder creation dialog has wrong button order  (Michael)
-    #40904 - Spontaneous crash  (Jeff)
-    #40921 - cancel subscription dialogue while busy -> crash  (Michael)
+    #40900 - vfolder creation dialog has wrong button order.  (Michael)
+    #40904 - Spontaneous crash.  (Jeff)
+    #40921 - Cancel subscription dialogue while busy -> crash.  (Michael)
+    #41004 - HIG compliance.  (Jeff)
 
   * Shell
 
