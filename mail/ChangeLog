@@ -1,3 +1,9 @@
+2001-06-27  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* folder-browser.c: Fixed Cut/Copy/Paste to work - it turns out I
+	couldn't share a single GtkInvisible between all the
+	FolderBrowser's after all.
+
 2001-06-27  Peter Williams  <peterw@ximian.com>
 
 	* folder-browser-factory.c (control_deactivate): Change to use

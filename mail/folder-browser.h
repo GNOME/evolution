@@ -65,6 +65,9 @@ struct  _FolderBrowser {
 	/* View collection and the menu handler object */
 	GalViewCollection *view_collection;
 	GalViewMenus *view_menus;
+	
+	GtkWidget *invisible;
+	GByteArray *clipboard_selection;
 };
 
 

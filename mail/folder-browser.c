@@ -74,8 +74,6 @@ static GtkTargetEntry drag_types[] = {
 static const int num_drag_types = sizeof (drag_types) / sizeof (drag_types[0]);
 
 static GdkAtom clipboard_atom = GDK_NONE;
-static GByteArray *clipboard_selection = NULL;
-static GtkWidget *invisible = NULL;
 
 static void update_unread_count (CamelObject *, gpointer, gpointer);
 
@@ -88,15 +86,6 @@ enum {
 };
 
 static guint folder_browser_signals [LAST_SIGNAL] = {0, };
-
-static void
-invisible_destroyed (GtkObject *invisible)
-{
-	if (clipboard_selection) {
-		g_byte_array_free (clipboard_selection, TRUE);
-		clipboard_selection = NULL;
-	}
-}
 
 static void
 folder_browser_destroy (GtkObject *object)
@@ -155,7 +144,9 @@ folder_browser_destroy (GtkObject *object)
 		folder_browser->view_menus = NULL;
 	}
 	
-	gtk_object_unref (GTK_OBJECT (invisible));
+	gtk_object_unref (GTK_OBJECT (folder_browser->invisible));
+	if (folder_browser->clipboard_selection)
+		g_byte_array_free (folder_browser->clipboard_selection, TRUE);
 	
 	folder_browser_parent_class->destroy (object);
 }
@@ -535,21 +526,21 @@ static void
 selection_get (GtkWidget *widget, GtkSelectionData *selection_data,
 	       guint info, guint time_stamp, FolderBrowser *fb)
 {
-	if (clipboard_selection != NULL) {
+	if (fb->clipboard_selection != NULL) {
 		gtk_selection_data_set (selection_data,
 					GDK_SELECTION_TYPE_STRING,
 					8,
-					clipboard_selection->data,
-					clipboard_selection->len);
+					fb->clipboard_selection->data,
+					fb->clipboard_selection->len);
 	}
 }
 
 static void
 selection_clear_event (GtkWidget *widget, GdkEventSelection *event, FolderBrowser *fb)
 {
-	if (clipboard_selection != NULL) {
-		g_byte_array_free (clipboard_selection, TRUE);
-		clipboard_selection = NULL;
+	if (fb->clipboard_selection != NULL) {
+		g_byte_array_free (fb->clipboard_selection, TRUE);
+		fb->clipboard_selection = NULL;
 	}
 }
 
@@ -585,9 +576,9 @@ folder_browser_copy (GtkWidget *menuitem, FolderBrowser *fb)
 	
 	cut = menuitem == NULL;
 	
-	if (clipboard_selection) {
-		g_byte_array_free (clipboard_selection, TRUE);
-		clipboard_selection = NULL;
+	if (fb->clipboard_selection) {
+		g_byte_array_free (fb->clipboard_selection, TRUE);
+		fb->clipboard_selection = NULL;
 	}
 	
 	uids = g_ptr_array_new ();
@@ -623,9 +614,9 @@ folder_browser_copy (GtkWidget *menuitem, FolderBrowser *fb)
 	
 	g_ptr_array_free (uids, TRUE);
 	
-	clipboard_selection = bytes;
+	fb->clipboard_selection = bytes;
 	
-	gtk_selection_owner_set (invisible, clipboard_atom, GDK_CURRENT_TIME);
+	gtk_selection_owner_set (fb->invisible, clipboard_atom, GDK_CURRENT_TIME);
 }
 
 void
@@ -637,7 +628,7 @@ folder_browser_cut (GtkWidget *menuitem, FolderBrowser *fb)
 void
 folder_browser_paste (GtkWidget *menuitem, FolderBrowser *fb)
 {
-	gtk_selection_convert (invisible,
+	gtk_selection_convert (fb->invisible,
 			       clipboard_atom,
 			       GDK_SELECTION_TYPE_STRING,
 			       GDK_CURRENT_TIME);
@@ -1792,29 +1783,22 @@ my_folder_browser_init (GtkObject *object)
 			    GTK_SIGNAL_FUNC (message_list_drag_data_recieved), fb);
 	
 	/* cut, copy & paste */
-	if (!invisible) {
-		invisible = gtk_invisible_new ();
-		
-		gtk_signal_connect (GTK_OBJECT (invisible), "destroy",
-				    GTK_SIGNAL_FUNC (invisible_destroyed),
-				    NULL);
-		
-		gtk_selection_add_target (invisible,
-					  clipboard_atom,
-					  GDK_SELECTION_TYPE_STRING,
-					  0);
-	} else
-		gtk_object_ref (GTK_OBJECT (invisible));
+	fb->invisible = gtk_invisible_new ();
 	
-	gtk_signal_connect (GTK_OBJECT (invisible),
+	gtk_selection_add_target (fb->invisible,
+				  clipboard_atom,
+				  GDK_SELECTION_TYPE_STRING,
+				  0);
+	
+	gtk_signal_connect (GTK_OBJECT (fb->invisible),
 			    "selection_get",
 			    GTK_SIGNAL_FUNC (selection_get),
 			    (gpointer) fb);
-	gtk_signal_connect (GTK_OBJECT (invisible),
+	gtk_signal_connect (GTK_OBJECT (fb->invisible),
 			    "selection_clear_event",
 			    GTK_SIGNAL_FUNC (selection_clear_event),
 			    (gpointer) fb);
-	gtk_signal_connect (GTK_OBJECT (invisible),
+	gtk_signal_connect (GTK_OBJECT (fb->invisible),
 			    "selection_received",
 			    GTK_SIGNAL_FUNC (selection_received),
 			    (gpointer) fb);
