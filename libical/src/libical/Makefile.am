@@ -168,15 +168,6 @@ icalvalue.c: $(VALUEDEPS) icalvalue.h
 # housekeeping
 CONFIG_CLEAN_FILES = y.output
 
-CLEANFILES =			\
-	icalparameter.h		\
-	icalparameter.c		\
-	icalproperty.h		\
-	icalproperty.c		\
-	icalrestriction.c	\
-	icalvalue.h		\
-	icalvalue.c
-
 EXTRA_DIST =			\
 	icalparameter.c.in	\
 	icalparameter.h.in	\
