@@ -1,3 +1,9 @@
+2004-05-25  Sivaiah Nallagatla <snallagatla@novell.com>
+
+        * common/authentication.c (auth_func_cb) : read the "auth-domain"
+        property to use as component name for e-password calls instead of
+        hard coded component name
+
 2004-05-25  Trent Lloyd  <lathiat@bur.st>
 
 	Fixes: #57472

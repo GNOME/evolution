@@ -31,10 +31,17 @@ auth_func_cb (ECal *ecal, const char *prompt, const char *key, gpointer user_dat
 {
 	gboolean remember;
 	char *password;
+	ESource *source;
+	gchar *auth_domain;
+	gchar *component_name;
 
-	password = e_passwords_get_password ("Calendar", key);
+	source = e_cal_get_source (ecal);
+	auth_domain = e_source_get_property (source, "auth-domain");
+	component_name = auth_domain ? auth_domain : "Calendar";
+	password = e_passwords_get_password (component_name, key);
+	
 	if (!password)
-		password = e_passwords_ask_password (_("Enter password"), "Calendar", key, prompt, TRUE,
+		password = e_passwords_ask_password (_("Enter password"), component_name, key, prompt, TRUE,
 						     E_PASSWORDS_REMEMBER_FOREVER, &remember,
 						     NULL);
 
