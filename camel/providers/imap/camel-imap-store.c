@@ -345,7 +345,7 @@ imap_folder_exists (CamelImapStore *store, const char *folder_path, gboolean *se
 		*selectable = FALSE;
 	
 	status = camel_imap_command_extended (CAMEL_IMAP_STORE (store), NULL,
-					      &result, ex, "LIST \"\" %s", folder_path);
+					      &result, ex, "LIST \"\" \"%s\"", folder_path);
 	if (status != CAMEL_IMAP_OK) {
 		g_free (result);
 		return FALSE;
@@ -375,7 +375,7 @@ imap_create (CamelImapStore *store, const char *folder_path, CamelException *ex)
 	gint status;
 	
 	status = camel_imap_command_extended (store, NULL, NULL, ex,
-					      "CREATE %s", folder_path);
+					      "CREATE \"%s\"", folder_path);
 	
 	return status == CAMEL_IMAP_OK;
 }
@@ -495,7 +495,7 @@ check_current_folder (CamelImapStore *store, CamelFolder *folder, char *fmt, Cam
 		return CAMEL_IMAP_OK;
 	
 	folder_path = camel_imap_store_folder_path (store, folder->full_name);
-	status = camel_imap_command_extended (store, NULL, NULL, ex, "SELECT %s", folder_path);
+	status = camel_imap_command_extended (store, NULL, NULL, ex, "SELECT \"%s\"", folder_path);
 	g_free (folder_path);
 	
 	if (status != CAMEL_IMAP_OK) {

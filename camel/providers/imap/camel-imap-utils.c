@@ -36,13 +36,13 @@ char *
 imap_next_word (char *buf)
 {
 	char *word;
-
+	
 	/* skip over current word */
 	for (word = buf; *word && *word != ' '; word++);
-
+	
 	/* skip over white space */
 	for ( ; *word && *word == ' '; word++);
-
+	
 	return word;
 }
 
@@ -92,6 +92,7 @@ imap_parse_list_response (char *buf, char *namespace, char **flags, char **sep, 
 	word = imap_next_word (word);
 	*folder = g_strdup (word);
 	g_strstrip (*folder);
+	string_unquote (*folder);
 	
 	/* chop out the folder prefix */
 	if (*namespace && !strncmp (*folder, namespace, strlen (namespace))) {

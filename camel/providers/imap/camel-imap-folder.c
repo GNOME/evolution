@@ -314,10 +314,10 @@ imap_get_message_count_internal (CamelFolder *folder, CamelException *ex)
 	
 	if (store->has_status_capability)
 		status = camel_imap_command_extended (store, folder, &result, ex,
-						      "STATUS %s (MESSAGES)", folder_path);
+						      "STATUS \"%s\" (MESSAGES)", folder_path);
 	else
 		status = camel_imap_command_extended (store, folder, &result, ex,
-						      "EXAMINE %s", folder_path);
+						      "EXAMINE \"%s\"", folder_path);
 	
 	g_free (folder_path);
 	
