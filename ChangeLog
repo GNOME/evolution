@@ -1,3 +1,11 @@
+2000-03-22  NotZed  <NotZed@HelixCode.com>
+
+	* e-util/e-sexp.h: Formatting cleanup.
+
+2000-03-07  NotZed  <NotZed@HelixCode.com>
+
+	* e-util/Makefile.am (libeutil_la_SOURCES): s-sexp.h -> e-sexp.h.
+
 2000-03-22  Christopher James Lahey  <clahey@helixcode.com>
 
 	* addressbook/Makefile.am, configure.in: Added the

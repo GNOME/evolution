@@ -1019,7 +1019,7 @@ e_sexp_set_scope(ESExp *f, int scope)
 }
 
 void
-e_sexp_input_text(ESExp *f, char *text, int len)
+e_sexp_input_text(ESExp *f, const char *text, int len)
 {
 	g_return_if_fail(FILTER_IS_SEXP(f));
 	g_return_if_fail(text != NULL);

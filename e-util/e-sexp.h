@@ -94,22 +94,22 @@ struct _ESExpClass {
 };
 
 guint		e_sexp_get_type		(void);
-ESExp     *e_sexp_new			(void);
+ESExp 	       *e_sexp_new		(void);
 void		e_sexp_add_function  	(ESExp *f, int scope, char *name, ESExpFunc *func, void *data);
 void		e_sexp_add_ifunction  	(ESExp *f, int scope, char *name, ESExpIFunc *func, void *data);
 void		e_sexp_add_variable  	(ESExp *f, int scope, char *name, ESExpTerm *value);
 void		e_sexp_remove_symbol	(ESExp *f, int scope, char *name);
 int		e_sexp_set_scope		(ESExp *f, int scope);
 
-void		e_sexp_input_text		(ESExp *f, char *text, int len);
+void		e_sexp_input_text		(ESExp *f, const char *text, int len);
 void		e_sexp_input_file		(ESExp *f, int fd);
 
 
 void		e_sexp_parse		(ESExp *f);
-ESExpResult *e_sexp_eval		(ESExp *f);
+ESExpResult    *e_sexp_eval		(ESExp *f);
 
-ESExpResult *e_sexp_term_eval		(struct _ESExp *f, struct _ESExpTerm *t);
-ESExpResult *e_sexp_result_new	(int type);
+ESExpResult    *e_sexp_term_eval		(struct _ESExp *f, struct _ESExpTerm *t);
+ESExpResult    *e_sexp_result_new	(int type);
 void		e_sexp_result_free		(struct _ESExpResult *t);
 
 #endif /* _E_SEXP_H */
