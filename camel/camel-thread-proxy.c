@@ -6,7 +6,7 @@
  * Author : 
  *  Bertrand Guiheneuf <Bertrand.Guiheneuf@aful.org>
  *
- * Copyright 1999 International GNOME Support (http://www.gnome-support.com) .
+ * Copyright 1999, 2000 HelixCode (http://www.helixcode.com) .
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
