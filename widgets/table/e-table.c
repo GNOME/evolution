@@ -68,6 +68,7 @@ enum {
 enum {
 	ARG_0,
 	ARG_LENGTH_THRESHOLD,
+	ARG_MODEL,
 };
 
 static gint et_signals [LAST_SIGNAL] = { 0, };
@@ -162,7 +163,7 @@ et_destroy (GtkObject *object)
 	if (et->group_info_change_id)
 		gtk_signal_disconnect (GTK_OBJECT (et->sort_info),
 				       et->group_info_change_id);
-
+	
 	if (et->reflow_idle_id)
 		g_source_remove(et->reflow_idle_id);
 	et->reflow_idle_id = 0;
@@ -1380,7 +1381,13 @@ e_table_get_printable (ETable *e_table)
 static void
 et_get_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 {
+	ETable *etable = E_TABLE (o);
+
 	switch (arg_id){
+	case ARG_MODEL:
+		GTK_VALUE_OBJECT (*arg) = (GtkObject *) etable->model;
+		break;
+
 	default:
 		break;
 	}
@@ -2279,6 +2286,8 @@ e_table_class_init (ETableClass *class)
 
 	gtk_object_add_arg_type ("ETable::length_threshold", GTK_TYPE_INT,
 				 GTK_ARG_WRITABLE, ARG_LENGTH_THRESHOLD);
+	gtk_object_add_arg_type ("ETable::model", E_TABLE_MODEL_TYPE,
+				 GTK_ARG_READABLE, ARG_MODEL);
 }
 
 E_MAKE_TYPE(e_table, "ETable", ETable, e_table_class_init, e_table_init, PARENT_TYPE);
