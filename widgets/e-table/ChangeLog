@@ -1,3 +1,16 @@
+2000-09-01  Chris Toshok  <toshok@helixcode.com>
+
+	* e-tree-model.h: add signals/prototypes for
+	e_tree_model_node_collapsed and e_tree_model_node_expanded.
+
+	* e-tree-model.c (etree_set_expanded): emit
+	node_expanded/node_collapsed signals, with node_expanded happening
+	before the expansion so it can much with the children, and
+	collapsed being emitted after.
+	(e_tree_model_row_of_node): remove stupid check, and g_warning.
+	(e_tree_model_node_collapsed): new function.
+	(e_tree_model_node_expanded): new function.
+
 2000-08-31  Christopher James Lahey  <clahey@helixcode.com>
 
 	* e-table-selection-model.c: Made the selection work when shift

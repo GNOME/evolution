@@ -53,9 +53,11 @@ typedef struct {
 	/*
 	 * Signals
 	 */
-	void       (*node_changed)  (ETreeModel *etm, ETreePath *node);
-	void       (*node_inserted) (ETreeModel *etm, ETreePath *parent, ETreePath *inserted_node);
-	void       (*node_removed)  (ETreeModel *etm, ETreePath *parent, ETreePath *removed_node);
+	void       (*node_changed)   (ETreeModel *etm, ETreePath *node);
+	void       (*node_inserted)  (ETreeModel *etm, ETreePath *parent, ETreePath *inserted_node);
+	void       (*node_removed)   (ETreeModel *etm, ETreePath *parent, ETreePath *removed_node);
+	void       (*node_collapsed) (ETreeModel *etm, ETreePath *node);
+	void       (*node_expanded)  (ETreeModel *etm, ETreePath *node, gboolean *allow_expand);
 
 } ETreeModelClass;
 
@@ -103,5 +105,7 @@ void e_tree_model_node_sort (ETreeModel *tree_model, ETreePath *node, GCompareFu
 void  e_tree_model_node_changed  (ETreeModel *tree_model, ETreePath *node);
 void  e_tree_model_node_inserted (ETreeModel *tree_model, ETreePath *parent_node, ETreePath *inserted_node);
 void  e_tree_model_node_removed  (ETreeModel *tree_model, ETreePath *parent_node, ETreePath *removed_node);
+void  e_tree_model_node_collapsed (ETreeModel *tree_model, ETreePath *node);
+void  e_tree_model_node_expanded  (ETreeModel *tree_model, ETreePath *node, gboolean *allow_expand);
 
 #endif /* _E_TREE_MODEL_H */

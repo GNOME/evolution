@@ -31,6 +31,8 @@ enum {
 	NODE_CHANGED,
 	NODE_INSERTED,
 	NODE_REMOVED,
+	NODE_COLLAPSED,
+	NODE_EXPANDED,
 	LAST_SIGNAL
 };
 
@@ -129,7 +131,7 @@ etree_set_expanded (ETreeModel *etm, ETreePath* node, gboolean expanded)
 	GNode *child;
 	ENode *enode;
 	int row;
-	
+
 	g_return_if_fail (node && node->data);
 
 	enode = ((ENode*)node->data);
@@ -137,12 +139,23 @@ etree_set_expanded (ETreeModel *etm, ETreePath* node, gboolean expanded)
 	if (enode->expanded == expanded)
 		return;
 
+	if (expanded) {
+		gboolean allow_expand = TRUE;
+		e_tree_model_node_expanded (etm, node, &allow_expand);
+		if (!allow_expand)
+			return;
+	}
+
 	enode->expanded = expanded;
 
 	/* if the node wasn't visible at present */
-	if ((row = e_tree_model_row_of_node (etm, node)) == -1)
+	if ((row = e_tree_model_row_of_node (etm, node)) == -1) {
+		if (!expanded) {
+			e_tree_model_node_collapsed (etm, node);
+		}
 		return;
-
+	}
+		
 	row++;
 
 	if (expanded) {
@@ -183,6 +196,8 @@ etree_set_expanded (ETreeModel *etm, ETreePath* node, gboolean expanded)
 		}
 
 		enode->visible_descendents = 0;
+
+		e_tree_model_node_collapsed (etm, node);
 	}
 }
 
@@ -332,6 +347,22 @@ e_tree_model_class_init (GtkObjectClass *klass)
 				gtk_marshal_NONE__POINTER_POINTER,
 				GTK_TYPE_NONE, 2, GTK_TYPE_POINTER, GTK_TYPE_POINTER);
 
+	e_tree_model_signals [NODE_COLLAPSED] =
+		gtk_signal_new ("node_collapsed",
+				GTK_RUN_LAST,
+				klass->type,
+				GTK_SIGNAL_OFFSET (ETreeModelClass, node_collapsed),
+				gtk_marshal_NONE__POINTER,
+				GTK_TYPE_NONE, 1, GTK_TYPE_POINTER);
+
+	e_tree_model_signals [NODE_EXPANDED] =
+		gtk_signal_new ("node_expanded",
+				GTK_RUN_LAST,
+				klass->type,
+				GTK_SIGNAL_OFFSET (ETreeModelClass, node_expanded),
+				gtk_marshal_NONE__POINTER_POINTER,
+				GTK_TYPE_NONE, 2, GTK_TYPE_POINTER, GTK_TYPE_POINTER);
+
 	gtk_object_class_add_signals (klass, e_tree_model_signals, LAST_SIGNAL);
 
 	table_class->row_count        = etable_row_count;
@@ -404,6 +435,28 @@ e_tree_model_node_removed  (ETreeModel *tree_model, ETreePath *parent_node, ETre
 			 parent_node, removed_node);
 }
 
+void
+e_tree_model_node_collapsed (ETreeModel *tree_model, ETreePath *node)
+{
+	g_return_if_fail (tree_model != NULL);
+	g_return_if_fail (E_IS_TREE_MODEL (tree_model));
+	
+	gtk_signal_emit (GTK_OBJECT (tree_model),
+			 e_tree_model_signals [NODE_COLLAPSED],
+			 node);
+}
+
+void
+e_tree_model_node_expanded  (ETreeModel *tree_model, ETreePath *node, gboolean *allow_expand)
+{
+	g_return_if_fail (tree_model != NULL);
+	g_return_if_fail (E_IS_TREE_MODEL (tree_model));
+	
+	gtk_signal_emit (GTK_OBJECT (tree_model),
+			 e_tree_model_signals [NODE_EXPANDED],
+			 node, allow_expand);
+}
+
 
 void
 e_tree_model_construct (ETreeModel *etree)
@@ -446,14 +499,9 @@ e_tree_model_row_of_node (ETreeModel *etree, ETreePath *node)
 {
 	int i;
 
-	if (etree->root == node)
-		return -1;
-
 	for (i = 0; i < etree->row_array->len; i ++)
 		if (g_array_index (etree->row_array, GNode*, i) == node)
 			return i;
-
-	g_warning ("e_tree_model_row_of_node failed for node %p\n", node);
 
 	return -1;
 }
