@@ -104,10 +104,6 @@ AC_DEFUN([GNOME_INIT_HOOK],[
 		AC_SUBST(GNOME_APPLETS_LIBS)
 		GNOME_APPLETS_LIBS=`$GNOME_CONFIG --libs-only-l applets`
 		AC_MSG_RESULT($GNOME_APPLETS_LIBS);;
-	      docklets)
-		AC_SUBST(GNOME_DOCKLETS_LIBS)
-		GNOME_DOCKLETS_LIBS=`$GNOME_CONFIG --libs-only-l docklets`
-		AC_MSG_RESULT($GNOME_DOCKLETS_LIBS);;
 	      capplet)
 		AC_SUBST(GNOME_CAPPLET_LIBS)
 		GNOME_CAPPLET_LIBS=`$GNOME_CONFIG --libs-only-l capplet`
@@ -115,8 +111,6 @@ AC_DEFUN([GNOME_INIT_HOOK],[
 	      *)
 		AC_MSG_RESULT(unknown library)
 	    esac
-            EXTRA_INCLUDEDIR=`$GNOME_CONFIG --cflags $i`
-            GNOME_INCLUDEDIR="$GNOME_INCLUDEDIR $EXTRA_INCLUDEDIR"
 	  done
 	fi
 ])
