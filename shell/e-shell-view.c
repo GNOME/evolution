@@ -48,7 +48,6 @@
 #include "e-util/e-gtk-utils.h"
 
 #include "widgets/misc/e-clipped-label.h"
-#include "widgets/misc/e-bonobo-widget.h"
 
 #include <gtk/gtkwidget.h>
 

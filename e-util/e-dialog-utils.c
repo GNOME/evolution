@@ -24,8 +24,6 @@
 
 #include "e-dialog-utils.h"
 
-#include "widgets/misc/e-bonobo-widget.h"
-
 #include <glib.h>
 #include <gdk/gdkx.h>
 #include <gdk/gdkprivate.h>
@@ -123,11 +121,7 @@ void
 e_set_dialog_parent (GtkWindow *dialog,
 		     GtkWidget *parent_widget)
 {
-	Bonobo_PropertyBag property_bag;
 	GtkWidget *toplevel;
-	GdkWindow *gdk_window;
-	CORBA_char *id;
-	guint32 xid;
 
 	g_return_if_fail (dialog != NULL);
 	g_return_if_fail (GTK_IS_WINDOW (dialog));
@@ -144,6 +138,12 @@ e_set_dialog_parent (GtkWindow *dialog,
 		return;
 	}
 
+#if 0
+	Bonobo_PropertyBag property_bag;
+	GdkWindow *gdk_window;
+	CORBA_char *id;
+	guint32 xid;
+
 	property_bag = bonobo_control_get_ambient_properties (BONOBO_CONTROL (toplevel), NULL);
 	if (property_bag == CORBA_OBJECT_NIL)
 		return;
@@ -156,6 +156,7 @@ e_set_dialog_parent (GtkWindow *dialog,
 
 	gdk_window = gdk_window_foreign_new (xid);
 	set_transient_for_gdk (dialog, gdk_window);
+#endif
 }
 
 /**

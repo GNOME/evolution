@@ -1,5 +1,11 @@
 2003-01-14  Ettore Perazzoli  <ettore@ximian.com>
 
+	* Makefile.am (widgetsinclude_HEADERS): Ooops, remove
+	e-bonobo-widget.h.
+	(libemiscwidgets_a_SOURCES): Likewise, remove e-bonobo-widget.c.
+
+2003-01-14  Ettore Perazzoli  <ettore@ximian.com>
+
 	* Makefile.am (EXTRA_DIST): e-util-marshal.list, not
 	e-book-marshal.list.
 	(widgetsinclude_HEADERS): Add e-bonobo-widget.h.

@@ -1,5 +1,9 @@
 2003-01-14  Ettore Perazzoli  <ettore@ximian.com>
 
+	* e-shell-view.c: Do not #include "e-bonobo-widget.h".
+
+2003-01-14  Ettore Perazzoli  <ettore@ximian.com>
+
 	* Makefile.am (EXTRA_DIST): Add $(schema_DATA) here.
 
 2003-01-14  Rodney Dawes  <dobey@ximian.com>

@@ -15,7 +15,6 @@ privlib_LIBRARIES =	\
 widgetsincludedir = $(includedir)/evolution/widgets
 
 widgetsinclude_HEADERS =			\
-	e-bonobo-widget.h			\
 	e-calendar.h				\
 	e-calendar-item.h			\
 	e-cell-date-edit.h			\
@@ -35,7 +34,6 @@ widgetsinclude_HEADERS =			\
 
 libemiscwidgets_a_SOURCES =			\
 	$(widgetsinclude_HEADERS)		\
-	e-bonobo-widget.c			\
 	e-calendar.c				\
 	e-calendar-item.c			\
 	e-cell-date-edit.c			\

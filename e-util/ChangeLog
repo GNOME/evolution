@@ -1,5 +1,11 @@
 2003-01-14  Ettore Perazzoli  <ettore@ximian.com>
 
+	* e-dialog-utils.c: Do not #include <e-bonobo-widget.h>.
+	(e_set_dialog_parent): Remove the BonoboWidget handling stuff (it
+	doesn't really work anyways).
+
+2003-01-14  Ettore Perazzoli  <ettore@ximian.com>
+
 	* Makefile.am (eutilinclude_HEADERS): Add e-dialog-utils.h.
 
 2003-01-09  Chris Toshok  <toshok@ximian.com>
