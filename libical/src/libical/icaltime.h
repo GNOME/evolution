@@ -31,6 +31,13 @@
 
 #include <time.h>
 
+/* An opaque struct representing a timezone. We declare this here to avoid
+   a circular dependancy. */
+#ifndef ICALTIMEONE_DEFINED
+#define ICALTIMEONE_DEFINED
+typedef struct _icaltimezone		icaltimezone;
+#endif
+
 /* icaltime_span is returned by icalcomponent_get_span() */
 struct icaltime_span {
 	time_t start; /* in UTC */
@@ -60,8 +67,15 @@ struct icaltimetype
 /* Convert seconds past UNIX epoch to a timetype*/
 struct icaltimetype icaltime_from_timet(time_t v, int is_date);
 
+/* Newer version of above, using timezones. */
+struct icaltimetype icaltime_from_timet_with_zone(time_t tm, int is_date,
+						  icaltimezone *zone);
+
 /* Return the time as seconds past the UNIX epoch */
 time_t icaltime_as_timet(struct icaltimetype);
+
+/* Newer version of above, using timezones. */
+time_t icaltime_as_timet_with_zone(struct icaltimetype tt, icaltimezone *zone);
 
 /* Return a string represention of the time, in RFC2445 format. The
    string is owned by libical */
@@ -76,20 +90,6 @@ int icaltime_as_int(struct icaltimetype);
 
 /* create a time from an ISO format string */
 struct icaltimetype icaltime_from_string(const char* str);
-
-/* Routines for handling timezones */
-/* Return the offset of the named zone as seconds. tt is a time
-   indicating the date for which you want the offset */
-int icaltime_utc_offset(struct icaltimetype tt, const char* tzid);
-
-/* convert tt, of timezone tzid, into a utc time. Does nothing if the
-   time is already UTC.  */
-struct icaltimetype icaltime_as_utc(struct icaltimetype tt,
-				    const char* tzid);
-
-/* convert tt, a time in UTC, into a time in timezone tzid */
-struct icaltimetype icaltime_as_zone(struct icaltimetype tt,
-				     const char* tzid);
 
 /* Return a null time, which indicates no time has been set. This time represent the beginning of the epoch */
 struct icaltimetype icaltime_null_time(void);

@@ -44,6 +44,7 @@
 #include "icalmemory.h"
 #endif
 
+#include "icaltimezone.h"
 
 
 
@@ -69,6 +70,41 @@ icaltime_from_timet(time_t tm, int is_date)
     
     tt.is_utc = 1;
     tt.is_date = is_date; 
+
+    return tt;
+}
+
+struct icaltimetype 
+icaltime_from_timet_with_zone(time_t tm, int is_date, icaltimezone *zone)
+{
+    struct icaltimetype tt = icaltime_null_time();
+    struct tm t;
+    icaltimezone *utc_zone;
+
+    utc_zone = icaltimezone_get_utc_timezone ();
+
+    /* Convert the time_t to a struct tm in UTC time. We can trust gmtime
+       for this. */
+    t = *(gmtime(&tm));
+     
+    tt.year   = t.tm_year + 1900;
+    tt.month  = t.tm_mon + 1;
+    tt.day    = t.tm_mday;
+    tt.hour   = t.tm_hour;
+    tt.minute = t.tm_min;
+    tt.second = t.tm_sec;
+
+    tt.is_utc = (zone == utc_zone) ? 1 : 0;
+    tt.is_date = is_date; 
+    tt.is_daylight = 0;
+
+    /* Use our timezone functions to convert to the required timezone. */
+    icaltimezone_convert_time (&tt, utc_zone, zone);
+
+    if (is_date) { 
+	/* FIXME: is_daylight may need to be changed. */
+	tt.second = tt.minute = tt.hour = 0;
+    }
 
     return tt;
 }
@@ -177,6 +213,42 @@ time_t icaltime_as_timet(struct icaltimetype tt)
 
 }
 
+time_t icaltime_as_timet_with_zone(struct icaltimetype tt, icaltimezone *zone)
+{
+    icaltimezone *utc_zone;
+    struct tm stm;
+    time_t t;
+    char *old_tz;
+
+    utc_zone = icaltimezone_get_utc_timezone ();
+
+    /* If the time is the special null time, return 0. */
+    if (icaltime_is_null_time(tt)) {
+	return 0;
+    }
+
+    /* Use our timezone functions to convert to UTC. */
+    icaltimezone_convert_time (&tt, zone, utc_zone);
+
+    /* Copy the icaltimetype to a struct tm. */
+    memset (&stm, 0, sizeof (struct tm));
+
+    stm.tm_sec = tt.second;
+    stm.tm_min = tt.minute;
+    stm.tm_hour = tt.hour;
+    stm.tm_mday = tt.day;
+    stm.tm_mon = tt.month-1;
+    stm.tm_year = tt.year-1900;
+    stm.tm_isdst = -1;
+
+    /* Set TZ to UTC and use mktime to convert to a time_t. */
+    old_tz = set_tz ("UTC");
+    t = mktime (&stm);
+    unset_tz (old_tz);
+
+    return t;
+}
+
 char* icaltime_as_ical_string(struct icaltimetype tt)
 {
     size_t size = 17;
@@ -202,101 +274,12 @@ char* icaltime_as_ical_string(struct icaltimetype tt)
 }
 
 
-/* convert tt, of timezone tzid, into a utc time */
-struct icaltimetype icaltime_as_utc(struct icaltimetype tt,const char* tzid)
-{
-    int tzid_offset;
-
-    if(tt.is_utc == 1 || tt.is_date == 1){
-	return tt;
-    }
-
-    tzid_offset = icaltime_utc_offset(tt,tzid);
-
-    tt.second -= tzid_offset;
-
-    tt.is_utc = 1;
-
-    return icaltime_normalize(tt);
-}
-
-/* convert tt, a time in UTC, into a time in timezone tzid */
-struct icaltimetype icaltime_as_zone(struct icaltimetype tt,const char* tzid)
-{
-    int tzid_offset;
-
-    tzid_offset = icaltime_utc_offset(tt,tzid);
-
-    tt.second += tzid_offset;
-
-    tt.is_utc = 0;
-
-    return icaltime_normalize(tt);
-
-}
-
-
-/* Return the offset of the named zone as seconds. tt is a time
-   indicating the date for which you want the offset */
-int icaltime_utc_offset(struct icaltimetype ictt, const char* tzid)
-{
-
-    time_t tt = icaltime_as_timet(ictt);
-    time_t offset_tt;
-    struct tm gtm;
-
-    char *tz_str = 0;
-
-    if(tzid != 0){
-	tz_str = set_tz(tzid);
-    }
-
-    /* Mis-interpret a UTC broken out time as local time */
-    gtm = *(gmtime(&tt));
-    gtm.tm_isdst = localtime(&tt)->tm_isdst;    
-    offset_tt = mktime(&gtm);
-    
-    if(tzid != 0){
-	unset_tz(tz_str);
-    }
-
-    return tt-offset_tt;
-}
-
-
-
-/* Normalize by converting from localtime to utc and back to local
-   time. This uses localtime because localtime and mktime are inverses
-   of each other */
+/* Normalize the icaltime, so that all fields are within the normal range. */
 
 struct icaltimetype icaltime_normalize(struct icaltimetype tt)
 {
-    struct tm stm;
-    time_t tut;
-
-    memset(&stm,0,sizeof( struct tm));
-
-    stm.tm_sec = tt.second;
-    stm.tm_min = tt.minute;
-    stm.tm_hour = tt.hour;
-    stm.tm_mday = tt.day;
-    stm.tm_mon = tt.month-1;
-    stm.tm_year = tt.year-1900;
-    stm.tm_isdst = -1; /* prevents mktime from changing hour based on
-			  daylight savings */
-
-    tut = mktime(&stm);
-
-    stm = *(localtime(&tut));
-
-    tt.second = stm.tm_sec;
-    tt.minute = stm.tm_min;
-    tt.hour = stm.tm_hour;
-    tt.day = stm.tm_mday;
-    tt.month = stm.tm_mon +1;
-    tt.year = stm.tm_year+1900;
-
-    return tt;
+  icaltime_adjust (&tt, 0, 0, 0, 0);
+  return tt;
 }
 
 
@@ -404,50 +387,69 @@ short icaltime_day_of_week(struct icaltimetype t){
     return stm.tm_wday + 1;
 }
 
-/* Day of the year that the first day of the week (Sunday) is on  */
+/* Day of the year that the first day of the week (Sunday) is on.
+   FIXME: Doesn't take into account different week start days. */
 short icaltime_start_doy_of_week(struct icaltimetype t){
-    time_t tt = icaltime_as_timet(t);
-    time_t start_tt;
-    struct tm *stm;
-    int syear;
+    struct tm stm;
 
-    stm = gmtime(&tt);
-    syear = stm->tm_year;
+    stm.tm_year = t.year - 1900;
+    stm.tm_mon = t.month - 1;
+    stm.tm_mday = t.day;
+    stm.tm_hour = 0;
+    stm.tm_min = 0;
+    stm.tm_sec = 0;
+    stm.tm_isdst = -1;
 
-    start_tt = tt - stm->tm_wday*(60*60*24);
+    mktime (&stm);
 
-    stm = gmtime(&start_tt);
-    
-    if(syear == stm->tm_year){
-	return stm->tm_yday+1;
+    /* Move back to the start of the week. */
+    stm.tm_mday -= stm.tm_wday;
+
+    mktime (&stm);
+
+    /* If we are still in the same year as the original date, we just return
+       the day of the year. */
+    if (t.year - 1900 == stm.tm_year){
+	return stm.tm_yday+1;
     } else {
 	/* return negative to indicate that start of week is in
            previous year. */
 	int is_leap = 0;
-	int year = stm->tm_year;
+	int year = stm.tm_year;
 
 	if( (year % 4 == 0 && year % 100 != 0) ||
 	    year % 400 == 0){
 	    is_leap =1;
 	}
 
-	return (stm->tm_yday+1)-(365+is_leap);
+	return (stm.tm_yday+1)-(365+is_leap);
     }
     
 }
 
+/* FIXME: Doesn't take into account the start day of the week. strftime assumes
+   that weeks start on Monday. */
 short icaltime_week_number(struct icaltimetype ictt)
 {
-    char str[5];
-    time_t t = icaltime_as_timet(ictt);
+    struct tm stm;
     int week_no;
+    char str[8];
 
-    strftime(str,5,"%V", gmtime(&t));
+    stm.tm_year = ictt.year - 1900;
+    stm.tm_mon = ictt.month - 1;
+    stm.tm_mday = ictt.day;
+    stm.tm_hour = 0;
+    stm.tm_min = 0;
+    stm.tm_sec = 0;
+    stm.tm_isdst = -1;
+
+    mktime (&stm);
+ 
+    strftime(str,5,"%V", &stm);
 
     week_no = atoi(str);
 
     return week_no;
-
 }
 
 

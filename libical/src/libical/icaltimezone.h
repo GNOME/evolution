@@ -29,11 +29,19 @@
 
 #include <stdio.h> /* For FILE* */
 #include "icaltime.h"
+#include "icalarray.h"
+#include "icalcomponent.h"
 
 
-/* An opaque struct representing a timezone. */
-typedef struct _icaltimezone		icaltimezone;
+/*
+ * Creating/Destroying individual icaltimezones.
+ */
 
+/* Creates a new icaltimezone. */
+icaltimezone *icaltimezone_new			(void);
+
+/* Frees all memory used for the icaltimezone. */
+void icaltimezone_free				(icaltimezone *zone);
 
 
 /*
@@ -46,6 +54,9 @@ icalarray* icaltimezone_get_builtin_timezones	(void);
 /* Returns a single builtin timezone, given its Olson city name. */
 icaltimezone* icaltimezone_get_builtin_timezone	(const char *location);
 
+/* Returns a single builtin timezone, given its TZID. */
+icaltimezone* icaltimezone_get_builtin_timezone_from_tzid (const char *tzid);
+
 /* Returns the UTC timezone. */
 icaltimezone* icaltimezone_get_utc_timezone	(void);
 
@@ -54,6 +65,12 @@ char*	icaltimezone_get_tzid			(icaltimezone	*zone);
 
 /* Returns the city name of a timezone. */
 char*	icaltimezone_get_location		(icaltimezone	*zone);
+
+/* Returns the TZNAME properties used in the latest STANDARD and DAYLIGHT
+   components. If they are the same it will return just one, e.g. "LMT".
+   If they are different it will format them like "EST/EDT". Note that this
+   may also return NULL. */
+char*	icaltimezone_get_tznames		(icaltimezone	*zone);
 
 /* Returns the latitude of a builtin timezone. */
 double	icaltimezone_get_latitude		(icaltimezone	*zone);
@@ -64,6 +81,11 @@ double	icaltimezone_get_longitude		(icaltimezone	*zone);
 /* Returns the VTIMEZONE component of a timezone. */
 icalcomponent*	icaltimezone_get_component	(icaltimezone	*zone);
 
+/* Sets the VTIMEZONE component of an icaltimezone, initializing the tzid,
+   location & tzname fields. It returns 1 on success or 0 on failure, i.e.
+   no TZID was found. */
+int	icaltimezone_set_component		(icaltimezone	*zone,
+						 icalcomponent	*comp);
 
 /*
  * Converting times between timezones.
@@ -94,21 +116,8 @@ int	icaltimezone_get_utc_offset_of_utc_time	(icaltimezone	*zone,
 
 
 
-
 /*
- * Comparing VTIMEZONE components.
- */
-
-/* Compares 2 VTIMEZONE components to see if they match, ignoring their TZIDs.
-   It returns 1 if they match, 0 if they don't, or -1 on error. */
-int	icaltimezone_compare_vtimezone		(icalcomponent	*vtimezone1,
-						 icalcomponent	*vtimezone2);
-
-
-
-
-/*
- * Handling arrays of timezones.
+ * Handling arrays of timezones. Mainly for internal use.
  */
 icalarray*  icaltimezone_array_new		(void);
 

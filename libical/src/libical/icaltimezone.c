@@ -30,14 +30,18 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include "icalproperty.h"
 #include "icalarray.h"
 #include "icalerror.h"
 #include "icalparser.h"
 #include "icaltimezone.h"
 
-
 /* This is the toplevel directory where the timezone data is installed in. */
 #define ZONEINFO_DIRECTORY	PACKAGE_DATA_DIR "/zoneinfo"
+
+/* The prefix we use to uniquely identify TZIDs. */
+#define TZID_PREFIX		"/softwarestudio.org/"
+#define TZID_PREFIX_LEN		20
 
 /* This is the filename of the file containing the city names and coordinates
    of all the builtin timezones. */
@@ -49,7 +53,7 @@
 
 /* This is the maximum year we will expand to. time_t values only go up to
    somewhere around 2037. */
-#define ICALTIMEZONE_MAX_YEAR		2032
+#define ICALTIMEZONE_MAX_YEAR		2035
 
 
 struct _icaltimezone {
@@ -130,6 +134,9 @@ icaltimezone utc_timezone = { 0 };
 
 
 
+static void  icaltimezone_reset			(icaltimezone   *zone);
+static char* icaltimezone_get_location_from_vtimezone (icalcomponent *component);
+static char* icaltimezone_get_tznames_from_vtimezone (icalcomponent *component);
 static void  icaltimezone_expand_changes	(icaltimezone	*zone,
 						 int		 end_year);
 static void  icaltimezone_expand_vtimezone	(icalcomponent	*comp,
@@ -149,14 +156,14 @@ static void  icaltimezone_adjust_change		(icaltimezonechange *tt,
 
 static void  icaltimezone_init			(icaltimezone	*zone);
 
-/* Initializes an icaltimezone from the given VTIMEZONE component. It gets
-   the TZID from the VTIMEZONE component. It returns 1 on success, or 0 if
-   the TZID can't be found. */
-static int   icaltimezone_init_from_vtimezone	(icaltimezone	*zone,
-						 icalcomponent	*component);
+/* Gets the TZID, LOCATION/X-LIC-LOCATION, and TZNAME properties from the
+   VTIMEZONE component and places them in the icaltimezone. It returns 1 on
+   success, or 0 if the TZID can't be found. */
+static int   icaltimezone_get_vtimezone_properties (icaltimezone  *zone,
+						    icalcomponent *component);
 
 
-static void  icaltimezone_load			(icaltimezone	*zone);
+static void  icaltimezone_load_builtin_timezone	(icaltimezone	*zone);
 
 static void  icaltimezone_ensure_coverage	(icaltimezone	*zone,
 						 int		 end_year);
@@ -174,8 +181,53 @@ static void  format_utc_offset			(int		 utc_offset,
 						 char		*buffer);
 
 
+/* Creates a new icaltimezone. */
+icaltimezone*
+icaltimezone_new			(void)
+{
+    icaltimezone *zone;
 
-/* Initializes an icaltimezone with the given TZID. */
+    zone = (icaltimezone*) malloc (sizeof (icaltimezone));
+    if (!zone) {
+	icalerror_set_errno (ICAL_NEWFAILED_ERROR);
+	return;
+    }
+
+    icaltimezone_init (zone);
+
+    return zone;
+}
+
+
+/* Frees all memory used for the icaltimezone. */
+void
+icaltimezone_free			(icaltimezone *zone)
+{
+    icaltimezone_reset (zone);
+    free (zone);
+}
+
+
+/* Resets the icaltimezone to the initial state, freeing most of the fields. */
+static void
+icaltimezone_reset			(icaltimezone *zone)
+{
+    if (zone->tzid)
+	free (zone->tzid);
+    if (zone->location)
+	free (zone->location);
+    if (zone->tznames)
+	free (zone->tznames);
+    if (zone->component)
+	icalcomponent_free (zone->component);
+    if (zone->changes)
+	icalarray_free (zone->changes);
+
+    icaltimezone_init (zone);
+}
+
+
+/* Initializes an icaltimezone. */
 static void
 icaltimezone_init			(icaltimezone	*zone)
 {
@@ -191,29 +243,169 @@ icaltimezone_init			(icaltimezone	*zone)
 }
 
 
-/* Initializes an icaltimezone from the given VTIMEZONE component. It gets
-   the TZID from the VTIMEZONE component. It returns 1 on success, or 0 if
-   the TZID can't be found. */
+/* Gets the TZID, LOCATION/X-LIC-LOCATION and TZNAME properties of the
+   VTIMEZONE component and stores them in the icaltimezone.
+   It returns 1 on success, or 0 if the TZID can't be found.
+   Note that it expects the zone to be initialized or reset - it doesn't free
+   any old values. */
 static int
-icaltimezone_init_from_vtimezone	(icaltimezone	*zone,
+icaltimezone_get_vtimezone_properties	(icaltimezone	*zone,
 					 icalcomponent	*component)
 {
     icalproperty *prop;
-    const char *tzid;
-
+    const char *tzid, *location;
+ 
     prop = icalcomponent_get_first_property (component, ICAL_TZID_PROPERTY);
     if (!prop)
 	return 0;
 
+    /* A VTIMEZONE MUST have a TZID, or a lot of our code won't work. */
     tzid = icalproperty_get_tzid (prop);
     if (!tzid)
 	return 0;
 
-    icaltimezone_init (zone);
     zone->tzid = strdup (tzid);
     zone->component = component;
+    zone->location = icaltimezone_get_location_from_vtimezone (component);
+    zone->tznames = icaltimezone_get_tznames_from_vtimezone (component);
 
     return 1;
+}
+
+/* Gets the LOCATION or X-LIC-LOCATION property from a VTIMEZONE. */
+static char*
+icaltimezone_get_location_from_vtimezone (icalcomponent *component)
+{
+    icalproperty *prop;
+    const char *location;
+    char *name;
+    int found_location = 0;
+
+    prop = icalcomponent_get_first_property (component,
+					     ICAL_LOCATION_PROPERTY);
+    if (prop) {
+	location = icalproperty_get_location (prop);
+	if (location)
+	    return strdup (location);
+    }
+
+    prop = icalcomponent_get_first_property (component, ICAL_X_PROPERTY);
+    while (prop) {
+	name = icalproperty_get_x_name (prop);
+	if (name && !strcmp (name, "X-LIC-LOCATION")) {
+	    location = icalproperty_get_x (prop);
+	    if (location)
+		return strdup (location);
+	}
+	prop = icalcomponent_get_next_property (component,
+						ICAL_X_PROPERTY);
+    }
+}
+
+
+/* Gets the TZNAMEs used for the last STANDARD & DAYLIGHT components in a
+   VTIMEZONE. If both STANDARD and DAYLIGHT components use the same TZNAME,
+   it returns that. If they use different TZNAMEs, it formats them like
+   "EST/EDT". The returned string should be freed by the caller. */
+static char*
+icaltimezone_get_tznames_from_vtimezone (icalcomponent *component)
+{
+    icalcomponent *comp;
+    icalcomponent_kind type;
+    icalproperty *prop;
+    struct icaltimetype dtstart;
+    struct icaldatetimeperiodtype rdate;
+    const char *current_tzname;
+    const char *standard_tzname = NULL, *daylight_tzname = NULL;
+    struct icaltimetype standard_max_date, daylight_max_date;
+    struct icaltimetype current_max_date;
+
+    /* Step through the STANDARD & DAYLIGHT subcomponents. */
+    comp = icalcomponent_get_first_component (component, ICAL_ANY_COMPONENT);
+    while (comp) {
+	type = icalcomponent_isa (comp);
+	if (type == ICAL_XSTANDARD_COMPONENT
+	    || type == ICAL_XDAYLIGHT_COMPONENT) {
+	    current_max_date = icaltime_null_time ();
+	    current_tzname = NULL;
+
+	    /* Step through the properties. We want to find the TZNAME, and
+	       the largest DTSTART or RDATE. */
+	    prop = icalcomponent_get_first_property (comp, ICAL_ANY_PROPERTY);
+	    while (prop) {
+		switch (icalproperty_isa (prop)) {
+		case ICAL_TZNAME_PROPERTY:
+		    current_tzname = icalproperty_get_tzname (prop);
+		    break;
+
+		case ICAL_DTSTART_PROPERTY:
+		    dtstart = icalproperty_get_dtstart (prop);
+		    if (icaltime_compare (dtstart, current_max_date) > 0)
+			current_max_date = dtstart;
+
+		    break;
+
+		case ICAL_RDATE_PROPERTY:
+		    rdate = icalproperty_get_rdate (prop);
+		    if (icaltime_compare (rdate.time, current_max_date) > 0)
+			current_max_date = rdate.time;
+
+		    break;
+
+		default:
+		    break;
+		}
+
+		prop = icalcomponent_get_next_property (comp,
+							ICAL_ANY_PROPERTY);
+	    }
+
+	    if (current_tzname) {
+		if (type == ICAL_XSTANDARD_COMPONENT) {
+		    if (!standard_tzname
+			|| icaltime_compare (current_max_date,
+					     standard_max_date) > 0) {
+			standard_max_date = current_max_date;
+			standard_tzname = current_tzname;
+		    }
+		} else {
+		    if (!daylight_tzname
+			|| icaltime_compare (current_max_date,
+					     daylight_max_date) > 0) {
+			daylight_max_date = current_max_date;
+			daylight_tzname = current_tzname;
+		    }
+		}
+	    }
+	}
+
+        comp = icalcomponent_get_next_component (component,
+						 ICAL_ANY_COMPONENT);
+    }
+
+    /* If both standard and daylight TZNAMEs were found, if they are the same
+       we return just one, else we format them like "EST/EDT". */
+    if (standard_tzname && daylight_tzname) {
+	int standard_len, daylight_len;
+	char *tznames;
+
+	if (!strcmp (standard_tzname, daylight_tzname))
+	    return strdup (standard_tzname);
+
+	standard_len = strlen (standard_tzname);
+	daylight_len = strlen (daylight_tzname);
+	tznames = malloc (standard_len + daylight_len + 2);
+	strcpy (tznames, standard_tzname);
+	tznames[standard_len] = '/';
+	strcpy (tznames + standard_len + 1, daylight_tzname);
+	return tznames;
+    } else {
+	const char *tznames;
+
+	/* If either of the TZNAMEs was found just return that, else NULL. */
+	tznames = standard_tzname ? standard_tzname : daylight_tzname;
+	return strdup (tznames);
+    }
 }
 
 
@@ -228,7 +420,7 @@ icaltimezone_ensure_coverage		(icaltimezone	*zone,
     int changes_end_year;
 
     if (!zone->component)
-	icaltimezone_load (zone);
+	icaltimezone_load_builtin_timezone (zone);
 
     if (icaltimezone_minimum_expansion_year == -1) {
 	struct tm *tmp_tm;
@@ -922,72 +1114,16 @@ icaltimezone_adjust_change		(icaltimezonechange *tt,
 }
 
 
-
-/* Compares 2 VTIMEZONE components to see if they match, ignoring their TZIDs.
-   It returns 1 if they match, 0 if they don't, or -1 on error. */
-int
-icaltimezone_compare_vtimezone		(icalcomponent	*vtimezone1,
-					 icalcomponent	*vtimezone2)
-{
-    icalproperty *prop1, *prop2;
-    const char *tzid1, *tzid2;
-    char *tzid2_copy, *string1, *string2;
-    int cmp;
-
-    /* Get the TZID property of the first VTIMEZONE. */
-    prop1 = icalcomponent_get_first_property (vtimezone1, ICAL_TZID_PROPERTY);
-    if (!prop1)
-	return -1;
-
-    tzid1 = icalproperty_get_tzid (prop1);
-    if (!tzid1)
-	return -1;
-
-    /* Get the TZID property of the second VTIMEZONE. */
-    prop2 = icalcomponent_get_first_property (vtimezone1, ICAL_TZID_PROPERTY);
-    if (!prop2)
-	return -1;
-
-    tzid2 = icalproperty_get_tzid (prop2);
-    if (!tzid2)
-	return -1;
-
-    /* Copy the second TZID, and set the property to the same as the first
-       TZID, since we don't care if these match of not. */
-    tzid2_copy = strdup (tzid2);
-    icalproperty_set_tzid (prop2, tzid1);
-
-    /* Now convert both VTIMEZONEs to strings and compare them. */
-    string1 = icalcomponent_as_ical_string (vtimezone1);
-    if (!string1) {
-	free (tzid2_copy);
-	return -1;
-    }
-
-    string2 = icalcomponent_as_ical_string (vtimezone2);
-    if (!string2) {
-	free (string1);
-	free (tzid2_copy);
-	return -1;
-    }
-
-    cmp = strcmp (string1, string2);
-
-    free (string1);
-    free (string2);
-
-    /* Now reset the second TZID. */
-    icalproperty_set_tzid (prop2, tzid2_copy);
-    free (tzid2_copy);
-
-    return (cmp == 0) ? 1 : 0;
-}
-
-
-
 char*
 icaltimezone_get_tzid			(icaltimezone	*zone)
 {
+    /* If this is a local time, without a timezone, return NULL. */
+    if (!zone)
+	return NULL;
+
+    if (!zone->component)
+	icaltimezone_load_builtin_timezone (zone);
+
     return zone->tzid;
 }
 
@@ -995,7 +1131,20 @@ icaltimezone_get_tzid			(icaltimezone	*zone)
 char*
 icaltimezone_get_location		(icaltimezone	*zone)
 {
+    if (!zone->component)
+	icaltimezone_load_builtin_timezone (zone);
+
     return zone->location;
+}
+
+
+char*
+icaltimezone_get_tznames		(icaltimezone	*zone)
+{
+    if (!zone->component)
+	icaltimezone_load_builtin_timezone (zone);
+
+    return zone->tznames;
 }
 
 
@@ -1003,6 +1152,9 @@ icaltimezone_get_location		(icaltimezone	*zone)
 double
 icaltimezone_get_latitude		(icaltimezone	*zone)
 {
+    if (!zone->component)
+	icaltimezone_load_builtin_timezone (zone);
+
     return zone->latitude;
 }
 
@@ -1011,6 +1163,9 @@ icaltimezone_get_latitude		(icaltimezone	*zone)
 double
 icaltimezone_get_longitude		(icaltimezone	*zone)
 {
+    if (!zone->component)
+	icaltimezone_load_builtin_timezone (zone);
+
     return zone->longitude;
 }
 
@@ -1019,8 +1174,22 @@ icaltimezone_get_longitude		(icaltimezone	*zone)
 icalcomponent*
 icaltimezone_get_component		(icaltimezone	*zone)
 {
-    return zone->component;
+    if (!zone->component)
+	icaltimezone_load_builtin_timezone (zone);
 
+    return zone->component;
+}
+
+
+/* Sets the VTIMEZONE component of an icaltimezone, initializing the tzid,
+   location & tzname fields. It returns 1 on success or 0 on failure, i.e.
+   no TZID was found. */
+int
+icaltimezone_set_component		(icaltimezone	*zone,
+					 icalcomponent	*comp)
+{
+    icaltimezone_reset (zone);
+    return icaltimezone_get_vtimezone_properties (zone, comp);
 }
 
 
@@ -1037,7 +1206,8 @@ icaltimezone_array_append_from_vtimezone (icalarray	*timezones,
 {
     icaltimezone zone;
 
-    if (icaltimezone_init_from_vtimezone (&zone, child))
+    icaltimezone_init (&zone);
+    if (icaltimezone_get_vtimezone_properties (&zone, child))
 	icalarray_append (timezones, &zone);
 }
 
@@ -1061,7 +1231,95 @@ icaltimezone_get_builtin_timezones	(void)
 }
 
 
-/* Returns an icaltimezone corresponding to the given location. */
+/* Returns a single builtin timezone, given its Olson city name. */
+icaltimezone*
+icaltimezone_get_builtin_timezone	(const char *location)
+{
+    icaltimezone *zone;
+    int lower, upper, middle, cmp;
+    char *zone_location;
+
+    fprintf (stderr, "Getting builtin timezone: %s\n", location);
+
+    if (!location || !location[0])
+	return NULL;
+
+    if (!strcmp (location, "UTC"))
+	return &utc_timezone;
+
+    if (!builtin_timezones)
+	icaltimezone_init_builtin_timezones ();
+
+    /* Do a simple binary search. */
+    lower = middle = 0;
+    upper = builtin_timezones->num_elements;
+
+    while (lower < upper) {
+	middle = (lower + upper) >> 1;
+	zone = icalarray_element_at (builtin_timezones, middle);
+	zone_location = icaltimezone_get_location (zone);
+	fprintf (stderr, "  comparing with: %s\n", zone_location);
+	cmp = strcmp (location, zone_location);
+	if (cmp == 0)
+	    return zone;
+	else if (cmp < 0)
+	    upper = middle;
+	else
+	    lower = middle + 1;
+    }
+
+    fprintf (stderr, "  not found\n");
+
+    return NULL;
+}
+
+
+/* Returns a single builtin timezone, given its TZID. */
+icaltimezone*
+icaltimezone_get_builtin_timezone_from_tzid (const char *tzid)
+{
+    int num_slashes = 0;
+    const char *p, *zone_tzid;
+    icaltimezone *zone;
+
+    fprintf (stderr, "Getting builtin timezone from TZID: %s\n", tzid);
+
+    /* Check that the TZID starts with our unique prefix. */
+    if (strncmp (tzid, TZID_PREFIX, TZID_PREFIX_LEN))
+	return NULL;
+
+    /* Get the location, which is after the 3rd '/' character. */
+    p = tzid;
+    for (p = tzid; *p; p++) {
+	if (*p == '/') {
+	    num_slashes++;
+	    if (num_slashes == 3)
+		break;
+	}
+    }
+
+    if (num_slashes != 3)
+	return NULL;
+
+    p++;
+
+    /* Now we can use the function to get the builtin timezone from the
+       location string. */
+    zone = icaltimezone_get_builtin_timezone (p);
+    if (!zone)
+	return NULL;
+
+    /* Check that the builtin TZID matches exactly. We don't want to return
+       a different version of the VTIMEZONE. */
+    zone_tzid = icaltimezone_get_tzid (zone);
+    if (!strcmp (zone_tzid, tzid))
+	return zone;
+    else
+	return NULL;
+}
+
+
+/* Returns the special UTC timezone. */
 icaltimezone*
 icaltimezone_get_utc_timezone		(void)
 {
@@ -1104,6 +1362,8 @@ icaltimezone_parse_zone_tab		(void)
     icalerror_assert (builtin_timezones == NULL,
 		      "Parsing zones.tab file multiple times");
 
+    builtin_timezones = icalarray_new (sizeof (icaltimezone), 32);
+
     filename_len = strlen (ZONEINFO_DIRECTORY) + strlen (ZONES_TAB_FILENAME)
 	+ 2;
 
@@ -1122,8 +1382,6 @@ icaltimezone_parse_zone_tab		(void)
 	icalerror_set_errno(ICAL_FILE_ERROR);
 	return;
     }
-
-    builtin_timezones = icalarray_new (sizeof (icaltimezone), 32);
 
     while (fgets (buf, sizeof(buf), fp)) {
 	if (*buf == '#') continue;
@@ -1174,13 +1432,17 @@ icaltimezone_parse_zone_tab		(void)
 
 /* Loads the builtin VTIMEZONE data for the given timezone. */
 static void
-icaltimezone_load			(icaltimezone	*zone)
+icaltimezone_load_builtin_timezone	(icaltimezone	*zone)
 {
     char *filename;
     int filename_len;
     FILE *fp;
     icalparser *parser;
-    icalcomponent *comp;
+    icalcomponent *comp, *subcomp;
+
+    /* If the location isn't set, it isn't a builtin timezone. */
+    if (!zone->location || !zone->location[0])
+	return;
 
     filename_len = strlen (ZONEINFO_DIRECTORY) + strlen (zone->location) + 6;
 
@@ -1207,7 +1469,14 @@ icaltimezone_load			(icaltimezone	*zone)
     fclose (fp);
 
     /* Find the VTIMEZONE component inside the VCALENDAR. There should be 1. */
-    zone->component = icalcomponent_get_first_component (comp, ICAL_VTIMEZONE_COMPONENT);
+    subcomp = icalcomponent_get_first_component (comp,
+						 ICAL_VTIMEZONE_COMPONENT);
+    if (!subcomp) {
+	icalerror_set_errno(ICAL_PARSE_ERROR);
+	return;
+    }
+
+    icaltimezone_get_vtimezone_properties (zone, subcomp);
 }
 
 

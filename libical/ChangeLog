@@ -1,3 +1,9 @@
+2001-07-03  Damon Chaplin  <damon@ximian.com>
+
+	* src/libical/icaltimezone.c (icaltimezone_get_builtin_timezone_from_tzid): 
+	* src/libical/icaltime.c: 
+	* src/libical/icalcomponent.c: more timezone stuff.
+
 2001-06-28  Peter Williams  <peterw@ximian.com>
 
 	* zoneinfo/Makefile.am (dist-hook): Add $(srcdir) as in install-data-local
@@ -7,7 +13,7 @@
 
 	* configure.in: commented out AC_DEFINE(ICAL_ERRORS_ARE_FATAL,1).
 	We only want it to abort when there is no possibility of carrying on.
-	
+
 2001-06-26  Damon Chaplin  <damon@ximian.com>
 
 	* zoneinfo/*: stripped all blank lines from iCalendar files.
