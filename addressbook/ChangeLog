@@ -1,3 +1,8 @@
+2000-06-01  Christopher James Lahey  <clahey@helixcode.com>
+
+	* gui/minicard/e-minicard.c: return TRUE if opening a contact
+	editor so that we don't get a "new dialog" contact editor.
+
 2000-06-01  Ettore Perazzoli  <ettore@helixcode.com>
 
 	* gui/component/addressbook.c (new_contact_cb): Use the stock

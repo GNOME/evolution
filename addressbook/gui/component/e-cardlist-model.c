@@ -116,22 +116,31 @@ addressbook_thaw (ETableModel *etc)
 }
 
 void
-add_card(ECardlistModel *model,
-	 ECard **cards,
-	 int count)
+e_cardlist_model_add(ECardlistModel *model,
+		     ECard **cards,
+		     int count)
 {
 	int i;
 	model->data = g_realloc(model->data, model->data_count + count * sizeof(ECard *));
 	for (i = 0; i < count; i++) {
-		gtk_object_ref(GTK_OBJECT(cards[i]));
-		model->data[model->data_count++] = e_card_simple_new (cards[i]);
-		e_table_model_row_inserted(E_TABLE_MODEL(model), model->data_count - 1);
+		gboolean found = FALSE;
+		gchar *id = e_card_get_id(cards[i]);
+		for ( i = 0; i < model->data_count; i++) {
+			if ( !strcmp(e_card_simple_get_id(model->data[i]), id) ) {
+				found = TRUE;
+			}
+		}
+		if (!found) {
+			gtk_object_ref(GTK_OBJECT(cards[i]));
+			model->data[model->data_count++] = e_card_simple_new (cards[i]);
+			e_table_model_row_inserted(E_TABLE_MODEL(model), model->data_count - 1);
+		}
 	}
 }
 
 void
-remove_card(ECardlistModel *model,
-	    const char *id)
+e_cardlist_model_remove(ECardlistModel *model,
+			const char *id)
 {
 	int i;
 	for ( i = 0; i < model->data_count; i++) {
@@ -171,8 +180,8 @@ e_cardlist_model_init (GtkObject *object)
 }
 
 ECard *
-e_cardlist_model_get_card(ECardlistModel *model,
-			  int                row)
+e_cardlist_model_get(ECardlistModel *model,
+		     int                row)
 {
 	if (model->data && row < model->data_count) {
 		ECard *card;

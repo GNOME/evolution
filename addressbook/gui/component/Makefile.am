@@ -30,6 +30,10 @@ evolution_addressbook_SOURCES = 	\
 	e-ldap-server-dialog.h		\
 	e-addressbook-model.c		\
 	e-addressbook-model.h		\
+	e-cardlist-model.c		\
+	e-cardlist-model.h		\
+	e-select-names.c		\
+	e-select-names.h		\
 	addressbook-component.c		\
 	addressbook-component.h		\
 	addressbook-factory.c		\

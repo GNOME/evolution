@@ -423,6 +423,7 @@ e_minicard_event (GnomeCanvasItem *item, GdkEvent *event)
 						    card_changed_cb,
 						    NULL);
 			}
+			return TRUE;
 		}
 		break;
 	case GDK_KEY_PRESS:

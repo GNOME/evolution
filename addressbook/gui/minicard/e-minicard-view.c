@@ -328,9 +328,12 @@ e_minicard_view_event (GnomeCanvasItem *item, GdkEvent *event)
 						 NULL);
 			}
 		}
-		return FALSE;
-	default:
 		return TRUE;
+	default:
+		if (GNOME_CANVAS_ITEM_CLASS(parent_class)->event)
+			return GNOME_CANVAS_ITEM_CLASS(parent_class)->event(item, event);
+		else
+			return FALSE;
 		break;
 	}
 }

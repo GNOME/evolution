@@ -710,6 +710,8 @@ create_alphabet (AddressbookView *view)
 	for (letter = 'a'; letter <= 'z'; letter ++) {
 		connect_button(view, gui, letter);
 	}
+	
+	gtk_object_unref(GTK_OBJECT(gui));
 	return widget;
 }
 
