@@ -23,6 +23,9 @@
 #endif
 
 #include <bonobo/bonobo-exception.h>
+#include <libgnomeui/gnome-dialog.h>
+#include <libgnomeui/gnome-dialog-util.h>
+#include <libgnome/gnome-i18n.h>
 #include <evolution-calendar.h>
 #include <e-util/e-url.h>
 #include <cal-client/cal-client.h>
@@ -450,7 +453,7 @@ cal_opened_cb (CalClient *client, CalClientOpenStatus status, gpointer data)
 		return;
 
 	case CAL_CLIENT_OPEN_ERROR:
-		g_message ("cal_opened_cb(): Error while opening the calendar");
+	        gnome_error_dialog (_("Error while opening the calendar"));
 		break;
 
 	case CAL_CLIENT_OPEN_NOT_FOUND:
@@ -459,7 +462,11 @@ cal_opened_cb (CalClient *client, CalClientOpenStatus status, gpointer data)
 		return;
 
 	case CAL_CLIENT_OPEN_METHOD_NOT_SUPPORTED:
-		g_message ("cal_opened_cb(): Method not supported when opening the calendar");
+		gnome_error_dialog (_("Method not supported when opening the calendar"));
+		break;
+
+	case CAL_CLIENT_OPEN_PERMISSION_DENIED :
+		gnome_error_dialog (_("Permission denied to open calendar"));
 		break;
 
 	default:
