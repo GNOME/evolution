@@ -28,6 +28,7 @@
  */
 
 #include <config.h>
+#include <gnome.h>
 #include <gtk/gtkmenu.h>
 #include <gtk/gtkradiomenuitem.h>
 #include "e-day-view-time-item.h"

@@ -1,3 +1,11 @@
+2000-08-23  JP Rosevear  <jpr@helixcode.com>
+
+	* gui/e-day-view-time-item.c: Include gnome.h for gettext purposes
+	
+	* gui/gnome-cal.c: ditto
+
+	* gui/prop.c: #if out some alarm stuff
+
 2000-08-23  Federico Mena Quintero  <federico@helixcode.com>
 
 	* gui/e-calendar-table.c (e_calendar_table_init): Updated

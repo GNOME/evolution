@@ -8,6 +8,7 @@
  */
 
 #include <config.h>
+#include <gnome.h>
 #include <unistd.h>
 #include <signal.h>
 #include <sys/wait.h>

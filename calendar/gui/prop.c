@@ -70,10 +70,12 @@ static void to_cb_changed (GtkWidget* object, gpointer data);
 static void snooze_cb_changed (GtkWidget* object, gpointer data);
 
 GtkWidget* make_spin_button (int val, int low, int high);
+#if 0
 void ee_create_ae (GtkTable *table, char *str, CalendarAlarm *alarm,
 		   enum AlarmType type, int y, gboolean sens,
 		   GtkSignalFunc dirty_func);
 void ee_store_alarm (CalendarAlarm *alarm, enum AlarmType type);
+#endif
 
 /* Callback used when the property box is closed -- just sets the prop_win variable to null. */
 static int
@@ -862,7 +864,8 @@ create_alarm_page (void)
 		      FALSE, prop_changed);
 	*/
 }
-	
+
+#if 0	
 static void
 prop_store_alarm_default_values (CalendarAlarm* alarm)
 {
@@ -889,10 +892,10 @@ prop_store_alarm_default_values (CalendarAlarm* alarm)
 	gnome_config_set_int ("units", alarm->units);
 	if (alarm->data)
 		gnome_config_set_string ("data", alarm->data);
-	
 	gnome_config_pop_prefix ();
 	gnome_config_sync ();
 }
+#endif	
 
 #if 0
 static void
