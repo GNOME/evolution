@@ -181,18 +181,18 @@ evolution_calendar_LDADD =								\
 
 evolution_calendar_LDFLAGS = -export-dynamic
 
-oafdir = $(datadir)/oaf
-oaf_in_files = \
-	GNOME_Evolution_Calendar.oaf.in
+serversdir = $(datadir)/bonobo/servers
+servers_in_files = \
+	GNOME_Evolution_Calendar.server.in
 
-oaf_DATA = $(oaf_in_files:.oaf.in=.oaf)
+servers_DATA = $(servers_in_files:.server.in=.server)
 
-@INTLTOOL_OAF_RULE@
+@INTLTOOL_SERVER_RULE@
 
 EXTRA_DIST =	 			\
 	$(glade_DATA)			\
 	$(etspec_DATA)			\
-	$(oaf_in_files)
+	$(servers_in_files)
 
 install-data-local:
 	$(mkinstalldirs) $(DESTDIR)$(help_base)/C

@@ -66,17 +66,17 @@ evolution_alarm_notify_LDADD =						\
 
 evolution_alarm_notify_LDFLAGS = -export-dynamic
 
-oafdir = $(datadir)/oaf
-oaf_in_files = \
-	GNOME_Evolution_Calendar_AlarmNotify.oaf.in
+serversdir = $(libdir)/bonobo/servers
+servers_in_files = \
+	GNOME_Evolution_Calendar_AlarmNotify.server.in
 
-oaf_DATA = $(oaf_in_files:.oaf.in=.oaf)
+servers_DATA = $(servers_in_files:.server.in=.server)
 
-@INTLTOOL_OAF_RULE@
+@INTLTOOL_SERVER_RULE@
 
 EXTRA_DIST =		\
-	$(oaf_DATA)	\
-	$(oaf_in_files)	\
+	$(servers_DATA)	\
+	$(servers_in_files)	\
 	$(glade_DATA)
 
 BUILT_SOURCES = $(CORBA_GENERATED)

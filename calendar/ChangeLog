@@ -1,5 +1,13 @@
 2002-11-06  Rodrigo Moya <rodrigo@ximian.com>
 
+	* gui/alarm-notify/GNOME_Evolution_Calendar_AlarmNotify.server.in:
+	* gui/GNOME_Evolution_Calendar.server.in: renmaed .oaf.in files.
+
+	* gui/alarm-notify/Makefile.am:
+	* gui/Makefile.am: fixed rules for .server files.
+
+2002-11-06  Rodrigo Moya <rodrigo@ximian.com>
+
 	* gui/dialogs/comp-editor-util.[ch]
 	(comp_editor_connect_contacts_changed): don't return a
 	Bonobo_EventSource_ListenerId, since it does not exist anymore,
