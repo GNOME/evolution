@@ -70,7 +70,10 @@ void                  e_config_listener_set_string (EConfigListener *cl,
 						    const char *key,
 						    const char *value);
 
-void                  e_config_listener_remove_dir (EConfigListener *cl, const char *dir);
+void                  e_config_listener_remove_value (EConfigListener *cl,
+						      const char *key);
+void                  e_config_listener_remove_dir (EConfigListener *cl,
+						    const char *dir);
 
 G_END_DECLS
 

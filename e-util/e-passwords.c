@@ -219,11 +219,12 @@ e_passwords_forget_password (const char *component_name, const char *key)
 char *
 e_passwords_get_password (const char *component_name, const char *key)
 {
-	char *path, *passwd = g_hash_table_lookup (passwords, key);
+	char *path, *passwd;
 	char *encoded = NULL;
 
 	e_passwords_init ();
 	
+	passwd = g_hash_table_lookup (passwords, key);
 	if (passwd)
 		return g_strdup (passwd);
 	

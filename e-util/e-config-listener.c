@@ -562,10 +562,33 @@ e_config_listener_set_string (EConfigListener *cl, const char *key, const char *
 }
 
 void
+e_config_listener_remove_value (EConfigListener *cl, const char *key)
+{
+	gpointer orig_key, orig_value;
+
+	g_return_if_fail (E_IS_CONFIG_LISTENER (cl));
+	g_return_if_fail (key != NULL);
+
+	if (g_hash_table_lookup_extended (cl->priv->keys, key, &orig_key, &orig_value)) {
+		KeyData *kd = orig_value;
+
+		g_hash_table_remove (cl->priv->keys, key);
+		g_free (kd->key);
+		if (kd->type == GCONF_VALUE_STRING)
+			g_free (kd->value.v_str);
+		gconf_client_notify_remove (cl->priv->db, kd->lid);
+
+		g_free (kd);
+	}
+
+	gconf_client_unset (cl->priv->db, key, NULL);
+}
+
+void
 e_config_listener_remove_dir (EConfigListener *cl, const char *dir)
 {
 	GSList *slist, *iter;
-	gchar *key;
+	const gchar *key;
 
 	g_return_if_fail (E_IS_CONFIG_LISTENER (cl));
 	g_return_if_fail (dir != NULL);
