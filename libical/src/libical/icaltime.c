@@ -47,7 +47,6 @@
 #include "icaltimezone.h"
 
 
-
 struct icaltimetype 
 icaltime_from_timet(time_t tm, int is_date)
 {
@@ -388,6 +387,17 @@ short icaltime_days_in_month(short month,short year)
     return days;
 }
 
+/* Returns whether the specified year is a leap year. Year is the normal year,
+   e.g. 2001. */
+int
+icaltime_is_leap_year (int year)
+{
+  if (year <= 1752)
+    return !(year % 4);
+  else
+    return (!(year % 4) && (year % 100)) || !(year % 400);
+}
+
 /* 1-> Sunday, 7->Saturday */
 short icaltime_day_of_week(struct icaltimetype t){
     struct tm stm;
@@ -470,31 +480,26 @@ short icaltime_week_number(struct icaltimetype ictt)
     return week_no;
 }
 
+static const short days_in_year[2][13] = 
+{ /* jan feb mar apr may  jun  jul  aug  sep  oct  nov  dec */
+  {  0, 31, 59, 90, 120, 151, 181, 212, 243, 273, 304, 334, 365 }, 
+  {  0, 31, 60, 91, 121, 152, 182, 213, 244, 274, 305, 335, 366 }
+};
 
+/* Returns the day of the year, counting from 1 (Jan 1st). */
 short icaltime_day_of_year(struct icaltimetype t){
-    struct tm stm;
+  int is_leap = 0;
 
-    stm.tm_year = t.year - 1900;
-    stm.tm_mon = t.month - 1;
-    stm.tm_mday = t.day;
-    stm.tm_hour = 0;
-    stm.tm_min = 0;
-    stm.tm_sec = 0;
-    stm.tm_isdst = -1;
+  if (icaltime_is_leap_year (t.year))
+    is_leap = 1;
 
-    mktime (&stm);
-
-    return stm.tm_yday + 1;
+  return days_in_year[is_leap][t.month - 1] + t.day;
 }
+
 
 /* Jan 1 is day #1, not 0 */
 struct icaltimetype icaltime_from_day_of_year(short doy,  short year)
 {
-    static const short days_in_year[2][13] = 
-    { /* jan feb mar apr may  jun  jul  aug  sep  oct  nov  dec */
-      {  0, 31, 59, 90, 120, 151, 181, 212, 243, 273, 304, 334, 365 }, 
-      {  0, 31, 60, 91, 121, 152, 182, 213, 244, 274, 305, 335, 366 }
-    };
     struct icaltimetype tt = { 0 };
     int is_leap = 0, month;
 

@@ -1,3 +1,9 @@
+2001-07-23  Damon Chaplin  <damon@ximian.com>
+
+	* src/libical/icaltime.c (icaltime_day_of_year): changed so it doesn't
+	use mktime(). We are having problems because mktime() only works
+	post 1970.
+
 2001-07-17  JP Rosevear  <jpr@ximian.com>
 
 	* src/libical/icaltimezone.c
