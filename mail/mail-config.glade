@@ -745,7 +745,7 @@ Click &quot;Next&quot; to begin. </text>
 		  <update_policy>GTK_UPDATE_ALWAYS</update_policy>
 		  <snap>False</snap>
 		  <wrap>False</wrap>
-		  <value>1440</value>
+		  <value>10</value>
 		  <lower>0</lower>
 		  <upper>1440</upper>
 		  <step>1</step>
