@@ -117,6 +117,10 @@ struct _EDateEditPrivate {
 	gboolean time_set_to_none;
 	gint hour;
 	gint minute;
+
+	EDateEditGetTimeCallback time_callback;
+	gpointer time_callback_data;
+	GtkDestroyNotify time_callback_destroy;
 };
 
 enum {
@@ -275,6 +279,9 @@ e_date_edit_init		(EDateEdit	*dedit)
 	priv->date_set_to_none = TRUE;
 	priv->time_is_valid = TRUE;
 	priv->time_set_to_none = TRUE;
+	priv->time_callback = NULL;
+	priv->time_callback_data = NULL;
+	priv->time_callback_destroy = NULL;
 
 	create_children (dedit);
 
@@ -445,6 +452,8 @@ e_date_edit_destroy		(GtkObject	*object)
 
 	dedit = E_DATE_EDIT (object);
 
+	e_date_edit_set_get_time_callback (dedit, NULL, NULL, NULL);
+
 	gtk_widget_destroy (dedit->priv->cal_popup);
 	dedit->priv->cal_popup = NULL;
 
@@ -530,13 +539,17 @@ e_date_edit_get_time		(EDateEdit	*dedit)
  * Description:  Changes the displayed date and time in the EDateEdit
  * widget to be the one represented by @the_time.  If @the_time is 0
  * then current time is used. If it is -1, then the date is set to None.
+ *
+ * Note that the time is converted to local time using the Unix timezone,
+ * so if you are using your own timezones then you should use
+ * e_date_edit_set_date() and e_date_edit_set_time_of_day() instead.
  */
 void
 e_date_edit_set_time		(EDateEdit	*dedit,
 				 time_t		 the_time)
 {
 	EDateEditPrivate *priv;
-	struct tm *tmp_tm;
+	struct tm tmp_tm;
 	gboolean date_changed = FALSE, time_changed = FALSE;
 
 	g_return_if_fail (E_IS_DATE_EDIT (dedit));
@@ -549,20 +562,26 @@ e_date_edit_set_time		(EDateEdit	*dedit,
 		time_changed = e_date_edit_set_time_internal (dedit, TRUE,
 							      TRUE, 0, 0);
 	} else {
-		if (the_time == 0)
-			the_time = time (NULL);
-
-		tmp_tm = localtime (&the_time);
+		if (the_time == 0) {
+			if (priv->time_callback) {
+				tmp_tm = (*priv->time_callback) (dedit, priv->time_callback_data);
+			} else {
+				the_time = time (NULL);
+				tmp_tm = *localtime (&the_time);
+			}
+		} else {
+			tmp_tm = *localtime (&the_time);
+		}
 
 		date_changed = e_date_edit_set_date_internal (dedit, TRUE,
 							      FALSE,
-							      tmp_tm->tm_year,
-							      tmp_tm->tm_mon,
-							      tmp_tm->tm_mday);
+							      tmp_tm.tm_year,
+							      tmp_tm.tm_mon,
+							      tmp_tm.tm_mday);
 		time_changed = e_date_edit_set_time_internal (dedit, TRUE,
 							      FALSE,
-							      tmp_tm->tm_hour,
-							      tmp_tm->tm_min);
+							      tmp_tm.tm_hour,
+							      tmp_tm.tm_min);
 	}
 
 	e_date_edit_update_date_entry (dedit);
@@ -651,8 +670,8 @@ e_date_edit_set_date		(EDateEdit	*dedit,
 /**
  * e_date_edit_get_time_of_day:
  * @dedit: an #EDateEdit widget.
- * @hour: returns the hour set.
- * @minute: returns the minute set.
+ * @hour: returns the hour set, or 0 if the time isn't set.
+ * @minute: returns the minute set, or 0 if the time isn't set.
  * @Returns: TRUE if a time was set, or FALSE if the field is empty or 'None'.
  *
  * Returns the last valid time entered into the time field.
@@ -671,13 +690,15 @@ e_date_edit_get_time_of_day		(EDateEdit	*dedit,
 	/* Try to parse any new value now. */
 	e_date_edit_check_time_changed (dedit);
 
-	if (priv->time_set_to_none)
+	if (priv->time_set_to_none) {
+		*hour = 0;
+		*minute = 0;
 		return FALSE;
-
-	*hour = priv->hour;
-	*minute = priv->minute;
-
-	return TRUE;
+	} else {
+		*hour = priv->hour;
+		*minute = priv->minute;
+		return TRUE;
+	}
 }
 
 
@@ -951,10 +972,10 @@ e_date_edit_set_allow_no_date_set	(EDateEdit	*dedit,
 		   time is showing we make sure it isn't 'None'. */
 		if (dedit->priv->show_date) {
 			if (dedit->priv->date_set_to_none)
-				e_date_edit_set_time (dedit, time (NULL));
+				e_date_edit_set_time (dedit, 0);
 		} else {
 			if (dedit->priv->time_set_to_none)
-				e_date_edit_set_time (dedit, time (NULL));
+				e_date_edit_set_time (dedit, 0);
 		}
 	}
 }
@@ -1110,7 +1131,7 @@ on_date_popup_now_button_clicked	(GtkWidget	*button,
 					 EDateEdit	*dedit)
 {
 	hide_date_popup (dedit);
-	e_date_edit_set_time (dedit, time (NULL));
+	e_date_edit_set_time (dedit, 0);
 }
 
 
@@ -1118,16 +1139,23 @@ static void
 on_date_popup_today_button_clicked	(GtkWidget	*button,
 					 EDateEdit	*dedit)
 {
-	struct tm *tmp_tm;
+	EDateEditPrivate *priv;
+	struct tm tmp_tm;
 	time_t t;
+
+	priv = dedit->priv;
 
 	hide_date_popup (dedit);
 
-	t = time (NULL);
-	tmp_tm = localtime (&t);
+	if (priv->time_callback) {
+		tmp_tm = (*priv->time_callback) (dedit, priv->time_callback_data);
+	} else {
+		t = time (NULL);
+		tmp_tm = *localtime (&t);
+	}
 
-	e_date_edit_set_date (dedit, tmp_tm->tm_year + 1900,
-			      tmp_tm->tm_mon + 1, tmp_tm->tm_mday);
+	e_date_edit_set_date (dedit, tmp_tm.tm_year + 1900,
+			      tmp_tm.tm_mon + 1, tmp_tm.tm_mday);
 }
 
 
@@ -1731,3 +1759,29 @@ e_date_edit_set_time_internal	(EDateEdit	*dedit,
 
 	return time_changed;
 }
+
+
+/* Sets a callback to use to get the current time. This is useful if the
+   application needs to use its own timezone data rather than rely on the
+   Unix timezone. */
+void
+e_date_edit_set_get_time_callback	(EDateEdit	*dedit,
+					 EDateEditGetTimeCallback cb,
+					 gpointer	 data,
+					 GtkDestroyNotify destroy)
+{
+	EDateEditPrivate *priv;
+
+	g_return_if_fail (E_IS_DATE_EDIT (dedit));
+
+	priv = dedit->priv;
+
+	if (priv->time_callback_data && priv->time_callback_destroy)
+		(*priv->time_callback_destroy) (priv->time_callback_data);
+
+	priv->time_callback = cb;
+	priv->time_callback_data = data;
+	priv->time_callback_destroy = destroy;
+
+}
+

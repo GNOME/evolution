@@ -155,6 +155,9 @@ e_cell_date_edit_init			(ECellDateEdit	*ecde)
 	ecde->use_24_hour_format = TRUE;
 	ecde->need_time_list_rebuild = TRUE;
 	ecde->freeze_count = 0;
+	ecde->time_callback = NULL;
+	ecde->time_callback_data = NULL;
+	ecde->time_callback_destroy = NULL;
 
 	/* We create one popup window for the ECell, since there will only
 	   ever be one popup in use at a time. */
@@ -280,6 +283,8 @@ static void
 e_cell_date_edit_destroy		(GtkObject *object)
 {
 	ECellDateEdit *ecde = E_CELL_DATE_EDIT (object);
+
+	e_cell_date_edit_set_get_time_callback (ecde, NULL, NULL, NULL);
 
 	gtk_widget_unref (ecde->popup_window);
 
@@ -742,15 +747,19 @@ static void
 e_cell_date_edit_on_now_clicked		(GtkWidget	*button,
 					 ECellDateEdit	*ecde)
 {
-	struct tm *tmp_tm;
+	struct tm tmp_tm;
 	time_t t;
 	char buffer[64];
 
 	g_print ("In e_cell_date_edit_on_now_clicked\n");
 
-	t = time (NULL);
-	tmp_tm = localtime (&t);
-	e_time_format_date_and_time (tmp_tm,
+	if (ecde->time_callback) {
+		tmp_tm = (*ecde->time_callback) (ecde, ecde->time_callback_data);
+	} else {
+		t = time (NULL);
+		tmp_tm = *localtime (&t);
+	}
+	e_time_format_date_and_time (&tmp_tm,
 				     ecde->use_24_hour_format,
 				     TRUE, FALSE,
 				     buffer, sizeof (buffer));
@@ -775,18 +784,23 @@ static void
 e_cell_date_edit_on_today_clicked	(GtkWidget	*button,
 					 ECellDateEdit	*ecde)
 {
-	struct tm *tmp_tm;
+	struct tm tmp_tm;
 	time_t t;
 	char buffer[64];
 
 	g_print ("In e_cell_date_edit_on_today_clicked\n");
 
-	t = time (NULL);
-	tmp_tm = localtime (&t);
-	tmp_tm->tm_hour = 0;
-	tmp_tm->tm_min = 0;
-	tmp_tm->tm_sec = 0;
-	e_time_format_date_and_time (tmp_tm,
+	if (ecde->time_callback) {
+		tmp_tm = (*ecde->time_callback) (ecde, ecde->time_callback_data);
+	} else {
+		t = time (NULL);
+		tmp_tm = *localtime (&t);
+	}
+
+	tmp_tm.tm_hour = 0;
+	tmp_tm.tm_min = 0;
+	tmp_tm.tm_sec = 0;
+	e_time_format_date_and_time (&tmp_tm,
 				     ecde->use_24_hour_format,
 				     FALSE, FALSE,
 				     buffer, sizeof (buffer));
@@ -872,4 +886,25 @@ e_cell_date_edit_thaw			(ECellDateEdit	*ecde)
 			e_cell_date_edit_rebuild_time_list (ecde);
 	}
 }
+
+
+/* Sets a callback to use to get the current time. This is useful if the
+   application needs to use its own timezone data rather than rely on the
+   Unix timezone. */
+void
+e_cell_date_edit_set_get_time_callback (ECellDateEdit	*ecde,
+					ECellDateEditGetTimeCallback cb,
+					gpointer	 data,
+					GtkDestroyNotify destroy)
+{
+	g_return_if_fail (E_IS_CELL_DATE_EDIT (ecde));
+
+	if (ecde->time_callback_data && ecde->time_callback_destroy)
+		(*ecde->time_callback_destroy) (ecde->time_callback_data);
+
+	ecde->time_callback = cb;
+	ecde->time_callback_data = data;
+	ecde->time_callback_destroy = destroy;
+}
+
 

@@ -55,6 +55,8 @@ typedef enum
 typedef struct _ECalendarItem       ECalendarItem;
 typedef struct _ECalendarItemClass  ECalendarItemClass;
 
+/* The type of the callback function optionally used to get the colors to
+   use for each day. */
 typedef void (*ECalendarItemStyleCallback)   (ECalendarItem	*calitem,
 					      gint		 year,
 					      gint		 month,
@@ -70,6 +72,11 @@ typedef void (*ECalendarItemStyleCallback)   (ECalendarItem	*calitem,
 					      GdkColor	       **box_color,
 					      gboolean		*bold,
 					      gpointer		 data);
+
+/* The type of the callback function optionally used to get the current time.
+ */
+typedef struct tm (*ECalendarItemGetTimeCallback) (ECalendarItem *calitem,
+						   gpointer	  data);
 
 
 #define E_CALENDAR_ITEM(obj)     (GTK_CHECK_CAST((obj), \
@@ -199,6 +206,10 @@ struct _ECalendarItem
 	gpointer style_callback_data;
 	GtkDestroyNotify style_callback_destroy;
 
+	ECalendarItemGetTimeCallback time_callback;
+	gpointer time_callback_data;
+	GtkDestroyNotify time_callback_destroy;
+
 	/* Colors for drawing. */
 	GdkColor colors[E_CALENDAR_ITEM_COLOR_LAST];
 
@@ -310,6 +321,14 @@ void	 e_calendar_item_mark_days		(ECalendarItem	*calitem,
 /* Sets the function to call to get the colors to use for a particular day. */
 void	 e_calendar_item_set_style_callback	(ECalendarItem	*calitem,
 						 ECalendarItemStyleCallback cb,
+						 gpointer	 data,
+						 GtkDestroyNotify destroy);
+
+/* Sets a callback to use to get the current time. This is useful if the
+   application needs to use its own timezone data rather than rely on the
+   Unix timezone. */
+void	 e_calendar_item_set_get_time_callback	(ECalendarItem	*calitem,
+						 ECalendarItemGetTimeCallback cb,
 						 gpointer	 data,
 						 GtkDestroyNotify destroy);
 

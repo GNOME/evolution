@@ -1,3 +1,11 @@
+2001-07-02  Damon Chaplin  <damon@ximian.com>
+
+	* e-calendar-item.c: 
+	* e-cell-date-edit.c: 
+	* e-dateedit.c: added functions to set a callback to get the current
+	time, which is used instead of localtime(). We need this as we have to
+	use our own timezones.
+
 2001-07-02  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* e-charset-picker.c (e_charset_picker_bonobo_ui_populate): Take a

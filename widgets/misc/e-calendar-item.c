@@ -415,7 +415,12 @@ e_calendar_item_init (ECalendarItem *calitem)
 	calitem->date_range_changed = FALSE;
 
 	calitem->style_callback = NULL;
+	calitem->style_callback_data = NULL;
 	calitem->style_callback_destroy = NULL;
+
+	calitem->time_callback = NULL;
+	calitem->time_callback_data = NULL;
+	calitem->time_callback_destroy = NULL;
 
 	/* Translators: These are the first characters of each day of the
 	   week, 'M' for 'Monday', 'T' for Tuesday etc. */
@@ -433,6 +438,7 @@ e_calendar_item_destroy		(GtkObject *o)
 	calitem = E_CALENDAR_ITEM (o);
 
 	e_calendar_item_set_style_callback (calitem, NULL, NULL, NULL);
+	e_calendar_item_set_get_time_callback (calitem, NULL, NULL, NULL);
 
 	g_free (calitem->styles);
 
@@ -1162,7 +1168,7 @@ e_calendar_item_draw_day_numbers (ECalendarItem	*calitem,
 	GdkFont *font, *wkfont;
 	GdkGC *fg_gc;
 	GdkColor *bg_color, *fg_color, *box_color;
-	struct tm *today_tm;
+	struct tm today_tm;
 	time_t t;
 	gint char_height, min_cell_width, min_cell_height;
 	gint day_num, drow, dcol, day_x, day_y;
@@ -1235,11 +1241,15 @@ e_calendar_item_draw_day_numbers (ECalendarItem	*calitem,
 	}
 
 	/* Get today's date, so we can highlight it. */
-	t = time (NULL);
-	today_tm = localtime (&t);
-	today_year = today_tm->tm_year + 1900;
-	today_month = today_tm->tm_mon;
-	today_mday = today_tm->tm_mday;
+	if (calitem->time_callback) {
+		today_tm = (*calitem->time_callback) (calitem, calitem->time_callback_data);
+	} else {
+		t = time (NULL);
+		today_tm = *localtime (&t);
+	}
+	today_year = today_tm.tm_year + 1900;
+	today_month = today_tm.tm_mon;
+	today_mday = today_tm.tm_mday;
 
 	/* We usually skip the last days of the previous month (mon = 0),
 	   except for the top-left month displayed. */
@@ -2827,7 +2837,7 @@ e_calendar_item_set_style_callback	(ECalendarItem	*calitem,
 {
 	g_return_if_fail (E_IS_CALENDAR_ITEM (calitem));
 
-	if (calitem->style_callback_data)
+	if (calitem->style_callback_data && calitem->style_callback_destroy)
 		(*calitem->style_callback_destroy) (calitem->style_callback_data);
 
 	calitem->style_callback = cb;
@@ -2884,3 +2894,22 @@ e_calendar_item_signal_emission_idle_cb	(gpointer data)
 	return FALSE;
 }
 
+
+/* Sets a callback to use to get the current time. This is useful if the
+   application needs to use its own timezone data rather than rely on the
+   Unix timezone. */
+void
+e_calendar_item_set_get_time_callback	(ECalendarItem	*calitem,
+					 ECalendarItemGetTimeCallback cb,
+					 gpointer	 data,
+					 GtkDestroyNotify destroy)
+{
+	g_return_if_fail (E_IS_CALENDAR_ITEM (calitem));
+
+	if (calitem->time_callback_data && calitem->time_callback_destroy)
+		(*calitem->time_callback_destroy) (calitem->time_callback_data);
+
+	calitem->time_callback = cb;
+	calitem->time_callback_data = data;
+	calitem->time_callback_destroy = destroy;
+}

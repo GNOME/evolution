@@ -30,6 +30,7 @@
 #ifndef _E_CELL_DATE_EDIT_H_
 #define _E_CELL_DATE_EDIT_H_
 
+#include <time.h>
 #include <gal/e-table/e-cell-popup.h>
 
 #define E_CELL_DATE_EDIT_TYPE        (e_cell_date_edit_get_type ())
@@ -39,7 +40,15 @@
 #define E_IS_CELL_DATE_EDIT_CLASS(k) (GTK_CHECK_CLASS_TYPE ((k), E_CELL_DATE_EDIT_TYPE))
 
 
-typedef struct {
+typedef struct _ECellDateEdit ECellDateEdit;
+typedef struct _ECellDateEditClass ECellDateEditClass;
+
+/* The type of the callback function optionally used to get the current time.
+ */
+typedef struct tm (*ECellDateEditGetTimeCallback) (ECellDateEdit *ecde,
+						   gpointer	  data);
+
+struct _ECellDateEdit {
 	ECellPopup parent;
 
 	GtkWidget *popup_window;
@@ -64,11 +73,15 @@ typedef struct {
 	/* The freeze count for rebuilding the time list. We only rebuild when
 	   this is 0. */
 	gint freeze_count;
-} ECellDateEdit;
 
-typedef struct {
+	ECellDateEditGetTimeCallback time_callback;
+	gpointer time_callback_data;
+	GtkDestroyNotify time_callback_destroy;
+};
+
+struct _ECellDateEditClass {
 	ECellPopupClass parent_class;
-} ECellDateEditClass;
+};
 
 
 GtkType    e_cell_date_edit_get_type		(void);
@@ -80,5 +93,15 @@ ECell     *e_cell_date_edit_new			(void);
    lower_hour, upper_hour and use_24_hour_format properties. */
 void	   e_cell_date_edit_freeze		(ECellDateEdit	*ecde);
 void	   e_cell_date_edit_thaw		(ECellDateEdit	*ecde);
+
+
+/* Sets a callback to use to get the current time. This is useful if the
+   application needs to use its own timezone data rather than rely on the
+   Unix timezone. */
+void	   e_cell_date_edit_set_get_time_callback(ECellDateEdit	*ecde,
+						  ECellDateEditGetTimeCallback cb,
+						  gpointer	 data,
+						  GtkDestroyNotify destroy);
+
 
 #endif /* _E_CELL_DATE_EDIT_H_ */

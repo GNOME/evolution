@@ -56,10 +56,14 @@ BEGIN_GNOME_DECLS
 #define E_IS_DATE_EDIT(obj)         (GTK_CHECK_TYPE ((obj), E_TYPE_DATE_EDIT))
 #define E_IS_DATE_EDIT_CLASS(klass) (GTK_CHECK_CLASS_TYPE ((klass), E_TYPE_DATE_EDIT))
 
-
 typedef struct _EDateEdit        EDateEdit;
 typedef struct _EDateEditPrivate EDateEditPrivate;
 typedef struct _EDateEditClass   EDateEditClass;
+
+/* The type of the callback function optionally used to get the current time.
+ */
+typedef struct tm (*EDateEditGetTimeCallback) (EDateEdit *dedit,
+					       gpointer	  data);
 
 struct _EDateEdit {
 	GtkHBox hbox;
@@ -91,7 +95,7 @@ void       e_date_edit_set_time			(EDateEdit	*dedit,
 
 /* This returns the last valid date set, without the time. It returns TRUE
    if a date is set, or FALSE if the date is set to 'None' and this is
-   permitted via e_date_edit_set_allow_no_date_set. */
+   permitted via e_date_edit_set_allow_no_date_set. (Month is 1 - 12). */
 gboolean   e_date_edit_get_date			(EDateEdit	*dedit,
 						 gint		*year,
 						 gint		*month,
@@ -149,6 +153,14 @@ void	   e_date_edit_get_time_popup_range	(EDateEdit	*dedit,
 void       e_date_edit_set_time_popup_range	(EDateEdit	*dedit,
 						 gint		 lower_hour,
 						 gint		 upper_hour);
+
+/* Sets a callback to use to get the current time. This is useful if the
+   application needs to use its own timezone data rather than rely on the
+   Unix timezone. */
+void	   e_date_edit_set_get_time_callback	(EDateEdit	*dedit,
+						 EDateEditGetTimeCallback cb,
+						 gpointer	 data,
+						 GtkDestroyNotify destroy);
 
 END_GNOME_DECLS
 
