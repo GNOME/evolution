@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: evolution HEAD\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2004-08-21 03:09+0200\n"
-"PO-Revision-Date: 2004-10-19 19:03+0200\n"
+"PO-Revision-Date: 2004-11-07 10:55+0100\n"
 "Last-Translator: Laurent Dhima <laurenti@alblinux.net>\n"
 "Language-Team: Albanian <gnome-albanian-perkthyesit@lists.sourceforge.net>\n"
 "MIME-Version: 1.0\n"
@@ -13549,7 +13549,6 @@ msgid "Unsigned"
 msgstr "Pa firmë"
 
 #: mail/em-format-html-display.c:641
-#, fuzzy
 msgid ""
 "This message is not signed. There is no guarantee that this message is "
 "authentic."
@@ -13799,32 +13798,26 @@ msgid "Unknown error verifying signature"
 msgstr "Gabim i panjohur gjatë verifikimit të firmës"
 
 #: mail/em-junk-filter.c:86
-#, fuzzy
 msgid "Spamassassin (built-in)"
 msgstr "Spamassassin (built-in)"
 
 #: mail/em-mailer-prefs.c:100
-#, fuzzy
 msgid "Every time"
 msgstr "Në çdo kohë"
 
 #: mail/em-mailer-prefs.c:101
-#, fuzzy
 msgid "Once per day"
 msgstr "Një herë në ditë"
 
 #: mail/em-mailer-prefs.c:102
-#, fuzzy
 msgid "Once per week"
 msgstr "Një herë në javë"
 
 #: mail/em-mailer-prefs.c:103
-#, fuzzy
 msgid "Once per month"
 msgstr "Një herë në muaj"
 
 #: mail/em-migrate.c:1168
-#, fuzzy
 msgid ""
 "The location and hierarchy of the Evolution mailbox folders has changed "
 "since Evolution 1.x.\n"
@@ -13848,13 +13841,11 @@ msgstr "I pamundur kopjimi i kartelës `%s' tek `%s': %s"
 
 #: mail/em-migrate.c:1813
 #, c-format
-#, fuzzy
 msgid "Unable to scan for existing mailboxes at `%s': %s"
 msgstr "I pamundur kërkimi për mailboxe ekzistuese tek `%s': %s"
 
 #: mail/em-migrate.c:2017
 #, c-format
-#, fuzzy
 msgid "Unable to open old POP keep-on-server data `%s': %s"
 msgstr "E pamundur hapja e të dhënava të vjetra POP \"lër-në-server\" `%s': %s"
 
@@ -13867,9 +13858,8 @@ msgstr ""
 
 #: mail/em-migrate.c:2060
 #, c-format
-#, fuzzy
 msgid "Unable to copy POP3 keep-on-server data `%s': %s"
-msgstr "E pamundur kopja e të dhënave POP3 \"lër-në-server\" `%s': %s"
+msgstr "I pamundur kopjimi e të dhënave POP3 \"lër-në-server\" `%s': %s"
 
 #: mail/em-migrate.c:2415 mail/em-migrate.c:2427
 #, c-format
@@ -13882,7 +13872,6 @@ msgid "Unable to create local mail folders at `%s': %s"
 msgstr "I pamundur krijimi i kartelave lokale të postës `%s': %s"
 
 #: mail/em-migrate.c:2596
-#, fuzzy
 msgid ""
 "Unable to read settings from previous Evolution install, `evolution/config."
 "xmldb' does not exist or is corrupt."
@@ -13896,7 +13885,6 @@ msgstr "Ruaj Si..."
 
 #: mail/em-popup.c:718
 #, c-format
-#, fuzzy
 msgid "untitled_image.%s"
 msgstr "figurë_paemër.%s"
 
@@ -13905,7 +13893,6 @@ msgid "Set as _Background"
 msgstr "Vendose si _sfond"
 
 #: mail/em-popup.c:810
-#, fuzzy
 msgid "_Reply to sender"
 msgstr "_Përgjigju dërguesit"
 
@@ -13923,7 +13910,6 @@ msgstr "_Shtoje në rubrikë"
 
 #: mail/em-popup.c:985
 #, c-format
-#, fuzzy
 msgid "Open in %s..."
 msgstr "Hap në %s..."
 
@@ -13941,12 +13927,10 @@ msgstr "Kartelë"
 
 #. FIXME: This is just to get the shadow, is there a better way?
 #: mail/em-subscribe-editor.c:852
-#, fuzzy
 msgid "Please select a server."
 msgstr "Ju lutem zgjidhni një server."
 
 #: mail/em-subscribe-editor.c:873
-#, fuzzy
 msgid "No server has been selected"
 msgstr "Nuk është zgjedhur asnjë server"
 
@@ -13985,62 +13969,50 @@ msgid "_Add"
 msgstr "_Shto"
 
 #: mail/em-vfolder-rule.c:574
-#, fuzzy
 msgid "VFolder source"
-msgstr "Burimi i Kartelës Virtuale (VFolder)"
+msgstr "Burimi i kartelës virtuale (VKartela)"
 
 #: mail/evolution-mail.schemas.in.in.h:1
-#, fuzzy
 msgid "Automatic link recognition"
 msgstr "Kontrolli automatik i lidhjeve"
 
 #: mail/evolution-mail.schemas.in.in.h:2
-#, fuzzy
 msgid "Automatic smiley recognition"
 msgstr "Kontrolli automatik i smiley"
 
 #: mail/evolution-mail.schemas.in.in.h:3
-#, fuzzy
 msgid "Check incoming mail being junk"
 msgstr "Kontrollo që posta në ardhje të mos përmbajë material për t'u refuzuar"
 
 #: mail/evolution-mail.schemas.in.in.h:4
-#, fuzzy
 msgid "Citation highlight color"
 msgstr "Ngjyra e vënies në dukje të citimeve"
 
 #: mail/evolution-mail.schemas.in.in.h:5
-#, fuzzy
 msgid "Citation highlight color."
 msgstr "Ngjyra e vënies në dukje të citimeve."
 
 #: mail/evolution-mail.schemas.in.in.h:6
-#, fuzzy
 msgid "Composer Window default height"
 msgstr "Lartësia e dritares së prezgjedhur të kompozuesit"
 
 #: mail/evolution-mail.schemas.in.in.h:7
-#, fuzzy
 msgid "Composer Window default width"
 msgstr "Gjerësia e dritares së prezgjedhur të kompozuesit"
 
 #: mail/evolution-mail.schemas.in.in.h:8
-#, fuzzy
 msgid "Default charset in which to compose messages"
 msgstr "Kodifikimi i prezgjedhur për hartimin e mesazheve"
 
 #: mail/evolution-mail.schemas.in.in.h:9
-#, fuzzy
 msgid "Default charset in which to compose messages."
 msgstr "Kodifikimi i prezgjedhur për hartimin e mesazheve."
 
 #: mail/evolution-mail.schemas.in.in.h:10
-#, fuzzy
 msgid "Default charset in which to display messages"
 msgstr "Kodifikimi i prezgjedhur për shfaqjen e mesazheve"
 
 #: mail/evolution-mail.schemas.in.in.h:11
-#, fuzzy
 msgid "Default charset in which to display messages."
 msgstr "Kodifikimi i prezgjedhur për shfaqjen e mesazheve."
 
@@ -14077,44 +14049,36 @@ msgid "Default width of the Subscribe dialog"
 msgstr "Gjerësia e prezgjedhur e dritares së dialogut të regjistrimit"
 
 #: mail/evolution-mail.schemas.in.in.h:20
-#, fuzzy
 msgid "Draw spelling error indicators on words as you type."
 msgstr "Vizato treguesit e gabimeve drejtshkrimore tek fjalët që shkruani."
 
 #: mail/evolution-mail.schemas.in.in.h:21
-#, fuzzy
 msgid "Empty Trash folders on exit"
-msgstr "Zbraz kartelat e Koshit kur mbyllet programi"
+msgstr "Zbraz kartelat e koshit kur mbyllet programi"
 
 #: mail/evolution-mail.schemas.in.in.h:22
-#, fuzzy
 msgid "Empty all Trash folders when exiting Evolution."
-msgstr "Zraz të kartelat e Koshit kur përfundon Evolution."
+msgstr "Zraz të kartelat e koshit kur del nga Evolution."
 
 #: mail/evolution-mail.schemas.in.in.h:23
-#, fuzzy
 msgid "Enable caret mode, so that you can see a cursor when reading mail."
 msgstr ""
 "Aktivo modalitetin \"vizore\", në këtë menyrë do të shihni një kursor gjatë "
 "leximit të një mesazhi."
 
 #: mail/evolution-mail.schemas.in.in.h:24
-#, fuzzy
 msgid "Enable/disable caret mode"
 msgstr "Aktivo/ç'aktivo modalitetin vizore"
 
 #: mail/evolution-mail.schemas.in.in.h:25
-#, fuzzy
 msgid "Height of the message-list pane"
 msgstr "Lartësia e panelit me listën e mesazheve"
 
 #: mail/evolution-mail.schemas.in.in.h:26
-#, fuzzy
 msgid "Height of the message-list pane."
 msgstr "Lartësia e panelit me listën e mesazheve."
 
 #: mail/evolution-mail.schemas.in.in.h:27
-#, fuzzy
 msgid ""
 "If there isn't a builtin viewer for a particular mime-type inside Evolution, "
 "any mime-types appearing in this list which map to a bonobo-component viewer "
@@ -14126,27 +14090,22 @@ msgstr ""
 "për të shfaqur përmbajtjen."
 
 #: mail/evolution-mail.schemas.in.in.h:28
-#, fuzzy
 msgid "Last time empty trash was run"
 msgstr "Hera e fundit kur është zbrazur koshi"
 
 #: mail/evolution-mail.schemas.in.in.h:29
-#, fuzzy
 msgid "List of Labels and their associated colors"
-msgstr "Lista e Etiketave dhe ngjyrat relative"
+msgstr "Lista e etiketave dhe ngjyrat relative"
 
 #: mail/evolution-mail.schemas.in.in.h:30
-#, fuzzy
 msgid "List of accepted licenses"
 msgstr "Lista e liçencave të pranuara"
 
 #: mail/evolution-mail.schemas.in.in.h:31
-#, fuzzy
 msgid "List of accounts"
 msgstr "Lista e llogarive"
 
 #: mail/evolution-mail.schemas.in.in.h:32
-#, fuzzy
 msgid ""
 "List of accounts known to the mail component of Evolution. The list contains "
 "strings naming subdirectories relative to /apps/evolution/mail/accounts."
@@ -14155,12 +14114,10 @@ msgstr ""
 "vlerat me emrat e nëndirektorive relative me /apps/evolution/mail/accounts."
 
 #: mail/evolution-mail.schemas.in.in.h:33
-#, fuzzy
 msgid "List of custom headers and whether they are enabled."
 msgstr "Lista me headers e personalizuar dhe nëse ato janë aktivë."
 
 #: mail/evolution-mail.schemas.in.in.h:34
-#, fuzzy
 msgid ""
 "List of labels known to the mail component of Evolution. The list contains "
 "strings containing name:color where color uses the HTML hex encoding."
@@ -14169,24 +14126,18 @@ msgstr ""
 "vlerat me emri:ngjyra ku ngjyra përdor kodifikimin hex të HTML"
 
 #: mail/evolution-mail.schemas.in.in.h:35
-#, fuzzy
 msgid "List of mime types to check for bonobo component viewers"
-msgstr ""
-"Lista e llojeve mime për të cilët duhet kontrolluar për shikues bonobo "
-"komponentë"
+msgstr "Lista e llojeve mime për të cilët duhet kontrolluar për shikuesit e komponentëve bonobo"
 
 #: mail/evolution-mail.schemas.in.in.h:36
-#, fuzzy
 msgid "List of protocol names whose license has been accepted."
 msgstr "Lista me emrat e protokollëve për të cilët është pranuar liçenca."
 
 #: mail/evolution-mail.schemas.in.in.h:37
-#, fuzzy
 msgid "Load images for HTML messages over http"
 msgstr "Ngarko figurat për mesazhet HTML over http"
 
 #: mail/evolution-mail.schemas.in.in.h:38
-#, fuzzy
 msgid ""
 "Load images for HTML messages over http(s). Possible values are: 0 - Never "
 "load images off the net 1 - Load images if sender is in the addressbook 2 - "
@@ -14197,42 +14148,34 @@ msgstr ""
 "rezulton në rubrikë 2 - Ngarko gjithmonë figurat nga internet"
 
 #: mail/evolution-mail.schemas.in.in.h:39
-#, fuzzy
 msgid "Log filter actions"
-msgstr "Regjistro veprimet e filtrit"
+msgstr "Veprimet e filtrimit të log"
 
 #: mail/evolution-mail.schemas.in.in.h:40
-#, fuzzy
 msgid "Log filter actions to the specified log file."
 msgstr "Regjistron veprimet e filtrit tek file i specifikuar log."
 
 #: mail/evolution-mail.schemas.in.in.h:41
-#, fuzzy
 msgid "Logfile to log filter actions"
 msgstr "File log për regjistrimin e veprimeve të filtrit"
 
 #: mail/evolution-mail.schemas.in.in.h:42
-#, fuzzy
 msgid "Logfile to log filter actions."
 msgstr "File log për regjistrimin e veprimeve të filtrit."
 
 #: mail/evolution-mail.schemas.in.in.h:43
-#, fuzzy
 msgid "Mark as Seen after specified timeout"
-msgstr "Shëno si të Shikuar mbas një kohe të caktuar"
+msgstr "Shëno si të \"Shikuar\" mbas një kohe të caktuar"
 
 #: mail/evolution-mail.schemas.in.in.h:44
-#, fuzzy
 msgid "Mark as Seen after specified timeout."
-msgstr "Shëno si të Shikuar mbas një kohe të caktuar."
+msgstr "Shëno si të \"Shikuar\" mbas një kohe të caktuar."
 
 #: mail/evolution-mail.schemas.in.in.h:45
-#, fuzzy
 msgid "Mark citations in the message \"Preview\""
 msgstr "Shëno citimet tek \"Pamja e Parë\" e mesazhit"
 
 #: mail/evolution-mail.schemas.in.in.h:46
-#, fuzzy
 msgid "Mark citations in the message \"Preview\"."
 msgstr "Shëno citimet tek \"Pamja e Parë\" e mesazhit."
 
@@ -14241,64 +14184,52 @@ msgid "Message Window default height"
 msgstr "Lartësia e prezgjedhur e dritares së mesazhit"
 
 #: mail/evolution-mail.schemas.in.in.h:48
-#, fuzzy
 msgid "Message Window default width"
 msgstr "Gjerësia e prezgjedhur e dritares së mesazhit"
 
 #: mail/evolution-mail.schemas.in.in.h:49
-#, fuzzy
 msgid "Message-display style (normal, full headers, source)"
 msgstr "Stili i shfaqjes së mesazhit (normal, me gjithë tituj, burimi)"
 
 #: mail/evolution-mail.schemas.in.in.h:50
-#, fuzzy
 msgid "Minimum days between emptying the trash on exit"
 msgstr "Numri minimum i ditëve para se të zbrazet koshi kur mbyllet programi"
 
 #: mail/evolution-mail.schemas.in.in.h:51
-#, fuzzy
 msgid "Minimum time between emptying the trash on exit, in days."
 msgstr "Koha minimum para zbrazjes së koshit në dalje, në ditë."
 
 #: mail/evolution-mail.schemas.in.in.h:52
-#, fuzzy
 msgid "New Mail Notify sound file"
-msgstr "File me tingullin për njoftimin e Mesazhit të Ri"
+msgstr "File me tingullin për njoftimin e mesazheve të rinj"
 
 #: mail/evolution-mail.schemas.in.in.h:53
-#, fuzzy
 msgid "New Mail Notify type"
-msgstr "Lloji i njoftimit të Mesazhit të Ri"
+msgstr "Lloji i njoftimit të mesazheve të rinj"
 
 #: mail/evolution-mail.schemas.in.in.h:54
-#, fuzzy
 msgid "Prompt on empty subject"
 msgstr "Tërhiq vëmendjen kur subjekti është bosh"
 
 #: mail/evolution-mail.schemas.in.in.h:55
-#, fuzzy
 msgid "Prompt the user when he or she tries to expunge a folder."
-msgstr "Paralajmëro përdoruesin nëse ai apo ajo mundohen të fshijnë një kartelë."
+msgstr "Paralajmëro përdoruesin nëse ai apo ajo përpiqen të fshijnë një kartelë."
 
 #: mail/evolution-mail.schemas.in.in.h:56
-#, fuzzy
 msgid "Prompt the user when he or she tries to send a message without a Subject."
 msgstr ""
-"Paralajmëro përdoruesin nëse ai apo ajo mundohen të dërgojnë një mesazh pa "
+"Paralajmëro përdoruesin nëse ai apo ajo përpiqen të dërgojnë një mesazh pa "
 "subjekt."
 
 #: mail/evolution-mail.schemas.in.in.h:57
-#, fuzzy
 msgid "Prompt when user expunges"
 msgstr "Paralajmërim kur përdoruesi fshin"
 
 #: mail/evolution-mail.schemas.in.in.h:58
-#, fuzzy
 msgid "Prompt when user only fills Bcc"
 msgstr "Paralajmërim nëse përdoruesi plotëson vetëm Bcc"
 
 #: mail/evolution-mail.schemas.in.in.h:59
-#, fuzzy
 msgid ""
 "Prompt when user tries to send HTML mail to recipients that may not want to "
 "receive HTML mail."
@@ -14307,29 +14238,24 @@ msgstr ""
 "dëshirojnë të marrin mesazhe në HTML."
 
 #: mail/evolution-mail.schemas.in.in.h:60
-#, fuzzy
 msgid "Prompt when user tries to send a message with no To or Cc recipients."
 msgstr ""
 "Paralajmëro kur përdoruesi kërkon të dërgojë një mesazh pa përmbajtje tek "
 "\"Për\" apo \"Cc\"."
 
 #: mail/evolution-mail.schemas.in.in.h:61
-#, fuzzy
 msgid "Prompt when user tries to send unwanted HTML"
 msgstr "Paralajmërim kur përdoruesi kërkon të dërgojë HTML të padëshiruar"
 
 #: mail/evolution-mail.schemas.in.in.h:62
-#, fuzzy
 msgid "Recognize links in text and replace them."
 msgstr "Kontrollo lidhjet në tekst dhe zëvendësoi."
 
 #: mail/evolution-mail.schemas.in.in.h:63
-#, fuzzy
 msgid "Recognize smileys in text and replace them with images."
 msgstr "Kontrollo smiles në tekst dhe zëvendësoi me figurat."
 
 #: mail/evolution-mail.schemas.in.in.h:64
-#, fuzzy
 msgid "Run junk test on incoming mail"
 msgstr "Vër në funksion provën për material për t'u refuzuar tek mesazhet në ardhje"
 
@@ -14346,44 +14272,36 @@ msgid "Show Animations"
 msgstr "Shfaq kontaktet"
 
 #: mail/evolution-mail.schemas.in.in.h:68
-#, fuzzy
 msgid "Show animated images as animations."
 msgstr "Shfaq imazhet e animuar si animime."
 
 #: mail/evolution-mail.schemas.in.in.h:69
-#, fuzzy
 msgid "Show deleted messages (with a strike-through) in the message-list."
 msgstr "Shfaq mesazhet e fshira (me përvizim) tek lista e mesazheve."
 
 #: mail/evolution-mail.schemas.in.in.h:70
-#, fuzzy
 msgid "Show deleted messages in the message-list"
 msgstr "Shfaq mesazhet e fshira tek lista e mesazheve"
 
 #: mail/evolution-mail.schemas.in.in.h:71
-#, fuzzy
 msgid "Show the \"Preview\" pane"
 msgstr "Shfaq panelin \"Pamja e Parë\""
 
 #: mail/evolution-mail.schemas.in.in.h:72
-#, fuzzy
 msgid "Show the \"Preview\" pane."
 msgstr "Shfaq panelin \"Pamja e Parë\"."
 
 #: mail/evolution-mail.schemas.in.in.h:73
-#, fuzzy
 msgid "Sound file to play when new mail arrives."
 msgstr "File audio që duhet ekzekutuar kur arrijnë mesazhe të rinj."
 
 #: mail/evolution-mail.schemas.in.in.h:74
-#, fuzzy
 msgid "Specifies the type of New Mail Notification the user wishes to use."
 msgstr ""
-"Specifikon llojin e Njoftimit të Mesazheve të Rinj që përdoruesi dëshiron të "
+"Specifikon llojin e njoftimit të mesazheve të rinj që përdoruesi dëshiron të "
 "përdorë."
 
 #: mail/evolution-mail.schemas.in.in.h:75
-#, fuzzy
 msgid "Spell check inline"
 msgstr "Kontroll direkt drejtshkrimi"
 
@@ -14392,7 +14310,6 @@ msgid "Subscribe dialog default height"
 msgstr "Lartësia e prezgjedhur e dritares së dialogut të regjistrimit"
 
 #: mail/evolution-mail.schemas.in.in.h:77
-#, fuzzy
 msgid "Subscribe dialog default width"
 msgstr "Gjerësia e prezgjedhur e dritares së dialogut të regjistrimit"
 
@@ -14401,22 +14318,18 @@ msgid "Terminal font"
 msgstr "Gërmat e terminalit"
 
 #: mail/evolution-mail.schemas.in.in.h:79
-#, fuzzy
 msgid "The last time empty trash was run, in days since the epoch."
 msgstr "Hera e fundit që është zbrazur koshi, shprehur në ditë."
 
 #: mail/evolution-mail.schemas.in.in.h:80
-#, fuzzy
 msgid "The terminal font for mail display"
-msgstr "Gërmat e terminalit për hfaqjen e mesazhit"
+msgstr "Gërmat e terminalit për shfaqjen e mesazhit"
 
 #: mail/evolution-mail.schemas.in.in.h:81
-#, fuzzy
 msgid "The variable width font for mail display"
 msgstr "Gjerësia e ndryshueshme e gërmave për shfaqjen e mesazheve"
 
 #: mail/evolution-mail.schemas.in.in.h:82
-#, fuzzy
 msgid ""
 "This key should contain a list of XML structures specifying custom headers, "
 "and whether they are to be displayed. The format of the XML structure is &lt;"
@@ -14429,122 +14342,98 @@ msgstr ""
 "mesazhit."
 
 #: mail/evolution-mail.schemas.in.in.h:83
-#, fuzzy
 msgid "Thread the message list."
 msgstr "Rregullo sipas temave listën e mesazheve."
 
 #: mail/evolution-mail.schemas.in.in.h:84
-#, fuzzy
 msgid "Thread the message-list"
 msgstr "Rregullo sipas temave listën e mesazheve"
 
 #: mail/evolution-mail.schemas.in.in.h:85
-#, fuzzy
 msgid "Thread the message-list based on Subject"
 msgstr "Rregullo sipas temave, bazuar në subjekt, listën e mesazheve"
 
 #: mail/evolution-mail.schemas.in.in.h:86
-#, fuzzy
 msgid "Timeout for marking message as Seen"
-msgstr "Periudha e kohës për të shënuar mesazhin si të Shikuar"
+msgstr "Periudha e kohës për të shënuar mesazhin si të \"Shikuar\""
 
 #: mail/evolution-mail.schemas.in.in.h:87
-#, fuzzy
 msgid "Timeout for marking message as Seen."
-msgstr "Periudha e kohës për të shënuar mesazhin si të Shikuar."
+msgstr "Periudha e kohës për të shënuar mesazhin si të \"Shikuar\"."
 
 #: mail/evolution-mail.schemas.in.in.h:88
-#, fuzzy
 msgid "UID string of the default account."
 msgstr "Vlera UID për llogarinë e prezgjedhur."
 
 #: mail/evolution-mail.schemas.in.in.h:89
-#, fuzzy
 msgid "Use Spamasssassin daemon and client"
 msgstr "Përdor shërbimin dhe klientin Spamassassin"
 
 #: mail/evolution-mail.schemas.in.in.h:90
-#, fuzzy
 msgid "Use Spamasssassin daemon and client (spamc/spamd)"
 msgstr "Përdor shërbimin dhe klientin Spamassassin (spamc/spamd)"
 
 #: mail/evolution-mail.schemas.in.in.h:91
-#, fuzzy
 msgid "Use custom fonts"
 msgstr "Përdor gërma të personalizuara"
 
 #: mail/evolution-mail.schemas.in.in.h:92
-#, fuzzy
 msgid "Use custom fonts for displaying mail"
 msgstr "Përdor gërma të personalizuara për të shfaqur mesazhet"
 
 #: mail/evolution-mail.schemas.in.in.h:93
-#, fuzzy
 msgid "Use only local spam tests."
 msgstr "Përdor vetëm testet spam lokalë."
 
 #: mail/evolution-mail.schemas.in.in.h:94
-#, fuzzy
 msgid "Use only the local spam tests (no DNS)."
 msgstr "Përdor vetëm testet spam lokalë (jo DNS)."
 
 #: mail/evolution-mail.schemas.in.in.h:95
-#, fuzzy
 msgid "Variable width font"
 msgstr "Gjerësia e ndryshueshme e gërmave"
 
 #: mail/evolution-mail.schemas.in.in.h:96
-#, fuzzy
 msgid "View/Bcc menu item is checked"
 msgstr "Është zgjedhur elementi i menusë Shfaq/Bcc"
 
 #: mail/evolution-mail.schemas.in.in.h:97
-#, fuzzy
 msgid "View/Bcc menu item is checked."
 msgstr "Është zgjedhur elementi i menusë Shfaq/Bcc."
 
 #: mail/evolution-mail.schemas.in.in.h:98
-#, fuzzy
 msgid "View/Cc menu item is checked"
 msgstr "Është zgjedhur elementi i menusë Shfaq/Cc"
 
 #: mail/evolution-mail.schemas.in.in.h:99
-#, fuzzy
 msgid "View/Cc menu item is checked."
 msgstr "Është zgjedhur elementi i menusë Shfaq/Cc."
 
 #: mail/evolution-mail.schemas.in.in.h:100
-#, fuzzy
 msgid "View/From menu item is checked"
 msgstr "Është zgjedhur elementi i menusë Shfaq/Nga"
 
 #: mail/evolution-mail.schemas.in.in.h:101
-#, fuzzy
 msgid "View/From menu item is checked."
 msgstr "Është zgjedhur elementi i menusë Shfaq/Nga."
 
 #: mail/evolution-mail.schemas.in.in.h:102
-#, fuzzy
 msgid "View/PostTo menu item is checked"
 msgstr "Është zgjedhur elementi i menusë Shfaq/Dërgo tek"
 
 #: mail/evolution-mail.schemas.in.in.h:103
-#, fuzzy
 msgid "View/PostTo menu item is checked."
 msgstr "Është zgjedhur elementi i menusë Shfaq/Dërgo tek."
 
 #: mail/evolution-mail.schemas.in.in.h:104
-#, fuzzy
 msgid "View/ReplyTo menu item is checked"
 msgstr "Është zgjedhur elementi i menusë Shfaq/Përgjigju tek"
 
 #: mail/evolution-mail.schemas.in.in.h:105
-#, fuzzy
 msgid "View/ReplyTo menu item is checked."
 msgstr "Është zgjedhur elementi i menusë Shfaq/Përgjigju tek."
 
 #: mail/evolution-mail.schemas.in.in.h:106
-#, fuzzy
 msgid ""
 "Whether or not to fall back on threading by subjects when the messages do "
 "not contain In-Reply-To or References headers."
@@ -14553,7 +14442,6 @@ msgstr ""
 "headers Në-Përgjigje-Të apo Riferimentet."
 
 #: mail/evolution-mail.schemas.in.in.h:107
-#, fuzzy
 msgid "port for starting user runned spamd"
 msgstr "porta për të nisur spamd e filluar nga përdoruesi"
 
@@ -14562,42 +14450,34 @@ msgid "spamd port"
 msgstr "porta e spamd"
 
 #: mail/importers/GNOME_Evolution_Mail_Importers.server.in.in.h:1
-#, fuzzy
 msgid "Evolution Elm importer"
 msgstr "Importuesi nga Elm i Evolution"
 
 #: mail/importers/GNOME_Evolution_Mail_Importers.server.in.in.h:2
-#, fuzzy
 msgid "Evolution Netscape Mail importer"
-msgstr "Importuesi i Mesazheve të Netscape i Evolution"
+msgstr "Importuesi i mesazheve të Netscape i Evolution"
 
 #: mail/importers/GNOME_Evolution_Mail_Importers.server.in.in.h:3
-#, fuzzy
 msgid "Evolution Outlook Express 4 importer"
 msgstr "Importuesi nga Outlook Express 4 i Evolution"
 
 #: mail/importers/GNOME_Evolution_Mail_Importers.server.in.in.h:4
-#, fuzzy
 msgid "Evolution Pine importer"
 msgstr "Importuesi nga Pine i Evolution"
 
 #: mail/importers/GNOME_Evolution_Mail_Importers.server.in.in.h:5
-#, fuzzy
 msgid "Evolution mbox importer"
 msgstr "Importuesi nga mbox i Evolution"
 
 #: mail/importers/GNOME_Evolution_Mail_Importers.server.in.in.h:6
-#, fuzzy
 msgid "MBox (mbox)"
 msgstr "MBox (mbox)"
 
 #: mail/importers/GNOME_Evolution_Mail_Importers.server.in.in.h:7
-#, fuzzy
 msgid "Outlook Express 4 (.mbx)"
 msgstr "Outlook Express 4 (.mbx)"
 
 #: mail/importers/elm-importer.c:88
-#, fuzzy
 msgid "Evolution is importing your old Elm mail"
 msgstr "Evolution është duke importuar mesazhet tuaj të vjetër Elm"
 
@@ -14605,7 +14485,6 @@ msgstr "Evolution është duke importuar mesazhet tuaj të vjetër Elm"
 #: mail/importers/evolution-mbox-importer.c:221
 #: mail/importers/evolution-outlook-importer.c:255
 #: mail/importers/netscape-importer.c:1251 mail/importers/pine-importer.c:117
-#, fuzzy
 msgid "Importing..."
 msgstr "Duke importuar..."
 
@@ -14621,7 +14500,6 @@ msgid "Importing Elm data"
 msgstr "Duke importuar të dhënat Elm"
 
 #: mail/importers/elm-importer.c:436
-#, fuzzy
 msgid ""
 "Evolution has found Elm mail files\n"
 "Would you like to import them into Evolution?"
@@ -14657,18 +14535,15 @@ msgstr "Duke importuar mailbox"
 
 #: mail/importers/mail-importer.c:360
 #, c-format
-#, fuzzy
 msgid "Scanning %s"
 msgstr "Duke kontrolluar %s"
 
 #: mail/importers/netscape-importer.c:73
 #, c-format
-#, fuzzy
 msgid "Priority Filter \"%s\""
 msgstr "Filtri prioritetit \"%s\""
 
 #: mail/importers/netscape-importer.c:662
-#, fuzzy
 msgid ""
 "Some of your Netscape email filters are based on\n"
 "email priorities, which are not used in Evolution.\n"
@@ -14695,7 +14570,6 @@ msgstr ""
 "importuar për t'u siguruar që gjithçka punon sikurse pritet."
 
 #: mail/importers/netscape-importer.c:686
-#, fuzzy
 msgid ""
 "Some of your Netscape email filters use\n"
 "the \"Ignore Thread\" or \"Watch Thread\"\n"
@@ -14708,7 +14582,6 @@ msgstr ""
 "eleminohen."
 
 #: mail/importers/netscape-importer.c:703
-#, fuzzy
 msgid ""
 "Some of your Netscape email filters test the\n"
 "body of emails for (in)equality to a given string,\n"
@@ -14723,12 +14596,10 @@ msgstr ""
 "apo jo në tekstin e mesazhit."
 
 #: mail/importers/netscape-importer.c:1250
-#, fuzzy
 msgid "Evolution is importing your old Netscape data"
 msgstr "Evolution është duke importuar të dhënat tuaj të vjetra nga Netscape"
 
 #: mail/importers/netscape-importer.c:1707
-#, fuzzy
 msgid "Importing Netscape data"
 msgstr "Duke importuar të dhënat nga Netscape"
 
@@ -14737,12 +14608,10 @@ msgid "Settings"
 msgstr "Rregullimet"
 
 #: mail/importers/netscape-importer.c:1912
-#, fuzzy
 msgid "Mail Filters"
 msgstr "Filtrat e mesazheve"
 
 #: mail/importers/netscape-importer.c:1933
-#, fuzzy
 msgid ""
 "Evolution has found Netscape mail files.\n"
 "Would you like them to be imported into Evolution?"
@@ -14763,7 +14632,6 @@ msgid "Addressbook"
 msgstr "Rubrika"
 
 #: mail/importers/pine-importer.c:498
-#, fuzzy
 msgid ""
 "Evolution has found Pine mail files.\n"
 "Would you like to import them into Evolution?"
@@ -14772,19 +14640,16 @@ msgstr ""
 "Dëshironi t'i importoni nën Evolution?"
 
 #: mail/importers/pine-importer.c:506
-#, fuzzy
 msgid "Pine"
 msgstr "Pine"
 
 #. give our dialog an OK button and title
 #: mail/mail-account-editor.c:155
-#, fuzzy
 msgid "Evolution Account Editor"
 msgstr "Editori i llogarive të Evolution"
 
 #: mail/mail-account-gui.c:246
 #, c-format
-#, fuzzy
 msgid ""
 "\n"
 "Please read carefully the license agreement\n"
@@ -14798,53 +14663,44 @@ msgstr ""
 
 #: mail/mail-account-gui.c:252
 #, c-format
-#, fuzzy
 msgid "%s License Agreement"
 msgstr "Marrëveshje autorizimi për %s"
 
 #: mail/mail-account-gui.c:957 mail/mail-config.glade.h:167
-#, fuzzy
 msgid "_Host:"
 msgstr "_Host:"
 
 #: mail/mail-account-gui.c:961 mail/mail-config.glade.h:151
-#, fuzzy
 msgid "User_name:"
 msgstr "_Përdoruesi:"
 
 #: mail/mail-account-gui.c:965 mail/mail-config.glade.h:173
-#, fuzzy
 msgid "_Path:"
 msgstr "_Vendodhja:"
 
 #: mail/mail-autofilter.c:74
 #, c-format
-#, fuzzy
 msgid "Mail to %s"
 msgstr "Mesazh për %s"
 
 #: mail/mail-autofilter.c:238
 #, c-format
-#, fuzzy
 msgid "Subject is %s"
 msgstr "Subjekti është %s"
 
 #: mail/mail-autofilter.c:254
 #, c-format
-#, fuzzy
 msgid "Mail from %s"
 msgstr "Mesazh nga %s"
 
 #: mail/mail-autofilter.c:271
 #, c-format
-#, fuzzy
 msgid "%s mailing list"
 msgstr "Lista mail %s"
 
 #: mail/mail-autofilter.c:326
-#, fuzzy
 msgid "Add Filter Rule"
-msgstr "Shto Rregull Filtrimi"
+msgstr "Shto rregull filtrimi"
 
 #: mail/mail-component.c:459
 #, c-format
@@ -14855,11 +14711,10 @@ msgstr[1] "%d fshirë"
 
 #: mail/mail-component.c:461
 #, c-format
-#, fuzzy
 msgid "%d junk"
 msgid_plural "%d junk"
 msgstr[0] "%d refuzim"
-msgstr[1] "%d refuzim"
+msgstr[1] "%d refuzime"
 
 #: mail/mail-component.c:484
 #, c-format
@@ -14891,31 +14746,26 @@ msgstr[1] "%d gjithsej"
 
 #: mail/mail-component.c:494
 #, c-format
-#, fuzzy
 msgid ", %d unread"
 msgid_plural ", %d unread"
 msgstr[0] ", %d palexuar"
 msgstr[1] ", %d palexuar"
 
 #: mail/mail-component.c:659
-#, fuzzy
 msgid "New Mail Message"
-msgstr "Mesazh i Ri Poste"
+msgstr "Mesazh i ri poste"
 
 #: mail/mail-component.c:660
-#, fuzzy
 msgid "_Mail Message"
-msgstr "_Mesazh Poste"
+msgstr "_Mesazh poste"
 
 #: mail/mail-component.c:661
-#, fuzzy
 msgid "Compose a new mail message"
 msgstr "Kompozo një mesazh të ri poste"
 
 #: mail/mail-component.c:667
-#, fuzzy
 msgid "New Mail Folder"
-msgstr "Kartelë e Re Poste"
+msgstr "Kartelë e re poste"
 
 #: mail/mail-component.c:668
 msgid "Mail _Folder"
@@ -14926,17 +14776,14 @@ msgid "Create a new mail folder"
 msgstr "Krijo një kartelë të re poste"
 
 #: mail/mail-component.c:801
-#, fuzzy
 msgid "Failed upgrading Mail settings or folders."
 msgstr "Përditësimi i rregullimeve të postës apo kartelave dështoi."
 
 #: mail/mail-config-druid.c:362 mail/mail-config.glade.h:92
-#, fuzzy
 msgid "Identity"
 msgstr "Identiteti"
 
 #: mail/mail-config-druid.c:364
-#, fuzzy
 msgid ""
 "Please enter your name and email address below. The \"optional\" fields "
 "below do not need to be filled in, unless you wish to include this "
@@ -14948,31 +14795,26 @@ msgstr ""
 
 #: mail/mail-config-druid.c:370 mail/mail-config-druid.c:377
 #: mail/mail-config.glade.h:119
-#, fuzzy
 msgid "Receiving Mail"
-msgstr "Marrja e Postës"
+msgstr "Marrja e postës"
 
 #: mail/mail-config-druid.c:372
-#, fuzzy
 msgid ""
 "Please enter information about your incoming mail server below. If you are "
 "not sure, ask your system administrator or Internet Service Provider."
 msgstr ""
-"Ju lutem shkruani informacionet rreth serverit të mesazheve në hyrje. Nëse "
-"nuk jeni i sigurt, pyetni administratorin e sistemit tuaj ose ISP."
+"Ju lutem shkruani informacionet në lidhje me serverin e mesazheve në hyrje. Nëse "
+"nuk jeni i sigurt, pyesni administratorin e sistemit tuaj ose ISP."
 
 #: mail/mail-config-druid.c:379
-#, fuzzy
 msgid "Please select among the following options"
 msgstr "Ju lutem zgjidhni nga opcionet në vazhdim"
 
 #: mail/mail-config-druid.c:382 mail/mail-config.glade.h:131
-#, fuzzy
 msgid "Sending Mail"
 msgstr "Dërgimi i Postës"
 
 #: mail/mail-config-druid.c:384
-#, fuzzy
 msgid ""
 "Please enter information about the way you will send mail. If you are not "
 "sure, ask your system administrator or Internet Service Provider."
@@ -14981,12 +14823,10 @@ msgstr ""
 "Nëse nuk jeni i sigurt, pyetni administratorin e sistemit tuaj ose ISP."
 
 #: mail/mail-config-druid.c:389 mail/mail-config.glade.h:37
-#, fuzzy
 msgid "Account Management"
 msgstr "Mirëmbajtja e llogarive"
 
 #: mail/mail-config-druid.c:391
-#, fuzzy
 msgid ""
 "You are almost done with the mail configuration process. The identity, "
 "incoming mail server and outgoing mail transport method which you provided "
@@ -15001,12 +14841,10 @@ msgstr ""
 "do të përdoret vetëm si një menyrë shfaqje."
 
 #: mail/mail-config.c:895
-#, fuzzy
 msgid "Checking Service"
 msgstr "Kontrolli i shërbimit"
 
 #: mail/mail-config.c:973 mail/mail-config.c:977
-#, fuzzy
 msgid "Connecting to server..."
 msgstr "Duke u lidhur me serverin..."
 
@@ -15019,7 +14857,6 @@ msgid " Ch_eck for Supported Types "
 msgstr " K_ontrollo për llojet e suportuar "
 
 #: mail/mail-config.glade.h:5
-#, fuzzy
 msgid "<b>SSL is not supported in this build of evolution</b>"
 msgstr "<b>SSL nuk suportohet në këtë konfigurim të evolution</b>"
 
@@ -15032,62 +14869,50 @@ msgid "<b>_Languages</b>"
 msgstr "<b>_Gjuhët</b>"
 
 #: mail/mail-config.glade.h:8
-#, fuzzy
 msgid "<small>This will make the the filter more reliable, but slower</small>"
 msgstr "<small>Kjo do t'a bëjë filtrin më të sigurt, por më të ngadaltë</small>"
 
 #: mail/mail-config.glade.h:9
-#, fuzzy
 msgid "<span weight=\"bold\">Account Information</span>"
-msgstr "<span weight=\"bold\">Informacione në lidhje me Llogarinë</span>"
+msgstr "<span weight=\"bold\">Informacione në lidhje me llogarinë</span>"
 
 #: mail/mail-config.glade.h:10
-#, fuzzy
 msgid "<span weight=\"bold\">Alerts</span>"
 msgstr "<span weight=\"bold\">Paralajmërime</span>"
 
 #: mail/mail-config.glade.h:11
-#, fuzzy
 msgid "<span weight=\"bold\">Authentication Type</span>"
 msgstr "<span weight=\"bold\">Lloji i autentifikimit</span>"
 
 #: mail/mail-config.glade.h:12
-#, fuzzy
 msgid "<span weight=\"bold\">Authentication</span>"
 msgstr "<span weight=\"bold\">Autentifikimi</span>"
 
 #: mail/mail-config.glade.h:13
-#, fuzzy
 msgid "<span weight=\"bold\">Checking for New Mail</span>"
 msgstr "<span weight=\"bold\">Kontrolli për mesazhe të rinj</span>"
 
 #: mail/mail-config.glade.h:14
-#, fuzzy
 msgid "<span weight=\"bold\">Composing Messages</span>"
 msgstr "<span weight=\"bold\">Kompozimi i mesazheve</span>"
 
 #: mail/mail-config.glade.h:15
-#, fuzzy
 msgid "<span weight=\"bold\">Configuration</span>"
 msgstr "<span weight=\"bold\">Konfigurimi</span>"
 
 #: mail/mail-config.glade.h:16
-#, fuzzy
 msgid "<span weight=\"bold\">Default Behavior</span>"
 msgstr "<span weight=\"bold\">Sjellja e prezgjedhur</span>"
 
 #: mail/mail-config.glade.h:17
-#, fuzzy
 msgid "<span weight=\"bold\">Delete Mail</span>"
-msgstr "<span weight=\"bold\">Elemino Mesazhin</span>"
+msgstr "<span weight=\"bold\">Elemino mesazhin</span>"
 
 #: mail/mail-config.glade.h:18
-#, fuzzy
 msgid "<span weight=\"bold\">Displayed Mail _Headers</span>"
 msgstr "<span weight=\"bold\">_Headers e shfaqur mail</span>"
 
 #: mail/mail-config.glade.h:19
-#, fuzzy
 msgid "<span weight=\"bold\">Filter Options</span>"
 msgstr "<span weight=\"bold\">Opcionet e filtrimit</span>"
 
@@ -15096,122 +14921,98 @@ msgid "<span weight=\"bold\">General</span>"
 msgstr "<span weight=\"bold\">E përgjithshme</span>"
 
 #: mail/mail-config.glade.h:21
-#, fuzzy
 msgid "<span weight=\"bold\">Labels and Colors</span>"
-msgstr "<span weight=\"bold\">Etiketat dhe Ngjyrat</span>"
+msgstr "<span weight=\"bold\">Etiketat dhe ngjyrat</span>"
 
 #: mail/mail-config.glade.h:22
-#, fuzzy
 msgid "<span weight=\"bold\">Loading Images</span>"
 msgstr "<span weight=\"bold\">Ngarkimi i figurave</span>"
 
 #: mail/mail-config.glade.h:23
-#, fuzzy
 msgid "<span weight=\"bold\">Message Display</span>"
 msgstr "<span weight=\"bold\">Shfaqja e mesazhit</span>"
 
 #: mail/mail-config.glade.h:24
-#, fuzzy
 msgid "<span weight=\"bold\">Message Fonts</span>"
 msgstr "<span weight=\"bold\">Gërmat e mesazhit</span>"
 
 #: mail/mail-config.glade.h:25
-#, fuzzy
 msgid "<span weight=\"bold\">New Mail Notification</span>"
 msgstr "<span weight=\"bold\">Njoftimi i mesazheve të rinj</span>"
 
 #: mail/mail-config.glade.h:26
-#, fuzzy
 msgid "<span weight=\"bold\">Optional Information</span>"
-msgstr "<span weight=\"bold\">Informacione me dëshirë</span>"
+msgstr "<span weight=\"bold\">Informacione shtesë</span>"
 
 #: mail/mail-config.glade.h:27
-#, fuzzy
 msgid "<span weight=\"bold\">Options</span>"
 msgstr "<span weight=\"bold\">Opcione</span>"
 
 #: mail/mail-config.glade.h:28
-#, fuzzy
 msgid "<span weight=\"bold\">Pretty Good Privacy (PGP/GPG)</span>"
 msgstr "<span weight=\"bold\">Pretty Good Privacy (PGP/GPG)</span>"
 
 #: mail/mail-config.glade.h:29
-#, fuzzy
 msgid "<span weight=\"bold\">Printed Fonts</span>"
-msgstr "<span weight=\"bold\">Gërmat e printuara</span>"
+msgstr "<span weight=\"bold\">Gërmat për printim</span>"
 
 #: mail/mail-config.glade.h:30
-#, fuzzy
 msgid "<span weight=\"bold\">Required Information</span>"
 msgstr "<span weight=\"bold\">Informacionet e kërkuara</span>"
 
 #: mail/mail-config.glade.h:31
-#, fuzzy
 msgid "<span weight=\"bold\">Secure MIME (S/MIME)</span>"
 msgstr "<span weight=\"bold\">Secure MIME (S/MIME)</span>"
 
 #: mail/mail-config.glade.h:32
-#, fuzzy
 msgid "<span weight=\"bold\">Security</span>"
 msgstr "<span weight=\"bold\">Siguria</span>"
 
 #: mail/mail-config.glade.h:33
-#, fuzzy
 msgid "<span weight=\"bold\">Sent and Draft Messages</span>"
 msgstr "<span weight=\"bold\">Mesazhet e dërguar dhe kopjet</span>"
 
 #: mail/mail-config.glade.h:34
-#, fuzzy
 msgid "<span weight=\"bold\">Server Configuration</span>"
-msgstr "<span weight=\"bold\">Konfigurimi i Serverit</span>"
+msgstr "<span weight=\"bold\">Konfigurimi i serverit</span>"
 
 #: mail/mail-config.glade.h:35
-#, fuzzy
 msgid "A_lso encrypt to self when sending encrypted mail"
 msgstr "Shifro gji_thashtu edhe për mua kur dërgon mesazhe të kriptuar"
 
 #: mail/mail-config.glade.h:36
-#, fuzzy
 msgid "Account Editor"
 msgstr "Editori i llogarive"
 
 #: mail/mail-config.glade.h:38
-#, fuzzy
 msgid "Add Ne_w Signature..."
-msgstr "Shto Firmë të _Re..."
+msgstr "Shto firmë të _re..."
 
 #: mail/mail-config.glade.h:39
-#, fuzzy
 msgid "Add _Script"
 msgstr "Shto _Script"
 
 #: mail/mail-config.glade.h:40
-#, fuzzy
 msgid "Al_ways encrypt to myself when sending encrypted mail"
 msgstr "Gjithmonë shifro edhe për mua kur dërgon mesazhe të kriptuar"
 
 #: mail/mail-config.glade.h:41
-#, fuzzy
 msgid "Alway_s carbon-copy (cc) to:"
-msgstr "Gjitmo_në dërgo kopje (cc) tek:"
+msgstr "Gjithmo_në dërgo kopje (cc) tek:"
 
 #: mail/mail-config.glade.h:43
-#, fuzzy
 msgid "Always _blind carbon-copy (bcc) to:"
 msgstr "Gjithmonë _kopje karboni të verbër (bcc) tek:"
 
 #: mail/mail-config.glade.h:44
-#, fuzzy
 msgid "Always _sign outgoing messages when using this account"
 msgstr "_Firmos gjithmonë mesazhet e dërguara kur përdor këtë llogari"
 
 #: mail/mail-config.glade.h:45
-#, fuzzy
 msgid "Always _trust keys in my keyring when encrypting"
 msgstr "_Beso gjithmonë kyçet e mi kur kripton"
 
 #: mail/mail-config.glade.h:46
-#, fuzzy
 msgid "Attach original message"
 msgstr "Bashkangjit mesazhin orgjinal"
 
@@ -15220,32 +15021,26 @@ msgid "Attachment"
 msgstr "Bashkangjitur"
 
 #: mail/mail-config.glade.h:48
-#, fuzzy
 msgid "Automatically _insert smiley images"
 msgstr "_Fut automatikisht figurat smiley"
 
 #: mail/mail-config.glade.h:49
-#, fuzzy
 msgid "Automatically check for _new mail every"
 msgstr "Kontrollo automatikisht për mesazhe të _rinj çdo"
 
 #: mail/mail-config.glade.h:50
-#, fuzzy
 msgid "Baltic (ISO-8859-13)"
 msgstr "Balltike (ISO-8859-13)"
 
 #: mail/mail-config.glade.h:51
-#, fuzzy
 msgid "Baltic (ISO-8859-4)"
 msgstr "Balltike (ISO-8859-4)"
 
 #: mail/mail-config.glade.h:52
-#, fuzzy
 msgid "Beep w_hen new mail arrives"
-msgstr "Beep kur arrin _postë e re"
+msgstr "Lësho tingull kur arrin _postë e re"
 
 #: mail/mail-config.glade.h:53
-#, fuzzy
 msgid "C_haracter set:"
 msgstr "Rregullimi i gë_rmave:"
 
@@ -15254,22 +15049,18 @@ msgid "Ch_eck for Supported Types "
 msgstr "K_ontrollo për llojet suportuar "
 
 #: mail/mail-config.glade.h:55
-#, fuzzy
 msgid "Check _incoming mail for junk"
 msgstr "Kontrollo postën në _hyrje për material për t'u refuzuar"
 
 #: mail/mail-config.glade.h:56
-#, fuzzy
 msgid "Check spelling while I _type"
 msgstr "Kontrollo drejtshkrimin kur _shkruan"
 
 #: mail/mail-config.glade.h:57
-#, fuzzy
 msgid "Checks incoming mail messages to be Junk"
 msgstr "Kontrolli i mesazheve në hyrje të postës për në plehra"
 
 #: mail/mail-config.glade.h:58
-#, fuzzy
 msgid "Color for _misspelled words:"
 msgstr "Ngjyra për fjalët me _gabime:"
 
@@ -15278,12 +15069,10 @@ msgid "Colors"
 msgstr "Ngjyrat"
 
 #: mail/mail-config.glade.h:60
-#, fuzzy
 msgid "Confirm _when expunging a folder"
 msgstr "Konfermo _kur eleminohet një kartelë"
 
 #: mail/mail-config.glade.h:61
-#, fuzzy
 msgid ""
 "Congratulations, your mail configuration is complete.\n"
 "\n"
@@ -15300,12 +15089,10 @@ msgstr ""
 "Kliko \"Apliko\" për të ruajtur rregullimet."
 
 #: mail/mail-config.glade.h:67
-#, fuzzy
 msgid "De_fault"
 msgstr "Pr_ezgjedhur"
 
 #: mail/mail-config.glade.h:69
-#, fuzzy
 msgid "Default character e_ncoding:"
 msgstr "Ko_difikimi i prezgjedhur i gërmave:"
 
@@ -15314,12 +15101,10 @@ msgid "Defaults"
 msgstr "Vlerat e prezgjedhura"
 
 #: mail/mail-config.glade.h:72
-#, fuzzy
 msgid "Do not quote original message"
 msgstr "Mos kuoto mesazhin orgjinal"
 
 #: mail/mail-config.glade.h:73
-#, fuzzy
 msgid "Don't sign _meeting requests (for Outlook compatibility)"
 msgstr "Mos shëno kërkesat për _mbledhje (për pajtueshmëri me Outlook)"
 
@@ -15332,46 +15117,38 @@ msgid "Drafts _Folder:"
 msgstr "_Kartela e kopjeve:"
 
 #: mail/mail-config.glade.h:77
-#, fuzzy
 msgid "Email Accounts"
-msgstr "Llogaritë Email"
+msgstr "Llogaritë email"
 
 #: mail/mail-config.glade.h:78
 msgid "Email _Address:"
 msgstr "_Adresa Email:"
 
 #: mail/mail-config.glade.h:79
-#, fuzzy
 msgid "Empty trash folders on e_xit"
-msgstr "Zbraz kartelat e koshit në da_lje"
+msgstr "Zbraz kartelat e koshit kur de_l"
 
 #: mail/mail-config.glade.h:80
-#, fuzzy
 msgid "Encry_ption certificate:"
 msgstr "Çertifikata e kri_ptimit:"
 
 #: mail/mail-config.glade.h:81
-#, fuzzy
 msgid "Evolution Account Assistant"
 msgstr "Asistenti i llogarive Evolution"
 
 #: mail/mail-config.glade.h:82
-#, fuzzy
 msgid "Execute Command..."
-msgstr "Ekzekuto Komandën..."
+msgstr "Ekzekuto komandën..."
 
 #: mail/mail-config.glade.h:83
-#, fuzzy
 msgid "Fi_xed-width:"
 msgstr "Gjerësia-fi_ksuar:"
 
 #: mail/mail-config.glade.h:84
-#, fuzzy
 msgid "Font Properties"
 msgstr "Pronësitë e shkronjave"
 
 #: mail/mail-config.glade.h:85
-#, fuzzy
 msgid "Format messages in _HTML"
 msgstr "Formato mesazhet në _HTML"
 
@@ -15384,12 +15161,10 @@ msgid "Headers"
 msgstr "Headers"
 
 #: mail/mail-config.glade.h:89
-#, fuzzy
 msgid "Highlight _quotations with"
 msgstr "Vër në dukje _kuotimet me"
 
 #: mail/mail-config.glade.h:90
-#, fuzzy
 msgid "IMAPv4 "
 msgstr "IMAPv4 "
 
@@ -15398,12 +15173,10 @@ msgid "I_nclude remote tests"
 msgstr "Pë_rfshi provat remote"
 
 #: mail/mail-config.glade.h:94
-#, fuzzy
 msgid "Inline"
 msgstr "Direkt"
 
 #: mail/mail-config.glade.h:96
-#, fuzzy
 msgid "Kerberos "
 msgstr "Kerberos "
 
@@ -15412,54 +15185,44 @@ msgid "Mail Configuration"
 msgstr "Konfigurimi i Mail"
 
 #: mail/mail-config.glade.h:100
-#, fuzzy
 msgid "Mailbox location"
-msgstr "Pozicioni i mailbox"
+msgstr "Vendodhja e mailbox"
 
 #: mail/mail-config.glade.h:101
-#, fuzzy
 msgid "Message Composer"
-msgstr "Kompozuesi i Mesazheve"
+msgstr "Kompozuesi i mesazheve"
 
 #: mail/mail-config.glade.h:104
-#, fuzzy
 msgid ""
 "Note: you will not be prompted for a password until you connect for the "
 "first time"
-msgstr "Shënim: nuk do t'ju kërkohet fjalëkalimi deri sa të lidheni për herë të parë"
+msgstr "Shënim: nuk do t'ju kërkohet fjalëkalimi derisa të kryeni lidhjen e parë"
 
 #: mail/mail-config.glade.h:105
-#, fuzzy
 msgid "Or_ganization:"
 msgstr "Or_ganizata:"
 
 #: mail/mail-config.glade.h:106
-#, fuzzy
 msgid "PGP/GPG _Key ID:"
 msgstr "ID e _Kyçit PGP/GPG:"
 
 #: mail/mail-config.glade.h:111
-#, fuzzy
 msgid "Play sound file when new mail arri_ves"
 msgstr "Lësho tingull kur _arrijnë mesazhe të rinj"
 
 #: mail/mail-config.glade.h:112
-#, fuzzy
 msgid "Pr_ompt when sending messages with only Bcc recipients defined"
 msgstr "Pa_ralajmëro kur dërgohen mesazhe me vetëm marrësit Bcc të përcaktuar"
 
 #: mail/mail-config.glade.h:113
-#, fuzzy
 msgid "Qmail maildir "
 msgstr "Qmail maildir "
 
 #: mail/mail-config.glade.h:114
-#, fuzzy
 msgid "Quote original message"
 msgstr "Kuoto mesazhin orgjinal"
 
 #: mail/mail-config.glade.h:115
-#, fuzzy
 msgid "Quoted"
 msgstr "I kuotuar"
 
@@ -15468,26 +15231,22 @@ msgid "Re_member password"
 msgstr "Ku_jto fjalëkalimin"
 
 #: mail/mail-config.glade.h:117
-#, fuzzy
 msgid "Re_ply-To:"
 msgstr "Për_gjigju-Tek:"
 
 #: mail/mail-config.glade.h:118
-#, fuzzy
 msgid "Receiving Email"
-msgstr "Duke marrë Email"
+msgstr "Marrja e email"
 
 #: mail/mail-config.glade.h:120
-#, fuzzy
 msgid "Receiving Options"
-msgstr "Opcionet e Marrjes"
+msgstr "Opcionet e marrjes"
 
 #: mail/mail-config.glade.h:121
 msgid "Remember _password"
 msgstr "Kujto _fjalëkalimin"
 
 #: mail/mail-config.glade.h:123
-#, fuzzy
 msgid "S_tandard Font:"
 msgstr "Gërmat s_tandart:"
 
@@ -15496,22 +15255,18 @@ msgid "Security"
 msgstr "Siguria"
 
 #: mail/mail-config.glade.h:125
-#, fuzzy
 msgid "Select HTML fixed width font"
 msgstr "Zgjidh gërmat me gjerësi fikse të HTML"
 
 #: mail/mail-config.glade.h:126
-#, fuzzy
 msgid "Select HTML fixed width font for printing"
 msgstr "Zgjidh gërmat me gjerësi fikse të HTML për printim"
 
 #: mail/mail-config.glade.h:127
-#, fuzzy
 msgid "Select HTML variable width font"
 msgstr "Zgjidh gërmat me gjerësi të ndryshueshme të HTML"
 
 #: mail/mail-config.glade.h:128
-#, fuzzy
 msgid "Select HTML variable width font for printing"
 msgstr "Zgjidh gërmat me gjerësi të ndryshueshme të HTML për printim"
 
@@ -15520,27 +15275,22 @@ msgid "Select..."
 msgstr "Zgjidh..."
 
 #: mail/mail-config.glade.h:130
-#, fuzzy
 msgid "Sending Email"
 msgstr "Dërgimi i postës"
 
 #: mail/mail-config.glade.h:133
-#, fuzzy
 msgid "Sent _Messages Folder:"
 msgstr "Kartela e _mesazheve të dërguar:"
 
 #: mail/mail-config.glade.h:134
-#, fuzzy
 msgid "Ser_ver requires authentication"
 msgstr "Ser_veri kërkon autentifikimin"
 
 #: mail/mail-config.glade.h:135
-#, fuzzy
 msgid "Server _Type: "
 msgstr "_Lloji i serverit: "
 
 #: mail/mail-config.glade.h:136
-#, fuzzy
 msgid "Si_gning certificate:"
 msgstr "Çertifikata e fi_rmës:"
 
@@ -15553,7 +15303,6 @@ msgid "Signatures"
 msgstr "Firmat"
 
 #: mail/mail-config.glade.h:139
-#, fuzzy
 msgid "Specify _filename:"
 msgstr "Specifiko emrin e _file:"
 
@@ -15562,7 +15311,6 @@ msgid "Spell Checking"
 msgstr "Kontrolli i drejtshkrimit"
 
 #: mail/mail-config.glade.h:141
-#, fuzzy
 msgid "Standard Unix mbox"
 msgstr "Mbox Unix standart"
 
@@ -15575,7 +15323,6 @@ msgid "T_ype: "
 msgstr "Ll_oji: "
 
 #: mail/mail-config.glade.h:144
-#, fuzzy
 msgid ""
 "The output of this script will be used as your\n"
 "signature. The name you specify will be used\n"
@@ -15586,7 +15333,6 @@ msgstr ""
 "t'u shfaqur. "
 
 #: mail/mail-config.glade.h:147
-#, fuzzy
 msgid ""
 "This page allows you to configure spell checking behavior and language. The "
 "list of languages here reflects only the languages for which you have a "
@@ -15597,7 +15343,6 @@ msgstr ""
 "keni instaluar një fjalor."
 
 #: mail/mail-config.glade.h:149
-#, fuzzy
 msgid ""
 "Type the name by which you would like to refer to this account.\n"
 "For example: \"Work\" or \"Personal\""
@@ -15606,12 +15351,10 @@ msgstr ""
 "Për shembull: \"Punë\" ose \"Personale\""
 
 #: mail/mail-config.glade.h:152
-#, fuzzy
 msgid "V_ariable-width:"
 msgstr "Gjerësia e nd_ryshueshme:"
 
 #: mail/mail-config.glade.h:153
-#, fuzzy
 msgid ""
 "Welcome to the Evolution Mail Configuration Assistant.\n"
 "\n"
@@ -15622,97 +15365,78 @@ msgstr ""
 "Kliko \"Vazhdo\" për të filluar. "
 
 #: mail/mail-config.glade.h:158
-#, fuzzy
 msgid "_Add Signature"
-msgstr "_Shto Firmë"
+msgstr "_Shto firmë"
 
 #: mail/mail-config.glade.h:159
-#, fuzzy
 msgid "_Always load images from the Internet"
 msgstr "_Gjithmonë ngarko figurat nga Internet"
 
 #: mail/mail-config.glade.h:160
-#, fuzzy
 msgid "_Digitally sign outgoing messages (by default)"
-msgstr "Firmë _digitale për mesazhet në dalje (e prezgjedhur)"
+msgstr "Firmë _dixhitale për mesazhet në dalje (e prezgjedhur)"
 
 #: mail/mail-config.glade.h:161
-#, fuzzy
 msgid "_Do not notify me when new mail arrives"
 msgstr "_Mos më njofto kur arrijnë mesazhe të rinj"
 
 #: mail/mail-config.glade.h:163
-#, fuzzy
 msgid "_Enable"
 msgstr "_Aktivo"
 
 #: mail/mail-config.glade.h:164
-#, fuzzy
 msgid "_Encrypt outgoing messages (by default)"
 msgstr "_Kriptim për mesazhet në dalje (e prezgjedhur)"
 
 #: mail/mail-config.glade.h:165
-#, fuzzy
 msgid "_Forward style:"
 msgstr "Stili i _përcjelljes:"
 
 #: mail/mail-config.glade.h:168
-#, fuzzy
 msgid "_Load images if sender is in address book"
 msgstr "_Ngarko figurat nëse dërguesi rezulton në rubrikë"
 
 #: mail/mail-config.glade.h:169
-#, fuzzy
 msgid "_Make this my default account"
 msgstr "_Ktheje në llogarinë time të prezgjedhur"
 
 #: mail/mail-config.glade.h:170
-#, fuzzy
 msgid "_Mark messages as read after"
 msgstr "_Shëno si të lexuar mesazhet mbas"
 
 #: mail/mail-config.glade.h:172
-#, fuzzy
 msgid "_Never load images from the Internet"
 msgstr "_Asnjëherë mos ngarko figura nga Internet"
 
 #: mail/mail-config.glade.h:174
-#, fuzzy
 msgid "_Prompt when sending HTML messages to contacts that don't want them"
 msgstr "_Paralajmërim kur u dërgohen mesazhe HTML marrësve që nuk i dëshirojnë ato"
 
 #: mail/mail-config.glade.h:175
-#, fuzzy
 msgid "_Prompt when sending messages with an empty subject line"
 msgstr "_Paralajmërim kur dërgohen mesazhe me rreshtin e subjektit bosh"
 
 #: mail/mail-config.glade.h:176
-#, fuzzy
 msgid "_Reply style:"
 msgstr "Stili i _përgjigjes:"
 
 #: mail/mail-config.glade.h:177
-#, fuzzy
 msgid "_Script:"
 msgstr "_Script:"
 
 #: mail/mail-config.glade.h:178
-#, fuzzy
 msgid "_Show animated images"
 msgstr "_Shfaq imazhet e animuara"
 
 #: mail/mail-config.glade.h:179
-#, fuzzy
 msgid "_Use Secure Connection (SSL):"
 msgstr "_Përdor lidhje të sigurt (SSL):"
 
 #: mail/mail-config.glade.h:180
-#, fuzzy
 msgid "_Use the same fonts as other applications"
 msgstr "_Përdor të njëjtat gërma si programet e tjerë"
 
 #: mail/mail-config.glade.h:181
-#, fuzzy
 msgid "color"
 msgstr "ngjyra"
 
@@ -15721,7 +15445,6 @@ msgid "description"
 msgstr "përshkrimi"
 
 #: mail/mail-dialogs.glade.h:1
-#, fuzzy
 msgid ""
 "\n"
 " Please read carefully the license agreement displayed\n"
@@ -15736,12 +15459,10 @@ msgid "<b>vFolder Sources</b>"
 msgstr "<b>Burimet e kartelave virtuale</b>"
 
 #: mail/mail-dialogs.glade.h:8
-#, fuzzy
 msgid "<span weight=\"bold\">Digital Signature</span>"
 msgstr "<span weight=\"bold\">Firma dixhitale</span>"
 
 #: mail/mail-dialogs.glade.h:9
-#, fuzzy
 msgid "<span weight=\"bold\">Encryption</span>"
 msgstr "<span weight=\"bold\">Kriptimi</span>"
 
@@ -15750,7 +15471,6 @@ msgid "Accept License"
 msgstr "Prano liçencën"
 
 #: mail/mail-dialogs.glade.h:11 mail/message-tags.glade.h:2
-#, fuzzy
 msgid "C_ompleted"
 msgstr "U pl_otësua"
 
@@ -15768,7 +15488,6 @@ msgstr "Gjej:"
 
 #: mail/mail-dialogs.glade.h:16 mail/message-tag-followup.c:294
 #: mail/message-tags.glade.h:3
-#, fuzzy
 msgid "Flag to Follow Up"
 msgstr "Flamuri për ndjekjen e rrjedhës"
 
@@ -15777,7 +15496,6 @@ msgid "Folder Subscriptions"
 msgstr "Regjistrimet në kartelë"
 
 #: mail/mail-dialogs.glade.h:18
-#, fuzzy
 msgid "License Agreement"
 msgstr "Marrëveshje autorizimi"
 
@@ -15794,16 +15512,14 @@ msgid "Security Information"
 msgstr "Informacione sigurie"
 
 #: mail/mail-dialogs.glade.h:23 mail/message-tags.glade.h:4
-#, fuzzy
 msgid ""
 "The messages you have selected for follow up are listed below.\n"
 "Please select a follow up action from the \"Flag\" menu."
 msgstr ""
 "Mesazhet që keni shënuar për ndjekje janë rreshtuar në vazhdim.\n"
-"Ju lutem zgjidh veprimin e ndjekjes nga menuja \"Flamure\"."
+"Ju lutem zgjidh veprimin e ndjekjes nga menuja \"Flamurë\"."
 
 #: mail/mail-dialogs.glade.h:25
-#, fuzzy
 msgid "Tick this to accept the license agreement"
 msgstr "Mbush këtë për të pranuar marrëveshjen e autorizimit"
 
@@ -15846,7 +15562,6 @@ msgstr "Autentifikim i pavlefshëm"
 
 #. mail:camel-service-auth-invalid secondary
 #: mail/mail-errors.xml.h:4
-#, fuzzy
 msgid ""
 "This server does not support this type of authentication and may not support "
 "authentication at all."
@@ -15876,7 +15591,6 @@ msgstr "Jeni i sigurt që dëshironi të dërgoni një mesazh në formatin HTML?
 
 #. mail:ask-send-html secondary
 #: mail/mail-errors.xml.h:12
-#, fuzzy
 msgid ""
 "Please make sure the following recipients are willing and able to receive "
 "HTML email:\n"
@@ -15900,12 +15614,11 @@ msgstr "Jeni i sigurt që dëshironi të dërgoni një mesazh pa subjekt?"
 
 #. mail:ask-send-no-subject secondary
 #: mail/mail-errors.xml.h:19
-#, fuzzy
 msgid ""
 "Adding a meaningful Subject line to your messages will give your recipients "
 "an idea of what your mail is about."
 msgstr ""
-"Duke shtuar një frazë të qartë tek Subjektet e mesazheve tuaj u jipni një "
+"Duke shtuar një frazë të qartë tek rreshti i subjektit i mesazheve tuaj u jipni një "
 "ide marrësve mbi përmbajtjen e mesazhit tuaj."
 
 #. mail:ask-send-only-bcc-contact primary
@@ -15916,7 +15629,6 @@ msgstr "Jeni i sigurt që dëshironi të dërgoni një mesazh vetëm me marrësi
 
 #. mail:ask-send-only-bcc-contact secondary
 #: mail/mail-errors.xml.h:24
-#, fuzzy
 msgid ""
 "The contact list you are sending to is configured to hide list recipients.\n"
 "\n"
@@ -15935,7 +15647,6 @@ msgstr ""
 
 #. mail:ask-send-only-bcc secondary
 #: mail/mail-errors.xml.h:31
-#, fuzzy
 msgid ""
 "Many email systems add an Apparently-To header to messages that only have "
 "BCC recipients. This header, if added, will list all of your recipients to "
@@ -15949,13 +15660,11 @@ msgstr ""
 
 #. mail:send-no-recipients primary
 #: mail/mail-errors.xml.h:34
-#, fuzzy
 msgid "This message cannot be sent because you have not specified any Recipients"
-msgstr "Ky mesazh nuk mund të dërgohet pasi nuk keni specifikuar asnjë Marrës"
+msgstr "Ky mesazh nuk mund të dërgohet pasi nuk keni specifikuar asnjë marrës"
 
 #. mail:send-no-recipients secondary
 #: mail/mail-errors.xml.h:36
-#, fuzzy
 msgid ""
 "Please enter a valid email address in the To: field. You can search for "
 "email addresses by clicking on the To: button next to the entry box."
@@ -16141,13 +15850,11 @@ msgstr "Eleminoj \"{0}\"?"
 
 #. mail:ask-delete-folder primary
 #: mail/mail-errors.xml.h:124
-#, fuzzy
 msgid "Really delete folder \"{0}\" and all of its subfolders?"
 msgstr "Me të vërtetë eleminon kartelën \"{0}\" me të gjitha nënkartelat e saj?"
 
 #. mail:ask-delete-folder secondary
 #: mail/mail-errors.xml.h:126
-#, fuzzy
 msgid ""
 "If you delete the folder, all of its contents and its subfolders contents "
 "will be deleted permanently."
@@ -16164,13 +15871,11 @@ msgstr "I pamundur riemërtimi i \"{0}\" në \"{1}\"."
 #. mail:no-rename-folder-exists secondary
 #. mail:vfolder-notunique secondary
 #: mail/mail-errors.xml.h:130 mail/mail-errors.xml.h:192
-#, fuzzy
 msgid "A folder named \"{1}\" already exists. Please use a different name."
 msgstr "Një kartelë me emër \"{0}\" ekziston. Ju lutem zgjidhni një emër tjetër."
 
 #. mail:no-rename-folder secondary
 #: mail/mail-errors.xml.h:134
-#, fuzzy
 msgid "Because \"{2}\"."
 msgstr "Sepse \"{2}\"."
 
@@ -16216,19 +15921,16 @@ msgstr "E pamundur ruajtja e ndryshimeve në llogari."
 
 #. mail:account-incomplete secondary
 #: mail/mail-errors.xml.h:158
-#, fuzzy
 msgid "You have not filled in all of the required information."
 msgstr "Nuk keni plotësuar të gjitha informacionet e kërkuara."
 
 #. mail:account-notunique secondary
 #: mail/mail-errors.xml.h:162
-#, fuzzy
 msgid "You may not create two accounts with the same name."
 msgstr "Nuk mund të krijohen dy llogari me të njëjtin emër."
 
 #. mail:ask-delete-account title
 #: mail/mail-errors.xml.h:164
-#, fuzzy
 msgid "Delete account?"
 msgstr "Eleminon llogarinë?"
 
@@ -16239,7 +15941,6 @@ msgstr "Jeni i sigurt që dëshironi të eleminoni këtë llogari?"
 
 #. mail:ask-delete-account secondary
 #: mail/mail-errors.xml.h:168
-#, fuzzy
 msgid "If you proceed, the account information will be deleted permanently."
 msgstr "Nëse vazhdoni, informacionet e llogarisë do të fshihen përgjithmonë."
 
@@ -16254,7 +15955,6 @@ msgstr "E pamundur ruajtja e file të firmës."
 
 #. mail:no-save-signature secondary
 #: mail/mail-errors.xml.h:173
-#, fuzzy
 msgid "Because \"{0}\"."
 msgstr "Sepse \"{0}\"."
 
@@ -16265,7 +15965,6 @@ msgstr "I pamundur caktimi i skriptit të firmës \"{0}\"."
 
 #. mail:signature-notscript secondary
 #: mail/mail-errors.xml.h:177
-#, fuzzy
 msgid "The script file must exist and be executable."
 msgstr "File me script duhet të ekzistojë dhe duhet të jetë i ekzekutueshëm."
 
@@ -16281,7 +15980,6 @@ msgstr "Dëshiron të ruash ndryshimet e kryera?"
 
 #. mail:ask-signature-changed secondary
 #: mail/mail-errors.xml.h:183
-#, fuzzy
 msgid "This signature has been changed, but has not been saved."
 msgstr "Firma është ndryshuar, por nuk është ruajtur."
 
@@ -16296,12 +15994,11 @@ msgstr "I pamundur ndryshimi i kartelës virtuale \"{0}\" m.q.s. nuk ekziston."
 
 #. mail:vfolder-notexist secondary
 #: mail/mail-errors.xml.h:188
-#, fuzzy
 msgid ""
 "This folder may have been added implictly, go to the virtual folder editor "
 "to add it explictly, if required."
 msgstr ""
-"Kjo kartelë mund të jetë shtuar pa rezerve, shko tek editori i kartelave "
+"Kjo kartelë mund të jetë shtuar pa rezervë, shko tek editori i kartelave "
 "virtuale për t'a shtuar si duhet, nëse ka nevojë."
 
 #. mail:vfolder-notunique primary
@@ -16311,13 +16008,11 @@ msgstr "I pamundur shtimi i kartelës virtuale \"{0}\"."
 
 #. mail:vfolder-updated primary
 #: mail/mail-errors.xml.h:194
-#, fuzzy
 msgid "vFolders automatically updated."
-msgstr "vFolders u përditësua automatikisht."
+msgstr "vKartelat u përditësua automatikisht."
 
 #. mail:vfolder-updated secondary
 #: mail/mail-errors.xml.h:196
-#, fuzzy
 msgid ""
 "The following vFolder(s):\n"
 "{0}\n"
@@ -16333,13 +16028,11 @@ msgstr ""
 
 #. mail:filter-updated primary
 #: mail/mail-errors.xml.h:202
-#, fuzzy
 msgid "Mail filters automatically updated."
 msgstr "Filtrat e mesazheve u rifreskuan automatikisht."
 
 #. mail:filter-updated secondary
 #: mail/mail-errors.xml.h:204
-#, fuzzy
 msgid ""
 "The following filter rule(s):\n"
 "{0}\n"
@@ -16365,7 +16058,6 @@ msgstr "Ju duhet të përcaktoni një kartelë."
 
 #. mail:no-name-vfolder secondary
 #: mail/mail-errors.xml.h:216
-#, fuzzy
 msgid "You must name this vFolder."
 msgstr "Duhet t'i jepni një emër kësaj vKartele."
 
@@ -16376,7 +16068,6 @@ msgstr "Nuk është zgjedhur burimi."
 
 #. mail:vfolder-no-source secondary
 #: mail/mail-errors.xml.h:220
-#, fuzzy
 msgid ""
 "You must specify at least one folder as a source.\n"
 "Either by selecting the folders individually, and/or by selecting\n"
@@ -16388,13 +16079,11 @@ msgstr ""
 
 #. mail:ask-migrate-existing primary
 #: mail/mail-errors.xml.h:224
-#, fuzzy
 msgid "Problem migrating old mail folder \"{0}\"."
 msgstr "Problem gjatë migrimit të kartelës së vjetër së postës \"{0}\"."
 
 #. mail:ask-migrate-existing secondary
 #: mail/mail-errors.xml.h:226
-#, fuzzy
 msgid ""
 "A non-empty folder at \"{1}\" already exists.\n"
 "\n"
@@ -16420,37 +16109,31 @@ msgstr "_Shto (në fund)"
 
 #. mail:gw-accountsetup-error primary
 #: mail/mail-errors.xml.h:234
-#, fuzzy
 msgid ""
 "Could not connect to {0}. Groupwise account setup is incomplete. You may "
 "need to setup  the account again"
-msgstr "nuk është Ti"
+msgstr "Lidhja me {0} nuk është e mundur. Konfigurimi i llogarisë Groupwise nuk u plotësua. Ndoshta do t'ju duhet të ripërsërisni konfigurimin e llogarisë"
 
 #: mail/mail-folder-cache.c:795
 #, c-format
-#, fuzzy
 msgid "Pinging %s"
 msgstr "Duke ping-uar %s"
 
 #: mail/mail-ops.c:98
-#, fuzzy
 msgid "Filtering Folder"
 msgstr "Duke filtruar kartelën"
 
 #: mail/mail-ops.c:259
-#, fuzzy
 msgid "Fetching Mail"
-msgstr "Duke marrë Postën"
+msgstr "Duke marrë postën"
 
 #: mail/mail-ops.c:542
 #, c-format
-#, fuzzy
 msgid "Failed to apply outgoing filters: %s"
 msgstr "I pamundur aplikimi i filtrimit në dalje: %s"
 
 #: mail/mail-ops.c:567
 #, c-format
-#, fuzzy
 msgid ""
 "Failed to append to %s: %s\n"
 "Appending to local `Sent' folder instead."
@@ -16460,13 +16143,11 @@ msgstr ""
 
 #: mail/mail-ops.c:576
 #, c-format
-#, fuzzy
 msgid "Failed to append to local `Sent' folder: %s"
 msgstr "I pamundur shtimi tek kartela lokale `Dërguar': %s"
 
 #: mail/mail-ops.c:672
 #, c-format
-#, fuzzy
 msgid "Sending message %d of %d"
 msgstr "Duke dërguar mesazhin %d në %d"
 
@@ -16476,98 +16157,81 @@ msgid "Failed to send %d of %d messages"
 msgstr "Dërgimi i %d nga %d mesazhe dështoi"
 
 #: mail/mail-ops.c:707
-#, fuzzy
 msgid "Complete."
 msgstr "U plotësua."
 
 #: mail/mail-ops.c:804
-#, fuzzy
 msgid "Saving message to folder"
 msgstr "Duke ruajtur mesazhin tek kartela"
 
 #: mail/mail-ops.c:889
 #, c-format
-#, fuzzy
 msgid "Moving messages to %s"
 msgstr "Duke lëvizur mesazhet tek %s"
 
 #: mail/mail-ops.c:889
 #, c-format
-#, fuzzy
 msgid "Copying messages to %s"
 msgstr "Duke kopjuar mesazhet tek %s"
 
 #: mail/mail-ops.c:1002
 #, c-format
-#, fuzzy
 msgid "Scanning folders in \"%s\""
 msgstr "Duke kontrolluar kartelat në \"%s\""
 
 #: mail/mail-ops.c:1115
-#, fuzzy
 msgid "Forwarded messages"
 msgstr "Mesazhet e përcjellë"
 
 #: mail/mail-ops.c:1158
 #, c-format
-#, fuzzy
 msgid "Opening folder %s"
 msgstr "Duke hapur kartelën %s"
 
 #: mail/mail-ops.c:1230
 #, c-format
-#, fuzzy
 msgid "Opening store %s"
 msgstr "Duke hapur arkivin %s"
 
 #: mail/mail-ops.c:1308
 #, c-format
-#, fuzzy
 msgid "Removing folder %s"
 msgstr "Duke hequr kartelën %s"
 
 #: mail/mail-ops.c:1402
 #, c-format
-#, fuzzy
 msgid "Storing folder '%s'"
 msgstr "Duke arkivuar kartelën '%s'"
 
 #: mail/mail-ops.c:1467
 #, c-format
-#, fuzzy
 msgid "Expunging and storing account '%s'"
 msgstr "Duke pastruar dhe magazinuar llogarinë '%s'"
 
 #: mail/mail-ops.c:1468
 #, c-format
-#, fuzzy
 msgid "Storing account '%s'"
 msgstr "Duke magazinuar llogarinë '%s'"
 
 #: mail/mail-ops.c:1523
-#, fuzzy
 msgid "Refreshing folder"
 msgstr "Duke rifreskuar kartelën"
 
 #: mail/mail-ops.c:1559 mail/mail-ops.c:1610
-#, fuzzy
 msgid "Expunging folder"
 msgstr "Duke pastruar kartelën"
 
 #: mail/mail-ops.c:1607
 #, c-format
-#, fuzzy
 msgid "Emptying trash in '%s'"
 msgstr "Duke zbrazur koshin në '%s'"
 
 #: mail/mail-ops.c:1608
-#, fuzzy
 msgid "Local Folders"
 msgstr "Kartelat lokale"
 
 #: mail/mail-ops.c:1691
 #, c-format
-#, fuzzy
 msgid "Retrieving message %s"
 msgstr "Duke tërhequr mesazhin %s"
 
@@ -16587,7 +16251,6 @@ msgstr[1] "Duke ruajtur %d mesazhe"
 
 #: mail/mail-ops.c:1899
 #, c-format
-#, fuzzy
 msgid ""
 "Unable to create output file: %s\n"
 " %s"
@@ -16597,7 +16260,6 @@ msgstr ""
 
 #: mail/mail-ops.c:1927
 #, c-format
-#, fuzzy
 msgid ""
 "Error saving messages to: %s:\n"
 " %s"
@@ -16606,13 +16268,11 @@ msgstr ""
 " %s"
 
 #: mail/mail-ops.c:1998
-#, fuzzy
 msgid "Saving attachment"
 msgstr "Duke ruajtur të bashkangjiturin"
 
 #: mail/mail-ops.c:2010
 #, c-format
-#, fuzzy
 msgid ""
 "Cannot create output file: %s:\n"
 " %s"
@@ -16622,67 +16282,56 @@ msgstr ""
 
 #: mail/mail-ops.c:2020
 #, c-format
-#, fuzzy
 msgid "Could not write data: %s"
 msgstr "I pamundur shkrimi i të dhënave: %s"
 
 #: mail/mail-ops.c:2168
 #, c-format
-#, fuzzy
 msgid "Disconnecting from %s"
 msgstr "Duke u shkëputur nga %s"
 
 #: mail/mail-ops.c:2168
 #, c-format
-#, fuzzy
 msgid "Reconnecting to %s"
 msgstr "Duke u rilidhur me %s"
 
 #: mail/mail-send-recv.c:157
-#, fuzzy
 msgid "Cancelling..."
 msgstr "Duke fshirë..."
 
 #: mail/mail-send-recv.c:264
 #, c-format
-#, fuzzy
 msgid "Server: %s, Type: %s"
 msgstr "Serveri: %s, Lloji: %s"
 
 #: mail/mail-send-recv.c:266
 #, c-format
-#, fuzzy
 msgid "Path: %s, Type: %s"
 msgstr "Pozicioni: %s, Lloji: %s"
 
 #: mail/mail-send-recv.c:268
 #, c-format
-#, fuzzy
 msgid "Type: %s"
 msgstr "Lloji: %s"
 
 #: mail/mail-send-recv.c:320
-#, fuzzy
 msgid "Send & Receive Mail"
 msgstr "Dërgo & Merr Postën"
 
 #: mail/mail-send-recv.c:323
-#, fuzzy
 msgid "Cancel _All"
-msgstr "Anullo _Gjithçka"
+msgstr "Anullo _gjithçka"
 
 #: mail/mail-send-recv.c:412
 msgid "Updating..."
 msgstr "Duke rifreskuar të dhënat..."
 
 #: mail/mail-send-recv.c:412 mail/mail-send-recv.c:466
-#, fuzzy
 msgid "Waiting..."
 msgstr "Në pritje..."
 
 #: mail/mail-session.c:207
 #, c-format
-#, fuzzy
 msgid "Enter Password for %s"
 msgstr "Shkruaj fjalëkalimin për %s"
 
@@ -16691,17 +16340,14 @@ msgid "Enter Password"
 msgstr "Shkruaj fjalëkalimin"
 
 #: mail/mail-session.c:238
-#, fuzzy
 msgid "User canceled operation."
 msgstr "Veprim i anulluar nga përdoruesi."
 
 #: mail/mail-signature-editor.c:371
-#, fuzzy
 msgid "Edit signature"
 msgstr "Ndrysho firmën"
 
 #: mail/mail-signature-editor.c:411
-#, fuzzy
 msgid "Enter a name for this signature."
 msgstr "Shkruaj një emër për këtë firmë."
 
@@ -16716,30 +16362,25 @@ msgstr "I pamundur krijimi i directory spool `%s': %s"
 
 #: mail/mail-tools.c:141
 #, c-format
-#, fuzzy
 msgid "Trying to movemail a non-mbox source `%s'"
 msgstr "Përpjekje për të lëvizur postën e një burimi jo-mbox `%s'"
 
 #: mail/mail-tools.c:276
 #, c-format
-#, fuzzy
 msgid "Forwarded message - %s"
 msgstr "Mesazhi i përcjellë - %s"
 
 #: mail/mail-tools.c:278
-#, fuzzy
 msgid "Forwarded message"
 msgstr "Mesazhi i përcjellë"
 
 #: mail/mail-tools.c:319
 #, c-format
-#, fuzzy
 msgid "Invalid folder: `%s'"
 msgstr "Kartelë e pavlefshme: `%s'"
 
 #: mail/mail-vfolder.c:87
 #, c-format
-#, fuzzy
 msgid "Setting up vfolder: %s"
 msgstr "Rregullimi i vkartelës: %s"
 
@@ -16754,12 +16395,10 @@ msgid "Updating vFolders for '%s'"
 msgstr "Duke rifreskuar kartelat virtuale për '%s'"
 
 #: mail/mail-vfolder.c:942
-#, fuzzy
 msgid "vFolders"
 msgstr "vKartelat"
 
 #: mail/mail-vfolder.c:981
-#, fuzzy
 msgid "Edit VFolder"
 msgstr "Ndrysho VKartelën"
 
@@ -16768,32 +16407,26 @@ msgid "New VFolder"
 msgstr "Kartelë Virtuale e Re"
 
 #: mail/message-list.c:1000
-#, fuzzy
 msgid "Unseen"
 msgstr "Paparë"
 
 #: mail/message-list.c:1001
-#, fuzzy
 msgid "Seen"
 msgstr "Shikuar"
 
 #: mail/message-list.c:1002
-#, fuzzy
 msgid "Answered"
 msgstr "Përgjigjur"
 
 #: mail/message-list.c:1003
-#, fuzzy
 msgid "Multiple Unseen Messages"
 msgstr "Mesazhe shumëfishë të palexuar"
 
 #: mail/message-list.c:1004
-#, fuzzy
 msgid "Multiple Messages"
 msgstr "Mesazhe shumëfishë"
 
 #: mail/message-list.c:1008
-#, fuzzy
 msgid "Lowest"
 msgstr "Më i ulti"
 
@@ -16806,7 +16439,6 @@ msgid "Higher"
 msgstr "Më i lartë"
 
 #: mail/message-list.c:1014
-#, fuzzy
 msgid "Highest"
 msgstr "Më i larti"
 
@@ -16835,32 +16467,26 @@ msgid "%b %d %Y"
 msgstr "%b %d %Y"
 
 #: mail/message-list.c:3380
-#, fuzzy
 msgid "Generating message list"
-msgstr "Duke gjeneruar listën e mesazheve"
+msgstr "Duke krijuar listën e mesazheve"
 
 #: mail/message-list.etspec.h:3
-#, fuzzy
 msgid "Due By"
 msgstr "Për shkak të"
 
 #: mail/message-list.etspec.h:4
-#, fuzzy
 msgid "Flag Status"
-msgstr "Gjendja e Flamurëve"
+msgstr "Gjendja e flamurëve"
 
 #: mail/message-list.etspec.h:5
-#, fuzzy
 msgid "Flagged"
 msgstr "Me flamurë"
 
 #: mail/message-list.etspec.h:6
-#, fuzzy
 msgid "Follow Up Flag"
-msgstr "Flamuri ndiq rrjedhën"
+msgstr "Flamuri \"ndiq rrjedhën\""
 
 #: mail/message-list.etspec.h:8
-#, fuzzy
 msgid "Original Location"
 msgstr "Vendodhja orgjinale"
 
@@ -16941,7 +16567,6 @@ msgid "Subject does not contain"
 msgstr "Subjekti nuk përmban"
 
 #: shell/GNOME_Evolution_Shell.server.in.in.h:1
-#, fuzzy
 msgid "Evolution Shell"
 msgstr "Shell i Evolution"
 
@@ -17036,12 +16661,10 @@ msgid "(Untitled)"
 msgstr "(Pa titull)"
 
 #: shell/e-shell-importer.c:146
-#, fuzzy
 msgid "Choose the type of importer to run:"
 msgstr "Zgjidh llojin e importuesit për t'u përdorur:"
 
 #: shell/e-shell-importer.c:149
-#, fuzzy
 msgid ""
 "Choose the file that you want to import into Evolution, and select what type "
 "of file it is from the list.\n"
@@ -17056,17 +16679,14 @@ msgstr ""
 "mundohet t'a përpunojë."
 
 #: shell/e-shell-importer.c:155
-#, fuzzy
 msgid "Choose the destination for this import"
 msgstr "Zgjidh destinimin për këtë importim"
 
 #: shell/e-shell-importer.c:158 shell/e-shell-startup-wizard.c:748
-#, fuzzy
 msgid "Please select the information that you would like to import:"
 msgstr "Zgjidhni informacionet që dëshironi të importoni:"
 
 #: shell/e-shell-importer.c:161
-#, fuzzy
 msgid ""
 "Evolution checked for settings to import from the following\n"
 "applications: Pine, Netscape, Elm, iCalendar. No settings\n"
@@ -17075,12 +16695,11 @@ msgid ""
 msgstr ""
 "Evolution ka kontrolluar për rregullime për t'u importuar\n"
 "nga programet në vazhdim: Pine, Netscape, Elm, iCalendar.\n"
-"Asnjë rregullim i importueshëm u gjet. Nëse dëshironi të\n"
+"Nuk u gjet asnjë rregullim i importueshëm. Nëse dëshironi të\n"
 "riprovoni, kliko tek butoni \"Mbrapa\".\n"
 
 #: shell/e-shell-importer.c:229 shell/e-shell-importer.c:260
 #, c-format
-#, fuzzy
 msgid ""
 "Importing %s\n"
 "Importing item %d."
@@ -17089,18 +16708,15 @@ msgstr ""
 "Duke importuar elementin %d."
 
 #: shell/e-shell-importer.c:333
-#, fuzzy
 msgid "Select importer"
 msgstr "Zgjidh importuesin"
 
 #: shell/e-shell-importer.c:451 shell/e-shell-importer.c:1056
 #, c-format
-#, fuzzy
 msgid "File %s does not exist"
 msgstr "File %s nuk ekziston"
 
 #: shell/e-shell-importer.c:459
-#, fuzzy
 msgid "Importing"
 msgstr "Duke importuar"
 
@@ -17111,13 +16727,11 @@ msgstr "Duke importuar %s.\n"
 
 #: shell/e-shell-importer.c:477 shell/e-shell-importer.c:478
 #, c-format
-#, fuzzy
 msgid "Error loading %s"
 msgstr "Gabim gjatë ngarkimit të %s"
 
 #: shell/e-shell-importer.c:495
 #, c-format
-#, fuzzy
 msgid ""
 "Importing %s\n"
 "Importing item 1."
@@ -17142,17 +16756,14 @@ msgid "File _type:"
 msgstr "_Lloji i file:"
 
 #: shell/e-shell-importer.c:682
-#, fuzzy
 msgid "Import data and settings from _older programs"
 msgstr "Importo të dhënat dhe rregullimet nga programe të _vjetër"
 
 #: shell/e-shell-importer.c:685
-#, fuzzy
 msgid "Import a _single file"
 msgstr "Importo një file të _vetëm"
 
 #: shell/e-shell-importer.c:753 shell/e-shell-startup-wizard.c:571
-#, fuzzy
 msgid ""
 "Please wait...\n"
 "Scanning for existing setups"
@@ -17161,19 +16772,16 @@ msgstr ""
 "Duke kontrolluar për rregullime ekzistuese"
 
 #: shell/e-shell-importer.c:757
-#, fuzzy
 msgid "Starting Intelligent Importers"
-msgstr "Duke filluar Importuesit inteligjentë"
+msgstr "Duke filluar importuesit inteligjentë"
 
 #: shell/e-shell-importer.c:883 shell/e-shell-startup-wizard.c:698
 #, c-format
-#, fuzzy
 msgid "From %s:"
 msgstr "Nga %s:"
 
 #: shell/e-shell-importer.c:1074
 #, c-format
-#, fuzzy
 msgid "No importer available for file %s"
 msgstr "Asnjë importues për file %s"
 
@@ -17186,22 +16794,18 @@ msgid "_Import"
 msgstr "_Importo"
 
 #: shell/e-shell-offline-handler.c:594
-#, fuzzy
 msgid "Closing connections..."
 msgstr "Duke mbyllur lidhjet..."
 
 #: shell/e-shell-settings-dialog.c:326
-#, fuzzy
 msgid "Evolution Settings"
 msgstr "Rregullimet e Evolution"
 
 #: shell/e-shell-startup-wizard.c:575
-#, fuzzy
 msgid "Starting import"
 msgstr "Duke filluar importimin"
 
 #: shell/e-shell-startup-wizard.c:795
-#, fuzzy
 msgid ""
 "If you quit the Evolution Setup Assistant now, all of the information that "
 "you have entered will be forgotten. You will need to run this assistant "
@@ -17209,7 +16813,7 @@ msgid ""
 "\n"
 "Do you want to quit using the Assistant now?"
 msgstr ""
-"Nëse mbyllni tani Asistentin e Rregullimeve të Evolution, i gjithë "
+"Nëse mbyllni tani Asistentin e rregullimeve të Evolution, i gjithë "
 "informacioni i shtuar deri tani do të harrohet. Do t'ju duhet të ekzekutoni "
 "përsëri këtë asistent para se të përdorni Evolution.\n"
 "\n"
@@ -17220,7 +16824,6 @@ msgid "No folder name specified."
 msgstr "Nuk është specifikuar emri i kartelës."
 
 #: shell/e-shell-utils.c:123
-#, fuzzy
 msgid "Folder name cannot contain the Return character."
 msgstr "Emri i kartelës nuk mund të përmbajë simbolin \"Return\"."
 
@@ -17283,7 +16886,6 @@ msgstr "Evolution aktualisht është offline.  Kliko tek ky buton për të punua
 
 #: shell/e-shell-window.c:637
 #, c-format
-#, fuzzy
 msgid "Switch to %s"
 msgstr "Kalo tek %s"
 
@@ -17317,17 +16919,14 @@ msgid "New"
 msgstr "E re"
 
 #: shell/evolution-startup-wizard.glade.h:2
-#, fuzzy
 msgid "Evolution Setup Assistant"
 msgstr "Asistenti i rregullimit të Evolution"
 
 #: shell/evolution-startup-wizard.glade.h:3
-#, fuzzy
 msgid "Importing Files"
-msgstr "Duke importuar Files"
+msgstr "Duke importuar files"
 
 #: shell/evolution-startup-wizard.glade.h:4
-#, fuzzy
 msgid "Timezone "
 msgstr "Zona orare "
 
@@ -17336,7 +16935,6 @@ msgid "Welcome"
 msgstr "Mirësevini"
 
 #: shell/evolution-startup-wizard.glade.h:6
-#, fuzzy
 msgid ""
 "Welcome to Evolution. The next few screens will allow\n"
 "Evolution to connect to your email accounts, and to import\n"
@@ -17351,7 +16949,6 @@ msgstr ""
 "Ju lutem kliko butonin \"Vazhdo\" për të vazhduar. "
 
 #: shell/evolution-startup-wizard.glade.h:11
-#, fuzzy
 msgid ""
 "You have successfully entered all of the information\n"
 "needed to set up Evolution. \n"
@@ -17376,12 +16973,10 @@ msgid "Create a new test item"
 msgstr "Krijo një element të ri prove"
 
 #: shell/importer/import.glade.h:1
-#, fuzzy
 msgid "Click \"Import\" to begin importing the file into Evolution. "
 msgstr "Kliko \"Importo\" për të filluar importimin e file nën Evolution. "
 
 #: shell/importer/import.glade.h:2
-#, fuzzy
 msgid "Evolution Import Assistant"
 msgstr "Asistenti i importimeve në Evolution"
 
@@ -17406,18 +17001,16 @@ msgid "Select a File"
 msgstr "Zgjidh një file"
 
 #: shell/importer/import.glade.h:8
-#, fuzzy
 msgid ""
 "Welcome to the Evolution Import Assistant.\n"
 "With this assistant you will be guided through the process of\n"
 "importing external files into Evolution."
 msgstr ""
-"Mirësevini tek Asistenti i Importimit i Evolution.\n"
+"Mirësevini tek Asistenti i importimit i Evolution.\n"
 "Me këtë asistent ju do të udhëhiqeni gjatë proçesit të importimit\n"
 "të files së jashtëm nën Evolution."
 
 #: shell/importer/intelligent.c:193
-#, fuzzy
 msgid "Importers"
 msgstr "Importues"
 
@@ -17426,24 +17019,20 @@ msgid "Import"
 msgstr "Importo"
 
 #: shell/importer/intelligent.c:199
-#, fuzzy
 msgid "Don't import"
 msgstr "Mos importo"
 
 #: shell/importer/intelligent.c:203
-#, fuzzy
 msgid "Don't ask me again"
 msgstr "Mos më pyet më"
 
 #: shell/importer/intelligent.c:211
-#, fuzzy
 msgid "Evolution can import data from the following files:"
 msgstr "Evolution mund të importojë të dhënat nga files në vazhdim:"
 
 #. Preview/Alpha/Beta version warning message
 #: shell/main.c:226
 #, no-c-format
-#, fuzzy
 msgid ""
 "Hi.  Thanks for taking the time to download this preview release\n"
 "of the Evolution groupware suite.\n"
@@ -17489,43 +17078,35 @@ msgstr ""
 "The Evolution Team\n"
 
 #: shell/main.c:257
-#, fuzzy
 msgid "Don't tell me again"
 msgstr "Mos e shfaq më"
 
 #: shell/main.c:462
-#, fuzzy
 msgid "Start Evolution activating the specified component"
 msgstr "Fillo Evolution duke aktivuar komponentin e specifikuar"
 
 #: shell/main.c:464
-#, fuzzy
 msgid "Start in offline mode"
 msgstr "Fillo në modalitetin jashtë linje"
 
 #: shell/main.c:466
-#, fuzzy
 msgid "Start in online mode"
 msgstr "Fillo në modalitetin në linjë"
 
 #: shell/main.c:469
-#, fuzzy
 msgid "Forcibly shut down all evolution components"
-msgstr "Përfundo me forcë të gjithë komponuesit e evolution"
+msgstr "Detyro përfundimin e të gjithë komponentëve të evolution"
 
 #: shell/main.c:473
-#, fuzzy
 msgid "Forcibly re-migrate from Evolution 1.4"
 msgstr "Detyro ri-emigrimin nga Evolution 1.4"
 
 #: shell/main.c:476
-#, fuzzy
 msgid "Send the debugging output of all components to a file."
 msgstr "Dërgo rezultatin e debug të të gjithë komponuesve në një file."
 
 #: shell/main.c:507
 #, c-format
-#, fuzzy
 msgid ""
 "%s: --online and --offline cannot be used together.\n"
 "  Use %s --help for more information.\n"
@@ -17535,13 +17116,11 @@ msgstr ""
 
 #. shell:upgrade-nospace primary
 #: shell/shell-errors.xml.h:2
-#, fuzzy
 msgid "Insufficient disk space for upgrade."
 msgstr "Hapësirë e pamjaftueshme për upgrade."
 
 #. shell:upgrade-nospace secondary
 #: shell/shell-errors.xml.h:4
-#, fuzzy
 msgid ""
 "Upgrading your data and settings will require upto {0} of disk space, but "
 "you only have {1} available.\n"
@@ -17557,7 +17136,6 @@ msgstr ""
 
 #. shell:upgrade-failed primary
 #: shell/shell-errors.xml.h:8
-#, fuzzy
 msgid ""
 "Upgrade from previous version failed:\n"
 "{0}"
@@ -17567,7 +17145,6 @@ msgstr ""
 
 #. shell:upgrade-failed secondary
 #: shell/shell-errors.xml.h:11
-#, fuzzy
 msgid ""
 "{1}\n"
 "\n"
@@ -17586,13 +17163,11 @@ msgstr "Vazhdo"
 #. shell:upgrade-remove-1-4 title
 #. shell:upgrade-remove-1-4 primary
 #: shell/shell-errors.xml.h:17 shell/shell-errors.xml.h:19
-#, fuzzy
 msgid "Delete old data from version {0}?"
 msgstr "Eleminon të dhënat e vjetra nga versioni {0}?"
 
 #. shell:upgrade-remove-1-4 secondary
 #: shell/shell-errors.xml.h:21
-#, fuzzy
 msgid ""
 "The previous version of evolution stored its data in a different location.\n"
 "\n"
@@ -17614,20 +17189,17 @@ msgid "_Remind Me Later"
 msgstr "_Kujtomë më vonë"
 
 #: shell/shell-errors.xml.h:26
-#, fuzzy
 msgid "_Keep Data"
 msgstr "_Mbaj të dhënat"
 
 #. shell:upgrade-remove-1-4-confirm title
 #. shell:upgrade-remove-1-4-confirm primary
 #: shell/shell-errors.xml.h:28 shell/shell-errors.xml.h:30
-#, fuzzy
 msgid "Really delete old data?"
 msgstr "Me të vërtetë eleminon të dhënat e vjetra?"
 
 #. shell:upgrade-remove-1-4-confirm secondary
 #: shell/shell-errors.xml.h:32
-#, fuzzy
 msgid ""
 "The entire contents of the \"evolution\" directory is about to be be "
 "permanently removed.\n"
@@ -17662,7 +17234,6 @@ msgstr "E pamundur nisja e Evolution."
 
 #. shell:noshell secondary
 #: shell/shell-errors.xml.h:43
-#, fuzzy
 msgid ""
 "Your system configuration does not match your Evolution configuration.\n"
 "\n"
@@ -17670,11 +17241,10 @@ msgid ""
 msgstr ""
 "Konfigurimet e sistemit tuaj nuk plotësojnë konfigurimin tuaj të Evolution.\n"
 "\n"
-"Kliko Ndihmë për detajet"
+"Kliko \"ndihmë\" për detajet"
 
 #. shell:noshell-reason secondary
 #: shell/shell-errors.xml.h:51
-#, fuzzy
 msgid ""
 "Your system configuration does not match your Evolution configuration:\n"
 "\n"
@@ -17686,11 +17256,10 @@ msgstr ""
 "\n"
 "{0}\n"
 "\n"
-"Kliko Ndihmë për detajet."
+"Kliko \"ndihmë\" për detajet."
 
 #: smime/gui/ca-trust-dialog.c:91
 #, c-format
-#, fuzzy
 msgid ""
 "Certificate '%s' is a CA certificate.\n"
 "\n"
@@ -17701,7 +17270,6 @@ msgstr ""
 "Ndrysho rregullimet e besueshmërisë:"
 
 #: smime/gui/cert-trust-dialog.c:145
-#, fuzzy
 msgid ""
 "Because you trust the certificate authority that issued this certificate, "
 "then you trust the authenticity of this certificate unless otherwise "
@@ -17712,7 +17280,6 @@ msgstr ""
 "specifikimit të kundërt këtu"
 
 #: smime/gui/cert-trust-dialog.c:149
-#, fuzzy
 msgid ""
 "Because you do not trust the certificate authority that issued this "
 "certificate, then you do not trust the authenticity of this certificate "
@@ -17730,9 +17297,8 @@ msgstr "Zgjidh një çertifikatë për t'a importuar..."
 
 #: smime/gui/certificate-manager.c:263 smime/gui/certificate-manager.c:472
 #: smime/gui/certificate-manager.c:690
-#, fuzzy
 msgid "Certificate Name"
-msgstr "Emri i Çertifikatës"
+msgstr "Emri i çertifikatës"
 
 #: smime/gui/certificate-manager.c:272 smime/gui/certificate-manager.c:490
 msgid "Purposes"
@@ -17740,12 +17306,10 @@ msgstr "Qëllime"
 
 #: smime/gui/certificate-manager.c:281 smime/gui/smime-ui.glade.h:36
 #: smime/lib/e-cert.c:569
-#, fuzzy
 msgid "Serial Number"
 msgstr "Numri i serisë"
 
 #: smime/gui/certificate-manager.c:289
-#, fuzzy
 msgid "Expires"
 msgstr "Skadimi"
 
@@ -17755,9 +17319,8 @@ msgstr "Adresa E-Mail"
 
 #: smime/gui/certificate-viewer.c:334
 #, c-format
-#, fuzzy
 msgid "Certificate Viewer: %s"
-msgstr "Shikuesi i Çertifikatave: %s"
+msgstr "Shikuesi i çertifikatave: %s"
 
 #: smime/gui/component.c:45
 #, c-format
@@ -17845,7 +17408,6 @@ msgid "Backup All"
 msgstr "Backup Gjithçka"
 
 #: smime/gui/smime-ui.glade.h:13
-#, fuzzy
 msgid ""
 "Before trusting this CA for any purpose, you should examine its certificate "
 "and its policy and procedures (if available)."
@@ -18113,7 +17675,6 @@ msgid "Signing"
 msgstr "Duke firmosur"
 
 #: smime/lib/e-cert.c:870
-#, fuzzy
 msgid "Non-repudiation"
 msgstr "Jo-ripudio"
 
@@ -19933,14 +19494,12 @@ msgid "Sync with:"
 msgstr "Sink me:"
 
 #: widgets/misc/e-pilot-settings.c:111
-#, fuzzy
 msgid "Sync Private Records:"
-msgstr "Sinkronizimi i Regjistrimeve Private:"
+msgstr "Sinkronizimi i regjistrimeve private:"
 
 #: widgets/misc/e-pilot-settings.c:120
-#, fuzzy
 msgid "Sync Categories:"
-msgstr "Sinkronizimi i Kategorive:"
+msgstr "Sinkronizimi i kategorive:"
 
 #: widgets/misc/e-search-bar.c:540
 msgid "_Search"
