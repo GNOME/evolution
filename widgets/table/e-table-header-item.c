@@ -558,7 +558,7 @@ ethi_drag_motion (GtkObject *canvas, GdkDragContext *context,
 		
 		col = ethi_find_col_by_x_nearest (ethi, x);
 
-		if (col == ethi->drag_col || col == ethi->drag_col + 1) {
+		if (ethi->drag_col != -1 && (col == ethi->drag_col || col == ethi->drag_col + 1)) {
 			if (ethi->drag_col != -1)
 				ethi_remove_destroy_marker (ethi);
 			
