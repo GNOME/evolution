@@ -1,5 +1,11 @@
 1999-11-09  Eskil Heyn Olsen  <deity@eskil.dk>
 
+	* calendar-conduit.c: Enabled debug output. Sets a g_log_domain,
+	now version 0.8.5. Consistent use of GSList/GList. Implemented
+	compare, default uses one that compares the contents of a struct
+	Appointment, but also has #ifdeffed code that does a field level
+	comparison, not complete, but perhaps educational.
+
 	* Makefile.am (#todo_conduit_control_applet_SOURCES): Fixed an
 	unwanted conditional on libcalendar_conduit_la_LDFLAGS
 
