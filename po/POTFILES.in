@@ -115,6 +115,7 @@ composer/e-msg-composer-hdrs.c
 composer/e-msg-composer.c
 composer/evolution-composer.c
 data/evolution.keys.in
+e-util/e-time-utils.c
 executive-summary/GNOME_Evolution_Summary.oaf.in
 executive-summary/component/component-factory.c
 executive-summary/component/e-summary-callbacks.c
@@ -198,6 +199,7 @@ widgets/meeting-time-sel/e-meeting-time-sel-item.c
 widgets/meeting-time-sel/e-meeting-time-sel.c
 widgets/misc/e-calendar-item.c
 widgets/misc/e-calendar.c
+widgets/misc/e-cell-date-edit.c
 widgets/misc/e-clipped-label.c
 widgets/misc/e-dateedit.c
 widgets/misc/e-messagebox.c
