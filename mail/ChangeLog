@@ -1,3 +1,8 @@
+2001-05-07  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-account-gui.c: s/HAVE_NSS/HAVE_SSL for the SSL checkbox
+	stuff.
+
 2001-05-07  Dan Winship  <danw@ximian.com>
 
 	* folder-browser.c (my_folder_browser_init): Connect to

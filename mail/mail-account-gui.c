@@ -247,7 +247,7 @@ source_type_changed (GtkWidget *widget, gpointer user_data)
 		}
 
 		/* ssl */
-#ifdef HAVE_NSS
+#ifdef HAVE_SSL
 		if (provider && provider->flags & CAMEL_PROVIDER_SUPPORTS_SSL)
 			gtk_widget_show (GTK_WIDGET (gui->source.use_ssl));
 		else
@@ -314,7 +314,7 @@ transport_type_changed (GtkWidget *widget, gpointer user_data)
 		}
 
 		/* ssl */
-#ifdef HAVE_NSS
+#ifdef HAVE_SSL
 		if (provider && provider->flags & CAMEL_PROVIDER_SUPPORTS_SSL)
 			gtk_widget_show (GTK_WIDGET (gui->transport.use_ssl));
 		else
