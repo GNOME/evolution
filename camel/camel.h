@@ -60,7 +60,6 @@ extern "C" {
 #include <camel/camel-multipart.h>
 #include <camel/camel-multipart-encrypted.h>
 #include <camel/camel-multipart-signed.h>
-#include <camel/camel-pgp-context.h>
 #include <camel/camel-gpg-context.h>
 #include <camel/camel-pgp-mime.h>
 #include <camel/camel-provider.h>

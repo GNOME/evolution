@@ -1,5 +1,18 @@
 2002-06-26  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* camel-pgp-context.[c,h]: Removed.
+
+	* camel-pgp-mime.c (pgp_mime_part_sign_restore_part): Removed.
+	(pgp_mime_part_sign_prepare_part): Removed.
+	(camel_pgp_mime_part_sign): Removed.
+	(camel_pgp_mime_part_verify): Removed.
+	(camel_pgp_mime_part_encrypt): Removed.
+	(camel_pgp_mime_part_decrypt): Removed.
+	(camel_pgp_mime_is_rfc2015_signed): Documented.
+	(camel_pgp_mime_is_rfc2015_encrypted): Same.
+
+2002-06-26  Jeffrey Stedfast  <fejj@ximian.com>
+
 	* camel-multipart-encrypted.c (camel_multipart_encrypted_encrypt):
 	Oops, this needs to take a userid argument.
 
