@@ -1,5 +1,14 @@
 2004-05-19  Not Zed  <NotZed@Ximian.com>
 
+	* providers/nntp/camel-nntp-folder.c (nntp_folder_get_message):
+	use the article number instead of the messageid.  Some servers are
+	just broken.
+	(nntp_folder_cache_message): same.  See #58655.
+
+	* camel-smime-context.c (sm_verify_cmsg): import the certs as
+	UsageEmailRecipient as well as signer, and also save the certs
+	always.
+
 	** See #58641.
 
 	* camel-vee-folder.c (vee_sync): don't rebuild auto-type vfolders.

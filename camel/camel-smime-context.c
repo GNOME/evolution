@@ -609,8 +609,13 @@ sm_verify_cmsg(CamelCipherContext *context, NSSCMSMessage *cmsg, CamelStream *ex
 				poolp = NULL;
 			}
 
-			/* import the certificates */
-			if (NSS_CMSSignedData_ImportCerts(sigd, p->certdb, certUsageEmailSigner, PR_FALSE) != SECSuccess) {
+			/* import all certificates present */
+			if (NSS_CMSSignedData_ImportCerts(sigd, p->certdb, certUsageEmailSigner, PR_TRUE) != SECSuccess) {
+				camel_exception_set (ex, CAMEL_EXCEPTION_SYSTEM, _("Certificate import failed"));
+				goto fail;
+			}
+
+			if (NSS_CMSSignedData_ImportCerts(sigd, p->certdb, certUsageEmailRecipient, PR_TRUE) != SECSuccess) {
 				camel_exception_set (ex, CAMEL_EXCEPTION_SYSTEM, _("Certificate import failed"));
 				goto fail;
 			}
@@ -618,8 +623,7 @@ sm_verify_cmsg(CamelCipherContext *context, NSSCMSMessage *cmsg, CamelStream *ex
 			/* check for certs-only message */
 			nsigners = NSS_CMSSignedData_SignerInfoCount(sigd);
 			if (nsigners == 0) {
-				/* ?? Should we check other usages? */
-				NSS_CMSSignedData_ImportCerts(sigd, p->certdb, certUsageEmailSigner, PR_TRUE);
+				/* already imported certs above, not sure what usage we should use here or if this isn't handled above */
 				if (NSS_CMSSignedData_VerifyCertsOnly(sigd, p->certdb, certUsageEmailSigner) != SECSuccess) {
 					g_string_printf(description, _("Certificate only message, cannot verify certificates"));
 				} else {

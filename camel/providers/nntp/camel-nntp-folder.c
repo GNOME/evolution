@@ -178,18 +178,21 @@ nntp_folder_cache_message (CamelDiscoFolder *disco_folder, const char *uid, Came
 {
 	CamelNNTPStore *nntp_store = (CamelNNTPStore *)((CamelFolder *) disco_folder)->parent_store;
 	CamelStream *stream;
-	const char *msgid;
-	
-	if (!(msgid = strchr (uid, ','))) {
+	char *article, *msgid;
+
+	article = alloca(strlen(uid)+1);
+	strcpy(article, uid);
+	msgid = strchr(uid, ',');
+	if (!msgid) {
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
 				      _("Internal error: uid in invalid format: %s"), uid);
 		return;
 	}
-	msgid++;
+	*msgid++ = 0;
 	
 	CAMEL_NNTP_STORE_LOCK(nntp_store, command_lock);
 	
-	stream = nntp_folder_download_message ((CamelNNTPFolder *) disco_folder, msgid, ex);
+	stream = nntp_folder_download_message ((CamelNNTPFolder *) disco_folder, article, ex);
 	if (stream) {
 		camel_object_unref (stream);
 	} else {
@@ -210,20 +213,22 @@ nntp_folder_get_message (CamelFolder *folder, const char *uid, CamelException *e
 	CamelNNTPFolder *nntp_folder;
 	CamelStream *stream = NULL;
 	char *line = NULL;
-	const char *msgid;
-	
+	char *article, *msgid;
+
 	nntp_store = (CamelNNTPStore *) folder->parent_store;
 	nntp_folder = (CamelNNTPFolder *) folder;
 	
 	CAMEL_NNTP_STORE_LOCK(nntp_store, command_lock);
-	
+
+	article = alloca(strlen(uid)+1);
+	strcpy(article, uid);
 	msgid = strchr (uid, ',');
 	if (msgid == NULL) {
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
 				      _("Internal error: uid in invalid format: %s"), uid);
 		goto fail;
 	}
-	msgid++;
+	*msgid++ = 0;
 	
 	/* Lookup in cache, NEWS is global messageid's so use a global cache path */
 	stream = camel_data_cache_get (nntp_store->cache, "cache", msgid, NULL);
@@ -233,8 +238,8 @@ nntp_folder_get_message (CamelFolder *folder, const char *uid, CamelException *e
 					     _("This message is not currently available"));
 			goto fail;
 		}
-		
-		stream = nntp_folder_download_message (nntp_folder, msgid, ex);
+
+		stream = nntp_folder_download_message (nntp_folder, article, ex);
 		if (stream == NULL)
 			goto fail;
 	}
