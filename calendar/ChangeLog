@@ -1,3 +1,8 @@
+2004-03-01  Rodrigo Moya <rodrigo@ximian.com>
+
+	* gui/itip-utils.c (comp_server_send): pass the user list and
+	returned icalcomponent to e_cal_send_objects().
+
 2004-03-01  Kidd Wang  <kidd.wang@sun.com>
 
 	* gui/print.c: (print_date_label): ignore the timezone info of all-day

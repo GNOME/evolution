@@ -536,12 +536,12 @@ static gboolean
 comp_server_send (ECalComponentItipMethod method, ECalComponent *comp, ECal *client, 
 		  icalcomponent *zones, GList **users)
 {
-	icalcomponent *top_level;
+	icalcomponent *top_level, *returned_icalcomp = NULL;
 	gboolean retval = TRUE;
 	GError *error = NULL;
 	
 	top_level = comp_toplevel_with_zones (method, comp, client, zones);
-	if (!e_cal_send_objects (client, top_level, &error)) {
+	if (!e_cal_send_objects (client, top_level, &users, &returned_icalcomp, &error)) {
 		/* FIXME Really need a book problem status code */
 		if (error->code != E_CALENDAR_STATUS_OK) {
 			/* FIXME Better error message */
@@ -552,7 +552,9 @@ comp_server_send (ECalComponentItipMethod method, ECalComponent *comp, ECal *cli
 	}
 
 	g_clear_error (&error);
-	
+
+	if (returned_icalcomp)
+		icalcomponent_free (returned_icalcomp);
 	icalcomponent_free (top_level);
 
 	return retval;
