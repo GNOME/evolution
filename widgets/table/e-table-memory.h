@@ -34,12 +34,13 @@ GtkType       e_table_memory_get_type     (void);
 void          e_table_memory_construct    (ETableMemory *etable);
 ETableMemory *e_table_memory_new          (void);
 
-/* node operations */
-void          e_table_memory_node_insert  (ETableMemory *etable,
-					   int           row,
-					   gpointer      node_data);
-gpointer      e_table_memory_node_remove  (ETableMemory *etable,
-					   int           row);
+/* row operations */
+void          e_table_memory_insert  (ETableMemory *etable,
+				      int           row,
+				      gpointer      data);
+gpointer      e_table_memory_remove  (ETableMemory *etable,
+				      int           row);
+void          e_table_memory_clear   (ETableMemory *etable);
 
 /* Freeze and thaw */
 void          e_table_memory_freeze       (ETableMemory *etable);
@@ -48,7 +49,7 @@ gpointer      e_table_memory_get_data     (ETableMemory *etm,
 					   int           row);
 void          e_table_memory_set_data     (ETableMemory *etm,
 					   int           row,
-					   gpointer      node_data);
+					   gpointer      data);
 
 #ifdef __cplusplus
 }

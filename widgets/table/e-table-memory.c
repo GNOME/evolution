@@ -124,9 +124,9 @@ e_table_memory_new (void)
 }
 
 /**
- * e_table_memory_node_get_data:
+ * e_table_memory_get_data:
  * @etmm: 
- * @node: 
+ * @row: 
  * 
  * 
  * 
@@ -142,46 +142,49 @@ e_table_memory_get_data (ETableMemory *etmm, int row)
 }
 
 /**
- * e_table_memory_node_set_data:
+ * e_table_memory_set_data:
  * @etmm: 
- * @node: 
- * @node_data: 
+ * @row: 
+ * @data: 
  * 
  * 
  **/
 void
-e_table_memory_set_data (ETableMemory *etmm, int row, gpointer node_data)
+e_table_memory_set_data (ETableMemory *etmm, int row, gpointer data)
 {
 	g_return_if_fail(row < 0);
 	g_return_if_fail(row > etmm->priv->num_rows);
 
-	etmm->priv->data[row] = node_data;
+	etmm->priv->data[row] = data;
 }
 
 /**
- * e_table_memory_node_insert:
+ * e_table_memory_insert:
  * @table_model: 
  * @parent_path: 
  * @position: 
- * @node_data: 
+ * @data: 
  * 
  * 
  * 
  * Return value: 
  **/
 void
-e_table_memory_node_insert (ETableMemory *etmm,
-			    int row,
-			    gpointer node_data)
+e_table_memory_insert (ETableMemory *etmm,
+		       int row,
+		       gpointer data)
 {
-	g_return_if_fail(row < 0);
+	g_return_if_fail(row < -1);
 	g_return_if_fail(row > etmm->priv->num_rows);
 
 	if (!etmm->priv->frozen)
 		e_table_model_pre_change(E_TABLE_MODEL(etmm));
+
+	if (row == -1)
+		row = etmm->priv->num_rows;
 	etmm->priv->data = g_renew(gpointer, etmm->priv->data, etmm->priv->num_rows + 1);
 	memmove(etmm->priv->data + row + 1, etmm->priv->data + row, (etmm->priv->num_rows - row) * sizeof (gpointer));
-	etmm->priv->data[row] = node_data;
+	etmm->priv->data[row] = data;
 	etmm->priv->num_rows ++;
 	if (!etmm->priv->frozen)
 		e_table_model_row_inserted(E_TABLE_MODEL(etmm), row);
@@ -190,7 +193,7 @@ e_table_memory_node_insert (ETableMemory *etmm,
 
 
 /**
- * e_table_memory_node_remove:
+ * e_table_memory_remove:
  * @etable: 
  * @path: 
  * 
@@ -199,7 +202,7 @@ e_table_memory_node_insert (ETableMemory *etmm,
  * Return value: 
  **/
 gpointer
-e_table_memory_node_remove (ETableMemory *etmm, int row)
+e_table_memory_remove (ETableMemory *etmm, int row)
 {
 	gpointer ret;
 
@@ -214,6 +217,27 @@ e_table_memory_node_remove (ETableMemory *etmm, int row)
 	if (!etmm->priv->frozen)
 		e_table_model_row_deleted(E_TABLE_MODEL(etmm), row);
 	return ret;
+}
+
+/**
+ * e_table_memory_clear:
+ * @etable: 
+ * @path: 
+ * 
+ * 
+ * 
+ * Return value: 
+ **/
+void
+e_table_memory_clear (ETableMemory *etmm)
+{
+	if (!etmm->priv->frozen)
+		e_table_model_pre_change(E_TABLE_MODEL(etmm));
+	g_free(etmm->priv->data);
+	etmm->priv->data = NULL;
+	etmm->priv->num_rows = 0;
+	if (!etmm->priv->frozen)
+		e_table_model_changed(E_TABLE_MODEL(etmm));
 }
 
 /**
