@@ -120,6 +120,8 @@ $(GNOME_CALENDAR_CORBA_GENERATED): gnome-calendar.idl
 
 tlacuache_SOURCES =				\
 	$(GNOME_CALENDAR_CORBA_GENERATED)	\
+	alarm.c	\
+	alarm.h	\
 	cal.c					\
 	cal.h					\
 	cal-backend.c				\
