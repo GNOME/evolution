@@ -56,6 +56,8 @@ evolution_mail_SOURCES =		\
 	mail-identify.c			\
 	mail-local.c			\
 	mail-local.h			\
+	mail-local-storage.c		\
+	mail-local-storage.h		\
 	mail-ops.c			\
 	mail-ops.h			\
 	mail-threads.c			\

@@ -111,6 +111,7 @@ owner_set_cb (EvolutionShellComponent *shell_component,
 {
 	GSList *sources;
 	Evolution_Shell corba_shell;
+	Evolution_LocalStorage corba_local_storage;
 
 	g_print ("evolution-mail: Yeeeh! We have an owner!\n");	/* FIXME */
 	
@@ -132,6 +133,8 @@ owner_set_cb (EvolutionShellComponent *shell_component,
 	mail_load_storages (corba_shell, sources);
 	sources = mail_config_get_news ();
 	mail_load_storages (corba_shell, sources);
+
+	mail_local_storage_startup (shell_client);
 }
 
 static void
