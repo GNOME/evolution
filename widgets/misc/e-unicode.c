@@ -15,6 +15,7 @@
 #include <unicode.h>
 #include <iconv.h>
 #include <gdk/gdk.h>
+#include <gdk/gdkx.h>
 #include "e-unicode.h"
 #include "e-font.h"
 
@@ -214,7 +215,33 @@ e_utf8_from_gtk_string_sized (GtkWidget *widget, const gchar *string, gint bytes
 	g_return_val_if_fail (widget, NULL);
 
 	ic = e_iconv_from_gdk_font (widget->style->font);
-	if (ic == (iconv_t) -1) return NULL;
+	if (ic == (iconv_t) -1) {
+		XFontStruct *xfs;
+		/* If iconv is missing we assume either iso-10646 or iso-8859-1 */
+		xfs = GDK_FONT_XFONT (widget->style->font);
+		if (widget->style->font->type == GDK_FONT_FONTSET || ((xfs->min_byte1 != 0) || (xfs->max_byte1 != 0))) {
+			gint i;
+			guchar * ib, * ob, * new;
+			/* iso-10646 */
+			ib = string;
+			new = ob = g_new (unsigned char, bytes * 6 + 1);
+			for (i = 0; i < (bytes - 1); i += 2) {
+				ob += g_unichar_to_utf8 (ib[i] * 256 + ib[i + 1], ob);
+			}
+			*ob = '\0';
+			return new;
+		} else {
+			gint i;
+			/* iso-8859-1 */
+			ib = string;
+			new = ob = g_new (unsigned char, bytes * 2 + 1);
+			for (i = 0; i < (bytes); i ++) {
+				ob += g_unichar_to_utf8 (ib[i], ob);
+			}
+			*ob = '\0';
+			return new;
+		}
+	}
 
 	ib = string;
 	ibl = bytes;
@@ -265,7 +292,30 @@ e_utf8_to_gtk_string_sized (GtkWidget *widget, const gchar *string, gint bytes)
 	g_return_val_if_fail (widget, NULL);
 
 	ic = e_iconv_to_gdk_font (widget->style->font);
-	if (ic == (iconv_t) -1) return NULL;
+	if (ic == (iconv_t) -1) {
+		XFontStruct *xfs;
+		gboolean twobyte;
+		gint len;
+		const gchar *u;
+		unicode_char_t uc;
+		/* If iconv is missing we assume either iso-10646 or iso-8859-1 */
+		xfs = GDK_FONT_XFONT (widget->style->font);
+		twobyte = (widget->style->font->type == GDK_FONT_FONTSET || ((xfs->min_byte1 != 0) || (xfs->max_byte1 != 0)));
+
+		new = g_new (unsigned char, bytes * 4 + 1);
+		u = string;
+		len = 0;
+
+		while ((u) && (u - string < bytes)) {
+			u = unicode_get_utf8 (u, &uc);
+			if (twobyte) {
+				new[len++] = (uc & 0xff00) >> 8;
+			}
+			new[len++] = uc & 0xff;
+		}
+		new[len] = '\0';
+		return new;
+	}
 
 	ib = string;
 	ibl = bytes;
