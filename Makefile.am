@@ -1,4 +1,4 @@
-SUBDIRS = po macros camel devel-docs
+SUBDIRS = po macros camel
 
 
 

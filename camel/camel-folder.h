@@ -32,6 +32,9 @@ extern "C" {
 #endif /* __cplusplus }*/
 
 #include <gtk/gtk.h>
+
+typedef struct _CamelFolder CamelFolder;
+
 #include "camel-store.h"
 
 #define CAMEL_FOLDER_TYPE     (camel_folder_get_type ())
@@ -49,17 +52,6 @@ typedef enum {
 	FOLDER_OPEN_READ,      /* folder is read only         */ 
 	FOLDER_OPEN_READ_WRITE /* folder is read/write        */ 
 } CamelFolderOpenMode;
-
-#ifndef CAMEL_FOLDER_DEF
-#define CAMEL_FOLDER_DEF 1
-typedef struct _CamelFolder CamelFolder;
-#endif /* CAMEL_FOLDER_DEF */
-
-#ifndef CAMEL_STORE_DEF
-#define CAMEL_STORE_DEF 1
-typedef struct _CamelStore CamelStore;
-#endif /* CAMEL_STORE_DEF */
-
 
 
 

@@ -32,6 +32,9 @@ extern "C" {
 #endif /* __cplusplus }*/
 
 #include <gtk/gtk.h>
+
+typedef struct _CamelStore CamelStore;
+
 #include "camel-folder.h"
 #include "camel-service.h"
 
@@ -40,15 +43,6 @@ extern "C" {
 #define CAMEL_STORE_CLASS(k) (GTK_CHECK_CLASS_CAST ((k), CAMEL_STORE_TYPE, CamelStoreClass))
 #define IS_CAMEL_STORE(o)    (GTK_CHECK_TYPE((o), CAMEL_STORE_TYPE))
 
-#ifndef CAMEL_FOLDER_DEF
-#define CAMEL_FOLDER_DEF 1
-typedef struct _CamelFolder CamelFolder;
-#endif /* CAMEL_FOLDER_DEF */
-
-#ifndef CAMEL_STORE_DEF
-#define CAMEL_STORE_DEF 1
-typedef struct _CamelStore CamelStore;
-#endif /* CAMEL_STORE_DEF */
 
 struct _CamelStore
 {
