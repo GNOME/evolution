@@ -224,72 +224,43 @@ update_calendar_entry_in_repository(GnomePilotConduitStandardAbs *conduit,
 
 static iCalObject *
 ical_from_remote_record(GnomePilotConduitStandardAbs *conduit,
-	       PilotRecord *remote)
+			PilotRecord *remote,
+			iCalObject *in_obj)
 {
-	return NULL;
-}
-
-/* Code blatantly stolen from
- * calendar-pilot-sync.c:
- *   
- * (C) 1999 International GNOME Support
- *
- * Author:
- *   Miguel de Icaza (miguel@gnome-support.com)
- *
- */
-static void
-update_record (GnomePilotConduitStandardAbs *conduit,
-	       PilotRecord *remote)
-{
-	char *vcal_string;
 	iCalObject *obj;
 	int i;
 	struct Appointment a;
+	time_t now;
 
-	g_return_if_fail(remote!=NULL);
+	now = time (NULL);
+
+	g_return_val_if_fail(remote!=NULL,NULL);
 
 	unpack_Appointment(&a,remote->record,remote->length);
 	
-	obj = ical_new (a.note ? a.note : "",
-			g_get_user_name (),
-			a.description ? a.description : "");
-
-	g_message ("calconduit: requesting %ld [%s]\n", remote->ID, a.description);
-	vcal_string = GNOME_Calendar_Repository_get_object_by_pilot_id (calendar, remote->ID, &ev);
-
-	if (ev._major == CORBA_USER_EXCEPTION){
-		time_t now = time (NULL);
-		
-		obj->created = now;
-		obj->last_mod = now;
-		obj->priority = 0;
-		obj->transp = 0;
-		obj->related = NULL;
-		obj->pilot_id = remote->ID;
-		obj->pilot_status = ICAL_PILOT_SYNC_NONE;
-		g_warning (_("\tObject did not exist, creating a new one\n"));
-		CORBA_exception_free(&ev); 
-	} else if(ev._major != CORBA_NO_EXCEPTION) {
-	        g_warning(_("\tError while communicating with calendar server\n"));
-		g_warning("\texception id = %s\n",CORBA_exception_id(&ev));
-		CORBA_exception_free(&ev); 
-		ical_object_destroy (obj); 
-		free_Appointment(&a);
-		return;
-	} else {
-	        g_message ("calconduit: \tFound\n");
-		ical_object_destroy (obj);
-		obj = ical_object_new_from_string (vcal_string);
+	if (in_obj == NULL)
+		obj = ical_new (a.note ? a.note : "",
+				g_get_user_name (),
+				a.description ? a.description : "");
+	else 
+		obj = in_obj;
+	
+	if (a.note) {
+		g_free(obj->comment);
+		obj->comment = g_strdup(a.note);
 	}
-
-	/*
-	  if (obj->pilot_status == ICAL_PILOT_SYNC_MOD){
-	  printf (_("\tObject has been modified on desktop and on the pilot, desktop takes precedence\n"));
-	  ical_object_destroy (obj);
-	  return;
-	  }
-	*/
+	if (a.description) {
+		g_free(obj->summary);
+		obj->summary = g_strdup(a.description);
+	}
+	
+	obj->created = now;
+	obj->last_mod = now;
+	obj->priority = 0;
+	obj->transp = 0;
+	obj->related = NULL;
+	obj->pilot_id = remote->ID;
+	obj->pilot_status = ICAL_PILOT_SYNC_NONE;
 
 	/*
 	 * Begin and end
@@ -312,11 +283,14 @@ update_record (GnomePilotConduitStandardAbs *conduit,
 	obj->dtend = mktime (&a.end);
 
 	/* Special case: daily repetitions are converted to a multi-day event */
+	/* This sucketh, a pilot event scheduled for dailyRepeat, freq 1, end on 
+	   whatever is cleary converted wrong 
 	if (a.repeatType == repeatDaily){
 		time_t newt = time_add_day (obj->dtend, a.repeatFrequency);
 
 		obj->dtend = newt;
 	}
+	*/
 
 	/*
 	 * Alarm
@@ -345,7 +319,7 @@ update_record (GnomePilotConduitStandardAbs *conduit,
 	/*
 	 * Recurrence
 	 */
-	if (a.repeatFrequency && a.repeatType != repeatDaily){
+	if (a.repeatFrequency){
 		obj->recur = g_new0 (Recurrence, 1);
 		
 		switch (a.repeatType){
@@ -354,7 +328,7 @@ update_record (GnomePilotConduitStandardAbs *conduit,
 			 * In the Pilot daily repetitions are actually
 			 * multi-day events
 			 */
-			g_warning ("Should not have got here");
+			obj->recur->type = RECUR_DAILY;
 			break;
 			
 		case repeatMonthlyByDate:
@@ -397,6 +371,8 @@ update_record (GnomePilotConduitStandardAbs *conduit,
 			obj->recur->duration = 0;
 		else
 			obj->recur->_enddate = mktime (&a.repeatEnd);
+
+		obj->recur->interval = a.repeatFrequency;
 	}
 
 	/*
@@ -418,6 +394,58 @@ update_record (GnomePilotConduitStandardAbs *conduit,
 		obj->class = g_strdup ("PUBLIC");
 
 
+	free_Appointment(&a);
+
+	return obj;
+}
+
+/* Code blatantly stolen from
+ * calendar-pilot-sync.c:
+ *   
+ * (C) 1999 International GNOME Support
+ *
+ * Author:
+ *   Miguel de Icaza (miguel@gnome-support.com)
+ *
+ */
+static void
+update_record (GnomePilotConduitStandardAbs *conduit,
+	       PilotRecord *remote)
+{
+	char *vcal_string;
+	iCalObject *obj;
+	struct Appointment a;
+
+	g_return_if_fail(remote!=NULL);
+
+	unpack_Appointment(&a,remote->record,remote->length);
+	
+	obj = ical_new (a.note ? a.note : "",
+			g_get_user_name (),
+			a.description ? a.description : "");
+
+	g_message ("calconduit: requesting %ld [%s]\n", remote->ID, a.description);
+	vcal_string = GNOME_Calendar_Repository_get_object_by_pilot_id (calendar, remote->ID, &ev);
+
+	if (ev._major == CORBA_USER_EXCEPTION){
+
+		g_warning (_("\tObject did not exist, creating a new one\n"));
+		CORBA_exception_free(&ev); 
+		ical_from_remote_record(conduit,remote,obj);
+	} else if(ev._major != CORBA_NO_EXCEPTION) {
+	        g_warning(_("\tError while communicating with calendar server\n"));
+		g_warning("\texception id = %s\n",CORBA_exception_id(&ev));
+		CORBA_exception_free(&ev); 
+		ical_object_destroy (obj); 
+		free_Appointment(&a);
+		return;
+	} else {
+	        g_message ("calconduit: \tFound\n");
+		ical_object_destroy (obj);
+		obj = ical_object_new_from_string (vcal_string);
+		ical_from_remote_record(conduit,remote,obj);
+	}
+
 	/* update record on server */
 	
 	update_calendar_entry_in_repository(conduit,obj);
@@ -430,26 +458,6 @@ update_record (GnomePilotConduitStandardAbs *conduit,
 	g_free(vcal_string);
 }
 
-/*
-static gint
-load_records(GnomePilotConduit *c)
-{
-  char *vcalendar_string;
-  char *error;
-  ConduitData *cd;
-
-  vcalendar_string = 
-    GNOME_Calendar_Repository_get_objects (calendar, &ev);
-
-  cd = GET_DATA(c);
-  g_assert(cd!=NULL);
-  cd->cal = calendar_new("Temporary");
-
-  error = calendar_load_from_memory(cd->cal,vcalendar_string);
-
-  return 0;
-}
-*/
 
 static gint
 pre_sync(GnomePilotConduit *c, GnomePilotDBInfo *dbi) 
@@ -675,18 +683,22 @@ set_status (GnomePilotConduitStandardAbs *conduit,
 		local->ical->pilot_status = ICAL_PILOT_SYNC_NONE;
 		break;
 	case GnomePilotRecordDeleted:
-		local->ical->pilot_status = ICAL_PILOT_SYNC_DEL;
 		break;
 	case GnomePilotRecordNew:
 	case GnomePilotRecordModified:
 		local->ical->pilot_status = ICAL_PILOT_SYNC_MOD;
 		break;	  
 	}
-	GNOME_Calendar_Repository_update_pilot_id(calendar,
-						  local->ical->uid,
-						  local->local.ID,
-						  local->ical->pilot_status,
-						  &ev);
+	
+	if ( status != GnomePilotRecordDeleted) 
+		GNOME_Calendar_Repository_update_pilot_id(calendar,
+							  local->ical->uid,
+							  local->local.ID,
+							  local->ical->pilot_status,
+							  &ev);
+	else
+		GNOME_Calendar_Repository_delete_object(calendar,local->ical->uid,&ev);
+	
 	if (ev._major == CORBA_USER_EXCEPTION){
 		g_message ("calconduit: \tObject did not exist\n");
 		g_warning("\texception id = %s\n",CORBA_exception_id(&ev));
@@ -801,6 +813,7 @@ transmit (GnomePilotConduitStandardAbs *conduit,
 	  gpointer data)
 {
 	PilotRecord *p;
+	int daycount;
 	int x,y;
 
 	g_return_val_if_fail(conduit!=NULL,NULL);
@@ -826,21 +839,57 @@ transmit (GnomePilotConduitStandardAbs *conduit,
 	local->a->advance = 0;
 	local->a->advanceUnits = advMinutes;
 
-	local->a->repeatType = repeatNone;
-	local->a->repeatForever = 0;
-	local->a->repeatEnd = local->a->end;
-	local->a->repeatFrequency = 0;
-	local->a->repeatDay = dom1stSun;
-	local->a->repeatDays[0] = 0;
-	local->a->repeatDays[1] = 0;
-	local->a->repeatDays[2] = 0;
-	local->a->repeatDays[3] = 0;
-	local->a->repeatDays[4] = 0;
-	local->a->repeatDays[5] = 0;
-	local->a->repeatDays[6] = 0;
-	local->a->repeatWeekstart = 0;
-	local->a->exceptions = 0;
-	local->a->exception = NULL;
+	if (local->ical->recur != NULL) {
+		switch (local->ical->recur->type) {
+		case RECUR_DAILY:
+			local->a->repeatType = repeatDaily;
+			break;
+		case RECUR_WEEKLY:
+			local->a->repeatType = repeatWeekly;
+			break;
+		case RECUR_MONTHLY_BY_POS:
+			local->a->repeatType = repeatMonthlyByDate;
+			break;
+		case RECUR_MONTHLY_BY_DAY:
+			local->a->repeatType = repeatMonthlyByDay;
+			break;
+		case RECUR_YEARLY_BY_MONTH:
+			local->a->repeatType = repeatYearly;
+			break;
+		case RECUR_YEARLY_BY_DAY:
+			local->a->repeatType = repeatYearly;
+			break;
+		}
+		if (local->ical->recur->duration == 0) {
+			local->a->repeatForever = 1;
+		} else {
+			local->a->repeatForever = 0;
+			local->a->repeatEnd = *localtime(&local->ical->recur->_enddate);
+		}
+		local->a->repeatFrequency = local->ical->recur->interval; 
+
+
+		for ( daycount=0; daycount<7; daycount++ ) {
+			if (local->ical->recur->weekday & (1 << daycount))
+				local->a->repeatDays[daycount] = 1;
+ 		}
+	} else {
+		local->a->repeatType = repeatNone;
+		local->a->repeatForever = 0;
+		local->a->repeatEnd = local->a->end;
+		local->a->repeatFrequency = 0;
+		local->a->repeatDay = dom1stSun;
+		local->a->repeatDays[0] = 0;
+		local->a->repeatDays[1] = 0;
+		local->a->repeatDays[2] = 0;
+		local->a->repeatDays[3] = 0;
+		local->a->repeatDays[4] = 0;
+		local->a->repeatDays[5] = 0;
+		local->a->repeatDays[6] = 0;
+		local->a->repeatWeekstart = 0;
+		local->a->exceptions = 0;
+		local->a->exception = NULL;
+	}
 
 	/* STOP: don't replace these with g_strdup, since free_Appointment
 	   uses free to deallocte */

@@ -1,7 +1,15 @@
-1999-02-06  Eskil Olsen <deity@eskil.dk>
+1999-09-23  Eskil Olsen <deity@eskil.dk>
+
+	* calendar-conduit.c: better merge of summary/description
+ 	when doing ical_from_remote (update_record), also handles
+	import from gnomecal to pilot better, and on both ways, repeat
+	events are much better now.
+
+1999-09-22  Eskil Olsen <deity@eskil.dk>
+
 	* corba-cal.c: commented out a g_free that glib reported
 	as being a duplicate free.
-	* calendar_conduit.c: got gnomecal->pilot up and runnning.
+	* calendar-conduit.c: got gnomecal->pilot up and runnning.
 
 1999-02-06  Lauris Kaplinski <lauris@ariman.ee>
 
