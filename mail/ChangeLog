@@ -48,7 +48,6 @@
 
 2001-07-06  Peter Williams  <peterw@ximian.com>
 
->>>>>>> 1.1360
 	* mail-callbacks.c (composer_postpone_cb): Don't free the psd here --
 	it will be freed on the "destroy" signal.
 
