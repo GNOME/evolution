@@ -1076,6 +1076,7 @@ tree_drag_motion (ETree *tree,
 		  unsigned int time)
 {
 	EStorageSetView *storage_set_view;
+	EFolder *folder;
 	EStorageSetViewPrivate *priv;
 	EvolutionShellComponentClient *component_client;
 	GNOME_Evolution_ShellComponentDnd_DestinationFolder destination_folder_interface;
@@ -1111,7 +1112,10 @@ tree_drag_motion (ETree *tree,
 	corba_context.possibleActions = convert_gdk_drag_action_to_corba (context->actions);
 	corba_context.suggestedAction = convert_gdk_drag_action_to_corba (context->suggested_action);
 
+	folder = get_folder_at_node (storage_set_view, path);
+	
 	can_handle = GNOME_Evolution_ShellComponentDnd_DestinationFolder_handleMotion (destination_folder_interface,
+										       e_folder_get_physical_uri (folder),
 										       &corba_context,
 										       &suggested_action,
 										       &ev);

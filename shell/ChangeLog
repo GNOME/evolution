@@ -1,3 +1,20 @@
+2001-05-04  Chris Toshok  <toshok@ximian.com>
+
+	* evolution-shell-component-dnd.c
+	(impl_GNOME_Evolution_ShellComponentDnd_DestinationFolder_handleMotion):
+	take a physical_uri and pass it to the callback.
+	(impl_GNOME_Evolution_ShellComponentDnd_DestinationFolder_handleDrop):
+	same.
+
+	* evolution-shell-component-dnd.h: add physical_uri args to the
+	destination folder HandleMotion and HandleDrop types.
+
+	* Evolution-ShellComponentDnd.idl: add "in string physical_uri" to
+	DestinationFolder::handleMotion and DestinationFolder::handleDrop.
+
+	* e-storage-set-view.c (tree_drag_motion): pass the physical uri
+	of the folder to handleMotion.
+
 2001-05-04  Dan Winship  <danw@ximian.com>
 
 	* e-shell-offline-handler.c (update_dialog_clist_hash_foreach,
