@@ -53,10 +53,8 @@ main (int argc, char *argv [])
 	mcheck(blowup);
 #endif
 #endif
-#ifdef ENABLE_NLS
 	bindtextdomain (PACKAGE, EVOLUTION_LOCALEDIR);
 	textdomain (PACKAGE);
-#endif
 
 	g_thread_init( NULL );
 

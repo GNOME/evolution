@@ -1,3 +1,10 @@
+2000-11-30  Gediminas Paulauskas <menesis@delfi.lt>
+
+	* calendar/gui/main.c, executive-summary/component/main.c, mail/main.c,
+	shell/main.c, notes/main.c,
+	addressbook/gui/component/addressbook-factory.c:
+	removed #ifdef ENABLE_NLS/#endif on Miguel's request.
+
 2000-11-29  JP Rosevear  <jpr@helixcode.com>
 
 	* README: Update pilot info
