@@ -1,3 +1,10 @@
+2004-06-03  Radek Doulik  <rodo@ximian.com>
+
+	* e-msg-composer.c (e_msg_composer_show_sig_file): always insert
+	new paragraph for signature
+
+	Fixes #37601
+
 2004-05-27  Jeffrey Stedfast  <fejj@novell.com>
 
 	* mail-composer-errors.xml: s/${0}/{0}/g
