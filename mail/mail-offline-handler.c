@@ -115,6 +115,7 @@ struct _sync_info {
 	int pc;			/* percent complete (0-100) */
 	int lastpc;		/* last percent reported, so we dont overreport */
 	int id;			/* timeout id */
+	GHashTable *table;      /* the hashtable that we're registered in */
 };
 
 static void
@@ -179,6 +180,7 @@ sync_done(const char *uri, void *crap)
 	CORBA_Object_release(info->listener, &ev);
 	CORBA_exception_free(&ev);
 
+	g_hash_table_remove (info->table, info->uri);
 	g_free(info->uri);
 	camel_operation_unref(info->cancel);
 	g_free(info);
@@ -203,6 +205,7 @@ impl_syncFolder (PortableServer_Servant servant,
 	info->uri = g_strdup(folder->physicalUri);
 	info->id = g_timeout_add(500, (GSourceFunc)sync_timeout, info);
 	info->cancel = camel_operation_new(sync_status, info);
+	info->table = priv->sync_table;
 
 	g_hash_table_insert(priv->sync_table, info->uri, info);
 

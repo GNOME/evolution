@@ -1,3 +1,10 @@
+2002-08-01  Peter Williams  <peterw@ximian.com>
+
+	* mail-offline-handler.c (struct _sync_info): Add a GHashTable pointer
+	so we can remove the info once the operation is done.
+	(sync_done): Remove the info from the hash table.
+	(impl_syncFolder): Save the table to which the info was added.
+
 2002-08-05  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* component-factory.c (user_create_new_item_cb): Updated to call
