@@ -2962,47 +2962,6 @@ on_click (ETree *tree, gint row, ETreePath path, gint col, GdkEvent *event, Mess
 	return TRUE;
 }
 
-struct message_list_foreach_data {
-	MessageList *message_list;
-	MessageListForeachFunc callback;
-	gpointer user_data;
-};
-
-static void
-mlfe_callback (ETreePath path, gpointer user_data)
-{
-	struct message_list_foreach_data *mlfe_data = user_data;
-	const char *uid;
-
-	if (e_tree_model_node_is_root (mlfe_data->message_list->model, path))
-		return;
-	
-	uid = get_message_uid (mlfe_data->message_list,
-			       path);
-	if (uid) {
-		mlfe_data->callback (mlfe_data->message_list, uid,
-				     mlfe_data->user_data);
-	} else {
-		/* FIXME: could this the cause of bug #6637 and friends? */
-		g_warning ("I wonder if this could be the cause of bug #6637 and friends?");
-		g_assert_not_reached ();
-	}
-}
-
-void
-message_list_foreach (MessageList *message_list,
-		      MessageListForeachFunc callback,
-		      gpointer user_data)
-{
-	struct message_list_foreach_data mlfe_data;
-	
-	mlfe_data.message_list = message_list;
-	mlfe_data.callback = callback;
-	mlfe_data.user_data = user_data;
-	e_tree_selected_path_foreach (message_list->tree,
-				      mlfe_callback, &mlfe_data);
-}
-
 struct _ml_selected_data {
 	MessageList *ml;
 	GPtrArray *uids;
@@ -3020,6 +2979,19 @@ ml_getselected_cb(ETreePath path, void *user_data)
 	uid = get_message_uid(data->ml, path);
 	g_assert(uid != NULL);
 	g_ptr_array_add(data->uids, g_strdup(uid));
+}
+
+GPtrArray *
+message_list_get_uids(MessageList *ml)
+{
+	struct _ml_selected_data data = {
+		ml,
+		g_ptr_array_new()
+	};
+
+	e_tree_path_foreach(ml->tree, ml_getselected_cb, &data);
+
+	return data.uids;
 }
 
 GPtrArray *

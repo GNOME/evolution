@@ -2631,7 +2631,15 @@ emft_popup_rename_folder (GtkWidget *item, EMFolderTree *emft)
 	prompt = g_strdup_printf (_("Rename the \"%s\" folder to:"), name);
 	while (!done) {
 		new_name = e_request_string (NULL, _("Rename Folder"), prompt, name);
-		if (new_name == NULL || !strcmp (name, new_name)) {
+		if (strchr(new_name, '/') != NULL) {
+			char *tmp;
+
+			tmp = g_strdup_printf(_("The folder name \"%s\" is invalid because it contains the character \"%c\""), new_name, '/');
+			e_error_run((GtkWindow *)gtk_widget_get_toplevel((GtkWidget *)emft),
+				    "mail:no-rename-folder", name, new_name, tmp, NULL);
+			g_free(tmp);
+			done = TRUE;
+		} else if (new_name == NULL || !strcmp (name, new_name)) {
 			/* old name == new name */
 			done = TRUE;
 		} else {
