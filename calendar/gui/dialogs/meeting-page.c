@@ -1307,18 +1307,21 @@ build_etable (MeetingPage *mpage)
 	/* The table itself */
 	priv->model = e_table_simple_new (column_count,
 					  row_count,
+					  append_row,
+
 					  value_at,
 					  set_value_at,
 					  is_cell_editable,
+
+					  NULL,
+					  NULL,
+
 					  duplicate_value,
 					  free_value,
 					  init_value,
 					  value_is_empty,
 					  value_to_string,
 					  mpage);
-	gtk_object_set (GTK_OBJECT (priv->model),
-			"append_row", append_row,
-			NULL);
 	
 	priv->etable = e_table_scrolled_new_from_spec_file (priv->model,
 							    extras, 

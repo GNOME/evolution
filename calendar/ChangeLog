@@ -1,3 +1,8 @@
+2001-09-16  Christopher James Lahey  <clahey@ximian.com>
+
+	* gui/dialogs/meeting-page.c (build_etable): Updated this to match
+	the new ETableSimple interface.
+
 2001-09-14  Ettore Perazzoli  <ettore@ximian.com>
 
 	[Automake 1.5 fixes pointed out by Richard Boulton

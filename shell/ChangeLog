@@ -1,3 +1,8 @@
+2001-09-16  Christopher James Lahey  <clahey@ximian.com>
+
+	* e-storage-set-view.c (etree_get_node_by_id): Made save_id const
+	here.
+
 2001-09-14  Ettore Perazzoli  <ettore@ximian.com>
 
 	[Automake 1.5 fixes pointed out by Richard Boulton

@@ -522,7 +522,7 @@ ml_has_get_node_by_id (ETreeModel *etm, void *data)
  * SimpleTableModel::get_save_id
  */
 static ETreePath
-ml_get_node_by_id (ETreeModel *etm, char *save_id, void *data)
+ml_get_node_by_id (ETreeModel *etm, const char *save_id, void *data)
 {
 	MessageList *ml;
 

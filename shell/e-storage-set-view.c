@@ -1368,7 +1368,7 @@ etree_has_get_node_by_id (ETreeModel *etm, void *data)
 }
 
 static ETreePath
-etree_get_node_by_id (ETreeModel *etm, gchar *save_id, void *model_data)
+etree_get_node_by_id (ETreeModel *etm, const char *save_id, void *model_data)
 {
 	EStorageSetView *storage_set_view;
 	storage_set_view = E_STORAGE_SET_VIEW (model_data);
