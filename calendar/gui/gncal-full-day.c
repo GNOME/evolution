@@ -37,14 +37,15 @@ struct layout_row {
 
 struct drag_info {
 	enum {
-		DRAG_SELECT,
-		DRAG_MOVE,
-		DRAG_SIZE
+		DRAG_NONE,
+		DRAG_SELECT,	/* selecting a range in the main window */
+		DRAG_MOVE,	/* moving a child */
+		DRAG_SIZE	/* resizing a child */
 	} drag_mode;
 
 	Child *child;
-	int new_row;
-	int new_rows_used;
+	int start_row;
+	int rows_used;
 };
 
 
@@ -589,7 +590,7 @@ gncal_full_day_init (GncalFullDay *fullday)
 	fullday->interval = 30; /* 30 minutes by default */
 
 	fullday->children = NULL;
-	fullday->drag_info = g_new (struct drag_info, 1);
+	fullday->drag_info = g_new0 (struct drag_info, 1);
 
 	fullday->up_down_cursor = NULL;
 	fullday->beam_cursor = NULL;
@@ -987,9 +988,9 @@ draw_xor_rect (GncalFullDay *fullday)
 				    widget->style->white_gc,
 				    FALSE,
 				    di->child->x + i,
-				    di->new_row * row_height + i,
+				    di->start_row * row_height + i,
 				    di->child->width - 2 * i - 1,
-				    di->new_rows_used * row_height - 2 * i - 2);
+				    di->rows_used * row_height - 2 * i - 2);
 
 	gdk_gc_set_function (widget->style->white_gc, GDK_COPY);
 	gdk_gc_set_subwindow (widget->style->white_gc, GDK_CLIP_BY_CHILDREN);
@@ -1039,6 +1040,7 @@ gncal_full_day_button_press (GtkWidget *widget, GdkEventButton *event)
 	int xthickness, ythickness;
 	int width, height;
 	int xpos, ypos;
+	int row_height;
 
 	g_return_val_if_fail (widget != NULL, FALSE);
 	g_return_val_if_fail (GNCAL_IS_FULL_DAY (widget), FALSE);
@@ -1089,10 +1091,12 @@ gncal_full_day_button_press (GtkWidget *widget, GdkEventButton *event)
 		else
 			di->drag_mode = DRAG_SIZE;
 
+		row_height = calc_row_height (fullday);
+
 		di->child = child;
 
-		di->new_y = child->y;
-		di->new_height = child->height;
+		di->start_row = get_row_from_y (fullday, child->y, FALSE);
+		di->rows_used = child->height / row_height;
 
 		gdk_pointer_grab (child->window, FALSE,
 				  (GDK_BUTTON_MOTION_MASK
@@ -1111,43 +1115,48 @@ gncal_full_day_button_press (GtkWidget *widget, GdkEventButton *event)
 static void
 recompute_motion (GncalFullDay *fullday, int y)
 {
-	GtkWidget *widget;
 	struct drag_info *di;
-	int rows, row_height;
-	int ythickness;
-
-	widget = GTK_WIDGET (fullday);
-
-	get_tm_range (fullday, fullday->lower, fullday->upper, NULL, NULL, NULL, &rows);
-
-	ythickness = widget->style->klass->ythickness;
-
-	row_height = calc_row_height (fullday);
-
-	y -= ythickness;
-	y = (y + row_height / 2) / row_height; /* round to nearest bound */
-	y = y * row_height + ythickness;
+	int f_rows;
+	int row;
 
 	di = fullday->drag_info;
 
-	switch (di->drag_mode) {
-	case DRAG_MOVE:
-		if (y < ythickness)
-			y = ythickness;
-		else if (y >= (ythickness + rows * row_height - di->new_height))
-			y = ythickness + rows * row_height - di->new_height;
+	get_tm_range (fullday, fullday->lower, fullday->upper, NULL, NULL, NULL, &f_rows);
 
-		di->new_y = y;
+	switch (di->drag_mode) {
+	case DRAG_SELECT:
+		row = get_row_from_y (fullday, y, FALSE);
+
+		if (row >= f_rows)
+			row = f_rows - 1;
+
+		if (row < di->start_row) {
+			di->rows_used = di->start_row - row + 1;
+			di->start_row = row;
+		} else
+			di->rows_used = row - di->start_row + 1;
 
 		break;
-		
-	case DRAG_SIZE:
-		if (y <= di->child->y)
-			y = di->child->y + row_height;
-		else if (y >= (ythickness + rows * row_height))
-			y = ythickness + rows * row_height;
 
-		di->new_height = y - di->new_y;
+	case DRAG_MOVE:
+		row = get_row_from_y (fullday, y, FALSE);
+
+		if (row > (f_rows - di->rows_used))
+			row = f_rows - di->rows_used;
+
+		di->start_row = row;
+
+		break;
+
+	case DRAG_SIZE:
+		row = get_row_from_y (fullday, y, TRUE);
+
+		if (row <= di->start_row)
+			row = di->start_row + 1;
+		else if (row > f_rows)
+			row = f_rows;
+
+		di->rows_used = row - di->start_row;
 
 		break;
 
@@ -1163,23 +1172,19 @@ update_from_drag_info (GncalFullDay *fullday)
 	GtkWidget *widget;
 	struct tm tm;
 	int row_height;
-	int start_row, used_rows;
 
 	di = fullday->drag_info;
 
 	widget = GTK_WIDGET (fullday);
 
-	get_tm_range (fullday, fullday->lower, fullday->upper, &tm, NULL, NULL, &f_rows);
+	get_tm_range (fullday, fullday->lower, fullday->upper, &tm, NULL, NULL, NULL);
 
 	row_height = calc_row_height (fullday);
 
-	start_row = (di->new_y - widget->style->klass->ythickness) / row_height;
-	used_rows = di->new_height / row_height;
-
-	tm.tm_min += fullday->interval * start_row;
+	tm.tm_min += fullday->interval * di->start_row;
 	di->child->ico->dtstart = mktime (&tm);
 
-	tm.tm_min += fullday->interval * used_rows;
+	tm.tm_min += fullday->interval * di->rows_used;
 	di->child->ico->dtend = mktime (&tm);
 
 	child_range_changed (fullday, di->child);

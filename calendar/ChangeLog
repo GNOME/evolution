@@ -1,5 +1,7 @@
 1998-04-09  Federico Mena Quintero  <federico@nuclecu.unam.mx>
 
+	* gncal-full-day.c: #include <string.h>
+
 	* gncal-full-day.c (child_map): Show instead of just map the child
 	widget (otherwise the text widget gets confused and will not focus).
 
