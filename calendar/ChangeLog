@@ -3,7 +3,8 @@
 	Really fixes #4380.  The previous fix was necessary but not
 	sufficient; it worked for me because my system timezone happens to
 	match the Evolution timezone --- if they don't match, the bug
-	would persist.
+	would persist.  Not matching is *not* an error; it is just a
+	matter of Unix sucking a lot and XST not being finished :)
 
 	* cal-util/timeutil.c (time_to_gdate_with_zone): New function.  We
 	cannot use g_date_set_time() anymore because it does not take
