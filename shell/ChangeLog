@@ -1,5 +1,10 @@
 2002-11-11  Ettore Perazzoli  <ettore@ximian.com>
 
+	* e-storage-set-view.c (impl_finalize): Protect against
+	priv->checkboxes being NULL.
+
+2002-11-11  Ettore Perazzoli  <ettore@ximian.com>
+
 	* e-component-registry.c: Make separate dispose/finalize overrides
 	of just overriding destroy.
 	* e-corba-config-page.c: Likewise.

@@ -882,8 +882,10 @@ impl_finalize (GObject *object)
 	g_hash_table_foreach (priv->type_name_to_pixbuf, pixbuf_free_func, NULL);
 	g_hash_table_destroy (priv->type_name_to_pixbuf);
 
-	g_hash_table_foreach (priv->checkboxes, (GHFunc) g_free, NULL);
-	g_hash_table_destroy (priv->checkboxes);
+	if (priv->checkboxes != NULL) {
+		g_hash_table_foreach (priv->checkboxes, (GHFunc) g_free, NULL);
+		g_hash_table_destroy (priv->checkboxes);
+	}
 
 	if (priv->drag_corba_source_context != NULL)
 		CORBA_free (priv->drag_corba_source_context);
