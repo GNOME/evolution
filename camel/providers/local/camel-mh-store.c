@@ -38,6 +38,8 @@
 #include <camel/camel-stream-fs.h>
 #include <camel/camel-stream-buffer.h>
 
+#include "camel-mh-summary.h"
+
 static CamelLocalStoreClass *parent_class = NULL;
 
 #define d(x)
@@ -290,35 +292,57 @@ rename_folder(CamelStore *store, const char *old, const char *new, CamelExceptio
 	}
 }
 
-static CamelFolderInfo *folder_info_new(CamelStore *store, const char *root, const char *path)
+static void
+fill_fi(CamelStore *store, CamelFolderInfo *fi, guint32 flags)
+{
+	CamelFolder *folder;
+
+	folder = camel_object_bag_get(store->folders, fi->full_name);
+	if (folder) {
+		if ((flags & CAMEL_STORE_FOLDER_INFO_FAST) == 0)
+			camel_folder_refresh_info(folder, NULL);
+		fi->unread = camel_folder_get_unread_message_count(folder);
+		fi->total = camel_folder_get_message_count(folder);
+		camel_object_unref(folder);
+	} else {
+		char *path, *folderpath;
+		CamelFolderSummary *s;
+		const char *root;
+
+		/* This should be fast enough not to have to test for INFO_FAST */
+
+		/* We could: if we have no folder, and FAST isn't specified, perform a full
+		   scan of all messages for their status flags.  But its probably not worth
+		   it as we need to read the top of every file, i.e. very very slow */
+
+		root = camel_local_store_get_toplevel_dir((CamelLocalStore *)store);
+		path = g_strdup_printf("%s/%s.ev-summary", root, fi->full_name);
+		folderpath = g_strdup_printf("%s/%s", root, fi->full_name);
+		s = (CamelFolderSummary *)camel_mh_summary_new(path, folderpath, NULL);
+		if (camel_folder_summary_header_load(s) != -1) {
+			fi->unread = s->unread_count;
+			fi->total = s->saved_count;
+		}
+		camel_object_unref(s);
+		g_free(folderpath);
+		g_free(path);
+	}
+}
+
+static CamelFolderInfo *folder_info_new(CamelStore *store, const char *root, const char *path, guint32 flags)
 {
 	CamelFolderInfo *fi;
 	char *base;
-	CamelFolder *folder;
 
 	base = strrchr(path, '/');
 
 	/* Build the folder info structure. */
 	fi = g_malloc0(sizeof(*fi));
-	fi->url = g_strdup_printf("mh:%s#%s", root, path);
+	fi->uri = g_strdup_printf("mh:%s#%s", root, path);
 	fi->full_name = g_strdup(path);
 	fi->name = g_strdup(base?base+1:path);
-	fi->unread_message_count = 0;
-
-	/* check unread count if open */
-	folder = camel_object_bag_get(store->folders, path);
-	if (folder) {
-		if ((((CamelMhStore *)store)->flags & CAMEL_STORE_FOLDER_INFO_FAST) == 0)
-			camel_folder_refresh_info(folder, NULL);
-		fi->unread_message_count = camel_folder_get_unread_message_count(folder);
-		camel_object_unref(folder);
-	}
-
-	/* We could: if we have no folder, and FAST isn't specified, perform a full
-	   scan of all messages for their status flags.  But its probably not worth
-	   it as we need to read the top of every file, i.e. very very slow */
-
 	camel_folder_info_build_path(fi, '/');
+	fill_fi(store, fi, flags);
 
 	d(printf("New folderinfo:\n '%s'\n '%s'\n '%s'\n", fi->full_name, fi->url, fi->path));
 
@@ -333,7 +357,7 @@ struct _inode {
 
 /* Scan path, under root, for directories to add folders for.  Both
  * root and path should have a trailing "/" if they aren't empty. */
-static void recursive_scan(CamelStore *store, CamelFolderInfo **fip, CamelFolderInfo *parent, GHashTable *visited, const char *root, const char *path)
+static void recursive_scan(CamelStore *store, CamelFolderInfo **fip, CamelFolderInfo *parent, GHashTable *visited, const char *root, const char *path, guint32 flags)
 {
 	char *fullpath, *tmp;
 	DIR *dp;
@@ -364,12 +388,12 @@ static void recursive_scan(CamelStore *store, CamelFolderInfo **fip, CamelFolder
 	g_hash_table_insert(visited, inew, inew);
 
 	/* link in ... */
-	fi = folder_info_new(store, root, path);
+	fi = folder_info_new(store, root, path, flags);
 	fi->parent = parent;
-	fi->sibling = *fip;
+	fi->next = *fip;
 	*fip = fi;
 
-	if ((( ((CamelMhStore *)store)->flags & CAMEL_STORE_FOLDER_INFO_RECURSIVE) || parent == NULL)) {
+	if (((flags & CAMEL_STORE_FOLDER_INFO_RECURSIVE) || parent == NULL)) {
 		/* now check content for possible other directories */
 		dp = opendir(fullpath);
 		if (dp == NULL)
@@ -390,10 +414,10 @@ static void recursive_scan(CamelStore *store, CamelFolderInfo **fip, CamelFolder
 			/* otherwise, treat at potential node, and recurse, a bit more expensive than needed, but tough! */
 			if (path[0]) {
 				tmp = g_strdup_printf("%s/%s", path, d->d_name);
-				recursive_scan(store, &fi->child, fi, visited, root, tmp);
+				recursive_scan(store, &fi->child, fi, visited, root, tmp, flags);
 				g_free(tmp);
 			} else {
-				recursive_scan(store, &fi->child, fi, visited, root, d->d_name);
+				recursive_scan(store, &fi->child, fi, visited, root, d->d_name, flags);
 			}
 		}
 
@@ -403,7 +427,7 @@ static void recursive_scan(CamelStore *store, CamelFolderInfo **fip, CamelFolder
 
 /* scan a .folders file */
 static void
-folders_scan(CamelStore *store, const char *root, const char *top, CamelFolderInfo **fip)
+folders_scan(CamelStore *store, const char *root, const char *top, CamelFolderInfo **fip, guint32 flags)
 {
 	CamelFolderInfo *fi;
 	char  line[512], *path, *tmp;
@@ -452,7 +476,7 @@ folders_scan(CamelStore *store, const char *root, const char *top, CamelFolderIn
 				continue;
 		
 			/* check is not sub-subdir if not recursive */
-			if (( ((CamelMhStore *)store)->flags & CAMEL_STORE_FOLDER_INFO_RECURSIVE) == 0
+			if ((flags & CAMEL_STORE_FOLDER_INFO_RECURSIVE) == 0
 			    && (tmp = strrchr(line, '/'))
 			    && tmp > line+toplen)
 				continue;
@@ -466,7 +490,7 @@ folders_scan(CamelStore *store, const char *root, const char *top, CamelFolderIn
 
 		path = g_strdup_printf("%s/%s", root, line);
 		if (stat(path, &st) == 0 && S_ISDIR(st.st_mode)) {
-			fi = folder_info_new(store, root, line);
+			fi = folder_info_new(store, root, line, flags);
 			g_ptr_array_add(folders, fi);
 		}
 		g_free(path);
@@ -512,14 +536,14 @@ get_folder_info (CamelStore *store, const char *top, guint32 flags, CamelExcepti
 	
 	/* use .folders if we are supposed to */
 	if (((CamelMhStore *)store)->flags & CAMEL_MH_DOTFOLDERS) {
-		folders_scan(store, root, top, &fi);
+		folders_scan(store, root, top, &fi, flags);
 	} else {
 		GHashTable *visited = g_hash_table_new(inode_hash, inode_equal);
 
 		if (top == NULL)
 			top = "";
 
-		recursive_scan(store, &fi, NULL, visited, root, top);
+		recursive_scan(store, &fi, NULL, visited, root, top, flags);
 
 		/* if we actually scanned from root, we have a "" root node we dont want */
 		if (fi != NULL && top[0] == 0) {

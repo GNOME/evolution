@@ -313,8 +313,8 @@ camel_local_folder_construct(CamelLocalFolder *lf, CamelStore *parent_store, con
 	fi = g_new0 (CamelFolderInfo, 1);
 	fi->full_name = g_strdup (full_name);
 	fi->name = g_strdup (name);
-	fi->url = g_strdup_printf("%s:%s#%s", ((CamelService *)parent_store)->url->protocol, ((CamelService *)parent_store)->url->path, full_name);
-	fi->unread_message_count = camel_folder_get_unread_message_count(folder);
+	fi->uri = g_strdup_printf("%s:%s#%s", ((CamelService *)parent_store)->url->protocol, ((CamelService *)parent_store)->url->path, full_name);
+	fi->unread = camel_folder_get_unread_message_count(folder);
 	camel_folder_info_build_path(fi, '/');
 
 	camel_object_trigger_event(CAMEL_OBJECT (parent_store), "folder_created", fi);

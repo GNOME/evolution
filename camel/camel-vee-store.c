@@ -142,10 +142,13 @@ change_folder(CamelStore *store, const char *name, guint32 flags, int count)
 	if (flags & CHANGE_NOSELECT)
 		camel_url_set_param(url, "noselect", "yes");
 	camel_url_set_fragment(url, name);
-	fi->url = camel_url_to_string(url, 0);
+	fi->uri = camel_url_to_string(url, 0);
 	camel_url_free(url);
 	/*fi->url = g_strdup_printf("vfolder:%s%s#%s", ((CamelService *)store)->url->path, (flags&CHANGE_NOSELECT)?";noselect=yes":"", name);*/
-	fi->unread_message_count = count;
+	fi->unread = count;
+	fi->flags = CAMEL_FOLDER_VIRTUAL;
+	if (flags & CHANGE_ADD)
+		fi->flags |= CAMEL_FOLDER_NOCHILDREN;
 	camel_folder_info_build_path(fi, '/');
 	camel_object_trigger_event(store, (flags&CHANGE_DELETE)?"folder_deleted":"folder_created", fi);
 	camel_folder_info_free(fi);
@@ -260,15 +263,15 @@ vee_get_folder_info(CamelStore *store, const char *top, guint32 flags, CamelExce
 			url = camel_url_new("vfolder:", NULL);
 			camel_url_set_path(url, ((CamelService *)((CamelFolder *)folder)->parent_store)->url->path);
 			camel_url_set_fragment(url, ((CamelFolder *)folder)->full_name);
-			info->url = camel_url_to_string(url, 0);
+			info->uri = camel_url_to_string(url, 0);
 			camel_url_free(url);
 /*
 			info->url = g_strdup_printf("vfolder:%s#%s", ((CamelService *)((CamelFolder *)folder)->parent_store)->url->path,
 			((CamelFolder *)folder)->full_name);*/
 			info->full_name = g_strdup(((CamelFolder *)folder)->full_name);
 			info->name = g_strdup(((CamelFolder *)folder)->name);
-			info->unread_message_count = camel_folder_get_unread_message_count((CamelFolder *)folder);
-			info->flags = CAMEL_FOLDER_NOCHILDREN;
+			info->unread = camel_folder_get_unread_message_count((CamelFolder *)folder);
+			info->flags = CAMEL_FOLDER_NOCHILDREN|CAMEL_FOLDER_VIRTUAL;
 			camel_folder_info_build_path(info, '/');
 			g_hash_table_insert(infos_hash, info->full_name, info);
 
@@ -301,9 +304,9 @@ vee_get_folder_info(CamelStore *store, const char *top, guint32 flags, CamelExce
 		}
 
 		if (info && tail) {
-			while (tail->sibling)
-				tail = tail->sibling;
-			tail->sibling = info;
+			while (tail->next)
+				tail = tail->next;
+			tail->next = info;
 			info->parent = pinfo;
 		}
 
@@ -319,22 +322,22 @@ vee_get_folder_info(CamelStore *store, const char *top, guint32 flags, CamelExce
 		url = camel_url_new("vfolder:", NULL);
 		camel_url_set_path(url, ((CamelService *)store)->url->path);
 		camel_url_set_fragment(url, CAMEL_UNMATCHED_NAME);
-		info->url = camel_url_to_string(url, 0);
+		info->uri = camel_url_to_string(url, 0);
 		camel_url_free(url);
 		/*info->url = g_strdup_printf("vfolder:%s#%s", ((CamelService *)store)->url->path, CAMEL_UNMATCHED_NAME);*/
 		info->full_name = g_strdup(CAMEL_UNMATCHED_NAME);
 		info->name = g_strdup(CAMEL_UNMATCHED_NAME);
-		info->unread_message_count = -1;
-		info->flags = CAMEL_FOLDER_NOCHILDREN|CAMEL_FOLDER_NOINFERIORS;
+		info->unread = -1;
+		info->flags = CAMEL_FOLDER_NOCHILDREN|CAMEL_FOLDER_NOINFERIORS|CAMEL_FOLDER_SYSTEM|CAMEL_FOLDER_VIRTUAL;
 		camel_folder_info_build_path(info, '/');
 
 		if (res == NULL)
 			res = info;
 		else {
 			tail = res;
-			while (tail->sibling)
-				tail = tail->sibling;
-			tail->sibling = info;
+			while (tail->next)
+				tail = tail->next;
+			tail->next = info;
 		}
 	}
 

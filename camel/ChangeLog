@@ -1,3 +1,51 @@
+2004-03-11  Not Zed  <NotZed@Ximian.com>
+
+	* providers/imap/camel-imap-store.c (get_one_folder_offline): 
+	(parse_list_response_as_folder_info): turn
+	off NOINFERIORS always, translate to nochildren.
+
+2004-03-08  Not Zed  <NotZed@Ximian.com>
+
+	* camel-vee-store.c (vee_get_folder_info): setup virtual/system
+	flags as appropriate.
+	(change_folder): setup flags properly.
+
+	* providers/nntp/camel-nntp-store.c
+	(nntp_store_get_subscribed_folder_info): mark all folders as
+	system folders.
+
+	* providers/local/camel-mh-store.c (fill_fi): add this to setup
+	folderinfo.
+	(folder_info_new): call fill_fi to fill unread/total.
+	(recursive_scan, folders_scan): ahh yeah, so wtf was i thinking,
+	store->flags != get_folder_info flags!!!!
+
+	* providers/local/camel-maildir-store.c (camel_folder_info_new):
+	remove unread count arg & setup total.
+	(fill_fi): setup total field.
+	(scan_dir): remove the code that checked the directory directly -
+	use fill_fi instead.  It will more accurately reflect what you get
+	when you visit the folder.
+	(camel_folder_info_new): mark "." as a system folder.
+	(scan_dir): try to setup children/no children flags properly.
+
+	* providers/local/camel-mbox-store.c (fill_fi): setup total field.
+	(scan_dir): init total.
+	(get_folder_info): "
+
+2004-03-05  Not Zed  <NotZed@Ximian.com>
+
+	* providers/imap/camel-imap-store.c
+	(parse_list_response_as_folder_info): mark INBOX as a system
+	folder.  Can't be renamed/deleted.
+	(fill_fi): setup total field.
+	(get_folder_counts): ditto.
+
+	* camel-store.c (add_special_info): set the system folder flag.
+
+	* camel-store.h: time to fix up the camelfolderinfo mess.  fix
+	some member names, and add some type fields.  Fixed all uses.
+
 2004-03-04  Not Zed  <NotZed@Ximian.com>
 
 	** See bug #53355.

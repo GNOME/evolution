@@ -540,12 +540,16 @@ folders_build_info(CamelURL *base, struct _list_info *li)
 	camel_url_set_path(base, path);
 
 	fi = g_malloc0(sizeof(*fi));
-	fi->url = camel_url_to_string(base, CAMEL_URL_HIDE_ALL);
+	fi->uri = camel_url_to_string(base, CAMEL_URL_HIDE_ALL);
 	fi->name = g_strdup(name);
 	fi->full_name = full_name;
 	fi->path = g_strdup(path);
-	fi->unread_message_count = -1;
+	fi->unread = -1;
+	fi->total = -1;
 	fi->flags = li->flags;
+
+	if (!g_ascii_strcasecmp(fi->full_name, "inbox"))
+		fi->flags |= CAMEL_FOLDER_SYSTEM;
 
 	/* TODO: could look up count here ... */
 	/* ?? */
@@ -616,7 +620,7 @@ folders_build_rec(CamelURL *base, GPtrArray *folders, int *ip, CamelFolderInfo *
 		fi = folders_build_info(base, li);
 		fi->parent = pfi;
 		if (last != NULL)
-			last->sibling = fi;
+			last->next = fi;
 		last = fi;
 		if (first == NULL)
 			first = fi;
@@ -638,10 +642,10 @@ folder_info_dump(CamelFolderInfo *fi, int depth)
 	memset(s, ' ', depth);
 	s[depth] = 0;
 	while (fi) {
-		printf("%s%s (%s)\n", s, fi->name, fi->url);
+		printf("%s%s (%s)\n", s, fi->name, fi->uri);
 		if (fi->child)
 			folder_info_dump(fi->child, depth+2);
-		fi = fi->sibling;
+		fi = fi->next;
 	}
 	
 }

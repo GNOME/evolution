@@ -687,14 +687,14 @@ add_special_info (CamelStore *store, CamelFolderInfo *info, const char *name, co
 	g_return_if_fail (info != NULL);
 	
 	parent = NULL;
-	for (fi = info; fi; fi = fi->sibling) {
+	for (fi = info; fi; fi = fi->next) {
 		if (!strcmp (fi->name, name))
 			break;
 		parent = fi;
 	}
 	
 	/* create our vTrash/vJunk URL */
-	url = camel_url_new (info->url, NULL);
+	url = camel_url_new (info->uri, NULL);
 	if (((CamelService *) store)->provider->url_flags & CAMEL_URL_FRAGMENT_IS_PATH) {
 		camel_url_set_fragment (url, name);
 	} else {
@@ -711,7 +711,7 @@ add_special_info (CamelStore *store, CamelFolderInfo *info, const char *name, co
 		vinfo = fi;
 		g_free (vinfo->full_name);
 		g_free (vinfo->name);
-		g_free (vinfo->url);
+		g_free (vinfo->uri);
 		g_free (vinfo->path);
 	} else {
 		/* There wasn't a Trash/Junk folder so create a new folder entry */
@@ -722,17 +722,17 @@ add_special_info (CamelStore *store, CamelFolderInfo *info, const char *name, co
 		vinfo->flags |= CAMEL_FOLDER_NOINFERIORS | CAMEL_FOLDER_SUBSCRIBED;
 		
 		/* link it into the right spot */
-		vinfo->sibling = parent->sibling;
-		parent->sibling = vinfo;
+		vinfo->next = parent->next;
+		parent->next = vinfo;
 	}
 	
 	/* Fill in the new fields */
-	vinfo->flags |= CAMEL_FOLDER_VIRTUAL;
+	vinfo->flags |= CAMEL_FOLDER_VIRTUAL|CAMEL_FOLDER_SYSTEM|CAMEL_FOLDER_VTRASH;
 	vinfo->full_name = g_strdup (full_name);
 	vinfo->name = g_strdup (vinfo->full_name);
-	vinfo->url = uri;
+	vinfo->uri = uri;
 	if (!unread_count)
-		vinfo->unread_message_count = -1;
+		vinfo->unread = -1;
 	vinfo->path = g_strdup_printf ("/%s", vinfo->name);
 }
 
@@ -775,9 +775,9 @@ camel_store_get_folder_info(CamelStore *store, const char *top, guint32 flags, C
 	CAMEL_STORE_UNLOCK(store, folder_lock);
 	
 	if (info && (top == NULL || *top == '\0') && (flags & CAMEL_STORE_FOLDER_INFO_NO_VIRTUAL) == 0) {
-		if (info->url && (store->flags & CAMEL_STORE_VTRASH))
+		if (info->uri && (store->flags & CAMEL_STORE_VTRASH))
 			add_special_info (store, info, CAMEL_VTRASH_NAME, _("Trash"), FALSE);
-		if (info->url && (store->flags & CAMEL_STORE_VJUNK))
+		if (info->uri && (store->flags & CAMEL_STORE_VJUNK))
 			add_special_info (store, info, CAMEL_VJUNK_NAME, _("Junk"), TRUE);
 	}
 	
@@ -844,12 +844,12 @@ void
 camel_folder_info_free (CamelFolderInfo *fi)
 {
 	if (fi) {
-		camel_folder_info_free (fi->sibling);
+		camel_folder_info_free (fi->next);
 		camel_folder_info_free (fi->child);
 		g_free (fi->name);
 		g_free (fi->full_name);
 		g_free (fi->path);
-		g_free (fi->url);
+		g_free (fi->uri);
 		g_free (fi);
 	}
 }
@@ -983,7 +983,7 @@ camel_folder_info_build (GPtrArray *folders, const char *namespace,
 					pfi->name = g_strdup (pname);
 
 				/* FIXME: url's with fragments should have the fragment truncated, not path */
-				url = camel_url_new (fi->url, NULL);
+				url = camel_url_new (fi->uri, NULL);
 				sep = strrchr (url->path, separator);
 				if (sep)
 					*sep = '\0';
@@ -994,7 +994,7 @@ camel_folder_info_build (GPtrArray *folders, const char *namespace,
 
 				/* since this is a "fake" folder node, it is not selectable */
 				camel_url_set_param (url, "noselect", "yes");
-				pfi->url = camel_url_to_string (url, 0);
+				pfi->uri = camel_url_to_string (url, 0);
 				camel_url_free (url);
 
 				g_hash_table_insert (hash, pname, pfi);
@@ -1004,9 +1004,9 @@ camel_folder_info_build (GPtrArray *folders, const char *namespace,
 			if (tail == NULL) {
 				pfi->child = fi;
 			} else {
-				while (tail->sibling)
-					tail = tail->sibling;
-				tail->sibling = fi;
+				while (tail->next)
+					tail = tail->next;
+				tail->next = fi;
 			}
 			fi->parent = pfi;
 		} else if (!top)
@@ -1025,7 +1025,7 @@ camel_folder_info_build (GPtrArray *folders, const char *namespace,
 			tail = fi;
 			top = fi;
 		} else {
-			tail->sibling = fi;
+			tail->next = fi;
 			tail = fi;
 		}
 	}
@@ -1039,17 +1039,17 @@ static CamelFolderInfo *folder_info_clone_rec(CamelFolderInfo *fi, CamelFolderIn
 
 	info = g_malloc(sizeof(*info));
 	info->parent = parent;
-	info->url = g_strdup(fi->url);
+	info->uri = g_strdup(fi->uri);
 	info->name = g_strdup(fi->name);
 	info->full_name = g_strdup(fi->full_name);
 	info->path = g_strdup(fi->path);
-	info->unread_message_count = fi->unread_message_count;
+	info->unread = fi->unread;
 	info->flags = fi->flags;
 	
-	if (fi->sibling)
-		info->sibling = folder_info_clone_rec(fi->sibling, parent);
+	if (fi->next)
+		info->next = folder_info_clone_rec(fi->next, parent);
 	else
-		info->sibling = NULL;
+		info->next = NULL;
 
 	if (fi->child)
 		info->child = folder_info_clone_rec(fi->child, info);

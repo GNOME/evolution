@@ -228,7 +228,7 @@ delete_folder(CamelStore *store, const char *folder_name, CamelException *ex)
 static void free_folder_info (CamelStore *store, CamelFolderInfo *fi)
 {
 	if (fi) {
-		g_free(fi->url);
+		g_free(fi->uri);
 		g_free(fi->name);
 		g_free(fi->full_name);
 		g_free(fi->path);
@@ -242,10 +242,10 @@ camel_folder_info_new(const char *url, const char *full, const char *name, int u
 	CamelFolderInfo *fi;
 
 	fi = g_malloc0(sizeof(*fi));
-	fi->url = g_strdup(url);
+	fi->uri = g_strdup(url);
 	fi->full_name = g_strdup(full);
 	fi->name = g_strdup(name);
-	fi->unread_message_count = unread;
+	fi->unread = unread;
 	camel_folder_info_build_path(fi, '/');
 
 	d(printf("Adding spoold info: '%s' '%s' '%s' '%s'\n", fi->path, fi->name, fi->full_name, fi->url));
@@ -303,7 +303,7 @@ static int scan_dir(CamelStore *store, GHashTable *visited, char *root, const ch
 			uri = g_strdup_printf("%s:%s#%s", ((CamelService *)store)->url->protocol, root, path);
 			fi = camel_folder_info_new(uri, path, tmp, unread);
 			fi->parent = parent;
-			fi->sibling = *fip;
+			fi->next = *fip;
 			*fip = fi;
 			g_free(uri);
 		}
@@ -327,7 +327,7 @@ static int scan_dir(CamelStore *store, GHashTable *visited, char *root, const ch
 			tmp++;
 		fi = camel_folder_info_new(uri, path, tmp, -1);
 		fi->parent = parent;
-		fi->sibling = *fip;
+		fi->next = *fip;
 		*fip = fi;
 		g_free(uri);
 	
@@ -376,7 +376,7 @@ static int scan_dir(CamelStore *store, GHashTable *visited, char *root, const ch
 					uri = g_strdup_printf("%s:%s#%s", ((CamelService *)store)->url->protocol, root, fname);
 					fi = camel_folder_info_new(uri, fname, d->d_name, unread);
 					fi->parent = parent;
-					fi->sibling = *fip;
+					fi->next = *fip;
 					*fip = fi;
 					g_free(uri);
 				}
@@ -458,14 +458,14 @@ get_folder_info_mbox(CamelStore *store, const char *top, guint32 flags, CamelExc
 		fi = g_malloc0(sizeof(*fi));
 		fi->full_name = g_strdup("INBOX");
 		fi->name = g_strdup("INBOX");
-		fi->url = g_strdup_printf("%s:%s#%s", service->url->protocol, service->url->path, fi->name);
+		fi->uri = g_strdup_printf("%s:%s#%s", service->url->protocol, service->url->path, fi->name);
 
 		folder = camel_object_bag_get(store->folders, fi->full_name);
 		if (folder) {
-			fi->unread_message_count = camel_folder_get_unread_message_count(folder);
+			fi->unread = camel_folder_get_unread_message_count(folder);
 			camel_object_unref(folder);
 		} else
-			fi->unread_message_count = -1;
+			fi->unread = -1;
 
 		camel_folder_info_build_path(fi, '/');
 	}

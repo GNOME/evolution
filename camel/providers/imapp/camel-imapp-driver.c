@@ -430,24 +430,37 @@ camel_imapp_driver_sync(CamelIMAPPDriver *id, gboolean expunge, CamelIMAPPFolder
 	}
 }
 
-struct _fetch_data {
-	struct _fetch_data *next;
-	struct _fetch_data *prev;
-
-	CamelStream *data;
-	const char *uid;
-	const char *section;
-};
-
-CamelStream *
-camel_imapp_driver_fetch(CamelIMAPPDriver *id, CamelIMAPPFolder *folder, const char *uid, const char *section)
+static void
+fetch_data_free(CamelIMAPPFetch *fd)
 {
-	struct _fetch_data fd;
+	if (fd->body)
+		camel_object_unref(fd->body);
+	camel_object_unref(fd->folder);
+	g_free(fd->uid);
+	g_free(fd->section);
+	g_free(fd);
+}
+
+struct _CamelStream *	camel_imapp_driver_fetch(CamelIMAPPDriver *id, struct _CamelIMAPPFolder *folder, const char *uid, const char *body)
+{
+	return NULL;
+}
+
+#if 0
+void
+camel_imapp_driver_fetch(CamelIMAPPDriver *id, CamelIMAPPFolder *folder, const char *uid, const char *section, CamelIMAPPFetchFunc done, void *data)
+{
+	struct _fetch_data *fd;
 	CamelIMAPPCommand *ic;
 
-	fd.data = NULL;
-	fd.uid = uid;
-	fd.section = section;
+	fd = g_malloc0(sizeof(*fd));
+	fd->folder = folder;
+	camel_object_ref(folder);
+	fd->uid = g_strdup(uid);
+	fd->section = g_strdup(fd->section);
+	fd->done = done;
+	fd->data = data;
+
 	e_dlist_addtail(&id->body_fetch, (EDListNode *)&fd);
 
 	CAMEL_TRY {
@@ -467,6 +480,7 @@ camel_imapp_driver_fetch(CamelIMAPPDriver *id, CamelIMAPPFolder *folder, const c
 
 	return fd.data;
 }
+#endif
 
 GPtrArray *
 camel_imapp_driver_list(CamelIMAPPDriver *id, const char *name, guint32 flags)
@@ -738,16 +752,13 @@ driver_resp_fetch(CamelIMAPPEngine *ie, guint32 id, CamelIMAPPDriver *sdata)
 		}
 
 		if ((finfo->got & (FETCH_BODY|FETCH_UID)) == (FETCH_BODY|FETCH_UID)) {
-			struct _fetch_data *fd, *fn;
+			CamelIMAPPFetch *fd, *fn;
 
-			fd = (struct _fetch_data *)sdata->body_fetch.head;
+			fd = (CamelIMAPPFetch *)sdata->body_fetch.head;
 			fn = fd->next;
 			while (fn) {
 				if (!strcmp(finfo->uid, fd->uid) && !strcmp(finfo->section, fd->section)) {
-					if (fd->data)
-						camel_object_unref(fd->data);
-					fd->data = finfo->body;
-					camel_object_ref(fd->data);
+					fd->done(sdata, fd);
 					e_dlist_remove((EDListNode *)fd);
 					e_dlist_addtail(&sdata->body_fetch_done, (EDListNode *)fd);
 					break;

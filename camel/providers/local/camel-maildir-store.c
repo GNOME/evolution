@@ -222,16 +222,20 @@ static void delete_folder(CamelStore * store, const char *folder_name, CamelExce
 	g_free(new);
 }
 
-static CamelFolderInfo *camel_folder_info_new(const char *url, const char *full, const char *name, int unread)
+static CamelFolderInfo *camel_folder_info_new(const char *url, const char *full, const char *name)
 {
 	CamelFolderInfo *fi;
 
 	fi = g_malloc0(sizeof(*fi));
-	fi->url = g_strdup(url);
+	fi->uri = g_strdup(url);
 	fi->full_name = g_strdup(full);
 	fi->name = g_strdup(name);
-	fi->unread_message_count = unread;
+	fi->unread = -1;
+	fi->total = -1;
 	camel_folder_info_build_path(fi, '/');
+
+	if (!strcmp(full, "."))
+		fi->flags |= CAMEL_FOLDER_SYSTEM;
 
 	d(printf("Adding maildir info: '%s' '%s' '%s' '%s'\n", fi->path, fi->name, fi->full_name, fi->url));
 
@@ -242,13 +246,13 @@ static void
 fill_fi(CamelStore *store, CamelFolderInfo *fi, guint32 flags)
 {
 	CamelFolder *folder;
-	int unread = -1;
 
 	folder = camel_object_bag_get(store->folders, fi->full_name);
 	if (folder) {
 		if ((flags & CAMEL_STORE_FOLDER_INFO_FAST) == 0)
 			camel_folder_refresh_info(folder, NULL);
-		unread = camel_folder_get_unread_message_count(folder);
+		fi->unread = camel_folder_get_unread_message_count(folder);
+		fi->total = camel_folder_get_message_count(folder);
 		camel_object_unref(folder);
 	} else {
 		char *path, *folderpath;
@@ -260,14 +264,14 @@ fill_fi(CamelStore *store, CamelFolderInfo *fi, guint32 flags)
 		path = g_strdup_printf("%s/%s.ev-summary", root, fi->full_name);
 		folderpath = g_strdup_printf("%s/%s", root, fi->full_name);
 		s = (CamelFolderSummary *)camel_maildir_summary_new(path, folderpath, NULL);
-		if (camel_folder_summary_header_load(s) != -1)
-			unread = s->unread_count;
+		if (camel_folder_summary_header_load(s) != -1) {
+			fi->unread = s->unread_count;
+			fi->total = s->saved_count;
+		}
 		camel_object_unref(s);
 		g_free(folderpath);
 		g_free(path);
 	}
-
-	fi->unread_message_count = unread;
 }
 
 /* used to find out where we've visited already */
@@ -285,8 +289,6 @@ static int scan_dir(CamelStore *store, GHashTable *visited, char *root, const ch
 	const char *base;
 	CamelFolderInfo *fi = NULL;
 	struct stat st;
-	CamelFolder *folder;
-	int unread;
 
 	/* look for folders matching the right structure, recursively */
 	name = g_strdup_printf("%s/%s", root, path);
@@ -310,6 +312,7 @@ static int scan_dir(CamelStore *store, GHashTable *visited, char *root, const ch
 	else
 		base = path;
 
+#if 0
 	/* if we have this folder open, get the real unread count */
 	folder = camel_object_bag_get(store->folders, path);
 	if (folder) {
@@ -348,16 +351,15 @@ static int scan_dir(CamelStore *store, GHashTable *visited, char *root, const ch
 			closedir(dir);
 		}
 	}
-	
-	fi = camel_folder_info_new(uri, path, base, -1);
-	/* fills the unread count */
+#endif	
+	fi = camel_folder_info_new(uri, path, base);
 	fill_fi(store, fi, flags);
 
 	d(printf("found! uri = %s\n", fi->url));
 	d(printf("  full_name = %s\n  name = '%s'\n", fi->full_name, fi->name));
 	
 	fi->parent = parent;
-	fi->sibling = *fip;
+	fi->next = *fip;
 	*fip = fi;
 	g_free(uri);
 
@@ -365,10 +367,10 @@ static int scan_dir(CamelStore *store, GHashTable *visited, char *root, const ch
 	g_free(cur);
 	g_free(new);
 
-	unread = 0;
-
 	/* always look further if asked */
 	if (((flags & CAMEL_STORE_FOLDER_INFO_RECURSIVE) || parent == NULL)) {
+		int children = 0;
+
 		dir = opendir(name);
 		if (dir == NULL) {
 			camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
@@ -394,6 +396,8 @@ static int scan_dir(CamelStore *store, GHashTable *visited, char *root, const ch
 				if (g_hash_table_lookup(visited, &in) == NULL) {
 					struct _inode *inew = g_malloc(sizeof(*inew));
 
+					children++;
+
 					*inew = in;
 					g_hash_table_insert(visited, inew, inew);
 					new = g_strdup_printf("%s/%s", path, d->d_name);
@@ -409,6 +413,11 @@ static int scan_dir(CamelStore *store, GHashTable *visited, char *root, const ch
 			g_free(tmp);
 		}
 		closedir(dir);
+
+		if (children)
+			fi->flags |= CAMEL_FOLDER_CHILDREN;
+		else
+			fi->flags |= CAMEL_FOLDER_NOCHILDREN;
 	}
 
 	g_free(name);

@@ -330,8 +330,8 @@ delete_folder(CamelStore *store, const char *folder_name, CamelException *ex)
 	fi = g_new0(CamelFolderInfo, 1);
 	fi->full_name = g_strdup(folder_name);
 	fi->name = g_path_get_basename(folder_name);
-	fi->url = g_strdup_printf("mbox:%s#%s",((CamelService *) store)->url->path, folder_name);
-	fi->unread_message_count = -1;
+	fi->uri = g_strdup_printf("mbox:%s#%s",((CamelService *) store)->url->path, folder_name);
+	fi->unread = -1;
 	camel_folder_info_build_path(fi, '/');
 	
 	camel_object_trigger_event(store, "folder_deleted", fi);
@@ -600,13 +600,15 @@ static void
 fill_fi(CamelStore *store, CamelFolderInfo *fi, guint32 flags)
 {
 	CamelFolder *folder;
-	int unread = -1;
 
+	fi->unread = -1;
+	fi->total = -1;
 	folder = camel_object_bag_get(store->folders, fi->full_name);
 	if (folder) {
 		if ((flags & CAMEL_STORE_FOLDER_INFO_FAST) == 0)
 			camel_folder_refresh_info(folder, NULL);
-		unread = camel_folder_get_unread_message_count(folder);
+		fi->unread = camel_folder_get_unread_message_count(folder);
+		fi->total = camel_folder_get_message_count(folder);
 		camel_object_unref(folder);
 	} else {
 		char *path, *folderpath;
@@ -619,15 +621,15 @@ fill_fi(CamelStore *store, CamelFolderInfo *fi, guint32 flags)
 		folderpath = camel_mbox_folder_get_full_path(root, fi->full_name);
 		
 		mbs = (CamelMboxSummary *)camel_mbox_summary_new(path, folderpath, NULL);
-		if (camel_folder_summary_header_load((CamelFolderSummary *)mbs) != -1)
-			unread = ((CamelFolderSummary *)mbs)->unread_count;
+		if (camel_folder_summary_header_load((CamelFolderSummary *)mbs) != -1) {
+			fi->unread = ((CamelFolderSummary *)mbs)->unread_count;
+			fi->total = ((CamelFolderSummary *)mbs)->saved_count;
+		}
 
 		camel_object_unref(mbs);
 		g_free(folderpath);
 		g_free(path);
 	}
-
-	fi->unread_message_count = unread;
 }
 
 static CamelFolderInfo *
@@ -692,7 +694,7 @@ scan_dir(CamelStore *store, GHashTable *visited, CamelFolderInfo *parent, const 
 				fi->flags =(fi->flags & ~CAMEL_FOLDER_NOCHILDREN) | CAMEL_FOLDER_CHILDREN;
 			} else {
 				fi->flags &= ~CAMEL_FOLDER_NOSELECT;
-				if ((ext = strchr(fi->url, ';')) && !strncmp(ext, ";noselect=yes", 13))
+				if ((ext = strchr(fi->uri, ';')) && !strncmp(ext, ";noselect=yes", 13))
 					memmove(ext, ext + 13, strlen(ext + 13) + 1);
 			}
 		} else {
@@ -700,13 +702,14 @@ scan_dir(CamelStore *store, GHashTable *visited, CamelFolderInfo *parent, const 
 			fi->parent = parent;
 			
 			/* add ";noselect=yes" if we haven't found the mbox file yet. when we find it, remove the noselect */
-			fi->url = g_strdup_printf("mbox:%s%s#%s",((CamelService *) store)->url->path,
+			fi->uri = g_strdup_printf("mbox:%s%s#%s",((CamelService *) store)->url->path,
 						  S_ISDIR(st.st_mode) ? ";noselect=yes" : "", full_name);
 			fi->name = short_name;
 			fi->full_name = full_name;
 			fi->path = g_strdup_printf("/%s", full_name);
-			fi->unread_message_count = -1;
-			
+			fi->unread = -1;
+			fi->total = -1;
+
 			if (S_ISDIR(st.st_mode))
 				fi->flags = CAMEL_FOLDER_NOSELECT;
 			else
@@ -715,7 +718,7 @@ scan_dir(CamelStore *store, GHashTable *visited, CamelFolderInfo *parent, const 
 			if (tail == NULL)
 				folders = fi;
 			else
-				tail->sibling = fi;
+				tail->next = fi;
 			
 			tail = fi;
 			
@@ -802,10 +805,11 @@ get_folder_info(CamelStore *store, const char *top, guint32 flags, CamelExceptio
 
 	fi = g_new0(CamelFolderInfo, 1);
 	fi->parent = NULL;
-	fi->url = g_strdup_printf("mbox:%s#%s",((CamelService *) store)->url->path, top);
+	fi->uri = g_strdup_printf("mbox:%s#%s",((CamelService *) store)->url->path, top);
 	fi->name = g_strdup(base);
 	fi->full_name = g_strdup(top);
-	fi->unread_message_count = -1;
+	fi->unread = -1;
+	fi->total = -1;
 	fi->path = g_strdup_printf("/%s", top);
 	
 	subdir = g_strdup_printf("%s.sbd", path);

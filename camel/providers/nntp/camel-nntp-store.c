@@ -398,7 +398,7 @@ nntp_folder_info_from_store_info (CamelNNTPStore *store, gboolean short_notation
 	else
 		fi->name = g_strdup (si->path);
 	
-	fi->unread_message_count = -1;
+	fi->unread = -1;
 	/* fi->path is the 'canonicalised' path used by the UI (folder-tree). Not
 	 * as important these days, but folders used to get added to the tree based
 	 * on its path rather than the structure of the CamelFolderInfo's.
@@ -409,7 +409,7 @@ nntp_folder_info_from_store_info (CamelNNTPStore *store, gboolean short_notation
 	/*camel_folder_info_build_path(fi, '/');*/
 	fi->path = g_strdup_printf ("/%s", si->path);
 	url = camel_url_new_with_base (base_url, fi->path);
-	fi->url = camel_url_to_string (url, CAMEL_URL_HIDE_ALL);
+	fi->uri = camel_url_to_string (url, CAMEL_URL_HIDE_ALL);
 	camel_url_free (url);
 	
 	return fi;
@@ -429,12 +429,12 @@ nntp_folder_info_from_name (CamelNNTPStore *store, gboolean short_notation, cons
 	else
 		fi->name = g_strdup (name);
 	
-	fi->unread_message_count = -1;
+	fi->unread = -1;
 	
 	fi->path = g_strdup_printf ("/%s", name);
 	
 	url = camel_url_new_with_base (base_url, fi->path);
-	fi->url = camel_url_to_string (url, CAMEL_URL_HIDE_ALL);
+	fi->uri = camel_url_to_string (url, CAMEL_URL_HIDE_ALL);
 	camel_url_free (url);
 	
 	return fi;
@@ -477,9 +477,9 @@ nntp_store_get_subscribed_folder_info (CamelNNTPStore *store, const char *top, g
 			fi = nntp_folder_info_from_store_info (store, store->do_short_folder_notation, si);
 			if (!fi)
 				continue;
-			fi->flags |= CAMEL_FOLDER_NOINFERIORS | CAMEL_FOLDER_NOCHILDREN;
+			fi->flags |= CAMEL_FOLDER_NOINFERIORS | CAMEL_FOLDER_NOCHILDREN | CAMEL_FOLDER_SYSTEM;
 			if (last)
-				last->sibling = fi;
+				last->next = fi;
 			else
 				first = fi;
 			last = fi;
@@ -539,7 +539,7 @@ nntp_store_get_cached_folder_info (CamelNNTPStore *store, const char *orig_top, 
 				}
 			}
 			if (last)
-				last->sibling = fi;
+				last->next = fi;
 			else
 				first = fi;
 			last = fi;

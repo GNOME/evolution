@@ -1007,12 +1007,13 @@ imap_build_folder_info(CamelImapStore *imap_store, const char *folder_name)
 	fi = g_malloc0(sizeof(*fi));
 
 	fi->full_name = g_strdup(folder_name);
-	fi->unread_message_count = 0;
+	fi->unread = 0;
+	fi->total = 0;
 
 	url = camel_url_new (imap_store->base_url, NULL);
 	g_free (url->path);
 	url->path = g_strdup_printf ("/%s", folder_name);
-	fi->url = camel_url_to_string (url, CAMEL_URL_HIDE_ALL);
+	fi->uri = camel_url_to_string (url, CAMEL_URL_HIDE_ALL);
 	camel_url_free(url);
 	fi->path = g_strdup_printf("/%s", folder_name);
 	name = strrchr (fi->path, '/');
@@ -1486,7 +1487,7 @@ imap_connect_online (CamelService *service, CamelException *ex)
 		}
 		
 		/* if the namespace is under INBOX, check INBOX explicitly */
-		if (!strncasecmp (store->namespace, "INBOX", 5) && !camel_exception_is_set (ex)) {
+		if (!g_ascii_strncasecmp (store->namespace, "INBOX", 5) && !camel_exception_is_set (ex)) {
 			gboolean just_subscribed = FALSE;
 			gboolean need_subscribe = FALSE;
 			
@@ -2181,22 +2182,29 @@ parse_list_response_as_folder_info (CamelImapStore *imap_store,
 	}
 	
 	fi = g_new0 (CamelFolderInfo, 1);
-	fi->flags = flags;
 	fi->name = g_strdup(camel_store_info_name(imap_store->summary, si));
 	fi->path = g_strdup_printf("/%s", camel_store_info_path(imap_store->summary, si));
 	fi->full_name = g_strdup(fi->path+1);
+	if (!g_ascii_strcasecmp(fi->full_name, "inbox"))
+		flags |= CAMEL_FOLDER_SYSTEM;
+	/* HACK: some servers report noinferiors for all folders (uw-imapd)
+	   We just translate this into nochildren, and let the imap layer enforce
+	   it.  See create folder */
+	if (flags & CAMEL_FOLDER_NOINFERIORS)
+		flags = (fi->flags & ~CAMEL_FOLDER_NOINFERIORS) | CAMEL_FOLDER_NOCHILDREN;
+	fi->flags = flags;
 	
 	url = camel_url_new (imap_store->base_url, NULL);
 	camel_url_set_path(url, fi->path);
 
 	if (flags & CAMEL_FOLDER_NOSELECT || fi->name[0] == 0)
 		camel_url_set_param (url, "noselect", "yes");
-	fi->url = camel_url_to_string (url, 0);
+	fi->uri = camel_url_to_string (url, 0);
 	camel_url_free (url);
 
 	/* FIXME: redundant */
 	if (flags & CAMEL_IMAP_FOLDER_UNMARKED)
-		fi->unread_message_count = -1;
+		fi->unread = -1;
 
 	return fi;
 }
@@ -2371,13 +2379,15 @@ static void
 fill_fi(CamelStore *store, CamelFolderInfo *fi, guint32 flags)
 {
 	CamelFolder *folder;
-	int unread = -1;
 
+	fi->unread = -1;
+	fi->total = -1;
 	folder = camel_object_bag_get(store->folders, fi->full_name);
 	if (folder) {
 		if ((flags & CAMEL_STORE_FOLDER_INFO_FAST) == 0)
 			camel_folder_refresh_info(folder, NULL);
-		unread = camel_folder_get_unread_message_count(folder);
+		fi->unread = camel_folder_get_unread_message_count(folder);
+		fi->total = camel_folder_get_message_count(folder);
 		camel_object_unref(folder);
 	} else {
 		char *storage_path, *folder_dir, *path;
@@ -2390,16 +2400,16 @@ fill_fi(CamelStore *store, CamelFolderInfo *fi, guint32 flags)
 		s = (CamelFolderSummary *)camel_object_new(camel_imap_summary_get_type());
 		camel_folder_summary_set_build_content(s, TRUE);
 		camel_folder_summary_set_filename(s, path);
-		if (camel_folder_summary_header_load(s) != -1)
-			unread = s->unread_count;
+		if (camel_folder_summary_header_load(s) != -1) {
+			fi->unread = s->unread_count;
+			fi->total = s->saved_count;
+		}
 		g_free(storage_path);
 		g_free(folder_dir);
 		g_free(path);
 		
 		camel_object_unref(s);
 	}
-
-	fi->unread_message_count = unread;
 }
 
 static void
@@ -2420,7 +2430,7 @@ get_folder_counts(CamelImapStore *imap_store, CamelFolderInfo *fi, CamelExceptio
 			/* ignore noselect folders, and check only inbox if we only check inbox */
 			if ((fi->flags & CAMEL_FOLDER_NOSELECT) == 0
 			    && ( (imap_store->parameters & IMAP_PARAM_CHECK_ALL)
-				 || strcasecmp(fi->full_name, "inbox") == 0) ) {
+				 || g_ascii_strcasecmp(fi->full_name, "inbox") == 0) ) {
 
 				CAMEL_SERVICE_LOCK (imap_store, connect_lock);
 				/* For the current folder, poke it to check for new	
@@ -2431,14 +2441,18 @@ get_folder_counts(CamelImapStore *imap_store, CamelFolderInfo *fi, CamelExceptio
 					/* we bypass the folder locking otherwise we can deadlock.  we use the command lock for
 					   any operations anyway so this is 'safe'.  See comment above imap_store_refresh_folders() for info */
 					CAMEL_FOLDER_CLASS (CAMEL_OBJECT_GET_CLASS(imap_store->current_folder))->refresh_info(imap_store->current_folder, ex);
-					fi->unread_message_count = camel_folder_get_unread_message_count (imap_store->current_folder);
+					fi->unread = camel_folder_get_unread_message_count (imap_store->current_folder);
+					fi->total = camel_folder_get_message_count(imap_store->current_folder);
 				} else {
-					fi->unread_message_count = get_folder_status (imap_store, fi->full_name, "UNSEEN");
+					/* FIXME: this should be one round-trip */
+					fi->unread = get_folder_status (imap_store, fi->full_name, "UNSEEN");
+					fi->total = get_folder_status(imap_store, fi->full_name, "MESSAGES");
 					/* if we have this folder open, and the unread count has changed, update */
 					folder = camel_object_bag_get(CAMEL_STORE(imap_store)->folders, fi->full_name);
-					if (folder && fi->unread_message_count != camel_folder_get_unread_message_count(folder)) {
+					if (folder && fi->unread != camel_folder_get_unread_message_count(folder)) {
 						CAMEL_FOLDER_CLASS (CAMEL_OBJECT_GET_CLASS(folder))->refresh_info(folder, ex);
-						fi->unread_message_count = camel_folder_get_unread_message_count(folder);
+						fi->unread = camel_folder_get_unread_message_count(folder);
+						fi->total = camel_folder_get_message_count(folder);
 					}
 					if (folder)
 						camel_object_unref(folder);
@@ -2453,7 +2467,7 @@ get_folder_counts(CamelImapStore *imap_store, CamelFolderInfo *fi, CamelExceptio
 
 			if (fi->child)
 				q = g_slist_append(q, fi->child);
-			fi = fi->sibling;
+			fi = fi->next;
 		}
 	}
 }
@@ -2678,12 +2692,18 @@ get_one_folder_offline (const char *physical_path, const char *path, gpointer da
 		    || (si->flags & CAMEL_STORE_INFO_FOLDER_SUBSCRIBED)) {
 			fi = imap_build_folder_info(imap_store, path+1);
 			fi->flags = si->flags;
+			/* HACK: some servers report noinferiors for all folders (uw-imapd)
+			   We just translate this into nochildren, and let the imap layer enforce
+			   it.  See create folder */
+			if (fi->flags & CAMEL_FOLDER_NOINFERIORS)
+				fi->flags = (fi->flags & ~CAMEL_FOLDER_NOINFERIORS) | CAMEL_FOLDER_NOCHILDREN;
+
 			if (si->flags & CAMEL_FOLDER_NOSELECT) {
-				CamelURL *url = camel_url_new(fi->url, NULL);
+				CamelURL *url = camel_url_new(fi->uri, NULL);
 				
 				camel_url_set_param (url, "noselect", "yes");
-				g_free(fi->url);
-				fi->url = camel_url_to_string (url, 0);
+				g_free(fi->uri);
+				fi->uri = camel_url_to_string (url, 0);
 				camel_url_free (url);
 			} else {
 				fill_fi((CamelStore *)imap_store, fi, 0);

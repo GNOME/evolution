@@ -24,10 +24,8 @@
  * USA
  */
 
-
 #ifndef CAMEL_STORE_H
 #define CAMEL_STORE_H 1
-
 
 #ifdef __cplusplus
 extern "C" {
@@ -45,15 +43,18 @@ enum {
 };
 
 typedef struct _CamelFolderInfo {
-	struct _CamelFolderInfo *parent,
-		*sibling,
-		*child;
-	char *url;
+	struct _CamelFolderInfo *next;
+	struct _CamelFolderInfo *parent;
+	struct _CamelFolderInfo *child;
+
+	char *uri;
 	char *name;
 	char *full_name;
 	char *path;
-	int unread_message_count;
+
 	guint32 flags;
+	guint32 unread;
+	guint32 total;
 } CamelFolderInfo;
 
 /* Note: these are abstractions (duh), its upto the provider to make them make sense */
@@ -68,8 +69,12 @@ typedef struct _CamelFolderInfo {
 #define CAMEL_FOLDER_NOCHILDREN (1<<3)
 /* a folder which is subscribed */
 #define CAMEL_FOLDER_SUBSCRIBED (1<<4)
-/* a virtual folder on a non-virtual store (for vTrash/vJunk) */
+/* a virtual folder, cannot copy/move messages here */
 #define CAMEL_FOLDER_VIRTUAL (1<<5)
+/* a system folder, cannot be renamed/deleted */
+#define CAMEL_FOLDER_SYSTEM (1<<6)
+/* a virtual folder that can't be copied to, and can only be moved to if in an existing folder */
+#define CAMEL_FOLDER_VTRASH (1<<7)
 
 /* Structure of rename event's event_data */
 typedef struct _CamelRenameInfo {
