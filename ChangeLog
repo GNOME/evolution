@@ -1,3 +1,9 @@
+2002-11-13  Not Zed  <NotZed@Ximian.com>
+
+	* Makefile.am (SUBDIRS): re-added filter, mail, composer
+
+	* configure.in: Added EVOLUTION_MAIL settings, and mail/makefile.
+
 2002-11-11  Joe Shaw  <joe@ximian.com>
 
 	* Makefile.am (SUBDIRS): remove tools for now, it's not in

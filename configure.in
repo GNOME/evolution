@@ -1124,9 +1124,9 @@ AC_SUBST(privlibdir)
 camel_providerdir="$privlibdir/camel-providers"
 AC_SUBST(camel_providerdir)
 
-dnl EVO_SET_COMPILE_FLAGS(EVOLUTION_MAIL, $FULL_GNOME_DEPS soup, $GCONF_CFLAGS $THREADS_CFLAGS ${GTKHTML_CFLAGS}, $GCONF_LIBS $THREADS_LIBS ${GTKHTML_LIBS})
-dnl AC_SUBST(EVOLUTION_MAIL_CFLAGS)
-dnl AC_SUBST(EVOLUTION_MAIL_LIBS)
+EVO_SET_COMPILE_FLAGS(EVOLUTION_MAIL, libgnome-2.0 libgnomeui-2.0 libbonoboui-2.0 gal-2.0 libglade-2.0 soup-2.0 libgnomeprint-2.0 libgtkhtml-3.0 libxml-2.0 bonobo-activation-2.0 gthread-2.0 gconf-2.0)
+AC_SUBST(EVOLUTION_MAIL_CFLAGS)
+AC_SUBST(EVOLUTION_MAIL_LIBS)
 
 dnl -- wombat flags
 
@@ -1319,6 +1319,8 @@ calendar/gui/alarm-notify/Makefile
 calendar/gui/dialogs/Makefile
 calendar/importers/Makefile
 composer/Makefile
+mail/Makefile
+mail/GNOME_Evolution_Mail.server.in
 my-evolution/GNOME_Evolution_Summary.server.in
 ])
 

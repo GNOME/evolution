@@ -8,7 +8,7 @@ confexec_DATA = 			\
 	evolution_addressbookConf.sh	\
 	evolution_calendarConf.sh
 
-EXTRA_DIST =			\
+EXTRA_DIST = 			\
 	AUTHORS			\
 	$(changelogs)		\
 	COPYING-DOCS		\
@@ -22,7 +22,7 @@ EXTRA_DIST =			\
 	xml-i18n-extract.in	\
 	$(confexec_DATA:.sh=.sh.in)
 
-SUBDIRS =			\
+SUBDIRS = 			\
         data                    \
         e-util                  \
 	libical			\
@@ -30,11 +30,13 @@ SUBDIRS =			\
         widgets                 \
         shell                   \
 	camel			\
-	filter			\
 	libwombat		\
 	addressbook		\
 	calendar		\
         art                     \
+	filter			\
+	composer		\
+	mail			\
 	ui			\
         default_user            \
 	views			\
