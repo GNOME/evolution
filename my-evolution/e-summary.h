@@ -15,6 +15,7 @@
 #include "e-summary-calendar.h"
 #include "e-summary-rdf.h"
 #include "e-summary-weather.h"
+#include "e-summary-tasks.h"
 
 #include <Evolution.h>
 
@@ -90,6 +91,7 @@ struct _ESummary {
 	ESummaryCalendar *calendar;
 	ESummaryRDF *rdf;
 	ESummaryWeather *weather;
+	ESummaryTasks *tasks;
 
 	ESummaryPrivate *priv;
 

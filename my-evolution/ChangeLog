@@ -1,5 +1,11 @@
 2001-07-02  Iain Holmes  <iain@ximian.com>
 
+	* e-summary-tasks.[ch]: New files for tasks.
+
+	* e-summary.c: USe the tasks.
+
+2001-07-02  Iain Holmes  <iain@ximian.com>
+
 	* Makefile.am: Add the glade files to the EXTRA_DIST
 
 2001-07-02  Ettore Perazzoli  <ettore@ximian.com>

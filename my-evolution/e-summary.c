@@ -137,6 +137,8 @@ e_summary_draw (ESummary *summary)
 
 	html = (char *) e_summary_calendar_get_html (summary);
 	g_string_append (string, html);
+	html = (char *) e_summary_tasks_get_html (summary);
+	g_string_append (string, html);
 
 	g_string_append (string, HTML_5);
 
@@ -387,6 +389,7 @@ e_summary_new (const GNOME_Evolution_Shell shell)
 
 	e_summary_mail_init (summary, shell);
 	e_summary_calendar_init (summary);
+	e_summary_tasks_init (summary);
 	e_summary_rdf_init (summary);
 	e_summary_weather_init (summary);
 
