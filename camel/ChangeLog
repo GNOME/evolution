@@ -1,5 +1,12 @@
 2000-05-17  Dan Winship  <danw@helixcode.com>
 
+	* camel-folder.c: Remove unused async open/close and
+	copy_message_to functions.
+	Rename functions without initial _. Fix glib preconditions and
+	gtk-doc comments.
+
+2000-05-17  Dan Winship  <danw@helixcode.com>
+
 	* camel-data-wrapper.c: remove get/set_output_stream operations.
 	They're redundant with write_to_stream, and CamelMimePart and
 	CamelMimeMessage only implement the latter, meaning that trying to

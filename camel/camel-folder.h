@@ -54,8 +54,6 @@ typedef enum {
 	FOLDER_OPEN_RW      = 3    /* folder is read/write        */ 
 } CamelFolderOpenMode;
 
-typedef void (*CamelFolderAsyncCallback) ();
-
 struct _CamelFolder
 {
 	CamelObject parent_object;
@@ -94,18 +92,6 @@ typedef struct {
 	void   (*close) (CamelFolder *folder, 
 			 gboolean expunge, 
 			 CamelException *ex);
-
-	void   (*open_async) (CamelFolder *folder, 
-			      CamelFolderOpenMode mode, 
-			      CamelFolderAsyncCallback callback, 
-			      gpointer user_data, 
-			      CamelException *ex);
-
-	void   (*close_async) (CamelFolder *folder, 
-			       gboolean expunge, 
-			       CamelFolderAsyncCallback callback, 
-			       gpointer user_data, 
-			       CamelException *ex);
 
 	const gchar *  (*get_name)  (CamelFolder *folder);
 
@@ -169,11 +155,6 @@ typedef struct {
 	guint32 (*get_permanent_flags) (CamelFolder *folder,
 					CamelException *ex);
 
-	void   (*copy_message_to) (CamelFolder *folder, 
-				   CamelMimeMessage *message, 
-				   CamelFolder *dest_folder, 
-				   CamelException *ex);
-	
 	gboolean (*has_uid_capability) (CamelFolder *folder);
 
 	const gchar * (*get_message_uid)  (CamelFolder *folder, 
@@ -213,7 +194,7 @@ GtkType camel_folder_get_type (void);
 
 
 CamelFolder *      camel_folder_get_subfolder          (CamelFolder *folder, 
-							gchar *folder_name, 
+							const gchar *folder_name, 
 							CamelException *ex);
 
 void               camel_folder_open                   (CamelFolder *folder, 
@@ -265,10 +246,6 @@ gboolean           camel_folder_is_open                (CamelFolder *folder);
 /* message manipulation */
 void               camel_folder_append_message         (CamelFolder *folder, 
 							CamelMimeMessage *message, 
-							CamelException *ex);
-void               camel_folder_copy_message_to        (CamelFolder *folder, 
-							CamelMimeMessage *message, 
-							CamelFolder *dest_folder, 
 							CamelException *ex);
 
 
