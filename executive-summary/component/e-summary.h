@@ -24,12 +24,15 @@
 #ifndef _E_SUMMARY_H__
 #define _E_SUMMARY_H__
 
-#include <gtkhtml/gtkhtml.h>
 #include <gtk/gtkvbox.h>
-#include <evolution-services/executive-summary.h>
 
 #include <bonobo.h>
+#include <bonobo/bonobo-listener.h>
+#include <bonobo/bonobo-event-source.h>
 #include <Evolution.h>
+#include <evolution-services/Executive-Summary.h>
+
+#include "e-summary-prefs.h"
 
 #define E_SUMMARY_TYPE (e_summary_get_type ())
 #define E_SUMMARY(obj) (GTK_CHECK_CAST ((obj), E_SUMMARY_TYPE, ESummary))
@@ -51,22 +54,29 @@ struct _ESummaryWindow {
 	Bonobo_PersistStream persiststream;
 	Bonobo_PropertyBag propertybag;
 	Bonobo_PropertyControl propertycontrol;
+	Bonobo_EventSource event_source;
 
 	BonoboPropertyListener *listener;
+	BonoboListener *html_listener;
+	Bonobo_Listener html_corba_listener;
 
 	char *iid;
 	char *title;
 	char *icon;
+	
+	ESummary *esummary;
 };
 
 struct _ESummary {
-  GtkVBox parent;
+	GtkVBox parent;
 
-  ESummaryPrivate *private;
+	ESummaryPrefs *prefs;
+	ESummaryPrefs *tmp_prefs;
+	ESummaryPrivate *private;
 };
 
 struct _ESummaryClass {
-  GtkVBoxClass parent_class;
+	GtkVBoxClass parent_class;
 };
 
 GtkType e_summary_get_type (void);
@@ -79,6 +89,8 @@ void e_summary_remove_window (ESummary *esummary,
 ESummaryWindow *e_summary_add_service (ESummary *esummary,
 				       GNOME_Evolution_Summary_Component component,
 				       const char *iid);
+ESummaryWindow * e_summary_embed_service_from_id (ESummary *esummary,
+						  const char *obj_id);
 
 void e_summary_set_shell_view_interface (ESummary *summary,
 					 GNOME_Evolution_ShellView svi);
@@ -99,5 +111,6 @@ void e_summary_window_move_up (ESummary *esummary,
 			       ESummaryWindow *window);
 void e_summary_window_move_down (ESummary *esummary,
 				 ESummaryWindow *window);
+void e_summary_reconfigure (ESummary *esummary);
 
 #endif

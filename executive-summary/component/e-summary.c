@@ -32,7 +32,7 @@
 #include <gtkhtml/gtkhtml-embedded.h>
 #include <gtkhtml/gtkhtml-stream.h>
 #include <gtkhtml/htmlengine.h>
-#include <gtkhtml/htmlselection.h>
+
 #include <gal/util/e-util.h>
 #include <gal/widgets/e-gui-utils.h>
 #include <libgnomevfs/gnome-vfs.h>
@@ -42,9 +42,12 @@
 #include "e-summary-util.h"
 #include "e-summary-url.h"
 
+#include <evolution-services/executive-summary-component.h>
+#include <evolution-services/executive-summary-component-factory-client.h>
+
 #define PARENT_TYPE (gtk_vbox_get_type ())
 
-#define STORAGE_TYPE "efs"
+#define STORAGE_TYPE "fs"
 #define IID_FILE "oaf.id"
 #define DATA_FILE "data"
 
@@ -81,20 +84,6 @@ static void e_summary_save_state (ESummary *esummary,
 static void e_summary_load_state (ESummary *esummary,
 				  const char *path);
 
-/* Used to distinguish dead windows */
-static ESummaryWindow dead_window = {
-	CORBA_OBJECT_NIL,
-	CORBA_OBJECT_NIL,
-	CORBA_OBJECT_NIL,
-	CORBA_OBJECT_NIL,
-	CORBA_OBJECT_NIL,
-	CORBA_OBJECT_NIL,
-	NULL,
-	NULL,
-	NULL,
-	NULL
-};
-
 /* GtkObject methods */
 
 static void
@@ -109,7 +98,7 @@ e_summary_destroy (GtkObject *object)
 	if (priv == NULL)
 		return;
 
-	prefix = g_concat_dir_and_file (evolution_dir, "config/Executive-Summary");
+	prefix = g_concat_dir_and_file (evolution_dir, "config/");
 	e_summary_save_state (esummary, prefix);
 	g_free (prefix);
 
@@ -203,6 +192,8 @@ e_summary_init (ESummary *esummary)
 	GdkColor bgcolour = {0, 0xdfff, 0xdfff, 0xffff};
 	ESummaryPrivate *priv;
 
+	esummary->prefs = NULL;
+	esummary->tmp_prefs = NULL;
 	esummary->private = g_new0 (ESummaryPrivate, 1);
 	priv = esummary->private;
 
@@ -252,7 +243,7 @@ e_summary_new (const GNOME_Evolution_Shell shell)
 
 	/* Restore services */
 	path = g_concat_dir_and_file (evolution_dir, 
-				      "config/Executive-Summary");
+				      "config");
 	e_summary_load_state (esummary, path);
 	g_free (path);
 
@@ -324,8 +315,8 @@ on_object_requested (GtkHTML *html,
 	if (widget->parent == NULL)
 		gtk_container_add (GTK_CONTAINER (eb), widget);
 
-	return TRUE;
 #endif
+	return TRUE;
 }
 
 /* Generates the window controls and works out
@@ -386,14 +377,16 @@ make_control_html (ESummaryWindow *window,
 	tmp = html;
 	if (!r) {
 		html = g_strdup_printf ("%s<img src=\"service-right-disabled.png\">"
-					"</td></tr><tr><td>", tmp);
+					"</td></tr></table>", tmp);
 	} else {
 		html = g_strdup_printf ("%s<a href=\"right://%d\">"
 					"<img src=\"service-right.png\" border=\"0\">"
-					"</a></td></tr><tr><td>", tmp, id);
+					"</a></td></tr></table>", tmp, id);
 	}
 	g_free (tmp);
 
+
+#if 0
 	tmp = html;
 	if (!d) {
 		html = g_strdup_printf ("%s<img src=\"service-down-disabled.png\">"
@@ -416,6 +409,7 @@ make_control_html (ESummaryWindow *window,
 	}
 	g_free (tmp);
 
+#endif
 	return html;
 }
 
@@ -463,13 +457,14 @@ e_summary_display_window (ESummary *esummary,
 		html = GNOME_Evolution_Summary_HTMLView_getHtml (window->html,
 								 &ev);
 		if (ev._major != CORBA_NO_EXCEPTION) {
+			CORBA_exception_free (&ev);
 			g_warning ("Cannot get HTML.");
-			return;
-		}
-		CORBA_exception_free (&ev);
+		} else {
+			CORBA_exception_free (&ev);
 
-		gtk_html_write (GTK_HTML (priv->html), priv->stream,
-				html, strlen (html));
+			gtk_html_write (GTK_HTML (priv->html), priv->stream,
+					html, strlen (html));
+		}
 	} else {
 #if 0
 		char *body_cid;
@@ -564,6 +559,23 @@ e_summary_rebuild_page (ESummary *esummary)
 }
 
 static void
+html_event (BonoboListener *listener,
+	    char *event_name,
+	    CORBA_any *any,
+	    CORBA_Environment *ev,
+	    gpointer user_data)
+{
+	ESummaryWindow *window = (ESummaryWindow *) user_data;
+
+	g_print ("Event: %s\n", event_name);
+	if (strcmp (event_name, "html_changed") != 0) {
+		return;
+	}
+
+	e_summary_rebuild_page (window->esummary);
+}
+		
+static void
 prop_changed_cb (BonoboPropertyListener *listener,
 		 char *name,
 		 BonoboArg *arg,
@@ -573,6 +585,7 @@ prop_changed_cb (BonoboPropertyListener *listener,
 		if (window->title != NULL)
 			g_free (window->title);
 		window->title = g_strdup (BONOBO_ARG_GET_STRING (arg));
+		e_summary_rebuild_page (window->esummary);
 		return;
 	}
 
@@ -580,6 +593,7 @@ prop_changed_cb (BonoboPropertyListener *listener,
 		if (window->icon != NULL)
 			g_free (window->icon);
 		window->icon = g_strdup (BONOBO_ARG_GET_STRING (arg));
+		e_summary_rebuild_page (window->esummary);
 		return;
 	}
 }
@@ -604,6 +618,7 @@ e_summary_add_service (ESummary *esummary,
 	window = g_new0 (ESummaryWindow, 1);
 	window->component = component;
 	window->iid = g_strdup (iid);
+	window->esummary = esummary;
 
 	/* See what interfaces our component supports */
 	CORBA_exception_init (&ev);
@@ -629,6 +644,26 @@ e_summary_add_service (ESummary *esummary,
 
 		g_free (window);
 		return NULL;
+	}
+
+	if (window->html != CORBA_OBJECT_NIL) {
+		Bonobo_Listener listener;
+		CORBA_Environment ev2;
+
+		/* If HTML view, then set up the listeners. */
+		window->event_source = Bonobo_Unknown_queryInterface (window->html,
+								      "IDL:Bonobo/EventSource:1.0",
+								      &ev);
+		window->html_listener = bonobo_listener_new (html_event,
+							     window);
+		listener = bonobo_object_corba_objref (BONOBO_OBJECT (window->html_listener));
+		window->html_corba_listener = listener;
+
+		CORBA_exception_init (&ev2);
+		Bonobo_EventSource_addListener (window->event_source,
+						listener, &ev2);
+		/* Catch error? FIXME */
+		CORBA_exception_free (&ev2);
 	}
 
 	unknown = Bonobo_Unknown_queryInterface (component,
@@ -673,6 +708,28 @@ e_summary_add_service (ESummary *esummary,
 	return window;
 }
 
+
+ESummaryWindow *
+e_summary_embed_service_from_id (ESummary *esummary,
+				 const char *obj_id)
+{
+	GNOME_Evolution_Summary_Component component;
+	ExecutiveSummaryComponentFactoryClient *client;
+	ESummaryWindow *window;
+	
+	client = executive_summary_component_factory_client_new (obj_id);
+	
+	component = executive_summary_component_factory_client_create_view (client);
+
+	/* Don't need the client any more */
+	bonobo_object_unref (BONOBO_OBJECT (client));
+
+	window = e_summary_add_service (esummary, component, obj_id);
+	e_summary_rebuild_page (esummary);
+	
+	return window;
+}
+
 void
 e_summary_window_free (ESummaryWindow *window)
 {
@@ -685,37 +742,49 @@ e_summary_window_free (ESummaryWindow *window)
 	g_free (window->title);
 
 	CORBA_exception_init (&ev);
-	Bonobo_Unknown_unref (window->component, &ev);
-	CORBA_Object_release (window->component, &ev);
 
 	if (window->control != CORBA_OBJECT_NIL) {
-		CORBA_Object_release (window->control, &ev);
+		bonobo_object_release_unref (window->control, &ev);
+	}
+
+	if (window->event_source != CORBA_OBJECT_NIL) {
+		Bonobo_EventSource_removeListener (window->event_source,
+						   window->html_corba_listener,
+						   &ev);
+		if (ev._major != CORBA_NO_EXCEPTION) {
+			g_warning ("CORBA ERROR: %s", CORBA_exception_id (&ev));
+		}
+		bonobo_object_release_unref (window->event_source, &ev);
 	}
 
 	if (window->html != CORBA_OBJECT_NIL) {
-		CORBA_Object_release (window->html, &ev);
+		bonobo_object_release_unref (window->html, &ev);
 	}
 
 	if (window->propertybag != CORBA_OBJECT_NIL) {
-		CORBA_Object_release (window->propertybag, &ev);
+		bonobo_object_release_unref (window->propertybag, &ev);
 	}
 
 	if (window->persiststream != CORBA_OBJECT_NIL) {
-		CORBA_Object_release (window->persiststream, &ev);
+		bonobo_object_release_unref (window->persiststream, &ev);
 	}
 
 	if (window->propertycontrol != CORBA_OBJECT_NIL) {
-		CORBA_Object_release (window->propertycontrol, &ev);
+		bonobo_object_release_unref (window->propertycontrol, &ev);
 	}
 
+	if (window->listener) {
+		bonobo_object_unref (BONOBO_OBJECT (window->listener));
+	}
+
+	if (window->html_listener) {
+		bonobo_object_unref (BONOBO_OBJECT (window->html_listener));
+	}
+
+	bonobo_object_release_unref (window->component, &ev);
 	CORBA_exception_free (&ev);
 
 	g_free (window);
-
-	/* The contents of window are set to dead_window
-	   so we know if we're trying to access a window 
-	   that no longer exists */
-	*window = dead_window;
 }
 
 void
@@ -840,8 +909,7 @@ e_summary_set_title (ESummary *esummary,
 }
 
 static void
-load_html_page (ESummary *esummary,
-		const char *filename)
+e_summary_load_page (ESummary *esummary)
 {
 	ESummaryPrivate *priv;
 	GnomeVFSHandle *handle = NULL;
@@ -849,17 +917,17 @@ load_html_page (ESummary *esummary,
 	GtkWidget *toplevel;
 	GString *string;
 	char *str, *comment;
+	char *filename;
 
 	g_return_if_fail (esummary != NULL);
 	g_return_if_fail (IS_E_SUMMARY (esummary));
-
+	
 	priv = esummary->private;
 
+	filename = g_strdup (esummary->prefs->page);
 	/* Pass NULL to reset the page to the default */
 	if (filename == NULL || *filename == '\0') {
-		g_free (priv->header);
-		g_free (priv->footer);
-		return;
+		filename = g_concat_dir_and_file (EVOLUTION_DATADIR, "/evolution/summary.html");
 	}
 
 	toplevel = gtk_widget_get_toplevel (GTK_WIDGET (esummary));
@@ -868,9 +936,11 @@ load_html_page (ESummary *esummary,
 	if (result != GNOME_VFS_OK) {
 		e_notice (GTK_WINDOW (toplevel), GNOME_MESSAGE_BOX_WARNING,
 			  _("Cannot open the HTML file:\n%s"), filename);
+		g_free (filename);
 		return;
 	}
 
+	g_free (filename);
 	while (1) {
 		char buffer[4096];
 		GnomeVFSFileSize size;
@@ -896,7 +966,7 @@ load_html_page (ESummary *esummary,
 
 	comment = strstr (str, "<!-- EVOLUTION EXECUTIVE SUMMARY SERVICES DO NOT REMOVE -->");
 	if (comment == NULL) {
-		e_notice (GTK_WINDOW (toplevel), GNOME_MESSAGE_BOX_WARNING, 
+		e_notice (NULL, GNOME_MESSAGE_BOX_WARNING, 
 			  _("File does not have a place for the services.\n"));
 		g_free (str);
 		return;
@@ -984,20 +1054,28 @@ load_component (ESummary *esummary,
 
 	corba_subdir = Bonobo_Storage_openStorage (corba_storage, curdir,
 						   Bonobo_Storage_READ, &ev);
+	if (corba_subdir == CORBA_OBJECT_NIL) {
+		g_free (curdir);
+		return;
+	}
+
 	iid = load_component_id (corba_subdir, &ev);
 
 	if (iid) {
 		Bonobo_Stream corba_stream;
 
-		window = e_summary_factory_embed_service_from_id (esummary, iid);
+		window = e_summary_embed_service_from_id (esummary, iid);
 		if (window) {
 			if (window->persiststream) {
 				corba_stream = Bonobo_Storage_openStream 
 					(corba_subdir,
 					 DATA_FILE,
-					 Bonobo_Storage_READ, &ev);
-				if (ev._major != CORBA_NO_EXCEPTION)
+					 Bonobo_Storage_READ |
+					 Bonobo_Storage_CREATE, &ev);
+				if (ev._major != CORBA_NO_EXCEPTION) {
+					g_print ("Gah");
 					return;
+				}
 
 				Bonobo_PersistStream_load (window->persiststream,
 							   corba_stream, 
@@ -1005,22 +1083,34 @@ load_component (ESummary *esummary,
 				if (ev._major != CORBA_NO_EXCEPTION)
 					g_warning ("Could not load `%s'", iid);
 
+				bonobo_object_release_unref (corba_stream, &ev);
 			}
 		}
 
 		g_free (iid);
 	}
 
+	bonobo_object_release_unref (corba_subdir, &ev);
 	CORBA_exception_free (&ev);
 	g_free (curdir);
 }
-									  
+
+void
+e_summary_reconfigure (ESummary *esummary)
+{
+	ESummaryPrefs *prefs;
+
+	prefs = esummary->prefs;
+
+	e_summary_load_page (esummary);
+	e_summary_rebuild_page (esummary);
+}
+
 static void
 e_summary_load_state (ESummary *esummary,
 		      const char *path)
 {
 	char *fullpath;
-	char *htmlpage = NULL;
 	BonoboStorage *storage;
 	Bonobo_Storage corba_storage;
 	Bonobo_Storage_DirectoryList *list;
@@ -1030,7 +1120,7 @@ e_summary_load_state (ESummary *esummary,
 	g_return_if_fail (esummary != NULL);
 	g_return_if_fail (IS_E_SUMMARY (esummary));
 
-	fullpath = g_strdup_printf ("%s", path);
+	fullpath = g_strdup_printf ("%s/Executive-Summary", path);
 	storage = bonobo_storage_open (STORAGE_TYPE, fullpath,
 				       Bonobo_Storage_READ |
 				       Bonobo_Storage_WRITE, 
@@ -1040,30 +1130,22 @@ e_summary_load_state (ESummary *esummary,
 		
 		corba_storage = bonobo_object_corba_objref (BONOBO_OBJECT (storage));
 		list = Bonobo_Storage_listContents (corba_storage, "/", 0, &ev);
-		if (!list) {
-			CORBA_exception_free (&ev);
-			bonobo_object_unref (BONOBO_OBJECT (storage));
-			return;
+		if (list) {
+			for (i = 0; i < list->_length; i++)
+				load_component (esummary, storage, i);
+			
+			CORBA_free (list);
 		}
-		
-		for (i = 0; i < list->_length; i++)
-			load_component (esummary, storage, i);
-		
-		CORBA_free (list);
+
 		bonobo_object_unref (BONOBO_OBJECT (storage));
+		CORBA_exception_free (&ev);
 	}
 
 	g_free (fullpath);
 
-	/* Load the html page */
-	fullpath = g_strdup_printf ("=%s=/executive-summary/page", path);
-	htmlpage = gnome_config_get_string (fullpath);
-	g_print ("htmlpage: %s\n", htmlpage);
-	if (htmlpage) {
-		load_html_page (esummary, htmlpage);
-	}
-	g_free (fullpath);
-	g_free (htmlpage);
+	/* Load the preferences */
+	esummary->prefs = e_summary_prefs_load (path);
+	e_summary_reconfigure (esummary);
 }
 
 static void
@@ -1080,23 +1162,33 @@ save_component (BonoboStorage *storage,
 	CORBA_exception_init (&ev);
 
 	corba_subdir = Bonobo_Storage_openStorage (corba_storage, curdir,
-						   Bonobo_Storage_CREATE, &ev);
+						   Bonobo_Storage_CREATE|
+						   Bonobo_Storage_WRITE|
+						   Bonobo_Storage_READ, &ev);
 	if (ev._major != CORBA_NO_EXCEPTION) {
 		g_warning ("Cannot create '%s'", curdir);
+		g_free (curdir);
 	} else {
 		Bonobo_Stream corba_stream;
 
+		g_free (curdir);
 		corba_stream = Bonobo_Storage_openStream
-			(corba_subdir, IID_FILE, Bonobo_Storage_CREATE, &ev);
+			(corba_subdir, IID_FILE, 
+			 Bonobo_Storage_CREATE|
+			 Bonobo_Storage_READ|
+			 Bonobo_Storage_WRITE, &ev);
+
 		if (ev._major != CORBA_NO_EXCEPTION) {
-			g_warning ("EEk: %s", CORBA_exception_id (&ev));
+			g_warning ("EEK: %s", CORBA_exception_id (&ev));
+			if (corba_subdir != CORBA_OBJECT_NIL)
+				bonobo_object_release_unref (corba_subdir, &ev);
+			CORBA_exception_free (&ev);
 			return;
 		}
 
 		bonobo_stream_client_write_string (corba_stream,
 						   window->iid, TRUE, &ev);
-  		Bonobo_Unknown_unref (corba_stream, &ev);
-  		CORBA_Object_release (corba_stream, &ev);
+		bonobo_object_release_unref (corba_stream, &ev);
 
 		corba_stream = Bonobo_Storage_openStream (corba_subdir, DATA_FILE,
 							  Bonobo_Storage_CREATE,
@@ -1109,14 +1201,11 @@ save_component (BonoboStorage *storage,
 			}
 		}
 
-		Bonobo_Unknown_unref (corba_stream, &ev);
-		CORBA_Object_release (corba_stream, &ev);
-		
-		Bonobo_Unknown_unref (corba_subdir, &ev);
-		CORBA_Object_release (corba_subdir, &ev);
+		bonobo_object_release_unref (corba_stream, &ev);
 	}
 
-	g_free (curdir);
+	if (corba_subdir != CORBA_OBJECT_NIL)
+		bonobo_object_release_unref (corba_subdir, &ev);
 	CORBA_exception_free (&ev);
 }
 		
@@ -1137,10 +1226,11 @@ e_summary_save_state (ESummary *esummary,
 
 	priv = esummary->private;
 
-#if 0
-	fullpath = g_strdup_printf("%s", path);
+	fullpath = g_strdup_printf("%s/Executive-Summary", path);
 	g_print ("fullpath: %s\n", fullpath);
-	unlink (fullpath);
+
+	/* FIXME: Use RC's rmdir function */
+	remove (fullpath);
 
 	storage = bonobo_storage_open (STORAGE_TYPE, fullpath,
 				       Bonobo_Storage_READ |
@@ -1154,6 +1244,7 @@ e_summary_save_state (ESummary *esummary,
 	i = 0;
 	for (windows = priv->window_list; windows; windows = windows->next) {
 		save_component (storage, windows->data, i);
+		g_print ("IID: %s\n", ((ESummaryWindow *)windows->data)->iid);
 		i++;
 	}
 
@@ -1161,8 +1252,8 @@ e_summary_save_state (ESummary *esummary,
 	CORBA_exception_free (&ev);
 	bonobo_object_unref (BONOBO_OBJECT (storage));
 
+	e_summary_prefs_save (esummary->prefs, path);
 	g_free (fullpath);
-#endif
 }
 
 void

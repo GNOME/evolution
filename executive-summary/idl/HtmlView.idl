@@ -14,7 +14,7 @@ module GNOME {
 module Evolution {
 module Summary {
 
-	interface HTMLView : Bonobo::Unknown{
+	interface HTMLView : Bonobo::Unknown {
 		string getHtml ();
 	};
 };

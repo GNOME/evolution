@@ -48,8 +48,12 @@ evolution_executive_summary_SOURCES =		\
 	component-factory.h		\
 	e-summary.c			\
 	e-summary.h			\
+	e-summary-callbacks.c		\
+	e-summary-callbacks.h		\
 	e-summary-factory.c		\
 	e-summary-factory.h		\
+	e-summary-prefs.c		\
+	e-summary-prefs.h		\
 	e-summary-url.c			\
 	e-summary-url.h			\
 	e-summary-util.c		\
@@ -66,3 +70,7 @@ evolution_executive_summary_LDADD = 					\
 	$(GTKHTML_LIBS)					\
 	$(UNICODE_LIBS)
 
+gladedir = $(datadir)/evolution/glade
+glade_DATA = executive-summary-config.glade
+
+EXTRA_DIST = $(glade_DATA)

@@ -40,6 +40,8 @@
 #include "e-summary-factory.h"
 
 #include "e-summary.h"
+#include "e-summary-util.h"
+#include "e-summary-callbacks.h"
 #include "Evolution.h"
 
 #include <evolution-services/Executive-Summary.h>
@@ -48,11 +50,10 @@
 
 static GList *control_list = NULL;
 
-void embed_service (GtkWidget *widget,
-		    ESummary *esummary);
-
 BonoboUIVerb verbs[] = {
 	BONOBO_UI_UNSAFE_VERB ("AddService", embed_service),
+	BONOBO_UI_UNSAFE_VERB ("NewMail", new_mail),
+	BONOBO_UI_UNSAFE_VERB ("ESummarySettings", configure_summary),
 	BONOBO_UI_VERB_END
 };
 
@@ -64,7 +65,11 @@ set_pixmap (BonoboUIComponent *component,
 	char *path;
 	GdkPixbuf *pixbuf;
 
+#if 0
 	path = g_concat_dir_and_file (EVOLUTION_DATADIR "/images/evolution/buttons", icon);
+#else
+	path = e_pixmap_file (icon);
+#endif
 
 	pixbuf = gdk_pixbuf_new_from_file (path);
 	g_return_if_fail (pixbuf != NULL);
@@ -78,6 +83,7 @@ static void
 update_pixmaps (BonoboUIComponent *component)
 {
 	set_pixmap (component, "/Toolbar/AddService", "add-service.png");
+	set_pixmap (component, "/Toolbar/NewMail", "compose-message.png");
 }
 
 static void
@@ -166,44 +172,6 @@ control_destroy_cb (BonoboControl *control,
 	control_list = g_list_remove (control_list, control);
 
 	gtk_object_destroy (GTK_OBJECT (esummary));
-}
-
-/* A ********very********
-   temporary function to embed something
-*/
-void
-embed_service (GtkWidget *widget,
-	       ESummary *esummary)
-{
-	char *required_interfaces[2] = {"IDL:GNOME/Evolution:Summary:ComponentFactory:1.0",
-					NULL};
-	char *obj_id;
-	
-	obj_id = bonobo_selector_select_id ("Select a service",
-					    (const char **) required_interfaces);
-	if (obj_id == NULL)
-		return;
-
-	e_summary_factory_embed_service_from_id (esummary, obj_id);
-}
-
-ESummaryWindow *
-e_summary_factory_embed_service_from_id (ESummary *esummary,
-					 const char *obj_id)
-{
-	GNOME_Evolution_Summary_Component component;
-	ExecutiveSummaryComponentFactoryClient *client;
-	ESummaryWindow *window;
-	CORBA_Environment ev;
-
-	client = executive_summary_component_factory_client_new (obj_id);
-
-	component = executive_summary_component_factory_client_create_view (client);
-	
-	window = e_summary_add_service (esummary, component, obj_id);
-	e_summary_rebuild_page (esummary);
-
-	return window;
 }
 
 BonoboControl *

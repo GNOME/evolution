@@ -1,3 +1,161 @@
+2000-12-07  Iain Holmes  <iain@helixcode.com>
+
+	* summary.html: Prettier HTML summary.
+
+	* Makefile.am: Install the new summary.html
+
+	* component/e-summary.c (load_component): Free corba_subdir and
+	corba_stream.
+	(save_component): Free corba stuff. 
+	
+
+2000-12-06  Iain Holmes  <iain@helixcode.com>
+
+	* e-summary-callbacks.c (new_mail): Update COMPOSER_IID to the new
+	style IIDs.
+	(configure_summary): Set up to do stuff when preferences are changed.
+
+	* e-summary-prefs.c (e_summary_prefs_save): Sync and drop the config file
+	so that changes are written to disk.
+
+	* e-summary.c (e_summary_reconfigure): Change the summary to the new
+	preferences.
+
+2000-12-04  Iain Holmes  <iain@helixcode.com>
+
+	* test-service/rdf-summary.c (entry_changed): Add a NULL for opt_ev.
+
+	* idl/HtmlView.idl: Inherit from Bonobo::Unknown and not 
+	Bonobo::EventSource.
+
+	* evolution-services/executive-summary-html-view.[ch]: Change 
+	implementation of the EventSource so that it is aggregated onto
+	the HtmlView object and not inherited.
+
+	* component/e-summary.c (e_summary_window_free): Free the event_source.
+	(e_summary_add_service): query for the EventSource interface.
+
+2000-12-01  Iain Holmes  <iain@helixcode.com>
+
+	* component/e-summary.c (e_summary_load_state): Fix memory leak.
+	(everywhere): Fixed memory leaks, and unref problems.
+
+2000-11-30  Iain Holmes  <iain@helixcode.com>
+
+	* component/e-summary.c (e_summary_window_free): remove the
+	event listener before destruction.
+
+	* component/e-summary-url.c (e_summary_url_click): Handle the
+	new PropertyControl api. Add a listener to detect when the page
+	is changed, and adjust the property box accordingly.
+
+	* test-service/main.c (create_view): Increment running view.
+
+2000-11-29  Iain Holmes  <iain@helixcode.com>
+
+	* component/e-summary.c: Big memory leak cleanup.
+
+2000-11-28  Iain Holmes  <iain@helixcode.com>
+
+	* component/e-summary.c (e_summary_display_window): If the HTML
+	control dies, then just close the open tags.
+
+	* component/e-summary-url (e_summary_url_click): Put the control
+	into a GnomePropertyBox.
+
+	* evolution-services/executive-summary-component.c 
+	(impl_GNOME_Evolution_Summary_ComponentFactory_createView): 
+	Duplicate the component.
+
+2000-11-27  Iain Holmes  <iain@helixcode.com>
+
+	* component/e-summary.c (e_summary_window_free): Free all the
+	interfaces and the component.
+	(e_summary_load_state): Fix typos.
+
+	* component/e-summary-prefs.c: Fix some typos.
+
+	* component/e-summary-url.c: If configure is pressed, retrieve
+	the control and embed it in a window.
+
+	* test-services/main.c (component_destroyed): assign ud from data
+	not from ud!
+
+	* test-services/rdf-summary.c (view_destroyed): Connect this 
+	callback and free the summary.
+	(property_control): Made a simple configuration dialog.
+
+2000-11-25  Iain Holmes  <iain@helixcode.com>
+
+	* component/e-summary-prefs.[ch]: New files to handle loading,
+	saving, copying and freeing preferences.
+
+	* component/e-summary.c (e_summary_save_state): Use the new
+	prefs stuff to save.
+	(e_summary_load_state): Use the new prefs stuff to load.
+
+	* component/e-summary-factory.c (set_pixmap): Use e_pixmap_file
+	to find the pixbuf.
+
+2000-11-24  Iain Holmes  <iain@helixcode.com>
+
+	* idl/SummaryComponent.idl: Removed the setOwner and unsetOwner 
+	methods from the Component interface.
+
+	* evolution-services/executive-summary.[ch]
+	  evolution-services/executive-summary-client.[ch]
+	  evolution-services/executive-summary-component-client.[ch]
+	  evolution-services/executive-summary-component-view.[ch]:
+	Removed.
+ 
+	* component/main.c (main): Stopped ignoring the signals.
+
+	* component/executive-summary-config.glade: Glade file for the
+	prefs dialog.
+
+2000-11-23  Iain Holmes  <iain@helixcode.com>
+
+	* component/e-summary-factory.c (embed-service): Moved to
+	e-summary-callbacks.c.
+	(e_summary_factory_embed_from_id): Moved to e-summary.c and renamed
+	e_summary_embed_from_id.
+	Added a New Mail button.
+
+	* component/e-summary-callbacks.c: New file.
+
+2000-11-22  Iain Holmes  <iain@helixcode.com>
+
+	* component/e-summary.c (e_summary_save_state): removed the #if 0s
+	and changed the save type to fs.
+
+2000-11-21  Iain Holmes  <iain@helixcode.com>
+
+	* test-services/rdf-summary.c: Rewrote to use the new services code.
+
+	* idl/HtmlView.idl: Inherit from Bonobo::EventSource instead of
+	Bonobo::Unknown.
+
+2000-11-20  Iain Holmes  <iain@helixcode.com>
+
+	* component/e-summary.c (e_summary_save_state): #if 0'd out the 
+	PersistStream code till it is fixed.
+	(e_summary_window_free): Only Bonobo_Unknown_unref the component,
+	not all the other interfaces.
+	(e_summary_remove_window): Function to remove the window from the
+	window list and free it.
+	(make_control_html): Make "id" the address of the window structure.
+
+	* component/e-summary-url.c: Reimplemented all the functions that the
+	Executive Summary had before the big code change.
+
+2000-11-18  Iain Holmes  <iain@helixcode.com>
+
+	* component/e-summary.c (e_summary_save_state): Use Persist stream to
+	save the state of all the components.
+	(e_summary_load_state): Use Persist stream to load the components again.
+	(e_summary_add_service): Add a Property Listener to the property bag to
+	be notified of changes to the title or icon.
+
 2000-12-07  Dave Camp  <dave@helixcode.com>
 
 	* evolution-services/evolution-summary-component.c: Don't include 
@@ -157,7 +315,6 @@
 	* component/Makefile.am: Regenerate the idl-generated files
 	if composer idl changes.
 
->>>>>>> 1.18
 2000-11-03  Federico Mena Quintero  <federico@helixcode.com>
 
 	* evolution-services/Makefile.am: Clean the idl-generated files

@@ -23,8 +23,6 @@
 
 #include <config.h>
 
-#include <signal.h>
-
 #include <gnome.h>
 #include <bonobo/bonobo-main.h>
 #include <bonobo/bonobo-object-directory.h>
@@ -55,6 +53,7 @@ main (int argc,
   orb = oaf_init (argc, argv);
 
   gdk_rgb_init ();
+  glade_gnome_init ();
   if (bonobo_init (orb, CORBA_OBJECT_NIL, CORBA_OBJECT_NIL) == FALSE) {
     g_error (_("Executive summary component could not initialize Bonobo.\n"
 	       "If there was a warning message about the "
@@ -69,9 +68,6 @@ main (int argc,
   e_cursors_init ();
 
   component_factory_init ();
-
-  signal (SIGSEGV, SIG_DFL);
-  signal (SIGBUS, SIG_DFL);
 
   gnome_vfs_init ();
   bonobo_main ();

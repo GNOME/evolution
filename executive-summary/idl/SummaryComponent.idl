@@ -19,24 +19,16 @@ module Summary {
 	interface ViewFrame;
 
 	interface Component: Bonobo::Unknown {
-
-		/**
-		 * setOwner:
-		 * @summary: A Summary object.
-		 *
-		 * Sets the owner of the component.
-		 */
-		void setOwner (in ViewFrame owner);
-
-		/**
-		 * unsetOwner:
-		 *
-		 * Unsets the owner of the component.
-		 */
-		void unsetOwner ();
 	};
 
 	interface ComponentFactory: Bonobo::Unknown {
+		/**
+		 * createView:
+		 *
+ 		 * Creates a new Component object.
+		 *
+		 * Returns: A Component object.
+		 **/
 		Component createView ();
 	};
 };

@@ -154,7 +154,7 @@ static void
 component_destroyed (GtkObject *object,
 		     gpointer data)
 {
-	UserData *ud = (UserData *) ud;
+	UserData *ud = (UserData *) data;
 	/* Free the UserData structure */
 	g_free (ud->title);
 	g_free (ud->icon);
@@ -163,8 +163,10 @@ component_destroyed (GtkObject *object,
 	running_views--;
 
 	g_print ("Destroy!\n");
-	if (running_views <= 0)
+	if (running_views <= 0) {
+		bonobo_object_unref (BONOBO_OBJECT (factory));
 		gtk_main_quit ();
+	}
 }
 
 static BonoboObject *
@@ -225,12 +227,12 @@ create_view (ExecutiveSummaryComponentFactory *_factory,
 	/* Now add the interface */
 	bonobo_object_add_interface (component, bag);
 
-
 	/* Add the Bonobo::PersistStream interface */
 	stream = bonobo_persist_stream_new (load_from_stream, save_to_stream,
 					    NULL, content_types, NULL);
 	bonobo_object_add_interface (component, stream);
 
+	running_views++;
 	/* Return the ExecutiveSummaryComponent object */
 	return component;
 }

@@ -20,7 +20,7 @@
 #include <gnome-xml/parser.h>
 
 #include <evolution-services/executive-summary-component.h>
-#include <evolution-services/executive-summary-component-view.h>
+#include <evolution-services/executive-summary-html-view.h>
 #include <liboaf/liboaf.h>
 #include <libgnomevfs/gnome-vfs.h>
 
@@ -31,6 +31,27 @@ static int running_views = 0;
 
 static BonoboGenericFactory *factory = NULL;
 #define RDF_SUMMARY_ID "OAFIID:GNOME_Evolution_Summary_rdf_SummaryComponentFactory"
+
+enum {
+	PROPERTY_TITLE,
+	PROPERTY_ICON
+};
+
+struct _RdfSummary {
+	BonoboObject *component;
+	BonoboObject *view;
+	BonoboObject *bag;
+	BonoboObject *property_control;
+
+	GtkWidget *rdf;
+	GtkWidget *g_limit;
+
+	char *title;
+	char *icon;
+	char *location;
+	int limit;
+};
+typedef struct _RdfSummary RdfSummary;
 
 /************ RDF Parser *******************/
 
@@ -110,16 +131,17 @@ layer_find_url (xmlNodePtr node,
 
 static void 
 tree_walk (xmlNodePtr root,
-	   ExecutiveSummaryComponentView *view,
+	   RdfSummary *summary,
 	   GString *html)
 {
+	BonoboArg *arg;
 	xmlNodePtr walk;
 	xmlNodePtr rewalk = root;
 	xmlNodePtr channel = NULL;
 	xmlNodePtr image = NULL;
 	xmlNodePtr item[16];
 	int items = 0;
-	int limit = 10;
+	int limit = summary->limit;
 	int i;
 	char *t;
 	char n[512];
@@ -169,21 +191,32 @@ tree_walk (xmlNodePtr root,
 	}
 
 	t = layer_find(channel->childs, "title", "No title");
-/*  	g_string_append (html, tmp); */
-	executive_summary_component_view_set_title (view, t);
 
+	arg = bonobo_arg_new (BONOBO_ARG_STRING);
+	BONOBO_ARG_SET_STRING (arg, t);
+	bonobo_property_bag_set_value (BONOBO_PROPERTY_BAG (summary->bag),
+				       "window_title", (const BonoboArg *) arg,
+				       NULL);
+	bonobo_arg_release (arg);
+
+#if 0
 	tmp = g_strdup_printf ("%s",
 			       layer_find(channel->childs, "description", ""));
 	g_string_append (html, tmp);
 	g_free (tmp);
+#endif
 
 	if (image && !wipe_trackers) {		
-		g_print ("URL: %s\n", layer_find_url (image->childs, "url",
-						      "green-apple.png"));
-		executive_summary_component_view_set_icon (view,
-							   layer_find_url 
-							   (image->childs, 
-							    "url", "apple-green.png"));
+		char *icon;
+
+		icon = layer_find_url (image->childs, "url", "apple-red.png");
+		arg = bonobo_arg_new (BONOBO_ARG_STRING);
+		BONOBO_ARG_SET_STRING (arg, icon);
+		bonobo_property_bag_set_value (BONOBO_PROPERTY_BAG (summary->bag),
+					       "window_icon", 
+					       (const BonoboArg *) arg, NULL);
+		bonobo_arg_release (arg);
+			
 	}
 
 	g_string_append (html, "<br clear=all><FONT size=\"-1\" face=\"helvetica\"><P><UL>\n");
@@ -238,6 +271,12 @@ static void
 view_destroyed (GtkObject *object,
 		gpointer data)
 {
+	RdfSummary *summary = (RdfSummary *) data;
+
+	g_free (summary->title);
+	g_free (summary->icon);
+	g_free (summary);
+
 	running_views--;
 	if (running_views <= 0) {
 		gtk_main_quit ();
@@ -245,8 +284,9 @@ view_destroyed (GtkObject *object,
 }
 
 static int
-download (ExecutiveSummaryComponentView *view)
+download (RdfSummary *summary)
 {
+	ExecutiveSummaryHtmlView *view;
 	GString *rdf;
 	GString *html;
 	char *xml;
@@ -260,14 +300,15 @@ download (ExecutiveSummaryComponentView *view)
 	/* Then parse it */
 	/* The update it */
 
-	location = "/home/iain/gnotices.rdf";
-	result = gnome_vfs_open (&handle, location, GNOME_VFS_OPEN_READ);
+	view = EXECUTIVE_SUMMARY_HTML_VIEW (summary->view);
+	result = gnome_vfs_open (&handle, summary->location, 
+				 GNOME_VFS_OPEN_READ);
 	if (result != GNOME_VFS_OK) {
 		char *emsg;
 
 		emsg = g_strdup_printf ("<b>Cannot open location:<br>%s</b>",
-					location);
-		executive_summary_component_view_set_html (view, emsg);
+					summary->location);
+		executive_summary_html_view_set_html (view, emsg);
 		g_free (emsg);
 		return FALSE;
 	}
@@ -282,8 +323,8 @@ download (ExecutiveSummaryComponentView *view)
 
 		result = gnome_vfs_read (handle, buffer, 4096, &size);
 		if (result != GNOME_VFS_OK && result != GNOME_VFS_ERROR_EOF) {
-			executive_summary_component_view_set_html (view,
-								   "<b>Error reading data.</b>");
+			executive_summary_html_view_set_html (view,
+							      "<b>Error reading data.</b>");
 			g_string_free (rdf, TRUE);
 			return FALSE;
 		}
@@ -309,36 +350,206 @@ download (ExecutiveSummaryComponentView *view)
 	g_free (xml);
 	html = g_string_new ("");
 
-	tree_walk (doc->root, view, html);
-	executive_summary_component_view_set_html (view, html->str);
+	tree_walk (doc->root, summary, html);
+	executive_summary_html_view_set_html (view, html->str);
 	g_string_free (html, TRUE);
 	return FALSE;
 }
 
 static void
-create_view (ExecutiveSummaryComponent *component,
-	     ExecutiveSummaryComponentView *view,
+get_prop (BonoboPropertyBag *bag,
+	  BonoboArg *arg,
+	  guint arg_id,
+	  gpointer user_data)
+{
+	RdfSummary *summary = (RdfSummary *) user_data;
+
+	switch (arg_id) {
+	case PROPERTY_TITLE:
+		BONOBO_ARG_SET_STRING (arg, summary->title);
+		break;
+
+	case PROPERTY_ICON:
+		BONOBO_ARG_SET_STRING (arg, summary->icon);
+		break;
+		
+	default:
+		break;
+	}
+}
+
+static void
+set_prop (BonoboPropertyBag *bag,
+	  const BonoboArg *arg,
+	  guint arg_id,
+	  gpointer user_data)
+{
+	RdfSummary *summary = (RdfSummary *) user_data;
+
+	switch (arg_id) {
+	case PROPERTY_TITLE:
+		if (summary->title)
+			g_free (summary->title);
+
+		summary->title = g_strdup (BONOBO_ARG_GET_STRING (arg));
+		bonobo_property_bag_notify_listeners (bag, "window_title",
+						      arg, NULL);
+		break;
+
+	case PROPERTY_ICON:
+		if (summary->icon)
+			g_free (summary->icon);
+
+		summary->icon = g_strdup (BONOBO_ARG_GET_STRING (arg));
+		bonobo_property_bag_notify_listeners (bag, "window_icon",
+						      arg, NULL);
+		break;
+
+	default:
+		break;
+	}
+}
+
+static void
+entry_changed (GtkEntry *entry,
+		  RdfSummary *summary)
+{
+	bonobo_property_control_changed (BONOBO_PROPERTY_CONTROL (summary->property_control), NULL);
+}
+
+static BonoboControl *
+property_control (BonoboPropertyControl *property_control,
+		  int page_num,
+		  gpointer user_data)
+{
+	BonoboControl *control;
+	RdfSummary *summary = (RdfSummary *) user_data;
+	GtkWidget *container, *label, *hbox;
+	char *climit;
+
+	container = gtk_vbox_new (FALSE, 2);
+	gtk_container_set_border_width (GTK_CONTAINER (container), 2);
+	hbox = gtk_hbox_new (FALSE, 2);
+
+	label = gtk_label_new ("Location:");
+	gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, 0);
+
+	summary->rdf = gtk_entry_new ();
+	if (summary->location)
+		gtk_entry_set_text (GTK_ENTRY (summary->rdf), summary->location);
+
+	gtk_signal_connect (GTK_OBJECT (summary->rdf), "changed",
+			    GTK_SIGNAL_FUNC (entry_changed), summary);
+
+	gtk_box_pack_start (GTK_BOX (hbox), summary->rdf, TRUE, TRUE, 0);
+
+	gtk_box_pack_start (GTK_BOX (container), hbox, FALSE, FALSE, 0);
+
+	hbox = gtk_hbox_new (FALSE, 2);
+
+	label = gtk_label_new ("Maximum number of entries:");
+	gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, 0);
+
+	summary->g_limit = gtk_entry_new ();
+	climit = g_strdup_printf ("%d", summary->limit);
+	gtk_entry_set_text (GTK_ENTRY (summary->g_limit), climit);
+	g_free (climit);
+
+	gtk_signal_connect (GTK_OBJECT (summary->g_limit), "changed",
+			    GTK_SIGNAL_FUNC (entry_changed), summary);
+
+	gtk_box_pack_start (GTK_BOX (hbox), summary->g_limit, TRUE, TRUE, 0);
+
+	gtk_box_pack_start (GTK_BOX (container), hbox, FALSE, FALSE, 0);
+	gtk_widget_show_all (container);
+
+	control = bonobo_control_new (container);
+	return control;
+}
+
+static void
+property_action (GtkObject *property_control,
+		 int page_num,
+		 Bonobo_PropertyControl_Action action,
+		 RdfSummary *summary)
+{
+	switch (action) {
+	case Bonobo_PropertyControl_APPLY:
+		g_free (summary->location);
+		summary->location = g_strdup (gtk_entry_get_text (GTK_ENTRY (summary->rdf)));
+		summary->limit = atoi (gtk_entry_get_text (GTK_ENTRY (summary->g_limit)));
+		g_idle_add (download, summary);
+		break;
+ 
+	case Bonobo_PropertyControl_HELP:
+		g_print ("HELP: Page %d!\n", page_num);
+		break;
+
+	default:
+		break;
+	}
+}
+
+static BonoboObject *
+create_view (ExecutiveSummaryComponentFactory *_factory,
 	     void *closure)
 {
+	RdfSummary *summary;
+	BonoboObject *component, *view, *bag, *property;
 	char *html = "<b>Loading RDF file. . .<br>Please wait</b>";
 	
-	executive_summary_component_view_construct (view, component, NULL,
-						    html, "Downloading",
-						    "apple-green.png");
-	gtk_signal_connect (GTK_OBJECT (view), "destroy",
-			    GTK_SIGNAL_FUNC (view_destroyed), NULL);
+	summary = g_new (RdfSummary, 1);
+	summary->icon = g_strdup ("apple-green.png");
+	summary->title = g_strdup ("Downloading...");
+	summary->location = g_strdup ("http://news.gnome.org/gnome-news/rdf");
+	summary->limit = 10;
+
+	component = executive_summary_component_new ();
+	gtk_signal_connect (GTK_OBJECT (component), "destroy",
+			    GTK_SIGNAL_FUNC (view_destroyed), summary);
+
+	summary->component = component;
+
+	view = executive_summary_html_view_new ();
+	summary->view = view;
+	executive_summary_html_view_set_html (EXECUTIVE_SUMMARY_HTML_VIEW (view),
+					      html);
+	bonobo_object_add_interface (component, view);
+
+	bag = bonobo_property_bag_new (get_prop, set_prop, summary);
+	summary->bag = bag;
+	bonobo_property_bag_add (BONOBO_PROPERTY_BAG (bag),
+				 "window_title", PROPERTY_TITLE,
+				 BONOBO_ARG_STRING, NULL,
+				 "The title of this component's window", 0);
+	bonobo_property_bag_add (BONOBO_PROPERTY_BAG (bag),
+				 "window_icon", PROPERTY_ICON,
+				 BONOBO_ARG_STRING, NULL,
+				 "The icon for this component's window", 0);
+	bonobo_object_add_interface (component, bag);
+				 
+	property = bonobo_property_control_new (property_control, 1, summary);
+	summary->property_control = property;
+
+	gtk_signal_connect (GTK_OBJECT (property), "action",
+			    GTK_SIGNAL_FUNC (property_action), summary);
+
+	bonobo_object_add_interface (component, property);
+
 	running_views++;
-	g_idle_add (download, view);
+	g_idle_add (download, summary);
+
+	return component;
 }
 
 static BonoboObject *
 factory_fn (BonoboGenericFactory *_factory,
 	    void *closure)
 {
-	ExecutiveSummaryComponent *component;
+	ExecutiveSummaryComponentFactory *component_factory;
 
-	component = executive_summary_component_new (create_view, NULL);
-	return BONOBO_OBJECT (component);
+	component_factory = executive_summary_component_factory_new (create_view, NULL);
+	return BONOBO_OBJECT (component_factory);
 }
 
 static void
@@ -371,23 +582,10 @@ main (int argc,
 
 	factory_init ();
 	bonobo_main ();
-	return 0;
 
-#if 0
-	doc=xmlParseMemory(document, docp);
-	
-	if(doc==NULL)
-	{
-		fprintf(stderr, "Unable to parse document.\n");
-		exit(1);
-	}
-	
-	tree_walk(doc->root);
-	
-	if(rename(buf, nam))
-		perror("rename");
-	return 0;
-#endif
+	if (factory != NULL)
+		bonobo_object_unref (BONOBO_OBJECT (factory));
 
+	return 0;
 }
 	

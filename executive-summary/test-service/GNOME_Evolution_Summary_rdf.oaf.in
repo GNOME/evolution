@@ -17,7 +17,7 @@
 		location="OAFIID:GNOME_Evolution_Summary_rdf_SummaryComponentFactory">
 
 	<oaf_attribute name="repo_ids" type="stringv">
-		<item value="IDL:Evolution:SummaryComponent:1.0"/>
+		<item value="IDL:GNOME/Evolution:Summary:ComponentFactory:1.0"/>
 	</oaf_attribute>
 
 	<oaf_attribute name="description" type="string"

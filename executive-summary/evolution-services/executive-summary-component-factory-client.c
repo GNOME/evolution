@@ -33,7 +33,6 @@
 
 #include <Executive-Summary.h>
 #include "executive-summary-component-factory-client.h"
-#include "executive-summary.h"
 
 #define PARENT_TYPE BONOBO_OBJECT_CLIENT_TYPE
 static BonoboObjectClass *parent_class = NULL;

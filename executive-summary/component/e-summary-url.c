@@ -73,6 +73,12 @@ static char *descriptions[] = {
 	N_("Open %s with the default GNOME application")
 };
 
+typedef struct _PropertyDialog {
+	BonoboListener *listener;
+	Bonobo_Listener corba_listener;
+	Bonobo_EventSource eventsource;
+	GtkWidget *dialog;
+} PropertyDialog;
 #define COMPOSER_IID "OAFIID:GNOME_Evolution_Mail_Composer"
 
 gboolean e_summary_url_mail_compose (ESummary *esummary,
@@ -319,6 +325,65 @@ get_protocol (const char *url)
 	return protocol;
 }
 
+static void
+property_apply (GnomePropertyBox *propertybox,
+		gint page_num,
+		Bonobo_PropertyControl control)
+{
+	CORBA_Environment ev;
+
+	g_print ("page_num: %d\n", page_num);
+
+	CORBA_exception_init (&ev);
+	Bonobo_PropertyControl_notifyAction (control, page_num, Bonobo_PropertyControl_APPLY, &ev);
+	CORBA_exception_free (&ev);
+}
+
+static void
+property_help (GnomePropertyBox *propertybox,
+	       gint page_num,
+	       Bonobo_PropertyControl control)
+{
+	CORBA_Environment ev;
+
+	CORBA_exception_init (&ev);
+	Bonobo_PropertyControl_notifyAction (control, page_num, Bonobo_PropertyControl_HELP, &ev);
+	CORBA_exception_free (&ev);
+}
+
+static void
+property_event (BonoboListener *listener,
+		char *event_name,
+		CORBA_any *any,
+		CORBA_Environment *ev,
+		gpointer user_data)
+{
+	PropertyDialog *data = (PropertyDialog *) user_data;
+	if (strcmp (event_name, "property_box_changed") == 0) {
+		gnome_property_box_changed (GNOME_PROPERTY_BOX (data->dialog));
+		return;
+	}
+}
+
+static void
+dialog_destroyed (GtkObject *object,
+		  PropertyDialog *dialog)
+{
+	CORBA_Environment ev;
+
+	CORBA_exception_init (&ev);
+	Bonobo_EventSource_removeListener (dialog->eventsource,
+					   dialog->corba_listener, &ev);
+	if (ev._major != CORBA_NO_EXCEPTION) {
+		g_warning ("Error: %s", CORBA_exception_id (&ev));
+	}
+
+	bonobo_object_unref (BONOBO_OBJECT (dialog->listener));
+	bonobo_object_release_unref (dialog->eventsource, &ev);
+	CORBA_exception_free (&ev);
+	g_free (dialog);
+}
+
 void
 e_summary_url_click (GtkWidget *widget,
 		     const char *url,
@@ -328,6 +393,11 @@ e_summary_url_click (GtkWidget *widget,
 	char *parsed;
 	int address;
 	ESummaryWindow *window;
+	Bonobo_Control control;
+	GtkWidget *prefsbox, *control_widget;
+	CORBA_Environment ev;
+	PropertyDialog *data;
+	int num_pages, i;
 
 	protocol = get_protocol (url);
 
@@ -354,7 +424,7 @@ e_summary_url_click (GtkWidget *widget,
 		address = atoi (url + 8);
 		window = (ESummaryWindow *) GINT_TO_POINTER (address);
 		if (window->iid == NULL)
-			return;
+			break;
 
 		e_summary_remove_window (esummary, window);
 		e_summary_rebuild_page (esummary);
@@ -365,9 +435,50 @@ e_summary_url_click (GtkWidget *widget,
 		address = atoi (url + 12);
 		window = (ESummaryWindow *) GINT_TO_POINTER (address);
 		if (window->iid == NULL)
-			return;
+			break;
 	
-		/* Issue the configure command some how :) */
+		data = g_new (PropertyDialog, 1);
+		/* Create the property box */
+		prefsbox = gnome_property_box_new ();
+		data->dialog = prefsbox;
+
+		CORBA_exception_init (&ev);
+		data->eventsource = Bonobo_Unknown_queryInterface (window->propertycontrol,
+								   "IDL:Bonobo/EventSource:1.0", 
+								   &ev);
+		data->listener = bonobo_listener_new (property_event, data);
+		data->corba_listener = bonobo_object_corba_objref (BONOBO_OBJECT (data->listener));
+		Bonobo_EventSource_addListener (data->eventsource,
+						data->corba_listener, &ev);
+
+		gtk_signal_connect (GTK_OBJECT (prefsbox), "apply",
+				    GTK_SIGNAL_FUNC (property_apply), 
+				    window->propertycontrol);
+		gtk_signal_connect (GTK_OBJECT (prefsbox), "help",
+				    GTK_SIGNAL_FUNC (property_help),
+				    window->propertycontrol);
+		gtk_signal_connect (GTK_OBJECT (prefsbox), "destroy",
+				    GTK_SIGNAL_FUNC (dialog_destroyed), data);
+
+		num_pages = Bonobo_PropertyControl__get_pageCount (window->propertycontrol, &ev);
+		for (i = 0; i < num_pages; i++) {
+			char *pagename;
+
+			control = Bonobo_PropertyControl_getControl (window->propertycontrol, i, &ev);
+			if (ev._major != CORBA_NO_EXCEPTION) {
+				g_warning ("Unable to get property control.");
+				CORBA_exception_free (&ev);
+				break;
+			}
+			control_widget = bonobo_widget_new_control_from_objref (control,
+										CORBA_OBJECT_NIL);
+			gnome_property_box_append_page (GNOME_PROPERTY_BOX (prefsbox),
+							control_widget,
+							gtk_label_new ("page"));
+		}
+
+		gtk_widget_show_all (prefsbox);
+
 		break;
 
 	case PROTOCOL_LEFT:
@@ -375,7 +486,7 @@ e_summary_url_click (GtkWidget *widget,
 		address = atoi (url + 7);
 		window = (ESummaryWindow *) GINT_TO_POINTER (address);
 		if (window->iid == NULL)
-			return;
+			break;
 
 		e_summary_window_move_left (esummary, window);
 		e_summary_rebuild_page (esummary);
@@ -385,7 +496,7 @@ e_summary_url_click (GtkWidget *widget,
 		address = atoi (url + 8);
 		window = (ESummaryWindow *) GINT_TO_POINTER (address);
 		if (window->iid == NULL)
-			return;
+			break;
 
 		e_summary_window_move_right (esummary, window);
 		e_summary_rebuild_page (esummary);
@@ -395,7 +506,7 @@ e_summary_url_click (GtkWidget *widget,
 		address = atoi (url + 5);
 		window = (ESummaryWindow *) GINT_TO_POINTER (address);
 		if (window->iid == NULL)
-			return;
+			break;
 
 		e_summary_window_move_up (esummary, window);
 		e_summary_rebuild_page (esummary);
@@ -405,7 +516,7 @@ e_summary_url_click (GtkWidget *widget,
 		address = atoi (url + 7);
 		window = (ESummaryWindow *) GINT_TO_POINTER (address);
 		if (window->iid == NULL)
-			return;
+			break;
 
 		e_summary_window_move_down (esummary, window);
 		e_summary_rebuild_page (esummary);

@@ -27,6 +27,7 @@
 #endif
 
 #include <bonobo.h>
+#include <bonobo/bonobo-event-source.h>
 #include <gnome.h>
 #include <gal/util/e-util.h>
 
@@ -42,6 +43,8 @@ static void executive_summary_html_view_class_init (ExecutiveSummaryHtmlViewClas
 static BonoboObjectClass *parent_class;
 
 struct _ExecutiveSummaryHtmlViewPrivate {
+	BonoboEventSource *event_source;
+
 	char *html;
 };
 
@@ -103,7 +106,7 @@ executive_summary_html_view_destroy (GtkObject *object)
 
 	view->private = NULL;
 
-	(* GTK_OBJECT_CLASS (parent_class)->destroy) (object);
+	GTK_OBJECT_CLASS (parent_class)->destroy (object);
 }
 
 static void
@@ -147,6 +150,7 @@ executive_summary_html_view_init (ExecutiveSummaryHtmlView *view)
 
 	priv = g_new (ExecutiveSummaryHtmlViewPrivate, 1);
 	priv->html = NULL;
+	priv->event_source = NULL;
 
 	view->private = priv;
 }
@@ -159,8 +163,17 @@ static void
 executive_summary_html_view_construct (ExecutiveSummaryHtmlView *view,
 				       GNOME_Evolution_Summary_HTMLView corba_object)
 {
+	ExecutiveSummaryHtmlViewPrivate *priv;
+
 	g_return_if_fail (view != NULL);
 	g_return_if_fail (corba_object != CORBA_OBJECT_NIL);
+
+	priv = view->private;
+	
+	priv->event_source = bonobo_event_source_new ();
+	g_warning ("new event source: %p", priv->event_source);
+	bonobo_object_add_interface (BONOBO_OBJECT (view), 
+				     BONOBO_OBJECT (priv->event_source));
 
 	bonobo_object_construct (BONOBO_OBJECT (view), corba_object);
 }
@@ -206,6 +219,8 @@ executive_summary_html_view_set_html (ExecutiveSummaryHtmlView *view,
 				      const char *html)
 {
 	ExecutiveSummaryHtmlViewPrivate *priv;
+	CORBA_any any;
+	CORBA_short s;
 
 	g_return_if_fail (view != NULL);
 	g_return_if_fail (IS_EXECUTIVE_SUMMARY_HTML_VIEW (view));
@@ -218,6 +233,16 @@ executive_summary_html_view_set_html (ExecutiveSummaryHtmlView *view,
 		priv->html = g_strdup (html);
 	else
 		priv->html = NULL;
+
+	/* Notify any listeners */
+	s = 0;
+
+	any._type = (CORBA_TypeCode) TC_short;
+	any._value = &s;
+
+	g_warning ("Notifying event source: %p", priv->event_source);
+	bonobo_event_source_notify_listeners (BONOBO_EVENT_SOURCE (priv->event_source),
+					      "html_changed", &any, NULL);
 }
 /**
  * executive_summary_html_view_get_html:
