@@ -226,6 +226,7 @@ struct _DialogData {
 	GtkEntry *file_name_entry;
 	GtkEntry *description_entry;
 	GtkEntry *mime_type_entry;
+	GtkOptionMenu *disposition_option;
 	EMsgComposerAttachment *attachment;
 };
 typedef struct _DialogData DialogData;
@@ -303,6 +304,27 @@ close_cb (GtkWidget *widget,
 	destroy_dialog_data (dialog_data);
 }
 
+/* Why was this never part of GTK? */
+static int
+option_menu_get_history (GtkOptionMenu *menu)
+{
+	GtkWidget *active;
+
+	g_return_val_if_fail (menu != NULL, -1);
+	g_return_val_if_fail (GTK_IS_OPTION_MENU (menu), -1);
+
+	if (menu->menu) {
+		active = gtk_menu_get_active (GTK_MENU (menu->menu));
+
+		if (active)
+			return g_list_index (GTK_MENU_SHELL (menu->menu)->children,
+					     active);
+		else 
+			return -1;
+	} else 
+		return -1;
+}
+
 static void
 ok_cb (GtkWidget *widget,
        gpointer data)
@@ -310,7 +332,8 @@ ok_cb (GtkWidget *widget,
 	DialogData *dialog_data;
 	EMsgComposerAttachment *attachment;
 	gchar *str;
-
+	int option;
+	
 	dialog_data = (DialogData *) data;
 	attachment = dialog_data->attachment;
 
@@ -328,6 +351,19 @@ ok_cb (GtkWidget *widget,
 	camel_data_wrapper_set_mime_type (
 		camel_medium_get_content_object (CAMEL_MEDIUM (attachment->body)), str);
 	g_free (str);
+
+	option = option_menu_get_history (dialog_data->disposition_option);
+	switch (option) {
+	case 0:
+		camel_mime_part_set_disposition (attachment->body, "attachment");
+		break;
+	case 1:
+		camel_mime_part_set_disposition (attachment->body, "inline");
+		break;
+	default:
+		/* Hmmmm? */
+		break;
+	}
 
 	changed (attachment);
 	close_cb (widget, data);
@@ -389,6 +425,9 @@ e_msg_composer_attachment_edit (EMsgComposerAttachment *attachment,
 	dialog_data->mime_type_entry = GTK_ENTRY (glade_xml_get_widget
 						  (editor_gui,
 						   "mime_type_entry"));
+	dialog_data->disposition_option = GTK_OPTION_MENU (glade_xml_get_widget 
+							  (editor_gui,
+							   "disposition_option"));
 
 	if (attachment != NULL) {
 		CamelContentType *content_type;
