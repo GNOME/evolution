@@ -26,7 +26,7 @@
       <child>
 	<widget class="GtkLabel" id="label21">
 	  <property name="visible">True</property>
-	  <property name="label" translatable="yes">&lt;span weight=&quot;bold&quot;&gt;Basics&lt;/span&gt;</property>
+	  <property name="label" translatable="yes">&lt;b&gt;Basics&lt;/b&gt;</property>
 	  <property name="use_underline">False</property>
 	  <property name="use_markup">True</property>
 	  <property name="justify">GTK_JUSTIFY_LEFT</property>
@@ -89,7 +89,7 @@
 		  <property name="max_length">0</property>
 		  <property name="text" translatable="yes"></property>
 		  <property name="has_frame">True</property>
-		  <property name="invisible_char" translatable="yes">*</property>
+		  <property name="invisible_char">*</property>
 		  <property name="activates_default">False</property>
 		</widget>
 		<packing>
@@ -274,7 +274,7 @@
 		  <property name="max_length">0</property>
 		  <property name="text" translatable="yes"></property>
 		  <property name="has_frame">True</property>
-		  <property name="invisible_char" translatable="yes">*</property>
+		  <property name="invisible_char">*</property>
 		  <property name="activates_default">False</property>
 		  <accessibility>
 		    <atkproperty name="AtkObject::accessible_name" translatable="yes">Categories</atkproperty>
@@ -372,7 +372,7 @@
       <child>
 	<widget class="GtkLabel" id="label24">
 	  <property name="visible">True</property>
-	  <property name="label" translatable="yes">&lt;span weight=&quot;bold&quot;&gt;Date and Time&lt;/span&gt;</property>
+	  <property name="label" translatable="yes">&lt;b&gt;Date and Time&lt;/b&gt;</property>
 	  <property name="use_underline">False</property>
 	  <property name="use_markup">True</property>
 	  <property name="justify">GTK_JUSTIFY_LEFT</property>
