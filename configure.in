@@ -1129,9 +1129,9 @@ dnl AC_SUBST(EVOLUTION_MAIL_LIBS)
 
 dnl -- wombat flags
 
-dnl EVO_SET_COMPILE_FLAGS(WOMBAT, $FULL_GNOME_DEPS, $LDAP_CFLAGS, $LDAP_LIBS)
-dnl AC_SUBST(WOMBAT_CFLAGS)
-dnl AC_SUBST(WOMBAT_LIBS)
+EVO_SET_COMPILE_FLAGS(WOMBAT, libbonobo-2.0 gnome-vfs-2.0, $LDAP_CFLAGS, $LDAP_LIBS)
+AC_SUBST(WOMBAT_CFLAGS)
+AC_SUBST(WOMBAT_LIBS)
 
 ##################################################
 # Check for gtk-doc.
@@ -1275,6 +1275,7 @@ widgets/Makefile
 widgets/e-timezone-dialog/Makefile
 widgets/menus/Makefile
 widgets/misc/Makefile
+libwombat/Makefile
 calendar/Makefile
 calendar/idl/Makefile
 calendar/cal-util/Makefile

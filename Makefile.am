@@ -29,6 +29,7 @@ SUBDIRS =			\
 	libversit		\
         widgets                 \
         shell                   \
+	libwombat		\
 	calendar		\
         art                     \
 	ui			\
