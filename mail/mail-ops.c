@@ -4,6 +4,7 @@
 /* 
  * Author : 
  *  Dan Winship <danw@helixcode.com>
+ *  Jeffrey Stedfast <fejj@helixcode.com>
  *  Peter Williams <peterw@helixcode.com>
  *
  * Copyright 2000 Helix Code, Inc. (http://www.helixcode.com)
@@ -344,6 +345,13 @@ do_filter_ondemand (gpointer in_data, gpointer op_data, CamelException *ex)
 			} else {
 				info = g_new0 (CamelMessageInfo, 1);
 				free_info = TRUE;
+			}
+			
+			/* check if this message is marked for deletion */
+			if (info->flags & CAMEL_MESSAGE_DELETED) {
+				/* don't filter messages which have been marked as deleted */
+				camel_object_unref (CAMEL_OBJECT (message));
+				continue;
 			}
 			
 			filtered = filter_driver_run (driver, message, info, NULL,

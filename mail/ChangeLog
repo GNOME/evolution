@@ -1,3 +1,9 @@
+2000-09-27  Jeffrey Stedfast  <fejj@helixcode.com>
+
+	* mail-ops.c (do_filter_ondemand): If the message has been
+	deleted, don't try filtering it - skip to the next message.
+	Fixes bugzilla bug #639.
+
 2000-09-25  Jeffrey Stedfast  <fejj@helixcode.com>
 
 	* folder-browser-factory.c: Shuffling (un)select all menu items to
