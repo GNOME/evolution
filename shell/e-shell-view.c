@@ -1135,6 +1135,8 @@ socket_destroy_cb (GtkWidget *socket_widget, gpointer data)
 		  uri, e_folder_get_type_string (folder));
 
 	g_free (copy_of_uri);
+
+	e_shell_view_display_uri (shell_view, DEFAULT_URI);
 }
 
 
@@ -1528,7 +1530,7 @@ e_shell_view_save_settings (EShellView *shell_view,
 	if (uri != NULL)
 		gnome_config_set_string ("DisplayedURI", uri);
 	else
-		gnome_config_clean_section ("DisplayedURI");
+		gnome_config_set_string ("DisplayedURI", DEFAULT_URI);
 
 	gnome_config_pop_prefix ();
 	
