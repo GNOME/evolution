@@ -921,8 +921,20 @@ e_calendar_view_delete_selected_occurrence (ECalendarView *cal_view)
 			if (itip_organizer_is_user (comp, event->comp_data->client)
 			    && cancel_component_dialog ((GtkWindow *) gtk_widget_get_toplevel (GTK_WIDGET (cal_view)),
 							event->comp_data->client,
-							comp, TRUE))
+							comp, TRUE)) {
+				if (!e_cal_component_is_instance (comp)) {
+					ECalComponentRange range;
+
+					/* set the recurrence ID of the object we send */
+					range.type = E_CAL_COMPONENT_RANGE_SINGLE;
+					e_cal_component_get_dtstart (comp, &range.datetime);
+					range.datetime.value->is_date = 1;
+					e_cal_component_set_recurid (comp, &range);
+
+					e_cal_component_free_datetime (&range.datetime);
+				}
 				itip_send_comp (E_CAL_COMPONENT_METHOD_CANCEL, comp, event->comp_data->client, NULL);
+			}
 
 			e_cal_remove_object_with_mod (event->comp_data->client, uid, rid, CALOBJ_MOD_THIS, &error);
 			delete_error_dialog (error, E_CAL_COMPONENT_EVENT);
@@ -1253,6 +1265,7 @@ on_unrecur_appointment (EPopup *ep, EPopupItem *pitem, void *data)
 	ECalComponentDateTime date;
 	struct icaltimetype itt;
 	GList *selected;
+	ECal *client;
 	char *new_uid;
 
 	selected = e_calendar_view_get_selected_events (cal_view);
@@ -1260,6 +1273,7 @@ on_unrecur_appointment (EPopup *ep, EPopupItem *pitem, void *data)
 		return;
 
 	event = (ECalendarViewEvent *) selected->data;
+	client = g_object_ref (event->comp_data->client);
 
 	date.value = &itt;
 	date.tzid = NULL;
@@ -1299,17 +1313,18 @@ on_unrecur_appointment (EPopup *ep, EPopupItem *pitem, void *data)
 	/* Now update both ECalComponents. Note that we do this last since at
 	 * present the updates happen synchronously so our event may disappear.
 	 */
-	if (!e_cal_modify_object (event->comp_data->client, e_cal_component_get_icalcomponent (comp), CALOBJ_MOD_THIS, NULL))
+	if (!e_cal_modify_object (client, e_cal_component_get_icalcomponent (comp), CALOBJ_MOD_THIS, NULL))
 		g_message ("e_day_view_on_unrecur_appointment(): Could not update the object!");
 
 	g_object_unref (comp);
 
-	if (!e_cal_create_object (event->comp_data->client, e_cal_component_get_icalcomponent (new_comp), &new_uid, NULL))
+	if (!e_cal_create_object (client, e_cal_component_get_icalcomponent (new_comp), &new_uid, NULL))
 		g_message ("e_day_view_on_unrecur_appointment(): Could not update the object!");
 	else
 		g_free (new_uid);
 
 	g_object_unref (new_comp);
+	g_object_unref (client);
 	g_list_free (selected);
 }
 

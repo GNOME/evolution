@@ -1,3 +1,8 @@
+2003-12-09  Rodrigo Moya <rodrigo@novell.com>
+
+	* gui/e-calendar-view.c (on_unrecur_appointment): keep a local copy
+	of the ECal.
+
 2004-12-08  Hans Petter Jansson  <hpj@novell.com>
 
 	* gui/e-meeting-list-view.c
