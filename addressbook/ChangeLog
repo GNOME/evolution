@@ -1,3 +1,21 @@
+2003-11-13  Hans Petter Jansson  <hpj@ximian.com>
+
+	* gui/contact-list-editor/e-contact-list-model.c
+	(contact_list_is_cell_editable): Return TRUE for all cells, for now.
+
+	* gui/widgets/e-addressbook-table-adapter.c (card_modified_cb):
+	Renamed to contact_modified_cb ().
+	(addressbook_set_value_at): Port to use EContact instead of ECard.
+	(addressbook_is_cell_editable): Ditto.
+	(addressbook_append_row): Ditto.
+
+	* gui/widgets/e-minicard-label.c (e_minicard_label_set_property):
+	Make not editable, ever, and add a comment to this effect.
+	(e_minicard_label_realize): Ditto.
+
+	* gui/widgets/e-minicard.c (e_minicard_set_property): Ditto.
+	(add_field): Ditto.
+
 2003-11-13  Ettore Perazzoli  <ettore@ximian.com>
 
 	* gui/component/addressbook-component.c

@@ -3,6 +3,7 @@
 #include <config.h>
 #include "e-addressbook-model.h"
 #include "e-addressbook-table-adapter.h"
+#include "eab-contact-merging.h"
 #include "eab-gui-util.h"
 #include "util/eab-destination.h"
 #include <libxml/tree.h>
@@ -105,96 +106,86 @@ addressbook_value_at (ETableModel *etc, int col, int row)
 }
 
 /* This function sets the value at a particular point in our ETableModel. */
-#if 0
 static void
-card_modified_cb (EBook* book, EBookStatus status,
-		  gpointer user_data)
+contact_modified_cb (EBook* book, EBookStatus status,
+		     gpointer user_data)
 {
 	if (status != E_BOOK_ERROR_OK)
 		eab_error_dialog (_("Error modifying card"), status);
 }
-#endif
 
 static void
 addressbook_set_value_at (ETableModel *etc, int col, int row, const void *val)
 {
-#if 0
 	EAddressbookTableAdapter *adapter = EAB_TABLE_ADAPTER(etc);
 	EAddressbookTableAdapterPrivate *priv = adapter->priv;
-	if (eab_model_editable (priv->model)) {
-		ECard *card;
 
-		if ( col >= COLS|| row >= eab_model_card_count (priv->model) )
+	if (eab_model_editable (priv->model)) {
+		EContact *contact;
+
+		if (col >= COLS || row >= eab_model_contact_count (priv->model))
+			return;
+
+		contact = eab_model_get_contact (priv->model, row);
+		if (!contact)
 			return;
 
 		e_table_model_pre_change(etc);
 
-		e_card_simple_set(priv->simples[row],
-				  col,
-				  val);
-		g_object_get(priv->simples[row],
-			     "card", &card,
-			     NULL);
+		e_contact_set(contact, col, (void *) val);
+		eab_merging_book_commit_contact (eab_model_get_ebook (priv->model),
+						 contact, contact_modified_cb, NULL);
 
-		e_card_merging_book_commit_card(eab_model_get_ebook(priv->model),
-						card, card_modified_cb, NULL);
-		g_object_unref (card);
+		g_object_unref (contact);
 
-		/* XXX do we need this?  shouldn't the commit_card generate a changed signal? */
+		/* XXX do we need this?  shouldn't the commit_contact generate a changed signal? */
 		e_table_model_cell_changed(etc, col, row);
 	}
-#endif
 }
 
 /* This function returns whether a particular cell is editable. */
 static gboolean
 addressbook_is_cell_editable (ETableModel *etc, int col, int row)
 {
-#if 0
 	EAddressbookTableAdapter *adapter = EAB_TABLE_ADAPTER(etc);
 	EAddressbookTableAdapterPrivate *priv = adapter->priv;
-	ECard *card;
+	const EContact *contact;
 
-	if (row >= 0 && row < eab_model_card_count (priv->model))
-		card = eab_model_card_at (priv->model, row);
+	if (row >= 0 && row < eab_model_contact_count (priv->model))
+		contact = eab_model_contact_at (priv->model, row);
 	else
-		card = NULL;
+		contact = NULL;
 
 	if (!eab_model_editable(priv->model))
 		return FALSE;
-	else if (card && e_card_evolution_list (card))
+	else if (contact && e_contact_get ((EContact *) contact, E_CONTACT_IS_LIST))
 		/* we only allow editing of the name and file as for
                    lists */
-		return col == E_CARD_SIMPLE_FIELD_FULL_NAME || col == E_CARD_SIMPLE_FIELD_FILE_AS; 
+		return col == E_CONTACT_FULL_NAME || col == E_CONTACT_FILE_AS; 
 	else
-		return col < E_CARD_SIMPLE_FIELD_LAST_SIMPLE_STRING;
-#else
+		return col < E_CONTACT_LAST_SIMPLE_STRING;
+
 	return FALSE;
-#endif
 }
 
 static void
 addressbook_append_row (ETableModel *etm, ETableModel *source, gint row)
 {
-#if 0
 	EAddressbookTableAdapter *adapter = EAB_TABLE_ADAPTER(etm);
 	EAddressbookTableAdapterPrivate *priv = adapter->priv;
-	ECard *card;
-	ECardSimple *simple;
+	EContact *contact;
 	int col;
 
-	card = e_card_new("");
-	simple = e_card_simple_new(card);
+	contact = e_contact_new ();
 
-	for (col = 0; col < E_CARD_SIMPLE_FIELD_LAST_SIMPLE_STRING; col++) {
-		const void *val = e_table_model_value_at(source, col, row);
-		e_card_simple_set(simple, col, val);
+	for (col = 1; col < E_CONTACT_LAST_SIMPLE_STRING; col++) {
+		const void *val = e_table_model_value_at (source, col, row);
+		e_contact_set (contact, col, (void *) val);
 	}
-	e_card_simple_sync_card(simple);
-	e_card_merging_book_add_card (eab_model_get_ebook (priv->model), card, NULL, NULL);
-	g_object_unref (simple);
-	g_object_unref (card);
-#endif
+
+	eab_merging_book_add_contact (eab_model_get_ebook (priv->model), contact, NULL, NULL);
+
+	g_object_unref (contact);
 }
 
 /* This function duplicates the value passed to it. */

@@ -331,10 +331,11 @@ e_minicard_set_property  (GObject *object, guint prop_id, const GValue *value, G
 		break;
 	case PROP_EDITABLE:
 		e_minicard->editable = g_value_get_boolean (value);
-		for (l = e_minicard->fields; l; l = l->next)
+		for (l = e_minicard->fields; l; l = l->next) {
 			g_object_set (E_MINICARD_FIELD (l->data)->label,
-				      "editable", e_minicard->editable,
+				      "editable", FALSE /* e_minicard->editable */,
 				      NULL);
+		}
 		break;
 	case PROP_HAS_CURSOR:
 		d(g_print("%s: PROP_HAS_CURSOR\n", G_GNUC_FUNCTION));
@@ -706,7 +707,7 @@ add_field (EMinicard *e_minicard, EContactField field, gdouble left_width)
 			       "fieldname", name,
 			       "field", string,
 			       "max_field_name_length", left_width,
-			       "editable", FALSE,
+			       "editable", FALSE /* e_minicard->editable */,
 			       NULL );
 #if notyet
 	g_object_set(E_MINICARD_LABEL(new_item)->field,
