@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-09-24 12:48-0400\n"
-"PO-Revision-Date: 2004-09-24 19:18-0400\n"
+"POT-Creation-Date: 2004-09-29 11:58-0400\n"
+"PO-Revision-Date: 2004-09-29 19:18-0400\n"
 "Last-Translator: Adam Weinberger <adamw@gnome.org>\n"
 "Language-Team: Canadian English <adamw@FreeBSD.org>\n"
 "MIME-Version: 1.0\n"
@@ -270,7 +270,7 @@ msgstr "Configure autocomplete here"
 #. Create the contacts group
 #: addressbook/gui/component/GNOME_Evolution_Addressbook.server.in.in.h:5
 #: addressbook/gui/component/addressbook-view.c:1144
-#: calendar/gui/migration.c:377
+#: calendar/gui/migration.c:378
 msgid "Contacts"
 msgstr "Contacts"
 
@@ -348,12 +348,12 @@ msgid "Failed upgrading Addressbook settings or folders."
 msgstr "Failed upgrading Addressbook settings or folders."
 
 #: addressbook/gui/component/addressbook-migrate.c:72
-#: calendar/gui/migration.c:141 mail/em-migrate.c:1160
+#: calendar/gui/migration.c:142 mail/em-migrate.c:1160
 msgid "Migrating..."
 msgstr "Migrating..."
 
 #: addressbook/gui/component/addressbook-migrate.c:124
-#: calendar/gui/migration.c:188 mail/em-migrate.c:1201
+#: calendar/gui/migration.c:189 mail/em-migrate.c:1201
 #, c-format
 msgid "Migrating `%s':"
 msgstr "Migrating `%s':"
@@ -361,7 +361,7 @@ msgstr "Migrating `%s':"
 #. create the local source group
 #. On This Computer is always first and VFolders is always last
 #: addressbook/gui/component/addressbook-migrate.c:493
-#: calendar/gui/migration.c:450 calendar/gui/migration.c:532
+#: calendar/gui/migration.c:452 calendar/gui/migration.c:545
 #: mail/em-folder-tree-model.c:196 mail/em-folder-tree-model.c:198
 #: mail/mail-component.c:252 mail/mail-vfolder.c:218
 msgid "On This Computer"
@@ -373,7 +373,7 @@ msgstr "On This Computer"
 #. orange
 #: addressbook/gui/component/addressbook-migrate.c:501
 #: addressbook/gui/contact-editor/contact-editor.glade.h:34
-#: calendar/gui/migration.c:458 calendar/gui/migration.c:540
+#: calendar/gui/migration.c:460 calendar/gui/migration.c:553
 #: filter/filter-label.c:123 mail/em-migrate.c:1013 mail/mail-config.c:78
 #: mail/mail-config.glade.h:99
 msgid "Personal"
@@ -2945,10 +2945,10 @@ msgstr "Protocol not supported"
 #: calendar/gui/e-cal-model-tasks.c:353 calendar/gui/e-cal-model-tasks.c:656
 #: calendar/gui/e-calendar-table.c:473 calendar/gui/print.c:2349
 #: camel/camel-service.c:723 camel/camel-service.c:887
-#: camel/camel-service.c:1015 camel/providers/pop3/camel-pop3-store.c:464
-#: camel/providers/pop3/camel-pop3-store.c:545
+#: camel/camel-service.c:1015 camel/providers/pop3/camel-pop3-store.c:421
+#: camel/providers/pop3/camel-pop3-store.c:502
 msgid "Cancelled"
-msgstr "Canceled"
+msgstr "Cancelled"
 
 #. E_BOOK_ERROR_COULD_NOT_CANCEL
 #: addressbook/gui/widgets/eab-gui-util.c:62
@@ -3546,7 +3546,7 @@ msgid ""
 "the meeting is canceled."
 msgstr ""
 "If you do not send a cancelation notice, the other participants may not know "
-"the meeting is canceled."
+"the meeting is cancelled."
 
 #: calendar/calendar-errors.xml.h:5 calendar/calendar-errors.xml.h:15
 #: calendar/calendar-errors.xml.h:25 calendar/calendar-errors.xml.h:87
@@ -4154,7 +4154,7 @@ msgstr "Comment contains"
 msgid "Location contains"
 msgstr "Location contains"
 
-#: calendar/gui/cal-search-bar.c:362 camel/camel-vee-store.c:328
+#: calendar/gui/cal-search-bar.c:362 camel/camel-vee-store.c:343
 msgid "Unmatched"
 msgstr "Unmatched"
 
@@ -5798,10 +5798,10 @@ msgstr "No"
 #: camel/providers/imap4/camel-imap4-engine.c:1432
 #: camel/providers/imap4/camel-imap4-engine.c:1464
 #: camel/providers/imap4/camel-imap4-engine.c:1506
-#: camel/providers/imap4/camel-imap4-store.c:1223
+#: camel/providers/imap4/camel-imap4-store.c:1194
 #: camel/providers/imap4/camel-imap4-utils.c:457
-#: camel/providers/smtp/camel-smtp-transport.c:172
-#: camel/providers/smtp/camel-smtp-transport.c:227 mail/em-utils.c:1155
+#: camel/providers/smtp/camel-smtp-transport.c:161
+#: camel/providers/smtp/camel-smtp-transport.c:216 mail/em-utils.c:1155
 #: shell/e-component-registry.c:207 shell/e-component-registry.c:211
 #: widgets/misc/e-charset-picker.c:62
 msgid "Unknown"
@@ -6245,14 +6245,14 @@ msgid ""
 "The meeting has been cancelled, however it could not be found in your "
 "calendars"
 msgstr ""
-"The meeting has been canceled. However, it could not be found in your "
+"The meeting has been cancelled. However, it could not be found in your "
 "calendars"
 
 #: calendar/gui/e-itip-control.c:1238
 msgid ""
 "The task has been cancelled, however it could not be found in your task lists"
 msgstr ""
-"The task has been canceled. However, it could not be found in your task lists"
+"The task has been cancelled. However, it could not be found in your task lists"
 
 #: calendar/gui/e-itip-control.c:1317
 #, c-format
@@ -6308,7 +6308,7 @@ msgstr "Meeting Reply"
 #: calendar/gui/e-itip-control.c:1354
 #, c-format
 msgid "<b>%s</b> has cancelled a meeting."
-msgstr "<b>%s</b> has canceled a meeting."
+msgstr "<b>%s</b> has cancelled a meeting."
 
 #: calendar/gui/e-itip-control.c:1355
 msgid "Meeting Cancellation"
@@ -6378,7 +6378,7 @@ msgstr "Task Reply"
 #: calendar/gui/e-itip-control.c:1431
 #, c-format
 msgid "<b>%s</b> has cancelled a task."
-msgstr "<b>%s</b> has canceled a task."
+msgstr "<b>%s</b> has cancelled a task."
 
 #: calendar/gui/e-itip-control.c:1432
 msgid "Task Cancellation"
@@ -6427,83 +6427,83 @@ msgstr "The message does not appear to be properly formed"
 msgid "The message contains only unsupported requests."
 msgstr "The message contains only unsupported requests."
 
-#: calendar/gui/e-itip-control.c:1648
+#: calendar/gui/e-itip-control.c:1650
 msgid "The attachment does not contain a valid calendar message"
 msgstr "The attachment does not contain a valid calendar message"
 
-#: calendar/gui/e-itip-control.c:1680
+#: calendar/gui/e-itip-control.c:1682
 msgid "The attachment has no viewable calendar items"
 msgstr "The attachment has no viewable calendar items"
 
-#: calendar/gui/e-itip-control.c:1914
+#: calendar/gui/e-itip-control.c:1916
 msgid "Update complete\n"
 msgstr "Update complete\n"
 
-#: calendar/gui/e-itip-control.c:1942
+#: calendar/gui/e-itip-control.c:1944
 msgid "Object is invalid and cannot be updated\n"
 msgstr "Object is invalid and cannot be updated\n"
 
-#: calendar/gui/e-itip-control.c:1952
+#: calendar/gui/e-itip-control.c:1954
 msgid "This response is not from a current attendee.  Add as an attendee?"
 msgstr "This response is not from a current attendee.  Add as an attendee?"
 
-#: calendar/gui/e-itip-control.c:1964
+#: calendar/gui/e-itip-control.c:1966
 msgid "Attendee status could not be updated because of an invalid status!\n"
 msgstr "Attendee status could not be updated because of an invalid status!\n"
 
-#: calendar/gui/e-itip-control.c:1981
+#: calendar/gui/e-itip-control.c:1983
 msgid "Attendee status updated\n"
 msgstr "Attendee status updated\n"
 
-#: calendar/gui/e-itip-control.c:1984
+#: calendar/gui/e-itip-control.c:1986
 msgid "Attendee status can not be updated because the item no longer exists"
 msgstr "Attendee status can not be updated because the item no longer exists"
 
-#: calendar/gui/e-itip-control.c:2011
+#: calendar/gui/e-itip-control.c:2013
 msgid "Removal Complete"
 msgstr "Removal Complete"
 
-#: calendar/gui/e-itip-control.c:2034 calendar/gui/e-itip-control.c:2082
+#: calendar/gui/e-itip-control.c:2036 calendar/gui/e-itip-control.c:2084
 msgid "Item sent!\n"
 msgstr "Item sent!\n"
 
-#: calendar/gui/e-itip-control.c:2036 calendar/gui/e-itip-control.c:2086
+#: calendar/gui/e-itip-control.c:2038 calendar/gui/e-itip-control.c:2088
 msgid "The item could not be sent!\n"
 msgstr "The item could not be sent!\n"
 
-#: calendar/gui/e-itip-control.c:2166
+#: calendar/gui/e-itip-control.c:2168
 msgid "Choose an action:"
 msgstr "Choose an action:"
 
-#: calendar/gui/e-itip-control.c:2237
+#: calendar/gui/e-itip-control.c:2239
 msgid "Update"
 msgstr "Update"
 
-#: calendar/gui/e-itip-control.c:2265
+#: calendar/gui/e-itip-control.c:2267
 msgid "Accept"
 msgstr "Accept"
 
-#: calendar/gui/e-itip-control.c:2266
+#: calendar/gui/e-itip-control.c:2268
 msgid "Tentatively accept"
 msgstr "Tentatively accept"
 
-#: calendar/gui/e-itip-control.c:2267
+#: calendar/gui/e-itip-control.c:2269
 msgid "Decline"
 msgstr "Decline"
 
-#: calendar/gui/e-itip-control.c:2296
+#: calendar/gui/e-itip-control.c:2298
 msgid "Send Free/Busy Information"
 msgstr "Send Free/Busy Information"
 
-#: calendar/gui/e-itip-control.c:2324
+#: calendar/gui/e-itip-control.c:2326
 msgid "Update respondent status"
 msgstr "Update respondent status"
 
-#: calendar/gui/e-itip-control.c:2352
+#: calendar/gui/e-itip-control.c:2354
 msgid "Send Latest Information"
 msgstr "Send Latest Information"
 
-#: calendar/gui/e-itip-control.c:2380 calendar/gui/itip-utils.c:442
+#: calendar/gui/e-itip-control.c:2382 calendar/gui/itip-utils.c:442
 #: mail/mail-send-recv.c:411 mail/mail-send-recv.c:465
 #: ui/evolution-mail-global.xml.h:1
 msgid "Cancel"
@@ -6867,7 +6867,7 @@ msgstr "iCalendar information"
 msgid "You must be an attendee of the event."
 msgstr "You must be an attendee of the event."
 
-#: calendar/gui/migration.c:150
+#: calendar/gui/migration.c:151
 msgid ""
 "The location and hierarchy of the Evolution task folders has changed since "
 "Evolution 1.x.\n"
@@ -6879,7 +6879,7 @@ msgstr ""
 "\n"
 "Please be patient while Evolution migrates your folders..."
 
-#: calendar/gui/migration.c:154
+#: calendar/gui/migration.c:155
 msgid ""
 "The location and hierarchy of the Evolution calendar folders has changed "
 "since Evolution 1.x.\n"
@@ -6891,28 +6891,28 @@ msgstr ""
 "\n"
 "Please be patient while Evolution migrates your folders..."
 
-#: calendar/gui/migration.c:380
+#: calendar/gui/migration.c:381
 msgid "Birthdays & Anniversaries"
 msgstr "Birthdays & Anniversaries"
 
 #. Create the Webcal source group
-#: calendar/gui/migration.c:466 calendar/gui/migration.c:548
+#: calendar/gui/migration.c:479 calendar/gui/migration.c:572
 msgid "On The Web"
 msgstr "On The Web"
 
 #. FIXME: set proper domain/code
-#: calendar/gui/migration.c:712 calendar/gui/migration.c:864
+#: calendar/gui/migration.c:736 calendar/gui/migration.c:888
 msgid "Unable to migrate old settings from evolution/config.xmldb"
 msgstr "Unable to migrate old settings from evolution/config.xmldb"
 
 #. FIXME: domain/code
-#: calendar/gui/migration.c:741
+#: calendar/gui/migration.c:765
 #, c-format
 msgid "Unable to migrate calendar `%s'"
 msgstr "Unable to migrate calendar `%s'"
 
 #. FIXME: domain/code
-#: calendar/gui/migration.c:893
+#: calendar/gui/migration.c:917
 #, c-format
 msgid "Unable to migrate tasks `%s'"
 msgstr "Unable to migrate tasks `%s'"
@@ -8930,7 +8930,7 @@ msgstr "Syncing folders"
 msgid "Error parsing filter: %s: %s"
 msgstr "Error parsing filter: %s: %s"
 
-#: camel/camel-filter-driver.c:1052 camel/camel-filter-driver.c:1426
+#: camel/camel-filter-driver.c:1052 camel/camel-filter-driver.c:1429
 #, c-format
 msgid "Error executing filter: %s: %s"
 msgstr "Error executing filter: %s: %s"
@@ -9102,11 +9102,10 @@ msgstr ""
 
 #: camel/camel-gpg-context.c:804 camel/camel-gpg-context.c:1314
 #: camel/camel-gpg-context.c:1498 camel/camel-gpg-context.c:1589
-#: camel/camel-gpg-context.c:1697 camel/providers/nntp/camel-nntp-store.c:1244
-#: camel/providers/nntp/camel-nntp-store.c:1342 mail/mail-ops.c:706
-#: mail/mail-send-recv.c:612
+#: camel/camel-gpg-context.c:1697 camel/providers/nntp/camel-nntp-store.c:1236
+#: mail/mail-ops.c:717 mail/mail-send-recv.c:612
 msgid "Cancelled."
-msgstr "Canceled."
+msgstr "Cancelled."
 
 #: camel/camel-gpg-context.c:822
 msgid "Failed to unlock secret key: 3 bad passphrases given."
@@ -9227,56 +9226,56 @@ msgstr "Failed to get lock using fcntl(2): %s"
 msgid "Failed to get lock using flock(2): %s"
 msgstr "Failed to get lock using flock(2): %s"
 
-#: camel/camel-movemail.c:106
+#: camel/camel-movemail.c:104
 #, c-format
 msgid "Could not check mail file %s: %s"
 msgstr "Could not check mail file %s: %s"
 
-#: camel/camel-movemail.c:119
+#: camel/camel-movemail.c:117
 #, c-format
 msgid "Could not open mail file %s: %s"
 msgstr "Could not open mail file %s: %s"
 
-#: camel/camel-movemail.c:127
+#: camel/camel-movemail.c:125
 #, c-format
 msgid "Could not open temporary mail file %s: %s"
 msgstr "Could not open temporary mail file %s: %s"
 
-#: camel/camel-movemail.c:156
+#: camel/camel-movemail.c:154
 #, c-format
 msgid "Failed to store mail in temp file %s: %s"
 msgstr "Failed to store mail in temp file %s: %s"
 
-#: camel/camel-movemail.c:186
+#: camel/camel-movemail.c:184
 #, c-format
 msgid "Could not create pipe: %s"
 msgstr "Could not create pipe: %s"
 
-#: camel/camel-movemail.c:198
+#: camel/camel-movemail.c:196
 #, c-format
 msgid "Could not fork: %s"
 msgstr "Could not fork: %s"
 
-#: camel/camel-movemail.c:236
+#: camel/camel-movemail.c:234
 #, c-format
 msgid "Movemail program failed: %s"
 msgstr "Movemail program failed: %s"
 
-#: camel/camel-movemail.c:237
+#: camel/camel-movemail.c:235
 msgid "(Unknown error)"
 msgstr "(Unknown error)"
 
-#: camel/camel-movemail.c:260
+#: camel/camel-movemail.c:258
 #, c-format
 msgid "Error reading mail file: %s"
 msgstr "Error reading mail file: %s"
 
-#: camel/camel-movemail.c:271
+#: camel/camel-movemail.c:269
 #, c-format
 msgid "Error writing mail temp file: %s"
 msgstr "Error writing mail temp file: %s"
 
-#: camel/camel-movemail.c:464 camel/camel-movemail.c:531
+#: camel/camel-movemail.c:462 camel/camel-movemail.c:529
 #, c-format
 msgid "Error copying mail temp file: %s"
 msgstr "Error copying mail temp file: %s"
@@ -9477,14 +9476,14 @@ msgstr "The consistency checks performed on the credential failed."
 msgid "The referenced credentials have expired."
 msgstr "The referenced credentials have expired."
 
-#: camel/camel-sasl-gssapi.c:193 camel/camel-sasl-gssapi.c:242
-#: camel/camel-sasl-gssapi.c:278 camel/camel-sasl-gssapi.c:293
+#: camel/camel-sasl-gssapi.c:193 camel/camel-sasl-gssapi.c:241
+#: camel/camel-sasl-gssapi.c:277 camel/camel-sasl-gssapi.c:292
 #: camel/camel-sasl-kerberos4.c:225
-#: camel/providers/imap/camel-imap-store.c:1243
+#: camel/providers/imap/camel-imap-store.c:1198
 msgid "Bad authentication response from server."
 msgstr "Bad authentication response from server."
 
-#: camel/camel-sasl-gssapi.c:303
+#: camel/camel-sasl-gssapi.c:302
 msgid "Unsupported security layer."
 msgstr "Unsupported security layer."
 
@@ -9833,12 +9832,12 @@ msgstr "Cannot create folder: Invalid operation on this store"
 msgid "Cannot create folder: %s: folder exists"
 msgstr "Cannot create folder: %s: folder exists"
 
-#: camel/camel-store.c:390 camel/camel-vee-store.c:352
+#: camel/camel-store.c:390 camel/camel-vee-store.c:367
 #, c-format
 msgid "Cannot delete folder: %s: Invalid operation"
 msgstr "Cannot delete folder: %s: Invalid operation"
 
-#: camel/camel-store.c:440 camel/camel-vee-store.c:389
+#: camel/camel-store.c:440 camel/camel-vee-store.c:404
 #: camel/providers/local/camel-maildir-store.c:233
 #, c-format
 msgid "Cannot rename folder: %s: Invalid operation"
@@ -10066,26 +10065,26 @@ msgstr ""
 msgid "Could not parse URL `%s'"
 msgstr "Could not parse URL `%s'"
 
-#: camel/camel-vee-folder.c:634
+#: camel/camel-vee-folder.c:604
 #, c-format
 msgid "Error storing `%s': %s"
 msgstr "Error storing `%s': %s"
 
-#: camel/camel-vee-folder.c:676
+#: camel/camel-vee-folder.c:646
 #, c-format
 msgid "No such message %s in %s"
 msgstr "No such message %s in %s"
 
-#: camel/camel-vee-folder.c:842 camel/camel-vee-folder.c:848
+#: camel/camel-vee-folder.c:813 camel/camel-vee-folder.c:819
 msgid "Cannot copy or move messages into a Virtual Folder"
 msgstr "Cannot copy or move messages into a Virtual Folder"
 
-#: camel/camel-vee-store.c:375
+#: camel/camel-vee-store.c:390
 #, c-format
 msgid "Cannot delete folder: %s: No such folder"
 msgstr "Cannot delete folder: %s: No such folder"
 
-#: camel/camel-vee-store.c:397
+#: camel/camel-vee-store.c:412
 #, c-format
 msgid "Cannot rename folder: %s: No such folder"
 msgstr "Cannot rename folder: %s: No such folder"
@@ -10175,22 +10174,22 @@ msgstr "Checklist"
 #: camel/providers/imap/camel-imap-command.c:218
 #: camel/providers/imap/camel-imap-command.c:257
 #: camel/providers/imap/camel-imap-command.c:447
-#: camel/providers/imap/camel-imap-store.c:3227
+#: camel/providers/imap/camel-imap-store.c:3182
 msgid "Operation cancelled"
-msgstr "Operation canceled"
+msgstr "Operation cancelled"
 
 #: camel/providers/imap/camel-imap-command.c:302
-#: camel/providers/imap/camel-imap-store.c:3230
+#: camel/providers/imap/camel-imap-store.c:3185
 #, c-format
 msgid "Server unexpectedly disconnected: %s"
 msgstr "Server unexpectedly disconnected: %s"
 
 #: camel/providers/imap/camel-imap-command.c:303
 #: camel/providers/imap/camel-imap-command.c:400
-#: camel/providers/imap4/camel-imap4-store.c:283
-#: camel/providers/pop3/camel-pop3-store.c:551
-#: camel/providers/pop3/camel-pop3-store.c:558
-#: camel/providers/pop3/camel-pop3-store.c:564 shell/e-shell.c:1230
+#: camel/providers/imap4/camel-imap4-store.c:260
+#: camel/providers/pop3/camel-pop3-store.c:508
+#: camel/providers/pop3/camel-pop3-store.c:515
+#: camel/providers/pop3/camel-pop3-store.c:521 shell/e-shell.c:1230
 msgid "Unknown error"
 msgstr "Unknown error"
 
@@ -10263,14 +10262,14 @@ msgstr ""
 
 #: camel/providers/imap/camel-imap-folder.c:1975
 #: camel/providers/local/camel-maildir-folder.c:245
-#: camel/providers/local/camel-mbox-folder.c:419
+#: camel/providers/local/camel-mbox-folder.c:416
 #: camel/providers/local/camel-mh-folder.c:203
 msgid "No such message"
 msgstr "No such message"
 
 #: camel/providers/imap/camel-imap-folder.c:2017
 #: camel/providers/imap/camel-imap-folder.c:2620
-#: camel/providers/nntp/camel-nntp-folder.c:220
+#: camel/providers/nntp/camel-nntp-folder.c:221
 msgid "This message is not currently available"
 msgstr "This message is not currently available"
 
@@ -10379,77 +10378,85 @@ msgstr "IMAP server %s"
 msgid "IMAP service for %s on %s"
 msgstr "IMAP service for %s on %s"
 
-#: camel/providers/imap/camel-imap-store.c:550
-#: camel/providers/imap/camel-imap-store.c:574
-#: camel/providers/nntp/camel-nntp-store.c:219
-#: camel/providers/pop3/camel-pop3-store.c:178
-#: camel/providers/smtp/camel-smtp-transport.c:271
-#: camel/providers/smtp/camel-smtp-transport.c:292
-#, c-format
-msgid "Could not connect to %s (port %s): %s"
-msgstr "Could not connect to %s (port %s): %s"
-
-#: camel/providers/imap/camel-imap-store.c:552
-#: camel/providers/imap4/camel-imap4-store.c:216
+#: camel/providers/imap/camel-imap-store.c:534
+#: camel/providers/imap/camel-imap-store.c:549
+#: camel/providers/imap4/camel-imap4-store.c:209
+#: camel/providers/imap4/camel-imap4-store.c:224
+#: camel/providers/nntp/camel-nntp-store.c:197
+#: camel/providers/nntp/camel-nntp-store.c:212
+#: camel/providers/pop3/camel-pop3-store.c:165
 #: camel/providers/pop3/camel-pop3-store.c:180
-#: camel/providers/smtp/camel-smtp-transport.c:273
+#: camel/providers/smtp/camel-smtp-transport.c:253
+#: camel/providers/smtp/camel-smtp-transport.c:268
+#, c-format
+msgid "Could not connect to %s: %s"
+msgstr "Could not connect to %s: %s"
+
+#: camel/providers/imap/camel-imap-store.c:535
+#: camel/providers/imap4/camel-imap4-store.c:210
+#: camel/providers/nntp/camel-nntp-store.c:198
+#: camel/providers/pop3/camel-pop3-store.c:166
+#: camel/providers/smtp/camel-smtp-transport.c:254
 msgid "SSL unavailable"
 msgstr "SSL unavailable"
 
-#: camel/providers/imap/camel-imap-store.c:571
-#: camel/providers/imap/camel-imap-store.c:848
-#: camel/providers/imap4/camel-imap4-store.c:227
-#: camel/providers/imapp/camel-imapp-store.c:229
-#: camel/providers/nntp/camel-nntp-store.c:216
-#: camel/providers/nntp/camel-nntp-store.c:234
-#: camel/providers/pop3/camel-pop3-store.c:200
+#: camel/providers/imap/camel-imap-store.c:546
+#: camel/providers/imap/camel-imap-store.c:809
+#: camel/providers/imap4/camel-imap4-store.c:221
+#: camel/providers/imapp/camel-imapp-store.c:237
+#: camel/providers/nntp/camel-nntp-store.c:209
+#: camel/providers/nntp/camel-nntp-store.c:228
+#: camel/providers/pop3/camel-pop3-store.c:177
+#: camel/providers/smtp/camel-smtp-transport.c:265
 msgid "Connection cancelled"
-msgstr "Connection canceled"
+msgstr "Connection cancelled"
 
-#: camel/providers/imap/camel-imap-store.c:682
-#: camel/providers/imap/camel-imap-store.c:713
-#: camel/providers/imap4/camel-imap4-store.c:282
+#: camel/providers/imap/camel-imap-store.c:653
+#: camel/providers/imap/camel-imap-store.c:675
+#: camel/providers/imap4/camel-imap4-store.c:246
+#: camel/providers/imap4/camel-imap4-store.c:259
 #, c-format
 msgid "Failed to connect to IMAP server %s in secure mode: %s"
 msgstr "Failed to connect to IMAP server %s in secure mode: %s"
 
-#: camel/providers/imap/camel-imap-store.c:683
-#: camel/providers/pop3/camel-pop3-store.c:241
-msgid "SSL/TLS extension not supported."
-msgstr "SSL/TLS extension not supported."
+#: camel/providers/imap/camel-imap-store.c:654
+#: camel/providers/smtp/camel-smtp-transport.c:321
+msgid "STARTTLS not supported"
+msgstr "STARTTLS not supported"
 
-#: camel/providers/imap/camel-imap-store.c:714
-#: camel/providers/pop3/camel-pop3-store.c:282
+#: camel/providers/imap/camel-imap-store.c:676
+#: camel/providers/imap4/camel-imap4-store.c:247
+#: camel/providers/pop3/camel-pop3-store.c:243
 msgid "SSL negotiations failed"
 msgstr "SSL negotiations failed"
 
-#: camel/providers/imap/camel-imap-store.c:851
+#: camel/providers/imap/camel-imap-store.c:812
 #, c-format
 msgid "Could not connect with command \"%s\": %s"
 msgstr "Could not connect with command \"%s\": %s"
 
-#: camel/providers/imap/camel-imap-store.c:1275
+#: camel/providers/imap/camel-imap-store.c:1230
 #, c-format
 msgid "IMAP server %s does not support requested authentication type %s"
 msgstr "IMAP server %s does not support requested authentication type %s"
 
-#: camel/providers/imap/camel-imap-store.c:1285
-#: camel/providers/smtp/camel-smtp-transport.c:493
+#: camel/providers/imap/camel-imap-store.c:1240
+#: camel/providers/smtp/camel-smtp-transport.c:474
 #, c-format
 msgid "No support for authentication type %s"
 msgstr "No support for authentication type %s"
 
-#: camel/providers/imap/camel-imap-store.c:1308
-#: camel/providers/imapp/camel-imapp-store.c:345
+#: camel/providers/imap/camel-imap-store.c:1263
+#: camel/providers/imapp/camel-imapp-store.c:353
 #, c-format
 msgid "%sPlease enter the IMAP password for %s@%s"
 msgstr "%sPlease enter the IMAP password for %s@%s"
 
-#: camel/providers/imap/camel-imap-store.c:1322
+#: camel/providers/imap/camel-imap-store.c:1277
 msgid "You didn't enter a password."
 msgstr "You didn't enter a password."
 
-#: camel/providers/imap/camel-imap-store.c:1351
+#: camel/providers/imap/camel-imap-store.c:1306
 #, c-format
 msgid ""
 "Unable to authenticate to IMAP server.\n"
@@ -10460,35 +10467,35 @@ msgstr ""
 "%s\n"
 "\n"
 
-#: camel/providers/imap/camel-imap-store.c:1870
-#: camel/providers/imap/camel-imap-store.c:2060
+#: camel/providers/imap/camel-imap-store.c:1825
+#: camel/providers/imap/camel-imap-store.c:2015
 #, c-format
 msgid "No such folder %s"
 msgstr "No such folder %s"
 
-#: camel/providers/imap/camel-imap-store.c:1888
-#: camel/providers/imap/camel-imap-store.c:2266
-#: camel/providers/imap4/camel-imap4-store.c:764
+#: camel/providers/imap/camel-imap-store.c:1843
+#: camel/providers/imap/camel-imap-store.c:2221
+#: camel/providers/imap4/camel-imap4-store.c:735
 #, c-format
 msgid ""
 "The folder name \"%s\" is invalid because it contains the character \"%c\""
 msgstr ""
 "The folder name \"%s\" is invalid because it contains the character \"%c\""
 
-#: camel/providers/imap/camel-imap-store.c:1946
-#: camel/providers/imap/camel-imap-store.c:2327
+#: camel/providers/imap/camel-imap-store.c:1901
+#: camel/providers/imap/camel-imap-store.c:2282
 msgid "The parent folder is not allowed to contain subfolders"
 msgstr "The parent folder is not allowed to contain subfolders"
 
-#: camel/providers/imap/camel-imap-store.c:2001
+#: camel/providers/imap/camel-imap-store.c:1956
 #: camel/providers/local/camel-maildir-store.c:140
-#: camel/providers/local/camel-mbox-store.c:213
+#: camel/providers/local/camel-mbox-store.c:210
 #: camel/providers/local/camel-mh-store.c:237
 #, c-format
 msgid "Cannot create folder `%s': folder exists."
 msgstr "Cannot create folder `%s': folder exists."
 
-#: camel/providers/imap/camel-imap-store.c:2277
+#: camel/providers/imap/camel-imap-store.c:2232
 #, c-format
 msgid "Unknown parent folder: %s"
 msgstr "Unknown parent folder: %s"
@@ -10601,109 +10608,93 @@ msgid ""
 msgstr ""
 "This option will connect to the IMAPv4rev1 server using a plaintext password."
 
-#: camel/providers/imap4/camel-imap4-store.c:214
-#: camel/providers/imap4/camel-imap4-store.c:230
-#: camel/providers/imapp/camel-imapp-store.c:232
-#, c-format
-msgid "Could not connect to %s (port %d): %s"
-msgstr "Could not connect to %s (port %d): %s"
-
-#: camel/providers/imap4/camel-imap4-store.c:257
-#, c-format
-msgid ""
-"Failed to connect to IMAP server %s in secure mode: Server does not support "
-"STARTTLS"
-msgstr ""
-"Failed to connect to IMAP server %s in secure mode: Server does not support "
-"STARTTLS"
-
-#: camel/providers/imap4/camel-imap4-store.c:363
+#: camel/providers/imap4/camel-imap4-store.c:334
 #, c-format
 msgid ""
 "Cannot authenticate to IMAP server %s using the %s authentication mechanism"
 msgstr ""
 "Cannot authenticate to IMAP server %s using the %s authentication mechanism"
 
-#: camel/providers/imap4/camel-imap4-store.c:408
+#: camel/providers/imap4/camel-imap4-store.c:379
 #, c-format
 msgid "%sPlease enter the IMAP password for %s on host %s"
 msgstr "%sPlease enter the IMAP password for %s on host %s"
 
-#: camel/providers/imap4/camel-imap4-store.c:478
+#: camel/providers/imap4/camel-imap4-store.c:449
 #, c-format
 msgid "Cannot authenticate to IMAP server %s using %s"
 msgstr "Cannot authenticate to IMAP server %s using %s"
 
-#: camel/providers/imap4/camel-imap4-store.c:701
+#: camel/providers/imap4/camel-imap4-store.c:672
 #, c-format
 msgid "Cannot get folder `%s' on IMAP server %s: Unknown"
 msgstr "Cannot get folder `%s' on IMAP server %s: Unknown"
 
-#: camel/providers/imap4/camel-imap4-store.c:815
+#: camel/providers/imap4/camel-imap4-store.c:786
 #, c-format
 msgid "Cannot create folder `%s': Invalid mailbox name"
 msgstr "Cannot create folder `%s': Invalid mailbox name"
 
-#: camel/providers/imap4/camel-imap4-store.c:821
+#: camel/providers/imap4/camel-imap4-store.c:792
 #, c-format
 msgid "Cannot create folder `%s': Bad command"
 msgstr "Cannot create folder `%s': Bad command"
 
-#: camel/providers/imap4/camel-imap4-store.c:852
+#: camel/providers/imap4/camel-imap4-store.c:823
 #, c-format
 msgid "Cannot delete folder `%s': Special folder"
 msgstr "Cannot delete folder `%s': Special folder"
 
-#: camel/providers/imap4/camel-imap4-store.c:911
+#: camel/providers/imap4/camel-imap4-store.c:882
 #, c-format
 msgid "Cannot delete folder `%s': Invalid mailbox name"
 msgstr "Cannot delete folder `%s': Invalid mailbox name"
 
-#: camel/providers/imap4/camel-imap4-store.c:916
+#: camel/providers/imap4/camel-imap4-store.c:887
 #, c-format
 msgid "Cannot delete folder `%s': Bad command"
 msgstr "Cannot delete folder `%s': Bad command"
 
-#: camel/providers/imap4/camel-imap4-store.c:936
+#: camel/providers/imap4/camel-imap4-store.c:907
 #, c-format
 msgid "Cannot rename folder `%s' to `%s': Special folder"
 msgstr "Cannot rename folder `%s' to `%s': Special folder"
 
-#: camel/providers/imap4/camel-imap4-store.c:968
+#: camel/providers/imap4/camel-imap4-store.c:939
 #, c-format
 msgid "Cannot rename folder `%s' to `%s': Invalid mailbox name"
 msgstr "Cannot rename folder `%s' to `%s': Invalid mailbox name"
 
-#: camel/providers/imap4/camel-imap4-store.c:973
+#: camel/providers/imap4/camel-imap4-store.c:944
 #, c-format
 msgid "Cannot rename folder `%s' to `%s': Bad command"
 msgstr "Cannot rename folder `%s' to `%s': Bad command"
 
-#: camel/providers/imap4/camel-imap4-store.c:1221
+#: camel/providers/imap4/camel-imap4-store.c:1192
 #, c-format
 msgid "Cannot get %s information for pattern `%s' on IMAP server %s: %s"
 msgstr "Cannot get %s information for pattern `%s' on IMAP server %s: %s"
 
-#: camel/providers/imap4/camel-imap4-store.c:1223
+#: camel/providers/imap4/camel-imap4-store.c:1194
 msgid "Bad command"
 msgstr "Bad command"
 
-#: camel/providers/imap4/camel-imap4-store.c:1299
+#: camel/providers/imap4/camel-imap4-store.c:1270
 #, c-format
 msgid "Cannot subscribe to folder `%s': Invalid mailbox name"
 msgstr "Cannot subscribe to folder `%s': Invalid mailbox name"
 
-#: camel/providers/imap4/camel-imap4-store.c:1304
+#: camel/providers/imap4/camel-imap4-store.c:1275
 #, c-format
 msgid "Cannot subscribe to folder `%s': Bad command"
 msgstr "Cannot subscribe to folder `%s': Bad command"
 
-#: camel/providers/imap4/camel-imap4-store.c:1364
+#: camel/providers/imap4/camel-imap4-store.c:1335
 #, c-format
 msgid "Cannot unsubscribe from folder `%s': Invalid mailbox name"
 msgstr "Cannot unsubscribe from folder `%s': Invalid mailbox name"
 
-#: camel/providers/imap4/camel-imap4-store.c:1369
+#: camel/providers/imap4/camel-imap4-store.c:1340
 #, c-format
 msgid "Cannot unsubscribe from folder `%s': Bad command"
 msgstr "Cannot unsubscribe from folder `%s': Bad command"
@@ -10743,30 +10734,35 @@ msgstr ""
 "\n"
 " !!! DO NOT USE THIS FOR PRODUCTION EMAIL  !!!\n"
 
-#: camel/providers/imapp/camel-imapp-store.c:329
+#: camel/providers/imapp/camel-imapp-store.c:240
+#, c-format
+msgid "Could not connect to %s (port %s): %s"
+msgstr "Could not connect to %s (port %s): %s"
+
+#: camel/providers/imapp/camel-imapp-store.c:337
 #, c-format
 msgid "Could not connect to POP server on %s"
 msgstr "Could not connect to POP server on %s"
 
-#: camel/providers/local/camel-local-folder.c:180
+#: camel/providers/local/camel-local-folder.c:179
 msgid "Index message body data"
 msgstr "Index message body data"
 
 #. $HOME relative path + protocol string
-#: camel/providers/local/camel-local-folder.c:392
+#: camel/providers/local/camel-local-folder.c:391
 #, c-format
 msgid "~%s (%s)"
 msgstr "~%s (%s)"
 
 #. /var/spool/mail relative path + protocol
-#: camel/providers/local/camel-local-folder.c:396
-#: camel/providers/local/camel-local-folder.c:399
+#: camel/providers/local/camel-local-folder.c:395
+#: camel/providers/local/camel-local-folder.c:398
 #, c-format
 msgid "mailbox:%s (%s)"
 msgstr "mailbox:%s (%s)"
 
 #. a full path + protocol
-#: camel/providers/local/camel-local-folder.c:403
+#: camel/providers/local/camel-local-folder.c:402
 #, c-format
 msgid "%s (%s)"
 msgstr "%s (%s)"
@@ -10826,7 +10822,7 @@ msgstr ""
 
 #: camel/providers/local/camel-local-store.c:143
 #: camel/providers/local/camel-local-store.c:254
-#: camel/providers/local/camel-mbox-store.c:356
+#: camel/providers/local/camel-mbox-store.c:353
 #: camel/providers/local/camel-spool-store.c:117
 #, c-format
 msgid "Store root %s is not an absolute path"
@@ -10864,19 +10860,19 @@ msgid "Could not rename '%s': %s"
 msgstr "Could not rename '%s': %s"
 
 #: camel/providers/local/camel-local-store.c:424
-#: camel/providers/local/camel-mbox-store.c:285
+#: camel/providers/local/camel-mbox-store.c:282
 #, c-format
 msgid "Could not delete folder summary file `%s': %s"
 msgstr "Could not delete folder summary file `%s': %s"
 
 #: camel/providers/local/camel-local-store.c:434
-#: camel/providers/local/camel-mbox-store.c:297
+#: camel/providers/local/camel-mbox-store.c:294
 #, c-format
 msgid "Could not delete folder index file `%s': %s"
 msgstr "Could not delete folder index file `%s': %s"
 
 #: camel/providers/local/camel-local-store.c:457
-#: camel/providers/local/camel-mbox-store.c:321
+#: camel/providers/local/camel-mbox-store.c:318
 #, c-format
 msgid "Could not delete folder meta file `%s': %s"
 msgstr "Could not delete folder meta file `%s': %s"
@@ -10895,6 +10891,7 @@ msgstr "Unable to add message to summary: unknown reason"
 #: camel/providers/local/camel-maildir-folder.c:75
 #: camel/providers/local/camel-maildir-store.c:233
 #: camel/providers/local/camel-maildir-store.c:249
+#: camel/providers/local/camel-spool-store.c:452
 #: mail/em-folder-tree-model.c:212 mail/em-folder-tree-model.c:214
 #: mail/mail-component.c:136
 msgid "Inbox"
@@ -10902,7 +10899,7 @@ msgstr "Inbox"
 
 #: camel/providers/local/camel-maildir-folder.c:215
 msgid "Maildir append message cancelled"
-msgstr "Maildir append message canceled"
+msgstr "Maildir append message cancelled"
 
 #: camel/providers/local/camel-maildir-folder.c:218
 #, c-format
@@ -10912,10 +10909,10 @@ msgstr "Cannot append message to maildir folder: %s: %s"
 #: camel/providers/local/camel-maildir-folder.c:244
 #: camel/providers/local/camel-maildir-folder.c:258
 #: camel/providers/local/camel-maildir-folder.c:267
-#: camel/providers/local/camel-mbox-folder.c:418
-#: camel/providers/local/camel-mbox-folder.c:437
-#: camel/providers/local/camel-mbox-folder.c:468
-#: camel/providers/local/camel-mbox-folder.c:476
+#: camel/providers/local/camel-mbox-folder.c:415
+#: camel/providers/local/camel-mbox-folder.c:434
+#: camel/providers/local/camel-mbox-folder.c:465
+#: camel/providers/local/camel-mbox-folder.c:473
 #: camel/providers/local/camel-mh-folder.c:202
 #: camel/providers/local/camel-mh-folder.c:213
 #: camel/providers/local/camel-mh-folder.c:222
@@ -10932,22 +10929,22 @@ msgid "Invalid message contents"
 msgstr "Invalid message contents"
 
 #: camel/providers/local/camel-maildir-store.c:110
-#: camel/providers/local/camel-mbox-store.c:155
+#: camel/providers/local/camel-mbox-store.c:152
 #: camel/providers/local/camel-mh-store.c:205
 #, c-format
 msgid "Cannot get folder `%s': %s"
 msgstr "Cannot get folder `%s': %s"
 
 #: camel/providers/local/camel-maildir-store.c:114
-#: camel/providers/local/camel-mbox-store.c:163
+#: camel/providers/local/camel-mbox-store.c:160
 #: camel/providers/local/camel-mh-store.c:212
 #, c-format
 msgid "Cannot get folder `%s': folder does not exist."
 msgstr "Cannot get folder `%s': folder does not exist."
 
 #: camel/providers/local/camel-maildir-store.c:122
-#: camel/providers/local/camel-mbox-store.c:185
-#: camel/providers/local/camel-mbox-store.c:197
+#: camel/providers/local/camel-mbox-store.c:182
+#: camel/providers/local/camel-mbox-store.c:194
 #, c-format
 msgid "Cannot create folder `%s': %s"
 msgstr "Cannot create folder `%s': %s"
@@ -10969,8 +10966,8 @@ msgid "not a maildir directory"
 msgstr "not a maildir directory"
 
 #: camel/providers/local/camel-maildir-store.c:356
-#: camel/providers/local/camel-spool-store.c:285
-#: camel/providers/local/camel-spool-store.c:315
+#: camel/providers/local/camel-spool-store.c:319
+#: camel/providers/local/camel-spool-store.c:333
 #, c-format
 msgid "Could not scan folder `%s': %s"
 msgstr "Could not scan folder `%s': %s"
@@ -10997,48 +10994,48 @@ msgstr "Checking for new messages"
 msgid "Storing folder"
 msgstr "Storing folder"
 
-#: camel/providers/local/camel-mbox-folder.c:226
-#: camel/providers/local/camel-spool-folder.c:147
+#: camel/providers/local/camel-mbox-folder.c:223
+#: camel/providers/local/camel-spool-folder.c:176
 #, c-format
 msgid "Cannot create folder lock on %s: %s"
 msgstr "Cannot create folder lock on %s: %s"
 
-#: camel/providers/local/camel-mbox-folder.c:285
+#: camel/providers/local/camel-mbox-folder.c:282
 #, c-format
 msgid "Cannot open mailbox: %s: %s\n"
 msgstr "Cannot open mailbox: %s: %s\n"
 
-#: camel/providers/local/camel-mbox-folder.c:345
+#: camel/providers/local/camel-mbox-folder.c:342
 msgid "Mail append cancelled"
-msgstr "Mail append canceled"
+msgstr "Mail append cancelled"
 
-#: camel/providers/local/camel-mbox-folder.c:348
+#: camel/providers/local/camel-mbox-folder.c:345
 #, c-format
 msgid "Cannot append message to mbox file: %s: %s"
 msgstr "Cannot append message to mbox file: %s: %s"
 
-#: camel/providers/local/camel-mbox-folder.c:469
+#: camel/providers/local/camel-mbox-folder.c:466
 msgid "The folder appears to be irrecoverably corrupted."
 msgstr "The folder appears to be irrecoverably corrupted."
 
-#: camel/providers/local/camel-mbox-folder.c:477
+#: camel/providers/local/camel-mbox-folder.c:474
 #: camel/providers/local/camel-mh-folder.c:223
 msgid "Message construction failed."
 msgstr "Message construction failed."
 
-#: camel/providers/local/camel-mbox-store.c:177
-#: camel/providers/local/camel-mbox-store.c:362
+#: camel/providers/local/camel-mbox-store.c:174
+#: camel/providers/local/camel-mbox-store.c:359
 msgid "Cannot create a folder by this name."
 msgstr "Cannot create a folder by this name."
 
-#: camel/providers/local/camel-mbox-store.c:207
+#: camel/providers/local/camel-mbox-store.c:204
 #, c-format
 msgid "Cannot get folder `%s': not a regular file."
 msgstr "Cannot get folder `%s': not a regular file."
 
-#: camel/providers/local/camel-mbox-store.c:237
-#: camel/providers/local/camel-mbox-store.c:248
-#: camel/providers/local/camel-mbox-store.c:271
+#: camel/providers/local/camel-mbox-store.c:234
+#: camel/providers/local/camel-mbox-store.c:245
+#: camel/providers/local/camel-mbox-store.c:268
 #, c-format
 msgid ""
 "Could not delete folder `%s':\n"
@@ -11047,40 +11044,40 @@ msgstr ""
 "Could not delete folder `%s':\n"
 "%s"
 
-#: camel/providers/local/camel-mbox-store.c:256
+#: camel/providers/local/camel-mbox-store.c:253
 #, c-format
 msgid "`%s' is not a regular file."
 msgstr "`%s' is not a regular file."
 
-#: camel/providers/local/camel-mbox-store.c:263
+#: camel/providers/local/camel-mbox-store.c:260
 #, c-format
 msgid "Folder `%s' is not empty. Not deleted."
 msgstr "Folder `%s' is not empty. Not deleted."
 
-#: camel/providers/local/camel-mbox-store.c:375
+#: camel/providers/local/camel-mbox-store.c:372
 #, c-format
 msgid "Cannot create directory `%s': %s."
 msgstr "Cannot create directory `%s': %s."
 
-#: camel/providers/local/camel-mbox-store.c:389
+#: camel/providers/local/camel-mbox-store.c:386
 #, c-format
 msgid "Cannot create folder: %s: %s"
 msgstr "Cannot create folder: %s: %s"
 
-#: camel/providers/local/camel-mbox-store.c:391
+#: camel/providers/local/camel-mbox-store.c:388
 msgid "Folder already exists"
 msgstr "Folder already exists"
 
-#: camel/providers/local/camel-mbox-store.c:473
+#: camel/providers/local/camel-mbox-store.c:470
 msgid "The new folder name is illegal."
 msgstr "The new folder name is illegal."
 
-#: camel/providers/local/camel-mbox-store.c:486
+#: camel/providers/local/camel-mbox-store.c:483
 #, c-format
 msgid "Could not rename `%s': `%s': %s"
 msgstr "Could not rename `%s': `%s': %s"
 
-#: camel/providers/local/camel-mbox-store.c:561
+#: camel/providers/local/camel-mbox-store.c:558
 #, c-format
 msgid "Could not rename '%s' to %s: %s"
 msgstr "Could not rename '%s' to %s: %s"
@@ -11160,7 +11157,7 @@ msgstr "Writing to tmp mailbox failed: %s: %s"
 
 #: camel/providers/local/camel-mh-folder.c:175
 msgid "MH append message cancelled"
-msgstr "MH append message canceled"
+msgstr "MH append message cancelled"
 
 #: camel/providers/local/camel-mh-folder.c:178
 #, c-format
@@ -11271,7 +11268,7 @@ msgstr ""
 "Folder may be corrupt, copy saved in `%s'"
 
 #: camel/providers/nntp/camel-nntp-auth.c:44
-#: camel/providers/nntp/camel-nntp-store.c:1136
+#: camel/providers/nntp/camel-nntp-store.c:1128
 #, c-format
 msgid "Please enter the NNTP password for %s@%s"
 msgstr "Please enter the NNTP password for %s@%s"
@@ -11288,10 +11285,10 @@ msgstr "Failed to send username to server"
 msgid "Server rejected username/password"
 msgstr "Server rejected username/password"
 
-#: camel/providers/nntp/camel-nntp-folder.c:147
-#: camel/providers/nntp/camel-nntp-folder.c:149
-#: camel/providers/nntp/camel-nntp-folder.c:158
-#: camel/providers/nntp/camel-nntp-folder.c:234
+#: camel/providers/nntp/camel-nntp-folder.c:148
+#: camel/providers/nntp/camel-nntp-folder.c:150
+#: camel/providers/nntp/camel-nntp-folder.c:159
+#: camel/providers/nntp/camel-nntp-folder.c:235
 #: camel/providers/pop3/camel-pop3-folder.c:434
 #: camel/providers/pop3/camel-pop3-folder.c:495
 #: camel/providers/pop3/camel-pop3-folder.c:502
@@ -11300,35 +11297,35 @@ msgstr "Server rejected username/password"
 msgid "Cannot get message %s: %s"
 msgstr "Cannot get message %s: %s"
 
-#: camel/providers/nntp/camel-nntp-folder.c:156
-#: camel/providers/nntp/camel-nntp-folder.c:232
-#: camel/providers/nntp/camel-nntp-folder.c:371
+#: camel/providers/nntp/camel-nntp-folder.c:157
+#: camel/providers/nntp/camel-nntp-folder.c:233
+#: camel/providers/nntp/camel-nntp-folder.c:372
 #: camel/providers/pop3/camel-pop3-folder.c:263
 #: camel/providers/pop3/camel-pop3-folder.c:431
 #: camel/providers/pop3/camel-pop3-folder.c:492
 #: camel/providers/pop3/camel-pop3-folder.c:510
 msgid "User cancelled"
-msgstr "User canceled"
+msgstr "User cancelled"
 
-#: camel/providers/nntp/camel-nntp-folder.c:176
-#: camel/providers/nntp/camel-nntp-folder.c:208
+#: camel/providers/nntp/camel-nntp-folder.c:177
+#: camel/providers/nntp/camel-nntp-folder.c:209
 #, c-format
 msgid "Internal error: uid in invalid format: %s"
 msgstr "Internal error: uid in invalid format: %s"
 
-#: camel/providers/nntp/camel-nntp-folder.c:328
-#: camel/providers/nntp/camel-nntp-folder.c:331
-#: camel/providers/nntp/camel-nntp-folder.c:373
-#: camel/providers/nntp/camel-nntp-folder.c:375
+#: camel/providers/nntp/camel-nntp-folder.c:329
+#: camel/providers/nntp/camel-nntp-folder.c:332
+#: camel/providers/nntp/camel-nntp-folder.c:374
+#: camel/providers/nntp/camel-nntp-folder.c:376
 #, c-format
 msgid "Posting failed: %s"
 msgstr "Posting failed: %s"
 
-#: camel/providers/nntp/camel-nntp-folder.c:393
+#: camel/providers/nntp/camel-nntp-folder.c:394
 msgid "You cannot post NNTP messages while working offline!"
 msgstr "You cannot post NNTP messages while working offline!"
 
-#: camel/providers/nntp/camel-nntp-folder.c:404
+#: camel/providers/nntp/camel-nntp-folder.c:405
 msgid "You cannot copy messages from a NNTP folder!"
 msgstr "You cannot copy messages from a NNTP folder!"
 
@@ -11373,29 +11370,28 @@ msgstr ""
 "This option will authenticate with the NNTP server using a plaintext "
 "password."
 
-#: camel/providers/nntp/camel-nntp-store.c:118
-#: camel/providers/nntp/camel-nntp-store.c:1246
-#: camel/providers/nntp/camel-nntp-store.c:1344
+#: camel/providers/nntp/camel-nntp-store.c:113
+#: camel/providers/nntp/camel-nntp-store.c:1238
 #, c-format
 msgid "NNTP Command failed: %s"
 msgstr "NNTP Command failed: %s"
 
-#: camel/providers/nntp/camel-nntp-store.c:237
+#: camel/providers/nntp/camel-nntp-store.c:231
 #, c-format
 msgid "Could not read greeting from %s: %s"
 msgstr "Could not read greeting from %s: %s"
 
-#: camel/providers/nntp/camel-nntp-store.c:249
+#: camel/providers/nntp/camel-nntp-store.c:243
 #, c-format
 msgid "NNTP server %s returned error code %d: %s"
 msgstr "NNTP server %s returned error code %d: %s"
 
-#: camel/providers/nntp/camel-nntp-store.c:413
+#: camel/providers/nntp/camel-nntp-store.c:404
 #, c-format
 msgid "USENET News via %s"
 msgstr "USENET News via %s"
 
-#: camel/providers/nntp/camel-nntp-store.c:787
+#: camel/providers/nntp/camel-nntp-store.c:783
 #, c-format
 msgid ""
 "Error retrieving newsgroups:\n"
@@ -11406,7 +11402,7 @@ msgstr ""
 "\n"
 "%s"
 
-#: camel/providers/nntp/camel-nntp-store.c:882
+#: camel/providers/nntp/camel-nntp-store.c:877
 msgid ""
 "You cannot subscribe to this newsgroup:\n"
 "\n"
@@ -11416,7 +11412,7 @@ msgstr ""
 "\n"
 "No such newsgroup. The selected item is a probably a parent folder."
 
-#: camel/providers/nntp/camel-nntp-store.c:914
+#: camel/providers/nntp/camel-nntp-store.c:909
 msgid ""
 "You cannot unsubscribe to this newsgroup:\n"
 "\n"
@@ -11426,32 +11422,32 @@ msgstr ""
 "\n"
 "newsgroup does not exist!"
 
-#: camel/providers/nntp/camel-nntp-store.c:939
+#: camel/providers/nntp/camel-nntp-store.c:934
 msgid "You cannot create a folder in a News store: subscribe instead."
 msgstr "You cannot create a folder in a News store: subscribe instead."
 
-#: camel/providers/nntp/camel-nntp-store.c:947
+#: camel/providers/nntp/camel-nntp-store.c:942
 msgid "You cannot rename a folder in a News store."
 msgstr "You cannot rename a folder in a News store."
 
-#: camel/providers/nntp/camel-nntp-store.c:955
+#: camel/providers/nntp/camel-nntp-store.c:950
 msgid "You cannot remove a folder in a News store: unsubscribe instead."
 msgstr "You cannot remove a folder in a News store: unsubscribe instead."
 
-#: camel/providers/nntp/camel-nntp-store.c:1128
-msgid "Authentication requested but not username provided"
+#: camel/providers/nntp/camel-nntp-store.c:1120
+msgid "Authentication requested but no username provided"
 msgstr "Authentication requested but no username provided"
 
-#: camel/providers/nntp/camel-nntp-store.c:1158
+#: camel/providers/nntp/camel-nntp-store.c:1150
 #, c-format
 msgid "Cannot authenticate to server: %s"
 msgstr "Cannot authenticate to server: %s"
 
-#: camel/providers/nntp/camel-nntp-store.c:1275
+#: camel/providers/nntp/camel-nntp-store.c:1267
 msgid "Not connected."
 msgstr "Not connected."
 
-#: camel/providers/nntp/camel-nntp-store.c:1324
+#: camel/providers/nntp/camel-nntp-store.c:1318
 #, c-format
 msgid "No such folder: %s"
 msgstr "No such folder: %s"
@@ -11550,30 +11546,29 @@ msgstr ""
 "the APOP protocol. This may not work for all users even on servers that "
 "claim to support it."
 
-#: camel/providers/pop3/camel-pop3-store.c:203
+#: camel/providers/pop3/camel-pop3-store.c:200
 #, c-format
-msgid "Could not connect to POP server %s (port %s): %s"
-msgstr "Could not connect to POP server %s (port %s): %s"
+msgid "Failed to read a valid greeting from POP server %s"
+msgstr "Failed to read a valid greeting from POP server %s"
 
-#: camel/providers/pop3/camel-pop3-store.c:222
-#, c-format
-msgid "Failed to read a valid greeting from POP server %s (port %s)"
-msgstr "Failed to read a valid greeting from POP server %s (port %s)"
-
-#: camel/providers/pop3/camel-pop3-store.c:240
-#: camel/providers/pop3/camel-pop3-store.c:269
-#: camel/providers/pop3/camel-pop3-store.c:281
+#: camel/providers/pop3/camel-pop3-store.c:213
+#: camel/providers/pop3/camel-pop3-store.c:230
+#: camel/providers/pop3/camel-pop3-store.c:242
 #, c-format
 msgid "Failed to connect to POP server %s in secure mode: %s"
 msgstr "Failed to connect to POP server %s in secure mode: %s"
 
-#: camel/providers/pop3/camel-pop3-store.c:379
+#: camel/providers/pop3/camel-pop3-store.c:214
+msgid "STLS not supported"
+msgstr "STLS not supported"
+
+#: camel/providers/pop3/camel-pop3-store.c:336
 #, c-format
 msgid "Could not connect to POP server %s"
 msgstr "Could not connect to POP server %s"
 
-#: camel/providers/pop3/camel-pop3-store.c:420
-#: camel/providers/pop3/camel-pop3-store.c:534
+#: camel/providers/pop3/camel-pop3-store.c:377
+#: camel/providers/pop3/camel-pop3-store.c:491
 #, c-format
 msgid ""
 "Unable to connect to POP server %s: No support for requested authentication "
@@ -11582,28 +11577,28 @@ msgstr ""
 "Unable to connect to POP server %s: No support for requested authentication "
 "mechanism."
 
-#: camel/providers/pop3/camel-pop3-store.c:436
+#: camel/providers/pop3/camel-pop3-store.c:393
 #, c-format
 msgid "SASL `%s' Login failed for POP server %s: %s"
 msgstr "SASL `%s' Login failed for POP server %s: %s"
 
-#: camel/providers/pop3/camel-pop3-store.c:448
+#: camel/providers/pop3/camel-pop3-store.c:405
 #, c-format
 msgid "Cannot login to POP server %s: SASL Protocol error"
 msgstr "Cannot login to POP server %s: SASL Protocol error"
 
-#: camel/providers/pop3/camel-pop3-store.c:467
+#: camel/providers/pop3/camel-pop3-store.c:424
 #, c-format
 msgid "Failed to authenticate on POP server %s: %s"
 msgstr "Failed to authenticate on POP server %s: %s"
 
-#: camel/providers/pop3/camel-pop3-store.c:493
+#: camel/providers/pop3/camel-pop3-store.c:450
 #, c-format
 msgid "%sPlease enter the POP password for %s on host %s"
 msgstr "%sPlease enter the POP password for %s on host %s"
 
-#: camel/providers/pop3/camel-pop3-store.c:548
-#: camel/providers/pop3/camel-pop3-store.c:561
+#: camel/providers/pop3/camel-pop3-store.c:505
+#: camel/providers/pop3/camel-pop3-store.c:518
 #, c-format
 msgid ""
 "Unable to connect to POP server %s.\n"
@@ -11612,7 +11607,7 @@ msgstr ""
 "Unable to connect to POP server %s.\n"
 "Error sending password: %s"
 
-#: camel/providers/pop3/camel-pop3-store.c:555
+#: camel/providers/pop3/camel-pop3-store.c:512
 #, c-format
 msgid ""
 "Unable to connect to POP server %s.\n"
@@ -11621,7 +11616,7 @@ msgstr ""
 "Unable to connect to POP server %s.\n"
 "Error sending username: %s"
 
-#: camel/providers/pop3/camel-pop3-store.c:660
+#: camel/providers/pop3/camel-pop3-store.c:617
 #, c-format
 msgid "No such folder `%s'."
 msgstr "No such folder `%s'."
@@ -11688,140 +11683,136 @@ msgstr "SMTP"
 msgid "For delivering mail by connecting to a remote mailhub using SMTP."
 msgstr "For delivering mail by connecting to a remote mailhub using SMTP."
 
-#: camel/providers/smtp/camel-smtp-transport.c:174
+#: camel/providers/smtp/camel-smtp-transport.c:163
 msgid "Syntax error, command unrecognized"
 msgstr "Syntax error, command unrecognized"
 
-#: camel/providers/smtp/camel-smtp-transport.c:176
+#: camel/providers/smtp/camel-smtp-transport.c:165
 msgid "Syntax error in parameters or arguments"
 msgstr "Syntax error in parameters or arguments"
 
-#: camel/providers/smtp/camel-smtp-transport.c:178
+#: camel/providers/smtp/camel-smtp-transport.c:167
 msgid "Command not implemented"
 msgstr "Command not implemented"
 
-#: camel/providers/smtp/camel-smtp-transport.c:180
+#: camel/providers/smtp/camel-smtp-transport.c:169
 msgid "Command parameter not implemented"
 msgstr "Command parameter not implemented"
 
-#: camel/providers/smtp/camel-smtp-transport.c:182
+#: camel/providers/smtp/camel-smtp-transport.c:171
 msgid "System status, or system help reply"
 msgstr "System status, or system help reply"
 
-#: camel/providers/smtp/camel-smtp-transport.c:184
+#: camel/providers/smtp/camel-smtp-transport.c:173
 msgid "Help message"
 msgstr "Help message"
 
-#: camel/providers/smtp/camel-smtp-transport.c:186
+#: camel/providers/smtp/camel-smtp-transport.c:175
 msgid "Service ready"
 msgstr "Service ready"
 
-#: camel/providers/smtp/camel-smtp-transport.c:188
+#: camel/providers/smtp/camel-smtp-transport.c:177
 msgid "Service closing transmission channel"
 msgstr "Service closing transmission channel"
 
-#: camel/providers/smtp/camel-smtp-transport.c:190
+#: camel/providers/smtp/camel-smtp-transport.c:179
 msgid "Service not available, closing transmission channel"
 msgstr "Service not available, closing transmission channel"
 
-#: camel/providers/smtp/camel-smtp-transport.c:192
+#: camel/providers/smtp/camel-smtp-transport.c:181
 msgid "Requested mail action okay, completed"
 msgstr "Requested mail action okay, completed"
 
-#: camel/providers/smtp/camel-smtp-transport.c:194
+#: camel/providers/smtp/camel-smtp-transport.c:183
 msgid "User not local; will forward to <forward-path>"
 msgstr "User not local; will forward to <forward-path>"
 
-#: camel/providers/smtp/camel-smtp-transport.c:196
+#: camel/providers/smtp/camel-smtp-transport.c:185
 msgid "Requested mail action not taken: mailbox unavailable"
 msgstr "Requested mail action not taken: mailbox unavailable"
 
-#: camel/providers/smtp/camel-smtp-transport.c:198
+#: camel/providers/smtp/camel-smtp-transport.c:187
 msgid "Requested action not taken: mailbox unavailable"
 msgstr "Requested action not taken: mailbox unavailable"
 
-#: camel/providers/smtp/camel-smtp-transport.c:200
+#: camel/providers/smtp/camel-smtp-transport.c:189
 msgid "Requested action aborted: error in processing"
 msgstr "Requested action aborted: error in processing"
 
-#: camel/providers/smtp/camel-smtp-transport.c:202
+#: camel/providers/smtp/camel-smtp-transport.c:191
 msgid "User not local; please try <forward-path>"
 msgstr "User not local; please try <forward-path>"
 
-#: camel/providers/smtp/camel-smtp-transport.c:204
+#: camel/providers/smtp/camel-smtp-transport.c:193
 msgid "Requested action not taken: insufficient system storage"
 msgstr "Requested action not taken: insufficient system storage"
 
-#: camel/providers/smtp/camel-smtp-transport.c:206
+#: camel/providers/smtp/camel-smtp-transport.c:195
 msgid "Requested mail action aborted: exceeded storage allocation"
 msgstr "Requested mail action aborted: exceeded storage allocation"
 
-#: camel/providers/smtp/camel-smtp-transport.c:208
+#: camel/providers/smtp/camel-smtp-transport.c:197
 msgid "Requested action not taken: mailbox name not allowed"
 msgstr "Requested action not taken: mailbox name not allowed"
 
-#: camel/providers/smtp/camel-smtp-transport.c:210
+#: camel/providers/smtp/camel-smtp-transport.c:199
 msgid "Start mail input; end with <CRLF>.<CRLF>"
 msgstr "Start mail input; end with <CRLF>.<CRLF>"
 
-#: camel/providers/smtp/camel-smtp-transport.c:212
+#: camel/providers/smtp/camel-smtp-transport.c:201
 msgid "Transaction failed"
 msgstr "Transaction failed"
 
-#: camel/providers/smtp/camel-smtp-transport.c:216
+#: camel/providers/smtp/camel-smtp-transport.c:205
 msgid "A password transition is needed"
 msgstr "A password transition is needed"
 
-#: camel/providers/smtp/camel-smtp-transport.c:218
+#: camel/providers/smtp/camel-smtp-transport.c:207
 msgid "Authentication mechanism is too weak"
 msgstr "Authentication mechanism is too weak"
 
-#: camel/providers/smtp/camel-smtp-transport.c:220
+#: camel/providers/smtp/camel-smtp-transport.c:209
 msgid "Encryption required for requested authentication mechanism"
 msgstr "Encryption required for requested authentication mechanism"
 
-#: camel/providers/smtp/camel-smtp-transport.c:222
+#: camel/providers/smtp/camel-smtp-transport.c:211
 msgid "Temporary authentication failure"
 msgstr "Temporary authentication failure"
 
-#: camel/providers/smtp/camel-smtp-transport.c:224
+#: camel/providers/smtp/camel-smtp-transport.c:213
 msgid "Authentication required"
 msgstr "Authentication required"
 
-#: camel/providers/smtp/camel-smtp-transport.c:315
+#: camel/providers/smtp/camel-smtp-transport.c:290
 msgid "Welcome response error"
 msgstr "Welcome response error"
 
-#: camel/providers/smtp/camel-smtp-transport.c:350
-#: camel/providers/smtp/camel-smtp-transport.c:389
+#: camel/providers/smtp/camel-smtp-transport.c:320
+#: camel/providers/smtp/camel-smtp-transport.c:353
 #, c-format
 msgid "Failed to connect to SMTP server %s in secure mode: %s"
 msgstr "Failed to connect to SMTP server %s in secure mode: %s"
 
-#: camel/providers/smtp/camel-smtp-transport.c:351
-msgid "server does not appear to support SSL"
-msgstr "server does not appear to support SSL"
-
-#: camel/providers/smtp/camel-smtp-transport.c:365
+#: camel/providers/smtp/camel-smtp-transport.c:329
 #, c-format
 msgid "STARTTLS command failed: %s"
 msgstr "STARTTLS command failed: %s"
 
-#: camel/providers/smtp/camel-smtp-transport.c:380
+#: camel/providers/smtp/camel-smtp-transport.c:344
 msgid "STARTTLS command failed"
 msgstr "STARTTLS command failed"
 
-#: camel/providers/smtp/camel-smtp-transport.c:483
+#: camel/providers/smtp/camel-smtp-transport.c:464
 #, c-format
 msgid "SMTP server %s does not support requested authentication type %s."
 msgstr "SMTP server %s does not support requested authentication type %s."
 
-#: camel/providers/smtp/camel-smtp-transport.c:521
+#: camel/providers/smtp/camel-smtp-transport.c:502
 #, c-format
 msgid "%sPlease enter the SMTP password for %s on host %s"
 msgstr "%sPlease enter the SMTP password for %s on host %s"
 
-#: camel/providers/smtp/camel-smtp-transport.c:540
+#: camel/providers/smtp/camel-smtp-transport.c:521
 #, c-format
 msgid ""
 "Unable to authenticate to SMTP server.\n"
@@ -11832,93 +11823,93 @@ msgstr ""
 "%s\n"
 "\n"
 
-#: camel/providers/smtp/camel-smtp-transport.c:664
+#: camel/providers/smtp/camel-smtp-transport.c:645
 #, c-format
 msgid "SMTP server %s"
 msgstr "SMTP server %s"
 
-#: camel/providers/smtp/camel-smtp-transport.c:666
+#: camel/providers/smtp/camel-smtp-transport.c:647
 #, c-format
 msgid "SMTP mail delivery via %s"
 msgstr "SMTP mail delivery via %s"
 
-#: camel/providers/smtp/camel-smtp-transport.c:684
+#: camel/providers/smtp/camel-smtp-transport.c:665
 msgid "Cannot send message: service not connected."
 msgstr "Cannot send message: service not connected."
 
-#: camel/providers/smtp/camel-smtp-transport.c:690
+#: camel/providers/smtp/camel-smtp-transport.c:671
 msgid "Cannot send message: sender address not valid."
 msgstr "Cannot send message: sender address not valid."
 
-#: camel/providers/smtp/camel-smtp-transport.c:694
+#: camel/providers/smtp/camel-smtp-transport.c:675
 msgid "Sending message"
 msgstr "Sending message"
 
-#: camel/providers/smtp/camel-smtp-transport.c:709
+#: camel/providers/smtp/camel-smtp-transport.c:690
 msgid "Cannot send message: no recipients defined."
 msgstr "Cannot send message: no recipients defined."
 
-#: camel/providers/smtp/camel-smtp-transport.c:720
+#: camel/providers/smtp/camel-smtp-transport.c:701
 msgid "Cannot send message: one or more invalid recipients"
 msgstr "Cannot send message: one or more invalid recipients"
 
-#: camel/providers/smtp/camel-smtp-transport.c:889
+#: camel/providers/smtp/camel-smtp-transport.c:870
 msgid "SMTP Greeting"
 msgstr "SMTP Greeting"
 
-#: camel/providers/smtp/camel-smtp-transport.c:906
+#: camel/providers/smtp/camel-smtp-transport.c:887
 #, c-format
 msgid "HELO command failed: %s"
 msgstr "HELO command failed: %s"
 
-#: camel/providers/smtp/camel-smtp-transport.c:923
+#: camel/providers/smtp/camel-smtp-transport.c:904
 msgid "HELO command failed"
 msgstr "HELO command failed"
 
-#: camel/providers/smtp/camel-smtp-transport.c:989
+#: camel/providers/smtp/camel-smtp-transport.c:970
 msgid "SMTP Authentication"
 msgstr "SMTP Authentication"
 
-#: camel/providers/smtp/camel-smtp-transport.c:995
+#: camel/providers/smtp/camel-smtp-transport.c:976
 msgid "Error creating SASL authentication object."
 msgstr "Error creating SASL authentication object."
 
-#: camel/providers/smtp/camel-smtp-transport.c:1012
-#: camel/providers/smtp/camel-smtp-transport.c:1023
+#: camel/providers/smtp/camel-smtp-transport.c:993
+#: camel/providers/smtp/camel-smtp-transport.c:1004
 #, c-format
 msgid "AUTH command failed: %s"
 msgstr "AUTH command failed: %s"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1029
+#: camel/providers/smtp/camel-smtp-transport.c:1010
 msgid "AUTH command failed"
 msgstr "AUTH command failed"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1091
+#: camel/providers/smtp/camel-smtp-transport.c:1072
 msgid "Bad authentication response from server.\n"
 msgstr "Bad authentication response from server.\n"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1116
+#: camel/providers/smtp/camel-smtp-transport.c:1097
 #, c-format
 msgid "MAIL FROM command failed: %s: mail not sent"
 msgstr "MAIL FROM command failed: %s: mail not sent"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1133
+#: camel/providers/smtp/camel-smtp-transport.c:1114
 msgid "MAIL FROM command failed"
 msgstr "MAIL FROM command failed"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1157
+#: camel/providers/smtp/camel-smtp-transport.c:1138
 #, c-format
 msgid "RCPT TO command failed: %s: mail not sent"
 msgstr "RCPT TO command failed: %s: mail not sent"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1176
+#: camel/providers/smtp/camel-smtp-transport.c:1157
 #, c-format
 msgid "RCPT TO <%s> failed"
 msgstr "RCPT TO <%s> failed"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1215
+#: camel/providers/smtp/camel-smtp-transport.c:1196
+#: camel/providers/smtp/camel-smtp-transport.c:1254
 #: camel/providers/smtp/camel-smtp-transport.c:1273
-#: camel/providers/smtp/camel-smtp-transport.c:1292
 #, c-format
 msgid "DATA command failed: %s: mail not sent"
 msgstr "DATA command failed: %s: mail not sent"
@@ -11926,26 +11917,26 @@ msgstr "DATA command failed: %s: mail not sent"
 #. we should have gotten instructions on how to use the DATA command:
 #. * 354 Enter mail, end with "." on a line by itself
 #.
-#: camel/providers/smtp/camel-smtp-transport.c:1232
-#: camel/providers/smtp/camel-smtp-transport.c:1308
+#: camel/providers/smtp/camel-smtp-transport.c:1213
+#: camel/providers/smtp/camel-smtp-transport.c:1289
 msgid "DATA command failed"
 msgstr "DATA command failed"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1331
+#: camel/providers/smtp/camel-smtp-transport.c:1312
 #, c-format
 msgid "RSET command failed: %s"
 msgstr "RSET command failed: %s"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1347
+#: camel/providers/smtp/camel-smtp-transport.c:1328
 msgid "RSET command failed"
 msgstr "RSET command failed"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1370
+#: camel/providers/smtp/camel-smtp-transport.c:1351
 #, c-format
 msgid "QUIT command failed: %s"
 msgstr "QUIT command failed: %s"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1384
+#: camel/providers/smtp/camel-smtp-transport.c:1365
 msgid "QUIT command failed"
 msgstr "QUIT command failed"
 
@@ -13299,7 +13290,7 @@ msgstr "_Move"
 msgid "Cancel _Drag"
 msgstr "Cancel _Drag"
 
-#: mail/em-folder-tree.c:1718 mail/mail-ops.c:1003
+#: mail/em-folder-tree.c:1718 mail/mail-ops.c:1014
 #, c-format
 msgid "Scanning folders in \"%s\""
 msgstr "Scanning folders in \"%s\""
@@ -13876,24 +13867,24 @@ msgstr "_Add to Addressbook"
 msgid "Open in %s..."
 msgstr "Open in %s..."
 
-#: mail/em-subscribe-editor.c:607
+#: mail/em-subscribe-editor.c:613
 msgid "This store does not support subscriptions, or they are not enabled."
 msgstr "This store does not support subscriptions, or they are not enabled."
 
-#: mail/em-subscribe-editor.c:636
+#: mail/em-subscribe-editor.c:642
 msgid "Subscribed"
 msgstr "Subscribed"
 
-#: mail/em-subscribe-editor.c:640
+#: mail/em-subscribe-editor.c:646
 msgid "Folder"
 msgstr "Folder"
 
 #. FIXME: This is just to get the shadow, is there a better way?
-#: mail/em-subscribe-editor.c:853
+#: mail/em-subscribe-editor.c:861
 msgid "Please select a server."
 msgstr "Please select a server."
 
-#: mail/em-subscribe-editor.c:874
+#: mail/em-subscribe-editor.c:882
 msgid "No server has been selected"
 msgstr "No server has been selected"
 
@@ -15366,8 +15357,8 @@ msgid "_Show animated images"
 msgstr "_Show animated images"
 
 #: mail/mail-config.glade.h:166
-msgid "_Use Secure Connection (SSL):"
-msgstr "_Use Secure Connection (SSL):"
+msgid "_Use Secure Connection:"
+msgstr "_Use Secure Connection:"
 
 #: mail/mail-config.glade.h:167
 msgid "_Use the same fonts as other applications"
@@ -16083,12 +16074,12 @@ msgstr "Filtering Folder"
 msgid "Fetching Mail"
 msgstr "Fetching Mail"
 
-#: mail/mail-ops.c:543
+#: mail/mail-ops.c:554
 #, c-format
 msgid "Failed to apply outgoing filters: %s"
 msgstr "Failed to apply outgoing filters: %s"
 
-#: mail/mail-ops.c:568
+#: mail/mail-ops.c:579
 #, c-format
 msgid ""
 "Failed to append to %s: %s\n"
@@ -16097,110 +16088,110 @@ msgstr ""
 "Failed to append to %s: %s\n"
 "Appending to local `Sent' folder instead."
 
-#: mail/mail-ops.c:577
+#: mail/mail-ops.c:588
 #, c-format
 msgid "Failed to append to local `Sent' folder: %s"
 msgstr "Failed to append to local `Sent' folder: %s"
 
-#: mail/mail-ops.c:673
+#: mail/mail-ops.c:684
 #, c-format
 msgid "Sending message %d of %d"
 msgstr "Sending message %d of %d"
 
-#: mail/mail-ops.c:704
+#: mail/mail-ops.c:715
 #, c-format
 msgid "Failed to send %d of %d messages"
 msgstr "Failed to send %d of %d messages"
 
-#: mail/mail-ops.c:708
+#: mail/mail-ops.c:719
 msgid "Complete."
 msgstr "Complete."
 
-#: mail/mail-ops.c:805
+#: mail/mail-ops.c:816
 msgid "Saving message to folder"
 msgstr "Saving message to folder"
 
-#: mail/mail-ops.c:890
+#: mail/mail-ops.c:901
 #, c-format
 msgid "Moving messages to %s"
 msgstr "Moving messages to %s"
 
-#: mail/mail-ops.c:890
+#: mail/mail-ops.c:901
 #, c-format
 msgid "Copying messages to %s"
 msgstr "Copying messages to %s"
 
-#: mail/mail-ops.c:1116
+#: mail/mail-ops.c:1127
 msgid "Forwarded messages"
 msgstr "Forwarded messages"
 
-#: mail/mail-ops.c:1159
+#: mail/mail-ops.c:1170
 #, c-format
 msgid "Opening folder %s"
 msgstr "Opening folder %s"
 
-#: mail/mail-ops.c:1231
+#: mail/mail-ops.c:1242
 #, c-format
 msgid "Opening store %s"
 msgstr "Opening store %s"
 
-#: mail/mail-ops.c:1309
+#: mail/mail-ops.c:1320
 #, c-format
 msgid "Removing folder %s"
 msgstr "Removing folder %s"
 
-#: mail/mail-ops.c:1403
+#: mail/mail-ops.c:1414
 #, c-format
 msgid "Storing folder '%s'"
 msgstr "Storing folder '%s'"
 
-#: mail/mail-ops.c:1468
+#: mail/mail-ops.c:1479
 #, c-format
 msgid "Expunging and storing account '%s'"
 msgstr "Expunging and storing account '%s'"
 
-#: mail/mail-ops.c:1469
+#: mail/mail-ops.c:1480
 #, c-format
 msgid "Storing account '%s'"
 msgstr "Storing account '%s'"
 
-#: mail/mail-ops.c:1524
+#: mail/mail-ops.c:1535
 msgid "Refreshing folder"
 msgstr "Refreshing folder"
 
-#: mail/mail-ops.c:1560 mail/mail-ops.c:1611
+#: mail/mail-ops.c:1571 mail/mail-ops.c:1622
 msgid "Expunging folder"
 msgstr "Expunging folder"
 
-#: mail/mail-ops.c:1608
+#: mail/mail-ops.c:1619
 #, c-format
 msgid "Emptying trash in '%s'"
 msgstr "Emptying trash in '%s'"
 
-#: mail/mail-ops.c:1609
+#: mail/mail-ops.c:1620
 msgid "Local Folders"
 msgstr "Local Folders"
 
-#: mail/mail-ops.c:1692
+#: mail/mail-ops.c:1703
 #, c-format
 msgid "Retrieving message %s"
 msgstr "Retrieving message %s"
 
-#: mail/mail-ops.c:1764
+#: mail/mail-ops.c:1775
 #, c-format
 msgid "Retrieving %d message"
 msgid_plural "Retrieving %d messages"
 msgstr[0] "Retrieving %d message"
 msgstr[1] "Retrieving %d message(s)"
 
-#: mail/mail-ops.c:1850
+#: mail/mail-ops.c:1861
 #, c-format
 msgid "Saving %d message"
 msgid_plural "Saving %d messsages"
 msgstr[0] "Saving %d message"
 msgstr[1] "Saving %d messsage(s)"
 
-#: mail/mail-ops.c:1900
+#: mail/mail-ops.c:1911
 #, c-format
 msgid ""
 "Unable to create output file: %s\n"
@@ -16209,7 +16200,7 @@ msgstr ""
 "Unable to create output file: %s\n"
 " %s"
 
-#: mail/mail-ops.c:1928
+#: mail/mail-ops.c:1939
 #, c-format
 msgid ""
 "Error saving messages to: %s:\n"
@@ -16218,11 +16209,11 @@ msgstr ""
 "Error saving messages to: %s:\n"
 " %s"
 
-#: mail/mail-ops.c:1999
+#: mail/mail-ops.c:2010
 msgid "Saving attachment"
 msgstr "Saving attachment"
 
-#: mail/mail-ops.c:2011
+#: mail/mail-ops.c:2022
 #, c-format
 msgid ""
 "Cannot create output file: %s:\n"
@@ -16231,17 +16222,17 @@ msgstr ""
 "Cannot create output file: %s:\n"
 " %s"
 
-#: mail/mail-ops.c:2021
+#: mail/mail-ops.c:2032
 #, c-format
 msgid "Could not write data: %s"
 msgstr "Could not write data: %s"
 
-#: mail/mail-ops.c:2169
+#: mail/mail-ops.c:2180
 #, c-format
 msgid "Disconnecting from %s"
 msgstr "Disconnecting from %s"
 
-#: mail/mail-ops.c:2169
+#: mail/mail-ops.c:2180
 #, c-format
 msgid "Reconnecting to %s"
 msgstr "Reconnecting to %s"
@@ -16292,7 +16283,7 @@ msgstr "Enter Password"
 
 #: mail/mail-session.c:239
 msgid "User canceled operation."
-msgstr "User canceled operation."
+msgstr "User cancelled operation."
 
 #: mail/mail-signature-editor.c:371
 msgid "Edit signature"
@@ -16806,23 +16797,23 @@ msgstr "Bug buddy could not be run."
 #. The translator-credits string is for translators to list
 #. * per language credits for translation, displayed in the
 #. * about box
-#: shell/e-shell-window-commands.c:424
+#: shell/e-shell-window-commands.c:425
 msgid "translator-credits"
 msgstr "Adam Weinberger <adamw@FreeBSD.org>"
 
-#: shell/e-shell-window-commands.c:438
+#: shell/e-shell-window-commands.c:439
 msgid "Groupware Suite"
 msgstr "Groupware Suite"
 
-#: shell/e-shell-window-commands.c:678
+#: shell/e-shell-window-commands.c:679
 msgid "_Work Online"
 msgstr "_Work Online"
 
-#: shell/e-shell-window-commands.c:691 ui/evolution.xml.h:39
+#: shell/e-shell-window-commands.c:692 ui/evolution.xml.h:39
 msgid "_Work Offline"
 msgstr "_Work Offline"
 
-#: shell/e-shell-window-commands.c:704 ui/evolution.xml.h:25
+#: shell/e-shell-window-commands.c:705 ui/evolution.xml.h:25
 msgid "Work Offline"
 msgstr "Work Offline"
 
