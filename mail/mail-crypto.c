@@ -428,8 +428,9 @@ mail_crypto_openpgp_encrypt (const char *plaintext,
 			     gboolean sign, CamelException *ex)
 {
 	GPtrArray *recipient_list = NULL;
+	GPtrArray *argv;
 	int retval, i, r;
-	char *path, *argv[15];
+	char *path;
 	char *passphrase = NULL, *ciphertext = NULL, *diagnostics = NULL;
 	int passwd_fds[2];
 	char passwd_fd[32];
@@ -453,7 +454,7 @@ mail_crypto_openpgp_encrypt (const char *plaintext,
 		}
 	}
 	
-	i = 0;
+	argv = g_ptr_array_new ();
 #if defined(GPG_PATH)
 	path = GPG_PATH;
 	
@@ -466,27 +467,27 @@ mail_crypto_openpgp_encrypt (const char *plaintext,
 		g_ptr_array_add (recipient_list, buf);
 	}
 	
-	argv[i++] = "gpg";
-	argv[i++] = "--verbose";
-	argv[i++] = "--yes";
-	argv[i++] = "--batch";
+	g_ptr_array_add (argv, "gpg");
+	g_ptr_array_add (argv, "--verbose");
+	g_ptr_array_add (argv, "--yes");
+	g_ptr_array_add (argv, "--batch");
 	
-	argv[i++] = "--armor";
+	g_ptr_array_add (argv, "--armor");
 	
 	for (r = 0; r < recipient_list->len; r++)
-		argv[i++] = recipient_list->pdata[r];
+		g_ptr_array_add (argv, recipient_list->pdata[r]);
 	
-	argv[i++] = "--output";
-	argv[i++] = "-";            /* output to stdout */
+	g_ptr_array_add (argv, "--output");
+	g_ptr_array_add (argv, "-");            /* output to stdout */
 	
-	argv[i++] = "--encrypt";
+	g_ptr_array_add (argv, "--encrypt");
 	
 	if (sign) {
-		argv[i++] = "--sign";
+		g_ptr_array_add (argv, "--sign");
 		
-		argv[i++] = "--passphrase-fd";
+		g_ptr_array_add (argv, "--passphrase-fd");
 		sprintf (passwd_fd, "%d", passwd_fds[0]);
-		argv[i++] = passwd_fd;
+		g_ptr_array_add (argv, passwd_fd);
 	}
 #elif defined(PGP5_PATH)
 	path = PGP5_PATH;
@@ -500,19 +501,19 @@ mail_crypto_openpgp_encrypt (const char *plaintext,
 		g_ptr_array_add (recipient_list, buf);
 	}
 	
-	argv[i++] = "pgpe";
+	g_ptr_array_add (argv, "pgpe");
 	
 	for (r = 0; r < recipient_list->len; r++)
-		argv[i++] = recipient_list->pdata[r];
+		g_ptr_array_add (argv, recipient_list->pdata[r]);
 	
-	argv[i++] = "-f";
-	argv[i++] = "-z";
-	argv[i++] = "-a";
-	argv[i++] = "-o";
-	argv[i++] = "-";        /* output to stdout */
+	g_ptr_array_add (argv, "-f");
+	g_ptr_array_add (argv, "-z");
+	g_ptr_array_add (argv, "-a");
+	g_ptr_array_add (argv, "-o");
+	g_ptr_array_add (argv, "-");        /* output to stdout */
 	
 	if (sign) {
-		argv[i++] = "-s";
+		g_ptr_array_add (argv, "-s");
 	
 		sprintf (passwd_fd, "PGPPASSFD=%d", passwd_fds[0]);
 		putenv (passwd_fd);
@@ -529,27 +530,27 @@ mail_crypto_openpgp_encrypt (const char *plaintext,
 		g_ptr_array_add (recipient_list, buf);
 	}
 	
-	argv[i++] = "pgp";
-	argv[i++] = "-f";
-	argv[i++] = "-e";
-	argv[i++] = "-a";
-	argv[i++] = "-o";
-	argv[i++] = "-";
+	g_ptr_array_add (argv, "pgp");
+	g_ptr_array_add (argv, "-f");
+	g_ptr_array_add (argv, "-e");
+	g_ptr_array_add (argv, "-a");
+	g_ptr_array_add (argv, "-o");
+	g_ptr_array_add (argv, "-");
 	
 	for (r = 0; r < recipient_list->len; r++)
-		argv[i++] = recipient_list->pdata[r];
+		g_ptr_array_add (argv, recipient_list->pdata[r]);
 	
 	if (sign) {
-		argv[i++] = "-s";
+		g_ptr_array_add (argv, "-s");
 		
 		sprintf (passwd_fd, "PGPPASSFD=%d", passwd_fds[0]);
 		putenv (passwd_fd);
 	}
 #endif
-	argv[i++] = NULL;
-
-	retval = crypto_exec_with_passwd (path, argv, plaintext, passwd_fds,
-					  passphrase, &ciphertext,
+	g_ptr_array_add (argv, NULL);
+	
+	retval = crypto_exec_with_passwd (path, (char **) argv->pdata, plaintext,
+					  passwd_fds, passphrase, &ciphertext,
 					  &diagnostics);
 	
 	if (retval != 0 || !*ciphertext) {
@@ -564,6 +565,8 @@ mail_crypto_openpgp_encrypt (const char *plaintext,
 			g_free (recipient_list->pdata[r]);
 		g_ptr_array_free (recipient_list, TRUE);
 	}
+	
+	g_ptr_array_free (argv, TRUE);
 	
 	g_free (diagnostics);
 	
