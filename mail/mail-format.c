@@ -447,6 +447,7 @@ mail_lookup_handler (const char *mime_type)
 	for (iter = components; iter; iter = iter->next) {
 		if (component_supports (iter->data, mime_type)) {
 			handler->generic = FALSE;
+			handler->is_bonobo = TRUE;
 			handler->builtin = handle_via_bonobo;
 			handler->component = OAF_ServerInfo_duplicate (iter->data);
 			gnome_vfs_mime_component_list_free (components);
@@ -480,6 +481,7 @@ mail_lookup_handler (const char *mime_type)
 	if (handler->component) {
 		handler->generic = TRUE;
 		handler->builtin = handle_via_bonobo;
+		handler->is_bonobo = TRUE;
 		goto reg;
 	}
 

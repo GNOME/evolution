@@ -1061,7 +1061,12 @@ do_external_viewer (GtkHTML *html, GtkHTMLEmbedded *eb,
 	GByteArray *ba;
 	CamelStream *cstream;
 	BonoboStream *bstream;
-
+	MailMimeHandler *handler;
+	
+	handler = mail_lookup_handler (eb->type);
+	if (!handler || !handler->is_bonobo)
+		return FALSE;
+	
 	component = gnome_vfs_mime_get_default_component (eb->type);
 	if (!component)
 		return FALSE;

@@ -54,10 +54,11 @@ typedef gboolean (*MailMimeHandlerFn) (CamelMimePart *part,
 				       const char *mime_type,
 				       MailDisplay *md, GtkHTML *html, GtkHTMLStream *stream);
 typedef struct {
-	gboolean generic;
 	OAF_ServerInfo *component;
 	GList *applications;
 	MailMimeHandlerFn builtin;
+	guint generic   : 1;
+	guint is_bonobo : 1;
 } MailMimeHandler;
 MailMimeHandler *mail_lookup_handler (const char *mime_type);
 
