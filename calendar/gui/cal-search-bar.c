@@ -30,7 +30,6 @@
 #include <gtk/gtkoptionmenu.h>
 #include <gtk/gtksignal.h>
 #include <libgnome/gnome-i18n.h>
-#include <gal/util/e-util.h>
 #include "cal-search-bar.h"
 
 
@@ -65,15 +64,9 @@ struct CalSearchBarPrivate {
 	GPtrArray *categories;
 };
 
-
-
-static void cal_search_bar_class_init (CalSearchBarClass *class);
-static void cal_search_bar_init (CalSearchBar *cal_search);
 static void cal_search_bar_destroy (GtkObject *object);
 
 static void cal_search_bar_search_activated (ESearchBar *search);
-
-static ESearchBarClass *parent_class = NULL;
 
 /* Signal IDs */
 enum {
@@ -84,10 +77,7 @@ enum {
 
 static guint cal_search_bar_signals[LAST_SIGNAL] = { 0 };
 
-
-
-E_MAKE_TYPE (cal_search_bar, "CalSearchBar", CalSearchBar, cal_search_bar_class_init,
-	     cal_search_bar_init, E_SEARCH_BAR_TYPE);
+G_DEFINE_TYPE (CalSearchBar, cal_search_bar, E_SEARCH_BAR_TYPE);
 
 /* Class initialization function for the calendar search bar */
 static void
@@ -98,8 +88,6 @@ cal_search_bar_class_init (CalSearchBarClass *class)
 
 	e_search_bar_class = (ESearchBarClass *) class;
 	object_class = (GtkObjectClass *) class;
-
-	parent_class = g_type_class_peek_parent (class);
 
 	cal_search_bar_signals[SEXP_CHANGED] =
 		gtk_signal_new ("sexp_changed",
@@ -177,8 +165,8 @@ cal_search_bar_destroy (GtkObject *object)
 		cal_search->priv = NULL;
 	}
 	
-	if (GTK_OBJECT_CLASS (parent_class)->destroy)
-		(* GTK_OBJECT_CLASS (parent_class)->destroy) (object);
+	if (GTK_OBJECT_CLASS (cal_search_bar_parent_class)->destroy)
+		(* GTK_OBJECT_CLASS (cal_search_bar_parent_class)->destroy) (object);
 }
 
 

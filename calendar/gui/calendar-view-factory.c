@@ -37,20 +37,13 @@ struct _CalendarViewFactoryPrivate {
 
 
 
-static void calendar_view_factory_class_init (CalendarViewFactoryClass *class);
-static void calendar_view_factory_init (CalendarViewFactory *cal_view_factory);
 static void calendar_view_factory_finalize (GObject *object);
 
 static const char *calendar_view_factory_get_title (GalViewFactory *factory);
 static const char *calendar_view_factory_get_type_code (GalViewFactory *factory);
 static GalView *calendar_view_factory_new_view (GalViewFactory *factory, const char *name);
 
-static GalViewFactoryClass *parent_class = NULL;
-
-
-
-E_MAKE_TYPE (calendar_view_factory, "CalendarViewFactory", CalendarViewFactory,
-	     calendar_view_factory_class_init, calendar_view_factory_init, GAL_VIEW_FACTORY_TYPE);
+G_DEFINE_TYPE (CalendarViewFactory, calendar_view_factory, GAL_VIEW_FACTORY_TYPE);
 
 /* Class initialization function for the calendar view factory */
 static void
@@ -58,8 +51,6 @@ calendar_view_factory_class_init (CalendarViewFactoryClass *class)
 {
 	GalViewFactoryClass *gal_view_factory_class;
 	GObjectClass *gobject_class;
-
-	parent_class = g_type_class_peek_parent (class);
 
 	gal_view_factory_class = (GalViewFactoryClass *) class;
 	gobject_class = (GObjectClass *) class;
@@ -97,8 +88,8 @@ calendar_view_factory_finalize (GObject *object)
 	g_free (priv);
 	cal_view_factory->priv = NULL;
 
-	if (G_OBJECT_CLASS (parent_class)->finalize)
-		(* G_OBJECT_CLASS (parent_class)->finalize) (object);
+	if (G_OBJECT_CLASS (calendar_view_factory_parent_class)->finalize)
+		(* G_OBJECT_CLASS (calendar_view_factory_parent_class)->finalize) (object);
 }
 
 

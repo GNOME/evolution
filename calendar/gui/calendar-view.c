@@ -37,8 +37,6 @@ struct _CalendarViewPrivate {
 
 
 
-static void calendar_view_class_init (CalendarViewClass *class);
-static void calendar_view_init (CalendarView *cview);
 static void calendar_view_finalize (GObject *object);
 
 static void calendar_view_edit (GalView *view, GtkWindow *parent_window);
@@ -49,12 +47,7 @@ static void calendar_view_set_title (GalView *view, const char *title);
 static const char *calendar_view_get_type_code (GalView *view);
 static GalView *calendar_view_clone (GalView *view);
 
-static GalViewClass *parent_class = NULL;
-
-
-
-E_MAKE_TYPE (calendar_view, "CalendarView", CalendarView, calendar_view_class_init,
-	     calendar_view_init, GAL_VIEW_TYPE);
+G_DEFINE_TYPE (CalendarView, calendar_view, GAL_VIEW_TYPE);
 
 /* Class initialization function for the calendar view */
 static void
@@ -62,8 +55,6 @@ calendar_view_class_init (CalendarViewClass *class)
 {
 	GalViewClass *gal_view_class;
 	GObjectClass *object_class;
-
-	parent_class = g_type_class_peek_parent (class);
 
 	gal_view_class = (GalViewClass *) class;
 	object_class = (GObjectClass *) class;
@@ -112,8 +103,8 @@ calendar_view_finalize (GObject *object)
 	g_free (priv);
 	cal_view->priv = NULL;
 
-	if (G_OBJECT_CLASS (parent_class)->finalize)
-		(* G_OBJECT_CLASS (parent_class)->finalize) (object);
+	if (G_OBJECT_CLASS (calendar_view_parent_class)->finalize)
+		(* G_OBJECT_CLASS (calendar_view_parent_class)->finalize) (object);
 }
 
 

@@ -30,7 +30,6 @@
 #include <gtk/gtk.h>
 #include <libgnomevfs/gnome-vfs-ops.h>
 #include <libecal/e-cal-time-util.h>
-#include <gal/util/e-util.h>
 #include <gtkhtml/gtkhtml.h>
 #include <gtkhtml/gtkhtml-stream.h>
 #include <e-util/e-time-utils.h>
@@ -44,8 +43,7 @@ struct _ECalComponentPreviewPrivate {
 	icaltimezone *zone;
 };
 
-static GtkTableClass *parent_class;
-
+G_DEFINE_TYPE (ECalComponentPreview, e_cal_component_preview, GTK_TYPE_TABLE);
 
 static void
 on_link_clicked (GtkHTML *html, const char *url, gpointer data)
@@ -358,8 +356,8 @@ e_cal_component_preview_destroy (GtkObject *object)
 		preview->priv = NULL;
 	}
 
-	if (GTK_OBJECT_CLASS (parent_class)->destroy)
-		(* GTK_OBJECT_CLASS (parent_class)->destroy) (object);
+	if (GTK_OBJECT_CLASS (e_cal_component_preview_parent_class)->destroy)
+		(* GTK_OBJECT_CLASS (e_cal_component_preview_parent_class)->destroy) (object);
 }
 
 static void
@@ -369,14 +367,8 @@ e_cal_component_preview_class_init (ECalComponentPreviewClass *klass)
 	
 	object_class = (GtkObjectClass *) klass;
 	
-	parent_class = g_type_class_peek_parent (klass);
-	
 	object_class->destroy = e_cal_component_preview_destroy;
 }
-
-E_MAKE_TYPE (e_cal_component_preview, "ECalComponentPreview", ECalComponentPreview,
-	     e_cal_component_preview_class_init, e_cal_component_preview_init,
-	     GTK_TYPE_TABLE)
 
 GtkWidget *
 e_cal_component_preview_new (void)

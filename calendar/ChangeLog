@@ -1,5 +1,15 @@
 2004-10-14  JP Rosevear  <jpr@novell.com>
 
+	* gui/calendar-view.c: convert to G_DEFINE_TYPE
+
+	* gui/calendar-view-factory.c: ditto
+
+	* gui/cal-search-bar.c: ditto
+
+	* gui/e-cal-component-preview.c: ditto
+
+2004-10-14  JP Rosevear  <jpr@novell.com>
+	
 	* gui/e-week-view-config.c: convert to G_DEFINE_TYPE
 
 	* gui/e-week-view-event-item.c: ditto
