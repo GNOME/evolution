@@ -467,7 +467,7 @@ write_to_stream (CamelDataWrapper *data_wrapper, CamelStream *stream)
 	const char *boundary;
 	ssize_t total = 0;
 	ssize_t count;
-
+	
 	/* we have 3 basic cases:
 	   1. constructed, we write out the data wrapper stream we got
 	   2. signed content, we create and write out a new stream
