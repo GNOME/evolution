@@ -1,3 +1,7 @@
+1998-02-19  Federico Mena Quintero  <federico@nuclecu.unam.mx>
+
+	* gncal.c (main): Added app_id "gncal".
+
 1998-02-19  Carsten Schaar  <nhadcasc@fs-maphy.uni-hannover.de>
 
 	* Makefile.am (gncal_LDADD): Added '$(INTLLIBS)'
