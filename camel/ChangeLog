@@ -1,5 +1,11 @@
 2004-03-17  Not Zed  <NotZed@Ximian.com>
 
+	* providers/local/camel-maildir-store.c: Reverted jeff's fix for
+	#55018, since it wasn't tested, and doesn't work.  Wrote an
+	alternate implementation, and tested it at least once.  Turns out
+	it was a one line error, it still wasn't tested.  Oh well, its
+	rewritten now.
+
 	* See bug #55618.
 	
 	* camel-disco-diary.c (camel_disco_diary_new): seek to the end of
