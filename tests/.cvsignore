@@ -14,3 +14,5 @@ Makefile
 .libs
 mail1.test
 mail2.test
+test-formatter
+
