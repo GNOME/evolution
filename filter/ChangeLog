@@ -1,3 +1,10 @@
+2001-03-12  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* filtertypes.xml: Added an "Attachments" filter option where you
+	can filter messages that have (or do not have) attachments. This
+	does not allow you to filter based on the types of the
+	attachments.
+
 2001-03-08  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* vfolder-editor.c (double_click): Make sure we have something

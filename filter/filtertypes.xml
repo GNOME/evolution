@@ -433,6 +433,24 @@
   <input type="system-flag" name="flag"/>
  </part>
 
+ <part name="attachments">
+  <title>Attachments</title>
+  <input type="optionlist" name="match-type">
+   <option value="exist">
+    <title>Exist</title>
+    <code>
+     (match-all (system-flag "Attachments"))
+    </code>
+   </option>
+   <option value="not exist">
+    <title>Do Not Exist</title>
+    <code>
+     (match-all (not (system-flag "Attachments")))
+    </code>
+   </option>
+  </input>
+ </part>
+
  <part name="mlist">
   <title>Mailing list</title>
    <input type="optionlist" name="mlist-type">

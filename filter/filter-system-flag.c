@@ -65,8 +65,8 @@ struct _system_flag {
 	char *value;
 } system_flags[] = {
 	{ N_("Replied to"), "Answered" },
-	/*{ _("Deleted"), "Deleted" },*/
-	/*{ _("Draft"), "Draft" },*/
+	/*{ N_("Deleted"), "Deleted" },*/
+	/*{ N_("Draft"), "Draft" },*/
 	{ N_("Important"), "Flagged" },
 	{ N_("Read"), "Seen" },
 	{ NULL, NULL }
