@@ -1,3 +1,8 @@
+2005-03-21  JP Rosevear  <jpr@novell.com>
+
+	* main.c: switch #ifdef DEVELOPMENT to #if DEVELOPMENT so the
+	configure.in foo actually controls this
+
 2005-03-17  Not Zed  <NotZed@Ximian.com>
 
 	* es-event.h: fix the qualifier bit assignments for the STATE target.
