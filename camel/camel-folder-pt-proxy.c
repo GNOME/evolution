@@ -20,6 +20,26 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307
  * USA
  */
+
+/* FIXME :
+ * 
+ * the current implementation lauches requests 
+ * on the real folder without bothering on wether 
+ * the global mutex (folder->mutex) is locked or
+ * not. 
+ * This means that you could have 100 threads 
+ * waiting for the mutex at the same time. 
+ * This is not really a bug, more a nasty feature ;)
+ *
+ * This will be solved when the CORBA proxy is 
+ * written, as we will need to queue the requests 
+ * on the client side. The same queue mechanism 
+ * will be used for the pthread proxy 
+ *
+ */
+
+
+
 #include <config.h>
 #include "camel-folder-pt-proxy.h"
 #include "camel-log.h"
@@ -154,6 +174,10 @@ _finalize (GtkObject *object)
 }
 
 
+
+
+/* folder->init_with_store implementation */
+
 typedef struct {
 	CamelFolder *folder;
 	CamelStore *parent_store;
@@ -168,6 +192,10 @@ _async_init_with_store (_InitStoreParam *param)
 
 	proxy_folder = CAMEL_FOLDER_PT_PROXY (folder);
 	real_folder = proxy_folder->real_folder;
+
+	/* we may block here but we are actually in a 
+	 * separate thread, so no problem 
+	 */
 	g_static_mutex_lock (&(proxy_folder->mutex));
 	
 	CF_CLASS (real_folder)->init_with_store (real_folder, param->parent_store);
@@ -183,10 +211,16 @@ _init_with_store (CamelFolder *folder, CamelStore *parent_store)
 	_InitStoreParam *param;
 	pthread_t init_store_thread;
 	
+	/* param will be freed in _async_init_with_store */
 	param = g_new (_InitStoreParam, 1);
 	param->folder = folder;
 	param->parent_store = parent_store;
 	
+	/* 
+	 * call _async_init_with_store in a separate thread 
+	 * the thread may block on a mutex, but not the main
+	 * thread.
+	 */
 	pthread_create (&init_store_thread, NULL , (thread_call_func)_async_init_with_store, param);
 	
 }
@@ -194,6 +228,11 @@ _init_with_store (CamelFolder *folder, CamelStore *parent_store)
 
 
 
+/* folder->open implementation */
+typedef struct {
+	CamelFolder *folder;
+	CamelFolderOpenMode mode;
+} _openFolderParam;
 
 static void
 _open (CamelFolder *folder, CamelFolderOpenMode mode)
