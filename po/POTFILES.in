@@ -68,6 +68,7 @@ calendar/gui/dialogs/e-timezone-dialog.glade
 calendar/gui/dialogs/event-editor.c
 calendar/gui/dialogs/event-page.glade
 calendar/gui/dialogs/meeting-page.c
+calendar/gui/dialogs/meeting-page.etspec
 calendar/gui/dialogs/meeting-page.glade
 calendar/gui/dialogs/recurrence-page.c
 calendar/gui/dialogs/recurrence-page.glade
@@ -77,6 +78,7 @@ calendar/gui/dialogs/task-details-page.glade
 calendar/gui/dialogs/task-editor.c
 calendar/gui/dialogs/task-page.glade
 calendar/gui/e-calendar-table.c
+calendar/gui/e-calendar-table.etspec
 calendar/gui/e-day-view-time-item.c
 calendar/gui/e-day-view-top-item.c
 calendar/gui/e-day-view.c
