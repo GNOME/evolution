@@ -98,6 +98,7 @@ static void emfv_list_message_selected(MessageList *ml, const char *uid, EMFolde
 static int emfv_list_right_click(ETree *tree, gint row, ETreePath path, gint col, GdkEvent *event, EMFolderView *emfv);
 static void emfv_list_double_click(ETree *tree, gint row, ETreePath path, gint col, GdkEvent *event, EMFolderView *emfv);
 static int emfv_list_key_press(ETree *tree, int row, ETreePath path, int col, GdkEvent *ev, EMFolderView *emfv);
+static void emfv_list_selection_change(ETree *tree, EMFolderView *emfv);
 
 static void emfv_format_link_clicked(EMFormatHTMLDisplay *efhd, const char *uri, EMFolderView *);
 static int emfv_format_popup_event(EMFormatHTMLDisplay *efhd, GdkEventButton *event, const char *uri, CamelMimePart *part, EMFolderView *);
@@ -174,6 +175,7 @@ emfv_init(GObject *o)
 	g_signal_connect(emfv->list->tree, "right_click", G_CALLBACK(emfv_list_right_click), emfv);
 	g_signal_connect(emfv->list->tree, "double_click", G_CALLBACK(emfv_list_double_click), emfv);
 	g_signal_connect(emfv->list->tree, "key_press", G_CALLBACK(emfv_list_key_press), emfv);
+	g_signal_connect(emfv->list->tree, "selection_change", G_CALLBACK(emfv_list_selection_change), emfv);
 
 	emfv->preview = (EMFormatHTMLDisplay *)em_format_html_display_new();
 	/* FIXME: set_session should NOT be called here.  Should it be a constructor attribute? */
@@ -2018,6 +2020,14 @@ emfv_list_key_press(ETree *tree, int row, ETreePath path, int col, GdkEvent *ev,
 	}
 	
 	return TRUE;
+}
+
+static void
+emfv_list_selection_change(ETree *tree, EMFolderView *emfv)
+{
+	/* we can't just listen to the message-list message selected thing, since we dont get them
+	   in all cases.  blah */
+	g_signal_emit(emfv, signals[EMFV_CHANGED], 0);
 }
 
 static void
