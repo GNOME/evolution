@@ -1,4 +1,51 @@
+2001-07-17  Iain Holmes  <iain@ximian.com>
+
+	* mail-accounts.c (mail_able): Reset the auto receive.
+
+	* mail-config.h (mail_config_remove_account): Reset the autoreceive.
+
+2001-07-17  Jason Leach  <jleach@ximian.com>
+
+	* mail-account-gui.c (source_type_changed): Fix for last change:
+	hide the entire widget, not just the entry.
+
+2001-07-17  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* folder-browser.c (message_list_drag_data_recieved): Fix to
+	correctly handle text/uri-lists that contain more than a single
+	url.
+
+	* component-factory.c (destination_folder_handle_drop): Fix to
+	correctly handle text/uri-lists that contain more than a single
+	url.
+
+2001-07-17  Jason Leach  <jleach@ximian.com>
+
+	* mail-config.glade: Make the Path: entry into a GnomeFileEntry so
+	you get a nice "Browse..." button that pops up a file selector to
+	locate your mbox files.  Bug #3501.
+
+2001-07-17  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-format.c (mail_part_toggle_displayed): Cleaned up a bit.
+	(handle_multipart_encrypted): Replace the encrypted part with the
+	decrypted part.
+
+2001-07-17  Iain Holmes  <iain@ximian.com>
+
+	* mail-accounts.c (mail_delete): Make a nicer dialog.
+
+2001-07-17  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-local.c (init_trash): Use CAMEL_VTRASH_NAME.
+
+	* mail-ops.c (add_vtrash_info): Use CAMEL_VTRASH_NAME.
+
+	* folder-browser.c: turned off some debugging
+
 2001-07-16  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-callbacks.c (transfer_msg): Disallow vtrash for now...
 
 	* mail-ops.c (add_vtrash_info): Use g_strcasecmp() when looking
 	for a Trash folder - it may be lowercase or something funky.
@@ -7,6 +54,18 @@
 	* mail-local.c (init_trash): No need to specify the vfolder
 	expression here. This code was moved into camel-vtrash-folder.c
 	ages ago.
+
+	* component-factory.c: Let VTrash folders accept/export the same
+	dnd types as normal folders.
+
+2001-07-16  Peter Williams  <peterw@ximian.com>
+
+	* mail-folder-cache.c (outbox_folder): prototype outbox_folder so
+	we can check if a folder is it.
+	(make_folder_name): If the folder is the outbox, display the count
+	of total messages as "unsent".
+	(make_folder_status): If the folder is the outbox, display
+	"unsent" instead of "total"
 
 2001-07-16  Peter Williams  <peterw@ximian.com>
 

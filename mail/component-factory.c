@@ -92,7 +92,7 @@ static char *exported_dnd_types[] = {
 static const EvolutionShellComponentFolderType folder_types[] = {
 	{ "mail", "evolution-inbox.png", accepted_dnd_types, exported_dnd_types },
 	{ "mailstorage", "evolution-inbox.png", NULL, NULL },
-	{ "vtrash", "evolution-trash.png", NULL, NULL },
+	{ "vtrash", "evolution-trash.png", accepted_dnd_types, exported_dnd_types },
 	{ NULL, NULL, NULL, NULL }
 };
 
@@ -273,7 +273,8 @@ xfer_folder (EvolutionShellComponent *shell_component,
 					do_xfer_folder,
 					CORBA_Object_duplicate (listener, &ev));
 		
-		GNOME_Evolution_ShellComponentListener_notifyResult (listener, GNOME_Evolution_ShellComponentListener_OK, &ev);
+		GNOME_Evolution_ShellComponentListener_notifyResult (listener, GNOME_Evolution_ShellComponentListener_OK,
+								     &ev);
 	} else
 		GNOME_Evolution_ShellComponentListener_notifyResult (listener, GNOME_Evolution_ShellComponentListener_INVALID_URI, &ev);
 	CORBA_exception_free (&ev);
@@ -361,21 +362,21 @@ message_rfc822_dnd (CamelFolder *dest, CamelStream *stream, CamelException *ex)
 }
 
 static CORBA_boolean
-destination_folder_handle_drop (EvolutionShellComponentDndDestinationFolder *folder,
+destination_folder_handle_drop (EvolutionShellComponentDndDestinationFolder *dest_folder,
 				const char *physical_uri,
 				const GNOME_Evolution_ShellComponentDnd_DestinationFolder_Context *destination_context,
 				const GNOME_Evolution_ShellComponentDnd_Action action,
 				const GNOME_Evolution_ShellComponentDnd_Data *data,
 				gpointer user_data)
 {
-	char *url, *in, *inptr, *inend;
+	char *tmp, *url, **urls, *in, *inptr, *inend;
 	gboolean retval = FALSE;
-	CamelFolder *source;
+	CamelFolder *folder;
 	CamelStream *stream;
 	CamelException ex;
 	GPtrArray *uids;
 	CamelURL *uri;
-	int type, fd;
+	int i, type, fd;
 	
 	if (action == GNOME_Evolution_ShellComponentDnd_ACTION_LINK)
 		return FALSE; /* we can't create links */
@@ -390,44 +391,50 @@ destination_folder_handle_drop (EvolutionShellComponentDndDestinationFolder *fol
 	
 	switch (type) {
 	case ACCEPTED_DND_TYPE_TEXT_URI_LIST:
-		source = mail_tool_uri_to_folder (physical_uri, NULL);
-		if (!source)
+		folder = mail_tool_uri_to_folder (physical_uri, NULL);
+		if (!folder)
 			return FALSE;
 		
-		url = g_strndup (data->bytes._buffer, data->bytes._length);
-		inend = strchr (url, '\n');
-		if (inend)
-			*inend = '\0';
+		tmp = g_strndup (data->bytes._buffer, data->bytes._length);
+		urls = g_strsplit (tmp, "\n", 0);
+		g_free (tmp);
 		
-		/* get the path component */
-		g_strstrip (url);
-		uri = camel_url_new (url, NULL);
-		g_free (url);
-		url = uri->path;
-		uri->path = NULL;
-		camel_url_free (uri);
-		
-		fd = open (url, O_RDONLY);
-		if (fd == -1) {
+		retval = TRUE;
+		for (i = 0; urls[i] != NULL && retval; i++) {
+			/* get the path component */
+			url = g_strstrip (urls[i]);
+			
+			uri = camel_url_new (url, NULL);
 			g_free (url);
-			return FALSE;
+			url = uri->path;
+			uri->path = NULL;
+			camel_url_free (uri);
+			
+			fd = open (url, O_RDONLY);
+			if (fd == -1) {
+				g_free (url);
+				/* FIXME: okay, so what do we do in this case? */
+				continue;
+			}
+			
+			stream = camel_stream_fs_new_with_fd (fd);
+			message_rfc822_dnd (folder, stream, &ex);
+			camel_object_unref (CAMEL_OBJECT (stream));
+			camel_object_unref (CAMEL_OBJECT (folder));
+			
+			retval = !camel_exception_is_set (&ex);
+			
+			if (action == GNOME_Evolution_ShellComponentDnd_ACTION_MOVE && retval)
+				unlink (url);
+			
+			g_free (url);
 		}
 		
-		stream = camel_stream_fs_new_with_fd (fd);
-		message_rfc822_dnd (source, stream, &ex);
-		camel_object_unref (CAMEL_OBJECT (stream));
-		camel_object_unref (CAMEL_OBJECT (source));
-		
-		retval = !camel_exception_is_set (&ex);
-		
-		if (action == GNOME_Evolution_ShellComponentDnd_ACTION_MOVE && retval)
-			unlink (url);
-		
-		g_free (url);
+		g_free (urls);
 		break;
 	case ACCEPTED_DND_TYPE_MESSAGE_RFC822:
-		source = mail_tool_uri_to_folder (physical_uri, &ex);
-		if (!source) {
+		folder = mail_tool_uri_to_folder (physical_uri, &ex);
+		if (!folder) {
 			camel_exception_clear (&ex);
 			return FALSE;
 		}
@@ -437,9 +444,9 @@ destination_folder_handle_drop (EvolutionShellComponentDndDestinationFolder *fol
 		camel_stream_write (stream, data->bytes._buffer, data->bytes._length);
 		camel_stream_reset (stream);
 		
-		message_rfc822_dnd (source, stream, &ex);
+		message_rfc822_dnd (folder, stream, &ex);
 		camel_object_unref (CAMEL_OBJECT (stream));
-		camel_object_unref (CAMEL_OBJECT (source));
+		camel_object_unref (CAMEL_OBJECT (folder));
 		break;
 	case ACCEPTED_DND_TYPE_X_EVOLUTION_MESSAGE:
 		/* format: "uri uid1\0uid2\0uid3\0...\0uidn" */
@@ -450,10 +457,10 @@ destination_folder_handle_drop (EvolutionShellComponentDndDestinationFolder *fol
 		inptr = strchr (in, ' ');
 		url = g_strndup (in, inptr - in);
 		
-		source = mail_tool_uri_to_folder (url, &ex);
+		folder = mail_tool_uri_to_folder (url, &ex);
 		g_free (url);
 		
-		if (!source) {
+		if (!folder) {
 			camel_exception_clear (&ex);
 			return FALSE;
 		}
@@ -471,11 +478,11 @@ destination_folder_handle_drop (EvolutionShellComponentDndDestinationFolder *fol
 			inptr++;
 		}
 		
-		mail_transfer_messages (source, uids,
+		mail_transfer_messages (folder, uids,
 					action == GNOME_Evolution_ShellComponentDnd_ACTION_MOVE,
 					physical_uri, NULL, NULL);
 		
-		camel_object_unref (CAMEL_OBJECT (source));
+		camel_object_unref (CAMEL_OBJECT (folder));
 		break;
 	default:
 		break;

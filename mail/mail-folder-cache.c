@@ -39,8 +39,6 @@
 #define ld(x)
 #define d(x)
 
-/* is args... portable at all? */
-
 /* Structures */
 
 typedef enum mail_folder_info_flags {
@@ -92,6 +90,8 @@ static GStaticMutex folders_lock = G_STATIC_MUTEX_INIT;
 static GNOME_Evolution_ShellView shell_view = CORBA_OBJECT_NIL;
 static FolderBrowser *folder_browser = NULL;
 
+extern CamelFolder *outbox_folder;
+
 /* Private functions */
 
 /* call this with the folders locked */
@@ -139,7 +139,13 @@ make_folder_name (mail_folder_info *mfi)
 
 	work = g_string_new (mfi->name);
 
-	if (mfi->flags & MAIL_FIF_UNREAD_VALID && mfi->unread)
+	/* the way the logic is now, an outbox folder simply doesn't have
+	 * its unread count displayed. Makes sense to me at the moment. */
+
+	if (mfi->flags & MAIL_FIF_FOLDER_VALID && mfi->folder == outbox_folder) {
+		if (mfi->flags & MAIL_FIF_TOTAL_VALID)
+			g_string_sprintfa (work, " (%d unsent)", mfi->total);
+	} else if (mfi->flags & MAIL_FIF_UNREAD_VALID && mfi->unread)
 		g_string_sprintfa (work, " (%d)", mfi->unread);
 
 	ret = work->str;
@@ -175,7 +181,11 @@ make_folder_status (mail_folder_info *mfi)
 	if (mfi->flags & MAIL_FIF_TOTAL_VALID) {
 		if (set_one)
 			work = g_string_append (work, _(", "));
-		g_string_sprintfa (work, _("%d total"), mfi->total);
+
+		if (mfi->flags & MAIL_FIF_FOLDER_VALID && mfi->folder == outbox_folder)
+			g_string_sprintfa (work, _("%d unsent"), mfi->total);
+		else
+			g_string_sprintfa (work, _("%d total"), mfi->total);
 	}
 
 	ret = work->str;
