@@ -29,6 +29,8 @@
 
 #include "camel-store.h"
 #include "camel-folder.h"
+#include "camel-vee-store.h"
+#include "camel-vee-folder.h"
 #include "camel-exception.h"
 
 #include "camel-private.h"
@@ -41,6 +43,9 @@ static CamelServiceClass *parent_class = NULL;
 static CamelFolder *get_folder (CamelStore *store, const char *folder_name,
 				guint32 flags, CamelException *ex);
 static CamelFolder *get_inbox (CamelStore *store, CamelException *ex);
+
+static void        init_trash (CamelStore *store);
+static CamelFolder *get_trash (CamelStore *store, CamelException *ex);
 
 static CamelFolderInfo *create_folder (CamelStore *store,
 				       const char *parent_name,
@@ -75,6 +80,8 @@ camel_store_class_init (CamelStoreClass *camel_store_class)
 	camel_store_class->compare_folder_name = g_str_equal;
 	camel_store_class->get_folder = get_folder;
 	camel_store_class->get_inbox = get_inbox;
+	camel_store_class->init_trash = init_trash;
+	camel_store_class->get_trash = get_trash;
 	camel_store_class->create_folder = create_folder;
 	camel_store_class->delete_folder = delete_folder;
 	camel_store_class->rename_folder = rename_folder;
@@ -103,9 +110,12 @@ camel_store_init (void *o)
 						   store_class->compare_folder_name);
 	} else
 		store->folders = NULL;
+	
 	store->flags = 0;
-
-	store->priv = g_malloc0(sizeof(*store->priv));
+	
+	store_class->init_trash (store);
+	
+	store->priv = g_malloc0 (sizeof (*store->priv));
 #ifdef ENABLE_THREADS
 	store->priv->folder_lock = g_mutex_new();
 	store->priv->cache_lock = g_mutex_new();
@@ -125,12 +135,19 @@ camel_store_finalize (CamelObject *object)
 		}
 		g_hash_table_destroy (store->folders);
 	}
-
+	
+	if (store->vtrash) {
+		CamelStore *vstore = camel_folder_get_parent_store (store->vtrash);
+		
+		camel_object_unref (CAMEL_OBJECT (store->vtrash));
+		camel_object_unref (CAMEL_OBJECT (vstore));
+	}
+	
 #ifdef ENABLE_THREADS
-	g_mutex_free(store->priv->folder_lock);
-	g_mutex_free(store->priv->cache_lock);
+	g_mutex_free (store->priv->folder_lock);
+	g_mutex_free (store->priv->cache_lock);
 #endif
-	g_free(store->priv);
+	g_free (store->priv);
 }
 
 
@@ -214,7 +231,11 @@ camel_store_get_folder (CamelStore *store, const char *folder_name, guint32 flag
 			CAMEL_STORE_LOCK(store, cache_lock);
 
 			g_hash_table_insert (store->folders, g_strdup (folder_name), folder);
-
+			
+			/* Add the folder to the vTrash folder if this store implements it */
+			if (store->vtrash)
+				camel_vee_folder_add_folder (CAMEL_VEE_FOLDER (store->vtrash), folder);
+			
 			camel_object_hook_event (CAMEL_OBJECT (folder), "finalize", folder_finalize, store);
 			CAMEL_STORE_UNLOCK(store, cache_lock);
 		}
@@ -337,6 +358,61 @@ camel_store_get_inbox (CamelStore *store, CamelException *ex)
 	folder = CS_CLASS (store)->get_inbox (store, ex);
 	CAMEL_STORE_UNLOCK(store, folder_lock);
 
+	return folder;
+}
+
+
+static void
+init_trash (CamelStore *store)
+{
+	CamelStore *vstore;
+	char *uri, *name;
+	CamelURL *url;
+	
+	uri = g_strdup_printf ("vfolder:%p/%s", store, "vTrash");
+	name = g_strdup_printf ("%s?(match-all (system-flag \"Deleted\"))", "vTrash");
+	
+	vstore = CAMEL_STORE (camel_vee_store_new ());
+	
+	url = camel_url_new (uri, NULL);
+	g_free (uri);
+	CAMEL_SERVICE (vstore)->url = url;
+	
+	store->vtrash = camel_store_get_folder (vstore, name, CAMEL_STORE_FOLDER_CREATE |
+						CAMEL_STORE_VEE_FOLDER_AUTO, NULL);
+	g_free (name);
+}
+
+
+static CamelFolder *
+get_trash (CamelStore *store, CamelException *ex)
+{
+	if (store->vtrash) {
+		camel_object_ref (CAMEL_OBJECT (store->vtrash));
+		return store->vtrash;
+	} else {
+		g_warning ("This store does not support vTrash.");
+		return NULL;
+	}
+}
+
+/** 
+ * camel_store_get_trash:
+ * @store: a CamelStore
+ * @ex: a CamelException
+ *
+ * Return value: the folder in the store into which trash is
+ * delivered, or %NULL if no such folder exists.
+ **/
+CamelFolder *
+camel_store_get_trash (CamelStore *store, CamelException *ex)
+{
+	CamelFolder *folder;
+	
+	CAMEL_STORE_LOCK(store, folder_lock);
+	folder = CS_CLASS (store)->get_trash (store, ex);
+	CAMEL_STORE_UNLOCK(store, folder_lock);
+	
 	return folder;
 }
 

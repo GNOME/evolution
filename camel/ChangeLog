@@ -1,3 +1,17 @@
+2001-02-23  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* camel-store.c (camel_store_class_init): init get_trash and
+	init_trash.
+	(camel_store_init): call the virtual init_trash function.
+	(camel_store_finalize): unref the vtrash folder/store if present.
+	(camel_store_get_folder): Add the new folder to the vtrash
+	vfolder.
+	(init_trash): default implementation of init_trash.
+	(get_trash): default implementation of get_trash.
+
+	* camel-vee-store.c (vee_init_trash): No-op.
+	(vee_get_trash): return NULL
+
 2001-02-23  Not Zed  <NotZed@Ximian.com>
 
 	* camel-folder-summary.c (camel_message_info_new_from_header):

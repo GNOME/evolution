@@ -3,8 +3,7 @@
 
 /* 
  *
- * Author : 
- *  Bertrand Guiheneuf <bertrand@helixcode.com>
+ * Authors: Bertrand Guiheneuf <bertrand@helixcode.com>
  *
  * Copyright 1999, 2000 Helix Code, Inc. (http://www.helixcode.com)
  *
@@ -58,7 +57,9 @@ struct _CamelStore
 {
 	CamelService parent_object;
 	struct _CamelStorePrivate *priv;
-
+	
+	CamelFolder *vtrash;
+	
 	/* should have cache_lock when accessing this (priv->cache_lock) */
 	GHashTable *folders;
 
@@ -82,7 +83,11 @@ typedef struct {
 						     CamelException *ex);
 	CamelFolder *   (*get_inbox)                (CamelStore *store,
 						     CamelException *ex);
-
+	
+	void            (*init_trash)               (CamelStore *store);
+	CamelFolder *   (*get_trash)                (CamelStore *store,
+						     CamelException *ex);
+	
 	CamelFolderInfo *(*create_folder)           (CamelStore *store,
 						     const char *parent_name,
 						     const char *folder_name,
@@ -128,6 +133,8 @@ CamelFolder *    camel_store_get_folder         (CamelStore *store,
 						 guint32 flags,
 					         CamelException *ex);
 CamelFolder *    camel_store_get_inbox          (CamelStore *store,
+						 CamelException *ex);
+CamelFolder *    camel_store_get_trash          (CamelStore *store,
 						 CamelException *ex);
 
 CamelFolderInfo *camel_store_create_folder      (CamelStore *store,

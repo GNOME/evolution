@@ -23,6 +23,8 @@
 #include "camel-vee-folder.h"
 
 static CamelFolder *vee_get_folder (CamelStore *store, const char *folder_name, guint32 flags, CamelException *ex);
+static void vee_init_trash (CamelStore *store);
+static CamelFolder *vee_get_trash  (CamelStore *store, CamelException *ex);
 
 struct _CamelVeeStorePrivate {
 };
@@ -62,6 +64,8 @@ camel_vee_store_class_init (CamelVeeStoreClass *klass)
 
 	/* virtual method overload */
 	store_class->get_folder = vee_get_folder;
+	store_class->init_trash = vee_init_trash;
+	store_class->get_trash = vee_get_trash;
 }
 
 static void
@@ -90,4 +94,17 @@ static CamelFolder *
 vee_get_folder (CamelStore *store, const char *folder_name, guint32 flags, CamelException *ex)
 {
 	return camel_vee_folder_new(store, folder_name, flags, ex);
+}
+
+static void
+vee_init_trash (CamelStore *store)
+{
+	/* no-op */
+	;
+}
+
+static CamelFolder *
+vee_get_trash (CamelStore *store, CamelException *ex)
+{
+	return NULL;
 }
