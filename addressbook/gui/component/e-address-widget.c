@@ -242,9 +242,9 @@ e_address_widget_cardify (EAddressWidget *addr, ECard *card, gboolean known_emai
 
 		if (addr->card != card) {
 			if (addr->card)
-				gtk_object_unref (GTK_OBJECT (addr->card));
+				g_object_unref (addr->card);
 			addr->card = card;
-			gtk_object_ref (GTK_OBJECT (addr->card));
+			g_object_ref (addr->card);
 		}
 
 		addr->known_email = known_email;
@@ -285,9 +285,9 @@ book_ready_cb (EBook *book, EBookStatus status, gpointer user_data)
 
 	if (common_book == NULL) {
 		common_book = book;
-		gtk_object_ref (GTK_OBJECT (common_book));
+		g_object_ref (common_book);
 	} else
-		gtk_object_unref (GTK_OBJECT (book));
+		g_object_unref (book);
 
 	e_address_widget_do_query (addr);
 }

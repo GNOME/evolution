@@ -97,7 +97,7 @@ create_view (EvolutionShellComponent *shell_component,
 		return EVOLUTION_SHELL_COMPONENT_UNSUPPORTEDTYPE;
 
 	control = addressbook_factory_new_control ();
-	bonobo_control_set_property (control, NULL, "folder_uri", physical_uri);
+	bonobo_control_set_property (control, NULL, "folder_uri", TC_CORBA_string, physical_uri, NULL);
 
 	*control_return = control;
 
@@ -372,7 +372,7 @@ owner_set_cb (EvolutionShellComponent *shell_component,
 	if (global_shell_client == NULL)
 		global_shell_client = shell_client;
 
-	addressbook_config_register_factory (bonobo_object_corba_objref (BONOBO_OBJECT (shell_client)));
+	addressbook_config_register_factory (evolution_shell_client_corba_objref (shell_client));
 
 	addressbook_storage_setup (shell_component, evolution_homedir);
 }
@@ -572,12 +572,12 @@ create_component (void)
 			    _("Create a new contact list"), 'l',
 			    "contact-list-16.png");
 
-	gtk_signal_connect (GTK_OBJECT (shell_component), "owner_set",
-			    GTK_SIGNAL_FUNC (owner_set_cb), NULL);
-	gtk_signal_connect (GTK_OBJECT (shell_component), "owner_unset",
-			    GTK_SIGNAL_FUNC (owner_unset_cb), NULL);
-	gtk_signal_connect (GTK_OBJECT (shell_component), "user_create_new_item",
-			    GTK_SIGNAL_FUNC (user_create_new_item_cb), NULL);
+	g_signal_connect (shell_component, "owner_set",
+			  G_CALLBACK (owner_set_cb), NULL);
+	g_signal_connect (shell_component, "owner_unset",
+			  G_CALLBACK (owner_unset_cb), NULL);
+	g_signal_connect (shell_component, "user_create_new_item",
+			  G_CALLBACK (user_create_new_item_cb), NULL);
 
 	return BONOBO_OBJECT (shell_component);
 }

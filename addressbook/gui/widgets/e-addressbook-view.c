@@ -61,8 +61,8 @@
 #include <gdk/gdkkeysyms.h>
 #include <ctype.h>
 
-#include <gnome-xml/tree.h>
-#include <gnome-xml/parser.h>
+#include <libxml/tree.h>
+#include <libxml/parser.h>
 
 #define SHOW_ALL_SEARCH "(contains \"x-evolution-any-field\" \"\")"
 
@@ -70,9 +70,11 @@
 
 static void e_addressbook_view_init		(EAddressbookView		 *card);
 static void e_addressbook_view_class_init	(EAddressbookViewClass	 *klass);
-static void e_addressbook_view_set_arg (GtkObject *o, GtkArg *arg, guint arg_id);
-static void e_addressbook_view_get_arg (GtkObject *object, GtkArg *arg, guint arg_id);
-static void e_addressbook_view_destroy (GtkObject *object);
+
+static void e_addressbook_view_set_property (GObject *object, guint prop_id, const GValue *value, GParamSpec *pspec);
+static void e_addressbook_view_get_property (GObject *object, guint prop_id, GValue *value, GParamSpec *pspec);
+
+static void e_addressbook_view_dispose (GObject *object);
 static void change_view_type (EAddressbookView *view, EAddressbookViewType view_type);
 
 static void status_message     (GtkObject *object, const gchar *status, EAddressbookView *eav);
@@ -96,10 +98,10 @@ static GtkTableClass *parent_class = NULL;
 
 /* The arguments we take */
 enum {
-	ARG_0,
-	ARG_BOOK,
-	ARG_QUERY,
-	ARG_TYPE,
+	PROP_0,
+	PROP_BOOK,
+	PROP_QUERY,
+	PROP_TYPE,
 };
 
 enum {
@@ -153,24 +155,38 @@ e_addressbook_view_get_type (void)
 static void
 e_addressbook_view_class_init (EAddressbookViewClass *klass)
 {
-	GtkObjectClass *object_class;
+	GObjectClass *object_class;
 	GtkWidgetClass *widget_class;
 
-	object_class = GTK_OBJECT_CLASS(klass);
+	object_class = G_OBJECT_CLASS(klass);
 	widget_class = GTK_WIDGET_CLASS(klass);
 
 	parent_class = gtk_type_class (gtk_table_get_type ());
 
-	object_class->set_arg = e_addressbook_view_set_arg;
-	object_class->get_arg = e_addressbook_view_get_arg;
-	object_class->destroy = e_addressbook_view_destroy;
+	object_class->set_property = e_addressbook_view_set_property;
+	object_class->get_property = e_addressbook_view_get_property;
+	object_class->dispose = e_addressbook_view_dispose;
 
-	gtk_object_add_arg_type ("EAddressbookView::book", GTK_TYPE_OBJECT,
-				 GTK_ARG_READWRITE, ARG_BOOK);
-	gtk_object_add_arg_type ("EAddressbookView::query", GTK_TYPE_STRING,
-				 GTK_ARG_READWRITE, ARG_QUERY);
-	gtk_object_add_arg_type ("EAddressbookView::type", GTK_TYPE_ENUM,
-				 GTK_ARG_READWRITE, ARG_TYPE);
+	g_object_class_install_property (object_class, PROP_BOOK, 
+					 g_param_spec_object ("book",
+							      _("Book"),
+							      /*_( */"XXX blurb" /*)*/,
+							      E_TYPE_BOOK,
+							      G_PARAM_READWRITE));
+
+	g_object_class_install_property (object_class, PROP_QUERY, 
+					 g_param_spec_string ("query",
+							      _("Query"),
+							      /*_( */"XXX blurb" /*)*/,
+							      NULL,
+							      G_PARAM_READWRITE));
+
+	g_object_class_install_property (object_class, PROP_TYPE, 
+					 g_param_spec_int ("type",
+							   _("Type"),
+							   /*_( */"XXX blurb" /*)*/,
+							   E_ADDRESSBOOK_VIEW_NONE, E_ADDRESSBOOK_VIEW_MINICARD, E_ADDRESSBOOK_VIEW_NONE,
+							   G_PARAM_READWRITE));
 
 	e_addressbook_view_signals [STATUS_MESSAGE] =
 		g_signal_new ("status_message",
@@ -187,8 +203,8 @@ e_addressbook_view_class_init (EAddressbookViewClass *klass)
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (EAddressbookViewClass, search_result),
 			      NULL, NULL,
-			      e_addressbook_marshal_NONE__ENUM,
-			      G_TYPE_NONE, 1, G_TYPE_ENUM);
+			      e_addressbook_marshal_NONE__INT,
+			      G_TYPE_NONE, 1, G_TYPE_INT);
 
 	e_addressbook_view_signals [FOLDER_BAR_MESSAGE] =
 		g_signal_new ("folder_bar_message",
@@ -293,7 +309,7 @@ e_addressbook_view_init (EAddressbookView *eav)
 }
 
 static void
-e_addressbook_view_destroy (GtkObject *object)
+e_addressbook_view_dispose (GObject *object)
 {
 	EAddressbookView *eav = E_ADDRESSBOOK_VIEW(object);
 
@@ -333,8 +349,8 @@ e_addressbook_view_destroy (GtkObject *object)
 		eav->invisible = NULL;
 	}
 
-	if (GTK_OBJECT_CLASS(parent_class)->destroy)
-		GTK_OBJECT_CLASS(parent_class)->destroy(object);
+	if (G_OBJECT_CLASS(parent_class)->dispose)
+		G_OBJECT_CLASS(parent_class)->dispose(object);
 }
 
 GtkWidget*
@@ -354,6 +370,7 @@ writable_status (GtkObject *object, gboolean writable, EAddressbookView *eav)
 static void
 init_collection (void)
 {
+#ifdef PENDING_PORT_WORK
 	GalViewFactory *factory;
 	ETableSpecification *spec;
 	char *galview;
@@ -384,6 +401,7 @@ init_collection (void)
 
 		gal_view_collection_load(collection);
 	}
+#endif
 }
 
 static void
@@ -395,7 +413,7 @@ display_view(GalViewInstance *instance,
 	if (GAL_IS_VIEW_ETABLE(view)) {
 		change_view_type (address_view, E_ADDRESSBOOK_VIEW_TABLE);
 		gal_view_etable_attach_table (GAL_VIEW_ETABLE(view), e_table_scrolled_get_table(E_TABLE_SCROLLED(address_view->widget)));
-	} else if (GAL_IS_VIEW_MINICARD(view)) {
+	} else /*if (GAL_IS_VIEW_MINICARD(view))*/ {
 		change_view_type (address_view, E_ADDRESSBOOK_VIEW_MINICARD);
 		gal_view_minicard_attach (GAL_VIEW_MINICARD(view), E_MINICARD_VIEW_WIDGET (address_view->object));
 	}
@@ -422,17 +440,17 @@ setup_menus (EAddressbookView *view)
 }
 
 static void
-e_addressbook_view_set_arg (GtkObject *object, GtkArg *arg, guint arg_id)
+e_addressbook_view_set_property (GObject *object, guint prop_id, const GValue *value, GParamSpec *pspec)
 {
 	EAddressbookView *eav = E_ADDRESSBOOK_VIEW(object);
 
-	switch (arg_id){
-	case ARG_BOOK:
+	switch (prop_id){
+	case PROP_BOOK:
 		if (eav->book) {
 			g_object_unref (eav->book);
 		}
-		if (GTK_VALUE_OBJECT(*arg)) {
-			eav->book = E_BOOK(GTK_VALUE_OBJECT(*arg));
+		if (g_value_get_object (value)) {
+			eav->book = E_BOOK(g_value_get_object (value));
 			g_object_ref (eav->book);
 		}
 		else
@@ -450,14 +468,14 @@ e_addressbook_view_set_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 		setup_menus (eav);
 
 		break;
-	case ARG_QUERY:
+	case PROP_QUERY:
 #if 0 /* This code will mess up ldap a bit.  We need to think about the ramifications of this more. */
-		if ((GTK_VALUE_STRING (*arg) == NULL && !strcmp (eav->query, SHOW_ALL_SEARCH)) ||
-		    (GTK_VALUE_STRING (*arg) != NULL && !strcmp (eav->query, GTK_VALUE_STRING (*arg))))
+		if ((g_value_get_string (value) == NULL && !strcmp (eav->query, SHOW_ALL_SEARCH)) ||
+		    (g_value_get_string (value) != NULL && !strcmp (eav->query, g_value_get_string (value))))
 			break;
 #endif
 		g_free(eav->query);
-		eav->query = g_strdup(GTK_VALUE_STRING(*arg));
+		eav->query = g_strdup(g_value_get_string (value));
 		if (!eav->query)
 			eav->query = g_strdup (SHOW_ALL_SEARCH);
 		g_object_set(eav->model,
@@ -470,34 +488,35 @@ e_addressbook_view_set_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 			gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (current), FALSE);
 		}
 		break;
-	case ARG_TYPE:
-		change_view_type(eav, GTK_VALUE_ENUM(*arg));
+	case PROP_TYPE:
+		change_view_type(eav, g_value_get_int (value));
 		break;
 	default:
+		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
 		break;
 	}
 }
 
 static void
-e_addressbook_view_get_arg (GtkObject *object, GtkArg *arg, guint arg_id)
+e_addressbook_view_get_property (GObject *object, guint prop_id, GValue *value, GParamSpec *pspec)
 {
 	EAddressbookView *eav = E_ADDRESSBOOK_VIEW(object);
 
-	switch (arg_id) {
-	case ARG_BOOK:
+	switch (prop_id) {
+	case PROP_BOOK:
 		if (eav->book)
-			GTK_VALUE_OBJECT (*arg) = GTK_OBJECT(eav->book);
+			g_value_set_object (value, eav->book);
 		else
-			GTK_VALUE_OBJECT (*arg) = NULL;
+			g_value_set_object (value, NULL);
 		break;
-	case ARG_QUERY:
-		GTK_VALUE_STRING (*arg) = eav->query;
+	case PROP_QUERY:
+		g_value_set_string (value, eav->query);
 		break;
-	case ARG_TYPE:
-		GTK_VALUE_ENUM (*arg) = eav->view_type;
+	case PROP_TYPE:
+		g_value_set_int (value, eav->view_type);
 		break;
 	default:
-		arg->type = GTK_TYPE_INVALID;
+		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
 		break;
 	}
 }

@@ -9,7 +9,7 @@
  */
 #include <config.h>
 #include "gal-view-minicard.h"
-#include <gnome-xml/parser.h>
+#include <libxml/parser.h>
 #include <gal/util/e-xml-utils.h>
 
 #define PARENT_TYPE gal_view_get_type ()

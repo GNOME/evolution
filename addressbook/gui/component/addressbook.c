@@ -298,7 +298,7 @@ update_command_state (EAddressbookView *eav, AddressbookView *view)
 static void
 change_view_type (AddressbookView *view, EAddressbookViewType view_type)
 {
-	gtk_object_set (GTK_OBJECT (view->view), "type", view_type, NULL);
+	g_object_set (view->view, "type", view_type, NULL);
 }
 
 static BonoboUIVerb verbs [] = {
@@ -431,10 +431,10 @@ addressbook_view_clear (AddressbookView *view)
 	EBook *book;
 
 	if (view->uri && view->view) {
-		gtk_object_get(GTK_OBJECT(view->view),
-			       "book", &book,
-			       NULL);
-		gtk_object_unref (GTK_OBJECT (book));
+		g_object_get(view->view,
+			     "book", &book,
+			     NULL);
+		g_object_unref (book);
 	}
 	
 	if (view->properties) {
@@ -457,8 +457,8 @@ addressbook_view_clear (AddressbookView *view)
 		g_free(view);
 
 	if (view->ecml_changed_id != 0) {
-		gtk_signal_disconnect (GTK_OBJECT(get_master_list()),
-				       view->ecml_changed_id);
+		g_signal_handler_disconnect (get_master_list(),
+					     view->ecml_changed_id);
 		view->ecml_changed_id = 0;
 	}
 }
@@ -469,9 +469,9 @@ book_open_cb (EBook *book, EBookStatus status, gpointer closure)
 	AddressbookView *view = closure;
 
 	if (status == E_BOOK_STATUS_SUCCESS) {
-		gtk_object_set(GTK_OBJECT(view->view),
-			       "book", book,
-			       NULL);
+		g_object_set(view->view,
+			     "book", book,
+			     NULL);
 	}
 	else {
 		GtkWidget *warning_dialog, *label;
@@ -755,9 +755,9 @@ set_prop (BonoboPropertyBag *bag,
 	switch (arg_id) {
 
 	case PROPERTY_FOLDER_URI_IDX:
-		gtk_object_get(GTK_OBJECT(view->view),
-			       "book", &book,
-			       NULL);
+		g_object_get(view->view,
+			     "book", &book,
+			     NULL);
 		if (view->uri) {
 			/* we've already had a uri set on this view, so unload it */
 			e_book_unload_uri (book);
@@ -825,10 +825,10 @@ addressbook_search_activated (ESearchBar *esb, AddressbookView *view)
 		return;
 	}
 
-	gtk_object_get(GTK_OBJECT(esb),
-		       "text", &search_word,
-		       "item_id", &search_type,
-		       NULL);
+	g_object_get(esb,
+		     "text", &search_word,
+		     "item_id", &search_type,
+		     NULL);
 
 	if (search_type == ESB_ADVANCED) {
 #ifdef PENDING_PORT_WORK
@@ -873,9 +873,9 @@ addressbook_search_activated (ESearchBar *esb, AddressbookView *view)
 			search_query = g_strdup ("(contains \"x-evolution-any-field\" \"\")");
 
 		if (search_query)
-			gtk_object_set (GTK_OBJECT(view->view),
-					"query", search_query,
-					NULL);
+			g_object_set (view->view,
+				      "query", search_query,
+				      NULL);
 
 		g_free (search_query);
 	}
@@ -888,9 +888,9 @@ addressbook_query_changed (ESearchBar *esb, AddressbookView *view)
 {
 	int search_type;
 
-	gtk_object_get(GTK_OBJECT(esb),
-		       "item_id", &search_type,
-		       NULL);
+	g_object_get(esb,
+		     "item_id", &search_type,
+		     NULL);
 
 	if (search_type == ESB_ADVANCED) {
 #ifdef PENDING_PORT_WORK
@@ -906,8 +906,8 @@ retrieve_shell_view_interface_from_control (BonoboControl *control)
 	GNOME_Evolution_ShellView shell_view_interface;
 	CORBA_Environment ev;
 
-	shell_view_interface = gtk_object_get_data (GTK_OBJECT (control),
-						    "shell_view_interface");
+	shell_view_interface = g_object_get_data (G_OBJECT (control),
+						  "shell_view_interface");
 
 	if (shell_view_interface)
 		return shell_view_interface;
@@ -924,9 +924,9 @@ retrieve_shell_view_interface_from_control (BonoboControl *control)
 	CORBA_exception_free (&ev);
 
 	if (shell_view_interface != CORBA_OBJECT_NIL)
-		gtk_object_set_data (GTK_OBJECT (control),
-				     "shell_view_interface",
-				     shell_view_interface);
+		g_object_set_data (G_OBJECT (control),
+				   "shell_view_interface",
+				   shell_view_interface);
 	else
 		g_warning ("Control frame doesn't have Evolution/ShellView.");
 
@@ -939,7 +939,7 @@ set_status_message (EAddressbookView *eav, const char *message, AddressbookView 
 
 	if (!message || !*message) {
 		if (view->activity) {
-			gtk_object_unref (GTK_OBJECT (view->activity));
+			g_object_unref (view->activity);
 			view->activity = NULL;
 		}
 	}
@@ -1055,6 +1055,7 @@ compare_subitems (const void *a, const void *b)
 static void
 make_suboptions (AddressbookView *view)
 {
+#if PENDING_PORT_WORK
 	ESearchBarSubitem *subitems;
 	ECategoriesMasterList *master_list;
 	gint i, N;
@@ -1080,6 +1081,7 @@ make_suboptions (AddressbookView *view)
 	qsort (subitems + 1, N, sizeof (subitems[0]), compare_subitems);
 
 	e_search_bar_set_suboption (view->search, ESB_CATEGORY, subitems);
+#endif
 }
 
 static void
@@ -1092,8 +1094,8 @@ static void
 connect_master_list_changed (AddressbookView *view)
 {
 	view->ecml_changed_id =
-		gtk_signal_connect (GTK_OBJECT (get_master_list()), "changed",
-				    GTK_SIGNAL_FUNC (ecml_changed), view);
+		g_signal_connect (get_master_list(), "changed",
+				  G_CALLBACK (ecml_changed), view);
 }
 
 BonoboControl *
@@ -1111,9 +1113,9 @@ addressbook_factory_new_control (void)
 
 	view->vbox = gtk_vbox_new (FALSE, 0);
 
-	gtk_signal_connect (GTK_OBJECT (view->vbox), "destroy",
-			    GTK_SIGNAL_FUNC (destroy_callback),
-			    (gpointer) view);
+	g_signal_connect (view->vbox, "destroy",
+			  G_CALLBACK (destroy_callback),
+			  (gpointer) view);
 
 	/* Create the control. */
 	view->control = bonobo_control_new (view->vbox);
@@ -1124,10 +1126,10 @@ addressbook_factory_new_control (void)
 
 	gtk_box_pack_start (GTK_BOX (view->vbox), GTK_WIDGET (view->search),
 			    FALSE, FALSE, 0);
-	gtk_signal_connect (GTK_OBJECT (view->search), "query_changed",
-			    GTK_SIGNAL_FUNC (addressbook_query_changed), view);
-	gtk_signal_connect (GTK_OBJECT (view->search), "search_activated",
-			    GTK_SIGNAL_FUNC (addressbook_search_activated), view);
+	g_signal_connect (view->search, "query_changed",
+			  G_CALLBACK (addressbook_query_changed), view);
+	g_signal_connect (view->search, "search_activated",
+			  G_CALLBACK (addressbook_search_activated), view);
 
 	view->view = E_ADDRESSBOOK_VIEW(e_addressbook_view_new());
 	gtk_container_add (GTK_CONTAINER (frame), GTK_WIDGET (view->view));
@@ -1152,30 +1154,30 @@ addressbook_factory_new_control (void)
 				       bonobo_object_corba_objref (BONOBO_OBJECT (view->properties)),
 				       NULL);
 
-	gtk_signal_connect (GTK_OBJECT (view->view),
-			    "status_message",
-			    GTK_SIGNAL_FUNC(set_status_message),
-			    view);
+	g_signal_connect (view->view,
+			  "status_message",
+			  G_CALLBACK(set_status_message),
+			  view);
 
-	gtk_signal_connect (GTK_OBJECT (view->view),
-			    "search_result",
-			    GTK_SIGNAL_FUNC(search_result),
-			    view);
+	g_signal_connect (view->view,
+			  "search_result",
+			  G_CALLBACK(search_result),
+			  view);
 
-	gtk_signal_connect (GTK_OBJECT (view->view),
-			    "folder_bar_message",
-			    GTK_SIGNAL_FUNC(set_folder_bar_label),
-			    view);
+	g_signal_connect (view->view,
+			  "folder_bar_message",
+			  G_CALLBACK(set_folder_bar_label),
+			  view);
 
-	gtk_signal_connect (GTK_OBJECT (view->view),
-			    "command_state_change",
-			    GTK_SIGNAL_FUNC(update_command_state),
-			    view);
+	g_signal_connect (view->view,
+			  "command_state_change",
+			  G_CALLBACK(update_command_state),
+			  view);
 	
-	gtk_signal_connect (GTK_OBJECT (view->view),
-			    "alphabet_state_change",
-			    GTK_SIGNAL_FUNC(alphabet_state_changed),
-			    view);
+	g_signal_connect (view->view,
+			  "alphabet_state_change",
+			  G_CALLBACK(alphabet_state_changed),
+			  view);
 	
 	view->uri = NULL;
 

@@ -8,9 +8,9 @@
  */
 
 #include <config.h>
-#include <gnome-xml/tree.h>
-#include <gnome-xml/parser.h>
-#include <gnome-xml/xmlmemory.h>
+#include <libxml/tree.h>
+#include <libxml/parser.h>
+#include <libxml/xmlmemory.h>
 #include "e-cardlist-model.h"
 
 #define PARENT_TYPE e_table_model_get_type()
@@ -22,7 +22,7 @@ e_cardlist_model_destroy(GtkObject *object)
 	int i;
 
 	for ( i = 0; i < model->data_count; i++ ) {
-		gtk_object_unref(GTK_OBJECT(model->data[i]));
+		g_object_unref(model->data[i]);
 	}
 	g_free(model->data);
 }
@@ -67,9 +67,9 @@ e_cardlist_model_set_value_at (ETableModel *etc, int col, int row, const void *v
 	e_card_simple_set(e_cardlist_model->data[row],
 			  col + 1,
 			  val);
-	gtk_object_get(GTK_OBJECT(e_cardlist_model->data[row]),
-		       "card", &card,
-		       NULL);
+	g_object_get(e_cardlist_model->data[row],
+		     "card", &card,
+		     NULL);
 
 	e_table_model_cell_changed(etc, col, row);
 }
@@ -131,7 +131,7 @@ e_cardlist_model_add(ECardlistModel *model,
 		}
 		if (!found) {
 			e_table_model_pre_change(E_TABLE_MODEL(model));
-			gtk_object_ref(GTK_OBJECT(cards[i]));
+			g_object_ref(cards[i]);
 			model->data[model->data_count++] = e_card_simple_new (cards[i]);
 			e_table_model_row_inserted(E_TABLE_MODEL(model), model->data_count - 1);
 		}
@@ -146,7 +146,7 @@ e_cardlist_model_remove(ECardlistModel *model,
 	for ( i = 0; i < model->data_count; i++) {
 		if ( !strcmp(e_card_simple_get_id(model->data[i]), id) ) {
 			e_table_model_pre_change(E_TABLE_MODEL(model));
-			gtk_object_unref(GTK_OBJECT(model->data[i]));
+			g_object_unref(model->data[i]);
 			memmove(model->data + i, model->data + i + 1, (model->data_count - i - 1) * sizeof (ECard *));
 			e_table_model_row_deleted(E_TABLE_MODEL(model), i);
 		}
@@ -186,10 +186,10 @@ e_cardlist_model_get(ECardlistModel *model,
 {
 	if (model->data && row < model->data_count) {
 		ECard *card;
-		gtk_object_get(GTK_OBJECT(model->data[row]),
-			       "card", &card,
-			       NULL);
-		gtk_object_ref(GTK_OBJECT(card));
+		g_object_get(model->data[row],
+			     "card", &card,
+			     NULL);
+		g_object_ref(card);
 		return card;
 	}
 	return NULL;

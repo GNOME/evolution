@@ -1,5 +1,56 @@
 2002-11-06  Chris Toshok  <toshok@ximian.com>
 
+	* gui/widgets/gal-view-minicard.c: fix the gnome-xml headers.
+
+	* gui/widgets/e-addressbook-view.c
+	(e_addressbook_view_class_init): convert from gtk signals and args
+	to GSignal and GObject properties.
+	(e_addressbook_view_dispose): rename _destroy to this.
+	(e_addressbook_view_set_property): rework _set_arg to this.
+	(e_addressbook_view_get_property): rework _get_arg to this.
+	(display_view): if we're here we need to choose a view, regardless
+	of whether or not the GAL_IS_VIEW_* macros tell us which type it
+	is.
+
+	* gui/widgets/e-addressbook-table-adapter.c: fix the gnome-xml
+	headers.
+
+	* gui/widgets/e-addressbook-model.c
+	(e_addressbook_model_class_init): use INT, not ENUM in the signal here.
+
+	* gui/component/addressbook-config.c: another big gtk_* -> g_*
+	renaming.
+	
+	* gui/component/addressbook.c: same.
+
+	* gui/component/e-address-popup.c: same.
+
+	* gui/component/e-address-widget.c: same.
+	
+	* gui/component/e-cardlist-model.c: fix the gnome-xml headers, and
+	more gtk_* -> g_* renaming.
+	
+	* gui/component/addressbook-component.c (owner_set_cb): use
+	evolution_shell_client_corba_objref as per ettore's change to
+	EvolutionShellClient..
+	(create_view): fix the call to bonobo_control_set_property.
+	(create_component): gtk_signal_connect -> g_signal_connect.
+
+	* gui/component/addressbook-storage.c: fix the gnome-xml
+	headers.
+	(addressbook_storage_setup): use
+	evolution_shell_client_corba_objref as per ettore's change to
+	EvolutionShellClient..
+	(addressbook_get_other_contact_storage): gtk_signal_connect ->
+	g_signal_connect.
+	(load_source_data): root->childs -> root->childrens.
+
+2002-11-06  Chris Toshok  <toshok@ximian.com>
+
+	* gui/search/e-addressbook-search-dialog.c: fix some #include's.
+
+2002-11-06  Chris Toshok  <toshok@ximian.com>
+
 	* Makefile.am (SUBDIRS): only build the backend and gui dirs for
 	now.  printing and conduits are no-man's land at present.
 

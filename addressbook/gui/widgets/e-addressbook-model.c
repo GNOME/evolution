@@ -10,9 +10,9 @@
 #include <config.h>
 #include "e-addressbook-marshal.h"
 #include "e-addressbook-model.h"
-#include <gnome-xml/tree.h>
-#include <gnome-xml/parser.h>
-#include <gnome-xml/xmlmemory.h>
+#include <libxml/tree.h>
+#include <libxml/parser.h>
+#include <libxml/xmlmemory.h>
 #include <gnome.h>
 #include <gal/widgets/e-gui-utils.h>
 #include "e-addressbook-util.h"
@@ -332,8 +332,8 @@ e_addressbook_model_class_init (GObjectClass *object_class)
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (EAddressbookModelClass, search_result),
 			      NULL, NULL,
-			      e_addressbook_marshal_NONE__ENUM,
-			      G_TYPE_NONE, 1, G_TYPE_ENUM);
+			      e_addressbook_marshal_NONE__INT,
+			      G_TYPE_NONE, 1, G_TYPE_INT);
 	
 	e_addressbook_model_signals [FOLDER_BAR_MESSAGE] =
 		g_signal_new ("folder_bar_message",

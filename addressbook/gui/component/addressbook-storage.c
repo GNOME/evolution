@@ -50,8 +50,8 @@
 
 #include <glib.h>
 #include <gtk/gtk.h>
-#include <gnome-xml/parser.h>
-#include <gnome-xml/xmlmemory.h>
+#include <libxml/parser.h>
+#include <libxml/xmlmemory.h>
 
 #include <libgnome/gnome-i18n.h>
 #include <libgnome/gnome-util.h>
@@ -91,7 +91,7 @@ addressbook_storage_setup (EvolutionShellComponent *shell_component,
 		return;
 	}
 
-	corba_shell = bonobo_object_corba_objref (BONOBO_OBJECT (shell_client));
+	corba_shell = evolution_shell_client_corba_objref (shell_client);
 
 	sources = NULL;
 
@@ -164,12 +164,12 @@ addressbook_get_other_contact_storage (void)
 
 	if (storage == NULL) {
 		storage = evolution_storage_new (_("Other Contacts"), FALSE);
-		gtk_signal_connect (GTK_OBJECT (storage),
-				    "remove_folder",
-				    GTK_SIGNAL_FUNC(remove_ldap_folder), NULL);
-		gtk_signal_connect (GTK_OBJECT (storage),
-				    "create_folder",
-				    GTK_SIGNAL_FUNC(create_ldap_folder), NULL);
+		g_signal_connect (storage,
+				  "remove_folder",
+				  G_CALLBACK (remove_ldap_folder), NULL);
+		g_signal_connect (storage,
+				  "create_folder",
+				  G_CALLBACK (create_ldap_folder), NULL);
 		result = evolution_storage_register_on_shell (storage, corba_shell);
 		switch (result) {
 		case EVOLUTION_STORAGE_OK:
@@ -427,7 +427,7 @@ load_source_data (const char *file_path)
 		return FALSE;
 	}
 
-	for (child = root->childs; child; child = child->next) {
+	for (child = root->children; child; child = child->next) {
 		char *path;
 		AddressbookSource *source;
 
