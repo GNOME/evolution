@@ -1,3 +1,99 @@
+Evolution 2.0.5, 2004-12-06
+----------------------------
+
+Bugzilla bugs fixed (see http://bugzilla.ximian.com/show_bug.cgi):
+
+ * Addressbook
+
+   #36137 - Leading %s in addressbook message totally non-obvious (Siva)
+   #70339 - vcard preview doesn't appear to work (Siva)
+   #70622 - Crash changing gtkhtml settings (JP)
+   #70922 - Email address types should show "Other" when importing vcards (Siva)
+   #70540 - Adding contact from email doesn't let you change "file as" (Hans)
+
+ * Calendar
+ 	
+   #41624 - only the last exception is deleted on palm device (JP)
+   #46901 - Only one line gets printed when printing Tasks and Appointments (Yong Sun)
+
+ * Mail
+
+   #33933 - Sorting by subject does not result in expected order (Jeff)
+   #70795 - Next/Previous Message Should Only Display Listed Emails (Michael)
+   #65329 - regression in default folder name localisation (Michael)
+   #71312 - Double-clicking vFolder of Draft folder doesn't allow editing (Michael)
+   #71310 - Always loses my signature script settings (Michael)
+   #71310 - Always loses my signature script settings (Michael)
+   #69850 - Crash: attempting to create a Vfolder based on a message without a Sender (Michael)
+   #65178 - newly created folder on local maildir doesn't show until evolution restart (Michael)
+   #70858 - selecting newly created folder flakey (Michael)
+   #60664 - message view does not follow theme change (Michael)
+   #70768 - 'Mark All as Read' marks all the mails which are not in current query as read (Michael)
+   #70563 - crash when 'load images' on MyEclipse newsletter email (Michael)
+   #66943 - Crash when saving draft (Michael)
+   #71105 - When trying to rename a folder containing a slash "/" and spaces, evil stuff happens (Michael)
+   #72020 - Error parsing filter: Unknown identifier: adjust-score (Michael)
+   #38791 - gpg can make evo hang if keyserver unreachable (Michael)
+   #36142 - Don't use acronyms as verbs in messages (Michael)
+   #70303 - pgp signature invalid with very short emails (Michael)
+   #69757 - Memory leak in imap_parse_list_response (Michael)
+   #22496 - Evolution does not appear to support ALERT messages (Michael)
+   #71427 - Evolution does not prompt for new password (Michael)
+   #71625 - Don't display content of e-mail when first selected (Michael)
+   #56110 - Messages in digest displayed as source (Michael)
+   #69024 - Doesn't update NNTP folder in a Virtual folder (Michael)
+   #47824 - nested, identical multipart boundaries dont parse properly (Michael)
+   #70919 - Crash during fetching mail (mail has gpg signature) (Michael)
+   #70556 - Unable load messages info from MS Exchange by IMAP (Michael)
+
+Other bugs
+
+ * Mail
+
+    -64 bit fixes (Michael)
+
+ * Addressbook
+
+    - work around 67411 (Hans)
+    - 64 bit fixes (Michael)
+    - Turkish locale fixes (S.Çaglar Onur)
+
+ * Calendar
+
+    - fix potential resize crash (Michael)
+
+ * S/MIME
+
+    - don't remove the cert from the tree if it wasn't actually deleted (Michael)
+
+Updated translations:
+
+  - nl (Vincent van Adrighem)
+  - pt (Duarte Loreto)
+  - hu (Laszlo Dvornik)
+  - ca (Jordi Mallach)
+  - fr (Jeremie Knuesel, Sebastien Bacher, Christophe Merlet)
+  - sv (Christian Rose)
+  - de (Hendrik Brandt)
+  - id (Mohammad DAMT)
+  - es (Francisco Javier F. Serrador)
+  - da (Martin Willemoes Hansen)
+  - ko (Changwoo Ryu)
+  - zh_CN (Funda Wang)
+  - ms (Hasbullah Bin Pit)
+  - hu (Laszlo Dvornik)
+  - cs (Miloslav Trmac)
+  - ru (Leonid Kanter)
+  - bg (Vladimir Petkov)
+  - sq (Laurent Dhima)
+  - en_GB (David Lodge)
+  - pl (Artur Flinta)
+  - sr (Danilo Segan)
+  - sr@Latn (Danilo Segan)
+  - en_CA (Adam Weinberger)
+  - pt_BR (Raphael Higino)
+  - nn (Åsmund Skjæveland)
+
 Evolution 2.0.3, 2004-12-06
 ----------------------------
 
