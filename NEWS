@@ -27,6 +27,78 @@ Shell:
   - Make the shortcut bar not change the current group when renaming
     it.  (Jason)
 
+Mail:
+
+  - Use new shell ActivityClient interface for progress reporting so
+    the ongoing activities appear at the bottom of the window instead of
+    using a pop-up.  (Michael)
+
+  - "Remember this password" check box added.  (Peter, Jeff)
+
+  - UI for timespan editor cleaned up.  (Peter)
+
+  - UTF8 issues with PGP and mail display addressed.  (Jeff)
+
+  - Translate some more strings.  (Jeff, Zbigniew Chyla)
+
+  - Fix camel_session_*_timeout functions.  (Michael)
+
+  - Fix application/pgp handling.  (Jeff)
+
+  - Fix DnD with no messages selected.  (Jeff)
+
+  - Respect the GTK+ theme when generating the header in the mail
+    display.  (Jeff)
+
+  - Make the default date column smaller.  (Peter)
+
+  - Don't display "0 hidden" messages.  (Peter)
+
+  - 'q' now toggles the message (pre)view.  (Peter)
+
+  - Rename the "Date" column to "Sent".  (Peter)
+
+  - Fix saving of passwords (some passwords were being saved and
+    loaded under different URI's).  (Jeff)
+
+  - Enter now always open the message in a new window.  (Peter)
+
+  - Gray out unsupported authentication mechanisms.  (Jeff)
+
+  - Fix saving/loading of several preferences.  (Peter, Jason)
+
+  - Overwrite attachment files correctly.  (Jeff)
+
+  - Don't lose the selection when deleting the last message.  (Jason)
+
+  - Improve guessing of which address to use when replying.  (Jeff, Jason)
+
+  - If SSL isn't supported, indicate so.  (Peter)
+
+  - Improve handling of NoSelect IMAP folders.  (Peter)
+
+  - Add a browse button for local mailboxes.  (Jason)
+
+  - VTrash handling improvements.  (Jeff, Peter)
+
+  - Display "unsent" in outbox summary.  (Peter)
+
+  - Only have main view folder browsers save view settings.  (Peter)
+
+  - Fixes to POP3 cache.  (Jeff)
+
+  - Handle variants of charset names.  (Jeff)
+
+  - Progress reporting and optimizations for IMAP.  (Dan)
+
+  - Progress reporting for SMTP.  (Michel)
+
+  - Handle unencoded eight-bit headers.  (Jeff)
+
+  - Miscellaneous improvements to Camel backend.  (Michael, Jeff)
+
+  - Several crashes fixed.  (everyone)
+
 Addressbook:
 
   - Fixed some warnings.  (Chris T.)
@@ -60,102 +132,34 @@ Addressbook:
 
 Calendar & Tasks:
 
-  - Show icons for categories (Rodrigo).
+  - Show icons for categories.  (Rodrigo)
 
-  - Multiple selections for cut/copy/paste in task list (Rodrigo).
+  - Multiple selections for cut/copy/paste in task list.  (Rodrigo)
 
-  - Added missing underlined shortcuts for dialogs (Taylor).
+  - Added missing underlined shortcuts for dialogs.  (Taylor)
 
-  - Many timezone-related fixes (Damon, Federico).
+  - Many timezone-related fixes.  (Damon, Federico)
 
-  - Alarm notification dialogs (Federico).
+  - Alarm notification dialogs.  (Federico)
 
-  - iTIP and iMIP ongoing work (JP).
+  - iTIP and iMIP ongoing work.  (JP)
 
-  - Consistency & cosmetic fixes for dialogs and menus (Damon, Federico).
+  - Consistency & cosmetic fixes for dialogs and menus.  (Damon,
+    Federico)
 
-  - You can now create new calendar/tasks folders in the shell (Ettore).
+  - You can now create new calendar/tasks folders in the shell.
+    (Ettore)
 
-  - Printing fixes (Damon).
+  - Printing fixes.  (Damon)
 
-  - Added a search bar for tasks folders (Federico).
+  - Added a search bar for tasks folders.  (Federico)
 
-  - The task pad in the day view is now filtered as well (Federico).
+  - The task pad in the day view is now filtered as well.  (Federico)
 
-  - Timezone support for conduits (JP).
+  - Timezone support for conduits.  (JP)
 
   - General bug fixes.  (Federico, JP, Damon, Rodrigo)
 
-Mail:
-
-  - Use new shell ActivityClient interface for progress reporting. (Michael)
-
-  - "remember this password" check box added and debugged (Peter, Jeff)
-
-  - UI for timespan editor cleaned up (Peter)
-
-  - UTF8 issues with PGP and mail display addressed (Jeff)
-
-  - Translate some more strings (Jeff, Zbigniew Chyla)
-
-  - Fix camel_session_*_timeout functions (Michael)
-
-  - Fix application/pgp handling (Jeff)
-
-  - Fix DnD with no messages selected (Jeff)
-
-  - Respect the GTK+ theme when generating the header in the mail display (Jeff)
-
-  - Make the default date column smaller (Peter)
-
-  - Don't display "0 hidden" messages (Peter)
-
-  - 'q' now toggles the message (pre)view (Peter)
-
-  - Rename the "Date" column to "Sent" (Peter)
-
-  - Fix saving of passwords (some passwords were being saved and loaded under 
-    different URI's) (Jeff)
-
-  - Enter now always open the message in a new window (Peter)
-
-  - Gray out unsupported authentication mechanisms (Jeff)
-
-  - Fix saving/loading of several preferences. (Peter, Jason)
-
-  - Overwrite attachment files correctly. (Jeff)
-
-  - Don't lose the selection when deleting the last message (Jason)
-
-  - Improve guessing of which address to use when replying (Jeff, Jason)
-
-  - If SSL isn't supported, indicate so. (Peter)
-
-  - Improve handling of NoSelect IMAP folders. (Peter)
-
-  - Hunt down ActivityClient problems (Michael, Ettore, Jeff, Peter, Jason)
-
-  - Add a browse button for local mailboxes (Jason)
-
-  - VTrash handling improvements (Jeff, Peter)
-
-  - Display "unsent" in outbox summary (Peter)
-
-  - Only have main view folder browsers save view settings (Peter)
-
-  - Fixes to POP3 cache (Jeff)
-
-  - Handle variants of charset names (Jeff)
-
-  - Progress reporting and optimizations for IMAP (Dan)
-
-  - Progress reporting for SMTP (Michel)
-
-  - Handle unencoded eight-bit headers (Jeff)
-
-  - Miscellaneous improvements to Camel backend (Michael, Jeff)
-
-  - Segfaults fixed (the usual gang of idiots)
 
 Version 0.11 (Beta 1), 2001-07-12
 ---------------------------------
