@@ -1,3 +1,7 @@
+2001-03-19  Radek Doulik  <rodo@ximian.com>
+
+	* listener.c (reply_indent): set default text color
+
 2001-03-17  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* e-msg-composer-hdrs.c (e_msg_composer_hdrs_get_reply_to): Make
