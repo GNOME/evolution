@@ -69,11 +69,12 @@ create_connection_list (GSList  *summaries)
 	list = GNOME_Evolution_ConnectionList__alloc ();
 	list->_length = 0;
 	list->_maximum = 0;
-	list->_buffer = CORBA_sequence_GNOME_Evolution_Connection_allocbuf (list->_maximum);
 
 	/* Count the total number of connections first to make CORBA happy.  */
 	for (sp = summaries; sp != NULL; sp = sp->next)
-		list->_maximum += e_summary_count_connections (E_SUMMARY (sp->data)) + 1;
+		list->_maximum += e_summary_count_connections (E_SUMMARY (sp->data));
+
+	list->_buffer = CORBA_sequence_GNOME_Evolution_Connection_allocbuf (list->_maximum);
 
 	for (sp = summaries; sp != NULL; sp = sp->next) {
 		ESummary *summary;
