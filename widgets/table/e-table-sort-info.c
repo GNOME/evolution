@@ -380,23 +380,26 @@ e_table_sort_info_load_from_node (ETableSortInfo *info,
 			e_table_sort_info_sorting_set_nth(info, i++, column);
 		}
 	} else {
-		i = 0;
-		for (grouping = node->xmlChildrenNode; grouping && !strcmp (grouping->name, "group"); grouping = grouping->next) {
+		for (grouping = node->children; grouping; grouping = grouping->next) {
 			ETableSortColumn column;
-			column.column = e_xml_get_integer_prop_by_name (grouping, "column");
-			column.ascending = e_xml_get_bool_prop_by_name (grouping, "ascending");
-			e_table_sort_info_grouping_set_nth(info, i++, column);
-		}
-		i = 0;
-		for (; grouping && !strcmp (grouping->name, "leaf"); grouping = grouping->next) {
-			ETableSortColumn column;
-			column.column = e_xml_get_integer_prop_by_name (grouping, "column");
-			column.ascending = e_xml_get_bool_prop_by_name (grouping, "ascending");
-			e_table_sort_info_sorting_set_nth(info, i++, column);
+			gint gcnt = 0;
+			gint scnt = 0;
+
+			if (grouping->type != XML_ELEMENT_NODE)
+				continue;
+
+			if (!strcmp (grouping->name, "group")) {
+				column.column = e_xml_get_integer_prop_by_name (grouping, "column");
+				column.ascending = e_xml_get_bool_prop_by_name (grouping, "ascending");
+				e_table_sort_info_grouping_set_nth(info, gcnt++, column);
+			} else if (!strcmp (grouping->name, "leaf")) {
+				column.column = e_xml_get_integer_prop_by_name (grouping, "column");
+				column.ascending = e_xml_get_bool_prop_by_name (grouping, "ascending");
+				e_table_sort_info_sorting_set_nth(info, scnt++, column);
+			}
 		}
 	}
 	g_signal_emit (G_OBJECT (info), e_table_sort_info_signals [SORT_INFO_CHANGED], 0);
-	
 }
 
 /**
