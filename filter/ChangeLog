@@ -1,3 +1,34 @@
+2000-10-20  Jeffrey Stedfast  <fejj@helixcode.com>
+
+	* Makefile.am: Added filter-url.[c,h].
+
+	* filter-message-search.c (get_source): New callback to get the
+	source url of the message being filtered.
+	(filter_message_search): Now takes a source argument.
+
+	* filter-element.c (filter_element_new_type_name): Added code to
+	handle URL types.
+
+	* filter-url.[c,h]: New filter object to handle URLs (ie in the
+	case of filtering on source url). FIXME: find a way to populate
+	the source combo box (including mail-config.h breaks the build in
+	the addressbook - how does including mail-tools.h not break the
+	build???)
+
+	* filtertypes.xml: Added the source filter type and added the
+	move-to action.
+
+	* filter-driver.c (do_move): New callback, a "Copy" action should
+	just copy the message to another location while a Move should both
+	copy the message to a new location and delete it from the source
+	location.
+	(do_delete): Set the deleted flag on the message info.
+	(filter_driver_filter_message): Now returns void as we don't care
+	if it was copied or not in the caller functions. Also check the
+	CamelMessageInfo being passed in - if the message has been marked
+	as deleted prior to being filtered, then return immediately as we
+	don't want to apply filter actions to deleted messages.
+
 2000-10-19  Jeffrey Stedfast  <fejj@helixcode.com>
 
 	* filter-driver.c (filter_driver_filter_folder): Start fetching at

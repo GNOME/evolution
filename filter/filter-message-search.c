@@ -27,6 +27,7 @@
 typedef struct {
 	CamelMimeMessage *message;
 	CamelMessageInfo *info;
+	const char *source;
 	CamelException *ex;
 } FilterMessageSearch;
 
@@ -40,6 +41,7 @@ static ESExpResult *get_sent_date (struct _ESExp *f, int argc, struct _ESExpResu
 static ESExpResult *get_received_date (struct _ESExp *f, int argc, struct _ESExpResult **argv, FilterMessageSearch *fms);
 static ESExpResult *get_current_date (struct _ESExp *f, int argc, struct _ESExpResult **argv, FilterMessageSearch *fms);
 static ESExpResult *get_score (struct _ESExp *f, int argc, struct _ESExpResult **argv, FilterMessageSearch *fms);
+static ESExpResult *get_source (struct _ESExp *f, int argc, struct _ESExpResult **argv, FilterMessageSearch *fms);
 
 /* builtin functions */
 static struct {
@@ -56,7 +58,8 @@ static struct {
 	{ "get-sent-date",     (ESExpFunc *) get_sent_date,     0 },
 	{ "get-received-date", (ESExpFunc *) get_received_date, 0 },
 	{ "get-current-date",  (ESExpFunc *) get_current_date,  0 },
-	{ "get-score",         (ESExpFunc *) get_score,         0 }
+	{ "get-score",         (ESExpFunc *) get_score,         0 },
+	{ "get-source",        (ESExpFunc *) get_source,        0 },
 };
 
 static ESExpResult *
@@ -337,8 +340,20 @@ get_score (struct _ESExp *f, int argc, struct _ESExpResult **argv, FilterMessage
 	return r;
 }
 
+static ESExpResult *
+get_source (struct _ESExp *f, int argc, struct _ESExpResult **argv, FilterMessageSearch *fms)
+{
+	ESExpResult *r;
+	
+	r = e_sexp_result_new (ESEXP_RES_STRING);
+	r->value.string = g_strdup (fms->source);
+	
+	return r;
+}
+
 gboolean
-filter_message_search (CamelMimeMessage *message, CamelMessageInfo *info, const char *expression, CamelException *ex)
+filter_message_search (CamelMimeMessage *message, CamelMessageInfo *info,
+		       const char *source, const char *expression, CamelException *ex)
 {
 	FilterMessageSearch *fms;
 	ESExp *sexp;
@@ -349,6 +364,7 @@ filter_message_search (CamelMimeMessage *message, CamelMessageInfo *info, const 
 	fms = g_new (FilterMessageSearch, 1);
 	fms->message = message;
 	fms->info = info;
+	fms->source = source;
 	fms->ex = ex;
 	
 	sexp = e_sexp_new ();

@@ -63,20 +63,21 @@ guint         filter_driver_get_type (void);
 FilterDriver  *filter_driver_new     (FilterContext *ctx, FilterGetFolderFunc fetcher, void *data);
 
 /* modifiers */
-void	      filter_driver_set_status_func(FilterDriver *d, FDStatusFunc *func, void *data);
-void	      filter_driver_set_default_folder(FilterDriver *d, CamelFolder *def);
+void	filter_driver_set_status_func     (FilterDriver *d, FDStatusFunc *func, void *data);
+void	filter_driver_set_default_folder  (FilterDriver *d, CamelFolder *def);
 
 /*void filter_driver_set_global(FilterDriver *, const char *name, const char *value);*/
 
 /* filter a message - returns TRUE if the message was filtered into some location other than inbox */
-gboolean filter_driver_filter_message	(FilterDriver *driver, CamelMimeMessage *message, CamelMessageInfo *info,
-					 const char *source, CamelException *ex);
-void	filter_driver_filter_mbox	(FilterDriver *driver, const char *mbox, const char *source, CamelException *ex);
-void	filter_driver_filter_folder	(FilterDriver *driver, CamelFolder *folder, const char *source,
-					 GPtrArray *uids, gboolean remove, CamelException *ex);
+void    filter_driver_filter_message      (FilterDriver *driver, CamelMimeMessage *message, CamelMessageInfo *info,
+					   const char *source, CamelException *ex);
+void    filter_driver_filter_mbox         (FilterDriver *driver, const char *mbox, const char *source, CamelException *ex);
+void    filter_driver_filter_folder       (FilterDriver *driver, CamelFolder *folder, const char *source,
+					   GPtrArray *uids, gboolean remove, CamelException *ex);
 
 /* convenience function to log the status, data should be the FILE * of the logfile */
-void filter_driver_status_log(FilterDriver *driver, enum filter_status_t status, const char *desc, CamelMimeMessage *msg, void *data);
+void    filter_driver_status_log        (FilterDriver *driver, enum filter_status_t status,
+					 const char *desc, CamelMimeMessage *msg, void *data);
 
 #if 0
 /* generate the search query/action string for a filter option */

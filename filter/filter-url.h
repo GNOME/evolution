@@ -20,24 +20,39 @@
  *
  */
 
-#ifndef FILTER_MESSAGE_SEARCH_H
-#define FILTER_MESSAGE_SEARCH_H
 
-#ifdef __cplusplus
-extern "C" {
-#pragma }
-#endif /* __cplusplus */
+#ifndef _FILTER_URL_H
+#define _FILTER_URL_H
 
-#include <glib.h>
-#include <camel.h>
-#include <camel-mime-message.h>
-#include <camel-folder-summary.h>
+#include <gtk/gtk.h>
+#include "filter-element.h"
 
-gboolean filter_message_search (CamelMimeMessage *message, CamelMessageInfo *info,
-				const char *source, const char *expression, CamelException *ex); 
+#define FILTER_URL(obj)	        GTK_CHECK_CAST (obj, filter_url_get_type (), FilterUrl)
+#define FILTER_URL_CLASS(klass)	GTK_CHECK_CLASS_CAST (klass, filter_url_get_type (), FilterUrlClass)
+#define IS_FILTER_URL(obj)      GTK_CHECK_TYPE (obj, filter_url_get_type ())
 
-#ifdef __cplusplus
-}
-#endif /* __cplusplus */
+typedef struct _FilterUrl	FilterUrl;
+typedef struct _FilterUrlClass	FilterUrlClass;
 
-#endif /* ! FILTER_MESSAGE_SEARCH_H */
+struct _FilterUrl {
+	FilterElement parent;
+	struct _FilterUrlPrivate *priv;
+	
+	gchar *url;
+};
+
+struct _FilterUrlClass {
+	FilterElementClass parent_class;
+
+	/* virtual methods */
+
+	/* signals */
+};
+
+guint		filter_url_get_type (void);
+FilterUrl       *filter_url_new     (void);
+
+/* methods */
+
+#endif /* ! _FILTER_URL_H */
+
