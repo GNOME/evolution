@@ -1,3 +1,11 @@
+2001-12-13  Damon Chaplin  <damon@ximian.com>
+
+	* zones.h: new file to contain all timezone names for translation.
+	We won't be using the translations in 1.0.1, but it gives translators
+	time before we do use them in 1.0.2.
+
+	* Makefile.am: added zones.h to EXTRA_DIST.
+
 2001-12-12  JP Rosevear  <jpr@ximian.com>
  
 	* gui/e-day-view.c (e_day_view_on_top_canvas_button_release):
