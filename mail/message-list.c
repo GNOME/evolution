@@ -26,6 +26,7 @@
 #include "message-list.h"
 #include "mail-threads.h"
 #include "mail-tools.h"
+#include "mail-ops.h"
 #include "Mail.h"
 
 #include <gal/util/e-util.h>
@@ -376,7 +377,6 @@ message_list_select (MessageList *message_list, int base_row,
 	gtk_signal_emit(GTK_OBJECT (message_list), message_list_signals [MESSAGE_SELECTED], NULL);
 }
 
-#if 0
 static void
 message_list_drag_data_get (ETable             *table,
 			    int                 row,
@@ -388,40 +388,31 @@ message_list_drag_data_get (ETable             *table,
 			    gpointer            user_data)
 {
 	MessageList *mlist = (MessageList *) user_data;
-	CamelMessageInfo *info = get_message_info (mlist, row);
-	CamelException *ex;
-	CamelFolder *folder;
+	const CamelMessageInfo *minfo = get_message_info (mlist, row);
+	GPtrArray *uids = NULL;
 	char *dirname = "/tmp/ev-XXXXXXXXXX";
 	char *filename;
-	char *url;
 	
 	switch (info) {
 	case DND_TARGET_LIST_TYPE_URI:
 		/* drag & drop into nautilus */
 		mktemp (dirname);
-		filename = g_strdup_printf ("%s.eml", info->subject);
-		url = g_strdup_printf ("file:%s", dirname);
+		filename = g_strdup_printf ("%s/%s.eml", dirname, minfo->subject);
 		
-		ex = camel_exception_new ();
-		folder = mail_tool_get_folder_from_urlname (url, filename, CAMEL_STORE_FOLDER_CREATE, ex);
-		if (camel_exception_is_set (ex)) {
-			camel_exception_free (ex);
-			g_free (url);
-			return;
-		}
+		uids = g_ptr_array_new ();
+		g_ptr_array_add (uids, g_strdup (mlist->cursor_uid));
+		
+		mail_do_save_messages (mlist->folder, uids, filename);
 		
 		gtk_selection_data_set (selection_data, selection_data->target, 8,
-					(guchar *) url, strlen (url));
+					(guchar *) filename, strlen (filename));
 		
-		camel_object_unref (CAMEL_OBJECT (folder));
 		g_free (filename);
-		g_free (url);
 		break;
 	default:
 		break;
 	}
 }
-#endif
 
 /*
  * SimpleTableModel::col_count
@@ -1046,15 +1037,13 @@ message_list_init (GtkObject *object)
 
 	gtk_signal_connect (GTK_OBJECT (message_list->etable), "click",
 			    GTK_SIGNAL_FUNC (on_click), message_list);
-
-#if 0
+	
 	/* drag & drop */
-	e_table_drag_source_set (message_list->etable, GDK_BUTTON1_MASK,
+	e_table_drag_source_set (E_TABLE (message_list->etable), GDK_BUTTON1_MASK,
 				 drag_types, num_drag_types, GDK_ACTION_MOVE);
 	
 	gtk_signal_connect (GTK_OBJECT (message_list->etable), "drag_data_get",
 			    GTK_SIGNAL_FUNC (message_list_drag_data_get), message_list);
-#endif
 	
 	gtk_widget_show (message_list->etable);
 

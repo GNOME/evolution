@@ -1,5 +1,8 @@
 2000-11-29  Jeffrey Stedfast  <fejj@helixcode.com>
 
+	* message-list.c (message_list_drag_data_get): Implement.
+	(message_list_init): Connect the d&d signal.
+
 	* mail-ops.c (do_save_messages): Use camel a bit more to help us
 	out. Don't create the file ourselves, treat it as a CamelFolder so
 	we don't have to worry about formatting.
