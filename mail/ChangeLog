@@ -1,3 +1,20 @@
+2001-02-05  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-config-druid.c (incoming_next): Updated to not connect when
+	getting a list of authtypes.
+	(transport_next): No longer connects - again, this is
+	useless. Read the apply_changes argument for the reason why.
+
+	* mail-account-editor.c (apply_changes): Updated. Set the
+	'connect' argument to FALSE for now, this basically means that the
+	call is worthless tho so it may be best to either get rid of the
+	checks altogether or else make it connect.
+	(source_auth_init): Don't connect here, it's just plain annoying.
+	(transport_construct_authmenu): Same here.
+
+	* mail-config.c (mail_config_check_service): Now takes a connect
+	argument.
+
 2001-02-03  Michael Meeks  <michael@helixcode.com>
 
 	* mail-local.c (load_metainfo): Fix dodgy libxml allocation

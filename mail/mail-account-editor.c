@@ -221,7 +221,7 @@ apply_changes (MailAccountEditor *editor)
 	
 	/* check to make sure the source works */
 	if (source_url) {
-		if (mail_config_check_service (source_url, CAMEL_PROVIDER_STORE, NULL)) {
+		if (mail_config_check_service (source_url, CAMEL_PROVIDER_STORE, FALSE, NULL)) {
 			/* save the password if we were requested to do so */
 			if (account->source->save_passwd && source_url->passwd) {
 				mail_session_set_password (account->source->url, source_url->passwd);
@@ -234,7 +234,7 @@ apply_changes (MailAccountEditor *editor)
 	}
 	
 	/* check to make sure the transport works */
-	if (!mail_config_check_service (transport_url, CAMEL_PROVIDER_TRANSPORT, NULL))	
+	if (!mail_config_check_service (transport_url, CAMEL_PROVIDER_TRANSPORT, FALSE, NULL))
 		retval = FALSE;
 	
 	camel_url_free (transport_url);
@@ -321,7 +321,7 @@ source_auth_init (MailAccountEditor *editor, CamelURL *url)
 	menu = gtk_menu_new ();
 	gtk_option_menu_remove_menu (editor->source_auth);
 	
-	if (!url || !mail_config_check_service (url, CAMEL_PROVIDER_STORE, &authtypes)) {
+	if (!url || !mail_config_check_service (url, CAMEL_PROVIDER_STORE, FALSE, &authtypes)) {
 		gtk_option_menu_set_menu (editor->source_auth, menu);
 		
 		return;
@@ -385,7 +385,7 @@ transport_construct_authmenu (MailAccountEditor *editor, CamelURL *url)
 	menu = gtk_menu_new ();
 	gtk_option_menu_remove_menu (editor->transport_auth);
 	
-	if (!url || !mail_config_check_service (url, CAMEL_PROVIDER_TRANSPORT, &authtypes)) {
+	if (!url || !mail_config_check_service (url, CAMEL_PROVIDER_TRANSPORT, FALSE, &authtypes)) {
 		gtk_option_menu_set_menu (editor->transport_auth, menu);
 		
 		return;

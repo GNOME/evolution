@@ -123,7 +123,7 @@ GSList *mail_config_get_sources (void);
 /* static utility functions */
 char *mail_config_folder_to_cachename (CamelFolder *folder, const char *prefix);
 
-gboolean  mail_config_check_service (CamelURL *url, CamelProviderType type, GList **authtypes);
+gboolean  mail_config_check_service (CamelURL *url, CamelProviderType type, gboolean connect, GList **authtypes);
 
 #ifdef __cplusplus
 }

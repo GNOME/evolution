@@ -354,7 +354,7 @@ incoming_next (GnomeDruidPage *page, GnomeDruid *druid, gpointer data)
 	g_free (source_url);
 	
 	/* If we can't connect, warn them and continue on to the Transport page. */
-	if (!mail_config_check_service (url, CAMEL_PROVIDER_STORE, &authtypes)) {
+	if (!mail_config_check_service (url, CAMEL_PROVIDER_STORE, FALSE, &authtypes)) {
 		GtkWidget *dialog;
 		char *source, *warning;
 		
@@ -635,7 +635,7 @@ transport_next (GnomeDruidPage *page, GnomeDruid *druid, gpointer data)
 	g_free (xport_url);
 	
 	/* If we can't connect, don't let them continue. */
-	if (!mail_config_check_service (url, CAMEL_PROVIDER_TRANSPORT, NULL)) {
+	if (!mail_config_check_service (url, CAMEL_PROVIDER_TRANSPORT, FALSE, NULL)) {
 		GtkWidget *dialog;
 		char *transport, *warning;
 		

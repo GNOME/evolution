@@ -788,6 +788,7 @@ mail_config_folder_to_cachename (CamelFolder *folder, const char *prefix)
 typedef struct {
 	char *url;
 	CamelProviderType type;
+	gboolean connect;
 	GList **authtypes;
 	gboolean success;
 } check_service_input_t;
@@ -805,17 +806,15 @@ static void
 do_check_service (gpointer in_data, gpointer op_data, CamelException *ex)
 {
 	check_service_input_t *input = in_data;
-	CamelService *service;
+	CamelService *service = NULL;
 	
 	if (input->authtypes) {
-		service = camel_session_get_service (
-			session, input->url, input->type, ex);
+		service = camel_session_get_service (session, input->url, input->type, ex);
 		if (!service)
 			return;
-		*input->authtypes = camel_service_query_auth_types (service, ex);
-	} else {
-		service = camel_session_get_service_connected (
-			session, input->url, input->type, ex);
+		*input->authtypes = camel_service_query_auth_types (service, input->connect, ex);
+	} else if (input->connect) {
+		service = camel_session_get_service_connected (session, input->url, input->type, ex);
 	}
 	if (service)
 		camel_object_unref (CAMEL_OBJECT (service));
@@ -831,13 +830,32 @@ static const mail_operation_spec op_check_service = {
 	NULL
 };
 
+
+/**
+ * mail_config_check_service:
+ * @url: service url
+ * @type: provider type
+ * @connect: whether or not the check service should connect
+ * @authtypes: list of auth types gathered by this method
+ *
+ * Checks the service for validity. If @connect is TRUE then a
+ * connection with the server is attempted and if successful will fill
+ * in the @authtypes list. If @connect is FALSE then @authtypes will
+ * be generated without a connection and thus will not necessarily
+ * reflect what the server supports.
+ *
+ * Returns TRUE on success or FALSE on error.
+ *
+ **/
+
 gboolean
-mail_config_check_service (CamelURL *url, CamelProviderType type, GList **authtypes)
+mail_config_check_service (CamelURL *url, CamelProviderType type, gboolean connect, GList **authtypes)
 {
 	check_service_input_t input;
 	
 	input.url = camel_url_to_string (url, TRUE);
 	input.type = type;
+	input.connect = connect;
 	input.authtypes = authtypes;
 	input.success = FALSE;
 	
