@@ -359,7 +359,7 @@ if test "$ac_cv_db3_lib_version_match" = no; then
 fi
 
 CPPFLAGS="$CPPFLAGS_save"
-LIBS="LIBS_save"
+LIBS="$LIBS_save"
 
 
 dnl **************************************************
