@@ -7,6 +7,8 @@ images_DATA = \
 	alarm.png			\
 	all_contacts.xpm		\
 	apply-filters-16.xpm		\
+	appointment-reminder.png	\
+	appointment-reminder-excl.png	\
 	bcg.png				\
 	briefcase.png       		\
 	butterfly.png			\
