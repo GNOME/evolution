@@ -556,8 +556,8 @@ typedef struct {
 static int
 sort_callback(const void *data1, const void *data2, gpointer user_data)
 {
-	ETreePath path1 = (void *) data1;
-	ETreePath path2 = (void *) data2;
+	ETreePath path1 = *(ETreePath *)data1;
+	ETreePath path2 = *(ETreePath *)data2;
 	MemoryAndClosure *mac = user_data;
 	return (*mac->callback) (mac->memory, path1, path2, mac->closure);
 }
@@ -596,6 +596,7 @@ e_tree_memory_sort_node             (ETreeMemory             *etmm,
 
 	e_sort (children, count, sizeof (ETreeMemoryPath *), sort_callback, &mac);
 
+	path->first_child = NULL;
 	last = NULL;
 	for (i = 0;
 	     i < count;
@@ -603,10 +604,14 @@ e_tree_memory_sort_node             (ETreeMemory             *etmm,
 		children[i]->prev_sibling = last;
 		if (last)
 			last->next_sibling = children[i];
+		else
+			path->first_child = children[i];
 		last = children[i];
 	}
 	if (last)
 		last->next_sibling = NULL;
+
+	path->last_child = last;
 
 	g_free(children);
 
