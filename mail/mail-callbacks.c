@@ -25,22 +25,11 @@
  * USA
  */
 
-#ifdef HAVE_CONFIG_H
 #include <config.h>
-#endif
-
 #include <errno.h>
-#include <time.h>
-#include <libgnome/gnome-paper.h>
-#include <libgnomeui/gnome-dialog.h>
-#include <libgnomeui/gnome-dialog-util.h>
-#include <libgnomeui/gnome-stock.h>
-#include <libgnome/gnome-paper.h>
+#include <gnome.h>
 #include <libgnomeprint/gnome-print-master.h>
 #include <libgnomeprint/gnome-print-master-preview.h>
-#include <gal/e-table/e-table.h>
-#include <gal/widgets/e-gui-utils.h>
-#include <filter/filter-editor.h>
 #include "mail.h"
 #include "mail-callbacks.h"
 #include "mail-config.h"
@@ -54,6 +43,9 @@
 #include "mail-vfolder.h"
 #include "folder-browser.h"
 #include "subscribe-dialog.h"
+#include "filter/filter-editor.h"
+#include <gal/e-table/e-table.h>
+#include <gal/widgets/e-gui-utils.h>
 #include "e-messagebox.h"
 
 /* FIXME: is there another way to do this? */
@@ -288,7 +280,7 @@ composer_sent_cb(char *uri, CamelMimeMessage *message, gboolean sent, void *data
 	camel_object_unref (CAMEL_OBJECT (message));
 }
 
-static CamelMimeMessage *
+CamelMimeMessage *
 composer_get_message (EMsgComposer *composer)
 {
 	CamelMimeMessage *message;
@@ -560,7 +552,7 @@ static EMsgComposer *
 mail_generate_reply (CamelMimeMessage *message, gboolean to_all)
 {
 	const CamelInternetAddress *reply_to, *sender, *to_addrs, *cc_addrs;
-	const char *name = NULL, *address = NULL, *source = NULL;
+	const char *name = NULL, *address = NULL;
 	const char *message_id, *references;
 	char *text, *subject, *date_str;
 	const MailConfigAccount *me = NULL;
@@ -571,11 +563,8 @@ mail_generate_reply (CamelMimeMessage *message, gboolean to_all)
 	gchar *sig_file = NULL;
 	time_t date;
 	int offset;
-
-	source = camel_mime_message_get_source (message);
-	me = mail_config_get_account_by_source_url (source);
 	
-	id = me ? me->id : mail_config_get_default_identity ();
+	id = mail_config_get_default_identity ();
 	if (id)
 	      sig_file = id->signature;
 	
@@ -612,7 +601,7 @@ mail_generate_reply (CamelMimeMessage *message, gboolean to_all)
 	if (to_all) {
 		cc = list_add_addresses (cc, to_addrs, accounts, &me);
 		cc = list_add_addresses (cc, cc_addrs, accounts, me ? NULL : &me);
-	} else if (me == NULL) {
+	} else {
 		me = guess_me (to_addrs, cc_addrs, accounts);
 	}
 	
@@ -1403,6 +1392,7 @@ do_view_message(CamelFolder *folder, char *uid, CamelMimeMessage *message, void 
 	GtkWidget *view;
 	
 	if (message) {
+		camel_folder_set_message_flags (folder, uid, CAMEL_MESSAGE_SEEN, CAMEL_MESSAGE_SEEN);
 		view = mail_view_create(folder, uid, message);
 		gtk_widget_show(view);
 	}
