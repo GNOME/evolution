@@ -1366,19 +1366,18 @@ autosave_load_draft (const char *filename)
 	g_return_val_if_fail (filename != NULL, NULL);
 	
 	g_warning ("autosave load filename = \"%s\"", filename);
-        
-	stream = camel_stream_fs_new_with_name (filename, O_RDONLY, 0);
 	
-	if (stream == NULL) 
+	if (!(stream = camel_stream_fs_new_with_name (filename, O_RDONLY, 0)))
 		return NULL;
-		
+	
 	msg = camel_mime_message_new ();
 	camel_data_wrapper_construct_from_stream (CAMEL_DATA_WRAPPER (msg), stream);
-	unlink (filename);
+	camel_object_unref (stream);
 	
 	composer = e_msg_composer_new_with_message (msg);
 	if (composer) {
-		autosave_save_draft (composer);
+		if (autosave_save_draft (composer))
+			unlink (filename);
 		
 		g_signal_connect (GTK_OBJECT (composer), "send",
 				  G_CALLBACK (em_utils_composer_send_cb), NULL);
@@ -1389,7 +1388,6 @@ autosave_load_draft (const char *filename)
 		gtk_widget_show (GTK_WIDGET (composer));
 	}
 	
-	camel_object_unref (stream);
 	return composer;
 }
 
@@ -1565,9 +1563,9 @@ autosave_manager_unregister (AutosaveManager *am, EMsgComposer *composer)
 	
 	/* only remove the file if we can successfully save it */
 	/* FIXME this test could probably be more efficient */
-	if (autosave_save_draft (composer)) {
+	if (autosave_save_draft (composer))
 		unlink (composer->autosave_file);
-	}
+	
 	close (composer->autosave_fd);
 	g_free (composer->autosave_file);
 	composer->autosave_file = NULL;

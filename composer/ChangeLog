@@ -1,3 +1,9 @@
+2004-04-26  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* e-msg-composer.c (autosave_load_draft): Only unlink the original
+	autosave draft file if we are successful in saving a new copy,
+	otherwise don't unlink the file. Fixes bug #57540.
+
 2004-04-23  Not Zed  <NotZed@Ximian.com>
 
 	* e-msg-composer-attachment-bar.c (update): fallback to stock
