@@ -7,9 +7,9 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: evolution 0.16.100\n"
-"POT-Creation-Date: 2001-11-14 19:26-0500\n"
-"PO-Revision-Date: 2001-11-09 10:43+0100\n"
+"Project-Id-Version: evolution 0.99.2\n"
+"POT-Creation-Date: 2001-11-23 13:46+0100\n"
+"PO-Revision-Date: 2001-11-23 13:46+0100\n"
 "Last-Translator: Frederic Riss <frederic.riss@laposte.net>\n"
 "Language-Team: GNOME French Team <gnomefr@traduc.org>\n"
 "MIME-Version: 1.0\n"
@@ -1332,9 +1332,8 @@ msgid "Delete Contact?"
 msgstr "Supprimer le contact ?"
 
 #: addressbook/gui/contact-editor/e-contact-editor.c:756
-#, fuzzy
 msgid "Category editor not available."
-msgstr "Aucune description disponible."
+msgstr "Editeur de catégorie non disponible."
 
 #: addressbook/gui/contact-editor/e-contact-editor.c:763
 msgid "This contact belongs to these categories:"
@@ -2575,7 +2574,8 @@ msgid "Success"
 msgstr "Succès"
 
 #: addressbook/gui/widgets/e-addressbook-util.c:34
-#: camel/providers/imap/camel-imap-command.c:355 shell/e-shell.c:1894
+#: camel/providers/imap/camel-imap-command.c:275
+#: camel/providers/imap/camel-imap-command.c:363 shell/e-shell.c:1894
 #: shell/e-storage.c:528 shell/evolution-shell-component.c:1044
 msgid "Unknown error"
 msgstr "Erreur inconnue"
@@ -2933,20 +2933,20 @@ msgstr "Rendez-vous sans titre"
 
 #: calendar/cal-util/cal-util.c:498 calendar/cal-util/cal-util.c:520
 #: calendar/gui/dialogs/task-details-page.glade.h:6
-#: calendar/gui/e-calendar-table.c:405 mail/message-list.c:651
+#: calendar/gui/e-calendar-table.c:405 mail/message-list.c:642
 msgid "High"
 msgstr "Haute"
 
 #: calendar/cal-util/cal-util.c:500 calendar/cal-util/cal-util.c:522
 #: calendar/gui/calendar-model.c:1711
 #: calendar/gui/dialogs/task-details-page.glade.h:9
-#: calendar/gui/e-calendar-table.c:406 mail/message-list.c:650
+#: calendar/gui/e-calendar-table.c:406 mail/message-list.c:641
 msgid "Normal"
 msgstr "Normal"
 
 #: calendar/cal-util/cal-util.c:502 calendar/cal-util/cal-util.c:524
 #: calendar/gui/dialogs/task-details-page.glade.h:8
-#: calendar/gui/e-calendar-table.c:407 mail/message-list.c:649
+#: calendar/gui/e-calendar-table.c:407 mail/message-list.c:640
 msgid "Low"
 msgstr "Basse"
 
@@ -4592,22 +4592,20 @@ msgid "Accept"
 msgstr "Accepter"
 
 #: calendar/gui/e-itip-control.c:796
-#, fuzzy
 msgid "Tentatively accept"
-msgstr "Essai"
+msgstr "Accepter pour voir"
 
 #: calendar/gui/e-itip-control.c:797
 msgid "Decline"
 msgstr "Refuser"
 
 #: calendar/gui/e-itip-control.c:811
-#, fuzzy
 msgid "Send Free/Busy Information"
-msgstr "Information Libre-Occupé"
+msgstr "Envoyer l'information Libre-Occupé"
 
 #: calendar/gui/e-itip-control.c:824
 msgid "Update respondent status"
-msgstr ""
+msgstr "Mettre à jour le status de l'interlocuteur"
 
 #: calendar/gui/e-itip-control.c:838
 msgid "Send Latest Information"
@@ -5920,11 +5918,12 @@ msgstr "(Hôte inconnu)"
 #: camel/camel-remote-store.c:358 camel/camel-remote-store.c:420
 #: camel/camel-remote-store.c:481
 #: camel/providers/imap/camel-imap-command.c:228
-#: camel/providers/imap/camel-imap-command.c:401
+#: camel/providers/imap/camel-imap-command.c:409
 msgid "Operation cancelled"
 msgstr "Opération annulée"
 
 #: camel/camel-remote-store.c:484
+#: camel/providers/imap/camel-imap-command.c:274
 #, c-format
 msgid "Server unexpectedly disconnected: %s"
 msgstr "Serveur déconnecté de manière inattendue : %s"
@@ -6199,7 +6198,7 @@ msgstr ""
 "Sujet : %s"
 
 #. construct our user prompt
-#: camel/camel-tcp-stream-openssl.c:524 camel/camel-tcp-stream-ssl.c:428
+#: camel/camel-tcp-stream-openssl.c:524 camel/camel-tcp-stream-ssl.c:438
 #, c-format
 msgid ""
 "Bad certificate from %s:\n"
@@ -6214,7 +6213,7 @@ msgstr ""
 "\n"
 "Désirez-vous accepter quand même ?"
 
-#: camel/camel-tcp-stream-ssl.c:412
+#: camel/camel-tcp-stream-ssl.c:422
 #, c-format
 msgid ""
 "EMail: %s\n"
@@ -6272,26 +6271,26 @@ msgstr "Impossible de renommer le dossier : %s : Dossier inexistant"
 msgid "You cannot copy messages from this trash folder."
 msgstr "Vous ne pouvez copier des messages de ce dossier corbeille"
 
-#: camel/providers/imap/camel-imap-command.c:344
+#: camel/providers/imap/camel-imap-command.c:352
 #, c-format
 msgid "Unexpected response from IMAP server: %s"
 msgstr "Réponse inattendue du serveur IMAP : %s"
 
-#: camel/providers/imap/camel-imap-command.c:354
+#: camel/providers/imap/camel-imap-command.c:362
 #, c-format
 msgid "IMAP command failed: %s"
 msgstr "Échec de la commande IMAP : %s"
 
-#: camel/providers/imap/camel-imap-command.c:409
+#: camel/providers/imap/camel-imap-command.c:417
 msgid "Server response ended too soon."
 msgstr "La réponse du serveur s'est terminée trop tot."
 
-#: camel/providers/imap/camel-imap-command.c:601
+#: camel/providers/imap/camel-imap-command.c:608
 #, c-format
 msgid "IMAP server response did not contain %s information"
 msgstr "La réponse du serveur IMAP ne contient pas l'information %s"
 
-#: camel/providers/imap/camel-imap-command.c:637
+#: camel/providers/imap/camel-imap-command.c:644
 #, c-format
 msgid "Unexpected OK response from IMAP server: %s"
 msgstr "Réponse OK inattendue du serveur IMAP : %s"
@@ -7528,7 +7527,7 @@ msgstr ""
 msgid "Attach a file"
 msgstr "Joindre un fichier"
 
-#: composer/e-msg-composer.c:696
+#: composer/e-msg-composer.c:700
 #, c-format
 msgid ""
 "Error while reading file %s:\n"
@@ -7537,29 +7536,29 @@ msgstr ""
 "Erreur durant la lecture du fichier %s :\n"
 "%s"
 
-#: composer/e-msg-composer.c:894
+#: composer/e-msg-composer.c:898
 msgid "Save as..."
 msgstr "Enregistrer sous..."
 
-#: composer/e-msg-composer.c:903
+#: composer/e-msg-composer.c:907
 msgid "Warning!"
 msgstr "Avertissement !"
 
-#: composer/e-msg-composer.c:907
+#: composer/e-msg-composer.c:911
 msgid "File exists, overwrite?"
 msgstr "Le fichier existe, l'écraser ?"
 
-#: composer/e-msg-composer.c:929
+#: composer/e-msg-composer.c:933
 #, c-format
 msgid "Error saving file: %s"
 msgstr "Erreur d'enregistrement du fichier : %s"
 
-#: composer/e-msg-composer.c:948
+#: composer/e-msg-composer.c:952
 #, c-format
 msgid "Error loading file: %s"
 msgstr "Erreur de chargement du fichier : %s"
 
-#: composer/e-msg-composer.c:1019
+#: composer/e-msg-composer.c:1023
 msgid ""
 "Unable to open the drafts folder for this account.\n"
 "Would you like to use the default drafts folder?"
@@ -7567,16 +7566,16 @@ msgstr ""
 "Impossible d'ouvrir le dossier brouillons pour ce compte.\n"
 "Voulez-vous utiliser le dossier brouillons générique ?"
 
-#: composer/e-msg-composer.c:1069
+#: composer/e-msg-composer.c:1073
 #, c-format
 msgid "Error accessing file: %s"
 msgstr "Erreur accès au fichier : %s"
 
-#: composer/e-msg-composer.c:1077
+#: composer/e-msg-composer.c:1081
 msgid "Unable to retrieve message from editor"
 msgstr "Ne peut récupérer le message de l'éditeur"
 
-#: composer/e-msg-composer.c:1084
+#: composer/e-msg-composer.c:1088
 #, c-format
 msgid ""
 "Unable to seek on file: %s\n"
@@ -7585,7 +7584,7 @@ msgstr ""
 "Ne peut rechercher dans le fichier : %s\n"
 " %s"
 
-#: composer/e-msg-composer.c:1091
+#: composer/e-msg-composer.c:1095
 #, c-format
 msgid ""
 "Unable to truncate file: %s\n"
@@ -7594,7 +7593,7 @@ msgstr ""
 "Ne peut tronquer le fichier : %s\n"
 " %s"
 
-#: composer/e-msg-composer.c:1100
+#: composer/e-msg-composer.c:1104
 #, c-format
 msgid ""
 "Error autosaving message: %s\n"
@@ -7603,7 +7602,7 @@ msgstr ""
 "Erreur lors de l'auto-enregistrement du message : %s :\n"
 " %s"
 
-#: composer/e-msg-composer.c:1202
+#: composer/e-msg-composer.c:1206
 msgid ""
 "Ximian Evolution has found unsaved files from a previous session.\n"
 "Would you like to try to recover them?"
@@ -7611,7 +7610,7 @@ msgstr ""
 "Evolution a trouvé des fichiers non sauvegardés d'une session précédente.\n"
 "Voulez-vous essayer de les récupérer ?"
 
-#: composer/e-msg-composer.c:1356
+#: composer/e-msg-composer.c:1360
 msgid ""
 "This message has not been sent.\n"
 "\n"
@@ -7621,23 +7620,23 @@ msgstr ""
 "\n"
 "Voulez-vous enregistrer vos changements ?"
 
-#: composer/e-msg-composer.c:1363
+#: composer/e-msg-composer.c:1367
 msgid "Warning: Modified Message"
 msgstr "Avertissement : Message modifié"
 
-#: composer/e-msg-composer.c:1386
+#: composer/e-msg-composer.c:1390
 msgid "Open file"
 msgstr "Ouvrir un fichier"
 
-#: composer/e-msg-composer.c:1535
+#: composer/e-msg-composer.c:1539
 msgid "Insert File"
 msgstr "Insérer un fichier"
 
-#: composer/e-msg-composer.c:1910 composer/e-msg-composer.c:2351
+#: composer/e-msg-composer.c:1922 composer/e-msg-composer.c:2375
 msgid "Compose a message"
 msgstr "Composer un message"
 
-#: composer/e-msg-composer.c:2368
+#: composer/e-msg-composer.c:2392
 msgid ""
 "Could not create composer window:\n"
 "Unable to activate address selector control."
@@ -7645,7 +7644,7 @@ msgstr ""
 "Impossible de créer la fenête de composition:\n"
 "Impossible d'activer le composant de sélection d'adresse."
 
-#: composer/e-msg-composer.c:2391 composer/e-msg-composer.c:2446
+#: composer/e-msg-composer.c:2415 composer/e-msg-composer.c:2470
 msgid ""
 "Could not create composer window:\n"
 "Unable to activate HTML editor component."
@@ -7714,11 +7713,11 @@ msgid "Subject does not contain"
 msgstr "Le sujet ne contient pas"
 
 #. Remember the password?
-#: e-util/e-passwords.c:347 mail/mail-session.c:267
+#: e-util/e-passwords.c:360 mail/mail-session.c:267
 msgid "Remember this password"
 msgstr "Se souvenir du mot de passe"
 
-#: e-util/e-passwords.c:349 mail/mail-session.c:268
+#: e-util/e-passwords.c:362 mail/mail-session.c:268
 msgid "Remember this password for the remainder of this session"
 msgstr "Se souvenir de ce mot de passe pour le reste de cette session"
 
@@ -7918,7 +7917,7 @@ msgstr "passé(e)s"
 msgid "ago"
 msgstr "passé(e)s"
 
-#: filter/filter-datespec.c:711 mail/message-list.c:939
+#: filter/filter-datespec.c:711 mail/message-list.c:930
 msgid "%b %d %l:%M %p"
 msgstr "%b %d %l:%M %p"
 
@@ -7975,9 +7974,8 @@ msgid "Test"
 msgstr "Test"
 
 #: filter/filter-rule.c:217
-#, fuzzy
 msgid "You must name this filter."
-msgstr "Changer le nom de ce dossier"
+msgstr "Vous devez changer le nom de ce dossier virtuel."
 
 #: filter/filter-rule.c:720
 msgid "Rule name: "
@@ -8236,7 +8234,7 @@ msgstr "Débute par"
 msgid "Stop Processing"
 msgstr "Arrête le traitement"
 
-#: filter/libfilter-i18n.h:51 mail/mail-format.c:904
+#: filter/libfilter-i18n.h:51 mail/mail-format.c:908
 #: mail/message-list.etspec.h:9
 msgid "Subject"
 msgstr "Sujet"
@@ -8266,9 +8264,8 @@ msgid "Score Rules"
 msgstr "Règles des scores"
 
 #: filter/vfolder-rule.c:204
-#, fuzzy
 msgid "You must name this vfolder."
-msgstr "Changer le nom de ce dossier"
+msgstr "Vous devez nommer ce dossier virtuel."
 
 #: filter/vfolder-rule.c:213
 msgid "You need to to specify at least one folder as a source."
@@ -9610,84 +9607,84 @@ msgstr "Enregistrer l'image sous..."
 msgid "%s attachment"
 msgstr "pièce-jointe %s"
 
-#: mail/mail-format.c:680
+#: mail/mail-format.c:684
 msgid "Could not parse MIME message. Displaying as source."
 msgstr "Impossible d'analyser le message MIME. Afficher comme source"
 
-#: mail/mail-format.c:763
+#: mail/mail-format.c:767
 msgid "Date"
 msgstr "Date"
 
-#: mail/mail-format.c:846
+#: mail/mail-format.c:850
 msgid "Bad Address"
 msgstr "Mauvaise adresse"
 
-#: mail/mail-format.c:886 mail/message-list.etspec.h:3
+#: mail/mail-format.c:890 mail/message-list.etspec.h:3
 msgid "From"
 msgstr "De"
 
-#: mail/mail-format.c:889
+#: mail/mail-format.c:893
 msgid "Reply-To"
 msgstr "Répondre- À :"
 
-#: mail/mail-format.c:893 mail/message-list.etspec.h:10
+#: mail/mail-format.c:897 mail/message-list.etspec.h:10
 msgid "To"
 msgstr "À"
 
-#: mail/mail-format.c:897
+#: mail/mail-format.c:901
 msgid "Cc"
 msgstr "Cc :"
 
-#: mail/mail-format.c:901
+#: mail/mail-format.c:905
 msgid "Bcc"
 msgstr "Bcc"
 
-#: mail/mail-format.c:1813
+#: mail/mail-format.c:1817
 msgid ""
 "This message is digitally signed. Click the lock icon for more information."
 msgstr ""
 "Ce message est signé numériquement. Cliquez sur l'icone de verrou pour plus "
 "d'information."
 
-#: mail/mail-format.c:1836
+#: mail/mail-format.c:1840
 msgid "Evolution does not recognize this type of signed message."
 msgstr "Evolution ne reconnait pas ce type de message signé numériquement."
 
-#: mail/mail-format.c:1844
+#: mail/mail-format.c:1848
 msgid "This message is digitally signed and has been found to be authentic."
 msgstr "Ce message est signé numériquement et a été certifié authentique."
 
-#: mail/mail-format.c:1852
+#: mail/mail-format.c:1856
 msgid "This message is digitally signed but can not be proven to be authentic."
 msgstr ""
 "Ce message est signé numériquement mais ne peut être certifié authentique."
 
-#: mail/mail-format.c:2068
+#: mail/mail-format.c:2072
 #, c-format
 msgid "Pointer to FTP site (%s)"
 msgstr "Pointeur sur le site FTP (%s)"
 
-#: mail/mail-format.c:2082
+#: mail/mail-format.c:2086
 #, c-format
 msgid "Pointer to local file (%s) valid at site \"%s\""
 msgstr "Pointeur sur le fichier local (%s) valide sur le site « %s »"
 
-#: mail/mail-format.c:2087
+#: mail/mail-format.c:2091
 #, c-format
 msgid "Pointer to local file (%s)"
 msgstr "Pointeur sur le fichier local (%s)"
 
-#: mail/mail-format.c:2116
+#: mail/mail-format.c:2120
 #, c-format
 msgid "Pointer to remote data (%s)"
 msgstr "Pointeur sur des données distantes (%s)"
 
-#: mail/mail-format.c:2124
+#: mail/mail-format.c:2128
 #, c-format
 msgid "Pointer to unknown external data (\"%s\" type)"
 msgstr "Pointeur sur des données externes inconnues (« %s » type)"
 
-#: mail/mail-format.c:2129
+#: mail/mail-format.c:2133
 msgid "Malformed external-body part."
 msgstr "Partie corps externe malformée"
 
@@ -10070,63 +10067,63 @@ msgstr "(Pas de sujet)"
 msgid "%s - Message"
 msgstr "%s - Message"
 
-#: mail/message-list.c:639
+#: mail/message-list.c:630
 msgid "Unseen"
 msgstr "Non vu"
 
-#: mail/message-list.c:640
+#: mail/message-list.c:631
 msgid "Seen"
 msgstr "Vu"
 
-#: mail/message-list.c:641
+#: mail/message-list.c:632
 msgid "Answered"
 msgstr "Répondu"
 
-#: mail/message-list.c:642
+#: mail/message-list.c:633
 msgid "Multiple Unseen Messages"
 msgstr "Messages non vus multiples"
 
-#: mail/message-list.c:643
+#: mail/message-list.c:634
 msgid "Multiple Messages"
 msgstr "Messages multiples"
 
-#: mail/message-list.c:647
+#: mail/message-list.c:638
 msgid "Lowest"
 msgstr "Le plus bas"
 
-#: mail/message-list.c:648
+#: mail/message-list.c:639
 msgid "Lower"
 msgstr "Plus bas"
 
-#: mail/message-list.c:652
+#: mail/message-list.c:643
 msgid "Higher"
 msgstr "Plus haut"
 
-#: mail/message-list.c:653
+#: mail/message-list.c:644
 msgid "Highest"
 msgstr "Le plus haut"
 
-#: mail/message-list.c:903
+#: mail/message-list.c:894
 msgid "?"
 msgstr "?"
 
-#: mail/message-list.c:910
+#: mail/message-list.c:901
 msgid "Today %l:%M %p"
 msgstr "Aujourd'hui %l:%M %p"
 
-#: mail/message-list.c:919
+#: mail/message-list.c:910
 msgid "Yesterday %l:%M %p"
 msgstr "Hier %l:%M %p"
 
-#: mail/message-list.c:931
+#: mail/message-list.c:922
 msgid "%a %l:%M %p"
 msgstr "%a %l:%M %p"
 
-#: mail/message-list.c:941
+#: mail/message-list.c:932
 msgid "%b %d %Y"
 msgstr "%d %b %Y"
 
-#: mail/message-list.c:2334
+#: mail/message-list.c:2325
 msgid "Generating message list"
 msgstr "Generation de la liste des messages"
 
@@ -11522,7 +11519,6 @@ msgid "All news _feeds:"
 msgstr "Toutes les _sources"
 
 #: my-evolution/my-evolution.glade.h:6
-#, fuzzy
 msgid "C_elsius"
 msgstr "C_elcius"
 
@@ -11836,9 +11832,8 @@ msgid "(Untitled)"
 msgstr "(Sans titre)"
 
 #: shell/e-shell-importer.c:142
-#, fuzzy
 msgid "Choose the type of importer to run:"
-msgstr "Choisissez l'outils d'importation à lancer"
+msgstr "Choisissez l'outil d'importation à lancer"
 
 #: shell/e-shell-importer.c:145
 msgid ""
@@ -11855,9 +11850,8 @@ msgstr ""
 "essaiera de lutiliser."
 
 #: shell/e-shell-importer.c:151 shell/e-shell-startup-wizard.c:799
-#, fuzzy
 msgid "Please select the information that you would like to import:"
-msgstr "Veuillez sélectionner les informations que vous désirez importer"
+msgstr "Veuillez sélectionner les informations que vous désirez importer :"
 
 #. Importer isn't ready yet.
 #. Wait 5 seconds and try again.
