@@ -1,3 +1,7 @@
+1999-07-30  Miguel de Icaza  <miguel@gnu.org>
+
+	* month-view.c (month_view_init): Release points here. 
+
 1999-08-02  Peter Teichman  <pat4@acpub.duke.edu>
 
 	* Makefile.am (libcalendar_conduit_la_LDFLAGS):

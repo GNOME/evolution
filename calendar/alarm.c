@@ -163,7 +163,7 @@ void
 alarm_init (void)
 {
 	struct sigaction sa;
-	int flags;
+	int flags = 0;
 	
 	pipe (alarm_pipes);
 	
