@@ -1,3 +1,9 @@
+2004-08-06  Chris Toshok  <toshok@ximian.com>
+
+	[ fixes bug #52459 ]
+	* addressbook/Phone_List.galview: use the same defaults as the 1.4
+	phone list view.  
+
 2004-04-01  JP Rosevear <jpr@ximian.com>
 
 	* tasks/galview.xml: add/remove views
