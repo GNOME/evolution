@@ -55,6 +55,8 @@ evolution_mail_SOURCES =		\
 	mail-display.h			\
 	mail-format.c			\
 	mail-identify.c			\
+	mail-local.c			\
+	mail-local.h			\
 	mail-ops.c			\
 	mail-ops.h			\
 	mail-threads.c			\
@@ -64,7 +66,6 @@ evolution_mail_SOURCES =		\
 	mail-types.h			\
 	mail-vfolder.c			\
 	mail-vfolder.h			\
-	mail-local.c			\
 	mail-view.c			\
 	main.c				\
 	message-list.c			\
