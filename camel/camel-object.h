@@ -33,6 +33,7 @@ extern "C" {
 #endif /* __cplusplus */
 
 #include <glib.h>
+#include <stdio.h>		/* FILE */
 #include <stdlib.h>		/* size_t */
 #include <stdarg.h>
 #include <pthread.h>
@@ -74,6 +75,7 @@ extern CamelType camel_object_type;
 typedef struct _CamelObjectClass CamelObjectClass;
 typedef struct _CamelObject CamelObject;
 typedef unsigned int CamelObjectHookID;
+typedef struct _CamelObjectMeta CamelObjectMeta;
 
 typedef void (*CamelObjectClassInitFunc) (CamelObjectClass *);
 typedef void (*CamelObjectClassFinalizeFunc) (CamelObjectClass *);
@@ -85,17 +87,35 @@ typedef void (*CamelObjectEventHookFunc) (CamelObject *, gpointer, gpointer);
 
 #define CAMEL_INVALID_TYPE (NULL)
 
-/* camel object args */
+/* camel object args. */
 enum {
-	CAMEL_OBJECT_ARG_DESCRIPTION = CAMEL_ARG_FIRST,
+	/* Get a description of the object. */
+	CAMEL_OBJECT_ARG_DESCRIPTION = CAMEL_ARG_FIRST,	/* Get a copy of the meta-data list (should be freed) */
+	CAMEL_OBJECT_ARG_METADATA,
+	CAMEL_OBJECT_ARG_STATE_FILE,
+	CAMEL_OBJECT_ARG_PERSISTENT_PROPERTIES,
 };
 
 enum {
 	CAMEL_OBJECT_DESCRIPTION = CAMEL_OBJECT_ARG_DESCRIPTION | CAMEL_ARG_STR,
+	/* Returns a CamelObjectMeta list */
+	CAMEL_OBJECT_METADATA = CAMEL_OBJECT_ARG_METADATA | CAMEL_ARG_PTR,
+	/* sets where the persistent data should reside, otherwise it isn't persistent */
+	CAMEL_OBJECT_STATE_FILE = CAMEL_OBJECT_ARG_STATE_FILE | CAMEL_ARG_STR,
+	/* returns a GSList CamelProperties of persistent properties */
+	CAMEL_OBJECT_PERSISTENT_PROPERTIES = CAMEL_OBJECT_ARG_PERSISTENT_PROPERTIES | CAMEL_ARG_PTR,
 };
 
 enum _CamelObjectFlags {
 	CAMEL_OBJECT_DESTROY = (1<<0),
+};
+
+/* returned by get::CAMEL_OBJECT_METADATA */
+struct _CamelObjectMeta {
+	struct _CamelObjectMeta *next;
+
+	char *value;
+	char name[1];		/* allocated as part of structure */
 };
 
 /* TODO: create a simpleobject which has no events on it, or an interface for events */
@@ -155,6 +175,14 @@ struct _CamelObjectClass
 	int (*getv)(struct _CamelObject *, struct _CamelException *ex, CamelArgGetV *args);
 	/* we only free 1 at a time, and only pointer types, obviously */
 	void (*free)(struct _CamelObject *, guint32 tag, void *ptr);
+
+	/* get/set meta-data interface */
+	char *(*meta_get)(struct _CamelObject *, const char * name);
+	gboolean (*meta_set)(struct _CamelObject *, const char * name, const char *value);
+
+	/* persistence stuff */
+	int (*state_read)(struct _CamelObject *, FILE *fp);
+	int (*state_write)(struct _CamelObject *, FILE *fp);
 };
 
 /* The type system .... it's pretty simple..... */
@@ -208,6 +236,14 @@ int camel_object_set(void *obj, struct _CamelException *ex, ...);
 int camel_object_setv(void *obj, struct _CamelException *ex, CamelArgV *);
 int camel_object_get(void *obj, struct _CamelException *ex, ...);
 int camel_object_getv(void *obj, struct _CamelException *ex, CamelArgGetV *);
+
+/* meta-data for user-specific data */
+char *camel_object_meta_get(void *vo, const char * name);
+gboolean camel_object_meta_set(void *vo, const char * name, const char *value);
+
+/* reads/writes the state from/to the CAMEL_OBJECT_STATE_FILE */
+int camel_object_state_read(void *vo);
+int camel_object_state_write(void *vo);
 
 /* free a bunch of objects, list must be 0 terminated */
 void camel_object_free(void *vo, guint32 tag, void *value);

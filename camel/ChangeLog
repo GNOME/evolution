@@ -1,3 +1,36 @@
+2003-08-27  Not Zed  <NotZed@Ximian.com>
+
+	* providers/local/camel-local-folder.c (local_getv): implement
+	PERSISTENT_PROPERTIES, for index mode.
+
+	* camel-object.c (cobject_state_read): Also add property reading,
+	and bump version to 1.
+	(cobject_state_write): add persistent property writing.
+
+2003-08-26  Not Zed  <NotZed@Ximian.com>
+
+	* camel-folder.c (folder_getv): chain up properly.
+
+	* camel-file-utils.c (camel_file_util_savename): helper to create
+	a .#filename filename.
+
+	* providers/local/camel-local-folder.c
+	(camel_local_folder_construct): init meta-data for local folders.
+	(local_getv): chain up properly, if args are not processed, rather
+	than don't if they aren't.
+
+2003-08-23  Not Zed  <NotZed@Ximian.com>
+
+	* camel-object.c (cobject_class_init): added a new event,
+	meta_changed.
+	(camel_object_meta_set, camel_object_meta_get): meta-data api.
+	(camel_object_free_hooks): Free meta-data if it is set on the
+	object.
+
+	* providers/local/camel-local-folder.c
+	(camel_local_folder_get_type): setup a property list for local
+	folders, just 'index_body' at present.
+
 2003-08-25  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* camel-filter-driver.c (pipe_to_system): Added some more error

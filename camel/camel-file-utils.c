@@ -514,3 +514,33 @@ camel_write (int fd, const char *buf, size_t n)
 	
 	return written;
 }
+
+/**
+ * camel_file_util_savename:
+ * @filename: 
+ * 
+ * Builds a filename of the form ".#" + @filename, used to create
+ * a two-stage commit file write.
+ * 
+ * Return value: ".#" + filename.  It must be free'd with g_free().
+ **/
+char *
+camel_file_util_savename(const char *filename)
+{
+	char *name, *slash;
+	int off;
+
+	name = g_malloc(strlen(filename)+3);
+	slash = strrchr(filename, '/');
+	if (slash) {
+		off = slash-filename;
+
+		memcpy(name, filename, off+1);
+		memcpy(name + off+1, ".#", 2);
+		strcpy(name + off+3, filename+off+1);
+	} else {
+		sprintf(name, ".#%s", filename);
+	}
+
+	return name;
+}

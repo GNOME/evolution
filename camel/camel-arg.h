@@ -102,6 +102,15 @@ int camel_arggetv_build(CamelArgGetV *tv);
 /* set an arg ignored */
 #define camel_argv_ignore(tv, i) ((tv)->argv[i].tag = ((tv)->argv[i].tag & CAMEL_ARG_TYPE) | CAMEL_ARG_IGNORE)
 
+/* 'self-describing' property list */
+typedef struct _CamelProperty CamelProperty;
+
+struct _CamelProperty {
+	guint32 tag;
+	char *name;
+	char *description;
+};
+
 #ifdef __cplusplus
 }
 #endif				/* __cplusplus */

@@ -52,6 +52,8 @@ enum {
 	CAMEL_FOLDER_ARG_UNREAD,
 	CAMEL_FOLDER_ARG_UID_ARRAY,
 	CAMEL_FOLDER_ARG_INFO_ARRAY,
+	CAMEL_FOLDER_ARG_PROPERTIES,
+	CAMEL_FOLDER_ARG_LAST = CAMEL_ARG_FIRST + 0x2000,
 };
 
 enum {
@@ -64,6 +66,9 @@ enum {
 	/* should we only get static data?  not stuff that needs to be free'd? */
 	CAMEL_FOLDER_UID_ARRAY = CAMEL_FOLDER_ARG_UID_ARRAY | CAMEL_ARG_PTR,
 	CAMEL_FOLDER_INFO_ARRAY = CAMEL_FOLDER_ARG_INFO_ARRAY | CAMEL_ARG_PTR,
+
+	/* GSList of settable folder properties */
+	CAMEL_FOLDER_PROPERTIES = CAMEL_FOLDER_ARG_PROPERTIES | CAMEL_ARG_PTR,
 };
 
 struct _CamelFolderChangeInfo {

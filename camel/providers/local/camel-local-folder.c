@@ -59,7 +59,8 @@
 #define PATH_MAX _POSIX_PATH_MAX
 #endif
 
-static CamelFolderClass *parent_class = NULL;
+static CamelFolderClass *parent_class;
+static GSList *local_folder_properties;
 
 /* Returns the class for a CamelLocalFolder */
 #define CLOCALF_CLASS(so) CAMEL_LOCAL_FOLDER_CLASS (CAMEL_OBJECT_GET_CLASS(so))
@@ -67,6 +68,7 @@ static CamelFolderClass *parent_class = NULL;
 #define CLOCALS_CLASS(so) CAMEL_STORE_CLASS (CAMEL_OBJECT_GET_CLASS(so))
 
 static int local_getv(CamelObject *object, CamelException *ex, CamelArgGetV *args);
+static int local_setv(CamelObject *object, CamelException *ex, CamelArgV *args);
 
 static int local_lock(CamelLocalFolder *lf, CamelLockType type, CamelException *ex);
 static void local_unlock(CamelLocalFolder *lf);
@@ -91,12 +93,11 @@ camel_local_folder_class_init(CamelLocalFolderClass * camel_local_folder_class)
 	CamelFolderClass *camel_folder_class = CAMEL_FOLDER_CLASS(camel_local_folder_class);
 	CamelObjectClass *oklass = (CamelObjectClass *)camel_local_folder_class;
 
-	parent_class = CAMEL_FOLDER_CLASS(camel_type_get_global_classfuncs(camel_folder_get_type()));
-
 	/* virtual method definition */
 
 	/* virtual method overload */
 	oklass->getv = local_getv;
+	oklass->setv = local_setv;
 
 	camel_folder_class->refresh_info = local_refresh_info;
 	camel_folder_class->sync = local_sync;
@@ -168,19 +169,31 @@ local_finalize(CamelObject * object)
 	g_free(local_folder->priv);
 }
 
+static CamelProperty local_property_list[] = {
+	{ CAMEL_LOCAL_FOLDER_INDEX_BODY, "index_body", N_("Index message body data") },
+};
+
 CamelType
 camel_local_folder_get_type(void)
 {
 	static CamelType camel_local_folder_type = CAMEL_INVALID_TYPE;
 
 	if (camel_local_folder_type == CAMEL_INVALID_TYPE) {
-		camel_local_folder_type = camel_type_register(CAMEL_FOLDER_TYPE, "CamelLocalFolder",
+		int i;
+
+		parent_class = (CamelFolderClass *)camel_folder_get_type();
+		camel_local_folder_type = camel_type_register(camel_folder_get_type(), "CamelLocalFolder",
 							     sizeof(CamelLocalFolder),
 							     sizeof(CamelLocalFolderClass),
 							     (CamelObjectClassInitFunc) camel_local_folder_class_init,
 							     NULL,
 							     (CamelObjectInitFunc) local_init,
 							     (CamelObjectFinalizeFunc) local_finalize);
+
+		for (i=0;i<sizeof(local_property_list)/sizeof(local_property_list[0]);i++) {
+			local_property_list[i].description = _(local_property_list[i].description);
+			local_folder_properties = g_slist_prepend(local_folder_properties, &local_property_list[i]);
+		}
 	}
 
 	return camel_local_folder_type;
@@ -192,7 +205,7 @@ camel_local_folder_construct(CamelLocalFolder *lf, CamelStore *parent_store, con
 	CamelFolderInfo *fi;
 	CamelFolder *folder;
 	const char *root_dir_path, *name;
-	char *tmp;
+	char *tmp, *statepath;
 	char folder_path[PATH_MAX];
 	struct stat st;
 	int forceindex, len;
@@ -223,12 +236,20 @@ camel_local_folder_construct(CamelLocalFolder *lf, CamelStore *parent_store, con
 		/* not really sure to do with these for now? */
 		lf->summary_path = g_strdup_printf("%s.ev-summary", tmp);
 		lf->index_path = g_strdup_printf("%s.ibex", tmp);
+		statepath = alloca(strlen(tmp)+7);
+		sprintf(statepath, "%s.cmeta", tmp);
 	} else {
 		lf->folder_path = g_strdup_printf("%s/%s", root_dir_path, full_name);
 		lf->summary_path = g_strdup_printf("%s/%s.ev-summary", root_dir_path, full_name);
 		lf->index_path = g_strdup_printf("%s/%s.ibex", root_dir_path, full_name);
+		statepath = alloca(strlen(full_name)+strlen(root_dir_path)+8);
+		sprintf(statepath, "%s/%s.cmeta", root_dir_path, full_name);
 	}
-	
+	camel_object_set(lf, NULL, CAMEL_OBJECT_STATE_FILE, statepath, NULL);
+	if (camel_object_state_read(lf) == -1) {
+		/* FIXME: load defaults? */
+	}
+
 	/* follow any symlinks to the mailbox */
 	if (lstat (lf->folder_path, &st) != -1 && S_ISLNK (st.st_mode) &&
 	    realpath (lf->folder_path, folder_path) != NULL) {
@@ -326,7 +347,7 @@ static int
 local_getv(CamelObject *object, CamelException *ex, CamelArgGetV *args)
 {
 	CamelFolder *folder = (CamelFolder *)object;
-	int i, count=args->argc;
+	int i;
 	guint32 tag;
 
 	for (i=0;i<args->argc;i++) {
@@ -335,7 +356,6 @@ local_getv(CamelObject *object, CamelException *ex, CamelArgGetV *args)
 		tag = arg->tag;
 
 		switch (tag & CAMEL_ARG_TAG) {
-			/* CamelObject args */
 		case CAMEL_OBJECT_ARG_DESCRIPTION:
 			if (folder->description == NULL) {
 				char *tmp, *path;
@@ -366,18 +386,58 @@ local_getv(CamelObject *object, CamelException *ex, CamelArgGetV *args)
 			}
 			*arg->ca_str = folder->description;
 			break;
+
+		case CAMEL_OBJECT_ARG_PERSISTENT_PROPERTIES:
+		case CAMEL_FOLDER_ARG_PROPERTIES: {
+			CamelArgGetV props;
+
+			props.argc = 1;
+			props.argv[0] = *arg;
+			((CamelObjectClass *)parent_class)->getv(object, ex, &props);
+			*arg->ca_ptr = g_slist_concat(*arg->ca_ptr, local_folder_properties);
+
+			break; }
+
+		case CAMEL_LOCAL_FOLDER_INDEX_BODY:
+			/* FIXME: remove this from sotre flags */
+			*arg->ca_int = (((CamelLocalFolder *)folder)->flags & CAMEL_STORE_FOLDER_BODY_INDEX) != 0;
+			break;
+
 		default: skip:
-			count--;
 			continue;
 		}
 
 		arg->tag = (tag & CAMEL_ARG_TYPE) | CAMEL_ARG_IGNORE;
 	}
 
-	if (count)
-		return ((CamelObjectClass *)parent_class)->getv(object, ex, args);
+	return ((CamelObjectClass *)parent_class)->getv(object, ex, args);
+}
 
-	return 0;
+static int
+local_setv(CamelObject *object, CamelException *ex, CamelArgV *args)
+{
+	CamelFolder *folder = (CamelFolder *)object;
+	int i;
+	guint32 tag;
+
+	for (i=0;i<args->argc;i++) {
+		CamelArg *arg = &args->argv[i];
+
+		tag = arg->tag;
+
+		switch (tag & CAMEL_ARG_TAG) {
+		case CAMEL_LOCAL_FOLDER_INDEX_BODY:
+			/* FIXME: implement */
+			printf("setting folder indexing %s\n", arg->ca_int?"on":"off");
+			break;
+		default:
+			continue;
+		}
+
+		arg->tag = (tag & CAMEL_ARG_TYPE) | CAMEL_ARG_IGNORE;
+	}
+
+	return ((CamelObjectClass *)parent_class)->setv(object, ex, args);
 }
 
 static int

@@ -245,7 +245,7 @@ camel_folder_construct (CamelFolder *folder, CamelStore *parent_store,
 
 	folder->parent_store = parent_store;
 	if (parent_store)
-		camel_object_ref (CAMEL_OBJECT (parent_store));
+		camel_object_ref(parent_store);
 
 	folder->name = g_strdup (name);
 	folder->full_name = g_strdup (full_name);
@@ -311,7 +311,7 @@ static int
 folder_getv(CamelObject *object, CamelException *ex, CamelArgGetV *args)
 {
 	CamelFolder *folder = (CamelFolder *)object;
-	int i, count=args->argc;
+	int i;
 	guint32 tag;
 
 	for (i=0;i<args->argc;i++) {
@@ -377,18 +377,17 @@ folder_getv(CamelObject *object, CamelException *ex, CamelArgGetV *args)
 		case CAMEL_FOLDER_ARG_INFO_ARRAY:
 			*arg->ca_ptr = camel_folder_summary_array(folder->summary);
 			break;
+		case CAMEL_FOLDER_ARG_PROPERTIES:
+			*arg->ca_ptr = NULL;
+			break;
 		default:
-			count--;
 			continue;
 		}
 
 		arg->tag = (tag & CAMEL_ARG_TYPE) | CAMEL_ARG_IGNORE;
 	}
 
-	if (count)
-		return parent_class->getv(object, ex, args);
-
-	return 0;
+	return parent_class->getv(object, ex, args);
 }
 
 static void
@@ -407,6 +406,9 @@ folder_free(CamelObject *o, guint32 tag, void *val)
 		break; }
 	case CAMEL_FOLDER_ARG_INFO_ARRAY:
 		camel_folder_summary_array_free(folder->summary, val);
+		break;
+	case CAMEL_FOLDER_ARG_PROPERTIES:
+		g_slist_free(val);
 		break;
 	default:
 		parent_class->free(o, tag, val);
