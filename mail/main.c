@@ -125,6 +125,7 @@ main (int argc, char *argv [])
 	
 	e_cursors_init ();
 
+	mail_config_init ();
 	mail_msg_init ();
 	
 	component_factory_init ();

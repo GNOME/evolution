@@ -1,5 +1,11 @@
 2001-08-17  JP Rosevear  <jpr@ximian.com>
 
+	* component-factory.c (owner_set_cb): don't init the config here
+
+	* main.c (main): init the config here
+	
+2001-08-17  JP Rosevear  <jpr@ximian.com>
+
 	* mail-config-druid.c: remove dead structure
 
 2001-08-17  Jeffrey Stedfast  <fejj@ximian.com>
