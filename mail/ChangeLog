@@ -3,6 +3,8 @@
 	* em-folder-tree.c (em_folder_tree_set_selected): Need to prepend
 	a "/" to path if the path is the url fragment. Also fixed to
 	select the store node if path == "/".
+	(emft_popup_rename_folder): Set oldpath and newpath to the proper
+	values. Fixes bug #51656.
 
 	* em-folder-selector.c (em_folder_selector_get_selected_uri):
 	Fixed a FIXME by using the CamelProvider url flags to determine if

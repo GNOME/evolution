@@ -1265,8 +1265,8 @@ emft_popup_rename_folder (GtkWidget *item, EMFolderTree *emft)
 			} else {
 				const char *oldpath, *newpath;
 				
-				oldpath = folder_path + 1;
-				newpath = path + 1;
+				oldpath = full_name;
+				newpath = path;
 				
 				d(printf ("renaming %s to %s\n", oldpath, newpath));
 				
