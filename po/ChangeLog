@@ -1,3 +1,8 @@
+2000-11-21  Jeffrey Stedfast  <fejj@helixcode.com>
+
+	* POTFILES.in: Removed mail/message-thread.c and added
+	camel/camel-folder-thread.c
+
 2000-11-20  Héctor García Álvarez <hector@scouts-es.org>
 
         * es.po: Updated Spanish translation.

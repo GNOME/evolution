@@ -56,6 +56,7 @@ calendar/gui/popup-menu.c
 calendar/gui/print.c
 calendar/gui/prop.c
 calendar/gui/weekday-picker.c
+camel/camel-folder-thread.c
 camel/camel-movemail.c
 camel/camel-provider.c
 camel/camel-remote-store.c
@@ -128,7 +129,6 @@ mail/mail-vfolder.c
 mail/mail-view.c
 #mail/main.c
 mail/message-list.c
-mail/message-thread.c
 mail/subscribe-dialog.c
 #notes/component-factory.c	: not in Makefile.am
 #notes/main.c			: not in Makefile.am
