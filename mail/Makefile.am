@@ -36,7 +36,6 @@ INCLUDES =										\
 	-DGTK_DISABLE_DEPRECATED							\
 	-DG_LOG_DOMAIN=\"evolution-mail\"
 
-componentdir = $(COMPONENT_DIR)
 component_LTLIBRARIES = libevolution-mail.la
 
 EVOLUTION_MAIL_CORBA_GENERATED = \

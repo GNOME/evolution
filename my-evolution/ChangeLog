@@ -1,3 +1,8 @@
+2003-01-23  Ettore Perazzoli  <ettore@ximian.com>
+
+	* Makefile.am (componentdir): Removed definition; this is now
+	defined in configure.in.
+
 2003-01-22  Ettore Perazzoli  <ettore@ximian.com>
 
 	* e-summary-factory.c (control_activate): Get my-evolution.xml

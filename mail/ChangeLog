@@ -1,3 +1,8 @@
+2003-01-23  Ettore Perazzoli  <ettore@ximian.com>
+
+	* Makefile.am (componentdir): Removed definition; this is now
+	defined in configure.in.
+
 2003-01-22  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-config.c (mail_config_get_thread_list): Removed.

@@ -31,7 +31,6 @@ BUILT_SOURCES = $(IDL_GENERATED)
 
 SUBDIRS = alarm-notify dialogs
 
-componentdir = $(COMPONENT_DIR)
 component_LTLIBRARIES = libevolution-calendar.la
 
 INCLUDES =										\
