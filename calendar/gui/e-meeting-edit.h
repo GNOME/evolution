@@ -28,7 +28,16 @@
 #include <cal-util/cal-component.h>
 #include <cal-client/cal-client.h>
 
-void e_meeting_edit (CalComponent *comp, CalClient *client);
+typedef struct _EMeetingEditor EMeetingEditor;
+
+struct _EMeetingEditor {
+	gpointer priv;
+};
+
+
+EMeetingEditor * e_meeting_editor_new (CalComponent *comp, CalClient *client);
+void e_meeting_edit (EMeetingEditor *editor);
+void e_meeting_editor_free (EMeetingEditor *editor);
 
 
 #endif /*  __E_MEETING_EDIT_H__  */

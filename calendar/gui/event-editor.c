@@ -1153,6 +1153,7 @@ schedule_meeting_cb (GtkWidget *widget, gpointer data)
 {
 	EventEditor *ee;
 	EventEditorPrivate *priv;
+	EMeetingEditor *editor;
 
 	ee = EVENT_EDITOR (data);
 
@@ -1160,7 +1161,9 @@ schedule_meeting_cb (GtkWidget *widget, gpointer data)
 
 	priv = (EventEditorPrivate *)ee->priv;
 
-	e_meeting_edit (priv->comp, priv->client);
+	editor = e_meeting_editor_new (priv->comp, priv->client);
+	e_meeting_edit (editor);
+	e_meeting_editor_free (editor);
 }
 
 

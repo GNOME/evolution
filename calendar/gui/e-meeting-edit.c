@@ -23,19 +23,44 @@
 #include <gnome.h>
 #include <glade/glade.h>
 #include <icaltypes.h>
+#include <ical.h>
 #include "e-meeting-edit.h"
 
 #define E_MEETING_GLADE_XML "e-meeting-dialog.glade"
 
 #define E_MEETING_DEBUG
 
-/* These are the widgets to be used in the GUI. */
-static GladeXML *xml;
-static GtkWidget *meeting_window;
-static GtkWidget *attendee_list;
-static GtkWidget *address_entry;
-static GtkWidget *add_dialog;
-static gint selected_row;
+typedef struct _EMeetingEditorPrivate EMeetingEditorPrivate;
+
+struct _EMeetingEditorPrivate {
+	/* These are the widgets to be used in the GUI. */
+	GladeXML *xml;
+	GtkWidget *meeting_window;
+	GtkWidget *attendee_list;
+	GtkWidget *address_entry;
+	GtkWidget *add_dialog;
+
+	/* Various pieces of information. */
+	gint selected_row;
+	CalComponent *comp;
+	CalClient *client;
+	icalcomponent *icalcomp, *vevent;
+
+	gint numentries;  /* How many attendees are there? */
+	gboolean dirty;  /* Has anything changed? */
+}; 
+
+
+static gchar *partstat_values[] = {
+	"Needs action",
+	"Accepted",
+	"Declined",
+	"Tentative",
+	"Delegated",
+	"Completed",
+	"In Progress",
+	"Unknown"
+};
 
 
 static gboolean
@@ -43,10 +68,28 @@ window_delete_cb (GtkWidget *widget,
 		  GdkEvent *event,
 		  gpointer data)
 {	
+	EMeetingEditorPrivate *priv;
+
+	priv = (EMeetingEditorPrivate *) ((EMeetingEditor *)data)->priv;
 
 #ifdef E_MEETING_DEBUG
-	g_print ("e-meeting-edit.c: The main window received a delete event.\n");
+	g_printerr ("e-meeting-edit.c: The main window received a delete event.\n");
 #endif
+	
+	if (priv->dirty == TRUE) {
+		/* FIXME: notify the event editor that our data has changed. 
+			For now, I'll just display a dialog box. */
+		{
+			GtkWidget *dialog;
+		
+			dialog = gnome_warning_dialog_parented ("Note that the meeting has changed,\n"
+								"and you should save this event.",
+								GTK_WINDOW (priv->meeting_window));
+			gnome_dialog_run (GNOME_DIALOG(dialog));
+		}
+	}
+
+	
 
 	return (FALSE);
 }
@@ -55,9 +98,14 @@ static void
 window_destroy_cb (GtkWidget *widget,
 		   gpointer data)
 {
+	EMeetingEditorPrivate *priv;
+
 #ifdef E_MEETING_DEBUG
-	g_print ("e-meeting-edit.c: The main window received a destroy event.\n");
+	g_printerr ("e-meeting-edit.c: The main window received a destroy event.\n");
 #endif
+
+	priv = (EMeetingEditorPrivate *) ((EMeetingEditor *)data)->priv;
+
 	gtk_main_quit ();
 	return;
 }
@@ -65,68 +113,112 @@ window_destroy_cb (GtkWidget *widget,
 static void 
 add_button_clicked_cb (GtkWidget *widget, gpointer data)
 {
+	EMeetingEditorPrivate *priv;
 	gint button_num;
+	gchar buffer[200];
 
 #ifdef E_MEETING_DEBUG
-	g_print ("e-meeting-edit.c: the add button was clicked.\n");
+	g_printerr ("e-meeting-edit.c: the add button was clicked.\n");
 #endif
-	if (add_dialog == NULL || address_entry == NULL) {
-		add_dialog = glade_xml_get_widget (xml, "add_dialog");
-		address_entry = glade_xml_get_widget (xml, "address_entry");
 
-		gnome_dialog_set_close (GNOME_DIALOG (add_dialog), TRUE);
-		gnome_dialog_editable_enters (GNOME_DIALOG (add_dialog), GTK_EDITABLE (address_entry));
-		gnome_dialog_close_hides (GNOME_DIALOG (add_dialog), TRUE);
-		gnome_dialog_set_default (GNOME_DIALOG (add_dialog), 0);
+	priv = (EMeetingEditorPrivate *) ((EMeetingEditor *)data)->priv;
+
+	if (priv->add_dialog == NULL || priv->address_entry == NULL) {
+		priv->add_dialog = glade_xml_get_widget (priv->xml, "add_dialog");
+		priv->address_entry = glade_xml_get_widget (priv->xml, "address_entry");
+
+		gnome_dialog_set_close (GNOME_DIALOG (priv->add_dialog), TRUE);
+		gnome_dialog_editable_enters (GNOME_DIALOG (priv->add_dialog), 
+					      GTK_EDITABLE (priv->address_entry));
+		gnome_dialog_close_hides (GNOME_DIALOG (priv->add_dialog), TRUE);
+		gnome_dialog_set_default (GNOME_DIALOG (priv->add_dialog), 0);
 	}
 
-	g_return_if_fail (add_dialog != NULL);
-	g_return_if_fail (address_entry != NULL);
+	g_return_if_fail (priv->add_dialog != NULL);
+	g_return_if_fail (priv->address_entry != NULL);
 
-	gtk_widget_show (add_dialog);
+	gtk_widget_show (priv->add_dialog);
 
-	button_num = gnome_dialog_run (GNOME_DIALOG (add_dialog));
+	button_num = gnome_dialog_run (GNOME_DIALOG (priv->add_dialog));
 
 	if (button_num == 0) {
 		/* The user pressed Okay--let's add it to our list. */
-		gchar temp_stat[] = "Needs action";
+		icalproperty *prop;
+		icalparameter *param;
+		icalvalue *value;
+		
 		gchar *address;
 		gchar * row_text[2];
 
-		address = gtk_entry_get_text (GTK_ENTRY (address_entry));
-		row_text[0] = address;
-		row_text[1] = temp_stat;
+		address = gtk_entry_get_text (GTK_ENTRY (priv->address_entry));
 		
-		gtk_clist_append (GTK_CLIST (attendee_list), row_text);
+		prop = icalproperty_new (ICAL_ATTENDEE_PROPERTY);
+		g_snprintf (buffer, 190, "MAILTO:%s", address);
+		value = icalvalue_new_text (buffer);
+		icalproperty_set_value (prop, value);
+
+		param = icalparameter_new_partstat (ICAL_PARTSTAT_PARAMETER);
+		icalparameter_set_partstat (param, ICAL_PARTSTAT_NEEDSACTION);
+		icalproperty_add_parameter (prop, param);
+
+		icalcomponent_add_property (priv->vevent, prop);
+		
+		row_text[0] = address;
+		row_text[1] = partstat_values[icalparameter_get_partstat (param)];
+		
+		gtk_clist_append (GTK_CLIST (priv->attendee_list), row_text);
+		gtk_clist_set_row_data (GTK_CLIST (priv->attendee_list), priv->numentries, prop);
+
+		priv->numentries++;
+		priv->dirty = TRUE;
 	}
 	
-	gtk_entry_set_text (GTK_ENTRY (address_entry), "");
+	gtk_entry_set_text (GTK_ENTRY (priv->address_entry), "");
 }	
 
 static void 
 delete_button_clicked_cb (GtkWidget *widget, gpointer data)
 {
-	if (selected_row < 0) {
+	EMeetingEditorPrivate *priv;
+
+	priv = (EMeetingEditorPrivate *) ((EMeetingEditor *)data)->priv;
+
+	if (priv->selected_row < 0) {
 		GtkWidget *dialog;
 
 		dialog = gnome_warning_dialog_parented ("You must select an entry to delete.",
-							GTK_WINDOW (add_dialog));
+							GTK_WINDOW (priv->meeting_window));
 		gnome_dialog_run (GNOME_DIALOG(dialog));
 	}
 	else {
-		gtk_clist_remove (GTK_CLIST (attendee_list), selected_row);
-		selected_row = -1;
+		/* Delete the associated property from the iCAL object. */
+		icalproperty *prop;
+
+		prop = (icalproperty *)gtk_clist_get_row_data (GTK_CLIST (priv->attendee_list),
+							       priv->selected_row);
+		icalcomponent_remove_property (priv->vevent, prop);
+		icalproperty_free (prop);
+
+		gtk_clist_remove (GTK_CLIST (priv->attendee_list), priv->selected_row);
+		priv->selected_row = -1;
+		priv->numentries--;
+		priv->dirty = TRUE;
 	}
 }
 
 static void 
 edit_button_clicked_cb (GtkWidget *widget, gpointer data)
 {
-	if (selected_row < 0) {
+	EMeetingEditorPrivate *priv;
+
+	priv = (EMeetingEditorPrivate *) ((EMeetingEditor *)data)->priv;
+
+	
+	if (priv->selected_row < 0) {
 		GtkWidget *dialog;
 
 		dialog = gnome_warning_dialog_parented ("You must select an entry to edit.",
-							GTK_WINDOW (add_dialog));
+							GTK_WINDOW (priv->meeting_window));
 		gnome_dialog_run (GNOME_DIALOG(dialog));
 		return;
 	}
@@ -136,46 +228,56 @@ edit_button_clicked_cb (GtkWidget *widget, gpointer data)
 		gint button_num;
 
 		for (cntr = 0; cntr < 2; cntr++) {
-			gtk_clist_get_text (GTK_CLIST (attendee_list),
-						   selected_row,
+			gtk_clist_get_text (GTK_CLIST (priv->attendee_list),
+						   priv->selected_row,
 						   cntr,
 						   &text[cntr]);
 		}
 		
-		if (add_dialog == NULL || address_entry == NULL) {
-	                add_dialog = glade_xml_get_widget (xml, "add_dialog");
-        	        address_entry = glade_xml_get_widget (xml, "address_entry");
+		if (priv->add_dialog == NULL || priv->address_entry == NULL) {
+	                priv->add_dialog = glade_xml_get_widget (priv->xml, "add_dialog");
+        	        priv->address_entry = glade_xml_get_widget (priv->xml, "address_entry");
 			
-			gnome_dialog_set_close (GNOME_DIALOG (add_dialog), TRUE);
-			gnome_dialog_editable_enters (GNOME_DIALOG (add_dialog), GTK_EDITABLE (address_entry));
-			gnome_dialog_close_hides (GNOME_DIALOG (add_dialog), TRUE);
-			gnome_dialog_set_default (GNOME_DIALOG (add_dialog), 0);
+			gnome_dialog_set_close (GNOME_DIALOG (priv->add_dialog), TRUE);
+			gnome_dialog_editable_enters (GNOME_DIALOG (priv->add_dialog), 
+						      GTK_EDITABLE (priv->address_entry));
+			gnome_dialog_close_hides (GNOME_DIALOG (priv->add_dialog), TRUE);
+			gnome_dialog_set_default (GNOME_DIALOG (priv->add_dialog), 0);
 		}
 		
-		gtk_entry_set_text (GTK_ENTRY (address_entry), text[0]);
+		gtk_entry_set_text (GTK_ENTRY (priv->address_entry), text[0]);
 
-		gtk_widget_show (add_dialog);
+		gtk_widget_show (priv->add_dialog);
 
-		button_num = gnome_dialog_run (GNOME_DIALOG (add_dialog));
+		button_num = gnome_dialog_run (GNOME_DIALOG (priv->add_dialog));
 
 		if (button_num == 0) {
 			gchar *new_text;
+			icalproperty *prop;
+			icalparameter *param;
+			icalvalue *value;
+			gchar buffer[200];
 
-			new_text = gtk_entry_get_text (GTK_ENTRY (address_entry));
+			new_text = gtk_entry_get_text (GTK_ENTRY (priv->address_entry));
 
-			gtk_clist_set_text (GTK_CLIST (attendee_list), 
-					    selected_row,
+			gtk_clist_set_text (GTK_CLIST (priv->attendee_list), 
+					    priv->selected_row,
 					    0,
 					    new_text);
+			
+			prop = (icalproperty *)gtk_clist_get_row_data (GTK_CLIST (priv->attendee_list),
+				 					priv->selected_row);
+			g_snprintf (buffer, 190, "MAILTO:%s", new_text);
+			value = icalvalue_new_text (buffer);
+			icalproperty_set_value (prop, value);
+
+			priv->dirty = TRUE;
 		}
 
-		gtk_entry_set_text (GTK_ENTRY (address_entry), "");
+		gtk_entry_set_text (GTK_ENTRY (priv->address_entry), "");
 	}
 }
 
-
-
-	
 
 
 static void list_row_select_cb  (GtkWidget *widget,
@@ -184,74 +286,162 @@ static void list_row_select_cb  (GtkWidget *widget,
                           GdkEventButton *event,
                           gpointer data)
 {
-	selected_row = row;
+	EMeetingEditorPrivate *priv;
+
+	priv = (EMeetingEditorPrivate *) ((EMeetingEditor *)data)->priv;
+	
+	priv->selected_row = row;
 }
 			  
-static void
-reset_widgets (void)
+
+/* ------------------------------------------------------------ */
+/* --------------------- Exported Functions ------------------- */
+/* ------------------------------------------------------------ */
+
+EMeetingEditor * 
+e_meeting_editor_new (CalComponent *comp, CalClient *client)
 {
-	xml = NULL;
-	meeting_window = NULL;
-	attendee_list = NULL;
-	address_entry = NULL;
-	add_dialog = NULL;
-	selected_row = -1;
+	EMeetingEditor *object;
+	EMeetingEditorPrivate *priv;
+
+	object = (EMeetingEditor *)g_new(EMeetingEditor, 1);
+	
+	priv = (EMeetingEditorPrivate *) g_new0(EMeetingEditorPrivate, 1);
+	priv->selected_row = -1;
+	priv->comp = comp;
+	priv->client = client;
+	priv->icalcomp = cal_component_get_icalcomponent (comp);
+	
+	object->priv = priv;
+
+	return object;	
 }
 
-void 
-e_meeting_edit (CalComponent *comp, CalClient *client)
+void
+e_meeting_editor_free (EMeetingEditor *editor)
 {
-	GtkWidget *add_button, *delete_button, *edit_button;
-
-	reset_widgets ();
-
-	xml = glade_xml_new (EVOLUTION_GLADEDIR "/" E_MEETING_GLADE_XML, NULL);
+	if (editor == NULL)
+		return;
+		
+	if (editor->priv != NULL)
+		g_free (editor->priv);
 	
-	meeting_window =  glade_xml_get_widget (xml, "meeting_window");
-	attendee_list = glade_xml_get_widget (xml, "attendee_list");
+	g_free (editor);
+}
+	
 
-	gtk_clist_set_column_justification (GTK_CLIST (attendee_list), 1, GTK_JUSTIFY_CENTER);
 
-        gtk_signal_connect (GTK_OBJECT (meeting_window), "delete_event",
-                            GTK_SIGNAL_FUNC (window_delete_cb), NULL);
+void 
+e_meeting_edit (EMeetingEditor *editor)
+{
+	EMeetingEditorPrivate *priv;
+	GtkWidget *add_button, *delete_button, *edit_button;
+	icalproperty *prop;
+	icalparameter *param;
+	icalvalue *value;
+	gchar *text;
+	gchar *row_text[2];
 
-	gtk_signal_connect_after (GTK_OBJECT (meeting_window), "delete_event",
-				  GTK_SIGNAL_FUNC (window_destroy_cb), NULL);
 
-        gtk_signal_connect (GTK_OBJECT (meeting_window), "destroy_event",
-                            GTK_SIGNAL_FUNC (window_destroy_cb), NULL);
+	g_return_if_fail (editor != NULL);
 
-	gtk_signal_connect (GTK_OBJECT (attendee_list), "select_row",
-			    GTK_SIGNAL_FUNC (list_row_select_cb), NULL);
+	priv = (EMeetingEditorPrivate *)editor->priv;
 
-	add_button = glade_xml_get_widget (xml, "add_button");
-	delete_button = glade_xml_get_widget (xml, "delete_button");
-	edit_button = glade_xml_get_widget (xml, "edit_button");
+	g_return_if_fail (priv != NULL);
+
+
+	priv->xml = glade_xml_new (EVOLUTION_GLADEDIR "/" E_MEETING_GLADE_XML, NULL);
+	
+	priv->meeting_window =  glade_xml_get_widget (priv->xml, "meeting_window");
+	priv->attendee_list = glade_xml_get_widget (priv->xml, "attendee_list");
+
+	gtk_clist_set_column_justification (GTK_CLIST (priv->attendee_list), 1, GTK_JUSTIFY_CENTER);
+
+        gtk_signal_connect (GTK_OBJECT (priv->meeting_window), "delete_event",
+                            GTK_SIGNAL_FUNC (window_delete_cb), editor);
+
+	gtk_signal_connect_after (GTK_OBJECT (priv->meeting_window), "delete_event",
+				  GTK_SIGNAL_FUNC (window_destroy_cb), editor);
+
+        gtk_signal_connect (GTK_OBJECT (priv->meeting_window), "destroy_event",
+                            GTK_SIGNAL_FUNC (window_destroy_cb), editor);
+
+	gtk_signal_connect (GTK_OBJECT (priv->attendee_list), "select_row",
+			    GTK_SIGNAL_FUNC (list_row_select_cb), editor);
+
+	add_button = glade_xml_get_widget (priv->xml, "add_button");
+	delete_button = glade_xml_get_widget (priv->xml, "delete_button");
+	edit_button = glade_xml_get_widget (priv->xml, "edit_button");
 
 	gtk_signal_connect (GTK_OBJECT (add_button), "clicked",
-			    GTK_SIGNAL_FUNC (add_button_clicked_cb), NULL);
+			    GTK_SIGNAL_FUNC (add_button_clicked_cb), editor);
 	
 	gtk_signal_connect (GTK_OBJECT (delete_button), "clicked",
-			    GTK_SIGNAL_FUNC (delete_button_clicked_cb), NULL);
+			    GTK_SIGNAL_FUNC (delete_button_clicked_cb), editor);
 
 	gtk_signal_connect (GTK_OBJECT (edit_button), "clicked",
-			    GTK_SIGNAL_FUNC (edit_button_clicked_cb), NULL);
+			    GTK_SIGNAL_FUNC (edit_button_clicked_cb), editor);
 
-	gtk_widget_show (meeting_window);
+	if (icalcomponent_isa (priv->icalcomp) != ICAL_VEVENT_COMPONENT)
+		priv->vevent = icalcomponent_get_first_component(priv->icalcomp,ICAL_VEVENT_COMPONENT);
+	else
+		priv->vevent = priv->icalcomp;
+
+	g_assert (priv->vevent != NULL);
+
+	/* Let's go through the iCAL object, and create a list entry
+	   for each ATTENDEE property. */
+        for (prop = icalcomponent_get_first_property (priv->vevent, ICAL_ATTENDEE_PROPERTY);
+             prop != NULL;
+             prop = icalcomponent_get_next_property (priv->vevent, ICAL_ATTENDEE_PROPERTY))
+	{
+ 		value = icalproperty_get_value (prop);
+		text = g_strdup (icalvalue_as_ical_string (value));
+
+		/* Strip off the MAILTO: from the property value. */
+		row_text[0] = strchr (text, ':');
+		if (row_text[0] != NULL) 
+			row_text[0]++;
+		else
+			row_text[0] = text;
+		
+		for (param = icalproperty_get_first_parameter (prop, ICAL_ANY_PARAMETER);
+		     param != NULL && icalparameter_isa (param) != ICAL_PARTSTAT_PARAMETER;
+		     param = icalproperty_get_next_parameter (prop, ICAL_ANY_PARAMETER) );
+		
+		if (param == NULL) {
+			/* We need to add a PARTSTAT parameter to this property. */
+			param = icalparameter_new_partstat (ICAL_PARTSTAT_PARAMETER);
+			icalparameter_set_partstat (param, ICAL_PARTSTAT_NEEDSACTION);
+			icalproperty_add_parameter (prop, param);
+		}
+
+		/* row_text[1] corresponds to the `Status' column in the CList. */
+		row_text[1] = partstat_values[icalparameter_get_partstat (param)];
+		gtk_clist_append (GTK_CLIST (priv->attendee_list), row_text);
+
+		/* The property to which each row in the list refers will be stored
+			as the data for that row. */
+		gtk_clist_set_row_data (GTK_CLIST (priv->attendee_list), priv->numentries, prop);
+		priv->numentries++;
+
+		g_free (text);
+	}
+	
+
+	gtk_widget_show (priv->meeting_window);
 
 	gtk_main ();
 
 #ifdef E_MEETING_DEBUG
-	g_print ("e-meeting-edit.c: We've terminated the subsidiary gtk_main().\n");
+	g_printerr ("e-meeting-edit.c: We've terminated the subsidiary gtk_main().\n");
 #endif
 
-	if (meeting_window != NULL)
-		gtk_widget_destroy (meeting_window);
+	if (priv->meeting_window != NULL)
+		gtk_widget_destroy (priv->meeting_window);
 
-	if (add_dialog != NULL)
-		gtk_widget_destroy (add_dialog);
+	if (priv->add_dialog != NULL)
+		gtk_widget_destroy (priv->add_dialog);
 
-
-
-	gtk_object_destroy (GTK_OBJECT (xml));
+	gtk_object_unref (GTK_OBJECT (priv->xml));
 }

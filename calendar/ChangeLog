@@ -1,3 +1,11 @@
+2000-09-29  Jesse Pavel   <jpavel@helixcode.com>
+
+	* gui/e-meeting-edit.c: added code that makes changes to the underlying
+	iCAL structure of an event, when the user changes meeting information.
+
+	* gui/e-meeting-dialog.glade: this is the Glade UI for the meeting dialog
+	and accoutrements.
+
 2000-09-29  Damon Chaplin  <damon@helixcode.com>
 
 	* cal-util/cal-recur.c: updated to support RDATE end times or
