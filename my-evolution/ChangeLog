@@ -1,3 +1,8 @@
+2003-01-13  Not Zed  <NotZed@Ximian.com>
+
+	* e-summary-preferences.c (e_summary_preferences_save): fix a
+	past-o with the physical_uri_list prepend.
+
 2003-01-10  Not Zed  <NotZed@Ximian.com>
 
 	* e-summary-mail.c (new_folder_cb): glist->gslist for

@@ -134,7 +134,7 @@ e_summary_preferences_save (ESummaryPrefs *prefs)
 
 		folder = (const ESummaryPrefsFolder *) p->data;
 		evolution_uri_list = g_slist_prepend (evolution_uri_list, folder->evolution_uri);
-		physical_uri_list = g_slist_prepend (evolution_uri_list, folder->physical_uri);
+		physical_uri_list = g_slist_prepend (physical_uri_list, folder->physical_uri);
 	}
 	evolution_uri_list = g_slist_reverse (evolution_uri_list);
 	physical_uri_list = g_slist_reverse (physical_uri_list);
