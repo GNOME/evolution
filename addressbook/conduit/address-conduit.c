@@ -200,14 +200,6 @@ e_addr_context_new (guint32 pilot_id)
 	return ctxt;
 }
 
-static gboolean
-e_addr_context_foreach_change (gpointer key, gpointer value, gpointer data) 
-{
-	g_free (key);
-
-	return TRUE;
-}
-
 static void
 e_addr_context_destroy (EAddrConduitContext *ctxt)
 {
@@ -227,13 +219,20 @@ e_addr_context_destroy (EAddrConduitContext *ctxt)
 		g_list_free (ctxt->cards);
 	}
 	
-	if (ctxt->changed_hash != NULL) {
-		g_hash_table_foreach_remove (ctxt->changed_hash, e_addr_context_foreach_change, NULL);
+	if (ctxt->changed_hash != NULL)
 		g_hash_table_destroy (ctxt->changed_hash);
-	}
 	
-	if (ctxt->changed != NULL)
+	if (ctxt->changed != NULL) {
+		CardObjectChange *coc;
+		
+		for (l = ctxt->changed; l != NULL; l = l->next) {
+			coc = l->data;
+
+			gtk_object_unref (GTK_OBJECT (coc->card));
+			g_free (coc);
+		}
 		g_list_free (ctxt->changed);
+	}
 	
 	if (ctxt->locals != NULL) {
 		for (l = ctxt->locals; l != NULL; l = l->next)
@@ -827,6 +826,7 @@ local_record_from_uid (EAddrLocalRecord *local,
 		ecard = e_card_new ("");
 		e_card_set_id (ecard, uid);
 		local_record_from_ecard (local, ecard, ctxt);
+		gtk_object_unref (GTK_OBJECT (ecard));
 	}
 }
 
@@ -1397,9 +1397,10 @@ replace_record (GnomePilotConduitSyncAbs *conduit,
 		coc = g_hash_table_lookup (ctxt->changed_hash, old_id);
 		if (coc) {
 			g_hash_table_remove (ctxt->changed_hash, e_card_get_id (coc->card));
+			gtk_object_unref (GTK_OBJECT (coc->card));
+			gtk_object_ref (GTK_OBJECT (local->ecard));
 			coc->card = local->ecard;
 			g_hash_table_insert (ctxt->changed_hash, (gpointer)e_card_get_id (coc->card), coc);
-			
 		}
 		
 		commit_status = cons.status;
