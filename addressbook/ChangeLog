@@ -1,5 +1,9 @@
 2001-07-01  Jon Trowbridge  <trow@ximian.com>
 
+	* backend/ebook/e-destination.c (e_destination_get_string): Fall
+	back to use the name field if all else fails (which can happen
+	with imported EDestinations).
+
 	* backend/ebook/e-destination.c (e_destination_is_empty): Fix for the
 	"recipient not specified" bug --- we were not correctly checking
 	for whether or not an EDestination was actually empty.

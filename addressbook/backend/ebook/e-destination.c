@@ -342,6 +342,12 @@ e_destination_get_string (const EDestination *dest)
 
 			if (priv->string == NULL)
 				priv->string = g_strdup (_("???"));
+
+		} else { /* If there is no card... */
+
+			if (priv->name)
+				return priv->name;
+
 		}
 	}
 	
