@@ -522,15 +522,14 @@ static GnomeUIInfo gnome_toolbar [] = {
 	GNOMEUIINFO_END
 };
 
+
+/*
 static void
 setup_menu (GtkWidget *gcal)
 {
-	/*
 	gnome_app_create_menus_with_data (GNOME_APP (gcal), gnome_cal_menu, gcal);
 	gnome_app_create_toolbar_with_data (GNOME_APP (gcal), gnome_toolbar, gcal);
 	gnome_app_install_menu_hints(GNOME_APP(gcal), gnome_cal_menu);
-	*/
-#warning "menus and toolbar are commented out here"
 }
 
 static void
@@ -539,9 +538,89 @@ setup_appbar (GtkWidget *gcal)
         GtkWidget *appbar;
 
         appbar = gnome_appbar_new (FALSE, TRUE, GNOME_PREFERENCES_USER);
-	/*gnome_app_set_statusbar (GNOME_APP (gcal), GTK_WIDGET (appbar));*/
-#warning "appbar is commented out here"
+	gnome_app_set_statusbar (GNOME_APP (gcal), GTK_WIDGET (appbar));
 }
+*/
+
+
+/* Performs signal connection as appropriate for interpreters or native bindings */
+static void
+do_ui_signal_connect (GnomeUIInfo *uiinfo, gchar *signal_name, 
+		      GnomeUIBuilderData *uibdata)
+{
+	if (uibdata->is_interp)
+		gtk_signal_connect_full (GTK_OBJECT (uiinfo->widget),
+				signal_name, NULL, uibdata->relay_func,
+				uibdata->data ?
+				uibdata->data : uiinfo->user_data,
+				uibdata->destroy_func, FALSE, FALSE);
+
+	else if (uiinfo->moreinfo)
+		gtk_signal_connect (GTK_OBJECT (uiinfo->widget),
+				signal_name, uiinfo->moreinfo, uibdata->data ?
+				uibdata->data : uiinfo->user_data);
+}
+
+
+void
+calendar_control_activate (BonoboControl *control, BonoboUIHandler *uih)
+{
+	Bonobo_UIHandler  remote_uih;
+	GtkWidget *toolbar;
+	GnomeUIBuilderData uibdata;
+
+	uibdata.connect_func = do_ui_signal_connect;
+	uibdata.data = control;
+	uibdata.is_interp = FALSE;
+	uibdata.relay_func = NULL;
+	uibdata.destroy_func = NULL;
+
+	remote_uih = bonobo_control_get_remote_ui_handler (control);
+	bonobo_ui_handler_set_container (uih, remote_uih);
+
+	toolbar = gtk_toolbar_new (GTK_ORIENTATION_HORIZONTAL,
+				   GTK_TOOLBAR_BOTH);
+	gnome_app_fill_toolbar_custom (GTK_TOOLBAR (toolbar),
+				       gnome_toolbar, &uibdata, 
+				       /*app->accel_group*/ NULL);
+
+	gtk_toolbar_append_space (GTK_TOOLBAR (toolbar));
+
+	gtk_widget_show_all (toolbar);
+
+	bonobo_ui_handler_dock_add (uih, "/Toolbar",
+				    bonobo_object_corba_objref (BONOBO_OBJECT (bonobo_control_new (toolbar))),
+				    GNOME_DOCK_ITEM_BEH_LOCKED |
+				    GNOME_DOCK_ITEM_BEH_EXCLUSIVE,
+				    GNOME_DOCK_TOP,
+				    1, 1, 0);
+
+
+#warning "do something twisted with gnome_cal_menu here?"
+	/*
+	bonobo_ui_handler_menu_new_item (uih, "/File/Mail", N_("_Mail"),
+					 NULL, -1,
+					 BONOBO_UI_HANDLER_PIXMAP_NONE, NULL,
+					 0, 0, msg_composer_cb, NULL);
+	*/
+}
+
+
+void
+calendar_control_deactivate (BonoboControl *control, BonoboUIHandler *uih)
+{
+	bonobo_ui_handler_dock_remove (uih, "/Toolbar");
+
+	/*
+	int i;
+	for (i=0; gnome_cal_menu[ i ].type != GNOME_APP_UI_ENDOFINFO; i++){
+		bonobo_ui_handler_menu_remove (uih, "/File/Mail");
+	}
+	*/
+}
+
+
+
 
 static gint
 calendar_close_event (GtkWidget *widget, GdkEvent *event, GnomeCalendar *gcal)
@@ -576,8 +655,10 @@ new_calendar (char *full_name, char *calendar_file, char *geometry, char *page, 
  	gtk_widget_set_usize (toplevel, width, 600); 
 #endif
 
+	/*
 	setup_appbar (toplevel);
 	setup_menu (toplevel);
+	*/
 
 
 	if (page)
@@ -625,9 +706,7 @@ void init_calendar (void)
 	char *str;
 
 	init_username ();
-	/*user_calendar_file = g_concat_dir_and_file (gnome_util_user_home (), ".gnome/user-cal.vcf");*/
-#warning "unhardcode home directory"
-	user_calendar_file = g_concat_dir_and_file ("/home/alves", ".gnome/user-cal.vcf");
+	user_calendar_file = g_concat_dir_and_file (gnome_util_user_home (), ".gnome/user-cal.vcf");
 
 	gnome_config_push_prefix (calendar_settings);
 

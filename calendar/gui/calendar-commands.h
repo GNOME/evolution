@@ -1,6 +1,8 @@
 #ifndef CALENDAR_COMMANDS_H
 #define CALENDAR_COMMANDS_H
 
+#include <bonobo/bonobo-control.h>
+
 /* This enum and the following array define the color preferences */
 
 typedef enum {
@@ -116,7 +118,8 @@ calendar_iterate (GnomeCalendar *cal,
 
 void init_calendar (void);
 
-
+void calendar_control_activate (BonoboControl *control, BonoboUIHandler *uih);
+void calendar_control_deactivate (BonoboControl *control, BonoboUIHandler *uih);
 
 void close_cmd (GtkWidget *widget, GnomeCalendar *gcal);
 void quit_cmd (void);
