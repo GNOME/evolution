@@ -2046,7 +2046,6 @@ evolution_mail_config_factory_init (void)
 {
 	BonoboGenericFactory *factory;
 	
-	g_warning ("Starting mail config");
 	factory = bonobo_generic_factory_new (MAIL_CONFIG_IID, 
 					      evolution_mail_config_factory_fn,
 					      NULL);
@@ -2054,6 +2053,5 @@ evolution_mail_config_factory_init (void)
 		g_warning ("Error starting MailConfig");
 	}
 
-	g_warning ("Registered");
 	bonobo_running_context_auto_exit_unref (BONOBO_OBJECT (factory));
 }
