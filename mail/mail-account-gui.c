@@ -1794,57 +1794,28 @@ save_service (MailAccountGuiService *gsvc, GHashTable *extra_config,
 	camel_url_free (url);
 }
 
-struct _new_account_info {
-	MailConfigAccount *account;         /* new account */
-	CamelStore *store;                  /* old account's store */
-	char *url;                          /* old account's source url */
-};
-
 static void
 add_new_store (char *uri, CamelStore *store, void *user_data)
 {
-	struct _new_account_info *info = user_data;
+	const MailConfigAccount *account = user_data;
 	EvolutionStorage *storage;
 	
-	if (store) {
-		storage = mail_lookup_storage (store);
-		if (store != info->store && info->url) {
-			/* remove the old store if it is in the folder tree */
-			mail_remove_storage_by_uri (info->url);
-		}
-		
-		if (storage) {
-			/* store is already in the folder tree, no need to fret... */
-			bonobo_object_unref (BONOBO_OBJECT (storage));
-		} else {
-			/* store is *not* in the folder tree, so lets add it. */
-			mail_add_storage (store, info->account->name, info->account->source->url);
-		}
-	} else if (info->url) {
-		/* remove the old store if it's in the folder tree */
-		mail_remove_storage_by_uri (info->url);
+	if (store == NULL)
+		return;
+	
+	storage = mail_lookup_storage (store);
+	if (storage) {
+		/* store is already in the folder tree, so do nothing */
+		bonobo_object_unref (BONOBO_OBJECT (storage));
+	} else {
+		/* store is *not* in the folder tree, so lets add it. */
+		mail_add_storage (store, account->name, account->source->url);
 	}
-	
-	if (info->store)
-		camel_object_unref (info->store);
-	g_free (info->url);
-	g_free (info);
-}
-
-static void
-got_store (char *uri, CamelStore *store, void *user_data)
-{
-	CamelStore **s = (CamelStore **) user_data;
-	
-	*s = store;
-	if (store)
-		camel_object_ref (store);
 }
 
 gboolean
 mail_account_gui_save (MailAccountGui *gui)
 {
-	struct _new_account_info *info = NULL;
 	MailConfigAccount *account = gui->account;
 	MailConfigAccount *old_account;
 	CamelProvider *provider = NULL;
@@ -1967,24 +1938,16 @@ mail_account_gui_save (MailAccountGui *gui)
 	is_storage = provider && (provider->flags & CAMEL_PROVIDER_IS_STORAGE) &&
 		!(provider->flags & CAMEL_PROVIDER_IS_EXTERNAL);
 	
-	if (is_storage) {
-		info = g_new (struct _new_account_info, 1);
-		info->account = account;
-		info->store = NULL;
-		info->url = NULL;
-	}
-	
 	if (!mail_config_find_account (account)) {
 		/* this is a new account so it it to our account-list */
 		mail_config_add_account (account);
 	} else if (old_account->source && old_account->source->url) {
-		/* this means the account was edited */
-		if (is_storage) {
-			info->url = g_strdup (old_account->source->url);
-			mail_msg_wait (mail_get_store (info->url, got_store, &store));
-			info->store = store;
-		} else {
-			/* The new URL is not a storage, but the old one might be */
+		/* this means the account was edited - if the old and
+                   new source urls are not identical, replace the old
+                   storage with the new storage */
+#define sources_equal(old,new) (new->url && !strcmp (old->url, new->url))
+		if (!sources_equal (old_account->source, account->source)) {
+			/* Remove the old storage from the folder-tree */
 			mail_remove_storage_by_uri (old_account->source->url);
 		}
 	}
@@ -1997,7 +1960,7 @@ mail_account_gui_save (MailAccountGui *gui)
 	   component, then get the CamelStore and add it to
 	   the shell storages */
 	if (is_storage)
-		mail_get_store (account->source->url, add_new_store, info);
+		mail_get_store (account->source->url, add_new_store, account);
 	
 	if (gtk_toggle_button_get_active (gui->default_account))
 		mail_config_set_default_account (account);

@@ -1,5 +1,10 @@
 2002-08-08  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* mail-account-gui.c (mail_account_gui_save): Instead of comparing
+	old/new CamelStore objects, just compare their account urls since
+	changing params would still result in the same CamelStore
+	object. Fixes bug #18539.
+
 	* mail-callbacks.c (delete_msg): Don't check permanent_flags for
 	the CAMEL_MESSAGE_DELETED bit here, if we are gonna check to see
 	if the folder supports the permanent flag then there are better
