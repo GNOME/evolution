@@ -112,7 +112,7 @@ typedef enum {
 typedef struct {
 	CalComponentRangeType type;
 	
-	CalComponentDateTime *datetime;
+	CalComponentDateTime datetime;
 } CalComponentRange;
 </TYPEDEF>
 <TYPEDEF>
@@ -220,6 +220,11 @@ CalComponent *comp
 CalComponent *comp
 </FUNCTION>
 <FUNCTION>
+<NAME>cal_component_strip_errors</NAME>
+<RETURNS>void  </RETURNS>
+CalComponent *comp
+</FUNCTION>
+<FUNCTION>
 <NAME>cal_component_get_vtype</NAME>
 <RETURNS>CalComponentVType  </RETURNS>
 CalComponent *comp
@@ -231,6 +236,11 @@ CalComponent *comp
 </FUNCTION>
 <FUNCTION>
 <NAME>cal_component_commit_sequence</NAME>
+<RETURNS>void  </RETURNS>
+CalComponent *comp
+</FUNCTION>
+<FUNCTION>
+<NAME>cal_component_abort_sequence</NAME>
 <RETURNS>void  </RETURNS>
 CalComponent *comp
 </FUNCTION>
@@ -462,7 +472,7 @@ CalComponent *comp, int *priority
 <FUNCTION>
 <NAME>cal_component_get_recurid</NAME>
 <RETURNS>void  </RETURNS>
-CalComponent *comp, CalComponentRange **recur_id
+CalComponent *comp, CalComponentRange *recur_id
 </FUNCTION>
 <FUNCTION>
 <NAME>cal_component_set_recurid</NAME>
@@ -822,6 +832,11 @@ CalComponentAlarm *alarm, CalAlarmTrigger *trigger
 <RETURNS>void  </RETURNS>
 CalComponentAlarm *alarm, CalAlarmTrigger trigger
 </FUNCTION>
+<FUNCTION>
+<NAME>cal_component_alarm_get_icalcomponent</NAME>
+<RETURNS>icalcomponent  *</RETURNS>
+CalComponentAlarm *alarm
+</FUNCTION>
 <USER_FUNCTION>
 <NAME>CalRecurInstanceFn</NAME>
 <RETURNS>gboolean </RETURNS>
@@ -906,6 +921,16 @@ int priority
 <NAME>cal_util_priority_from_string</NAME>
 <RETURNS>int  </RETURNS>
 const char *string
+</FUNCTION>
+<FUNCTION>
+<NAME>cal_util_expand_uri</NAME>
+<RETURNS>char  *</RETURNS>
+char *uri, gboolean tasks
+</FUNCTION>
+<FUNCTION>
+<NAME>cal_util_add_timezones_from_component</NAME>
+<RETURNS>void  </RETURNS>
+icalcomponent *vcal_comp,CalComponent *comp
 </FUNCTION>
 <FUNCTION>
 <NAME>time_days_in_month</NAME>

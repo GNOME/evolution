@@ -1,7 +1,8 @@
-2002-09-06  Ettore Perazzoli  <ettore@ximian.com>
+2002-09-09  Ettore Perazzoli  <ettore@ximian.com>
 
-	* configure.in: Bump some requirements.
-	* README: Update accordingly.
+	* configure.in: 1.1.1.  Also bump some requirements.
+
+	* README: Update according to the new requirements.
 
 2002-09-06  Larry Ewing  <lewing@ximian.com>
 

@@ -46,6 +46,7 @@ typedef enum {
 	CAL_CLIENT_OPEN_SUCCESS,
 	CAL_CLIENT_OPEN_ERROR,
 	CAL_CLIENT_OPEN_NOT_FOUND,
+	CAL_CLIENT_OPEN_PERMISSION_DENIED,
 	CAL_CLIENT_OPEN_METHOD_NOT_SUPPORTED
 } CalClientOpenStatus;
 </ENUM>
@@ -64,6 +65,26 @@ typedef enum {
 	CAL_CLIENT_GET_NOT_FOUND,
 	CAL_CLIENT_GET_SYNTAX_ERROR
 } CalClientGetStatus;
+</ENUM>
+<ENUM>
+<NAME>CalClientResult</NAME>
+typedef enum {
+	CAL_CLIENT_RESULT_SUCCESS,
+	CAL_CLIENT_RESULT_CORBA_ERROR,
+	CAL_CLIENT_RESULT_INVALID_OBJECT,
+	CAL_CLIENT_RESULT_NOT_FOUND,
+	CAL_CLIENT_RESULT_PERMISSION_DENIED
+} CalClientResult;
+</ENUM>
+<ENUM>
+<NAME>CalClientSendResult</NAME>
+typedef enum {
+	CAL_CLIENT_SEND_SUCCESS,
+	CAL_CLIENT_SEND_CORBA_ERROR,
+	CAL_CLIENT_SEND_INVALID_OBJECT,
+	CAL_CLIENT_SEND_BUSY,
+	CAL_CLIENT_SEND_PERMISSION_DENIED
+} CalClientSendResult;
 </ENUM>
 <ENUM>
 <NAME>CalClientLoadState</NAME>
@@ -207,18 +228,23 @@ CalClient *client, const char *uid,time_t start, time_t end,CalComponentAlarms *
 </FUNCTION>
 <FUNCTION>
 <NAME>cal_client_update_object</NAME>
-<RETURNS>gboolean  </RETURNS>
+<RETURNS>CalClientResult  </RETURNS>
 CalClient *client, CalComponent *comp
 </FUNCTION>
 <FUNCTION>
 <NAME>cal_client_update_objects</NAME>
-<RETURNS>gboolean  </RETURNS>
+<RETURNS>CalClientResult  </RETURNS>
 CalClient *client, icalcomponent *icalcomp
 </FUNCTION>
 <FUNCTION>
 <NAME>cal_client_remove_object</NAME>
-<RETURNS>gboolean  </RETURNS>
+<RETURNS>CalClientResult  </RETURNS>
 CalClient *client, const char *uid
+</FUNCTION>
+<FUNCTION>
+<NAME>cal_client_send_object</NAME>
+<RETURNS>CalClientSendResult  </RETURNS>
+CalClient *client, icalcomponent *icalcomp,icalcomponent **new_icalcomp, GList **users,char error_msg[256]
 </FUNCTION>
 <FUNCTION>
 <NAME>cal_client_get_query</NAME>

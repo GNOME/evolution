@@ -138,9 +138,11 @@ and -devel packages for each library.
    *** either gnome-libs or evolution for the Makefiles to work
    *** properly.
 
- - gal (GNOME Application Library) - 0.19.99.18 or later
+ - bonobo-conf - 1.0.16 or later
 
- - gtkhtml - 1.1.1.1 or later
+ - gal (GNOME Application Library) - 0.20 or later
+
+ - gtkhtml - 1.1.2 or later
 
  - SOUP - 0.7.x
 

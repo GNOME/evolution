@@ -47,11 +47,15 @@ New features:
     - Now installs some libraries and headers required for external
       module development.
 
+    - You now can drop objects (eg. mail messages, appointments)
+      directly to the folders on the shortcut bar (in 1.0.x, you could
+      only drop them in the folder folder bar).
+
+    - 
+
   * Calendar
 
     - Loading speed has been improved.
-
-    - The context menus are improved and now allow .
 
     - When you receive an appointment through email, you can choose
       which calendar to update, and if its for an existing appointment
@@ -59,43 +63,49 @@ New features:
 
     - Calendar importer now supports importing to remote folders.
 
-    - Calendar GUI and alarm daemon now use listeners for the configuration.
+    - Calendar GUI and alarm daemon now use listeners for the
+      configuration.
 
     - Reaction to calendar backends crashing has been improved.
 
     - Show status messages for all long calendar operations.
 
-    - Fixed default reminders description (was 'Untitled appointment').
+    - Fixed default reminders description (was 'Untitled
+      appointment').
 
     - Included timezone information on VCALENDAR's used in copy/paste.
 
-    - Removed extra space that was displayed for categories without icons.
+    - Removed extra space that was displayed for categories without
+      icons.
 
     - Fixed crashes in the alarm daemon.
 
-    - Fixed crashes in calendar related to creating new evolution windows   
+    - Fixed crashes in calendar related to creating new evolution
+      windows.
 
-    - When right clicking, correctly select the underlying date/time
+    - When right clicking, correctly select the underlying date/time.
 
     - Meeting scheduling improvements; sends replies when you update
       your attendance status, warnings if the user changes a meeting
-      they didn't create
+      they didn't create.
 
     - Deleting a meeting with a right click will now offer to send a
-      cancellation notice
+      cancellation notice.
 
-    - Can accept meeting replies from non-attendees (they become attendees)
+    - Can accept meeting replies from non-attendees (they become
+      attendees).
 
-    - Fixed work day so start can't be before end, its minimum 1 hour and
-      the unshaded zone is not rounded to the nearest time division
-      (allowing the work hours to be 0:00 to 23:59)
+    - Fixed work day so start can't be before end, its minimum 1 hour
+      and the unshaded zone is not rounded to the nearest time
+      division (allowing the work hours to be 0:00 to 23:59).
 
-    - Fixed task view to update completion status the same as the editor
+    - Fixed task view to update completion status the same as the
+      editor.
 
-    - Fixed leap year problem with day of week
+    - Fixed leap year problem with day of week.
       
     - Handle "last day of the month" and "last Tuesday of the month"
-      type recurrences
+      type recurrences.
 
   * Contacts
 
@@ -108,7 +118,7 @@ New features:
     - Improved feedback for search results for all backends and the
       UI.
 
-    - SSL/STARTTLS suport for LDAP.
+    - SSL/STARTTLS suport for LDAP has been added.
 
     - Caches are built for local addressbooks to speed up
       autocompletion.
@@ -251,9 +261,7 @@ New features:
 
     - Uses Soup for HTTP downloading news feeds and weather info.
 
-    - Many bug fixes.
-
-    - Better folder selector
+    - Better folder selector.
 
     - Better Weather/News Feed selector.
 

@@ -57,6 +57,7 @@ GTK+ object for communication with personal calendar server.
 @CAL_CLIENT_OPEN_SUCCESS: 
 @CAL_CLIENT_OPEN_ERROR: 
 @CAL_CLIENT_OPEN_NOT_FOUND: 
+@CAL_CLIENT_OPEN_PERMISSION_DENIED: 
 @CAL_CLIENT_OPEN_METHOD_NOT_SUPPORTED: 
 
 <!-- ##### ENUM CalClientGetStatus ##### -->
@@ -335,4 +336,11 @@ End:
 
 @calclient: the object which received the signal.
 @arg1: 
+
+<!-- ##### SIGNAL CalClient::backend-died ##### -->
+<para>
+
+</para>
+
+@calclient: the object which received the signal.
 

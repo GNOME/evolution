@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution 1.0\n"
-"POT-Creation-Date: 2002-09-05 23:01+0200\n"
+"POT-Creation-Date: 2002-09-09 14:39-0400\n"
 "PO-Revision-Date: 2002-09-05 23:12+0200\n"
 "Last-Translator: Kjartan Maraas <kmaraas@gnome.org>\n"
 "Language-Team: Norwegian <no@li.org>\n"
@@ -720,48 +720,50 @@ msgid "  S_how Supported Bases "
 msgstr "V_is støttede baser "
 
 #: addressbook/gui/component/ldap-config.glade.h:2
+#, fuzzy
+msgid "&lt;&lt; Fewer Options"
+msgstr "<< Færre alternativer"
+
+#: addressbook/gui/component/ldap-config.glade.h:3
+#, fuzzy
+msgid "&lt;- _Remove"
+msgstr "<- Fje_rn"
+
+#: addressbook/gui/component/ldap-config.glade.h:4
 msgid "1234"
 msgstr "1234"
 
-#: addressbook/gui/component/ldap-config.glade.h:3
+#: addressbook/gui/component/ldap-config.glade.h:5
 msgid "1:00"
 msgstr "1:00"
 
-#: addressbook/gui/component/ldap-config.glade.h:4
+#: addressbook/gui/component/ldap-config.glade.h:6
 msgid "2:30"
 msgstr "2:30"
 
-#: addressbook/gui/component/ldap-config.glade.h:5
+#: addressbook/gui/component/ldap-config.glade.h:7
 msgid "3268"
 msgstr "3268"
 
-#: addressbook/gui/component/ldap-config.glade.h:6
+#: addressbook/gui/component/ldap-config.glade.h:8
 msgid "380"
 msgstr "380"
 
-#: addressbook/gui/component/ldap-config.glade.h:7
+#: addressbook/gui/component/ldap-config.glade.h:9
 msgid "389"
 msgstr "389"
 
-#: addressbook/gui/component/ldap-config.glade.h:8
+#: addressbook/gui/component/ldap-config.glade.h:10
 msgid "5:00"
 msgstr "5:00"
 
-#: addressbook/gui/component/ldap-config.glade.h:9
+#: addressbook/gui/component/ldap-config.glade.h:11
 msgid "636"
 msgstr "636"
 
-#: addressbook/gui/component/ldap-config.glade.h:10
+#: addressbook/gui/component/ldap-config.glade.h:12
 msgid "666"
 msgstr "666"
-
-#: addressbook/gui/component/ldap-config.glade.h:11
-msgid "<- _Remove"
-msgstr "<- Fje_rn"
-
-#: addressbook/gui/component/ldap-config.glade.h:12
-msgid "<< Fewer Options"
-msgstr "<< Færre alternativer"
 
 #: addressbook/gui/component/ldap-config.glade.h:13
 msgid "Add (or Edit) Attribute Mappings"
@@ -1110,7 +1112,8 @@ msgid "_Add"
 msgstr "_Legg til"
 
 #: addressbook/gui/component/ldap-config.glade.h:105
-msgid "_Add ->"
+#, fuzzy
+msgid "_Add -&gt;"
 msgstr "_Legg til->"
 
 #: addressbook/gui/component/ldap-config.glade.h:106
@@ -1180,7 +1183,8 @@ msgid "_Log in method:"
 msgstr "Metode for på_logging:"
 
 #: addressbook/gui/component/ldap-config.glade.h:121
-msgid "_More Options >>"
+#, fuzzy
+msgid "_More Options &gt;&gt;"
 msgstr "_Flere alternativer >>"
 
 #: addressbook/gui/component/ldap-config.glade.h:122
@@ -1423,8 +1427,8 @@ msgstr "Vil motta _HTML e-post"
 #: addressbook/gui/contact-editor/contact-editor.glade.h:31
 #: calendar/gui/dialogs/alarm-page.glade.h:9
 #: calendar/gui/dialogs/meeting-page.c:673
-#: calendar/gui/e-calendar-table.c:1006 calendar/gui/e-day-view.c:3721
-#: calendar/gui/e-week-view.c:3533 filter/filter.glade.h:15
+#: calendar/gui/e-calendar-table.c:1006 calendar/gui/e-day-view.c:3763
+#: calendar/gui/e-week-view.c:3570 filter/filter.glade.h:15
 #: mail/folder-browser.c:1744 mail/mail-config.glade.h:151
 #: shell/glade/e-folder-list.glade.h:2 ui/evolution-addressbook.xml.h:32
 #: ui/evolution-calendar.xml.h:27 ui/evolution-mail-message.xml.h:97
@@ -3036,7 +3040,7 @@ msgid "Delete"
 msgstr "Slett"
 
 #: addressbook/gui/widgets/e-addressbook-view.c:930
-#: calendar/gui/e-day-view.c:3679 calendar/gui/e-week-view.c:3497
+#: calendar/gui/e-day-view.c:3721 calendar/gui/e-week-view.c:3534
 msgid "Current View"
 msgstr "Aktiv visning"
 
@@ -3452,7 +3456,7 @@ msgstr ""
 "for påminnelse i stedet."
 
 #: calendar/gui/alarm-notify/alarm-queue.c:754
-#: calendar/gui/tasks-control.c:445 mail/mail-callbacks.c:2871
+#: calendar/gui/tasks-control.c:445 mail/mail-callbacks.c:2870
 #: widgets/misc/e-messagebox.c:159
 msgid "Warning"
 msgstr "Advarsel"
@@ -4315,8 +4319,8 @@ msgid "No summary"
 msgstr "Ingen sammendrag"
 
 #: calendar/gui/dialogs/comp-editor.c:1220
-#: calendar/gui/e-calendar-table.c:1070 calendar/gui/e-day-view.c:3934
-#: calendar/gui/e-week-view.c:3765 composer/e-msg-composer.c:1146
+#: calendar/gui/e-calendar-table.c:1070 calendar/gui/e-day-view.c:3976
+#: calendar/gui/e-week-view.c:3802 composer/e-msg-composer.c:1146
 msgid "Save as..."
 msgstr "Lagre som..."
 
@@ -4842,13 +4846,13 @@ msgstr "90%"
 msgid "100%"
 msgstr "100%"
 
-#: calendar/gui/e-calendar-table.c:753 calendar/gui/e-day-view.c:2825
-#: calendar/gui/e-week-view.c:1855
+#: calendar/gui/e-calendar-table.c:753 calendar/gui/e-day-view.c:2867
+#: calendar/gui/e-week-view.c:1892
 msgid "Deleting selected objects"
 msgstr "Sletter valgte objekter"
 
-#: calendar/gui/e-calendar-table.c:987 calendar/gui/e-day-view.c:3703
-#: calendar/gui/e-week-view.c:3515 mail/folder-browser.c:1717
+#: calendar/gui/e-calendar-table.c:987 calendar/gui/e-day-view.c:3745
+#: calendar/gui/e-week-view.c:3552 mail/folder-browser.c:1717
 #: shell/e-shortcuts-view.c:408 ui/evolution-addressbook.xml.h:36
 msgid "_Open"
 msgstr "_Åpne"
@@ -4857,30 +4861,30 @@ msgstr "_Åpne"
 msgid "_Save as..."
 msgstr "_Lagre som..."
 
-#: calendar/gui/e-calendar-table.c:989 calendar/gui/e-day-view.c:3705
-#: calendar/gui/e-week-view.c:3489 calendar/gui/e-week-view.c:3517
+#: calendar/gui/e-calendar-table.c:989 calendar/gui/e-day-view.c:3747
+#: calendar/gui/e-week-view.c:3526 calendar/gui/e-week-view.c:3554
 #: ui/evolution-addressbook.xml.h:38 ui/evolution-calendar.xml.h:30
 #: ui/evolution-contact-editor.xml.h:14 ui/evolution-mail-message.xml.h:108
 #: ui/evolution-tasks.xml.h:20 ui/my-evolution.xml.h:6
 msgid "_Print..."
 msgstr "S_kriv ut..."
 
-#: calendar/gui/e-calendar-table.c:993 calendar/gui/e-day-view.c:3710
-#: calendar/gui/e-week-view.c:3522 ui/evolution-addressbook.xml.h:1
+#: calendar/gui/e-calendar-table.c:993 calendar/gui/e-day-view.c:3752
+#: calendar/gui/e-week-view.c:3559 ui/evolution-addressbook.xml.h:1
 #: ui/evolution-calendar.xml.h:1 ui/evolution-tasks.xml.h:1
 msgid "C_ut"
 msgstr "Kli_pp ut"
 
-#: calendar/gui/e-calendar-table.c:994 calendar/gui/e-day-view.c:3711
-#: calendar/gui/e-week-view.c:3523 ui/evolution-addressbook.xml.h:30
+#: calendar/gui/e-calendar-table.c:994 calendar/gui/e-day-view.c:3753
+#: calendar/gui/e-week-view.c:3560 ui/evolution-addressbook.xml.h:30
 #: ui/evolution-calendar.xml.h:26 ui/evolution-mail-list.xml.h:24
 #: ui/evolution-tasks.xml.h:15
 msgid "_Copy"
 msgstr "_Kopier"
 
-#: calendar/gui/e-calendar-table.c:995 calendar/gui/e-day-view.c:3674
-#: calendar/gui/e-day-view.c:3712 calendar/gui/e-week-view.c:3493
-#: calendar/gui/e-week-view.c:3524 ui/evolution-addressbook.xml.h:37
+#: calendar/gui/e-calendar-table.c:995 calendar/gui/e-day-view.c:3716
+#: calendar/gui/e-day-view.c:3754 calendar/gui/e-week-view.c:3530
+#: calendar/gui/e-week-view.c:3561 ui/evolution-addressbook.xml.h:37
 #: ui/evolution-calendar.xml.h:29 ui/evolution-mail-list.xml.h:29
 #: ui/evolution-tasks.xml.h:19
 msgid "_Paste"
@@ -4906,8 +4910,8 @@ msgstr "_Merk valgte oppgaver som fullført"
 msgid "_Delete Selected Tasks"
 msgstr "Sle_tt valgte oppgaver"
 
-#: calendar/gui/e-calendar-table.c:1274 calendar/gui/e-day-view.c:7589
-#: calendar/gui/e-week-view.c:4266
+#: calendar/gui/e-calendar-table.c:1274 calendar/gui/e-day-view.c:7631
+#: calendar/gui/e-week-view.c:4303
 msgid "Updating objects"
 msgstr "Oppdaterer objekter"
 
@@ -5017,80 +5021,80 @@ msgstr "am"
 msgid "pm"
 msgstr "pm"
 
-#: calendar/gui/e-day-view.c:3658
+#: calendar/gui/e-day-view.c:3700
 msgid "New _Appointment"
 msgstr "Ny _avtale"
 
-#: calendar/gui/e-day-view.c:3660 calendar/gui/e-week-view.c:3483
+#: calendar/gui/e-day-view.c:3702 calendar/gui/e-week-view.c:3520
 msgid "New All Day _Event"
 msgstr "Ny avtale som varer h_ele dagen"
 
-#: calendar/gui/e-day-view.c:3662 calendar/gui/e-week-view.c:3484
+#: calendar/gui/e-day-view.c:3704 calendar/gui/e-week-view.c:3521
 msgid "New Meeting"
 msgstr "Nytt møte"
 
-#: calendar/gui/e-day-view.c:3664 calendar/gui/e-week-view.c:3485
+#: calendar/gui/e-day-view.c:3706 calendar/gui/e-week-view.c:3522
 msgid "New Task"
 msgstr "Ny oppgave"
 
-#: calendar/gui/e-day-view.c:3669 ui/evolution-comp-editor.xml.h:11
+#: calendar/gui/e-day-view.c:3711 ui/evolution-comp-editor.xml.h:11
 msgid "Print..."
 msgstr "Skriv ut..."
 
-#: calendar/gui/e-day-view.c:3681 calendar/gui/e-week-view.c:3499
+#: calendar/gui/e-day-view.c:3723 calendar/gui/e-week-view.c:3536
 #: ui/evolution-calendar.xml.h:10
 msgid "Go to _Today"
 msgstr "Gå _til i dag"
 
-#: calendar/gui/e-day-view.c:3683 calendar/gui/e-week-view.c:3500
+#: calendar/gui/e-day-view.c:3725 calendar/gui/e-week-view.c:3537
 msgid "_Go to Date..."
 msgstr "_Gå til dato..."
 
-#: calendar/gui/e-day-view.c:3688 calendar/gui/e-week-view.c:3504
+#: calendar/gui/e-day-view.c:3730 calendar/gui/e-week-view.c:3541
 #: ui/evolution-calendar.xml.h:31
 msgid "_Publish Free/Busy Information"
 msgstr "_Publiser ledig/opptatt-informasjon"
 
-#: calendar/gui/e-day-view.c:3693 calendar/gui/e-week-view.c:3508
+#: calendar/gui/e-day-view.c:3735 calendar/gui/e-week-view.c:3545
 msgid "_Configure..."
 msgstr "_Konfigurer..."
 
-#: calendar/gui/e-day-view.c:3695 calendar/gui/e-week-view.c:3509
+#: calendar/gui/e-day-view.c:3737 calendar/gui/e-week-view.c:3546
 msgid "_Configure Pilot..."
 msgstr "_Konfigurer pilot..."
 
-#: calendar/gui/e-day-view.c:3704 calendar/gui/e-week-view.c:3516
+#: calendar/gui/e-day-view.c:3746 calendar/gui/e-week-view.c:3553
 #: mail/folder-browser.c:1719 ui/evolution-mail-message.xml.h:112
 msgid "_Save As..."
 msgstr "Lagre _som..."
 
-#: calendar/gui/e-day-view.c:3716 calendar/gui/e-week-view.c:3528
+#: calendar/gui/e-day-view.c:3758 calendar/gui/e-week-view.c:3565
 msgid "_Schedule Meeting..."
 msgstr "_Sett opp møte..."
 
-#: calendar/gui/e-day-view.c:3717 calendar/gui/e-week-view.c:3529
+#: calendar/gui/e-day-view.c:3759 calendar/gui/e-week-view.c:3566
 msgid "_Forward as iCalendar..."
 msgstr "_Videresend som iCalendar..."
 
-#: calendar/gui/e-day-view.c:3722 calendar/gui/e-week-view.c:3534
+#: calendar/gui/e-day-view.c:3764 calendar/gui/e-week-view.c:3571
 msgid "Make this Occurrence _Movable"
 msgstr "Gjør denne hendelsen _flyttbar"
 
-#: calendar/gui/e-day-view.c:3723 calendar/gui/e-week-view.c:3535
+#: calendar/gui/e-day-view.c:3765 calendar/gui/e-week-view.c:3572
 msgid "Delete this _Occurrence"
 msgstr "Slett denne _hendelsen"
 
-#: calendar/gui/e-day-view.c:3724 calendar/gui/e-week-view.c:3536
+#: calendar/gui/e-day-view.c:3766 calendar/gui/e-week-view.c:3573
 msgid "Delete _All Occurrences"
 msgstr "Slett _alle hendelser"
 
-#: calendar/gui/e-day-view.c:4086 calendar/gui/e-week-view.c:3893
+#: calendar/gui/e-day-view.c:4128 calendar/gui/e-week-view.c:3930
 #: shell/e-shell-view-menu.c:639
 msgid "The GNOME Pilot tools do not appear to be installed on this system."
 msgstr ""
 "GNOME pilot verktøyene ser ikke ut til å være installert på dette systemet."
 
-#: calendar/gui/e-day-view.c:4092 calendar/gui/e-week-view.c:3899
+#: calendar/gui/e-day-view.c:4134 calendar/gui/e-week-view.c:3936
 #: shell/e-shell-view-menu.c:647
 #, c-format
 msgid "Error executing %s."
@@ -5675,7 +5679,7 @@ msgstr "Sletter valgte objekter..."
 msgid "Expunging"
 msgstr "Tømmer"
 
-#: calendar/gui/e-week-view.c:3482
+#: calendar/gui/e-week-view.c:3519
 msgid "New _Appointment..."
 msgstr "Ny _avtale..."
 
@@ -6045,7 +6049,7 @@ msgid "Print Calendar"
 msgstr "Skriv ut kalender"
 
 #: calendar/gui/print.c:2521 calendar/gui/print.c:2613
-#: calendar/gui/tasks-control.c:580 mail/mail-callbacks.c:3163
+#: calendar/gui/tasks-control.c:580 mail/mail-callbacks.c:3162
 #: my-evolution/e-summary.c:619
 msgid "Print Preview"
 msgstr "Forhåndsvisning av utskrift"
@@ -6081,8 +6085,8 @@ msgstr ""
 "\n"
 "Vil du virkelig slette disse oppgavene?"
 
-#: calendar/gui/tasks-control.c:460 mail/mail-callbacks.c:2643
-#: mail/mail-callbacks.c:2885
+#: calendar/gui/tasks-control.c:460 mail/mail-callbacks.c:2642
+#: mail/mail-callbacks.c:2884
 msgid "Do not ask me again."
 msgstr "Ikke spør meg igjen."
 
@@ -10270,7 +10274,7 @@ msgstr "Emne inneholder"
 msgid "Subject does not contain"
 msgstr "Emne inneholder ikke"
 
-#: e-util/e-dialog-utils.c:237 mail/mail-callbacks.c:2510
+#: e-util/e-dialog-utils.c:237 mail/mail-callbacks.c:2509
 #: mail/mail-display.c:190
 msgid ""
 "A file by that name already exists.\n"
@@ -10837,7 +10841,7 @@ msgstr "returnerer mindre enn"
 msgid "Score"
 msgstr "Gi poeng"
 
-#: filter/libfilter-i18n.h:50 mail/mail-callbacks.c:1799
+#: filter/libfilter-i18n.h:50 mail/mail-callbacks.c:1805
 msgid "Sender"
 msgstr "Avsender"
 
@@ -11563,7 +11567,7 @@ msgstr ""
 "    «%s»\n"
 "Og har blitt oppdatert."
 
-#: mail/mail-callbacks.c:101
+#: mail/mail-callbacks.c:154
 msgid ""
 "You have not configured the mail client.\n"
 "You need to do this before you can send,\n"
@@ -11575,7 +11579,7 @@ msgstr ""
 "motta eller skrive meldinger.\n"
 "Vil du konfigurere den nå?"
 
-#: mail/mail-callbacks.c:150
+#: mail/mail-callbacks.c:203
 msgid ""
 "You need to configure an identity\n"
 "before you can compose mail."
@@ -11583,7 +11587,7 @@ msgstr ""
 "Du må konfigurere en identitet\n"
 "før du kan skrive e-post."
 
-#: mail/mail-callbacks.c:164
+#: mail/mail-callbacks.c:217
 msgid ""
 "You need to configure a mail transport\n"
 "before you can compose mail."
@@ -11592,7 +11596,7 @@ msgstr ""
 "før du kan skrive e-post."
 
 #. FIXME: this wording sucks
-#: mail/mail-callbacks.c:202
+#: mail/mail-callbacks.c:255
 msgid ""
 "You are sending an HTML-formatted message, but the following recipients do "
 "not want HTML-formatted mail:\n"
@@ -11600,11 +11604,11 @@ msgstr ""
 "Du sender en melding i HMTL-format, men følgende mottakeres ønsker ikke å "
 "motta meldinger i HTML-format:\n"
 
-#: mail/mail-callbacks.c:217
+#: mail/mail-callbacks.c:270
 msgid "Send anyway?"
 msgstr "Send likevel?"
 
-#: mail/mail-callbacks.c:259
+#: mail/mail-callbacks.c:312
 msgid ""
 "This message has no subject.\n"
 "Really send?"
@@ -11612,7 +11616,7 @@ msgstr ""
 "Denne meldingen har ikke emne.\n"
 "Send likevel?"
 
-#: mail/mail-callbacks.c:303
+#: mail/mail-callbacks.c:356
 msgid ""
 "Since the contact list you are sending to is configured to hide the list's "
 "addresses, this message will contain only Bcc recipients."
@@ -11620,11 +11624,11 @@ msgstr ""
 "Siden kontaktlisten du sender til er konfigurert til å skjule listens "
 "adresser vil denne meldingen kun inneholde Bcc mottakere."
 
-#: mail/mail-callbacks.c:307
+#: mail/mail-callbacks.c:360
 msgid "This message contains only Bcc recipients."
 msgstr "Denne meldingen inneholder kun Bcc mottakere."
 
-#: mail/mail-callbacks.c:311
+#: mail/mail-callbacks.c:364
 msgid ""
 "It is possible that the mail server may reveal the recipients by adding an "
 "Apparently-To header.\n"
@@ -11634,11 +11638,11 @@ msgstr ""
 "«Apparently-To»-header.\n"
 "Send likevel?"
 
-#: mail/mail-callbacks.c:475
+#: mail/mail-callbacks.c:513
 msgid "You must specify recipients in order to send this message."
 msgstr "Du må spesifisere mottakere for å kunne sende denne meldingen."
 
-#: mail/mail-callbacks.c:739
+#: mail/mail-callbacks.c:776
 msgid ""
 "Unable to open the drafts folder for this account.\n"
 "Would you like to use the default drafts folder?"
@@ -11646,28 +11650,28 @@ msgstr ""
 "Kunne ikke åpne skisse-mappen for denne kontoen.\n"
 "Vil du bruke standard skisse-mappe?"
 
-#: mail/mail-callbacks.c:1155
+#: mail/mail-callbacks.c:1181
 msgid "an unknown sender"
 msgstr "en ukjent avsender"
 
-#: mail/mail-callbacks.c:1159
+#: mail/mail-callbacks.c:1185
 msgid "On %a, %Y-%m-%d at %H:%M, %%s wrote:"
 msgstr "%a, %Y-%m-%d kl. %H:%M skrev %%s:"
 
-#: mail/mail-callbacks.c:1680 mail/message-browser.c:132
+#: mail/mail-callbacks.c:1686 mail/message-browser.c:132
 msgid "Move message(s) to"
 msgstr "Flytt melding(er) til"
 
-#: mail/mail-callbacks.c:1682 mail/message-browser.c:134
+#: mail/mail-callbacks.c:1688 mail/message-browser.c:134
 msgid "Copy message(s) to"
 msgstr "Kopier melding(er) til"
 
-#: mail/mail-callbacks.c:2354
+#: mail/mail-callbacks.c:2353
 #, c-format
 msgid "Are you sure you want to edit all %d messages?"
 msgstr "Er du sikker på at du vil redigere alle %d meldingene?"
 
-#: mail/mail-callbacks.c:2379
+#: mail/mail-callbacks.c:2378
 msgid ""
 "You may only edit messages saved\n"
 "in the Drafts folder."
@@ -11675,7 +11679,7 @@ msgstr ""
 "Du kan kun redigere meldinger lagret\n"
 "i Skisser-katalogen."
 
-#: mail/mail-callbacks.c:2418
+#: mail/mail-callbacks.c:2417
 msgid ""
 "You may only resend messages\n"
 "in the Sent folder."
@@ -11683,32 +11687,32 @@ msgstr ""
 "Du kan kun sende meldinger på nytt\n"
 "som er lagret i sendt-katalogen."
 
-#: mail/mail-callbacks.c:2432
+#: mail/mail-callbacks.c:2431
 #, c-format
 msgid "Are you sure you want to resend all %d messages?"
 msgstr "Er du sikker på at du vil sende alle %d meldingene på nytt?"
 
-#: mail/mail-callbacks.c:2458
+#: mail/mail-callbacks.c:2457
 msgid "No Message Selected"
 msgstr "Ingen melding valgt"
 
-#: mail/mail-callbacks.c:2503 mail/mail-display.c:186
+#: mail/mail-callbacks.c:2502 mail/mail-display.c:186
 msgid "Overwrite file?"
 msgstr "Overskriv fil?"
 
-#: mail/mail-callbacks.c:2557
+#: mail/mail-callbacks.c:2556
 msgid "Save Message As..."
 msgstr "Lagre melding som..."
 
-#: mail/mail-callbacks.c:2559
+#: mail/mail-callbacks.c:2558
 msgid "Save Messages As..."
 msgstr "Lagre meldinger som..."
 
-#: mail/mail-callbacks.c:2628
+#: mail/mail-callbacks.c:2627
 msgid "Go to next folder with unread messages?"
 msgstr "Gå til neste mappe med uleste meldinger?"
 
-#: mail/mail-callbacks.c:2635
+#: mail/mail-callbacks.c:2634
 msgid ""
 "There are no more new messages in this folder.\n"
 "Would you like to go to the next folder?"
@@ -11716,7 +11720,7 @@ msgstr ""
 "Ingen flere nye meldinger i denne mappen.\n"
 "Vil du gå til neste mappe?"
 
-#: mail/mail-callbacks.c:2878
+#: mail/mail-callbacks.c:2877
 msgid ""
 "This operation will permanently erase all messages marked as deleted. If you "
 "continue, you will not be able to recover these messages.\n"
@@ -11728,7 +11732,7 @@ msgstr ""
 "\n"
 "Vil du virkelig slette disse meldingene?"
 
-#: mail/mail-callbacks.c:2991
+#: mail/mail-callbacks.c:2990
 #, c-format
 msgid ""
 "Error loading filter information:\n"
@@ -11737,28 +11741,28 @@ msgstr ""
 "Feil under lasting av filter-informasjon:\n"
 "%s"
 
-#: mail/mail-callbacks.c:3003
+#: mail/mail-callbacks.c:3002
 msgid "Filters"
 msgstr "Filtre"
 
-#: mail/mail-callbacks.c:3047
+#: mail/mail-callbacks.c:3046
 #, c-format
 msgid "Page %d of %d"
 msgstr "Side %d av %d"
 
-#: mail/mail-callbacks.c:3102
+#: mail/mail-callbacks.c:3101
 msgid "Print Message"
 msgstr "Skriv ut melding"
 
-#: mail/mail-callbacks.c:3129
+#: mail/mail-callbacks.c:3128
 msgid "US-Letter"
 msgstr "US-letter"
 
-#: mail/mail-callbacks.c:3170
+#: mail/mail-callbacks.c:3169
 msgid "Printing of message failed"
 msgstr "Feil under utskrift av melding"
 
-#: mail/mail-callbacks.c:3339
+#: mail/mail-callbacks.c:3338
 #, c-format
 msgid "Are you sure you want to open all %d messages in separate windows?"
 msgstr "Er du sikker på at du vil åpne alle %d meldingene i separate vinduer?"
@@ -24520,11 +24524,6 @@ msgstr ""
 "Kan ikke overføre mappe:\n"
 "%s"
 
-#: shell/e-folder-list.c:113 shell/evolution-folder-selector-button.c:121
-#, c-format
-msgid "\"%s\" in \"%s\""
-msgstr "«%s» i «%s»"
-
 #: shell/e-folder-list.c:312
 msgid "Add a Folder"
 msgstr "Legg til en mappe"
@@ -27369,6 +27368,9 @@ msgstr "init_corba(): kunne ikke initiere GNOME"
 #: wombat/wombat.c:224
 msgid "init_bonobo(): could not initialize Bonobo"
 msgstr "init_bonobo(): kunne ikke initiere Bonobo"
+
+#~ msgid "\"%s\" in \"%s\""
+#~ msgstr "«%s» i «%s»"
 
 #~ msgid "Error in search expression."
 #~ msgstr "Feil i søkeuttrykk."
