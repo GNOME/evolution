@@ -1,9 +1,0 @@
-.deps
-.libs
-Makefile
-Makefile.in
-*.lo
-*.la
-table-test
-table-example-1
-table-example-2
