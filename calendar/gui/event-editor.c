@@ -1229,7 +1229,7 @@ init_widgets (EventEditor *ee)
 	 * field gets set whenever a field is changed.
 	 */
 
-	/* General Page. */
+	/* Appointment Page */
 	gtk_signal_connect (GTK_OBJECT (priv->general_summary), "changed",
 			    GTK_SIGNAL_FUNC (field_changed), ee);
 	gtk_signal_connect (GTK_OBJECT (priv->description), "changed",
@@ -1254,27 +1254,6 @@ static const int classification_map[] = {
 	CAL_COMPONENT_CLASS_CONFIDENTIAL,
 	-1
 };
-
-#if 0
-static const int alarm_unit_map[] = {
-	ALARM_MINUTES,
-	ALARM_HOURS,
-	ALARM_DAYS,
-	-1
-};
-
-static void
-alarm_unit_set (GtkWidget *widget, enum AlarmUnit unit)
-{
-	e_dialog_option_menu_set (widget, unit, alarm_unit_map);
-}
-
-static enum AlarmUnit
-alarm_unit_get (GtkWidget *widget)
-{
-	return e_dialog_option_menu_get (widget, alarm_unit_map);
-}
-#endif
 
 static const int month_pos_map[] = { 0, 1, 2, 3, 4, -1 };
 static const int weekday_map[] = { 0, 1, 2, 3, 4, 5, 6, -1 };

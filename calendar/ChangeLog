@@ -1,5 +1,27 @@
 2001-02-08  JP Rosevear  <jpr@ximian.com>
 
+	* gui/dialogs/task-editor.c (fill_widgets): fill in new
+	classification stuff properly
+	(get_widgets): load new class. widgets
+	(init_widgets): if the class. widgets change, mark the dialog
+	dirty
+	(dialog_to_comp_object): set the comp class. from the new widgets
+
+	* gui/dialogs/task-editor-dialog.glade: Make more consistent,
+	fixing bugs 1247 and 1249
+
+	* gui/dialogs/task-editor.c (fill_widgets): 
+
+	* gui/event-editor-dialog.glade: Gui tidying
+
+	* gui/event-editor.c: Remove old alarm cruft
+
+	* cal-util/cal-component.c (cal_component_set_url): Don't try and
+	write an empty string as a property
+
+	
+2001-02-08  JP Rosevear  <jpr@ximian.com>
+
 	* pcs/cal-backend-file.c: Move the get_change code here
 
 	* pcs/cal-backend.c: Remove get_changes related stuff and

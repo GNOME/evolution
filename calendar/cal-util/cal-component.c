@@ -3204,7 +3204,7 @@ cal_component_set_url (CalComponent *comp, const char *url)
 	priv = comp->priv;
 	g_return_if_fail (priv->icalcomp != NULL);
 
-	if (!url) {
+	if (!url || !(*url)) {
 		if (priv->url) {
 			icalcomponent_remove_property (priv->icalcomp, priv->url);
 			icalproperty_free (priv->url);

@@ -4,9 +4,8 @@
  * DO NOT compile it as part of your application.
  */
 
-gchar *s = N_("event-editor-dialog");
 gchar *s = N_("Su_mmary:");
-gchar *s = N_("Time");
+gchar *s = N_("Date & Time");
 gchar *s = N_("_Start time:");
 gchar *s = N_("_End time:");
 gchar *s = N_("A_ll day event");
@@ -14,7 +13,7 @@ gchar *s = N_("Classification");
 gchar *s = N_("Pu_blic");
 gchar *s = N_("Pri_vate");
 gchar *s = N_("_Confidential");
-gchar *s = N_("_Contacts");
+gchar *s = N_("_Contacts...");
 gchar *s = N_("Ca_tegories...");
 gchar *s = N_("Appointment");
 gchar *s = N_("Appointment Basics");

@@ -4,11 +4,11 @@
  * DO NOT compile it as part of your application.
  */
 
-gchar *s = N_("task-editor-dialog");
-gchar *s = N_("Su_mmary");
+gchar *s = N_("Su_mmary:");
+gchar *s = N_("Date & Time");
 gchar *s = N_("Sta_rt Date:");
 gchar *s = N_("_Due Date:");
-gchar *s = N_("% Comp_lete:");
+gchar *s = N_("Progress");
 gchar *s = N_("_Status:");
 gchar *s = N_("Not Started\n"
               "In Progress\n"
@@ -27,6 +27,11 @@ gchar *s = N_("None\n"
               "Private\n"
               "Confidential\n"
               "");
+gchar *s = N_("% Comp_lete:");
+gchar *s = N_("Classification");
+gchar *s = N_("Pu_blic");
+gchar *s = N_("Pri_vate");
+gchar *s = N_("_Confidential");
 gchar *s = N_("_Contacts...");
 gchar *s = N_("Ca_tegories...");
 gchar *s = N_("Task");
