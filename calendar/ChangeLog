@@ -1,3 +1,17 @@
+2004-03-23  JP Rosevear  <jpr@ximian.com>
+
+	* gui/dialogs/copy-source-dialog.c (copy_source): remove unused
+	variable
+
+	* gui/e-cal-model.c (e_cal_model_copy_component_data): make the
+	precondition return NULL
+
+	* gui/control-factory.c (get_prop): make sure this code isn't
+	reached
+
+	* gui/calendar-component.c
+	(calendar_component_peek_source_selector): cast to kill warning
+
 2004-03-23 Umesh Tiwari   <tiwariumesh232@rediffmaiil.com>
 
 	For bug#53417

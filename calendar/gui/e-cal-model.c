@@ -1753,8 +1753,8 @@ ECalModelComponent *
 e_cal_model_copy_component_data (ECalModelComponent *comp_data)
 {
 	ECalModelComponent *new_data;
-	
-	g_return_if_fail (comp_data != NULL);
+
+	g_return_val_if_fail (comp_data != NULL, NULL);
 
 	new_data = g_new0 (ECalModelComponent, 1);
 

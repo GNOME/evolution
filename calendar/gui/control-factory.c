@@ -100,6 +100,8 @@ get_prop (BonoboPropertyBag *bag,
 			BONOBO_ARG_SET_STRING (arg, "list");
 			break;
 		default:
+			g_assert_not_reached ();
+			break;			
 		}
 		break;
 

@@ -43,7 +43,6 @@ show_error (GtkWindow *parent, const char *msg)
 static gboolean
 copy_source (CopySourceDialogData *csdd)
 {
-	char *uri;
 	ECal *source_client, *dest_client;
 	gboolean read_only = TRUE;
 	GList *obj_list = NULL;
