@@ -1,11 +1,7 @@
-<<<<<<< ChangeLog
-<<<<<<< ChangeLog
 2000-08-09  Not Zed  <NotZed@HelixCode.com>
 
 	* mail-autofilter.c: New file to hold auto filter/vfolder stuff.
 
-=======
-=======
 2000-08-09  Christopher James Lahey  <clahey@helixcode.com>
 
 	* mail-display.c, mail-format.c, mail-ops.c: Fixed some warnings.
@@ -18,7 +14,6 @@
 	* folder-browser-factory.c (control_activate): Create a "print
 	message" menu item.
 
->>>>>>> 1.381
 2000-08-09  Jeffrey Stedfast  <fejj@helixcode.com>
 
 	* message-list.c (message_list_init): Attached a double_click
