@@ -129,7 +129,28 @@ get_folder_info (const gchar *uri)
 }
 
 static gchar *
-make_string (mail_folder_info *mfi, gboolean full)
+make_folder_name (mail_folder_info *mfi)
+{
+	GString *work;
+	gchar *ret;
+
+	LOCK_FOLDERS ();
+
+	work = g_string_new (mfi->name);
+
+	if (mfi->flags & MAIL_FIF_UNREAD_VALID && mfi->unread)
+		g_string_sprintfa (work, " (%d)", mfi->unread);
+
+	UNLOCK_FOLDERS ();
+
+	ret = work->str;
+	g_string_free (work, FALSE);
+	return ret;
+}
+
+
+static gchar *
+make_folder_status (mail_folder_info *mfi)
 {
 	gboolean set_one = FALSE;
 	GString *work;
@@ -139,44 +160,28 @@ make_string (mail_folder_info *mfi, gboolean full)
 
 	/* Build the display string */
 
-	work = g_string_new (mfi->name);
+	work = g_string_new ("");
 
-	if (mfi->flags == 0)
-		goto done;
-
-	if (!full &&
-	    (!(mfi->flags & MAIL_FIF_UNREAD_VALID) ||
-	     mfi->unread == 0))
-		goto done;
-
-	work = g_string_append (work, " (");
-
-	if (full) {
-		if (mfi->flags & MAIL_FIF_UNREAD_VALID) {
-			g_string_sprintfa (work, _("%d new"), mfi->unread);
-			set_one = TRUE;
-		}
+	if (mfi->flags & MAIL_FIF_UNREAD_VALID) {
+		g_string_sprintfa (work, _("%d new"), mfi->unread);
+		set_one = TRUE;
+	}
 		
-		if (mfi->flags & MAIL_FIF_HIDDEN_VALID) {
-			if (set_one)
-				work = g_string_append (work, _(", "));
-			g_string_sprintfa (work, _("%d hidden"), mfi->hidden);
-			set_one = TRUE;
-		}
+	if (mfi->flags & MAIL_FIF_HIDDEN_VALID) {
+		if (set_one)
+			work = g_string_append (work, _(", "));
+		g_string_sprintfa (work, _("%d hidden"), mfi->hidden);
+		set_one = TRUE;
+	}
 		
-		if (mfi->flags & MAIL_FIF_TOTAL_VALID) {
-			if (set_one)
-				work = g_string_append (work, _(", "));
-			g_string_sprintfa (work, _("%d total"), mfi->total);
-		}
-	} else {
-		g_string_sprintfa (work, "%d", mfi->unread);
+	if (mfi->flags & MAIL_FIF_TOTAL_VALID) {
+		if (set_one)
+			work = g_string_append (work, _(", "));
+		g_string_sprintfa (work, _("%d total"), mfi->total);
 	}
 
-	work = g_string_append (work, ")");
-
- done:
 	UNLOCK_FOLDERS ();
+
 	ret = work->str;
 	g_string_free (work, FALSE);
 	return ret;
@@ -186,7 +191,7 @@ static gboolean
 update_idle (gpointer user_data)
 {
 	mail_folder_info *mfi = (mail_folder_info *) user_data;
-	gchar *wide, *thin;
+	gchar *f_name, *f_status;
 	gboolean bold;
 	gchar *uri, *path;
 	mfiui info;
@@ -217,8 +222,8 @@ update_idle (gpointer user_data)
 	/* Get the display string */
 
 	UNLOCK_FOLDERS ();
-	wide = make_string (mfi, TRUE);
-	thin = make_string (mfi, FALSE);
+	f_name = make_folder_name (mfi);
+	f_status = make_folder_status (mfi);
 	LOCK_FOLDERS ();
 
 	/* bold? */
@@ -256,7 +261,7 @@ update_idle (gpointer user_data)
 		CORBA_exception_init (&ev);
 		GNOME_Evolution_LocalStorage_updateFolder (info.ls,
 							   path,
-							   thin,
+							   f_name,
 							   bold,
 							   &ev);
 		if (BONOBO_EX (&ev))
@@ -268,7 +273,7 @@ update_idle (gpointer user_data)
 		dm("Updating via EvolutionStorage");
 		evolution_storage_update_folder_by_uri (info.es,
 							uri,
-							thin,
+							f_name,
 							bold);
 		break;
 	case MAIL_FIUM_UNKNOWN:
@@ -286,7 +291,7 @@ update_idle (gpointer user_data)
 		dm("Updating via ShellView");
 		CORBA_exception_init (&ev);
 		GNOME_Evolution_ShellView_setFolderBarLabel (shell_view,
-							     wide,
+							     f_status,
 							     &ev);
 		if (BONOBO_EX (&ev))
 			g_warning ("Exception in folder bar label update: %s",
@@ -309,8 +314,8 @@ update_idle (gpointer user_data)
 	g_free (uri);
 	if (path)
 		g_free (path);
-	g_free (wide);
-	g_free (thin);
+	g_free (f_name);
+	g_free (f_status);
 	return FALSE;
 }
 

@@ -1,3 +1,10 @@
+2001-07-03  Peter Williams  <peterw@ximian.com>
+
+	* mail-folder-cache.c (make_folder_name, make_folder_status): Split
+	make_string into these.
+	(update_idle): Use (name and status) instead of (wide and thin) for
+	the text.
+
 2001-07-03  Jason Leach  <jleach@ximian.com>
 
 	* folder-browser-ui.c: "Mark as Important" menu thingy here.
