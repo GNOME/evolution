@@ -711,7 +711,7 @@ There are, however, some features which are not available:
       </para>
 
       <sect2 id="exchange-delegate">
-        <title>Delegating and Acting as a Delegate</title>
+        <title>Access Delegation</title>
         <para>
           You can allow other people in your organization's Global
           Address List  to access your calendar, address
@@ -720,20 +720,131 @@ There are, however, some features which are not available:
           other's schedules to completely manage their personal
           information.
         </para>
+
+        <sect3 id="exchange-delegate-to-others">
+          <title>Delegating Access to Others</title>
         <para>
           To add someone to your list of delegates, click the
           <guibutton>Add</guibutton> button and select them from the
-          Global Address List. You may choose which folders they can
-          handle, grant read-only, or read and write privileges.
+          Global Address List. When delegating you can grant different
+          levels of access to different types of data. You may also
+          decide whether the access you grant applies to items marked
+          <guilabel>Private</guilabel>, or only to public items.
         </para>
+
+        <para>
+          For each of the four types of folder, you may select one of
+          the following levels of access:
+          <variablelist>
+            <varlistentry>
+              <term>None</term>
+              <listitem>
+                <para>
+                  Do not allow this person to access any folders of
+                  this type.
+                </para>
+              </listitem>
+            </varlistentry>
+
+            <varlistentry>
+              <term>Reviewer (read-only)</term>
+              <listitem>
+                <para>
+                  Allow the person to see items in this type of
+                  folder, but not create new items or edit existing
+                  items.
+                </para>
+              </listitem>
+            </varlistentry>
+
+            <varlistentry>
+              <term>Author (read, create)</term>
+              <listitem>
+                <para>
+                  The delegate may view items in your folders, and may
+                  create new items, but may not change any existing items.
+                </para>
+              </listitem>
+            </varlistentry>
+        
+            <varlistentry>
+              <term>Editor (read, create, edit)</term>
+              <listitem>
+                <para>
+                  The delegate may view, create, and change items in
+                  your folders.
+                </para>
+              </listitem>
+            </varlistentry>
+          </variablelist>
+        </para>
+      </sect3>
+      <sect3 id="exchange-delegated-to-you">
+        <title>Acting as a Delegate for Others</title>
         <para>
           To see the list of people who have granted you access to
           their folders, click the <guilabel>Acting as a
-          Delegate</guilabel> tab. Their folders will appear in your
-        normal folder tree under their account names.
+          Delegate</guilabel> tab in the Exchange Delegation settings
+          window. If you plan to send email on behalf of someone,
+          click the checkbox next to their name, and an email identity
+          will be created. You can then select that identity in the
+          <guilabel>From</guilabel> list in your message composer.
         </para>
 
-      </sect2>
+        <para>
+          To access the folders delegated to you, do the following:
+          <orderedlist>
+            <listitem>
+              <para>
+                Select 
+                <menuchoice>
+                  <guimenu>File</guimenu>
+                  <guimenuitem>Open Other User's Folder</guimenuitem>
+                </menuchoice>
+              </para>
+            </listitem>
+            <listitem>
+              <para>
+                Enter the email address of the user who
+                has delegated to you or click the
+                <guibutton>User</guibutton> button to select them from your
+                addressbook. 
+              </para>
+            </listitem>
+          
+            <listitem>
+              <para>
+                Select the folder you wish to open.
+              </para>
+            </listitem>
+
+            <listitem>
+              <para>
+                Click OK.
+              </para>
+            </listitem>
+          </orderedlist>
+        </para>
+        <para>
+          Folders delegated to you appear in your folder list inside a 
+          folder labeled with the name of their owner. For example, if
+          Martha Thompson delegates folders to you, you will see a
+          folder called <guilabel>Martha Thompson's Folders</guilabel>
+          in the folder tree at the same level as your <guilabel>Personal
+          Folders</guilabel> and <guilabel>Public
+          Folders</guilabel>. 
+        </para>
+
+        <note id="error">
+          <title>Error Messages</title>
+          <para>
+            If the folder fails to open properly, check with the
+            folder owner that you have been granted the correct access
+            permissions.
+          </para>
+        </note>
+      </sect3>
+    </sect2>
 
       
       <sect2 id="exchange-out-of-office">

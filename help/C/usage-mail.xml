@@ -32,6 +32,7 @@
       </keycombo>.
     </para>
 
+
       <tip id="spaceandbs">
 	<title>Reading Mail with the Keyboard</title>
 	<para>
@@ -39,6 +40,16 @@
 	  an email, and press backspace to page up in an email.  This
 	  may help to make reading your email faster.
 	</para>
+    
+        <para>
+          You can navigate the message list by pressing the arrow keys up
+          and down. To jump to the next unread message, press the
+          <keycap>.</keycap> (period)
+          or <keycap>]</keycap> (close bracket) key. You can go to the
+          previous unread message with
+          <keycap>,</keycap> (comma) or <keycap>[</keycap> (open
+          bracket).
+        </para>
       </tip>
 
     <sect2 id="usage-mail-listorder">
@@ -64,7 +75,7 @@
 	<title>Email Headers</title>
 	<para>
 	  To look at the complete headers for email messages, select
-	  <menuchoice><guimenu>View</guimenu><guisubmenu>Message
+          <menuchoice><guimenu>View</guimenu><guisubmenu>Message
 	  Display</guisubmenu><guimenuitem>Show Full
 	  Headers</guimenuitem></menuchoice>. To see absolutely every
 	  bit, choose
@@ -520,51 +531,54 @@
       </para>
     </sect2>
 
-  <sect2 id="usage-mail-getnsend-offline">
-            <title>Working Offline</title>
-            <para>
-              Offline mode is a tool designed for use with a dialup
-              connection or for laptop users who do not have a network
-              connection at all times. It allows you to cache messages
-              for reference while you are not connected to the
-              network, and to compose messages and leave them in your
-              Outbox to be sent the next time you connect to the network.
-             </para>
-            <para>
-	      Select
-	      <menuchoice><guimenu>File</guimenu><guimenuitem>Work
-	      Offline</guimenuitem></menuchoice> to have
-	      <application>Ximian Evolution</application> disconnect
-	      from the Internet while you work. When you want to
-	      reconnect, choose
-	      <menuchoice><guimenu>File</guimenu><guimenuitem>Work
-	      Online</guimenuitem></menuchoice>.  Alternatively, you
-	      can click the connection button at the bottom left side
-	      of the window.
-            </para>
-            <para>
-               If you use POP mail, all your messages will be
-               available to you, because they are stored locally. If
-               you use IMAP or Exchange mail, messages are stored
-               remotely, so availability is a little different.
-            </para>
-            <para>
-               Messages that you have read are cached and stored
-               locally; all read messages will be available to you
-               even if you are offline. Unread messages will be
-               downloaded and saved for offline use if they are in a
-               folder that you have marked as an Offline Folder. To
-               mark a folder for offline use, select
-               <menuchoice><guimenu>Settings</guimenu>
-               <guimenuitem>Preferences</guimenuitem></menuchoice> and
-               then click the <guilabel>Folders</guilabel> icon. In
-               the <guilabel>Offline Folders</guilabel> tab, click the
-               check-box next to the folders that you would like to
-               use while you are offline. Then, when you select
-               <guimenuitem>Go Offline</guimenuitem>, Evolution will
-               fetch their contents and store them for later
-               reference.
-          </para>
+    <sect2 id="usage-mail-getnsend-offline">
+      <title>Working Offline</title>
+    
+      <para>
+        Offline mode is a tool designed for use with IMAP or Exchange
+        mail accounts in situations where you will not be connected to
+        the network at all times. It will keep a local copy of one or
+        more folders, and allow you to compose messages, storing them
+        in your Outbox to be sent the next time you connect.
+      </para>
+     
+      <para>
+        While POP mail downloads all messages to your local system,
+        IMAP and Exchange connections usually download just the
+        headers, and fetch the rest only when you want to read the
+        message.  Before you go offline, Evolution will download
+        the unread messages from the folders you have chosen to
+        store.
+      </para>
+
+      <para>
+        To mark a folder for offline use, select <menuchoice>
+        <guimenu>Settings</guimenu>
+        <guimenuitem>Preferences</guimenuitem> </menuchoice> and then
+        click the <guilabel>Folders</guilabel> icon. In the
+        <guilabel>Offline Folders</guilabel> tab, click the check-box
+        next to the folders that you would like to use while you are
+        offline. 
+      </para>
+
+      <para>
+        Your connection status is shown by the small icon in the lower
+        left border of the Evolution main window. When you are online,
+        it will display two connected cables. When you go offline, the
+        cables will separate.
+      </para>
+
+      <para>
+        To cache your selected folders and disconnect from the
+        network, select <menuchoice><guimenu>File</guimenu><guimenuitem>Work
+        Offline</guimenuitem></menuchoice> or click the
+        connection status icon in the lower left of the screen. When you
+        want to reconnect, choose
+        <menuchoice><guimenu>File</guimenu><guimenuitem>Work
+        Online</guimenuitem></menuchoice> or click the connection
+        status icon again.
+      </para>
+           
        </sect2>
     <sect2 id="usage-mail-getnsend-send-compose">
       <title>More About Mail Composition</title>
