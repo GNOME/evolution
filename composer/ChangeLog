@@ -1,3 +1,18 @@
+2001-08-29  Jon Trowbridge  <trow@ximian.com>
+
+	* e-msg-composer.c (e_msg_composer_get_message_draft): Pass
+	in FALSE as the 'sending' arg to e_msg_composer_get_message.
+	(build_message): Added a 'sending' arg, which is passed to
+	e_msg_composer_get_message.
+	(e_msg_composer_get_message): Added a 'sending' arg,
+	which gets passed directly on to build_message.
+
+	* e-msg-composer-hdrs.c (e_msg_composer_hdrs_to_message): Added
+	a "sending" arg, which should be TRUE if the message is being
+	sent now (rather than being autosaved, etc.).  The address
+	use scores are only updated when sending. (Bug #8332)
+	Removed obsolete (#if 0/#endif-ed) code.
+
 2001-08-22  Jon Trowbridge  <trow@ximian.com>
 
 	* e-msg-composer-hdrs.c (set_recipients_from_destv): Added.  Try

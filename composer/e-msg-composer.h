@@ -124,7 +124,8 @@ void              e_msg_composer_add_header           (EMsgComposer     *compose
 						       const char       *value);
 void              e_msg_composer_attach               (EMsgComposer     *composer,
 						       CamelMimePart    *attachment);
-CamelMimeMessage *e_msg_composer_get_message          (EMsgComposer     *composer);
+CamelMimeMessage *e_msg_composer_get_message          (EMsgComposer     *composer, 
+						       gboolean          sending);
 CamelMimeMessage *e_msg_composer_get_message_draft    (EMsgComposer     *composer);
 void              e_msg_composer_show_sig_file        (EMsgComposer     *composer);
 gboolean          e_msg_composer_get_send_html        (EMsgComposer     *composer);

@@ -289,7 +289,7 @@ add_inlined_images (EMsgComposer *composer, CamelMultipart *multipart)
  * composed in `composer'.
  */
 static CamelMimeMessage *
-build_message (EMsgComposer *composer)
+build_message (EMsgComposer *composer, gboolean sending)
 {
 	EMsgComposerAttachmentBar *attachment_bar =
 		E_MSG_COMPOSER_ATTACHMENT_BAR (composer->attachment_bar);
@@ -310,7 +310,7 @@ build_message (EMsgComposer *composer)
 		return NULL;
 	
 	new = camel_mime_message_new ();
-	e_msg_composer_hdrs_to_message (hdrs, new);
+	e_msg_composer_hdrs_to_message (hdrs, new, sending);
 	for (i = 0; i < composer->extra_hdr_names->len; i++) {
 		camel_medium_add_header (CAMEL_MEDIUM (new),
 					 composer->extra_hdr_names->pdata[i],
@@ -3007,12 +3007,12 @@ e_msg_composer_attach (EMsgComposer *composer, CamelMimePart *attachment)
  * Return value: A pointer to the new CamelMimeMessage object
  **/
 CamelMimeMessage *
-e_msg_composer_get_message (EMsgComposer *composer)
+e_msg_composer_get_message (EMsgComposer *composer, gboolean sending)
 {
 	g_return_val_if_fail (composer != NULL, NULL);
 	g_return_val_if_fail (E_IS_MSG_COMPOSER (composer), NULL);
 	
-	return build_message (composer);
+	return build_message (composer, sending);
 }
 
 CamelMimeMessage *
@@ -3038,7 +3038,7 @@ e_msg_composer_get_message_draft (EMsgComposer *composer)
 	old_smime_encrypt = composer->smime_encrypt;
 	composer->smime_encrypt = FALSE;
 	
-	msg = e_msg_composer_get_message (composer);
+	msg = e_msg_composer_get_message (composer, FALSE);
 	
 	composer->send_html = old_send_html;
 	composer->pgp_sign = old_pgp_sign;

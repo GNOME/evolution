@@ -342,7 +342,7 @@ composer_get_message (EMsgComposer *composer)
 	const char *subject;
 	int num_addrs, i;
 	
-	message = e_msg_composer_get_message (composer);
+	message = e_msg_composer_get_message (composer, TRUE /* yes, we are sending this baby! */ );
 	if (message == NULL)
 		return NULL;
 	

@@ -79,7 +79,8 @@ GtkType     e_msg_composer_hdrs_get_type           (void);
 GtkWidget  *e_msg_composer_hdrs_new                (gint visible_flags);
 
 void        e_msg_composer_hdrs_to_message         (EMsgComposerHdrs *hdrs,
-						    CamelMimeMessage *msg);
+						    CamelMimeMessage *msg,
+						    gboolean sending);
 
 void        e_msg_composer_hdrs_set_from_account   (EMsgComposerHdrs *hdrs,
 						    const char *account_name);

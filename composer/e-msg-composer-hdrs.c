@@ -716,65 +716,24 @@ set_recipients_from_destv (CamelMimeMessage *msg,
 }
 
 static void
-touch_and_free_destv (EDestination **destv)
+free_destv (EDestination **destv, gboolean should_we_touch)
 {
 	gint i;
 
 	if (destv) {
 		for (i = 0; destv[i] != NULL; ++i) {
-			e_destination_touch (destv[i]);
+			if (should_we_touch)
+				e_destination_touch (destv[i]);
 			gtk_object_unref (GTK_OBJECT (destv[i]));
 		}
 		g_free (destv);
 	}
 }
-			   
-
-#if 0
-
-static void
-set_recipients (CamelMimeMessage *msg, GtkWidget *entry_widget, const gchar *type)
-{
-	EDestination **destv;
-	CamelInternetAddress *addr;
-	char *string = NULL, *dest_str = NULL;
-	int i;
-	
-	bonobo_widget_get_property (BONOBO_WIDGET (entry_widget), "destinations", &string, NULL);
-	destv = e_destination_importv (string);
-	
-	if (destv) {
-		dest_str = e_destination_get_address_textv (destv);
-
-		g_message ("dest_str=[%s]", dest_str);
-		
-		/* dest_str has been utf8 encoded 2x by this point...not good */
-		
-		if (dest_str && *dest_str) {
-			addr = camel_internet_address_new ();
-			camel_address_unformat (CAMEL_ADDRESS (addr), dest_str);
-			
-			camel_mime_message_set_recipients (msg, type, addr);
-			
-			camel_object_unref (CAMEL_OBJECT (addr));
-			
-			g_free (dest_str);
-		}
-		
-		for (i = 0; destv[i]; i++) {
-			e_destination_touch (destv[i]);
-			gtk_object_unref (GTK_OBJECT (destv[i]));
-		}
-		g_free (destv);
-	}
-	
-	g_free (string);
-}
-#endif
 
 void
 e_msg_composer_hdrs_to_message (EMsgComposerHdrs *hdrs,
-				CamelMimeMessage *msg)
+				CamelMimeMessage *msg,
+				gboolean sending)
 {
 	CamelInternetAddress *addr;
 	gchar *subject;
@@ -794,7 +753,7 @@ e_msg_composer_hdrs_to_message (EMsgComposerHdrs *hdrs,
 	camel_mime_message_set_from (msg, addr);
 	camel_object_unref (CAMEL_OBJECT (addr));
 	
-	addr = e_msg_composer_hdrs_get_reply_to (hdrs);
+ 	addr = e_msg_composer_hdrs_get_reply_to (hdrs);
 	if (addr) {
 		camel_mime_message_set_reply_to (msg, addr);
 		camel_object_unref (CAMEL_OBJECT (addr));
@@ -821,15 +780,10 @@ e_msg_composer_hdrs_to_message (EMsgComposerHdrs *hdrs,
 
 	set_recipients_from_destv (msg, to_destv, cc_destv, bcc_destv);
 
-	touch_and_free_destv (to_destv);
-	touch_and_free_destv (cc_destv);
-	touch_and_free_destv (bcc_destv);
-
-#if 0
-	set_recipients (msg, hdrs->priv->to.entry, CAMEL_RECIPIENT_TYPE_TO);
-	set_recipients (msg, hdrs->priv->cc.entry, CAMEL_RECIPIENT_TYPE_CC);
-	set_recipients (msg, hdrs->priv->bcc.entry, CAMEL_RECIPIENT_TYPE_BCC);
-#endif
+	/* Only touch the destinations (boosting the use score) if we are sending */
+	free_destv (to_destv, sending);
+	free_destv (cc_destv, sending);
+	free_destv (bcc_destv, sending);
 }
 
 

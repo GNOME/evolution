@@ -1,3 +1,9 @@
+2001-08-29  Jon Trowbridge  <trow@ximian.com>
+
+	* mail-callbacks.c (composer_get_message): When calling
+	e_msg_composer_get_message, pass in TRUE for the 'sending' arg.
+	(Part of the fix for bug #8332)
+
 2001-08-29  Peter Williams  <peterw@ximian.com>
 
 	* folder-browser-ui.c: Fix the pixmap for /commands/MessageUndelete.
