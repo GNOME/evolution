@@ -780,9 +780,7 @@ build_tree (SubscribeDialog *sc, CamelStore *store)
 }
 
 static void
-storage_selected_cb (ETable *table,
-		     int row,
-		     gpointer data)
+storage_selected_cb (ETable *table, int row, gpointer data)
 {
 	SubscribeDialog *sc = SUBSCRIBE_DIALOG (data);
 	CamelStore *store = (CamelStore*)g_list_nth_data (sc->store_list, row);
@@ -793,9 +791,7 @@ storage_selected_cb (ETable *table,
 
 
 static void
-folder_toggle_cb (ETable *table,
-		  int row,
-		  gpointer data)
+folder_toggle_cb (ETable *table, int row, int col, GdkEvent *event, gpointer data)
 {
 	SubscribeDialog *sc = SUBSCRIBE_DIALOG (data);
 	ETreePath *node = e_tree_model_node_at_row (sc->folder_model, row);
