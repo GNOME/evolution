@@ -1686,12 +1686,11 @@ static gint
 do_mark_seen (gpointer data)
 {
 	FolderBrowser *fb = data;
-
-	if (fb->new_uid && fb->loaded_uid
-	    && strcmp (fb->new_uid, fb->loaded_uid) == 0) {
+	
+	if (fb->new_uid && fb->loaded_uid && !strcmp (fb->new_uid, fb->loaded_uid)) {
 		camel_folder_set_message_flags (fb->folder, fb->new_uid, CAMEL_MESSAGE_SEEN, CAMEL_MESSAGE_SEEN);
 	}
-
+	
 	return FALSE;
 }
 
@@ -1703,7 +1702,7 @@ done_message_selected (CamelFolder *folder, char *uid, CamelMimeMessage *msg, vo
 {
 	FolderBrowser *fb = data;
 	int timeout = mail_config_get_mark_as_seen_timeout ();
-
+	
 	if (folder != fb->folder)
 		return;
 	
@@ -1712,28 +1711,28 @@ done_message_selected (CamelFolder *folder, char *uid, CamelMimeMessage *msg, vo
 	gtk_signal_emit (GTK_OBJECT (fb), folder_browser_signals [MESSAGE_LOADED], uid);
 	
 	/* pain, if we have pending stuff, re-run */
-	if (fb->pending_uid) {	
-		g_free(fb->loading_uid);
+	if (fb->pending_uid) {
+		g_free (fb->loading_uid);
 		fb->loading_uid = fb->pending_uid;
 		fb->pending_uid = NULL;
-
-		mail_get_message(fb->folder, fb->loading_uid, done_message_selected, fb, mail_thread_new);
+		
+		mail_get_message (fb->folder, fb->loading_uid, done_message_selected, fb, mail_thread_new);
 		return;
 	}
-
-	g_free(fb->loaded_uid);
+	
+	g_free (fb->loaded_uid);
 	fb->loaded_uid = fb->loading_uid;
 	fb->loading_uid = NULL;
-
+	
 	/* if we are still on the same message, do the 'idle read' thing */
 	if (fb->seen_id)
-		gtk_timeout_remove(fb->seen_id);
-
-	if (mail_config_get_do_seen_timeout() && msg) {
+		gtk_timeout_remove (fb->seen_id);
+	
+	if (mail_config_get_do_seen_timeout () && msg) {
 		if (timeout > 0)
-			fb->seen_id = gtk_timeout_add(timeout, do_mark_seen, fb);
+			fb->seen_id = gtk_timeout_add (timeout, do_mark_seen, fb);
 		else
-			do_mark_seen(fb);
+			do_mark_seen (fb);
 	}
 }
 
@@ -1746,7 +1745,7 @@ do_message_selected (FolderBrowser *fb)
 	/* keep polling if we are busy */
 	if (fb->reconfigure) {
 		if (fb->new_uid == NULL) {
-			mail_display_set_message(fb->mail_display, NULL);
+			mail_display_set_message (fb->mail_display, NULL);
 			return FALSE;
 		}
 		return TRUE;
@@ -1756,14 +1755,14 @@ do_message_selected (FolderBrowser *fb)
 	
 	/* if we are loading, then set a pending, but leave the loading, coudl cancel here (?) */
 	if (fb->loading_uid) {
-		g_free(fb->pending_uid);
-		fb->pending_uid = g_strdup(fb->new_uid);
+		g_free (fb->pending_uid);
+		fb->pending_uid = g_strdup (fb->new_uid);
 	} else {
 		if (fb->new_uid) {
-			fb->loading_uid = g_strdup(fb->new_uid);
-			mail_get_message(fb->folder, fb->loading_uid, done_message_selected, fb, mail_thread_new);
+			fb->loading_uid = g_strdup (fb->new_uid);
+			mail_get_message (fb->folder, fb->loading_uid, done_message_selected, fb, mail_thread_new);
 		} else {
-			mail_display_set_message(fb->mail_display, NULL);
+			mail_display_set_message (fb->mail_display, NULL);
 		}
 	}
 	
@@ -1775,15 +1774,15 @@ static void
 on_message_selected (MessageList *ml, const char *uid, FolderBrowser *fb)
 {
 	d(printf ("selecting uid %s (direct)\n", uid ? uid : "NONE"));
-
+	
 	if (fb->loading_id != 0)
-		gtk_timeout_remove(fb->loading_id);
-
-	g_free(fb->new_uid);
-	fb->new_uid = g_strdup(uid);
-
+		gtk_timeout_remove (fb->loading_id);
+	
+	g_free (fb->new_uid);
+	fb->new_uid = g_strdup (uid);
+	
 	if (fb->preview_shown)
-		fb->loading_id = gtk_timeout_add(100, (GtkFunction)do_message_selected, fb);
+		fb->loading_id = gtk_timeout_add (100, (GtkFunction)do_message_selected, fb);
 }
 
 static void
