@@ -1,3 +1,24 @@
+2001-12-11  JP Rosevear  <jpr@ximian.com>
+
+ 	* gui/e-meeting-model.c (process_free_busy_comp): properly convert
+ 	the dtstart and dtend times if they are UTC
+ 	(cursor_cb): if we don't have anybody to get f/b info for, process
+ 	the callbacks immediately
+ 	(e_meeting_model_refresh_busy_periods): take start/end times,
+ 	calculate the timet values with object timezone
+ 	(e_meeting_model_etable_model_to_view_row): proper cast
+ 	(e_meeting_model_etable_view_to_model_row): ditto
+	(async_open): bail out if we couldn't open properly
+
+	* gui/e-meeting-time-sel.c
+ 	(e_meeting_time_selector_on_update_free_busy): use defines for
+ 	determining the number of days before and after of free busy to
+ 	request
+ 	(e_meeting_time_selector_update_dates_shown): use defines for the
+ 	number of days shown
+ 
+ 	* gui/e-meeting-model.h: update proto
+
 2001-12-10  Damon Chaplin  <damon@ximian.com>
 
 	* gui/control-factory.c (control_factory_new_control): removed code
