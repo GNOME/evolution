@@ -1,3 +1,9 @@
+2000-02-23  Dan Winship  <danw@helixcode.com>
+
+	* e-util/e-setup.c (e_setup_base_dir): Make ~/evolution mode 700
+	rather than mode 600 (and use the symbolic name rather than the
+	number).
+	
 2000-02-22  bertrand  <Bertrand.Guiheneuf@aful.org>
 
 	* shell/Makefile.am (evolution_LDADD): 

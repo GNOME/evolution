@@ -25,7 +25,7 @@ e_setup_base_dir (void)
 	evolution_dir = g_concat_dir_and_file (g_get_home_dir (), "evolution");
 	
 	if (stat (evolution_dir, &s) == -1){
-		if (mkdir (evolution_dir, 0600) == -1){
+		if (mkdir (evolution_dir, S_IRWXU) == -1){
 			return FALSE;
 		}
 	} else {
@@ -44,7 +44,7 @@ e_setup_base_dir (void)
 	}
 
 	evolution_folders_dir = g_concat_dir_and_file (evolution_dir, "folders");
-	mkdir (evolution_folders_dir, 0600);
+	mkdir (evolution_folders_dir, S_IRWXU);
 		
 	return TRUE;
 }
