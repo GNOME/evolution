@@ -1502,15 +1502,10 @@ get_content (CamelImapFolder *imap_folder, const char *uid,
 		camel_multipart_set_boundary (body_mp, NULL);
 		
 		speclen = strlen (part_spec);
-		child_spec = g_malloc (speclen + 18);
+		child_spec = g_malloc (speclen + 15);
 		memcpy (child_spec, part_spec, speclen);
 		if (speclen > 0)
 			child_spec[speclen++] = '.';
-		
-		if (ci->parent && header_content_type_is (ci->parent->type, "message", "rfc822")) {
-			child_spec[speclen++] = '1';
-			child_spec[speclen++] = '.';
-		}
 		
 		ci = ci->childs;
 		num = 1;
