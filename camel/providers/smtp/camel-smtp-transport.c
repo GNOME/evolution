@@ -48,7 +48,6 @@
 #include "camel-stream-fs.h"
 #include "camel-session.h"
 #include "camel-exception.h"
-#include "md5-utils.h"
 
 #define d(x) x
 

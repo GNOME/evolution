@@ -214,7 +214,6 @@ camel_charset_best_mask(unsigned int mask)
 const char *
 camel_charset_best(const char *in, int len)
 {
-	int i;
 	unsigned int mask = ~0;
 	int level = 0;
 	const char *inptr = in, *inend = in+len;
@@ -242,14 +241,12 @@ camel_charset_best(const char *in, int len)
 		}
 	}
 
-	switch(level) {
-	case 0:
-		return NULL;
-	case 1:
+	if (level == 1)
 		return "ISO-8859-1";
-	case 2:
+	else if (level == 2)
 		return camel_charset_best_mask(mask);
-	}
+	else
+		return NULL;
 }
 
 

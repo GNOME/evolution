@@ -67,7 +67,6 @@ extern "C" {
 #include <camel/gmime-content-field.h>
 #include <camel/gstring-util.h>
 #include <camel/hash-table-utils.h>
-#include <camel/md5-utils.h>
 #include <camel/string-utils.h>
 
 gint camel_init (void);

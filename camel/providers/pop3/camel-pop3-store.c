@@ -40,6 +40,8 @@
 #define KPOP_PORT 1109
 
 #include <krb.h>
+/* MIT krb4 des.h #defines _. Sigh. We don't need it. */
+#undef _
 
 #ifdef NEED_KRB_SENDAUTH_PROTO
 extern int krb_sendauth(long options, int fd, KTEXT ticket, char *service,
@@ -57,7 +59,7 @@ extern int krb_sendauth(long options, int fd, KTEXT ticket, char *service,
 #include "camel-session.h"
 #include "camel-exception.h"
 #include "camel-url.h"
-#include "md5-utils.h"
+#include "e-util/md5-utils.h"
 
 /* Specified in RFC 1939 */
 #define POP3_PORT 110

@@ -1,3 +1,21 @@
+2000-10-29  Dan Winship  <danw@helixcode.com>
+
+	* camel.h: Remove md5-utils.h include since it's not part of Camel
+	any more.
+
+	* camel-charset-map.c: Kill some warnings.
+
+	* providers/nntp/camel-nntp-grouplist.c
+	(camel_nntp_get_grouplist_from_file, camel_nntp_grouplist_save):
+	Clean up warnings about time_t casts.
+
+	* providers/smtp/camel-smtp-transport.c: Remove unused md5-utils.h
+	include.
+
+	* providers/pop3/camel-pop3-store.c: Undefine the "_" macro
+	defined by krb4's des.h when compiling with krb support.
+	Fix md5-utils.h include.
+
 2000-10-27  Dan Winship  <danw@helixcode.com>
 
 	* camel-mime-utils.c (header_param_list_format_append): Only quote
