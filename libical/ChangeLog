@@ -1,3 +1,11 @@
+2001-09-10  Damon Chaplin  <damon@ximian.com>
+
+	* src/libical/icalcomponent.c (icalcomponent_compare_vtimezones): 
+	strdup the result of the first call to ical_component_as_ical_string()
+	since the second call may free it.
+	Also, don't free the results of ical_component_as_ical_string() since
+	it is a tmp buffer which is freed elsewhere.
+
 2001-09-10  Federico Mena Quintero  <federico@ximian.com>
 
 	Replace struct icalattachtype by an opaque icalattach that is

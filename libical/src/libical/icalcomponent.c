@@ -1637,7 +1637,7 @@ icalcomponent_handle_conflicting_vtimezones (icalcomponent *comp,
 					     icalarray *tzids_to_rename)
 {
   struct icalcomponent_impl *impl = (struct icalcomponent_impl*)comp;
-  int tzid_len, i, suffix, max_suffix = 0, num_elements;
+  int tzid_len, i, suffix, max_suffix = 1, num_elements;
   char *tzid_copy, *new_tzid, suffix_buf[32];
 
   /* Find the length of the TZID without any trailing digits. */
@@ -1861,7 +1861,7 @@ static int icalcomponent_compare_vtimezones (icalcomponent	*vtimezone1,
 {
     icalproperty *prop1, *prop2;
     const char *tzid1, *tzid2;
-    char *tzid2_copy, *string1, *string2;
+    char *tzid2_copy, *string1, *string2, *string1_copy;
     int cmp;
 
     /* Get the TZID property of the first VTIMEZONE. */
@@ -1869,6 +1869,7 @@ static int icalcomponent_compare_vtimezones (icalcomponent	*vtimezone1,
     if (!prop1)
 	return -1;
 
+    /* This returns the pointer to the actual string in the property. */
     tzid1 = icalproperty_get_tzid (prop1);
     if (!tzid1)
 	return -1;
@@ -1878,6 +1879,7 @@ static int icalcomponent_compare_vtimezones (icalcomponent	*vtimezone1,
     if (!prop2)
 	return -1;
 
+    /* This returns the pointer to the actual string in the property. */
     tzid2 = icalproperty_get_tzid (prop2);
     if (!tzid2)
 	return -1;
@@ -1895,21 +1897,32 @@ static int icalcomponent_compare_vtimezones (icalcomponent	*vtimezone1,
     /* Now convert both VTIMEZONEs to strings and compare them. */
     string1 = icalcomponent_as_ical_string (vtimezone1);
     if (!string1) {
+	/* Try to reset the property. Though this may not work if we are low
+	   on memory. */
+	icalproperty_set_tzid (prop2, tzid2_copy);
+	free (tzid2_copy);
+	return -1;
+    }
+
+    /* Copy the string, since it is in a temporary buffer which may get freed
+       during the next call. */
+    string1_copy = strdup (string1);
+    if (!string1_copy) {
+	icalproperty_set_tzid (prop2, tzid2_copy);
 	free (tzid2_copy);
 	return -1;
     }
 
     string2 = icalcomponent_as_ical_string (vtimezone2);
     if (!string2) {
-	free (string1);
+	icalproperty_set_tzid (prop2, tzid2_copy);
 	free (tzid2_copy);
 	return -1;
     }
 
-    cmp = strcmp (string1, string2);
+    cmp = strcmp (string1_copy, string2);
 
-    free (string1);
-    free (string2);
+    free (string1_copy);
 
     /* Now reset the second TZID. */
     icalproperty_set_tzid (prop2, tzid2_copy);
