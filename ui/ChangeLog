@@ -1,5 +1,9 @@
 2001-08-20  Damon Chaplin  <damon@ximian.com>
 
+	* evolution-tasks.xml: use new delete icons in menu & toolbar.
+
+2001-08-20  Damon Chaplin  <damon@ximian.com>
+
 	* evolution-mail-list.xml: use Cut/Copy/Paste icons.
 
 2001-08-20  Damon Chaplin  <damon@ximian.com>

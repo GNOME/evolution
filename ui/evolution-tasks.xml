@@ -3,7 +3,7 @@
         <commands>
 		<cmd name="TasksNewTask" pixtype="pixbuf"
 		 _tip="Create a new task" verb="TasksNewTask"/>
-		<cmd name="TasksDelete" _label="Delete" pixtype="stock" pixname="Trash"
+		<cmd name="TasksDelete" _label="Delete"
 		 _tip="Delete selected tasks" verb="TasksDelete"
 		 accel="Delete" sensitive="0"/>
 
@@ -38,7 +38,7 @@
 			<menuitem name="Copy" verb="TasksCopy" _label="_Copy" pixtype="pixbuf"/>
 			<menuitem name="Paste" verb="TasksPaste" _label="_Paste" pixtype="pixbuf"/>
 			<menuitem name="Delete" verb="TasksDelete"
-			_label="_Delete"/>
+			_label="_Delete" pixtype="pixbuf"/>
 
 		</submenu>
 
@@ -57,7 +57,7 @@
 
 	  	<separator/>
 
-		<toolitem name="Delete" verb="TasksDelete"/>
+		<toolitem name="Delete" verb="TasksDelete" pixtype="pixbuf"/>
 
 	</dockitem>
 
