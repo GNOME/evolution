@@ -335,7 +335,7 @@ get_component_at_node (EStorageSetView *storage_set_view,
 }
 
 static GNOME_Evolution_ShellComponentDnd_ActionSet
-convert_gdk_drag_action_to_corba (GdkDragAction action)
+convert_gdk_drag_action_set_to_corba (GdkDragAction action)
 {
 	GNOME_Evolution_ShellComponentDnd_Action retval;
 
@@ -354,7 +354,7 @@ convert_gdk_drag_action_to_corba (GdkDragAction action)
 }
 
 static GdkDragAction
-convert_corba_drag_action_to_gdk (GNOME_Evolution_ShellComponentDnd_ActionSet action)
+convert_corba_drag_action_set_to_gdk (GNOME_Evolution_ShellComponentDnd_ActionSet action)
 {
 	GdkDragAction retval;
 
@@ -370,6 +370,41 @@ convert_corba_drag_action_to_gdk (GNOME_Evolution_ShellComponentDnd_ActionSet ac
 		retval |= GDK_ACTION_ASK;
 
 	return retval;
+}
+
+
+static GNOME_Evolution_ShellComponentDnd_ActionSet
+convert_gdk_drag_action_to_corba (GdkDragAction action)
+{
+	if (action == GDK_ACTION_COPY)
+		return GNOME_Evolution_ShellComponentDnd_ACTION_COPY;
+	else if (action == GDK_ACTION_MOVE)
+		return GNOME_Evolution_ShellComponentDnd_ACTION_MOVE;
+	else if (action == GDK_ACTION_LINK)
+		return GNOME_Evolution_ShellComponentDnd_ACTION_LINK;
+	else if (action == GDK_ACTION_ASK)
+		return GNOME_Evolution_ShellComponentDnd_ACTION_ASK;
+	else {
+		g_warning ("unknown GdkDragAction %d\n", action);
+		return GNOME_Evolution_ShellComponentDnd_ACTION_DEFAULT;
+	}
+}
+
+static GdkDragAction
+convert_corba_drag_action_to_gdk (GNOME_Evolution_ShellComponentDnd_ActionSet action)
+{
+	if (action == GNOME_Evolution_ShellComponentDnd_ACTION_COPY)
+		return GDK_ACTION_COPY;
+	else if (action == GNOME_Evolution_ShellComponentDnd_ACTION_MOVE)
+		return GDK_ACTION_MOVE;
+	else if (action == GNOME_Evolution_ShellComponentDnd_ACTION_LINK)
+		return GDK_ACTION_LINK;
+	else if (action == GNOME_Evolution_ShellComponentDnd_ACTION_ASK)
+		return GDK_ACTION_ASK;
+	else {
+		g_warning ("unknown GNOME_Evolution_ShellComponentDnd_ActionSet %d\n", action);
+		return GDK_ACTION_DEFAULT;
+	}
 }
 
 /* This will look for the targets in @drag_context, choose one that matches
@@ -1045,7 +1080,7 @@ tree_drag_data_get (ETree *etree,
 
 	GNOME_Evolution_ShellComponentDnd_SourceFolder_getData (priv->drag_corba_source_interface,
 								priv->drag_corba_source_context,
-								convert_gdk_drag_action_to_corba (context->action),
+								convert_gdk_drag_action_set_to_corba (context->action),
 								target_type,
 								& priv->drag_corba_data,
 								&ev);
@@ -1157,7 +1192,7 @@ tree_drag_motion (ETree *tree,
 	CORBA_exception_init (&ev);
 
 	corba_context.dndType = (char *) dnd_type; /* (Safe cast, as we don't actually free the corba_context.)  */
-	corba_context.possibleActions = convert_gdk_drag_action_to_corba (context->actions);
+	corba_context.possibleActions = convert_gdk_drag_action_set_to_corba (context->actions);
 	corba_context.suggestedAction = convert_gdk_drag_action_to_corba (context->suggested_action);
 
 	folder = get_folder_at_node (storage_set_view, path);
@@ -1213,7 +1248,6 @@ tree_drag_data_received (ETree *etree,
 {
 	EStorageSetView *storage_set_view;
 	EStorageSetViewPrivate *priv;
-	const char *target_path;
 	char *target_type;
 
 	storage_set_view = E_STORAGE_SET_VIEW (etree);
@@ -1256,8 +1290,49 @@ tree_drag_data_received (ETree *etree,
 
 		g_free (destination_path);
 	}
+	else {
+		GNOME_Evolution_ShellComponentDnd_DestinationFolder destination_folder_interface;
+		GNOME_Evolution_ShellComponentDnd_DestinationFolder_Context corba_context;
+		GNOME_Evolution_ShellComponentDnd_Data corba_data;
+		EvolutionShellComponentClient *component_client;
+		const char *target_path;
 
-	target_path = e_tree_memory_node_get_data (E_TREE_MEMORY(priv->etree_model), path);
+		target_path = e_tree_memory_node_get_data (E_TREE_MEMORY(priv->etree_model), path);
+
+		component_client = get_component_at_node (storage_set_view, path);
+		if (component_client != NULL) {
+			destination_folder_interface = evolution_shell_component_client_get_dnd_destination_interface (component_client);
+			if (destination_folder_interface != NULL) {
+				EFolder *folder;
+				CORBA_Environment ev;
+				CORBA_boolean handled;
+
+				CORBA_exception_init (&ev);
+
+
+				folder = get_folder_at_node (storage_set_view, path);
+	
+				corba_context.dndType = (char *) target_type;
+				corba_context.possibleActions = convert_gdk_drag_action_set_to_corba (context->actions);
+				corba_context.suggestedAction = convert_gdk_drag_action_to_corba (context->suggested_action);
+
+				corba_data.format = selection_data->format;
+				corba_data.target = selection_data->target;
+
+				corba_data.bytes._release = FALSE;
+				corba_data.bytes._length = selection_data->length;
+				corba_data.bytes._buffer = selection_data->data;
+
+				/* pass off the data to the component's DestinationFolderInterface */
+				handled = GNOME_Evolution_ShellComponentDnd_DestinationFolder_handleDrop (destination_folder_interface,
+													  e_folder_get_physical_uri (folder),
+													  &corba_context,
+													  convert_gdk_drag_action_to_corba (context->action),
+													  &corba_data,
+													  &ev);
+			}
+		}
+	}
 
 	g_free (target_type);
 }

@@ -1,3 +1,16 @@
+2001-05-12  Chris Toshok  <toshok@ximian.com>
+
+	* e-storage-set-view.c (tree_drag_data_received): implement the
+	CORBA side of dragging.
+	(convert_gdk_drag_action_set_to_corba): rename
+	convert_gdk_drag_action_to_corba to this.
+	(convert_corba_drag_action_set_to_gdk): rename
+	convert_corba_drag_action_to_gdk to this.
+	(convert_gdk_drag_action_to_corba): new function that doesn't
+	build a bitmask, useful for the Action types, instead of
+	ActionSet.
+	(convert_corba_drag_action_to_gdk): same.
+
 2001-05-11  Chris Toshok  <toshok@ximian.com>
 
 	* e-storage-set-view.c
