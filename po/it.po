@@ -8,13 +8,12 @@ msgid ""
 msgstr ""
 "Project-Id-Version: it\n"
 "POT-Creation-Date: 2003-06-02 15:28-0400\n"
-"PO-Revision-Date: 2003-06-19 10:59GMT\n"
+"PO-Revision-Date: 2003-06-23 11:23+0200\n"
 "Last-Translator: Marco Ciampa <ciampix@libero.it>\n"
-"Language-Team:  <it@li.org>\n"
+"Language-Team:  <tp@lists.linux.it>,<it@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: KBabel 1.0.1\n"
 
 #: addressbook/backend/ebook/GNOME_Evolution_Addressbook_LDIF_Importer.server.in.in.h:1
 msgid "Evolution LDIF importer"
@@ -6131,7 +6130,7 @@ msgstr "Rimozione degli oggetti selezionati..."
 
 #: calendar/gui/e-tasks.c:675
 msgid "Expunging"
-msgstr "Eliminazione"
+msgstr "Pulizia"
 
 #: calendar/gui/e-week-view.c:3566
 msgid "New _Appointment..."
@@ -9952,7 +9951,7 @@ msgstr "Impossibile avere il sommario POP: %s"
 
 #: camel/providers/pop3/camel-pop3-folder.c:308
 msgid "Expunging deleted messages"
-msgstr "Rimozione messaggi sul server in corso"
+msgstr "Pulizia messaggi cancellati"
 
 #: camel/providers/pop3/camel-pop3-folder.c:403
 #, c-format
