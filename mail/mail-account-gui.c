@@ -2436,8 +2436,9 @@ mail_account_gui_save (MailAccountGui *gui)
 		save_service (&gui->transport, NULL, new->transport);
 	
 	/* Check to make sure that the Drafts folder uri is "valid" before assigning it */
-	if (mail_config_get_account_by_source_url (gui->drafts_folder_uri) ||
-		!strncmp (gui->drafts_folder_uri, "mbox:", 5)) {
+	if (gui->drafts_folder_uri != NULL
+	    && (mail_config_get_account_by_source_url (gui->drafts_folder_uri) ||
+		!strncmp (gui->drafts_folder_uri, "mbox:", 5))) {
 		new->drafts_folder_uri = em_uri_from_camel (gui->drafts_folder_uri);
 	} else {
 		/* assign defaults - the uri is unknown to us (probably pointed to an old source url) */
@@ -2445,8 +2446,9 @@ mail_account_gui_save (MailAccountGui *gui)
 	}
 	
 	/* Check to make sure that the Sent folder uri is "valid" before assigning it */
-	if (mail_config_get_account_by_source_url (gui->sent_folder_uri) ||
-		!strncmp (gui->sent_folder_uri, "mbox:", 5)) {
+	if (gui->sent_folder_uri != NULL
+	    && (mail_config_get_account_by_source_url (gui->sent_folder_uri) ||
+		!strncmp (gui->sent_folder_uri, "mbox:", 5))) {
 		new->sent_folder_uri = em_uri_from_camel (gui->sent_folder_uri);
 	} else {
 		/* assign defaults - the uri is unknown to us (probably pointed to an old source url) */

@@ -1,3 +1,14 @@
+2005-01-19  Not Zed  <NotZed@Ximian.com>
+
+	** See bug #70858.
+
+	* em-folder-selector.c (folder_created_cb): removed.
+	(emfs_response): set the selected uri directly after creating it,
+	rather than doing it asynchronously.
+
+	* mail-account-gui.c (mail_account_gui_save): dont dereference
+	default folder pointers if they're NULL.
+
 2005-01-21  Not Zed  <NotZed@Ximian.com>
 
 	** See bug #60664.
