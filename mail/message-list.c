@@ -1279,9 +1279,9 @@ clear_tree (MessageList *ml)
 
 	/* we also reset the uid_rowmap since it is no longer useful/valid anyway */
 	if (ml->folder)
-		g_hash_table_foreach(ml->uid_nodemap, (GHFunc)clear_info, ml);
+		g_hash_table_foreach (ml->uid_nodemap, (GHFunc)clear_info, ml);
 	g_hash_table_destroy (ml->uid_nodemap);
-	ml->uid_nodemap = g_hash_table_new(g_str_hash, g_str_equal);
+	ml->uid_nodemap = g_hash_table_new (g_str_hash, g_str_equal);
 	
 	if (ml->tree_root) {
 		/* we should be frozen already */
@@ -2083,12 +2083,12 @@ message_list_foreach (MessageList *message_list,
 
 /* set whether we are in threaded view or flat view */
 void
-message_list_set_threaded(MessageList *ml, gboolean threaded)
+message_list_set_threaded (MessageList *ml, gboolean threaded)
 {
 	if (ml->threaded != threaded) {
 		ml->threaded = threaded;
-
-		mail_regen_list(ml, ml->search, NULL, NULL);
+		
+		mail_regen_list (ml, ml->search, NULL, NULL);
 	}
 }
 

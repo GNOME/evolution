@@ -451,6 +451,10 @@ destination_folder_handle_drop (EvolutionShellComponentDndDestinationFolder *des
 	if (action == GNOME_Evolution_ShellComponentDnd_ACTION_LINK)
 		return FALSE; /* we can't create links */
 	
+	/* this means the drag was cancelled */
+	if (!data->bytes._buffer || data->bytes._length == -1)
+		return FALSE;
+	
 	uri = camel_url_new (physical_uri, NULL);
 	noselect = uri ? camel_url_get_param (uri, "noselect") : NULL;
 	if (noselect && !g_strcasecmp (noselect, "yes")) {

@@ -443,6 +443,10 @@ message_list_drag_data_received (ETree *tree, int row, ETreePath path, int col,
 	CamelURL *uri;
 	int i, fd;
 	
+	/* this means we are receiving no data */
+	if (!selection_data->data || selection_data->length == -1)
+		return;
+	
 	camel_exception_init (&ex);
 	
 	switch (info) {
@@ -599,7 +603,7 @@ selection_received (GtkWidget *widget, GtkSelectionData *selection_data,
 	CamelFolder *source = NULL;
 	GPtrArray *uids = NULL;
 	
-	if (selection_data == NULL)
+	if (selection_data == NULL || selection_data->length == -1)
 		return;
 	
 	source = x_evolution_message_parse (selection_data->data, selection_data->length, &uids);
