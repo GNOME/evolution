@@ -170,6 +170,15 @@ toggled_fwd_cb (GtkToggleButton *b, MailSearch *ms)
 #endif
 
 static void
+dialog_destroy_cb (GtkWidget *w, MailSearch *ms) 
+{
+	ESearchingTokenizer *st = mail_search_tokenizer (ms);
+
+	e_searching_tokenizer_set_primary_search_string (st, NULL);
+	mail_search_redisplay_message (ms);
+}
+
+static void
 dialog_clicked_cb (GtkWidget *w, gint button_number, MailSearch *ms)
 {
 	ESearchingTokenizer *st = mail_search_tokenizer (ms);
@@ -215,12 +224,7 @@ dialog_clicked_cb (GtkWidget *w, gint button_number, MailSearch *ms)
 		g_free (search_text);
 
 	} else if (button_number == 1) { /* "Close"  */
-
-		e_searching_tokenizer_set_primary_search_string (st, NULL);
-		mail_search_redisplay_message (ms);
-
 		gtk_widget_destroy (w);
-
 	}
 }
 
@@ -392,6 +396,12 @@ mail_search_construct (MailSearch *ms, MailDisplay *mail)
 			    "clicked",
 			    GTK_SIGNAL_FUNC (dialog_clicked_cb),
 			    ms);
+
+	gtk_signal_connect_object (GTK_OBJECT (ms), 
+				   "destroy",
+				   GTK_SIGNAL_FUNC (dialog_destroy_cb),
+				   ms);
+
 	gtk_signal_connect_object (GTK_OBJECT (ms->mail),
 				   "destroy",
 				   GTK_SIGNAL_FUNC (gtk_widget_destroy),

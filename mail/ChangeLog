@@ -1,3 +1,11 @@
+2001-08-23  Larry Ewing  <lewing@ximian.com>
+
+	* mail-search.c (mail_search_construct): attach to the destroy
+	handler to reset the tokenizer.
+	(dialog_destroy_cb): reset the tokenizer here so that destroying
+	the dialog with the window manager still clears the hilighted
+	items.
+
 2001-08-23  Peter Williams  <peterw@ximian.com>
 
 	* mail-account-gui.c (mail_account_gui_save): Eek, let the user create
