@@ -1,3 +1,8 @@
+2002-07-16  Ettore Perazzoli  <ettore@ximian.com>
+
+	* inbox.png, outbox.png: Added final large versions of the Inbox
+	and Outbox icons.
+
 2002-07-09  Dan Winship  <danw@ximian.com>
 
 	* Makefile.am (images_DATA): add folder.png, folder-mini.png,
