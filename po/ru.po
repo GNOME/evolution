@@ -5,8 +5,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: E-volution\n"
-"POT-Creation-Date: 2001-01-23 17:35+0300\n"
-"PO-Revision-Date: 2001-01-23 17:40+03:00\n"
+"POT-Creation-Date: 2001-01-26 13:01+0300\n"
+"PO-Revision-Date: 2001-01-26 13:05+03:00\n"
 "Last-Translator: Valek Filippov <frob@df.ru>\n"
 "Language-Team: Russian <ru@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -37,7 +37,7 @@ msgstr "Установки Executive Summary"
 msgid "New Mail"
 msgstr "Новое сообщение"
 
-#: executive-summary/component/component-factory.c:152
+#: executive-summary/component/component-factory.c:159
 msgid "Cannot initialize Evolution's Executive Summary component."
 msgstr ""
 "Невозможно инициализировать компонент Executive Summary программы Evolution."
@@ -47,7 +47,7 @@ msgstr ""
 msgid "No such message: %s"
 msgstr "Нет такого сообщения: %s"
 
-#: executive-summary/component/e-summary-callbacks.c:267
+#: executive-summary/component/e-summary-callbacks.c:285
 msgid ""
 "You can select a different HTML page for the background of the Executive "
 "Summary.\n"
@@ -112,7 +112,7 @@ msgstr "Переместить %s в следующую строку"
 msgid "Configure %s"
 msgstr "Настроить %s"
 
-#: executive-summary/component/e-summary.c:919
+#: executive-summary/component/e-summary.c:916
 #, c-format
 msgid ""
 "Cannot open the HTML file:\n"
@@ -121,7 +121,7 @@ msgstr ""
 "Невозможно открыть HTML файл:\n"
 "%s"
 
-#: executive-summary/component/e-summary.c:933
+#: executive-summary/component/e-summary.c:930
 #, c-format
 msgid ""
 "Error reading data:\n"
@@ -130,7 +130,7 @@ msgstr ""
 "Ошибка при чтении данных:\n"
 "%s"
 
-#: executive-summary/component/e-summary.c:951
+#: executive-summary/component/e-summary.c:948
 msgid "File does not have a place for the services.\n"
 msgstr ""
 
@@ -141,9 +141,9 @@ msgid ""
 "you compiled Bonobo against GOAD instead of OAF."
 msgstr ""
 
-#: executive-summary/test-service/rdf-summary.c:443
-#: executive-summary/test-service/rdf-summary.c:479
-#: executive-summary/test-service/rdf-summary.c:524
+#: executive-summary/test-service/rdf-summary.c:455
+#: executive-summary/test-service/rdf-summary.c:491
+#: executive-summary/test-service/rdf-summary.c:536
 msgid "Error"
 msgstr "Ошибка"
 
@@ -202,7 +202,7 @@ msgstr "Очистить выделение"
 #: po/tmp/evolution-event-editor.xml.h:13
 #: po/tmp/evolution-message-composer.xml.h:8
 #: po/tmp/evolution-subscribe.xml.h:7
-#: po/tmp/evolution-task-editor-dialog.xml.h:13
+#: po/tmp/evolution-task-editor-dialog.xml.h:13 po/tmp/evolution.xml.h:7
 msgid "Close"
 msgstr "Закрыть"
 
@@ -232,7 +232,7 @@ msgid "Cut the selection"
 msgstr "Вырезать выделение"
 
 #: calendar/gui/e-calendar-table.c:403 filter/libfilter-i18n.h:7
-#: mail/folder-browser.c:673 mail/mail-view.c:150
+#: mail/folder-browser.c:684 mail/mail-view.c:150
 #: po/tmp/addressbook-config.glade.h:8 po/tmp/event-editor-dialog.glade.h:13
 #: po/tmp/evolution-addressbook.xml.h:8 po/tmp/evolution-event-editor.xml.h:19
 #: po/tmp/evolution-mail.xml.h:11 po/tmp/evolution-task-editor-dialog.xml.h:19
@@ -537,7 +537,7 @@ msgid "N_ext"
 msgstr "След."
 
 #: po/tmp/evolution-calendar.xml.h:20 po/tmp/evolution-event-editor.xml.h:74
-#: po/tmp/evolution-mail.xml.h:30 po/tmp/evolution-task-editor-dialog.xml.h:81
+#: po/tmp/evolution-task-editor-dialog.xml.h:81
 msgid "Next"
 msgstr "След."
 
@@ -556,7 +556,7 @@ msgstr "Вставить выделение"
 msgid "Pre_vious"
 msgstr "Пред."
 
-#: po/tmp/evolution-event-editor.xml.h:78 po/tmp/evolution-mail.xml.h:32
+#: po/tmp/evolution-event-editor.xml.h:78
 #: po/tmp/evolution-task-editor-dialog.xml.h:85
 msgid "Previous"
 msgstr "Пред."
@@ -686,7 +686,7 @@ msgstr "О программе..."
 
 #: po/tmp/evolution-event-editor.xml.h:105
 #: po/tmp/evolution-message-composer.xml.h:40
-#: po/tmp/evolution-task-editor-dialog.xml.h:109
+#: po/tmp/evolution-task-editor-dialog.xml.h:109 po/tmp/evolution.xml.h:33
 msgid "_Close"
 msgstr "Закрыть"
 
@@ -702,7 +702,7 @@ msgid "_Debug"
 msgstr "Отладка"
 
 #: addressbook/contact-editor/e-contact-editor-strings.h:8
-#: po/tmp/evolution-event-editor.xml.h:108 po/tmp/evolution-mail.xml.h:56
+#: po/tmp/evolution-event-editor.xml.h:108 po/tmp/evolution-mail.xml.h:54
 #: po/tmp/evolution-task-editor-dialog.xml.h:112
 msgid "_Delete"
 msgstr "Удалить"
@@ -710,7 +710,7 @@ msgstr "Удалить"
 #: po/tmp/evolution-event-editor.xml.h:109
 #: po/tmp/evolution-message-composer.xml.h:42
 #: po/tmp/evolution-subscribe.xml.h:15
-#: po/tmp/evolution-task-editor-dialog.xml.h:113 po/tmp/evolution.xml.h:32
+#: po/tmp/evolution-task-editor-dialog.xml.h:113 po/tmp/evolution.xml.h:35
 msgid "_Edit"
 msgstr "Правка"
 
@@ -718,7 +718,7 @@ msgstr "Правка"
 #: po/tmp/evolution-event-editor.xml.h:110
 #: po/tmp/evolution-message-composer.xml.h:43
 #: po/tmp/evolution-subscribe.xml.h:16
-#: po/tmp/evolution-task-editor-dialog.xml.h:114 po/tmp/evolution.xml.h:33
+#: po/tmp/evolution-task-editor-dialog.xml.h:114 po/tmp/evolution.xml.h:36
 msgid "_File"
 msgstr "Файл"
 
@@ -734,7 +734,7 @@ msgstr "Формы"
 
 #: po/tmp/evolution-event-editor.xml.h:113
 #: po/tmp/evolution-message-composer.xml.h:44
-#: po/tmp/evolution-task-editor-dialog.xml.h:117 po/tmp/evolution.xml.h:36
+#: po/tmp/evolution-task-editor-dialog.xml.h:117 po/tmp/evolution.xml.h:39
 msgid "_Help"
 msgstr "Справка"
 
@@ -799,7 +799,7 @@ msgstr "Откат"
 
 #: po/tmp/evolution-event-editor.xml.h:125
 #: po/tmp/evolution-message-composer.xml.h:49
-#: po/tmp/evolution-task-editor-dialog.xml.h:129 po/tmp/evolution.xml.h:43
+#: po/tmp/evolution-task-editor-dialog.xml.h:129 po/tmp/evolution.xml.h:46
 #: shell/e-storage-set-view.c:338
 msgid "_View"
 msgstr "Просмотр"
@@ -816,14 +816,13 @@ msgstr "Другие настройки"
 msgid "Create a new task"
 msgstr "Создать новое задание"
 
-#: po/tmp/evolution-addressbook.xml.h:12 po/tmp/evolution-calendar.xml.h:19
 #: po/tmp/evolution-tasks.xml.h:8
 msgid "New"
 msgstr "Новый"
 
-#: mail/folder-browser.c:661 mail/mail-view.c:148
+#: mail/folder-browser.c:672 mail/mail-view.c:148
 #: po/tmp/evolution-addressbook.xml.h:13 po/tmp/evolution-calendar.xml.h:23
-#: po/tmp/evolution-mail.xml.h:33 po/tmp/evolution-tasks.xml.h:9
+#: po/tmp/evolution-mail.xml.h:31 po/tmp/evolution-tasks.xml.h:9
 msgid "Print"
 msgstr "Печать"
 
@@ -1481,6 +1480,7 @@ msgstr "Мобильный"
 #: addressbook/contact-editor/e-contact-editor.c:1286
 #: addressbook/contact-editor/e-contact-editor.c:1381
 #: addressbook/gui/widgets/e-addressbook-view.c:578
+#: po/tmp/mail-config.glade.h:50
 msgid "Other"
 msgstr "Другой"
 
@@ -1644,16 +1644,16 @@ msgstr "Как миникарточки"
 msgid "As _Table"
 msgstr "Как таблица"
 
-#: addressbook/gui/component/addressbook.c:374
+#: addressbook/gui/component/addressbook.c:406
 #, c-format
 msgid "Enter password for %s"
 msgstr "Введите пароль для %s"
 
-#: addressbook/gui/component/addressbook.c:402
+#: addressbook/gui/component/addressbook.c:434
 msgid "Unable to open addressbook"
 msgstr "Не удалось открыть адресную книгу"
 
-#: addressbook/gui/component/addressbook.c:407
+#: addressbook/gui/component/addressbook.c:439
 msgid ""
 "We were unable to open this addressbook.  This either\n"
 "means you have entered an incorrect URI, or have tried\n"
@@ -1673,27 +1673,27 @@ msgstr ""
 "использовать LDAP, вам надо скачать и установить \n"
 "OpenLDAP и перекомпилировать и установить evolution.\n"
 
-#: addressbook/gui/component/addressbook.c:530 mail/folder-browser.c:221
+#: addressbook/gui/component/addressbook.c:562 mail/folder-browser.c:221
 msgid "Show All"
 msgstr "Показать все"
 
-#: addressbook/gui/component/addressbook.c:532 mail/folder-browser.c:223
+#: addressbook/gui/component/addressbook.c:564 mail/folder-browser.c:223
 msgid "Advanced..."
 msgstr "Расширенные..."
 
-#: addressbook/gui/component/addressbook.c:562
+#: addressbook/gui/component/addressbook.c:594
 msgid "Any field contains"
 msgstr "Любое поле содержит"
 
-#: addressbook/gui/component/addressbook.c:563
+#: addressbook/gui/component/addressbook.c:595
 msgid "Name contains"
 msgstr "Имя содержит"
 
-#: addressbook/gui/component/addressbook.c:564
+#: addressbook/gui/component/addressbook.c:596
 msgid "Email contains"
 msgstr "Эл.адрес содержит"
 
-#: addressbook/gui/component/addressbook.c:707
+#: addressbook/gui/component/addressbook.c:739
 msgid "The URI that the Folder Browser will display"
 msgstr "URI, который будет показывать программа просмотра папок"
 
@@ -1779,7 +1779,7 @@ msgid "Authentication:"
 msgstr "Идентификация:"
 
 #: addressbook/gui/component/addressbook-config.c:455
-#: mail/mail-config-druid.c:460 po/tmp/mail-config.glade.h:51
+#: mail/mail-config-druid.c:460 po/tmp/mail-config.glade.h:53
 msgid "Path:"
 msgstr "Путь:"
 
@@ -1803,7 +1803,7 @@ msgstr ""
 "Выберите вид вашей адресной книги и введите соответствующую информацию о ней."
 
 #: addressbook/gui/component/addressbook-config.c:616
-#: po/tmp/mail-config.glade.h:44
+#: po/tmp/mail-config.glade.h:45
 msgid "Name:"
 msgstr "Имя:"
 
@@ -1816,7 +1816,7 @@ msgstr "Описание:"
 msgid "Addressbook Sources"
 msgstr "Источники адресных книг"
 
-#: mail/folder-browser.c:659 po/tmp/addressbook-config.glade.h:9
+#: mail/folder-browser.c:670 po/tmp/addressbook-config.glade.h:9
 #: po/tmp/filter.glade.h:8 po/tmp/mail-config.glade.h:27
 msgid "Edit"
 msgstr "Правка"
@@ -1850,7 +1850,7 @@ msgstr "Выбрать имена"
 msgid "Select name from:"
 msgstr "Выбрать имена из:"
 
-#: addressbook/gui/search/e-addressbook-search-dialog.c:147
+#: addressbook/gui/search/e-addressbook-search-dialog.c:151
 #: mail/mail-search-dialogue.c:104
 msgid "Search"
 msgstr "Поиск"
@@ -2198,7 +2198,7 @@ msgstr "Название стиля:"
 msgid "Top:"
 msgstr "Сверху:"
 
-#: po/tmp/e-contact-print.glade.h:45 po/tmp/mail-config.glade.h:72
+#: po/tmp/e-contact-print.glade.h:45 po/tmp/mail-config.glade.h:75
 msgid "Type:"
 msgstr "Тип:"
 
@@ -2670,7 +2670,7 @@ msgstr "Рабочая неделя"
 msgid "minutes before they occur."
 msgstr "минут до назначенного времени."
 
-#: po/tmp/cal-prefs-dialog.glade.h:63
+#: po/tmp/cal-prefs-dialog.glade.h:63 po/tmp/mail-config.glade.h:81
 msgid "seconds."
 msgstr "секунд."
 
@@ -2742,10 +2742,10 @@ msgid "Low"
 msgstr "Низкий"
 
 #. add a "None" option to the stores menu
-#: mail/mail-account-editor.c:683 mail/mail-account-editor.c:685
-#: mail/mail-account-editor.c:734 mail/mail-accounts.c:114
-#: mail/mail-config-druid.c:872 po/tmp/mail-config.glade.h:46
-#: po/tmp/task-editor-dialog.glade.h:17 shell/e-shell-view.c:1133
+#: mail/mail-account-editor.c:674 mail/mail-account-editor.c:676
+#: mail/mail-account-editor.c:725 mail/mail-accounts.c:114
+#: mail/mail-config-druid.c:872 po/tmp/mail-config.glade.h:47
+#: po/tmp/task-editor-dialog.glade.h:17 shell/e-shell-view.c:1116
 #: widgets/misc/e-dateedit.c:421 widgets/misc/e-dateedit.c:1330
 #: widgets/misc/e-dateedit.c:1445
 msgid "None"
@@ -2952,8 +2952,8 @@ msgstr "Удалить этот случай"
 msgid "Delete all occurrences"
 msgstr "Удалить все случаи"
 
-#: calendar/gui/e-tasks.c:140 calendar/gui/e-tasks.c:457
-#: calendar/gui/e-tasks.c:492
+#: calendar/gui/e-tasks.c:140 calendar/gui/e-tasks.c:454
+#: calendar/gui/e-tasks.c:487
 msgid "All"
 msgstr "Все"
 
@@ -2961,12 +2961,12 @@ msgstr "Все"
 msgid "Category:"
 msgstr "Категории:"
 
-#: calendar/gui/e-tasks.c:285
+#: calendar/gui/e-tasks.c:284
 #, c-format
 msgid "Could not load the tasks in `%s'"
 msgstr "Невозможно загрузить задание в \"%s\""
 
-#: calendar/gui/e-tasks.c:297
+#: calendar/gui/e-tasks.c:296
 #, c-format
 msgid "The method required to load `%s' is not supported"
 msgstr "Метод необходимый для загрузки \"%s\" не поддерживается"
@@ -3435,7 +3435,7 @@ msgstr "Текущий год (%Y)"
 msgid "Print Calendar"
 msgstr "Напечатать календарь"
 
-#: calendar/gui/print.c:1314 mail/mail-callbacks.c:1032
+#: calendar/gui/print.c:1314 mail/mail-callbacks.c:1035
 msgid "Print Preview"
 msgstr "Просмотр печати"
 
@@ -3447,12 +3447,7 @@ msgstr "URI, который будет показан в папке заданий "
 msgid "SMTWTFS"
 msgstr "ПВСЧПСВ"
 
-#: camel/camel-filter-search.c:151
-#, c-format
-msgid "Regular expression compilation failed: %s: %s"
-msgstr "Сбой компиляции регулярного выражения: %s: %s"
-
-#: camel/camel-filter-search.c:620 camel/camel-filter-search.c:626
+#: camel/camel-filter-search.c:420 camel/camel-filter-search.c:426
 #, c-format
 msgid "Error executing filter search: %s: %s"
 msgstr "Ошибка выполнения поиска фильтра: %s: %s"
@@ -3652,7 +3647,7 @@ msgstr "Неожиданный ответ от сервера IMAP: %s"
 msgid "IMAP command failed: %s"
 msgstr "Сбой команды IMAP: %s"
 
-#: camel/providers/imap/camel-imap-command.c:243 shell/e-storage.c:411
+#: camel/providers/imap/camel-imap-command.c:243 shell/e-storage.c:433
 msgid "Unknown error"
 msgstr "Неизвестная ошибка"
 
@@ -4194,7 +4189,7 @@ msgid "No such folder `%s'."
 msgstr "Нет такой папки \"%s\""
 
 #: camel/providers/sendmail/camel-sendmail-provider.c:34
-#: po/tmp/mail-config.glade.h:61
+#: po/tmp/mail-config.glade.h:64
 msgid "Sendmail"
 msgstr "Sendmail"
 
@@ -4243,13 +4238,15 @@ msgstr "sendmail"
 msgid "Mail delivery via the sendmail program"
 msgstr "Доставка почты через программу sendmail"
 
-#: camel/providers/smtp/camel-smtp-provider.c:34 po/tmp/mail-config.glade.h:57
+#: camel/providers/smtp/camel-smtp-provider.c:34 po/tmp/mail-config.glade.h:59
 msgid "SMTP"
 msgstr "SMTP"
 
 #: camel/providers/smtp/camel-smtp-provider.c:36
 msgid "For delivering mail by connecting to a remote mailhub using SMTP.\n"
-msgstr "Для доставки почты с помощью подключения к удаленному почтовому узлу по протоколу SMTP.\n"
+msgstr ""
+"Для доставки почты с помощью подключения к удаленному почтовому узлу по "
+"протоколу SMTP.\n"
 
 #: camel/providers/smtp/camel-smtp-transport.c:141
 msgid "Syntax error, command unrecognized"
@@ -4309,7 +4306,7 @@ msgstr "Запрошенное действие отменено: ошибка при обработке"
 
 #: camel/providers/smtp/camel-smtp-transport.c:169
 msgid "User not local; please try <forward-path>"
-msgstr ""
+msgstr "Пользователь не локальный; пожалуйста попробуйте <путь-пересылки>"
 
 #: camel/providers/smtp/camel-smtp-transport.c:171
 msgid "Requested action not taken: insufficient system storage"
@@ -4325,7 +4322,7 @@ msgstr ""
 
 #: camel/providers/smtp/camel-smtp-transport.c:177
 msgid "Start mail input; end with <CRLF>.<CRLF>"
-msgstr ""
+msgstr "Начало ввода почты; окончание после <CRLF>.<CRLF>"
 
 #: camel/providers/smtp/camel-smtp-transport.c:179
 msgid "Transaction failed"
@@ -4488,7 +4485,7 @@ msgid "%.1fG"
 msgstr "%.1fG"
 
 #. This is a filename. Translators take note.
-#: composer/e-msg-composer-attachment-bar.c:324 mail/mail-display.c:155
+#: composer/e-msg-composer-attachment-bar.c:324 mail/mail-display.c:154
 msgid "attachment"
 msgstr "вложение"
 
@@ -4542,8 +4539,8 @@ msgstr "Тип MIME:"
 msgid "Send as:"
 msgstr "Отправить как:"
 
-#: composer/e-msg-composer-hdrs.c:148 composer/e-msg-composer-hdrs.c:353
-#: mail/mail-format.c:624
+#: composer/e-msg-composer-hdrs.c:149 composer/e-msg-composer-hdrs.c:353
+#: mail/mail-format.c:626
 msgid "From:"
 msgstr "От:"
 
@@ -4555,7 +4552,7 @@ msgstr "Щелкните здесь для адресной книги"
 msgid "Enter the identity you wish to send this message from"
 msgstr "Введите именование, от которого вы хотите отправить это сообщение"
 
-#: composer/e-msg-composer-hdrs.c:358 mail/mail-format.c:628
+#: composer/e-msg-composer-hdrs.c:358 mail/mail-format.c:630
 msgid "To:"
 msgstr "Кому:"
 
@@ -4563,7 +4560,7 @@ msgstr "Кому:"
 msgid "Enter the recipients of the message"
 msgstr "Введите получателей сообщения"
 
-#: composer/e-msg-composer-hdrs.c:363 mail/mail-format.c:630
+#: composer/e-msg-composer-hdrs.c:363 mail/mail-format.c:632
 msgid "Cc:"
 msgstr "Копия:"
 
@@ -4583,7 +4580,7 @@ msgstr ""
 "Введите адресатов, которые получат копию сообщения не попав в список "
 "получателей."
 
-#: composer/e-msg-composer-hdrs.c:376 mail/mail-format.c:632
+#: composer/e-msg-composer-hdrs.c:376 mail/mail-format.c:634
 msgid "Subject:"
 msgstr "Тема:"
 
@@ -4627,7 +4624,7 @@ msgstr "Сохранить изменения в сообщении..."
 msgid "Error saving composition to 'Drafts': %s"
 msgstr "Ошибка сохранения сочинения в \"Черновиках\": %s"
 
-#: composer/e-msg-composer.c:819 shell/e-shell-view-menu.c:170
+#: composer/e-msg-composer.c:819 shell/e-shell-view-menu.c:183
 msgid "Evolution"
 msgstr "Эволюция"
 
@@ -4673,11 +4670,11 @@ msgstr ""
 msgid "An error occurred while reading the file."
 msgstr "При чтении файла возникла ошибка."
 
-#: composer/e-msg-composer.c:1225 composer/e-msg-composer.c:1446
+#: composer/e-msg-composer.c:1292 composer/e-msg-composer.c:1527
 msgid "Compose a message"
 msgstr "Создать сообщение"
 
-#: composer/e-msg-composer.c:1525
+#: composer/e-msg-composer.c:1608
 msgid "Could not create composer window."
 msgstr "Невозможно создать окно редактора."
 
@@ -5123,11 +5120,11 @@ msgstr "Добавить правило вирт.папки"
 msgid "Edit VFolder Rule"
 msgstr "Правка правила вирт.папки"
 
-#: mail/component-factory.c:291
+#: mail/component-factory.c:295
 msgid "Cannot initialize Evolution's mail component."
 msgstr "Невозможно инициализировать почтовый компонент \"Эволюции\"."
 
-#: mail/component-factory.c:326
+#: mail/component-factory.c:330
 msgid "Cannot register storage with shell"
 msgstr ""
 
@@ -5135,111 +5132,115 @@ msgstr ""
 msgid "Store search as vFolder"
 msgstr "Сохранить результаты поиска в виртуальной папке"
 
-#: mail/folder-browser.c:238
+#: mail/folder-browser.c:239
 msgid "Body or subject contains"
 msgstr "Тело или тема содержат"
 
-#: mail/folder-browser.c:239
+#: mail/folder-browser.c:240
 msgid "Body contains"
 msgstr "Тело содержит"
 
-#: mail/folder-browser.c:240
+#: mail/folder-browser.c:241
 msgid "Subject contains"
 msgstr "Тема содержит"
 
-#: mail/folder-browser.c:241
+#: mail/folder-browser.c:242
 msgid "Body does not contain"
 msgstr "Тело не содержит"
 
-#: mail/folder-browser.c:242
+#: mail/folder-browser.c:243
 msgid "Subject does not contain"
 msgstr "Тема не содержит"
 
-#: mail/folder-browser.c:645
+#: mail/folder-browser.c:244
+msgid "Sender contains"
+msgstr "Отправитель содержит"
+
+#: mail/folder-browser.c:656
 msgid "VFolder on Subject"
 msgstr "Вирт.папка по теме"
 
-#: mail/folder-browser.c:646
+#: mail/folder-browser.c:657
 msgid "VFolder on Sender"
 msgstr "Вирт.папка по отправителю"
 
-#: mail/folder-browser.c:647
+#: mail/folder-browser.c:658
 msgid "VFolder on Recipients"
 msgstr "Вирт.папка по получателю"
 
-#: mail/folder-browser.c:649
+#: mail/folder-browser.c:660
 msgid "Filter on Subject"
 msgstr "Фильтр по теме"
 
-#: mail/folder-browser.c:650
+#: mail/folder-browser.c:661
 msgid "Filter on Sender"
 msgstr "Фильтр по отправителю"
 
-#: mail/folder-browser.c:651
+#: mail/folder-browser.c:662
 msgid "Filter on Recipients"
 msgstr "Фильтр по получателю"
 
-#: mail/folder-browser.c:652 mail/folder-browser.c:766
+#: mail/folder-browser.c:663 mail/folder-browser.c:777
 msgid "Filter on Mailing List"
 msgstr "Фильтр по списку рассылки"
 
-#: mail/folder-browser.c:658 po/tmp/evolution-message-composer.xml.h:15
+#: mail/folder-browser.c:669 po/tmp/evolution-message-composer.xml.h:15
 msgid "Open"
 msgstr "Открыть"
 
-#: mail/folder-browser.c:660
+#: mail/folder-browser.c:671
 msgid "Save As..."
 msgstr "Сохранить как..."
 
-#: mail/folder-browser.c:663
+#: mail/folder-browser.c:674
 msgid "Reply to Sender"
 msgstr "Ответить отправителю"
 
-#: mail/folder-browser.c:664 mail/mail-view.c:141
-#: po/tmp/evolution-mail.xml.h:39
+#: mail/folder-browser.c:675 mail/mail-view.c:141
+#: po/tmp/evolution-mail.xml.h:37
 msgid "Reply to All"
 msgstr "Ответить всем"
 
-#: mail/folder-browser.c:665 mail/mail-view.c:144
+#: mail/folder-browser.c:676 mail/mail-view.c:144
 #: po/tmp/evolution-mail.xml.h:17
 msgid "Forward"
 msgstr "Переслать"
 
-#: mail/folder-browser.c:666 po/tmp/evolution-mail.xml.h:18
+#: mail/folder-browser.c:677 po/tmp/evolution-mail.xml.h:18
 msgid "Forward inline"
 msgstr "Переслать встроенное"
 
-#: mail/folder-browser.c:668
+#: mail/folder-browser.c:679
 msgid "Mark as Read"
 msgstr "Пометить как прочитанное"
 
-#: mail/folder-browser.c:669
+#: mail/folder-browser.c:680
 msgid "Mark as Unread"
 msgstr "Пометить как непрочтенное"
 
-#: mail/folder-browser.c:671
+#: mail/folder-browser.c:682
 msgid "Move to Folder..."
 msgstr "Переместить в папку..."
 
-#: mail/folder-browser.c:672
+#: mail/folder-browser.c:683
 msgid "Copy to Folder..."
 msgstr "Скопировать в папку..."
 
-#: mail/folder-browser.c:674
+#: mail/folder-browser.c:685
 msgid "Undelete"
 msgstr "Восстановить"
 
 #. { _("Add Sender to Address Book"), NULL, GTK_SIGNAL_FUNC (addrbook_sender),   NULL,  0 },
 #. { "",                              NULL, GTK_SIGNAL_FUNC (NULL),              NULL,  0 },
-#: mail/folder-browser.c:678
+#: mail/folder-browser.c:689
 msgid "Apply Filters"
 msgstr "Применить фильтры"
 
-#: mail/folder-browser.c:680
+#: mail/folder-browser.c:691
 msgid "Create Rule From Message"
 msgstr "Создать правило из сообщения"
 
-#: mail/folder-browser.c:768
+#: mail/folder-browser.c:779
 #, c-format
 msgid "Filter on Mailing List (%s)"
 msgstr "Фильтр по списку рассылки (%s)"
@@ -5281,11 +5282,11 @@ msgid " (default)"
 msgstr "(Исх.значения)"
 
 #. give our dialog an OK button and title
-#: mail/mail-accounts.c:349
+#: mail/mail-accounts.c:367
 msgid "Evolution Account Manager"
 msgstr "Диспетчер счетов Evolution"
 
-#: mail/mail-account-editor.c:274
+#: mail/mail-account-editor.c:265
 msgid ""
 "One or more of your servers are not configured correctly.\n"
 "Do you wish to save anyway?"
@@ -5294,7 +5295,7 @@ msgstr ""
 "Сохранить в любом случае?"
 
 #. give our dialog an OK button and title
-#: mail/mail-account-editor.c:634
+#: mail/mail-account-editor.c:625
 msgid "Evolution Account Editor"
 msgstr "Редактор счетов Evolution"
 
@@ -5366,19 +5367,19 @@ msgstr "Вы должны настроить счет до того как вы сможете послать почту."
 msgid "You must specify recipients in order to send this message."
 msgstr "Вы должны указать получателей, чтобы отправить это сообщение."
 
-#: mail/mail-callbacks.c:534
+#: mail/mail-callbacks.c:535
 msgid "Forwarded message:\n"
 msgstr "Пересланное сообщение:\n"
 
-#: mail/mail-callbacks.c:615
+#: mail/mail-callbacks.c:618
 msgid "Move message(s) to"
 msgstr "Переместить сообщение в"
 
-#: mail/mail-callbacks.c:617
+#: mail/mail-callbacks.c:620
 msgid "Copy message(s) to"
 msgstr "Скопировать сообщения в"
 
-#: mail/mail-callbacks.c:752
+#: mail/mail-callbacks.c:755
 msgid ""
 "You may only edit messages saved\n"
 "in the Drafts folder."
@@ -5386,11 +5387,11 @@ msgstr ""
 "Вы можете править только сообщения\n"
 "сохраненные в папке \"Черновики\"."
 
-#: mail/mail-callbacks.c:785 mail/mail-display.c:79
+#: mail/mail-callbacks.c:788 mail/mail-display.c:78
 msgid "Overwrite file?"
 msgstr "Переписать файл?"
 
-#: mail/mail-callbacks.c:789 mail/mail-display.c:83
+#: mail/mail-callbacks.c:792 mail/mail-display.c:82
 msgid ""
 "A file by that name already exists.\n"
 "Overwrite it?"
@@ -5398,15 +5399,15 @@ msgstr ""
 "Файл с таким названием уже существует.\n"
 "Переписать его?"
 
-#: mail/mail-callbacks.c:833
+#: mail/mail-callbacks.c:836
 msgid "Save Message As..."
 msgstr "Сохранить сообщение как..."
 
-#: mail/mail-callbacks.c:835
+#: mail/mail-callbacks.c:838
 msgid "Save Messages As..."
 msgstr "Сохранить сообщения как..."
 
-#: mail/mail-callbacks.c:943
+#: mail/mail-callbacks.c:946
 #, c-format
 msgid ""
 "Error loading filter information:\n"
@@ -5415,11 +5416,11 @@ msgstr ""
 "Ошибка при загрузке информации фильтра:\n"
 "%s"
 
-#: mail/mail-callbacks.c:992
+#: mail/mail-callbacks.c:995
 msgid "Print Message"
 msgstr "Печать сообщения"
 
-#: mail/mail-callbacks.c:1039
+#: mail/mail-callbacks.c:1042
 msgid "Printing of message failed"
 msgstr "Сбой печати сообщения"
 
@@ -5528,98 +5529,106 @@ msgid "Make this my default account"
 msgstr "Сделать моим счетом по умолчанию"
 
 #: po/tmp/mail-config.glade.h:43
+msgid "Mark messages as \"Read\" after:"
+msgstr "Помечать сообщения как \"Прочитанные\" после:"
+
+#: po/tmp/mail-config.glade.h:44
 msgid "Miscellaneous"
 msgstr "Разное"
 
-#: po/tmp/mail-config.glade.h:45
+#: po/tmp/mail-config.glade.h:46
 msgid "News"
 msgstr "Новые"
 
-#: po/tmp/mail-config.glade.h:47
+#: po/tmp/mail-config.glade.h:48
 msgid "Optional"
 msgstr "Дополнительные"
 
-#: po/tmp/mail-config.glade.h:48
+#: po/tmp/mail-config.glade.h:49
 msgid "Organization:"
 msgstr "Организация:"
 
-#: po/tmp/mail-config.glade.h:49
+#: po/tmp/mail-config.glade.h:51
 msgid "Outgoing Mail Server"
 msgstr "Исходящий почтовый сервер"
 
-#: po/tmp/mail-config.glade.h:50
+#: po/tmp/mail-config.glade.h:52
 msgid "Password:"
 msgstr "Пароль:"
 
-#: po/tmp/mail-config.glade.h:52
+#: po/tmp/mail-config.glade.h:54
 msgid "Plain Text"
 msgstr "Простой текст"
 
-#: po/tmp/mail-config.glade.h:53
+#: po/tmp/mail-config.glade.h:55
 msgid "Receiving Email"
 msgstr "Получение эл.почты"
 
-#: po/tmp/mail-config.glade.h:54
+#: po/tmp/mail-config.glade.h:56
 msgid "Remember my password"
 msgstr "Запомнить мой пароль"
 
-#: mail/mail-format.c:626 po/tmp/mail-config.glade.h:55
+#: mail/mail-format.c:628 po/tmp/mail-config.glade.h:57
 msgid "Reply-To:"
 msgstr "Ответить:"
 
-#: po/tmp/mail-config.glade.h:56
+#: po/tmp/mail-config.glade.h:58
 msgid "Required"
 msgstr "Требуемый"
 
-#: po/tmp/mail-config.glade.h:58
+#: po/tmp/mail-config.glade.h:60
 msgid "Save password"
 msgstr "Сохранить пароль"
 
-#: po/tmp/mail-config.glade.h:59
+#: po/tmp/mail-config.glade.h:61
 msgid "Select signature file"
 msgstr "Выбрать файл подписи"
 
-#: po/tmp/mail-config.glade.h:60
+#: po/tmp/mail-config.glade.h:62
+msgid "Send mail in HTML format by default."
+msgstr "По умолчанию отправлять почту в формате HTML."
+
+#: po/tmp/mail-config.glade.h:63
 msgid "Sending Email"
 msgstr "Отправка эл.почты"
 
-#: po/tmp/mail-config.glade.h:62
+#: po/tmp/mail-config.glade.h:65
 msgid "Server Configuration"
 msgstr "Настройка сервера"
 
-#: po/tmp/mail-config.glade.h:63
+#: po/tmp/mail-config.glade.h:66
 msgid "Server Type: "
 msgstr "Тип сервера:"
 
-#: po/tmp/mail-config.glade.h:64
+#: po/tmp/mail-config.glade.h:67
 msgid "Server requires authentication"
 msgstr "Сервер требует идентификации"
 
-#: po/tmp/mail-config.glade.h:65
+#: po/tmp/mail-config.glade.h:68
 msgid "Servers"
 msgstr "Серверы"
 
-#: po/tmp/mail-config.glade.h:66
+#: po/tmp/mail-config.glade.h:69
 msgid "Signature file:"
 msgstr "Файл подписи:"
 
-#: po/tmp/mail-config.glade.h:67
+#: po/tmp/mail-config.glade.h:70
 msgid "Signature:"
 msgstr "Подпись:"
 
-#: po/tmp/mail-config.glade.h:68
+#: po/tmp/mail-config.glade.h:71
 msgid "Sources"
 msgstr "Источники"
 
-#: po/tmp/mail-config.glade.h:69
+#: po/tmp/mail-config.glade.h:72
 msgid "This server requires a secure connection (SSL)"
 msgstr "Этот сервер требует защищенного подключения (SSL)"
 
-#: po/tmp/mail-config.glade.h:70
+#: po/tmp/mail-config.glade.h:73
 msgid "Type"
 msgstr "Тип"
 
-#: po/tmp/mail-config.glade.h:71
+#: po/tmp/mail-config.glade.h:74
 msgid ""
 "Type the name by which you would like to refer to these servers. For "
 "example: \"Work\" or \"Home\"."
@@ -5627,15 +5636,15 @@ msgstr ""
 "Введите название, по которому вы хотите указывать эти серверы. Например: "
 "\"Работа\" или \"Дом\"."
 
-#: po/tmp/mail-config.glade.h:73
+#: po/tmp/mail-config.glade.h:76
 msgid "User Information"
 msgstr "Информация о пользователе"
 
-#: po/tmp/mail-config.glade.h:74
+#: po/tmp/mail-config.glade.h:77
 msgid "Username:"
 msgstr "Имя пользователя:"
 
-#: po/tmp/mail-config.glade.h:75
+#: po/tmp/mail-config.glade.h:78
 msgid "Welcome to the Evolution Mail Configuration Druid.\n"
 msgstr "Добро пожаловать к помощнику по настройке почты в Evolution.\n"
 
@@ -5666,7 +5675,7 @@ msgstr ""
 msgid "Evolution Account Wizard"
 msgstr "Помощник по счетам Evolution"
 
-#: mail/mail-display.c:98
+#: mail/mail-display.c:97
 #, c-format
 msgid ""
 "Could not open file %s:\n"
@@ -5675,96 +5684,103 @@ msgstr ""
 "Невозможно открыть файл %s:\n"
 "%s"
 
-#: mail/mail-display.c:131
+#: mail/mail-display.c:130
 #, c-format
 msgid "Could not write data: %s"
 msgstr "Невозможно записать данные: %s"
 
-#: mail/mail-display.c:229
+#: mail/mail-display.c:228
 msgid "Save Attachment"
 msgstr "Сохранить вложение"
 
-#: mail/mail-display.c:269
+#: mail/mail-display.c:268
 #, c-format
 msgid "Could not create temporary directory: %s"
 msgstr "Не удалось создать временный каталог: %s"
 
-#: mail/mail-display.c:311
+#: mail/mail-display.c:310
 msgid "Save to Disk..."
 msgstr "Сохранить на диске..."
 
-#: mail/mail-display.c:313
+#: mail/mail-display.c:312
 #, c-format
 msgid "Open in %s..."
 msgstr "Открыть в %s..."
 
-#: mail/mail-display.c:315
+#: mail/mail-display.c:314
 msgid "View Inline"
 msgstr "Встроенный просмотр"
 
-#: mail/mail-display.c:342
+#: mail/mail-display.c:341
 msgid "External Viewer"
 msgstr "Внешняя программа просмотра"
 
-#: mail/mail-display.c:365
+#: mail/mail-display.c:364
 #, c-format
 msgid "View Inline (via %s)"
 msgstr "Встроенный просмотр (через %s)"
 
-#: mail/mail-display.c:369
+#: mail/mail-display.c:368
 msgid "Hide"
 msgstr "Скрыть"
 
-#: mail/mail-format.c:504
+#: mail/mail-format.c:505
 #, c-format
 msgid "%s attachment"
 msgstr "%s вложение"
 
-#: mail/mail-format.c:856
+#: mail/mail-format.c:653
+msgid "Loading message content"
+msgstr "Загрузка содержимого сообщения"
+
+#: mail/mail-format.c:941
 msgid "Encrypted message not displayed"
 msgstr "Зашифрованное сообщение не отображается"
 
-#: mail/mail-format.c:862
+#: mail/mail-format.c:947
 msgid "Encrypted message"
 msgstr "Зашифрованное сообщение"
 
-#: mail/mail-format.c:863
+#: mail/mail-format.c:948
 msgid "Click icon to decrypt."
 msgstr "Щелкните на пиктограмме для дешифрации."
 
-#: mail/mail-format.c:1265
+#: mail/mail-format.c:1350
 msgid "This message is digitally signed and has been found to be authentic."
-msgstr "Это сообщение с цифровой подписью, которая прошла проверку идентичности."
+msgstr ""
+"Это сообщение с цифровой подписью, которая прошла проверку идентичности."
 
-#: mail/mail-format.c:1273
+#: mail/mail-format.c:1358
 msgid "This message is digitally signed but can not be proven to be authentic."
-msgstr "Это сообщение с цифровой подписью, которая не может быть проверена на идентичность."
+msgstr ""
+"Это сообщение с цифровой подписью, которая не может быть проверена на "
+"идентичность."
 
-#: mail/mail-format.c:1477
+#: mail/mail-format.c:1562
 #, c-format
 msgid "Pointer to FTP site (%s)"
 msgstr "Указатель на FTP сайт (%s)"
 
-#: mail/mail-format.c:1489
+#: mail/mail-format.c:1574
 #, c-format
 msgid "Pointer to local file (%s) valid at site \"%s\""
 msgstr ""
 
-#: mail/mail-format.c:1493
+#: mail/mail-format.c:1578
 #, c-format
 msgid "Pointer to local file (%s)"
 msgstr "Указатель на локальный файл (%s)"
 
-#: mail/mail-format.c:1527
+#: mail/mail-format.c:1612
 #, c-format
 msgid "Pointer to unknown external data (\"%s\" type)"
 msgstr "Указатель на неизвестные внешние данные (типа \"%s\")"
 
-#: mail/mail-format.c:1532
+#: mail/mail-format.c:1617
 msgid "Malformed external-body part."
 msgstr ""
 
-#: mail/mail-format.c:1703
+#: mail/mail-format.c:1788
 #, c-format
 msgid "On %s, %s wrote:\n"
 msgstr "%s, %s написал:\n"
@@ -5851,112 +5867,112 @@ msgstr ""
 msgid "Working"
 msgstr "Обработка"
 
-#: mail/mail-ops.c:507
+#: mail/mail-ops.c:510
 #, c-format
 msgid "Sending \"%s\""
 msgstr "Отправка \"%s\""
 
-#: mail/mail-ops.c:509
+#: mail/mail-ops.c:512
 msgid "Sending message"
 msgstr "Отправка сообщения"
 
-#: mail/mail-ops.c:737 mail/mail-ops.c:744
+#: mail/mail-ops.c:740 mail/mail-ops.c:747
 #, c-format
 msgid "Appending \"%s\""
 msgstr "Присоединение \"%s\""
 
-#: mail/mail-ops.c:741 mail/mail-ops.c:747
+#: mail/mail-ops.c:744 mail/mail-ops.c:750
 msgid "Appending a message without a subject"
 msgstr "Присоединение сообщения без темы"
 
-#: mail/mail-ops.c:830
+#: mail/mail-ops.c:833
 #, c-format
 msgid "Moving messages from \"%s\" into \"%s\""
 msgstr "Перемещение сообщений из \"%s\" в \"%s\""
 
-#: mail/mail-ops.c:832
+#: mail/mail-ops.c:835
 #, c-format
 msgid "Copying messages from \"%s\" into \"%s\""
 msgstr "Копирование сообщений из \"%s\" в \"%s\""
 
-#: mail/mail-ops.c:835
+#: mail/mail-ops.c:838
 #, c-format
 msgid "Move messages from \"%s\" into \"%s\""
 msgstr "Переместить сообщения из \"%s\" в \"%s\""
 
-#: mail/mail-ops.c:837
+#: mail/mail-ops.c:840
 #, c-format
 msgid "Copy messages from \"%s\" into \"%s\""
 msgstr "Скопировать сообщения из \"%s\" в \"%s\""
 
-#: mail/mail-ops.c:868
+#: mail/mail-ops.c:871
 msgid "Moving"
 msgstr "Перемещение"
 
-#: mail/mail-ops.c:871
+#: mail/mail-ops.c:874
 msgid "Copying"
 msgstr "Копирование"
 
-#: mail/mail-ops.c:891
+#: mail/mail-ops.c:894
 #, c-format
 msgid "%s message %d of %d (uid \"%s\")"
 msgstr "%s сообщения %d из %d (uid \"%s\")"
 
-#: mail/mail-ops.c:966
+#: mail/mail-ops.c:969
 #, c-format
 msgid "Scanning folders in \"%s\""
 msgstr "Считывание папок в \"%s\""
 
-#: mail/mail-ops.c:1032 mail/subscribe-dialog.c:356
+#: mail/mail-ops.c:1035 mail/subscribe-dialog.c:356
 msgid "(No description)"
 msgstr "(Нет описания)"
 
-#: mail/mail-ops.c:1097
+#: mail/mail-ops.c:1100
 msgid "Forwarded messages"
 msgstr "Пересланные сообщения"
 
-#: mail/mail-ops.c:1138 mail/mail-ops.c:1207
+#: mail/mail-ops.c:1141 mail/mail-ops.c:1210
 #, c-format
 msgid "Opening folder %s"
 msgstr "Открытие папки \"%s\""
 
-#: mail/mail-ops.c:1269
+#: mail/mail-ops.c:1272
 msgid "Synchronising folder"
 msgstr "Синхронизация папки"
 
-#: mail/mail-ops.c:1319
+#: mail/mail-ops.c:1322
 msgid "Expunging folder"
 msgstr "Вычеркивание папки"
 
-#: mail/mail-ops.c:1368
+#: mail/mail-ops.c:1371
 #, c-format
 msgid "Retrieving message %s"
 msgstr "Получение сообщения %s"
 
-#: mail/mail-ops.c:1435
+#: mail/mail-ops.c:1438
 msgid "Retrieving messages"
 msgstr "Получение сообщений"
 
-#: mail/mail-ops.c:1445
+#: mail/mail-ops.c:1448
 #, c-format
 msgid "Retrieving message number %d of %d (uid \"%s\")"
 msgstr "Перемещение сообщения номер %d из %d (uid \"%s\")"
 
-#: mail/mail-ops.c:1593
+#: mail/mail-ops.c:1596
 #, c-format
 msgid "Loading %s Folder for %s"
 msgstr "Загрузка папки %s для %s"
 
-#: mail/mail-ops.c:1595
+#: mail/mail-ops.c:1598
 #, c-format
 msgid "Load %s Folder for %s"
 msgstr "Загрузить папку %s для %s"
 
-#: mail/mail-ops.c:1761
+#: mail/mail-ops.c:1764
 msgid "Saving messages"
 msgstr "Сохранение сообщений"
 
-#: mail/mail-ops.c:1840
+#: mail/mail-ops.c:1843
 #, c-format
 msgid ""
 "Unable to create output file: %s\n"
@@ -5965,12 +5981,12 @@ msgstr ""
 "Не удалось создать файл вывода: %s\n"
 " %s"
 
-#: mail/mail-ops.c:1853
+#: mail/mail-ops.c:1856
 #, c-format
 msgid "Saving message %d of %d (uid \"%s\")"
 msgstr "Сохранение сообщения %d из %d (uid  \"%s\")"
 
-#: mail/mail-ops.c:1867
+#: mail/mail-ops.c:1870
 #, c-format
 msgid ""
 "Error saving messages to: %s:\n"
@@ -6067,15 +6083,15 @@ msgstr "Новая вирт.папка"
 
 #. GNOMEUIINFO_ITEM_STOCK (N_("Save"), N_("Save this message"),
 #. save_msg, GNOME_STOCK_PIXMAP_SAVE),
-#: mail/mail-view.c:138 po/tmp/evolution-mail.xml.h:38
+#: mail/mail-view.c:138 po/tmp/evolution-mail.xml.h:36
 msgid "Reply"
 msgstr "Ответить"
 
-#: mail/mail-view.c:138 po/tmp/evolution-mail.xml.h:43
+#: mail/mail-view.c:138 po/tmp/evolution-mail.xml.h:41
 msgid "Reply to the sender of this message"
 msgstr "Ответить отправителю этого сообщения"
 
-#: mail/mail-view.c:141 po/tmp/evolution-mail.xml.h:42
+#: mail/mail-view.c:141 po/tmp/evolution-mail.xml.h:40
 msgid "Reply to all recipients of this message"
 msgstr "Ответить всем получателям этого сообщения"
 
@@ -6083,7 +6099,7 @@ msgstr "Ответить всем получателям этого сообщения"
 msgid "Forward this message"
 msgstr "Переслать это сообщение"
 
-#: mail/mail-view.c:148 po/tmp/evolution-mail.xml.h:37
+#: mail/mail-view.c:148 po/tmp/evolution-mail.xml.h:35
 msgid "Print the selected message"
 msgstr "Распечатать выделенное сообщение"
 
@@ -6177,7 +6193,7 @@ msgid "Please enter your %s passphrase"
 msgstr "Пожалуйста введите вашу %s парольную фразу."
 
 #: mail/openpgp-utils.c:431 mail/openpgp-utils.c:534 mail/openpgp-utils.c:738
-#: mail/openpgp-utils.c:887 mail/openpgp-utils.c:1044
+#: mail/openpgp-utils.c:887 mail/openpgp-utils.c:1043
 msgid "No GPG/PGP program available."
 msgstr "Недоступна программа GPG/PGP."
 
@@ -6187,7 +6203,7 @@ msgid "No password provided."
 msgstr "Пароль не предоставлен."
 
 #: mail/openpgp-utils.c:444 mail/openpgp-utils.c:551 mail/openpgp-utils.c:752
-#: mail/openpgp-utils.c:901 mail/openpgp-utils.c:1050
+#: mail/openpgp-utils.c:901 mail/openpgp-utils.c:1049
 #, c-format
 msgid "Couldn't create pipe to GPG/PGP: %s"
 msgstr "Не удалось создать канал к GPG/PGP: %s"
@@ -6196,7 +6212,7 @@ msgstr "Не удалось создать канал к GPG/PGP: %s"
 msgid "No recipients specified"
 msgstr "Не указаны получатели"
 
-#: mail/openpgp-utils.c:1061
+#: mail/openpgp-utils.c:1060
 #, c-format
 msgid "Couldn't create temp file: %s"
 msgstr "Не удалось создать временный файл: %s"
@@ -6353,19 +6369,19 @@ msgstr "Новая..."
 msgid "(Untitled)"
 msgstr "(Без заголовка)"
 
-#: shell/e-shell-view-menu.c:114
+#: shell/e-shell-view-menu.c:127
 msgid "Bug buddy was not found in your $PATH."
 msgstr "Bug-buddy не был найден в вашем $PATH."
 
-#: shell/e-shell-view-menu.c:120
+#: shell/e-shell-view-menu.c:133
 msgid "Bug buddy could not be run."
 msgstr "Bug-buddy не может быть запущен."
 
-#: shell/e-shell-view-menu.c:172
+#: shell/e-shell-view-menu.c:185
 msgid "Copyright 1999, 2000, 2001 Ximian, Inc."
 msgstr "Copyright (C) 1999-2001 Ximian, Inc."
 
-#: shell/e-shell-view-menu.c:174
+#: shell/e-shell-view-menu.c:187
 msgid ""
 "Evolution is a suite of groupware applications\n"
 "for mail, calendaring, and contact management\n"
@@ -6375,7 +6391,7 @@ msgstr ""
 "ведения календарей и контактной информации для\n"
 "групповой работы в среде GNOME."
 
-#: shell/e-shell-view-menu.c:334
+#: shell/e-shell-view-menu.c:347
 msgid "Go to folder..."
 msgstr "Перейти к папке..."
 
@@ -6387,12 +6403,12 @@ msgstr "(Папки не показаны)"
 msgid "Folders"
 msgstr "Папки"
 
-#: shell/e-shell-view.c:1138
+#: shell/e-shell-view.c:1121
 #, c-format
 msgid "%s - Evolution %s"
 msgstr "%s - Evolution %s"
 
-#: shell/e-shell-view.c:1140
+#: shell/e-shell-view.c:1123
 #, c-format
 msgid "%s - Evolution %s [%s]"
 msgstr "%s - Evolution %s [%s]"
@@ -6402,7 +6418,7 @@ msgstr "%s - Evolution %s [%s]"
 msgid "Cannot set up local storage -- %s"
 msgstr "Невозможно установить локальное хранилище -- %s"
 
-#: shell/e-shell.c:1229
+#: shell/e-shell.c:1238
 #, c-format
 msgid ""
 "Ooops!  The view for `%s' have died unexpectedly.  :-(\n"
@@ -6492,51 +6508,51 @@ msgstr "Ошибка сохранения закладок."
 msgid "View the selected folder"
 msgstr "Просмотр выбранной папки"
 
-#: shell/e-storage.c:138
+#: shell/e-storage.c:160
 msgid "(No name)"
 msgstr "(Без имени)"
 
-#: shell/e-storage.c:389
+#: shell/e-storage.c:411
 msgid "No error"
 msgstr "Нет ошибки"
 
-#: shell/e-storage.c:391
+#: shell/e-storage.c:413
 msgid "Generic error"
 msgstr "Обычная ошибка"
 
-#: shell/e-storage.c:393
+#: shell/e-storage.c:415
 msgid "A folder with the same name already exists"
 msgstr "Папка с таким названием уже существует"
 
-#: shell/e-storage.c:395
+#: shell/e-storage.c:417
 msgid "The specified folder type is not valid"
 msgstr "Указанный тип папки не допустим"
 
-#: shell/e-storage.c:397
+#: shell/e-storage.c:419
 msgid "I/O error"
 msgstr "Ошибка ввода/вывода"
 
-#: shell/e-storage.c:399
+#: shell/e-storage.c:421
 msgid "Not enough space to create the folder"
 msgstr "Недостаточно места для создания папки"
 
-#: shell/e-storage.c:401
+#: shell/e-storage.c:423
 msgid "The specified folder was not found"
 msgstr "Указанная папка не найдена"
 
-#: shell/e-storage.c:403
+#: shell/e-storage.c:425
 msgid "Function not implemented in this storage"
 msgstr "Функция не реализована для этого носителя"
 
-#: shell/e-storage.c:405
+#: shell/e-storage.c:427
 msgid "Permission denied"
 msgstr "Отказ в доступе"
 
-#: shell/e-storage.c:407
+#: shell/e-storage.c:429
 msgid "Operation not supported"
 msgstr "Операция не поддерживается"
 
-#: shell/e-storage.c:409
+#: shell/e-storage.c:431
 msgid "The specified type is not supported in this storage"
 msgstr "Указанный тип не поддерживается для этого носителя"
 
@@ -6603,7 +6619,7 @@ msgid "Cannot initialize the Bonobo component system."
 msgstr "Не удалось инициализировать компонентную систему Bonobo."
 
 #: po/tmp/evolution-addressbook.xml.h:7
-msgid "Create a new contact"
+msgid "Create new contact"
 msgstr "Создать новый контакт"
 
 #: po/tmp/evolution-addressbook.xml.h:9
@@ -6614,11 +6630,15 @@ msgstr "Удалить контакт"
 msgid "Find a contact"
 msgstr "Поиск контакта"
 
+#: po/tmp/evolution-addressbook.xml.h:12
+msgid "New contact"
+msgstr "Новый контакт"
+
 #: po/tmp/evolution-addressbook.xml.h:14
 msgid "Print contacts"
 msgstr "Печать контактов"
 
-#: po/tmp/evolution-addressbook.xml.h:15 po/tmp/evolution-mail.xml.h:48
+#: po/tmp/evolution-addressbook.xml.h:15 po/tmp/evolution-mail.xml.h:46
 msgid "Stop"
 msgstr "Стоп"
 
@@ -6698,6 +6718,10 @@ msgstr "Перейти к настоящему времени"
 msgid "Month"
 msgstr "Месяц"
 
+#: po/tmp/evolution-calendar.xml.h:19
+msgid "New appointment"
+msgstr "Новая встреча"
+
 #: po/tmp/evolution-calendar.xml.h:21
 msgid "Open a calendar"
 msgstr "Открыть календарь"
@@ -6738,7 +6762,7 @@ msgstr "Сегодня"
 msgid "Week"
 msgstr "Неделя"
 
-#: po/tmp/evolution-calendar.xml.h:32 po/tmp/evolution.xml.h:40
+#: po/tmp/evolution-calendar.xml.h:32 po/tmp/evolution.xml.h:43
 msgid "_New"
 msgstr "Новый"
 
@@ -6890,131 +6914,131 @@ msgstr "Переместить"
 msgid "Move message to a new folder"
 msgstr "Переместить сообщение в новую папку"
 
-#: po/tmp/evolution-mail.xml.h:31
+#: po/tmp/evolution-mail.xml.h:30
 msgid "Previews the message to be printed"
 msgstr "Просмотр печатаемых сообщений"
 
-#: po/tmp/evolution-mail.xml.h:34
+#: po/tmp/evolution-mail.xml.h:32
 msgid "Print Preview of message..."
 msgstr "Просмотр печати сообщения..."
 
-#: po/tmp/evolution-mail.xml.h:35
+#: po/tmp/evolution-mail.xml.h:33
 msgid "Print message to the printer"
 msgstr "Распечатать сообщение на принтере"
 
-#: po/tmp/evolution-mail.xml.h:36
+#: po/tmp/evolution-mail.xml.h:34
 msgid "Print message..."
 msgstr "Печать сообщения..."
 
-#: po/tmp/evolution-mail.xml.h:40
+#: po/tmp/evolution-mail.xml.h:38
 msgid "Reply to _All"
 msgstr "Ответить всем"
 
-#: po/tmp/evolution-mail.xml.h:41
+#: po/tmp/evolution-mail.xml.h:39
 msgid "Reply to _Sender"
 msgstr "Ответить отправителю"
 
-#: po/tmp/evolution-mail.xml.h:44
+#: po/tmp/evolution-mail.xml.h:42
 msgid "S_ource"
 msgstr "Источник"
 
-#: po/tmp/evolution-mail.xml.h:45 po/tmp/evolution-subscribe.xml.h:12
+#: po/tmp/evolution-mail.xml.h:43 po/tmp/evolution-subscribe.xml.h:12
 msgid "Select _All"
 msgstr "Выбрать все"
 
-#: po/tmp/evolution-mail.xml.h:46
+#: po/tmp/evolution-mail.xml.h:44
 msgid "Send queued mail and retrieve new mail"
 msgstr "Отправить почту из очереди и получить новую почту"
 
-#: po/tmp/evolution-mail.xml.h:47
+#: po/tmp/evolution-mail.xml.h:45
 msgid "Show _All Messages"
 msgstr "Показать все сообщения"
 
-#: po/tmp/evolution-mail.xml.h:49
+#: po/tmp/evolution-mail.xml.h:47
 msgid "Threaded Message list"
 msgstr "Список подшитых сообщений"
 
-#: po/tmp/evolution-mail.xml.h:50
+#: po/tmp/evolution-mail.xml.h:48
 msgid "VFolder on Se_nder"
 msgstr "Вирт.папка по отправителю"
 
-#: po/tmp/evolution-mail.xml.h:51
+#: po/tmp/evolution-mail.xml.h:49
 msgid "VFolder on _Recipients"
 msgstr "Вирт.папка по получателю"
 
-#: po/tmp/evolution-mail.xml.h:52
+#: po/tmp/evolution-mail.xml.h:50
 msgid "View Raw Message Source"
 msgstr "Просмотр исходного текста сообщения"
 
-#: po/tmp/evolution-mail.xml.h:53
+#: po/tmp/evolution-mail.xml.h:51
 msgid "_Apply Filters"
 msgstr "Применить фильтры"
 
-#: po/tmp/evolution-mail.xml.h:54
+#: po/tmp/evolution-mail.xml.h:52
 msgid "_Configure Folder..."
 msgstr "Настроить папку..."
 
-#: po/tmp/evolution-mail.xml.h:55
+#: po/tmp/evolution-mail.xml.h:53
 msgid "_Copy to Folder..."
 msgstr "Скопировать в папку..."
 
-#: po/tmp/evolution-mail.xml.h:57
+#: po/tmp/evolution-mail.xml.h:55
 msgid "_Edit Message"
 msgstr "Правка сообщения"
 
-#: po/tmp/evolution-mail.xml.h:58
+#: po/tmp/evolution-mail.xml.h:56
 msgid "_Expunge"
 msgstr "Вычеркнуть"
 
-#: po/tmp/evolution-mail.xml.h:59
+#: po/tmp/evolution-mail.xml.h:57
 msgid "_Filter on Subject"
 msgstr "Фильтр по теме"
 
-#: po/tmp/evolution-mail.xml.h:60
+#: po/tmp/evolution-mail.xml.h:58
 msgid "_Forward"
 msgstr "Переслать"
 
-#: po/tmp/evolution-mail.xml.h:61 po/tmp/evolution-subscribe.xml.h:17
+#: po/tmp/evolution-mail.xml.h:59 po/tmp/evolution-subscribe.xml.h:17
 msgid "_Invert Selection"
 msgstr "Обратить выделение"
 
-#: po/tmp/evolution-mail.xml.h:62
+#: po/tmp/evolution-mail.xml.h:60
 msgid "_Mail Configuration..."
 msgstr "Настройка почты..."
 
-#: po/tmp/evolution-mail.xml.h:63
+#: po/tmp/evolution-mail.xml.h:61
 msgid "_Message"
 msgstr "Сообщение"
 
-#: po/tmp/evolution-mail.xml.h:64
+#: po/tmp/evolution-mail.xml.h:62
 msgid "_Move to Folder..."
 msgstr "Переместить в папку..."
 
-#: po/tmp/evolution-mail.xml.h:65
+#: po/tmp/evolution-mail.xml.h:63
 msgid "_Open in New Window"
 msgstr "Открыть в новом окне"
 
-#: po/tmp/evolution-mail.xml.h:66
+#: po/tmp/evolution-mail.xml.h:64
 msgid "_Print Message"
 msgstr "Печать сообщения"
 
-#: po/tmp/evolution-mail.xml.h:67
+#: po/tmp/evolution-mail.xml.h:65
 msgid "_Save Message As..."
 msgstr "Сохранить сообщение как..."
 
-#: po/tmp/evolution-mail.xml.h:68
+#: po/tmp/evolution-mail.xml.h:66
 msgid "_Threaded"
 msgstr "Подшитые"
 
-#: po/tmp/evolution-mail.xml.h:69
+#: po/tmp/evolution-mail.xml.h:67
 msgid "_Undelete"
 msgstr "Восстановить"
 
-#: po/tmp/evolution-mail.xml.h:70
+#: po/tmp/evolution-mail.xml.h:68
 msgid "_VFolder on Subject"
 msgstr "Вирт.папка по теме"
 
-#: po/tmp/evolution-mail.xml.h:71
+#: po/tmp/evolution-mail.xml.h:69
 msgid "_Virtual Folder Editor..."
 msgstr "Редактор виртуальных папок..."
 
@@ -7170,131 +7194,135 @@ msgstr "Отказаться"
 msgid "About Evolution..."
 msgstr "О программе..."
 
-#: po/tmp/evolution.xml.h:7
+#: po/tmp/evolution.xml.h:8
+msgid "Close this window"
+msgstr "Закрыть это окно"
+
+#: po/tmp/evolution.xml.h:9
 msgid "Customi_ze..."
 msgstr "Настроить..."
 
-#: po/tmp/evolution.xml.h:8
+#: po/tmp/evolution.xml.h:10
 msgid "Customize"
 msgstr "Настроить"
 
-#: po/tmp/evolution.xml.h:9
+#: po/tmp/evolution.xml.h:11
 msgid "Customize toolbars"
 msgstr "Настроить панели инструментов"
 
-#: po/tmp/evolution.xml.h:10
+#: po/tmp/evolution.xml.h:12
 msgid "Display a different folder"
 msgstr "Показать другую папку"
 
-#: po/tmp/evolution.xml.h:11
+#: po/tmp/evolution.xml.h:13
 msgid "E_xit"
 msgstr "Выход"
 
-#: po/tmp/evolution.xml.h:12
+#: po/tmp/evolution.xml.h:14
 msgid "Evolution bar _shortcut"
 msgstr "Строка ярлыков Evolution"
 
-#: po/tmp/evolution.xml.h:13
+#: po/tmp/evolution.xml.h:15
 msgid "Exit"
 msgstr "Выход"
 
-#: po/tmp/evolution.xml.h:14
+#: po/tmp/evolution.xml.h:16
 msgid "Exit the program"
 msgstr "Выйти из программы"
 
-#: po/tmp/evolution.xml.h:15
+#: po/tmp/evolution.xml.h:17
 msgid "Getting _Started"
 msgstr "Краткое руководство"
 
-#: po/tmp/evolution.xml.h:16
+#: po/tmp/evolution.xml.h:18
 msgid "Import an external file format"
 msgstr "Импортировать во внешний формат файла"
 
-#: po/tmp/evolution.xml.h:17
+#: po/tmp/evolution.xml.h:19
 msgid "Main toolbar"
 msgstr "Главная панель инструментов"
 
-#: po/tmp/evolution.xml.h:18
+#: po/tmp/evolution.xml.h:20
 msgid "Show information about Evolution"
 msgstr "Показать информацию о программе Evolution"
 
-#: po/tmp/evolution.xml.h:19
+#: po/tmp/evolution.xml.h:21
 msgid "Show the _Folder Bar"
 msgstr "Показать строку папок"
 
-#: po/tmp/evolution.xml.h:20
+#: po/tmp/evolution.xml.h:22
 msgid "Show the _Shortcut Bar"
 msgstr "Показать строку закладок"
 
-#: po/tmp/evolution.xml.h:21
+#: po/tmp/evolution.xml.h:23
 msgid "Submit Bug Report"
 msgstr "Отправить сообщение об ошибке"
 
-#: po/tmp/evolution.xml.h:22
+#: po/tmp/evolution.xml.h:24
 msgid "Submit _Bug Report"
 msgstr "Отправить сообщение об ошибке"
 
-#: po/tmp/evolution.xml.h:23
+#: po/tmp/evolution.xml.h:25
 msgid "Submit bug report using Bug Buddy."
 msgstr "Отправить сообщение об ошибке используя Bug Buddy."
 
-#: po/tmp/evolution.xml.h:24
+#: po/tmp/evolution.xml.h:26
 msgid "Toggle whether to show the folder bar"
 msgstr "Переключить отображение строки папок"
 
-#: po/tmp/evolution.xml.h:25
+#: po/tmp/evolution.xml.h:27
 msgid "Toggle whether to show the shortcut bar"
 msgstr "Переключить отображение строки закладок"
 
-#: po/tmp/evolution.xml.h:26
+#: po/tmp/evolution.xml.h:28
 msgid "Using the C_ontact Manager"
 msgstr "Использование диспетчера контактов"
 
-#: po/tmp/evolution.xml.h:27
+#: po/tmp/evolution.xml.h:29
 msgid "Using the _Calendar"
 msgstr "Использование календаря"
 
-#: po/tmp/evolution.xml.h:28
+#: po/tmp/evolution.xml.h:30
 msgid "Using the _Mailer"
 msgstr "Использование почты"
 
-#: po/tmp/evolution.xml.h:29
+#: po/tmp/evolution.xml.h:31
 msgid "_About Evolution..."
 msgstr "О программе..."
 
-#: po/tmp/evolution.xml.h:30
+#: po/tmp/evolution.xml.h:32
 msgid "_Appointment (FIXME)"
 msgstr "Встреча (FIXME)"
 
-#: po/tmp/evolution.xml.h:31
+#: po/tmp/evolution.xml.h:34
 msgid "_Contact (FIXME)"
 msgstr "Контакт (FIXME)"
 
-#: po/tmp/evolution.xml.h:34
+#: po/tmp/evolution.xml.h:37
 msgid "_Folder"
 msgstr "Папка"
 
-#: po/tmp/evolution.xml.h:35
+#: po/tmp/evolution.xml.h:38
 msgid "_Go to Folder..."
 msgstr "Перейти к папке..."
 
-#: po/tmp/evolution.xml.h:37
+#: po/tmp/evolution.xml.h:40
 msgid "_Import file..."
 msgstr "Импортировать файл..."
 
-#: po/tmp/evolution.xml.h:38
+#: po/tmp/evolution.xml.h:41
 msgid "_Index"
 msgstr "Индекс"
 
-#: po/tmp/evolution.xml.h:39
+#: po/tmp/evolution.xml.h:42
 msgid "_Mail message"
 msgstr "Почтовое сообщение"
 
-#: po/tmp/evolution.xml.h:41
+#: po/tmp/evolution.xml.h:44
 msgid "_Settings"
 msgstr "Установки"
 
-#: po/tmp/evolution.xml.h:42
+#: po/tmp/evolution.xml.h:45
 msgid "_Task (FIXME)"
 msgstr "Задание (FIXME)"
 
@@ -7388,7 +7416,7 @@ msgid "MTWTFSS"
 msgstr "ПВСЧПСВ"
 
 #. This is a strftime() format. %B = Month name, %Y = Year.
-#: widgets/misc/e-calendar-item.c:1053 widgets/misc/e-calendar-item.c:2736
+#: widgets/misc/e-calendar-item.c:1060 widgets/misc/e-calendar-item.c:2755
 msgid "%B %Y"
 msgstr "%B %Y"
 
