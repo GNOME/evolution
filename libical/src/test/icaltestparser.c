@@ -109,8 +109,9 @@ int main(int argc, char* argv[])
 
 	c = icalparser_add_line(parser,line);
 
+
 	if (c != 0){
-	    icalcomponent_convert_errors(c);
+	    /*icalcomponent_convert_errors(c);*/
 	    printf("%s",icalcomponent_as_ical_string(c));
 	    icalparser_claim(parser);
 	    printf("\n---------------\n");

@@ -26,3 +26,7 @@ RECUR values ignore integers in BYDAY clauses, ie 'FREQ=MONTHLY;BYDAY=-1SU'
 
 Restrictions code does not catch lack of DTEND or DURATION
 
+For some value types, if there illegal characters in the value ( like
+4.56 in an integer value), the parser will output the characters to
+stdout.
+

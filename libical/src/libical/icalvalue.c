@@ -195,6 +195,64 @@ icalvalue* icalvalue_new_clone(icalvalue* value){
     return new;
 }
 
+char* strdup_and_dequote(char* str)
+{
+    char* p;
+    char* out = (char*)malloc(sizeof(char) * strlen(str) +1);
+    char* pout;
+
+    if (out == 0){
+	return 0;
+    }
+
+    pout = out;
+
+    for (p = str; *p!=0; p++){
+	
+	if( *p == '\\')
+	{
+	    p++;
+	    switch(*p){
+		case 0:
+		{
+		    break;
+		    *pout = '\0';
+		}
+		case 'n':
+		{
+		    *pout = '\n';
+		    break;
+		}
+		case 'N':
+		{
+		    *pout = '\n';
+		    break;
+		}
+		case '\\':
+		case ',':
+		case ';':
+		{
+		    *pout = *p;
+		    break;
+		}
+		default:
+		{
+		    *pout = ' ';
+		}		
+	    }
+	} else {
+	    *pout = *p;
+	}
+
+	pout++;
+	
+    }
+
+    *pout = '\0';
+
+    return out;
+}
+
 icalvalue* icalvalue_new_from_string_with_error(icalvalue_kind kind,char* str,icalproperty** error)
 {
 
@@ -285,7 +343,9 @@ icalvalue* icalvalue_new_from_string_with_error(icalvalue_kind kind,char* str,ic
 
 	case ICAL_TEXT_VALUE:
 	{
-	    value = icalvalue_new_text(str);
+	    char* dequoted_str = strdup_and_dequote(str);
+	    value = icalvalue_new_text(dequoted_str);
+	    free(dequoted_str);
 	    break;
 	}
 
@@ -311,7 +371,13 @@ icalvalue* icalvalue_new_from_string_with_error(icalvalue_kind kind,char* str,ic
 	case ICAL_METHOD_VALUE:
 	{
 	    icalproperty_method method = icalenum_string_to_method(str);
-	    value = icalvalue_new_method(method);
+
+	    if(method == ICAL_METHOD_NONE){
+		value = 0;
+	    } else {
+		value = icalvalue_new_method(method);
+	    }
+
 	    break; 
 
 	}
@@ -1811,7 +1877,6 @@ icalvalue_get_string(icalvalue* value)
   
     return ((struct icalvalue_impl*)value)->data.v_string;
 }
-
 
 icalvalue*
 icalvalue_new_text (char* v)

@@ -1,3 +1,22 @@
+Version 0.17 15 May 00  (cvs tag libical-0-17 ) 
+---------------------------------------------
+
+Fixed two bugs that added extraneous '/' to test values
+
+Fixed type in internal string for the COUNTER method
+
+Eliminated a mempry leak in icalparser.c
+
+
+Version 0.16a 29 April 00
+----------------------------------------------
+
+Fixed bug in icalvalue_new_from_string that caused METHOD value to
+choke on non standard input.
+
+Fixed a memory leak in icalparser_add_line -- failed to free 'line'
+
+
 Version 0.16 5 April 00 ( cvs tag libical-0-16)
 ----------------------------------------------
 

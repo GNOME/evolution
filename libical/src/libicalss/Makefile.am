@@ -1,9 +1,9 @@
 
 
 #noinst_LTLIBRARIES = libicalss.la
-lib_LTLIBRARIES = libicalss.la
+lib_LIBRARIES = libicalss.a
 
-libicalss_la_SOURCES =\
+libicalss_a_SOURCES =\
 	icalcalendar.c	\
 	icalcalendar.h	\
 	icalcluster.c \
@@ -17,7 +17,5 @@ include_HEADERS =\
 	icalstore.h
 
 
-INCLUDES =					\
-	-I $(srcdir)/../libical/		\
-	-I ../libical
+INCLUDES = -I../libical/
 

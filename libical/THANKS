@@ -1,6 +1,10 @@
 Thanks to: 
 
 
-Graham Davison for MacOS support and miscelaneous code bits
+Graham Davison <g.m.davison@computer.org> for MacOS support and
+miscelaneous code bits
 
-Seth Alves for the first cut at the Makefile.am files
+Seth Alves <alves@hungry.com> for the first cut at the Makefile.am
+files and various utility functions.
+
+Russ Steinthal <rms39@columbia.edu> for several utility functions and comments. 

@@ -56,7 +56,11 @@ if ($opt_i) {
 
   }    
 
-  print "/* Everything below this line is machine generated. Do not edit. */\n";
+  if($opt_p){
+    print "# Everything below this line is machine generated. Do not edit. \n";
+  } else {
+    print "/* Everything below this line is machine generated. Do not edit. */\n";
+  }
 
 }
 

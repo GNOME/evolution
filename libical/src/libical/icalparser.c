@@ -488,10 +488,10 @@ void insert_error(icalcomponent* comp, char* text,
 {
     char temp[1024];
     
-    if (strlen(text) > 256) {
-	sprintf(temp,"%s: \'%256s...\'",message,text);
+    if (text == 0){
+	snprintf(temp,1024,"%s:",message);
     } else {
-	sprintf(temp,"%s: \'%s\'",message,text);
+	snprintf(temp,1024,"%s: \'%s\'",message,text);
     }	
     
     icalcomponent_add_property

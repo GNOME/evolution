@@ -1,4 +1,4 @@
-# Makefile.in generated automatically by automake 1.4 from Makefile.am
+# Makefile.in generated automatically by automake 1.4a from Makefile.am
 
 # Copyright (C) 1994, 1995-8, 1999 Free Software Foundation, Inc.
 # This Makefile.in is free software; the Free Software Foundation
@@ -46,9 +46,10 @@ AUTOMAKE = @AUTOMAKE@
 AUTOHEADER = @AUTOHEADER@
 
 INSTALL = @INSTALL@
-INSTALL_PROGRAM = @INSTALL_PROGRAM@ $(AM_INSTALL_PROGRAM_FLAGS)
+INSTALL_PROGRAM = @INSTALL_PROGRAM@
 INSTALL_DATA = @INSTALL_DATA@
 INSTALL_SCRIPT = @INSTALL_SCRIPT@
+INSTALL_STRIP_FLAG =
 transform = @program_transform_name@
 
 NORMAL_INSTALL = :
@@ -57,26 +58,20 @@ POST_INSTALL = :
 NORMAL_UNINSTALL = :
 PRE_UNINSTALL = :
 POST_UNINSTALL = :
-host_alias = @host_alias@
-host_triplet = @host@
 AR = @AR@
-AS = @AS@
 CC = @CC@
-DLLTOOL = @DLLTOOL@
 LEX = @LEX@
-LIBTOOL = @LIBTOOL@
 LN_S = @LN_S@
 MAKEINFO = @MAKEINFO@
-OBJDUMP = @OBJDUMP@
 PACKAGE = @PACKAGE@
 RANLIB = @RANLIB@
 VERSION = @VERSION@
 YACC = @YACC@
 
-noinst_PROGRAMS = usecases copycluster regression parser findobj storage
+noinst_PROGRAMS = usecases copycluster regression parser findobj storage stow
 
-LDADD = ../libical/libical.la ../libicalss/libicalss.la
-INCLUDES = -I$(srcdir) -I$(srcdir)/../libical -I$(srcdir)/../libicalss -I../libical
+LDADD = ../libical/libical.a ../libicalss/libicalss.a
+INCLUDES = -I . -I../libical -I../libicalss
 
 findobj_SOURCES = findobj.c
 usecases_SOURCES = usecases.c
@@ -84,6 +79,7 @@ copycluster_SOURCES = copycluster.c
 regression_SOURCES = regression.c
 parser_SOURCES = icaltestparser.c
 storage_SOURCES = storage.c
+stow_SOURCES = stow.c
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
 CONFIG_HEADER = ../../config.h
 CONFIG_CLEAN_FILES = 
@@ -96,35 +92,37 @@ LDFLAGS = @LDFLAGS@
 LIBS = @LIBS@
 usecases_OBJECTS =  usecases.o
 usecases_LDADD = $(LDADD)
-usecases_DEPENDENCIES =  ../libical/libical.la ../libicalss/libicalss.la
+usecases_DEPENDENCIES =  ../libical/libical.a ../libicalss/libicalss.a
 usecases_LDFLAGS = 
 copycluster_OBJECTS =  copycluster.o
 copycluster_LDADD = $(LDADD)
-copycluster_DEPENDENCIES =  ../libical/libical.la \
-../libicalss/libicalss.la
+copycluster_DEPENDENCIES =  ../libical/libical.a \
+../libicalss/libicalss.a
 copycluster_LDFLAGS = 
 regression_OBJECTS =  regression.o
 regression_LDADD = $(LDADD)
-regression_DEPENDENCIES =  ../libical/libical.la \
-../libicalss/libicalss.la
+regression_DEPENDENCIES =  ../libical/libical.a ../libicalss/libicalss.a
 regression_LDFLAGS = 
 parser_OBJECTS =  icaltestparser.o
 parser_LDADD = $(LDADD)
-parser_DEPENDENCIES =  ../libical/libical.la ../libicalss/libicalss.la
+parser_DEPENDENCIES =  ../libical/libical.a ../libicalss/libicalss.a
 parser_LDFLAGS = 
 findobj_OBJECTS =  findobj.o
 findobj_LDADD = $(LDADD)
-findobj_DEPENDENCIES =  ../libical/libical.la ../libicalss/libicalss.la
+findobj_DEPENDENCIES =  ../libical/libical.a ../libicalss/libicalss.a
 findobj_LDFLAGS = 
 storage_OBJECTS =  storage.o
 storage_LDADD = $(LDADD)
-storage_DEPENDENCIES =  ../libical/libical.la ../libicalss/libicalss.la
+storage_DEPENDENCIES =  ../libical/libical.a ../libicalss/libicalss.a
 storage_LDFLAGS = 
+stow_OBJECTS =  stow.o
+stow_LDADD = $(LDADD)
+stow_DEPENDENCIES =  ../libical/libical.a ../libicalss/libicalss.a
+stow_LDFLAGS = 
 CFLAGS = @CFLAGS@
 COMPILE = $(CC) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
-LTCOMPILE = $(LIBTOOL) --mode=compile $(CC) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
 CCLD = $(CC)
-LINK = $(LIBTOOL) --mode=link $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(LDFLAGS) -o $@
+LINK = $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(LDFLAGS) -o $@
 DIST_COMMON =  Makefile.am Makefile.in
 
 
@@ -132,18 +130,16 @@ DISTFILES = $(DIST_COMMON) $(SOURCES) $(HEADERS) $(TEXINFOS) $(EXTRA_DIST)
 
 TAR = gtar
 GZIP_ENV = --best
-DEP_FILES =  .deps/copycluster.P .deps/findobj.P .deps/icaltestparser.P \
-.deps/regression.P .deps/storage.P .deps/usecases.P
-SOURCES = $(usecases_SOURCES) $(copycluster_SOURCES) $(regression_SOURCES) $(parser_SOURCES) $(findobj_SOURCES) $(storage_SOURCES)
-OBJECTS = $(usecases_OBJECTS) $(copycluster_OBJECTS) $(regression_OBJECTS) $(parser_OBJECTS) $(findobj_OBJECTS) $(storage_OBJECTS)
+SOURCES = $(usecases_SOURCES) $(copycluster_SOURCES) $(regression_SOURCES) $(parser_SOURCES) $(findobj_SOURCES) $(storage_SOURCES) $(stow_SOURCES)
+OBJECTS = $(usecases_OBJECTS) $(copycluster_OBJECTS) $(regression_OBJECTS) $(parser_OBJECTS) $(findobj_OBJECTS) $(storage_OBJECTS) $(stow_OBJECTS)
 
 all: all-redirect
 .SUFFIXES:
-.SUFFIXES: .S .c .lo .o .s
+.SUFFIXES: .S .c .o .s
 $(srcdir)/Makefile.in: Makefile.am $(top_srcdir)/configure.in $(ACLOCAL_M4) 
-	cd $(top_srcdir) && $(AUTOMAKE) --gnu src/test/Makefile
+	cd $(top_srcdir) && $(AUTOMAKE) --gnu --include-deps src/test/Makefile
 
-Makefile: $(srcdir)/Makefile.in  $(top_builddir)/config.status $(BUILT_SOURCES)
+Makefile: $(srcdir)/Makefile.in  $(top_builddir)/config.status
 	cd $(top_builddir) \
 	  && CONFIG_FILES=$(subdir)/$@ CONFIG_HEADERS= $(SHELL) ./config.status
 
@@ -156,6 +152,9 @@ clean-noinstPROGRAMS:
 distclean-noinstPROGRAMS:
 
 maintainer-clean-noinstPROGRAMS:
+
+.c.o:
+	$(COMPILE) -c $<
 
 .s.o:
 	$(COMPILE) -c $<
@@ -172,22 +171,6 @@ distclean-compile:
 	-rm -f *.tab.c
 
 maintainer-clean-compile:
-
-.s.lo:
-	$(LIBTOOL) --mode=compile $(COMPILE) -c $<
-
-.S.lo:
-	$(LIBTOOL) --mode=compile $(COMPILE) -c $<
-
-mostlyclean-libtool:
-	-rm -f *.lo
-
-clean-libtool:
-	-rm -rf .libs _libs
-
-distclean-libtool:
-
-maintainer-clean-libtool:
 
 usecases: $(usecases_OBJECTS) $(usecases_DEPENDENCIES)
 	@rm -f usecases
@@ -212,6 +195,10 @@ findobj: $(findobj_OBJECTS) $(findobj_DEPENDENCIES)
 storage: $(storage_OBJECTS) $(storage_DEPENDENCIES)
 	@rm -f storage
 	$(LINK) $(storage_LDFLAGS) $(storage_OBJECTS) $(storage_LDADD) $(LIBS)
+
+stow: $(stow_OBJECTS) $(stow_DEPENDENCIES)
+	@rm -f stow
+	$(LINK) $(stow_LDFLAGS) $(stow_OBJECTS) $(stow_LDADD) $(LIBS)
 
 tags: TAGS
 
@@ -247,11 +234,6 @@ distdir = $(top_builddir)/$(PACKAGE)-$(VERSION)/$(subdir)
 subdir = src/test
 
 distdir: $(DISTFILES)
-	here=`cd $(top_builddir) && pwd`; \
-	top_distdir=`cd $(top_distdir) && pwd`; \
-	distdir=`cd $(distdir) && pwd`; \
-	cd $(top_srcdir) \
-	  && $(AUTOMAKE) --include-deps --build-dir=$$here --srcdir-name=$(top_srcdir) --output-dir=$$top_distdir --gnu src/test/Makefile
 	@for file in $(DISTFILES); do \
 	  d=$(srcdir); \
 	  if test -d $$d/$$file; then \
@@ -262,38 +244,6 @@ distdir: $(DISTFILES)
 	    || cp -p $$d/$$file $(distdir)/$$file || :; \
 	  fi; \
 	done
-
-DEPS_MAGIC := $(shell mkdir .deps > /dev/null 2>&1 || :)
-
--include $(DEP_FILES)
-
-mostlyclean-depend:
-
-clean-depend:
-
-distclean-depend:
-	-rm -rf .deps
-
-maintainer-clean-depend:
-
-%.o: %.c
-	@echo '$(COMPILE) -c $<'; \
-	$(COMPILE) -Wp,-MD,.deps/$(*F).pp -c $<
-	@-cp .deps/$(*F).pp .deps/$(*F).P; \
-	tr ' ' '\012' < .deps/$(*F).pp \
-	  | sed -e 's/^\\$$//' -e '/^$$/ d' -e '/:$$/ d' -e 's/$$/ :/' \
-	    >> .deps/$(*F).P; \
-	rm .deps/$(*F).pp
-
-%.lo: %.c
-	@echo '$(LTCOMPILE) -c $<'; \
-	$(LTCOMPILE) -Wp,-MD,.deps/$(*F).pp -c $<
-	@-sed -e 's/^\([^:]*\)\.o[ 	]*:/\1.lo \1.o :/' \
-	  < .deps/$(*F).pp > .deps/$(*F).P; \
-	tr ' ' '\012' < .deps/$(*F).pp \
-	  | sed -e 's/^\\$$//' -e '/^$$/ d' -e '/:$$/ d' -e 's/$$/ :/' \
-	    >> .deps/$(*F).P; \
-	rm -f .deps/$(*F).pp
 info-am:
 info: info-am
 dvi-am:
@@ -316,7 +266,7 @@ uninstall: uninstall-am
 all-am: Makefile $(PROGRAMS)
 all-redirect: all-am
 install-strip:
-	$(MAKE) $(AM_MAKEFLAGS) AM_INSTALL_PROGRAM_FLAGS=-s install
+	$(MAKE) $(AM_MAKEFLAGS) INSTALL_STRIP_FLAG=-s install
 installdirs:
 
 
@@ -330,26 +280,22 @@ distclean-generic:
 
 maintainer-clean-generic:
 mostlyclean-am:  mostlyclean-noinstPROGRAMS mostlyclean-compile \
-		mostlyclean-libtool mostlyclean-tags mostlyclean-depend \
-		mostlyclean-generic
+		mostlyclean-tags mostlyclean-generic
 
 mostlyclean: mostlyclean-am
 
-clean-am:  clean-noinstPROGRAMS clean-compile clean-libtool clean-tags \
-		clean-depend clean-generic mostlyclean-am
+clean-am:  clean-noinstPROGRAMS clean-compile clean-tags clean-generic \
+		mostlyclean-am
 
 clean: clean-am
 
-distclean-am:  distclean-noinstPROGRAMS distclean-compile \
-		distclean-libtool distclean-tags distclean-depend \
+distclean-am:  distclean-noinstPROGRAMS distclean-compile distclean-tags \
 		distclean-generic clean-am
-	-rm -f libtool
 
 distclean: distclean-am
 
 maintainer-clean-am:  maintainer-clean-noinstPROGRAMS \
-		maintainer-clean-compile maintainer-clean-libtool \
-		maintainer-clean-tags maintainer-clean-depend \
+		maintainer-clean-compile maintainer-clean-tags \
 		maintainer-clean-generic distclean-am
 	@echo "This command is intended for maintainers to use;"
 	@echo "it deletes files that may require special tools to rebuild."
@@ -359,12 +305,9 @@ maintainer-clean: maintainer-clean-am
 .PHONY: mostlyclean-noinstPROGRAMS distclean-noinstPROGRAMS \
 clean-noinstPROGRAMS maintainer-clean-noinstPROGRAMS \
 mostlyclean-compile distclean-compile clean-compile \
-maintainer-clean-compile mostlyclean-libtool distclean-libtool \
-clean-libtool maintainer-clean-libtool tags mostlyclean-tags \
-distclean-tags clean-tags maintainer-clean-tags distdir \
-mostlyclean-depend distclean-depend clean-depend \
-maintainer-clean-depend info-am info dvi-am dvi check check-am \
-installcheck-am installcheck install-exec-am install-exec \
+maintainer-clean-compile tags mostlyclean-tags distclean-tags \
+clean-tags maintainer-clean-tags distdir info-am info dvi-am dvi check \
+check-am installcheck-am installcheck install-exec-am install-exec \
 install-data-am install-data install-am install uninstall-am uninstall \
 all-redirect all-am all installdirs mostlyclean-generic \
 distclean-generic clean-generic maintainer-clean-generic clean \

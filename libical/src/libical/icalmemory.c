@@ -184,7 +184,7 @@ icalmemory_append_string(char** buf, char** pos, size_t* buf_size,
     data_length = (size_t)*pos - (size_t)*buf;    
     final_length = data_length + string_length; 
 
-    if ( final_length > (size_t) *buf_size ) {
+    if ( final_length >= (size_t) *buf_size) {
 
 	
 	*buf_size  = (*buf_size) * 2  + final_length;

@@ -2,13 +2,11 @@
 #AUTOMAKE_OPTIONS = no-dependencies
 
 #noinst_LTLIBRARIES = libical.la
-lib_LTLIBRARIES = libical.la
-
-INCLUDES = -I.
+lib_LIBRARIES = libical.a
 
 YFLAGS =-d -v -t
 
-libical_la_SOURCES = \
+libical_a_SOURCES = \
 	ical.h \
 	icalcomponent.c	\
 	icalcomponent.h	\
@@ -60,7 +58,7 @@ CONFIG_CLEAN_FILES =  y.output *~
 
 DESIGNDATA = ../../design-data
 ICALSCRIPTS = ../../scripts
-derived: icalproperty icalparameter icalvalue
+derived: icalproperty icalparameter icalvalue icalrestriction
 
 icalproperty:
 	$(ICALSCRIPTS)/mkderivedproperties.pl -i icalproperty.h -h $(DESIGNDATA)/prop-to-value.txt ${DESIGNDATA}/value-c-types.txt > icalproperty.newh
@@ -83,5 +81,9 @@ icalvalue:
 
 	$(ICALSCRIPTS)/mkderivedvalues.pl  -i icalvalue.c -c $(DESIGNDATA)/value-c-types.txt > icalvalue.newc
 	mv icalvalue.newc icalvalue.c
+
+icalrestriction: 
+	$(ICALSCRIPTS)/mkrestrictiontable.pl  -i icalrestriction.c  $(DESIGNDATA)/restrictions.csv > icalrestriction.newc
+	mv icalrestriction.newc icalrestriction.c
 
 

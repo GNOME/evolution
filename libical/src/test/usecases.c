@@ -177,7 +177,7 @@ icalcomponent* create_new_component()
 	);
 
     /* add a property that has parameters */
-    property = icalproperty_new_organizer(strdup("mrbig@host.com"));
+    property = icalproperty_new_organizer(strdup("mailto:mrbig@host.com"));
     
     icalproperty_add_parameter(
 	property,
@@ -191,7 +191,7 @@ icalcomponent* create_new_component()
        operation is the same as adding a property to a component */
 
     /* add another property that has parameters */
-    property = icalproperty_new_attendee(strdup("employee-A@host.com"));
+    property = icalproperty_new_attendee(strdup("mailto:employee-A@host.com"));
     
     icalproperty_add_parameter(
 	property,
@@ -299,12 +299,12 @@ icalcomponent* create_new_component_with_va_args()
 		icalproperty_new_dtstamp(atime),
 		icalproperty_new_uid(strdup("guid-1.host1.com")),
 		icalproperty_vanew_organizer(
-		    strdup("mrbig@host.com"),
+		    strdup("mailto:mrbig@host.com"),
 		    icalparameter_new_role(ICAL_ROLE_CHAIR),
 		    0
 		    ),
 		icalproperty_vanew_attendee(
-		    strdup("employee-A@host.com"),
+		    strdup("mailto:employee-A@host.com"),
 		    icalparameter_new_role(ICAL_ROLE_REQPARTICIPANT),
 		    icalparameter_new_rsvp(1),
 		    icalparameter_new_cutype(ICAL_CUTYPE_GROUP),

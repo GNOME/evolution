@@ -369,7 +369,7 @@ static struct icalproperty_kind_value_map propval_map[] =
     { ICAL_LASTMODIFIED_PROPERTY, ICAL_DATETIME_VALUE }, 
     { ICAL_SEQUENCE_PROPERTY, ICAL_INTEGER_VALUE }, 
     { ICAL_X_PROPERTY, ICAL_TEXT_VALUE }, 
-    { ICAL_REQUESTSTATUS_PROPERTY, ICAL_TEXT_VALUE }, 
+    { ICAL_REQUESTSTATUS_PROPERTY, ICAL_STRING_VALUE }, 
     { ICAL_ATTACH_PROPERTY, ICAL_URI_VALUE }, 
     { ICAL_GEO_PROPERTY, ICAL_GEO_VALUE }, 
     { ICAL_DTEND_PROPERTY, ICAL_DATETIME_VALUE }, 
@@ -569,7 +569,7 @@ struct {icalproperty_method method; char* str;} method_map[] = {
     {ICAL_METHOD_ADD,"ADD"},
     {ICAL_METHOD_CANCEL,"CANCEL"},
     {ICAL_METHOD_REFRESH,"REFRESH"},
-    {ICAL_METHOD_COUNTER,"CPUNTER"},
+    {ICAL_METHOD_COUNTER,"COUNTER"},
     {ICAL_METHOD_DECLINECOUNTER,"DECLINECOUNTER"},
     /* CAP Methods */
     {ICAL_METHOD_CREATE,"CREATE"},
@@ -593,7 +593,7 @@ char* icalenum_method_to_string(icalproperty_method method)
 	}
     }
 
-    return 0;
+    return method_map[i].str; /* should be ICAL_METHOD_NONE */
 }
 
 icalproperty_method icalenum_string_to_method(char* str)
