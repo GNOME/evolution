@@ -2329,6 +2329,24 @@ message_list_length (MessageList *ml)
 	return ml->hide_unhidden;
 }
 
+struct _glibsuxcrap {
+	unsigned int count;
+	CamelFolder *folder;
+};
+
+static void
+glib_crapback(void *key, void *data, void *x)
+{
+	struct _glibsuxcrap *y = x;
+	CamelMessageInfo *mi;
+
+	mi = camel_folder_get_message_info(y->folder, key);
+	if (mi) {
+		y->count++;
+		camel_folder_free_message_info(y->folder, mi);
+	}
+}
+
 /* returns number of hidden messages */
 unsigned int
 message_list_hidden(MessageList *ml)
@@ -2336,8 +2354,12 @@ message_list_hidden(MessageList *ml)
 	unsigned int hidden = 0;
 
 	MESSAGE_LIST_LOCK (ml, hide_lock);
-	if (ml->hidden)
-		hidden = g_hash_table_size (ml->hidden);
+	if (ml->hidden && ml->folder) {
+		/* this is a hack, should probably just maintain the hidden table better */
+		struct _glibsuxcrap x = { 0, ml->folder };
+		g_hash_table_foreach(ml->hidden, glib_crapback, &x);
+		hidden = x.count;
+	}
 	MESSAGE_LIST_UNLOCK (ml, hide_lock);
 
 	return hidden;

@@ -1,5 +1,9 @@
 2002-08-06  Not Zed  <NotZed@Ximian.com>
 
+	* message-list.c (message_list_hidden): Only count hidden messages
+	which are in the folder.  Should probably maintain hidden table
+	better.  For #4334.
+
 	* mail-ops.c (filter_folder_filter): Unref the driver before
 	returning to main thread, so any closing operations are handled
 	async (as in fetch_mail_fetch()), for #28072.
