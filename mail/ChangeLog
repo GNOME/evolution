@@ -1,3 +1,9 @@
+2001-08-13  Jason Leach  <jleach@ximian.com>
+
+	* mail-local.c (init_trash): Tell folder cache the path for our
+	Trash is /Trash, because that's what Shell needs to hear for
+	updating folders.
+
 2001-08-11  Jason Leach  <jleach@ximian.com>
 
 	* mail-offline-handler.c (impl_goOnline): Set the session as

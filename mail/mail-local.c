@@ -371,7 +371,7 @@ init_trash (CamelStore *store)
 		mail_folder_cache_note_folder ("vtrash:file:/", store->vtrash);
 		mail_folder_cache_set_update_lstorage ("vtrash:file:/", 
 						       local_store->corba_storage,
-						       "/local/Trash");
+						       "/Trash");
 	}
 }
 
