@@ -32,7 +32,7 @@ If the configure script complains that you don't have a library that
 you know you have installed, it usually means either that you've
 installed things into multiple prefixes (see the bits on GNOME_PATH
 below) or (if you're on Linux) that you installed the "foo" package
-but forgot the "foo-devel" package.
+but forgot the "foo-devel" or "foo-dev" packages.
 
 
 HOW TO BUILD EVOLUTION
@@ -49,7 +49,7 @@ the libraries it depends on stabilize, and there's nothing we can do
 to make it any easier until then.
 
 
-General Principles
+GENERAL PRINCIPLES
 ------------------
 
 First you have to decide whether you want to install Evolution (and
@@ -67,7 +67,7 @@ type:
 	gnome-config --sysconfdir
 
 and remember the answers, and pass them to "configure" or "autogen.sh"
-when building the other packages you need. Eg:
+when building the other packages you need. For example:
 
 	./configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var/lib
 
@@ -77,7 +77,7 @@ when building the other packages you need. Eg:
 
 If you build in another prefix instead, you will need to set the
 GNOME_PATH environment variable (and ACLOCAL_FLAGS as well if building
-from CVS) to include the prefix you install into. Eg:
+from CVS) to include the prefix you install into. For example:
 
         export GNOME_PATH=/usr/local
 	export ACLOCAL_FLAGS="-I /usr/local/share/aclocal"
@@ -89,10 +89,13 @@ such as /evolution, that you also need to make sure to put
 ${prefix}/bin in your PATH and ${prefix}/lib in your LD_LIBRARY_PATH.
 
 
-Dependencies
+DEPENDENCIES
 ------------
 
-All of these libraries are available in GNOME CVS, under the given
+GNOME LIBRARIES
+---------------
+
+The following libraries are available in GNOME CVS, under the given
 names. Most (but not all) of them are also available as tarballs on
 ftp.gnome.org. The (*)ed packages are available in Ximian GNOME
 (http://www.ximian.com/desktop/) Other packages may be available from
@@ -101,7 +104,7 @@ the Ximian GNOME evolution preview mirror.
 If installing from packages, remember that you need both the runtime
 and -devel packages for each library.
 
- - xml-i18n-tools - lates from xml-i18n-tools-stable-1-x branch in
+ - xml-i18n-tools - latest from xml-i18n-tools-stable-1-x branch in
    GNOME CVS (0.8.2 is too old)
 
  - scrollkeeper - 0.1.4 or later (*)
@@ -145,13 +148,17 @@ and -devel packages for each library.
 
  - gtkhtml - later than 0.11.0
 
+
+3RD PARTY DEPENDENCIES
+----------------------
+
  - Berkeley's libdb - 3.1.17
 
-   db3 is available from www.sleepycat.com.  Make sure to get 3.1.17,
-   it isn't the newest version.
+   db3 is available from http://www.sleepycat.com. Make sure to get
+   3.1.17, it isn't the latest version.
 
 
-Compiling Berkeley DB
+COMPILING BERKELEY DB
 ---------------------
 
 If you don't have 3.1.17 installed on your system or Evolution doesn't
@@ -166,19 +173,19 @@ it without messing up your system installation.
      e.g: NOT evolution/db-3.1.17
 
   * Compile according to instructions, but installing into some custom
-    prefix, e.g:
+    prefix, for example:
 
       ../dist/configure --prefix=/home/user/berkeleydb-3.1.17
 
   * Autogen Evolution specifying that it has to look for the DB
-    library there, eg.:
+    library there, for example:
 
       ./autogen.sh --prefix=/opt/gnome
       --with-db3-includes=/home/user/berkeleydb-3.1.17/include
       --with-db3-libs=/home/user/berkeleydb-3.1.17/lib
 
 
-Compiling Palm Pilot support
+COMPILING PALM PILOT SUPPORT
 ----------------------------
 
 If you want support for PalmPilot syncing (currently experimental so
@@ -191,17 +198,20 @@ http://www.pilot-link.org
 http://www.eskil.org/gnome-pilot/
 
 3) evolution
-in your evo source dir do ./autogen.sh --prefix=<evo-prefix> 
+In your evolution source directory do ./autogen.sh --prefix=<evo-prefix> 
 --with-pisock=<pilot-link-prefix> --enable-pilot-conduits=yes
 make
 make install
 
 
-If you want support SSL (and someday S/MIME), you will also need libnspr4 and
+SSL SUPPORT
+-----------
+
+If you want SSL support (and someday S/MIME), you will also need libnspr4 and
 libnss3 which can be found at http://www.mozilla.org.
 
 Once you have libnspr4 and libnss3 (and their respective includes) installed,
-in your evolution source dir do:
+in your evolution source directory do:
 ./autogen.sh --prefix=<evo-prefix> --with-nspr-includes=<nspr-includes-prefix>
 --with-nspr-libs=<nspr-libs-prefix> --with-nss-includes=<nss-includes-prefix>
 --with-nss-libs=<nss-libs-prefix>

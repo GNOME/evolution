@@ -1,5 +1,13 @@
 2001-09-04  Ettore Perazzoli  <ettore@ximian.com>
 
+	[Fixes by Neil Conway <neilconway@home.com, as per #8090.]
+
+	* configure.in: Fix the error message if scrollkeeper is not found.
+
+	* README: A bunch of minor fixes, tweaks and cleanups.
+
+2001-09-04  Ettore Perazzoli  <ettore@ximian.com>
+
 	[Fix #8089, Undocumented Scrollkeeper dependency.]
 
 	* README: Add scrollkeeper 0.1.4 to the list of dependencies.
