@@ -1342,6 +1342,7 @@ ect_show_tooltip (ECellView *ecell_view,
 		  int model_col,
 		  int view_col,
 		  int row,
+		  int col_width,
 		  ETableTooltip *tooltip)
 {
 	ECellTextView *text_view = (ECellTextView *) ecell_view;
@@ -1366,6 +1367,7 @@ ect_show_tooltip (ECellView *ecell_view,
 	tooltip->timer = 0;
 
 	build_current_cell (&cell, text_view, model_col, view_col, row);
+	cell.width = col_width - 8;
 	split_into_lines (&cell);
 	calc_line_widths (&cell);
 
@@ -2444,7 +2446,7 @@ calc_ellipsis (ECellTextView *text_view)
 	EFont *font;
 	
 	font = text_view->font;
-	if (font)
+	if (font) {
 		text_view->ellipsis_width[E_FONT_PLAIN] =
 			e_font_utf8_text_width (font, E_FONT_PLAIN,
 					ect->ellipsis ? ect->ellipsis : "...",
@@ -2453,6 +2455,7 @@ calc_ellipsis (ECellTextView *text_view)
 			e_font_utf8_text_width (font, E_FONT_BOLD,
 					ect->ellipsis ? ect->ellipsis : "...",
 					ect->ellipsis ? strlen (ect->ellipsis) : 3);
+	}
 }
 
 /* Calculates the line widths (in pixels) of the text's splitted lines */
@@ -2493,8 +2496,9 @@ calc_line_widths (CurrentCell *cell)
 					lines->ellipsis_length = 0;
 					for (j = 0; j < lines->length; j++){
 						if (e_font_utf8_text_width (font, cell->style, lines->text, j) +
-						    text_view->ellipsis_width[cell->style] <= cell->width)
+						    text_view->ellipsis_width[cell->style] < cell->width) {
 							lines->ellipsis_length = j;
+						}
 						else
 							break;
 					}

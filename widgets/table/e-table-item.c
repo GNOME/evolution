@@ -1481,6 +1481,7 @@ _do_tooltip (ETableItem *eti)
 			     view_to_model_col (eti, eti->tooltip->col),
 			     eti->tooltip->col,
 			     eti->tooltip->row,
+			     eti->header->columns[eti->tooltip->col]->width,
 			     eti->tooltip);
 	return FALSE;
 }

@@ -90,7 +90,7 @@ ec_leave_edit (ECellView *ecell_view, int model_col, int view_col, int row, void
 }
 
 static void
-ec_show_tooltip (ECellView *ecell_view, int model_col, int view_col, int row, ETableTooltip *tooltip)
+ec_show_tooltip (ECellView *ecell_view, int model_col, int view_col, int row, int col_width, ETableTooltip *tooltip)
 {
 	/* Do nothing */
 }
@@ -332,8 +332,8 @@ e_cell_max_width (ECellView *ecell_view, int model_col, int view_col)
 	      
 void
 e_cell_show_tooltip (ECellView *ecell_view, int model_col, int view_col, 
-		     int row, ETableTooltip *tooltip)
+		     int row, int col_width, ETableTooltip *tooltip)
 {
 	return E_CELL_CLASS (GTK_OBJECT (ecell_view->ecell)->klass)->show_tooltip
-		(ecell_view, model_col, view_col, row, tooltip);
+		(ecell_view, model_col, view_col, row, col_width, tooltip);
 }
