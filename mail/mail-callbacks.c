@@ -33,6 +33,8 @@
 #include <errno.h>
 #include <gtkhtml/gtkhtml.h>
 
+#include <gtk/gtkmessagedialog.h>
+
 #include <libgnomeprint/gnome-print-master.h>
 #include <libgnomeprintui/gnome-print-dialog.h>
 #include <libgnomeprintui/gnome-print-master-preview.h>
@@ -62,7 +64,6 @@
 #include "subscribe-dialog.h"
 #include "message-tag-editor.h"
 #include "message-tag-followup.h"
-#include "e-messagebox.h"
 
 #include "Evolution.h"
 #include "evolution-storage.h"
@@ -220,22 +221,12 @@ check_send_configuration (FolderBrowser *fb)
 	return TRUE;
 }
 
-static void
-msgbox_destroy_cb (gpointer user_data, GObject *widget)
-{
-	gboolean *show_again = user_data;
-	GtkWidget *checkbox;
-	
-	checkbox = e_message_box_get_checkbox (E_MESSAGE_BOX (widget));
-	*show_again = !gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (checkbox));
-}
-
 static gboolean
 ask_confirm_for_unwanted_html_mail (EMsgComposer *composer, EDestination **recipients)
 {
-	gboolean show_again = TRUE;
+	gboolean show_again;
 	GString *str;
-	GtkWidget *mbox;
+	GtkWidget *mbox, *check;
 	int i, button;
 	
 	if (!mail_config_get_confirm_unwanted_html ()) {
@@ -257,18 +248,16 @@ ask_confirm_for_unwanted_html_mail (EMsgComposer *composer, EDestination **recip
 	}
 	
 	g_string_append (str, _("Send anyway?"));
-	
-	mbox = e_message_box_new (str->str,
-				  E_MESSAGE_BOX_QUESTION,
-				  GTK_STOCK_YES,
-				  GTK_STOCK_NO,
-				  NULL);
-	
-	g_string_free (str, TRUE);
-	
-	g_object_weak_ref ((GObject *) mbox, (GWeakNotify) msgbox_destroy_cb, &show_again);
-	
-	button = gtk_dialog_run (GTK_DIALOG (mbox));
+
+	mbox = gtk_message_dialog_new((GtkWindow *)composer, GTK_DIALOG_DESTROY_WITH_PARENT,
+				      GTK_MESSAGE_QUESTION, GTK_BUTTONS_YES_NO,
+				      "%s", str->str);
+	check = gtk_check_button_new_with_label (_("Don't show this message again."));
+	gtk_box_pack_start((GtkBox *)((GtkDialog *)mbox)->vbox, check, TRUE, TRUE, 10);
+	gtk_widget_show(check);
+	button = gtk_dialog_run((GtkDialog *)mbox);
+	show_again = !gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (check));
+	gtk_widget_destroy(mbox);
 	
 	if (!show_again) {
 		mail_config_set_confirm_unwanted_html (show_again);
@@ -281,28 +270,22 @@ ask_confirm_for_unwanted_html_mail (EMsgComposer *composer, EDestination **recip
 static gboolean
 ask_confirm_for_empty_subject (EMsgComposer *composer)
 {
-	/* FIXME: EMessageBox should really handle this stuff
-           automagically. What Miguel thinks would be nice is to pass
-           in a unique id which could be used as a key in the config
-           file and the value would be an int. -1 for always show or
-           the button pressed otherwise. This probably means we'd have
-           to write e_messagebox_run () */
-	gboolean show_again = TRUE;
-	GtkWidget *mbox;
+	gboolean show_again;
+	GtkWidget *mbox, *check;
 	int button;
 	
 	if (!mail_config_get_prompt_empty_subject ())
 		return TRUE;
-	
-	mbox = e_message_box_new (_("This message has no subject.\nReally send?"),
-				  E_MESSAGE_BOX_QUESTION,
-				  GTK_STOCK_YES,
-				  GTK_STOCK_NO,
-				  NULL);
-	
-	g_object_weak_ref ((GObject *) mbox, (GWeakNotify) msgbox_destroy_cb, &show_again);
-	
-	button = gtk_dialog_run (GTK_DIALOG (mbox));
+
+	mbox = gtk_message_dialog_new((GtkWindow *)composer, GTK_DIALOG_DESTROY_WITH_PARENT,
+				      GTK_MESSAGE_QUESTION, GTK_BUTTONS_YES_NO,
+				      _("This message has no subject.\nReally send?"));
+	check = gtk_check_button_new_with_label (_("Don't show this message again."));
+	gtk_box_pack_start((GtkBox *)((GtkDialog *)mbox)->vbox, check, TRUE, TRUE, 10);
+	gtk_widget_show(check);
+	button = gtk_dialog_run((GtkDialog *)mbox);
+	show_again = !gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (check));
+	gtk_widget_destroy(mbox);
 	
 	mail_config_set_prompt_empty_subject (show_again);
 	
@@ -312,14 +295,8 @@ ask_confirm_for_empty_subject (EMsgComposer *composer)
 static gboolean
 ask_confirm_for_only_bcc (EMsgComposer *composer, gboolean hidden_list_case)
 {
-	/* FIXME: EMessageBox should really handle this stuff
-           automagically. What Miguel thinks would be nice is to pass
-           in a message-id which could be used as a key in the config
-           file and the value would be an int. -1 for always show or
-           the button pressed otherwise. This probably means we'd have
-           to write e_messagebox_run () */
-	gboolean show_again = TRUE;
-	GtkWidget *mbox;
+	gboolean show_again;
+	GtkWidget *mbox, *check;
 	int button;
 	const char *first_text;
 	char *message_text;
@@ -341,20 +318,17 @@ ask_confirm_for_only_bcc (EMsgComposer *composer, gboolean hidden_list_case)
 		first_text = _("This message contains only Bcc recipients.");
 	}
 	
-	message_text = g_strdup_printf ("%s\n%s", first_text,
+	mbox = gtk_message_dialog_new((GtkWindow *)composer, GTK_DIALOG_DESTROY_WITH_PARENT,
+				      GTK_MESSAGE_QUESTION, GTK_BUTTONS_YES_NO,
+				      "%s\n%s", first_text,
 					_("It is possible that the mail server may reveal the recipients "
 					  "by adding an Apparently-To header.\nSend anyway?"));
-	
-	mbox = e_message_box_new (message_text, 
-				  E_MESSAGE_BOX_QUESTION,
-				  GNOME_STOCK_BUTTON_YES,
-				  GNOME_STOCK_BUTTON_NO,
-				  NULL);
-	
-	g_object_weak_ref ((GObject *) mbox, (GWeakNotify) msgbox_destroy_cb, &show_again);
-	g_free (message_text);
-	
-	button = gtk_dialog_run (GTK_DIALOG (mbox));
+	check = gtk_check_button_new_with_label (_("Don't show this message again."));
+	gtk_box_pack_start((GtkBox *)((GtkDialog *)mbox)->vbox, check, TRUE, TRUE, 10);
+	gtk_widget_show(check);
+	button = gtk_dialog_run((GtkDialog *)mbox);
+	show_again = !gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (check));
+	gtk_widget_destroy(mbox);
 	
 	mail_config_set_prompt_only_bcc (show_again);
 	

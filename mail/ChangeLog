@@ -1,3 +1,11 @@
+2002-11-22  Not Zed  <NotZed@Ximian.com>
+
+	* mail-callbacks.c (ask_confirm_for_unwanted_html_mail): removed
+	e_messagebox, and use gtk_message_dialog directly.
+	(ask_confirm_for_empty_subject): and here.
+	(ask_confirm_for_only_bcc): And here too.
+	(msgbox_destroy_cb): Removed, since no longer needed.
+
 2002-11-15  Harry Lu  <harry.lu@sun.com>
 
 	* mail-display.c (write_data_to_file): Show file name when prompt
