@@ -1,5 +1,16 @@
 2004-06-08  Rodrigo Moya <rodrigo@novell.com>
 
+	Fixes #57578
+
+	* gui/e-calendar-view.c (on_move_to, on_copy_to): simplified to
+	just call transfer_selected_items() with the approppriate
+	arguments.
+	(transfer_selected_items): new function to transfer all selected
+	items to another calendar.
+	(transfer_item_to): added missing implementation.
+
+2004-06-08  Rodrigo Moya <rodrigo@novell.com>
+
 	Fixes #57579
 
 	* gui/dialogs/select-source-dialog.c (select_source_dialog): start

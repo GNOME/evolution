@@ -36,6 +36,7 @@
 #include <libecal/e-cal-time-util.h>
 #include <libecal/e-cal-component.h>
 
+#include "common/authentication.h"
 #include "calendar-commands.h"
 #include "calendar-component.h"
 #include "calendar-config.h"
@@ -1083,58 +1084,90 @@ on_print_event (GtkWidget *widget, gpointer user_data)
 }
 
 static void
-transfer_item_to (ECalendarViewEvent *event, ESource *destination_source, gboolean remove_item)
+transfer_item_to (ECalendarViewEvent *event, ECal *dest_client, gboolean remove_item)
 {
+	const char *uid;
+	char *new_uid;
+	icalcomponent *orig_icalcomp;
+
+	uid = icalcomponent_get_uid (event->comp_data->icalcomp);
+
+	/* put the new object into the destination calendar */
+	if (e_cal_get_object (dest_client, uid, NULL, &orig_icalcomp, NULL)) {
+		icalcomponent_free (orig_icalcomp);
+
+		if (!e_cal_modify_object (dest_client, event->comp_data->icalcomp, CALOBJ_MOD_ALL, NULL))
+			return;
+	} else {
+		new_uid = NULL;
+		if (!e_cal_create_object (dest_client, event->comp_data->icalcomp, &new_uid, NULL))
+			return;
+
+		if (new_uid)
+			g_free (new_uid);
+	}
+
+	/* remove the item from the source calendar */
+	if (remove_item)
+		e_cal_remove_object (event->comp_data->client, uid, NULL);
+}
+
+static void
+transfer_selected_items (ECalendarView *cal_view, gboolean remove_item)
+{
+	GList *selected, *l;
+	ESource *destination_source;
+	ECal *dest_client;
+
+	selected = e_calendar_view_get_selected_events (cal_view);
+	if (!selected)
+		return;
+
+	/* prompt the user for destination source */
+	destination_source = select_source_dialog ((GtkWindow *) gtk_widget_get_toplevel (cal_view), E_CAL_SOURCE_TYPE_EVENT);
+	if (!destination_source)
+		return;
+
+	/* open the destination calendar */
+	dest_client = auth_new_cal_from_source (destination_source, E_CAL_SOURCE_TYPE_EVENT);
+	if (!dest_client || !e_cal_open (dest_client, FALSE, NULL)) {
+		if (dest_client)
+			g_object_unref (dest_client);
+		g_object_unref (destination_source);
+		return;
+	}
+
+	/* process all selected events */
+	if (remove_item)
+		e_calendar_view_set_status_message (cal_view, _("Moving items"));
+	else
+		e_calendar_view_set_status_message (cal_view, _("Copying items"));
+
+	for (l = selected; l != NULL; l = l->next)
+		transfer_item_to ((ECalendarViewEvent *) l->data, dest_client, TRUE);
+
+	e_calendar_view_set_status_message (cal_view, NULL);
+
+	/* free memory */
+	g_object_unref (destination_source);
+	g_object_unref (dest_client);
+	g_list_free (selected);
 }
 
 static void
 on_copy_to (GtkWidget *widget, gpointer user_data)
 {
-	GList *selected, *l;
-	ESource *destination_source;
 	ECalendarView *cal_view = E_CALENDAR_VIEW (user_data);
 
-	selected = e_calendar_view_get_selected_events (cal_view);
-	if (!selected)
-		return;
-
-	/* prompt the user for destination source */
-	destination_source = select_source_dialog ((GtkWindow *) gtk_widget_get_toplevel (widget), E_CAL_SOURCE_TYPE_EVENT);
-	if (!destination_source)
-		return;
-
-	/* process all selected events */
-	for (l = selected; l != NULL; l = l->next)
-		transfer_item_to ((ECalendarViewEvent *) l->data, destination_source, FALSE);
-
-	/* free memory */
-	g_object_unref (destination_source);
-	g_list_free (selected);
+	transfer_selected_items (cal_view, FALSE);
 }
 
 static void
 on_move_to (GtkWidget *widget, gpointer user_data)
 {
-	GList *selected, *l;
-	ESource *destination_source;
 	ECalendarView *cal_view = E_CALENDAR_VIEW (user_data);
 
-	selected = e_calendar_view_get_selected_events (cal_view);
-	if (!selected)
-		return;
-
-	/* prompt the user for destination source */
-	destination_source = select_source_dialog ((GtkWindow *) gtk_widget_get_toplevel (widget), E_CAL_SOURCE_TYPE_EVENT);
-	if (!destination_source)
-		return;
-
-	/* process all selected events */
-	for (l = selected; l != NULL; l = l->next)
-		transfer_item_to ((ECalendarViewEvent *) l->data, destination_source, FALSE);
-
-	/* free memory */
-	g_object_unref (destination_source);
-	g_list_free (selected);
+	transfer_selected_items (cal_view, TRUE);
 }
 
 static void
