@@ -86,7 +86,7 @@ static GdkAtom clipboard_atom = GDK_NONE;
 
 #define PARENT_TYPE e_cell_get_type()
 
-#define TEXT_PAD 2
+#define TEXT_PAD 5
 
 typedef struct {
 	gpointer lines;			/* Text split into lines (private field) */
@@ -260,8 +260,8 @@ ect_stop_editing (ECellTextView *text_view)
 static void
 ect_cancel_edit (ECellTextView *text_view)
 {
-	ect_stop_editing (text_view);
 	ect_queue_redraw (text_view, text_view->edit->cell.view_col, text_view->edit->cell.row);
+	ect_stop_editing (text_view);
 }
 
 /*
@@ -389,6 +389,25 @@ ect_draw (ECellView *ecell_view, GdkDrawable *drawable,
 	/*
 	 * Be a nice citizen: clip to the region we are supposed to draw on
 	 */
+	rect.x = x1;
+	rect.y = y1;
+	rect.width = x2 - x1;
+	rect.height = y2 - y1;
+	
+	gdk_gc_set_clip_rectangle (text_view->gc, &rect);
+	gdk_gc_set_clip_rectangle (fg_gc, &rect);
+	clip_rect = &rect;
+
+	gdk_gc_set_foreground (text_view->gc, &canvas->style->base [GTK_STATE_NORMAL]);
+	gdk_draw_rectangle (drawable, text_view->gc, TRUE,
+			    rect.x, rect.y, rect.width, rect.height);
+	gdk_gc_set_foreground (text_view->gc, &canvas->style->text [GTK_STATE_NORMAL]);
+
+	x1 += 1;
+	y1 += 1;
+	x2 -= 1;
+	y2 -= 1;
+
 	rect.x = x1;
 	rect.y = y1;
 	rect.width = x2 - x1;
@@ -769,6 +788,18 @@ ect_event (ECellView *ecell_view, GdkEvent *event, int model_col, int view_col, 
 		break;
 	case GDK_KEY_PRESS: /* Fall Through */
 	case GDK_KEY_RELEASE:
+		if (event->key.keyval == GDK_Escape){
+			ect_cancel_edit (text_view);
+			return TRUE;
+		}
+		
+		if (!edit_display) {
+			  e_table_item_enter_edit (text_view->cell_view.e_table_item_view, view_col, row);
+			  ect_edit_select_all (text_view);
+			  edit = text_view->edit;
+			  cellptr = CURRENT_CELL(edit);
+			  edit_display = TRUE;
+		}		
 		if (edit_display) {
 			GdkEventKey key = event->key;
 			e_tep_event.key.time = key.time;
@@ -780,6 +811,7 @@ ect_event (ECellView *ecell_view, GdkEvent *event, int model_col, int view_col, 
 			return e_text_event_processor_handle_event (edit->tep,
 								    &e_tep_event);
 		}
+
 		else
 			return 0;
 		break;
@@ -1033,7 +1065,7 @@ e_cell_text_new (ETableModel *etm, const char *fontname, GtkJustification justif
 	ECellText *ect = gtk_type_new (e_cell_text_get_type ());
 
 	ect->ellipsis = NULL;
-	ect->use_ellipsis = FALSE;
+	ect->use_ellipsis = TRUE;
 
 	ect->editable = TRUE;
 
@@ -1052,7 +1084,7 @@ get_line_xpos (CurrentCell *cell, struct line *line)
 	ECellTextView *text_view = cell->text_view;
 	ECellText *ect = E_CELL_TEXT (((ECellView *)cell->text_view)->ecell);
 	
-	x = text_view->xofs + ect->x;
+	x = text_view->xofs + ect->x + 1;
 
 	switch (ect->justify) {
 	case GTK_JUSTIFY_RIGHT:
@@ -1085,7 +1117,7 @@ get_line_ypos (CurrentCell *cell, struct line *line)
 
 	struct line *lines = linebreaks->lines;
 
-	y = text_view->yofs + ect->y;
+	y = text_view->yofs + ect->y + 1;
 	y += (line - lines) * (text_view->font->ascent + text_view->font->descent);
 
 	return y;
@@ -1839,5 +1871,5 @@ build_current_cell (CurrentCell *cell, ECellTextView *text_view, int model_col, 
 	cell->row = row;
 	cell->breaks = NULL;
 	cell->text = e_table_model_value_at (ecell_view->e_table_model, model_col, row);
-	cell->width = e_table_header_get_column(((ETableItem *)ecell_view->e_table_item_view)->header, view_col)->width;
+	cell->width = e_table_header_get_column(((ETableItem *)ecell_view->e_table_item_view)->header, view_col)->width - 2;
 }
