@@ -1,5 +1,7 @@
 Sat Feb 14 01:09:37 1998  Tom Tromey  <tromey@cygnus.com>
 
+	* Makefile.am (macros.dep): Removed extra `$' from rule.
+
 	* gnome-x-checks.m4: Only check for -lSM if not already in
 	x_libs.
 
