@@ -45,7 +45,6 @@
 
 	* mail-local.c (save_metainfo): Back to using e_xml_save_file().
 
->>>>>>> 1.2540
 2003-01-14  Ettore Perazzoli  <ettore@ximian.com>
 
 	* message-tag-editor.c (message_tag_editor_init): Make dialog
