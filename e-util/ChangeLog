@@ -1,3 +1,8 @@
+2003-06-04  Rodrigo Moya <rodrigo@ximian.com>
+
+	* e-component-listener.[ch]: use ORBit_small_listen/_unlisten instead
+	of Bonobo_Unknown_ping'ing the components.
+
 2003-05-29  JP Rosevear  <jpr@ximian.com>
 
 	Fixes #43775

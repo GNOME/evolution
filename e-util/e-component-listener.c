@@ -14,12 +14,9 @@
 #include <libgnome/gnome-i18n.h>
 
 #define PARENT_TYPE GTK_TYPE_OBJECT
-#define DEFAULT_PING_DELAY 10000
 
 struct _EComponentListenerPrivate {
 	Bonobo_Unknown component;
-	int ping_delay;
-	int ping_timeout_id;
 };
 
 static void e_component_listener_class_init (EComponentListenerClass *klass);
@@ -27,6 +24,7 @@ static void e_component_listener_init       (EComponentListener *cl, EComponentL
 static void e_component_listener_finalize   (GObject *object);
 
 static GObjectClass *parent_class = NULL;
+static GList *watched_connections = NULL;
 
 enum {
 	COMPONENT_DIED,
@@ -34,6 +32,30 @@ enum {
 };
 
 static guint comp_listener_signals[LAST_SIGNAL];
+
+static void
+connection_listen_cb (gpointer object, gpointer user_data)
+{
+	GList *l, *next = NULL;
+	EComponentListener *cl;
+
+	for (l = watched_connections; l != NULL; l = next) {
+		next = l->next;
+		cl = l->data;
+
+		switch (ORBit_small_get_connection_status (cl->priv->component)) {
+		case ORBIT_CONNECTION_DISCONNECTED :
+			watched_connections = g_list_delete_link (watched_connections, l);
+
+			g_object_ref (cl);
+			g_signal_emit (cl, comp_listener_signals[COMPONENT_DIED], 0);
+			cl->priv->component = CORBA_OBJECT_NIL;
+			g_object_unref (cl);
+			break;
+		default :
+		}
+	}
+}
 
 static void
 e_component_listener_class_init (EComponentListenerClass *klass)
@@ -61,8 +83,6 @@ e_component_listener_init (EComponentListener *cl, EComponentListenerClass *klas
 	/* allocate internal structure */
 	cl->priv = g_new (EComponentListenerPrivate, 1);
 	cl->priv->component = CORBA_OBJECT_NIL;
-	cl->priv->ping_delay = DEFAULT_PING_DELAY;
-	cl->priv->ping_timeout_id = -1;
 }
 
 static void
@@ -72,12 +92,10 @@ e_component_listener_finalize (GObject *object)
 
 	g_return_if_fail (E_IS_COMPONENT_LISTENER (cl));
 
-	cl->priv->component = CORBA_OBJECT_NIL;
+	watched_connections = g_list_remove (watched_connections, cl);
 
-	if (cl->priv->ping_timeout_id != -1) {
-		g_source_remove (cl->priv->ping_timeout_id);
-		cl->priv->ping_timeout_id = -1;
-	}
+	if (cl->priv->component != CORBA_OBJECT_NIL)
+		cl->priv->component = CORBA_OBJECT_NIL;
 
 	/* free memory */
 	g_free (cl->priv);
@@ -109,67 +127,9 @@ e_component_listener_get_type (void)
 	return type;
 }
 
-static gboolean
-ping_component_callback (gpointer user_data)
-{
-	gboolean alive;
-	int is_nil;
-	CORBA_Environment ev;
-	EComponentListener *cl = (EComponentListener *) user_data;
-
-	g_return_val_if_fail (E_IS_COMPONENT_LISTENER (cl), FALSE);
-
-	if (cl->priv->component == CORBA_OBJECT_NIL)
-		return FALSE;
-
-	CORBA_exception_init (&ev);
-	is_nil = CORBA_Object_is_nil (cl->priv->component, &ev);
-	if (BONOBO_EX (&ev)) {
-		g_message (_("ping_timeout_callback: could not determine if the "
-			     "CORBA object is nil or not"));
-		goto out;
-	}
-
-	if (is_nil)
-		goto out;
-
-	alive = bonobo_unknown_ping (cl->priv->component, &ev);
-	if (alive) {
-		CORBA_exception_free (&ev);
-		return TRUE;
-	}
-
- out:
-	/* the component has died, so we notify and close the timeout */
-	CORBA_exception_free (&ev);
-
-	/* we ref the object just in case it gets destroyed in the callbacks */
-	g_object_ref (G_OBJECT (cl));
-	g_signal_emit (G_OBJECT (cl), comp_listener_signals[COMPONENT_DIED], 0);
-
-	cl->priv->component = CORBA_OBJECT_NIL;
-	cl->priv->ping_timeout_id = -1;
-
-	g_object_unref (G_OBJECT (cl));
-
-	return FALSE;
-}
-
-static void
-setup_ping_timeout (EComponentListener *cl)
-{
-	if (cl->priv->ping_timeout_id != -1)
-		g_source_remove (cl->priv->ping_timeout_id);
-
-	cl->priv->ping_timeout_id = g_timeout_add (cl->priv->ping_delay,
-						   ping_component_callback,
-						   cl);
-}
-
 /**
  * e_component_listener_new
  * @comp: Component to listen for.
- * @ping_delay: Delay (in ms) for pinging the component.
  *
  * Create a new #EComponentListener object, which allows to listen
  * for a given component and get notified when that component dies.
@@ -177,41 +137,20 @@ setup_ping_timeout (EComponentListener *cl)
  * Returns: a component listener object.
  */
 EComponentListener *
-e_component_listener_new (Bonobo_Unknown comp, int ping_delay)
+e_component_listener_new (Bonobo_Unknown comp)
 {
 	EComponentListener *cl;
+
+	g_return_val_if_fail (comp != NULL, NULL);
 
 	cl = g_object_new (E_COMPONENT_LISTENER_TYPE, NULL);
 	cl->priv->component = comp;
 
-	/* set up the timeout function */
-	cl->priv->ping_delay = ping_delay > 0 ? ping_delay : DEFAULT_PING_DELAY;
-	setup_ping_timeout (cl);
+	/* watch the connection */
+	ORBit_small_listen_for_broken (comp, G_CALLBACK (connection_listen_cb), cl);
+	watched_connections = g_list_prepend (watched_connections, cl);
 
 	return cl;
-}
-
-/**
- * e_component_listener_get_ping_delay
- * @cl: A #EComponentListener object.
- *
- * Get the ping delay being used to listen for an object.
- */
-int
-e_component_listener_get_ping_delay (EComponentListener *cl)
-{
-	g_return_val_if_fail (E_IS_COMPONENT_LISTENER (cl), -1);
-	return cl->priv->ping_delay;
-}
-
-void
-e_component_listener_set_ping_delay (EComponentListener *cl, int ping_delay)
-{
-	g_return_if_fail (E_IS_COMPONENT_LISTENER (cl));
-	g_return_if_fail (ping_delay > 0);
-
-	cl->priv->ping_delay = ping_delay;
-	setup_ping_timeout (cl);
 }
 
 Bonobo_Unknown
@@ -227,5 +166,5 @@ e_component_listener_set_component (EComponentListener *cl, Bonobo_Unknown comp)
 	g_return_if_fail (E_IS_COMPONENT_LISTENER (cl));
 
 	cl->priv->component = comp;
-	setup_ping_timeout (cl);
+	ORBit_small_listen_for_broken (comp, G_CALLBACK (connection_listen_cb), cl);
 }

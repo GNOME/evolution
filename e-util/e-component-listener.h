@@ -36,10 +36,8 @@ typedef struct {
 } EComponentListenerClass;
 
 GType               e_component_listener_get_type       (void);
-EComponentListener *e_component_listener_new            (Bonobo_Unknown comp, int ping_delay);
+EComponentListener *e_component_listener_new            (Bonobo_Unknown comp);
 
-int                 e_component_listener_get_ping_delay (EComponentListener *cl);
-void                e_component_listener_set_ping_delay (EComponentListener *cl, int ping_delay);
 Bonobo_Unknown      e_component_listener_get_component  (EComponentListener *cl);
 void                e_component_listener_set_component  (EComponentListener *cl,
 							 Bonobo_Unknown comp);
