@@ -1,3 +1,16 @@
+2005-01-22  Sushma Rai  <rsushma@novell.com>
+
+	* org-gnome-exchange-account-setup.eplug.in: Added 
+	org_gnome_exchange_check_options plugin.
+
+	* exchange-ask-password.c (org_gnome_exchange_check_options): 
+	Reads OWA URL value and sets use_ssl and owa_url values for source 
+	account url.
+
+	* exchange-account-setup.c (org_gnome_exchange_set_url)
+	(add_owa_entry_to_editor): Reading owa url value from gconf and setting
+	owa url value in the account editor. Fixes #71378 
+
 2005-01-19  Sushma Rai  <rsushma@novell.com>
 
 	* exchange-ask-password.c (validate_exchange_user): Fix for remembering

@@ -39,7 +39,8 @@
 
 int e_plugin_lib_enable (EPluginLib *ep, int enable);
 void exchange_options_commit (EPlugin *epl, EConfigHookItemFactoryData *data);
-GtkWidget *org_gnome_exchange_read_url(EPlugin *epl, EConfigHookItemFactoryData *data);
+GtkWidget *org_gnome_exchange_read_url (EPlugin *epl, EConfigHookItemFactoryData *data);
+gboolean org_gnome_exchange_check_options (EPlugin *epl, EConfigHookPageCheckData *data);
 
 char *owa_entry_text = NULL; 
 
@@ -102,7 +103,8 @@ validate_exchange_user (void *data)
 				camel_url_set_user (url, user);
 			}
 		}
-		valid = validate->validate_user (url, owa_entry_text, remember_password, NULL); 
+		valid = validate->validate_user (url, owa_entry_text, 
+						 remember_password, NULL); 
 	}
 
 	/* FIXME: need to check for return value */
@@ -201,4 +203,44 @@ org_gnome_exchange_read_url (EPlugin *epl, EConfigHookItemFactoryData *data)
 	}
 	g_free (account_url);
 	return owa_entry;
+}
+
+gboolean
+org_gnome_exchange_check_options (EPlugin *epl, EConfigHookPageCheckData *data)
+{
+	EMConfigTargetAccount *target_account;
+	EConfig *config;
+	char *account_url = NULL, *exchange_url = NULL, *url_string;
+	char *use_ssl = NULL;
+	static int page_check_count = 0;
+	CamelURL *url;
+	
+	if ((strcmp (data->pageid, "20.receive_options")) || page_check_count)
+		return TRUE;
+
+	config = data->config;
+	target_account = (EMConfigTargetAccount *)data->config->target;
+	account_url = g_strdup (target_account->account->source->url);
+	exchange_url = g_strrstr (account_url, "exchange");
+	
+	if (exchange_url) {
+		page_check_count ++;
+
+		if (owa_entry_text){
+			if (!strncmp (owa_entry_text, "https:", 6))
+				use_ssl = "always";
+
+			url = camel_url_new_with_base (NULL, account_url);
+
+			if (use_ssl)
+				camel_url_set_param (url, "use_ssl", use_ssl);
+			camel_url_set_param (url, "owa_url", owa_entry_text);
+
+			url_string = camel_url_to_string (url, 0);
+			e_account_set_string (target_account->account, 
+				      	E_ACCOUNT_SOURCE_URL, url_string);
+			camel_url_free (url);
+		}
+	}
+	return TRUE;
 }

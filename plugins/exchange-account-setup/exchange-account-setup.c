@@ -31,6 +31,7 @@
 #include <gtk/gtkdialog.h>
 #include <gconf/gconf-client.h>
 #include <libedataserver/e-source.h>
+#include <camel/camel-url.h>
 #include "mail/em-account-editor.h"
 #include "mail/em-config.h"
 #include "e-util/e-account.h"
@@ -202,7 +203,7 @@ org_gnome_exchange_account_setup (EPlugin *epl, EConfigHookItemFactoryData *data
 {
 	EMConfigTargetAccount *target_account;
 	GtkWidget *oof_page = NULL;
-	const char *account_url=NULL, *source_url=NULL, *temp_url=NULL;
+	const char *account_url = NULL, *source_url = NULL, *temp_url = NULL;
 	char *exchange_url = NULL;
 	GConfClient *client;
 	EAccountList *account_list;
@@ -266,7 +267,7 @@ static void
 owa_editor_entry_changed (GtkWidget *entry, void *data) 
 {
 	GtkWidget *button = data;
-	char *owa_entry_text = NULL; 
+	const char *owa_entry_text = NULL; 
 
 	/* FIXME: return owa_entry_text instead of making it global */
 	owa_entry_text = gtk_entry_get_text (GTK_ENTRY (entry));
@@ -276,10 +277,11 @@ owa_editor_entry_changed (GtkWidget *entry, void *data)
 
 static GtkWidget *
 add_owa_entry_to_editor (GtkWidget *parent, EConfig *config, 
-			 EMConfigTargetAccount *target_account)
+			 EMConfigTargetAccount *target_account, 
+			 EAccountList *account_list, const char *url_value)
 {
 	GtkWidget *section, *owa_entry;
-	GtkWidget *hbox, *label; 
+	GtkWidget *hbox, *label;
 
 	section =  gtk_vbox_new (FALSE, 0);
 	gtk_widget_show (section);
@@ -292,6 +294,8 @@ add_owa_entry_to_editor (GtkWidget *parent, EConfig *config,
 	gtk_widget_show (label);
 
 	owa_entry = gtk_entry_new ();
+	if (url_value)
+		gtk_entry_set_text (GTK_ENTRY (owa_entry), url_value);
 	gtk_widget_show (owa_entry);
 
 	gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, 0);
@@ -339,13 +343,13 @@ org_gnome_exchange_set_url (EPlugin *epl, EConfigHookItemFactoryData *data)
 {
 	EMConfigTargetAccount *target_account;
 	EConfig *config;
-	char *account_url=NULL, *exchange_url = NULL;
-	const char *source_url, *temp_url;
+	char *account_url = NULL, *exchange_url = NULL;
+	const char *source_url, *temp_url, *uid, *owa_url = NULL;
 	GtkWidget *owa_entry = NULL, *parent;
 	GConfClient *client;
-	EAccountList *account_list;
-	const char *uid;
+	EAccountList *account_list = NULL;
 	EAccount *gconf_account;
+	CamelURL *camel_url;
 
 	config = data->config;
 	target_account = (EMConfigTargetAccount *)data->config->target;
@@ -375,14 +379,12 @@ org_gnome_exchange_set_url (EPlugin *epl, EConfigHookItemFactoryData *data)
 			}
 			g_free (uid);	
 		}
-		g_object_unref (account_list);
 	}
-	g_object_unref (client);
 
-	source_url = e_account_get_string (target_account->account, E_ACCOUNT_SOURCE_URL); 
+	source_url = e_account_get_string (target_account->account, 
+					   E_ACCOUNT_SOURCE_URL); 
 	account_url = g_strdup (source_url);
 	exchange_url = g_strrstr (account_url, "exchange");
-	g_free (account_url);
 
 	if (exchange_url) {
 		if (data->old)
@@ -393,11 +395,24 @@ org_gnome_exchange_set_url (EPlugin *epl, EConfigHookItemFactoryData *data)
 		if (!GTK_WIDGET_TOPLEVEL (parent))
 			parent = NULL;
 		*/
+		camel_url = camel_url_new_with_base (NULL, account_url);
+		owa_url = camel_url_get_param (camel_url, "owa_url");
+		camel_url_free (camel_url);
 
 		parent = data->parent;
-		owa_entry = add_owa_entry_to_editor(parent, config, target_account);
-		gtk_box_pack_start (GTK_BOX (parent), owa_entry, FALSE, FALSE, 0);
+		owa_entry = add_owa_entry_to_editor (parent, 
+						     config, 
+						     target_account, 
+						     account_list, 
+						     owa_url);
+		gtk_box_pack_start (GTK_BOX (parent), owa_entry, 
+				    FALSE, FALSE, 0);
 		gtk_widget_show (parent);
 	}
+	g_free (account_url);
+	if (account_list)
+		g_object_unref (account_list);
+	g_object_unref (client);
+
 	return owa_entry;
 }
