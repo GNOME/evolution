@@ -1,3 +1,12 @@
+2002-02-28  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* camel-mime-part-utils.c
+	(camel_mime_part_construct_content_from_parser): Rearrange the
+	save filter stuff so that we save raw streams for all mime
+	parts. If the mime part turns out to be a multupart, then don't
+	bother saving the raw stream, we only need to save the raw stream
+	for leaf parts.
+
 2002-02-27  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* camel-folder-summary.h: Don't #include camel-mime-filter-save.h,
