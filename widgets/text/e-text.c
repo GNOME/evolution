@@ -3011,7 +3011,7 @@ e_text_event (GnomeCanvasItem *item, GdkEvent *event)
 			e_tep_event.key.state = key.state;
 			e_tep_event.key.keyval = key.keyval;
 			
-			// g_print ("etext got keyval \"%s\"\n", gdk_keyval_name (key.keyval));
+			/* g_print ("etext got keyval \"%s\"\n", gdk_keyval_name (key.keyval)); */
 
 			/* This is probably ugly hack, but we have to handle UTF-8 input somehow */
 #if 0
