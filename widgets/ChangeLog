@@ -1,3 +1,8 @@
+2004-02-26  JP Rosevear <jpr@ximian.com>
+
+	* e-timezone-dialog/e-timezone-dialog.c
+	(e_timezone_dialog_dispose): don't reference uninitialized memory
+
 2003-12-16  Hans Petter Jansson  <hpj@ximian.com>
 
 	* misc/e-source-option-menu.c (select_source_foreach_menu_item):

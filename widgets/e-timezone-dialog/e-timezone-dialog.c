@@ -127,7 +127,6 @@ e_timezone_dialog_dispose (GObject *object)
 {
 	ETimezoneDialog *etd;
 	ETimezoneDialogPrivate *priv;
-	GtkWidget *dialog;
 
 	g_return_if_fail (object != NULL);
 	g_return_if_fail (E_IS_TIMEZONE_DIALOG (object));
@@ -136,9 +135,9 @@ e_timezone_dialog_dispose (GObject *object)
 	priv = etd->priv;
 
 	/* Destroy the actual dialog. */
-	if (dialog != NULL) {
-		dialog = e_timezone_dialog_get_toplevel (etd);
-		gtk_widget_destroy (dialog);
+	if (priv->app != NULL) {
+		gtk_widget_destroy (priv->app);
+		priv->app = NULL;
 	}
 
 	if (priv->timeout_id) {
