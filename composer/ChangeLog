@@ -1,3 +1,10 @@
+2003-07-17  Maxx Cao  <maxx.cao@sun.com>
+
+	** For bug #46013
+
+	* e-msg-composer-hdrs.c (header_new_recipient): To/cc/bcc buttons
+	made focusable.
+
 2003-07-17  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* e-msg-composer-attachment-bar.c (popup_menu_event): Fix some
