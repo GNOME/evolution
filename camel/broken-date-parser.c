@@ -292,7 +292,7 @@ get_tzone (struct _date_token **token)
 		
 		if (*inptr == '+' || *inptr == '-') {
 			t = decode_int (inptr, inlen);
-			if (t < -1200 || t > 1200)
+			if (t < -1200 || t > 1400)
 				return -1;
 			
 			return t;
