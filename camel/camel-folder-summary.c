@@ -33,6 +33,7 @@
 #include <camel/camel-mime-filter-charset.h>
 #include <camel/camel-mime-filter-save.h>
 #include <camel/camel-mime-filter-basic.h>
+#include <camel/camel-mime-message.h>
 #include "hash-table-utils.h"
 
 /* this should probably be conditional on it existing */
@@ -996,7 +997,7 @@ message_info_load(CamelFolderSummary *s, FILE *in)
 	for (i=0;i<count;i++) {
 		char *name;
 		camel_folder_summary_decode_string(in, &name);
-		camel_flag_set(&mi->user_flags, name);
+		camel_flag_set(&mi->user_flags, name, TRUE);
 		g_free(name);
 	}
 
