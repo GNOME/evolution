@@ -535,7 +535,7 @@ write_label_piece (EItipControl *itip, CalComponentDateTime *dt,
 				     FALSE, FALSE,
 				     time_buf, sizeof (time_buf));
 
-	time_utf8 = e_utf8_from_locale_string (time_buf);
+	time_utf8 = g_locale_to_utf8 (time_buf, -1, NULL, NULL, NULL);
 	strcat (buffer, time_utf8);
 	g_free (time_utf8);
 

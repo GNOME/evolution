@@ -88,7 +88,7 @@ ecd_get_text (ECellText *cell, ETableModel *model, int col, int row)
 	e_time_format_date_and_time (&tmp_tm, ecd->use_24_hour_format,
 				     !dv->tt.is_date, FALSE,
 				     buffer, sizeof (buffer));
-	return e_utf8_from_locale_string (buffer);
+	return g_locale_to_utf8 (buffer, -1, NULL, NULL, NULL);
 }
 
 

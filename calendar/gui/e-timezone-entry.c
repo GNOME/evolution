@@ -309,12 +309,11 @@ e_timezone_entry_get_display_name	(ETimezoneEntry *tentry,
 
 	/* We check if it is one of our builtin timezone names, in which case
 	   we call gettext to translate it. If it isn't a builtin timezone
-	   name, we need to convert it to the GTK+ encoding. */
+	   name, we don't. */
 	if (icaltimezone_get_builtin_timezone (display_name)) {
 		return g_strdup (_(display_name));
 	} else {
-		return e_utf8_to_gtk_string (GTK_WIDGET (tentry),
-					     display_name);
+		return g_strdup (display_name);
 	}
 }
 

@@ -368,9 +368,7 @@ make_suboptions (CalSearchBar *cal_search)
 			char *str;
 
 			category = priv->categories->pdata[i];
-			str = e_utf8_to_gtk_string (GTK_WIDGET (cal_search), category);
-			if (!str)
-				str = g_strdup ("");
+			str = g_strdup (category ? category : "");
 
 			subitems[i + CATEGORIES_OFFSET].text      = str;
 			subitems[i + CATEGORIES_OFFSET].id        = i + CATEGORIES_OFFSET;

@@ -1,3 +1,28 @@
+2003-02-23  Hans Petter Jansson  <hpj@ximian.com>
+
+	* gui/cal-search-bar.c (make_suboptions): Eliminate
+	e_utf8_to_gtk_string ().
+
+	* gui/e-timezone-entry.c (e_timezone_entry_get_display_name):
+	Ditto.
+
+	* gui/calendar-model.c (date_value_to_string):
+	e_utf8_from_locale_string () -> g_locale_to_utf8 ().
+	(calendar_model_value_to_string): Ditto.
+
+	* gui/e-cell-date-edit-text.c (ecd_get_text): Ditto.
+
+	* gui/e-itip-control.c (write_label_piece): Ditto.
+
+	* gui/print.c (format_date): Ditto.
+	(print_week_view_background): Ditto.
+	(print_month_summary): Ditto.
+	(print_date_label): Ditto.
+	(print_comp_item): Ditto.
+
+	* gui/alarm-notify/alarm-notify-dialog.c (write_html_heading):
+	Ditto.
+
 2003-02-22  Hans Petter Jansson  <hpj@ximian.com>
 
 	* gui/dialogs/task-details-page.c (get_widgets): Show the custom

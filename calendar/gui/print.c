@@ -513,7 +513,7 @@ format_date(time_t time, int flags, char *buffer, int bufflen)
 		strcat(fmt, "%Y");
 	}
 	strftime(buffer, bufflen, fmt, &tm);
-	utf_str = e_utf8_from_locale_string (buffer);
+	utf_str = g_locale_to_utf8 (buffer, -1, NULL, NULL, NULL);
 	strncpy (buffer, utf_str, bufflen - 1);
 	buffer[bufflen - 1] = '\0';
 	g_free (utf_str);
@@ -1525,7 +1525,7 @@ print_week_view_background (GnomePrintContext *pc, GnomeFont *font,
 		}
 
 		strftime (buffer, sizeof (buffer), format_string, &tm);
-		utf_str = e_utf8_from_locale_string (buffer);
+		utf_str = g_locale_to_utf8 (buffer, -1, NULL, NULL, NULL);
 		print_text_size (pc, utf_str, ALIGN_RIGHT,
 				 x1, x2 - 4, y1 - 2, y1 - 2 - font_size);
 		g_free (utf_str);
@@ -1748,7 +1748,7 @@ print_month_summary (GnomePrintContext *pc, GnomeCalendar *gcal, time_t whence,
 		x2 = x1 + cell_width;
 
 		print_border (pc, x1, x2, y1, y2, 1.0, -1.0);
-		utf_str = e_utf8_from_locale_string (buffer);
+		utf_str = g_locale_to_utf8 (buffer, -1, NULL, NULL, NULL);
 		print_text_size (pc, utf_str, ALIGN_CENTER, x1, x2, y1, y2);
 		g_free (utf_str);
 
@@ -2233,7 +2233,7 @@ print_date_label (GnomePrintContext *pc, CalComponent *comp, CalClient *client,
 			write_label_piece (due, buffer, 1024, _("Due "), NULL);
 	}
 
-	utf_text = e_utf8_from_locale_string (buffer);
+	utf_text = g_locale_to_utf8 (buffer, -1, NULL, NULL, NULL);
 	print_text_size_bold (pc, utf_text, ALIGN_LEFT,
 			      left, right, top, top - 15);
 	g_free (utf_text);
@@ -2334,7 +2334,7 @@ print_comp_item (GnomePrintContext *pc, CalComponent *comp, CalClient *client,
 			priority_string = cal_util_priority_to_string (*priority);
 			cal_component_free_priority (priority);
 
-			priority_utf8 = e_utf8_from_locale_string (priority_string);
+			priority_utf8 = g_locale_to_utf8 (priority_string, -1, NULL, NULL, NULL);
 			text = g_strdup_printf (_("Priority: %s"),
 						priority_utf8);
 			top = bound_text (pc, font, text,
