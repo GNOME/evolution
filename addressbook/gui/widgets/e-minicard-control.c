@@ -46,6 +46,9 @@ typedef struct {
 	GtkWidget *label;
 } EMinicardControl;
 
+#define MINICARD_CONTROL_ID "OAFIID:GNOME_Evolution_Addressbook_MiniCard_Control"
+
+
 #if 0
 enum {
 	PROP_RUNNING
