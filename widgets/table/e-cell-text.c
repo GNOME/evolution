@@ -96,11 +96,7 @@ typedef struct _CellEdit CellEdit;
 typedef struct {
 	ECellView    cell_view;
 	GdkGC       *gc;
-#if 0
-	GdkFont     *font;
-#else
 	EFont *font;
-#endif
 	GdkCursor *i_cursor;
 	GdkBitmap *stipple;		/* Stipple for text */
 	
@@ -1167,6 +1163,7 @@ ect_show_tooltip (ECellView *ecell_view,
 	double tooltip_y;
 	GnomeCanvasItem *rect;
 	double text_height;
+	ECellText *ect = E_CELL_TEXT(ecell_view->ecell);
 
 	tooltip->timer = 0;
 
@@ -1235,6 +1232,7 @@ ect_show_tooltip (ECellView *ecell_view,
 					      e_text_get_type (),
 					      "anchor", GTK_ANCHOR_NW,
 /*  					      "font_gdk", text_view->font, */
+					      "bold", (gboolean) ect->bold_column >= 0 && e_table_model_value_at(ecell_view->e_table_model, ect->bold_column, row),
 					      "text", cell.text,
 					      "editable", FALSE,
 					      "clip_width", max_width,
@@ -1278,7 +1276,7 @@ ect_show_tooltip (ECellView *ecell_view,
 			    GTK_SIGNAL_FUNC (tooltip_event), tooltip);
 
 	gtk_widget_popup (tooltip->window, pixel_origin.x + tooltip->x,
-			  pixel_origin.y + tooltip->y + 1);
+			  pixel_origin.y + tooltip->y - 1);
 
 	unref_lines (&cell);
 	unbuild_current_cell (&cell);

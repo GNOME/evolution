@@ -82,7 +82,15 @@ visible_depth_of_node (ETableModel *model, int row)
 static gint
 offset_of_node (ETableModel *table_model, int row)
 {
-	return (visible_depth_of_node(table_model, row) + 1) * INDENT_AMOUNT;
+	ETreeModel *tree_model = e_cell_tree_get_tree_model(table_model, row);
+	ETreePath path = e_cell_tree_get_node(table_model, row);
+
+	if (visible_depth_of_node (table_model, row) > 0 ||
+	    e_tree_model_node_is_expandable(tree_model, path)) {
+		return (visible_depth_of_node(table_model, row) + 1) * INDENT_AMOUNT;
+	} else {
+		return 0;
+	}
 }
 
 /*
@@ -179,7 +187,6 @@ ect_draw (ECellView *ecell_view, GdkDrawable *drawable,
 	gboolean selected;
 
 	int offset, subcell_offset;
-	gboolean expanded, expandable;
 
 	selected = flags & E_CELL_SELECTED;
 
@@ -191,14 +198,7 @@ ect_draw (ECellView *ecell_view, GdkDrawable *drawable,
 
 		node = e_cell_tree_get_node (ecell_view->e_table_model, row);
 
-		expandable = e_tree_model_node_is_expandable (tree_model, node);
-		expanded = e_tree_table_adapter_node_is_expanded (tree_table_adapter, node);
-
-		if (visible_depth_of_node (ecell_view->e_table_model, row) > 0 || expandable) {
-			offset = offset_of_node (ecell_view->e_table_model, row);
-		} else {
-			offset = 0;
-		}
+		offset = offset_of_node (ecell_view->e_table_model, row);
 		subcell_offset = offset;
 
 		node_image = e_tree_model_icon_at (tree_model, node);
@@ -272,11 +272,11 @@ ect_draw (ECellView *ecell_view, GdkDrawable *drawable,
 		}
 
 		/* now draw our icon if we're expandable */
-		if (expandable) {
+		if (e_tree_model_node_is_expandable (tree_model, node)) {
 			GdkPixbuf *image;
 			int image_width, image_height;
 
-			image = (expanded 
+			image = (e_tree_table_adapter_node_is_expanded (tree_table_adapter, node)
 				 ? E_CELL_TREE(tree_view->cell_view.ecell)->open_pixbuf
 				 : E_CELL_TREE(tree_view->cell_view.ecell)->closed_pixbuf);
 

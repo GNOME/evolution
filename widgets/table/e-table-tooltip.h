@@ -13,6 +13,7 @@ typedef struct {
 	int row_height;
 	int x, y;
 	int cx, cy;
+	int visibility_count;
 	GnomeCanvasItem *eti;
 } ETableTooltip;
 
