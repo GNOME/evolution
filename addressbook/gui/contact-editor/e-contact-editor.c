@@ -2735,7 +2735,6 @@ real_save_contact (EContactEditor *ce, gboolean should_close)
 static void
 save_contact (EContactEditor *ce, gboolean should_close)
 {
-	extract_all (ce);
 	if (!ce->target_book)
 		return;
 
@@ -2746,7 +2745,7 @@ save_contact (EContactEditor *ce, gboolean should_close)
 		if (e_error_run (GTK_WINDOW (ce->app), "addressbook:prompt-move", NULL) == GTK_RESPONSE_NO)
 			return;
 	}
-
+	extract_all (ce);
 	real_save_contact (ce, should_close);
 }
 
