@@ -1,3 +1,21 @@
+2003-07-10  Yuedong Du  <yuedong.du@sun.com>
+
+	* evolution-mail.schemas: add a gconf key corresponding to newly 
+	introduced caret mode of gtkhtml widget.
+
+	* folder-browser-ui.c: new verb handling, corresponding the new menu
+	entry for the caret mode flag. 
+
+	* folder-browser.h: declaration of new verb handler to the menu entry 
+	that turn caret mode on/off. The function just set the new introduced
+	gconf key.
+
+	* folder-browser.c: ditto
+
+	* mail-config.c: lstione to the new gconf key, and when caret mode 
+	flag is set/unset,change the style of gtkhtml widget. see bug
+	#44607.
+
 2003-07-09  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-crypto.h: Removed camel-pgp-mime.h, it no longer exists.

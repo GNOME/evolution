@@ -169,6 +169,12 @@ void folder_browser_toggle_hide_deleted (BonoboUIComponent           *component,
 					 const char                  *state,
 					 gpointer                     user_data);
 
+void folder_browser_toggle_caret_mode (BonoboUIComponent           *component,
+				       const char                  *path,
+				       Bonobo_UIComponent_EventType type,
+				       const char                  *state,
+				       gpointer                     user_data);
+
 void folder_browser_set_message_display_style (BonoboUIComponent           *component,
 					       const char                  *path,
 					       Bonobo_UIComponent_EventType type,

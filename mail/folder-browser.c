@@ -1379,6 +1379,24 @@ folder_browser_toggle_hide_deleted (BonoboUIComponent           *component,
 }
 
 void
+folder_browser_toggle_caret_mode(BonoboUIComponent	*component,
+				   const char		* path,
+				   Bonobo_UIComponent_EventType type,
+				   const char		* state,
+				   gpointer		user_data)
+{
+	FolderBrowser *fb = user_data;
+	GConfClient *gconf;
+	
+        if (type != Bonobo_UIComponent_STATE_CHANGED)
+		return;
+
+	gconf = mail_config_get_gconf_client ();
+	gconf_client_set_bool (gconf, "/apps/evolution/mail/display/caret_mode",
+			       atoi(state), NULL);
+}
+
+void
 folder_browser_set_message_display_style (BonoboUIComponent           *component,
 					  const char                  *path,
 					  Bonobo_UIComponent_EventType type,
