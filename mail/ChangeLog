@@ -1,3 +1,148 @@
+2002-11-13  Not Zed  <NotZed@Ximian.com>
+
+	* Makefile.am: Commented out stuff that doesn't build yet.  Also
+	fixed idl build rule.  importers still not built.
+
+	* main.c (main): bonobactivationise.  remove push visual/colormap.
+	(main): no longer activate activation, let bonobo_init do it.
+
+	* mail-signature-editor.c (menu_help): Change help api.
+
+	* mail-session.c (user_message_destroy_noreply): removed.  Not
+	used?
+
+	* mail-local.c (load_metainfo): xml root->children.
+
+	* mail-format.c (g_string_append_len): Removed, it exists now.
+
+2002-11-12  Not Zed  <NotZed@Ximian.com>
+
+	* subscribe-dialog.c: gnome2ised, use gtkdialog.
+	(subscribe_get_global_extras): use a weak ref rather than destroy signal.
+
+	* message-tag-followup.c: gnome2ised.
+
+	* message-tag-editor.c: gnome2ised & converted to gtkdialog.
+
+	* message-list.c: gnome2ised.
+	(message_list_finalise): From destroy method.  maybe should be
+	destroy still.
+
+	* message-browser.c: port to gnome2
+	(message_browser_finalise): renamed from destroy method.
+
+	* mail-stream-gtkhtml.c: removed redundant
+	camel_class_get_global_classfuncs() call.
+
+	* mail-signature-editor.c: gtkdialogised, & bonobo api changes.
+	
+
+	* mail-search-dialogue.c: gtkdialogised.
+
+	* mail-folder-cache.c: cleaned up camel ref/hook casts.
+
+	* mail-composer-prefs.c (mail_composer_prefs_get_type): convert to
+	gtype.
+
+	* mail-font-prefs.c (mail_font_prefs_destroy): from finalise.
+
+	* mail-config.c: s/bonobo_config/e_config_listener/
+	Added /apps/Evolution prefix to the evolution keys.
+	Changed to use e_config_listener, etc.
+	(mail_config_init): remove bonobo_config stuff.
+	(mail_config_check_service): gtk dialogise.
+	(check_response): from check_cancelled.
+
+	* mail-config-druid.c (mail_config_druid_destroy): renamed from
+	_finalize, turned into destroy handler.
+	(construct): set type to toplevel, GTK_WINDOW_DIALOG no longer exists.
+
+	* mail-config-factory.c (mail_config_register_factory): bonobo api
+	changes.
+
+	* mail-crypto.c (mail_crypto_get_pgp_cipher_context): cleaned up
+	unref casts.
+
+	* mail-display.c (write_data_to_file): gnome->gtkdialog.
+	(on_link_clicked): use ascii_str*cmp on url.
+	(save_part): g_path stuff.
+	(launch_cb): gtk dialog.
+	(pixmap_press): de-oafify.
+	(pixbuf_for_mime_type): gnome-vfs api changes.
+	(do_attachment_header): Change the pixmap to a gtkimage.
+	(do_signature): "
+	(pixbuf_gen_idle): "
+	(do_attachment_header): ascii_str*cmp
+	(do_attachment_header): gnome pixmap->gtkimage.
+	(mail_display_destroy): protect against gtk mentalness.
+	(html_button_press_event): ascii_str*cmp
+	(drag_data_get_cb): added comment for translators of filename.
+
+	* mail-format.c (component_supports): de-oafise.
+	(is_anonymous): ascii_strncmp
+	(attachment_header): remove utf8<>locale stuff, and gnomevfs api
+	changes.
+	(format_mime_part): fix g_strdown call.
+	(write_field_row_begin): kill utf8->gtk stuff.
+	(write_address): "
+	(default_header_index): ascii_strcasecmp
+	(handle_text_plain): "
+	(handle_text_enriched): "
+	(handle_multipart_encrypted): remove utf/gtk stuff.
+	(handle_message_external_body): ascii_str*cmp
+
+	* mail-identify.c (mail_identify_mime_part):
+	(identify_by_magic): gnome vfs api changes.
+
+	* mail-importer.c: Converted.
+
+	* mail-local.c (load_metainfo): xml childs -> children.
+	(mls_get_folder): g_strerror.
+	(mls_delete_folder): g_strerror.
+	(reconfigure_got_folder): Gnome->GtkDialog
+	(reconfigure_response): from reconfigure_clicked.
+
+	* mail-mt.c (mail_msg_check_error): gnome -> gtk dialog
+	(error_response): renmae from error_gone.  destroy widget on any
+	response.
+
+	* mail-offline-handler.c (impl_finalise): renamed from
+	impl_destroy since thats what it should be anyway.
+
+	* mail-ops.c: removed utf8 widget conversion & camel_object_un/ref
+	casts.
+
+	* mail-preferences.c (mail_preferences_get_type): glib2'ised.
+
+	* mail-search.c (mail_search_finalise): renmaed from destroy &
+	properly chain.
+	(mail_search_get_type): glib2 & make gtkdialog parent.
+	(entry_run_search): run search when entry activated.  not sure if
+	gtkdialog has anohter way to do this on an arbitrary widget.
+
+	* mail-send-recv.c (dialogue_response): renamed from clicked.  Use
+	gtkdialog.
+
+	* mail-session.c (request_password_deleted): removed, redundant.
+	(pass_response): rename from pass_got, changed for gtkdialog.
+	(user_message_destroy): Removed, redundant.
+	(user_message_response): Renamed from user_message_clicked.
+
+2002-11-11  Not Zed  <NotZed@Ximian.com>
+
+	* mail-stream-gtkhtml.c (mail_stream_gtkhtml_class_init): dont use
+	get_global_classfuncs, just get the type
+
+	* mail-tools.c: converted gnome2 api's.
+
+	* mail-vfolder.c (vfolder_editor_response): clicked->response.
+	(vfolder_editor_destroy): Removed.
+	(vfolder_edit): gtk dialog api
+	(edit_rule_response): clicked->response.
+	(vfolder_edit_rule): gnomedialog->gtkdialog.
+	(vfolder_gui_add_rule): "
+	(new_rule_clicked): clicked->response
+
 2002-11-11  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-callbacks.c: Half way ported. I'll finish the rest later.

@@ -17,9 +17,8 @@
 #include <libgnome/gnome-sound.h>
 #include <libgnomeui/gnome-init.h>
 #include <bonobo/bonobo-main.h>
-#include <bonobo/bonobo-object-directory.h>
+#include <bonobo-activation/bonobo-activation-init.h>
 #include <glade/glade.h>
-#include <liboaf/liboaf.h>
 #include <libgnomevfs/gnome-vfs.h>
 
 #include <gconf/gconf.h>
@@ -99,7 +98,7 @@ main (int argc, char *argv [])
 	g_thread_init (NULL);
 
 	gnome_init_with_popt_table ("evolution-mail-component", VERSION,
-				    argc, argv, oaf_popt_options, 0, NULL);
+				    argc, argv, bonobo_activation_popt_options, 0, NULL);
 	
 	sigaction (SIGSEGV, NULL, &osa);
 	if (osa.sa_handler != SIG_DFL) {
@@ -116,18 +115,12 @@ main (int argc, char *argv [])
 		g_static_mutex_lock (&segv_mutex);
 	}
 	
-	orb = oaf_init (argc, argv);
-	
-	if (bonobo_init (orb, CORBA_OBJECT_NIL,
-			 CORBA_OBJECT_NIL) == FALSE) {
+	if (!bonobo_init (&argc, argv)) {
 		g_error ("Mail component could not initialize Bonobo.\n"
 			 "If there was a warning message about the "
 			 "RootPOA, it probably means\nyou compiled "
-			 "Bonobo against GOAD instead of OAF.");
+			 "Bonobo against GOAD instead of Bonobo Activation.");
 	}
-	
-	gtk_widget_push_visual (gdk_rgb_get_visual ());
-	gtk_widget_push_colormap (gdk_rgb_get_cmap ());
 	
 	gconf_init (argc, argv, NULL);
 	

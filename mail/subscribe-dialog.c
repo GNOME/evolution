@@ -27,6 +27,8 @@
 #include <config.h>
 #endif
 
+#include <string.h>
+
 #include <libgnomeui/gnome-app.h>
 #include <libgnomeui/gnome-appbar.h>
 
@@ -269,7 +271,7 @@ get_short_folderinfo_free (struct _mail_msg *mm)
 	struct _get_short_folderinfo_msg *m = (struct _get_short_folderinfo_msg *) mm;
 
 	camel_store_free_folder_info (m->ftree->store, m->info);
-	gtk_object_unref (GTK_OBJECT (m->ftree));
+	g_object_unref((m->ftree));
 
 	g_free (m->prefix); /* may be NULL but that's ok */
 }
@@ -293,13 +295,8 @@ subscribe_get_short_folderinfo (FolderETree *ftree,
 	m = mail_msg_new (&get_short_folderinfo_op, NULL, sizeof(*m));
 
 	m->ftree = ftree;
-	gtk_object_ref (GTK_OBJECT (ftree));
-	
-	if (prefix)
-		m->prefix = g_strdup (prefix);
-	else
-		m->prefix = NULL;
-
+	g_object_ref((ftree));
+	m->prefix = g_strdup (prefix);
 	m->func = func;
 	m->user_data = user_data;
 
@@ -367,7 +364,7 @@ subscribe_folder_free (struct _mail_msg *mm)
 	g_free (m->name);
 	g_free (m->full_name);
 	
-	camel_object_unref (CAMEL_OBJECT (m->store));
+	camel_object_unref (m->store);
 }
 
 static struct _mail_msg_op subscribe_folder_op = {
@@ -395,7 +392,7 @@ subscribe_do_subscribe_folder (CamelStore *store, const char *full_name, const c
 	m->cb        = cb;
 	m->cb_data   = cb_data;
 
-	camel_object_ref (CAMEL_OBJECT (store));
+	camel_object_ref(store);
 
 	id = m->msg.seq;
 	e_thread_put (mail_thread_queued, (EMsg *)m);
@@ -405,22 +402,22 @@ subscribe_do_subscribe_folder (CamelStore *store, const char *full_name, const c
 /* ** FolderETree Extras *************************************************** */
 
 static void
-fete_destroy (GtkObject *object)
+fete_finalise (GObject *object)
 {
 	FolderETreeExtras *extras = (FolderETreeExtras *) object;
 
-	gdk_pixbuf_unref (extras->toggles[0]);
-	gdk_pixbuf_unref (extras->toggles[1]);
+	g_object_unref (extras->toggles[0]);
+	g_object_unref (extras->toggles[1]);
 
-	ftree_extras_parent_class->destroy (object);
+	((GObjectClass *)ftree_extras_parent_class)->finalize (object);
 }
 
 static void
-fete_class_init (GtkObjectClass *object_class)
+fete_class_init (GObjectClass *object_class)
 {
-	object_class->destroy = fete_destroy;
+	object_class->finalize = fete_finalise;
 
-	ftree_extras_parent_class = gtk_type_class (E_TABLE_EXTRAS_TYPE);
+	ftree_extras_parent_class = g_type_class_ref (E_TABLE_EXTRAS_TYPE);
 }
 
 static void
@@ -465,7 +462,7 @@ E_MAKE_TYPE (fete, "FolderETreeExtras", FolderETreeExtras, fete_class_init, fete
 static FolderETreeExtras *global_extras = NULL;
 
 static void
-global_extras_destroyed (GtkObject *obj, gpointer user_data)
+global_extras_destroyed (void *user_data, GObject *obj)
 {
 	global_extras = NULL;
 }
@@ -474,14 +471,14 @@ static ETableExtras *
 subscribe_get_global_extras (void)
 {
 	if (global_extras == NULL) {
-		global_extras = gtk_type_new (fete_get_type());
-		gtk_object_ref (GTK_OBJECT (global_extras));
-		gtk_object_sink (GTK_OBJECT (global_extras));
-		gtk_signal_connect (GTK_OBJECT (global_extras), "destroy", 
-				    global_extras_destroyed, NULL);
+		global_extras = g_object_new (fete_get_type(), NULL);
+		g_object_ref(global_extras);
+		gtk_object_sink((GtkObject *)global_extras);
+		g_object_weak_ref(G_OBJECT(global_extras), global_extras_destroyed, NULL);
+	} else {
+		g_object_ref(global_extras);
 	}
 
-	gtk_object_ref (GTK_OBJECT (global_extras));
 	return E_TABLE_EXTRAS (global_extras);
 }
 
@@ -700,7 +697,8 @@ fe_sort_folder (ETreeMemory *etmm, ETreePath left, ETreePath right, gpointer use
 	n_left = e_tree_memory_node_get_data (etmm, left);
 	n_right = e_tree_memory_node_get_data (etmm, right);
 
-	return g_strcasecmp (ftree_node_get_name (n_left), ftree_node_get_name (n_right));
+	/* TODO: not localised */
+	return g_utf8_strcasecmp (ftree_node_get_name (n_left), ftree_node_get_name (n_right));
 }
 
 /* scanning */
@@ -857,7 +855,7 @@ fe_kill_current_tree (FolderETree *ftree)
 }
 
 static void
-fe_destroy (GtkObject *obj)
+fe_finalise (GObject *obj)
 {
 	FolderETree *ftree = (FolderETree *) (obj);
 
@@ -869,24 +867,26 @@ fe_destroy (GtkObject *obj)
 	g_hash_table_destroy (ftree->subscribe_ops);
 	g_hash_table_destroy(ftree->node_full_name);
 
-	camel_object_unref (CAMEL_OBJECT (ftree->store));
+	camel_object_unref (ftree->store);
 	bonobo_object_unref (BONOBO_OBJECT (ftree->e_storage));
 
 	g_free (ftree->search);
 	g_free (ftree->service_name);
+
+	((GObjectClass *)folder_etree_parent_class)->finalize(obj);
 }
 
 typedef gboolean (*bool_func_1) (ETreeModel *, ETreePath, int);
 typedef gboolean (*bool_func_2) (ETreeModel *);
 
 static void
-folder_etree_class_init (GtkObjectClass *klass)
+folder_etree_class_init (GObjectClass *klass)
 {
 	ETreeModelClass  *etree_model_class = E_TREE_MODEL_CLASS (klass);
 
-	folder_etree_parent_class = gtk_type_class (E_TREE_MEMORY_TYPE);
+	folder_etree_parent_class = g_type_class_ref (E_TREE_MEMORY_TYPE);
 
-	klass->destroy                          = fe_destroy;
+	klass->finalize                         = fe_finalise;
 
 	etree_model_class->value_at             = fe_value_at;
 	etree_model_class->set_value_at         = fe_set_value_at;
@@ -928,7 +928,7 @@ folder_etree_construct (FolderETree *ftree,
 	e_tree_memory_construct (E_TREE_MEMORY (ftree));
 	
 	ftree->store = store;
-	camel_object_ref (CAMEL_OBJECT (store));
+	camel_object_ref (store);
 	
 	ftree->service_name = camel_service_get_name (CAMEL_SERVICE (store), FALSE);
 	
@@ -954,7 +954,7 @@ folder_etree_new (CamelStore *store,
 {
 	FolderETree *ftree;
 
-	ftree = gtk_type_new (folder_etree_get_type());
+	ftree = g_object_new (folder_etree_get_type(), NULL);
 	ftree = folder_etree_construct (ftree, store, activity_cb, activity_data);
 	return ftree;
 }
@@ -1075,13 +1075,13 @@ store_data_free (StoreData *sd)
 		mail_msg_cancel (sd->request_id);
 	
 	if (sd->widget)
-		gtk_object_unref (GTK_OBJECT (sd->widget));
+		g_object_unref(sd->widget);
 	
 	if (sd->ftree)
-		gtk_object_unref (GTK_OBJECT (sd->ftree));
+		g_object_unref(sd->ftree);
 	
 	if (sd->store)
-		camel_object_unref (CAMEL_OBJECT (sd->store));
+		camel_object_unref (sd->store);
 	
 	g_free (sd->uri);
 	g_free (sd);
@@ -1111,7 +1111,7 @@ sd_got_store (char *uri, CamelStore *store, gpointer user_data)
 	sd->store = store;
 	
 	if (store) /* we can have exceptions getting the store... server is down, eg */
-		camel_object_ref (CAMEL_OBJECT (sd->store));
+		camel_object_ref (sd->store);
 	
 	/* uh, so we might have a problem if this operation is cancelled. Unsure. */
 	sd->request_id = 0;
@@ -1188,13 +1188,13 @@ store_data_get_widget (StoreData *sd,
 								       EVOLUTION_ETSPECDIR "/subscribe-dialog.etspec",
 								       NULL);
 	e_tree_root_node_set_visible (e_tree_scrolled_get_tree(E_TREE_SCROLLED(tree)), TRUE);
-	gtk_signal_connect (GTK_OBJECT (e_tree_scrolled_get_tree(E_TREE_SCROLLED (tree))),
-			    "double_click", GTK_SIGNAL_FUNC (sd_toggle_cb), sd);
+	g_signal_connect(e_tree_scrolled_get_tree(E_TREE_SCROLLED (tree)),
+			 "double_click", G_CALLBACK (sd_toggle_cb), sd);
 
-	gtk_object_unref (GTK_OBJECT (global_extras));
+	g_object_unref(global_extras);
 
 	sd->widget = tree;
-	gtk_object_ref (GTK_OBJECT (sd->widget));
+	g_object_ref(sd->widget);
 
 	return sd->widget;
 }
@@ -1308,13 +1308,11 @@ sc_search_activated (GtkWidget *widget, gpointer user_data)
 {
 	SubscribeDialog *sc = SUBSCRIBE_DIALOG (user_data);
 	StoreData       *store = sc->priv->current_store;
-	char            *search;
 
 	if (!store)
 		return;
 
-	search = e_utf8_gtk_entry_get_text (GTK_ENTRY (widget));
-	folder_etree_set_search (store->ftree, search);
+	folder_etree_set_search (store->ftree, gtk_entry_get_text (GTK_ENTRY (widget)));
 }
 
 static void
@@ -1421,18 +1419,11 @@ sc_selection_changed (GtkObject *obj, gpointer user_data)
 	gtk_widget_set_sensitive (sc->priv->unsub_button, sensitive);
 }
 
-static gint
+static gboolean
 sc_activity_timeout (SubscribeDialog *sc)
 {
-	GtkAdjustment *adj;
-	gfloat next;
+	gtk_progress_bar_pulse(GTK_PROGRESS_BAR(sc->priv->progress));
 
-	adj = GTK_PROGRESS (sc->priv->progress)->adjustment;
-	next = adj->value + 1;
-	if (next > adj->upper)
-		next = adj->lower;
-
-	gtk_progress_set_value (GTK_PROGRESS (sc->priv->progress), next);
 	return TRUE;
 }
 
@@ -1445,12 +1436,11 @@ sc_activity_cb (int level, SubscribeDialog *sc)
 		if (sc->priv->activity_timeout_id)
 			return;
 
-		sc->priv->activity_timeout_id = gtk_timeout_add (50, (GtkFunction) 
-								 sc_activity_timeout, sc);
+		sc->priv->activity_timeout_id = g_timeout_add(50, (GSourceFunc)sc_activity_timeout, sc);
 		gnome_appbar_set_status (GNOME_APPBAR (sc->priv->appbar), _("Scanning folders..."));
 	} else {
 		if (sc->priv->activity_timeout_id) {
-			gtk_timeout_remove (sc->priv->activity_timeout_id);
+			g_source_remove (sc->priv->activity_timeout_id);
 			sc->priv->activity_timeout_id = 0;
 		}
 
@@ -1476,7 +1466,7 @@ menu_item_selected (GtkMenuItem *item, gpointer user_data)
 
 		tree = e_tree_scrolled_get_tree (E_TREE_SCROLLED (widget));
 		esm = e_tree_get_selection_model (tree);
-		gtk_signal_connect (GTK_OBJECT (esm), "selection_changed", sc_selection_changed, sc);
+		g_signal_connect(esm, "selection_changed", G_CALLBACK(sc_selection_changed), sc);
 		sc_selection_changed ((GtkObject *)esm, sc);
 	}
 
@@ -1489,10 +1479,10 @@ menu_item_selected (GtkMenuItem *item, gpointer user_data)
 	sc->priv->current_store  = sd;
 
 	if (*sd->ftree->search) {
-		e_utf8_gtk_entry_set_text (GTK_ENTRY (sc->priv->search_entry), sd->ftree->search);
+		gtk_entry_set_text (GTK_ENTRY (sc->priv->search_entry), sd->ftree->search);
 		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (sc->priv->filter_radio), TRUE);
 	} else {
-		e_utf8_gtk_entry_set_text (GTK_ENTRY (sc->priv->search_entry), "");
+		gtk_entry_set_text (GTK_ENTRY (sc->priv->search_entry), "");
 		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (sc->priv->all_radio), TRUE);
 	}
 }
@@ -1507,7 +1497,7 @@ dummy_item_selected (GtkMenuItem *item, gpointer user_data)
 	sc->priv->current_widget = sc->priv->default_widget;
 	sc->priv->current_store  = NULL;
 
-	e_utf8_gtk_entry_set_text (GTK_ENTRY (sc->priv->search_entry), "");
+	gtk_entry_set_text (GTK_ENTRY (sc->priv->search_entry), "");
 }
 
 /* wonderful */
@@ -1548,14 +1538,14 @@ populate_store_list (SubscribeDialog *sc)
 		item = gtk_menu_item_new_with_label (string);
 		store_data_async_get_store (iter->data, got_sd_store, item);
 		gtk_object_set_data (GTK_OBJECT (item), STORE_DATA_KEY, iter->data);
-		gtk_signal_connect (GTK_OBJECT (item), "activate", menu_item_selected, sc);
+		g_signal_connect(item, "activate", G_CALLBACK(menu_item_selected), sc);
 		g_free (string);
 
-		gtk_menu_prepend (GTK_MENU (menu), item);
+		gtk_menu_shell_prepend (GTK_MENU_SHELL (menu), item);
 	}
 
 	sc->priv->none_item = gtk_menu_item_new_with_label (_("No server has been selected"));
-	gtk_signal_connect (GTK_OBJECT (sc->priv->none_item), "activate", dummy_item_selected, sc);
+	g_signal_connect(sc->priv->none_item, "activate", G_CALLBACK(dummy_item_selected), sc);
 	gtk_widget_show (sc->priv->none_item);
 	gtk_menu_prepend (GTK_MENU (menu), sc->priv->none_item);
 
@@ -1573,25 +1563,36 @@ subscribe_dialog_destroy (GtkObject *object)
 	
 	sc = SUBSCRIBE_DIALOG (object);
 
-	if (sc->priv->activity_timeout_id)
-		gtk_timeout_remove (sc->priv->activity_timeout_id);
+	if (sc->priv) {
+		if (sc->priv->activity_timeout_id) {
+			g_source_remove (sc->priv->activity_timeout_id);
+			sc->priv->activity_timeout_id = 0;
+		}
 
-	for (iter = sc->priv->store_list; iter; iter = iter->next) {
-		StoreData *data = iter->data;
+		if (sc->priv->store_list) {
+			for (iter = sc->priv->store_list; iter; iter = iter->next) {
+				StoreData *data = iter->data;
 		
-		if (store_data_mid_request (data))
-			store_data_cancel_get_store (data);
+				if (store_data_mid_request (data))
+					store_data_cancel_get_store (data);
+				
+				data->store_func = NULL;
+				
+				store_data_unref (data);
+			}
 		
-		data->store_func = NULL;
-		
-		store_data_unref (data);
+			g_list_free (sc->priv->store_list);
+			sc->priv->store_list = NULL;
+		}
+
+		if (sc->priv->xml) {
+			g_object_unref(sc->priv->xml);
+			sc->priv->xml = NULL;
+		}
+
+		g_free (sc->priv);
+		sc->priv = NULL;
 	}
-	
-	g_list_free (sc->priv->store_list);
-	
-	gtk_object_unref (GTK_OBJECT (sc->priv->xml));
-
-	g_free (sc->priv);
 
 	subscribe_dialog_parent_class->destroy (object);
 }
@@ -1601,7 +1602,7 @@ subscribe_dialog_class_init (GtkObjectClass *object_class)
 {
 	object_class->destroy = subscribe_dialog_destroy;
 
-	subscribe_dialog_parent_class = gtk_type_class (PARENT_TYPE);
+	subscribe_dialog_parent_class = g_type_class_ref (PARENT_TYPE);
 }
 
 static void
@@ -1635,7 +1636,7 @@ subscribe_dialog_construct (GtkObject *object)
 	
 	/* Load the XML */
 	/* "app2" */
-	sc->priv->xml            = glade_xml_new (EVOLUTION_GLADEDIR "/subscribe-dialog.glade", "app");
+	sc->priv->xml            = glade_xml_new (EVOLUTION_GLADEDIR "/subscribe-dialog.glade", "app", NULL);
 	
 	sc->app                  = glade_xml_get_widget (sc->priv->xml, "app");
 	sc->priv->hbox           = glade_xml_get_widget (sc->priv->xml, "tree_box");
@@ -1663,18 +1664,16 @@ subscribe_dialog_construct (GtkObject *object)
 	gtk_widget_set_sensitive (sc->priv->refresh_button, FALSE);
 	
 	/* hook up some signals */
-	gtk_signal_connect (GTK_OBJECT (sc->priv->search_entry), "activate", sc_search_activated, sc);
-	gtk_signal_connect (GTK_OBJECT (sc->priv->close_button), "clicked", sc_close_pressed, sc);
-	gtk_signal_connect (GTK_OBJECT (sc->priv->sub_button), "clicked", sc_subscribe_pressed, sc);
-	gtk_signal_connect (GTK_OBJECT (sc->priv->unsub_button), "clicked", sc_unsubscribe_pressed, sc);
-	gtk_signal_connect (GTK_OBJECT (sc->priv->refresh_button), "clicked", sc_refresh_pressed, sc);
-	gtk_signal_connect (GTK_OBJECT (sc->priv->all_radio), "toggled", sc_all_toggled, sc);
-	gtk_signal_connect (GTK_OBJECT (sc->priv->filter_radio), "toggled", sc_filter_toggled, sc);
+	g_signal_connect(sc->priv->search_entry, "activate", G_CALLBACK(sc_search_activated), sc);
+	g_signal_connect(sc->priv->close_button, "clicked", G_CALLBACK(sc_close_pressed), sc);
+	g_signal_connect(sc->priv->sub_button, "clicked", G_CALLBACK(sc_subscribe_pressed), sc);
+	g_signal_connect(sc->priv->unsub_button, "clicked", G_CALLBACK(sc_unsubscribe_pressed), sc);
+	g_signal_connect(sc->priv->refresh_button, "clicked", G_CALLBACK(sc_refresh_pressed), sc);
+	g_signal_connect(sc->priv->all_radio, "toggled", G_CALLBACK(sc_all_toggled), sc);
+	g_signal_connect(sc->priv->filter_radio, "toggled", G_CALLBACK(sc_filter_toggled), sc);
 
 	/* progress */
-	gtk_progress_set_activity_mode (GTK_PROGRESS (sc->priv->progress), 1);
-	gtk_progress_bar_set_activity_step (GTK_PROGRESS_BAR (sc->priv->progress), 5);
-	gtk_progress_bar_set_activity_blocks (GTK_PROGRESS_BAR (sc->priv->progress), 10);
+	gtk_progress_bar_set_pulse_step(GTK_PROGRESS_BAR(sc->priv->progress), 0.1);
 
 	/* Get the list of stores */
 	populate_store_list (sc);
@@ -1685,7 +1684,7 @@ subscribe_dialog_new (void)
 {
 	SubscribeDialog *subscribe_dialog;
 	
-	subscribe_dialog = gtk_type_new (SUBSCRIBE_DIALOG_TYPE);
+	subscribe_dialog = g_object_new (SUBSCRIBE_DIALOG_TYPE, NULL);
 	subscribe_dialog_construct (GTK_OBJECT (subscribe_dialog));
 	
 	return GTK_OBJECT (subscribe_dialog);

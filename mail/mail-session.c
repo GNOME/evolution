@@ -25,14 +25,13 @@
 #endif
 
 #include <stdlib.h>
+
+#include <gtk/gtkdialog.h>
+#include <gtk/gtkstock.h>
+
 #include <libgnome/gnome-defs.h>
 #include <libgnome/gnome-config.h>
 #include <libgnome/gnome-sound.h>
-#include <libgnomeui/gnome-dialog.h>
-#include <libgnomeui/gnome-dialog-util.h>
-#include <libgnomeui/gnome-messagebox.h>
-#include <libgnomeui/gnome-stock.h>
-
 #include <gal/widgets/e-unicode.h>
 
 #include "camel/camel-filter-driver.h"
@@ -150,9 +149,8 @@ make_key (CamelService *service, const char *item)
 
 /* ********************************************************************** */
 
-static GnomeDialog *password_dialogue = NULL;
+static GtkDialog *password_dialogue = NULL;
 static EDList password_list = E_DLIST_INITIALISER(password_list);
-static int password_destroy_id;
 
 struct _pass_msg {
 	struct _mail_msg msg;
@@ -167,7 +165,9 @@ struct _pass_msg {
 	char *service_url;
 	char *key;
 
+	MailConfigService *config_service;
 	GtkWidget *check;
+	GtkWidget *entry;
 	char *result;
 	int ismain;
 };
@@ -175,29 +175,20 @@ struct _pass_msg {
 static void do_get_pass(struct _mail_msg *mm);
 
 static void
-pass_got (char *string, void *data)
+pass_response(GtkDialog *dialogue, int button, void *data)
 {
 	struct _pass_msg *m = data;
-	
-	if (string) {
-		MailConfigService *service = NULL;
-		const MailConfigAccount *mca;
+
+	switch(button) {
+	case GTK_RESPONSE_OK: {
 		gboolean cache, remember;
 		
-		m->result = g_strdup (string);
-		remember = cache = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (m->check));
+		m->result = g_strdup(gtk_entry_get_text((GtkEntry *)m->entry));
+		remember = cache = m->check?gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (m->check)):FALSE;
+
 		if (m->service_url) {
-			mca = mail_config_get_account_by_source_url (m->service_url);
-			if (mca) {
-				service = mca->source;
-			} else {
-				mca = mail_config_get_account_by_transport_url (m->service_url);
-				if (mca)
-					service = mca->transport;
-			}
-			
-			if (service) {
-				mail_config_service_set_save_passwd (service, cache);
+			if (m->service) {
+				mail_config_service_set_save_passwd (m->config_service, cache);
 				
 				/* set `cache' to TRUE because people don't want to have to
 				   re-enter their passwords for this session even if they told
@@ -217,14 +208,14 @@ pass_got (char *string, void *data)
 			if (remember)
 				e_passwords_remember_password (m->key);
 		}
-	} else {
+		break; }
+	default:
 		camel_exception_set(m->ex, CAMEL_EXCEPTION_USER_CANCEL, _("User canceled operation."));
+		break;
 	}
 
-	if (password_destroy_id) {
-		gtk_signal_disconnect((GtkObject *)password_dialogue, password_destroy_id);
-		password_destroy_id = 0;
-	}
+	gtk_widget_destroy((GtkWidget *)dialogue);
+	g_object_unref(dialogue);
 
 	password_dialogue = NULL;
 	e_msgport_reply((EMsg *)m);
@@ -234,28 +225,48 @@ pass_got (char *string, void *data)
 }
 
 static void
-request_password_deleted(GtkWidget *w, struct _pass_msg *m)
-{
-	password_destroy_id = 0;
-	pass_got(NULL, m);
-}
-
-static void
 request_password(struct _pass_msg *m)
 {
-	const MailConfigAccount *mca = NULL;
-	GtkWidget *dialogue;
-	GtkWidget *check, *check_label, *entry;
-	GList *children, *iter;
-	gboolean show;
 	char *title;
-	unsigned int accel_key;
+	const MailConfigAccount *mca = NULL;
 
 	/* If we already have a password_dialogue up, save this request till later */
 	if (!m->ismain && password_dialogue) {
 		e_dlist_addtail(&password_list, (EDListNode *)m);
 		return;
 	}
+
+	if (m->service_url) {
+		if ( (mca = mail_config_get_account_by_source_url(m->service_url)) )
+			m->config_service = mca->source;
+		else if ( (mca = mail_config_get_account_by_transport_url (m->service_url)) )
+			m->config_service = mca->transport;
+	}
+	
+	if (mca)
+		title = g_strdup_printf (_("Enter Password for %s"), mca->name);
+	else
+		title = g_strdup (_("Enter Password"));
+
+	password_dialogue = (GtkDialog *)gtk_message_dialog_new(NULL, 0, GTK_MESSAGE_QUESTION, GTK_BUTTONS_OK_CANCEL, "%s", m->prompt);
+	g_signal_connect(password_dialogue, "response", G_CALLBACK(pass_response), m);
+	gtk_window_set_title (GTK_WINDOW (password_dialogue), title);
+	g_free (title);
+
+	m->entry = gtk_entry_new();
+	gtk_entry_set_visibility((GtkEntry *)m->entry, !m->secret);
+	gtk_box_pack_start (GTK_BOX (GTK_DIALOG (password_dialogue)->vbox), m->entry, TRUE, FALSE, 0);
+	gtk_widget_show(m->entry);
+
+	if (m->service_url == NULL || m->service != NULL) {
+		m->check = gtk_check_button_new_with_mnemonic(m->service_url? _("_Remember this password") :
+							      _("_Remember this password for the remainder of this session"));
+		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (m->check), m->config_service->save_passwd);
+		gtk_box_pack_start (GTK_BOX (GTK_DIALOG (password_dialogue)->vbox), m->check, TRUE, FALSE, 0);
+		gtk_widget_show(m->check);
+	}
+
+#if 0
 
 	/* FIXME: Remove this total snot */
 
@@ -264,7 +275,7 @@ request_password(struct _pass_msg *m)
 	title = e_utf8_to_gtk_string (GTK_WIDGET (check_label), m->prompt);
 	password_dialogue = (GnomeDialog *)dialogue = gnome_request_dialog (m->secret, title, NULL, 0, pass_got, m, NULL);
 	g_free(title);
-	password_destroy_id = gtk_signal_connect((GtkObject *)dialogue, "destroy", request_password_deleted, m);
+	password_destroy_id = g_signal_connect((GtkObject *)dialogue, "destroy", request_password_deleted, m);
 
 	check = gtk_check_button_new ();
 	gtk_misc_set_alignment (GTK_MISC (check_label), 0.0, 0.5);
@@ -309,7 +320,7 @@ request_password(struct _pass_msg *m)
 	g_list_free (children);
 	
 	if (entry) {
-		gtk_object_ref (GTK_OBJECT (entry));
+		g_object_ref((entry));
 		gtk_container_remove (GTK_CONTAINER (GNOME_DIALOG (dialogue)->vbox), entry);
 	}
 	
@@ -318,7 +329,7 @@ request_password(struct _pass_msg *m)
 	if (entry) {
 		gtk_box_pack_end (GTK_BOX (GNOME_DIALOG (dialogue)->vbox), entry, TRUE, FALSE, 0);
 		gtk_widget_grab_focus (entry);
-		gtk_object_unref (GTK_OBJECT (entry));
+		g_object_unref((entry));
 	}
 	
 	m->check = check;
@@ -334,11 +345,12 @@ request_password(struct _pass_msg *m)
 	
 	gtk_window_set_title (GTK_WINDOW (dialogue), title);
 	g_free (title);
+#endif
 
 	if (m->ismain)
-		gnome_dialog_run_and_close ((GnomeDialog *)dialogue);
+		gtk_dialog_run(password_dialogue);
 	else
-		gtk_widget_show(dialogue);
+		gtk_widget_show((GtkWidget *)password_dialogue);
 }
 
 static void
@@ -444,9 +456,8 @@ forget_password (CamelSession *session, CamelService *service, const char *item,
 
 /* ********************************************************************** */
 
-static GnomeDialog *message_dialogue;
+static GtkDialog *message_dialogue;
 static EDList message_list = E_DLIST_INITIALISER(password_list);
-static guint message_destroy_id;
 
 struct _user_message_msg {
 	struct _mail_msg msg;
@@ -461,30 +472,20 @@ struct _user_message_msg {
 
 static void do_user_message (struct _mail_msg *mm);
 
-/* if we dont have to wait for reply, we just check to see if any newly waiting prompts are there */
-static void
-user_message_destroy_noreply(GnomeDialog *gd, void *data)
-{
-	struct _user_message_msg *m;
-
-	message_dialogue = NULL;
-	if ((m = (struct _user_message_msg *)e_dlist_remhead(&message_list)))
-		do_user_message((struct _mail_msg *)m);
-}
-
 /* clicked, send back the reply */
 static void
-user_message_clicked(GnomeDialog *gd, int button, struct _user_message_msg *m)
+user_message_response(GtkDialog *gd, int button, struct _user_message_msg *m)
 {
+	gtk_widget_destroy((GtkWidget *)gd);
+	g_object_unref(gd);
+
 	message_dialogue = NULL;
 
-	if (message_destroy_id) {
-		gtk_signal_disconnect((GtkObject *)gd, message_destroy_id);
-		message_destroy_id = 0;
+	/* if !allow_cancel, then we've already replied */
+	if (m->allow_cancel) {
+		m->result = button == GTK_RESPONSE_OK;
+		e_msgport_reply((EMsg *)m);
 	}
-
-	m->result = button == 0;
-	e_msgport_reply((EMsg *)m);
 
 	/* check for pendings */
 	if ((m = (struct _user_message_msg *)e_dlist_remhead(&message_list)))
@@ -492,17 +493,10 @@ user_message_clicked(GnomeDialog *gd, int button, struct _user_message_msg *m)
 }
 
 static void
-user_message_destroy(GnomeDialog *gd, struct _user_message_msg *m)
-{
-	message_destroy_id = 0;
-	user_message_clicked(gd, -1, m);
-}
-
-static void
 do_user_message (struct _mail_msg *mm)
 {
 	struct _user_message_msg *m = (struct _user_message_msg *)mm;
-	const char *msg_type;
+	GtkMessageType msg_type;
 
 	if (!m->ismain && message_dialogue != NULL) {
 		e_dlist_addtail(&message_list, (EDListNode *)m);
@@ -511,35 +505,33 @@ do_user_message (struct _mail_msg *mm)
 
 	switch (m->type) {
 	case CAMEL_SESSION_ALERT_INFO:
-		msg_type = GNOME_MESSAGE_BOX_INFO;
+		msg_type = GTK_MESSAGE_INFO;
 		break;
 	case CAMEL_SESSION_ALERT_WARNING:
-		msg_type = GNOME_MESSAGE_BOX_WARNING;
+		msg_type = GTK_MESSAGE_WARNING;
 		break;
 	case CAMEL_SESSION_ALERT_ERROR:
-		msg_type = GNOME_MESSAGE_BOX_ERROR;
+		msg_type = GTK_MESSAGE_ERROR;
 		break;
 	default:
-		msg_type = NULL;
+		msg_type = GTK_MESSAGE_INFO;
 	}
 
-	message_dialogue = (GnomeDialog *)gnome_message_box_new(m->prompt, msg_type, GNOME_STOCK_BUTTON_OK,
-								m->allow_cancel ? GNOME_STOCK_BUTTON_CANCEL : NULL,
-								NULL);
-	gnome_dialog_set_default(message_dialogue, 1);
-	gnome_dialog_set_close(message_dialogue, TRUE);
-	gtk_window_set_policy (GTK_WINDOW (message_dialogue), TRUE, TRUE, TRUE);
+	message_dialogue = (GtkDialog *)gtk_message_dialog_new(
+		NULL, 0, msg_type,
+		m->allow_cancel?GTK_BUTTONS_OK_CANCEL:GTK_BUTTONS_OK,
+		m->prompt);
+	gtk_dialog_set_default_response(message_dialogue, m->allow_cancel?GTK_RESPONSE_CANCEL:GTK_RESPONSE_OK);
+	g_object_set(message_dialogue, "allow_shrink", TRUE, "allow_grow", TRUE, NULL);
 
 	/* We only need to wait for the result if we allow cancel otherwise show but send result back instantly */
 	if (m->allow_cancel) {
-		gtk_signal_connect((GtkObject*)message_dialogue, "clicked", user_message_clicked, m);
-		message_destroy_id = gtk_signal_connect((GtkObject*)message_dialogue, "destroy", user_message_destroy, m);
+		g_signal_connect(message_dialogue, "response", G_CALLBACK(user_message_response), m);
 		if (m->ismain)
-			gnome_dialog_run_and_close ((GnomeDialog *)message_dialogue);
+			gtk_dialog_run(message_dialogue);
 		else
 			gtk_widget_show((GtkWidget *)message_dialogue);
 	} else {
-		gtk_signal_connect((GtkObject *)message_dialogue, "destroy", user_message_destroy_noreply, NULL);
 		gtk_widget_show((GtkWidget *)message_dialogue);
 		m->result = TRUE;
 		e_msgport_reply((EMsg *)m);
@@ -760,7 +752,7 @@ register_timeout (CamelSession *session, guint32 interval, CamelTimeoutCallback 
 
 	MAIL_SESSION_UNLOCK(session, lock);
 
-	camel_object_ref((CamelObject *)ms);
+	camel_object_ref(ms);
 	mail_async_event_emit(ms->async, MAIL_ASYNC_GUI, (MailAsyncFunc)main_register_timeout, (CamelObject *)session, (void *)ret, NULL);
 
 	return ret;
@@ -802,7 +794,7 @@ remove_timeout (CamelSession *session, guint handle)
 	MAIL_SESSION_UNLOCK(session, lock);
 
 	if (remove) {
-		camel_object_ref((CamelObject *)ms);
+		camel_object_ref(ms);
 		mail_async_event_emit(ms->async, MAIL_ASYNC_GUI,
 				      (MailAsyncFunc)main_remove_timeout, (CamelObject *)session, (void *)handle, NULL);
 	} else
@@ -913,7 +905,7 @@ main_get_filter_driver (CamelSession *session, const char *type, CamelException 
 	g_string_free (fsearch, TRUE);
 	g_string_free (faction, TRUE);
 	
-	gtk_object_unref (GTK_OBJECT (fc));
+	g_object_unref(fc);
 	
 	return driver;
 }

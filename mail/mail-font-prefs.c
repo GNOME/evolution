@@ -54,12 +54,15 @@ font_prefs_changed (GtkHTMLPropmanager *pman, MailFontPrefs *prefs)
 }
 
 static void
-mail_font_prefs_finalize (GtkObject *object)
+mail_font_prefs_destroy (GtkObject *object)
 {
 	MailFontPrefs *prefs = (MailFontPrefs *) object;
 
-	gtk_object_unref (GTK_OBJECT (prefs->pman));
-	gtk_object_unref (GTK_OBJECT (prefs->gui));
+	if (prefs->pman) {
+		g_object_unref(prefs->pman);
+		g_object_unref(prefs->gui);
+		prefs->pman = NULL;
+	}
 
 	if (GTK_OBJECT_CLASS (parent_class)->finalize)
 		(* GTK_OBJECT_CLASS (parent_class)->finalize) (object);
@@ -71,24 +74,24 @@ mail_font_prefs_init (MailFontPrefs *prefs)
 	GtkWidget *toplevel;
 	GladeXML *gui;
 
-	gui = glade_xml_new (EVOLUTION_GLADEDIR "/mail-config.glade", "font_tab");
+	gui = glade_xml_new (EVOLUTION_GLADEDIR "/mail-config.glade", "font_tab", NULL);
 	prefs->gui = gui;
 
 	prefs->pman = GTK_HTML_PROPMANAGER (gtk_html_propmanager_new (NULL));
 	gtk_html_propmanager_set_gui (prefs->pman, gui, NULL);
-	gtk_object_ref (GTK_OBJECT (prefs->pman));
+	g_object_ref(prefs->pman);
 	gtk_object_sink (GTK_OBJECT (prefs->pman));
 
-	gtk_signal_connect (GTK_OBJECT (prefs->pman), "changed", font_prefs_changed, prefs);
+	g_signal_connect(prefs->pman, "changed", font_prefs_changed, prefs);
 
 	/* get our toplevel widget */
 	toplevel = glade_xml_get_widget (gui, "toplevel");
 	
 	/* reparent */
-	gtk_widget_ref (toplevel);
+	g_object_ref (toplevel);
 	gtk_container_remove (GTK_CONTAINER (toplevel->parent), toplevel);
 	gtk_container_add (GTK_CONTAINER (prefs), toplevel);
-	gtk_widget_unref (toplevel);	
+	g_object_unref (toplevel);
 }
 
 static void
@@ -97,28 +100,28 @@ mail_font_prefs_class_init (MailFontPrefsClass *klass)
 	GtkObjectClass *object_class;
 
 	object_class = (GtkObjectClass *) klass;
-	parent_class = gtk_type_class (gtk_vbox_get_type ());
+	parent_class = g_type_class_ref(gtk_vbox_get_type ());
 
-	object_class->finalize = mail_font_prefs_finalize;
+	object_class->destroy = mail_font_prefs_destroy;
 }
 
 GtkType
 mail_font_prefs_get_type (void)
 {
-	static GtkType type = 0;
+	static GType type = 0;
 	
 	if (!type) {
-		GtkTypeInfo type_info = {
-			"MailFontPrefs",
-			sizeof (MailFontPrefs),
+		GTypeInfo type_info = {
 			sizeof (MailFontPrefsClass),
-			(GtkClassInitFunc) mail_font_prefs_class_init,
-			(GtkObjectInitFunc) mail_font_prefs_init,
-			(GtkArgSetFunc) NULL,
-			(GtkArgGetFunc) NULL
+			NULL, NULL,
+			(GClassInitFunc) mail_font_prefs_class_init,
+			NULL, NULL,
+			sizeof (MailFontPrefs),
+			0,
+			(GInstanceInitFunc) mail_font_prefs_init,
 		};
 		
-		type = gtk_type_unique (gtk_vbox_get_type (), &type_info); 
+		type = g_type_register_static (gtk_vbox_get_type (), "MailFontPrefs", &type_info, 0);
 	}
 
 	return type;

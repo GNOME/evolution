@@ -53,7 +53,6 @@ typedef struct {
 	gboolean identity_copied;
 	CamelProvider *last_source;
 
-	int id;
 	BonoboListener *listener;
 	Bonobo_EventSource event_source;
 } MailConfigDruid;

@@ -25,10 +25,9 @@
 #define __MESSAGE_TAG_EDITOR_H__
 
 #include <gtk/gtkwidget.h>
-#include <libgnomeui/gnome-dialog.h>
+#include <gtk/gtkdialog.h>
 #include <camel/camel-folder.h>
 #include <camel/camel-folder-summary.h>
-#include <time.h>
 
 #ifdef __cplusplus
 extern "C" {
@@ -43,12 +42,12 @@ typedef struct _MessageTagEditor MessageTagEditor;
 typedef struct _MessageTagEditorClass MessageTagEditorClass;
 
 struct _MessageTagEditor {
-	GnomeDialog parent;
+	GtkDialog parent;
 	
 };
 
 struct _MessageTagEditorClass {
-	GnomeDialogClass parent_class;
+	GtkDialogClass parent_class;
 	
 	/* virtual methods */
 	CamelTag * (*get_tag_list) (MessageTagEditor *editor);

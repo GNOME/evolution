@@ -30,6 +30,8 @@
 #include <string.h>
 #include <ctype.h>
 
+#include <glib/gunicode.h>
+
 #include <gal/util/e-util.h>
 #include <gal/widgets/e-gui-utils.h>
 #include <gal/e-table/e-cell-text.h>
@@ -40,7 +42,6 @@
 #include <gal/e-table/e-cell-size.h>
 #include <gal/e-table/e-tree-memory.h>
 #include <gal/e-table/e-tree-memory-callbacks.h>
-#include <gal/unicode/gunicode.h>
 
 #include <camel/camel-exception.h>
 #include <camel/camel-file-utils.h>
@@ -185,7 +186,7 @@ e_mail_address_new (const char *address)
 	
 	cia = camel_internet_address_new ();
 	if (camel_address_unformat (CAMEL_ADDRESS (cia), address) == -1) {
-		camel_object_unref (CAMEL_OBJECT (cia));
+		camel_object_unref (cia);
 		return NULL;
 	}
 	camel_internet_address_get (cia, 0, &name, &addr);
@@ -198,7 +199,7 @@ e_mail_address_new (const char *address)
 		new->wname = NULL;
 	}
 	
-	camel_object_unref (CAMEL_OBJECT (cia));
+	camel_object_unref (cia);
 	
 	return new;
 }
@@ -395,7 +396,7 @@ get_normalised_string (MessageList *message_list, CamelMessageInfo *info, int co
 		const unsigned char *subject;
 		
 		subject = (const unsigned char *) string;
-		while (!g_strncasecmp (subject, "Re:", 3)) {
+		while (!g_ascii_strncasecmp (subject, "Re:", 3)) {
 			subject += 3;
 			
 			/* jump over any spaces */
@@ -412,7 +413,8 @@ get_normalised_string (MessageList *message_list, CamelMessageInfo *info, int co
 	
 	normalised = g_utf8_collate_key (string, -1);
 	e_poolv_set (poolv, index, normalised, TRUE);
-	
+	g_free(normalised);
+
 	return e_poolv_get (poolv, index);
 }
 
@@ -437,8 +439,8 @@ search_func (ETreeModel *model, ETreePath path, struct search_func_data *data)
 			g_free (data->message_list->cursor_uid);
 			data->message_list->cursor_uid = g_strdup (camel_message_info_uid (info));
 		}
-		gtk_signal_emit (GTK_OBJECT (data->message_list), message_list_signals[MESSAGE_SELECTED],
-				 camel_message_info_uid (info));
+		g_signal_emit (GTK_OBJECT (data->message_list), message_list_signals[MESSAGE_SELECTED], 0,
+			       camel_message_info_uid (info));
 		return TRUE;
 	}
 	return FALSE;
@@ -514,12 +516,12 @@ message_list_select_uid (MessageList *message_list, const char *uid)
 		g_free (message_list->cursor_uid);
 		message_list->cursor_uid = g_strdup (camel_message_info_uid (info));
 		
-		gtk_signal_emit (GTK_OBJECT (message_list), message_list_signals[MESSAGE_SELECTED],
+		g_signal_emit (GTK_OBJECT (message_list), message_list_signals[MESSAGE_SELECTED], 0,
 				 camel_message_info_uid (info));
 	} else {
 		g_free (message_list->cursor_uid);
 		message_list->cursor_uid = NULL;
-		gtk_signal_emit (GTK_OBJECT (message_list), message_list_signals[MESSAGE_SELECTED], NULL);
+		g_signal_emit (GTK_OBJECT (message_list), message_list_signals[MESSAGE_SELECTED], 0, NULL);
 	}
 }
 
@@ -551,8 +553,8 @@ message_list_select_next_thread (MessageList *message_list)
 		g_free (message_list->cursor_uid);
 		message_list->cursor_uid = g_strdup (camel_message_info_uid (info));
 		
-		gtk_signal_emit (GTK_OBJECT (message_list), message_list_signals[MESSAGE_SELECTED],
-				 camel_message_info_uid (info));
+		g_signal_emit (GTK_OBJECT (message_list), message_list_signals[MESSAGE_SELECTED], 0,
+			       camel_message_info_uid (info));
 	}
 }
 
@@ -1207,9 +1209,9 @@ message_list_setup_etree (MessageList *message_list, gboolean outgoing)
 		char *name;
 		struct stat st;
 
-		gtk_object_set (GTK_OBJECT (message_list->tree),
-				"uniform_row_height", TRUE,
-				NULL);
+		g_object_set (message_list->tree,
+			      "uniform_row_height", TRUE,
+			      NULL);
 		
 		name = camel_service_get_name (CAMEL_SERVICE (message_list->folder->parent_store), TRUE);
 		d(printf ("folder name is '%s'\n", name));
@@ -1259,7 +1261,7 @@ normalised_free (gpointer key, gpointer value, gpointer user_data)
 }
 
 static void
-message_list_destroy (GtkObject *object)
+message_list_finalise (GObject *object)
 {
 	MessageList *message_list = MESSAGE_LIST (object);
 
@@ -1272,24 +1274,24 @@ message_list_destroy (GtkObject *object)
 		save_tree_state(message_list);
 		hide_save_state(message_list);
 
-		camel_object_unhook_event((CamelObject *)message_list->folder, "folder_changed",
-					  folder_changed, message_list);
-		camel_object_unhook_event((CamelObject *)message_list->folder, "message_changed",
-					  message_changed, message_list);
-		camel_object_unref (CAMEL_OBJECT (message_list->folder));
+		camel_object_unhook_event(message_list->folder, "folder_changed", folder_changed, message_list);
+		camel_object_unhook_event(message_list->folder, "message_changed", message_changed, message_list);
+		camel_object_unref (message_list->folder);
 	}
 
 	if (message_list->thread_tree)
 		camel_folder_thread_messages_unref(message_list->thread_tree);
 
-	gtk_object_unref (GTK_OBJECT (message_list->extras));
-	gtk_object_unref (GTK_OBJECT (message_list->model));
+	if (message_list->extras)
+		g_object_unref((message_list->extras));
+	if (message_list->model)
+		g_object_unref((message_list->model));
 	
 	if (message_list->idle_id != 0)
 		g_source_remove (message_list->idle_id);
 	
 	if (message_list->seen_id)
-		gtk_timeout_remove (message_list->seen_id);
+		g_source_remove (message_list->seen_id);
 	
 	if (message_list->hidden) {
 		g_hash_table_destroy(message_list->hidden);
@@ -1307,36 +1309,38 @@ message_list_destroy (GtkObject *object)
 
 	g_mutex_free(message_list->hide_lock);
 
-	GTK_OBJECT_CLASS (message_list_parent_class)->destroy (object);
+	G_OBJECT_CLASS (message_list_parent_class)->finalize (object);
 }
 
 /*
  * GtkObjectClass::init
  */
 static void
-message_list_class_init (GtkObjectClass *object_class)
+message_list_class_init (GObjectClass *object_class)
 {
-	message_list_parent_class = gtk_type_class (PARENT_TYPE);
+	message_list_parent_class = g_type_class_ref(PARENT_TYPE);
 
-	object_class->destroy = message_list_destroy;
+	object_class->finalize = message_list_finalise;
 
 	message_list_signals[MESSAGE_SELECTED] =
-		gtk_signal_new ("message_selected",
-				GTK_RUN_LAST,
-				object_class->type,
-				GTK_SIGNAL_OFFSET (MessageListClass, message_selected),
-				gtk_marshal_NONE__STRING,
-				GTK_TYPE_NONE, 1, GTK_TYPE_STRING);
+		g_signal_new ("message_selected",
+			      MESSAGE_LIST_TYPE,
+			      G_SIGNAL_RUN_LAST,
+			      G_STRUCT_OFFSET (MessageListClass, message_selected),
+			      NULL,
+			      NULL,
+			      g_cclosure_marshal_VOID__STRING,
+			      G_TYPE_NONE, 1, G_TYPE_STRING);
 	
 	message_list_signals[MESSAGE_LIST_BUILT] =
-		gtk_signal_new ("message_list_built",
-				GTK_RUN_LAST,
-				object_class->type,
-				GTK_SIGNAL_OFFSET (MessageListClass, message_list_built),
-				gtk_marshal_NONE__NONE,
-				GTK_TYPE_NONE, 0);
-	
-	gtk_object_class_add_signals(object_class, message_list_signals, LAST_SIGNAL);
+		g_signal_new ("message_list_built",
+			      MESSAGE_LIST_TYPE,
+			      G_SIGNAL_RUN_LAST,
+			      G_STRUCT_OFFSET (MessageListClass, message_list_built),
+			      NULL,
+			      NULL,
+			      g_cclosure_marshal_VOID__VOID,
+			      G_TYPE_NONE, 0);
 
 	message_list_init_images ();
 }
@@ -1367,8 +1371,6 @@ message_list_construct (MessageList *message_list)
 					     ml_value_to_string,
 					     
 					     message_list);
-	gtk_object_ref (GTK_OBJECT (message_list->model));
-	gtk_object_sink (GTK_OBJECT (message_list->model));
 	
 	e_tree_memory_set_expanded_default(E_TREE_MEMORY(message_list->model), TRUE);
 	
@@ -1387,12 +1389,12 @@ message_list_construct (MessageList *message_list)
 	if (!construct_failed)
 		e_tree_root_node_set_visible (message_list->tree, FALSE);
 
-	gtk_signal_connect (GTK_OBJECT (message_list->tree), "cursor_activated",
-			    GTK_SIGNAL_FUNC (on_cursor_activated_cmd),
-			    message_list);
+	g_signal_connect((message_list->tree), "cursor_activated",
+			 G_CALLBACK (on_cursor_activated_cmd),
+			 message_list);
 	
-	gtk_signal_connect (GTK_OBJECT (message_list->tree), "click",
-			    GTK_SIGNAL_FUNC (on_click), message_list);
+	g_signal_connect((message_list->tree), "click",
+			 G_CALLBACK (on_click), message_list);
 }
 
 GtkWidget *
@@ -1400,10 +1402,10 @@ message_list_new (void)
 {
 	MessageList *message_list;
 
-	message_list = MESSAGE_LIST (gtk_widget_new (message_list_get_type (),
-						     "hadjustment", NULL,
-						     "vadjustment", NULL,
-						     NULL));
+	message_list = MESSAGE_LIST (g_object_new(message_list_get_type (),
+						  "hadjustment", NULL,
+						  "vadjustment", NULL,
+						  NULL));
 	message_list_construct (message_list);
 
 	return GTK_WIDGET (message_list);
@@ -2109,7 +2111,7 @@ message_list_set_folder (MessageList *message_list, CamelFolder *camel_folder, g
 					  folder_changed, message_list);
 		camel_object_unhook_event((CamelObject *)message_list->folder, "message_changed",
 					  message_changed, message_list);
-		camel_object_unref (CAMEL_OBJECT (message_list->folder));
+		camel_object_unref (message_list->folder);
 	}
 
 	if (message_list->thread_tree) {
@@ -2122,7 +2124,7 @@ message_list_set_folder (MessageList *message_list, CamelFolder *camel_folder, g
 	if (message_list->cursor_uid) {
 		g_free(message_list->cursor_uid);
 		message_list->cursor_uid = NULL;
-		gtk_signal_emit((GtkObject *)message_list, message_list_signals[MESSAGE_SELECTED], NULL);
+		g_signal_emit(message_list, message_list_signals[MESSAGE_SELECTED], 0, NULL);
 	}
 
 	if (camel_folder) {
@@ -2131,33 +2133,33 @@ message_list_set_folder (MessageList *message_list, CamelFolder *camel_folder, g
 			ECell *cell;
 
 			cell = e_table_extras_get_cell (message_list->extras, "render_date");
-			gtk_object_set (GTK_OBJECT (cell),
-					"strikeout_column", COL_DELETED,
-					NULL);
+			g_object_set (cell,
+				      "strikeout_column", COL_DELETED,
+				      NULL);
 
 			cell = e_table_extras_get_cell (message_list->extras, "render_text");
-			gtk_object_set (GTK_OBJECT (cell),
-					"strikeout_column", COL_DELETED,
-					NULL);
+			g_object_set (cell,
+				      "strikeout_column", COL_DELETED,
+				      NULL);
 
 			cell = e_table_extras_get_cell (message_list->extras, "render_size");
-			gtk_object_set (GTK_OBJECT (cell),
-					"strikeout_column", COL_DELETED,
-					NULL);
+			g_object_set (cell,
+				      "strikeout_column", COL_DELETED,
+				      NULL);
 		}
 
 		/* Build the etree suitable for this folder */
 		message_list_setup_etree (message_list, outgoing);
 		
-		camel_object_hook_event (CAMEL_OBJECT (camel_folder), "folder_changed",
+		camel_object_hook_event (camel_folder, "folder_changed",
 					 folder_changed, message_list);
-		camel_object_hook_event (CAMEL_OBJECT (camel_folder), "message_changed",
+		camel_object_hook_event (camel_folder, "message_changed",
 					 message_changed, message_list);
 		
-		camel_object_ref (CAMEL_OBJECT (camel_folder));
+		camel_object_ref (camel_folder);
 		
-		message_list->hidedeleted = mail_config_get_hide_deleted () &&
-			!(camel_folder->folder_flags & CAMEL_FOLDER_IS_TRASH);
+		message_list->hidedeleted = mail_config_get_hide_deleted ()
+			&& !(camel_folder->folder_flags & CAMEL_FOLDER_IS_TRASH);
 		
 		hide_load_state (message_list);
 		mail_regen_list (message_list, message_list->search, NULL, NULL);
@@ -2175,11 +2177,9 @@ on_cursor_activated_idle (gpointer data)
 	
 	if (selected == 1 && message_list->cursor_uid) {
 		d(printf ("emitting cursor changed signal, for uid %s\n", message_list->cursor_uid));
-		gtk_signal_emit (GTK_OBJECT (message_list),
-				 message_list_signals[MESSAGE_SELECTED], message_list->cursor_uid);
+		g_signal_emit (message_list, message_list_signals[MESSAGE_SELECTED], 0, message_list->cursor_uid);
 	} else {
-		gtk_signal_emit (GTK_OBJECT (message_list),
-				 message_list_signals[MESSAGE_SELECTED], NULL);
+		g_signal_emit (message_list, message_list_signals[MESSAGE_SELECTED], 0, NULL);
 	}
 		
 	message_list->idle_id = 0;
@@ -2243,7 +2243,7 @@ on_click (ETree *tree, gint row, ETreePath path, gint col, GdkEvent *event, Mess
 	camel_folder_set_message_flags (list->folder, camel_message_info_uid (info), flag, ~info->flags);
 	
 	if (flag == CAMEL_MESSAGE_SEEN && list->seen_id) {
-		gtk_timeout_remove (list->seen_id);
+		g_source_remove (list->seen_id);
 		list->seen_id = 0;
 	}
 	
@@ -2710,8 +2710,9 @@ regen_list_regened (struct _mail_msg *mm)
 {
 	struct _regen_list_msg *m = (struct _regen_list_msg *)mm;
 
-	if (GTK_OBJECT_DESTROYED(m->ml))
-		return;
+#warning "GTK_OBJECT_DESTROYED replacement"
+	/*if (GTK_OBJECT_DESTROYED(m->ml))
+	  return;*/
 
 	if (!m->complete)
 		return;
@@ -2728,7 +2729,7 @@ regen_list_regened (struct _mail_msg *mm)
 	} else
 		build_flat (m->ml, m->summary, m->changes);
 
-	gtk_signal_emit (GTK_OBJECT (m->ml), message_list_signals[MESSAGE_LIST_BUILT]);
+	g_signal_emit (m->ml, message_list_signals[MESSAGE_LIST_BUILT], 0);
 }
 
 static void
@@ -2752,7 +2753,7 @@ regen_list_free (struct _mail_msg *mm)
 	
 	g_free (m->hideexpr);
 	
-	camel_object_unref (CAMEL_OBJECT (m->folder));
+	camel_object_unref (m->folder);
 	
 	if (m->changes)
 		camel_folder_change_info_free (m->changes);
@@ -2761,7 +2762,7 @@ regen_list_free (struct _mail_msg *mm)
 	   However, since we have a received function, this will always be called in gui thread */
 	m->ml->regen = g_list_remove(m->ml->regen, m);
 
-	gtk_object_unref (GTK_OBJECT (m->ml));
+	g_object_unref(m->ml);
 }
 
 static struct _mail_msg_op regen_list_op = {
@@ -2811,9 +2812,9 @@ mail_regen_list (MessageList *ml, const char *search, const char *hideexpr, Came
 	m->changes = changes;
 	m->dotree = ml->threaded;
 	m->hidedel = ml->hidedeleted;
-	gtk_object_ref (GTK_OBJECT (ml));
+	g_object_ref(ml);
 	m->folder = ml->folder;
-	camel_object_ref (CAMEL_OBJECT (m->folder));
+	camel_object_ref(m->folder);
 
 	if ((!m->hidedel || !m->dotree) && ml->thread_tree) {
 		camel_folder_thread_messages_unref(ml->thread_tree);

@@ -31,7 +31,6 @@ extern "C" {
 
 #include <gtk/gtk.h>
 #include <libgnomeui/gnome-color-picker.h>
-#include <libgnomeui/gnome-dialog.h>
 #include <libgnomeui/gnome-file-entry.h>
 #include <glade/glade.h>
 #include <gtkhtml/gtkhtml-propmanager.h>

@@ -49,7 +49,6 @@ struct _SubscribeDialog {
 	SubscribeDialogPrivate *priv;
 };
 
-
 typedef struct {
 	GtkObjectClass parent_class;
 } SubscribeDialogClass;

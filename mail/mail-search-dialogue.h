@@ -22,7 +22,7 @@
 #define _MAIL_SEARCH_DIALOGUE_H
 
 #include <gtk/gtkwidget.h>
-#include <libgnomeui/gnome-dialog.h>
+#include <gtk/gtkdialog.h>
 
 #include "filter/rule-context.h"
 #include "filter/filter-rule.h"
@@ -35,7 +35,7 @@ typedef struct _MailSearchDialogue	MailSearchDialogue;
 typedef struct _MailSearchDialogueClass	MailSearchDialogueClass;
 
 struct _MailSearchDialogue {
-	GnomeDialog parent;
+	GtkDialog parent;
 
 	RuleContext *context;
 	FilterRule *rule;
@@ -43,7 +43,7 @@ struct _MailSearchDialogue {
 };
 
 struct _MailSearchDialogueClass {
-	GnomeDialogClass parent_class;
+	GtkDialogClass parent_class;
 
 	/* virtual methods */
 

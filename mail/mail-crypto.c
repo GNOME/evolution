@@ -78,7 +78,7 @@ mail_crypto_smime_sign (CamelMimeMessage *message, const char *userid,
 	if (context) {
 		mesg = camel_cms_sign (CAMEL_CMS_CONTEXT (context), message,
 				       userid, signing_time, detached, ex);
-		camel_object_unref (CAMEL_OBJECT (context));
+		camel_object_unref (context);
 	} else
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
 				      _("Could not create a S/MIME signature context."));
@@ -110,7 +110,7 @@ mail_crypto_smime_certsonly (CamelMimeMessage *message, const char *userid,
 	if (context) {
 		mesg = camel_cms_certsonly (CAMEL_CMS_CONTEXT (context), message,
 					    userid, recipients, ex);
-		camel_object_unref (CAMEL_OBJECT (context));
+		camel_object_unref (context);
 	} else
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
 				      _("Could not create a S/MIME certsonly context."));
@@ -142,7 +142,7 @@ mail_crypto_smime_encrypt (CamelMimeMessage *message, const char *userid,
 	if (context) {
 		mesg = camel_cms_encrypt (CAMEL_CMS_CONTEXT (context), message,
 					  userid, recipients, ex);
-		camel_object_unref (CAMEL_OBJECT (context));
+		camel_object_unref (context);
 	} else
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
 				      _("Could not create a S/MIME encryption context."));
@@ -174,7 +174,7 @@ mail_crypto_smime_envelope (CamelMimeMessage *message, const char *userid,
 	if (context) {
 		mesg = camel_cms_envelope (CAMEL_CMS_CONTEXT (context), message,
 					   userid, recipients, ex);
-		camel_object_unref (CAMEL_OBJECT (context));
+		camel_object_unref (context);
 	} else
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
 				      _("Could not create a S/MIME envelope context."));
@@ -205,7 +205,7 @@ mail_crypto_smime_decode (CamelMimeMessage *message, CamelCMSValidityInfo **info
 	if (context) {
 		mesg = camel_cms_decode (CAMEL_CMS_CONTEXT (context),
 					 message, info, ex);
-		camel_object_unref (CAMEL_OBJECT (context));
+		camel_object_unref (context);
 	} else
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
 				      _("Could not create a S/MIME decode context."));

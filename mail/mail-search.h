@@ -32,7 +32,7 @@ extern "C" {
 #pragma }
 #endif /* _cplusplus */
 
-#include <gnome.h>
+#include <gtk/gtkdialog.h>
 #include "mail-display.h"
 
 #define MAIL_SEARCH_TYPE        (mail_search_get_type ())
@@ -45,7 +45,7 @@ typedef struct _MailSearch      MailSearch;
 typedef struct _MailSearchClass MailSearchClass;
 
 struct _MailSearch {
-	GnomeDialog parent;
+	GtkDialog parent;
 	
 	MailDisplay *mail;
 
@@ -61,7 +61,7 @@ struct _MailSearch {
 };
 
 struct _MailSearchClass {
-	GnomeDialogClass parent_class;
+	GtkDialogClass parent_class;
 
 };
 

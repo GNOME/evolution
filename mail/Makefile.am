@@ -1,4 +1,4 @@
-SUBDIRS = importers
+#SUBDIRS = importers
 
 bin_PROGRAMS = 				\
 	evolution-mail			\
@@ -47,46 +47,17 @@ IDL_GENERATED = 		\
 	Spell-stubs.c
 
 $(IDL_GENERATED): $(SPELL_IDL)
-	$(ORBIT_IDL) -I $(srcdir) -I $(datadir)/idl -I `$(GNOME_CONFIG) --cflags idl` \
-	-I `$(GNOME_CONFIG) --datadir`/idl $(srcdir)/Spell.idl
+	$(ORBIT_IDL) -I $(srcdir) -I $(datadir)/idl $(IDL_INCLUDES) $(srcdir)/Spell.idl
 
 Spell-impl.o: Spell.h
 
 evolution_mail_SOURCES =		\
 	$(EVOLUTION_MAIL_CORBA_GENERATED)	\
 	$(IDL_GENERATED)		\
-	component-factory.c		\
-	component-factory.h		\
-	e-searching-tokenizer.c		\
-	e-searching-tokenizer.h		\
-	folder-browser.c		\
-	folder-browser.h		\
-	folder-browser-factory.c	\
-	folder-browser-factory.h	\
-	folder-browser-ui.c		\
-	folder-browser-ui.h		\
-	folder-info.c			\
-	folder-info.h			\
-	mail-accounts.c			\
-	mail-accounts.h			\
-	mail-account-editor.c		\
-	mail-account-editor.h		\
-	mail-account-gui.c		\
-	mail-account-gui.h		\
-	mail-autofilter.c		\
-	mail-autofilter.h		\
-	mail-callbacks.c		\
-	mail-callbacks.h		\
-	mail-composer-prefs.c		\
-	mail-composer-prefs.h		\
-	mail-font-prefs.c		\
-	mail-font-prefs.h		\
 	mail-config.c			\
 	mail-config.h			\
 	mail-config-druid.c		\
 	mail-config-druid.h		\
-	mail-config-factory.c		\
-	mail-config-factory.h		\
 	mail-crypto.c			\
 	mail-crypto.h			\
 	mail-display.c			\
@@ -105,8 +76,6 @@ evolution_mail_SOURCES =		\
 	mail-offline-handler.h		\
 	mail-ops.c			\
 	mail-ops.h			\
-	mail-preferences.c		\
-	mail-preferences.h		\
 	mail-search.c			\
 	mail-search.h			\
 	mail-search-dialogue.c		\
@@ -137,6 +106,39 @@ evolution_mail_SOURCES =		\
 	subscribe-dialog.h		\
 	mail.h
 
+# 	component-factory.c		\
+# 	component-factory.h		\
+# 	e-searching-tokenizer.c		\
+# 	e-searching-tokenizer.h		\
+# 	folder-browser.c		\
+# 	folder-browser.h		\
+# 	folder-browser-factory.c	\
+# 	folder-browser-factory.h	\
+# 	folder-browser-ui.c		\
+# 	folder-browser-ui.h		\
+# 	folder-info.c			\
+# 	folder-info.h			\
+# 	mail-accounts.c			\
+# 	mail-accounts.h			\
+# 	mail-account-editor.c		\
+# 	mail-account-editor.h		\
+# 	mail-account-gui.c		\
+# 	mail-account-gui.h		\
+# 	mail-autofilter.c		\
+# 	mail-autofilter.h		\
+# 	mail-callbacks.c		\
+# 	mail-callbacks.h		\
+#	mail-composer-prefs.c		\
+#	mail-composer-prefs.h		\
+#	mail-font-prefs.c		\
+#	mail-font-prefs.h		\
+
+#	mail-config-factory.c		\
+#	mail-config-factory.h		\
+
+#	mail-preferences.c		\
+#	mail-preferences.h		\
+
 evolution_mail_LDADD = 					\
 	$(top_builddir)/camel/libcamel.la		\
 	$(top_builddir)/e-util/libeutil.la		\
@@ -165,7 +167,7 @@ oafdir = $(datadir)/oaf
 oaf_in_files = GNOME_Evolution_Mail.oaf.in
 oaf_DATA = $(oaf_in_files:.oaf.in=.oaf)
 
-@XML_I18N_MERGE_OAF_RULE@
+@INTLTOOL_SERVER_RULE@
 
 gladedir   = $(datadir)/evolution/glade
 glade_DATA = mail-config.glade local-config.glade subscribe-dialog.glade message-tags.glade
@@ -180,8 +182,7 @@ idldir = $(datadir)/idl
 idl_DATA = Mailer.idl
 
 $(EVOLUTION_MAIL_CORBA_GENERATED): Mailer.idl 
-	$(ORBIT_IDL) -I $(srcdir) -I $(datadir)/idl -I `$(GNOME_CONFIG) --cflags idl` \
-	-I `$(GNOME_CONFIG) --datadir`/idl $(srcdir)/Mailer.idl
+	$(ORBIT_IDL) -I $(srcdir) -I $(datadir)/idl $(IDL_INCLUDES) $(srcdir)/Mailer.idl
 
 EXTRA_DIST = 				\
 	Mailer.idl 			\

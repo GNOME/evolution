@@ -55,7 +55,7 @@ struct _MailOfflineHandlerClass {
 };
 
 
-GtkType             mail_offline_handler_get_type  (void);
+GType             mail_offline_handler_get_type  (void);
 MailOfflineHandler *mail_offline_handler_new       (void);
 
 #ifdef __cplusplus

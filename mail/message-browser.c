@@ -61,25 +61,25 @@ static GtkAllocation last_allocation = { 0, 0 };
 static BonoboWindowClass *message_browser_parent_class;
 
 static void
-message_browser_destroy (GtkObject *object)
+message_browser_finalise (GObject *object)
 {
 	MessageBrowser *message_browser;
 	
 	message_browser = MESSAGE_BROWSER (object);
+
+	g_signal_handlers_disconnect_matched(message_browser->fb, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, message_browser);
+	g_object_unref((message_browser->fb));
 	
-	gtk_signal_disconnect_by_data((GtkObject *)message_browser->fb, message_browser);
-	gtk_object_unref (GTK_OBJECT (message_browser->fb));
-	
-	if (GTK_OBJECT_CLASS (message_browser_parent_class)->destroy)
-		(GTK_OBJECT_CLASS (message_browser_parent_class)->destroy) (object);
+	if (G_OBJECT_CLASS (message_browser_parent_class)->finalize)
+		(G_OBJECT_CLASS (message_browser_parent_class)->finalize) (object);
 }
 
 static void
-message_browser_class_init (GtkObjectClass *object_class)
+message_browser_class_init (GObjectClass *object_class)
 {
-	object_class->destroy = message_browser_destroy;
+	object_class->finalize = message_browser_finalise;
 	
-	message_browser_parent_class = gtk_type_class (PARENT_TYPE);
+	message_browser_parent_class = g_type_class_ref(PARENT_TYPE);
 }
 
 static void
@@ -94,7 +94,9 @@ transfer_msg_done (gboolean ok, void *data)
 	MessageBrowser *mb = data;
 	int row;
 	
-	if (ok && !GTK_OBJECT_DESTROYED (mb)) {
+#warning "GTK_OBJECT_DESTROYED"
+	/*if (ok && !GTK_OBJECT_DESTROYED (mb)) {*/
+	if (ok) {
 		row = e_tree_row_of_node (mb->fb->message_list->tree,
 					  e_tree_get_cursor (mb->fb->message_list->tree));
 		
@@ -109,7 +111,7 @@ transfer_msg_done (gboolean ok, void *data)
 					     0, 0, FALSE);
 	}
 	
-	gtk_object_unref (GTK_OBJECT (mb));
+	g_object_unref((mb));
 }
 
 static void
@@ -121,9 +123,9 @@ transfer_msg (MessageBrowser *mb, int del)
 	static char *last_uri = NULL;
 	GPtrArray *uids;
 	char *desc;
-	
-	if (GTK_OBJECT_DESTROYED(mb))
-		return;
+
+/*	if (GTK_OBJECT_DESTROYED(mb))
+	return;*/
 	
 	if (last_uri == NULL)
 		last_uri = g_strdup ("");
@@ -148,7 +150,7 @@ transfer_msg (MessageBrowser *mb, int del)
 	message_list_foreach (mb->fb->message_list, enumerate_msg, uids);
 	
 	if (del) {
-		gtk_object_ref (GTK_OBJECT (mb));
+		g_object_ref((mb));
 		mail_transfer_messages (mb->fb->folder, uids, del,
 					folder->physicalUri, 0, transfer_msg_done, mb);
 	} else {
@@ -204,13 +206,10 @@ message_browser_message_loaded (FolderBrowser *fb, const char *uid, MessageBrows
 	if (message)
 		subject = (char *) camel_mime_message_get_subject (message);
 	
-	if (subject != NULL)
-		subject = e_utf8_to_gtk_string (GTK_WIDGET (mb), subject);
-	else
-		subject = g_strdup (_("(No subject)"));
+	if (subject == NULL)
+		subject = _("(No subject)");
 	
 	title = g_strdup_printf (_("%s - Message"), subject);
-	g_free (subject);
 	
 	gtk_window_set_title (GTK_WINDOW (mb), title);
 	
@@ -222,16 +221,16 @@ message_browser_message_list_built (MessageList *ml, MessageBrowser *mb)
 {
 	const char *uid = gtk_object_get_data (GTK_OBJECT (mb), "uid");
 
-	gtk_signal_disconnect_by_func (GTK_OBJECT (ml), message_browser_message_list_built, mb);
-
+	g_signal_handlers_disconnect_matched(mb->fb, G_SIGNAL_MATCH_DATA|G_SIGNAL_MATCH_FUNC, 0, 0, NULL,
+					     message_browser_message_list_built, mb);
 	message_list_select_uid (ml, uid);
 }
 
 static void
 message_browser_folder_loaded (FolderBrowser *fb, const char *uri, MessageBrowser *mb)
 {
-	gtk_signal_connect (GTK_OBJECT (fb->message_list), "message_list_built",
-			    message_browser_message_list_built, mb);
+	g_signal_connect(fb->message_list, "message_list_built",
+			 G_CALLBACK(message_browser_message_list_built), mb);
 }
 
 static void
@@ -261,17 +260,16 @@ set_bonobo_ui (GtkWidget *widget, FolderBrowser *fb)
 	BonoboUIComponent *uic;
 	CORBA_Environment ev;
 
-	uicont = bonobo_ui_container_new ();
-	bonobo_ui_container_set_win (uicont, BONOBO_WINDOW (widget));
+	uicont = bonobo_window_get_ui_container(BONOBO_WINDOW(widget));
 
 	uic = bonobo_ui_component_new_default ();
-	bonobo_ui_component_set_container (uic, BONOBO_OBJREF (uicont));
+	bonobo_ui_component_set_container (uic, BONOBO_OBJREF (uicont), NULL);
 	folder_browser_set_ui_component (fb, uic);
 
 	/* Load our UI */
 
 	/*bonobo_ui_component_freeze (uic, NULL);*/
-	bonobo_ui_util_set_ui (uic, EVOLUTION_DATADIR, "evolution-mail-messagedisplay.xml", "evolution-mail");
+	bonobo_ui_util_set_ui (uic, EVOLUTION_DATADIR, "evolution-mail-messagedisplay.xml", "evolution-mail", NULL);
 
 	/* Load the appropriate UI stuff from the folder browser */
 
@@ -307,14 +305,14 @@ message_browser_new (const GNOME_Evolution_Shell shell, const char *uri, const c
 	MessageBrowser *new;
 	FolderBrowser *fb;
 	
-	new = gtk_type_new (MESSAGE_BROWSER_TYPE);
-	new = (MessageBrowser *) bonobo_window_construct (BONOBO_WINDOW (new), "Ximian Evolution", "");
+	new = g_object_new (MESSAGE_BROWSER_TYPE,
+			    "title", "Ximian Evolution", NULL);
 	if (!new) {
 		g_warning ("Failed to construct Bonobo window!");
 		return NULL;
 	}
 	
-	gtk_object_set_data_full (GTK_OBJECT (new), "uid", g_strdup (uid), g_free);
+	g_object_set_data_full(G_OBJECT(new), "uid", g_strdup (uid), g_free);
 	
 	fb = FOLDER_BROWSER (folder_browser_new (shell, uri));
 	new->fb = fb;
@@ -332,8 +330,8 @@ message_browser_new (const GNOME_Evolution_Shell shell, const char *uri, const c
 	gtk_widget_show (GTK_WIDGET (fb->mail_display));
 	gtk_widget_show (vbox);
 	
-	gtk_signal_connect (GTK_OBJECT (new), "size_allocate", 
-			    GTK_SIGNAL_FUNC (message_browser_size_allocate_cb), NULL);
+	g_signal_connect(new, "size_allocate", 
+			 G_CALLBACK (message_browser_size_allocate_cb), NULL);
 	
 	bonobo_window_set_contents (BONOBO_WINDOW (new), vbox);
 	gtk_widget_grab_focus (GTK_WIDGET (MAIL_DISPLAY (fb->mail_display)->html));
@@ -341,11 +339,8 @@ message_browser_new (const GNOME_Evolution_Shell shell, const char *uri, const c
 	set_default_size (GTK_WIDGET (new));
 	
 	/* more evil hackery... */
-	gtk_signal_connect (GTK_OBJECT (fb), "folder_loaded",
-			    message_browser_folder_loaded, new);
-	
-	gtk_signal_connect (GTK_OBJECT (fb), "message_loaded",
-			    message_browser_message_loaded, new);
+	g_signal_connect(fb, "folder_loaded", G_CALLBACK(message_browser_folder_loaded), new);
+	g_signal_connect(fb, "message_loaded", G_CALLBACK(message_browser_message_loaded), new);
 	
 	return GTK_WIDGET (new);
 }

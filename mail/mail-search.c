@@ -38,26 +38,27 @@
 static GtkObjectClass *parent_class;
 
 static void
-mail_search_destroy (GtkObject *obj)
+mail_search_finalise (GObject *obj)
 {
 	MailSearch *ms = MAIL_SEARCH (obj);
 
-	gtk_signal_disconnect (GTK_OBJECT (ms->mail->html->engine->ht),
-			       ms->match_handler);
-	gtk_signal_disconnect (GTK_OBJECT (ms->mail->html->engine->ht),
-			       ms->begin_handler);
+	g_signal_handler_disconnect(ms->mail->html->engine->ht, ms->match_handler);
+	g_signal_handler_disconnect(ms->mail->html->engine->ht, ms->begin_handler);
 
 	g_free (ms->last_search);
-	gtk_object_unref (GTK_OBJECT (ms->mail));
+	g_object_unref((ms->mail));
+
+	((GObjectClass *)parent_class)->finalize(obj);
 }
 
 static void
 mail_search_class_init (MailSearchClass *klass)
 {
-	GtkObjectClass *object_class = (GtkObjectClass *) klass;
-	parent_class = GTK_OBJECT_CLASS (gtk_type_class (gnome_dialog_get_type ()));
+	GObjectClass *object_class = (GObjectClass *) klass;
+
+	parent_class = GTK_OBJECT_CLASS (g_type_class_ref(gtk_dialog_get_type ()));
 	
-	object_class->destroy = mail_search_destroy;
+	object_class->finalize = mail_search_finalise;
 }
 
 static void
@@ -69,20 +70,20 @@ mail_search_init (MailSearch *ms)
 GtkType
 mail_search_get_type (void)
 {
-	static GtkType mail_search_type = 0;
+	static GType mail_search_type = 0;
 
 	if (! mail_search_type) {
-		GtkTypeInfo mail_search_info = {
-			"MailSearch",
-			sizeof (MailSearch),
+		GTypeInfo mail_search_info = {
 			sizeof (MailSearchClass),
-			(GtkClassInitFunc) mail_search_class_init,
-			(GtkObjectInitFunc) mail_search_init,
-			NULL, NULL, /* mysteriously reserved */
-			(GtkClassInitFunc) NULL
+			NULL, NULL,
+			(GClassInitFunc) mail_search_class_init,
+			NULL, NULL,
+			sizeof (MailSearch),
+			0,
+			(GInstanceInitFunc) mail_search_init,
 		};
 
-		mail_search_type = gtk_type_unique (gnome_dialog_get_type (), &mail_search_info);
+		mail_search_type = g_type_register_static (GTK_TYPE_DIALOG, "MailSearch", &mail_search_info, 0);
 	}
 
 	return mail_search_type;
@@ -129,9 +130,10 @@ mail_search_set_subject (MailSearch *ms, const gchar *subject)
 			utf8_subject = NULL;
 		}
 
-		if (utf8_subject)
-			gtk_subject = e_utf8_to_gtk_string (GTK_WIDGET (ms->msg_frame), utf8_subject);
-
+		if (utf8_subject) {
+			gtk_subject = utf8_subject;
+			utf8_subject = NULL;
+		}
 	} else {
 
 		gtk_subject = g_strdup (_("(Untitled Message)"));
@@ -257,14 +259,16 @@ match_cb (ESearchingTokenizer *st, MailSearch *ms)
 	gtk_label_set_text (GTK_LABEL (ms->count_label), buf);
 }
 
+static void
+entry_run_search(GtkWidget *w, MailSearch *ms)
+{
+	/* run search when enter pressed on widget */
+	gtk_dialog_response((GtkDialog *)ms, GTK_RESPONSE_ACCEPT);
+}
+
 void
 mail_search_construct (MailSearch *ms, MailDisplay *mail)
 {
-	const gchar *buttons[] = { _("Search"),
-				   GNOME_STOCK_BUTTON_CLOSE,
-				   NULL };
-	gchar *title = NULL;
-
 	GtkWidget *find_hbox;
 	GtkWidget *matches_hbox;
 	GtkWidget *toggles_hbox;
@@ -276,7 +280,7 @@ mail_search_construct (MailSearch *ms, MailDisplay *mail)
 #if 0
 	GtkWidget *fwd_check;
 #endif
-
+	GtkWidget *button;
 	GtkWidget *msg_hbox;
 	GtkWidget *msg_frame;
 
@@ -286,23 +290,26 @@ mail_search_construct (MailSearch *ms, MailDisplay *mail)
 	/* Basic set-up */
 
 	ms->mail = mail;
-	gtk_object_ref (GTK_OBJECT (mail));
+	g_object_ref((mail));
 
-	title = g_strdup (_("Find in Message")); 
-	
-	gnome_dialog_constructv (GNOME_DIALOG (ms), title, buttons);
-	g_free (title);
+	gtk_window_set_title((GtkWindow *)ms, _("Find in Message"));
+
+	button = gtk_button_new_from_stock(GTK_STOCK_FIND);
+	gtk_button_set_label((GtkButton *)button, _("Search"));
+	gtk_dialog_add_action_widget((GtkDialog*)ms, button, GTK_RESPONSE_ACCEPT);
+	gtk_dialog_add_button((GtkDialog *)ms, GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL);
+	gtk_dialog_set_default_response((GtkDialog *)ms, GTK_RESPONSE_ACCEPT);
 
 	ms->search_forward = TRUE;
 	ms->case_sensitive = FALSE;
 
-	ms->begin_handler = gtk_signal_connect (GTK_OBJECT (ms->mail->html->engine->ht),
+	ms->begin_handler = g_signal_connect((ms->mail->html->engine->ht),
 						"begin",
-						GTK_SIGNAL_FUNC (begin_cb),
+						G_CALLBACK (begin_cb),
 						ms);
-	ms->match_handler = gtk_signal_connect (GTK_OBJECT (ms->mail->html->engine->ht),
+	ms->match_handler = g_signal_connect((ms->mail->html->engine->ht),
 						"match",
-						GTK_SIGNAL_FUNC (match_cb),
+						G_CALLBACK (match_cb),
 						ms);
 
 	/* Construct the dialog contents. */
@@ -366,11 +373,10 @@ mail_search_construct (MailSearch *ms, MailDisplay *mail)
 	
 	gtk_container_add (GTK_CONTAINER (msg_frame), GTK_WIDGET (frame_vbox));
 
-	gtk_box_pack_start (GTK_BOX (GNOME_DIALOG (ms)->vbox), msg_hbox, TRUE, TRUE, 0); 	
+	gtk_box_pack_start (GTK_BOX (GTK_DIALOG (ms)->vbox), msg_hbox, TRUE, TRUE, 0); 	
 
 	gtk_widget_grab_focus (entry); /* Give focus to entry by default */ 
-	gnome_dialog_set_default (GNOME_DIALOG (ms), 0); 
-	gnome_dialog_editable_enters (GNOME_DIALOG (ms), GTK_EDITABLE(entry)); /* Make <enter> run the search */
+	g_signal_connect(entry, "activate", G_CALLBACK(entry_run_search), ms);
 	gnome_window_icon_set_from_file (GTK_WINDOW (ms), EVOLUTION_ICONSDIR "/find-message.xpm");
 
 	gtk_widget_show_all (msg_hbox);
@@ -380,29 +386,29 @@ mail_search_construct (MailSearch *ms, MailDisplay *mail)
 
 	/* Hook up signals */
 
-	gtk_signal_connect (GTK_OBJECT (case_check),
+	g_signal_connect((case_check),
 			    "toggled",
-			    GTK_SIGNAL_FUNC (toggled_case_cb),
+			    G_CALLBACK (toggled_case_cb),
 			    ms);
 #if 0
-	gtk_signal_connect (GTK_OBJECT (fwd_check),
+	g_signal_connect((fwd_check),
 			    "toggled",
-			    GTK_SIGNAL_FUNC (toggled_fwd_cb),
+			    G_CALLBACK (toggled_fwd_cb),
 			    ms);
 #endif
-	gtk_signal_connect (GTK_OBJECT (ms),
+	g_signal_connect((ms),
 			    "clicked",
-			    GTK_SIGNAL_FUNC (dialog_clicked_cb),
+			    G_CALLBACK (dialog_clicked_cb),
 			    ms);
 
 	gtk_signal_connect_object (GTK_OBJECT (ms), 
 				   "destroy",
-				   GTK_SIGNAL_FUNC (dialog_destroy_cb),
+				   G_CALLBACK (dialog_destroy_cb),
 				   GTK_OBJECT (ms));
 
 	gtk_signal_connect_object (GTK_OBJECT (ms->mail),
 				   "destroy",
-				   GTK_SIGNAL_FUNC (gtk_widget_destroy),
+				   G_CALLBACK (gtk_widget_destroy),
 				   GTK_OBJECT (ms));
 }
 
@@ -413,7 +419,7 @@ mail_search_new (MailDisplay *mail)
 
 	g_return_val_if_fail (mail && IS_MAIL_DISPLAY (mail), NULL);
 
-	ptr = gtk_type_new (mail_search_get_type ());
+	ptr = g_object_new(mail_search_get_type (), NULL);
 	mail_search_construct (MAIL_SEARCH (ptr), mail);
 
 	return GTK_WIDGET (ptr);

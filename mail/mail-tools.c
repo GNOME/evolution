@@ -30,6 +30,7 @@
 #include <pthread.h>
 #include <ctype.h>
 #include <errno.h>
+#include <string.h>
 #include <gal/widgets/e-unicode.h>
 #include "camel/camel.h"
 #include "camel/camel-vee-folder.h"
@@ -70,7 +71,7 @@ mail_tool_get_inbox (const gchar *url, CamelException *ex)
 		return NULL;
 
 	folder = camel_store_get_inbox (store, ex);
-	camel_object_unref (CAMEL_OBJECT (store));
+	camel_object_unref (store);
 
 	return folder;
 }
@@ -94,7 +95,7 @@ mail_tool_get_trash (const gchar *url, int connect, CamelException *ex)
 	else
 		trash = NULL;
 
-	camel_object_unref (CAMEL_OBJECT (store));
+	camel_object_unref (store);
 	
 	return trash;
 }
@@ -256,15 +257,10 @@ mail_tool_make_message_attachment (CamelMimeMessage *message)
 	char *desc;
 	
 	subject = camel_mime_message_get_subject (message);
-	if (subject) {
-		char *fmt;
-		
-		fmt = e_utf8_from_locale_string (_("Forwarded message - %s"));
-		desc = g_strdup_printf (fmt, subject);
-		g_free (fmt);
-	} else {
-		desc = e_utf8_from_locale_string (_("Forwarded message"));
-	}
+	if (subject)
+		desc = g_strdup_printf (_("Forwarded message - %s"), subject);
+	else
+		desc = g_strdup (_("Forwarded message"));
 	
 	/* rip off the X-Evolution headers */
 	xev = mail_tool_remove_xevolution_headers (message);
@@ -323,7 +319,7 @@ mail_tool_uri_to_folder (const char *uri, guint32 flags, CamelException *ex)
 			folder = camel_store_get_trash (store, ex);
 		else
 			folder = camel_store_get_folder (store, name, flags, ex);
-		camel_object_unref (CAMEL_OBJECT (store));
+		camel_object_unref (store);
 	}
 	
 	if (folder)
@@ -413,9 +409,8 @@ mail_tool_forward_message (CamelMimeMessage *message, gboolean quoted)
 	body = mail_get_message_body (CAMEL_DATA_WRAPPER (message),
 				      !mail_config_get_send_html (),
 				      quoted);
-	title = e_utf8_from_locale_string (_("Forwarded Message"));
+	title = _("Forwarded Message");
 	ret = g_strdup_printf ("-----%s-----<br>%s", title, body ? body : "");
-	g_free (title);
 	g_free (body);
 	return ret;
 }

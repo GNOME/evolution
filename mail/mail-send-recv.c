@@ -30,8 +30,8 @@
 /* for the dialogue stuff */
 #include <glib.h>
 #include <gtk/gtkmain.h>
-#include <libgnomeui/gnome-stock.h>
-#include <libgnomeui/gnome-dialog.h>
+#include <gtk/gtkdialog.h>
+#include <gtk/gtkstock.h>
 #include <libgnomeui/gnome-window-icon.h>
 
 #include "filter/filter-filter.h"
@@ -72,7 +72,7 @@ struct _folder_info {
 struct _send_data {
 	GList *infos;
 
-	GnomeDialog *gd;
+	GtkDialog *gd;
 	int cancelled;
 
 	CamelFolder *inbox;	/* since we're never asked to update this one, do it ourselves */
@@ -150,7 +150,7 @@ free_folder_info(void *key, struct _folder_info *info, void *data)
 {
 	/*camel_folder_thaw (info->folder);	*/
 	mail_sync_folder(info->folder, NULL, NULL);
-	camel_object_unref((CamelObject *)info->folder);
+	camel_object_unref(info->folder);
 	g_free(info->uri);
 }
 
@@ -175,7 +175,7 @@ free_send_data(void)
 	if (data->inbox) {
 		mail_sync_folder(data->inbox, NULL, NULL);
 		/*camel_folder_thaw (data->inbox);		*/
-		camel_object_unref((CamelObject *)data->inbox);
+		camel_object_unref(data->inbox);
 	}
 
 	g_list_free(data->infos);
@@ -206,28 +206,33 @@ static void hide_send_info(void *key, struct _send_info *info, void *data)
 }
 
 static void
-dialog_destroy (GtkProgressBar *bar, struct _send_data *data)
+dialog_destroy (struct _send_data *data, GtkProgressBar *bar)
 {
 	g_hash_table_foreach (data->active, (GHFunc) hide_send_info, NULL);
 	data->gd = NULL;
 }
 
 static void
-dialogue_clicked(GnomeDialog *gd, int button, struct _send_data *data)
+dialogue_response(GtkDialog *gd, int button, struct _send_data *data)
 {
 	switch(button) {
-	case 0:
+	case GTK_RESPONSE_CANCEL:
 		d(printf("cancelled whole thing\n"));
 		if (!data->cancelled) {
 			data->cancelled = TRUE;
 			g_hash_table_foreach(data->active, (GHFunc)cancel_send_info, NULL);
 		}
-		gnome_dialog_set_sensitive(gd, 0, FALSE);
+		gtk_dialog_set_response_sensitive(gd, GTK_RESPONSE_CANCEL, FALSE);
 		break;
-	case -1:		/* dialogue vanished, so make out its just hidden */
+	default:
+		/* FIXME: check this works */
 		d(printf("hiding dialogue\n"));
+		gtk_widget_destroy((GtkWidget *)gd);
+		g_object_unref(gd);
+#if 0
 		g_hash_table_foreach(data->active, (GHFunc)hide_send_info, NULL);
 		data->gd = NULL;
+#endif
 		break;
 	}
 }
@@ -277,7 +282,7 @@ static send_info_t get_receive_type(const char *url)
 static struct _send_data *
 build_dialogue (GSList *sources, CamelFolder *outbox, const char *destination)
 {
-	GnomeDialog *gd;
+	GtkDialog *gd;
 	GtkTable *table;
 	int row;
 	GList *list = NULL;
@@ -289,12 +294,12 @@ build_dialogue (GSList *sources, CamelFolder *outbox, const char *destination)
 	GtkHSeparator *line;
 	struct _send_info *info;
 	char *pretty_url; 
-	
-	gd = (GnomeDialog *)send_recv_dialogue = gnome_dialog_new (_("Send & Receive Mail"), NULL);
-	gtk_signal_connect((GtkObject *)gd, "destroy", gtk_widget_destroyed, &send_recv_dialogue);
-	gnome_dialog_append_button_with_pixmap (gd, _("Cancel All"), GNOME_STOCK_BUTTON_CANCEL);
-	
-	gtk_window_set_policy (GTK_WINDOW (gd), FALSE, FALSE, FALSE);  
+
+	gd = (GtkDialog *)send_recv_dialogue = gtk_dialog_new_with_buttons(_("Send & Receive Mail"), NULL, 0, NULL);
+	stop = (GtkButton *)gtk_button_new_from_stock(GTK_STOCK_CANCEL);
+	gtk_button_set_label(stop, _("Cancel All"));
+	gtk_dialog_add_action_widget(gd, (GtkWidget *)stop, GTK_RESPONSE_CANCEL);
+	g_object_set(gd, "resizable", FALSE, NULL);
 	gnome_window_icon_set_from_file (GTK_WINDOW (gd), EVOLUTION_ICONSDIR "/send-receive.xpm");
 	
 	table = (GtkTable *)gtk_table_new (g_slist_length (sources), 4, FALSE);
@@ -342,16 +347,15 @@ build_dialogue (GSList *sources, CamelFolder *outbox, const char *destination)
 		} else if (info->timeout_id == 0)
 			info->timeout_id = gtk_timeout_add (STATUS_TIMEOUT, operation_status_timeout, info);
 		
-		recv_icon = gnome_pixmap_new_from_file (EVOLUTION_BUTTONSDIR "/receive-24.png");
+		recv_icon = gtk_image_new_from_file (EVOLUTION_BUTTONSDIR "/receive-24.png");
 		
 	       	pretty_url = format_url (source->url);
 		label = (GtkLabel *)gtk_label_new (pretty_url);
 		g_free (pretty_url);
 		
 		bar = (GtkProgressBar *)gtk_progress_bar_new ();
-		gtk_progress_set_show_text (GTK_PROGRESS (bar), FALSE);
 		
-		stop = (GtkButton *)gnome_stock_button (GNOME_STOCK_BUTTON_CANCEL);
+		stop = (GtkButton *)gtk_button_new_from_stock(GTK_STOCK_CANCEL);
 		status_label = (GtkLabel *)gtk_label_new ((info->type == SEND_UPDATE) ? _("Updating...") :
 							  _("Waiting..."));
 		
@@ -370,7 +374,7 @@ build_dialogue (GSList *sources, CamelFolder *outbox, const char *destination)
 		info->stop = stop;
 		info->data = data;
                 
-		gtk_signal_connect (GTK_OBJECT (stop), "clicked", receive_cancel, info);
+		g_signal_connect(stop, "clicked", G_CALLBACK(receive_cancel), info);
 		sources = sources->next;
 		row = row + 2;
 	}
@@ -398,19 +402,18 @@ build_dialogue (GSList *sources, CamelFolder *outbox, const char *destination)
 		} else if (info->timeout_id == 0)
 			info->timeout_id = gtk_timeout_add (STATUS_TIMEOUT, operation_status_timeout, info);
 		
-		send_icon  = gnome_pixmap_new_from_file (EVOLUTION_BUTTONSDIR "/send-24.png");
+		send_icon  = gtk_image_new_from_file (EVOLUTION_BUTTONSDIR "/send-24.png");
 		
 		pretty_url = format_url (destination);
 		label = (GtkLabel *)gtk_label_new (pretty_url);
 		g_free (pretty_url);
 		
 		bar = (GtkProgressBar *)gtk_progress_bar_new ();
-		stop = (GtkButton *)gnome_stock_button (GNOME_STOCK_BUTTON_CANCEL);
+		stop = (GtkButton *)gtk_button_new_from_stock(GTK_STOCK_CANCEL);
 		status_label = (GtkLabel *)gtk_label_new (_("Waiting..."));
 		
 		gtk_misc_set_alignment (GTK_MISC (label), 0, .5);
 		gtk_misc_set_alignment (GTK_MISC (status_label), 0, .5);
-		gtk_progress_set_show_text (GTK_PROGRESS (bar), FALSE);
 		
 		gtk_table_attach (table, GTK_WIDGET (send_icon), 0, 1, row, row+2, GTK_EXPAND | GTK_FILL, 0, 3, 1);
 		gtk_table_attach (table, GTK_WIDGET (label), 1, 2, row, row+1, GTK_EXPAND | GTK_FILL, 0, 3, 1);
@@ -423,14 +426,14 @@ build_dialogue (GSList *sources, CamelFolder *outbox, const char *destination)
 		info->data = data;
 		info->status = status_label;
 		
-		gtk_signal_connect (GTK_OBJECT (stop), "clicked", receive_cancel, info);
+		g_signal_connect(stop, "clicked", G_CALLBACK(receive_cancel), info);
 		gtk_widget_show_all (GTK_WIDGET (table));
 	}
 	
 	gtk_widget_show (GTK_WIDGET (gd));
 	
-	gtk_signal_connect (GTK_OBJECT (gd), "clicked", dialogue_clicked, data);
-	gtk_signal_connect (GTK_OBJECT (gd), "destroy", dialog_destroy, data);
+	g_signal_connect(gd, "response", G_CALLBACK(dialogue_response), data);
+	g_signal_connect(gd, "destroy", G_CALLBACK(dialog_destroy), data);
 	
 	data->infos = list;
 	data->gd = gd;
@@ -500,7 +503,7 @@ static int operation_status_timeout(void *data)
 	struct _send_info *info = data;
 
 	if (info->bar) {
-		gtk_progress_set_percentage((GtkProgress *)info->bar, (gfloat)(info->pc/100.0));
+		gtk_progress_bar_set_fraction((GtkProgressBar *)info->bar, (gfloat)(info->pc/100.0));
 		gtk_label_set_text(info->status, info->what);
 		return TRUE;
 	}
@@ -533,7 +536,7 @@ receive_done (char *uri, void *data)
 	struct _send_info *info = data;
 
 	if (info->bar) {
-		gtk_progress_set_percentage((GtkProgress *)info->bar, (gfloat)1.0);
+		gtk_progress_bar_set_fraction((GtkProgressBar *)info->bar, (gfloat)1.0);
 
 		switch(info->state) {
 		case SEND_CANCELLED:
@@ -554,8 +557,11 @@ receive_done (char *uri, void *data)
 	info->data->infos = g_list_remove(info->data->infos, info);
 
 	if (g_hash_table_size(info->data->active) == 0) {
-		if (info->data->gd)
-			gnome_dialog_close(info->data->gd);
+		/* FIXME: check this is right ... was gnome_dialog_close() */
+		if (info->data->gd) {
+			gtk_widget_destroy((GtkWidget *)info->data->gd);
+			g_object_unref(info->data->gd);
+		}
 		free_send_data();
 	}
 
@@ -585,7 +591,7 @@ receive_get_folder(CamelFilterDriver *d, const char *uri, void *data, CamelExcep
 	oldinfo = g_hash_table_lookup(info->data->folders, uri);
 	g_mutex_unlock(info->data->lock);
 	if (oldinfo) {
-		camel_object_ref((CamelObject *)oldinfo->folder);
+		camel_object_ref(oldinfo->folder);
 		return oldinfo->folder;
 	}
 	folder = mail_tool_uri_to_folder (uri, 0, ex);
@@ -597,7 +603,7 @@ receive_get_folder(CamelFilterDriver *d, const char *uri, void *data, CamelExcep
 	g_mutex_lock(info->data->lock);
 	
 	if (g_hash_table_lookup_extended(info->data->folders, uri, (void **)&oldkey, (void **)&oldinfo)) {
-		camel_object_unref((CamelObject *)oldinfo->folder);
+		camel_object_unref(oldinfo->folder);
 		oldinfo->folder = folder;
 	} else {
 		/*camel_folder_freeze (folder);		*/
@@ -607,7 +613,7 @@ receive_get_folder(CamelFilterDriver *d, const char *uri, void *data, CamelExcep
 		g_hash_table_insert(info->data->folders, oldinfo->uri, oldinfo);
 	}
 	
-	camel_object_ref (CAMEL_OBJECT (folder));
+	camel_object_ref (folder);
 	
 	g_mutex_unlock(info->data->lock);
 	

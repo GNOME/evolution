@@ -30,6 +30,7 @@
 #define G_LOG_DOMAIN "folder tree"
 
 #include <pthread.h>
+#include <string.h>
 
 #include <bonobo/bonobo-exception.h>
 #include <camel/camel-store.h>
@@ -37,7 +38,6 @@
 #include <camel/camel-vtrash-folder.h>
 #include <camel/camel-vee-store.h>
 #include <camel/camel-disco-store.h>
-#include <gal/util/e-unicode-i18n.h>
 
 #include "mail-mt.h"
 #include "mail-folder-cache.h"
@@ -239,10 +239,10 @@ unset_folder_info(struct _folder_info *mfi, int delete, int unsub)
 	if (mfi->folder) {
 		CamelFolder *folder = mfi->folder;
 
-		camel_object_unhook_event((CamelObject *)folder, "folder_changed", folder_changed, mfi);
-		camel_object_unhook_event((CamelObject *)folder, "message_changed", folder_changed, mfi);
-		camel_object_unhook_event((CamelObject *)folder, "renamed", folder_renamed, mfi);
-		camel_object_unhook_event((CamelObject *)folder, "finalize", folder_finalised, mfi);
+		camel_object_unhook_event(folder, "folder_changed", folder_changed, mfi);
+		camel_object_unhook_event(folder, "message_changed", folder_changed, mfi);
+		camel_object_unhook_event(folder, "renamed", folder_renamed, mfi);
+		camel_object_unhook_event(folder, "finalize", folder_finalised, mfi);
 	}
 
 	if (strstr(mfi->uri, ";noselect") == NULL) {
@@ -253,7 +253,7 @@ unset_folder_info(struct _folder_info *mfi, int delete, int unsub)
 		up->unsub = unsub;
 		up->store = mfi->store_info->store;
 		up->path = g_strdup (mfi->path);
-		camel_object_ref((CamelObject *)up->store);
+		camel_object_ref(up->store);
 		up->uri = g_strdup(mfi->uri);
 
 		e_dlist_addtail(&updates, (EDListNode *)up);
@@ -328,7 +328,7 @@ update_1folder(struct _folder_info *mfi, CamelFolderInfo *info)
 	up->path = g_strdup(mfi->path);
 	up->unread = unread;
 	up->store = mfi->store_info->store;
-	camel_object_ref((CamelObject *)up->store);
+	camel_object_ref(up->store);
 	e_dlist_addtail(&updates, (EDListNode *)up);
 	flush_updates();
 }
@@ -361,7 +361,7 @@ setup_folder(CamelFolderInfo *fi, struct _store_info *si)
 		up->uri = g_strdup(fi->url);
 		up->unread = (fi->unread_message_count==-1)?0:fi->unread_message_count;
 		up->store = si->store;
-		camel_object_ref((CamelObject *)up->store);
+		camel_object_ref(up->store);
 		if (strstr(fi->url, ";noselect") == NULL)
 			up->add = TRUE;
 
@@ -456,10 +456,10 @@ void mail_note_folder(CamelFolder *folder)
 
 	mfi->folder = folder;
 
-	camel_object_hook_event((CamelObject *)folder, "folder_changed", folder_changed, mfi);
-	camel_object_hook_event((CamelObject *)folder, "message_changed", folder_changed, mfi);
-	camel_object_hook_event((CamelObject *)folder, "renamed", folder_renamed, mfi);
-	camel_object_hook_event((CamelObject *)folder, "finalize", folder_finalised, mfi);
+	camel_object_hook_event(folder, "folder_changed", folder_changed, mfi);
+	camel_object_hook_event(folder, "message_changed", folder_changed, mfi);
+	camel_object_hook_event(folder, "renamed", folder_renamed, mfi);
+	camel_object_hook_event(folder, "finalize", folder_finalised, mfi);
 
 	update_1folder(mfi, NULL);
 
@@ -570,7 +570,8 @@ rename_folders(struct _store_info *si, const char *oldbase, const char *newbase,
 	up->uri = g_strdup(mfi->uri);
 	up->unread = fi->unread_message_count==-1?0:fi->unread_message_count;
 	up->store = si->store;
-	camel_object_ref((CamelObject *)up->store);
+	camel_object_ref(up->store);
+	/* FIXME: use fi->flags */
 	if (strstr(fi->url, ";noselect") == NULL)
 		up->add = TRUE;
 
@@ -675,11 +676,11 @@ mail_note_store_remove(CamelStore *store)
 	if (si) {
 		g_hash_table_remove(stores, store);
 
-		camel_object_unhook_event((CamelObject *)store, "folder_created", store_folder_created, NULL);
-		camel_object_unhook_event((CamelObject *)store, "folder_deleted", store_folder_deleted, NULL);
-		camel_object_unhook_event((CamelObject *)store, "folder_renamed", store_folder_renamed, NULL);
-		camel_object_unhook_event((CamelObject *)store, "folder_subscribed", store_folder_subscribed, NULL);
-		camel_object_unhook_event((CamelObject *)store, "folder_unsubscribed", store_folder_unsubscribed, NULL);
+		camel_object_unhook_event(store, "folder_created", store_folder_created, NULL);
+		camel_object_unhook_event(store, "folder_deleted", store_folder_deleted, NULL);
+		camel_object_unhook_event(store, "folder_renamed", store_folder_renamed, NULL);
+		camel_object_unhook_event(store, "folder_subscribed", store_folder_subscribed, NULL);
+		camel_object_unhook_event(store, "folder_unsubscribed", store_folder_unsubscribed, NULL);
 		g_hash_table_foreach(si->folders, (GHFunc)unset_folder_info_hash, NULL);
 
 		ud = (struct _update_data *)si->folderinfo_updates.head;
@@ -692,7 +693,7 @@ mail_note_store_remove(CamelStore *store)
 		/* This is the only gtk object we need to unref */
 		mail_async_event_emit(mail_async_event, MAIL_ASYNC_GUI, (MailAsyncFunc)bonobo_object_unref, si->storage, 0, 0);
 
-		camel_object_unref((CamelObject *)si->store);
+		camel_object_unref(si->store);
 		g_hash_table_foreach(si->folders, (GHFunc)free_folder_info_hash, NULL);
 		g_hash_table_destroy(si->folders);
 		g_hash_table_destroy(si->folders_uri);
@@ -841,11 +842,11 @@ mail_note_store(CamelStore *store, EvolutionStorage *storage, GNOME_Evolution_St
 		g_hash_table_insert(stores, store, si);
 		e_dlist_init(&si->folderinfo_updates);
 
-		camel_object_hook_event((CamelObject *)store, "folder_created", store_folder_created, NULL);
-		camel_object_hook_event((CamelObject *)store, "folder_deleted", store_folder_deleted, NULL);
-		camel_object_hook_event((CamelObject *)store, "folder_renamed", store_folder_renamed, NULL);
-		camel_object_hook_event((CamelObject *)store, "folder_subscribed", store_folder_subscribed, NULL);
-		camel_object_hook_event((CamelObject *)store, "folder_unsubscribed", store_folder_unsubscribed, NULL);
+		camel_object_hook_event(store, "folder_created", store_folder_created, NULL);
+		camel_object_hook_event(store, "folder_deleted", store_folder_deleted, NULL);
+		camel_object_hook_event(store, "folder_renamed", store_folder_renamed, NULL);
+		camel_object_hook_event(store, "folder_subscribed", store_folder_subscribed, NULL);
+		camel_object_hook_event(store, "folder_unsubscribed", store_folder_unsubscribed, NULL);
 	}
 
 
@@ -889,7 +890,7 @@ int mail_note_get_folder_from_uri(const char *uri, CamelFolder **folderp)
 	if (folderp) {
 		if (fi.fi && fi.fi->folder) {
 			*folderp = fi.fi->folder;
-			camel_object_ref((CamelObject *)*folderp);
+			camel_object_ref(*folderp);
 		} else {
 			*folderp = NULL;
 		}

@@ -31,27 +31,25 @@
 #include <sys/wait.h>
 #include <signal.h>
 #include <errno.h>
+#include <string.h>
 
 #include <glib.h>
+#include <gtk/gtkdialog.h>
 #include <libgnome/gnome-defs.h>
-#include <libgnome/gnome-config.h>
-#include <libgnomeui/gnome-dialog.h>
-#include <libgnomeui/gnome-stock.h>
 #include <gtkhtml/gtkhtml.h>
 #include <glade/glade.h>
+#include <e-util/e-config-listener.h>
 
 #include <bonobo/bonobo-object.h>
 #include <bonobo/bonobo-generic-factory.h>
 #include <bonobo/bonobo-context.h>
 #include <bonobo/bonobo-moniker-util.h>
 #include <bonobo/bonobo-exception.h>
-#include <bonobo-conf/bonobo-config-database.h>
 
 #include <shell/evolution-shell-client.h>
 
-#include <gal/util/e-unicode-i18n.h>
 #include <gal/util/e-util.h>
-#include <gal/unicode/gunicode.h>
+#include <glib/gunicode.h>
 #include <gal/widgets/e-gui-utils.h>
 #include <e-util/e-html-utils.h>
 #include <e-util/e-url.h>
@@ -73,7 +71,7 @@ MailConfigLabel label_defaults[5] = {
 };
 
 typedef struct {
-	Bonobo_ConfigDatabase db;
+	EConfigListener *db;
 	
 	gboolean corrupt;
 	
@@ -305,30 +303,11 @@ account_destroy_each (gpointer item, gpointer data)
 void
 mail_config_init (void)
 {
-	Bonobo_ConfigDatabase db;
-	CORBA_Environment ev;
-	
 	if (config)
 		return;
 	
-	CORBA_exception_init (&ev);
-	
-	db = bonobo_get_object ("wombat:", "Bonobo/ConfigDatabase", &ev);
-	
-	if (BONOBO_EX (&ev) || db == CORBA_OBJECT_NIL) {
-		char *err;
-		g_error ("Very serious error, cannot activate config database '%s'",
-			 (err = bonobo_exception_get_text (&ev)));
-		g_free (err);
-		CORBA_exception_free (&ev);
-		return;
- 	}
-	
-	CORBA_exception_free (&ev);
-	
 	config = g_new0 (MailConfig, 1);
-	
-	config->db = db;
+	config->db = e_config_listener_new();
 	
 	config_read ();
 }
@@ -377,32 +356,32 @@ config_read_signature (gint i)
 	
 	sig->id = i;
 	
-	path = g_strdup_printf ("/Mail/Signatures/name_%d", i);
-	val = bonobo_config_get_string (config->db, path, NULL);
+	path = g_strdup_printf ("/apps/Evolution/Mail/Signatures/name_%d", i);
+	val = e_config_listener_get_string (config->db, path);
 	g_free (path);
 	if (val && *val)
 		sig->name = val;
 	else
 		g_free (val);
 	
-	path = g_strdup_printf ("/Mail/Signatures/filename_%d", i);
-	val = bonobo_config_get_string (config->db, path, NULL);
+	path = g_strdup_printf ("/apps/Evolution/Mail/Signatures/filename_%d", i);
+	val = e_config_listener_get_string (config->db, path);
 	g_free (path);
 	if (val && *val)
 		sig->filename = val;
 	else
 		g_free (val);
 	
-	path = g_strdup_printf ("/Mail/Signatures/script_%d", i);
-	val = bonobo_config_get_string (config->db, path, NULL);
+	path = g_strdup_printf ("/apps/Evolution/Mail/Signatures/script_%d", i);
+	val = e_config_listener_get_string (config->db, path);
 	g_free (path);
 	if (val && *val)
 		sig->script = val;
 	else
 		g_free (val);
 
-	path = g_strdup_printf ("/Mail/Signatures/html_%d", i);
-	sig->html = bonobo_config_get_boolean_with_default (config->db, path, FALSE, NULL);
+	path = g_strdup_printf ("/apps/Evolution/Mail/Signatures/html_%d", i);
+	sig->html = e_config_listener_get_boolean_with_default (config->db, path, FALSE, NULL);
 	g_free (path);
 	
 	return sig;
@@ -415,7 +394,7 @@ config_read_signatures ()
 	gint i;
 
 	config->signature_list = NULL;
-	config->signatures = bonobo_config_get_long_with_default (config->db, "/Mail/Signatures/num", 0, NULL);
+	config->signatures = e_config_listener_get_long_with_default (config->db, "/apps/Evolution/Mail/Signatures/num", 0, NULL);
 
 	for (i = 0; i < config->signatures; i ++) {
 		sig = config_read_signature (i);
@@ -430,27 +409,27 @@ config_write_signature (MailConfigSignature *sig, gint i)
 
 	printf ("config_write_signature i: %d id: %d\n", i, sig->id);
 
-	path = g_strdup_printf ("/Mail/Signatures/name_%d", i);
-	bonobo_config_set_string (config->db, path, sig->name ? sig->name : "", NULL);
+	path = g_strdup_printf ("/apps/Evolution/Mail/Signatures/name_%d", i);
+	e_config_listener_set_string (config->db, path, sig->name ? sig->name : "");
 	g_free (path);
 
-	path = g_strdup_printf ("/Mail/Signatures/filename_%d", i);
-	bonobo_config_set_string (config->db, path, sig->filename ? sig->filename : "", NULL);
+	path = g_strdup_printf ("/apps/Evolution/Mail/Signatures/filename_%d", i);
+	e_config_listener_set_string (config->db, path, sig->filename ? sig->filename : "");
 	g_free (path);
 
-	path = g_strdup_printf ("/Mail/Signatures/script_%d", i);
-	bonobo_config_set_string (config->db, path, sig->script ? sig->script : "", NULL);
+	path = g_strdup_printf ("/apps/Evolution/Mail/Signatures/script_%d", i);
+	e_config_listener_set_string (config->db, path, sig->script ? sig->script : "");
 	g_free (path);
 
-	path = g_strdup_printf ("/Mail/Signatures/html_%d", i);
-	bonobo_config_set_boolean (config->db, path, sig->html, NULL);
+	path = g_strdup_printf ("/apps/Evolution/Mail/Signatures/html_%d", i);
+	e_config_listener_set_boolean (config->db, path, sig->html);
 	g_free (path);
 }
 
 static void
 config_write_signatures_num ()
 {
-	bonobo_config_set_long (config->db, "/Mail/Signatures/num", config->signatures, NULL);
+	e_config_listener_set_long (config->db, "/apps/Evolution/Mail/Signatures/num", config->signatures);
 }
 
 static void
@@ -509,7 +488,7 @@ config_import_old_signatures ()
 {
 	int num;
 	
-	num = bonobo_config_get_long_with_default (config->db, "/Mail/Signatures/num", -1, NULL);
+	num = e_config_listener_get_long_with_default (config->db, "/apps/Evolution/Mail/Signatures/num", -1, NULL);
 	
 	if (num == -1) {
 		/* there are no signatures defined
@@ -519,14 +498,14 @@ config_import_old_signatures ()
 		int i, accounts;
 		
 		cache = g_hash_table_new (g_str_hash, g_str_equal);
-		accounts = bonobo_config_get_long_with_default (config->db, "/Mail/Accounts/num", 0, NULL);
+		accounts = e_config_listener_get_long_with_default (config->db, "/apps/Evolution/Mail/Accounts/num", 0, NULL);
 		num = 0;
 		for (i = 0; i < accounts; i ++) {
 			char *path, *val;
 			
 			/* read text signature file */
-			path = g_strdup_printf ("/Mail/Accounts/identity_signature_%d", i);
-			val = bonobo_config_get_string (config->db, path, NULL);
+			path = g_strdup_printf ("/apps/Evolution/Mail/Accounts/identity_signature_%d", i);
+			val = e_config_listener_get_string (config->db, path);
 			g_free (path);
 			if (val && *val) {
 				gpointer orig_key, node_val;
@@ -542,17 +521,17 @@ config_import_old_signatures ()
 				}
 				
 				/* set new text signature to this identity */
-				path = g_strdup_printf ("/Mail/Accounts/identity_signature_text_%d", i);
-				bonobo_config_set_long (config->db, path, id, NULL);
+				path = g_strdup_printf ("/apps/Evolution/Mail/Accounts/identity_signature_text_%d", i);
+				e_config_listener_set_long (config->db, path, id);
 				g_free (path);
 			} else
 				g_free (val);
 			
-			path = g_strdup_printf ("/Mail/Accounts/identity_has_html_signature_%d", i);
-			if (bonobo_config_get_boolean_with_default (config->db, path, FALSE, NULL)) {
+			path = g_strdup_printf ("/apps/Evolution/Mail/Accounts/identity_has_html_signature_%d", i);
+			if (e_config_listener_get_boolean_with_default (config->db, path, FALSE, NULL)) {
 				g_free (path);
-				path = g_strdup_printf ("/Mail/Accounts/identity_html_signature_%d", i);
-				val = bonobo_config_get_string (config->db, path, NULL);
+				path = g_strdup_printf ("/apps/Evolution/Mail/Accounts/identity_html_signature_%d", i);
+				val = e_config_listener_get_string (config->db, path);
 				if (val && *val) {
 					gpointer orig_key, node_val;
 					int id;
@@ -568,14 +547,14 @@ config_import_old_signatures ()
 					
 					/* set new html signature to this identity */
 					g_free (path);
-					path = g_strdup_printf ("/Mail/Accounts/identity_signature_html_%d", i);
-					bonobo_config_set_long (config->db, path, id, NULL);
+					path = g_strdup_printf ("/apps/Evolution/Mail/Accounts/identity_signature_html_%d", i);
+					e_config_listener_set_long (config->db, path, id);
 				} else
 					g_free (val);
 			}
 			g_free (path);
 		}
-		bonobo_config_set_long (config->db, "/Mail/Signatures/num", num, NULL);
+		e_config_listener_set_long (config->db, "/apps/Evolution/Mail/Signatures/num", num);
 		g_hash_table_destroy (cache);
 	}
 }
@@ -602,8 +581,8 @@ config_read (void)
 	config_import_old_signatures ();
 	config_read_signatures ();
 	
-	len = bonobo_config_get_long_with_default (config->db, 
-	        "/Mail/Accounts/num", 0, NULL);
+	len = e_config_listener_get_long_with_default (config->db, 
+	        "/apps/Evolution/Mail/Accounts/num", 0, NULL);
 	
 	for (i = 0; i < len; i++) {
 		MailConfigAccount *account;
@@ -612,53 +591,53 @@ config_read (void)
 		MailConfigService *transport;
 		
 		account = g_new0 (MailConfigAccount, 1);
-		path = g_strdup_printf ("/Mail/Accounts/account_name_%d", i);
-		val = bonobo_config_get_string (config->db, path, NULL);
+		path = g_strdup_printf ("/apps/Evolution/Mail/Accounts/account_name_%d", i);
+		val = e_config_listener_get_string (config->db, path);
 		g_free (path);
 		if (val && *val) {
 			account->name = val;
 		} else {
 			g_free (val);
-			account->name = g_strdup_printf (U_("Account %d"), i + 1);
+			account->name = g_strdup_printf (_("Account %d"), i + 1);
 			config->corrupt = TRUE;
 		}
 		
-		path = g_strdup_printf ("/Mail/Accounts/account_drafts_folder_uri_%d", i);
-		val = bonobo_config_get_string (config->db, path, NULL);
+		path = g_strdup_printf ("/apps/Evolution/Mail/Accounts/account_drafts_folder_uri_%d", i);
+		val = e_config_listener_get_string (config->db, path);
 		g_free (path);
 		if (val && *val)
 			account->drafts_folder_uri = val;
 		else
 			g_free (val);
 		
-		path = g_strdup_printf ("/Mail/Accounts/account_sent_folder_uri_%d", i);
-		val = bonobo_config_get_string (config->db, path, NULL);
+		path = g_strdup_printf ("/apps/Evolution/Mail/Accounts/account_sent_folder_uri_%d", i);
+		val = e_config_listener_get_string (config->db, path);
 		g_free (path);
 		if (val && *val)
 			account->sent_folder_uri = val;
 		else
 			g_free (val);
 		
-		path = g_strdup_printf ("/Mail/Accounts/account_always_cc_%d", i);
-		account->always_cc = bonobo_config_get_boolean_with_default (
+		path = g_strdup_printf ("/apps/Evolution/Mail/Accounts/account_always_cc_%d", i);
+		account->always_cc = e_config_listener_get_boolean_with_default (
 		        config->db, path, FALSE, NULL);
 		g_free (path);
 		
-		path = g_strdup_printf ("/Mail/Accounts/account_always_cc_addrs_%d", i);
-		val = bonobo_config_get_string (config->db, path, NULL);
+		path = g_strdup_printf ("/apps/Evolution/Mail/Accounts/account_always_cc_addrs_%d", i);
+		val = e_config_listener_get_string (config->db, path);
 		g_free (path);
 		if (val && *val)
 			account->cc_addrs = val;
 		else
 			g_free (val);
 		
-		path = g_strdup_printf ("/Mail/Accounts/account_always_bcc_%d", i);
-		account->always_bcc = bonobo_config_get_boolean_with_default (
+		path = g_strdup_printf ("/apps/Evolution/Mail/Accounts/account_always_bcc_%d", i);
+		account->always_bcc = e_config_listener_get_boolean_with_default (
 		        config->db, path, FALSE, NULL);
 		g_free (path);
 		
-		path = g_strdup_printf ("/Mail/Accounts/account_always_bcc_addrs_%d", i);
-		val = bonobo_config_get_string (config->db, path, NULL);
+		path = g_strdup_printf ("/apps/Evolution/Mail/Accounts/account_always_bcc_addrs_%d", i);
+		val = e_config_listener_get_string (config->db, path);
 		g_free (path);
 		if (val && *val)
 			account->bcc_addrs = val;
@@ -666,103 +645,103 @@ config_read (void)
 			g_free (val);
 		
 		/* get the pgp info */
-		path = g_strdup_printf ("/Mail/Accounts/account_pgp_key_%d", i);
-		val = bonobo_config_get_string (config->db, path, NULL);
+		path = g_strdup_printf ("/apps/Evolution/Mail/Accounts/account_pgp_key_%d", i);
+		val = e_config_listener_get_string (config->db, path);
 		g_free (path);
 		if (val && *val)
 			account->pgp_key = val;
 		else
 			g_free (val);
 		
-		path = g_strdup_printf ("/Mail/Accounts/account_pgp_always_sign_%d", i);
-		account->pgp_always_sign = bonobo_config_get_boolean_with_default (
+		path = g_strdup_printf ("/apps/Evolution/Mail/Accounts/account_pgp_always_sign_%d", i);
+		account->pgp_always_sign = e_config_listener_get_boolean_with_default (
 		        config->db, path, FALSE, NULL);
 		g_free (path);
 		
-		path = g_strdup_printf ("/Mail/Accounts/account_pgp_no_imip_sign_%d", i);
-		account->pgp_no_imip_sign = bonobo_config_get_boolean_with_default (
+		path = g_strdup_printf ("/apps/Evolution/Mail/Accounts/account_pgp_no_imip_sign_%d", i);
+		account->pgp_no_imip_sign = e_config_listener_get_boolean_with_default (
 		        config->db, path, FALSE, NULL);
 		g_free (path);
 		
-		path = g_strdup_printf ("/Mail/Accounts/account_pgp_encrypt_to_self_%d", i);
-		account->pgp_encrypt_to_self = bonobo_config_get_boolean_with_default (
+		path = g_strdup_printf ("/apps/Evolution/Mail/Accounts/account_pgp_encrypt_to_self_%d", i);
+		account->pgp_encrypt_to_self = e_config_listener_get_boolean_with_default (
 		        config->db, path, TRUE, NULL);
 		g_free (path);
 		
-		path = g_strdup_printf ("/Mail/Accounts/account_pgp_always_trust_%d", i);
-		account->pgp_always_trust = bonobo_config_get_boolean_with_default (
+		path = g_strdup_printf ("/apps/Evolution/Mail/Accounts/account_pgp_always_trust_%d", i);
+		account->pgp_always_trust = e_config_listener_get_boolean_with_default (
 		        config->db, path, FALSE, NULL);
 		g_free (path);
 		
 		/* get the s/mime info */
-		path = g_strdup_printf ("/Mail/Accounts/account_smime_key_%d", i);
-		val = bonobo_config_get_string (config->db, path, NULL);
+		path = g_strdup_printf ("/apps/Evolution/Mail/Accounts/account_smime_key_%d", i);
+		val = e_config_listener_get_string (config->db, path);
 		g_free (path);
 		if (val && *val)
 			account->smime_key = val;
 		else
 			g_free (val);
 		
-		path = g_strdup_printf ("/Mail/Accounts/account_smime_always_sign_%d", i);
-		account->smime_always_sign = bonobo_config_get_boolean_with_default (
+		path = g_strdup_printf ("/apps/Evolution/Mail/Accounts/account_smime_always_sign_%d", i);
+		account->smime_always_sign = e_config_listener_get_boolean_with_default (
 		        config->db, path, FALSE, NULL);
 		g_free (path);
 		
-		path = g_strdup_printf ("/Mail/Accounts/account_smime_encrypt_to_self_%d", i);
-		account->smime_encrypt_to_self = bonobo_config_get_boolean_with_default (
+		path = g_strdup_printf ("/apps/Evolution/Mail/Accounts/account_smime_encrypt_to_self_%d", i);
+		account->smime_encrypt_to_self = e_config_listener_get_boolean_with_default (
 		        config->db, path, TRUE, NULL);
 		g_free (path);
 		
 		/* get the identity info */
 		id = g_new0 (MailConfigIdentity, 1);		
-		path = g_strdup_printf ("/Mail/Accounts/identity_name_%d", i);
-		id->name = bonobo_config_get_string (config->db, path, NULL);
+		path = g_strdup_printf ("/apps/Evolution/Mail/Accounts/identity_name_%d", i);
+		id->name = e_config_listener_get_string (config->db, path);
 		g_free (path);
 		
-		path = g_strdup_printf ("/Mail/Accounts/identity_address_%d", i);
-		id->address = bonobo_config_get_string (config->db, path, NULL);
+		path = g_strdup_printf ("/apps/Evolution/Mail/Accounts/identity_address_%d", i);
+		id->address = e_config_listener_get_string (config->db, path);
 		g_free (path);
 		
-		path = g_strdup_printf ("/Mail/Accounts/identity_reply_to_%d", i);
-		id->reply_to = bonobo_config_get_string (config->db, path, NULL);
+		path = g_strdup_printf ("/apps/Evolution/Mail/Accounts/identity_reply_to_%d", i);
+		id->reply_to = e_config_listener_get_string (config->db, path);
 		g_free (path);
 		
-		path = g_strdup_printf ("/Mail/Accounts/identity_organization_%d", i);
-		id->organization = bonobo_config_get_string (config->db, path, NULL);
+		path = g_strdup_printf ("/apps/Evolution/Mail/Accounts/identity_organization_%d", i);
+		id->organization = e_config_listener_get_string (config->db, path);
 		g_free (path);
 		
 		/* id signatures */
-		path = g_strdup_printf ("/Mail/Accounts/identity_def_signature_%d", i);
-		id->def_signature = lookup_signature (bonobo_config_get_long_with_default (config->db, path, -1, NULL));
+		path = g_strdup_printf ("/apps/Evolution/Mail/Accounts/identity_def_signature_%d", i);
+		id->def_signature = lookup_signature (e_config_listener_get_long_with_default (config->db, path, -1, NULL));
 		g_free (path);
 		
 		/* autogenerated signature */
-		path = g_strdup_printf ("/Mail/Accounts/identity_autogenerated_signature_%d", i);
-		id->auto_signature = bonobo_config_get_boolean_with_default (config->db, path, TRUE, NULL);
+		path = g_strdup_printf ("/apps/Evolution/Mail/Accounts/identity_autogenerated_signature_%d", i);
+		id->auto_signature = e_config_listener_get_boolean_with_default (config->db, path, TRUE, NULL);
 		g_free (path);
 		
 		/* get the source */
 		source = g_new0 (MailConfigService, 1);
 		
-		path = g_strdup_printf ("/Mail/Accounts/source_url_%d", i);
-		val = bonobo_config_get_string (config->db, path, NULL);
+		path = g_strdup_printf ("/apps/Evolution/Mail/Accounts/source_url_%d", i);
+		val = e_config_listener_get_string (config->db, path);
 		g_free (path);
 		if (val && *val)
 			source->url = val;
 		else
 			g_free (val);
 		
-		path = g_strdup_printf ("/Mail/Accounts/source_keep_on_server_%d", i);
-		source->keep_on_server = bonobo_config_get_boolean (config->db, path, NULL);
+		path = g_strdup_printf ("/apps/Evolution/Mail/Accounts/source_keep_on_server_%d", i);
+		source->keep_on_server = e_config_listener_get_boolean (config->db, path);
 		g_free (path);
 		
-		path = g_strdup_printf ("/Mail/Accounts/source_auto_check_%d", i);
-		source->auto_check = bonobo_config_get_boolean_with_default (
+		path = g_strdup_printf ("/apps/Evolution/Mail/Accounts/source_auto_check_%d", i);
+		source->auto_check = e_config_listener_get_boolean_with_default (
                         config->db, path, FALSE, NULL);
 		g_free (path);
 		
-		path = g_strdup_printf ("/Mail/Accounts/source_auto_check_time_%d", i);
-		source->auto_check_time = bonobo_config_get_long_with_default ( 
+		path = g_strdup_printf ("/apps/Evolution/Mail/Accounts/source_auto_check_time_%d", i);
+		source->auto_check_time = e_config_listener_get_long_with_default ( 
 			config->db, path, -1, NULL);
 		
 		if (source->auto_check && source->auto_check_time <= 0) {
@@ -772,29 +751,29 @@ config_read (void)
 		
 		g_free (path);
 		
-		path = g_strdup_printf ("/Mail/Accounts/source_enabled_%d", i);
-		source->enabled = bonobo_config_get_boolean_with_default (
+		path = g_strdup_printf ("/apps/Evolution/Mail/Accounts/source_enabled_%d", i);
+		source->enabled = e_config_listener_get_boolean_with_default (
 			config->db, path, TRUE, NULL);
 		g_free (path);
 		
 		path = g_strdup_printf 
-			("/Mail/Accounts/source_save_passwd_%d", i);
-		source->save_passwd = bonobo_config_get_boolean_with_default ( 
+			("/apps/Evolution/Mail/Accounts/source_save_passwd_%d", i);
+		source->save_passwd = e_config_listener_get_boolean_with_default ( 
 			config->db, path, TRUE, NULL);
 		g_free (path);
 		
 		/* get the transport */
 		transport = g_new0 (MailConfigService, 1);
-		path = g_strdup_printf ("/Mail/Accounts/transport_url_%d", i);
-		val = bonobo_config_get_string (config->db, path, NULL);
+		path = g_strdup_printf ("/apps/Evolution/Mail/Accounts/transport_url_%d", i);
+		val = e_config_listener_get_string (config->db, path);
 		g_free (path);
 		if (val && *val)
 			transport->url = val;
 		else
 			g_free (val);
 		
-		path = g_strdup_printf ("/Mail/Accounts/transport_save_passwd_%d", i);
-		transport->save_passwd = bonobo_config_get_boolean (config->db, path, NULL);
+		path = g_strdup_printf ("/apps/Evolution/Mail/Accounts/transport_save_passwd_%d", i);
+		transport->save_passwd = e_config_listener_get_boolean (config->db, path);
 		g_free (path);
 		
 		account->id = id;
@@ -804,97 +783,100 @@ config_read (void)
 		config->accounts = g_slist_append (config->accounts, account);
 	}
 	
-	default_num = bonobo_config_get_long_with_default (config->db,
-		"/Mail/Accounts/default_account", 0, NULL);
+	default_num = e_config_listener_get_long_with_default (config->db,
+		"/apps/Evolution/Mail/Accounts/default_account", 0, NULL);
 	
 	mail_config_set_default_account_num (default_num);
 	
 	/* Format */
-	config->send_html = bonobo_config_get_boolean_with_default (config->db,
-	        "/Mail/Format/send_html", FALSE, NULL);
+	config->send_html = e_config_listener_get_boolean_with_default (config->db,
+	        "/apps/Evolution/Mail/Format/send_html", FALSE, NULL);
 	
 	/* Confirm Sending Unwanted HTML */
-	config->confirm_unwanted_html = bonobo_config_get_boolean_with_default (config->db,
-	        "/Mail/Format/confirm_unwanted_html", TRUE, NULL);
+	config->confirm_unwanted_html = e_config_listener_get_boolean_with_default (config->db,
+	        "/apps/Evolution/Mail/Format/confirm_unwanted_html", TRUE, NULL);
 	
 	/* Citation */
-	config->citation_highlight = bonobo_config_get_boolean_with_default (
-		config->db, "/Mail/Display/citation_highlight", TRUE, NULL);
+	config->citation_highlight = e_config_listener_get_boolean_with_default (
+		config->db, "/apps/Evolution/Mail/Display/citation_highlight", TRUE, NULL);
 	
-	config->citation_color = bonobo_config_get_long_with_default (
-		config->db, "/Mail/Display/citation_color", 0x737373, NULL);
+	config->citation_color = e_config_listener_get_long_with_default (
+		config->db, "/apps/Evolution/Mail/Display/citation_color", 0x737373, NULL);
 	
 	/* Mark as seen toggle */
-	config->do_seen_timeout = bonobo_config_get_boolean_with_default (
-		config->db, "/Mail/Display/do_seen_timeout", TRUE, NULL);
+	config->do_seen_timeout = e_config_listener_get_boolean_with_default (
+		config->db, "/apps/Evolution/Mail/Display/do_seen_timeout", TRUE, NULL);
 	
 	/* Mark as seen timeout */
-	config->seen_timeout = bonobo_config_get_long_with_default (config->db,
-                "/Mail/Display/seen_timeout", 1500, NULL);
+	config->seen_timeout = e_config_listener_get_long_with_default (config->db,
+                "/apps/Evolution/Mail/Display/seen_timeout", 1500, NULL);
 	
 	/* Show Messages Threaded */
-	config->thread_list = bonobo_config_get_boolean_with_default (
-                config->db, "/Mail/Display/thread_list", FALSE, NULL);
+	config->thread_list = e_config_listener_get_boolean_with_default (
+                config->db, "/apps/Evolution/Mail/Display/thread_list", FALSE, NULL);
 	
-	config->thread_subject = bonobo_config_get_boolean_with_default (
-                config->db, "/Mail/Display/thread_subject", FALSE, NULL);
+	config->thread_subject = e_config_listener_get_boolean_with_default (
+                config->db, "/apps/Evolution/Mail/Display/thread_subject", FALSE, NULL);
 	
-	config->show_preview = bonobo_config_get_boolean_with_default (
-		config->db, "/Mail/Display/preview_pane", TRUE, NULL);
+	config->show_preview = e_config_listener_get_boolean_with_default (
+		config->db, "/apps/Evolution/Mail/Display/preview_pane", TRUE, NULL);
 	
 	/* Hide deleted automatically */
-	config->hide_deleted = bonobo_config_get_boolean_with_default (
-		config->db, "/Mail/Display/hide_deleted", FALSE, NULL);
+	config->hide_deleted = e_config_listener_get_boolean_with_default (
+		config->db, "/apps/Evolution/Mail/Display/hide_deleted", FALSE, NULL);
 	
 	/* Size of vpaned in mail view */
-	config->paned_size = bonobo_config_get_long_with_default (config->db, 
-                "/Mail/Display/paned_size", 200, NULL);
+	config->paned_size = e_config_listener_get_long_with_default (config->db, 
+                "/apps/Evolution/Mail/Display/paned_size", 200, NULL);
 	
 	/* Goto next folder when user has reached the bottom of the message-list */
-	config->goto_next_folder = bonobo_config_get_boolean_with_default (
-		config->db, "/Mail/MessageList/goto_next_folder", FALSE, NULL);
+	config->goto_next_folder = e_config_listener_get_boolean_with_default (
+		config->db, "/apps/Evolution/Mail/MessageList/goto_next_folder", FALSE, NULL);
 	
 	/* Empty Subject */
-	config->prompt_empty_subject = bonobo_config_get_boolean_with_default (
-		config->db, "/Mail/Prompts/empty_subject", TRUE, NULL);
+	config->prompt_empty_subject = e_config_listener_get_boolean_with_default (
+		config->db, "/apps/Evolution/Mail/Prompts/empty_subject", TRUE, NULL);
 	
 	/* Only Bcc */
-	config->prompt_only_bcc = bonobo_config_get_boolean_with_default (
-		config->db, "/Mail/Prompts/only_bcc", TRUE, NULL);
+	config->prompt_only_bcc = e_config_listener_get_boolean_with_default (
+		config->db, "/apps/Evolution/Mail/Prompts/only_bcc", TRUE, NULL);
 	
 	/* Expunge */
-	config->confirm_expunge = bonobo_config_get_boolean_with_default (
-		config->db, "/Mail/Prompts/confirm_expunge", TRUE, NULL);
+	config->confirm_expunge = e_config_listener_get_boolean_with_default (
+		config->db, "/apps/Evolution/Mail/Prompts/confirm_expunge", TRUE, NULL);
 	
 	/* Goto next folder */
-	config->confirm_goto_next_folder = bonobo_config_get_boolean_with_default (
-		config->db, "/Mail/Prompts/confirm_goto_next_folder", TRUE, NULL);
+	config->confirm_goto_next_folder = e_config_listener_get_boolean_with_default (
+		config->db, "/apps/Evolution/Mail/Prompts/confirm_goto_next_folder", TRUE, NULL);
 	
 	/* HTTP images */
-	config->http_mode = bonobo_config_get_long_with_default (config->db, 
-		"/Mail/Display/http_images", MAIL_CONFIG_HTTP_NEVER, NULL);
+	config->http_mode = e_config_listener_get_long_with_default (config->db, 
+		"/apps/Evolution/Mail/Display/http_images", MAIL_CONFIG_HTTP_NEVER, NULL);
 	
 	/* Forwarding */
-	config->default_forward_style = bonobo_config_get_long_with_default (
-		config->db, "/Mail/Format/default_forward_style", 
+	config->default_forward_style = e_config_listener_get_long_with_default (
+		config->db, "/apps/Evolution/Mail/Format/default_forward_style", 
 		MAIL_CONFIG_FORWARD_ATTACHED, NULL);
 	
 	/* Replying */
-	config->default_reply_style = bonobo_config_get_long_with_default (
-		config->db, "/Mail/Format/default_reply_style", 
+	config->default_reply_style = e_config_listener_get_long_with_default (
+		config->db, "/apps/Evolution/Mail/Format/default_reply_style", 
 		MAIL_CONFIG_REPLY_QUOTED, NULL);
 	
 	/* Message Display */
-	config->message_display_style = bonobo_config_get_long_with_default (
-		config->db, "/Mail/Format/message_display_style", 
+	config->message_display_style = e_config_listener_get_long_with_default (
+		config->db, "/apps/Evolution/Mail/Format/message_display_style", 
 		MAIL_CONFIG_DISPLAY_NORMAL, NULL);
 	
 	/* Default charset */
-	config->default_charset = bonobo_config_get_string (config->db, 
-	        "/Mail/Format/default_charset", NULL);
+	config->default_charset = e_config_listener_get_string (config->db, 
+								"/apps/Evolution/Mail/Format/default_charset");
 	
 	if (!config->default_charset) {
-		g_get_charset (&config->default_charset);
+		const char *def;
+
+		g_get_charset (&def);
+		config->default_charset = g_strdup(def);
 		if (!config->default_charset ||
 		    !g_strcasecmp (config->default_charset, "US-ASCII"))
 			config->default_charset = g_strdup ("ISO-8859-1");
@@ -903,65 +885,65 @@ config_read (void)
 	}
 	
 	/* Trash folders */
-	config->empty_trash_on_exit = bonobo_config_get_boolean_with_default (
-		config->db, "/Mail/Trash/empty_on_exit", FALSE, NULL);
+	config->empty_trash_on_exit = e_config_listener_get_boolean_with_default (
+		config->db, "/apps/Evolution/Mail/Trash/empty_on_exit", FALSE, NULL);
 	
 	/* Filter logging */
-	config->filter_log = bonobo_config_get_boolean_with_default (
-		config->db, "/Mail/Filters/log", FALSE, NULL);
+	config->filter_log = e_config_listener_get_boolean_with_default (
+		config->db, "/apps/Evolution/Mail/Filters/log", FALSE, NULL);
 	
-	config->filter_log_path = bonobo_config_get_string (
-		config->db, "/Mail/Filters/log_path", NULL);
+	config->filter_log_path = e_config_listener_get_string (
+		config->db, "/apps/Evolution/Mail/Filters/log_path");
 	
 	/* New Mail Notification */
-	config->notify = bonobo_config_get_long_with_default (
-		config->db, "/Mail/Notify/new_mail_notification", 
+	config->notify = e_config_listener_get_long_with_default (
+		config->db, "/apps/Evolution/Mail/Notify/new_mail_notification", 
 		MAIL_CONFIG_NOTIFY_NOT, NULL);
 	
-	config->notify_filename = bonobo_config_get_string (
-		config->db, "/Mail/Notify/new_mail_notification_sound_file", NULL);
+	config->notify_filename = e_config_listener_get_string (
+		config->db, "/apps/Evolution/Mail/Notify/new_mail_notification_sound_file");
 	
 	/* X-Mailer header display */
-	config->x_mailer_display_style = bonobo_config_get_long_with_default (
-		config->db, "/Mail/Display/x_mailer_display_style", 
+	config->x_mailer_display_style = e_config_listener_get_long_with_default (
+		config->db, "/apps/Evolution/Mail/Display/x_mailer_display_style", 
 		MAIL_CONFIG_XMAILER_NONE, NULL);
 	
 	/* last filesel dir */
-	config->last_filesel_dir = bonobo_config_get_string (
-		config->db, "/Mail/Filesel/last_filesel_dir", NULL);
+	config->last_filesel_dir = e_config_listener_get_string (
+		config->db, "/apps/Evolution/Mail/Filesel/last_filesel_dir");
 	
 	/* Color labels */
 	/* Note: we avoid having to malloc/free 10 times this way... */
-	path = g_malloc (sizeof ("/Mail/Labels/") + sizeof ("label_#") + 1);
-	strcpy (path, "/Mail/Labels/label_#");
+	path = g_malloc (sizeof ("/apps/Evolution/Mail/Labels/") + sizeof ("label_#") + 1);
+	strcpy (path, "/apps/Evolution/Mail/Labels/label_#");
 	p = path + strlen (path) - 1;
 	for (i = 0; i < 5; i++) {
 		*p = '0' + i;
-		val = bonobo_config_get_string (config->db, path, NULL);
+		val = e_config_listener_get_string (config->db, path);
 		if (!(val && *val)) {
 			g_free (val);
 			val = NULL;
 		}
 		config->labels[i].name = val;
 	}
-	strcpy (path, "/Mail/Labels/color_#");
+	strcpy (path, "/apps/Evolution/Mail/Labels/color_#");
 	p = path + strlen (path) - 1;
 	for (i = 0; i < 5; i++) {
 		*p = '0' + i;
-		config->labels[i].color = bonobo_config_get_long_with_default (config->db, path,
+		config->labels[i].color = e_config_listener_get_long_with_default (config->db, path,
 									       label_defaults[i].color, NULL);
 	}
 	g_free (path);
 	
-	config->week_start_day = bonobo_config_get_long_with_default(config->db, "/Calendar/Display/WeekStartDay", 1, NULL);
+	config->week_start_day = e_config_listener_get_long_with_default(config->db, "/apps/Evolution/Calendar/Display/WeekStartDay", 1, NULL);
 	if (locale_supports_12_hour_format()) {
-		config->time_24hour = bonobo_config_get_boolean_with_default(config->db, "/Calendar/Display/Use24HourFormat", FALSE, NULL);
+		config->time_24hour = e_config_listener_get_boolean_with_default(config->db, "/apps/Evolution/Calendar/Display/Use24HourFormat", FALSE, NULL);
 	} else {
 		config->time_24hour = TRUE;
 	}
 }
 
-#define bonobo_config_set_string_wrapper(db, path, val, ev) bonobo_config_set_string (db, path, val ? val : "", ev)
+#define e_config_listener_set_string_wrapper(db, path, val) e_config_listener_set_string (db, path, val ? val : "")
 
 void
 mail_config_write_account_sig (MailConfigAccount *account, gint i)
@@ -982,13 +964,13 @@ mail_config_write_account_sig (MailConfigAccount *account, gint i)
 	}
 	
 	/* id signatures */
-	path = g_strdup_printf ("/Mail/Accounts/identity_def_signature_%d", i);
-	bonobo_config_set_long (config->db, path, account->id->def_signature
-				? account->id->def_signature->id : -1, NULL);
+	path = g_strdup_printf ("/apps/Evolution/Mail/Accounts/identity_def_signature_%d", i);
+	e_config_listener_set_long (config->db, path, account->id->def_signature
+				? account->id->def_signature->id : -1);
 	g_free (path);
 	
-	path = g_strdup_printf ("/Mail/Accounts/identity_autogenerated_signature_%d", i);
-	bonobo_config_set_boolean (config->db, path, account->id->auto_signature, NULL);
+	path = g_strdup_printf ("/apps/Evolution/Mail/Accounts/identity_autogenerated_signature_%d", i);
+	e_config_listener_set_boolean (config->db, path, account->id->auto_signature);
 	g_free (path);
 }
 
@@ -1002,23 +984,25 @@ mail_config_write (void)
 	
 	if (!config)
 		return;
-	
+
+#if 0
+	/* FIXME: remove, do we need to do anything about this with e-config-listner? */
 	CORBA_exception_init (&ev);
-	Bonobo_ConfigDatabase_removeDir (config->db, "/Mail/Accounts", &ev);
+	Bonobo_ConfigDatabase_removeDir (config->db, "/apps/Evolution/Mail/Accounts", &ev);
 	CORBA_exception_init (&ev);
-	Bonobo_ConfigDatabase_removeDir (config->db, "/News/Sources", &ev);
+	Bonobo_ConfigDatabase_removeDir (config->db, "/apps/Evolution/News/Sources", &ev);
 	CORBA_exception_init (&ev);
 	Bonobo_ConfigDatabase_sync (config->db, &ev);
-	
+#endif
+
 	config_write_signatures ();
 	
 	len = g_slist_length (config->accounts);
-	bonobo_config_set_long (config->db,
-				"/Mail/Accounts/num", len, NULL);
+	e_config_listener_set_long (config->db,
+				"/apps/Evolution/Mail/Accounts/num", len);
 	
 	default_num = mail_config_get_default_account_num ();
-	bonobo_config_set_long (config->db,
-				"/Mail/Accounts/default_account", default_num, NULL);
+	e_config_listener_set_long (config->db, "/apps/Evolution/Mail/Accounts/default_account", default_num);
 	
 	for (i = 0; i < len; i++) {
 		MailConfigAccount *account;
@@ -1027,134 +1011,131 @@ mail_config_write (void)
 		account = g_slist_nth_data (config->accounts, i);
 		
 		/* account info */
-		path = g_strdup_printf ("/Mail/Accounts/account_name_%d", i);
-		bonobo_config_set_string_wrapper (config->db, path, account->name, NULL);
+		path = g_strdup_printf ("/apps/Evolution/Mail/Accounts/account_name_%d", i);
+		e_config_listener_set_string_wrapper (config->db, path, account->name);
 		g_free (path);
 		
-		path = g_strdup_printf ("/Mail/Accounts/account_drafts_folder_uri_%d", i);
-		bonobo_config_set_string_wrapper (config->db, path, 
-						  account->drafts_folder_uri, NULL);
+		path = g_strdup_printf ("/apps/Evolution/Mail/Accounts/account_drafts_folder_uri_%d", i);
+		e_config_listener_set_string_wrapper (config->db, path, account->drafts_folder_uri);
 		g_free (path);
 		
-		path = g_strdup_printf ("/Mail/Accounts/account_sent_folder_uri_%d", i);
-		bonobo_config_set_string_wrapper (config->db, path, 
-						  account->sent_folder_uri, NULL);
+		path = g_strdup_printf ("/apps/Evolution/Mail/Accounts/account_sent_folder_uri_%d", i);
+		e_config_listener_set_string_wrapper (config->db, path, account->sent_folder_uri);
 		g_free (path);
 		
-		path = g_strdup_printf ("/Mail/Accounts/account_always_cc_%d", i);
-		bonobo_config_set_boolean (config->db, path, account->always_cc, NULL);
+		path = g_strdup_printf ("/apps/Evolution/Mail/Accounts/account_always_cc_%d", i);
+		e_config_listener_set_boolean (config->db, path, account->always_cc);
 		g_free (path);
 		
-		path = g_strdup_printf ("/Mail/Accounts/account_always_cc_addrs_%d", i);
-		bonobo_config_set_string_wrapper (config->db, path, 
-						  account->cc_addrs, NULL);
+		path = g_strdup_printf ("/apps/Evolution/Mail/Accounts/account_always_cc_addrs_%d", i);
+		e_config_listener_set_string_wrapper (config->db, path, account->cc_addrs);
 		g_free (path);
 		
-		path = g_strdup_printf ("/Mail/Accounts/account_always_bcc_%d", i);
-		bonobo_config_set_boolean (config->db, path, account->always_bcc, NULL);
+		path = g_strdup_printf ("/apps/Evolution/Mail/Accounts/account_always_bcc_%d", i);
+		e_config_listener_set_boolean (config->db, path, account->always_bcc);
 		g_free (path);
 		
-		path = g_strdup_printf ("/Mail/Accounts/account_always_bcc_addrs_%d", i);
-		bonobo_config_set_string_wrapper (config->db, path, 
-						  account->bcc_addrs, NULL);
+		path = g_strdup_printf ("/apps/Evolution/Mail/Accounts/account_always_bcc_addrs_%d", i);
+		e_config_listener_set_string_wrapper (config->db, path, account->bcc_addrs);
 		g_free (path);
 		
 		/* account pgp options */
-		path = g_strdup_printf ("/Mail/Accounts/account_pgp_key_%d", i);
-		bonobo_config_set_string_wrapper (config->db, path, account->pgp_key, NULL);
+		path = g_strdup_printf ("/apps/Evolution/Mail/Accounts/account_pgp_key_%d", i);
+		e_config_listener_set_string_wrapper (config->db, path, account->pgp_key);
 		g_free (path);
 		
-		path = g_strdup_printf ("/Mail/Accounts/account_pgp_always_sign_%d", i);
-		bonobo_config_set_boolean (config->db, path, account->pgp_always_sign, NULL);
+		path = g_strdup_printf ("/apps/Evolution/Mail/Accounts/account_pgp_always_sign_%d", i);
+		e_config_listener_set_boolean (config->db, path, account->pgp_always_sign);
 		g_free (path);
 		
-		path = g_strdup_printf ("/Mail/Accounts/account_pgp_no_imip_sign_%d", i);
-		bonobo_config_set_boolean (config->db, path, account->pgp_no_imip_sign, NULL);
+		path = g_strdup_printf ("/apps/Evolution/Mail/Accounts/account_pgp_no_imip_sign_%d", i);
+		e_config_listener_set_boolean (config->db, path, account->pgp_no_imip_sign);
 		g_free (path);
 		
-		path = g_strdup_printf ("/Mail/Accounts/account_pgp_encrypt_to_self_%d", i);
-		bonobo_config_set_boolean (config->db, path, 
-					   account->pgp_encrypt_to_self, NULL);
+		path = g_strdup_printf ("/apps/Evolution/Mail/Accounts/account_pgp_encrypt_to_self_%d", i);
+		e_config_listener_set_boolean (config->db, path, account->pgp_encrypt_to_self);
 		g_free (path);
 		
-		path = g_strdup_printf ("/Mail/Accounts/account_pgp_always_trust_%d", i);
-		bonobo_config_set_boolean (config->db, path, account->pgp_always_trust, NULL);
+		path = g_strdup_printf ("/apps/Evolution/Mail/Accounts/account_pgp_always_trust_%d", i);
+		e_config_listener_set_boolean (config->db, path, account->pgp_always_trust);
 		g_free (path);
 		
 		/* account s/mime options */
-		path = g_strdup_printf ("/Mail/Accounts/account_smime_key_%d", i);
-		bonobo_config_set_string_wrapper (config->db, path, account->smime_key, NULL);
+		path = g_strdup_printf ("/apps/Evolution/Mail/Accounts/account_smime_key_%d", i);
+		e_config_listener_set_string_wrapper (config->db, path, account->smime_key);
 		g_free (path);
 		
-		path = g_strdup_printf ("/Mail/Accounts/account_smime_always_sign_%d", i);
-		bonobo_config_set_boolean (config->db, path, account->smime_always_sign, NULL);
+		path = g_strdup_printf ("/apps/Evolution/Mail/Accounts/account_smime_always_sign_%d", i);
+		e_config_listener_set_boolean (config->db, path, account->smime_always_sign);
 		g_free (path);
 		
-		path = g_strdup_printf ("/Mail/Accounts/account_smime_encrypt_to_self_%d", i);
-		bonobo_config_set_boolean (config->db, path, account->smime_encrypt_to_self, NULL);
+		path = g_strdup_printf ("/apps/Evolution/Mail/Accounts/account_smime_encrypt_to_self_%d", i);
+		e_config_listener_set_boolean (config->db, path, account->smime_encrypt_to_self);
 		g_free (path);
 		
 		/* identity info */
-		path = g_strdup_printf ("/Mail/Accounts/identity_name_%d", i);
-		bonobo_config_set_string_wrapper (config->db, path, account->id->name, NULL);
+		path = g_strdup_printf ("/apps/Evolution/Mail/Accounts/identity_name_%d", i);
+		e_config_listener_set_string_wrapper (config->db, path, account->id->name);
 		g_free (path);
 		
-		path = g_strdup_printf ("/Mail/Accounts/identity_address_%d", i);
-		bonobo_config_set_string_wrapper (config->db, path, account->id->address, NULL);
+		path = g_strdup_printf ("/apps/Evolution/Mail/Accounts/identity_address_%d", i);
+		e_config_listener_set_string_wrapper (config->db, path, account->id->address);
 		g_free (path);
 		
-		path = g_strdup_printf ("/Mail/Accounts/identity_reply_to_%d", i);
-		bonobo_config_set_string_wrapper (config->db, path, account->id->reply_to, NULL);
+		path = g_strdup_printf ("/apps/Evolution/Mail/Accounts/identity_reply_to_%d", i);
+		e_config_listener_set_string_wrapper (config->db, path, account->id->reply_to);
 		g_free (path);
 		
-		path = g_strdup_printf ("/Mail/Accounts/identity_organization_%d", i);
-		bonobo_config_set_string_wrapper (config->db, path, account->id->organization, NULL);
+		path = g_strdup_printf ("/apps/Evolution/Mail/Accounts/identity_organization_%d", i);
+		e_config_listener_set_string_wrapper (config->db, path, account->id->organization);
 		g_free (path);
 		
 		mail_config_write_account_sig (account, i);
 		
-		path = g_strdup_printf ("/Mail/Accounts/identity_autogenerated_signature_%d", i);
-		bonobo_config_set_boolean (config->db, path, account->id->auto_signature, NULL);
+		path = g_strdup_printf ("/apps/Evolution/Mail/Accounts/identity_autogenerated_signature_%d", i);
+		e_config_listener_set_boolean (config->db, path, account->id->auto_signature);
 		g_free (path);
 		
 		/* source info */
-		path = g_strdup_printf ("/Mail/Accounts/source_url_%d", i);
-		bonobo_config_set_string_wrapper (config->db, path, account->source->url, NULL);
+		path = g_strdup_printf ("/apps/Evolution/Mail/Accounts/source_url_%d", i);
+		e_config_listener_set_string_wrapper (config->db, path, account->source->url);
 		g_free (path);
 		
-		path = g_strdup_printf ("/Mail/Accounts/source_keep_on_server_%d", i);
-		bonobo_config_set_boolean (config->db, path, account->source->keep_on_server, NULL);
+		path = g_strdup_printf ("/apps/Evolution/Mail/Accounts/source_keep_on_server_%d", i);
+		e_config_listener_set_boolean (config->db, path, account->source->keep_on_server);
 		g_free (path);
 		
-		path = g_strdup_printf ("/Mail/Accounts/source_auto_check_%d", i);
-		bonobo_config_set_boolean (config->db, path, account->source->auto_check, NULL);
+		path = g_strdup_printf ("/apps/Evolution/Mail/Accounts/source_auto_check_%d", i);
+		e_config_listener_set_boolean (config->db, path, account->source->auto_check);
 		g_free (path);
 		
-		path = g_strdup_printf ("/Mail/Accounts/source_auto_check_time_%d", i);
-		bonobo_config_set_long (config->db, path, account->source->auto_check_time, NULL);
+		path = g_strdup_printf ("/apps/Evolution/Mail/Accounts/source_auto_check_time_%d", i);
+		e_config_listener_set_long (config->db, path, account->source->auto_check_time);
 		g_free (path);
 		
-		path = g_strdup_printf ("/Mail/Accounts/source_enabled_%d", i);
-		bonobo_config_set_boolean (config->db, path, account->source->enabled, NULL);
+		path = g_strdup_printf ("/apps/Evolution/Mail/Accounts/source_enabled_%d", i);
+		e_config_listener_set_boolean (config->db, path, account->source->enabled);
 		g_free (path);
 		
-		path = g_strdup_printf ("/Mail/Accounts/source_save_passwd_%d", i);
-		bonobo_config_set_boolean (config->db, path, account->source->save_passwd, NULL);
+		path = g_strdup_printf ("/apps/Evolution/Mail/Accounts/source_save_passwd_%d", i);
+		e_config_listener_set_boolean (config->db, path, account->source->save_passwd);
 		g_free (path);
 		
 		/* transport info */
-		path = g_strdup_printf ("/Mail/Accounts/transport_url_%d", i);
-		bonobo_config_set_string_wrapper (config->db, path, account->transport->url, NULL);
+		path = g_strdup_printf ("/apps/Evolution/Mail/Accounts/transport_url_%d", i);
+		e_config_listener_set_string_wrapper (config->db, path, account->transport->url);
 		g_free (path);
 		
-		path = g_strdup_printf ("/Mail/Accounts/transport_save_passwd_%d", i);
-		bonobo_config_set_boolean (config->db, path, account->transport->save_passwd, NULL);
+		path = g_strdup_printf ("/apps/Evolution/Mail/Accounts/transport_save_passwd_%d", i);
+		e_config_listener_set_boolean (config->db, path, account->transport->save_passwd);
 		g_free (path);
 	}
-	
+
+#if 0
 	CORBA_exception_init (&ev);
 	Bonobo_ConfigDatabase_sync (config->db, &ev);
 	CORBA_exception_free (&ev);
+#endif
 }
 
 static gboolean
@@ -1163,9 +1144,9 @@ hash_save_state (gpointer key, gpointer value, gpointer user_data)
 	char *path;
 	gboolean bool = GPOINTER_TO_INT (value);
 	
-	path = g_strconcat ("/Mail/", (char *)user_data, "/", (char *)key, 
+	path = g_strconcat ("/apps/Evolution/Mail/", (char *)user_data, "/", (char *)key, 
 			    NULL);
-	bonobo_config_set_boolean (config->db, path, bool, NULL);
+	e_config_listener_set_boolean (config->db, path, bool);
 	g_free (path);
 	g_free (key);
 	
@@ -1188,131 +1169,98 @@ mail_config_write_on_exit (void)
 	}
 
 	/* Show Messages Threaded */
-	bonobo_config_set_boolean (config->db, "/Mail/Display/thread_list", 
-				   config->thread_list, NULL);
+	e_config_listener_set_boolean (config->db, "/apps/Evolution/Mail/Display/thread_list", config->thread_list);
 	
-	bonobo_config_set_boolean (config->db, "/Mail/Display/thread_subject", 
-				   config->thread_subject, NULL);
+	e_config_listener_set_boolean (config->db, "/apps/Evolution/Mail/Display/thread_subject", config->thread_subject);
 	
 	/* Show Message Preview */
-	bonobo_config_set_boolean (config->db, "/Mail/Display/preview_pane",
-				   config->show_preview, NULL);
+	e_config_listener_set_boolean (config->db, "/apps/Evolution/Mail/Display/preview_pane",config->show_preview);
 	
 	/* Hide deleted automatically */
-	bonobo_config_set_boolean (config->db, "/Mail/Display/hide_deleted", 
-				   config->hide_deleted, NULL);
+	e_config_listener_set_boolean (config->db, "/apps/Evolution/Mail/Display/hide_deleted", config->hide_deleted);
 	
 	/* Size of vpaned in mail view */
-	bonobo_config_set_long (config->db, "/Mail/Display/paned_size", 
-				config->paned_size, NULL);
+	e_config_listener_set_long (config->db, "/apps/Evolution/Mail/Display/paned_size", config->paned_size);
 	
 	/* Mark as seen toggle */
-	bonobo_config_set_boolean (config->db, "/Mail/Display/do_seen_timeout",
-				   config->do_seen_timeout, NULL);
+	e_config_listener_set_boolean (config->db, "/apps/Evolution/Mail/Display/do_seen_timeout", config->do_seen_timeout);
 	/* Mark as seen timeout */
-	bonobo_config_set_long (config->db, "/Mail/Display/seen_timeout", 
-				config->seen_timeout, NULL);
+	e_config_listener_set_long (config->db, "/apps/Evolution/Mail/Display/seen_timeout", config->seen_timeout);
 	
 	/* Format */
-	bonobo_config_set_boolean (config->db, "/Mail/Format/send_html", 
-				   config->send_html, NULL);
+	e_config_listener_set_boolean (config->db, "/apps/Evolution/Mail/Format/send_html", config->send_html);
 	
 	/* Confirm Sending Unwanted HTML */
-	bonobo_config_set_boolean (config->db, "/Mail/Format/confirm_unwanted_html",
-				   config->confirm_unwanted_html, NULL);
+	e_config_listener_set_boolean (config->db, "/apps/Evolution/Mail/Format/confirm_unwanted_html", config->confirm_unwanted_html);
 	
 	/* Citation */
-	bonobo_config_set_boolean (config->db, 
-				   "/Mail/Display/citation_highlight", 
-				   config->citation_highlight, NULL);
+	e_config_listener_set_boolean (config->db, "/apps/Evolution/Mail/Display/citation_highlight", config->citation_highlight);
 	
-	bonobo_config_set_long (config->db, "/Mail/Display/citation_color",
-				config->citation_color, NULL);
+	e_config_listener_set_long (config->db, "/apps/Evolution/Mail/Display/citation_color", config->citation_color);
 	
 	/* Goto next folder */
-	bonobo_config_set_boolean (config->db, "/Mail/MessageList/goto_next_folder",
-				   config->goto_next_folder, NULL);
+	e_config_listener_set_boolean (config->db, "/apps/Evolution/Mail/MessageList/goto_next_folder", config->goto_next_folder);
 	
 	/* Empty Subject */
-	bonobo_config_set_boolean (config->db, "/Mail/Prompts/empty_subject",
-				   config->prompt_empty_subject, NULL);
+	e_config_listener_set_boolean (config->db, "/apps/Evolution/Mail/Prompts/empty_subject", config->prompt_empty_subject);
 	
 	/* Only Bcc */
-	bonobo_config_set_boolean (config->db, "/Mail/Prompts/only_bcc",
-				   config->prompt_only_bcc, NULL);
+	e_config_listener_set_boolean (config->db, "/apps/Evolution/Mail/Prompts/only_bcc", config->prompt_only_bcc);
 	
 	/* Expunge */
-	bonobo_config_set_boolean (config->db, "/Mail/Prompts/confirm_expunge",
-				   config->confirm_expunge, NULL);
+	e_config_listener_set_boolean (config->db, "/apps/Evolution/Mail/Prompts/confirm_expunge", config->confirm_expunge);
 	
 	/* Goto next folder */
-	bonobo_config_set_boolean (config->db, "/Mail/Prompts/confirm_goto_next_folder",
-				   config->confirm_goto_next_folder, NULL);
+	e_config_listener_set_boolean (config->db, "/apps/Evolution/Mail/Prompts/confirm_goto_next_folder", config->confirm_goto_next_folder);
 	
 	/* HTTP images */
-	bonobo_config_set_long (config->db, "/Mail/Display/http_images", 
-				config->http_mode, NULL);
+	e_config_listener_set_long (config->db, "/apps/Evolution/Mail/Display/http_images", config->http_mode);
 	
 	/* Forwarding */
-	bonobo_config_set_long (config->db, 
-				"/Mail/Format/default_forward_style", 
-				config->default_forward_style, NULL);
+	e_config_listener_set_long (config->db, "/apps/Evolution/Mail/Format/default_forward_style", config->default_forward_style);
 	
 	/* Replying */
-	bonobo_config_set_long (config->db, 
-				"/Mail/Format/default_reply_style", 
-				config->default_reply_style, NULL);
+	e_config_listener_set_long (config->db, "/apps/Evolution/Mail/Format/default_reply_style", config->default_reply_style);
 	
 	/* Message Display */
-	bonobo_config_set_long (config->db, 
-				"/Mail/Format/message_display_style", 
-				config->message_display_style, NULL);
+	e_config_listener_set_long (config->db, "/apps/Evolution/Mail/Format/message_display_style", config->message_display_style);
 	
 	/* Default charset */
-	bonobo_config_set_string_wrapper (config->db, "/Mail/Format/default_charset", 
-					  config->default_charset, NULL);
+	e_config_listener_set_string_wrapper (config->db, "/apps/Evolution/Mail/Format/default_charset", config->default_charset);
 	
 	/* Trash folders */
-	bonobo_config_set_boolean (config->db, "/Mail/Trash/empty_on_exit", 
-				   config->empty_trash_on_exit, NULL);
+	e_config_listener_set_boolean (config->db, "/apps/Evolution/Mail/Trash/empty_on_exit", config->empty_trash_on_exit);
 	
 	/* Filter logging */
-	bonobo_config_set_boolean (config->db, "/Mail/Filters/log",
-				   config->filter_log, NULL);
+	e_config_listener_set_boolean (config->db, "/apps/Evolution/Mail/Filters/log", config->filter_log);
 	
-	bonobo_config_set_string_wrapper (config->db, "/Mail/Filters/log_path",
-					  config->filter_log_path, NULL);
+	e_config_listener_set_string_wrapper (config->db, "/apps/Evolution/Mail/Filters/log_path", config->filter_log_path);
 	
 	/* New Mail Notification */
-	bonobo_config_set_long (config->db, "/Mail/Notify/new_mail_notification", 
-				config->notify, NULL);
+	e_config_listener_set_long (config->db, "/apps/Evolution/Mail/Notify/new_mail_notification", config->notify);
 	
-	bonobo_config_set_string_wrapper (config->db, "/Mail/Notify/new_mail_notification_sound_file",
-					  config->notify_filename, NULL);
+	e_config_listener_set_string_wrapper (config->db, "/apps/Evolution/Mail/Notify/new_mail_notification_sound_file", config->notify_filename);
 	
 	/* X-Mailer Display */
-	bonobo_config_set_long (config->db, 
-				"/Mail/Display/x_mailer_display_style", 
-				config->x_mailer_display_style, NULL);
+	e_config_listener_set_long (config->db, "/apps/Evolution/Mail/Display/x_mailer_display_style", config->x_mailer_display_style);
 	
 	/* last filesel dir */
-	bonobo_config_set_string_wrapper (config->db, "/Mail/Filesel/last_filesel_dir",
-					  config->last_filesel_dir, NULL);
+	e_config_listener_set_string_wrapper (config->db, "/apps/Evolution/Mail/Filesel/last_filesel_dir", config->last_filesel_dir);
 	
 	/* Color labels */
 	/* Note: we avoid having to malloc/free 10 times this way... */
-	path = g_malloc (sizeof ("/Mail/Labels/") + sizeof ("label_#") + 1);
-	strcpy (path, "/Mail/Labels/label_#");
+	path = g_malloc (sizeof ("/apps/Evolution/Mail/Labels/") + sizeof ("label_#") + 1);
+	strcpy (path, "/apps/Evolution/Mail/Labels/label_#");
 	p = path + strlen (path) - 1;
 	for (i = 0; i < 5; i++) {
 		*p = '0' + i;
-		bonobo_config_set_string_wrapper (config->db, path, config->labels[i].name, NULL);
+		e_config_listener_set_string_wrapper (config->db, path, config->labels[i].name);
 	}
-	strcpy (path, "/Mail/Labels/color_#");
+	strcpy (path, "/apps/Evolution/Mail/Labels/color_#");
 	p = path + strlen (path) - 1;
 	for (i = 0; i < 5; i++) {
 		*p = '0' + i;
-		bonobo_config_set_long (config->db, path, config->labels[i].color, NULL);
+		e_config_listener_set_long (config->db, path, config->labels[i].color);
 	}
 	g_free (path);
 	
@@ -1324,10 +1272,11 @@ mail_config_write_on_exit (void)
 	if (config->preview_hash)
 		g_hash_table_foreach_remove (config->preview_hash, hash_save_state, "Preview");
 
+#if 0
 	CORBA_exception_init (&ev);
 	Bonobo_ConfigDatabase_sync (config->db, &ev);
 	CORBA_exception_free (&ev);
-	
+#endif	
 	/* Passwords */
 	
 	/* then we make sure the ones we want to remember are in the
@@ -1439,8 +1388,8 @@ mail_config_get_show_preview (const char *uri)
 			gboolean value;
 			char *str;
 			
-			str = g_strdup_printf ("/Mail/Preview/%s", dbkey);
-			value = bonobo_config_get_boolean_with_default (config->db, str, TRUE, NULL);
+			str = g_strdup_printf ("/apps/Evolution/Mail/Preview/%s", dbkey);
+			value = e_config_listener_get_boolean_with_default (config->db, str, TRUE, NULL);
 			g_free (str);
 			
 			g_hash_table_insert (config->preview_hash, dbkey,
@@ -1496,8 +1445,8 @@ mail_config_get_thread_list (const char *uri)
 			gboolean value;
 			char *str;
 			
-			str = g_strdup_printf ("/Mail/Threads/%s", dbkey);
-			value = bonobo_config_get_boolean_with_default (config->db, str, FALSE, NULL);
+			str = g_strdup_printf ("/apps/Evolution/Mail/Threads/%s", dbkey);
+			value = e_config_listener_get_boolean_with_default (config->db, str, FALSE, NULL);
 			g_free (str);
 			
 			g_hash_table_insert (config->threaded_hash, dbkey,
@@ -1838,7 +1787,7 @@ mail_config_get_label_name (int label)
 	g_return_val_if_fail (label >= 0 && label < 5, NULL);
 	
 	if (!config->labels[label].name)
-		config->labels[label].name = g_strdup (U_(label_defaults[label].name));
+		config->labels[label].name = g_strdup (_(label_defaults[label].name));
 	
 	return config->labels[label].name;
 }
@@ -1849,7 +1798,7 @@ mail_config_set_label_name (int label, const char *name)
 	g_return_if_fail (label >= 0 && label < 5);
 	
 	if (!name)
-		name = U_(label_defaults[label].name);
+		name = _(label_defaults[label].name);
 	
 	g_free (config->labels[label].name);
 	config->labels[label].name = g_strdup (name);
@@ -2335,7 +2284,7 @@ check_service_check (struct _mail_msg *mm)
 	else
 		camel_service_connect (service, &mm->ex);
 
-	camel_object_unref (CAMEL_OBJECT (service));
+	camel_object_unref (service);
 	*m->success = !camel_exception_is_set(&mm->ex);
 
 	camel_operation_unregister(mm->cancel);
@@ -2349,7 +2298,7 @@ static struct _mail_msg_op check_service_op = {
 };
 
 static void
-check_cancelled (GnomeDialog *dialog, int button, gpointer data)
+check_response (GtkDialog *dialog, int button, gpointer data)
 {
 	int *msg_id = data;
 
@@ -2390,25 +2339,20 @@ mail_config_check_service (const char *url, CamelProviderType type, GList **auth
 	
 	id = m->msg.seq;
 	e_thread_put(mail_thread_queued, (EMsg *)m);
-	
-	dialog = gnome_dialog_new (_("Connecting to server..."),
-				   GNOME_STOCK_BUTTON_CANCEL,
-				   NULL);
-	gnome_dialog_set_parent (GNOME_DIALOG (dialog), window);
+
+	dialog = gtk_dialog_new_with_buttons(_("Connecting to server..."), window, GTK_DIALOG_DESTROY_WITH_PARENT,
+					     GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
+					     NULL);
 	label = gtk_label_new (_("Connecting to server..."));
-	gtk_box_pack_start (GTK_BOX(GNOME_DIALOG (dialog)->vbox),
+	gtk_box_pack_start (GTK_BOX(GTK_DIALOG (dialog)->vbox),
 			    label, TRUE, TRUE, 10);
-	gnome_dialog_set_close (GNOME_DIALOG (dialog), FALSE);
-	gtk_signal_connect (GTK_OBJECT (dialog), "clicked",
-			    GTK_SIGNAL_FUNC (check_cancelled), &id);
-	gtk_signal_connect (GTK_OBJECT (dialog), "delete_event",
-			    GTK_SIGNAL_FUNC (check_cancelled), &id);
-	gtk_window_set_modal (GTK_WINDOW (dialog), FALSE);
+	g_signal_connect(dialog, "response", G_CALLBACK (check_response), &id);
 	gtk_widget_show_all (dialog);
 	
 	mail_msg_wait(id);
 	
 	gtk_widget_destroy (dialog);
+	g_object_unref(dialog);
 	dialog = NULL;
 	
 	return ret;
@@ -2535,7 +2479,7 @@ evolution_mail_config_class_init (EvolutionMailConfigClass *klass)
 {
 	POA_GNOME_Evolution_MailConfig__epv *epv = &klass->epv;
 
-	parent_class = gtk_type_class (PARENT_TYPE);
+	parent_class = g_type_class_ref(PARENT_TYPE);
 	epv->addAccount = impl_GNOME_Evolution_MailConfig_addAccount;
 	epv->removeAccount = impl_GNOME_Evolution_MailConfig_removeAccount;
 }
@@ -2552,11 +2496,13 @@ BONOBO_X_TYPE_FUNC_FULL (EvolutionMailConfig,
 
 static BonoboObject *
 evolution_mail_config_factory_fn (BonoboGenericFactory *factory,
+				  const char *id,
 				  void *closure)
 {
 	EvolutionMailConfig *config;
 
-	config = gtk_type_new (evolution_mail_config_get_type ());
+	config = g_object_new (evolution_mail_config_get_type (), NULL);
+
 	return BONOBO_OBJECT (config);
 }
 
@@ -2590,7 +2536,7 @@ get_new_signature_filename ()
 	gchar *filename;
 	gint i;
 
-	filename = g_strconcat (evolution_dir, "/signatures", NULL);
+	filename = g_build_filename (evolution_dir, "/signatures", NULL);
 	if (lstat (filename, &st_buf)) {
 		if (errno == ENOENT) {
 			if (mkdir (filename, 0700))
@@ -2626,7 +2572,7 @@ mail_config_signature_add (gboolean html, const gchar *script)
 
 	/* printf ("mail_config_signature_add %d\n", config->signatures); */
 	sig->id = config->signatures;
-	sig->name = g_strdup (U_("Unnamed"));
+	sig->name = g_strdup (_("Unnamed"));
 	if (script)
 		sig->script = g_strdup (script);
 	else

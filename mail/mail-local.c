@@ -32,14 +32,11 @@
 #include <unistd.h>
 #include <errno.h>
 
-#include <gnome-xml/xmlmemory.h>
-#include <libgnomeui/gnome-dialog.h>
-#include <libgnomeui/gnome-dialog-util.h>
+#include <libxml/xmlmemory.h>
 #include <glade/glade.h>
 
 #include "e-util/e-path.h"
 #include <gal/widgets/e-gui-utils.h>
-#include <gal/util/e-unicode-i18n.h>
 #include <gal/util/e-xml-utils.h>
 
 #include "Evolution.h"
@@ -151,11 +148,11 @@ load_metainfo(const char *path)
 	if (doc == NULL)
 		goto dodefault;
 
-	node = doc->root;
+	node = doc->children;
 	if (strcmp(node->name, "folderinfo"))
 		goto dodefault;
 
-	node = node->childs;
+	node = node->children;
 	while (node) {
 		if (!strcmp(node->name, "folder")) {
 			char *index, *txt;
@@ -239,11 +236,11 @@ mlf_refresh_info(CamelFolder *folder, CamelException *ex)
 
 	LOCAL_FOLDER_LOCK(mlf);
 	f = mlf->real_folder;
-	camel_object_ref((CamelObject *)f);
+	camel_object_ref(f);
 	LOCAL_FOLDER_UNLOCK(mlf);
 
 	camel_folder_refresh_info(f, ex);
-	camel_object_unref((CamelObject *)f);
+	camel_object_unref(f);
 }
 
 static void
@@ -254,11 +251,11 @@ mlf_sync(CamelFolder *folder, gboolean expunge, CamelException *ex)
 
 	LOCAL_FOLDER_LOCK(mlf);
 	f = mlf->real_folder;
-	camel_object_ref((CamelObject *)f);
+	camel_object_ref(f);
 	LOCAL_FOLDER_UNLOCK(mlf);
 
 	camel_folder_sync(f, expunge, ex);
-	camel_object_unref((CamelObject *)f);
+	camel_object_unref(f);
 }
 
 static void
@@ -269,11 +266,11 @@ mlf_expunge(CamelFolder *folder, CamelException *ex)
 
 	LOCAL_FOLDER_LOCK(mlf);
 	f = mlf->real_folder;
-	camel_object_ref((CamelObject *)f);
+	camel_object_ref(f);
 	LOCAL_FOLDER_UNLOCK(mlf);
 
 	camel_folder_expunge(f, ex);
-	camel_object_unref((CamelObject *)f);
+	camel_object_unref(f);
 }
 
 static void
@@ -284,11 +281,11 @@ mlf_append_message(CamelFolder *folder, CamelMimeMessage *message, const CamelMe
 
 	LOCAL_FOLDER_LOCK(mlf);
 	f = mlf->real_folder;
-	camel_object_ref((CamelObject *)f);
+	camel_object_ref(f);
 	LOCAL_FOLDER_UNLOCK(mlf);
 
 	camel_folder_append_message(f, message, info, appended_uid, ex);
-	camel_object_unref((CamelObject *)f);
+	camel_object_unref(f);
 }
 
 static CamelMimeMessage *
@@ -300,11 +297,11 @@ mlf_get_message(CamelFolder *folder, const char *uid, CamelException *ex)
 
 	LOCAL_FOLDER_LOCK(mlf);
 	f = mlf->real_folder;
-	camel_object_ref((CamelObject *)f);
+	camel_object_ref(f);
 	LOCAL_FOLDER_UNLOCK(mlf);
 
 	ret = camel_folder_get_message(f, uid, ex);
-	camel_object_unref((CamelObject *)f);
+	camel_object_unref(f);
 
 	return ret;
 }
@@ -318,11 +315,11 @@ mlf_search_by_expression(CamelFolder *folder, const char *expression, CamelExcep
 
 	LOCAL_FOLDER_LOCK(mlf);
 	f = mlf->real_folder;
-	camel_object_ref((CamelObject *)f);
+	camel_object_ref(f);
 	LOCAL_FOLDER_UNLOCK(mlf);
 
 	ret = camel_folder_search_by_expression(f, expression, ex);
-	camel_object_unref((CamelObject *)f);
+	camel_object_unref(f);
 
 	return ret;
 }
@@ -336,11 +333,11 @@ mlf_search_by_uids(CamelFolder *folder, const char *expression, GPtrArray *uids,
 
 	LOCAL_FOLDER_LOCK(mlf);
 	f = mlf->real_folder;
-	camel_object_ref((CamelObject *)f);
+	camel_object_ref(f);
 	LOCAL_FOLDER_UNLOCK(mlf);
 
 	ret = camel_folder_search_by_uids(f, expression, uids, ex);
-	camel_object_unref((CamelObject *)f);
+	camel_object_unref(f);
 
 	return ret;
 }
@@ -353,11 +350,11 @@ mlf_search_free(CamelFolder *folder, GPtrArray *result)
 
 	LOCAL_FOLDER_LOCK(mlf);
 	f = mlf->real_folder;
-	camel_object_ref((CamelObject *)f);
+	camel_object_ref(f);
 	LOCAL_FOLDER_UNLOCK(mlf);
 
 	camel_folder_search_free(f, result);
-	camel_object_unref((CamelObject *)f);
+	camel_object_unref(f);
 }
 
 static void
@@ -368,11 +365,11 @@ mlf_set_message_flags(CamelFolder *folder, const char *uid, guint32 flags, guint
 
 	LOCAL_FOLDER_LOCK(mlf);
 	f = mlf->real_folder;
-	camel_object_ref((CamelObject *)f);
+	camel_object_ref(f);
 	LOCAL_FOLDER_UNLOCK(mlf);
 
 	camel_folder_set_message_flags(mlf->real_folder, uid, flags, set);
-	camel_object_unref((CamelObject *)f);
+	camel_object_unref(f);
 }
 
 static void
@@ -383,11 +380,11 @@ mlf_set_message_user_flag(CamelFolder *folder, const char *uid, const char *name
 
 	LOCAL_FOLDER_LOCK(mlf);
 	f = mlf->real_folder;
-	camel_object_ref((CamelObject *)f);
+	camel_object_ref(f);
 	LOCAL_FOLDER_UNLOCK(mlf);
 
 	camel_folder_set_message_user_flag(mlf->real_folder, uid, name, value);
-	camel_object_unref((CamelObject *)f);
+	camel_object_unref(f);
 }
 
 static void
@@ -398,11 +395,11 @@ mlf_set_message_user_tag(CamelFolder *folder, const char *uid, const char *name,
 
 	LOCAL_FOLDER_LOCK(mlf);
 	f = mlf->real_folder;
-	camel_object_ref((CamelObject *)f);
+	camel_object_ref(f);
 	LOCAL_FOLDER_UNLOCK(mlf);
 
 	camel_folder_set_message_user_tag(mlf->real_folder, uid, name, value);
-	camel_object_unref((CamelObject *)f);
+	camel_object_unref(f);
 }
 
 /* Internal store-rename call, update our strings */
@@ -437,13 +434,13 @@ mlf_rename(CamelFolder *folder, const char *new)
 static void
 mlf_proxy_message_changed(CamelObject *real_folder, gpointer event_data, gpointer user_data)
 {
-	camel_object_trigger_event((CamelObject *)user_data, "message_changed", event_data);
+	camel_object_trigger_event(user_data, "message_changed", event_data);
 }
 
 static void
 mlf_proxy_folder_changed(CamelObject *real_folder, gpointer event_data, gpointer user_data)
 {
-	camel_object_trigger_event((CamelObject *)user_data, "folder_changed", event_data);
+	camel_object_trigger_event(user_data, "folder_changed", event_data);
 }
 
 static void
@@ -453,20 +450,20 @@ mlf_unset_folder (MailLocalFolder *mlf)
 
 	g_assert(mlf->real_folder);
 
-	camel_object_unhook_event(CAMEL_OBJECT(mlf->real_folder),
+	camel_object_unhook_event(mlf->real_folder,
 				  "message_changed",
 				  mlf_proxy_message_changed,
 				  mlf);
-	camel_object_unhook_event(CAMEL_OBJECT(mlf->real_folder),
+	camel_object_unhook_event(mlf->real_folder,
 				  "folder_changed",
 				  mlf_proxy_folder_changed,
 				  mlf);
 
-	camel_object_unref((CamelObject *)folder->summary);
+	camel_object_unref(folder->summary);
 	folder->summary = NULL;
-	camel_object_unref((CamelObject *)mlf->real_folder);
+	camel_object_unref(mlf->real_folder);
 	mlf->real_folder = NULL;
-	camel_object_unref((CamelObject *)mlf->real_store);
+	camel_object_unref(mlf->real_store);
 	mlf->real_store = NULL;
 
 	folder->permanent_flags = 0;
@@ -502,14 +499,14 @@ mlf_set_folder(MailLocalFolder *mlf, guint32 flags, CamelException *ex)
 
 	if (mlf->real_folder->folder_flags & CAMEL_FOLDER_HAS_SUMMARY_CAPABILITY) {
 		folder->summary = mlf->real_folder->summary;
-		camel_object_ref((CamelObject *)mlf->real_folder->summary);
+		camel_object_ref(mlf->real_folder->summary);
 	}
 
 	folder->permanent_flags = mlf->real_folder->permanent_flags;
 	folder->folder_flags = mlf->real_folder->folder_flags;
 
-	camel_object_hook_event((CamelObject *)mlf->real_folder, "message_changed", mlf_proxy_message_changed, mlf);
-	camel_object_hook_event((CamelObject *)mlf->real_folder, "folder_changed", mlf_proxy_folder_changed, mlf);
+	camel_object_hook_event(mlf->real_folder, "message_changed", mlf_proxy_message_changed, mlf);
+	camel_object_hook_event(mlf->real_folder, "folder_changed", mlf_proxy_folder_changed, mlf);
 
 	return TRUE;
 }
@@ -536,9 +533,9 @@ mlf_getv(CamelObject *object, CamelException *ex, CamelArgGetV *args)
 				/* string to describe a local folder as the location of a message */
 				pathlen = strlen(evolution_dir) + strlen("local") + 1;
 				if (strlen(folder->full_name) > pathlen)
-					mlf->description = g_strdup_printf(U_("Local folders/%s"), folder->full_name+pathlen);
+					mlf->description = g_strdup_printf(_("Local folders/%s"), folder->full_name+pathlen);
 				else
-					mlf->description = g_strdup_printf(U_("Local folders/%s"), folder->name);
+					mlf->description = g_strdup_printf(_("Local folders/%s"), folder->name);
 			}
 			*arg->ca_str = mlf->description;
 			break;
@@ -622,7 +619,7 @@ mail_local_folder_get_type (void)
 							     NULL,
 							     mlf_init,
 							     mlf_finalize);
-		mlf_parent_class = (CamelFolderClass *)camel_type_get_global_classfuncs (CAMEL_FOLDER_TYPE);
+		mlf_parent_class = (CamelFolderClass *)CAMEL_FOLDER_TYPE;
 	}
 
 	return mail_local_folder_type;
@@ -740,7 +737,7 @@ mail_local_folder_reconfigure (MailLocalFolder *mlf, const char *new_format, int
 	camel_folder_expunge(fromfolder, ex);
 	
 	d(printf("delete old mbox ...\n"));
-	camel_object_unref(CAMEL_OBJECT(fromfolder));
+	camel_object_unref(fromfolder);
 	fromfolder = NULL;
 	camel_store_delete_folder(fromstore, tmpname, ex);
 	
@@ -763,9 +760,9 @@ mail_local_folder_reconfigure (MailLocalFolder *mlf, const char *new_format, int
 	if (mlf->real_folder == NULL)
 		mlf_set_folder (mlf, CAMEL_STORE_FOLDER_CREATE, ex);
 	if (fromfolder)
-		camel_object_unref((CamelObject *)fromfolder);
+		camel_object_unref(fromfolder);
 	if (fromstore)
-		camel_object_unref((CamelObject *)fromstore);
+		camel_object_unref(fromstore);
 
 	g_free(tmpname);
 	g_free(mbox);
@@ -798,7 +795,7 @@ mls_get_folder(CamelStore *store, const char *folder_name, guint32 flags, CamelE
 		return NULL;
 
 	if (!mlf_set_folder(folder, flags, ex)) {
-		camel_object_unref(CAMEL_OBJECT(folder));
+		camel_object_unref(folder);
 		return NULL;
 	}
 
@@ -806,8 +803,8 @@ mls_get_folder(CamelStore *store, const char *folder_name, guint32 flags, CamelE
 		if (save_metainfo(folder->meta) == FALSE) {
 			camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
 					      _("Cannot save folder metainfo to %s: %s"),
-					      folder->meta->path, strerror(errno));
-			camel_object_unref(CAMEL_OBJECT (folder));
+					      folder->meta->path, g_strerror(errno));
+			camel_object_unref(folder);
 			return NULL;
 		}
 	}
@@ -836,7 +833,7 @@ mls_delete_folder(CamelStore *store, const char *folder_name, CamelException *ex
 	if (real_store == NULL) {
 		g_free(metapath);
 		free_metainfo(meta);
-		camel_object_unref((CamelObject *)real_store);
+		camel_object_unref(real_store);
 		return;
 	}
 
@@ -847,7 +844,7 @@ mls_delete_folder(CamelStore *store, const char *folder_name, CamelException *ex
 		camel_exception_xfer(ex, &local_ex);
 		g_free(metapath);
 		free_metainfo(meta);
-		camel_object_unref((CamelObject *)real_store);
+		camel_object_unref(real_store);
 		return;
 	}
 
@@ -858,7 +855,7 @@ mls_delete_folder(CamelStore *store, const char *folder_name, CamelException *ex
 	if (unlink(metapath) == -1) {
 		camel_exception_setv(ex, CAMEL_EXCEPTION_SYSTEM,
 				     _("Cannot delete folder metadata %s: %s"),
-				     metapath, strerror(errno));
+				     metapath, g_strerror(errno));
 	}
 
 	g_free(metapath);
@@ -938,7 +935,7 @@ mls_rename_folder(CamelStore *store, const char *old_name, const char *new_name,
 				reninfo.new = info;
 				reninfo.old_base = (char *)old_name;
 				
-				camel_object_trigger_event((CamelObject *)store, "folder_renamed", &reninfo);
+				camel_object_trigger_event(store, "folder_renamed", &reninfo);
 			} else {
 				g_free(newuri);
 				g_warning("Cannot find existing folder '%s' in table?\n", olduri);
@@ -952,7 +949,7 @@ mls_rename_folder(CamelStore *store, const char *old_name, const char *new_name,
 	g_free(newname);
 	g_free(oldname);
 
-	camel_object_unref((CamelObject *)real_store);
+	camel_object_unref(real_store);
 
 	free_metainfo(meta);
 
@@ -1064,7 +1061,7 @@ static void mail_local_store_add_folder(MailLocalStore *mls, const char *uri, co
 
 	if (info) {
 		/* FIXME: should copy info, so we dont get a removed while we're using it? */
-		camel_object_trigger_event((CamelObject *)mls, "folder_created", info);
+		camel_object_trigger_event(mls, "folder_created", info);
 
 		/* this is just so the folder is opened at least once to setup the folder
 		   counts etc in the display.  Joy eh?   The result is discarded. */
@@ -1099,7 +1096,7 @@ static void mail_local_store_remove_folder(MailLocalStore *mls, const char *path
 	LOCAL_STORE_UNLOCK(mls);
 
 	if (data.info) {
-		camel_object_trigger_event((CamelObject *)mls, "folder_deleted", data.info);
+		camel_object_trigger_event(mls, "folder_deleted", data.info);
 
 		g_free(data.info->url);
 		g_free(data.info->full_name);
@@ -1192,7 +1189,7 @@ local_storage_new_folder_cb (EvolutionStorageListener *storage_listener,
 		info.unread_message_count = 0;
 		info.path = (char *)path;
 
-		camel_object_trigger_event((CamelObject *)global_local_store, "folder_created", &info);
+		camel_object_trigger_event(global_local_store, "folder_created", &info);
 		g_free(info.url);
 		camel_url_free(url);
 	}
@@ -1233,18 +1230,19 @@ storage_listener_startup (EvolutionShellClient *shellclient)
 	corba_local_storage_listener = evolution_storage_listener_corba_objref (
 		local_storage_listener);
 
-	gtk_signal_connect (GTK_OBJECT (local_storage_listener),
-			    "destroyed",
-			    GTK_SIGNAL_FUNC (local_storage_destroyed_cb),
-			    corba_storage);
-	gtk_signal_connect (GTK_OBJECT (local_storage_listener),
-			    "new_folder",
-			    GTK_SIGNAL_FUNC (local_storage_new_folder_cb),
-			    corba_storage);
-	gtk_signal_connect (GTK_OBJECT (local_storage_listener),
-			    "removed_folder",
-	 		    GTK_SIGNAL_FUNC (local_storage_removed_folder_cb),
-			    corba_storage);
+	/* FIXME: is this supposed to be destroy? */
+	g_signal_connect(local_storage_listener,
+			 "destroyed",
+			 G_CALLBACK (local_storage_destroyed_cb),
+			 corba_storage);
+	g_signal_connect(local_storage_listener,
+			 "new_folder",
+			 G_CALLBACK (local_storage_new_folder_cb),
+			 corba_storage);
+	g_signal_connect(local_storage_listener,
+			 "removed_folder",
+			 G_CALLBACK (local_storage_removed_folder_cb),
+			 corba_storage);
 
 	CORBA_exception_init (&ev);
 	GNOME_Evolution_Storage_addListener (corba_storage,
@@ -1370,7 +1368,7 @@ reconfigure_folder_free (struct _mail_msg *mm)
 	}
 
 	if (m->folder)
-		camel_object_unref (CAMEL_OBJECT (m->folder));
+		camel_object_unref (m->folder);
 	g_free(m->uri);
 	g_free (m->newtype);
 }
@@ -1383,10 +1381,12 @@ static struct _mail_msg_op reconfigure_folder_op = {
 };
 
 static void
-reconfigure_clicked (GnomeDialog *dialog, int button, struct _reconfigure_msg *m)
+reconfigure_response(GtkDialog *dialog, int button, struct _reconfigure_msg *m)
 {
-	if (button == 0) {
+	switch(button) {
+	case GTK_RESPONSE_OK: {
 		GtkWidget *menu, *item;
+
 		menu = gtk_option_menu_get_menu(m->optionlist);
 		item = gtk_menu_get_active(GTK_MENU(menu));
 		m->newtype = g_strdup(gtk_object_get_data((GtkObject *)item, "type"));
@@ -1397,21 +1397,24 @@ reconfigure_clicked (GnomeDialog *dialog, int button, struct _reconfigure_msg *m
 		gtk_widget_set_sensitive (m->cancel, FALSE);
 		
 		e_thread_put (mail_thread_queued, (EMsg *)m);
-	} else {
+		break; }
+	case GTK_RESPONSE_CANCEL:
+	default:
 		if (m->done)
 			m->done(m->uri, NULL, m->done_data);
 		mail_msg_free ((struct _mail_msg *)m);
+		break;
 	}
-	
-	if (button != -1)
-		gnome_dialog_close (dialog);
+
+	gtk_widget_destroy((GtkWidget *)dialog);
+	g_object_unref(dialog);
 }
 
 static void
 reconfigure_got_folder(char *uri, CamelFolder *folder, void *data)
 {
 	GladeXML *gui;
-	GnomeDialog *gd;
+	GtkDialog *gd;
 	struct _reconfigure_msg *m = data;
 	char *title;
 	GList *p;
@@ -1440,8 +1443,8 @@ reconfigure_got_folder(char *uri, CamelFolder *folder, void *data)
 		return;
 	}
 	
-	gui = glade_xml_new (EVOLUTION_GLADEDIR "/local-config.glade", "dialog_format");
-	gd = (GnomeDialog *)glade_xml_get_widget (gui, "dialog_format");
+	gui = glade_xml_new (EVOLUTION_GLADEDIR "/local-config.glade", "dialog_format", NULL);
+	gd = (GtkDialog *)glade_xml_get_widget (gui, "dialog_format");
 	
 	title = g_strdup_printf (_("Reconfigure /%s"),
 				 camel_folder_get_full_name (folder));
@@ -1477,7 +1480,7 @@ reconfigure_got_folder(char *uri, CamelFolder *folder, void *data)
 			label = g_strdup_printf("%s (%s)", cp->protocol, _(cp->name));
 			item = gtk_menu_item_new_with_label(label);
 			g_free(label);
-			gtk_object_set_data((GtkObject *)item, "type", cp->protocol);
+			g_object_set_data(G_OBJECT(item), "type", cp->protocol);
 			gtk_widget_show(item);
 			gtk_menu_append(GTK_MENU(menu), item);
 			index++;
@@ -1492,8 +1495,8 @@ reconfigure_got_folder(char *uri, CamelFolder *folder, void *data)
 	gtk_label_set_text ((GtkLabel *)glade_xml_get_widget (gui, "label_format"),
 			    MAIL_LOCAL_FOLDER (folder)->meta->format);
 	
-	gtk_signal_connect (GTK_OBJECT (gd), "clicked", reconfigure_clicked, m);
-	gtk_object_unref (GTK_OBJECT (gui));
+	g_signal_connect(gd, "response", G_CALLBACK(reconfigure_response), m);
+	g_object_unref(gui);
 	
 	g_hash_table_insert (reconfigure_folder_hash, (gpointer) folder, (gpointer) gd);
 	

@@ -20,7 +20,6 @@
  *
  */
 
-
 #ifdef HAVE_CONFIG_H
 #include <config.h>
 #endif
@@ -36,14 +35,13 @@
 #include <libgnomeui/gnome-pixmap.h>
 
 #include <gal/widgets/e-unicode.h>
-#include <gal/util/e-unicode-i18n.h>
 
 #include "message-tag-followup.h"
 #include "mail-config.h"
 
 static void message_tag_followup_class_init (MessageTagFollowUpClass *class);
 static void message_tag_followup_init (MessageTagFollowUp *followup);
-static void message_tag_followup_finalise (GtkObject *obj);
+static void message_tag_followup_finalise (GObject *obj);
 
 static CamelTag *get_tag_list (MessageTagEditor *editor);
 static void set_tag_list (MessageTagEditor *editor, CamelTag *tags);
@@ -69,23 +67,23 @@ static int num_available_flags = sizeof (available_flags) / sizeof (available_fl
 static MessageTagEditorClass *parent_class = NULL;
 
 
-GtkType
+GType
 message_tag_followup_get_type (void)
 {
-	static GtkType type = 0;
+	static GType type = 0;
 	
 	if (!type) {
-		GtkTypeInfo type_info = {
-			"MessageTagFollowUp",
-			sizeof (MessageTagFollowUp),
+		GTypeInfo type_info = {
 			sizeof (MessageTagFollowUpClass),
-			(GtkClassInitFunc) message_tag_followup_class_init,
-			(GtkObjectInitFunc) message_tag_followup_init,
-			(GtkArgSetFunc) NULL,
-			(GtkArgGetFunc) NULL
+			NULL, NULL,
+			(GClassInitFunc) message_tag_followup_class_init,
+			NULL, NULL,
+			sizeof (MessageTagFollowUp),
+			0,
+			(GInstanceInitFunc) message_tag_followup_init,
 		};
 		
-		type = gtk_type_unique (message_tag_editor_get_type (), &type_info);
+		type = g_type_register_static (message_tag_editor_get_type (), "MessageTagFollowUp", &type_info, 0);
 	}
 	
 	return type;
@@ -94,12 +92,12 @@ message_tag_followup_get_type (void)
 static void
 message_tag_followup_class_init (MessageTagFollowUpClass *klass)
 {
-	GtkObjectClass *object_class;
+	GObjectClass *object_class;
 	MessageTagEditorClass *editor_class;
 	
-	object_class = (GtkObjectClass *) klass;
+	object_class = (GObjectClass *) klass;
 	editor_class = (MessageTagEditorClass *) klass;
-	parent_class = gtk_type_class (message_tag_editor_get_type ());
+	parent_class = g_type_class_ref(message_tag_editor_get_type ());
 	
 	object_class->finalize = message_tag_followup_finalise;
 	
@@ -119,13 +117,13 @@ message_tag_followup_init (MessageTagFollowUp *editor)
 
 
 static void
-message_tag_followup_finalise (GtkObject *obj)
+message_tag_followup_finalise (GObject *obj)
 {
 	MessageTagFollowUp *editor = (MessageTagFollowUp *) obj;
 	
 	editor->completed_date = 0;
 	
-        ((GtkObjectClass *)(parent_class))->finalize (obj);
+        ((GObjectClass *)(parent_class))->finalize (obj);
 }
 
 
@@ -137,9 +135,7 @@ get_tag_list (MessageTagEditor *editor)
 	time_t date;
 	char *text;
 	
-	text = e_utf8_gtk_entry_get_text (GTK_ENTRY (followup->combo->entry));
-	camel_tag_set (&tags, "follow-up", text);
-	g_free (text);
+	camel_tag_set(&tags, "follow-up", gtk_entry_get_text(GTK_ENTRY(followup->combo->entry)));
 	
 	date = e_date_edit_get_time (followup->target_date);
 	if (date != (time_t) -1) {
@@ -170,7 +166,7 @@ set_tag_list (MessageTagEditor *editor, CamelTag *tags)
 	
 	text = camel_tag_get (&tags, "follow-up");
 	if (text)
-		e_utf8_gtk_entry_set_text (GTK_ENTRY (followup->combo->entry), text);
+		gtk_entry_set_text(GTK_ENTRY (followup->combo->entry), text);
 	
 	text = camel_tag_get (&tags, "due-by");
 	if (text && *text) {
@@ -246,12 +242,12 @@ construct (MessageTagEditor *editor)
 	gtk_window_set_title (GTK_WINDOW (editor), _("Flag to Follow Up"));
 	gnome_window_icon_set_from_file (GTK_WINDOW (editor), EVOLUTION_IMAGES "/flag-for-followup-16.png");
 	
-	gui = glade_xml_new (EVOLUTION_GLADEDIR "/message-tags.glade", "followup_editor");
+	gui = glade_xml_new (EVOLUTION_GLADEDIR "/message-tags.glade", "followup_editor", NULL);
 	
 	widget = glade_xml_get_widget (gui, "toplevel");
 	
 	/* reparent */
-	gtk_widget_reparent (widget, GNOME_DIALOG (editor)->vbox);
+	gtk_widget_reparent (widget, GTK_DIALOG (editor)->vbox);
 	
 	widget = glade_xml_get_widget (gui, "pixmap");
 	gnome_pixmap_load_file (GNOME_PIXMAP (widget), EVOLUTION_GLADEDIR "/flag-for-followup-48.png");
@@ -271,14 +267,12 @@ construct (MessageTagEditor *editor)
 	e_date_edit_set_time (followup->target_date, (time_t) -1);
 	
 	followup->completed = GTK_TOGGLE_BUTTON (glade_xml_get_widget (gui, "completed"));
-	gtk_signal_connect (GTK_OBJECT (followup->completed), "toggled",
-			    completed_toggled, followup);
+	g_signal_connect(followup->completed, "toggled", G_CALLBACK(completed_toggled), followup);
 	
 	followup->clear = GTK_BUTTON (glade_xml_get_widget (gui, "clear"));
-	gtk_signal_connect (GTK_OBJECT (followup->clear), "clicked",
-			    clear_clicked, followup);
+	g_signal_connect(followup->clear, "clicked", G_CALLBACK(clear_clicked), followup);
 	
-	gtk_object_unref (GTK_OBJECT (gui));
+	g_object_unref((gui));
 }
 
 MessageTagEditor *
@@ -286,7 +280,7 @@ message_tag_followup_new (void)
 {
 	MessageTagEditor *editor;
 	
-	editor = (MessageTagEditor *) gtk_type_new (message_tag_followup_get_type ());
+	editor = (MessageTagEditor *) g_object_new (message_tag_followup_get_type (), NULL);
 	construct (editor);
 	
 	return editor;
@@ -301,12 +295,9 @@ message_tag_followup_append_message (MessageTagFollowUp *editor,
 	
 	g_return_if_fail (IS_MESSAGE_TAG_FOLLOWUP (editor));
 	
-	text[0] = e_utf8_to_gtk_string (GTK_WIDGET (editor->message_list), from);
-	text[1] = e_utf8_to_gtk_string (GTK_WIDGET (editor->message_list), subject);
+	text[0] = (char *)from;
+	text[1] = (char *)subject;
 	text[2] = NULL;
 	
 	gtk_clist_append (editor->message_list, text);
-	
-	g_free (text[0]);
-	g_free (text[1]);
 }

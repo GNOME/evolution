@@ -24,6 +24,7 @@
 #include <config.h>
 #endif
 
+#include <string.h>
 #include <sys/types.h>
 #include <dirent.h>
 #include <gmodule.h>
@@ -79,16 +80,14 @@ mail_importer_create_folder (const char *parent_path,
 	g_return_if_fail (listener != NULL);
 	g_return_if_fail (BONOBO_IS_LISTENER (listener));
 
-	path = g_concat_dir_and_file (parent_path, name);
-	physical = g_strdup_printf ("file://%s/local/%s", evolution_dir,
-				    parent_path);
+	path = g_build_filename(parent_path, name, NULL);
+	physical = g_strdup_printf ("file://%s/local/%s", evolution_dir, parent_path);
 
 	corba_listener = bonobo_object_corba_objref (BONOBO_OBJECT (listener));
 
 	/* Darn CORBA wanting non-NULL values for strings */
 	real_description = CORBA_string_dup (description ? description : "");
 
-	
 	CORBA_exception_init (&ev);
 	GNOME_Evolution_Storage_asyncCreateFolder (local_storage, 
 						   path, "mail", 
@@ -117,12 +116,10 @@ mail_importer_add_line (MailImporter *importer,
 	CamelMessageInfo *info;
 	CamelException *ex;
 	
-	if (importer->mstream == NULL) {
+	if (importer->mstream == NULL)
 		importer->mstream = CAMEL_STREAM_MEM (camel_stream_mem_new ());
-	}
 
-	camel_stream_write (CAMEL_STREAM (importer->mstream), str, 
-			    strlen (str));
+	camel_stream_write (CAMEL_STREAM (importer->mstream), str,  strlen (str));
 	
 	if (finished == FALSE)
 		return;
@@ -135,12 +132,12 @@ mail_importer_add_line (MailImporter *importer,
 	camel_data_wrapper_construct_from_stream (CAMEL_DATA_WRAPPER (msg),
 						  CAMEL_STREAM (importer->mstream));
 	
-	camel_object_unref (CAMEL_OBJECT (importer->mstream));
+	camel_object_unref (importer->mstream);
 	importer->mstream = NULL;
 
 	ex = camel_exception_new ();
 	camel_folder_append_message (importer->folder, msg, info, NULL, ex);
-	camel_object_unref (CAMEL_OBJECT (msg));
+	camel_object_unref (msg);
 
 	camel_exception_free (ex);
 	g_free (info);
@@ -167,7 +164,7 @@ get_importer_list (void)
 		if (!ext || strcmp (ext, ".so") != 0)
 			continue;
 
-		path = g_concat_dir_and_file (MAIL_IMPORTERSDIR, d->d_name);
+		path = g_build_filename (MAIL_IMPORTERSDIR, d->d_name, NULL);
 		importers_ret = g_list_prepend (importers_ret, path);
 	}
 

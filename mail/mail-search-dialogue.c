@@ -24,35 +24,39 @@
 
 #include <glib.h>
 #include <gtk/gtkentry.h>
+#include <gtk/gtkdialog.h>
+#include <gtk/gtkstock.h>
+#include <gtk/gtkbox.h>
 #include <libgnome/gnome-defs.h>
 #include <libgnome/gnome-i18n.h>
-#include <libgnomeui/gnome-stock.h>
 
 #include "mail-search-dialogue.h"
 
 static void mail_search_dialogue_class_init	(MailSearchDialogueClass *class);
 static void mail_search_dialogue_init	(MailSearchDialogue *gspaper);
-static void mail_search_dialogue_finalise	(GtkObject *obj);
+static void mail_search_dialogue_finalise	(GObject *obj);
 
-static GnomeDialogClass *parent_class;
+static GtkDialogClass *parent_class;
 
 guint
 mail_search_dialogue_get_type (void)
 {
-	static guint type = 0;
+	static GType type = 0;
 	
 	if (!type) {
-		GtkTypeInfo type_info = {
-			"MailSearchDialogue",
-			sizeof(MailSearchDialogue),
+		GTypeInfo type_info = {
 			sizeof(MailSearchDialogueClass),
-			(GtkClassInitFunc)mail_search_dialogue_class_init,
+			NULL,
+			NULL,
+			(GClassInitFunc)mail_search_dialogue_class_init,
+			NULL,
+			NULL,
+			sizeof(MailSearchDialogue),
+			0,
 			(GtkObjectInitFunc)mail_search_dialogue_init,
-			(GtkArgSetFunc)NULL,
-			(GtkArgGetFunc)NULL
 		};
 		
-		type = gtk_type_unique (gnome_dialog_get_type (), &type_info);
+		type = g_type_register_static (gtk_dialog_get_type (), "MailSearchDialogue", &type_info, 0);
 	}
 	
 	return type;
@@ -61,10 +65,10 @@ mail_search_dialogue_get_type (void)
 static void
 mail_search_dialogue_class_init (MailSearchDialogueClass *class)
 {
-	GtkObjectClass *object_class;
+	GObjectClass *object_class;
 	
-	object_class = (GtkObjectClass *)class;
-	parent_class = gtk_type_class (gnome_dialog_get_type ());
+	object_class = (GObjectClass *)class;
+	parent_class = g_type_class_ref(gtk_dialog_get_type ());
 
 	object_class->finalize = mail_search_dialogue_finalise;
 	/* override methods */
@@ -75,10 +79,13 @@ static void
 mail_search_dialogue_construct (MailSearchDialogue *o, FilterRule *rule)
 {
 	FilterPart *part;
-	GnomeDialog *dialogue = GNOME_DIALOG (o);
+	GtkDialog *dialogue = GTK_DIALOG (o);
 	
-	gtk_window_set_policy (GTK_WINDOW (dialogue), FALSE, TRUE, FALSE);
-	gtk_window_set_default_size (GTK_WINDOW (dialogue), 500, 400);
+	g_object_set(dialogue,
+		     "allow_shrink", FALSE,
+		     "allow_grow", TRUE,
+		     "default_width", 500,
+		     "default_height", 400, NULL);
 	
 	o->context = rule_context_new ();
 	rule_context_add_part_set (o->context, "partset", filter_part_get_type (),
@@ -106,28 +113,31 @@ mail_search_dialogue_construct (MailSearchDialogue *o, FilterRule *rule)
 static void
 mail_search_dialogue_init (MailSearchDialogue *o)
 {
-	GnomeDialog *dialogue = GNOME_DIALOG (o);
+	GtkDialog *dialogue = GTK_DIALOG (o);
 	
-	gnome_dialog_append_buttons (dialogue,
-				     GNOME_STOCK_BUTTON_OK,
-				     _("_Search"),
-				     GNOME_STOCK_BUTTON_CANCEL,
-				     NULL);
-	gnome_dialog_set_default (dialogue, 0);
+	gtk_dialog_add_buttons (dialogue,
+				GTK_STOCK_OK,
+				GTK_RESPONSE_OK,
+				_("_Search"),
+				GTK_RESPONSE_APPLY,
+				GTK_STOCK_CANCEL,
+				GTK_RESPONSE_CANCEL,
+				NULL);
+	gtk_dialog_set_default_response (dialogue, GTK_RESPONSE_OK);
 }
 
 
 static void
-mail_search_dialogue_finalise (GtkObject *obj)
+mail_search_dialogue_finalise (GObject *obj)
 {
 	MailSearchDialogue *o = (MailSearchDialogue *)obj;
 	
 	if (o->context)
-		gtk_object_unref (GTK_OBJECT (o->context));
+		g_object_unref(o->context);
 	if (o->rule)
-		gtk_object_unref (GTK_OBJECT (o->rule));
+		g_object_unref(o->rule);
 	
-        ((GtkObjectClass *)(parent_class))->finalize(obj);
+        ((GObjectClass *)(parent_class))->finalize(obj);
 }
 
 /**
@@ -140,7 +150,7 @@ mail_search_dialogue_finalise (GtkObject *obj)
 MailSearchDialogue *
 mail_search_dialogue_new ()
 {
-	MailSearchDialogue *o = (MailSearchDialogue *)gtk_type_new (mail_search_dialogue_get_type ());
+	MailSearchDialogue *o = (MailSearchDialogue *)g_object_new(mail_search_dialogue_get_type(), NULL);
 	mail_search_dialogue_construct (o, NULL);
 	return o;
 }
@@ -148,9 +158,9 @@ mail_search_dialogue_new ()
 MailSearchDialogue *
 mail_search_dialogue_new_with_rule (FilterRule *rule)
 {
-	MailSearchDialogue *o = (MailSearchDialogue *)gtk_type_new (mail_search_dialogue_get_type ());
+	MailSearchDialogue *o = (MailSearchDialogue *)g_object_new (mail_search_dialogue_get_type (), NULL);
 	if (rule)
-		gtk_object_ref (GTK_OBJECT (rule));
+		g_object_ref((rule));
 	mail_search_dialogue_construct (o, rule);
 	return o;
 }

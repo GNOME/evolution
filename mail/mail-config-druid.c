@@ -54,7 +54,7 @@
 #include <evolution-wizard.h>
 
 static void mail_config_druid_class_init (MailConfigDruidClass *class);
-static void mail_config_druid_finalize   (GtkObject *obj);
+static void mail_config_druid_destroy    (GtkObject *obj);
 
 static GtkWindowClass *parent_class;
 
@@ -88,20 +88,20 @@ typedef struct {
 GtkType
 mail_config_druid_get_type (void)
 {
-	static GtkType type = 0;
+	static GType type = 0;
 	
 	if (!type) {
-		GtkTypeInfo type_info = {
-			"MailConfigDruid",
-			sizeof (MailConfigDruid),
+		GTypeInfo type_info = {
 			sizeof (MailConfigDruidClass),
-			(GtkClassInitFunc) mail_config_druid_class_init,
-			(GtkObjectInitFunc) NULL,
-			(GtkArgSetFunc) NULL,
-			(GtkArgGetFunc) NULL
+			NULL, NULL,
+			(GClassInitFunc) mail_config_druid_class_init,
+			NULL, NULL,
+			sizeof (MailConfigDruid),
+			0,
+			(GInstanceInitFunc) NULL,
 		};
-		
-		type = gtk_type_unique (gtk_window_get_type (), &type_info);
+
+		type = g_type_register_static (gtk_window_get_type (), "MailConfigDruid", &type_info, 0);
 	}
 	
 	return type;
@@ -113,28 +113,33 @@ mail_config_druid_class_init (MailConfigDruidClass *class)
 	GtkObjectClass *object_class;
 	
 	object_class = (GtkObjectClass *) class;
-	parent_class = gtk_type_class (gtk_window_get_type ());
+	parent_class = g_type_class_ref(gtk_window_get_type ());
 	
 	/* override methods */
-	object_class->finalize = mail_config_druid_finalize;
+	object_class->destroy = mail_config_druid_destroy;
 }
 
 static void
-mail_config_druid_finalize (GtkObject *obj)
+mail_config_druid_destroy (GtkObject *obj)
 {
 	MailConfigDruid *druid = (MailConfigDruid *) obj;
 	CORBA_Environment ev;
 
-	gtk_object_destroy (GTK_OBJECT (druid->xml));
+	if (druid->xml) {
+		gtk_object_destroy (GTK_OBJECT (druid->xml));
+		g_object_unref(druid->xml);
+		druid->xml = NULL;
 	
-	CORBA_exception_init (&ev);
-	Bonobo_EventSource_removeListener ((Bonobo_EventSource) druid->event_source, druid->id, &ev);
-	CORBA_exception_free (&ev);
+		CORBA_exception_init (&ev);
+		Bonobo_EventSource_removeListener ((Bonobo_EventSource) druid->event_source,
+						   bonobo_object_corba_objref(BONOBO_OBJECT(druid->listener)), &ev);
+		CORBA_exception_free (&ev);
 
-	bonobo_object_release_unref ((Bonobo_Unknown) druid->event_source, &ev);
-	bonobo_object_unref (BONOBO_OBJECT (druid->listener));
+		bonobo_object_release_unref ((Bonobo_Unknown) druid->event_source, &ev);
+		bonobo_object_unref (BONOBO_OBJECT (druid->listener));
+	}
 
-        ((GtkObjectClass *)(parent_class))->finalize (obj);
+        ((GtkObjectClass *)(parent_class))->destroy(obj);
 }
 
 
@@ -212,7 +217,7 @@ druid_finish (GnomeDruidPage *page, gpointer arg1, gpointer user_data)
 {
 	MailConfigDruid *druid = user_data;
 
-	gtk_object_set_data (GTK_OBJECT (account_wizard), "account-data", NULL);
+	g_object_set_data(G_OBJECT(account_wizard), "account-data", NULL);
 	if (page_list != NULL) {
 		g_list_free (page_list);
 		page_list = NULL;
@@ -270,12 +275,13 @@ identity_next (EvolutionWizard *wizard, gpointer data)
 	
 	if (!gui->identity_copied) {
 		char *username;
-		
+		const char *user;
+
 		/* Copy the username part of the email address into
 		 * the Username field of the source and transport pages.
 		 */
-		username = gtk_entry_get_text (gui->gui->email_address);
-		username = g_strndup (username, strcspn (username, "@"));
+		user = gtk_entry_get_text (gui->gui->email_address);
+		username = g_strndup (user, strcspn (user, "@"));
 		gtk_entry_set_text (gui->gui->source.username, username);
 		gtk_entry_set_text (gui->gui->transport.username, username);
 		g_free (username);
@@ -395,7 +401,7 @@ static gboolean
 management_check (MailConfigWizard *wizard)
 {
 	gboolean next_sensitive;
-	char *text;
+	const char *text;
 	
 	text = gtk_entry_get_text (wizard->gui->account_name);
 	next_sensitive = text && *text;
@@ -419,7 +425,7 @@ management_prepare (EvolutionWizard *wizard, gpointer data)
 	
 	text = gtk_entry_get_text (gui->gui->account_name);
 	if (!text || *text == '\0') {
-		name = e_utf8_gtk_entry_get_text (gui->gui->email_address);
+		name = gtk_entry_get_text(gui->gui->email_address);
 		if (name && *name) {
 			if (mail_config_get_account_by_name (name)) {
 				char *template;
@@ -437,7 +443,7 @@ management_prepare (EvolutionWizard *wizard, gpointer data)
 				} while (mail_config_get_account_by_name (name) && i != 0);
 			}
 			
-			e_utf8_gtk_entry_set_text (gui->gui->account_name, name);
+			gtk_entry_set_text(gui->gui->account_name, name);
 		}
 	}
 	
@@ -461,7 +467,7 @@ static MailConfigAccount *
 make_account (void)
 {
 	MailConfigAccount *account;
-	char *name, *user;
+	const char *name, *user;
 	struct utsname uts;
 	
 	account = g_new0 (MailConfigAccount, 1);
@@ -599,7 +605,8 @@ wizard_listener_event (BonoboListener *listener,
 		gnome_druid_set_buttons_sensitive (GNOME_DRUID (druid->druid),
 						   (buttons & 4) >> 2,
 						   (buttons & 2) >> 1,
-						   (buttons & 1));
+						   (buttons & 1),
+						   FALSE);
 	} else if (strcmp (event_name, EVOLUTION_WIZARD_SET_SHOW_FINISH) == 0) {
 		gnome_druid_set_show_finish (GNOME_DRUID (druid->druid),
 					     (gboolean) *((CORBA_boolean *)event_data->_value));
@@ -622,11 +629,11 @@ construct (MailConfigDruid *druid)
 
 	/* Start account wizard */
 	CORBA_exception_init (&ev);
-	corba_wizard = oaf_activate_from_id ("OAFIID:GNOME_Evolution_Mail_Wizard", 0, NULL, &ev);
+	corba_wizard = bonobo_activation_activate_from_id ("OAFIID:GNOME_Evolution_Mail_Wizard", 0, NULL, &ev);
 	CORBA_exception_free (&ev);
 	g_assert (account_wizard != NULL);
 	
-	druid->xml = glade_xml_new (EVOLUTION_GLADEDIR "/mail-config.glade", NULL);
+	druid->xml = glade_xml_new (EVOLUTION_GLADEDIR "/mail-config.glade", NULL, NULL);
 	/* get our toplevel widget and reparent it */
 	widget = glade_xml_get_widget (druid->xml, "druid");
 	gtk_widget_reparent (widget, GTK_WIDGET (druid));
@@ -637,17 +644,17 @@ construct (MailConfigDruid *druid)
 	gtk_window_set_title (GTK_WINDOW (druid), _("Evolution Account Assistant"));
 	gtk_window_set_policy (GTK_WINDOW (druid), FALSE, TRUE, FALSE);
 	gtk_window_set_modal (GTK_WINDOW (druid), FALSE);
-	gtk_object_set (GTK_OBJECT (druid), "type", GTK_WINDOW_DIALOG, NULL);
+	gtk_object_set (GTK_OBJECT (druid), "type", GTK_WINDOW_TOPLEVEL, NULL);
 
 	druid->listener = bonobo_listener_new (NULL, NULL);
-	gtk_signal_connect (GTK_OBJECT (druid->listener), "event-notify",
-			    GTK_SIGNAL_FUNC (wizard_listener_event), druid);
+	g_signal_connect(druid->listener, "event-notify",
+			 G_CALLBACK (wizard_listener_event), druid);
 	corba_listener = bonobo_object_corba_objref (BONOBO_OBJECT (druid->listener));
 	CORBA_exception_init (&ev);
 	druid->event_source = (Bonobo_Unknown) bonobo_object_query_interface (
-		BONOBO_OBJECT (account_wizard), "IDL:Bonobo/EventSource:1.0");
+		BONOBO_OBJECT (account_wizard), "IDL:Bonobo/EventSource:1.0", NULL);
 	g_assert (druid->event_source != CORBA_OBJECT_NIL);
-	druid->id = Bonobo_EventSource_addListener ((Bonobo_EventSource) druid->event_source, corba_listener, &ev);
+	Bonobo_EventSource_addListener ((Bonobo_EventSource) druid->event_source, corba_listener, &ev);
 	if (BONOBO_EX (&ev)) {
 		g_warning ("Error adding listener (%s)",
 			   CORBA_exception_id (&ev));
@@ -667,15 +674,10 @@ construct (MailConfigDruid *druid)
 		g_hash_table_insert (page_hash, page, GINT_TO_POINTER (i));
 		page_list = g_list_append (page_list, page);
 
-		gtk_signal_connect (GTK_OBJECT (page), "next",
-				    GTK_SIGNAL_FUNC (next_func), druid);
-		gtk_signal_connect (GTK_OBJECT (page), "prepare",
-				    GTK_SIGNAL_FUNC (prepare_func), druid);
-		gtk_signal_connect (GTK_OBJECT (page), "back",
-				    GTK_SIGNAL_FUNC (back_func), druid);
-	
-		gtk_signal_connect (GTK_OBJECT (page), "finish", 
-				    GTK_SIGNAL_FUNC (finish_func), druid);
+		g_signal_connect(page, "next", G_CALLBACK (next_func), druid);
+		g_signal_connect(page, "prepare", G_CALLBACK (prepare_func), druid);
+		g_signal_connect(page, "back", G_CALLBACK (back_func), druid);
+		g_signal_connect(page, "finish", G_CALLBACK (finish_func), druid);
 
 		if (i !=  5) {
 			Bonobo_Control control;
@@ -687,22 +689,19 @@ construct (MailConfigDruid *druid)
 			CORBA_exception_init (&ev);
 			control = GNOME_Evolution_Wizard_getControl (corba_wizard, i, &ev);
 			if (BONOBO_EX (&ev)) {
-				g_warning ("Error getting page %d: %s", i, 
-					   CORBA_exception_id (&ev));
+				g_warning ("Error getting page %d: %s", i, CORBA_exception_id (&ev));
 				CORBA_exception_free (&ev);
 				continue;
 			}
 
-			w = bonobo_widget_new_control_from_objref (control,
-								   CORBA_OBJECT_NIL);
-			gtk_box_pack_start (GTK_BOX (dpage->vbox), w, TRUE,
-					    TRUE, 0);
+			w = bonobo_widget_new_control_from_objref (control, CORBA_OBJECT_NIL);
+			gtk_box_pack_start (GTK_BOX (dpage->vbox), w, TRUE, TRUE, 0);
 			gtk_widget_show_all (w);
 		}
 	}
-	gtk_signal_connect (GTK_OBJECT (druid->druid), "cancel", druid_cancel, druid);
+	g_signal_connect(druid->druid, "cancel", G_CALLBACK(druid_cancel), druid);
 
-	gnome_druid_set_buttons_sensitive (druid->druid, FALSE, TRUE, TRUE);
+	gnome_druid_set_buttons_sensitive (druid->druid, FALSE, TRUE, TRUE, FALSE);
 }
 
 MailConfigDruid *
@@ -710,7 +709,7 @@ mail_config_druid_new (GNOME_Evolution_Shell shell)
 {
 	MailConfigDruid *new;
 
-	new = (MailConfigDruid *) gtk_type_new (mail_config_druid_get_type ());
+	new = (MailConfigDruid *) g_object_new(mail_config_druid_get_type(), NULL);
 	construct (new);
 	new->shell = shell;
 
@@ -774,55 +773,35 @@ get_fn (EvolutionWizard *wizard,
         if (gui->gui == NULL) {
 		if (gui->account == NULL) {
 			gui->account = make_account ();
-			gtk_object_set_data (GTK_OBJECT (wizard), "account-data",
-					     gui->account);
+			g_object_set_data(G_OBJECT(wizard), "account-data", gui->account);
 		}
 		
 		gui->gui = mail_account_gui_new (gui->account, NULL);
 		
 		/* set up signals, etc */
-		gtk_signal_connect (GTK_OBJECT (gui->gui->account_name),
-				    "changed", management_changed, gui);
-		gtk_signal_connect (GTK_OBJECT (gui->gui->full_name), 
-                                    "changed", identity_changed, gui);
-                gtk_signal_connect (GTK_OBJECT (gui->gui->email_address),
-                                    "changed", identity_changed, gui);
-		gtk_signal_connect (GTK_OBJECT (gui->gui->reply_to),
-                                    "changed", identity_changed, gui);
-		gtk_signal_connect (GTK_OBJECT (gui->gui->source.hostname), 
-				    "changed", source_changed, gui);
-		gtk_signal_connect (GTK_OBJECT (gui->gui->source.username),
-				    "changed", source_changed, gui);
-		gtk_signal_connect (GTK_OBJECT (gui->gui->source.path), 
-				    "changed", source_changed, gui);
-		gtk_signal_connect (GTK_OBJECT (gui->gui->transport.hostname),
-				    "changed", transport_changed, gui);
-		gtk_signal_connect (GTK_OBJECT (gui->gui->transport.username),
-				    "changed", transport_changed, gui);
+		g_signal_connect(gui->gui->account_name, "changed", G_CALLBACK(management_changed), gui);
+		g_signal_connect(gui->gui->full_name, "changed", G_CALLBACK(identity_changed), gui);
+                g_signal_connect(gui->gui->email_address, "changed", G_CALLBACK(identity_changed), gui);
+		g_signal_connect(gui->gui->reply_to,"changed", G_CALLBACK(identity_changed), gui);
+		g_signal_connect(gui->gui->source.hostname, "changed", G_CALLBACK(source_changed), gui);
+		g_signal_connect(gui->gui->source.username, "changed", G_CALLBACK(source_changed), gui);
+		g_signal_connect(gui->gui->source.path, "changed", G_CALLBACK(source_changed), gui);
+		g_signal_connect(gui->gui->transport.hostname, "changed", G_CALLBACK(transport_changed), gui);
+		g_signal_connect(gui->gui->transport.username, "changed", G_CALLBACK(transport_changed), gui);
 
-		gtk_signal_connect (GTK_OBJECT (gui->gui->account_name),
-				    "activate", management_activate_cb, gui);
+		g_signal_connect(gui->gui->account_name, "activate", G_CALLBACK(management_activate_cb), gui);
 
-		gtk_signal_connect (GTK_OBJECT (gui->gui->full_name), 
-				    "activate", identity_activate_cb, gui);
-                gtk_signal_connect (GTK_OBJECT (gui->gui->email_address),
-				    "activate", identity_activate_cb, gui);
-                gtk_signal_connect (GTK_OBJECT (gui->gui->reply_to),
-				    "activate", identity_activate_cb, gui);
-                gtk_signal_connect (GTK_OBJECT (gui->gui->organization),
-				    "activate", identity_activate_cb, gui);
+		g_signal_connect(gui->gui->full_name, "activate", G_CALLBACK(identity_activate_cb), gui);
+                g_signal_connect(gui->gui->email_address, "activate", G_CALLBACK(identity_activate_cb), gui);
+                g_signal_connect(gui->gui->reply_to,"activate", G_CALLBACK(identity_activate_cb), gui);
+                g_signal_connect(gui->gui->organization, "activate", G_CALLBACK(identity_activate_cb), gui);
 
-		gtk_signal_connect (GTK_OBJECT (gui->gui->source.hostname), 
-				    "activate", source_activate_cb, gui);
-		gtk_signal_connect (GTK_OBJECT (gui->gui->source.username),
-				    "activate", source_activate_cb, gui);
-		gtk_signal_connect (GTK_OBJECT (gui->gui->source.path), 
-				    "activate", source_activate_cb, gui);
+		g_signal_connect(gui->gui->source.hostname, "activate", G_CALLBACK(source_activate_cb), gui);
+		g_signal_connect(gui->gui->source.username, "activate", G_CALLBACK(source_activate_cb), gui);
+		g_signal_connect(gui->gui->source.path, "activate", G_CALLBACK(source_activate_cb), gui);
 
-		gtk_signal_connect (GTK_OBJECT (gui->gui->transport.hostname),
-				    "activate", transport_activate_cb, gui);
-		gtk_signal_connect (GTK_OBJECT (gui->gui->transport.username),
-				    "activate", transport_activate_cb, gui);
+		g_signal_connect(gui->gui->transport.hostname, "activate", G_CALLBACK(transport_activate_cb), gui);
+		g_signal_connect(gui->gui->transport.username, "activate", G_CALLBACK(transport_activate_cb), gui);
 		first_time = TRUE;
         }
 	
@@ -884,39 +863,40 @@ get_fn (EvolutionWizard *wizard,
 }
 
 typedef gboolean (*NextFunc)(EvolutionWizard *wizard, gpointer data);
+typedef void (*PrepFunc)(EvolutionWizard *wizard, gpointer data);
 
 static struct {
         NextFunc next_func;
-        GtkSignalFunc prepare_func;
+        PrepFunc prepare_func;
         NextFunc back_func;
         GtkSignalFunc finish_func;
         GtkSignalFunc help_func;
 } wizard_pages[] = {
         { identity_next,
-          GTK_SIGNAL_FUNC (identity_prepare),
+          identity_prepare,
           NULL,
-          GTK_SIGNAL_FUNC (NULL),
-          GTK_SIGNAL_FUNC (NULL) },
+          G_CALLBACK (NULL),
+          G_CALLBACK (NULL) },
         { source_next,
-          GTK_SIGNAL_FUNC (source_prepare),
+          source_prepare,
           NULL,
-          GTK_SIGNAL_FUNC (NULL),
-          GTK_SIGNAL_FUNC (NULL) },
+          G_CALLBACK (NULL),
+          G_CALLBACK (NULL) },
         { NULL,
-          GTK_SIGNAL_FUNC (extra_prepare),
+          extra_prepare,
           NULL,
-          GTK_SIGNAL_FUNC (NULL),
-          GTK_SIGNAL_FUNC (NULL) },
+          G_CALLBACK (NULL),
+          G_CALLBACK (NULL) },
         { transport_next,
-          GTK_SIGNAL_FUNC (transport_prepare),
+          transport_prepare,
           transport_back,
-          GTK_SIGNAL_FUNC (NULL),
-          GTK_SIGNAL_FUNC (NULL) },
+          G_CALLBACK (NULL),
+          G_CALLBACK (NULL) },
         { NULL,
-          GTK_SIGNAL_FUNC (management_prepare),
+          management_prepare,
           NULL,
-          GTK_SIGNAL_FUNC (NULL),
-          GTK_SIGNAL_FUNC (NULL) }
+          G_CALLBACK (NULL),
+          G_CALLBACK (NULL) }
 };
 
 static void
@@ -1008,6 +988,7 @@ wizard_free (MailConfigWizard *wizard)
 
 static BonoboObject *
 evolution_mail_config_wizard_factory_fn (BonoboGenericFactory *factory,
+					 const char *id,
 					 void *closure)
 {
 	EvolutionWizard *wizard;
@@ -1026,23 +1007,15 @@ evolution_mail_config_wizard_factory_fn (BonoboGenericFactory *factory,
         wizard = evolution_wizard_new (get_fn, 5, gui);
 	account_wizard = wizard;
 	
-	gtk_object_set_data_full (GTK_OBJECT (account_wizard),
-				  "account-data", gui,
-				  (GtkDestroyNotify) wizard_free);
+	g_object_set_data_full(G_OBJECT(account_wizard), "account-data", gui, (GDestroyNotify) wizard_free);
 	gui->wizard = wizard;
 	
-        gtk_signal_connect (GTK_OBJECT (wizard), "next",
-                            GTK_SIGNAL_FUNC (wizard_next_cb), gui);
-        gtk_signal_connect (GTK_OBJECT (wizard), "prepare",
-                            GTK_SIGNAL_FUNC (wizard_prepare_cb), gui);
-        gtk_signal_connect (GTK_OBJECT (wizard), "back",
-                            GTK_SIGNAL_FUNC (wizard_back_cb), gui);
-        gtk_signal_connect (GTK_OBJECT (wizard), "finish",
-                            GTK_SIGNAL_FUNC (wizard_finish_cb), gui);
-        gtk_signal_connect (GTK_OBJECT (wizard), "cancel",
-                            GTK_SIGNAL_FUNC (wizard_cancel_cb), gui);
-        gtk_signal_connect (GTK_OBJECT (wizard), "help",
-                            GTK_SIGNAL_FUNC (wizard_help_cb), gui);
+        g_signal_connect(wizard, "next", G_CALLBACK (wizard_next_cb), gui);
+        g_signal_connect(wizard, "prepare", G_CALLBACK (wizard_prepare_cb), gui);
+        g_signal_connect(wizard, "back", G_CALLBACK (wizard_back_cb), gui);
+        g_signal_connect(wizard, "finish", G_CALLBACK (wizard_finish_cb), gui);
+        g_signal_connect(wizard, "cancel", G_CALLBACK (wizard_cancel_cb), gui);
+        g_signal_connect(wizard, "help", G_CALLBACK (wizard_help_cb), gui);
 	
         return BONOBO_OBJECT (wizard);
 }

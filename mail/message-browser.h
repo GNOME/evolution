@@ -24,7 +24,7 @@
 #define _MESSAGE_BROWSER_H_
 
 #include <gnome.h>
-#include <bonobo/bonobo-win.h>
+#include <bonobo/bonobo-window.h>
 
 #include <camel/camel-folder.h>
 #include "folder-browser.h"

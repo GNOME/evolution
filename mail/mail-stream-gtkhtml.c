@@ -37,7 +37,7 @@ mail_stream_gtkhtml_class_init (MailStreamGtkHTMLClass *mail_stream_gtkhtml_clas
 	CamelStreamClass *camel_stream_class =
 		CAMEL_STREAM_CLASS (mail_stream_gtkhtml_class);
 	
-	parent_class = CAMEL_STREAM_CLASS (camel_type_get_global_classfuncs (CAMEL_STREAM_TYPE));
+	parent_class = (CamelStreamClass *)CAMEL_STREAM_TYPE;
 	
 	/* virtual method overload */
 	camel_stream_class->write = stream_write;

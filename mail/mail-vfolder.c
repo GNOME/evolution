@@ -15,9 +15,6 @@
 #include <glib.h>
 #include <libgnome/gnome-defs.h>
 #include <libgnome/gnome-i18n.h>
-#include <libgnomeui/gnome-dialog.h>
-#include <libgnomeui/gnome-dialog-util.h>
-#include <libgnomeui/gnome-stock.h>
 
 #include "Evolution.h"
 #include "evolution-storage.h"
@@ -33,7 +30,6 @@
 #include "mail-mt.h"
 
 #include "gal/widgets/e-gui-utils.h"
-#include "gal/util/e-unicode-i18n.h"
 
 #include "camel/camel.h"
 #include "camel/camel-vee-folder.h"
@@ -111,7 +107,7 @@ vfolder_setup_do(struct _mail_msg *mm)
 	l = m->sources_folder;
 	while (l) {
 		d(printf(" Adding folder: %s\n", ((CamelFolder *)l->data)->full_name));
-		camel_object_ref((CamelObject *)l->data);
+		camel_object_ref(l->data);
 		list = g_list_append(list, l->data);
 		l = l->next;
 	}
@@ -120,7 +116,7 @@ vfolder_setup_do(struct _mail_msg *mm)
 
 	l = list;
 	while (l) {
-		camel_object_unref((CamelObject *)l->data);
+		camel_object_unref(l->data);
 		l = l->next;
 	}
 	g_list_free(list);
@@ -140,7 +136,7 @@ vfolder_setup_free (struct _mail_msg *mm)
 	struct _setup_msg *m = (struct _setup_msg *)mm;
 	GList *l;
 
-	camel_object_unref((CamelObject *)m->folder);
+	camel_object_unref(m->folder);
 	g_free(m->query);
 
 	l = m->sources_uri;
@@ -173,7 +169,7 @@ vfolder_setup(CamelFolder *folder, const char *query, GList *sources_uri, GList 
 	
 	m = mail_msg_new(&vfolder_setup_op, NULL, sizeof (*m));
 	m->folder = folder;
-	camel_object_ref((CamelObject *)folder);
+	camel_object_ref(folder);
 	m->query = g_strdup(query);
 	m->sources_uri = sources_uri;
 	m->sources_folder = sources_folder;
@@ -229,7 +225,7 @@ vfolder_adduri_do(struct _mail_msg *mm)
 				camel_vee_folder_add_folder((CamelVeeFolder *)l->data, folder);
 			l = l->next;
 		}
-		camel_object_unref((CamelObject *)folder);
+		camel_object_unref(folder);
 	}
 }
 
@@ -387,7 +383,7 @@ mail_vfolder_add_uri(CamelStore *store, const char *uri, int remove)
 		if (found) {
 			vf = g_hash_table_lookup(vfolder_hash, rule->name);
 			g_assert(vf);
-			camel_object_ref((CamelObject *)vf);
+			camel_object_ref(vf);
 			folders = g_list_prepend(folders, vf);
 		}
 	}
@@ -396,6 +392,12 @@ mail_vfolder_add_uri(CamelStore *store, const char *uri, int remove)
 	
 	if (folders != NULL)
 		vfolder_adduri(uri, folders, remove);
+}
+
+static void
+close_dialogue(GtkDialog *gd, int response)
+{
+	g_object_unref(gd);
 }
 
 /* called when a uri is deleted from a store */
@@ -429,9 +431,10 @@ mail_vfolder_delete_uri(CamelStore *store, const char *uri)
 			if (uri_cmp(uri, source)) {
 				vf = g_hash_table_lookup(vfolder_hash, rule->name);
 				g_assert(vf);
-				gtk_signal_disconnect_by_func((GtkObject *)rule, rule_changed, vf);
+				g_signal_handlers_disconnect_matched(rule, G_SIGNAL_MATCH_FUNC|G_SIGNAL_MATCH_DATA, 0,
+								     0, NULL, rule_changed, vf);
 				vfolder_rule_remove_source((VfolderRule *)rule, source);
-				gtk_signal_connect((GtkObject *)rule, "changed", rule_changed, vf);
+				g_signal_connect(rule, "changed", G_CALLBACK(rule_changed), vf);
 				g_string_sprintfa(changed, "    %s\n", rule->name);
 				source = NULL;
 			}
@@ -441,17 +444,15 @@ mail_vfolder_delete_uri(CamelStore *store, const char *uri)
 	UNLOCK();
 
 	if (changed->str[0]) {
-		GnomeDialog *gd;
-		char *text, *user;
+		GtkDialog *gd;
+		char *user;
 
-		text = g_strdup_printf(_("The following vFolder(s):\n%s"
-					 "Used the removed folder:\n    '%s'\n"
-					 "And have been updated."),
-				       changed->str, uri);
-
-		gd = (GnomeDialog *)gnome_warning_dialog(text);
-		g_free(text);
-		gnome_dialog_set_close(gd, TRUE);
+		gd = (GtkDialog *)gtk_message_dialog_new(NULL, 0, GTK_MESSAGE_INFO, GTK_BUTTONS_OK,
+							 _("The following vFolder(s):\n%s"
+							   "Used the removed folder:\n    '%s'\n"
+							   "And have been updated."),
+							 changed->str, uri);
+		g_signal_connect(gd, "response", G_CALLBACK(close_dialogue), NULL);
 		gtk_widget_show((GtkWidget *)gd);
 
 		user = g_strdup_printf("%s/vfolders.xml", evolution_dir);
@@ -492,10 +493,11 @@ mail_vfolder_rename_uri(CamelStore *store, const char *from, const char *to)
 				d(printf("Vfolder '%s' used '%s' ('%s') now uses '%s'\n", rule->name, source, from, to));
 				vf = g_hash_table_lookup(vfolder_hash, rule->name);
 				g_assert(vf);
-				gtk_signal_disconnect_by_func((GtkObject *)rule, rule_changed, vf);
+				g_signal_handlers_disconnect_matched(rule, G_SIGNAL_MATCH_FUNC|G_SIGNAL_MATCH_DATA, 0,
+								     0, NULL, rule_changed, vf);
 				vfolder_rule_remove_source((VfolderRule *)rule, source);
 				vfolder_rule_add_source((VfolderRule *)rule, to);
-				gtk_signal_connect((GtkObject *)rule, "changed", rule_changed, vf);
+				g_signal_connect(rule, "changed", G_CALLBACK(rule_changed), vf);
 				changed++;
 				source = NULL;
 			}
@@ -607,7 +609,7 @@ static void context_rule_added(RuleContext *ctx, FilterRule *rule)
 	/* this always runs quickly */
 	folder = camel_store_get_folder(vfolder_store, rule->name, 0, NULL);
 	if (folder) {
-		gtk_signal_connect((GtkObject *)rule, "changed", rule_changed, folder);
+		g_signal_connect(rule, "changed", G_CALLBACK(rule_changed), folder);
 
 		LOCK();
 		g_hash_table_insert(vfolder_hash, g_strdup(rule->name), folder);
@@ -673,10 +675,11 @@ store_folder_deleted(CamelObject *o, void *event_data, void *data)
 	rule = rule_context_find_rule((RuleContext *)context, info->full_name, NULL);
 	if (rule) {
 		/* We need to stop listening to removed events, otherwise we'll try and remove it again */
-		gtk_signal_disconnect_by_func((GtkObject *)context, context_rule_removed, context);
+		g_signal_handlers_disconnect_matched(context, G_SIGNAL_MATCH_FUNC|G_SIGNAL_MATCH_DATA, 0,
+						     0, NULL, context_rule_removed, context);
 		rule_context_remove_rule((RuleContext *)context, rule);
-		gtk_object_unref((GtkObject *)rule);
-		gtk_signal_connect((GtkObject *)context, "rule_removed", context_rule_removed, context);
+		g_object_unref(rule);
+		g_signal_connect(context, "rule_removed", G_CALLBACK(context_rule_removed), context);
 
 		user = g_strdup_printf("%s/vfolders.xml", evolution_dir);
 		rule_context_save((RuleContext *)context, user);
@@ -714,10 +717,10 @@ store_folder_renamed(CamelObject *o, void *event_data, void *data)
 
 		rule = rule_context_find_rule((RuleContext *)context, info->old_base, NULL);
 		g_assert(rule);
-
-		gtk_signal_disconnect_by_func((GtkObject *)rule, rule_changed, folder);
+		g_signal_handlers_disconnect_matched(rule, G_SIGNAL_MATCH_FUNC|G_SIGNAL_MATCH_DATA, 0,
+						     0, NULL, rule_changed, folder);
 		filter_rule_set_name(rule, info->new->full_name);
-		gtk_signal_connect((GtkObject *)rule, "changed", rule_changed, folder);
+		g_signal_connect(rule, "changed", G_CALLBACK(rule_changed), folder);
 
 		user = g_strdup_printf("%s/vfolders.xml", evolution_dir);
 		rule_context_save((RuleContext *)context, user);
@@ -746,15 +749,15 @@ vfolder_load_storage(GNOME_Evolution_Shell shell)
 		return;
 	}
 
-	camel_object_hook_event((CamelObject *)vfolder_store, "folder_created",
+	camel_object_hook_event(vfolder_store, "folder_created",
 				(CamelObjectEventHookFunc)store_folder_created, NULL);
-	camel_object_hook_event((CamelObject *)vfolder_store, "folder_deleted",
+	camel_object_hook_event(vfolder_store, "folder_deleted",
 				(CamelObjectEventHookFunc)store_folder_deleted, NULL);
-	camel_object_hook_event((CamelObject *)vfolder_store, "folder_renamed",
+	camel_object_hook_event(vfolder_store, "folder_renamed",
 				(CamelObjectEventHookFunc)store_folder_renamed, NULL);
 
 	d(printf("got store '%s' = %p\n", storeuri, vfolder_store));
-	mail_load_storage_by_uri(shell, storeuri, U_("VFolders"));
+	mail_load_storage_by_uri(shell, storeuri, _("VFolders"));
 
 	/* load our rules */
 	user = g_strdup_printf ("%s/vfolders.xml", evolution_dir);
@@ -764,8 +767,8 @@ vfolder_load_storage(GNOME_Evolution_Shell shell)
 	}
 	g_free (user);
 	
-	gtk_signal_connect((GtkObject *)context, "rule_added", context_rule_added, context);
-	gtk_signal_connect((GtkObject *)context, "rule_removed", context_rule_removed, context);
+	g_signal_connect(context, "rule_added", G_CALLBACK(context_rule_added), context);
+	g_signal_connect(context, "rule_removed", G_CALLBACK(context_rule_removed), context);
 
 	/* and setup the rules we have */
 	rule = NULL;
@@ -782,29 +785,25 @@ vfolder_load_storage(GNOME_Evolution_Shell shell)
 static GtkWidget *vfolder_editor = NULL;
 
 static void
-vfolder_editor_clicked (GtkWidget *dialog, int button, void *data)
+vfolder_editor_response (GtkWidget *dialog, int button, void *data)
 {
 	char *user;
 
 	user = alloca(strlen(evolution_dir)+16);
 	sprintf(user, "%s/vfolders.xml", evolution_dir);
 
-	if (button == 0)
+	switch(button) {
+	case GTK_RESPONSE_OK:
 		rule_context_save((RuleContext *)context, user);
-	else
+		break;
+	default:
 		rule_context_revert((RuleContext *)context, user);
+	}
 
 	vfolder_editor = NULL;
 
-	if (button != -1)
-		gnome_dialog_close (GNOME_DIALOG (dialog));
-}
-
-static void
-vfolder_editor_destroy (GtkWidget *widget, gpointer user_data)
-{
-	if (vfolder_editor)
-		vfolder_editor_clicked(vfolder_editor, -1, user_data);
+	gtk_widget_destroy(dialog);
+	g_object_unref(dialog);
 }
 
 void
@@ -817,17 +816,16 @@ vfolder_edit (void)
 	
 	vfolder_editor = GTK_WIDGET (vfolder_editor_new (context));
 	gtk_window_set_title (GTK_WINDOW (vfolder_editor), _("vFolders"));
-	gtk_signal_connect (GTK_OBJECT (vfolder_editor), "clicked", vfolder_editor_clicked, NULL);
-	gtk_signal_connect (GTK_OBJECT (vfolder_editor), "destroy", vfolder_editor_destroy, NULL);
-	gnome_dialog_append_buttons (GNOME_DIALOG (vfolder_editor), GNOME_STOCK_BUTTON_CANCEL, NULL);
+	g_signal_connect(vfolder_editor, "response", G_CALLBACK(vfolder_editor_response), NULL);
+	gtk_dialog_add_button (GTK_DIALOG (vfolder_editor), GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL);
 
 	gtk_widget_show (vfolder_editor);
 }
 
 static void
-edit_rule_clicked(GtkWidget *w, int button, void *data)
+edit_rule_response(GtkWidget *w, int button, void *data)
 {
-	if (button == 0) {
+	if (button == GTK_RESPONSE_OK) {
 		char *user;
 		FilterRule *rule = gtk_object_get_data((GtkObject *)w, "rule");
 		FilterRule *orig = gtk_object_get_data((GtkObject *)w, "orig");
@@ -837,40 +835,42 @@ edit_rule_clicked(GtkWidget *w, int button, void *data)
 		rule_context_save((RuleContext *)context, user);
 		g_free(user);
 	}
-	if (button != -1) {
-		gnome_dialog_close((GnomeDialog *)w);
-	}
+
+	gtk_widget_destroy(w);
+	g_object_unref(w);
 }
 
 void
 vfolder_edit_rule(const char *uri)
 {
 	GtkWidget *w;
-	GnomeDialog *gd;
+	GtkDialog *gd;
 	FilterRule *rule, *newrule;
 	CamelURL *url;
 
 	url = camel_url_new(uri, NULL);
 	if (url && url->fragment
 	    && (rule = rule_context_find_rule((RuleContext *)context, url->fragment, NULL))) {
-		gtk_object_ref((GtkObject *)rule);
+		g_object_ref((GtkObject *)rule);
 		newrule = filter_rule_clone(rule);
 
 		w = filter_rule_get_widget((FilterRule *)newrule, (RuleContext *)context);
 
-		gd = (GnomeDialog *)gnome_dialog_new(_("Edit VFolder"),
-						     GNOME_STOCK_BUTTON_OK,
-						     GNOME_STOCK_BUTTON_CANCEL,
-						     NULL);
-		gnome_dialog_set_default (gd, 0);
-
-		gtk_window_set_policy(GTK_WINDOW(gd), FALSE, TRUE, FALSE);
+		gd = (GtkDialog *)gtk_dialog_new_with_buttons(_("Edit VFolder"), NULL,
+							      GTK_DIALOG_DESTROY_WITH_PARENT,
+							      GTK_STOCK_OK,
+							      GTK_RESPONSE_OK,
+							      GTK_STOCK_CANCEL,
+							      GTK_RESPONSE_CANCEL,
+							      NULL);
+		gtk_dialog_set_default_response(gd, GTK_RESPONSE_OK);
+		g_object_set(gd, "allow_shrink", FALSE, "allow_grow", TRUE, NULL);
 		gtk_window_set_default_size (GTK_WINDOW (gd), 500, 500);
 		gtk_box_pack_start((GtkBox *)gd->vbox, w, TRUE, TRUE, 0);
 		gtk_widget_show((GtkWidget *)gd);
-		gtk_object_set_data_full((GtkObject *)gd, "rule", newrule, (GtkDestroyNotify)gtk_object_unref);
-		gtk_object_set_data_full((GtkObject *)gd, "orig", rule, (GtkDestroyNotify)gtk_object_unref);
-		gtk_signal_connect((GtkObject *)gd, "clicked", edit_rule_clicked, NULL);
+		g_object_set_data_full(G_OBJECT(gd), "rule", newrule, (GtkDestroyNotify)g_object_unref);
+		g_object_set_data_full(G_OBJECT(gd), "orig", rule, (GtkDestroyNotify)g_object_unref);
+		g_signal_connect(gd, "response", G_CALLBACK(edit_rule_response), NULL);
 		gtk_widget_show((GtkWidget *)gd);
 	} else {
 		e_notice (NULL, GNOME_MESSAGE_BOX_WARNING,
@@ -884,19 +884,19 @@ vfolder_edit_rule(const char *uri)
 static void
 new_rule_clicked(GtkWidget *w, int button, void *data)
 {
-	if (button == 0) {
+	if (button == GTK_RESPONSE_OK) {
 		char *user;
 		FilterRule *rule = gtk_object_get_data((GtkObject *)w, "rule");
 
-		gtk_object_ref((GtkObject *)rule);
+		g_object_ref(rule);
 		rule_context_add_rule((RuleContext *)context, rule);
 		user = g_strdup_printf("%s/vfolders.xml", evolution_dir);
 		rule_context_save((RuleContext *)context, user);
 		g_free(user);
 	}
-	if (button != -1) {
-		gnome_dialog_close((GnomeDialog *)w);
-	}
+
+	gtk_widget_destroy(w);
+	g_object_unref(w);
 }
 
 FilterPart *
@@ -924,22 +924,25 @@ void
 vfolder_gui_add_rule(VfolderRule *rule)
 {
 	GtkWidget *w;
-	GnomeDialog *gd;
+	GtkDialog *gd;
 
 	w = filter_rule_get_widget((FilterRule *)rule, (RuleContext *)context);
 
-	gd = (GnomeDialog *)gnome_dialog_new(_("New VFolder"),
-					     GNOME_STOCK_BUTTON_OK,
-					     GNOME_STOCK_BUTTON_CANCEL,
-					     NULL);
-	gnome_dialog_set_default (gd, 0);
-
-	gtk_window_set_policy(GTK_WINDOW(gd), FALSE, TRUE, FALSE);
+	gd = (GtkDialog *)gtk_dialog_new_with_buttons(_("New VFolder"),
+						      NULL,
+						      GTK_DIALOG_DESTROY_WITH_PARENT,
+						      GTK_STOCK_OK,
+						      GTK_RESPONSE_OK,
+						      GTK_STOCK_CANCEL,
+						      GTK_RESPONSE_CANCEL,
+						      NULL);
+	gtk_dialog_set_default_response(gd, GTK_RESPONSE_OK);
+	g_object_set(gd, "allow_shrink", FALSE, "allow_grow", TRUE, NULL);
 	gtk_window_set_default_size (GTK_WINDOW (gd), 500, 500);
 	gtk_box_pack_start((GtkBox *)gd->vbox, w, TRUE, TRUE, 0);
 	gtk_widget_show((GtkWidget *)gd);
-	gtk_object_set_data_full((GtkObject *)gd, "rule", rule, (GtkDestroyNotify)gtk_object_unref);
-	gtk_signal_connect((GtkObject *)gd, "clicked", new_rule_clicked, NULL);
+	g_object_set_data_full(G_OBJECT(gd), "rule", rule, (GtkDestroyNotify)g_object_unref);
+	g_signal_connect(gd, "clicked", G_CALLBACK(new_rule_clicked), NULL);
 	gtk_widget_show((GtkWidget *)gd);
 }
 
@@ -960,7 +963,7 @@ vfolder_foreach_cb (gpointer key, gpointer data, gpointer user_data)
 	CamelFolder *folder = CAMEL_FOLDER (data);
 	
 	if (folder)
-		camel_object_unref (CAMEL_OBJECT (folder));
+		camel_object_unref(folder);
 	
 	g_free (key);
 }
@@ -973,12 +976,12 @@ mail_vfolder_shutdown (void)
 	vfolder_hash = NULL;
 
 	if (vfolder_store) {
-		camel_object_unref (CAMEL_OBJECT (vfolder_store));
+		camel_object_unref (vfolder_store);
 		vfolder_store = NULL;
 	}
 	
 	if (context) {
-		gtk_object_unref (GTK_OBJECT (context));
+		g_object_unref(context);
 		context = NULL;
 	}
 }

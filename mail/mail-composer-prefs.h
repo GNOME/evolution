@@ -33,6 +33,7 @@ extern "C" {
 #include <glade/glade.h>
 #include <gtkhtml/gtkhtml.h>
 #include <gtkhtml/gtkhtml-propmanager.h>
+
 #include <libgnomeui/gnome-color-picker.h>
 #include <libgnomeui/gnome-file-entry.h>
 #include <gconf/gconf-client.h>
@@ -115,7 +116,7 @@ struct _MailComposerPrefsClass {
 };
 
 
-GtkType mail_composer_prefs_get_type (void);
+GType mail_composer_prefs_get_type (void);
 
 GtkWidget *mail_composer_prefs_new (void);
 
