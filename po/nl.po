@@ -946,7 +946,7 @@ msgstr "Adres:"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:13
 msgid "Anniversary:"
-msgstr "Trouwdag:"
+msgstr "Verjaardag:"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:14
 msgid "Assistant:"
@@ -991,7 +991,7 @@ msgstr "Afdeling:"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:23
 msgid "Free/Busy:"
-msgstr "Vrij/Bezet:"
+msgstr "V_rij/Bezet:"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:24
 msgid "Full _Name..."
@@ -1009,7 +1009,7 @@ msgstr "MSN Messenger"
 # e-mail adres
 #: addressbook/gui/contact-editor/contact-editor.glade.h:27
 msgid "Mailing Address"
-msgstr "Adresgegevens"
+msgstr "E-mailadres"
 
 # beheerder
 #: addressbook/gui/contact-editor/contact-editor.glade.h:28
@@ -1022,7 +1022,7 @@ msgstr "_Bijnaam:"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:30
 msgid "Notes:"
-msgstr "Aantekeningen:"
+msgstr "Aa_ntekeningen:"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:31
 #: addressbook/gui/contact-editor/e-contact-editor-im.c:63
@@ -18532,7 +18532,7 @@ msgstr "Selecteer alle en alleen de berichten die nu niet zijn geselecteerd"
 #: ui/evolution-mail-list.xml.h:16
 msgid "Select all messages in the same thread as the selected message"
 msgstr ""
-"Selecteer alle berichten in dezelfde thread als het geselecteerde bericht"
+"Selecteer alle berichten in dezelfde discussie als het geselecteerde bericht"
 
 #: ui/evolution-mail-list.xml.h:17
 msgid "Select all visible messages"
@@ -18576,7 +18576,7 @@ msgstr "Afzender aan a_dresboek toevoegen"
 
 #: ui/evolution-mail-message.xml.h:2
 msgid "A_pply Filters"
-msgstr "Filters _-toepassen"
+msgstr "Filters _toepassen"
 
 #: ui/evolution-mail-message.xml.h:3
 msgid "Add Sender to Address Book"
@@ -18584,11 +18584,11 @@ msgstr "Afzender aan adresboek toevoegen"
 
 #: ui/evolution-mail-message.xml.h:4
 msgid "Apply filter rules to the selected messages"
-msgstr "Pas filter regels toe op geselecteerde berichten"
+msgstr "Filterregels toepassen op geselecteerde berichten"
 
 #: ui/evolution-mail-message.xml.h:5
 msgid "Caret _Mode"
-msgstr "Cursor _mode"
+msgstr "Cursor-_modus"
 
 #: ui/evolution-mail-message.xml.h:6
 msgid "Compose a reply to all of the recipients of the selected message"
@@ -18684,23 +18684,23 @@ msgstr "Filter _Troep"
 
 #: ui/evolution-mail-message.xml.h:34
 msgid "Filter on Mailing _List..."
-msgstr "Filter op Mailing_lijst..."
+msgstr "Filter op mailing_lijst..."
 
 #: ui/evolution-mail-message.xml.h:35
 msgid "Filter on Se_nder..."
-msgstr "Filter op _Afzender..."
+msgstr "Filter op _afzender..."
 
 #: ui/evolution-mail-message.xml.h:36
 msgid "Filter on _Recipients..."
-msgstr "Filter op _Geadresseerden..."
+msgstr "Filter op _geadresseerden..."
 
 #: ui/evolution-mail-message.xml.h:37
 msgid "Filter on _Subject..."
-msgstr "Filter op _Onderwerp..."
+msgstr "Filter op _onderwerp..."
 
 #: ui/evolution-mail-message.xml.h:38
 msgid "Filter the selected messages for junk status"
-msgstr "Filter de geselecteerde berichten op troep status"
+msgstr "Filter de geselecteerde berichten op troepstatus"
 
 #: ui/evolution-mail-message.xml.h:39
 msgid "Flag selected message(s) for follow-up"
@@ -18708,36 +18708,36 @@ msgstr "Geselecteerde berichten markeren om te beantwoorden"
 
 #: ui/evolution-mail-message.xml.h:40
 msgid "Follow _Up..."
-msgstr "Antwoord..."
+msgstr "_Antwoord..."
 
 #: ui/evolution-mail-message.xml.h:41
 msgid "Force images in HTML mail to be loaded"
-msgstr "Forceer het laden van plaatjes in HTML-berichten"
+msgstr "Afbeeldingen in HTML-berichten altijd laden"
 
 #: ui/evolution-mail-message.xml.h:43
 msgid "Forward the selected message in the body of a new message"
 msgstr ""
-"Stuur het geselecteerde bericht door in de inhoud van een nieuw bericht"
+"Het geselecteerde bericht doorsturen in de inhoud van een nieuw bericht"
 
 #: ui/evolution-mail-message.xml.h:44
 msgid "Forward the selected message quoted like a reply"
-msgstr "Stuur het bericht geciteerd door alsof het een antwoord is"
+msgstr "Het bericht geciteerd doorsturen alsof het een antwoord is"
 
 #: ui/evolution-mail-message.xml.h:45
 msgid "Forward the selected message to someone"
-msgstr "Stuur het bericht door naar iemand"
+msgstr "Het bericht doorsturen naar iemand"
 
 #: ui/evolution-mail-message.xml.h:46
 msgid "Forward the selected message to someone as an attachment"
-msgstr "Stuur het bericht door naar iemand als bijlage"
+msgstr "Het bericht doorsturen naar iemand als bijlage"
 
 #: ui/evolution-mail-message.xml.h:47
 msgid "Increase the text size"
-msgstr "Tekstweergave vergroten"
+msgstr "Tekst vergroten"
 
 #: ui/evolution-mail-message.xml.h:49
 msgid "Load _Images"
-msgstr "Toon _Afbeeldingen"
+msgstr "_Afbeeldingen laden"
 
 #: ui/evolution-mail-message.xml.h:51
 msgid "Mark as I_mportant"
@@ -18873,11 +18873,11 @@ msgstr "Pagina-instellingen configureren voor de huidige printer"
 
 #: ui/evolution-mail-message.xml.h:95
 msgid "Show Email _Source"
-msgstr "Toon broncode van _Bericht"
+msgstr "_Broncode"
 
 #: ui/evolution-mail-message.xml.h:96
 msgid "Show Full _Headers"
-msgstr "Toon alle _Koppen"
+msgstr "Volledige bericht_kop"
 
 #: ui/evolution-mail-message.xml.h:97
 msgid "Show a blinking cursor in the body of displayed messages"
@@ -18949,7 +18949,7 @@ msgstr "_Volgend bericht"
 
 #: ui/evolution-mail-message.xml.h:121
 msgid "_Normal Display"
-msgstr "_Normale weergave"
+msgstr "_Normaal"
 
 #: ui/evolution-mail-message.xml.h:122
 msgid "_Open Message"
@@ -19732,7 +19732,7 @@ msgstr "Nu _zoeken"
 
 #: widgets/misc/e-search-bar.c:547 widgets/misc/e-search-bar.c:929
 msgid "_Clear"
-msgstr "_Reset"
+msgstr "_Wissen"
 
 #: widgets/misc/e-search-bar.c:837
 msgid "Item ID"
