@@ -588,7 +588,7 @@ stream_setsockopt (CamelTcpStream *stream, const CamelSockOptData *data)
 			return -1;
 		
 		set = data->value.non_blocking ? O_NONBLOCK : 0;
-		flags = (flags & ~O_NONBLOCK) | (set & O_NONBLOCK);
+		flags = (flags & ~O_NONBLOCK) | set;
 		
 		if (fcntl (((CamelTcpStreamRaw *)stream)->sockfd, F_SETFL, flags) == -1)
 			return -1;
