@@ -1,3 +1,28 @@
+2002-06-11  Not Zed  <NotZed@Ximian.com>
+
+	* camel-vtrash-folder.c (camel_vtrash_folder_class_init): Our
+	parent class is camel_vee_folder, not camel_folder, fix setting of
+	parent folder (unused anyway, but removes a run-time warning).
+
+2002-06-07  Not Zed  <NotZed@Ximian.com>
+
+	* camel-pgp-context.c (camel_pgp_context_init): Duh!  The protocol
+	is application/pgp-signature.  TODO: need to have a signed and an
+	encrypted protocol specified separately.
+
+2002-06-06  Not Zed  <NotZed@Ximian.com>
+
+	* camel-folder-thread.c (thread_summary): Do the work here.
+	(camel_folder_thread_messages_remove): Implement.  Remove some
+	uid's from the tree.   Disalbe from build, for now.
+	(remove_uid_node_rec): Actually do the work.
+	(camel_folder_thread_messages_add): Implement.  Add some summary
+	items to the tree.  Disable from build though.
+	(camel_folder_thread_messages_apply): Make a thread tree built
+	using camel_folder_thread_new() map to a new set of uids,
+	preserving some order.  Meant primarily to manage deleted + added
+	uids in a user-friendly manner.
+
 2002-06-09  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* camel-multipart-signed.c (camel_multipart_signed_verify): Use

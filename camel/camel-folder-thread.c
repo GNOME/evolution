@@ -425,30 +425,13 @@ static gint id_equal(void *a, void *b)
 	return ((CamelSummaryMessageID *)a)->id.id == ((CamelSummaryMessageID *)b)->id.id;
 }
 
-/**
- * camel_folder_thread_messages_new:
- * @folder: 
- * @uids: The subset of uid's to thread.  If NULL. then thread all
- * uid's in @folder.
- * 
- * Thread a (subset) of the messages in a folder.  And sort the result
- * in summary order.
- * 
- * This function is probably to be removed soon.
- *
- * Return value: A CamelFolderThread contianing a tree of CamelFolderThreadNode's
- * which represent the threaded structure of the messages.
- **/
-CamelFolderThread *
-camel_folder_thread_messages_new(CamelFolder *folder, GPtrArray *uids)
+/* perform actual threading */
+static void
+thread_summary(CamelFolderThread *thread, GPtrArray *summary)
 {
 	GHashTable *id_table, *no_id_table;
 	int i;
 	CamelFolderThreadNode *c, *child, *head;
-	CamelFolderThread *thread;
-	GHashTable *wanted = NULL;
-	GPtrArray *summary;
-
 #ifdef TIMEIT
 	struct timeval start, end;
 	unsigned long diff;
@@ -456,176 +439,6 @@ camel_folder_thread_messages_new(CamelFolder *folder, GPtrArray *uids)
 	gettimeofday(&start, NULL);
 #endif
 
-	thread = g_malloc(sizeof(*thread));
-	thread->tree = NULL;
-	thread->node_chunks = e_memchunk_new(32, sizeof(CamelFolderThreadNode));
-	thread->folder = folder;
-	camel_object_ref((CamelObject *)folder);
-
-	/* wanted is the list of what we want, we put it in a hash for quick lookup */
-	if (uids) {
-		wanted = g_hash_table_new(g_str_hash, g_str_equal);
-		for (i=0;i<uids->len;i++)
-			g_hash_table_insert(wanted, uids->pdata[i], uids->pdata[i]);
-	}
-
-	thread->summary = summary = camel_folder_get_summary(folder);
-	
-	id_table = g_hash_table_new((GHashFunc)id_hash, (GCompareFunc)id_equal);
-	no_id_table = g_hash_table_new(NULL, NULL);
-	for (i=0;i<summary->len;i++) {
-		CamelMessageInfo *mi = summary->pdata[i];
-		const char *uid = camel_message_info_uid(mi);
-
-		if (wanted && g_hash_table_lookup(wanted, uid) == 0)
-			continue;
-
-		if (mi->message_id.id.id) {
-			c = g_hash_table_lookup(id_table, &mi->message_id);
-			/* check for duplicate messages */
-			if (c && c->order) {
-				/* if duplicate, just make out it is a no-id message,  but try and insert it
-				   into the right spot in the tree */
-				d(printf("doing: (duplicate message id)\n"));
-				c = e_memchunk_alloc0(thread->node_chunks);
-				g_hash_table_insert(no_id_table, (void *)mi, c);
-			} else if (!c) {
-				d(printf("doing : %08x%08x (%s)\n", mi->message_id.id.part.hi, mi->message_id.id.part.lo, camel_message_info_subject(mi)));
-				c = e_memchunk_alloc0(thread->node_chunks);
-				g_hash_table_insert(id_table, (void *)&mi->message_id, c);
-			}
-		} else {
-			d(printf("doing : (no message id)\n"));
-			c = e_memchunk_alloc0(thread->node_chunks);
-			g_hash_table_insert(no_id_table, (void *)mi, c);
-		}
-
-		c->message = mi;
-		c->order = i+1;
-		child = c;
-		if (mi->references) {
-			int j;
-
-			d(printf("references:\n"));
-			for (j=0;j<mi->references->size;j++) {
-				/* should never be empty, but just incase */
-				if (mi->references->references[j].id.id == 0)
-					continue;
-
-				c = g_hash_table_lookup(id_table, &mi->references->references[j]);
-				if (c == NULL) {
-					d(printf("not found\n"));
-					c = e_memchunk_alloc0(thread->node_chunks);
-					g_hash_table_insert(id_table, &mi->references->references[j], c);
-				}
-				if (c!=child)
-					container_parent_child(c, child);
-				child = c;
-			}
-		}
-	}
-
-	d(printf("\n\n"));
-	/* build a list of root messages (no parent) */
-	head = NULL;
-	g_hash_table_foreach(id_table, hashloop, &head);
-	g_hash_table_foreach(no_id_table, hashloop, &head);
-
-	g_hash_table_destroy(id_table);
-	g_hash_table_destroy(no_id_table);
-
-	/* remove empty parent nodes */
-	prune_empty(thread, &head);
-
-	/* find any siblings which missed out */
-	group_root_set(thread, &head);
-
-#if 0
-	printf("finished\n");
-	i = camel_folder_thread_messages_dump(head);
-	printf("%d count, %d items in tree\n", uids->len, i);
-#endif
-
-	sort_thread(&head);
-
-	/* remove any phantom nodes, this could possibly be put in group_root_set()? */
-	c = (CamelFolderThreadNode *)&head;
-	while (c && c->next) {
-		CamelFolderThreadNode *scan, *newtop;
-
-		child = c->next;
-		if (child->message == NULL) {
-			newtop = child->child;
-			/* unlink pseudo node */
-			c->next = newtop;
-
-			/* link its siblings onto the end of its children */
-			scan = (CamelFolderThreadNode *)&newtop->child;
-			while (scan->next)
-				scan = scan->next;
-			scan->next = newtop->next;
-			/* and link the now 'real' node into the list */
-			newtop->next = child->next;
-			c = newtop;
-			e_memchunk_free(thread->node_chunks, child);
-		} else {
-			c = child;
-		}
-	}
-
-	/* this is only debug assertion stuff */
-	c = (CamelFolderThreadNode *)&head;
-	while (c->next) {
-		c = c->next;
-		if (c->message == NULL)
-			g_warning("threading missed removing a pseudo node: %s\n", c->root_subject);
-	}
-
-	thread->tree = head;
-
-#ifdef TIMEIT
-	gettimeofday(&end, NULL);
-	diff = end.tv_sec * 1000 + end.tv_usec/1000;
-	diff -= start.tv_sec * 1000 + start.tv_usec/1000;
-	printf("Message threading %d messages took %ld.%03ld seconds\n",
-	       uids->len, diff / 1000, diff % 1000);
-#endif
-
-	return thread;
-}
-
-/**
- * camel_folder_thread_messages_new_summary:
- * @summary: Array of CamelMessageInfo's to thread.
- * 
- * Thread a list of MessageInfo's.  The summary must remain valid for the
- * life of the CamelFolderThread created by this function, and it is upto the
- * caller to ensure this.
- * 
- * Return value: A CamelFolderThread contianing a tree of CamelFolderThreadNode's
- * which represent the threaded structure of the messages.
- **/
-CamelFolderThread *
-camel_folder_thread_messages_new_summary(GPtrArray *summary)
-{
-	GHashTable *id_table, *no_id_table;
-	int i;
-	CamelFolderThreadNode *c, *child, *head;
-	CamelFolderThread *thread;
-
-#ifdef TIMEIT
-	struct timeval start, end;
-	unsigned long diff;
-
-	gettimeofday(&start, NULL);
-#endif
-
-	thread = g_malloc(sizeof(*thread));
-	thread->tree = NULL;
-	thread->node_chunks = e_memchunk_new(32, sizeof(CamelFolderThreadNode));
-	thread->folder = NULL;
-	thread->summary = NULL;
-	
 	id_table = g_hash_table_new((GHashFunc)id_hash, (GCompareFunc)id_equal);
 	no_id_table = g_hash_table_new(NULL, NULL);
 	for (i=0;i<summary->len;i++) {
@@ -741,21 +554,139 @@ camel_folder_thread_messages_new_summary(GPtrArray *summary)
 	printf("Message threading %d messages took %ld.%03ld seconds\n",
 	       summary->len, diff / 1000, diff % 1000);
 #endif
+}
+
+/**
+ * camel_folder_thread_messages_new:
+ * @folder: 
+ * @uids: The subset of uid's to thread.  If NULL. then thread all
+ * uid's in @folder.
+ * 
+ * Thread a (subset) of the messages in a folder.  And sort the result
+ * in summary order.
+ * 
+ * This function is probably to be removed soon.
+ *
+ * Return value: A CamelFolderThread contianing a tree of CamelFolderThreadNode's
+ * which represent the threaded structure of the messages.
+ **/
+CamelFolderThread *
+camel_folder_thread_messages_new(CamelFolder *folder, GPtrArray *uids)
+{
+	CamelFolderThread *thread;
+	GHashTable *wanted = NULL;
+	GPtrArray *summary;
+	GPtrArray *fsummary;
+	int i;
+
+	thread = g_malloc(sizeof(*thread));
+	thread->refcount = 1;
+	thread->tree = NULL;
+	thread->node_chunks = e_memchunk_new(32, sizeof(CamelFolderThreadNode));
+	thread->folder = folder;
+	camel_object_ref((CamelObject *)folder);
+
+	/* get all of the summary items of interest in summary order*/
+	if (uids) {
+		wanted = g_hash_table_new(g_str_hash, g_str_equal);
+		for (i=0;i<uids->len;i++)
+			g_hash_table_insert(wanted, uids->pdata[i], uids->pdata[i]);
+	}
+
+	fsummary = camel_folder_get_summary(folder);
+	thread->summary = summary = g_ptr_array_new();
+
+	for (i=0;i<fsummary->len;i++) {
+		CamelMessageInfo *info = fsummary->pdata[i];
+
+		if (wanted == NULL || g_hash_table_lookup(wanted, camel_message_info_uid(info)) != NULL) {
+			camel_folder_ref_message_info(folder, info);
+			g_ptr_array_add(summary, info);
+		}
+	}
+
+	camel_folder_free_summary(folder, fsummary);
+
+	thread_summary(thread, summary);
+
+	g_hash_table_destroy(wanted);
 
 	return thread;
 }
 
+/* add any still there, in the existing order */
+static void
+add_present_rec(CamelFolderThread *thread, GHashTable *have, GPtrArray *summary, CamelFolderThreadNode *node)
+{
+	while (node) {
+		const char *uid = camel_message_info_uid(node->message);
+
+		if (g_hash_table_lookup(have, (char *)uid)) {
+			g_hash_table_remove(have, (char *)camel_message_info_uid(node->message));
+			g_ptr_array_add(summary, node->message);
+		} else {
+			camel_folder_free_message_info(thread->folder, (CamelMessageInfo *)node->message);
+		}
+
+		if (node->child)
+			add_present_rec(thread, have, summary, node->child);
+		node = node->next;
+	}
+}
+
+void
+camel_folder_thread_messages_apply(CamelFolderThread *thread, GPtrArray *uids)
+{
+	int i;
+	GPtrArray *all;
+	GHashTable *table;
+	CamelMessageInfo *info;
+
+	all = g_ptr_array_new();
+	table = g_hash_table_new(g_str_hash, g_str_equal);
+	for (i=0;i<uids->len;i++)
+		g_hash_table_insert(table, uids->pdata[i], uids->pdata[i]);
+
+	add_present_rec(thread, table, all, thread->tree);
+
+	/* add any new ones, in supplied order */
+	for (i=0;i<uids->len;i++)
+		if (g_hash_table_lookup(table, uids->pdata[i]) && (info = camel_folder_get_message_info(thread->folder, uids->pdata[i])))
+			g_ptr_array_add(all, info);
+
+	g_hash_table_destroy(table);
+	thread_summary(thread, all);
+
+	g_ptr_array_free(thread->summary, TRUE);
+	thread->summary = all;
+}
+
+void
+camel_folder_thread_messages_ref(CamelFolderThread *thread)
+{
+	thread->refcount++;
+}
+
 /**
- * camel_folder_thread_messages_destroy:
+ * camel_folder_thread_messages_unref:
  * @thread: 
  * 
  * Free all memory associated with the thread descriptor @thread.
  **/
 void
-camel_folder_thread_messages_destroy(CamelFolderThread *thread)
+camel_folder_thread_messages_unref(CamelFolderThread *thread)
 {
+	if (thread->refcount > 1) {
+		thread->refcount--;
+		return;
+	}
+
 	if (thread->folder) {
-		camel_folder_free_summary(thread->folder, thread->summary);
+		int i;
+
+		for (i=0;i<thread->summary->len;i++)
+			camel_folder_free_message_info(thread->folder, thread->summary->pdata[i]);
+		g_ptr_array_free(thread->summary, TRUE);
 		camel_object_unref((CamelObject *)thread->folder);
 	}
 	e_memchunk_destroy(thread->node_chunks);
@@ -763,21 +694,157 @@ camel_folder_thread_messages_destroy(CamelFolderThread *thread)
 }
 
 #if 0
-/* intended for incremental update.  Not implemented yet as, well, its probbaly
-   not worth it (memory overhead vs speed, may as well just rethread the whole
-   lot?)
-
-   But it might be implemented at a later date.
-*/
-void
-camel_folder_thread_messages_add(CamelFolderThread *thread, CamelFolder *folder, GPtrArray *uids)
+/**
+ * camel_folder_thread_messages_new_summary:
+ * @summary: Array of CamelMessageInfo's to thread.
+ * 
+ * Thread a list of MessageInfo's.  The summary must remain valid for the
+ * life of the CamelFolderThread created by this function, and it is upto the
+ * caller to ensure this.
+ * 
+ * Return value: A CamelFolderThread contianing a tree of CamelFolderThreadNode's
+ * which represent the threaded structure of the messages.
+ **/
+CamelFolderThread *
+camel_folder_thread_messages_new_summary(GPtrArray *summary)
 {
-	
+	CamelFolderThread *thread;
+
+#ifdef TIMEIT
+	struct timeval start, end;
+	unsigned long diff;
+
+	gettimeofday(&start, NULL);
+#endif
+
+	thread = g_malloc(sizeof(*thread));
+	thread->refcount = 1;
+	thread->tree = NULL;
+	thread->node_chunks = e_memchunk_new(32, sizeof(CamelFolderThreadNode));
+	thread->folder = NULL;
+	thread->summary = NULL;
+
+	thread_summary(thread, summary);
+
+	return thread;
+}
+
+/* scan the list in depth-first fashion */
+static void
+build_summary_rec(GHashTable *have, GPtrArray *summary, CamelFolderThreadNode *node)
+{
+	while (node) {
+		if (node->message)
+			g_hash_table_insert(have, (char *)camel_message_info_uid(node->message), node->message);
+		g_ptr_array_add(summary, node);
+		if (node->child)
+			build_summary_rec(have, summary, node->child);
+		node = node->next;
+	}
 }
 
 void
-thread_messages_remove(CamelFolderThread *thread, CamelFolder *folder, GPtrArray *uids)
+camel_folder_thread_messages_add(CamelFolderThread *thread, GPtrArray *summary)
 {
-	
+	GPtrArray *all;
+	int i;
+	GHashTable *table;
+
+	/* Instead of working out all the complex in's and out's of
+	   trying to do an incremental summary generation, just redo the whole
+	   thing with the summary in the current order - so it comes out
+	   in the same order */
+
+	all = g_ptr_array_new();
+	table = g_hash_table_new(g_str_hash, g_str_equal);
+	build_summary_rec(table, all, thread->tree);
+	for (i=0;i<summary->len;i++) {
+		CamelMessageInfo *info = summary->pdata[i];
+
+		/* check its not already there, we dont want duplicates */
+		if (g_hash_table_lookup(table, camel_message_info_uid(info)) == NULL)
+			g_ptr_array_add(all, info);
+	}
+	g_hash_table_destroy(table);
+
+	/* reset the tree, and rebuild fully */
+	thread->tree = NULL;
+	e_memchunk_empty(thread->node_chunks);
+	thread_summary(thread, all, NULL);
 }
+
+static void
+remove_uid_node_rec(CamelFolderThread *thread, GHashTable *table, CamelFolderThreadNode **list, CamelFolderThreadNode *parent)
+{
+	CamelFolderThreadNode *prev = NULL;
+	CamelFolderThreadNode *node, *next, *child, *rest;
+
+	node = (CamelFolderThreadNode *)list;
+	next = node->next;
+	while (next) {
+
+		if (next->child)
+			remove_uid_node_rec(thread, table, &next->child, next);
+
+		/* do we have a node to remove? */
+		if (next->message && g_hash_table_lookup(table, (char *)camel_message_info_uid(node->message))) {
+			child = next->child;
+			if (child) {
+				/*
+				  node
+				  next
+				   child
+				   lchild
+				  rest
+
+				  becomes:
+				  node
+				  child
+				  lchild
+				  rest
+				*/
+
+				rest = next->next;
+				node->next = child;
+				e_memchunk_free(thread->node_chunks, next);
+				next = child;
+				do {
+					lchild = child;
+					child->parent = parent;
+					child = child->next;
+				} while (child);
+				lchild->next = rest;
+			} else {
+				/*
+				  node
+				  next
+				  rest
+				  becomes:
+				  node
+				  rest */
+				node->next = next->next;
+				e_memchunk_free(thread->node_chunks, next);
+				next = node->next;
+			}
+		} else {
+			node = next;
+			next = node->next;
+		}
+	}
+}
+
+void
+camel_folder_thread_messages_remove(CamelFolderThread *thread, GPtrArray *uids)
+{
+	GHashTable *table;
+	int i;
+
+	table = g_hash_table_new(g_str_hash, g_str_equal);
+	for (i=0;i<uids->len;i++)
+		g_hash_table_insert(table, uids->pdata[i], uids->pdata[i]);
+
+	remove_uid_node_rec(thread, table, &thread->tree, NULL);
+	g_hash_table_destroy(table);
+}
+
 #endif

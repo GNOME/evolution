@@ -47,8 +47,7 @@ camel_vtrash_folder_class_init (CamelVTrashFolderClass *klass)
 {
 	CamelFolderClass *folder_class = (CamelFolderClass *) klass;
 	
-	camel_vtrash_folder_parent =
-		CAMEL_VEE_FOLDER_CLASS (camel_type_get_global_classfuncs (camel_folder_get_type ()));
+	camel_vtrash_folder_parent = CAMEL_VEE_FOLDER_CLASS(camel_vee_folder_get_type());
 	
 	folder_class->append_message = vtrash_append_message;
 	folder_class->transfer_messages_to = vtrash_transfer_messages_to;

@@ -40,22 +40,29 @@ typedef struct _CamelFolderThreadNode {
 	int order;
 } CamelFolderThreadNode;
 
-typedef struct CamelFolderThread {
+typedef struct _CamelFolderThread {
+	int refcount;
+
 	struct _CamelFolderThreadNode *tree;
 	struct _EMemChunk *node_chunks;
 	CamelFolder *folder;
 	GPtrArray *summary;
 } CamelFolderThread;
 
+/* interface 1: using uid's */
 CamelFolderThread *camel_folder_thread_messages_new(CamelFolder *folder, GPtrArray *uids);
+void camel_folder_thread_messages_apply(CamelFolderThread *thread, GPtrArray *uids);
 
-/* new improved interface (believe it or not!) */
+/* interface 2: using messageinfo's.  Currently disabled. */
+#if 0
+/* new improved interface */
 CamelFolderThread *camel_folder_thread_messages_new_summary(GPtrArray *summary);
-/*
-void camel_folder_thread_messages_add(CamelFolderThread *threads, CamelFolder *folder, GPtrArray *uids);
-void camel_folder_thread_messages_remove(CamelFolderThread *threads, CamelFolder *folder, GPtrArray *uids);
-*/
-void camel_folder_thread_messages_destroy(CamelFolderThread *threads);
+void camel_folder_thread_messages_add(CamelFolderThread *thread, GPtrArray *summary);
+void camel_folder_thread_messages_remove(CamelFolderThread *thread, GPtrArray *uids);
+#endif
+
+void camel_folder_thread_messages_ref(CamelFolderThread *threads);
+void camel_folder_thread_messages_unref(CamelFolderThread *threads);
 
 /* debugging function only */
 int camel_folder_threaded_messages_dump(CamelFolderThreadNode *c);
