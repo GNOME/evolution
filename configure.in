@@ -1333,8 +1333,8 @@ AC_SUBST_FILE(EVO_PLUGIN_RULE)
 AC_ARG_ENABLE(plugins, [  --enable-plugins=[no/all/list]      Enable plugins.],enable_plugins="$enableval",enable_plugins=base)
 
 dnl Add any new plugins here
-plugins_base="calendar-file calendar-http calendar-weather groupwise-account-setup itip-formatter plugin-manager send-options shared-folder groupwise-send-options exchange-account-setup groupwise-status-tracking default-source" 
-plugins_all="bbdb subject-thread save-attachments prefer-plain save-calendar select-one-source copy-tool mail-to-meeting mail-to-task folder-unsubscribe mark-calendar-offline audio-inline mailing-list-actions backup-restore new-mail-notify groupwise-status-tracking default-source"
+plugins_base="calendar-file calendar-http calendar-weather groupwise-account-setup itip-formatter plugin-manager send-options shared-folder groupwise-send-options exchange-account-setup groupwise-status-tracking default-source addressbook-file" 
+plugins_all="bbdb subject-thread save-attachments prefer-plain save-calendar select-one-source copy-tool mail-to-meeting mail-to-task folder-unsubscribe mark-calendar-offline audio-inline mailing-list-actions backup-restore new-mail-notify groupwise-status-tracking default-source addressbook-file"
 
 case x"$enable_plugins" in
 xno)
@@ -1575,6 +1575,7 @@ plugins/groupwise-send-options/Makefile
 plugins/exchange-account-setup/Makefile
 plugins/groupwise-status-tracking/Makefile
 plugins/default-source/Makefile
+plugins/addressbook-file/Makefile
 smime/Makefile
 smime/lib/Makefile
 smime/gui/Makefile

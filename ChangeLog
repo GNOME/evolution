@@ -1,6 +1,10 @@
 2005-01-21  Sivaiah Nallagatla <snallagatla@novell.com>
+                                                                                
+        * configure.in : added addressbook-file plugin 
 
-	* configure.in : added default-source plugin to 
+2005-01-21  Sivaiah Nallagatla <snallagatla@novell.com>
+
+	* configure.in : added default-source plugin  
 
 2005-01-20  Parthasarathi Susarla <sparthasarathi@novell.com>
 	
