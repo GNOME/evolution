@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution beta\n"
 "POT-Creation-Date: 2000-05-07 17:22+0200\n"
-"PO-Revision-Date: 2000-05-04 00:38+0200\n"
+"PO-Revision-Date: 2000-05-11 19:38+0200\n"
 "Last-Translator: Keld Simonsen <keld@dkuug.dk>\n"
 "Language-Team: Danish <dansk@klid.dk>\n"
 "MIME-Version: 1.0\n"
@@ -190,7 +190,6 @@ msgid "Attach a file"
 msgstr "Vedhæft en fil"
 
 #: mail/folder-browser-factory.c:85
-#, fuzzy
 msgid ""
 "This is a development version of Evolution.\n"
 "Using the mail component on your mail files\n"
@@ -202,19 +201,19 @@ msgid ""
 "\n"
 "You have been warned\n"
 msgstr ""
-"Dette er en udviklingsudgave af Evolution.\n"
-"Brug af postdelen på dine postfiler\n"
-"er ekstremt farligt.\n"
+"Dette er en udviklingsversion af Evolution.\n"
+"Brug af post-klienten på dine post-filer\n"
+"er ekstremt farefuldt.\n"
 "\n"
-"Kør ikke dette program på din rigtige post\n"
-"og giv det ikke adgang til din rigtige post-tjener.\n"
-"og send ikke post til rigtige personer med den."
+"Kør ikke dette program for at læse din rigtige e-post,\n"
+"giv det ikke adgang til din post-tjener, og send ikke\n"
+"post til andre med det.\n"
 "\n"
-"Du er blevet advaret\n"
+"Du er herved advaret\n"
 
 #: mail/folder-browser-factory.c:112
 msgid "New mail"
-msgstr "Ny e-post"
+msgstr "Ny post"
 
 #: mail/folder-browser-factory.c:112
 msgid "Check for new mail"
@@ -420,14 +419,12 @@ msgstr "H_andlinger"
 #: shell/e-shell.c:83
 #, c-format
 msgid "Cannot set up local storage -- %s"
-msgstr ""
+msgstr "Kan ikke opsætte lokal lagring -- %s"
 
 #: shell/main.c:86
-#, fuzzy
 msgid "Cannot initialize the Bonobo component system."
-msgstr "Kunne ikke initialisere Bonobo-komponentsystemet"
+msgstr "Kunne ikke initialisere Bonobo komponentsystemet."
 
 #: shell/main.c:101
 msgid "Cannot initialize the Evolution shell."
-msgstr ""
-
+msgstr "Kan ikke initialisere Evolution skallen."
