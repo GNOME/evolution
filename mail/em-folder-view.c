@@ -1833,10 +1833,6 @@ emfv_list_key_press(ETree *tree, int row, ETreePath path, int col, GdkEvent *ev,
 	case GDK_ISO_Enter:
 		em_folder_view_open_selected(emfv);
 		break;
-	case GDK_Delete:
-	case GDK_KP_Delete:
-		emfv_popup_delete (NULL, emfv);
-		break;
 	case GDK_Menu:
 		/* FIXME: location of popup */
 		emfv_popup(emfv, NULL);
