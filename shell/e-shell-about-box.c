@@ -86,6 +86,7 @@ struct _EShellAboutBoxPrivate {
 	GdkGC *clipped_gc;
 	int text_y_offset;
 	int timeout_id;
+	const gchar **permuted_text;
 };
 
 
@@ -102,6 +103,26 @@ struct _EShellAboutBoxPrivate {
 #define IMAGE_PATH  EVOLUTION_IMAGES "/about-box.png"
 
 
+
+static void
+permute_names (EShellAboutBox *about_box)
+{
+	EShellAboutBoxPrivate *priv = about_box->priv;
+	gint i, j;
+
+	srandom (time (NULL));
+	
+	for (i = 6; i < NUM_TEXT_LINES-1; ++i) {
+		const gchar *tmp;
+		j = i + random () % (NUM_TEXT_LINES - i);
+		if (i != j) {
+			tmp = priv->permuted_text[i];
+			priv->permuted_text[i] = priv->permuted_text[j];
+			priv->permuted_text[j] = tmp;
+		}
+	}
+}
+
 /* The callback.  */
 
 static int
@@ -142,10 +163,10 @@ timeout_callback (void *data)
 		if (first_line + i >= NUM_TEXT_LINES)
 			break;
 
-		if (*text[first_line + i] == '\0')
+		if (*priv->permuted_text[first_line + i] == '\0')
 			line = "";
 		else
-			line = _(text[first_line + i]);
+			line = _(priv->permuted_text[first_line + i]);
 
 		x = TEXT_X_OFFSET + (TEXT_WIDTH - gdk_string_width (widget->style->font, line)) / 2;
 
@@ -161,8 +182,10 @@ timeout_callback (void *data)
 	gtk_widget_draw (widget, &redraw_rect);
 
 	priv->text_y_offset ++;
-	if (priv->text_y_offset > line_height * NUM_TEXT_LINES + TEXT_HEIGHT)
+	if (priv->text_y_offset > line_height * NUM_TEXT_LINES + TEXT_HEIGHT) {
 		priv->text_y_offset = 0;
+		permute_names (about_box);
+	}
 
 	return TRUE;
 }
@@ -198,6 +221,8 @@ impl_destroy (GtkObject *object)
 		g_source_remove (priv->timeout_id);
 		priv->timeout_id = -1;
 	}
+
+	g_free (priv->permuted_text);
 
 	g_free (priv);
 
@@ -339,6 +364,7 @@ static void
 init (EShellAboutBox *shell_about_box)
 {
 	EShellAboutBoxPrivate *priv;
+	gint i;
 
 	priv = g_new (EShellAboutBoxPrivate, 1);
 	priv->pixmap                 = NULL;
@@ -347,7 +373,14 @@ init (EShellAboutBox *shell_about_box)
 	priv->timeout_id             = -1;
 	priv->text_y_offset          = 0;
 
+	priv->permuted_text = g_new (const gchar *, NUM_TEXT_LINES);
+	for (i = 0; i < NUM_TEXT_LINES; ++i) {
+		priv->permuted_text[i] = text[i];
+	}
+
 	shell_about_box->priv = priv;
+
+	permute_names (shell_about_box);
 }
 
 

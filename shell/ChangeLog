@@ -1,3 +1,7 @@
+2001-10-28  Jon Trowbridge  <trow@ximian.com>
+
+	* e-shell-about-box.c: Distribute credit equally.
+
 2001-10-27    <NotZed@Ximian.com>
 
 	* evolution-storage.c (impl_Storage_async_xfer_folder): We want
