@@ -1,3 +1,9 @@
+2001-01-27  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* message-list.c (address_compare): Protect against NULL address
+	pointers.
+	(subject_compare): Same but for subject pointers.
+
 2001-01-27  Iain Holmes  <iain@ximian.com>
 
 	* mail-summary.c (create_summary_view): Applied patch from John R Sheets

@@ -255,6 +255,9 @@ address_compare (gconstpointer address1, gconstpointer address2)
 	EMailAddress *addr1, *addr2;
 	gint retval;
 	
+	g_return_val_if_fail (address1 != NULL, 1);
+	g_return_val_if_fail (address2 != NULL, -1);
+	
 	addr1 = e_mail_address_new (address1);
 	addr2 = e_mail_address_new (address2);
 	retval = e_mail_address_compare (addr1, addr2);
@@ -269,6 +272,9 @@ subject_compare (gconstpointer subject1, gconstpointer subject2)
 {
 	char *sub1;
 	char *sub2;
+	
+	g_return_val_if_fail (subject1 != NULL, 1);
+	g_return_val_if_fail (subject2 != NULL, -1);
 	
 	/* trim off any "Re:"'s at the beginning of subject1 */
 	sub1 = (char *) subject1;
