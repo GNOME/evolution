@@ -1,3 +1,7 @@
+2001-03-16  Dan Winship  <danw@ximian.com>
+
+	* e-path.c (e_path_to_physical): Fix a bug noticed by kmaraas
+
 2001-03-15  Dan Winship  <danw@ximian.com>
 
 	* e-html-utils.c (url_extract): Fix a bit: [mailto:foo] shouldn't

@@ -51,7 +51,7 @@ e_path_to_physical (const char *prefix, const char *vpath)
 	int ppath_len;
 	int prefix_len;
 
-	while (vpath == '/')
+	while (*vpath == '/')
 		vpath++;
 	if (!prefix)
 		prefix = "";
