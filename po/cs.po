@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2002-10-28 16:49-0500\n"
+"POT-Creation-Date: 2002-11-06 16:04-0500\n"
 "PO-Revision-Date: 2002-08-22 18:27-0400\n"
 "Last-Translator: Radka Doulíková <doulikova@centrum.cz>\n"
 "Language-Team: Czech <cs@li.org>\n"
@@ -28248,72 +28248,41 @@ msgstr "Evolution"
 msgid "Evolution is now exiting ..."
 msgstr "Evolution se právì zavírá ..."
 
-#: shell/main.c:227
-#, no-c-format
-msgid ""
-"Hi.  Thanks for taking the time to download this preview release\n"
-"of the Ximian Evolution groupware suite.\n"
-"\n"
-"This version of Ximian Evolution is not yet complete. It's getting close,\n"
-"but some features are either unfinished or don't work properly.\n"
-"\n"
-"If you want a stable version of Evolution, we urge you to uninstall,\n"
-"this version, and install a 1.0.x version instead (1.0.8)\n"
-"\n"
-"If you find bugs, please report them to us at bugzilla.ximian.com.\n"
-"This product comes with no warranty and is not intended for\n"
-"individuals prone to violent fits of anger.\n"
-"\n"
-"We hope that you enjoy the results of our hard work, and we\n"
-"eagerly await your contributions!\n"
-msgstr ""
-
-#: shell/main.c:250
-#, fuzzy
-msgid ""
-"Thanks\n"
-"The Ximian Evolution Team\n"
-msgstr "Ximín Evolution"
-
-#: shell/main.c:259
-msgid "Don't tell me again"
-msgstr "Pøí¹tì neupozoròovat"
-
-#: shell/main.c:394
+#: shell/main.c:277
 #, fuzzy
 msgid "Cannot access the Ximian Evolution shell."
 msgstr "Není mo¾né inicálizovat shell Ximín Evolution."
 
-#: shell/main.c:403
+#: shell/main.c:286
 #, fuzzy, c-format
 msgid "Cannot initialize the Ximian Evolution shell: %s"
 msgstr "Není mo¾né inicálizovat shell Ximín Evolution: %s"
 
-#: shell/main.c:485
+#: shell/main.c:368
 #, fuzzy
 msgid "Disable splash screen"
 msgstr "Zakázat úvodné okno"
 
-#: shell/main.c:487
+#: shell/main.c:370
 #, fuzzy
 msgid "Start in offline mode"
 msgstr "Spustit v re¾ime off-line"
 
-#: shell/main.c:489
+#: shell/main.c:372
 #, fuzzy
 msgid "Start in online mode"
 msgstr "Spustit v re¾ime on-line"
 
-#: shell/main.c:491
+#: shell/main.c:374
 #, fuzzy
 msgid "Send the debugging output of all components to a file."
 msgstr "Poslat ladící výstup se v¹etkých komponent od souboru."
 
-#: shell/main.c:493
+#: shell/main.c:376
 msgid "Force upgrading of configuration files from Evolution 1.0.x"
 msgstr ""
 
-#: shell/main.c:511
+#: shell/main.c:394
 #, fuzzy, c-format
 msgid ""
 "%s: --online and --offline cannot be used together.\n"
@@ -28322,7 +28291,7 @@ msgstr ""
 "%s: --online a --offline není mo¾né pou¾ít naraz.\n"
 "  Pou¾ete %s --help pro zobrazení dal¹ích informácií.\n"
 
-#: shell/main.c:542
+#: shell/main.c:425
 #, fuzzy
 msgid "Cannot initialize the Bonobo component system."
 msgstr "Není mo¾né inicálizovat komponentový systém Bonobo."
@@ -29097,7 +29066,7 @@ msgstr ""
 
 #: ui/evolution-mail-message.xml.h:63
 #, fuzzy
-msgid "Post a reply to a message message in a Public folder"
+msgid "Post a reply to a message in a Public folder"
 msgstr "Kontroluji novou po¹tu ve v¹etkých adresáøech"
 
 #: ui/evolution-mail-message.xml.h:64
@@ -30106,6 +30075,15 @@ msgstr "init_corba(): Není mo¾né inicálizovat GNOME"
 #, fuzzy
 msgid "init_bonobo(): could not initialize Bonobo"
 msgstr "init_bonobo(): Není mo¾né inicálizovat Bonobo"
+
+#, fuzzy
+#~ msgid ""
+#~ "Thanks\n"
+#~ "The Ximian Evolution Team\n"
+#~ msgstr "Ximín Evolution"
+
+#~ msgid "Don't tell me again"
+#~ msgstr "Pøí¹tì neupozoròovat"
 
 #~ msgid "_Configure..."
 #~ msgstr "_Nastavit..."

@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution 1.1.0\n"
-"POT-Creation-Date: 2002-10-28 16:49-0500\n"
+"POT-Creation-Date: 2002-11-06 16:04-0500\n"
 "PO-Revision-Date: 2001-05-25 13:35+0200\n"
 "Last-Translator: Josu Waliño <josu@elhuyar.com>\n"
 "Language-Team: Euskara\n"
@@ -26176,83 +26176,36 @@ msgstr "Evolution "
 msgid "Evolution is now exiting ..."
 msgstr "Evolution ixten ari da..."
 
-#: shell/main.c:227
-#, fuzzy, no-c-format
-msgid ""
-"Hi.  Thanks for taking the time to download this preview release\n"
-"of the Ximian Evolution groupware suite.\n"
-"\n"
-"This version of Ximian Evolution is not yet complete. It's getting close,\n"
-"but some features are either unfinished or don't work properly.\n"
-"\n"
-"If you want a stable version of Evolution, we urge you to uninstall,\n"
-"this version, and install a 1.0.x version instead (1.0.8)\n"
-"\n"
-"If you find bugs, please report them to us at bugzilla.ximian.com.\n"
-"This product comes with no warranty and is not intended for\n"
-"individuals prone to violent fits of anger.\n"
-"\n"
-"We hope that you enjoy the results of our hard work, and we\n"
-"eagerly await your contributions!\n"
-msgstr ""
-"Mila esker Evolution-en talde-lanerako tresnaren probako bertsio hau \n"
-"deskargatzeko denbora hartzeagatik.\n"
-"\n"
-"Evolution oraindik ez dago osatuta. Gutxi falta zaio, baina leku batzuetan "
-"oraindik\n"
-"eginbideak falta dira edo erdizka dabiltza. \n"
-"\n"
-"Akatsik aurkitzen baduzu, eman horien berri bugzilla.ximian.com helbidean.\n"
-"Produktu honek ez du garantiarik eta ez dago\n"
-"erraz haserretzen den jendearentzat eginda.\n"
-"\n"
-"Espero dugu gogokoa izango duzula gure lan gogorraren emaitza,\n"
-"eta atsegin handiz gauzkazu zure ekarpenen zain!\n"
-
-#: shell/main.c:250
-#, fuzzy
-msgid ""
-"Thanks\n"
-"The Ximian Evolution Team\n"
-msgstr ""
-"Eskerrik asko\n"
-"Evolution Taldea\n"
-
-#: shell/main.c:259
-#, fuzzy
-msgid "Don't tell me again"
-msgstr "Ez galdetu berriro"
-
-#: shell/main.c:394
+#: shell/main.c:277
 msgid "Cannot access the Ximian Evolution shell."
 msgstr "Ezin da Ximian Evolution-en shell-a atzitu."
 
-#: shell/main.c:403
+#: shell/main.c:286
 #, c-format
 msgid "Cannot initialize the Ximian Evolution shell: %s"
 msgstr "Ezin da Ximian Evolution-en shell-a abiarazi: %s"
 
-#: shell/main.c:485
+#: shell/main.c:368
 msgid "Disable splash screen"
 msgstr "Desgaitu splash pantaila"
 
-#: shell/main.c:487
+#: shell/main.c:370
 msgid "Start in offline mode"
 msgstr "Hasi lineaz kanpo"
 
-#: shell/main.c:489
+#: shell/main.c:372
 msgid "Start in online mode"
 msgstr "Hasi linean"
 
-#: shell/main.c:491
+#: shell/main.c:374
 msgid "Send the debugging output of all components to a file."
 msgstr "Bidali osagai guztien arazketa-irteera fitxategi batera."
 
-#: shell/main.c:493
+#: shell/main.c:376
 msgid "Force upgrading of configuration files from Evolution 1.0.x"
 msgstr ""
 
-#: shell/main.c:511
+#: shell/main.c:394
 #, c-format
 msgid ""
 "%s: --online and --offline cannot be used together.\n"
@@ -26261,7 +26214,7 @@ msgstr ""
 "%s: --online eta --offline ezin dira batera erabili.\n"
 "  Erabili %s --help informazio gehiago lortzeko.\n"
 
-#: shell/main.c:542
+#: shell/main.c:425
 msgid "Cannot initialize the Bonobo component system."
 msgstr "Ezin da Bonobo osagaiaren sistema hasieratu."
 
@@ -27029,7 +26982,7 @@ msgstr "Zereginaren erantzuna"
 
 #: ui/evolution-mail-message.xml.h:63
 #, fuzzy
-msgid "Post a reply to a message message in a Public folder"
+msgid "Post a reply to a message in a Public folder"
 msgstr "Karpeta guztietan begiratu mezurik dagoen"
 
 #: ui/evolution-mail-message.xml.h:64
@@ -28017,6 +27970,52 @@ msgstr "init_corba(): ezin izan da GNOME hasieratu"
 #: wombat/wombat.c:224
 msgid "init_bonobo(): could not initialize Bonobo"
 msgstr "init_bonobo(): ezin izan da Bonobo hasieratu"
+
+#, fuzzy
+#~ msgid ""
+#~ "Hi.  Thanks for taking the time to download this preview release\n"
+#~ "of the Ximian Evolution groupware suite.\n"
+#~ "\n"
+#~ "This version of Ximian Evolution is not yet complete. It's getting "
+#~ "close,\n"
+#~ "but some features are either unfinished or don't work properly.\n"
+#~ "\n"
+#~ "If you want a stable version of Evolution, we urge you to uninstall,\n"
+#~ "this version, and install a 1.0.x version instead (1.0.8)\n"
+#~ "\n"
+#~ "If you find bugs, please report them to us at bugzilla.ximian.com.\n"
+#~ "This product comes with no warranty and is not intended for\n"
+#~ "individuals prone to violent fits of anger.\n"
+#~ "\n"
+#~ "We hope that you enjoy the results of our hard work, and we\n"
+#~ "eagerly await your contributions!\n"
+#~ msgstr ""
+#~ "Mila esker Evolution-en talde-lanerako tresnaren probako bertsio hau \n"
+#~ "deskargatzeko denbora hartzeagatik.\n"
+#~ "\n"
+#~ "Evolution oraindik ez dago osatuta. Gutxi falta zaio, baina leku "
+#~ "batzuetan oraindik\n"
+#~ "eginbideak falta dira edo erdizka dabiltza. \n"
+#~ "\n"
+#~ "Akatsik aurkitzen baduzu, eman horien berri bugzilla.ximian.com "
+#~ "helbidean.\n"
+#~ "Produktu honek ez du garantiarik eta ez dago\n"
+#~ "erraz haserretzen den jendearentzat eginda.\n"
+#~ "\n"
+#~ "Espero dugu gogokoa izango duzula gure lan gogorraren emaitza,\n"
+#~ "eta atsegin handiz gauzkazu zure ekarpenen zain!\n"
+
+#, fuzzy
+#~ msgid ""
+#~ "Thanks\n"
+#~ "The Ximian Evolution Team\n"
+#~ msgstr ""
+#~ "Eskerrik asko\n"
+#~ "Evolution Taldea\n"
+
+#, fuzzy
+#~ msgid "Don't tell me again"
+#~ msgstr "Ez galdetu berriro"
 
 #, fuzzy
 #~ msgid "_Configure..."

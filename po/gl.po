@@ -12,7 +12,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
-"POT-Creation-Date: 2002-10-28 16:49-0500\n"
+"POT-Creation-Date: 2002-11-06 16:04-0500\n"
 "PO-Revision-Date: 2001-09-17 15:10+0200\n"
 "Last-Translator: Manuel A. Fernández Montecelo <manuel@sindominio.net>\n"
 "Language-Team: Galician <trasno@ceu.fi.udc.es>\n"
@@ -27535,92 +27535,46 @@ msgstr "Evolution"
 msgid "Evolution is now exiting ..."
 msgstr "_Fiestra de Evolution"
 
-#: shell/main.c:227
-#, fuzzy, no-c-format
-msgid ""
-"Hi.  Thanks for taking the time to download this preview release\n"
-"of the Ximian Evolution groupware suite.\n"
-"\n"
-"This version of Ximian Evolution is not yet complete. It's getting close,\n"
-"but some features are either unfinished or don't work properly.\n"
-"\n"
-"If you want a stable version of Evolution, we urge you to uninstall,\n"
-"this version, and install a 1.0.x version instead (1.0.8)\n"
-"\n"
-"If you find bugs, please report them to us at bugzilla.ximian.com.\n"
-"This product comes with no warranty and is not intended for\n"
-"individuals prone to violent fits of anger.\n"
-"\n"
-"We hope that you enjoy the results of our hard work, and we\n"
-"eagerly await your contributions!\n"
-msgstr ""
-"Ola. Gracias por toma-lo tempo de baixar esta versión de avaliación\n"
-"da suite de traballo en grupo Evolution.\n"
-"\n"
-"Evolution aínda non está completa. Está achegándose, pero hai sitios\n"
-"nos que non temos algunhas características, ou están a medio facer.\n"
-"\n"
-"Se atopa erros, por favor, infórmenos deles en bugzilla.ximian.com\n"
-"Este producto non tén garantía e non se pretende que o empreguen\n"
-"individuos propensos a ataques de furia.\n"
-"\n"
-"Esperamos que desfrute do resultado do noso duro traballo, e\n"
-"agardamos con impaciencia polas súas colaboracións.\n"
-
-#: shell/main.c:250
-#, fuzzy
-msgid ""
-"Thanks\n"
-"The Ximian Evolution Team\n"
-msgstr ""
-"Graciñas\n"
-"O Equipo de Evolution\n"
-
-#: shell/main.c:259
-#, fuzzy
-msgid "Don't tell me again"
-msgstr "Non preguntar de novo"
-
-#: shell/main.c:394
+#: shell/main.c:277
 #, fuzzy
 msgid "Cannot access the Ximian Evolution shell."
 msgstr "Non se pode acceder ao shell de Evolution."
 
-#: shell/main.c:403
+#: shell/main.c:286
 #, fuzzy, c-format
 msgid "Cannot initialize the Ximian Evolution shell: %s"
 msgstr "Non se pode inicializar o shell de Evolution: %s"
 
-#: shell/main.c:485
+#: shell/main.c:368
 msgid "Disable splash screen"
 msgstr "Desactivar a pantalla inicial"
 
-#: shell/main.c:487
+#: shell/main.c:370
 #, fuzzy
 msgid "Start in offline mode"
 msgstr "Comezando a importación"
 
-#: shell/main.c:489
+#: shell/main.c:372
 #, fuzzy
 msgid "Start in online mode"
 msgstr "Iniciando os Importadores Intelixentes"
 
-#: shell/main.c:491
+#: shell/main.c:374
 msgid "Send the debugging output of all components to a file."
 msgstr "Enviar a saída da depuración de todos os compoñentes a un ficheiro."
 
-#: shell/main.c:493
+#: shell/main.c:376
 msgid "Force upgrading of configuration files from Evolution 1.0.x"
 msgstr ""
 
-#: shell/main.c:511
+#: shell/main.c:394
 #, c-format
 msgid ""
 "%s: --online and --offline cannot be used together.\n"
 "  Use %s --help for more information.\n"
 msgstr ""
 
-#: shell/main.c:542
+#: shell/main.c:425
 msgid "Cannot initialize the Bonobo component system."
 msgstr "Non se pode inicializar o sistema de compoñentes de Bonobo."
 
@@ -28409,7 +28363,7 @@ msgstr "Resposta á Tarefa"
 
 #: ui/evolution-mail-message.xml.h:63
 #, fuzzy
-msgid "Post a reply to a message message in a Public folder"
+msgid "Post a reply to a message in a Public folder"
 msgstr "Comprobar as novas mensaxes en tódolos cartafoles"
 
 #: ui/evolution-mail-message.xml.h:64
@@ -29415,6 +29369,50 @@ msgstr "init_corba(): non foi posible inicializar GNOME"
 #: wombat/wombat.c:224
 msgid "init_bonobo(): could not initialize Bonobo"
 msgstr "init_bonobo(): non foi posible inicializar Bonobo"
+
+#, fuzzy
+#~ msgid ""
+#~ "Hi.  Thanks for taking the time to download this preview release\n"
+#~ "of the Ximian Evolution groupware suite.\n"
+#~ "\n"
+#~ "This version of Ximian Evolution is not yet complete. It's getting "
+#~ "close,\n"
+#~ "but some features are either unfinished or don't work properly.\n"
+#~ "\n"
+#~ "If you want a stable version of Evolution, we urge you to uninstall,\n"
+#~ "this version, and install a 1.0.x version instead (1.0.8)\n"
+#~ "\n"
+#~ "If you find bugs, please report them to us at bugzilla.ximian.com.\n"
+#~ "This product comes with no warranty and is not intended for\n"
+#~ "individuals prone to violent fits of anger.\n"
+#~ "\n"
+#~ "We hope that you enjoy the results of our hard work, and we\n"
+#~ "eagerly await your contributions!\n"
+#~ msgstr ""
+#~ "Ola. Gracias por toma-lo tempo de baixar esta versión de avaliación\n"
+#~ "da suite de traballo en grupo Evolution.\n"
+#~ "\n"
+#~ "Evolution aínda non está completa. Está achegándose, pero hai sitios\n"
+#~ "nos que non temos algunhas características, ou están a medio facer.\n"
+#~ "\n"
+#~ "Se atopa erros, por favor, infórmenos deles en bugzilla.ximian.com\n"
+#~ "Este producto non tén garantía e non se pretende que o empreguen\n"
+#~ "individuos propensos a ataques de furia.\n"
+#~ "\n"
+#~ "Esperamos que desfrute do resultado do noso duro traballo, e\n"
+#~ "agardamos con impaciencia polas súas colaboracións.\n"
+
+#, fuzzy
+#~ msgid ""
+#~ "Thanks\n"
+#~ "The Ximian Evolution Team\n"
+#~ msgstr ""
+#~ "Graciñas\n"
+#~ "O Equipo de Evolution\n"
+
+#, fuzzy
+#~ msgid "Don't tell me again"
+#~ msgstr "Non preguntar de novo"
 
 #, fuzzy
 #~ msgid "_Configure..."

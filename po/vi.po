@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution VERSION\n"
-"POT-Creation-Date: 2002-10-28 16:49-0500\n"
+"POT-Creation-Date: 2002-11-06 16:04-0500\n"
 "PO-Revision-Date: 2002-10-21 13:24+0700\n"
 "Last-Translator: pclouds <pclouds@gmx.net>\n"
 "Language-Team: GnomeVI <gnomevi-list@lists.sourceforge.net>\n"
@@ -25813,80 +25813,36 @@ msgstr "Evolution"
 msgid "Evolution is now exiting ..."
 msgstr "Evolution đang thoát..."
 
-#: shell/main.c:227
-#, no-c-format
-msgid ""
-"Hi.  Thanks for taking the time to download this preview release\n"
-"of the Ximian Evolution groupware suite.\n"
-"\n"
-"This version of Ximian Evolution is not yet complete. It's getting close,\n"
-"but some features are either unfinished or don't work properly.\n"
-"\n"
-"If you want a stable version of Evolution, we urge you to uninstall,\n"
-"this version, and install a 1.0.x version instead (1.0.8)\n"
-"\n"
-"If you find bugs, please report them to us at bugzilla.ximian.com.\n"
-"This product comes with no warranty and is not intended for\n"
-"individuals prone to violent fits of anger.\n"
-"\n"
-"We hope that you enjoy the results of our hard work, and we\n"
-"eagerly await your contributions!\n"
-msgstr ""
-"Xin chào. Xin cám ơn đã bỏ thời gian để tải về bản dùng thử này của\n"
-"bộ phần mềm nhóm Ximian Evolution.\n"
-"\n"
-"Đây là phiên bản Ximian Evolution chưa hoàn chỉnh. Nó gần hoàn chỉnh,\n"
-"nhưng vẫn còn vài tính năng hoặc chưa hoàn chỉnh, hoặc chưa làm việc\n"
-"đúng.\n"
-"\n"
-"Nếu bạn muốn dùng một phiên bản Evolution ổn định, chúng tôi khuyên nên\n"
-"gỡ cài đặt phiên bản này và cài đặt phiên bản 1.0.x thay thê (1.0.8)\n"
-"\n"
-"Chúng tôi hy vọng bạn thích kết quả của quá trình làm việc của chúng tôi,\n"
-"và chúng tôi háo hức chờ đời sự đóng góp của bạn!\n"
-
-#: shell/main.c:250
-msgid ""
-"Thanks\n"
-"The Ximian Evolution Team\n"
-msgstr ""
-"Xin cám ơn\n"
-"Nhóm Ximian Evolution\n"
-
-#: shell/main.c:259
-msgid "Don't tell me again"
-msgstr "Đừng nói điều này lần nữa"
-
-#: shell/main.c:394
+#: shell/main.c:277
 msgid "Cannot access the Ximian Evolution shell."
 msgstr "Không thể truy cập Vỏ bọc Ximian Evolution"
 
-#: shell/main.c:403
+#: shell/main.c:286
 #, c-format
 msgid "Cannot initialize the Ximian Evolution shell: %s"
 msgstr "Không thể khởi động Vỏ bọc Ximian Evolution: %s"
 
-#: shell/main.c:485
+#: shell/main.c:368
 msgid "Disable splash screen"
 msgstr ""
 
-#: shell/main.c:487
+#: shell/main.c:370
 msgid "Start in offline mode"
 msgstr "Khởi động trong chế độ ngoại tuyến"
 
-#: shell/main.c:489
+#: shell/main.c:372
 msgid "Start in online mode"
 msgstr "Khởi động trong chế độ trực tuyến"
 
-#: shell/main.c:491
+#: shell/main.c:374
 msgid "Send the debugging output of all components to a file."
 msgstr "Gửi thông tin debug của mọi thành phần vào tập tin."
 
-#: shell/main.c:493
+#: shell/main.c:376
 msgid "Force upgrading of configuration files from Evolution 1.0.x"
 msgstr "Buộc nâng cấp tập tin cấu hình từ Evolution 1.0.x"
 
-#: shell/main.c:511
+#: shell/main.c:394
 #, c-format
 msgid ""
 "%s: --online and --offline cannot be used together.\n"
@@ -25895,7 +25851,7 @@ msgstr ""
 "%s: --online và --offline không thể được dùng chung.\n"
 "  Hãy dùng %s --help để biết thêm thông tin.\n"
 
-#: shell/main.c:542
+#: shell/main.c:425
 msgid "Cannot initialize the Bonobo component system."
 msgstr "Không thể khởi động hệ thống thành phần Bonobo."
 
@@ -26652,7 +26608,8 @@ msgid "Post a Reply"
 msgstr "Gửi trả lời"
 
 #: ui/evolution-mail-message.xml.h:63
-msgid "Post a reply to a message message in a Public folder"
+#, fuzzy
+msgid "Post a reply to a message in a Public folder"
 msgstr "Gửi trả lời thông điệp trong thư mục Công cộng"
 
 #: ui/evolution-mail-message.xml.h:64
@@ -27607,6 +27564,48 @@ msgstr "init_corba(): không thể khởi động GNOME"
 #: wombat/wombat.c:224
 msgid "init_bonobo(): could not initialize Bonobo"
 msgstr "init_bonobo(): không thể khởi động Bonobo"
+
+#~ msgid ""
+#~ "Hi.  Thanks for taking the time to download this preview release\n"
+#~ "of the Ximian Evolution groupware suite.\n"
+#~ "\n"
+#~ "This version of Ximian Evolution is not yet complete. It's getting "
+#~ "close,\n"
+#~ "but some features are either unfinished or don't work properly.\n"
+#~ "\n"
+#~ "If you want a stable version of Evolution, we urge you to uninstall,\n"
+#~ "this version, and install a 1.0.x version instead (1.0.8)\n"
+#~ "\n"
+#~ "If you find bugs, please report them to us at bugzilla.ximian.com.\n"
+#~ "This product comes with no warranty and is not intended for\n"
+#~ "individuals prone to violent fits of anger.\n"
+#~ "\n"
+#~ "We hope that you enjoy the results of our hard work, and we\n"
+#~ "eagerly await your contributions!\n"
+#~ msgstr ""
+#~ "Xin chào. Xin cám ơn đã bỏ thời gian để tải về bản dùng thử này của\n"
+#~ "bộ phần mềm nhóm Ximian Evolution.\n"
+#~ "\n"
+#~ "Đây là phiên bản Ximian Evolution chưa hoàn chỉnh. Nó gần hoàn chỉnh,\n"
+#~ "nhưng vẫn còn vài tính năng hoặc chưa hoàn chỉnh, hoặc chưa làm việc\n"
+#~ "đúng.\n"
+#~ "\n"
+#~ "Nếu bạn muốn dùng một phiên bản Evolution ổn định, chúng tôi khuyên nên\n"
+#~ "gỡ cài đặt phiên bản này và cài đặt phiên bản 1.0.x thay thê (1.0.8)\n"
+#~ "\n"
+#~ "Chúng tôi hy vọng bạn thích kết quả của quá trình làm việc của chúng "
+#~ "tôi,\n"
+#~ "và chúng tôi háo hức chờ đời sự đóng góp của bạn!\n"
+
+#~ msgid ""
+#~ "Thanks\n"
+#~ "The Ximian Evolution Team\n"
+#~ msgstr ""
+#~ "Xin cám ơn\n"
+#~ "Nhóm Ximian Evolution\n"
+
+#~ msgid "Don't tell me again"
+#~ msgstr "Đừng nói điều này lần nữa"
 
 #~ msgid "_Configure..."
 #~ msgstr "_Cấu hình..."

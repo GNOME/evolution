@@ -1,5 +1,16 @@
-Evolution 1.1.3, 2002-??-??
+Evolution 1.2.0, 2002-11-06
 ---------------------------
+
+Changes since 1.1.90:
+
+  - Made the default width of the mail filter editing dialog larger.
+    (Dan)
+
+  - Removed the development warning at startup.  (Ettore)
+
+
+Evolution 1.1.90, 2002-10-28
+----------------------------
 
 Bugzilla Bugs Fixed (see http://bugzilla.ximian.com/show_bug.cgi):
 

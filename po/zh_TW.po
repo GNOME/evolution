@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution 0.16.99\n"
-"POT-Creation-Date: 2002-10-28 16:49-0500\n"
+"POT-Creation-Date: 2002-11-06 16:04-0500\n"
 "PO-Revision-Date: 2001-09-10 09:55+0800\n"
 "Last-Translator: Joe Man <trmetal@yahoo.com.hk>\n"
 "Language-Team: Chinese <zh-l10n@linux.org.tw>\n"
@@ -31230,91 +31230,42 @@ msgstr "Evolution"
 msgid "Evolution is now exiting ..."
 msgstr "Evolution 視窗(_W)"
 
-#: shell/main.c:227
-#, fuzzy, no-c-format
-msgid ""
-"Hi.  Thanks for taking the time to download this preview release\n"
-"of the Ximian Evolution groupware suite.\n"
-"\n"
-"This version of Ximian Evolution is not yet complete. It's getting close,\n"
-"but some features are either unfinished or don't work properly.\n"
-"\n"
-"If you want a stable version of Evolution, we urge you to uninstall,\n"
-"this version, and install a 1.0.x version instead (1.0.8)\n"
-"\n"
-"If you find bugs, please report them to us at bugzilla.ximian.com.\n"
-"This product comes with no warranty and is not intended for\n"
-"individuals prone to violent fits of anger.\n"
-"\n"
-"We hope that you enjoy the results of our hard work, and we\n"
-"eagerly await your contributions!\n"
-msgstr ""
-"嗨。感謝您花時間下載\n"
-"Ximian Evolution 群體軟體套餐。\n"
-"\n"
-"Ximian Evolution 尚未完成。它已經很接近了，但有些地方\n"
-"的功能失效或只有一半的功能可以運作。\n"
-"\n"
-"如果您找到 bug，請把它們回報到 bugzilla.ximian.com。\n"
-"這個產品沒有任何保證，而其本意並不是要惹\n"
-"任何人震怒。\n"
-"\n"
-"我們希望您享受我們努力工作的成果，也\n"
-"熱切地期待您的貢獻！\n"
-
-# shell/main.c:107
-#: shell/main.c:250
-msgid ""
-"Thanks\n"
-"The Ximian Evolution Team\n"
-msgstr ""
-"多謝\n"
-"Ximian Evolution 小組\n"
-
-# importers/elm-importer.c:528
-# importers/netscape-importer.c:807
-# importers/pine-importer.c:668
-#: shell/main.c:259
-#, fuzzy
-msgid "Don't tell me again"
-msgstr "不要再顯示這個訊息"
-
 # shell/main.c:138
-#: shell/main.c:394
+#: shell/main.c:277
 msgid "Cannot access the Ximian Evolution shell."
 msgstr "無法存取 Ximian Evolution shell。"
 
 # shell/main.c:138
-#: shell/main.c:403
+#: shell/main.c:286
 #, c-format
 msgid "Cannot initialize the Ximian Evolution shell: %s"
 msgstr "無法初始化 Ximian Evolution shell： %s"
 
 # shell/main.c:184
-#: shell/main.c:485
+#: shell/main.c:368
 msgid "Disable splash screen"
 msgstr "停用顯著效果螢幕"
 
-#: shell/main.c:487
+#: shell/main.c:370
 #, fuzzy
 msgid "Start in offline mode"
 msgstr "開始匯入"
 
-#: shell/main.c:489
+#: shell/main.c:372
 #, fuzzy
 msgid "Start in online mode"
 msgstr "啟動智慧型匯入服務"
 
 # shell/main.c:185
-#: shell/main.c:491
+#: shell/main.c:374
 msgid "Send the debugging output of all components to a file."
 msgstr "將全部元件的除錯輸出資料傳送至一個檔案。"
 
-#: shell/main.c:493
+#: shell/main.c:376
 msgid "Force upgrading of configuration files from Evolution 1.0.x"
 msgstr ""
 
-#: shell/main.c:511
+#: shell/main.c:394
 #, c-format
 msgid ""
 "%s: --online and --offline cannot be used together.\n"
@@ -31322,7 +31273,7 @@ msgid ""
 msgstr ""
 
 # shell/main.c:217
-#: shell/main.c:542
+#: shell/main.c:425
 msgid "Cannot initialize the Bonobo component system."
 msgstr "無法初始化 Bonobo 元件系統。"
 
@@ -32331,7 +32282,7 @@ msgstr "工作回覆"
 # camel/providers/imap/camel-imap-provider.c:45
 #: ui/evolution-mail-message.xml.h:63
 #, fuzzy
-msgid "Post a reply to a message message in a Public folder"
+msgid "Post a reply to a message in a Public folder"
 msgstr "檢查所有資料夾裡的新郵件"
 
 # ui/evolution-mail.xml.h:24
@@ -33598,6 +33549,53 @@ msgstr "init_corba()：不能初始化 GNOME"
 #: wombat/wombat.c:224
 msgid "init_bonobo(): could not initialize Bonobo"
 msgstr "init_bonobo()：不能初始化 Bonobo"
+
+#, fuzzy
+#~ msgid ""
+#~ "Hi.  Thanks for taking the time to download this preview release\n"
+#~ "of the Ximian Evolution groupware suite.\n"
+#~ "\n"
+#~ "This version of Ximian Evolution is not yet complete. It's getting "
+#~ "close,\n"
+#~ "but some features are either unfinished or don't work properly.\n"
+#~ "\n"
+#~ "If you want a stable version of Evolution, we urge you to uninstall,\n"
+#~ "this version, and install a 1.0.x version instead (1.0.8)\n"
+#~ "\n"
+#~ "If you find bugs, please report them to us at bugzilla.ximian.com.\n"
+#~ "This product comes with no warranty and is not intended for\n"
+#~ "individuals prone to violent fits of anger.\n"
+#~ "\n"
+#~ "We hope that you enjoy the results of our hard work, and we\n"
+#~ "eagerly await your contributions!\n"
+#~ msgstr ""
+#~ "嗨。感謝您花時間下載\n"
+#~ "Ximian Evolution 群體軟體套餐。\n"
+#~ "\n"
+#~ "Ximian Evolution 尚未完成。它已經很接近了，但有些地方\n"
+#~ "的功能失效或只有一半的功能可以運作。\n"
+#~ "\n"
+#~ "如果您找到 bug，請把它們回報到 bugzilla.ximian.com。\n"
+#~ "這個產品沒有任何保證，而其本意並不是要惹\n"
+#~ "任何人震怒。\n"
+#~ "\n"
+#~ "我們希望您享受我們努力工作的成果，也\n"
+#~ "熱切地期待您的貢獻！\n"
+
+# shell/main.c:107
+#~ msgid ""
+#~ "Thanks\n"
+#~ "The Ximian Evolution Team\n"
+#~ msgstr ""
+#~ "多謝\n"
+#~ "Ximian Evolution 小組\n"
+
+# importers/elm-importer.c:528
+# importers/netscape-importer.c:807
+# importers/pine-importer.c:668
+#, fuzzy
+#~ msgid "Don't tell me again"
+#~ msgstr "不要再顯示這個訊息"
 
 # mail/mail-config.glade.h:40
 #, fuzzy

@@ -6,12 +6,12 @@
 # Martin Norbäck <d95mback@dtek.chalmers.se>, 2001.
 # Johan Dahlin <zilch.am@home.se>, 2001.
 #
-# $Id: sv.po,v 1.156 2002/10/28 22:46:40 ettore Exp $
+# $Id: sv.po,v 1.156.2.1 2002/11/07 21:33:03 ettore Exp $
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
-"POT-Creation-Date: 2002-10-28 16:49-0500\n"
+"POT-Creation-Date: 2002-11-06 16:04-0500\n"
 "PO-Revision-Date: 2002-04-01 01:16+0200\n"
 "Last-Translator: Christian Rose <menthos@menthos.com>\n"
 "Language-Team: Swedish <sv@li.org>\n"
@@ -26181,92 +26181,45 @@ msgstr "Evolution"
 msgid "Evolution is now exiting ..."
 msgstr "Evolution avslutar nu..."
 
-#: shell/main.c:227
-#, fuzzy, no-c-format
-msgid ""
-"Hi.  Thanks for taking the time to download this preview release\n"
-"of the Ximian Evolution groupware suite.\n"
-"\n"
-"This version of Ximian Evolution is not yet complete. It's getting close,\n"
-"but some features are either unfinished or don't work properly.\n"
-"\n"
-"If you want a stable version of Evolution, we urge you to uninstall,\n"
-"this version, and install a 1.0.x version instead (1.0.8)\n"
-"\n"
-"If you find bugs, please report them to us at bugzilla.ximian.com.\n"
-"This product comes with no warranty and is not intended for\n"
-"individuals prone to violent fits of anger.\n"
-"\n"
-"We hope that you enjoy the results of our hard work, and we\n"
-"eagerly await your contributions!\n"
-msgstr ""
-"Hej. Tack för att du tog dig tiden att hämta denna förhandsversion\n"
-"av grupprogramsviten Ximian Evolution.\n"
-"\n"
-"Ximian Evolution är inte färdigt än. Det börjar närma sig, men det\n"
-"finns platser där funktioner antingen saknas eller endast fungerar\n"
-"delvis.\n"
-"\n"
-"Om du hittar fel i programmet ber vi att du rapporterar dem till\n"
-"oss på bugzilla.ximian.com.\n"
-"Denna produkt kommer utan garanti och är inte lämpad för\n"
-"våldsbenägna personer.\n"
-"\n"
-"Vi hoppas att du gläds åt resultatet av vårt hårda arbete, och vi\n"
-"inväntar med spänning dina bidrag!\n"
-
-#: shell/main.c:250
-msgid ""
-"Thanks\n"
-"The Ximian Evolution Team\n"
-msgstr ""
-"Tack\n"
-"Ximian Evolution-teamet\n"
-
-#: shell/main.c:259
-#, fuzzy
-msgid "Don't tell me again"
-msgstr "Fråga mig inte igen"
-
-#: shell/main.c:394
+#: shell/main.c:277
 msgid "Cannot access the Ximian Evolution shell."
 msgstr "Kan inte komma åt Ximian Evolution-skalet."
 
-#: shell/main.c:403
+#: shell/main.c:286
 #, c-format
 msgid "Cannot initialize the Ximian Evolution shell: %s"
 msgstr "Kan inte initiera Ximian Evolution-skalet: %s"
 
-#: shell/main.c:485
+#: shell/main.c:368
 msgid "Disable splash screen"
 msgstr "Använd inte startbild"
 
-#: shell/main.c:487
+#: shell/main.c:370
 #, fuzzy
 msgid "Start in offline mode"
 msgstr "Startar import"
 
-#: shell/main.c:489
+#: shell/main.c:372
 #, fuzzy
 msgid "Start in online mode"
 msgstr "Startar intelligenta importörer"
 
-#: shell/main.c:491
+#: shell/main.c:374
 msgid "Send the debugging output of all components to a file."
 msgstr "Skicka felsökningsinformation från alla komponenter till en fil."
 
-#: shell/main.c:493
+#: shell/main.c:376
 msgid "Force upgrading of configuration files from Evolution 1.0.x"
 msgstr ""
 
-#: shell/main.c:511
+#: shell/main.c:394
 #, c-format
 msgid ""
 "%s: --online and --offline cannot be used together.\n"
 "  Use %s --help for more information.\n"
 msgstr ""
 
-#: shell/main.c:542
+#: shell/main.c:425
 msgid "Cannot initialize the Bonobo component system."
 msgstr "Kan inte initiera Bonobo-komponentsystemet."
 
@@ -27046,7 +26999,7 @@ msgstr "Uppgiftssvar"
 
 #: ui/evolution-mail-message.xml.h:63
 #, fuzzy
-msgid "Post a reply to a message message in a Public folder"
+msgid "Post a reply to a message in a Public folder"
 msgstr "Kontrollera nya meddelanden i alla mappar"
 
 #: ui/evolution-mail-message.xml.h:64
@@ -28042,6 +27995,51 @@ msgstr "init_corba(): kunde inte initiera GNOME"
 #: wombat/wombat.c:224
 msgid "init_bonobo(): could not initialize Bonobo"
 msgstr "init_bonobo(): kunde inte initiera Bonobo"
+
+#, fuzzy
+#~ msgid ""
+#~ "Hi.  Thanks for taking the time to download this preview release\n"
+#~ "of the Ximian Evolution groupware suite.\n"
+#~ "\n"
+#~ "This version of Ximian Evolution is not yet complete. It's getting "
+#~ "close,\n"
+#~ "but some features are either unfinished or don't work properly.\n"
+#~ "\n"
+#~ "If you want a stable version of Evolution, we urge you to uninstall,\n"
+#~ "this version, and install a 1.0.x version instead (1.0.8)\n"
+#~ "\n"
+#~ "If you find bugs, please report them to us at bugzilla.ximian.com.\n"
+#~ "This product comes with no warranty and is not intended for\n"
+#~ "individuals prone to violent fits of anger.\n"
+#~ "\n"
+#~ "We hope that you enjoy the results of our hard work, and we\n"
+#~ "eagerly await your contributions!\n"
+#~ msgstr ""
+#~ "Hej. Tack för att du tog dig tiden att hämta denna förhandsversion\n"
+#~ "av grupprogramsviten Ximian Evolution.\n"
+#~ "\n"
+#~ "Ximian Evolution är inte färdigt än. Det börjar närma sig, men det\n"
+#~ "finns platser där funktioner antingen saknas eller endast fungerar\n"
+#~ "delvis.\n"
+#~ "\n"
+#~ "Om du hittar fel i programmet ber vi att du rapporterar dem till\n"
+#~ "oss på bugzilla.ximian.com.\n"
+#~ "Denna produkt kommer utan garanti och är inte lämpad för\n"
+#~ "våldsbenägna personer.\n"
+#~ "\n"
+#~ "Vi hoppas att du gläds åt resultatet av vårt hårda arbete, och vi\n"
+#~ "inväntar med spänning dina bidrag!\n"
+
+#~ msgid ""
+#~ "Thanks\n"
+#~ "The Ximian Evolution Team\n"
+#~ msgstr ""
+#~ "Tack\n"
+#~ "Ximian Evolution-teamet\n"
+
+#, fuzzy
+#~ msgid "Don't tell me again"
+#~ msgstr "Fråga mig inte igen"
 
 #~ msgid "_Configure..."
 #~ msgstr "_Konfigurera..."

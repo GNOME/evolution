@@ -7,7 +7,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution 0.0.6\n"
-"POT-Creation-Date: 2002-10-28 16:49-0500\n"
+"POT-Creation-Date: 2002-11-06 16:04-0500\n"
 "PO-Revision-Date: 2000-11-01 00:40+0100\n"
 "Last-Translator: Quico Llach <tradgnome@softcatala.org>\n"
 "Language-Team: Catalan <linux@softcatala.org>\n"
@@ -27815,101 +27815,46 @@ msgstr "Evolution"
 msgid "Evolution is now exiting ..."
 msgstr "_Paràmetres"
 
-#: shell/main.c:227
-#, fuzzy, no-c-format
-msgid ""
-"Hi.  Thanks for taking the time to download this preview release\n"
-"of the Ximian Evolution groupware suite.\n"
-"\n"
-"This version of Ximian Evolution is not yet complete. It's getting close,\n"
-"but some features are either unfinished or don't work properly.\n"
-"\n"
-"If you want a stable version of Evolution, we urge you to uninstall,\n"
-"this version, and install a 1.0.x version instead (1.0.8)\n"
-"\n"
-"If you find bugs, please report them to us at bugzilla.ximian.com.\n"
-"This product comes with no warranty and is not intended for\n"
-"individuals prone to violent fits of anger.\n"
-"\n"
-"We hope that you enjoy the results of our hard work, and we\n"
-"eagerly await your contributions!\n"
-msgstr ""
-"Hola! Gràcies per prendre-us la molèstia de baixar-vos aquesta versió\n"
-"provisional del conjunt de programes de grup de treball Evolution.\n"
-"Més o menys durant el darrer mes i mig ens hem concentrat en fer que\n"
-"l'Evolution es pugui utilitzar. Molts dels seus desenvolupadors ja estan\n"
-"utilitzant-lo per llegir sempre el seu correu, així que també ho podeu fer\n"
-"(però feu còpies de seguretat per si un cas!).\n"
-"\n"
-"Però, encara que hem solucionat molts problemes que afectaven a "
-"l'estabilitat\n"
-"de l'Evolution, aquí teniu encara el descàrrec. L'Evolution pot: deixar de\n"
-"funcionar, perdre el correu que no voleu perdre, negar-se a suprimir el "
-"correu\n"
-"que voleu suprimir, deixar processos en marxa per tot arreu, consumir el "
-"100%\n"
-"de la CPU, anar massa de pressa, blocar-se, enviar correu HTML a llistes de\n"
-"correu a l'atzar, i deixar-vos en ridícul davant dels vostres amics i "
-"companys\n"
-"de feina. Utilitzeu-lo només sota un control estricte.\n"
-"\n"
-"Esperem que gaudiu del resultat de la nostra feixuga feina, i esperem\n"
-"ansiosament les vostres contribucions!\n"
-
-#: shell/main.c:250
-#, fuzzy
-msgid ""
-"Thanks\n"
-"The Ximian Evolution Team\n"
-msgstr ""
-"Gràcies\n"
-"L'equip de l'Evolution\n"
-
-#: shell/main.c:259
-#, fuzzy
-msgid "Don't tell me again"
-msgstr "Envia aquest missatge"
-
-#: shell/main.c:394
+#: shell/main.c:277
 #, fuzzy
 msgid "Cannot access the Ximian Evolution shell."
 msgstr "No es pot inicialitzat l'intèrpret d'ordres de l'Evolution."
 
-#: shell/main.c:403
+#: shell/main.c:286
 #, fuzzy, c-format
 msgid "Cannot initialize the Ximian Evolution shell: %s"
 msgstr "No es pot inicialitzat l'intèrpret d'ordres de l'Evolution."
 
-#: shell/main.c:485
+#: shell/main.c:368
 msgid "Disable splash screen"
 msgstr ""
 
-#: shell/main.c:487
+#: shell/main.c:370
 #, fuzzy
 msgid "Start in offline mode"
 msgstr "Data d'_inici:"
 
-#: shell/main.c:489
+#: shell/main.c:372
 #, fuzzy
 msgid "Start in online mode"
 msgstr "Data d'_inici:"
 
-#: shell/main.c:491
+#: shell/main.c:374
 msgid "Send the debugging output of all components to a file."
 msgstr ""
 
-#: shell/main.c:493
+#: shell/main.c:376
 msgid "Force upgrading of configuration files from Evolution 1.0.x"
 msgstr ""
 
-#: shell/main.c:511
+#: shell/main.c:394
 #, c-format
 msgid ""
 "%s: --online and --offline cannot be used together.\n"
 "  Use %s --help for more information.\n"
 msgstr ""
 
-#: shell/main.c:542
+#: shell/main.c:425
 msgid "Cannot initialize the Bonobo component system."
 msgstr "No es pot inicialitzar el sistema de components del Bonobo."
 
@@ -28795,7 +28740,7 @@ msgstr "Respon"
 
 #: ui/evolution-mail-message.xml.h:63
 #, fuzzy
-msgid "Post a reply to a message message in a Public folder"
+msgid "Post a reply to a message in a Public folder"
 msgstr "Comprova si hi ha nou correu"
 
 #: ui/evolution-mail-message.xml.h:64
@@ -29908,6 +29853,62 @@ msgstr "No s'ha pogut inicialitzar el Bonobo"
 #, fuzzy
 msgid "init_bonobo(): could not initialize Bonobo"
 msgstr "No s'ha pogut inicialitzar el Bonobo"
+
+#, fuzzy
+#~ msgid ""
+#~ "Hi.  Thanks for taking the time to download this preview release\n"
+#~ "of the Ximian Evolution groupware suite.\n"
+#~ "\n"
+#~ "This version of Ximian Evolution is not yet complete. It's getting "
+#~ "close,\n"
+#~ "but some features are either unfinished or don't work properly.\n"
+#~ "\n"
+#~ "If you want a stable version of Evolution, we urge you to uninstall,\n"
+#~ "this version, and install a 1.0.x version instead (1.0.8)\n"
+#~ "\n"
+#~ "If you find bugs, please report them to us at bugzilla.ximian.com.\n"
+#~ "This product comes with no warranty and is not intended for\n"
+#~ "individuals prone to violent fits of anger.\n"
+#~ "\n"
+#~ "We hope that you enjoy the results of our hard work, and we\n"
+#~ "eagerly await your contributions!\n"
+#~ msgstr ""
+#~ "Hola! Gràcies per prendre-us la molèstia de baixar-vos aquesta versió\n"
+#~ "provisional del conjunt de programes de grup de treball Evolution.\n"
+#~ "Més o menys durant el darrer mes i mig ens hem concentrat en fer que\n"
+#~ "l'Evolution es pugui utilitzar. Molts dels seus desenvolupadors ja estan\n"
+#~ "utilitzant-lo per llegir sempre el seu correu, així que també ho podeu "
+#~ "fer\n"
+#~ "(però feu còpies de seguretat per si un cas!).\n"
+#~ "\n"
+#~ "Però, encara que hem solucionat molts problemes que afectaven a "
+#~ "l'estabilitat\n"
+#~ "de l'Evolution, aquí teniu encara el descàrrec. L'Evolution pot: deixar "
+#~ "de\n"
+#~ "funcionar, perdre el correu que no voleu perdre, negar-se a suprimir el "
+#~ "correu\n"
+#~ "que voleu suprimir, deixar processos en marxa per tot arreu, consumir el "
+#~ "100%\n"
+#~ "de la CPU, anar massa de pressa, blocar-se, enviar correu HTML a llistes "
+#~ "de\n"
+#~ "correu a l'atzar, i deixar-vos en ridícul davant dels vostres amics i "
+#~ "companys\n"
+#~ "de feina. Utilitzeu-lo només sota un control estricte.\n"
+#~ "\n"
+#~ "Esperem que gaudiu del resultat de la nostra feixuga feina, i esperem\n"
+#~ "ansiosament les vostres contribucions!\n"
+
+#, fuzzy
+#~ msgid ""
+#~ "Thanks\n"
+#~ "The Ximian Evolution Team\n"
+#~ msgstr ""
+#~ "Gràcies\n"
+#~ "L'equip de l'Evolution\n"
+
+#, fuzzy
+#~ msgid "Don't tell me again"
+#~ msgstr "Envia aquest missatge"
 
 #, fuzzy
 #~ msgid "_Configure..."

@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
-"POT-Creation-Date: 2002-10-28 16:49-0500\n"
+"POT-Creation-Date: 2002-11-06 16:04-0500\n"
 "PO-Revision-Date: 2000-07-28 03:15+0200\n"
 "Last-Translator: Andraz Tori <andraz.tori1@guest.arnes.si>\n"
 "Language-Team: Slovenian <sl@li.org>\n"
@@ -26128,82 +26128,36 @@ msgstr "Evolucija"
 msgid "Evolution is now exiting ..."
 msgstr "Evolucije se sedaj zapira..."
 
-#: shell/main.c:227
-#, fuzzy, no-c-format
-msgid ""
-"Hi.  Thanks for taking the time to download this preview release\n"
-"of the Ximian Evolution groupware suite.\n"
-"\n"
-"This version of Ximian Evolution is not yet complete. It's getting close,\n"
-"but some features are either unfinished or don't work properly.\n"
-"\n"
-"If you want a stable version of Evolution, we urge you to uninstall,\n"
-"this version, and install a 1.0.x version instead (1.0.8)\n"
-"\n"
-"If you find bugs, please report them to us at bugzilla.ximian.com.\n"
-"This product comes with no warranty and is not intended for\n"
-"individuals prone to violent fits of anger.\n"
-"\n"
-"We hope that you enjoy the results of our hard work, and we\n"
-"eagerly await your contributions!\n"
-msgstr ""
-"Pozdrav.  Hvala, ker ste si vzeli čas za prenos te predogledne izdaje\n"
-"programja za delovne skupine Evolucija.\n"
-"\n"
-"Evolucija še ni končana. Še vedno so kraji, kjer funkcionalnost manjka ali\n"
-"deluje le polovično.\n"
-"\n"
-"Če najdete hrošča, ga prosimo sporočite na bugzilla.ximian.com.\n"
-"Ta izdelek prihaja brez kakršnihkoli zagotovil in ni primeren za\n"
-"osebe, ki doživljajo nasilne napade jeze.\n"
-"\n"
-"Upamo, da boste uživali sadove našega trdega dela in nestrpno\n"
-"pričakujemo vaše prispevke!\n"
-
-#: shell/main.c:250
-#, fuzzy
-msgid ""
-"Thanks\n"
-"The Ximian Evolution Team\n"
-msgstr ""
-"Hvala,\n"
-"skupina Evolucije\n"
-
-#: shell/main.c:259
-#, fuzzy
-msgid "Don't tell me again"
-msgstr "Ne sprašuj me več"
-
-#: shell/main.c:394
+#: shell/main.c:277
 msgid "Cannot access the Ximian Evolution shell."
 msgstr "Ne morem dostopati do lupine Ximian Evolucije."
 
-#: shell/main.c:403
+#: shell/main.c:286
 #, c-format
 msgid "Cannot initialize the Ximian Evolution shell: %s"
 msgstr "Ne morem inicializirati lupine Ximian Evolucije: %s"
 
-#: shell/main.c:485
+#: shell/main.c:368
 msgid "Disable splash screen"
 msgstr "Izključi začetni zaslon"
 
-#: shell/main.c:487
+#: shell/main.c:370
 msgid "Start in offline mode"
 msgstr "Začni v ne-mrežnem načinu"
 
-#: shell/main.c:489
+#: shell/main.c:372
 msgid "Start in online mode"
 msgstr "Začni v mrežnem načinu"
 
-#: shell/main.c:491
+#: shell/main.c:374
 msgid "Send the debugging output of all components to a file."
 msgstr "Pošlji razhroščevalna sporočila vseh komponent v datoteko."
 
-#: shell/main.c:493
+#: shell/main.c:376
 msgid "Force upgrading of configuration files from Evolution 1.0.x"
 msgstr ""
 
-#: shell/main.c:511
+#: shell/main.c:394
 #, c-format
 msgid ""
 "%s: --online and --offline cannot be used together.\n"
@@ -26212,7 +26166,7 @@ msgstr ""
 "%s: --online in --ofline ne moreta biti uporabljena skupaj.\n"
 "  Uporabite %s --help za več podatkov.\n"
 
-#: shell/main.c:542
+#: shell/main.c:425
 msgid "Cannot initialize the Bonobo component system."
 msgstr "Ne morem inicializirati komponentnega sistema Bonobo."
 
@@ -26972,7 +26926,7 @@ msgstr "Odgovor na nalogo"
 
 #: ui/evolution-mail-message.xml.h:63
 #, fuzzy
-msgid "Post a reply to a message message in a Public folder"
+msgid "Post a reply to a message in a Public folder"
 msgstr "Preveri za nova sporočila v vseh mapah"
 
 #: ui/evolution-mail-message.xml.h:64
@@ -27951,6 +27905,51 @@ msgstr "init_corba(): nisem mogel inicializirati GNOMEa"
 #: wombat/wombat.c:224
 msgid "init_bonobo(): could not initialize Bonobo"
 msgstr "init_bonobo(): nisem mogel inicializirati Bonoba"
+
+#, fuzzy
+#~ msgid ""
+#~ "Hi.  Thanks for taking the time to download this preview release\n"
+#~ "of the Ximian Evolution groupware suite.\n"
+#~ "\n"
+#~ "This version of Ximian Evolution is not yet complete. It's getting "
+#~ "close,\n"
+#~ "but some features are either unfinished or don't work properly.\n"
+#~ "\n"
+#~ "If you want a stable version of Evolution, we urge you to uninstall,\n"
+#~ "this version, and install a 1.0.x version instead (1.0.8)\n"
+#~ "\n"
+#~ "If you find bugs, please report them to us at bugzilla.ximian.com.\n"
+#~ "This product comes with no warranty and is not intended for\n"
+#~ "individuals prone to violent fits of anger.\n"
+#~ "\n"
+#~ "We hope that you enjoy the results of our hard work, and we\n"
+#~ "eagerly await your contributions!\n"
+#~ msgstr ""
+#~ "Pozdrav.  Hvala, ker ste si vzeli čas za prenos te predogledne izdaje\n"
+#~ "programja za delovne skupine Evolucija.\n"
+#~ "\n"
+#~ "Evolucija še ni končana. Še vedno so kraji, kjer funkcionalnost manjka "
+#~ "ali\n"
+#~ "deluje le polovično.\n"
+#~ "\n"
+#~ "Če najdete hrošča, ga prosimo sporočite na bugzilla.ximian.com.\n"
+#~ "Ta izdelek prihaja brez kakršnihkoli zagotovil in ni primeren za\n"
+#~ "osebe, ki doživljajo nasilne napade jeze.\n"
+#~ "\n"
+#~ "Upamo, da boste uživali sadove našega trdega dela in nestrpno\n"
+#~ "pričakujemo vaše prispevke!\n"
+
+#, fuzzy
+#~ msgid ""
+#~ "Thanks\n"
+#~ "The Ximian Evolution Team\n"
+#~ msgstr ""
+#~ "Hvala,\n"
+#~ "skupina Evolucije\n"
+
+#, fuzzy
+#~ msgid "Don't tell me again"
+#~ msgstr "Ne sprašuj me več"
 
 #, fuzzy
 #~ msgid "_Configure..."

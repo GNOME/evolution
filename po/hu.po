@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution 1.2\n"
-"POT-Creation-Date: 2002-10-28 16:49-0500\n"
+"POT-Creation-Date: 2002-11-06 16:04-0500\n"
 "PO-Revision-Date: 2002-11-06 11:11+0100\n"
 "Last-Translator: Andras Timar <timar@gnome.hu>\n"
 "Language-Team: Hungarian <hu@gnome.hu>\n"
@@ -25907,87 +25907,43 @@ msgstr "Evolution"
 msgid "Evolution is now exiting ..."
 msgstr "Az Evolution most kilép..."
 
-#: shell/main.c:227
-#, fuzzy, no-c-format
-msgid ""
-"Hi.  Thanks for taking the time to download this preview release\n"
-"of the Ximian Evolution groupware suite.\n"
-"\n"
-"This version of Ximian Evolution is not yet complete. It's getting close,\n"
-"but some features are either unfinished or don't work properly.\n"
-"\n"
-"If you want a stable version of Evolution, we urge you to uninstall,\n"
-"this version, and install a 1.0.x version instead (1.0.8)\n"
-"\n"
-"If you find bugs, please report them to us at bugzilla.ximian.com.\n"
-"This product comes with no warranty and is not intended for\n"
-"individuals prone to violent fits of anger.\n"
-"\n"
-"We hope that you enjoy the results of our hard work, and we\n"
-"eagerly await your contributions!\n"
-msgstr ""
-"Szia! Köszönjük, hogy letöltötted az Ximian Evolution csoportmunka-szoftver\n"
-"elõzetes verzióját.\n"
-"\n"
-"A Ximian Evolution még nincs kész. Már közel van a befejezéshez, de vannak\n"
-"olyan részek, amelyek hiányoznak vagy csak félig mûködnek. \n"
-"\n"
-"A hibát találsz, jelentsd a bugzilla.ximian.com-on.\n"
-"Erre a termékre nem vonatkozik semmilyen garancia, és nem\n"
-"való idegeskedésre hajlamos embereknek.\n"
-"\n"
-"Reméljük, élvezni fogod a kemény munkánk eredményét, és várjuk\n"
-"hozzájárulásod! \n"
-
-#: shell/main.c:250
-msgid ""
-"Thanks\n"
-"The Ximian Evolution Team\n"
-msgstr ""
-"Köszönettel\n"
-"A Ximian Evolution Csapat\n"
-
-#: shell/main.c:259
-msgid "Don't tell me again"
-msgstr "Ne jelenítse meg többet"
-
-#: shell/main.c:394
+#: shell/main.c:277
 msgid "Cannot access the Ximian Evolution shell."
 msgstr "A Ximian Evolution héj nem elérhetõ."
 
-#: shell/main.c:403
+#: shell/main.c:286
 #, c-format
 msgid "Cannot initialize the Ximian Evolution shell: %s"
 msgstr "Nem sikerült inicializálni a Ximian Evolution héjat: %s"
 
-#: shell/main.c:485
+#: shell/main.c:368
 msgid "Disable splash screen"
 msgstr "Indítóképernyõ letiltása"
 
-#: shell/main.c:487
+#: shell/main.c:370
 msgid "Start in offline mode"
 msgstr "Indítás kapcsolat nélküli módban"
 
-#: shell/main.c:489
+#: shell/main.c:372
 msgid "Start in online mode"
 msgstr "Indítás online módban"
 
-#: shell/main.c:491
+#: shell/main.c:374
 msgid "Send the debugging output of all components to a file."
 msgstr "Minden összetevõ hibakeresõ üzeneteit fájlba irányítja."
 
-#: shell/main.c:493
+#: shell/main.c:376
 msgid "Force upgrading of configuration files from Evolution 1.0.x"
 msgstr ""
 
-#: shell/main.c:511
+#: shell/main.c:394
 #, c-format
 msgid ""
 "%s: --online and --offline cannot be used together.\n"
 "  Use %s --help for more information.\n"
 msgstr ""
 
-#: shell/main.c:542
+#: shell/main.c:425
 msgid "Cannot initialize the Bonobo component system."
 msgstr "Nem sikerült inicializálni a Bonobo komponens rendszert."
 
@@ -26756,7 +26712,7 @@ msgstr "Válasz küldése"
 
 #: ui/evolution-mail-message.xml.h:63
 #, fuzzy
-msgid "Post a reply to a message message in a Public folder"
+msgid "Post a reply to a message in a Public folder"
 msgstr "Új levelek keresése az összes mappában"
 
 #: ui/evolution-mail-message.xml.h:64
@@ -27717,6 +27673,50 @@ msgstr "init_corba(): nem sikerült a GNOME inicializálása"
 #: wombat/wombat.c:224
 msgid "init_bonobo(): could not initialize Bonobo"
 msgstr "init_bonobo(): a Bonobo inicializálása nem sikerült"
+
+#, fuzzy
+#~ msgid ""
+#~ "Hi.  Thanks for taking the time to download this preview release\n"
+#~ "of the Ximian Evolution groupware suite.\n"
+#~ "\n"
+#~ "This version of Ximian Evolution is not yet complete. It's getting "
+#~ "close,\n"
+#~ "but some features are either unfinished or don't work properly.\n"
+#~ "\n"
+#~ "If you want a stable version of Evolution, we urge you to uninstall,\n"
+#~ "this version, and install a 1.0.x version instead (1.0.8)\n"
+#~ "\n"
+#~ "If you find bugs, please report them to us at bugzilla.ximian.com.\n"
+#~ "This product comes with no warranty and is not intended for\n"
+#~ "individuals prone to violent fits of anger.\n"
+#~ "\n"
+#~ "We hope that you enjoy the results of our hard work, and we\n"
+#~ "eagerly await your contributions!\n"
+#~ msgstr ""
+#~ "Szia! Köszönjük, hogy letöltötted az Ximian Evolution csoportmunka-"
+#~ "szoftver\n"
+#~ "elõzetes verzióját.\n"
+#~ "\n"
+#~ "A Ximian Evolution még nincs kész. Már közel van a befejezéshez, de "
+#~ "vannak\n"
+#~ "olyan részek, amelyek hiányoznak vagy csak félig mûködnek. \n"
+#~ "\n"
+#~ "A hibát találsz, jelentsd a bugzilla.ximian.com-on.\n"
+#~ "Erre a termékre nem vonatkozik semmilyen garancia, és nem\n"
+#~ "való idegeskedésre hajlamos embereknek.\n"
+#~ "\n"
+#~ "Reméljük, élvezni fogod a kemény munkánk eredményét, és várjuk\n"
+#~ "hozzájárulásod! \n"
+
+#~ msgid ""
+#~ "Thanks\n"
+#~ "The Ximian Evolution Team\n"
+#~ msgstr ""
+#~ "Köszönettel\n"
+#~ "A Ximian Evolution Csapat\n"
+
+#~ msgid "Don't tell me again"
+#~ msgstr "Ne jelenítse meg többet"
 
 #~ msgid "_Configure..."
 #~ msgstr "_Beállítások..."
