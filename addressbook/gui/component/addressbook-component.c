@@ -38,9 +38,13 @@
 
 #define GNOME_EVOLUTION_ADDRESSBOOK_COMPONENT_FACTORY_ID "OAFIID:GNOME_Evolution_Addressbook_ShellComponentFactory"
 
-/* Nasty hack for filters to be able to find folders */
-/* Not even used with addressbook??? */
 EvolutionShellClient *global_shell_client;
+
+EvolutionShellClient *
+addressbook_component_get_shell_client  (void)
+{
+	return global_shell_client;
+}
 
 static BonoboGenericFactory *factory = NULL;
 

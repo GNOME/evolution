@@ -28,6 +28,8 @@
 #include <gal/e-table/e-table-scrolled.h>
 #include "e-select-names-model.h"
 
+#include <shell/evolution-storage-listener.h>
+
 #ifdef __cplusplus
 extern "C" {
 #pragma }
@@ -62,6 +64,8 @@ struct _ESelectNames
 	ETableScrolled *table;
 	ETableModel *model;
 	int currently_selected;
+	EvolutionStorageListener *listener;
+	GHashTable *folders;
 };
 
 struct _ESelectNamesClass

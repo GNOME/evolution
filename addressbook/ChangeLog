@@ -1,3 +1,18 @@
+2001-01-04  Christopher James Lahey  <clahey@helixcode.com>
+
+	* gui/component/addressbook-component.c,
+	gui/component/addressbook-component.h
+	(addressbook_component_get_shell_client): Added this function.
+
+	* gui/component/select-names/e-select-names.c,
+	gui/component/select-names/e-select-names.h: Added code for the
+	ability to switch between different folders.  This doesn't work
+	yet.
+
+	* gui/component/select-names/select-names.glade,
+	gui/component/select-names/select-names.glade.h: Added an option
+	menu to this dialog.
+
 2001-01-04  JP Rosevear  <jpr@helixcode.com>
 
 	* conduit/Makefile.am: Fix hard coded library names that were 

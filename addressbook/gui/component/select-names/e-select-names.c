@@ -27,6 +27,8 @@
 #include <addressbook/gui/component/e-cardlist-model.h>
 #include <addressbook/backend/ebook/e-book.h>
 #include "e-select-names-table-model.h"
+#include <shell/evolution-shell-client.h>
+#include <addressbook/gui/component/addressbook-component.h>
 
 static void e_select_names_init		(ESelectNames		 *card);
 static void e_select_names_class_init	(ESelectNamesClass	 *klass);
@@ -110,16 +112,24 @@ set_book(EBook *book, EBookStatus status, ETableModel *model)
 {
 	gtk_object_set(GTK_OBJECT(model),
 		       "book", book,
-		       "query", "(contains \"email\" \"\")",
 		       NULL);
 	gtk_object_unref(GTK_OBJECT(book));
+}
+
+static void
+addressbook_model_set_uri(ETableModel *model, char *uri)
+{
+	EBook *book;
+	book = e_book_new();
+	gtk_object_ref(GTK_OBJECT(model));
+	gtk_object_ref(GTK_OBJECT(book));
+	e_book_load_uri(book, uri, (EBookCallback) set_book, model);
 }
 
 GtkWidget *
 e_addressbook_create_ebook_table(char *name, char *string1, char *string2, int num1, int num2)
 {
 	ETableModel *model;
-	EBook *book;
 	GtkWidget *table;
 	char *filename;
 	char *uri;
@@ -127,14 +137,15 @@ e_addressbook_create_ebook_table(char *name, char *string1, char *string2, int n
 	model = e_addressbook_model_new();
 	gtk_object_set(GTK_OBJECT(model),
 		       "editable", FALSE,
+		       "query", "(contains \"email\" \"\")",
 		       NULL);
 
-	book = e_book_new();
-	gtk_object_ref(GTK_OBJECT(model));
-	gtk_object_ref(GTK_OBJECT(book));
+
 	filename = gnome_util_prepend_user_home("evolution/local/Contacts/addressbook.db");
 	uri = g_strdup_printf("file://%s", filename);
-	e_book_load_uri(book, uri, (EBookCallback) set_book, model);
+
+	addressbook_model_set_uri(model, uri);
+
 	g_free(uri);
 	g_free(filename);
 	table = e_table_scrolled_new (model, NULL, SPEC, NULL);
@@ -147,6 +158,176 @@ static void
 set_current_selection(ETableScrolled *table, int row, ESelectNames *names)
 {
 	names->currently_selected = row;
+
+}
+
+typedef struct {
+	char *description;
+	char *display_name;
+	char *physical_uri;
+
+} ESelectNamesFolder;
+
+static void
+e_select_names_folder_free(ESelectNamesFolder *e_folder)
+{
+	g_free(e_folder->description );
+	g_free(e_folder->display_name);
+	g_free(e_folder->physical_uri);
+	g_free(e_folder);
+}
+
+static void
+e_select_names_option_activated(GtkWidget *widget, ESelectNames *e_select_names)
+{
+	ESelectNamesFolder *e_folder = gtk_object_get_data (GTK_OBJECT (widget), "EsnChoiceFolder");
+
+	addressbook_model_set_uri(e_select_names->model, e_folder->physical_uri);
+}
+
+typedef struct {
+	ESelectNames *names;
+	GtkWidget *menu;
+} NamesAndMenu;
+
+static void
+add_menu_item		(gpointer	key,
+			 gpointer	value,
+			 gpointer	user_data)
+{
+	GtkWidget *menu;
+	GtkWidget *item;
+	ESelectNamesFolder *e_folder;
+	NamesAndMenu *nnm;
+	ESelectNames *e_select_names;
+
+	nnm = user_data;
+	e_folder = value;
+	menu = nnm->menu;
+	e_select_names = nnm->names;
+
+	item = gtk_menu_item_new_with_label (e_folder->display_name);
+	gtk_menu_append (GTK_MENU (menu), item);
+	gtk_object_set_data (GTK_OBJECT (item), "EsnChoiceFolder", e_folder);
+
+	gtk_signal_connect (GTK_OBJECT (item), "activate",
+			    GTK_SIGNAL_FUNC (e_select_names_option_activated),
+			    e_select_names);
+}
+
+static void
+update_option_menu(ESelectNames *e_select_names)
+{
+	GtkWidget *menu;
+	GtkWidget *option;
+
+	option = glade_xml_get_widget (e_select_names->gui,
+				       "optionmenu-folder");
+	if (option) {
+		NamesAndMenu nnm;
+		menu = gtk_menu_new ();
+
+		nnm.names = e_select_names;
+		nnm.menu = menu;
+
+		g_hash_table_foreach	(e_select_names->folders,
+					 add_menu_item,
+					 &nnm);
+
+		gtk_widget_show_all (menu);
+
+		gtk_option_menu_set_menu (GTK_OPTION_MENU (option), 
+					  menu);
+		gtk_option_menu_set_history (GTK_OPTION_MENU (option), 0);
+		gtk_widget_set_sensitive (option, TRUE);
+	}
+}
+
+static void
+new_folder      (EvolutionStorageListener *storage_listener,
+		 const char *path,
+		 const GNOME_Evolution_Folder *folder,
+		 ESelectNames *e_select_names)
+{
+	if (!strcmp(folder->type, "contacts")) {
+		ESelectNamesFolder *e_folder = g_new(ESelectNamesFolder, 1);
+		e_folder->description  = g_strdup(folder->description );
+		e_folder->display_name = g_strdup(folder->display_name);
+		e_folder->physical_uri = g_strdup(folder->physical_uri);
+		g_hash_table_insert(e_select_names->folders,
+				    g_strdup(path), e_folder);
+		update_option_menu(e_select_names);
+	}
+}
+
+static void
+update_folder   (EvolutionStorageListener *storage_listener,
+		 const char *path,
+		 const char *display_name,
+		 ESelectNames *e_select_names)
+{
+	ESelectNamesFolder *e_folder = g_hash_table_lookup(e_select_names->folders, path);
+	if (e_folder) {
+		g_free(e_folder->display_name);
+		e_folder->display_name = g_strdup(e_folder->display_name);
+		update_option_menu(e_select_names);
+	}
+}
+
+static void
+removed_folder  (EvolutionStorageListener *storage_listener,
+		 const char *path,
+		 ESelectNames *e_select_names)
+{
+	ESelectNamesFolder *e_folder;
+	char *orig_path;
+
+	if (g_hash_table_lookup_extended(e_select_names->folders, path, (void **) &orig_path, (void **) &e_folder)) {
+		g_hash_table_remove(e_select_names->folders, path);
+		e_select_names_folder_free(e_folder);
+		g_free(orig_path);
+		update_option_menu(e_select_names);
+	}
+}
+
+static void
+e_select_names_hookup_shell_listener (ESelectNames *e_select_names)
+{
+	GNOME_Evolution_Storage storage;
+	GNOME_Evolution_StorageListener listener;
+	CORBA_Environment ev;
+
+	CORBA_exception_init(&ev);
+
+	storage = (GNOME_Evolution_Storage) (evolution_shell_client_get_local_storage(addressbook_component_get_shell_client()));
+	e_select_names->listener = evolution_storage_listener_new();
+
+	listener = evolution_storage_listener_corba_objref(e_select_names->listener);
+
+	gtk_signal_connect(GTK_OBJECT(e_select_names->listener), "new_folder",
+			   GTK_SIGNAL_FUNC(new_folder), e_select_names);
+	gtk_signal_connect(GTK_OBJECT(e_select_names->listener), "update_folder",
+			   GTK_SIGNAL_FUNC(update_folder), e_select_names);
+	gtk_signal_connect(GTK_OBJECT(e_select_names->listener), "removed_folder",
+			   GTK_SIGNAL_FUNC(removed_folder), e_select_names);
+
+	GNOME_Evolution_Storage_addListener(storage, listener, &ev);
+	if (ev._major != CORBA_NO_EXCEPTION) {
+		g_warning ("e_select_names_init: Exception adding listener to "
+			   "remote GNOME_Evolution_Storage interface.\n");
+		CORBA_exception_free (&ev);
+		return;
+	}
+
+	bonobo_object_release_unref(storage, &ev);
+	if (ev._major != CORBA_NO_EXCEPTION) {
+		g_warning ("e_select_names_init: Exception unref'ing "
+			   "remote GNOME_Evolution_Storage interface.\n");
+		CORBA_exception_free (&ev);
+		return;
+	}
+
+	CORBA_exception_free(&ev);
 }
 
 static void
@@ -182,6 +363,10 @@ e_select_names_init (ESelectNames *e_select_names)
 
 	e_select_names->currently_selected = -1;
 
+	e_select_names->folders = g_hash_table_new(g_str_hash, g_str_equal);
+
+	e_select_names_hookup_shell_listener (e_select_names);
+
 	gtk_signal_connect(GTK_OBJECT(e_table_scrolled_get_table(e_select_names->table)), "cursor_change",
 			   GTK_SIGNAL_FUNC(set_current_selection), e_select_names);
 }
@@ -198,6 +383,9 @@ static void
 e_select_names_destroy (GtkObject *object) {
 	ESelectNames *e_select_names = E_SELECT_NAMES(object);
 	
+	gtk_signal_disconnect_by_data(GTK_OBJECT(e_select_names->listener), e_select_names);
+	gtk_object_unref(GTK_OBJECT(e_select_names->listener));
+
 	gtk_object_unref(GTK_OBJECT(e_select_names->gui));
 	g_hash_table_foreach(e_select_names->children, (GHFunc) e_select_names_child_free, e_select_names);
 	g_hash_table_destroy(e_select_names->children);
