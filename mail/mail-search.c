@@ -164,6 +164,7 @@ static void
 toggled_fwd_cb (GtkToggleButton *b, MailSearch *ms)
 {
 	ms->search_forward = gtk_toggle_button_get_active (b);
+	gtk_html_engine_search_set_forward (ms->mail->html, ms->search_forward);
 }
 
 static void
@@ -224,8 +225,23 @@ dialog_clicked_cb (GtkWidget *w, gint button_number, MailSearch *ms)
 static void
 begin_cb (ESearchingTokenizer *st, gchar *foo, MailSearch *ms)
 {
+	const gchar *subject;
+
+	if (ms && ms->mail && ms->mail->current_message) {
+		
+		subject = ms->mail->current_message->subject;
+
+		if (subject == NULL)
+			subject = _("Untitled Message");
+
+	} else {
+
+		subject = _("Empty Message");
+		
+	}
+
 	gtk_label_set_text (GTK_LABEL (ms->count_label), "0");
-	mail_search_set_subject (ms, ms->mail->current_message->subject);
+	mail_search_set_subject (ms, subject);
 }
 
 static void

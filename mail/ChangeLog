@@ -1,3 +1,9 @@
+2001-07-23  Jon Trowbridge  <trow@ximian.com>
+
+	* mail-search.c (begin_cb): Carefully check for NULL everywhere,
+	and do the right thing if the message we are currently looking
+	at gets expunged. (Bug #4870)
+
 2001-07-23  Jason Leach  <jleach@ximian.com>
 
 	[Bug #5225: No UI way to mark as unimportant]
@@ -10,7 +16,7 @@
 
 	* mail-callbacks.c (mark_as_unimportant): Simple function that's
 	the callback for these new menu items.
-	
+
 2001-07-22  Ettore Perazzoli  <ettore@ximian.com>
 
 	* component-factory.c (remove_folder): Updated to get a @type
