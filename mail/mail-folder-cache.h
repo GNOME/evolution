@@ -48,12 +48,13 @@ void mail_folder_cache_set_update_lstorage (const gchar *uri,
 /*void mail_folder_cache_set_update_shellview (const gchar *uri);*/
 
 void mail_folder_cache_note_folder         (const gchar *uri, CamelFolder *folder);
-void mail_folder_cache_note_message_list   (const gchar *uri, MessageList *ml);
+void mail_folder_cache_note_fb             (const gchar *uri, FolderBrowser *fb);
 void mail_folder_cache_note_folderinfo     (const gchar *uri, CamelFolderInfo *fi);
 void mail_folder_cache_note_name           (const gchar *uri, const gchar *name);
 
 CamelFolder *mail_folder_cache_try_folder  (const gchar *uri);
 
 void mail_folder_cache_set_shell_view      (GNOME_Evolution_ShellView sv);
+void mail_folder_cache_set_folder_browser  (FolderBrowser *fb);
 
 #endif

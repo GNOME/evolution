@@ -639,7 +639,7 @@ got_folder(char *uri, CamelFolder *folder, void *data)
 	vfolder_register_source (folder);
 
 	mail_folder_cache_note_folder (fb->uri, folder);
-	mail_folder_cache_note_message_list (fb->uri, fb->message_list);
+	mail_folder_cache_note_fb (fb->uri, fb);
 
  done:
 	gtk_object_unref (GTK_OBJECT (fb));

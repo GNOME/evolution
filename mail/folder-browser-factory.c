@@ -64,11 +64,7 @@ fb_get_svi (BonoboControl *control)
 							      &ev);
 	CORBA_exception_free (&ev);
 
-	if (shell_view_interface != CORBA_OBJECT_NIL)
-		gtk_object_set_data (GTK_OBJECT (control),
-				     "mail_threads_shell_view_interface",
-				     shell_view_interface);
-	else
+	if (shell_view_interface == CORBA_OBJECT_NIL)
 		g_warning ("Control frame doesn't have Evolution/ShellView.");
 
 	return shell_view_interface;
@@ -97,6 +93,7 @@ control_activate (BonoboControl     *control,
 	folder_browser_ui_add_message (fb);
 
 	mail_folder_cache_set_shell_view (fb_get_svi (control));
+	mail_folder_cache_set_folder_browser (fb);
 
 	if (fb->folder)
 		mail_refresh_folder (fb->folder, NULL, NULL);
@@ -107,6 +104,8 @@ control_deactivate (BonoboControl     *control,
 		    BonoboUIComponent *uic,
 		    FolderBrowser     *fb)
 {
+	mail_folder_cache_set_folder_browser (NULL);
+
 	folder_browser_ui_rm_list (fb);
 	folder_browser_ui_rm_all (fb);
 	

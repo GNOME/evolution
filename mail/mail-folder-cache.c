@@ -35,6 +35,8 @@
 #define d(x)
 #define dm(args...) /*g_message ("folder cache: " args)*/
 
+/* is args... portable at all? */
+
 /* Structures */
 
 typedef enum mail_folder_info_flags {
@@ -45,7 +47,8 @@ typedef enum mail_folder_info_flags {
 	MAIL_FIF_NEED_UPDATE = (1 << 4),
 	MAIL_FIF_PATH_VALID = (1 << 5),
 	MAIL_FIF_NAME_VALID = (1 << 6),
-	MAIL_FIF_UPDATE_QUEUED = (1 << 7)
+	MAIL_FIF_UPDATE_QUEUED = (1 << 7),
+	MAIL_FIF_FB_VALID = (1 << 8)
 } mfif;
 
 typedef enum mail_folder_info_update_mode {
@@ -70,6 +73,8 @@ typedef struct _mail_folder_info {
 	guint flags;
 	guint unread, total, hidden;
 
+	FolderBrowser *fb;
+
 	mfium update_mode;
 	mfiui update_info;
 } mail_folder_info;
@@ -81,6 +86,7 @@ static GStaticMutex folders_lock = G_STATIC_MUTEX_INIT;
 #define UNLOCK_FOLDERS() G_STMT_START { ld(dm ("Unocking folders")); g_static_mutex_unlock (&folders_lock); } G_STMT_END
 
 static GNOME_Evolution_ShellView shell_view = CORBA_OBJECT_NIL;
+static FolderBrowser *folder_browser = NULL;
 
 /* Private functions */
 
@@ -108,6 +114,7 @@ get_folder_info (const gchar *uri)
 		mfi->path = NULL;
 		mfi->folder = NULL;
 		mfi->name = NULL;
+		mfi->fb = NULL;
 		mfi->flags = 0;
 		mfi->update_mode = MAIL_FIUM_UNKNOWN;
 		mfi->update_info.es = NULL;
@@ -184,6 +191,7 @@ update_idle (gpointer user_data)
 	gchar *uri, *path;
 	mfiui info;
 	mfium mode;
+	FolderBrowser *fb;
 	CORBA_Environment ev;
 
 	LOCK_FOLDERS ();
@@ -222,7 +230,12 @@ update_idle (gpointer user_data)
 		bold = FALSE;
 
 	/* Set the value */
-	/* Who knows how long these corba calls will take? */
+
+	/* Who knows how long these corba calls will take? 
+	 * Copy the data from mfi so we can UNLOCK_FOLDERS
+	 * before the calls.
+	 */
+
 	info = mfi->update_info;
 	uri = g_strdup (mfi->uri);
 	if (mfi->flags & MAIL_FIF_PATH_VALID)
@@ -230,6 +243,10 @@ update_idle (gpointer user_data)
 	else
 		path = NULL;
 	mode = mfi->update_mode;
+	if (mfi->flags & MAIL_FIF_FB_VALID)
+		fb = mfi->fb;
+	else
+		fb = NULL;
 
 	UNLOCK_FOLDERS ();
 
@@ -260,9 +277,12 @@ update_idle (gpointer user_data)
 		break;
 	}
 
-	/* Now set the folder bar if possible */
+	/* Now set the folder bar if reasonable -- we need a shell view,
+	 * and the active folder browser should be the one associated with
+	 * this MFI */
 
-	if (shell_view != CORBA_OBJECT_NIL) {
+	if (shell_view != CORBA_OBJECT_NIL &&
+	    fb && folder_browser == fb) {
 		dm("Updating via ShellView");
 		CORBA_exception_init (&ev);
 		GNOME_Evolution_ShellView_setFolderBarLabel (shell_view,
@@ -335,7 +355,11 @@ update_message_counts (CamelObject *object, gpointer event_data,
 
 	mfi->flags &= (~MAIL_FIF_NEED_UPDATE);
 
-	if (mfi->flags & MAIL_FIF_UNREAD_VALID) {
+	/* '-1' seems to show up a lot, just skip it.
+	 * Probably a better way. */
+	if (unread == -1) {
+		/* nuttzing */
+	} else if (mfi->flags & MAIL_FIF_UNREAD_VALID) {
 		if (mfi->unread != unread) {
 			dm ("-> Unread value is changed");
 			mfi->unread = unread;
@@ -427,6 +451,22 @@ message_list_built (MessageList *ml, gpointer user_data)
 	maybe_update (mfi);
 }
 
+static void
+check_for_fb_match (gpointer key, gpointer value, gpointer user_data)
+{
+	mail_folder_info *mfi = (mail_folder_info *) value;
+
+	dm ("-> checking uri \"%s\" if it has active fb", (gchar *) key);
+	/* This should only be true for one item, but no real
+	 * way to stop the foreach...
+	 */
+ 
+	if (mfi->fb == folder_browser) {
+		dm ("-> -> it does!");
+		maybe_update (mfi);
+	}
+}
+
 /* get folder info operation */
 
 struct get_mail_info_msg {
@@ -457,8 +497,11 @@ get_mail_info_receive (struct _mail_msg *msg)
 	}
 
 	gmim->mfi->unread = camel_folder_get_unread_message_count (gmim->folder);
+	if (gmim->mfi->unread != -1)
+		gmim->mfi->flags |= MAIL_FIF_UNREAD_VALID;
+
 	gmim->mfi->total = camel_folder_get_message_count (gmim->folder);
-	gmim->mfi->flags |= (MAIL_FIF_UNREAD_VALID | MAIL_FIF_TOTAL_VALID);
+	gmim->mfi->flags |= MAIL_FIF_TOTAL_VALID;
 
 	UNLOCK_FOLDERS ();
 }
@@ -613,7 +656,7 @@ mail_folder_cache_note_folder (const gchar *uri, CamelFolder *folder)
 }
 
 void 
-mail_folder_cache_note_message_list (const gchar *uri, MessageList *ml)
+mail_folder_cache_note_fb (const gchar *uri, FolderBrowser *fb)
 {
 	mail_folder_info *mfi;
 
@@ -623,21 +666,23 @@ mail_folder_cache_note_message_list (const gchar *uri, MessageList *ml)
 	LOCK_FOLDERS ();
 
 	if (!(mfi->flags & MAIL_FIF_FOLDER_VALID)) {
-		dm ("No folder specified so ignoring NOTE_ML at %s", uri);
-		/* cache the FB? maybe later */
+		dm ("No folder specified so ignoring NOTE_FB at %s", uri);
 		UNLOCK_FOLDERS ();
 		return;
 	}
 
-	dm ("Noting message list %p for %s", ml, uri);
+	dm ("Noting folder browser %p for %s", fb, uri);
 
-	gtk_signal_connect (GTK_OBJECT (ml), "message_list_built",
+	mfi->fb = fb;
+	mfi->flags |= MAIL_FIF_FB_VALID;
+
+	gtk_signal_connect (GTK_OBJECT (fb->message_list), "message_list_built",
 			    message_list_built, mfi);
 
 	UNLOCK_FOLDERS ();
 
-	dm ("-> faking message_list_built", ml, uri);
-	message_list_built (ml, mfi);
+	dm ("-> faking message_list_built");
+	message_list_built (fb->message_list, mfi);
 }
 
 void 
@@ -652,8 +697,10 @@ mail_folder_cache_note_folderinfo (const gchar *uri, CamelFolderInfo *fi)
 
 	dm ("Noting folderinfo %p for %s", fi, uri);
 
-	mfi->unread = fi->unread_message_count;
-	mfi->flags |= MAIL_FIF_UNREAD_VALID;
+	if (fi->unread_message_count != -1) {
+		mfi->unread = fi->unread_message_count;
+		mfi->flags |= MAIL_FIF_UNREAD_VALID;
+	}
 
 	if (!(mfi->flags & MAIL_FIF_NAME_VALID)) {
 		dm ("-> setting name %s", fi->name);
@@ -736,6 +783,29 @@ mail_folder_cache_set_shell_view (GNOME_Evolution_ShellView sv)
 		g_warning ("Exception in duping new shell view: %s",
 			   bonobo_exception_get_text (&ev));
 	CORBA_exception_free (&ev);
+}
+		
+void
+mail_folder_cache_set_folder_browser (FolderBrowser *fb)
+{
+	dm ("Setting new folder browser: %p", fb);
+
+	if (folder_browser != NULL) {
+		dm ("Unreffing old folder browser %p", folder_browser);
+		gtk_object_unref (GTK_OBJECT (folder_browser));
+	}
+
+	folder_browser = fb;
+
+	if (fb) {
+		dm ("Reffing new browser %p", fb);
+		gtk_object_ref (GTK_OBJECT (fb));
+	}
+
+	LOCK_FOLDERS ();
+	dm ("Checking folders for this fb");
+	g_hash_table_foreach (folders, check_for_fb_match, NULL);
+	UNLOCK_FOLDERS ();
 }
 		
 #if d(!)0
