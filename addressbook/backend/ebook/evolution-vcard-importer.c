@@ -149,7 +149,7 @@ check_file_is_vcard (const char *filename)
 		return FALSE;
 	}
 
-	if (strncmp (line, "BEGIN:VCARD", 11) == 0) {
+	if (g_ascii_strncasecmp (line, "BEGIN:VCARD", 11) == 0) {
 		result = TRUE;
 	} else {
 		result = FALSE;
@@ -172,7 +172,7 @@ support_format_fn (EvolutionImporter *importer,
 		return check_file_is_vcard (filename);
 	}
 	for (i = 0; supported_extensions[i] != NULL; i++) {
-		if (strcmp (supported_extensions[i], ext) == 0)
+		if (g_ascii_strcmp (supported_extensions[i], ext) == 0)
 			return check_file_is_vcard (filename);
 	}
 
