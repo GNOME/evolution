@@ -3326,21 +3326,12 @@ header_decode_date(const char *in, int *saveoffset)
 				inptr++;
 			} else {
 #ifndef CLEAN_DATE
-				char *newdate;
-
-				w(g_warning("day not followed by ',' it's probably a broken mail client, so we'll ignore its date entirely"));
-				w(printf ("Giving it one last chance...\n"));
-				newdate = parse_broken_date (in);
-				if (newdate) {
-					w(printf ("Got: %s\n", newdate));
-					t = header_decode_date (newdate, saveoffset);
-					g_free (newdate);
-					return t;
-				}
-#endif
+				return parse_broken_date (in, saveoffset);
+#else
 				if (saveoffset)
 					*saveoffset = 0;
 				return 0;
+#endif /* ! CLEAN_DATE */
 			}
 		}
 	}

@@ -1,3 +1,15 @@
+2001-12-21  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* broken-date-parser.c (parse_broken_date): Completely
+	rewritten. It is now a load faster and a heck of a lot more
+	accurate, also now returns a time_t and sets the saveoffset
+	variable rather than returning a new char* buffer for the normal
+	camel date parser to re-parse. This saves a fair number of cpu
+	cycles :-)
+
+	* camel-mime-utils.c (header_decode_date): Cleanup the broken date
+	parsing code.
+
 2001-12-20  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* camel-address.h: Change the prototype for camel_address_get_type

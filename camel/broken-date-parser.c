@@ -20,299 +20,501 @@
  *
  */
 
+
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
+
+#include <glib.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <ctype.h>
+#include <sys/time.h>
+#include <time.h>
+
 #include "broken-date-parser.h"
 
-/* prototypes for functions dealing with broken date formats */
-static GList *datetok (const gchar *date);
-static gint get_days_in_month (gint mon, gint year);
-static gint get_weekday (gchar *str);
-static gint get_month (gchar *str);
+#define d(x) x
 
-static char *tz_months [] = {
+#define NUMERIC_CHARS          "1234567890"
+#define WEEKDAY_CHARS          "Sun,Mon,Tue,Wed,Thu,Fri,Sat,"
+#define MONTH_CHARS            "JanFebMarAprMayJunJulAugSepOctNovDec"
+#define TIMEZONE_ALPHA_CHARS   "UTCGMTESTEDTCSTCDTMSTPSTPDTZAMNY()"
+#define TIMEZONE_NUMERIC_CHARS "-+1234567890"
+#define TIME_CHARS             "1234567890:"
+
+#define DATE_TOKEN_NON_NUMERIC          (1 << 0)
+#define DATE_TOKEN_NON_WEEKDAY          (1 << 1)
+#define DATE_TOKEN_NON_MONTH            (1 << 2)
+#define DATE_TOKEN_NON_TIME             (1 << 3)
+#define DATE_TOKEN_HAS_COLON            (1 << 4)
+#define DATE_TOKEN_NON_TIMEZONE_ALPHA   (1 << 5)
+#define DATE_TOKEN_NON_TIMEZONE_NUMERIC (1 << 6)
+#define DATE_TOKEN_HAS_SIGN             (1 << 7)
+
+static unsigned int datetok_table[256] = {
+	128,111,111,111,111,111,111,111,111,111,111,111,111,111,111,111,
+	111,111,111,111,111,111,111,111,111,111,111,111,111,111,111,111,
+	111,111,111,111,111,111,111,111, 79, 79,111,175,109,175,111,111,
+	 38, 38, 38, 38, 38, 38, 38, 38, 38, 38,119,111,111,111,111,111,
+	111, 75,111, 79, 75, 79,105, 79,111,111,107,111,111, 73, 75,107,
+	 79,111,111, 73, 77, 79,111,109,111, 79, 79,111,111,111,111,111,
+	111,105,107,107,109,105,111,107,109,109,111,111,107,111,105,105,
+	107,111,105,111,105,105,107,111,111,107,111,111,111,111,111,111,
+	111,111,111,111,111,111,111,111,111,111,111,111,111,111,111,111,
+	111,111,111,111,111,111,111,111,111,111,111,111,111,111,111,111,
+	111,111,111,111,111,111,111,111,111,111,111,111,111,111,111,111,
+	111,111,111,111,111,111,111,111,111,111,111,111,111,111,111,111,
+	111,111,111,111,111,111,111,111,111,111,111,111,111,111,111,111,
+	111,111,111,111,111,111,111,111,111,111,111,111,111,111,111,111,
+	111,111,111,111,111,111,111,111,111,111,111,111,111,111,111,111,
+	111,111,111,111,111,111,111,111,111,111,111,111,111,111,111,111,
+};
+
+/* hrm, is there a library for this shit? */
+static struct {
+	char *name;
+	int offset;
+} tz_offsets [] = {
+	{ "UT", 0 },
+	{ "GMT", 0 },
+	{ "EST", -500 },	/* these are all US timezones.  bloody yanks */
+	{ "EDT", -400 },
+	{ "CST", -600 },
+	{ "CDT", -500 },
+	{ "MST", -700 },
+	{ "MDT", -600 },
+	{ "PST", -800 },
+	{ "PDT", -700 },
+	{ "Z", 0 },
+	{ "A", -100 },
+	{ "M", -1200 },
+	{ "N", 100 },
+	{ "Y", 1200 },
+};
+
+static char *tm_months[] = {
 	"Jan", "Feb", "Mar", "Apr", "May", "Jun",
 	"Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
 };
 
-/*****************************************************************************
- * The following functions are here in the case of badly broken date formats *
- *                                                                           *
- * -- fejj@ximian.com                                                     *
- *****************************************************************************/
+static char *tm_days[] = {
+	"Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"
+};
 
-typedef struct {
-	gchar dow[6];   /* day of week (should only need 4 chars) */
-	gint day;
-	gint mon;       /* 1->12 or 0 if invalid */
-	gint year;
-	gint hour;
-	gint min;
-	gint sec;
-	gchar zone[6];  /* time zone */
-} date_t;
 
-static
-GList *datetok (const gchar *date)
+struct _date_token {
+	struct _date_token *next;
+	const unsigned char *start;
+	unsigned int len;
+	unsigned int mask;
+};
+
+/* This is where it gets ugly... */
+static struct _date_token *
+datetok (const char *date)
 {
-	GList *tokens = NULL;
-	gchar *token, *start, *end;
+	struct _date_token *tokens = NULL, *token, *tail = (struct _date_token *) &tokens;
+	const unsigned char *start, *end;
+	unsigned int mask;
 	
-	start = (gchar *) date;
+	start = date;
 	while (*start) {
+		/* kill leading whitespace */
+		for ( ; *start && isspace ((int) *start); start++);
+		
+		mask = 0;
+		
 		/* find the end of this token */
-		for (end = start; *end && *end != ' '; end++);
+		for (end = start; *end && !isspace ((int) *end) && (end > start ? !strchr ("-/", *end) : TRUE); end++) {
+			mask |= datetok_table[*end];
+		}
 		
-		token = g_strndup (start, (end - start));
+		if (end != start) {
+			token = g_malloc (sizeof (struct _date_token));
+			token->next = NULL;
+			token->start = start;
+			token->len = end - start;
+			token->mask = mask;
+			
+			tail->next = token;
+			tail = token;
+		}
 		
-		if (token && *token)
-			tokens = g_list_append (tokens, token);
-		else
-			g_free (token);
-
 		if (*end)
 			start = end + 1;
 		else
 			break;
 	}
-
+	
 	return tokens;
 }
 
-static gint
-get_days_in_month (gint mon, gint year)
+static int
+decode_int (const unsigned char *in, unsigned int inlen)
 {
-	switch (mon) {
-	case 1: case 3: case 5: case 7: case 8: case 10: case 12:
-		return 31;
-	case 4: case 6: case 9: case 11:
-		return 30;
-	case 2:
-		if ((year % 4 == 0 && year % 100 != 0) || year % 400 == 0)
-			return 29;
-		return 28;
-	default:
-		return 30;
-	}
-}
-
-static gint
-get_weekday (gchar *str)
-{
-	g_return_val_if_fail ((str != NULL), 0);
-
-	if (strncmp (str, "Mon", 3) == 0) {
-		return 1;
-	} else if (strncmp (str, "Tue", 3) == 0) {
-		return 2;
-	} else if (strncmp (str, "Wed", 3) == 0) {
-		return 3;
-	} else if (strncmp (str, "Thu", 3) == 0) {
-		return 4;
-	} else if (strncmp (str, "Fri", 3) == 0) {
-		return 5;
-	} else if (strncmp (str, "Sat", 3) == 0) {
-		return 6;
-	} else if (strncmp (str, "Sun", 3) == 0) {
-		return 7;
-	}
-
-	return 0;  /* unknown week day */
-}
-
-static gint
-get_month (gchar *str)
-{
-	g_return_val_if_fail (str != NULL, 0);
-    
-	if (strncmp (str, "Jan", 3) == 0) {
-		return 1;
-	} else if (strncmp (str, "Feb", 3) == 0) {
-		return 2;
-	} else if (strncmp (str, "Mar", 3) == 0) {
-		return 3;
-	} else if (strncmp (str, "Apr", 3) == 0) {
-		return 4;
-	} else if (strncmp (str, "May", 3) == 0) {
-		return 5;
-	} else if (strncmp (str, "Jun", 3) == 0) {
-		return 6;
-	} else if (strncmp (str, "Jul", 3) == 0) {
-		return 7;
-	} else if (strncmp (str, "Aug", 3) == 0) {
-		return 8;
-	} else if (strncmp (str, "Sep", 3) == 0) {
-		return 9;
-	} else if (strncmp (str, "Oct", 3) == 0) {
-		return 10;
-	} else if (strncmp (str, "Nov", 3) == 0) {
-		return 11;
-	} else if (strncmp (str, "Dec", 3) == 0) {
-		return 12;
-	}
-    
-	return 0;  /* unknown month */
-}
-
-gchar *
-parse_broken_date (const gchar *datestr)
-{
-	GList *tokens;
-	date_t date;
-	gchar *token, *ptr, *newdatestr;
-	guint len, i, retval;
-	gdouble tz = 0.0;
-
-	memset ((void*)&date, 0, sizeof (date_t));
-	g_return_val_if_fail (datestr != NULL, NULL);
+	register const unsigned char *inptr;
+	const unsigned char *inend;
+	int sign = 1, val = 0;
 	
-	tokens = datetok (datestr);
-	len = g_list_length (tokens);
-	for (i = 0; i < len; i++) {
-		token = g_list_nth_data (tokens, i);
+	inptr = in;
+	inend = in + inlen;
+	
+	if (*inptr == '-') {
+		sign = -1;
+		inptr++;
+	} else if (*inptr == '+')
+		inptr++;
+	
+	for ( ; inptr < inend; inptr++) {
+		if (!isdigit ((int) *inptr))
+			return  -1;
+		else
+			val = (val * 10) + (*inptr - '0');
+	}
+	
+	val *= sign;
+	
+	return val;
+}
+
+static int
+get_wday (const unsigned char *in, unsigned int inlen)
+{
+	int wday;
+	
+	if (inlen < 3)
+		return -1;
+	
+	for (wday = 0; wday < 7; wday++)
+		if (!strncasecmp (in, tm_days[wday], 3))
+			return wday;
+	
+	return -1;  /* unknown week day */
+}
+
+static int
+get_mday (const unsigned char *in, unsigned int inlen)
+{
+	int mday;
+	
+	mday = decode_int (in, inlen);
+	
+	if (mday < 0 || mday > 31)
+		mday = -1;
+	
+	return mday;
+}
+
+static int
+get_month (const unsigned char *in, unsigned int inlen)
+{
+	int i;
+	
+	if (inlen < 3)
+		return -1;
+	
+	for (i = 0; i < 12; i++)
+		if (!strncasecmp (in, tm_months[i], 3))
+			return i;
+	
+	return -1;  /* unknown month */
+}
+
+static int
+get_year (const unsigned char *in, unsigned int inlen)
+{
+	int year;
+	
+	year = decode_int (in, inlen);
+	if (year == -1)
+		return -1;
+	
+	if (year < 100)
+		year += (year < 70) ? 2000 : 1900;
+	
+	if (year < 1969)
+		return -1;
+	
+	return year;
+}
+
+static gboolean
+get_time (const unsigned char *in, unsigned int inlen, int *hour, int *min, int *sec)
+{
+	register const unsigned char *inptr;
+	const unsigned char *inend;
+	int *val, colons = 0;
+	
+	*hour = *min = *sec = 0;
+	
+	inend = in + inlen;
+	val = hour;
+	for (inptr = in; inptr < inend; inptr++) {
+		if (*inptr == ':') {
+			colons++;
+			switch (colons) {
+			case 1:
+				val = min;
+				break;
+			case 2:
+				val = sec;
+				break;
+			default:
+				return FALSE;
+			}
+		} else if (!isdigit ((int) *inptr))
+			return FALSE;
+		else
+			*val = (*val * 10) + (*inptr - '0');
+	}
+	
+	return TRUE;
+}
+
+static int
+get_tzone (struct _date_token **token)
+{
+	int i;
+	
+	for (i = 0; *token && i < 2; *token = (*token)->next, i++) {
+		const unsigned char *inptr = (*token)->start;
+		unsigned int inlen = (*token)->len;
 		
-		if ((retval = get_weekday (token))) {
-			strncpy (date.dow, datestr, 4);
-		} else if ((retval = get_month (token))) {
-			date.mon = retval;
-		} else if (strlen (token) <= 2) {
-			/* this could be a 1 or 2 digit day of the month */
-			for (retval = 1, ptr = token; *ptr; ptr++)
-				if (*ptr < '0' || *ptr > '9')
-					retval = 0;
-			
-			if (retval && atoi (token) <= 31 && !date.day)  /* probably should find a better way */
-				date.day = atoi (token);
-			else                                            /* fubar'd client using a 2-digit year */
-				date.year = atoi (token) < 69 ? 2000 + atoi (token) : 1900 + atoi (token);
-		} else if (strlen (token) == 4) {
-			/* this could be the year... */
-			for (retval = 1, ptr = token; *ptr; ptr++)
-				if (*ptr < '0' || *ptr > '9')
-					retval = 0;
-			
-			if (retval)
-				date.year = atoi (token);
-		} else if (strchr (token, ':')) {
-			/* this must be the time: hh:mm:ss */
-			sscanf (token, "%d:%d:%d", &date.hour, &date.min, &date.sec);
-		} else if (*token == '-' || *token == '+') {
-			tz = atoi (token) / 100.0;
-		}
-	}
-	
-	g_list_free (tokens);
-	
-	/* adjust times based on time zones */
-	
-	if (tz != 0) {
-		/* check for time-zone shift */
-		if (tz > 0) {
-			/* correct for positive hours off of UCT */
-			date.hour -= (tz / 100);
-			tz = (gint)tz % 100;
-			
-			if (tz > 0) /* correct for positive minutes off of UCT */
-				date.min -= (gint)(((gdouble) tz / 100.0) * 60.0);
+		if (*inptr == '+' || *inptr == '-') {
+			return decode_int (inptr, inlen);
 		} else {
-			if (tz < 0) {
-				/* correct for negative hours off of UCT */
-				tz = -tz;
-				date.hour += (tz / 100);
-				tz = -((gint)tz % 100);
+			int t;
+			
+			if (*inptr == '(')
+				inptr++;
+			
+			for (t = 0; t < 15; t++) {
+				unsigned int len = MIN (strlen (tz_offsets[t].name), inlen - 1);
 				
-				if (tz < 0)
-					date.min -= (gint)(((gdouble) tz / 100.0) * 60.0);
+				if (!strncmp (inptr, tz_offsets[t].name, len))
+					return tz_offsets[t].offset;
+			}
+		}
+	}
+	
+	return -1;
+}
+
+
+#define date_token_mask(t)  (((struct _date_token *) t)->mask)
+#define is_numeric(t)       ((date_token_mask (t) & DATE_TOKEN_NON_NUMERIC) == 0)
+#define is_weekday(t)       ((date_token_mask (t) & DATE_TOKEN_NON_WEEKDAY) == 0)
+#define is_month(t)         ((date_token_mask (t) & DATE_TOKEN_NON_MONTH) == 0)
+#define is_time(t)          (((date_token_mask (t) & DATE_TOKEN_NON_TIME) == 0) && (date_token_mask (t) & DATE_TOKEN_HAS_COLON))
+#define is_tzone_alpha(t)   ((date_token_mask (t) & DATE_TOKEN_NON_TIMEZONE_ALPHA) == 0)
+#define is_tzone_numeric(t) (((date_token_mask (t) & DATE_TOKEN_NON_TIMEZONE_NUMERIC) == 0) && (date_token_mask (t) & DATE_TOKEN_HAS_SIGN))
+#define is_tzone(t)         (is_tzone_alpha (t) || is_tzone_numeric (t))
+
+static time_t
+decode_broken_date (struct _date_token *tokens, int *tzone)
+{
+	gboolean got_wday, got_month, got_tzone;
+	int hour, min, sec, offset, n;
+	struct _date_token *token;
+	struct tm tm;
+	time_t time;
+	
+	memset ((void *) &tm, 0, sizeof (struct tm));
+	got_wday = got_month = got_tzone = FALSE;
+	offset = 0;
+	
+	token = tokens;
+	while (token) {
+		if (is_weekday (token) && !got_wday) {
+			if ((n = get_wday (token->start, token->len)) != -1) {
+				d(printf ("weekday; "));
+				got_wday = TRUE;
+				tm.tm_wday = n;
+				goto next_token;
 			}
 		}
 		
-		/* adjust seconds to proper range */
-		if (date.sec > 59) {
-			date.min += (date.sec / 60);
-			date.sec = (date.sec % 60);
-		}
-		
-		/* adjust minutes to proper range */
-		if (date.min > 59) {
-			date.hour += (date.min / 60);
-			date.min = (date.min % 60);
-		} else {
-			if (date.min < 0) {
-				date.min = -date.min;
-				date.hour -= (date.min / 60) - 1;
-				date.min = 60 - (date.min % 60);
+		if (is_month (token) && !got_month) {
+			if ((n = get_month (token->start, token->len)) != -1) {
+				d(printf ("month; "));
+				got_month = TRUE;
+				tm.tm_mon = n;
+				goto next_token;
 			}
 		}
 		
-		/* adjust hours to the proper randge */
-		if (date.hour > 23) {
-			date.day += (date.hour / 24);
-			date.hour -= (date.hour % 24);
-		} else {
-			if (date.hour < 0) {
-				date.hour = -date.hour;
-				date.day -= (date.hour / 24) - 1;
-				date.hour = 24 - (date.hour % 60);
+		if (is_time (token) && !tm.tm_hour && !tm.tm_min && !tm.tm_sec) {
+			if (get_time (token->start, token->len, &hour, &min, &sec)) {
+				d(printf ("time; "));
+				tm.tm_hour = hour;
+				tm.tm_min = min;
+				tm.tm_sec = sec;
+				goto next_token;
 			}
 		}
 		
-		/* adjust days to the proper range */
-		while (date.day > get_days_in_month (date.mon, date.year)) {
-			date.day -= get_days_in_month (date.mon, date.year);
-			date.mon++;
-			if (date.mon > 12) {
-				date.year += (date.mon / 12);
-				date.mon = (date.mon % 12);
-				if (date.mon == 0) {
-					/* month sanity check */
-					date.mon = 12;
-					date.year -= 1;
+		if (is_tzone (token) && !got_tzone) {
+			struct _date_token *t = token;
+			
+			if ((n = get_tzone (&t)) != -1) {
+				d(printf ("tzone; "));
+				got_tzone = TRUE;
+				offset = n;
+				goto next_token;
+			}
+		}
+		
+		if (is_numeric (token)) {
+			if (token->len == 4 && !tm.tm_year) {
+				if ((n = get_year (token->start, token->len)) != -1) {
+					d(printf ("year; "));
+					tm.tm_year = n - 1900;
+					goto next_token;
+				}
+			} else {
+				if (!got_month && !got_wday && token->next && is_numeric (token->next)) {
+					d(printf ("mon; "));
+					n = decode_int (token->start, token->len);
+					got_month = TRUE;
+					tm.tm_mon = n - 1;
+					goto next_token;
+				} else if (!tm.tm_mday && (n = get_mday (token->start, token->len)) != -1) {
+					d(printf ("mday; "));
+					tm.tm_mday = n;
+					goto next_token;
+				} else if (!tm.tm_year) {
+					d(printf ("2-digit year; "));
+					n = get_year (token->start, token->len);
+					tm.tm_year = n - 1900;
+					goto next_token;
 				}
 			}
 		}
 		
-		while (date.day < 1) {
-			date.day += get_days_in_month (date.mon, date.year);
-			date.mon--;
-			if (date.mon < 1) {
-				date.mon = -date.mon;
-				date.year -= (date.mon / 12) - 1;
-				date.mon = 12 - (date.mon % 12);
-			}
-		}
+		d(printf ("???; "));
 		
-		/* adjust months to the proper range */
-		if (date.mon > 12) {
-			date.year += (date.mon / 12);
-			date.mon = (date.mon % 12);
-			if (date.mon == 0) {
-				/* month sanity check */
-				date.mon = 12;
-				date.year -= 1;
-			}
-		} else {
-			if (date.mon < 1) {
-				date.mon = -date.mon;
-				date.year -= (date.mon / 12) - 1;
-				date.mon = 12 - (date.mon % 12);
-			}
-		}
+	next_token:
+		
+		token = token->next;
 	}
-
-	/* now lets print this date into a string with the correct format */
-	newdatestr = g_strdup_printf ("%s, %d %s %d %s%d:%s%d:%s%d -0000",
-				      date.dow, date.day, tz_months[date.mon-1],
-				      date.year,
-				      date.hour > 10 ? "" : "0", date.hour,
-				      date.min > 10 ? "" : "0", date.min,
-				      date.sec > 10 ? "" : "0", date.sec);
 	
-	return newdatestr;
+	d(printf ("\n"));
+		
+	time = mktime (&tm);
+#if defined(HAVE_TIMEZONE)
+	time -= timezone;
+#elif defined(HAVE_TM_GMTOFF)
+	time += tm.tm_gmtoff;
+#else
+#error Neither HAVE_TIMEZONE nor HAVE_TM_GMTOFF defined. Rerun autoheader, autoconf, etc.
+#endif
+	
+	/* t is now GMT of the time we want, but not offset by the timezone ... */
+	
+	/* this should convert the time to the GMT equiv time */
+	time -= ((offset / 100) * 60 * 60) + (offset % 100) * 60;
+	
+	if (tzone)
+		*tzone = offset;
+	
+	return time;
 }
 
-/*****************************************************************************
- * This ends the code for the broken date parser...                          *
- *                                                                           *
- * -- fejj@ximian.com                                                     *
- *****************************************************************************/
+
+/**
+ * parse_broken_date:
+ * @datestr: input date string
+ * @saveoffset:
+ *
+ * Decodes the rfc822/broken date string and saves the GMT offset into
+ * @saveoffset if non-NULL.
+ *
+ * Returns the time_t representation of the date string specified by
+ * @in. If 'saveoffset' is non-NULL, the value of the timezone offset
+ * will be stored.
+ **/
+time_t
+parse_broken_date (const char *datestr, int *saveoffset)
+{
+	struct _date_token *token, *tokens;
+	time_t date;
+	
+	tokens = datetok (datestr);
+	
+	date = decode_broken_date (tokens, saveoffset);
+	
+	/* cleanup */
+	while (tokens) {
+		token = tokens;
+		tokens = tokens->next;
+		g_free (token);
+	}
+	
+	return date;
+}
+
+
+
+
+
+#ifdef DATETOK_STANDALONE
+
+static void
+table_init ()
+{
+	int i;
+	
+	memset (datetok_table, 0, sizeof (datetok_table));
+	
+	for (i = 0; i < 256; i++) {
+		if (!strchr (NUMERIC_CHARS, i))
+			datetok_table[i] |= DATE_TOKEN_NON_NUMERIC;
+		
+		if (!strchr (WEEKDAY_CHARS, i))
+			datetok_table[i] |= DATE_TOKEN_NON_WEEKDAY;
+		
+		if (!strchr (MONTH_CHARS, i))
+			datetok_table[i] |= DATE_TOKEN_NON_MONTH;
+		
+		if (!strchr (TIME_CHARS, i))
+			datetok_table[i] |= DATE_TOKEN_NON_TIME;
+		
+		if (!strchr (TIMEZONE_ALPHA_CHARS, i))
+			datetok_table[i] |= DATE_TOKEN_NON_TIMEZONE_ALPHA;
+		
+		if (!strchr (TIMEZONE_NUMERIC_CHARS, i))
+			datetok_table[i] |= DATE_TOKEN_NON_TIMEZONE_NUMERIC;
+		
+		if (((char) i) == ':')
+			datetok_table[i] |= DATE_TOKEN_HAS_COLON;
+		
+		if (strchr ("+-", i))
+			datetok_table[i] |= DATE_TOKEN_HAS_SIGN;
+	}
+	
+	printf ("static unsigned int datetok_table[256] = {");
+	for (i = 0; i < 256; i++) {
+		if (i % 16 == 0)
+			printf ("\n\t");
+		printf ("%3d,", datetok_table[i]);
+	}
+	printf ("\n};\n");
+}
+
+
+int main (int argc, char **argv)
+{
+	time_t date;
+	int offset;
+	
+	/*table_init ();*/
+	
+	date = parse_broken_date (argv[1], &offset);
+	printf ("%d; %d\n", date, offset);
+	
+	return 0;
+}
+
+#endif /* DATETOK_STANDALONE */

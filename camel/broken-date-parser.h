@@ -20,11 +20,12 @@
  *
  */
 
-#include <glib.h>
+
+#include <time.h>
 
 /* prototypes for functions dealing with broken date formats */
 
-gchar *parse_broken_date (const gchar *datestr);
+time_t parse_broken_date (const char *datestr, int *saveoffset);
 
 
 
