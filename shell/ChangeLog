@@ -1,3 +1,9 @@
+2003-04-21  Ettore Perazzoli  <ettore@ximian.com>
+
+	* e-local-storage.c (create_folder_directory): Don't signal an
+	error if mkdir() returns EEXIST.  This should at least help with
+	situations like the one described in #40989.
+
 2003-04-21  Anna Marie Dirks  <anna@ximian.com>
 
 	* e-shell-folder-commands.c (delete_dialog): Corrected border 
