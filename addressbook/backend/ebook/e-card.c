@@ -1692,7 +1692,7 @@ e_card_init (ECard *card)
 GList *
 e_card_load_cards_from_file(const char *filename)
 {
-	VObject *vobj = Parse_MIME_FromFileName(filename);
+	VObject *vobj = Parse_MIME_FromFileName((char *) filename);
 	GList *list = NULL;
 	while(vobj) {
 		VObject *next;

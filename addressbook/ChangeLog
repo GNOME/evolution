@@ -1,3 +1,12 @@
+2000-08-05  Christopher James Lahey  <clahey@helixcode.com>
+
+	* backend/ebook/e-card-simple.c: Fixed a warning.
+
+	* backend/ebook/e-card.c: Cast to (char *) in
+	e_card_load_cards_from_file since libversit isn't const correct.
+
+	* backend/pas/pas-backend-file.c: Fixed a warning.
+
 2000-08-04  Michael Meeks  <michael@helixcode.com>
 
 	* gui/component/addressbook.c (control_activate): unref.

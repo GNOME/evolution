@@ -918,6 +918,8 @@ char     *e_card_simple_get            (ECardSimple          *simple,
 				       "org", &string,
 				       NULL);
 			return g_strdup(string);
+		default:
+			return NULL;
 		}
 	default:
 		return NULL;

@@ -312,7 +312,7 @@ func_contains(struct _ESExp *f, int argc, struct _ESExpResult **argv, void *data
 {
 	PASBackendFileSearchContext *ctx = data;
 
-	return entry_compare (ctx, f, argc, argv, e_strstrcase);
+	return entry_compare (ctx, f, argc, argv, (char *(*)(const char*, const char*)) e_strstrcase);
 }
 
 static char *
