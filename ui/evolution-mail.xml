@@ -4,10 +4,17 @@
 
       <placeholder name="Print">
 
+
         <menuitem name="Print" verb="PrintMessage"
         _label="Print message..."
         _descr="Print message to the printer"
         pixtype="stock" pixname="Menu_Print"/>
+
+        <menuitem name="Print Preview" verb="PrintPreviewMessage"
+        _label="Print Preview of message..."
+        _descr="Previews the message to be printed"
+        pixtype="stock" pixname="Menu_Print"/>
+	
 <!-- do we need this separator ? -->
 
         <menuitem/>
