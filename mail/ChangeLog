@@ -1,3 +1,8 @@
+2001-04-19  Dan Winship  <danw@ximian.com>
+
+	* mail-format.c (mail_format_raw_message): Make this more raw:
+	don't do URLs and citations.
+
 2001-04-18  Dan Winship  <danw@ximian.com>
 
 	* session.c (request_callback): Don't need to dup the string: the
