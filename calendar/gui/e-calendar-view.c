@@ -1314,12 +1314,12 @@ on_unrecur_appointment (EPopup *ep, EPopupItem *pitem, void *data)
 	 * present the updates happen synchronously so our event may disappear.
 	 */
 	if (!e_cal_modify_object (client, e_cal_component_get_icalcomponent (comp), CALOBJ_MOD_THIS, NULL))
-		g_message ("e_day_view_on_unrecur_appointment(): Could not update the object!");
+		g_message ("on_unrecur_appointment(): Could not update the object!");
 
 	g_object_unref (comp);
 
 	if (!e_cal_create_object (client, e_cal_component_get_icalcomponent (new_comp), &new_uid, NULL))
-		g_message ("e_day_view_on_unrecur_appointment(): Could not update the object!");
+		g_message ("on_unrecur_appointment(): Could not update the object!");
 	else
 		g_free (new_uid);
 
