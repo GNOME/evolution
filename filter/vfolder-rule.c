@@ -432,36 +432,43 @@ source_remove (GtkWidget *widget, struct _source_data *data)
 	GtkTreePath *path;
 	GtkTreeIter iter;
 	int index = 0;
-	int len;
+	int n;
+	
+	selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (data->list));
 	
 	source = NULL;
 	while ((source = vfolder_rule_next_source (data->vr, source))) {
-		if (data->current == source) {
-			vfolder_rule_remove_source (data->vr, source);
-			
-			path = gtk_tree_path_new ();
-			gtk_tree_path_append_index (path, index);
+		path = gtk_tree_path_new ();
+		gtk_tree_path_append_index (path, index);
+		
+		if (gtk_tree_selection_path_is_selected (selection, path)) {
 			gtk_tree_model_get_iter (GTK_TREE_MODEL (data->model), &iter, path);
+			
+			vfolder_rule_remove_source (data->vr, source);
 			gtk_list_store_remove (data->model, &iter);
 			gtk_tree_path_free (path);
 			
-			data->current = NULL;
-			
 			/* now select the next rule */
-			len = gtk_tree_model_iter_n_children (GTK_TREE_MODEL (data->model), NULL);
-			index = index >= len ? len - 1 : index;
+			n = gtk_tree_model_iter_n_children (GTK_TREE_MODEL (data->model), NULL);
+			index = index >= n ? n - 1 : index;
 			
-			path = gtk_tree_path_new ();
-			gtk_tree_path_append_index (path, index);
-			gtk_tree_model_get_iter (GTK_TREE_MODEL (data->model), &iter, path);
-			gtk_tree_path_free (path);
-			
-			selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (data->list));
-			gtk_tree_selection_select_iter  (selection, &iter);
+			if (index >= 0) {
+				path = gtk_tree_path_new ();
+				gtk_tree_path_append_index (path, index);
+				gtk_tree_model_get_iter (GTK_TREE_MODEL (data->model), &iter, path);
+				gtk_tree_path_free (path);
+				
+				gtk_tree_selection_select_iter (selection, &iter);
+				gtk_tree_model_get (GTK_TREE_MODEL (data->model), &iter, 0, &data->current, -1);
+			} else {
+				data->current = NULL;
+			}
 			
 			break;
 		}
+		
 		index++;
+		gtk_tree_path_free (path);
 	}
 	
 	set_sensitive (data);

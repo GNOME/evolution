@@ -1,5 +1,8 @@
 2003-03-17  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* vfolder-rule.c (source_remove): Fixed to work properly. Fixes
+	bug #39654.
+
 	* rule-editor.c (rule_editor_construct): Always add a Cancel
 	button here, but if !enable_undo - make the response id
 	GTK_RESPONSE_CANCEL rather than GTK_RESPONSE_REJECT (which does
