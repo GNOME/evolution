@@ -1021,15 +1021,19 @@ e_week_view_focus (GtkWidget *widget, GtkDirectionType direction)
 static GList *
 e_week_view_get_selected_events (ECalView *cal_view)
 {
-	EWeekViewEvent *event;
+	EWeekViewEvent *event = NULL;
 	GList *list = NULL;
 	EWeekView *week_view = (EWeekView *) cal_view;
 
 	g_return_val_if_fail (E_IS_WEEK_VIEW (week_view), NULL);
-	g_return_val_if_fail (week_view->editing_event_num != -1, NULL);
 
-	event = &g_array_index (week_view->events, EWeekViewEvent,
-				week_view->editing_event_num);
+	if (week_view->editing_event_num != -1) {
+		event = &g_array_index (week_view->events, EWeekViewEvent,
+					week_view->editing_event_num);
+	} else if (week_view->popup_event_num != -1) {
+		event = &g_array_index (week_view->events, EWeekViewEvent,
+					week_view->popup_event_num);
+	}
 
 	if (event)
 		list = g_list_prepend (list, event->comp);

@@ -3571,21 +3571,31 @@ e_day_view_popup_menu (GtkWidget *widget)
 static GList *
 e_day_view_get_selected_events (ECalView *cal_view)
 {
-	EDayViewEvent *event;
+	EDayViewEvent *event = NULL;
 	GList *list = NULL;
 	EDayView *day_view = (EDayView *) cal_view;
 
 	g_return_val_if_fail (E_IS_DAY_VIEW (day_view), NULL);
-	g_return_val_if_fail (day_view->editing_event_day != -1, NULL);
 
-	if (day_view->editing_event_day == E_DAY_VIEW_LONG_EVENT)
-		event = &g_array_index (day_view->long_events,
-				       EDayViewEvent,
-				       day_view->editing_event_num);
-	else
-		event = &g_array_index (day_view->events[day_view->editing_event_day],
-				       EDayViewEvent,
-				       day_view->editing_event_num);
+	if (day_view->editing_event_num != -1) {
+		if (day_view->editing_event_day == E_DAY_VIEW_LONG_EVENT)
+			event = &g_array_index (day_view->long_events,
+						EDayViewEvent,
+						day_view->editing_event_num);
+		else
+			event = &g_array_index (day_view->events[day_view->editing_event_day],
+						EDayViewEvent,
+						day_view->editing_event_num);
+	} else if (day_view->popup_event_num != -1) {
+		if (day_view->popup_event_day == E_DAY_VIEW_LONG_EVENT)
+			event = &g_array_index (day_view->long_events,
+						EDayViewEvent,
+						day_view->popup_event_num);
+		else
+			event = &g_array_index (day_view->events[day_view->popup_event_day],
+						EDayViewEvent,
+						day_view->popup_event_num);
+	}
 
 	if (event)
 		list = g_list_append (list, event->comp);
