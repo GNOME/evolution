@@ -50,12 +50,10 @@
 #include <sys/file.h>
 #endif
 
-#include "camel-lock.h"
-
 #include <glib.h>
-#include <libgnome/gnome-defs.h>
-#include <libgnome/gnome-i18n.h>  /* for _() */
 
+#include "camel-lock.h"
+#include "camel-i18n.h"
 
 #define d(x) /*(printf("%s(%d): ", __FILE__, __LINE__),(x))*/
 

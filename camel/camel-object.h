@@ -39,7 +39,7 @@ extern "C" {
 #include <camel/camel-types.h>	/* this is a @##$@#SF stupid header */
 
 /* this crap shouldn't be here */
-#include <libgnome/gnome-i18n.h>
+#include <camel/camel-i18n.h>
 
 #ifdef ENABLE_THREADS
 #include <pthread.h>

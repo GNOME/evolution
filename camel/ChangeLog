@@ -1,3 +1,11 @@
+2002-11-07  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* camel-i18n.h: Added.
+
+	* camel-object.h: #include camel-i18n.h instead of gnome-i18n.h
+
+	* camel-lock.c: Same.
+
 2002-11-07  Rodrigo Moya <rodrigo@ximian.com>
 
 	* camel-object.h: removed gnome-defs.h, it does not exist.

@@ -146,6 +146,7 @@ libcamelinclude_HEADERS =			\
 	camel-http-stream.h			\
 	camel-index.h				\
 	camel-internet-address.h		\
+	camel-i18n.h				\
 	camel-lock.h				\
 	camel-lock-client.h			\
 	camel-medium.h				\
