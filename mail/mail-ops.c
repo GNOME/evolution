@@ -2,8 +2,9 @@
 /* mail-ops.c: callbacks for the mail toolbar/menus */
 
 /* 
- * Author : 
- *  Dan Winship <danw@helixcode.com>
+ * Authors: Dan Winship <danw@helixcode.com>
+ *          Jeffrey Stedfast <fejj@helixcode.com>
+ *          Peter Williams <peterw@helixcode.com>
  *
  * Copyright 2000 Helix Code, Inc. (http://www.helixcode.com)
  *

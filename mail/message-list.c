@@ -1027,24 +1027,25 @@ on_right_click (ETableScrolled *table, gint row, gint col, GdkEvent *event, Mess
 	extern CamelFolder *drafts_folder;
 	int enable_mask = 0;
 	EPopupMenu menu[] = {
-		{ "Open in New Window", NULL, GTK_SIGNAL_FUNC (view_msg),        0 },
-		{ "Edit Message",       NULL, GTK_SIGNAL_FUNC (edit_msg),        1 },
-		{ "Print Message",      NULL, GTK_SIGNAL_FUNC (print_msg),       0 },
-		{ "",                   NULL, GTK_SIGNAL_FUNC (NULL),            0 },
-		{ "Reply to Sender",    NULL, GTK_SIGNAL_FUNC (reply_to_sender), 0 },
-		{ "Reply to All",       NULL, GTK_SIGNAL_FUNC (reply_to_all),    0 },
-		{ "Forward Message",    NULL, GTK_SIGNAL_FUNC (forward_msg),     0 },
-		{ "",                   NULL, GTK_SIGNAL_FUNC (NULL),            0 },
-		{ "Delete Message",     NULL, GTK_SIGNAL_FUNC (delete_msg),      0 },
-		{ "Move Message",       NULL, GTK_SIGNAL_FUNC (move_msg),        0 },
-		{ "",                   NULL, GTK_SIGNAL_FUNC (NULL),            0 },
-		{ "Vfolder from Subject",       NULL, GTK_SIGNAL_FUNC (vfolder_subject),        2 },
-		{ "Vfolder from Sender",       NULL, GTK_SIGNAL_FUNC (vfolder_sender),        2 },
-		{ "Vfolder from Recipients",       NULL, GTK_SIGNAL_FUNC (vfolder_recipient),        2 },
-		{ "Filter from Subject",       NULL, GTK_SIGNAL_FUNC (filter_subject),        2 },
-		{ "Filter from Sender",       NULL, GTK_SIGNAL_FUNC (filter_sender),        2 },
-		{ "Filter from Recipients",       NULL, GTK_SIGNAL_FUNC (filter_recipient),        2 },
-		{ NULL,                 NULL, NULL,                              0 }
+		{ "Open in New Window",      NULL, GTK_SIGNAL_FUNC (view_msg),          0 },
+		{ "Edit Message",            NULL, GTK_SIGNAL_FUNC (edit_msg),          1 },
+		{ "Print Message",           NULL, GTK_SIGNAL_FUNC (print_msg),         0 },
+		{ "",                        NULL, GTK_SIGNAL_FUNC (NULL),              0 },
+		{ "Reply to Sender",         NULL, GTK_SIGNAL_FUNC (reply_to_sender),   0 },
+		{ "Reply to All",            NULL, GTK_SIGNAL_FUNC (reply_to_all),      0 },
+		{ "Forward Message",         NULL, GTK_SIGNAL_FUNC (forward_msg),       0 },
+		{ "",                        NULL, GTK_SIGNAL_FUNC (NULL),              0 },
+		{ "Delete Message",          NULL, GTK_SIGNAL_FUNC (delete_msg),        0 },
+		{ "Move Message",            NULL, GTK_SIGNAL_FUNC (move_msg),          0 },
+		{ "",                        NULL, GTK_SIGNAL_FUNC (NULL),              0 },
+		{ "VFolder on Subject",      NULL, GTK_SIGNAL_FUNC (vfolder_subject),   2 },
+		{ "VFolder on Sender",       NULL, GTK_SIGNAL_FUNC (vfolder_sender),    2 },
+		{ "VFolder on Recipients",   NULL, GTK_SIGNAL_FUNC (vfolder_recipient), 2 },
+		{ "",                        NULL, GTK_SIGNAL_FUNC (NULL),              0 },
+		{ "Filter on Subject",       NULL, GTK_SIGNAL_FUNC (filter_subject),    2 },
+		{ "Filter on Sender",        NULL, GTK_SIGNAL_FUNC (filter_sender),     2 },
+		{ "Filter on Recipients",    NULL, GTK_SIGNAL_FUNC (filter_recipient),  2 },
+		{ NULL,                      NULL, NULL,                                0 }
 	};
 
 	if (fb->folder != drafts_folder)
