@@ -49,8 +49,7 @@
       <submenu name="New">
         <placeholder name="NewFirstItem">
           <menuitem name="MessageNew" verb="MailCompose"
-           accel="*Control*n" _label="_Mail Message"
-           pixtype="pixbuf"/>
+           accel="*Control*n" _label="_Mail Message"/>
 
           <separator/>
         </placeholder>
@@ -73,6 +72,7 @@
     <submenu name="Actions">
       <placeholder name="Component">
         <menuitem name="MailGetSend" verb="" _label="_Send / Receive"/>
+        <menuitem name="ActionCompose" verb="MailCompose" _label="Compose _New Message"/>
 
         <separator/>
 
