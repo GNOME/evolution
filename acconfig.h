@@ -17,6 +17,7 @@
 #undef HAVE_KRB4
 #undef HAVE_KRB5
 #undef USE_BROKEN_THREADS
+#undef BONOBO_POST_0_15
 
 /* Define this if you want to build against the development gtk */
 #undef HAVE_DEVGTK
