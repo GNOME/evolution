@@ -2561,13 +2561,13 @@ load_from_config_db (EMsgComposer *composer)
 	composer->view_from = bonobo_config_get_long_with_default (
 		db, "Mail/Composer/ViewFrom", 1, NULL);
 	composer->view_replyto = bonobo_config_get_long_with_default ( 
-                db, "Mail/Composer/ViewReplyTo", 0, NULL);
+		db, "Mail/Composer/ViewReplyTo", 0, NULL);
 	composer->view_bcc = bonobo_config_get_long_with_default (
-                db, "Mail/Composer/ViewBCC", 0, NULL);
+		db, "Mail/Composer/ViewBCC", 0, NULL);
 	composer->view_cc = bonobo_config_get_long_with_default (
-                db, "Mail/Composer/ViewCC", 1, NULL);
+		db, "Mail/Composer/ViewCC", 1, NULL);
 	composer->view_subject = bonobo_config_get_long_with_default (
-                db, "Mail/Composer/ViewSubject", 1, NULL);
+		db, "Mail/Composer/ViewSubject", 1, NULL);
 }
 
 static void
@@ -3729,6 +3729,7 @@ e_msg_composer_add_inline_image_from_file (EMsgComposer *composer,
 	return part;
 }	
 
+
 /**
  * e_msg_composer_add_inline_image_from_mime_part:
  * @composer: a composer object
@@ -3761,6 +3762,7 @@ e_msg_composer_add_inline_image_from_mime_part (EMsgComposer  *composer,
 	}
 }
 
+
 /**
  * e_msg_composer_get_message:
  * @composer: A message composer widget
@@ -3778,6 +3780,7 @@ e_msg_composer_get_message (EMsgComposer *composer, gboolean save_html_object_da
 	
 	return build_message (composer, save_html_object_data);
 }
+
 
 CamelMimeMessage *
 e_msg_composer_get_message_draft (EMsgComposer *composer)
@@ -3846,6 +3849,7 @@ delete_old_signature (EMsgComposer *composer)
 	CORBA_exception_free (&ev);
 }
 
+
 /**
  * e_msg_composer_show_sig:
  * @composer: A message composer widget
@@ -3893,6 +3897,7 @@ e_msg_composer_show_sig_file (EMsgComposer *composer)
 	
 	/* printf ("e_msg_composer_show_sig_file end\n"); */
 }
+
 
 /**
  * e_msg_composer_set_send_html:
@@ -3991,6 +3996,7 @@ e_msg_composer_set_pgp_sign (EMsgComposer *composer, gboolean pgp_sign)
 				      "state", composer->pgp_sign ? "1" : "0", NULL);
 }
 
+
 /**
  * e_msg_composer_get_pgp_sign:
  * @composer: A message composer widget
@@ -4072,6 +4078,7 @@ e_msg_composer_set_smime_sign (EMsgComposer *composer, gboolean smime_sign)
 				      "state", composer->smime_sign ? "1" : "0", NULL);
 }
 
+
 /**
  * e_msg_composer_get_smime_sign:
  * @composer: A message composer widget
@@ -4128,6 +4135,7 @@ e_msg_composer_get_smime_encrypt (EMsgComposer *composer)
 	
 	return composer->smime_encrypt;
 }
+
 
 /**
  * e_msg_composer_get_view_from:
@@ -4314,7 +4322,7 @@ e_msg_composer_get_recipients (EMsgComposer *composer)
 }
 
 EDestination **
-e_msg_composer_get_to(EMsgComposer *composer)
+e_msg_composer_get_to (EMsgComposer *composer)
 {
 	g_return_val_if_fail (E_IS_MSG_COMPOSER (composer), NULL);
 	
