@@ -1,3 +1,9 @@
+2005-02-04  Rodney Dawes  <dobey@novell.com>
+
+	* e-passwords.c (ep_ask_password): Set the border widths for the
+	dialog containers to be HIG compliant
+	Fix the padding/spacing on the internal vbox to be HIG compliant
+
 2005-01-27  Mengjie Yu  <meng-jie.yu@sun.com>
 
 	* e-request.c: (e_request_string):add a11y description for the
