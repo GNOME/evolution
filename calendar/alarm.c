@@ -35,7 +35,6 @@ alarm_activate ()
 {
 	char c = 0;
 
-	printf ("ALARMA!\n");
 	write (alarm_pipes [1], &c, 1);
 }
 
