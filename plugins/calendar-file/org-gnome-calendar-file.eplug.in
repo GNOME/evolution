@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<e-plugin-list>
+    <e-plugin
+     type="shlib"
+     location="@PLUGINDIR@/liborg-gnome-calendar-file.so"
+     id="org.gnome.evolution.calendar.file"
+     name="Local Calendars">
+        <hook class="org.gnome.evolution.calendar.config:1.0">
+            <group
+	     target="source"
+	     id="org.gnome.evolution.calendar.calendarProperties">
+                <item
+		 type="item_table"
+		 path="00.general/00.source/00.file_dummy"
+		 factory="e_calendar_file_dummy"/>
+            </group>
+        </hook>
+    </e-plugin>
+</e-plugin-list>
