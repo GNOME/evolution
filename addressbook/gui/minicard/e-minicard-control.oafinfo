@@ -1,0 +1,38 @@
+<oaf_info>
+
+<oaf_server iid="OAFIID:bonobo_clock_factory:ec4961f3-7a16-4ace-9463-b112e4bc4186" type="exe" location="sample-control-factory">
+<oaf_attribute name="repo_ids" type="stringv">
+<item value="IDL:GNOME/GenericFactory:1.0"/>
+</oaf_attribute>
+<oaf_attribute name="name" type="string" value="Clock control factory"/>
+<oaf_attribute name="description" type="string" value="Factory for the sample BonoboClock control"/>
+</oaf_server>
+
+<oaf_server iid="OAFIID:bonobo_clock:d42cc651-44ae-4f69-a10d-a0b6b2cc6ecc" type="factory" location="OAFIID:bonobo_clock_factory:ec4961f3-7a16-4ace-9463-b112e4bc4186">
+<oaf_attribute name="repo_ids" type="stringv">
+<item value="IDL:Bonobo/Unknown:1.0"/>
+<item value="IDL:Bonobo/Control:1.0"/>
+</oaf_attribute>
+<oaf_attribute name="name" type="string" value="Clock control"/>
+<oaf_attribute name="description" type="string" value="A sample Bonobo control which displays a clock."/>
+</oaf_server>
+
+<oaf_server iid="OAFIID:bonobo_entry_factory:ef3e3c33-43e2-4f7c-9ca9-9479104608d6" type="exe" location="sample-control-factory">
+<oaf_attribute name="repo_ids" type="stringv">
+<item value="IDL:GNOME/GenericFactory:1.0"/>
+</oaf_attribute>
+<oaf_attribute name="name" type="string" value="Entry control factory"/>
+<oaf_attribute name="description" type="string" value="Factory for the sample GtkEntry control"/>
+</oaf_server>
+
+<oaf_server iid="OAFIID:bonobo_entry:04e49c0b-95e2-4305-88a7-9f6721ddfa51" type="factory" location="OAFIID:bonobo_entry_factory:ef3e3c33-43e2-4f7c-9ca9-9479104608d6">
+<oaf_attribute name="repo_ids" type="stringv">
+<item value="IDL:Bonobo/Unknown:1.0"/>
+<item value="IDL:Bonobo/Control:1.0"/>
+</oaf_attribute>
+<oaf_attribute name="name" type="string" value="Entry control"/>
+<oaf_attribute name="description" type="string" value="A sample Bonbobo control wrapping a Gtk Entry widget."/>
+</oaf_server>
+
+</oaf_info>
+

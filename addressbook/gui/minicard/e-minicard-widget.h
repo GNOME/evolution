@@ -22,8 +22,8 @@
 #define __E_MINICARD_WIDGET_H__
 
 #include <gnome.h>
-#include <glade/glade.h>
-#include "e-table-header.h"
+#include "addressbook/backend/ebook/e-card.h"
+#include "e-util/e-canvas.h"
 
 #ifdef __cplusplus
 extern "C" {
@@ -40,13 +40,13 @@ extern "C" {
 
 #define E_MINICARD_WIDGET_TYPE			(e_minicard_widget_get_type ())
 #define E_MINICARD_WIDGET(obj)			(GTK_CHECK_CAST ((obj), E_MINICARD_WIDGET_TYPE, EMinicardWidget))
-#define E_MINICARD_WIDGET_CLASS(klass)		(GTK_CHECK_CLASS_CAST ((klass), E_MINICARD_WIDGET_TYPE, ETableFieldChooserClass))
-#define E_IS_TABLE_FIELD_CHOOSER(obj)		(GTK_CHECK_TYPE ((obj), E_MINICARD_WIDGET_TYPE))
-#define E_IS_TABLE_FIELD_CHOOSER_CLASS(klass)	(GTK_CHECK_CLASS_TYPE ((obj), E_MINICARD_WIDGET_TYPE))
+#define E_MINICARD_WIDGET_CLASS(klass)		(GTK_CHECK_CLASS_CAST ((klass), E_MINICARD_WIDGET_TYPE, EMinicardWidgetClass))
+#define E_IS_MINICARD_WIDGET(obj)		(GTK_CHECK_TYPE ((obj), E_MINICARD_WIDGET_TYPE))
+#define E_IS_MINICARD_WIDGET_CLASS(klass)	(GTK_CHECK_CLASS_TYPE ((obj), E_MINICARD_WIDGET_TYPE))
 
 
 typedef struct _EMinicardWidget       EMinicardWidget;
-typedef struct _ETableFieldChooserClass  ETableFieldChooserClass;
+typedef struct _EMinicardWidgetClass  EMinicardWidgetClass;
 
 struct _EMinicardWidget
 {
@@ -59,7 +59,7 @@ struct _EMinicardWidget
 	ECard *card;
 };
 
-struct _ETableFieldChooserClass
+struct _EMinicardWidgetClass
 {
 	ECanvasClass parent_class;
 };

@@ -11,7 +11,9 @@
 #include <gnome.h>
 #include <bonobo.h>
 
-#include "e-minicard-factory.h"
+#include "e-minicard-control.h"
+#include "e-minicard-widget.h"
+#include "addressbook/backend/ebook/e-card.h"
 
 #if 0
 enum {
@@ -83,7 +85,7 @@ set_prop (BonoboPropertyBag *bag,
  * save methods which allow data to be loaded into and out of the
  * BonoboObject.
  */
-static int
+static char *
 stream_read (Bonobo_Stream stream)
 {
 	Bonobo_Stream_iobuf *buffer;
@@ -144,7 +146,7 @@ pstream_load (BonoboPersistStream *ps, const Bonobo_Stream stream,
 		return;
 	}
 
-	if ((vcard = stream_read (stream, embeddable_data)) == NULL) {
+	if ((vcard = stream_read (stream)) == NULL) {
 		CORBA_exception_set (ev, CORBA_USER_EXCEPTION,
 				     ex_Bonobo_Persist_FileNotFound, NULL);
 		return;
@@ -222,6 +224,7 @@ pstream_get_max_size (BonoboPersistStream *ps, void *data,
   GtkWidget *minicard = data;
   ECard *card;
   char *vcard;
+  gint length;
   
   gtk_object_get(GTK_OBJECT(minicard),
 		 "card", &card,
@@ -241,7 +244,7 @@ pstream_get_content_types (BonoboPersistStream *ps, void *closure,
 }
 
 static BonoboObject *
-e_minicard_factory (BonoboGenericFactory *Factory, void *closure)
+e_minicard_control_factory (BonoboGenericFactory *Factory, void *closure)
 {
 #if 0
 	BonoboPropertyBag  *pb;
@@ -283,25 +286,25 @@ e_minicard_factory (BonoboGenericFactory *Factory, void *closure)
 }
 
 void
-e_minicard_factory_init (void)
+e_minicard_control_factory_init (void)
 {
-	static BonoboGenericFactory *e_minicard_factory = NULL;
+	static BonoboGenericFactory *factory = NULL;
 
-	if (e_minicard_factory != NULL)
+	if (factory != NULL)
 		return;
 
 #if USING_OAF
-	e_minicard_factory =
+	factory =
 		bonobo_generic_factory_new (
 			"OAFIID:e_minicard_factory:f9542709-fb31-4c6a-bc00-d462ba41e4b9",
-			e_minicard_factory, NULL);
+			e_minicard_control_factory, NULL);
 #else
-	e_minicard_factory =
+	factory =
 		bonobo_generic_factory_new (
 			"control-factory:e-minicard",
-			e_minicard_factory, NULL);
+			e_minicard_control_factory, NULL);
 #endif
 
-	if (e_minicard_factory == NULL)
-		g_error ("I could not register a EMinicard factory.");
+	if (factory == NULL)
+		g_error ("I could not register a EMinicard control factory.");
 }

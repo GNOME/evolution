@@ -12,12 +12,16 @@ noinst_LIBRARIES =				\
 	libeminicard.a
 
 libeminicard_a_SOURCES =			\
-	e-minicard.c				\
-	e-minicard.h				\
+	e-minicard-control.c			\
+	e-minicard-control.h			\
 	e-minicard-label.c			\
 	e-minicard-label.h			\
 	e-minicard-view.c			\
 	e-minicard-view.h			\
+	e-minicard-widget.c			\
+	e-minicard-widget.h			\
+	e-minicard.c				\
+	e-minicard.h				\
 	e-reflow-sorted.c			\
 	e-reflow-sorted.h			\
 	e-reflow.c				\

@@ -16,6 +16,7 @@
 
 #include "addressbook.h"
 #include "addressbook-component.h"
+#include "addressbook/gui/minicard/e-minicard-control.h"
 #include "select-names/e-select-names-factory.h"
 
 #ifdef USING_OAF
@@ -76,6 +77,8 @@ main (int argc, char **argv)
 	addressbook_component_factory_init ();
 
 	e_select_names_factory_init ();
+	
+	e_minicard_control_factory_init ();
 
 	e_cursors_init();
 

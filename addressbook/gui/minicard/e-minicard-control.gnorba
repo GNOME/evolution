@@ -1,0 +1,24 @@
+[control-factory:clock]
+type=exe
+repo_id=IDL:Bonobo/GenericFactory:1.0
+description=Factory for the sample BonoboClock control
+location_info=sample-control-factory
+
+[control:clock]
+type=factory
+repo_id=IDL:BonoboControl/clock-control:1.0 IDL:Bonobo/Control:1.0
+description=A sample Bonobo control which displays a clock.
+location_info=control-factory:clock
+
+[control-factory:entry]
+type=exe
+repo_id=IDL:Bonobo/GenericFactory:1.0
+description=Factory for the sample GtkEntry control
+location_info=sample-control-factory
+
+[control:entry]
+type=factory
+repo_id=IDL:BonoboControl/entry-control:1.0 IDL:Bonobo/Control:1.0
+description=A sample Bonbobo control wrapping a Gtk Entry widget.
+location_info=control-factory:entry
+

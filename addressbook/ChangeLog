@@ -1,5 +1,22 @@
 2000-07-18  Christopher James Lahey  <clahey@helixcode.com>
 
+	* gui/minicard/Makefile.am: Added
+	gui/minicard/e-minicard-control.c,
+	gui/minicard/e-minicard-control.h,
+	gui/minicard/e-minicard-widget.c, and
+	gui/minicard/e-minicard-widget.h.
+
+	* gui/minicard/e-minicard-control.c,
+	gui/minicard/e-minicard-control.h,
+	gui/minicard/e-minicard-widget.c,
+	gui/minicard/e-minicard-widget.h: Got these to compile.
+
+	* gui/minicard/e-minicard-control.gnorba,
+	gui/minicard/e-minicard-control.oafinfo: Copied directly from
+	bonobo-clock-control.  These aren't done yet.
+
+2000-07-18  Christopher James Lahey  <clahey@helixcode.com>
+
 	* gui/minicard/e-minicard-control.c,
 	gui/minicard/e-minicard-control.h,
 	gui/minicard/e-minicard-widget.c,

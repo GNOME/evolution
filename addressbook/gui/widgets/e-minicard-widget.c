@@ -22,16 +22,19 @@
 
 #include <config.h>
 #include <gnome.h>
-#include <e-table-field-chooser.h>
-#include <e-table-field-chooser-item.h>
+#include "e-minicard-widget.h"
+#include "e-minicard.h"
 
 static void e_minicard_widget_init		(EMinicardWidget		 *card);
 static void e_minicard_widget_class_init	(EMinicardWidgetClass	 *klass);
 static void e_minicard_widget_set_arg (GtkObject *o, GtkArg *arg, guint arg_id);
 static void e_minicard_widget_get_arg (GtkObject *object, GtkArg *arg, guint arg_id);
 static void e_minicard_widget_destroy (GtkObject *object);
+static void e_minicard_widget_size_request	 (GtkWidget	    *widget, GtkRequisition    *requisition);
+static void e_minicard_widget_size_allocate	 (GtkWidget	    *widget, GtkAllocation     *allocation);
+static void e_minicard_widget_reflow             (ECanvas           *canvas);
 
-static ECanvas *parent_class = NULL;
+static ECanvasClass *parent_class = NULL;
 
 /* The arguments we take */
 enum {
@@ -42,11 +45,11 @@ enum {
 GtkType
 e_minicard_widget_get_type (void)
 {
-	static GtkType table_field_chooser_type = 0;
+	static GtkType type = 0;
 
-	if (!table_field_chooser_type)
+	if (!type)
 		{
-			static const GtkTypeInfo table_field_chooser_info =
+			static const GtkTypeInfo info =
 			{
 				"EMinicardWidget",
 				sizeof (EMinicardWidget),
@@ -58,10 +61,10 @@ e_minicard_widget_get_type (void)
 				(GtkClassInitFunc) NULL,
 			};
 
-			table_field_chooser_type = gtk_type_unique (e_canvas_get_type (), &table_field_chooser_info);
+			type = gtk_type_unique (e_canvas_get_type (), &info);
 		}
 
-	return table_field_chooser_type;
+	return type;
 }
 
 static void
@@ -69,11 +72,13 @@ e_minicard_widget_class_init (EMinicardWidgetClass *klass)
 {
 	GtkObjectClass *object_class;
 	GtkWidgetClass *widget_class;
+	ECanvasClass   *ecanvas_class;
 
-	object_class = (GtkObjectClass*) klass;
-	widget_class = (GtkWidgetClass *) klass;
+	object_class = GTK_OBJECT_CLASS(klass);
+	widget_class = GTK_WIDGET_CLASS(klass);
+	ecanvas_class = E_CANVAS_CLASS(klass);
 
-	parent_class = gtk_type_class (gtk_vbox_get_type ());
+	parent_class = gtk_type_class (e_canvas_get_type ());
 
 	object_class->set_arg = e_minicard_widget_set_arg;
 	object_class->get_arg = e_minicard_widget_get_arg;
@@ -81,8 +86,27 @@ e_minicard_widget_class_init (EMinicardWidgetClass *klass)
 
 	widget_class->size_request  = e_minicard_widget_size_request;
 	widget_class->size_allocate = e_minicard_widget_size_allocate;
+
+	ecanvas_class->reflow = e_minicard_widget_reflow;
+
 	gtk_object_add_arg_type ("EMinicardWidget::card", GTK_TYPE_OBJECT,
 				 GTK_ARG_READWRITE, ARG_CARD);
+}
+
+static void
+e_minicard_widget_size_request(GtkWidget *widget, GtkRequisition *requisition)
+{
+	double height;
+	EMinicardWidget *emw = E_MINICARD_WIDGET(widget);
+	gtk_object_get(GTK_OBJECT(emw->item),
+		       "height", &height,
+		       NULL);
+	if (height <= 0)
+		height = 1;
+	widget->requisition.height = height;
+	widget->requisition.width  = 200;
+	requisition->height = height;
+	requisition->width  = 200;
 }
 
 static void
@@ -97,7 +121,7 @@ e_minicard_widget_size_allocate(GtkWidget *widget, GtkAllocation *allocation)
 		       "height", &height,
 		       NULL);
 	height = MAX(height, allocation->height);
-	gnome_canvas_set_scroll_region(GNOME_CANVAS( emw->canvas ), 0, 0, allocation->width - 1, height - 1);
+	gnome_canvas_set_scroll_region(GNOME_CANVAS( emw ), 0, 0, allocation->width - 1, height - 1);
 	gnome_canvas_item_set( emw->rect,
 			       "x2", (double) allocation->width,
 			       "y2", (double) height,
@@ -106,26 +130,29 @@ e_minicard_widget_size_allocate(GtkWidget *widget, GtkAllocation *allocation)
 		GTK_WIDGET_CLASS(parent_class)->size_allocate(widget, allocation);
 }
 
-static void resize(GnomeCanvas *canvas, EMinicardWidget *emw)
+static void e_minicard_widget_reflow(ECanvas *canvas)
 {
 	double height;
+	EMinicardWidget *emw = E_MINICARD_WIDGET(canvas);
 	gtk_object_get(GTK_OBJECT(emw->item),
 		       "height", &height,
 		       NULL);
 
-	height = MAX(height, emw->last_alloc.height);
+	height = MAX(height, GTK_WIDGET(emw)->allocation.height);
 
-	gnome_canvas_set_scroll_region (GNOME_CANVAS(emw->canvas), 0, 0, emw->last_alloc.width - 1, height - 1);
+	gnome_canvas_set_scroll_region (GNOME_CANVAS(emw), 0, 0, GTK_WIDGET(emw)->allocation.width - 1, height - 1);
 	gnome_canvas_item_set( emw->rect,
-			       "x2", (double) emw->last_alloc.width,
+			       "x2", (double) GTK_WIDGET(emw)->allocation.width,
 			       "y2", (double) height,
 			       NULL );	
+	
+	gtk_widget_queue_resize(GTK_WIDGET(canvas));
 }
 
 static void
 e_minicard_widget_init (EMinicardWidget *emw)
 {
-	emw->rect = gnome_canvas_item_new(gnome_canvas_root( GNOME_CANVAS( emw->canvas ) ),
+	emw->rect = gnome_canvas_item_new(gnome_canvas_root(GNOME_CANVAS(emw)),
 					   gnome_canvas_rect_get_type(),
 					   "x1", (double) 0,
 					   "y1", (double) 0,
@@ -134,23 +161,16 @@ e_minicard_widget_init (EMinicardWidget *emw)
 					   "fill_color", "white",
 					   NULL );
 
-	emw->item = gnome_canvas_item_new(gnome_canvas_root(emw->canvas),
-					  e_minicard_widget_item_get_type(),
+	emw->item = gnome_canvas_item_new(gnome_canvas_root(GNOME_CANVAS(emw)),
+					  e_minicard_get_type(),
 					  "width", (double) 100,
 					  NULL );
 
-	gtk_signal_connect( GTK_OBJECT( emw->canvas ), "reflow",
-			    GTK_SIGNAL_FUNC( resize ),
-			    emw);
-
-	gnome_canvas_set_scroll_region ( GNOME_CANVAS( emw->canvas ),
+	gnome_canvas_set_scroll_region ( GNOME_CANVAS( emw ),
 					 0, 0,
 					 100, 100 );
-
-	/* Connect the signals */
-	gtk_signal_connect (GTK_OBJECT (emw->canvas), "size_allocate",
-			    GTK_SIGNAL_FUNC (allocate_callback),
-			    emw);
+	
+	emw->card = NULL;
 }
 
 static void
@@ -158,12 +178,11 @@ e_minicard_widget_destroy (GtkObject *object)
 {
 	EMinicardWidget *emw = E_MINICARD_WIDGET(object);
 
-	g_free(emw->dnd_code);
-	if (emw->full_header)
-		gtk_object_unref(GTK_OBJECT(emw->full_header));
-
-	if (emw->gui)
-		gtk_object_unref(GTK_OBJECT(emw->gui));
+	if (emw->card)
+		gtk_object_unref(GTK_OBJECT(emw->card));
+	
+	if (GTK_OBJECT_CLASS(parent_class)->destroy)
+		GTK_OBJECT_CLASS(parent_class)->destroy(object);
 }
 
 GtkWidget*
@@ -180,7 +199,7 @@ e_minicard_widget_set_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 
 	switch (arg_id){
 	case ARG_CARD:
-		if (emw->full_header)
+		if (emw->card)
 			gtk_object_unref(GTK_OBJECT(emw->card));
 		if (GTK_VALUE_OBJECT(*arg)) {
 		  emw->card = E_CARD(GTK_VALUE_OBJECT(*arg));
@@ -205,7 +224,10 @@ e_minicard_widget_get_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 
 	switch (arg_id) {
 	case ARG_CARD:
-		GTK_VALUE_OBJECT (*arg) = GTK_OBJECT(emw->card);
+		if (emw->card)
+			GTK_VALUE_OBJECT (*arg) = GTK_OBJECT(emw->card);
+		else
+			GTK_VALUE_OBJECT (*arg) = NULL;
 		break;
 	default:
 		arg->type = GTK_TYPE_INVALID;
