@@ -32,6 +32,7 @@ libcamel_la_SOURCES = 				\
 	gmime-content-field.c			\
 	gmime-utils.c				\
 	gstring-util.c				\
+	hash-table-utils.c			\
 	string-utils.c				\
 	url-util.c
 
@@ -56,6 +57,7 @@ libcamelinclude_HEADERS =			\
 	gmime-content-field.h			\
 	gmime-utils.h				\
 	gstring-util.h				\
+	hash-table-utils.h			\
 	string-utils.h				\
 	url-util.h
 

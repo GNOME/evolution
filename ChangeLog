@@ -1,3 +1,20 @@
+1999-08-13  bertrand  <Bertrand.Guiheneuf@aful.org>
+
+	* camel/hash-table-utils.c (g_strcase_equal): 
+	(g_strcase_hash): those two func go here now.
+
+	* camel/hash_table_utils.c (hash_table_generic_free): 
+	free a (gpointer, gpointer) hash table pair.
+
+	* camel/camel-mime-message.c (camel_mime_message_init): use
+	case insensitive hash table functions. 
+	(_set_flag): 
+	(camel_mime_message_set_flag): 
+	(_get_flag): 
+	(camel_mime_message_get_flag): 
+	Use const for flag name, they are now
+	duplicated.
+
 1999-08-12  bertrand  <Bertrand.Guiheneuf@aful.org>
 
 	* tests/ui-tests/store_listing.c (show_folder_messages): 

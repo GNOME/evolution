@@ -28,6 +28,7 @@
 #include "string-utils.h"
 #include "camel-log.h"
 #include "gmime-utils.h"
+#include "hash-table-utils.h"
 
 typedef enum {
 	HEADER_UNKNOWN,
@@ -65,8 +66,8 @@ static void _add_recipient (CamelMimeMessage *mime_message, gchar *recipient_typ
 static void _remove_recipient (CamelMimeMessage *mime_message, const gchar *recipient_type, const gchar *recipient);
 static const GList *_get_recipients (CamelMimeMessage *mime_message, const gchar *recipient_type);
 
-static void _set_flag (CamelMimeMessage *mime_message, gchar *flag, gboolean value);
-static gboolean _get_flag (CamelMimeMessage *mime_message, gchar *flag);
+static void _set_flag (CamelMimeMessage *mime_message, const gchar *flag, gboolean value);
+static gboolean _get_flag (CamelMimeMessage *mime_message, const gchar *flag);
 
 static void _set_message_number (CamelMimeMessage *mime_message, guint number);
 static guint _get_message_number (CamelMimeMessage *mime_message);
@@ -143,8 +144,8 @@ camel_mime_message_init (gpointer object, gpointer klass)
 {
 	CamelMimeMessage *camel_mime_message = CAMEL_MIME_MESSAGE (object);
 
-	camel_mime_message->recipients =  g_hash_table_new (g_str_hash, g_str_equal);
-	camel_mime_message->flags = g_hash_table_new (g_str_hash, g_str_equal);
+	camel_mime_message->recipients =  g_hash_table_new (g_strcase_hash, g_strcase_equal);
+	camel_mime_message->flags = g_hash_table_new (g_strcase_hash, g_strcase_equal);
 }
 
 GtkType
@@ -184,9 +185,12 @@ _finalize (GtkObject *object)
 	if (message->reply_to) g_free (message->reply_to);
 	if (message->from) g_free (message->from);
 		
-#warning free recipients and flags.
+#warning free recipients.
 	if (message->folder) gtk_object_unref (GTK_OBJECT (message->folder));
 	if (message->session) gtk_object_unref (GTK_OBJECT (message->session));
+	
+	if (message->flags)
+		 g_hash_table_foreach (message->flags, g_hash_table_generic_free, NULL);
 	
 	GTK_OBJECT_CLASS (parent_class)->finalize (object);
 	CAMEL_LOG_FULL_DEBUG ("Leaving CamelMimeMessage::finalize\n");
@@ -459,7 +463,7 @@ camel_mime_message_get_recipients (CamelMimeMessage *mime_message, const gchar *
 
 
 static void
-_set_flag (CamelMimeMessage *mime_message, gchar *flag, gboolean value)
+_set_flag (CamelMimeMessage *mime_message, const gchar *flag, gboolean value)
 {
 	gchar old_flags;
 	gboolean *ptr_value;
@@ -469,16 +473,14 @@ _set_flag (CamelMimeMessage *mime_message, gchar *flag, gboolean value)
 					    (gpointer)&(ptr_value)) ) {
 		
 		ptr_value = g_new (gboolean, 1);
-		g_hash_table_insert (mime_message->flags, flag, ptr_value);
-	} else {
-		g_free (flag);
-	}
+		g_hash_table_insert (mime_message->flags, g_strdup (flag), ptr_value);
+	} 
 	*ptr_value = value;
 		
 }
 
 void
-camel_mime_message_set_flag (CamelMimeMessage *mime_message, gchar *flag, gboolean value)
+camel_mime_message_set_flag (CamelMimeMessage *mime_message, const gchar *flag, gboolean value)
 {
 	CMM_CLASS (mime_message)->set_flag (mime_message, flag, value);
 }
@@ -486,7 +488,7 @@ camel_mime_message_set_flag (CamelMimeMessage *mime_message, gchar *flag, gboole
 
 
 static gboolean 
-_get_flag (CamelMimeMessage *mime_message, gchar *flag)
+_get_flag (CamelMimeMessage *mime_message, const gchar *flag)
 {
 	gboolean *value;
 	value = (gboolean *)g_hash_table_lookup (mime_message->flags, flag);
@@ -494,7 +496,7 @@ _get_flag (CamelMimeMessage *mime_message, gchar *flag)
 }
 
 gboolean 
-camel_mime_message_get_flag (CamelMimeMessage *mime_message, gchar *flag)
+camel_mime_message_get_flag (CamelMimeMessage *mime_message, const gchar *flag)
 {
 	return CMM_CLASS (mime_message)->get_flag (mime_message, flag);
 }

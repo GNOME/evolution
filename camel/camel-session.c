@@ -25,6 +25,7 @@
 #include "string-utils.h"
 #include "url-util.h"
 #include "camel-provider.h"
+#include "hash-table-utils.h"
 
 static GtkObjectClass *parent_class=NULL;
 
