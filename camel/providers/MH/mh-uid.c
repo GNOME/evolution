@@ -134,7 +134,8 @@ mh_load_uid_list (CamelMhFolder *mh_folder)
 	
 
 	if (!((stat_error != -1) && S_ISREG (stat_buf.st_mode))) {
-		CAMEL_LOG_FULL_DEBUG ("file %s does not exist. Exiting.\n", uidfile_path);
+		CAMEL_LOG_FULL_DEBUG ("CamelMhFolder::load_uid_list "
+				      "file %s does not exist. Exiting.\n", uidfile_path);
 		g_free (uidfile_path);
 		return -1;
 	}

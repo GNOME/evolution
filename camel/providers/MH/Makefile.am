@@ -15,12 +15,14 @@ libcamelmh_la_SOURCES = 			\
 	camel-mh-folder.c			\
 	camel-mh-provider.c			\
 	camel-mh-store.c			\
+	mh-summary.c				\
 	mh-uid.c				\
 	mh-utils.c
 
 libcamelmhinclude_HEADERS =			\
 	camel-mh-folder.h			\
 	camel-mh-store.h			\
+	mh-summary.c				\
 	mh-uid.h				\
 	mh-utils.h
 

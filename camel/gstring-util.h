@@ -38,14 +38,14 @@ typedef enum {
     GSTRING_DICHOTOMY_NONE            =     0,
     GSTRING_DICHOTOMY_RIGHT_DIR       =     1,
     GSTRING_DICHOTOMY_STRIP_TRAILING  =     2,
-    GSTRING_DICHOTOMY_STRIP_LEADING   =     4,
+    GSTRING_DICHOTOMY_STRIP_LEADING   =     4
     
 } GStringDichotomyOption;
 
 typedef enum {
     GSTRING_TRIM_NONE            =     0,
     GSTRING_TRIM_STRIP_TRAILING  =     1,
-    GSTRING_TRIM_STRIP_LEADING   =     2,
+    GSTRING_TRIM_STRIP_LEADING   =     2
 } GStringTrimOption;
 
 

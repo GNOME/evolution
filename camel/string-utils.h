@@ -38,14 +38,14 @@ typedef enum {
 	STRING_DICHOTOMY_NONE            =     0,
 	STRING_DICHOTOMY_RIGHT_DIR       =     1,
 	STRING_DICHOTOMY_STRIP_TRAILING  =     2,
-	STRING_DICHOTOMY_STRIP_LEADING   =     4,
+	STRING_DICHOTOMY_STRIP_LEADING   =     4
 	
 } StringDichotomyOption;
 
 typedef enum {
 	STRING_TRIM_NONE            =     0,
 	STRING_TRIM_STRIP_TRAILING  =     1,
-	STRING_TRIM_STRIP_LEADING   =     2,
+	STRING_TRIM_STRIP_LEADING   =     2
 } StringTrimOption;
 
 gboolean string_equal_for_glist (gconstpointer v, gconstpointer v2);

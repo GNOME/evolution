@@ -1116,7 +1116,8 @@ _get_uid_list  (CamelFolder *folder)
  * get the list of UID available in a folder. This
  * routine is usefull to know what messages are
  * available when the folder does not support
- * summaries. 
+ * summaries. The UIDs in the list must not be freed,
+ * the folder object caches them.
  * 
  * Return value: Glist of UID correspondind to the messages available in the folder.
  **/

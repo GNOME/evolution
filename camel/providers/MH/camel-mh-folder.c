@@ -40,6 +40,7 @@
 #include "gmime-utils.h"
 #include "mh-utils.h"
 #include "mh-uid.h"
+#include "mh-summary.h"
 
 
 static CamelFolderClass *parent_class=NULL;
@@ -65,6 +66,9 @@ static void _copy_message_to (CamelFolder *folder, CamelMimeMessage *message, Ca
 static void _open (CamelFolder *folder, CamelFolderOpenMode mode);
 static void _close (CamelFolder *folder, gboolean expunge);
 
+static const gchar *_get_message_uid (CamelFolder *folder, CamelMimeMessage *message);
+static CamelMimeMessage *_get_message_by_uid (CamelFolder *folder, const gchar *uid);
+static GList *_get_uid_list  (CamelFolder *folder);
 
 /* some utility functions */
 static int copy_reg (const char *src_path, const char *dst_path);
@@ -91,7 +95,10 @@ camel_mh_folder_class_init (CamelMhFolderClass *camel_mh_folder_class)
 	camel_folder_class->copy_message_to = _copy_message_to;
 	camel_folder_class->open = _open;
 	camel_folder_class->close = _close;
-	
+	camel_folder_class->get_message_uid = _get_message_uid;
+	camel_folder_class->get_message_by_uid = _get_message_by_uid;
+	camel_folder_class->get_uid_list = _get_uid_list;
+
 }
 
 
@@ -146,62 +153,10 @@ _init_with_store (CamelFolder *folder, CamelStore *parent_store)
 	folder->can_hold_messages = TRUE;
 	folder->can_hold_folders = TRUE;
 	folder->has_summary_capability = TRUE;
-
-	folder->summary = camel_folder_summary_new ();
-}
-
-
-static void 
-_create_summary (CamelFolder *folder)
-{
-	CamelMhFolder *mh_folder = CAMEL_MH_FOLDER (folder);
-	CamelFolderSummary *summary = folder->summary;
-	CamelMessageInfo *message_info;
-	CamelFolderInfo *subfolder_info;
-	CamelStream *message_stream;
-	GList *file_list = mh_folder->file_name_list;
-	gchar *filename;
-	gchar *message_fullpath;
-	gchar *directory_path = mh_folder->directory_path;
-	GArray *header_array;
-	Rfc822Header *cur_header;
-	int i;
-
-	summary = folder->summary;
-
-	while (file_list) {
-
-		filename = (gchar *)(file_list->data);
-		message_info = g_new0 (CamelMessageInfo, 1);
-		message_fullpath = g_strdup_printf ("%s/%s", directory_path, filename);
-		message_stream = camel_stream_buffered_fs_new_with_name (message_fullpath, 
-									 CAMEL_STREAM_BUFFERED_FS_READ);
-		header_array = get_header_array_from_stream (message_stream);
-		gtk_object_unref (GTK_OBJECT (message_stream));
-
-		for (i=0; i<header_array->len; i++) {
-			cur_header = (Rfc822Header *)header_array->data + i;
-			if (!g_strcasecmp (cur_header->name, "subject")) {
-				message_info->subject = cur_header->value;
-				g_free (cur_header->name);
-			} else if (!g_strcasecmp (cur_header->name, "sender")) {
-				message_info->date = cur_header->value;
-				g_free (cur_header->name);
-			} else if (!g_strcasecmp (cur_header->name, "date")) {
-				message_info->date = cur_header->value;
-				g_free (cur_header->name);
-			} else {
-				g_free (cur_header->name);
-				g_free (cur_header->value);
-			}
-		}		
-		g_array_free (header_array, TRUE);
-
-		message_info->UID = NULL;
-		
-		summary->message_info_list = g_list_append (summary->message_info_list, message_info);
-		file_list = file_list->next;
-	}	
+	folder->has_uid_capability = TRUE;
+ 
+	folder->summary = NULL;
+	
 }
 
 
@@ -235,11 +190,16 @@ _open (CamelFolder *folder, CamelFolderOpenMode mode)
 
 	closedir (dir_handle);
 	
-	_create_summary (folder);
-	
 	/* get (or create) uid list */
 	if (!(mh_load_uid_list (mh_folder) > 0))
 		mh_generate_uid_list (mh_folder);
+
+	/* get or create summary */
+	/* it is important that it comes after uid list reading/generation */
+	if (!(mh_load_summary (mh_folder) > 0))
+		mh_generate_summary (folder);
+	printf ("**** summary = %p\n", folder->summary);
+
 }
 
 
@@ -248,8 +208,14 @@ static void
 _close (CamelFolder *folder, gboolean expunge)
 {
 	CamelMhFolder *mh_folder = CAMEL_MH_FOLDER (folder);
+
+	/* save uid list, if any */
 	if (mh_folder->uid_array)
 		mh_save_uid_list (mh_folder);
+	
+	/* save summary, if any */
+	if (folder->summary)
+		mh_save_summary (mh_folder);
 	
 	/* call parent implementation */
 	parent_class->close (folder, expunge);
@@ -277,9 +243,9 @@ _set_name (CamelFolder *folder, const gchar *name)
 	gchar separator;
 	
 	CAMEL_LOG_FULL_DEBUG ("Entering CamelMhFolder::set_name\n");
-	g_assert(folder);
-	g_assert(name);
-	g_assert(folder->parent_store);
+	g_assert (folder);
+	g_assert (name);
+	g_assert (folder->parent_store);
 
 	/* call default implementation */
 	parent_class->set_name (folder, name);
@@ -546,8 +512,8 @@ _get_message (CamelFolder *folder, gint number)
 			camel_data_wrapper_construct_from_stream ( CAMEL_DATA_WRAPPER (message), input_stream);
 			gtk_object_unref (GTK_OBJECT (input_stream));
 			message->message_number = number;
-			gtk_object_set_data_full (GTK_OBJECT (message), "fullpath", 
-						  g_strdup (message_file_name), _filename_free);
+			gtk_object_set_data_full (GTK_OBJECT (message), "filename", 
+						  g_strdup (message_name), _filename_free);
 			
 #warning Set flags and all this stuff here
 		}
@@ -680,14 +646,20 @@ _expunge (CamelFolder *folder)
 	 * the gtk_object->destroy signal be used to expunge
 	 * freed messages objects marked DELETED ? 
 	 */
+	CamelMhFolder *mh_folder = CAMEL_MH_FOLDER(folder);
 	CamelMimeMessage *message;
 	GList *message_node;
 	gchar *fullpath;
+	gchar *filename;
 	gint unlink_error;
+	const gchar *directory_path;
 
 	CAMEL_LOG_FULL_DEBUG ("Entering CamelFolder::expunge\n");
 	
 	message_node = folder->message_list;
+
+	directory_path = mh_folder->directory_path;
+	if (!directory_path) return;
 
 	/* look in folder message list which messages
 	 * need to be expunged  */
@@ -697,7 +669,8 @@ _expunge (CamelFolder *folder)
 		if (message && camel_mime_message_get_flag (message, "DELETED")) {
 			CAMEL_LOG_FULL_DEBUG ("CamelMhFolder::expunge, expunging  message %d\n", message->message_number);
 			/* expunge the message */
-			fullpath = gtk_object_get_data (GTK_OBJECT (message), "fullpath");
+			filename = gtk_object_get_data (GTK_OBJECT (message), "filename");
+			fullpath = g_strdup_printf ("%s/%s", directory_path, filename);
 			CAMEL_LOG_FULL_DEBUG ("CamelMhFolder::expunge, message fullpath is %s\n", 
 					      fullpath);
 			unlink_error = unlink(fullpath);
@@ -744,7 +717,36 @@ _copy_message_to (CamelFolder *folder, CamelMimeMessage *message, CamelFolder *d
 static const gchar *
 _get_message_uid (CamelFolder *folder, CamelMimeMessage *message)
 {
+	CamelMhFolder *mh_folder = CAMEL_MH_FOLDER (folder);
+	GArray *uid_array;
+	gboolean found = FALSE;
+	MhUidCouple *uid_couple;
+	gchar *filename;
+	guint file_number;
+	gint i;
+
+	/* if the message already has its uid stored, 
+	   return it */
+	if (message->message_uid)
+		return (message->message_uid);
+
+	/* else, it has a filename associated to it */
+	filename = gtk_object_get_data (GTK_OBJECT (message), "filename");
+	file_number = atoi (file_number);
 	
+	uid_array = mh_folder->uid_array;
+	uid_couple = (MhUidCouple *)uid_array->data;
+	
+	/* look in the uid array for the file number */
+	found = (uid_couple->file_number == file_number);
+	for (i=0; (i<uid_array->len) && (!found); i++) {		
+		uid_couple++;
+		found = (uid_couple->file_number == file_number);
+	}
+	
+	if (found) return uid_couple->uid;
+	else return NULL;
+
 }
 
 
@@ -801,8 +803,27 @@ _get_message_by_uid (CamelFolder *folder, const gchar *uid)
 static GList *
 _get_uid_list  (CamelFolder *folder)
 {
-	return NULL;
+	CamelMhFolder *mh_folder = CAMEL_MH_FOLDER (folder);
+	GList *uid_list;
+	GArray *uid_array;
+	MhUidCouple *uid_couple;
+	int i;
+	
+	uid_array = mh_folder->uid_array;
+	uid_couple = (MhUidCouple *)uid_array->data;
+
+	for (i=0; i<uid_array->len; i++) {
+		uid_list = g_list_prepend (uid_list, uid_couple->uid);
+		uid_couple++;
+	}
+
+	return uid_list;
 }
+
+
+
+
+
 
 
 

@@ -51,7 +51,7 @@ typedef struct {
 
 typedef struct {
 	gchar *subject;
-	gchar *UID;
+	gchar *uid;
 	gchar *date;
 	gchar *sender;
 
