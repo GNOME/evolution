@@ -281,7 +281,7 @@ e_table_group_key_press (ETableGroup *e_table_group, gint row, gint col, GdkEven
 	g_return_val_if_fail (E_IS_TABLE_GROUP (e_table_group), 0);
 
 	gtk_signal_emit (GTK_OBJECT (e_table_group),
-			 etg_signals [DOUBLE_CLICK],
+			 etg_signals [KEY_PRESS],
 			 row, col, event, &return_val);
 
 	return return_val;

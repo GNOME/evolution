@@ -212,7 +212,7 @@ group_key_press (ETableGroup *etg, int row, int col, GdkEvent *event, ETable *et
 {
 	int return_val;
 	gtk_signal_emit (GTK_OBJECT (et),
-			 et_signals [DOUBLE_CLICK],
+			 et_signals [KEY_PRESS],
 			 row, col, event, &return_val);
 	return return_val;
 }
