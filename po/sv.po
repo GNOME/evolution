@@ -4,14 +4,14 @@
 # Richard Hult <rhult@codefactory.se>, 2000.
 # Christian Rose <menthos@menthos.com>, 2000.
 #
-# $Id: sv.po,v 1.49 2000/12/18 19:05:05 menthos Exp $
+# $Id: sv.po,v 1.50 2000/12/21 23:15:44 menthos Exp $
 #
 #: camel/providers/smtp/camel-smtp-transport.c:287
 msgid ""
 msgstr ""
 "Project-Id-Version: Evolution\n"
-"POT-Creation-Date: 2000-12-18 20:03+0100\n"
-"PO-Revision-Date: 2000-12-18 20:04+0100\n"
+"POT-Creation-Date: 2000-12-22 00:10+0100\n"
+"PO-Revision-Date: 2000-12-22 00:13+0100\n"
 "Last-Translator: Christian Rose <menthos@menthos.com>\n"
 "Language-Team: Swedish <sv@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -308,10 +308,10 @@ msgstr ""
 #: addressbook/backend/ebook/load-pine-addressbook.c:17
 #: addressbook/backend/ebook/test-client-list.c:18
 #: addressbook/backend/ebook/test-client.c:29
-#: addressbook/conduit/address-conduit.c:991
+#: addressbook/conduit/address-conduit.c:1083
 #: addressbook/gui/component/addressbook-factory.c:38
-#: calendar/conduits/calendar/calendar-conduit.c:1136
-#: calendar/conduits/todo/todo-conduit.c:945 calendar/gui/main.c:54
+#: calendar/conduits/calendar/calendar-conduit.c:1151
+#: calendar/conduits/todo/todo-conduit.c:966 calendar/gui/main.c:53
 msgid "Could not initialize Bonobo"
 msgstr "Kunde inte initiera Bonobo"
 
@@ -434,28 +434,28 @@ msgstr ""
 "Ett fel inträffade vid hämnting av\n"
 "pilotlista från gnome-pilot-demonen"
 
-#: addressbook/conduit/address-conduit.c:197
+#: addressbook/conduit/address-conduit.c:195
 msgid "Cursor could not be loaded\n"
 msgstr "Markören kunde inte läsas in\n"
 
-#: addressbook/conduit/address-conduit.c:210
+#: addressbook/conduit/address-conduit.c:208
 msgid "EBook not loaded\n"
 msgstr "EBook inte inläst\n"
 
-#: addressbook/conduit/address-conduit.c:583
-#: calendar/conduits/calendar/calendar-conduit.c:715
-#: calendar/conduits/todo/todo-conduit.c:523
+#: addressbook/conduit/address-conduit.c:646
+#: calendar/conduits/calendar/calendar-conduit.c:730
+#: calendar/conduits/todo/todo-conduit.c:545
 msgid "Could not start wombat server"
 msgstr "Kunde inte starta wombat-server"
 
-#: addressbook/conduit/address-conduit.c:584
-#: calendar/conduits/calendar/calendar-conduit.c:716
-#: calendar/conduits/todo/todo-conduit.c:524
+#: addressbook/conduit/address-conduit.c:647
+#: calendar/conduits/calendar/calendar-conduit.c:731
+#: calendar/conduits/todo/todo-conduit.c:546
 msgid "Could not start wombat"
 msgstr "Kunde inte starta wombat"
 
-#: addressbook/conduit/address-conduit.c:616
-#: addressbook/conduit/address-conduit.c:619
+#: addressbook/conduit/address-conduit.c:679
+#: addressbook/conduit/address-conduit.c:682
 msgid "Could not read pilot's Address application block"
 msgstr "Kunde inte läsa pilotens adressprogramblock"
 
@@ -984,7 +984,7 @@ msgstr "f"
 msgid "g"
 msgstr "g"
 
-#: calendar/cal-util/timeutil.c:66 po/tmp/alphabet.glade.h:14
+#: po/tmp/alphabet.glade.h:14
 msgid "h"
 msgstr "h"
 
@@ -1060,7 +1060,7 @@ msgstr "y"
 msgid "z"
 msgstr "z"
 
-#: addressbook/gui/widgets/e-addressbook-view.c:417
+#: addressbook/gui/widgets/e-addressbook-view.c:451
 #: addressbook/gui/widgets/e-minicard.c:338
 msgid "Save as VCard"
 msgstr "Spara som VCard"
@@ -1255,18 +1255,6 @@ msgstr "Bredd:"
 msgid "label26"
 msgstr "label26"
 
-#. String to use in 12-hour time format for times in the morning.
-#: calendar/cal-util/timeutil.c:64 calendar/gui/e-day-view.c:551
-#: calendar/gui/e-week-view.c:288 calendar/gui/print.c:605
-msgid "am"
-msgstr "fm"
-
-#. String to use in 12-hour time format for times in the afternoon.
-#: calendar/cal-util/timeutil.c:64 calendar/gui/e-day-view.c:554
-#: calendar/gui/e-week-view.c:291 calendar/gui/print.c:604
-msgid "pm"
-msgstr "em"
-
 #: calendar/conduits/calendar/calendar-conduit-control-applet.c:127
 msgid "Evolution Calendar Conduit"
 msgstr "Evolutions kalenderkanal"
@@ -1275,13 +1263,13 @@ msgstr "Evolutions kalenderkanal"
 msgid "Configuration utility for the evolution calendar conduit.\n"
 msgstr "Konfigurationsverktyg för evolutions kalenderkanal.\n"
 
-#: calendar/conduits/calendar/calendar-conduit.c:671
-#: calendar/conduits/todo/todo-conduit.c:479
+#: calendar/conduits/calendar/calendar-conduit.c:686
+#: calendar/conduits/todo/todo-conduit.c:501
 msgid "Error while communicating with calendar server"
 msgstr "Fel vid kommunikation med kalenderserver"
 
-#: calendar/conduits/calendar/calendar-conduit.c:770
-#: calendar/conduits/calendar/calendar-conduit.c:773
+#: calendar/conduits/calendar/calendar-conduit.c:785
+#: calendar/conduits/calendar/calendar-conduit.c:788
 msgid "Could not read pilot's Calendar application block"
 msgstr "Kunde inte läsa pilotens kalenderprogramblock"
 
@@ -1293,8 +1281,8 @@ msgstr "Evolutions att-göra-kanal"
 msgid "Configuration utility for the evolution todo conduit.\n"
 msgstr "Konfigurationsverktyg för evolutions att-göra-kanal.\n"
 
-#: calendar/conduits/todo/todo-conduit.c:578
-#: calendar/conduits/todo/todo-conduit.c:581
+#: calendar/conduits/todo/todo-conduit.c:600
+#: calendar/conduits/todo/todo-conduit.c:603
 msgid "Could not read pilot's ToDo application block"
 msgstr "Kunde inte läsa pilotens att-göra-programblock"
 
@@ -1498,7 +1486,7 @@ msgstr "Stäng"
 msgid "Edit appointment"
 msgstr "Redigera möte"
 
-#: calendar/gui/gnome-cal.c:1466 po/tmp/alarm-notify.glade.h:8
+#: calendar/gui/gnome-cal.c:1476 po/tmp/alarm-notify.glade.h:8
 msgid "Snooze"
 msgstr "Slumra"
 
@@ -1934,6 +1922,18 @@ msgstr "%a %d %b"
 msgid "%d %b"
 msgstr "%d %b"
 
+#. String to use in 12-hour time format for times in the morning.
+#: calendar/gui/e-day-view.c:551 calendar/gui/e-week-view.c:288
+#: calendar/gui/print.c:605
+msgid "am"
+msgstr "fm"
+
+#. String to use in 12-hour time format for times in the afternoon.
+#: calendar/gui/e-day-view.c:554 calendar/gui/e-week-view.c:291
+#: calendar/gui/print.c:604
+msgid "pm"
+msgstr "em"
+
 #: calendar/gui/e-day-view.c:2944 calendar/gui/e-day-view.c:2951
 #: calendar/gui/e-day-view.c:2960 calendar/gui/e-week-view.c:3167
 #: calendar/gui/e-week-view.c:3174 calendar/gui/e-week-view.c:3183
@@ -2162,28 +2162,28 @@ msgstr "Detta möte har upprepningsregler som inte kan redigeras med Evolution."
 msgid "%a %b %d %Y"
 msgstr "%a %d %b %Y"
 
-#: calendar/gui/gnome-cal.c:718 calendar/gui/gnome-cal.c:1474
-#: calendar/gui/gnome-cal.c:1530
+#: calendar/gui/gnome-cal.c:720 calendar/gui/gnome-cal.c:1484
+#: calendar/gui/gnome-cal.c:1540
 msgid "Reminder of your appointment at "
 msgstr "Påminnelse om ditt möte den "
 
-#: calendar/gui/gnome-cal.c:1152
+#: calendar/gui/gnome-cal.c:1158
 #, c-format
 msgid "Could not load the calendar in `%s'"
 msgstr "Kunde inte läsa in kalendern i \"%s\""
 
-#: calendar/gui/gnome-cal.c:1163
+#: calendar/gui/gnome-cal.c:1169
 #, c-format
 msgid "Could not create a calendar in `%s'"
 msgstr "Kunde inte skapa en kalender i \"%s\""
 
-#: calendar/gui/gnome-cal.c:1174
+#: calendar/gui/gnome-cal.c:1180
 #, c-format
 msgid "The method required to load `%s' is not supported"
 msgstr "Metoden som krävs för att läsa in \"%s\" stöds inte"
 
 #. Idea: we need Snooze option :-)
-#: calendar/gui/gnome-cal.c:1479 calendar/gui/gnome-cal.c:1534
+#: calendar/gui/gnome-cal.c:1489 calendar/gui/gnome-cal.c:1544
 #: mail/mail-search-dialogue.c:104
 msgid "Ok"
 msgstr "Ok"
@@ -2210,6 +2210,10 @@ msgstr ""
 #: calendar/gui/goto.c:318
 msgid "Go to today"
 msgstr "Gå till idag"
+
+#: calendar/gui/main.c:48
+msgid "Could not initialize GNOME"
+msgstr "Kunde inte initiera GNOME"
 
 #: calendar/gui/print.c:288
 msgid "1st"
@@ -2585,40 +2589,40 @@ msgstr ""
 msgid "Bad authentication response from server."
 msgstr "Felaktigt autentiseringssvar från servern."
 
-#: camel/providers/imap/camel-imap-command.c:216
+#: camel/providers/imap/camel-imap-command.c:226
 #, c-format
 msgid "Unexpected response from IMAP server: %s"
 msgstr "Oväntat svar från IMAP-servern: %s"
 
-#: camel/providers/imap/camel-imap-command.c:224
+#: camel/providers/imap/camel-imap-command.c:234
 #, c-format
 msgid "IMAP command failed: %s"
 msgstr "IMAP-kommandot misslyckades: %s"
 
-#: camel/providers/imap/camel-imap-command.c:225 shell/e-storage.c:411
+#: camel/providers/imap/camel-imap-command.c:235 shell/e-storage.c:411
 msgid "Unknown error"
 msgstr "Okänt fel"
 
-#: camel/providers/imap/camel-imap-command.c:271
+#: camel/providers/imap/camel-imap-command.c:281
 msgid "Server response ended too soon."
 msgstr "Serversvaret tog slut för tidigt."
 
-#: camel/providers/imap/camel-imap-command.c:407
+#: camel/providers/imap/camel-imap-command.c:417
 #, c-format
 msgid "IMAP server response did not contain %s information"
 msgstr "IMAP-serversvaret innehöll inte %s-information"
 
-#: camel/providers/imap/camel-imap-command.c:443
+#: camel/providers/imap/camel-imap-command.c:453
 #, c-format
 msgid "Unexpected OK response from IMAP server: %s"
 msgstr "Oväntat OK-svar från IMAP-servern: %s"
 
-#: camel/providers/imap/camel-imap-folder.c:216
+#: camel/providers/imap/camel-imap-folder.c:220
 #, c-format
 msgid "Could not load summary for %s"
 msgstr "Kunde inte läsa in sammanfattning för %s"
 
-#: camel/providers/imap/camel-imap-folder.c:586
+#: camel/providers/imap/camel-imap-folder.c:579
 msgid "Could not find message body in FETCH response."
 msgstr "Kunde inte hitta meddelandetext i FETCH-svaret."
 
@@ -3350,7 +3354,7 @@ msgid "%.1fG"
 msgstr "%.1fG"
 
 #. This is a filename. Translators take note.
-#: composer/e-msg-composer-attachment-bar.c:331 mail/mail-display.c:149
+#: composer/e-msg-composer-attachment-bar.c:331 mail/mail-display.c:150
 msgid "attachment"
 msgstr "bilaga"
 
@@ -3729,35 +3733,35 @@ msgstr ""
 msgid "Test"
 msgstr "Test"
 
-#: filter/filter-rule.c:520
+#: filter/filter-rule.c:522
 msgid "Rule name: "
 msgstr "Regelnamn: "
 
-#: filter/filter-rule.c:524
+#: filter/filter-rule.c:526
 msgid "Untitled"
 msgstr "Namnlös"
 
-#: filter/filter-rule.c:540
+#: filter/filter-rule.c:542
 msgid "If"
 msgstr "Om"
 
-#: filter/filter-rule.c:557
+#: filter/filter-rule.c:559
 msgid "Execute actions"
 msgstr "Utför åtgärder"
 
-#: filter/filter-rule.c:561
+#: filter/filter-rule.c:563
 msgid "if all criteria are met"
 msgstr "om alla villkor uppfylls"
 
-#: filter/filter-rule.c:566
+#: filter/filter-rule.c:568
 msgid "if any criteria are met"
 msgstr "om något villkor uppfylls"
 
-#: filter/filter-rule.c:577
+#: filter/filter-rule.c:579
 msgid "Add criterion"
 msgstr "Lägg till villkor"
 
-#: filter/filter-rule.c:583
+#: filter/filter-rule.c:585
 msgid "Remove criterion"
 msgstr "Ta bort villkor"
 
@@ -4250,11 +4254,11 @@ msgstr ""
 "Du kan bara redigera meddelanden\n"
 "som du sparat i mappen Drafts."
 
-#: mail/mail-callbacks.c:699 mail/mail-display.c:73
+#: mail/mail-callbacks.c:699 mail/mail-display.c:74
 msgid "Overwrite file?"
 msgstr "Skriv över fil?"
 
-#: mail/mail-callbacks.c:703 mail/mail-display.c:77
+#: mail/mail-callbacks.c:703 mail/mail-display.c:78
 msgid ""
 "A file by that name already exists.\n"
 "Overwrite it?"
@@ -4529,7 +4533,7 @@ msgstr "Inget GPG/PGP-program finns tillgängligt."
 msgid "Couldn't create temp file: %s"
 msgstr "Kunde inte skapa temporär fil: %s"
 
-#: mail/mail-display.c:92
+#: mail/mail-display.c:93
 #, c-format
 msgid ""
 "Could not open file %s:\n"
@@ -4538,43 +4542,43 @@ msgstr ""
 "Kunde inte öppna filen %s:\n"
 "%s"
 
-#: mail/mail-display.c:125
+#: mail/mail-display.c:126
 #, c-format
 msgid "Could not write data: %s"
 msgstr "Kunde inte skriva data: %s"
 
-#: mail/mail-display.c:223
+#: mail/mail-display.c:224
 msgid "Save Attachment"
 msgstr "Spara bilaga"
 
-#: mail/mail-display.c:263
+#: mail/mail-display.c:264
 #, c-format
 msgid "Could not create temporary directory: %s"
 msgstr "Kunde inte skapa temporär katalog: %s"
 
-#: mail/mail-display.c:305
+#: mail/mail-display.c:306
 msgid "Save to Disk..."
 msgstr "Spara till disk..."
 
-#: mail/mail-display.c:307
+#: mail/mail-display.c:308
 #, c-format
 msgid "Open in %s..."
 msgstr "Öppna i %s..."
 
-#: mail/mail-display.c:309
+#: mail/mail-display.c:310
 msgid "View Inline"
 msgstr "Visa inuti"
 
-#: mail/mail-display.c:333
+#: mail/mail-display.c:334
 msgid "External Viewer"
 msgstr "Externt visningsprogram"
 
-#: mail/mail-display.c:356
+#: mail/mail-display.c:357
 #, c-format
 msgid "View Inline (via %s)"
 msgstr "Visa inuti (med %s)"
 
-#: mail/mail-display.c:360
+#: mail/mail-display.c:361
 msgid "Hide"
 msgstr "Göm"
 
@@ -4603,31 +4607,31 @@ msgstr "Krypterat meddelande"
 msgid "Click icon to decrypt."
 msgstr "Klicka på ikonen för att dekryptera."
 
-#: mail/mail-format.c:1442
+#: mail/mail-format.c:1450
 #, c-format
 msgid "Pointer to FTP site (%s)"
 msgstr "Pekare till FTP-plats (%s)"
 
-#: mail/mail-format.c:1454
+#: mail/mail-format.c:1462
 #, c-format
 msgid "Pointer to local file (%s) valid at site \"%s\""
 msgstr "Pekare till lokal fil (%s) giltig på platsen \"%s\""
 
-#: mail/mail-format.c:1458
+#: mail/mail-format.c:1466
 #, c-format
 msgid "Pointer to local file (%s)"
 msgstr "Pekare till lokal fil (%s)"
 
-#: mail/mail-format.c:1492
+#: mail/mail-format.c:1500
 #, c-format
 msgid "Pointer to unknown external data (\"%s\" type)"
 msgstr "Pekare till okänd extern data (typen \"%s\")"
 
-#: mail/mail-format.c:1497
+#: mail/mail-format.c:1505
 msgid "Malformed external-body part."
 msgstr "Felaktig del med extern meddelandetext."
 
-#: mail/mail-format.c:1667
+#: mail/mail-format.c:1675
 #, c-format
 msgid "On %s, %s wrote:\n"
 msgstr "Den %s skrev %s:\n"
@@ -5128,11 +5132,11 @@ msgstr "%s m.fl."
 msgid "<unknown>"
 msgstr "<okänt>"
 
-#: mail/message-list.c:2252
+#: mail/message-list.c:2253
 msgid "Rebuilding message view"
 msgstr "Bygger om meddelandevyn"
 
-#: mail/message-list.c:2254
+#: mail/message-list.c:2255
 msgid "Rebuild message view"
 msgstr "Bygg om meddelandevyn"
 
@@ -5705,8 +5709,8 @@ msgid "_Print this calendar"
 msgstr "Skriv _ut denna kalender"
 
 #: po/tmp/evolution-calendar.xml.h:35
-msgid "_Save Calendar As"
-msgstr "_Spara kalendern som"
+msgid "_Save As..."
+msgstr "_Spara som..."
 
 #: po/tmp/evolution-contact-editor.xml.h:7
 msgid "Delete this item"
@@ -6769,6 +6773,9 @@ msgstr "%I.%M %p"
 #, c-format
 msgid "Group %i"
 msgstr "Grupp %i"
+
+#~ msgid "_Save Calendar As"
+#~ msgstr "_Spara kalendern som"
 
 #~ msgid "january"
 #~ msgstr "januari"
