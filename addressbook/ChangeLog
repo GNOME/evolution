@@ -1,3 +1,11 @@
+2001-10-27  Jon Trowbridge  <trow@ximian.com>
+
+	* backend/pas/pas-book.c (pas_book_check_queue): Added paranoid
+	reentrancy guards.
+	(pas_book_queue_request): Changed our idle handler into a timeout,
+	so as to work w/ reentrancy guards.
+	(pas_book_init): Explicit initialization.
+
 2001-10-26  Chris Toshok  <toshok@ximian.com>
 
 	* gui/component/addressbook.h: add prototypes for

@@ -25,22 +25,32 @@ struct _PASBookPrivate {
 	GNOME_Evolution_Addressbook_BookListener  listener;
 
 	GList                  *request_queue;
-	gint                    idle_id;
+	gint                    timeout_id;
+	
+	guint                   timeout_lock : 1;
 };
 
 static gboolean
 pas_book_check_queue (PASBook *book)
 {
+	if (book->priv->timeout_lock)
+		return TRUE;
+
+	book->priv->timeout_lock = TRUE;
+
 	if (book->priv->request_queue != NULL) {
 		gtk_signal_emit (GTK_OBJECT (book),
 				 pas_book_signals [REQUESTS_QUEUED]);
 	}
 
 	if (book->priv->request_queue == NULL) {
-		book->priv->idle_id = 0;
+		book->priv->timeout_id = 0;
+		book->priv->timeout_lock = FALSE;
 		gtk_object_unref (GTK_OBJECT (book));
 		return FALSE;
 	}
+
+	book->priv->timeout_lock = FALSE;
 
 	return TRUE;
 }
@@ -51,9 +61,9 @@ pas_book_queue_request (PASBook *book, PASRequest *req)
 	book->priv->request_queue =
 		g_list_append (book->priv->request_queue, req);
 
-	if (book->priv->idle_id == 0) {
+	if (book->priv->timeout_id == 0) {
 		gtk_object_ref (GTK_OBJECT (book));
-		book->priv->idle_id = g_idle_add ((GSourceFunc) pas_book_check_queue, book);
+		book->priv->timeout_id = g_timeout_add (20, (GSourceFunc) pas_book_check_queue, book);
 	}
 }
 
@@ -839,8 +849,10 @@ static void
 pas_book_init (PASBook *book)
 {
 	book->priv                = g_new0 (PASBookPrivate, 1);
-	book->priv->idle_id       = 0;
+	book->priv->timeout_id    = 0;
 	book->priv->request_queue = NULL;
+	book->priv->timeout_id    = 0;
+	book->priv->timeout_lock  = FALSE;
 }
 
 /**
