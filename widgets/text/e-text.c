@@ -556,14 +556,16 @@ e_text_text_model_changed (ETextModel *model, EText *text)
 	text->text = e_text_model_get_text(model);
 	e_text_free_lines(text);
 
-	gtk_signal_emit (GTK_OBJECT (text), e_text_signals[E_TEXT_CHANGED]);
-
 	/* Make sure our selection doesn't extend past the bounds of our text. */
 	text->selection_start = CLAMP (text->selection_start, 0, model_len);
 	text->selection_end   = CLAMP (text->selection_end,   0, model_len);
 
 	text->needs_split_into_lines = 1;
+	text->needs_redraw = 1;
 	e_canvas_item_request_reflow (GNOME_CANVAS_ITEM(text));
+	gnome_canvas_item_request_update (GNOME_CANVAS_ITEM (text));
+
+	gtk_signal_emit (GTK_OBJECT (text), e_text_signals[E_TEXT_CHANGED]);
 }
 
 static void
@@ -1185,7 +1187,6 @@ e_text_set_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 		break;
 
 	case ARG_TEXT:
-		text->num_lines = 1;
 		e_text_model_set_text(text->model, GTK_VALUE_STRING (*arg));
 		break;
 
