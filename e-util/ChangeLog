@@ -1,3 +1,7 @@
+2003-03-02  Rodney Dawes  <dobey@ximian.com>
+
+	* e-pilot-util.c: s/gnome-xml/libxml/
+	
 2003-02-27  JP Rosevear  <jpr@ximian.com>
 
 	* Makefile.am: include gnome-pilot cflags

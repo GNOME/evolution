@@ -22,7 +22,7 @@
 
 #include <stdlib.h>
 #include <time.h>
-#include <gnome-xml/parser.h>
+#include <libxml/parser.h>
 #include <pi-util.h>
 
 #include "e-pilot-util.h"
