@@ -1,3 +1,14 @@
+2003-04-14  Not Zed  <NotZed@Ximian.com>
+
+	* mail-send-recv.c (build_dialogue): create a stock cancel button
+	with a cancel all text.
+	(build_dialogue): Create stock-like cancel buttons with no
+	accelerators.  A workaround for #41043.
+
+	* message-list.c (ml_tree_value_at): if the node is the root node,
+	do nothing.  etable shouldn' really be searching the root node if
+	it isn't visible ...?  For #41190.
+
 2003-04-14  Larry Ewing  <lewing@ximian.com>
 
 	* evolution-mail.schemas: add proper defaults for the fonts

@@ -886,6 +886,9 @@ ml_tree_value_at (ETreeModel *etm, ETreePath path, int col, void *model_data)
 	MessageList *message_list = model_data;
 	CamelMessageInfo *msg_info;
 	const char *str;
+
+	if (e_tree_model_node_is_root (etm, path))
+		return NULL;
 	
 	/* retrieve the message information array */
 	msg_info = e_tree_memory_node_get_data (E_TREE_MEMORY(etm), path);

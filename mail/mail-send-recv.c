@@ -34,6 +34,8 @@
 #include <gtk/gtkstock.h>
 #include <libgnomeui/gnome-window-icon.h>
 
+#include "e-util/e-gtk-utils.h"
+
 #include "filter/filter-filter.h"
 #include "camel/camel-filter-driver.h"
 #include "camel/camel-folder.h"
@@ -295,8 +297,7 @@ build_dialogue (EAccountList *accounts, CamelFolder *outbox, const char *destina
 	EIterator *iter;
 	
 	gd = (GtkDialog *)send_recv_dialogue = gtk_dialog_new_with_buttons(_("Send & Receive Mail"), NULL, 0, NULL);
-	stop = (GtkButton *)gtk_button_new_from_stock(GTK_STOCK_CANCEL);
-	gtk_button_set_label(stop, _("Cancel All"));
+	stop = (GtkButton *)e_gtk_button_new_with_icon(_("Cancel _All"), GTK_STOCK_CANCEL);
 	gtk_widget_show((GtkWidget *)stop);
 	gtk_dialog_add_action_widget(gd, (GtkWidget *)stop, GTK_RESPONSE_CANCEL);
 	g_object_set(gd, "resizable", FALSE, NULL);
@@ -376,7 +377,8 @@ build_dialogue (EAccountList *accounts, CamelFolder *outbox, const char *destina
 		
 		bar = (GtkProgressBar *)gtk_progress_bar_new ();
 		
-		stop = (GtkButton *)gtk_button_new_from_stock(GTK_STOCK_CANCEL);
+		stop = (GtkButton *)e_gtk_button_new_with_icon(_("Cancel"), GTK_STOCK_CANCEL);
+
 		status_label = (GtkLabel *)gtk_label_new ((info->type == SEND_UPDATE) ? _("Updating...") :
 							  _("Waiting..."));
 		
@@ -432,7 +434,8 @@ build_dialogue (EAccountList *accounts, CamelFolder *outbox, const char *destina
 		g_free (pretty_url);
 		
 		bar = (GtkProgressBar *)gtk_progress_bar_new ();
-		stop = (GtkButton *)gtk_button_new_from_stock(GTK_STOCK_CANCEL);
+		stop = (GtkButton *)e_gtk_button_new_with_icon(_("Cancel"), GTK_STOCK_CANCEL);
+
 		status_label = (GtkLabel *)gtk_label_new (_("Waiting..."));
 		
 		gtk_misc_set_alignment (GTK_MISC (label), 0, .5);
