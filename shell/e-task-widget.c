@@ -63,6 +63,8 @@ impl_dispose (GObject *object)
 
 	task_widget = E_TASK_WIDGET (object);
 
+	priv = task_widget->priv;
+
 	if (priv->tooltips != NULL) {
 		g_object_unref (priv->tooltips);
 		priv->tooltips = NULL;

@@ -1,3 +1,8 @@
+2002-11-11  Chris Toshok  <toshok@ximian.com>
+
+	* e-task-widget.c (impl_finalize): need to assign priv here, fixes
+	a crash.
+
 2002-11-11  Ettore Perazzoli  <ettore@ximian.com>
 
 	* e-shell.c (impl_dispose): Do unref the config_listener here [I
