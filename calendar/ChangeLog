@@ -1,3 +1,31 @@
+2000-09-10  JP Rosevear  <jpr@helixcode.com>
+
+	* conduits/todo/todo-conduit.c: Remove catch_ret_val function
+	since its no longer useful.  Fix naming of various fields from
+	the header changes.  Use GnomePilotRecord* stuff instead of 
+	ICAL_PILOT_SYNC_*
+	(e_todo_context_new): Rename from gcalconduit_new_context. Now takes
+	a pilot id and loads the configuration here
+	(e_todo_context_destroy): Rename from gcalconduit_destroy_context.
+	Unref the client and destroy the configuration if they exist here
+	(start_calendar_server): Change the default calendar name
+	(local_record_from_comp_uid): Rename from local_record_from_ical_uid
+	(local_record_from_compobject): Rename from 
+	local_record_from_icalobject.  Properly do the pilot id and status.
+	(comp_from_remote_record): Rename from ical_from_remote_record.
+	Handle due, complete, classification and pilot stuff properly
+	(pre_sync): Remove some old stuff.  We need to figure out how to
+	set some of the field values.
+	(set_status): Reflect pilot status changes from above
+	(conduit_destroy_gpilot_conduit): Remove cleanup stuff that is
+	now done by e_todo_context_destroy
+	(conduit_get_gpilot_conduit): Only set the context as object
+	data of the conduit.
+
+	* conduits/todo/todo-conduit.h: Rename GCalConduitContext to
+	EToDoConduitContext.  Remove some unused struct fields.
+	For GCalLocalRecord, rename ical to comp.
+
 2000-09-11  Damon Chaplin  <damon@helixcode.com>
 
 	* gui/dialogs/task-editor.c: changed to use EDateEdit.

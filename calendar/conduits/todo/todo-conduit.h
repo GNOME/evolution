@@ -11,7 +11,6 @@
 #include <gpilotd/gnome-pilot-conduit.h>
 #include <gpilotd/gnome-pilot-conduit-standard-abs.h>
 #include <cal-client/cal-client.h>
-#include <cal-util/calobj.h>
 #include <cal-util/timeutil.h>
 
 #include <liboaf/liboaf.h>
@@ -27,36 +26,24 @@ struct _GCalLocalRecord {
 	LocalRecord local;
 
 	/* The corresponding Comp object, as found by GnomeCal. */
-	CalComponent *ical;
+	CalComponent *comp;
 
         /* pilot-link todo structure, used for implementing Transmit. */
 	struct ToDo *todo;
 };
-#define GCAL_LOCALRECORD(s) ((GCalLocalRecord*)(s))
-
-/* This is the configuration of the GnomeCal conduit. */
-typedef struct _GCalConduitCfg GCalConduitCfg;
-struct _GCalConduitCfg {
-	gboolean open_secret;
-	guint32 pilotId;
-	GnomePilotConduitSyncType  sync_type;   /* only used by capplet */
-};
-#define GET_GCALCONFIG(c) ((GCalConduitCfg*)gtk_object_get_data(GTK_OBJECT(c),"todoconduit_cfg"))
 
 /* This is the context for all the GnomeCal conduit methods. */
-typedef struct _GCalConduitContext GCalConduitContext;
-struct _GCalConduitContext {
+typedef struct _EToDoConduitContext EToDoConduitContext;
+struct _EToDoConduitContext {
 	struct ToDoAppInfo ai;
 	ToDoConduitCfg *cfg;
 	CalClient *client;
-	CORBA_Environment ev;
-	CORBA_ORB orb;
+
 	gboolean calendar_load_tried;
 	gboolean calendar_load_success;
 
 	char *calendar_file;
 };
-#define GET_GCALCONTEXT(c) ((GCalConduitContext*)gtk_object_get_data(GTK_OBJECT(c),"todoconduit_context"))
 
 #endif __TODO_CONDUIT_H__ 
 

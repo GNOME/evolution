@@ -27,16 +27,13 @@
 
 GnomePilotConduit * conduit_get_gpilot_conduit (guint32);
 void conduit_destroy_gpilot_conduit (GnomePilotConduit*);
-void local_record_from_icalobject (GCalLocalRecord *local, CalComponent *obj);
+void local_record_from_compobject (GCalLocalRecord *local, CalComponent *comp);
 
 #define CONDUIT_VERSION "0.8.11"
 #ifdef G_LOG_DOMAIN
 #undef G_LOG_DOMAIN
 #endif
 #define G_LOG_DOMAIN "todoconduit"
-
-#define GET_TODOCONFIG(c) ((ToDoConduitCfg*)gtk_object_get_data(GTK_OBJECT(c),"todoconduit_cfg"))
-
 
 #define DEBUG_CALCONDUIT 1
 /* #undef DEBUG_CALCONDUIT */
@@ -51,14 +48,6 @@ void local_record_from_icalobject (GCalLocalRecord *local, CalComponent *obj);
 
 #define WARN(e...) g_log(G_LOG_DOMAIN,G_LOG_LEVEL_WARNING, e)
 #define INFO(e...) g_log(G_LOG_DOMAIN,G_LOG_LEVEL_MESSAGE, e)
-
-#define catch_ret_val(_env,ret)                                                                 \
-  if (_env._major != CORBA_NO_EXCEPTION) {                                                      \
-        g_log(G_LOG_DOMAIN,G_LOG_LEVEL_MESSAGE,"%s:%d: Caught exception",__FILE__,__LINE__);    \
-        g_warning ("Exception: %s\n", CORBA_exception_id (&(_env)));                               \
-	CORBA_exception_free(&(_env));                                                             \
-	return ret;                                                                             \
-  }
 
 /* debug spew DELETE ME */
 static char *print_local (GCalLocalRecord *local)
@@ -81,7 +70,7 @@ static char *print_local (GCalLocalRecord *local)
 		return buff;
 	}
 
-	return cal_component_get_as_string (local->ical);
+	return cal_component_get_as_string (local->comp);
 }
 
 
@@ -112,28 +101,30 @@ static char *print_remote (PilotRecord *remote)
 
 /* Given a GCalConduitContxt*, allocates the structure */
 static void
-gcalconduit_new_context(GCalConduitContext **ctxt,
-			ToDoConduitCfg *c) 
+e_todo_context_new (EToDoConduitContext **ctxt, guint32 pilotId) 
 {
-	*ctxt = g_new0(GCalConduitContext,1);
-	g_assert(ctxt!=NULL);
-	(*ctxt)->cfg = c;
-	CORBA_exception_init (&((*ctxt)->ev));
+	*ctxt = g_new0 (EToDoConduitContext,1);
+	g_assert (ctxt!=NULL);
+
+	todoconduit_load_configuration (&(*ctxt)->cfg, pilotId);
 }
 
 
 /* Destroys any data allocated by gcalconduit_new_context
    and deallocates its data. */
 static void
-gcalconduit_destroy_context(GCalConduitContext **ctxt)
+e_todo_context_destroy (EToDoConduitContext **ctxt)
 {
-	g_return_if_fail(ctxt!=NULL);
-	g_return_if_fail(*ctxt!=NULL);
-/*
-	if ((*ctxt)->cfg!=NULL)
-		todoconduit_destroy_configuration(&((*ctxt)->cfg));
-*/
-	g_free(*ctxt);
+	g_return_if_fail (ctxt!=NULL);
+	g_return_if_fail (*ctxt!=NULL);
+
+	if ((*ctxt)->client != NULL)
+		gtk_object_unref (GTK_OBJECT ((*ctxt)->client));
+
+	if ((*ctxt)->cfg != NULL)
+		todoconduit_destroy_configuration (&(*ctxt)->cfg);
+
+	g_free (*ctxt);
 	*ctxt = NULL;
 }
 
@@ -141,7 +132,7 @@ gcalconduit_destroy_context(GCalConduitContext **ctxt)
 static void
 gnome_calendar_load_cb (GtkWidget *cal_client,
 			CalClientLoadStatus status,
-			GCalConduitContext *ctxt)
+			EToDoConduitContext *ctxt)
 {
 	CalClient *client = CAL_CLIENT (cal_client);
 
@@ -170,7 +161,7 @@ gnome_calendar_load_cb (GtkWidget *cal_client,
 
 static int
 start_calendar_server (GnomePilotConduitStandardAbs *conduit,
-		       GCalConduitContext *ctxt)
+		       EToDoConduitContext *ctxt)
 {
 	
 	g_return_val_if_fail(conduit!=NULL,-2);
@@ -180,7 +171,7 @@ start_calendar_server (GnomePilotConduitStandardAbs *conduit,
 
 	/* FIX ME */
 	ctxt->calendar_file = g_concat_dir_and_file (g_get_home_dir (),
-			       "evolution/local/Calendar/calendar.vcf");
+			       "evolution/local/Calendar/calendar.ics");
 
 	gtk_signal_connect (GTK_OBJECT (ctxt->client), "cal_loaded",
 			    gnome_calendar_load_cb, ctxt);
@@ -202,7 +193,7 @@ start_calendar_server (GnomePilotConduitStandardAbs *conduit,
 static GSList * 
 get_calendar_objects(GnomePilotConduitStandardAbs *conduit,
 		     gboolean *status,
-		     GCalConduitContext *ctxt) 
+		     EToDoConduitContext *ctxt) 
 {
 	GList *uids;
 	GSList *result = NULL;
@@ -231,19 +222,19 @@ get_calendar_objects(GnomePilotConduitStandardAbs *conduit,
 
 
 static void 
-local_record_from_ical_uid (GCalLocalRecord *local,
+local_record_from_comp_uid (GCalLocalRecord *local,
 			    char *uid,
-			    GCalConduitContext *ctxt)
+			    EToDoConduitContext *ctxt)
 {
-	CalComponent *obj;
+	CalComponent *comp;
 	CalClientGetStatus status;
 
 	g_assert(local!=NULL);
 
-	status = cal_client_get_object (ctxt->client, uid, &obj);
+	status = cal_client_get_object (ctxt->client, uid, &comp);
 
 	if (status == CAL_CLIENT_GET_SUCCESS)
-		local_record_from_icalobject (local, obj);
+		local_record_from_compobject (local, comp);
 	else
 		INFO ("Object did not exist");
 }
@@ -266,47 +257,39 @@ static char *gnome_pilot_status_to_string (gint status)
 
 
 /*
- * converts a iCalObject to a GCalLocalRecord
+ * converts a CalComponent object to a GCalLocalRecord
  */
-
 void
-local_record_from_icalobject(GCalLocalRecord *local,
-			     CalComponent *obj) 
+local_record_from_compobject(GCalLocalRecord *local,
+			     CalComponent *comp) 
 {
+	unsigned long *pilot_id;
 	unsigned long *pilot_status;
+	CalComponentClassification classif;
+	
+	g_return_if_fail (local!=NULL);
+	g_return_if_fail (comp!=NULL);
 
-	g_return_if_fail(local!=NULL);
-	g_return_if_fail(obj!=NULL);
-
-	local->ical = obj;
+	local->comp = comp;
 	local->todo = NULL; /* ??? */
-	cal_component_get_pilot_id (obj, &local->local.ID);
-	cal_component_get_pilot_status (obj, &pilot_status);
+	cal_component_get_pilot_id (comp, &pilot_id);
+	cal_component_get_pilot_status (comp, &pilot_status);
 
-	switch (*pilot_status) {
-	case ICAL_PILOT_SYNC_NONE: 
-		local->local.attr = GnomePilotRecordNothing;
-		break;
-	case ICAL_PILOT_SYNC_MOD: 
-		local->local.attr = GnomePilotRecordModified;
-		break;
-	case ICAL_PILOT_SYNC_DEL: 
-		local->local.attr = GnomePilotRecordDeleted; 
-		break;
-	default:
-		g_warning ("unhandled pilot status: %lu\n", pilot_status);
-	}
 
 	/* Records without a pilot_id are new */
-	if(local->local.ID == 0)
+	if (!pilot_id) {
 		local->local.attr = GnomePilotRecordNew;
+	} else {
+		local->local.ID = *pilot_id;
+		local->local.attr = *pilot_status;
+	}
 
-	/*
-	local->local.secret = 0;
-	if (obj->class!=NULL)
-		if (strcmp(obj->class,"PRIVATE")==0)
-			local->local.secret = 1;
-	*/
+	cal_component_get_classification (comp, &classif);
+
+	if (classif == CAL_COMPONENT_CLASS_PRIVATE)
+		local->local.secret = 1;
+	else
+		local->local.secret = 0;
 
 	local->local.archived = 0;  
 }
@@ -319,7 +302,7 @@ local_record_from_icalobject(GCalLocalRecord *local,
 static GCalLocalRecord *
 find_record_in_repository(GnomePilotConduitStandardAbs *conduit,
 			  PilotRecord *remote,
-			  GCalConduitContext *ctxt) 
+			  EToDoConduitContext *ctxt) 
 {
 	char *uid = NULL;
 	GCalLocalRecord *loc;
@@ -342,7 +325,7 @@ find_record_in_repository(GnomePilotConduitStandardAbs *conduit,
 			LOG ("found %s\n", cal_component_get_as_string (obj));
 			loc = g_new0(GCalLocalRecord,1);
 			/* memory allocated in new_from_string is freed in free_match */
-			local_record_from_icalobject (loc, obj);
+			local_record_from_compobject (loc, obj);
 			return loc;
 		}
 	}
@@ -354,12 +337,12 @@ find_record_in_repository(GnomePilotConduitStandardAbs *conduit,
 
 
 /* 
- * updates an given iCalObject in the repository
+ * updates an given CalComponent in the repository
  */
 static void
 update_calendar_entry_in_repository(GnomePilotConduitStandardAbs *conduit,
 				    CalComponent *obj,
-				    GCalConduitContext *ctxt) 
+				    EToDoConduitContext *ctxt) 
 {
 	gboolean success;
 
@@ -378,102 +361,71 @@ update_calendar_entry_in_repository(GnomePilotConduitStandardAbs *conduit,
 
 
 static CalComponent *
-ical_from_remote_record (GnomePilotConduitStandardAbs *conduit,
+comp_from_remote_record (GnomePilotConduitStandardAbs *conduit,
 			 PilotRecord *remote,
-			 CalComponent *in_obj)
+			 CalComponent *in_comp)
 {
-	CalComponent *obj;
+	CalComponent *comp;
 	struct ToDo todo;
 	struct icaltimetype now = icaltime_from_timet (time (NULL), FALSE, FALSE);
-
+	unsigned long pilot_status = GnomePilotRecordNothing;
 	CalComponentText summary = {NULL, NULL};
 	CalComponentText comment = {NULL, NULL};
-	GSList *comment_list;
+	CalComponentDateTime dt = {NULL, NULL};
+	struct icaltimetype due;
+
+ 	GSList *comment_list;
 
 	g_return_val_if_fail(remote!=NULL,NULL);
 	memset (&todo, 0, sizeof (struct ToDo));
 	unpack_ToDo (&todo, remote->record, remote->length);
 
-	LOG ("        ical_from_remote_record: "
+	LOG ("        comp_from_remote_record: "
 		"merging remote %s into local %s\n",
-		print_remote (remote), cal_component_get_as_string (in_obj));
+		print_remote (remote), cal_component_get_as_string (in_comp));
 	
-	if (in_obj == NULL) {
-		obj = cal_component_new ();
+	if (in_comp == NULL) {
+		comp = cal_component_new ();
+		cal_component_set_new_vtype (comp, CAL_COMPONENT_TODO);
 	} else {
-		obj = in_obj;
+		comp = cal_component_clone (in_comp);
 	}
 
+	cal_component_set_created (comp, &now);
+	cal_component_set_last_modified (comp, &now);
+
 	summary.value = todo.description;
-	cal_component_set_summary (obj, &summary);
+	cal_component_set_summary (comp, &summary);
 
 	comment.value = todo.note;
 	comment_list = g_slist_append (NULL, &comment);
-	cal_component_set_comment_list (obj, comment_list);
+	cal_component_set_comment_list (comp, comment_list);
 	g_slist_free (comment_list);
 
-	cal_component_set_new_vtype (obj, CAL_COMPONENT_TODO);
-	cal_component_set_created (obj, &now);
-	cal_component_set_last_modified (obj, &now);
-	/* obj->priority = 0; */
-	cal_component_set_transparency (obj, CAL_COMPONENT_TRANSP_NONE);
-	/* obj->related = NULL; */
-
-/*  	cal_component_set_pilot_status (obj, ICAL_PILOT_SYNC_NONE); */
-
-	/*
-	 * Begin and end
-	 */
-
-	{
-		/* do i need to malloc these?  FIX ME */
-		struct icaltimetype dtend_ictt;
-		CalComponentDateTime dtend;
-
-		dtend_ictt = icaltime_from_timet (mktime (& todo.due), FALSE, FALSE);
-		dtend.value = &dtend_ictt;
-		dtend.tzid = NULL;
-		cal_component_set_dtend (obj, &dtend);
-	}
-
-
-	/*
 	if (todo.complete) {
-		obj->completed = now-5;
-		obj->percent = 100;
-	}
-	*/
-	{
-		cal_component_set_completed (obj, &now);
+		int percent = 100;
+		cal_component_set_completed (comp, &now);
+		cal_component_set_percent (comp, &percent);
 	}
 
-	/*
-	LOG ("[%s] from pilot, complete=%d/%ld\n",
-		todo.description,
-		todo.complete,
-		obj->completed);
-	*/
+	due = icaltime_from_timet (mktime (& todo.due), FALSE, FALSE);
+	dt.value = &due;
+	cal_component_set_due (comp, &dt);
 
-
-/*  	obj->priority = todo.priority; FIX ME */
-
-	/* g_free (obj->class); */
-
-	/*
-	if (remote->attr & dlpRecAttrSecret)
-		obj->class = g_strdup ("PRIVATE");
-	else
-		obj->class = g_strdup ("PUBLIC");
-	*/
+	cal_component_set_priority (comp, &todo.priority);
+	cal_component_set_transparency (comp, CAL_COMPONENT_TRANSP_NONE);
 
 	if (remote->attr & dlpRecAttrSecret)
-		cal_component_set_classification (obj, CAL_COMPONENT_CLASS_PRIVATE);
+		cal_component_set_classification (comp, CAL_COMPONENT_CLASS_PRIVATE);
 	else
-		cal_component_set_classification (obj, CAL_COMPONENT_CLASS_PUBLIC);
+		cal_component_set_classification (comp, CAL_COMPONENT_CLASS_PUBLIC);
+
+	cal_component_set_pilot_id (comp, &remote->ID);
+	cal_component_set_pilot_status (comp, &pilot_status);
 
 	free_ToDo(&todo);
 
-	return obj;
+	return comp;
 }
 
 
@@ -491,18 +443,19 @@ ical_from_remote_record (GnomePilotConduitStandardAbs *conduit,
 static gint
 update_record (GnomePilotConduitStandardAbs *conduit,
 	       PilotRecord *remote,
-	       GCalConduitContext *ctxt)
+	       EToDoConduitContext *ctxt)
 {
-	CalComponent *obj;
-	struct ToDo todo;
+	CalComponent *comp;
 	CalClientGetStatus status;
+	struct ToDo todo;
+	unsigned long pilot_status = GnomePilotRecordNothing;
 	char *uid;
 
 	CalComponentText summary = {NULL, NULL};
 	CalComponentText comment = {NULL, NULL};
 	GSList *comment_list;
 
-	g_return_val_if_fail(remote!=NULL,-1);
+	g_return_val_if_fail (remote!=NULL,-1);
 
 	memset (&todo, 0, sizeof (struct ToDo));
 	unpack_ToDo (&todo, remote->record, remote->length);
@@ -514,7 +467,7 @@ update_record (GnomePilotConduitStandardAbs *conduit,
 	if (status == CAL_CLIENT_GET_SUCCESS) {
 		LOG (" succeeded with '%s'\n", uid);
 		LOG ("    cal_client_get_object... ");
-		status = cal_client_get_object (ctxt->client, uid, &obj);
+		status = cal_client_get_object (ctxt->client, uid, &comp);
 	}
 
 	if (status != CAL_CLIENT_GET_SUCCESS) {
@@ -522,31 +475,30 @@ update_record (GnomePilotConduitStandardAbs *conduit,
 
 		LOG ("failed, making a new one.\n");
 
-		obj = cal_component_new ();
-		cal_component_set_new_vtype (obj, CAL_COMPONENT_TODO);
+		comp = cal_component_new ();
+		cal_component_set_new_vtype (comp, CAL_COMPONENT_TODO);
 		
 		summary.value = todo.description;
-		cal_component_set_summary (obj, &summary);
+		cal_component_set_summary (comp, &summary);
 
 		comment.value = todo.note;
 		comment_list = g_slist_append (NULL, &comment);
-		cal_component_set_comment_list (obj, comment_list);
+		cal_component_set_comment_list (comp, comment_list);
 		g_slist_free (comment_list);
 
-		cal_component_set_created (obj, &now);
-		cal_component_set_last_modified (obj, &now);
-/*  		obj->priority = 0; */
-		cal_component_set_transparency (obj, CAL_COMPONENT_TRANSP_NONE);
-/*  		obj->related = NULL; */
-		cal_component_set_pilot_id (obj, &remote->ID);
-/*  		cal_component_set_pilot_status (obj, ICAL_PILOT_SYNC_NONE); */
+		cal_component_set_created (comp, &now);
+	  	cal_component_set_last_modified (comp, &now);
+		cal_component_set_priority (comp, &todo.priority);
+		cal_component_set_transparency (comp, CAL_COMPONENT_TRANSP_NONE);
+		cal_component_set_pilot_id (comp, &remote->ID);
+  		cal_component_set_pilot_status (comp, &pilot_status);
 	} else {
-		CalComponent *new_obj;
+		CalComponent *new_comp;
 
-		LOG ("succeeded %s\n", cal_component_get_as_string (obj));
+		LOG ("succeeded %s\n", cal_component_get_as_string (comp));
 
-		new_obj = ical_from_remote_record (conduit, remote, obj);
-		obj = new_obj;
+		new_comp = comp_from_remote_record (conduit, remote, comp);
+		comp = new_comp;
 	}
 
 	/* update record on server */
@@ -554,25 +506,25 @@ update_record (GnomePilotConduitStandardAbs *conduit,
 		const char *uid;
 		unsigned long *pilot_id;
 
-		cal_component_get_uid (obj, &uid);
-		cal_component_get_pilot_id (obj, &pilot_id);
-
-		update_calendar_entry_in_repository (conduit, obj, ctxt);
+		cal_component_get_uid (comp, &uid);
+		cal_component_get_pilot_id (comp, &pilot_id);
+		
+		update_calendar_entry_in_repository (conduit, comp, ctxt);
 		cal_client_update_pilot_id (ctxt->client, (char *) uid, 
-					    *pilot_id, ICAL_PILOT_SYNC_NONE);
+					    *pilot_id, pilot_status);
 	}
 
 	/*
 	 * Shutdown
 	 */
-	gtk_object_unref (GTK_OBJECT (obj));
+	gtk_object_unref (GTK_OBJECT (comp));
 	free_ToDo(&todo);
 
 	return 0;
 }
 
 static void
-check_for_slow_setting (GnomePilotConduit *c, GCalConduitContext *ctxt)
+check_for_slow_setting (GnomePilotConduit *c, EToDoConduitContext *ctxt)
 {
 	GList *uids;
 	unsigned long int entry_number;
@@ -595,13 +547,12 @@ check_for_slow_setting (GnomePilotConduit *c, GCalConduitContext *ctxt)
 static gint
 pre_sync (GnomePilotConduit *c,
 	  GnomePilotDBInfo *dbi,
-	  GCalConduitContext *ctxt)
+	  EToDoConduitContext *ctxt)
 {
 	int l;
 	unsigned char *buf;
 	GnomePilotConduitStandardAbs *conduit;
-	/* gint num_records; */
-	/*  GList *uids; */
+	gint num_records;
 
 	/*
 	g_log_set_always_fatal (G_LOG_LEVEL_ERROR |
@@ -626,39 +577,34 @@ pre_sync (GnomePilotConduit *c,
 	}
 
 
-#if 0  
-	/* Set the counters for the progress bar crap */
-	num_records = GNOME_Calendar_Repository_get_number_of_objects (ctxt->calendar, GNOME_Calendar_Repository_ANY, &(ctxt->ev));
-
-	catch_ret_val (ctxt->ev, -1);
+	num_records = cal_client_get_n_objects (ctxt->client, CALOBJ_TYPE_TODO);
 	gnome_pilot_conduit_standard_abs_set_num_local_records(GNOME_PILOT_CONDUIT_STANDARD_ABS(c), num_records);
-	num_records = GNOME_Calendar_Repository_get_number_of_objects (ctxt->calendar, GNOME_Calendar_Repository_MODIFIED, &(ctxt->ev));
-	catch_ret_val (ctxt->ev, -1);
-	gnome_pilot_conduit_standard_abs_set_num_updated_local_records(GNOME_PILOT_CONDUIT_STANDARD_ABS(c), num_records);
-	num_records = GNOME_Calendar_Repository_get_number_of_objects (ctxt->calendar, GNOME_Calendar_Repository_NEW, &(ctxt->ev));
-	catch_ret_val (ctxt->ev, -1);
-	gnome_pilot_conduit_standard_abs_set_num_new_local_records(GNOME_PILOT_CONDUIT_STANDARD_ABS(c), num_records);
-	num_records = GNOME_Calendar_Repository_get_number_of_objects (ctxt->calendar, GNOME_Calendar_Repository_DELETED, &(ctxt->ev));
-	catch_ret_val (ctxt->ev, -1);
-	gnome_pilot_conduit_standard_abs_set_num_deleted_local_records(GNOME_PILOT_CONDUIT_STANDARD_ABS(c), num_records);
-#endif /* 0 */
 
-	gtk_object_set_data(GTK_OBJECT(c),"dbinfo",dbi);
+	/* FIX ME How are we going to fill in these fields? */
+	num_records = 0;
+	gnome_pilot_conduit_standard_abs_set_num_updated_local_records(GNOME_PILOT_CONDUIT_STANDARD_ABS(c), num_records);
+	gnome_pilot_conduit_standard_abs_set_num_new_local_records(GNOME_PILOT_CONDUIT_STANDARD_ABS(c), num_records);
+	gnome_pilot_conduit_standard_abs_set_num_deleted_local_records(GNOME_PILOT_CONDUIT_STANDARD_ABS(c), num_records);
+
+	gtk_object_set_data (GTK_OBJECT(c), "dbinfo", dbi);
   
 	/* load_records(c); */
 
-	buf = (unsigned char*)g_malloc(0xffff);
-	if((l=dlp_ReadAppBlock(dbi->pilot_socket,dbi->db_handle,0,(unsigned char *)buf,0xffff)) < 0) {
+	buf = (unsigned char*)g_malloc (0xffff);
+	l = dlp_ReadAppBlock (dbi->pilot_socket, dbi->db_handle, 0,
+			      (unsigned char *)buf, 0xffff);
+	
+	if (l < 0) {
 		WARN(_("Could not read pilot's ToDo application block"));
 		WARN("dlp_ReadAppBlock(...) = %d",l);
 		gnome_pilot_conduit_error(GNOME_PILOT_CONDUIT(c),
 			     _("Could not read pilot's ToDo application block"));
 		return -1;
 	}
-	unpack_ToDoAppInfo(&(ctxt->ai),buf,l);
-	g_free(buf);
+	unpack_ToDoAppInfo (&(ctxt->ai), buf, l);
+	g_free (buf);
 
-	check_for_slow_setting(c,ctxt);
+	check_for_slow_setting (c, ctxt);
 
 	return 0;
 }
@@ -675,7 +621,7 @@ static gint
 match_record	(GnomePilotConduitStandardAbs *conduit,
 		 GCalLocalRecord **local,
 		 PilotRecord *remote,
-		 GCalConduitContext *ctxt)
+		 EToDoConduitContext *ctxt)
 {
 	LOG ("match_record: looking for local copy of %s\n",
 		print_remote (remote));
@@ -702,14 +648,14 @@ match_record	(GnomePilotConduitStandardAbs *conduit,
 static gint
 free_match	(GnomePilotConduitStandardAbs *conduit,
 		 GCalLocalRecord **local,
-		 GCalConduitContext *ctxt)
+		 EToDoConduitContext *ctxt)
 {
 	LOG ("free_match: %s\n", print_local (*local));
 
-	g_return_val_if_fail (local!=NULL, -1);
-	g_return_val_if_fail (*local!=NULL, -1);
+	g_return_val_if_fail (local != NULL, -1);
+	g_return_val_if_fail (*local != NULL, -1);
 
-	gtk_object_unref (GTK_OBJECT (GCAL_LOCALRECORD (*local)->ical));
+	gtk_object_unref (GTK_OBJECT ((*local)->comp));
 	g_free (*local);
 
         *local = NULL;
@@ -722,11 +668,11 @@ free_match	(GnomePilotConduitStandardAbs *conduit,
 static gint
 archive_local (GnomePilotConduitStandardAbs *conduit,
 	       GCalLocalRecord *local,
-	       GCalConduitContext *ctxt)
+	       EToDoConduitContext *ctxt)
 {
 	LOG ("archive_local: doing nothing with %s\n", print_local (local));
 
-	g_return_val_if_fail(local!=NULL,-1);
+	g_return_val_if_fail (local != NULL, -1);
 
 	return -1;
 }
@@ -738,7 +684,7 @@ static gint
 archive_remote (GnomePilotConduitStandardAbs *conduit,
 		GCalLocalRecord *local,
 		PilotRecord *remote,
-		GCalConduitContext *ctxt)
+		EToDoConduitContext *ctxt)
 {
 	LOG ("archive_remote: doing nothing with %s\n",
 		print_local (local));
@@ -755,7 +701,7 @@ archive_remote (GnomePilotConduitStandardAbs *conduit,
 static gint
 store_remote (GnomePilotConduitStandardAbs *conduit,
 	      PilotRecord *remote,
-	      GCalConduitContext *ctxt)
+	      EToDoConduitContext *ctxt)
 {
 	LOG ("store_remote: copying pilot record %s to desktop\n",
 		print_remote (remote));
@@ -769,7 +715,7 @@ store_remote (GnomePilotConduitStandardAbs *conduit,
 static gint
 clear_status_archive_local (GnomePilotConduitStandardAbs *conduit,
 			    GCalLocalRecord *local,
-			    GCalConduitContext *ctxt)
+			    EToDoConduitContext *ctxt)
 {
 	LOG ("clear_status_archive_local: doing nothing\n");
 
@@ -781,7 +727,7 @@ clear_status_archive_local (GnomePilotConduitStandardAbs *conduit,
 static gint
 iterate (GnomePilotConduitStandardAbs *conduit,
 	 GCalLocalRecord **local,
-	 GCalConduitContext *ctxt)
+	 EToDoConduitContext *ctxt)
 {
 	static GSList *events,*iterator;
 	static int hest;
@@ -798,7 +744,7 @@ iterate (GnomePilotConduitStandardAbs *conduit,
 			 /*  LOG ("iterating over %d records", g_slist_length (events)); */
 			*local = g_new0(GCalLocalRecord,1);
 
-			local_record_from_ical_uid(*local,(gchar*)events->data,ctxt);
+			local_record_from_comp_uid(*local,(gchar*)events->data,ctxt);
 			iterator = events;
 		} else {
 			/*  LOG ("no events"); */
@@ -825,7 +771,7 @@ iterate (GnomePilotConduitStandardAbs *conduit,
 			return 0;
 		} else {
 			iterator = g_slist_next(iterator);
-			local_record_from_ical_uid(*local,(gchar*)(iterator->data),ctxt);
+			local_record_from_comp_uid(*local,(gchar*)(iterator->data),ctxt);
 		}
 	}
 	return 1;
@@ -837,7 +783,7 @@ iterate_specific (GnomePilotConduitStandardAbs *conduit,
 		  GCalLocalRecord **local,
 		  gint flag,
 		  gint archived,
-		  GCalConduitContext *ctxt)
+		  EToDoConduitContext *ctxt)
 {
 	(*local) = NULL; /* ??? */
 
@@ -880,7 +826,7 @@ iterate_specific (GnomePilotConduitStandardAbs *conduit,
 
 static gint
 purge (GnomePilotConduitStandardAbs *conduit,
-       GCalConduitContext *ctxt)
+       EToDoConduitContext *ctxt)
 {
 	LOG ("purge: doing nothing\n");
 
@@ -894,49 +840,35 @@ static gint
 set_status (GnomePilotConduitStandardAbs *conduit,
 	    GCalLocalRecord *local,
 	    gint status,
-	    GCalConduitContext *ctxt)
+	    EToDoConduitContext *ctxt)
 {
 	gboolean success;
-	iCalPilotState new_state = ICAL_PILOT_SYNC_NONE;
 
 	LOG ("set_status: %s status is now '%s'\n",
 		print_local (local),
 		gnome_pilot_status_to_string (status));
 
 	g_return_val_if_fail(local!=NULL,-1);
-	g_assert(local->ical!=NULL);
+	g_assert(local->comp!=NULL);
 	
 	local->local.attr = status;
-	switch(status) {
-	case GnomePilotRecordPending:
-	case GnomePilotRecordNothing:
-		new_state = ICAL_PILOT_SYNC_NONE;
-		break;
-	case GnomePilotRecordDeleted:
-		break;
-	case GnomePilotRecordNew:
-	case GnomePilotRecordModified:
-		new_state = ICAL_PILOT_SYNC_MOD;
-		break;	  
-	}
-	
 	if (status == GnomePilotRecordDeleted) {
 		const char *uid;
-		cal_component_get_uid (local->ical, &uid);
+		cal_component_get_uid (local->comp, &uid);
 		success = cal_client_remove_object (ctxt->client, uid);
 	} else {
 		const char *uid;
-		unsigned long pilot_id;
+		unsigned long *pilot_id;
 
-		cal_component_get_uid (local->ical, &uid);
-		cal_component_get_pilot_id (local->ical, &pilot_id);
+		cal_component_get_uid (local->comp, &uid);
+		cal_component_get_pilot_id (local->comp, &pilot_id);
 
-		success = cal_client_update_object (ctxt->client, local->ical);
+		success = cal_client_update_object (ctxt->client, local->comp);
 		cal_client_update_pilot_id (ctxt->client, (char *) uid,
-					    pilot_id, new_state);
+					    *pilot_id, status);
 	}
 
-	if (! success) {
+	if (!success) {
 		WARN (_("Error while communicating with calendar server"));
 	}
 	
@@ -947,16 +879,16 @@ static gint
 set_archived (GnomePilotConduitStandardAbs *conduit,
 	      GCalLocalRecord *local,
 	      gint archived,
-	      GCalConduitContext *ctxt)
+	      EToDoConduitContext *ctxt)
 {
 	LOG ("set_archived: %s archived flag is now '%d'\n",
 		print_local (local), archived);
 
 	g_return_val_if_fail(local!=NULL,-1);
-	g_assert(local->ical!=NULL);
+	g_assert(local->comp!=NULL);
 
 	local->local.archived = archived;
-	update_calendar_entry_in_repository(conduit,local->ical,ctxt);
+	update_calendar_entry_in_repository(conduit,local->comp,ctxt);
 	/* FIXME: This should move the entry into a speciel
 	   calendar file, eg. Archive, or (by config option), simply
 	   delete it */
@@ -967,7 +899,7 @@ static gint
 set_pilot_id (GnomePilotConduitStandardAbs *conduit,
 	      GCalLocalRecord *local,
 	      guint32 ID,
-	      GCalConduitContext *ctxt)
+	      EToDoConduitContext *ctxt)
 {
 	const char *uid;
 	unsigned long *pilot_status;
@@ -976,13 +908,13 @@ set_pilot_id (GnomePilotConduitStandardAbs *conduit,
 		print_local (local), ID);
 
 	g_return_val_if_fail(local!=NULL,-1);
-	g_assert(local->ical!=NULL);
+	g_assert(local->comp!=NULL);
 
 	local->local.ID = ID;
-	cal_component_set_pilot_id (local->ical, &ID);
+	cal_component_set_pilot_id (local->comp, (unsigned long *)&ID);
 
-	cal_component_get_uid (local->ical, &uid);
-	cal_component_get_pilot_status (local->ical, &pilot_status);
+	cal_component_get_uid (local->comp, &uid);
+	cal_component_get_pilot_status (local->comp, &pilot_status);
 
 	cal_client_update_pilot_id (ctxt->client,
 				    (char *) uid,
@@ -996,7 +928,7 @@ static gint
 transmit (GnomePilotConduitStandardAbs *conduit,
 	  GCalLocalRecord *local,
 	  PilotRecord **remote,
-	  GCalConduitContext *ctxt)
+	  EToDoConduitContext *ctxt)
 {
 	PilotRecord *p;
 	/* priority; FIX ME */
@@ -1009,7 +941,7 @@ transmit (GnomePilotConduitStandardAbs *conduit,
 
 	g_return_val_if_fail(local!=NULL,-1);
 	g_return_val_if_fail(remote!=NULL,-1);
-	g_assert(local->ical!=NULL);
+	g_assert(local->comp!=NULL);
 
 	p = g_new0(PilotRecord,1);
 
@@ -1024,30 +956,30 @@ transmit (GnomePilotConduitStandardAbs *conduit,
 		CalComponentDateTime dtend;
 		time_t dtend_time_t;
 
-		cal_component_get_dtend (local->ical, &dtend);
+		cal_component_get_dtend (local->comp, &dtend);
 		dtend_time_t = icaltime_as_timet (*dtend.value);
 
 		local->todo->due = *localtime (&dtend_time_t);
 		local->todo->indefinite = (dtend.value->year == 0);
 	}
 
-/*  	local->todo->priority = local->ical->priority; */
+/*  	local->todo->priority = local->comp->priority; */
 /*  	local->todo->priority = 1; */ /* FIX ME */
 
-	cal_component_get_completed (local->ical, &completed);
+	cal_component_get_completed (local->comp, &completed);
 	if (completed->year > 0)
 		local->todo->complete = 1; /* FIX ME */
 
 	/* STOP: don't replace these with g_strdup, since free_ToDo
 	   uses free to deallocte */
 
-	cal_component_get_summary (local->ical, &summary);
+	cal_component_get_summary (local->comp, &summary);
 	local->todo->description = 
-		/*  local->ical->summary == NULL ? NULL : strdup (summary.value); */
+		/*  local->comp->summary == NULL ? NULL : strdup (summary.value); */
 		strdup ((char *) summary.value);
 
 
-	cal_component_get_comment_list (local->ical, &comment_list);
+	cal_component_get_comment_list (local->comp, &comment_list);
 	if (comment_list) {
 		comment = (CalComponentText *) comment_list->data;
 		if (comment && comment->value)
@@ -1060,8 +992,8 @@ transmit (GnomePilotConduitStandardAbs *conduit,
 
 	/*
 	LOG ("transmitting todo to pilot [%s] complete=%d/%ld\n",
-		local->ical->summary==NULL?"NULL":local->ical->summary,
-		local->todo->complete, local->ical->completed);
+		local->comp->summary==NULL?"NULL":local->comp->summary,
+		local->todo->complete, local->comp->completed);
 	*/
 
 	/* Generate pilot record structure */
@@ -1077,7 +1009,7 @@ static gint
 free_transmit (GnomePilotConduitStandardAbs *conduit,
 	       GCalLocalRecord *local,
 	       PilotRecord **remote,
-	       GCalConduitContext *ctxt)
+	       EToDoConduitContext *ctxt)
 {
 	LOG ("free_transmit: freeing %s\n",
 		print_local (local));
@@ -1096,7 +1028,7 @@ static gint
 compare (GnomePilotConduitStandardAbs *conduit,
 	    GCalLocalRecord *local,
 	    PilotRecord *remote,
-	    GCalConduitContext *ctxt)
+	    EToDoConduitContext *ctxt)
 {
 	/* used by the quick compare */
 	PilotRecord *remoteOfLocal;
@@ -1142,7 +1074,7 @@ static gint
 compare_backup (GnomePilotConduitStandardAbs *conduit,
 		GCalLocalRecord *local,
 		PilotRecord *remote,
-		GCalConduitContext *ctxt)
+		EToDoConduitContext *ctxt)
 {
 	LOG ("compare_backup: doing nothing\n");
 
@@ -1155,7 +1087,7 @@ compare_backup (GnomePilotConduitStandardAbs *conduit,
 
 static gint
 delete_all (GnomePilotConduitStandardAbs *conduit,
-	    GCalConduitContext *ctxt)
+	    EToDoConduitContext *ctxt)
 {
 	GSList *events,*it;
 	gboolean error;
@@ -1194,16 +1126,14 @@ GnomePilotConduit *
 conduit_get_gpilot_conduit (guint32 pilotId)
 {
 	GtkObject *retval;
-	ToDoConduitCfg *cfg;
-	GCalConduitContext *ctxt;
+	EToDoConduitContext *ctxt;
 
 	LOG ("in todo's conduit_get_gpilot_conduit\n");
 
 	/* we need to find wombat with oaf, so make sure oaf
 	   is initialized here.  once the desktop is converted
 	   to oaf and gpilotd is built with oaf, this can go away */
-	if (! oaf_is_initialized ())
-	{
+	if (!oaf_is_initialized ()) {
 		char *argv[ 1 ] = {"hi"};
 		oaf_init (1, argv);
 
@@ -1217,13 +1147,12 @@ conduit_get_gpilot_conduit (guint32 pilotId)
 
 	retval = gnome_pilot_conduit_standard_abs_new ("ToDoDB", 0x746F646F);
 	g_assert (retval != NULL);
-	gnome_pilot_conduit_construct(GNOME_PILOT_CONDUIT(retval),"ToDoConduit");
 
-	todoconduit_load_configuration(&cfg,pilotId);
-	gtk_object_set_data(retval,"todoconduit_cfg",cfg);
+	gnome_pilot_conduit_construct (GNOME_PILOT_CONDUIT (retval),
+				       "ToDoConduit");
 
-	gcalconduit_new_context(&ctxt,cfg);
-	gtk_object_set_data(GTK_OBJECT(retval),"todoconduit_context",ctxt);
+	e_todo_context_new (&ctxt, pilotId);
+	gtk_object_set_data (GTK_OBJECT (retval), "todoconduit_context", ctxt);
 
 	gtk_signal_connect (retval, "match_record", (GtkSignalFunc) match_record, ctxt);
 	gtk_signal_connect (retval, "free_match", (GtkSignalFunc) free_match, ctxt);
@@ -1250,21 +1179,12 @@ conduit_get_gpilot_conduit (guint32 pilotId)
 void
 conduit_destroy_gpilot_conduit (GnomePilotConduit *conduit)
 { 
-        ToDoConduitCfg *cc;
-	GCalConduitContext *ctxt;
+	EToDoConduitContext *ctxt;
 
-        cc = GET_TODOCONFIG (conduit);
-	ctxt = GET_GCALCONTEXT(conduit);
+	ctxt = gtk_object_get_data (GTK_OBJECT (conduit), 
+				    "todoconduit_context");
 
-	if (ctxt->client != NULL) {
-		gtk_object_unref (GTK_OBJECT (ctxt->client));
-/*  		pi_close (ctxt->link); */
-/*  		GNOME_Calendar_Repository_done (ctxt->calendar, &(ctxt->ev)); */
-	}
-
-        todoconduit_destroy_configuration (&cc);
-
-	gcalconduit_destroy_context (&ctxt);
+	e_todo_context_destroy (&ctxt);
 
 	gtk_object_destroy (GTK_OBJECT (conduit));
 }
