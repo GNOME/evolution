@@ -106,7 +106,7 @@ gncal_week_view_new (GnomeCalendar *calendar, time_t start_of_week)
 	for (i = 0; i < 7; i++) {
 		wview->days[i] = GNCAL_DAY_VIEW (gncal_day_view_new (calendar, 0, 0));
 		gtk_signal_connect (GTK_OBJECT (wview->days [i]), "button_press_event",
-				    GTK_SIGNAL_CONNECT(double_click_on_weekday), wview);
+				    GTK_SIGNAL_FUNC(double_click_on_weekday), wview);
 		
 		if (i < 5)
 			gtk_table_attach (GTK_TABLE (wview), GTK_WIDGET (wview->days[i]),

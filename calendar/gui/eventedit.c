@@ -1050,7 +1050,7 @@ ee_rp_init_rule (EventEditor *ee)
 	/* 2.1 The week period selector */
 
 	ee->recur_rr_week_period = make_spin_button (week_period, 1, 10000);
-	gtk_box_pack_start (GTK_BOX (week_hbox), gtk_label_new _("Every"), FALSE, FALSE, 0);
+	gtk_box_pack_start (GTK_BOX (week_hbox), gtk_label_new (_("Every")), FALSE, FALSE, 0);
 	gtk_box_pack_start (GTK_BOX (week_hbox), ee->recur_rr_week_period, FALSE, FALSE, 0);
 	gtk_box_pack_start (GTK_BOX (week_hbox), gtk_label_new (_("week(s)")), FALSE, FALSE, 0);
 
