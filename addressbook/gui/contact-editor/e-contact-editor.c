@@ -1530,6 +1530,11 @@ e_contact_editor_dispose (GObject *object) {
 		e_contact_editor->book = NULL;
 	}
 
+	if (e_contact_editor->select_names_contacts) {
+		g_object_unref(e_contact_editor->select_names_contacts);
+		e_contact_editor->select_names_contacts = NULL;
+	}
+
 	if (e_contact_editor->name) {
 		e_card_name_unref(e_contact_editor->name);
 		e_contact_editor->name = NULL;

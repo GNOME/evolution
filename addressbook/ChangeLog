@@ -1,3 +1,8 @@
+2002-11-20  Chris Toshok  <toshok@ximian.com>
+
+	* gui/contact-editor/e-contact-editor.c: roll forward the fix for
+	the contact editor.
+
 2002-11-21  Not Zed  <NotZed@Ximian.com>
 
 	* gui/component/select-names/e-select-names-bonobo.c
