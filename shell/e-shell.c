@@ -153,10 +153,27 @@ es_destroy_default_folders (EShell *eshell)
 }
 
 static void
+es_destroy_shortcuts (EShell *eshell)
+{
+	const int len = eshell->shortcut_groups->len;
+	int i;
+
+	for (i = 0; i < len; i++){
+		EShortcutGroup *g = g_array_index (eshell->shortcut_groups, EShortcutGroup *, i);
+
+		gtk_object_unref (GTK_OBJECT (g));
+	}
+	
+	g_array_free (eshell->shortcut_groups, TRUE);
+}
+
+static void
 e_shell_destroy (GtkObject *object)
 {
 	EShell *eshell = E_SHELL (object);
 
+	es_destroy_shortcuts (eshell);
+	
 	es_destroy_default_folders (eshell);
 	GTK_OBJECT_CLASS (e_shell_parent_class)->destroy (object);
 }
@@ -175,8 +192,12 @@ e_shell_destroy_views (EShell *eshell)
 {
 	GSList *l;
 
-	for (l = eshell->views; l; l = l->next){
-		EShellView *view = l->data;
+	/*
+	 * Notice that eshell->views is updated by the various views
+	 * during unregistration
+	 */
+	while (eshell->views){
+		EShellView *view = eshell->views->data;
 
 		gtk_object_destroy (GTK_OBJECT (view));
 	}
@@ -217,19 +238,11 @@ create_corba_eshell (GnomeObject *object)
 }
 
 static void
-e_shell_init (GtkObject *object)
-{
-}
-
-static void
-e_shell_construct (EShell *eshell, GNOME_Evolution_Shell corba_eshell)
-{
-	gnome_object_construct (GNOME_OBJECT (eshell), corba_eshell);
-}
-
-static void
 e_shell_setup_default_folders (EShell *eshell)
 {
+	eshell->default_folders.summary = e_folder_new (
+		E_FOLDER_MAIL, "internal:summary", _("Today"), _("Executive Summary"),
+		NULL, "internal:");
 	eshell->default_folders.inbox = e_folder_new (
 		E_FOLDER_MAIL, "internal:inbox", _("Inbox"), _("New mail messages"),
 		NULL, "internal:mail_view");
@@ -242,9 +255,71 @@ e_shell_setup_default_folders (EShell *eshell)
 	eshell->default_folders.calendar = e_folder_new (
 		E_FOLDER_CALENDAR, "internal:personal_calendar", _("Calendar"), _("Your calendar"),
 		NULL, "internal:calendar_daily");
+	eshell->default_folders.contacts = e_folder_new (
+		E_FOLDER_CONTACTS, "internal:personal_contacts", _("Contacts"), _("Your contacts list"),
+		NULL, "internal:contact_view");
 	eshell->default_folders.tasks = e_folder_new (
 		E_FOLDER_TASKS, "internal:personal_calendar", _("Tasks"), _("Tasks list"),
 		NULL, "internal:tasks_view");
+}
+
+static EShortcutGroup *
+setup_main_shortcuts (EShell *eshell)
+{
+	EShortcutGroup *m;
+
+	m = e_shortcut_group_new (_("Main Shortcuts"), FALSE);
+	e_shortcut_group_append (m, e_shortcut_new (eshell->default_folders.summary));
+	e_shortcut_group_append (m, e_shortcut_new (eshell->default_folders.inbox));
+	e_shortcut_group_append (m, e_shortcut_new (eshell->default_folders.calendar));
+	e_shortcut_group_append (m, e_shortcut_new (eshell->default_folders.contacts));
+	e_shortcut_group_append (m, e_shortcut_new (eshell->default_folders.tasks));
+
+	return m;
+}
+
+static EShortcutGroup *
+setup_secondary_shortcuts (EShell *eshell)
+{
+	EShortcutGroup *sec;
+
+	sec = e_shortcut_group_new (_("Other Shortcuts"), TRUE);
+	
+	e_shortcut_group_append (sec, e_shortcut_new (eshell->default_folders.drafts));
+	e_shortcut_group_append (sec, e_shortcut_new (eshell->default_folders.outbox));
+
+	return sec;
+}
+
+static void
+e_shell_setup_default_shortcuts (EShell *eshell)
+{
+	GArray *esg;
+	EShortcutGroup *g;
+	
+	esg = g_array_new (FALSE, FALSE, sizeof (EShortcutGroup *));
+
+	g = setup_main_shortcuts (eshell);
+	g_array_append_val (esg, g);
+	g = setup_secondary_shortcuts (eshell);
+	g_array_append_val (esg, g);
+
+	eshell->shortcut_groups = esg;
+}
+
+static void
+e_shell_init (GtkObject *object)
+{
+	EShell *eshell = E_SHELL (object);
+	
+	e_shell_setup_default_folders (eshell);
+	e_shell_setup_default_shortcuts (eshell);
+}
+
+static void
+e_shell_construct (EShell *eshell, GNOME_Evolution_Shell corba_eshell)
+{
+	gnome_object_construct (GNOME_OBJECT (eshell), corba_eshell);
 }
 
 EShell *
@@ -263,8 +338,6 @@ e_shell_new (void)
 	
 	e_shell_construct (eshell, corba_eshell);
 
-	e_shell_setup_default_folders (eshell);
-	
 	return eshell;
 }
 

@@ -23,10 +23,14 @@ evolution_SOURCES =		\
 	e-init.h		\
 	e-shell.c		\
 	e-shell.h		\
+	e-shell-shortcut.c	\
+	e-shell-shortcut.h	\
 	e-shell-view.c		\
 	e-shell-view.h		\
 	e-shell-view-menu.c	\
 	e-shell-view-menu.h	\
+	e-shortcut.c		\
+	e-shortcut.h		\
 	$(EVOLUTION_CORBA_GENERATED)
 
 Evolution-impl.o: Evolution.h

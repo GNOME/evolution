@@ -4,6 +4,7 @@
 #include <bonobo/gnome-object.h>
 #include "evolution.h"
 #include "e-folder.h"
+#include "e-shortcut.h"
 
 #define E_SHELL_GOAD_ID         "GOADID:GNOME:Evolution:Shell:1.0"
 #define E_SHELL_FACTORY_GOAD_ID "GOADID:GNOME:Evolution:ShellFactory:1.0"
@@ -26,7 +27,14 @@ struct _EShell {
 		EFolder *drafts;
 		EFolder *calendar;
 		EFolder *tasks;
+		EFolder *summary;
+		EFolder *contacts;
 	} default_folders;
+
+	/*
+	 * An array of EShortcutGroups
+	 */
+	GArray *shortcut_groups;
 };
 
 typedef struct {
