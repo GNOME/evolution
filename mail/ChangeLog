@@ -1,5 +1,17 @@
 2000-08-22  Peter Williams  <peterw@helixcode.com>
 
+	* mail-tools.c (mail_tool_get_folder_from_urlname): Don't connect 
+	to the service explicitly.
+	(mail_tool_send_via_transport): Don't connect to the transport
+	explicitly.
+	(mail_tool_get_root_of_store): Same.
+
+	* mail-config-gui.c (do_test_service): Just try camel_session_get_service,
+	which will now connect for us.
+
+	* message-thread.h: Add a note about *next being the first member
+	of struct _container... if it isn't, everything goes Very Wrong.
+
 	* message-thread.c (free_container): Extra debug print.
 	(remove_node): Handle the case of empty containers holding the child
 	that we're interested in.

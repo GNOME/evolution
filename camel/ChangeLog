@@ -1,3 +1,31 @@
+2000-08-22  Peter Williams  <peterw@helixcode.com>
+
+	* camel-service.c (camel_service_new): Connect automatically if the
+	URL is not empty.
+	(finalize): Disconnect automatically if connected.
+	(camel_service_query_auth_types): Split	into two functions; one to
+	be called if we're connected to an actual server (_connected), one
+	to be called if we're just gauging the general authtypes supported
+	(_generic).
+	(is_connected): Remove.
+
+	* camel-store.c (camel_store_get_folder): Don't connect explicitly to
+	the service.
+
+	* providers/nntp/camel-nntp-store.c (query_auth_types_generic): Split
+	the query_auth_types function. Hook it up in _new.
+	(finalize): Don't try to disconnect here.
+	
+	* providers/pop3/camel-pop3-store.c (query_auth_types_generic): Same.
+	(finalize): Don't try to disconnect here.
+
+	* providers/imap/camel-imap-store.c (query_auth_types_generic): Same.
+	(finalize): Don't try to disconnect here.
+
+	* providers/smtp/camel-smtp-transport.c (query_auth_types_generic): Split
+	the query_auth_types (dummy, in this case) function. Hook it up in _new.
+	(finalize): Don't try to disconnect here.
+
 2000-08-21  JP Rosevear  <jpr@helixcode.com>
 	
 	* providers/nntp/camel-nntp-folder.c (nntp_folder_get_subfolder_names):
