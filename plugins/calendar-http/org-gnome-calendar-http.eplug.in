@@ -12,11 +12,11 @@
 	     check="e_calendar_http_check">
                 <item
 		 type="item_table"
-		 path="00.general/00.source/30.url"
+		 path="00.general/00.source/40.url"
 		 factory="e_calendar_http_url"/>
 		<item
 		 type="item_table"
-		 path="00.general/00.source/40.refresh"
+		 path="00.general/00.source/50.refresh"
 		 factory="e_calendar_http_refresh"/>
             </group>
         </hook>

@@ -1,3 +1,9 @@
+2004-12-28  David Trowbridge <David.Trowbridge@Colorado.edu>
+
+	* calendar-http.c (e_calendar_http_check): s/strcmp/strncmp.
+
+	* org-gnome-calendar-http.eplug.in: fixed order of menus.
+
 2004-11-12  Diego Sevilla Ruiz  <dsevilla@ditec.um.es>
 
 	* calendar-http.c (e_calendar_http_check): Accept protocol-less

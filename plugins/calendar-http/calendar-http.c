@@ -294,7 +294,7 @@ e_calendar_http_check (EPlugin *epl, EConfigHookPageCheckData *data)
 	ESourceGroup *group = e_source_peek_group (t->source);
         char *uri_text;
 
-	if (strcmp (e_source_group_peek_base_uri (group), "webcal"))
+	if (strncmp (e_source_group_peek_base_uri (group), "webcal", 6))
 		return TRUE;
 
         uri_text = e_source_get_uri (t->source);
