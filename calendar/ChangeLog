@@ -1,3 +1,15 @@
+2002-02-08  JP Rosevear  <jpr@ximian.com>
+
+	* gui/dialogs/task-details-page.glade: add a custom widget created
+	with e_url_button_new
+
+	* gui/dialogs/task-details-page.c (task_details_page_init): init
+	url_button member to NULL
+	(init_widgets): set the url button entry
+	(get_widgets): get the url button
+
+	* gui/calendar-commands.c (pixmaps): use new all day event icon
+
 2002-02-07  JP Rosevear  <jpr@ximian.com>
 
 	* gui/e-day-view.c: pass meeting boolean for
