@@ -1,3 +1,8 @@
+2002-02-22  Dan Winship  <danw@ximian.com>
+
+	* e-html-utils.c (e_text_to_html_full): Fix for if the buffer ends
+	with an email address (and no newline).
+
 2002-02-09  JP Rosevear  <jpr@ximian.com>
 
 	* e-pilot-settings.h: add row and column defines

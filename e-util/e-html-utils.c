@@ -307,6 +307,8 @@ e_text_to_html_full (const char *input, unsigned int flags, guint32 color)
 				g_free (dispaddr);
 				g_free (outaddr);
 
+				if (!*cur)
+					break;
 				u = g_utf8_get_char (cur);
 			}
 		}
