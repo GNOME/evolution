@@ -1,3 +1,11 @@
+2003-30-01 Ronald Kuetemeier <ronald@kuetemeier.com>
+
+	Fixes #35572
+
+	* gui/alarm-notify/alarm-queue.c: set saved_notification_time to last
+	notification time when we update the config to last notification, so
+	alarms will not get trigged again if a new calendar window is opened.
+
 2003-01-22  Jack Jia  <jack.jia@sun.com>
 
 	Fixes #34927
