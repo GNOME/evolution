@@ -1,5 +1,10 @@
 2000-12-24  Christopher James Lahey  <clahey@helixcode.com>
 
+	* message-list.c (filter_date): Changed this to format times in 12
+	hour time instead of 24 hour time.
+
+2000-12-24  Christopher James Lahey  <clahey@helixcode.com>
+
 	* message-list.c (filter_date): Changed this to do different
 	formatting of dates within the last week.
 
