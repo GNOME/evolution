@@ -1,3 +1,13 @@
+2004-11-03  JP Rosevear  <jpr@novell.com>
+ 
+ 	* gui/gnome-cal.c (connect_list_view_focus): listen to the canvas
+ 	for focus events
+ 	(setup_widgets): listen for listen view selection changes
+ 
+ 	* gui/e-cal-list-view.c (setup_e_table): listen for the cursor to
+ 	move
+ 	(e_cal_list_view_cursor_change_cb): indicate the selection changed
+	
 2004-11-02  JP Rosevear  <jpr@novell.com>
   
  	* gui/e-day-view-config.c (set_twentyfour_hour): make sure the day

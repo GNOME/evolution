@@ -939,9 +939,13 @@ connect_week_view_focus (GnomeCalendar *gcal, EWeekView *wv)
 static void
 connect_list_view_focus (GnomeCalendar *gcal, ECalListView *lv)
 {
-	g_signal_connect (lv, "focus_in_event",
+	ETable *etable;
+	
+	etable = e_table_scrolled_get_table (lv->table_scrolled);
+	
+	g_signal_connect (etable->table_canvas, "focus_in_event",
 			  G_CALLBACK (calendar_focus_change_cb), gcal);
-	g_signal_connect (lv, "focus_out_event",
+	g_signal_connect (etable->table_canvas, "focus_out_event",
 			  G_CALLBACK (calendar_focus_change_cb), gcal);
 }
 
@@ -1322,6 +1326,8 @@ setup_widgets (GnomeCalendar *gcal)
 
 	e_calendar_view_set_calendar (E_CALENDAR_VIEW (priv->list_view), gcal);
 	e_calendar_view_set_timezone (E_CALENDAR_VIEW (priv->list_view), priv->zone);
+	g_signal_connect (priv->list_view, "selection_changed",
+			  G_CALLBACK (view_selection_changed_cb), gcal);
 
 	connect_list_view_focus (gcal, E_CAL_LIST_VIEW (priv->list_view));
 
