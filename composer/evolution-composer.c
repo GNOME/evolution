@@ -246,12 +246,12 @@ init (EvolutionComposer *composer)
 			    GTK_SIGNAL_FUNC (postpone_cb), NULL);
 }
 
-
-static Bonobo_ItemContainer_ObjectList *
+#if 0
+static Bonobo_ItemContainer_ObjectNames *
 enum_objects (BonoboItemHandler *handler, gpointer data, CORBA_Environment *ev)
 {
-#warning "This function is not implemented because enumObjects has a broken CORBA prototype");
 }
+#endif
 
 static Bonobo_Unknown 
 get_object (BonoboItemHandler *h, const char *item_name, gboolean only_if_exists,
@@ -292,7 +292,8 @@ evolution_composer_construct (EvolutionComposer *composer,
 
 	bonobo_object_construct (BONOBO_OBJECT (composer), corba_object);
 
-	item_handler = bonobo_item_handler_new (enum_objects, get_object, composer);
+	item_handler = BONOBO_OBJECT (
+		bonobo_item_handler_new (NULL, get_object, composer));
 	bonobo_object_add_interface (BONOBO_OBJECT (composer), BONOBO_OBJECT (item_handler));
 }
 
