@@ -1,5 +1,8 @@
 2003-11-20  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* mail-config.c (mail_config_uri_deleted): Removed call to
+	mail_tool_delete_meta_data(). Fixes bug #51236.
+
 	* mail-component.c (impl_handleURI): Implemented.
 	(mail_component_class_init): Overload the handleURI method.
 
