@@ -1,7 +1,0 @@
-GtkObject
-  BonoboObject
-    BonoboXObject
-      EvolutionImporter
-      EvolutionImporterListener
-    Handle to remote Bonobo::Unknown
-      EvolutionImporterClient
