@@ -78,14 +78,14 @@
 
   <dockitem name="Toolbar">
   
-    <toolitem name="Print" verb="CalendarPrint"/>
-    <toolitem name="Delete" verb=""/>
+    <toolitem name="Print" verb="CalendarPrint" _label="Print"/>
+    <toolitem name="Delete" verb="" _label="Delete"/>
 
     <separator f="" name="ecal2"/>
 
-    <toolitem name="Prev" verb="CalendarPrev"/>
-    <toolitem name="Today" verb="CalendarToday"/>
-    <toolitem name="Next" verb="CalendarNext"/>
+    <toolitem name="Prev" verb="CalendarPrev" _label="Previous"/>
+    <toolitem name="Today" verb="CalendarToday" _label="Today"/>
+    <toolitem name="Next" verb="CalendarNext" _label="Next"/>
 
     <separator f="" name="ecal3"/>
 
