@@ -133,17 +133,19 @@ e_minicard_class_init (EMinicardClass *klass)
 static void
 e_minicard_init (EMinicard *minicard)
 {
-  /*   minicard->card = NULL;*/
-  minicard->rect = NULL;
-  minicard->fields = NULL;
-  minicard->width = 10;
-  minicard->height = 10;
-  minicard->has_focus = FALSE;
+	/*   minicard->card = NULL;*/
+	minicard->rect = NULL;
+	minicard->fields = NULL;
+	minicard->width = 10;
+	minicard->height = 10;
+	minicard->has_focus = FALSE;
   
-  minicard->card = NULL;
-  minicard->simple = e_card_simple_new(NULL);
+	minicard->card = NULL;
+	minicard->simple = e_card_simple_new(NULL);
 
-  e_canvas_item_set_reflow_callback(GNOME_CANVAS_ITEM(minicard), e_minicard_reflow);
+	minicard->changed = FALSE;
+
+	e_canvas_item_set_reflow_callback(GNOME_CANVAS_ITEM(minicard), e_minicard_reflow);
 }
 
 static void
@@ -191,6 +193,7 @@ e_minicard_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 			       NULL);
 		remodel(e_minicard);
 		e_canvas_item_request_reflow(item);
+		e_minicard->changed = FALSE;
 		break;
 	}
 }
@@ -425,27 +428,31 @@ e_minicard_event (GnomeCanvasItem *item, GdkEvent *event)
 				e_minicard->has_focus = TRUE;
 			} else {
 				EBook *book = NULL;
-				
-				e_card_simple_sync_card(e_minicard->simple);
 
-				if (E_IS_MINICARD_VIEW(GNOME_CANVAS_ITEM(e_minicard)->parent)) {
-					
-					gtk_object_get(GTK_OBJECT(GNOME_CANVAS_ITEM(e_minicard)->parent),
-						       "book", &book,
-						       NULL);
-					
-				}
+				if (e_minicard->changed) {
 				
-				if (book) {
+					e_card_simple_sync_card(e_minicard->simple);
+
+					if (E_IS_MINICARD_VIEW(GNOME_CANVAS_ITEM(e_minicard)->parent)) {
 					
-				/* Add the card in the contact editor to our ebook */
-					e_book_commit_card (book,
-							    e_minicard->card,
-							    card_changed_cb,
-							    NULL);
-				} else {
-					remodel(e_minicard);
-					e_canvas_item_request_reflow(GNOME_CANVAS_ITEM(e_minicard));
+						gtk_object_get(GTK_OBJECT(GNOME_CANVAS_ITEM(e_minicard)->parent),
+							       "book", &book,
+							       NULL);
+					
+					}
+				
+					if (book) {
+					
+						/* Add the card in the contact editor to our ebook */
+						e_book_commit_card (book,
+								    e_minicard->card,
+								    card_changed_cb,
+								    NULL);
+					} else {
+						remodel(e_minicard);
+						e_canvas_item_request_reflow(GNOME_CANVAS_ITEM(e_minicard));
+					}
+					e_minicard->changed = FALSE;
 				}
 					
 				gnome_canvas_item_set( e_minicard->rect, 
@@ -581,6 +588,7 @@ field_changed (EText *text, EMinicard *e_minicard)
 			  type,
 			  string);
 	g_free(string);
+	e_minicard->changed = TRUE;
 }
 
 static void

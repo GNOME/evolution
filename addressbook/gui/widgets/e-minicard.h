@@ -71,6 +71,8 @@ struct _EMinicard
 
 	GList *fields; /* Of type EMinicardField */
 	guint needs_remodeling : 1;
+
+	guint changed : 1;
 	
 	gboolean has_focus;
 	
