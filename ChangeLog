@@ -1,3 +1,10 @@
+2004-08-12  Rodney Dawes  <dobey@novell.com>
+
+	* data/evolution.desktop.in.in: Update Name and description to
+	not include "Ximian" or "(Unstable)"
+	Remove the MimeType field since we can't open these types on the
+	command line
+
 2004-08-12  Jeffrey Stedfast  <fejj@novell.com>
 
 	* configure.in: Check for gtk+-2.4 in order to enable the use of
