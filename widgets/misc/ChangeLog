@@ -1,3 +1,10 @@
+2005-01-17  Harry Lu  <harry.lu@sun.com>
+
+	Fix for 62831.
+
+	* e-search-bar.c: (activate_by_subitems): add an a11y name for 
+	the search entry.
+
 2005-01-12 Chenthill Palanisamy <pchenthill@novell.com>
 
 	* e-send-options.c: (e_send_options_get_widgets_data),

@@ -325,6 +325,8 @@ activate_by_subitems (ESearchBar *esb, gint item_id, ESearchBarSubitem *subitems
 		/* Create and add the entry */
 
 		if (esb->entry == NULL) {
+			AtkObject *a11y;
+
 			esb->entry = gtk_entry_new();
 			gtk_widget_set_size_request (esb->entry, 4, -1);
 			g_object_ref (esb->entry);
@@ -334,6 +336,9 @@ activate_by_subitems (ESearchBar *esb, gint item_id, ESearchBarSubitem *subitems
 					  G_CALLBACK (entry_activated_cb), esb);
 			gtk_container_add (GTK_CONTAINER (esb->entry_box), esb->entry);
 			gtk_widget_show(esb->entry);
+
+			a11y = gtk_widget_get_accessible (esb->entry);
+			atk_object_set_name (a11y, _("Search Text Entry"));
 
 			esb->subitem_id = -1;
 		}
