@@ -1,3 +1,7 @@
+2001-02-14  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* openpgp-utils.c (openpgp_verify): Add the --no-tty flag.
+
 2001-02-14  Dan Winship  <danw@ximian.com>
 
 	* mail-mlist-magic.c: Rewrite explanatory comments to use normal

@@ -1075,6 +1075,7 @@ openpgp_verify (const gchar *in, gint inlen, const gchar *sigin, gint siglen, Ca
 		
 		argv[i++] = "-";
 		
+		argv[i++] = "--no-tty";
 		/*argv[i++] = "--verbose";*/
 		/*argv[i++] = "--yes";*/
 		/*argv[i++] = "--batch";*/
