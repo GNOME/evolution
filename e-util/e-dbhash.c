@@ -68,6 +68,7 @@ e_dbhash_new (const char *filename)
 static void
 string_to_dbt(const char *str, DBT *dbt)
 {
+	memset (dbt, 0, sizeof (DBT));
 	dbt->data = (void*)str;
 	dbt->size = strlen (str) + 1;
 }
@@ -75,6 +76,7 @@ string_to_dbt(const char *str, DBT *dbt)
 static void
 md5_to_dbt(const char str[16], DBT *dbt)
 {
+	memset (dbt, 0, sizeof (DBT));
 	dbt->data = (void*)str;
 	dbt->size = 16;
 }

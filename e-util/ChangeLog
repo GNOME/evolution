@@ -1,3 +1,8 @@
+2001-07-27  JP Rosevear  <jpr@ximian.com>
+
+	* e-dbhash.c (string_to_dbt): memset everything to 0
+	(md5_to_dbt): ditto
+
 2001-07-20  Rodrigo Moya <rodrigo@ximian.com>
 
 	* e-categories-config.c (initialize_categories_config): use the 2
