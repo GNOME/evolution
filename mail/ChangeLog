@@ -1,3 +1,11 @@
+2002-11-20  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-composer-prefs.c (mail_composer_prefs_construct): gconfify.
+	(mail_composer_prefs_apply): gconfify this also.
+
+	* mail-preferences.c (mail_preferences_construct):
+	gconf_client_get_string() probably returns an allocated buffer.
+
 2002-11-20  Not Zed  <NotZed@Ximian.com>
 
 	* importers/Makefile.am (%.server.in): provide a proper implicit

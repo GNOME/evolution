@@ -30,12 +30,9 @@
 #include "mail-composer-prefs.h"
 #include "composer/e-msg-composer.h"
 
-#include <gtk/gtksignal.h>
-
 #include <bonobo/bonobo-generic-factory.h>
 
 #include <gal/widgets/e-gui-utils.h>
-#include <gal/widgets/e-unicode.h>
 
 #include "widgets/misc/e-charset-picker.h"
 
@@ -84,7 +81,7 @@ mail_composer_prefs_class_init (MailComposerPrefsClass *klass)
 	GObjectClass *gobject_class = G_OBJECT_CLASS (klass);
 	GtkObjectClass *object_class = GTK_OBJECT_CLASS (klass);
 	
-	parent_class = g_type_class_ref(gtk_vbox_get_type ());
+	parent_class = g_type_class_ref (gtk_vbox_get_type ());
 	
 	object_class->destroy = mail_composer_prefs_destroy;
 	gobject_class->finalize = mail_composer_prefs_finalise;
@@ -103,8 +100,8 @@ mail_composer_prefs_finalise (GObject *obj)
 {
 	MailComposerPrefs *prefs = (MailComposerPrefs *) obj;
 	
-	g_object_unref((prefs->gui));
-	g_object_unref((prefs->pman));
+	g_object_unref ((prefs->gui));
+	g_object_unref ((prefs->pman));
 	g_object_unref (prefs->enabled_pixbuf);
 	gdk_pixmap_unref (prefs->mark_pixmap);
 	g_object_unref (prefs->mark_bitmap);
@@ -127,7 +124,7 @@ attach_style_info (GtkWidget *item, gpointer user_data)
 {
 	int *style = user_data;
 	
-	g_object_set_data((GObject *)(item), "style", GINT_TO_POINTER (*style));
+	g_object_set_data ((GObject *) item, "style", GINT_TO_POINTER (*style));
 	
 	(*style)++;
 }
@@ -770,7 +767,9 @@ mail_composer_prefs_construct (MailComposerPrefs *prefs)
 	GtkWidget *toplevel, *widget, *menu, *info_pixmap;
 	GtkDialog *dialog;
 	GladeXML *gui;
+	gboolean bool;
 	int style;
+	char *buf;
 	char *names[][2] = {
 		{ "live_spell_check", "chkEnableSpellChecking" },
 		{ "magic_smileys_check", "chkAutoSmileys" },
@@ -797,31 +796,37 @@ mail_composer_prefs_construct (MailComposerPrefs *prefs)
 	
 	/* Default Behavior */
 	prefs->send_html = GTK_TOGGLE_BUTTON (glade_xml_get_widget (gui, "chkSendHTML"));
-	gtk_toggle_button_set_active (prefs->send_html, mail_config_get_send_html ());
-	g_signal_connect (prefs->send_html, "toggled", G_CALLBACK(toggle_button_toggled), prefs);
+	bool = gconf_client_get_bool (prefs->gconf, "/apps/evolution/mail/composer/send_html", NULL);
+	gtk_toggle_button_set_active (prefs->send_html, bool);
+	g_signal_connect (prefs->send_html, "toggled", G_CALLBACK (toggle_button_toggled), prefs);
 	
 	prefs->auto_smileys = GTK_TOGGLE_BUTTON (glade_xml_get_widget (gui, "chkAutoSmileys"));
-	g_signal_connect (prefs->auto_smileys, "toggled", G_CALLBACK(toggle_button_toggled), prefs);
+	/* FIXME: set active? */
+	g_signal_connect (prefs->auto_smileys, "toggled", G_CALLBACK (toggle_button_toggled), prefs);
 	
 	prefs->prompt_empty_subject = GTK_TOGGLE_BUTTON (glade_xml_get_widget (gui, "chkPromptEmptySubject"));
-	gtk_toggle_button_set_active (prefs->prompt_empty_subject, mail_config_get_prompt_empty_subject ());
-	g_signal_connect (prefs->prompt_empty_subject, "toggled", G_CALLBACK(toggle_button_toggled), prefs);
+	bool = gconf_client_get_bool (prefs->gconf, "/apps/evolution/mail/prompts/empty_subject", NULL);
+	gtk_toggle_button_set_active (prefs->prompt_empty_subject, bool);
+	g_signal_connect (prefs->prompt_empty_subject, "toggled", G_CALLBACK (toggle_button_toggled), prefs);
 	
 	prefs->prompt_bcc_only = GTK_TOGGLE_BUTTON (glade_xml_get_widget (gui, "chkPromptBccOnly"));
-	gtk_toggle_button_set_active (prefs->prompt_bcc_only, mail_config_get_prompt_only_bcc ());
-	g_signal_connect (prefs->prompt_bcc_only, "toggled", G_CALLBACK(toggle_button_toggled), prefs);
+	bool = gconf_client_get_bool (prefs->gconf, "/apps/evolution/mail/prompts/only_bcc", NULL);
+	gtk_toggle_button_set_active (prefs->prompt_bcc_only, bool);
+	g_signal_connect (prefs->prompt_bcc_only, "toggled", G_CALLBACK (toggle_button_toggled), prefs);
 	
 	prefs->charset = GTK_OPTION_MENU (glade_xml_get_widget (gui, "omenuCharset"));
-	menu = e_charset_picker_new (mail_config_get_default_charset ());
+	buf = gconf_client_get_string (prefs->gconf, "/apps/evolution/mail/composer/charset", NULL);
+	menu = e_charset_picker_new (buf ? buf : e_iconv_locale_charset ());
 	gtk_option_menu_set_menu (prefs->charset, GTK_WIDGET (menu));
 	option_menu_connect (prefs->charset, prefs);
-
+	g_free (buf);
+	
 #warning "gtkhtml prop manager"
 #if 0	
 	/* Spell Checking: GtkHTML part */
 	prefs->pman = GTK_HTML_PROPMANAGER (gtk_html_propmanager_new (NULL));
 	g_signal_connect (prefs->pman, "changed", G_CALLBACK(toggle_button_toggled), prefs);
-	g_object_ref((prefs->pman));
+	g_object_ref ((prefs->pman));
 	
 	gtk_html_propmanager_set_names (prefs->pman, names);
 	gtk_html_propmanager_set_gui (prefs->pman, gui, NULL);
@@ -843,14 +848,16 @@ mail_composer_prefs_construct (MailComposerPrefs *prefs)
 	
 	/* Forwards and Replies */
 	prefs->forward_style = GTK_OPTION_MENU (glade_xml_get_widget (gui, "omenuForwardStyle"));
-	gtk_option_menu_set_history (prefs->forward_style, mail_config_get_default_forward_style ());
+	style = gconf_client_get_int (prefs->gconf, "/apps/evolution/mail/format/forward_style", NULL);
+	gtk_option_menu_set_history (prefs->forward_style, style);
 	style = 0;
 	gtk_container_foreach (GTK_CONTAINER (gtk_option_menu_get_menu (prefs->forward_style)),
 			       attach_style_info, &style);
 	option_menu_connect (prefs->forward_style, prefs);
 	
 	prefs->reply_style = GTK_OPTION_MENU (glade_xml_get_widget (gui, "omenuReplyStyle"));
-	gtk_option_menu_set_history (prefs->reply_style, mail_config_get_default_reply_style ());
+	style = gconf_client_get_int (prefs->gconf, "/apps/evolution/mail/format/reply_style", NULL);
+	gtk_option_menu_set_history (prefs->reply_style, style);
 	style = 0;
 	gtk_container_foreach (GTK_CONTAINER (gtk_option_menu_get_menu (prefs->reply_style)),
 			       attach_style_info, &style);
@@ -922,16 +929,21 @@ mail_composer_prefs_apply (MailComposerPrefs *prefs)
 	/* General tab */
 	
 	/* Default Behavior */
-	mail_config_set_send_html (gtk_toggle_button_get_active (prefs->send_html));
-	mail_config_set_prompt_empty_subject (gtk_toggle_button_get_active (prefs->prompt_empty_subject));
-	mail_config_set_prompt_only_bcc (gtk_toggle_button_get_active (prefs->prompt_bcc_only));
+	gconf_client_set_bool (prefs->gconf, "/apps/evolution/mail/composer/send_html",
+			       gtk_toggle_button_get_active (prefs->send_html), NULL);
+	
+	gconf_client_set_bool (prefs->gconf, "/apps/evolution/mail/prompts/empty_subject",
+			       gtk_toggle_button_get_active (prefs->prompt_empty_subject), NULL);
+	
+	gconf_client_set_bool (prefs->gconf, "/apps/evolution/mail/prompts/only_bcc",
+			       gtk_toggle_button_get_active (prefs->prompt_bcc_only), NULL);
 	
 	menu = gtk_option_menu_get_menu (prefs->charset);
-	string = e_charset_picker_get_charset (menu);
-	if (string) {
-		mail_config_set_default_charset (string);
-		g_free (string);
-	}
+	if (!(string = e_charset_picker_get_charset (menu)))
+		string = g_strdup (e_iconv_locale_charset ());
+	
+	gconf_client_set_string (prefs->gconf, "/apps/evolution/mail/composer/charset", string, NULL);
+	g_free (string);
 	
 	/* Spell Checking */
 #warning "gtkhtml propmanager"
@@ -943,13 +955,13 @@ mail_composer_prefs_apply (MailComposerPrefs *prefs)
 	/* Forwards and Replies */
 	menu = gtk_option_menu_get_menu (prefs->forward_style);
 	item = gtk_menu_get_active (GTK_MENU (menu));
-	val = GPOINTER_TO_INT (g_object_get_data((GObject *)item, "style"));
-	mail_config_set_default_forward_style (val);
+	val = GPOINTER_TO_INT (g_object_get_data ((GObject *) item, "style"));
+	gconf_client_set_int (prefs->gconf, "/apps/evolution/mail/format/forward_style", val, NULL);
 	
 	menu = gtk_option_menu_get_menu (prefs->reply_style);
 	item = gtk_menu_get_active (GTK_MENU (menu));
-	val = GPOINTER_TO_INT (g_object_get_data((GObject *)item, "style"));
-	mail_config_set_default_reply_style (val);
+	val = GPOINTER_TO_INT (g_object_get_data ((GObject *) item, "style"));
+	gconf_client_set_int (prefs->gconf, "/apps/evolution/mail/format/reply_style", val, NULL);
 	
 	/* Keyboard Shortcuts */
 	/* FIXME: implement me */

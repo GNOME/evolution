@@ -197,6 +197,7 @@ mail_preferences_construct (MailPreferences *prefs)
 	gboolean bool;
 	guint32 rgb;
 	int i, val;
+	char *buf;
 	char *names[][2] = {
 		{ "anim_check", "chkShowAnimatedImages" },
 		{ "magic_check", "chkAutoDetectLinks" },
@@ -229,10 +230,11 @@ mail_preferences_construct (MailPreferences *prefs)
 	g_signal_connect (prefs->timeout, "changed", G_CALLBACK (entry_changed), prefs);
 	
 	prefs->charset = GTK_OPTION_MENU (glade_xml_get_widget (gui, "omenuCharset"));
-	text = gconf_client_get_string (prefs->gconf, "/apps/evolution/mail/format/charset", NULL);
-	menu = e_charset_picker_new (text ? text : e_iconv_locale_charset ());
+	buf = gconf_client_get_string (prefs->gconf, "/apps/evolution/mail/format/charset", NULL);
+	menu = e_charset_picker_new (buf ? buf : e_iconv_locale_charset ());
 	gtk_option_menu_set_menu (prefs->charset, GTK_WIDGET (menu));
 	option_menu_connect (prefs->charset, prefs);
+	g_free (buf);
 	
 	prefs->citation_highlight = GTK_TOGGLE_BUTTON (glade_xml_get_widget (gui, "chkHighlightCitations"));
 	bool = gconf_client_get_bool (prefs->gconf, "/apps/evolution/mail/display/highlight_citations", NULL);
@@ -240,11 +242,12 @@ mail_preferences_construct (MailPreferences *prefs)
 	g_signal_connect (prefs->citation_highlight, "toggled", G_CALLBACK (toggle_button_toggled), prefs);
 	
 	prefs->citation_color = GNOME_COLOR_PICKER (glade_xml_get_widget (gui, "colorpickerHighlightCitations"));
-	text = gconf_client_get_string (prefs->gconf, "/apps/evolution/mail/display/citation_colour", NULL);
-	gdk_color_parse (text ? text : "#737373", &colour);
+	buf = gconf_client_get_string (prefs->gconf, "/apps/evolution/mail/display/citation_colour", NULL);
+	gdk_color_parse (buf ? buf : "#737373", &colour);
 	rgb = ((colour.red & 0xff00) << 8) | (colour.green & 0xff00) | ((colour.blue & 0xff) >> 8);
 	colorpicker_set_color (prefs->citation_color, rgb);
 	g_signal_connect (prefs->citation_color, "color-set", G_CALLBACK (color_set), prefs);
+	g_free (buf);
 	
 	/* Deleting Mail */
 	prefs->empty_trash = GTK_TOGGLE_BUTTON (glade_xml_get_widget (gui, "chkEmptyTrashOnExit"));
@@ -272,10 +275,11 @@ mail_preferences_construct (MailPreferences *prefs)
 	g_signal_connect (prefs->notify_play_sound, "toggled", G_CALLBACK (toggle_button_toggled), prefs);
 	
 	prefs->notify_sound_file = GNOME_FILE_ENTRY (glade_xml_get_widget (gui, "fileNotifyPlaySound"));
-	text = gconf_client_get_string (prefs->gconf, "/apps/evolution/mail/notify/sound", NULL);
-	gtk_entry_set_text (GTK_ENTRY (gnome_file_entry_gtk_entry (prefs->notify_sound_file)), text ? text : "");
+	buf = gconf_client_get_string (prefs->gconf, "/apps/evolution/mail/notify/sound", NULL);
+	gtk_entry_set_text (GTK_ENTRY (gnome_file_entry_gtk_entry (prefs->notify_sound_file)), buf ? buf : "");
 	g_signal_connect (gnome_file_entry_gtk_entry (prefs->notify_sound_file), "changed",
 			  G_CALLBACK (entry_changed), prefs);
+	g_free (buf);
 	
 	/* HTML Mail tab */
 	
