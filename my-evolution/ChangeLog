@@ -1,5 +1,10 @@
 2001-09-05  Iain Holmes  <iain@ximian.com>
 
+	* e-summary.c (e_summary_draw): Hack to stop the display jumping to the
+	top when it is redrawn.
+
+2001-09-05  Iain Holmes  <iain@ximian.com>
+
 	* e-summary-calendar.c (generate_html): Check if we need to use 24hr
 	format. Don't try to do fancy things with the date and time of an
 	appointment.

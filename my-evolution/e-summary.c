@@ -182,7 +182,7 @@ e_summary_draw (ESummary *summary)
 	g_string_append (string, HTML_5);
 
 	stream = gtk_html_begin (GTK_HTML (summary->priv->html));
-/*  	GTK_HTML (summary->priv->html)->engine->newPage = FALSE; */
+  	GTK_HTML (summary->priv->html)->engine->newPage = FALSE;
 	gtk_html_write (GTK_HTML (summary->priv->html), stream, string->str, strlen (string->str));
 	gtk_html_end (GTK_HTML (summary->priv->html), stream, GTK_HTML_STREAM_OK);
 
