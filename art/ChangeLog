@@ -1,3 +1,7 @@
+2001-07-27    <tigert@ximian.com>
+
+	* new_appointment.[xpm,png]: New version, fixes bug #4704 hopefully.
+
 2001-07-25  Damon Chaplin  <damon@ximian.com>
 
 	* Makefile.am (images_DATA): added print-preview-24.png.
