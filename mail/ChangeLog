@@ -1,3 +1,8 @@
+2002-06-05  Radek Doulik  <rodo@ximian.com>
+
+	* mail-composer-prefs.c (sig_fill_clist): use gtk string instead
+	of utf8 one
+
 2002-06-04  Jeffrey Stedfast  <fejj@ximian.com>
 
 	The following changes take a great leap toward fixing bug #1042.

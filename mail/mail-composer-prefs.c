@@ -311,14 +311,15 @@ static void
 sig_fill_clist (GtkCList *clist)
 {
 	GList *l;
-	char *name[1];
+	char *name [1];
 	int row;
 	
 	gtk_clist_freeze (clist);
 	for (l = mail_config_get_signature_list (); l; l = l->next) {
-		name[0] = ((MailConfigSignature *) l->data)->name;
+		name [0] = e_utf8_to_gtk_string (clist, ((MailConfigSignature *) l->data)->name);
 		row = gtk_clist_append (clist, name);
 		gtk_clist_set_row_data (clist, row, l->data);
+		g_free (name [0]);
 	}
 	gtk_clist_thaw (clist);
 }
