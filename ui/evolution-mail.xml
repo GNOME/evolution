@@ -45,6 +45,14 @@
 
 			<submenu name="Message" _label="_Message">
 
+                                <menuitem name="MessageSelectAll" verb=""
+				_label="Select _All"/>
+
+                                <menuitem name="MessageUnSelectAll" verb=""
+				_label="_Unselect All"/>
+
+                                <menuitem/>
+
 				<menuitem name="MessageOpenNewWnd" verb=""
 				_label="_Open in New Window"
 				accel="*Control*o"/>
@@ -68,14 +76,20 @@
 
 				<menuitem/>
 
+                                <menuitem name="MessageMarkAsRead" verb=""
+				_label="Mar_k As Read"/>
+
+                                <menuitem name="MessageMarkAsUnRead" verb=""
+				_label="Mark As U_nread"/>
+
 				<menuitem name="MessageDelete" verb=""
-				_label="_Delete Message"/>
+				_label="_Delete"/>
 
 				<menuitem name="MessageMove" verb=""
-				_label="_Move Message"/>
+				_label="_Move to Folder"/>
 
 				<menuitem name="MessageCopy" verb=""
-				_label="_Copy Message"/>
+				_label="_Copy to Folder"/>
 
 				<menuitem/>
 
@@ -102,12 +116,6 @@
 			</submenu>
 			
 			<submenu name="Folder" _label="F_older">
-
-				<menuitem name="FolderMarkAllRead" verb=""
-				_label="_Mark all as Read"/>
-
-				<menuitem name="FolderDeleteAll" verb=""
-				_label="_Delete all"/>
 
 				<menuitem name="FolderExpunge" verb=""
 				_label="_Expunge"/>

@@ -1,5 +1,11 @@
 2000-09-25  Jeffrey Stedfast  <fejj@helixcode.com>
 
+	* ui/evolution-mail.xml: Added some new menu items to the Message
+	menu like (un)select all and moved "mark as read" to the Message
+	menu.
+
+2000-09-25  Jeffrey Stedfast  <fejj@helixcode.com>
+
 	* configure.in: Moved addressbook/ename to e-util/ename so
 	generate e-util/ename/Makefile and don't generate
 	addressbook/ename/Makefile
