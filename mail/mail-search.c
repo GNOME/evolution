@@ -400,7 +400,7 @@ mail_search_construct (MailSearch *ms, MailDisplay *mail)
 	gtk_signal_connect_object (GTK_OBJECT (ms), 
 				   "destroy",
 				   GTK_SIGNAL_FUNC (dialog_destroy_cb),
-				   ms);
+				   GTK_OBJECT (ms));
 
 	gtk_signal_connect_object (GTK_OBJECT (ms->mail),
 				   "destroy",

@@ -391,66 +391,6 @@ mail_fetch_mail (const char *source, int keep, const char *type, CamelOperation 
 	e_thread_put (mail_thread_new, (EMsg *)m);
 }
 
-
-/* updating of imap folders etc */
-struct _update_info {
-	EvolutionStorage *storage;
-
-	void (*done)(CamelStore *, void *data);
-	void *data;
-};
-
-static void
-do_update_subfolders_rec (CamelStore *store, CamelFolderInfo *info, EvolutionStorage *storage, const char *prefix)
-{
-	char *path;
-	
-	path = g_strdup_printf ("%s/%s", prefix, info->name);
-	
-	if (info->child)
-		do_update_subfolders_rec (store, info->child, storage, path);
-	if (info->sibling)
-		do_update_subfolders_rec (store, info->sibling, storage, prefix);
-	
-	g_free (path);
-}
-
-static void
-do_update_subfolders (CamelStore *store, CamelFolderInfo *info, void *data)
-{
-	struct _update_info *uinfo = data;
-	
-	if (uinfo && info) {
-		do_update_subfolders_rec (store, info, uinfo->storage, "");
-	}
-	
-	if (uinfo->done)
-		uinfo->done(store, uinfo->data);
-
-	bonobo_object_unref((BonoboObject *)uinfo->storage);
-	g_free (uinfo);
-}
-
-/* this interface is a little icky */
-int
-samail_update_subfolders (CamelStore *store, EvolutionStorage *storage,
-			void (*done)(CamelStore *, void *data), void *data)
-{
-	struct _update_info *info;
-
-	/* FIXME: i'm not sure this function is needed anymore??? */
-
-	/* FIXME: This wont actually work entirely right, as a failure may lose this data */
-	/* however, this isn't a big problem ... */
-	info = g_malloc0(sizeof(*info));
-	info->storage = storage;
-	bonobo_object_ref((BonoboObject *)storage);
-	info->done = done;
-	info->data = data;
-
-	return mail_get_folderinfo(store, do_update_subfolders, info);
-}
-
 /* ********************************************************************** */
 /* sending stuff */
 /* ** SEND MAIL *********************************************************** */
@@ -467,6 +407,7 @@ mail_send_message(CamelMimeMessage *message, const char *destination, CamelFilte
 	const char *version, *header;
 	gchar *acct_header;
 	char *transport_url = NULL, *sent_folder_uri = NULL;
+	XEvolution *xev;
 	
 	if (SUB_VERSION[0] == '\0')
 		version = "Evolution/" VERSION " (Preview Release)";
@@ -475,39 +416,28 @@ mail_send_message(CamelMimeMessage *message, const char *destination, CamelFilte
 	camel_medium_add_header (CAMEL_MEDIUM (message), "X-Mailer", version);
 	camel_mime_message_set_date (message, CAMEL_MESSAGE_DATE_CURRENT, 0);
 	
-	/* Remove the X-Evolution and X-Evolution-Source headers so we don't send our flags & other info too ;-) */
-	camel_medium_remove_header (CAMEL_MEDIUM (message), "X-Evolution");
-	camel_medium_remove_header (CAMEL_MEDIUM (message), "X-Evolution-Source");
-	
 	/* Get information about the account this was composed by. */
 	acct_header = g_strdup (camel_medium_get_header (CAMEL_MEDIUM (message), "X-Evolution-Account"));
 	if (acct_header) {
 		const MailConfigAccount *account;
 		
 		account = mail_config_get_account_by_name (acct_header);
-		camel_medium_remove_header (CAMEL_MEDIUM (message), "X-Evolution-Account");
 		if (account) {
 			transport_url = g_strdup (account->transport->url);
-			camel_medium_remove_header (CAMEL_MEDIUM (message), "X-Evolution-Transport");
 			sent_folder_uri = g_strdup (account->sent_folder_uri);
-			camel_medium_remove_header (CAMEL_MEDIUM (message), "X-Evolution-Fcc");
 		}
 	}
 	
 	if (!transport_url) {
 		header = camel_medium_get_header (CAMEL_MEDIUM (message), "X-Evolution-Transport");
-		if (header) {
+		if (header)
 			transport_url = g_strstrip (g_strdup (header));
-			camel_medium_remove_header (CAMEL_MEDIUM (message), "X-Evolution-Transport");
-		}
 	}
 	
 	if (!sent_folder_uri) {
 		header = camel_medium_get_header (CAMEL_MEDIUM (message), "X-Evolution-Fcc");
-		if (header) {
+		if (header)
 			sent_folder_uri = g_strstrip (g_strdup (header));
-			camel_medium_remove_header (CAMEL_MEDIUM (message), "X-Evolution-Fcc");
-		}
 	}
 	
 	xport = camel_session_get_transport (session, transport_url ? transport_url : destination, ex);
@@ -517,7 +447,11 @@ mail_send_message(CamelMimeMessage *message, const char *destination, CamelFilte
 		return;
 	}
 	
+	xev = mail_tool_remove_xevolution_headers (message);
 	camel_transport_send (xport, CAMEL_MEDIUM (message), ex);
+	mail_tool_restore_xevolution_headers (message, xev);
+	mail_tool_destroy_xevolution (xev);
+	
 	camel_object_unref (CAMEL_OBJECT (xport));
 	if (camel_exception_is_set (ex)) {
 		g_free (sent_folder_uri);
