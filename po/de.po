@@ -12,11 +12,12 @@
 # bcc = Blindkopie
 # 
 # 
+#: plugins/exchange-account-setup/exchange-account-setup.c:119
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-01-23 22:02+0100\n"
+"POT-Creation-Date: 2005-01-24 19:32+0100\n"
 "PO-Revision-Date: 2005-01-23 22:03+0100\n"
 "Last-Translator: Frank Arnold <frank@scirocco-5v-turbo.de>\n"
 "Language-Team: German <gnome-de@gnome.org>\n"
@@ -458,7 +459,7 @@ msgstr ""
 "Karte mit der gleichen Adresse hinzugefügt werden?"
 
 #: addressbook/addressbook-errors.xml.h:62 mail/em-vfolder-rule.c:494
-#: plugins/shared-folder/properties.glade.h:17
+#: plugins/shared-folder/properties.glade.h:10
 msgid "_Add"
 msgstr "_Hinzufügen"
 
@@ -487,7 +488,7 @@ msgstr "Legitimation gescheitert.\n"
 
 #: addressbook/gui/component/addressbook.c:192
 #: plugins/groupwise-account-setup/camel-gw-listener.c:460
-#: plugins/send-options/send-options.c:84
+#: plugins/send-options/send-options.c:82
 #, c-format
 msgid "%sEnter password for %s (user %s)"
 msgstr "%sPasswort für %s (Benutzer %s) eingeben"
@@ -810,7 +811,7 @@ msgstr "Hier können Sie Ihre S/MIME-Zertifikate verwalten"
 #: calendar/gui/dialogs/url-editor-dialog.glade.h:1
 #: composer/e-msg-composer-attachment.glade.h:1 mail/mail-config.glade.h:3
 #: mail/mail-dialogs.glade.h:6 mail/message-tags.glade.h:1
-#: plugins/shared-folder/properties.glade.h:3
+#: plugins/shared-folder/properties.glade.h:1
 #: widgets/e-timezone-dialog/e-timezone-dialog.glade.h:1
 msgid "*"
 msgstr "*"
@@ -3122,7 +3123,6 @@ msgid "Type"
 msgstr "Typ"
 
 #: addressbook/gui/widgets/e-addressbook-view.c:541
-#: plugins/shared-folder/properties.glade.h:6
 msgid "Address Book"
 msgstr "Adressbuch"
 
@@ -3307,29 +3307,23 @@ msgid "Spouse"
 msgstr "Ehepartner"
 
 # CHECK ?!
-#. Translators: This is a vcard standard and stands for the type of
-#. phone used by the hearing impaired. TTY stands for "teletype"
-#. (familiar from Unix device names), and TDD is "Telecommunications
-#. Device for Deaf". However, you probably want to leave this
-#. abbreviation unchanged unless you know that there is actually a
-#. different and established translation for this in your language.
-#: addressbook/gui/widgets/e-addressbook-view.etspec.h:41
+#: addressbook/gui/widgets/e-addressbook-view.etspec.h:35
 msgid "TTYTDD"
 msgstr "TTYTDD"
 
-#: addressbook/gui/widgets/e-addressbook-view.etspec.h:42
+#: addressbook/gui/widgets/e-addressbook-view.etspec.h:36
 msgid "Telex"
 msgstr "Telex"
 
-#: addressbook/gui/widgets/e-addressbook-view.etspec.h:43
+#: addressbook/gui/widgets/e-addressbook-view.etspec.h:37
 msgid "Title"
 msgstr "Anrede"
 
-#: addressbook/gui/widgets/e-addressbook-view.etspec.h:44
+#: addressbook/gui/widgets/e-addressbook-view.etspec.h:38
 msgid "Unit"
 msgstr "Einheit"
 
-#: addressbook/gui/widgets/e-addressbook-view.etspec.h:45
+#: addressbook/gui/widgets/e-addressbook-view.etspec.h:39
 msgid "Web Site"
 msgstr "Website"
 
@@ -4806,7 +4800,7 @@ msgstr "anlage"
 #: calendar/gui/dialogs/cal-attachment-bar.c:439
 #: calendar/gui/dialogs/meeting-page.c:781
 #: composer/e-msg-composer-attachment-bar.c:440
-#: plugins/shared-folder/properties.glade.h:19
+#: plugins/shared-folder/properties.glade.h:14
 msgid "_Remove"
 msgstr "_Entfernen"
 
@@ -5000,7 +4994,7 @@ msgid "Free/Busy"
 msgstr "Verfügbarkeit"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:23
-#: calendar/gui/dialogs/recurrence-page.c:1031
+#: calendar/gui/dialogs/recurrence-page.c:1044
 #: calendar/gui/e-itip-control.c:732
 msgid "Friday"
 msgstr "Freitag"
@@ -5014,7 +5008,7 @@ msgid "Minutes"
 msgstr "Minuten"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:27
-#: calendar/gui/dialogs/recurrence-page.c:1027
+#: calendar/gui/dialogs/recurrence-page.c:1040
 #: calendar/gui/e-itip-control.c:728
 msgid "Monday"
 msgstr "Montag"
@@ -5024,7 +5018,7 @@ msgid "S_un"
 msgstr "_So"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:29
-#: calendar/gui/dialogs/recurrence-page.c:1032
+#: calendar/gui/dialogs/recurrence-page.c:1045
 #: calendar/gui/e-itip-control.c:733
 msgid "Saturday"
 msgstr "Samstag"
@@ -5038,7 +5032,7 @@ msgid "Show week _numbers in date navigator"
 msgstr "_Wochennummern im Datumsnavigator anzeigen"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:32
-#: calendar/gui/dialogs/recurrence-page.c:1033
+#: calendar/gui/dialogs/recurrence-page.c:1046
 #: calendar/gui/e-itip-control.c:727
 msgid "Sunday"
 msgstr "Sonntag"
@@ -5056,7 +5050,7 @@ msgid "Template:"
 msgstr "Vorlage:"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:36
-#: calendar/gui/dialogs/recurrence-page.c:1030
+#: calendar/gui/dialogs/recurrence-page.c:1043
 #: calendar/gui/e-itip-control.c:731
 msgid "Thursday"
 msgstr "Donnerstag"
@@ -5070,7 +5064,7 @@ msgid "Time format:"
 msgstr "Zeitformat:"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:39
-#: calendar/gui/dialogs/recurrence-page.c:1028
+#: calendar/gui/dialogs/recurrence-page.c:1041
 #: calendar/gui/e-itip-control.c:729
 msgid "Tuesday"
 msgstr "Dienstag"
@@ -5080,7 +5074,7 @@ msgid "W_eek starts:"
 msgstr "W_oche beginnt:"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:41
-#: calendar/gui/dialogs/recurrence-page.c:1029
+#: calendar/gui/dialogs/recurrence-page.c:1042
 #: calendar/gui/e-itip-control.c:730
 msgid "Wednesday"
 msgstr "Mittwoch"
@@ -5571,7 +5565,7 @@ msgstr "_Anfangszeit:"
 #: calendar/gui/e-cal-model-tasks.c:652 calendar/gui/e-itip-control.c:1104
 #: composer/e-msg-composer.c:2122 filter/filter-rule.c:878
 #: mail/em-account-editor.c:675 mail/em-account-editor.c:1269
-#: mail/em-account-prefs.c:431 mail/em-folder-view.c:973
+#: mail/em-account-prefs.c:431 mail/em-folder-view.c:965
 #: plugins/calendar-weather/calendar-weather.c:371
 #: plugins/calendar-weather/calendar-weather.c:425
 #: plugins/itip-formatter/itip-formatter.c:1365
@@ -5750,51 +5744,51 @@ msgid "This appointment contains recurrences that Evolution cannot edit."
 msgstr ""
 "Dieser Termin enthält Wiederholungen, die Evolution nicht bearbeiten kann."
 
-#: calendar/gui/dialogs/recurrence-page.c:799
+#: calendar/gui/dialogs/recurrence-page.c:812
 msgid "Recurrence date is invalid"
 msgstr "Das Wiederholungsdatum ist ungültig"
 
-#: calendar/gui/dialogs/recurrence-page.c:910
+#: calendar/gui/dialogs/recurrence-page.c:923
 msgid "on"
 msgstr "bei"
 
-#: calendar/gui/dialogs/recurrence-page.c:971
+#: calendar/gui/dialogs/recurrence-page.c:984
 msgid "first"
 msgstr "erster"
 
-#: calendar/gui/dialogs/recurrence-page.c:972
+#: calendar/gui/dialogs/recurrence-page.c:985
 msgid "second"
 msgstr "zweiter"
 
-#: calendar/gui/dialogs/recurrence-page.c:973
+#: calendar/gui/dialogs/recurrence-page.c:986
 msgid "third"
 msgstr "dritter"
 
-#: calendar/gui/dialogs/recurrence-page.c:974
+#: calendar/gui/dialogs/recurrence-page.c:987
 msgid "fourth"
 msgstr "vierter"
 
-#: calendar/gui/dialogs/recurrence-page.c:975
+#: calendar/gui/dialogs/recurrence-page.c:988
 msgid "last"
 msgstr "letzter"
 
-#: calendar/gui/dialogs/recurrence-page.c:998
+#: calendar/gui/dialogs/recurrence-page.c:1011
 msgid "Other Date"
 msgstr "Anderes Datum"
 
-#: calendar/gui/dialogs/recurrence-page.c:1026
+#: calendar/gui/dialogs/recurrence-page.c:1039
 msgid "day"
 msgstr "Tag"
 
-#: calendar/gui/dialogs/recurrence-page.c:1163
+#: calendar/gui/dialogs/recurrence-page.c:1176
 msgid "on the"
 msgstr "am"
 
-#: calendar/gui/dialogs/recurrence-page.c:1349
+#: calendar/gui/dialogs/recurrence-page.c:1362
 msgid "occurrences"
 msgstr "Treffer"
 
-#: calendar/gui/dialogs/recurrence-page.c:2302
+#: calendar/gui/dialogs/recurrence-page.c:2315
 msgid "Date/Time"
 msgstr "Datum/Zeit"
 
@@ -6096,7 +6090,7 @@ msgstr "%s um %s"
 msgid "%s for an unknown trigger type"
 msgstr "%s für einen unbekannten Auslösertyp."
 
-#: calendar/gui/e-cal-component-preview.c:70 mail/em-folder-view.c:2478
+#: calendar/gui/e-cal-component-preview.c:70 mail/em-folder-view.c:2470
 #, c-format
 msgid "Click to open %s"
 msgstr "Klicken Sie hier, um %s zu öffnen"
@@ -6201,7 +6195,7 @@ msgid "Save as..."
 msgstr "Speichern unter..."
 
 #: calendar/gui/e-calendar-table.c:1151 calendar/gui/e-calendar-view.c:1389
-#: mail/em-folder-view.c:939 ui/evolution-addressbook.xml.h:37
+#: mail/em-folder-view.c:931 ui/evolution-addressbook.xml.h:37
 msgid "_Open"
 msgstr "Ö_ffnen"
 
@@ -6210,7 +6204,7 @@ msgid "Open _Web Page"
 msgstr "_Website öffnen"
 
 #: calendar/gui/e-calendar-table.c:1153 calendar/gui/e-calendar-view.c:1390
-#: mail/em-folder-view.c:941 mail/em-popup.c:498
+#: mail/em-folder-view.c:933 mail/em-popup.c:493
 #: ui/evolution-mail-message.xml.h:128
 msgid "_Save As..."
 msgstr "_Speichern unter..."
@@ -6261,7 +6255,7 @@ msgstr "Gewählte Aufgaben als abgeschlossen _markieren"
 
 #. FIXME: need to disable for undeletable folders
 #: calendar/gui/e-calendar-table.c:1171 calendar/gui/e-calendar-view.c:1408
-#: mail/em-folder-tree.c:2766 mail/em-folder-view.c:964
+#: mail/em-folder-tree.c:2766 mail/em-folder-view.c:956
 #: ui/evolution-addressbook.xml.h:33 ui/evolution-calendar.xml.h:40
 #: ui/evolution-mail-message.xml.h:112 ui/evolution-tasks.xml.h:21
 msgid "_Delete"
@@ -9348,7 +9342,7 @@ msgstr[0] "Beigelegte Nachricht"
 msgstr[1] "%d beigelegte Nachrichten"
 
 #: composer/e-msg-composer.c:2902 mail/em-folder-tree.c:1037
-#: mail/em-folder-tree.c:2263 mail/em-folder-view.c:835
+#: mail/em-folder-tree.c:2263 mail/em-folder-view.c:827
 #: mail/message-list.c:1713
 msgid "_Move"
 msgstr "_Verschieben"
@@ -10362,7 +10356,7 @@ msgstr "Unerwünscht"
 msgid "Junk Test"
 msgstr "Unerwünscht-Test"
 
-#: mail/em-filter-i18n.h:37 mail/em-folder-view.c:972
+#: mail/em-filter-i18n.h:37 mail/em-folder-view.c:964
 #: widgets/misc/e-expander.c:189
 msgid "Label"
 msgstr "Beschriftung"
@@ -10474,7 +10468,7 @@ msgstr "Verarbeitung stoppen"
 #: mail/em-filter-i18n.h:65 mail/em-format.c:853 mail/em-format-html.c:1533
 #: mail/em-format-quote.c:306 mail/em-mailer-prefs.c:88
 #: mail/message-list.etspec.h:13 mail/message-tag-followup.c:330
-#: plugins/shared-folder/properties.glade.h:14 smime/lib/e-cert.c:1131
+#: plugins/shared-folder/properties.glade.h:7 smime/lib/e-cert.c:1131
 msgid "Subject"
 msgstr "Betreff"
 
@@ -10504,7 +10498,7 @@ msgid_plural "Unread messages:"
 msgstr[0] "Ungelesene Nachricht:"
 msgstr[1] "Ungelesene Nachrichten:"
 
-#: mail/em-folder-properties.c:270 plugins/shared-folder/properties.glade.h:9
+#: mail/em-folder-properties.c:270 plugins/shared-folder/properties.glade.h:3
 msgid "Folder Properties"
 msgstr "Ordnereigenschaften"
 
@@ -10518,7 +10512,7 @@ msgstr "Neuen Ordner anlegen"
 
 #: mail/em-folder-selector.c:166 mail/em-folder-tree.c:2479
 #: mail/mail-component.c:732 plugins/shared-folder/install-shared.c:144
-#: plugins/shared-folder/share-folder-common.c:346
+#: plugins/shared-folder/share-folder-common.c:345
 msgid "Specify where to create the folder:"
 msgstr "Angeben, wo der Ordner angelegt werden soll:"
 
@@ -10578,13 +10572,13 @@ msgid "Copying `%s' to `%s'"
 msgstr "»%s« wird nach »%s« kopiert"
 
 #: mail/em-folder-tree.c:2249 mail/em-folder-tree.c:2263
-#: mail/em-folder-view.c:835 mail/em-folder-view.c:850
+#: mail/em-folder-view.c:827 mail/em-folder-view.c:842
 #: mail/importers/evolution-mbox-importer.c:120
 #: mail/importers/evolution-outlook-importer.c:134
 msgid "Select folder"
 msgstr "Ordner wählen"
 
-#: mail/em-folder-tree.c:2249 mail/em-folder-view.c:850
+#: mail/em-folder-tree.c:2249 mail/em-folder-view.c:842
 msgid "C_opy"
 msgstr "K_opieren"
 
@@ -10595,7 +10589,7 @@ msgstr "Ordner »%s« wird angelegt"
 
 #: mail/em-folder-tree.c:2479 mail/mail-component.c:732
 #: plugins/shared-folder/install-shared.c:144
-#: plugins/shared-folder/share-folder-common.c:346
+#: plugins/shared-folder/share-folder-common.c:345
 msgid "Create folder"
 msgstr "Ordner anlegen"
 
@@ -10668,143 +10662,143 @@ msgstr "Ladevorgang..."
 msgid "Mail"
 msgstr "E-Mail"
 
-#: mail/em-folder-view.c:940 ui/evolution-mail-message.xml.h:113
+#: mail/em-folder-view.c:932 ui/evolution-mail-message.xml.h:113
 msgid "_Edit as New Message..."
 msgstr "Als neue Nachricht _bearbeiten..."
 
-#: mail/em-folder-view.c:942
+#: mail/em-folder-view.c:934
 msgid "_Print"
 msgstr "_Drucken"
 
-#: mail/em-folder-view.c:945 ui/evolution-mail-message.xml.h:127
+#: mail/em-folder-view.c:937 ui/evolution-mail-message.xml.h:127
 msgid "_Reply to Sender"
 msgstr "_Antwort an Absender"
 
-#: mail/em-folder-view.c:946 mail/em-popup.c:502
+#: mail/em-folder-view.c:938 mail/em-popup.c:497
 #: ui/evolution-mail-message.xml.h:88
 msgid "Reply to _List"
 msgstr "Antwort an _Liste"
 
-#: mail/em-folder-view.c:947 mail/em-popup.c:503
+#: mail/em-folder-view.c:939 mail/em-popup.c:498
 #: ui/evolution-mail-message.xml.h:87
 msgid "Reply to _All"
 msgstr "Antwort an a_lle"
 
-#: mail/em-folder-view.c:948 mail/em-popup.c:505
+#: mail/em-folder-view.c:940 mail/em-popup.c:500
 #: ui/evolution-mail-message.xml.h:114
 msgid "_Forward"
 msgstr "_Weiterleiten"
 
-#: mail/em-folder-view.c:951
+#: mail/em-folder-view.c:943
 msgid "Follo_w Up..."
 msgstr "Follo_w Up..."
 
-#: mail/em-folder-view.c:952
+#: mail/em-folder-view.c:944
 msgid "Fla_g Completed"
 msgstr "Als abgeschlossen _markieren"
 
-#: mail/em-folder-view.c:953
+#: mail/em-folder-view.c:945
 msgid "Cl_ear Flag"
 msgstr "Markierung _löschen"
 
-#: mail/em-folder-view.c:956 ui/evolution-mail-message.xml.h:50
+#: mail/em-folder-view.c:948 ui/evolution-mail-message.xml.h:50
 msgid "Mar_k as Read"
 msgstr "Als gelesen mar_kieren"
 
-#: mail/em-folder-view.c:957
+#: mail/em-folder-view.c:949
 msgid "Mark as _Unread"
 msgstr "Als _ungelesen markieren"
 
-#: mail/em-folder-view.c:958
+#: mail/em-folder-view.c:950
 msgid "Mark as _Important"
 msgstr "Als _wichtig markieren"
 
-#: mail/em-folder-view.c:959
+#: mail/em-folder-view.c:951
 msgid "_Mark as Unimportant"
 msgstr "Als unwichtig _markieren"
 
-#: mail/em-folder-view.c:960 ui/evolution-mail-message.xml.h:54
+#: mail/em-folder-view.c:952 ui/evolution-mail-message.xml.h:54
 msgid "Mark as _Junk"
 msgstr "Als u_nerwünscht markieren"
 
-#: mail/em-folder-view.c:961 ui/evolution-mail-message.xml.h:55
+#: mail/em-folder-view.c:953 ui/evolution-mail-message.xml.h:55
 msgid "Mark as _Not Junk"
 msgstr "Als _nicht unerwünscht markieren"
 
-#: mail/em-folder-view.c:965
+#: mail/em-folder-view.c:957
 msgid "U_ndelete"
 msgstr "Lösche_n rückgängig"
 
-#: mail/em-folder-view.c:968
+#: mail/em-folder-view.c:960
 msgid "Mo_ve to Folder..."
 msgstr "In Ordner _verschieben..."
 
-#: mail/em-folder-view.c:969 ui/evolution-addressbook.xml.h:32
+#: mail/em-folder-view.c:961 ui/evolution-addressbook.xml.h:32
 msgid "_Copy to Folder..."
 msgstr "In Ordner _kopieren..."
 
-#: mail/em-folder-view.c:977
+#: mail/em-folder-view.c:969
 msgid "Add Sender to Address_book"
 msgstr "A_bsender zum Adressbuch hinzufügen"
 
-#: mail/em-folder-view.c:980
+#: mail/em-folder-view.c:972
 msgid "Appl_y Filters"
 msgstr "Filter _anwenden"
 
-#: mail/em-folder-view.c:981
+#: mail/em-folder-view.c:973
 msgid "F_ilter Junk"
 msgstr "Une_rwünschte filtern"
 
-#: mail/em-folder-view.c:984
+#: mail/em-folder-view.c:976
 msgid "Crea_te Rule From Message"
 msgstr "_Regel aus Nachricht anlegen"
 
-#: mail/em-folder-view.c:985
+#: mail/em-folder-view.c:977
 msgid "VFolder on _Subject"
 msgstr "VOrdner über _Betreff"
 
-#: mail/em-folder-view.c:986
+#: mail/em-folder-view.c:978
 msgid "VFolder on Se_nder"
 msgstr "VOrdner über Abse_nder"
 
-#: mail/em-folder-view.c:987
+#: mail/em-folder-view.c:979
 msgid "VFolder on _Recipients"
 msgstr "VOrdner über _Empfänger"
 
-#: mail/em-folder-view.c:988
+#: mail/em-folder-view.c:980
 msgid "VFolder on Mailing _List"
 msgstr "VOrdner über Mailing_liste"
 
-#: mail/em-folder-view.c:992
+#: mail/em-folder-view.c:984
 msgid "Filter on Sub_ject"
 msgstr "Filter über _Betreff"
 
-#: mail/em-folder-view.c:993
+#: mail/em-folder-view.c:985
 msgid "Filter on Sen_der"
 msgstr "Filter über _Absender"
 
-#: mail/em-folder-view.c:994
+#: mail/em-folder-view.c:986
 msgid "Filter on Re_cipients"
 msgstr "Filter über _Empfänger"
 
-#: mail/em-folder-view.c:995
+#: mail/em-folder-view.c:987
 msgid "Filter on _Mailing List"
 msgstr "Filter über _Mailingliste"
 
 #. default charset used in mail view
-#: mail/em-folder-view.c:1772 mail/em-folder-view.c:1815
+#: mail/em-folder-view.c:1764 mail/em-folder-view.c:1807
 msgid "Default"
 msgstr "Vorgabe"
 
-#: mail/em-folder-view.c:1911
+#: mail/em-folder-view.c:1903
 msgid "Print Message"
 msgstr "Nachricht drucken"
 
-#: mail/em-folder-view.c:2190
+#: mail/em-folder-view.c:2182
 msgid "_Copy Link Location"
 msgstr "Link-Ziel _kopieren"
 
-#: mail/em-folder-view.c:2473
+#: mail/em-folder-view.c:2465
 #, c-format
 msgid "Click to mail %s"
 msgstr "Klicken Sie hier, um eine E-Mail an %s zu verfassen"
@@ -11162,36 +11156,36 @@ msgstr ""
 "Die Einstellungen der vorhandenen Evolution-Installation konnten nicht "
 "gelesen werden, »evolution/config.xmldb« existiert nicht oder ist fehlerhaft."
 
-#: mail/em-popup.c:386
+#: mail/em-popup.c:381
 msgid "Save As..."
 msgstr "Speichern unter..."
 
-#: mail/em-popup.c:405
+#: mail/em-popup.c:400
 #, c-format
 msgid "untitled_image.%s"
 msgstr "namenloses_bild.%s"
 
-#: mail/em-popup.c:499
+#: mail/em-popup.c:494
 msgid "Set as _Background"
 msgstr "Zum _Hintergrund machen"
 
-#: mail/em-popup.c:501
+#: mail/em-popup.c:496
 msgid "_Reply to sender"
 msgstr "_Antwort an Absender"
 
-#: mail/em-popup.c:553
+#: mail/em-popup.c:548
 msgid "_Open Link in Browser"
 msgstr "Link im Browser ö_ffnen"
 
-#: mail/em-popup.c:554
+#: mail/em-popup.c:549
 msgid "Se_nd message to..."
 msgstr "_Nachricht schicken an..."
 
-#: mail/em-popup.c:555
+#: mail/em-popup.c:550
 msgid "_Add to Addressbook"
 msgstr "Zum Adressbuch _hinzufügen"
 
-#: mail/em-popup.c:686
+#: mail/em-popup.c:681
 #, c-format
 msgid "Open in %s..."
 msgstr "In %s öffnen..."
@@ -13118,8 +13112,7 @@ msgstr "Signatur bearbeiten"
 msgid "Enter a name for this signature."
 msgstr "Geben Sie einen Namen für diese Signatur ein."
 
-#: mail/mail-signature-editor.c:415
-#: plugins/shared-folder/properties.glade.h:11
+#: mail/mail-signature-editor.c:415 plugins/shared-folder/properties.glade.h:5
 msgid "Name:"
 msgstr "Name:"
 
@@ -13311,36 +13304,24 @@ msgid "Review"
 msgstr "Überprüfen"
 
 #: mail/searchtypes.xml.h:1
-msgid "Body contains"
-msgstr "Rumpf enthält"
-
-#: mail/searchtypes.xml.h:2
-msgid "Body does not contain"
-msgstr "Rumpf enthält nicht"
-
-#: mail/searchtypes.xml.h:3
-msgid "Body or subject contains"
-msgstr "Rumpf oder Betreff enthält"
-
-#: mail/searchtypes.xml.h:4
 msgid "Message contains"
 msgstr "Nachricht enthält"
 
-#: mail/searchtypes.xml.h:5
+#: mail/searchtypes.xml.h:2
 msgid "Recipients contain"
 msgstr "Empfänger enthalten"
 
-#: mail/searchtypes.xml.h:6
+#: mail/searchtypes.xml.h:3
 msgid "Sender contains"
 msgstr "Absender enthält"
 
-#: mail/searchtypes.xml.h:7
+#: mail/searchtypes.xml.h:4
 msgid "Subject contains"
 msgstr "Betreff enthält"
 
-#: mail/searchtypes.xml.h:8
-msgid "Subject does not contain"
-msgstr "Betreff enthält nicht"
+#: mail/searchtypes.xml.h:5
+msgid "Subject or Sender contains"
+msgstr "Betreff oder Absender enthält"
 
 #: plugins/backup-restore/backup.c:109
 msgid "Backup Evolution directory"
@@ -13500,6 +13481,11 @@ msgstr "Nicht-im-Büro-Nachricht:"
 #: plugins/exchange-account-setup/exchange-account-setup.c:194
 msgid "Exchange Settings"
 msgstr "Exchange-Einstellungen"
+
+#: plugins/exchange-account-setup/exchange-account-setup.c:329
+#: plugins/exchange-account-setup/exchange-ask-password.c:193
+msgid "A_uthenticate"
+msgstr "_Legitimation"
 
 #: plugins/exchange-account-setup/exchange-account-setup.c:336
 #: plugins/exchange-account-setup/exchange-ask-password.c:200
@@ -14187,55 +14173,39 @@ msgstr ""
 "Die empfohlene Erweiterung des Dateinamens für diesen Dateityp (%s) wurde in "
 "dem gewählten Dateinamen nicht verwendet. Wollen Sie trotzdem fortfahren?"
 
-#: plugins/shared-folder/properties.glade.h:1
-msgid ""
-"\n"
-"Share List"
-msgstr ""
-"\n"
-"Freigabeliste"
+#: plugins/shared-folder/properties.glade.h:2
+msgid "<b>Users :</b>"
+msgstr "<b>Benutzer:</b> "
 
 #: plugins/shared-folder/properties.glade.h:4
-msgid "Ad_d"
-msgstr "_Hinzufügen"
-
-#: plugins/shared-folder/properties.glade.h:5
-msgid "Additional Access"
-msgstr "Zusätzliche Berechtigungen"
-
-#: plugins/shared-folder/properties.glade.h:7
-msgid "Delet_e"
-msgstr "_Löschen"
-
-#: plugins/shared-folder/properties.glade.h:8
-msgid "Edi_t"
-msgstr "_Bearbeiten"
-
-#: plugins/shared-folder/properties.glade.h:10
 msgid "Message"
 msgstr "Nachricht"
 
-#: plugins/shared-folder/properties.glade.h:12
-msgid "Sen_d Custom Notification"
-msgstr "Benutzerdefinierte Benachrichtigung sen_den"
-
-#: plugins/shared-folder/properties.glade.h:13
+#: plugins/shared-folder/properties.glade.h:6
 msgid "Shared Folder Notification"
 msgstr "Benachrichtigung zur Ordnerfreigabe"
 
-#: plugins/shared-folder/properties.glade.h:15
+#: plugins/shared-folder/properties.glade.h:8
 msgid "The participants will receive the following notification.\n"
 msgstr "Die berechtigten Nutzer werden folgende Benachrichtigung erhalten.\n"
 
-#: plugins/shared-folder/properties.glade.h:18
+#: plugins/shared-folder/properties.glade.h:11
+msgid "_Contacts..."
+msgstr "_Kontakte..."
+
+#: plugins/shared-folder/properties.glade.h:12
+msgid "_Cutomize notification message"
+msgstr "Benachrichtigung _anpassen"
+
+#: plugins/shared-folder/properties.glade.h:13
 msgid "_Not Shared"
 msgstr "_Nicht freigeben"
 
-#: plugins/shared-folder/properties.glade.h:20
+#: plugins/shared-folder/properties.glade.h:15
 msgid "_Shared With ..."
 msgstr "_Freigegeben für ..."
 
-#: plugins/shared-folder/properties.glade.h:21
+#: plugins/shared-folder/properties.glade.h:16
 msgid "_Sharing"
 msgstr "_Freigeben"
 
@@ -14247,7 +14217,7 @@ msgstr "Benutzer"
 msgid "Enter the users and set permissions"
 msgstr "Eingabe der Benutzer und Festlegen der Rechte"
 
-#: plugins/shared-folder/share-folder-common.c:402
+#: plugins/shared-folder/share-folder-common.c:401
 msgid "Sharing"
 msgstr "Freigeben"
 
@@ -17242,23 +17212,27 @@ msgstr "_Suchen"
 msgid "_Find Now"
 msgstr "_Jetzt suchen"
 
-#: widgets/misc/e-search-bar.c:554 widgets/misc/e-search-bar.c:936
+#: widgets/misc/e-search-bar.c:554 widgets/misc/e-search-bar.c:941
 msgid "_Clear"
 msgstr "_Löschen"
 
-#: widgets/misc/e-search-bar.c:844
+#: widgets/misc/e-search-bar.c:645
+msgid "Search Type"
+msgstr "_Suchtyp:"
+
+#: widgets/misc/e-search-bar.c:849
 msgid "Item ID"
 msgstr "Objektkennung"
 
-#: widgets/misc/e-search-bar.c:851
+#: widgets/misc/e-search-bar.c:856
 msgid "Subitem ID"
 msgstr "Kennung des Unterobjekts"
 
-#: widgets/misc/e-search-bar.c:858
+#: widgets/misc/e-search-bar.c:863
 msgid "Text"
 msgstr "Text"
 
-#: widgets/misc/e-search-bar.c:938
+#: widgets/misc/e-search-bar.c:943
 msgid "Find _Now"
 msgstr "_Jetzt suchen"
 
@@ -17429,6 +17403,37 @@ msgstr "%s (...)"
 #, c-format
 msgid "%s (%d%% complete)"
 msgstr "%s (zu %d%% abgeschlossen)"
+
+#~ msgid "Body contains"
+#~ msgstr "Rumpf enthält"
+
+#~ msgid "Body does not contain"
+#~ msgstr "Rumpf enthält nicht"
+
+#~ msgid "Body or subject contains"
+#~ msgstr "Rumpf oder Betreff enthält"
+
+#~ msgid "Subject does not contain"
+#~ msgstr "Betreff enthält nicht"
+
+#~ msgid ""
+#~ "\n"
+#~ "Share List"
+#~ msgstr ""
+#~ "\n"
+#~ "Freigabeliste"
+
+#~ msgid "Ad_d"
+#~ msgstr "_Hinzufügen"
+
+#~ msgid "Additional Access"
+#~ msgstr "Zusätzliche Berechtigungen"
+
+#~ msgid "Delet_e"
+#~ msgstr "_Löschen"
+
+#~ msgid "Edi_t"
+#~ msgstr "_Bearbeiten"
 
 #~ msgid "Edit Contact Info"
 #~ msgstr "Kontaktinfo bearbeiten"

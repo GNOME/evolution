@@ -1,3 +1,7 @@
+2005-01-24  Hendrik Richter  <hendrik@gnome-de.org>
+
+	* de.po: Updated German translation.
+
 2005-01-24 Marco Ciampa <ciampix@libero.it>
 
 	* it.po: Updated italian translation.
@@ -2584,7 +2588,8 @@
 
 2003-11-19  Rodney Dawes  <dobey@ximian.com>
 
-	* it.po: Fixed msgstr missing ending \n
+	* it.po: Fixed msgstr missing ending 
+
 
 2003-11-19  Marco Ciampa <ciampix@libero.it>
 
@@ -2729,7 +2734,8 @@
 2003-08-06  Dan Winship  <danw@ximian.com>
 
 	* it.po: Fix a bug (control characters accidentally inserted into
-	the file?) and a warning (extra "\n")
+	the file?) and a warning (extra "
+")
 
 2003-08-05 Marco Ciampa <ciampix@libero.it>
 	
@@ -2937,4 +2943,4 @@
 
 2003-06-03  Stanislav Brabec  <sbrabec@suse.cz>
 
-	* cs.po: Fixed quotes: \\\" -> \".
+	* cs.po: Fixed quotes: \\" -> \".
