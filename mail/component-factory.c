@@ -1292,10 +1292,9 @@ add_storage (const char *name, const char *uri, CamelService *store,
 	
 	switch (res) {
 	case EVOLUTION_STORAGE_OK:
-		evolution_storage_has_subfolders (storage, "/",
-						  _("Connecting..."));
+		evolution_storage_has_subfolders (storage, "/", _("Connecting..."));
 		mail_hash_storage (store, storage);
-		mail_note_store((CamelStore *)store, storage, CORBA_OBJECT_NIL, NULL, NULL);
+		mail_note_store ((CamelStore *) store, storage, CORBA_OBJECT_NIL, NULL, NULL);
 		/* falllll */
 	case EVOLUTION_STORAGE_ERROR_ALREADYREGISTERED:
 	case EVOLUTION_STORAGE_ERROR_EXISTS:
@@ -1420,7 +1419,7 @@ mail_load_storages (GNOME_Evolution_Shell shell, const GSList *sources, gboolean
 			name = NULL;
 		}
 		
-		if (service == NULL || service->url == NULL || service->url[0] == '\0' || !service->enabled)
+		if (service == NULL || service->url == NULL || service->url[0] == '\0')
 			continue;
 		
 		mail_load_storage_by_uri (shell, service->url, name);

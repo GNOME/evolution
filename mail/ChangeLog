@@ -1,8 +1,14 @@
 2002-06-28  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* component-factory.c (mail_load_storages): Don't skip over
+	disabled accounts - put them in the folder tree too.
+
+2002-06-28  Jeffrey Stedfast  <fejj@ximian.com>
+
 	Fixes bug #27055.
 
-	* mail-accounts.c (account_add_finished): Unref the main accounts widget.
+	* mail-accounts.c (account_add_finished): Unref the main accounts
+	widget.
 	(account_add_clicked): Ref the main accounts widget.
 	(account_edit_finished): Unref the main accounts widget.
 	(account_edit_clicked): Ref the main accounts widget.

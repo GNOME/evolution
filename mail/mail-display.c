@@ -35,10 +35,10 @@
 #include <gtk/gtkinvisible.h>
 #include <gtkhtml/gtkhtml.h>
 #include <gtkhtml/gtkhtml-embedded.h>
-#include <gtkhtml/htmlengine.h>	/* XXX */
-#include <gtkhtml/htmlobject.h> /* XXX */
-#include <gtkhtml/htmltext.h> /* XXX */
-#include <gtkhtml/htmlinterval.h> /* XXX */
+#include <gtkhtml/htmlengine.h>
+#include <gtkhtml/htmlobject.h>
+#include <gtkhtml/htmltext.h>
+#include <gtkhtml/htmlinterval.h>
 #include <gtkhtml/gtkhtml-stream.h>
 
 #include "e-util/e-html-utils.h"
