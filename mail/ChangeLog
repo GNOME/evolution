@@ -1,3 +1,8 @@
+2001-09-26  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-config.c (config_read): Oops, translate the fake account
+	name to UTF-8.
+
 2001-09-26  Christopher James Lahey  <clahey@ximian.com>
 
 	* message-list.c (message_list_foreach): Use

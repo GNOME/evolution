@@ -310,7 +310,7 @@ config_read (void)
 			account->name = val;
 		} else {
 			g_free (val);
-			account->name = g_strdup_printf (_("Account %d"), i + 1);
+			account->name = g_strdup_printf (U_("Account %d"), i + 1);
 			config->corrupt = TRUE;
 		}
 		
