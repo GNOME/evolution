@@ -20,7 +20,7 @@
 #ifndef __E_CONTACT_EDITOR_ADDRESS_H__
 #define __E_CONTACT_EDITOR_ADDRESS_H__
 
-#include <libgnomeui/gnome-dialog.h>
+#include <gtk/gtkdialog.h>
 #include <glade/glade.h>
 #include <ebook/e-card.h>
 
@@ -50,7 +50,7 @@ typedef struct _EContactEditorAddressClass  EContactEditorAddressClass;
 
 struct _EContactEditorAddress
 {
-	GnomeDialog parent;
+	GtkDialog parent;
 	
 	/* item specific fields */
 	ECardDeliveryAddress *address;
@@ -62,7 +62,7 @@ struct _EContactEditorAddress
 
 struct _EContactEditorAddressClass
 {
-	GnomeDialogClass parent_class;
+	GtkDialogClass parent_class;
 };
 
 

@@ -30,11 +30,9 @@
 #include <gtk/gtkentry.h>
 #include <gtk/gtklabel.h>
 #include <gtk/gtktable.h>
-#include <libgnome/gnome-defs.h>
 #include <libgnome/gnome-i18n.h>
 #include <libgnomeui/gnome-app.h>
 #include <libgnomeui/gnome-dialog.h>
-#include <libgnomeui/gnome-stock.h>
 #include <gal/widgets/e-unicode.h>
 #include <addressbook/gui/component/addressbook.h>
 #include <addressbook/backend/ebook/e-book.h>
@@ -304,10 +302,8 @@ build_quick_add_dialog (QuickAdd *qa)
 				   GNOME_STOCK_BUTTON_CANCEL,
 				   NULL);
 
-	gtk_signal_connect (GTK_OBJECT (dialog),
-			    "clicked",
-			    clicked_cb,
-			    qa);
+	g_signal_connect (dialog, "clicked",
+			  G_CALLBACK (clicked_cb), qa);
 
 	qa->name_entry = gtk_entry_new ();
 	if (qa->name) {

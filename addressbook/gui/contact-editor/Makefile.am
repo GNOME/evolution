@@ -22,12 +22,27 @@ libecontacteditor_a_SOURCES = 			\
 	e-contact-editor-address.h		\
 	e-contact-editor-fullname.c		\
 	e-contact-editor-fullname.h		\
+	e-contact-editor-marshal.c		\
 	e-contact-editor.c			\
 	e-contact-editor.h			\
 	e-contact-save-as.c			\
 	e-contact-save-as.h			\
 	e-contact-quick-add.c			\
 	e-contact-quick-add.h
+
+# GLib marshalling cruft
+
+e-contact-editor-marshal.h: e-contact-editor-marshal.list
+	( @GLIB_GENMARSHAL@ --prefix=ece_marshal e-contact-editor-marshal.list --header > e-contact-editor-marshal.tmp \
+	&& mv e-contact-editor-marshal.tmp e-contact-editor-marshal.h ) \
+	|| ( rm -f e-contact-editor-marshal.tmp && exit 1 )
+
+e-contact-editor-marshal.c: e-contact-editor-marshal.h
+	( @GLIB_GENMARSHAL@ --prefix=ece_marshal e-contact-editor-marshal.list --body > e-contact-editor-marshal.tmp \
+	&& mv e-contact-editor-marshal.tmp e-contact-editor-marshal.c ) \
+	|| ( rm -f e-contact-editor-marshal.tmp && exit 1 )
+
+MARSHAL_GENERATED = e-contact-editor-marshal.c e-contact-editor-marshal.h
 
 evolutiondir = $(datadir)/evolution
 
@@ -44,5 +59,9 @@ glade_DATA = 				\
 	file-exists.glade		\
 	e-contact-editor-confirm-delete.glade
 
-EXTRA_DIST = $(evolution_DATA)		\
-	$(glade_DATA)
+BUILT_SOURCES = $(MARSHAL_GENERATED)
+CLEANFILES = $(BUILT_SOURCES)
+
+EXTRA_DIST=	$(evolution_DATA)		\
+		$(glade_DATA)			\
+		e-contact-editor-marshal.list

@@ -24,9 +24,7 @@
 #include <e-contact-editor-address.h>
 
 #include <glib.h>
-#include <libgnome/gnome-defs.h>
 #include <libgnome/gnome-i18n.h>
-#include <libgnomeui/gnome-stock.h>
 #include <libgnomeui/gnome-window-icon.h>
 #include <libgnome/gnome-util.h>
 #include <gal/widgets/e-unicode.h>
@@ -73,7 +71,7 @@ e_contact_editor_address_get_type (void)
 				(GtkClassInitFunc) NULL,
 			};
 
-			contact_editor_address_type = gtk_type_unique (gnome_dialog_get_type (), &contact_editor_address_info);
+			contact_editor_address_type = gtk_type_unique (gtk_dialog_get_type (), &contact_editor_address_info);
 		}
 
 	return contact_editor_address_type;
@@ -88,7 +86,7 @@ e_contact_editor_address_class_init (EContactEditorAddressClass *klass)
 	object_class = (GtkObjectClass*) klass;
 	dialog_class = (GnomeDialogClass *) klass;
 
-	parent_class = gtk_type_class (gnome_dialog_get_type ());
+	parent_class = gtk_type_class (gtk_dialog_get_type ());
 
 	gtk_object_add_arg_type ("EContactEditorAddress::address", GTK_TYPE_POINTER, 
 				 GTK_ARG_READWRITE, ARG_ADDRESS);
@@ -418,7 +416,7 @@ e_contact_editor_address_init (EContactEditorAddress *e_contact_editor_address)
 
 	e_contact_editor_address->address = NULL;
 
-	gui = glade_xml_new (EVOLUTION_GLADEDIR "/fulladdr.glade", NULL);
+	gui = glade_xml_new (EVOLUTION_GLADEDIR "/fulladdr.glade", NULL, NULL);
 	e_contact_editor_address->gui = gui;
 
 	setup_tab_order (gui);

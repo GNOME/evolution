@@ -6,3 +6,5 @@ Makefile.in
 *.lo
 *.la
 contact-editor-test
+e-contact-editor-marshal.c
+e-contact-editor-marshal.h

@@ -20,7 +20,6 @@
  */
 
 #include <config.h>
-#include <libgnomeui/gnome-stock.h>
 #include <gal/widgets/e-unicode.h>
 #include "e-contact-editor-fullname.h"
 #include <libgnomeui/gnome-window-icon.h>
@@ -108,7 +107,7 @@ e_contact_editor_fullname_init (EContactEditorFullname *e_contact_editor_fullnam
 	gtk_window_set_policy(GTK_WINDOW(e_contact_editor_fullname), TRUE, TRUE, FALSE);
 
 	e_contact_editor_fullname->name = NULL;
-	gui = glade_xml_new (EVOLUTION_GLADEDIR "/fullname.glade", NULL);
+	gui = glade_xml_new (EVOLUTION_GLADEDIR "/fullname.glade", NULL, NULL);
 	e_contact_editor_fullname->gui = gui;
 
 	widget = glade_xml_get_widget(gui, "dialog-checkfullname");

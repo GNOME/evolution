@@ -24,9 +24,10 @@
 #include <stdlib.h>
 #include <gtk/gtkmain.h>
 #include <libgnomeui/gnome-app.h>
-#include <libgnomeui/gnome-init.h>
+#include <libgnomeui/gnome-ui-init.h>
 #include <glade/glade.h>
 #include "e-contact-editor.h"
+#include "ebook/e-card.h"
 
 #define TEST_VCARD                   \
 "BEGIN:VCARD
@@ -115,10 +116,7 @@ int main( int argc, char *argv[] )
 	char *cardstr;
 	EContactEditor *ce;
 
-	/*  bindtextdomain (PACKAGE, GNOMELOCALEDIR);
-	    textdomain (PACKAGE);*/
-
-	gnome_init( "Contact Editor Test", VERSION, argc, argv);
+	gnome_program_init("Contact Editor Test", VERSION, LIBGNOMEUI_MODULE, argc, argv, NULL);
 
 	glade_gnome_init ();
 
@@ -129,13 +127,13 @@ int main( int argc, char *argv[] )
 	if (cardstr == NULL)
 		cardstr = TEST_VCARD;
 
-	ce = e_contact_editor_new (e_card_new_with_default_charset (cardstr, "ISO-8859-1"), TRUE, NULL, FALSE);
-	gtk_signal_connect (GTK_OBJECT (ce), "editor_closed",
-			    GTK_SIGNAL_FUNC (editor_closed_cb), NULL);
+	ce = e_contact_editor_new (NULL, e_card_new_with_default_charset (cardstr, "ISO-8859-1"), TRUE, FALSE);
+	g_signal_connect (ce, "editor_closed",
+			  G_CALLBACK (editor_closed_cb), NULL);
 
-	ce = e_contact_editor_new (e_card_new_with_default_charset (cardstr, "ISO-8859-1"), TRUE, NULL, FALSE);
-	gtk_signal_connect (GTK_OBJECT (ce), "editor_closed",
-			    GTK_SIGNAL_FUNC (editor_closed_cb), NULL);
+	ce = e_contact_editor_new (NULL, e_card_new_with_default_charset (cardstr, "ISO-8859-1"), TRUE, FALSE);
+	g_signal_connect (ce, "editor_closed",
+			  G_CALLBACK (editor_closed_cb), NULL);
 
 	gtk_main();
 

@@ -34,7 +34,6 @@
 #include <errno.h>
 #include <string.h>
 #include <libgnomeui/gnome-messagebox.h>
-#include <libgnomeui/gnome-stock.h>
 
 static int file_exists(GtkFileSelection *filesel, const char *filename);
 
@@ -143,12 +142,12 @@ e_contact_save_as(char *title, ECard *card, GtkWindow *parent_window)
 	info->filesel = filesel;
 	info->vcard = e_card_get_vcard(card);
 
-	gtk_signal_connect(GTK_OBJECT(filesel->ok_button), "clicked",
-			   save_it, info);
-	gtk_signal_connect(GTK_OBJECT(filesel->cancel_button), "clicked",
-			   close_it, info);
-	gtk_signal_connect(GTK_OBJECT(filesel), "delete_event",
-			   delete_it, info);
+	g_signal_connect(filesel->ok_button, "clicked",
+			 G_CALLBACK (save_it), info);
+	g_signal_connect(filesel->cancel_button, "clicked",
+			 G_CALLBACK (close_it), info);
+	g_signal_connect(filesel, "delete_event",
+			 G_CALLBACK (delete_it), info);
 
 	if (parent_window) {
 		gtk_window_set_transient_for (GTK_WINDOW (filesel),
@@ -188,12 +187,12 @@ e_contact_list_save_as(char *title, GList *list, GtkWindow *parent_window)
 	info->filesel = filesel;
 	info->vcard = e_card_list_get_vcard (list);
 	
-	gtk_signal_connect(GTK_OBJECT(filesel->ok_button), "clicked",
-			   save_it, info);
-	gtk_signal_connect(GTK_OBJECT(filesel->cancel_button), "clicked",
-			   close_it, info);
-	gtk_signal_connect(GTK_OBJECT(filesel), "delete_event",
-			   delete_it, info);
+	g_signal_connect(filesel->ok_button, "clicked",
+			 G_CALLBACK (save_it), info);
+	g_signal_connect(filesel->cancel_button, "clicked",
+			 G_CALLBACK (close_it), info);
+	g_signal_connect(filesel, "delete_event",
+			 G_CALLBACK (delete_it), info);
 
 	if (parent_window) {
 		gtk_window_set_transient_for (GTK_WINDOW (filesel),
@@ -213,7 +212,7 @@ file_exists(GtkFileSelection *filesel, const char *filename)
 	int result = 0;
 	char *string;
 
-	gui = glade_xml_new (EVOLUTION_GLADEDIR "/file-exists.glade", NULL);
+	gui = glade_xml_new (EVOLUTION_GLADEDIR "/file-exists.glade", NULL, NULL);
 	dialog = GNOME_DIALOG(glade_xml_get_widget(gui, "dialog-exists"));
 	
 	label = glade_xml_get_widget (gui, "label-exists");

@@ -27,17 +27,18 @@
 #include <gtk/gtkcheckbutton.h>
 #include <gtk/gtkcheckmenuitem.h>
 #include <gtk/gtkcombo.h>
+#define GTK_ENABLE_BROKEN
 #include <gtk/gtktext.h>
+#undef GTK_ENABLE_BROKEN
 #include <libgnomeui/gnome-popup-menu.h>
 #include <libgnomeui/gnome-dialog-util.h>
 #include <libgnomeui/gnome-window-icon.h>
-#include <libgnomeui/gnome-stock.h>
 #include <libgnome/gnome-i18n.h>
 
 #include <bonobo/bonobo-ui-container.h>
 #include <bonobo/bonobo-ui-util.h>
+#include <bonobo/bonobo-window.h>
 #include <gdk-pixbuf/gdk-pixbuf.h>
-#include <gdk-pixbuf/gnome-canvas-pixbuf.h>
 #include <gal/widgets/e-categories.h>
 #include <gal/widgets/e-gui-utils.h>
 #include <gal/widgets/e-unicode.h>
@@ -56,6 +57,7 @@
 
 #include "e-contact-editor-address.h"
 #include "e-contact-editor-fullname.h"
+#include "e-contact-editor-marshal.h"
 #include "e-contact-save-as.h"
 
 /* Signal IDs */
@@ -69,8 +71,8 @@ enum {
 
 static void e_contact_editor_init		(EContactEditor		 *card);
 static void e_contact_editor_class_init	(EContactEditorClass	 *klass);
-static void e_contact_editor_set_arg (GtkObject *o, GtkArg *arg, guint arg_id);
-static void e_contact_editor_get_arg (GtkObject *object, GtkArg *arg, guint arg_id);
+static void e_contact_editor_set_property (GObject *object, guint prop_id, const GValue *value, GParamSpec *pspec);
+static void e_contact_editor_get_property (GObject *object, guint prop_id, GValue *value, GParamSpec *pspec);
 static void e_contact_editor_destroy (GtkObject *object);
 
 #if 0
@@ -98,13 +100,13 @@ static guint contact_editor_signals[LAST_SIGNAL];
 
 /* The arguments we take */
 enum {
-	ARG_0,
-	ARG_BOOK,
-	ARG_CARD,
-	ARG_IS_NEW_CARD,
-	ARG_EDITABLE,
-	ARG_CHANGED,
-	ARG_WRITABLE_FIELDS
+	PROP_0,
+	PROP_BOOK,
+	PROP_CARD,
+	PROP_IS_NEW_CARD,
+	PROP_EDITABLE,
+	PROP_CHANGED,
+	PROP_WRITABLE_FIELDS
 };
 
 enum {
@@ -140,90 +142,103 @@ e_contact_editor_get_type (void)
   return contact_editor_type;
 }
 
-typedef void (*GtkSignal_NONE__INT_OBJECT) (GtkObject * object,
-					    gint arg1,
-					    GtkObject *arg2,
-					    gpointer user_data);
-
-static void
-e_marshal_NONE__INT_OBJECT (GtkObject * object,
-			    GtkSignalFunc func,
-			    gpointer func_data, GtkArg * args)
-{
-	GtkSignal_NONE__INT_OBJECT rfunc;
-	rfunc = (GtkSignal_NONE__INT_OBJECT) func;
-	(*rfunc) (object,
-		  GTK_VALUE_INT (args[0]),
-		  GTK_VALUE_OBJECT (args[1]),
-		  func_data);
-}
-
 static void
 e_contact_editor_class_init (EContactEditorClass *klass)
 {
-  GtkObjectClass *object_class;
-
-  object_class = (GtkObjectClass*) klass;
+  GObjectClass *object_class = G_OBJECT_CLASS (klass);
+  GtkObjectClass *gtkobj_class = GTK_OBJECT_CLASS (klass);
 
   parent_class = gtk_type_class (GTK_TYPE_OBJECT);
 
-  gtk_object_add_arg_type ("EContactEditor::book", GTK_TYPE_OBJECT, 
-			   GTK_ARG_READWRITE, ARG_BOOK);
-  gtk_object_add_arg_type ("EContactEditor::card", GTK_TYPE_OBJECT, 
-			   GTK_ARG_READWRITE, ARG_CARD);
-  gtk_object_add_arg_type ("EContactEditor::is_new_card", GTK_TYPE_BOOL,
-			   GTK_ARG_READWRITE, ARG_IS_NEW_CARD);
-  gtk_object_add_arg_type ("EContactEditor::writable_fields", GTK_TYPE_POINTER,
-			   GTK_ARG_READWRITE, ARG_WRITABLE_FIELDS);
-  gtk_object_add_arg_type ("EContactEditor::editable", GTK_TYPE_BOOL,
-			   GTK_ARG_READWRITE, ARG_EDITABLE);
-  gtk_object_add_arg_type ("EContactEditor::changed", GTK_TYPE_BOOL,
-			   GTK_ARG_READWRITE, ARG_CHANGED);
+  object_class->set_property = e_contact_editor_set_property;
+  object_class->get_property = e_contact_editor_get_property;
+  gtkobj_class->destroy = e_contact_editor_destroy;
+
+  g_object_class_install_property (object_class, PROP_BOOK, 
+				   g_param_spec_object ("book",
+							_("Book"),
+							/*_( */"XXX blurb" /*)*/,
+							E_TYPE_BOOK,
+							G_PARAM_READWRITE));
+
+  g_object_class_install_property (object_class, PROP_CARD, 
+				   g_param_spec_object ("card",
+							_("Card"),
+							/*_( */"XXX blurb" /*)*/,
+							E_TYPE_CARD,
+							G_PARAM_READWRITE));
+
+  g_object_class_install_property (object_class, PROP_IS_NEW_CARD, 
+				   g_param_spec_boolean ("is_new_card",
+							 _("Is New Card"),
+							 /*_( */"XXX blurb" /*)*/,
+							 FALSE,
+							 G_PARAM_READWRITE));
+
+  g_object_class_install_property (object_class, PROP_WRITABLE_FIELDS, 
+				   g_param_spec_object ("writable_fields",
+							_("Writable Fields"),
+							/*_( */"XXX blurb" /*)*/,
+							E_TYPE_LIST,
+							G_PARAM_READWRITE));
+
+  g_object_class_install_property (object_class, PROP_EDITABLE, 
+				   g_param_spec_boolean ("editable",
+							 _("Editable"),
+							 /*_( */"XXX blurb" /*)*/,
+							 FALSE,
+							 G_PARAM_READWRITE));
+
+  g_object_class_install_property (object_class, PROP_CHANGED, 
+				   g_param_spec_boolean ("changed",
+							 _("Changed"),
+							 /*_( */"XXX blurb" /*)*/,
+							 FALSE,
+							 G_PARAM_READWRITE));
 
   contact_editor_signals[CARD_ADDED] =
-	  gtk_signal_new ("card_added",
-			  GTK_RUN_FIRST,
-			  object_class->type,
-			  GTK_SIGNAL_OFFSET (EContactEditorClass, card_added),
-			  e_marshal_NONE__INT_OBJECT,
-			  GTK_TYPE_NONE, 2,
-			  GTK_TYPE_INT, GTK_TYPE_OBJECT);
+	  g_signal_new ("card_added",
+			G_OBJECT_CLASS_TYPE (object_class),
+			G_SIGNAL_RUN_FIRST,
+			G_STRUCT_OFFSET (EContactEditorClass, card_added),
+			NULL, NULL,
+			ece_marshal_NONE__INT_OBJECT,
+			G_TYPE_NONE, 2,
+			G_TYPE_INT, G_TYPE_OBJECT);
 
   contact_editor_signals[CARD_MODIFIED] =
-	  gtk_signal_new ("card_modified",
-			  GTK_RUN_FIRST,
-			  object_class->type,
-			  GTK_SIGNAL_OFFSET (EContactEditorClass, card_modified),
-			  e_marshal_NONE__INT_OBJECT,
-			  GTK_TYPE_NONE, 2,
-			  GTK_TYPE_INT, GTK_TYPE_OBJECT);
+	  g_signal_new ("card_modified",
+			G_OBJECT_CLASS_TYPE (object_class),
+			G_SIGNAL_RUN_FIRST,
+			G_STRUCT_OFFSET (EContactEditorClass, card_modified),
+			NULL, NULL,
+			ece_marshal_NONE__INT_OBJECT,
+			G_TYPE_NONE, 2,
+			G_TYPE_INT, G_TYPE_OBJECT);
 
   contact_editor_signals[CARD_DELETED] =
-	  gtk_signal_new ("card_deleted",
-			  GTK_RUN_FIRST,
-			  object_class->type,
-			  GTK_SIGNAL_OFFSET (EContactEditorClass, card_deleted),
-			  e_marshal_NONE__INT_OBJECT,
-			  GTK_TYPE_NONE, 2,
-			  GTK_TYPE_INT, GTK_TYPE_OBJECT);
+	  g_signal_new ("card_deleted",
+			G_OBJECT_CLASS_TYPE (object_class),
+			G_SIGNAL_RUN_FIRST,
+			G_STRUCT_OFFSET (EContactEditorClass, card_deleted),
+			NULL, NULL,
+			ece_marshal_NONE__INT_OBJECT,
+			G_TYPE_NONE, 2,
+			G_TYPE_INT, G_TYPE_OBJECT);
 
   contact_editor_signals[EDITOR_CLOSED] =
-	  gtk_signal_new ("editor_closed",
-			  GTK_RUN_FIRST,
-			  object_class->type,
-			  GTK_SIGNAL_OFFSET (EContactEditorClass, editor_closed),
-			  gtk_marshal_NONE__NONE,
-			  GTK_TYPE_NONE, 0);
+	  g_signal_new ("editor_closed",
+			G_OBJECT_CLASS_TYPE (object_class),
+			G_SIGNAL_RUN_FIRST,
+			G_STRUCT_OFFSET (EContactEditorClass, editor_closed),
+			NULL, NULL,
+			ece_marshal_NONE__NONE,
+			G_TYPE_NONE, 0);
 
-  gtk_object_class_add_signals (object_class, contact_editor_signals, LAST_SIGNAL);
- 
-  object_class->set_arg = e_contact_editor_set_arg;
-  object_class->get_arg = e_contact_editor_get_arg;
-  object_class->destroy = e_contact_editor_destroy;
 }
 
 static void
-_replace_button(EContactEditor *editor, gchar *button_xml, gchar *image, GtkSignalFunc func)
+_replace_button(EContactEditor *editor, gchar *button_xml, gchar *image, GCallback func)
 {
 	GladeXML *gui = editor->gui;
 	GtkWidget *button = glade_xml_get_widget(gui, button_xml);
@@ -236,19 +251,19 @@ _replace_button(EContactEditor *editor, gchar *button_xml, gchar *image, GtkSign
 				  pixmap);
 		g_free(image_temp);
 		gtk_widget_show(pixmap);
-		gtk_signal_connect(GTK_OBJECT(button), "button_press_event", func, editor);
+		g_signal_connect(button, "button_press_event", func, editor);
 	}
 }
 
 static void
 _replace_buttons(EContactEditor *editor)
 {
-	_replace_button(editor, "button-phone1", "arrow.png", _phone_arrow_pressed);
-	_replace_button(editor, "button-phone2", "arrow.png", _phone_arrow_pressed);
-	_replace_button(editor, "button-phone3", "arrow.png", _phone_arrow_pressed);
-	_replace_button(editor, "button-phone4", "arrow.png", _phone_arrow_pressed);
-	_replace_button(editor, "button-address", "arrow.png", _address_arrow_pressed);
-	_replace_button(editor, "button-email1", "arrow.png", _email_arrow_pressed);
+	_replace_button(editor, "button-phone1", "arrow.png", G_CALLBACK (_phone_arrow_pressed));
+	_replace_button(editor, "button-phone2", "arrow.png", G_CALLBACK (_phone_arrow_pressed));
+	_replace_button(editor, "button-phone3", "arrow.png", G_CALLBACK (_phone_arrow_pressed));
+	_replace_button(editor, "button-phone4", "arrow.png", G_CALLBACK (_phone_arrow_pressed));
+	_replace_button(editor, "button-address", "arrow.png", G_CALLBACK (_address_arrow_pressed));
+	_replace_button(editor, "button-email1", "arrow.png", G_CALLBACK (_email_arrow_pressed));
 }
 
 static void
@@ -593,8 +608,8 @@ set_entry_changed_signal_phone(EContactEditor *editor, char *id)
 {
 	GtkWidget *widget = glade_xml_get_widget(editor->gui, id);
 	if (widget && GTK_IS_ENTRY(widget))
-		gtk_signal_connect(GTK_OBJECT(widget), "changed",
-				   phone_entry_changed, editor);
+		g_signal_connect(widget, "changed",
+				 G_CALLBACK (phone_entry_changed), editor);
 }
 
 static void
@@ -616,8 +631,8 @@ set_entry_changed_signal_field(EContactEditor *editor, char *id)
 {
 	GtkWidget *widget = glade_xml_get_widget(editor->gui, id);
 	if (widget && GTK_IS_ENTRY(widget))
-		gtk_signal_connect(GTK_OBJECT(widget), "changed",
-				   field_changed, editor);
+		g_signal_connect(widget, "changed",
+				 G_CALLBACK (field_changed), editor);
 }
 
 static void
@@ -630,98 +645,98 @@ set_entry_changed_signals(EContactEditor *editor)
 	set_entry_changed_signal_phone(editor, "entry-phone4");
 	widget = glade_xml_get_widget(editor->gui, "entry-email1");
 	if (widget && GTK_IS_ENTRY(widget)) {
-		gtk_signal_connect(GTK_OBJECT(widget), "changed",
-				   email_entry_changed, editor);
+		g_signal_connect(widget, "changed",
+				 G_CALLBACK (email_entry_changed), editor);
 	}
 	widget = glade_xml_get_widget(editor->gui, "text-address");
 	if (widget && GTK_IS_TEXT(widget)) {
-		gtk_signal_connect(GTK_OBJECT(widget), "changed",
-				   address_text_changed, editor);
+		g_signal_connect(widget, "changed",
+				 G_CALLBACK (address_text_changed), editor);
 	}
 	widget = glade_xml_get_widget(editor->gui, "entry-fullname");
 	if (widget && GTK_IS_ENTRY(widget)) {
-		gtk_signal_connect(GTK_OBJECT(widget), "changed",
-				   name_entry_changed, editor);
+		g_signal_connect(widget, "changed",
+				 G_CALLBACK (name_entry_changed), editor);
 	}
 	widget = glade_xml_get_widget(editor->gui, "entry-company");
 	if (widget && GTK_IS_ENTRY(widget)) {
-		gtk_signal_connect(GTK_OBJECT(widget), "changed",
-				   company_entry_changed, editor);
+		g_signal_connect(widget, "changed",
+				 G_CALLBACK (company_entry_changed), editor);
 	}
 	widget = glade_xml_get_widget(editor->gui, "entry-web");
 	if (widget && GTK_IS_ENTRY(widget)) {
-		gtk_signal_connect(GTK_OBJECT(widget), "changed",
-				   widget_changed, editor);
+		g_signal_connect(widget, "changed",
+				 G_CALLBACK (widget_changed), editor);
 	}
 	widget = glade_xml_get_widget(editor->gui, "entry-categories");
 	if (widget && GTK_IS_ENTRY(widget)) {
-		gtk_signal_connect(GTK_OBJECT(widget), "changed",
-				   widget_changed, editor);
+		g_signal_connect(widget, "changed",
+				 G_CALLBACK (widget_changed), editor);
 	}
 	widget = glade_xml_get_widget(editor->gui, "entry-jobtitle");
 	if (widget && GTK_IS_ENTRY(widget)) {
-		gtk_signal_connect(GTK_OBJECT(widget), "changed",
-				   widget_changed, editor);
+		g_signal_connect(widget, "changed",
+				 G_CALLBACK (widget_changed), editor);
 	}
 	widget = glade_xml_get_widget(editor->gui, "entry-file-as");
 	if (widget && GTK_IS_ENTRY(widget)) {
-		gtk_signal_connect(GTK_OBJECT(widget), "changed",
-				   widget_changed, editor);
+		g_signal_connect(widget, "changed",
+				 G_CALLBACK (widget_changed), editor);
 	}
 	widget = glade_xml_get_widget(editor->gui, "entry-manager");
 	if (widget && GTK_IS_ENTRY(widget)) {
-		gtk_signal_connect(GTK_OBJECT(widget), "changed",
-				   widget_changed, editor);
+		g_signal_connect (widget, "changed",
+				  G_CALLBACK (widget_changed), editor);
 	}
 	widget = glade_xml_get_widget(editor->gui, "entry-assistant");
 	if (widget && GTK_IS_ENTRY(widget)) {
-		gtk_signal_connect(GTK_OBJECT(widget), "changed",
-				   widget_changed, editor);
+		g_signal_connect (widget, "changed",
+				  G_CALLBACK (widget_changed), editor);
 	}
 	widget = glade_xml_get_widget(editor->gui, "entry-office");
 	if (widget && GTK_IS_ENTRY(widget)) {
-		gtk_signal_connect(GTK_OBJECT(widget), "changed",
-				   widget_changed, editor);
+		g_signal_connect (widget, "changed",
+				  G_CALLBACK (widget_changed), editor);
 	}
 	widget = glade_xml_get_widget(editor->gui, "entry-department");
 	if (widget && GTK_IS_ENTRY(widget)) {
-		gtk_signal_connect(GTK_OBJECT(widget), "changed",
-				   widget_changed, editor);
+		g_signal_connect (widget, "changed",
+				  G_CALLBACK (widget_changed), editor);
 	}
 	widget = glade_xml_get_widget(editor->gui, "entry-profession");
 	if (widget && GTK_IS_ENTRY(widget)) {
-		gtk_signal_connect(GTK_OBJECT(widget), "changed",
-				   widget_changed, editor);
+		g_signal_connect (widget, "changed",
+				  G_CALLBACK (widget_changed), editor);
 	}
 	widget = glade_xml_get_widget(editor->gui, "entry-nickname");
 	if (widget && GTK_IS_ENTRY(widget)) {
-		gtk_signal_connect(GTK_OBJECT(widget), "changed",
-				   widget_changed, editor);
+		g_signal_connect (widget, "changed",
+				  G_CALLBACK (widget_changed), editor);
 	}
 	widget = glade_xml_get_widget(editor->gui, "entry-spouse");
 	if (widget && GTK_IS_ENTRY(widget)) {
-		gtk_signal_connect(GTK_OBJECT(widget), "changed",
-				   widget_changed, editor);
+		g_signal_connect (widget, "changed",
+				  G_CALLBACK (widget_changed), editor);
 	}
 	widget = glade_xml_get_widget(editor->gui, "text-comments");
 	if (widget && GTK_IS_TEXT(widget)) {
-		gtk_signal_connect(GTK_OBJECT(widget), "changed",
-				   widget_changed, editor);
+		g_signal_connect (widget, "changed",
+				  G_CALLBACK (widget_changed), editor);
 	}
 	widget = glade_xml_get_widget(editor->gui, "dateedit-birthday");
 	if (widget && E_IS_DATE_EDIT(widget)) {
-		gtk_signal_connect(GTK_OBJECT(widget), "changed",
-				   widget_changed, editor);
+		g_signal_connect (widget, "changed",
+				  G_CALLBACK (widget_changed), editor);
 	}
 	widget = glade_xml_get_widget(editor->gui, "dateedit-anniversary");
 	if (widget && E_IS_DATE_EDIT(widget)) {
-		gtk_signal_connect(GTK_OBJECT(widget), "changed",
-				   widget_changed, editor);
+		g_signal_connect (widget, "changed",
+				  G_CALLBACK (widget_changed), editor);
 	}
 	widget = glade_xml_get_widget(editor->gui, "entry-web");
 	if (widget && GTK_IS_ENTRY(widget)) {
-		gtk_signal_connect(GTK_OBJECT(widget), "changed",
-				   widget_changed, editor);
+		g_signal_connect (widget, "changed",
+				  G_CALLBACK (widget_changed), editor);
 	}
 
 }
@@ -809,6 +824,7 @@ full_addr_clicked(GtkWidget *button, EContactEditor *editor)
 static void
 categories_clicked(GtkWidget *button, EContactEditor *editor)
 {
+#ifdef PENDING_PORT_WORK
 	char *categories = NULL;
 	GnomeDialog *dialog;
 	int result;
@@ -850,6 +866,7 @@ categories_clicked(GtkWidget *button, EContactEditor *editor)
 		g_free(categories);
 	}
 	gtk_object_destroy(GTK_OBJECT(dialog));
+#endif
 }
 
 static void
@@ -884,8 +901,8 @@ add_lists (EContactEditor *editor)
 		ensure_select_names_contact (editor);
 		entry = e_select_names_manager_create_entry (editor->select_names_contacts,
 							     "contacts");
-		gtk_signal_connect(GTK_OBJECT(entry), "changed",
-				   widget_changed, editor);
+		g_signal_connect (entry, "changed",
+				  G_CALLBACK (widget_changed), editor);
 		gtk_table_attach_defaults (GTK_TABLE (table), entry, 0, 1, 0, 1);
 		gtk_widget_show (entry);
 	}
@@ -972,9 +989,9 @@ save_card (EContactEditor *ce, gboolean should_close)
 		ce->in_async_call = TRUE;
 
 		if (ce->is_new_card)
-			e_card_merging_book_add_card (ce->book, ce->card, GTK_SIGNAL_FUNC(card_added_cb), ecs);
+			e_card_merging_book_add_card (ce->book, ce->card, (EBookIdCallback)card_added_cb, ecs);
 		else
-			e_card_merging_book_commit_card (ce->book, ce->card, GTK_SIGNAL_FUNC(card_modified_cb), ecs);
+			e_card_merging_book_commit_card (ce->book, ce->card, (EBookCallback)card_modified_cb, ecs);
 	}
 }
 
@@ -1084,7 +1101,7 @@ e_contact_editor_confirm_delete(GtkWindow *parent)
 	GladeXML *gui;
 	int result;
 
-	gui = glade_xml_new (EVOLUTION_GLADEDIR "/e-contact-editor-confirm-delete.glade", NULL);
+	gui = glade_xml_new (EVOLUTION_GLADEDIR "/e-contact-editor-confirm-delete.glade", NULL, NULL);
 
 	dialog = GNOME_DIALOG(glade_xml_get_widget(gui, "confirm-dialog"));
 
@@ -1130,7 +1147,7 @@ delete_cb (GtkWidget *widget, gpointer data)
 			gtk_widget_set_sensitive (ce->app, FALSE);
 			ce->in_async_call = TRUE;
 
-			e_book_remove_card (ce->book, card, GTK_SIGNAL_FUNC(card_deleted_cb), ce);
+			e_book_remove_card (ce->book, card, (EBookCallback)card_deleted_cb, ce);
 		}
 	}
 
@@ -1149,7 +1166,9 @@ print_cb (BonoboUIComponent *uih, void *data, const char *path)
 	extract_info (ce);
 	e_card_simple_sync_card (ce->simple);
 
+#ifdef PENDING_PORT_WORK
 	gtk_widget_show(e_contact_print_card_dialog_new(ce->card));
+#endif
 }
 
 #if 0 /* Envelope printing is disabled for Evolution 1.0. */
@@ -1219,7 +1238,7 @@ create_ui (EContactEditor *ce)
 
 	bonobo_ui_util_set_ui (ce->uic, EVOLUTION_DATADIR,
 			       "evolution-contact-editor.xml",
-			       "evolution-contact-editor");
+			       "evolution-contact-editor", NULL);
 
 	e_pixmaps_update (ce->uic, pixmaps);
 }
@@ -1319,7 +1338,7 @@ e_contact_editor_init (EContactEditor *e_contact_editor)
 	e_contact_editor->in_async_call = FALSE;
 	e_contact_editor->editable = TRUE;
 
-	gui = glade_xml_new (EVOLUTION_GLADEDIR "/contact-editor.glade", NULL);
+	gui = glade_xml_new (EVOLUTION_GLADEDIR "/contact-editor.glade", NULL, NULL);
 	e_contact_editor->gui = gui;
 
 	setup_tab_order(gui);
@@ -1336,33 +1355,33 @@ e_contact_editor_init (EContactEditor *e_contact_editor)
 
 	wants_html = glade_xml_get_widget(e_contact_editor->gui, "checkbutton-htmlmail");
 	if (wants_html && GTK_IS_TOGGLE_BUTTON(wants_html))
-		gtk_signal_connect(GTK_OBJECT(wants_html), "toggled",
-				   wants_html_changed, e_contact_editor);
+		g_signal_connect (wants_html, "toggled",
+				  G_CALLBACK (wants_html_changed), e_contact_editor);
 
  	widget = glade_xml_get_widget(e_contact_editor->gui, "checkbutton-mailingaddress");
 	if (widget && GTK_IS_TOGGLE_BUTTON(widget))
-		gtk_signal_connect(GTK_OBJECT(widget), "toggled",
-				   address_mailing_changed, e_contact_editor);
+		g_signal_connect (widget, "toggled",
+				  G_CALLBACK (address_mailing_changed), e_contact_editor);
 	
 	widget = glade_xml_get_widget(e_contact_editor->gui, "button-fullname");
 	if (widget && GTK_IS_BUTTON(widget))
-		gtk_signal_connect(GTK_OBJECT(widget), "clicked",
-				   full_name_clicked, e_contact_editor);
+		g_signal_connect (widget, "clicked",
+				  G_CALLBACK (full_name_clicked), e_contact_editor);
 
 	widget = glade_xml_get_widget(e_contact_editor->gui, "button-fulladdr");
 	if (widget && GTK_IS_BUTTON(widget))
-		gtk_signal_connect(GTK_OBJECT(widget), "clicked",
-				   full_addr_clicked, e_contact_editor);
+		g_signal_connect (widget, "clicked",
+				  G_CALLBACK (full_addr_clicked), e_contact_editor);
 
 	widget = glade_xml_get_widget(e_contact_editor->gui, "button-categories");
 	if (widget && GTK_IS_BUTTON(widget))
-		gtk_signal_connect(GTK_OBJECT(widget), "clicked",
-				   categories_clicked, e_contact_editor);
+		g_signal_connect (widget, "clicked",
+				  G_CALLBACK (categories_clicked), e_contact_editor);
 
 	widget = glade_xml_get_widget(e_contact_editor->gui, "button-contacts");
 	if (widget && GTK_IS_BUTTON(widget))
-		gtk_signal_connect(GTK_OBJECT(widget), "clicked",
-				   contacts_clicked, e_contact_editor);
+		g_signal_connect (widget, "clicked",
+				  G_CALLBACK (contacts_clicked), e_contact_editor);
 
 
 	/* Construct the app */
@@ -1372,8 +1391,8 @@ e_contact_editor_init (EContactEditor *e_contact_editor)
 	{
 		GtkWidget *contents;
 
-		contents = gnome_dock_get_client_area (
-			GNOME_DOCK (GNOME_APP (e_contact_editor->app)->dock));
+		contents = bonobo_dock_get_client_area (gnome_app_get_dock (GNOME_APP(e_contact_editor->app)));
+
 		if (!contents) {
 			g_message ("contact_editor_construct(): Could not get contents");
 			return;
@@ -1386,7 +1405,7 @@ e_contact_editor_init (EContactEditor *e_contact_editor)
 	}
 
 	/* Build the menu and toolbar */
-
+#ifdef PENDING_PORT_WORK
 	container = bonobo_ui_container_new ();
 	bonobo_ui_container_set_win (container, BONOBO_WINDOW (e_contact_editor->app));
 
@@ -1396,8 +1415,9 @@ e_contact_editor_init (EContactEditor *e_contact_editor)
 		return;
 	}
 	bonobo_ui_component_set_container (e_contact_editor->uic,
-					   bonobo_object_corba_objref (
-						   BONOBO_OBJECT (container)));
+					   bonobo_object_corba_objref (BONOBO_OBJECT (container)),
+					   NULL);
+#endif
 
 	create_ui (e_contact_editor);
 
@@ -1407,7 +1427,7 @@ e_contact_editor_init (EContactEditor *e_contact_editor)
 
 	/* Connect to the deletion of the dialog */
 
-	gtk_signal_connect (GTK_OBJECT (e_contact_editor->app), "delete_event",
+	g_signal_connect (e_contact_editor->app, "delete_event",
 			    GTK_SIGNAL_FUNC (app_delete_event_cb), e_contact_editor);
 
 	/* set the icon */
@@ -1541,37 +1561,37 @@ e_contact_editor_new (EBook *book,
 }
 
 static void
-e_contact_editor_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
+e_contact_editor_set_property (GObject *object, guint prop_id, const GValue *value, GParamSpec *pspec)
 {
 	EContactEditor *editor;
 
-	editor = E_CONTACT_EDITOR (o);
+	editor = E_CONTACT_EDITOR (object);
 	
-	switch (arg_id){
-	case ARG_BOOK:
+	switch (prop_id){
+	case PROP_BOOK:
 		if (editor->book)
-			gtk_object_unref(GTK_OBJECT(editor->book));
-		editor->book = E_BOOK(GTK_VALUE_OBJECT (*arg));
-		gtk_object_ref (GTK_OBJECT (editor->book));
+			g_object_unref(editor->book);
+		editor->book = E_BOOK(g_value_get_object (value));
+		g_object_ref (editor->book);
 		/* XXX more here about editable/etc. */
 		break;
-	case ARG_CARD:
+	case PROP_CARD:
 		if (editor->card)
-			gtk_object_unref(GTK_OBJECT(editor->card));
-		editor->card = e_card_duplicate(E_CARD(GTK_VALUE_OBJECT (*arg)));
-		gtk_object_set(GTK_OBJECT(editor->simple),
-			       "card", editor->card,
-			       NULL);
+			g_object_unref(editor->card);
+		editor->card = e_card_duplicate(E_CARD(g_value_get_object (value)));
+		g_object_set(editor->simple,
+			     "card", editor->card,
+			     NULL);
 		fill_in_info(editor);
 		editor->changed = FALSE;
 		break;
 
-	case ARG_IS_NEW_CARD:
-		editor->is_new_card = GTK_VALUE_BOOL (*arg) ? TRUE : FALSE;
+	case PROP_IS_NEW_CARD:
+		editor->is_new_card = g_value_get_boolean (value) ? TRUE : FALSE;
 		break;
 
-	case ARG_EDITABLE: {
-		gboolean new_value = GTK_VALUE_BOOL (*arg) ? TRUE : FALSE;
+	case PROP_EDITABLE: {
+		gboolean new_value = g_value_get_boolean (value) ? TRUE : FALSE;
 		gboolean changed = (editor->editable != new_value);
 
 		editor->editable = new_value;
@@ -1583,8 +1603,8 @@ e_contact_editor_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 		break;
 	}
 
-	case ARG_CHANGED: {
-		gboolean new_value = GTK_VALUE_BOOL (*arg) ? TRUE : FALSE;
+	case PROP_CHANGED: {
+		gboolean new_value = g_value_get_boolean (value) ? TRUE : FALSE;
 		gboolean changed = (editor->changed != new_value);
 
 		editor->changed = new_value;
@@ -1593,57 +1613,60 @@ e_contact_editor_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 			command_state_changed (editor);
 		break;
 	}
-	case ARG_WRITABLE_FIELDS:
+	case PROP_WRITABLE_FIELDS:
 		if (editor->writable_fields)
-			gtk_object_unref(GTK_OBJECT(editor->writable_fields));
-		editor->writable_fields = GTK_VALUE_POINTER (*arg);
+			g_object_unref(editor->writable_fields);
+		editor->writable_fields = g_value_get_object (value);
 		if (editor->writable_fields)
-			gtk_object_ref (GTK_OBJECT (editor->writable_fields));
+			g_object_ref (editor->writable_fields);
 		else
 			editor->writable_fields = e_list_new(NULL, NULL, NULL);
 		enable_writable_fields (editor);
+		break;
+	default:
+		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
 		break;
 	}
 }
 
 static void
-e_contact_editor_get_arg (GtkObject *object, GtkArg *arg, guint arg_id)
+e_contact_editor_get_property (GObject *object, guint prop_id, GValue *value, GParamSpec *pspec)
 {
 	EContactEditor *e_contact_editor;
 
 	e_contact_editor = E_CONTACT_EDITOR (object);
 
-	switch (arg_id) {
-	case ARG_BOOK:
-		GTK_VALUE_OBJECT (*arg) = GTK_OBJECT(e_contact_editor->book);
+	switch (prop_id) {
+	case PROP_BOOK:
+		g_value_set_object (value, e_contact_editor->book);
 		break;
 
-	case ARG_CARD:
+	case PROP_CARD:
 		e_card_simple_sync_card(e_contact_editor->simple);
 		extract_info(e_contact_editor);
-		GTK_VALUE_OBJECT (*arg) = GTK_OBJECT(e_contact_editor->card);
+		g_value_set_object (value, e_contact_editor->card);
 		break;
 
-	case ARG_IS_NEW_CARD:
-		GTK_VALUE_BOOL (*arg) = e_contact_editor->is_new_card ? TRUE : FALSE;
+	case PROP_IS_NEW_CARD:
+		g_value_set_boolean (value, e_contact_editor->is_new_card ? TRUE : FALSE);
 		break;
 
-	case ARG_EDITABLE:
-		GTK_VALUE_BOOL (*arg) = e_contact_editor->editable ? TRUE : FALSE;
+	case PROP_EDITABLE:
+		g_value_set_boolean (value, e_contact_editor->editable ? TRUE : FALSE);
 		break;
 
-	case ARG_CHANGED:
-		GTK_VALUE_BOOL (*arg) = e_contact_editor->changed ? TRUE : FALSE;
+	case PROP_CHANGED:
+		g_value_set_boolean (value, e_contact_editor->changed ? TRUE : FALSE);
 		break;
 
-	case ARG_WRITABLE_FIELDS:
+	case PROP_WRITABLE_FIELDS:
 		if (e_contact_editor->writable_fields)
-			GTK_VALUE_POINTER (*arg) = e_list_duplicate (e_contact_editor->writable_fields);
+			g_value_set_object (value, e_list_duplicate (e_contact_editor->writable_fields));
 		else
-			GTK_VALUE_POINTER (*arg) = NULL;
+			g_value_set_object (value, NULL);
 		break;
 	default:
-		arg->type = GTK_TYPE_INVALID;
+		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
 		break;
 	}
 }
@@ -1652,6 +1675,7 @@ static void
 _popup_position(GtkMenu *menu,
 		gint *x,
 		gint *y,
+		gboolean *push_in,
 		gpointer data)
 {
 	GtkWidget *button = GTK_WIDGET(data);
@@ -1678,6 +1702,9 @@ _popup_position(GtkMenu *menu,
 	
 	if ((*y + mh) > gdk_screen_height ())
 		*y = gdk_screen_height () - mh;
+
+	/* XXX? */
+	*push_in = FALSE;
 }
 
 static gint
@@ -1686,7 +1713,7 @@ _arrow_pressed (GtkWidget *widget, GdkEventButton *button, EContactEditor *edito
 	gint menu_item;
 	gtk_signal_emit_stop_by_name(GTK_OBJECT(widget), "button_press_event");
 	gtk_widget_realize(popup);
-	menu_item = gnome_popup_menu_do_popup_modal(popup, _popup_position, widget, button, editor);
+	menu_item = gnome_popup_menu_do_popup_modal(popup, _popup_position, widget, button, editor, widget);
 	if ( menu_item != -1 ) {
 #if 0
 		if (menu_item == g_list_length (*list)) {
@@ -1889,9 +1916,9 @@ e_contact_editor_build_dialog(EContactEditor *editor, gchar *entry_id, gchar *la
 	gnome_dialog_append_button(GNOME_DIALOG(dialog), GNOME_STOCK_BUTTON_CANCEL);
 	gnome_dialog_set_default(GNOME_DIALOG(dialog), 0);
 	
-	gtk_signal_connect(GTK_OBJECT(dialog), "clicked",
+	g_signal_connect (dialog, "clicked",
 			   _dialog_clicked, editor);
-	gtk_signal_connect_while_alive(GTK_OBJECT(editor), "destroy",
+	g_signal_connect_while_alive(GTK_OBJECT(editor), "destroy",
 				       _dialog_destroy, GTK_OBJECT(dialog), GTK_OBJECT(dialog));
 	
 	gtk_object_set_data(GTK_OBJECT(dialog),
