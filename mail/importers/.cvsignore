@@ -8,5 +8,8 @@ Makefile.in
 *.da
 *.gcov
 *.server
+*.server.in
 *.lo
 *.la
+Mailer.h
+Mailer-*.c
