@@ -209,10 +209,10 @@ get_capabilities(CamelPOP3Engine *pe, int read_greeting)
 			pe->capa = CAMEL_POP3_CAP_APOP;
 			pe->auth = g_list_append(pe->auth, &camel_pop3_apop_authtype);
 		}
+		
+		pe->auth = g_list_prepend(pe->auth, &camel_pop3_password_authtype);
 	}
-
-	pe->auth = g_list_prepend(pe->auth, &camel_pop3_password_authtype);
-
+	
 	pc = camel_pop3_engine_command_new(pe, CAMEL_POP3_COMMAND_MULTI, cmd_capa, NULL, "CAPA\r\n");
 	while (camel_pop3_engine_iterate(pe, pc) > 0)
 		;

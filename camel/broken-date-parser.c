@@ -36,7 +36,7 @@
 #include "broken-date-parser.h"
 #include "e-time-utils.h"
 
-#define d(x) x
+#define d(x)
 
 #define NUMERIC_CHARS          "1234567890"
 #define WEEKDAY_CHARS          "SundayMondayTuesdayWednesdayThursdayFridaySaturday"

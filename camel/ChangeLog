@@ -1,3 +1,11 @@
+2003-06-01  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* broken-date-parser.c (d): Turn off debugging.
+
+	* providers/pop3/camel-pop3-engine.c (get_capabilities): Move the
+	code that prepends the 'password' authtype to the auth list so
+	that we don't add it again when regetting the capabilities.
+
 2003-05-30  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* camel-filter-driver.c (run_only_once): Turned off a debugging
