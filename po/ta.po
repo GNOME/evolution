@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: evolution.HEAD.ta\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2004-07-28 03:07+0200\n"
-"PO-Revision-Date: 2004-07-28 11:00+0530\n"
+"PO-Revision-Date: 2004-07-28 18:33+0530\n"
 "Last-Translator: Jayaradha N <jaya@pune.redhat.com>\n"
 "Language-Team: Tamil <zhakanini@yahoogroups.com>\n"
 "MIME-Version: 1.0\n"
@@ -8751,40 +8751,40 @@ msgstr "சிப்பரில் சரி பார்ப்பதற்க�
 
 #: camel/camel-cipher-context.c:171
 msgid "Verifying message"
-msgstr ""
+msgstr "செய்தியை சரிபார்க்கிறது"
 
 #: camel/camel-cipher-context.c:189
 msgid "Encryption is not supported by this cipher"
-msgstr ""
+msgstr "சிப்பரில் குறிமுறையாக்கத்திற்கான ஆதரவு இல்லை"
 
 #: camel/camel-cipher-context.c:215
 msgid "Encrypting message"
-msgstr ""
+msgstr "செய்தி குறிமுறையாக்கப்படுகிறது"
 
 #: camel/camel-cipher-context.c:232
 msgid "Decryption is not supported by this cipher"
-msgstr ""
+msgstr "சிப்பரில் மறையீடு நீக்கத்திற்கான ஆதரவு இல்லை"
 
 #: camel/camel-cipher-context.c:254
 msgid "Decrypting message"
-msgstr ""
+msgstr "செய்தி மறையீடு நீக்கம் செய்யப்படுகிறது"
 
 #: camel/camel-cipher-context.c:271
 msgid "You may not import keys with this cipher"
-msgstr ""
+msgstr "சிப்பரால் கடவுச்சொல்லை உள்வாங்க முடியவில்லை"
 
 #: camel/camel-cipher-context.c:301
 msgid "You may not export keys with this cipher"
-msgstr ""
+msgstr "சிப்பரால் கடவுச்சொல்லை அனுப்ப முடியவில்லை"
 
 #: camel/camel-data-cache.c:133
 msgid "Unable to create cache path"
-msgstr ""
+msgstr "தற்காலிக நினைவிட பாதையை உருவாக்க முடியவில்லை"
 
 #: camel/camel-data-cache.c:375
 #, c-format
 msgid "Could not remove cache entry: %s: %s"
-msgstr ""
+msgstr "தற்காலிக நினைவிட தகவலை நீக்க முடியவில்லை: %s: %s"
 
 #: camel/camel-disco-diary.c:194
 #, c-format
@@ -8793,6 +8793,9 @@ msgid ""
 "Further operations on this server will not be replayed when you\n"
 "reconnect to the network."
 msgstr ""
+"பதிவு தகவல்களை எழுத முடியவில்லை:%s\n"
+"இனி வரும் செய்திகள் சேவகனுடன் மீண்டும் இணையும் போது \n"
+"மீண்டும் இயக்க முடியாது."
 
 #: camel/camel-disco-diary.c:257
 #, c-format
@@ -8801,115 +8804,118 @@ msgid ""
 "%s\n"
 "Changes made to this folder will not be resynchronized."
 msgstr ""
+"'%s' ஐ திறக்க முடியவில்லை:\n"
+"%s\n"
+"இந்த அடைவில் செய்யப்பட்ட மாற்றங்களை மீண்டும் ஒத்திசைக்க முடியாது"
 
 #: camel/camel-disco-diary.c:293
 msgid "Resynchronizing with server"
-msgstr ""
+msgstr "சேவனோடு மீண்டும் ஒத்திசைவு நிகழ்கிறது"
 
 #: camel/camel-disco-folder.c:41
 msgid "Copy folder content locally for offline operation"
-msgstr ""
+msgstr "இணையத்தின் இணையாமல் வேலை செய்ய அடைவை உங்கள் கணினியில் நகலெடுக்கவும்"
 
 #: camel/camel-disco-folder.c:103
 msgid "Downloading new messages for offline mode"
-msgstr ""
+msgstr "இணையத்தின் இணையாமல் வேலை செய்ய புதிய செய்தியை பதிவிறக்கம் செய்கிறது"
 
 #: camel/camel-disco-folder.c:466
 #, c-format
 msgid "Preparing folder '%s' for offline"
-msgstr ""
+msgstr "இணையத்தொடர்பில்லாத நிலைக்காக '%s' அடைவு தயாராகிறது"
 
 #: camel/camel-disco-store.c:404
 msgid "You must be working online to complete this operation"
-msgstr ""
+msgstr "இந்த செயலை முடிக்க இணையதொடர்பு தேவை"
 
 #: camel/camel-filter-driver.c:669 camel/camel-filter-search.c:513
 #: camel/camel-process.c:48
 #, c-format
 msgid "Failed to create pipe to '%s': %s"
-msgstr ""
+msgstr "குழாத் தொடர்பை உருவாக்குதல் தோல்வியில் முடிந்தது'%s': %s"
 
 #: camel/camel-filter-driver.c:713 camel/camel-process.c:90
 #, c-format
 msgid "Failed to create child process '%s': %s"
-msgstr ""
+msgstr "துணை செயலை உருவாக்குவதில் தோல்வி '%s': %s"
 
 #: camel/camel-filter-driver.c:756
 #, c-format
 msgid "Invalid message stream received from %s: %s"
-msgstr ""
+msgstr "செல்லாத செய்தி தொடர்பு  %s: லிருந்து பெறப்பட்டது %s"
 
 #: camel/camel-filter-driver.c:945 camel/camel-filter-driver.c:954
 msgid "Syncing folders"
-msgstr ""
+msgstr "அடைவுகளை ஒத்திசைக்கிறது"
 
 #: camel/camel-filter-driver.c:1043 camel/camel-filter-driver.c:1420
 #, c-format
 msgid "Error parsing filter: %s: %s"
-msgstr ""
+msgstr "வடிகட்டியை பகுக்கும் போது பிழை : %s: %s"
 
 #: camel/camel-filter-driver.c:1052 camel/camel-filter-driver.c:1426
 #, c-format
 msgid "Error executing filter: %s: %s"
-msgstr ""
+msgstr "வடிகட்டியை இயக்கும் போது பிழை: %s: %s"
 
 #: camel/camel-filter-driver.c:1119
 msgid "Unable to open spool folder"
-msgstr ""
+msgstr "ஸ்பூல் அடைவை திறக்க முடியவில்லை"
 
 #: camel/camel-filter-driver.c:1128
 msgid "Unable to process spool folder"
-msgstr ""
+msgstr "ஸ்பூட் அடைவை செயல்படுத்த முடியவில்லை"
 
 #: camel/camel-filter-driver.c:1143
 #, c-format
 msgid "Getting message %d (%d%%)"
-msgstr ""
+msgstr "%d (%d%%) செய்தியை பெறுகிறது"
 
 #: camel/camel-filter-driver.c:1147
 msgid "Cannot open message"
-msgstr ""
+msgstr "செய்தியை திறக்க முடியவில்லை"
 
 #: camel/camel-filter-driver.c:1148 camel/camel-filter-driver.c:1160
 #, c-format
 msgid "Failed on message %d"
-msgstr ""
+msgstr "%d செய்தி தோல்வியில் முடிந்தது"
 
 #: camel/camel-filter-driver.c:1174 camel/camel-filter-driver.c:1265
 msgid "Syncing folder"
-msgstr ""
+msgstr "அடைவு ஒத்திசைகிறது"
 
 #: camel/camel-filter-driver.c:1235
 #, c-format
 msgid "Getting message %d of %d"
-msgstr ""
+msgstr "%d யில் %d செய்தியை பெறுகிறது"
 
 #: camel/camel-filter-driver.c:1250
 #, c-format
 msgid "Failed at message %d of %d"
-msgstr ""
+msgstr "%d யில் %d செய்தியை பெறும்போது தோல்வி"
 
 #: camel/camel-filter-search.c:136
 msgid "Failed to retrieve message"
-msgstr ""
+msgstr "செய்தியை பெறும்போது பிழை"
 
 #: camel/camel-filter-search.c:386
 msgid "Invalid arguments to (system-flag)"
-msgstr ""
+msgstr "செல்லாத பயனிலை (system-flag)"
 
 #: camel/camel-filter-search.c:401
 msgid "Invalid arguments to (user-tag)"
-msgstr ""
+msgstr "செல்லாத பயனிலை (user-tag)"
 
 #: camel/camel-filter-search.c:549
 #, c-format
 msgid "Failed to create create child process '%s': %s"
-msgstr ""
+msgstr "துணை செயலை உருவாக்குதல் தோல்வியில் முடிந்தது '%s': %s"
 
 #: camel/camel-filter-search.c:670 camel/camel-filter-search.c:678
 #, c-format
 msgid "Error executing filter search: %s: %s"
-msgstr ""
+msgstr "வடிகட்டி தேடலை இயக்கும் போது பிழை : %s: %s"
 
 #: camel/camel-folder-search.c:355 camel/camel-folder-search.c:476
 #, c-format
@@ -8917,6 +8923,8 @@ msgid ""
 "Cannot parse search expression: %s:\n"
 "%s"
 msgstr ""
+"இது போன்ற தொடர்களை பகுக்க முடியாது: %s:\n"
+"%s"
 
 #: camel/camel-folder-search.c:365 camel/camel-folder-search.c:486
 #, c-format
@@ -8924,66 +8932,68 @@ msgid ""
 "Error executing search expression: %s:\n"
 "%s"
 msgstr ""
+"தேடல் தொடரை இயக்கும் போது பிழை: %s:\n"
+"%s"
 
 #: camel/camel-folder-search.c:672 camel/camel-folder-search.c:705
 msgid "(match-all) requires a single bool result"
-msgstr ""
+msgstr "(எல்ல-பொருத்தம்) ஒரு பூலியன் விடை தேவைப்படுகிறது"
 
 #: camel/camel-folder-search.c:755
 msgid "(match-threads) not allowed inside match-all"
-msgstr ""
+msgstr "(சங்கிலி-பொருத்தம்) உள்ளே அனைத்தையும் பொருத்தி பார்க்க அனுமதி இல்லை"
 
 #: camel/camel-folder-search.c:758 camel/camel-folder-search.c:762
 msgid "(match-threads) requires a match type string"
-msgstr ""
+msgstr "(சங்கிலி-பொருத்தம்) சரப்பொருத்தம் அவசியம்"
 
 #: camel/camel-folder-search.c:784
 msgid "(match-threads) expects an array result"
-msgstr ""
+msgstr "(சங்கிலி-பொருத்தம்) அணி விடை தேவைப்படுகிறது"
 
 #: camel/camel-folder-search.c:790
 msgid "(match-threads) requires the folder set"
-msgstr ""
+msgstr "(சங்கிலி பொருத்தம்) அடைவை அமைக்க வேண்டியது அவசியம்"
 
 #: camel/camel-folder-search.c:879
 #, c-format
 msgid "Performing query on unknown header: %s"
-msgstr ""
+msgstr "தெரியாத தலைப்புக்கான கேள்வியை செயல்படுத்துகிறது: %s"
 
 #: camel/camel-folder.c:653
 #, c-format
 msgid "Unsupported operation: append message: for %s"
-msgstr ""
+msgstr "ஆதரவில்லா செயல்:%s க்கான செய்தி புதுப்பிக்கப்படுகிறது"
 
 #: camel/camel-folder.c:1262
 #, c-format
 msgid "Unsupported operation: search by expression: for %s"
-msgstr ""
+msgstr "ஆதரவில்லா செயல்: தொடர்களாக தேடு: %s"
 
 #: camel/camel-folder.c:1302
 #, c-format
 msgid "Unsupported operation: search by uids: for %s"
-msgstr ""
+msgstr "ஆதரவில்லா செயல்: uids வாரியாக தேடு %s"
 
 #: camel/camel-folder.c:1416
 msgid "Moving messages"
-msgstr ""
+msgstr "செய்திகளை நகர்த்துகிறது"
 
 #: camel/camel-folder.c:1416
 msgid "Copying messages"
-msgstr ""
+msgstr "செய்திகளை படியெடுக்கிறது"
 
 #: camel/camel-folder.c:1665
 msgid "Learning junk"
-msgstr ""
+msgstr "தேவையற்றவையை படிக்கிறது"
 
 #: camel/camel-folder.c:1682
 msgid "Learning non-junk"
-msgstr ""
+msgstr "தேயையானவையை படிக்கிறது"
 
 #: camel/camel-folder.c:1701
 msgid "Filtering new message(s)"
-msgstr ""
+msgstr "புதிய செய்தி(களை) வடிகட்டுகிறது"
 
 #: camel/camel-gpg-context.c:735
 #, c-format
@@ -8992,14 +9002,17 @@ msgid ""
 "\n"
 "%s"
 msgstr ""
+"எதிர்பாராத GnuPG நிலை செய்தி கிடைத்துள்ளது:\n"
+"\n"
+"%s"
 
 #: camel/camel-gpg-context.c:749
 msgid "Failed to parse gpg userid hint."
-msgstr ""
+msgstr "gpg பயனீட்டாளர் அடையாள எண் குறிப்பை பகுக்க முடியவில்லை"
 
 #: camel/camel-gpg-context.c:773
 msgid "Failed to parse gpg passphrase request."
-msgstr ""
+msgstr "gpg கடவுச்சொல் கோரிக்கையை பகுத்தல் தோல்வியடைந்தது"
 
 #: camel/camel-gpg-context.c:787
 #, c-format
@@ -9007,6 +9020,8 @@ msgid ""
 "You need a passphrase to unlock the key for\n"
 "user: \"%s\""
 msgstr ""
+"ள் பூட்டை திறக்க கசொல் தேவை \n"
+"user: \"%s\"்ச்"
 
 #: camel/camel-gpg-context.c:804 camel/camel-gpg-context.c:1314
 #: camel/camel-gpg-context.c:1498 camel/camel-gpg-context.c:1589
@@ -9014,20 +9029,20 @@ msgstr ""
 #: camel/providers/nntp/camel-nntp-store.c:1329 mail/mail-ops.c:705
 #: mail/mail-send-recv.c:611
 msgid "Cancelled."
-msgstr ""
+msgstr "ரத்து செய்யப்பட்டது"
 
 #: camel/camel-gpg-context.c:822
 msgid "Failed to unlock secret key: 3 bad passphrases given."
-msgstr ""
+msgstr "ரகசிய பூட்டை திறக்க முடியவில்லை 3 முறை தவறாக கடவுச்சொல் தரப்பட்டது"
 
 #: camel/camel-gpg-context.c:828
 #, c-format
 msgid "Unexpected response from GnuPG: %s"
-msgstr ""
+msgstr "GnuPG விலிருந்து எதிர்பாராத கோரிக்கை : %s"
 
 #: camel/camel-gpg-context.c:880
 msgid "Failed to encrypt: No valid recipients specified."
-msgstr ""
+msgstr "குறிமுறையாக்க முடியவில்லை: சரியான பெறுநர் குறிப்பிடப்படவில்லை"
 
 #: camel/camel-gpg-context.c:1157
 #, c-format
@@ -9036,207 +9051,210 @@ msgid ""
 "\n"
 "%s"
 msgstr ""
+"GPG தோல்வி %s: %s\n"
+"\n"
+"%s"
 
 #: camel/camel-gpg-context.c:1162
 #, c-format
 msgid "Failed to GPG %s: %s\n"
-msgstr ""
+msgstr "GPG தோல்வி %s: %s\n"
 
 #: camel/camel-gpg-context.c:1275 camel/camel-smime-context.c:419
 #, c-format
 msgid "Could not generate signing data: %s"
-msgstr ""
+msgstr "தகவல் கைஓப்பத்தை உருவாக்க முடியவில்லை: %s"
 
 #: camel/camel-gpg-context.c:1307 camel/camel-gpg-context.c:1762
 #: camel/camel-gpg-context.c:1813
 #, c-format
 msgid "Failed to execute gpg: %s"
-msgstr ""
+msgstr "gpgயை இயக்க முடியவில்லை: %s"
 
 #: camel/camel-gpg-context.c:1331 camel/camel-gpg-context.c:1491
 #: camel/camel-gpg-context.c:1582 camel/camel-gpg-context.c:1605
 #: camel/camel-gpg-context.c:1690 camel/camel-gpg-context.c:1714
 #: camel/camel-gpg-context.c:1784 camel/camel-gpg-context.c:1835
 msgid "Failed to execute gpg."
-msgstr ""
+msgstr "gpg யை இயக்க முடியவில்லை"
 
 #: camel/camel-gpg-context.c:1350
 msgid "This is a digitally signed message part"
-msgstr ""
+msgstr "இது டிஜிடல் கையொப்பமிடப்பட்ட பகுதி"
 
 #: camel/camel-gpg-context.c:1431 camel/camel-gpg-context.c:1437
 #: camel/camel-gpg-context.c:1443 camel/camel-smime-context.c:721
 #: camel/camel-smime-context.c:732 camel/camel-smime-context.c:739
 msgid "Cannot verify message signature: Incorrect message format"
-msgstr ""
+msgstr "செய்தி கையொப்பத்தை சரிபார்க்க முடியவில்லை: தவறான வடிவம்"
 
 #: camel/camel-gpg-context.c:1477
 #, c-format
 msgid "Cannot verify message signature: could not create temp file: %s"
-msgstr ""
+msgstr "செய்தி கையொப்பத்தை சரிபார்க்க முடியவில்லை: தற்காலிக கோப்பை உருவாக்க முடியவில்லை: %s"
 
 #: camel/camel-gpg-context.c:1565
 #, c-format
 msgid "Could not generate encrypting data: %s"
-msgstr ""
+msgstr "குறியாக்கப்பட்ட தகவலை உருவாக்க முடியவில்லை: %s"
 
 #: camel/camel-gpg-context.c:1623
 msgid "This is a digitally encrypted message part"
-msgstr ""
+msgstr "இது டிஜிடல் குறியாக்கம் செய்யப்பட்ட தகவல்"
 
 #: camel/camel-gpg-context.c:1721 camel/camel-smime-context.c:995
 msgid "Encrypted content"
-msgstr ""
+msgstr "குறியாக்கம் செய்யப்பட்ட தகவல்"
 
 #: camel/camel-gpg-context.c:1740
 msgid "Unable to parse message content"
-msgstr ""
+msgstr "செய்தியை பகுக்க முடியவில்லை"
 
 #: camel/camel-lock-client.c:100
 #, c-format
 msgid "Cannot build locking helper pipe: %s"
-msgstr ""
+msgstr "பூட்டப்பட்ட உதவிக்குழாய்களை அமைக்க முடியாது: %s"
 
 #: camel/camel-lock-client.c:113
 #, c-format
 msgid "Cannot fork locking helper: %s"
-msgstr ""
+msgstr "பூட்டப்பட்ட உதவியை பிளக்க முடியாது: %s"
 
 #: camel/camel-lock-client.c:191 camel/camel-lock-client.c:214
 #, c-format
 msgid "Could not lock '%s': protocol error with lock-helper"
-msgstr ""
+msgstr "'%s' ஐ பூட்ட முடியாது. பூட்டு-உதவியில் விதிமுறை பிழை"
 
 #: camel/camel-lock-client.c:204
 #, c-format
 msgid "Could not lock '%s'"
-msgstr ""
+msgstr "'%s' ஐ பூட்ட முடியவில்லை"
 
 #: camel/camel-lock.c:92 camel/camel-lock.c:113
 #, c-format
 msgid "Could not create lock file for %s: %s"
-msgstr ""
+msgstr "%s க்கான பூட்டு கோப்பை உருவாக்க முடியவில்லை: %s"
 
 #: camel/camel-lock.c:154
 #, c-format
 msgid "Timed out trying to get lock file on %s. Try again later."
-msgstr ""
+msgstr "பூட்டு கோப்பை பெறுவதற்கான நேரம் முடிந்தது %s. மீண்டும் முயலவும்"
 
 #: camel/camel-lock.c:209
 #, c-format
 msgid "Failed to get lock using fcntl(2): %s"
-msgstr ""
+msgstr "fcntl(2) ஐ பயன்படுத்தி பூட்டை பெற முடியவில்லை:  %s"
 
 #: camel/camel-lock.c:272
 #, c-format
 msgid "Failed to get lock using flock(2): %s"
-msgstr ""
+msgstr "flock(2) ஐ பயன்படுத்தி பூட்டை பெற முடியவில்லை:  %s"
 
 #: camel/camel-movemail.c:107
 #, c-format
 msgid "Could not check mail file %s: %s"
-msgstr ""
+msgstr "மின்னஞ்சல் கோப்பு %s ஐ பார்க்க முடியவில்லை : %s"
 
 #: camel/camel-movemail.c:120
 #, c-format
 msgid "Could not open mail file %s: %s"
-msgstr ""
+msgstr "மின்னஞ்சல் கோப்பு %s ஐ திறக்க முடியவில்லை: %s"
 
 #: camel/camel-movemail.c:128
 #, c-format
 msgid "Could not open temporary mail file %s: %s"
-msgstr ""
+msgstr "தற்காலிக மின்னஞ்சல் கோப்பு%s ஐ திறக்க முடியவில்லை: %s"
 
 #: camel/camel-movemail.c:157
 #, c-format
 msgid "Failed to store mail in temp file %s: %s"
-msgstr ""
+msgstr "தற்காலிக கோப்பி %s இல் மின்னஞ்சலை சேமிக்க முடியவில்லை: %s"
 
 #: camel/camel-movemail.c:187
 #, c-format
 msgid "Could not create pipe: %s"
-msgstr ""
+msgstr "குழாயை உருவாக்க முடியவில்லை %s"
 
 #: camel/camel-movemail.c:199
 #, c-format
 msgid "Could not fork: %s"
-msgstr ""
+msgstr "பிளக்க முடியவில்லை: %s"
 
 #: camel/camel-movemail.c:237
 #, c-format
 msgid "Movemail program failed: %s"
-msgstr ""
+msgstr "மின்னஞ்சல் நகர்த்தல் தோல்வியுற்றது: %s"
 
 #: camel/camel-movemail.c:238
 msgid "(Unknown error)"
-msgstr ""
+msgstr "(தெரியாத பிழை)"
 
 #: camel/camel-movemail.c:261
 #, c-format
 msgid "Error reading mail file: %s"
-msgstr ""
+msgstr "மின்னஞ்சல் கோப்பை படிக்கும் போது பிழை: %s"
 
 #: camel/camel-movemail.c:272
 #, c-format
 msgid "Error writing mail temp file: %s"
-msgstr ""
+msgstr "மின்னஞ்சலை தற்காலிக கோப்பில் எழுதும்போது பிழை: %s"
 
 #: camel/camel-movemail.c:465 camel/camel-movemail.c:532
 #, c-format
 msgid "Error copying mail temp file: %s"
-msgstr ""
+msgstr "மின்னஞ்சலை தற்காலிக கோப்பில் நகலெடுக்கும் போது பிழை: %s"
 
 #: camel/camel-multipart-encrypted.c:229 camel/camel-multipart-encrypted.c:244
 msgid "Failed to decrypt MIME part: protocol error"
-msgstr ""
+msgstr "MIME பகுதியை மறைநீக்கம் செய்வது தோல்வியுற்றது: விதிமுறை பிழை"
 
 #: camel/camel-multipart-encrypted.c:257
 msgid "Failed to decrypt MIME part: invalid structure"
-msgstr ""
+msgstr "MIME பகுதியை மறைநீக்கம் செய்வது தோல்வியுற்றது: செல்லாத அமைப்பு"
 
 #: camel/camel-multipart-signed.c:673 camel/camel-multipart-signed.c:724
 msgid "parse error"
-msgstr ""
+msgstr "பகுப்பு பிழை"
 
 #: camel/camel-provider.c:59
 msgid "Virtual folder email provider"
-msgstr ""
+msgstr "மெய்நிகர் அடைவு மின்னஞ்சல் சேவை"
 
 #: camel/camel-provider.c:61
 msgid "For reading mail as a query of another set of folders"
-msgstr ""
+msgstr "வேறு அடைவில் உள்ள கேள்விகளுக்கான மின்னஞ்சலை படிக்கிறது"
 
 #: camel/camel-provider.c:172
 #, c-format
 msgid "Could not load %s: Module loading not supported on this system."
-msgstr ""
+msgstr "%s ஏற்ற முடியவில்லை: பகுதியை மட்டும் ஏற்றுவதற்கு இங்கே அனுமதி இல்லை"
 
 #: camel/camel-provider.c:181
 #, c-format
 msgid "Could not load %s: %s"
-msgstr ""
+msgstr "ஏற்ற முடியவில்லை %s: %s"
 
 #: camel/camel-provider.c:189
 #, c-format
 msgid "Could not load %s: No initialization code in module."
-msgstr ""
+msgstr "ஏற்ற முடியவில்லை %s: இந்த பகுதியில் துவக்க அடையாளம் இல்லை"
 
 #: camel/camel-provider.c:356 camel/camel-session.c:160
 #, c-format
 msgid "No provider available for protocol `%s'"
-msgstr ""
+msgstr "இந்த விதிமுறைக்கான சேவை இல்லை`%s'"
 
 #: camel/camel-sasl-anonymous.c:35
 msgid "Anonymous"
-msgstr ""
+msgstr "பெயரில்லாத"
 
 #: camel/camel-sasl-anonymous.c:37
 msgid "This option will connect to the server using an anonymous login."
-msgstr ""
+msgstr "இந்த தேர்வு பெயரில்லாமல் சேவகனில் உங்களை இணைக்கும்"
 
 #: camel/camel-sasl-anonymous.c:112 camel/camel-sasl-plain.c:87
 msgid "Authentication failed."
-msgstr ""
+msgstr "அனுமதி மறுக்கப்பட்டது"
 
 #: camel/camel-sasl-anonymous.c:121
 #, c-format
@@ -9244,6 +9262,8 @@ msgid ""
 "Invalid email address trace information:\n"
 "%s"
 msgstr ""
+"செல்லாத மின்னஞ்சல் முகவரி சுவடு தகவல்:\n"
+"%s"
 
 #: camel/camel-sasl-anonymous.c:133
 #, c-format
@@ -9251,6 +9271,8 @@ msgid ""
 "Invalid opaque trace information:\n"
 "%s"
 msgstr ""
+"செல்லாத ஒபேக் சுவடு தகவல்:\n"
+"%s"
 
 #: camel/camel-sasl-anonymous.c:145
 #, c-format
@@ -9258,132 +9280,138 @@ msgid ""
 "Invalid trace information:\n"
 "%s"
 msgstr ""
+"செல்லாத சுவடு தகவல்:\n"
+"%s"
 
 #: camel/camel-sasl-cram-md5.c:35
 msgid "CRAM-MD5"
-msgstr ""
+msgstr "CRAM-MD5"
 
 #: camel/camel-sasl-cram-md5.c:37
 msgid ""
 "This option will connect to the server using a secure CRAM-MD5 password, if "
 "the server supports it."
 msgstr ""
+"இந்த தேர்வுல் உங்களை பாதுகாப்ப CRAM-MD5 கடவுச்சொல்லை பயன்படுத்தி சேகனுடன் இணைக்கும். "
+"இதற்கு சேவகன் ஆதரவு தேவை"
 
 #: camel/camel-sasl-digest-md5.c:48
 msgid "DIGEST-MD5"
-msgstr ""
+msgstr "DIGEST-MD5"
 
 #: camel/camel-sasl-digest-md5.c:50
 msgid ""
 "This option will connect to the server using a secure DIGEST-MD5 password, "
 "if the server supports it."
 msgstr ""
+"இந்த தேர்வுல் உங்களை பாதுகாப்ப DIGEST-MD5 கடவுச்சொல்லை பயன்படுத்தி சேகனுடன் இணைக்கும். "
+"இதற்கு சேவகன் ஆதரவு தேவை"
 
 #: camel/camel-sasl-digest-md5.c:813
 msgid "Server challenge too long (>2048 octets)\n"
-msgstr ""
+msgstr "சேவகன் சவால் மிகப்பெரியாது (>2048 octets)\n"
 
 #: camel/camel-sasl-digest-md5.c:822
 msgid "Server challenge invalid\n"
-msgstr ""
+msgstr "சேவகன் சவால் செல்லாது\n"
 
 #: camel/camel-sasl-digest-md5.c:828
 msgid "Server challenge contained invalid \"Quality of Protection\" token\n"
-msgstr ""
+msgstr "சேவகன் சவாலில் செல்லாத \"பாதுகாப்பு\" தகவல்\n"
 
 #: camel/camel-sasl-digest-md5.c:850
 msgid "Server response did not contain authorization data\n"
-msgstr ""
+msgstr "சேவகன் பதிலில் அனுமதி தகவல் இல்லை\n"
 
 #: camel/camel-sasl-digest-md5.c:868
 msgid "Server response contained incomplete authorization data\n"
-msgstr ""
+msgstr "சேவகன் பதிலில் முடியாத அனுமதி தகவல் உள்ளது\n"
 
 #: camel/camel-sasl-digest-md5.c:878
 msgid "Server response does not match\n"
-msgstr ""
+msgstr "சேவகன் பதிலில் பொருத்தம் இல்லை\n"
 
 #: camel/camel-sasl-gssapi.c:48
 msgid "GSSAPI"
-msgstr ""
+msgstr "GSSAPI"
 
 #: camel/camel-sasl-gssapi.c:50
 msgid "This option will connect to the server using Kerberos 5 authentication."
-msgstr ""
+msgstr "இந்த தேர்வு கர்ப்ரோஸ் கடவுச்சொல்லை பயன்படுத்தி இணைக்கும்"
 
 #: camel/camel-sasl-gssapi.c:148
 msgid ""
 "The specified mechanism is not supported by the provided credential, or is "
 "unrecognized by the implementation."
-msgstr ""
+msgstr "குறிப்பிட்ட செயலுக்கு தேவையான ஆதரவு இல்லை அல்லது செயல்பாட்டை புரிந்துகொள்ள முடியவில்லை."
 
 #: camel/camel-sasl-gssapi.c:153
 msgid "The provided target_name parameter was ill-formed."
-msgstr ""
+msgstr "கொடுக்கப்பட்ட சேருமிட_பெயர் பயனிலைகள் சரியான அமைப்பின் இல்லை"
 
 #: camel/camel-sasl-gssapi.c:156
 msgid ""
 "The provided target_name parameter contained an invalid or unsupported type "
 "of name."
-msgstr ""
+msgstr "கொடுக்கப்பட்ட சேருமிட_பெயர்களின் பயனிலையில் செல்லாத அல்லது ஆதரவு இல்லாத பெயர் உள்ளது."
 
 #: camel/camel-sasl-gssapi.c:160
 msgid ""
 "The input_token contains different channel bindings to those specified via "
 "the input_chan_bindings parameter."
-msgstr ""
+msgstr "input_token இல் வேறு அலைவரிசை குறிப்பிடப்பட்டுள்ளதால் nput_chan_bindings பயனிலை வழியாக குறிப்பிட வேண்டும்."
 
 #: camel/camel-sasl-gssapi.c:165
 msgid ""
 "The input_token contains an invalid signature, or a signature that could not "
 "be verified."
-msgstr ""
+msgstr "input_token இல் செல்லாத கையொப்பம் உள்ளது அல்லது சரிபார்க்காத கையொப்பம் உள்ளது."
 
 #: camel/camel-sasl-gssapi.c:169
 msgid ""
 "The supplied credentials were not valid for context initiation, or the "
 "credential handle did not reference any credentials."
-msgstr ""
+msgstr "தொடரை துவக்க கொடுக்கப்பட்ட தகவல்கள் போதாது அல்லது தகவல் குறிப்பை அணுக முடியவில்லை"
 
 #: camel/camel-sasl-gssapi.c:174
 msgid "The supplied context handle did not refer to a valid context."
-msgstr ""
+msgstr "கொடுக்கப்பட தகவல் சரியான தகவலை குறிக்கவில்லை"
 
 #: camel/camel-sasl-gssapi.c:177
 msgid "The consistency checks performed on the input_token failed."
-msgstr ""
+msgstr "input_token செய்யப்பட்ட ஒத்திசைவு சோதனையில் தோல்வி"
 
 #: camel/camel-sasl-gssapi.c:180
 msgid "The consistency checks performed on the credential failed."
-msgstr ""
+msgstr "தகவலுக்காக செய்யப்பட்ட ஒத்திசைவு சோதனையில் தோல்வி"
 
 #: camel/camel-sasl-gssapi.c:183
 msgid "The referenced credentials have expired."
-msgstr ""
+msgstr "கொடுக்கப்பட்ட நம்பக தகவலின் காலம் முடிவுற்றது"
 
 #: camel/camel-sasl-gssapi.c:189 camel/camel-sasl-gssapi.c:238
 #: camel/camel-sasl-gssapi.c:274 camel/camel-sasl-gssapi.c:289
 #: camel/camel-sasl-kerberos4.c:219
 #: camel/providers/imap/camel-imap-store.c:1236
 msgid "Bad authentication response from server."
-msgstr ""
+msgstr "சேவகனிலிருந்து மோசமான அனுமதி சோதனை பதில்"
 
 #: camel/camel-sasl-gssapi.c:213
 #, c-format
 msgid "Failed to resolve host `%s': %s"
-msgstr ""
+msgstr "'%s' புரவலனை கண்டுபிடிக்க முடியவில்லை : %s"
 
 #: camel/camel-sasl-gssapi.c:299
 msgid "Unsupported security layer."
-msgstr ""
+msgstr "ஆதரவு இல்லாத பாதுகாப்பு அடுக்கு"
 
 #: camel/camel-sasl-kerberos4.c:41
 msgid "Kerberos 4"
-msgstr ""
+msgstr "கர்ப்ரோஸ் 4"
 
 #: camel/camel-sasl-kerberos4.c:43
 msgid "This option will connect to the server using Kerberos 4 authentication."
-msgstr ""
+msgstr "இந்த தேர்வு சேவகனுடன் கர்ப்ரோஸ் 4 அனுமதி சோதனை பயன்படுத்தி இணையும்"
 
 #: camel/camel-sasl-kerberos4.c:162
 #, c-format
@@ -9391,109 +9419,111 @@ msgid ""
 "Could not get Kerberos ticket:\n"
 "%s"
 msgstr ""
+"கர்ப்ரோஸ் டிக்கெட்டை பெற முடியவில்லை:\n"
+"%s"
 
 #: camel/camel-sasl-login.c:32
 msgid "Login"
-msgstr ""
+msgstr "உள்நுழை"
 
 #: camel/camel-sasl-login.c:34 camel/camel-sasl-plain.c:34
 msgid "This option will connect to the server using a simple password."
-msgstr ""
+msgstr "இந்த தேர்வு சுலபமான கடவுச்சொல்லை பயன்படுத்தி சேவகனுடன் இணையும்."
 
 #: camel/camel-sasl-login.c:127
 msgid "Unknown authentication state."
-msgstr ""
+msgstr "தெரியாத அனுமதி சரிபார்த்தல் நிலை."
 
 #: camel/camel-sasl-ntlm.c:31
 msgid "NTLM / SPA"
-msgstr ""
+msgstr "NTLM / SPA"
 
 #: camel/camel-sasl-ntlm.c:33
 msgid ""
 "This option will connect to a Windows-based server using NTLM / Secure "
 "Password Authentication."
-msgstr ""
+msgstr "NTLM/ பாதுகாப்பான கடவுச்சொல் அனுமதி முறையை பயன்படுத்தி விண்டோஸ் சார்ந்த சேவகனுடன் இணைய இந்த முறை பயன்படும்."
 
 #: camel/camel-sasl-plain.c:32
 msgid "PLAIN"
-msgstr ""
+msgstr "PLAIN"
 
 #: camel/camel-sasl-popb4smtp.c:36
 msgid "POP before SMTP"
-msgstr ""
+msgstr "SMTP க்கு முன் POP"
 
 #: camel/camel-sasl-popb4smtp.c:38
 msgid "This option will authorise a POP connection before attempting SMTP"
-msgstr ""
+msgstr "இந்த தேர்வு SMTP இணைப்புக்கு முயல்வதற்கு முன் பாப் இணைப்பை சோதிக்கும்"
 
 #: camel/camel-sasl-popb4smtp.c:103
 msgid "POP Source URI"
-msgstr ""
+msgstr "POP மூலம் URI"
 
 #: camel/camel-sasl-popb4smtp.c:106
 msgid "POP Before SMTP auth using an unknown transport"
-msgstr ""
+msgstr "SMTP அனுமதி தெரியாத தகவல் பறிமாற்றத்துக்கு முன் POP "
 
 #: camel/camel-sasl-popb4smtp.c:111
 msgid "POP Before SMTP auth using a non-pop source"
-msgstr ""
+msgstr "SMTP பாப் அல்லாத மூலத்தை பயன்படுத்துவதற்கு முன் POP "
 
 #: camel/camel-search-private.c:114
 #, c-format
 msgid "Regular expression compilation failed: %s: %s"
-msgstr ""
+msgstr "இயல்பான கூற்று முடித்தல் தோல்வியுற்றது: %s: %s"
 
 #: camel/camel-service.c:271
 #, c-format
 msgid "URL '%s' needs a username component"
-msgstr ""
+msgstr "URL '%s' க்கு பயனீட்டாளர் பெயர் தேவை"
 
 #: camel/camel-service.c:275
 #, c-format
 msgid "URL '%s' needs a host component"
-msgstr ""
+msgstr "URL '%s' புரவலன் பெயர் தேவை"
 
 #: camel/camel-service.c:279
 #, c-format
 msgid "URL '%s' needs a path component"
-msgstr ""
+msgstr "URL '%s' க்கு பாதை தேவை"
 
 #: camel/camel-service.c:729
 #, c-format
 msgid "Resolving: %s"
-msgstr ""
+msgstr "கண்டுபிடிக்கிறது: %s"
 
 #: camel/camel-service.c:760 camel/camel-service.c:884
 #, c-format
 msgid "Failure in name lookup: %s"
-msgstr ""
+msgstr "பெயரை பரிசோதிக்கையில் தோல்வி: %s"
 
 #: camel/camel-service.c:781 camel/camel-service.c:905
 #, c-format
 msgid "Host lookup failed: cannot create thread: %s"
-msgstr ""
+msgstr "புரவலன் பெயர்சோதனை தோல்வி: சங்கிலியை உருவாக்க முடியவில்லை: %s"
 
 #: camel/camel-service.c:794
 #, c-format
 msgid "Host lookup failed: %s: host not found"
-msgstr ""
+msgstr "புரவலன் பெயர்அறிதல் தோல்வியடைந்தது: %s: புரவலனை காணவில்லை"
 
 #: camel/camel-service.c:797
 #, c-format
 msgid "Host lookup failed: %s: unknown reason"
-msgstr ""
+msgstr "புரவலன் பெயர்அறிதல் தோல்வியடைந்தது: %s: காரணம் தெரியவில்லை"
 
 #: camel/camel-service.c:851
 msgid "Resolving address"
-msgstr ""
+msgstr "முகவரியை பெயருடன் பொருத்துகிறது"
 
 #: camel/camel-service.c:920
 msgid "Host lookup failed: host not found"
-msgstr ""
+msgstr "புரவலனை பெயருடன் பொருத்த முடியவில்லை: புரவலனை காணவில்லை"
 
 #: camel/camel-service.c:923
 msgid "Host lookup failed: unknown reason"
-msgstr ""
+msgstr "புரவலனை பெயருடன் பொருத்த முடியவில்லை: காரணம் தெரியவில்லை"
 
 #: camel/camel-session.c:282
 #, c-format
@@ -9501,121 +9531,123 @@ msgid ""
 "Could not create directory %s:\n"
 "%s"
 msgstr ""
+"அடைவை உருவாக்க முடியவில்லை%s:\n"
+"%s"
 
 #: camel/camel-smime-context.c:104
 #, c-format
 msgid "Enter security pass-phrase for `%s'"
-msgstr ""
+msgstr "பாதுகாப்பு கடவுச்சொல்லை உள்ளிடவும் `%s'"
 
 #: camel/camel-smime-context.c:261
 #, c-format
 msgid "Cannot find certificate for '%s'"
-msgstr ""
+msgstr "`%s' க்கான சான்றிதழ் காணவில்லை"
 
 #: camel/camel-smime-context.c:267
 msgid "Cannot create CMS message"
-msgstr ""
+msgstr "CMS செய்தியை உருவாக்க முடியவில்லை"
 
 #: camel/camel-smime-context.c:272
 msgid "Cannot create CMS signedData"
-msgstr ""
+msgstr "CMS கையயொப்பதகவலை உருவாக்க முடியவில்லை"
 
 #: camel/camel-smime-context.c:278
 msgid "Cannot attach CMS signedData"
-msgstr ""
+msgstr "CMS கையயொப்பதகவலை இணைக்க முடியவில்லை"
 
 #: camel/camel-smime-context.c:285
 msgid "Cannot attach CMS data"
-msgstr ""
+msgstr "CMS கையயொப்பதகவலை இணைக்க முடியவில்லை"
 
 #: camel/camel-smime-context.c:291
 msgid "Cannot create CMS SignerInfo"
-msgstr ""
+msgstr "CMS கையயொப்ப தகவலை உருவாக்க முடியவில்லை"
 
 #: camel/camel-smime-context.c:297
 msgid "Cannot find cert chain"
-msgstr ""
+msgstr "கையொப்ப தொடரை காணவில்லை"
 
 #: camel/camel-smime-context.c:303
 msgid "Cannot add CMS SigningTime"
-msgstr ""
+msgstr "CMS கையொப்ப நேரத்தை சேர்க்க முடியவில்லை"
 
 #: camel/camel-smime-context.c:325 camel/camel-smime-context.c:337
 #, c-format
 msgid "Encryption cert for '%s' does not exist"
-msgstr ""
+msgstr "'%s' க்கான குறிமுறையாக்க சான்றிதழை காணவில்லை"
 
 #: camel/camel-smime-context.c:344
 msgid "Cannot add SMIMEEncKeyPrefs attribute"
-msgstr ""
+msgstr "SMIMEEncKeyPrefs பண்பை சேர்க்க முடியவில்லை"
 
 #: camel/camel-smime-context.c:349
 msgid "Cannot add MS SMIMEEncKeyPrefs attribute"
-msgstr ""
+msgstr "MS SMIMEEncKeyPrefs பண்பை சேர்க்க முடியவில்லை"
 
 #: camel/camel-smime-context.c:354
 msgid "Cannot add encryption certificate"
-msgstr ""
+msgstr "குறிமுறையாக்க சான்றிதழை சேர்க்க முடியவில்லை"
 
 #: camel/camel-smime-context.c:360
 msgid "Cannot add CMS SignerInfo"
-msgstr ""
+msgstr "CMS கையொப்ப தகவலை சேர்க்க முடியவில்லை"
 
 #: camel/camel-smime-context.c:430 camel/camel-smime-context.c:877
 msgid "Cannot create encoder context"
-msgstr ""
+msgstr "குறியாக்க செய்தியை உருவாக்க முடியவில்லை"
 
 #: camel/camel-smime-context.c:436
 msgid "Failed to add data to CMS encoder"
-msgstr ""
+msgstr "CMS குறியாக்கியில் தகவலை சேர்க்க முடியவில்லை"
 
 #: camel/camel-smime-context.c:441 camel/camel-smime-context.c:894
 msgid "Failed to encode data"
-msgstr ""
+msgstr "தகவலை குறியாக்கல் தோல்வியுற்றது"
 
 #: camel/camel-smime-context.c:514
 msgid "Unverified"
-msgstr ""
+msgstr "சரிபார்க்காத"
 
 #: camel/camel-smime-context.c:516
 msgid "Good signature"
-msgstr ""
+msgstr "சரியான கையொப்பம்"
 
 #: camel/camel-smime-context.c:518
 msgid "Bad signature"
-msgstr ""
+msgstr "மேசமான கைப்யொப்பம்"
 
 #: camel/camel-smime-context.c:520
 msgid "Content tampered with or altered in transit"
-msgstr ""
+msgstr " பரிமாற்த்தின் போது தகவலில் குறுக்கீடு நிகழ்ந்தது அல்லது தகவலில் மாற்றம் நிகழ்துள்ளதுற"
 
 #: camel/camel-smime-context.c:522
 msgid "Signing certificate not found"
-msgstr ""
+msgstr "கையொப்ப சான்றிதழ் காணவில்லை"
 
 #: camel/camel-smime-context.c:524
 msgid "Signing certificate not trusted"
-msgstr ""
+msgstr "கையொப்ப சான்றிதழில் நம்பகம் இல்லை"
 
 #: camel/camel-smime-context.c:526
 msgid "Signature algorithm unknown"
-msgstr ""
+msgstr "கையொப்ப முறைமை தெரியாத முறை"
 
 #: camel/camel-smime-context.c:528
 msgid "Signature algorithm unsupported"
-msgstr ""
+msgstr "கையொப்ப முறைமைக்கு ஆதரவு இல்லை"
 
 #: camel/camel-smime-context.c:530
 msgid "Malformed signature"
-msgstr ""
+msgstr "தவறான கையொப்பம்"
 
 #: camel/camel-smime-context.c:532
 msgid "Processing error"
-msgstr ""
+msgstr "பிழையை சரிசெய்கிறது"
 
 #: camel/camel-smime-context.c:569
 msgid "No signedData in signature"
-msgstr ""
+msgstr "கையொப்பத்தில் சரியான தகவல் இல்லை"
 
 #: camel/camel-smime-context.c:576
 msgid "Digests missing from enveloped data"
@@ -17598,1030 +17630,1030 @@ msgstr ""
 
 #: ui/evolution-mail-global.xml.h:5
 msgid "Create or edit virtual folder definitions"
-msgstr ""
+msgstr "மெய்நிகர் அடைவை உருவாக்கவும்"
 
 #: ui/evolution-mail-global.xml.h:6
 msgid "Empty _Trash"
-msgstr ""
+msgstr "(_T)குப்பை தொட்டியை காலி செய்"
 
 #: ui/evolution-mail-global.xml.h:7
 msgid "Open a window for composing a mail message"
-msgstr ""
+msgstr "மின்னஞ்சல் செய்தியை உருவாக்க சாளரத்தை திறக்கவும்"
 
 #: ui/evolution-mail-global.xml.h:8
 msgid "Permanently remove all deleted messages from all folders"
-msgstr ""
+msgstr "எல்லா அடைவிலும் உள்ள எல்லா அழித்த செய்திகளையும் நிரந்தரமாக நீக்கு"
 
 #: ui/evolution-mail-global.xml.h:9
 msgid "Post Ne_w Message"
-msgstr ""
+msgstr "(_w)புதிய செய்தியை பதிப்பி"
 
 #: ui/evolution-mail-global.xml.h:10
 msgid "Post a message to a Public folder"
-msgstr ""
+msgstr "பொது அடைவில் செய்தியை பதிப்பி"
 
 #: ui/evolution-mail-global.xml.h:11
 msgid "S_ubscribe to Folders..."
-msgstr ""
+msgstr "அடைவிற்கு சந்தாதாராக்கு..."
 
 #: ui/evolution-mail-global.xml.h:12
 msgid "Show message preview window"
-msgstr ""
+msgstr "செய்தி முன்தோற்ற சாளரத்தை காட்டு"
 
 #: ui/evolution-mail-global.xml.h:13
 msgid "Subscribe or unsubscribe to folders on remote servers"
-msgstr ""
+msgstr "தொலைசேவகனில் அடைவை சந்தாதாரக்கு அல்லது ரத்து செய்"
 
 #: ui/evolution-mail-global.xml.h:14
 msgid "Virtual Folder _Editor..."
-msgstr ""
+msgstr "(_E)மெய்நிகர் வடிகட்டி தொகுப்பி..."
 
 #: ui/evolution-mail-global.xml.h:16
 msgid "_Filters..."
-msgstr ""
+msgstr "(_F)வடிகட்டிகள்..."
 
 #: ui/evolution-mail-list.xml.h:1
 msgid "Change the properties of this folder"
-msgstr ""
+msgstr "இந்த அடைவின் குணங்களை மாற்று"
 
 #: ui/evolution-mail-list.xml.h:2 ui/evolution-mail-message.xml.h:10
 msgid "Copy selected message(s) to the clipboard"
-msgstr ""
+msgstr "தேர்வு செய்த செய்திகளை தற்காலிக நினைவிடத்தில் நகலெடு"
 
 #: ui/evolution-mail-list.xml.h:3 ui/evolution-mail-message.xml.h:22
 msgid "Cut selected message(s) to the clipboard"
-msgstr ""
+msgstr "தேர்வு செய்த செய்தியை தற்காலிக நினைவிடத்துக்கு அனுப்பு"
 
 #: ui/evolution-mail-list.xml.h:4
 msgid "E_xpunge"
-msgstr ""
+msgstr "(_x)அழிக்கவும்"
 
 #: ui/evolution-mail-list.xml.h:5
 msgid "Hide S_elected Messages"
-msgstr ""
+msgstr "(_e)தேர்வு செய்த ்த செய்திகளை மறை"
 
 #: ui/evolution-mail-list.xml.h:6
 msgid "Hide _Deleted Messages"
-msgstr ""
+msgstr "(_D)அழித்தத்த செய்திகளை மறை"
 
 #: ui/evolution-mail-list.xml.h:7
 msgid "Hide _Read Messages"
-msgstr ""
+msgstr "(_R) படித்த செய்திகளை மறை"
 
 #: ui/evolution-mail-list.xml.h:8
 msgid "Hide deleted messages rather than displaying them with a line through them"
-msgstr ""
+msgstr "செய்திகளி அடித்து காட்டுவதற்கு பதிலாக அவற்றை மறை"
 
 #: ui/evolution-mail-list.xml.h:9
 msgid "Mark All as _Read"
-msgstr ""
+msgstr "(_R)எல்லவற்றையும் படிக்கப்பட்டது என குறி"
 
 #: ui/evolution-mail-list.xml.h:10
 msgid "Mark all visible messages as read"
-msgstr ""
+msgstr "புலப்படும் அனைத்து செய்திகளைபும் படிக்கப்பட்டது என குறி"
 
 #: ui/evolution-mail-list.xml.h:11 ui/evolution-mail-message.xml.h:74
 msgid "Paste message(s) from the clipboard"
-msgstr ""
+msgstr "தற்காலிக நினைவிடத்திலிருந்து செய்திகளை ஒட்டவும்"
 
 #: ui/evolution-mail-list.xml.h:12
 msgid "Permanently remove all deleted messages from this folder"
-msgstr ""
+msgstr "இந்த அடைவில் உள்ள நீக்கிய கோப்புகளை நிரந்தரமாக நீக்கு"
 
 #: ui/evolution-mail-list.xml.h:14
 msgid "Select _Thread"
-msgstr ""
+msgstr "(_T)இழையை தேர்வு செய்"
 
 #: ui/evolution-mail-list.xml.h:15
 msgid "Select all and only the messages that are not currently selected"
-msgstr ""
+msgstr "தற்போது தேர்வு செய்யப்படாத செய்திகளை மட்டும் தேர்வு செய்யவும்"
 
 #: ui/evolution-mail-list.xml.h:16
 msgid "Select all messages in the same thread as the selected message"
-msgstr ""
+msgstr "ஒரே இழையில் உள்ள தேர்வு செய்த எல்லா செய்திகளையும் தேர்வு செய்யப்பட்டது என குறி"
 
 #: ui/evolution-mail-list.xml.h:17
 msgid "Select all visible messages"
-msgstr ""
+msgstr "புலப்படும் அனைத்து செய்திகளையும் தேர்வு செய்யவும்"
 
 #: ui/evolution-mail-list.xml.h:18
 msgid "Sh_ow Hidden Messages"
-msgstr ""
+msgstr "(_o)மறைக்கப்பட்ட செய்திகளை காட்டு"
 
 #: ui/evolution-mail-list.xml.h:19
 msgid "Show messages that have been temporarily hidden"
-msgstr ""
+msgstr "தற்காலிகமாக மறைக்கப்பட்ட செய்திகளை காட்டு"
 
 #: ui/evolution-mail-list.xml.h:20
 msgid "Temporarily hide all messages that have already been read"
-msgstr ""
+msgstr "ஏற்கெனவே படித்த செய்திகளை தற்காலிகமாக மறை"
 
 #: ui/evolution-mail-list.xml.h:21
 msgid "Temporarily hide the selected messages"
-msgstr ""
+msgstr "தேர்வு செய்யப்பட்ட செய்தியை தற்காலிகமாக மறை"
 
 #: ui/evolution-mail-list.xml.h:22
 msgid "Threaded Message list"
-msgstr ""
+msgstr "இழையுடன் கூடிய செய்தி பட்டியல்"
 
 #: ui/evolution-mail-list.xml.h:25
 msgid "_Folder"
-msgstr ""
+msgstr "(_F)அடைவு"
 
 #: ui/evolution-mail-list.xml.h:26 ui/evolution-subscribe.xml.h:12
 msgid "_Invert Selection"
-msgstr ""
+msgstr "(_I)தேர்வை தலைகீழாக்கு"
 
 #: ui/evolution-mail-list.xml.h:28
 msgid "_Threaded Message List"
-msgstr ""
+msgstr "(_T)இழையுடன் கூடிய செய்தி பட்டியல்"
 
 #: ui/evolution-mail-message.xml.h:1
 msgid "A_dd Sender to Address Book"
-msgstr ""
+msgstr "(_d)அனுப்பியவரை முகவரி புத்தகத்தில் சேர்"
 
 #: ui/evolution-mail-message.xml.h:2
 msgid "A_pply Filters"
-msgstr ""
+msgstr "(_p)வடிகட்டியை அமை"
 
 #: ui/evolution-mail-message.xml.h:3
 msgid "Add Sender to Address Book"
-msgstr ""
+msgstr "அனுப்பியவர் முகவரியை முகவரி புத்தகத்தில் சேர்"
 
 #: ui/evolution-mail-message.xml.h:4
 msgid "Apply filter rules to the selected messages"
-msgstr ""
+msgstr "தேர்வு செய்யப்பட்ட செய்திக்கு வடிகட்டி விதிமுறையை உருவாக்கு"
 
 #: ui/evolution-mail-message.xml.h:5
 msgid "Caret _Mode"
-msgstr ""
+msgstr "(_M)காரட் பாங்கு"
 
 #: ui/evolution-mail-message.xml.h:6
 msgid "Compose a reply to all of the recipients of the selected message"
-msgstr ""
+msgstr "தேர்வு செய்யப்பட்ட செய்திக்கு எல்லோருக்கும்ும் பதில் தயார் செய்"
 
 #: ui/evolution-mail-message.xml.h:7
 msgid "Compose a reply to the mailing list of the selected message"
-msgstr ""
+msgstr "தேர்வு செய்யப்பட்ட மின்னஞ்சல் பட்டியல் செய்திக்கு பதிலை தயார் செய்."
 
 #: ui/evolution-mail-message.xml.h:8
 msgid "Compose a reply to the sender of the selected message"
-msgstr ""
+msgstr "இந்த செய்தியை அனுப்பியவருக்கு பதிலை தயார் செய்"
 
 #: ui/evolution-mail-message.xml.h:11
 msgid "Copy selected messages to another folder"
-msgstr ""
+msgstr "தேர்வு செய்யப்பட்ட செய்தியை வேறு அடைவுக்கு நகர்த்து"
 
 #: ui/evolution-mail-message.xml.h:12
 msgid "Create _Virtual Folder From Message"
-msgstr ""
+msgstr "(_V)இந்த செய்திக்கான மெய்நிகர் அடைவை உருவாக்கு"
 
 #: ui/evolution-mail-message.xml.h:13
 msgid "Create a rule to filter messages from this sender"
-msgstr ""
+msgstr "அனுப்புபவருக்கு செய்தி வடிகட்ட விதிமுறையை உருவாக்கு"
 
 #: ui/evolution-mail-message.xml.h:14
 msgid "Create a rule to filter messages to these recipients"
-msgstr ""
+msgstr "பெற்றுக்கொள்பவருக்கு செய்தி வடிகட்ட விதிமுறையை உருவாக்கு"
 
 #: ui/evolution-mail-message.xml.h:15
 msgid "Create a rule to filter messages to this mailing list"
-msgstr ""
+msgstr "மின்னஞ்சல் பட்டியலுக்காக செய்தி வடிகட்ட விதிமுறையை உருவாக்கு"
 
 #: ui/evolution-mail-message.xml.h:16
 msgid "Create a rule to filter messages with this subject"
-msgstr ""
+msgstr "தலைப்புகளோடு செய்தி வடிகட்ட விதிமுறையை உருவாக்கு"
 
 #: ui/evolution-mail-message.xml.h:17
 msgid "Create a virtual folder for these recipients"
-msgstr ""
+msgstr "இந்த பெற்றுக்கொண்டவருக்காக மெய்நிகர் அடைவை உருவாக்கு"
 
 #: ui/evolution-mail-message.xml.h:18
 msgid "Create a virtual folder for this mailing list"
-msgstr ""
+msgstr "இந்த மின்னஞ்சல் பட்டியலுக்காக மெய்நிகர் அடைவை உருவாக்கு"
 
 #: ui/evolution-mail-message.xml.h:19
 msgid "Create a virtual folder for this sender"
-msgstr ""
+msgstr "இந்த அனுப்புநருக்காக மெய்நிகர் அடைவை உருவாக்கு"
 
 #: ui/evolution-mail-message.xml.h:20
 msgid "Create a virtual folder for this subject"
-msgstr ""
+msgstr "இந்த தலைப்புக்காக மெய்நிகர் அடைவை உருவாக்கு"
 
 #: ui/evolution-mail-message.xml.h:23
 msgid "Decrease the text size"
-msgstr ""
+msgstr "உரையின் அளவை சிறிதாக்கு"
 
 #: ui/evolution-mail-message.xml.h:25
 msgid "Display the next important message"
-msgstr ""
+msgstr "அடுத்த முக்கிய செய்தியை காட்டு"
 
 #: ui/evolution-mail-message.xml.h:26
 msgid "Display the next message"
-msgstr ""
+msgstr "அடுத்த செய்தியை காட்டு"
 
 #: ui/evolution-mail-message.xml.h:27
 msgid "Display the next unread message"
-msgstr ""
+msgstr "அடுத்த படிக்காத செய்தியை காட்டு"
 
 #: ui/evolution-mail-message.xml.h:28
 msgid "Display the next unread thread"
-msgstr ""
+msgstr "அடுத்த படிக்காத இழையை காட்டு"
 
 #: ui/evolution-mail-message.xml.h:29
 msgid "Display the previous important message"
-msgstr ""
+msgstr "முந்தைய முக்கிய செய்தியை காட்டு"
 
 #: ui/evolution-mail-message.xml.h:30
 msgid "Display the previous message"
-msgstr ""
+msgstr "முந்தைய செய்தியை காட்டு"
 
 #: ui/evolution-mail-message.xml.h:31
 msgid "Display the previous unread message"
-msgstr ""
+msgstr "முந்தைய படிக்காத செய்தியை காட்டு"
 
 #: ui/evolution-mail-message.xml.h:32
 msgid "F_orward As..."
-msgstr ""
+msgstr "(_o) என முன் அனுப்பு"
 
 #: ui/evolution-mail-message.xml.h:33
 msgid "Filter _Junk"
-msgstr ""
+msgstr "(_J)தேவையற்றவைகளை வடிகட்டு"
 
 #: ui/evolution-mail-message.xml.h:34
 msgid "Filter on Mailing _List..."
-msgstr ""
+msgstr "(_L)மின்னஞ்சல் பட்டியல் வரிசையாக வடிகட்டு..."
 
 #: ui/evolution-mail-message.xml.h:35
 msgid "Filter on Se_nder..."
-msgstr ""
+msgstr "(_n)அனுப்பியவர்கள்்கொண்டவர்கள் வரிசையாக வடிகட்டு"
 
 #: ui/evolution-mail-message.xml.h:36
 msgid "Filter on _Recipients..."
-msgstr ""
+msgstr "(_R)பெற்றுக்கொண்டவர்கள் வரிசையாக வடிகட்டு"
 
 #: ui/evolution-mail-message.xml.h:37
 msgid "Filter on _Subject..."
-msgstr ""
+msgstr "(_S)தலைப்பு வாரியாக வடிகட்டு..."
 
 #: ui/evolution-mail-message.xml.h:38
 msgid "Filter the selected messages for junk status"
-msgstr ""
+msgstr "தேவையற்ற செய்திகளை பிரிக்க தேர்வு செய்த செய்தியை வடிகட்டு"
 
 #: ui/evolution-mail-message.xml.h:39
 msgid "Flag selected message(s) for follow-up"
-msgstr ""
+msgstr "தேர்வு செய்த செய்தி(களை) தொடர வேண்டும் என குறி"
 
 #: ui/evolution-mail-message.xml.h:40
 msgid "Follow _Up..."
-msgstr ""
+msgstr "(_U)தொடர்..."
 
 #: ui/evolution-mail-message.xml.h:41
 msgid "Force images in HTML mail to be loaded"
-msgstr ""
+msgstr "சித்திரங்களை HTML மின்னஞ்சலாக ஏற்ற வலியுறுத்து"
 
 #: ui/evolution-mail-message.xml.h:43
 msgid "Forward the selected message in the body of a new message"
-msgstr ""
+msgstr "புதிய செய்தியிலுள் தேர்வு செய்த செய்தியை சேர்த்து புதிய செய்தியாக அனுப்பு"
 
 #: ui/evolution-mail-message.xml.h:44
 msgid "Forward the selected message quoted like a reply"
-msgstr ""
+msgstr "தேர்வு செய்த செய்தியை பதில் என குறித்து மற்றவருக்கு அனுப்பு"
 
 #: ui/evolution-mail-message.xml.h:45
 msgid "Forward the selected message to someone"
-msgstr ""
+msgstr "தேர்வு செய்த செய்தியை மற்றவருக்கு அனுப்பு"
 
 #: ui/evolution-mail-message.xml.h:46
 msgid "Forward the selected message to someone as an attachment"
-msgstr ""
+msgstr "தேர்வு செய்த செய்தியை இணைப்பாக மற்றவருக்கு அனுப்பு"
 
 #: ui/evolution-mail-message.xml.h:47
 msgid "Increase the text size"
-msgstr ""
+msgstr "உரையின் அளவை பெரிதாக்கு"
 
 #: ui/evolution-mail-message.xml.h:49
 msgid "Load _Images"
-msgstr ""
+msgstr "(_I)படங்களை உள்வாங்கு"
 
 #: ui/evolution-mail-message.xml.h:51
 msgid "Mark as I_mportant"
-msgstr ""
+msgstr "(_m)முக்கியம் என குறிக்கவும்"
 
 #: ui/evolution-mail-message.xml.h:52
 msgid "Mark as U_nread"
-msgstr ""
+msgstr "(_n)படிக்கவில்லை என குறிக்கவும்"
 
 #: ui/evolution-mail-message.xml.h:53
 msgid "Mark as Unimp_ortant"
-msgstr ""
+msgstr "(_o)முக்கியமில்லை என குறிக்கவும்"
 
 #: ui/evolution-mail-message.xml.h:56
 msgid "Mark the selected message(s) as having been read"
-msgstr ""
+msgstr "தேர்வு செய்த செய்தி(களை) படிக்கப்பட்டது என குறிக்கவும்"
 
 #: ui/evolution-mail-message.xml.h:57
 msgid "Mark the selected message(s) as important"
-msgstr ""
+msgstr "தேர்வு செய்த செய்தி(களை) முக்கியம் என குறிக்கவும்"
 
 #: ui/evolution-mail-message.xml.h:58
 msgid "Mark the selected message(s) as junk"
-msgstr ""
+msgstr "தேர்வு செய்த செய்தி(களை) தேவையற்றது என குறிக்கவும்"
 
 #: ui/evolution-mail-message.xml.h:59
 msgid "Mark the selected message(s) as not being junk"
-msgstr ""
+msgstr "தேர்வு செய்த செய்திகளை தேவையற்ற செய்திகள் என குறிப்பிடு"
 
 #: ui/evolution-mail-message.xml.h:60
 msgid "Mark the selected message(s) as not having been read"
-msgstr ""
+msgstr "தேர்வு செய்த செய்தி(களை) இன்னும் படிக்கவில்லை என குறிக்கவும்"
 
 #: ui/evolution-mail-message.xml.h:61
 msgid "Mark the selected message(s) as unimportant"
-msgstr ""
+msgstr "தேர்வு செய்த செய்தி(களை) முக்கியமில்லை என குறிக்கவும்"
 
 #: ui/evolution-mail-message.xml.h:62
 msgid "Mark the selected messages for deletion"
-msgstr ""
+msgstr "தேர்வு செய்த செய்திகளை நீக்குவதற்காக குறிக்கவும்"
 
 #: ui/evolution-mail-message.xml.h:63
 msgid "Move"
-msgstr ""
+msgstr "நகர்த்து"
 
 #: ui/evolution-mail-message.xml.h:64
 msgid "Move selected message(s) to another folder"
-msgstr ""
+msgstr "தேர்வு செய்த செய்திகளை வேறு அடைவிற்கு நகர்த்து"
 
 #: ui/evolution-mail-message.xml.h:66
 msgid "Next _Important Message"
-msgstr ""
+msgstr "(_I)அடுத்த முக்கியமான செய்தி"
 
 #: ui/evolution-mail-message.xml.h:67
 msgid "Next _Thread"
-msgstr ""
+msgstr "(_T)அடுத்த இழை"
 
 #: ui/evolution-mail-message.xml.h:68
 msgid "Next _Unread Message"
-msgstr ""
+msgstr "(_U)அடுத்த படிக்காத செய்தி"
 
 #: ui/evolution-mail-message.xml.h:69
 msgid "Not Junk"
-msgstr ""
+msgstr "தேவையானது"
 
 #: ui/evolution-mail-message.xml.h:70
 msgid "Open the selected message in a new window"
-msgstr ""
+msgstr "தேர்வு செய்த செய்தியை புதிய சாளரத்தில் திறக்கவும்"
 
 #: ui/evolution-mail-message.xml.h:71
 msgid "Open the selected message in the composer for editing"
-msgstr ""
+msgstr "தேர்வு செய்த செய்தியை திறுத்துவதற்காக கம்போசரில் திறக்கவும்"
 
 #: ui/evolution-mail-message.xml.h:72
 msgid "Original Si_ze"
-msgstr ""
+msgstr "(_z)உண்மையான அளவு"
 
 #: ui/evolution-mail-message.xml.h:73
 msgid "P_revious Unread Message"
-msgstr ""
+msgstr "(_r)முந்தைய படிக்காத செய்தி"
 
 #: ui/evolution-mail-message.xml.h:75
 msgid "Post a Repl_y"
-msgstr ""
+msgstr "(_y)பதில் அனுப்பு"
 
 #: ui/evolution-mail-message.xml.h:76
 msgid "Post a reply to a message in a Public folder"
-msgstr ""
+msgstr "பதிலை பொது அடைவிற்கு அனுப்பவும்"
 
 #: ui/evolution-mail-message.xml.h:77
 msgid "Pr_evious Important Message"
-msgstr ""
+msgstr "(_e)முன்பு உள்வாங்கிய செய்தி"
 
 #: ui/evolution-mail-message.xml.h:78
 msgid "Preview the message to be printed"
-msgstr ""
+msgstr "அச்சடிக்க வேண்டிய செய்தியை காட்டு"
 
 #: ui/evolution-mail-message.xml.h:82
 msgid "Print this message"
-msgstr ""
+msgstr "இந்த செய்தியை அச்சடி"
 
 #: ui/evolution-mail-message.xml.h:83
 msgid "Re_direct"
-msgstr ""
+msgstr "(_d)திசைமாற்று"
 
 #: ui/evolution-mail-message.xml.h:84
 msgid "Redirect (bounce) the selected message to someone"
-msgstr ""
+msgstr "தேர்வு செய்யப்பட்ட செய்தியை வேறுஒருவருக்கு அனுப்பு(திசைமாற்று)"
 
 #: ui/evolution-mail-message.xml.h:89
 msgid "Reset the text to its original size"
-msgstr ""
+msgstr "உரையை இயல்பான அளவில் காட்டு"
 
 #: ui/evolution-mail-message.xml.h:90
 msgid "S_earch in Message..."
-msgstr ""
+msgstr "(_e)செய்தியில் தேடு..."
 
 #: ui/evolution-mail-message.xml.h:91
 msgid "S_maller"
-msgstr ""
+msgstr "(_m)சிறிய"
 
 #: ui/evolution-mail-message.xml.h:92
 msgid "Save the message as a text file"
-msgstr ""
+msgstr "செய்தியை உரை கோப்பாக சேமி"
 
 #: ui/evolution-mail-message.xml.h:93
 msgid "Search for text in the body of the displayed message"
-msgstr ""
+msgstr "காட்டப்பட்ட செய்தியில் குறிப்பிட்ட உரையை தேடு"
 
 #: ui/evolution-mail-message.xml.h:94
 msgid "Set up the page settings for your current printer"
-msgstr ""
+msgstr "தற்போதைய அச்சியந்திரத்திற்காக பக்க அமைப்பை காட்டு"
 
 #: ui/evolution-mail-message.xml.h:95
 msgid "Show Email _Source"
-msgstr ""
+msgstr "(_S)மின்னஞ்சல் மூலத்தை காட்டு"
 
 #: ui/evolution-mail-message.xml.h:96
 msgid "Show Full _Headers"
-msgstr ""
+msgstr "(_H)முழு தலைப்பையும் காட்டு"
 
 #: ui/evolution-mail-message.xml.h:97
 msgid "Show a blinking cursor in the body of displayed messages"
-msgstr ""
+msgstr "செய்தியில் சிமிட்டும் கர்சரை காட்டு"
 
 #: ui/evolution-mail-message.xml.h:98
 msgid "Show message in the normal style"
-msgstr ""
+msgstr "இயல்பான பாணியில் செய்தியை காட்டு"
 
 #: ui/evolution-mail-message.xml.h:99
 msgid "Show message with all email headers"
-msgstr ""
+msgstr "எல்லா மின்னஞ்சல் தலைப்புகளோடும் செய்தியை காட்டு"
 
 #: ui/evolution-mail-message.xml.h:100
 msgid "Show the raw email source of the message"
-msgstr ""
+msgstr "மின்னஞ்சல் செய்தியின் மூலத்தை காட்டு"
 
 #: ui/evolution-mail-message.xml.h:101
 msgid "Text Si_ze"
-msgstr ""
+msgstr "(_z)உரை அளவு"
 
 #: ui/evolution-mail-message.xml.h:102
 msgid "Un-delete the selected messages"
-msgstr ""
+msgstr "தேர்வு செய்த செய்திகளை நீக்காதே"
 
 #: ui/evolution-mail-message.xml.h:103
 msgid "VFolder on Mailing _List..."
-msgstr ""
+msgstr "(_L)Vஅடைவு மின்னஞ்சல் பட்டியலில்"
 
 #: ui/evolution-mail-message.xml.h:104
 msgid "VFolder on Se_nder..."
-msgstr ""
+msgstr "(_n)Vஅடைவு அனுப்புபவரிடம்..."
 
 #: ui/evolution-mail-message.xml.h:105
 msgid "VFolder on _Recipients..."
-msgstr ""
+msgstr "(_R)Vஅடைவு பெற்றுக்கொள்பவரிடத்தில்..."
 
 #: ui/evolution-mail-message.xml.h:106
 msgid "VFolder on _Subject..."
-msgstr ""
+msgstr "(_S)தலைப்பின் Vஅடைவு..."
 
 #: ui/evolution-mail-message.xml.h:108
 msgid "_Attached"
-msgstr ""
+msgstr "(_A)இணைக்கப்பட்ட"
 
 #: ui/evolution-mail-message.xml.h:111
 msgid "_Create Filter From Message"
-msgstr ""
+msgstr "(_C)செய்தியிலிருந்து வடிகட்டியை உருவாக்கு"
 
 #: ui/evolution-mail-message.xml.h:115
 msgid "_Go To"
-msgstr ""
+msgstr "(_G) இங்கே செல்"
 
 #: ui/evolution-mail-message.xml.h:116
 msgid "_Inline"
-msgstr ""
+msgstr "(_I)உள்"
 
 #: ui/evolution-mail-message.xml.h:117
 msgid "_Larger"
-msgstr ""
+msgstr "(_L)பெரிய"
 
 #: ui/evolution-mail-message.xml.h:118
 msgid "_Message Display"
-msgstr ""
+msgstr "(_M)செய்தி காட்சி"
 
 #: ui/evolution-mail-message.xml.h:120
 msgid "_Next Message"
-msgstr ""
+msgstr "(_N)அடுத்த செய்தி"
 
 #: ui/evolution-mail-message.xml.h:121
 msgid "_Normal Display"
-msgstr ""
+msgstr "(_N)இயல்பான காட்சி"
 
 #: ui/evolution-mail-message.xml.h:122
 msgid "_Open Message"
-msgstr ""
+msgstr "(_O)செய்தியை திற"
 
 #: ui/evolution-mail-message.xml.h:124
 msgid "_Previous Message"
-msgstr ""
+msgstr "(_P)முந்தைய செய்தி"
 
 #: ui/evolution-mail-message.xml.h:126
 msgid "_Quoted"
-msgstr ""
+msgstr "(_Q)குறிப்பிட்ட"
 
 #: ui/evolution-mail-message.xml.h:129 ui/evolution.xml.h:36
 msgid "_Tools"
-msgstr ""
+msgstr "(_T)கருவி"
 
 #: ui/evolution-mail-message.xml.h:130
 msgid "_Undelete"
-msgstr ""
+msgstr "(_U)நீக்காதே"
 
 #: ui/evolution-mail-messagedisplay.xml.h:2 ui/evolution.xml.h:5
 msgid "Close this window"
-msgstr ""
+msgstr "இந்த சாளரத்தை மூடவும்"
 
 #: ui/evolution-mail-messagedisplay.xml.h:5
 #: ui/evolution-message-composer.xml.h:41 ui/evolution-subscribe.xml.h:9
 #: ui/evolution.xml.h:28
 msgid "_Close"
-msgstr ""
+msgstr "(_C)மூடு"
 
 #: ui/evolution-message-composer.xml.h:1
 msgid "Attach"
-msgstr ""
+msgstr "இணைக்கவும்"
 
 #: ui/evolution-message-composer.xml.h:2
 msgid "Attach a file"
-msgstr ""
+msgstr "கோப்பை இணைக்கவும்"
 
 #: ui/evolution-message-composer.xml.h:4 ui/evolution-signature-editor.xml.h:3
 msgid "Close the current file"
-msgstr ""
+msgstr "தற்போதைய கோப்பை தேர்வு செய்யவும்"
 
 #: ui/evolution-message-composer.xml.h:5
 msgid "Delete all but signature"
-msgstr ""
+msgstr "கையொப்பம் தவிர மற்றதை நீக்கவும்"
 
 #: ui/evolution-message-composer.xml.h:6
 msgid "Encrypt this message with PGP"
-msgstr ""
+msgstr "PGP யை பயன்படுத்தி இந்த செய்தியை குறிமுறையாக்கவும்"
 
 #: ui/evolution-message-composer.xml.h:7
 msgid "Encrypt this message with your S/MIME Encryption Cetificate"
-msgstr ""
+msgstr "S/MIME குறிமுறையாக்க சான்றிதழை பயன்படுத்தி இந்த சான்றிதழை குறியாக்கவும்"
 
 #: ui/evolution-message-composer.xml.h:8 ui/evolution-signature-editor.xml.h:4
 msgid "For_mat"
-msgstr ""
+msgstr "(_m)வடிவமைப்பு"
 
 #: ui/evolution-message-composer.xml.h:9
 msgid "HT_ML"
-msgstr ""
+msgstr "HT_ML"
 
 #: ui/evolution-message-composer.xml.h:11
 msgid "Open a file"
-msgstr ""
+msgstr "கோப்பௌ திற"
 
 #: ui/evolution-message-composer.xml.h:12
 msgid "PGP Encrypt"
-msgstr ""
+msgstr "PGP குறிமுறையாக்கம்"
 
 #: ui/evolution-message-composer.xml.h:13
 msgid "PGP Sign"
-msgstr ""
+msgstr "PGP குறிமுறையாக்கம்"
 
 #: ui/evolution-message-composer.xml.h:14
 msgid "S/MIME Encrypt"
-msgstr ""
+msgstr "S/MIME குறிமுறையாக்கம்"
 
 #: ui/evolution-message-composer.xml.h:15
 msgid "S/MIME Sign"
-msgstr ""
+msgstr "S/MIME கையொப்பம்"
 
 #: ui/evolution-message-composer.xml.h:16
 #: ui/evolution-signature-editor.xml.h:6
 msgid "Save"
-msgstr ""
+msgstr "சேமி"
 
 #: ui/evolution-message-composer.xml.h:17
 msgid "Save As"
-msgstr ""
+msgstr "எனச்சேமி"
 
 #: ui/evolution-message-composer.xml.h:19
 msgid "Save _Draft"
-msgstr ""
+msgstr "(_D) வரைவை சேமி"
 
 #: ui/evolution-message-composer.xml.h:20
 msgid "Save in folder..."
-msgstr ""
+msgstr "அடைவில் சேமி..."
 
 #: ui/evolution-message-composer.xml.h:21
 #: ui/evolution-signature-editor.xml.h:9
 msgid "Save the current file"
-msgstr ""
+msgstr "தற்போதைய கோப்பை சேமி"
 
 #: ui/evolution-message-composer.xml.h:22
 msgid "Save the current file with a different name"
-msgstr ""
+msgstr "தற்போதைய கோப்பை வேறு பெயரில் சேமி"
 
 #: ui/evolution-message-composer.xml.h:23
 msgid "Save the message in a specified folder"
-msgstr ""
+msgstr "இந்த செய்தியை குறிப்பிட்ட அடைவில் சேமிக்கவும்"
 
 #: ui/evolution-message-composer.xml.h:25
 #: ui/evolution-signature-editor.xml.h:11
 msgid "Send the mail in HTML format"
-msgstr ""
+msgstr "மின்னஞ்சலை HTML வடிவத்தில் அனுப்பு"
 
 #: ui/evolution-message-composer.xml.h:26
 msgid "Send this message"
-msgstr ""
+msgstr "இந்த செய்தியை அனுப்பு"
 
 #: ui/evolution-message-composer.xml.h:27
 msgid "Show / hide attachments"
-msgstr ""
+msgstr "இணைப்பை காட்டு / மறை"
 
 #: ui/evolution-message-composer.xml.h:28
 msgid "Show _attachments"
-msgstr ""
+msgstr "(_a)இணைப்பை காட்டு"
 
 #: ui/evolution-message-composer.xml.h:29
 msgid "Show attachments"
-msgstr ""
+msgstr "இணைப்பை காட்டு"
 
 #: ui/evolution-message-composer.xml.h:30
 msgid "Sign this message with your PGP key"
-msgstr ""
+msgstr "PGP விசையை பயன்படுத்தி இந்த செய்திக்கு கையொப்பமிடவும்"
 
 #: ui/evolution-message-composer.xml.h:31
 msgid "Sign this message with your S/MIME Signature Certificate"
-msgstr ""
+msgstr "S/MIME கையொப்ப சான்றிதழ் பயன்படுத்து இந்த செய்திக்கு கையொப்பமிடவும்"
 
 #: ui/evolution-message-composer.xml.h:32
 msgid "Toggles whether the BCC field is displayed"
-msgstr ""
+msgstr "மறைநகல் புலம் காட்டப்பட வேண்டுமா என்பதை மாற்ற"
 
 #: ui/evolution-message-composer.xml.h:33
 msgid "Toggles whether the CC field is displayed"
-msgstr ""
+msgstr "கரிநகல் புலம் காட்டப்படவேண்டுமா என்பதை மாற்ற"
 
 #: ui/evolution-message-composer.xml.h:34
 msgid "Toggles whether the From chooser is displayed"
-msgstr ""
+msgstr "அனுப்புநரை தேர்வு செய்ய வேண்டுமா புலத்தை மாற்ற"
 
 #: ui/evolution-message-composer.xml.h:35
 msgid "Toggles whether the Post-To field is displayed"
-msgstr ""
+msgstr "செல்லுமிடம்புநர் புலம் காட்டப்பட வேண்டுமா என்பதை மாற்றும்்புன"
 
 #: ui/evolution-message-composer.xml.h:36
 msgid "Toggles whether the Reply-To field is displayed"
-msgstr ""
+msgstr "பதிலலிநர் புலம் காட்டப்படவேண்டுமா என்பதை மாற்றும்"
 
 #: ui/evolution-message-composer.xml.h:37
 msgid "Toggles whether the To field is displayed"
-msgstr ""
+msgstr "புலங்கள் காட்டப்பட வேண்டுமா என்பதை மாற்று"
 
 #: ui/evolution-message-composer.xml.h:38
 msgid "_Attachment..."
-msgstr ""
+msgstr "(_A)இணைப்பு...."
 
 #: ui/evolution-message-composer.xml.h:39
 msgid "_Bcc Field"
-msgstr ""
+msgstr "(_B)மறை நகல் புலம்"
 
 #: ui/evolution-message-composer.xml.h:40
 msgid "_Cc Field"
-msgstr ""
+msgstr "(_C)கரிநகல் புலம்"
 
 #: ui/evolution-message-composer.xml.h:42
 msgid "_Delete all"
-msgstr ""
+msgstr "(_D)அனைத்தையும் நீக்கு"
 
 #: ui/evolution-message-composer.xml.h:45
 msgid "_From Field"
-msgstr ""
+msgstr "(_F)புலத்திலிருந்து"
 
 #: ui/evolution-message-composer.xml.h:46
 #: ui/evolution-signature-editor.xml.h:14
 msgid "_Insert"
-msgstr ""
+msgstr "(_I)செருகு"
 
 #: ui/evolution-message-composer.xml.h:47
 msgid "_Open..."
-msgstr ""
+msgstr "(_O)திற..."
 
 #: ui/evolution-message-composer.xml.h:48
 msgid "_Post-To Field"
-msgstr ""
+msgstr "(_P) இங்கு அனுப்பு"
 
 #: ui/evolution-message-composer.xml.h:49
 msgid "_Reply-To Field"
-msgstr ""
+msgstr "(_R) இங்கு பதிலலி"
 
 #: ui/evolution-message-composer.xml.h:51
 msgid "_Security"
-msgstr ""
+msgstr "(_S)பாதுகாப்பு"
 
 #: ui/evolution-message-composer.xml.h:52
 msgid "_To Field"
-msgstr ""
+msgstr "(_T)புலத்தில்"
 
 #: ui/evolution-signature-editor.xml.h:5
 msgid "H_TML"
-msgstr ""
+msgstr "H_TML"
 
 #: ui/evolution-signature-editor.xml.h:10
 msgid "Save the current file and close the window"
-msgstr ""
+msgstr "தற்போதைய கோப்பை சேமித்து சாளரத்தை மூடவும்"
 
 #: ui/evolution-subscribe.xml.h:1
 msgid "Add folder to your list of subscribed folders"
-msgstr ""
+msgstr "சந்தாதார் அடைவு பட்டியலில் இந்த அடைவை சேர்"
 
 #: ui/evolution-subscribe.xml.h:2
 msgid "F_older"
-msgstr ""
+msgstr "(_o)அடைவு"
 
 #: ui/evolution-subscribe.xml.h:3
 msgid "Refresh List"
-msgstr ""
+msgstr "பட்டியலை புதுப்பி"
 
 #: ui/evolution-subscribe.xml.h:4
 msgid "Refresh List of Folders"
-msgstr ""
+msgstr "அடைவு பட்டியலை புதுப்பி"
 
 #: ui/evolution-subscribe.xml.h:5
 msgid "Remove folder from your list of subscribed folders"
-msgstr ""
+msgstr "உங்கள் சாந்தாதார் அடைவு பட்டியலிலிருந்து இந்த அடைவை நீக்கு"
 
 #: ui/evolution-subscribe.xml.h:7
 msgid "Subscribe"
-msgstr ""
+msgstr "சந்தாதாராக சேர்"
 
 #: ui/evolution-subscribe.xml.h:8
 msgid "Unsubscribe"
-msgstr ""
+msgstr "உறுப்பினர் நீக்கம்"
 
 #: ui/evolution-task-editor.xml.h:1
 msgid "Assign Task"
-msgstr ""
+msgstr "பணி ஒதுக்கு"
 
 #: ui/evolution-task-editor.xml.h:2
 msgid "Assign this task to others"
-msgstr ""
+msgstr "இந்த பணியை மற்றவருக்கு ஒதுக்கு"
 
 #: ui/evolution-task-editor.xml.h:3
 msgid "Cancel Task"
-msgstr ""
+msgstr "பணியை ரத்து செய்"
 
 #: ui/evolution-task-editor.xml.h:4
 msgid "Cancel this task"
-msgstr ""
+msgstr "பணியை ரத்து செய்"
 
 #: ui/evolution-task-editor.xml.h:7
 msgid "Obtain the latest task information"
-msgstr ""
+msgstr "தற்போதைய பணி பட்டியலை பெற்றுக்கொள்"
 
 #: ui/evolution-task-editor.xml.h:8
 msgid "Re_fresh Task"
-msgstr ""
+msgstr "(_f)பணியை புதுப்பி"
 
 #: ui/evolution-tasks.xml.h:3
 msgid "Copy selected task"
-msgstr ""
+msgstr "தேர்வு செய்த பணியை நகலெடு"
 
 #: ui/evolution-tasks.xml.h:5
 msgid "Cut selected task"
-msgstr ""
+msgstr "தேர்வு செய்த பணியை வெட்டு"
 
 #: ui/evolution-tasks.xml.h:7
 msgid "Delete completed tasks"
-msgstr ""
+msgstr "முடிந்த பணியை நீக்கு"
 
 #: ui/evolution-tasks.xml.h:8
 msgid "Delete selected tasks"
-msgstr ""
+msgstr "தேர்வு செய்த பணியை நீக்கு"
 
 #: ui/evolution-tasks.xml.h:9
 msgid "Mar_k as Complete"
-msgstr ""
+msgstr "(_k)முடிந்தது என குறி"
 
 #: ui/evolution-tasks.xml.h:10
 msgid "Mark selected tasks as complete"
-msgstr ""
+msgstr "தேர்வு செய்தவைகளை முடிந்தவை என குறி"
 
 #: ui/evolution-tasks.xml.h:12
 msgid "Paste task from the clipboard"
-msgstr ""
+msgstr "தற்காலிக நினைவகத்திலிருந்து பணிகளை ஒட்டவும்"
 
 #: ui/evolution-tasks.xml.h:13
 msgid "Previews the list of tasks to be printed"
-msgstr ""
+msgstr "அச்சடிக்க வேண்டிய பணிகளை முன்பார்வையிடு"
 
 #: ui/evolution-tasks.xml.h:16
 msgid "Print the list of tasks"
-msgstr ""
+msgstr "பணி பட்டியலை அச்சடி"
 
 #: ui/evolution-tasks.xml.h:18
 msgid "View the selected task"
-msgstr ""
+msgstr "தேர்வு செய்யப்பட்ட பணியை பார்வையிடு"
 
 #: ui/evolution-tasks.xml.h:23
 msgid "_Open Task"
-msgstr ""
+msgstr "(_O)பணியை திற"
 
 #: ui/evolution.xml.h:1
 msgid "About Evolution..."
-msgstr ""
+msgstr "எவல்யூஷன் பற்றி..."
 
 #: ui/evolution.xml.h:2
 msgid "Change Evolution's settings"
-msgstr ""
+msgstr "எவல்யூஷன் அமைப்பை மாற்று"
 
 #: ui/evolution.xml.h:3
 msgid "Change the visibility of the toolbar"
-msgstr ""
+msgstr "கருவிப்பட்டியின் காட்சிமுறையை மாற்று"
 
 #: ui/evolution.xml.h:6
 msgid "Create a new window displaying this folder"
-msgstr ""
+msgstr "இந்த அடைவை காட்டுவதற்காக புதிய சாளரத்தை திறக்கவும்"
 
 #: ui/evolution.xml.h:7
 msgid "E_xit"
-msgstr ""
+msgstr "(_x)வெளியேறு"
 
 #: ui/evolution.xml.h:8
 msgid "Evolution _FAQ"
-msgstr ""
+msgstr "(_F)எவல்யூஷன் கேள்விபதில்"
 
 #: ui/evolution.xml.h:9
 msgid "Exit the program"
-msgstr ""
+msgstr "நிரலிலிருந்து வெளியேறுகிறது"
 
 #: ui/evolution.xml.h:10
 msgid "Forget _Passwords"
-msgstr ""
+msgstr "(_P)கடவுச்சொல்லை மற"
 
 #: ui/evolution.xml.h:11
 msgid "Forget remembered passwords so you will be prompted for them again"
-msgstr ""
+msgstr "கடவுச்சொல் நினைவுகொள்வதை மறக்கசெய். இதனால் மீண்டும் மீண்டும் கடவுச்சொல் கேட்கும்"
 
 #: ui/evolution.xml.h:12
 msgid "Import data from other programs"
-msgstr ""
+msgstr "மற்ற  நிரலிலிருந்து தகவலை பெற்றுக்கொள்ளவும்"
 
 #: ui/evolution.xml.h:14
 msgid "New _Window"
-msgstr ""
+msgstr "(_W)புதிய சாளரம்"
 
 #: ui/evolution.xml.h:15
 msgid "Pi_lot Settings..."
-msgstr ""
+msgstr "(_l)பைலட் அமைப்புகள்..."
 
 #: ui/evolution.xml.h:16
 msgid "Send / Receive"
-msgstr ""
+msgstr "அனுப்பு/பெற்றுக்கொள்"
 
 #: ui/evolution.xml.h:17
 msgid "Send queued items and retrieve new items"
-msgstr ""
+msgstr "புதிய உருப்படிகளை பெற வரிசையாக உருப்படிகளை அனுப்பவும்"
 
 #: ui/evolution.xml.h:18
 msgid "Set up Pilot configuration"
-msgstr ""
+msgstr "பைலட் அமைப்பை அமை"
 
 #: ui/evolution.xml.h:19
 msgid "Show information about Evolution"
-msgstr ""
+msgstr "எவல்யூஷனை பற்றிய தகவல்களை காட்டு"
 
 #: ui/evolution.xml.h:20
 msgid "Submit Bug Report"
-msgstr ""
+msgstr "பிழை அறிக்கை அனுப்பப்படுகிறது"
 
 #: ui/evolution.xml.h:21
 msgid "Submit _Bug Report"
-msgstr ""
+msgstr "(_B)பிழை அறிக்கை அனுப்பப்படுகிறது"
 
 #: ui/evolution.xml.h:22
 msgid "Submit a bug report using Bug Buddy"
-msgstr ""
+msgstr "பக் பட்டி(Bug buddy)யை பயன்படுத்தி பிழை அறிக்கை அனுப்பவும்"
 
 #: ui/evolution.xml.h:23
 msgid "T_oolbar"
-msgstr ""
+msgstr "(_o)கருவிப்பட்டி"
 
 #: ui/evolution.xml.h:24
 msgid "Toggle whether we are working offline."
-msgstr ""
+msgstr "நான் இணையத்தை பயன்படுத்தவில்லையென்றான் மாறிக்கொள்ளவும்"
 
 #: ui/evolution.xml.h:26
 msgid "_About Evolution..."
-msgstr ""
+msgstr "(_A)எவல்யூஷன் பற்றி..."
 
 #: ui/evolution.xml.h:30
 msgid "_Help"
-msgstr ""
+msgstr "(_H)உதவி..."
 
 #: ui/evolution.xml.h:31
 msgid "_Import..."
-msgstr ""
+msgstr "(_I)உள்வாங்கு..."
 
 #: ui/evolution.xml.h:32
 msgid "_New"
-msgstr ""
+msgstr "(_N)புதிய"
 
 #: ui/evolution.xml.h:33
 msgid "_Quick Reference"
-msgstr ""
+msgstr "(_Q)வேகமான பார்வைக்கு"
 
 #: ui/evolution.xml.h:34
 msgid "_Send / Receive"
-msgstr ""
+msgstr "(_S)அனுப்பு/பெற்றுக்கொள்"
 
 #: ui/evolution.xml.h:38
 msgid "_Window"
-msgstr ""
+msgstr "(_W)நிறுவனம்"
 
 #: views/addressbook/galview.xml.h:1
 msgid "By _Company"
-msgstr ""
+msgstr "(_C)நிறுவனம்"
 
 #: views/addressbook/galview.xml.h:2
 msgid "_Address Cards"
-msgstr ""
+msgstr "(_A)முகவரி அட்டை"
 
 #: views/addressbook/galview.xml.h:3
 msgid "_Phone List"
-msgstr ""
+msgstr "(_P)தொலைபேசி பட்டியல்"
 
 #: views/calendar/galview.xml.h:1
 msgid "W_eek View"
-msgstr ""
+msgstr "(_e)வார காட்சி"
 
 #: views/calendar/galview.xml.h:2
 msgid "_Day View"
-msgstr ""
+msgstr "(_D)நாள் காட்சி"
 
 #: views/calendar/galview.xml.h:3
 msgid "_List View"
-msgstr ""
+msgstr "(_L)பட்டியலை பார்"
 
 #: views/calendar/galview.xml.h:4
 msgid "_Month View"
-msgstr ""
+msgstr "(_M)மாதம் காட்சி"
 
 #: views/calendar/galview.xml.h:5
 msgid "_Work Week View"
-msgstr ""
+msgstr "(_W)வார வேலைகள்"
 
 #: views/mail/galview.xml.h:1
 msgid "As _Sent Folder"
-msgstr ""
+msgstr "(_S)அனுப்பியவை அடைவாக"
 
 #: views/mail/galview.xml.h:2
 msgid "By S_tatus"
-msgstr ""
+msgstr "(_t)நிலை"
 
 #: views/mail/galview.xml.h:3
 msgid "By Se_nder"
-msgstr ""
+msgstr "(_n)அனுப்புநர்வாரியாக"
 
 #: views/mail/galview.xml.h:4
 msgid "By Su_bject"
-msgstr ""
+msgstr "(_b)தலைப்பு வாரியாக"
 
 #: views/mail/galview.xml.h:5
 msgid "By _Follow Up Flag"
-msgstr ""
+msgstr "(_F)கொடியை தொடர்ந்து"
 
 #: views/mail/galview.xml.h:6
 msgid "_Messages"
-msgstr ""
+msgstr "(_M)செய்திகள்"
 
 #: views/tasks/galview.xml.h:1
 msgid "With _Due Date"
-msgstr ""
+msgstr "(_D)நிலுவை தேதியுடன்"
 
 #: views/tasks/galview.xml.h:2
 msgid "With _Status"
-msgstr ""
+msgstr "(_S)நிலையுடன்"
 
 #: widgets/e-timezone-dialog/e-timezone-dialog.c:197
 #: widgets/e-timezone-dialog/e-timezone-dialog.c:635
 msgid "UTC"
-msgstr ""
+msgstr "UTC"
 
 #: widgets/e-timezone-dialog/e-timezone-dialog.glade.h:2
 msgid "<b>Time Zones</b>"
-msgstr ""
+msgstr "<b>நேரம் இடம்</b>"
 
 #: widgets/e-timezone-dialog/e-timezone-dialog.glade.h:3
 msgid "<b>_Selection</b>"
-msgstr ""
+msgstr "<b>(_S)தேர்வு</b>"
 
 #: widgets/e-timezone-dialog/e-timezone-dialog.glade.h:4
 msgid "Select a Time Zone"
-msgstr ""
+msgstr "நேரம்-இடத்தை தேர்வு செய்யவும்"
 
 #: widgets/e-timezone-dialog/e-timezone-dialog.glade.h:5
 msgid ""
@@ -18629,174 +18661,176 @@ msgid ""
 "zone.\n"
 "Use the right mouse button to zoom out."
 msgstr ""
+"வரைபடத்தில் குறிப்பிட்ட பகுதியை பெரிதாக்க சுட்டியில் இடது பட்டனை பயன்படுத்தவும்\n"
+"சிறிதாக்க வலது பட்டனை பயன்படுத்தவும்."
 
 #: widgets/menus/gal-view-menus.c:292
 msgid "_Current View"
-msgstr ""
+msgstr "(_C)தற்போதைய காட்சி"
 
 #. bonobo displays this string so it must be in locale
 #: widgets/menus/gal-view-menus.c:351
 msgid "Custom View"
-msgstr ""
+msgstr "உங்கள் காட்சி..."
 
 #: widgets/menus/gal-view-menus.c:360
 msgid "Save Custom View..."
-msgstr ""
+msgstr "உங்கள் காட்சியை சேமி..."
 
 #: widgets/menus/gal-view-menus.c:373
 msgid "Define Views..."
-msgstr ""
+msgstr "காட்சியை அறிதியிடு"
 
 #. Translators: These are the first characters of each day of the
 #. week, 'M' for 'Monday', 'T' for Tuesday etc.
 #: widgets/misc/e-calendar-item.c:423
 msgid "MTWTFSS"
-msgstr ""
+msgstr "MTWTFSS"
 
 #. This is a strftime() format. %B = Month name, %Y = Year.
 #: widgets/misc/e-calendar-item.c:1128
 msgid "%B %Y"
-msgstr ""
+msgstr "%B %Y"
 
 #: widgets/misc/e-cell-date-edit.c:241 widgets/misc/e-dateedit.c:429
 msgid "Now"
-msgstr ""
+msgstr "இப்போது"
 
 #: widgets/misc/e-cell-date-edit.c:805
 #, c-format
 msgid "The time must be in the format: %s"
-msgstr ""
+msgstr "நேரம் இந்த வடிவத்தில் இருக்க வேண்டும்: %s"
 
 #: widgets/misc/e-cell-percent.c:77
 msgid "The percent value must be between 0 and 100, inclusive"
-msgstr ""
+msgstr "சதவிகித மதிப்பு 0 லிருந்து 100 க்குள் இருக்க வேண்டும்"
 
 #: widgets/misc/e-charset-picker.c:63
 msgid "Baltic"
-msgstr ""
+msgstr "பால்டிக்"
 
 #: widgets/misc/e-charset-picker.c:64
 msgid "Central European"
-msgstr ""
+msgstr "மத்திய ஐரோப்பிய"
 
 #: widgets/misc/e-charset-picker.c:65
 msgid "Chinese"
-msgstr ""
+msgstr "சீன"
 
 #: widgets/misc/e-charset-picker.c:66
 msgid "Cyrillic"
-msgstr ""
+msgstr "கைரலிக்"
 
 #: widgets/misc/e-charset-picker.c:67
 msgid "Greek"
-msgstr ""
+msgstr "க்ரேக்க"
 
 #: widgets/misc/e-charset-picker.c:68
 msgid "Hebrew"
-msgstr ""
+msgstr "ஹிப்ரூ"
 
 #: widgets/misc/e-charset-picker.c:69
 msgid "Japanese"
-msgstr ""
+msgstr "ஜப்பானிய"
 
 #: widgets/misc/e-charset-picker.c:70
 msgid "Korean"
-msgstr ""
+msgstr "கொரியன்"
 
 #: widgets/misc/e-charset-picker.c:71
 msgid "Turkish"
-msgstr ""
+msgstr "துருக்கி"
 
 #: widgets/misc/e-charset-picker.c:72
 msgid "Unicode"
-msgstr ""
+msgstr "யூனிக்கோடு"
 
 #: widgets/misc/e-charset-picker.c:73
 msgid "Western European"
-msgstr ""
+msgstr "மேற்கதிய ஐரோப்பிய"
 
 #: widgets/misc/e-charset-picker.c:74
 msgid "Western European, New"
-msgstr ""
+msgstr "மேற்கதிய ஐரோப்பிய ,புதிய"
 
 #: widgets/misc/e-charset-picker.c:91 widgets/misc/e-charset-picker.c:92
 #: widgets/misc/e-charset-picker.c:93
 msgid "Traditional"
-msgstr ""
+msgstr "பழமையான"
 
 #: widgets/misc/e-charset-picker.c:94 widgets/misc/e-charset-picker.c:95
 #: widgets/misc/e-charset-picker.c:96 widgets/misc/e-charset-picker.c:97
 msgid "Simplified"
-msgstr ""
+msgstr "எளிதாக்கப்பட்ட"
 
 #: widgets/misc/e-charset-picker.c:100
 msgid "Ukrainian"
-msgstr ""
+msgstr "உக்ரெயின்"
 
 #: widgets/misc/e-charset-picker.c:103
 msgid "Visual"
-msgstr ""
+msgstr "காட்சி"
 
 #: widgets/misc/e-charset-picker.c:171
 #, c-format
 msgid "Unknown character set: %s"
-msgstr ""
+msgstr "தெரியாத எழுத்துரு: %s"
 
 #: widgets/misc/e-charset-picker.c:216 widgets/misc/e-charset-picker.c:479
 msgid "Character Encoding"
-msgstr ""
+msgstr "எழுத்துரு குறிமுறை"
 
 #: widgets/misc/e-charset-picker.c:231
 msgid "Enter the character set to use"
-msgstr ""
+msgstr "பயன்படுத்தவேண்டிய எழுத்துருவை உள்ளிடவும்"
 
 #: widgets/misc/e-charset-picker.c:338
 msgid "Other..."
-msgstr ""
+msgstr "மற்றவை..."
 
 #: widgets/misc/e-clipped-label.c:111
 msgid "..."
-msgstr ""
+msgstr "..."
 
 #: widgets/misc/e-error.c:83 widgets/misc/e-error.c:84
 #: widgets/misc/e-error.c:126
 msgid "Evolution Error"
-msgstr ""
+msgstr "எவல்யூஷன் பிழை"
 
 #: widgets/misc/e-error.c:85 widgets/misc/e-error.c:86
 #: widgets/misc/e-error.c:124
 msgid "Evolution Warning"
-msgstr ""
+msgstr "எவல்யூஷன் எச்சரிக்கை"
 
 #: widgets/misc/e-error.c:123
 msgid "Evolution Information"
-msgstr ""
+msgstr "எவல்யூஷன் தகவல்"
 
 #: widgets/misc/e-error.c:125
 msgid "Evolution Query"
-msgstr ""
+msgstr "எவல்யூஷன் கேள்வி"
 
 #. setup a dummy error
 #: widgets/misc/e-error.c:421
 #, c-format
 msgid "<span weight=\"bold\">Internal error, unknown error '%s' requested</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">உள் பிழைள்: தெரியாத '%s' கோரிக்கை</span>"
 
 #: widgets/misc/e-expander.c:181
 msgid "Expanded"
-msgstr ""
+msgstr "விரிக்கப்பட்ட"
 
 #: widgets/misc/e-expander.c:182
 msgid "Whether or not the expander is expanded"
-msgstr ""
+msgstr "விரிவாக்கி விரிக்கப்பட்டதா இல்லையா"
 
 #: widgets/misc/e-expander.c:190
 msgid "Text of the expander's label"
-msgstr ""
+msgstr "விரிவாக்க விளக்கச்சீட்டில் உள்ள உரை"
 
 #: widgets/misc/e-expander.c:197
 msgid "Use underline"
-msgstr ""
+msgstr "அடிக்கோட்டை பயன்படுத்து"
 
 #: widgets/misc/e-expander.c:198
 msgid ""
@@ -18806,120 +18840,120 @@ msgstr ""
 
 #: widgets/misc/e-expander.c:205
 msgid "Spacing"
-msgstr ""
+msgstr "இடைவெளி"
 
 #: widgets/misc/e-expander.c:206
 msgid "Space to put between the label and the child"
-msgstr ""
+msgstr "விளக்க சீட்டு மற்றும் துணைசீட்டுக்கும் உள்ள இடைவெளி"
 
 #: widgets/misc/e-expander.c:215
 msgid "Label widget"
-msgstr ""
+msgstr "சாளர அடையாளம்"
 
 #: widgets/misc/e-expander.c:216
 msgid "A widget to display in place of the usual expander label"
-msgstr ""
+msgstr "வழக்கமான விரிவாக்க அடையாளத்தை காட்டும் சாளரம்"
 
 #: widgets/misc/e-expander.c:222
 msgid "Expander Size"
-msgstr ""
+msgstr "விரிவாக்கியின் அளவு"
 
 #: widgets/misc/e-expander.c:223
 msgid "Size of the expander arrow"
-msgstr ""
+msgstr "விரிவாக்க அம்புக்குறியின் அளவு"
 
 #: widgets/misc/e-expander.c:231
 msgid "Indicator Spacing"
-msgstr ""
+msgstr "காட்டியின் இடைவெளி"
 
 #: widgets/misc/e-expander.c:232
 msgid "Spacing around expander arrow"
-msgstr ""
+msgstr "விரிக்கப்பட்ட அம்பிக்குறிகளுக்குள் இடம்விடுகிறது"
 
 #: widgets/misc/e-filter-bar.c:195
 msgid "_Searches"
-msgstr ""
+msgstr "(_S)தேடல்கள்"
 
 #: widgets/misc/e-filter-bar.c:197
 msgid "Search Editor"
-msgstr ""
+msgstr "தொகுப்பியை தேடு"
 
 #. FIXME: get the toplevel window...
 #: widgets/misc/e-filter-bar.c:220
 msgid "Save Search"
-msgstr ""
+msgstr "தேடலை சேமி"
 
 #: widgets/misc/e-filter-bar.h:92 widgets/misc/e-filter-bar.h:99
 msgid "_Save Search..."
-msgstr ""
+msgstr "(_S)தேடலை சேமி..."
 
 #: widgets/misc/e-filter-bar.h:93 widgets/misc/e-filter-bar.h:100
 msgid "_Edit Saved Searches..."
-msgstr ""
+msgstr "(_E) சேமித்த தேடலை திருத்து..."
 
 #: widgets/misc/e-filter-bar.h:94 widgets/misc/e-filter-bar.h:101
 msgid "_Advanced..."
-msgstr ""
+msgstr "(_A)மேம்பட்ட..."
 
 #: widgets/misc/e-image-chooser.c:172
 msgid "Choose Image"
-msgstr ""
+msgstr "சித்திரத்தை தேர்வுசெய்"
 
 #: widgets/misc/e-search-bar.c:540
 msgid "_Search"
-msgstr ""
+msgstr "(_S)தேடு"
 
 #: widgets/misc/e-search-bar.c:546
 msgid "_Find Now"
-msgstr ""
+msgstr "(_N) இப்போது தேடு"
 
 #: widgets/misc/e-search-bar.c:547 widgets/misc/e-search-bar.c:929
 msgid "_Clear"
-msgstr ""
+msgstr "(_C)தூய்மை"
 
 #: widgets/misc/e-search-bar.c:837
 msgid "Item ID"
-msgstr ""
+msgstr "உருப்படி ID"
 
 #: widgets/misc/e-search-bar.c:844
 msgid "Subitem ID"
-msgstr ""
+msgstr "துணைஉருப்படி ID"
 
 #: widgets/misc/e-search-bar.c:851
 msgid "Text"
-msgstr ""
+msgstr "உரை"
 
 #: widgets/misc/e-search-bar.c:931
 msgid "Find _Now"
-msgstr ""
+msgstr "(_N) இப்போது தேடு"
 
 #. system:ask-save-file-exists-overwrite primary
 #: widgets/misc/e-system-errors.xml.h:4
 msgid "File exists \"{0}\"."
-msgstr ""
+msgstr "\"{0}\".கோப்பு ஏற்கெனவே உள்ளது."
 
 #. system:ask-save-file-exists-overwrite secondary
 #: widgets/misc/e-system-errors.xml.h:6
 msgid "Do you wish to overwrite it?"
-msgstr ""
+msgstr "மேலெழுத விருப்பமா?"
 
 #. system:no-save-file primary
 #: widgets/misc/e-system-errors.xml.h:9
 msgid "Cannot save file \"{0}\"."
-msgstr ""
+msgstr "கோப்பு \"{0}\"ஐ சேமிக்க முடியவில்லை."
 
 #. system:no-load-file primary
 #: widgets/misc/e-system-errors.xml.h:13
 msgid "Cannot open file \"{0}\"."
-msgstr ""
+msgstr "கோப்பு \"{0}\"ஐ திறக்க முடியவில்லை."
 
 #: widgets/misc/e-task-widget.c:212
 #, c-format
 msgid "%s (...)"
-msgstr ""
+msgstr "%s (...)"
 
 #: widgets/misc/e-task-widget.c:217
 #, c-format
 msgid "%s (%d%% complete)"
-msgstr ""
+msgstr "%s (%d%% முடிவுற்றது)"
 
