@@ -1,3 +1,8 @@
+2000-06-05  Dan Winship  <danw@helixcode.com>
+
+	* mail-format.c (mail_generate_forward): Update for new composer
+	attachment interface.
+
 2000-06-02  Jeffrey Stedfast  <fejj@helixcode.com>
 
 	* mail-config.c (providers_config_new): Added a new notebook
