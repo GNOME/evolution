@@ -44,6 +44,10 @@
 /* OAFIID for the component factory */
 #define COMPONENT_FACTORY_ID "OAFIID:GNOME_Evolution_Calendar_ShellComponentFactory"
 
+/* IDs for user creatable items */
+#define CREATE_EVENT_ID "event"
+#define CREATE_TASK_ID "task"
+
 static BonoboGenericFactory *factory = NULL;
 char *evolution_dir;
 
@@ -339,6 +343,16 @@ owner_unset_cb (EvolutionShellComponent *shell_component,
 		gtk_main_quit ();
 }
 
+/* Callback used when we must create a user-creatable item */
+static void
+sc_user_create_new_item_cb (EvolutionShellComponent *shell_component,
+			    const char *id,
+			    const char *parent_folder_physical_uri,
+			    const char *parent_folder_type)
+{
+	/* FIXME */
+}
+
 #if 0
 static void
 destroy_cb (EvolutionShellComponent *shell_component,
@@ -380,6 +394,23 @@ factory_fn (BonoboGenericFactory *factory,
 
 	shells = g_list_append (shells, shell_component);
 #endif
+
+	/* User creatable items */
+
+	evolution_shell_component_add_user_creatable_item (shell_component,
+							   CREATE_EVENT_ID,
+							   _("Create a new appointment"),
+							   _("New _Appointment"),
+							   'a');
+
+	evolution_shell_component_add_user_creatable_item (shell_component,
+							   CREATE_TASK_ID,
+							   _("Create a new task"),
+							   _("New _Task"),
+							   't');
+
+	gtk_signal_connect (GTK_OBJECT (shell_component), "user_create_new_item",
+			    GTK_SIGNAL_FUNC (sc_user_create_new_item_cb), NULL);
 
 	return BONOBO_OBJECT (shell_component);
 }

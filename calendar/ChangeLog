@@ -1,3 +1,13 @@
+2001-08-15  Federico Mena Quintero  <federico@ximian.com>
+
+	* gui/component-factory.c (factory_fn): Add the user creatable
+	items.  The callback is not actually implemented yet; this is just
+	to finalize the GUI.
+
+	* gui/dialogs/cal-prefs-dialog.glade: Added an option to ask for
+	confirmation when deleting items.  Added underlined shortcuts
+	(they may not all work currently).
+
 2001-08-14  Damon Chaplin  <damon@ximian.com>
 
 	* gui/dialogs/task-page.c: 

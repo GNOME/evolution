@@ -15,7 +15,7 @@
 <widget>
   <class>GnomeDialog</class>
   <name>cal-prefs-dialog</name>
-  <title>Calendar Preferences</title>
+  <title>Calendar and Tasks Settings</title>
   <type>GTK_WINDOW_TOPLEVEL</type>
   <position>GTK_WIN_POS_NONE</position>
   <modal>False</modal>
@@ -136,7 +136,7 @@
 	    <widget>
 	      <class>GtkLabel</class>
 	      <name>label22</name>
-	      <label>Time zone:</label>
+	      <label>Time _zone:</label>
 	      <justify>GTK_JUSTIFY_CENTER</justify>
 	      <wrap>False</wrap>
 	      <xalign>0</xalign>
@@ -232,7 +232,7 @@
 		<class>GtkRadioButton</class>
 		<name>use_12_hour</name>
 		<can_focus>True</can_focus>
-		<label>12 hour (am/pm)</label>
+		<label>_12 hour (am/pm)</label>
 		<active>False</active>
 		<draw_indicator>True</draw_indicator>
 		<group>time_format_group</group>
@@ -247,7 +247,7 @@
 		<class>GtkRadioButton</class>
 		<name>use_24_hour</name>
 		<can_focus>True</can_focus>
-		<label>24 hour</label>
+		<label>_24 hour</label>
 		<active>False</active>
 		<draw_indicator>True</draw_indicator>
 		<group>time_format_group</group>
@@ -295,7 +295,7 @@
 		<class>GtkCheckButton</class>
 		<name>mon_button</name>
 		<can_focus>True</can_focus>
-		<label>Mon</label>
+		<label>_Mon</label>
 		<active>False</active>
 		<draw_indicator>True</draw_indicator>
 		<child>
@@ -309,7 +309,7 @@
 		<class>GtkCheckButton</class>
 		<name>tue_button</name>
 		<can_focus>True</can_focus>
-		<label>Tue</label>
+		<label>T_ue</label>
 		<active>False</active>
 		<draw_indicator>True</draw_indicator>
 		<child>
@@ -323,7 +323,7 @@
 		<class>GtkCheckButton</class>
 		<name>wed_button</name>
 		<can_focus>True</can_focus>
-		<label>Wed</label>
+		<label>_Wed</label>
 		<active>False</active>
 		<draw_indicator>True</draw_indicator>
 		<child>
@@ -337,7 +337,7 @@
 		<class>GtkCheckButton</class>
 		<name>thu_button</name>
 		<can_focus>True</can_focus>
-		<label>Thu</label>
+		<label>T_hu</label>
 		<active>False</active>
 		<draw_indicator>True</draw_indicator>
 		<child>
@@ -351,7 +351,7 @@
 		<class>GtkCheckButton</class>
 		<name>fri_button</name>
 		<can_focus>True</can_focus>
-		<label>Fri</label>
+		<label>_Fri</label>
 		<active>False</active>
 		<draw_indicator>True</draw_indicator>
 		<child>
@@ -365,7 +365,7 @@
 		<class>GtkCheckButton</class>
 		<name>sat_button</name>
 		<can_focus>True</can_focus>
-		<label>Sat</label>
+		<label>_Sat</label>
 		<active>False</active>
 		<draw_indicator>True</draw_indicator>
 		<child>
@@ -379,7 +379,7 @@
 		<class>GtkCheckButton</class>
 		<name>sun_button</name>
 		<can_focus>True</can_focus>
-		<label>Sun</label>
+		<label>Su_n</label>
 		<active>False</active>
 		<draw_indicator>True</draw_indicator>
 		<child>
@@ -404,13 +404,14 @@
 	      <widget>
 		<class>GtkLabel</class>
 		<name>label16</name>
-		<label>First day of week:</label>
+		<label>First day of wee_k:</label>
 		<justify>GTK_JUSTIFY_CENTER</justify>
 		<wrap>False</wrap>
 		<xalign>0.5</xalign>
 		<yalign>0.5</yalign>
 		<xpad>0</xpad>
 		<ypad>0</ypad>
+		<default_focus_target>first_day_of_week</default_focus_target>
 		<child>
 		  <padding>0</padding>
 		  <expand>False</expand>
@@ -453,7 +454,7 @@ Sunday
 	      <widget>
 		<class>GtkLabel</class>
 		<name>label17</name>
-		<label>Start of day:</label>
+		<label>Sta_rt of day:</label>
 		<justify>GTK_JUSTIFY_CENTER</justify>
 		<wrap>False</wrap>
 		<xalign>0.5</xalign>
@@ -484,7 +485,7 @@ Sunday
 	      <widget>
 		<class>GtkLabel</class>
 		<name>label18</name>
-		<label>End of day:</label>
+		<label>_End of day:</label>
 		<justify>GTK_JUSTIFY_CENTER</justify>
 		<wrap>False</wrap>
 		<xalign>0.5</xalign>
@@ -520,7 +521,7 @@ Sunday
 	<class>GtkLabel</class>
 	<child_name>Notebook:tab</child_name>
 	<name>label21</name>
-	<label>General</label>
+	<label>_General</label>
 	<justify>GTK_JUSTIFY_CENTER</justify>
 	<wrap>False</wrap>
 	<xalign>0.5</xalign>
@@ -550,13 +551,14 @@ Sunday
 	  <widget>
 	    <class>GtkLabel</class>
 	    <name>label25</name>
-	    <label>Time divisions:</label>
+	    <label>Time di_visions:</label>
 	    <justify>GTK_JUSTIFY_CENTER</justify>
 	    <wrap>False</wrap>
 	    <xalign>0.5</xalign>
 	    <yalign>0.5</yalign>
 	    <xpad>0</xpad>
 	    <ypad>0</ypad>
+	    <default_focus_target>time_divisions</default_focus_target>
 	    <child>
 	      <padding>0</padding>
 	      <expand>False</expand>
@@ -587,7 +589,7 @@ Sunday
 	  <class>GtkCheckButton</class>
 	  <name>show_end_times</name>
 	  <can_focus>True</can_focus>
-	  <label>Show appointment end times in week and month views</label>
+	  <label>Show appointment _end times in week and month views</label>
 	  <active>False</active>
 	  <draw_indicator>True</draw_indicator>
 	  <child>
@@ -601,7 +603,7 @@ Sunday
 	  <class>GtkCheckButton</class>
 	  <name>compress_weekend</name>
 	  <can_focus>True</can_focus>
-	  <label>Compress weekends in month view</label>
+	  <label>_Compress weekends in month view</label>
 	  <active>False</active>
 	  <draw_indicator>True</draw_indicator>
 	  <child>
@@ -615,7 +617,7 @@ Sunday
 	  <class>GtkCheckButton</class>
 	  <name>dnav_show_week_no</name>
 	  <can_focus>True</can_focus>
-	  <label>Show week numbers in date navigator</label>
+	  <label>Show week _numbers in date navigator</label>
 	  <active>False</active>
 	  <draw_indicator>True</draw_indicator>
 	  <child>
@@ -630,7 +632,7 @@ Sunday
 	<class>GtkLabel</class>
 	<child_name>Notebook:tab</child_name>
 	<name>label7</name>
-	<label>Display</label>
+	<label>_Display</label>
 	<justify>GTK_JUSTIFY_CENTER</justify>
 	<wrap>False</wrap>
 	<xalign>0.5</xalign>
@@ -663,13 +665,14 @@ Sunday
 	  <widget>
 	    <class>GtkLabel</class>
 	    <name>label23</name>
-	    <label>Tasks due today:</label>
+	    <label>Tas_ks due today:</label>
 	    <justify>GTK_JUSTIFY_CENTER</justify>
 	    <wrap>False</wrap>
 	    <xalign>0</xalign>
 	    <yalign>0.5</yalign>
 	    <xpad>0</xpad>
 	    <ypad>0</ypad>
+	    <default_focus_target>tasks_due_today_color</default_focus_target>
 	    <child>
 	      <left_attach>0</left_attach>
 	      <right_attach>1</right_attach>
@@ -689,13 +692,14 @@ Sunday
 	  <widget>
 	    <class>GtkLabel</class>
 	    <name>label24</name>
-	    <label>Overdue tasks:</label>
+	    <label>_Overdue tasks:</label>
 	    <justify>GTK_JUSTIFY_CENTER</justify>
 	    <wrap>False</wrap>
 	    <xalign>0</xalign>
 	    <yalign>0.5</yalign>
 	    <xpad>0</xpad>
 	    <ypad>0</ypad>
+	    <default_focus_target>tasks_overdue_color</default_focus_target>
 	    <child>
 	      <left_attach>0</left_attach>
 	      <right_attach>1</right_attach>
@@ -764,7 +768,42 @@ Sunday
 	<class>GtkLabel</class>
 	<child_name>Notebook:tab</child_name>
 	<name>label11</name>
-	<label>Task List</label>
+	<label>_Task List</label>
+	<justify>GTK_JUSTIFY_CENTER</justify>
+	<wrap>False</wrap>
+	<xalign>0.5</xalign>
+	<yalign>0.5</yalign>
+	<xpad>0</xpad>
+	<ypad>0</ypad>
+      </widget>
+
+      <widget>
+	<class>GtkVBox</class>
+	<name>vbox11</name>
+	<border_width>4</border_width>
+	<homogeneous>False</homogeneous>
+	<spacing>4</spacing>
+
+	<widget>
+	  <class>GtkCheckButton</class>
+	  <name>checkbutton1</name>
+	  <can_focus>True</can_focus>
+	  <label>_Ask for confirmation when deleting items</label>
+	  <active>False</active>
+	  <draw_indicator>True</draw_indicator>
+	  <child>
+	    <padding>0</padding>
+	    <expand>False</expand>
+	    <fill>False</fill>
+	  </child>
+	</widget>
+      </widget>
+
+      <widget>
+	<class>GtkLabel</class>
+	<child_name>Notebook:tab</child_name>
+	<name>label26</name>
+	<label>_Other</label>
 	<justify>GTK_JUSTIFY_CENTER</justify>
 	<wrap>False</wrap>
 	<xalign>0.5</xalign>
