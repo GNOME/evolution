@@ -1,3 +1,8 @@
+2002-06-19  Not Zed  <NotZed@Ximian.com>
+
+	* camel-mime-parser.c (folder_scan_drop_step): Drop back to
+	initial state if we came from eof state.
+
 2002-06-19  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* camel-tcp-stream-ssl.c (stream_connect): Set the poll timeout to

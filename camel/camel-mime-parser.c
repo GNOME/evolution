@@ -1833,8 +1833,9 @@ static void
 folder_scan_drop_step(struct _header_scan_state *s)
 {
 	switch (s->state) {
-	case HSCAN_INITIAL:
 	case HSCAN_EOF:
+		s->state = HSCAN_INITIAL;
+	case HSCAN_INITIAL:
 		return;
 
 	case HSCAN_FROM:
