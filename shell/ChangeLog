@@ -1,5 +1,20 @@
 2002-02-22  Ettore Perazzoli  <ettore@ximian.com>
 
+	* e-shell-view.c: New member `history' in `EShellViewPrivate'.
+	(init): Initialize.
+	(destroy): Unref.
+	(e_shell_view_display_uri): Make it a no-op if the URI is the same
+	as the current one.  Also, moved code into `display_uri' and use
+	it.
+	(back_clicked_callback): New, callback for the back button on the
+	folder title bar.
+	(forward_clicked_callback): Likewise for the forward button.
+
+	* e-history.c: New.
+	* e-history.h: New.
+
+2002-02-22  Ettore Perazzoli  <ettore@ximian.com>
+
 	* e-shell-view.c (e_shell_view_show_folder_bar):
 	`e_shell_folder_title_bar_set_title_clickable()', not
 	`e_shell_folder_title_bar_set_clickable()'.

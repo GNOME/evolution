@@ -56,6 +56,7 @@
 #include "evolution-shell-view.h"
 
 #include "e-gray-bar.h"
+#include "e-history.h"
 #include "e-shell-constants.h"
 #include "e-shell-folder-title-bar.h"
 #include "e-shell-utils.h"
@@ -88,6 +89,9 @@ struct _EShellViewPrivate {
 	/* The UI handler & container.  */
 	BonoboUIComponent *ui_component;
 	BonoboUIContainer *ui_container;
+
+	/* History of visited (evolution:) URIs. */
+	EHistory *history;
 
 	/* Currently displayed URI.  */
 	char *uri;
@@ -180,6 +184,7 @@ static const char *get_storage_set_path_from_uri  (const char *uri);
 
 /* Boo.  */
 static void new_folder_cb (EStorageSet *storage_set, const char *path, void *data);
+static gboolean display_uri (EShellView *shell_view, const char *uri, gboolean add_to_history);
 
 
 /* View handling.  */
@@ -797,6 +802,47 @@ offline_toggle_clicked_cb (GtkButton *button,
 }
 
 
+/* More callbacks: navigation buttons handling.  */
+
+static void
+back_clicked_callback (EShellFolderTitleBar *title_bar,
+		       void *data)
+{
+	EShellView *shell_view;
+	EShellViewPrivate *priv;
+	const char *new_uri;
+
+	shell_view = E_SHELL_VIEW (data);
+	priv = shell_view->priv;
+
+	if (! e_history_has_prev (priv->history))
+		return;
+
+	new_uri = (const char *) e_history_prev (priv->history);
+
+	display_uri (shell_view, new_uri, FALSE);
+}
+
+static void
+forward_clicked_callback (EShellFolderTitleBar *title_bar,
+			  void *data)
+{
+	EShellView *shell_view;
+	EShellViewPrivate *priv;
+	const char *new_uri;
+
+	shell_view = E_SHELL_VIEW (data);
+	priv = shell_view->priv;
+
+	if (! e_history_has_next (priv->history))
+		return;
+
+	new_uri = (const char *) e_history_next (priv->history);
+
+	display_uri (shell_view, new_uri, FALSE);
+}
+
+
 /* Widget setup.  */
 
 static void
@@ -1019,6 +1065,10 @@ setup_widgets (EShellView *shell_view)
 	priv->folder_title_bar = e_shell_folder_title_bar_new ();
 	gtk_signal_connect (GTK_OBJECT (priv->folder_title_bar), "title_toggled",
 			    GTK_SIGNAL_FUNC (title_bar_toggled_cb), shell_view);
+	gtk_signal_connect (GTK_OBJECT (priv->folder_title_bar), "back_clicked",
+			    GTK_SIGNAL_FUNC (back_clicked_callback), shell_view);
+	gtk_signal_connect (GTK_OBJECT (priv->folder_title_bar), "forward_clicked",
+			    GTK_SIGNAL_FUNC (forward_clicked_callback), shell_view);
 
 	priv->view_hpaned = e_hpaned_new ();
 	e_paned_pack1 (E_PANED (priv->view_hpaned), priv->storage_set_view_box, FALSE, FALSE);
@@ -1099,6 +1149,9 @@ destroy (GtkObject *object)
 	priv = shell_view->priv;
 
 	gtk_object_unref (GTK_OBJECT (priv->tooltips));
+
+	if (priv->history != NULL)
+		gtk_object_unref (GTK_OBJECT (priv->history));
 
 	if (priv->shell != NULL)
 		bonobo_object_unref (BONOBO_OBJECT (priv->shell));
@@ -1197,6 +1250,7 @@ init (EShellView *shell_view)
 	priv->shell                   = NULL;
 	priv->corba_interface         = NULL;
 	priv->ui_component            = NULL;
+	priv->history                 = e_history_new ((EHistoryItemFreeFunc) g_free);
 	priv->uri                     = NULL;
 	priv->delayed_selection       = NULL;
 
@@ -1996,18 +2050,22 @@ create_new_view_for_uri (EShellView *shell_view,
 	return TRUE;
 }
 
-gboolean
-e_shell_view_display_uri (EShellView *shell_view,
-			  const char *uri)
+static gboolean
+display_uri (EShellView *shell_view,
+	     const char *uri,
+	     gboolean add_to_history)
 {
 	EShellViewPrivate *priv;
 	View *view;
 	gboolean retval;
 
-	g_return_val_if_fail (shell_view != NULL, FALSE);
-	g_return_val_if_fail (E_IS_SHELL_VIEW (shell_view), FALSE);
-
 	priv = shell_view->priv;
+
+	if (uri == NULL && priv->uri == NULL)
+		return TRUE;
+
+	if (priv->uri != NULL && uri != NULL && strcmp (priv->uri, uri) == 0)
+		return TRUE;
 
 	bonobo_window_freeze (BONOBO_WINDOW (shell_view));
 
@@ -2047,6 +2105,9 @@ e_shell_view_display_uri (EShellView *shell_view,
 	retval = TRUE;
 
  end:
+	if (add_to_history && retval == TRUE && priv->uri != NULL)
+		e_history_add (priv->history, g_strdup (priv->uri));
+
 	g_free (priv->set_folder_uri);
 	priv->set_folder_uri = NULL;
 
@@ -2066,6 +2127,16 @@ e_shell_view_display_uri (EShellView *shell_view,
 			 e_shell_view_get_current_component_id (shell_view));
 
 	return retval;
+}
+
+gboolean
+e_shell_view_display_uri (EShellView *shell_view,
+			  const char *uri)
+{
+	g_return_val_if_fail (shell_view != NULL, FALSE);
+	g_return_val_if_fail (E_IS_SHELL_VIEW (shell_view), FALSE);
+
+	return display_uri (shell_view, uri, TRUE);
 }
 
 

@@ -111,6 +111,8 @@ evolution_SOURCES =				\
 	e-folder.h				\
 	e-gray-bar.c				\
 	e-gray-bar.h				\
+	e-history.c				\
+	e-history.h				\
 	e-local-folder.c			\
 	e-local-folder.h			\
 	e-local-storage.c			\
