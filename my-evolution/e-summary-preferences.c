@@ -685,7 +685,6 @@ mail_add_clicked_cb (GtkButton *button,
 	int row;
 	ESummaryMailRowData *rd;
 	char *text[1];
-	char *uri;
 	
 	row = GPOINTER_TO_INT (GTK_CLIST (pd->mail->all)->selection->data);
 	rd = gtk_clist_get_row_data (GTK_CLIST (pd->mail->all), row);

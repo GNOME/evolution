@@ -28,5 +28,5 @@ typedef struct _ESummaryCalendar ESummaryCalendar;
 const char *e_summary_calendar_get_html (ESummary *summary);
 void e_summary_calendar_init (ESummary *summary);
 void e_summary_calendar_reconfigure (ESummary *summary);
-
+void e_summary_calendar_free (ESummary *summary);
 #endif

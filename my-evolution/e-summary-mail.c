@@ -440,3 +440,36 @@ e_summary_mail_uri_to_name (ESummary *summary,
 	}
 }
 	
+static void
+free_folder (gpointer key,
+	     gpointer value,
+	     gpointer data)
+{
+	ESummaryMailFolder *folder = value;
+	
+	g_free (folder->name);
+	g_free (folder->path);
+	g_free (folder);
+	g_free (value);
+}
+
+void
+e_summary_mail_free (ESummary *summary)
+{
+	ESummaryMail *mail;
+
+	g_return_if_fail (summary != NULL);
+	g_return_if_fail (IS_E_SUMMARY (summary));
+
+	mail = summary->mail;
+	bonobo_object_release_unref (mail->folder_info, NULL);
+	bonobo_object_unref (BONOBO_OBJECT (mail->listener));
+
+	g_hash_table_foreach (mail->folders, free_folder, NULL);
+	g_hash_table_destroy (mail->folders);
+
+	g_free (mail->html);
+
+	g_free (mail);
+	summary->mail = NULL;
+}

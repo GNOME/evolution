@@ -229,14 +229,18 @@ close_callback (GnomeVFSAsyncHandle *handle,
 
 	if (w->handle == NULL) {
 		g_free (w->buffer);
+		w->buffer = NULL;
 		g_string_free (w->string, TRUE);
+		w->string = NULL;
 		return;
 	}
 
 	w->handle = NULL;
 	g_free (w->buffer);
+	w->buffer = NULL;
 	html = w->string->str;
 	g_string_free (w->string, FALSE);
+	w->string = NULL;
 
 	/* Find the metar data */
 	search_str = g_strdup_printf ("\n%s", w->location);
@@ -335,10 +339,18 @@ weather_free (Weather *w)
 	if (w->handle != NULL) {
 		gnome_vfs_async_cancel (w->handle);
 	}
+	if (w->string) {
+		g_string_free (w->string, TRUE);
+	}
+	if (w->buffer) {
+		g_free (w->buffer);
+	}
+
 	g_free (w->location);
 	g_free (w->html);
 	g_free (w);
 }
+
 static void
 e_summary_weather_add_location (ESummary *summary,
 				const char *location)
@@ -729,3 +741,33 @@ e_summary_weather_reconfigure (ESummary *summary)
 					    (GtkFunction) e_summary_weather_update, summary);
 	e_summary_weather_update (summary);
 }
+
+void
+e_summary_weather_free (ESummary *summary)
+{
+	ESummaryWeather *weather;
+	GList *p;
+
+	g_return_if_fail (summary != NULL);
+	g_return_if_fail (IS_E_SUMMARY (summary));
+
+	weather = summary->weather;
+
+	if (weather->timeout != 0) {
+		gtk_timeout_remove (weather->timeout);
+	}
+	for (p = weather->weathers; p; p = p->next) {
+		Weather *w = p->data;
+
+		weather_free (w);
+	}
+	g_list_free (weather->weathers);
+	g_free (weather->html);
+
+	e_summary_remove_online_connection (summary, weather->connection);
+	g_free (weather->connection);
+
+	g_free (weather);
+	summary->weather = NULL;
+}
+	

@@ -287,3 +287,19 @@ e_summary_tasks_reconfigure (ESummary *summary)
 {
 
 }
+
+void
+e_summary_tasks_free (ESummary *summary)
+{
+	ESummaryTasks *tasks;
+
+	g_return_if_fail (summary != NULL);
+	g_return_if_fail (IS_E_SUMMARY (summary));
+
+	tasks = summary->tasks;
+	gtk_object_unref (GTK_OBJECT (tasks->client));
+	g_free (tasks->html);
+
+	g_free (tasks);
+	summary->tasks = NULL;
+}

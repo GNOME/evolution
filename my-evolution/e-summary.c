@@ -97,6 +97,22 @@ destroy (GtkObject *object)
 		return;
 	}
 
+	if (summary->mail) {
+		e_summary_mail_free (summary);
+	}
+	if (summary->calendar) {
+		e_summary_calendar_free (summary);
+	}
+	if (summary->rdf) {
+		e_summary_rdf_free (summary);
+	}
+	if (summary->weather) {
+		e_summary_weather_free (summary);
+	}
+	if (summary->tasks) {
+		e_summary_tasks_free (summary);
+	}
+
 	g_free (priv);
 	summary->priv = NULL;
 
@@ -111,6 +127,9 @@ e_summary_draw (ESummary *summary)
 	char *html;
 	char date[256];
 	time_t t;
+
+	g_return_if_fail (summary != NULL);
+	g_return_if_fail (IS_E_SUMMARY (summary));
 
 	if (summary->mail == NULL || summary->calendar == NULL
 	    || summary->rdf == NULL || summary->weather == NULL) {
@@ -260,8 +279,6 @@ e_summary_url_clicked (GtkHTML *html,
 	char *protocol, *protocol_end;
 	ProtocolListener *protocol_listener;
 
-	g_print ("URL: %s\n", url);
-
 	protocol_end = strchr (url, ':');
 	if (protocol_end == NULL) {
 		/* No url, let gnome work it out */
@@ -270,7 +287,6 @@ e_summary_url_clicked (GtkHTML *html,
 	}
 
 	protocol = g_strndup (url, protocol_end - url);
-	g_print ("Protocol: %s.\n", protocol);
 
 	protocol_listener = g_hash_table_lookup (summary->priv->protocol_hash,
 						 protocol);
@@ -685,4 +701,21 @@ e_summary_add_online_connection (ESummary *summary,
 
 	summary->priv->connections = g_list_prepend (summary->priv->connections,
 						     connection);
+}
+
+void
+e_summary_remove_online_connection (ESummary *summary,
+				    ESummaryConnection *connection)
+{
+	GList *p;
+
+	g_return_if_fail (summary != NULL);
+	g_return_if_fail (IS_E_SUMMARY (summary));
+	g_return_if_fail (connection != NULL);
+
+	p = g_list_find (summary->priv->connections, connection);
+	g_return_if_fail (p != NULL);
+
+	summary->priv->connections = g_list_remove_link (summary->priv->connections, p);
+	g_list_free (p);
 }

@@ -322,3 +322,19 @@ e_summary_calendar_reconfigure (ESummary *summary)
 {
 	generate_html (summary);
 }
+
+void
+e_summary_calendar_free (ESummary *summary)
+{
+	ESummaryCalendar *calendar;
+
+	g_return_if_fail (summary != NULL);
+	g_return_if_fail (IS_E_SUMMARY (summary));
+
+	calendar = summary->calendar;
+	gtk_object_unref (GTK_OBJECT (calendar->client));
+	g_free (calendar->html);
+
+	g_free (calendar);
+	summary->calendar = NULL;
+}

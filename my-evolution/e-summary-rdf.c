@@ -335,17 +335,22 @@ close_callback (GnomeVFSAsyncHandle *handle,
 
 	if (r->handle == NULL) {
 		g_free (r->buffer);
+		r->buffer = NULL;
 		g_string_free (r->string, TRUE);
+		r->string = NULL;
 		return;
 	}
 
 	r->handle = NULL;
 	g_free (r->buffer);
+	r->buffer = NULL;
 	xml = r->string->str;
 	g_string_free (r->string, FALSE);
+	r->string = NULL;
 
 	if (r->cache != NULL) {
 		xmlFreeDoc (r->cache);
+		r->cache = NULL;
 	}
 
 	doc = xmlParseMemory (xml, strlen (xml));
@@ -376,6 +381,9 @@ read_callback (GnomeVFSAsyncHandle *handle,
 	       RDF *r)
 {
 	if (result != GNOME_VFS_OK && result != GNOME_VFS_ERROR_EOF) {
+		if (r->html) {
+			g_free (r->html);
+		}
 		r->html = e_utf8_from_locale_string (_("<b>Error downloading RDF</b>"));
 
 		e_summary_draw (r->summary);
@@ -589,6 +597,31 @@ e_summary_rdf_init (ESummary *summary)
 	return;
 }
 
+static void
+rdf_free (RDF *r)
+{
+	/* Stop the download */
+	if (r->handle) {
+		gnome_vfs_async_cancel (r->handle);
+	}
+	if (r->uri) {
+		g_free (r->uri);
+	}
+	if (r->html) {
+		g_free (r->html);
+	}
+	if (r->string) {
+		g_string_free (r->string, TRUE);
+	}
+	if (r->buffer) {
+		g_free (r->buffer);
+	}
+	if (r->cache) {
+		xmlFreeDoc (r->cache);
+	}
+	g_free (r);
+}
+
 void
 e_summary_rdf_reconfigure (ESummary *summary)
 {
@@ -607,10 +640,7 @@ e_summary_rdf_reconfigure (ESummary *summary)
 		RDF *r;
 
 		r = old->data;
-		g_free (r->uri);
-		g_free (r->html);
-		xmlFree (r->cache);
-		g_free (r);
+		rdf_free (r);
 	}
 	g_list_free (rdf->rdfs);
 	rdf->rdfs = NULL;
@@ -621,4 +651,33 @@ e_summary_rdf_reconfigure (ESummary *summary)
 
 	rdf->timeout = gtk_timeout_add (summary->preferences->rdf_refresh_time * 1000, (GtkFunction) e_summary_rdf_update, summary);
 	e_summary_rdf_update (summary);
+}
+
+void
+e_summary_rdf_free (ESummary *summary)
+{
+	ESummaryRDF *rdf;
+	GList *p;
+
+	g_return_if_fail (summary != NULL);
+	g_return_if_fail (IS_E_SUMMARY (summary));
+
+	rdf = summary->rdf;
+
+	if (rdf->timeout != 0) {
+		gtk_timeout_remove (rdf->timeout);
+	}
+	for (p = rdf->rdfs; p; p = p->next) {
+		RDF *r = p->data;
+
+		rdf_free (r);
+	}
+	g_list_free (rdf->rdfs);
+	g_free (rdf->html);
+
+	e_summary_remove_online_connection (summary, rdf->connection);
+	g_free (rdf->connection);
+
+	g_free (rdf);
+	summary->rdf = NULL;
 }

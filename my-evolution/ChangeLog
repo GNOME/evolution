@@ -1,3 +1,17 @@
+2001-07-11  Iain Holmes  <iain@ximian.com>
+
+	* e-summary.c (destroy): Destroy all the subcomponents.
+
+	* e-summary-rdf.c (e_summary_rdf_free): Free and stop all tranfsers
+
+	* e-summary-weather.c (e_summary_weather_free): Same.
+
+	* e-summary-mail.c (e_summary_mail_free): Same.
+
+	* e-summary-calendar.c (e_summary_calendar_free): Same.
+
+	* e-summary-tasks.c (e_summary_tasks_free): Guess what.
+
 2001-07-10  Iain Holmes  <iain@ximian.com>
 
 	* e-summary-preferences.c: Correct the Register RDF url.
