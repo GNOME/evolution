@@ -161,10 +161,15 @@ settings_changed (GtkWidget *widget, gpointer user_data)
 	EMMailerPrefs *prefs = (EMMailerPrefs *) user_data;
 	gboolean check_incoming, locked = FALSE;
 	
-	if ((check_incoming = gtk_toggle_button_get_active (prefs->check_incoming)))
-		locked = gconf_client_key_is_writable (prefs->gconf, "/apps/evolution/mail/junk/sa/check_incoming_imap", NULL);
+	if (prefs->check_incoming && prefs->check_incoming_imap) {
+		/* this callback can get called in _construct() before
+		 * these widgets have been created */
+		if ((check_incoming = gtk_toggle_button_get_active (prefs->check_incoming)))
+			locked = gconf_client_key_is_writable (prefs->gconf, "/apps/evolution/mail/junk/sa/check_incoming_imap", NULL);
+		
+		gtk_widget_set_sensitive (GTK_WIDGET (prefs->check_incoming_imap), check_incoming && !locked);
+	}
 	
-	gtk_widget_set_sensitive (GTK_WIDGET (prefs->check_incoming_imap), check_incoming && !locked);
 	if (prefs->control)
 		evolution_config_control_changed (prefs->control);
 }
@@ -392,22 +397,6 @@ emmp_header_entry_changed (GtkWidget *entry, gpointer user_data)
 }
 
 static void
-entry_init (GtkEntry *entry, GConfClient *gconf, const char *key, GCallback changed, void *user_data)
-{
-	char *string;
-	
-	string = gconf_client_get_string (gconf, key, NULL);
-	gtk_entry_set_text (entry, string ? string : "");
-	g_free (string);
-	
-	if (changed)
-		g_signal_connect (entry, "changed", changed, user_data);
-	
-	if (!gconf_client_key_is_writable (gconf, key, NULL))
-		gtk_widget_set_sensitive ((GtkWidget *) entry, FALSE);
-}
-
-static void
 spin_button_init (GtkSpinButton *spin, GConfClient *gconf, const char *key, float div, GCallback value_changed, void *user_data)
 {
 	GError *err = NULL;
@@ -533,7 +522,7 @@ em_mailer_prefs_construct (EMMailerPrefs *prefs)
 			    FALSE, G_CALLBACK (settings_changed), prefs);
 	
 	prefs->confirm_expunge = GTK_TOGGLE_BUTTON (glade_xml_get_widget (gui, "chkConfirmExpunge"));
-	toggle_button_init (prefs->empty_trash, prefs->gconf,
+	toggle_button_init (prefs->confirm_expunge, prefs->gconf,
 			    "/apps/evolution/mail/prompts/expunge",
 			    FALSE, G_CALLBACK (settings_changed), prefs);
 	
@@ -635,12 +624,12 @@ em_mailer_prefs_construct (EMMailerPrefs *prefs)
 		
 		widget_name = g_strdup_printf ("txtLabel%d", i);
 		prefs->labels[i].name = GTK_ENTRY (glade_xml_get_widget (gui, widget_name));
-		gtk_widget_sensitive ((GtkWidget *) prefs->labels[i].name, !locked);
+		gtk_widget_set_sensitive ((GtkWidget *) prefs->labels[i].name, !locked);
 		g_free (widget_name);
 		
 		widget_name = g_strdup_printf ("colorLabel%d", i);
 		prefs->labels[i].color = GNOME_COLOR_PICKER (glade_xml_get_widget (gui, widget_name));
-		gtk_widget_sensitive ((GtkWidget *) prefs->labels[i].color, !locked);
+		gtk_widget_set_sensitive ((GtkWidget *) prefs->labels[i].color, !locked);
 		g_free (widget_name);
 		
 		gtk_entry_set_text (prefs->labels[i].name, label->name);
@@ -654,7 +643,7 @@ em_mailer_prefs_construct (EMMailerPrefs *prefs)
 	}
 	
 	prefs->restore_labels = GTK_BUTTON (glade_xml_get_widget (gui, "cmdRestoreLabels"));
-	gtk_widget_sensitive ((GtkWidget *) prefs->restore_labels, !locked);
+	gtk_widget_set_sensitive ((GtkWidget *) prefs->restore_labels, !locked);
 	g_signal_connect (prefs->restore_labels, "clicked", G_CALLBACK (restore_labels_clicked), prefs);
 	
 	/* headers */
@@ -767,16 +756,17 @@ em_mailer_prefs_construct (EMMailerPrefs *prefs)
 	emmp_header_remove_sensitivity (prefs);
 	
 	/* Junk prefs */
+	prefs->check_incoming_imap = GTK_TOGGLE_BUTTON (glade_xml_get_widget (gui, "chkDoNotCheckIMAP"));
+	toggle_button_init (prefs->check_incoming_imap, prefs->gconf,
+			    "/apps/evolution/mail/junk/sa/check_incoming_imap",
+			    TRUE, G_CALLBACK (settings_changed), prefs);
+	
 	prefs->check_incoming = GTK_TOGGLE_BUTTON (glade_xml_get_widget (gui, "chkCheckIncomingMail"));
 	toggle_button_init (prefs->check_incoming, prefs->gconf,
 			    "/apps/evolution/mail/junk/sa/check_incoming",
 			    FALSE, G_CALLBACK (settings_changed), prefs);
 	
 	check_incoming = gtk_toggle_button_get_active (prefs->check_incoming);
-	prefs->check_incoming_imap = GTK_TOGGLE_BUTTON (glade_xml_get_widget (gui, "chkDoNotCheckIMAP"));
-	toggle_button_init (prefs->check_incoming_imap, prefs->gconf,
-			    "/apps/evolution/mail/junk/sa/check_incoming_imap",
-			    TRUE, G_CALLBACK (settings_changed), prefs);
 	if (!gtk_toggle_button_get_active (prefs->check_incoming))
 		gtk_widget_set_sensitive ((GtkWidget *) prefs->check_incoming_imap, FALSE);
 	
