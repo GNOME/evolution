@@ -1,3 +1,8 @@
+2001-10-29  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-ops.c (transfer_messages_transfer): Don't warn the user if
+	the source and destination folders are the same.
+
 2001-10-29  Dan Winship  <danw@ximian.com>
 
 	* mail-format.c (handle_multipart_signed): add some debug spew re

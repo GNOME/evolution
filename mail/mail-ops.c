@@ -888,9 +888,7 @@ transfer_messages_transfer (struct _mail_msg *mm)
 
 	if (dest == m->source) {
 		camel_object_unref((CamelObject *)dest);
-		camel_exception_setv(&mm->ex, CAMEL_EXCEPTION_FOLDER_INVALID,
-				     _("Cannot copy a folder `%s' to itself"),
-				     m->dest_uri);
+		/* no-op */
 		return;
 	}
 

@@ -690,7 +690,7 @@ folder_browser_copy (GtkWidget *menuitem, FolderBrowser *fb)
 	
 	if (fb->message_list == NULL)
 		return;
-
+	
 	cut = menuitem == NULL;
 	
 	if (GTK_WIDGET_HAS_FOCUS (fb->mail_display->html)) {
