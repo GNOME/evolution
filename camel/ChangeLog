@@ -1,3 +1,8 @@
+2004-01-09  Sivaiah Nallagatla <snallagatla@novell.com>
+
+	* providers/groupwise/groupwise-config-listener.c (is_groupwise_account): added null check 
+	for source url to take care of accounts with Server Types as "None"
+ 
 2004-01-09  Not Zed  <NotZed@Ximian.com>
 
 	* providers/imap/camel-imap-store.c (imap_forget_folder): fix

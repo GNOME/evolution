@@ -125,7 +125,12 @@ finalize (GObject *object)
 static gboolean
 is_groupwise_account (EAccount *account)
 {
-	return (strncmp (account->source->url,  GROUPWISE_URI_PREFIX, GROUPWISE_PREFIX_LENGTH ) == 0);
+	if (account->source->url != NULL) {
+		
+		return (strncmp (account->source->url,  GROUPWISE_URI_PREFIX, GROUPWISE_PREFIX_LENGTH ) == 0);
+	} else {
+		return FALSE;
+	}
 }
 
 
