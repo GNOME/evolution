@@ -1,5 +1,6 @@
 <Root>
   <commands>
+    <cmd name="EventOpen" _tip="View the current appointment" accel="*Control*o"/>
     <cmd name="CalendarPrint" _tip="Print this calendar" pixtype="stock" pixname="gtk-print"
 	 accel="*Control*p"/>
     <cmd name="CalendarPrintPreview" _tip="Previews the calendar to be printed" pixtype="stock" pixname="gtk-print-preview"/>
@@ -29,6 +30,9 @@
 
   <menu>
     <submenu name="File">
+      <placeholder name="FileOps">
+        <menuitem name="EventOpen" verb="EventOpen" _label="_Open Appointment"/>
+      </placeholder>
       <placeholder name="Print">
 	<menuitem name="PrintPreview" verb="CalendarPrintPreview"
 		  _label="Print Pre_view"/>

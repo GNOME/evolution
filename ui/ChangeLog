@@ -1,3 +1,7 @@
+2003-12-23  Kidd Wang  <kidd.wang@sun.com>
+
+	* evolution-calendar.xml: Add a menu item [Open Appointment] to [File].
+
 2003-12-18  Rodney Dawes  <dobey@ximian.com>
 
 	* evolution-mail-message.xml:
