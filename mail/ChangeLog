@@ -1,3 +1,13 @@
+2005-01-24  Radek Doulik  <rodo@ximian.com>
+
+	* em-popup.[ch]: removed EM_POPUP_SELECT_MARK_[NO]JUNK masks
+
+2005-01-20  Radek Doulik  <rodo@ximian.com>
+
+	* em-folder-view.c: patch from Chris Lahey, makes Mark as Junk/not
+	Junk items active on all messages, removes calls to
+	message_list_get_selected where not needed
+
 2005-01-24  Not Zed  <NotZed@Ximian.com>
 
 	* searchtypes.xml: changed for 69122.

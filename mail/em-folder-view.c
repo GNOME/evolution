@@ -745,48 +745,40 @@ static void
 emfv_popup_mark_junk (EPopup *ep, EPopupItem *pitem, void *data)
 {
 	EMFolderView *emfv = data;
-	GPtrArray *uids;
+	int count;
 	
-	uids = message_list_get_selected(emfv->list);
-	em_folder_view_mark_selected(emfv,
-				     CAMEL_MESSAGE_SEEN|CAMEL_MESSAGE_JUNK|CAMEL_MESSAGE_JUNK_LEARN,
-				     CAMEL_MESSAGE_SEEN|CAMEL_MESSAGE_JUNK|CAMEL_MESSAGE_JUNK_LEARN);
-	if (uids->len == 1)
+	count = em_folder_view_mark_selected(emfv,
+					     CAMEL_MESSAGE_SEEN|CAMEL_MESSAGE_JUNK|CAMEL_MESSAGE_JUNK_LEARN,
+					     CAMEL_MESSAGE_SEEN|CAMEL_MESSAGE_JUNK|CAMEL_MESSAGE_JUNK_LEARN);
+	if (count == 1)
 		message_list_select(emfv->list, MESSAGE_LIST_SELECT_NEXT, 0, 0);
-
-	message_list_free_uids(emfv->list, uids);
 }
 
 static void
 emfv_popup_mark_nojunk (EPopup *ep, EPopupItem *pitem, void *data)
 {
 	EMFolderView *emfv = data;
-	GPtrArray *uids;
+	int count;
 	
-	uids = message_list_get_selected(emfv->list);
-	em_folder_view_mark_selected(emfv,
-				     CAMEL_MESSAGE_JUNK|CAMEL_MESSAGE_JUNK_LEARN,
-				     CAMEL_MESSAGE_JUNK_LEARN);
-	if (uids->len == 1)
+	count = em_folder_view_mark_selected(emfv,
+					     CAMEL_MESSAGE_JUNK|CAMEL_MESSAGE_JUNK_LEARN,
+					     CAMEL_MESSAGE_JUNK_LEARN);
+	if (count == 1)
 		message_list_select(emfv->list, MESSAGE_LIST_SELECT_NEXT, 0, 0);
-
-	message_list_free_uids(emfv->list, uids);
 }
 
 static void
 emfv_popup_delete(EPopup *ep, EPopupItem *pitem, void *data)
 {
 	EMFolderView *emfv = data;
-	GPtrArray *uids;
+	int count;
 	
-	uids = message_list_get_selected(emfv->list);
-	em_folder_view_mark_selected(emfv, CAMEL_MESSAGE_SEEN|CAMEL_MESSAGE_DELETED, CAMEL_MESSAGE_SEEN|CAMEL_MESSAGE_DELETED);
+	count = em_folder_view_mark_selected(emfv, CAMEL_MESSAGE_SEEN|CAMEL_MESSAGE_DELETED, CAMEL_MESSAGE_SEEN|CAMEL_MESSAGE_DELETED);
 	
-	if (uids->len == 1) {
+	if (count == 1) {
 		if (!message_list_select (emfv->list, MESSAGE_LIST_SELECT_NEXT, 0, 0) && emfv->hide_deleted)
 			message_list_select (emfv->list, MESSAGE_LIST_SELECT_PREVIOUS, 0, 0);
 	}
-	em_utils_uids_free(uids);
 }
 
 static void
@@ -957,8 +949,8 @@ static EPopupItem emfv_popup_items[] = {
 	{ E_POPUP_ITEM,  "30.emfv.01", N_("Mark as _Unread"), emfv_popup_mark_unread, NULL, "stock_mail-unread", EM_POPUP_SELECT_MARK_UNREAD },
 	{ E_POPUP_ITEM, "30.emfv.02", N_("Mark as _Important"), emfv_popup_mark_important, NULL, "stock_mail-priority-high", EM_POPUP_SELECT_MARK_IMPORTANT },
 	{ E_POPUP_ITEM, "30.emfv.03", N_("_Mark as Unimportant"), emfv_popup_mark_unimportant, NULL, NULL, EM_POPUP_SELECT_MARK_UNIMPORTANT },
-	{ E_POPUP_ITEM, "30.emfv.04", N_("Mark as _Junk"), emfv_popup_mark_junk, NULL, "stock_spam", EM_POPUP_SELECT_MARK_JUNK },
-	{ E_POPUP_ITEM, "30.emfv.05", N_("Mark as _Not Junk"), emfv_popup_mark_nojunk, NULL, "stock_not-spam", EM_POPUP_SELECT_MARK_NOJUNK },
+	{ E_POPUP_ITEM, "30.emfv.04", N_("Mark as _Junk"), emfv_popup_mark_junk, NULL, "stock_spam", EM_POPUP_SELECT_MANY },
+	{ E_POPUP_ITEM, "30.emfv.05", N_("Mark as _Not Junk"), emfv_popup_mark_nojunk, NULL, "stock_not-spam", EM_POPUP_SELECT_MANY },
 	
 	{ E_POPUP_BAR, "40.emfv" },
 	{ E_POPUP_ITEM, "40.emfv.00", N_("_Delete"), emfv_popup_delete, NULL, "stock_delete", EM_POPUP_SELECT_DELETE },
@@ -1617,8 +1609,8 @@ static const EMFolderViewEnable emfv_enable_map[] = {
 	{ "MessageMarkAsUnRead",      EM_POPUP_SELECT_MANY|EM_POPUP_SELECT_MARK_UNREAD },
 	{ "MessageMarkAsImportant",   EM_POPUP_SELECT_MANY|EM_POPUP_SELECT_MARK_IMPORTANT },
 	{ "MessageMarkAsUnimportant", EM_POPUP_SELECT_MANY|EM_POPUP_SELECT_MARK_UNIMPORTANT },
-	{ "MessageMarkAsJunk",        EM_POPUP_SELECT_MANY|EM_POPUP_SELECT_MARK_JUNK },
-	{ "MessageMarkAsNotJunk",     EM_POPUP_SELECT_MANY|EM_POPUP_SELECT_MARK_NOJUNK },
+	{ "MessageMarkAsJunk",        EM_POPUP_SELECT_MANY },
+	{ "MessageMarkAsNotJunk",     EM_POPUP_SELECT_MANY },
 	{ "MessageFollowUpFlag",      EM_POPUP_SELECT_MANY },
 	{ "MessageMove",              EM_POPUP_SELECT_MANY },
 	{ "MessageOpen",              EM_POPUP_SELECT_MANY },

@@ -227,11 +227,6 @@ em_popup_target_new_select(EMPopup *emp, struct _CamelFolder *folder, const char
 		else
 			mask &= ~EM_POPUP_SELECT_MARK_IMPORTANT;
 
-		if (flags & CAMEL_MESSAGE_JUNK)
-			mask &= ~EM_POPUP_SELECT_MARK_NOJUNK;
-		else
-			mask &= ~EM_POPUP_SELECT_MARK_JUNK;
-			
 		tmp = camel_message_info_user_tag(info, "follow-up");
 		if (tmp && *tmp) {
 			mask &= ~EM_POPUP_SELECT_FLAG_CLEAR;
@@ -760,8 +755,6 @@ static const EPopupHookTargetMask emph_select_masks[] = {
 	{ "flag_completed", EM_POPUP_SELECT_FLAG_COMPLETED },
 	{ "flag_clear", EM_POPUP_SELECT_FLAG_CLEAR },
 	{ "add_sender", EM_POPUP_SELECT_ADD_SENDER },
-	{ "mark_junk", EM_POPUP_SELECT_MARK_JUNK },
-	{ "mark_nojunk", EM_POPUP_SELECT_MARK_NOJUNK },
 	{ "folder", EM_POPUP_SELECT_FOLDER },
 	{ 0 }
 };

@@ -82,8 +82,6 @@ enum _em_popup_target_t {
  * @EM_POPUP_SELECT_ADD_SENDER: The message contains sender addresses
  * which might be added to the addressbook. i.e. it isn't a message in
  * the Sent or Drafts folders.
- * @EM_POPUP_SELECT_MARK_JUNK: Message(s) are not marked as junk.
- * @EM_POPUP_SELECT_MARK_NOJUNK: Message(s) are marked as junk.
  * @EM_POPUP_SELECT_FOLDER: A folder is set on the selection.
  * @EM_POPUP_SELECT_LAST: The last bit used, can be used to add
  * additional types from derived application code.
@@ -104,10 +102,8 @@ enum _em_popup_target_select_t {
 	EM_POPUP_SELECT_FLAG_COMPLETED     = 1<<12,
 	EM_POPUP_SELECT_FLAG_CLEAR         = 1<<13,
 	EM_POPUP_SELECT_ADD_SENDER         = 1<<14,
-	EM_POPUP_SELECT_MARK_JUNK          = 1<<15,
-	EM_POPUP_SELECT_MARK_NOJUNK        = 1<<16,
-	EM_POPUP_SELECT_FOLDER             = 1<<17,    /* do we have any folder at all? */
-	EM_POPUP_SELECT_LAST               = 1<<18,     /* reserve 2 slots */
+	EM_POPUP_SELECT_FOLDER             = 1<<15,     /* do we have any folder at all? */
+	EM_POPUP_SELECT_LAST               = 1<<17,     /* reserve 2 slots */
 };
 
 /**
