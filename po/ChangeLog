@@ -1,3 +1,7 @@
+2004-09-30  Marco Ciampa  <ciampix@libero.it>
+
+        * it.po: updated italian translation.
+
 2004-09-30  Raphael Higino  <raphaelh@cvs.gnome.org>
 
 	* pt_BR.po: Updated Brazilian Portuguese translation.
@@ -13,7 +17,7 @@
 2004-09-29  Marco Ciampa  <ciampix@libero.it>
 
         * it.po: italian translation, locale and hotkey trim
-	
+
 2004-09-28  Vincent van Adrighem  <adrighem@gnome.org>
 
 	* nl.po: Translation updated.
