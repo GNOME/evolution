@@ -22,6 +22,7 @@
 #include "e-util/e-util.h"
 #include "e-util/e-canvas.h"
 #include "e-entry.h"
+#include "e-util/e-canvas-utils.h"
 
 #define MIN_ENTRY_WIDTH  150
 #define INNER_BORDER     2
@@ -50,17 +51,12 @@ enum {
 	ARG_FONT_GDK,
 	ARG_ANCHOR,
 	ARG_JUSTIFICATION,
-	ARG_CLIP_WIDTH,
-	ARG_CLIP_HEIGHT,
-	ARG_CLIP,
 	ARG_X_OFFSET,
 	ARG_Y_OFFSET,
 	ARG_FILL_COLOR,
 	ARG_FILL_COLOR_GDK,
 	ARG_FILL_COLOR_RGBA,
 	ARG_FILL_STIPPLE,
-	ARG_TEXT_WIDTH,
-	ARG_TEXT_HEIGHT,
 	ARG_EDITABLE,
 	ARG_USE_ELLIPSIS,
 	ARG_ELLIPSIS,
@@ -79,8 +75,8 @@ canvas_size_allocate (GtkWidget *widget, GtkAllocation *alloc,
 		e_entry->canvas,
 		0, 0, alloc->width, alloc->height);
 	gtk_object_set (GTK_OBJECT (e_entry->item),
-			"width", (double) alloc->width - 2 * INNER_BORDER,
-			"height", (double) alloc->height - 2 * INNER_BORDER,
+			"clip_width", (double) alloc->width - 2 * INNER_BORDER,
+			"clip_height", (double) alloc->height - 2 * INNER_BORDER,
 			NULL);
 }
 
@@ -89,7 +85,7 @@ canvas_size_request (GtkWidget *widget, GtkRequisition *requisition,
 		     EEntry *e_entry)
 {
 	g_return_if_fail (widget != NULL);
-	g_return_if_fail (GTK_IS_ENTRY (widget));
+	g_return_if_fail (GNOME_IS_CANVAS (widget));
 	g_return_if_fail (requisition != NULL);
 
 	requisition->width = MIN_ENTRY_WIDTH + (widget->style->klass->xthickness + INNER_BORDER) * 2;
@@ -113,7 +109,7 @@ e_entry_init (GtkObject *object)
 						     e_text_get_type(),
 						     "clip", TRUE,
 						     NULL));
-	e_canvas_item_move_absolute(e_entry->item,
+	e_canvas_item_move_absolute(GNOME_CANVAS_ITEM(e_entry->item),
 				    INNER_BORDER,
 				    INNER_BORDER);
 

@@ -1,3 +1,7 @@
+2000-07-07  Christopher James Lahey  <clahey@helixcode.com>
+
+	* widgets/e-text/e-entry.c: Fixed some typos.
+
 2000-07-07  Tuomas Kuosmanen  <tigert@gimp.org>
 
 	* art/evolution-contacts.png: Changed icon (hi ettore)
