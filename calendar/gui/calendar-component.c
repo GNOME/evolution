@@ -309,7 +309,7 @@ delete_calendar_cb (GtkWidget *widget, CalendarComponent *comp)
 		cal = e_cal_model_get_client_for_uri (gnome_calendar_get_calendar_model (priv->calendar), uri);
 		g_free (uri);
 		if (cal) {
-			if (e_cal_remove_calendar (cal, NULL)) {
+			if (e_cal_remove (cal, NULL)) {
 				if (e_source_selector_source_is_selected (E_SOURCE_SELECTOR (priv->source_selector),
 									  selected_source))
 					e_source_selector_unselect_source (E_SOURCE_SELECTOR (priv->source_selector),
