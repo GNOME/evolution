@@ -1,3 +1,7 @@
+2000-06-16  Damon Chaplin  <damon@helixcode.com>
+
+	* pcs/.cvsignore: added icalendar-test.
+
 2000-06-15  Damon Chaplin  <damon@helixcode.com>
 
 	* cal-util/Makefile.am (test_recur_LDADD): use libical.a
