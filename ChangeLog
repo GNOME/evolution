@@ -1,3 +1,8 @@
+2003-04-28  Rodney Dawes  <dobey@ximian.com>
+
+	* data/cde_app_root/: Use $(privdatadir) instead of
+	$(prefix)/share/evolution-$(BASE_VERSION) for the cde stuff
+	
 2003-04-21  Rodney Dawes  <dobey@ximian.com>
 
 	* configure.in: Fix KDE_APPLNK_DIR to not install to a diff prefix,

@@ -9,7 +9,7 @@ ICONS = 		\
 EXTRA_DIST = $(ICONS)
 
 if HAVE_DTAPPINTEGRATE
-cdeiconsdir = $(prefix)/share/evolution-$(BASE_VERSION)/cde_app_root/dt/appconfig/icons/C
+cdeiconsdir = $(privdatadir)/cde_app_root/dt/appconfig/icons/C
 cdeicons_DATA = $(ICONS)
 endif
 
