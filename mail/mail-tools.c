@@ -42,14 +42,6 @@
 
 /* **************************************** */
 
-G_LOCK_DEFINE_STATIC (camel);
-G_LOCK_DEFINE_STATIC (camel_locklevel);
-static GPrivate *camel_locklevel = NULL;
-
-#define LOCK_VAL (GPOINTER_TO_INT (g_private_get (camel_locklevel)))
-#define LOCK_SET(val) g_private_set (camel_locklevel, (GINT_TO_POINTER (val)))
-
-
 CamelFolder *
 mail_tool_get_folder_from_urlname (const gchar *url, const gchar *name,
 				   guint32 flags, CamelException *ex)

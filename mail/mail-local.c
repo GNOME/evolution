@@ -61,6 +61,8 @@
 #include "folder-browser.h"
 #include "mail-mt.h"
 
+#include "mail-vfolder.h"
+
 #define d(x)
 
 
@@ -519,6 +521,9 @@ register_folder_registered(struct _mail_msg *mm)
 			camel_vee_folder_add_folder (CAMEL_VEE_FOLDER (store->vtrash),
 						     local_folder->folder);
 		
+		/* add the folder to the vfolder lists FIXME: merge stuff above with this */
+		vfolder_register_source(local_folder->folder);
+
 		unread = local_folder->last_unread;
 		local_folder->last_unread = 0;
 		local_folder_changed (CAMEL_OBJECT (local_folder->folder), GINT_TO_POINTER (unread),

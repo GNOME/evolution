@@ -24,6 +24,8 @@
 #include "mail.h"
 
 #include "camel/camel.h"
+#include "camel/camel-remote-store.h"
+#include "camel/camel-vee-folder.h"
 
 #include "filter/vfolder-context.h"
 #include "filter/vfolder-editor.h"
@@ -33,11 +35,14 @@
 struct _vfolder_info {
 	char *name;
 	char *query;
+	FilterRule *rule;
+	CamelVeeFolder *folder;
 };
 
 /* list of vfolders available */
 static GList *available_vfolders = NULL;
 static VfolderContext *context;
+static GList *source_folders;	/* list of source folders */
 
 /* Ditto below */
 EvolutionStorage *vfolder_storage;
@@ -64,6 +69,67 @@ vfolder_find(const char *name)
 	return NULL;
 }
 
+static void
+register_new_source(struct _vfolder_info *info, CamelFolder *folder)
+{
+	FilterRule *rule = info->rule;
+
+	if (rule && info->folder && rule->source) {
+		int remote = (((CamelService *)folder->parent_store)->provider->flags & CAMEL_PROVIDER_IS_REMOTE) != 0;
+
+		if (!strcmp(rule->source, "local")) {
+			if (!remote) {
+				printf("adding local folder to vfolder %s\n", rule->name);
+				camel_vee_folder_add_folder(info->folder, folder);
+			}
+		} else if (!strcmp(rule->source, "remote_active")) {
+			if (remote) {
+				printf("adding remote folder to vfolder %s\n", rule->name);
+				camel_vee_folder_add_folder(info->folder, folder);
+			}
+		} else if (!strcmp(rule->source, "local_remote_active")) {
+			printf("adding local or remote folder to vfolder %s\n", rule->name);
+			camel_vee_folder_add_folder(info->folder, folder);
+		}
+	}
+}
+
+static void source_finalise(CamelFolder *sub, gpointer type, CamelFolder *vf)
+{
+	GList *l = available_vfolders;
+	
+	while (l) {
+		struct _vfolder_info *info = l->data;
+
+		if (info->folder)
+			camel_vee_folder_remove_folder(info->folder, sub);
+
+		l = l->next;
+	}
+}
+
+/* for registering potential vfolder sources */
+void vfolder_register_source(CamelFolder *folder)
+{
+	GList *l;
+
+	if (CAMEL_IS_VEE_FOLDER(folder))
+		return;
+
+	if (g_list_find(source_folders, folder))
+		return;
+
+	/* FIXME: Hook to destroy event */
+	camel_object_hook_event((CamelObject *)folder, "finalize", (CamelObjectEventHookFunc)source_finalise, folder);
+
+	source_folders = g_list_append(source_folders, folder);
+	l = available_vfolders;
+	while (l) {
+		register_new_source(l->data, folder);
+		l = l->next;
+	}
+}
+
 /* go through the list of what we have, what we want, and make
    them match, deleting/reconfiguring as required */
 static void
@@ -82,6 +148,11 @@ vfolder_refresh(void)
 		g_string_truncate(expr, 0);
 		filter_rule_build_code(rule, expr);
 		if (info) {
+			gtk_object_ref((GtkObject *)rule);
+			if (info->rule)
+				gtk_object_unref((GtkObject *)info->rule);
+			info->rule = rule;
+
 			available_vfolders = g_list_remove(available_vfolders, info);
 
 			/* check if the rule has changed ... otherwise, leave it */
@@ -102,6 +173,9 @@ vfolder_refresh(void)
 			info = g_malloc(sizeof(*info));
 			info->name = g_strdup(rule->name);
 			info->query = g_strdup(expr->str);
+			gtk_object_ref((GtkObject *)rule);
+			info->rule = rule;
+			info->folder = NULL;
 			d(printf("Adding new vfolder: %s %s\n", rule->name, expr->str));
 			
 			uri = g_strdup_printf("vfolder:%s", info->name);
@@ -123,6 +197,8 @@ vfolder_refresh(void)
 		g_free(path);
 		g_free(info->name);
 		g_free(info->query);
+		gtk_object_unref((GtkObject *)info->rule);
+		g_free(info);
 		l = g_list_next(l);
 	}
 
@@ -134,6 +210,8 @@ vfolder_refresh(void)
 		info = g_malloc(sizeof(*info));
 		info->name = g_strdup("UNMATCHED");
 		info->query = g_strdup("UNMATCHED");
+		info->rule = NULL;
+		info->folder = NULL;
 		d(printf("Adding new vfolder: %s %s\n", info->name, info->query));
 		
 		uri = g_strdup_printf("vfolder:%s", info->name);
@@ -192,14 +270,13 @@ vfolder_create_storage(EvolutionShellComponent *shell_component)
 CamelFolder *
 vfolder_uri_to_folder(const char *uri, CamelException *ex)
 {
-	void camel_vee_folder_add_folder(CamelFolder *, CamelFolder *);
-
 	struct _vfolder_info *info;
 	char *storeuri, *foldername;
 	VfolderRule *rule;
 	CamelFolder *folder = NULL, *sourcefolder;
 	const char *sourceuri;
 	int sources;
+	GList *l;
 
 	if (strncmp (uri, "vfolder:", 8))
 		return NULL;
@@ -208,6 +285,11 @@ vfolder_uri_to_folder(const char *uri, CamelException *ex)
 	if (info == NULL) {
 		g_warning("Shell trying to open unknown vFolder: %s", uri);
 		return NULL;
+	}
+
+	if (info->folder) {
+		camel_object_ref((CamelObject *)info->folder);
+		return (CamelFolder *)info->folder;
 	}
 
 	d(printf("Opening vfolder: %s\n", uri));
@@ -219,6 +301,7 @@ vfolder_uri_to_folder(const char *uri, CamelException *ex)
 
 	/* we dont have indexing on vfolders */
 	folder = mail_tool_get_folder_from_urlname (storeuri, foldername, CAMEL_STORE_FOLDER_CREATE, ex);
+	info->folder = (CamelVeeFolder *)folder;
 
 	bonobo_object_ref (BONOBO_OBJECT (vfolder_storage));
 	mail_hash_storage ((CamelService *)folder->parent_store, vfolder_storage);
@@ -232,12 +315,19 @@ vfolder_uri_to_folder(const char *uri, CamelException *ex)
 			printf("source folder = %p\n", sourcefolder);
 			if (sourcefolder) {
 				sources++;
-				camel_vee_folder_add_folder(folder, sourcefolder);
+				camel_vee_folder_add_folder((CamelVeeFolder *)folder, sourcefolder);
 			} else {
 				/* we'll just silently ignore now-missing sources */
 				camel_exception_clear(ex);
 			}
 		}
+
+		l = source_folders;
+		while (l) {
+			register_new_source(info, l->data);
+			l = l->next;
+		}
+#if 0
 		/* if we didn't have any sources, just use Inbox as the default */
 		if (sources == 0) {
 			char *defaulturi;
@@ -250,6 +340,7 @@ vfolder_uri_to_folder(const char *uri, CamelException *ex)
 				camel_vee_folder_add_folder(folder, sourcefolder);
 			}
 		}
+#endif
 	}
 
 	g_free(foldername);
@@ -313,7 +404,7 @@ vfolder_create_part(const char *name)
 FilterRule *
 vfolder_clone_rule(FilterRule *in)
 {
-	FilterRule *rule = vfolder_rule_new();
+	FilterRule *rule = (FilterRule *)vfolder_rule_new();
 	xmlNodePtr xml;
 
 	xml = filter_rule_xml_encode(in);

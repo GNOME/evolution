@@ -176,6 +176,7 @@ got_folder(char *uri, CamelFolder *folder, void *data)
 	gtk_widget_set_sensitive(GTK_WIDGET(fb->search), camel_folder_has_search_capability(folder));
 	message_list_set_threaded(fb->message_list, mail_config_get_thread_list());
 	message_list_set_folder(fb->message_list, folder);
+	vfolder_register_source(folder);
 done:
 	gtk_object_unref((GtkObject *)fb);
 

@@ -1,3 +1,20 @@
+2001-03-03  Not Zed  <NotZed@Ximian.com>
+
+	* mail-tools.c: Remove very old camel lock stuff.
+
+	* mail-local.c (register_folder_registered): Add the local folder
+	as a potential vfolder source.
+
+	* folder-browser.c (got_folder): When we have a new folder,
+	register it as a potential vfolder source.
+
+	* mail-vfolder.c: Added the source rule to the vfolder_info.
+	(vfolder_refresh): Store the rule in the vfolder info, etc.
+	(vfolder_register_source): Function to register a newly opened
+	folder with us.
+	(vfolder_uri_to_folder): Save the folder in the vfolder_info too.
+	(source_finalise): Handle clenaup when the folder dies.
+
 2001-03-02  Not Zed  <NotZed@Ximian.com>
 
 	* mail-mt.c (set_stop): Check the container is not NIL before

@@ -23,6 +23,9 @@ void vfolder_gui_add_rule(VfolderRule *rule);
 void vfolder_gui_add_from_message(CamelMimeMessage *msg, int flags, const char *source);
 void vfolder_gui_add_from_mlist(CamelMimeMessage *msg, const char *mlist, const char *source);
 
+/* for registering all open folders as potential vfolder sources */
+void vfolder_register_source(CamelFolder *folder);
+
 EvolutionStorage *mail_vfolder_get_vfolder_storage (void);
 
 #endif
