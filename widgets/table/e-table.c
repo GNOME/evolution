@@ -145,7 +145,6 @@ e_table_setup_header (ETable *e_table)
 }
 
 static void
-
 table_canvas_size_allocate (GtkWidget *widget, GtkAllocation *alloc,
 			    ETable *e_table)
 {
@@ -295,6 +294,8 @@ e_table_fill_table (ETable *e_table, ETableModel *model)
 {
 	int count, i;
 
+	e_table_group_add_all (e_table->group);
+#if 0
 	count = e_table_model_row_count (model);
 	gtk_object_set (GTK_OBJECT (e_table->group),
 			"frozen", TRUE, NULL);
@@ -303,6 +304,7 @@ e_table_fill_table (ETable *e_table, ETableModel *model)
 
 	gtk_object_set (GTK_OBJECT (e_table->group),
 			"frozen", FALSE, NULL);
+#endif
 }
 
 static ETableHeader *
@@ -344,14 +346,14 @@ et_grouping_xml_to_sort_info (ETable *table, xmlNode *grouping)
 	gtk_object_sink (GTK_OBJECT (table->sort_info));
 
 	i = 0;
-	for (grouping = grouping->childs; grouping && strcmp (grouping->name, "leaf"); grouping = grouping->childs) {
+	for (grouping = grouping->childs; grouping && !strcmp (grouping->name, "group"); grouping = grouping->childs) {
 		ETableSortColumn column;
 		column.column = e_xml_get_integer_prop_by_name (grouping, "column");
 		column.ascending = e_xml_get_integer_prop_by_name (grouping, "ascending");
 		e_table_sort_info_grouping_set_nth(table->sort_info, i++, column);
 	}
 	i = 0;
-	for (; grouping; grouping = grouping->childs) {
+	for (; grouping && !strcmp (grouping->name, "leaf"); grouping = grouping->childs) {
 		ETableSortColumn column;
 		column.column = e_xml_get_integer_prop_by_name (grouping, "column");
 		column.ascending = e_xml_get_integer_prop_by_name (grouping, "ascending");

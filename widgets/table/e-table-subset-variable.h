@@ -20,10 +20,11 @@ typedef struct {
 typedef struct {
 	ETableSubsetClass parent_class;
 	
-	void     (*add)    (ETableSubsetVariable *ets,
-			    gint                  row);
-	gboolean (*remove) (ETableSubsetVariable *ets,
-			    gint                  row);
+	void     (*add)     (ETableSubsetVariable *ets,
+			     gint                  row);
+	void     (*add_all) (ETableSubsetVariable *ets);
+	gboolean (*remove)  (ETableSubsetVariable *ets,
+			     gint                  row);
 } ETableSubsetVariableClass;
 
 GtkType      e_table_subset_variable_get_type  (void);
@@ -32,6 +33,7 @@ ETableModel *e_table_subset_variable_construct (ETableSubsetVariable *etssv,
 						ETableModel          *source);
 void         e_table_subset_variable_add       (ETableSubsetVariable *ets,
 						gint                  row);
+void         e_table_subset_variable_add_all   (ETableSubsetVariable *ets);
 gboolean     e_table_subset_variable_remove    (ETableSubsetVariable *ets,
 						gint                  row);
 void         e_table_subset_variable_increment (ETableSubsetVariable *ets,

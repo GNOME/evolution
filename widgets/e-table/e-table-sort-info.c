@@ -143,8 +143,8 @@ e_table_sort_info_grouping_get_count (ETableSortInfo *info)
 	return info->group_count;
 }
 
-void
-e_table_sort_info_grouping_truncate  (ETableSortInfo *info, int length)
+static void
+e_table_sort_info_grouping_real_truncate  (ETableSortInfo *info, int length)
 {
 	if (length < info->group_count) {
 		info->group_count = length;
@@ -153,6 +153,12 @@ e_table_sort_info_grouping_truncate  (ETableSortInfo *info, int length)
 		info->groupings = g_realloc(info->groupings, length * sizeof(ETableSortColumn));
 		info->group_count = length;
 	}
+}
+
+void
+e_table_sort_info_grouping_truncate  (ETableSortInfo *info, int length)
+{
+	e_table_sort_info_grouping_real_truncate(info, length);
 	e_table_sort_info_group_info_changed(info);
 }
 
@@ -171,7 +177,7 @@ void
 e_table_sort_info_grouping_set_nth   (ETableSortInfo *info, int n, ETableSortColumn column)
 {
 	if (n >= info->group_count) {
-		e_table_sort_info_grouping_truncate(info, n + 1);
+		e_table_sort_info_grouping_real_truncate(info, n + 1);
 	}
 	info->groupings[n] = column;
 	e_table_sort_info_group_info_changed(info);
@@ -184,8 +190,8 @@ e_table_sort_info_sorting_get_count (ETableSortInfo *info)
 	return info->sort_count;
 }
 
-void
-e_table_sort_info_sorting_truncate  (ETableSortInfo *info, int length)
+static void
+e_table_sort_info_sorting_real_truncate  (ETableSortInfo *info, int length)
 {
 	if (length < info->sort_count) {
 		info->sort_count = length;
@@ -194,6 +200,12 @@ e_table_sort_info_sorting_truncate  (ETableSortInfo *info, int length)
 		info->sortings = g_realloc(info->sortings, length * sizeof(ETableSortColumn));
 		info->sort_count = length;
 	}
+}
+
+void
+e_table_sort_info_sorting_truncate  (ETableSortInfo *info, int length)
+{
+	e_table_sort_info_sorting_real_truncate  (info, length);
 	e_table_sort_info_sort_info_changed(info);
 }
 
@@ -212,7 +224,7 @@ void
 e_table_sort_info_sorting_set_nth   (ETableSortInfo *info, int n, ETableSortColumn column)
 {
 	if (n >= info->sort_count) {
-		e_table_sort_info_sorting_truncate(info, n + 1);
+		e_table_sort_info_sorting_real_truncate(info, n + 1);
 	}
 	info->sortings[n] = column;
 	e_table_sort_info_sort_info_changed(info);

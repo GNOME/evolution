@@ -1,5 +1,22 @@
 2000-05-04  Christopher James Lahey  <clahey@helixcode.com>
 
+	* e-table-group-container.c, e-table-group-leaf.c,
+	e-table-group.c, e-table-group.h: Add an e_table_group_add_all
+	function and implement it in the different ETableGroup classes.
+
+	* e-table-sort-info.c: Make set_nth not call changed twice if it
+	needs to allocate more space.
+
+	* e-table-sorted-variable.c, e-table-subset-variable.c,
+	e-table-subset-variable.h: Add and implement an
+	e_table_subset_variable_add_all command.
+
+	* e-table.c: Use e_table_group_add_all as appropriate.  Fix ETable
+	grouping xml to work if there is a text element at the bottom of
+	the grouping tree.
+
+2000-05-04  Christopher James Lahey  <clahey@helixcode.com>
+
 	* e-cell-text.c: Sped up e_cell_text's get_height function.
 
 2000-05-04  Christopher James Lahey  <clahey@helixcode.com>

@@ -137,6 +137,13 @@ etgl_add (ETableGroup *etg, gint row)
 	e_table_subset_variable_add (etgl->subset, row);
 }
 
+static void
+etgl_add_all (ETableGroup *etg)
+{
+	ETableGroupLeaf *etgl = E_TABLE_GROUP_LEAF (etg);
+	e_table_subset_variable_add_all (etgl->subset);
+}
+
 static gboolean
 etgl_remove (ETableGroup *etg, gint row)
 {
@@ -272,6 +279,7 @@ etgl_class_init (GtkObjectClass *object_class)
 	etgl_parent_class = gtk_type_class (PARENT_TYPE);
 
 	e_group_class->add = etgl_add;
+	e_group_class->add_all = etgl_add_all;
 	e_group_class->remove = etgl_remove;
 	e_group_class->increment = etgl_increment;
 	e_group_class->set_focus = etgl_set_focus;

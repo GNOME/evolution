@@ -612,6 +612,16 @@ etgc_add (ETableGroup *etg, gint row)
 	e_canvas_item_request_reflow (GNOME_CANVAS_ITEM (etgc));
 }
 
+static void
+etgc_add_all (ETableGroup *etg)
+{
+	ETableGroupContainer *etgc = E_TABLE_GROUP_CONTAINER(etg);
+	int rows = e_table_model_row_count(etg->model);
+	int i;
+	for (i = 0; i < rows; i++)
+		etgc_add(etg, i);
+}
+
 static gboolean
 etgc_remove (ETableGroup *etg, gint row)
 {
@@ -785,6 +795,7 @@ etgc_class_init (GtkObjectClass *object_class)
 	etgc_parent_class = gtk_type_class (PARENT_TYPE);
 
 	e_group_class->add = etgc_add;
+	e_group_class->add_all = etgc_add_all;
 	e_group_class->remove = etgc_remove;
 	e_group_class->increment = etgc_increment;
 	e_group_class->set_focus = etgc_set_focus;

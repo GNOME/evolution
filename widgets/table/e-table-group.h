@@ -44,6 +44,7 @@ typedef struct {
 	void        (*row_selection)      (ETableGroup *etg, int row, gboolean selected);
 
 	void (*add) (ETableGroup *etg, gint row);
+	void (*add_all) (ETableGroup *etg);
 	gboolean (*remove) (ETableGroup *etg, gint row);
 	gint (*get_count) (ETableGroup *etg);
 	void (*increment) (ETableGroup *etg, gint position, gint amount);
@@ -60,6 +61,7 @@ typedef struct {
 
 void             e_table_group_add       (ETableGroup      *etg,
 					  gint              row);
+void             e_table_group_add_all   (ETableGroup      *etg);
 gboolean         e_table_group_remove    (ETableGroup      *etg,
 					  gint              row);
 gint             e_table_group_get_count (ETableGroup      *etg);

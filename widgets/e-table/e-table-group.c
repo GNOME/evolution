@@ -123,6 +123,16 @@ e_table_group_add (ETableGroup *etg,
 		ETG_CLASS (etg)->add (etg, row);
 }
 
+void
+e_table_group_add_all (ETableGroup *etg)
+{
+	g_return_if_fail (etg != NULL);
+	g_return_if_fail (E_IS_TABLE_GROUP (etg));
+
+	if (ETG_CLASS (etg)->add_all)
+		ETG_CLASS (etg)->add_all (etg);
+}
+
 gboolean
 e_table_group_remove (ETableGroup *etg,
 		      gint row)
@@ -332,6 +342,7 @@ etg_class_init (GtkObjectClass *object_class)
 	klass->row_selection = NULL;
 	
 	klass->add = NULL;
+	klass->add_all = NULL;
 	klass->remove = NULL;
 	klass->get_count = NULL;
 	klass->increment = NULL;

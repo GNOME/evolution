@@ -26,6 +26,7 @@ static void etsv_proxy_model_cell_changed (ETableModel *etm, int col, int row, E
 static void etsv_sort_info_changed        (ETableSortInfo *info, ETableSortedVariable *etsv);
 static void etsv_sort                     (ETableSortedVariable *etsv);
 static void etsv_add                      (ETableSubsetVariable *etssv, gint                  row);
+static void etsv_add_all                  (ETableSubsetVariable *etssv);
 
 static void
 etsv_destroy (GtkObject *object)
@@ -68,6 +69,7 @@ etsv_class_init (GtkObjectClass *object_class)
 	object_class->destroy = etsv_destroy;
 
 	etssv_class->add = etsv_add;
+	etssv_class->add_all = etsv_add_all;
 }
 
 static void
@@ -108,6 +110,29 @@ etsv_add       (ETableSubsetVariable *etssv,
 	}
 	etss->map_table[etss->n_map] = row;
 	etss->n_map++;
+	if (etsv->sort_idle_id == 0) {
+		etsv->sort_idle_id = g_idle_add_full(50, (GSourceFunc) etsv_sort_idle, etsv, NULL);
+	}
+	if (!etm->frozen)
+		e_table_model_changed (etm);
+}
+
+static void
+etsv_add_all   (ETableSubsetVariable *etssv)
+{
+	ETableModel *etm = E_TABLE_MODEL(etssv);
+	ETableSubset *etss = E_TABLE_SUBSET(etssv);
+	ETableSortedVariable *etsv = E_TABLE_SORTED_VARIABLE (etssv);
+	int rows = e_table_model_row_count(etss->source);
+	int i;
+	
+	if (etss->n_map + rows > etssv->n_vals_allocated){
+		etssv->n_vals_allocated += MAX(INCREMENT_AMOUNT, rows);
+		etss->map_table = g_realloc (etss->map_table, etssv->n_vals_allocated * sizeof(int));
+	}
+	for (i = 0; i < rows; i++)
+		etss->map_table[etss->n_map++] = i;
+
 	if (etsv->sort_idle_id == 0) {
 		etsv->sort_idle_id = g_idle_add_full(50, (GSourceFunc) etsv_sort_idle, etsv, NULL);
 	}
