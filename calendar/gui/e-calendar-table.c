@@ -1098,21 +1098,20 @@ e_calendar_table_show_popup_menu (ETable *table,
 	int disable_mask = 0;
 	GtkMenu *gtk_menu;
 	icalproperty *prop;
+	GSList *selection;
 	ECalModelComponent *comp_data;
 	gboolean read_only = TRUE;
-	
-	n_selected = e_table_selected_count (table);
-	if (n_selected <= 0)
+
+	selection = get_selected_objects (cal_table);
+	if (!selection)
 		return TRUE;
 
-	comp_data = get_selected_comp (cal_table);
-	g_assert (comp_data != NULL);
-
+	comp_data = selection->data;
+	n_selected = g_slist_length (selection);
 	if (n_selected == 1) {
 		hide_mask = MASK_MULTIPLE;
 
 		/* See if the task has the URL property set */
-
 		prop = icalcomponent_get_first_property (comp_data->icalcomp, ICAL_URL_PROPERTY);
 		if (!prop)
 			disable_mask |= MASK_LACKS_URL;
@@ -1131,6 +1130,8 @@ e_calendar_table_show_popup_menu (ETable *table,
 					hide_mask, cal_table);
                                                                             
         e_popup_menu (gtk_menu, gdk_event);
+
+	g_slist_free (selection);
 
 	return TRUE;
 }

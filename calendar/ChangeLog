@@ -1,5 +1,10 @@
 2004-01-14  Rodrigo Moya <rodrigo@ximian.com>
 
+	* gui/e-calendar-table.c (e_calendar_table_show_popup_menu):
+	use get_selected_objects() instead of get_selected_comp().
+
+2004-01-14  Rodrigo Moya <rodrigo@ximian.com>
+
 	* gui/e-cal-model-tasks.c (get_status): removed assertion.
 
 2004-01-14  Rodrigo Moya <rodrigo@ximian.com>
