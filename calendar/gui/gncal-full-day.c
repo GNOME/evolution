@@ -511,8 +511,9 @@ child_popup_menu (GncalFullDay *fullday, Child *child, GdkEventButton *event)
 		context_menu = &recur_child_items[0];
 		context_menu[2].data = child;
 		context_menu[3].data = child;
-		context_menu[4].data = fullday;
 		context_menu[3].sensitive = sensitive;
+		context_menu[4].data = fullday;
+		context_menu[5].data = fullday;
 	} else {
 		items = 4;
 		context_menu = &child_items[0];
