@@ -1,3 +1,20 @@
+2001-06-06  Jon Trowbridge  <trow@gnu.org>
+
+	* evolution-storage.c (impl_Storage_async_create_folder): Changed
+	purely informational debug spew from a g_warning to a g_message.
+
+	* e-shell-importer.c (show_import_wizard): The import wizard
+	defined in import.glade only has three pages... yet we were trying
+	to manipulate "page4" as the finish page, with the expected bad
+	results.  My guess is that the .glade file got changed, but the
+	code didn't get updated.
+	(start_import): We were trying to bonobo_object_unref
+	(BONOBO_OBJECT (icd->client)), which is fine except for the
+	fact that icd->client is just a GtkObject, not a BonoboObject.
+	Changed to a gtk_object_unref.
+	(start_import): Changed a purely informational bit of debug
+	spew from a g_warning to a g_message.
+
 2001-06-06  Iain Holmes  <iain@ximian.com>
 
 	* importers/intelligent.c (create_gui): Make a few boxes, and make
@@ -35,6 +52,7 @@
 	(insert_storages): Minor change here too.
 	(new_folder_cb): Ditto.
 	
+>>>>>>> 1.439
 2001-06-05  Jason Leach  <jleach@ximian.com>
 
 	* e-shell-view-menu.c: Plug in all the folder tree right click

@@ -300,7 +300,7 @@ impl_Storage_async_create_folder (PortableServer_Servant servant,
 	bonobo_object = bonobo_object_from_servant (servant);
 	storage = EVOLUTION_STORAGE (bonobo_object);
 
-	g_warning ("Path: %s", path);
+	g_message ("Path: %s", path);
 	gtk_signal_emit (GTK_OBJECT (storage), signals[CREATE_FOLDER],
 			 listener, path, type, description, parent_physical_uri);
 }

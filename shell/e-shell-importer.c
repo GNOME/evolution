@@ -394,7 +394,7 @@ start_import (const char *folderpath,
 	g_free (real_iid);
 
 	/* NULL for folderpath means use Inbox */
-	g_warning ("Folderpath: %s", folderpath);
+	g_message ("Folderpath: %s", folderpath);
 	if (*folderpath == '/') {
 		folderpath = strchr (folderpath + 1, '/');
 	}
@@ -406,7 +406,7 @@ start_import (const char *folderpath,
 		while (gtk_events_pending ())
 			gtk_main_iteration ();
 		
-		bonobo_object_unref (BONOBO_OBJECT (icd->client));
+		gtk_object_unref (GTK_OBJECT (icd->client));
 		gtk_object_unref (GTK_OBJECT (icd->dialog));
 		g_free (icd);
 		return;
@@ -680,7 +680,7 @@ show_import_wizard (BonoboUIComponent *component,
 	gtk_signal_connect (GTK_OBJECT (data->filedialog), "prepare",
 			    GTK_SIGNAL_FUNC (prepare_file_page), data);
 
-	finish = GNOME_DRUID_PAGE_FINISH (glade_xml_get_widget (data->wizard, "page4"));
+	finish = GNOME_DRUID_PAGE_FINISH (glade_xml_get_widget (data->wizard, "page3"));
 
 	data->filepage = importer_file_page_new (data);
 	data->vbox = data->filepage->vbox;
