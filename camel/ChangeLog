@@ -1,3 +1,13 @@
+2000-05-03  NotZed  <NotZed@HelixCode.com>
+
+	* camel-mime-utils.c (rfc2047_decode_word): If the iconv handle is
+	-1, then dont try and convert (crashes unicode_iconv?).
+	(rfc2047_decode_word): Use alloca for variables instead of
+	g_malloc - by the rfc they should always be short.
+	(rfc2047_decode_word): If we can't do the charset conversion, undo
+	the quoted-printable/base64 at least?  Should probably convert
+	unknown characters to the utf-8 unknown character.
+
 2000-05-02  Larry Ewing  <lewing@helixcode.com>
 
 	* camel-mime-utils.c (header_decode_date): fix typo when

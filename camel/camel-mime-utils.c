@@ -680,9 +680,10 @@ rfc2047_decode_word(const char *in, int len)
 	if (inptr!=NULL
 	    && inptr<inend+2
 	    && inptr[2]=='?') {
+		d(printf("found ?, encoding is '%c'\n", inptr[0]));
 		inptr++;
 		tmplen = inend-inptr-2;
-		decword = g_malloc(tmplen); /* this will always be more-than-enough room */
+		decword = alloca(tmplen); /* this will always be more-than-enough room */
 		switch(toupper(inptr[0])) {
 		case 'Q':
 			inlen = quoted_decode(inptr+2, tmplen, decword);
@@ -695,6 +696,7 @@ rfc2047_decode_word(const char *in, int len)
 			break;
 		}
 		}
+		d(printf("The encoded length = %d\n", inlen));
 		if (inlen>0) {
 			/* yuck, all this snot is to setup iconv! */
 			tmplen = inptr-in-3;
@@ -705,21 +707,26 @@ rfc2047_decode_word(const char *in, int len)
 			inbuf = decword;
 
 			outlen = inlen*6;
-			outbase = g_malloc(outlen);
+			outbase = alloca(outlen);
 			outbuf = outbase;
 
+			/* TODO: Should this cache iconv converters? */
 			ic = unicode_iconv_open("utf-8", encname);
-			ret = unicode_iconv(ic, (const char **)&inbuf, &inlen, &outbuf, &outlen);
-			unicode_iconv_close(ic);
-			if (ret>=0) {
-				*outbuf = 0;
-				decoded = outbase;
-				outbase = NULL;
+			if (ic != (unicode_iconv_t)-1) {
+				ret = unicode_iconv(ic, (const char **)&inbuf, &inlen, &outbuf, &outlen);
+				unicode_iconv_close(ic);
+				if (ret>=0) {
+					*outbuf = 0;
+					decoded = g_strdup(outbase);
+				}
+			} else {
+				g_warning("Cannot decode charset, header display may be corrupt: %s: %s", encname, strerror(errno));
+				/* TODO: Should this do this, or just leave the encoded strings? */
+				decword[inlen] = 0;
+				decoded = g_strdup(decword);
 			}
 		}
 	}
-	free(outbase);
-	free(decword);
 
 	d(printf("decoded '%s'\n", decoded));
 
