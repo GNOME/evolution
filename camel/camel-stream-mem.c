@@ -109,7 +109,7 @@ camel_stream_mem_new (void)
 }
 
 CamelStream *
-camel_stream_mem_new_with_buffer (const char *buffer, unsigned int len)
+camel_stream_mem_new_with_buffer (const char *buffer, size_t len)
 {
 	GByteArray *ba;
 

@@ -1,3 +1,9 @@
+2000-05-11  Dan Winship  <danw@helixcode.com>
+
+	* camel-stream-mem.c (camel_stream_mem_new_with_buffer): Change
+	to match prototype (size_t vs unsigned int) so it works on 64-bit
+	machines. Noted by msw.
+
 2000-05-11  NotZed  <NotZed@HelixCode.com>
 
 	* providers/mbox/camel-mbox-folder.c (message_changed): Indicate
