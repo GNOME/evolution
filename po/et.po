@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Evolution pre-2.0\n"
 "POT-Creation-Date: 2004-02-27 03:15+0100\n"
-"PO-Revision-Date: 2004-04-29 14:36+0300\n"
+"PO-Revision-Date: 2004-04-29 20:39+0300\n"
 "Last-Translator: Priit Laes <amd@tt.ee>\n"
 "Language-Team: Estonian <gnome-et@linux.ee>\n"
 "MIME-Version: 1.0\n"
@@ -1854,7 +1854,7 @@ msgstr "Lõuna-Aafrika Vabariik"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:335
 msgid "South Georgia And The South Sandwich Islands"
-msgstr ""
+msgstr "Lõuna Georgia ja Lõuna Sandwichi saared"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:336
 msgid "Spain"
@@ -2988,7 +2988,7 @@ msgstr ""
 
 #: addressbook/gui/widgets/eab-gui-util.c:179
 msgid "This query did not complete successfully."
-msgstr ""
+msgstr "See päring ei lõpetanud edukalt."
 
 #: addressbook/gui/widgets/eab-gui-util.c:205
 msgid "Do you want to save changes?"
@@ -3030,6 +3030,8 @@ msgid ""
 "Opening %d contacts will open %d new windows as well.\n"
 "Do you really want to display all of these contacts?"
 msgstr ""
+"%d kontakti avamisega kaasneb %d uue akna avamine.\n"
+"Oled sa kindel, et soovid kuvada kõiki neid kontakte?"
 
 #: addressbook/gui/widgets/eab-gui-util.c:359
 #, c-format
@@ -3472,7 +3474,7 @@ msgstr "Sisesta parool"
 
 #: calendar/conduits/calendar/calendar-conduit.c:206
 msgid "Split Multi-Day Events:"
-msgstr ""
+msgstr "Mitmepäevaste sündmuste osadeks jagamine:"
 
 #: calendar/conduits/calendar/calendar-conduit.c:1313
 #: calendar/conduits/todo/todo-conduit.c:849
@@ -6294,68 +6296,68 @@ msgstr "Sõnum sisaldab ainult toetamata päringuid."
 msgid "The attachment does not contain a valid calendar message"
 msgstr "Manus ei sisalda arusaadavat kalendriteadet"
 
-#: calendar/gui/e-itip-control.c:1533
+#: calendar/gui/e-itip-control.c:1535
 msgid "The attachment has no viewable calendar items"
 msgstr "Manus ei sisalda vaadeldavaid kalendri elemente"
 
-#: calendar/gui/e-itip-control.c:1764
+#: calendar/gui/e-itip-control.c:1766
 msgid "Calendar file could not be updated!\n"
 msgstr "Kalendrifaili ei saa uuendada!\n"
 
-#: calendar/gui/e-itip-control.c:1766
+#: calendar/gui/e-itip-control.c:1768
 msgid "Update complete\n"
 msgstr "Uuendamine lõpetatud\n"
 
-#: calendar/gui/e-itip-control.c:1796
-#: calendar/gui/e-itip-control.c:1868
+#: calendar/gui/e-itip-control.c:1798
+#: calendar/gui/e-itip-control.c:1870
 msgid "Attendee status can not be updated because the item no longer exists"
 msgstr "Osavõtja olekut ei olnud võimailk uuendada, kuna objekti enam ei eksisteeri"
 
-#: calendar/gui/e-itip-control.c:1812
-#: calendar/gui/e-itip-control.c:1850
+#: calendar/gui/e-itip-control.c:1814
+#: calendar/gui/e-itip-control.c:1852
 msgid "Object is invalid and cannot be updated\n"
 msgstr ""
 
-#: calendar/gui/e-itip-control.c:1822
+#: calendar/gui/e-itip-control.c:1824
 msgid "This response is not from a current attendee.  Add as an attendee?"
 msgstr "See vastus pole praegu kohalviibijalt. Kas lisame ta kohalviibijaks?"
 
-#: calendar/gui/e-itip-control.c:1834
+#: calendar/gui/e-itip-control.c:1836
 msgid "Attendee status could not be updated because of an invalid status!\n"
 msgstr "Osavõtja olekut ei ole võimailk uuendada, kuna selle olek on vigane!\n"
 
-#: calendar/gui/e-itip-control.c:1853
+#: calendar/gui/e-itip-control.c:1855
 msgid "There was an error on the CORBA system\n"
 msgstr ""
 
-#: calendar/gui/e-itip-control.c:1856
+#: calendar/gui/e-itip-control.c:1858
 #, fuzzy
 msgid "Object could not be found\n"
 msgstr "Draiveri leidmine printerile <b>%1</b> ebaõnnestus."
 
-#: calendar/gui/e-itip-control.c:1859
+#: calendar/gui/e-itip-control.c:1861
 msgid "You don't have the right permissions to update the calendar\n"
 msgstr "Sul pole õigusi kalendri muutmiseks\n"
 
-#: calendar/gui/e-itip-control.c:1862
+#: calendar/gui/e-itip-control.c:1864
 msgid "Attendee status updated\n"
 msgstr "Osavõtja olek uuendatud\n"
 
-#: calendar/gui/e-itip-control.c:1865
+#: calendar/gui/e-itip-control.c:1867
 msgid "Attendee status could not be updated!\n"
 msgstr "Osavõtja olekut ei ole võimailk uuendada!\n"
 
-#: calendar/gui/e-itip-control.c:1896
+#: calendar/gui/e-itip-control.c:1898
 msgid "Removal Complete"
 msgstr "Eemaldamine lõpetatud"
 
-#: calendar/gui/e-itip-control.c:1919
-#: calendar/gui/e-itip-control.c:1967
+#: calendar/gui/e-itip-control.c:1921
+#: calendar/gui/e-itip-control.c:1969
 msgid "Item sent!\n"
 msgstr "Kirje saadetud!\n"
 
-#: calendar/gui/e-itip-control.c:1921
-#: calendar/gui/e-itip-control.c:1971
+#: calendar/gui/e-itip-control.c:1923
+#: calendar/gui/e-itip-control.c:1973
 msgid "The item could not be sent!\n"
 msgstr "Kirje saatmine ebaõnnestus!\n"
 
@@ -9143,11 +9145,11 @@ msgstr "VIGA - Faili saatmine ebaõnnestus"
 #: camel/camel-multipart-encrypted.c:229
 #: camel/camel-multipart-encrypted.c:244
 msgid "Failed to decrypt MIME part: protocol error"
-msgstr ""
+msgstr "MIME osa dekrüpteerimine ebaõnnestus: protokolli viga"
 
 #: camel/camel-multipart-encrypted.c:257
 msgid "Failed to decrypt MIME part: invalid structure"
-msgstr ""
+msgstr "MIME osa dekrüpteerimine ebaõnnestus: vigane struktuur"
 
 #: camel/camel-multipart-signed.c:673
 #: camel/camel-multipart-signed.c:724
@@ -9269,7 +9271,7 @@ msgstr "Serveri vastus oli vigane\n"
 
 #: camel/camel-sasl-gssapi.c:48
 msgid "GSSAPI"
-msgstr ""
+msgstr "GSSAPI"
 
 #: camel/camel-sasl-gssapi.c:50
 #, fuzzy
@@ -9677,7 +9679,7 @@ msgstr ""
 
 #: camel/camel-smime-context.c:845
 msgid "Can't attach CMS data object"
-msgstr ""
+msgstr "CMS andmeobjekti ei saa manustada"
 
 #: camel/camel-smime-context.c:854
 #, fuzzy
@@ -9706,7 +9708,7 @@ msgstr "KIRC viga - meetod ebaõnnestus: "
 
 #: camel/camel-smime-context.c:977
 msgid "S/MIME Decrypt: No encrypted content found"
-msgstr ""
+msgstr "S/MIME dekrüpteerimine: Krüpteeritud sisu ei leitud"
 
 #: camel/camel-smime-context.c:1004
 #, fuzzy
@@ -13568,7 +13570,7 @@ msgstr "_Lisa aadressiraamatusse"
 #: mail/em-popup.c:964
 #, c-format
 msgid "Open in %s..."
-msgstr "_Ava kaustas %s..."
+msgstr "Ava programmiga %s..."
 
 #: mail/em-subscribe-editor.c:604
 #, fuzzy
@@ -14740,9 +14742,8 @@ msgid "Empty trash folders on e_xit"
 msgstr "Väljumisel tühjendatakse _prügikastid"
 
 #: mail/mail-config.glade.h:78
-#, fuzzy
 msgid "Encry_ption certificate:"
-msgstr "Tühistamise sertifikaat on loodud.\n"
+msgstr "_Krüpteerimissertifikaat:"
 
 #: mail/mail-config.glade.h:79
 msgid "Evolution Account Assistant"
@@ -14829,9 +14830,8 @@ msgid "Qmail maildir "
 msgstr "Maildir otsingutee:"
 
 #: mail/mail-config.glade.h:111
-#, fuzzy
 msgid "Quote original message"
-msgstr "Originaalkirja tsiteerimine:"
+msgstr "Originaalkirja tsiteerimine"
 
 #: mail/mail-config.glade.h:112
 msgid "Quoted"
@@ -14851,9 +14851,8 @@ msgid "Receiving Email"
 msgstr "E-posti vastuvõtmine"
 
 #: mail/mail-config.glade.h:117
-#, fuzzy
 msgid "Receiving Options"
-msgstr "Valikuvõimaluste menüü"
+msgstr "Vastuvõtmise häälestus"
 
 #: mail/mail-config.glade.h:118
 msgid "Remember _password"
@@ -14961,15 +14960,14 @@ msgid "V_ariable-width:"
 msgstr "_Muutuva laiusega:"
 
 #: mail/mail-config.glade.h:151
-#, fuzzy
 msgid ""
 "Welcome to the Evolution Mail Configuration Assistant.\n"
 "\n"
 "Click \"Forward\" to begin. "
 msgstr ""
-"Tere tulemast kasutama Evolution'i kontoassitenti.\n"
+"Tere tulemast kasutama Evolution'i kirjaseadistusassitenti.\n"
 "\n"
-"Jätkamiseks vajuta \"Järgmine\". "
+"Jätkamiseks vajuta \"Edasi\"."
 
 #: mail/mail-config.glade.h:156
 msgid "_Add Signature"
@@ -15059,9 +15057,8 @@ msgid "description"
 msgstr "kirjeldus"
 
 #: mail/mail-errors.xml.in.h:1
-#, fuzzy
 msgid "A folder named \"{1}\" already exists. Please use a different name."
-msgstr "Nimi \"%s\" on juba siin kaustas olemas. Palun kasuta teist nime."
+msgstr "Kaust nimega \"{1}\" juba eksisteerib. Palun kasuta teistsugust nime."
 
 #: mail/mail-errors.xml.in.h:2
 msgid "Adding a meaningful Subject line to your messages will give your recipients an idea of what your mail is about."
@@ -15111,28 +15108,24 @@ msgid "Because \"{2}\"."
 msgstr ""
 
 #: mail/mail-errors.xml.in.h:12
-#, fuzzy
 msgid "Cannot add vFolder \"{0}\"."
-msgstr "VKaust _adressaatide järgi"
+msgstr "vKausta \"{0}\" ei saa lisada."
 
 #: mail/mail-errors.xml.in.h:13
-#, fuzzy
 msgid "Cannot copy folder \"{0}\" to \"{1}\"."
-msgstr "Sõnumeid ei saa kopeerida Prügi kausta"
+msgstr "Kausta \"{0}\" ei saa kopeerida \"{1}\" kausta."
 
 #: mail/mail-errors.xml.in.h:14
 msgid "Cannot create folder \"{0}\"."
 msgstr "Kausta \"{0}\" ei saa luua."
 
 #: mail/mail-errors.xml.in.h:15
-#, fuzzy
 msgid "Cannot create temporary save directory."
-msgstr "Ajutise kataloogi loomine nurjus: %s"
+msgstr "Ajutist salvestuskataloogi ei saa luua."
 
 #: mail/mail-errors.xml.in.h:16
-#, fuzzy
 msgid "Cannot create the save directory, because \"{1}\""
-msgstr "Kataloogi %s ei saa luua: %s"
+msgstr "Salvestuskataloogi ei saa luua, sest \"{1}\""
 
 #: mail/mail-errors.xml.in.h:17
 msgid "Cannot delete folder \"{0}\"."
@@ -15143,63 +15136,48 @@ msgid "Cannot delete system folder \"{0}\"."
 msgstr "Süsteemikausta \"{0}\" ei saa kustutada."
 
 #: mail/mail-errors.xml.in.h:19
-#, fuzzy
 msgid "Cannot edit vFolder \"{0}\" as it does not exist."
-msgstr "Kausta `%s' ei saadud: seda ei eksisteeri."
+msgstr "vKausta \"{0}\" ei saa redigeerida, kuna seda ei eksisteeri."
 
 #: mail/mail-errors.xml.in.h:20
-#, fuzzy
 msgid "Cannot move folder \"{0}\" to \"{1}\"."
-msgstr "Liiguta kiri kausta"
+msgstr "Kausta \"{0}\" ei saa liigutada \"{1}\" kausta."
 
 #: mail/mail-errors.xml.in.h:21
-#, fuzzy
 msgid "Cannot open source \"{1}\""
-msgstr ""
-"\n"
-"*** Konsooli logiallika avamine ebaõnnestus ***"
+msgstr "Allikat \"{1}\" ei saa avada"
 
 #: mail/mail-errors.xml.in.h:22
-#, fuzzy
 msgid "Cannot open source \"{2}\"."
-msgstr ""
-"\n"
-"*** Konsooli logiallika avamine ebaõnnestus ***"
+msgstr "Allikat \"{2}\" ei saa avada."
 
 #: mail/mail-errors.xml.in.h:23
-#, fuzzy
 msgid "Cannot open target \"{2}\"."
-msgstr "faili `%s' ei saa avada"
+msgstr "Sihtkohta \"{2}\" ei saa avada."
 
 #: mail/mail-errors.xml.in.h:24
-#, fuzzy
 msgid "Cannot rename \"{0}\" to \"{1}\"."
-msgstr "%s: ei õnnestu ümber nimetada %s-ks"
+msgstr "\"{0}\"-a ei saa ümber nimetada \"{1}\"-ks."
 
 #: mail/mail-errors.xml.in.h:25
-#, fuzzy
 msgid "Cannot rename or move system folder \"{0}\"."
-msgstr "Sõnumeid ei saa koppeerida või liigutaad Virtuaalkausta"
+msgstr "Süsteemikausta \"{0}\" ei saa ümber nimetada ega liigutada."
 
 #: mail/mail-errors.xml.in.h:26
-#, fuzzy
 msgid "Cannot save changes to account."
-msgstr "Ei saa kävitaja muudatusi salvestada"
+msgstr "Konto muudatusi ei saa salvestada."
 
 #: mail/mail-errors.xml.in.h:27
-#, fuzzy
 msgid "Cannot save to directory \"{0}\"."
-msgstr "ei õnnestu minna kataloogi %s"
+msgstr "Kataloogi \"{0}\" ei saa salvestada."
 
 #: mail/mail-errors.xml.in.h:28
-#, fuzzy
 msgid "Cannot save to file \"{0}\"."
-msgstr "Salvesta kuvatõmmis _faili:"
+msgstr "Faili \"{0}\" ei saa salvestada."
 
 #: mail/mail-errors.xml.in.h:29
-#, fuzzy
 msgid "Cannot set signature script \"{0}\"."
-msgstr "Signatuurifaili pole võimalik avada!"
+msgstr ""
 
 #: mail/mail-errors.xml.in.h:30
 msgid "Check to make sure your password is spelled correctly. Remember that many passwords are case sensitive; your caps lock might be on."
@@ -15230,34 +15208,28 @@ msgid "Don't delete"
 msgstr "Ära kustuta"
 
 #: mail/mail-errors.xml.in.h:37
-msgid "Enter password for {0}"
-msgstr "Sisesta sisesta parool {0} jaoks"
+msgid "Enter password."
+msgstr "Sisesta parool."
 
 #: mail/mail-errors.xml.in.h:38
-#, fuzzy
 msgid "Error loading filter definitions."
-msgstr "VIGA : sellist filtrit pole!"
+msgstr "Viga filtridefinitsioonide laadimisel."
 
 #: mail/mail-errors.xml.in.h:39
 msgid "Error while performing operation."
 msgstr "Viga käsu täitmisel."
 
 #: mail/mail-errors.xml.in.h:40
-#, fuzzy
 msgid "Error while {0}."
-msgstr ""
-"Viga tegevuse '%s' käigus:\n"
-"%s"
+msgstr "Viga {0} käigus."
 
 #: mail/mail-errors.xml.in.h:41
-#, fuzzy
 msgid "File exists but cannot overwrite it."
-msgstr "Fail nimega \"%1\" on juba olemas. Kas kirjutada see üle?"
+msgstr "Fail juba eksisteerib, kuid seda ei saa üle kirjutada."
 
 #: mail/mail-errors.xml.in.h:42
-#, fuzzy
 msgid "File exists but is not a regular file."
-msgstr "%1 on olemas, aga pole tavaline fail"
+msgstr "Fail juba eksisteerib, aga see ei ole tavaline fail."
 
 #: mail/mail-errors.xml.in.h:43
 msgid "If you continue, you will not be able to recover these messages."
@@ -15280,9 +15252,8 @@ msgid "Invalid authentication"
 msgstr "Vigane autentimine"
 
 #: mail/mail-errors.xml.in.h:48
-#, fuzzy
 msgid "Mail filters automatically updated."
-msgstr "Automaatne kohaliku posti sünkroniseerimine kaugpostiga"
+msgstr "Postifiltrid automaatselt uuendatud."
 
 #: mail/mail-errors.xml.in.h:49
 msgid "Many email systems add an Apparently-To header to messages that only have BCC recipients. This header, if added, will list all of your recipients to your message anyway. To avoid this, you should add at least one To: or CC: recipient."
@@ -15297,11 +15268,8 @@ msgid "Please make sure the following recipients are willing and able to receive
 msgstr ""
 
 #: mail/mail-errors.xml.in.h:52
-#, fuzzy
 msgid "Really delete folder \"{0}\" and all of its subfolders?"
-msgstr ""
-"Kausta kustutamine nurjus:\n"
-"%s"
+msgstr "Kas tõesti kustutada kaust \"{0}\" ja selle kõik alamkaustad?"
 
 #: mail/mail-errors.xml.in.h:53
 msgid "System folders are required for Ximian Evolution to function correctly and cannot be renamed, moved, or deleted."
@@ -15336,17 +15304,12 @@ msgid "This message cannot be sent because you have not specified any Recipients
 msgstr ""
 
 #: mail/mail-errors.xml.in.h:61
-#, fuzzy
 msgid "This server does not support this type of authentication and may not support authentication at all."
-msgstr "IMAP server %s ei toeta küsitud autentimistüüpi %s"
+msgstr "See server ei toeta seda tüüpi autentimist ja arvatavasti ei toeta see autentimist üleüldse."
 
 #: mail/mail-errors.xml.in.h:62
-#, fuzzy
 msgid "This signature has been changed, but has not been saved."
-msgstr ""
-"Seda allkirja on muudetud, kuid seda ei ole salvestatud.\n"
-"\n"
-"Kas soovid muudatused salvestada?"
+msgstr "Seda allkirja on muudetud, kuid seda ei ole salvestatud."
 
 #: mail/mail-errors.xml.in.h:63
 msgid "Unable to open the drafts folder for this account. Use the system drafts folder instead?"
@@ -15398,9 +15361,8 @@ msgid "_Send"
 msgstr "_Saada"
 
 #: mail/mail-errors.xml.in.h:75
-#, fuzzy
 msgid "vFolders automatically updated."
-msgstr "Osavõtja olek uuendatud\n"
+msgstr "vKaustad automaatselt uuendatud."
 
 #: mail/mail-errors.xml.in.h:76
 msgid "{0}"
