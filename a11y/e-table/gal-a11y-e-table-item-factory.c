@@ -28,20 +28,14 @@ gal_a11y_e_table_item_factory_get_accessible_type (void)
 static AtkObject*
 gal_a11y_e_table_item_factory_create_accessible (GObject *obj)
 {
-	AtkObject * accessible;
+	AtkObject *accessible;
 	ETableItem * eti;
 	GnomeCanvas * gc;
 	GtkWidget * table;
 
 	g_return_if_fail (E_IS_TABLE_ITEM(obj));
-	eti = E_TABLE_ITEM(obj);
-	gc = GNOME_CANVAS_ITEM(eti)->canvas;
-
-	table = gtk_widget_get_parent(GTK_WIDGET(gc));
-
-	accessible = gtk_widget_get_accessible (table);
-	accessible = atk_object_ref_accessible_child (accessible, 0);
-
+	accessible = gal_a11y_e_table_item_new(NULL, obj, 0);
+                                                                                
 	return accessible;
 }
 

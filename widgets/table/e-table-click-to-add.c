@@ -39,6 +39,7 @@
 #include "gal/util/e-util.h"
 #include "gal/util/e-i18n.h"
 #include "gal/util/e-marshal.h"
+#include "gal/a11y/e-table/gal-a11y-e-table-click-to-add-factory.h"
 
 enum {
 	CURSOR_CHANGE,
@@ -494,6 +495,11 @@ etcta_class_init (ETableClickToAddClass *klass)
 			      NULL, NULL,
 			      e_marshal_VOID__INT_INT,
 			      G_TYPE_NONE, 2, G_TYPE_INT, G_TYPE_INT);
+
+	atk_registry_set_factory_type (atk_get_default_registry (),
+					E_TABLE_CLICK_TO_ADD_TYPE,
+					gal_a11y_e_table_click_to_add_factory_get_type ());
+
 }
 
 static void

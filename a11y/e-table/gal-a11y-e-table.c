@@ -13,6 +13,7 @@
 #include <gal/e-table/e-table.h>
 #include <gal/e-table/e-table-group.h>
 #include <gal/e-table/e-table-group-leaf.h>
+#include <gal/e-table/e-table-click-to-add.h>
 
 #define CS_CLASS(a11y) (G_TYPE_INSTANCE_GET_CLASS ((a11y), C_TYPE_STREAM, GalA11yETableClass))
 static AtkObjectClass *parent_class;
@@ -33,7 +34,7 @@ init_child_item (GalA11yETable *a11y)
 	GalA11yETablePrivate *priv = GET_PRIVATE (a11y);
 	ETable *table = E_TABLE (GTK_ACCESSIBLE (a11y)->widget);
 	if (priv->child_item == NULL) {
-		priv->child_item = gal_a11y_e_table_item_new (ATK_OBJECT (a11y), E_TABLE_GROUP_LEAF (table->group)->item, 0);
+		priv->child_item = atk_gobject_accessible_for_object (G_OBJECT(E_TABLE_GROUP_LEAF (table->group)->item));
 		priv->child_item->role = ATK_ROLE_TABLE;
 	}
 }
@@ -52,6 +53,14 @@ et_ref_accessible_at_point  (AtkComponent *component,
 static gint
 et_get_n_children (AtkObject *accessible)
 {
+	GalA11yETable *a11y = GAL_A11Y_E_TABLE (accessible);
+	ETable * et;
+
+	et = E_TABLE(GTK_ACCESSIBLE (a11y)->widget);
+	if (et && et->use_click_to_add) {
+		return 2;
+	}
+
 	return 1;
 }
 
@@ -60,11 +69,30 @@ et_ref_child (AtkObject *accessible,
 	      gint i)
 {
 	GalA11yETable *a11y = GAL_A11Y_E_TABLE (accessible);
-	if (i != 0)
-		return NULL;
-	init_child_item (a11y);
-	g_object_ref (GET_PRIVATE (a11y)->child_item);
-	return GET_PRIVATE (a11y)->child_item;
+	ETable * et;
+
+	et = E_TABLE(GTK_ACCESSIBLE (a11y)->widget);
+
+	if (i == 0) {
+		init_child_item (a11y);
+		g_object_ref (GET_PRIVATE (a11y)->child_item);
+		return GET_PRIVATE (a11y)->child_item;
+	} else if (i == 1) {
+        	AtkObject * accessible;
+		ETableClickToAdd * etcta;
+
+		if (et && et->use_click_to_add && et->click_to_add) {
+			etcta = E_TABLE_CLICK_TO_ADD(et->click_to_add);
+			if (etcta->rect) {
+				accessible = atk_gobject_accessible_for_object (G_OBJECT(etcta));
+			} else {
+				accessible = atk_gobject_accessible_for_object (G_OBJECT(etcta->row));
+			}
+			return accessible;
+		}
+	}
+
+	return NULL;
 }
 
 static void
