@@ -1,3 +1,7 @@
+2003-02-06  Dan Winship  <danw@ximian.com>
+
+	* */Makefile.am: use viewsdir
+
 2003-01-22  Ettore Perazzoli  <ettore@ximian.com>
 
 	* tasks/Makefile.am (defaulttasksdir): Likewise.
