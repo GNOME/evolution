@@ -127,8 +127,8 @@ void em_folder_tree_model_set_unread_count (EMFolderTreeModel *model, CamelStore
 /* Drag & Drop stuff */
 void em_folder_tree_model_drag_data_received (EMFolderTreeModel *model, GdkDragContext *context, GtkTreePath *path,
 					      GtkSelectionData *selection, guint info);
-GdkDragAction em_folder_tree_model_row_drop_possible (EMFolderTreeModel *model, GtkTreePath *path, GList *targets);
-GdkAtom em_folder_tree_model_row_drop_target (EMFolderTreeModel *model, GtkTreePath *path, GList *targets);
+GdkDragAction em_folder_tree_model_row_drop_possible (EMFolderTreeModel *model, GdkDragContext *context, GtkTreePath *path);
+GdkAtom em_folder_tree_model_row_drop_target (EMFolderTreeModel *model, GdkDragContext *context, GtkTreePath *path);
 gboolean em_folder_tree_model_row_draggable (EMFolderTreeModel *model, GtkTreePath *path);
 void em_folder_tree_model_drag_data_get (EMFolderTreeModel *model, GdkDragContext *context, GtkTreePath *path,
 					 GtkSelectionData *selection, guint info);

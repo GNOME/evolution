@@ -1029,7 +1029,6 @@ struct _DragDataReceivedAsync {
 /* Drag & Drop methods */
 static void
 drop_uid_list(struct _DragDataReceivedAsync *m, CamelFolder *dest)
-/* (CamelFolder *dest, GtkSelectionData *selection, gboolean move, gboolean *moved, CamelException *ex) */
 {
 	CamelFolder *src;
 
@@ -1046,7 +1045,6 @@ drop_uid_list(struct _DragDataReceivedAsync *m, CamelFolder *dest)
 
 static void
 drop_folder(struct _DragDataReceivedAsync *m)
-/*CamelStore *dest_store, const char *name, GtkSelectionData *selection, gboolean move, gboolean *moved, CamelException *ex)*/
 {
 	CamelFolder *src;
 	char *new_name;
@@ -1313,12 +1311,12 @@ em_folder_tree_model_drag_data_received (EMFolderTreeModel *model, GdkDragContex
 
 
 GdkDragAction
-em_folder_tree_model_row_drop_possible (EMFolderTreeModel *model, GtkTreePath *path, GList *targets)
+em_folder_tree_model_row_drop_possible (EMFolderTreeModel *model, GdkDragContext *context, GtkTreePath *path)
 {
 	GdkAtom target;
 	int i;
 	
-	target = em_folder_tree_model_row_drop_target (model, path, targets);
+	target = em_folder_tree_model_row_drop_target (model, context, path);
 	if (target == GDK_NONE)
 		return 0;
 	
@@ -1338,10 +1336,11 @@ em_folder_tree_model_row_drop_possible (EMFolderTreeModel *model, GtkTreePath *p
 
 
 GdkAtom
-em_folder_tree_model_row_drop_target (EMFolderTreeModel *model, GtkTreePath *path, GList *targets)
+em_folder_tree_model_row_drop_target (EMFolderTreeModel *model, GdkDragContext *context, GtkTreePath *path)
 {
 	gboolean is_store;
 	GtkTreeIter iter;
+	GList *targets;
 	char *uri;
 	
 	if (!gtk_tree_model_get_iter ((GtkTreeModel *) model, &iter, path))
@@ -1350,11 +1349,15 @@ em_folder_tree_model_row_drop_target (EMFolderTreeModel *model, GtkTreePath *pat
 	gtk_tree_model_get ((GtkTreeModel *) model, &iter, COL_BOOL_IS_STORE, &is_store, COL_STRING_URI, &uri, -1);
 	
 	/* can't drag&drop into/onto a vfolder or the vfolder store */
-	if (uri && !strncmp (uri, "vfolder:", 8))
+	if (uri && !strncmp (uri, "vfolder:", 8)) {
+		/* FIXME: ...unless the source is a vfolder */
 		return GDK_NONE;
+	}
+	
+	targets = context->targets;
 	
 	if (is_store) {
-		/* can only drop x-folder into a store */
+		/* can only drop x-folders into a store */
 		GdkAtom xfolder;
 		
 		xfolder = drop_atoms[DND_DROP_TYPE_FOLDER];
@@ -1365,7 +1368,7 @@ em_folder_tree_model_row_drop_target (EMFolderTreeModel *model, GtkTreePath *pat
 			targets = targets->next;
 		}
 	} else {
-		/* can drop anything into a folder */
+		/* can drop anything into folders */
 		int i;
 		
 		while (targets != NULL) {

@@ -1,5 +1,9 @@
 2004-02-05  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* em-folder-tree-model.c (em_folder_tree_model_row_drop_target):
+	Now takes a GdkContext arg... will need this later when we want to
+	re-enable dnd of vfolders.
+
 	* em-folder-browser.c (emfb_set_folder): Always set the
 	search_state, even if it is NULL (NULL means default/unset state).
 

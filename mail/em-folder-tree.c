@@ -581,7 +581,7 @@ tree_drag_drop (GtkWidget *widget, GdkDragContext *context, int x, int y, guint 
 	if (!gtk_tree_view_get_path_at_pos (priv->treeview, x, y, &path, &column, &cell_x, &cell_y))
 		return FALSE;
 	
-	target = em_folder_tree_model_row_drop_target (priv->model, path, context->targets);
+	target = em_folder_tree_model_row_drop_target (priv->model, context, path);
 	gtk_tree_path_free (path);
 	if (target == GDK_NONE)
 		return FALSE;
@@ -621,7 +621,7 @@ tree_drag_motion (GtkWidget *widget, GdkDragContext *context, int x, int y, guin
 	
 	/* FIXME: highlight target row? */
 	
-	action = em_folder_tree_model_row_drop_possible (priv->model, path, context->targets);
+	action = em_folder_tree_model_row_drop_possible (priv->model, context, path);
 	gtk_tree_path_free (path);
 	
 	gdk_drag_status (context, action, time);
