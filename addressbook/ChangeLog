@@ -1,3 +1,14 @@
+2004-09-23  JP Rosevear  <jpr@novell.com>
+ 
+ 	* conduit/address-conduit.c (ecard_from_remote_record): only set
+ 	the file as address to the company if no full name exists
+ 	(delete_record): don't bail out if the record simply isn't found
+ 
+ 	Fixes #59725
+ 	
+ 	* conduit/address-conduit.c (local_record_from_uid): remove
+ 	extraneous semicolon
+ 
 2004-09-21  William Jon McCann  <mccann@jhu.edu>
 
 	* gui/component/component-factory.c (factory): Quiet debug messages.

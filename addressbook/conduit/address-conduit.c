@@ -982,7 +982,7 @@ local_record_from_uid (EAddrLocalRecord *local,
 		contact = l->data;
 		
 		/* FIXME Do we need to check for the empty string? */
-		if ((cuid = e_contact_get_const (contact, E_CONTACT_UID)) && !strcmp (cuid, uid));
+		if ((cuid = e_contact_get_const (contact, E_CONTACT_UID)) && !strcmp (cuid, uid))
 			break;
 
 		contact = NULL;
@@ -1030,11 +1030,13 @@ ecard_from_remote_record(EAddrConduitContext *ctxt,
 	full_name = e_contact_name_to_string (name);
 	e_contact_set (contact, E_CONTACT_FULL_NAME, full_name);
 	e_contact_name_free (name);
-	g_free (full_name);
 	
 	/* File As */
-	set_contact_text (contact, E_CONTACT_FILE_AS, address, entryCompany);
+	if (!full_name || !*full_name)
+		set_contact_text (contact, E_CONTACT_FILE_AS, address, entryCompany);
 	
+	g_free (full_name);
+
 	/* Title and Company */
 	set_contact_text (contact, E_CONTACT_TITLE, address, entryTitle);
 	set_contact_text (contact, E_CONTACT_ORG, address, entryCompany);
@@ -1549,6 +1551,7 @@ delete_record (GnomePilotConduitSyncAbs *conduit,
 	       EAddrLocalRecord *local,
 	       EAddrConduitContext *ctxt)
 {
+	GError *error = NULL;
 	int retval = 0;
 	
 	g_return_val_if_fail (local != NULL, -1);
@@ -1557,8 +1560,9 @@ delete_record (GnomePilotConduitSyncAbs *conduit,
 	LOG (g_message ( "delete_record: delete %s\n", print_local (local) ));
 
 	e_pilot_map_remove_by_uid (ctxt->map, e_contact_get_const (local->contact, E_CONTACT_UID));
-	if (!e_book_remove_contact (ctxt->ebook, e_contact_get_const (local->contact, E_CONTACT_UID), NULL)) {
+	if (!e_book_remove_contact (ctxt->ebook, e_contact_get_const (local->contact, E_CONTACT_UID), &error) && error->code != E_BOOK_ERROR_CONTACT_NOT_FOUND) {
 		WARN ("delete_record: failed to delete card in ebook\n");
+		g_error_free (error);
 
 		retval = -1;
 	}
