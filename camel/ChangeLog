@@ -1,9 +1,22 @@
 2002-09-30  Jeffrey Stedfast  <fejj@ximian.com>
 
+	Fixes bug #31456.
+
+	* providers/imap/camel-imap-store.c (imap_connect_online): Don't
+	LSUB "" "*", instead get both an LSUB containing the subfolders of
+	the namespace and an LSUB of INBOX (assuming namespace was
+	non-empty). This fix really has nothing to do with bug #31456 but
+	is what should have been done in the first place.
+	(parse_list_response_as_folder_info): Simplify a tad and strip
+	extra leading /'s from fi->path.
+	(imap_build_folder_info): Strip extra leading /'s from fi->path.
+
 	* camel-store.c (camel_folder_info_build): Don't strip the
-	namespace from the fi->full_name when hasing or creating fake
-	parent folders. Fixes a bug I found while trying to reproduce bug
-	#31456.
+	namespace from the fi->full_name when hashing or creating fake
+	parent folder-infos. Fixes a bug I found while trying to reproduce
+	bug #31456.
+	(camel_folder_info_build_path): Strip off extra leading dir_sep
+	chars from the path.
 
 2002-09-30  Not Zed  <NotZed@Ximian.com>
 

@@ -818,13 +818,19 @@ camel_folder_info_free (CamelFolderInfo *fi)
 void
 camel_folder_info_build_path (CamelFolderInfo *fi, char separator)
 {
-	fi->path = g_strdup_printf("/%s", fi->full_name);
+	const char *full_name;
+	char *p;
+	
+	full_name = fi->full_name;
+	while (*full_name == separator)
+		full_name++;
+	
+	fi->path = g_strdup_printf ("/%s", full_name);
 	if (separator != '/') {
-		char *p;
-		
-		p = fi->path;
-		while ((p = strchr (p, separator)))
-			*p = '/';
+		for (p = fi->path; *p; p++) {
+			if (*p == separator)
+				*p = '/';
+		}
 	}
 }
 
