@@ -1,3 +1,11 @@
+2002-08-27  Rodrigo Moya <rodrigo@ximian.com>
+
+	* e-config-listener.c[ch] (e_config_listener_get_float_with_default,
+	  e_config_listener_set_boolean, e_config_listener_set_float): new
+	functions.
+	(property_change_cb, add_key): added support for FLOAT values.
+	(e_config_listener_set_string): free strings before returning.
+
 2002-08-26  Peter Williams  <peterw@ximian.com>
 
 	* e-dialog-utils.c (set_transient_for_gdk): If gdk_window_foreign_new

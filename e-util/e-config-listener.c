@@ -24,6 +24,7 @@ typedef struct {
 	GtkFundamentalType type;
 	union {
 		gboolean v_bool;
+		float v_float;
 		long v_long;
 		char *v_str;
 	} value;
@@ -191,6 +192,9 @@ property_change_cb (BonoboListener *listener,
 	if (bonobo_arg_type_is_equal (any->_type, BONOBO_ARG_BOOLEAN, NULL)) {
 		kd->type = GTK_TYPE_BOOL;
 		kd->value.v_bool = BONOBO_ARG_GET_BOOLEAN (any);
+	} else if (bonobo_arg_type_is_equal (any->_type, BONOBO_ARG_FLOAT, NULL)) {
+		kd->type = GTK_TYPE_FLOAT;
+		kd->value.v_float = BONOBO_ARG_GET_FLOAT (any);
 	} else if (bonobo_arg_type_is_equal (any->_type, BONOBO_ARG_LONG, NULL)) {
 		kd->type = GTK_TYPE_LONG;
 		kd->value.v_long = BONOBO_ARG_GET_LONG (any);
@@ -220,6 +224,9 @@ add_key (EConfigListener *cl, const char *key, GtkFundamentalType type,
 	switch (type) {
 	case GTK_TYPE_BOOL :
 		memcpy (&kd->value.v_bool, value, sizeof (gboolean));
+		break;
+	case GTK_TYPE_FLOAT :
+		memcpy (&kd->value.v_float, value, sizeof (float));
 		break;
 	case GTK_TYPE_LONG :
 		memcpy (&kd->value.v_long, value, sizeof (long));
@@ -292,6 +299,43 @@ e_config_listener_get_boolean_with_default (EConfigListener *cl,
 				*used_default = kd->used_default;
 		} else
 			return FALSE;
+	}
+
+	return value;
+}
+
+float
+e_config_listener_get_float_with_default (EConfigListener *cl,
+					  const char *key,
+					  float def,
+					  gboolean *used_default)
+{
+	float value;
+	KeyData *kd;
+	gboolean d;
+	gpointer orig_key, orig_value;
+
+	g_return_val_if_fail (E_IS_CONFIG_LISTENER (cl), -1);
+	g_return_val_if_fail (key != NULL, -1);
+
+	/* search for the key in our hash table */
+	if (!g_hash_table_lookup_extended (cl->priv->keys, key, &orig_key, &orig_value)) {
+		/* not found, so retrieve it from the configuration database */
+		value = bonobo_config_get_float_with_default (cl->priv->db, key, def, &d);
+		kd = add_key (cl, key, GTK_TYPE_FLOAT, &value, d);
+
+		if (used_default != NULL)
+			*used_default = d;
+	} else {
+		kd = (KeyData *) orig_value;
+		g_assert (kd != NULL);
+
+		if (kd->type == GTK_TYPE_FLOAT) {
+			value = kd->value.v_float;
+			if (used_default != NULL)
+				*used_default = kd->used_default;
+		} else
+			return -1;
 	}
 
 	return value;
@@ -375,6 +419,48 @@ e_config_listener_get_string_with_default (EConfigListener *cl,
 }
 
 void
+e_config_listener_set_boolean (EConfigListener *cl, const char *key, gboolean value)
+{
+	CORBA_Environment ev;
+
+	g_return_if_fail (E_IS_CONFIG_LISTENER (cl));
+	g_return_if_fail (key != NULL);
+
+	/* check that the value is not the same */
+	if (value == e_config_listener_get_boolean_with_default (cl, key, 0, NULL))
+		return;
+
+	CORBA_exception_init (&ev);
+
+	bonobo_config_set_boolean (cl->priv->db, key, value, &ev);
+	if (BONOBO_EX (&ev))
+		g_warning ("Cannot save config key %s -- %s", key, BONOBO_EX_ID (&ev));
+
+	CORBA_exception_free (&ev);
+}
+
+void
+e_config_listener_set_float (EConfigListener *cl, const char *key, float value)
+{
+	CORBA_Environment ev;
+
+	g_return_if_fail (E_IS_CONFIG_LISTENER (cl));
+	g_return_if_fail (key != NULL);
+
+	/* check that the value is not the same */
+	if (value == e_config_listener_get_float_with_default (cl, key, 0, NULL))
+		return;
+
+	CORBA_exception_init (&ev);
+
+	bonobo_config_set_float (cl->priv->db, key, value, &ev);
+	if (BONOBO_EX (&ev))
+		g_warning ("Cannot save config key %s -- %s", key, BONOBO_EX_ID (&ev));
+
+	CORBA_exception_free (&ev);
+}
+
+void
 e_config_listener_set_long (EConfigListener *cl, const char *key, long value)
 {
 	CORBA_Environment ev;
@@ -405,10 +491,14 @@ e_config_listener_set_string (EConfigListener *cl, const char *key, const char *
 	g_return_if_fail (key != NULL);
 
 	/* check that the value is not the same */
-	s1 = value;
+	s1 = (char *) value;
 	s2 = e_config_listener_get_string_with_default (cl, key, NULL, NULL);
-	if (!strcmp (s1 ? s1 : "", s2 ? s2 : ""))
+	if (!strcmp (s1 ? s1 : "", s2 ? s2 : "")) {
+		g_free (s2);
 		return;
+	}
+
+	g_free (s2);
 
 	CORBA_exception_init (&ev);
 
