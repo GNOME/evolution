@@ -5,13 +5,13 @@
 # Christian Rose <menthos@menthos.com>, 2000, 2001.
 # Martin Norbäck <d95mback@dtek.chalmers.se>, 2001.
 #
-# $Id: sv.po,v 1.113 2001/09/13 02:22:14 menthos Exp $
+# $Id: sv.po,v 1.114 2001/09/13 11:00:04 menthos Exp $
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
-"POT-Creation-Date: 2001-09-13 04:11+0200\n"
-"PO-Revision-Date: 2001-09-13 04:21+0200\n"
+"POT-Creation-Date: 2001-09-13 12:17+0200\n"
+"PO-Revision-Date: 2001-09-13 12:59+0200\n"
 "Last-Translator: Christian Rose <menthos@menthos.com>\n"
 "Language-Team: Swedish <sv@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -7049,11 +7049,11 @@ msgstr "Öppna fil"
 msgid "Insert File"
 msgstr "Infoga fil"
 
-#: composer/e-msg-composer.c:1874 composer/e-msg-composer.c:2315
+#: composer/e-msg-composer.c:1874 composer/e-msg-composer.c:2320
 msgid "Compose a message"
 msgstr "Skriv ett meddelande"
 
-#: composer/e-msg-composer.c:2405
+#: composer/e-msg-composer.c:2410
 msgid "Could not create composer window."
 msgstr "Kunde inte skapa fönster för meddelanderedigering."
 
@@ -9290,7 +9290,7 @@ msgstr "Vidarebefordrat meddelande - %s"
 msgid "Forwarded message"
 msgstr "Vidarebefordrat meddelande"
 
-#: mail/mail-tools.c:442
+#: mail/mail-tools.c:443
 msgid "Forwarded Message"
 msgstr "Vidarebefordrat meddelande"
 
@@ -13307,11 +13307,11 @@ msgstr "Meddelande"
 msgid "Don't show this message again."
 msgstr "Visa inte detta meddelande igen."
 
-#: widgets/misc/e-search-bar.c:334
+#: widgets/misc/e-search-bar.c:337
 msgid "Sear_ch"
 msgstr "S_ök"
 
-#: widgets/misc/e-search-bar.c:460
+#: widgets/misc/e-search-bar.c:463
 msgid "Find Now"
 msgstr "Sök nu"
 
