@@ -1209,6 +1209,9 @@ tree_drag_data_received (ETree *etree,
 
 	target_type = gdk_atom_name (selection_data->target);
 
+	if (selection_data->data == NULL && selection_data->length == -1)
+		return;
+
 	if (strcmp (target_type, EVOLUTION_PATH_TARGET_TYPE) == 0) {
 		const char *source_path;
 		const char *destination_folder_path;

@@ -1,5 +1,10 @@
 2001-08-23  Ettore Perazzoli  <ettore@ximian.com>
 
+	* e-storage-set-view.c (tree_drag_data_received): If we get no
+	data, don't notify the receiving component at all.
+
+2001-08-23  Ettore Perazzoli  <ettore@ximian.com>
+
 	[Fix #5736, crashing when copying a message with drag and drop.]
 
 	* e-storage-set-view.c (tree_drag_data_received): Handle NULL data
