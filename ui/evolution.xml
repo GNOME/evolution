@@ -96,16 +96,21 @@
       <placeholder name="BuiltMenuItems"/>
 
       <separator f="" name="eshell1"/>
+      
+      <menuitem name="QuickReference" verb=""
+        _label="_Quick Reference"/>
+
+      <separator f="" name="eshell2"/>
 
       <menuitem name="HelpFAQ" verb=""
 	_label="Ximian Evolution _FAQ"/>
 
-      <separator f="" name="eshell2"/>
+      <separator f="" name="eshell3"/>
 
       <menuitem name="HelpSubmitBug" verb=""
 	_label="Submit _Bug Report"/>
 
-      <separator f="" name="eshell3"/>
+      <separator f="" name="eshell4"/>
 
       <menuitem name="HelpAbout" verb=""
 	_label="_About Ximian Evolution..."/>
