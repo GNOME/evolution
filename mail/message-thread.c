@@ -284,7 +284,7 @@ group_root_set(struct _container **cp)
 				d(printf("container is not re\n"));
 				remove_node(cp, container, &clast);
 				container_add_child(c, container);
-			} else {
+			} else if (c->re && container->re) {
 				d(printf("subjects are common %p and %p\n", c, container));
 
 				remove_node(cp, container, &clast);
@@ -410,58 +410,58 @@ sort_thread(struct _container **cp)
 struct _container *
 thread_messages(CamelFolder *folder, GPtrArray *uids)
 {
-	GHashTable *id_table;
+	GHashTable *id_table, *no_id_table;
 	int i;
 	struct _container *c, *p, *child, *head, *container;
 	struct _header_references *ref;
 
 	id_table = g_hash_table_new(g_str_hash, g_str_equal);
+	no_id_table = g_hash_table_new(NULL, NULL);
 	for (i=0;i<uids->len;i++) {
 		const CamelMessageInfo *mi;
 		mi = camel_folder_get_message_info (folder, uids->pdata[i]);
-		if (mi && mi->message_id) {
+
+		if (mi->message_id) {
 			d(printf("doing : %s\n", mi->message_id));
 			c = g_hash_table_lookup(id_table, mi->message_id);
-			if (c) {
-				c->message = mi;
-			} else {
+			if (!c) {
 				c = g_malloc0(sizeof(*c));
-				c->message = mi;
 				g_hash_table_insert(id_table, mi->message_id, c);
 			}
-			c->order = i;
-			container = c;
-			ref = mi->references;
-			p = NULL;
-			child = container;
-			head = NULL;
-			d(printf("referencfes: "));
-			while (ref) {
-				d(printf(" %s\n", ref->id));
-				if (ref->id == NULL) {
-					printf("ref missing id!?\n");
-					ref = ref->next;
-					continue;
-				}
-				d(printf("looking up reference: %s\n", ref->id));
-				c = g_hash_table_lookup(id_table, ref->id);
-				if (c == NULL) {
-					d(printf("not found\n"));
-					c = g_malloc0(sizeof(*c));
-					g_hash_table_insert(id_table, ref->id, c);
-				}
-				if (c!=child) {
-					container_parent_child(c, child);
-				}
-				child = c;
-				if (head == NULL)
-					head = c;
-				ref = ref->next;
-			}
-			d(printf("\n"));
 		} else {
-			printf("Either info is NULL or no message id???\n");
-			/* ?? */
+			d(printf("doing : (no message id)\n"));
+			c = g_malloc0(sizeof(*c));
+			g_hash_table_insert(no_id_table, mi, c);
+		}
+
+		c->message = mi;
+		c->order = i;
+		container = c;
+		ref = mi->references;
+		p = NULL;
+		child = container;
+		head = NULL;
+		d(printf("references:\n"));
+		while (ref) {
+			if (ref->id == NULL) {
+				printf("ref missing id!?\n");
+				ref = ref->next;
+				continue;
+			}
+
+			d(printf("looking up reference: %s\n", ref->id));
+			c = g_hash_table_lookup(id_table, ref->id);
+			if (c == NULL) {
+				d(printf("not found\n"));
+				c = g_malloc0(sizeof(*c));
+				g_hash_table_insert(id_table, ref->id, c);
+			}
+			if (c!=child)
+				container_parent_child(c, child);
+			child = c;
+			if (head == NULL)
+				head = c;
+			ref = ref->next;
 		}
 	}
 
@@ -469,8 +469,10 @@ thread_messages(CamelFolder *folder, GPtrArray *uids)
 	/* build a list of root messages (no parent) */
 	head = NULL;
 	g_hash_table_foreach(id_table, hashloop, &head);
+	g_hash_table_foreach(no_id_table, hashloop, &head);
 
 	g_hash_table_destroy(id_table);
+	g_hash_table_destroy(no_id_table);
 
 	/* remove empty parent nodes */
 	prune_empty(&head);

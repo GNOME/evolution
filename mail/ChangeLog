@@ -1,3 +1,12 @@
+2000-07-25  Dan Winship  <danw@helixcode.com>
+
+	* message-thread.c (group_root_set): Don't group together messages
+	with the same non-Re: subject and no References/In-Reply-To. More
+	often than not, they're unrelated. (eg, "[No subject]".)
+	(thread_messages): Handle messages with no Message-Id. "This
+	shouldn't happen", but it does sometimes, and it's not much code
+	to make it just work.
+
 2000-07-25  Ettore Perazzoli  <ettore@helixcode.com>
 
 	* mail-config.c (create_service_page): Call
