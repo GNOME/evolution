@@ -1,3 +1,7 @@
+2004-12-01  Mengjie Yu  <meng-jie.yu@sun.com>
+
+	* providers/imap/camel-imap-provider.c:add mnemonic for checkboxes.
+
 2004-12-01  Not Zed  <NotZed@Ximian.com>
 
 	** See bug #69776.
