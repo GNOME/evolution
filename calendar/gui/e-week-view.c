@@ -86,10 +86,6 @@
    we get from the server. */
 #define E_WEEK_VIEW_LAYOUT_TIMEOUT	100
 
-/* Used for the status bar messages */
-#define EVOLUTION_CALENDAR_PROGRESS_IMAGE "evolution-calendar-mini.png"
-static GdkPixbuf *progress_icon[2] = { NULL, NULL };
-
 
 static void e_week_view_class_init (EWeekViewClass *class);
 static void e_week_view_init (EWeekView *week_view);
@@ -435,8 +431,6 @@ e_week_view_init (EWeekView *week_view)
 			  G_CALLBACK (selection_received), (gpointer) week_view);
 
 	week_view->clipboard_selection = NULL;
-
-	week_view->activity = NULL;
 }
 
 
@@ -520,11 +514,6 @@ e_week_view_destroy (GtkObject *object)
 	if (week_view->clipboard_selection) {
 		g_free (week_view->clipboard_selection);
 		week_view->clipboard_selection = NULL;
-	}
-
-	if (week_view->activity) {
-		g_object_unref (week_view->activity);
-		week_view->activity = NULL;
 	}
 
 	GTK_OBJECT_CLASS (parent_class)->destroy (object);
@@ -1226,7 +1215,7 @@ query_query_done_cb (CalQuery *query, CalQueryDoneStatus status, const char *err
 
 	/* FIXME */
 
-	e_week_view_set_status_message (week_view, NULL);
+	e_cal_view_set_status_message (E_CAL_VIEW (week_view), NULL);
 
 	if (status != CAL_QUERY_DONE_SUCCESS)
 		fprintf (stderr, "query done: %s\n", error_str);
@@ -1244,7 +1233,7 @@ query_eval_error_cb (CalQuery *query, const char *error_str, gpointer data)
 
 	/* FIXME */
 
-	e_week_view_set_status_message (week_view, NULL);
+	e_cal_view_set_status_message (E_CAL_VIEW (week_view), NULL);
 
 	fprintf (stderr, "eval error: %s\n", error_str);
 
@@ -1314,7 +1303,7 @@ update_query (EWeekView *week_view)
 		return; /* No time range is set, so don't start a query */
 	}
 
-	e_week_view_set_status_message (week_view, _("Searching"));
+	e_cal_view_set_status_message (E_CAL_VIEW (week_view), _("Searching"));
 	week_view->query = cal_client_get_query (week_view->client, real_sexp);
 	g_free (real_sexp);
 
@@ -1991,13 +1980,13 @@ e_week_view_cut_clipboard (EWeekView *week_view)
 	if (event == NULL)
 		return;
 
-	e_week_view_set_status_message (week_view, _("Deleting selected objects"));
+	e_cal_view_set_status_message (E_CAL_VIEW (week_view), _("Deleting selected objects"));
 
 	e_week_view_copy_clipboard (week_view);
 	cal_component_get_uid (event->comp, &uid);
 	delete_error_dialog (cal_client_remove_object (week_view->client, uid), CAL_COMPONENT_EVENT);
 
-	e_week_view_set_status_message (week_view, NULL);
+	e_cal_view_set_status_message (E_CAL_VIEW (week_view), NULL);
 }
 
 void
@@ -4408,7 +4397,7 @@ selection_received (GtkWidget *invisible,
 		return;
 	}
 
-	e_week_view_set_status_message (week_view, _("Updating objects"));
+	e_cal_view_set_status_message (E_CAL_VIEW (week_view), _("Updating objects"));
 	selected_time = week_view->day_starts[week_view->selection_start_day];
 
 	if (kind == ICAL_VCALENDAR_COMPONENT) {
@@ -4502,7 +4491,7 @@ selection_received (GtkWidget *invisible,
 		g_object_unref (comp);
 	}
 
-	e_week_view_set_status_message (week_view, NULL);
+	e_cal_view_set_status_message (E_CAL_VIEW (week_view), NULL);
 }
 
 
@@ -4584,32 +4573,3 @@ e_week_view_get_selected_event (EWeekView *week_view)
 	return event ? event->comp : NULL;
 }
 
-/* Displays a message on the activity client. */
-void
-e_week_view_set_status_message (EWeekView *week_view, const char *message)
-{
-	extern EvolutionShellClient *global_shell_client; /* ugly */
-
-	g_return_if_fail (E_IS_WEEK_VIEW (week_view));
-
-	if (!message || !*message) {
-		if (week_view->activity) {
-			g_object_unref (week_view->activity);
-			week_view->activity = NULL;
-		}
-	}
-	else if (!week_view->activity) {
-		int display;
-		char *client_id = g_strdup_printf ("%p", week_view);
-
-		if (progress_icon[0] == NULL)
-			progress_icon[0] = gdk_pixbuf_new_from_file (EVOLUTION_IMAGESDIR "/" EVOLUTION_CALENDAR_PROGRESS_IMAGE, NULL);
-		week_view->activity = evolution_activity_client_new (
-			global_shell_client, client_id,
-			progress_icon, message, TRUE, &display);
-
-		g_free (client_id);
-	}
-	else
-		evolution_activity_client_update (week_view->activity, message, -1.0);
-}

@@ -1,3 +1,15 @@
+2003-07-21  Rodrigo Moya <rodrigo@ximian.com>
+
+	* gui/e-day-view.[ch]: removed e_day_view_set_calendar prototype.
+	(e_day_view_set_status_message): removed.
+
+	* gui/e-week-view.[ch] (e_week_view_set_status_message): removed.
+
+	* gui/e-cal-view.[ch] (e_cal_view_set_status_message): new functions.
+	(e_cal_view_destroy): unref activity client.
+
+	* gui/gnome-cal.c: updated to e_*_view/e_cal_view.
+
 2003-07-18  Rodrigo Moya <rodrigo@ximian.com>
 
 	* gui/e-day-view.[ch]:

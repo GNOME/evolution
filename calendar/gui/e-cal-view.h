@@ -58,6 +58,8 @@ GType          e_cal_view_get_type (void);
 GnomeCalendar *e_cal_view_get_calendar (ECalView *cal_view);
 void           e_cal_view_set_calendar (ECalView *cal_view, GnomeCalendar *calendar);
 
+void           e_cal_view_set_status_message (ECalView *cal_view, const gchar *message);
+
 G_END_DECLS
 
 #endif

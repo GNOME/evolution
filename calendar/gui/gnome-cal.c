@@ -1760,7 +1760,7 @@ client_cal_opened_cb (CalClient *client, CalClientOpenStatus status, gpointer da
 		msg = g_strdup_printf (_("Adding alarms for %s"), uristr);
 		g_free (uristr);
 		if (client == priv->client) {
-			e_week_view_set_status_message (E_WEEK_VIEW (priv->week_view), msg);
+			e_cal_view_set_status_message (E_CAL_VIEW (priv->week_view), msg);
 		}
 		else if (client == priv->task_pad_client) {
 			calendar_model_set_status_message (
@@ -1794,7 +1794,7 @@ client_cal_opened_cb (CalClient *client, CalClientOpenStatus status, gpointer da
 	}
 
 	if (client == priv->client) {
-		e_week_view_set_status_message (E_WEEK_VIEW (priv->week_view), NULL);
+		e_cal_view_set_status_message (E_CAL_VIEW (priv->week_view), NULL);
 	}
 	else if (client == priv->task_pad_client) {
 		calendar_model_set_status_message (
@@ -1953,10 +1953,10 @@ backend_died_cb (CalClient *client, gpointer data)
 					     "You will have to restart Evolution in order "
 					     "to use it again"),
 					   uristr);
-		e_day_view_set_status_message (E_DAY_VIEW (priv->day_view), NULL);
-		e_day_view_set_status_message (E_DAY_VIEW (priv->work_week_view), NULL);
-		e_week_view_set_status_message (E_WEEK_VIEW (priv->week_view), NULL);
-		e_week_view_set_status_message (E_WEEK_VIEW (priv->month_view), NULL);
+		e_cal_view_set_status_message (E_CAL_VIEW (priv->day_view), NULL);
+		e_cal_view_set_status_message (E_CAL_VIEW (priv->work_week_view), NULL);
+		e_cal_view_set_status_message (E_CAL_VIEW (priv->week_view), NULL);
+		e_cal_view_set_status_message (E_CAL_VIEW (priv->month_view), NULL);
 	} else if (client == priv->task_pad_client) {
 		message = g_strdup_printf (_("The task backend for\n%s\n has crashed. "
 					     "You will have to restart Evolution in order "
@@ -2191,14 +2191,14 @@ gnome_calendar_open (GnomeCalendar *gcal, const char *str_uri)
 	urinopwd = get_uri_without_password (real_uri);
 	message = g_strdup_printf (_("Opening calendar at %s"), urinopwd);
 	g_free (urinopwd);
-	e_week_view_set_status_message (E_WEEK_VIEW (priv->week_view), message);
+	e_cal_view_set_status_message (E_CAL_VIEW (priv->week_view), message);
 	g_free (message);
 
 	if (!cal_client_open_calendar (priv->client, real_uri, FALSE)) {
 		g_message ("gnome_calendar_open(): Could not issue the request to open the calendar folder");
 		g_free (real_uri);
 		e_uri_free (uri);
-		e_week_view_set_status_message (E_WEEK_VIEW (priv->week_view), NULL);
+		e_cal_view_set_status_message (E_CAL_VIEW (priv->week_view), NULL);
 
 		return FALSE;
 	}
@@ -3167,12 +3167,12 @@ purging_obj_updated_cb (CalQuery *query, const char *uid,
 					      priv->client, priv->zone);
 
 		if (closure.remove) {
-			e_week_view_set_status_message (E_WEEK_VIEW (priv->week_view), msg);
+			e_cal_view_set_status_message (E_CAL_VIEW (priv->week_view), msg);
 			delete_error_dialog (cal_client_remove_object (priv->client, uid),
 					     CAL_COMPONENT_EVENT);
 		}
 	} else {
-		e_week_view_set_status_message (E_WEEK_VIEW (priv->week_view), msg);
+		e_cal_view_set_status_message (E_CAL_VIEW (priv->week_view), msg);
 		delete_error_dialog (cal_client_remove_object (priv->client, uid), CAL_COMPONENT_EVENT);
 	}
 
@@ -3188,7 +3188,7 @@ purging_eval_error_cb (CalQuery *query, const char *error_str, gpointer data)
 
 	priv = gcal->priv;
 
-	e_week_view_set_status_message (E_WEEK_VIEW (priv->week_view), NULL);
+	e_cal_view_set_status_message (E_CAL_VIEW (priv->week_view), NULL);
 
 	g_signal_handlers_disconnect_matched (priv->exp_query, G_SIGNAL_MATCH_DATA,
 					      0, 0, NULL, NULL, gcal);
@@ -3204,7 +3204,7 @@ purging_query_done_cb (CalQuery *query, CalQueryDoneStatus status, const char *e
 
 	priv = gcal->priv;
 
-	e_week_view_set_status_message (E_WEEK_VIEW (priv->week_view), NULL);
+	e_cal_view_set_status_message (E_CAL_VIEW (priv->week_view), NULL);
 
 	g_signal_handlers_disconnect_matched (priv->exp_query, G_SIGNAL_MATCH_DATA,
 					      0, 0, NULL, NULL, gcal);
@@ -3234,7 +3234,7 @@ gnome_calendar_purge (GnomeCalendar *gcal, time_t older_than)
 				"                           (make-time \"%s\")))",
 				start, end);
 
-	e_week_view_set_status_message (E_WEEK_VIEW (priv->week_view), _("Purging"));
+	e_cal_view_set_status_message (E_CAL_VIEW (priv->week_view), _("Purging"));
 	priv->exp_query = cal_client_get_query (priv->client, sexp);
 
 	g_free (sexp);
@@ -3242,7 +3242,7 @@ gnome_calendar_purge (GnomeCalendar *gcal, time_t older_than)
 	g_free (end);
 
 	if (!priv->exp_query) {
-		e_week_view_set_status_message (E_WEEK_VIEW (priv->week_view), NULL);
+		e_cal_view_set_status_message (E_CAL_VIEW (priv->week_view), NULL);
 		g_message ("gnome_calendar_purge(): Could not create the query");
 		return;
 	}

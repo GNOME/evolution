@@ -107,10 +107,6 @@
    we get from the server. */
 #define E_DAY_VIEW_LAYOUT_TIMEOUT	100
 
-/* Used for the status bar messages */
-#define EVOLUTION_CALENDAR_PROGRESS_IMAGE "evolution-calendar-mini.png"
-static GdkPixbuf *progress_icon[2] = { NULL, NULL };
-
 /* Drag and Drop stuff. */
 enum {
 	TARGET_CALENDAR_EVENT,
@@ -855,8 +851,6 @@ e_day_view_init (EDayView *day_view)
 			  G_CALLBACK (selection_received), (gpointer) day_view);
 
 	day_view->clipboard_selection = NULL;
-
-	day_view->activity = NULL;
 }
 
 
@@ -966,11 +960,6 @@ e_day_view_destroy (GtkObject *object)
 	if (day_view->clipboard_selection) {
 		g_free (day_view->clipboard_selection);
 		day_view->clipboard_selection = NULL;
-	}
-
-	if (day_view->activity) {
-		g_object_unref (day_view->activity);
-		day_view->activity = NULL;
 	}
 
 	GTK_OBJECT_CLASS (parent_class)->destroy (object);
@@ -1595,7 +1584,7 @@ query_query_done_cb (CalQuery *query, CalQueryDoneStatus status, const char *err
 
 	/* FIXME */
 
-	e_day_view_set_status_message (day_view, NULL);
+	e_cal_view_set_status_message (E_CAL_VIEW (day_view), NULL);
 
 	if (status != CAL_QUERY_DONE_SUCCESS)
 		fprintf (stderr, "query done: %s\n", error_str);
@@ -1611,7 +1600,7 @@ query_eval_error_cb (CalQuery *query, const char *error_str, gpointer data)
 
 	/* FIXME */
 
-	e_day_view_set_status_message (day_view, NULL);
+	e_cal_view_set_status_message (E_CAL_VIEW (day_view), NULL);
 
 	fprintf (stderr, "eval error: %s\n", error_str);
 }
@@ -1680,7 +1669,7 @@ update_query (EDayView *day_view)
 	if (!real_sexp)
 		return; /* No time range is set, so don't start a query */
 
-	e_day_view_set_status_message (day_view, _("Searching"));
+	e_cal_view_set_status_message (E_CAL_VIEW (day_view), _("Searching"));
 	day_view->query = cal_client_get_query (day_view->client, real_sexp);
 	g_free (real_sexp);
 
@@ -2835,13 +2824,13 @@ e_day_view_cut_clipboard (EDayView *day_view)
 	if (event == NULL)
 		return;
 
-	e_day_view_set_status_message (day_view, _("Deleting selected objects"));
+	e_cal_view_set_status_message (E_CAL_VIEW (day_view), _("Deleting selected objects"));
 
 	e_day_view_copy_clipboard (day_view);
 	cal_component_get_uid (event->comp, &uid);
 	delete_error_dialog (cal_client_remove_object (day_view->client, uid), CAL_COMPONENT_EVENT);
 
-	e_day_view_set_status_message (day_view, NULL);
+	e_cal_view_set_status_message (E_CAL_VIEW (day_view), NULL);
 }
 
 void
@@ -7991,7 +7980,7 @@ selection_received (GtkWidget *invisible,
 		return;
 	}
 
-	e_day_view_set_status_message (day_view, _("Updating objects"));
+	e_cal_view_set_status_message (E_CAL_VIEW (day_view), _("Updating objects"));
 	e_day_view_get_selected_time_range (day_view, &dtstart, &dtend);
 
 	if (kind == ICAL_VCALENDAR_COMPONENT) {
@@ -8056,7 +8045,7 @@ selection_received (GtkWidget *invisible,
 		g_object_unref (comp);
 	}
 
-	e_day_view_set_status_message (day_view, NULL);
+	e_cal_view_set_status_message (E_CAL_VIEW (day_view), NULL);
 }
 
 
@@ -8140,34 +8129,4 @@ e_day_view_get_selected_event (EDayView *day_view)
 				       day_view->editing_event_num);
 
 	return event ? event->comp : NULL;
-}
-
-/* Displays messages on the status bar. */
-void
-e_day_view_set_status_message (EDayView *day_view, const char *message)
-{
-	extern EvolutionShellClient *global_shell_client; /* ugly */
-
-	g_return_if_fail (E_IS_DAY_VIEW (day_view));
-
-	if (!message || !*message) {
-		if (day_view->activity) {
-			g_object_unref (day_view->activity);
-			day_view->activity = NULL;
-		}
-	}
-	else if (!day_view->activity) {
-		int display;
-		char *client_id = g_strdup_printf ("%p", day_view);
-
-		if (progress_icon[0] == NULL)
-			progress_icon[0] = gdk_pixbuf_new_from_file (EVOLUTION_IMAGESDIR "/" EVOLUTION_CALENDAR_PROGRESS_IMAGE, NULL);
-		day_view->activity = evolution_activity_client_new (
-			global_shell_client, client_id,
-			progress_icon, message, TRUE, &display);
-
-		g_free (client_id);
-	}
-	else
-		evolution_activity_client_update (day_view->activity, message, -1.0);
 }

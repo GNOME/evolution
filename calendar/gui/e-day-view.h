@@ -511,9 +511,6 @@ struct _EDayViewClass
 GtkType	   e_day_view_get_type			(void);
 GtkWidget* e_day_view_new			(void);
 
-void       e_day_view_set_calendar		(EDayView	*day_view,
-						 GnomeCalendar	*calendar);
-
 void       e_day_view_set_cal_client		(EDayView	*day_view,
 						 CalClient	*client);
 
@@ -667,9 +664,6 @@ gint	   e_day_view_get_time_string_width	(EDayView	*day_view);
 
 gint	   e_day_view_event_sort_func		(const void	*arg1,
 						 const void	*arg2);
-
-void       e_day_view_set_status_message        (EDayView       *day_view,
-						 const char     *message);
 
 #ifdef __cplusplus
 }

@@ -23,11 +23,19 @@
 
 #include <config.h>
 #include <gal/util/e-util.h>
+#include "evolution-activity-client.h"
 #include "e-cal-view.h"
+
+/* Used for the status bar messages */
+#define EVOLUTION_CALENDAR_PROGRESS_IMAGE "evolution-calendar-mini.png"
+static GdkPixbuf *progress_icon[2] = { NULL, NULL };
 
 struct _ECalViewPrivate {
 	/* The GnomeCalendar we are associated to */
 	GnomeCalendar *calendar;
+
+	/* The activity client used to show messages on the status bar. */
+	EvolutionActivityClient *activity;
 };
 
 static void e_cal_view_class_init (ECalViewClass *klass);
@@ -81,6 +89,11 @@ e_cal_view_destroy (GtkObject *object)
 	g_return_if_fail (E_IS_CAL_VIEW (cal_view));
 
 	if (cal_view->priv) {
+		if (cal_view->priv->activity) {
+			g_object_unref (cal_view->priv->activity);
+			cal_view->priv->activity = NULL;
+		}
+
 		g_free (cal_view->priv);
 		cal_view->priv = NULL;
 	}
@@ -106,4 +119,31 @@ e_cal_view_set_calendar (ECalView *cal_view, GnomeCalendar *calendar)
 	g_return_if_fail (E_IS_CAL_VIEW (cal_view));
 
 	cal_view->priv->calendar = calendar;
+}
+
+void
+e_cal_view_set_status_message (ECalView *cal_view, const gchar *message)
+{
+	extern EvolutionShellClient *global_shell_client; /* ugly */
+
+	g_return_if_fail (E_IS_CAL_VIEW (cal_view));
+
+	if (!message || !*message) {
+		if (cal_view->priv->activity) {
+			g_object_unref (cal_view->priv->activity);
+			cal_view->priv->activity = NULL;
+		}
+	} else if (!cal_view->priv->activity) {
+		int display;
+		char *client_id = g_strdup_printf ("%p", cal_view);
+
+		if (progress_icon[0] == NULL)
+			progress_icon[0] = gdk_pixbuf_new_from_file (EVOLUTION_IMAGESDIR "/" EVOLUTION_CALENDAR_PROGRESS_IMAGE, NULL);
+		cal_view->priv->activity = evolution_activity_client_new (
+			global_shell_client, client_id,
+			progress_icon, message, TRUE, &display);
+
+		g_free (client_id);
+	} else
+		evolution_activity_client_update (cal_view->priv->activity, message, -1.0);
 }
