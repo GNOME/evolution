@@ -274,6 +274,13 @@ _open (CamelFolder *folder,
        CamelFolderOpenMode mode, 
        CamelException *ex)
 {
+	if (folder->open_state == FOLDER_OPEN) {
+		camel_exception_set (ex, 
+				     CAMEL_EXCEPTION_FOLDER_INVALID_STATE,
+				     "folder is already open");
+		return;
+	}
+
   	folder->open_state = FOLDER_OPEN;
   	folder->open_mode = mode;
 }
@@ -1397,7 +1404,7 @@ GList *camel_folder_search_by_expression  (CamelFolder *folder,
 					   CamelException *ex)
 {
 	g_assert (folder != NULL);
-	g_assert (folder->has_search_capability);
+	g_return_val_if_fail (folder->has_search_capability, NULL);
 
 	return CF_CLASS (folder)->search_by_expression (folder, expression, ex);
 }

@@ -196,14 +196,17 @@ _init (CamelFolder *folder, CamelStore *parent_store,
 	folder->can_hold_folders = TRUE;
 	folder->has_summary_capability = TRUE;
 	folder->has_uid_capability = TRUE;
+	folder->has_search_capability = TRUE;
  	folder->summary = camel_folder_summary_new ();
 
+#if 0
 	mbox_folder->folder_file_path = NULL;
 	mbox_folder->summary_file_path = NULL;
 	mbox_folder->folder_dir_path = NULL;
 	mbox_folder->index_file_path = NULL;
 	mbox_folder->internal_summary = NULL;
 	mbox_folder->uid_array = NULL;
+#endif
 	
 	CAMEL_LOG_FULL_DEBUG ("Leaving CamelMboxFolder::init_with_store\n");
 }
@@ -313,16 +316,11 @@ _open (CamelFolder *folder, CamelFolderOpenMode mode, CamelException *ex)
 	//struct dirent *dir_entry;
 	//struct stat stat_buf;
 
-
-	if (folder->open_state == FOLDER_OPEN) {
-		camel_exception_set (ex, 
-				     CAMEL_EXCEPTION_FOLDER_INVALID_STATE,
-				     "folder is already open");
+	/* call parent class */
+	parent_class->open (folder, mode, ex);
+	if (camel_exception_get_id(ex))
 		return;
-	}
-	
-	
-	
+
 	/* get (or create) uid list */
 	//if (!(mbox_load_uid_list (mbox_folder) > 0))
 	//	mbox_generate_uid_list (mbox_folder);
