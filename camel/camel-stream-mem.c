@@ -4,7 +4,7 @@
 /* inspired by gnome-stream-mem.c in bonobo by Miguel de Icaza */
 /* 
  *
- * Copyright (C) 1999 Bertrand Guiheneuf <Bertrand.Guiheneuf@inria.fr> .
+ * Copyright (C) 1999 Bertrand Guiheneuf <Bertrand.Guiheneuf@aful.org> .
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 

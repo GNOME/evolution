@@ -1,3 +1,7 @@
+1999-08-29  bertrand  <Bertrand.Guiheneuf@aful.org>
+
+	* MAINTAINERS: updated my e-mail address. 
+
 1999-08-28  bertrand  <Bertrand.Guiheneuf@aful.org>
 
 	* camel/camel-mime-part.c (camel_mime_part_set_text): 
