@@ -947,7 +947,7 @@ e_tree_model_node_traverse (ETreeModel *model, ETreePath path, ETreePathFunc fun
 
 		next_child = e_tree_model_node_get_next (model, child);
 		e_tree_model_node_traverse (model, child, func, data);
-		if (func (model, child, data) == TRUE)
+		if (func (model, child, data))
 			return;
 
 		child = next_child;
@@ -977,7 +977,7 @@ e_tree_model_node_traverse_preorder (ETreeModel *model, ETreePath path, ETreePat
 	while (child) {
 		ETreePath next_child;
 
-		if (func (model, child, data) == TRUE)
+		if (func (model, child, data))
 			return;
 
 		next_child = e_tree_model_node_get_next (model, child);
