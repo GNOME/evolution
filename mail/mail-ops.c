@@ -2269,12 +2269,13 @@ static struct _mail_msg_op set_offline_op = {
 	set_offline_free,
 };
 
-void
+int
 mail_store_set_offline (CamelStore *store, gboolean offline,
 			void (*done)(CamelStore *, void *data),
 			void *data)
 {
 	struct _set_offline_msg *m;
+	int id;
 
 	/* Cancel any pending connect first so the set_offline_op
 	 * thread won't get queued behind a hung connect op.
@@ -2289,7 +2290,10 @@ mail_store_set_offline (CamelStore *store, gboolean offline,
 	m->data = data;
 	m->done = done;
 
+	id = m->msg.seq;
 	e_thread_put(mail_thread_queued, (EMsg *)m);
+
+	return id;
 }
 
 /* ** Execute Shell Command ***************************************************** */

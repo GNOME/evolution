@@ -156,9 +156,9 @@ void mail_filter_on_demand (CamelFolder *folder, GPtrArray *uids);
 void mail_prep_offline(const char *uri, CamelOperation *cancel,
 		       void (*done)(const char *, void *data),
 		       void *data);
-void mail_store_set_offline(CamelStore *store, gboolean offline,
-			    void (*done)(CamelStore *, void *data),
-			    void *data);
+int mail_store_set_offline(CamelStore *store, gboolean offline,
+			   void (*done)(CamelStore *, void *data),
+			   void *data);
 
 /* filter driver execute shell command async callback */
 void mail_execute_shell_command (CamelFilterDriver *driver, int argc, char **argv, void *data);

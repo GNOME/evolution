@@ -1,3 +1,20 @@
+2003-06-02  Not Zed  <NotZed@Ximian.com>
+
+	** This and jeffs patch for #43862.
+
+	* mail-folder-cache.c (store_online_cb): If the store is still
+	around, then flow on to a get folderinfo update, otherwise just
+	clear up.
+
+	* mail-ops.c (mail_store_set_offline): return the msgid of this so
+	it can be cancelled.
+
+2003-05-30  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-folder-cache.c (mail_note_store): If the session is
+	'online' and we are noting a CamelDiscoStore, make sure that it is
+	changed to online status and call mail_get_folderinfo().
+
 2003-05-30  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-local.c (load_metainfo): Stat the XML file before trying to

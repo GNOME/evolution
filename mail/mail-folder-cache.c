@@ -42,6 +42,7 @@
 #include "mail-mt.h"
 #include "mail-folder-cache.h"
 #include "mail-ops.h"
+#include "mail-session.h"
 
 /* For notifications of changes */
 #include "mail-vfolder.h"
@@ -640,7 +641,7 @@ store_folder_renamed(CamelObject *o, void *event_data, void *data)
 struct _update_data {
 	struct _update_data *next;
 	struct _update_data *prev;
-
+	
 	int id;			/* id for cancellation */
 
 	void (*done)(CamelStore *store, CamelFolderInfo *info, void *data);
@@ -799,6 +800,25 @@ ping_cb (gpointer user_data)
 	return TRUE;
 }
 
+static void
+store_online_cb (CamelStore *store, void *data)
+{
+	struct _update_data *ud = data;
+
+	LOCK(info_lock);
+
+	if (g_hash_table_lookup(stores, store) != NULL) {
+		/* re-use the cancel id.  we're already in the store update list too */
+		ud->id = mail_get_folderinfo(store, update_folders, ud);
+	} else {
+		/* the store vanished, that means we were probably cancelled, or at any rate,
+		   need to clean ourselves up */
+		g_free(ud);
+	}
+
+	UNLOCK(info_lock);
+}
+
 void
 mail_note_store(CamelStore *store, EvolutionStorage *storage, GNOME_Evolution_Storage corba_storage,
 		void (*done)(CamelStore *store, CamelFolderInfo *info, void *data), void *data)
@@ -849,16 +869,27 @@ mail_note_store(CamelStore *store, EvolutionStorage *storage, GNOME_Evolution_St
 		camel_object_hook_event(store, "folder_unsubscribed", store_folder_unsubscribed, NULL);
 	}
 
-
-	if (!CAMEL_IS_DISCO_STORE (store) ||
-	    camel_disco_store_status (CAMEL_DISCO_STORE (store)) == CAMEL_DISCO_STORE_ONLINE ||
-	    camel_disco_store_can_work_offline (CAMEL_DISCO_STORE (store))) {
+	/* We might get a race when setting up a store, such that it is still left in offline mode,
+	   after we've gone online.  This catches and fixes it up when the shell opens us */
+	if (CAMEL_IS_DISCO_STORE(store)
+	    && camel_session_is_online(session)
+	    && camel_disco_store_status (CAMEL_DISCO_STORE (store)) == CAMEL_DISCO_STORE_OFFLINE) {
 		ud = g_malloc(sizeof(*ud));
 		ud->done = done;
 		ud->data = data;
-		ud->id = mail_get_folderinfo(store, update_folders, ud);
-		
-		e_dlist_addtail(&si->folderinfo_updates, (EDListNode *)ud);
+		/* Note: we use the 'id' here, even though its not the right id, its still ok */
+		ud->id = mail_store_set_offline (store, FALSE, store_online_cb, ud);
+
+		e_dlist_addtail (&si->folderinfo_updates, (EDListNode *) ud);
+	} else if (!CAMEL_IS_DISCO_STORE(store)
+		   || camel_disco_store_status (CAMEL_DISCO_STORE (store)) == CAMEL_DISCO_STORE_ONLINE
+		   || camel_disco_store_can_work_offline (CAMEL_DISCO_STORE (store))) {
+		ud = g_malloc (sizeof (*ud));
+		ud->done = done;
+		ud->data = data;
+		ud->id = mail_get_folderinfo (store, update_folders, ud);
+
+		e_dlist_addtail (&si->folderinfo_updates, (EDListNode *) ud);
 	}
 
 	UNLOCK(info_lock);
