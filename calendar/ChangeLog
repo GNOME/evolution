@@ -1,3 +1,10 @@
+2002-03-04  Dan Winship  <danw@ximian.com>
+
+	* gui/itip-utils.c (comp_compliant): Reset the DTSTAMP of the new
+	component. (RFC2245 says DTSTAMP corresponds to the time the
+	particular iCalendar representation of the object was created.)
+	Fixes #21198.
+
 2002-03-05  JP Rosevear  <jpr@ximian.com>
 
 	* gui/print.c: remove unneeded parameter from print_text_size
