@@ -1,3 +1,12 @@
+2001-10-18  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* camel-mime-part-utils.c
+	(simple_data_wrapper_construct_from_parser): If a charset isn't
+	specified or claims to be utf-8, check the validity of the text
+	and if it's invalid, set the rawtext bit to TRUE. If the charset
+	is x-unknown or some other x- charset, always set the rawtext bit
+	to TRUE.
+
 2001-10-18    <NotZed@Ximian.com>
 
 	* providers/(imap|local|pop3|sendmail|smtp)/Makefile.am: Added

@@ -32,6 +32,7 @@
 #include <errno.h>
 
 #include <gal/util/e-iconv.h>
+#include <gal/unicode/gunicode.h>
 
 #include "string-utils.h"
 #include "camel-mime-part-utils.h"
@@ -153,6 +154,18 @@ static GByteArray *convert_buffer(GByteArray *in, const char *to, const char *fr
 	return out;
 }
 
+static gboolean
+is_7bit (GByteArray *buffer)
+{
+	register int i;
+	
+	for (i = 0; i < buffer->len; i++)
+		if (buffer->data[i] > 127)
+			return FALSE;
+	
+	return TRUE;
+}
+
 /* simple data wrapper */
 static void
 simple_data_wrapper_construct_from_parser (CamelDataWrapper *dw, CamelMimeParser *mp)
@@ -210,13 +223,13 @@ simple_data_wrapper_construct_from_parser (CamelDataWrapper *dw, CamelMimeParser
 	/* Possible Lame Mailer Alert... check the META tags for a charset */
 	if (!charset && header_content_type_is (ct, "text", "html"))
 		charset = check_html_charset(buffer->data, buffer->len);
-
+	
 	/* if we need to do charset conversion, see if we can/it works/etc */
 	if (charset && !(strcasecmp(charset, "us-ascii") == 0
 			 || strcasecmp(charset, "utf-8") == 0
 			 || strncasecmp(charset, "x-", 2) == 0)) {
 		GByteArray *out;
-
+		
 		out = convert_buffer(buffer, "UTF-8", charset);
 		if (out) {
 			/* converted ok, use this data instead */
@@ -228,7 +241,20 @@ simple_data_wrapper_construct_from_parser (CamelDataWrapper *dw, CamelMimeParser
 			dw->rawtext = TRUE;
 			/* should we change the content-type header? */
 		}
+	} else {
+		if (charset == NULL) {
+			/* check that it's 7bit */
+			dw->rawtext = !is_7bit (buffer);
+		} else if (!strncasecmp (charset, "x-", 2)) {
+			/* we're not even going to bother trying to convert, so set the
+			   rawtext bit to TRUE and let the mailer deal with it. */
+			dw->rawtext = TRUE;
+		} else if (!strcasecmp (charset, "utf-8")) {
+			/* check that it is valid utf8 */
+			dw->rawtext = !g_utf8_validate (buffer->data, buffer->len, NULL);
+		}
 	}
+			
 
 	d(printf("message part kept in memory!\n"));
 		
