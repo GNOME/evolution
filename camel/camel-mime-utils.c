@@ -4102,7 +4102,6 @@ header_unfold(const char *in)
 void
 camel_mime_utils_init(void)
 {
-	const char *v;
 	int i, errcode, regex_compilation_failed=0;
 
 	/* Init tables */
