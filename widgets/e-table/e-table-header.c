@@ -113,6 +113,8 @@ eth_destroy (GtkObject *object)
 		gtk_object_unref(GTK_OBJECT(eth->sort_info));
 	}
 
+	if (eth->idle)
+		g_source_remove(eth->idle);
 	g_slist_foreach(eth->change_queue, (GFunc) g_free, NULL);
 	g_slist_free(eth->change_queue);
 	
