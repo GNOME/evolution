@@ -1,3 +1,17 @@
+2000-08-25  Aaron Weber  <aaron@helixcode.com>
+
+	* C/usage-mail.sgml: Redid filter and vFolder assistant
+	descriptions.
+
+	* C/fig/filter-new-fig.png: Replaced with new assistant pic.
+
+	* C/fig/filter-assist-fig.png: New file, showing only assistant.
+
+	
+	* C/apx-menuref.sgml: Finished message composer and calendar
+	editor menus. Looked at Contact Editor menus and decided to
+	document those features after implementation.
+
 2000-08-24  Aaron Weber  <aaron@helixcode.com>
 
 	* C/apx-menuref.sgml: Message Composer File and Edit menus.

@@ -1029,20 +1029,75 @@ possibly never will be due to security evil. -->
     <sect2 id="usage-mail-organize-filters">
       <title>Staying organized: Mail Filters in Evolution</title>
       <para>
-	Filters sort your email for you as it arrives.  Most often,
-	you'll want to have <application>Evolution</application> put
-	mail into different folders, but you can have it do anything
-	you like.  People who subscribe to multiple mailing lists, or
-	who often need to refer to messages they have sent, find
-	filters especially helpful to separate personal from
-	list-related mail, but they're good for anybody who gets more
-	than a few messages a day.  To create a filter, select
+	Filters sort your email for you as you send or recieve
+	it. Most often, you'll want to have
+	<application>Evolution</application> put mail into different
+	folders, but you can have it do anything you like.  People who
+	subscribe to multiple mailing lists, or who often need to
+	refer to messages they have sent, find filters especially
+	helpful to separate personal from list-related mail, but
+	they're good for anybody who gets more than a few messages a
+	day.  To create a filter, open the <interface>filter
+	assistant</interface> by selecting
 	<menuchoice>
-	<guimenu>Tools</guimenu> <guimenuitem>Filter
-         Assistant</guimenuitem> </menuchoice>. This will bring up a
-         window which will guide you through filter creation.  The
-         <interface>filter assistant</interface> is shown in <xref
-         linkend="usage-mail-filters-fig-new">
+	  <guimenu>Tools</guimenu> 
+          <guimenuitem>Mail Filters</guimenuitem>
+        </menuchoice>.
+      </para>
+            
+       <figure id="usage-mail-filters-fig-assist">
+	 <title>The Filter Assistant</title>
+	 <screenshot>
+	  <screeninfo>The Filter Assistant</screeninfo>
+	  <graphic fileref="fig/filter-assist-fig" format="png" srccredit="Aaron Weber">
+	</graphic>
+	</screenshot>
+      </figure>
+
+      <para>
+        The <interface>filter assistant</interface> window contains a
+        list of your current filters, sorted by the order in which
+        they will be performed.  From the drop-down box at the top of
+        the window, choose whether to display all your filters, only
+        those filters which are performed on incoming mail, or only
+        filters for outgoing mail.
+      </para>
+      <para>
+         The <interface>filter assistant</interface> also has a set of
+         buttons:
+        <itemizedlist>
+
+           <listitem><para>
+            <guibutton>Add</guibutton> &mdash; Create a new filter.
+           </para></listitem>
+
+           <listitem><para>
+            <guibutton>Edit</guibutton> &mdash; Edit an existing filter.
+           </para></listitem>
+
+           <listitem><para>
+            <guibutton>Delete</guibutton> &mdash; Delete the selected filter.
+           </para></listitem>
+
+           <listitem><para>
+            <guibutton>Up</guibutton> &mdash; Move the selected filter up in the list.
+           </para></listitem>
+
+           <listitem><para>
+            <guibutton>Down</guibutton> &mdash;  Move the selected filter down 
+             in the list.
+           </para></listitem>
+        </itemizedlist>
+
+        If you don't have any filters set up, the only one you can
+        click is <guibutton>Add</guibutton>.  When you do that, (or
+        when you click <guibutton>Edit</guibutton> with a filter
+        selected), the <interface>Add Rule</interface> window appears.
+      </para>
+      <para>
+        That window, shown in <xref
+        linkend="usage-mail-filters-fig-new">, is where you'll
+        actually create your filtering rule.  
 
        <figure id="usage-mail-filters-fig-new">
 	 <title>Creating a new Filter</title>
@@ -1052,14 +1107,151 @@ possibly never will be due to security evil. -->
 	</graphic>
 	</screenshot>
       </figure>
+      </para>
+      <para>
+        Enter a name for your filter in the <guilabel>Name</guilabel>
+        field, and then begin choosing criteria.  You can use multiple
+        criteria by pressing <guibutton>More</guibutton>, and remove
+        the last one by pressing <guibutton>Fewer</guibutton>.  you can
+        choose from five types of criteria, and you can have as many
+        as you like.  If you have multiple criteria, you should also
+        decide between <guilabel>Match all parts</guilabel>, which
+        will make the filter affect only those messages which meet all
+        the criteria you're about to describe, and <guilabel>Match any
+        part</guilabel>, which will make the filter affect any message
+        that meets even one of the criteria.
+     </para>
+     <para>
+        For each of your filter criteria, you must first select what
+        part of the message you want the filter to look at:
+        <variablelist>
+	  <varlistentry>
+	    <term><guilabel>Sender</guilabel></term>
+	    <listitem><para>
+                The author of the message.
+            </para></listitem>
+	  </varlistentry>
+
+	  <varlistentry>
+	    <term><guilabel>Recipients</guilabel></term>
+	    <listitem><para>
+               The recipients of the message.
+            </para></listitem>
+	  </varlistentry>
+
+	  <varlistentry>
+	    <term><guilabel>Subject</guilabel></term>
+	    <listitem><para>
+                The subject line of the message.
+            </para></listitem>
+	  </varlistentry>
+
+	  <varlistentry>
+	    <term><guilabel>Message Body</guilabel></term>
+	    <listitem><para>
+                The message body.
+            </para></listitem>
+	  </varlistentry>
+
+	  <varlistentry>
+	    <term><guilabel>Expression</guilabel></term>
+	    <listitem><para>
+                Enter a regular expression (see <xref linkend="apx-gloss"> 
+                for more information), and <application>Evolution</application>
+                will match it for you. 
+            </para></listitem>
+	  </varlistentry>
+	</variablelist>
+      </para>
+      <para>
+        Then choose a rule for matching:
+        <variablelist>
+
+	  <varlistentry>
+	    <term><guilabel>Contains</guilabel></term>
+	    <listitem><para>
+               If the part of the message examined contains the text you enter, 
+               the filter will perform its selected action.
+            </para></listitem>
+	  </varlistentry>
+
+	  <varlistentry>
+	    <term><guilabel>Does not contain</guilabel></term>
+	    <listitem><para>
+               If the part of the message examined does not contain
+               the text you enter, 
+               the filter will perform its selected action.
+            </para></listitem>
+	  </varlistentry>
+	</variablelist>
 
       </para>
+      <para>
+         Then, enter the text you want the filter to find, and you're
+        done telling <application>Evolution</application> what sort of
+        messages you want it to filter.
+      </para>
 
-      <para> The <interface>filter assistant</interface> window
-	contains a window listing rules, and an option to create a
-	new rule.  To start filtering your mail, click
-	<guibutton>Add</guibutton> to add a filtering rule.
-	You'll decide when it should take place: 
+      <para>
+        Now, tell it what to do with those messages.  If you want multiple
+        actions, click <guibutton>More</guibutton>; if you want fewer,
+        click <guibutton>Fewer</guibutton>.  And choose again:
+        <variablelist>
+	  <varlistentry>
+	    <term><guilabel>Move to Folder</guilabel></term>
+	    <listitem><para>
+               If you select this item, <application>Evolution</application>
+               will put the messages into a folder you specify.  Click the 
+               <guibutton>&lt;click here to select a folder&gt;</guibutton> button
+               to select a folder. 
+            </para></listitem>
+	  </varlistentry>
+
+	  <varlistentry>
+	    <term><guilabel>Forward to Address</guilabel></term>
+	    <listitem><para>
+                Select this, enter an address, and the addressee will
+                get a copy of the message.
+            </para></listitem>
+	  </varlistentry>
+
+	  <varlistentry>
+	    <term><guilabel>Delete</guilabel></term>
+	    <listitem><para>
+                Marks the message for deletion.  You can still get the message
+                back, at least until you <guimenuitem>Expunge</guimenuitem> your
+                mail yourself.
+            </para></listitem>
+	  </varlistentry>
+
+	  <varlistentry>
+	    <term><guilabel>Stop Processing</guilabel></term>
+	    <listitem><para>
+               Select this if you want to tell all other filters to ignore
+               this message.
+            </para></listitem>
+	  </varlistentry>
+
+	  <varlistentry>
+	    <term><guilabel>Assign Color</guilabel></term>
+	    <listitem><para>
+                Select this item, and <application>Evolution</application>
+                will mark the message with whatever color you please.
+            </para></listitem>
+	  </varlistentry>
+	</variablelist>
+      </para>
+      <para>
+        You're done.  Click <guibutton>OK</guibutton> to use this
+        filter, or <guibutton>Cancel</guibutton> to close the window
+        without saving any changes.
+      </para>
+
+
+
+   <!-- FIXME: This needs to be in there.  But the feature is temporarily
+         disabled and I don't know how it will be reimplemented.
+
 	  <itemizedlist>
 	    <listitem>
 	       <para>
@@ -1079,21 +1271,8 @@ possibly never will be due to security evil. -->
 	  </listitem>
 	</itemizedlist>
       </para>
-      
-      <para>
-       Then, the filter assistant will ask you which emails it should
-       act upon.  You can set criteria based on message size, the
-       sender, primary addressee or Cc: list, words in the subject or
-       body of the message, or any combination of criteria.  Check the
-       boxes next to each criterion you would like to use.
-      </para>
-      <para>
-        Once you've decided which messages to filter, the assistant
-        will ask you the sort of action you wish to take.  You can
-        file, delete, or forward the message, and you can also have it
-        be exempted from other filters which would otherwise have
-        acted upon it.
-      </para>
+
+    -->
 
       <note>
 	<title>Two Notable Filter Features</title>
@@ -1200,7 +1379,7 @@ possibly never will be due to security evil. -->
       </example>
       <para>
 	 To create a vFolder, select <guimenuitem>VFolder
-	 Assistant</guimenuitem> from the <guimenu>Tools</guimenu>
+	 Editor</guimenuitem> from the <guimenu>Tools</guimenu>
 	 menu in the <interface>main window</interface>.  This
 	 will bring up a dialog box that looks suspiciously like
 	 the Filter Assistant (for more information on filters, see
@@ -1213,92 +1392,36 @@ possibly never will be due to security evil. -->
 	 click <guibutton>Add</guibutton> to add a new vFolder.
       </para>
       <para>
-	 You'll be prompted to create a filtering rule.  You can build
-	 your own from the ground up, or select one of several base
-	 rules to customize.  Your options are:
-    <variablelist>
-	 <varlistentry>
-	    <term><guilabel>For matching messages:</guilabel></term>
-	    <listitem>
-	      <para>
-	        Choose this to create your own set of rules for the
-	        vFolder.  You may select one or more search criteria;
-	        the vFolder you create will contain messages that
-	        match all of them.
-	     </para>
-	    </listitem>
-	  </varlistentry>
-	  <varlistentry>
-	    <term><guilabel>Messages from a certain person:</guilabel></term>
-	    <listitem>
-	      <para>
-		 The remaining three rules are simpler.  Select this
-		 one to create a vFolder that will contain only
-		 messages from an address you enter.
-	     </para>
-	   </listitem>
-	  </varlistentry>
-	  <varlistentry>
-	    <term><guilabel>Messages to a certain address:</guilabel</term>
-	    <listitem>
-	      <para>
-	         Any messages sent directly to this address will be in
-	         the vFolder you create.  This vFolder is an absolute
-	         must for people with multiple email addresses.
-	      </para>
-	    </listitem>
-	  </varlistentry>
-	  <varlistentry>
-	    <term><guilabel>Messages with a given subject:</guilabel></term>
-	    <listitem>
-	      <para>
-		Enter a subject, and the vFolder will contain messages
-		with that subject.
-	     </para>
-	    </listitem>
-	  </varlistentry>
-	</variablelist>
-
-        The selection window is shown in <xref
+	 You can enter a name for your vFolder in the
+	 <guilabel>Name</guilabel>.  Then, tell
+	 <application>Evolution</application> what messages to look
+	 for.  This process is exactly like filter creation: decide
+	 between <guilabel>Match all parts</guilabel> and
+	 <guilabel>Match any part</guilabel>, then choose what part of
+	 the message to look in, what sort of matching to perform, and
+	 specify exactly what text it is that you want to find.
+       </para>
+       <para>
+         The second part, however, is slightly different.  In the
+         section of the window labelled <guilabel>vFolder Sources
+         </guilabel> is a list of folders in which
+         <application>Evolution</application> will search for the contents
+         of your vFolder.  Click <guibutton>Add</guibutton> to add a folder,
+         or <guibutton>Remove</guibutton> to remove one.         
+       </para>
+       <para>
+        The vFolder creation window is shown in <xref
 	linkend="usage-mail-vfolder-fig-createrule">
 
        <figure id="usage-mail-vfolder-fig-createrule">
 	 <title>Selecting a vFolder Rule</title>
 	 <screenshot>
-	  <screeninfo>Selecting a vFolder Rule</screeninfo>
+	  <screeninfo>Creating a vFolder Rule</screeninfo>
 	  <graphic fileref="fig/vfolder-createrule-fig" format="png" srccredit="Aaron Weber">
 	</graphic>
 	</screenshot>
       </figure>
       </para>
-      <para>
-
-	Once you click <guibutton>Next</guibutton>, you'll customize
-	the vFolder rule.  The rules for the vFolder you're creating
-	will appear as phrases in the bottom pane of the window.  You
-	can click on the blue underlined text in the phrase to alter
-	it to your liking.  For example, when I create a vFolder to
-	contain all messages from <email>rupert@helixcode.com</email>
-	that have the word "evolution" in the message body, the bottom
-	frame says: <computeroutput>The From address matches
-	rupert@helixcode.com and the body contains
-	"evolution".</computeroutput>.
-      </para>
     </sect2>
-
   </sect1>
 </chapter>
-
-
-
-
-
-
-
-
-
-
-
-
-
-

@@ -314,7 +314,7 @@
       for embedding files and other items in messages.  Here's what's in them:
     </para>
     <sect2 id="menuref-mail-editor-file">
-      <title>The Message Composer File Menu</title>
+      <title>The Message Composer's File Menu</title>
       <para>
         <variablelist>
 	  <varlistentry>
@@ -375,7 +375,7 @@
       </para>
     </sect2>
     <sect2 id="menuref-mail-editor-edit">
-      <title>The Message Composer Edit Menu</title>
+      <title>The Message Composer's Edit Menu</title>
       <para>
           The <guimenu>Edit</guimenu> menu in the message composer
           contains the following items.  Keyboard shortcuts are listed
@@ -466,36 +466,101 @@
                This item brings up the Message Composer Properties Capplet, 
                a portion of the GNOME Control Center that determines the 
                key bindings for the message composer.  Help for this capplet is 
-               available directly from the Control Center. (FIXME: Write that help doc too).
+               available directly from the Control Center.
+               (FIXME: Write that help doc too) (FIXME: this is in the wrong place!)
 	    </para></listitem>
 	  </varlistentry>
 
 	</variablelist>
       </para>
     </sect2>
-<!--    
-	    <varlistentry>
-	      <term><guimenu>View</guimenu></term>
-	      <listitem><para>
-	       </para></listitem>
-	    </varlistentry>
-
-	    <varlistentry>
-	      <term><guimenu>Insert</guimenu></term>
-	      <listitem><para>
-	       </para></listitem>
-	    </varlistentry>
+    <sect2 id="menuref-mail-composer-format">
+      <title>The Message Composer's Format Menu</title>
+      <para> 
+        The <guimenu>Format</guimenu> menu has only one item:
+        <variablelist>
+	  <varlistentry>
+	    <term><guimenuitem>HTML</guimenuitem></term>
+	    <listitem><para>
+                 Toggles HTML mode for the message composer.  When selected, 
+                 the message is displayed and sent in HTML.  If you have written a 
+                 message in HTML and turn HTML off, most formatting will be lost.
+                 <application>Evolution</application> will attempt to preserve spacing
+                 and to remove formatting gracefully, however.
+	    </para></listitem>
+	  </varlistentry>
+	</variablelist>
+       </para>
+    </sect2>
+    <sect2 id="menuref-mail-composer-view">
+      <title>The Message Composer's View Menu</title>
+      <para>
+        The <guimenu>View</guimenu> menu controls the way messages are
+        displayed, and how much of the message, its headers, and
+        attachments appear.  It contains:
+        <variablelist>
+	  <varlistentry>
+	    <term><guimenuitem>Show Attachments</guimenuitem></term>
+	    <listitem><para> 
+              Toggles the display of attachments.  When this item is selected,
+              <application>Evolution</application> will create a seperate pane
+              of the composition window to show what attachments you are appending
+              to the message. 
+	    </para></listitem>
+	  </varlistentry>
 	</variablelist>
       </para>
+    </sect2>
+    <sect2 id="menuref-mail-composer-insert">
+      <title>The Message Composer's Insert Menu</title>
+      <para>
+        The <guimenu>Insert</guimenu> menu holds tools that allow you
+        to include images, horizontal rules, and other objects
+        in the body of your message. The tools are:
+        <variablelist>
 
--->
+	  <varlistentry>
+	    <term><guimenuitem>Image</guimenuitem></term>
+	    <listitem><para> 
+               This tool will prompt you to select an image file to 
+               insert into your HTML message.  For text messages, this
+               is the same as attaching an image file.
+	    </para></listitem>
+	  </varlistentry>
 
+	  <varlistentry>
+	    <term><guimenuitem>Link</guimenuitem></term>
+	    <listitem><para> 
+               Opens the <interface>link creation window</interface>, 
+               which lets you specify the URL and text description
+               for a link in your message.  This only works with HTML 
+               messages.
+	    </para></listitem>
+	  </varlistentry>
 
+	  <varlistentry>
+	    <term><guimenuitem>Rule</guimenuitem></term>
+	    <listitem><para>    
+             Opens the<interface> horizontal rule creation dialog</interface>, which lets you
+	     create an HTML horizontal rule.  For more information,
+	     see <xref linkend="usage-mail-getnsend-send-html">.
+             This tool only works with HTML messages.
+	     </para></listitem>
+	  </varlistentry>
 
-
+	  <varlistentry>
+	    <term><guimenuitem>Text File</guimenuitem></term>
+	    <listitem><para>
+	       Open a text file and insert it into the current message.
+               This tool works with both plain text and HTML messages.
+	      </para></listitem>
+	  </varlistentry>
+	</variablelist>
+      </para>
+    </sect2>
   </sect1>
   
-<sect1 id="menuref-cal">
+  <sect1 id="menuref-cal">
     <title>The Calendar Menus</title>
     <para>
       The Main window of the calendar has the same menus as the main
@@ -584,6 +649,7 @@
 	</variablelist>
       </para>
     </sect2>
+
     <sect2 id="menuref-cal-tools">
       <title>The Calendar Tools Menu</title>
       <para>
@@ -602,10 +668,312 @@
   <sect1 id="menuref-cal-editor">
     <title>The Appointment Editor Menus</title>
     <para>
-      Kevin might do this section.
+    FIXME: Insert Content Here.
     </para>
+    
+    <sect2 id="menuref-cal-editor-file">
+      <title>The Appintment Editor's File Menu</title>
+      <para>
+         This menu contains several items, including a <guisubmenu>New</guisubmenu> 
+         that is identical to that in the 
+         <link linkend="menuref-universal-file">main window's file menu</link>.
+         Its other contents are:
+         <variablelist>
+
+	  <varlistentry>
+	    <term><guimenuitem>Send</guimenuitem></term>
+	    <listitem><para>
+             Opens a mail message with the appointment attached to it.
+           </para></listitem>
+	  </varlistentry>
+
+
+	  <varlistentry>
+	    <term><guimenuitem>Save</guimenuitem></term>
+	    <listitem><para>
+              Save this appointment in the existing location and name. If you have not yet
+              chosen a location and name, this is the same as <guimenuitem>Save As</guimenuitem>.
+           </para></listitem>
+	  </varlistentry>
+
+
+	  <varlistentry>
+	    <term><guimenuitem>Save As</guimenuitem></term>
+	    <listitem><para>
+              Choose a location and name for this appointment, and save it.
+           </para></listitem>
+	  </varlistentry>
+
+	  <varlistentry>
+	    <term><guimenuitem>Delete</guimenuitem></term>
+	    <listitem><para>
+              Deletes the appointment.
+           </para></listitem>
+	  </varlistentry>
+
+	  <varlistentry>
+	    <term><guimenuitem>Move to Folder</guimenuitem></term>
+	    <listitem><para>
+              Chose a folder, and move the appointment into it.
+           </para></listitem>
+	  </varlistentry>
+
+
+	  <varlistentry>
+	    <term><guimenuitem>Copy to Folder</guimenuitem></term>
+	    <listitem><para>
+              Chose a folder, and put a copy of the appointment into it.
+           </para></listitem>
+	  </varlistentry>
+
+
+	  <varlistentry>
+	    <term><guimenuitem>Page Setup Submenu</guimenuitem></term>
+	    <listitem><para>
+             This menu contains two items:
+                <itemizedlist>
+		  <listitem><para>
+                   <guimenuitem>Memo Style</guimenuitem> &mdash;
+                    FIXME: What does this do?
+                   </para></listitem>
+
+		  <listitem><para>
+                    <guimenuitem>Define Print Styles</guimenuitem> &mdash;
+                    FIXME: What does this do?
+                  </para></listitem>
+		</itemizedlist>
+           </para></listitem>
+	  </varlistentry>
+
+	  <varlistentry>
+	    <term><guimenuitem>Print Preview</guimenuitem></term>
+	    <listitem><para>
+              Shows you what your appointment will look like if you print it.
+           </para></listitem>
+	  </varlistentry>
+
+
+	  <varlistentry>
+	    <term><guimenuitem>Print</guimenuitem></term>
+	    <listitem><para>
+              Prints the appointment without preview.
+           </para></listitem>
+	  </varlistentry>
+
+
+	  <varlistentry>
+	    <term><guimenuitem>Properties</guimenuitem></term>
+	    <listitem><para>
+             FIXME: What does this do?
+           </para></listitem>
+	  </varlistentry>
+
+
+	  <varlistentry>
+	    <term><guimenuitem>Close</guimenuitem></term>
+	    <listitem><para>
+             Close the appointment editor window.
+           </para></listitem>
+	  </varlistentry>
+	</variablelist>
+      </para>
+    </sect2>
+
+    <sect2 id="menuref-cal-editor-edit">
+      <title>The Appintment Editor's Edit Menu</title>
+      <para>
+         FIXME: this menu is copied and pasted entirely from somewhere
+         else.
+      </para>
+    </sect2>
+
+    <sect2 id="menuref-cal-editor-view">
+      <title>The Appintment Editor's View Menu</title>
+      <para>
+         This menu allows you to look at different appointments, and
+         set the way you look at them, without having to move back to
+         the <interface>Main Window</interface>. It contains:
+         <variablelist>
+
+	  <varlistentry>
+	    <term><guisubmenu>Previous</guisubmenu></term>
+	    <listitem><para>
+               The items in this submenu will take you to appointments
+               prior to the current one. (FIXME: describe).
+           </para></listitem>
+	  </varlistentry>
+
+	  <varlistentry>
+	    <term><guisubmenu>Next</guisubmenu></term>
+	    <listitem><para>
+               The items in this submenu will take you to appointments
+               scheduled to occur after the current one. (FIXME: describe).
+           </para></listitem>
+	  </varlistentry>
+
+	  <varlistentry>
+	    <term><guimenuitem>Calendar</guimenuitem></term>
+	    <listitem><para>
+               FIXME: What does this item do?
+           </para></listitem>
+	  </varlistentry>
+
+	  <varlistentry>
+	    <term><guisubmenu>Toolbars</guisubmenu></term>
+	    <listitem><para>
+             The <guisubmenu>Toolbars</guisubmenu> submenu 
+             allows you to choose which toolbars
+             are displayed in the 
+             <interface>Appointment Editor</interface>. They are:
+             <itemizedlist>
+		  <listitem><para>
+                    <guimenuitem>Standard</guimenuitem> &mdash;
+                    Toggle the standard toolbar on and off.
+                   </para></listitem>
+
+		  <listitem><para>
+                    <guimenuitem>Formatting</guimenuitem> &mdash;
+                    Toggle the formatting toolbar on and off.
+                   </para></listitem>
+	
+		  <listitem><para>
+                    <guimenuitem>Customize</guimenuitem> &mdash;
+                    Select the contents of the formatting and standard toolbars.
+                   </para></listitem>
+		</itemizedlist>
+            </para></listitem>
+	  </varlistentry>
+	</variablelist>
+      </para>
+    </sect2>
+
+    <sect2 id="menuref-cal-editor-insert">
+      <title>The Appintment Editor's Insert Menu</title>
+      <para>
+        This menu contains: (FIXME: Insert Content Here)
+        <variablelist>
+	  <varlistentry>
+	    <term><guimenuitem>File</guimenuitem></term>
+	    <listitem><para>
+             Choose a file to append to your appointment or appointment request.
+           </para></listitem>
+	  </varlistentry>
+
+
+	  <varlistentry>
+	    <term><guimenuitem>Item</guimenuitem></term>
+	    <listitem><para>
+             FIXME: ?
+           </para></listitem>
+	  </varlistentry>
+
+
+	  <varlistentry>
+	    <term><guimenuitem>Object</guimenuitem></term>
+	    <listitem><para>
+             FIXME: ?
+           </para></listitem>
+	  </varlistentry>
+	</variablelist>
+      </para>
+    </sect2>
+
+    <sect2 id="menuref-cal-editor-format">
+      <title>The Appintment Editor's Format Menu</title>
+      <para>
+         This menu contains two items, neither of which
+         have any functionality yet:
+         <variablelist>
+	  <varlistentry>
+	    <term><guimenuitem>Font</guimenuitem></term>
+	    <listitem><para>
+             FIXME: ?
+           </para></listitem>
+	  </varlistentry>
+
+
+	  <varlistentry>
+	    <term><guimenuitem>Paragraph</guimenuitem></term>
+	    <listitem><para>
+             FIXME: ?
+           </para></listitem>
+	  </varlistentry>
+	</variablelist>
+      </para>
+    </sect2>
+
+    <sect2 id="menuref-cal-editor-tools">
+      <title>The Appintment Editor's Tools Menu</title>
+      <para>
+         
+         This menu contains four items, none of which
+         have any functionality yet:
+         <variablelist>
+	  <varlistentry>
+	    <term><guimenuitem>Item</guimenuitem></term>
+	    <listitem><para>
+            FIXME: ?
+           </para></listitem>
+	  </varlistentry>
+
+	  <varlistentry>
+	    <term><guimenuitem>Item</guimenuitem></term>
+	    <listitem><para>
+             FIXME: ?
+           </para></listitem>
+	  </varlistentry>
+	</variablelist>
+      </para>
+    </sect2>
+
+    <sect2 id="menuref-cal-editor-actions">
+      <title>The Appintment Editor's Actions Menu</title>
+      <para>
+        This menu contains:
+
+         <variablelist>
+	  <varlistentry>
+	    <term><guimenuitem>Invite Attendees</guimenuitem></term>
+	    <listitem><para>
+              Invite the listed attendees to the current event (via email).
+              You may be prompted to specify an invitation message.
+           </para></listitem>
+	  </varlistentry>
+
+	  <varlistentry>
+	    <term><guimenuitem>Cancel Invitation</guimenuitem></term>
+	    <listitem><para>
+              Cancels the event, notifying all attendees.  You may be prompted 
+              to specify an invitation message.
+           </para></listitem>
+	  </varlistentry>
+
+	  <varlistentry>
+	    <term><guimenuitem>Forward as vCalendar</guimenuitem></term>
+	    <listitem><para>
+              Opens the message composer with the current event attached.
+           </para></listitem>
+	  </varlistentry>
+
+	  <varlistentry>
+	    <term><guimenuitem>Forward as Text</guimenuitem></term>
+	    <listitem><para>
+              Opens the message composer with a text description of the current
+              event included in the message body.
+           </para></listitem>
+	  </varlistentry>
+	</variablelist>
+      </para>
+    </sect2>
+
+    <sect2 id="menuref-cal-editor-help">
+      <title>The Appintment Editor's File Menu</title>
+      <para>
+         This menu is empty.
+      </para>
+    </sect2>
+
   </sect1>
-  
 
   <sect1>
     <title>Contact Manager Menus</title>
@@ -676,7 +1044,10 @@
   <sect1 id="menuref-contact-editor">
     <title>The Contact Editor Menus</title>
     <para>
-      Kevin might do this section.
+      Most, if not all, of the menu items for this section are still
+      inoperable, but there are vast numbers of them, especially in
+      the <guimenu>Actions</guimenu> menu.  When available, I will 
+      describe them.
     </para>
   </sect1>
   
