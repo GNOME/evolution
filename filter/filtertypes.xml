@@ -617,6 +617,15 @@
    </option>
   </input>
  </part>
+ <part name="beep">
+  <title>Beep</title>
+  <code>(beep)</code>
+ </part>
+ <part name="play-sound">
+  <title>Play Sound</title>
+  <code>(play-sound ${sound})</code>
+  <input type="string" name="sound"/>
+ </part>
  <part name="shell-exec">
   <title>Execute Shell Command</title>
   <code>(shell-exec ${command})</code>

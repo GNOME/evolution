@@ -1,3 +1,7 @@
+2002-03-06  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* filtertypes.xml: Added beep and play-sound actions.
+
 2002-02-26  Not Zed  <NotZed@Ximian.com>
 
 	* filter-filter.c (option_activate): Copy values across to new
