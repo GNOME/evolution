@@ -1,3 +1,9 @@
+2003-01-24  Ettore Perazzoli  <ettore@ximian.com>
+
+	* e-summary-preferences.c (config_control_apply_cb):
+	display_folders is a list of folders, not a list of strings, treat
+	accordingly.  [#36557, patch from Harry Lu <harry.lu@sun.com>.]
+
 2003-01-20  Ettore Perazzoli  <ettore@ximian.com>
 
 	* Locations: Update locations for EU_FI, contributed by Pekka

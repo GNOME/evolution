@@ -1457,13 +1457,12 @@ config_control_apply_cb (EvolutionConfigControl *control,
 #if 0
 	g_hash_table_foreach (pd->mail->model, maybe_add_to_shown, &pd->mail->tmp_list);
 #endif
-	pd->mail->tmp_list = get_folders_from_view (pd->mail->storage_set_view);
 	
 	if (global_preferences->display_folders) {
-		free_str_list (global_preferences->display_folders);
+		free_folder_list (global_preferences->display_folders);
 		g_list_free (global_preferences->display_folders);
 	}
-	global_preferences->display_folders = copy_str_list (pd->mail->tmp_list);
+	global_preferences->display_folders = get_folders_from_view (pd->mail->storage_set_view);
 
   	e_summary_reconfigure_all ();
 }
