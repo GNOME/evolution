@@ -700,13 +700,15 @@ build_message (EMsgComposer *composer, gboolean save_html_object_data)
 
 		if (composer->smime_sign
 		    && (hdrs->account == NULL || hdrs->account->smime_sign_key == NULL || hdrs->account->smime_sign_key[0] == 0)) {
-			camel_exception_setv(&ex, 1, _("Cannot sign outgoing message: No signing certificate set for this account"));
+			camel_exception_set (&ex, CAMEL_EXCEPTION_SYSTEM,
+					     _("Cannot sign outgoing message: No signing certificate set for this account"));
 			goto exception;
 		}
-
+		
 		if (composer->smime_encrypt
 		    && (hdrs->account == NULL || hdrs->account->smime_sign_key == NULL || hdrs->account->smime_sign_key[0] == 0)) {
-			camel_exception_setv(&ex, 1, _("Cannot encrypt outgoing message: No encryption certificate set for this account"));
+			camel_exception_set (&ex, CAMEL_EXCEPTION_SYSTEM,
+					     _("Cannot encrypt outgoing message: No encryption certificate set for this account"));
 			goto exception;
 		}
 

@@ -1,3 +1,11 @@
+2004-05-11  Jeffrey Stedfast  <fejj@novell.com>
+
+	* e-msg-composer.c (build_message): Use CAMEL_EXCEPTION_SYSTEM
+	instead of '1', also don't use camel_exception_setv() if we aren't
+	using the printf-style arguments. Just use camel_exception_set() -
+	safer anyway, since then we don't have to worry about translated
+	strings containing printf-style formatters that could break stuff.
+
 2004-05-08  Enver ALTIN <enver.altin@frontsite.com.tr>
 
 	* e-msg-composer.c: Fixing parts of #53466.
