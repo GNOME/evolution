@@ -5,7 +5,7 @@
  * Authors: Miguel de Icaza (miguel@kernel.org)
  *          Federico Mena (quartic@gimp.org)
  */
-
+#include <config.h>
 #include <gnome.h>
 #include <string.h>
 #include "calendar.h"
