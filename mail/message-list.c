@@ -96,6 +96,7 @@ static POA_GNOME_Evolution_MessageList__vepv evolution_message_list_vepv;
 static void on_cursor_change_cmd (ETableScrolled *table, int row, gpointer user_data);
 static gint on_click (ETableScrolled *table, gint row, gint col, GdkEvent *event, MessageList *list);
 static char *filter_date (const void *data);
+static char *filter_size (const void *data);
 
 static void save_tree_state(MessageList *ml);
 
@@ -285,6 +286,25 @@ subject_compare (gconstpointer subject1, gconstpointer subject2)
 	return g_strcasecmp (sub1, sub2);
 }
 
+static gchar *
+filter_size (const void *data)
+{
+	gint size = GPOINTER_TO_INT(data);
+	gfloat fsize;
+	
+	if (size < 1024) {
+		return g_strdup_printf ("%d", size);
+	} else {
+		fsize = ((gfloat) size) / 1024.0;
+		if (fsize < 1024.0) {
+			return g_strdup_printf ("%.2f K", fsize);
+		} else {
+			fsize /= 1024.0;
+			return g_strdup_printf ("%.2f M", fsize);
+		}
+	}
+}
+
 /* Gets the uid of the message displayed at a given view row */
 static const char *
 get_message_uid (MessageList *message_list, int row)
@@ -393,7 +413,7 @@ message_list_drag_data_get (ETable             *table,
 	MessageList *mlist = (MessageList *) user_data;
 	const CamelMessageInfo *minfo = get_message_info (mlist, row);
 	GPtrArray *uids = NULL;
-	char *tmpl, *tmpdir, *filename, *subject, *p;
+	char *tmpl, *tmpdir, *filename, *subject;
 	
 	switch (info) {
 	case DND_TARGET_LIST_TYPE_URI:
@@ -455,12 +475,12 @@ ml_duplicate_value (ETableModel *etm, int col, const void *value, void *data)
 	case COL_UNREAD:
 	case COL_SENT:
 	case COL_RECEIVED:
+	case COL_SIZE:
 		return (void *) value;
 
 	case COL_FROM:
 	case COL_SUBJECT:
 	case COL_TO:
-	case COL_SIZE:
 		return g_strdup (value);
 	default:
 		g_assert_not_reached ();
@@ -480,12 +500,12 @@ ml_free_value (ETableModel *etm, int col, void *value, void *data)
 	case COL_UNREAD:
 	case COL_SENT:
 	case COL_RECEIVED:
+	case COL_SIZE:
 		break;
 
 	case COL_FROM:
 	case COL_SUBJECT:
 	case COL_TO:
-	case COL_SIZE:
 		g_free (value);
 		break;
 	default:
@@ -505,12 +525,12 @@ ml_initialize_value (ETableModel *etm, int col, void *data)
 	case COL_UNREAD:
 	case COL_SENT:
 	case COL_RECEIVED:
+	case COL_SIZE:
 		return NULL;
 
 	case COL_FROM:
 	case COL_SUBJECT:
 	case COL_TO:
-	case COL_SIZE:
 		return g_strdup("");
 	default:
 		g_assert_not_reached ();
@@ -531,12 +551,12 @@ ml_value_is_empty (ETableModel *etm, int col, const void *value, void *data)
 	case COL_UNREAD:
 	case COL_SENT:
 	case COL_RECEIVED:
+	case COL_SIZE:
 		return value == NULL;
 
 	case COL_FROM:
 	case COL_SUBJECT:
 	case COL_TO:
-	case COL_SIZE:
 		return !(value && *(char *)value);
 	default:
 		g_assert_not_reached ();
@@ -601,10 +621,12 @@ ml_value_to_string (ETableModel *etm, int col, const void *value, void *data)
 	case COL_RECEIVED:
 		return filter_date (value);
 		
+	case COL_SIZE:
+		return filter_size (value);
+
 	case COL_FROM:
 	case COL_SUBJECT:
 	case COL_TO:
-	case COL_SIZE:
 		return g_strdup (value);
 	default:
 		g_assert_not_reached ();
@@ -706,7 +728,6 @@ ml_tree_value_at (ETreeModel *etm, ETreePath *path, int col, void *model_data)
 {
 	MessageList *message_list = model_data;
 	const CamelMessageInfo *msg_info;
-	static char buffer [10];
 	char *uid;
 	static char *saved;
 
@@ -775,8 +796,7 @@ ml_tree_value_at (ETreeModel *etm, ETreePath *path, int col, void *model_data)
 		return (char *)camel_message_info_to(msg_info);
 
 	case COL_SIZE:
-		sprintf (buffer, "%d", msg_info->size);
-		return buffer;
+		return GINT_TO_POINTER (msg_info->size);
 		
 	case COL_DELETED:
 		return (void *)((msg_info->flags & CAMEL_MESSAGE_DELETED) != 0);
@@ -859,8 +879,7 @@ ml_tree_value_at (ETreeModel *etm, ETreePath *path, int col, void *model_data)
 		return saved;
 	}
 	case COL_SIZE:
-		sprintf(buffer, "%d", subtree_size(message_list, e_tree_model_node_get_first_child(etm, path)));
-		return buffer;
+		return GINT_TO_POINTER (subtree_size(message_list, e_tree_model_node_get_first_child(etm, path)));
 	}
 	g_assert_not_reached ();
 	
@@ -958,14 +977,8 @@ message_list_create_extras (void)
 	cell = e_cell_text_new (NULL, GTK_JUSTIFY_LEFT);
 	gtk_object_set (GTK_OBJECT (cell),
 			"text_filter", filter_date,
-			NULL);
-	gtk_object_set (GTK_OBJECT (cell),
 			"strikeout_column", COL_DELETED,
-			NULL);
-	gtk_object_set (GTK_OBJECT (cell),
 			"bold_column", COL_UNREAD,
-			NULL);
-	gtk_object_set (GTK_OBJECT (cell),
 			"color_column", COL_COLOUR,
 			NULL);
 	e_table_extras_add_cell(extras, "render_date", cell);
@@ -974,14 +987,20 @@ message_list_create_extras (void)
 	cell = e_cell_text_new (NULL, GTK_JUSTIFY_LEFT);
 	gtk_object_set (GTK_OBJECT (cell),
 			"strikeout_column", COL_DELETED,
-			NULL);
-	gtk_object_set (GTK_OBJECT (cell),
 			"bold_column", COL_UNREAD,
-			NULL);
-	gtk_object_set (GTK_OBJECT (cell),
 			"color_column", COL_COLOUR,
 			NULL);
 	e_table_extras_add_cell(extras, "render_text", cell);
+	
+	/* size cell */
+	cell = e_cell_text_new (NULL, GTK_JUSTIFY_RIGHT);
+	gtk_object_set (GTK_OBJECT (cell),
+			"text_filter", filter_size,
+			"strikeout_column", COL_DELETED,
+			"bold_column", COL_UNREAD,
+			"color_column", COL_COLOUR,
+			NULL);
+	e_table_extras_add_cell(extras, "render_size", cell);
 
 	e_table_extras_add_cell(extras, "render_tree", 
 		e_cell_tree_new (NULL, NULL, /* let the tree renderer default the pixmaps */
@@ -1018,7 +1037,7 @@ message_list_get_layout (MessageList *message_list)
 			 "<ETableColumn model_col= \"6\" _title=\"Date\" expansion=\"24.0\" minimum_width=\"32\" resizable=\"true\" cell=\"render_date\" compare=\"integer\"/>"
 			 "<ETableColumn model_col= \"7\" _title=\"Received\" expansion=\"20.0\" minimum_width=\"32\" resizable=\"true\" cell=\"render_date\" compare=\"integer\"/>"
 			 "<ETableColumn model_col= \"8\" _title=\"To\" expansion=\"24.0\" minimum_width=\"32\" resizable=\"true\" cell=\"render_text\" compare=\"address_compare\"/>"
-			 "<ETableColumn model_col= \"9\" _title=\"Size\" expansion=\"6.0\" minimum_width=\"32\" resizable=\"true\" cell=\"render_text\" compare=\"string\"/>"
+			 "<ETableColumn model_col= \"9\" _title=\"Size\" expansion=\"6.0\" minimum_width=\"32\" resizable=\"true\" cell=\"render_size\" compare=\"integer\"/>"
 			 "<ETableState> <column source=\"0\"/> <column source=\"3\"/> <column source=\"1\"/>"
 			 "<column source=\"4\"/> <column source=\"5\"/> <column source=\"6\"/>"
 			 "<grouping> </grouping> </ETableState>"

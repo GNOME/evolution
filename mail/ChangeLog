@@ -1,3 +1,17 @@
+2000-12-08  Jeffrey Stedfast  <fejj@helixcode.com>
+
+	* message-list.c (message_list_get_layout): Set the "Size" field
+	to sort using integer comparison instead of string.
+	(filter_size): New function to transform a integer size into a
+	more readable form.
+	(ml_value_to_string): Use filter_size.
+	(ml_value_is_empty): COL_SIZE is no longer a string, so handle
+	this as an integer.
+	(ml_initialize_value): Here too.
+	(ml_free_value): And here.
+	(ml_duplicate_value): And here too.
+	(message_list_create_extras): Setup the size etable cell.
+
 2000-12-08  Christopher James Lahey  <clahey@helixcode.com>
 
 	* folder-browser.c: Connect to signals on the ETable instead of
