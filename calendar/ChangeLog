@@ -1,4 +1,4 @@
-2000-03-01  Federico Mena Quintero  <federico@helixcode.com>
+2000-03-02  Federico Mena Quintero  <federico@helixcode.com>
 
 	At this point the calendar client and personal calendar server
 	files were moved to the idl/, cal-client/, and pcs/ directories.
@@ -12,6 +12,14 @@
 	calendar/Makefile.am to here.
 
 	* Makefile.am (SUBDIRS): Added the idl and cal-client directories.
+
+	* calendar.h: Removed the references to cal-backend.h and its
+	stuff.  This file is going away soon!
+
+	* icalendar.c: #include <config.h>.  Also, we don't need to
+	include cal-backend.h or gnome.h.
+
+	* icalendar.h: Protect from multiple inclusions.
 
 2000-03-01  Federico Mena Quintero  <federico@helixcode.com>
 

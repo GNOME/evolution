@@ -2,7 +2,6 @@
 #define CALENDAR_H
 
 #include "calobj.h"
-#include "cal-backend.h"
 
 BEGIN_GNOME_DECLS
 
@@ -12,7 +11,6 @@ typedef struct {
 
 	/* backing store for this calendar object */
 	char    *filename;
-	CalendarFormat format;
 
 	/* The list of events;  todo's and journal entries */
 	GList  	*events;

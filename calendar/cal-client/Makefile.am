@@ -43,6 +43,7 @@ libcal_clientinclude_HEADERS =	\
 
 #
 # client-test program
+#
 
 noinst_PROGRAMS = client-test
 
@@ -53,7 +54,7 @@ client_test_INCLUDES =			\
 	$(INCLUDES)			\
 	-DG_LOG_DOMAIN=\"client-test\"
 
-client_test_LDADD =			\
-	$(BONOBO_VFS_GNOME_LIBS)	\
-	../libversit/libversit.la	\
+client_test_LDADD =				\
+	$(BONOBO_VFS_GNOME_LIBS)		\
+	$(top_builddir)/libversit/libversit.la	\
 	libcal-client.la

@@ -10,11 +10,10 @@
  * 
  */
 
-#include <gnome.h>
+#include <config.h>
 #include <unistd.h>
 #include <sys/stat.h>
 #include "icalendar.h"
-#include "cal-backend.h"
 
 static time_t icaltime_to_timet (struct icaltimetype* i);
 static CalendarAlarm* parse_alarm (icalproperty *prop);
