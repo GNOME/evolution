@@ -318,14 +318,20 @@ migrate_ical_folder_to_source (char *old_path, ESource *new_source, ECalSourceTy
 
 	dialog_set_folder_name (e_source_peek_name (new_source));
 
-	old_ecal = e_cal_new (old_source, type);
+	if (!(old_ecal = e_cal_new (old_source, type))) {
+		g_warning ("could not find a backend for '%s'", e_source_get_uri (old_source));
+		goto finish;
+	}
 	if (!e_cal_open (old_ecal, TRUE, &error)) {
 		g_warning ("failed to load source ecal for migration: '%s' (%s)", error->message,
 			   e_source_get_uri (old_source));
 		goto finish;
 	}
 
-	new_ecal = e_cal_new (new_source, type);
+	if (!(new_ecal = e_cal_new (new_source, type))) {
+		g_warning ("could not find a backend for '%s'", e_source_get_uri (new_source));
+		goto finish;
+	}
 	if (!e_cal_open (new_ecal, FALSE, &error)) {
 		g_warning ("failed to load destination ecal for migration: '%s' (%s)", error->message,
 			   e_source_get_uri (new_source));
@@ -336,7 +342,8 @@ migrate_ical_folder_to_source (char *old_path, ESource *new_source, ECalSourceTy
 
 finish:
 	g_clear_error (&error);
-	g_object_unref (old_ecal);
+	if (old_ecal)
+		g_object_unref (old_ecal);
 	g_object_unref (group);
 	if (new_ecal)
 		g_object_unref (new_ecal);

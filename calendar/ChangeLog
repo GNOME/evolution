@@ -1,3 +1,8 @@
+2005-02-15  Rodrigo Moya <rodrigo@novell.com>
+
+	* gui/migration.c (migrate_ical_folder_to_source): check return value
+	from e_cal_new, to display a better warning message.
+
 2005-02-11  Rodrigo Moya <rodrigo@novell.com>
 
 	Fixes #72038
