@@ -1,3 +1,21 @@
+2004-11-03  Not Zed  <NotZed@Ximian.com>
+
+	* em-format-html.c (efh_format_timeout): removed the fixme i
+	added.
+
+2004-11-01  Not Zed  <NotZed@Ximian.com>
+
+	** See bug #67496.
+
+	* em-format-html.c (efh_text_html): use the base on the emformat
+	to calculate our absolute iframe uri.
+	(efh_multipart_related): same as emf_multipart_related.
+
+	* em-format.c (emf_multipart_related): remove content-location
+	handling, now done in format_part_as.
+	(em_format_part_as): track content-base (& absolute
+	content-location) of all parts here.
+
 2004-10-11  Not Zed  <NotZed@Ximian.com>
 
 	** See bug #67014.

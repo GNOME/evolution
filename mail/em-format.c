@@ -521,9 +521,31 @@ void
 em_format_part_as(EMFormat *emf, CamelStream *stream, CamelMimePart *part, const char *mime_type)
 {
 	const EMFormatHandler *handle = NULL;
-	const char *snoop_save = emf->snoop_mime_type;
+	const char *snoop_save = emf->snoop_mime_type, *tmp;
+	CamelURL *base_save = emf->base, *base = NULL;
+	char *basestr = NULL;
+
+	d(printf("format_part_as()\n"));
 
 	emf->snoop_mime_type = NULL;
+
+	/* RFC 2110, we keep track of content-base, and absolute content-location headers
+	   This is actually only required for html, but, *shrug* */
+	tmp = camel_medium_get_header((CamelMedium *)part, "Content-Base");
+	if (tmp == NULL) {
+		tmp = camel_mime_part_get_content_location(part);
+		if (tmp && strchr(tmp, ':') == NULL)
+			tmp = NULL;
+	} else {
+		tmp = basestr = camel_header_location_decode(tmp);
+	}
+	printf("content-base is '%s'\n", tmp?tmp:"<unset>");
+	if (tmp
+	    && (base = camel_url_new(tmp, NULL))) {
+		emf->base = base;
+		d(printf("Setting content base '%s'\n", tmp));
+	}
+	g_free(basestr);
 
 	if (mime_type != NULL) {
 		if (g_ascii_strcasecmp(mime_type, "application/octet-stream") == 0)
@@ -537,8 +559,7 @@ em_format_part_as(EMFormat *emf, CamelStream *stream, CamelMimePart *part, const
 		    && !em_format_is_attachment(emf, part)) {
 			d(printf("running handler for type '%s'\n", mime_type));
 			handle->handler(emf, stream, part, handle);
-			emf->snoop_mime_type = snoop_save;
-			return;
+			goto finish;
 		}
 		d(printf("this type is an attachment? '%s'\n", mime_type));
 	} else {
@@ -546,7 +567,12 @@ em_format_part_as(EMFormat *emf, CamelStream *stream, CamelMimePart *part, const
 	}
 
 	((EMFormatClass *)G_OBJECT_GET_CLASS(emf))->format_attachment(emf, stream, part, mime_type, handle);
+finish:
+	emf->base = base_save;
 	emf->snoop_mime_type = snoop_save;
+
+	if (base)
+		camel_url_free(base);
 }
 
 void
@@ -1261,10 +1287,9 @@ emf_multipart_related(EMFormat *emf, CamelStream *stream, CamelMimePart *part, c
 	CamelMultipart *mp = (CamelMultipart *)camel_medium_get_content_object((CamelMedium *)part);
 	CamelMimePart *body_part, *display_part = NULL;
 	CamelContentType *content_type;
-	const char *location, *start;
+	const char *start;
 	int i, nparts, partidlen, displayid = 0;
 	char *oldpartid;
-	CamelURL *base_save = NULL;
 	struct _EMFormatPURITree *ptree;
 	EMFormatPURI *puri, *purin;
 
@@ -1304,13 +1329,6 @@ emf_multipart_related(EMFormat *emf, CamelStream *stream, CamelMimePart *part, c
 		return;
 	}
 	
-	/* stack of present location and pending uri's */
-	location = camel_mime_part_get_content_location(part);
-	if (location) {
-		d(printf("setting content location %s\n", location));
-		base_save = emf->base;
-		emf->base = camel_url_new(location, NULL);
-	}
 	em_format_push_level(emf);
 
 	oldpartid = g_strdup(emf->part_id->str);
@@ -1353,11 +1371,6 @@ emf_multipart_related(EMFormat *emf, CamelStream *stream, CamelMimePart *part, c
 	g_free(oldpartid);
 
 	em_format_pull_level(emf);
-	
-	if (location) {
-		camel_url_free(emf->base);
-		emf->base = base_save;
-	}
 }
 
 static void

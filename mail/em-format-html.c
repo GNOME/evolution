@@ -797,7 +797,7 @@ efh_write_text_html(EMFormat *emf, CamelStream *stream, EMFormatPURI *puri)
 static void
 efh_text_html(EMFormatHTML *efh, CamelStream *stream, CamelMimePart *part, EMFormatHandler *info)
 {
-	const char *location, *base, *tmp;
+	const char *location;
 	EMFormatPURI *puri;
 	char *cid = NULL;
 
@@ -806,43 +806,27 @@ efh_text_html(EMFormatHTML *efh, CamelStream *stream, CamelMimePart *part, EMFor
 			     "<table bgcolor=\"#%06x\" cellspacing=0 cellpadding=0 width=100%%><tr><td>\n"
 			     "<!-- text/html -->\n",
 			     efh->frame_colour & 0xffffff, efh->content_colour & 0xffffff);
-	
-	if ((base = camel_medium_get_header((CamelMedium *)part, "Content-Base"))) {
-		char *base_url;
-		size_t len;
-		
-		len = strlen(base);
-		if (*base == '"' && *(base + len - 1) == '"') {
-			len -= 2;
-			base_url = alloca(len + 1);
-			memcpy(base_url, base + 1, len);
-			base_url[len] = '\0';
-			base = base_url;
-		}
 
-		/* FIXME: set base needs to go on the gtkhtml stream? */
-		gtk_html_set_base(efh->html, base);
-	}
-
+	/* TODO: perhaps we don't need to calculate this anymore now base is handled better */
 	/* calculate our own location string so add_puri doesn't do it
 	   for us. our iframes are special cases, we need to use the
 	   proper base url to access them, but other children parts
 	   shouldn't blindly inherit the container's location. */
-	tmp = camel_mime_part_get_content_location(part);
-	if (tmp == NULL) {
+	location = camel_mime_part_get_content_location(part);
+	if (location == NULL) {
 		if (((EMFormat *)efh)->base)
 			cid = camel_url_to_string(((EMFormat *)efh)->base, 0);
 		else
 			cid = g_strdup(((EMFormat *)efh)->part_id->str);
 	} else {
-		if (strchr(tmp, ':') == NULL && ((EMFormat *)efh)->base != NULL) {
+		if (strchr(location, ':') == NULL && ((EMFormat *)efh)->base != NULL) {
 			CamelURL *uri;
 			
-			uri = camel_url_new_with_base(((EMFormat *)efh)->base, tmp);
+			uri = camel_url_new_with_base(((EMFormat *)efh)->base, location);
 			cid = camel_url_to_string(uri, 0);
 			camel_url_free(uri);
 		} else {
-			cid = g_strdup(tmp);
+			cid = g_strdup(location);
 		}
 	}
 
@@ -1023,9 +1007,8 @@ efh_multipart_related(EMFormat *emf, CamelStream *stream, CamelMimePart *part, c
 	CamelMultipart *mp = (CamelMultipart *)camel_medium_get_content_object((CamelMedium *)part);
 	CamelMimePart *body_part, *display_part = NULL;
 	CamelContentType *content_type;
-	const char *location, *start;
+	const char *start;
 	int i, nparts, partidlen, displayid = 0;
-	CamelURL *base_save = NULL;
 	EMFormatPURI *puri;
 	struct _EMFormatHTMLJob *job;
 
@@ -1064,13 +1047,6 @@ efh_multipart_related(EMFormat *emf, CamelStream *stream, CamelMimePart *part, c
 		return;
 	}
 	
-	/* stack of present location and pending uri's */
-	location = camel_mime_part_get_content_location(part);
-	if (location) {
-		d(printf("setting content location %s\n", location));
-		base_save = emf->base;
-		emf->base = camel_url_new(location, NULL);
-	}
 	em_format_push_level(emf);
 
 	partidlen = emf->part_id->len;
@@ -1098,11 +1074,6 @@ efh_multipart_related(EMFormat *emf, CamelStream *stream, CamelMimePart *part, c
 	em_format_html_job_queue((EMFormatHTML *)emf, job);
 
 	em_format_pull_level(emf);
-	
-	if (location) {
-		camel_url_free(emf->base);
-		emf->base = base_save;
-	}
 }
 
 static void
@@ -1331,7 +1302,6 @@ efh_format_timeout(struct _format_msg *m)
 		mail_msg_free(m);
 		p->last_part = NULL;
 	} else {
-		/*hstream = gtk_html_begin(efh->html);*/
 		hstream = NULL;
 		m->estream = (EMHTMLStream *)em_html_stream_new(efh->html, hstream);
 
