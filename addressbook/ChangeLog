@@ -1,5 +1,14 @@
 2003-10-22  Ettore Perazzoli  <ettore@ximian.com>
 
+	* gui/component/addressbook-component.c (impl_createControls):
+	Make the the scrolled window have an "in" shadow.
+	* gui/component/addressbook-config.c
+	(addressbook_dialog_create_sources_table): Likewise.
+	* gui/widgets/e-addressbook-view.c (create_minicard_view): Likewise.
+	(create_treeview_view): Likewise.
+
+2003-10-22  Ettore Perazzoli  <ettore@ximian.com>
+
 	* gui/component/addressbook-component.c (impl_createControls): Set
 	the GtkScrolledWindow scrollbar policy to "automatic" for both the
 	horizontal and the vertical scrollbar.
