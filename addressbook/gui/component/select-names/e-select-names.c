@@ -494,6 +494,10 @@ e_select_names_init (ESelectNames *e_select_names)
 	const char *selector_types[] = { "contacts", "ldap-contacts", NULL };
 	char *filename;
 	char *uri;
+	char *contacts_uri, *contacts_path;
+	Bonobo_ConfigDatabase db;
+
+	db = addressbook_config_database (NULL);
 
 	gui = glade_xml_new (EVOLUTION_GLADEDIR "/select-names.glade", NULL);
 	e_select_names->gui = gui;
@@ -554,11 +558,25 @@ e_select_names_init (ESelectNames *e_select_names)
 		gtk_signal_connect(GTK_OBJECT(button), "clicked",
 				   GTK_SIGNAL_FUNC(update_query), e_select_names);
 
+	contacts_path = bonobo_config_get_string_with_default (db, "/DefaultFolders/contacts_path",
+							       "evolution:/local/Contacts",
+							       NULL);
+
+	filename = gnome_util_prepend_user_home("evolution/local/Contacts");
+	uri = g_strdup_printf("file://%s", filename);
+
+	contacts_uri = bonobo_config_get_string_with_default (db, "/DefaultFolders/contacts_uri",
+							      uri,
+							      NULL);
+
+	g_free (filename);
+	g_free (uri);
+
 	button = glade_xml_get_widget (gui, "folder-selector");
 	evolution_folder_selector_button_construct (EVOLUTION_FOLDER_SELECTOR_BUTTON (button),
 						    global_shell_client,
 						    _("Find contact in"),
-						    "evolution:/local/Contacts",
+						    contacts_path,
 						    selector_types);
 	if (button && EVOLUTION_IS_FOLDER_SELECTOR_BUTTON (button))
 		gtk_signal_connect(GTK_OBJECT(button), "selected",
@@ -570,13 +588,10 @@ e_select_names_init (ESelectNames *e_select_names)
 			    GTK_SIGNAL_FUNC (selection_change), e_select_names);
 	selection_change (e_table_scrolled_get_table (e_select_names->table), e_select_names);
 
-	filename = gnome_util_prepend_user_home("evolution/local/Contacts");
-	uri = g_strdup_printf("file://%s", filename);
+	addressbook_model_set_uri(e_select_names, e_select_names->model, contacts_uri);
 
-	addressbook_model_set_uri(e_select_names, e_select_names->model, uri);
-
-	g_free(uri);
-	g_free(filename);
+	g_free (contacts_uri);
+	g_free (contacts_path);
 }
 
 static void e_select_names_child_free(char *key, ESelectNamesChild *child, ESelectNames *e_select_names)

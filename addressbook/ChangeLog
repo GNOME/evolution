@@ -1,5 +1,12 @@
 2002-09-22  Chris Toshok  <toshok@ximian.com>
 
+	[ Fixes #30481 ] 
+	* gui/component/select-names/e-select-names.c
+	(e_select_names_init): initialize the select names dialog with the
+	default contacts folder.
+
+2002-09-22  Chris Toshok  <toshok@ximian.com>
+
 	[ Fixes #28165, 29171 ]
 	* gui/component/select-names/e-select-names-manager.c
 	(uris_listener): check to see if the value has really changed.
