@@ -188,7 +188,6 @@ nntp_folder_set_message_flags (CamelFolder *folder, const char *uid,
 	info->flags = set;
 
 	if (set & CAMEL_MESSAGE_SEEN) {
-		CamelNNTPStore *store;
 		int article_num;
 		CamelNNTPStore *nntp_store = CAMEL_NNTP_STORE (camel_folder_get_parent_store (folder));
 
