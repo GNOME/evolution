@@ -3,82 +3,76 @@
  *
  *  Authors: Michael Zucchi <notzed@helixcode.com>
  *
- *  This program is free software; you can redistribute it and/or
- *  modify it under the terms of the GNU Library General Public License
- *  as published by the Free Software Foundation; either version 2 of
- *  the License, or (at your option) any later version.
+ *  This program is free software; you can redistribute it and/or 
+ *  modify it under the terms of the GNU General Public License as 
+ *  published by the Free Software Foundation; either version 2 of the
+ *  License, or (at your option) any later version.
  *
  *  This program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU Library General Public License for more details.
+ *  GNU General Public License for more details.
  *
- *  You should have received a copy of the GNU Library General Public
- *  License along with this program; if not, write to the Free Software
- *  Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program; if not, write to the Free Software
+ *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307
+ *  USA
  */
 
 #ifndef _CAMEL_MBOX_SUMMARY_H
 #define _CAMEL_MBOX_SUMMARY_H
 
-#include <glib.h>
-#include <camel/camel-folder.h>
+#include <gtk/gtk.h>
+#include <camel/camel-folder-summary.h>
 #include <libibex/ibex.h>
 
-typedef struct {
-	CamelMessageContentInfo info;
+#define CAMEL_MBOX_SUMMARY(obj)         GTK_CHECK_CAST (obj, camel_mbox_summary_get_type (), CamelMboxSummary)
+#define CAMEL_MBOX_SUMMARY_CLASS(klass) GTK_CHECK_CLASS_CAST (klass, camel_mbox_summary_get_type (), CamelMboxSummaryClass)
+#define IS_CAMEL_MBOX_SUMMARY(obj)      GTK_CHECK_TYPE (obj, camel_mbox_summary_get_type ())
 
-	/* position in stream of this part */
-	off_t pos;
-	off_t bodypos;
-	off_t endpos;
+typedef struct _CamelMboxSummary      CamelMboxSummary;
+typedef struct _CamelMboxSummaryClass CamelMboxSummaryClass;
+
+/* extra summary flags */
+enum {
+	CAMEL_MESSAGE_FOLDER_NOXEV = 1<<16,
+/*	CAMEL_MESSAGE_FOLDER_FLAGGED = 1<<17,*/
+};
+
+typedef struct _CamelMboxMessageContentInfo {
+	CamelMessageContentInfo info;
 } CamelMboxMessageContentInfo;
 
-typedef struct {
+typedef struct _CamelMboxMessageInfo {
 	CamelMessageInfo info;
 
-	/* position of the xev header, if one exists */
-	off_t xev_offset;
+	off_t frompos;
 } CamelMboxMessageInfo;
 
-typedef struct {
-	int dirty;		/* if anything has changed */
+struct _CamelMboxSummary {
+	CamelFolderSummary parent;
 
-	char *folder_path;
-	char *summary_path;
+	struct _CamelMboxSummaryPrivate *priv;
+
+	char *folder_path;	/* name of matching folder */
+	size_t folder_size;	/* size of the mbox file, last sync */
+
 	ibex *index;
+	int index_force;	/* do we force index during creation? */
+};
 
-	GPtrArray *messages;	/* array of messages matching mbox order */
-	GHashTable *message_uid; /* index to messages by uid */
+struct _CamelMboxSummaryClass {
+	CamelFolderSummaryClass parent_class;
+};
 
-	int nextuid;
+guint		camel_mbox_summary_get_type	(void);
+CamelMboxSummary      *camel_mbox_summary_new	(const char *filename, const char *mbox_name, ibex *index);
 
-	time_t time;		/* time/size of folder's last update */
-	size_t size;
-} CamelMboxSummary;
-
-CamelMboxSummary *camel_mbox_summary_new(const char *summary, const char *folder, ibex *index);
-void camel_mbox_summary_unref(CamelMboxSummary *);
-
-int camel_mbox_summary_load(CamelMboxSummary *);
-int camel_mbox_summary_save(CamelMboxSummary *);
-int camel_mbox_summary_check(CamelMboxSummary *);
-int camel_mbox_summary_expunge(CamelMboxSummary *);
-
-guint32 camel_mbox_summary_next_uid(CamelMboxSummary *);
-/* set the minimum uid */
-guint32 camel_mbox_summary_set_uid(CamelMboxSummary *s, guint32 uid);
-
-CamelMboxMessageInfo *camel_mbox_summary_uid(CamelMboxSummary *s, const char *uid);
-/* dont use this function yet ... */
-void camel_mbox_summary_remove_uid(CamelMboxSummary *s, const char *uid);
-CamelMboxMessageInfo *camel_mbox_summary_index(CamelMboxSummary *, int index);
-int camel_mbox_summary_message_count(CamelMboxSummary *);
-
-/* set flags within a summary item */
-void camel_mbox_summary_set_flags_by_uid(CamelMboxSummary *s, const char *uid, guint32 flags);
-
-/* TODO: should be in a utility library */
-int camel_mbox_summary_copy_block(int fromfd, int tofd, off_t readpos, size_t bytes);
+/* load/check the summary */
+int camel_mbox_summary_load(CamelMboxSummary *mbs, int forceindex);
+/* incremental update */
+int camel_mbox_summary_update(CamelMboxSummary *mbs, off_t offset);
+/* perform a folder expunge */
+int camel_mbox_summary_expunge(CamelMboxSummary *mbs);
 
 #endif /* ! _CAMEL_MBOX_SUMMARY_H */

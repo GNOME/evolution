@@ -1,3 +1,12 @@
+2000-05-08  NotZed  <NotZed@HelixCode.com>
+
+	* Merged NEW_SUMMARY branch back to trunk, and resolved conflicts.
+	
+	* providers/mbox/camel-mbox-summary.c (camel_mbox_summary_update):
+	Return status.
+
+	* camel-stream-filter.c (do_close): We NEED a stream close.
+
 2000-05-07  Dan Winship  <danw@helixcode.com>
 
 	Make camel not leak like a sieve.
@@ -65,6 +74,132 @@
 	* providers/smtp/camel-smtp-provider.c: Note in the description
 	that this provider is not yet tested.
 
+2000-05-08    <notzed@helixcode.com>
+
+	* camel-mime-part.c (write_to_stream): Free the filter stream when
+	done.
+
+	* camel-mime-parser.c (folder_seek): Make sure we add the \n
+	terminal when we seek as well (frob!).
+
+	* camel-mime-utils.c (header_decode_addrspec): Plug minor memleak.
+
+	* camel-mime-part.c (finalize): Free header tables once finished.
+
+	* camel-folder-summary.c (camel_folder_summary_remove): Dont try
+	to access info after its free'd.
+
+2000-05-07  NotZed  <NotZed@HelixCode.com>
+
+	* camel-mime-part.c (write_to_stream): Apply encoding to content
+	part, when writing to a stream *sigh*.
+
+	* camel-stream-filter.c (do_write): implement write for the
+	filtering stream.  Writes shouldn't be mixed with reads.
+	(do_flush): Implemented flush.  Again write/flush shouldn't be
+	mixed with reads.  Only flushes if the last op was write.
+	(do_close): Force flush on close.
+
+	* camel-mime-filter.c (filter_run): Oops, make sure we include the
+	backlen in the total length before passing onto the filter.
+
+	* camel-mime-filter-from.c: New filter, munges 'From ' lines into
+	'>From ', for mbox.
+
+	* camel-mime-parser.c (camel_mime_parser_header_remove): New
+	function to remove the parser's raw header, rather than
+	manipulating the header directly (wich doesn't work with
+	mempools).
+
+	* camel-mime-utils.c (header_address_list_clear): Fixed some
+	broken(tm) logic, which would leak entries on multivalued lists.
+
+	* providers/mbox/camel-mbox-summary.c (camel_mbox_summary_load):
+	Use ibex_save() to save the ibex.  Makes a big difference to
+	startup times for very large mailboxes.
+	(camel_mbox_summary_expunge): Dum de dum, reimplemented.  Designed
+	to be much more robust, and to stop immediately if anything awry
+	happens.
+	(copy_block): Utility function to copy n bytes from one fd to
+	another.
+	(header_write): Utility function to write out raw headers to an
+	fd.
+	(camel_mbox_summary_update): Incremental summary updater.
+
+	* providers/mbox/camel-mbox-folder.c (mbox_get_message_by_uid):
+	Dont unref the stream, because of the broken(tm) ref model of gtk
+	widget that for some odd reason is being perpetuated in camel.	
+	(mbox_expunge): Reenable expunge again.
+	(mbox_append_message): Removed the optimised mbox append.  If its
+	an issue, it can go back later.  Cleaned up a lot, checks error
+	returns, and automagically translates 'From ' into '>From' as
+	necessary.
+
+2000-05-07    <notzed@helixcode.com>
+
+	* camel-mime-filter.c (filter_run): Oops, forgot to add the
+	backlen to the pre-buffer (*poof*).
+
+2000-05-07  NotZed  <NotZed@HelixCode.com>
+
+	* camel-mime-message.c (construct_from_parser): Allow
+	HSCAN_FROM_END to terminate the processing of a message.
+
+	* camel-folder-summary.c (perform_content_info_load): Ick, dont
+	try and append a node onto its own list.
+	(camel_folder_summary_clear): Actually clear the indexes after
+	we've removed the messages.
+	(camel_folder_summary_clear): Set dirty if it changes.
+	(camel_folder_summary_load): Clear dirty.
+	(camel_folder_summary_save): Only save if dirty.
+
+	* providers/mbox/camel-mbox-summary.c (summary_header_load): Oops,
+	remember to call that parent class first ...
+	(summary_header_save): Here too.
+	(camel_mbox_summary_load): Do more checking to verify the index
+	contents as well as teh summary contents, against the mbox
+	contents.
+	(camel_mbox_summary_load): Removed some fo that checking, it needs
+	more code to work reliably.
+
+2000-05-07    <notzed@helixcode.com>
+
+	* providers/mbox/camel-mbox-summary.c (camel_mbox_summary_load):
+	Set the size and mtime of the mbox we indexed once done.
+
+	* camel-folder-summary.c (camel_folder_summary_set_index): Dont
+	write the index if it changes - let the claler fix it (uh, kind of
+	impacts performance).
+	(camel_folder_summary_load): close in.
+
+	* camel-folder-summary.c (summary_format_string): Check header
+	exists before trying to strip its leading spaces.
+
+2000-05-06  NotZed  <NotZed@HelixCode.com>
+
+	* camel-folder.h: Removed summary info from here, and include
+	camel-folder-summary.h as well.
+	
+	* camel-mime-parser.c (camel_mime_parser_step): Allow it to accept
+	a NULL databuffer.
+
+	* providers/mbox/camel-mbox-summary.c: Totally new file, now
+	subclasses camel-folder-summary.
+
+	* camel-folder-summary.c (message_info_load): Load the uid as a
+	string.
+	(message_info_save): And save too.
+	(camel_folder_summary_clear): New function, clears the contents of
+	the summary.
+
+	* providers/mbox/camel-mbox-folder.c: Fixes for	summary changes.
+	(mbox_get_message_by_uid): Completely redone.  Now cross-checks
+	the summary information to make sure we get a real message.
+	(mbox_append_message): Disabled the copy version of append for
+	now.
+	(mbox_expunge): Temporarily disabled the expunge function, until
+	it is put back in camel-mbox-summary.c
+
 2000-05-05  NotZed  <NotZed@HelixCode.com>
 
 	* camel-folder-summary.c: And same here ...
@@ -72,9 +207,16 @@
 	return -1 on error ..
 	(camel_folder_summary_decode_fixed_int32): Neither deos fread.
 	(camel_folder_summary_encode_token): Fix here too.
+	(summary_build_content_info): Use start-headers to get the pos of
+	the message, not parser_tell(), which might not be what we
+	expected because of parser_unstep().
+	(camel_folder_summary_encode_token): Use bserch() to tokenise the
+	values, rather than a linear search.
 
 	* camel-mime-utils.c: Defined out some memory profiling stuff I
 	left there by mistake.
+	(header_decode_mailbox): Dont try to append the word part of a
+	local address if we ran out of words.
 
 	* camel-mime-parser.c (folder_scan_content): Apply the fix from
 	the header scanner to here too.

@@ -33,6 +33,7 @@
 #include <unicode.h>
 
 #include <regex.h>
+#include <ctype.h>
 
 #include <glib.h>
 #include "camel-mime-parser.h"
@@ -46,9 +47,16 @@
 #define c(x)
 #define d(x)
 
+/*#define PURIFY*/
+
 #define MEMPOOL
 
 #define STRUCT_ALIGN 4
+
+#ifdef PURIFY
+int inend_id = -1,
+  inbuffer_id = -1;
+#endif
 
 #if 0
 extern int strdup_count;
@@ -166,6 +174,7 @@ void mempool_free(MemPool *pool)
 		g_free(pool);
 	}
 }
+
 #endif
 
 
@@ -266,6 +275,9 @@ static struct _header_scan_stack *folder_scan_header(struct _header_scan_state *
 static int folder_scan_skip_line(struct _header_scan_state *s);
 static off_t folder_seek(struct _header_scan_state *s, off_t offset, int whence);
 static off_t folder_tell(struct _header_scan_state *s);
+#ifdef MEMPOOL
+static void header_append_mempool(struct _header_scan_state *s, struct _header_scan_stack *h, char *header, int offset);
+#endif
 
 static void camel_mime_parser_class_init (CamelMimeParserClass *klass);
 static void camel_mime_parser_init       (CamelMimeParser *obj);
@@ -323,7 +335,9 @@ static void
 finalise(GtkObject *o)
 {
 	struct _header_scan_state *s = _PRIVATE(o);
-
+#ifdef PURIFY
+	purify_watch_remove_all();
+#endif
 	folder_scan_close(s);
 
 	((GtkObjectClass *)camel_mime_parser_parent)->finalize (o);
@@ -464,7 +478,7 @@ camel_mime_parser_header(CamelMimeParser *m, const char *name, int *offset)
  * until the next call to parser_step(), or parser_drop_step().
  * 
  * Return value: The raw headers, or NULL if there are no headers
- * defined for the current part or state.
+ * defined for the current part or state.  These are READ ONLY.
  **/
 struct _header_raw *
 camel_mime_parser_headers_raw(CamelMimeParser *m)
@@ -603,7 +617,8 @@ void camel_mime_parser_drop_step(CamelMimeParser *m)
  * camel_mime_parser_step:
  * @m: 
  * @databuffer: Pointer to accept a pointer to the data
- * associated with this step (if any).
+ * associated with this step (if any).  May be #NULL,
+ * in which case datalength is also ingored.
  * @datalength: Pointer to accept a pointer to the data
  * length associated with this step (if any).
  * 
@@ -630,9 +645,17 @@ camel_mime_parser_step(CamelMimeParser *m, char **databuffer, int *datalength)
 
 	d(printf("OLD STATE:  '%s' :\n", states[s->state]));
 
-	if (s->unstep <= 0)
+	if (s->unstep <= 0) {
+		char *dummy;
+		int dummylength;
+
+		if (databuffer == NULL) {
+			databuffer = &dummy;
+			datalength = &dummylength;
+		}
+			
 		folder_scan_step(s, databuffer, datalength);
-	else
+	} else
 		s->unstep--;
 
 	d(printf("NEW STATE:  '%s' :\n", states[s->state]));
@@ -791,7 +814,10 @@ folder_read(struct _header_scan_state *s)
 
 	if (s->inptr<s->inend-s->atleast)
 		return s->inend-s->inptr;
-
+#ifdef PURIFY
+	purify_watch_remove(inend_id);
+	purify_watch_remove(inbuffer_id);
+#endif
 	/* check for any remaning bytes (under the atleast limit( */
 	inoffset = s->inend - s->inptr;
 	if (inoffset>0) {
@@ -812,7 +838,10 @@ folder_read(struct _header_scan_state *s)
 	}
 
 	g_assert(s->inptr<=s->inend);
-
+#ifdef PURIFY
+	inend_id = purify_watch(&s->inend);
+	inbuffer_id = purify_watch_n(s->inend+1, SCAN_HEAD-1, "rw");
+#endif
 	r(printf("content = %d '%.*s'\n", s->inend - s->inptr,  s->inend - s->inptr, s->inptr));
 	/* set a sentinal, for the inner loops to check against */
 	s->inend[0] = '\n';
@@ -848,6 +877,10 @@ folder_seek(struct _header_scan_state *s, off_t offset, int whence)
 	} else {
 		newoffset = lseek(s->fd, offset, whence);
 	}
+#ifdef PURIFY
+	purify_watch_remove(inend_id);
+	purify_watch_remove(inbuffer_id);
+#endif
 	if (newoffset != -1) {
 		s->seek = newoffset;
 		s->inptr = s->inbuf;
@@ -856,11 +889,16 @@ folder_seek(struct _header_scan_state *s, off_t offset, int whence)
 			len = camel_stream_read(s->stream, s->inbuf, SCAN_BUF);
 		else
 			len = read(s->fd, s->inbuf, SCAN_BUF);
-		if (len>=0)
+		if (len>=0) {
 			s->inend = s->inbuf+len;
-		else
+			s->inend[0] = '\n';
+		} else
 			newoffset = -1;
 	}
+#ifdef PURIFY
+	inend_id = purify_watch(&s->inend);
+	inbuffer_id = purify_watch_n(s->inend+1, SCAN_HEAD-1, "rw");
+#endif
 	return newoffset;
 }
 
@@ -1086,6 +1124,8 @@ retry:
 				s->midline = FALSE;
 			}
 
+			g_assert(inptr<=s->inend);
+
 			header_append(s, start, inptr);
 
 			h(printf("outbuf[0] = %02x '%c' oubuf[1] = %02x '%c'\n",
@@ -1230,6 +1270,8 @@ retry:
 			} else {
 				s->midline = FALSE;
 			}
+
+			g_assert(inptr<=s->inend);
 		}
 
 		/* *sigh* so much for the beautiful simplicity of the code so far - here we

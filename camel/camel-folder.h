@@ -35,7 +35,7 @@ extern "C" {
 #endif /* __cplusplus }*/
 
 #include <camel/camel-object.h>
-#include <time.h>
+#include <camel/camel-folder-summary.h>
 
 #define CAMEL_FOLDER_TYPE     (camel_folder_get_type ())
 #define CAMEL_FOLDER(obj)     (GTK_CHECK_CAST((obj), CAMEL_FOLDER_TYPE, CamelFolder))
@@ -53,49 +53,6 @@ typedef enum {
 	FOLDER_OPEN_WRITE   = 2,   /* folder is write only        */ 
 	FOLDER_OPEN_RW      = 3    /* folder is read/write        */ 
 } CamelFolderOpenMode;
-
-
-typedef struct {
-	gchar *name;
-	gint nb_message;	/* ick, these should be renamed to something better */
-	gint nb_unread_message;
-	gint nb_deleted_message;
-} CamelFolderInfo;
-
-/* A tree of message content info structures
-   describe the content structure of the message (if it has any) */
-typedef struct _CamelMessageContentInfo {
-	struct _CamelMessageContentInfo *next;
-
-	struct _CamelMessageContentInfo *childs;
-	struct _CamelMessageContentInfo *parent;
-
-	struct _header_content_type *type;
-	char *id;
-	char *description;
-	char *encoding;
-
-	guint32 size;
-
-} CamelMessageContentInfo;
-
-/* information about a given object */
-typedef struct {
-	/* public fields */
-	gchar *subject;
-	gchar *to;
-	gchar *from;
-
-	gchar *uid;
-	guint32 flags;
-
-	time_t date_sent;
-	time_t date_received;
-
-	/* tree of content description - NULL if it is not available */
-	CamelMessageContentInfo *content;
-} CamelMessageInfo;
-
 
 typedef void (*CamelFolderAsyncCallback) ();
 
@@ -118,8 +75,6 @@ struct _CamelFolder
 	gboolean has_uid_capability:1;
 	gboolean has_search_capability:1;
 };
-
-
 
 typedef struct {
 	CamelObjectClass parent_class;

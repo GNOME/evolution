@@ -97,9 +97,10 @@ enum _header_state camel_mime_parser_state(CamelMimeParser *);
 /* get content type for the current part/header */
 struct _header_content_type *camel_mime_parser_content_type(CamelMimeParser *);
 
-/* get a raw header by name */
+/* get/change raw header by name */
 const char *camel_mime_parser_header(CamelMimeParser *, const char *, int *offset);
-/* get all raw headers */
+
+/* get all raw headers. READ ONLY! */
 struct _header_raw *camel_mime_parser_headers_raw(CamelMimeParser *);
 
 /* add a processing filter for body contents */

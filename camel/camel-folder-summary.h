@@ -97,7 +97,7 @@ struct _CamelFolderSummary {
 	guint32 flags;		/* flags */
 	guint32 nextuid;	/* next uid? */
 	guint32 saved_count;	/* how many were saved/loaded */
-	time_t time;		/* timestamp for this summary */
+	time_t time;		/* timestamp for this summary (for implementors to use) */
 
 	/* sizes of memory objects */
 	guint32 message_info_size;
@@ -148,11 +148,16 @@ int camel_folder_summary_save(CamelFolderSummary *);
 
 /* add a new raw summary item */
 void camel_folder_summary_add(CamelFolderSummary *, CamelMessageInfo *info);
-void camel_folder_summary_add_from_header(CamelFolderSummary *, struct _header_raw *);
-void camel_folder_summary_add_from_parser(CamelFolderSummary *, CamelMimeParser *);
 
-/* removes a summary item, fixes offsets? */
-void camel_mbox_summary_remove_uid(CamelFolderSummary *s, const char *uid);
+/* build/add raw summary items */
+CamelMessageInfo *camel_folder_summary_add_from_header(CamelFolderSummary *, struct _header_raw *);
+CamelMessageInfo *camel_folder_summary_add_from_parser(CamelFolderSummary *, CamelMimeParser *);
+
+/* removes a summary item, doesn't fix content offsets */
+void camel_folder_summary_remove(CamelFolderSummary *s, CamelMessageInfo *info);
+void camel_folder_summary_remove_uid(CamelFolderSummary *s, const char *uid);
+/* remove all items */
+void camel_folder_summary_clear(CamelFolderSummary *s);
 
 /* lookup functions */
 int camel_folder_summary_count(CamelFolderSummary *);

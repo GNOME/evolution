@@ -139,7 +139,7 @@ static void filter_run(CamelMimeFilter *f,
 	  have the pre-space required.  We make a buffer that does ...
 	*/
 	if (prespace < f->backlen) {
-		int newlen = len+prespace;
+		int newlen = len+prespace+f->backlen;
 		p = _PRIVATE(f);
 		if (p->inlen < newlen) {
 			/* NOTE: g_realloc copies data, we dont need that (slower) */
@@ -157,6 +157,7 @@ static void filter_run(CamelMimeFilter *f,
 	if (f->backlen > 0) {
 		memcpy(in-f->backlen, f->backbuf, f->backlen);
 		in -= f->backlen;
+		len += f->backlen;
 		prespace -= f->backlen;
 		f->backlen = 0;
 	}

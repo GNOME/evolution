@@ -35,6 +35,8 @@ struct _CamelStreamFilterPrivate {
 
 	char *filtered;		/* the filtered data */
 	size_t filteredlen;
+
+	int last_was_read;	/* was the last op read or write? */
 };
 
 #define READ_PAD (64)		/* bytes padded before buffer */
@@ -130,6 +132,7 @@ camel_stream_filter_init (CamelStreamFilter *obj)
 	_PRIVATE(obj) = p = g_malloc0(sizeof(*p));
 	p->realbuffer = g_malloc(READ_SIZE + READ_PAD);
 	p->buffer = p->realbuffer + READ_PAD;
+	p->last_was_read = TRUE;
 }
 
 /**
@@ -216,6 +219,8 @@ static	gint      do_read       (CamelStream *stream, gchar *buffer, gint n)
 	int size;
 	struct _filter *f;
 
+	p->last_was_read = TRUE;
+
 	if (p->filteredlen<=0) {
 		int presize = READ_SIZE;
 
@@ -253,16 +258,52 @@ static	gint      do_read       (CamelStream *stream, gchar *buffer, gint n)
 	return size;
 }
 
-static	gint      do_write      (CamelStream *stream, const gchar *buffer, gint n)
+static	gint      do_write      (CamelStream *stream, const gchar *buf, gint n)
 {
-	/* what semantics *should* this have?? */
-	g_warning("Writing to a non-writable stream");
-	return -1;
+	CamelStreamFilter *filter = (CamelStreamFilter *)stream;
+	struct _CamelStreamFilterPrivate *p = _PRIVATE(filter);
+	struct _filter *f;
+	int presize;
+	char *buffer = (char *)buf;
+
+	p->last_was_read = FALSE;
+
+	f = p->filters;
+	presize = 0;
+	while (f) {
+		camel_mime_filter_filter(f->filter, buffer, n, presize, &buffer, &n, &presize);
+		f = f->next;
+	}
+
+	return camel_stream_write(filter->source, buffer, n);
 }
 
 static	void      do_flush      (CamelStream *stream)
 {
-	/* NO OP */
+	CamelStreamFilter *filter = (CamelStreamFilter *)stream;
+	struct _CamelStreamFilterPrivate *p = _PRIVATE(filter);
+	struct _filter *f;
+	char *buffer;
+	int len, presize;
+
+	if (p->last_was_read) {
+		g_warning("Flushing a filter stream without writing to it");
+		return;
+	}
+
+	buffer = "";
+	len = 0;
+	presize = 0;
+	f = p->filters;
+	while (f) {
+		camel_mime_filter_complete(f->filter, buffer, len, presize, &buffer, &len, &presize);
+		f = f->next;
+	}
+	if (camel_stream_write(filter->source, buffer, len) == -1) {
+		g_warning("Flushing filter failed to write, no way to signal failure ...");
+	}
+
+	return camel_stream_flush(filter->source);
 }
 
 static	gboolean  do_eos        (CamelStream *stream)
@@ -274,6 +315,19 @@ static	gboolean  do_eos        (CamelStream *stream)
 		return FALSE;
 
 	return camel_stream_eos(filter->source);
+}
+
+static	void      do_close      (CamelStream *stream)
+{
+	CamelStreamFilter *filter = (CamelStreamFilter *)stream;
+	struct _CamelStreamFilterPrivate *p = _PRIVATE(filter);
+
+	if (p->last_was_read == 0) {
+		camel_stream_flush(stream);
+	}
+
+	p->filteredlen = 0;
+	camel_stream_close(filter->source);
 }
 
 static	void      do_reset      (CamelStream *stream)

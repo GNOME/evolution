@@ -463,7 +463,7 @@ camel_mime_message_set_user_flag	(CamelMimeMessage *m, const char *name, gboolea
 	char *oldname;
 	gboolean oldvalue;
 
-	there = g_hash_table_lookup_extended(m->user_flags, name, &oldname, &oldvalue);
+	there = g_hash_table_lookup_extended(m->user_flags, name, (void *)&oldname, (void *)&oldvalue);
 
 	if (value && !there) {
 		g_hash_table_insert(m->user_flags, g_strdup(name), (void *)TRUE);
@@ -519,8 +519,13 @@ construct_from_parser(CamelMimePart *dw, CamelMimeParser *mp)
 
 	/* ... then clean up the follow-on state */
 	state = camel_mime_parser_step(mp, &buf, &len);
-	if (!(state == HSCAN_MESSAGE_END || state == HSCAN_EOF)) {
-		g_error("Bad parser state: Expecing MESSAGE_END or EOF, got: %d", camel_mime_parser_state(mp));
+	switch (state) {
+	case HSCAN_EOF: case HSCAN_FROM_END: /* this doesn't belong to us */
+		camel_mime_parser_unstep(mp);
+	case HSCAN_MESSAGE_END:
+		break;
+	default:
+		g_error("Bad parser state: Expecing MESSAGE_END or EOF or ROM, got: %d", camel_mime_parser_state(mp));
 		camel_mime_parser_unstep(mp);
 		return -1;
 	}

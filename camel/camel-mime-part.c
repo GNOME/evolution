@@ -34,6 +34,8 @@
 #include <ctype.h>
 #include "camel-mime-parser.h"
 #include "camel-stream-mem.h"
+#include "camel-stream-filter.h"
+#include "camel-mime-filter-basic.h"
 
 #define d(x)
 
@@ -183,6 +185,8 @@ finalize (GtkObject *object)
 	if (mime_part->temp_message_buffer) g_byte_array_free (mime_part->temp_message_buffer, TRUE);
 
 	if (mime_part->content_input_stream) gtk_object_unref (GTK_OBJECT (mime_part->content_input_stream));
+
+	header_raw_clear(&mime_part->headers);
 
 	GTK_OBJECT_CLASS (parent_class)->finalize (object);
 }
@@ -503,9 +507,37 @@ write_to_stream (CamelDataWrapper *data_wrapper, CamelStream *stream)
 
 	content = camel_medium_get_content_object (medium);
 	if (content) {
+		/* I dont really like this here, but i dont know where else it might go ... */
+#define CAN_THIS_GO_ELSEWHERE
+#ifdef CAN_THIS_GO_ELSEWHERE
+		CamelMimeFilter *filter = NULL;
+		CamelStreamFilter *filter_stream = NULL;
+
+		switch(mp->encoding) {
+		case CAMEL_MIME_PART_ENCODING_BASE64:
+			filter = (CamelMimeFilter *)camel_mime_filter_basic_new_type(CAMEL_MIME_FILTER_BASIC_BASE64_ENC);
+			break;
+		case CAMEL_MIME_PART_ENCODING_QUOTEDPRINTABLE:
+			filter = (CamelMimeFilter *)camel_mime_filter_basic_new_type(CAMEL_MIME_FILTER_BASIC_QP_ENC);
+			break;
+		default:
+			break;
+		}
+		if (filter) {
+			gtk_object_ref((GtkObject *)stream);
+			filter_stream = camel_stream_filter_new_with_stream(stream);
+			camel_stream_filter_add(filter_stream, filter);
+			stream = (CamelStream *)filter_stream;
+		}
+
+#endif
 		if ( (count = camel_data_wrapper_write_to_stream(content, stream)) == -1 )
-			return -1;
-		total += count;
+			total = -1;
+		else
+			total += count;
+
+		if (filter_stream)
+			gtk_object_unref((GtkObject *)filter_stream);
 	} else {
 		g_warning("No content for medium, nothing to write");
 	}
