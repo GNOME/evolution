@@ -2116,7 +2116,7 @@ msgstr "アラーム停止を有効"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:20
 msgid "End of day:"
-msgstr "終了日:"
+msgstr "一日の終わり:"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:21
 msgid "First day of week:"
@@ -2137,19 +2137,19 @@ msgstr "強調"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:25
 msgid "Items Due Today"
-msgstr "アイテムは今日が期限"
+msgstr "今日が期限のアイテム"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:26
 msgid "Items Due Today:"
-msgstr "アイテムは今日が期限:"
+msgstr "今日が期限のアイテム:"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:27
 msgid "Items Not Yet Due"
-msgstr "アイテムはまだ期限ではない"
+msgstr "まだ期限ではないアイテム"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:28
 msgid "Items Not Yet Due:"
-msgstr "アイテムはまだ期限ではない:"
+msgstr "まだ期限ではないアイテム:"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:29
 msgid "Mon"
@@ -2205,7 +2205,7 @@ msgstr "週番号を表示"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:42
 msgid "Start of day:"
-msgstr "開始日:"
+msgstr "一日の始まり:"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:43
 msgid "Sun"
