@@ -28,6 +28,9 @@ factories append 'Factory'.
 
 GNOME/
 	Evolution/
+
+		Shell
+
 		Addressbook/
 			MiniCard/
 				Control, ControlFactory
@@ -59,3 +62,4 @@ GNOME/
 		Wombat/
 			ServerFactory
 			CalendarFactory
+
