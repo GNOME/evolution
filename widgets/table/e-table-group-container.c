@@ -533,11 +533,11 @@ static void
 etgc_add_all (ETableGroup *etg)
 {
 	ETableGroupContainer *etgc = E_TABLE_GROUP_CONTAINER (etg);
-	ETableSorter *sorter = etgc->table_selection_model->sorter;
+	ESorter *sorter = E_SELECTION_MODEL(etgc->table_selection_model)->sorter;
 	int *array;
 	int count;
 
-	e_table_sorter_get_sorted_to_model_array(sorter, &array, &count);
+	e_sorter_get_sorted_to_model_array(sorter, &array, &count);
 
 	etgc_add_array(etg, array, count);
 }
@@ -917,7 +917,7 @@ etgc_init (GtkObject *object)
 
 	container->draw_grid = 1;
 	container->draw_focus = 1;
-	container->cursor_mode = E_TABLE_CURSOR_SIMPLE;
+	container->cursor_mode = E_CURSOR_SIMPLE;
 	container->length_threshold = -1;
 	container->table_selection_model = NULL;
 }

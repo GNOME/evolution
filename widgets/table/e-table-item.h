@@ -83,7 +83,7 @@ typedef struct {
 	int              length_threshold;
 	
 	gint             row_guess;
-	ETableCursorMode cursor_mode;
+	ECursorMode      cursor_mode;
 
 	/*
 	 * During editing

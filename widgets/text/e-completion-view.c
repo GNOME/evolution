@@ -243,7 +243,7 @@ e_completion_view_set_cursor_row (ECompletionView *cv, gint r)
 	table = e_completion_view_table (cv);
 
 	if (r < 0) {
-		e_table_selection_model_clear (table->selection);
+		e_selection_model_clear (E_SELECTION_MODEL(table->selection));
 		
 		/* Move back to the top when we clear the selection */
 		gtk_adjustment_set_value (adj, adj->lower);

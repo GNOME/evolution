@@ -452,7 +452,7 @@ etgl_init (GtkObject *object)
 	
 	etgl->draw_grid = 1;
 	etgl->draw_focus = 1;
-	etgl->cursor_mode = E_TABLE_CURSOR_SIMPLE;
+	etgl->cursor_mode = E_CURSOR_SIMPLE;
 	etgl->length_threshold = -1;
 
 	etgl->table_selection_model = NULL;

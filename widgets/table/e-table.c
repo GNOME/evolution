@@ -202,7 +202,7 @@ e_table_init (GtkObject *object)
 
 	e_table->draw_grid = 1;
 	e_table->draw_focus = 1;
-	e_table->cursor_mode = E_TABLE_CURSOR_SIMPLE;
+	e_table->cursor_mode = E_CURSOR_SIMPLE;
 	e_table->length_threshold = 200;
 
 	e_table->need_rebuild = 0;
@@ -382,7 +382,7 @@ static void
 click_to_add_cursor_change (ETableClickToAdd *etcta, int row, int col, ETable *et)
 {
 	if (et->cursor_loc == E_TABLE_CURSOR_LOC_TABLE) {
-		e_table_selection_model_clear(et->selection);
+		e_selection_model_clear(E_SELECTION_MODEL (et->selection));
 	}
 	et->cursor_loc = E_TABLE_CURSOR_LOC_ETCTA;
 }
@@ -1382,15 +1382,15 @@ e_table_get_cursor_row (ETable *e_table)
 
 void
 e_table_selected_row_foreach     (ETable *e_table,
-				  ETableForeachFunc callback,
+				  EForeachFunc callback,
 				  gpointer closure)
 {
 	g_return_if_fail(e_table != NULL);
 	g_return_if_fail(E_IS_TABLE(e_table));
 
-	e_table_selection_model_foreach(e_table->selection,
-					callback,
-					closure);
+	e_selection_model_foreach(E_SELECTION_MODEL (e_table->selection),
+						     callback,
+						     closure);
 }
 
 gint
@@ -1399,7 +1399,7 @@ e_table_selected_count     (ETable *e_table)
 	g_return_val_if_fail(e_table != NULL, -1);
 	g_return_val_if_fail(E_IS_TABLE(e_table), -1);
 
-	return e_table_selection_model_selected_count(e_table->selection);
+	return e_selection_model_selected_count(E_SELECTION_MODEL (e_table->selection));
 }
 
 void
@@ -1408,7 +1408,7 @@ e_table_select_all (ETable *table)
 	g_return_if_fail (table != NULL);
 	g_return_if_fail (E_IS_TABLE (table));
 
-	e_table_selection_model_select_all (table->selection);
+	e_selection_model_select_all (E_SELECTION_MODEL (table->selection));
 }
 
 void
@@ -1417,7 +1417,7 @@ e_table_invert_selection (ETable *table)
 	g_return_if_fail (table != NULL);
 	g_return_if_fail (E_IS_TABLE (table));
 
-	e_table_selection_model_invert_selection (table->selection);
+	e_selection_model_invert_selection (E_SELECTION_MODEL (table->selection));
 }
 
 
@@ -1491,10 +1491,10 @@ e_table_get_next_row      (ETable *e_table,
 
 	if (e_table->sorter) {
 		int i;
-		i = e_table_sorter_model_to_sorted(e_table->sorter, model_row);
+		i = e_sorter_model_to_sorted(E_SORTER (e_table->sorter), model_row);
 		i++;
 		if (i < e_table_model_row_count(e_table->model)) {
-			return e_table_sorter_sorted_to_model(e_table->sorter, i);
+			return e_sorter_sorted_to_model(E_SORTER (e_table->sorter), i);
 		} else
 			return -1;
 	} else
@@ -1513,10 +1513,10 @@ e_table_get_prev_row      (ETable *e_table,
 
 	if (e_table->sorter) {
 		int i;
-		i = e_table_sorter_model_to_sorted(e_table->sorter, model_row);
+		i = e_sorter_model_to_sorted(E_SORTER (e_table->sorter), model_row);
 		i--;
 		if (i >= 0)
-			return e_table_sorter_sorted_to_model(e_table->sorter, i);
+			return e_sorter_sorted_to_model(E_SORTER (e_table->sorter), i);
 		else
 			return -1;
 	} else
@@ -1531,7 +1531,7 @@ e_table_model_to_view_row        (ETable *e_table,
 	g_return_val_if_fail(E_IS_TABLE(e_table), -1);
 
 	if (e_table->sorter)
-		return e_table_sorter_model_to_sorted(e_table->sorter, model_row);
+		return e_sorter_model_to_sorted(E_SORTER (e_table->sorter), model_row);
 	else
 		return model_row;
 }
@@ -1544,7 +1544,7 @@ e_table_view_to_model_row        (ETable *e_table,
 	g_return_val_if_fail(E_IS_TABLE(e_table), -1);
 
 	if (e_table->sorter)
-		return e_table_sorter_sorted_to_model(e_table->sorter, view_row);
+		return e_sorter_sorted_to_model (E_SORTER (e_table->sorter), view_row);
 	else
 		return view_row;
 }
@@ -1727,7 +1727,7 @@ e_table_drag_source_set  (ETable               *table,
 	gtk_widget_add_events (canvas,
 			       gtk_widget_get_events (canvas) |
 			       GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK |
-			       GDK_BUTTON_MOTION_MASK);
+			       GDK_BUTTON_MOTION_MASK | GDK_STRUCTURE_MASK);
 
 	if (site) {
 		if (site->target_list)

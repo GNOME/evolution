@@ -14,17 +14,6 @@ extern "C" {
 
 #define MIN_ARROW_SIZE 10
 
-typedef void (*ETableForeachFunc) (int model_row,
-				   gpointer closure);
-
-/* list selection modes */
-typedef enum
-{
-	E_TABLE_CURSOR_LINE,
-	E_TABLE_CURSOR_SIMPLE,
-	E_TABLE_CURSOR_SPREADSHEET,
-} ETableCursorMode;
-
 #ifdef __cplusplus
 }
 #endif /* __cplusplus */

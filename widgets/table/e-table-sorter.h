@@ -3,6 +3,7 @@
 #define _E_TABLE_SORTER_H_
 
 #include <gtk/gtkobject.h>
+#include <gal/util/e-sorter.h>
 #include <gal/e-table/e-table-model.h>
 #include <gal/e-table/e-table-subset-variable.h>
 #include <gal/e-table/e-table-sort-info.h>
@@ -17,7 +18,7 @@ BEGIN_GNOME_DECLS
 #define E_IS_TABLE_SORTER_CLASS(k) (GTK_CHECK_CLASS_TYPE ((k), E_TABLE_SORTER_TYPE))
 
 typedef struct {
-	GtkObject base;
+	ESorter base;
 
 	ETableModel    *source;
 	ETableHeader   *full_header;
@@ -36,28 +37,13 @@ typedef struct {
 } ETableSorter;
 
 typedef struct {
-	GtkObjectClass parent_class;
+	ESorterClass parent_class;
 } ETableSorterClass;
 
 GtkType       e_table_sorter_get_type                   (void);
 ETableSorter *e_table_sorter_new                        (ETableModel     *etm,
 							 ETableHeader    *full_header,
 							 ETableSortInfo  *sort_info);
-
-gint          e_table_sorter_model_to_sorted            (ETableSorter    *sorter,
-							 int              row);
-gint          e_table_sorter_sorted_to_model            (ETableSorter    *sorter,
-							 int              row);
-
-void          e_table_sorter_get_model_to_sorted_array  (ETableSorter    *sorter,
-							 int            **array,
-							 int             *count);
-void          e_table_sorter_get_sorted_to_model_array  (ETableSorter    *sorter,
-							 int            **array,
-							 int             *count);
-
-gboolean      e_table_sorter_needs_sorting              (ETableSorter    *sorter);
-
 END_GNOME_DECLS
 
 #endif /* _E_TABLE_SORTER_H_ */

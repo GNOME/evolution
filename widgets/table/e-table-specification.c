@@ -65,7 +65,7 @@ etsp_init (ETableSpecification *etsp)
 	etsp->draw_focus            = TRUE;
 	etsp->horizontal_scrolling  = FALSE;
 
-	etsp->cursor_mode           = E_TABLE_CURSOR_SIMPLE;
+	etsp->cursor_mode           = E_CURSOR_SIMPLE;
 	etsp->selection_mode        = GTK_SELECTION_MULTIPLE;
 
 	etsp->click_to_add_message  = NULL;
@@ -175,12 +175,12 @@ e_table_specification_load_from_node (ETableSpecification *specification,
 	}
 	g_free (temp);
 
-	specification->cursor_mode = E_TABLE_CURSOR_SIMPLE;
+	specification->cursor_mode = E_CURSOR_SIMPLE;
 	temp = e_xml_get_string_prop_by_name (node, "cursor-mode");
 	if (temp && !strcasecmp (temp, "line")) {
-		specification->cursor_mode = E_TABLE_CURSOR_LINE;
+		specification->cursor_mode = E_CURSOR_LINE;
 	} else 	if (temp && !strcasecmp (temp, "spreadsheet")) {
-		specification->cursor_mode = E_TABLE_CURSOR_SPREADSHEET;
+		specification->cursor_mode = E_CURSOR_SPREADSHEET;
 	}
 	g_free (temp);
 	g_free (specification->click_to_add_message);
@@ -315,7 +315,7 @@ e_table_specification_save_to_node (ETableSpecification *specification,
 		s = "extended";
 	}
 	xmlSetProp (node, "selection-mode", s);
-	if (specification->cursor_mode == E_TABLE_CURSOR_LINE)
+	if (specification->cursor_mode == E_CURSOR_LINE)
 		s = "line";
 	else
 		s = "cell";

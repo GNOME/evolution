@@ -85,7 +85,7 @@ typedef struct {
 	GnomeCanvasItem *click_to_add;
 	gboolean use_click_to_add;
 
-	ETableCursorMode cursor_mode;
+	ECursorMode cursor_mode;
 
 	int drag_get_data_row;
 	int drag_get_data_col;
@@ -211,7 +211,7 @@ void            e_table_set_cursor_row            (ETable               *e_table
 /* -1 means we don't have the cursor. */
 int             e_table_get_cursor_row            (ETable               *e_table);
 void            e_table_selected_row_foreach      (ETable               *e_table,
-						   ETableForeachFunc     callback,
+						   EForeachFunc          callback,
 						   gpointer              closure);
 gint            e_table_selected_count            (ETable               *e_table);
 EPrintable     *e_table_get_printable             (ETable               *e_table);

@@ -3,6 +3,7 @@
 #define _E_TABLE_SELECTION_MODEL_H_
 
 #include <gtk/gtkobject.h>
+#include <gal/widgets/e-selection-model.h>
 #include <gal/e-table/e-table-model.h>
 #include <gal/e-table/e-table-defines.h>
 #include <gal/e-table/e-table-sorter.h>
@@ -18,17 +19,9 @@ extern "C" {
 #define E_IS_TABLE_SELECTION_MODEL_CLASS(k) (GTK_CHECK_CLASS_TYPE ((k), E_TABLE_SELECTION_MODEL_TYPE))
 
 typedef struct {
-	GtkObject     base;
+	ESelectionModel base;
 
 	ETableModel  *model;
-	ETableSorter *sorter;
-
-	gint row_count;
-        guint32 *selection;
-
-	gint cursor_row;
-	gint cursor_col;
-	gint selection_start_row;
 
 	guint model_changed_id;
 	guint model_row_inserted_id, model_row_deleted_id;
@@ -36,47 +29,13 @@ typedef struct {
 	guint frozen : 1;
 	guint selection_model_changed : 1;
 	guint group_info_changed : 1;
-
-	GtkSelectionMode mode;
-	ETableCursorMode cursor_mode;
 } ETableSelectionModel;
 
 typedef struct {
-	GtkObjectClass parent_class;
-
-	/*
-	 * Signals
-	 */
-
-	void         (*cursor_changed)    (ETableSelectionModel *selection, int row, int col);
-	void         (*cursor_activated)  (ETableSelectionModel *selection, int row, int col);
-	void         (*selection_changed) (ETableSelectionModel *selection);
-
+	ESelectionModelClass parent_class;
 } ETableSelectionModelClass;
 
 GtkType               e_table_selection_model_get_type            (void);
-gboolean              e_table_selection_model_is_row_selected     (ETableSelectionModel *selection,
-								   gint                  n);
-void                  e_table_selection_model_foreach             (ETableSelectionModel *selection,
-								   ETableForeachFunc     callback,
-								   gpointer              closure);
-
-void                  e_table_selection_model_do_something        (ETableSelectionModel *selection,
-								   guint                 row,
-								   guint                 col,
-								   GdkModifierType       state);
-void                  e_table_selection_model_maybe_do_something  (ETableSelectionModel *selection,
-								   guint                 row,
-								   guint                 col,
-								   GdkModifierType       state);
-gint                  e_table_selection_model_key_press           (ETableSelectionModel *selection,
-								   GdkEventKey          *key);
-void                  e_table_selection_model_clear               (ETableSelectionModel *selection);
-gint                  e_table_selection_model_selected_count      (ETableSelectionModel *selection);
-
-void                  e_table_selection_model_select_all          (ETableSelectionModel *selection);
-void                  e_table_selection_model_invert_selection    (ETableSelectionModel *selection);
-
 ETableSelectionModel *e_table_selection_model_new                 (void);
 
 #ifdef __cplusplus

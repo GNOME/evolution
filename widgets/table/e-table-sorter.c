@@ -22,19 +22,25 @@ enum {
 	ARG_SORT_INFO
 };
 
-#define PARENT_TYPE gtk_object_get_type()
+#define PARENT_TYPE e_sorter_get_type()
 
 #define INCREMENT_AMOUNT 100
 
-static GtkObjectClass *parent_class;
+static ESorterClass *parent_class;
 
-static void ets_model_changed      (ETableModel *etm, ETableSorter *ets);
-static void ets_model_row_changed  (ETableModel *etm, int row, ETableSorter *ets);
-static void ets_model_cell_changed (ETableModel *etm, int col, int row, ETableSorter *ets);
-static void ets_sort_info_changed  (ETableSortInfo *info, ETableSorter *ets);
-static void ets_clean              (ETableSorter *ets);
-static void ets_sort               (ETableSorter *ets);
-static void ets_backsort           (ETableSorter *ets);
+static void    	ets_model_changed      (ETableModel *etm, ETableSorter *ets);
+static void    	ets_model_row_changed  (ETableModel *etm, int row, ETableSorter *ets);
+static void    	ets_model_cell_changed (ETableModel *etm, int col, int row, ETableSorter *ets);
+static void    	ets_sort_info_changed  (ETableSortInfo *info, ETableSorter *ets);
+static void    	ets_clean              (ETableSorter *ets);
+static void    	ets_sort               (ETableSorter *ets);
+static void    	ets_backsort           (ETableSorter *ets);
+
+static gint    	ets_model_to_sorted           (ESorter *sorter, int row);
+static gint    	ets_sorted_to_model           (ESorter *sorter, int row);
+static void    	ets_get_model_to_sorted_array (ESorter *sorter, int **array, int *count);
+static void    	ets_get_sorted_to_model_array (ESorter *sorter, int **array, int *count);
+static gboolean ets_needs_sorting             (ESorter *ets);
 
 static void
 ets_destroy (GtkObject *object)
@@ -105,12 +111,19 @@ static void
 ets_class_init (ETableSorterClass *klass)
 {
 	GtkObjectClass *object_class = GTK_OBJECT_CLASS(klass);
+	ESorterClass *sorter_class = E_SORTER_CLASS(klass);
 
-	parent_class = gtk_type_class (PARENT_TYPE);
+	parent_class                            = gtk_type_class (PARENT_TYPE);
 
-	object_class->destroy = ets_destroy;
-	object_class->set_arg = ets_set_arg;
-	object_class->get_arg = ets_get_arg;
+	object_class->destroy                   = ets_destroy;
+	object_class->set_arg                   = ets_set_arg;
+	object_class->get_arg                   = ets_get_arg;
+
+	sorter_class->model_to_sorted           = ets_model_to_sorted           ;
+	sorter_class->sorted_to_model           = ets_sorted_to_model           ;
+	sorter_class->get_model_to_sorted_array = ets_get_model_to_sorted_array ;
+	sorter_class->get_sorted_to_model_array = ets_get_sorted_to_model_array ;		
+	sorter_class->needs_sorting             = ets_needs_sorting             ;
 
 	gtk_object_add_arg_type ("ETableSorter::sort_info", GTK_TYPE_OBJECT, 
 				 GTK_ARG_READWRITE, ARG_SORT_INFO); 
@@ -478,9 +491,76 @@ ets_backsort(ETableSorter *ets)
 	}
 }
 
-gboolean
-e_table_sorter_needs_sorting(ETableSorter *ets)
+
+static gint
+ets_model_to_sorted (ESorter *es, int row)
 {
+	ETableSorter *ets = E_TABLE_SORTER(es);
+	int rows = e_table_model_row_count(ets->source);
+
+	g_return_val_if_fail(row >= 0, -1);
+	g_return_val_if_fail(row < rows, -1);
+
+	if (ets_needs_sorting(es))
+		ets_backsort(ets);
+
+	if (ets->backsorted)
+		return ets->backsorted[row];
+	else
+		return row;
+}
+
+static gint
+ets_sorted_to_model (ESorter *es, int row)
+{
+	ETableSorter *ets = E_TABLE_SORTER(es);
+	int rows = e_table_model_row_count(ets->source);
+
+	g_return_val_if_fail(row >= 0, -1);
+	g_return_val_if_fail(row < rows, -1);
+
+	if (ets_needs_sorting(es))
+		ets_sort(ets);
+
+	if (ets->sorted)
+		return ets->sorted[row];
+	else
+		return row;
+}
+
+static void
+ets_get_model_to_sorted_array (ESorter *es, int **array, int *count)
+{
+	ETableSorter *ets = E_TABLE_SORTER(es);
+	if (array || count) {
+		ets_backsort(ets);
+
+		if (array)
+			*array = ets->backsorted;
+		if (count)
+			*count = e_table_model_row_count(ets->source);
+	}
+}
+
+static void
+ets_get_sorted_to_model_array (ESorter *es, int **array, int *count)
+{
+	ETableSorter *ets = E_TABLE_SORTER(es);
+	if (array || count) {
+		ets_sort(ets);
+
+		if (array)
+			*array = ets->sorted;
+		if (count)
+			*count = e_table_model_row_count(ets->source);
+	}
+}
+
+
+static gboolean
+ets_needs_sorting(ESorter *es)
+{
+	ETableSorter *ets = E_TABLE_SORTER(es);
 	if (ets->needs_sorting < 0) {
 		if (e_table_sort_info_sorting_get_count(ets->sort_info) + e_table_sort_info_grouping_get_count(ets->sort_info))
 			ets->needs_sorting = 1;
@@ -488,65 +568,4 @@ e_table_sorter_needs_sorting(ETableSorter *ets)
 			ets->needs_sorting = 0;
 	}
 	return ets->needs_sorting;
-}
-
-
-gint
-e_table_sorter_model_to_sorted (ETableSorter *sorter, int row)
-{
-	int rows = e_table_model_row_count(sorter->source);
-
-	g_return_val_if_fail(row >= 0, -1);
-	g_return_val_if_fail(row < rows, -1);
-
-	if (e_table_sorter_needs_sorting(sorter))
-		ets_backsort(sorter);
-
-	if (sorter->backsorted)
-		return sorter->backsorted[row];
-	else
-		return row;
-}
-
-gint
-e_table_sorter_sorted_to_model (ETableSorter *sorter, int row)
-{
-	int rows = e_table_model_row_count(sorter->source);
-
-	g_return_val_if_fail(row >= 0, -1);
-	g_return_val_if_fail(row < rows, -1);
-
-	if (e_table_sorter_needs_sorting(sorter))
-		ets_sort(sorter);
-
-	if (sorter->sorted)
-		return sorter->sorted[row];
-	else
-		return row;
-}
-
-void
-e_table_sorter_get_model_to_sorted_array (ETableSorter *sorter, int **array, int *count)
-{
-	if (array || count) {
-		ets_backsort(sorter);
-
-		if (array)
-			*array = sorter->backsorted;
-		if (count)
-			*count = e_table_model_row_count(sorter->source);
-	}
-}
-
-void
-e_table_sorter_get_sorted_to_model_array (ETableSorter *sorter, int **array, int *count)
-{
-	if (array || count) {
-		ets_sort(sorter);
-
-		if (array)
-			*array = sorter->sorted;
-		if (count)
-			*count = e_table_model_row_count(sorter->source);
-	}
 }

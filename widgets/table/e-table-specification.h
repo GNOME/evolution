@@ -4,6 +4,7 @@
 
 #include <gtk/gtkobject.h>
 #include <gnome-xml/tree.h>
+#include <gal/widgets/e-selection-model.h>
 #include <gal/e-table/e-table-state.h>
 #include <gal/e-table/e-table-column-specification.h>
 #include <gal/e-table/e-table-defines.h>
@@ -30,7 +31,7 @@ typedef struct {
 	guint draw_focus : 1;
 	guint horizontal_scrolling : 1;
 	GtkSelectionMode selection_mode;
-	ETableCursorMode cursor_mode;
+	ECursorMode cursor_mode;
 
 	char *click_to_add_message;
 } ETableSpecification;

@@ -294,7 +294,7 @@ finish_editing (ETableClickToAdd *etcta)
 		etcta_add_one (etcta, one);
 		gtk_object_unref(GTK_OBJECT(one));
 
-		e_table_selection_model_clear(etcta->selection);
+		e_selection_model_clear(E_SELECTION_MODEL(etcta->selection));
 
 		etcta->row = gnome_canvas_item_new(GNOME_CANVAS_GROUP(etcta),
 						   e_table_item_get_type(),
@@ -303,7 +303,7 @@ finish_editing (ETableClickToAdd *etcta)
 						   "minimum_width", etcta->width,
 						   "drawgrid", TRUE,
 						   "table_selection_model", etcta->selection,
-						   "cursor_mode", E_TABLE_CURSOR_SPREADSHEET,
+						   "cursor_mode", E_CURSOR_SPREADSHEET,
 						   NULL);
 
 		gtk_signal_connect(GTK_OBJECT(etcta->row), "key_press",
@@ -339,7 +339,7 @@ etcta_event (GnomeCanvasItem *item, GdkEvent *e)
 			etcta_add_one (etcta, one);
 			gtk_object_unref(GTK_OBJECT(one));
 			
-			e_table_selection_model_clear(etcta->selection);
+			e_selection_model_clear(E_SELECTION_MODEL(etcta->selection));
 
 			etcta->row = gnome_canvas_item_new(GNOME_CANVAS_GROUP(item),
 							   e_table_item_get_type(),
@@ -348,7 +348,7 @@ etcta_event (GnomeCanvasItem *item, GdkEvent *e)
 							   "minimum_width", etcta->width,
 							   "drawgrid", TRUE,
 							   "table_selection_model", etcta->selection,
-							   "cursor_mode", E_TABLE_CURSOR_SPREADSHEET,
+							   "cursor_mode", E_CURSOR_SPREADSHEET,
 							   NULL);
 
 			gtk_signal_connect(GTK_OBJECT(etcta->row), "key_press",
