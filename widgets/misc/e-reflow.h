@@ -64,7 +64,9 @@ struct _EReflow
 	/* item specific fields */
 	EReflowModel *model;
 	guint model_changed_id;
+	guint comparison_changed_id;
 	guint model_items_inserted_id;
+	guint model_item_removed_id;
 	guint model_item_changed_id;
 
 	ESelectionModel *selection;
@@ -104,6 +106,8 @@ struct _EReflow
 	double previous_temp_column_width;
 
 	int cursor_row;
+
+	int reflow_from_column;
 
 	guint column_drag : 1;
 

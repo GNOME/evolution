@@ -257,28 +257,32 @@ reflow_columns (EReflow *reflow)
 {
 	GSList *list;
 	int count;
+	int start;
 	int i;
-	int column_count;
+	int column_count, column_start;
 	double running_height;
 
-	g_free (reflow->columns);
-	reflow->column_count = 0;
-	reflow->columns      = NULL;
+	if (reflow->reflow_from_column <= 1) {
+		start = 0;
+		column_count = 1;
+		column_start = 0;
+	}
+	else {
+		/* we start one column before the earliest new entry,
+		   so we can handle the case where the new entry is
+		   inserted at the start of the column */
+		column_start = reflow->reflow_from_column - 1;
+		start = reflow->columns[column_start];
+		column_count = column_start;
+	}
 
 	list = NULL;
 
 	running_height = E_REFLOW_BORDER_WIDTH;
-	column_count = 1;
 
-	count = reflow->count;
-	for (i = 0; i < count; i++) {
+	count = reflow->count - start;
+	for (i = start; i < count; i++) {
 		int unsorted = e_sorter_sorted_to_model (E_SORTER (reflow->sorter), i);
-		if (reflow->heights[unsorted] == -1) {
-			if (reflow->model)
-				reflow->heights[unsorted] = e_reflow_model_height (reflow->model, unsorted, GNOME_CANVAS_GROUP (reflow));
-			else
-				reflow->heights[unsorted] = 0;
-		}
 		if (i != 0 && running_height + reflow->heights[unsorted] + E_REFLOW_BORDER_WIDTH > reflow->height) {
 			list = g_slist_prepend (list, GINT_TO_POINTER(i));
 			column_count ++;
@@ -288,20 +292,22 @@ reflow_columns (EReflow *reflow)
 	}
 
 	reflow->column_count = column_count;
-	reflow->columns = g_new (int, column_count);
+	reflow->columns = g_renew (int, reflow->columns, column_count); 
 	column_count --;
-	for (; column_count > 0; column_count--) {
+
+	for (; column_count > column_start; column_count--) {
 		GSList *to_free;
 		reflow->columns[column_count] = GPOINTER_TO_INT(list->data);
 		to_free = list;
 		list = list->next;
 		g_slist_free_1 (to_free);
 	}
-	reflow->columns[0] = 0;
+	reflow->columns[column_start] = start;
 
 	queue_incarnate (reflow);
 
 	reflow->need_reflow_columns = FALSE;
+	reflow->reflow_from_column = -1;
 }
 
 static void
@@ -310,19 +316,46 @@ item_changed (EReflowModel *model, int i, EReflow *reflow)
 	if (i < 0 || i >= reflow->count)
 		return;
 
-	reflow->heights[i] = -1;
+	reflow->heights[i] = e_reflow_model_height (reflow->model, i, GNOME_CANVAS_GROUP (reflow));
 	if (reflow->items[i] != NULL)
 		e_reflow_model_reincarnate (model, i, reflow->items[i]);
 	e_sorter_array_clean (reflow->sorter);
+	reflow->reflow_from_column = -1;
 	reflow->need_reflow_columns = TRUE;
 	e_canvas_item_request_reflow(GNOME_CANVAS_ITEM (reflow));
 }
 
 static void
+item_removed (EReflowModel *model, int i, EReflow *reflow)
+{
+	int c;
+	int sorted;
+
+	if (i < 0 || i >= reflow->count)
+		return;
+
+	sorted = e_sorter_model_to_sorted (E_SORTER (reflow->sorter), i);
+	for (c = reflow->column_count - 1; c >= 0; c--) {
+		int start_of_column = reflow->columns[c];
+
+		if (start_of_column <= sorted) {
+			reflow->reflow_from_column = c;
+			reflow->need_reflow_columns = TRUE;
+			set_empty (reflow);
+			e_canvas_item_request_reflow(GNOME_CANVAS_ITEM (reflow));
+
+			break;
+		}
+	}
+}
+
+static void
 items_inserted (EReflowModel *model, int position, int count, EReflow *reflow)
 {
-	int i;
+	int i, c;
 	int oldcount;
+	int lowest_column;
+
 	if (position < 0 || position > reflow->count)
 		return;
 
@@ -340,7 +373,7 @@ items_inserted (EReflowModel *model, int position, int count, EReflow *reflow)
 	memmove (reflow->items + position + count, reflow->items + position, (reflow->count - position - count) * sizeof (GnomeCanvasItem *));
 	for (i = position; i < position + count; i++) {
 		reflow->items[i] = 0;
-		reflow->heights[i] = -1;
+		reflow->heights[i] = e_reflow_model_height (reflow->model, i, GNOME_CANVAS_GROUP (reflow));
 	}
 
 	e_selection_model_simple_set_row_count (E_SELECTION_MODEL_SIMPLE (reflow->selection), reflow->count);
@@ -348,6 +381,23 @@ items_inserted (EReflowModel *model, int position, int count, EReflow *reflow)
 		e_sorter_array_append (reflow->sorter, count);
 	else
 		e_sorter_array_set_count (reflow->sorter, reflow->count);
+
+	for (i = position; i < position + count; i ++) {
+		int sorted = e_sorter_model_to_sorted (E_SORTER (reflow->sorter), i);
+		int c;
+
+		for (c = reflow->column_count - 1; c >= 0; c--) {
+			int start_of_column = reflow->columns[c];
+
+			if (start_of_column <= sorted) {
+				if (reflow->reflow_from_column == -1
+				    || reflow->reflow_from_column > c)
+					reflow->reflow_from_column = c;
+				break;
+			}
+		}
+	}
+
 	reflow->need_reflow_columns = TRUE;
 	set_empty (reflow);
 	e_canvas_item_request_reflow(GNOME_CANVAS_ITEM (reflow));
@@ -377,7 +427,7 @@ model_changed (EReflowModel *model, EReflow *reflow)
 	count = reflow->count;
 	for (i = 0; i < count; i++) {
 		reflow->items[i] = 0;
-		reflow->heights[i] = -1;
+		reflow->heights[i] = e_reflow_model_height (reflow->model, i, GNOME_CANVAS_GROUP (reflow));
 	}
 
 	e_selection_model_simple_set_row_count (E_SELECTION_MODEL_SIMPLE (reflow->selection), count);
@@ -387,6 +437,15 @@ model_changed (EReflowModel *model, EReflow *reflow)
 	if (oldcount > reflow->count)
 		reflow_columns (reflow);
 	set_empty (reflow);
+	e_canvas_item_request_reflow(GNOME_CANVAS_ITEM (reflow));
+}
+
+static void
+comparison_changed (EReflowModel *model, EReflow *reflow)
+{
+	e_sorter_array_clean (reflow->sorter);
+	reflow->reflow_from_column = -1;
+	reflow->need_reflow_columns = TRUE;
 	e_canvas_item_request_reflow(GNOME_CANVAS_ITEM (reflow));
 }
 
@@ -416,7 +475,6 @@ set_empty(EReflow *reflow)
 							      "width", reflow->minimum_width,
 							      "clip", TRUE,
 							      "use_ellipsis", TRUE,
-							      "font_gdk", gtk_style_get_font (GTK_WIDGET(GNOME_CANVAS_ITEM(reflow)->canvas)->style),
 							      "fill_color", "black",
 							      "justification", GTK_JUSTIFY_CENTER,
 							      "text", reflow->empty_message,
@@ -444,13 +502,19 @@ disconnect_model (EReflow *reflow)
 	g_signal_handler_disconnect (reflow->model,
 				     reflow->model_changed_id);
 	g_signal_handler_disconnect (reflow->model,
+				     reflow->comparison_changed_id);
+	g_signal_handler_disconnect (reflow->model,
 				     reflow->model_items_inserted_id);
+	g_signal_handler_disconnect (reflow->model,
+				     reflow->model_item_removed_id);
 	g_signal_handler_disconnect (reflow->model,
 				     reflow->model_item_changed_id);
 	g_object_unref (reflow->model);
 
 	reflow->model_changed_id        = 0;
+	reflow->comparison_changed_id   = 0;
 	reflow->model_items_inserted_id = 0;
+	reflow->model_item_removed_id   = 0;
 	reflow->model_item_changed_id   = 0;
 	reflow->model                   = NULL;
 }
@@ -489,9 +553,15 @@ connect_model (EReflow *reflow, EReflowModel *model)
 	reflow->model_changed_id =
 		g_signal_connect (reflow->model, "model_changed",
 				  G_CALLBACK (model_changed), reflow);
+	reflow->comparison_changed_id =
+		g_signal_connect (reflow->model, "comparison_changed",
+				  G_CALLBACK (comparison_changed), reflow);
 	reflow->model_items_inserted_id =
 		g_signal_connect (reflow->model, "model_items_inserted",
 				  G_CALLBACK (items_inserted), reflow);
+	reflow->model_item_removed_id =
+		g_signal_connect (reflow->model, "model_item_removed",
+				  G_CALLBACK (item_removed), reflow);
 	reflow->model_item_changed_id =
 		g_signal_connect (reflow->model, "model_item_changed",
 				  G_CALLBACK (item_changed), reflow);
@@ -501,7 +571,7 @@ connect_model (EReflow *reflow, EReflowModel *model)
 static void
 adjustment_changed (GtkAdjustment *adjustment, EReflow *reflow)
 {
-	incarnate (reflow);
+	queue_incarnate (reflow);
 }
 
 static void

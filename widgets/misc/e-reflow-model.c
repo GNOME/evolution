@@ -36,8 +36,10 @@ static GObjectClass *e_reflow_model_parent_class;
 
 enum {
 	MODEL_CHANGED,
+	COMPARISON_CHANGED,
 	MODEL_ITEMS_INSERTED,
 	MODEL_ITEM_CHANGED,
+	MODEL_ITEM_REMOVED,
 	LAST_SIGNAL
 };
 
@@ -161,6 +163,15 @@ e_reflow_model_class_init (GObjectClass *object_class)
 			      e_marshal_NONE__NONE,
 			      G_TYPE_NONE, 0);
 
+	e_reflow_model_signals [COMPARISON_CHANGED] =
+		g_signal_new ("comparison_changed",
+			      G_OBJECT_CLASS_TYPE (object_class),
+			      G_SIGNAL_RUN_LAST,
+			      G_STRUCT_OFFSET (EReflowModelClass, comparison_changed),
+			      NULL, NULL,
+			      e_marshal_NONE__NONE,
+			      G_TYPE_NONE, 0);
+
 	e_reflow_model_signals [MODEL_ITEMS_INSERTED] =
 		g_signal_new ("model_items_inserted",
 			      G_OBJECT_CLASS_TYPE (object_class),
@@ -179,6 +190,15 @@ e_reflow_model_class_init (GObjectClass *object_class)
 			      e_marshal_NONE__INT,
 			      G_TYPE_NONE, 1, G_TYPE_INT);
 
+	e_reflow_model_signals [MODEL_ITEM_REMOVED] =
+		g_signal_new ("model_item_removed",
+			      G_OBJECT_CLASS_TYPE (object_class),
+			      G_SIGNAL_RUN_LAST,
+			      G_STRUCT_OFFSET (EReflowModelClass, model_item_removed),
+			      NULL, NULL,
+			      e_marshal_NONE__INT,
+			      G_TYPE_NONE, 1, G_TYPE_INT);
+
 	klass->set_width            = NULL;
 	klass->count                = NULL;
 	klass->height               = NULL;
@@ -186,7 +206,9 @@ e_reflow_model_class_init (GObjectClass *object_class)
 	klass->reincarnate          = NULL;
 
 	klass->model_changed        = NULL;
+	klass->comparison_changed   = NULL;
 	klass->model_items_inserted = NULL;
+	klass->model_item_removed   = NULL;
 	klass->model_item_changed   = NULL;
 }
 
@@ -236,6 +258,29 @@ e_reflow_model_changed (EReflowModel *e_reflow_model)
 }
 
 /**
+ * e_reflow_model_comparison_changed:
+ * @e_reflow_model: the reflow model to notify of the change
+ *
+ * Use this function to notify any views of this reflow model that the
+ * sorting has changed.  The actual contents of the items hasn't, so
+ * there's no need to re-query the model for the heights of the
+ * individual items.
+ */
+void
+e_reflow_model_comparison_changed (EReflowModel *e_reflow_model)
+{
+	g_return_if_fail (e_reflow_model != NULL);
+	g_return_if_fail (E_IS_REFLOW_MODEL (e_reflow_model));
+	
+	d(print_tabs());
+	d(g_print("Emitting comparison_changed on model 0x%p.\n", e_reflow_model));
+	d(depth++);
+	g_signal_emit (e_reflow_model,
+		       e_reflow_model_signals [COMPARISON_CHANGED], 0);
+	d(depth--);
+}
+
+/**
  * e_reflow_model_items_inserted:
  * @e_reflow_model: The model changed.
  * @position: The position the items were insert in.
@@ -257,6 +302,31 @@ e_reflow_model_items_inserted (EReflowModel *e_reflow_model, int position, int c
 		       position, count);
 	d(depth--);
 }
+
+/**
+ * e_reflow_model_item_removed:
+ * @e_reflow_model: The model changed.
+ * @n: The position from which the items were removed.
+ * 
+ * Use this function to notify any views of the reflow model that an
+ * item has been removed.
+ **/
+void
+e_reflow_model_item_removed    (EReflowModel     *e_reflow_model,
+				int               n)
+{
+	g_return_if_fail (e_reflow_model != NULL);
+	g_return_if_fail (E_IS_REFLOW_MODEL (e_reflow_model));
+
+	d(print_tabs());
+	d(g_print("Emitting item_removed on model 0x%p, n=%d.\n", e_reflow_model, n));
+	d(depth++);
+	g_signal_emit (e_reflow_model,
+		       e_reflow_model_signals [MODEL_ITEM_REMOVED], 0,
+		       n);
+	d(depth--);
+}
+
 
 /**
  * e_reflow_model_item_changed:

@@ -63,10 +63,13 @@ typedef struct {
 	/*
 	 * These all come after the change has been made.
 	 * Major structural changes: model_changed
+	 * Changes to the sorting of elements: comparison_changed
 	 * Changes only in an item: item_changed
 	 */
 	void        (*model_changed)       (EReflowModel *etm);
+	void        (*comparison_changed)  (EReflowModel *etm);
 	void        (*model_items_inserted) (EReflowModel *etm, int position, int count);
+	void        (*model_item_removed)  (EReflowModel *etm, int position);
 	void        (*model_item_changed)  (EReflowModel *etm, int n);
 } EReflowModelClass;
 
@@ -92,12 +95,15 @@ void             e_reflow_model_reincarnate     (EReflowModel     *e_reflow_mode
 /*
  * Routines for emitting signals on the e_reflow
  */
-void             e_reflow_model_changed         (EReflowModel     *e_reflow_model);
-void             e_reflow_model_items_inserted  (EReflowModel     *e_reflow_model,
-						 int               position,
-						 int               count);
-void             e_reflow_model_item_changed    (EReflowModel     *e_reflow_model,
-						 int               n);
+void             e_reflow_model_changed            (EReflowModel     *e_reflow_model);
+void             e_reflow_model_comparison_changed (EReflowModel     *e_reflow_model);
+void             e_reflow_model_items_inserted     (EReflowModel     *e_reflow_model,
+						    int               position,
+						    int               count);
+void             e_reflow_model_item_removed       (EReflowModel     *e_reflow_model,
+						    int               n);
+void             e_reflow_model_item_changed       (EReflowModel     *e_reflow_model,
+						    int               n);
 
 #ifdef __cplusplus
 }
