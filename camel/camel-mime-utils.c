@@ -1,7 +1,6 @@
 /*
  *  Copyright (C) 2000 Helix Code Inc.
- *    this          is a line ending in		spaces			                              
- * and this   line only contains  spaces no tabs                                                                                                                                  
+ *
  *  Authors: Michael Zucchi <notzed@helixcode.com>
  *           Jeffrey Stedfast <fejj@helixcode.com>
  *
