@@ -84,10 +84,13 @@ e_completion_match_set_text (ECompletionMatch *match,
 			     const gchar *match_text,
 			     const gchar *menu_text)
 {
+	gchar *to_be_freed_match_text;
+	gchar *to_be_freed_menu_text;
+
 	g_return_if_fail (match != NULL);
 
-	g_free (match->match_text);
-	g_free (match->menu_text);
+	to_be_freed_match_text = match->match_text;
+	to_be_freed_menu_text  = match->menu_text;
 
 	if (match_text == NULL) {
 		match_text = "Unknown_Match";
@@ -103,6 +106,9 @@ e_completion_match_set_text (ECompletionMatch *match,
 
 	match->match_text = g_strdup (match_text);
 	match->menu_text  = g_strdup (menu_text);
+
+	g_free (to_be_freed_match_text);
+	g_free (to_be_freed_menu_text);
 }
 
 const gchar *
