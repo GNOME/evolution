@@ -1,5 +1,9 @@
 2000-07-31  Jeffrey Stedfast  <fejj@helixcode.com>
 
+	* providers/imap/camel-imap-folder.c (imap_get_message_info_internal): 
+	Some IMAP servers don't wrap the UID in ()'s so don't depend on that
+	(imap_get_summary_internal): Same
+
 	* providers/imap/camel-imap-utils.c (free_sexp_node): Oops, forgot to
 	free node->function - not good.
 

@@ -1150,17 +1150,17 @@ imap_get_summary_internal (CamelFolder *folder, CamelException *ex)
 		info = g_malloc0 (sizeof (CamelMessageInfo));
 
 		/* lets grab the UID... */
-		if (!(uid = strstr (headers->pdata[i], "(UID "))) {
+		if (!(uid = strstr (headers->pdata[i], "UID "))) {
 			d(fprintf (stderr, "Cannot get a uid for %d\n\n%s\n\n", i+1, (char *) headers->pdata[i]));
 			g_free (info);
 			break;
 		}
 		
-		for (uid += 5; *uid && (*uid < '0' || *uid > '9'); uid++); /* advance to <uid> */
+		for (uid += 4; *uid && (*uid < '0' || *uid > '9'); uid++); /* advance to <uid> */
 		for (q = uid; *q && *q >= '0' && *q <= '9'; q++); /* find the end of the <uid> */
 		info->uid = g_strndup (uid, (gint)(q - uid));
 		d(fprintf (stderr, "*** info->uid = %s\n", info->uid));
-
+		
 		/* now lets grab the FLAGS */
 		if (!(flags = strstr (q, "FLAGS "))) {
 			d(fprintf (stderr, "We didn't seem to get any flags for %d...\n", i));
@@ -1168,12 +1168,12 @@ imap_get_summary_internal (CamelFolder *folder, CamelException *ex)
 			g_free (info);
 			break;
 		}
-
+		
 		for (flags += 6; *flags && *flags != '('; flags++); /* advance to <flags> */
 		for (q = flags; *q && *q != ')'; q++);         /* find the end of <flags> */
 		flags = g_strndup (flags, (gint)(q - flags + 1));
 		d(fprintf (stderr, "*** info->flags = %s\n", flags));
-
+		
 		/* now we gotta parse for the flags */
 		info->flags = 0;
 		if (strstr (flags, "\\Seen"))
@@ -1196,7 +1196,7 @@ imap_get_summary_internal (CamelFolder *folder, CamelException *ex)
 		for (j = 0; *header_fields[j]; j++) {
 			struct _header_raw *raw;
 			char *field, *value;
-
+			
 			field = g_strdup_printf ("\n%s:", header_fields[j]);
 			value = get_header_field (header, field);
 			g_free (field);
@@ -1208,7 +1208,7 @@ imap_get_summary_internal (CamelFolder *folder, CamelException *ex)
 			raw->name = g_strdup (header_fields[j]);
 			raw->value = value;
 			raw->offset = -1;
-
+			
 			if (!h) {
 				h = raw;
 				tail = h;
@@ -1217,7 +1217,7 @@ imap_get_summary_internal (CamelFolder *folder, CamelException *ex)
 				tail = raw;
 			}
 		}
-
+		
 		/* construct the CamelMessageInfo */
 		info->subject = camel_summary_format_string (h, "subject");
 		info->from = camel_summary_format_address (h, "from");
@@ -1238,7 +1238,7 @@ imap_get_summary_internal (CamelFolder *folder, CamelException *ex)
 		info->references = header_references_decode (header_raw_find (&h, "references", NULL));
 		if (info->references == NULL)
 			info->references = header_references_decode (header_raw_find (&h, "in-reply-to", NULL));
-
+		
 		while (h->next) {
 			struct _header_raw *next = h->next;
 			
@@ -1247,15 +1247,15 @@ imap_get_summary_internal (CamelFolder *folder, CamelException *ex)
 			g_free (h);
 			h = next;
 		}
-
+		
 		g_ptr_array_add (summary, info);
 		g_hash_table_insert (hash, info->uid, info);
 	}
-
+	
 	for (i = 0; i < headers->len; i++)
 		g_free (headers->pdata[i]);
 	g_ptr_array_free (headers, TRUE);
-
+	
 	/* clean up any previous summary data */
 	imap_folder_summary_free (imap_folder);
 	
@@ -1298,13 +1298,13 @@ imap_get_message_info_internal (CamelFolder *folder, guint id)
 	}
 	
 	/* lets grab the UID... */
-	if (!(uid = (char *) e_strstrcase (result, "(UID "))) {
+	if (!(uid = (char *) e_strstrcase (result, "UID "))) {
 		d(fprintf (stderr, "Cannot get a uid for %d\n\n%s\n\n", id, result));
 		g_free (result);
 		return NULL;
 	}
 		
-	for (uid += 5; *uid && (*uid < '0' || *uid > '9'); uid++); /* advance to <uid> */
+	for (uid += 4; *uid && (*uid < '0' || *uid > '9'); uid++); /* advance to <uid> */
 	for (q = uid; *q && *q >= '0' && *q <= '9'; q++); /* find the end of the <uid> */
 	uid = g_strndup (uid, (gint)(q - uid));
 
@@ -1424,7 +1424,7 @@ imap_search_by_expression (CamelFolder *folder, const char *expression, CamelExc
 {
 	/* NOTE: This is experimental code... */
 	GPtrArray *uids = NULL;
-	char *result, *sexp;
+	char *result, *sexp, *p;
 	int status;
 	
 	d(fprintf (stderr, "camel sexp: '%s'\n", expression));
@@ -1453,11 +1453,11 @@ imap_search_by_expression (CamelFolder *folder, const char *expression, CamelExc
 		g_free (sexp);
 		return uids;
 	}
-	
-	if (*result == '*' && !strncmp ("SEARCH", imap_next_word (result), 6)) {
+
+	if ((p = strstr (result, "* SEARCH"))) {
 		char *word;
 		
-		word = imap_next_word (result); /* word now points to SEARCH */
+		word = imap_next_word (p); /* word now points to SEARCH */
 		
 		for (word = imap_next_word (word); *word && *word != '*'; word = imap_next_word (word)) {
 			gboolean word_is_numeric = TRUE;
