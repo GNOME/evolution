@@ -28,15 +28,18 @@
 
 G_BEGIN_DECLS
 
-void        e_passwords_init              (const char *component);
+/* initialization is now implicit when you call any of the functions
+   below (except _shutdown.).  e_passwords_shutdown should be called
+   at exit time to synch the password on-disk storage, and to free up
+   in-memory storage. */
 void        e_passwords_shutdown          (void);
 
-void        e_passwords_remember_password (const char *key);
+void        e_passwords_remember_password (const char *component, const char *key);
 void        e_passwords_add_password      (const char *key, const char *passwd);
-char       *e_passwords_get_password      (const char *key);
-void        e_passwords_forget_password   (const char *key);
+char       *e_passwords_get_password      (const char *component, const char *key);
+void        e_passwords_forget_password   (const char *component, const char *key);
 void        e_passwords_forget_passwords  (void);
-void        e_passwords_clear_component_passwords (void);
+void        e_passwords_clear_component_passwords (const char *component);
 
 typedef enum {
 	E_PASSWORDS_DO_NOT_REMEMBER,
@@ -44,7 +47,8 @@ typedef enum {
 	E_PASSWORDS_REMEMBER_FOREVER
 } EPasswordsRememberType;
 
-char *      e_passwords_ask_password      (const char *title, const char *key,
+char *      e_passwords_ask_password      (const char *title, 
+					   const char*component_name, const char *key,
 					   const char *prompt, gboolean secret,
 					   EPasswordsRememberType remember_type,
 					   gboolean *remember,

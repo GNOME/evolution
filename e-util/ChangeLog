@@ -1,3 +1,23 @@
+2002-12-09  Chris Toshok  <toshok@ximian.com>
+
+	* e-passwords.h: track changes to api (e_passwords_init is gone,
+	and several functions take the component name as an arg.)
+
+	* e-passwords.c (e_passwords_init): make this static, and allow
+	multiple calls.  Also, it no longer takes the component name.
+	(e_passwords_shutdown): make this deal with the case where
+	e_passwords_init wasn't called (no hashtable), and it no longer
+	needs to free component_name.
+	(e_passwords_forget_passwords): call e_passwords_init.
+	(e_passwords_clear_component_passwords): take component_name as an
+	arg, and call e_passwords_init.
+	(password_path): take component_name as an arg.
+	(e_passwords_remember_password): same, and call e_passwords_init.
+	(e_passwords_forget_password): same.
+	(e_passwords_get_password): same.
+	(e_passwords_add_password): call e_passwords_init.
+	(e_passwords_ask_password): take component_name as an arg.
+
 2002-12-07  Not Zed  <NotZed@Ximian.com>
 
 	* e-msgport.c (e_mutex_cond_wait): Allow an e-mutex to be used

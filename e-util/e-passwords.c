@@ -37,7 +37,6 @@
 static char *decode_base64 (char *base64);
 
 static GHashTable *passwords = NULL;
-static char *component_name = NULL;
 
 static int base64_encode_close(unsigned char *in, int inlen, gboolean break_lines, unsigned char *out, int *state, int *save);
 static int base64_encode_step(unsigned char *in, int len, gboolean break_lines, unsigned char *out, int *state, int *save);
@@ -48,13 +47,14 @@ static int base64_encode_step(unsigned char *in, int len, gboolean break_lines, 
  * Initializes the e_passwords routines. Must be called before any other
  * e_passwords_* function.
  **/
-void
-e_passwords_init (const char *component)
+static void
+e_passwords_init ()
 {
+	if (passwords)
+		return;
+
 	/* create the per-session hash table */
 	passwords = g_hash_table_new (g_str_hash, g_str_equal);
-
-	component_name = g_strdup (component);
 }
 
 static gboolean
@@ -77,13 +77,12 @@ e_passwords_shutdown ()
 	/* shouldn't need this really - everything is synchronous */
 	gnome_config_private_sync_file ("/Evolution");
 
-	/* and destroy our per session hash */
-	g_hash_table_foreach_remove (passwords, free_entry, NULL);
-	g_hash_table_destroy (passwords);
-	passwords = NULL;
-
-	g_free (component_name);
-	component_name = NULL;
+	if (passwords) {
+		/* and destroy our per session hash */
+		g_hash_table_foreach_remove (passwords, free_entry, NULL);
+		g_hash_table_destroy (passwords);
+		passwords = NULL;
+	}
 }
 
 
@@ -95,6 +94,8 @@ e_passwords_shutdown ()
 void
 e_passwords_forget_passwords ()
 {
+	e_passwords_init ();
+
 	gnome_config_private_clean_section ("/Evolution/Passwords");
 	gnome_config_private_sync_file ("/Evolution");
 
@@ -108,9 +109,11 @@ e_passwords_forget_passwords ()
  * Forgets all disk cached passwords.
  **/
 void
-e_passwords_clear_component_passwords ()
+e_passwords_clear_component_passwords (const char *component_name)
 {
 	char *path;
+
+	e_passwords_init ();
 
 	path = g_strdup_printf ("/Evolution/Passwords-%s", component_name);
 
@@ -121,7 +124,7 @@ e_passwords_clear_component_passwords ()
 }
 
 static char *
-password_path (const char *key)
+password_path (const char *component_name, const char *key)
 {
 	char *keycopy, *path;
 	int i;
@@ -145,17 +148,19 @@ password_path (const char *key)
  * Saves the password associated with @key to disk.
  **/
 void
-e_passwords_remember_password (const char *key)
+e_passwords_remember_password (const char *component_name, const char *key)
 {
 	gpointer okey, value;
 	char *path, *pass64;
 	int len, state, save;
 
+	e_passwords_init ();
+
 	if (!g_hash_table_lookup_extended (passwords, key, &okey, &value))
 		return;
 
 	/* add it to the on-disk cache of passwords */
-	path = password_path (okey);
+	path = password_path (component_name, okey);
 
 	len = strlen (value);
 	pass64 = g_malloc0 ((len + 2) * 4 / 3 + 1);
@@ -183,10 +188,12 @@ e_passwords_remember_password (const char *key)
  * Forgets the password associated with @key, in memory and on disk.
  **/
 void
-e_passwords_forget_password (const char *key)
+e_passwords_forget_password (const char *component_name, const char *key)
 {
 	gpointer okey, value;
 	char *path;
+
+	e_passwords_init ();
 
 	if (g_hash_table_lookup_extended (passwords, key, &okey, &value)) {
 		g_hash_table_remove (passwords, key);
@@ -196,7 +203,7 @@ e_passwords_forget_password (const char *key)
 	}
 
 	/* clear it in the on disk db */
-	path = password_path (key);
+	path = password_path (component_name, key);
 	gnome_config_private_clean_key (path);
 	gnome_config_private_sync_file ("/Evolution");
 	g_free (path);
@@ -210,20 +217,20 @@ e_passwords_forget_password (const char *key)
  * must free the returned password.
  **/
 char *
-e_passwords_get_password (const char *key)
+e_passwords_get_password (const char *component_name, const char *key)
 {
 	char *path, *passwd = g_hash_table_lookup (passwords, key);
 	char *encoded = NULL;
+
+	e_passwords_init ();
 	
 	if (passwd)
 		return g_strdup (passwd);
 	
 	/* not part of the session hash, look it up in the on disk db */
-	path = password_path (key);
+	path = password_path (component_name, key);
 
 	encoded = gnome_config_private_get_string_with_default (path, NULL);
-	
-	printf ("getting password for (%s): %s\n", path, encoded);
 	
 	g_free (path);
 
@@ -249,6 +256,8 @@ e_passwords_add_password (const char *key, const char *passwd)
 {
 	gpointer okey, value;
 
+	e_passwords_init ();
+
 	/* FIXME: shouldn't this be g_return_if_fail? */
 	if (!key || !passwd)
 		return;
@@ -272,6 +281,8 @@ entry_activate (GtkEntry *entry, GtkDialog *dialog)
 /**
  * e_passwords_ask_password:
  * @title: title for the password dialog
+ * @component_name: the name of the component for which we're storing
+ * the password (e.g. Mail, Addressbook, etc.)
  * @key: key to store the password under
  * @prompt: prompt string
  * @secret: whether or not the password text should be ***ed out
@@ -289,7 +300,8 @@ entry_activate (GtkEntry *entry, GtkDialog *dialog)
  * E_PASSWORDS_DO_NOT_REMEMBER.
  **/
 char *
-e_passwords_ask_password (const char *title, const char *key,
+e_passwords_ask_password (const char *title, const char *component_name,
+			  const char *key,
 			  const char *prompt, gboolean secret,
 			  EPasswordsRememberType remember_type,
 			  gboolean *remember,
@@ -350,7 +362,7 @@ e_passwords_ask_password (const char *title, const char *key,
 			if (*remember || remember_type == E_PASSWORDS_REMEMBER_FOREVER)
 				e_passwords_add_password (key, password);
 			if (*remember && remember_type == E_PASSWORDS_REMEMBER_FOREVER)
-				e_passwords_remember_password (key);
+				e_passwords_remember_password (component_name, key);
 		}
 	} else
 		password = NULL;
