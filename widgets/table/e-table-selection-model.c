@@ -67,11 +67,11 @@ model_pre_change (ETableModel *etm, ETableSelectionModel *etsm)
 		gtk_object_get(GTK_OBJECT(etsm),
 			       "cursor_row", &cursor_row,
 			       NULL);
-		if (etsm->cursor_id)
-			g_free (etsm->cursor_id);
-		if (cursor_row != -1) {
+		g_free (etsm->cursor_id);
+		if (cursor_row != -1)
 			etsm->cursor_id = e_table_model_get_save_id(etm, cursor_row);
-		}
+		else
+			etsm->cursor_id = NULL;
 	}
 }
 
@@ -84,6 +84,8 @@ model_changed_idle(ETableSelectionModel *etsm)
 
 	if (etsm->cursor_id && etm && e_table_model_has_save_id(etm)) {
 		int row_count = e_table_model_row_count(etm);
+		int cursor_row = -1;
+		int cursor_col = -1;
 		int i;
 		e_selection_model_array_confirm_row_count(E_SELECTION_MODEL_ARRAY(etsm));
 		for (i = 0; i < row_count; i++) {
@@ -92,13 +94,17 @@ model_changed_idle(ETableSelectionModel *etsm)
 				e_selection_model_change_one_row(E_SELECTION_MODEL(etsm), i, TRUE);
 			
 			if (etsm->cursor_id && !strcmp(etsm->cursor_id, save_id)) {
-				e_selection_model_change_cursor(E_SELECTION_MODEL(etsm), i, e_selection_model_cursor_col(E_SELECTION_MODEL(etsm)));
+				cursor_row = i;
+				cursor_col = e_selection_model_cursor_col(E_SELECTION_MODEL(etsm));
+				e_selection_model_change_cursor(E_SELECTION_MODEL(etsm), cursor_row, cursor_col);
 				g_free(etsm->cursor_id);
 				etsm->cursor_id = NULL;
 			}
 			g_free(save_id);
 		}
 		free_hash(etsm);
+		e_selection_model_cursor_changed (E_SELECTION_MODEL(etsm), cursor_row, cursor_col);
+		e_selection_model_selection_changed (E_SELECTION_MODEL(etsm));
 	}
 	etsm->model_changed_idle_id = 0;
 	return FALSE;
@@ -245,7 +251,7 @@ static void
 e_table_selection_model_init (ETableSelectionModel *selection)
 {
 	selection->model = NULL;
-	/*	selection->hash = NULL;*/
+	selection->hash = NULL;
 	selection->cursor_id = NULL;
 
 	selection->model_changed_idle_id = 0;
