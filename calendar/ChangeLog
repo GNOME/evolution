@@ -1,3 +1,8 @@
+2004-01-12  Hans Petter Jansson  <hpj@ximian.com>
+
+	* gui/dialogs/calendar-setup.c (source_to_dialog): Only update dialog
+	widgets if they exist.
+
 2004-01-11  JP Rosevear <jpr@ximian.com>
 
 	* gui/tasks-component.c: Fix copyright notice, its copyright

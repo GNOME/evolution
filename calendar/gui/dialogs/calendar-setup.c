@@ -299,8 +299,10 @@ source_to_dialog (SourceDialog *source_dialog)
 		gtk_spin_button_set_value (GTK_SPIN_BUTTON (source_dialog->refresh_spin),
 					   refresh_str ? atoi (refresh_str) : 30);
 	} else {
-		gtk_entry_set_text (GTK_ENTRY (source_dialog->uri_entry), "");
-		gtk_spin_button_set_value (GTK_SPIN_BUTTON (source_dialog->refresh_spin), 30);
+		if (source_dialog->uri_entry)
+			gtk_entry_set_text (GTK_ENTRY (source_dialog->uri_entry), "");
+		if (source_dialog->refresh_spin)
+			gtk_spin_button_set_value (GTK_SPIN_BUTTON (source_dialog->refresh_spin), 30);
 	}
 
 	g_signal_handlers_unblock_matched (source_dialog->name_entry, G_SIGNAL_MATCH_DATA,
