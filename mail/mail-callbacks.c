@@ -540,26 +540,27 @@ select_all (BonoboUIHandler *uih, void *user_data, const char *path)
 {
 	FolderBrowser *fb = FOLDER_BROWSER (user_data);
         MessageList *ml = fb->message_list;
+	ETableScrolled *scrolled;
 	
 	if (ml->folder == NULL)
 		return;
 	
-	message_list_select (ml, -1, MESSAGE_LIST_SELECT_NEXT, 0, 0);
-	/* FIXME: when clahey codes select all for e-table, finish this */
-	/* e_table_select_all (); */
+	scrolled = E_TABLE_SCROLLED (ml->etable);
+	e_table_select_all (scrolled->table);
 }
 
 void
-unselect_all (BonoboUIHandler *uih, void *user_data, const char *path)
+invert_selection (BonoboUIHandler *uih, void *user_data, const char *path)
 {
 	FolderBrowser *fb = FOLDER_BROWSER (user_data);
         MessageList *ml = fb->message_list;
+	ETableScrolled *scrolled;
 	
 	if (ml->folder == NULL)
 		return;
 	
-	/* FIXME: when clahey codes select all for e-table, finish this */
-	/* e_table_unselect_all (); */
+	scrolled = E_TABLE_SCROLLED (ml->etable);
+	e_table_invert_selection (scrolled->table);
 }
 
 void

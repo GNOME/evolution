@@ -1,3 +1,13 @@
+2000-10-04  Jeffrey Stedfast  <fejj@helixcode.com>
+
+	* folder-browser-factory.c: Instead of UnSelectAll, we want
+	InvertSelection.
+
+	* mail-callbacks.c (select_all): Finished this function.
+	(invert_selection): Finished. (was unselect_all - but that's not
+	what we really wanted as it'd be pointless. invert_selection is a
+	much more useful callback :-)
+
 2000-10-04  Chris Toshok  <toshok@helixcode.com>
 
 	* mail-tools.c (mail_tool_get_root_of_store): remove news specific
@@ -5,7 +15,7 @@
 	(mail_tool_uri_to_folder): news: -> nntp:
 
 2000-10-04  Jeffrey Stedfast  <fejj@helixcode.com>
-
+	
 	* mail-ops.c (do_filter_ondemand): Don't expunge the source
 	mailbox on completion.
 
@@ -16,7 +26,8 @@
 
 2000-10-04  Not Zed  <NotZed@HelixCode.com>
 
-	* message-list.c (message_list_init_header): Fix the attachment icon width.
+	* message-list.c (message_list_init_header): Fix the attachment
+	icon width.
 	(content_is_attachment): Perform some simple tests to see if the
 	message contains an attachment.
 	(build_subtree): Kill a pointless warning.
@@ -86,14 +97,16 @@
 
 2000-10-02  Chris Toshok  <toshok@helixcode.com>
 
-	* Makefile.am (evolution_mail_SOURCES): subscribe-control.[ch] -> subscribe_dialog.[ch]
+	* Makefile.am (evolution_mail_SOURCES): subscribe-control.[ch] ->
+	subscribe_dialog.[ch]
 
 	* mail-callbacks.c (manage_subscriptions): subscribe_control ->
 	subscribe_dialog.  Also, pass the shell to subscribe_dialog_new.
 
 	* mail-types.h: SubscribeControl -> SubscribeDialog.
 
-	* subscribe-dialog.c, subscribe-dialog.h: rename from subscribe-control.[ch].
+	* subscribe-dialog.c, subscribe-dialog.h: rename from
+	subscribe-control.[ch].
 
 	* subscribe-dialog.c (subscribe_dialog_construct): pass
 	Evolution_Shell in.
@@ -123,14 +136,15 @@
 
 2000-10-01  Iain Holmes  <iain@helixcode.com>
 
-	* mail-display.c: Generate the thumbnails on an idle function so that
-	the user interface isn't locked. Checks in case the widget it will
-	use to display the image isn't destroyed. 
+	* mail-display.c: Generate the thumbnails on an idle function so
+	that the user interface isn't locked. Checks in case the widget it
+	will use to display the image isn't destroyed.
 
 2000-10-01  Iain Holmes  <iain@helixcode.com>
 
-	* mail-display.c (on_object_requested): If the attachment is an image
-	display a thumbnail of it, instead of the generic image icon.
+	* mail-display.c (on_object_requested): If the attachment is an
+	image display a thumbnail of it, instead of the generic image
+	icon.
 
 2000-09-29  Miguel de Icaza  <miguel@helixcode.com>
 
@@ -198,10 +212,9 @@
 
 	* Makefile.am (evolution_mail_SOURCES): add the subscribe stuff.
 
-	* subscribe-control-factory.h
-	* subscribe-control-factory.c
-	* subscribe-control.c:
-	* subscribe-control.h: Mostly mocked up subscribe ui.
+	* subscribe-control-factory.h * subscribe-control-factory.c *
+	subscribe-control.c: * subscribe-control.h: Mostly mocked up
+	subscribe ui.
 
 2000-09-27  Jeffrey Stedfast  <fejj@helixcode.com>
 	Note: We need a configuration option to specify whether to log
@@ -221,8 +234,8 @@
 2000-09-27  Jeffrey Stedfast  <fejj@helixcode.com>
 
 	* mail-ops.c (do_filter_ondemand): If the message has been
-	deleted, don't try filtering it - skip to the next message.
-	Fixes bugzilla bug #639.
+	deleted, don't try filtering it - skip to the next message.  Fixes
+	bugzilla bug #639.
 
 2000-09-25  Jeffrey Stedfast  <fejj@helixcode.com>
 
@@ -246,8 +259,8 @@
 
 	* message-list.c (folder_to_cachename): Function to convert a
 	folder name/path to a filename for per-folder data.
-	(save_tree_state): 
-	(load_tree_state): 
+	(save_tree_state):
+	(load_tree_state):
 	(free_tree_state): For loading/saving the state of the expansion
 	of nodes in the tree.
 	(message_list_destroy): Save the tree state when done.
@@ -309,9 +322,8 @@
 2000-09-19  Dan Winship  <danw@helixcode.com>
 
 	* mail-callbacks.c (create_msg_composer, compose_msg, send_to_url,
-	mail_reply, forward_msg):
-	* mail-format.c (mail_generate_reply):
-	* mail-ops.c (cleanup_edit_messages):
+	mail_reply, forward_msg): * mail-format.c (mail_generate_reply): *
+	mail-ops.c (cleanup_edit_messages):
 
 	* mail-view.c (view_forward_msg): Deal with NULL composer.
 

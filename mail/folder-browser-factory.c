@@ -82,7 +82,7 @@ BonoboUIVerb verbs [] = {
 	
 	/* Edit Menu */
 	BONOBO_UI_VERB ("EditSelectAll", select_all),
-	BONOBO_UI_VERB ("EditUnSelectAll", unselect_all),
+	BONOBO_UI_VERB ("EditInvertSelection", invert_selection),
 	
 	/* Settings Menu */
 	BONOBO_UI_VERB ("SetMailFilter", filter_edit),

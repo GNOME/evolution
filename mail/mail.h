@@ -87,10 +87,9 @@ void edit_msg           (GtkWidget *widget, gpointer user_data);
 void view_msg           (GtkWidget *widget, gpointer user_data);
 
 void select_all      (BonoboUIHandler *uih, void *user_data, const char *path);
-void unselect_all    (BonoboUIHandler *uih, void *user_data, const char *path);
+void invert_selection (BonoboUIHandler *uih, void *user_data, const char *path);
 void mark_as_seen    (BonoboUIHandler *uih, void *user_data, const char *path);
 void mark_as_unseen  (BonoboUIHandler *uih, void *user_data, const char *path);
-
 void edit_message    (BonoboUIHandler *uih, void *user_data, const char *path);
 void view_message    (BonoboUIHandler *uih, void *user_data, const char *path);
 void expunge_folder  (BonoboUIHandler *uih, void *user_data, const char *path);
