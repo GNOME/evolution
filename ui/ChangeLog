@@ -1,5 +1,13 @@
 2001-08-20  Damon Chaplin  <damon@ximian.com>
 
+	* evolution-contact-editor.xml: use bigger Save icon for toolbar.
+
+	* evolution-comp-editor.xml: used Delete icon for menu.
+
+	* evolution-tasks.xml: changed 'Tasks Settings' to 'Tasks Settings...'.
+
+2001-08-20  Damon Chaplin  <damon@ximian.com>
+
 	* evolution-calendar.xml: changed Goto icon to pixbuf.
 
 2001-08-20  Damon Chaplin  <damon@ximian.com>

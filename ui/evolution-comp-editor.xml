@@ -44,7 +44,7 @@
 
 	<separator/>
 
-        <menuitem name="FileDelete" verb=""/>
+        <menuitem name="FileDelete" verb="" pixtype="pixbuf"/>
 
 	<separator/>
 

@@ -72,7 +72,7 @@
 	<dockitem name="Toolbar" relief="none" behavior="exclusive"
 			hlook="text" vlook="icon">
 	        <toolitem name="ContactEditorSave" verb=""
-		_label="Save" priority="1" />
+		_label="Save" priority="1" pixtype="pixbuf"/>
 
 		<separator/>
 

@@ -45,7 +45,7 @@
 	        <placeholder name="ComponentToolsPlaceholder">
           	        <submenu name="Tools" _label="_Tools">
 				<menuitem name="TasksSettings"
-				 _label="Tasks Settings"
+				 _label="Tasks Settings..."
 				 verb="TasksSettings" pixtype="pixbuf"/>
 		        </submenu>
                 </placeholder>
