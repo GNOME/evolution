@@ -728,13 +728,16 @@ smtp.omniport.com:143
     <sect2 id="config-prefs-cal-other">
       <title>Other Calendar Settings</title>
       <para> 
-	This configures miscellaneous items for the calendar and todo list's functionality.
+	This configures miscellaneous items for the calendar and todo
+      list's functionality.
 	<variablelist>
 	  <varlistentry>
 	    <term>Ask for confirmation when deleting items</term>
 	    <listitem>
 	      <para>
-		When you delete an item in either the Task List or the Calendar, you will be prompted to confirm that you want to delete the item.
+		When you delete an item in either the Task List or the
+		Calendar, you will be prompted to confirm that you
+		want to delete the item.
 	      </para>
 	    </listitem>
 	  </varlistentry>
@@ -742,7 +745,10 @@ smtp.omniport.com:143
 	    <term>Create new appointments with a default reminder</term>
 	    <listitem>
 	      <para>
-		All your appointments will be created using a default reminder enabled.  You can still change what way you are reminded though.  If enabled, you can then set the time before your appointment to be reminded.
+		All your appointments will be created using a default
+		reminder enabled.  You can still change what way you
+		are reminded though.  If enabled, you can then set the
+		time before your appointment to be reminded.
 	      </para>
 	    </listitem>
 	  </varlistentry>
@@ -834,7 +840,8 @@ smtp.omniport.com:143
 		  </listitem>
 		</varlistentry>
 		<varlistentry>
-		  <term><glossterm linkend="search-scope">Search scope</glossterm></term>
+		  <term><glossterm linkend="search-scope">Search
+		  scope</glossterm></term>
 		  <listitem>
 		    <para>
 		      How broad the search is in the directory.  The
@@ -887,7 +894,7 @@ smtp.omniport.com:143
 	    </para>
 	  </listitem>
 	</orderedlist>
-<!-- I gotta finish this example -->
+
 	<example id="ldap-config-example">
 	  <title>LDAP Configuration</title>
 	  <para>
@@ -895,12 +902,24 @@ smtp.omniport.com:143
 	    access the company's LDAP server.  Their LDAP address is
 	    wemakechips.com.
 	  </para>
-	  <para>
-	    His Account Name would be: We Make Chips Employees
-	  </para>
-	  <para>
-	    His Server Name would be: ldap.wemakechips.com
-	  </para>
+	  <itemizedlist>
+	    <listitem>
+	      <para>
+		His Account Name would be: We Make Chips Employees
+	      </para>
+	    </listitem>
+	    <listitem>
+	      <para>
+		His Server Name would be: ldap.wemakechips.com
+	      </para>
+	    </listitem>
+	    <listitem>
+	      <para>
+		He will need to talk to the adminstrator's at the
+		company to learn about the search scope or the search base.
+	      </para>
+	    </listitem>
+	  </itemizedlist>
 	</example>
       </para>
     </sect2>
@@ -918,6 +937,8 @@ smtp.omniport.com:143
 -->
 </chapter>
     
+
+
 
 
 
