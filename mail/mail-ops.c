@@ -209,7 +209,8 @@ static char *
 uid_cachename_hack (CamelStore *store)
 {
 	CamelURL *url = CAMEL_SERVICE (store)->url;
-	char *encoded_url, *filename;
+	char *encoded_url, *filename, *old_location;
+	struct stat st;
 	
 	encoded_url = g_strdup_printf ("pop://%s%s%s@%s/", url->user,
 				       url->authmech ? ";auth=" : "",
@@ -217,7 +218,26 @@ uid_cachename_hack (CamelStore *store)
 				       url->host);
 	e_filename_make_safe (encoded_url);
 	
-	filename = g_strdup_printf ("%s/config/cache-%s", evolution_dir, encoded_url);
+	filename = g_strdup_printf ("%s/mail/pop3/cache-%s", evolution_dir, encoded_url);
+	
+	/* lame hack, but we can't expect user's to actually migrate
+           their cache files - brain power requirements are too
+           high. */
+	if (stat (filename, &st) == -1) {
+		/* This is either the first time the user has checked
+                   mail with this POP provider or else their cache
+                   file is in the old location... */
+		old_location = g_strdup_printf ("%s/config/cache-%s", evolution_dir, encoded_url);
+		if (stat (old_location, &st) == -1) {
+			/* old location doesn't exist either so use the new location */
+			g_free (old_location);
+		} else {
+			/* old location exists, so I guess we use the old cache file location */
+			g_free (filename);
+			filename = old_location;
+		}
+	}
+	
 	g_free (encoded_url);
 	
 	return filename;

@@ -1,5 +1,10 @@
 2001-10-16  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* mail-ops.c (uid_cachename_hack): Lets put the UID cache in
+	~/evolution/mail/pop3 as this makes more sense than ~/mail/config
+	does. Perform checking to see what flavor cache-path the user is
+	on and compensate.
+
 	* message-list.c (on_cursor_activated_idle): Check that the
 	cursor_uid is non-NULL before emitting a "message_selected"
 	signal. Fixes bug #6015.
