@@ -70,13 +70,8 @@ typedef struct {
 
 	GtkWidget *mail;
 	gboolean do_mail;
-	GtkWidget *settings;
-	gboolean do_settings;
 	GtkWidget *address;
 	gboolean do_address;
-
-	GtkWidget *ask;
-	gboolean ask_again;
 
 	EBook *book;
 
@@ -96,12 +91,8 @@ pine_store_settings (PineImporter *importer)
 {
 	bonobo_config_set_boolean (importer->db, "/Importer/Pine/mail", 
 				   importer->do_mail, NULL);
-	bonobo_config_set_boolean (importer->db, "/Importer/Pine/settings", 
-				   importer->do_settings, NULL);
 	bonobo_config_set_boolean (importer->db, "/Importer/Pine/address", 
 				   importer->do_address, NULL);
-	bonobo_config_set_boolean (importer->db, "/Importer/Pine/ask-again", 
-				   importer->ask_again, NULL);
 }
 
 static void
@@ -110,14 +101,9 @@ pine_restore_settings (PineImporter *importer)
 	importer->do_mail = bonobo_config_get_boolean_with_default (
 		importer->db, "/Importer/Pine/mail", TRUE, NULL);
 
-	importer->do_settings = bonobo_config_get_boolean_with_default (
-		importer->db, "/Importer/Pine/settings", TRUE, NULL);
-
 	importer->do_address = bonobo_config_get_boolean_with_default (
 		importer->db, "/Importer/Pine/address", TRUE, NULL);
 
-	importer->ask_again = bonobo_config_get_boolean_with_default (
-                importer->db, "/Importer/Pine/ask-again", FALSE, NULL);
 }
 
 /* Pass in handle so we can get the next line if we need to */
@@ -316,6 +302,12 @@ import_addressfile (EBook *book,
 	}
 	
 	fclose (handle);
+	if (importer->do_mail == FALSE) {
+		if (importer->db != CORBA_OBJECT_NIL) {
+			bonobo_object_release_unref (importer->db, NULL);
+		}
+		gtk_main_quit ();
+	}
 }
 
 static void
@@ -350,10 +342,7 @@ importer_cb (EvolutionImporterListener *listener,
 	CORBA_Object objref;
 	CORBA_Environment ev;
 
-	g_print ("Processed.....\n");
 	if (more_items) {
-		g_print ("Processing.....\n");
-
 		CORBA_exception_init (&ev);
 		objref = bonobo_object_corba_objref (BONOBO_OBJECT (importer->listener));
 		GNOME_Evolution_Importer_processItem (importer->importer,
@@ -370,6 +359,10 @@ importer_cb (EvolutionImporterListener *listener,
 	if (importer->dir_list) {
 		import_next (importer);
 	} else {
+		bonobo_object_release_unref (importer->importer, NULL);
+		if (importer->db != CORBA_OBJECT_NIL) {
+			bonobo_object_release_unref (importer->db, NULL);
+		}
 		gtk_main_quit ();
 	}
 }
@@ -383,8 +376,6 @@ pine_import_file (PineImporter *importer,
 	CORBA_Environment ev;
 	CORBA_Object objref;
 
-	g_warning ("Importing %s as %s", path, folderpath);
-	
 	CORBA_exception_init (&ev);
 	result = GNOME_Evolution_Importer_loadFile (importer->importer, path,
 						    folderpath, &ev);
@@ -426,14 +417,13 @@ pine_can_import (EvolutionIntelligentImporter *ii,
 		return FALSE;
 
 	importer->do_mail = !mail;
-	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (importer->mail),
-				      importer->do_mail);
-	
-	if (importer->ask_again == TRUE)
-		return FALSE;
 
 	maildir = gnome_util_prepend_user_home ("mail");
 	md_exists = g_file_exists (maildir);
+	importer->do_mail = md_exists;
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (importer->mail),
+				      importer->do_mail);
+	
 	gtk_widget_set_sensitive (importer->mail, md_exists);
 	g_free (maildir);
 
@@ -601,21 +591,20 @@ pine_destroy_cb (GtkObject *object,
 {
 	CORBA_Environment ev;
 
-	g_print ("\n-------Settings-------\n");
-	g_print ("Mail - %s\n", importer->do_mail ? "Yes" : "No");
-	g_print ("Settings - %s\n", importer->do_settings ? "Yes" : "No");
-	g_print ("Address - %s\n", importer->do_address ? "Yes" : "No");
-
 	pine_store_settings (importer);
 
 	CORBA_exception_init (&ev);
 	Bonobo_ConfigDatabase_sync (importer->db, &ev);
 	CORBA_exception_free (&ev);
 
-	if (importer->db != CORBA_OBJECT_NIL)
+	if (importer->db != CORBA_OBJECT_NIL) {
 		bonobo_object_release_unref (importer->db, NULL);
+	}
 	importer->db = CORBA_OBJECT_NIL;
 
+	if (importer->importer != CORBA_OBJECT_NIL) {
+		bonobo_object_release_unref (importer->importer, NULL);
+	}
 	gtk_main_quit ();
 }
 
@@ -632,7 +621,7 @@ checkbox_toggle_cb (GtkToggleButton *tb,
 static BonoboControl *
 create_checkboxes_control (PineImporter *importer)
 {
-	GtkWidget *container, *vbox, *sep;
+	GtkWidget *container, *vbox;
 	BonoboControl *control;
 
 	container = gtk_frame_new (_("Import"));
@@ -645,41 +634,18 @@ create_checkboxes_control (PineImporter *importer)
 			    GTK_SIGNAL_FUNC (checkbox_toggle_cb),
 			    &importer->do_mail);
 
-	importer->settings = gtk_check_button_new_with_label (_("Settings"));
-	gtk_signal_connect (GTK_OBJECT (importer->settings), "toggled",
-			    GTK_SIGNAL_FUNC (checkbox_toggle_cb),
-			    &importer->do_settings);
-
 	importer->address = gtk_check_button_new_with_label (_("Addressbook"));
 	gtk_signal_connect (GTK_OBJECT (importer->address), "toggled",
 			    GTK_SIGNAL_FUNC (checkbox_toggle_cb),
 			    &importer->do_address);
 
-	sep = gtk_hseparator_new ();
-
-	importer->ask = gtk_check_button_new_with_label (_("Don't ask me again"));
-	gtk_signal_connect (GTK_OBJECT (importer->ask), "toggled",
-			    GTK_SIGNAL_FUNC (checkbox_toggle_cb),
-			    &importer->ask_again);
-
 	gtk_box_pack_start (GTK_BOX (vbox), importer->mail, FALSE, FALSE, 0);
-	gtk_box_pack_start (GTK_BOX (vbox), importer->settings, FALSE, FALSE, 0);
 	gtk_box_pack_start (GTK_BOX (vbox), importer->address, FALSE, FALSE, 0);
-	gtk_box_pack_start (GTK_BOX (vbox), sep, FALSE, FALSE, 0);
-	gtk_box_pack_start (GTK_BOX (vbox), importer->ask, FALSE, FALSE, 0);
 
-	/* Disable the don't do anythings */
-	gtk_widget_set_sensitive (importer->settings, FALSE);
-	gtk_widget_set_sensitive (importer->address, FALSE);
-	
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (importer->mail), 
 				      importer->do_mail);
-	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (importer->settings),
-				      importer->do_settings);
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (importer->address),
 				      importer->do_address);
-	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (importer->ask),
-				      importer->ask_again);
 
 	gtk_widget_show_all (container);
 	control = bonobo_control_new (container);
