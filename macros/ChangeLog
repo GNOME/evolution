@@ -1,3 +1,9 @@
+1998-10-11  Martin Baulig  <martin@home-of-linux.org>
+
+	* gnome-libgtop-check.m4 (GNOME_INIT_LIBGTOP): Added optional
+	third parameter which is the `script-if-enabled' parameter of
+	the GNOME_LIBGTOP_HOOOK.
+
 1998-10-05  Karl Eichwalder <ke@suse.de>
 
 	* gnome-xml-check.m4: Fix typo while signaling the error.
