@@ -3888,20 +3888,23 @@ e_msg_composer_get_view_replyto (EMsgComposer *composer)
 gchar *
 e_msg_composer_guess_mime_type (const gchar *file_name)
 {
-	GnomeVFSFileInfo info;
+	GnomeVFSFileInfo *info;
 	GnomeVFSResult result;
-
-	result = gnome_vfs_get_file_info (file_name, &info,
+	
+	info = gnome_vfs_file_info_new ();
+	result = gnome_vfs_get_file_info (file_name, info,
 					  GNOME_VFS_FILE_INFO_GET_MIME_TYPE |
 					  GNOME_VFS_FILE_INFO_FOLLOW_LINKS);
 	if (result == GNOME_VFS_OK) {
 		gchar *type;
 
-		type = g_strdup (gnome_vfs_file_info_get_mime_type (&info));
-		gnome_vfs_file_info_unref (&info);
+		type = g_strdup (gnome_vfs_file_info_get_mime_type (info));
+		gnome_vfs_file_info_unref (info);
 		return type;
-	} else
+	} else {
+		gnome_vfs_file_info_unref (info);
 		return NULL;
+	}
 }
 
 /**

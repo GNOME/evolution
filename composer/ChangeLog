@@ -1,3 +1,9 @@
+2002-06-03  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* e-msg-composer.c (e_msg_composer_guess_mime_type): Allocate a
+	new FileInfo structure so that unreffing doesn't free static
+	memory.
+
 2002-04-12  Not Zed  <NotZed@Ximian.com>
 
 	* e-msg-composer-hdrs.c (set_recipients_from_destv): Change
