@@ -85,8 +85,9 @@ development_warning ()
 		_("This is a development version of Evolution.\n"
 		  "Using the mail component on your mail files\n"
 		  "is extremely hazardous.\n\n"
-		  "Do not run this program on your real mail\n "
-		  "and do not give it access to your real mail server.\n\n"
+		  "Do not run this program on your real mail,\n"
+		  "do not give it access to your real mail server,\n"
+		  "and do not send mail to real people with it.\n\n"
 		  "You have been warned\n"));
 	gtk_widget_show (label);
 

@@ -1,4 +1,22 @@
+2000-05-06  Dan Winship  <danw@helixcode.com>
+
+	* mail-config.c: New code to configure identity, mail source, and
+	mail transport.
+	(mail_config_druid): A druid using the config widgets. (Only
+	allows configuration of a single identity, source, and transport.)
+
+	* mail-ops.c (check_configured): New function to make sure the
+	user has configured stuff, and call the	druid if not.
+	(fetch_mail, send_msg, send_to_url, reply, forward_msg): Call
+	check_configured
+	(composer_send_cb): Make this pass the message to a CamelTransport
+	rather than just printing it to stdout.
+
+	* folder-browser-factory.c (development_warning): Add a warning
+	about sending mail, since you can do that now.
+
 2000-05-06  Chris Toshok  <toshok@HelixCode.com>
+
 	* .cvsignore: ignore evolution-mail.pure
 
 	* Makefile.am: add support for building evolution-mail.pure

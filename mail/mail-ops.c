@@ -36,9 +36,11 @@
 #endif
 
 static void
-mail_exception_dialog (char *head, CamelException *ex, GtkWindow *window)
+mail_exception_dialog (char *head, CamelException *ex, gpointer widget)
 {
 	char *msg;
+	GtkWindow *window =
+		GTK_WINDOW (gtk_widget_get_ancestor (widget, GTK_TYPE_WINDOW));
 
 	msg = g_strdup_printf ("%s:\n%s", head,
 			       camel_exception_get_description (ex));
@@ -46,34 +48,48 @@ mail_exception_dialog (char *head, CamelException *ex, GtkWindow *window)
 	g_free (msg);
 }
 
+static gboolean
+check_configured (void)
+{
+	char *path;
+	gboolean configured;
+
+	path = g_strdup_printf ("=%s/config=/mail/configured", evolution_dir);
+	if (gnome_config_get_bool (path)) {
+		g_free (path);
+		return TRUE;
+	}
+
+	mail_config_druid ();
+
+	configured = gnome_config_get_bool (path);
+	g_free (path);
+	return configured;
+}
+
 void
 fetch_mail (GtkWidget *button, gpointer user_data)
 {
 	FolderBrowser *fb = FOLDER_BROWSER (user_data);
-	GtkWindow *window;
 	CamelException *ex;
 	CamelStore *store = NULL;
 	CamelFolder *folder = NULL, *outfolder = NULL;
 	int nmsgs, i;
 	CamelMimeMessage *msg = NULL;
 	char *path, *url = NULL;
-	gboolean get_remote;
 
-	window = GTK_WINDOW (gtk_widget_get_ancestor (GTK_WIDGET (fb),
-						      GTK_TYPE_WINDOW));
+	if (!check_configured ())
+		return;
 
-	/* FIXME: We want a better config solution than this. */
-	path = g_strdup_printf ("=%s/config=/mail/get_remote", evolution_dir);
-	get_remote = gnome_config_get_bool_with_default (path, FALSE);
+	path = g_strdup_printf ("=%s/config=/mail/source", evolution_dir);
+	url = gnome_config_get_string (path);
 	g_free (path);
-	path = g_strdup_printf ("=%s/config=/mail/remote_url", evolution_dir);
-	url = gnome_config_get_string_with_default (path, NULL);
-	g_free (path);
-	if (!get_remote || !url) {
-		if (url)
-			g_free (url);
+	if (!url) {
+		GtkWidget *win = gtk_widget_get_ancestor (GTK_WIDGET (fb),
+							  GTK_TYPE_WINDOW);
+
 		gnome_error_dialog_parented ("You have no remote mail source "
-					     "configured", window);
+					     "configured", GTK_WINDOW (win));
 		return;
 	}
 
@@ -101,8 +117,7 @@ fetch_mail (GtkWidget *button, gpointer user_data)
 			camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
 					      "Couldn't create temporary "
 					      "mbox: %s", g_strerror (errno));
-			mail_exception_dialog ("Unable to move mail", ex,
-					       window);
+			mail_exception_dialog ("Unable to move mail", ex, fb);
 			goto cleanup;
 		}
 		close (tmpfd);
@@ -112,8 +127,7 @@ fetch_mail (GtkWidget *button, gpointer user_data)
 
 		switch (camel_movemail (source, tmp_mbox, ex)) {
 		case -1:
-			mail_exception_dialog ("Unable to move mail", ex,
-					       window);
+			mail_exception_dialog ("Unable to move mail", ex, fb);
 			/* FALL THROUGH */
 
 		case 0:
@@ -126,8 +140,7 @@ fetch_mail (GtkWidget *button, gpointer user_data)
 						 strrchr (tmp_mbox, '/') + 1,
 						 ex);
 		if (camel_exception_get_id (ex) != CAMEL_EXCEPTION_NONE) {
-			mail_exception_dialog ("Unable to move mail", ex,
-					       window);
+			mail_exception_dialog ("Unable to move mail", ex, fb);
 			g_free (tmp_mbox);
 			goto cleanup;
 		}
@@ -136,34 +149,34 @@ fetch_mail (GtkWidget *button, gpointer user_data)
 						 url, ex);
 		if (!store) {
 			mail_exception_dialog ("Unable to get new mail",
-					       ex, window);
+					       ex, fb);
 			goto cleanup;
 		}
 		camel_service_connect_with_url (CAMEL_SERVICE (store),
 						url, ex);
 		if (camel_exception_get_id (ex) != CAMEL_EXCEPTION_NONE) {
 			mail_exception_dialog ("Unable to get new mail",
-					       ex, window);
+					       ex, fb);
 			goto cleanup;
 		}
 
 		folder = camel_store_get_folder (store, "inbox", ex);
 		if (!folder) {
 			mail_exception_dialog ("Unable to get new mail",
-					       ex, window);
+					       ex, fb);
 			goto cleanup;
 		}
 	}
 
 	camel_folder_open (folder, FOLDER_OPEN_READ, ex);
 	if (camel_exception_get_id (ex) != CAMEL_EXCEPTION_NONE) {
-		mail_exception_dialog ("Unable to get new mail", ex, window);
+		mail_exception_dialog ("Unable to get new mail", ex, fb);
 		goto cleanup;
 	}
 
 	nmsgs = camel_folder_get_message_count (folder, ex);
 	if (camel_exception_get_id (ex) != CAMEL_EXCEPTION_NONE) {
-		mail_exception_dialog ("Unable to get new mail", ex, window);
+		mail_exception_dialog ("Unable to get new mail", ex, fb);
 		goto cleanup;
 	}
 
@@ -174,13 +187,13 @@ fetch_mail (GtkWidget *button, gpointer user_data)
 					    "inbox", ex);
 	if (camel_exception_get_id (ex) != CAMEL_EXCEPTION_NONE) {
 		mail_exception_dialog ("Unable to open inbox to store mail",
-				       ex, window);
+				       ex, fb);
 		goto cleanup;
 	}
 	camel_folder_open (outfolder, FOLDER_OPEN_WRITE, ex);
 	if (camel_exception_get_id (ex) != CAMEL_EXCEPTION_NONE) {
 		mail_exception_dialog ("Unable to open inbox to store mail",
-				       ex, window);
+				       ex, fb);
 		goto cleanup;
 	}
 
@@ -188,21 +201,21 @@ fetch_mail (GtkWidget *button, gpointer user_data)
 		msg = camel_folder_get_message_by_number (folder, i, ex);
 		if (camel_exception_get_id (ex) != CAMEL_EXCEPTION_NONE) {
 			mail_exception_dialog ("Unable to read message",
-					       ex, window);
+					       ex, fb);
 			goto cleanup;
 		}
 
 		camel_folder_append_message (outfolder, msg, ex);
 		if (camel_exception_get_id (ex) != CAMEL_EXCEPTION_NONE) {
 			mail_exception_dialog ("Unable to write message",
-					       ex, window);
+					       ex, fb);
 			goto cleanup;
 		}
 
 		camel_folder_delete_message_by_number (folder, i, ex);
 		if (camel_exception_get_id (ex) != CAMEL_EXCEPTION_NONE) {
 			mail_exception_dialog ("Unable to delete message",
-					       ex, window);
+					       ex, fb);
 			goto cleanup;
 		}
 	}
@@ -241,17 +254,67 @@ fetch_mail (GtkWidget *button, gpointer user_data)
 static void
 composer_send_cb (EMsgComposer *composer, gpointer data)
 {
+	static CamelTransport *transport = NULL;
+	static char *from = NULL;
+	CamelException *ex;
 	CamelMimeMessage *message;
-	CamelStream *stream;
-	int stdout_dup;
+	char *name, *addr, *path;
+
+	ex = camel_exception_new ();
+
+	if (!from) {
+		CamelInternetAddress *ciaddr;
+
+		path = g_strdup_printf ("=%s/config=/mail/id_name",
+					evolution_dir);
+		name = gnome_config_get_string (path);
+		g_assert (name);
+		g_free (path);
+		path = g_strdup_printf ("=%s/config=/mail/id_addr",
+					evolution_dir);
+		addr = gnome_config_get_string (path);
+		g_assert (addr);
+		g_free (path);
+
+		ciaddr = camel_internet_address_new ();
+		camel_internet_address_add (ciaddr, name, addr);
+
+		from = camel_address_encode (CAMEL_ADDRESS (ciaddr));
+	}
+
+	if (!transport) {
+		char *url;
+
+		path = g_strdup_printf ("=%s/config=/mail/transport",
+					evolution_dir);
+		url = gnome_config_get_string (path);
+		g_assert (url);
+		g_free (path);
+
+		transport = camel_session_get_transport (
+			default_session->session, url, ex);
+		if (camel_exception_get_id (ex) != CAMEL_EXCEPTION_NONE) {
+			mail_exception_dialog ("Could not load mail transport",
+					       ex, composer);
+			camel_exception_free (ex);
+			return;
+		}
+	}
 
 	message = e_msg_composer_get_message (composer);
 
-	stdout_dup = dup (1);
-	stream = camel_stream_fs_new_with_fd (stdout_dup);
-	camel_data_wrapper_write_to_stream (CAMEL_DATA_WRAPPER (message),
-					    stream);
-	camel_stream_close (stream);
+	camel_mime_message_set_from (message, from);
+	camel_medium_add_header (CAMEL_MEDIUM (message), "X-Mailer",
+				 "Evolution (Developer Preview)");
+	camel_mime_message_set_date (message, CAMEL_MESSAGE_DATE_CURRENT, 0);
+
+	camel_transport_send (transport, CAMEL_MEDIUM (message), ex);
+	if (camel_exception_get_id (ex) != CAMEL_EXCEPTION_NONE) {
+		mail_exception_dialog ("Could not send message", ex, composer);
+		camel_exception_free (ex);
+		gtk_object_unref (GTK_OBJECT (message));
+		return;
+	}
 
 	gtk_object_unref (GTK_OBJECT (message));
 	gtk_object_destroy (GTK_OBJECT (composer));
@@ -262,6 +325,9 @@ void
 send_msg (GtkWidget *widget, gpointer user_data)
 {
 	GtkWidget *composer;
+
+	if (!check_configured ())
+		return;
 
 	composer = e_msg_composer_new ();
 
@@ -276,6 +342,9 @@ send_to_url (const char *url)
 {
 	GtkWidget *composer;
 
+	if (!check_configured ())
+		return;
+
 	composer = e_msg_composer_new_from_url (url);
 
 	gtk_signal_connect (GTK_OBJECT (composer), "send",
@@ -287,6 +356,9 @@ static void
 reply (FolderBrowser *fb, gboolean to_all)
 {
 	EMsgComposer *composer;
+
+	if (!check_configured ())
+		return;
 
 	composer = mail_generate_reply (fb->mail_display->current_message,
 					to_all);
@@ -315,6 +387,9 @@ forward_msg (GtkWidget *button, gpointer user_data)
 {
 	FolderBrowser *fb;
 	EMsgComposer *composer;
+
+	if (!check_configured ())
+		return;
 
 	fb = FOLDER_BROWSER (user_data);
 	composer = mail_generate_forward (fb->mail_display->current_message,
@@ -360,8 +435,7 @@ expunge_folder (GtkWidget *button, gpointer user_data)
 /* this always throws an error, when it shouldn't? */
 #if 0
 		if (camel_exception_get_id (&ex) != CAMEL_EXCEPTION_NONE) {
-			GtkWindow *window = GTK_WINDOW (gtk_widget_get_ancestor (GTK_WIDGET (fb), GTK_TYPE_WINDOW));
-			mail_exception_dialog ("Unable to expunge deleted messages", &ex, window);
+			mail_exception_dialog ("Unable to expunge deleted messages", &ex, fb);
 		}
 #endif
 	}

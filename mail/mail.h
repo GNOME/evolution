@@ -25,6 +25,9 @@
 /* folder-browser-factory */
 void folder_browser_factory_init (void);
 
+/* mail-config */
+void mail_config_druid (void);
+
 /* mail-format */
 void mail_format_mime_message (CamelMimeMessage *mime_message, GtkBox *box);
 
