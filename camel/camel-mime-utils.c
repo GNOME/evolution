@@ -3153,6 +3153,9 @@ header_fold(const char *in, int headerlen)
 		d(printf("next word '%.*s'\n", len, inptr));
 		if (outlen + len > CAMEL_FOLD_SIZE) {
 			d(printf("outlen = %d wordlen = %d\n", outlen, len));
+			/* strip trailing space */
+			if (out->len > 0 && out->str[out->len-1] == ' ')
+				g_string_truncate(out, out->len-1);
 			g_string_append(out, "\n\t");
 			outlen = 1;
 			/* check for very long words, just cut them up */
