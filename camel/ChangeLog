@@ -1,3 +1,13 @@
+2004-03-25  Sivaiah Nallagatla <snallagatla@novell.com>
+                                                                                                                             
+        * providers/groupwise/camel-groupwise-provider.c : removed
+        ldap seetings and added a settng for SOAP port
+        * providers/groupwise/camel-gw-listner.h (add_calendar_tasks_sources)
+        (remove_calendar_tasks_sources), (modify_calendar_tasks_sources) : read port number
+        from url instead of hardcoding
+        Also removed code for adding e-sources for ldap address book and
+        adding now e-sources for groupwise address book
+
 2004-03-24  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* providers/imap4/camel-imap-engine.c (camel_imap_engine_literal):

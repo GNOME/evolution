@@ -62,16 +62,13 @@ CamelProviderConfEntry groupwise_conf_entries[] = {
 	  N_("Automatically synchronize remote mail locally"), "0" },
 
 	/* extra Groupwise  configuration settings */
-	{CAMEL_PROVIDER_CONF_SECTION_START, "ldapserver", NULL,
-	  N_("Address Book") },
+	{CAMEL_PROVIDER_CONF_SECTION_START, "soapport", NULL,
+	  N_("Address Book And Calendar") },
 
-	{ CAMEL_PROVIDER_CONF_ENTRY, "ldap_server", NULL,
-	  N_("LDAP Server Name:") },
-
-	{ CAMEL_PROVIDER_CONF_ENTRY, "search_base", NULL, 
-	  N_("Search base:") },
+	{ CAMEL_PROVIDER_CONF_ENTRY, "soap_port", NULL,
+	  N_("Post Office Agent SOAP Port:"), "7181" },
 	
-	 { CAMEL_PROVIDER_CONF_SECTION_END }, 
+	{ CAMEL_PROVIDER_CONF_SECTION_END }, 
 
 
 	{ CAMEL_PROVIDER_CONF_END }
