@@ -5,19 +5,19 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution 0.8\n"
-"POT-Creation-Date: 2001-03-15 13:39-0500\n"
-"PO-Revision-Date: 2001-03-15 13:41-05:00\n"
+"POT-Creation-Date: 2001-03-16 13:45-0500\n"
+"PO-Revision-Date: 2001-03-16 13:46-05:00\n"
 "Last-Translator: Kjartan Maraas <kmaraas@gnome.org>\n"
 "Language-Team: Norwegian <no@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=iso-8859-1\n"
 "Content-Transfer-Encoding: 8-bit\n"
 
-#: addressbook/backend/ebook/e-card.c:3053
+#: addressbook/backend/ebook/e-card.c:3255
 msgid "Card: "
 msgstr "Kort: "
 
-#: addressbook/backend/ebook/e-card.c:3055
+#: addressbook/backend/ebook/e-card.c:3257
 msgid ""
 "\n"
 "Name: "
@@ -25,7 +25,7 @@ msgstr ""
 "\n"
 "Navn:"
 
-#: addressbook/backend/ebook/e-card.c:3056
+#: addressbook/backend/ebook/e-card.c:3258
 msgid ""
 "\n"
 "  Prefix:     "
@@ -33,7 +33,7 @@ msgstr ""
 "\n"
 "Prefiks:    "
 
-#: addressbook/backend/ebook/e-card.c:3057
+#: addressbook/backend/ebook/e-card.c:3259
 msgid ""
 "\n"
 "  Given:      "
@@ -41,7 +41,7 @@ msgstr ""
 "\n"
 "Oppgitt:     "
 
-#: addressbook/backend/ebook/e-card.c:3058
+#: addressbook/backend/ebook/e-card.c:3260
 msgid ""
 "\n"
 "  Additional: "
@@ -49,7 +49,7 @@ msgstr ""
 "\n"
 "Tillegg: "
 
-#: addressbook/backend/ebook/e-card.c:3059
+#: addressbook/backend/ebook/e-card.c:3261
 msgid ""
 "\n"
 "  Family:     "
@@ -57,7 +57,7 @@ msgstr ""
 "\n"
 "Familie:    "
 
-#: addressbook/backend/ebook/e-card.c:3060
+#: addressbook/backend/ebook/e-card.c:3262
 msgid ""
 "\n"
 "  Suffix:     "
@@ -65,7 +65,7 @@ msgstr ""
 "\n"
 "Suffiks:    "
 
-#: addressbook/backend/ebook/e-card.c:3074
+#: addressbook/backend/ebook/e-card.c:3276
 msgid ""
 "\n"
 "Birth Date: "
@@ -73,7 +73,7 @@ msgstr ""
 "\n"
 "Fødselsdato: "
 
-#: addressbook/backend/ebook/e-card.c:3085
+#: addressbook/backend/ebook/e-card.c:3287
 msgid ""
 "\n"
 "Address:"
@@ -81,7 +81,7 @@ msgstr ""
 "\n"
 "Adresse:"
 
-#: addressbook/backend/ebook/e-card.c:3087
+#: addressbook/backend/ebook/e-card.c:3289
 msgid ""
 "\n"
 "  Postal Box:  "
@@ -89,7 +89,7 @@ msgstr ""
 "\n"
 "Postboks:  "
 
-#: addressbook/backend/ebook/e-card.c:3088
+#: addressbook/backend/ebook/e-card.c:3290
 msgid ""
 "\n"
 "  Ext:         "
@@ -97,7 +97,7 @@ msgstr ""
 "\n"
 "Linje:         "
 
-#: addressbook/backend/ebook/e-card.c:3089
+#: addressbook/backend/ebook/e-card.c:3291
 msgid ""
 "\n"
 "  Street:      "
@@ -105,7 +105,7 @@ msgstr ""
 "\n"
 "Gate:     "
 
-#: addressbook/backend/ebook/e-card.c:3090
+#: addressbook/backend/ebook/e-card.c:3292
 msgid ""
 "\n"
 "  City:        "
@@ -113,7 +113,7 @@ msgstr ""
 "\n"
 "By:          "
 
-#: addressbook/backend/ebook/e-card.c:3091
+#: addressbook/backend/ebook/e-card.c:3293
 msgid ""
 "\n"
 "  Region:      "
@@ -121,7 +121,7 @@ msgstr ""
 "\n"
 "Region:     "
 
-#: addressbook/backend/ebook/e-card.c:3092
+#: addressbook/backend/ebook/e-card.c:3294
 msgid ""
 "\n"
 "  Postal Code: "
@@ -129,7 +129,7 @@ msgstr ""
 "\n"
 "Postnummer: "
 
-#: addressbook/backend/ebook/e-card.c:3093
+#: addressbook/backend/ebook/e-card.c:3295
 msgid ""
 "\n"
 "  Country:     "
@@ -137,7 +137,7 @@ msgstr ""
 "\n"
 "Land:    "
 
-#: addressbook/backend/ebook/e-card.c:3106
+#: addressbook/backend/ebook/e-card.c:3308
 msgid ""
 "\n"
 "Delivery Label: "
@@ -145,7 +145,7 @@ msgstr ""
 "\n"
 "Leveringsetikett: "
 
-#: addressbook/backend/ebook/e-card.c:3118
+#: addressbook/backend/ebook/e-card.c:3320
 msgid ""
 "\n"
 "Telephones:\n"
@@ -153,7 +153,7 @@ msgstr ""
 "\n"
 "Telefoner:\n"
 
-#: addressbook/backend/ebook/e-card.c:3121
+#: addressbook/backend/ebook/e-card.c:3323
 msgid ""
 "\n"
 "Telephone:"
@@ -161,7 +161,7 @@ msgstr ""
 "\n"
 "Telefon:"
 
-#: addressbook/backend/ebook/e-card.c:3145
+#: addressbook/backend/ebook/e-card.c:3347
 msgid ""
 "\n"
 "E-mail:\n"
@@ -169,7 +169,7 @@ msgstr ""
 "\n"
 "E-post:\n"
 
-#: addressbook/backend/ebook/e-card.c:3148
+#: addressbook/backend/ebook/e-card.c:3350
 msgid ""
 "\n"
 "E-mail:"
@@ -177,7 +177,7 @@ msgstr ""
 "\n"
 "E-post:"
 
-#: addressbook/backend/ebook/e-card.c:3167
+#: addressbook/backend/ebook/e-card.c:3369
 msgid ""
 "\n"
 "Mailer: "
@@ -185,7 +185,7 @@ msgstr ""
 "\n"
 "E-post program: "
 
-#: addressbook/backend/ebook/e-card.c:3173
+#: addressbook/backend/ebook/e-card.c:3375
 msgid ""
 "\n"
 "Time Zone: "
@@ -193,7 +193,7 @@ msgstr ""
 "\n"
 "Tidssone: "
 
-#: addressbook/backend/ebook/e-card.c:3181
+#: addressbook/backend/ebook/e-card.c:3383
 msgid ""
 "\n"
 "Geo Location: "
@@ -201,7 +201,7 @@ msgstr ""
 "\n"
 "Geografisk lokasjon: "
 
-#: addressbook/backend/ebook/e-card.c:3185
+#: addressbook/backend/ebook/e-card.c:3387
 msgid ""
 "\n"
 "Business Role: "
@@ -209,7 +209,7 @@ msgstr ""
 "\n"
 "Stilling: "
 
-#: addressbook/backend/ebook/e-card.c:3197
+#: addressbook/backend/ebook/e-card.c:3399
 msgid ""
 "\n"
 "Org: "
@@ -217,7 +217,7 @@ msgstr ""
 "\n"
 "Org: "
 
-#: addressbook/backend/ebook/e-card.c:3198
+#: addressbook/backend/ebook/e-card.c:3400
 msgid ""
 "\n"
 "  Name:  "
@@ -225,7 +225,7 @@ msgstr ""
 "\n"
 "Navn:  "
 
-#: addressbook/backend/ebook/e-card.c:3199
+#: addressbook/backend/ebook/e-card.c:3401
 msgid ""
 "\n"
 "  Unit:  "
@@ -233,7 +233,7 @@ msgstr ""
 "\n"
 "Enhet:  "
 
-#: addressbook/backend/ebook/e-card.c:3200
+#: addressbook/backend/ebook/e-card.c:3402
 msgid ""
 "\n"
 "  Unit2: "
@@ -241,7 +241,7 @@ msgstr ""
 "\n"
 "Enhet2: "
 
-#: addressbook/backend/ebook/e-card.c:3201
+#: addressbook/backend/ebook/e-card.c:3403
 msgid ""
 "\n"
 "  Unit3: "
@@ -249,7 +249,7 @@ msgstr ""
 "\n"
 "Enhet3: "
 
-#: addressbook/backend/ebook/e-card.c:3202
+#: addressbook/backend/ebook/e-card.c:3404
 msgid ""
 "\n"
 "  Unit4: "
@@ -257,7 +257,7 @@ msgstr ""
 "\n"
 "Enhet4: "
 
-#: addressbook/backend/ebook/e-card.c:3206
+#: addressbook/backend/ebook/e-card.c:3408
 msgid ""
 "\n"
 "Categories: "
@@ -265,7 +265,7 @@ msgstr ""
 "\n"
 "Kategorier: "
 
-#: addressbook/backend/ebook/e-card.c:3207
+#: addressbook/backend/ebook/e-card.c:3409
 msgid ""
 "\n"
 "Comment: "
@@ -283,7 +283,7 @@ msgstr ""
 #.
 #. add_SoundType (string, crd->sound.type);
 #. }
-#: addressbook/backend/ebook/e-card.c:3220
+#: addressbook/backend/ebook/e-card.c:3422
 msgid ""
 "\n"
 "Unique String: "
@@ -291,7 +291,7 @@ msgstr ""
 "\n"
 "Unik streng: "
 
-#: addressbook/backend/ebook/e-card.c:3223
+#: addressbook/backend/ebook/e-card.c:3425
 msgid ""
 "\n"
 "Public Key: "
@@ -419,7 +419,7 @@ msgid "Web page address:"
 msgstr "Hjemmeside-adresse:"
 
 #: addressbook/contact-editor/contact-editor.glade.h:17
-#: mail/mail-config.glade.h:80
+#: mail/mail-config.glade.h:79
 msgid "_Add"
 msgstr "_Legg til"
 
@@ -444,7 +444,7 @@ msgid "_Company:"
 msgstr "_Firma:"
 
 #: addressbook/contact-editor/contact-editor.glade.h:23
-#: mail/mail-config.glade.h:81 ui/evolution-event-editor.xml.h:57
+#: mail/mail-config.glade.h:80 ui/evolution-event-editor.xml.h:57
 #: ui/evolution-mail.xml.h:61 ui/evolution-task-editor-dialog.xml.h:69
 msgid "_Delete"
 msgstr "_Slett"
@@ -604,19 +604,19 @@ msgstr "E-post 2"
 msgid "Email 3"
 msgstr "E-post 3"
 
-#: addressbook/contact-editor/e-contact-quick-add.c:214
+#: addressbook/contact-editor/e-contact-quick-add.c:215
 msgid "Contact Quick-Add"
 msgstr "Hurtigkontakt"
 
-#: addressbook/contact-editor/e-contact-quick-add.c:216
+#: addressbook/contact-editor/e-contact-quick-add.c:217
 msgid "Edit Full"
 msgstr "Rediger alt"
 
-#: addressbook/contact-editor/e-contact-quick-add.c:253
+#: addressbook/contact-editor/e-contact-quick-add.c:254
 msgid "Full Name"
 msgstr "Fullt navn"
 
-#: addressbook/contact-editor/e-contact-quick-add.c:259
+#: addressbook/contact-editor/e-contact-quick-add.c:260
 msgid "E-mail"
 msgstr "E-post"
 
@@ -816,7 +816,7 @@ msgid "None (anonymous mode)"
 msgstr "Ingen (anonym modus)"
 
 #: addressbook/gui/component/addressbook-config.c:160
-#: camel/providers/imap/camel-imap-store.c:261
+#: camel/providers/imap/camel-imap-store.c:262
 #: camel/providers/nntp/camel-nntp-store.c:293
 #: camel/providers/pop3/camel-pop3-store.c:145
 msgid "Password"
@@ -967,7 +967,20 @@ msgstr "Navn"
 msgid "URI"
 msgstr "URI"
 
-#: addressbook/gui/component/e-address-widget.c:259
+#: addressbook/gui/component/e-address-widget.c:366
+msgid "Disable Queries"
+msgstr "Deaktiver spørringer"
+
+#: addressbook/gui/component/e-address-widget.c:366
+msgid "Enable Queries (Dangerous!)"
+msgstr "Aktiver spørringer (Farlig!)"
+
+#: addressbook/gui/component/e-address-widget.c:389
+#: addressbook/gui/component/select-names/e-select-names-popup.c:200
+msgid "Edit Contact Info"
+msgstr "Rediger kontaktinfo"
+
+#: addressbook/gui/component/e-address-widget.c:425
 #: addressbook/gui/component/select-names/e-select-names-popup.c:259
 msgid "Add to Contacts"
 msgstr "Legg til i kontakter"
@@ -1025,10 +1038,6 @@ msgstr "Fjern"
 #: addressbook/gui/component/select-names/e-select-names-popup.c:136
 msgid "Remove All"
 msgstr "Fjern alle"
-
-#: addressbook/gui/component/select-names/e-select-names-popup.c:200
-msgid "Edit Contact Info"
-msgstr "Rediger kontaktinfo"
 
 #: addressbook/gui/component/select-names/select-names.glade.h:1
 msgid "Find..."
@@ -1457,7 +1466,7 @@ msgstr "Konfidensiell"
 
 #: calendar/gui/calendar-model.c:375 calendar/gui/event-editor.c:1590
 #: calendar/gui/event-editor.c:1617
-#: camel/providers/smtp/camel-smtp-transport.c:200
+#: camel/providers/smtp/camel-smtp-transport.c:201
 msgid "Unknown"
 msgstr "Ukjent"
 
@@ -1561,8 +1570,8 @@ msgstr ""
 #. An empty string is the same as 'None'.
 #: calendar/gui/calendar-model.c:899 calendar/gui/calendar-model.c:1123
 #: calendar/gui/calendar-model.c:1177 calendar/gui/e-calendar-table.c:328
-#: calendar/gui/e-calendar-table.c:403 mail/mail-account-editor.c:756
-#: mail/mail-account-editor.c:758 mail/mail-account-editor.c:853
+#: calendar/gui/e-calendar-table.c:403 mail/mail-account-editor.c:770
+#: mail/mail-account-editor.c:772 mail/mail-account-editor.c:863
 #: mail/mail-accounts.c:115 mail/mail-config-druid.c:1090
 #: mail/mail-config.glade.h:43 shell/e-shell-view.c:1119
 #: widgets/misc/e-cell-date-edit.c:231 widgets/misc/e-dateedit.c:421
@@ -1953,7 +1962,7 @@ msgid "minutes before they occur."
 msgstr "minutter i forveien."
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:58
-#: mail/mail-config.glade.h:84
+#: mail/mail-config.glade.h:83
 msgid "seconds."
 msgstr "sekunder"
 
@@ -3222,7 +3231,7 @@ msgid "Connection cancelled"
 msgstr "Tilkobling avbrutt"
 
 #: camel/camel-remote-store.c:235
-#: camel/providers/smtp/camel-smtp-transport.c:244
+#: camel/providers/smtp/camel-smtp-transport.c:245
 #, c-format
 msgid "Could not connect to %s (port %d): %s"
 msgstr "Kunne ikke koble til %s (port %d): %s"
@@ -3340,7 +3349,7 @@ msgstr ""
 "%s"
 
 #: camel/camel-sasl-kerberos4.c:215
-#: camel/providers/imap/camel-imap-store.c:381
+#: camel/providers/imap/camel-imap-store.c:382
 msgid "Bad authentication response from server."
 msgstr "Ugyldig svar på autentisering fra tjener."
 
@@ -3462,17 +3471,17 @@ msgstr "Svar fra IMAP-tjener inneholdt ikke %s-informasjon"
 msgid "Unexpected OK response from IMAP server: %s"
 msgstr "Uventet svar 'OK' fra IMAP-tjener: %s"
 
-#: camel/providers/imap/camel-imap-folder.c:199
+#: camel/providers/imap/camel-imap-folder.c:205
 #, c-format
 msgid "Could not load summary for %s"
 msgstr "Kunne ikke laste sammendrag for %s"
 
-#: camel/providers/imap/camel-imap-folder.c:329
+#: camel/providers/imap/camel-imap-folder.c:349
 msgid "Scanning IMAP folder"
 msgstr "Skanner IMAP-mappe"
 
-#: camel/providers/imap/camel-imap-folder.c:837
-#: camel/providers/imap/camel-imap-folder.c:999
+#: camel/providers/imap/camel-imap-folder.c:959
+#: camel/providers/imap/camel-imap-folder.c:1154
 msgid "Could not find message body in FETCH response."
 msgstr "Kunne ikke finne meldingskropp i FETCH-svar."
 
@@ -3490,36 +3499,37 @@ msgstr "Sikker IMAPv4"
 
 #: camel/providers/imap/camel-imap-provider.c:61
 msgid "For reading and storing mail on IMAP servers over an SSL connection."
-msgstr "For lesing og lagring av e-post på IMAP-tjenere over en SSL-forbindelse."
+msgstr ""
+"For lesing og lagring av e-post på IMAP-tjenere over en SSL-forbindelse."
 
-#: camel/providers/imap/camel-imap-store.c:263
+#: camel/providers/imap/camel-imap-store.c:264
 msgid "This option will connect to the IMAP server using a plaintext password."
 msgstr ""
 "Dette valget vil la deg koble til en IMAP-tjener ved å bruke et "
 "klartekst-passord."
 
-#: camel/providers/imap/camel-imap-store.c:415
+#: camel/providers/imap/camel-imap-store.c:416
 #, c-format
 msgid "IMAP server %s does not support requested authentication type %s"
 msgstr "IMAP-tjener %s støtter ikke etterspurt autentiseringstype %s"
 
-#: camel/providers/imap/camel-imap-store.c:426
+#: camel/providers/imap/camel-imap-store.c:427
 #, c-format
 msgid "No support for authentication type %s"
 msgstr "Ingen støtte for autentiseringstype %s"
 
-#: camel/providers/imap/camel-imap-store.c:454
+#: camel/providers/imap/camel-imap-store.c:455
 #, c-format
 msgid "%sPlease enter the IMAP password for %s@%s"
 msgstr "%sVennligst skriv inn IMAP-passord for %s@%s"
 
-#: camel/providers/imap/camel-imap-store.c:469
-#: camel/providers/smtp/camel-smtp-transport.c:373
+#: camel/providers/imap/camel-imap-store.c:470
+#: camel/providers/smtp/camel-smtp-transport.c:374
 msgid "You didn't enter a password."
 msgstr "Du skrev ikke inn et passord."
 
-#: camel/providers/imap/camel-imap-store.c:498
-#: camel/providers/smtp/camel-smtp-transport.c:381
+#: camel/providers/imap/camel-imap-store.c:499
+#: camel/providers/smtp/camel-smtp-transport.c:382
 #, c-format
 msgid ""
 "Unable to authenticate to IMAP server.\n"
@@ -3530,7 +3540,7 @@ msgstr ""
 "%s\n"
 "\n"
 
-#: camel/providers/imap/camel-imap-store.c:772
+#: camel/providers/imap/camel-imap-store.c:769
 #, c-format
 msgid "Could not create directory %s: %s"
 msgstr "Kan ikke opprette katalog %s: %s"
@@ -3945,7 +3955,10 @@ msgid ""
 "For connecting to POP servers over an SSL connection. The POP protocol can "
 "also be used to retrieve mail from certain web mail providers and "
 "proprietary email systems."
-msgstr "For tilkobling til POP-tjenere over en SSL-forbindelse. POP-protokollen kan også brukes for å hente e-post fra enkelte e-posttilbydere via web i tillegg til proprietære e-postsystemer."
+msgstr ""
+"For tilkobling til POP-tjenere over en SSL-forbindelse. POP-protokollen kan "
+"også brukes for å hente e-post fra enkelte e-posttilbydere via web i tillegg "
+"til proprietære e-postsystemer."
 
 #: camel/providers/pop3/camel-pop3-store.c:147
 msgid ""
@@ -4095,123 +4108,125 @@ msgstr "Sikker SMTP"
 msgid ""
 "For delivering mail by connecting to a remote mailhub using SMTP over an SSL "
 "connection.\n"
-msgstr "For levering av e-post via en ekstern e-posttjener med SMTP over en SSL-forbindelse.\n"
+msgstr ""
+"For levering av e-post via en ekstern e-posttjener med SMTP over en "
+"SSL-forbindelse.\n"
 
-#: camel/providers/smtp/camel-smtp-transport.c:147
+#: camel/providers/smtp/camel-smtp-transport.c:148
 msgid "Syntax error, command unrecognized"
 msgstr "Syntaksfeil, kommando ikke gjenkjent"
 
-#: camel/providers/smtp/camel-smtp-transport.c:149
+#: camel/providers/smtp/camel-smtp-transport.c:150
 msgid "Syntax error in parameters or arguments"
 msgstr "Syntaksfeil i parametere eller argumenter"
 
-#: camel/providers/smtp/camel-smtp-transport.c:151
+#: camel/providers/smtp/camel-smtp-transport.c:152
 msgid "Command not implemented"
 msgstr "Kommando ikke implementert"
 
-#: camel/providers/smtp/camel-smtp-transport.c:153
+#: camel/providers/smtp/camel-smtp-transport.c:154
 msgid "Command parameter not implemented"
 msgstr "Kommandoparameter ikke implementert"
 
-#: camel/providers/smtp/camel-smtp-transport.c:155
+#: camel/providers/smtp/camel-smtp-transport.c:156
 msgid "System status, or system help reply"
 msgstr "Systemstatus, eller svar på systemhjelp"
 
-#: camel/providers/smtp/camel-smtp-transport.c:157
+#: camel/providers/smtp/camel-smtp-transport.c:158
 msgid "Help message"
 msgstr "Hjelp-melding"
 
-#: camel/providers/smtp/camel-smtp-transport.c:159
+#: camel/providers/smtp/camel-smtp-transport.c:160
 msgid "Service ready"
 msgstr "Tjeneste klar"
 
-#: camel/providers/smtp/camel-smtp-transport.c:161
+#: camel/providers/smtp/camel-smtp-transport.c:162
 msgid "Service closing transmission channel"
 msgstr "Tjenesten lukker sendekanalen"
 
-#: camel/providers/smtp/camel-smtp-transport.c:163
+#: camel/providers/smtp/camel-smtp-transport.c:164
 msgid "Service not available, closing transmission channel"
 msgstr "Tjenesten er ikke tilgjengelig, lukker sendekanalen"
 
-#: camel/providers/smtp/camel-smtp-transport.c:165
+#: camel/providers/smtp/camel-smtp-transport.c:166
 msgid "Requested mail action okay, completed"
 msgstr "Forespurt e-post handling er ok, fullført"
 
-#: camel/providers/smtp/camel-smtp-transport.c:167
+#: camel/providers/smtp/camel-smtp-transport.c:168
 msgid "User not local; will forward to <forward-path>"
 msgstr "Ikke lokal bruker; videresender til <forward-path>"
 
-#: camel/providers/smtp/camel-smtp-transport.c:169
+#: camel/providers/smtp/camel-smtp-transport.c:170
 msgid "Requested mail action not taken: mailbox unavailable"
 msgstr "Forespurt e-post handling er ikke utført: postboks ikke tilgjengelig"
 
-#: camel/providers/smtp/camel-smtp-transport.c:171
+#: camel/providers/smtp/camel-smtp-transport.c:172
 msgid "Requested action not taken: mailbox unavailable"
 msgstr "Forespurt handling ikke utført: postboks ikke tilgjengelig"
 
-#: camel/providers/smtp/camel-smtp-transport.c:173
+#: camel/providers/smtp/camel-smtp-transport.c:174
 msgid "Requested action aborted: error in processing"
 msgstr "Forespurt handling avbrutt: feil i prosessering"
 
-#: camel/providers/smtp/camel-smtp-transport.c:175
+#: camel/providers/smtp/camel-smtp-transport.c:176
 msgid "User not local; please try <forward-path>"
 msgstr "Ikke lokal bruker; vennligst prøv <forward-path>"
 
-#: camel/providers/smtp/camel-smtp-transport.c:177
+#: camel/providers/smtp/camel-smtp-transport.c:178
 msgid "Requested action not taken: insufficient system storage"
 msgstr "Forespurt handling ikke utført: utilstrekkelig lagringsplass"
 
-#: camel/providers/smtp/camel-smtp-transport.c:179
+#: camel/providers/smtp/camel-smtp-transport.c:180
 msgid "Requested mail action aborted: exceeded storage allocation"
 msgstr "Forespurt e-post handling avbrutt: lagringsallokering oversteget"
 
-#: camel/providers/smtp/camel-smtp-transport.c:181
+#: camel/providers/smtp/camel-smtp-transport.c:182
 msgid "Requested action not taken: mailbox name not allowed"
 msgstr "Forespurt handling ikke utført: postboksnavn ikke tillatt"
 
-#: camel/providers/smtp/camel-smtp-transport.c:183
+#: camel/providers/smtp/camel-smtp-transport.c:184
 msgid "Start mail input; end with <CRLF>.<CRLF>"
 msgstr "Start e-post input; slutt med <CRLF>.<CRLF>"
 
-#: camel/providers/smtp/camel-smtp-transport.c:185
+#: camel/providers/smtp/camel-smtp-transport.c:186
 msgid "Transaction failed"
 msgstr "Transaksjonen feilet"
 
-#: camel/providers/smtp/camel-smtp-transport.c:189
+#: camel/providers/smtp/camel-smtp-transport.c:190
 msgid "A password transition is needed"
 msgstr "Passordoverføring kreves"
 
-#: camel/providers/smtp/camel-smtp-transport.c:191
+#: camel/providers/smtp/camel-smtp-transport.c:192
 msgid "Authentication mechanism is too weak"
 msgstr "Autentiseringsmekanismen er for svak"
 
-#: camel/providers/smtp/camel-smtp-transport.c:193
+#: camel/providers/smtp/camel-smtp-transport.c:194
 msgid "Encryption required for requested authentication mechanism"
 msgstr "Kryptering kreves for forespurt autentiseringsmekanisme."
 
-#: camel/providers/smtp/camel-smtp-transport.c:195
+#: camel/providers/smtp/camel-smtp-transport.c:196
 msgid "Temporary authentication failure"
 msgstr "Midlertidig autentiseringsfeil"
 
-#: camel/providers/smtp/camel-smtp-transport.c:197
+#: camel/providers/smtp/camel-smtp-transport.c:198
 msgid "Authentication required"
 msgstr "Autentisering kreves"
 
-#: camel/providers/smtp/camel-smtp-transport.c:286
+#: camel/providers/smtp/camel-smtp-transport.c:287
 #, c-format
 msgid "Welcome response error: %s: possibly non-fatal"
 msgstr "Feil ved Welcome-svar: %s: mulig ikke-fatal"
 
-#: camel/providers/smtp/camel-smtp-transport.c:358
+#: camel/providers/smtp/camel-smtp-transport.c:359
 #, c-format
 msgid "%sPlease enter the SMTP password for %s@%s"
 msgstr "%sVennligst skriv inn SMTP-passord for %s@%s"
 
-#: camel/providers/smtp/camel-smtp-transport.c:466
+#: camel/providers/smtp/camel-smtp-transport.c:467
 msgid "No authentication required"
 msgstr "Ingen autentisering nødvendig"
 
-#: camel/providers/smtp/camel-smtp-transport.c:468
+#: camel/providers/smtp/camel-smtp-transport.c:469
 msgid ""
 "This option will connect to the SMTP server without using any kind of "
 "authentication. This should be fine for connecting to most SMTP servers."
@@ -4219,106 +4234,106 @@ msgstr ""
 "Dette alternativet lar deg koble til SMTP-tjeneren uten bruk av "
 "autentisering. Dette bør fungere for de fleste SMTP-tjenerene."
 
-#: camel/providers/smtp/camel-smtp-transport.c:511
+#: camel/providers/smtp/camel-smtp-transport.c:512
 #, c-format
 msgid "SMTP server %s"
 msgstr "SMTP-tjener %s"
 
-#: camel/providers/smtp/camel-smtp-transport.c:513
+#: camel/providers/smtp/camel-smtp-transport.c:514
 #, c-format
 msgid "SMTP mail delivery via %s"
 msgstr "SMTP e-postlevering via %s"
 
-#: camel/providers/smtp/camel-smtp-transport.c:538
+#: camel/providers/smtp/camel-smtp-transport.c:539
 msgid "Cannot send message: sender address not defined."
 msgstr "Kan ikke sende melding: senderadresse ikke definert."
 
-#: camel/providers/smtp/camel-smtp-transport.c:545
+#: camel/providers/smtp/camel-smtp-transport.c:546
 msgid "Cannot send message: sender address not valid."
 msgstr "Kan ikke sende melding: senderadresse ikke gyldig."
 
-#: camel/providers/smtp/camel-smtp-transport.c:559
+#: camel/providers/smtp/camel-smtp-transport.c:560
 msgid "Cannot send message: no recipients defined."
 msgstr "Kan ikke sende melding: ingen mottakere definert."
 
-#: camel/providers/smtp/camel-smtp-transport.c:653
+#: camel/providers/smtp/camel-smtp-transport.c:654
 #, c-format
 msgid "HELO request timed out: %s: non-fatal"
 msgstr "Tidsavbrudd for HELO-forespørsel: %s: ikke-fatal"
 
-#: camel/providers/smtp/camel-smtp-transport.c:672
+#: camel/providers/smtp/camel-smtp-transport.c:673
 #, c-format
 msgid "HELO response error: %s: non-fatal"
 msgstr "Feil ved HELO-svar: %s: ikke-fatal"
 
-#: camel/providers/smtp/camel-smtp-transport.c:707
-#: camel/providers/smtp/camel-smtp-transport.c:719
+#: camel/providers/smtp/camel-smtp-transport.c:708
+#: camel/providers/smtp/camel-smtp-transport.c:720
 #, c-format
 msgid "AUTH request timed out: %s"
 msgstr "Tidsavbrudd for AUTH-forespørsel: %s"
 
-#: camel/providers/smtp/camel-smtp-transport.c:777
+#: camel/providers/smtp/camel-smtp-transport.c:778
 msgid "Bad authentication response from server.\n"
 msgstr "Ugyldig svar på autentisering fra tjener.\n"
 
-#: camel/providers/smtp/camel-smtp-transport.c:802
+#: camel/providers/smtp/camel-smtp-transport.c:803
 #, c-format
 msgid "MAIL FROM request timed out: %s: mail not sent"
 msgstr "Tidsavbrudd for \"MAIL FROM\"-forespørsel: %s: melding ikke sendt"
 
-#: camel/providers/smtp/camel-smtp-transport.c:821
+#: camel/providers/smtp/camel-smtp-transport.c:822
 #, c-format
 msgid "MAIL FROM response error: %s: mail not sent"
 msgstr "Feil ved \"MAIL FROM\"-forespørsel: %s: melding ikke sendt"
 
-#: camel/providers/smtp/camel-smtp-transport.c:846
+#: camel/providers/smtp/camel-smtp-transport.c:847
 #, c-format
 msgid "RCPT TO request timed out: %s: mail not sent"
 msgstr "Tidsavbrudd for \"RCPT TO\"-forespørsel: %s: melding ikke sendt"
 
-#: camel/providers/smtp/camel-smtp-transport.c:865
+#: camel/providers/smtp/camel-smtp-transport.c:866
 #, c-format
 msgid "RCPT TO response error: %s: mail not sent"
 msgstr "Feil ved \"RCPT TO\"-svar: %s: melding ikke sendt."
 
-#: camel/providers/smtp/camel-smtp-transport.c:896
+#: camel/providers/smtp/camel-smtp-transport.c:897
 #, c-format
 msgid "DATA request timed out: %s: mail not sent"
 msgstr "Tidsavbrudd for DATA-forespørsel: %s: melding ikke sendt."
 
-#: camel/providers/smtp/camel-smtp-transport.c:915
+#: camel/providers/smtp/camel-smtp-transport.c:916
 #, c-format
 msgid "DATA response error: %s: mail not sent"
 msgstr "Feil ved DATA-svar: %s: melding ikke sendt"
 
-#: camel/providers/smtp/camel-smtp-transport.c:930
-#: camel/providers/smtp/camel-smtp-transport.c:948
+#: camel/providers/smtp/camel-smtp-transport.c:931
+#: camel/providers/smtp/camel-smtp-transport.c:949
 #, c-format
 msgid "DATA send timed out: message termination: %s: mail not sent"
 msgstr ""
 "Tidsavbrudd for DATA-send: meldingsterminering: %s: melding ikke sendt."
 
-#: camel/providers/smtp/camel-smtp-transport.c:967
+#: camel/providers/smtp/camel-smtp-transport.c:968
 #, c-format
 msgid "DATA response error: message termination: %s: mail not sent"
 msgstr "Feil ved DATA-svar: meldingsterminering: %s: melding ikke sendt"
 
-#: camel/providers/smtp/camel-smtp-transport.c:991
+#: camel/providers/smtp/camel-smtp-transport.c:992
 #, c-format
 msgid "RSET request timed out: %s"
 msgstr "Tidsavbrudd for RSET-forespørsel: %s"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1010
+#: camel/providers/smtp/camel-smtp-transport.c:1011
 #, c-format
 msgid "RSET response error: %s"
 msgstr "Feil ved RSET-svar: %s"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1033
+#: camel/providers/smtp/camel-smtp-transport.c:1034
 #, c-format
 msgid "QUIT request timed out: %s: non-fatal"
 msgstr "Tidsavbrudd for QUIT-forespørsel: %s: ikke-fatal"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1052
+#: camel/providers/smtp/camel-smtp-transport.c:1053
 #, c-format
 msgid "QUIT response error: %s: non-fatal"
 msgstr "Feil ved QUIT-svar: %s: ikke-fatal"
@@ -5192,12 +5207,12 @@ msgstr "Kan ikke initiere Evolutions e-postkomponent."
 msgid "Cannot register storage with shell"
 msgstr "Kan ikke registrere lagring i skallet"
 
-#: mail/folder-browser-factory.c:237
+#: mail/folder-browser-factory.c:241
 #, c-format
 msgid "Properties for \"%s\""
 msgstr "Egenskaper for \"%s\""
 
-#: mail/folder-browser-factory.c:239 ui/evolution-event-editor.xml.h:39
+#: mail/folder-browser-factory.c:243 ui/evolution-event-editor.xml.h:39
 #: ui/evolution-task-editor-dialog.xml.h:42
 msgid "Properties"
 msgstr "Egenskaper"
@@ -5389,7 +5404,7 @@ msgstr "Er du sikker på at du vil slette denne diskusjonsgruppekontoen?"
 msgid "Evolution Account Manager"
 msgstr "Kontohåndtering for Evolution"
 
-#: mail/mail-account-editor.c:307
+#: mail/mail-account-editor.c:301
 msgid ""
 "One or more of your servers are not configured correctly.\n"
 "Do you wish to save anyway?"
@@ -5398,11 +5413,11 @@ msgstr ""
 "Vil du lagre likevel?"
 
 #. give our dialog an OK button and title
-#: mail/mail-account-editor.c:706
+#: mail/mail-account-editor.c:720
 msgid "Evolution Account Editor"
 msgstr "Kontoredigering for Evolution"
 
-#: mail/mail-account-editor.c:727
+#: mail/mail-account-editor.c:741
 msgid "Unspecified"
 msgstr "Uspesifisert"
 
@@ -5749,22 +5764,18 @@ msgid "Sources"
 msgstr "Kilder"
 
 #: mail/mail-config.glade.h:70
-msgid "This server requires a secure connection (SSL)"
-msgstr "Denne tjeneren krever en sikker forbindelse (SSL)"
-
-#: mail/mail-config.glade.h:71
 msgid "Transport"
 msgstr "Transport"
 
-#: mail/mail-config.glade.h:72
+#: mail/mail-config.glade.h:71
 msgid "Transport Authentication"
 msgstr "Autentisering for transport"
 
-#: mail/mail-config.glade.h:73
+#: mail/mail-config.glade.h:72
 msgid "Type"
 msgstr "Type"
 
-#: mail/mail-config.glade.h:74
+#: mail/mail-config.glade.h:73
 msgid ""
 "Type the name by which you would like to refer to these servers. For "
 "example: \"Work\" or \"Home\"."
@@ -5772,15 +5783,15 @@ msgstr ""
 "Skriv inn et referansenavn for disse tjenerene. For eksempel: \"Arbeid\" "
 "eller \"Hjemme\"."
 
-#: mail/mail-config.glade.h:75
+#: mail/mail-config.glade.h:74
 msgid "User Information"
 msgstr "Brukerinformasjon"
 
-#: mail/mail-config.glade.h:76
+#: mail/mail-config.glade.h:75
 msgid "Username:"
 msgstr "Brukernavn:"
 
-#: mail/mail-config.glade.h:77
+#: mail/mail-config.glade.h:76
 msgid ""
 "Welcome to the Evolution Mail Configuration Druid.\n"
 "\n"
@@ -5790,13 +5801,13 @@ msgstr ""
 "\n"
 "Klikk \"Neste\" for å begynne."
 
-#: mail/mail-config.glade.h:82 ui/evolution-event-editor.xml.h:58
+#: mail/mail-config.glade.h:81 ui/evolution-event-editor.xml.h:58
 #: ui/evolution-message-composer.xml.h:43 ui/evolution-subscribe.xml.h:10
 #: ui/evolution-task-editor-dialog.xml.h:70 ui/evolution.xml.h:28
 msgid "_Edit"
 msgstr "R_edigér"
 
-#: mail/mail-config.glade.h:83
+#: mail/mail-config.glade.h:82
 msgid "minutes."
 msgstr "minutter."
 
@@ -8203,6 +8214,9 @@ msgstr "init_corba(): kunne ikke initiere GNOME"
 msgid "init_bonobo(): could not initialize Bonobo"
 msgstr "init_bonobo(): kunne ikke initialisere Bonobo"
 
+#~ msgid "This server requires a secure connection (SSL)"
+#~ msgstr "Denne tjeneren krever en sikker forbindelse (SSL)"
+
 #~ msgid "Edit Filter Rule"
 #~ msgstr "Redigér filterregel"
 
@@ -8955,9 +8969,6 @@ msgstr "init_bonobo(): kunne ikke initialisere Bonobo"
 
 #~ msgid "Server Timeouts"
 #~ msgstr "Tidsavbrudd for tjener"
-
-#~ msgid "Available Categories:"
-#~ msgstr "Tilgjengelige kategorier:"
 
 #~ msgid "Mail Source"
 #~ msgstr "E-post-kilde"
