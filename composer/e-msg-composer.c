@@ -1525,7 +1525,7 @@ menu_file_save_draft_cb (BonoboUIComponent *uic, void *data, const char *path)
 static void
 do_exit (EMsgComposer *composer)
 {
-	char *subject;
+	const char *subject;
 	GtkWidget *dialog;
 	int button;
 	
@@ -1535,27 +1535,27 @@ do_exit (EMsgComposer *composer)
 	}
 	
 	gdk_window_raise (GTK_WIDGET (composer)->window);
-
+	
 	subject = e_msg_composer_hdrs_get_subject (E_MSG_COMPOSER_HDRS (composer->hdrs));
-
-	dialog = gtk_message_dialog_new(GTK_WINDOW(composer),
-					GTK_DIALOG_MODAL|GTK_DIALOG_DESTROY_WITH_PARENT,
-					GTK_MESSAGE_ERROR, GTK_BUTTONS_NONE,
-					_("The message \"%s\" has not been sent.\n\n"
-					  "Do you wish to save your changes?"),
-					subject);
-	g_free(subject);
-	gtk_dialog_add_buttons (GTK_DIALOG(dialog),
+	
+	dialog = gtk_message_dialog_new (GTK_WINDOW (composer),
+					 GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT,
+					 GTK_MESSAGE_ERROR, GTK_BUTTONS_NONE,
+					 _("The message \"%s\" has not been sent.\n\n"
+					   "Do you wish to save your changes?"),
+					 subject);
+	
+	gtk_dialog_add_buttons (GTK_DIALOG (dialog),
 				_("_Discard Changes"), GTK_RESPONSE_NO,
 				GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
 				GTK_STOCK_SAVE, GTK_RESPONSE_YES,
 				NULL);
 	gtk_window_set_title (GTK_WINDOW (dialog), _("Warning: Modified Message"));
 	gtk_dialog_set_default_response (GTK_DIALOG (dialog), GTK_RESPONSE_YES);
-	button = gtk_dialog_run(GTK_DIALOG(dialog));
-	gtk_widget_destroy(dialog);
-
-	switch(button) {
+	button = gtk_dialog_run (GTK_DIALOG (dialog));
+	gtk_widget_destroy (dialog);
+	
+	switch (button) {
 	case GTK_RESPONSE_YES:
 		/* Save */
 		g_signal_emit (GTK_OBJECT (composer), signals[SAVE_DRAFT], 0, TRUE);
@@ -2687,8 +2687,9 @@ map_default_cb (EMsgComposer *composer, gpointer user_data)
 	GtkWidget *to;
         BonoboControlFrame *cf;
         Bonobo_PropertyBag pb = CORBA_OBJECT_NIL;
-	char *text;
 	CORBA_Environment ev;
+	const char *subject;
+	char *text;
 	
 	/* If the 'To:' field is empty, focus it (This is ridiculously complicated) */
 	
@@ -2708,17 +2709,15 @@ map_default_cb (EMsgComposer *composer, gpointer user_data)
 	
 	/* If not, check the subject field */
 	
-	text = e_msg_composer_hdrs_get_subject (E_MSG_COMPOSER_HDRS (composer->hdrs));
+	subject = e_msg_composer_hdrs_get_subject (E_MSG_COMPOSER_HDRS (composer->hdrs));
 	
-	if (!text || text[0] == '\0') {
+	if (!subject || subject[0] == '\0') {
 		GtkWidget *widget;
 		
 		widget = e_msg_composer_hdrs_get_subject_entry (E_MSG_COMPOSER_HDRS (composer->hdrs));
-		gtk_widget_grab_focus (GTK_WIDGET (E_ENTRY (widget)->canvas));
-		g_free (text);
+		gtk_widget_grab_focus (widget);
 		return;
 	}
-	g_free (text);
 	
 	/* Jump to the editor as a last resort. */
 	
@@ -4642,12 +4641,12 @@ e_msg_composer_get_bcc (EMsgComposer *composer)
 	return composer->hdrs ? e_msg_composer_hdrs_get_bcc (E_MSG_COMPOSER_HDRS (composer->hdrs)) : NULL;
 }
 
-char *
+const char *
 e_msg_composer_get_subject (EMsgComposer *composer)
 {
 	g_return_val_if_fail (E_IS_MSG_COMPOSER (composer), NULL);
 	
-	return composer->hdrs ? e_msg_composer_hdrs_get_subject(E_MSG_COMPOSER_HDRS (composer->hdrs)) : NULL;
+	return composer->hdrs ? e_msg_composer_hdrs_get_subject (E_MSG_COMPOSER_HDRS (composer->hdrs)) : NULL;
 }
 
 

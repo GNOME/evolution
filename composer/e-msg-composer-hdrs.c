@@ -487,11 +487,10 @@ header_new_recipient (EMsgComposerHdrs *hdrs, const char *name, const char *tip)
 static void
 entry_changed (GtkWidget *entry, EMsgComposerHdrs *hdrs)
 {
-	char *subject;
+	const char *subject;
 	
 	subject = e_msg_composer_hdrs_get_subject (hdrs);
 	g_signal_emit (hdrs, signals[SUBJECT_CHANGED], 0, subject);
-	g_free (subject);
 	g_signal_emit (hdrs, signals[HDRS_CHANGED], 0);
 }
 
@@ -526,12 +525,7 @@ create_headers (EMsgComposerHdrs *hdrs)
 	 * Subject
 	 */
 	priv->subject.label = gtk_label_new (_("Subject:"));
-	priv->subject.entry = e_entry_new ();
-	g_object_set (priv->subject.entry,
-		      "editable", TRUE,
-		      "use_ellipsis", TRUE,
-		      "allow_newlines", FALSE,
-		      NULL);
+	priv->subject.entry = gtk_entry_new ();
 	g_signal_connect (priv->subject.entry, "changed",
 			  G_CALLBACK (entry_changed), hdrs);
 	
@@ -939,14 +933,14 @@ e_msg_composer_hdrs_to_message_internal (EMsgComposerHdrs *hdrs,
 {
 	EDestination **to_destv, **cc_destv, **bcc_destv;
 	CamelInternetAddress *addr;
-	char *subject, *header;
+	const char *subject;
+	char *header;
 	
 	g_return_if_fail (E_IS_MSG_COMPOSER_HDRS (hdrs));
 	g_return_if_fail (CAMEL_IS_MIME_MESSAGE (msg));
 	
 	subject = e_msg_composer_hdrs_get_subject (hdrs);
 	camel_mime_message_set_subject (msg, subject);
-	g_free (subject);
 	
 	addr = e_msg_composer_hdrs_get_from (hdrs);
 	if (redirect) {
@@ -1127,8 +1121,7 @@ e_msg_composer_hdrs_set_subject (EMsgComposerHdrs *hdrs,
 	g_return_if_fail (E_IS_MSG_COMPOSER_HDRS (hdrs));
 	g_return_if_fail (subject != NULL);
 	
-	g_object_set ((GObject *) hdrs->priv->subject.entry,
-		      "text", subject, NULL);
+	gtk_entry_set_text ((GtkEntry *) hdrs->priv->subject.entry, subject);
 }
 
 
@@ -1283,17 +1276,12 @@ e_msg_composer_hdrs_get_post_to (EMsgComposerHdrs *hdrs)
 	return folder ? g_strdup (folder->physicalUri) : NULL;
 }
 
-char *
+const char *
 e_msg_composer_hdrs_get_subject (EMsgComposerHdrs *hdrs)
 {
-	char *subject;
-	
 	g_return_val_if_fail (E_IS_MSG_COMPOSER_HDRS (hdrs), NULL);
 	
-	g_object_get((hdrs->priv->subject.entry),
-			"text", &subject, NULL);
-	
-	return subject;
+	return gtk_entry_get_text ((GtkEntry *) hdrs->priv->subject.entry);
 }
 
 

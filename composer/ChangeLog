@@ -1,3 +1,22 @@
+2003-03-18  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* e-msg-composer.c (do_exit): e_msg_composer_hdrs_get_subject()
+	now returns const so don't g_free() it :-)
+	(map_default_cb): Same as above. Also, the subject entry no longer
+	derives from GnomeCanvas so eliminate the now unneeded casting to
+	grab the focus of the subject widget.
+	(e_msg_composer_get_subject): Return a const char * now.
+
+	* e-msg-composer-hdrs.c (create_headers): Make the subject entry
+	into a GtkEntry so we don't have to worry about i18n and other
+	EEntry bugs anymore. Fixes numerous bugs (including #39924).
+	(e_msg_composer_hdrs_set_subject): Use gtk_entry_set_text().
+	(e_msg_composer_hdrs_to_message_internal):
+	e_msg_composer_hdrs_get_subject() now returns const.
+	(e_msg_composer_hdrs_get_subject): Return a const char *.
+	(entry_changed): e_msg_composer_hdrs_get_subject() now returns
+	const.
+
 2003-03-13  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* e-msg-composer.c (create_composer): Default the composer's title

@@ -128,7 +128,7 @@ EDestination **e_msg_composer_hdrs_get_cc          (EMsgComposerHdrs *hdrs);
 EDestination **e_msg_composer_hdrs_get_bcc         (EMsgComposerHdrs *hdrs);
 EDestination **e_msg_composer_hdrs_get_recipients  (EMsgComposerHdrs *hdrs);
 char          *e_msg_composer_hdrs_get_post_to     (EMsgComposerHdrs *hdrs);
-char          *e_msg_composer_hdrs_get_subject     (EMsgComposerHdrs *hdrs);
+const char    *e_msg_composer_hdrs_get_subject     (EMsgComposerHdrs *hdrs);
 
 GtkWidget  *e_msg_composer_hdrs_get_from_hbox      (EMsgComposerHdrs *hdrs);
 GtkWidget  *e_msg_composer_hdrs_get_from_omenu     (EMsgComposerHdrs *hdrs);
