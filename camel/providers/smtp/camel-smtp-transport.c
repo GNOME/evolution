@@ -70,6 +70,7 @@ static gboolean smtp_quit (CamelSmtpTransport *transport, CamelException *ex);
 static CamelServiceClass *service_class = NULL;
 static gboolean smtp_is_esmtp = FALSE;
 static struct sockaddr_in localaddr;
+static GList *esmtp_supported_authtypes = NULL;
 
 static void
 camel_smtp_transport_class_init (CamelSmtpTransportClass *camel_smtp_transport_class)
@@ -129,7 +130,7 @@ smtp_connect (CamelService *service, CamelException *ex)
 {
 	struct hostent *h;
 	struct sockaddr_in sin;
-	gint fd;
+	gint fd, num, i;
    guint32 addrlen;
 	gchar *pass = NULL, *respbuf = NULL;
 	CamelSmtpTransport *transport = CAMEL_SMTP_TRANSPORT (service);
@@ -179,15 +180,22 @@ smtp_connect (CamelService *service, CamelException *ex)
 		}
 		if (strstr(respbuf, "ESMTP"))
 			smtp_is_esmtp = TRUE;
-		if (smtp_is_esmtp && strstr(respbuf, "AUTH")) {
-			/* parse for supported AUTH types */
-			esmtp_get_authtypes(respbuf);
-		}
 	} while ( *(respbuf+3) == '-' ); /* if we got "220-" then loop again */
 	g_free(respbuf);
 
-	/* send HELO */
+	/* send HELO (or EHLO, depending on the service type) */
 	smtp_helo(transport, ex);
+
+   /* check to see if AUTH is required, if so...then AUTH ourselves */
+   if (smtp_is_esmtp && esmtp_supported_authtypes) {
+		/* not really supported yet, but we can at least show what auth types are supported */
+      fprintf(stderr, "camel-smtp-transport: %s requires AUTH\n", service->url->host);
+      num = g_list_length(esmtp_supported_authtypes);
+      for (i = 0; i < num; i++)
+         fprintf(stderr, "Supported AUTH: %s\n", (gchar *) g_list_nth_data(esmtp_supported_authtypes, i));
+      g_list_free(esmtp_supported_authtypes);
+      esmtp_supported_authtypes = NULL;
+	}
 
 	return TRUE;
 }
@@ -218,6 +226,23 @@ static GList
 *esmtp_get_authtypes(gchar *buffer)
 {
 	GList *ret = NULL;
+   gchar *start, *end;
+
+   if (!(start = strstr(buffer, " AUTH ")))
+      return NULL;
+
+   /* advance to the first token */
+   for (start += 6; *start && *start != ' '; start++);
+
+   for ( ; *start; ) {
+      /* advance to the end of the token */
+      for (end = start; *end && *end != ' '; end++);
+
+      ret = g_list_append(ret, g_strndup(start, end - start));
+
+      /* advance to the next token */
+      for (start = end; *start && *start != ' '; start++);
+   }
 
 	return ret;
 }
@@ -471,6 +496,12 @@ smtp_helo (CamelSmtpTransport *transport, CamelException *ex)
 					      "%s: non-fatal",
 					      g_strerror (errno));
 			return FALSE;
+		}
+
+      if (smtp_is_esmtp && strstr(respbuf, "AUTH")) {
+			/* parse for supported AUTH types */
+         g_strchomp(respbuf);
+			esmtp_supported_authtypes = esmtp_get_authtypes(respbuf);
 		}
 	} while ( *(respbuf+3) == '-' ); /* if we got "250-" then loop again */
 	g_free(respbuf);
