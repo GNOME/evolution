@@ -247,8 +247,19 @@ e_gethostbyname_r (const char *name, struct hostent *host,
 	int retval;
 	
 	retval = gethostbyname_r (name, host, buf, buflen, &hp, herr);
-	if (hp != NULL)
+	if (hp != NULL) {
 		*herr = 0;
+	} else if (retval == 0) {
+		/* glibc 2.3.2 workaround - it seems that
+		 * gethostbyname_r will sometimes return 0 on fail and
+		 * not set the hostent values (hence the crash in bug
+		 * #56337).  Hopefully we can depend on @hp being NULL
+		 * in this error case like we do with
+		 * gethostbyaddr_r().
+		 */
+		retval = -1;
+	}
+	
 	return retval;
 #endif
 #else /* No support for gethostbyname_r */

@@ -1,3 +1,11 @@
+2004-04-13  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* e-host-utils.c (e_gethostbyname_r): Implemented a similar
+	workaround to the one I did for a gethostbyaddr_r() glibc bug
+	here. Glibc will apparently return success for addresses such as
+	"192..168.1.1" (note the double dot) and yet not have filled in
+	the hostent properly.
+
 2004-04-12  Jeffrey Stedfast  <fejj@ximian.com>
 
 	Really fixes bug #56623
