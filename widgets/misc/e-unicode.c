@@ -1685,11 +1685,36 @@ static struct {
   { 0x20aa, 0x20aa }, /*               NewSheqelSign ₪ NEW SHEQEL SIGN */
   { 0x20ab, 0x20ab }, /*                    DongSign ₫ DONG SIGN */
   { 0x20ac, 0x20ac }, /*                    EuroSign € EURO SIGN */
+
+
+  /* Following items added to GTK, not in the xterm table */
+
+  /* Numeric keypad */
+  
+  { 0xFF80 /* Space */, ' ' },
+  { 0xFFAA /* Multiply */, '*' },
+  { 0xFFAB /* Add */, '+' },
+  { 0xFFAD /* Subtract */, '-' },
+  { 0xFFAE /* Decimal */, '.' },
+  { 0xFFAF /* Divide */, '/' },
+  { 0xFFB0 /* 0 */, '0' },
+  { 0xFFB1 /* 1 */, '1' },
+  { 0xFFB2 /* 2 */, '2' },
+  { 0xFFB3 /* 3 */, '3' },
+  { 0xFFB4 /* 4 */, '4' },
+  { 0xFFB5 /* 5 */, '5' },
+  { 0xFFB6 /* 6 */, '6' },
+  { 0xFFB7 /* 7 */, '7' },
+  { 0xFFB8 /* 8 */, '8' },
+  { 0xFFB9 /* 9 */, '9' },
+  { 0xFFBD /* Equal */, '=' },  
+
+  /* End numeric keypad */
 };
 
 /**
  * gdk_keyval_to_unicode:
- * @keysym: a GDK key symbol 
+ * @keyval: a GDK key symbol 
  * 
  * Convert from a GDK key symbol to the corresponding ISO10646 (Unicode)
  * character.
@@ -1697,30 +1722,29 @@ static struct {
  * Return value: the corresponding unicode character, or 0 if there
  *               is no corresponding character.
  **/
-
 guint32
-gdk_keyval_to_unicode (guint keysym)
+gdk_keyval_to_unicode (guint keyval)
 {
   int min = 0;
   int max = sizeof (gdk_keysym_to_unicode_tab) / sizeof (gdk_keysym_to_unicode_tab[0]) - 1;
   int mid;
 
   /* First check for Latin-1 characters (1:1 mapping) */
-  if ((keysym >= 0x0020 && keysym <= 0x007e) ||
-      (keysym >= 0x00a0 && keysym <= 0x00ff))
-    return keysym;
+  if ((keyval >= 0x0020 && keyval <= 0x007e) ||
+      (keyval >= 0x00a0 && keyval <= 0x00ff))
+    return keyval;
 
   /* Also check for directly encoded 24-bit UCS characters:
    */
-  if ((keysym & 0xff000000) == 0x01000000)
-    return keysym & 0x00ffffff;
+  if ((keyval & 0xff000000) == 0x01000000)
+    return keyval & 0x00ffffff;
 
   /* binary search in table */
   while (max >= min) {
     mid = (min + max) / 2;
-    if (gdk_keysym_to_unicode_tab[mid].keysym < keysym)
+    if (gdk_keysym_to_unicode_tab[mid].keysym < keyval)
       min = mid + 1;
-    else if (gdk_keysym_to_unicode_tab[mid].keysym > keysym)
+    else if (gdk_keysym_to_unicode_tab[mid].keysym > keyval)
       max = mid - 1;
     else {
       /* found it */
