@@ -159,3 +159,23 @@ e_write_file(const char *filename, const char *data, int flags)
 	close(fd);
 	return 0;
 }
+
+typedef gint (*GtkSignal_NONE__INT_INT_POINTER) (GtkObject * object,
+						 gint arg1,
+						 gint arg2,
+						 gpointer arg3,
+						 gpointer user_data);
+
+void
+e_marshal_INT__INT_INT_POINTER (GtkObject * object,
+				GtkSignalFunc func,
+				gpointer func_data, GtkArg * args)
+{
+	GtkSignal_NONE__INT_INT_POINTER rfunc;
+	gint *return_val;
+	return_val = GTK_RETLOC_INT (args[1]);
+	rfunc = (GtkSignal_NONE__INT_INT_POINTER) func;
+	*return_val = (*rfunc) (object,
+				GTK_VALUE_INT (args[0]),
+				GTK_VALUE_INT (args[1]), GTK_VALUE_POINTER (args[2]), func_data);
+}
