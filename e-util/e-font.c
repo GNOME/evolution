@@ -455,7 +455,7 @@ find_variants (gchar **namelist, gint length, gchar *weight,
 	static GHashTable *wh = NULL;
 	/* Standard, Found, Bold, Light */
 	gint sw, fw, bw, lw;
-	gchar *s, *f, *b, *l = NULL;
+	gchar *s, *f, *b, *l;
 	gchar *p;
 	gint i;
 
@@ -477,7 +477,7 @@ find_variants (gchar **namelist, gint length, gchar *weight,
 	if (sw == 0) return FALSE;
 
 	fw = 0; lw = 0; bw = 32;
-	f = NULL; b = NULL;
+	f = NULL; l = NULL; b = NULL;
 	*lightname = NULL; *boldname = NULL;
 
 	for (i = 0; i < length; i++) {
