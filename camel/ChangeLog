@@ -1,3 +1,9 @@
+2004-08-10  Not Zed  <NotZed@Ximian.com>
+
+	* providers/groupwise/camel-gw-listener.c
+	(get_addressbook_names_from_server): fix for e_passwords api
+	change, and handle reprompting as well.
+
 2004-08-06  Jeffrey Stedfast  <fejj@novell.com>
 
 	* providers/imap4/camel-imap4-summary.c (untagged_fetch_all): Call

@@ -381,6 +381,7 @@ get_addressbook_names_from_server (char *source_url)
 	char *uri;
 	const char *use_ssl;
 	const char *poa_address;
+	guint32 flags = E_PASSWORDS_REMEMBER_FOREVER|E_PASSWORDS_SECRET;
 
 	url = camel_url_new (source_url, NULL);
         if (url == NULL) {
@@ -406,8 +407,8 @@ get_addressbook_names_from_server (char *source_url)
 		prompt = g_strdup_printf (_("%sEnter password for %s (user %s)"),
                                           failed_auth, poa_address, url->user);
 		
-		password = e_passwords_ask_password (prompt, "Groupwise", key, prompt, TRUE,
-                                                     E_PASSWORDS_REMEMBER_FOREVER, &remember,
+		password = e_passwords_ask_password (prompt, "Groupwise", key, prompt,
+                                                     E_PASSWORDS_REMEMBER_FOREVER|E_PASSWORDS_SECRET, &remember,
 						     NULL);
 		g_free (prompt);
 		
@@ -415,6 +416,7 @@ get_addressbook_names_from_server (char *source_url)
 			break;
 		cnc = e_gw_connection_new (uri, url->user, password);
 		failed_auth = _("Failed to authenticate.\n");
+		flags |= E_PASSWORDS_REPROMPT;
 	} while (cnc == NULL);
 	
 	if (E_IS_GW_CONNECTION(cnc))  {
