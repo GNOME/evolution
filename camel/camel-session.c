@@ -385,7 +385,7 @@ service_cache_remove (CamelService *service, gpointer event_data, gpointer user_
 	g_return_if_fail (CAMEL_IS_SESSION (session));
 	g_return_if_fail (service != NULL);
 	g_return_if_fail (service->url != NULL);
-	
+
 	CAMEL_SESSION_LOCK(session, lock);
 
 	provider = g_hash_table_lookup (session->providers, service->url->protocol);

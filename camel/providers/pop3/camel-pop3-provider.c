@@ -4,6 +4,7 @@
 /* 
  * Authors :
  *   Dan Winship <danw@ximian.com>
+ *   Michael Zucchi <notzed@ximian.com>
  *
  * Copyright (C) 2000 Ximian, Inc. (www.ximian.com)
  *
@@ -30,6 +31,7 @@
 #include "camel-provider.h"
 #include "camel-session.h"
 #include "camel-url.h"
+#include "camel-sasl.h"
 
 CamelProviderConfEntry pop3_conf_entries[] = {
 	{ CAMEL_PROVIDER_CONF_SECTION_START, NULL, NULL,
@@ -45,7 +47,7 @@ CamelProviderConfEntry pop3_conf_entries[] = {
 };
 
 static CamelProvider pop3_provider = {
-	"pop",
+	"pop3",
 	
 	N_("POP"),
 	
@@ -84,32 +86,22 @@ CamelServiceAuthType camel_pop3_apop_authtype = {
 	TRUE
 };
 
-#ifdef HAVE_KRB4
-CamelServiceAuthType camel_pop3_kpop_authtype = {
-	"Kerberos 4 (KPOP)",
-
-	N_("This will connect to the POP server and use Kerberos 4 "
-	   "to authenticate to it."),
-
-	"+KPOP",
-	FALSE
-};
-#endif
-
 void
 camel_provider_module_init (CamelSession *session)
 {
-	pop3_provider.object_types[CAMEL_PROVIDER_STORE] =
-		camel_pop3_store_get_type ();
-	pop3_provider.service_cache = g_hash_table_new (camel_url_hash, camel_url_equal);
+	CamelServiceAuthType *auth;
+
+	pop3_provider.object_types[CAMEL_PROVIDER_STORE] = camel_pop3_store_get_type();
+	pop3_provider.service_cache = g_hash_table_new(camel_url_hash, camel_url_equal);
 	pop3_provider.url_hash = camel_url_hash;
 	pop3_provider.url_equal = camel_url_equal;
-	
-#ifdef HAVE_KRB4
-	pop3_provider.authtypes = g_list_prepend (camel_remote_store_authtype_list (), &camel_pop3_kpop_authtype);
-#endif
-	pop3_provider.authtypes = g_list_prepend (pop3_provider.authtypes, &camel_pop3_apop_authtype);
-	pop3_provider.authtypes = g_list_prepend (pop3_provider.authtypes, &camel_pop3_password_authtype);
 
-	camel_session_register_provider (session, &pop3_provider);
+	pop3_provider.authtypes = g_list_concat(camel_remote_store_authtype_list(), camel_sasl_authtype_list(FALSE));
+	auth = camel_sasl_authtype("LOGIN");
+	if (auth)
+		pop3_provider.authtypes = g_list_prepend(pop3_provider.authtypes, auth);
+	pop3_provider.authtypes = g_list_prepend(pop3_provider.authtypes, &camel_pop3_apop_authtype);
+	pop3_provider.authtypes = g_list_prepend(pop3_provider.authtypes, &camel_pop3_password_authtype);
+
+	camel_session_register_provider(session, &pop3_provider);
 }

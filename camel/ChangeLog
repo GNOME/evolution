@@ -1,3 +1,22 @@
+2002-01-30  Not Zed  <NotZed@Ximian.com>
+
+	* camel-sasl-login.c: Changed name from "NT Login" to simply
+	"Login".
+
+	* providers/pop3/*: Entirely new pop implmentation, supporting
+	pipelining.
+
+2002-01-29  Not Zed  <NotZed@Ximian.com>
+
+	* camel-data-cache.c (free_busy): We dont want to unref the
+	stream, instead, stop listening to the finalised events, and free
+	the path only.
+
+2002-01-25  Not Zed  <NotZed@Ximian.com>
+
+	* camel-data-cache.c (stream_finalised): Remove the object from
+	the busy_stream hashtable, not the busy_path hashtable.
+
 2002-01-29  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* providers/imap/camel-imap-folder.c (imap_update_summary): Added
@@ -162,6 +181,7 @@
 	Modify the interface so that we can limit the size of the uid set
 	string returned.
 
+>>>>>>> 1.1366
 2002-01-14  Not Zed  <NotZed@Ximian.com>
 
 	* providers/imap/camel-imap-search.c (imap_body_contains):

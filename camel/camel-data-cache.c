@@ -41,6 +41,9 @@
 
 extern int camel_verbose_debug;
 #define dd(x) (camel_verbose_debug?(x):0)
+#define d(x)
+
+static void stream_finalised(CamelObject *o, void *event_data, void *data);
 
 /* how many 'bits' of hash are used to key the toplevel directory */
 #define CAMEL_DATA_CACHE_BITS (6)
@@ -97,8 +100,10 @@ static void data_cache_init(CamelDataCache *cdc, CamelDataCacheClass *klass)
 }
 
 static void
-free_busy(CamelStream *stream, char *path, void *data)
+free_busy(CamelStream *stream, char *path, CamelDataCache *cdc)
 {
+	d(printf(" Freeing busy stream %p path %s\n", stream, path));
+	camel_object_unhook_event((CamelObject *)stream, "finalize", stream_finalised, cdc);
 	camel_object_unref((CamelObject *)stream);
 	g_free(path);
 }
@@ -109,7 +114,9 @@ static void data_cache_finalise(CamelDataCache *cdc)
 
 	p = cdc->priv;
 
-	g_hash_table_foreach(p->busy_stream, (GHFunc)free_busy, NULL);
+	d(printf("cache finalised, %d (= %d?) streams reamining\n", g_hash_table_size(p->busy_stream), g_hash_table_size(p->busy_path)));
+
+	g_hash_table_foreach(p->busy_stream, (GHFunc)free_busy, cdc);
 	g_hash_table_destroy(p->busy_path);
 	g_hash_table_destroy(p->busy_stream);
 
@@ -294,12 +301,17 @@ stream_finalised(CamelObject *o, void *event_data, void *data)
 	CamelDataCache *cdc = data;
 	char *key;
 
+	d(printf("Stream finalised '%p'\n", data));
+
 	CDC_LOCK(cdc, lock);
 	key = g_hash_table_lookup(cdc->priv->busy_stream, o);
 	if (key) {
+		d(printf("  For path '%s'\n", key));
 		g_hash_table_remove(cdc->priv->busy_path, key);
-		g_hash_table_remove(cdc->priv->busy_path, o);
+		g_hash_table_remove(cdc->priv->busy_stream, o);
 		g_free(key);
+	} else {
+		d(printf("  Unknown stream?!\n"));
 	}
 	CDC_UNLOCK(cdc, lock);
 }

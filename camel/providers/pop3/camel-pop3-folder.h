@@ -2,10 +2,11 @@
 /* camel-pop3-folder.h : Class for a POP3 folder */
 
 /* 
- * Author:
+ * Authors:
  *   Dan Winship <danw@ximian.com>
+ *   Michael Zucchi <notzed@ximian.com>
  *
- * Copyright (C) 2000 Ximian, Inc. (www.ximian.com)
+ * Copyright (C) 2002 Ximian, Inc. (www.ximian.com)
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of version 2 of the GNU General Public 
@@ -35,18 +36,27 @@ extern "C" {
 #include "camel-folder.h"
 
 #define CAMEL_POP3_FOLDER_TYPE     (camel_pop3_folder_get_type ())
-#define CAMEL_POP3_FOLDER(obj)     (CAMEL_CHECK_CAST((obj), CAMEL_POP3_FOLDER_TYPE, CamelPop3Folder))
-#define CAMEL_POP3_FOLDER_CLASS(k) (CAMEL_CHECK_CLASS_CAST ((k), CAMEL_POP3_FOLDER_TYPE, CamelPop3FolderClass))
+#define CAMEL_POP3_FOLDER(obj)     (CAMEL_CHECK_CAST((obj), CAMEL_POP3_FOLDER_TYPE, CamelPOP3Folder))
+#define CAMEL_POP3_FOLDER_CLASS(k) (CAMEL_CHECK_CLASS_CAST ((k), CAMEL_POP3_FOLDER_TYPE, CamelPOP3FolderClass))
 #define CAMEL_IS_POP3_FOLDER(o)    (CAMEL_CHECK_TYPE((o), CAMEL_POP3_FOLDER_TYPE))
+
+typedef struct {
+	guint32 id;
+	guint32 size;
+	guint32 flags;
+	char *uid;
+	int err;
+	struct _CamelPOP3Command *cmd;
+	struct _CamelStream *stream;
+} CamelPOP3FolderInfo;
 
 
 typedef struct {
 	CamelFolder parent_object;
 
 	GPtrArray *uids;
-	guint32 *flags;
 
-} CamelPop3Folder;
+} CamelPOP3Folder;
 
 
 
@@ -55,7 +65,7 @@ typedef struct {
 
 	/* Virtual methods */	
 	
-} CamelPop3FolderClass;
+} CamelPOP3FolderClass;
 
 
 /* public methods */
