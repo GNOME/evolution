@@ -1,3 +1,8 @@
+2002-01-10  Christopher James Lahey  <clahey@ximian.com>
+
+	* ename/e-name-western.c (e_name_western_word_is_suffix): Allow
+	for a period after suffixes.  Fixes Ximian bug #17012.
+
 2002-01-04  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* e-memory.c (e_memchunk_clean): Prune free'd nodes from our free

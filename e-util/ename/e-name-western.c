@@ -128,10 +128,12 @@ e_name_western_word_is_suffix (char *word)
 	int i;
 
 	for (i = 0; e_name_western_sfx_table [i] != NULL; i ++) {
-		if (g_strcasecmp (word, e_name_western_sfx_table [i]))
-			continue;
-
-		return TRUE;
+		int length = strlen (e_name_western_sfx_table [i]);
+		if (!g_strcasecmp (word, e_name_western_sfx_table [i]) || 
+		    ( !g_strncasecmp (word, e_name_western_sfx_table [i], length) &&
+		      strlen(word) == length + 1 &&
+		      word[length] == '.' ))
+			return TRUE;
 	}
 
 	return FALSE;
