@@ -22,6 +22,7 @@
 #include "addressbook/gui/search/e-addressbook-search-dialog.h"
 
 #include "addressbook/gui/widgets/e-addressbook-view.h"
+#include "addressbook/gui/widgets/e-addressbook-search.h"
 
 #include <select-names/e-select-names.h>
 #include <select-names/e-select-names-manager.h>
@@ -40,6 +41,7 @@
 
 typedef struct {
 	EAddressbookView *view;
+	EAddressbookSearch *search;
 	GtkWidget *vbox;
 	BonoboControl *control;
 	BonoboPropertyBag *properties;
@@ -232,53 +234,6 @@ print_cb (BonoboUIComponent *uih, void *user_data, const char *path)
 }
 
 static void
-search_entry_activated (GtkWidget* widget, gpointer user_data)
-{
-	char* search_word = e_utf8_gtk_entry_get_text(GTK_ENTRY(widget));
-	char* search_query;
-	AddressbookView *view = (AddressbookView *) user_data;
-
-	if (search_word && strlen (search_word))
-		search_query = g_strdup_printf (
-			"(contains \"x-evolution-any-field\" \"%s\")",
-			search_word);
-	else
-		search_query = g_strdup (
-			"(contains \"full_name\" \"\")");
-
-	gtk_object_set (GTK_OBJECT(view->view),
-			"query", search_query,
-			NULL);
-
-	g_free (search_query);
-	g_free (search_word);
-}
-
-static GtkWidget*
-make_quick_search_widget (GtkSignalFunc start_search_func,
-			  gpointer user_data_for_search)
-{
-	GtkWidget *search_vbox = gtk_vbox_new (FALSE, 0);
-	GtkWidget *search_entry = gtk_entry_new ();
-
-	if (start_search_func)
-	{
-		gtk_signal_connect (GTK_OBJECT (search_entry), "activate",
-				    (GtkSignalFunc) search_entry_activated,
-				    user_data_for_search);
-	}
-	
-	/* add the search entry to the our search_vbox */
-	gtk_box_pack_start (GTK_BOX (search_vbox), search_entry,
-			    FALSE, TRUE, 3);
-	gtk_box_pack_start (GTK_BOX (search_vbox),
-			    gtk_label_new(_("Quick Search")),
-			    FALSE, TRUE, 0);
-
-	return search_vbox;
-}
-
-static void
 show_all_contacts_cb (BonoboUIComponent *uih, void *user_data, const char *path)
 {
 	AddressbookView *view = (AddressbookView *) user_data;
@@ -367,8 +322,6 @@ control_activate (BonoboControl     *control,
 		  AddressbookView   *view)
 {
 	Bonobo_UIContainer remote_ui_container;
-	GtkWidget *quick_search_widget;
-	BonoboControl *search_control;
 
 	remote_ui_container = bonobo_control_get_remote_ui_container (control);
 	bonobo_ui_component_set_container (uic, remote_ui_container);
@@ -387,17 +340,6 @@ control_activate (BonoboControl     *control,
 			       "evolution-addressbook-ldap.xml",
 			       "evolution-addressbook");
 #endif
-
-	quick_search_widget = make_quick_search_widget (
-		search_entry_activated, view);
-		
-	gtk_widget_show_all (quick_search_widget);
-	search_control = bonobo_control_new (quick_search_widget);
-
-	bonobo_ui_component_object_set (
-		uic, "/Toolbar/QuickSearch",
-		bonobo_object_corba_objref (BONOBO_OBJECT (search_control)),
-		NULL);
 
 	update_view_type (view);
 
@@ -550,6 +492,46 @@ set_prop (BonoboPropertyBag *bag,
 	}
 }
 
+static void
+addressbook_query_changed (EAddressbookSearch *eas, AddressbookView *view)
+{
+	char *search_word, *search_query;
+	int search_type;
+
+	gtk_object_get(GTK_OBJECT(eas),
+		       "text", &search_word,
+		       "option_choice", &search_type,
+		       NULL);
+
+	if (search_word && strlen (search_word)) {
+		switch (search_type) {
+		case 0:
+			search_query = g_strdup_printf ("(contains \"x-evolution-any-field\" \"%s\")",
+							search_word);
+			break;
+		case 1:
+			search_query = g_strdup_printf ("(contains \"full_name\" \"%s\")",
+							search_word);
+			break;
+		case 2:
+			search_query = g_strdup_printf ("(contains \"email\" \"%s\")",
+							search_word);
+			break;
+		default:
+			search_query = g_strdup ("(contains \"full_name\" \"\")");
+			break;
+		}
+	} else
+		search_query = g_strdup ("(contains \"full_name\" \"\")");
+
+	gtk_object_set (GTK_OBJECT(view->view),
+			"query", search_query,
+			NULL);
+
+	g_free (search_query);
+	g_free (search_word);
+}
+
 BonoboControl *
 addressbook_factory_new_control (void)
 {
@@ -557,7 +539,9 @@ addressbook_factory_new_control (void)
 
 	view = g_new0 (AddressbookView, 1);
 
-	view->vbox = gtk_vbox_new(FALSE, 0);
+	view->vbox = gtk_vbox_new(FALSE, GNOME_PAD);
+
+	gtk_container_set_border_width(GTK_CONTAINER(view->vbox), GNOME_PAD_SMALL);
 
 	gtk_signal_connect( GTK_OBJECT( view->vbox ), "destroy",
 			    GTK_SIGNAL_FUNC( destroy_callback ),
@@ -566,8 +550,13 @@ addressbook_factory_new_control (void)
 	/* Create the control. */
 	view->control = bonobo_control_new(view->vbox);
 
-	view->view = E_ADDRESSBOOK_VIEW(e_addressbook_view_new());
+	view->search = E_ADDRESSBOOK_SEARCH(e_addressbook_search_new());
+	gtk_box_pack_start (GTK_BOX (view->vbox), GTK_WIDGET (view->search),
+			    FALSE, FALSE, 0);
+	gtk_signal_connect (GTK_OBJECT (view->search), "query_changed",
+			    GTK_SIGNAL_FUNC (addressbook_query_changed), view);
 
+	view->view = E_ADDRESSBOOK_VIEW(e_addressbook_view_new());
 	gtk_box_pack_start(GTK_BOX(view->vbox), GTK_WIDGET(view->view),
 			   TRUE, TRUE, 0);
 
@@ -576,6 +565,7 @@ addressbook_factory_new_control (void)
 
 	gtk_widget_show( view->vbox );
 	gtk_widget_show( GTK_WIDGET(view->view) );
+	gtk_widget_show( GTK_WIDGET(view->search) );
 
 	view->properties = bonobo_property_bag_new (get_prop, set_prop, view);
 

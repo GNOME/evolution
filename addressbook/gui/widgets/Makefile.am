@@ -18,6 +18,8 @@ noinst_LIBRARIES =				\
 libeminicard_a_SOURCES =			\
 	e-addressbook-model.c			\
 	e-addressbook-model.h			\
+	e-addressbook-search.c			\
+	e-addressbook-search.h			\
 	e-addressbook-view.c			\
 	e-addressbook-view.h			\
 	e-minicard-control.c			\

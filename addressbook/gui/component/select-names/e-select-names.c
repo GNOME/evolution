@@ -254,11 +254,9 @@ button_clicked(GtkWidget *button, ESelectNamesChild *child)
 		name = e_card_simple_get(simple, E_CARD_SIMPLE_FIELD_FULL_NAME);
 		email = e_card_simple_get(simple, E_CARD_SIMPLE_FIELD_EMAIL);
 		if (name && *name && email && *email) {
-			new.string = g_strdup_printf("%s <%s>", name, email);
+			new.string = g_strdup_printf("\"%s\" <%s>", name, email);
 		} else if (email && *email) {
 			new.string = g_strdup_printf("%s", email);
-		} else if (name && *name) {
-			new.string = g_strdup_printf("%s <>", name);
 		} else {
 			new.string = g_strdup("");
 		}

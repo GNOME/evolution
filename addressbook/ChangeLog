@@ -1,3 +1,21 @@
+2000-11-02  Christopher James Lahey  <clahey@helixcode.com>
+
+	* ename/.cvsignore, gui/minicard/.cvsignore: Removed these
+	unnecessary .cvsignores.
+
+	* gui/component/addressbook.c: Switch to using EAddressbookSearch
+	instead of custom quick search widget.
+
+	* gui/component/select-names/e-select-names.c: Made this do a
+	slightly better job of rendering names.
+
+	* gui/widgets/Makefile.am: Added e-addressbook-search.c and
+	e-addressbook-search.h.
+
+	* gui/widgets/e-addressbook-search.c,
+	gui/widgets/e-addressbook-search.h: New class that puts up an
+	entry and a combo box.
+
 2000-11-01  Dan Winship  <danw@helixcode.com>
 
 	* gui/component/e-ldap-storage.c (load_ldap_data): 
