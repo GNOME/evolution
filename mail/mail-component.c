@@ -473,8 +473,6 @@ mail_component_init (MailComponent *component)
 {
 	MailComponentPrivate *priv;
 	EAccountList *accounts;
-	struct stat st;
-	char *mail_dir;
 	
 	priv = g_new0 (MailComponentPrivate, 1);
 	component->priv = priv;
@@ -492,27 +490,6 @@ mail_component_init (MailComponent *component)
 	
 	priv->async_event = mail_async_event_new();
 	priv->store_hash = g_hash_table_new (NULL, NULL);
-	
-	/* migrate evolution 1.x folders to 2.0's location/format */
-	mail_dir = g_strdup_printf ("%s/mail", priv->base_directory);
-	if (stat (mail_dir, &st) == -1) {
-		CamelException ex;
-		
-		camel_exception_init (&ex);
-		if (em_migrate (component, &ex) == -1) {
-			GtkWidget *dialog;
-			
-			dialog = gtk_message_dialog_new (NULL, GTK_DIALOG_MODAL, GTK_MESSAGE_WARNING, GTK_BUTTONS_CLOSE,
-							 _("The following error occured while migrating your mail data:\n%s"),
-							 camel_exception_get_description (&ex));
-			
-			g_signal_connect (dialog, "response", G_CALLBACK (gtk_widget_destroy), dialog);
-			gtk_widget_show (dialog);
-			
-			camel_exception_clear (&ex);
-		}
-	}
-	g_free (mail_dir);
 	
 	setup_local_store (component);
 	

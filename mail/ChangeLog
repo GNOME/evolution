@@ -1,5 +1,23 @@
 2004-01-07  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* mail-component.c (mail_component_init): Don't migrate stuff here
+	anymore.
+
+	* mail-ops.c (uid_cachename_hack): Removed a hack that checked for
+	the really old uid cache location and make the uid cache live in a
+	better location (why have mail/pop/<account> and
+	mail/pop3/cache-<account>? simply put the cache file in
+	mail/pop/<account>/uid-cache).
+
+	* em-migrate.c (em_migrate_dir): When copying over mbox folders,
+	don't abort if we fail to copy over a summary file (big
+	whoop). Also, if indexing was turned on in the evolution 1.4
+	version of the folder, turn on indexing for that folder in the
+	migrated mbox folder as well.
+	(em_migrate_pop_uid_caches): Migrate the pop3 uid-cache
+	files. Fixes bug #52464.
+	(em_migrate): Call em_migrate_pop_uid_caches().
+
 	* em-format-html.c (efh_format_address): Removed.
 	(efh_format_header): Handle address formatting a little
 	differently to address dwmw's complaints. Also now handles other

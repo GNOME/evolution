@@ -304,7 +304,7 @@ cp (const char *src, const char *dest, gboolean show_progress)
 	if ((fd[0] = open (src, O_RDONLY)) == -1)
 		return -1;
 	
-	if ((fd[1] = open (dest, O_WRONLY | O_CREAT | O_APPEND, 0666)) == -1) {
+	if ((fd[1] = open (dest, O_WRONLY | O_CREAT | O_TRUNC, 0666)) == -1) {
 		errnosav = errno;
 		close (fd[0]);
 		errno = errnosav;
@@ -441,6 +441,7 @@ em_migrate_dir (EMMigrateSession *session, const char *dirname, const char *full
 	
 	if (!strncmp (uri, "mbox:", 5)) {
 		GString *src, *dest;
+		size_t slen, dlen;
 		char *p;
 		
 		src = g_string_new ("");
@@ -450,6 +451,9 @@ em_migrate_dir (EMMigrateSession *session, const char *dirname, const char *full
 		dest = mbox_store_build_filename (session->store, full_name);
 		p = strrchr (dest->str, '/');
 		*p = '\0';
+		
+		slen = src->len;
+		dlen = dest->len;
 		
 		if (camel_mkdir (dest->str, 0777) == -1 && errno != EEXIST) {
 			g_string_free (dest, TRUE);
@@ -466,10 +470,64 @@ em_migrate_dir (EMMigrateSession *session, const char *dirname, const char *full
 		
 		g_string_append (src, ".ev-summary");
 		g_string_append (dest, ".ev-summary");
-		if (cp (src->str, dest->str, FALSE) == -1) {
-			g_string_free (dest, TRUE);
-			g_string_free (src, TRUE);
-			goto try_subdirs;
+		cp (src->str, dest->str, FALSE);
+		
+		if (index) {
+			static char *ibex_ext[] = { ".ibex.index", ".ibex.index.data" };
+			FILE *fp;
+			int i;
+			
+			/* create a .cmeta file specifying to index the folder */
+			g_string_truncate (dest, dlen);
+			g_string_append (dest, ".cmeta");
+			if ((fp = fopen (dest->str, "w+")) != NULL) {
+				int fd = fileno (fp);
+				
+				/* write the magic string */
+				if (fwrite ("CLMD", 4, 1, fp) != 1)
+					goto cmeta_err;
+				
+				/* write the version (1) */
+				if (camel_file_util_encode_uint32 (fp, 1) == -1)
+					goto cmeta_err;
+				
+				/* write the meta count */
+				if (camel_file_util_encode_uint32 (fp, 0) == -1)
+					goto cmeta_err;
+				
+				/* write the prop count (only prop is the index prop) */
+				if (camel_file_util_encode_uint32 (fp, 1) == -1)
+					goto cmeta_err;
+				
+				/* write the index prop tag (== CAMEL_FOLDER_ARG_LAST|CAMEL_ARG_BOO) */
+				if (camel_file_util_encode_uint32 (fp, CAMEL_FOLDER_ARG_LAST|CAMEL_ARG_BOO) == -1)
+					goto cmeta_err;
+				
+				/* write the index prop value */
+				if (camel_file_util_encode_uint32 (fp, 1) == -1)
+					goto cmeta_err;
+				
+				fflush (fp);
+				
+				fd = fileno (fp);
+				if (fsync (fd) == -1) {
+				cmeta_err:
+					fclose (fp);
+					unlink (dest->str);
+				} else {
+					fclose (fp);
+				}
+			}
+			
+			/* copy over the ibex files */
+			for (i = 0; i < 2; i++) {
+				g_string_truncate (src, slen);
+				g_string_truncate (dest, dlen);
+				
+				g_string_append (src, ibex_ext[i]);
+				g_string_append (dest, ibex_ext[i]);
+				cp (src->str, dest->str, FALSE);
+			}
 		}
 		
 		g_string_free (dest, TRUE);
@@ -507,7 +565,7 @@ em_migrate_dir (EMMigrateSession *session, const char *dirname, const char *full
 			/* try subfolders anyway? */
 			goto try_subdirs;
 		}
-	
+		
 		uids = camel_folder_get_uids (old_folder);
 		for (i = 0; i < uids->len; i++) {
 			CamelMimeMessage *message;
@@ -684,7 +742,7 @@ em_migrate_filter_file (const char *evolution_dir, const char *filename, CamelEx
 	xmlDocPtr doc;
 	int retval;
 	
-	path = g_strdup_printf ("%s/evolution/%s", g_get_home_dir (), filename);
+	path = g_build_filename (g_get_home_dir (), "evolution", filename, NULL);
 	
 	if (!(doc = xmlParseFile (path))) {
 		/* can't parse - this means nothing to upgrade */
@@ -769,7 +827,7 @@ em_migrate_filter_file (const char *evolution_dir, const char *filename, CamelEx
 		node = node->next;
 	}
 	
-	path = g_strdup_printf ("%s/mail/%s", evolution_dir, filename);
+	path = g_build_filename (evolution_dir, "mail", filename, NULL);
 	if ((retval = e_xml_save_file (path, doc)) == -1) {
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
 				      _("Failed to migrate `%s': %s"),
@@ -781,6 +839,78 @@ em_migrate_filter_file (const char *evolution_dir, const char *filename, CamelEx
 	xmlFreeDoc (doc);
 	
 	return retval;
+}
+
+static int
+em_migrate_pop_uid_caches (const char *evolution_dir, CamelException *ex)
+{
+	GString *oldpath, *newpath;
+	struct dirent *dent;
+	size_t olen, nlen;
+	char *cache_dir;
+	DIR *dir;
+	
+	/* open the old cache dir */
+	cache_dir = g_build_filename (g_get_home_dir (), "evolution", "mail", "pop3", NULL);
+	if (!(dir = opendir (cache_dir))) {
+		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
+				      _("Failed to migrate pop3 uid caches: %s"),
+				      g_strerror (errno));
+		g_warning ("cannot open `%s': %s", cache_dir, strerror (errno));
+		g_free (cache_dir);
+		return -1;
+	}
+	
+	oldpath = g_string_new (cache_dir);
+	g_string_append_c (oldpath, '/');
+	olen = oldpath->len;
+	g_free (cache_dir);
+	
+	cache_dir = g_build_filename (evolution_dir, "mail", "pop", NULL);
+	if (camel_mkdir (cache_dir, 0777) == -1) {
+		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
+				      _("Failed to migrate pop3 uid caches: %s"),
+				      g_strerror (errno));
+		g_warning ("cannot create `%s': %s", cache_dir, strerror (errno));
+		g_string_free (oldpath, TRUE);
+		g_free (cache_dir);
+		closedir (dir);
+		return -1;
+	}
+	
+	newpath = g_string_new (cache_dir);
+	g_string_append_c (newpath, '/');
+	nlen = newpath->len;
+	g_free (cache_dir);
+	
+	while ((dent = readdir (dir))) {
+		if (strncmp (dent->d_name, "cache-pop:__", 12) != 0)
+			continue;
+		
+		g_string_truncate (oldpath, olen);
+		g_string_truncate (newpath, nlen);
+		
+		g_string_append (oldpath, dent->d_name);
+		g_string_append (newpath, dent->d_name + 12);
+		
+		/* strip the trailing '_' */
+		g_string_truncate (newpath, newpath->len - 1);
+		
+		if (camel_mkdir (newpath->str, 0777) == -1) {
+			g_warning ("cannot create `%s': %s", newpath->str, strerror (errno));
+			continue;
+		}
+		
+		g_string_append (newpath, "/uid-cache");
+		cp (oldpath->str, newpath->str, FALSE);
+	}
+	
+	g_string_free (oldpath, TRUE);
+	g_string_free (newpath, TRUE);
+	
+	closedir (dir);
+	
+	return 0;
 }
 
 
@@ -848,6 +978,9 @@ em_migrate (MailComponent *component, CamelException *ex)
 		return -1;
 	
 	if (em_migrate_filter_file (evolution_dir, "vfolders.xml", ex) == -1)
+		return -1;
+	
+	if (em_migrate_pop_uid_caches (evolution_dir, ex) == -1)
 		return -1;
 	
 	return 0;
