@@ -386,7 +386,7 @@
  <part name="score">
   <title>Score</title>
   <input type="optionlist" name="score-type">
-   <option value="less-than">
+   <option value="is">
     <title>is</title>
     <code>
        (match-all (= (get-score) ${versus}))
