@@ -204,7 +204,7 @@ add_inlined_image (gpointer key, gpointer value, gpointer data)
 	camel_data_wrapper_construct_from_stream (wrapper, stream);
 	camel_object_unref (CAMEL_OBJECT (stream));
 
-	mime_type = mime_guess_type_from_file_name (file_name);
+	mime_type = e_msg_composer_guess_mime_type (file_name);
 	camel_data_wrapper_set_mime_type (wrapper, mime_type ? mime_type : "application/octet-stream");
 	g_free (mime_type);
 
@@ -1394,9 +1394,12 @@ e_msg_composer_construct (EMsgComposer *composer)
 	
 	e_msg_composer_show_attachments (composer, FALSE);
 	
-	/* Set focus on the `To:' field.  */
+	/* Set focus on the `To:' field.
 	
-	gtk_widget_grab_focus (e_msg_composer_hdrs_get_to_entry (E_MSG_COMPOSER_HDRS (composer->hdrs)));
+	   gtk_widget_grab_focus (e_msg_composer_hdrs_get_to_entry (E_MSG_COMPOSER_HDRS (composer->hdrs)));
+	GTK_WIDGET_SET_FLAGS (composer->editor, GTK_CAN_FOCUS);
+	gtk_window_set_focus (GTK_WINDOW (composer), composer->editor); */
+	gtk_widget_grab_focus (composer->editor);
 }
 
 static EMsgComposer *
@@ -2000,4 +2003,24 @@ e_msg_composer_get_send_html (EMsgComposer *composer)
 	g_return_val_if_fail (E_IS_MSG_COMPOSER (composer), FALSE);
 
 	return composer->send_html;
+}
+
+
+gchar *
+e_msg_composer_guess_mime_type (const gchar *file_name)
+{
+	GnomeVFSFileInfo info;
+	GnomeVFSResult result;
+
+	result = gnome_vfs_get_file_info (file_name, &info,
+					  GNOME_VFS_FILE_INFO_GET_MIME_TYPE |
+					  GNOME_VFS_FILE_INFO_FOLLOW_LINKS);
+	if (result == GNOME_VFS_OK) {
+		gchar *type;
+
+		type = g_strdup (gnome_vfs_file_info_get_mime_type (&info));
+		gnome_vfs_file_info_unref (&info);
+		return type;
+	} else
+		return NULL;
 }

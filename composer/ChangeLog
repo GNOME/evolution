@@ -1,3 +1,8 @@
+2000-11-15  Radek Doulik  <rodo@helixcode.com>
+
+	* e-msg-composer.h: e_msg_composer_guess_mime_type renamed and
+	moved mime_guess_type_from_file_name from camel as it uses VFS
+
 2000-11-14  Radek Doulik  <rodo@helixcode.com>
 
 	* listener.c (reply_indent): rename command to runCommand

@@ -112,6 +112,7 @@ void              e_msg_composer_set_send_html        (EMsgComposer     *compose
 						       gboolean          send_html);
 gboolean          e_msg_composer_get_send_html        (EMsgComposer     *composer);
 void              e_msg_composer_clear_inlined_table  (EMsgComposer     *composer);
+gchar *           e_msg_composer_guess_mime_type      (const gchar *file_name);
 
 #ifdef __cplusplus
 }

@@ -33,6 +33,7 @@
 #include <camel/camel.h>
 #include <gal/widgets/e-unicode.h>
 
+#include "e-msg-composer.h"
 #include "e-msg-composer-attachment.h"
 
 
@@ -167,7 +168,7 @@ e_msg_composer_attachment_new (const gchar *file_name)
 	wrapper = camel_data_wrapper_new ();
 	camel_data_wrapper_construct_from_stream (wrapper, stream);
 	camel_object_unref (CAMEL_OBJECT (stream));
-	mime_type = mime_guess_type_from_file_name (file_name);
+	mime_type = e_msg_composer_guess_mime_type (file_name);
 	if (mime_type) {
 		camel_data_wrapper_set_mime_type (wrapper, mime_type);
 		g_free (mime_type);
@@ -251,7 +252,7 @@ update_mime_type (DialogData *data)
 		return;
 
 	file_name = e_utf8_gtk_entry_get_text (data->file_name_entry);
-	mime_type = mime_guess_type_from_file_name (file_name);
+	mime_type = e_msg_composer_guess_mime_type (file_name);
 	g_free (file_name);
 
 	e_utf8_gtk_entry_set_text (data->mime_type_entry, mime_type);
