@@ -42,7 +42,6 @@
 	* mail-display.c (load_content_loaded): Make sure the mail-display
 	object is still "alive" before accessing any of it's data.
 
->>>>>>> 1.1943.2.6
 2001-11-14  Zbigniew Chyla  <cyba@gnome.pl>
 
 	* mail-autofilter.c (rule_match_recipients, rule_from_message,
