@@ -5,8 +5,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution 0.2\n"
-"POT-Creation-Date: 2000-07-24 12:25+0200\n"
-"PO-Revision-Date: 2000-07-24 12:30+0200\n"
+"POT-Creation-Date: 2000-07-27 00:03+0200\n"
+"PO-Revision-Date: 2000-07-27 00:03+0200\n"
 "Last-Translator: Fatih Demir <kabalak@gmx.net>\n"
 "Language-Team: Turkish <tr@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -36,68 +36,68 @@ msgid "Available Categories:"
 msgstr "Varolan türler :"
 
 #: addressbook/contact-editor/e-contact-editor.c:643
-#: calendar/gui/event-editor.c:1118
+#: calendar/gui/event-editor.c:1168
 msgid "FIXME: _Appointment"
 msgstr "ABY : _Toplantý"
 
 #: addressbook/contact-editor/e-contact-editor.c:644
-#: calendar/gui/event-editor.c:1119
+#: calendar/gui/event-editor.c:1169
 msgid "FIXME: Meeting Re_quest"
 msgstr "ABY : Toplantý is_teði"
 
 #: addressbook/contact-editor/e-contact-editor.c:646
-#: calendar/gui/event-editor.c:1121
+#: calendar/gui/event-editor.c:1171
 msgid "FIXME: _Mail Message"
 msgstr "ABY : e_Posta iletisi"
 
 #: addressbook/contact-editor/e-contact-editor.c:647
-#: calendar/gui/event-editor.c:1122
+#: calendar/gui/event-editor.c:1172
 msgid "FIXME: _Contact"
 msgstr "ABY : _Tanýk"
 
 #: addressbook/contact-editor/e-contact-editor.c:648
-#: calendar/gui/event-editor.c:1123
+#: calendar/gui/event-editor.c:1173
 msgid "FIXME: _Task"
 msgstr "ABY : _Görev"
 
 #: addressbook/contact-editor/e-contact-editor.c:649
-#: calendar/gui/event-editor.c:1124
+#: calendar/gui/event-editor.c:1174
 msgid "FIXME: Task _Request"
 msgstr "ABY : Görev _isteði"
 
 #: addressbook/contact-editor/e-contact-editor.c:650
-#: calendar/gui/event-editor.c:1125
+#: calendar/gui/event-editor.c:1175
 msgid "FIXME: _Journal Entry"
 msgstr "ABY : Gü_nlük birimi"
 
 #: addressbook/contact-editor/e-contact-editor.c:651
-#: calendar/gui/event-editor.c:1126
+#: calendar/gui/event-editor.c:1176
 msgid "FIXME: _Note"
 msgstr "ABY : _Not"
 
 #: addressbook/contact-editor/e-contact-editor.c:653
 #: addressbook/contact-editor/e-contact-editor.c:758
-#: calendar/gui/event-editor.c:1128 calendar/gui/event-editor.c:1235
+#: calendar/gui/event-editor.c:1178 calendar/gui/event-editor.c:1285
 msgid "FIXME: Ch_oose Form..."
 msgstr "ABY : Seçme _formu ..."
 
 #: addressbook/contact-editor/e-contact-editor.c:658
-#: calendar/gui/event-editor.c:1133
+#: calendar/gui/event-editor.c:1183
 msgid "FIXME: _Memo Style"
 msgstr "ABY : _Aný stili"
 
 #: addressbook/contact-editor/e-contact-editor.c:660
-#: calendar/gui/event-editor.c:1135
+#: calendar/gui/event-editor.c:1185
 msgid "FIXME: Define Print _Styles..."
 msgstr "ABY : Yazdýrma _stilini belirle"
 
 #: addressbook/contact-editor/e-contact-editor.c:667
-#: calendar/gui/event-editor.c:1142
+#: calendar/gui/event-editor.c:1192
 msgid "FIXME: S_end"
 msgstr "ABY : Gö_nder"
 
 #: addressbook/contact-editor/e-contact-editor.c:671
-#: calendar/gui/event-editor.c:1146
+#: calendar/gui/event-editor.c:1196
 msgid "FIXME: Save Attac_hments..."
 msgstr "ABY : Eklem _ekle ..."
 
@@ -107,149 +107,149 @@ msgid "_Delete"
 msgstr "_Sil"
 
 #: addressbook/contact-editor/e-contact-editor.c:674
-#: calendar/gui/event-editor.c:1149
+#: calendar/gui/event-editor.c:1199
 msgid "FIXME: _Move to Folder..."
 msgstr "ABY : Dizine _taþý ..."
 
 #: addressbook/contact-editor/e-contact-editor.c:675
-#: calendar/gui/event-editor.c:1150
+#: calendar/gui/event-editor.c:1200
 msgid "FIXME: Cop_y to Folder..."
 msgstr "ABY : Dizine _kopyala ..."
 
 #: addressbook/contact-editor/e-contact-editor.c:677
-#: calendar/gui/event-editor.c:1152
+#: calendar/gui/event-editor.c:1202
 msgid "Page Set_up"
 msgstr "Sayfa _kurulumu"
 
 #: addressbook/contact-editor/e-contact-editor.c:678
-#: calendar/gui/event-editor.c:1153
+#: calendar/gui/event-editor.c:1203
 msgid "FIXME: Print Pre_view"
 msgstr "ABY : Yazdýrma önizlemesi"
 
 #: addressbook/contact-editor/e-contact-editor.c:699
-#: calendar/gui/event-editor.c:1174
+#: calendar/gui/event-editor.c:1224
 msgid "FIXME: Paste _Special..."
 msgstr "ABY : Ö_zel yapýþtýr ..."
 
 #: addressbook/contact-editor/e-contact-editor.c:704
-#: calendar/gui/event-editor.c:1179
+#: calendar/gui/event-editor.c:1229
 msgid "FIXME: Mark as U_nread"
 msgstr "ABY : _Okunmamýþ olarak iþaretle"
 
 #: addressbook/contact-editor/e-contact-editor.c:708
-#: calendar/gui/event-editor.c:1183
+#: calendar/gui/event-editor.c:1233
 msgid "_Object"
 msgstr "_Nesne"
 
 #: addressbook/contact-editor/e-contact-editor.c:713
 #: addressbook/contact-editor/e-contact-editor.c:720
-#: calendar/gui/event-editor.c:1188 calendar/gui/event-editor.c:1195
+#: calendar/gui/event-editor.c:1238 calendar/gui/event-editor.c:1245
 msgid "FIXME: _Item"
 msgstr "ABY : _Birim"
 
 #: addressbook/contact-editor/e-contact-editor.c:714
 #: addressbook/contact-editor/e-contact-editor.c:721
-#: calendar/gui/event-editor.c:1189 calendar/gui/event-editor.c:1196
+#: calendar/gui/event-editor.c:1239 calendar/gui/event-editor.c:1246
 msgid "FIXME: _Unread Item"
 msgstr "ABY : _Okunmamýþ birim"
 
 #: addressbook/contact-editor/e-contact-editor.c:715
-#: calendar/gui/event-editor.c:1190
+#: calendar/gui/event-editor.c:1240
 msgid "FIXME: Fi_rst Item in Folder"
 msgstr "ABY : Dizindeki _ilk birim"
 
 #: addressbook/contact-editor/e-contact-editor.c:722
-#: calendar/gui/event-editor.c:1197
+#: calendar/gui/event-editor.c:1247
 msgid "FIXME: _Last Item in Folder"
 msgstr "ABY : Dizindeki _son birim"
 
 #: addressbook/contact-editor/e-contact-editor.c:727
-#: calendar/gui/event-editor.c:1202
+#: calendar/gui/event-editor.c:1252
 msgid "FIXME: _Standard"
 msgstr "ABY : _Vasat"
 
 #: addressbook/contact-editor/e-contact-editor.c:729
-#: calendar/gui/event-editor.c:1204
+#: calendar/gui/event-editor.c:1254
 msgid "FIXME: __Formatting"
 msgstr "ABY : __Þekillendirme"
 
 #: addressbook/contact-editor/e-contact-editor.c:732
-#: calendar/gui/event-editor.c:1207
+#: calendar/gui/event-editor.c:1257
 msgid "FIXME: _Customize..."
 msgstr "ABY : _Özelleþtir ..."
 
 #: addressbook/contact-editor/e-contact-editor.c:737
-#: calendar/gui/event-editor.c:1212
+#: calendar/gui/event-editor.c:1262
 msgid "Pre_vious"
 msgstr "_Geri"
 
 #: addressbook/contact-editor/e-contact-editor.c:738
-#: calendar/gui/event-editor.c:1213
+#: calendar/gui/event-editor.c:1263
 msgid "Ne_xt"
 msgstr "_Ileri"
 
 #: addressbook/contact-editor/e-contact-editor.c:740
-#: calendar/gui/event-editor.c:1217
+#: calendar/gui/event-editor.c:1267
 msgid "_Toolbars"
 msgstr "_Araç çubuklarý"
 
 #: addressbook/contact-editor/e-contact-editor.c:745
-#: calendar/gui/event-editor.c:1222
+#: calendar/gui/event-editor.c:1272
 msgid "FIXME: _File..."
 msgstr "ABY : _Dosya ..."
 
 #: addressbook/contact-editor/e-contact-editor.c:746
-#: calendar/gui/event-editor.c:1223
+#: calendar/gui/event-editor.c:1273
 msgid "FIXME: It_em..."
 msgstr "ABY : Bi_rim ..."
 
 #: addressbook/contact-editor/e-contact-editor.c:747
-#: calendar/gui/event-editor.c:1224
+#: calendar/gui/event-editor.c:1274
 msgid "FIXME: _Object..."
 msgstr "ABY : _Nesne ..."
 
 #: addressbook/contact-editor/e-contact-editor.c:752
-#: calendar/gui/event-editor.c:1229
+#: calendar/gui/event-editor.c:1279
 msgid "FIXME: _Font..."
 msgstr "ABY : _Yazý tipi ..."
 
 #: addressbook/contact-editor/e-contact-editor.c:753
-#: calendar/gui/event-editor.c:1230
+#: calendar/gui/event-editor.c:1280
 msgid "FIXME: _Paragraph..."
 msgstr "ABY : _Fýkra ..."
 
 #: addressbook/contact-editor/e-contact-editor.c:760
-#: calendar/gui/event-editor.c:1237
+#: calendar/gui/event-editor.c:1287
 msgid "FIXME: Desi_gn This Form"
 msgstr "ABY : Bu formu _düzenle"
 
 #: addressbook/contact-editor/e-contact-editor.c:761
-#: calendar/gui/event-editor.c:1238
+#: calendar/gui/event-editor.c:1288
 msgid "FIXME: D_esign a Form..."
 msgstr "ABY : _Bir formu düzenle ..."
 
 #: addressbook/contact-editor/e-contact-editor.c:763
-#: calendar/gui/event-editor.c:1240
+#: calendar/gui/event-editor.c:1290
 msgid "FIXME: Publish _Form..."
 msgstr "ABY : _Formu açýkla ..."
 
 #: addressbook/contact-editor/e-contact-editor.c:764
-#: calendar/gui/event-editor.c:1241
+#: calendar/gui/event-editor.c:1291
 msgid "FIXME: Pu_blish Form As..."
 msgstr "ABY : Formu far_klý açikla ..."
 
 #: addressbook/contact-editor/e-contact-editor.c:766
-#: calendar/gui/event-editor.c:1243
+#: calendar/gui/event-editor.c:1293
 msgid "FIXME: Script _Debugger"
 msgstr "ABY : Denetlem çö_zümleyicisi"
 
 #: addressbook/contact-editor/e-contact-editor.c:771
-#: calendar/gui/event-editor.c:1248
+#: calendar/gui/event-editor.c:1298
 msgid "FIXME: _Spelling..."
 msgstr "ABY : _Imla ..."
 
 #: addressbook/contact-editor/e-contact-editor.c:773
-#: calendar/gui/event-editor.c:1253
+#: calendar/gui/event-editor.c:1303
 msgid "_Forms"
 msgstr "_Þekiller"
 
@@ -302,27 +302,27 @@ msgid "FIXME: Forward as _vCard"
 msgstr "ABY : v_Calendat þeklinde ilet"
 
 #: addressbook/contact-editor/e-contact-editor.c:793
-#: calendar/gui/event-editor.c:1266
+#: calendar/gui/event-editor.c:1316
 msgid "FIXME: For_ward"
 msgstr "ABY : _Ilet"
 
 #: addressbook/contact-editor/e-contact-editor.c:805
-#: calendar/gui/event-editor.c:1279
+#: calendar/gui/event-editor.c:1329
 msgid "_Insert"
 msgstr "_Içer"
 
 #: addressbook/contact-editor/e-contact-editor.c:806
-#: calendar/gui/event-editor.c:1280
+#: calendar/gui/event-editor.c:1330
 msgid "F_ormat"
 msgstr "Þeki_l"
 
 #: addressbook/contact-editor/e-contact-editor.c:807
-#: calendar/gui/event-editor.c:1281 shell/e-shell-view-menu.c:515
+#: calendar/gui/event-editor.c:1331 shell/e-shell-view-menu.c:515
 msgid "_Tools"
 msgstr "_Çerezler"
 
 #: addressbook/contact-editor/e-contact-editor.c:808
-#: calendar/gui/event-editor.c:1282
+#: calendar/gui/event-editor.c:1332
 msgid "Actio_ns"
 msgstr "E_ylemler"
 
@@ -331,7 +331,7 @@ msgid "Save and Close"
 msgstr "Kaydet ve kapat"
 
 #: addressbook/contact-editor/e-contact-editor.c:840
-#: calendar/gui/event-editor.c:1321
+#: calendar/gui/event-editor.c:1371
 msgid "Save the appointment and close the dialog box"
 msgstr "Toplantýyý kaydet ve diyaloðu kapat"
 
@@ -341,59 +341,59 @@ msgid "Print..."
 msgstr "Yazdýr ..."
 
 #: addressbook/contact-editor/e-contact-editor.c:845
-#: calendar/gui/event-editor.c:1326
+#: calendar/gui/event-editor.c:1376
 msgid "Print this item"
 msgstr "Bu birimi yazdýrt"
 
 #: addressbook/contact-editor/e-contact-editor.c:848
-#: calendar/gui/event-editor.c:1327
+#: calendar/gui/event-editor.c:1377
 msgid "FIXME: Insert File..."
 msgstr "ABY : Dosya içer ..."
 
 #: addressbook/contact-editor/e-contact-editor.c:849
-#: calendar/gui/event-editor.c:1328
+#: calendar/gui/event-editor.c:1378
 msgid "Insert a file as an attachment"
 msgstr "Bir dosyayý eklem olarak ekle"
 
 #. Delete
 #: addressbook/contact-editor/e-contact-editor.c:852
-#: addressbook/gui/component/addressbook.c:426 calendar/gui/gncal-todo.c:499
-#: mail/folder-browser-factory.c:45
+#: addressbook/gui/component/addressbook.c:426 calendar/gui/gncal-todo.c:508
+#: mail/folder-browser-factory.c:39
 msgid "Delete"
 msgstr "Sil"
 
 #: addressbook/contact-editor/e-contact-editor.c:853
-#: calendar/gui/event-editor.c:1337 calendar/gui/gncal-todo.c:327
+#: calendar/gui/event-editor.c:1387 calendar/gui/gncal-todo.c:336
 msgid "Delete this item"
 msgstr "Bu birimi sil"
 
 #: addressbook/contact-editor/e-contact-editor.c:856
-#: calendar/gui/event-editor.c:1339
+#: calendar/gui/event-editor.c:1389
 msgid "FIXME: Previous"
 msgstr "ABY : Geri"
 
 #: addressbook/contact-editor/e-contact-editor.c:857
-#: calendar/gui/event-editor.c:1340
+#: calendar/gui/event-editor.c:1390
 msgid "Go to the previous item"
 msgstr "Gerideki birime git"
 
 #: addressbook/contact-editor/e-contact-editor.c:859
-#: calendar/gui/event-editor.c:1341
+#: calendar/gui/event-editor.c:1391
 msgid "FIXME: Next"
 msgstr "ABY : Ileri"
 
 #: addressbook/contact-editor/e-contact-editor.c:860
-#: calendar/gui/event-editor.c:1342
+#: calendar/gui/event-editor.c:1392
 msgid "Go to the next item"
 msgstr "Ilerideki birime git"
 
 #: addressbook/contact-editor/e-contact-editor.c:862
-#: calendar/gui/event-editor.c:1343
+#: calendar/gui/event-editor.c:1393
 msgid "FIXME: Help"
 msgstr "ABY : Yardým"
 
 #: addressbook/contact-editor/e-contact-editor.c:863
-#: calendar/gui/event-editor.c:1344
+#: calendar/gui/event-editor.c:1394
 msgid "See online help"
 msgstr "Yardýma bak"
 
@@ -701,7 +701,7 @@ msgstr "Bir tanýðý bul"
 
 #: addressbook/gui/component/addressbook.c:425
 #: addressbook/gui/component/addressbook.c:492
-#: calendar/gui/calendar-commands.c:548 mail/folder-browser-factory.c:43
+#: calendar/gui/calendar-commands.c:548 mail/folder-browser-factory.c:37
 msgid "Print"
 msgstr "Yazdýr"
 
@@ -1174,8 +1174,8 @@ msgstr "Takvimi aç"
 msgid "Save calendar"
 msgstr "Takvimi kaydet"
 
-#: calendar/gui/calendar-commands.c:522 calendar/gui/gncal-todo.c:713
-#: calendar/gui/gncal-todo.c:717
+#: calendar/gui/calendar-commands.c:522 calendar/gui/gncal-todo.c:722
+#: calendar/gui/gncal-todo.c:726
 msgid "Day"
 msgstr "Gün"
 
@@ -1191,7 +1191,7 @@ msgstr "5 gün"
 msgid "Show the working week"
 msgstr "Çalýþma haftasýný göster"
 
-#: calendar/gui/calendar-commands.c:528 calendar/gui/gncal-todo.c:712
+#: calendar/gui/calendar-commands.c:528 calendar/gui/gncal-todo.c:721
 msgid "Week"
 msgstr "Hafta"
 
@@ -1329,7 +1329,7 @@ msgstr "%A %b %d %Y %H:%M'deki toplantý için bildirme"
 msgid "Close"
 msgstr "Kapat"
 
-#: calendar/gui/dialogs/alarm-notify.glade.h:8 calendar/gui/gnome-cal.c:1056
+#: calendar/gui/dialogs/alarm-notify.glade.h:8 calendar/gui/gnome-cal.c:1070
 msgid "Snooze"
 msgstr "Ikaz et"
 
@@ -1373,99 +1373,99 @@ msgstr "Bu oluþumu sil"
 msgid "Delete all occurrences"
 msgstr "Yekin oluþumlarý sil"
 
-#: calendar/gui/event-editor.c:289
+#: calendar/gui/event-editor.c:291
 msgid "Edit Appointment"
 msgstr "Toplantýyý deðiþtir"
 
-#: calendar/gui/event-editor.c:294
+#: calendar/gui/event-editor.c:296
 msgid "No summary"
 msgstr "Toplama yok"
 
-#: calendar/gui/event-editor.c:298
+#: calendar/gui/event-editor.c:300
 #, c-format
 msgid "Appointment - %s"
 msgstr "Toplantý - %s"
 
-#: calendar/gui/event-editor.c:301
+#: calendar/gui/event-editor.c:303
 #, c-format
 msgid "Task - %s"
 msgstr "Görev - %s"
 
-#: calendar/gui/event-editor.c:304
+#: calendar/gui/event-editor.c:306
 #, c-format
 msgid "Journal entry - %s"
 msgstr "Günlük birimi - %s"
 
 #. Owner, summary
-#: calendar/gui/event-editor.c:594 calendar/gui/event-editor.c:688
+#: calendar/gui/event-editor.c:622 calendar/gui/event-editor.c:718
 msgid "?"
 msgstr "?"
 
-#: calendar/gui/event-editor.c:1148
+#: calendar/gui/event-editor.c:1198
 msgid "FIXME: _Delete"
 msgstr "ABY : _Sil"
 
-#: calendar/gui/event-editor.c:1215
+#: calendar/gui/event-editor.c:1265
 msgid "FIXME: Ca_lendar..."
 msgstr "ABY : _Takvim ..."
 
-#: calendar/gui/event-editor.c:1250
+#: calendar/gui/event-editor.c:1300
 msgid "FIXME: Chec_k Names"
 msgstr "ABY : Isimleri gözden g_eçir"
 
-#: calendar/gui/event-editor.c:1251
+#: calendar/gui/event-editor.c:1301
 msgid "FIXME: Address _Book..."
 msgstr "ABY : Adres _defteri ..."
 
-#: calendar/gui/event-editor.c:1258
+#: calendar/gui/event-editor.c:1308
 msgid "FIXME: _New Appointment"
 msgstr "ABY : _Yeni toplantý"
 
-#: calendar/gui/event-editor.c:1260
+#: calendar/gui/event-editor.c:1310
 msgid "FIXME: Rec_urrence..."
 msgstr "ABY : _Kaynaklar ..."
 
-#: calendar/gui/event-editor.c:1262
+#: calendar/gui/event-editor.c:1312
 msgid "FIXME: Invite _Attendees..."
 msgstr "ABY : _Ziyaretçileri davet et .."
 
-#: calendar/gui/event-editor.c:1263
+#: calendar/gui/event-editor.c:1313
 msgid "FIXME: C_ancel Invitation..."
 msgstr "ABY : Daveti i_ptal et ..."
 
-#: calendar/gui/event-editor.c:1265
+#: calendar/gui/event-editor.c:1315
 msgid "FIXME: Forward as v_Calendar"
 msgstr "ABY : v_Calendat þeklinde ilet"
 
-#: calendar/gui/event-editor.c:1320
+#: calendar/gui/event-editor.c:1370
 msgid "FIXME: Save and Close"
 msgstr "ABY : KAydet ve kapat"
 
-#: calendar/gui/event-editor.c:1325
+#: calendar/gui/event-editor.c:1375
 msgid "FIXME: Print..."
 msgstr "ABY : Yazdýr ..."
 
-#: calendar/gui/event-editor.c:1330
+#: calendar/gui/event-editor.c:1380
 msgid "FIXME: Recurrence..."
 msgstr "ABY : Geliþler ..."
 
-#: calendar/gui/event-editor.c:1331
+#: calendar/gui/event-editor.c:1381
 msgid "Configure recurrence rules"
 msgstr "Geliþ kurallarýný ayarla"
 
-#: calendar/gui/event-editor.c:1333
+#: calendar/gui/event-editor.c:1383
 msgid "FIXME: Invite Attendees..."
 msgstr "ABY : Ziyaretçileri davet et .."
 
-#: calendar/gui/event-editor.c:1334
+#: calendar/gui/event-editor.c:1384
 msgid "Invite attendees to a meeting"
 msgstr "Ziyaretcýleri davet et"
 
-#: calendar/gui/event-editor.c:1336
+#: calendar/gui/event-editor.c:1386
 msgid "FIXME: Delete"
 msgstr "ABY : Sil"
 
-#: calendar/gui/event-editor.c:1745
+#: calendar/gui/event-editor.c:1828
 msgid "%a %b %d %Y"
 msgstr "%a %b %d %Y"
 
@@ -1682,110 +1682,110 @@ msgstr "onikinci"
 msgid "ago"
 msgstr "önce"
 
-#: calendar/gui/gncal-todo.c:137
+#: calendar/gui/gncal-todo.c:140
 msgid "Create to-do item"
 msgstr "Bir \"Yapýlacak\" birimi yarat"
 
-#: calendar/gui/gncal-todo.c:137
+#: calendar/gui/gncal-todo.c:140
 msgid "Edit to-do item"
 msgstr "Bir \"Yapýlacak\" birimini deðiþtir"
 
-#: calendar/gui/gncal-todo.c:171
+#: calendar/gui/gncal-todo.c:176
 msgid "Summary:"
 msgstr "Toplama :"
 
-#: calendar/gui/gncal-todo.c:181
+#: calendar/gui/gncal-todo.c:186
 msgid "Due Date:"
 msgstr "Bu tarihe kadar :"
 
-#: calendar/gui/gncal-todo.c:190
+#: calendar/gui/gncal-todo.c:195
 msgid "Priority:"
 msgstr "Önem :"
 
-#: calendar/gui/gncal-todo.c:207
+#: calendar/gui/gncal-todo.c:212
 msgid "Item Comments:"
 msgstr "Birim anlatýmý :"
 
-#: calendar/gui/gncal-todo.c:325
+#: calendar/gui/gncal-todo.c:334
 msgid "Add to-do item..."
 msgstr "Bir \"Yapýlacak\" birimini ekle ..."
 
-#: calendar/gui/gncal-todo.c:326
+#: calendar/gui/gncal-todo.c:335
 msgid "Edit this item..."
 msgstr "Bu birimi deðiþtir ..."
 
-#: calendar/gui/gncal-todo.c:425
+#: calendar/gui/gncal-todo.c:434
 msgid "Summary"
 msgstr "Toplama"
 
-#: calendar/gui/gncal-todo.c:426 calendar/gui/prop.c:604
+#: calendar/gui/gncal-todo.c:435 calendar/gui/prop.c:604
 msgid "Due Date"
 msgstr "Tarihe göre"
 
-#: calendar/gui/gncal-todo.c:427 calendar/gui/prop.c:605
-#: mail/message-list.c:474
+#: calendar/gui/gncal-todo.c:436 calendar/gui/prop.c:605
+#: mail/message-list.c:470
 msgid "Priority"
 msgstr "Önem"
 
-#: calendar/gui/gncal-todo.c:428
+#: calendar/gui/gncal-todo.c:437
 msgid "Time Left"
 msgstr "Kalan zaman"
 
 #. Label
-#: calendar/gui/gncal-todo.c:440
+#: calendar/gui/gncal-todo.c:449
 msgid "To-do list"
 msgstr "\"Yapýlacak\"'lar listesi"
 
 #. Add
-#: calendar/gui/gncal-todo.c:479
+#: calendar/gui/gncal-todo.c:488
 #: composer/e-msg-composer-address-dialog.glade.h:13
 msgid "Add..."
 msgstr "Ekle ..."
 
 #. Edit
-#: calendar/gui/gncal-todo.c:488
+#: calendar/gui/gncal-todo.c:497
 msgid "Edit..."
 msgstr "Deðiþtir ..."
 
-#: calendar/gui/gncal-todo.c:712
+#: calendar/gui/gncal-todo.c:721
 msgid "Weeks"
 msgstr "Hafta"
 
-#: calendar/gui/gncal-todo.c:713 calendar/gui/gncal-todo.c:717
+#: calendar/gui/gncal-todo.c:722 calendar/gui/gncal-todo.c:726
 msgid "Days"
 msgstr "Gün"
 
-#: calendar/gui/gncal-todo.c:718 calendar/gui/gncal-todo.c:722
+#: calendar/gui/gncal-todo.c:727 calendar/gui/gncal-todo.c:731
 msgid "Hours"
 msgstr "Saat"
 
-#: calendar/gui/gncal-todo.c:718 calendar/gui/gncal-todo.c:722
+#: calendar/gui/gncal-todo.c:727 calendar/gui/gncal-todo.c:731
 msgid "Hour"
 msgstr "Saat"
 
-#: calendar/gui/gncal-todo.c:723 calendar/gui/gncal-todo.c:727
+#: calendar/gui/gncal-todo.c:732 calendar/gui/gncal-todo.c:736
 msgid "Minutes"
 msgstr "Dakika"
 
-#: calendar/gui/gncal-todo.c:723 calendar/gui/gncal-todo.c:727
+#: calendar/gui/gncal-todo.c:732 calendar/gui/gncal-todo.c:736
 msgid "Minute"
 msgstr "Dakika"
 
-#: calendar/gui/gncal-todo.c:728 calendar/gui/gncal-todo.c:732
+#: calendar/gui/gncal-todo.c:737 calendar/gui/gncal-todo.c:741
 msgid "Seconds"
 msgstr "Saniye"
 
-#: calendar/gui/gncal-todo.c:728 calendar/gui/gncal-todo.c:732
+#: calendar/gui/gncal-todo.c:737 calendar/gui/gncal-todo.c:741
 msgid "Second"
 msgstr "Saniye"
 
-#: calendar/gui/gnome-cal.c:453 calendar/gui/gnome-cal.c:1064
-#: calendar/gui/gnome-cal.c:1120
+#: calendar/gui/gnome-cal.c:461 calendar/gui/gnome-cal.c:1078
+#: calendar/gui/gnome-cal.c:1134
 msgid "Reminder of your appointment at "
 msgstr "Toplantý anýtlayýcýsý :"
 
 #. Idea: we need Snooze option :-)
-#: calendar/gui/gnome-cal.c:1069 calendar/gui/gnome-cal.c:1124
+#: calendar/gui/gnome-cal.c:1083 calendar/gui/gnome-cal.c:1138
 msgid "Ok"
 msgstr "Oldu"
 
@@ -2350,37 +2350,37 @@ msgstr "Konu :"
 msgid "Enter the subject of the mail"
 msgstr "Iletinin konusunu ver"
 
-#: composer/e-msg-composer.c:445
+#: composer/e-msg-composer.c:447
 msgid "Save as..."
 msgstr "Farklý kaydet ..."
 
-#: composer/e-msg-composer.c:456
+#: composer/e-msg-composer.c:458
 #, c-format
 msgid "Error saving file: %s"
 msgstr "`%s' dosyasýný kaydederken hata oldu"
 
-#: composer/e-msg-composer.c:476
+#: composer/e-msg-composer.c:478
 #, c-format
 msgid "Error loading file: %s"
 msgstr "`%s' dosyasýný yüklerken hata oldu"
 
-#: composer/e-msg-composer.c:495
+#: composer/e-msg-composer.c:497
 msgid "Discard this message?"
 msgstr "Bu iletiyi unutalým mý ?"
 
-#: composer/e-msg-composer.c:512
+#: composer/e-msg-composer.c:514
 msgid "Open file"
 msgstr "Dosyayý aç"
 
-#: composer/e-msg-composer.c:625
+#: composer/e-msg-composer.c:626
 msgid "That file does not exist."
 msgstr "Böyle bir dosya yok ."
 
-#: composer/e-msg-composer.c:635
+#: composer/e-msg-composer.c:636
 msgid "That is not a regular file."
 msgstr "Bu normal bir dosya deðildir ."
 
-#: composer/e-msg-composer.c:645
+#: composer/e-msg-composer.c:646
 msgid "That file exists but is not readable."
 msgstr "Bu dosya vardýr ama okunabilir deðil ."
 
@@ -2396,116 +2396,116 @@ msgstr ""
 "Bu dosya çok büyük ( 100 KB'den büyük ! ) .\n"
 "Bu dosyayý içermekten emin misin ?"
 
-#: composer/e-msg-composer.c:697
+#: composer/e-msg-composer.c:699
 msgid "An error occurred while reading the file."
 msgstr "Dosyayý okurken bir hata oldu ."
 
-#: composer/e-msg-composer.c:796 shell/e-shell-view-menu.c:438
+#: composer/e-msg-composer.c:795 shell/e-shell-view-menu.c:438
 msgid "_File"
 msgstr "_Dosya"
 
-#: composer/e-msg-composer.c:802
+#: composer/e-msg-composer.c:801
 msgid "_Open..."
 msgstr "_Aç ..."
 
-#: composer/e-msg-composer.c:803
+#: composer/e-msg-composer.c:802
 msgid "Load a previously saved message"
 msgstr "Önceden kaydedilmiþ iletiyi yükle"
 
-#: composer/e-msg-composer.c:811
+#: composer/e-msg-composer.c:810
 msgid "_Save..."
 msgstr "_Farklý kaydet ..."
 
-#: composer/e-msg-composer.c:812
+#: composer/e-msg-composer.c:811
 msgid "Save message"
 msgstr "Iletiyi kaydet"
 
-#: composer/e-msg-composer.c:820
+#: composer/e-msg-composer.c:819
 msgid "_Save as..."
 msgstr "_Farklý kaydet ..."
 
-#: composer/e-msg-composer.c:821
+#: composer/e-msg-composer.c:820
 msgid "Save message with a different name"
 msgstr "Iletiyi faklý bir isim altýnda kaydet"
 
-#: composer/e-msg-composer.c:829
+#: composer/e-msg-composer.c:828
 msgid "Save in _folder..."
 msgstr "_Dizinde kaydet ..."
 
-#: composer/e-msg-composer.c:830
+#: composer/e-msg-composer.c:829
 msgid "Save the message in a specified folder"
 msgstr "Iletiyi belirlenen dizinde kaydet"
 
-#: composer/e-msg-composer.c:839
-msgid "_Insert text file..."
-msgstr "_Metin dosyasýný içer ..."
+#: composer/e-msg-composer.c:838
+msgid "_Insert text file... (FIXME)"
+msgstr "_Metin dosyasýný içer ... ( ABY )"
 
-#: composer/e-msg-composer.c:840
+#: composer/e-msg-composer.c:839
 msgid "Insert a file as text into the message"
 msgstr "Bir dosyayý metin olarak ekle"
 
-#: composer/e-msg-composer.c:849
+#: composer/e-msg-composer.c:848
 msgid "_Send"
 msgstr "_Gönder"
 
-#: composer/e-msg-composer.c:850
+#: composer/e-msg-composer.c:849
 msgid "Send the message"
 msgstr "Iletiyi gönder"
 
-#: composer/e-msg-composer.c:860
+#: composer/e-msg-composer.c:859
 msgid "_Close..."
 msgstr "_Kapat"
 
-#: composer/e-msg-composer.c:861
+#: composer/e-msg-composer.c:860
 msgid "Quit the message composer"
 msgstr "Ileti tasarýlayýcýsýndan çýk"
 
-#: composer/e-msg-composer.c:874 shell/e-shell-view-menu.c:480
+#: composer/e-msg-composer.c:873 shell/e-shell-view-menu.c:480
 msgid "_Edit"
 msgstr "_Deðiþtir"
 
-#: composer/e-msg-composer.c:885
+#: composer/e-msg-composer.c:884
 msgid "_Format"
 msgstr "Þe_kil"
 
-#: composer/e-msg-composer.c:891
+#: composer/e-msg-composer.c:890
 msgid "HTML"
 msgstr "HTML"
 
-#: composer/e-msg-composer.c:892
+#: composer/e-msg-composer.c:891
 msgid "Send the mail in HTML format"
 msgstr "ePostayý HTML þeklinde gönder"
 
-#: composer/e-msg-composer.c:905 shell/e-shell-view-menu.c:387
+#: composer/e-msg-composer.c:904 shell/e-shell-view-menu.c:387
 #: shell/e-shell-view-menu.c:491
 msgid "_View"
 msgstr "_Göster"
 
-#: composer/e-msg-composer.c:911
+#: composer/e-msg-composer.c:910
 msgid "Show _attachments"
 msgstr "_Eklemleri göster"
 
-#: composer/e-msg-composer.c:912
+#: composer/e-msg-composer.c:911
 msgid "Show/hide attachments"
 msgstr "Eklemleri göster/gizle"
 
-#: composer/e-msg-composer.c:945
+#: composer/e-msg-composer.c:944
 msgid "Send"
 msgstr "Gönder"
 
-#: composer/e-msg-composer.c:946
+#: composer/e-msg-composer.c:945
 msgid "Send this message"
 msgstr "Bu iletiyi gönder"
 
-#: composer/e-msg-composer.c:955
+#: composer/e-msg-composer.c:954
 msgid "Attach"
 msgstr "Ekle"
 
-#: composer/e-msg-composer.c:956
+#: composer/e-msg-composer.c:955
 msgid "Attach a file"
 msgstr "Bir dosya ekle"
 
-#: composer/e-msg-composer.c:1143
+#: composer/e-msg-composer.c:1142
 msgid "Compose a message"
 msgstr "Bir ileti yaz"
 
@@ -2541,87 +2541,87 @@ msgstr ""
 "<h2>Filtra kuralýný kur</h2><p>Alttaki kurallardan bir tanesini seçip, o "
 "kuralý özelleþtirmeye devam et .</p>"
 
-#: mail/component-factory.c:197
+#: mail/component-factory.c:193
 msgid "Cannot initialize Evolution's mail component."
 msgstr "Evolution'in ePosta parçasýný baþlatamadým ."
 
-#: mail/folder-browser-factory.c:29
+#: mail/folder-browser-factory.c:23
 msgid "Get mail"
 msgstr "ePosta'yý al"
 
-#: mail/folder-browser-factory.c:29
+#: mail/folder-browser-factory.c:23
 msgid "Check for new mail"
 msgstr "Yeni ePosta için bak"
 
-#: mail/folder-browser-factory.c:30
+#: mail/folder-browser-factory.c:24
 msgid "Compose"
 msgstr "Yaz"
 
-#: mail/folder-browser-factory.c:30
+#: mail/folder-browser-factory.c:24
 msgid "Compose a new message"
 msgstr "Yeni bir ePosta iletisini yaz"
 
-#: mail/folder-browser-factory.c:34
+#: mail/folder-browser-factory.c:28
 msgid "Reply"
 msgstr "Cevapla"
 
-#: mail/folder-browser-factory.c:34
+#: mail/folder-browser-factory.c:28
 msgid "Reply to the sender of this message"
 msgstr "Iletiyi gönderene cevap ver"
 
-#: mail/folder-browser-factory.c:35
+#: mail/folder-browser-factory.c:29
 msgid "Reply to All"
 msgstr "Hepsine cevapla"
 
-#: mail/folder-browser-factory.c:35
+#: mail/folder-browser-factory.c:29
 msgid "Reply to all recipients of this message"
 msgstr "Iletinin yekin alýcýlarýna cevap ver"
 
-#: mail/folder-browser-factory.c:37
+#: mail/folder-browser-factory.c:31
 msgid "Forward"
 msgstr "Ilet"
 
-#: mail/folder-browser-factory.c:37
+#: mail/folder-browser-factory.c:31
 msgid "Forward this message"
 msgstr "Bu iletiyi ilet"
 
-#: mail/folder-browser-factory.c:41
-msgid "Refile"
-msgstr "Yeniden dosyala"
+#: mail/folder-browser-factory.c:35
+msgid "Move"
+msgstr "Taþý"
 
-#: mail/folder-browser-factory.c:41
+#: mail/folder-browser-factory.c:35
 msgid "Move message to a new folder"
 msgstr "Iletiyi yeni bir dizine taþý"
 
-#: mail/folder-browser-factory.c:43
+#: mail/folder-browser-factory.c:37
 msgid "Print the selected message"
 msgstr "Seçili iletiyi yazdýr"
 
-#: mail/folder-browser-factory.c:45
+#: mail/folder-browser-factory.c:39
 msgid "Delete this message"
 msgstr "Bu iletiyi sil"
 
-#: mail/folder-browser-factory.c:65
+#: mail/folder-browser-factory.c:59
 msgid "_Threaded Message List"
 msgstr "Iletilerin k_onu listesi"
 
-#: mail/folder-browser-factory.c:77
+#: mail/folder-browser-factory.c:71
 msgid "_Expunge"
 msgstr "_Temizle"
 
-#: mail/folder-browser-factory.c:83
+#: mail/folder-browser-factory.c:77
 msgid "_Filter Druid ..."
 msgstr "_Filtra sihirbazý ..."
 
-#: mail/folder-browser-factory.c:89
+#: mail/folder-browser-factory.c:83
 msgid "_Virtual Folder Druid ..."
 msgstr "_Sanal Dizin Sihirbazý ..."
 
-#: mail/folder-browser-factory.c:95
+#: mail/folder-browser-factory.c:89
 msgid "_Mail Configuration ..."
 msgstr "_ePosta ayarlarý ..."
 
-#: mail/folder-browser-factory.c:101
+#: mail/folder-browser-factory.c:95
 msgid "Forget _Passwords"
 msgstr "_Parolalarý unut"
 
@@ -2655,31 +2655,31 @@ msgstr "Imza dosyasý : "
 msgid "Signature File"
 msgstr "Imza Dosyasý"
 
-#: mail/mail-config.c:718 mail/mail-config.c:812 mail/mail-config.c:1621
+#: mail/mail-config.c:730 mail/mail-config.c:824 mail/mail-config.c:1637
 msgid "Server:"
 msgstr "Sunucu :"
 
-#: mail/mail-config.c:725
+#: mail/mail-config.c:737
 msgid "Username:"
 msgstr "Kullanýcý adý :"
 
-#: mail/mail-config.c:732
+#: mail/mail-config.c:744
 msgid "Path:"
 msgstr "Dizin :"
 
-#: mail/mail-config.c:739 mail/mail-config.c:819
+#: mail/mail-config.c:751 mail/mail-config.c:831
 msgid "Authentication:"
 msgstr "Doðrulama :"
 
-#: mail/mail-config.c:751 mail/mail-config.c:831
+#: mail/mail-config.c:763 mail/mail-config.c:843
 msgid "Detect supported types..."
 msgstr "Desteklenen türleri dene ..."
 
-#: mail/mail-config.c:777 mail/mail-config.c:853
+#: mail/mail-config.c:789 mail/mail-config.c:865
 msgid "Test these values before continuing"
 msgstr "Bu deðerleri devam etmekten önce bir dene"
 
-#: mail/mail-config.c:960
+#: mail/mail-config.c:976
 msgid ""
 "Select the kind of mail server you have, and enter the relevant information "
 "about it.\n"
@@ -2692,42 +2692,42 @@ msgstr ""
 "Sunucu bir tanýmlama bekliyorsa o zaman \"Desteklenen türleri dene ...\" "
 "basmasýna öbür bilgiler verdikten sonra basabilirsin ."
 
-#: mail/mail-config.c:978
+#: mail/mail-config.c:994
 msgid "Select the method you would like to use to deliver your mail."
 msgstr "ePostaný gönderirken tercih ettiðin türü belirle."
 
-#: mail/mail-config.c:1163 mail/mail-config.c:1242
+#: mail/mail-config.c:1179 mail/mail-config.c:1258
 msgid "Mail Configuration"
 msgstr "ePosta ayarlamasý"
 
 #. Identity page
-#: mail/mail-config.c:1180
+#: mail/mail-config.c:1196
 msgid "Identity"
 msgstr "Kimlik"
 
 #. Source page
-#: mail/mail-config.c:1199
+#: mail/mail-config.c:1215
 msgid "Mail Source"
 msgstr "ePosta kaynaðý"
 
 #. Transport page
-#: mail/mail-config.c:1220
+#: mail/mail-config.c:1236
 msgid "Mail Transport"
 msgstr "ePosta transferi"
 
-#: mail/mail-config.c:1343
+#: mail/mail-config.c:1359
 msgid "Edit Identity"
 msgstr "Kimliði deðiþtir"
 
-#: mail/mail-config.c:1345
+#: mail/mail-config.c:1361
 msgid "Add Identity"
 msgstr "Kimlik ekle"
 
-#: mail/mail-config.c:1488
+#: mail/mail-config.c:1504
 msgid "Edit Source"
 msgstr "Kaynaðý deðiþtir"
 
-#: mail/mail-config.c:1490
+#: mail/mail-config.c:1506
 msgid "Add Source"
 msgstr "Kaynak ekle"
 
@@ -2735,23 +2735,23 @@ msgstr "Kaynak ekle"
 #. "If the server requires authentication, you can click the "
 #. "\"Detect supported types...\" button after entering "
 #. "the other information."
-#: mail/mail-config.c:1600
+#: mail/mail-config.c:1616
 msgid "Enter the hostname of the News Server you have."
 msgstr "Haber sunucusunun adresini ver ."
 
-#: mail/mail-config.c:1656
+#: mail/mail-config.c:1672
 msgid "Edit News Server"
 msgstr "Haber sunucusuyla oyna"
 
-#: mail/mail-config.c:1658
+#: mail/mail-config.c:1674
 msgid "Add News Server"
 msgstr "Haber suncusu ekle"
 
-#: mail/mail-ops.c:374
+#: mail/mail-ops.c:367
 msgid "Fetching mail"
 msgstr "ePosta'yý alýyorum"
 
-#: mail/mail-ops.c:386
+#: mail/mail-ops.c:379
 msgid ""
 "This message has no subject.\n"
 "Really send?"
@@ -2759,9 +2759,9 @@ msgstr ""
 "Bu iletinin konusu yok .\n"
 "Vallahi mi göndereyim ?"
 
-#: mail/mail-ops.c:774
-msgid "Refile message(s) to"
-msgstr "Iletileri yeniden dosyala "
+#: mail/mail-ops.c:767
+msgid "Move message(s) to"
+msgstr "Ileti(leri) buraya taþý "
 
 #: mail/mail-threads.c:483
 msgid "Currently pending operations:"
@@ -2787,35 +2787,31 @@ msgstr "Diyalog kutusunu yaratamadým ."
 msgid "User cancelled query."
 msgstr "Sorgulamayý kullanýcý durdurdu ."
 
-#: mail/main.c:62
-msgid "Mail Component: I could not initialize Bonobo"
-msgstr "ePosta parçasý : Bonobo'yu baþlatamadým"
-
-#: mail/message-list.c:460
+#: mail/message-list.c:456
 msgid "Online Status"
 msgstr "Baðlý olma durumu"
 
-#: mail/message-list.c:488
+#: mail/message-list.c:484
 msgid "From"
 msgstr "Gönderen"
 
-#: mail/message-list.c:495
+#: mail/message-list.c:491
 msgid "Subject"
 msgstr "Konu"
 
-#: mail/message-list.c:502
+#: mail/message-list.c:498
 msgid "Date"
 msgstr "Tarih"
 
-#: mail/message-list.c:509
+#: mail/message-list.c:505
 msgid "Received"
 msgstr "Alýndý"
 
-#: mail/message-list.c:516
+#: mail/message-list.c:512
 msgid "To"
 msgstr "Gn:"
 
-#: mail/message-list.c:523
+#: mail/message-list.c:519
 msgid "Size"
 msgstr "Boyut"
 
@@ -3045,20 +3041,20 @@ msgstr "Evolution hakkýnda bilgi göster"
 msgid "(No folder displayed)"
 msgstr "( Hiç bir dizin gösterilmiyor )"
 
-#: shell/e-shell-view.c:339
+#: shell/e-shell-view.c:342
 msgid "Folders"
 msgstr "Dizinler"
 
-#: shell/e-shell-view.c:731
+#: shell/e-shell-view.c:734
 msgid "None"
 msgstr "Yok"
 
-#: shell/e-shell-view.c:735
+#: shell/e-shell-view.c:738
 #, c-format
 msgid "Evolution - %s"
 msgstr "Evolution - %s"
 
-#: shell/e-shell.c:299
+#: shell/e-shell.c:293
 #, c-format
 msgid "Cannot set up local storage -- %s"
 msgstr "Yerel kaydý kuramadým -- %s"
@@ -3147,7 +3143,7 @@ msgstr "Bu kayýtta belirtilen tip desteklenmiyor"
 msgid "Unknown error"
 msgstr "Bilinmeyen hata"
 
-#: shell/main.c:100
+#: shell/main.c:66
 msgid ""
 "Hi.  Thanks for taking the time to download this preview release\n"
 "of the Evolution groupware suite.\n"
@@ -3186,7 +3182,7 @@ msgstr ""
 "Aðýr bir iþin sonucunu beðindiðinizi umup, sizin katkýlarýný\n"
 "bekliyoruz !\n"
 
-#: shell/main.c:127
+#: shell/main.c:93
 msgid ""
 "Thanks\n"
 "The Evolution Team\n"
@@ -3194,15 +3190,15 @@ msgstr ""
 "Teþekkürler\n"
 "Evolution Takýmý\n"
 
-#: shell/main.c:158
+#: shell/main.c:124
 msgid "Cannot initialize the Evolution shell."
 msgstr "Evolution komutasýný baþlatamadým ."
 
-#: shell/main.c:195
+#: shell/main.c:162
 msgid "Cannot initialize the configuration system."
 msgstr "Ayarlama sistemini baþlatamadým ."
 
-#: shell/main.c:201
+#: shell/main.c:168
 msgid "Cannot initialize the Bonobo component system."
 msgstr "Bonobo parçalar sistemini baþlatamadým."
 
@@ -3361,3 +3357,9 @@ msgstr "..."
 #, c-format
 msgid "Group %i"
 msgstr "Kitle %i"
+
+#~ msgid "Refile"
+#~ msgstr "Yeniden dosyala"
+
+#~ msgid "Mail Component: I could not initialize Bonobo"
+#~ msgstr "ePosta parçasý : Bonobo'yu baþlatamadým"
