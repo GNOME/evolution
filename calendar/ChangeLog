@@ -1,3 +1,10 @@
+2003-06-22  Hans Petter Jansson  <hpj@ximian.com>
+
+	* gui/print.c (get_font_for_size): Remove debug output.
+
+	* gui/tasks-control.c (print_tasks): Ref and sink the printable.
+	Use fixed (5%) margins instead of what gnome-print gives us.
+
 2003-06-19  Dan Winship  <danw@ximian.com>
 
 	* pcs/cal-backend.c (cal_backend_finalize): don't leak the

@@ -283,8 +283,6 @@ get_font_for_size (double h, GnomeFontWeight weight, gboolean italic)
 	desc = abs (gnome_font_face_get_descender (face));
 	size = h * 1000 / (asc + desc);
 
-	g_print ("Print Info: %f, %f, %f\n", asc, desc, size);
-
 	/* This function is broken in gnome-print (it doesn't find a suitable font).
 	 * font = gnome_font_find_closest_from_weight_slant (DEFAULT_FONT, weight, italic, size); */
 	font = gnome_font_find_closest (font_name, size);

@@ -52,6 +52,7 @@
 
 #define TASKS_CONTROL_PROPERTY_URI		"folder_uri"
 #define TASKS_CONTROL_PROPERTY_URI_IDX		1
+#define FIXED_MARGIN                            .05
 
 
 static void tasks_control_properties_init	(BonoboControl		*control,
@@ -530,6 +531,8 @@ print_tasks (ETasks *tasks, gboolean preview)
 	cal_table = e_tasks_get_calendar_table (tasks);
 	etable = e_calendar_table_get_table (E_CALENDAR_TABLE (cal_table));
 	printable = e_table_get_printable (etable);
+	g_object_ref (printable);
+	gtk_object_sink (GTK_OBJECT (printable));
 	e_printable_reset (printable);
 
 	gpm = gnome_print_job_new (print_config);
@@ -537,12 +540,19 @@ print_tasks (ETasks *tasks, gboolean preview)
 
 	gnome_print_config_get_page_size (print_config, &r, &t);
 
+#if 0
 	gnome_print_config_get_double (print_config, GNOME_PRINT_KEY_PAGE_MARGIN_TOP, &temp_d);
 	t -= temp_d;
 	gnome_print_config_get_double (print_config, GNOME_PRINT_KEY_PAGE_MARGIN_RIGHT, &temp_d);
 	r -= temp_d;
 	gnome_print_config_get_double (print_config, GNOME_PRINT_KEY_PAGE_MARGIN_BOTTOM, &b);
 	gnome_print_config_get_double (print_config, GNOME_PRINT_KEY_PAGE_MARGIN_LEFT, &l);
+#endif
+
+	b = t * FIXED_MARGIN;
+	l = r * FIXED_MARGIN;
+	t *= (1.0 - FIXED_MARGIN);
+	r *= (1.0 - FIXED_MARGIN);
 
 	page_width = r - l;
 	page_height = t - b;
