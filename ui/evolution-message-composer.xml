@@ -38,6 +38,10 @@
 		<cmd name="ViewFrom" _label="_From Field"
 		_tip="Toggles whether the From chooser is displayed" type="toggle" state="0"/>
 
+                <cmd name="ViewReplyTo" _label="_Reply-To Field"
+		_tip="Toggles whether the Reply-To field is displayed"
+		type="toggle" state="0"/>
+
 		<cmd name="ViewCC" _label="_Cc Field"
 		_tip="Toggles whether the CC field is displayed"
 		type="toggle" state="0"/>
@@ -107,6 +111,7 @@
 	                <separator/>
 	    
 	                <menuitem name="ViewFrom" verb=""/>
+                        <menuitem name="ViewReplyTo" verb=""/>
 	                <menuitem name="ViewCC" verb=""/>
 	                <menuitem name="ViewBCC" verb=""/>
 		</submenu>

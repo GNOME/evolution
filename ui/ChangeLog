@@ -1,3 +1,7 @@
+2001-03-12  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* evolution-message-composer.xml: Added Reply-To field.
+
 2001-03-11  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* evolution-mail.xml: Add an ActionsEmptyTrash menu item.
