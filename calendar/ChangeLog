@@ -1,3 +1,21 @@
+2003-11-04  Rodrigo Moya <rodrigo@ximian.com>
+
+	* gui/calendar-component.c (fill_popup_menu_callback): added more
+	menu items.
+	(delete_calendar_cb): callbacks for new popup menu items.
+	(impl_createControls): add the source selector widget to the
+	CalendarComponentPrivate structure.
+
+	* gui/migration.[ch] (migrate_old_tasks): new function to migrate
+	old tasks setups.
+	(process_old_dir): renamed and added a "filename" argument, so that
+	the same function can be used for tasks and calendar directories.
+	(migrate_old_calendars): added new argument when calling
+	process_old_dir().
+
+	* gui/tasks-component.c (tasks_component_init): call
+	migrate_old_tasks() if there are no groups defined.
+
 2003-11-04  Bolian Yin <bolian.yin@sun.com>
 
 	* gui/e-cal-view.c: add new signal "selected_time_changed" 
@@ -5,8 +23,11 @@
 	   a11y initialization
 	* gui/e-day-view-top-item (e_day_view_top_item_get_day_label):
 	   new public function.
-	* gui/e-day-view.c (e_day_view_ensure_rows_visible, e_day_view_update_calendar_selection_time): make static functions public
-	  (e_day_view_cursor_key_up, e_day_view_cursor_key_down, e_day_view_cursor_key_left, e_day_view_cursor_key_right): emit "selected_time_changed".
+	* gui/e-day-view.c (e_day_view_ensure_rows_visible,
+	e_day_view_update_calendar_selection_time): make static functions public
+	(e_day_view_cursor_key_up, e_day_view_cursor_key_down,
+	e_day_view_cursor_key_left, e_day_view_cursor_key_right): emit
+	"selected_time_changed".
 
 2003-11-03  Ettore Perazzoli  <ettore@ximian.com>
 

@@ -17,7 +17,8 @@
  * Free Software Foundation, Inc., 59 Temple Place - Suite 330,
  * Boston, MA 02111-1307, USA.
  *
- * Author: Ettore Perazzoli <ettore@ximian.com>
+ * Authors: Ettore Perazzoli <ettore@ximian.com>
+ *          Rodrigo Moya <rodrigo@ximian.com>
  */
 
 #ifdef HAVE_CONFIG_H
@@ -38,6 +39,8 @@
 #include <bonobo/bonobo-i18n.h>
 #include <gtk/gtkimage.h>
 #include <gtk/gtkimagemenuitem.h>
+#include <gtk/gtkmessagedialog.h>
+#include <gtk/gtkstock.h>
 #include <gal/util/e-util.h>
 
 #include <errno.h>
@@ -55,6 +58,7 @@ struct _CalendarComponentPrivate {
 	GSList *source_selection;
 	
 	GnomeCalendar *calendar;
+	GtkWidget *source_selector;
 };
 
 
@@ -149,6 +153,47 @@ add_popup_menu_item (GtkMenu *menu, const char *label, const char *pixmap,
 }
 
 static void
+delete_calendar_cb (GtkWidget *widget, CalendarComponent *comp)
+{
+	GSList *selection, *l;
+	CalendarComponentPrivate *priv;
+
+	priv = comp->priv;
+	
+	selection = e_source_selector_get_selection (E_SOURCE_SELECTOR (priv->source_selector));
+	if (!selection)
+		return;
+
+	for (l = selection; l; l = l->next) {
+		GtkWidget *dialog;
+		ESource *selected_source = l->data;
+
+		/* create the confirmation dialog */
+		dialog = gtk_message_dialog_new (
+			GTK_WINDOW (gtk_widget_get_toplevel (widget)),
+			GTK_DIALOG_MODAL,
+			GTK_MESSAGE_QUESTION,
+			GTK_BUTTONS_YES_NO,
+			_("Calendar '%s' will be removed. Are you sure you want to continue?"),
+			e_source_peek_name (selected_source));
+		if (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_YES) {
+			if (e_source_selector_source_is_selected (E_SOURCE_SELECTOR (priv->source_selector),
+								  selected_source))
+				e_source_selector_unselect_source (E_SOURCE_SELECTOR (priv->source_selector),
+								   selected_source);
+
+			e_source_group_remove_source (e_source_peek_group (selected_source), selected_source);
+
+			/* FIXME: remove the calendar.ics file and the directory */
+		}
+
+		gtk_widget_destroy (dialog);
+	}
+
+	e_source_selector_free_selection (selection);
+}
+
+static void
 new_calendar_cb (GtkWidget *widget, ESourceSelector *selector)
 {
 	new_calendar_dialog (GTK_WINDOW (gtk_widget_get_toplevel (widget)));
@@ -157,7 +202,9 @@ new_calendar_cb (GtkWidget *widget, ESourceSelector *selector)
 static void
 fill_popup_menu_callback (ESourceSelector *selector, GtkMenu *menu, CalendarComponent *comp)
 {
-	add_popup_menu_item (menu, _("New Calendar"), NULL, G_CALLBACK (new_calendar_cb), selector);
+	add_popup_menu_item (menu, _("New Calendar"), NULL, G_CALLBACK (new_calendar_cb), comp);
+	add_popup_menu_item (menu, _("Delete"), GTK_STOCK_DELETE, G_CALLBACK (delete_calendar_cb), comp);
+	add_popup_menu_item (menu, _("Rename"), NULL, NULL, NULL);
 }
 
 static void
@@ -249,7 +296,6 @@ impl_createControls (PortableServer_Servant servant,
 {
 	CalendarComponent *calendar_component = CALENDAR_COMPONENT (bonobo_object_from_servant (servant));
 	CalendarComponentPrivate *priv;
-	GtkWidget *selector;
 	GtkWidget *selector_scrolled_window;
 	BonoboControl *sidebar_control;
 	BonoboControl *view_control;
@@ -257,11 +303,11 @@ impl_createControls (PortableServer_Servant servant,
 	priv = calendar_component->priv;
 	
 	/* Create sidebar selector */
-	selector = e_source_selector_new (calendar_component->priv->source_list);
-	gtk_widget_show (selector);
+	priv->source_selector = e_source_selector_new (calendar_component->priv->source_list);
+	gtk_widget_show (priv->source_selector);
 
 	selector_scrolled_window = gtk_scrolled_window_new (NULL, NULL);
-	gtk_container_add (GTK_CONTAINER (selector_scrolled_window), selector);
+	gtk_container_add (GTK_CONTAINER (selector_scrolled_window), priv->source_selector);
 	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (selector_scrolled_window),
 					GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
 	gtk_scrolled_window_set_shadow_type (GTK_SCROLLED_WINDOW (selector_scrolled_window),
@@ -296,17 +342,17 @@ impl_createControls (PortableServer_Servant servant,
 
 	g_signal_connect (view_control, "activate", G_CALLBACK (control_activate_cb), priv->calendar);
 
-	g_signal_connect_object (selector, "selection_changed",
+	g_signal_connect_object (priv->source_selector, "selection_changed",
 				 G_CALLBACK (source_selection_changed_callback), 
 				 G_OBJECT (calendar_component), 0);
-	g_signal_connect_object (selector, "primary_selection_changed",
+	g_signal_connect_object (priv->source_selector, "primary_selection_changed",
 				 G_CALLBACK (primary_source_selection_changed_callback), 
 				 G_OBJECT (calendar_component), 0);
-	g_signal_connect_object (selector, "fill_popup_menu",
+	g_signal_connect_object (priv->source_selector, "fill_popup_menu",
 				 G_CALLBACK (fill_popup_menu_callback),
 				 G_OBJECT (calendar_component), 0);
 
-	update_uris_for_selection (E_SOURCE_SELECTOR (selector), calendar_component);
+	update_uris_for_selection (E_SOURCE_SELECTOR (priv->source_selector), calendar_component);
 
 	*corba_sidebar_control = CORBA_Object_duplicate (BONOBO_OBJREF (sidebar_control), ev);
 	*corba_view_control = CORBA_Object_duplicate (BONOBO_OBJREF (view_control), ev);
