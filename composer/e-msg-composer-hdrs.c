@@ -1173,7 +1173,7 @@ e_msg_composer_hdrs_set_post_to (EMsgComposerHdrs *hdrs,
 	
 	e_msg_composer_hdrs_set_post_to_list (hdrs, list);
 	
-	g_free (list->data)
+	g_free (list->data);
 	g_list_free (list);
 }
 
