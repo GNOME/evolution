@@ -120,7 +120,8 @@ load_source_auth_cb (EBook *book, EBookStatus status, gpointer closure)
 		}
 	}
 
-	data->cb (book, status, data->closure);
+	if (data->cb)
+		data->cb (book, status, data->closure);
 
 	free_load_source_data (data);
 }
@@ -209,12 +210,28 @@ addressbook_authenticate (EBook *book, gboolean previous_failure, ESource *sourc
 	}
 	else {
 		/* they hit cancel */
-		cb (book, E_BOOK_ERROR_CANCELLED, closure);
+	
+			cb (book, E_BOOK_ERROR_CANCELLED, closure);
 	}
 
 	g_free (uri);
 }
 
+
+
+static void
+auth_required_cb (EBook *book, gpointer data)
+{
+	LoadSourceData *load_source_data = g_new0(LoadSourceData, 1);
+	
+	load_source_data->source = g_object_ref (g_object_ref (e_book_get_source (book)));
+	load_source_data->cancelled = FALSE;
+	addressbook_authenticate (book, FALSE, load_source_data->source,
+				  load_source_auth_cb, load_source_data);
+	
+	
+	
+}
 static void
 load_source_cb (EBook *book, EBookStatus status, gpointer closure)
 {
@@ -229,17 +246,16 @@ load_source_cb (EBook *book, EBookStatus status, gpointer closure)
 		const gchar *auth;
 
 		auth = e_source_get_property (load_source_data->source, "auth");
-
-		/* check if the addressbook needs authentication */
-
 		if (auth && strcmp (auth, "none")) {
-			addressbook_authenticate (book, FALSE, load_source_data->source,
-						  load_source_auth_cb, closure);
-
-			return;
+			g_signal_connect (book, "auth_required", auth_required_cb, NULL);
+			
+			if (e_book_is_online (book)) {
+				addressbook_authenticate (book, FALSE, load_source_data->source,
+							  load_source_auth_cb, closure);
+				return;
+		}
 		}
 	}
-	
 	load_source_data->cb (book, status, load_source_data->closure);
 	free_load_source_data (load_source_data);
 }
