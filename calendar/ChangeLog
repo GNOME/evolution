@@ -1,3 +1,10 @@
+2004-02-05  Sarfraaz Ahmed <asarfraaz@novell.com>
+
+        Fixes #53388
+
+        * gui/e-itip-control.c (get_next): added a check for NULL
+
+
 2004-02-04  JP Rosevear <jpr@ximian.com>
 
 	* importers/icalendar-importer.c (gnome_calendar_import_data_fn):

@@ -1364,6 +1364,8 @@ get_next (icalcompiter *iter)
 	do {
 		icalcompiter_next (iter);
 		ret = icalcompiter_deref (iter);
+		if (ret == NULL)
+			break;
 		kind = icalcomponent_isa (ret);
 	} while (ret != NULL 
 		 && kind != ICAL_VEVENT_COMPONENT
