@@ -3938,20 +3938,20 @@ cal_component_alarm_set_trigger (CalComponentAlarm *alarm, CalAlarmTrigger trigg
 	case CAL_ALARM_TRIGGER_RELATIVE_START:
 		t.duration = trigger.u.rel_duration;
 		t.time.is_date = -1;
-		value_type = ICAL_DURATION_VALUE;
+		value_type = ICAL_VALUE_DURATION;
 		related = ICAL_RELATED_START;
 		break;
 
 	case CAL_ALARM_TRIGGER_RELATIVE_END:
 		t.duration = trigger.u.rel_duration;
 		t.time.is_date = -1;
-		value_type = ICAL_DURATION_VALUE;
+		value_type = ICAL_VALUE_DURATION;
 		related = ICAL_RELATED_END;
 		break;
 
 	case CAL_ALARM_TRIGGER_ABSOLUTE:
 		t.time = trigger.u.abs_time;
-		value_type = ICAL_DATETIME_VALUE;
+		value_type = ICAL_VALUE_DATETIME;
 		break;
 
 	default:
