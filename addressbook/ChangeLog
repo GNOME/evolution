@@ -1,3 +1,11 @@
+2003-03-03  Ettore Perazzoli  <ettore@ximian.com>
+
+	* gui/component/select-names/e-select-names.c
+	(e_select_names_init): Instead of using gtk_widget_unparent(),
+	remove the widget from the container using gtk_container_remove().
+	This fixes a bunch of crashers in all the places using the
+	ESelectNames widget/control.
+
 2003-02-28  Dan Winship  <danw@ximian.com>
 
 	* gui/contact-editor/Makefile.am: Build libecontacteditor as an

@@ -480,7 +480,7 @@ e_select_names_init (ESelectNames *e_select_names)
 		return;
 	}
 	gtk_widget_ref(widget);
-	gtk_widget_unparent(widget);
+	gtk_container_remove(GTK_CONTAINER(widget->parent), widget);
 	gtk_box_pack_start(GTK_BOX(GTK_DIALOG(e_select_names)->vbox), widget, TRUE, TRUE, 0);
 	gtk_widget_unref(widget);
 
@@ -625,7 +625,7 @@ e_select_names_dispose (GObject *object)
 GtkWidget*
 e_select_names_new (void)
 {
-	GtkWidget *widget = g_object_new (E_TYPE_SELECT_NAMES, NULL);
+	GtkWidget *widget = g_object_new (E_TYPE_SELECT_NAMES, "modal", FALSE, NULL);
 	return widget;
 }
 
