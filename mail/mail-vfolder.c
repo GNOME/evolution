@@ -903,6 +903,25 @@ new_rule_clicked(GtkWidget *w, int button, void *data)
 		char *user;
 		FilterRule *rule = g_object_get_data((GObject *)w, "rule");
 
+		if (!filter_rule_validate(rule)) {
+			/* no need to popup a dialog because the validate code does that. */
+			return;
+		}
+
+		if (rule_context_find_rule ((RuleContext *)context, rule->name, rule->source)) {
+			GtkWidget *dialog =
+				gtk_message_dialog_new ((GtkWindow *) w, GTK_DIALOG_DESTROY_WITH_PARENT,
+							GTK_MESSAGE_ERROR, GTK_BUTTONS_CLOSE,
+							_("Rule name '%s' is not unique, choose another."),
+							rule->name);
+
+			gtk_dialog_run ((GtkDialog *) dialog);
+			gtk_widget_destroy (dialog);
+
+			return;
+		}
+
+
 		g_object_ref(rule);
 		rule_context_add_rule((RuleContext *)context, rule);
 		user = g_strdup_printf("%s/vfolders.xml", evolution_dir);

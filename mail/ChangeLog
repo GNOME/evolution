@@ -1,5 +1,9 @@
 2003-03-18  Not Zed  <NotZed@Ximian.com>
 
+	* mail-vfolder.c (new_rule_clicked): validate rule & rule is
+	unique.  Workaround for #39464.  Should this just use
+	rule_context_add_rule_gui??
+
 	* mail-search.c (mail_search_destroy): unhook from the html engine
 	signals here, before we redisplay the message.  Also make sure
 	this processing only happens once.  For #39759.
