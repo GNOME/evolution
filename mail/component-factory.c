@@ -144,7 +144,7 @@ create_folder (EvolutionShellComponent *shell_component,
 {
 	char *uri;
 	CORBA_Environment ev;
-
+	
 	CORBA_exception_init(&ev);
 	if (!strcmp (type, "mail")) {
 		uri = g_strdup_printf ("mbox://%s", physical_uri);
@@ -157,6 +157,45 @@ create_folder (EvolutionShellComponent *shell_component,
 			listener, GNOME_Evolution_ShellComponentListener_UNSUPPORTED_TYPE, &ev);
 	}
 	CORBA_exception_free(&ev);
+}
+
+static void
+do_remove_folder (char *uri, gboolean removed, void *data)
+{
+	GNOME_Evolution_ShellComponentListener listener = data;
+	GNOME_Evolution_ShellComponentListener_Result result;
+	CORBA_Environment ev;
+	
+	if (removed)
+		result = GNOME_Evolution_ShellComponentListener_OK;
+	else
+		result = GNOME_Evolution_ShellComponentListener_INVALID_URI;
+	
+	CORBA_exception_init (&ev);
+	GNOME_Evolution_ShellComponentListener_notifyResult (listener, result, &ev);
+	CORBA_Object_release (listener, &ev);
+	CORBA_exception_free (&ev);
+}
+
+static void
+remove_folder (EvolutionShellComponent *shell_component,
+	       const char *physical_uri,
+	       const GNOME_Evolution_ShellComponentListener listener,
+	       void *closure)
+{
+	CORBA_Environment ev;
+	char *uri;
+	
+	CORBA_exception_init (&ev);
+	
+	/* FIXME: what if the folder is mh or maildir? */
+	/* ?? maybe we should just rm -rf the physical_uri?? */
+	uri = g_strdup_printf ("mbox://%s", physical_uri);
+	mail_remove_folder (uri, do_remove_folder, CORBA_Object_duplicate (listener, &ev));
+	GNOME_Evolution_ShellComponentListener_notifyResult (listener,
+							     GNOME_Evolution_ShellComponentListener_OK, &ev);
+	
+	CORBA_exception_free (&ev);
 }
 
 static struct {
@@ -290,16 +329,16 @@ component_fn (BonoboGenericFactory *factory, void *closure)
 {
 	EvolutionShellComponent *shell_component;
 	MailOfflineHandler *offline_handler;
-
+	
 	shell_component = evolution_shell_component_new (folder_types,
 							 create_view,
 							 create_folder,
-							 NULL, /* remove_folder_fn */
+							 remove_folder,
 							 NULL, /* xfer_folder_fn */
 							 NULL, /* populate_folder_context_menu_fn */
 							 NULL, /* get_dnd_selection_fn */
 							 NULL);
-
+	
 	gtk_signal_connect (GTK_OBJECT (shell_component), "owner_set",
 			    GTK_SIGNAL_FUNC (owner_set_cb), NULL);
 	gtk_signal_connect (GTK_OBJECT (shell_component), "owner_unset",
@@ -308,10 +347,10 @@ component_fn (BonoboGenericFactory *factory, void *closure)
 			    GTK_SIGNAL_FUNC (debug_cb), NULL);
 	gtk_signal_connect (GTK_OBJECT (shell_component), "destroy",
 			    GTK_SIGNAL_FUNC (owner_unset_cb), NULL);
-
+	
 	offline_handler = mail_offline_handler_new ();
 	bonobo_object_add_interface (BONOBO_OBJECT (shell_component), BONOBO_OBJECT (offline_handler));
-
+	
 	return BONOBO_OBJECT (shell_component);
 }
 
@@ -349,30 +388,30 @@ storage_create_folder (EvolutionStorage *storage, const char *path,
 	CamelURL *url;
 	CamelException ex;
 	CamelFolderInfo *fi;
-
+	
 	if (strcmp (type, "mail") != 0)
 		return EVOLUTION_STORAGE_ERROR_UNSUPPORTED_TYPE;
 	name = strrchr (path, '/');
 	if (!name++)
 		return EVOLUTION_STORAGE_ERROR_INVALID_URI;
-
+	
 	camel_exception_init (&ex);
 	if (*parent_physical_uri) {
 		url = camel_url_new (parent_physical_uri, NULL);
 		if (!url)
 			return EVOLUTION_STORAGE_ERROR_INVALID_URI;
-
+		
 		fi = camel_store_create_folder (store, url->path + 1, name, &ex);
 		camel_url_free (url);
 	} else
 		fi = camel_store_create_folder (store, NULL, name, &ex);
-
+	
 	if (camel_exception_is_set (&ex)) {
 		/* FIXME: do better than this */
 		camel_exception_clear (&ex);
 		return EVOLUTION_STORAGE_ERROR_INVALID_URI;
 	}
-
+	
 	if (camel_store_supports_subscriptions (store))
 		camel_store_subscribe_folder (store, fi->full_name, NULL);
 	
@@ -381,6 +420,56 @@ storage_create_folder (EvolutionStorage *storage, const char *path,
 	camel_store_free_folder_info (store, fi);
 	
 	return EVOLUTION_STORAGE_OK;
+}
+
+static int
+storage_remove_folder (EvolutionStorage *storage, const char *path,
+		       const char *physical_uri, gpointer user_data)
+{
+	CamelStore *store = user_data;
+	CamelURL *url = NULL;
+	CamelFolderInfo *fi;
+	CamelException ex;
+	
+	g_warning ("storage_remove_folder: path=\"%s\"; uri=\"%s\"", path, physical_uri);
+	
+	if (*physical_uri) {
+		url = camel_url_new (physical_uri, NULL);
+		if (!url)
+			return EVOLUTION_STORAGE_ERROR_INVALID_URI;
+	} else {
+		if (!*path)
+			return EVOLUTION_STORAGE_ERROR_INVALID_URI;
+	}
+	
+	camel_exception_init (&ex);
+	fi = camel_store_get_folder_info (store, url ? url->path + 1 : path + 1,
+					  CAMEL_STORE_FOLDER_INFO_FAST, &ex);
+	if (url)
+		camel_url_free (url);
+	if (camel_exception_is_set (&ex))
+		goto exception;
+	
+	camel_store_delete_folder (store, fi->full_name, &ex);
+	if (camel_exception_is_set (&ex))
+		goto exception;
+	
+	if (camel_store_supports_subscriptions (store))
+		camel_store_unsubscribe_folder (store, fi->full_name, NULL);
+	
+	folder_deleted (store, fi);
+	
+	camel_store_free_folder_info (store, fi);
+	
+	return EVOLUTION_STORAGE_OK;
+	
+ exception:
+	/* FIXME: do better than this... */
+	
+	if (fi)
+		camel_store_free_folder_info (store, fi);
+	
+	return EVOLUTION_STORAGE_ERROR_INVALID_URI;
 }
 
 static void
@@ -393,6 +482,9 @@ add_storage (const char *name, const char *uri, CamelService *store,
 	storage = evolution_storage_new (name, uri, "mailstorage");
 	gtk_signal_connect (GTK_OBJECT (storage), "create_folder",
 			    GTK_SIGNAL_FUNC (storage_create_folder),
+			    store);
+	gtk_signal_connect (GTK_OBJECT (storage), "remove_folder",
+			    GTK_SIGNAL_FUNC (storage_remove_folder),
 			    store);
 	
 	res = evolution_storage_register_on_shell (storage, corba_shell);

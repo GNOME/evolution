@@ -1,3 +1,15 @@
+2001-05-23  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-ops.c (mail_remove_folder): New async function to remove a
+	folder. God knows if it does what the ShellComponent needs or not
+	yet.
+
+	* component-factory.c (storage_remove_folder): New function for
+	removing folders.
+	(remove_folder): New function that the shell component calls to
+	delete a folder.
+	(component_fn): Set the remove_folder_fn argument.
+
 2001-05-22  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-config.c (mail_config_write_on_exit): Save the

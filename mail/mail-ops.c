@@ -1382,6 +1382,87 @@ mail_create_folder(const char *uri, void (*done) (char *uri, CamelFolder *folder
 	e_thread_put(mail_thread_new, (EMsg *)m);
 }
 
+/* ** REMOVE FOLDER ******************************************************* */
+
+struct _remove_folder_msg {
+	struct _mail_msg msg;
+
+	char *uri;
+	gboolean removed;
+	void (*done) (char *uri, gboolean removed, void *data);
+	void *data;
+};
+
+static char *
+remove_folder_desc (struct _mail_msg *mm, int done)
+{
+	struct _remove_folder_msg *m = (struct _remove_folder_msg *)mm;
+	
+	return g_strdup_printf (_("Removing folder %s"), m->uri);
+}
+
+static void
+remove_folder_get (struct _mail_msg *mm)
+{
+	struct _remove_folder_msg *m = (struct _remove_folder_msg *)mm;
+	CamelStore *store;
+	CamelURL *url;
+	
+	m->removed = FALSE;
+	
+	camel_operation_register (mm->cancel);
+	
+	store = camel_session_get_store (session, m->uri, &mm->ex);
+	if (!store)
+		goto done;
+	
+	url = camel_url_new (m->uri, NULL);
+	camel_store_delete_folder (store, url->path + 1, &mm->ex);
+	m->removed = !camel_exception_is_set (&mm->ex);
+	camel_object_unref (CAMEL_OBJECT (store));
+	camel_url_free (url);
+	
+ done:
+	camel_operation_unregister (mm->cancel);
+}
+
+static void
+remove_folder_got (struct _mail_msg *mm)
+{
+	struct _remove_folder_msg *m = (struct _remove_folder_msg *)mm;
+	
+	if (m->done)
+		m->done (m->uri, m->removed, m->data);
+}
+
+static void
+remove_folder_free (struct _mail_msg *mm)
+{
+	struct _remove_folder_msg *m = (struct _remove_folder_msg *)mm;
+	
+	g_free (m->uri);
+}
+
+static struct _mail_msg_op remove_folder_op = {
+	remove_folder_desc,
+	remove_folder_get,
+	remove_folder_got,
+	remove_folder_free,
+};
+
+void
+mail_remove_folder (const char *uri, void (*done) (char *uri, gboolean removed, void *data), void *data)
+{
+	struct _remove_folder_msg *m;
+	
+	m = mail_msg_new (&remove_folder_op, NULL, sizeof (*m));
+	m->uri = g_strdup (uri);
+	m->data = data;
+	m->done = done;
+	
+	e_thread_put (mail_thread_new, (EMsg *)m);
+}
+
 /* ** SYNC FOLDER ********************************************************* */
 
 struct _sync_folder_msg {

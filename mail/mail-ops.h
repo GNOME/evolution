@@ -95,6 +95,11 @@ void mail_create_folder (const char *uri,
 			 void (*done) (char *uri, CamelFolder *folder, void *data),
 			 void *data);
 
+/* remove an existing folder */
+void mail_remove_folder (const char *uri,
+			 void (*done) (char *uri, gboolean removed, void *data),
+			 void *data);
+
 /* save messages */
 int mail_save_messages (CamelFolder *folder, GPtrArray *uids, const char *path,
 			void (*done) (CamelFolder *folder, GPtrArray *uids, char *path, void *data),
