@@ -1,3 +1,12 @@
+2001-08-22  Jon Trowbridge  <trow@ximian.com>
+
+	* e-msg-composer-hdrs.c (set_recipients_from_destv): Added.  Try
+	to properly handle contact lists in which the addresses of the
+	list members should be hidden.
+	(e_msg_composer_hdrs_to_message): Changed to extract the
+	destination data from the entries and pass it along to
+	set_recipients_from_destv.
+
 2001-08-22  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* e-msg-composer.c (save): When reporting an error, use

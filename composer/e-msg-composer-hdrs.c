@@ -628,6 +628,109 @@ e_msg_composer_hdrs_new (gint visible_flags)
 	return GTK_WIDGET (new);
 }
 
+static void
+set_recipients_from_destv (CamelMimeMessage *msg,
+			   EDestination **to_destv,
+			   EDestination **cc_destv,
+			   EDestination **bcc_destv)
+{
+	CamelInternetAddress *to_addr;
+	CamelInternetAddress *cc_addr;
+	CamelInternetAddress *bcc_addr;
+	CamelInternetAddress *target;
+	const gchar *text_addr;
+	gint i;
+	gboolean seen_hidden_list = FALSE;
+
+	to_addr  = camel_internet_address_new ();
+	cc_addr  = camel_internet_address_new ();
+	bcc_addr = camel_internet_address_new ();
+
+	if (to_destv) {
+		for (i = 0; to_destv[i] != NULL; ++i) {
+			text_addr = e_destination_get_address (to_destv[i]);
+
+
+			if (text_addr && *text_addr) {
+
+				target = to_addr;
+				if (e_destination_is_evolution_list (to_destv[i])
+				    && !e_destination_list_show_addresses (to_destv[i])) {
+					target = bcc_addr;
+					seen_hidden_list = TRUE;
+				}
+				
+				camel_address_unformat (CAMEL_ADDRESS (target), text_addr);
+			}
+		}
+	}
+
+	if (cc_destv) {
+		for (i = 0; cc_destv[i] != NULL; ++i) {
+			text_addr = e_destination_get_address (cc_destv[i]);
+			if (text_addr && *text_addr) {
+
+				target = cc_addr;
+				if (e_destination_is_evolution_list (cc_destv[i])
+				    && !e_destination_list_show_addresses (cc_destv[i])) {
+					target = bcc_addr;
+					seen_hidden_list = TRUE;
+				}
+				
+				camel_address_unformat (CAMEL_ADDRESS (target),text_addr);
+			}
+		}
+	}
+
+	if (bcc_destv) {
+		for (i = 0; bcc_destv[i] != NULL; ++i) {
+			text_addr = e_destination_get_address (bcc_destv[i]);
+			if (text_addr && *text_addr) {
+				
+				camel_address_unformat (CAMEL_ADDRESS (bcc_addr), text_addr);
+			}
+		}
+	}
+
+	if (camel_address_length (CAMEL_ADDRESS (to_addr)) > 0) {
+		camel_mime_message_set_recipients (msg, CAMEL_RECIPIENT_TYPE_TO, to_addr);
+	} else if (seen_hidden_list) {
+		camel_medium_set_header (CAMEL_MEDIUM (msg), CAMEL_RECIPIENT_TYPE_TO, "Undisclosed-Recipient:;");
+	}
+
+	if (camel_address_length (CAMEL_ADDRESS (cc_addr)) > 0) {
+		camel_mime_message_set_recipients (msg, CAMEL_RECIPIENT_TYPE_CC, cc_addr);
+	}
+
+	if (camel_address_length (CAMEL_ADDRESS (bcc_addr)) > 0) {
+		camel_mime_message_set_recipients (msg, CAMEL_RECIPIENT_TYPE_BCC, bcc_addr);
+	}
+
+	g_message (" To: (%d) [%s]", camel_address_length (CAMEL_ADDRESS (to_addr)), camel_address_format (CAMEL_ADDRESS (to_addr)));
+	g_message (" Cc: (%d) [%s]", camel_address_length (CAMEL_ADDRESS (cc_addr)), camel_address_format (CAMEL_ADDRESS (cc_addr)));
+	g_message ("Bcc: (%d) [%s]", camel_address_length (CAMEL_ADDRESS (bcc_addr)), camel_address_format (CAMEL_ADDRESS (bcc_addr)));
+	
+	camel_object_unref (CAMEL_OBJECT (to_addr));
+	camel_object_unref (CAMEL_OBJECT (cc_addr));
+	camel_object_unref (CAMEL_OBJECT (bcc_addr));
+}
+
+static void
+touch_and_free_destv (EDestination **destv)
+{
+	gint i;
+
+	if (destv) {
+		for (i = 0; destv[i] != NULL; ++i) {
+			e_destination_touch (destv[i]);
+			gtk_object_unref (GTK_OBJECT (destv[i]));
+		}
+		g_free (destv);
+	}
+}
+			   
+
+#if 0
 
 static void
 set_recipients (CamelMimeMessage *msg, GtkWidget *entry_widget, const gchar *type)
@@ -667,6 +770,7 @@ set_recipients (CamelMimeMessage *msg, GtkWidget *entry_widget, const gchar *typ
 	
 	g_free (string);
 }
+#endif
 
 void
 e_msg_composer_hdrs_to_message (EMsgComposerHdrs *hdrs,
@@ -674,6 +778,8 @@ e_msg_composer_hdrs_to_message (EMsgComposerHdrs *hdrs,
 {
 	CamelInternetAddress *addr;
 	gchar *subject;
+	gchar *str = NULL;
+	EDestination **to_destv, **cc_destv, **bcc_destv;
 	
 	g_return_if_fail (hdrs != NULL);
 	g_return_if_fail (E_IS_MSG_COMPOSER_HDRS (hdrs));
@@ -693,10 +799,37 @@ e_msg_composer_hdrs_to_message (EMsgComposerHdrs *hdrs,
 		camel_mime_message_set_reply_to (msg, addr);
 		camel_object_unref (CAMEL_OBJECT (addr));
 	}
-	
+
+	/* Get string of destinations from each entry. */
+
+	bonobo_widget_get_property (BONOBO_WIDGET (hdrs->priv->to.entry), "destinations", &str, NULL);
+	g_message ("to str: %s", str);
+	to_destv = e_destination_importv (str);
+	g_free (str);
+
+	bonobo_widget_get_property (BONOBO_WIDGET (hdrs->priv->cc.entry), "destinations", &str, NULL);
+	g_message ("cc str: %s", str);
+	cc_destv = e_destination_importv (str);
+	g_free (str);
+
+	bonobo_widget_get_property (BONOBO_WIDGET (hdrs->priv->bcc.entry), "destinations", &str, NULL);
+	g_message ("bcc str: %s", str);
+	bcc_destv = e_destination_importv (str);
+	g_free (str);
+
+	/* Attach destinations to the message. */
+
+	set_recipients_from_destv (msg, to_destv, cc_destv, bcc_destv);
+
+	touch_and_free_destv (to_destv);
+	touch_and_free_destv (cc_destv);
+	touch_and_free_destv (bcc_destv);
+
+#if 0
 	set_recipients (msg, hdrs->priv->to.entry, CAMEL_RECIPIENT_TYPE_TO);
 	set_recipients (msg, hdrs->priv->cc.entry, CAMEL_RECIPIENT_TYPE_CC);
 	set_recipients (msg, hdrs->priv->bcc.entry, CAMEL_RECIPIENT_TYPE_BCC);
+#endif
 }
 
 

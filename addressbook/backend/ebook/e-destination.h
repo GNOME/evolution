@@ -95,7 +95,8 @@ const gchar   *e_destination_get_address        (const EDestination *);  /* "Jan
 void           e_destination_set_raw            (EDestination *, const gchar *free_form_string);
 const gchar   *e_destination_get_textrep        (const EDestination *);  /* "Jane Smith" or "jane@assbarn.com" */
 
-gboolean       e_destination_is_evolution_list  (const EDestination *);
+gboolean       e_destination_is_evolution_list   (const EDestination *);
+gboolean       e_destination_list_show_addresses (const EDestination *);
 
 /* If true, they want HTML mail. */
 gboolean       e_destination_get_html_mail_pref (const EDestination *);

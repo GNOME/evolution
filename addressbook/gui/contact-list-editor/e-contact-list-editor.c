@@ -794,7 +794,7 @@ extract_info(EContactListEditor *editor)
 		gtk_object_set (GTK_OBJECT(card),
 				"list", GINT_TO_POINTER (TRUE),
 				"list_show_addresses",
-				GINT_TO_POINTER (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON(editor->visible_addrs_checkbutton))),
+				GINT_TO_POINTER (!gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON(editor->visible_addrs_checkbutton))),
 				NULL);
 
 		gtk_object_get (GTK_OBJECT(card),
@@ -846,7 +846,7 @@ fill_in_info(EContactListEditor *editor)
 			g_free (u);
 		}
 
-		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON(editor->visible_addrs_checkbutton), show_addresses);
+		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON(editor->visible_addrs_checkbutton), !show_addresses);
 
 		e_contact_list_model_remove_all (E_CONTACT_LIST_MODEL (editor->model));
 

@@ -235,7 +235,7 @@ ask_confirm_for_empty_subject (EMsgComposer *composer)
 }
 
 static gboolean
-ask_confirm_for_only_bcc (EMsgComposer *composer)
+ask_confirm_for_only_bcc (EMsgComposer *composer, gboolean hidden_list_case)
 {
 	/* FIXME: EMessageBox should really handle this stuff
            automagically. What Miguel thinks would be nice is to pass
@@ -246,13 +246,31 @@ ask_confirm_for_only_bcc (EMsgComposer *composer)
 	gboolean show_again = TRUE;
 	GtkWidget *mbox;
 	int button;
+	const gchar *first_text;
+	gchar *message_text;
 	
 	if (!mail_config_get_prompt_only_bcc ())
 		return TRUE;
+
+	/* If the user is mailing a hidden contact list, it is possible for
+	   them to create a message with only Bcc recipients without really
+	   realizing it.  To try to avoid being totally confusing, I've changed
+	   this dialog to provide slightly different text in that case, to
+	   better explain what the hell is going on. */
+
+	if (hidden_list_case) {
+		first_text =  _("Since the contact list you are sending to "
+				"is configured to hide the list's addresses, "
+				"this message will contain only Bcc recipients.");
+	} else {
+		first_text = _("This message contains only Bcc recipients.");
+	}
+
+	message_text = g_strdup_printf ("%s\n%s", first_text,
+					_("It is possible that the mail server may reveal the recipients "
+					  "by adding an Apparently-To header.\nSend anyway?"));
 	
-	mbox = e_message_box_new (_("This message contains only Bcc recipients.\nIt is "
-				    "possible that the mail server may reveal the recipients "
-				    "by adding an Apparently-To header.\nSend anyway?"),
+	mbox = e_message_box_new (message_text, 
 				  E_MESSAGE_BOX_QUESTION,
 				  GNOME_STOCK_BUTTON_YES,
 				  GNOME_STOCK_BUTTON_NO,
@@ -264,6 +282,8 @@ ask_confirm_for_only_bcc (EMsgComposer *composer)
 	button = gnome_dialog_run_and_close (GNOME_DIALOG (mbox));
 	
 	mail_config_set_prompt_only_bcc (show_again);
+
+	g_free (message_text);
 	
 	if (button == 0)
 		return TRUE;
@@ -350,7 +370,21 @@ composer_get_message (EMsgComposer *composer)
 	
 	if (iaddr && num_addrs == camel_address_length (CAMEL_ADDRESS (iaddr))) {
 		/* this means that the only recipients are Bcc's */
-		if (!ask_confirm_for_only_bcc (composer)) {
+
+		/* OK, this is an abusive hack.  If someone sends a mail with a
+		   hidden contact list on to to: line and no other recipients,
+		   they will unknowingly create a message with only bcc: recipients.
+		   We try to detect this and pass a flag to ask_confirm_for_only_bcc,
+		   so that it can present the user with a dialog whose text has been
+		   modified to reflect this situation. */
+
+		const gchar *to_header = camel_medium_get_header (CAMEL_MEDIUM (message), CAMEL_RECIPIENT_TYPE_TO);
+		gboolean hidden_list_case = FALSE;
+
+		if (to_header && !strcmp (to_header, "Undisclosed-Recipient:;"))
+			hidden_list_case = TRUE;
+
+		if (!ask_confirm_for_only_bcc (composer, hidden_list_case)) {
 			camel_object_unref (CAMEL_OBJECT (message));
 			return NULL;
 		}

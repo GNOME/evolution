@@ -1,3 +1,14 @@
+2001-08-22  Jon Trowbridge  <trow@ximian.com>
+
+	* mail-callbacks.c (ask_confirm_for_only_bcc): Provide alternative
+	text for this dialog for the case when a message has only Bcc
+	recipients because of a hidden contact list's addresses being
+	moved from To/Cc to Bcc.
+	(composer_get_message): Try to detect when our message has only
+	Bcc recipients because of moving addresses around due to a hidden
+	contact list, and show the dialog with the revised wording in this
+	case.
+
 2001-08-22  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* component-factory.c (create_view): Don't blindly make all vtrash
@@ -291,14 +302,25 @@
 	* subscribe-dialog.c (fe_got_children): Sort the nodes here...
 	(fe_sort_folder): ... using this function.
 
-	* folder-browser-ui.c (folder_browser_ui_message_loaded): Check for uic
-	== NULL. I'm not sure how this could happen, but... 
+	* folder-browser-ui.c (folder_browser_ui_message_loaded): Check
+	for uic == NULL. I'm not sure how this could happen, but...
 
 2001-08-16  Peter Williams  <peterw@ximian.com>
 
 	* folder-browser-ui.c (folder_browser_ui_set_selection_state):
 	Disable "Search Message" when more or less than exactly one
 	message is selected.
+
+	* subscribe-dialog.c (fe_done_subscribing): Instead of hackfully
+	getting the path, use a CamelURL so that escaping is
+	handled. Silly me. -- See below --
+	(fe_node_to_shell_path): Use node->name and node->full_name to
+	generate the the shell path of this item. Don't need to escape the
+	URL, and handle cases when dir_sep != '/'
+	(fe_done_subscribing): Use fe_node_to_shell_path instead of the
+	CamelURL.  Third time's the charm...  * folder-browser-ui.c
+	(folder_browser_ui_set_selection_state): Disable "Search Message"
+	when more or less than exactly one message is selected.
 
 	* subscribe-dialog.c (fe_done_subscribing): Instead of hackfully
 	getting the path, use a CamelURL so that escaping is

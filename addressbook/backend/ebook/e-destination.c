@@ -67,6 +67,7 @@ struct _EDestinationPrivate {
 	gboolean wants_html_mail;
 
 	GList *list_dests;
+	gboolean show_addresses;
 
 	gboolean has_been_cardified;
 	gboolean allow_cardify;
@@ -750,6 +751,17 @@ e_destination_is_evolution_list (const EDestination *dest)
 }
 
 gboolean
+e_destination_list_show_addresses (const EDestination *dest)
+{
+	g_return_val_if_fail (E_IS_DESTINATION (dest), FALSE);
+
+	if (dest->priv->card != NULL)
+		return e_card_evolution_list_show_addresses (dest->priv->card);
+
+	return dest->priv->show_addresses;
+}
+
+gboolean
 e_destination_get_html_mail_pref (const EDestination *dest)
 {
 	g_return_val_if_fail (dest && E_IS_DESTINATION (dest), FALSE);
@@ -1031,6 +1043,8 @@ e_destination_xml_encode (const EDestination *dest)
 		}
 
 		xmlNewProp (dest_node, "is_list", "yes");
+		xmlNewProp (dest_node, "show_addresses", 
+			    e_destination_list_show_addresses (dest) ? "yes" : "no");
 	}
 
 	str = e_destination_get_book_uri (dest);
@@ -1057,7 +1071,7 @@ e_destination_xml_decode (EDestination *dest, xmlNodePtr node)
 	gchar *name = NULL, *email = NULL, *book_uri = NULL, *card_uid = NULL;
 	gint email_num = -1;
 	gboolean html_mail = FALSE;
-	gboolean is_list = FALSE;
+	gboolean is_list = FALSE, show_addr = FALSE;
 	gchar *tmp;
 	GList *list_dests = NULL;
 	
@@ -1076,6 +1090,12 @@ e_destination_xml_decode (EDestination *dest, xmlNodePtr node)
 	tmp = xmlGetProp (node, "is_list");
 	if (tmp) {
 		is_list = !strcmp (tmp, "yes");
+		xmlFree (tmp);
+	}
+	
+	tmp = xmlGetProp (node, "show_addresses");
+	if (tmp) {
+		show_addr = !strcmp (tmp, "yes");
 		xmlFree (tmp);
 	}
 	
@@ -1153,6 +1173,8 @@ e_destination_xml_decode (EDestination *dest, xmlNodePtr node)
 		e_destination_set_card_uid (dest, card_uid, email_num);
 	if (list_dests)
 		dest->priv->list_dests = list_dests;
+
+	dest->priv->show_addresses = show_addr;
 
 	e_destination_thaw (dest);
 	
