@@ -1110,9 +1110,11 @@ EVO_SET_COMPILE_FLAGS(EVOLUTION_ADDRESSBOOK, $EVOLUTION_ADDRESSBOOK_DEPS)
 AC_SUBST(EVOLUTION_ADDRESSBOOK_CFLAGS)
 AC_SUBST(EVOLUTION_ADDRESSBOOK_LIBS)
 
+if test x$enable_pilot_conduits = xyes; then
 EVO_SET_COMPILE_FLAGS(EVOLUTION_ADDRESSBOOK_CONDUIT, gnome-pilot-2.0 $EVOLUTION_ADDRESSBOOK_DEPS)
 AC_SUBST(EVOLUTION_ADDRESSBOOK_CONDUIT_CFLAGS)
 AC_SUBST(EVOLUTION_ADDRESSBOOK_CONDUIT_LIBS)
+fi
 
 dnl -- evolution-executive-summary flags
 
@@ -1126,13 +1128,15 @@ EVO_SET_COMPILE_FLAGS(EVOLUTION_CALENDAR, libgnome-2.0 libgnomeui-2.0 libbonobou
 AC_SUBST(EVOLUTION_CALENDAR_CFLAGS)
 AC_SUBST(EVOLUTION_CALENDAR_LIBS)
 
+if test x$enable_pilot_conduits = xyes; then
 EVO_SET_COMPILE_FLAGS(EVOLUTION_CALENDAR_CONDUIT, gnome-pilot-2.0 $EVOLUTION_CALENDAR_DEPS)
 AC_SUBST(EVOLUTION_CALENDAR_CONDUIT_CFLAGS)
 AC_SUBST(EVOLUTION_CALENDAR_CONDUIT_LIBS)
+fi
 
 dnl --- evolution-mail flags
 
-EVO_SET_COMPILE_FLAGS(EVOLUTION_MAIL, libgnome-2.0 libgnomeui-2.0 libbonoboui-2.0 gal-2.0 >= $GAL_VERSION libglade-2.0 soup-2.0 libgnomeprint-2.2 libgtkhtml-3.0 libxml-2.0 bonobo-activation-2.0 gthread-2.0 gconf-2.0 $mozilla_nss)
+EVO_SET_COMPILE_FLAGS(EVOLUTION_MAIL, libgnome-2.0 libgnomeui-2.0 libbonoboui-2.0 gal-2.0 >= $GAL_VERSION libglade-2.0 soup-2.0 libgnomeprint-2.2 libgnomeprintui-2.2 libgtkhtml-3.0 libxml-2.0 bonobo-activation-2.0 gthread-2.0 gconf-2.0 $mozilla_nss)
 AC_SUBST(EVOLUTION_MAIL_CFLAGS)
 AC_SUBST(EVOLUTION_MAIL_LIBS)
 

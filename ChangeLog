@@ -1,5 +1,10 @@
 2003-01-26  Chris Toshok  <toshok@ximian.com>
 
+	* configure.in: only do the CONDUIT_CFLAGS/LIBS stuff if pilot
+	conduits have been enabled.
+
+2003-01-26  Chris Toshok  <toshok@ximian.com>
+
 	* configure.in: in the --enable-pilot-conduits stanza, use
 	PKG_CHECK_MODULES to get the gnome-pilot-2.0 (and therefore
 	pilot-link) cflags/libs before doing our utf-8 check.  also,
