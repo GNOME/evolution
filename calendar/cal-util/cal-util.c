@@ -661,3 +661,108 @@ cal_util_add_timezones_from_component (icalcomponent *vcal_comp,
 	f_data.icalcomp = icalcomp;
 	icalcomponent_foreach_tzid (icalcomp, add_timezone_cb, &f_data);
 }
+
+gboolean
+cal_util_component_is_instance (icalcomponent *icalcomp)
+{
+	icalproperty *prop;
+
+	g_return_val_if_fail (icalcomp != NULL, FALSE);
+
+	prop = icalcomponent_get_first_property (icalcomp, ICAL_RECURRENCEID_PROPERTY);
+	return prop ? TRUE : FALSE;
+}
+
+gboolean
+cal_util_component_has_alarms (icalcomponent *icalcomp)
+{
+	icalcomponent *alarm;
+
+	g_return_val_if_fail (icalcomp != NULL, FALSE);
+
+	alarm = icalcomponent_get_first_component (icalcomp, ICAL_VALARM_COMPONENT);
+	return alarm ? TRUE : FALSE;
+}
+
+gboolean
+cal_util_component_has_organizer (icalcomponent *icalcomp)
+{
+	icalproperty *prop;
+
+	g_return_val_if_fail (icalcomp != NULL, FALSE);
+
+	prop = icalcomponent_get_first_property (icalcomp, ICAL_ORGANIZER_PROPERTY);
+	return prop ? TRUE : FALSE;
+}
+
+gboolean
+cal_util_component_has_recurrences (icalcomponent *icalcomp)
+{
+	g_return_val_if_fail (icalcomp != NULL, FALSE);
+
+	return cal_util_component_has_rdates (icalcomp) || cal_util_component_has_rrules (icalcomp);
+}
+
+gboolean
+cal_util_component_has_rdates (icalcomponent *icalcomp)
+{
+	icalproperty *prop;
+
+	g_return_val_if_fail (icalcomp != NULL, FALSE);
+
+	prop = icalcomponent_get_first_property (icalcomp, ICAL_RDATE_PROPERTY);
+	return prop ? TRUE : FALSE;
+}
+
+gboolean
+cal_util_component_has_rrules (icalcomponent *icalcomp)
+{
+	icalproperty *prop;
+
+	g_return_val_if_fail (icalcomp != NULL, FALSE);
+
+	prop = icalcomponent_get_first_property (icalcomp, ICAL_RRULE_PROPERTY);
+	return prop ? TRUE : FALSE;
+}
+
+gboolean
+cal_util_event_dates_match (icalcomponent *icalcomp1, icalcomponent *icalcomp2)
+{
+	struct icaltimetype c1_dtstart, c1_dtend, c2_dtstart, c2_dtend;
+
+	g_return_val_if_fail (icalcomp1 != NULL, FALSE);
+	g_return_val_if_fail (icalcomp2 != NULL, FALSE);
+
+	c1_dtstart = icalcomponent_get_dtstart (icalcomp1);
+	c1_dtend = icalcomponent_get_dtend (icalcomp1);
+	c2_dtstart = icalcomponent_get_dtstart (icalcomp2);
+	c2_dtend = icalcomponent_get_dtend (icalcomp2);
+
+	/* if either value is NULL, they must both be NULL to match */
+	if (icaltime_is_valid_time (c1_dtstart) || icaltime_is_valid_time (c2_dtstart)) {
+		if (!(icaltime_is_valid_time (c1_dtstart) && icaltime_is_valid_time (c2_dtstart)))
+			return FALSE;
+	} else {
+		if (icaltime_compare (c1_dtstart, c2_dtstart))
+			return FALSE;
+	}
+
+	if (icaltime_is_valid_time (c1_dtend) || icaltime_is_valid_time (c2_dtend)) {
+		if (!(icaltime_is_valid_time (c1_dtend) && icaltime_is_valid_time (c2_dtend)))
+			return FALSE;
+	} else {
+		if (icaltime_compare (c1_dtend, c2_dtend))
+			return FALSE;
+	}
+
+	/* now match the timezones */
+	if (!(!c1_dtstart.zone && !c2_dtstart.zone) ||
+	    (c1_dtstart.zone && c2_dtstart.zone && !strcmp (c1_dtstart.zone, c2_dtstart.zone)))
+		return FALSE;
+
+	if (!(!c1_dtend.zone && !c2_dtend.zone) ||
+	    (c1_dtend.zone && c2_dtend.zone && !strcmp (c1_dtend.zone, c2_dtend.zone)))
+		return FALSE;
+
+	return TRUE;
+}

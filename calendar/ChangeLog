@@ -17,6 +17,100 @@
 	  (gnome_calendar_get_search_bar_widget),
           (gnome_calendar_get_view_notebook_widget): new functions
 
+2003-08-19  Rodrigo Moya <rodrigo@ximian.com>
+
+	* gui/e-cal-model-tasks.c (ecmt_get_color_for_component): use
+	"black" for normal tasks, since the light colors from the palette
+	are too light.
+
+	* gui/gnome-cal.c (gnome_calendar_purge): don't leak the client list.
+	(gnome_calendar_destroy): disconnect from all callbacks on all
+	loaded clients.
+
+2003-08-18  Rodrigo Moya <rodrigo@ximian.com>
+
+	* gui/e-day-view.c: fixed the problem with a new event being
+	created for each keystroke.
+	(e_day_view_add_event): don't create a new default component, use
+	the one we get as parameter.
+	(e_day_view_do_key_press): get the UID from the icalcomponent.
+
+	* gui/e-week-view.c (e_week_view_add_event, e_week_view_do_key_press):
+	same as e-day-view.c
+
+2003-08-15  Rodrigo Moya <rodrigo@ximian.com>
+
+	* gui/e-cal-model.c (ecm_get_color_for_component): use tigert's
+	new color palette.
+	(cal_removed_cb): when a client is removed, remove it from the model.
+	(backend_died_cb): remove it also when the backend dies.
+	(add_new_client): connect to new signals for CalClient's.
+
+2003-08-15  Rodrigo Moya <rodrigo@ximian.com>
+
+	* gui/e-cal-model.c (e_cal_model_finalize): don't unref the
+	'accounts' field, since it is internal to itip-utils.c.
+
+	* gui/alarm-notify/alarm-notify.c (alarm_notify_add_calendar):
+	initialize all fields of the LoadedClient struct before calling
+	cal_client_open_calendar(), since the "cal_opened_cb" signal is
+	now emitted within it.
+
+2003-08-14  Rodrigo Moya <rodrigo@ximian.com>
+
+	* gui/e-cal-model.c (e_cal_model_create_component_with_defaults):
+	use the default client to call cal_comp_*_new_with_defaults, and
+	if no client is available, just create an empty icalcomponent.
+
+	* gui/e-cal-view.c (e_cal_view_init): create an empty model.
+
+	* gui/e-week-view.c (e_week_view_add_event): use the event's client.
+
+2003-08-14  Rodrigo Moya <rodrigo@ximian.com>
+
+	* gui/e-cal-model.[ch] (e_cal_model_free_component_data): new
+	function.
+
+	* gui/e-cal-view.h: added 'allocated_comp_data' field to the
+	ECalViewEvent structure.
+
+	* gui/e-day-view.c (e_day_view_add_event): allocate the event's
+	ECalModelComponent if it hasn't been set.
+	(e_day_view_update_event_cb, e_day_view_remove_event_cb,
+	e_day_view_free_event_array): if the ECalModelComponent has
+	been allocated by the view, free it here.
+
+	* gui/e-week-event.c (e_week_view_add_event,
+	e_week_view_update_event_cb, e_week_view_remove_event_cb,
+	e_week_view_free_events): same as EDayView.
+
+2003-08-13  Rodrigo Moya <rodrigo@ximian.com>
+
+	* gui/e-cal-model.c (ecm_get_color_for_component): assign the colors
+	based on the URI, which is stored in a common place for all models.
+	Thus different views will use the same color for the same calendar.
+
+	* gui/e-week-view-event-item.c (e_week_view_event_item_draw): draw
+	a filled rectangle and a black border around it for one-day events.
+
+	* gui/e-day-view-top-item.c (e_day_view_top_item_draw_long_event):
+	fill the rectangle for the item with its associated color.
+
+2003-08-13  Rodrigo Moya <rodrigo@ximian.com>
+
+	* gui/gnome-cal.c (gnome_calendar_open): unref the client if there
+	is an error.
+	(update_query): set status bar messages for progress.
+	(update_query_timeout): re-enabled.
+	(client_cal_opened_cb): install timeout handler for the query updates.
+
+	* gui/e-cal-view.c (e_cal_view_set_model): connect to all appropriate
+	signals on the model, to be called for every change.
+	(model_row_changed_cb, model_rows_changed_cb): new model callbacks.
+
+	* gui/e-week-view-event-item.c (e_week_view_event_item_draw): colorize
+	the background for multiple days events.
+
 2003-08-12  Hans Petter Jansson  <hpj@ximian.com>
 
 	* gui/calendar-offline-handler.c (impl_dispose): Chain. Prevent
@@ -65,6 +159,146 @@
 
 	* gui/dialogs/meeting-page.c: (get_widgets): The Organizer's value
 	need not match one of the values in the list.
+
+2003-08-12  Rodrigo Moya <rodrigo@ximian.com>
+
+	* gui/e-day-view.c (e_day_view_update_query):
+	* gui/e-week-view.c (e_week_view_update_query): remove the status bar
+	messages when the operation is finished.
+
+	* gui/e-day-view-main-item.c (e_day_view_main_item_draw_day_event):
+	draw a rectangle filled with the color associated with the event's
+	calendar.
+
+2003-08-12  Rodrigo Moya <rodrigo@ximian.com>
+
+	* cal-util/cal-util.[ch] (cal_util_component_has_alarms): new function.
+
+	* gui/gnome-cal.[ch]:
+	* gui/goto.c:
+	* gui/itip-bonobo-control.c:
+	* gui/print.c:
+	* gui/e-week-view.[ch]:
+	* gui/e-day-view.[ch]: lots of fixes to make all compile with no
+	warnings.
+
+2003-08-12  Rodrigo Moya <rodrigo@ximian.com>
+
+	* cal-util/cal-util.[ch] (cal_util_component_has_organizer):
+	new function.
+
+	* gui/e-day-view-main-item.c:
+	* gui/e-day-view-top-item.c:
+	* gui/e-week-view-event-item.c:
+	* gui/e-week-view.c: adaptated to changes in ECalViewEvent.
+
+	* gui/e-cal-model.[ch] (e_cal_model_get_client_list): new function.
+	(ecm_append_row): fixed usage of icalcomponent variable.
+
+	* gui/e-cal-view.c (e_cal_view_class_init): removed unused variable.
+	(selection_received): use default client for pasting from clipboard.
+	(e_cal_view_cut_clipboard): cut the appointment from its client.
+	(e_cal_view_copy_clipboard, delete_event, on_save_as, om_print_event,
+	e_cal_view_delete_selected_occurrence, on_meeting, on_forward,
+	e_cal_view_create_popup_menu): adapted to changes in ECalViewEvent.
+	(e_cal_view_delete_selected_event, e_cal_view_delete_selected_events):
+	pass the ECalViewEvent to delete_event, so that it knows which
+	CalClient to use.
+	(on_edit_appointment): pass CalClient and icalcomponent to
+	gnome_calendar_edit_object.
+	(on_publish): publish F/B info for all the clients currently loaded
+	in the view.
+	(setup_popup_icons): added missing argument to gtk_image_new_from_stock.
+
+	* gui/calendar-commands.c (publish_freebusy_cmd): publish F/B info
+	for all the clients currently loaded in the view.
+	(sensitize_calendar_commands): use icalcomponent functions.
+
+	* gui/e-day-view.c:
+	* gui/comp-editor-factory.c (impl_editExisting):
+	* gui/calendar-offline-handler.c (backend_cal_opened_online):
+	* gui/e-alarm-list.c (e_alarm_list_finalize):
+	* gui/e-cal-model-tasks.c (ecmt_get_color_for_component):
+	* gui/e-date-time-list.c (e_date_time_list_finalize):
+	* gui/control-factory.c (get_prop): fixed warnings.
+
+2003-08-11  Rodrigo Moya <rodrigo@ximian.com>
+
+	* cal-util/cal-util.[ch] (cal_util_component_is_instance,
+	cal_util_component_has_recurrences, cal_util_component_has_rdates,
+	cal_util_component_has_rrules, cal_util_event_dates_match):
+	new functions needed for the CalComponent->icalcomponent
+	transition.
+
+	* gui/e-day-view.[ch]:
+	* gui/e-week-view.[ch]: more adaptation to changes in ECalViewEvent.
+
+	* gui/gnome-cal.c (gnome_calendar_edit_object): use icalcomponent's
+	instead of CalComponent's.
+
+2003-08-11  Rodrigo Moya <rodrigo@ximian.com>
+
+	* gui/e-day-view.c: more adaptation to changes in ECalViewEvent.
+	(e_day_view_update_event_cb): use an ECalModelComponent, not a
+	CalComponent.
+	(process_component): pass an ECalModelComponent to
+	e_day_view_update_event_cb().
+	
+	* gui/e-week-view.c: more adaptation to changes in ECalViewEvent.
+	(e_week_view_update_event_cb, e_week_view_reshape_event_span):
+	set the	background color on the event's summary text.
+
+2003-08-11  Rodrigo Moya <rodrigo@ximian.com>
+
+	* gui/e-week-view.c (e_day_view_update_query): no more query
+	management here.
+	(query_obj_updated_cb, query_obj_removed_cb, query_query_done_cb,
+	query_eval_error_cb): removed query signals' callbacks.
+	(adjust_query_sexp): removed.
+	(process_component): new function to draw all components from
+	the model.
+
+	* gui/e-day-view.c: adapted to changes in ECalViewEvent structure.
+	(e_day_view_update_query): no more query management here.
+	(query_obj_updated_cb, query_obj_removed_cb, query_query_done_cb,
+	query_eval_error_cb): removed query signals' callbacks.
+	(adjust_query_sexp): removed.
+	(process_component): new function to draw all components from
+	the model.
+
+2003-08-11  Rodrigo Moya <rodrigo@ximian.com>
+
+	* gui/e-cal-view.c (e_cal_view_destroy): disconnect from signals
+	on the model.
+	(e_cal_view_set_model): disconnect from signals on the old model
+	and connect on the new one.
+	(model_changed_cb): tell the views to redraw when the model changes.
+
+	* gui/gnome-cal.c (dn_query_obj_updated_cb, gnome_calendar_destroy,
+	client_categories_changed_cb): removed the 'client' field from the
+	private structure, so don't use it anymore
+	(client_cal_opened_cb): if successful, add the CalClient to the
+	views' model.
+	(gnome_calendar_construct): don't add the client to the task model,
+	add it in client_cal_opened_cb().
+	(gnome_calendar_get_cal_client): removed.
+	(gnome_calendar_get_calendar_model): new function.
+	(gnome_calendar_open): create the CalClient here, to be added to the
+	views' model in client_cal_opened_cb().
+
+2003-08-09  Rodrigo Moya <rodrigo@ximian.com>
+
+	* gui/e-cal-view.[ch] (e_cal_view_get_cal_client,
+	e_cal_view_set_cal_client, e_cal_view_get_query,
+	e_cal_view_set_query): removed unneeded functions.
+	(e_cal_view_get_model, e_cal_view_set_model): new functions.
+	(e_cal_view_destroy): free the model.
+	(e_cal_view_init): removed sexp initialization.
+
+	* gui/gnome-cal.c (gnome_calendar_set_query): set the
+	query on the view's model, not on the view.
+	(gnome_calendar_construct): create the calendar model and associate
+	it to all the views.
 
 2003-08-08  Rodrigo Moya <rodrigo@ximian.com>
 
