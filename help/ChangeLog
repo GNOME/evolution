@@ -1,5 +1,6 @@
 2002-10-08  Aaron Weber  <aaron@ximian.com>
 
+	* C/usage-exchange.sgml: fix 1.0/1.2 feature list discrepancies.
 
 	* C/preface.sgml: add info about man page and so forth.
 

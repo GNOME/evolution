@@ -94,13 +94,6 @@
           </para>
 	</listitem>
       </varlistentry>
-
-
-
-
-
-
-
     </variablelist>
 </sect1>
 
@@ -237,36 +230,28 @@
 There are, however, some features which are not available:
 <itemizedlist>
 
-	      <listitem>
-		<para>
-		  Access to shared and public folders is not
-		  available, although the Global Address List is
-		  available.
+	    <listitem>
+	      <para>
+                Journal component.
 	      </para>
 	    </listitem>
 	    <listitem>
 	      <para>
-                Journal and Notes components are not available.
+		Work Offline (disconnected mode).
 	      </para>
 	    </listitem>
 	    <listitem>
 	      <para>
-		Work Offline (disconnected mode) support is not functional.
-	      </para>
-	    </listitem>
-	    <listitem>
-	      <para>
-               "Recall Message" function does not work yet.
+               "Recall Message" function.
 	      </para>
 	    </listitem>
 
 	    <listitem>
 	      <para>
-               Creation of an automatic "out-of-office" reply messages
-               is not available.
+               Creation of an automatic "out-of-office" reply
+               messages.
 	      </para>
 	    </listitem>
-
       </itemizedlist>
     </para>
   </sect1>
