@@ -1,3 +1,9 @@
+2000-05-30  Ettore Perazzoli  <ettore@helixcode.com>
+
+	* widgets/e-paned/e-vpaned.c (e_vpaned_handle_shown): Show the
+	handle even if the requisition for the child is zero.
+	* widgets/e-paned/e-hpaned.c (e_hpaned_handle_shown): Likewise.
+
 2000-05-26  Héctor García Alvarez <hector@scouts-es.org>
 
         * configure.in: Added Spanish language

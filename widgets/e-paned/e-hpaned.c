@@ -432,6 +432,5 @@ static gboolean
 e_hpaned_handle_shown (EPaned *paned)
 {
   return ((paned->child1 && paned->child2) &&
-	  (GTK_WIDGET_VISIBLE (paned->child1) && GTK_WIDGET_VISIBLE (paned->child2)) &&
-	  (GTK_WIDGET(paned->child1)->requisition.width > 0 && GTK_WIDGET(paned->child2)->requisition.width > 0));
+	  (GTK_WIDGET_VISIBLE (paned->child1) && GTK_WIDGET_VISIBLE (paned->child2)));
 }
