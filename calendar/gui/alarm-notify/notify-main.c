@@ -36,9 +36,11 @@
 #include <bonobo/bonobo-main.h>
 #include <bonobo/bonobo-generic-factory.h>
 #include <bonobo-activation/bonobo-activation.h>
+#include <libedataserver/e-source.h>
 #include "alarm.h"
 #include "alarm-queue.h"
 #include "alarm-notify.h"
+#include "config-data.h"
 #include "save.h"
 
 
@@ -108,7 +110,7 @@ alarm_notify_factory_fn (BonoboGenericFactory *factory, const char *component_id
 static gboolean
 load_calendars (gpointer user_data)
 {
-	GPtrArray *uris;
+	GPtrArray *cals;
 	int i;
 
 	alarm_queue_init ();
@@ -119,23 +121,24 @@ load_calendars (gpointer user_data)
 		g_assert (alarm_notify_service != NULL);
 	}
 
-	uris = get_calendars_to_load ();
-	if (!uris) {
+	cals = config_data_get_calendars_to_load ();
+	if (!cals) {
 		g_message ("load_calendars(): Could not get the list of calendars to load");
 		return TRUE; /* should we continue retrying? */;
 	}
 
-	for (i = 0; i < uris->len; i++) {
+	for (i = 0; i < cals->len; i++) {
+		ESource *source;
 		char *uri;
 
-		uri = uris->pdata[i];
+		source = cals->pdata[i];
 
+		uri = e_source_get_uri (source);
 		alarm_notify_add_calendar (alarm_notify_service, uri, FALSE);
-
 		g_free (uri);
 	}
 
-	g_ptr_array_free (uris, TRUE);
+	g_ptr_array_free (cals, TRUE);
 
 	return FALSE;
 }

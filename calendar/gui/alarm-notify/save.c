@@ -52,20 +52,19 @@
 void
 save_notification_time (time_t t)
 {
-	EConfigListener *cl;
+	GConfClient *conf_client;
 	time_t current_t;
 
 	g_return_if_fail (t != -1);
 
-	if (!(cl = config_data_get_listener ()))
+	if (!(conf_client = config_data_get_conf_client ()))
 		return;
 
 	/* we only store the new notification time if it is bigger
 	   than the already stored one */
-	current_t = e_config_listener_get_long_with_default (cl, KEY_LAST_NOTIFICATION_TIME,
-							     -1, NULL);
+	current_t = gconf_client_get_int (conf_client, KEY_LAST_NOTIFICATION_TIME, NULL);
 	if (t > current_t)
-		e_config_listener_set_long (cl, KEY_LAST_NOTIFICATION_TIME, (long) t);
+		gconf_client_set_int (conf_client, KEY_LAST_NOTIFICATION_TIME, t, NULL);
 }
 
 /**
@@ -78,69 +77,15 @@ save_notification_time (time_t t)
 time_t
 get_saved_notification_time (void)
 {
-	EConfigListener *cl;
+	GConfClient *conf_client;
 	long t;
 
-	if (!(cl = config_data_get_listener ()))
+	if (!(conf_client = config_data_get_conf_client ()))
 		return -1;
 
-	t = e_config_listener_get_long_with_default (cl, KEY_LAST_NOTIFICATION_TIME, -1, NULL);
+	t = gconf_client_get_int (conf_client, KEY_LAST_NOTIFICATION_TIME, NULL);
 
 	return (time_t) t;
-}
-
-/**
- * save_calendars_to_load:
- * @uris: A list of URIs of calendars.
- * 
- * Saves the list of calendars that should be loaded the next time the alarm
- * daemon starts up.
- **/
-void
-save_calendars_to_load (GPtrArray *uris)
-{
-	int i;
-	GConfClient *gconf = gconf_client_get_default();
-	GSList *l = NULL;
-
-	g_return_if_fail (uris != NULL);
-
-	for (i=0;i<uris->len;i++)
-		l = g_slist_append(l, uris->pdata[i]);
-
-	gconf_client_set_list(gconf, KEY_CALENDARS, GCONF_VALUE_STRING, l, NULL);
-
-	g_slist_free(l);
-}
-
-/**
- * get_calendars_to_load:
- * 
- * Gets the list of calendars that should be loaded when the alarm daemon starts
- * up.
- * 
- * Return value: A list of URIs, or NULL if the value could not be retrieved.
- **/
-GPtrArray *
-get_calendars_to_load (void)
-{
-	GSList *l, *n;
-	GPtrArray *uris;
-
-	/* Getting the default value below is not necessarily an error, as we
-	 * may not have saved the list of calendar yet.
-	 */
-
-	l = gconf_client_get_list (gconf_client_get_default (), KEY_CALENDARS, GCONF_VALUE_STRING, NULL);
-	uris = g_ptr_array_new ();
-	while (l) {
-		n = l->next;
-		g_ptr_array_add (uris, l->data);
-		g_slist_free_1(l);
-		l = n;
-	}
-
-	return uris;
 }
 
 /**
@@ -152,14 +97,17 @@ get_calendars_to_load (void)
 void
 save_blessed_program (const char *program)
 {
-	GConfClient *gconf = gconf_client_get_default();
+	GConfClient *conf_client;
 	GSList *l;
 
-	l = gconf_client_get_list(gconf, KEY_PROGRAMS, GCONF_VALUE_STRING, NULL);
-	l = g_slist_append(l, g_strdup(program));
-	gconf_client_set_list(gconf, KEY_PROGRAMS, GCONF_VALUE_STRING, l, NULL);
-	g_slist_foreach(l, (GFunc)g_free, NULL);
-	g_slist_free(l);
+	if (!(conf_client = config_data_get_conf_client ()))
+		return;
+
+	l = gconf_client_get_list (conf_client, KEY_PROGRAMS, GCONF_VALUE_STRING, NULL);
+	l = g_slist_append (l, g_strdup (program));
+	gconf_client_set_list (conf_client, KEY_PROGRAMS, GCONF_VALUE_STRING, l, NULL);
+	g_slist_foreach (l, (GFunc) g_free, NULL);
+	g_slist_free (l);
 }
 
 /**
@@ -173,17 +121,20 @@ save_blessed_program (const char *program)
 gboolean
 is_blessed_program (const char *program)
 {
-	GConfClient *gconf = gconf_client_get_default();
+	GConfClient *conf_client;
 	GSList *l, *n;
 	gboolean found = FALSE;
 
-	l = gconf_client_get_list(gconf, KEY_PROGRAMS, GCONF_VALUE_STRING, NULL);
+	if (!(conf_client = config_data_get_conf_client ()))
+		return FALSE;
+
+	l = gconf_client_get_list (conf_client, KEY_PROGRAMS, GCONF_VALUE_STRING, NULL);
 	while (l) {
 		n = l->next;
 		if (!found)
-			found = strcmp((char *)l->data, program) == 0;
-		g_free(l->data);
-		g_slist_free_1(l);
+			found = strcmp ((char *) l->data, program) == 0;
+		g_free (l->data);
+		g_slist_free_1 (l);
 		l = n;
 	}
 

@@ -1,3 +1,25 @@
+2003-12-01  Rodrigo Moya <rodrigo@ximian.com>
+
+	* gui/alarm-notify/save.c (save_calendars_to_load): removed this
+	function, since we now use the ESourceList to know what calendars
+	to load.
+	(get_calendars_to_load): moved to config-data.c.
+	(save_notification_time, get_saved_notification_time,
+	save_blessed_program, is_blessed_program): use the
+	shared GConfClient.
+
+	* gui/alarm-notify/config-data.[ch]: use a GConfClient instead of a
+	EConfigListener.
+	(config_data_get_conf_client): renamed from _get_listener.
+	(config_data_get_timezone, config_data_get_24_hour_format): changed
+	to use the GConfClient.
+	(config_data_get_calendars_to_load): new function.
+	(ensure_inited): create the source lists for calendar and tasks here.
+	(do_cleanup): cleanup the source lists here.
+
+	* gui/alarm-notify/notify-main.c (load_calendars): use
+	config_data_get_calendars_to_load().
+
 2003-11-28  JP Rosevear <jpr@ximian.com>
 
 	* gui/e-tasks.c (e_tasks_delete_completed): we want to skip if it

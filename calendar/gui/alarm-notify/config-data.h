@@ -23,11 +23,12 @@
 
 #include <glib.h>
 #include <libical/ical.h>
-#include <e-util/e-config-listener.h>
+#include <gconf/gconf-client.h>
 
-EConfigListener *config_data_get_listener (void);
+GConfClient *config_data_get_conf_client (void);
 
 icaltimezone *config_data_get_timezone (void);
 gboolean config_data_get_24_hour_format (void);
+GPtrArray *config_data_get_calendars_to_load (void);
 
 #endif
