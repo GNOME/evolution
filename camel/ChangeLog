@@ -1,3 +1,9 @@
+2000-08-11  Not Zed  <NotZed@HelixCode.com>
+
+	* camel-folder.c (move_message_to): Yay so lets fix an already fixed fix, again.
+	(copy_message_to): and here too ... update for api change to append().
+	And removed another warning.
+
 2000-08-10  Christopher James Lahey  <clahey@helixcode.com>
 
 	* camel-folder-search.c, camel-folder-summary.c, camel-medium.c,

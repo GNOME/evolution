@@ -92,9 +92,6 @@ static GPtrArray        *get_summary         (CamelFolder *folder);
 static void              free_summary        (CamelFolder *folder,
 					      GPtrArray *array);
 
-static const gchar      *get_message_uid     (CamelFolder *folder,
-					      CamelMimeMessage *message);
-
 static CamelMimeMessage *get_message         (CamelFolder *folder,
 					      const gchar *uid,
 					      CamelException *ex);
@@ -974,13 +971,13 @@ copy_message_to (CamelFolder *source, const char *uid, CamelFolder *dest,
 
 	/* Default implementation. */
 	
-	msg = camel_folder_get_message (source, uid, ex);
+	msg = camel_folder_get_message(source, uid, ex);
 	if (!msg)
 		return;
-	info = camel_folder_get_message_info (source, uid);
-	camel_folder_append_message (dest, msg, info ? info->flags : 0, ex);
-	camel_object_unref (CAMEL_OBJECT (msg));
-	if (camel_exception_is_set (ex))
+	info = camel_folder_get_message_info(source, uid);
+	camel_folder_append_message(dest, msg, info, ex);
+	camel_object_unref(CAMEL_OBJECT (msg));
+	if (camel_exception_is_set(ex))
 		return;
 }
 
@@ -1004,29 +1001,27 @@ camel_folder_copy_message_to (CamelFolder *source, const char *uid,
 	g_return_if_fail (uid != NULL);
 
 	if (source->parent_store == dest->parent_store) {
-		return CF_CLASS (source)->copy_message_to (source, uid,
-							   dest, ex);
+		return CF_CLASS (source)->copy_message_to(source, uid,dest, ex);
 	} else
-		return copy_message_to (source, uid, dest, ex);
+		return copy_message_to(source, uid, dest, ex);
 }
 
 
 static void
-move_message_to (CamelFolder *source, const char *uid, CamelFolder *dest,
-		 CamelException *ex)
+move_message_to (CamelFolder *source, const char *uid, CamelFolder *dest, CamelException *ex)
 {
 	CamelMimeMessage *msg;
 	const CamelMessageInfo *info;
 
 	/* Default implementation. */
 	
-	msg = camel_folder_get_message (source, uid, ex);
+	msg = camel_folder_get_message(source, uid, ex);
 	if (!msg)
 		return;
-	info = camel_folder_get_message_info (source, uid);
-	camel_folder_append_message (dest, msg, info ? info->flags : 0, ex);
-	camel_object_unref (CAMEL_OBJECT (msg));
-	if (camel_exception_is_set (ex))
+	info = camel_folder_get_message_info(source, uid);
+	camel_folder_append_message(dest, msg, info, ex);
+	camel_object_unref(CAMEL_OBJECT(msg));
+	if (camel_exception_is_set(ex))
 		return;
 	camel_folder_delete_message (source, uid);
 }
