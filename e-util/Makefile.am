@@ -26,6 +26,7 @@ eutilinclude_HEADERS = 				\
 	e-component-listener.h			\
 	e-config-listener.h			\
 	e-corba-utils.h				\
+	e-dialog-utils.h			\
 	e-dialog-widgets.h			\
 	e-gtk-utils.h				\
 	e-gui-utils.h				\

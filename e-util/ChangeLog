@@ -1,3 +1,7 @@
+2003-01-14  Ettore Perazzoli  <ettore@ximian.com>
+
+	* Makefile.am (eutilinclude_HEADERS): Add e-dialog-utils.h.
+
 2003-01-09  Chris Toshok  <toshok@ximian.com>
 
 	* e-gui-utils.c (e_create_image_widget): change this to use
