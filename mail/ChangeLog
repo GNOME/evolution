@@ -1,5 +1,8 @@
 2003-02-20  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* mail-callbacks.c (mark_all_as_seen): Use
+	camel_folder_free_uids().
+
 	* mail-format.c (write_headers): Use
 	camel_charset_canonical_name() here instead of
 	e_iconv_charset_name().

@@ -1971,10 +1971,14 @@ flag_messages (FolderBrowser *fb, guint32 mask, guint32 set)
 	uids = g_ptr_array_new ();
 	message_list_foreach (fb->message_list, enumerate_msg, uids);
 	camel_folder_freeze (fb->folder);
-	for (i = 0; i < uids->len; i++)
+	for (i = 0; i < uids->len; i++) {
 		camel_folder_set_message_flags (fb->folder, uids->pdata[i], mask, set);
-	camel_folder_free_uids (fb->folder, uids);
+		g_free (uids->pdata[i]);
+	}
+	
 	camel_folder_thaw (fb->folder);
+	
+	g_ptr_array_free (uids);
 	
 	return i;
 }
@@ -2057,12 +2061,10 @@ mark_all_as_seen (BonoboUIComponent *uih, void *user_data, const char *path)
 	
 	uids = camel_folder_get_uids (fb->folder);
 	camel_folder_freeze (fb->folder);
-	for (i = 0; i < uids->len; i++) {
+	for (i = 0; i < uids->len; i++)
 		camel_folder_set_message_flags (fb->folder, uids->pdata[i], CAMEL_MESSAGE_SEEN, ~0);
-		g_free (uids->pdata[i]);
-	}
+	camel_folder_free_uids (fb->folder, uids);
 	camel_folder_thaw (fb->folder);
-	g_ptr_array_free (uids, TRUE);
 }
 
 void
