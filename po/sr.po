@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution 2.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-03-14 05:18+0100\n"
-"PO-Revision-Date: 2004-03-14 05:23+0100\n"
+"POT-Creation-Date: 2004-03-24 01:42+0100\n"
+"PO-Revision-Date: 2004-03-24 01:52+0100\n"
 "Last-Translator: Данило Шеган <danilo@prevod.org>\n"
 "Language-Team: Serbian (sr) <serbiangnome-lista@nongnu.org>\n"
 "MIME-Version: 1.0\n"
@@ -104,7 +104,7 @@ msgid "New Address Book"
 msgstr "Нови адресар"
 
 #: addressbook/gui/component/addressbook-component.c:309
-#: addressbook/gui/widgets/e-addressbook-view.c:1074
+#: addressbook/gui/widgets/e-addressbook-view.c:1077
 #: calendar/gui/calendar-component.c:374 calendar/gui/tasks-component.c:365
 #: filter/libfilter-i18n.h:11 mail/em-account-prefs.c:236
 #: ui/evolution-addressbook.xml.h:8 ui/evolution-comp-editor.xml.h:4
@@ -196,16 +196,18 @@ msgstr "Преносим „%s“:"
 #. create the local source group
 #. On This Computer is always first and VFolders is always last
 #: addressbook/gui/component/addressbook-migrate.c:409
-#: calendar/gui/migration.c:426 calendar/gui/migration.c:503
-#: mail/em-folder-tree-model.c:176 mail/em-folder-tree-model.c:178
+#: calendar/gui/migration.c:430 calendar/gui/migration.c:509
+#: mail/em-folder-tree-model.c:192 mail/em-folder-tree-model.c:194
 #: mail/mail-component.c:236
 msgid "On This Computer"
 msgstr "На овом рачунару"
 
 #. Create the default Person addressbook
+#. Create the default Person calendar
+#. Create the default Person task list
 #. orange
 #: addressbook/gui/component/addressbook-migrate.c:417
-#: calendar/gui/migration.c:434 calendar/gui/migration.c:511
+#: calendar/gui/migration.c:438 calendar/gui/migration.c:517
 #: filter/filter-label.c:123 mail/em-migrate.c:925 mail/mail-config.c:65
 #: mail/mail-config.glade.h:88
 msgid "Personal"
@@ -738,7 +740,7 @@ msgstr "Лимит за _преузимање:"
 
 #: addressbook/gui/component/ldap-config.glade.h:91
 #: addressbook/gui/contact-editor/contact-editor.glade.h:34
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:41 filter/filter.glade.h:14
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:41 filter/filter.glade.h:17
 #: mail/mail-config.glade.h:148 ui/evolution-addressbook.xml.h:34
 #: ui/evolution-calendar.xml.h:36 ui/evolution-composer-entries.xml.h:8
 #: ui/evolution-mail-list.xml.h:24 ui/evolution-mail-messagedisplay.xml.h:6
@@ -989,9 +991,9 @@ msgstr "Ка_тегорије..."
 
 #. FIXME: need to disable for undeletable folders
 #: addressbook/gui/contact-editor/contact-editor.glade.h:33
-#: calendar/gui/dialogs/meeting-page.c:651 calendar/gui/e-cal-view.c:1300
-#: calendar/gui/e-cal-view.c:1331 calendar/gui/e-calendar-table.c:1057
-#: calendar/gui/e-calendar-table.c:1075 mail/em-folder-tree.c:2388
+#: calendar/gui/dialogs/meeting-page.c:651 calendar/gui/e-calendar-view.c:1332
+#: calendar/gui/e-calendar-view.c:1363 calendar/gui/e-calendar-table.c:1057
+#: calendar/gui/e-calendar-table.c:1075 mail/em-folder-tree.c:2504
 #: mail/em-folder-view.c:765 ui/evolution-addressbook.xml.h:33
 #: ui/evolution-calendar.xml.h:35 ui/evolution-comp-editor.xml.h:17
 #: ui/evolution-contact-editor.xml.h:14 ui/evolution-mail-message.xml.h:112
@@ -1041,7 +1043,7 @@ msgstr "Адреса _стране на Интернету:"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:96
 #: addressbook/gui/widgets/eab-contact-display.c:316
-#: addressbook/gui/widgets/eab-contact-display.c:335
+#: addressbook/gui/widgets/eab-contact-display.c:337
 msgid "Address"
 msgstr "Адреса"
 
@@ -1050,12 +1052,12 @@ msgstr "Адреса"
 #: addressbook/gui/contact-editor/e-contact-editor-im.c:141
 #: addressbook/gui/contact-editor/e-contact-editor.c:250
 #: addressbook/gui/contact-list-editor/e-contact-list-editor.c:168
-#: addressbook/gui/widgets/e-addressbook-model.c:312
+#: addressbook/gui/widgets/e-addressbook-model.c:309
 #: addressbook/gui/widgets/e-addressbook-reflow-adapter.c:392
 #: addressbook/gui/widgets/e-minicard-label.c:164
 #: addressbook/gui/widgets/e-minicard-view-widget.c:119
 #: addressbook/gui/widgets/e-minicard-view.c:474
-#: addressbook/gui/widgets/e-minicard.c:182
+#: addressbook/gui/widgets/e-minicard.c:173
 msgid "Editable"
 msgstr "Може се мењати"
 
@@ -2104,7 +2106,7 @@ msgstr "Одредишни адресар"
 #: addressbook/gui/contact-editor/e-contact-editor.c:229
 #: addressbook/gui/contact-list-editor/e-contact-list-editor.c:154
 #: addressbook/gui/contact-list-editor/e-contact-list-editor.etspec.h:1
-#: addressbook/gui/widgets/e-minicard.c:189
+#: addressbook/gui/widgets/e-minicard.c:180
 msgid "Contact"
 msgstr "Контакт"
 
@@ -2337,7 +2339,7 @@ msgid "contact-list-editor"
 msgstr "уредник-контакт-листе"
 
 #: addressbook/gui/contact-list-editor/e-contact-list-editor.c:147
-#: addressbook/gui/widgets/e-addressbook-model.c:298
+#: addressbook/gui/widgets/e-addressbook-model.c:295
 #: addressbook/gui/widgets/e-addressbook-reflow-adapter.c:378
 #: addressbook/gui/widgets/e-addressbook-view.c:209
 #: addressbook/gui/widgets/e-minicard-view-widget.c:105
@@ -2405,18 +2407,15 @@ msgstr "Напредна претрага"
 msgid "No contacts"
 msgstr "Нема контакта"
 
-# bug: plural-forms
 #: addressbook/gui/widgets/e-addressbook-model.c:151
-msgid "1 contact"
-msgstr "1 контакт"
-
-# bug: plural-forms
-#: addressbook/gui/widgets/e-addressbook-model.c:154
 #, c-format
-msgid "%d contacts"
-msgstr "%d контакта"
+msgid "%d contact"
+msgid_plural "%d contacts"
+msgstr[0] "%d контакт"
+msgstr[1] "%d контакта"
+msgstr[2] "%d контаката"
 
-#: addressbook/gui/widgets/e-addressbook-model.c:305
+#: addressbook/gui/widgets/e-addressbook-model.c:302
 #: addressbook/gui/widgets/e-addressbook-reflow-adapter.c:385
 #: addressbook/gui/widgets/e-addressbook-view.c:223
 #: addressbook/gui/widgets/e-minicard-view-widget.c:112
@@ -2424,7 +2423,7 @@ msgstr "%d контакта"
 msgid "Query"
 msgstr "Упит"
 
-#: addressbook/gui/widgets/e-addressbook-model.c:448
+#: addressbook/gui/widgets/e-addressbook-model.c:445
 msgid "Error getting book view"
 msgstr "Грешка код учитавања прегледа адресара"
 
@@ -2467,98 +2466,96 @@ msgstr "Напредно..."
 msgid "Type"
 msgstr "Тип"
 
-#: addressbook/gui/widgets/e-addressbook-view.c:494
+#: addressbook/gui/widgets/e-addressbook-view.c:497
 #: camel/providers/groupwise/camel-groupwise-provider.c:66
 msgid "Address Book"
 msgstr "Адресар"
 
-#: addressbook/gui/widgets/e-addressbook-view.c:838
-#: addressbook/gui/widgets/e-addressbook-view.c:1058
-#: addressbook/gui/widgets/e-addressbook-view.c:2016
+#: addressbook/gui/widgets/e-addressbook-view.c:841
+#: addressbook/gui/widgets/e-addressbook-view.c:1061
+#: addressbook/gui/widgets/e-addressbook-view.c:2019
 #: ui/evolution-addressbook.xml.h:19
 msgid "Save as VCard"
 msgstr "Сачувај као VCard"
 
-#: addressbook/gui/widgets/e-addressbook-view.c:1045
+#: addressbook/gui/widgets/e-addressbook-view.c:1048
 msgid "New Contact..."
 msgstr "Нов контакт..."
 
-#: addressbook/gui/widgets/e-addressbook-view.c:1046
+#: addressbook/gui/widgets/e-addressbook-view.c:1049
 msgid "New Contact List..."
 msgstr "Нова листа контаката..."
 
-#: addressbook/gui/widgets/e-addressbook-view.c:1049
+#: addressbook/gui/widgets/e-addressbook-view.c:1052
 msgid "Go to Folder..."
 msgstr "Иди у директоријум..."
 
-#: addressbook/gui/widgets/e-addressbook-view.c:1050
+#: addressbook/gui/widgets/e-addressbook-view.c:1053
 msgid "Import..."
 msgstr "Увези..."
 
-#: addressbook/gui/widgets/e-addressbook-view.c:1052
+#: addressbook/gui/widgets/e-addressbook-view.c:1055
 msgid "Search for Contacts..."
 msgstr "Тражим контакте..."
 
-#: addressbook/gui/widgets/e-addressbook-view.c:1053
+#: addressbook/gui/widgets/e-addressbook-view.c:1056
 msgid "Address Book Sources..."
 msgstr "Извори адресара..."
 
-#: addressbook/gui/widgets/e-addressbook-view.c:1055
+#: addressbook/gui/widgets/e-addressbook-view.c:1058
 msgid "Pilot Settings..."
 msgstr "Подешавања пилота"
 
-#: addressbook/gui/widgets/e-addressbook-view.c:1059
+#: addressbook/gui/widgets/e-addressbook-view.c:1062
 #: ui/evolution-addressbook.xml.h:10
 msgid "Forward Contact"
 msgstr "Проследи контакт"
 
-#: addressbook/gui/widgets/e-addressbook-view.c:1060
+#: addressbook/gui/widgets/e-addressbook-view.c:1063
 msgid "Send Message to Contact"
 msgstr "Пошаљи контакту поруку"
 
-#: addressbook/gui/widgets/e-addressbook-view.c:1061 calendar/gui/print.c:2481
+#: addressbook/gui/widgets/e-addressbook-view.c:1064 calendar/gui/print.c:2480
 #: ui/evolution-addressbook.xml.h:16 ui/evolution-comp-editor.xml.h:8
 #: ui/evolution-contact-editor.xml.h:5 ui/evolution-mail-message.xml.h:80
 msgid "Print"
 msgstr "Штампај"
 
-#: addressbook/gui/widgets/e-addressbook-view.c:1063
+#: addressbook/gui/widgets/e-addressbook-view.c:1066
 msgid "Print Envelope"
 msgstr "Штампај коверат"
 
-#: addressbook/gui/widgets/e-addressbook-view.c:1067
+#: addressbook/gui/widgets/e-addressbook-view.c:1070
 msgid "Copy to Address Book..."
 msgstr "Умножи у адресар..."
 
-#: addressbook/gui/widgets/e-addressbook-view.c:1068
+#: addressbook/gui/widgets/e-addressbook-view.c:1071
 msgid "Move to Address Book..."
 msgstr "Пребаци у адресар..."
 
-#: addressbook/gui/widgets/e-addressbook-view.c:1071
+#: addressbook/gui/widgets/e-addressbook-view.c:1074
 #: ui/evolution-addressbook.xml.h:6 ui/evolution-tasks.xml.h:4
 msgid "Cut"
 msgstr "Исеци"
 
-#. create the dialog
-#: addressbook/gui/widgets/e-addressbook-view.c:1072
-#: calendar/gui/calendar-component.c:372
-#: calendar/gui/dialogs/copy-source-dialog.c:159
-#: calendar/gui/tasks-component.c:363 ui/evolution-addressbook.xml.h:2
-#: ui/evolution-mail-message.xml.h:9 ui/evolution-tasks.xml.h:2
+#: addressbook/gui/widgets/e-addressbook-view.c:1075
+#: calendar/gui/calendar-component.c:372 calendar/gui/tasks-component.c:363
+#: ui/evolution-addressbook.xml.h:2 ui/evolution-mail-message.xml.h:9
+#: ui/evolution-tasks.xml.h:2
 msgid "Copy"
 msgstr "Умножи"
 
-#: addressbook/gui/widgets/e-addressbook-view.c:1073
+#: addressbook/gui/widgets/e-addressbook-view.c:1076
 #: ui/evolution-addressbook.xml.h:13 ui/evolution-tasks.xml.h:10
 msgid "Paste"
 msgstr "Убаци"
 
-#: addressbook/gui/widgets/e-addressbook-view.c:1078
-#: calendar/gui/e-cal-view.c:1269
+#: addressbook/gui/widgets/e-addressbook-view.c:1081
+#: calendar/gui/e-calendar-view.c:1299
 msgid "Current View"
 msgstr "Тренутан поглед"
 
-#: addressbook/gui/widgets/e-addressbook-view.c:1267
+#: addressbook/gui/widgets/e-addressbook-view.c:1270
 #, c-format
 msgid ""
 "The addressbook backend for\n"
@@ -2571,7 +2568,7 @@ msgstr ""
 "да је користите"
 
 #. All, unmatched, separator
-#: addressbook/gui/widgets/e-addressbook-view.c:1607
+#: addressbook/gui/widgets/e-addressbook-view.c:1610
 #: calendar/gui/cal-search-bar.c:359
 msgid "Any Category"
 msgstr "Било која категорија"
@@ -2615,7 +2612,7 @@ msgid "Company Phone"
 msgstr "Телефон фирме"
 
 #: addressbook/gui/widgets/e-addressbook-view.etspec.h:10
-#: addressbook/gui/widgets/eab-contact-display.c:520 smime/lib/e-cert.c:774
+#: addressbook/gui/widgets/eab-contact-display.c:522 smime/lib/e-cert.c:774
 msgid "Email"
 msgstr "Е-пошта"
 
@@ -2666,6 +2663,7 @@ msgid "Manager"
 msgstr "Управник"
 
 #: addressbook/gui/widgets/e-addressbook-view.etspec.h:23
+#: addressbook/gui/widgets/eab-contact-display.c:336
 msgid "Mobile Phone"
 msgstr "Мобилни телефон"
 
@@ -2674,7 +2672,7 @@ msgid "Nickname"
 msgstr "Надимак"
 
 #: addressbook/gui/widgets/e-addressbook-view.etspec.h:25
-#: addressbook/gui/widgets/eab-contact-display.c:345
+#: addressbook/gui/widgets/eab-contact-display.c:347
 msgid "Note"
 msgstr "Напомена"
 
@@ -2739,17 +2737,17 @@ msgid "Web Site"
 msgstr "Интернет адреса"
 
 #: addressbook/gui/widgets/e-minicard-label.c:115
-#: addressbook/gui/widgets/e-minicard.c:145
+#: addressbook/gui/widgets/e-minicard.c:136
 msgid "Width"
 msgstr "Ширина"
 
 #: addressbook/gui/widgets/e-minicard-label.c:122
-#: addressbook/gui/widgets/e-minicard.c:152
+#: addressbook/gui/widgets/e-minicard.c:143
 msgid "Height"
 msgstr "Висина"
 
 #: addressbook/gui/widgets/e-minicard-label.c:129
-#: addressbook/gui/widgets/e-minicard.c:160
+#: addressbook/gui/widgets/e-minicard.c:151
 msgid "Has Focus"
 msgstr "Има фокус"
 
@@ -2801,11 +2799,11 @@ msgstr ""
 msgid "Adapter"
 msgstr "Адаптер"
 
-#: addressbook/gui/widgets/e-minicard.c:168
+#: addressbook/gui/widgets/e-minicard.c:159
 msgid "Selected"
 msgstr "Одабрано"
 
-#: addressbook/gui/widgets/e-minicard.c:175
+#: addressbook/gui/widgets/e-minicard.c:166
 msgid "Has Cursor"
 msgstr "Има курсор"
 
@@ -2820,7 +2818,7 @@ msgid "map"
 msgstr "мапа"
 
 #: addressbook/gui/widgets/eab-contact-display.c:242
-#: addressbook/gui/widgets/eab-contact-display.c:496
+#: addressbook/gui/widgets/eab-contact-display.c:498
 msgid "List Members"
 msgstr "Испиши чланове"
 
@@ -2842,6 +2840,7 @@ msgid "Video Conferencing"
 msgstr "Видео конференције"
 
 #: addressbook/gui/widgets/eab-contact-display.c:314
+#: addressbook/gui/widgets/eab-contact-display.c:335
 msgid "Phone"
 msgstr "Телефон"
 
@@ -2858,19 +2857,19 @@ msgid "WWW"
 msgstr "Беб"
 
 #: addressbook/gui/widgets/eab-contact-display.c:333
-#: addressbook/gui/widgets/eab-contact-display.c:555
+#: addressbook/gui/widgets/eab-contact-display.c:557
 msgid "Blog"
 msgstr "Блогче"
 
-#: addressbook/gui/widgets/eab-contact-display.c:338
+#: addressbook/gui/widgets/eab-contact-display.c:340
 msgid "personal"
 msgstr "лично"
 
-#: addressbook/gui/widgets/eab-contact-display.c:516
+#: addressbook/gui/widgets/eab-contact-display.c:518
 msgid "Job Title"
 msgstr "Улога на послу"
 
-#: addressbook/gui/widgets/eab-contact-display.c:547
+#: addressbook/gui/widgets/eab-contact-display.c:549
 msgid "Home page"
 msgstr "Лична страница"
 
@@ -2910,7 +2909,7 @@ msgstr "Протокол није подржан"
 #: calendar/gui/dialogs/task-details-page.glade.h:3
 #: calendar/gui/e-cal-model-tasks.c:325 calendar/gui/e-cal-model-tasks.c:599
 #: calendar/gui/e-calendar-table.c:467 calendar/gui/e-tasks.c:209
-#: calendar/gui/print.c:2350 camel/camel-service.c:728
+#: calendar/gui/print.c:2349 camel/camel-service.c:728
 #: camel/camel-service.c:766 camel/camel-service.c:850
 #: camel/camel-service.c:890 camel/providers/pop3/camel-pop3-store.c:451
 #: camel/providers/pop3/camel-pop3-store.c:532
@@ -2950,7 +2949,7 @@ msgid "Error adding list"
 msgstr "Грешка код додавања листе"
 
 #: addressbook/gui/widgets/eab-gui-util.c:106
-#: addressbook/gui/widgets/eab-gui-util.c:524
+#: addressbook/gui/widgets/eab-gui-util.c:527
 msgid "Error adding contact"
 msgstr "Грешка код додавања контакта"
 
@@ -2967,21 +2966,29 @@ msgid "Error removing list"
 msgstr "Грешка код уклањања листе"
 
 #: addressbook/gui/widgets/eab-gui-util.c:125
-#: addressbook/gui/widgets/eab-gui-util.c:482
+#: addressbook/gui/widgets/eab-gui-util.c:485
 msgid "Error removing contact"
 msgstr "Грешка код уклањања контакта"
 
-# bug: plural-forms
 #: addressbook/gui/widgets/eab-gui-util.c:207
 #, c-format
 msgid ""
+"Opening %d contact will open %d new window as well.\n"
+"Do you really want to display this contact?"
+msgid_plural ""
 "Opening %d contacts will open %d new windows as well.\n"
 "Do you really want to display all of these contacts?"
-msgstr ""
+msgstr[0] ""
+"Отварање %d контакта ће отворити и %d нов прозор.\n"
+"Да ли стварно желите да погледате све ове контакте?"
+msgstr[1] ""
+"Отварање %d контакта ће отворити и %d нова прозора.\n"
+"Да ли стварно желите да погледате све ове контакте?"
+msgstr[2] ""
 "Отварање %d контаката ће отворити и %d нових прозора.\n"
 "Да ли стварно желите да погледате све ове контакте?"
 
-#: addressbook/gui/widgets/eab-gui-util.c:233
+#: addressbook/gui/widgets/eab-gui-util.c:236
 #, c-format
 msgid ""
 "%s already exists\n"
@@ -2990,49 +2997,49 @@ msgstr ""
 "%s већ постоји\n"
 "Желите ли да препишете новим уносом?"
 
-#: addressbook/gui/widgets/eab-gui-util.c:237
+#: addressbook/gui/widgets/eab-gui-util.c:240
 msgid "Overwrite"
 msgstr "Препиши"
 
-#: addressbook/gui/widgets/eab-gui-util.c:273
+#: addressbook/gui/widgets/eab-gui-util.c:276
 #, c-format
 msgid "Error saving %s: %s"
 msgstr "Грешка код чувања %s: %s"
 
 #. This is a filename. Translators take note.
-#: addressbook/gui/widgets/eab-gui-util.c:310
+#: addressbook/gui/widgets/eab-gui-util.c:313
 msgid "card.vcf"
 msgstr "karta.vcf"
 
-#: addressbook/gui/widgets/eab-gui-util.c:443
+#: addressbook/gui/widgets/eab-gui-util.c:446
 msgid "list"
 msgstr "листа"
 
-#: addressbook/gui/widgets/eab-gui-util.c:578
+#: addressbook/gui/widgets/eab-gui-util.c:581
 msgid "Move contact to"
 msgstr "Премести контакт у"
 
-#: addressbook/gui/widgets/eab-gui-util.c:580
+#: addressbook/gui/widgets/eab-gui-util.c:583
 msgid "Copy contact to"
 msgstr "Умножи контакт у"
 
-#: addressbook/gui/widgets/eab-gui-util.c:583
+#: addressbook/gui/widgets/eab-gui-util.c:586
 msgid "Move contacts to"
 msgstr "Премести контакте у"
 
-#: addressbook/gui/widgets/eab-gui-util.c:585
+#: addressbook/gui/widgets/eab-gui-util.c:588
 msgid "Copy contacts to"
 msgstr "Умножи контакте у"
 
-#: addressbook/gui/widgets/eab-gui-util.c:588
+#: addressbook/gui/widgets/eab-gui-util.c:591
 msgid "Select target addressbook."
 msgstr "Изаберите одредишни адресар."
 
-#: addressbook/gui/widgets/eab-gui-util.c:767
+#: addressbook/gui/widgets/eab-gui-util.c:770
 msgid "Multiple VCards"
 msgstr "Вишеструке VCards"
 
-#: addressbook/gui/widgets/eab-gui-util.c:770
+#: addressbook/gui/widgets/eab-gui-util.c:773
 #, c-format
 msgid "VCard for %s"
 msgstr "VCard за %s"
@@ -3076,26 +3083,24 @@ msgstr "Промени податке о контакту"
 msgid "Merge E-Mail Address"
 msgstr "Споји електронске адресе"
 
-# bug: plural-forms
-#: addressbook/gui/widgets/eab-vcard-control.c:140
+#: addressbook/gui/widgets/eab-vcard-control.c:139
 #, c-format
-msgid "and %d other contacts."
-msgstr "и %d других контаката."
-
-#: addressbook/gui/widgets/eab-vcard-control.c:142
 msgid "and one other contact."
-msgstr "и још један контакт."
+msgid_plural "and %d other contacts."
+msgstr[0] "и још %d контакт."
+msgstr[1] "и још %d контакта."
+msgstr[2] "и још %d контаката."
 
-#: addressbook/gui/widgets/eab-vcard-control.c:225
-#: addressbook/gui/widgets/eab-vcard-control.c:275
+#: addressbook/gui/widgets/eab-vcard-control.c:223
+#: addressbook/gui/widgets/eab-vcard-control.c:273
 msgid "Show Full VCard"
 msgstr "Прикажи целу визит карту"
 
-#: addressbook/gui/widgets/eab-vcard-control.c:229
+#: addressbook/gui/widgets/eab-vcard-control.c:227
 msgid "Show Compact VCard"
 msgstr "Прикажи сажету визит карту"
 
-#: addressbook/gui/widgets/eab-vcard-control.c:280
+#: addressbook/gui/widgets/eab-vcard-control.c:278
 msgid "Save in addressbook"
 msgstr "Сачувај у адресару"
 
@@ -3501,7 +3506,7 @@ msgid "Evolution's Tasks component"
 msgstr "Део Еволуције за задужења"
 
 #: calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:12
-#: calendar/gui/e-tasks.c:1134 calendar/gui/print.c:1820
+#: calendar/gui/e-tasks.c:1139 calendar/gui/print.c:1819
 #: calendar/gui/tasks-control.c:516 calendar/importers/icalendar-importer.c:79
 #: calendar/importers/icalendar-importer.c:709
 msgid "Tasks"
@@ -3547,24 +3552,24 @@ msgstr "Време дремања (минути)"
 msgid "_Edit appointment"
 msgstr "_Измени састанак"
 
-#: calendar/gui/alarm-notify/alarm-queue.c:903
+#: calendar/gui/alarm-notify/alarm-queue.c:906
 #: ui/evolution-message-composer.xml.h:10
 msgid "Open"
 msgstr "Отвори"
 
-#: calendar/gui/alarm-notify/alarm-queue.c:905
+#: calendar/gui/alarm-notify/alarm-queue.c:908
 msgid "Dismiss"
 msgstr "Одбаци"
 
-#: calendar/gui/alarm-notify/alarm-queue.c:907
+#: calendar/gui/alarm-notify/alarm-queue.c:910
 msgid "Dismiss All"
 msgstr "Одбаци све"
 
-#: calendar/gui/alarm-notify/alarm-queue.c:972
+#: calendar/gui/alarm-notify/alarm-queue.c:975
 msgid "No description available."
 msgstr "Нема описа."
 
-#: calendar/gui/alarm-notify/alarm-queue.c:990
+#: calendar/gui/alarm-notify/alarm-queue.c:993
 #, c-format
 msgid ""
 "Alarm on %s\n"
@@ -3577,12 +3582,12 @@ msgstr ""
 "Почиње у %s\n"
 "Завршава се у %s"
 
-#: calendar/gui/alarm-notify/alarm-queue.c:1082
-#: calendar/gui/alarm-notify/alarm-queue.c:1106
+#: calendar/gui/alarm-notify/alarm-queue.c:1089
+#: calendar/gui/alarm-notify/alarm-queue.c:1113
 msgid "Warning"
 msgstr "Упозорење"
 
-#: calendar/gui/alarm-notify/alarm-queue.c:1086
+#: calendar/gui/alarm-notify/alarm-queue.c:1093
 msgid ""
 "Evolution does not support calendar reminders with\n"
 "email notifications yet, but this reminder was\n"
@@ -3594,7 +3599,7 @@ msgstr ""
 "подсетник подешен да пошаље поруку. Еволуција ће\n"
 "уместо тога показати нормалан прозор за дијалог."
 
-#: calendar/gui/alarm-notify/alarm-queue.c:1112
+#: calendar/gui/alarm-notify/alarm-queue.c:1119
 #, c-format
 msgid ""
 "An Evolution Calendar reminder is about to trigger. This reminder is "
@@ -3611,7 +3616,7 @@ msgstr ""
 "\n"
 "Сигурно хоћете да покренете овај програм?"
 
-#: calendar/gui/alarm-notify/alarm-queue.c:1126
+#: calendar/gui/alarm-notify/alarm-queue.c:1133
 msgid "Do not ask me about this program again."
 msgstr "Не питај ме поново за овај програм."
 
@@ -3779,7 +3784,7 @@ msgstr "Путања садржи"
 msgid "Unmatched"
 msgstr "Нерасподељено"
 
-#: calendar/gui/calendar-commands.c:116 calendar/gui/gnome-cal.c:1599
+#: calendar/gui/calendar-commands.c:116 calendar/gui/gnome-cal.c:1585
 #: camel/providers/groupwise/camel-gw-listener.c:298
 #: camel/providers/groupwise/camel-gw-listener.c:322
 msgid "Calendar"
@@ -3801,7 +3806,7 @@ msgid "Purge events older than"
 msgstr "Обриши догађаје старије од"
 
 #: calendar/gui/calendar-commands.c:362
-#: calendar/gui/dialogs/alarm-options.glade.h:10 filter/filter.glade.h:17
+#: calendar/gui/dialogs/alarm-options.glade.h:10 filter/filter.glade.h:20
 msgid "days"
 msgstr "дана"
 
@@ -3816,7 +3821,7 @@ msgstr "%A %d %B %Y"
 #. You can change the order but don't change the
 #. specifiers or add anything.
 #: calendar/gui/calendar-commands.c:434 calendar/gui/e-day-view-top-item.c:692
-#: calendar/gui/e-day-view.c:1367 calendar/gui/e-week-view-main-item.c:329
+#: calendar/gui/e-day-view.c:1589 calendar/gui/e-week-view-main-item.c:329
 msgid "%a %d %b"
 msgstr "%a %d %b"
 
@@ -3952,16 +3957,16 @@ msgstr "Забрањен приступ календару"
 msgid "open_client(): %s"
 msgstr "open_client(): %s"
 
-#: calendar/gui/control-factory.c:140
+#: calendar/gui/control-factory.c:142
 #, c-format
 msgid "Could not open the folder in '%s'"
 msgstr "Нисам могао да отворим директоријум у '%s"
 
-#: calendar/gui/control-factory.c:190
+#: calendar/gui/control-factory.c:192
 msgid "The URI that the calendar will display"
 msgstr "URI коју ће календар показати"
 
-#: calendar/gui/control-factory.c:197
+#: calendar/gui/control-factory.c:199
 msgid "The type of view to show"
 msgstr "Тип погледа за приказ"
 
@@ -4026,12 +4031,12 @@ msgid "extra times every"
 msgstr "покажи још на сваких"
 
 # bug: plural-forms
-#: calendar/gui/dialogs/alarm-options.glade.h:13 filter/filter.glade.h:18
+#: calendar/gui/dialogs/alarm-options.glade.h:13 filter/filter.glade.h:21
 msgid "hours"
 msgstr "сати"
 
 # bug: plural-forms
-#: calendar/gui/dialogs/alarm-options.glade.h:14 filter/filter.glade.h:19
+#: calendar/gui/dialogs/alarm-options.glade.h:14 filter/filter.glade.h:22
 msgid "minutes"
 msgstr "минута"
 
@@ -4054,11 +4059,11 @@ msgstr "Основе"
 msgid "Date/Time:"
 msgstr "Датум/Време:"
 
-#: calendar/gui/dialogs/alarm-page.glade.h:4 calendar/gui/e-alarm-list.c:463
+#: calendar/gui/dialogs/alarm-page.glade.h:4 calendar/gui/e-alarm-list.c:448
 msgid "Display a message"
 msgstr "Покажи поруку"
 
-#: calendar/gui/dialogs/alarm-page.glade.h:5 calendar/gui/e-alarm-list.c:459
+#: calendar/gui/dialogs/alarm-page.glade.h:5 calendar/gui/e-alarm-list.c:444
 msgid "Play a sound"
 msgstr "Пусти звук"
 
@@ -4066,17 +4071,17 @@ msgstr "Пусти звук"
 msgid "Reminders"
 msgstr "Подсетници"
 
-#: calendar/gui/dialogs/alarm-page.glade.h:7 calendar/gui/e-alarm-list.c:471
+#: calendar/gui/dialogs/alarm-page.glade.h:7 calendar/gui/e-alarm-list.c:456
 msgid "Run a program"
 msgstr "Покрени програм"
 
-#: calendar/gui/dialogs/alarm-page.glade.h:8 calendar/gui/e-alarm-list.c:467
+#: calendar/gui/dialogs/alarm-page.glade.h:8 calendar/gui/e-alarm-list.c:452
 msgid "Send an email"
 msgstr "Пошаљи електронску поруку"
 
 #: calendar/gui/dialogs/alarm-page.glade.h:9
 #: calendar/gui/dialogs/recurrence-page.glade.h:8
-#: calendar/gui/e-itip-control.c:938 calendar/gui/e-itip-control.glade.h:11
+#: calendar/gui/e-itip-control.c:921 calendar/gui/e-itip-control.glade.h:11
 #: calendar/gui/e-tasks.c:164
 msgid "Summary:"
 msgstr "Закључак:"
@@ -4106,7 +4111,7 @@ msgstr "крај заказаног састанка"
 msgid "hour(s)"
 msgstr "сат(а)"
 
-# bug:plural-forms
+# bug: plural-forms
 #: calendar/gui/dialogs/alarm-page.glade.h:16
 #: calendar/gui/dialogs/calendar-setup.glade.h:40 mail/mail-config.glade.h:182
 msgid "minute(s)"
@@ -4118,7 +4123,7 @@ msgstr "почетак заказаног састанка"
 
 #. FIXME: This routine should just be a "toggled" event handler on the checkbox cell renderer which
 #. has "activatable" set.
-#: calendar/gui/dialogs/cal-prefs-dialog.c:415 mail/em-account-prefs.c:487
+#: calendar/gui/dialogs/cal-prefs-dialog.c:415 mail/em-account-prefs.c:493
 #: mail/em-composer-prefs.c:712 mail/em-composer-prefs.c:876
 msgid "Enabled"
 msgstr "Омогућено"
@@ -4134,7 +4139,7 @@ msgstr "Не уклањај"
 #: calendar/gui/dialogs/cal-prefs-dialog.c:710
 #: calendar/gui/dialogs/cal-prefs-dialog.c:742
 #: calendar/gui/dialogs/cal-prefs-dialog.c:773 mail/em-account-prefs.c:315
-#: mail/em-account-prefs.c:356 mail/em-account-prefs.c:397
+#: mail/em-account-prefs.c:356 mail/em-account-prefs.c:399
 #: mail/em-composer-prefs.c:679 mail/em-composer-prefs.c:697
 #: mail/em-composer-prefs.c:721
 msgid "Disable"
@@ -4143,7 +4148,7 @@ msgstr "Онемогући"
 #: calendar/gui/dialogs/cal-prefs-dialog.c:710
 #: calendar/gui/dialogs/cal-prefs-dialog.c:742
 #: calendar/gui/dialogs/cal-prefs-dialog.c:775 mail/em-account-prefs.c:315
-#: mail/em-account-prefs.c:356 mail/em-account-prefs.c:399
+#: mail/em-account-prefs.c:356 mail/em-account-prefs.c:401
 #: mail/em-composer-prefs.c:679 mail/em-composer-prefs.c:697
 #: mail/em-composer-prefs.c:721
 msgid "Enable"
@@ -4591,28 +4596,28 @@ msgstr "%s Унели сте измене. Да их заборавим и ос�
 msgid "%s  You have made no changes, update the editor?"
 msgstr "%s Нисте унели измене, да освежим променама уредник?"
 
-#: calendar/gui/dialogs/comp-editor-page.c:441
+#: calendar/gui/dialogs/comp-editor-page.c:440
 #, c-format
 msgid "Validation error: %s"
 msgstr "Грешка при провери: %s"
 
-#: calendar/gui/dialogs/comp-editor-util.c:187 calendar/gui/print.c:2259
+#: calendar/gui/dialogs/comp-editor-util.c:187 calendar/gui/print.c:2258
 msgid " to "
 msgstr " за "
 
-#: calendar/gui/dialogs/comp-editor-util.c:191 calendar/gui/print.c:2263
+#: calendar/gui/dialogs/comp-editor-util.c:191 calendar/gui/print.c:2262
 msgid " (Completed "
 msgstr " (Завршено "
 
-#: calendar/gui/dialogs/comp-editor-util.c:193 calendar/gui/print.c:2265
+#: calendar/gui/dialogs/comp-editor-util.c:193 calendar/gui/print.c:2264
 msgid "Completed "
 msgstr "Завршено "
 
-#: calendar/gui/dialogs/comp-editor-util.c:198 calendar/gui/print.c:2270
+#: calendar/gui/dialogs/comp-editor-util.c:198 calendar/gui/print.c:2269
 msgid " (Due "
 msgstr " (До "
 
-#: calendar/gui/dialogs/comp-editor-util.c:200 calendar/gui/print.c:2272
+#: calendar/gui/dialogs/comp-editor-util.c:200 calendar/gui/print.c:2271
 msgid "Due "
 msgstr "До "
 
@@ -4648,7 +4653,7 @@ msgstr "Унос у дневник - %s"
 msgid "No summary"
 msgstr "Нема сажетка"
 
-#: calendar/gui/dialogs/comp-editor.c:1360 calendar/gui/e-cal-view.c:1083
+#: calendar/gui/dialogs/comp-editor.c:1360 calendar/gui/e-calendar-view.c:1057
 #: calendar/gui/e-calendar-table.c:1190 composer/e-msg-composer.c:1146
 msgid "Save as..."
 msgstr "Сачувај као..."
@@ -4665,30 +4670,17 @@ msgstr ""
 msgid "Unable to use current version!"
 msgstr "Не могу да користим текућу верзију!"
 
-#: calendar/gui/dialogs/copy-source-dialog.c:83
+#: calendar/gui/dialogs/copy-source-dialog.c:57
 msgid "Could not open source"
 msgstr "Не могу да отворим извор"
 
-#: calendar/gui/dialogs/copy-source-dialog.c:91
+#: calendar/gui/dialogs/copy-source-dialog.c:65
 msgid "Could not open destination"
 msgstr "Не могу да отворим одредиште"
 
-#: calendar/gui/dialogs/copy-source-dialog.c:100
+#: calendar/gui/dialogs/copy-source-dialog.c:74
 msgid "Destination is read only"
 msgstr "Одредиште се може само читати"
-
-#: calendar/gui/dialogs/copy-source-dialog.c:165
-#, c-format
-msgid "Select destination %s"
-msgstr "Изаберите одредиште %s"
-
-#: calendar/gui/dialogs/copy-source-dialog.c:167
-msgid "calendar"
-msgstr "календар"
-
-#: calendar/gui/dialogs/copy-source-dialog.c:167
-msgid "task list"
-msgstr "списак задужења"
 
 #: calendar/gui/dialogs/delete-comp.c:95
 #, c-format
@@ -4717,23 +4709,29 @@ msgstr "Сигурно желите да избришете унос у днев
 msgid "Are you sure want to delete this untitled journal entry?"
 msgstr "Сигурно желите да избришете ован неименовани унос у дневник?"
 
-# bug: plural-forms
 #: calendar/gui/dialogs/delete-comp.c:131
 #, c-format
-msgid "Are you sure you want to delete %d appointments?"
-msgstr "Сигурно желите да избришете %d заказаних састанака?"
+msgid "Are you sure you want to delete %d appointment?"
+msgid_plural "Are you sure you want to delete %d appointments?"
+msgstr[0] "Сигурно желите да избришете %d заказани састанак?"
+msgstr[1] "Сигурно желите да избришете %d заказана састанка?"
+msgstr[2] "Сигурно желите да избришете %d заказаних састанака?"
 
-# bug: plural-forms
-#: calendar/gui/dialogs/delete-comp.c:136
+#: calendar/gui/dialogs/delete-comp.c:138
 #, c-format
-msgid "Are you sure you want to delete %d tasks?"
-msgstr "Сигурно желите да избришете %d задужења"
+msgid "Are you sure you want to delete %d task?"
+msgid_plural "Are you sure you want to delete %d tasks?"
+msgstr[0] "Сигурно желите да избришете %d задужење"
+msgstr[1] "Сигурно желите да избришете %d задужења"
+msgstr[2] "Сигурно желите да избришете %d задужења"
 
-# bug: plural-forms
-#: calendar/gui/dialogs/delete-comp.c:141
+#: calendar/gui/dialogs/delete-comp.c:145
 #, c-format
-msgid "Are you sure you want to delete %d journal entries?"
-msgstr "Сигурно желите да избришете %d уноса у дневник?"
+msgid "Are you sure you want to delete %d journal entry?"
+msgid_plural "Are you sure you want to delete %d journal entries?"
+msgstr[0] "Сигурно желите да избришете %d унос у дневник?"
+msgstr[1] "Сигурно желите да избришете %d уноса у дневник?"
+msgstr[2] "Сигурно желите да избришете %d уноса у дневник?"
 
 #: calendar/gui/dialogs/delete-error.c:52
 msgid "The event could not be deleted due to a corba error"
@@ -4795,7 +4793,7 @@ msgstr "Делегирај за:"
 msgid "Enter Delegate"
 msgstr "Унеси делегата"
 
-#: calendar/gui/dialogs/event-editor.c:200 calendar/gui/print.c:2296
+#: calendar/gui/dialogs/event-editor.c:200 calendar/gui/print.c:2295
 msgid "Appointment"
 msgstr "Заказани састанак"
 
@@ -4925,8 +4923,8 @@ msgstr "_Почетно време:"
 #: calendar/gui/dialogs/meeting-page.c:311
 #: calendar/gui/dialogs/meeting-page.glade.h:3
 #: calendar/gui/e-cal-model-tasks.c:591 composer/e-msg-composer.c:2084
-#: mail/em-account-prefs.c:448 mail/em-folder-view.c:774
-#: mail/mail-account-gui.c:1258 mail/mail-account-gui.c:1782
+#: mail/em-account-prefs.c:454 mail/em-folder-view.c:774
+#: mail/mail-account-gui.c:1310 mail/mail-account-gui.c:1838
 #: mail/mail-config.glade.h:80
 #: widgets/e-timezone-dialog/e-timezone-dialog.c:193
 #: widgets/misc/e-cell-date-edit.c:257 widgets/misc/e-dateedit.c:443
@@ -4987,7 +4985,7 @@ msgid "Member"
 msgstr "Члан"
 
 #: calendar/gui/dialogs/meeting-page.etspec.h:8
-#: calendar/gui/e-itip-control.c:1065 calendar/gui/e-meeting-list-view.c:263
+#: calendar/gui/e-itip-control.c:1048 calendar/gui/e-meeting-list-view.c:263
 #: calendar/gui/e-meeting-time-sel.etspec.h:8
 msgid "RSVP"
 msgstr "RSVP"
@@ -5246,7 +5244,7 @@ msgstr "% _готово"
 #: calendar/gui/e-cal-model-tasks.c:323 calendar/gui/e-cal-model-tasks.c:597
 #: calendar/gui/e-calendar-table.c:466 calendar/gui/e-meeting-store.c:187
 #: calendar/gui/e-meeting-store.c:210 calendar/gui/e-tasks.c:206
-#: calendar/gui/print.c:2347
+#: calendar/gui/print.c:2346
 msgid "Completed"
 msgstr "Готово"
 
@@ -5259,7 +5257,7 @@ msgstr "Висок"
 #: calendar/gui/dialogs/task-details-page.glade.h:6
 #: calendar/gui/e-cal-model-tasks.c:321 calendar/gui/e-cal-model-tasks.c:595
 #: calendar/gui/e-cal-model-tasks.c:657 calendar/gui/e-calendar-table.c:465
-#: calendar/gui/e-tasks.c:203 calendar/gui/print.c:2344
+#: calendar/gui/e-tasks.c:203 calendar/gui/print.c:2343
 msgid "In Progress"
 msgstr "У току"
 
@@ -5270,7 +5268,7 @@ msgid "Low"
 msgstr "Низак"
 
 #: calendar/gui/dialogs/task-details-page.glade.h:8
-#: calendar/gui/e-cal-model.c:835 calendar/gui/e-calendar-table.c:392
+#: calendar/gui/e-cal-model.c:864 calendar/gui/e-calendar-table.c:392
 #: calendar/gui/e-tasks.c:229 mail/message-list.c:938
 msgid "Normal"
 msgstr "Обичан"
@@ -5278,7 +5276,7 @@ msgstr "Обичан"
 #: calendar/gui/dialogs/task-details-page.glade.h:9
 #: calendar/gui/e-cal-model-tasks.c:319 calendar/gui/e-cal-model-tasks.c:593
 #: calendar/gui/e-calendar-table.c:464 calendar/gui/e-tasks.c:213
-#: calendar/gui/print.c:2341
+#: calendar/gui/print.c:2340
 msgid "Not Started"
 msgstr "Није покренут"
 
@@ -5292,7 +5290,7 @@ msgid "Undefined"
 msgstr "Недефинисано"
 
 #: calendar/gui/dialogs/task-details-page.glade.h:12
-msgid "_Date Completed:"
+msgid "_Date completed:"
 msgstr "_Датум завршетка:"
 
 #: calendar/gui/dialogs/task-details-page.glade.h:13
@@ -5335,7 +5333,7 @@ msgstr "Не могу да отворим задужења у „%s“."
 msgid "Con_fidential"
 msgstr "Пов_ерљиво"
 
-#: calendar/gui/dialogs/task-page.glade.h:6 calendar/gui/e-itip-control.c:993
+#: calendar/gui/dialogs/task-page.glade.h:6 calendar/gui/e-itip-control.c:976
 #: calendar/gui/e-itip-control.glade.h:6 calendar/gui/e-tasks.c:243
 #: composer/e-msg-composer-attachment.glade.h:3 mail/mail-config.glade.h:45
 msgid "Description:"
@@ -5346,12 +5344,12 @@ msgid "Folder:"
 msgstr "Директоријум:"
 
 #: calendar/gui/dialogs/task-page.glade.h:10
-msgid "Sta_rt Date:"
+msgid "Sta_rt date:"
 msgstr "Датум п_очетка:"
 
 #: calendar/gui/dialogs/task-page.glade.h:12
-msgid "_Due Date:"
-msgstr "Датум з_авршетка:"
+msgid "_Due date:"
+msgstr "Датум _рока:"
 
 #: calendar/gui/dialogs/url-editor-dialog.glade.h:2
 msgid "Authentication Credentials for HTTP Server"
@@ -5401,116 +5399,101 @@ msgstr "Корисник објављује"
 msgid "Weekly"
 msgstr "Недељно"
 
-# bug: plural-forms
 #: calendar/gui/e-alarm-list.c:395
 #, c-format
-msgid "%d days"
-msgstr "%d дана"
+msgid "%d day"
+msgid_plural "%d days"
+msgstr[0] "%d дан"
+msgstr[1] "%d дана"
+msgstr[2] "%d дана"
 
-# bug: plural-forms
-#: calendar/gui/e-alarm-list.c:398
-msgid "1 day"
-msgstr "1 дан"
-
-# bug: plural-forms
-#: calendar/gui/e-alarm-list.c:403
+#: calendar/gui/e-alarm-list.c:400
 #, c-format
-msgid "%d weeks"
-msgstr "%d недеља"
+msgid "%d week"
+msgid_plural "%d weeks"
+msgstr[0] "%d недеља"
+msgstr[1] "%d недеље"
+msgstr[2] "%d недеља"
 
-# bug: plural-forms
-#: calendar/gui/e-alarm-list.c:406
-msgid "1 week"
-msgstr "1 недеља"
-
-# bug: plural-forms
-#: calendar/gui/e-alarm-list.c:411
+#: calendar/gui/e-alarm-list.c:405
 #, c-format
-msgid "%d hours"
-msgstr "%d сати"
+msgid "%d hour"
+msgid_plural "%d hours"
+msgstr[0] "%d сат"
+msgstr[1] "%d сата"
+msgstr[2] "%d сати"
 
-# bug: plural-forms
-#: calendar/gui/e-alarm-list.c:414
-msgid "1 hour"
-msgstr "1 сат"
-
-# bug: plural-forms
-#: calendar/gui/e-alarm-list.c:419
+#: calendar/gui/e-alarm-list.c:410
 #, c-format
-msgid "%d minutes"
-msgstr "%d минута"
+msgid "%d minute"
+msgid_plural "%d minutes"
+msgstr[0] "%d минут"
+msgstr[1] "%d минута"
+msgstr[2] "%d минута"
 
-# bug: plural-forms
-#: calendar/gui/e-alarm-list.c:422
-msgid "1 minute"
-msgstr "1 минут"
-
-# bug: plural-forms
-#: calendar/gui/e-alarm-list.c:427
+#: calendar/gui/e-alarm-list.c:415
 #, c-format
-msgid "%d seconds"
-msgstr "%d секунди"
+msgid "%d second"
+msgid_plural "%d seconds"
+msgstr[0] "%d секунда"
+msgstr[1] "%d секунде"
+msgstr[2] "%d секунди"
 
-# bug: plural-forms
-#: calendar/gui/e-alarm-list.c:430
-msgid "1 second"
-msgstr "1 секунда"
-
-#: calendar/gui/e-alarm-list.c:477
+#: calendar/gui/e-alarm-list.c:462
 msgid "Unknown action to be performed"
 msgstr "Извршиће се непозната акција"
 
-#: calendar/gui/e-alarm-list.c:489
+#: calendar/gui/e-alarm-list.c:474
 #, c-format
 msgid "%s %s before the start of the appointment"
 msgstr "%s %s пре почетка заказаног састанка"
 
-#: calendar/gui/e-alarm-list.c:492
+#: calendar/gui/e-alarm-list.c:477
 #, c-format
 msgid "%s %s after the start of the appointment"
 msgstr "%s %s након почетка заказаног састанка"
 
-#: calendar/gui/e-alarm-list.c:497
+#: calendar/gui/e-alarm-list.c:482
 #, c-format
 msgid "%s at the start of the appointment"
 msgstr "%s на почетку заказаног састанка"
 
-#: calendar/gui/e-alarm-list.c:506
+#: calendar/gui/e-alarm-list.c:491
 #, c-format
 msgid "%s %s before the end of the appointment"
 msgstr "%s %s пре краја заказаног састанка"
 
-#: calendar/gui/e-alarm-list.c:509
+#: calendar/gui/e-alarm-list.c:494
 #, c-format
 msgid "%s %s after the end of the appointment"
 msgstr "%s %s након завршетка заказаног састанка"
 
-#: calendar/gui/e-alarm-list.c:514
+#: calendar/gui/e-alarm-list.c:499
 #, c-format
 msgid "%s at the end of the appointment"
 msgstr "%s на крају заказаог састанка"
 
-#: calendar/gui/e-alarm-list.c:536
+#: calendar/gui/e-alarm-list.c:521
 #, c-format
 msgid "%s at %s"
 msgstr "%s на %s"
 
-#: calendar/gui/e-alarm-list.c:542
+#: calendar/gui/e-alarm-list.c:527
 #, c-format
 msgid "%s for an unknown trigger type"
 msgstr "%s за непознат тип покретача"
 
-#: calendar/gui/e-cal-list-view.c:264 calendar/gui/e-cal-model.c:283
-#: calendar/gui/e-cal-model.c:290 calendar/gui/e-calendar-table.c:369
+#: calendar/gui/e-cal-list-view.c:264 calendar/gui/e-cal-model.c:312
+#: calendar/gui/e-cal-model.c:319 calendar/gui/e-calendar-table.c:369
 msgid "Public"
 msgstr "Јавно"
 
-#: calendar/gui/e-cal-list-view.c:265 calendar/gui/e-cal-model.c:292
+#: calendar/gui/e-cal-list-view.c:265 calendar/gui/e-cal-model.c:321
 #: calendar/gui/e-calendar-table.c:370
 msgid "Private"
 msgstr "Лично"
 
-#: calendar/gui/e-cal-list-view.c:266 calendar/gui/e-cal-model.c:294
+#: calendar/gui/e-cal-list-view.c:266 calendar/gui/e-cal-model.c:323
 #: calendar/gui/e-calendar-table.c:371
 msgid "Confidential"
 msgstr "Поверљиво"
@@ -5521,7 +5504,6 @@ msgid "Description"
 msgstr "Опис"
 
 #: calendar/gui/e-cal-list-view.etspec.h:4
-#: calendar/gui/e-calendar-table.etspec.h:13
 msgid "Start Date"
 msgstr "Почетни датум"
 
@@ -5573,65 +5555,65 @@ msgstr ""
 "\n"
 "45.436845,125.862501"
 
-#: calendar/gui/e-cal-model-tasks.c:966 calendar/gui/e-cal-model.c:841
+#: calendar/gui/e-cal-model-tasks.c:966 calendar/gui/e-cal-model.c:870
 #: calendar/gui/e-meeting-list-view.c:168 calendar/gui/e-meeting-store.c:159
 #: calendar/gui/e-meeting-store.c:169 calendar/gui/e-meeting-store.c:765
 msgid "Yes"
 msgstr "Да"
 
-#: calendar/gui/e-cal-model-tasks.c:966 calendar/gui/e-cal-model.c:841
+#: calendar/gui/e-cal-model-tasks.c:966 calendar/gui/e-cal-model.c:870
 #: calendar/gui/e-meeting-list-view.c:169 calendar/gui/e-meeting-store.c:171
 msgid "No"
 msgstr "Не"
 
 #. This is the default filename used for temporary file creation
-#: calendar/gui/e-cal-model.c:296 calendar/gui/e-cal-model.c:299
-#: calendar/gui/e-itip-control.c:978 calendar/gui/e-itip-control.c:1180
+#: calendar/gui/e-cal-model.c:325 calendar/gui/e-cal-model.c:328
+#: calendar/gui/e-itip-control.c:961 calendar/gui/e-itip-control.c:1163
 #: calendar/gui/e-meeting-list-view.c:144
 #: calendar/gui/e-meeting-list-view.c:158 calendar/gui/e-meeting-store.c:115
 #: calendar/gui/e-meeting-store.c:150 calendar/gui/e-meeting-store.c:215
 #: camel/camel-gpg-context.c:1665 camel/camel-gpg-context.c:1716
 #: camel/camel-tcp-stream-openssl.c:631
 #: camel/providers/smtp/camel-smtp-transport.c:172
-#: camel/providers/smtp/camel-smtp-transport.c:227 mail/em-utils.c:2112
+#: camel/providers/smtp/camel-smtp-transport.c:227 mail/em-utils.c:2130
 #: shell/e-component-registry.c:168 widgets/misc/e-charset-picker.c:60
 msgid "Unknown"
 msgstr "Непознато"
 
-#: calendar/gui/e-cal-model.c:837
+#: calendar/gui/e-cal-model.c:866
 msgid "Recurring"
 msgstr "Повратно"
 
-#: calendar/gui/e-cal-model.c:839
+#: calendar/gui/e-cal-model.c:868
 msgid "Assigned"
 msgstr "Додељено"
 
-#: calendar/gui/e-cal-view.c:719 calendar/gui/e-calendar-table.c:698
+#: calendar/gui/e-calendar-view.c:677 calendar/gui/e-calendar-table.c:698
 msgid "Deleting selected objects"
 msgstr "Бришем изабране објекте"
 
-#: calendar/gui/e-cal-view.c:820 calendar/gui/e-calendar-table.c:861
+#: calendar/gui/e-calendar-view.c:778 calendar/gui/e-calendar-table.c:861
 msgid "Updating objects"
 msgstr "Уносим промене у објекте"
 
-#: calendar/gui/e-cal-view.c:1254 calendar/gui/e-cal-view.c:1339
+#: calendar/gui/e-calendar-view.c:1284 calendar/gui/e-calendar-view.c:1371
 msgid "New _Appointment..."
 msgstr "Нов заказан _састанак..."
 
-#: calendar/gui/e-cal-view.c:1255 calendar/gui/e-cal-view.c:1341
+#: calendar/gui/e-calendar-view.c:1285 calendar/gui/e-calendar-view.c:1373
 msgid "New All Day _Event"
 msgstr "Нов целодневни _догађај"
 
-#: calendar/gui/e-cal-view.c:1256 calendar/gui/e-cal-view.c:1343
+#: calendar/gui/e-calendar-view.c:1286 calendar/gui/e-calendar-view.c:1375
 msgid "New Meeting"
 msgstr "Нови састанак"
 
-#: calendar/gui/e-cal-view.c:1257 calendar/gui/e-cal-view.c:1345
+#: calendar/gui/e-calendar-view.c:1287 calendar/gui/e-calendar-view.c:1377
 msgid "New Task"
 msgstr "Ново задужење"
 
-#: calendar/gui/e-cal-view.c:1261 calendar/gui/e-cal-view.c:1284
-#: calendar/gui/e-cal-view.c:1351 calendar/gui/e-calendar-table.c:1040
+#: calendar/gui/e-calendar-view.c:1291 calendar/gui/e-calendar-view.c:1314
+#: calendar/gui/e-calendar-view.c:1383 calendar/gui/e-calendar-table.c:1040
 #: calendar/gui/e-calendar-table.c:1082 ui/evolution-addressbook.xml.h:40
 #: ui/evolution-calendar.xml.h:39 ui/evolution-comp-editor.xml.h:19
 #: ui/evolution-contact-editor.xml.h:17 ui/evolution-mail-message.xml.h:124
@@ -5639,72 +5621,80 @@ msgstr "Ново задужење"
 msgid "_Print..."
 msgstr "Штам_пај..."
 
-#: calendar/gui/e-cal-view.c:1265 calendar/gui/e-cal-view.c:1291
-#: calendar/gui/e-cal-view.c:1349 calendar/gui/e-calendar-table.c:1046
+#: calendar/gui/e-calendar-view.c:1295 calendar/gui/e-calendar-view.c:1321
+#: calendar/gui/e-calendar-view.c:1381 calendar/gui/e-calendar-table.c:1046
 #: calendar/gui/e-calendar-table.c:1080 ui/evolution-addressbook.xml.h:38
 #: ui/evolution-calendar.xml.h:38 ui/evolution-composer-entries.xml.h:9
 #: ui/evolution-mail-message.xml.h:122 ui/evolution-tasks.xml.h:22
 msgid "_Paste"
 msgstr "Умет_ни"
 
-#: calendar/gui/e-cal-view.c:1271 calendar/gui/e-cal-view.c:1335
+#: calendar/gui/e-calendar-view.c:1301 calendar/gui/e-calendar-view.c:1367
 #: ui/evolution-calendar.xml.h:13
 msgid "Go to _Today"
 msgstr "Иди на _данас"
 
-#: calendar/gui/e-cal-view.c:1272 calendar/gui/e-cal-view.c:1337
+#: calendar/gui/e-calendar-view.c:1302 calendar/gui/e-calendar-view.c:1369
 msgid "_Go to Date..."
 msgstr "_Иди на датум..."
 
-#: calendar/gui/e-cal-view.c:1276 ui/evolution-calendar.xml.h:40
+#: calendar/gui/e-calendar-view.c:1306 ui/evolution-calendar.xml.h:40
 msgid "_Publish Free/Busy Information"
 msgstr "_Објави слободан/заузет информацију"
 
-#: calendar/gui/e-cal-view.c:1282 calendar/gui/e-cal-view.c:1347
+#: calendar/gui/e-calendar-view.c:1312 calendar/gui/e-calendar-view.c:1379
 #: calendar/gui/e-calendar-table.c:1037 calendar/gui/e-calendar-table.c:1078
 #: mail/em-folder-view.c:740 ui/evolution-addressbook.xml.h:37
 msgid "_Open"
 msgstr "_Отвори"
 
-#: calendar/gui/e-cal-view.c:1283 calendar/gui/e-cal-view.c:1353
+#: calendar/gui/e-calendar-view.c:1313 calendar/gui/e-calendar-view.c:1385
 #: calendar/gui/e-calendar-table.c:1039 calendar/gui/e-calendar-table.c:1084
 #: mail/em-folder-view.c:742 mail/em-popup.c:689 mail/em-popup.c:804
 #: ui/evolution-mail-message.xml.h:128
 msgid "_Save As..."
 msgstr "_Сачувај као..."
 
-#: calendar/gui/e-cal-view.c:1289 calendar/gui/e-cal-view.c:1329
+#: calendar/gui/e-calendar-view.c:1319 calendar/gui/e-calendar-view.c:1361
 #: calendar/gui/e-calendar-table.c:1044 calendar/gui/e-calendar-table.c:1073
 #: ui/evolution-addressbook.xml.h:1 ui/evolution-calendar.xml.h:1
 #: ui/evolution-tasks.xml.h:1
 msgid "C_ut"
 msgstr "_Исеци"
 
-#: calendar/gui/e-cal-view.c:1290 calendar/gui/e-cal-view.c:1327
+#: calendar/gui/e-calendar-view.c:1320 calendar/gui/e-calendar-view.c:1359
 #: calendar/gui/e-calendar-table.c:1045 calendar/gui/e-calendar-table.c:1071
-#: mail/em-folder-tree.c:2381 ui/evolution-addressbook.xml.h:31
+#: mail/em-folder-tree.c:2497 ui/evolution-addressbook.xml.h:31
 #: ui/evolution-calendar.xml.h:34 ui/evolution-composer-entries.xml.h:7
 #: ui/evolution-mail-message.xml.h:109 ui/evolution-tasks.xml.h:18
 msgid "_Copy"
 msgstr "_Копирај"
 
-#: calendar/gui/e-cal-view.c:1295
+#: calendar/gui/e-calendar-view.c:1325
+msgid "Cop_y to Calendar..."
+msgstr "Коп_ирај у календар..."
+
+#: calendar/gui/e-calendar-view.c:1326
+msgid "Mo_ve to Calendar..."
+msgstr "Прене_си у календар..."
+
+#: calendar/gui/e-calendar-view.c:1327
 msgid "_Schedule Meeting..."
 msgstr "_Закажи састанак..."
 
-#: calendar/gui/e-cal-view.c:1296
+#: calendar/gui/e-calendar-view.c:1328
 msgid "_Forward as iCalendar..."
 msgstr "_Проследи као iCalendar..."
 
-#: calendar/gui/e-cal-view.c:1301 calendar/gui/e-cal-view.c:1332
+#: calendar/gui/e-calendar-view.c:1333 calendar/gui/e-calendar-view.c:1364
 msgid "Delete this _Occurrence"
 msgstr "Обриши ову _појаву"
 
-#: calendar/gui/e-cal-view.c:1302 calendar/gui/e-cal-view.c:1333
+#: calendar/gui/e-calendar-view.c:1334 calendar/gui/e-calendar-view.c:1365
 msgid "Delete _All Occurrences"
 msgstr "Обриши _све појаве"
 
-#: calendar/gui/e-cal-view.c:1355 ui/evolution.xml.h:33
+#: calendar/gui/e-calendar-view.c:1387 ui/evolution.xml.h:33
 msgid "_Settings..."
 msgstr "_Подешавања..."
 
@@ -5796,20 +5786,24 @@ msgid "Complete"
 msgstr "Завршено"
 
 #: calendar/gui/e-calendar-table.etspec.h:8
-msgid "Completion Date"
+msgid "Completion date"
 msgstr "Датум завршетка"
 
 #: calendar/gui/e-calendar-table.etspec.h:10
-msgid "Due Date"
-msgstr "Датум за завршетак"
+msgid "Due date"
+msgstr "Датум рока"
 
 #: calendar/gui/e-calendar-table.etspec.h:11
-msgid "Geographical Position"
-msgstr "Географско место"
+msgid "Geographical position"
+msgstr "Географски положај"
 
 #: calendar/gui/e-calendar-table.etspec.h:12
 msgid "Priority"
 msgstr "Приоритет"
+
+#: calendar/gui/e-calendar-table.etspec.h:13
+msgid "Start date"
+msgstr "Почетни датум"
 
 #: calendar/gui/e-calendar-table.etspec.h:16
 msgid "Task sort"
@@ -5861,7 +5855,7 @@ msgstr "%02i минутни размаци"
 #. month, %B = full month name. You can change the
 #. order but don't change the specifiers or add
 #. anything.
-#: calendar/gui/e-day-view-top-item.c:688 calendar/gui/e-day-view.c:1350
+#: calendar/gui/e-day-view-top-item.c:688 calendar/gui/e-day-view.c:1572
 #: calendar/gui/e-week-view-main-item.c:320 calendar/gui/print.c:1514
 msgid "%A %d %B"
 msgstr "%A %d %B"
@@ -5871,19 +5865,19 @@ msgstr "%A %d %B"
 #. strftime format %d = day of month, %b = abbreviated
 #. month name. You can change the order but don't
 #. change the specifiers or add anything.
-#: calendar/gui/e-day-view-top-item.c:696 calendar/gui/e-day-view.c:1383
+#: calendar/gui/e-day-view-top-item.c:696 calendar/gui/e-day-view.c:1605
 #: calendar/gui/e-week-view-main-item.c:343
 msgid "%d %b"
 msgstr "%d %b"
 
 #. String to use in 12-hour time format for times in the morning.
-#: calendar/gui/e-day-view.c:604 calendar/gui/e-week-view.c:334
+#: calendar/gui/e-day-view.c:822 calendar/gui/e-week-view.c:593
 #: calendar/gui/print.c:838
 msgid "am"
 msgstr "am"
 
 #. String to use in 12-hour time format for times in the afternoon.
-#: calendar/gui/e-day-view.c:607 calendar/gui/e-week-view.c:337
+#: calendar/gui/e-day-view.c:825 calendar/gui/e-week-view.c:596
 #: calendar/gui/print.c:840
 msgid "pm"
 msgstr "pm"
@@ -5892,112 +5886,107 @@ msgstr "pm"
 msgid "Yes. (Complex Recurrence)"
 msgstr "Да. (Сложени повраћај)"
 
-#: calendar/gui/e-itip-control.c:603
+#: calendar/gui/e-itip-control.c:602
+#, c-format
 msgid "Every day"
-msgstr "Сваки дан"
+msgid_plural "Every %d days"
+msgstr[0] "Сваки %d дан"
+msgstr[1] "Свака %d дана"
+msgstr[2] "Сваких %d дана"
 
-# bug: plural-forms
-#: calendar/gui/e-itip-control.c:605
+#: calendar/gui/e-itip-control.c:607
 #, c-format
-msgid "Every %d days"
-msgstr "Свака %d дана"
-
-#: calendar/gui/e-itip-control.c:611
 msgid "Every week"
-msgstr "Сваке недеље"
+msgid_plural "Every %d weeks"
+msgstr[0] "Сваке %d недеље"
+msgstr[1] "Сваке %d недеље"
+msgstr[2] "Сваких %d недеља"
 
-# bug: plural-forms
-#: calendar/gui/e-itip-control.c:613
+# ово ће тешко бити 21, 31, 41, ...
+#: calendar/gui/e-itip-control.c:609
 #, c-format
-msgid "Every %d weeks"
-msgstr "Сваких %d недеља"
-
-#: calendar/gui/e-itip-control.c:616
 msgid "Every week on "
-msgstr "Сваке недеље у "
+msgid_plural "Every %d weeks on "
+msgstr[0] "Сваке недеље у "
+msgstr[1] "Сваке %d недеље у "
+msgstr[2] "Сваких %d недеља у "
 
-# bug: plural-forms
-#: calendar/gui/e-itip-control.c:618
-#, c-format
-msgid "Every %d weeks on "
-msgstr "Сваких %d недеља у "
-
-#: calendar/gui/e-itip-control.c:626
+#: calendar/gui/e-itip-control.c:617
 msgid " and "
 msgstr " и "
 
-#: calendar/gui/e-itip-control.c:633
+#: calendar/gui/e-itip-control.c:624
 #, c-format
 msgid "The %s day of "
 msgstr "%s дан "
 
-#: calendar/gui/e-itip-control.c:646
+#: calendar/gui/e-itip-control.c:637
 #, c-format
 msgid "The %s %s of "
 msgstr "%s %s "
 
-#: calendar/gui/e-itip-control.c:651
+# слично као за недеље
+#: calendar/gui/e-itip-control.c:644
+#, c-format
 msgid "every month"
-msgstr "сваки месец"
+msgid_plural "every %d months"
+msgstr[0] "сваки месец"
+msgstr[1] "свака %d месеца"
+msgstr[2] "сваких %d месеци"
 
-# bug: plural-forms
-#: calendar/gui/e-itip-control.c:656
+# слично као за месеце и недеље
+#: calendar/gui/e-itip-control.c:648
 #, c-format
-msgid "every %d months"
-msgstr "сваких %d месеци"
-
-#: calendar/gui/e-itip-control.c:662
 msgid "Every year"
-msgstr "Сваке године"
+msgid_plural "Every %d years"
+msgstr[0] "Сваке године"
+msgstr[1] "Сваке %d године"
+msgstr[2] "Сваких %d година"
 
-# bug: plural-forms
-#: calendar/gui/e-itip-control.c:664
+#: calendar/gui/e-itip-control.c:659
 #, c-format
-msgid "Every %d years"
-msgstr "Сваких %d година"
+msgid "a total of %d time"
+msgid_plural " a total of %d times"
+msgstr[0] "укупно %d пут"
+msgstr[1] "укупно %d пута"
+msgstr[2] "укупно %d пута"
 
-# bug: plural-forms
-#: calendar/gui/e-itip-control.c:676
-#, c-format
-msgid " a total of %d times"
-msgstr "укупно %d пута"
-
-#: calendar/gui/e-itip-control.c:685
+#: calendar/gui/e-itip-control.c:668
 msgid ", ending on "
 msgstr ", завршавајући се "
 
-#: calendar/gui/e-itip-control.c:709
+#: calendar/gui/e-itip-control.c:692
 msgid "<b>Starts:</b> "
 msgstr "<b>Почетак:</b> "
 
-#: calendar/gui/e-itip-control.c:719
+#: calendar/gui/e-itip-control.c:702
 msgid "<b>Ends:</b> "
 msgstr "<b>Крај:</b> "
 
-#: calendar/gui/e-itip-control.c:739
+#: calendar/gui/e-itip-control.c:722
 msgid "<b>Completed:</b> "
 msgstr "<b>Завршетак:</b> "
 
-#: calendar/gui/e-itip-control.c:749
+#: calendar/gui/e-itip-control.c:732
 msgid "<b>Due:</b> "
 msgstr "<b>До:</b> "
 
-#: calendar/gui/e-itip-control.c:786 calendar/gui/e-itip-control.c:839
+#: calendar/gui/e-itip-control.c:769 calendar/gui/e-itip-control.c:822
 msgid "iCalendar Information"
 msgstr "iCalendar информација"
 
 #. Title
-#: calendar/gui/e-itip-control.c:801
+#: calendar/gui/e-itip-control.c:784
 msgid "iCalendar Error"
 msgstr "iCalendar грешка"
 
-#: calendar/gui/e-itip-control.c:870 calendar/gui/e-itip-control.c:886
-#: calendar/gui/e-itip-control.c:897 calendar/gui/e-itip-control.c:914
+#: calendar/gui/e-itip-control.c:853 calendar/gui/e-itip-control.c:869
+#: calendar/gui/e-itip-control.c:880 calendar/gui/e-itip-control.c:897
 msgid "An unknown person"
 msgstr "Непозната особа"
 
 #. Describe what the user can do
-#: calendar/gui/e-itip-control.c:921
+#: calendar/gui/e-itip-control.c:904
 msgid ""
 "<br> Please review the following information, and then select an action from "
 "the menu below."
@@ -6005,314 +5994,314 @@ msgstr ""
 "<br> Молим проверите следећу информацију, и потом одаберите акцију из доњег "
 "менија."
 
-#: calendar/gui/e-itip-control.c:936
+#: calendar/gui/e-itip-control.c:919
 msgid "<i>None</i>"
 msgstr "<i>Ништа</i>"
 
-#: calendar/gui/e-itip-control.c:947
+#: calendar/gui/e-itip-control.c:930
 msgid "Location:"
 msgstr "Место:"
 
 #. write status
-#: calendar/gui/e-itip-control.c:961 calendar/gui/e-tasks.c:199
+#: calendar/gui/e-itip-control.c:944 calendar/gui/e-tasks.c:199
 msgid "Status:"
 msgstr "Стање:"
 
-#: calendar/gui/e-itip-control.c:966 calendar/gui/e-meeting-list-view.c:180
+#: calendar/gui/e-itip-control.c:949 calendar/gui/e-meeting-list-view.c:180
 #: calendar/gui/e-meeting-store.c:179 calendar/gui/e-meeting-store.c:202
 #: calendar/gui/itip-utils.c:422
 msgid "Accepted"
 msgstr "Прихваћено"
 
-#: calendar/gui/e-itip-control.c:970 calendar/gui/itip-utils.c:425
+#: calendar/gui/e-itip-control.c:953 calendar/gui/itip-utils.c:425
 msgid "Tentatively Accepted"
 msgstr "Прихваћено с резервом"
 
-#: calendar/gui/e-itip-control.c:974 calendar/gui/e-meeting-list-view.c:181
+#: calendar/gui/e-itip-control.c:957 calendar/gui/e-meeting-list-view.c:181
 #: calendar/gui/e-meeting-store.c:181 calendar/gui/e-meeting-store.c:204
 #: calendar/gui/itip-utils.c:428 calendar/gui/itip-utils.c:454
 msgid "Declined"
 msgstr "Одбијено"
 
-#: calendar/gui/e-itip-control.c:1033 calendar/gui/e-itip-control.c:1061
-#: calendar/gui/e-itip-control.c:1087 calendar/gui/e-itip-control.c:1100
-#: calendar/gui/e-itip-control.c:1113 calendar/gui/e-itip-control.c:1126
+#: calendar/gui/e-itip-control.c:1016 calendar/gui/e-itip-control.c:1044
+#: calendar/gui/e-itip-control.c:1070 calendar/gui/e-itip-control.c:1083
+#: calendar/gui/e-itip-control.c:1096 calendar/gui/e-itip-control.c:1109
 msgid "Choose an action:"
 msgstr "Изабери акцију:"
 
-#: calendar/gui/e-itip-control.c:1034
+#: calendar/gui/e-itip-control.c:1017
 msgid "Update"
 msgstr "Ажурирај"
 
-#: calendar/gui/e-itip-control.c:1035 calendar/gui/e-itip-control.c:1066
-#: calendar/gui/e-itip-control.c:1089 calendar/gui/e-itip-control.c:1102
-#: calendar/gui/e-itip-control.c:1115 calendar/gui/e-itip-control.c:1128
+#: calendar/gui/e-itip-control.c:1018 calendar/gui/e-itip-control.c:1049
+#: calendar/gui/e-itip-control.c:1072 calendar/gui/e-itip-control.c:1085
+#: calendar/gui/e-itip-control.c:1098 calendar/gui/e-itip-control.c:1111
 #: shell/e-shell.c:1061 widgets/misc/e-cell-date-edit.c:265
 msgid "OK"
 msgstr "ОК"
 
-#: calendar/gui/e-itip-control.c:1062
+#: calendar/gui/e-itip-control.c:1045
 msgid "Accept"
 msgstr "Прихвати"
 
-#: calendar/gui/e-itip-control.c:1063
+#: calendar/gui/e-itip-control.c:1046
 msgid "Tentatively accept"
 msgstr "Прихвати са резервом"
 
-#: calendar/gui/e-itip-control.c:1064
+#: calendar/gui/e-itip-control.c:1047
 msgid "Decline"
 msgstr "Одбиј"
 
-#: calendar/gui/e-itip-control.c:1088
+#: calendar/gui/e-itip-control.c:1071
 msgid "Send Free/Busy Information"
 msgstr "Пошаљи слободан/заузет информацију"
 
-#: calendar/gui/e-itip-control.c:1101
+#: calendar/gui/e-itip-control.c:1084
 msgid "Update respondent status"
 msgstr "Ажурирај стање странке"
 
-#: calendar/gui/e-itip-control.c:1114
+#: calendar/gui/e-itip-control.c:1097
 msgid "Send Latest Information"
 msgstr "Пошаљи најновију информацију"
 
-#: calendar/gui/e-itip-control.c:1127 calendar/gui/itip-utils.c:442
+#: calendar/gui/e-itip-control.c:1110 calendar/gui/itip-utils.c:442
 #: mail/mail-send-recv.c:394 mail/mail-send-recv.c:446
 #: ui/evolution-mail-global.xml.h:1
 msgid "Cancel"
 msgstr "Одустани"
 
-#: calendar/gui/e-itip-control.c:1203
+#: calendar/gui/e-itip-control.c:1186
 #, c-format
 msgid "<b>%s</b> has published meeting information."
 msgstr "<b>%s</b> је објавио информацију о састанку."
 
-#: calendar/gui/e-itip-control.c:1204
+#: calendar/gui/e-itip-control.c:1187
 msgid "Meeting Information"
 msgstr "Информација о састанку"
 
-#: calendar/gui/e-itip-control.c:1209
+#: calendar/gui/e-itip-control.c:1192
 #, c-format
 msgid "<b>%s</b> requests the presence of %s at a meeting."
 msgstr "<b>%s</b> тражи присуство %s на састанку."
 
-#: calendar/gui/e-itip-control.c:1211
+#: calendar/gui/e-itip-control.c:1194
 #, c-format
 msgid "<b>%s</b> requests your presence at a meeting."
 msgstr "<b>%s</b> тражи Ваше присуство на састанку."
 
-#: calendar/gui/e-itip-control.c:1212
+#: calendar/gui/e-itip-control.c:1195
 msgid "Meeting Proposal"
 msgstr "Предлог за састанак"
 
-#: calendar/gui/e-itip-control.c:1216
+#: calendar/gui/e-itip-control.c:1199
 #, c-format
 msgid "<b>%s</b> wishes to add to an existing meeting."
 msgstr "<b>%s</b> жели да дода постојећем састанку"
 
-#: calendar/gui/e-itip-control.c:1217
+#: calendar/gui/e-itip-control.c:1200
 msgid "Meeting Update"
 msgstr "Промена састанка"
 
-#: calendar/gui/e-itip-control.c:1221
+#: calendar/gui/e-itip-control.c:1204
 #, c-format
 msgid "<b>%s</b> wishes to receive the latest meeting information."
 msgstr "<b>%s</b> жели да добије најновију информацију о састанку."
 
-#: calendar/gui/e-itip-control.c:1222
+#: calendar/gui/e-itip-control.c:1205
 msgid "Meeting Update Request"
 msgstr "Захтев за новим подацима о састанку"
 
-#: calendar/gui/e-itip-control.c:1229
+#: calendar/gui/e-itip-control.c:1212
 #, c-format
 msgid "<b>%s</b> has replied to a meeting request."
 msgstr "<b>%s</b> је одговорио на захтев о састанку."
 
-#: calendar/gui/e-itip-control.c:1230
+#: calendar/gui/e-itip-control.c:1213
 msgid "Meeting Reply"
 msgstr "Одговор за састанак"
 
-#: calendar/gui/e-itip-control.c:1237
+#: calendar/gui/e-itip-control.c:1220
 #, c-format
 msgid "<b>%s</b> has cancelled a meeting."
 msgstr "<b>%s</b> је отказо састанак."
 
-#: calendar/gui/e-itip-control.c:1238
+#: calendar/gui/e-itip-control.c:1221
 msgid "Meeting Cancellation"
 msgstr "Отказивање састанка"
 
-#: calendar/gui/e-itip-control.c:1245 calendar/gui/e-itip-control.c:1313
-#: calendar/gui/e-itip-control.c:1348
+#: calendar/gui/e-itip-control.c:1228 calendar/gui/e-itip-control.c:1296
+#: calendar/gui/e-itip-control.c:1331
 #, c-format
 msgid "<b>%s</b> has sent an unintelligible message."
 msgstr "<b>%s</b> је послао неразумљиву поруку."
 
-#: calendar/gui/e-itip-control.c:1246
+#: calendar/gui/e-itip-control.c:1229
 msgid "Bad Meeting Message"
 msgstr "Лоша порука о састанку"
 
-#: calendar/gui/e-itip-control.c:1271
+#: calendar/gui/e-itip-control.c:1254
 #, c-format
 msgid "<b>%s</b> has published task information."
 msgstr "<b>%s</b> је објавио информацију о задужењу."
 
-#: calendar/gui/e-itip-control.c:1272
+#: calendar/gui/e-itip-control.c:1255
 msgid "Task Information"
 msgstr "Информација о задужењу"
 
-#: calendar/gui/e-itip-control.c:1277
+#: calendar/gui/e-itip-control.c:1260
 #, c-format
 msgid "<b>%s</b> requests %s to perform a task."
 msgstr "<b>%s</b> тражи %s за обављање задужења."
 
-#: calendar/gui/e-itip-control.c:1279
+#: calendar/gui/e-itip-control.c:1262
 #, c-format
 msgid "<b>%s</b> requests you perform a task."
 msgstr "<b>%s</b> тражи да Ви извршите задужење."
 
-#: calendar/gui/e-itip-control.c:1280
+#: calendar/gui/e-itip-control.c:1263
 msgid "Task Proposal"
 msgstr "Предлог за задужење"
 
-#: calendar/gui/e-itip-control.c:1284
+#: calendar/gui/e-itip-control.c:1267
 #, c-format
 msgid "<b>%s</b> wishes to add to an existing task."
 msgstr "<b>%s</b жели да дода на постојеће задужење."
 
-#: calendar/gui/e-itip-control.c:1285
+#: calendar/gui/e-itip-control.c:1268
 msgid "Task Update"
 msgstr "Ажурирање задужења"
 
-#: calendar/gui/e-itip-control.c:1289
+#: calendar/gui/e-itip-control.c:1272
 #, c-format
 msgid "<b>%s</b> wishes to receive the latest task information."
 msgstr "<b>%s</b> жели да прими најновију информацију о задужењу."
 
-#: calendar/gui/e-itip-control.c:1290
+#: calendar/gui/e-itip-control.c:1273
 msgid "Task Update Request"
 msgstr "Захтев за променама задужења"
 
-#: calendar/gui/e-itip-control.c:1297
+#: calendar/gui/e-itip-control.c:1280
 #, c-format
 msgid "<b>%s</b> has replied to a task assignment."
 msgstr "<b>%s</b> је одговорио на додељено задужење."
 
-#: calendar/gui/e-itip-control.c:1298
+#: calendar/gui/e-itip-control.c:1281
 msgid "Task Reply"
 msgstr "Одговор на задужење"
 
-#: calendar/gui/e-itip-control.c:1305
+#: calendar/gui/e-itip-control.c:1288
 #, c-format
 msgid "<b>%s</b> has cancelled a task."
 msgstr "<b>%s</b> је отказао задужење."
 
-#: calendar/gui/e-itip-control.c:1306
+#: calendar/gui/e-itip-control.c:1289
 msgid "Task Cancellation"
 msgstr "Отказивање задужења"
 
-#: calendar/gui/e-itip-control.c:1314
+#: calendar/gui/e-itip-control.c:1297
 msgid "Bad Task Message"
 msgstr "Лоша порука о задужењу"
 
-#: calendar/gui/e-itip-control.c:1333
+#: calendar/gui/e-itip-control.c:1316
 #, c-format
 msgid "<b>%s</b> has published free/busy information."
 msgstr "<b>%s</b> је објавио слободан/заузет информацију."
 
-#: calendar/gui/e-itip-control.c:1334
+#: calendar/gui/e-itip-control.c:1317
 msgid "Free/Busy Information"
 msgstr "Слободан/заузет информација"
 
-#: calendar/gui/e-itip-control.c:1338
+#: calendar/gui/e-itip-control.c:1321
 #, c-format
 msgid "<b>%s</b> requests your free/busy information."
 msgstr "<b>%s</b> тражи Вашу слободан/заузет информацију."
 
-#: calendar/gui/e-itip-control.c:1339
+#: calendar/gui/e-itip-control.c:1322
 msgid "Free/Busy Request"
 msgstr "Слободан/заузет захтев"
 
-#: calendar/gui/e-itip-control.c:1343
+#: calendar/gui/e-itip-control.c:1326
 #, c-format
 msgid "<b>%s</b> has replied to a free/busy request."
 msgstr "<b>%s</b> је одговорио на слободан/заузет захтев."
 
-#: calendar/gui/e-itip-control.c:1344
+#: calendar/gui/e-itip-control.c:1327
 msgid "Free/Busy Reply"
 msgstr "Слободан/заузет одговор"
 
-#: calendar/gui/e-itip-control.c:1349
+#: calendar/gui/e-itip-control.c:1332
 msgid "Bad Free/Busy Message"
 msgstr "Лоша слободан/заузет порука"
 
-#: calendar/gui/e-itip-control.c:1424
+#: calendar/gui/e-itip-control.c:1407
 msgid "The message does not appear to be properly formed"
 msgstr "Порука изгледа да није исправно сачињена"
 
-#: calendar/gui/e-itip-control.c:1483
+#: calendar/gui/e-itip-control.c:1466
 msgid "The message contains only unsupported requests."
 msgstr "Порука садржи само неподржане захтеве."
 
-#: calendar/gui/e-itip-control.c:1514
+#: calendar/gui/e-itip-control.c:1497
 msgid "The attachment does not contain a valid calendar message"
 msgstr "Прилог не садржи исправну поруку за календар"
 
-#: calendar/gui/e-itip-control.c:1544
+#: calendar/gui/e-itip-control.c:1527
 msgid "The attachment has no viewable calendar items"
 msgstr "Прилог нема делове календара који се могу прегледати"
 
-#: calendar/gui/e-itip-control.c:1775
+#: calendar/gui/e-itip-control.c:1758
 msgid "Calendar file could not be updated!\n"
 msgstr "Датотека календара није могла бити ажурирана\n"
 
-#: calendar/gui/e-itip-control.c:1777
+#: calendar/gui/e-itip-control.c:1760
 msgid "Update complete\n"
 msgstr "Ажурирање завршено\n"
 
-#: calendar/gui/e-itip-control.c:1807 calendar/gui/e-itip-control.c:1879
+#: calendar/gui/e-itip-control.c:1790 calendar/gui/e-itip-control.c:1862
 msgid "Attendee status can not be updated because the item no longer exists"
 msgstr "Стање присутног не може бити ажурирано јер унос више не постоји"
 
-#: calendar/gui/e-itip-control.c:1823 calendar/gui/e-itip-control.c:1861
+#: calendar/gui/e-itip-control.c:1806 calendar/gui/e-itip-control.c:1844
 msgid "Object is invalid and cannot be updated\n"
 msgstr "Објекат је неисправан и не може бити ажуриран\n"
 
-#: calendar/gui/e-itip-control.c:1833
+#: calendar/gui/e-itip-control.c:1816
 msgid "This response is not from a current attendee.  Add as an attendee?"
 msgstr "Овај одговор није послао тренутно присутан. Да га додам у присутне?"
 
-#: calendar/gui/e-itip-control.c:1845
+#: calendar/gui/e-itip-control.c:1828
 msgid "Attendee status could not be updated because of an invalid status!\n"
 msgstr "Стање присутног није могло бити ажурирано због неисправног стања!\n"
 
-#: calendar/gui/e-itip-control.c:1864
+#: calendar/gui/e-itip-control.c:1847
 msgid "There was an error on the CORBA system\n"
 msgstr "Настала је грешка у CORBA систему\n"
 
-#: calendar/gui/e-itip-control.c:1867
+#: calendar/gui/e-itip-control.c:1850
 msgid "Object could not be found\n"
 msgstr "Објекат није могао бити пронађен\n"
 
-#: calendar/gui/e-itip-control.c:1870
+#: calendar/gui/e-itip-control.c:1853
 msgid "You don't have the right permissions to update the calendar\n"
 msgstr "Немате праве дозволе за ажурирање календара\n"
 
-#: calendar/gui/e-itip-control.c:1873
+#: calendar/gui/e-itip-control.c:1856
 msgid "Attendee status updated\n"
 msgstr "Ажурирано стање присутног\n"
 
-#: calendar/gui/e-itip-control.c:1876
+#: calendar/gui/e-itip-control.c:1859
 msgid "Attendee status could not be updated!\n"
 msgstr "Стање присутног није могло бити ажурирано!\n"
 
-#: calendar/gui/e-itip-control.c:1907
+#: calendar/gui/e-itip-control.c:1890
 msgid "Removal Complete"
 msgstr "Уклањање завршено"
 
-#: calendar/gui/e-itip-control.c:1930 calendar/gui/e-itip-control.c:1978
+#: calendar/gui/e-itip-control.c:1913 calendar/gui/e-itip-control.c:1961
 msgid "Item sent!\n"
 msgstr "Унос послат!\n"
 
-#: calendar/gui/e-itip-control.c:1932 calendar/gui/e-itip-control.c:1982
+#: calendar/gui/e-itip-control.c:1915 calendar/gui/e-itip-control.c:1965
 msgid "The item could not be sent!\n"
 msgstr "Унос није могао бити послат!\n"
 
@@ -6542,7 +6531,7 @@ msgstr "Веб страница:"
 msgid "Click to open %s"
 msgstr "Кликните да отворите %s"
 
-#: calendar/gui/e-tasks.c:769 calendar/gui/gnome-cal.c:1916
+#: calendar/gui/e-tasks.c:773 calendar/gui/gnome-cal.c:1903
 #, c-format
 msgid ""
 "Error on %s:\n"
@@ -6552,7 +6541,7 @@ msgstr ""
 " %s"
 
 #. FIXME: this doesn't remove the task list from the list or anything
-#: calendar/gui/e-tasks.c:788 calendar/gui/gnome-cal.c:1937
+#: calendar/gui/e-tasks.c:792 calendar/gui/gnome-cal.c:1924
 #, c-format
 msgid ""
 "The task backend for\n"
@@ -6563,12 +6552,12 @@ msgstr ""
 "%s\n"
 " је пукла."
 
-#: calendar/gui/e-tasks.c:868
+#: calendar/gui/e-tasks.c:872
 #, c-format
 msgid "Opening tasks at %s"
 msgstr "Отварам задужења у %s"
 
-#: calendar/gui/e-tasks.c:889
+#: calendar/gui/e-tasks.c:893
 #, c-format
 msgid ""
 "Error opening %s:\n"
@@ -6577,38 +6566,38 @@ msgstr ""
 "Грешка при отварању %s:\n"
 "%s"
 
-#: calendar/gui/e-tasks.c:908
+#: calendar/gui/e-tasks.c:912
 msgid "Loading tasks"
 msgstr "Учитавам задужења"
 
-#: calendar/gui/e-tasks.c:1010
+#: calendar/gui/e-tasks.c:1014
 msgid "Completing tasks..."
 msgstr "Испуњавам задужења..."
 
-#: calendar/gui/e-tasks.c:1033
+#: calendar/gui/e-tasks.c:1037
 msgid "Deleting selected objects..."
 msgstr "Бришем изабране објекте..."
 
-#: calendar/gui/e-tasks.c:1058
+#: calendar/gui/e-tasks.c:1063
 msgid "Expunging"
 msgstr "Избацујем"
 
-#: calendar/gui/gnome-cal.c:1751
+#: calendar/gui/gnome-cal.c:1738
 #, c-format
 msgid "Loading tasks at %s"
 msgstr "Учитавам задужења са %s"
 
-#: calendar/gui/gnome-cal.c:1763
+#: calendar/gui/gnome-cal.c:1750
 #, c-format
 msgid "Loading appointments at %s"
 msgstr "Учитавам заказане састанке са %s"
 
-#: calendar/gui/gnome-cal.c:1796
+#: calendar/gui/gnome-cal.c:1783
 #, c-format
 msgid "Opening %s"
 msgstr "Отварам %s"
 
-#: calendar/gui/gnome-cal.c:1945
+#: calendar/gui/gnome-cal.c:1932
 #, c-format
 msgid ""
 "The calendar backend for\n"
@@ -6619,7 +6608,7 @@ msgstr ""
 "%s\n"
 " је пукла"
 
-#: calendar/gui/gnome-cal.c:2799
+#: calendar/gui/gnome-cal.c:2776
 msgid "Purging"
 msgstr "Брише"
 
@@ -6767,7 +6756,7 @@ msgid "Birthdays & Anniversaries"
 msgstr "Рођендани и годишњице"
 
 #. Create the Webcal source group
-#: calendar/gui/migration.c:442
+#: calendar/gui/migration.c:446
 msgid "On The Web"
 msgstr "На вебу"
 
@@ -6924,81 +6913,81 @@ msgid "Sa"
 msgstr "Су"
 
 #. Day
-#: calendar/gui/print.c:1915
+#: calendar/gui/print.c:1914
 msgid "Selected day (%a %b %d %Y)"
 msgstr "Изабрани дан (%a %b %d %Y)"
 
-#: calendar/gui/print.c:1940 calendar/gui/print.c:1944
+#: calendar/gui/print.c:1939 calendar/gui/print.c:1943
 msgid "%a %b %d"
 msgstr "%a, %d. %b"
 
-#: calendar/gui/print.c:1941
+#: calendar/gui/print.c:1940
 msgid "%a %d %Y"
 msgstr "%a %d %Y"
 
-#: calendar/gui/print.c:1945 calendar/gui/print.c:1947
-#: calendar/gui/print.c:1948
+#: calendar/gui/print.c:1944 calendar/gui/print.c:1946
+#: calendar/gui/print.c:1947
 msgid "%a %b %d %Y"
 msgstr "%a %b %d %Y"
 
-#: calendar/gui/print.c:1952
+#: calendar/gui/print.c:1951
 #, c-format
 msgid "Selected week (%s - %s)"
 msgstr "Изабрана недеља (%s - %s)"
 
 #. Month
-#: calendar/gui/print.c:1960
+#: calendar/gui/print.c:1959
 msgid "Selected month (%b %Y)"
 msgstr "Изабран месец (%b %Y)"
 
 #. Year
-#: calendar/gui/print.c:1967
+#: calendar/gui/print.c:1966
 msgid "Selected year (%Y)"
 msgstr "Изабрана година (%Y)"
 
-#: calendar/gui/print.c:2298
+#: calendar/gui/print.c:2297
 msgid "Task"
 msgstr "Задужење"
 
-#: calendar/gui/print.c:2357
+#: calendar/gui/print.c:2356
 #, c-format
 msgid "Status: %s"
 msgstr "Стање: %s"
 
-#: calendar/gui/print.c:2374
+#: calendar/gui/print.c:2373
 #, c-format
 msgid "Priority: %s"
 msgstr "Важност: %s"
 
-#: calendar/gui/print.c:2386
+#: calendar/gui/print.c:2385
 #, c-format
 msgid "Percent Complete: %i"
 msgstr "Проценат завршеног: %i"
 
-#: calendar/gui/print.c:2398
+#: calendar/gui/print.c:2397
 #, c-format
 msgid "URL: %s"
 msgstr "Адреса (URL): %s"
 
-#: calendar/gui/print.c:2412
+#: calendar/gui/print.c:2411
 #, c-format
 msgid "Categories: %s"
 msgstr "Категорије: %s"
 
-#: calendar/gui/print.c:2423
+#: calendar/gui/print.c:2422
 msgid "Contacts: "
 msgstr "Конаткти: "
 
-#: calendar/gui/print.c:2560 calendar/gui/print.c:2646
-#: calendar/gui/print.c:2738 mail/em-format-html-print.c:173
+#: calendar/gui/print.c:2559 calendar/gui/print.c:2645
+#: calendar/gui/print.c:2737 mail/em-format-html-print.c:173
 msgid "Print Preview"
 msgstr "Штампај приказ"
 
-#: calendar/gui/print.c:2594
+#: calendar/gui/print.c:2593
 msgid "Print Item"
 msgstr "Штампај унос"
 
-#: calendar/gui/print.c:2760
+#: calendar/gui/print.c:2759
 msgid "Print Setup"
 msgstr "Подеси штампу"
 
@@ -8681,7 +8670,7 @@ msgstr "Нисам могао да направим путању за кешир
 msgid "Could not remove cache entry: %s: %s"
 msgstr "Нисам могао да уклоним cache унос: %s: %s"
 
-#: camel/camel-disco-diary.c:185
+#: camel/camel-disco-diary.c:194
 #, c-format
 msgid ""
 "Could not write log entry: %s\n"
@@ -8692,7 +8681,7 @@ msgstr ""
 "Даље операције на овом серверу неће бити извршене када\n"
 "се будете повезали на мрежу."
 
-#: camel/camel-disco-diary.c:248
+#: camel/camel-disco-diary.c:257
 #, c-format
 msgid ""
 "Could not open `%s':\n"
@@ -8703,7 +8692,7 @@ msgstr ""
 "%s\n"
 "Промене на овом директоријуму неће бити синхронизоване."
 
-#: camel/camel-disco-diary.c:282
+#: camel/camel-disco-diary.c:293
 msgid "Resynchronizing with server"
 msgstr "Синхронизовање са сервером"
 
@@ -8720,7 +8709,7 @@ msgstr "Преузимам нове поруке у неповезаном ре�
 msgid "Preparing folder '%s' for offline"
 msgstr "Припремам директоријум '%s' за рад без мреже"
 
-#: camel/camel-disco-store.c:367
+#: camel/camel-disco-store.c:377
 msgid "You must be working online to complete this operation"
 msgstr "Морате да будете на мрежи да би завршили ову операцију"
 
@@ -8835,34 +8824,34 @@ msgstr "(одговара-све) захтева само један логич�
 msgid "Performing query on unknown header: %s"
 msgstr "Извршавам претрагу на непознато заглавље: %s"
 
-#: camel/camel-folder.c:584
+#: camel/camel-folder.c:586
 #, c-format
 msgid "Unsupported operation: append message: for %s"
 msgstr "Неподржана операција: прикључена порука: за %s"
 
-#: camel/camel-folder.c:1169
+#: camel/camel-folder.c:1177
 #, c-format
 msgid "Unsupported operation: search by expression: for %s"
 msgstr "Неподржана операција: претрага по изразу: за %s"
 
-#: camel/camel-folder.c:1209
+#: camel/camel-folder.c:1217
 #, c-format
 msgid "Unsupported operation: search by uids: for %s"
 msgstr "Неподржана операција: претрага по uid-у: за %s"
 
-#: camel/camel-folder.c:1327
+#: camel/camel-folder.c:1335
 msgid "Moving messages"
 msgstr "Померам поруке"
 
-#: camel/camel-folder.c:1327
+#: camel/camel-folder.c:1335
 msgid "Copying messages"
 msgstr "Копирам поруке"
 
-#: camel/camel-folder.c:1581
+#: camel/camel-folder.c:1589
 msgid "Learning junk and/or non junk message(s)"
-msgstr "Подучавање о порукама које су ђубре и/или нису"
+msgstr "Учење ђубрета и не-ђубрета од порука"
 
-#: camel/camel-folder.c:1610
+#: camel/camel-folder.c:1618
 msgid "Filtering new message(s)"
 msgstr "Филтрирам нове поруке"
 
@@ -9274,7 +9263,7 @@ msgstr "Важење тражених уверења је истекло."
 #: camel/camel-sasl-gssapi.c:189 camel/camel-sasl-gssapi.c:238
 #: camel/camel-sasl-gssapi.c:274 camel/camel-sasl-gssapi.c:289
 #: camel/camel-sasl-kerberos4.c:219
-#: camel/providers/imap/camel-imap-store.c:1247
+#: camel/providers/imap/camel-imap-store.c:1193
 msgid "Bad authentication response from server."
 msgstr "Лош одговор на пријаву од сервера."
 
@@ -9473,25 +9462,25 @@ msgstr "Потписао: %s <%s>: %s\n"
 msgid "Cannot get folder: Invalid operation on this store"
 msgstr "Не могу да добијем директоријум: неисправна операција"
 
-#: camel/camel-store.c:244
+#: camel/camel-store.c:242
 #, c-format
 msgid "Cannot create folder `%s': folder exists"
 msgstr "Не могу да направим директоријум „%s“: директоријум постоји"
 
-#: camel/camel-store.c:297
+#: camel/camel-store.c:293
 msgid "Cannot create folder: Invalid operation on this store"
 msgstr "Не могу да направим директоријум: неисправна операција"
 
-#: camel/camel-store.c:381 camel/camel-vee-store.c:354
+#: camel/camel-store.c:377 camel/camel-vee-store.c:354
 #, c-format
 msgid "Cannot delete folder: %s: Invalid operation"
 msgstr "Не могу да обришем директоријум: %s: неисправна операција"
 
-#: camel/camel-store.c:779 mail/mail-ops.c:1079
+#: camel/camel-store.c:773 mail/mail-ops.c:1079
 msgid "Trash"
 msgstr "Смеће"
 
-#: camel/camel-store.c:781 filter/libfilter-i18n.h:35 mail/mail-ops.c:1083
+#: camel/camel-store.c:775 filter/libfilter-i18n.h:35 mail/mail-ops.c:1083
 #: ui/evolution-mail-message.xml.h:48
 msgid "Junk"
 msgstr "Ђубре"
@@ -9804,12 +9793,12 @@ msgstr "Попис"
 #: camel/providers/imap/camel-imap-command.c:218
 #: camel/providers/imap/camel-imap-command.c:257
 #: camel/providers/imap/camel-imap-command.c:447
-#: camel/providers/imap/camel-imap-store.c:2912
+#: camel/providers/imap/camel-imap-store.c:2864
 msgid "Operation cancelled"
 msgstr "Операција обустављена"
 
 #: camel/providers/imap/camel-imap-command.c:302
-#: camel/providers/imap/camel-imap-store.c:2915
+#: camel/providers/imap/camel-imap-store.c:2867
 #, c-format
 msgid "Server unexpectedly disconnected: %s"
 msgstr "Веза са сервером је неочекивано искључена: %s"
@@ -9867,12 +9856,12 @@ msgstr "Директоријум је уништен и поново на сер
 msgid "Scanning for changed messages"
 msgstr "Трагам за промењеним порукама"
 
-#: camel/providers/imap/camel-imap-folder.c:1917
+#: camel/providers/imap/camel-imap-folder.c:1924
 #, c-format
 msgid "Unable to retrieve message: %s"
 msgstr "Не могу да покупим поруку: %s"
 
-#: camel/providers/imap/camel-imap-folder.c:1948
+#: camel/providers/imap/camel-imap-folder.c:1971
 #: camel/providers/local/camel-maildir-folder.c:211
 #: camel/providers/local/camel-maildir-folder.c:224
 #: camel/providers/local/camel-maildir-folder.c:233
@@ -9888,25 +9877,25 @@ msgstr ""
 "Не могу да добијем поруку: %s\n"
 "  %s"
 
-#: camel/providers/imap/camel-imap-folder.c:1948
+#: camel/providers/imap/camel-imap-folder.c:1971
 #: camel/providers/local/camel-maildir-folder.c:211
 #: camel/providers/local/camel-mbox-folder.c:417
 #: camel/providers/local/camel-mh-folder.c:200
 msgid "No such message"
 msgstr "Нема такве поруке"
 
-#: camel/providers/imap/camel-imap-folder.c:1971
-#: camel/providers/imap/camel-imap-folder.c:2567
+#: camel/providers/imap/camel-imap-folder.c:2005
+#: camel/providers/imap/camel-imap-folder.c:2601
 #: camel/providers/nntp/camel-nntp-folder.c:205
 msgid "This message is not currently available"
 msgstr "Ова поруке није тренутно доступна"
 
-#: camel/providers/imap/camel-imap-folder.c:2231
-#: camel/providers/imap/camel-imap-folder.c:2301
+#: camel/providers/imap/camel-imap-folder.c:2265
+#: camel/providers/imap/camel-imap-folder.c:2335
 msgid "Fetching summary information for new messages"
 msgstr "Прикупљам сажету информацију за нове поруке"
 
-#: camel/providers/imap/camel-imap-folder.c:2605
+#: camel/providers/imap/camel-imap-folder.c:2639
 msgid "Could not find message body in FETCH response."
 msgstr "Нисам могао да пронађем текст поруке у FETCH одговору."
 
@@ -9977,18 +9966,18 @@ msgstr "IMAP"
 msgid "For reading and storing mail on IMAP servers."
 msgstr "За читање и смештање поште на IMAP сервере."
 
-#: camel/providers/imap/camel-imap-store.c:478
+#: camel/providers/imap/camel-imap-store.c:425
 #, c-format
 msgid "IMAP server %s"
 msgstr "IMAP сервер %s"
 
-#: camel/providers/imap/camel-imap-store.c:480
+#: camel/providers/imap/camel-imap-store.c:427
 #, c-format
 msgid "IMAP service for %s on %s"
 msgstr "IMAP сервис за %s на %s"
 
-#: camel/providers/imap/camel-imap-store.c:601
-#: camel/providers/imap/camel-imap-store.c:621
+#: camel/providers/imap/camel-imap-store.c:547
+#: camel/providers/imap/camel-imap-store.c:567
 #: camel/providers/imapp/camel-imapp-store.c:231
 #: camel/providers/nntp/camel-nntp-store.c:140
 #: camel/providers/pop3/camel-pop3-store.c:175
@@ -9998,14 +9987,14 @@ msgstr "IMAP сервис за %s на %s"
 msgid "Could not connect to %s (port %d): %s"
 msgstr "Нисам могао да се повежем на %s (порт %d): %s"
 
-#: camel/providers/imap/camel-imap-store.c:603
+#: camel/providers/imap/camel-imap-store.c:549
 #: camel/providers/pop3/camel-pop3-store.c:177
 #: camel/providers/smtp/camel-smtp-transport.c:271
 msgid "SSL unavailable"
 msgstr "SSL није доступан"
 
-#: camel/providers/imap/camel-imap-store.c:618
-#: camel/providers/imap/camel-imap-store.c:850
+#: camel/providers/imap/camel-imap-store.c:564
+#: camel/providers/imap/camel-imap-store.c:796
 #: camel/providers/imapp/camel-imapp-store.c:228
 #: camel/providers/nntp/camel-nntp-store.c:137
 #: camel/providers/nntp/camel-nntp-store.c:155
@@ -10013,49 +10002,49 @@ msgstr "SSL није доступан"
 msgid "Connection cancelled"
 msgstr "Повезивање поништено"
 
-#: camel/providers/imap/camel-imap-store.c:684
-#: camel/providers/imap/camel-imap-store.c:715
+#: camel/providers/imap/camel-imap-store.c:630
+#: camel/providers/imap/camel-imap-store.c:661
 #, c-format
 msgid "Failed to connect to IMAP server %s in secure mode: %s"
 msgstr "Нисам могао да се повежем на IMAP сервер %s у сигурносном моду: %s"
 
-#: camel/providers/imap/camel-imap-store.c:685
+#: camel/providers/imap/camel-imap-store.c:631
 #: camel/providers/pop3/camel-pop3-store.c:228
 msgid "SSL/TLS extension not supported."
 msgstr "SSL/TLS екстензија није подржана."
 
-#: camel/providers/imap/camel-imap-store.c:716
+#: camel/providers/imap/camel-imap-store.c:662
 #: camel/providers/pop3/camel-pop3-store.c:269
 msgid "SSL negotiations failed"
 msgstr "SSL преговори нису успели"
 
-#: camel/providers/imap/camel-imap-store.c:853
+#: camel/providers/imap/camel-imap-store.c:799
 #, c-format
 msgid "Could not connect with command \"%s\": %s"
 msgstr "Нисам могао да се повежем помоћу наредбе %s: %s"
 
-#: camel/providers/imap/camel-imap-store.c:1277
+#: camel/providers/imap/camel-imap-store.c:1223
 #, c-format
 msgid "IMAP server %s does not support requested authentication type %s"
 msgstr "IMAP сервер %s не подржава тражени тип пријаве  %s"
 
-#: camel/providers/imap/camel-imap-store.c:1287
+#: camel/providers/imap/camel-imap-store.c:1233
 #: camel/providers/smtp/camel-smtp-transport.c:486
 #, c-format
 msgid "No support for authentication type %s"
 msgstr "Нема подршке за тип пријаве  %s"
 
-#: camel/providers/imap/camel-imap-store.c:1310
+#: camel/providers/imap/camel-imap-store.c:1256
 #: camel/providers/imapp/camel-imapp-store.c:344
 #, c-format
 msgid "%sPlease enter the IMAP password for %s@%s"
 msgstr "%sМолим унесите IMAP лозинку за %s@%s"
 
-#: camel/providers/imap/camel-imap-store.c:1324
+#: camel/providers/imap/camel-imap-store.c:1270
 msgid "You didn't enter a password."
 msgstr "Нисте унели лозинку."
 
-#: camel/providers/imap/camel-imap-store.c:1353
+#: camel/providers/imap/camel-imap-store.c:1299
 #, c-format
 msgid ""
 "Unable to authenticate to IMAP server.\n"
@@ -10066,13 +10055,13 @@ msgstr ""
 "%s\n"
 "\n"
 
-#: camel/providers/imap/camel-imap-store.c:1769
-#: camel/providers/imap/camel-imap-store.c:1850
+#: camel/providers/imap/camel-imap-store.c:1717
+#: camel/providers/imap/camel-imap-store.c:1798
 #, c-format
 msgid "No such folder %s"
 msgstr "Нема таквог директоријума %s"
 
-#: camel/providers/imap/camel-imap-store.c:1791
+#: camel/providers/imap/camel-imap-store.c:1739
 #: camel/providers/local/camel-maildir-store.c:137
 #: camel/providers/local/camel-mbox-store.c:212
 #: camel/providers/local/camel-mh-store.c:236
@@ -10080,18 +10069,18 @@ msgstr "Нема таквог директоријума %s"
 msgid "Cannot create folder `%s': folder exists."
 msgstr "Не могу да направим директоријум „%s“: директоријум постоји."
 
-#: camel/providers/imap/camel-imap-store.c:2051
+#: camel/providers/imap/camel-imap-store.c:1999
 #, c-format
 msgid ""
 "The folder name \"%s\" is invalid because it containes the character \"%c\""
 msgstr "Име директоријума \"%s\" није исправно јер садржи карактер \"%c\""
 
-#: camel/providers/imap/camel-imap-store.c:2063
+#: camel/providers/imap/camel-imap-store.c:2011
 #, c-format
 msgid "Unknown parent folder: %s"
 msgstr "Непознати главни директоријум: %s"
 
-#: camel/providers/imap/camel-imap-store.c:2099
+#: camel/providers/imap/camel-imap-store.c:2047
 msgid "The parent folder is not allowed to contain subfolders"
 msgstr "Главни директоријум не може садржати директоријуме у себи"
 
@@ -10201,7 +10190,7 @@ msgstr ""
 
 #: camel/providers/local/camel-local-store.c:138
 #: camel/providers/local/camel-local-store.c:215
-#: camel/providers/local/camel-mbox-store.c:355
+#: camel/providers/local/camel-mbox-store.c:356
 #: camel/providers/local/camel-spool-store.c:116
 #, c-format
 msgid "Store root %s is not an absolute path"
@@ -10250,8 +10239,8 @@ msgstr "Нисам могао да обришем сажетак директо�
 msgid "Could not delete folder index file `%s': %s"
 msgstr "Нисам могао да обришем индекс датотеку директоријума `%s': %s"
 
-#: camel/providers/local/camel-local-store.c:417
-#: camel/providers/local/camel-mbox-store.c:319
+#: camel/providers/local/camel-local-store.c:418
+#: camel/providers/local/camel-mbox-store.c:320
 #, c-format
 msgid "Could not delete folder meta file `%s': %s"
 msgstr "Не могу да обришем мета датотеку директоријума `%s': %s"
@@ -10316,7 +10305,7 @@ msgstr "Нисам могао да обришем директоријум `%s':
 msgid "not a maildir directory"
 msgstr "није maildir директоријум"
 
-#: camel/providers/local/camel-maildir-store.c:383
+#: camel/providers/local/camel-maildir-store.c:336
 #: camel/providers/local/camel-spool-store.c:286
 #: camel/providers/local/camel-spool-store.c:316
 #, c-format
@@ -10385,7 +10374,7 @@ msgid "Message construction failed: Corrupt mailbox?"
 msgstr "Састављање поруке неуспело: Оштећено сандуче?"
 
 #: camel/providers/local/camel-mbox-store.c:176
-#: camel/providers/local/camel-mbox-store.c:361
+#: camel/providers/local/camel-mbox-store.c:362
 msgid "Cannot create a folder by this name."
 msgstr "Не могу да направим директоријум са тим именом."
 
@@ -10415,31 +10404,31 @@ msgstr "`%s' није обична датотека."
 msgid "Folder `%s' is not empty. Not deleted."
 msgstr "Директоријум `%s' није празан. Није обрисан."
 
-#: camel/providers/local/camel-mbox-store.c:374
+#: camel/providers/local/camel-mbox-store.c:375
 #, c-format
 msgid "Cannot create directory `%s': %s."
 msgstr "Нисам могао да направим директоријум %s: %s."
 
-#: camel/providers/local/camel-mbox-store.c:388
+#: camel/providers/local/camel-mbox-store.c:389
 #, c-format
 msgid "Cannot create folder: %s: %s"
 msgstr "Не могу да направим директоријум: %s: %s"
 
-#: camel/providers/local/camel-mbox-store.c:390
+#: camel/providers/local/camel-mbox-store.c:391
 msgid "Folder already exists"
 msgstr "Директоријум већ постоји"
 
-#: camel/providers/local/camel-mbox-store.c:472
+#: camel/providers/local/camel-mbox-store.c:473
 msgid "The new folder name is illegal."
 msgstr "Ново име директоријума је неисправно."
 
-#: camel/providers/local/camel-mbox-store.c:485
+#: camel/providers/local/camel-mbox-store.c:486
 #, c-format
 msgid "Could not rename `%s': `%s': %s"
 msgstr "Не могу да преименујем „%s“: „%s“: %s"
 
 # bug: quotes on the other one as well
-#: camel/providers/local/camel-mbox-store.c:560
+#: camel/providers/local/camel-mbox-store.c:561
 #, c-format
 msgid "Could not rename '%s' to %s: %s"
 msgstr "Не могу да преименујем „%s“ у „%s“: %s"
@@ -10483,7 +10472,7 @@ msgstr "Нисам могао да затворим изворни директ�
 msgid "Could not close temp folder: %s"
 msgstr "Нисам могао да затворим temp директоријум: %s"
 
-#: camel/providers/local/camel-mbox-summary.c:592 mail/em-folder-tree.c:2343
+#: camel/providers/local/camel-mbox-summary.c:592 mail/em-folder-tree.c:2459
 #, c-format
 msgid "Could not rename folder: %s"
 msgstr "Нисам могао да преименујем директоријум: %s"
@@ -10816,47 +10805,47 @@ msgid "You cannot remove a folder in a News store: unsubscribe instead."
 msgstr ""
 "Не можете уклонити директоријум у смештају вести: одјавите се уместо тога."
 
-#: camel/providers/nntp/camel-nntp-summary.c:247
+#: camel/providers/nntp/camel-nntp-summary.c:253
 #, c-format
 msgid "Connection error: %s"
 msgstr "Грешка при повезивању: %s"
 
-#: camel/providers/nntp/camel-nntp-summary.c:258
+#: camel/providers/nntp/camel-nntp-summary.c:262
 #, c-format
 msgid "No such folder: %s"
 msgstr "Нема таквог директоријума: %s"
 
-#: camel/providers/nntp/camel-nntp-summary.c:264
+#: camel/providers/nntp/camel-nntp-summary.c:268
 #, c-format
 msgid "Could not get group: %s"
 msgstr "Нисам могао да добијем групу: %s"
 
 # bug: s/unspecificed/unspecified/
-#: camel/providers/nntp/camel-nntp-summary.c:329
+#: camel/providers/nntp/camel-nntp-summary.c:333
 msgid "Could not get messages: unspecificed error"
 msgstr "Нисам могао да преузмем поруке: неназначена грешка"
 
-#: camel/providers/nntp/camel-nntp-summary.c:374
+#: camel/providers/nntp/camel-nntp-summary.c:378
 #, c-format
 msgid "NNTP Command failed: %s"
 msgstr "NNTP команда неуспела: %s"
 
-#: camel/providers/nntp/camel-nntp-summary.c:434
-#: camel/providers/nntp/camel-nntp-summary.c:539
+#: camel/providers/nntp/camel-nntp-summary.c:438
+#: camel/providers/nntp/camel-nntp-summary.c:543
 #, c-format
 msgid "%s: Scanning new messages"
 msgstr "%s: Тражим нове поруке"
 
-#: camel/providers/nntp/camel-nntp-summary.c:554
+#: camel/providers/nntp/camel-nntp-summary.c:558
 #, c-format
 msgid "Unknown server response: %s"
 msgstr "Непознат одговор сервера: %s"
 
-#: camel/providers/nntp/camel-nntp-summary.c:601
+#: camel/providers/nntp/camel-nntp-summary.c:605
 msgid "Use cancel"
 msgstr "Користите поништи"
 
-#: camel/providers/nntp/camel-nntp-summary.c:603
+#: camel/providers/nntp/camel-nntp-summary.c:607
 #, c-format
 msgid "Operation failed: %s"
 msgstr "Неуспела операција: %s"
@@ -11269,7 +11258,7 @@ msgstr "Неуспела MAIL FROM команда: %s: порука није п�
 
 #: camel/providers/smtp/camel-smtp-transport.c:1170
 msgid "MAIL FROM command failed"
-msgstr "Неуспела MAIL FROM команда: %s"
+msgstr "Неуспела MAIL FROM команда"
 
 #: camel/providers/smtp/camel-smtp-transport.c:1194
 #, c-format
@@ -11329,7 +11318,7 @@ msgstr "%.0fM"
 msgid "%.0fG"
 msgstr "%.0fG"
 
-#: composer/e-msg-composer-attachment-bar.c:301 mail/em-utils.c:1476
+#: composer/e-msg-composer-attachment-bar.c:301 mail/em-utils.c:1482
 msgid "attachment"
 msgstr "прилог"
 
@@ -11337,11 +11326,11 @@ msgstr "прилог"
 msgid "Remove selected items from the attachment list"
 msgstr "Уклони одабране предмете са листе прилога"
 
-#: composer/e-msg-composer-attachment-bar.c:483
+#: composer/e-msg-composer-attachment-bar.c:492
 msgid "Add attachment..."
 msgstr "Додај прилог..."
 
-#: composer/e-msg-composer-attachment-bar.c:484
+#: composer/e-msg-composer-attachment-bar.c:493
 msgid "Attach a file to the message"
 msgstr "Додај датотеку поруци"
 
@@ -11377,15 +11366,15 @@ msgstr "Предложи аутоматско отварање прилога"
 msgid "You need to configure an account before you can compose mail."
 msgstr "Морате да подесите налог пре састављања поруке."
 
-#: composer/e-msg-composer-hdrs.c:507
+#: composer/e-msg-composer-hdrs.c:508
 msgid "Posting destination"
 msgstr "Одредиште"
 
-#: composer/e-msg-composer-hdrs.c:508
+#: composer/e-msg-composer-hdrs.c:509
 msgid "Choose folders to post the message to."
 msgstr "Изаберите директоријуме у које да пошаљем поруку."
 
-#: composer/e-msg-composer-hdrs.c:542
+#: composer/e-msg-composer-hdrs.c:543
 msgid "Click here for the address book"
 msgstr "Притисните овде за адресар."
 
@@ -11396,45 +11385,45 @@ msgstr "Притисните овде за адресар."
 #. * because that causes from_changed to be called, which
 #. * expects the reply_to fields to be initialized.
 #.
-#: composer/e-msg-composer-hdrs.c:572
+#: composer/e-msg-composer-hdrs.c:573
 msgid "Reply-To:"
 msgstr "Одговор-за:"
 
 #.
 #. * From
 #.
-#: composer/e-msg-composer-hdrs.c:578
+#: composer/e-msg-composer-hdrs.c:579
 msgid "From:"
 msgstr "Од:"
 
 #.
 #. * Subject
 #.
-#: composer/e-msg-composer-hdrs.c:584
+#: composer/e-msg-composer-hdrs.c:585
 msgid "Subject:"
 msgstr "Наслов:"
 
-#: composer/e-msg-composer-hdrs.c:593
+#: composer/e-msg-composer-hdrs.c:594
 msgid "To:"
 msgstr "Коме:"
 
-#: composer/e-msg-composer-hdrs.c:594
+#: composer/e-msg-composer-hdrs.c:595
 msgid "Enter the recipients of the message"
 msgstr "Унесите примаоце поруке"
 
-#: composer/e-msg-composer-hdrs.c:597
+#: composer/e-msg-composer-hdrs.c:598
 msgid "Cc:"
 msgstr "Копија:"
 
-#: composer/e-msg-composer-hdrs.c:598
+#: composer/e-msg-composer-hdrs.c:599
 msgid "Enter the addresses that will receive a carbon copy of the message"
 msgstr "Унесите адресе које ће примити копију поруке"
 
-#: composer/e-msg-composer-hdrs.c:601
+#: composer/e-msg-composer-hdrs.c:602
 msgid "Bcc:"
 msgstr "Невидљива копија:"
 
-#: composer/e-msg-composer-hdrs.c:602
+#: composer/e-msg-composer-hdrs.c:603
 msgid ""
 "Enter the addresses that will receive a carbon copy of the message without "
 "appearing in the recipient list of the message."
@@ -11445,11 +11434,11 @@ msgstr ""
 #.
 #. * Post-To
 #.
-#: composer/e-msg-composer-hdrs.c:609
+#: composer/e-msg-composer-hdrs.c:610
 msgid "Post To:"
 msgstr "Пошаљи:"
 
-#: composer/e-msg-composer-hdrs.c:614
+#: composer/e-msg-composer-hdrs.c:615
 msgid "Click here to select folders to post to"
 msgstr "Притисните овде да изаберете директоријуме у које шаљете"
 
@@ -11576,7 +11565,7 @@ msgstr "Отвори датотеку"
 msgid "Signature:"
 msgstr "Потпис:"
 
-#: composer/e-msg-composer.c:2085 mail/mail-account-gui.c:1259
+#: composer/e-msg-composer.c:2085 mail/mail-account-gui.c:1311
 msgid "Autogenerated"
 msgstr "Аутогенерисан"
 
@@ -11629,7 +11618,7 @@ msgstr ""
 "Нисам могао да направим прозор за састављање:\n"
 "Не могу да активирам компоненту HTML уредника."
 
-#: composer/e-msg-composer.c:4234
+#: composer/e-msg-composer.c:4239
 msgid ""
 "<b>(The composer contains a non-text message body, which cannot be edited.)"
 "<b>"
@@ -11880,132 +11869,107 @@ msgstr "%H:%M"
 msgid "%I %p"
 msgstr "%I %p"
 
-# bug: plural-forms
-#: filter/filter-datespec.c:65
+#: filter/filter-datespec.c:73
+#, c-format
 msgid "1 second ago"
-msgstr "пре једне секунде"
+msgid_plural "%d seconds ago"
+msgstr[0] "пре %d секунде"
+msgstr[1] "пре %d секунде"
+msgstr[2] "пре %d секунди"
 
-# bug: plural-forms
-#: filter/filter-datespec.c:65
+#: filter/filter-datespec.c:74
 #, c-format
-msgid "%d seconds ago"
-msgstr "пре %d секунде"
-
-# bug: plural-forms
-#: filter/filter-datespec.c:66
 msgid "1 minute ago"
-msgstr "пре једног минута"
+msgid_plural "%d minutes ago"
+msgstr[0] "пре %d минут"
+msgstr[1] "пре %d минута"
+msgstr[2] "пре %d минута"
 
-# bug: plural-forms
-#: filter/filter-datespec.c:66
+#: filter/filter-datespec.c:75
 #, c-format
-msgid "%d minutes ago"
-msgstr "пре %d минута"
-
-# bug: plural-forms
-#: filter/filter-datespec.c:67
 msgid "1 hour ago"
-msgstr "пре једног сата"
+msgid_plural "%d hours ago"
+msgstr[0] "пре %d сат"
+msgstr[1] "пре %d сата"
+msgstr[2] "пре %d сати"
 
-# bug: plural-forms
-#: filter/filter-datespec.c:67
+#: filter/filter-datespec.c:76
 #, c-format
-msgid "%d hours ago"
-msgstr "пре %d сати"
-
-# bug: plural-forms
-#: filter/filter-datespec.c:68
 msgid "1 day ago"
-msgstr "пре једног дана"
+msgid_plural "%d days ago"
+msgstr[0] "пре %d дан"
+msgstr[1] "пре %d дана"
+msgstr[2] "пре %d дана"
 
-# bug: plural-forms
-#: filter/filter-datespec.c:68
+#: filter/filter-datespec.c:77
 #, c-format
-msgid "%d days ago"
-msgstr "пре %d дана"
-
-# bug: plural-forms
-#: filter/filter-datespec.c:69
 msgid "1 week ago"
-msgstr "пре једне недеље"
+msgid_plural "%d weeks ago"
+msgstr[0] "пре %d недељу"
+msgstr[1] "пре %d недеље"
+msgstr[2] "пре %d недеља"
 
-# bug: plural-forms
-#: filter/filter-datespec.c:69
+#: filter/filter-datespec.c:78
 #, c-format
-msgid "%d weeks ago"
-msgstr "пре %d недеља"
-
-# bug: plural-forms
-#: filter/filter-datespec.c:70
 msgid "1 month ago"
-msgstr "пре једног месеца"
+msgid_plural "%d months ago"
+msgstr[0] "пре %d месец"
+msgstr[1] "пре %d месеца"
+msgstr[2] "пре %d месеци"
 
-# bug: plural-forms
-#: filter/filter-datespec.c:70
+#: filter/filter-datespec.c:79
 #, c-format
-msgid "%d months ago"
-msgstr "пре %d месеца"
-
-# bug: plural-forms
-#: filter/filter-datespec.c:71
 msgid "1 year ago"
-msgstr "пре једне године"
+msgid_plural "%d years ago"
+msgstr[0] "пре %d годину"
+msgstr[1] "пре %d године"
+msgstr[2] "пре %d година"
 
-# bug: plural-forms
-#: filter/filter-datespec.c:71
-#, c-format
-msgid "%d years ago"
-msgstr "пре %d година"
-
-#: filter/filter-datespec.c:176
+#: filter/filter-datespec.c:187
 msgid "You must choose a date."
 msgstr "Морате да изаберете датум."
 
-#: filter/filter-datespec.c:275
+#: filter/filter-datespec.c:287
 msgid "<click here to select a date>"
 msgstr "<притисните овде да одаберете датум>"
 
-#: filter/filter-datespec.c:278 filter/filter-datespec.c:289
+#: filter/filter-datespec.c:290 filter/filter-datespec.c:301
 msgid "now"
 msgstr "сада"
 
 #. strftime for date filter display, only needs to show a day date (i.e. no time)
-#: filter/filter-datespec.c:285
+#: filter/filter-datespec.c:297
 msgid "%d-%b-%Y"
-msgstr "%d-%b-%Y"
+msgstr "%d.%b.%Y."
 
-#: filter/filter-datespec.c:406
+#: filter/filter-datespec.c:413
 msgid "Select a time to compare against"
 msgstr "Изаберите име за поређење"
-
-#: filter/filter-editor.c:114 filter/filter.glade.h:4
-msgid "Filter Rules"
-msgstr "Правила филтера"
 
 #: filter/filter-file.c:166
 msgid "You must specify a file name."
 msgstr "Морате дати име датотеци."
 
-#: filter/filter-file.c:184
+#: filter/filter-file.c:185
 #, c-format
 msgid "File '%s' does not exist or is not a regular file."
 msgstr "Датотека '%s' не постоји или није регуларна датотека."
 
-#: filter/filter-file.c:299
+#: filter/filter-file.c:301
 msgid "Choose a file"
 msgstr "Изабери датотеку"
 
 #. and now for the action area
 #: filter/filter-filter.c:491
-msgid "Then"
-msgstr "Онда"
+msgid "<b>Then</b>"
+msgstr "<b>Онда</b>"
 
 #: filter/filter-folder.c:153
 msgid "You must specify a folder."
 msgstr "Морате одредити директоријум."
 
-#: filter/filter-folder.c:242 filter/vfolder-rule.c:505
-#: mail/mail-account-gui.c:1098
+#: filter/filter-folder.c:243 filter/vfolder-rule.c:507
+#: mail/mail-account-gui.c:1147
 msgid "Select Folder"
 msgstr "Одаберите директоријум"
 
@@ -12035,7 +11999,7 @@ msgstr "За урадити"
 msgid "Later"
 msgstr "Касније"
 
-#: filter/filter-part.c:531 shell/GNOME_Evolution_Test.server.in.in.h:3
+#: filter/filter-part.c:532 shell/GNOME_Evolution_Test.server.in.in.h:3
 msgid "Test"
 msgstr "Проба"
 
@@ -12043,59 +12007,79 @@ msgstr "Проба"
 msgid "You must name this filter."
 msgstr "Морате дати име овом филтеру."
 
-#: filter/filter-rule.c:751
-msgid "Rule name: "
+#: filter/filter-rule.c:752
+msgid "Rule name:"
 msgstr "Име правила:"
 
-#: filter/filter-rule.c:755
+#: filter/filter-rule.c:756
 msgid "Untitled"
 msgstr "Без имена"
 
-#: filter/filter-rule.c:772
-msgid "If"
-msgstr "Ако"
+#: filter/filter-rule.c:779
+msgid "<b>If</b>"
+msgstr "<b>Ако</b>"
 
-#: filter/filter-rule.c:791
+#: filter/filter-rule.c:810
 msgid "Execute actions"
 msgstr "Изврши акције"
 
-#: filter/filter-rule.c:795
+#: filter/filter-rule.c:814
 msgid "if all criteria are met"
 msgstr "Ако су сви услови задовољени"
 
-#: filter/filter-rule.c:800
+#: filter/filter-rule.c:819
 msgid "if any criteria are met"
 msgstr "ако је било који услов задовољен"
 
-#: filter/filter-rule.c:895
+#: filter/filter-rule.c:910
 msgid "incoming"
 msgstr "долазећи"
 
-#: filter/filter-rule.c:895
+#: filter/filter-rule.c:910
 msgid "outgoing"
 msgstr "одлазећи"
 
 #: filter/filter.glade.h:1
+msgid "    "
+msgstr "    "
+
+#: filter/filter.glade.h:2
+msgid "<b>Filter Rules</b>"
+msgstr "<b>Правила филтера</b>"
+
+#: filter/filter.glade.h:3
+msgid "<b>Virtual _Folders</b>"
+msgstr "<b>Виртуелни _директоријуми</b>"
+
+#: filter/filter.glade.h:4
+msgid "<b>_Filter Rules</b>"
+msgstr "<b>Пр_авила филтера</b>"
+
+#: filter/filter.glade.h:5
+msgid "<b>vFolder Sources</b>"
+msgstr "<b>vFolder извори</b>"
+
+#: filter/filter.glade.h:6
 msgid "Compare against"
 msgstr "Упореди са"
 
-#: filter/filter.glade.h:2
+#: filter/filter.glade.h:7
 msgid "Edit Filters"
 msgstr "Уређивање филтера"
 
-#: filter/filter.glade.h:3
+#: filter/filter.glade.h:8
 msgid "Edit VFolders"
 msgstr "Уређивање VFolders"
 
-#: filter/filter.glade.h:5
+#: filter/filter.glade.h:9
 msgid "Incoming"
 msgstr "Долазећи"
 
-#: filter/filter.glade.h:6
+#: filter/filter.glade.h:10
 msgid "Outgoing"
 msgstr "Одлазећи"
 
-#: filter/filter.glade.h:7
+#: filter/filter.glade.h:11
 msgid ""
 "The message's date will be compared against\n"
 "12:00am of the date specified."
@@ -12103,7 +12087,7 @@ msgstr ""
 "Датум поруке ће бити упоређен са\n"
 "временом у поноћ датог датума."
 
-#: filter/filter.glade.h:9
+#: filter/filter.glade.h:13
 msgid ""
 "The message's date will be compared against\n"
 "a time relative to when filtering occurs."
@@ -12111,7 +12095,7 @@ msgstr ""
 "Датум поруке ће бити упоређен са\n"
 "временом када се филтрирање десило."
 
-#: filter/filter.glade.h:11
+#: filter/filter.glade.h:15
 msgid ""
 "The message's date will be compared against\n"
 "the current time when filtering occurs."
@@ -12119,60 +12103,52 @@ msgstr ""
 "Датум поруке ће бити упоређен са\n"
 "тренутним временом када се филтрирање десило."
 
-#: filter/filter.glade.h:13 filter/vfolder-editor.c:112
-msgid "Virtual Folders"
-msgstr "Виртуелни директоријуми"
-
-#: filter/filter.glade.h:15
+#: filter/filter.glade.h:18
 msgid "a time relative to the current time"
 msgstr "време у односу на тренутно време"
 
-#: filter/filter.glade.h:16
+#: filter/filter.glade.h:19
 msgid "ago"
 msgstr "пре"
 
-#: filter/filter.glade.h:20
+#: filter/filter.glade.h:23
 msgid "months"
 msgstr "месеци"
 
 # bug: plural-forms
-#: filter/filter.glade.h:21 mail/mail-config.glade.h:183
+#: filter/filter.glade.h:24 mail/mail-config.glade.h:183
 msgid "seconds"
 msgstr "секунде"
 
-#: filter/filter.glade.h:22
+#: filter/filter.glade.h:25
 msgid "specific folders only"
 msgstr "само одређени директоријуми"
 
-#: filter/filter.glade.h:23
+#: filter/filter.glade.h:26
 msgid "the current time"
 msgstr "тренутно време"
 
-#: filter/filter.glade.h:24
+#: filter/filter.glade.h:27
 msgid "the time you specify"
 msgstr "време које сте одредили"
 
-#: filter/filter.glade.h:25
-msgid "vFolder Sources"
-msgstr "vFolder извори"
-
-#: filter/filter.glade.h:26
+#: filter/filter.glade.h:28
 msgid "weeks"
 msgstr "недеље"
 
-#: filter/filter.glade.h:27
+#: filter/filter.glade.h:29
 msgid "with all active remote folders"
 msgstr "са свим активним мрежним директоријумима"
 
-#: filter/filter.glade.h:28
+#: filter/filter.glade.h:30
 msgid "with all local and active remote folders"
 msgstr "са свим локалним и активним мрежним директоријумима"
 
-#: filter/filter.glade.h:29
+#: filter/filter.glade.h:31
 msgid "with all local folders"
 msgstr "са свим локалним директоријумима"
 
-#: filter/filter.glade.h:30
+#: filter/filter.glade.h:32
 msgid "years"
 msgstr "године"
 
@@ -12411,8 +12387,8 @@ msgstr "почиње са"
 msgid "Stop Processing"
 msgstr "Прекини са обрадом"
 
-#: filter/libfilter-i18n.h:64 mail/em-format-html.c:1481
-#: mail/em-format-quote.c:301 mail/em-format.c:747 mail/em-mailer-prefs.c:72
+#: filter/libfilter-i18n.h:64 mail/em-format-html.c:1512
+#: mail/em-format-quote.c:301 mail/em-format.c:748 mail/em-mailer-prefs.c:72
 #: mail/message-list.etspec.h:13 mail/message-tag-followup.c:305
 #: smime/lib/e-cert.c:1079
 msgid "Subject"
@@ -12422,17 +12398,13 @@ msgstr "Наслов"
 msgid "Unset Status"
 msgstr "Недодељен статус"
 
-#: filter/rule-context.c:682 filter/rule-editor.c:243 filter/rule-editor.c:328
+#: filter/rule-context.c:682 filter/rule-editor.c:239 filter/rule-editor.c:326
 #: mail/mail-vfolder.c:1007
 #, c-format
 msgid "Rule name '%s' is not unique, choose another."
 msgstr "Правило '%s' није јединствено, изаберите друго."
 
-#: filter/rule-editor.c:172
-msgid "Rules"
-msgstr "Правила"
-
-#: filter/rule-editor.c:293
+#: filter/rule-editor.c:291
 msgid "Add Rule"
 msgstr "Додај правило"
 
@@ -12484,11 +12456,11 @@ msgstr "Наслов не садржи"
 msgid "You must name this vfolder."
 msgstr "Морате именовати овај vfolder."
 
-#: filter/vfolder-rule.c:229
+#: filter/vfolder-rule.c:230
 msgid "You need to to specify at least one folder as a source."
 msgstr "Морате да одредите најмање један директоријум као извор."
 
-#: filter/vfolder-rule.c:585
+#: filter/vfolder-rule.c:587
 msgid "VFolder source"
 msgstr "VFolder извор"
 
@@ -12561,15 +12533,15 @@ msgid "Don't delete"
 msgstr "Не бриши"
 
 #. translators: default account indicator
-#: mail/em-account-prefs.c:439
+#: mail/em-account-prefs.c:445
 msgid "[Default]"
 msgstr "[Предефинисано]"
 
-#: mail/em-account-prefs.c:493
+#: mail/em-account-prefs.c:499
 msgid "Account name"
 msgstr "Име налога"
 
-#: mail/em-account-prefs.c:495
+#: mail/em-account-prefs.c:501
 msgid "Protocol"
 msgstr "Протокол"
 
@@ -12685,8 +12657,8 @@ msgstr "<протисните овде да изаберете директор�
 msgid "Create New Folder"
 msgstr "Направи нови директоријум"
 
-#: mail/em-folder-selector.c:166 mail/em-folder-tree.c:2101
-#: mail/mail-component.c:629
+#: mail/em-folder-selector.c:166 mail/em-folder-tree.c:2217
+#: mail/mail-component.c:638
 #: shell/glade/e-shell-folder-creation-dialog.glade.h:4
 msgid "Specify where to create the folder:"
 msgstr "Наведите где да направим директоријум:"
@@ -12696,117 +12668,137 @@ msgstr "Наведите где да направим директоријум:"
 msgid "Folder _name:"
 msgstr "_Име директоријума:"
 
-#: mail/em-folder-tree-model.c:180 mail/em-folder-tree-model.c:182
+#: mail/em-folder-tree-model.c:196 mail/em-folder-tree-model.c:198
 #: mail/mail-vfolder.c:855
 msgid "VFolders"
 msgstr "VFolder-и"
 
-#: mail/em-folder-tree-model.c:190 mail/em-folder-tree-model.c:192
+#: mail/em-folder-tree-model.c:206 mail/em-folder-tree-model.c:208
 msgid "UNMATCHED"
 msgstr "НЕПОКЛОПЉЕН"
 
 #. Inbox is always first
-#: mail/em-folder-tree-model.c:220 mail/em-folder-tree-model.c:222
+#: mail/em-folder-tree-model.c:236 mail/em-folder-tree-model.c:238
 msgid "Inbox"
 msgstr "Сандуче"
 
-#: mail/em-folder-tree-model.c:474 mail/em-folder-tree-model.c:759
+#: mail/em-folder-tree-model.c:483 mail/em-folder-tree-model.c:792
 msgid "Loading..."
 msgstr "Учитавам..."
 
-#: mail/em-folder-tree.c:856
+#: mail/em-folder-tree.c:874
+#, c-format
+msgid "Moving folder %s"
+msgstr "Премештам директоријум %s"
+
+#: mail/em-folder-tree.c:876
+#, c-format
+msgid "Copying folder %s"
+msgstr "Умножавам директоријум %s"
+
+#: mail/em-folder-tree.c:883
+#, c-format
+msgid "Moving messages into folder %s"
+msgstr "Премештам поруке у директоријум %s"
+
+#: mail/em-folder-tree.c:885
+#, c-format
+msgid "Copying messages into folder %s"
+msgstr "Копирам поруке у директоријум %s"
+
+#: mail/em-folder-tree.c:901
 msgid "Cannot drop message(s) into toplevel store"
 msgstr "Не могу да убацим поруке у смештај на највишем нивоу"
 
-#: mail/em-folder-tree.c:1831
+#: mail/em-folder-tree.c:1947
 #, c-format
 msgid "Cannot move folder `%s': illegal operation"
 msgstr "Не могу да преместим директоријум „%s“: неисправна операција"
 
-#: mail/em-folder-tree.c:1860 mail/em-folder-tree.c:2036
+#: mail/em-folder-tree.c:1976 mail/em-folder-tree.c:2152
 #, c-format
 msgid "%s"
 msgstr "%s"
 
-#: mail/em-folder-tree.c:1876 mail/em-folder-tree.c:1889
+#: mail/em-folder-tree.c:1992 mail/em-folder-tree.c:2005
 #: mail/em-folder-view.c:642 mail/em-folder-view.c:656
 #: mail/importers/evolution-mbox-importer.c:119
 msgid "Select folder"
 msgstr "Одаберите директоријум"
 
-#: mail/em-folder-tree.c:1916
+#: mail/em-folder-tree.c:2032
 #, c-format
 msgid "Creating folder `%s'"
 msgstr "Правим директоријум „%s“"
 
-#: mail/em-folder-tree.c:2101 mail/mail-component.c:629
+#: mail/em-folder-tree.c:2217 mail/mail-component.c:638
 msgid "Create folder"
 msgstr "Направи директоријум"
 
-#: mail/em-folder-tree.c:2220
+#: mail/em-folder-tree.c:2336
 #, c-format
 msgid "Could not delete folder: %s"
 msgstr "Не могу да обришем директоријум: %s"
 
-#: mail/em-folder-tree.c:2245
+#: mail/em-folder-tree.c:2361
 #, c-format
 msgid "Cannot delete local %s folder."
 msgstr "Не могу да обришем локални директоријум „%s“."
 
-#: mail/em-folder-tree.c:2251
+#: mail/em-folder-tree.c:2367
 #, c-format
 msgid "Really delete folder \"%s\" and all of its subfolders?"
 msgstr "Заиста да бришем директоријум „%s“, и све његове поддиректоријуме?"
 
-#: mail/em-folder-tree.c:2261
+#: mail/em-folder-tree.c:2377
 #, c-format
 msgid "Delete \"%s\""
 msgstr "Обриши „%s“"
 
-#: mail/em-folder-tree.c:2295
+#: mail/em-folder-tree.c:2411
 #, c-format
 msgid "Cannot rename local %s folder."
 msgstr "Не могу да преименујем локални директоријум „%s“."
 
-#: mail/em-folder-tree.c:2304
+#: mail/em-folder-tree.c:2420
 #, c-format
 msgid "Rename the \"%s\" folder to:"
 msgstr "Преименуј директоријум „%s“ у:"
 
-#: mail/em-folder-tree.c:2306
+#: mail/em-folder-tree.c:2422
 msgid "Rename Folder"
 msgstr "Преименуј директоријум"
 
-#: mail/em-folder-tree.c:2330
+#: mail/em-folder-tree.c:2446
 #, c-format
 msgid "A folder named \"%s\" already exists. Please use a different name."
 msgstr ""
 "Директоријум са именом „%s“ већ постоји. Молим користите неко друго име."
 
-#: mail/em-folder-tree.c:2376 ui/evolution-addressbook.xml.h:45
+#: mail/em-folder-tree.c:2492 ui/evolution-addressbook.xml.h:45
 #: ui/evolution-mail-global.xml.h:18 ui/evolution-mail-messagedisplay.xml.h:8
 #: ui/evolution-message-composer.xml.h:53 ui/evolution.xml.h:35
 msgid "_View"
 msgstr "П_реглед"
 
-#: mail/em-folder-tree.c:2377
+#: mail/em-folder-tree.c:2493
 msgid "Open in _New Window"
 msgstr "Отвори у _новом прозору"
 
-#: mail/em-folder-tree.c:2382
+#: mail/em-folder-tree.c:2498
 msgid "_Move"
 msgstr "Пре_мести"
 
 #. FIXME: need to disable for nochildren folders
-#: mail/em-folder-tree.c:2386
+#: mail/em-folder-tree.c:2502
 msgid "_New Folder..."
 msgstr "_Нови директоријум..."
 
-#: mail/em-folder-tree.c:2389
+#: mail/em-folder-tree.c:2505
 msgid "_Rename"
 msgstr "Преимену_ј"
 
-#: mail/em-folder-tree.c:2392 ui/evolution-mail-list.xml.h:27
+#: mail/em-folder-tree.c:2508 ui/evolution-mail-list.xml.h:27
 msgid "_Properties..."
 msgstr "_Особине..."
 
@@ -13132,89 +13124,121 @@ msgstr "Показивач на мрежни податак (%s)"
 msgid "Pointer to unknown external data (\"%s\" type)"
 msgstr "Показивач на напознати спољни податак (\"%s\" типа)"
 
-#: mail/em-format-html.c:1098
+#: mail/em-format-html.c:1129
 msgid "Formatting message"
 msgstr "Обликујем поруку"
 
-#: mail/em-format-html.c:1375 mail/em-format-quote.c:191 mail/em-format.c:742
+#: mail/em-format-html.c:1406 mail/em-format-quote.c:191 mail/em-format.c:743
 #: mail/em-mailer-prefs.c:67 mail/message-list.etspec.h:7
 #: mail/message-tag-followup.c:301
 msgid "From"
 msgstr "Од"
 
-#: mail/em-format-html.c:1375 mail/em-format-quote.c:191 mail/em-format.c:743
+#: mail/em-format-html.c:1406 mail/em-format-quote.c:191 mail/em-format.c:744
 #: mail/em-mailer-prefs.c:68
 msgid "Reply-To"
 msgstr "Одговор-за"
 
-#: mail/em-format-html.c:1375 mail/em-format-quote.c:191 mail/em-format.c:744
+#: mail/em-format-html.c:1406 mail/em-format-quote.c:191 mail/em-format.c:745
 #: mail/em-mailer-prefs.c:69 mail/message-list.etspec.h:14
 msgid "To"
 msgstr "Коме"
 
-#: mail/em-format-html.c:1375 mail/em-format-quote.c:191 mail/em-format.c:745
+#: mail/em-format-html.c:1406 mail/em-format-quote.c:191 mail/em-format.c:746
 #: mail/em-mailer-prefs.c:70
 msgid "Cc"
 msgstr "Cc (копија)"
 
-#: mail/em-format-html.c:1375 mail/em-format-quote.c:191 mail/em-format.c:746
+#: mail/em-format-html.c:1406 mail/em-format-quote.c:191 mail/em-format.c:747
 #: mail/em-mailer-prefs.c:71
 msgid "Bcc"
 msgstr "Bcc (невидљива копија)"
 
 #. pseudo-header
-#: mail/em-format-html.c:1485 mail/em-format-quote.c:308
-#: mail/em-mailer-prefs.c:729
+#: mail/em-format-html.c:1516 mail/em-format-quote.c:308
+#: mail/em-mailer-prefs.c:769
 msgid "Mailer"
 msgstr "Пошиљалац"
 
 #. translators: strftime format for local time equivalent in Date header display, with day
-#: mail/em-format-html.c:1512
+#: mail/em-format-html.c:1543
 msgid "<I> (%a, %R %Z)</I>"
 msgstr "<I> (%a, %R %Z)</I>"
 
 #. translators: strftime format for local time equivalent in Date header display, without day
-#: mail/em-format-html.c:1515
+#: mail/em-format-html.c:1546
 msgid "<I> (%R %Z)</I>"
 msgstr "<I> (%R %Z)</I>"
 
-#: mail/em-format-html.c:1525 mail/em-format-quote.c:315 mail/em-format.c:748
+#: mail/em-format-html.c:1556 mail/em-format-quote.c:315 mail/em-format.c:749
 #: mail/em-mailer-prefs.c:73 mail/message-list.etspec.h:2
 msgid "Date"
 msgstr "Датум"
 
-#: mail/em-format.c:963
+#: mail/em-format-html.c:1577 mail/em-format.c:750 mail/em-mailer-prefs.c:74
+msgid "Newsgroups"
+msgstr "Дискусионе групе"
+
+#: mail/em-format.c:987
 #, c-format
 msgid "%s attachment"
 msgstr "%s прилог"
 
-#: mail/em-format.c:1042 mail/em-format.c:1161
+#: mail/em-format.c:1066 mail/em-format.c:1188
 msgid "Could not parse S/MIME message: Unknown error"
 msgstr "Не могу да обрадим С/МИМЕ поруку: непозната грешка"
 
-#: mail/em-format.c:1151
+#: mail/em-format.c:1086 mail/em-format.c:1106 mail/em-format.c:1130
+#: mail/em-format.c:1223
+#, c-format
+msgid "Internal error: expecting CamelMultipart, got \"%s\""
+msgstr "Унутрашња грешка: очекивах CamelMultipart, примих „%s“"
+
+#: mail/em-format.c:1178
 msgid "Unsupported encryption type for multipart/encrypted"
 msgstr "Неподржана врста шифровања за multipart/encrypted"
 
-#: mail/em-format.c:1297
+#: mail/em-format.c:1325
 msgid "Could not parse MIME message. Displaying as source."
 msgstr "Нисам могао да обрадим MIME поруку. Показујем као извор."
 
-#: mail/em-format.c:1316
+#: mail/em-format.c:1344
 msgid "Unsupported signature format"
 msgstr "Неподржан облик потписа"
 
-#: mail/em-format.c:1324
+#: mail/em-format.c:1352
 msgid "Error verifying signature"
 msgstr "Грешка при провери потписа"
 
-#: mail/em-format.c:1324
+#: mail/em-format.c:1352
 msgid "Unknown error verifying signature"
 msgstr "Непозната грешка при провери потписа"
+
+#: mail/em-format.c:1372
+#, c-format
+msgid "Internal error: expecting CamelMimeMessage, got \"%s\""
+msgstr "Унутрашња грешка: очекивах CamelMimeMessage, примих „%s“"
 
 #: mail/em-junk-filter.c:82
 msgid "Spamassassin (built-in)"
 msgstr "Убица-спама (уграђен)"
+
+# слично као за месеце и недеље
+#: mail/em-mailer-prefs.c:85
+msgid "Every time"
+msgstr "Сваки пут"
+
+#: mail/em-mailer-prefs.c:86
+msgid "Once per day"
+msgstr "Једном дневно"
+
+#: mail/em-mailer-prefs.c:87
+msgid "Once per week"
+msgstr "Једном недељно"
+
+#: mail/em-mailer-prefs.c:88
+msgid "Once per month"
+msgstr "Једном месечно"
 
 #: mail/em-migrate.c:1079
 msgid ""
@@ -13334,7 +13358,7 @@ msgstr "непознати пошиљалац"
 msgid "On %a, %Y-%m-%d at %H:%M %%+05d, %%s wrote:"
 msgstr "У %a, %d. %m. %Y у %H:%M %%+05d, %%s написа:"
 
-#: mail/em-utils.c:1426 mail/em-utils.c:1510 mail/em-utils.c:1519
+#: mail/em-utils.c:1432 mail/em-utils.c:1516 mail/em-utils.c:1525
 #, c-format
 msgid ""
 "Cannot save to `%s'\n"
@@ -13343,7 +13367,7 @@ msgstr ""
 "Не могу да сачувам у `%s'\n"
 " %s"
 
-#: mail/em-utils.c:1431
+#: mail/em-utils.c:1437
 #, c-format
 msgid ""
 "`%s' already exists.\n"
@@ -13352,35 +13376,35 @@ msgstr ""
 "`%s' већ постоји.\n"
 "Да препишем?"
 
-#: mail/em-utils.c:1474
+#: mail/em-utils.c:1480
 msgid "message"
 msgstr "порука"
 
-#: mail/em-utils.c:1526
+#: mail/em-utils.c:1532
 #, c-format
 msgid "Error: '%s' exists and is not a regular file"
 msgstr "Грешка: „%s“ постоји и није обична датотека"
 
-#: mail/em-utils.c:1580
+#: mail/em-utils.c:1586
 msgid "Save Message..."
 msgstr "Сачувај поруку..."
 
-#: mail/em-utils.c:1618
+#: mail/em-utils.c:1635
 msgid "Add address"
 msgstr "Додај адресу"
 
 #. Drop filename for messages from a mailbox
-#: mail/em-utils.c:2052
+#: mail/em-utils.c:2070
 #, c-format
 msgid "Messages from %s"
 msgstr "Поруке од %s"
 
-#: mail/em-utils.c:2103
+#: mail/em-utils.c:2121
 #, c-format
 msgid "Could not create temporary directory: %s"
 msgstr "Нисам могао да направим привремени директоријум: %s"
 
-#: mail/em-utils.c:2434
+#: mail/em-utils.c:2452
 #, c-format
 msgid ""
 "This operation will permanently remove all deleted messages in the folder `%"
@@ -13393,7 +13417,7 @@ msgstr ""
 "\n"
 "Заиста уклонити ове поруке?"
 
-#: mail/em-utils.c:2459
+#: mail/em-utils.c:2477
 msgid ""
 "This operation will permanently remove all deleted messages in all folders. "
 "If you continue, you will not be able to recover these messages.\n"
@@ -13513,16 +13537,20 @@ msgstr ""
 "сви програми наведени у Гномовој бази за ову врсту датотека се могу "
 "користити за приказ садржаја."
 
-# bug: American English or British?
 #: mail/evolution-mail.schemas.in.in.h:26
+msgid "Last time empty trash was run"
+msgstr "Последње време пражњења смећа"
+
+# bug: American English or British?
+#: mail/evolution-mail.schemas.in.in.h:27
 msgid "List of Labels and their associated colours"
 msgstr "Списак ознака и одговарајућих боја"
 
-#: mail/evolution-mail.schemas.in.in.h:27
+#: mail/evolution-mail.schemas.in.in.h:28
 msgid "List of accounts"
 msgstr "Списак налога"
 
-#: mail/evolution-mail.schemas.in.in.h:28
+#: mail/evolution-mail.schemas.in.in.h:29
 msgid ""
 "List of accounts known to the mail component of Evolution. The list contains "
 "strings naming subdirectories relative to /apps/evolution/mail/accounts."
@@ -13530,12 +13558,12 @@ msgstr ""
 "Списак налога које познаје поштански део Еволуције. Списак садржи ниске које "
 "именују подкатегорије у односу на /apps/evolution/mail/accounts."
 
-#: mail/evolution-mail.schemas.in.in.h:29
+#: mail/evolution-mail.schemas.in.in.h:30
 msgid "List of custom headers and whether they are enabled."
 msgstr "Списак произвољних заглавља и да ли су укључена."
 
 # bug: American or British English?
-#: mail/evolution-mail.schemas.in.in.h:30
+#: mail/evolution-mail.schemas.in.in.h:31
 msgid ""
 "List of labels known to the mail component of Evolution. The list contains "
 "strings containing name:colour where colour uses the HTML hex encoding."
@@ -13543,15 +13571,15 @@ msgstr ""
 "Списак ознака које познаје поштански део Еволуције. Списак садржи ниске које "
 "садрже име:боја где боја користи ХТМЛ хексадекадни запис."
 
-#: mail/evolution-mail.schemas.in.in.h:31
+#: mail/evolution-mail.schemas.in.in.h:32
 msgid "List of mime types to check for bonobo component viewers"
 msgstr "Списак врсти датотека за проналажење Бонобо прегледача"
 
-#: mail/evolution-mail.schemas.in.in.h:32
+#: mail/evolution-mail.schemas.in.in.h:33
 msgid "Load images for HTML messages over http"
 msgstr "Учитај слике за ХТМЛ поруке преко ХТТП-а"
 
-#: mail/evolution-mail.schemas.in.in.h:33
+#: mail/evolution-mail.schemas.in.in.h:34
 msgid ""
 "Load images for HTML messages over http(s). Possible values are: 0 - Never "
 "load images off the net 1 - Load images if sender is in the addressbook 2 - "
@@ -13561,80 +13589,88 @@ msgstr ""
 "не учитавај поруке преко мреже, 1 — учитај поруке ако је пошиљалац у "
 "адресару, 2 — увек учитај слике преко мреже"
 
-#: mail/evolution-mail.schemas.in.in.h:34
+#: mail/evolution-mail.schemas.in.in.h:35
 msgid "Log filter actions"
 msgstr "Бележи дејство филтера"
 
-#: mail/evolution-mail.schemas.in.in.h:35
+#: mail/evolution-mail.schemas.in.in.h:36
 msgid "Log filter actions to the specified log file."
 msgstr "Бележи дејство филтера у наведену датотеку дневника."
 
-#: mail/evolution-mail.schemas.in.in.h:36
+#: mail/evolution-mail.schemas.in.in.h:37
 msgid "Logfile to log filter actions"
 msgstr "Дневник у који да бележи дејство филтера"
 
-#: mail/evolution-mail.schemas.in.in.h:37
+#: mail/evolution-mail.schemas.in.in.h:38
 msgid "Logfile to log filter actions."
 msgstr "Дневник у који да бележи дејство филтера."
 
-#: mail/evolution-mail.schemas.in.in.h:38
+#: mail/evolution-mail.schemas.in.in.h:39
 msgid "Mark as Seen after specified timeout"
 msgstr "Означи као виђену након одређеног времена"
 
-#: mail/evolution-mail.schemas.in.in.h:39
+#: mail/evolution-mail.schemas.in.in.h:40
 msgid "Mark as Seen after specified timeout."
 msgstr "Означи као виђену након одређеног времена."
 
-#: mail/evolution-mail.schemas.in.in.h:40
+#: mail/evolution-mail.schemas.in.in.h:41
 msgid "Mark citations in the message \"Preview\""
 msgstr "Означи цитате у прегледу поруке"
 
-#: mail/evolution-mail.schemas.in.in.h:41
+#: mail/evolution-mail.schemas.in.in.h:42
 msgid "Mark citations in the message \"Preview\"."
 msgstr "Означи цитате у прегледу поруке."
 
-#: mail/evolution-mail.schemas.in.in.h:42
+#: mail/evolution-mail.schemas.in.in.h:43
 msgid "Message Window default hight"
 msgstr "Подразумевана висина прозора за поруку"
 
-#: mail/evolution-mail.schemas.in.in.h:43
+#: mail/evolution-mail.schemas.in.in.h:44
 msgid "Message Window default width"
 msgstr "Подразумевана ширина прозора за поруку"
 
-#: mail/evolution-mail.schemas.in.in.h:44
+#: mail/evolution-mail.schemas.in.in.h:45
 msgid "Message-display style (normal, full headers, source)"
 msgstr "Стил приказа поруке (обичан, сва заглавља, изворни)"
 
-#: mail/evolution-mail.schemas.in.in.h:45
+#: mail/evolution-mail.schemas.in.in.h:46
+msgid "Minimum days between emptying the trash on exit"
+msgstr "Најмање дана између пражњења смећа по изласку"
+
+#: mail/evolution-mail.schemas.in.in.h:47
+msgid "Minimum time between emptying the trash on exit, in days."
+msgstr "Најмање време између пражњења смећа по изласку, у данима."
+
+#: mail/evolution-mail.schemas.in.in.h:48
 msgid "New Mail Notify sound file"
 msgstr "Звук за обавештење о новој пошти"
 
-#: mail/evolution-mail.schemas.in.in.h:46
+#: mail/evolution-mail.schemas.in.in.h:49
 msgid "New Mail Notify type"
 msgstr "Врста обавештења о новој пошти"
 
-#: mail/evolution-mail.schemas.in.in.h:47
+#: mail/evolution-mail.schemas.in.in.h:50
 msgid "Prompt on empty subject"
 msgstr "Упитај када је тема празна"
 
-#: mail/evolution-mail.schemas.in.in.h:48
+#: mail/evolution-mail.schemas.in.in.h:51
 msgid "Prompt the user when he or she tries to expunge a folder."
 msgstr "Упитај корисника када жели да испразни директоријум."
 
-#: mail/evolution-mail.schemas.in.in.h:49
+#: mail/evolution-mail.schemas.in.in.h:52
 msgid ""
 "Prompt the user when he or she tries to send a message without a Subject."
 msgstr "Упитај корисника када покуша да пошаље поруку без теме."
 
-#: mail/evolution-mail.schemas.in.in.h:50
+#: mail/evolution-mail.schemas.in.in.h:53
 msgid "Prompt when user expunges"
 msgstr "Упитај при пражњењу"
 
-#: mail/evolution-mail.schemas.in.in.h:51
+#: mail/evolution-mail.schemas.in.in.h:54
 msgid "Prompt when user only fills Bcc"
 msgstr "Упитај када корисник упути само невидљиву копију"
 
-#: mail/evolution-mail.schemas.in.in.h:52
+#: mail/evolution-mail.schemas.in.in.h:55
 msgid ""
 "Prompt when user tries to send HTML mail to recipients that may not want to "
 "receive HTML mail."
@@ -13642,92 +13678,96 @@ msgstr ""
 "Упитај када корисник покуша да пошаље ХТМЛ поруке примаоцима који можда не "
 "желе да примају ХТМЛ пошту."
 
-#: mail/evolution-mail.schemas.in.in.h:53
+#: mail/evolution-mail.schemas.in.in.h:56
 msgid "Prompt when user tries to send a message with no To or Cc recipients."
 msgstr ""
 "Упитај корисника када покуша да пошаље поруку без навођења коме или копије."
 
-#: mail/evolution-mail.schemas.in.in.h:54
+#: mail/evolution-mail.schemas.in.in.h:57
 msgid "Prompt when user tries to send unwanted HTML"
 msgstr "Упитај када корисник покуша да пошаље нежељени ХТМЛ"
 
-#: mail/evolution-mail.schemas.in.in.h:55
+#: mail/evolution-mail.schemas.in.in.h:58
 msgid "Recognize links in text and replace them."
 msgstr "Препознај везе у тексту и замени их."
 
-#: mail/evolution-mail.schemas.in.in.h:56
+#: mail/evolution-mail.schemas.in.in.h:59
 msgid "Recognize smileys in text and replace them with images."
 msgstr "Препознај смешке у тексту и замени их сликама."
 
-#: mail/evolution-mail.schemas.in.in.h:57
+#: mail/evolution-mail.schemas.in.in.h:60
 msgid "Run junk test on incoming mail"
 msgstr "Провери да долазећа пошта није ђубре"
 
-#: mail/evolution-mail.schemas.in.in.h:58
+#: mail/evolution-mail.schemas.in.in.h:61
 msgid "S3kr3t 0pt10n"
 msgstr "т4јН4 0пЦиј4"
 
-#: mail/evolution-mail.schemas.in.in.h:59
+#: mail/evolution-mail.schemas.in.in.h:62
 msgid "S3kr3t 0pt10n."
 msgstr "т4јН4 0пЦиј4."
 
-#: mail/evolution-mail.schemas.in.in.h:60
+#: mail/evolution-mail.schemas.in.in.h:63
 msgid "Send HTML mail by default"
 msgstr "Подразумевано шаљи ХТМЛ пошту"
 
-#: mail/evolution-mail.schemas.in.in.h:61
+#: mail/evolution-mail.schemas.in.in.h:64
 msgid "Send HTML mail by default."
 msgstr "Подразумевано шаљи ХТМЛ пошту."
 
-#: mail/evolution-mail.schemas.in.in.h:62
+#: mail/evolution-mail.schemas.in.in.h:65
 msgid "Show Animations"
 msgstr "Прикажи анимације"
 
-#: mail/evolution-mail.schemas.in.in.h:63
+#: mail/evolution-mail.schemas.in.in.h:66
 msgid "Show animated images as animations."
 msgstr "Прикажи анимиране слике као анимације."
 
-#: mail/evolution-mail.schemas.in.in.h:64
+#: mail/evolution-mail.schemas.in.in.h:67
 msgid "Show deleted messages (with a strike-through) in the message-list."
 msgstr "Прикажи обрисане поруке (прецртане) у списку порука."
 
-#: mail/evolution-mail.schemas.in.in.h:65
+#: mail/evolution-mail.schemas.in.in.h:68
 msgid "Show deleted messages in the message-list"
 msgstr "Прикажи обрисане поруке у списку порука"
 
-#: mail/evolution-mail.schemas.in.in.h:66
+#: mail/evolution-mail.schemas.in.in.h:69
 msgid "Show the \"Preview\" pane"
 msgstr "Прикажи површ за преглед"
 
-#: mail/evolution-mail.schemas.in.in.h:67
+#: mail/evolution-mail.schemas.in.in.h:70
 msgid "Show the \"Preview\" pane."
 msgstr "Прикажи површ за преглед."
 
-#: mail/evolution-mail.schemas.in.in.h:68
+#: mail/evolution-mail.schemas.in.in.h:71
 msgid "Sound file to play when new mail arrives."
 msgstr "Звук који се пушта када стигне нова пошта."
 
-#: mail/evolution-mail.schemas.in.in.h:69
+#: mail/evolution-mail.schemas.in.in.h:72
 msgid "Specifies the type of New Mail Notification the user wishes to use."
 msgstr "Наводи врсту обавештења о новој пошти које корисник жели да користи."
 
-#: mail/evolution-mail.schemas.in.in.h:70
+#: mail/evolution-mail.schemas.in.in.h:73
 msgid "Spell check inline"
 msgstr "Истовремена провера правописа"
 
-#: mail/evolution-mail.schemas.in.in.h:71
+#: mail/evolution-mail.schemas.in.in.h:74
 msgid "Terminal font"
 msgstr "Фонт за терминал"
 
-#: mail/evolution-mail.schemas.in.in.h:72
+#: mail/evolution-mail.schemas.in.in.h:75
+msgid "The last time empty trash was run, in days since the epoch."
+msgstr "Последње време пражњења смећа, у даним од епохе."
+
+#: mail/evolution-mail.schemas.in.in.h:76
 msgid "The terminal font for mail display"
 msgstr "Фонт за терминал за приказ поште"
 
-#: mail/evolution-mail.schemas.in.in.h:73
+#: mail/evolution-mail.schemas.in.in.h:77
 msgid "The variable width font for mail display"
 msgstr "Фонт променљиве ширине за приказ поште"
 
-#: mail/evolution-mail.schemas.in.in.h:74
+#: mail/evolution-mail.schemas.in.in.h:78
 msgid ""
 "This key should contain a list of XML structures specifying custom headers, "
 "and whether they are to be displayed. The format of the XML structure is &lt;"
@@ -13739,100 +13779,100 @@ msgstr ""
 "enabled&gt; — постављено на укључено ако заглавље треба приказати при "
 "приказу поште."
 
-#: mail/evolution-mail.schemas.in.in.h:75
+#: mail/evolution-mail.schemas.in.in.h:79
 msgid "Thread the message list."
 msgstr "Списак порука према нити разговора."
 
-#: mail/evolution-mail.schemas.in.in.h:76
+#: mail/evolution-mail.schemas.in.in.h:80
 msgid "Thread the message-list"
 msgstr "Списак порука према нити разговора"
 
-#: mail/evolution-mail.schemas.in.in.h:77
+#: mail/evolution-mail.schemas.in.in.h:81
 msgid "Thread the message-list based on Subject"
 msgstr "Списак порука према нити разговора (према теми)"
 
-#: mail/evolution-mail.schemas.in.in.h:78
+#: mail/evolution-mail.schemas.in.in.h:82
 msgid "Timeout for marking message as Seen"
 msgstr "Време за означавање порука као виђене"
 
-#: mail/evolution-mail.schemas.in.in.h:79
+#: mail/evolution-mail.schemas.in.in.h:83
 msgid "Timeout for marking message as Seen."
 msgstr "Време за означавање порука као виђене."
 
-#: mail/evolution-mail.schemas.in.in.h:80
+#: mail/evolution-mail.schemas.in.in.h:84
 msgid "UID string of the default account."
 msgstr "КИБ ниска подразумеваног налога."
 
-#: mail/evolution-mail.schemas.in.in.h:81
+#: mail/evolution-mail.schemas.in.in.h:85
 msgid "Use Spamasssassin daemon and client"
 msgstr "Користи услугу и клијента Убице спама"
 
-#: mail/evolution-mail.schemas.in.in.h:82
+#: mail/evolution-mail.schemas.in.in.h:86
 msgid "Use Spamasssassin daemon and client (spamc/spamd)"
 msgstr "Користи услугу и клијента Убице спама (spamc/spamd)"
 
-#: mail/evolution-mail.schemas.in.in.h:83
+#: mail/evolution-mail.schemas.in.in.h:87
 msgid "Use custom fonts"
 msgstr "Користи произвољне фонтове"
 
-#: mail/evolution-mail.schemas.in.in.h:84
+#: mail/evolution-mail.schemas.in.in.h:88
 msgid "Use custom fonts for displaying mail"
 msgstr "Користи произвољне фонтове за приказ поште"
 
-#: mail/evolution-mail.schemas.in.in.h:85
+#: mail/evolution-mail.schemas.in.in.h:89
 msgid "Use only local spam tests."
 msgstr "Користи само локалне провере спама."
 
-#: mail/evolution-mail.schemas.in.in.h:86
+#: mail/evolution-mail.schemas.in.in.h:90
 msgid "Use only the local spam tests (no DNS)."
 msgstr "Користи само локалне провере спама (без ДНС-а)."
 
-#: mail/evolution-mail.schemas.in.in.h:87
+#: mail/evolution-mail.schemas.in.in.h:91
 msgid "Variable width font"
 msgstr "Фонт променљиве ширине"
 
-#: mail/evolution-mail.schemas.in.in.h:88
+#: mail/evolution-mail.schemas.in.in.h:92
 msgid "View/Bcc menu item is checked"
 msgstr "Ставка менија Преглед/Невидљива копија је изабрана"
 
-#: mail/evolution-mail.schemas.in.in.h:89
+#: mail/evolution-mail.schemas.in.in.h:93
 msgid "View/Bcc menu item is checked."
 msgstr "Ставка менија Преглед/Невидљива копија је изабрана."
 
-#: mail/evolution-mail.schemas.in.in.h:90
+#: mail/evolution-mail.schemas.in.in.h:94
 msgid "View/Cc menu item is checked"
 msgstr "Ставка менија Преглед/Копија је изабрана"
 
-#: mail/evolution-mail.schemas.in.in.h:91
+#: mail/evolution-mail.schemas.in.in.h:95
 msgid "View/Cc menu item is checked."
 msgstr "Ставка менија Преглед/Копија је изабрана."
 
-#: mail/evolution-mail.schemas.in.in.h:92
+#: mail/evolution-mail.schemas.in.in.h:96
 msgid "View/From menu item is checked"
 msgstr "Ставка менија Преглед/Од је изабрана"
 
-#: mail/evolution-mail.schemas.in.in.h:93
+#: mail/evolution-mail.schemas.in.in.h:97
 msgid "View/From menu item is checked."
 msgstr "Ставка менија Преглед/Од је изабрана."
 
-#: mail/evolution-mail.schemas.in.in.h:94
+#: mail/evolution-mail.schemas.in.in.h:98
 msgid "View/PostTo menu item is checked"
 msgstr "Ставка менија Преглед/Пошаљи-коме је изабрана"
 
-#: mail/evolution-mail.schemas.in.in.h:95
+#: mail/evolution-mail.schemas.in.in.h:99
 msgid "View/PostTo menu item is checked."
 msgstr "Ставка менија Преглед/Пошаљи-коме је изабрана."
 
-#: mail/evolution-mail.schemas.in.in.h:96
+#: mail/evolution-mail.schemas.in.in.h:100
 msgid "View/ReplyTo menu item is checked"
 msgstr "Ставка менија Преглед/Одговор-за је изабрана"
 
-#: mail/evolution-mail.schemas.in.in.h:97
+#: mail/evolution-mail.schemas.in.in.h:101
 msgid "View/ReplyTo menu item is checked."
 msgstr "Ставка менија Преглед/Одговор-за је изабрана."
 
 # Да ли ово треба оставити на енглеском, пошто су дословна имена заглавља?
-#: mail/evolution-mail.schemas.in.in.h:98
+#: mail/evolution-mail.schemas.in.in.h:102
 msgid ""
 "Whether or not to fall back on threading by subjects when the messages do "
 "not contain In-Reply-To or References headers."
@@ -13840,11 +13880,11 @@ msgstr ""
 "Да ли се покушава приказ нити расправе помоћу наслова када поруке не садрже "
 "заглавља Као-одговор-на и Референце."
 
-#: mail/evolution-mail.schemas.in.in.h:99
+#: mail/evolution-mail.schemas.in.in.h:103
 msgid "port for starting user runned spamd"
 msgstr "порт за покретање корисниковог spamd-а"
 
-#: mail/evolution-mail.schemas.in.in.h:100
+#: mail/evolution-mail.schemas.in.in.h:104
 msgid "spamd port"
 msgstr "порт spamd-а"
 
@@ -14082,19 +14122,19 @@ msgstr "Нисте унели све потребне податке."
 msgid "Evolution Account Editor"
 msgstr "Уредник Еволуција налога"
 
-#: mail/mail-account-gui.c:755 mail/mail-config.glade.h:155
+#: mail/mail-account-gui.c:790 mail/mail-config.glade.h:155
 msgid "_Host:"
 msgstr "_Домаћин:"
 
-#: mail/mail-account-gui.c:759 mail/mail-config.glade.h:129
+#: mail/mail-account-gui.c:794 mail/mail-config.glade.h:129
 msgid "User_name:"
 msgstr "Корисничко_име"
 
-#: mail/mail-account-gui.c:763 mail/mail-config.glade.h:164
+#: mail/mail-account-gui.c:798 mail/mail-config.glade.h:164
 msgid "_Path:"
 msgstr "_Путања:"
 
-#: mail/mail-account-gui.c:1969
+#: mail/mail-account-gui.c:2074
 msgid "You may not create two accounts with the same name."
 msgstr "Не можете отворити два налога са истим именом."
 
@@ -14147,31 +14187,31 @@ msgstr ""
 msgid "You have unsent messages, do you wish to quit anyway?"
 msgstr "Имате непослате поруке, желите ли свеједно да изађете?"
 
-#: mail/mail-component.c:578
+#: mail/mail-component.c:587
 msgid "New Mail Message"
 msgstr "Нова порука"
 
-#: mail/mail-component.c:579
+#: mail/mail-component.c:588
 msgid "_Mail Message"
 msgstr "_Порука"
 
-#: mail/mail-component.c:580
+#: mail/mail-component.c:589
 msgid "Compose a new mail message"
 msgstr "Састави нову поруку"
 
-#: mail/mail-component.c:585
+#: mail/mail-component.c:594
 msgid "New Mail Folder"
 msgstr "Нови директоријум са поштом"
 
-#: mail/mail-component.c:586
+#: mail/mail-component.c:595
 msgid "Mail _Folder"
 msgstr "_Директоријум са поштом"
 
-#: mail/mail-component.c:587
+#: mail/mail-component.c:596
 msgid "Create a new mail folder"
 msgstr "Направи нови директоријум са поштом"
 
-#: mail/mail-component.c:754
+#: mail/mail-component.c:760
 msgid "URI of the mail source that the view will display"
 msgstr "Адреса извора поште који ће бити приказани у прегледу"
 
@@ -14905,7 +14945,7 @@ msgstr "Шаљем поруку %d од %d"
 #: mail/mail-ops.c:695
 #, c-format
 msgid "Failed to send %d of %d messages"
-msgstr "Неуспешно слање %d од %d порука"
+msgstr "Нисам успео да пошаљем %d од %d порука"
 
 #: mail/mail-ops.c:699
 msgid "Complete."
@@ -14986,19 +15026,23 @@ msgstr "Локални директоријуми"
 msgid "Retrieving message %s"
 msgstr "Учитавам поруку %s"
 
-# bug: plural-forms
 #: mail/mail-ops.c:1838
 #, c-format
-msgid "Retrieving %d message(s)"
-msgstr "Учитавам %d порука(е)"
+msgid "Retrieving %d message"
+msgid_plural "Retrieving %d messages"
+msgstr[0] "Учитавам %d поруку"
+msgstr[1] "Учитавам %d поруке"
+msgstr[2] "Учитавам %d порука"
 
-# bug: plural-forms
-#: mail/mail-ops.c:1922
+#: mail/mail-ops.c:1924
 #, c-format
-msgid "Saving %d messsage(s)"
-msgstr "Чувам %d порука(е)"
+msgid "Saving %d message"
+msgid_plural "Saving %d messsages"
+msgstr[0] "Чувам %d поруку"
+msgstr[1] "Чувам %d поруке"
+msgstr[2] "Чувам %d порука"
 
-#: mail/mail-ops.c:1970
+#: mail/mail-ops.c:1974
 #, c-format
 msgid ""
 "Unable to create output file: %s\n"
@@ -15007,7 +15051,7 @@ msgstr ""
 "Не могу да направим излазну датотеку: %s\n"
 " %s"
 
-#: mail/mail-ops.c:1998
+#: mail/mail-ops.c:2002
 #, c-format
 msgid ""
 "Error saving messages to: %s:\n"
@@ -15016,11 +15060,11 @@ msgstr ""
 "Грешка код чувања порука у: %s:\n"
 " %s"
 
-#: mail/mail-ops.c:2069
+#: mail/mail-ops.c:2073
 msgid "Saving attachment"
 msgstr "Чувам прилог"
 
-#: mail/mail-ops.c:2086
+#: mail/mail-ops.c:2090
 #, c-format
 msgid ""
 "Cannot create output file: %s:\n"
@@ -15029,17 +15073,17 @@ msgstr ""
 "Не могу да направим излазну датотеку: %s:\n"
 " %s"
 
-#: mail/mail-ops.c:2116
+#: mail/mail-ops.c:2120
 #, c-format
 msgid "Could not write data: %s"
 msgstr "Нисам могао да упишем: %s"
 
-#: mail/mail-ops.c:2264
+#: mail/mail-ops.c:2268
 #, c-format
 msgid "Disconnecting from %s"
 msgstr "Прекидам везу са %s"
 
-#: mail/mail-ops.c:2264
+#: mail/mail-ops.c:2268
 #, c-format
 msgid "Reconnecting to %s"
 msgstr "Поново се повезујем на %s"
@@ -16153,7 +16197,7 @@ msgid "Select a cert to import..."
 msgstr "Изаберите сертификат за увоз..."
 
 #: smime/gui/certificate-manager.c:238 smime/gui/certificate-manager.c:400
-#: smime/gui/certificate-manager.c:546
+#: smime/gui/certificate-manager.c:545
 msgid "Certificate Name"
 msgstr "Име сертификата"
 
@@ -16183,6 +16227,15 @@ msgstr "Преглед сертификата: %s"
 #, c-format
 msgid "Enter the password for `%s'"
 msgstr "Унесите лозинку за „%s“"
+
+#. we're setting the password initially
+#: smime/gui/component.c:64
+msgid "Enter new password for certificate database"
+msgstr "Унесите нову лозинку за базу сертификата"
+
+#: smime/gui/component.c:66
+msgid "Enter new password"
+msgstr "Унесите нову лозинку"
 
 #. FIXME: add serial no, validity date, uses
 #: smime/gui/e-cert-selector.c:121
@@ -16373,7 +16426,7 @@ msgstr "Држите ове сертификате који одређују о�
 msgid "Your Certificates"
 msgstr "Ваши сертификати"
 
-#: smime/lib/e-cert-db.c:571
+#: smime/lib/e-cert-db.c:582
 msgid "Certificate already exists"
 msgstr "Сертификат већ постоји"
 
@@ -18321,6 +18374,15 @@ msgstr "%s (...)"
 msgid "%s (%d%% complete)"
 msgstr "%s (%d%% завршено)"
 
+#~ msgid "Select destination %s"
+#~ msgstr "Изаберите одредиште %s"
+
+#~ msgid "calendar"
+#~ msgstr "календар"
+
+#~ msgid "task list"
+#~ msgstr "списак задужења"
+
 #~ msgid "STARTTLS request timed out: %s"
 #~ msgstr "STARTTLS захтеву је истекло време: %s"
 
@@ -18364,6 +18426,51 @@ msgstr "%s (%d%% завршено)"
 #~ msgid "QUIT response error"
 #~ msgstr "QUIT погрешан одговор"
 
+#~ msgid "%d second ago"
+#~ msgid_plural "%d seconds ago"
+#~ msgstr[0] "пре %d секунде"
+#~ msgstr[1] "пре %d секунде"
+#~ msgstr[2] "пре %d секунди"
+
+#~ msgid "%d minute ago"
+#~ msgid_plural "%d minutes ago"
+#~ msgstr[0] "пре %d минута"
+#~ msgstr[1] "пре %d минута"
+#~ msgstr[2] "пре %d минута"
+
+#~ msgid "%d hour ago"
+#~ msgid_plural "%d hours ago"
+#~ msgstr[0] "пре %d сата"
+#~ msgstr[1] "пре %d сата"
+#~ msgstr[2] "пре %d сати"
+
+#~ msgid "%d day ago"
+#~ msgid_plural "%d days ago"
+#~ msgstr[0] "пре %d дана"
+#~ msgstr[1] "пре %d дана"
+#~ msgstr[2] "пре %d дана"
+
+#~ msgid "%d month ago"
+#~ msgid_plural "%d months ago"
+#~ msgstr[0] "пре %d месеца"
+#~ msgstr[1] "пре %d месеца"
+#~ msgstr[2] "пре %d месеци"
+
+#~ msgid "%d year ago"
+#~ msgid_plural "%d years ago"
+#~ msgstr[0] "пре %d године"
+#~ msgstr[1] "пре %d године"
+#~ msgstr[2] "пре %d година"
+
+#~ msgid "Then"
+#~ msgstr "Онда"
+
+#~ msgid "If"
+#~ msgstr "Ако"
+
+#~ msgid "Rules"
+#~ msgstr "Правила"
+
 #~ msgid "Sending \"%s\""
 #~ msgstr "Шаљем \"%s\""
 
@@ -18372,6 +18479,58 @@ msgstr "%s (%d%% завршено)"
 
 #~ msgid "Changing junk status"
 #~ msgstr "Измена стања ђубрета"
+
+# bug: plural-forms
+#~ msgid "%d weeks ago"
+#~ msgstr "пре %d недеља"
+
+# bug: plural-forms
+#~ msgid "1 contact"
+#~ msgstr "1 контакт"
+
+# bug: plural-forms
+#~ msgid "and %d other contacts."
+#~ msgstr "и %d других контаката."
+
+# bug: plural-forms
+#~ msgid "1 day"
+#~ msgstr "1 дан"
+
+# bug: plural-forms
+#~ msgid "1 week"
+#~ msgstr "1 недеља"
+
+# bug: plural-forms
+#~ msgid "1 hour"
+#~ msgstr "1 сат"
+
+# bug: plural-forms
+#~ msgid "1 minute"
+#~ msgstr "1 минут"
+
+# bug: plural-forms
+#~ msgid "1 second"
+#~ msgstr "1 секунда"
+
+# bug: plural-forms
+#~ msgid "Every %d days"
+#~ msgstr "Свака %d дана"
+
+# bug: plural-forms
+#~ msgid "Every %d weeks"
+#~ msgstr "Сваких %d недеља"
+
+# bug: plural-forms
+#~ msgid "Every %d weeks on "
+#~ msgstr "Сваких %d недеља у "
+
+# bug: plural-forms
+#~ msgid "every %d months"
+#~ msgstr "сваких %d месеци"
+
+# bug: plural-forms
+#~ msgid "Every %d years"
+#~ msgstr "Сваких %d година"
 
 #~ msgid "Quit Assistant"
 #~ msgstr "Изађи из помоћника"
@@ -18388,9 +18547,6 @@ msgstr "%s (%d%% завршено)"
 #~ msgstr ""
 #~ "Покрени проверу ђубрета за пристиглу пошту на ИМАП налозима (важи једино "
 #~ "ако је постављено check_incoming)"
-
-#~ msgid "    "
-#~ msgstr "    "
 
 #~ msgid "Do _Not Check Incoming Mail For IMAP Accounts"
 #~ msgstr "_Не проверавај за новопристиглу пошту на ИМАП налозима"
@@ -18750,9 +18906,6 @@ msgstr "%s (%d%% завршено)"
 
 #~ msgid "<b>Task List</b>"
 #~ msgstr "<b>Списак задужења</b>"
-
-#~ msgid "<b>Time</b>"
-#~ msgstr "<b>Време</b>"
 
 #~ msgid "<b>Work Week</b>"
 #~ msgstr "<b>Радна недеља</b>"
@@ -19972,12 +20125,6 @@ msgstr "%s (%d%% завршено)"
 #~ msgid "News Feeds"
 #~ msgstr "Извори вести"
 
-#~ msgid "One mont_h"
-#~ msgstr "Један _месец"
-
-#~ msgid "One w_eek"
-#~ msgstr "Једна _недеља"
-
 #~ msgid "R_efresh time (seconds):"
 #~ msgstr "В_реме освежавања (секунде):"
 
@@ -20016,9 +20163,6 @@ msgstr "%s (%d%% завршено)"
 
 #~ msgid "_New Feed"
 #~ msgstr "_Нов извор"
-
-#~ msgid "_One day"
-#~ msgstr "_Један дан"
 
 #~ msgid "_Show full path for folders"
 #~ msgstr "Прикажи _пуну путању за директоријуме"
