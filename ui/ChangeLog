@@ -1,5 +1,8 @@
 2001-06-27  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* evolution-message-composer.xml: Updated to use TigerT's
+	attachment icon.
+
 	* evolution-mail-message.xml: Copy and Move to Folder now require
 	the Shift key.
 

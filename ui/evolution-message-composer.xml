@@ -30,7 +30,7 @@
 		pixtype="stock" pixname="Send Mail"/> 
 
 		<cmd name="FileAttach" _label="Attach" _tip="Attach a file"
-		pixtype="stock" pixname="Attach"/>
+		pixtype="pixbuf"/>
 
 		<cmd name="DeleteAll" _label="_Delete all"
 		_tip="Delete all but signature"/>
@@ -181,7 +181,7 @@
 
 		<toolitem name="FileSend" verb="" priority="1"/>
 
-		<toolitem name="FileAttach" verb=""/>
+		<toolitem name="FileAttach" verb="" pixtype="pixbuf"/>
 
 		<separator/>
 
