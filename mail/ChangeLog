@@ -1,5 +1,9 @@
 2004-05-18  Not Zed  <NotZed@Ximian.com>
 
+	* em-folder-browser.c (em_folder_browser_show_preview): don't
+	nomarkseen when we restore the message when we show the preview.
+	#58387.
+
 	* mail-folder-cache.c (folder_changed): no new message test if its
 	the drafts folder too.
 

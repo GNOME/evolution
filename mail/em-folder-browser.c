@@ -309,7 +309,7 @@ void em_folder_browser_show_preview(EMFolderBrowser *emfb, gboolean state)
 			char *uid = g_alloca(strlen(emfb->view.list->cursor_uid)+1);
 
 			strcpy(uid, emfb->view.list->cursor_uid);
-			em_folder_view_set_message(&emfb->view, uid, TRUE);
+			em_folder_view_set_message(&emfb->view, uid, FALSE);
 		}
 
 		/* need to load/show the current message? */
