@@ -1,3 +1,11 @@
+2002-05-01  JP Rosevear  <jpr@ximian.com>
+
+	* gui/print.c (print_day_details): modify the start and end hours
+	to accomodate all the events in the day
+
+	* gui/e-day-view.c (free_view_popup): only discard the popup if we
+	created one
+
 2002-04-30  JP Rosevear  <jpr@ximian.com>
 
 	* gui/gnome-cal.c (gnome_calendar_construct): remove setup_widgets

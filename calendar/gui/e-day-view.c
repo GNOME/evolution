@@ -3621,8 +3621,12 @@ static void
 free_view_popup (GtkWidget *widget, gpointer data)
 {
 	EDayView *day_view = E_DAY_VIEW (data);
+
+	if (day_view->view_menu == NULL)
+		return;
 	
 	gnome_calendar_discard_view_popup (day_view->calendar, day_view->view_menu);
+	day_view->view_menu = NULL;
 }
 
 static void
