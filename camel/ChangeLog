@@ -1,3 +1,9 @@
+2004-11-01  Jeffrey Stedfast  <fejj@novell.com>
+
+	* providers/imap4/camel-imap4-store-summary.c (load_namespaces):
+	Cleaned up a bit.
+	(save_namespaces): Same.
+
 2004-10-28  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* providers/imap4/camel-imap4-summary.c (envelope_decode_nstring):

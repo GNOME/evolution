@@ -48,11 +48,9 @@ static void camel_imap4_store_summary_finalize (CamelObject *obj);
 static int summary_header_load (CamelStoreSummary *s, FILE *in);
 static int summary_header_save (CamelStoreSummary *s, FILE *out);
 
-#if 0
 static CamelStoreInfo *store_info_load (CamelStoreSummary *s, FILE *in);
 static int store_info_save (CamelStoreSummary *s, FILE *out, CamelStoreInfo *info);
 static void store_info_free (CamelStoreSummary *s, CamelStoreInfo *info);
-#endif
 
 
 static CamelStoreSummaryClass *parent_class = NULL;
@@ -88,11 +86,9 @@ camel_imap4_store_summary_class_init (CamelIMAP4StoreSummaryClass *klass)
 	ssklass->summary_header_load = summary_header_load;
 	ssklass->summary_header_save = summary_header_save;
 	
-#if 0
 	ssklass->store_info_load = store_info_load;
 	ssklass->store_info_save = store_info_save;
 	ssklass->store_info_free = store_info_free;
-#endif
 }
 
 static void
@@ -125,11 +121,22 @@ load_namespaces (FILE *in)
 	nsl->shared = NULL;
 	nsl->other = NULL;
 	
-	tail = (CamelIMAP4Namespace *) &nsl->personal;
-	if (camel_file_util_decode_fixed_int32 (in, &n) == -1)
-		goto exception;
-	
 	for (j = 0; j < 3; j++) {
+		switch (j) {
+		case 0:
+			tail = (CamelIMAP4Namespace *) &nsl->personal;
+			break;
+		case 1:
+			tail = (CamelIMAP4Namespace *) &nsl->shared;
+			break;
+		case 2:
+			tail = (CamelIMAP4Namespace *) &nsl->other;
+			break;
+		}
+		
+		if (camel_file_util_decode_fixed_int32 (in, &n) == -1)
+			goto exception;
+		
 		for (i = 0; i < n; i++) {
 			guint32 sep;
 			char *path;
@@ -148,14 +155,6 @@ load_namespaces (FILE *in)
 			ns->next = NULL;
 			tail = ns;
 		}
-		
-		if (j == 0)
-			tail = (CamelIMAP4Namespace *) &nsl->shared;
-		else
-			tail = (CamelIMAP4Namespace *) &nsl->other;
-		
-		if (camel_file_util_decode_fixed_int32 (in, &n) == -1)
-			goto exception;
 	}
 	
 	return nsl;
@@ -203,8 +202,19 @@ save_namespaces (FILE *out, CamelIMAP4NamespaceList *nsl)
 	CamelIMAP4Namespace *cur, *ns;
 	guint32 i, n;
 	
-	cur = nsl->personal;
 	for (i = 0; i < 3; i++) {
+		switch (i) {
+		case 0:
+			cur = nsl->personal;
+			break;
+		case 1:
+			cur = nsl->shared;
+			break;
+		case 2:
+			cur = nsl->other;
+			break;
+		}
+		
 		for (ns = cur, n = 0; ns; n++)
 			ns = ns->next;
 		
@@ -221,11 +231,6 @@ save_namespaces (FILE *out, CamelIMAP4NamespaceList *nsl)
 			
 			ns = ns->next;
 		}
-		
-		if (i == 0)
-			cur = nsl->shared;
-		else
-			cur = nsl->other;
 	}
 	
 	return 0;
@@ -251,25 +256,24 @@ summary_header_save (CamelStoreSummary *s, FILE *out)
 	return 0;
 }
 
-#if 0
 static CamelStoreInfo *
 store_info_load (CamelStoreSummary *s, FILE *in)
 {
-	return NULL;
+	return parent_class->store_info_load (s, in);
 }
 
 static int
 store_info_save (CamelStoreSummary *s, FILE *out, CamelStoreInfo *info)
 {
-	return 0;
+	return parent_class->store_info_save (s, out, info);
 }
 
 static void
 store_info_free (CamelStoreSummary *s, CamelStoreInfo *info)
 {
-	;
+	parent_class->store_info_free (s, info);
 }
-#endif
+
 
 /**
  * camel_imap4_store_summary_new:
