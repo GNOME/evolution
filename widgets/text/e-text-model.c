@@ -27,6 +27,8 @@
 
 #define CLASS(obj) (E_TEXT_MODEL_CLASS (GTK_OBJECT (obj)->klass))
 
+#define MAX_LENGTH (2047)
+
 enum {
 	E_TEXT_MODEL_CHANGED,
 	E_TEXT_MODEL_REPOSITION,
@@ -235,7 +237,7 @@ e_text_model_real_set_text (ETextModel *model, const gchar *text)
 	} else if (model->priv->text == NULL || strcmp (model->priv->text, text)) {
 		
 		g_free (model->priv->text);
-		model->priv->text = g_strdup (text);
+		model->priv->text = g_strndup (text, MAX_LENGTH);
 		model->priv->len = -1;
 
 		changed = TRUE;
@@ -254,10 +256,18 @@ e_text_model_real_insert (ETextModel *model, gint position, const gchar *text)
 {
 	EReposInsertShift repos;
 	gchar *new_text;
-	gint ins_len;
+	gint length;
 
-	new_text = g_strdup_printf ("%.*s%s%s", position, model->priv->text, text, model->priv->text + position);
-	ins_len = strlen (text);
+	if (model->priv->len < 0)
+		e_text_model_real_get_text_length (model);
+	length = strlen(text);
+
+	if (length + model->priv->len > MAX_LENGTH)
+		length = MAX_LENGTH - model->priv->len;
+	if (length <= 0)
+		return;
+
+	new_text = g_strdup_printf ("%.*s%.*s%s", position, model->priv->text, length, text, model->priv->text + position);
 
 	if (model->priv->text)
 		g_free (model->priv->text);
@@ -265,13 +275,13 @@ e_text_model_real_insert (ETextModel *model, gint position, const gchar *text)
 	model->priv->text = new_text;
 	
 	if (model->priv->len >= 0)
-		model->priv->len += ins_len;
+		model->priv->len += length;
 	
 	e_text_model_changed (model);
 
 	repos.model = model;
 	repos.pos = position;
-	repos.len = ins_len;
+	repos.len = length;
 
 	e_text_model_reposition (model, e_repos_insert_shift, &repos);
 }
@@ -280,7 +290,17 @@ static void
 e_text_model_real_insert_length (ETextModel *model, gint position, const gchar *text, gint length)
 {
 	EReposInsertShift repos;
-	gchar *new_text = g_strdup_printf ("%.*s%.*s%s", position, model->priv->text, length, text, model->priv->text + position);
+	gchar *new_text;
+
+	if (model->priv->len < 0)
+		e_text_model_real_get_text_length (model);
+
+	if (length + model->priv->len > MAX_LENGTH)
+		length = MAX_LENGTH - model->priv->len;
+	if (length <= 0)
+		return;
+
+	new_text = g_strdup_printf ("%.*s%.*s%s", position, model->priv->text, length, text, model->priv->text + position);
 
 	if (model->priv->text)
 		g_free (model->priv->text);
