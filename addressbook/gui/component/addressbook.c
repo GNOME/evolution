@@ -484,6 +484,9 @@ book_open_cb (EBook *book, EBookStatus status, gpointer closure)
 
 	if (status == E_BOOK_STATUS_SUCCESS) {
 		view->failed_to_load = FALSE;
+		g_object_set(view->view,
+			     "book", book,
+			     NULL);
 		view->book = book;
 	}
 	else {
