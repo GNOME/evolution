@@ -14325,7 +14325,7 @@ msgstr "Umowa licencyjna %s"
 
 #: mail/mail-account-gui.c:957 mail/mail-config.glade.h:168
 msgid "_Host:"
-msgstr "Adres ser_wera:"
+msgstr "Nazwa ser_wera:"
 
 #: mail/mail-account-gui.c:961 mail/mail-config.glade.h:152
 msgid "User_name:"
