@@ -1,3 +1,8 @@
+2003-02-05  JP Rosevear  <jpr@ximian.com>
+
+	* gui/calendar-model.c (calendar_model_append_row): update FIXME
+	note
+
 2003-02-04  JP Rosevear  <jpr@ximian.com>
 
        Partially  Fixes #23606 (from Jack Jia <jack.jia@sun.com>)

@@ -1386,9 +1386,7 @@ calendar_model_append_row (ETableModel *etm, ETableModel *source, gint row)
 	if (!(priv->client && cal_client_get_load_state (priv->client) == CAL_CLIENT_LOAD_LOADED))
 		return;
 
-	/* FIXME: This should support other types of components, but for now it
-	 * is only used for the task list.
-	 */
+	/* FIXME: This should also support journal components */
 	switch (priv->new_comp_vtype) {
 	case CAL_COMPONENT_EVENT:
 		comp = cal_comp_event_new_with_defaults (priv->client);
