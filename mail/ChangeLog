@@ -2,6 +2,11 @@
 
 	* evolution-mbox-upgrade.c (get_local_store): Don't xmlFree (name)
 	until after we've g_strdup'd it.
+	(em_migrate_dir): If the metadata file doesn't exist, don't even
+	bother trying subfolers (the shell just ignores them so we should
+	too).
+
+2003-09-23  Jeffrey Stedfast  <fejj@ximian.com>
 
 	Fix for bug #48791 (and also fixes a FIXME)
 

@@ -102,13 +102,9 @@ em_migrate_session_new (const char *path)
 static gboolean
 is_mail_folder (const char *metadata)
 {
-	struct stat st;
 	xmlNodePtr node;
 	xmlDocPtr doc;
 	char *type;
-	
-	if (stat (metadata, &st) == -1 || !S_ISREG (st.st_mode))
-		return FALSE;
 	
 	if (!(doc = xmlParseFile (metadata))) {
 		g_warning ("Cannot parse `%s'", metadata);
@@ -229,8 +225,14 @@ em_migrate_dir (EMMigrateSession *session, const char *dirname, const char *full
 	DIR *dir;
 	
 	path = g_strdup_printf ("%s/folder-metadata.xml", dirname);
+	if (stat (path, &st) == -1 || !S_ISREG (st.st_mode)) {
+		g_free (path);
+		return;
+	}
+	
 	if (!is_mail_folder (path)) {
 		g_free (path);
+		
 		goto try_subdirs;
 	}
 	
@@ -244,7 +246,9 @@ em_migrate_dir (EMMigrateSession *session, const char *dirname, const char *full
 		g_warning ("error opening old store for `%s': %s", full_name, ex.desc);
 		camel_exception_clear (&ex);
 		g_free (path);
-		return;
+		
+		/* try subfolders anyway? */
+		goto try_subdirs;
 	}
 	
 	g_free (path);
@@ -254,7 +258,9 @@ em_migrate_dir (EMMigrateSession *session, const char *dirname, const char *full
 		camel_object_unref (local_store);
 		camel_exception_clear (&ex);
 		g_free (name);
-		return;
+		
+		/* try subfolders anyway? */
+		goto try_subdirs;
 	}
 	
 	g_free (name);
@@ -265,7 +271,9 @@ em_migrate_dir (EMMigrateSession *session, const char *dirname, const char *full
 		camel_object_unref (local_store);
 		camel_object_unref (old_folder);
 		camel_exception_clear (&ex);
-		return;
+		
+		/* try subfolders anyway? */
+		goto try_subdirs;
 	}
 	
 	uids = camel_folder_get_uids (old_folder);
@@ -278,7 +286,9 @@ em_migrate_dir (EMMigrateSession *session, const char *dirname, const char *full
 		camel_object_unref (old_folder);
 		camel_object_unref (new_folder);
 		camel_exception_clear (&ex);
-		return;
+		
+		/* try subfolders anyway? */
+		goto try_subdirs;
 	}
 	
 	/*camel_object_unref (local_store);*/
