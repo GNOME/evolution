@@ -208,7 +208,7 @@ free_entry (gpointer key, gpointer value, gpointer user_data)
 }
 
 void
-forget_passwords (BonoboUIHandler *uih, void *user_data, const char *path)
+forget_passwords (BonoboUIComponent *uih, void *user_data, const char *path)
 {
 	g_hash_table_foreach_remove (passwords, free_entry, NULL);
 }

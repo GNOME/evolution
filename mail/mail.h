@@ -87,19 +87,19 @@ void print_preview_msg  (GtkWidget *widget, gpointer user_data);
 void edit_msg           (GtkWidget *widget, gpointer user_data);
 void view_msg           (GtkWidget *widget, gpointer user_data);
 
-void select_all      (BonoboUIHandler *uih, void *user_data, const char *path);
-void invert_selection (BonoboUIHandler *uih, void *user_data, const char *path);
-void mark_as_seen    (BonoboUIHandler *uih, void *user_data, const char *path);
-void mark_as_unseen  (BonoboUIHandler *uih, void *user_data, const char *path);
-void edit_message    (BonoboUIHandler *uih, void *user_data, const char *path);
-void view_message    (BonoboUIHandler *uih, void *user_data, const char *path);
-void expunge_folder  (BonoboUIHandler *uih, void *user_data, const char *path);
-void filter_edit     (BonoboUIHandler *uih, void *user_data, const char *path);
-void vfolder_edit_vfolders (BonoboUIHandler *uih, void *user_data, const char *path);
-void providers_config (BonoboUIHandler *uih, void *user_data, const char *path);
-void manage_subscriptions (BonoboUIHandler *uih, void *user_data, const char *path);
+void select_all      (BonoboUIComponent *uih, void *user_data, const char *path);
+void invert_selection (BonoboUIComponent *uih, void *user_data, const char *path);
+void mark_as_seen    (BonoboUIComponent *uih, void *user_data, const char *path);
+void mark_as_unseen  (BonoboUIComponent *uih, void *user_data, const char *path);
+void edit_message    (BonoboUIComponent *uih, void *user_data, const char *path);
+void view_message    (BonoboUIComponent *uih, void *user_data, const char *path);
+void expunge_folder  (BonoboUIComponent *uih, void *user_data, const char *path);
+void filter_edit     (BonoboUIComponent *uih, void *user_data, const char *path);
+void vfolder_edit_vfolders (BonoboUIComponent *uih, void *user_data, const char *path);
+void providers_config (BonoboUIComponent *uih, void *user_data, const char *path);
+void manage_subscriptions (BonoboUIComponent *uih, void *user_data, const char *path);
 
-void configure_folder (BonoboUIHandler *uih, void *user_data, const char *path);
+void configure_folder (BonoboUIComponent *uih, void *user_data, const char *path);
 
 void mail_reply (CamelFolder *folder, CamelMimeMessage *msg, const char *uid, gboolean to_all);
 void composer_send_cb (EMsgComposer *composer, gpointer data);
@@ -108,7 +108,7 @@ void composer_postpone_cb (EMsgComposer *composer, gpointer data);
 void mail_print_preview_msg (MailDisplay *md);
 void mail_print_msg         (MailDisplay *md);
 
-void run_filter_ondemand (BonoboUIHandler *uih, gpointer user_data, const char *path);
+void run_filter_ondemand (BonoboUIComponent *uih, gpointer user_data, const char *path);
 
 /* mail view */
 GtkWidget *mail_view_create (CamelFolder *source, const char *uid, CamelMimeMessage *msg);
@@ -124,7 +124,7 @@ EvolutionStorage* mail_lookup_storage (CamelService *service);
 void session_init (void);
 char *mail_request_dialog (const char *prompt, gboolean secret,
 			   const char *key, gboolean async);
-void forget_passwords (BonoboUIHandler *uih, void *user_data,
+void forget_passwords (BonoboUIComponent *uih, void *user_data,
 		       const char *path);
 extern CamelSession *session;
 

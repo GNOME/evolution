@@ -545,7 +545,7 @@ copy_msg (GtkWidget *widget, gpointer user_data)
 }
 
 void
-select_all (BonoboUIHandler *uih, void *user_data, const char *path)
+select_all (BonoboUIComponent *uih, void *user_data, const char *path)
 {
 	FolderBrowser *fb = FOLDER_BROWSER (user_data);
         MessageList *ml = fb->message_list;
@@ -559,7 +559,7 @@ select_all (BonoboUIHandler *uih, void *user_data, const char *path)
 }
 
 void
-invert_selection (BonoboUIHandler *uih, void *user_data, const char *path)
+invert_selection (BonoboUIComponent *uih, void *user_data, const char *path)
 {
 	FolderBrowser *fb = FOLDER_BROWSER (user_data);
         MessageList *ml = fb->message_list;
@@ -573,7 +573,7 @@ invert_selection (BonoboUIHandler *uih, void *user_data, const char *path)
 }
 
 void
-mark_as_seen (BonoboUIHandler *uih, void *user_data, const char *path)
+mark_as_seen (BonoboUIComponent *uih, void *user_data, const char *path)
 {
         FolderBrowser *fb = FOLDER_BROWSER(user_data);
         MessageList *ml = fb->message_list;
@@ -589,7 +589,7 @@ mark_as_seen (BonoboUIHandler *uih, void *user_data, const char *path)
 }
 
 void
-mark_as_unseen (BonoboUIHandler *uih, void *user_data, const char *path)
+mark_as_unseen (BonoboUIComponent *uih, void *user_data, const char *path)
 {
         FolderBrowser *fb = FOLDER_BROWSER(user_data);
         MessageList *ml = fb->message_list;
@@ -665,7 +665,7 @@ delete_msg (GtkWidget *button, gpointer user_data)
 }
 
 void
-expunge_folder (BonoboUIHandler *uih, void *user_data, const char *path)
+expunge_folder (BonoboUIComponent *uih, void *user_data, const char *path)
 {
 	FolderBrowser *fb = FOLDER_BROWSER(user_data);
 	
@@ -695,7 +695,7 @@ filter_druid_clicked (GtkWidget *w, int button, FolderBrowser *fb)
 }
 
 void
-filter_edit (BonoboUIHandler *uih, void *user_data, const char *path)
+filter_edit (BonoboUIComponent *uih, void *user_data, const char *path)
 {
 	FolderBrowser *fb = FOLDER_BROWSER (user_data);
 	FilterContext *fc;
@@ -729,13 +729,13 @@ filter_edit (BonoboUIHandler *uih, void *user_data, const char *path)
 }
 
 void
-vfolder_edit_vfolders (BonoboUIHandler *uih, void *user_data, const char *path)
+vfolder_edit_vfolders (BonoboUIComponent *uih, void *user_data, const char *path)
 {
 	vfolder_edit();
 }
 
 void
-providers_config (BonoboUIHandler *uih, void *user_data, const char *path)
+providers_config (BonoboUIComponent *uih, void *user_data, const char *path)
 {
 	mail_config ((FOLDER_BROWSER (user_data))->shell);
 }
@@ -840,7 +840,7 @@ print_preview_msg (GtkWidget *button, gpointer user_data)
 }
 
 void
-manage_subscriptions (BonoboUIHandler *uih, void *user_data, const char *path)
+manage_subscriptions (BonoboUIComponent *uih, void *user_data, const char *path)
 {
 	/* XXX pass in the selected storage */
 	GtkWidget *subscribe = subscribe_dialog_new ((FOLDER_BROWSER (user_data))->shell);
@@ -849,7 +849,7 @@ manage_subscriptions (BonoboUIHandler *uih, void *user_data, const char *path)
 }
 
 void
-configure_folder(BonoboUIHandler *uih, void *user_data, const char *path)
+configure_folder(BonoboUIComponent *uih, void *user_data, const char *path)
 {
 	FolderBrowser *fb = FOLDER_BROWSER(user_data);
 	
@@ -871,19 +871,19 @@ view_msg (GtkWidget *widget, gpointer user_data)
 }
 
 void
-view_message (BonoboUIHandler *uih, void *user_data, const char *path)
+view_message (BonoboUIComponent *uih, void *user_data, const char *path)
 {
         view_msg (NULL, user_data);
 }
 
 void
-edit_message (BonoboUIHandler *uih, void *user_data, const char *path)
+edit_message (BonoboUIComponent *uih, void *user_data, const char *path)
 {
         edit_msg (NULL, user_data);
 }
 
 void
-run_filter_ondemand (BonoboUIHandler *uih, gpointer user_data, const char *path)
+run_filter_ondemand (BonoboUIComponent *uih, gpointer user_data, const char *path)
 {
 	struct fb_ondemand_closure *oc = (struct fb_ondemand_closure *) user_data;
 	

@@ -9,7 +9,6 @@
 #include <gtk/gtktable.h>
 #include <gal/e-table/e-tree-model.h>
 #include <bonobo/bonobo-control.h>
-#include <bonobo/bonobo-ui-compat.h>
 #include <bonobo/bonobo-property-bag.h>
 #include "shell/evolution-storage.h"
 

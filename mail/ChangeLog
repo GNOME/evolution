@@ -1,3 +1,11 @@
+2000-10-20  Michael Meeks  <michael@helixcode.com>
+
+	* mail.h: s/BonoboUIHandler/BonoboUIComponent/
+
+	* mail-callbacks.c (run_filter_ondemand): ditto.
+
+	* session.c (forget_passwords): ditto.
+
 2000-10-20  Dan Winship  <danw@helixcode.com>
 
 	* evolution-mail.oafinfo: Declare composer factory.
