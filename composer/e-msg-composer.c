@@ -68,12 +68,10 @@ static GtkWidget *
 create_editor (EMsgComposer *composer)
 {
 	GtkWidget *control;
-	Bonobo_UIHandler corba_uih;
-
-	corba_uih = bonobo_object_corba_objref (BONOBO_OBJECT (composer->uih));
 
 	/* FIXME: Hardcoded value sucks!  */
-	control = bonobo_widget_new_control ("control:html-editor", NULL /*corba_uih*/);
+	control = bonobo_widget_new_control ("control:html-editor",
+					     bonobo_object_corba_objref (BONOBO_OBJECT (composer->uih)));
 	if (control == NULL) {
 		g_warning ("Cannot get the `control:html-editor' component.");
 		return NULL;
@@ -606,6 +604,8 @@ e_msg_composer_construct (EMsgComposer *composer)
 
 	/* Editor component.  */
 
+	create_menubar (composer);
+	create_toolbar (composer);
 	composer->editor = create_editor (composer);
 
 	gtk_widget_show (composer->editor);
@@ -635,9 +635,6 @@ e_msg_composer_construct (EMsgComposer *composer)
 	gtk_widget_show (vbox);
 
 	e_msg_composer_show_attachments (composer, FALSE);
-
-	create_menubar (composer);
-	create_toolbar (composer);
 }
 
 /**

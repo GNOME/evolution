@@ -1,3 +1,9 @@
+2000-04-25  Radek Doulik  <rodo@helixcode.com>
+
+	* e-msg-composer.c (create_editor): use uih here
+	(e_msg_composer_construct): create menubar/toolbar before creating
+	editor control
+
 2000-04-23  Dan Winship  <danw@helixcode.com>
 
 	* Makefile.am: build libcomposer static and don't install it.
