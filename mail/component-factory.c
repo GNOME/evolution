@@ -488,7 +488,7 @@ get_dnd_selection (EvolutionShellComponent *shell_component,
 		   int *selection_length_return,
 		   void *closure)
 {
-	g_print ("should get dnd selection for %s\n", physical_uri);
+	d(printf ("should get dnd selection for %s\n", physical_uri));
 	
 	return NULL;
 }
@@ -598,7 +598,7 @@ destination_folder_handle_drop (EvolutionShellComponentDndDestinationFolder *des
 	if (uri)
 		camel_url_free (uri);
 	
-	g_print ("in destination_folder_handle_drop (%s)\n", physical_uri);
+	d(printf ("in destination_folder_handle_drop (%s)\n", physical_uri));
 	
 	for (type = 0; accepted_dnd_types[type]; type++)
 		if (!strcmp (destination_context->dndType, accepted_dnd_types[type]))
