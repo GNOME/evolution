@@ -1,3 +1,7 @@
+2001-07-02  JP Rosevear  <jpr@ximian.com>
+
+	* evolution-calendar.xml: Add publish free/busy item
+
 2001-07-02  Rodrigo Moya <rodrigo@ximian.com>
 
 	* evolution-tasks.xml: make the 'Task Preferences' menu item appear

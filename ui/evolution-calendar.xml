@@ -32,6 +32,9 @@
 		<cmd name="PasteEvent" _label="Paste"
                  _tip="Paste the clipboard" pixtype="stock" pixname="Paste"
                  accel="*Control*v"/>
+
+	        <cmd name="PublishFreeBusy" _label="Publish Free/Busy Information"
+                _tip="Publish Free/Busy information for this calendar"/>
 	</commands>
 
 	<menu>
@@ -108,6 +111,10 @@
                         <placeholder name="Component">
 	                        <menuitem name="CalendarNew" verb="EditNewAppointment"/>
 	                        <menuitem verb="EditNewEvent"/>
+
+                                <separator/>
+
+	                        <menuitem name="PublishFreeBusy" verb=""/>
 	                </placeholder>
                 </submenu>
 	</menu>
