@@ -631,6 +631,11 @@ camel_nntp_folder_new (CamelStore *parent, const char *folder_name, CamelExcepti
 	nntp_folder->storage_path = g_build_filename (root, folder->full_name, NULL);
 	g_free (root);
 	
+	root = g_strdup_printf ("%s.cmeta", nntp_folder->storage_path);
+	camel_object_set(nntp_folder, NULL, CAMEL_OBJECT_STATE_FILE, root, NULL);
+	camel_object_state_read(nntp_folder);
+	g_free(root);
+
 	folder->summary = (CamelFolderSummary *) camel_nntp_summary_new (nntp_folder);
 	camel_folder_summary_load (folder->summary);
 	
