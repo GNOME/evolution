@@ -646,7 +646,7 @@ static void
 e_contact_editor_build_ui_info(GList *list, GnomeUIInfo **infop)
 {
 	GnomeUIInfo *info;
-	GnomeUIInfo singleton = { GNOME_APP_UI_ITEM, NULL, NULL, NULL, NULL, NULL, GNOME_APP_PIXMAP_NONE, 0, 0, 0, NULL };
+	GnomeUIInfo singleton = { GNOME_APP_UI_TOGGLEITEM, NULL, NULL, NULL, NULL, NULL, GNOME_APP_PIXMAP_NONE, 0, 0, 0, NULL };
 	GnomeUIInfo end = GNOMEUIINFO_END;
 	int length;
 	int i;
@@ -811,6 +811,16 @@ _phone_arrow_pressed (GtkWidget *widget, GdkEventButton *button, EContactEditor 
 		editor->phone_popup = gnome_popup_menu_new(editor->phone_info);
 	}
 	
+	for(i = 0; i < E_CARD_SIMPLE_PHONE_ID_LAST; i++) {
+		const ECardPhone *phone = e_card_simple_get_phone(editor->simple, i);
+		gboolean checked;
+		checked = phone && phone->number && *phone->number;
+		gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(editor->phone_info[i].widget),
+					       checked);
+		gtk_check_menu_item_set_show_toggle(GTK_CHECK_MENU_ITEM(editor->phone_info[i].widget),
+						    TRUE);
+	}
+	
 	result = _arrow_pressed (widget, button, editor, editor->phone_popup, &editor->phone_list, &editor->phone_info, label, entry, "Add new phone number type");
 	
 	if (result != -1) {
@@ -829,7 +839,7 @@ _email_arrow_pressed (GtkWidget *widget, GdkEventButton *button, EContactEditor 
 	int result;
 	if (editor->email_list == NULL) {
 		static char *info[] = {
-			N_("Email"),
+			N_("Primary Email"),
 			N_("Email 2"),
 			N_("Email 3")
 		};
@@ -845,6 +855,16 @@ _email_arrow_pressed (GtkWidget *widget, GdkEventButton *button, EContactEditor 
 			gtk_widget_unref(editor->email_popup);
 		
 		editor->email_popup = gnome_popup_menu_new(editor->email_info);
+	}
+	
+	for(i = 0; i < E_CARD_SIMPLE_EMAIL_ID_LAST; i++) {
+		const char *string = e_card_simple_get_email(editor->simple, i);
+		gboolean checked;
+		checked = string && *string;
+		gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(editor->email_info[i].widget),
+					       checked);
+		gtk_check_menu_item_set_show_toggle(GTK_CHECK_MENU_ITEM(editor->email_info[i].widget),
+						    TRUE);
 	}
 	
 	result = _arrow_pressed (widget, button, editor, editor->email_popup, &editor->email_list, &editor->email_info, "label-email1", "entry-email1", "Add new Email type");
@@ -878,6 +898,16 @@ _address_arrow_pressed (GtkWidget *widget, GdkEventButton *button, EContactEdito
 			gtk_widget_unref(editor->address_popup);
 		
 		editor->address_popup = gnome_popup_menu_new(editor->address_info);
+	}
+	
+	for(i = 0; i < E_CARD_SIMPLE_ADDRESS_ID_LAST; i++) {
+		const ECardAddrLabel *address = e_card_simple_get_address(editor->simple, i);
+		gboolean checked;
+		checked = address && address->data && *address->data;
+		gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(editor->address_info[i].widget),
+					       checked);
+		gtk_check_menu_item_set_show_toggle(GTK_CHECK_MENU_ITEM(editor->address_info[i].widget),
+						    TRUE);
 	}
 	
 	result = _arrow_pressed (widget, button, editor, editor->address_popup, &editor->address_list, &editor->address_info, "label-address1", "text-address", "Add new Address type");

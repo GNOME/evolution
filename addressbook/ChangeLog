@@ -1,5 +1,17 @@
 2000-05-09  Christopher James Lahey  <clahey@helixcode.com>
 
+	* backend/ebook/e-card-simple.c: Fixed some indentation.
+
+	* contact-editor/contact-editor.glade,
+	contact-editor/e-contact-editor-strings.h: Changed Email to
+	Primary Email.
+
+	* contact-editor/e-contact-editor.c: Added checkmarks to indicate
+	if data exists in the pull down menus for the phone, address, and
+	email fields.
+
+2000-05-09  Christopher James Lahey  <clahey@helixcode.com>
+
 	* backend/ebook/e-card-simple.c: Fixed the string duplication
 	problem.  Fixed the business/home address string mix up.
 

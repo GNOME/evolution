@@ -15,6 +15,12 @@
   <output_support_files>False</output_support_files>
   <output_build_files>False</output_build_files>
   <backup_source_files>False</backup_source_files>
+  <main_source_file>interface.c</main_source_file>
+  <main_header_file>interface.h</main_header_file>
+  <handler_source_file>callbacks.c</handler_source_file>
+  <handler_header_file>callbacks.h</handler_header_file>
+  <support_source_file>support.c</support_source_file>
+  <support_header_file>support.h</support_header_file>
   <output_translatable_strings>True</output_translatable_strings>
   <translatable_strings_file>e-contact-editor-strings.h</translatable_strings_file>
 </project>
@@ -22,6 +28,7 @@
 <widget>
   <class>GtkWindow</class>
   <name>contact editor</name>
+  <cxx_use_heap>True</cxx_use_heap>
   <visible>False</visible>
   <title>Contact Editor</title>
   <type>GTK_WINDOW_TOPLEVEL</type>
@@ -34,6 +41,7 @@
   <widget>
     <class>GtkNotebook</class>
     <name>notebook-contact-editor</name>
+    <cxx_use_heap>True</cxx_use_heap>
     <can_focus>True</can_focus>
     <show_tabs>True</show_tabs>
     <show_border>True</show_border>
@@ -47,6 +55,7 @@
       <class>GtkTable</class>
       <name>table-contact-editor-general</name>
       <border_width>7</border_width>
+      <cxx_use_heap>True</cxx_use_heap>
       <rows>11</rows>
       <columns>8</columns>
       <homogeneous>False</homogeneous>
@@ -56,6 +65,7 @@
       <widget>
 	<class>GtkEntry</class>
 	<name>entry-phone1</name>
+	<cxx_use_heap>True</cxx_use_heap>
 	<can_focus>True</can_focus>
 	<editable>True</editable>
 	<text_visible>True</text_visible>
@@ -80,6 +90,7 @@
       <widget>
 	<class>GtkEntry</class>
 	<name>entry-phone2</name>
+	<cxx_use_heap>True</cxx_use_heap>
 	<can_focus>True</can_focus>
 	<editable>True</editable>
 	<text_visible>True</text_visible>
@@ -104,6 +115,7 @@
       <widget>
 	<class>GtkEntry</class>
 	<name>entry-phone3</name>
+	<cxx_use_heap>True</cxx_use_heap>
 	<can_focus>True</can_focus>
 	<editable>True</editable>
 	<text_visible>True</text_visible>
@@ -128,6 +140,7 @@
       <widget>
 	<class>GtkEntry</class>
 	<name>entry-phone4</name>
+	<cxx_use_heap>True</cxx_use_heap>
 	<can_focus>True</can_focus>
 	<editable>True</editable>
 	<text_visible>True</text_visible>
@@ -152,6 +165,7 @@
       <widget>
 	<class>GtkLabel</class>
 	<name>label-phone3</name>
+	<cxx_use_heap>True</cxx_use_heap>
 	<label>Business Fax</label>
 	<justify>GTK_JUSTIFY_CENTER</justify>
 	<wrap>False</wrap>
@@ -178,6 +192,7 @@
       <widget>
 	<class>GtkLabel</class>
 	<name>label-phone2</name>
+	<cxx_use_heap>True</cxx_use_heap>
 	<label>Home</label>
 	<justify>GTK_JUSTIFY_CENTER</justify>
 	<wrap>False</wrap>
@@ -204,6 +219,7 @@
       <widget>
 	<class>GtkLabel</class>
 	<name>label-phone1</name>
+	<cxx_use_heap>True</cxx_use_heap>
 	<label>Business</label>
 	<justify>GTK_JUSTIFY_CENTER</justify>
 	<wrap>False</wrap>
@@ -230,6 +246,7 @@
       <widget>
 	<class>GtkLabel</class>
 	<name>label-phone4</name>
+	<cxx_use_heap>True</cxx_use_heap>
 	<label>Mobile</label>
 	<justify>GTK_JUSTIFY_LEFT</justify>
 	<wrap>False</wrap>
@@ -258,6 +275,7 @@
 	<name>text-address</name>
 	<width>1</width>
 	<height>1</height>
+	<cxx_use_heap>True</cxx_use_heap>
 	<can_focus>True</can_focus>
 	<editable>True</editable>
 	<text></text>
@@ -280,7 +298,8 @@
       <widget>
 	<class>GtkLabel</class>
 	<name>label-email1</name>
-	<label>Email</label>
+	<cxx_use_heap>True</cxx_use_heap>
+	<label>Primary Email</label>
 	<justify>GTK_JUSTIFY_CENTER</justify>
 	<wrap>False</wrap>
 	<xalign>0</xalign>
@@ -306,6 +325,7 @@
       <widget>
 	<class>GtkButton</class>
 	<name>button-fullname</name>
+	<cxx_use_heap>True</cxx_use_heap>
 	<can_focus>True</can_focus>
 	<label>	Full Name...</label>
 	<child>
@@ -327,6 +347,7 @@
       <widget>
 	<class>GtkAccelLabel</class>
 	<name>accellabel-jobtitle</name>
+	<cxx_use_heap>True</cxx_use_heap>
 	<label>Job Title:</label>
 	<justify>GTK_JUSTIFY_CENTER</justify>
 	<wrap>False</wrap>
@@ -353,6 +374,7 @@
       <widget>
 	<class>GtkAccelLabel</class>
 	<name>accellabel-company</name>
+	<cxx_use_heap>True</cxx_use_heap>
 	<label>Company:</label>
 	<justify>GTK_JUSTIFY_CENTER</justify>
 	<wrap>False</wrap>
@@ -379,6 +401,7 @@
       <widget>
 	<class>GtkAccelLabel</class>
 	<name>accellabel-fileas</name>
+	<cxx_use_heap>True</cxx_use_heap>
 	<label>File As:</label>
 	<justify>GTK_JUSTIFY_CENTER</justify>
 	<wrap>False</wrap>
@@ -405,6 +428,7 @@
       <widget>
 	<class>GtkAccelLabel</class>
 	<name>accellabel-web</name>
+	<cxx_use_heap>True</cxx_use_heap>
 	<label>Web page address:</label>
 	<justify>GTK_JUSTIFY_LEFT</justify>
 	<wrap>False</wrap>
@@ -431,6 +455,7 @@
       <widget>
 	<class>GtkAlignment</class>
 	<name>alignment2</name>
+	<cxx_use_heap>True</cxx_use_heap>
 	<xalign>0</xalign>
 	<yalign>0</yalign>
 	<xscale>0</xscale>
@@ -453,6 +478,7 @@
 	<widget>
 	  <class>GtkCheckButton</class>
 	  <name>checkbutton-mailingaddress</name>
+	  <cxx_use_heap>True</cxx_use_heap>
 	  <visible>False</visible>
 	  <can_focus>True</can_focus>
 	  <label>This is the mailing address</label>
@@ -464,6 +490,7 @@
       <widget>
 	<class>GtkButton</class>
 	<name>button-address</name>
+	<cxx_use_heap>True</cxx_use_heap>
 	<can_focus>True</can_focus>
 	<label>A_ddress...</label>
 	<child>
@@ -485,6 +512,7 @@
       <widget>
 	<class>GtkAlignment</class>
 	<name>alignment3</name>
+	<cxx_use_heap>True</cxx_use_heap>
 	<xalign>1</xalign>
 	<yalign>0.5</yalign>
 	<xscale>0</xscale>
@@ -507,6 +535,7 @@
 	<widget>
 	  <class>GtkButton</class>
 	  <name>button-email1</name>
+	  <cxx_use_heap>True</cxx_use_heap>
 
 	  <widget>
 	    <class>Placeholder</class>
@@ -517,6 +546,7 @@
       <widget>
 	<class>GtkAlignment</class>
 	<name>alignment5</name>
+	<cxx_use_heap>True</cxx_use_heap>
 	<xalign>1</xalign>
 	<yalign>0.5</yalign>
 	<xscale>0</xscale>
@@ -539,6 +569,7 @@
 	<widget>
 	  <class>GtkButton</class>
 	  <name>button-phone4</name>
+	  <cxx_use_heap>True</cxx_use_heap>
 
 	  <widget>
 	    <class>Placeholder</class>
@@ -549,6 +580,7 @@
       <widget>
 	<class>GtkAlignment</class>
 	<name>alignment7</name>
+	<cxx_use_heap>True</cxx_use_heap>
 	<xalign>1</xalign>
 	<yalign>0.5</yalign>
 	<xscale>0</xscale>
@@ -571,6 +603,7 @@
 	<widget>
 	  <class>GtkButton</class>
 	  <name>button-phone2</name>
+	  <cxx_use_heap>True</cxx_use_heap>
 
 	  <widget>
 	    <class>Placeholder</class>
@@ -581,6 +614,7 @@
       <widget>
 	<class>GtkAlignment</class>
 	<name>alignment8</name>
+	<cxx_use_heap>True</cxx_use_heap>
 	<xalign>1</xalign>
 	<yalign>0.5</yalign>
 	<xscale>0</xscale>
@@ -603,6 +637,7 @@
 	<widget>
 	  <class>GtkButton</class>
 	  <name>button-phone1</name>
+	  <cxx_use_heap>True</cxx_use_heap>
 
 	  <widget>
 	    <class>Placeholder</class>
@@ -613,6 +648,7 @@
       <widget>
 	<class>GtkHSeparator</class>
 	<name>hseparator4</name>
+	<cxx_use_heap>True</cxx_use_heap>
 	<child>
 	  <left_attach>4</left_attach>
 	  <right_attach>8</right_attach>
@@ -632,6 +668,7 @@
       <widget>
 	<class>GtkAlignment</class>
 	<name>alignment6</name>
+	<cxx_use_heap>True</cxx_use_heap>
 	<xalign>1</xalign>
 	<yalign>0.5</yalign>
 	<xscale>0</xscale>
@@ -654,6 +691,7 @@
 	<widget>
 	  <class>GtkButton</class>
 	  <name>button-phone3</name>
+	  <cxx_use_heap>True</cxx_use_heap>
 
 	  <widget>
 	    <class>Placeholder</class>
@@ -664,6 +702,7 @@
       <widget>
 	<class>GtkEntry</class>
 	<name>entry-fullname</name>
+	<cxx_use_heap>True</cxx_use_heap>
 	<can_focus>True</can_focus>
 	<editable>True</editable>
 	<text_visible>True</text_visible>
@@ -688,6 +727,7 @@
       <widget>
 	<class>GtkEntry</class>
 	<name>entry-jobtitle</name>
+	<cxx_use_heap>True</cxx_use_heap>
 	<can_focus>True</can_focus>
 	<editable>True</editable>
 	<text_visible>True</text_visible>
@@ -712,6 +752,7 @@
       <widget>
 	<class>GtkEntry</class>
 	<name>entry-company</name>
+	<cxx_use_heap>True</cxx_use_heap>
 	<can_focus>True</can_focus>
 	<editable>True</editable>
 	<text_visible>True</text_visible>
@@ -736,6 +777,7 @@
       <widget>
 	<class>GtkEntry</class>
 	<name>entry-email1</name>
+	<cxx_use_heap>True</cxx_use_heap>
 	<can_focus>True</can_focus>
 	<editable>True</editable>
 	<text_visible>True</text_visible>
@@ -760,6 +802,7 @@
       <widget>
 	<class>GtkEntry</class>
 	<name>entry-web</name>
+	<cxx_use_heap>True</cxx_use_heap>
 	<can_focus>True</can_focus>
 	<editable>True</editable>
 	<text_visible>True</text_visible>
@@ -784,6 +827,7 @@
       <widget>
 	<class>GtkHSeparator</class>
 	<name>hseparator5</name>
+	<cxx_use_heap>True</cxx_use_heap>
 	<child>
 	  <left_attach>0</left_attach>
 	  <right_attach>4</right_attach>
@@ -803,6 +847,7 @@
       <widget>
 	<class>GtkCombo</class>
 	<name>combo-file-as</name>
+	<cxx_use_heap>True</cxx_use_heap>
 	<value_in_list>False</value_in_list>
 	<ok_if_empty>True</ok_if_empty>
 	<case_sensitive>True</case_sensitive>
@@ -828,6 +873,7 @@
 	  <class>GtkEntry</class>
 	  <child_name>GtkCombo:entry</child_name>
 	  <name>entry-file-as</name>
+	  <cxx_use_heap>True</cxx_use_heap>
 	  <can_focus>True</can_focus>
 	  <editable>True</editable>
 	  <text_visible>True</text_visible>
@@ -839,6 +885,7 @@
       <widget>
 	<class>GtkHSeparator</class>
 	<name>hseparator6</name>
+	<cxx_use_heap>True</cxx_use_heap>
 	<child>
 	  <left_attach>0</left_attach>
 	  <right_attach>4</right_attach>
@@ -858,6 +905,7 @@
       <widget>
 	<class>GtkHBox</class>
 	<name>hbox5</name>
+	<cxx_use_heap>True</cxx_use_heap>
 	<homogeneous>False</homogeneous>
 	<spacing>0</spacing>
 	<child>
@@ -878,6 +926,7 @@
 	<widget>
 	  <class>GtkText</class>
 	  <name>text-comments</name>
+	  <cxx_use_heap>True</cxx_use_heap>
 	  <can_focus>True</can_focus>
 	  <editable>True</editable>
 	  <text></text>
@@ -891,6 +940,7 @@
 	<widget>
 	  <class>GtkVScrollbar</class>
 	  <name>vscrollbar-comments</name>
+	  <cxx_use_heap>True</cxx_use_heap>
 	  <policy>GTK_UPDATE_CONTINUOUS</policy>
 	  <value>0</value>
 	  <lower>0</lower>
@@ -909,6 +959,7 @@
       <widget>
 	<class>GtkAlignment</class>
 	<name>alignment10</name>
+	<cxx_use_heap>True</cxx_use_heap>
 	<xalign>0.5</xalign>
 	<yalign>0</yalign>
 	<xscale>1</xscale>
@@ -931,6 +982,7 @@
 	<widget>
 	  <class>GtkCheckButton</class>
 	  <name>checkbutton-htmlmail</name>
+	  <cxx_use_heap>True</cxx_use_heap>
 	  <visible>False</visible>
 	  <can_focus>True</can_focus>
 	  <label>Wants HTML mail</label>
@@ -942,6 +994,7 @@
       <widget>
 	<class>GtkAlignment</class>
 	<name>alignment4</name>
+	<cxx_use_heap>True</cxx_use_heap>
 	<xalign>1</xalign>
 	<yalign>0.5</yalign>
 	<xscale>0</xscale>
@@ -964,6 +1017,7 @@
 	<widget>
 	  <class>GtkButton</class>
 	  <name>button-address1</name>
+	  <cxx_use_heap>True</cxx_use_heap>
 
 	  <widget>
 	    <class>Placeholder</class>
@@ -974,6 +1028,7 @@
       <widget>
 	<class>GtkLabel</class>
 	<name>label-address1</name>
+	<cxx_use_heap>True</cxx_use_heap>
 	<label>Business</label>
 	<justify>GTK_JUSTIFY_CENTER</justify>
 	<wrap>False</wrap>
@@ -1002,6 +1057,7 @@
       <class>GtkLabel</class>
       <child_name>Notebook:tab</child_name>
       <name>label15</name>
+      <cxx_use_heap>True</cxx_use_heap>
       <label>General</label>
       <justify>GTK_JUSTIFY_CENTER</justify>
       <wrap>False</wrap>
@@ -1015,6 +1071,7 @@
       <class>GtkTable</class>
       <name>table-contact-editor-details</name>
       <border_width>7</border_width>
+      <cxx_use_heap>True</cxx_use_heap>
       <rows>9</rows>
       <columns>6</columns>
       <homogeneous>False</homogeneous>
@@ -1024,6 +1081,7 @@
       <widget>
 	<class>GtkLabel</class>
 	<name>label21</name>
+	<cxx_use_heap>True</cxx_use_heap>
 	<label>Department:</label>
 	<justify>GTK_JUSTIFY_CENTER</justify>
 	<wrap>False</wrap>
@@ -1050,6 +1108,7 @@
       <widget>
 	<class>GtkLabel</class>
 	<name>label22</name>
+	<cxx_use_heap>True</cxx_use_heap>
 	<label>Office:</label>
 	<justify>GTK_JUSTIFY_CENTER</justify>
 	<wrap>False</wrap>
@@ -1076,6 +1135,7 @@
       <widget>
 	<class>GtkLabel</class>
 	<name>label23</name>
+	<cxx_use_heap>True</cxx_use_heap>
 	<label>Profession:</label>
 	<justify>GTK_JUSTIFY_CENTER</justify>
 	<wrap>False</wrap>
@@ -1102,6 +1162,7 @@
       <widget>
 	<class>GtkLabel</class>
 	<name>label24</name>
+	<cxx_use_heap>True</cxx_use_heap>
 	<label>Nickname:</label>
 	<justify>GTK_JUSTIFY_CENTER</justify>
 	<wrap>False</wrap>
@@ -1128,6 +1189,7 @@
       <widget>
 	<class>GtkLabel</class>
 	<name>label25</name>
+	<cxx_use_heap>True</cxx_use_heap>
 	<label>Spouse's name:</label>
 	<justify>GTK_JUSTIFY_CENTER</justify>
 	<wrap>False</wrap>
@@ -1154,6 +1216,7 @@
       <widget>
 	<class>GtkLabel</class>
 	<name>label28</name>
+	<cxx_use_heap>True</cxx_use_heap>
 	<label>Address:</label>
 	<justify>GTK_JUSTIFY_CENTER</justify>
 	<wrap>False</wrap>
@@ -1180,6 +1243,7 @@
       <widget>
 	<class>GtkLabel</class>
 	<name>label31</name>
+	<cxx_use_heap>True</cxx_use_heap>
 	<label>Birthday:</label>
 	<justify>GTK_JUSTIFY_CENTER</justify>
 	<wrap>False</wrap>
@@ -1206,6 +1270,7 @@
       <widget>
 	<class>GtkLabel</class>
 	<name>label30</name>
+	<cxx_use_heap>True</cxx_use_heap>
 	<label>Assistant's name:</label>
 	<justify>GTK_JUSTIFY_CENTER</justify>
 	<wrap>False</wrap>
@@ -1232,6 +1297,7 @@
       <widget>
 	<class>GtkLabel</class>
 	<name>label29</name>
+	<cxx_use_heap>True</cxx_use_heap>
 	<label>Manager's name:</label>
 	<justify>GTK_JUSTIFY_CENTER</justify>
 	<wrap>False</wrap>
@@ -1258,6 +1324,7 @@
       <widget>
 	<class>GtkLabel</class>
 	<name>label32</name>
+	<cxx_use_heap>True</cxx_use_heap>
 	<label>Anniversary:</label>
 	<justify>GTK_JUSTIFY_CENTER</justify>
 	<wrap>False</wrap>
@@ -1284,6 +1351,7 @@
       <widget>
 	<class>GtkEntry</class>
 	<name>entry-spouse</name>
+	<cxx_use_heap>True</cxx_use_heap>
 	<can_focus>True</can_focus>
 	<editable>True</editable>
 	<text_visible>True</text_visible>
@@ -1308,6 +1376,7 @@
       <widget>
 	<class>GtkEntry</class>
 	<name>entry-department</name>
+	<cxx_use_heap>True</cxx_use_heap>
 	<can_focus>True</can_focus>
 	<editable>True</editable>
 	<text_visible>True</text_visible>
@@ -1332,6 +1401,7 @@
       <widget>
 	<class>GtkEntry</class>
 	<name>entry-office</name>
+	<cxx_use_heap>True</cxx_use_heap>
 	<can_focus>True</can_focus>
 	<editable>True</editable>
 	<text_visible>True</text_visible>
@@ -1356,6 +1426,7 @@
       <widget>
 	<class>GtkEntry</class>
 	<name>entry-profession</name>
+	<cxx_use_heap>True</cxx_use_heap>
 	<can_focus>True</can_focus>
 	<editable>True</editable>
 	<text_visible>True</text_visible>
@@ -1380,6 +1451,7 @@
       <widget>
 	<class>GtkEntry</class>
 	<name>entry-nickname</name>
+	<cxx_use_heap>True</cxx_use_heap>
 	<can_focus>True</can_focus>
 	<editable>True</editable>
 	<text_visible>True</text_visible>
@@ -1404,6 +1476,7 @@
       <widget>
 	<class>GtkEntry</class>
 	<name>entry-fburl</name>
+	<cxx_use_heap>True</cxx_use_heap>
 	<can_focus>True</can_focus>
 	<editable>True</editable>
 	<text_visible>True</text_visible>
@@ -1428,6 +1501,7 @@
       <widget>
 	<class>GnomeDateEdit</class>
 	<name>dateedit-anniversary</name>
+	<cxx_use_heap>True</cxx_use_heap>
 	<show_time>False</show_time>
 	<use_24_format>False</use_24_format>
 	<week_start_monday>False</week_start_monday>
@@ -1452,6 +1526,7 @@
       <widget>
 	<class>GnomeDateEdit</class>
 	<name>dateedit-birthday</name>
+	<cxx_use_heap>True</cxx_use_heap>
 	<show_time>False</show_time>
 	<use_24_format>False</use_24_format>
 	<week_start_monday>False</week_start_monday>
@@ -1476,6 +1551,7 @@
       <widget>
 	<class>GtkEntry</class>
 	<name>entry-assistant</name>
+	<cxx_use_heap>True</cxx_use_heap>
 	<can_focus>True</can_focus>
 	<editable>True</editable>
 	<text_visible>True</text_visible>
@@ -1500,6 +1576,7 @@
       <widget>
 	<class>GtkEntry</class>
 	<name>entry-manager</name>
+	<cxx_use_heap>True</cxx_use_heap>
 	<can_focus>True</can_focus>
 	<editable>True</editable>
 	<text_visible>True</text_visible>
@@ -1524,6 +1601,7 @@
       <widget>
 	<class>GtkHBox</class>
 	<name>hbox7</name>
+	<cxx_use_heap>True</cxx_use_heap>
 	<homogeneous>False</homogeneous>
 	<spacing>6</spacing>
 	<child>
@@ -1544,6 +1622,7 @@
 	<widget>
 	  <class>GtkLabel</class>
 	  <name>label33</name>
+	  <cxx_use_heap>True</cxx_use_heap>
 	  <label>Internet Free-Busy</label>
 	  <justify>GTK_JUSTIFY_CENTER</justify>
 	  <wrap>False</wrap>
@@ -1561,6 +1640,7 @@
 	<widget>
 	  <class>GtkHSeparator</class>
 	  <name>hseparator8</name>
+	  <cxx_use_heap>True</cxx_use_heap>
 	  <child>
 	    <padding>0</padding>
 	    <expand>True</expand>
@@ -1572,6 +1652,7 @@
       <widget>
 	<class>GtkHSeparator</class>
 	<name>hseparator7</name>
+	<cxx_use_heap>True</cxx_use_heap>
 	<child>
 	  <left_attach>0</left_attach>
 	  <right_attach>6</right_attach>
@@ -1593,6 +1674,7 @@
       <class>GtkLabel</class>
       <child_name>Notebook:tab</child_name>
       <name>label16</name>
+      <cxx_use_heap>True</cxx_use_heap>
       <label>Details</label>
       <justify>GTK_JUSTIFY_CENTER</justify>
       <wrap>False</wrap>
@@ -1607,6 +1689,7 @@
 <widget>
   <class>GnomeDialog</class>
   <name>dialog2</name>
+  <cxx_use_heap>True</cxx_use_heap>
   <visible>False</visible>
   <type>GTK_WINDOW_TOPLEVEL</type>
   <position>GTK_WIN_POS_NONE</position>
@@ -1621,6 +1704,7 @@
     <class>GtkVBox</class>
     <child_name>GnomeDialog:vbox</child_name>
     <name>dialog-vbox2</name>
+    <cxx_use_heap>True</cxx_use_heap>
     <homogeneous>False</homogeneous>
     <spacing>8</spacing>
     <child>
@@ -1630,50 +1714,9 @@
     </child>
 
     <widget>
-      <class>GtkHButtonBox</class>
-      <child_name>GnomeDialog:action_area</child_name>
-      <name>dialog-action_area2</name>
-      <layout_style>GTK_BUTTONBOX_END</layout_style>
-      <spacing>8</spacing>
-      <child_min_width>85</child_min_width>
-      <child_min_height>27</child_min_height>
-      <child_ipad_x>7</child_ipad_x>
-      <child_ipad_y>0</child_ipad_y>
-      <child>
-	<padding>0</padding>
-	<expand>False</expand>
-	<fill>True</fill>
-	<pack>GTK_PACK_END</pack>
-      </child>
-
-      <widget>
-	<class>GtkButton</class>
-	<name>button28</name>
-	<can_default>True</can_default>
-	<can_focus>True</can_focus>
-	<stock_button>GNOME_STOCK_BUTTON_OK</stock_button>
-      </widget>
-
-      <widget>
-	<class>GtkButton</class>
-	<name>button29</name>
-	<can_default>True</can_default>
-	<can_focus>True</can_focus>
-	<stock_button>GNOME_STOCK_BUTTON_APPLY</stock_button>
-      </widget>
-
-      <widget>
-	<class>GtkButton</class>
-	<name>button30</name>
-	<can_default>True</can_default>
-	<can_focus>True</can_focus>
-	<stock_button>GNOME_STOCK_BUTTON_CANCEL</stock_button>
-      </widget>
-    </widget>
-
-    <widget>
       <class>GtkTable</class>
       <name>table2</name>
+      <cxx_use_heap>True</cxx_use_heap>
       <rows>2</rows>
       <columns>2</columns>
       <homogeneous>False</homogeneous>
@@ -1688,6 +1731,7 @@
       <widget>
 	<class>GtkEntry</class>
 	<name>entry2</name>
+	<cxx_use_heap>True</cxx_use_heap>
 	<can_focus>True</can_focus>
 	<editable>True</editable>
 	<text_visible>True</text_visible>
@@ -1712,6 +1756,7 @@
       <widget>
 	<class>GtkVBox</class>
 	<name>vbox1</name>
+	<cxx_use_heap>True</cxx_use_heap>
 	<homogeneous>False</homogeneous>
 	<spacing>0</spacing>
 	<child>
@@ -1732,6 +1777,7 @@
 	<widget>
 	  <class>GtkButton</class>
 	  <name>button31</name>
+	  <cxx_use_heap>True</cxx_use_heap>
 	  <can_focus>True</can_focus>
 	  <label>Add</label>
 	  <child>
@@ -1744,6 +1790,7 @@
 	<widget>
 	  <class>GtkButton</class>
 	  <name>button32</name>
+	  <cxx_use_heap>True</cxx_use_heap>
 	  <can_focus>True</can_focus>
 	  <label>Delete</label>
 	  <child>
@@ -1758,6 +1805,7 @@
 	<class>GtkScrolledWindow</class>
 	<name>scrolledwindow1</name>
 	<height>200</height>
+	<cxx_use_heap>True</cxx_use_heap>
 	<hscrollbar_policy>GTK_POLICY_ALWAYS</hscrollbar_policy>
 	<vscrollbar_policy>GTK_POLICY_ALWAYS</vscrollbar_policy>
 	<hupdate_policy>GTK_UPDATE_CONTINUOUS</hupdate_policy>
@@ -1780,6 +1828,7 @@
 	<widget>
 	  <class>GtkCList</class>
 	  <name>clist1</name>
+	  <cxx_use_heap>True</cxx_use_heap>
 	  <can_focus>True</can_focus>
 	  <columns>1</columns>
 	  <column_widths>80</column_widths>
@@ -1791,6 +1840,7 @@
 	    <class>GtkLabel</class>
 	    <child_name>CList:title</child_name>
 	    <name>label20</name>
+	    <cxx_use_heap>True</cxx_use_heap>
 	    <label>Phone Types</label>
 	    <justify>GTK_JUSTIFY_CENTER</justify>
 	    <wrap>False</wrap>
@@ -1802,12 +1852,59 @@
 	</widget>
       </widget>
     </widget>
+
+    <widget>
+      <class>GtkHButtonBox</class>
+      <child_name>GnomeDialog:action_area</child_name>
+      <name>dialog-action_area2</name>
+      <cxx_use_heap>True</cxx_use_heap>
+      <layout_style>GTK_BUTTONBOX_END</layout_style>
+      <spacing>8</spacing>
+      <child_min_width>85</child_min_width>
+      <child_min_height>27</child_min_height>
+      <child_ipad_x>7</child_ipad_x>
+      <child_ipad_y>0</child_ipad_y>
+      <child>
+	<padding>0</padding>
+	<expand>False</expand>
+	<fill>True</fill>
+	<pack>GTK_PACK_END</pack>
+      </child>
+
+      <widget>
+	<class>GtkButton</class>
+	<name>button28</name>
+	<cxx_use_heap>True</cxx_use_heap>
+	<can_default>True</can_default>
+	<can_focus>True</can_focus>
+	<stock_button>GNOME_STOCK_BUTTON_OK</stock_button>
+      </widget>
+
+      <widget>
+	<class>GtkButton</class>
+	<name>button29</name>
+	<cxx_use_heap>True</cxx_use_heap>
+	<can_default>True</can_default>
+	<can_focus>True</can_focus>
+	<stock_button>GNOME_STOCK_BUTTON_APPLY</stock_button>
+      </widget>
+
+      <widget>
+	<class>GtkButton</class>
+	<name>button30</name>
+	<cxx_use_heap>True</cxx_use_heap>
+	<can_default>True</can_default>
+	<can_focus>True</can_focus>
+	<stock_button>GNOME_STOCK_BUTTON_CANCEL</stock_button>
+      </widget>
+    </widget>
   </widget>
 </widget>
 
 <widget>
   <class>GnomeDialog</class>
   <name>dialog-add-phone</name>
+  <cxx_use_heap>True</cxx_use_heap>
   <visible>False</visible>
   <title>New phone type</title>
   <type>GTK_WINDOW_TOPLEVEL</type>
@@ -1823,6 +1920,7 @@
     <class>GtkVBox</class>
     <child_name>GnomeDialog:vbox</child_name>
     <name>vbox2</name>
+    <cxx_use_heap>True</cxx_use_heap>
     <homogeneous>False</homogeneous>
     <spacing>8</spacing>
     <child>
@@ -1832,9 +1930,47 @@
     </child>
 
     <widget>
+      <class>GtkFrame</class>
+      <name>frame-add-phone</name>
+      <border_width>4</border_width>
+      <cxx_use_heap>True</cxx_use_heap>
+      <label>New phone type</label>
+      <label_xalign>0</label_xalign>
+      <shadow_type>GTK_SHADOW_ETCHED_IN</shadow_type>
+      <child>
+	<padding>0</padding>
+	<expand>True</expand>
+	<fill>True</fill>
+      </child>
+
+      <widget>
+	<class>GtkAlignment</class>
+	<name>alignment9</name>
+	<border_width>9</border_width>
+	<cxx_use_heap>True</cxx_use_heap>
+	<xalign>0.5</xalign>
+	<yalign>0.5</yalign>
+	<xscale>1</xscale>
+	<yscale>1</yscale>
+
+	<widget>
+	  <class>GtkEntry</class>
+	  <name>entry-add-phone</name>
+	  <cxx_use_heap>True</cxx_use_heap>
+	  <can_focus>True</can_focus>
+	  <editable>True</editable>
+	  <text_visible>True</text_visible>
+	  <text_max_length>0</text_max_length>
+	  <text></text>
+	</widget>
+      </widget>
+    </widget>
+
+    <widget>
       <class>GtkHButtonBox</class>
       <child_name>GnomeDialog:action_area</child_name>
       <name>hbuttonbox1</name>
+      <cxx_use_heap>True</cxx_use_heap>
       <layout_style>GTK_BUTTONBOX_END</layout_style>
       <spacing>8</spacing>
       <child_min_width>85</child_min_width>
@@ -1851,6 +1987,7 @@
       <widget>
 	<class>GtkButton</class>
 	<name>button43</name>
+	<cxx_use_heap>True</cxx_use_heap>
 	<can_default>True</can_default>
 	<can_focus>True</can_focus>
 	<label>Add</label>
@@ -1860,43 +1997,10 @@
       <widget>
 	<class>GtkButton</class>
 	<name>button44</name>
+	<cxx_use_heap>True</cxx_use_heap>
 	<can_default>True</can_default>
 	<can_focus>True</can_focus>
 	<stock_button>GNOME_STOCK_BUTTON_CANCEL</stock_button>
-      </widget>
-    </widget>
-
-    <widget>
-      <class>GtkFrame</class>
-      <name>frame-add-phone</name>
-      <border_width>4</border_width>
-      <label>New phone type</label>
-      <label_xalign>0</label_xalign>
-      <shadow_type>GTK_SHADOW_ETCHED_IN</shadow_type>
-      <child>
-	<padding>0</padding>
-	<expand>True</expand>
-	<fill>True</fill>
-      </child>
-
-      <widget>
-	<class>GtkAlignment</class>
-	<name>alignment9</name>
-	<border_width>9</border_width>
-	<xalign>0.5</xalign>
-	<yalign>0.5</yalign>
-	<xscale>1</xscale>
-	<yscale>1</yscale>
-
-	<widget>
-	  <class>GtkEntry</class>
-	  <name>entry-add-phone</name>
-	  <can_focus>True</can_focus>
-	  <editable>True</editable>
-	  <text_visible>True</text_visible>
-	  <text_max_length>0</text_max_length>
-	  <text></text>
-	</widget>
       </widget>
     </widget>
   </widget>

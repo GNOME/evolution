@@ -886,7 +886,7 @@ char     *e_card_simple_get            (ECardSimple          *simple,
 			return NULL;
 	case E_CARD_SIMPLE_INTERNAL_TYPE_PHONE:
 		phone = e_card_simple_get_phone(simple,
-							    field_data[field].list_type_index);
+						field_data[field].list_type_index);
 		if (phone)
 			return g_strdup(phone->number);
 		else
