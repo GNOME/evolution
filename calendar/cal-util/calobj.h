@@ -28,7 +28,8 @@ enum AlarmUnit {
 	ALARM_DAYS
 };
 
-/* Field identifiers for the iCalObject structure */
+/* Field identifiers for the iCalObject structure. These are also used to
+   identify columns in ECalendarTable, so be careful when reordering them. */
 typedef enum {
 	ICAL_OBJECT_FIELD_COMMENT,
 	ICAL_OBJECT_FIELD_COMPLETED,
@@ -46,6 +47,11 @@ typedef enum {
 	ICAL_OBJECT_FIELD_SUMMARY,
 	ICAL_OBJECT_FIELD_URL,
 	ICAL_OBJECT_FIELD_HAS_ALARMS, /* not a real field */
+	ICAL_OBJECT_FIELD_ICON,	      /* not a real field */
+	ICAL_OBJECT_FIELD_COMPLETE,   /* not a real field */
+	ICAL_OBJECT_FIELD_RECURRING,  /* not a real field */
+	ICAL_OBJECT_FIELD_OVERDUE,    /* not a real field */
+	ICAL_OBJECT_FIELD_COLOR,      /* not a real field */
 	ICAL_OBJECT_FIELD_NUM_FIELDS
 } iCalObjectField;
 

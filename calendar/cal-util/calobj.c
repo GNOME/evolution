@@ -773,8 +773,18 @@ ical_object_create_from_vobject (VObject *o, const char *object_name)
 
 	/* url */
 	if (has (o, VCURLProp)){
-		ical->url = g_strdup (str_val (vo));
-		free (the_str);
+		/* There seems to be a problem with the URL property. For some
+		   reason an empty property gets saved, vObjectUStringZValue
+		   returns NULL and fakeCString crashes. So we check for NULL.
+		*/
+		const wchar_t *zval;
+
+		zval = vObjectUStringZValue (o);
+		if (zval) {
+			the_str = fakeCString (zval);
+			ical->url = g_strdup (the_str);
+			free (the_str);
+		}
 	}
 
 	/* dalarm */
