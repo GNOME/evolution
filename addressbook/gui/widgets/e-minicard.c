@@ -812,7 +812,7 @@ remodel( EMinicard *e_minicard )
 			g_free(file_as);
 		}
 
-		if ( e_card_evolution_list (e_minicard->card) ) {
+		if (e_minicard->card && e_card_evolution_list (e_minicard->card) ) {
 			gnome_canvas_item_show (e_minicard->list_icon);
 		}
 		else {

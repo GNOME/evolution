@@ -225,73 +225,76 @@ update_command_state (EAddressbookView *eav, AddressbookView *view)
 
 	uic = bonobo_control_get_ui_component (view->control);
 	
+	if (bonobo_ui_component_get_container (uic) != CORBA_OBJECT_NIL) {
 
-	/* New Contact */
-	bonobo_ui_component_set_prop (uic,
-				      "/commands/ContactNew",
-				      "sensitive",
-				      e_addressbook_view_can_create (view->view) ? "1" : "0", NULL);
-	bonobo_ui_component_set_prop (uic,
-				      "/commands/ContactNewList",
-				      "sensitive",
-				      e_addressbook_view_can_create (view->view) ? "1" : "0", NULL);
-
-	bonobo_ui_component_set_prop (uic,
-				      "/commands/ContactsSaveAsVCard",
-				      "sensitive",
-				      e_addressbook_view_can_save_as (view->view) ? "1" : "0", NULL);
-
-	/* Print Contact */
-	bonobo_ui_component_set_prop (uic,
-				      "/commands/ContactsPrint",
-				      "sensitive",
-				      e_addressbook_view_can_print (view->view) ? "1" : "0", NULL);
-
-	/* Print Contact */
-	bonobo_ui_component_set_prop (uic,
-				      "/commands/ContactsPrintPreview",
-				      "sensitive",
-				      e_addressbook_view_can_print (view->view) ? "1" : "0", NULL);
-
-	/* Delete Contact */
-	bonobo_ui_component_set_prop (uic,
-				      "/commands/ContactDelete",
-				      "sensitive",
-				      e_addressbook_view_can_delete (view->view) ? "1" : "0", NULL);
-
-	bonobo_ui_component_set_prop (uic,
-				      "/commands/ContactsCut",
-				      "sensitive",
-				      e_addressbook_view_can_cut (view->view) ? "1" : "0", NULL);
-	bonobo_ui_component_set_prop (uic,
-				      "/commands/ContactsCopy",
-				      "sensitive",
-				      e_addressbook_view_can_copy (view->view) ? "1" : "0", NULL);
-	bonobo_ui_component_set_prop (uic,
-				      "/commands/ContactsPaste",
-				      "sensitive",
-				      e_addressbook_view_can_paste (view->view) ? "1" : "0", NULL);
-	bonobo_ui_component_set_prop (uic,
-				      "/commands/ContactsSelectAll",
-				      "sensitive",
-				      e_addressbook_view_can_select_all (view->view) ? "1" : "0", NULL);
-
-	bonobo_ui_component_set_prop (uic,
-				      "/commands/ContactsSendContactToOther",
-				      "sensitive",
-				      e_addressbook_view_can_send (view->view) ? "1" : "0", NULL);
-
-	bonobo_ui_component_set_prop (uic,
-				      "/commands/ContactsSendMessageToContact",
-				      "sensitive",
-				      e_addressbook_view_can_send_to (view->view) ? "1" : "0", NULL);
-
-	
-	/* Stop */
-	bonobo_ui_component_set_prop (uic,
-				      "/commands/ContactStop",
-				      "sensitive",
-				      e_addressbook_view_can_stop (view->view) ? "1" : "0", NULL);
+		/* New Contact */
+		bonobo_ui_component_set_prop (uic,
+					      "/commands/ContactNew",
+					      "sensitive",
+					      e_addressbook_view_can_create (view->view) ? "1" : "0", NULL);
+		bonobo_ui_component_set_prop (uic,
+					      "/commands/ContactNewList",
+					      "sensitive",
+					      e_addressbook_view_can_create (view->view) ? "1" : "0", NULL);
+		
+		bonobo_ui_component_set_prop (uic,
+					      "/commands/ContactsSaveAsVCard",
+					      "sensitive",
+					      e_addressbook_view_can_save_as (view->view) ? "1" : "0", NULL);
+		
+		/* Print Contact */
+		bonobo_ui_component_set_prop (uic,
+					      "/commands/ContactsPrint",
+					      "sensitive",
+					      e_addressbook_view_can_print (view->view) ? "1" : "0", NULL);
+		
+		/* Print Contact */
+		bonobo_ui_component_set_prop (uic,
+					      "/commands/ContactsPrintPreview",
+					      "sensitive",
+					      e_addressbook_view_can_print (view->view) ? "1" : "0", NULL);
+		
+		/* Delete Contact */
+		bonobo_ui_component_set_prop (uic,
+					      "/commands/ContactDelete",
+					      "sensitive",
+					      e_addressbook_view_can_delete (view->view) ? "1" : "0", NULL);
+		
+		bonobo_ui_component_set_prop (uic,
+					      "/commands/ContactsCut",
+					      "sensitive",
+					      e_addressbook_view_can_cut (view->view) ? "1" : "0", NULL);
+		bonobo_ui_component_set_prop (uic,
+					      "/commands/ContactsCopy",
+					      "sensitive",
+					      e_addressbook_view_can_copy (view->view) ? "1" : "0", NULL);
+		bonobo_ui_component_set_prop (uic,
+					      "/commands/ContactsPaste",
+					      "sensitive",
+					      e_addressbook_view_can_paste (view->view) ? "1" : "0", NULL);
+		bonobo_ui_component_set_prop (uic,
+					      "/commands/ContactsSelectAll",
+					      "sensitive",
+					      e_addressbook_view_can_select_all (view->view) ? "1" : "0", NULL);
+		
+		bonobo_ui_component_set_prop (uic,
+					      "/commands/ContactsSendContactToOther",
+					      "sensitive",
+					      e_addressbook_view_can_send (view->view) ? "1" : "0", NULL);
+		
+		bonobo_ui_component_set_prop (uic,
+					      "/commands/ContactsSendMessageToContact",
+					      "sensitive",
+					      e_addressbook_view_can_send_to (view->view) ? "1" : "0", NULL);
+		
+		
+		/* Stop */
+		bonobo_ui_component_set_prop (uic,
+					      "/commands/ContactStop",
+					      "sensitive",
+					      e_addressbook_view_can_stop (view->view) ? "1" : "0", NULL);
+		
+	}
 
 	addressbook_view_unref (view);
 }

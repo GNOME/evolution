@@ -1,5 +1,23 @@
 2001-10-29  Jon Trowbridge  <trow@ximian.com>
 
+	* gui/component/addressbook.c (update_command_state): Check that
+	our BonoboUIComponent has a container so we don't get a lot of
+	annoying debug spew.
+
+	* printing/smallbook.ecps: Fixed fonts.
+
+	* printing/phonelist.ecps: Fixed fonts.
+
+	* printing/medbook.ecps: Fixed fonts.
+
+	* printing/e-contact-print.c (e_contact_get_card_size): Commented
+	out spew.
+
+	* gui/widgets/e-minicard.c (remodel): Check that e_minicard->card
+	!= NULL.
+
+2001-10-29  Jon Trowbridge  <trow@ximian.com>
+
 	* gui/component/select-names/e-select-names-completion.c
 	(e_select_names_completion_destroy): We were using
 	book_data->book_view immediately after unrefing it.  Reordered the

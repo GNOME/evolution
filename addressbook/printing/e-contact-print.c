@@ -439,7 +439,7 @@ e_contact_get_card_size(ECardSimple *simple, EContactPrintContext *ctxt)
 	}
 	height += gnome_font_get_size (ctxt->style->headings_font) * .4;
 
-	g_message ("%s %g", e_card_simple_get (simple, E_CARD_SIMPLE_FIELD_FILE_AS), height);
+	/* g_message ("%s %g", e_card_simple_get (simple, E_CARD_SIMPLE_FIELD_FILE_AS), height); */
 	return height;
 }
 

@@ -5,7 +5,7 @@
 <num_columns>2</num_columns>
 <letter_tabs>FALSE</letter_tabs>
 <letter_headings>TRUE</letter_headings>
-<headings_font>Helvetica-Bold 10</headings_font>
+<headings_font>Helvetica Bold 10</headings_font>
 <body_font>Helvetica 8</body_font>
 <print_using_grey>TRUE</print_using_grey>
 <paper_width>8.5</paper_width>
