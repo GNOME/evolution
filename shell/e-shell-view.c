@@ -911,8 +911,12 @@ update_folder_title_bar (EShellView *shell_view,
 
 	if (folder_icon)
 		e_shell_folder_title_bar_set_icon (E_SHELL_FOLDER_TITLE_BAR (priv->view_title_bar), folder_icon);
-	if (folder_name)
-		e_shell_folder_title_bar_set_title (E_SHELL_FOLDER_TITLE_BAR (priv->view_title_bar), folder_name);
+	if (folder_name) {
+		gchar * utf;
+		utf = e_utf8_to_gtk_string (GTK_WIDGET (priv->view_title_bar), folder_name);
+		e_shell_folder_title_bar_set_title (E_SHELL_FOLDER_TITLE_BAR (priv->view_title_bar), utf);
+		g_free (utf);
+	}
 }
 
 static void

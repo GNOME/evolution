@@ -1,3 +1,7 @@
+2000-09-12  Lauris Kaplinski  <lauris@helixcode.com>
+
+	* e-shell-view.c (update_folder_title_bar): Translate UTF-8
+
 2000-09-12  Ettore Perazzoli  <ettore@helixcode.com>
 
 	* Makefile.am: Remove the `ui.xml' stuff.
