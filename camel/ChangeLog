@@ -1,5 +1,10 @@
 2000-07-27  Jeffrey Stedfast  <fejj@helixcode.com>
 
+	* camel-url.c (camel_url_to_string): If the path doesn't begin
+	with a / and there is a host, prepend a / to the path.
+
+2000-07-27  Jeffrey Stedfast  <fejj@helixcode.com>
+	
 	* providers/imap/Makefile.am: Added camel-imap-utils.[c,h]
 	
 	* providers/imap/camel-imap-utils.[c,h]: Utilities for parsing
@@ -18,7 +23,7 @@
 	(imap_connect): Updated to use imap_parse_list_response and fixed
 	a leak
 	(folder_is_selectable): Updated.
-	
+
 2000-07-27  Jeffrey Stedfast  <fejj@helixcode.com>
 	
 	* providers/imap/camel-imap-folder.c (imap_get_message_info): Now

@@ -7,6 +7,7 @@
  *  Bertrand Guiheneuf <bertrand@helixcode.com>
  *  Dan Winship <danw@helixcode.com>
  *  Tiago Antào <tiagoantao@bigfoot.com>
+ *  Jeffrey Stedfast <fejj@helixcode.com>
  *
  * Copyright 1999, 2000 Helix Code, Inc. (http://www.helixcode.com)
  *
@@ -206,7 +207,7 @@ camel_url_to_string (CamelURL *url, gboolean show_passwd)
 					 host ? host : "",
 					 *port ? ":" : "",
 					 port,
-					 path && *path != '/' ? "/" : "",
+					 path && host && *path != '/' ? "/" : "",
 					 path ? path : "");
 	g_free (user);
 	g_free (authmech);
