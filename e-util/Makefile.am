@@ -7,7 +7,6 @@ INCLUDES =								\
 	-DEVOLUTION_CATEGORY_ICONS=\""$(imagesdir)/categories"\"	\
 	-DG_LOG_DOMAIN=\"e-utils\"					\
 	-DG_DISABLE_DEPRECATED						\
-	-DGTK_DISABLE_DEPRECATED					\
 	$(GNOME_PILOT_CFLAGS)						\
 	$(E_UTIL_CFLAGS)
 
