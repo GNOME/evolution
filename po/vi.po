@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution VERSION\n"
-"POT-Creation-Date: 2004-07-02 14:48-0400\n"
+"POT-Creation-Date: 2004-07-19 15:12-0400\n"
 "PO-Revision-Date: 2004-06-26 22:59+0700\n"
 "Last-Translator: pclouds <pclouds@vnlinux.org>\n"
 "Language-Team: GnomeVI <gnomevi-list@lists.sourceforge.net>\n"
@@ -361,11 +361,11 @@ msgstr "Trên máy chủ LDAP"
 msgid "LDAP Servers"
 msgstr "Máy chủ LDAP"
 
-#: addressbook/gui/component/addressbook-migrate.c:753
+#: addressbook/gui/component/addressbook-migrate.c:748
 msgid "Autocompletion Settings"
 msgstr "Thiết lập Tự động hoàn thành"
 
-#: addressbook/gui/component/addressbook-migrate.c:1129
+#: addressbook/gui/component/addressbook-migrate.c:1119
 msgid ""
 "The location and hierarchy of the Evolution contact folders has changed "
 "since Evolution 1.x.\n"
@@ -373,21 +373,21 @@ msgid ""
 "Please be patient while Evolution migrates your folders..."
 msgstr ""
 
-#: addressbook/gui/component/addressbook-migrate.c:1143
+#: addressbook/gui/component/addressbook-migrate.c:1133
 msgid ""
 "The format of mailing list contacts has changed.\n"
 "\n"
 "Please be patient while Evolution migrates your folders..."
 msgstr ""
 
-#: addressbook/gui/component/addressbook-migrate.c:1152
+#: addressbook/gui/component/addressbook-migrate.c:1142
 msgid ""
 "The way Evolution stores some phone numbers has changed.\n"
 "\n"
 "Please be patient while Evolution migrates your folders..."
 msgstr ""
 
-#: addressbook/gui/component/addressbook-migrate.c:1162
+#: addressbook/gui/component/addressbook-migrate.c:1152
 msgid ""
 "Evolution's Palm Sync changelog and map files have changed.\n"
 "\n"
@@ -424,12 +424,12 @@ msgid "Accessing LDAP Server anonymously"
 msgstr "Truy cập vô danh tới LDAP server"
 
 #: addressbook/gui/component/addressbook.c:173
-#: camel/providers/groupwise/camel-gw-listener.c:378
+#: camel/providers/groupwise/camel-gw-listener.c:388
 msgid "Failed to authenticate.\n"
 msgstr "Lỗi xác thực.\n"
 
 #: addressbook/gui/component/addressbook.c:179
-#: camel/providers/groupwise/camel-gw-listener.c:367
+#: camel/providers/groupwise/camel-gw-listener.c:377
 #, c-format
 msgid "%sEnter password for %s (user %s)"
 msgstr "%sNhập mật khẩu cho %s (người dùng %s)"
@@ -919,7 +919,7 @@ msgstr "Công ty:"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:19
 #: addressbook/gui/contact-editor/e-contact-editor.c:272
-#: addressbook/gui/contact-list-editor/e-contact-list-editor.c:169
+#: addressbook/gui/contact-list-editor/e-contact-list-editor.c:170
 #: addressbook/gui/contact-list-editor/e-contact-list-editor.etspec.h:1
 #: addressbook/gui/widgets/e-minicard.c:181
 msgid "Contact"
@@ -1052,7 +1052,7 @@ msgstr "Địa chỉ"
 #: addressbook/gui/contact-editor/e-contact-editor-fullname.c:95
 #: addressbook/gui/contact-editor/e-contact-editor-im.c:141
 #: addressbook/gui/contact-editor/e-contact-editor.c:293
-#: addressbook/gui/contact-list-editor/e-contact-list-editor.c:183
+#: addressbook/gui/contact-list-editor/e-contact-list-editor.c:184
 #: addressbook/gui/widgets/e-addressbook-model.c:309
 #: addressbook/gui/widgets/e-addressbook-reflow-adapter.c:392
 #: addressbook/gui/widgets/e-minicard-label.c:164
@@ -2306,7 +2306,7 @@ msgid "Insert email adresses from Adress Book"
 msgstr "Chọn liên lạc từ sổ địa chỉ"
 
 #: addressbook/gui/contact-list-editor/contact-list-editor.glade.h:6
-#: addressbook/gui/contact-list-editor/e-contact-list-editor.c:706
+#: addressbook/gui/contact-list-editor/e-contact-list-editor.c:704
 msgid "Members"
 msgstr "Thành viên"
 
@@ -2336,7 +2336,7 @@ msgstr "_Nhập địa chỉ thư hoặc kéo liên lạc vào danh sách dướ
 msgid "dialog1"
 msgstr "dialog1"
 
-#: addressbook/gui/contact-list-editor/e-contact-list-editor.c:162
+#: addressbook/gui/contact-list-editor/e-contact-list-editor.c:163
 #: addressbook/gui/widgets/e-addressbook-model.c:295
 #: addressbook/gui/widgets/e-addressbook-reflow-adapter.c:378
 #: addressbook/gui/widgets/e-addressbook-view.c:221
@@ -2345,17 +2345,17 @@ msgstr "dialog1"
 msgid "Book"
 msgstr "Sách"
 
-#: addressbook/gui/contact-list-editor/e-contact-list-editor.c:176
+#: addressbook/gui/contact-list-editor/e-contact-list-editor.c:177
 msgid "Is New List"
 msgstr "Là danh sách mới"
 
-#: addressbook/gui/contact-list-editor/e-contact-list-editor.c:728
+#: addressbook/gui/contact-list-editor/e-contact-list-editor.c:726
 #: calendar/gui/e-meeting-list-view.c:60
 #: calendar/gui/e-meeting-list-view.c:457
 msgid "Required Participants"
 msgstr "Người tham dự yêu cầu"
 
-#: addressbook/gui/contact-list-editor/e-contact-list-editor.c:805
+#: addressbook/gui/contact-list-editor/e-contact-list-editor.c:803
 msgid "Contact List Editor"
 msgstr "Bộ hiệu chỉnh danh sách liên lạc"
 
@@ -2550,7 +2550,7 @@ msgid "Paste"
 msgstr "Dán"
 
 #: addressbook/gui/widgets/e-addressbook-view.c:1123
-#: calendar/gui/e-calendar-view.c:1327
+#: calendar/gui/e-calendar-view.c:1351
 msgid "Current View"
 msgstr "Khung xem hiện thời"
 
@@ -2909,7 +2909,7 @@ msgstr "Chưa hỗ trợ giao thức này"
 #: calendar/gui/dialogs/task-details-page.glade.h:3
 #: calendar/gui/e-cal-component-preview.c:233
 #: calendar/gui/e-cal-model-tasks.c:352 calendar/gui/e-cal-model-tasks.c:655
-#: calendar/gui/e-calendar-table.c:450 calendar/gui/print.c:2349
+#: calendar/gui/e-calendar-table.c:473 calendar/gui/print.c:2349
 #: camel/camel-service.c:724 camel/camel-service.c:762
 #: camel/camel-service.c:846 camel/camel-service.c:886
 #: camel/providers/pop3/camel-pop3-store.c:456
@@ -3789,7 +3789,7 @@ msgid "Calendar and Tasks"
 msgstr "Công việc và Lịch"
 
 #: calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:4
-#: calendar/gui/calendar-component.c:1060
+#: calendar/gui/calendar-component.c:1072
 msgid "Calendars"
 msgstr "Lịch"
 
@@ -3822,8 +3822,8 @@ msgid "Evolution's Tasks component"
 msgstr "Thành phần công việc Evolution"
 
 #: calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:12
-#: calendar/gui/e-tasks.c:1088 calendar/gui/print.c:1819
-#: calendar/gui/tasks-component.c:412 calendar/gui/tasks-component.c:874
+#: calendar/gui/e-tasks.c:1194 calendar/gui/print.c:1819
+#: calendar/gui/tasks-component.c:418 calendar/gui/tasks-component.c:880
 #: calendar/gui/tasks-control.c:405 calendar/importers/icalendar-importer.c:79
 #: calendar/importers/icalendar-importer.c:705
 msgid "Tasks"
@@ -4099,11 +4099,11 @@ msgstr "Địa chỉ chứa"
 msgid "Unmatched"
 msgstr "Không khớp"
 
-#: calendar/gui/calendar-commands.c:117 calendar/gui/calendar-component.c:552
+#: calendar/gui/calendar-commands.c:117 calendar/gui/calendar-component.c:564
 #: calendar/gui/dialogs/select-source-dialog.c:108
-#: calendar/gui/gnome-cal.c:1827
-#: camel/providers/groupwise/camel-gw-listener.c:311
-#: camel/providers/groupwise/camel-gw-listener.c:334
+#: calendar/gui/gnome-cal.c:1858
+#: camel/providers/groupwise/camel-gw-listener.c:315
+#: camel/providers/groupwise/camel-gw-listener.c:338
 msgid "Calendar"
 msgstr "Lịch"
 
@@ -4128,35 +4128,33 @@ msgstr "Xóa sự kiện trước"
 msgid "days"
 msgstr "ngày"
 
-#: calendar/gui/calendar-commands.c:432 calendar/gui/calendar-component.c:504
+#: calendar/gui/calendar-commands.c:432
 msgid "%A %d %B %Y"
 msgstr "%A %d %B %Y"
 
 #. strftime format %a = abbreviated weekday name, %d = day of month,
 #. %b = abbreviated month name. Don't use any other specifiers.
-#: calendar/gui/calendar-commands.c:435 calendar/gui/calendar-component.c:507
-#: calendar/gui/e-day-view-top-item.c:694 calendar/gui/e-day-view.c:1588
+#: calendar/gui/calendar-commands.c:435 calendar/gui/calendar-component.c:519
+#: calendar/gui/e-day-view-top-item.c:714 calendar/gui/e-day-view.c:1588
 #: calendar/gui/e-week-view-main-item.c:329
 msgid "%a %d %b"
 msgstr "%a %d %b"
 
 #: calendar/gui/calendar-commands.c:437 calendar/gui/calendar-commands.c:442
-#: calendar/gui/calendar-commands.c:444 calendar/gui/calendar-component.c:509
-#: calendar/gui/calendar-component.c:514 calendar/gui/calendar-component.c:516
+#: calendar/gui/calendar-commands.c:444 calendar/gui/calendar-component.c:521
+#: calendar/gui/calendar-component.c:526 calendar/gui/calendar-component.c:528
 msgid "%a %d %b %Y"
 msgstr "%a %d %b %Y"
 
 #: calendar/gui/calendar-commands.c:461 calendar/gui/calendar-commands.c:467
 #: calendar/gui/calendar-commands.c:473 calendar/gui/calendar-commands.c:475
-#: calendar/gui/calendar-component.c:528 calendar/gui/calendar-component.c:535
-#: calendar/gui/calendar-component.c:541 calendar/gui/calendar-component.c:543
 msgid "%d %B %Y"
 msgstr "%d %B %Y"
 
 #. strftime format %d = day of month, %B = full
 #. month name. You can change the order but don't
 #. change the specifiers or add anything.
-#: calendar/gui/calendar-commands.c:465 calendar/gui/calendar-component.c:533
+#: calendar/gui/calendar-commands.c:465
 #: calendar/gui/e-week-view-main-item.c:337 calendar/gui/print.c:1498
 msgid "%d %B"
 msgstr "%d %B"
@@ -4170,65 +4168,84 @@ msgstr ""
 msgid "New Calendar"
 msgstr "Lịch mới"
 
-#: calendar/gui/calendar-component.c:623
+#: calendar/gui/calendar-component.c:516
+#, fuzzy
+msgid "%A %d %b %Y"
+msgstr "%a %d %b %Y"
+
+#: calendar/gui/calendar-component.c:540 calendar/gui/calendar-component.c:547
+#: calendar/gui/calendar-component.c:553 calendar/gui/calendar-component.c:555
+#, fuzzy
+msgid "%d %b %Y"
+msgstr "%d %B %Y"
+
+#. strftime format %d = day of month, %b = abbreviated month name.
+#. Don't use any other specifiers.
+#: calendar/gui/calendar-component.c:545
+#: calendar/gui/e-day-view-top-item.c:718 calendar/gui/e-day-view.c:1604
+#: calendar/gui/e-week-view-main-item.c:343
+msgid "%d %b"
+msgstr "%d %b"
+
+#: calendar/gui/calendar-component.c:635
 msgid "Failed upgrading calendars."
 msgstr "Lỗi cập nhật lịch."
 
-#: calendar/gui/calendar-component.c:917
+#: calendar/gui/calendar-component.c:929
 #, c-format
 msgid "Unable to open the calendar '%s' for creating events and meetings"
 msgstr ""
 
-#: calendar/gui/calendar-component.c:929
+#: calendar/gui/calendar-component.c:941
 msgid "There is no calendar available for creating events and meetings"
 msgstr ""
 
-#: calendar/gui/calendar-component.c:1224
+#: calendar/gui/calendar-component.c:1238
 msgid "New appointment"
 msgstr "Cuộc hẹn mới"
 
-#: calendar/gui/calendar-component.c:1225
+#: calendar/gui/calendar-component.c:1239
 msgid "_Appointment"
 msgstr "_Cuộc hẹn"
 
-#: calendar/gui/calendar-component.c:1226
+#: calendar/gui/calendar-component.c:1240
 msgid "Create a new appointment"
 msgstr "Tạo cuộc hẹn mới"
 
-#: calendar/gui/calendar-component.c:1232
+#: calendar/gui/calendar-component.c:1246
 msgid "New meeting"
 msgstr "Cuộc họp mới"
 
-#: calendar/gui/calendar-component.c:1233
+#: calendar/gui/calendar-component.c:1247
 msgid "M_eeting"
 msgstr "_Cuộc họp"
 
-#: calendar/gui/calendar-component.c:1234
+#: calendar/gui/calendar-component.c:1248
 msgid "Create a new meeting request"
 msgstr "Tạo yêu cầu cuộc họp mới"
 
-#: calendar/gui/calendar-component.c:1240
+#: calendar/gui/calendar-component.c:1254
 msgid "New all day appointment"
 msgstr "Cuộc hẹn nguyên ngày mới"
 
-#: calendar/gui/calendar-component.c:1241
+#: calendar/gui/calendar-component.c:1255
 msgid "All _Day Appointment"
 msgstr "Cuộc hẹn n_guyên ngày"
 
-#: calendar/gui/calendar-component.c:1242
+#: calendar/gui/calendar-component.c:1256
 msgid "Create a new all-day appointment"
 msgstr "Tạo cuộc hẹn nguyên ngày mới"
 
-#: calendar/gui/calendar-component.c:1248
+#: calendar/gui/calendar-component.c:1262
 msgid "New calendar"
 msgstr "Lịch mới"
 
-#: calendar/gui/calendar-component.c:1249
+#: calendar/gui/calendar-component.c:1263
 #, fuzzy
 msgid "Cale_ndar"
 msgstr "Lịch"
 
-#: calendar/gui/calendar-component.c:1250
+#: calendar/gui/calendar-component.c:1264
 msgid "Create a new calendar"
 msgstr "Tạo lịch mới"
 
@@ -4841,12 +4858,12 @@ msgid "No summary"
 msgstr "Không có tóm tắt"
 
 #: calendar/gui/dialogs/comp-editor.c:1302
-#: calendar/gui/dialogs/comp-editor.c:1337
-#: calendar/gui/dialogs/comp-editor.c:1363
+#: calendar/gui/dialogs/comp-editor.c:1335
+#: calendar/gui/dialogs/comp-editor.c:1359
 msgid "Changes made to this item may be discarded if an update arrives"
 msgstr "Thay đổi trên mục này có thể bị hủy nếu bản cập nhật đến"
 
-#: calendar/gui/dialogs/comp-editor.c:1387
+#: calendar/gui/dialogs/comp-editor.c:1383
 msgid "Unable to use current version!"
 msgstr "Không thể dùng phiên bản hiện thời!"
 
@@ -5046,7 +5063,7 @@ msgstr "Phân loại"
 
 #: calendar/gui/dialogs/event-page.glade.h:12
 #: calendar/gui/dialogs/task-page.glade.h:6 calendar/gui/e-cal-list-view.c:259
-#: calendar/gui/e-cal-model.c:332 calendar/gui/e-calendar-table.c:354
+#: calendar/gui/e-cal-model.c:349 calendar/gui/e-calendar-table.c:377
 msgid "Confidential"
 msgstr "Tin tưởng"
 
@@ -5056,14 +5073,14 @@ msgstr "Đị_a điểm:"
 
 #: calendar/gui/dialogs/event-page.glade.h:14
 #: calendar/gui/dialogs/task-page.glade.h:8 calendar/gui/e-cal-list-view.c:258
-#: calendar/gui/e-cal-model.c:330 calendar/gui/e-calendar-table.c:353
+#: calendar/gui/e-cal-model.c:347 calendar/gui/e-calendar-table.c:376
 msgid "Private"
 msgstr "Riêng tư"
 
 #: calendar/gui/dialogs/event-page.glade.h:15
 #: calendar/gui/dialogs/task-page.glade.h:9 calendar/gui/e-cal-list-view.c:257
-#: calendar/gui/e-cal-model.c:321 calendar/gui/e-cal-model.c:328
-#: calendar/gui/e-calendar-table.c:352
+#: calendar/gui/e-cal-model.c:338 calendar/gui/e-cal-model.c:345
+#: calendar/gui/e-calendar-table.c:375
 msgid "Public"
 msgstr "Công cộng"
 
@@ -5106,7 +5123,7 @@ msgstr "Thời điểm đầ_u:"
 #: calendar/gui/dialogs/meeting-page.glade.h:6
 #: calendar/gui/e-cal-model-tasks.c:647 calendar/gui/e-itip-control.c:928
 #: composer/e-msg-composer.c:2112 filter/filter-rule.c:877
-#: mail/em-account-prefs.c:427 mail/em-folder-view.c:932
+#: mail/em-account-prefs.c:427 mail/em-folder-view.c:933
 #: mail/mail-account-gui.c:1571 mail/mail-account-gui.c:1967
 #: mail/mail-config.glade.h:103
 #: widgets/e-timezone-dialog/e-timezone-dialog.c:192
@@ -5249,32 +5266,32 @@ msgstr "Nhóm Danh sách công việc"
 msgid "Task List Name"
 msgstr "Tên Danh sách công việc"
 
-#: calendar/gui/dialogs/recur-comp.c:50
+#: calendar/gui/dialogs/recur-comp.c:51
 msgid "You are modifying a recurring event, what would you like to modify?"
 msgstr ""
 
-#: calendar/gui/dialogs/recur-comp.c:54
+#: calendar/gui/dialogs/recur-comp.c:55
 msgid "You are modifying a recurring task, what would you like to modify?"
 msgstr ""
 
-#: calendar/gui/dialogs/recur-comp.c:58
+#: calendar/gui/dialogs/recur-comp.c:59
 msgid ""
 "You are modifying a recurring journal entry, what would you like to modify?"
 msgstr ""
 
-#: calendar/gui/dialogs/recur-comp.c:72
+#: calendar/gui/dialogs/recur-comp.c:85
 msgid "This Instance Only"
 msgstr ""
 
-#: calendar/gui/dialogs/recur-comp.c:76
+#: calendar/gui/dialogs/recur-comp.c:89
 msgid "This and Prior Instances"
 msgstr ""
 
-#: calendar/gui/dialogs/recur-comp.c:82
+#: calendar/gui/dialogs/recur-comp.c:95
 msgid "This and Future Instances"
 msgstr ""
 
-#: calendar/gui/dialogs/recur-comp.c:87
+#: calendar/gui/dialogs/recur-comp.c:100
 msgid "All Instances"
 msgstr ""
 
@@ -5409,7 +5426,7 @@ msgstr "<span weight=\"bold\">Chữ ký điện tử</span>"
 #: calendar/gui/dialogs/task-details-page.glade.h:4
 #: calendar/gui/e-cal-component-preview.c:230
 #: calendar/gui/e-cal-model-tasks.c:350 calendar/gui/e-cal-model-tasks.c:653
-#: calendar/gui/e-calendar-table.c:449 calendar/gui/e-itip-control.c:720
+#: calendar/gui/e-calendar-table.c:472 calendar/gui/e-itip-control.c:720
 #: calendar/gui/e-meeting-store.c:187 calendar/gui/e-meeting-store.c:210
 #: calendar/gui/print.c:2346
 msgid "Completed"
@@ -5417,34 +5434,34 @@ msgstr "Hoàn thành"
 
 #: calendar/gui/dialogs/task-details-page.glade.h:5
 #: calendar/gui/e-cal-component-preview.c:249
-#: calendar/gui/e-calendar-table.c:374 mail/message-list.c:960
+#: calendar/gui/e-calendar-table.c:397 mail/message-list.c:960
 msgid "High"
 msgstr "Cao"
 
 #: calendar/gui/dialogs/task-details-page.glade.h:6
 #: calendar/gui/e-cal-component-preview.c:227
 #: calendar/gui/e-cal-model-tasks.c:348 calendar/gui/e-cal-model-tasks.c:651
-#: calendar/gui/e-cal-model-tasks.c:726 calendar/gui/e-calendar-table.c:448
+#: calendar/gui/e-cal-model-tasks.c:726 calendar/gui/e-calendar-table.c:471
 #: calendar/gui/print.c:2343
 msgid "In Progress"
 msgstr "Đang làm"
 
 #: calendar/gui/dialogs/task-details-page.glade.h:7
 #: calendar/gui/e-cal-component-preview.c:253
-#: calendar/gui/e-calendar-table.c:376 mail/message-list.c:958
+#: calendar/gui/e-calendar-table.c:399 mail/message-list.c:958
 msgid "Low"
 msgstr "Thấp"
 
 #: calendar/gui/dialogs/task-details-page.glade.h:8
-#: calendar/gui/e-cal-component-preview.c:251 calendar/gui/e-cal-model.c:909
-#: calendar/gui/e-calendar-table.c:375 mail/message-list.c:959
+#: calendar/gui/e-cal-component-preview.c:251 calendar/gui/e-cal-model.c:930
+#: calendar/gui/e-calendar-table.c:398 mail/message-list.c:959
 msgid "Normal"
 msgstr "Bình thường"
 
 #: calendar/gui/dialogs/task-details-page.glade.h:9
 #: calendar/gui/e-cal-component-preview.c:237
 #: calendar/gui/e-cal-model-tasks.c:346 calendar/gui/e-cal-model-tasks.c:649
-#: calendar/gui/e-calendar-table.c:447 calendar/gui/print.c:2340
+#: calendar/gui/e-calendar-table.c:470 calendar/gui/print.c:2340
 msgid "Not Started"
 msgstr "Chưa bắt đầu"
 
@@ -5454,7 +5471,7 @@ msgid "P_ercent complete:"
 msgstr "Phần trăm hoàn thành: %i"
 
 #: calendar/gui/dialogs/task-details-page.glade.h:11
-#: calendar/gui/e-calendar-table.c:377
+#: calendar/gui/e-calendar-table.c:400
 msgid "Undefined"
 msgstr "Chưa biết"
 
@@ -5650,7 +5667,7 @@ msgstr "%s tại %s"
 msgid "%s for an unknown trigger type"
 msgstr "%s cho loại trigger lạ"
 
-#: calendar/gui/e-cal-component-preview.c:71 mail/em-folder-view.c:2382
+#: calendar/gui/e-cal-component-preview.c:71 mail/em-folder-view.c:2380
 #, c-format
 msgid "Click to open %s"
 msgstr "Nhấn để mở %s"
@@ -5700,11 +5717,11 @@ msgstr "Ngày bắt đầu"
 msgid "Summary"
 msgstr "Tóm tắt"
 
-#: calendar/gui/e-cal-model-calendar.c:163 calendar/gui/e-calendar-table.c:426
+#: calendar/gui/e-cal-model-calendar.c:163 calendar/gui/e-calendar-table.c:449
 msgid "Free"
 msgstr "Rảnh"
 
-#: calendar/gui/e-cal-model-calendar.c:166 calendar/gui/e-calendar-table.c:427
+#: calendar/gui/e-cal-model-calendar.c:166 calendar/gui/e-calendar-table.c:450
 #: calendar/gui/e-meeting-time-sel.c:399
 msgid "Busy"
 msgstr "Bận"
@@ -5735,24 +5752,24 @@ msgstr ""
 "\n"
 "45.436845,125.862501"
 
-#: calendar/gui/e-cal-model-tasks.c:1012 calendar/gui/e-cal-model.c:915
+#: calendar/gui/e-cal-model-tasks.c:1012 calendar/gui/e-cal-model.c:936
 #: calendar/gui/e-meeting-list-view.c:146 calendar/gui/e-meeting-store.c:159
 #: calendar/gui/e-meeting-store.c:169 calendar/gui/e-meeting-store.c:765
 msgid "Yes"
 msgstr "Có"
 
-#: calendar/gui/e-cal-model-tasks.c:1012 calendar/gui/e-cal-model.c:915
+#: calendar/gui/e-cal-model-tasks.c:1012 calendar/gui/e-cal-model.c:936
 #: calendar/gui/e-meeting-list-view.c:147 calendar/gui/e-meeting-store.c:171
 msgid "No"
 msgstr "Không"
 
 #. This is the default filename used for temporary file creation
-#: calendar/gui/e-cal-model.c:334 calendar/gui/e-cal-model.c:337
+#: calendar/gui/e-cal-model.c:351 calendar/gui/e-cal-model.c:354
 #: calendar/gui/e-itip-control.c:973 calendar/gui/e-itip-control.c:1175
 #: calendar/gui/e-meeting-list-view.c:122
 #: calendar/gui/e-meeting-list-view.c:136 calendar/gui/e-meeting-store.c:115
 #: calendar/gui/e-meeting-store.c:150 calendar/gui/e-meeting-store.c:215
-#: camel/camel-gpg-context.c:1705 camel/camel-gpg-context.c:1756
+#: camel/camel-gpg-context.c:1763 camel/camel-gpg-context.c:1814
 #: camel/camel-tcp-stream-openssl.c:631
 #: camel/providers/imap4/camel-imap4-engine.c:1379
 #: camel/providers/imap4/camel-imap4-engine.c:1406
@@ -5761,107 +5778,107 @@ msgstr "Không"
 #: camel/providers/imap4/camel-imap4-store.c:1255
 #: camel/providers/imap4/camel-imap4-utils.c:457
 #: camel/providers/smtp/camel-smtp-transport.c:172
-#: camel/providers/smtp/camel-smtp-transport.c:227 mail/em-utils.c:1120
+#: camel/providers/smtp/camel-smtp-transport.c:227 mail/em-utils.c:1121
 #: shell/e-component-registry.c:207 shell/e-component-registry.c:211
 #: widgets/misc/e-charset-picker.c:62
 msgid "Unknown"
 msgstr "Lạ"
 
-#: calendar/gui/e-cal-model.c:911
+#: calendar/gui/e-cal-model.c:932
 msgid "Recurring"
 msgstr "Đệ quy"
 
-#: calendar/gui/e-cal-model.c:913
+#: calendar/gui/e-cal-model.c:934
 msgid "Assigned"
 msgstr "Đã gán"
 
-#: calendar/gui/e-calendar-table.c:396
+#: calendar/gui/e-calendar-table.c:419
 msgid "0%"
 msgstr "0%"
 
-#: calendar/gui/e-calendar-table.c:397
+#: calendar/gui/e-calendar-table.c:420
 msgid "10%"
 msgstr "10%"
 
-#: calendar/gui/e-calendar-table.c:398
+#: calendar/gui/e-calendar-table.c:421
 msgid "20%"
 msgstr "20%"
 
-#: calendar/gui/e-calendar-table.c:399
+#: calendar/gui/e-calendar-table.c:422
 msgid "30%"
 msgstr "30%"
 
-#: calendar/gui/e-calendar-table.c:400
+#: calendar/gui/e-calendar-table.c:423
 msgid "40%"
 msgstr "40%"
 
-#: calendar/gui/e-calendar-table.c:401
+#: calendar/gui/e-calendar-table.c:424
 msgid "50%"
 msgstr "50%"
 
-#: calendar/gui/e-calendar-table.c:402
+#: calendar/gui/e-calendar-table.c:425
 msgid "60%"
 msgstr "60%"
 
-#: calendar/gui/e-calendar-table.c:403
+#: calendar/gui/e-calendar-table.c:426
 msgid "70%"
 msgstr "70%"
 
-#: calendar/gui/e-calendar-table.c:404
+#: calendar/gui/e-calendar-table.c:427
 msgid "80%"
 msgstr "80%"
 
-#: calendar/gui/e-calendar-table.c:405
+#: calendar/gui/e-calendar-table.c:428
 msgid "90%"
 msgstr "90%"
 
-#: calendar/gui/e-calendar-table.c:406
+#: calendar/gui/e-calendar-table.c:429
 msgid "100%"
 msgstr "100%"
 
-#: calendar/gui/e-calendar-table.c:680 calendar/gui/e-calendar-view.c:647
+#: calendar/gui/e-calendar-table.c:703 calendar/gui/e-calendar-view.c:658
 msgid "Deleting selected objects"
 msgstr "Đang xóa đối tượng được chọn"
 
-#: calendar/gui/e-calendar-table.c:843 calendar/gui/e-calendar-view.c:751
+#: calendar/gui/e-calendar-table.c:866 calendar/gui/e-calendar-view.c:762
 msgid "Updating objects"
 msgstr "Đang cập nhật đối tượng"
 
-#: calendar/gui/e-calendar-table.c:1019 calendar/gui/e-calendar-table.c:1060
-#: calendar/gui/e-calendar-view.c:1340 calendar/gui/e-calendar-view.c:1420
-#: mail/em-folder-view.c:898 ui/evolution-addressbook.xml.h:37
+#: calendar/gui/e-calendar-table.c:1042 calendar/gui/e-calendar-table.c:1083
+#: calendar/gui/e-calendar-view.c:1364 calendar/gui/e-calendar-view.c:1444
+#: mail/em-folder-view.c:899 ui/evolution-addressbook.xml.h:37
 msgid "_Open"
 msgstr "_Mở"
 
-#: calendar/gui/e-calendar-table.c:1020
+#: calendar/gui/e-calendar-table.c:1043
 msgid "Open _Web Page"
 msgstr "Mở trang _Web"
 
-#: calendar/gui/e-calendar-table.c:1021 calendar/gui/e-calendar-table.c:1066
-#: calendar/gui/e-calendar-view.c:1341 calendar/gui/e-calendar-view.c:1426
-#: mail/em-folder-view.c:900 mail/em-popup.c:691 mail/em-popup.c:807
+#: calendar/gui/e-calendar-table.c:1044 calendar/gui/e-calendar-table.c:1089
+#: calendar/gui/e-calendar-view.c:1365 calendar/gui/e-calendar-view.c:1450
+#: mail/em-folder-view.c:901 mail/em-popup.c:691 mail/em-popup.c:807
 #: ui/evolution-mail-message.xml.h:128
 msgid "_Save As..."
 msgstr "Lư_u mới..."
 
-#: calendar/gui/e-calendar-table.c:1022 calendar/gui/e-calendar-table.c:1064
-#: calendar/gui/e-calendar-view.c:1319 calendar/gui/e-calendar-view.c:1342
-#: calendar/gui/e-calendar-view.c:1424 ui/evolution-addressbook.xml.h:40
+#: calendar/gui/e-calendar-table.c:1045 calendar/gui/e-calendar-table.c:1087
+#: calendar/gui/e-calendar-view.c:1343 calendar/gui/e-calendar-view.c:1366
+#: calendar/gui/e-calendar-view.c:1448 ui/evolution-addressbook.xml.h:40
 #: ui/evolution-calendar.xml.h:44 ui/evolution-comp-editor.xml.h:19
 #: ui/evolution-contact-editor.xml.h:17 ui/evolution-mail-message.xml.h:125
 #: ui/evolution-tasks.xml.h:25
 msgid "_Print..."
 msgstr "_In..."
 
-#: calendar/gui/e-calendar-table.c:1026 calendar/gui/e-calendar-table.c:1055
-#: calendar/gui/e-calendar-view.c:1347 calendar/gui/e-calendar-view.c:1390
+#: calendar/gui/e-calendar-table.c:1049 calendar/gui/e-calendar-table.c:1078
+#: calendar/gui/e-calendar-view.c:1371 calendar/gui/e-calendar-view.c:1414
 #: ui/evolution-addressbook.xml.h:1 ui/evolution-calendar.xml.h:1
 #: ui/evolution-tasks.xml.h:1
 msgid "C_ut"
 msgstr "_Cắt"
 
-#: calendar/gui/e-calendar-table.c:1027 calendar/gui/e-calendar-table.c:1053
-#: calendar/gui/e-calendar-view.c:1348 calendar/gui/e-calendar-view.c:1388
+#: calendar/gui/e-calendar-table.c:1050 calendar/gui/e-calendar-table.c:1076
+#: calendar/gui/e-calendar-view.c:1372 calendar/gui/e-calendar-view.c:1412
 #: mail/em-folder-tree.c:965 mail/message-list.c:1650
 #: ui/evolution-addressbook.xml.h:31 ui/evolution-calendar.xml.h:39
 #: ui/evolution-composer-entries.xml.h:7 ui/evolution-mail-message.xml.h:109
@@ -5869,50 +5886,50 @@ msgstr "_Cắt"
 msgid "_Copy"
 msgstr "_Sao chép"
 
-#: calendar/gui/e-calendar-table.c:1028 calendar/gui/e-calendar-table.c:1062
-#: calendar/gui/e-calendar-view.c:1323 calendar/gui/e-calendar-view.c:1349
-#: calendar/gui/e-calendar-view.c:1422 ui/evolution-addressbook.xml.h:38
+#: calendar/gui/e-calendar-table.c:1051 calendar/gui/e-calendar-table.c:1085
+#: calendar/gui/e-calendar-view.c:1347 calendar/gui/e-calendar-view.c:1373
+#: calendar/gui/e-calendar-view.c:1446 ui/evolution-addressbook.xml.h:38
 #: ui/evolution-calendar.xml.h:43 ui/evolution-composer-entries.xml.h:9
 #: ui/evolution-mail-message.xml.h:123 ui/evolution-tasks.xml.h:24
 msgid "_Paste"
 msgstr "_Dán"
 
-#: calendar/gui/e-calendar-table.c:1032
+#: calendar/gui/e-calendar-table.c:1055
 msgid "_Assign Task"
 msgstr "_Gán công việc"
 
-#: calendar/gui/e-calendar-table.c:1033
+#: calendar/gui/e-calendar-table.c:1056
 msgid "_Forward as iCalendar"
 msgstr "_Chuyển như iCalendar"
 
-#: calendar/gui/e-calendar-table.c:1034
+#: calendar/gui/e-calendar-table.c:1057
 msgid "_Mark as Complete"
 msgstr "Đánh dấu _hoàn tất"
 
-#: calendar/gui/e-calendar-table.c:1035
+#: calendar/gui/e-calendar-table.c:1058
 msgid "_Mark Selected Tasks as Complete"
 msgstr "Đánh _dấu công việc hoàn tất"
 
 #. FIXME: need to disable for undeletable folders
-#: calendar/gui/e-calendar-table.c:1039 calendar/gui/e-calendar-table.c:1057
-#: calendar/gui/e-calendar-view.c:1360 calendar/gui/e-calendar-view.c:1392
-#: mail/em-folder-tree.c:2615 mail/em-folder-view.c:923
+#: calendar/gui/e-calendar-table.c:1062 calendar/gui/e-calendar-table.c:1080
+#: calendar/gui/e-calendar-view.c:1384 calendar/gui/e-calendar-view.c:1416
+#: mail/em-folder-tree.c:2615 mail/em-folder-view.c:924
 #: ui/evolution-addressbook.xml.h:33 ui/evolution-calendar.xml.h:40
 #: ui/evolution-comp-editor.xml.h:17 ui/evolution-contact-editor.xml.h:14
 #: ui/evolution-mail-message.xml.h:112 ui/evolution-tasks.xml.h:21
 msgid "_Delete"
 msgstr "_Xóa"
 
-#: calendar/gui/e-calendar-table.c:1040 calendar/gui/e-calendar-table.c:1058
+#: calendar/gui/e-calendar-table.c:1063 calendar/gui/e-calendar-table.c:1081
 msgid "_Delete Selected Tasks"
 msgstr "Xóa côn_g việc được chọn"
 
-#: calendar/gui/e-calendar-table.c:1172 calendar/gui/e-calendar-view.c:1053
+#: calendar/gui/e-calendar-table.c:1195 calendar/gui/e-calendar-view.c:1064
 #: composer/e-msg-composer.c:1193
 msgid "Save as..."
 msgstr "Lưu mới..."
 
-#: calendar/gui/e-calendar-table.c:1350
+#: calendar/gui/e-calendar-table.c:1373
 #: calendar/gui/e-calendar-table.etspec.h:4
 msgid "Click to add a task"
 msgstr "Nhấn để thêm công việc"
@@ -5947,77 +5964,77 @@ msgstr "Ngày bắt đầu"
 msgid "Task sort"
 msgstr "Loại công việc"
 
-#: calendar/gui/e-calendar-view.c:1156
+#: calendar/gui/e-calendar-view.c:1180
 #, fuzzy
 msgid "Moving items"
 msgstr "Đang di chuyển"
 
-#: calendar/gui/e-calendar-view.c:1158
+#: calendar/gui/e-calendar-view.c:1182
 #, fuzzy
 msgid "Copying items"
 msgstr "Đang sao chép"
 
-#: calendar/gui/e-calendar-view.c:1312 calendar/gui/e-calendar-view.c:1400
+#: calendar/gui/e-calendar-view.c:1336 calendar/gui/e-calendar-view.c:1424
 msgid "New _Appointment..."
 msgstr "Cuộc hẹn mớ_i..."
 
-#: calendar/gui/e-calendar-view.c:1313 calendar/gui/e-calendar-view.c:1405
+#: calendar/gui/e-calendar-view.c:1337 calendar/gui/e-calendar-view.c:1429
 msgid "New All Day _Event"
 msgstr "Sự _kiện mọi ngày mới"
 
-#: calendar/gui/e-calendar-view.c:1314 calendar/gui/e-calendar-view.c:1410
+#: calendar/gui/e-calendar-view.c:1338 calendar/gui/e-calendar-view.c:1434
 msgid "New Meeting"
 msgstr "Cuộc họp mới"
 
-#: calendar/gui/e-calendar-view.c:1315 calendar/gui/e-calendar-view.c:1415
+#: calendar/gui/e-calendar-view.c:1339 calendar/gui/e-calendar-view.c:1439
 msgid "New Task"
 msgstr "Công việc mới"
 
-#: calendar/gui/e-calendar-view.c:1329 ui/evolution-calendar.xml.h:26
+#: calendar/gui/e-calendar-view.c:1353 ui/evolution-calendar.xml.h:26
 msgid "Select _Today"
 msgstr "Chọn _hôm nay"
 
-#: calendar/gui/e-calendar-view.c:1330
+#: calendar/gui/e-calendar-view.c:1354
 msgid "_Select Date..."
 msgstr "_Chọn ngày..."
 
-#: calendar/gui/e-calendar-view.c:1334 ui/evolution-calendar.xml.h:45
+#: calendar/gui/e-calendar-view.c:1358 ui/evolution-calendar.xml.h:45
 msgid "_Publish Free/Busy Information"
 msgstr "_Công bố thông tin bận/rảnh"
 
-#: calendar/gui/e-calendar-view.c:1353
+#: calendar/gui/e-calendar-view.c:1377
 msgid "Cop_y to Calendar..."
 msgstr "_Chép vào lịch..."
 
-#: calendar/gui/e-calendar-view.c:1354
+#: calendar/gui/e-calendar-view.c:1378
 msgid "Mo_ve to Calendar..."
 msgstr "_Chuyển vào lịch..."
 
-#: calendar/gui/e-calendar-view.c:1355
+#: calendar/gui/e-calendar-view.c:1379
 msgid "_Schedule Meeting..."
 msgstr "Lập lịch _cuộc họp..."
 
-#: calendar/gui/e-calendar-view.c:1356
+#: calendar/gui/e-calendar-view.c:1380
 msgid "_Forward as iCalendar..."
 msgstr "_Chuyển như iCalendar..."
 
-#: calendar/gui/e-calendar-view.c:1361 calendar/gui/e-calendar-view.c:1393
+#: calendar/gui/e-calendar-view.c:1385 calendar/gui/e-calendar-view.c:1417
 msgid "Delete this _Occurrence"
 msgstr "_Xóa lần này"
 
-#: calendar/gui/e-calendar-view.c:1362 calendar/gui/e-calendar-view.c:1394
+#: calendar/gui/e-calendar-view.c:1386 calendar/gui/e-calendar-view.c:1418
 msgid "Delete _All Occurrences"
 msgstr "Xóa _mọi lần"
 
-#: calendar/gui/e-calendar-view.c:1396
+#: calendar/gui/e-calendar-view.c:1420
 msgid "Go to _Today"
 msgstr "Đi tới ngày _hôm nay"
 
-#: calendar/gui/e-calendar-view.c:1398
+#: calendar/gui/e-calendar-view.c:1422
 msgid "_Go to Date..."
 msgstr "Đi tới _ngày..."
 
-#: calendar/gui/e-calendar-view.c:1428 ui/evolution.xml.h:35
+#: calendar/gui/e-calendar-view.c:1452 ui/evolution.xml.h:35
 msgid "_Settings..."
 msgstr "T_hiết lập..."
 
@@ -6051,17 +6068,10 @@ msgstr "lệch %02i phút"
 
 #. strftime format %A = full weekday name, %d = day of month,
 #. %B = full month name. Don't use any other specifiers.
-#: calendar/gui/e-day-view-top-item.c:690 calendar/gui/e-day-view.c:1571
+#: calendar/gui/e-day-view-top-item.c:710 calendar/gui/e-day-view.c:1571
 #: calendar/gui/e-week-view-main-item.c:320 calendar/gui/print.c:1514
 msgid "%A %d %B"
 msgstr "%A %d %B"
-
-#. strftime format %d = day of month, %b = abbreviated month name.
-#. Don't use any other specifiers.
-#: calendar/gui/e-day-view-top-item.c:698 calendar/gui/e-day-view.c:1604
-#: calendar/gui/e-week-view-main-item.c:343
-msgid "%d %b"
-msgstr "%d %b"
 
 #. String to use in 12-hour time format for times in the morning.
 #: calendar/gui/e-day-view.c:817 calendar/gui/e-week-view.c:573
@@ -6654,7 +6664,7 @@ msgstr "Người yêu cầu _và một tài nguyên"
 msgid "Enter the password for %s"
 msgstr "Nhập mật khẩu cho %s"
 
-#: calendar/gui/e-tasks.c:709 calendar/gui/gnome-cal.c:2159
+#: calendar/gui/e-tasks.c:744 calendar/gui/gnome-cal.c:2250
 #, c-format
 msgid ""
 "Error on %s:\n"
@@ -6663,48 +6673,48 @@ msgstr ""
 "Lỗi tại %s:\n"
 " %s"
 
-#: calendar/gui/e-tasks.c:755
+#: calendar/gui/e-tasks.c:792
 msgid "Loading tasks"
 msgstr "Đang nạp công việc"
 
-#: calendar/gui/e-tasks.c:846
+#: calendar/gui/e-tasks.c:869
 #, c-format
 msgid "Opening tasks at %s"
 msgstr "Đang mở công việc tại %s"
 
-#: calendar/gui/e-tasks.c:962
+#: calendar/gui/e-tasks.c:1066
 msgid "Completing tasks..."
 msgstr "Đang hoàn tất công việc..."
 
-#: calendar/gui/e-tasks.c:985
+#: calendar/gui/e-tasks.c:1089
 msgid "Deleting selected objects..."
 msgstr "Đang xóa đối tượng được chọn..."
 
-#: calendar/gui/e-tasks.c:1012
+#: calendar/gui/e-tasks.c:1116
 msgid "Expunging"
 msgstr "Đang xóa"
 
-#: calendar/gui/gnome-cal.c:704
+#: calendar/gui/gnome-cal.c:705
 #, fuzzy
 msgid "Updating query"
 msgstr "Đang cập nhật đối tượng"
 
-#: calendar/gui/gnome-cal.c:2006
+#: calendar/gui/gnome-cal.c:2036
 #, c-format
 msgid "Loading appointments at %s"
 msgstr "Đang nạp cuộc hẹn lúc %s"
 
-#: calendar/gui/gnome-cal.c:2025
+#: calendar/gui/gnome-cal.c:2055
 #, c-format
 msgid "Loading tasks at %s"
 msgstr "Đang nạp công việc lúc %s"
 
-#: calendar/gui/gnome-cal.c:2048
+#: calendar/gui/gnome-cal.c:2139
 #, c-format
 msgid "Opening %s"
 msgstr "Đang mở %s"
 
-#: calendar/gui/gnome-cal.c:3003
+#: calendar/gui/gnome-cal.c:3106
 msgid "Purging"
 msgstr "Đang xóa"
 
@@ -7096,55 +7106,55 @@ msgstr ""
 msgid "New Task List"
 msgstr "Danh sách công việc mới"
 
-#: calendar/gui/tasks-component.c:408
+#: calendar/gui/tasks-component.c:414
 #, c-format
 msgid "%d task"
 msgid_plural "%d tasks"
 msgstr[0] "%d công việc"
 msgstr[1] "%d công việc"
 
-#: calendar/gui/tasks-component.c:410 mail/mail-component.c:498
+#: calendar/gui/tasks-component.c:416 mail/mail-component.c:498
 #, c-format
 msgid ", %d selected"
 msgid_plural ", %d selected"
 msgstr[0] "%d được chọn"
 msgstr[1] "%d được chọn"
 
-#: calendar/gui/tasks-component.c:457
+#: calendar/gui/tasks-component.c:463
 msgid "Failed upgrading tasks."
 msgstr "Lỗi nâng cấp công việc."
 
-#: calendar/gui/tasks-component.c:749
+#: calendar/gui/tasks-component.c:755
 #, c-format
 msgid "Unable to open the task list '%s' for creating events and meetings"
 msgstr ""
 
-#: calendar/gui/tasks-component.c:761
+#: calendar/gui/tasks-component.c:767
 msgid "There is no calendar available for creating tasks"
 msgstr ""
 
-#: calendar/gui/tasks-component.c:1030
+#: calendar/gui/tasks-component.c:1038
 msgid "New task"
 msgstr "Công việc mới"
 
-#: calendar/gui/tasks-component.c:1031
+#: calendar/gui/tasks-component.c:1039
 msgid "_Task"
 msgstr "Nhiệm _vụ"
 
-#: calendar/gui/tasks-component.c:1032
+#: calendar/gui/tasks-component.c:1040
 msgid "Create a new task"
 msgstr "Tạo công việc mới"
 
-#: calendar/gui/tasks-component.c:1038
+#: calendar/gui/tasks-component.c:1046
 msgid "New tasks group"
 msgstr "Nhóm công việc mới"
 
-#: calendar/gui/tasks-component.c:1039
+#: calendar/gui/tasks-component.c:1047
 #, fuzzy
 msgid "Tasks Gro_up"
 msgstr "_Nhóm công việc"
 
-#: calendar/gui/tasks-component.c:1040
+#: calendar/gui/tasks-component.c:1048
 msgid "Create a new tasks group"
 msgstr "Tạo nhóm công việc mới"
 
@@ -8745,27 +8755,47 @@ msgstr "Thái Bình Dương/Wallis"
 msgid "Pacific/Yap"
 msgstr "Thái Bình Dương/Yap"
 
-#: camel/camel-cipher-context.c:101
+#: camel/camel-cipher-context.c:102
 msgid "Signing is not supported by this cipher"
 msgstr "Loại mã này không hỗ trợ ký tên"
 
-#: camel/camel-cipher-context.c:140
+#: camel/camel-cipher-context.c:128
+#, fuzzy
+msgid "Signing message"
+msgstr "Đang gửi thông điệp"
+
+#: camel/camel-cipher-context.c:145
 msgid "Verifying is not supported by this cipher"
 msgstr "Loại mã này không hỗ trợ xác minh"
 
-#: camel/camel-cipher-context.c:180
+#: camel/camel-cipher-context.c:171
+#, fuzzy
+msgid "Verifying message"
+msgstr "Đang gửi thông điệp"
+
+#: camel/camel-cipher-context.c:189
 msgid "Encryption is not supported by this cipher"
 msgstr "Loại mã này không hỗ trợ mã hóa"
 
-#: camel/camel-cipher-context.c:219
+#: camel/camel-cipher-context.c:215
+#, fuzzy
+msgid "Encrypting message"
+msgstr "Đang gửi thông điệp"
+
+#: camel/camel-cipher-context.c:232
 msgid "Decryption is not supported by this cipher"
 msgstr "Loại mã này không hỗ trợ giải mã"
 
 #: camel/camel-cipher-context.c:254
+#, fuzzy
+msgid "Decrypting message"
+msgstr "Đang gửi thông điệp"
+
+#: camel/camel-cipher-context.c:271
 msgid "You may not import keys with this cipher"
 msgstr "Bạn không thể nhập khóa bằng loại mã này"
 
-#: camel/camel-cipher-context.c:284
+#: camel/camel-cipher-context.c:301
 msgid "You may not export keys with this cipher"
 msgstr "Bạn không thể xuất khóa bằng loại mã này"
 
@@ -8827,10 +8857,9 @@ msgstr "Bạn phải đang hoạt động trực tuyến mới có thể hoàn t
 msgid "Failed to create pipe to '%s': %s"
 msgstr "Lỗi tạo ống dẫn tới '%s': %s"
 
-#: camel/camel-filter-driver.c:713 camel/camel-filter-search.c:549
-#: camel/camel-process.c:90
-#, c-format
-msgid "Failed to create create child process '%s': %s"
+#: camel/camel-filter-driver.c:713 camel/camel-process.c:90
+#, fuzzy, c-format
+msgid "Failed to create child process '%s': %s"
 msgstr "Lỗi tạo tiến trình con '%s': %s"
 
 #: camel/camel-filter-driver.c:756
@@ -8899,6 +8928,11 @@ msgstr "Đối số không hợp lệ (system-flag)"
 #: camel/camel-filter-search.c:401
 msgid "Invalid arguments to (user-tag)"
 msgstr "Đối số không hợp lệ (user-tag)"
+
+#: camel/camel-filter-search.c:549
+#, c-format
+msgid "Failed to create create child process '%s': %s"
+msgstr "Lỗi tạo tiến trình con '%s': %s"
 
 #: camel/camel-filter-search.c:670 camel/camel-filter-search.c:678
 #, c-format
@@ -8983,7 +9017,7 @@ msgstr "Học không phải là rác"
 msgid "Filtering new message(s)"
 msgstr "Đang lọc thông điệp mới"
 
-#: camel/camel-gpg-context.c:722
+#: camel/camel-gpg-context.c:735
 #, c-format
 msgid ""
 "Unexpected GnuPG status message encountered:\n"
@@ -8994,15 +9028,15 @@ msgstr ""
 "\n"
 "%s"
 
-#: camel/camel-gpg-context.c:736
+#: camel/camel-gpg-context.c:749
 msgid "Failed to parse gpg userid hint."
 msgstr "Lỗi phân tích chỉ dẫn GPG UserID."
 
-#: camel/camel-gpg-context.c:760
+#: camel/camel-gpg-context.c:773
 msgid "Failed to parse gpg passphrase request."
 msgstr "Lỗi phân tích yêu cầu passphrase của GPG."
 
-#: camel/camel-gpg-context.c:774
+#: camel/camel-gpg-context.c:787
 #, c-format
 msgid ""
 "You need a passphrase to unlock the key for\n"
@@ -9011,28 +9045,28 @@ msgstr ""
 "Bạn cần passphrase để mở khóa cho người \n"
 "dùng: \"%s\""
 
-#: camel/camel-gpg-context.c:791 camel/camel-gpg-context.c:1283
-#: camel/camel-gpg-context.c:1441 camel/camel-gpg-context.c:1532
-#: camel/camel-gpg-context.c:1639 camel/providers/nntp/camel-nntp-store.c:1231
+#: camel/camel-gpg-context.c:804 camel/camel-gpg-context.c:1314
+#: camel/camel-gpg-context.c:1498 camel/camel-gpg-context.c:1589
+#: camel/camel-gpg-context.c:1697 camel/providers/nntp/camel-nntp-store.c:1231
 #: camel/providers/nntp/camel-nntp-store.c:1329 mail/mail-ops.c:705
 #: mail/mail-send-recv.c:611
 msgid "Cancelled."
 msgstr "Đã hủy"
 
-#: camel/camel-gpg-context.c:809
+#: camel/camel-gpg-context.c:822
 msgid "Failed to unlock secret key: 3 bad passphrases given."
 msgstr "Lỗi mở khóa khóa mật: 3 passphrase sai."
 
-#: camel/camel-gpg-context.c:815
+#: camel/camel-gpg-context.c:828
 #, c-format
 msgid "Unexpected response from GnuPG: %s"
 msgstr "Tín hiệu trả lời không mong đợi từ GnuPG: %s"
 
-#: camel/camel-gpg-context.c:867
+#: camel/camel-gpg-context.c:880
 msgid "Failed to encrypt: No valid recipients specified."
 msgstr "Lỗi mã hóa: Chưa xác định người nhận."
 
-#: camel/camel-gpg-context.c:1144
+#: camel/camel-gpg-context.c:1157
 #, c-format
 msgid ""
 "Failed to GPG %s: %s\n"
@@ -9043,58 +9077,58 @@ msgstr ""
 "\n"
 "%s"
 
-#: camel/camel-gpg-context.c:1149
+#: camel/camel-gpg-context.c:1162
 #, c-format
 msgid "Failed to GPG %s: %s\n"
 msgstr "GPG gặp lỗi %s: %s\n"
 
-#: camel/camel-gpg-context.c:1262 camel/camel-smime-context.c:419
+#: camel/camel-gpg-context.c:1275 camel/camel-smime-context.c:419
 #, c-format
 msgid "Could not generate signing data: %s"
 msgstr "Không thể phát sinh dữ liệu ký nhận: %s"
 
-#: camel/camel-gpg-context.c:1276 camel/camel-gpg-context.c:1704
-#: camel/camel-gpg-context.c:1755
+#: camel/camel-gpg-context.c:1307 camel/camel-gpg-context.c:1762
+#: camel/camel-gpg-context.c:1813
 #, c-format
 msgid "Failed to execute gpg: %s"
 msgstr "Lỗi thực hiện GPG: %s"
 
-#: camel/camel-gpg-context.c:1300 camel/camel-gpg-context.c:1434
-#: camel/camel-gpg-context.c:1525 camel/camel-gpg-context.c:1548
-#: camel/camel-gpg-context.c:1632 camel/camel-gpg-context.c:1656
-#: camel/camel-gpg-context.c:1726 camel/camel-gpg-context.c:1777
+#: camel/camel-gpg-context.c:1331 camel/camel-gpg-context.c:1491
+#: camel/camel-gpg-context.c:1582 camel/camel-gpg-context.c:1605
+#: camel/camel-gpg-context.c:1690 camel/camel-gpg-context.c:1714
+#: camel/camel-gpg-context.c:1784 camel/camel-gpg-context.c:1835
 msgid "Failed to execute gpg."
 msgstr "Lỗi thực hiện GPG."
 
-#: camel/camel-gpg-context.c:1319
+#: camel/camel-gpg-context.c:1350
 msgid "This is a digitally signed message part"
 msgstr "Đây là phần thông điệp có chữ ký số"
 
-#: camel/camel-gpg-context.c:1400 camel/camel-gpg-context.c:1406
-#: camel/camel-gpg-context.c:1412 camel/camel-smime-context.c:721
+#: camel/camel-gpg-context.c:1431 camel/camel-gpg-context.c:1437
+#: camel/camel-gpg-context.c:1443 camel/camel-smime-context.c:721
 #: camel/camel-smime-context.c:732 camel/camel-smime-context.c:739
 msgid "Cannot verify message signature: Incorrect message format"
 msgstr "Không thể xác minh chữ ký thông điệp: dạng thức thông điệp sai"
 
-#: camel/camel-gpg-context.c:1420
+#: camel/camel-gpg-context.c:1477
 #, c-format
 msgid "Cannot verify message signature: could not create temp file: %s"
 msgstr "Không thể xác minh chữ ký thông điệp: không thể tạo tập tin tạm: %s"
 
-#: camel/camel-gpg-context.c:1508
+#: camel/camel-gpg-context.c:1565
 #, c-format
 msgid "Could not generate encrypting data: %s"
 msgstr "Không thể phát sinh dữ liệu mã hóa: %s"
 
-#: camel/camel-gpg-context.c:1566
+#: camel/camel-gpg-context.c:1623
 msgid "This is a digitally encrypted message part"
 msgstr "Đây là một phần thông điệp mã hóa"
 
-#: camel/camel-gpg-context.c:1663 camel/camel-smime-context.c:994
+#: camel/camel-gpg-context.c:1721 camel/camel-smime-context.c:995
 msgid "Encrypted content"
 msgstr "Nội dung bị mã hóa"
 
-#: camel/camel-gpg-context.c:1682
+#: camel/camel-gpg-context.c:1740
 msgid "Unable to parse message content"
 msgstr "Không thể phân tích nội dung thông điệp"
 
@@ -9739,21 +9773,21 @@ msgstr ""
 msgid "Failed to add data to encoder"
 msgstr "Lỗi gửi tên người dùng cho server"
 
-#: camel/camel-smime-context.c:974
+#: camel/camel-smime-context.c:975
 #, c-format
 msgid "Decoder failed, error %d"
 msgstr ""
 
-#: camel/camel-smime-context.c:981
+#: camel/camel-smime-context.c:982
 msgid "S/MIME Decrypt: No encrypted content found"
 msgstr ""
 
-#: camel/camel-smime-context.c:1008
+#: camel/camel-smime-context.c:1009
 #, fuzzy
 msgid "import keys: unimplemented"
 msgstr "Lệnh chưa được thi công"
 
-#: camel/camel-smime-context.c:1016
+#: camel/camel-smime-context.c:1017
 msgid "export keys: unimplemented"
 msgstr ""
 
@@ -10092,8 +10126,8 @@ msgid "This option will connect to the IMAP server using a plaintext password."
 msgstr ""
 "Tùy chọn này sẽ kết nối tới IMAP server bằng mật khẩu thô (không mã hóa)."
 
-#: camel/providers/groupwise/camel-gw-listener.c:312
-#: camel/providers/groupwise/camel-gw-listener.c:335
+#: camel/providers/groupwise/camel-gw-listener.c:316
+#: camel/providers/groupwise/camel-gw-listener.c:339
 msgid "Checklist"
 msgstr ""
 
@@ -10172,12 +10206,12 @@ msgstr "Thư mục đã bị hủy và tạo lại trên server."
 msgid "Scanning for changed messages"
 msgstr "Đang quét tìm các thông điệp thay đổi"
 
-#: camel/providers/imap/camel-imap-folder.c:1940
+#: camel/providers/imap/camel-imap-folder.c:1938
 #, c-format
 msgid "Unable to retrieve message: %s"
 msgstr "Không thể nhận thông điệp: %s"
 
-#: camel/providers/imap/camel-imap-folder.c:1977
+#: camel/providers/imap/camel-imap-folder.c:1975
 #, c-format
 msgid ""
 "Cannot get message: %s\n"
@@ -10186,41 +10220,41 @@ msgstr ""
 "Không thể lấy thông điệp: %s\n"
 "  %s"
 
-#: camel/providers/imap/camel-imap-folder.c:1977
+#: camel/providers/imap/camel-imap-folder.c:1975
 #: camel/providers/local/camel-maildir-folder.c:244
 #: camel/providers/local/camel-mbox-folder.c:418
 #: camel/providers/local/camel-mh-folder.c:202
 msgid "No such message"
 msgstr "Không có thông điệp như vậy"
 
-#: camel/providers/imap/camel-imap-folder.c:2019
-#: camel/providers/imap/camel-imap-folder.c:2622
+#: camel/providers/imap/camel-imap-folder.c:2017
+#: camel/providers/imap/camel-imap-folder.c:2620
 #: camel/providers/nntp/camel-nntp-folder.c:220
 msgid "This message is not currently available"
 msgstr "Thông điệp này hiện thời chưa sẵn sàng"
 
-#: camel/providers/imap/camel-imap-folder.c:2285
-#: camel/providers/imap/camel-imap-folder.c:2355
+#: camel/providers/imap/camel-imap-folder.c:2283
+#: camel/providers/imap/camel-imap-folder.c:2353
 msgid "Fetching summary information for new messages"
 msgstr "Đang lấy thông tin tóm tắt của các thông điệp mới"
 
-#: camel/providers/imap/camel-imap-folder.c:2463
+#: camel/providers/imap/camel-imap-folder.c:2461
 #, c-format
 msgid "Incomplete server response: no information provided for message %d"
 msgstr ""
 
-#: camel/providers/imap/camel-imap-folder.c:2471
+#: camel/providers/imap/camel-imap-folder.c:2469
 #, c-format
 msgid "Incomplete server response: no UID provided for message %d"
 msgstr ""
 
-#: camel/providers/imap/camel-imap-folder.c:2484
+#: camel/providers/imap/camel-imap-folder.c:2482
 #, c-format
 msgid ""
 "Unexpected server response: Identical UIDs provided for messages %d and %d"
 msgstr ""
 
-#: camel/providers/imap/camel-imap-folder.c:2660
+#: camel/providers/imap/camel-imap-folder.c:2658
 msgid "Could not find message body in FETCH response."
 msgstr "Không thể tìm thấy phần thân thông điệp trong tín hiệu trả lời FETCH"
 
@@ -12833,7 +12867,7 @@ msgstr "Factory Điều khiển cấu hình Tóm tắt Evolution."
 msgid "Evolution Mail preferences control"
 msgstr "Thành phần tóm tắt thư của Evolution."
 
-#: mail/GNOME_Evolution_Mail.server.in.in.h:12 mail/em-folder-view.c:418
+#: mail/GNOME_Evolution_Mail.server.in.in.h:12 mail/em-folder-view.c:419
 #: mail/importers/elm-importer.c:418 mail/importers/netscape-importer.c:1902
 #: mail/importers/pine-importer.c:474 mail/mail-component.c:506
 #: mail/mail-component.c:559
@@ -13039,7 +13073,7 @@ msgstr "không được đặt cờ"
 msgid "Junk Test"
 msgstr "Tháng Sáu"
 
-#: mail/em-filter-i18n.h:37 mail/em-folder-view.c:931
+#: mail/em-filter-i18n.h:37 mail/em-folder-view.c:932
 #: widgets/misc/e-expander.c:189
 msgid "Label"
 msgstr "Nhãn"
@@ -13148,8 +13182,8 @@ msgstr "bắt đầu bằng"
 msgid "Stop Processing"
 msgstr "Dừng tiến trình"
 
-#: mail/em-filter-i18n.h:64 mail/em-format-html.c:1519
-#: mail/em-format-quote.c:302 mail/em-format.c:755 mail/em-mailer-prefs.c:87
+#: mail/em-filter-i18n.h:64 mail/em-format-html.c:1550
+#: mail/em-format-quote.c:305 mail/em-format.c:805 mail/em-mailer-prefs.c:87
 #: mail/message-list.etspec.h:13 mail/message-tag-followup.c:329
 #: smime/lib/e-cert.c:1131
 msgid "Subject"
@@ -13255,7 +13289,7 @@ msgid "_Move to Folder"
 msgstr "_Chuyển vào thư mục"
 
 #: mail/em-folder-tree.c:966 mail/em-folder-tree.c:2117
-#: mail/em-folder-view.c:802 mail/message-list.c:1651
+#: mail/em-folder-view.c:803 mail/message-list.c:1651
 msgid "_Move"
 msgstr "_Di chuyển"
 
@@ -13264,13 +13298,13 @@ msgid "Cancel _Drag"
 msgstr "Hủy bỏ _kéo"
 
 #: mail/em-folder-tree.c:2104 mail/em-folder-tree.c:2117
-#: mail/em-folder-view.c:802 mail/em-folder-view.c:816
+#: mail/em-folder-view.c:803 mail/em-folder-view.c:817
 #: mail/importers/evolution-mbox-importer.c:119
 #: mail/importers/evolution-outlook-importer.c:133
 msgid "Select folder"
 msgstr "Chọn thư mục"
 
-#: mail/em-folder-tree.c:2104 mail/em-folder-view.c:816
+#: mail/em-folder-tree.c:2104 mail/em-folder-view.c:817
 msgid "C_opy"
 msgstr "_Sao chép"
 
@@ -13325,145 +13359,145 @@ msgid "_Properties"
 msgstr "Thuộc tính"
 
 #. { EM_POPUP_ITEM, "00.select.00", N_("_Open"), G_CALLBACK(emp_popup_open), NULL, NULL, 0 },
-#: mail/em-folder-view.c:899 mail/em-popup.c:690
+#: mail/em-folder-view.c:900 mail/em-popup.c:690
 #: ui/evolution-mail-message.xml.h:113
 msgid "_Edit as New Message..."
 msgstr "_Hiệu chỉnh như thông điệp mới..."
 
-#: mail/em-folder-view.c:901
+#: mail/em-folder-view.c:902
 msgid "_Print"
 msgstr "_In"
 
-#: mail/em-folder-view.c:904 ui/evolution-mail-message.xml.h:127
+#: mail/em-folder-view.c:905 ui/evolution-mail-message.xml.h:127
 msgid "_Reply to Sender"
 msgstr "T_rả lời người gửi"
 
-#: mail/em-folder-view.c:905 mail/em-popup.c:811
+#: mail/em-folder-view.c:906 mail/em-popup.c:811
 #: ui/evolution-mail-message.xml.h:88
 msgid "Reply to _List"
 msgstr "Trả lời _danh sách"
 
-#: mail/em-folder-view.c:906 mail/em-popup.c:812
+#: mail/em-folder-view.c:907 mail/em-popup.c:812
 #: ui/evolution-mail-message.xml.h:87
 msgid "Reply to _All"
 msgstr "Trả lời _mọi người"
 
-#: mail/em-folder-view.c:907 mail/em-popup.c:814
+#: mail/em-folder-view.c:908 mail/em-popup.c:814
 #: ui/evolution-mail-message.xml.h:114
 msgid "_Forward"
 msgstr "_Chuyển tiếp"
 
-#: mail/em-folder-view.c:910
+#: mail/em-folder-view.c:911
 msgid "Follo_w Up..."
 msgstr ""
 
-#: mail/em-folder-view.c:911
+#: mail/em-folder-view.c:912
 msgid "Fla_g Completed"
 msgstr ""
 
-#: mail/em-folder-view.c:912
+#: mail/em-folder-view.c:913
 msgid "Cl_ear Flag"
 msgstr "Xó_a cờ"
 
-#: mail/em-folder-view.c:915 ui/evolution-mail-message.xml.h:50
+#: mail/em-folder-view.c:916 ui/evolution-mail-message.xml.h:50
 msgid "Mar_k as Read"
 msgstr "Đánh dấu đã đọ_c"
 
-#: mail/em-folder-view.c:916
+#: mail/em-folder-view.c:917
 msgid "Mark as _Unread"
 msgstr "Đánh dấu c_hưa đọc"
 
-#: mail/em-folder-view.c:917
+#: mail/em-folder-view.c:918
 msgid "Mark as _Important"
 msgstr "Đánh dấu _quan trọng"
 
-#: mail/em-folder-view.c:918
+#: mail/em-folder-view.c:919
 msgid "_Mark as Unimportant"
 msgstr "Đánh dấu _Không quan trọng"
 
-#: mail/em-folder-view.c:919 ui/evolution-mail-message.xml.h:54
+#: mail/em-folder-view.c:920 ui/evolution-mail-message.xml.h:54
 msgid "Mark as _Junk"
 msgstr "Đánh dấu _rác"
 
-#: mail/em-folder-view.c:920 ui/evolution-mail-message.xml.h:55
+#: mail/em-folder-view.c:921 ui/evolution-mail-message.xml.h:55
 msgid "Mark as _Not Junk"
 msgstr "Đánh dấu không phải rá_c"
 
-#: mail/em-folder-view.c:924
+#: mail/em-folder-view.c:925
 msgid "U_ndelete"
 msgstr "_Hủy xóa"
 
-#: mail/em-folder-view.c:927
+#: mail/em-folder-view.c:928
 msgid "Mo_ve to Folder..."
 msgstr "_Chuyển tới thư mục..."
 
-#: mail/em-folder-view.c:928 ui/evolution-addressbook.xml.h:32
+#: mail/em-folder-view.c:929 ui/evolution-addressbook.xml.h:32
 msgid "_Copy to Folder..."
 msgstr "C_hép vào thư mục..."
 
-#: mail/em-folder-view.c:936
+#: mail/em-folder-view.c:937
 msgid "Add Sender to Address_book"
 msgstr "Thêm người _gửi vào sổ địa chỉ"
 
-#: mail/em-folder-view.c:939
+#: mail/em-folder-view.c:940
 msgid "Appl_y Filters"
 msgstr "Áp dụng _bộ lọc"
 
-#: mail/em-folder-view.c:940
+#: mail/em-folder-view.c:941
 msgid "F_ilter Junk"
 msgstr "_Lọc rác"
 
-#: mail/em-folder-view.c:943
+#: mail/em-folder-view.c:944
 msgid "Crea_te Rule From Message"
 msgstr "Tạo _quy tắc từ thông điệp"
 
-#: mail/em-folder-view.c:944
+#: mail/em-folder-view.c:945
 msgid "VFolder on _Subject"
 msgstr "VFolder trên _chủ đề"
 
-#: mail/em-folder-view.c:945
+#: mail/em-folder-view.c:946
 msgid "VFolder on Se_nder"
 msgstr "VFolder trên _người gửi"
 
-#: mail/em-folder-view.c:946
+#: mail/em-folder-view.c:947
 msgid "VFolder on _Recipients"
 msgstr "VFolder trên n_gười nhận"
 
-#: mail/em-folder-view.c:947
+#: mail/em-folder-view.c:948
 msgid "VFolder on Mailing _List"
 msgstr "VFolder trên Mailing _List"
 
-#: mail/em-folder-view.c:951
+#: mail/em-folder-view.c:952
 msgid "Filter on Sub_ject"
 msgstr "Lọc theo _chủ đề"
 
-#: mail/em-folder-view.c:952
+#: mail/em-folder-view.c:953
 msgid "Filter on Sen_der"
 msgstr "Lọc theo _người gửi"
 
-#: mail/em-folder-view.c:953
+#: mail/em-folder-view.c:954
 msgid "Filter on Re_cipients"
 msgstr "Lọc theo n_gười nhận"
 
-#: mail/em-folder-view.c:954
+#: mail/em-folder-view.c:955
 msgid "Filter on _Mailing List"
 msgstr "Lọc _Mailing list"
 
 #. default charset used in mail view
-#: mail/em-folder-view.c:1714 mail/em-folder-view.c:1754
+#: mail/em-folder-view.c:1712 mail/em-folder-view.c:1752
 #: mail/mail-config.glade.h:68
 msgid "Default"
 msgstr "Mặc định"
 
-#: mail/em-folder-view.c:1851
+#: mail/em-folder-view.c:1849
 msgid "Print Message"
 msgstr "In thông điệp"
 
-#: mail/em-folder-view.c:2112
+#: mail/em-folder-view.c:2110
 msgid "_Copy Link Location"
 msgstr "Sao chép địa chỉ _liên kết"
 
-#: mail/em-folder-view.c:2377
+#: mail/em-folder-view.c:2375
 #, c-format
 msgid "Click to mail %s"
 msgstr "Nhấn để gửi %s"
@@ -13474,7 +13508,7 @@ msgstr "Nhấn để gửi %s"
 msgid "Matches: %d"
 msgstr "Khớp:"
 
-#: mail/em-format-html-display.c:641 mail/em-format-html.c:559
+#: mail/em-format-html-display.c:641 mail/em-format-html.c:582
 #, fuzzy
 msgid "Unsigned"
 msgstr "Đã gán"
@@ -13486,7 +13520,7 @@ msgid ""
 "authentic."
 msgstr "Thông điệp này dùng chữ ký số nhưng không thể được xác thực."
 
-#: mail/em-format-html-display.c:642 mail/em-format-html.c:560
+#: mail/em-format-html-display.c:642 mail/em-format-html.c:583
 #, fuzzy
 msgid "Valid signature"
 msgstr "Sửa chữ ký"
@@ -13498,7 +13532,7 @@ msgid ""
 "message is authentic."
 msgstr "Thông điệp này dùng chữ ký số nhưng không thể được xác thực."
 
-#: mail/em-format-html-display.c:643 mail/em-format-html.c:561
+#: mail/em-format-html-display.c:643 mail/em-format-html.c:584
 #, fuzzy
 msgid "Invalid signature"
 msgstr "Sửa chữ ký"
@@ -13522,7 +13556,7 @@ msgstr ""
 "Tham số input_token chứa chữ ký không hợp lệ, hoặc chữ ký không được xác "
 "nhận."
 
-#: mail/em-format-html-display.c:650 mail/em-format-html.c:568
+#: mail/em-format-html-display.c:650 mail/em-format-html.c:591
 #, fuzzy
 msgid "Unencrypted"
 msgstr "Đã ngắt"
@@ -13533,7 +13567,7 @@ msgid ""
 "The Internet."
 msgstr ""
 
-#: mail/em-format-html-display.c:651 mail/em-format-html.c:569
+#: mail/em-format-html-display.c:651 mail/em-format-html.c:592
 msgid "Encrypted, weak"
 msgstr ""
 
@@ -13544,7 +13578,7 @@ msgid ""
 "message in a practical amount of time."
 msgstr ""
 
-#: mail/em-format-html-display.c:652 mail/em-format-html.c:570
+#: mail/em-format-html-display.c:652 mail/em-format-html.c:593
 #, fuzzy
 msgid "Encrypted"
 msgstr "Mã hóa PGP"
@@ -13555,7 +13589,7 @@ msgid ""
 "the content of this message."
 msgstr ""
 
-#: mail/em-format-html-display.c:653 mail/em-format-html.c:571
+#: mail/em-format-html-display.c:653 mail/em-format-html.c:594
 msgid "Encrypted, strong"
 msgstr ""
 
@@ -13590,12 +13624,12 @@ msgstr "Quá hạn:"
 msgid "by %B %d, %Y, %l:%M %p"
 msgstr "bởi %d %B, %Y, %l:%M %P"
 
-#: mail/em-format-html-display.c:1085
+#: mail/em-format-html-display.c:1054
 #, fuzzy
 msgid "_View Inline"
 msgstr "Xem Inline"
 
-#: mail/em-format-html-display.c:1086
+#: mail/em-format-html-display.c:1055
 #, fuzzy
 msgid "_Hide"
 msgstr "Ẩn"
@@ -13605,128 +13639,128 @@ msgstr "Ẩn"
 msgid "Page %d of %d"
 msgstr "Trang %d trên %d"
 
-#: mail/em-format-html.c:452 mail/em-format-html.c:454
+#: mail/em-format-html.c:475 mail/em-format-html.c:477
 #, fuzzy, c-format
 msgid "Retrieving `%s'"
 msgstr "Đang nhận thông điệp %s"
 
-#: mail/em-format-html.c:562
+#: mail/em-format-html.c:585
 msgid "Valid signature but cannot verify sender"
 msgstr ""
 
-#: mail/em-format-html.c:820
+#: mail/em-format-html.c:848
 msgid "Malformed external-body part."
 msgstr ""
 
-#: mail/em-format-html.c:850
+#: mail/em-format-html.c:878
 #, c-format
 msgid "Pointer to FTP site (%s)"
 msgstr "Trỏ tới địa chỉ FTP (%s)"
 
-#: mail/em-format-html.c:861
+#: mail/em-format-html.c:889
 #, c-format
 msgid "Pointer to local file (%s) valid at site \"%s\""
 msgstr "Trỏ tới tập tin cục bộ hợp lệ (%s) tại địa chỉ \"%s\""
 
-#: mail/em-format-html.c:863
+#: mail/em-format-html.c:891
 #, c-format
 msgid "Pointer to local file (%s)"
 msgstr "Trỏ tới tập tin cục bộ (%s)"
 
-#: mail/em-format-html.c:884
+#: mail/em-format-html.c:912
 #, c-format
 msgid "Pointer to remote data (%s)"
 msgstr "Trỏ tới tập tin từ xa (%s)"
 
-#: mail/em-format-html.c:895
+#: mail/em-format-html.c:923
 #, c-format
 msgid "Pointer to unknown external data (\"%s\" type)"
 msgstr "Trỏ tới dữ liệu lạ bên ngoài (kiểu \"%s\")"
 
-#: mail/em-format-html.c:1137
+#: mail/em-format-html.c:1165
 #, fuzzy
 msgid "Formatting message"
 msgstr "Đang di chuyển thông điệp"
 
-#: mail/em-format-html.c:1413 mail/em-format-quote.c:192 mail/em-format.c:750
+#: mail/em-format-html.c:1441 mail/em-format-quote.c:192 mail/em-format.c:800
 #: mail/em-mailer-prefs.c:82 mail/message-list.etspec.h:7
 #: mail/message-tag-followup.c:325
 msgid "From"
 msgstr "Từ"
 
-#: mail/em-format-html.c:1413 mail/em-format-quote.c:192 mail/em-format.c:751
+#: mail/em-format-html.c:1441 mail/em-format-quote.c:192 mail/em-format.c:801
 #: mail/em-mailer-prefs.c:83
 msgid "Reply-To"
 msgstr "Hồi âm đến"
 
-#: mail/em-format-html.c:1413 mail/em-format-quote.c:192 mail/em-format.c:752
+#: mail/em-format-html.c:1441 mail/em-format-quote.c:192 mail/em-format.c:802
 #: mail/em-mailer-prefs.c:84 mail/message-list.etspec.h:14
 msgid "To"
 msgstr "Tới"
 
-#: mail/em-format-html.c:1413 mail/em-format-quote.c:192 mail/em-format.c:753
+#: mail/em-format-html.c:1441 mail/em-format-quote.c:192 mail/em-format.c:803
 #: mail/em-mailer-prefs.c:85
 msgid "Cc"
 msgstr "Cc"
 
-#: mail/em-format-html.c:1413 mail/em-format-quote.c:192 mail/em-format.c:754
+#: mail/em-format-html.c:1441 mail/em-format-quote.c:192 mail/em-format.c:804
 #: mail/em-mailer-prefs.c:86
 msgid "Bcc"
 msgstr "Bcc"
 
 #. pseudo-header
-#: mail/em-format-html.c:1523 mail/em-format-quote.c:309
+#: mail/em-format-html.c:1554 mail/em-format-quote.c:312
 #: mail/em-mailer-prefs.c:939
 msgid "Mailer"
 msgstr ""
 
 #. translators: strftime format for local time equivalent in Date header display, with day
-#: mail/em-format-html.c:1550
+#: mail/em-format-html.c:1581
 msgid "<I> (%a, %R %Z)</I>"
 msgstr ""
 
 #. translators: strftime format for local time equivalent in Date header display, without day
-#: mail/em-format-html.c:1553
+#: mail/em-format-html.c:1584
 msgid "<I> (%R %Z)</I>"
 msgstr ""
 
-#: mail/em-format-html.c:1563 mail/em-format-quote.c:316 mail/em-format.c:756
+#: mail/em-format-html.c:1594 mail/em-format-quote.c:319 mail/em-format.c:806
 #: mail/em-mailer-prefs.c:88 mail/message-list.etspec.h:2
 msgid "Date"
 msgstr "Ngày"
 
-#: mail/em-format-html.c:1586 mail/em-format.c:757 mail/em-mailer-prefs.c:89
+#: mail/em-format-html.c:1617 mail/em-format.c:807 mail/em-mailer-prefs.c:89
 msgid "Newsgroups"
 msgstr "Nhóm tin"
 
-#: mail/em-format.c:993
+#: mail/em-format.c:1056
 #, c-format
 msgid "%s attachment"
 msgstr "%s đồ đính kèm"
 
-#: mail/em-format.c:1024 mail/em-format.c:1143
+#: mail/em-format.c:1095 mail/em-format.c:1228
 #, fuzzy
 msgid "Could not parse S/MIME message: Unknown error"
 msgstr "Không thể phân tích thông điệp MIME. Đang hiện thị mã thô."
 
-#: mail/em-format.c:1133
+#: mail/em-format.c:1218
 msgid "Unsupported encryption type for multipart/encrypted"
 msgstr ""
 
-#: mail/em-format.c:1279
+#: mail/em-format.c:1379
 msgid "Could not parse MIME message. Displaying as source."
 msgstr "Không thể phân tích thông điệp MIME. Đang hiện thị mã thô."
 
-#: mail/em-format.c:1298
+#: mail/em-format.c:1398
 #, fuzzy
 msgid "Unsupported signature format"
 msgstr "Lược đồ không hỗ trợ"
 
-#: mail/em-format.c:1306
+#: mail/em-format.c:1406
 msgid "Error verifying signature"
 msgstr "Lỗi xác minh chữ lý"
 
-#: mail/em-format.c:1306
+#: mail/em-format.c:1406
 #, fuzzy
 msgid "Unknown error verifying signature"
 msgstr "Không thể giải mã chữ ký chứng nhận"
@@ -16634,10 +16668,6 @@ msgstr ""
 msgid "Whether to skip the development warning dialog"
 msgstr ""
 
-#: shell/apps_evolution_shell.schemas.in.in.h:14
-msgid "mail"
-msgstr "thư"
-
 #: shell/e-active-connection-dialog.glade.h:1
 msgid "<b>Active Connections</b>"
 msgstr "<b>Kết nối hoạt động</b>"
@@ -19456,6 +19486,9 @@ msgstr "%s (...)"
 #, c-format
 msgid "%s (%d%% complete)"
 msgstr "%s (%d%% hoàn tất)"
+
+#~ msgid "mail"
+#~ msgstr "thư"
 
 #~ msgid "Login name:"
 #~ msgstr "Tên đăng nhập:"
