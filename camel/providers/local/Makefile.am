@@ -32,7 +32,10 @@ libcamellocal_la_SOURCES = 			\
 	camel-mbox-summary.c			\
 	camel-maildir-folder.c			\
 	camel-maildir-store.c			\
-	camel-maildir-summary.c
+	camel-maildir-summary.c			\
+	camel-spool-folder.c			\
+	camel-spool-store.c			\
+	camel-spool-summary.c
 
 libcamellocalinclude_HEADERS =			\
 	camel-local-folder.h			\
@@ -46,7 +49,10 @@ libcamellocalinclude_HEADERS =			\
 	camel-mbox-summary.h			\
 	camel-maildir-folder.h			\
 	camel-maildir-store.h			\
-	camel-maildir-summary.h
+	camel-maildir-summary.h			\
+	camel-spool-folder.h			\
+	camel-spool-store.h			\
+	camel-spool-summary.h
 
 noinst_HEADERS =				\
 	camel-local-private.h

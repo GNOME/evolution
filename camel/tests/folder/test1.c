@@ -38,7 +38,7 @@ int main(int argc, char **argv)
 	for (i=0;i<ARRAY_LEN(local_providers);i++) {
 		path = g_strdup_printf("%s:///tmp/camel-test/%s", local_providers[i], local_providers[i]);
 
-		test_folder_basic(session, path, TRUE);
+		test_folder_basic(session, path, TRUE, FALSE);
 
 		g_free(path);
 	}

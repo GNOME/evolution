@@ -33,6 +33,7 @@
 #include "camel-mh-store.h"
 #include "camel-mbox-store.h"
 #include "camel-maildir-store.h"
+#include "camel-spool-store.h"
 
 static CamelProvider mh_provider = {
 	"mh",
@@ -64,6 +65,16 @@ static CamelProvider maildir_provider = {
 	/* ... */
 };
 
+static CamelProvider spool_provider = {
+	"spool",
+	N_("Unix mbox spool-format mail files"),
+	N_("For storing local mail in standard Unix spool directories"),
+	"mail",
+	CAMEL_PROVIDER_IS_SOURCE | CAMEL_PROVIDER_IS_STORAGE,
+	CAMEL_URL_NEED_PATH | CAMEL_URL_PATH_IS_ABSOLUTE,
+	/* ... */
+};
+
 void camel_provider_module_init(CamelSession * session)
 {
 	mh_provider.object_types[CAMEL_PROVIDER_STORE] = camel_mh_store_get_type();
@@ -77,4 +88,8 @@ void camel_provider_module_init(CamelSession * session)
 	maildir_provider.object_types[CAMEL_PROVIDER_STORE] = camel_maildir_store_get_type();
 	maildir_provider.service_cache = g_hash_table_new(camel_url_hash, camel_url_equal);
 	camel_session_register_provider(session, &maildir_provider);
+
+	spool_provider.object_types[CAMEL_PROVIDER_STORE] = camel_spool_store_get_type();
+	spool_provider.service_cache = g_hash_table_new(camel_url_hash, camel_url_equal);
+	camel_session_register_provider(session, &spool_provider);
 }

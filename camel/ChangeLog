@@ -1,3 +1,24 @@
+2001-06-12  Not Zed  <NotZed@Ximian.com>
+
+	* providers/local/camel-spool-*.[ch]: A new provider, for spool
+	mailboxes.  Mostly a cut and paste of the mbox code, but not a
+	subclass CamelLocal*.  Not tested a lot, doesn't lock yet, use
+	with extreme caution.
+
+	* tests/lib/folders.c (test_folder_message_ops): Added spool arg,
+	spool folders can't be deleted, renamed, etc.
+	(test_folder_basic): Same.
+
+	* tests/folder/test2.c (main): Added checks for spool type.
+
+	* tests/[message|stream|folder|misc|smime]/Makefile.am (LDADD):
+	Added db3 flags, so make check compiles, doesn't run though.
+
+2001-05-24  Not Zed  <NotZed@Ximian.com>
+
+	* providers/local/camel-local-provider.c
+	(camel_provider_module_init): Added spool provider.
+
 2001-06-07  Jon Trowbridge  <trow@ximian.com>
 
 	* camel-filter-driver.c (camel_filter_driver_filter_folder): Add a

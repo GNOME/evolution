@@ -4,10 +4,12 @@ INCLUDES = -I$(top_srcdir)/intl -I$(top_srcdir) -I$(top_srcdir)/camel \
 	-I$(top_srcdir)/camel/tests/lib \
 	-DG_LOG_DOMAIN=\"evolution-tests\"	
 
+# We want to remove the DB3 crap asap.
 LDADD = \
 	$(top_builddir)/camel/libcamel.la 	\
 	$(top_builddir)/e-util/libeutil.la	\
 	$(top_builddir)/libibex/libibex.la 	\
+	$(DB3_LDADD)				\
 	$(GNOME_LIBDIR) 			\
 	$(top_builddir)/camel/tests/lib/libcameltest.a			\
 	$(GNOMEUI_LIBS) $(INTLLIBS) $(EXTRA_GNOME_LIBS)

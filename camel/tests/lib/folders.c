@@ -189,7 +189,7 @@ test_folder_not_message(CamelFolder *folder, const char *uid)
 /* test basic store operations on folders */
 /* TODO: Add subscription stuff */
 void
-test_folder_basic(CamelSession *session, const char *storename, int local)
+test_folder_basic(CamelSession *session, const char *storename, int local, int spool)
 {
 	CamelStore *store;
 	CamelException *ex = camel_exception_new();
@@ -226,44 +226,46 @@ test_folder_basic(CamelSession *session, const char *storename, int local)
 	camel_exception_clear(ex);
 	pull();
 
-	push("getting a non-existant folder, with create");
-	folder = camel_store_get_folder(store, "testbox", CAMEL_STORE_FOLDER_CREATE, ex);
-	check_msg(!camel_exception_is_set(ex), "%s", camel_exception_get_description(ex));
-	check(folder != NULL);
-	check_unref(folder, 1);
-	pull();
+	if (!spool) {
+		push("getting a non-existant folder, with create");
+		folder = camel_store_get_folder(store, "testbox", CAMEL_STORE_FOLDER_CREATE, ex);
+		check_msg(!camel_exception_is_set(ex), "%s", camel_exception_get_description(ex));
+		check(folder != NULL);
+		check_unref(folder, 1);
+		pull();
 
-	push("getting an existing folder");
-	folder = camel_store_get_folder(store, "testbox", 0, ex);
-	check_msg(!camel_exception_is_set(ex), "%s", camel_exception_get_description(ex));
-	check(folder != NULL);
-	check_unref(folder, 1);
-	pull();
+		push("getting an existing folder");
+		folder = camel_store_get_folder(store, "testbox", 0, ex);
+		check_msg(!camel_exception_is_set(ex), "%s", camel_exception_get_description(ex));
+		check(folder != NULL);
+		check_unref(folder, 1);
+		pull();
 
-	push("renaming a non-existant folder");
-	camel_store_rename_folder(store, "unknown1", "unknown2", ex);
-	check(camel_exception_is_set(ex));
-	camel_exception_clear(ex);
-	pull();
+		push("renaming a non-existant folder");
+		camel_store_rename_folder(store, "unknown1", "unknown2", ex);
+		check(camel_exception_is_set(ex));
+		camel_exception_clear(ex);
+		pull();
 
-	push("renaming an existing folder");
-	camel_store_rename_folder(store, "testbox", "testbox2", ex);
-	check_msg(!camel_exception_is_set(ex), "%s", camel_exception_get_description(ex));
-	pull();
+		push("renaming an existing folder");
+		camel_store_rename_folder(store, "testbox", "testbox2", ex);
+		check_msg(!camel_exception_is_set(ex), "%s", camel_exception_get_description(ex));
+		pull();
 
-	push("opening the old name of a renamed folder");
-	folder = camel_store_get_folder(store, "testbox", 0, ex);
-	check(camel_exception_is_set(ex));
-	check(folder == NULL);
-	camel_exception_clear(ex);
-	pull();
+		push("opening the old name of a renamed folder");
+		folder = camel_store_get_folder(store, "testbox", 0, ex);
+		check(camel_exception_is_set(ex));
+		check(folder == NULL);
+		camel_exception_clear(ex);
+		pull();
 
-	push("opening the new name of a renamed folder");
-	folder = camel_store_get_folder(store, "testbox2", 0, ex);
-	check_msg(!camel_exception_is_set(ex), "%s", camel_exception_get_description(ex));
-	check(folder != NULL);
-	check_unref(folder, 1);
-	pull();
+		push("opening the new name of a renamed folder");
+		folder = camel_store_get_folder(store, "testbox2", 0, ex);
+		check_msg(!camel_exception_is_set(ex), "%s", camel_exception_get_description(ex));
+		check(folder != NULL);
+		check_unref(folder, 1);
+		pull();
+	}
 
 	push("deleting a non-existant folder");
 	camel_store_delete_folder(store, "unknown", ex);
@@ -271,10 +273,12 @@ test_folder_basic(CamelSession *session, const char *storename, int local)
 	camel_exception_clear(ex);
 	pull();
 
-	push("deleting an existing folder");
-	camel_store_delete_folder(store, "testbox2", ex);
-	check_msg(!camel_exception_is_set(ex), "%s", camel_exception_get_description(ex));
-	pull();
+	if (!spool) {
+		push("deleting an existing folder");
+		camel_store_delete_folder(store, "testbox2", ex);
+		check_msg(!camel_exception_is_set(ex), "%s", camel_exception_get_description(ex));
+		pull();
+	}
 
 	push("opening a folder that has been deleted");
 	folder = camel_store_get_folder(store, "testbox2", 0, ex);
@@ -294,7 +298,7 @@ test_folder_basic(CamelSession *session, const char *storename, int local)
 /* todo: cross-check everything with folder_info checks as well */
 /* this should probably take a folder instead of a session ... */
 void
-test_folder_message_ops(CamelSession *session, const char *name, int local)
+test_folder_message_ops(CamelSession *session, const char *name, int local, int spool)
 {
 	CamelStore *store;
 	CamelException *ex = camel_exception_new();
@@ -499,10 +503,12 @@ test_folder_message_ops(CamelSession *session, const char *name, int local)
 		check_unref(folder, 1);
 		pull(); /* re-opening folder */
 
-		push("deleting test folder, with no messages in it");
-		camel_store_delete_folder(store, "testbox", ex);
-		check_msg(!camel_exception_is_set(ex), "%s", camel_exception_get_description(ex));
-		pull();
+		if (!spool) {
+			push("deleting test folder, with no messages in it");
+			camel_store_delete_folder(store, "testbox", ex);
+			check_msg(!camel_exception_is_set(ex), "%s", camel_exception_get_description(ex));
+			pull();
+		}
 
 		check_unref(store, 1);
 		camel_test_end();

@@ -52,6 +52,20 @@ struct _CamelLocalFolderPrivate {
 #define CAMEL_LOCAL_FOLDER_UNLOCK(f, l)
 #endif
 
+struct _CamelSpoolFolderPrivate {
+#ifdef ENABLE_THREADS
+	GMutex *search_lock;	/* for locking the search object */
+#endif
+};
+
+#ifdef ENABLE_THREADS
+#define CAMEL_SPOOL_FOLDER_LOCK(f, l) (g_mutex_lock(((CamelSpoolFolder *)f)->priv->l))
+#define CAMEL_SPOOL_FOLDER_UNLOCK(f, l) (g_mutex_unlock(((CamelSpoolFolder *)f)->priv->l))
+#else
+#define CAMEL_SPOOL_FOLDER_LOCK(f, l)
+#define CAMEL_SPOOL_FOLDER_UNLOCK(f, l)
+#endif
+
 #ifdef __cplusplus
 }
 #endif /* __cplusplus */

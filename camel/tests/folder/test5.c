@@ -42,7 +42,7 @@ int main(int argc, char **argv)
 			_exit(77);
 		}
 		camel_test_nonfatal("Not sure how many tests apply to NNTP");
-		test_folder_basic(session, path, FALSE);
+		test_folder_basic(session, path, FALSE, FALSE);
 		camel_test_fatal();
 	}
 

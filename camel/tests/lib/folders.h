@@ -15,6 +15,6 @@ void test_folder_message(CamelFolder *folder, const char *uid);
 /* check message not present everywhere it shouldn't be */
 void test_folder_not_message(CamelFolder *folder, const char *uid);
 /* test basic folder ops on a store */
-void test_folder_basic(CamelSession *session, const char *storename, int local);
+void test_folder_basic(CamelSession *session, const char *storename, int local, int spool);
 /* test basic message operations on a folder */
-void test_folder_message_ops(CamelSession *session, const char *storename, int local);
+void test_folder_message_ops(CamelSession *session, const char *storename, int local, int spool);
