@@ -231,8 +231,9 @@ attendee_edited_cb (GtkCellRenderer *renderer, const gchar *path, GList *address
 		
 	} else if (g_list_length (addresses) == 1) {
 		char *name = names->data, *email = addresses->data;
+		int existing_row;
 
-		if (!((name && *name) || (email && *email)) || e_meeting_store_find_attendee (model, email, NULL) != NULL) {
+		if (!((name && *name) || (email && *email)) || ((e_meeting_store_find_attendee (model, email, &existing_row) != NULL) && existing_row != row)){
 			if (existing_attendee)
 				e_meeting_store_remove_attendee (model, existing_attendee);
 		} else {
