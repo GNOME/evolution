@@ -486,18 +486,23 @@ build_layout (ECellTextView *text_view, int row, const char *text, gint width)
 		pango_layout_set_width (layout, width * PANGO_SCALE);
 	pango_layout_set_wrap (layout, PANGO_WRAP_CHAR);
 
-	while (pango_layout_get_line_count (layout) > 1) {
+	if (pango_layout_get_line_count (layout) > 1) {
 		PangoLayoutLine *line = pango_layout_get_line (layout, 0);
 		gchar *line_text = g_strdup (pango_layout_get_text (layout));
-		gchar *last_char = g_utf8_prev_char (line_text + line->length - 1);
-		gchar *new_text;
-		while (*last_char == '.')
-			last_char = g_utf8_prev_char (last_char);
-		*last_char = '\0';
-		new_text = g_strconcat (line_text, " ...", NULL);
-		pango_layout_set_text (layout, new_text, g_utf8_strlen (new_text, -1));
+		gchar *last_char = g_utf8_find_prev_char (line_text, line_text + line->length - 1);
+		gchar ellipsis[7];
+		int len = g_unichar_to_utf8 (8230, ellipsis);
+		ellipsis[len] = '\0';
+		while (last_char && pango_layout_get_line_count (layout) > 1) {
+			gchar *new_text;
+			last_char = g_utf8_find_prev_char (line_text, last_char);
+			if (last_char)
+				*last_char = '\0';
+			new_text = g_strconcat (line_text, ellipsis, NULL);
+			pango_layout_set_text (layout, new_text, -1);
+			g_free (new_text);
+		}
 		g_free (line_text);
-		g_free (new_text);
 	}
 
 	switch (ect->justify) {
