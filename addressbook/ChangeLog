@@ -1,3 +1,10 @@
+2003-04-29  Chris Toshok  <toshok@ximian.com>
+
+	[ fixes bug #41211 ]
+	* gui/component/e-address-popup.c (e_address_popup_no_matches):
+	call e_button_new_with_stock_icon to create our button and give it
+	the right icon.
+
 2003-04-29  Gilbert Fang  <gilbert.fang@sun.com>
 
 	* tools/evolution-addressbook-export-list-cards.c

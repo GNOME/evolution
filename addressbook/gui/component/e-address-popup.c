@@ -1025,7 +1025,8 @@ e_address_popup_no_matches (EAddressPopup *pop)
 
 	g_return_if_fail (pop && E_IS_ADDRESS_POPUP (pop));
 
-	b = gtk_button_new_with_label (_("Add to Contacts"));
+	b = e_button_new_with_stock_icon (_("Add to Contacts"), "gtk-add");
+
 	gtk_box_pack_start (GTK_BOX (pop->main_vbox), b, TRUE, TRUE, 0);
 	g_signal_connect (b,
 			  "clicked",
