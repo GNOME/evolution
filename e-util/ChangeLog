@@ -1,3 +1,8 @@
+2003-08-28  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* e-mktemp.c (e_mktemp_cleanup): We need to unlink the full paths
+	in the tmpdirs, not just the base path.
+
 2003-08-20  Suresh Chandrasekharan <suresh.chandrasekharan@sun.com>
 
 	*  e-time-utils.c (parse_with_strptime): Fixes #43558 Appointment
