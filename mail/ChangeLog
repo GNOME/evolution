@@ -1,3 +1,8 @@
+2004-06-22  Chris Toshok  <toshok@ximian.com>
+
+	* em-folder-tree.c (render_pixbuf): gtk_tree_model_get on a string
+	field allocates the return value.  free path.
+
 2004-06-22  Jeffrey Stedfast  <fejj@novell.com>
 
 	* em-popup.c (emp_apps_open_in): If the app requires a terminal to

@@ -291,6 +291,7 @@ render_pixbuf (GtkTreeViewColumn *column, GtkCellRenderer *renderer,
 	}
 	
 	g_object_set (renderer, "pixbuf", pixbuf, "visible", !is_store, NULL);
+	g_free (path);
 }
 
 static void
