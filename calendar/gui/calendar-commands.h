@@ -123,7 +123,7 @@ void calendar_control_activate (BonoboControl *control,
 				GnomeCalendar *cal);
 void calendar_control_deactivate (BonoboControl *control);
 
-void quit_cmd (BonoboUIHandler *uih, void *user_data, const char *path);
+void quit_cmd (BonoboUIComponent *uih, void *user_data, const char *path);
 
 /*extern char *user_calendar_file;*/
 extern char *user_name;

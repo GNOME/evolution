@@ -1,3 +1,9 @@
+2000-10-20  Michael Meeks  <michael@helixcode.com>
+
+	* gui/calendar-commands.h: s/BonoboUIHandler/BonoboUIComponent/
+
+	* gui/calendar-commands.c (properties_cmd): ditto.
+
 2000-10-20  Damon Chaplin  <damon@helixcode.com>
 
 	* gui/calendar-model.c (calendar_model_value_at): use

@@ -174,7 +174,7 @@ init_default_alarms (void)
 
 /* Callback for the new appointment command */
 static void
-new_appointment_cb (BonoboUIHandler *uih, void *user_data, const char *path)
+new_appointment_cb (BonoboUIComponent *uih, void *user_data, const char *path)
 {
 	GnomeCalendar *gcal;
 
@@ -209,7 +209,7 @@ print (GnomeCalendar *gcal, gboolean preview)
 
 /* File/Print callback */
 static void
-file_print_cb (BonoboUIHandler *uih, void *data, const char *path)
+file_print_cb (BonoboUIComponent *uih, void *data, const char *path)
 {
 	GnomeCalendar *gcal;
 
@@ -279,7 +279,7 @@ set_normal_cursor (GnomeCalendar *gcal)
 }
 
 static void
-previous_clicked (BonoboUIHandler *uih, void *user_data, const char *path)
+previous_clicked (BonoboUIComponent *uih, void *user_data, const char *path)
 {
 	GnomeCalendar *gcal = GNOME_CALENDAR (user_data);
 	set_clock_cursor (gcal);
@@ -288,7 +288,7 @@ previous_clicked (BonoboUIHandler *uih, void *user_data, const char *path)
 }
 
 static void
-next_clicked (BonoboUIHandler *uih, void *user_data, const char *path)
+next_clicked (BonoboUIComponent *uih, void *user_data, const char *path)
 {
 	GnomeCalendar *gcal = GNOME_CALENDAR (user_data);
 	set_clock_cursor (gcal);
@@ -297,7 +297,7 @@ next_clicked (BonoboUIHandler *uih, void *user_data, const char *path)
 }
 
 static void
-today_clicked (BonoboUIHandler *uih, void *user_data, const char *path)
+today_clicked (BonoboUIComponent *uih, void *user_data, const char *path)
 {
 	GnomeCalendar *gcal = GNOME_CALENDAR (user_data);
 	set_clock_cursor (gcal);
@@ -306,14 +306,14 @@ today_clicked (BonoboUIHandler *uih, void *user_data, const char *path)
 }
 
 static void
-goto_clicked (BonoboUIHandler *uih, void *user_data, const char *path)
+goto_clicked (BonoboUIComponent *uih, void *user_data, const char *path)
 {
 	GnomeCalendar *gcal = GNOME_CALENDAR (user_data);
 	goto_dialog (gcal);
 }
 
 static void
-show_day_view_clicked (BonoboUIHandler *uih, void *user_data, const char *path)
+show_day_view_clicked (BonoboUIComponent *uih, void *user_data, const char *path)
 {
 	GnomeCalendar *gcal = GNOME_CALENDAR (user_data);
 
@@ -321,7 +321,7 @@ show_day_view_clicked (BonoboUIHandler *uih, void *user_data, const char *path)
 }
 
 static void
-show_work_week_view_clicked (BonoboUIHandler *uih, void *user_data, const char *path)
+show_work_week_view_clicked (BonoboUIComponent *uih, void *user_data, const char *path)
 {
 	GnomeCalendar *gcal = GNOME_CALENDAR (user_data);
 
@@ -329,7 +329,7 @@ show_work_week_view_clicked (BonoboUIHandler *uih, void *user_data, const char *
 }
 
 static void
-show_week_view_clicked (BonoboUIHandler *uih, void *user_data, const char *path)
+show_week_view_clicked (BonoboUIComponent *uih, void *user_data, const char *path)
 {
 	GnomeCalendar *gcal = GNOME_CALENDAR (user_data);
 
@@ -337,7 +337,7 @@ show_week_view_clicked (BonoboUIHandler *uih, void *user_data, const char *path)
 }
 
 static void
-show_month_view_clicked (BonoboUIHandler *uih, void *user_data, const char *path)
+show_month_view_clicked (BonoboUIComponent *uih, void *user_data, const char *path)
 {
 	GnomeCalendar *gcal = GNOME_CALENDAR (user_data);
 
@@ -346,13 +346,13 @@ show_month_view_clicked (BonoboUIHandler *uih, void *user_data, const char *path
 
 
 static void
-new_calendar_cmd (BonoboUIHandler *uih, void *user_data, const char *path)
+new_calendar_cmd (BonoboUIComponent *uih, void *user_data, const char *path)
 {
 	new_calendar (full_name, NULL, FALSE);
 }
 
 static void
-close_cmd (BonoboUIHandler *uih, void *user_data, const char *path)
+close_cmd (BonoboUIComponent *uih, void *user_data, const char *path)
 {
 	GnomeCalendar *gcal = GNOME_CALENDAR (user_data);
 	all_calendars = g_list_remove (all_calendars, gcal);
@@ -366,7 +366,7 @@ close_cmd (BonoboUIHandler *uih, void *user_data, const char *path)
 
 
 void
-quit_cmd (BonoboUIHandler *uih, void *user_data, const char *path)
+quit_cmd (BonoboUIComponent *uih, void *user_data, const char *path)
 {
 	while (all_calendars){
 		GnomeCalendar *cal = GNOME_CALENDAR (all_calendars->data);
@@ -403,7 +403,7 @@ open_ok (GtkWidget *widget, GtkFileSelection *fs)
 }
 
 static void
-open_calendar_cmd (BonoboUIHandler *uih, void *user_data, const char *path)
+open_calendar_cmd (BonoboUIComponent *uih, void *user_data, const char *path)
 {
 	GtkFileSelection *fs;
 
@@ -442,7 +442,7 @@ close_save (GtkWidget *w)
 }
 
 static void
-save_as_calendar_cmd (BonoboUIHandler *uih, void *user_data, const char *path)
+save_as_calendar_cmd (BonoboUIComponent *uih, void *user_data, const char *path)
 {
 	GtkFileSelection *fs;
 
@@ -465,7 +465,7 @@ save_as_calendar_cmd (BonoboUIHandler *uih, void *user_data, const char *path)
 }
 
 static void
-properties_cmd (BonoboUIHandler *uih, void *user_data, const char *path)
+properties_cmd (BonoboUIComponent *uih, void *user_data, const char *path)
 {
 	if (!preferences_dialog)
 		preferences_dialog = cal_prefs_dialog_new ();
