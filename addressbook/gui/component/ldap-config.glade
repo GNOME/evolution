@@ -236,23 +236,23 @@
 	      <property name="spacing">0</property>
 
 	      <child>
-		<widget class="GtkButton" id="account-editor-ok-button">
+		<widget class="GtkButton" id="account-editor-cancel-button">
 		  <property name="visible">True</property>
-		  <property name="sensitive">False</property>
 		  <property name="can_default">True</property>
 		  <property name="can_focus">True</property>
-		  <property name="label">gtk-ok</property>
+		  <property name="label">gtk-cancel</property>
 		  <property name="use_stock">True</property>
 		  <property name="relief">GTK_RELIEF_NORMAL</property>
 		</widget>
 	      </child>
 
 	      <child>
-		<widget class="GtkButton" id="account-editor-cancel-button">
+		<widget class="GtkButton" id="account-editor-ok-button">
 		  <property name="visible">True</property>
+		  <property name="sensitive">False</property>
 		  <property name="can_default">True</property>
 		  <property name="can_focus">True</property>
-		  <property name="label">gtk-cancel</property>
+		  <property name="label">gtk-ok</property>
 		  <property name="use_stock">True</property>
 		  <property name="relief">GTK_RELIEF_NORMAL</property>
 		</widget>
@@ -313,8 +313,8 @@ need help finding this information.</property>
 	  <property name="visible">True</property>
 	  <property name="title" translatable="yes">Step 1: Server Information</property>
 	  <property name="title_foreground">#e6e0bfffe498</property>
-	  <property name="background">#c5480812e498</property>
-	  <property name="logo_background">#a440081dc8cc</property>
+	  <property name="background">#3c280811e498</property>
+	  <property name="logo_background">#2758081dc8cc</property>
 
 	  <child internal-child="vbox">
 	    <widget class="GtkVBox" id="druid-vbox1">
@@ -379,8 +379,8 @@ information. Please ask your system administrator if you are unsure of this info
 	  <property name="visible">True</property>
 	  <property name="title" translatable="yes">Step 2: Connecting to Server</property>
 	  <property name="title_foreground">#e6e0bfffe498</property>
-	  <property name="background">#c5480812e498</property>
-	  <property name="logo_background">#a440081dc8cc</property>
+	  <property name="background">#3c280811e498</property>
+	  <property name="logo_background">#2758081dc8cc</property>
 
 	  <child internal-child="vbox">
 	    <widget class="GtkVBox" id="druid-vbox2">
@@ -446,8 +446,8 @@ your connection. Ask your system administrator if your LDAP server uses these pr
 	  <property name="visible">True</property>
 	  <property name="title" translatable="yes">Step 3: Searching the Directory</property>
 	  <property name="title_foreground">#e6e0bfffe498</property>
-	  <property name="background">#c5480812e498</property>
-	  <property name="logo_background">#a440081dc8cc</property>
+	  <property name="background">#3c280811e498</property>
+	  <property name="logo_background">#2758081dc8cc</property>
 
 	  <child internal-child="vbox">
 	    <widget class="GtkVBox" id="vbox23">
@@ -513,8 +513,8 @@ need to change these options.</property>
 	  <property name="visible">True</property>
 	  <property name="title" translatable="yes">Step 4: Display Name</property>
 	  <property name="title_foreground">#e6e0bfffe498</property>
-	  <property name="background">#c5480812e498</property>
-	  <property name="logo_background">#a440081dc8cc</property>
+	  <property name="background">#3c280811e498</property>
+	  <property name="logo_background">#2758081dc8cc</property>
 
 	  <child internal-child="vbox">
 	    <widget class="GtkVBox" id="druid-vbox5">

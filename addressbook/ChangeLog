@@ -1,5 +1,11 @@
 2003-04-07  Chris Toshok  <toshok@ximian.com>
 
+	[ fixes bug #40901 ]
+	* gui/component/ldap-config.glade: HIG-ify the ldap server edit
+	dialog's button layout.
+
+2003-04-07  Chris Toshok  <toshok@ximian.com>
+
 	[ fixes bug #39763 ]
 	* gui/component/select-names/e-select-names-bonobo.c (copy_cb):
 	verb callback for EditCopy
