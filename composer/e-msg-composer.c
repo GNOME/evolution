@@ -666,17 +666,7 @@ get_file_content (const gchar *file_name, gboolean convert, guint flags)
 	char *raw;
 	char *html;
 	
-	fd = open (file_name, O_RDONLY);
-	if (fd == -1) {
-		char *msg;
-		
-		msg = g_strdup_printf (_("Could not open file %s:\n"
-					 "%s"), file_name, g_strerror (errno));
-		
-		gnome_error_dialog (msg);
-		g_free (msg);
-		return NULL;
-	}
+	fd = open (file_name, O_RDONLY | O_CREAT, 0775);
 	
 	raw = read_file_content (fd);
 	
@@ -689,7 +679,7 @@ get_file_content (const gchar *file_name, gboolean convert, guint flags)
 		gnome_error_dialog (msg);
 		g_free (msg);
 		close (fd);
-		return NULL;
+		return g_strdup ("");
 	}
 	close (fd);
 	

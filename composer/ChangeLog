@@ -1,3 +1,9 @@
+2001-09-20  Iain Holmes  <iain@ximian.com>
+
+	* e-msg-composer.c (get_file_content): Open the file with O_CREAT so
+	that if it doesn't exist, it's created. Never return a NULL as this
+	could potentially crash on Solaris.
+
 2001-09-18  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* e-msg-composer.c (build_message): Attach an X-Evolution-Format
