@@ -1,7 +1,13 @@
 2004-10-25  Radek Doulik  <rodo@ximian.com>
 
+	* audio-inline.c: removed unused enum declaration
+	(org_gnome_audio_inline_play_clicked): added cast to &argv to
+	quiet compiler
+	handle more mime types
+
 	* org-gnome-audio-inline.eplug.in: handle application/x-ogg mime
 	type
+	handle more mime types
 
 	* audio-inline.c: handle application/x-ogg mime type
 

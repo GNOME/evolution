@@ -33,12 +33,6 @@ void org_gnome_audio_inline_format (void *ep, EMFormatHookTarget *t);
 
 volatile static int org_gnome_audio_class_id_counter = 0;
 
-enum _org_gnome_audio_inline_button_type {
-	ORG_GNOME_AUDIO_INLINE_BUTTON_PLAY,
-	ORG_GNOME_AUDIO_INLINE_BUTTON_PAUSE,
-	ORG_GNOME_AUDIO_INLINE_BUTTON_STOP
-};
-
 struct _org_gnome_audio_inline_pobject {
 	EMFormatHTMLPObject object;
 
@@ -141,6 +135,7 @@ org_gnome_audio_inline_gst_ogg_thread (GstElement *filesrc)
                                                                                               
 	/* add objects to the thread */
 	gst_bin_add_many (GST_BIN (thread), filesrc, demuxer, decoder, converter, audiosink, NULL);
+
 	/* link them in the logical order */
 	gst_element_link_many (filesrc, demuxer, decoder, converter, audiosink, NULL);
 
@@ -157,6 +152,29 @@ org_gnome_audio_inline_gst_flac_thread (GstElement *filesrc)
 
 	/* now it's time to get the decoder */
 	decoder = gst_element_factory_make ("flacdec", "decoder");
+                                
+	/* and an audio sink */
+	audiosink = gst_element_factory_make ("osssink", "play_audio");
+                                    
+	/* add objects to the main pipeline */
+	gst_bin_add_many (GST_BIN (thread), filesrc, decoder, audiosink, NULL);
+                                        
+	/* link src to sink */
+	gst_element_link_many (filesrc, decoder, audiosink, NULL);
+
+	return thread;
+}
+
+static GstElement *
+org_gnome_audio_inline_gst_mod_thread (GstElement *filesrc)
+{
+	GstElement *thread, *decoder, *audiosink;
+
+	/* create a new thread to hold the elements */
+	thread = gst_thread_new ("org-gnome-audio-inline-flac-thread");
+
+	/* now it's time to get the decoder */
+	decoder = gst_element_factory_make ("mikmod", "decoder");
                                 
 	/* and an audio sink */
 	audiosink = gst_element_factory_make ("osssink", "play_audio");
@@ -195,7 +213,7 @@ org_gnome_audio_inline_play_clicked (GtkWidget *button, EMFormatHTMLPObject *pob
 
 		d(printf ("audio inline formatter: init gst thread\n"));
 
-		if (gst_init_check (&argc, &argv)) {
+		if (gst_init_check (&argc, (char ***) &argv)) {
 			CamelContentType *type;
 			GstElement *filesrc;
 
@@ -206,10 +224,14 @@ org_gnome_audio_inline_play_clicked (GtkWidget *button, EMFormatHTMLPObject *pob
 			type = camel_mime_part_get_content_type (po->part);
 			if (type) {
 				if (!strcasecmp (type->type, "audio")) {
-					if (!strcasecmp (type->subtype, "mpeg") || !strcasecmp (type->subtype, "x-mp3")) {
+					if (!strcasecmp (type->subtype, "mpeg") || !strcasecmp (type->subtype, "x-mpeg")
+					    || !strcasecmp (type->subtype, "mpeg3") || !strcasecmp (type->subtype, "x-mpeg3")
+					    || !strcasecmp (type->subtype, "mp3") || !strcasecmp (type->subtype, "x-mp3")) {
 						po->thread = org_gnome_audio_inline_gst_mpeg_thread (filesrc);
-					} else if (!strcasecmp (type->subtype, "x-flac")) {
+					} else if (!strcasecmp (type->subtype, "flac") || !strcasecmp (type->subtype, "x-flac")) {
 						po->thread = org_gnome_audio_inline_gst_flac_thread (filesrc);
+					} else if (!strcasecmp (type->subtype, "mod") || !strcasecmp (type->subtype, "x-mod")) {
+						po->thread = org_gnome_audio_inline_gst_mod_thread (filesrc);
 					}
 				} else if (!strcasecmp (type->type, "application")) {
 					if (!strcasecmp (type->subtype, "ogg") || !strcasecmp (type->subtype, "x-ogg")) {
@@ -223,9 +245,6 @@ org_gnome_audio_inline_play_clicked (GtkWidget *button, EMFormatHTMLPObject *pob
 	if (po->thread) {
 		/* start playing */
 		gst_element_set_state (po->thread, GST_STATE_PLAYING);
-
-		/* do whatever you want here, the thread will be playing */
-		g_print ("thread is playing\n");
 	}
 }
 
