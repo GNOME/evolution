@@ -4,6 +4,13 @@
 
 #define YYBISON 1  /* Identify Bison output.  */
 
+#define yyparse ical_yyparse
+#define yylex ical_yylex
+#define yyerror ical_yyerror
+#define yylval ical_yylval
+#define yychar ical_yychar
+#define yydebug ical_yydebug
+#define yynerrs ical_yynerrs
 #define	DIGITS	257
 #define	INTNUMBER	258
 #define	FLOATNUMBER	259
@@ -164,19 +171,18 @@
 
 
 
-  ================================b======================================*/
+  =======================================================================*/
 
 #include <stdlib.h>
 #include <string.h> /* for strdup() */
-#include <limits.h> /* for SHRT_MAX*/
 #include "icalparser.h"
-#include "ical.h"
 #include "pvl.h"
-#define YYERROR_VERBOSE
-#define YYDEBUG 1 
-
 
 icalvalue *icalparser_yy_value; /* Current Value */
+
+void ical_yyerror(char* s);
+void icalparser_clear_flex_input();  
+int ical_yy_lex(void);
 
 /* Globals for UTCOFFSET values */
 int utc; 
@@ -201,7 +207,7 @@ void set_value_type(icalvalue_kind kind);
 void set_parser_value_state();
 struct icaltimetype fill_datetime(char* d, char* t);
 void ical_yy_error(char *s); /* Don't know why I need this.... */
-/*int yylex(void); /* Or this. */
+int yylex(void); /* Or this. */
 
 
 
@@ -209,58 +215,11 @@ void ical_yy_error(char *s); /* Don't know why I need this.... */
    VALUEs, that is, ) correctly. */
 
 
-#line 76 "icalyacc.y"
+#line 75 "icalyacc.y"
 typedef union {
 	float v_float;
 	int   v_int;
 	char* v_string;
-
-  /* Renaming hack */
-#define    yymaxdepth ical_yy_maxdepth
-#define    yyparse ical_yy_parse
-#define    yylex   ical_yy_lex
-#define    yyerror ical_yy_error
-#define    yylval  ical_yy_lval
-#define    yychar  ical_yy_char
-#define    yydebug ical_yy_debug
-#define    yypact  ical_yy_pact
-#define    yyr1    ical_yy_r1
-#define    yyr2    ical_yy_r2
-#define    yydef   ical_yy_def
-#define    yychk   ical_yy_chk
-#define    yypgo   ical_yy_pgo
-#define    yyact   ical_yy_act
-#define    yyexca  ical_yy_exca
-#define yyerrflag ical_yy_errflag
-#define yynerrs    ical_yy_nerrs
-#define    yyps    ical_yy_ps
-#define    yypv    ical_yy_pv
-#define    yys     ical_yy_s
-#define    yy_yys  ical_yy_yys
-#define    yystate ical_yy_state
-#define    yytmp   ical_yy_tmp
-#define    yyv     ical_yy_v
-#define    yy_yyv  ical_yy_yyv
-#define    yyval   ical_yy_val
-#define    yylloc  ical_yy_lloc
-#define yyreds     ical_yy_reds
-#define yytoks     ical_yy_toks
-#define yylhs      ical_yy_yylhs
-#define yylen      ical_yy_yylen
-#define yydefred ical_yy_yydefred
-#define yydgoto    ical_yy_yydgoto
-#define yydefred ical_yy_yydefred
-#define yydgoto    ical_yy_yydgoto
-#define yysindex ical_yy_yysindex
-#define yyrindex ical_yy_yyrindex
-#define yygindex ical_yy_yygindex
-#define yytable     ical_yy_yytable
-#define yycheck     ical_yy_yycheck
-#define yyname   ical_yy_yyname
-#define yyrule   ical_yy_yyrule
-
-
-
 } YYSTYPE;
 #ifndef YYDEBUG
 #define YYDEBUG 1
@@ -372,15 +331,15 @@ static const short yyrhs[] = {   143,
 
 #if YYDEBUG != 0
 static const short yyrline[] = { 0,
-   159,   161,   162,   163,   164,   165,   166,   167,   168,   174,
-   176,   179,   182,   197,   199,   202,   204,   206,   222,   223,
-   225,   230,   233,   236,   240,   244,   249,   253,   258,   263,
-   268,   271,   274,   278,   283,   288,   297,   318,   350,   352,
-   353,   354,   355,   356,   357,   361,   363,   364,   365,   366,
-   367,   368,   373,   375,   377,   379,   380,   382,   387,   389,
-   392,   394,   395,   396,   397,   398,   399,   400,   401,   402,
-   403,   404,   405,   406,   407,   408,   409,   410,   413,   416,
-   420,   422,   424,   432,   433,   435,   441
+   181,   183,   184,   185,   186,   187,   188,   189,   190,   196,
+   198,   201,   204,   219,   221,   224,   226,   228,   244,   245,
+   247,   252,   255,   258,   262,   266,   271,   275,   280,   285,
+   290,   294,   298,   303,   308,   313,   322,   343,   375,   377,
+   378,   379,   380,   381,   382,   386,   388,   389,   390,   391,
+   392,   393,   398,   400,   402,   404,   405,   407,   411,   413,
+   416,   418,   419,   420,   421,   422,   423,   424,   425,   426,
+   427,   428,   429,   430,   431,   432,   433,   434,   437,   440,
+   444,   446,   448,   456,   457,   459,   465
 };
 #endif
 
@@ -1067,7 +1026,7 @@ yyreduce:
   switch (yyn) {
 
 case 9:
-#line 168 "icalyacc.y"
+#line 190 "icalyacc.y"
 { 
                   icalparser_yy_value = 0;
 		  icalparser_clear_flex_input();
@@ -1075,15 +1034,15 @@ case 9:
                   ;
     break;}
 case 11:
-#line 178 "icalyacc.y"
+#line 200 "icalyacc.y"
 { icalparser_yy_value = icalvalue_new_boolean(1); ;
     break;}
 case 12:
-#line 180 "icalyacc.y"
+#line 202 "icalyacc.y"
 { icalparser_yy_value = icalvalue_new_boolean(0); ;
     break;}
 case 13:
-#line 183 "icalyacc.y"
+#line 205 "icalyacc.y"
 {
 	    struct icaltimetype stm;
 
@@ -1099,23 +1058,23 @@ case 13:
 	;
     break;}
 case 14:
-#line 198 "icalyacc.y"
+#line 220 "icalyacc.y"
 {utc = 0;;
     break;}
 case 15:
-#line 199 "icalyacc.y"
+#line 221 "icalyacc.y"
 {utc = 1;;
     break;}
 case 16:
-#line 203 "icalyacc.y"
+#line 225 "icalyacc.y"
 {utc_b = 0;;
     break;}
 case 17:
-#line 204 "icalyacc.y"
+#line 226 "icalyacc.y"
 {utc_b = 1;;
     break;}
 case 18:
-#line 208 "icalyacc.y"
+#line 230 "icalyacc.y"
 {
 	    struct  icaltimetype stm;
 	    stm = fill_datetime(yyvsp[-3].v_string, yyvsp[-1].v_string);
@@ -1127,100 +1086,103 @@ case 18:
 	;
     break;}
 case 21:
-#line 226 "icalyacc.y"
+#line 248 "icalyacc.y"
 {
 	    duration.weeks = atoi(yyvsp[-1].v_string);
 	;
     break;}
 case 22:
-#line 231 "icalyacc.y"
+#line 253 "icalyacc.y"
 {
 	;
     break;}
 case 23:
-#line 234 "icalyacc.y"
+#line 256 "icalyacc.y"
 {
 	;
     break;}
 case 24:
-#line 237 "icalyacc.y"
+#line 259 "icalyacc.y"
 {
 	;
     break;}
 case 25:
-#line 241 "icalyacc.y"
+#line 263 "icalyacc.y"
 {
 	    duration.hours = atoi(yyvsp[-1].v_string);
 	;
     break;}
 case 26:
-#line 245 "icalyacc.y"
+#line 267 "icalyacc.y"
 {
 	    duration.hours = atoi(yyvsp[-2].v_string);
 	;
     break;}
 case 27:
-#line 250 "icalyacc.y"
+#line 272 "icalyacc.y"
 {
 	    duration.minutes = atoi(yyvsp[-1].v_string);
 	;
     break;}
 case 28:
-#line 254 "icalyacc.y"
+#line 276 "icalyacc.y"
 {
 	    duration.minutes = atoi(yyvsp[-2].v_string);
 	;
     break;}
 case 29:
-#line 259 "icalyacc.y"
+#line 281 "icalyacc.y"
 {
 	    duration.seconds = atoi(yyvsp[-1].v_string);
 	;
     break;}
 case 30:
-#line 264 "icalyacc.y"
+#line 286 "icalyacc.y"
 {
 	    duration.days = atoi(yyvsp[-1].v_string);
 	;
     break;}
 case 31:
-#line 269 "icalyacc.y"
+#line 291 "icalyacc.y"
 {
+	    duration.is_neg = 0;
 	;
     break;}
 case 32:
-#line 272 "icalyacc.y"
+#line 295 "icalyacc.y"
 {
+	    duration.is_neg = 0;
 	;
     break;}
 case 33:
-#line 275 "icalyacc.y"
-{
+#line 299 "icalyacc.y"
+{ 
+	    duration.is_neg = 1;
 	;
     break;}
 case 34:
-#line 279 "icalyacc.y"
+#line 304 "icalyacc.y"
 { 
 	    icalparser_yy_value = icalvalue_new_duration(duration); 
 	    memset(&duration,0, sizeof(duration));
 	;
     break;}
 case 35:
-#line 284 "icalyacc.y"
+#line 309 "icalyacc.y"
 { 
 	    icalparser_yy_value = icalvalue_new_duration(duration); 
 	    memset(&duration,0, sizeof(duration));
 	;
     break;}
 case 36:
-#line 289 "icalyacc.y"
+#line 314 "icalyacc.y"
 { 
 	    icalparser_yy_value = icalvalue_new_duration(duration); 
 	    memset(&duration,0, sizeof(duration));
 	;
     break;}
 case 37:
-#line 298 "icalyacc.y"
+#line 323 "icalyacc.y"
 {
             struct icalperiodtype p;
         
@@ -1243,7 +1205,7 @@ case 37:
 	;
     break;}
 case 38:
-#line 319 "icalyacc.y"
+#line 344 "icalyacc.y"
 {
             struct icalperiodtype p;
 	    
@@ -1272,199 +1234,199 @@ case 38:
 	;
     break;}
 case 39:
-#line 351 "icalyacc.y"
+#line 376 "icalyacc.y"
 {clear_recur();recur.freq = ICAL_SECONDLY_RECURRENCE;;
     break;}
 case 40:
-#line 352 "icalyacc.y"
+#line 377 "icalyacc.y"
 {clear_recur();recur.freq = ICAL_MINUTELY_RECURRENCE;;
     break;}
 case 41:
-#line 353 "icalyacc.y"
+#line 378 "icalyacc.y"
 {clear_recur();recur.freq = ICAL_HOURLY_RECURRENCE;;
     break;}
 case 42:
-#line 354 "icalyacc.y"
+#line 379 "icalyacc.y"
 {clear_recur();recur.freq = ICAL_DAILY_RECURRENCE;;
     break;}
 case 43:
-#line 355 "icalyacc.y"
+#line 380 "icalyacc.y"
 {clear_recur();recur.freq = ICAL_WEEKLY_RECURRENCE;;
     break;}
 case 44:
-#line 356 "icalyacc.y"
+#line 381 "icalyacc.y"
 {clear_recur();recur.freq = ICAL_MONTHLY_RECURRENCE;;
     break;}
 case 45:
-#line 357 "icalyacc.y"
+#line 382 "icalyacc.y"
 {clear_recur();recur.freq = ICAL_YEARLY_RECURRENCE;;
     break;}
 case 46:
-#line 362 "icalyacc.y"
+#line 387 "icalyacc.y"
 { skiplist[skippos]=ICAL_SUNDAY_WEEKDAY; ;
     break;}
 case 47:
-#line 363 "icalyacc.y"
+#line 388 "icalyacc.y"
 { skiplist[skippos]=ICAL_MONDAY_WEEKDAY; ;
     break;}
 case 48:
-#line 364 "icalyacc.y"
+#line 389 "icalyacc.y"
 { skiplist[skippos]=ICAL_TUESDAY_WEEKDAY; ;
     break;}
 case 49:
-#line 365 "icalyacc.y"
+#line 390 "icalyacc.y"
 { skiplist[skippos]=ICAL_WEDNESDAY_WEEKDAY; ;
     break;}
 case 50:
-#line 366 "icalyacc.y"
+#line 391 "icalyacc.y"
 { skiplist[skippos]=ICAL_THURSDAY_WEEKDAY; ;
     break;}
 case 51:
-#line 367 "icalyacc.y"
+#line 392 "icalyacc.y"
 { skiplist[skippos]=ICAL_FRIDAY_WEEKDAY; ;
     break;}
 case 52:
-#line 368 "icalyacc.y"
+#line 393 "icalyacc.y"
 { skiplist[skippos]=ICAL_SATURDAY_WEEKDAY; ;
     break;}
 case 53:
-#line 374 "icalyacc.y"
+#line 399 "icalyacc.y"
 {if( skippos<8) skippos++;;
     break;}
 case 54:
-#line 375 "icalyacc.y"
+#line 400 "icalyacc.y"
 { dow_pos = atoi(yyvsp[-1].v_string);  
 	           skiplist[skippos] += 8*dow_pos; if( skippos<8) skippos++; ;
     break;}
 case 55:
-#line 377 "icalyacc.y"
+#line 402 "icalyacc.y"
 { dow_pos = atoi(yyvsp[-1].v_string);  
 	           skiplist[skippos] -= 8*dow_pos; if( skippos<8) skippos++; ;
     break;}
 case 56:
-#line 379 "icalyacc.y"
+#line 404 "icalyacc.y"
 {if( skippos<8) skippos++;;
     break;}
 case 57:
-#line 380 "icalyacc.y"
+#line 405 "icalyacc.y"
 { dow_pos = atoi(yyvsp[-1].v_string); 
 	           skiplist[skippos] += 8*dow_pos;if( skippos<8) skippos++;;
     break;}
 case 58:
-#line 382 "icalyacc.y"
+#line 407 "icalyacc.y"
 { dow_pos = atoi(yyvsp[-1].v_string); 
 	           skiplist[skippos] -= 8*dow_pos;if( skippos<8) skippos++;;
     break;}
 case 59:
-#line 388 "icalyacc.y"
+#line 412 "icalyacc.y"
 { skiplist[skippos] = atoi(yyvsp[0].v_string); skippos++;;
     break;}
 case 60:
-#line 389 "icalyacc.y"
+#line 413 "icalyacc.y"
 { skiplist[skippos] = atoi(yyvsp[0].v_string); if (skippos<367) skippos++;;
     break;}
 case 61:
-#line 393 "icalyacc.y"
+#line 417 "icalyacc.y"
 {recur.interval = atoi(yyvsp[0].v_string);;
     break;}
 case 62:
-#line 394 "icalyacc.y"
+#line 418 "icalyacc.y"
 {recur.week_start = ICAL_SUNDAY_WEEKDAY;;
     break;}
 case 63:
-#line 395 "icalyacc.y"
+#line 419 "icalyacc.y"
 {recur.week_start = ICAL_MONDAY_WEEKDAY;;
     break;}
 case 64:
-#line 396 "icalyacc.y"
+#line 420 "icalyacc.y"
 {recur.week_start = ICAL_TUESDAY_WEEKDAY;;
     break;}
 case 65:
-#line 397 "icalyacc.y"
+#line 421 "icalyacc.y"
 {recur.week_start = ICAL_WEDNESDAY_WEEKDAY;;
     break;}
 case 66:
-#line 398 "icalyacc.y"
+#line 422 "icalyacc.y"
 {recur.week_start = ICAL_THURSDAY_WEEKDAY;;
     break;}
 case 67:
-#line 399 "icalyacc.y"
+#line 423 "icalyacc.y"
 {recur.week_start = ICAL_FRIDAY_WEEKDAY;;
     break;}
 case 68:
-#line 400 "icalyacc.y"
+#line 424 "icalyacc.y"
 {recur.week_start = ICAL_SATURDAY_WEEKDAY;;
     break;}
 case 69:
-#line 401 "icalyacc.y"
+#line 425 "icalyacc.y"
 {copy_list(recur.by_second,60);;
     break;}
 case 70:
-#line 402 "icalyacc.y"
+#line 426 "icalyacc.y"
 {copy_list(recur.by_minute,60);;
     break;}
 case 71:
-#line 403 "icalyacc.y"
+#line 427 "icalyacc.y"
 {copy_list(recur.by_hour,24);;
     break;}
 case 72:
-#line 404 "icalyacc.y"
+#line 428 "icalyacc.y"
 {copy_list(recur.by_day,7);;
     break;}
 case 73:
-#line 405 "icalyacc.y"
+#line 429 "icalyacc.y"
 {copy_list(recur.by_month,12);;
     break;}
 case 74:
-#line 406 "icalyacc.y"
+#line 430 "icalyacc.y"
 {copy_list(recur.by_month_day,31);;
     break;}
 case 75:
-#line 407 "icalyacc.y"
+#line 431 "icalyacc.y"
 {copy_list(recur.by_year_day,366);;
     break;}
 case 76:
-#line 408 "icalyacc.y"
+#line 432 "icalyacc.y"
 {copy_list(recur.by_week_no,53);;
     break;}
 case 77:
-#line 409 "icalyacc.y"
+#line 433 "icalyacc.y"
 {copy_list(recur.by_set_pos,366);;
     break;}
 case 78:
-#line 411 "icalyacc.y"
+#line 435 "icalyacc.y"
 { recur.until = icalvalue_get_datetime(icalparser_yy_value);
 	   icalvalue_free(icalparser_yy_value); icalparser_yy_value=0;;
     break;}
 case 79:
-#line 414 "icalyacc.y"
+#line 438 "icalyacc.y"
 { recur.until = icalvalue_get_date(icalparser_yy_value);
 	   icalvalue_free(icalparser_yy_value); icalparser_yy_value=0;;
     break;}
 case 80:
-#line 417 "icalyacc.y"
+#line 441 "icalyacc.y"
 { recur.count = atoi(yyvsp[0].v_string); ;
     break;}
 case 83:
-#line 426 "icalyacc.y"
+#line 450 "icalyacc.y"
 { icalparser_yy_value = icalvalue_new_recur(recur); ;
     break;}
 case 84:
-#line 432 "icalyacc.y"
+#line 456 "icalyacc.y"
 { utcsign = 1; ;
     break;}
 case 85:
-#line 433 "icalyacc.y"
+#line 457 "icalyacc.y"
 { utcsign = -1; ;
     break;}
 case 86:
-#line 437 "icalyacc.y"
+#line 461 "icalyacc.y"
 {
 	    icalparser_yy_value = icalvalue_new_utcoffset( utcsign * (yyvsp[-1].v_int*3600) + (yyvsp[0].v_int*60) );
   	;
     break;}
 case 87:
-#line 442 "icalyacc.y"
+#line 466 "icalyacc.y"
 {
 	    icalparser_yy_value = icalvalue_new_utcoffset(utcsign * (yyvsp[-2].v_int*3600) + (yyvsp[-1].v_int*60) +(yyvsp[0].v_int));
   	;
@@ -1691,7 +1653,7 @@ yyerrhandle:
     }
   return 1;
 }
-#line 448 "icalyacc.y"
+#line 472 "icalyacc.y"
 
 
 
@@ -1701,7 +1663,6 @@ void clear_recur()
     skippos = 0;
 
     icalrecurrencetype_clear(&recur);
-    recur.week_start = ICAL_MONDAY_WEEKDAY;
 }
 
 void copy_list(short* array, size_t size)
@@ -1731,7 +1692,7 @@ struct icaltimetype fill_datetime(char* datestr, char* timestr)
 
 }
 
-void yyerror(char* s)
+void ical_yyerror(char* s)
 {
     /*fprintf(stderr,"Parse error \'%s\'\n", s);*/
 }

@@ -5,3 +5,6 @@
 /* Define to make icalcluster_commit() save to a temp file and mv to
    the original file instead of writing to the orig file directly */
 #undef ICAL_SAFESAVES
+
+/* Define to terminate lines with "\n" instead of "\r\n" */
+#undef ICAL_UNIX_NEWLINE

@@ -309,14 +309,14 @@ pvl_insert_ordered(pvl_list l,pvl_comparef f,void *d)
 
     /* smaller than head, add to head */
 
-    if ( ((*f)(d,L->head->d)) < 0)
+    if ( ((*f)(d,L->head->d)) <= 0)
     { 
 	pvl_unshift(l,d);
 	return;
     }
 
     /* larger than tail, add to tail */
-    if ( (*f)(d,L->tail->d) > 0)
+    if ( (*f)(d,L->tail->d) >= 0)
     { 
 	pvl_push(l,d);
 	return;
@@ -324,10 +324,10 @@ pvl_insert_ordered(pvl_list l,pvl_comparef f,void *d)
 
 
     /* Search for the first element that is smaller, and add before it */
-
+    
     for (P=L->head; P != 0; P = P->next)
     {
-	if ( (*f)(P->d,d) > 0)
+	if ( (*f)(P->d,d) >= 0)
 	{
 	    pvl_insert_before(l,P,d);
 	    return;

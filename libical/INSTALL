@@ -3,8 +3,8 @@ Building the library
 
 This distribution is developed on Red Hat Linux 6.0 and usually
 compiles on SunOS 5.6 and FreeBSD 2.27. I have reports of success of
-previous version on MacOS ( with CodeWarrior ) but I don't know about
-any other systems.
+previous version on MacOS ( with CodeWarrior ) and on UnixWare, but I
+don't know about any other systems.
 
 The library is configured with automake. From the root directory, run 
 

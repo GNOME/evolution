@@ -3,33 +3,7 @@
  FILE: icalmemory.h
  CREATOR: eric 30 June 1999
 
-
  $Id$
- $Locker$
-
- The contents of this file are subject to the Mozilla Public License
- Version 1.0 (the "License"); you may not use this file except in
- compliance with the License. You may obtain a copy of the License at
- http://www.mozilla.org/MPL/
- 
- Software distributed under the License is distributed on an "AS IS"
- basis, WITHOUT WARRANTY OF ANY KIND, either express or implied. See
- the License for the specific language governing rights and
- limitations under the License.
- 
-
- This program is free software; you can redistribute it and/or modify
- it under the terms of either: 
-
-    The LGPL as published by the Free Software Foundation, version
-    2.1, available at: http://www.fsf.org/copyleft/lesser.html
-
-  Or:
-
-    The Mozilla Public License Version 1.0. You may obtain a copy of
-    the License at http://www.mozilla.org/MPL/
-
- The Original Code is icalmemory.h
 
  This program is free software; you can redistribute it and/or modify
  it under the terms of either: 
@@ -52,18 +26,19 @@
 
 #include <sys/types.h> /* for size_t */
 
+
 /* Tmp buffers are managed by ical. References can be returned to the
    caller, although the caller will not own the memory. */
 
 void* icalmemory_tmp_buffer(size_t size);
-char* icalmemory_tmp_copy(char* str);
+char* icalmemory_tmp_copy(const char* str);
 
 /* Add an externally allocated buffer to the ring. */
 void  icalmemory_add_tmp_buffer(void*);
 
 
 /* Free all memory used in the ring */
-void icalmemory_free_ring();
+void icalmemory_free_ring(void);
 
 /* Non-tmp buffers must be freed. These are mostly wrappers around
  * malloc, etc, but are used so the caller can change the memory
@@ -87,7 +62,7 @@ void icalmemory_free_buffer(void* buf);
    have memory problems. */
 
 void icalmemory_append_string(char** buf, char** pos, size_t* buf_size, 
-			      char* string);
+			      const char* string);
 
 /*  icalmemory_append_char is similar, but is appends a character instead of a string */
 void icalmemory_append_char(char** buf, char** pos, size_t* buf_size, 

@@ -5,7 +5,6 @@
   
   $Id$
 
-
  (C) COPYRIGHT 2000, Eric Busboom, http://www.softwarestudio.org
 
  This program is free software; you can redistribute it and/or modify
@@ -27,7 +26,10 @@
 #ifndef ICALPARSER_H
 #define ICALPARSER_H
 
-#include "ical.h"
+#include "icalenums.h"
+#include "icaltypes.h"
+#include"icalcomponent.h"
+
 #include <stdio.h> /* For FILE* */
 
 typedef void* icalparser;
@@ -49,7 +51,7 @@ typedef enum icalparser_state {
     ICALPARSER_IN_PROGRESS
 } icalparser_state;
 
-icalparser* icalparser_new();
+icalparser* icalparser_new(void);
 icalcomponent* icalparser_add_line(icalparser* parser, char* str );
 icalcomponent* icalparser_claim(icalparser* parser);
 icalcomponent* icalparser_clean(icalparser* parser);
@@ -80,7 +82,8 @@ icalcomponent* icalparser_parse_string(char* str);
  ***********************************************************************/
 
 /* Use the flex/bison parser to turn a string into a value type */
-icalvalue*  icalparser_parse_value(icalvalue_kind kind, char* str, icalcomponent** errors);
+icalvalue*  icalparser_parse_value(icalvalue_kind kind, 
+				   const char* str, icalcomponent** errors);
 
 /* Given a line generator function, return a single iCal content line.*/
 char* icalparser_get_line(icalparser* parser, char* (*line_gen_func)(char *s, size_t size, void *d));

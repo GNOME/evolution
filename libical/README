@@ -55,6 +55,12 @@ To build all of the Makefiles for your system. If you will be installing the lib
 If configure runs fine, run "make" to build the library and 
 "make install" to install it.
 
+Although the distribution uses libtool to generate libraries, it has
+shared libraries turned off by default. To create and install shared
+libraries use:
+
+	./configure --enable-shared
+
 The current version of libical focuses on creating and
 manipulating iCal objects. With it, you can parse text representations
 of iCal components, add and remove sub-components, properties,
@@ -76,25 +82,18 @@ gcc-specific automatic dependancy tracking.
 
 You will not need to re-run automake unless you got the sources from CVS. 
 
+Using the Library
+-----------------
+
+There is rudimentary, unfinished documentation in the /doc directory,
+and annotated examples in /examples.
+
 
 Perl Library
 ------------
 
 There is a perl language binding of this library, LIBICAL. 
 It is  available from http://www.softwarestudio.org/libical
-
-Parser
-------
-
-The parser is a test program that will convert a text representation
-of an iCal object to the internal representation and print it back out
-as text. It is primarily a test tool, but it is also a good
-demonstration of how the library works. 
-
-To use it, cat one of the test components into the parser
-executable. For example, from the root of the distribution:
-
-	src/test/icalparser < test-data/1.1  
 
 
 Eric Busboom

@@ -128,6 +128,7 @@ while(<F>)
   my @v = split(/\t+/,$_);  
   
   my $value = shift @v;
+  my $mode = shift @v;
   my $type = shift @v;
   my $comment = join(" ",@v);
   
@@ -155,7 +156,7 @@ while(<F>)
     $union_data = $lc;
   }
 
-  if ($opt_c) {
+  if ($opt_c && $mode eq "std") {
 print <<EOM;
 
 icalvalue*
@@ -182,7 +183,7 @@ icalvalue_set_${lc}(icalvalue* value, $type v)
 EOM
 
 if( ${union_data} eq 'string'){
-print"    if(impl->data.v_${union_data}!=0) {free(impl->data.v_${union_data});}\n";
+print"    if(impl->data.v_${union_data}!=0) {free((void*)impl->data.v_${union_data});}\n";
 }
 
 print <<EOM;
@@ -216,15 +217,15 @@ EOM
 if ( $ud{$union_data}++ == 0) {
 
 print<<EOM;
-char* icalvalue_${union_data}_as_ical_string(icalvalue* value) {
+const char* icalvalue_${union_data}_as_ical_string(icalvalue* value) {
 
     $type data;
     char temp[1024];
     char *str;
-    icalerror_check_arg( (value!=0),"value");
+    icalerror_check_airg( (value!=0),"value");
     data = ((struct icalvalue_impl*)value)->data.v_${union_data}
 
-    str = strdup(temp);
+    str = icalmemory_strdup(temp);
 
     return str;
 }
@@ -306,7 +307,7 @@ if ($opt_p)
 if ($opt_h){
 
 print <<EOM;
-#endif ICALVALUE_H
+#endif /*ICALVALUE_H*/
 EOM
 }
 

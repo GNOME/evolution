@@ -1,23 +1,127 @@
-2000-11-21  Federico Mena Quintero  <federico@helixcode.com>
+2000-12-11  Federico Mena Quintero  <federico@helixcode.com>
 
-	* src/libical/icalyacc.y: Patch from Eric Busboom
-	<eric@softwarestudio.org> to fix BYDAY elements in monthly
-	recurrence rule values.
+	* configure.in (AC_OUTPUT): Fixed order of generated files to make
+	"make distcheck" work.  Turn on AM_MAINTAINER_MODE.
+
+	* src/libical/Makefile.am (EXTRA_DIST): Add icalversion.h.in.
+	(COMBINEDHEADERS): Added paths to make "make distcheck" work.
+	(libical_la_SOURCES): Added headers for distribution in our weird
+	setup.
+
+2000-12-11  JP Rosevear  <jpr@helixcode.com>
+
+	* src/libical/icaltime.c (icaltime_compare_date_only): New
+	function that compares only the dates, not the times as well.
+
+	* src/libical/icaltime.h: Add prototype for the function above.
+
+	* src/libical/icalrecur.h (struct icalrecurrencetype): Correct
+	header documentation.
+
+	* src/libical/icaltypes.c: No longer include <limits.h>.
+
+	* src/libical/icalrecur.c: Likewise.
+
+	* src/libical/icalvalue.c: Likewise.
+
+	* src/libical/icalyacc.y: Likewise.
+
+2000-11-21  Eric Busboom  <eric@softwarestudio.org>
+
+	* icalrecur.c Fixed a bug in the increment_* routines that made
+ 	incrementing by more then 1 insensible. Thanks to Martin Neimeier
+
+2000-11-20  Eric Busboom  <eric@softwarestudio.org>
+
+	* icalmessage.c Many routines to create new ical messages.
+
+	* icalspanlist.c Code to generate a list of the busy time f the
+ 	VEVENTS in a set. Also includes routiens to generate free and busy
+ 	lists from the spanlist, and to find the next free time after a
+ 	given time.
+
+	* icalvalue.c The STATUS property now has its own value type,
+ 	STATUS, which holds the enumeration icalproperty_status.
+
+	* icalrestriction.c Added more restrictions. Now handles mutual
+ 	and exclusive consitions, and checks for the reight values in
+ 	STATUS properties
+
+
+2000-11-10  Eric Busboom  <eric@softwarestudio.org>
+
+	* icaltypes.c Added routine to create durationtype from string:
+ 	icaldurationtype_from_string
+
+2000-11-09  Eric Busboom  <eric@softwarestudio.org>
+
+	* icalcomponet.c Add sever get/set convienience routines to access
+ 	and manipulate common component propoerties from the component
+ 	interface. This eliminates the need to create a lot of temporary
+ 	variables if you just want to change the start time of and event.
+
+2000-11-06 Eric Busboom    <eric@softwarestudio.org>
+
+	* icalcomponent.c Added new routines to icalcomponent:
+	_get_span -- returns the start and end times of the event in UTC
+	_get_first_real_component -- return ref to VTODO, VEVENT or VJOURNAL
+
+	* icalspanlist.c Added new class, icalspanlist, that generates a
+ 	list of alternating busy and free times from an icalset. The class
+ 	includes routines to gnerate rfc2445 busy and free lists, and to
+ 	get the next avaliable busy or free time after a given time.
 
 2000-11-06  Federico Mena Quintero  <federico@helixcode.com>
 
 	* src/libical/icalvalue.c (icalvalue_recur_as_ical_string): Handle
-	both the position and weekday in the by_day field.
+        both the position and weekday in the by_day field.
 
 2000-10-20  Jesse Pavel	  	<jpavel@helixcode.com>
 
 	* src/libical/icalproperty.c: added support for the
 	icalproperty_remove_parameter() function.
 
+2000-10-20  Eric Busboom  <eric@agony.busboom.org>
+
+	* Const correctness. Added 'const' all over everywhere.
+
+2000-10-19  Eric Busboom  <eric@agony.busboom.org>
+
+	* icalproperty, icalparameter, icalvalue .c, .h Changed most
+	instances of char* to const char*
+
+	* icalclassify.h Added multiple include protection
+
+	* icalset.h and others, got rid of parameter named "new"
+
+2000-10-15 Eric Busboom   <eric@softwarestudio.org>
+
+	* icalcomponent Added convienience functions for constructing
+ 	components: icalcomponent_new_vcalendar(), etc.
+
+	* Makefile.am Incorporated build system patch from Federico
+ 	Quintero. Misc small fixes and cleanup
+
+	* scripts Incorporated auto-gen patch from Frederico. Generated
+ 	code in libical now uses icalproperty.c.in (etc) instead of
+ 	editing file icalparoperty.c in place.
+
+	* libical. Changed flex/bison to use the -P/-p options to set
+ 	ical_yy as a prefix. Removed prefix redefinition from icalyacc.y
+
+2000-10-12 Eric Busboom    <eric@softwarestudio.org>
+
+	* icalproperty.c Fixed icalproperty_get_{first,next}_parameter to
+ 	honor the parameter kind argument
+
+	* icalparameter.c Added, but did not complete, a new version of
+ 	icalparameters_from_string that does not use the hairy nested
+ 	case/switch statements of the previous version
+
 2000-10-11  Damon Chaplin  <damon@helixcode.com>
 
-	* src/libical/icalparameter.c (icalparameter_as_ical_string): 
-	(icalparameter_new_from_string): 
+	* src/libical/icalparameter.c (icalparameter_as_ical_string):
+	(icalparameter_new_from_string):
 	* src/libical/icalparser.c (icalparser_add_line): add support for
 	'X-' parameters.
 
@@ -28,6 +132,12 @@
 
 	* src/test/Makefile.in: While I'm here, remove this from CVS, as
 	it's a generated file.
+
+2000-10-02 Eric Busboom  <eric@softwarestudio.org>
+
+	* ical.h ical.h and icalss.h now are concatenations of all of the
+ 	public headers for their respective libraries. Thus, only ical.h,
+ 	icalss.h and icalvcal.h need to be installed.
 
 2000-09-12  Ettore Perazzoli  <ettore@helixcode.com>
 
@@ -42,12 +152,9 @@
 
 	* src/libicalss/icalcsdb.h: ditto
 
-2000-09-08  JP Rosevear  <jpr@helixcode.com>
+2000-09-11  Eric Busboom  <eric@softwarestudio.org>
 
-	* src/libical/icaltime.c (icaltime_compare_date_only): New
-	function that compares only the dates, not the times as well
-
-	* src/libical/icaltime.h: Add prototype
+	* icalvcal.c Added more comments
 
 2000-09-01  JP Rosevear  <jpr@helixcode.com>
 
@@ -61,25 +168,21 @@
 2000-08-31  JP Rosevear  <jpr@helixcode.com>
 
 	* Kill off more old, dead files
-	
+
 2000-08-31  JP Rosevear  <jpr@helixcode.com>
 
 	* MacOS: This dir is not in 0.19
-	
+
 2000-08-31  JP Rosevear  <jpr@helixcode.com>
 
 	* src/libical/CHANGES: This file is not in 0.19
-	
+
 2000-08-31  JP Rosevear  <jpr@helixcode.com>
 
 	* src/libical/.gdb_history: Kill file
 
 	* src/libical/.gdb_history: Kill file
-	
-2000-08-31  JP Rosevear  <jpr@helixcode.com>
 
-	* configure.in: Don't list config.h in AC_OUTPUT
-	
 2000-08-31  JP Rosevear  <jpr@helixcode.com>
 
 	* src/pvl/Makefile: Kill old file
@@ -91,6 +194,10 @@
 	* src/libicalvcal/.cvsignore: Update
 
 	* examples/.cvsignore: Shut up
+
+2000-08-31  JP Rosevear  <jpr@helixcode.com>
+
+	* configure.in: Don't list config.h in AC_OUTPUT
 
 2000-08-26  Ettore Perazzoli  <ettore@helixcode.com>
 
@@ -124,8 +231,8 @@
 
 	* src/test/Makefile.am: Make it work.
 
-2000-08-04    <eric@softwarestudio.org>
-	
+2000-08-04  Eric Busboom  <eric@softwarestudio.org>
+
 	* stow.c Changed stow to write data to a file ( icalfileset) not a
  	calendar. Also added MIME parsing capability
 
@@ -135,8 +242,8 @@
 	* icalmime.h New file that parses mime data and returns an
  	icalcomponent that includes all of the parts.
 
-	
-2000-07-26    <eric@softwarestudio.org>
+
+2000-07-26   Eric Busboom   <eric@softwarestudio.org>
 
 	* icaldirset.h misc bug fixes to get deleting components to work
 
@@ -144,13 +251,13 @@
  	and _get_next_component, since these will reset the interal
  	iterators.
 
-2000-07-23    <eric@softwarestudio.org>
+2000-07-23   Eric Busboom   <eric@softwarestudio.org>
 
 	* icalcomponent.h Added external iterators to icalcomponent for
  	subcomponents: icalcompiter. These are still experimental, but they
  	seem to work OK and have a nice syntax
 
-2000-07-18    <eric@softwarestudio.org>
+2000-07-18   Eric Busboom   <eric@softwarestudio.org>
 
 	* icalset This is a new "superclass" for icalstore, icalcluster,
  	and others. It merges the interfaces of the old icalstore and
@@ -159,7 +266,7 @@
 	* icalstore.{c,h} CHanged name to icaldirset
 
 	* icalcluster.{c,h} Changed name to icalfileset
-	
+
 
 2000-06-12  Eric Busboom  <eric@softwarestudio.org>
 
@@ -188,11 +295,11 @@
 
 	* icaltypes.h Changed signature icaltimetype_from_timet to include
  	is_utc flag.
-	
+
 
 2000-03-17  Eric Busboom  <eric@softwarestudio.org>
 
-	* icalstore.c Vastly improved icalstore_test. 
+	* icalstore.c Vastly improved icalstore_test.
 
 2000-03-16  Eric Busboom  <eric@softwarestudio.org>
 
@@ -208,5 +315,5 @@
  	oriented parsing.
 
 	* icalparser.c Fixed icalparser_get_line to remove \r in input.
-	
+
 

@@ -5,9 +5,6 @@
   
   $Id$
 
-  $Locker$
-    
-
  (C) COPYRIGHT 2000, Eric Busboom, http://www.softwarestudio.org
 
  This program is free software; you can redistribute it and/or modify
@@ -56,6 +53,11 @@ void icalerror_clear_errno() {
 
 void icalerror_set_errno(icalerrorenum e) {
 
+#ifdef ICAL_ERRORS_ARE_FATAL
+    fprintf(stderr,"libical: icalerrno_set_error: %s",icalerror_strerror(e));
+    icalerror_crash_here();
+#endif
+
     icalerror_stop_here();
     icalerrno = e;
 }
@@ -68,9 +70,9 @@ struct icalerror_string_map {
 
 static struct icalerror_string_map string_map[] = 
 {
-    {ICAL_BADARG_ERROR,"Bad argumnet to function"},
+    {ICAL_BADARG_ERROR,"Bad argument to function"},
     {ICAL_NEWFAILED_ERROR,"Failed to create a new object via a *_new() routine"},
-    {ICAL_MALFORMEDDATA_ERROR,"An input string was not correctly formed"},
+    {ICAL_MALFORMEDDATA_ERROR,"An input string was not correctly formed or a component has missing or extra properties"},
     {ICAL_PARSE_ERROR,"Failed to parse a part of an iCal componet"},
     {ICAL_INTERNAL_ERROR,"Random internal error. This indicates an error in the library code, not an error in use"}, 
     {ICAL_FILE_ERROR,"An operation on a file failed. Check errno for more detail."},

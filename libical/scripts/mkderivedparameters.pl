@@ -272,6 +272,6 @@ EOM
 if ($opt_h){
 
 print <<EOM;
-#endif ICALPARAMETER_H
+#endif /*ICALPARAMETER_H*/
 EOM
 }

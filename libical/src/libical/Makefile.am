@@ -1,106 +1,175 @@
+DESIGNDATA = $(top_srcdir)/design-data
+ICALSCRIPTS = $(top_srcdir)/scripts
 
-#AUTOMAKE_OPTIONS = no-dependencies
+lib_LTLIBRARIES = libical.la
 
-#noinst_LTLIBRARIES = libical.la
-lib_LIBRARIES = libical.a
+YFLAGS = -d -v -t -pical_yy
+LFLAGS = -Pical_yy
+LEX_OUTPUT_ROOT = lex.ical_yy
 
-YFLAGS =-d -v -t
+all: ical.h
 
-libical_a_SOURCES = \
-	ical.h \
-	icalcomponent.c	\
-	icalcomponent.h	\
-	icalenums.c \
-	icalenums.h \
-	icalerror.c \
-	icalerror.h \
-	icalyacc.y \
-	icallexer.l \
-	icalmemory.c \
-	icalmemory.h \
-	icalparameter.c \
-	icalparameter.h \
-	icalparser.c \
-	icalparser.h \
-	icalproperty.c \
-	icalproperty.h \
-	icalrestriction.c \
-	icalrestriction.h \
-	icaltypes.c \
-	icaltypes.h \
-	icalvalue.c \
-	icalvalue.h \
-	icalrecur.c \
-	icalrecur.h \
-	icaltime.h \
-	icaltime.c \
-	pvl.c \
-	pvl.h \
-	sspm.c \
-	sspm.h \
-	icalmime.c \
-	icalmime.h 
+INCLUDES =			\
+	-I$(top_builddir)	\
+	-I$(top_srcdir)/src	\
+	-I$(top_builddir)/src	\
+	-I$(srcdir)
 
-include_HEADERS=\
-	ical.h \
-	icalcomponent.h	\
-	icalenums.h \
-	icalerror.h \
-	icalmemory.h \
-	icalparameter.h \
-	icalparser.h \
-	icalproperty.h \
-	icalrestriction.h \
-	icaltypes.h \
-	icalvalue.h \
-	icalrecur.h \
-	icalversion.h \
-	icaltime.h \
-	pvl.h \
-	sspm.h \
-	icalmime.h 
+libical_la_LDFLAGS = -version-info 0:0:0
 
+libical_la_SOURCES =		\
+	icalcomponent.c		\
+	icalcomponent.h		\
+	icalenums.c		\
+	icalenums.h		\
+	icalerror.c		\
+	icalerror.h		\
+	icallexer.l		\
+	icalmemory.c		\
+	icalmemory.h		\
+	icalmime.c		\
+	icalmime.h		\
+	icalparameter.c		\
+	icalparameter.h		\
+	icalparser.c		\
+	icalparser.h		\
+	icalproperty.c		\
+	icalproperty.h		\
+	icalrecur.c		\
+	icalrecur.h		\
+	icalrestriction.c	\
+	icalrestriction.h	\
+	icaltime.c		\
+	icaltime.h		\
+	icaltypes.c		\
+	icaltypes.h		\
+	icalvalue.c		\
+	icalvalue.h		\
+	icalyacc.h		\
+	icalyacc.y		\
+	pvl.c			\
+	pvl.h			\
+	sspm.c			\
+	sspm.h
 
-#
-# static convenience library for use in conduits
-#
+libicalincludedir = $(includedir)
 
-noinst_LTLIBRARIES = libical-static.la
-libical_static_la_SOURCES = $(libical_a_SOURCES)
-libical_static_la_LDFLAGS = --all-static
+libicalinclude_HEADERS =  ical.h 
 
-EXTRA_DIST = icallexer.c icalyacc.c icalyacc.h
+# ORDERING OF HEADERS IS SIGNIFICANT. Don't change this ordering. It
+# is required to make the combined header ical.h properly
+COMBINEDHEADERS =					\
+	$(top_builddir)/src/libical/icalversion.h	\
+	$(top_srcdir)/src/libical/icaltime.h		\
+	$(top_srcdir)/src/libical/icalenums.h		\
+	$(top_srcdir)/src/libical/icaltypes.h		\
+	$(top_srcdir)/src/libical/icalrecur.h		\
+	$(top_srcdir)/src/libical/icalvalue.h		\
+	$(top_srcdir)/src/libical/icalparameter.h	\
+	$(top_srcdir)/src/libical/icalproperty.h	\
+	$(top_srcdir)/src/libical/pvl.h			\
+	$(top_srcdir)/src/libical/icalcomponent.h	\
+	$(top_srcdir)/src/libical/icalparser.h		\
+	$(top_srcdir)/src/libical/icalmemory.h		\
+	$(top_srcdir)/src/libical/icalerror.h		\
+	$(top_srcdir)/src/libical/icalrestriction.h	\
+	$(top_srcdir)/src/libical/sspm.h		\
+	$(top_srcdir)/src/libical/icalmime.h 
 
-CONFIG_CLEAN_FILES =  y.output *~ 
+BUILT_SOURCES =			\
+	icalparameter.c		\
+	icalparameter.h		\
+	icalproperty.c		\
+	icalproperty.h		\
+	icalrestriction.c	\
+	icalvalue.c		\
+	icalvalue.h
 
-DESIGNDATA = ../../design-data
-ICALSCRIPTS = ../../scripts
-derived: icalproperty icalparameter icalvalue icalrestriction
+ical.h: $(COMBINEDHEADERS) $(BUILT_SOURCES)
+	cat $(COMBINEDHEADERS)				\
+	| egrep -v "#include.*\"ical"			\
+	| egrep -v "#include.*\"pvl\.h\"" > ical.h
 
-icalproperty:
-	$(ICALSCRIPTS)/mkderivedproperties.pl -i icalproperty.h -h $(DESIGNDATA)/prop-to-value.txt ${DESIGNDATA}/value-c-types.txt > icalproperty.newh
-	mv icalproperty.newh icalproperty.h
-
-	$(ICALSCRIPTS)/mkderivedproperties.pl -i icalproperty.c -c $(DESIGNDATA)/prop-to-value.txt ${DESIGNDATA}/value-c-types.txt > icalproperty.newc
-	mv icalproperty.newc icalproperty.c
-
-
-icalparameter: 
-	$(ICALSCRIPTS)/mkderivedparameters.pl -i icalparameter.h -h $(DESIGNDATA)/param-c-types.txt > icalparameter.newh
-	mv icalparameter.newh icalparameter.h
-
-	$(ICALSCRIPTS)/mkderivedparameters.pl -i icalparameter.c -c $(DESIGNDATA)/param-c-types.txt > icalparameter.newc
-	mv icalparameter.newc icalparameter.c
-
-icalvalue: 
-	$(ICALSCRIPTS)/mkderivedvalues.pl -i icalvalue.h -h $(DESIGNDATA)/value-c-types.txt > icalvalue.newh
-	mv icalvalue.newh icalvalue.h
-
-	$(ICALSCRIPTS)/mkderivedvalues.pl  -i icalvalue.c -c $(DESIGNDATA)/value-c-types.txt > icalvalue.newc
-	mv icalvalue.newc icalvalue.c
-
-icalrestriction: 
-	$(ICALSCRIPTS)/mkrestrictiontable.pl  -i icalrestriction.c  $(DESIGNDATA)/restrictions.csv > icalrestriction.newc
-	mv icalrestriction.newc icalrestriction.c
+icallexer.c : icalyacc.h
 
 
+# parameters
+
+PARAMETERDEPS =	\
+	$(ICALSCRIPTS)/mkderivedparameters.pl \
+	$(DESIGNDATA)/param-c-types.txt	\
+	icalparameter.c.in \
+	icalparameter.h.in
+
+icalparameter.h: $(PARAMETERDEPS) 
+	$(PERL) $(ICALSCRIPTS)/mkderivedparameters.pl -i icalparameter.h.in -h $(DESIGNDATA)/param-c-types.txt > icalparameter.newh \
+	&& mv icalparameter.newh icalparameter.h 
+
+icalparameter.c: $(PARAMETERDEPS) icalparameter.h
+	$(PERL) $(ICALSCRIPTS)/mkderivedparameters.pl -i icalparameter.c.in -c $(DESIGNDATA)/param-c-types.txt > icalparameter.newc \
+	&& mv icalparameter.newc icalparameter.c
+
+# properties
+
+PROPERTYDEPS =					\
+	$(ICALSCRIPTS)/mkderivedproperties.pl	\
+	$(DESIGNDATA)/prop-to-value.txt		\
+	$(DESIGNDATA)/value-c-types.txt		\
+	icalproperty.c.in			\
+	icalproperty.h.in
+
+
+icalproperty.h: $(PROPERTYDEPS)
+	$(PERL) $(ICALSCRIPTS)/mkderivedproperties.pl -i icalproperty.h.in -h \
+		$(DESIGNDATA)/prop-to-value.txt \
+		${DESIGNDATA}/value-c-types.txt > icalproperty.h 
+
+icalproperty.c: $(PROPERTYDEPS) icalproperty.h 
+	$(PERL) $(ICALSCRIPTS)/mkderivedproperties.pl -i icalproperty.c.in -c \
+		$(DESIGNDATA)/prop-to-value.txt \
+		${DESIGNDATA}/value-c-types.txt > icalproperty.c
+
+# restrictions
+
+RESTRICTIONDEPS =				\
+	$(ICALSCRIPTS)/mkrestrictiontable.pl	\
+	$(DESIGNDATA)/restrictions.csv		\
+	icalrestriction.c.in
+
+icalrestriction.c: $(RESTRICTIONDEPS)
+	$(PERL) $(ICALSCRIPTS)/mkrestrictiontable.pl  -i icalrestriction.c.in \
+		$(DESIGNDATA)/restrictions.csv > icalrestriction.c
+
+# values
+
+VALUEDEPS =					\
+	$(ICALSCRIPTS)/mkderivedvalues.pl  	\
+	$(DESIGNDATA)/value-c-types.txt		\
+	icalvalue.c.in				\
+	icalvalue.h.in
+
+icalvalue.h: $(VALUEDEPS)
+	$(PERL) $(ICALSCRIPTS)/mkderivedvalues.pl -i icalvalue.h.in -h \
+		$(DESIGNDATA)/value-c-types.txt > icalvalue.h
+
+icalvalue.c: $(VALUEDEPS) icalvalue.h
+	$(PERL) $(ICALSCRIPTS)/mkderivedvalues.pl  -i icalvalue.c.in -c \
+		$(DESIGNDATA)/value-c-types.txt > icalvalue.c
+
+
+
+# housekeeping
+CONFIG_CLEAN_FILES = y.output
+
+EXTRA_DIST =			\
+	icalparameter.c.in	\
+	icalparameter.h.in	\
+	icalproperty.c.in	\
+	icalproperty.h.in	\
+	icalrestriction.c.in	\
+	icalvalue.c.in		\
+	icalvalue.h.in		\
+	icalversion.h.in	\
+	$(BUILT_SOURCES)	\
+	icallexer.c		\
+	icalyacc.c

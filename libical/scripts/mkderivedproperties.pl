@@ -30,6 +30,7 @@ while (<F>){
   my @v = split(/\t+/,$_);  
   
   my $value = shift @v;
+  my $mode = shift @v;
   my $type = shift @v;
   my $comment = join(" ",@v);
 
@@ -284,7 +285,7 @@ if ($opt_p)
 if ($opt_h){
 
 print <<EOM;
-#endif ICALPROPERTY_H
+#endif /*ICALPROPERTY_H*/
 EOM
 }
 

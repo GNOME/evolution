@@ -15,6 +15,12 @@ recur.txt \
 user-cal.vcf \
 complex-mime.txt \
 simple-mime.txt \
-stresstest.ics
+stresstest.ics \
+classify.ics \
+incoming.ics \
+process-incoming.ics \
+calendar.ics \
+restriction.ics \
+overlaps.ics
 
 

@@ -10,7 +10,7 @@ LOCATION             TEXT
 PERCENT-COMPLETE     INTEGER
 PRIORITY             INTEGER
 RESOURCES            TEXT
-STATUS               TEXT
+STATUS               STATUS
 SUMMARY              TEXT
 COMPLETED            DATE-TIME
 FREEBUSY             PERIOD

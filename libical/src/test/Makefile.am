@@ -1,18 +1,18 @@
 
-noinst_PROGRAMS = copycluster regression parser findobj storage stow recur testmime testvcal
+noinst_PROGRAMS = copycluster regression parser storage stow recur testmime testvcal process testclassify
 
-LDADD = ../libical/libical.a ../libicalss/libicalss.a ../libicalvcal/libicalvcal.a 
+LDADD =  ../libicalss/libicalss.la ../libicalvcal/libicalvcal.la ../libical/libical.la 
+
 INCLUDES = \
-	-I . \
-	-I../libicalvcal \
-	-I $(srcdir)/../libicalvcal \
-	-I $(srcdir) \
-	-I../libical \
-	-I $(srcdir)/../libical \
-	-I../libicalss \
-	-I $(srcdir)/../libicalss
+       -I . \
+       -I../libicalvcal \
+       -I $(srcdir)/../libicalvcal \
+       -I $(srcdir) \
+       -I../libical \
+       -I $(srcdir)/../libical \
+       -I../libicalss \
+       -I $(srcdir)/../libicalss           
 
-findobj_SOURCES = findobj.c
 copycluster_SOURCES = copycluster.c
 regression_SOURCES = regression.c
 parser_SOURCES = icaltestparser.c
@@ -20,4 +20,6 @@ storage_SOURCES = storage.c
 stow_SOURCES = stow.c
 testvcal_SOURCES = testvcal.c
 recur_SOURCES = recur.c 
-test_mime = testmime.c
+testmime_SOURCES = testmime.c
+process_SOURCES = process.c
+testclassify_SOURCES = testclassify.c

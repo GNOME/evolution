@@ -5,5 +5,5 @@ EXTRA_DIST = \
 	TEST \
 	TODO
 
-SUBDIRS = design-data doc scripts test-data src examples 
+SUBDIRS = design-data doc scripts test-data src examples
 

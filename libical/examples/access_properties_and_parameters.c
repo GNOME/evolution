@@ -12,7 +12,6 @@ void get_required_attendees(icalcomponent* event)
 {
     icalproperty* p;
     icalparameter* parameter;
-    int c=0;
     
     assert(event != 0);
     assert(icalcomponent_isa(event) == ICAL_VEVENT_COMPONENT);
@@ -60,7 +59,7 @@ void update_attendees(icalcomponent* event)
     icalparameter* parameter;
 
     assert(event != 0);
-    assert(icalcomponent_isa(event) == ICAL_VEVENT_COMPONENT);
+        assert(icalcomponent_isa(event) == ICAL_VEVENT_COMPONENT);
     
     for(
 	p = icalcomponent_get_first_property(event,ICAL_ATTENDEE_PROPERTY);
@@ -109,7 +108,7 @@ void test_properties()
 
     /* Create a new property */
     prop = icalproperty_vanew_comment(
-	strdup("Another Comment"),
+	"Another Comment",
 	icalparameter_new_cn("A Common Name 1"),
 	icalparameter_new_cn("A Common Name 2"),
 	icalparameter_new_cn("A Common Name 3"),

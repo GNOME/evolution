@@ -119,9 +119,6 @@ icalcomponent* icalcomponent_get_next_component(icalcomponent* component,
 
 
 
-/* Return a null-terminated array of icalproperties*/
-icalproperty** icalcomponent_get_component(icalcomponent* component,
-					      icalproperty_kind kind);
 
 /* Working with embedded error properties */
 
@@ -137,13 +134,81 @@ void icalcomponent_convert_errors(icalcomponent* component);
 icalcomponent* icalcomponent_get_parent(icalcomponent* component);
 void icalcomponent_set_parent(icalcomponent* component, 
 			      icalcomponent* parent);
-
-
-
 /* External component iterator */
 icalcomponent* icalcompiter_next(icalcompiter* i);
 icalcomponent* icalcompiter_prior(icalcompiter* i);
 icalcomponent* icalcompiter_deref(icalcompiter* i);
+
+/************* Derived class methods.  ****************************
+
+If the code was in an OO language, the remaining routines would be
+members of classes derived from icalcomponent. Don't call them on the
+wrong component subtypes. */
+
+/* For VCOMPONENT: Return a reference to the first VEVENT, VTODO or
+   VJOURNAL */
+icalcomponent* icalcomponent_get_first_real_component(icalcomponent *c);
+
+/* For VEVENT, VTODO, VJOURNAL and VTIMEZONE: report the start and end
+   times of an event in UTC */
+struct icaltime_span icalcomponent_get_span(icalcomponent* comp);
+
+/******************** Convienience routines **********************/
+
+void icalcomponent_set_dtstart(icalcomponent* comp, struct icaltimetype v);
+struct icaltimetype icalcomponent_get_dtstart(icalcomponent* comp);
+
+/* For the icalcomponent routines only, dtend and duration are tied
+   together. If you call the set routine for one and the other exists,
+   the routine will calculate the change to the other. That is, if
+   there is a DTEND and you call set_duration, the routine will modify
+   DTEND to be the sum of DTSTART and the duration. If you call a get
+   routine for one and the other exists, the routine will calculate
+   the return value. If you call a set routine and neither exists, the
+   routine will create the apcompriate comperty */
+
+
+struct icaltimetype icalcomponent_get_dtend(icalcomponent* comp);
+void icalcomponent_set_dtend(icalcomponent* comp, struct icaltimetype v);
+
+void icalcomponent_set_duration(icalcomponent* comp, 
+				struct icaldurationtype v);
+struct icaldurationtype icalcomponent_get_duration(icalcomponent* comp);
+
+void icalcomponent_set_method(icalcomponent* comp, icalproperty_method method);
+icalproperty_method icalcomponent_get_method(icalcomponent* comp);
+
+struct icaltimetype icalcomponent_get_dtstamp(icalcomponent* comp);
+void icalcomponent_set_dtstamp(icalcomponent* comp, struct icaltimetype v);
+
+
+void icalcomponent_set_summary(icalcomponent* comp, const char* v);
+const char* icalcomponent_get_summary(icalcomponent* comp);
+
+void icalcomponent_set_comment(icalcomponent* comp, const char* v);
+const char* icalcomponent_get_comment(icalcomponent* comp);
+
+void icalcomponent_set_organizer(icalcomponent* comp, const char* v);
+const char* icalcomponent_get_organizer(icalcomponent* comp);
+
+void icalcomponent_set_uid(icalcomponent* comp, const char* v);
+const char* icalcomponent_get_uid(icalcomponent* comp);
+
+void icalcomponent_set_recurrenceid(icalcomponent* comp, 
+				    struct icaltimetype v);
+struct icaltimetype icalcomponent_get_recurrenceid(icalcomponent* comp);
+
+/*************** Type Specific routines ***************/
+
+icalcomponent* icalcomponent_new_vcalendar();
+icalcomponent* icalcomponent_new_vevent();
+icalcomponent* icalcomponent_new_vtodo();
+icalcomponent* icalcomponent_new_vjournal();
+icalcomponent* icalcomponent_new_vfreebusy();
+icalcomponent* icalcomponent_new_vtimezone();
+icalcomponent* icalcomponent_new_xstandard();
+icalcomponent* icalcomponent_new_xdaylight();
+
 
 
 #endif /* !ICALCOMPONENT_H */

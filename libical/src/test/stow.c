@@ -4,7 +4,6 @@
   CREATOR: eric 29 April 2000
   
   $Id$
-  $Locker$
     
  (C) COPYRIGHT 2000 Eric Busboom
  http://www.softwarestudio.org
@@ -46,6 +45,9 @@
 char* program_name;
 #define TMPSIZE 2048
 #define SENDMAIL "/usr/lib/sendmail -t"
+
+void usage(char *message);
+
 
 enum options {
     STORE_IN_FILE,
@@ -113,7 +115,7 @@ enum file_type test_file(char *path)
     return type;
 }
 
-char* lowercase(char* str)
+char* lowercase(const char* str)
 {
     char* p = 0;
     char* new = strdup(str);
@@ -152,11 +154,6 @@ char* get_local_attendee(struct options_struct *opt)
 }
 #endif
 
-void usage(char *message)
-{
-    fprintf(stderr,"Usage: %s [-emdcn] [-i inputfile] [-o outputfile] [-u calid]\n",program_name);
-
-}
 
 icalcomponent* get_first_real_component(icalcomponent *comp)
 {
@@ -178,8 +175,9 @@ icalcomponent* get_first_real_component(icalcomponent *comp)
 
 
 
-char* make_mime(char* to, char* from, char* subject, 
-		char* text_message, char* method, char* ical_message)
+char* make_mime(char* to, const char* from, const char* subject, 
+		const char* text_message, const char* method, 
+		const char* ical_message)
 {
     size_t size = strlen(to)+strlen(from)+strlen(subject)+
 	strlen(text_message)+ strlen(ical_message)+TMPSIZE;
@@ -226,8 +224,8 @@ Content-Type:  multipart/mixed; boundary=\"%s\"\n\
 \n\
  This is a multimedia message in MIME format\n\
 \n\
---%s
-%s
+--%s\n\
+%s\n\
 ",
 	    to,from,subject,content_id,boundary,boundary,
 	    mime_part_1);
@@ -251,7 +249,7 @@ void return_failure(icalcomponent* comp,  char* message,
     icalcomponent  *inner = get_first_real_component(comp);
 
     icalproperty *organizer_prop = icalcomponent_get_first_property(inner,ICAL_ORGANIZER_PROPERTY);
-    char *organizer = icalproperty_get_organizer(organizer_prop);
+    const char *organizer = icalproperty_get_organizer(organizer_prop);
 
     organizer += 7;
 
@@ -347,7 +345,7 @@ icalcomponent* make_reply(icalcomponent *comp, icalproperty *return_status,
 }
 
 int check_attendee(icalproperty *p,  struct options_struct *opt){  
-    char* s = icalproperty_get_attendee(p);
+    const char* s = icalproperty_get_attendee(p);
     char* lower_attendee = lowercase(s);
     char* local_attendee = opt->calid;
     
@@ -478,6 +476,21 @@ char* check_component(icalcomponent* comp,  icalproperty **return_status,
     } while(0);
 
     return component_error_str;
+}
+
+
+void usage(char *message)
+{
+    fprintf(stderr,"Usage: %s [-emdcn] [-i inputfile] [-o outputfile] [-u calid]\n",program_name);
+    fprintf(stderr,"-e\tInput data is encapsulated in a MIME Message \n\
+-m\tInput is raw iCal \n\
+-i\tSpecify input file. Otherwise, input comed from stdin\n\
+-o\tSpecify file to save incoming message to\n\
+-d\tSpecify database to send data to\n\
+-u\tSet the calid to store the data to\n\
+-n\tSend errors to stdout instead of organizer\n\
+");
+
 }
 
 

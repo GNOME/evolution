@@ -6,7 +6,6 @@
   DESCRIPTION:
   
   $Id$
-  $Locker$
 
   (C) COPYRIGHT 1999 Eric Busboom 
   http://www.softwarestudio.org
@@ -162,11 +161,9 @@ void test_fileset()
     cout = icalfileset_new(OUTPUT_FILE);
     assert(cout != 0);
     
-    for (itr = icalfileset_get_first_component(cout,
-                                               ICAL_ANY_COMPONENT);
+    for (itr = icalfileset_get_first_component(cout);
          itr != 0;
-         itr = icalfileset_get_next_component(cout,
-                                              ICAL_ANY_COMPONENT)){ 
+         itr = icalfileset_get_next_component(cout)){
 
       icalcomponent *event;
       icalproperty *dtstart, *dtend;
@@ -190,11 +187,9 @@ void test_fileset()
     cout = icalfileset_new(OUTPUT_FILE);
     assert(cout != 0);
     
-    for (itr = icalfileset_get_first_component(cout,
-                                               ICAL_ANY_COMPONENT);
+    for (itr = icalfileset_get_first_component(cout);
          itr != 0;
-         itr = icalfileset_get_next_component(cout,
-                                              ICAL_ANY_COMPONENT)){ 
+         itr = icalfileset_get_next_component(cout)){
 
 
       icalfileset_remove_component(cout, itr);
@@ -209,11 +204,9 @@ void test_fileset()
     assert(cout != 0);
     count =0;
     
-    for (itr = icalfileset_get_first_component(cout,
-                                               ICAL_ANY_COMPONENT);
+    for (itr = icalfileset_get_first_component(cout);
          itr != 0;
-         itr = icalfileset_get_next_component(cout,
-                                              ICAL_ANY_COMPONENT)){ 
+         itr = icalfileset_get_next_component(cout)){
 
       icalcomponent *event;
       icalproperty *dtstart, *dtend;
@@ -269,11 +262,9 @@ int test_dirset()
 	rtime.end = rtime.start;
 	rtime.end.hour++;
 	
-	for (itr = icalfileset_get_first_component(cluster,
-						   ICAL_ANY_COMPONENT);
+	for (itr = icalfileset_get_first_component(cluster);
 	     itr != 0;
-	     itr = icalfileset_get_next_component(cluster,
-						  ICAL_ANY_COMPONENT)){
+	     itr = icalfileset_get_next_component(cluster)){
 	    icalcomponent *clone, *inner;
 	    icalproperty *p;
 
@@ -370,9 +361,9 @@ int test_dirset()
 #endif
 
 
-    for(c = icaldirset_get_first_component(s,ICAL_ANY_COMPONENT); 
+    for(c = icaldirset_get_first_component(s); 
 	c != 0; 
-	c = icaldirset_get_next_component(s,ICAL_ANY_COMPONENT)){
+	c = icaldirset_get_next_component(s)){
 
 	if (c != 0){
 	    printf("%s", icalcomponent_as_ical_string(c));;
@@ -395,6 +386,7 @@ int test_dirset()
     return 0;
 }
 
+#if 0
 void test_calendar()
 {
     icalcomponent *comp;
@@ -439,6 +431,7 @@ void test_calendar()
     icalcalendar_free(calendar);
 
 }
+#endif
 
 
 int main(int argc, char *argv[])

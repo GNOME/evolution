@@ -4,7 +4,6 @@
   CREATOR: eric 15 January 2000
   
   $Id$
-  $Locker$
     
  (C) COPYRIGHT 2000 Eric Busboom
  http://www.softwarestudio.org
@@ -27,6 +26,7 @@
 
 #include <stdio.h> /* for printf */
 #include "ical.h"
+#include "icalss.h"
 #include "icalfileset.h"
 #include <errno.h>
 #include <string.h> /* For strerror */
@@ -72,11 +72,9 @@ int main(int c, char *argv[]){
     }
 
 
-    for (itr = icalfileset_get_first_component(clusterin,
-					       ICAL_ANY_COMPONENT);
+    for (itr = icalset_get_first_component(clusterin);
 	 itr != 0;
-	 itr = icalfileset_get_next_component(clusterin,
-					      ICAL_ANY_COMPONENT)){
+	 itr = icalset_get_next_component(clusterin)){
 
 	icalrestriction_check(itr);
 
@@ -108,6 +106,7 @@ int main(int c, char *argv[]){
 	icalfileset_free(clusterout);
     }
 
-    return 0;
+     return 0;
 }
+
 

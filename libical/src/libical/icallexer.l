@@ -6,8 +6,7 @@
   
   DESCRIPTION:
   
-  $Id: icallexer.l,v 1.4 2000/06/06 22:48:09 alves Exp $
-  $Locker:  $
+  $Id: icallexer.l,v 1.5 2000/12/11 23:01:19 federico Exp $
 
   (C) COPYRIGHT 1999 Eric Busboom 
   http://www.softwarestudio.org
@@ -28,16 +27,16 @@
 
 
   ======================================================================*/
-#include "icalyacc.h"
 #include "icalparser.h"
 #include "icalenums.h"
 #include "icalmemory.h"
 #include "assert.h"
+#include "icalyacc.h"
 
 #include <string.h> /* For strdup() */
 
 int icalparser_flex_input(char* buf, int max_size);
-void icalparser_clear_flex_input();
+void icalparser_clear_flex_input(void);
 
 
 #define ICAL_MAX_STR_CONST 1024
@@ -47,15 +46,15 @@ void icalparser_clear_flex_input();
 #undef yywrap
 
 #undef YY_FATAL_ERROR
-#define YY_FATAL_ERROR(msg) yyerror(msg)
+#define YY_FATAL_ERROR(msg) ical_yyerror(msg)
 
 icalvalue_kind value_kind=ICAL_NO_VALUE;
-void set_parser_value_state();
+void set_parser_value_state(icalvalue_kind kind);
 extern int yydebug; 
 
-void yyerror(char *s);
+void ical_yyerror(char *s);
 
-void init_str_buf();
+void init_str_buf(void);
 
 int last_state;
 
@@ -63,6 +62,11 @@ char *str_buf;
 char *str_buf_p;
 size_t buf_sz; /* = ICAL_MAX_STR_CONST;*/
 
+/* Define routines that were not propertly defined because of the
+renaming hack applied in icalyacc.y */
+YY_BUFFER_STATE ical_yy_scan_buffer ( char *base, yy_size_t size );
+YY_BUFFER_STATE ical_yy_scan_string ( yyconst char *yy_str );
+YY_BUFFER_STATE ical_yy_scan_bytes ( yyconst char *bytes, int len );
 
 %}
 
@@ -96,7 +100,7 @@ digit		[0-9]
 
 
 <binary_value>{
-.*			 { yylval.v_string= icalmemory_tmp_copy(yytext);  
+.*			 { ical_yylval.v_string= icalmemory_tmp_copy(yytext);  
 			   return STRING;}
 {crlf}                { return EOL;}
 
@@ -109,7 +113,7 @@ digit		[0-9]
 }
 
 <uri_value>{
-.*			 { yylval.v_string= icalmemory_tmp_copy(yytext);  
+.*			 { ical_yylval.v_string= icalmemory_tmp_copy(yytext);  
 			   return STRING;}
 {crlf}                   { return EOL;}
 
@@ -117,7 +121,7 @@ digit		[0-9]
 
 
 <time_value>{
-{digit}*		 { yylval.v_string= icalmemory_tmp_copy(yytext);
+{digit}*		 { ical_yylval.v_string= icalmemory_tmp_copy(yytext);
                            return DIGITS; }
 T			 { return TIME_CHAR; }
 Z			 { return UTC_CHAR; }
@@ -127,7 +131,7 @@ Z			 { return UTC_CHAR; }
 }
 
 <duration_value>{
-{digit}+		 { yylval.v_string =icalmemory_tmp_copy(yytext); 
+{digit}+		 { ical_yylval.v_string =icalmemory_tmp_copy(yytext); 
                            return DIGITS; }
 T			 { return TIME_CHAR; }
 [\+\-PTWHMSD]		 { return yytext[0]; }
@@ -136,14 +140,14 @@ T			 { return TIME_CHAR; }
 }
 
 <number_value>{
-[\+\-\.0-9]+		 {  yylval.v_int=atoi(yytext); return INTNUMBER; }
+[\+\-\.0-9]+		 {  ical_yylval.v_int=atoi(yytext); return INTNUMBER; }
 {crlf}                   { return EOL;}
 .			 { return CHARACTER; }
 
 }
 
 <period_value>{
-{digit}+		 { yylval.v_string =icalmemory_tmp_copy(yytext) ;
+{digit}+		 { ical_yylval.v_string =icalmemory_tmp_copy(yytext) ;
                            return DIGITS; }
 T			 { return TIME_CHAR; }
 Z			 { return UTC_CHAR; }
@@ -184,7 +188,8 @@ FR                       { return FR; }
 =                        { return EQUALS; }
 ,                        { return COMMA; }
 ;                        { return SEMICOLON; }
-[\-\+0-9]+		 { yylval.v_string= icalmemory_tmp_copy(yytext);
+-                        { return MINUS; }
+[\+0-9]+		 { ical_yylval.v_string= icalmemory_tmp_copy(yytext);
                            return DIGITS; }
 T			 { return TIME_CHAR; }
 Z			 { return UTC_CHAR; }
@@ -194,7 +199,7 @@ Z			 { return UTC_CHAR; }
 <utcoffset_value>{
 {crlf}                   { return EOL;}
 \-|\+			 { return yytext[0]; }
-{digit}{digit}		 { yylval.v_int=atoi(yytext); return INTNUMBER; }
+{digit}{digit}		 { ical_yylval.v_int=atoi(yytext); return INTNUMBER; }
 
 }
 
@@ -275,7 +280,7 @@ void set_parser_value_state(icalvalue_kind kind)
     }
 }
 
-void init_str_buf()
+void init_str_buf(void)
 {
    str_buf = icalmemory_tmp_buffer(ICAL_MAX_STR_CONST);
    str_buf_p = str_buf;

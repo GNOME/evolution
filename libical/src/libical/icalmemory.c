@@ -4,8 +4,6 @@
   CREATOR: eric 30 June 1999
   
   $Id$
-
-  $Locker$
     
  The contents of this file are subject to the Mozilla Public License
  Version 1.0 (the "License"); you may not use this file except in
@@ -31,20 +29,6 @@
 
  The Original Code is icalmemory.h
 
- This program is free software; you can redistribute it and/or modify
- it under the terms of either: 
-
-    The LGPL as published by the Free Software Foundation, version
-    2.1, available at: http://www.fsf.org/copyleft/lesser.html
-
-  Or:
-
-    The Mozilla Public License Version 1.0. You may obtain a copy of
-    the License at http://www.mozilla.org/MPL/
-
- The Initial Developer of the Original Code is Eric Busboom
-
- (C) COPYRIGHT 2000, Eric Busboom, http://www.softwarestudio.org
  ======================================================================*/
 
 /* libical often passes strings back to the caller. To make these
@@ -73,10 +57,13 @@
 
 #include <stdio.h> /* for printf (debugging) */
 #include <stdlib.h> /* for malloc, realloc */
-#include <string.h> /* for memset() */
+#include <string.h> /* for memset(), strdup */
 
 #define BUFFER_RING_SIZE 25
 #define MIN_BUFFER_SIZE 200
+
+void icalmemory_free_tmp_buffer (void* buf);
+
 
 /* HACK. Not threadsafe */
 void* buffer_ring[BUFFER_RING_SIZE];
@@ -155,7 +142,7 @@ void icalmemory_free_ring()
 
 /* Like strdup, but the buffer is on the ring. */
 char*
-icalmemory_tmp_copy(char* str)
+icalmemory_tmp_copy(const char* str)
 {
     char* b = icalmemory_tmp_buffer(strlen(str)+1);
 
@@ -218,7 +205,7 @@ void icalmemory_free_buffer(void* buf)
 
 void 
 icalmemory_append_string(char** buf, char** pos, size_t* buf_size, 
-			      char* string)
+			      const char* string)
 {
     char *new_buf;
     char *new_pos;
