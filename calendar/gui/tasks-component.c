@@ -846,6 +846,7 @@ create_component_view (TasksComponent *tasks_component)
 	
 	/* Create sidebar selector */
 	component_view->source_selector = e_source_selector_new (tasks_component->priv->source_list);
+	e_source_selector_set_select_new (component_view->source_selector, TRUE);
 
 	g_signal_connect (component_view->source_selector, "drag-motion", G_CALLBACK (selector_tree_drag_motion), 
 			  tasks_component);

@@ -74,6 +74,8 @@ gboolean  e_source_selector_selection_shown  (ESourceSelector *selector);
 
 void     e_source_selector_set_toggle_selection(ESourceSelector *selector, gboolean state);
 
+void e_source_selector_set_select_new (ESourceSelector *selector, gboolean state);
+
 ESource *e_source_selector_peek_primary_selection  (ESourceSelector *selector);
 void     e_source_selector_set_primary_selection   (ESourceSelector *selector,
 						    ESource         *source);

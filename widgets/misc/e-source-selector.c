@@ -53,6 +53,7 @@ struct _ESourceSelectorPrivate {
 	gboolean toggled_last;
 	gboolean checkboxes_shown;
 	gboolean toggle_selection;
+	gboolean select_new;
 };
 
 typedef struct {
@@ -276,6 +277,10 @@ rebuild_model (ESourceSelector *selector)
 
 			row_ref = g_hash_table_lookup (rebuild_data->remaining_uids, e_source_peek_uid (source));
 			if (!row_ref) {
+				if (selector->priv->select_new) {
+					select_source (selector, source);
+					rebuild_data->selection_changed = TRUE;
+				}
 				gtk_tree_store_append (GTK_TREE_STORE (tree_store), &child_iter, &iter);
 				gtk_tree_store_set (GTK_TREE_STORE (tree_store), &child_iter, 0, source, -1);
 
@@ -726,6 +731,7 @@ init (ESourceSelector *selector)
 
 	priv->toggled_last = FALSE;
 	priv->checkboxes_shown = TRUE;
+	priv->select_new = FALSE;
 
 	priv->selected_sources = create_selected_sources_hash ();
 
@@ -891,7 +897,7 @@ e_source_selector_selection_shown (ESourceSelector *selector)
  * @selector: 
  * @state: 
  * 
- * Set the source selectr behaviour, whether you can toggle the
+ * Set the source selector behaviour, whether you can toggle the
  * current selection or not.
  **/
 void
@@ -900,6 +906,21 @@ e_source_selector_set_toggle_selection(ESourceSelector *selector, gboolean state
 	g_return_if_fail (E_IS_SOURCE_SELECTOR (selector));
 
 	selector->priv->toggle_selection = state;
+}
+
+/**
+ * e_source_selector_set_select_new:
+ * @selector: An ESourceSelector widget
+ * @state: A gboolean
+ *
+ * Set whether or not to select new sources added to @selector.
+ **/
+void
+e_source_selector_set_select_new (ESourceSelector *selector, gboolean state)
+{
+	g_return_if_fail (E_IS_SOURCE_SELECTOR (selector));
+
+	selector->priv->select_new = state;
 }
 
 /**

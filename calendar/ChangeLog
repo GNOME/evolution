@@ -1,3 +1,10 @@
+2004-06-24  Rodney Dawes  <dobey@novell.com>
+
+	* gui/calendar-component.c (create_component_view):
+	* gui/tasks-component.c (create_component_view):
+	Add a call to e_source_selector_set_select_new here so that we can
+	select new sources when we create them
+
 2004-06-23  Jeffrey Stedfast  <fejj@novell.com>
 
 	* conduits/todo/todo-conduit.c: Bump the version to 0.1.5 to help

@@ -1,3 +1,13 @@
+2004-06-24  Rodney Dawes  <dobey@novell.com>
+
+	* e-source-selector.[ch]: Add new "select_new" property to
+	private structure of the ESourceSelector
+	(rebuild_cb): Add code to select the new source, and cause the
+	selection_changed signal to get emitted, if we select new sources
+	(init): Don't select new sources by default
+	(e_source_selector_set_select_new): Add function to set whether or not
+	we want to select new sources when we add them
+
 2004-06-16  Not Zed  <NotZed@Ximian.com>
 
 	* e-source-selector.c (cell_toggled_callback): fix a path leak and
