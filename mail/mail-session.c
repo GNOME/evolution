@@ -741,7 +741,7 @@ register_timeout (CamelSession *session, guint32 interval, CamelTimeoutCallback 
 	MAIL_SESSION_UNLOCK(session, lock);
 
 	camel_object_ref((CamelObject *)ms);
-	mail_async_event_emit(ms->async, (CamelObjectEventHookFunc)main_register_timeout, (CamelObject *)session, (void *)ret, NULL);
+	mail_async_event_emit(ms->async, MAIL_ASYNC_GUI, (MailAsyncFunc)main_register_timeout, (CamelObject *)session, (void *)ret, NULL);
 
 	return ret;
 }
@@ -783,7 +783,8 @@ remove_timeout (CamelSession *session, guint handle)
 
 	if (remove) {
 		camel_object_ref((CamelObject *)ms);
-		mail_async_event_emit(ms->async, (CamelObjectEventHookFunc)main_remove_timeout, (CamelObject *)session, (void *)handle, NULL);
+		mail_async_event_emit(ms->async, MAIL_ASYNC_GUI,
+				      (MailAsyncFunc)main_remove_timeout, (CamelObject *)session, (void *)handle, NULL);
 	} else
 		g_warning("Removing a timeout i dont know about (or twice): %d", handle);
 

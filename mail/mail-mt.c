@@ -213,7 +213,7 @@ void mail_msg_free(void *msg)
 	g_free(m);
 
 	if (activity)
-		mail_async_event_emit(mail_async_event, destroy_objects, NULL, activity, NULL);
+		mail_async_event_emit(mail_async_event, MAIL_ASYNC_GUI, (MailAsyncFunc)destroy_objects, NULL, activity, NULL);
 }
 
 /* hash table of ops->dialogue of active errors */
@@ -566,8 +566,12 @@ static pthread_mutex_t status_lock = PTHREAD_MUTEX_INITIALIZER;
 struct _proxy_msg {
 	struct _mail_msg msg;
 	MailAsyncEvent *ea;
-	CamelObjectEventHookFunc func;
-	CamelObject *o;
+	mail_async_event_t type;
+
+	pthread_t thread;
+
+	MailAsyncFunc func;
+	void *o;
 	void *event_data;
 	void *data;
 };
@@ -577,12 +581,22 @@ do_async_event(struct _mail_msg *mm)
 {
 	struct _proxy_msg *m = (struct _proxy_msg *)mm;
 
+	m->thread = pthread_self();
 	m->func(m->o, m->event_data, m->data);
+	m->thread = ~0;
 
 	g_mutex_lock(m->ea->lock);
-	m->ea->tasks = g_slist_remove(m->ea->tasks, (void *)mm->seq);
+	m->ea->tasks = g_slist_remove(m->ea->tasks, m);
 	g_mutex_unlock(m->ea->lock);
+}
 
+static int
+idle_async_event(void *mm)
+{
+	do_async_event(mm);
+	mail_msg_free(mm);
+
+	return FALSE;
 }
 
 struct _mail_msg_op async_event_op = {
@@ -602,41 +616,56 @@ MailAsyncEvent *mail_async_event_new(void)
 	return ea;
 }
 
-int mail_async_event_emit(MailAsyncEvent *ea, CamelObjectEventHookFunc func, CamelObject *o, void *event_data, void *data)
+int mail_async_event_emit(MailAsyncEvent *ea, mail_async_event_t type, MailAsyncFunc func, void *o, void *event_data, void *data)
 {
 	struct _proxy_msg *m;
 	int id;
 	int ismain = pthread_self() == mail_gui_thread;
 
-	if (ismain) {
-		func(o, event_data, data);
-		/* id of -1 is 'always finished' */
-		return -1;
-	} else {
-		/* we dont have a reply port for this, we dont care when/if it gets executed, just queue it */
-		m = mail_msg_new(&async_event_op, NULL, sizeof(*m));
-		m->func = func;
-		m->o = o;
-		m->event_data = event_data;
-		m->data = data;
-		m->ea = ea;
+	/* we dont have a reply port for this, we dont care when/if it gets executed, just queue it */
+	m = mail_msg_new(&async_event_op, NULL, sizeof(*m));
+	m->func = func;
+	m->o = o;
+	m->event_data = event_data;
+	m->data = data;
+	m->ea = ea;
+	m->type = type;
+	m->thread = ~0;
+	
+	id = m->msg.seq;
+	g_mutex_lock(ea->lock);
+	ea->tasks = g_slist_prepend(ea->tasks, m);
+	g_mutex_unlock(ea->lock);
 
-		id = m->msg.seq;
-		g_mutex_lock(ea->lock);
-		ea->tasks = g_slist_prepend(ea->tasks, (void *)id);
-		g_mutex_unlock(ea->lock);
-		e_msgport_put(mail_gui_port, (EMsg *)m);
-		return id;
-	}
+	/* We use an idle function instead of our own message port only because the
+	   gui message ports's notification buffer might overflow and deadlock us */
+	if (type == MAIL_ASYNC_GUI) {
+		if (ismain)
+			g_idle_add(idle_async_event, m);
+		else
+			e_msgport_put(mail_gui_port, (EMsg *)m);
+	} else
+		e_thread_put(mail_thread_queued, (EMsg *)m);
+
+	return id;
 }
 
-void mail_async_event_destroy(MailAsyncEvent *ea)
+int mail_async_event_destroy(MailAsyncEvent *ea)
 {
 	int id;
+	pthread_t thread = pthread_self();
+	struct _proxy_msg *m;
 
 	g_mutex_lock(ea->lock);
 	while (ea->tasks) {
-		id = (int)ea->tasks->data;
+		m = ea->tasks->data;
+		id = m->msg.seq;
+		if (m->thread == thread) {
+			g_warning("Destroying async event from inside an event, returning EDEADLK");
+			g_mutex_unlock(ea->lock);
+			errno = EDEADLK;
+			return -1;
+		}
 		g_mutex_unlock(ea->lock);
 		mail_msg_wait(id);
 		g_mutex_lock(ea->lock);
@@ -645,6 +674,8 @@ void mail_async_event_destroy(MailAsyncEvent *ea)
 
 	g_mutex_free(ea->lock);
 	g_free(ea);
+
+	return 0;
 }
 
 /* ********************************************************************** */

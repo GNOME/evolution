@@ -820,7 +820,7 @@ static void folder_changed(CamelObject *o, void *event_data, void *data)
 {
 	FolderBrowser *fb = data;
 
-	mail_async_event_emit(fb->async_event, main_folder_changed, o, NULL, data);
+	mail_async_event_emit(fb->async_event, MAIL_ASYNC_GUI, (MailAsyncFunc)main_folder_changed, o, NULL, data);
 }
 
 static void

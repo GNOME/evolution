@@ -438,9 +438,12 @@ fbui_sensitise_item(FolderBrowser *fb, const char *item, int state)
 	}
 
 	g_hash_table_insert(fb->sensitise_state, (char *)item, (void *)state);
-	name = alloca(strlen(item) + strlen("/commands/") + 1);
-	sprintf(name, "/commands/%s", item);
-	bonobo_ui_component_set_prop(fb->uicomp, name, "sensitive", state?"1":"0", NULL);
+
+	if (fb->uicomp) {
+		name = alloca(strlen(item) + strlen("/commands/") + 1);
+		sprintf(name, "/commands/%s", item);
+		bonobo_ui_component_set_prop(fb->uicomp, name, "sensitive", state?"1":"0", NULL);
+	}
 }
 
 struct sensitize_data {
@@ -457,19 +460,15 @@ fbui_sensitize_timeout (gpointer data)
 	struct sensitize_data *sd;
 	int i;
 
-	if (uic) {
-		/*bonobo_ui_component_freeze (uic, NULL);*/
+	/*bonobo_ui_component_freeze (uic, NULL);*/
 
-		for (iter = fb->sensitize_changes; iter; iter = iter->next) {
-			sd = (struct sensitize_data *) iter->data;
-			for (i=0;sd->items[i];i++)
+	for (iter = fb->sensitize_changes; iter; iter = iter->next) {
+		sd = (struct sensitize_data *) iter->data;
+		for (i=0;sd->items[i];i++) {
+			if (fb->uicomp)
 				fbui_sensitise_item(fb, sd->items[i], sd->enable);
-			g_free(sd);
 		}
-
-		/*bonobo_ui_component_thaw (uic, NULL);*/
-	} else {
-		g_slist_foreach(fb->sensitize_changes, (GFunc)g_free, NULL);
+		g_free(sd);
 	}
 
 	g_slist_free (fb->sensitize_changes);

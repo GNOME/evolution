@@ -1881,7 +1881,7 @@ folder_changed (CamelObject *o, gpointer event_data, gpointer user_data)
 		changes = NULL;
 	}
 
-	mail_async_event_emit(ml->async_event, main_folder_changed, o, changes, user_data);
+	mail_async_event_emit(ml->async_event, MAIL_ASYNC_GUI, (MailAsyncFunc)main_folder_changed, o, changes, user_data);
 }
 
 static void
@@ -1893,7 +1893,7 @@ message_changed (CamelObject *o, gpointer event_data, gpointer user_data)
 	changes = camel_folder_change_info_new();
 	camel_folder_change_info_change_uid(changes, (char *)event_data);
 
-	mail_async_event_emit(ml->async_event, main_folder_changed, o, changes, user_data);
+	mail_async_event_emit(ml->async_event, MAIL_ASYNC_GUI, (MailAsyncFunc)main_folder_changed, o, changes, user_data);
 }
 
 void

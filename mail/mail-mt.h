@@ -75,12 +75,19 @@ typedef struct _MailAsyncEvent {
 	GSList *tasks;
 } MailAsyncEvent;
 
+typedef enum _mail_async_event_t {
+	MAIL_ASYNC_GUI,
+	MAIL_ASYNC_THREAD,
+} mail_async_event_t;
+
+typedef void (*MailAsyncFunc)(void *, void *, void *);
+
 /* create a new async event handler */
 MailAsyncEvent *mail_async_event_new(void);
 /* forward a camel event (or other call) to the gui thread */
-int mail_async_event_emit(MailAsyncEvent *ea, CamelObjectEventHookFunc func, CamelObject *o, void *event_data, void *data);
+int mail_async_event_emit(MailAsyncEvent *ea, mail_async_event_t type, MailAsyncFunc func, void *, void *, void *);
 /* wait for all outstanding async events to complete */
-void mail_async_event_destroy(MailAsyncEvent *ea);
+int mail_async_event_destroy(MailAsyncEvent *ea);
 
 /* Call a function in the gui thread, wait for it to return, type is the marshaller to use */
 typedef enum {

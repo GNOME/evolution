@@ -1,3 +1,90 @@
+2001-10-25    <NotZed@Ximian.com>
+
+	* folder-browser-ui.c (fbui_sensitize_timeout): So apparently the
+	uicomp can just 'vanish' while we're using it.  Joy.  Take care of
+	that case here, fixes #13482.
+	(fbui_sensitise_item): Check here too just for kicks.
+
+	* mail-folder-cache.c (store_finalised): If we can't destroy our
+	async event, then queue another one to do it.
+	(store_finalised_finish): And handle it here, until we can, then
+	free it.
+	(mail_note_store): Queue an async event to get folderinfo, dont
+	use mail_get_folderinfo.
+	(update_folders_get): thread-async event to retrieve the
+	folderinfo, and build it, then queues gui-async event to update
+	the gui.
+	(add_unmatched_info): Taken from mail-ops, adds unmatched if
+	required.
+	(add_vtrash_info): From mail-ops, add trash if required.
+	(update_folders): Thread async event to update gui.
+	(mail_note_store): Ref the store and storage when created.
+	(update_1folder): Changed to assume we have info_lock, and store
+	updates in an updates list.
+	(setup_folder): Same.
+	(folder_changed): Changed to call update_1folder directly.
+	(real_folder_changed): Removed.
+	(mail_note_folder): Changed to call update_1folder directly.
+	(real_note_folder): Removed.
+	(store_folder_subscribed): Call setup_folder directly.
+	(real_folder_created): Removed.
+	(real_flush_update): Function that actually does the updates in
+	the gui thread.
+	(mail_note_store): Go back to using mail_get_folderinfo.
+	(update_folders): Fixed upf ro changed api's.
+	(unset_folder_info): Changed to queue pending updates.
+	(real_folder_deleted): Removed.
+	(store_folder_unsubscribed): Do the removal work directly.
+	(mail_note_store): Dont link to finalised event of store - we now
+	ref it.
+	(mail_note_store_remove): If we have any pending updates, clear
+	them out.  Also cancel any pending folderinfo retrieve operations.
+	(update_folders): Remove our update from the storeinfo list, if it
+	still exists.
+	(update_1folder): Make 'sent folder shows all counts' optional via
+	an environmental variable EVOLUTION_COUNT_SENT for all those
+	bloody whinging lusers out there.
+	(mail_note_store_remove): Unref the storage when done.
+
+	* mail-mt.c (mail_async_event_emit): If we're in main and have a
+	gui task, set it to run via an idle function.
+	(idle_async_event): Wrapper for calling do_async_event from idle
+	function, and freeing the message when done.
+	(idle_async_event): Call mail_msg_free not free on the finished
+	message.
+
+	* component-factory.c (mail_remove_storage): Destroy the storage
+	async.
+	(store_disconnect): This does the work.
+	(free_storage): Un-note the store when we remove it, so the store
+	noting code can unref things properly.
+	(idle_quit): Return false when done, dont loop.
+
+2001-10-24    <NotZed@Ximian.com>
+
+	* component-factory.c (owner_set_cb): Setup an async_event
+	handler.
+	(idle_quit): Try to destroy the async_event, or keep dropping out
+	if it can't (deadlock).
+
+	* mail-mt.c (do_async_event): Set the threadid of the thread we're
+	running in so we know its running/which thread its in.
+	(mail_async_event_emit): Added new argument 'type' which is the
+	type of thread to execute against, gui or another one.  Fixed all
+	callers.
+	(mail_async_event_destroy): Return -1 if this operation will fail
+	(deadlock possibility).  If we're in the thread of the task
+	we're going to wait for, then return a failure (since we will
+	deadlock).
+	(mail_async_event_emit): Chagned to use MailAsyncFunc type as the
+	function type, which just takes 3 void args, change args to suit.
+
+	* mail-folder-cache.c (mail_note_store): Record the pending update
+	events in a pending list.  We should really be able to use an
+	async event for this, but that doesn't return to the gui loop when
+	done :-/
+	(update_folders): Remove from pending update when done.
+
 2001-10-25  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-send-recv.c (get_receive_type): Check for a NULL provider.

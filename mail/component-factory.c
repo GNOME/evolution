@@ -66,6 +66,8 @@ EvolutionShellClient *global_shell_client = NULL;
 
 RuleContext *search_context = NULL;
 
+static MailAsyncEvent *async_event = NULL;
+
 static GHashTable *storages_hash;
 static EvolutionShellComponent *shell_component;
 
@@ -697,6 +699,8 @@ owner_set_cb (EvolutionShellComponent *shell_component,
 	evolution_dir = g_strdup (evolution_homedir);
 	mail_session_init ();
 
+	async_event = mail_async_event_new();
+
 	storages_hash = g_hash_table_new (NULL, NULL);
 	
 	corba_shell = bonobo_object_corba_objref (BONOBO_OBJECT (shell_client));
@@ -755,6 +759,7 @@ static void
 free_storage (gpointer service, gpointer storage, gpointer data)
 {
 	if (service) {
+		mail_note_store_remove((CamelStore *)service);
 		camel_service_disconnect (CAMEL_SERVICE (service), TRUE, NULL);
 		camel_object_unref (CAMEL_OBJECT (service));
 	}
@@ -830,14 +835,18 @@ idle_quit (gpointer user_data)
 			return TRUE;
 		}
 
+		if (mail_async_event_destroy(async_event) == -1)
+			return TRUE;
+
 		shutdown_shutdown = TRUE;
 		g_hash_table_foreach (storages_hash, free_storage, NULL);
 		g_hash_table_destroy (storages_hash);
+		storages_hash = NULL;
 	}
 	
 	gtk_main_quit ();
-	
-	return TRUE;
+
+	return FALSE;
 }	
 
 static void owner_unset_cb (EvolutionShellComponent *shell_component, gpointer user_data);
@@ -1230,6 +1239,13 @@ mail_lookup_storage (CamelStore *store)
 	return storage;
 }
 
+static void
+store_disconnect(CamelStore *store, void *event_data, void *data)
+{
+	camel_service_disconnect (CAMEL_SERVICE (store), TRUE, NULL);
+	camel_object_unref (CAMEL_OBJECT (store));
+}
+
 void
 mail_remove_storage (CamelStore *store)
 {
@@ -1254,9 +1270,8 @@ mail_remove_storage (CamelStore *store)
 	corba_shell = bonobo_object_corba_objref (BONOBO_OBJECT (shell_client));
 	
 	evolution_storage_deregister_on_shell (storage, corba_shell);
-	
-	camel_service_disconnect (CAMEL_SERVICE (store), TRUE, NULL);
-	camel_object_unref (CAMEL_OBJECT (store));
+
+	mail_async_event_emit(async_event, MAIL_ASYNC_THREAD, (MailAsyncFunc)store_disconnect, store, NULL, NULL);
 }
 
 void
