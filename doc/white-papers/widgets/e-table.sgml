@@ -5,6 +5,7 @@
 <!entity ETableSimple "<classname>ETableSimple</classname>">
 <!entity ETableHeader "<classname>ETableHeader</classname>">
 <!entity ETableSpecification "<classname>ETableSpecification</classname>">
+<!entity ETableCol "<classname>ETableCol</classname>">
 ]>
 
 <article class="whitepaper" id="e-table">
@@ -54,7 +55,7 @@
       table.  Without any work from the programmer, &ETable; provides
       rearrangeable columns and editable data.  When finished, &ETable; will
       also provide, again with no programmer intervention, easy interactive
-      sorting and grouping.
+      sorting and grouping.  
     </para>
 
     <para>
@@ -64,19 +65,49 @@
       However, once you learn it, &ETable; is not very hard at all to
       use.
     </para>
+
+    <para>
+      &ETable;'s power comes from the fact that it is fully
+      model/view/controller based.  Various models are involved into
+      the process of rendering the information, and various views are
+      provided.  The programmer has a wide range of options: from the
+      most finely hand-tuned table to a generic all-encompasing widget
+      that takes over most of tasks.  It is up to the programmer: he
+      can use the simple to use &ETable; widget that takes care of
+      everything in a generic way, or he can use the various
+      components to roll his own tabular display.
+    </para>
+
+    <para>
+      &ETable; ships with a standard set of information renderers:
+      strings, bitmaps, toggle-buttons, check-boxes, and multi-line
+      strings.  But the programmer can write and implement his own
+      renderer for his information.  This means that by default
+      &ETable; provides the basic display facilities that programmers
+      required, but they offer the programmer a complete freedom to
+      incorporate new cell renderers.
+    </para>
+    
   </sect1>
 
   <sect1 id="model">
     <title>ETableModel</title>
 
     <para>
-      The back end of &ETable; is an &ETableModel;. To use &ETable;
-      you have to create a subclass of &ETableModel;. However, to save
-      you the work of defining a new <classname>GtkClass</classname>,
-      there is a predefined subclass of &ETableModel; called
-      &ETableSimple; which simply takes a list of callbacks to perform
-      the various operations.
+      The data back end for the &ETable; is an &ETableModel;. The
+      &ETableModel is an abstract interface that acts as the
+      information repository for the various &ETable components.
     </para>
+    
+    <para>
+      To use &ETable; you have to create a subclass of the abstract
+      &ETableModel; class.  However, to save you the work of defining
+      a new <classname>GtkClass</classname> every time you use
+      &ETable, there is a predefined subclass of &ETableModel; called
+      &ETableSimple; which simply takes a list of function callbacks
+      to perform the various operations.
+    </para>
+
   </sect1>
     
   <sect1 id="columns">
@@ -84,17 +115,26 @@
 
     <para>
       There are two different meanings to the word "column". The first
-      is the model column. A model column corresponds to a specific
-      type of data. This is very much like the usage in a database
-      table where a column is a field in the database.
+      is the model column (defined by the &ETableCol: object). A model
+      column describes how it maps to the column in the &ETableModel;
+      as well as containing information about its properties (name,
+      resizability, resize dimensions, and a renderer for this
+      specific columns). 
     </para>
 
     <para>
-      The second type of column is a view column. A view column
-      corresponds to a visually-displayed column. Each view column
-      corresponds to a specific model column, though a model column
-      may have any number of view columns associated with it
-      (including zero).
+      &ETable; distinguishes between a model column index, and a view
+      column index.  The former reflects the column in which the data
+      is stored in the &ETableModel;  The later represents the actual
+      location at which the column is being displayed in the screen.
+    </para>
+
+    <para>
+      Each view column index corresponds to a specific model column,
+      though a model column may have any number of view columns
+      associated with it (including zero).  For example the same
+      column might be rendered twice, or the data from one column
+      could be used to display different bits of information
     </para>
 
     <para>
