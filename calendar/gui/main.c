@@ -1128,10 +1128,11 @@ GList *calendar_get_events_in_range (CalClient *calc,
 
 	for (l = uids; l; l = l->next){
 		CalObjFindStatus status;
-		char *obj_string = cal_client_get_object (calc, l->data);
-		/*iCalObject *obj = string_to_ical_object (obj_string);*/
+		CalObjInstance *coi = l->data;
+		char *uid = coi->uid;
+		char *obj_string = cal_client_get_object (calc, uid);
 		iCalObject *ico;
-		char *uid = l->data;
+
 
 		status = ical_object_find_in_string (uid, obj_string, &ico);
 		switch (status){
