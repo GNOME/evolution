@@ -1,3 +1,18 @@
+2000-05-25  Federico Mena Quintero  <federico@helixcode.com>
+
+	* gui/main.c (init_bonobo): Do not initialize libglade twice.
+
+	* gui/component-factory.c (create_view): Set the folder_uri
+	property, otherwise the calendar will not get loaded into the
+	view.
+
+2000-05-24  Federico Mena Quintero  <federico@helixcode.com>
+
+	* gui/print.c (range_selector_new): New function to create the
+	custom range selector.
+	(print_dialog): New function to show the print dialog.
+	(print_calendar): Use the print dialog.
+
 2000-05-25  Christopher James Lahey  <clahey@helixcode.com>
 
 	* gui/main.c: Make it so that warnings don't crash calendar.

@@ -42,6 +42,8 @@
 #include <gui/eventedit.h>
 #include <gui/gnome-cal.h>
 #include <gui/calendar-commands.h>
+#include "component-factory.h"
+#include "control-factory.h"
 
 
 static void
@@ -65,8 +67,6 @@ init_bonobo (int *argc, char **argv)
 
 	if (bonobo_init (CORBA_OBJECT_NIL, CORBA_OBJECT_NIL, CORBA_OBJECT_NIL) == FALSE)
 		g_error (_("Could not initialize Bonobo"));
-
-	glade_gnome_init ();
 }
 
 

@@ -26,10 +26,9 @@
 #endif
 
 #include <bonobo.h>
-
 #include "evolution-shell-component.h"
-
 #include "component-factory.h"
+#include "control-factory.h"
 
 
 #ifdef USING_OAF
@@ -53,9 +52,12 @@ create_view (EvolutionShellComponent *shell_component,
 	     const char *physical_uri,
 	     void *closure)
 {
-	/* FIXME: The calendar has no way to specify the physical URI.  */
+	BonoboControl *control;
 
-	return control_factory_new_control ();
+	control = control_factory_new_control ();
+	bonobo_control_set_property (control, "folder_uri", physical_uri, NULL);
+
+	return control;
 }
 
 static void

@@ -30,6 +30,7 @@
 #include <libgnomeprint/gnome-print-preview.h>
 #include <libgnomeprint/gnome-printer-profile.h>
 #include <libgnomeprint/gnome-printer-dialog.h>
+#include <e-util/e-dialog-widgets.h>
 #include <cal-util/timeutil.h>
 #include "calendar-commands.h"
 #include "gnome-cal.h"
@@ -988,18 +989,174 @@ print_context (int preview, char *paper)
 
 #endif
 
+/* Value for the PrintView enum */
+static const int print_view_map[] = {
+	PRINT_VIEW_DAY,
+	PRINT_VIEW_WEEK,
+	PRINT_VIEW_MONTH,
+	PRINT_VIEW_YEAR,
+	-1
+};
 
-typedef enum printview {
-	VIEW_DAY=0,
-	VIEW_WEEK,
-	VIEW_MONTH,
-	VIEW_YEAR
-} printview_t;
+/* Creates the range selector widget for printing a calendar */
+static GtkWidget *
+range_selector_new (GtkWidget *dialog, time_t at, int *view)
+{
+	GtkWidget *box;
+	GtkWidge *radio;
+	GSList *group;
+	char text[1024];
+	struct tm tm;
+	time_t week_begin, week_end;
+	struct tm week_begin_tm, week_end_tm;
+
+	box = gtk_vbox_new (FALSE, GNOME_PAD_SMALL);
+
+	tm = *localtime (&at);
+
+	/* Day */
+
+	strftime (text, sizeof (text), _("Current day (%a %b %d %Y)"), &tm);
+	radio = gtk_radio_button_new_with_label (NULL, text);
+	group = gtk_radio_button_group (GTK_RADIO_BUTTON (radio));
+	gtk_box_pack_start (GTK_BOX (box), radio, FALSE, FALSE, 0);
+
+	/* Week */
+
+	week_begin = time_week_begin (at);
+	week_end = time_add_day (time_time_week_end (at), -1);
+
+	week_begin_tm = *localtime (&week_begin);
+	week_end_tm = *localtime (&week_end);
+
+	/* FIXME: how to make this localization-friendly? */
+
+	if (week_begin_tm.tm_mon == week_end_tm.tm_mon) {
+		char month[128];
+		char day1[128];
+		char day2[128];
+
+		strftime (month, sizeof (month), _("%a"), &week_begin_tm);
+		strftime (day1, sizeof (day1), _("%b"), &week_begin_tm);
+		strftime (day2, sizeof (day2), _("%b"), &week_end_tm);
+
+		g_snprintf (text, sizeof (text), _("Current week (%s %s %d - %s %d %d)"),
+			    day1, month, week_begin_tm.tm_mday,
+			    day2, week_end_tm.tm_mday,
+			    week_begin_tm.tm_year + 1900);
+	} else {
+		char month1[128];
+		char month2[128];
+		char day1[128];
+		char day2[128];
+
+		strftime (month1, sizeof (month1), _("%a"), &week_begin_tm);
+		strftime (month2, sizeof (month2), _("%a"), &week_end_tm);
+		strftime (day1, sizeof (day1), _("%b"), &week_begin_tm);
+		strftime (day2, sizeof (day2), _("%b"), &week_end_tm);
+
+		if (week_begin_tm.tm_year == week_end_tm.tm_year)
+			g_snprintf (text, sizeof (text),
+				    _("Current week (%s %s %d - %s %s %d %d)"),
+				    day1, month1, week_begin_tm.tm_mday,
+				    day2, month2, week_end_tm.tm_mday,
+				    week_begin_tm.tm_year + 1900);
+		else
+			g_snprintf (text, sizeof (text),
+				    _("Current week (%s %s %d %d - %s %s %d %d)"),
+				    day1, month1, week_begin_tm.tm_mday,
+				    week_begin_tm.tm_year + 1900,
+				    day2, month2, week_end_tm.tm_mday,
+				    week_end_tm.tm_year + 1900);
+	}
+
+	radio = gtk_radio_button_new_with_label (group, text);
+	gtk_box_pack_start (GTK_BOX (box), radio, FALSE, FALSE, 0);
+
+	/* Month */
+
+	strftime (text, sizeof (text), _("Current month (%a %Y)"), &tm);
+	radio = gtk_radio_button_new_with_label (group, text);
+	gtk_box_pack_start (GTK_BOX (box), radio, FALSE, FALSE, 0);
+
+	/* Year */
+
+	strftime (text, sizeof (text), _("Current year (%Y)"), &tm);
+	radio = gtk_radio_button_new_with_label (group, text);
+	gtk_box_pack_start (GTK_BOX (box), radio, FALSE, FALSE, 0);
+
+	/* Select default */
+
+	e_dialog_widget_hook_value (dialog, radio, view, print_view_map);
+}
+
+/* Shows the print dialog.  The new values are returned in the at and view
+ * variables.
+ */
+static enum GnomePrintButtons
+print_dialog (GnomeCalendar *gcal, time_t *at, PrintView *view, GnomePrinter **printer)
+{
+	GnomePrintDialog *pd;
+	GtkWidget *range;
+	int int_view;
+	enum GnomePrintButtons retval;
+
+	pd = gnome_print_dialog_new (_("Print Calendar"),
+				     GNOME_PRINT_DIALOG_RANGE | GNOME_PRINT_DIALOG_COPIES);
+
+	int_view = *view;
+
+	range = range_selector_new (GTK_WIDGET (pd), *at, &int_view);
+	gnome_print_dialog_construct_range_custom (pd, range);
+
+	gnome_dialog_set_default (GNOME_DIALOG (pd), GNOME_PRINT_PRINT);
+
+	/* Run! */
+
+	retval = gnome_dialog_run (GNOME_DIALOG (pd));
+
+	switch (retval) {
+	case GNOME_PRINT_PRINT:
+	case GNOME_PRINT_PREVIEW:
+		e_dialog_get_values (GTK_WIDGET (pd));
+		*view = int_view;
+
+		*printer = gnome_print_dialog_get_printer (pd);
+		break;
+
+	default:
+		retval = GNOME_PRINT_CANCEL;
+		break;
+	}
+
+	gnome_dialog_close (GNOME_DIALOG (pd));
+	return retval;
+}
 
 void
-print_calendar (GnomeCalendar *gcal, time_t at, printview_t view, int todos)
+print_calendar (GnomeCalendar *gcal, time_t at, PrintView default_view)
 {
+	GnomePrinter *printer;
+	GnomePrintMaster *gpm;
 	GnomePrintContext *pc;
+
+	switch (print_dialog (gcal, &at, &default_view, &printer)) {
+	case GNOME_PRINT_PRINT:
+		break;
+
+	case GNOME_PRINT_PREVIEW:
+		/* FIXME */
+		break;
+
+	default:
+		return;
+	}
+
+	g_assert (printer != NULL);
+
+	gpm = gnome_print_master_new ();
+	gnome_print_master_set_printer (gpm, printer);
+
 	const GnomePaper *paper_info;
 	double l, r, t, b, todo, header;
 	char buf[100];
@@ -1011,17 +1168,13 @@ print_calendar (GnomeCalendar *gcal, time_t at, printview_t view, int todos)
 	paper_info = gnome_paper_with_name (paper);
 	gnome_print_master_set_paper (gpm, paper_info);
 
-#if 0
-	show_print_dialogue ();
-#endif
-
 	l = gnome_paper_lmargin (paper_info);
 	r = gnome_paper_pswidth (paper_info) - gnome_paper_rmargin (paper_info);
 	t = gnome_paper_psheight (paper_info) - gnome_paper_tmargin (paper_info);
 	b = gnome_paper_bmargin (paper_info);
 
 	/* depending on the view, do a different output */
-	switch (view) {
+	switch (default_view) {
 	case VIEW_DAY: {
 		int i, days = 1;
 
@@ -1121,8 +1274,7 @@ print_calendar (GnomeCalendar *gcal, time_t at, printview_t view, int todos)
 		break;
 
 	default:
-		g_warning("cannot print unknown calendar view\n");
-		break;
+		g_assert_not_reached ();
 	}
 
 	gnome_print_master_close (gpm);

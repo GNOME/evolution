@@ -20,3 +20,22 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
  */
 
+#ifndef PRINT_H
+#define PRINT_H
+
+#include "gnome-cal.h"
+
+
+
+typedef enum {
+	PRINT_VIEW_DAY,
+	PRINT_VIEW_WEEK,
+	PRINT_VIEW_MONTH,
+	PRINT_VIEW_YEAR
+} PrintView;
+
+void print_calendar (GnomeCalendar *gcal, time_t at, printview_t default_view);
+
+
+
+#endif
