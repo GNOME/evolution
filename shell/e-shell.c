@@ -969,7 +969,9 @@ e_shell_construct (EShell *shell,
 	}
 	
 	if (e_shell_startup_wizard_create () == FALSE) {
-		/* FIXME: Need to kill all components somehow */
+		e_shell_unregister_all (shell);
+		bonobo_object_unref (BONOBO_OBJECT (shell));
+
 		exit (0);
 	}
 	shortcut_path = g_concat_dir_and_file (local_directory, "shortcuts.xml");
