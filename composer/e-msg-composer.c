@@ -39,6 +39,7 @@
 #include <bonobo.h>
 #include <bonobo/bonobo-stream-memory.h>
 #include "e-util/e-html-utils.h"
+#include "e-util/e-setup.h"
 
 #include <glade/glade.h>
 
@@ -202,12 +203,73 @@ build_message (EMsgComposer *composer)
 	return new;
 }
 
+static char *
+get_signature ()
+{
+	char *path, *sigfile, *rawsig;
+	static char *htmlsig = NULL;
+	static time_t sigmodtime = -1;
+	struct stat st;
+	int fd;
+
+	path = g_strdup_printf ("=%s/config=/mail/id_sig", evolution_dir);
+	sigfile = gnome_config_get_string (path);
+	g_free (path);
+	if (!sigfile || !*sigfile) {
+		return NULL;
+	}
+
+	if (stat (sigfile, &st) == -1) {
+		char *msg;
+
+		msg = g_strdup_printf ("Could not open signature file %s:\n%s",
+				       sigfile, g_strerror (errno));
+		gnome_error_dialog (msg);
+		g_free (msg);
+
+		return NULL;
+	}
+
+	if (st.st_mtime == sigmodtime)
+		return htmlsig;
+
+	rawsig = g_malloc (st.st_size + 1);
+	fd = open (sigfile, O_RDONLY);
+	if (fd == -1) {
+		char *msg;
+
+		msg = g_strdup_printf ("Could not open signature file %s:\n%s",
+				       sigfile, g_strerror (errno));
+		gnome_error_dialog (msg);
+		g_free (msg);
+
+		return NULL;
+	}
+
+	read (fd, rawsig, st.st_size);
+	rawsig[st.st_size] = '\0';
+	close (fd);
+
+	htmlsig = e_text_to_html (rawsig, 0);
+	sigmodtime = st.st_mtime;
+
+	return htmlsig;
+}
+
 static void
 set_editor_text (BonoboWidget *editor, const char *text)
 {
 	Bonobo_PersistStream persist;
 	BonoboStream *stream;
 	CORBA_Environment ev;
+	char *sig, *fulltext;
+
+	sig = get_signature ();
+	if (sig) {
+		fulltext = g_strdup_printf ("%s<BR>\n<PRE>\n--\n%s<PRE>",
+					    text, sig);
+	} else
+		fulltext = (char*)text;
 
 	CORBA_exception_init (&ev);
 	persist = (Bonobo_PersistStream)
@@ -217,8 +279,10 @@ set_editor_text (BonoboWidget *editor, const char *text)
 			&ev);
 	g_assert (persist != CORBA_OBJECT_NIL);
 
-	stream = bonobo_stream_mem_create ((char *)text, strlen (text),
+	stream = bonobo_stream_mem_create (fulltext, strlen (fulltext),
 					   TRUE, FALSE);
+	if (sig)
+		g_free (fulltext);
 	Bonobo_PersistStream_load (persist, (Bonobo_Stream)bonobo_object_corba_objref (BONOBO_OBJECT (stream)), "text/html", &ev);
 	if (ev._major != CORBA_NO_EXCEPTION) {
 		/* FIXME. Some error message. */
@@ -677,6 +741,9 @@ e_msg_composer_new (void)
  
 	new = gtk_type_new (e_msg_composer_get_type ());
 	e_msg_composer_construct (E_MSG_COMPOSER (new));
+
+	/* Load the signature, if any. */
+	set_editor_text (BONOBO_WIDGET (E_MSG_COMPOSER (new)->editor), "");
 
 	return new;
 }

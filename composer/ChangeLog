@@ -4,6 +4,13 @@
 	PersistStream changes
 	(build_message): Update for CamelMultipart changes.
 
+	* e-msg-composer.c (get_signature): routine to read the user's
+	signature file.
+	(set_editor_text): If the user has configured a signature, append
+	it to the set text.
+	(e_msg_composer_new): Call set_editor_text with "" to load the
+	signature (if any).
+	
 2000-05-25  Not Zed  <NotZed@HelixCode.com>
 
 	* e-msg-composer.c (build_message): Use camel_data_wrapper_new
