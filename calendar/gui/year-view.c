@@ -136,23 +136,6 @@ gncal_year_view_new (GnomeCalendar *calendar, time_t date)
 	return GTK_WIDGET (yview);
 }
 
-void gncal_year_view_set (GncalYearView *yview, time_t date)
-{
-	int i;
-	char buff[10];
-	struct tm *tmptm;
-
-	tmptm = localtime(&date);
-	yview->year = tmptm->tm_year;
-
-	snprintf(buff, 10, "%d", yview->year + 1900);
-	gtk_label_set(GTK_LABEL(yview->year_label), buff);
-	
-	for (i = 0; i < 12; i++) {
-		gtk_calendar_select_month (GTK_CALENDAR(yview->calendar[i]), i, yview->year);
-	}
-}
-
 static void
 year_view_mark_day (iCalObject *ical, time_t start, time_t end, void *closure)
 {
@@ -174,6 +157,47 @@ year_view_mark_day (iCalObject *ical, time_t start, time_t end, void *closure)
 	}
 }
 
+static void
+gncal_year_view_set_year (GncalYearView *yview, int year)
+{
+	time_t year_begin, year_end;
+	char buff[20];
+	GList  *l;
+	int i;
+
+	if (!yview->gcal->cal)
+		return;
+	
+	snprintf(buff, 20, "%d", yview->year + 1900);
+	gtk_label_set(GTK_LABEL(yview->year_label), buff);
+	
+	for (i = 0; i < 12; i++) {
+		gtk_calendar_select_month (GTK_CALENDAR(yview->calendar[i]), i, yview->year);
+	}
+	
+	year_begin = time_year_begin (yview->year);
+	year_end   = time_year_end   (yview->year);
+	
+	l = calendar_get_events_in_range (yview->gcal->cal, year_begin, year_end);
+	for (; l; l = l->next){
+		CalendarObject *co = l->data;
+		
+		year_view_mark_day (co->ico, co->ev_start, co->ev_end, yview);
+	}
+	calendar_destroy_event_list (l);
+}
+
+void
+gncal_year_view_set (GncalYearView *yview, time_t date)
+{
+	struct tm *tmptm;
+
+	tmptm = localtime(&date);
+	yview->year = tmptm->tm_year;
+
+	gncal_year_view_set_year (yview, yview->year);
+}
+
 void
 gncal_year_view_update (GncalYearView *yview, iCalObject *ico, int flags)
 {
@@ -184,19 +208,7 @@ gncal_year_view_update (GncalYearView *yview, iCalObject *ico, int flags)
 	if ((flags & CHANGE_SUMMARY) == flags)
 		return;
 
-	if (flags & CHANGE_NEW){
-		time_t year_begin, year_end;
-		GList  *l, *nl;
-		
-		year_begin = time_year_begin (yview->year);
-		year_end   = time_year_end   (yview->year);
-		
-		l = g_list_append (NULL, ico);
-		nl = calendar_get_objects_in_range (l, year_begin, year_end, NULL);
-		if (nl){
-			ical_foreach (nl, year_view_mark_day, yview);
-			g_list_free (nl);
-		}
-		g_list_free (l);
-	}
+	printf ("MARCANDO!\n");
+	if (flags & CHANGE_NEW)
+		gncal_year_view_set_year (yview, yview->year);
 }

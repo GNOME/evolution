@@ -12,6 +12,8 @@
 #include "timeutil.h"
 #include "versit/vcc.h"
 
+static void ical_object_compute_end (iCalObject *ico);
+
 iCalObject *
 ical_object_new (void)
 {
@@ -35,7 +37,6 @@ default_alarm (iCalObject *ical, CalendarAlarm *alarm, char *def_mail, enum Alar
 		alarm->count   = 15;
 		alarm->units   = ALARM_MINUTES;
 	} else {
-		printf ("uno!\n");
 		alarm->count   = 1;
 		alarm->units   = ALARM_DAYS;
 	}
@@ -140,7 +141,7 @@ static void
 ignore_space(char **str)
 {
 	while (**str && isspace (**str))
-		str++;
+		(*str)++;
 }
 
 static void
@@ -183,6 +184,12 @@ weekdaylist (iCalObject *o, char **str)
 			}
 		}
 	} while (isalpha (**str));
+	
+	if (o->recur->weekday == 0){
+		struct tm *tm = localtime (&o->dtstart);
+
+		o->recur->weekday = 1 << tm->tm_wday;
+	}
 }
 
 static void
@@ -223,11 +230,11 @@ daynumber (iCalObject *o, char **str)
 
 	while (**str && isdigit (**str)){
 		val = val * 10 + (**str - '0');
-		str++;
+		(*str)++;
 	}
 
 	if (**str == '+')
-		str++;
+		(*str)++;
 
 	if (**str == '-')
 		val *= -1;
@@ -245,8 +252,10 @@ daynumberlist (iCalObject *o, char **str)
 	while (**str){
 		if (!isdigit (**str))
 			return;
-		while (**str && isdigit (**str))
+		while (**str && isdigit (**str)){
 			val = 10 * val + (**str - '0');
+			(*str)++;
+		}
 		if (!first){
 			o->recur->u.month_day = val;
 			first = 1;
@@ -300,10 +309,12 @@ duration (iCalObject *o, char **str)
 	ignore_space (str);
 	if (**str != '#')
 		return;
-	while (**str && isdigit (**str))
+	(*str)++;
+	while (**str && isdigit (**str)){
 		duration = duration * 10 + (**str - '0');
-	
-	o->recur->temp_duration = duration;
+		(*str)++;
+	}
+	o->recur->duration = duration;
 }
 
 static void
@@ -311,7 +322,7 @@ enddate (iCalObject *o, char **str)
 {
 	ignore_space (str);
 	if (isdigit (**str)){
-		o->recur->enddate = time_from_isodate (*str);
+		o->recur->_enddate = time_from_isodate (*str);
 		*str += 16;
 	}
 }
@@ -335,7 +346,7 @@ load_recurrence (iCalObject *o, char *str)
 	case 'M':
 		if (*str == 'P')
 			type = RECUR_MONTHLY_BY_POS;
-		else if (*str == 'D')
+	        else if (*str == 'D')
 			type = RECUR_MONTHLY_BY_DAY;
 		str++;
 		break;
@@ -356,13 +367,18 @@ load_recurrence (iCalObject *o, char *str)
 	ignore_space (&str);
 
 	/* Get the interval */
-	while (*str && isdigit (*str))
+	for (;*str && isdigit (*str);str++)
 		interval = interval * 10 + (*str-'0');
 	o->recur->interval = interval;
+
+	/* this is the default per the spec */
+	o->recur->duration = 2;
 	
 	ignore_space (&str);
 	
 	switch (type){
+	case RECUR_DAILY:
+		break;
 	case RECUR_WEEKLY:
 		load_recur_weekly (o, &str);
 		break;
@@ -385,6 +401,17 @@ load_recurrence (iCalObject *o, char *str)
 	duration (o, &str);
 	enddate (o, &str);
 
+	/* Compute the enddate */
+	if (o->recur->_enddate == 0){
+		printf ("ENDDATE es 0, d=%d\n", o->recur->duration);
+		if (o->recur->duration != 0){
+			ical_object_compute_end (o);
+		} else
+			o->recur->enddate = 0;
+	} else {
+		printf ("El evento termina\n");
+		o->recur->enddate = o->recur->_enddate;
+	}
 	return 1;
 }
 
@@ -689,14 +716,173 @@ ical_foreach (GList *events, calendarfn fn, void *closure)
 	}
 }
 
+static int
+generate (iCalObject *ico, time_t reference, calendarfn cb, void *closure)
+{
+	struct tm dt_start, dt_end, ref;
+	time_t s_t, e_t;
+
+	dt_start = *localtime (&ico->dtstart);
+	dt_end   = *localtime (&ico->dtend);
+	ref      = *localtime (&reference);
+
+	dt_start.tm_mday = ref.tm_mday;
+	dt_start.tm_mon  = ref.tm_mon;
+	dt_start.tm_year = ref.tm_year;
+
+	dt_end.tm_mday = ref.tm_mday;
+	dt_end.tm_mon  = ref.tm_mon;
+	dt_end.tm_year = ref.tm_year;
+
+	s_t = mktime (&dt_start);
+	e_t = mktime (&dt_end);
+	if (s_t == -1 || e_t == -1){
+		g_warning ("Produced invalid dates!\n");
+		return 0;
+	}
+	return (*cb)(ico, s_t, e_t, closure);
+}
+
+#define time_in_range(x,a,b) ((x >= a) && (b ? x <= b : 1))
+
+/*
+ * Generate every possible event.  Invokes the callback routine for
+ * every occurrence of the event in the [START, END] time interval.
+ *
+ * If END is zero, the event is generated forever.
+ * The callback routine is expected to return 0 when no further event
+ * generation is requested.
+ */
 void
 ical_object_generate_events (iCalObject *ico, time_t start, time_t end, calendarfn cb, void *closure)
 {
+	Recurrence *recur = ico->recur;
+	time_t current;
+
 	if (!ico->recur){
-		if ((start <= ico->dtstart) && (ico->dtend <= end))
-			(*cb)(ico, ico->dtstart, ico->dtend, closure);
+		if (time_in_range (ico->dtstart, start, end) ||
+		    time_in_range (ico->dtend, start, end)){
+			time_t ev_s, ev_e;
+
+			ev_s = ico->dtstart < start ? start : ico->dtstart;
+			ev_e = ico->dtend > end ? end : ico->dtend;
+			(*cb)(ico, ev_s, ev_e, closure);
+		}
 		return;
 	}
 
 	/* The event has a recurrence rule */
+	if (end != 0){
+		if (ico->dtstart > end)
+			return;
+		if (!IS_INFINITE (ico->recur) && recur->enddate < start)
+			return;
+	}
+
+	current = ico->dtstart;
+	switch (recur->type){
+	case RECUR_DAILY:
+		do {
+			if (time_in_range (current, start, end)){
+				if (!generate (ico, current, cb, closure))
+					return;
+			}
+
+			/* Advance */
+			current = time_add_day (current, recur->interval);
+			
+			if (current == -1){
+				g_warning ("RECUR_DAILY: mktime error\n");
+				return;
+			}
+		} while (current < end || (end == 0));
+		break;
+		
+	case RECUR_WEEKLY:
+		do {
+			struct tm *tm = localtime (&current);
+			
+			if (time_in_range (current, start, end)){
+				if (recur->weekday & (1 << tm->tm_wday))
+					if (!generate (ico, current, cb, closure))
+						return;
+			}
+
+			/* Advance by day for scanning the week or by interval at week end */
+			if (tm->tm_wday == 6)
+				current = time_add_day (current, recur->interval);
+			else
+				current = time_add_day (current, 1);
+
+			if (current == -1){
+				g_warning ("RECUR_WEEKLY: mktime error\n");
+				return;
+			}
+		} while (current < end || (end == 0));
+		break;
+		
+	case RECUR_MONTHLY_BY_POS:
+		g_warning ("We still do not handle MONTHLY_BY_POS\n");
+		break;
+
+	case RECUR_MONTHLY_BY_DAY:
+		do {
+			struct tm *tm = localtime (&current);
+			time_t t;
+			int    p;
+
+			p = tm->tm_mday;
+			tm->tm_mday = recur->u.month_day;
+			t = mktime (tm);
+			if (time_in_range (t, start, end))
+				if (!generate (ico, t, cb, closure))
+					return;
+
+			/* Advance a month */
+			tm->tm_mday = p;
+			tm->tm_mon += recur->interval;
+			current = mktime (tm);
+			if (current == -1){
+				g_warning ("RECUR_MONTHLY_BY_DAY: mktime error\n");
+				return;
+			}
+		} while (current < end || (end == 0));
+		
+	case RECUR_YEARLY_BY_MONTH:
+	case RECUR_YEARLY_BY_DAY:
+		do {
+			if (time_in_range (current, start, end))
+				if (!generate (ico, current, cb, closure))
+					return;
+			
+			/* Advance */
+			current = time_add_year (current, recur->interval);
+		} while (current < end || (end == 0));
+	}
 }
+
+static int
+duration_callback (iCalObject *ico, time_t start, time_t end, void *closure)
+{
+	int *count = closure;
+
+	(*count)++;
+	if (ico->recur->duration == *count){
+		ico->recur->enddate = end;
+		return 0;
+	}
+	return 1;
+}
+
+/* Computes ico->recur->enddate from ico->recur->duration */
+void
+ical_object_compute_end (iCalObject *ico)
+{
+	int count = 0;
+
+	g_return_if_fail (ico->recur != NULL);
+
+	ical_object_generate_events (ico, ico->dtstart, 0, duration_callback, &count);
+}
+
+

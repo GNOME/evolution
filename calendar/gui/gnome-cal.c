@@ -198,7 +198,12 @@ gnome_calendar_update_all (GnomeCalendar *cal, iCalObject *object, int flags)
 void
 gnome_calendar_load (GnomeCalendar *gcal, char *file)
 {
-	calendar_load (gcal->cal, file);
+	char *r;
+	
+	if ((r = calendar_load (gcal->cal, file)) != NULL){
+		printf ("Error loading calendar: %s\n", r);
+		return;
+	}
 	gnome_calendar_update_all (gcal, NULL, 0);
 }
 

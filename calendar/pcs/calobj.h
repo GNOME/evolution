@@ -86,16 +86,26 @@ typedef struct {
 	enum RecurType type;
 
 	int            interval;
-	time_t         enddate;
+
+	/* Used for recur computation */
+	time_t         enddate;	/* If the value is zero, it is an infinite event
+				 * otherwise, it is either the _enddate value (if
+				 * this is what got specified)  or it is our computed
+				 * ending date (computed from the duration item).
+				 */
+	
 	int            weekday;
 
 	union {
 		int    month_pos;
 		int    month_day;
 	} u;
-	
-	int            temp_duration; /* Used temporarly, we compute enddate */
+
+	int            duration;
+	time_t         _enddate; /* As found on the vCalendar file */
+	int            __count;
 } Recurrence;
+#define IS_INFINITE(r) (r->duration == 0)
 
 /* Flags to indicate what has changed in an object */
 typedef enum {
@@ -157,7 +167,7 @@ typedef struct {
 } iCalObject;
 
 /* The callback for the recurrence generator */
-typedef void (*calendarfn)(iCalObject *, time_t, time_t, void *);
+typedef int (*calendarfn)(iCalObject *, time_t, time_t, void *);
 
 iCalObject *ical_new                        (char *comment, char *organizer, char *summary);
 iCalObject *ical_object_new                 (void);

@@ -207,21 +207,25 @@ calendar_load_from_vobject (Calendar *cal, VObject *vcal)
 }
 
 /* Loads a calendar from a file */
-void
+char *
 calendar_load (Calendar *cal, char *fname)
 {
 	VObject *vcal;
 	
 	if (cal->filename){
 		g_warning ("Calendar load called again\n");
-		return;
+		return "Internal error";
 	}
 
 	cal->filename = g_strdup (fname);
 	vcal = Parse_MIME_FromFileName (fname);
+	if (!vcal)
+		return "Could not load the calendar";
+	
 	calendar_load_from_vobject (cal, vcal);
 	cleanVObject (vcal);
 	cleanStrTbl ();
+	return NULL;
 }
 
 void
@@ -250,7 +254,7 @@ calendar_save (Calendar *cal, char *fname)
 	cleanStrTbl ();
 }
 
-static void
+static gint
 calendar_object_compare_by_start (gpointer a, gpointer b)
 {
 	CalendarObject *ca = a;
@@ -261,7 +265,7 @@ calendar_object_compare_by_start (gpointer a, gpointer b)
 	return (diff < 0) ? -1 : (diff > 0) ? 1 : 0;
 }
 
-static void
+static int
 assemble_event_list (iCalObject *obj, time_t start, time_t end, void *c)
 {
 	CalendarObject *co;
@@ -272,6 +276,8 @@ assemble_event_list (iCalObject *obj, time_t start, time_t end, void *c)
 	co->ev_end   = end;
 	co->ico      = obj;
 	*l = g_list_insert_sorted (*l, co, calendar_object_compare_by_start);
+
+	return 1;
 }
 
 void
@@ -280,7 +286,7 @@ calendar_destroy_event_list (GList *l)
 	GList *p;
 
 	for (p = l; p; p = p->next)
-		g_free (l->data);
+		g_free (p->data);
 	g_list_free (l);
 }
 

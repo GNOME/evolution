@@ -1447,7 +1447,7 @@ button_1 (GncalFullDay *fullday, GdkEventButton *event)
 
 		child = find_child_by_window (fullday, event->window, &on_text);
 
-		if (!child || on_text)
+		if (!child || on_text || child->ico->recur)
 			return FALSE;
 
 		/* Prepare for drag */
@@ -1647,8 +1647,8 @@ update_from_drag_info (GncalFullDay *fullday)
 	widget = GTK_WIDGET (fullday);
 
 	get_time_from_rows (fullday, di->child_start_row, di->child_rows_used,
-			    &di->child->start,
-			    &di->child->end);
+			    &di->child->ico->dtstart,
+			    &di->child->ico->dtend);
 
 	child_range_changed (fullday, di->child);
 
@@ -1878,7 +1878,7 @@ child_compare_by_start (gpointer a, gpointer b)
 	return (diff < 0) ? -1 : (diff > 0) ? 1 : 0;
 }
 
-static void
+static int
 fullday_add_children (iCalObject *obj, time_t start, time_t end, void *c)
 {
 	GncalFullDay *fullday = c;
@@ -1886,6 +1886,8 @@ fullday_add_children (iCalObject *obj, time_t start, time_t end, void *c)
 	
 	child = child_new (fullday, start, end, obj);
 	fullday->children = g_list_insert_sorted (fullday->children, child, child_compare_by_start);
+
+	return 1;
 }
 
 void

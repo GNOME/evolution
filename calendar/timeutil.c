@@ -122,15 +122,13 @@ time_t
 time_day_hour (time_t t, int hour)
 {
 	struct tm tm;
-	time_t retval;
 	
 	tm = *localtime (&t);
 	tm.tm_hour = hour;
 	tm.tm_min  = 0;
 	tm.tm_sec  = 0;
 
-	retval = mktime (&tm);
-	return retval;
+	return mktime (&tm);
 }
 
 
@@ -138,22 +136,19 @@ time_t
 time_start_of_day (time_t t)
 {
 	struct tm tm;
-	time_t retval;
 	
 	tm = *localtime (&t);
 	tm.tm_hour = 0;
 	tm.tm_min  = 0;
 	tm.tm_sec  = 0;
 
-	retval = mktime (&tm);
-	return retval;
+	return mktime (&tm);
 }
 
 time_t
 time_end_of_day (time_t t)
 {
 	struct tm tm;
-	time_t retval;
 	
 	tm = *localtime (&t);
 	tm.tm_hour = 0;
@@ -161,8 +156,7 @@ time_end_of_day (time_t t)
 	tm.tm_sec  = 0;
 	tm.tm_mday++;
 	
-	retval = mktime (&tm);
-	return retval;
+	return mktime (&tm);
 }
 
 time_t
@@ -187,7 +181,6 @@ time_t
 time_year_end (int year)
 {
 	struct tm tm;
-	time_t retval;
 	
 	tm.tm_hour = 23;
 	tm.tm_min  = 59;
@@ -197,6 +190,17 @@ time_year_end (int year)
 	tm.tm_mday = 31;
 	tm.tm_isdst = -1;
 	
-	retval = mktime (&tm);
-	return retval;
+	return mktime (&tm);
 }
+
+time_t
+time_week_begin   (time_t t)
+{
+	struct tm tm;
+	time_t retval;
+
+	tm = *localtime (&t);
+	tm.tm_mday -= tm.tm_wday;
+	return mktime (&tm);
+}
+
