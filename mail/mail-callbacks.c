@@ -36,6 +36,7 @@
 #include "mail-tools.h"
 #include "mail-ops.h"
 #include "mail-local.h"
+#include "mail-vfolder.h"
 #include "folder-browser.h"
 #include "subscribe-dialog.h"
 #include "filter/filter-editor.h"
@@ -730,8 +731,6 @@ filter_edit (BonoboUIHandler *uih, void *user_data, const char *path)
 void
 vfolder_edit_vfolders (BonoboUIHandler *uih, void *user_data, const char *path)
 {
-        void vfolder_edit(void);
-	
         vfolder_edit();
 }
 
