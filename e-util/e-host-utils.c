@@ -31,13 +31,30 @@
 
 G_LOCK_DEFINE_STATIC (gethost_mutex);
 
+/**
+ * e_gethostbyname_r:
+ * @name: the host to resolve
+ * @host: a buffer pointing to a struct hostent to use for storage
+ * @buf: a buffer to use for hostname storage
+ * @buflen: the size of @buf
+ * @herr: a pointer to a variable to store an error code in
+ *
+ * Resolves the hostname @name, in a hopefully-reentrant fashion.
+ *
+ * Return value: 0 on success, ERANGE if @buflen is too small,
+ * "something else" otherwise (in which case *@herr will be set to
+ * one of the gethostbyname() error codes).
+ **/
 int
 e_gethostbyname_r (const char *name, struct hostent *host,
 		   char *buf, int buflen, int *herr)
 {
 #ifdef HAVE_GETHOSTBYNAME_R
 #ifdef GETHOSTBYNAME_R_FIVE_ARGS
-	return gethostbyname_r(name, host, buf, buflen, herr);
+	if (gethostbyname_r(name, host, buf, buflen, herr))
+		return 0;
+	else
+		return errno;
 #else
 	struct hostent *hp;
 	return gethostbyname_r(name, host, buf, buflen, &hp, herr);
@@ -54,6 +71,7 @@ e_gethostbyname_r (const char *name, struct hostent *host,
 	h = gethostbyname (name);
 
 	if (!h) {
+		*herr = h_errno;
 		G_UNLOCK (gethost_mutex);
 		return -1;
 	}
@@ -78,7 +96,7 @@ e_gethostbyname_r (const char *name, struct hostent *host,
 	if (buflen < req_length) {
 		*herr = ERANGE;
 		G_UNLOCK (gethost_mutex);
-		return -1;
+		return ERANGE;
 	}
 
 	/* we store the alias/addr pointers in the buffer - figure out
@@ -124,8 +142,6 @@ e_gethostbyname_r (const char *name, struct hostent *host,
 		}
 		host->h_addr_list[num_addrs] = NULL;
 	}
-
-	*herr = h_errno;
 
 	G_UNLOCK (gethost_mutex);
 

@@ -1,5 +1,9 @@
 2001-04-26  Dan Winship  <danw@ximian.com>
 
+	* e-host-utils.c (e_gethostbyname_r): Make the Solaris and
+	no-gethostbyname_r implementations behave more like the Linux one.
+	Document.
+
 	* Makefile.am (INCLUDES): Remove UNICODE_CFLAGS
 	(libeutil_la_LIBADD): Change UNICODE_LIBS to GAL_LIBS
 
