@@ -96,6 +96,7 @@ void expunge_folder (BonoboUIHandler *uih, void *user_data, const char *path);
 void filter_edit (BonoboUIHandler *uih, void *user_data, const char *path);
 void vfolder_edit_vfolders (BonoboUIHandler *uih, void *user_data, const char *path);
 void providers_config (BonoboUIHandler *uih, void *user_data, const char *path);
+void manage_subscriptions (BonoboUIHandler *uih, void *user_data, const char *path);
 
 void configure_folder (BonoboUIHandler *uih, void *user_data, const char *path);
 

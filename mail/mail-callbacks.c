@@ -37,6 +37,7 @@
 #include "mail-ops.h"
 #include "mail-local.h"
 #include "folder-browser.h"
+#include "subscribe-control.h"
 #include "filter/filter-editor.h"
 #include "filter/filter-driver.h"
 #include <gal/e-table/e-table.h>
@@ -720,6 +721,15 @@ void
 providers_config (BonoboUIHandler *uih, void *user_data, const char *path)
 {
 	mail_config ((FOLDER_BROWSER (user_data))->shell);
+}
+
+void
+manage_subscriptions (BonoboUIHandler *uih, void *user_data, const char *path)
+{
+	/* XXX pass in the selected storage */
+	GtkWidget *subscribe = subscribe_control_new ();
+
+	gtk_widget_show (subscribe);
 }
 
 void

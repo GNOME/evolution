@@ -19,11 +19,22 @@
 #include <gal/e-table/e-cell-toggle.h>
 #include <gal/e-table/e-table-scrolled.h>
 #include <gal/e-table/e-tree-simple.h>
+#include <gal/e-paned/e-hpaned.h>
+#include <bonobo/bonobo-main.h>
+#include <bonobo/bonobo-object.h>
+#include <bonobo/bonobo-generic-factory.h>
+#include <bonobo/bonobo-control.h> 
+#include <bonobo/bonobo-ui-component.h>
+#include <bonobo/bonobo-ui-util.h>
 
 #include "art/empty.xpm"
 #include "art/mark.xpm"
 
-#define PARENT_TYPE (gtk_table_get_type ())
+#define DEFAULT_STORAGE_SET_WIDTH         150
+#define DEFAULT_WIDTH                     500
+#define DEFAULT_HEIGHT                    300
+
+#define PARENT_TYPE (gtk_object_get_type ())
 
 #define ETABLE_SPEC "<ETableSpecification>                    	       \
 	<columns-shown>                  			       \
@@ -61,13 +72,101 @@ typedef struct {
 
 static GtkObjectClass *subscribe_control_parent_class;
 
-void
+static void subscribe_close (BonoboUIHandler *uih, void *user_data, const char *path);
+static void subscribe_select_all (BonoboUIHandler *uih, void *user_data, const char *path);
+static void subscribe_unselect_all (BonoboUIHandler *uih, void *user_data, const char *path);
+static void subscribe_folder (GtkWidget *widget, gpointer user_data);
+static void unsubscribe_folder (GtkWidget *widget, gpointer user_data);
+static void subscribe_refresh_list (GtkWidget *widget, gpointer user_data);
+static void subscribe_search (GtkWidget *widget, gpointer user_data);
+
+static BonoboUIVerb verbs [] = {
+	/* File Menu */
+	BONOBO_UI_VERB ("FileCloseWin", subscribe_close),
+
+	/* Edit Menu */
+	BONOBO_UI_VERB ("EditSelectAll", subscribe_select_all),
+	BONOBO_UI_VERB ("EditUnSelectAll", subscribe_unselect_all),
+	
+	/* Folder Menu / Toolbar */
+	BONOBO_UI_VERB ("SubscribeFolder", subscribe_folder),
+	BONOBO_UI_VERB ("UnsubscribeFolder", unsubscribe_folder),
+
+	/* Toolbar Specific */
+	BONOBO_UI_VERB ("RefreshList", subscribe_refresh_list),
+
+	BONOBO_UI_VERB_END
+};
+
+static void
+set_pixmap (Bonobo_UIContainer container,
+	    const char        *xml_path,
+	    const char        *icon)
+{
+	char *path;
+	GdkPixbuf *pixbuf;
+
+	path = g_concat_dir_and_file (EVOLUTION_DATADIR "/images/evolution/buttons", icon);
+
+	pixbuf = gdk_pixbuf_new_from_file (path);
+	g_return_if_fail (pixbuf != NULL);
+
+	bonobo_ui_util_set_pixbuf (container, xml_path, pixbuf);
+
+	gdk_pixbuf_unref (pixbuf);
+
+	g_free (path);
+}
+
+static void
+update_pixmaps (Bonobo_UIContainer container)
+{
+	set_pixmap (container, "/Toolbar/SubscribeFolder", "fetch-mail.png"); /* XXX */
+	set_pixmap (container, "/Toolbar/UnsubscribeFolder", "compose-message.png"); /* XXX */
+	set_pixmap (container, "/Toolbar/RefreshList", "forward.png"); /* XXX */
+}
+
+static GtkWidget*
+make_folder_search_widget (GtkSignalFunc start_search_func,
+			   gpointer user_data_for_search)
+{
+	GtkWidget *search_hbox = gtk_hbox_new (FALSE, 0);
+	GtkWidget *search_entry = gtk_entry_new ();
+
+	if (start_search_func) {
+		gtk_signal_connect (GTK_OBJECT (search_entry), "activate",
+				    start_search_func,
+				    user_data_for_search);
+	}
+	
+	/* add the search entry to the our search_vbox */
+	gtk_box_pack_start (GTK_BOX (search_hbox),
+			    gtk_label_new(_("Display folders containing:")),
+			    FALSE, TRUE, 0);
+	gtk_box_pack_start (GTK_BOX (search_hbox), search_entry,
+			    FALSE, TRUE, 3);
+
+	return search_hbox;
+}
+
+
+
+static void
+subscribe_close (BonoboUIHandler *uih,
+		 void *user_data, const char *path)
+{
+	SubscribeControl *sc = (SubscribeControl*)user_data;
+
+	gtk_widget_destroy (sc->app);
+}
+
+static void
 subscribe_select_all (BonoboUIHandler *uih,
 		      void *user_data, const char *path)
 {
 }
 
-void
+static void
 subscribe_unselect_all (BonoboUIHandler *uih,
 			void *user_data, const char *path)
 {
@@ -88,12 +187,12 @@ subscribe_folder_foreach (int model_row, gpointer closure)
 	e_tree_model_node_changed (sc->model, node);
 }
 
-void
+static void
 subscribe_folder (GtkWidget *widget, gpointer user_data)
 {
 	SubscribeControl *sc = SUBSCRIBE_CONTROL (user_data);
 
-	e_table_selected_row_foreach (E_TABLE_SCROLLED(sc->table)->table,
+	e_table_selected_row_foreach (E_TABLE_SCROLLED(sc->etable)->table,
 				      subscribe_folder_foreach, sc);
 }
 
@@ -113,22 +212,22 @@ unsubscribe_folder_foreach (int model_row, gpointer closure)
 }
 
 
-void
+static void
 unsubscribe_folder (GtkWidget *widget, gpointer user_data)
 {
 	SubscribeControl *sc = SUBSCRIBE_CONTROL (user_data);
 
-	e_table_selected_row_foreach (E_TABLE_SCROLLED(sc->table)->table,
+	e_table_selected_row_foreach (E_TABLE_SCROLLED(sc->etable)->table,
 				      unsubscribe_folder_foreach, sc);
 }
 
-void
+static void
 subscribe_refresh_list (GtkWidget *widget, gpointer user_data)
 {
 	printf ("subscribe_refresh_list\n");
 }
 
-void
+static void
 subscribe_search (GtkWidget *widget, gpointer user_data)
 {
 	char* search_pattern = e_utf8_gtk_entry_get_text(GTK_ENTRY(widget));
@@ -136,14 +235,6 @@ subscribe_search (GtkWidget *widget, gpointer user_data)
 	printf ("subscribe_search (%s)\n", search_pattern);
 
 	g_free (search_pattern);
-}
-
-gboolean
-subscribe_control_set_uri (SubscribeControl *subscribe_control,
-			   const char *uri)
-{
-	printf ("set_uri (%s) called\n", uri);
-	return TRUE;
 }
 
 
@@ -296,12 +387,70 @@ subscribe_control_gui_init (SubscribeControl *sc)
 	ECell *cells[3];
 	ETableHeader *e_table_header;
 	GdkPixbuf *toggles[2];
+	BonoboUIComponent *component;
+	Bonobo_UIContainer container;
+	GtkWidget         *folder_search_widget;
+	BonoboControl     *search_control;
+	GtkWidget *bonobo_win;
 
+	/* Construct the app */
+	bonobo_win = bonobo_win_new ("subscribe-dialog", "Subscribe");
+
+	sc->storage_set_view = gtk_label_new ("Storage Set View");
+	sc->table = gtk_table_new (1, 2, FALSE);
+
+	sc->hpaned = e_hpaned_new ();
+	e_paned_add1 (E_PANED (sc->hpaned), sc->storage_set_view);
+	e_paned_add2 (E_PANED (sc->hpaned), sc->table);
+	e_paned_set_position (E_PANED (sc->hpaned), DEFAULT_STORAGE_SET_WIDTH);
+
+	bonobo_win_set_contents (BONOBO_WIN (bonobo_win), sc->hpaned);
+	gtk_widget_destroy (sc->app);
+	sc->app = bonobo_win;
+
+	/* Build the menu and toolbar */
+	sc->uih = bonobo_ui_handler_new ();
+	if (!sc->uih) {
+		g_message ("subscribe_control_gui_init(): eeeeek, could not create the UI handler!");
+		return;
+	}
+
+	bonobo_ui_handler_set_app (sc->uih, BONOBO_WIN (sc->app));
+
+	/* set up the bonobo stuff */
+	component = bonobo_ui_compat_get_component (sc->uih);
+	container = bonobo_ui_compat_get_container (sc->uih);
+	
+	bonobo_ui_component_add_verb_list_with_data (
+		component, verbs, sc);
+
+	bonobo_ui_container_freeze (container, NULL);
+
+	bonobo_ui_util_set_ui (component, container,
+			       EVOLUTION_DATADIR,
+			       "evolution-subscribe.xml",
+			       "evolution-subscribe");
+
+	update_pixmaps (container);
+
+	folder_search_widget = make_folder_search_widget (subscribe_search, sc);
+	gtk_widget_show_all (folder_search_widget);
+	search_control = bonobo_control_new (folder_search_widget);
+
+	bonobo_ui_container_object_set (container,
+					"/Toolbar/FolderSearch",
+					bonobo_object_corba_objref (BONOBO_OBJECT (search_control)),
+					NULL);
+					
+	bonobo_ui_container_thaw (container, NULL);
+
+
+	/* set our our contents */
 	sc->description = html_new (TRUE);
 	put_html (GTK_HTML (sc->description), EXAMPLE_DESCR);
 
 	gtk_table_attach (
-		GTK_TABLE (sc), sc->description->parent->parent,
+		GTK_TABLE (sc->table), sc->description->parent->parent,
 		0, 1, 0, 1,
 		GTK_FILL | GTK_EXPAND,
 		0,
@@ -361,37 +510,37 @@ subscribe_control_gui_init (SubscribeControl *sc)
 		e_table_header_add_column (e_table_header, ecol, i);
 	}
 
-	sc->table = e_table_scrolled_new (e_table_header, E_TABLE_MODEL(sc->model), ETABLE_SPEC);
+	sc->etable = e_table_scrolled_new (e_table_header, E_TABLE_MODEL(sc->model), ETABLE_SPEC);
 
-	gtk_object_set (GTK_OBJECT (E_TABLE_SCROLLED (sc->table)->table),
+	gtk_object_set (GTK_OBJECT (E_TABLE_SCROLLED (sc->etable)->table),
 			"cursor_mode", E_TABLE_CURSOR_LINE,
 			NULL);
 
 	gtk_table_attach (
-		GTK_TABLE (sc), sc->table,
+		GTK_TABLE (sc->table), sc->etable,
 		0, 1, 1, 3,
 		GTK_FILL | GTK_EXPAND,
 		GTK_FILL | GTK_EXPAND,
 		0, 0);
+	
+	gtk_widget_show (sc->description);
+	gtk_widget_show (sc->etable);
+	gtk_widget_show (sc->table);
+	gtk_widget_show (sc->storage_set_view);
+	gtk_widget_show (sc->hpaned);
 
-	gtk_widget_show (GTK_WIDGET (sc->table));
-	gtk_widget_show (GTK_WIDGET(sc));
+	/* FIXME: Session management and stuff?  */
+	gtk_window_set_default_size (
+		GTK_WINDOW (sc->app),
+		DEFAULT_WIDTH, DEFAULT_HEIGHT);
 }
 
 static void
 subscribe_control_destroy (GtkObject *object)
 {
 	SubscribeControl *subscribe_control;
-	CORBA_Environment ev;
 
 	subscribe_control = SUBSCRIBE_CONTROL (object);
-
-	CORBA_exception_init (&ev);
-
-	if (subscribe_control->shell != CORBA_OBJECT_NIL)
-		CORBA_Object_release (subscribe_control->shell, &ev);
-
-	CORBA_exception_free (&ev);
 
 	subscribe_control_parent_class->destroy (object);
 }
@@ -415,12 +564,6 @@ subscribe_control_construct (GtkObject *object)
 	SubscribeControl *sc = SUBSCRIBE_CONTROL (object);
 
 	/*
-	 * Setup parent class fields.
-	 */ 
-	GTK_TABLE (sc)->homogeneous = FALSE;
-	gtk_table_resize (GTK_TABLE (sc), 1, 2);
-
-	/*
 	 * Our instance data
 	 */
 
@@ -428,31 +571,15 @@ subscribe_control_construct (GtkObject *object)
 }
 
 GtkWidget *
-subscribe_control_new (const Evolution_Shell shell)
+subscribe_control_new ()
 {
-	static int serial = 0;
-	CORBA_Environment ev;
 	SubscribeControl *subscribe_control;
-
-	CORBA_exception_init (&ev);
 
 	subscribe_control = gtk_type_new (subscribe_control_get_type ());
 
 	subscribe_control_construct (GTK_OBJECT (subscribe_control));
-	subscribe_control->uri = NULL;
-	subscribe_control->serial = serial++;
 
-	subscribe_control->shell = CORBA_Object_duplicate (shell, &ev);
-	if (ev._major != CORBA_NO_EXCEPTION) {
-		subscribe_control->shell = CORBA_OBJECT_NIL;
-		gtk_widget_destroy (GTK_WIDGET (subscribe_control));
-		CORBA_exception_free (&ev);
-		return NULL;
-	}
-
-	CORBA_exception_free (&ev);
-
-	return GTK_WIDGET (subscribe_control);
+	return GTK_WIDGET (subscribe_control->app);
 }
 
 E_MAKE_TYPE (subscribe_control, "SubscribeControl", SubscribeControl, subscribe_control_class_init, subscribe_control_init, PARENT_TYPE);

@@ -7,7 +7,7 @@
 #include "mail-types.h"
 #include <gtk/gtktable.h>
 #include <gal/e-table/e-tree-model.h>
-#include <bonobo/bonobo-ui-handler.h>
+#include <bonobo/bonobo-ui-compat.h>
 #include <bonobo/bonobo-property-bag.h>
 #include "shell/Evolution.h"
 
@@ -19,44 +19,27 @@
 #define IS_SUBSCRIBE_CONTROL_CLASS(k) (GTK_CHECK_CLASS_TYPE ((k), SUBSCRIBE_CONTROL_TYPE))
 
 struct  _SubscribeControl {
-	GtkTable parent;
+	GtkObject parent;
+
+	BonoboUIHandler   *uih;
+
+	GtkWidget *app;
 	
-	BonoboPropertyBag *properties;
-	
-	Evolution_Shell shell;
-
-	/* This is a kludge for the toolbar problem. */
-	int serial;
-
-	/*
-	 * The current URI being displayed by the SubscribeControl
-	 */
-	char        *uri;
-	gboolean    is_news;
-
-	GtkWidget         *description;
+	GtkWidget         *storage_set_view;
+	GtkWidget         *hpaned;
 	GtkWidget         *table;
+	GtkWidget         *description;
+	GtkWidget         *etable;
 	ETreeModel        *model;
 	ETreePath         *root;
 };
 
 
 typedef struct {
-	GtkTableClass parent_class;
+	GtkObjectClass parent_class;
 } SubscribeControlClass;
 
 GtkType    subscribe_control_get_type             (void);
-GtkWidget *subscribe_control_new                  (const Evolution_Shell  shell);
-
-gboolean   subscribe_control_set_uri              (SubscribeControl      *subscribe_control,
-						   const char            *uri);
-
-/* menu/toolbar callbacks */
-void subscribe_select_all   (BonoboUIHandler *uih, void *user_data, const char *path);
-void subscribe_unselect_all (BonoboUIHandler *uih, void *user_data, const char *path);
-void subscribe_folder       (GtkWidget *widget, gpointer user_data);
-void unsubscribe_folder     (GtkWidget *widget, gpointer user_data);
-void subscribe_refresh_list (GtkWidget *widget, gpointer user_data);
-void subscribe_search       (GtkWidget *widget, gpointer user_data);
+GtkWidget *subscribe_control_new                  (void);
 
 #endif /* _SUBSCRIBE_CONTROL_H_ */

@@ -1,3 +1,22 @@
+2000-09-29  Chris Toshok  <toshok@helixcode.com>
+
+	* subscribe-control-factory.c, subscribe-control-factory.h: nuked.
+	
+	* subscribe-control.c, subscribe-control.h: lots of changes.  we
+	now pop up a dialog, and will have a storage set view on our left
+	side, like the shell does.
+
+	* mail.h: add prototype for manage_subscriptions.
+
+	* mail-callbacks.c (manage_subscriptions): new function, pops up
+	the subscribe dialog.
+
+	* folder-browser-factory.c: add the verb for managing
+	subscriptions.
+
+	* Makefile.am (evolution_mail_SOURCES): add subscribe-control.[ch]
+	again.
+
 2000-09-28  Chris Toshok  <toshok@helixcode.com>
 
 	* subscribe-control.h (subscribe_search): added prototype.
