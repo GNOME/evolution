@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: Evolution\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2004-12-18 01:28+0800\n"
-"PO-Revision-Date: 2004-12-12 05:54+0800\n"
+"PO-Revision-Date: 2004-12-18 01:48+0800\n"
 "Last-Translator: Funda Wang <fundawang@linux.net.cn>\n"
 "Language-Team: zh_CN <i18n-translation@lists.linux.net.cn>\n"
 "MIME-Version: 1.0\n"
@@ -73,102 +73,87 @@ msgid " card"
 msgstr " 张名片"
 
 #: a11y/calendar/ea-cal-view.c:306
-#, fuzzy
 msgid "New Appointment"
 msgstr "新建约会"
 
 #: a11y/calendar/ea-cal-view.c:307
-#, fuzzy
 msgid "New All Day Event"
-msgstr "新建全天事件(_E)"
+msgstr "新建全天事件"
 
 #: a11y/calendar/ea-cal-view.c:308 calendar/gui/e-calendar-view.c:1366
 msgid "New Meeting"
 msgstr "新会议"
 
 #: a11y/calendar/ea-cal-view.c:309
-#, fuzzy
 msgid "Go to Today"
-msgstr "转到今天(_T)"
+msgstr "转到今天"
 
 #: a11y/calendar/ea-cal-view.c:310
-#, fuzzy
 msgid "Go to Date"
-msgstr "转到日期(_G)..."
+msgstr "转到日期"
 
 #: a11y/calendar/ea-cal-view-event.c:235
-#, fuzzy
 msgid "alarm "
-msgstr "提醒(_A)"
+msgstr "提醒"
 
 #: a11y/calendar/ea-cal-view-event.c:241
-#, fuzzy
 msgid "recurrence "
 msgstr "再现"
 
 #: a11y/calendar/ea-cal-view-event.c:247
-#, fuzzy
 msgid "time-zone "
 msgstr "时区"
 
 #: a11y/calendar/ea-cal-view-event.c:253
-#, fuzzy
 msgid "meeting "
 msgstr "会议"
 
 #: a11y/calendar/ea-cal-view-event.c:258
 msgid "event. Summary is "
-msgstr ""
+msgstr "会议概览为"
 
 #: a11y/calendar/ea-cal-view-event.c:269
-#, fuzzy
 msgid "empty"
-msgstr "回复"
+msgstr "空"
 
 #: a11y/calendar/ea-cal-view-event.c:288
-#, fuzzy
 msgid "calendar view event"
-msgstr "日历事件"
+msgstr "日历视图事件"
 
 #: a11y/calendar/ea-cal-view-event.c:505
-#, fuzzy
 msgid "Grab Focus"
-msgstr "有焦点"
+msgstr "获得焦点"
 
 #: a11y/calendar/ea-day-view.c:147 a11y/calendar/ea-week-view.c:148
-#, fuzzy, c-format
+#, c-format
 msgid ", %d event"
-msgstr "%d 已发"
+msgstr "，%d 个事件"
 
 #: a11y/calendar/ea-day-view.c:147 a11y/calendar/ea-week-view.c:148
-#, fuzzy, c-format
+#, c-format
 msgid ", %d events"
-msgstr "%d 已发"
+msgstr "，%d 个事件"
 
 #: a11y/calendar/ea-day-view.c:150
-#, fuzzy
 msgid "work week view :"
-msgstr "周工作视图"
+msgstr "周工作视图："
 
 #: a11y/calendar/ea-day-view.c:154
-#, fuzzy
 msgid "day view :"
-msgstr "日视图"
+msgstr "日视图："
 
 #: a11y/calendar/ea-day-view.c:181
-#, fuzzy
 msgid "calendar view for a work week"
-msgstr "日历信息"
+msgstr "工作周的日历视图"
 
 #: a11y/calendar/ea-day-view.c:183
 msgid "calendar view for one or more days"
-msgstr ""
+msgstr "一天或多天的日历视图"
 
 #: a11y/calendar/ea-day-view-main-item.c:299
 #: a11y/calendar/ea-week-view-main-item.c:301
-#, fuzzy
 msgid "a table to view and select the current time range"
-msgstr "相对于当前时间的时间"
+msgstr "可查看并选择当前时间范围的表"
 
 #: a11y/calendar/ea-gnome-calendar.c:187 calendar/gui/calendar-component.c:519
 msgid "%A %d %b %Y"
@@ -216,52 +201,44 @@ msgid "Gnome Calendar"
 msgstr "Gnome 日历"
 
 #: a11y/calendar/ea-gnome-calendar.c:290
-#, fuzzy
 msgid "search bar"
-msgstr "搜索基础(_B)："
+msgstr "搜索栏"
 
 #: a11y/calendar/ea-gnome-calendar.c:291
-#, fuzzy
 msgid "evolution calendar search bar"
-msgstr "Evolution 日历和任务"
+msgstr "Evolution 日历和搜索栏"
 
 #: a11y/calendar/ea-jump-button.c:149
 msgid "Jump button"
-msgstr ""
+msgstr "跳转按钮"
 
 #: a11y/calendar/ea-jump-button.c:158
-#, fuzzy
 msgid "Click here, you can find more events."
-msgstr "单击此处添加出席者"
+msgstr "单击此处可查找更多事件。"
 
 #: a11y/calendar/ea-week-view.c:153
-#, fuzzy
 msgid "month view :"
-msgstr "月视图"
+msgstr "月视图："
 
 #: a11y/calendar/ea-week-view.c:158
-#, fuzzy
 msgid "week view :"
-msgstr "周视图"
+msgstr "周视图："
 
 #: a11y/calendar/ea-week-view.c:185
-#, fuzzy
 msgid "calendar view for a month"
-msgstr "日历信息"
+msgstr "月日历视图"
 
 #: a11y/calendar/ea-week-view.c:187
 msgid "calendar view for one or more weeks"
 msgstr ""
 
 #: a11y/widgets/ea-calendar-item.c:293 a11y/widgets/ea-calendar-item.c:299
-#, fuzzy
 msgid " %d %B %Y"
 msgstr "%Y年%-m月%-d日"
 
 #: a11y/widgets/ea-calendar-item.c:301
-#, fuzzy
 msgid "calendar (from "
-msgstr "日历组"
+msgstr "日历 (从 "
 
 #: a11y/widgets/ea-calendar-item.c:303
 #: calendar/gui/dialogs/comp-editor-util.c:187 calendar/gui/print.c:2261
@@ -270,12 +247,11 @@ msgstr " 到 "
 
 #: a11y/widgets/ea-calendar-item.c:305
 msgid ")"
-msgstr ""
+msgstr ")"
 
 #: a11y/widgets/ea-calendar-item.c:337
-#, fuzzy
 msgid "evolution calendar item"
-msgstr "Evolution vCalendar 导入器"
+msgstr "Evolution 日历项目"
 
 #. addressbook:ldap-init primary
 #: addressbook/addressbook-errors.xml.h:2
@@ -10664,9 +10640,8 @@ msgid "Scanning for changed messages"
 msgstr "扫描更改了的信件"
 
 #: camel/providers/imap4/camel-imap4-summary.c:1290
-#, fuzzy
 msgid "Fetching envelopes for new messages"
-msgstr "检查新信件"
+msgstr "获取新新信件的信封"
 
 #: camel/providers/imap4/camel-imap4-utils.c:368
 #, c-format
@@ -12348,9 +12323,8 @@ msgid "Overwrite file?"
 msgstr "覆盖文件吗？"
 
 #: e-util/eggtrayicon.c:119
-#, fuzzy
 msgid "The orientation of the tray."
-msgstr "附件描述。"
+msgstr "托盘方向。"
 
 #: e-util/e-passwords.c:468
 msgid "_Remember this password"
@@ -15759,76 +15733,66 @@ msgid "Subject does not contain"
 msgstr "主题不含有"
 
 #: plugins/backup-restore/backup.c:109
-#, fuzzy
 msgid "Backup Evolution directory"
-msgstr "Evolution 错误"
+msgstr "备份 Evolution 目录"
 
 #: plugins/backup-restore/backup.c:111
-#, fuzzy
 msgid "Restore Evolution directory"
-msgstr "Evolution 错误"
+msgstr "恢复 Evolution 目录"
 
 #: plugins/backup-restore/backup.c:113
-#, fuzzy
 msgid "Check Evolution archive"
-msgstr "Evolution 群件套件"
+msgstr "检查 Evolution 存档"
 
 #: plugins/backup-restore/backup.c:115
-#, fuzzy
 msgid "Restart Evolution"
-msgstr "无法启动 Evolution"
+msgstr "重新启动 Evolution"
 
 #: plugins/backup-restore/backup-restore.c:51
 msgid "Select name of Evolution archive"
-msgstr ""
+msgstr "选择 Evolution 存档名称"
 
 #: plugins/backup-restore/backup-restore.c:61
 msgid "_Restart Evolution after backup"
-msgstr ""
+msgstr "备份后重新启动 Evolution(_R)"
 
 #: plugins/backup-restore/backup-restore.c:89
 msgid "Select Evolution archive to restore"
-msgstr ""
+msgstr "选择要恢复的 Evolution 存档"
 
 #: plugins/backup-restore/backup-restore.c:97
 msgid "_Restart Evolution after restore"
-msgstr ""
+msgstr "恢复后重新启动 Evolution(_R)"
 
 #: plugins/backup-restore/org-gnome-backup-restore.xml.h:1
-#, fuzzy
 msgid "Backup Settings..."
-msgstr "设置(_S)..."
+msgstr "备份设置..."
 
 #: plugins/backup-restore/org-gnome-backup-restore.xml.h:2
-#, fuzzy
 msgid "Backup and restore Evolution data and settings"
-msgstr "更改 Evolution 的设置"
+msgstr "备份及恢复 Evolution 的数据和设置"
 
 #: plugins/backup-restore/org-gnome-backup-restore.xml.h:3
-#, fuzzy
 msgid "Restore Settings..."
-msgstr "Pilot 设置..."
+msgstr "恢复设置..."
 
 #: plugins/bbdb/bbdb.c:387
-#, fuzzy
 msgid "Automatic Contacts"
-msgstr "添加到联系人"
+msgstr "自动联系人"
 
 #: plugins/bbdb/bbdb.c:396
-#, fuzzy
 msgid "<span weight=\"bold\">Automatic Contacts</span>"
-msgstr "<span weight=\"bold\">身份验证</span>"
+msgstr "<span weight=\"bold\">自动联系人</span>"
 
 #. Enable BBDB checkbox
 #: plugins/bbdb/bbdb.c:409
 msgid ""
 "_Automatically create entries in the addressbook when responding to mail"
-msgstr ""
+msgstr "回复邮件时自动在地址簿中创建联系人项(_A)"
 
 #: plugins/bbdb/bbdb.c:427
-#, fuzzy
 msgid "<span weight=\"bold\">Instant Messaging Contacts</span>"
-msgstr "<span weight=\"bold\">信件字体</span>"
+msgstr "<span weight=\"bold\">即时通讯联系人</span>"
 
 #. Enable Gaim Checkbox
 #: plugins/bbdb/bbdb.c:440
@@ -15840,18 +15804,17 @@ msgstr ""
 #. Synchronize now button.
 #: plugins/bbdb/bbdb.c:447
 msgid "Synchronize with _buddy list now"
-msgstr ""
+msgstr "立即同步好友列表(_B)"
 
 #: plugins/folder-unsubscribe/folder-unsubscribe.c:57
-#, fuzzy, c-format
+#, c-format
 msgid "Unsubscribing from folder \"%s\""
-msgstr "无法退订文件夹“%s”：无效的命令"
+msgstr "无法退订文件夹“%s”"
 
 #. org.gnome.mailing-list-actions:no-header primary
 #: plugins/mailing-list-actions/org-gnome-mailing-list-actions-errors.xml.h:2
-#, fuzzy
 msgid "Action not available"
-msgstr "没有可用的位置信息。"
+msgstr "没有可用的动作"
 
 #. org.gnome.mailing-list-actions:no-header secondary
 #: plugins/mailing-list-actions/org-gnome-mailing-list-actions-errors.xml.h:4
@@ -15862,9 +15825,8 @@ msgstr ""
 
 #. org.gnome.mailing-list-actions:posting-not-allowed primary
 #: plugins/mailing-list-actions/org-gnome-mailing-list-actions-errors.xml.h:6
-#, fuzzy
 msgid "Posting not allowed"
-msgstr "投递失败：%s"
+msgstr "不允许投递"
 
 #. org.gnome.mailing-list-actions:posting-not-allowed secondary
 #: plugins/mailing-list-actions/org-gnome-mailing-list-actions-errors.xml.h:8
@@ -15875,9 +15837,8 @@ msgstr ""
 
 #. org.gnome.mailing-list-actions:ask-send-message primary
 #: plugins/mailing-list-actions/org-gnome-mailing-list-actions-errors.xml.h:10
-#, fuzzy
 msgid "Send e-mail message to mailing list?"
-msgstr "把信件发送到列表(_M)..."
+msgstr "把信件发送到邮件列表吗？"
 
 #. org.gnome.mailing-list-actions:ask-send-message secondary
 #: plugins/mailing-list-actions/org-gnome-mailing-list-actions-errors.xml.h:12
@@ -15890,20 +15851,17 @@ msgid ""
 msgstr ""
 
 #: plugins/mailing-list-actions/org-gnome-mailing-list-actions-errors.xml.h:15
-#, fuzzy
 msgid "_Send message"
-msgstr "发送信件"
+msgstr "发送信件(_S)"
 
 #: plugins/mailing-list-actions/org-gnome-mailing-list-actions-errors.xml.h:16
-#, fuzzy
 msgid "_Edit message"
-msgstr "发送信件"
+msgstr "编辑信件(_E)"
 
 #. org.gnome.mailing-list-actions:malformed-header primary
 #: plugins/mailing-list-actions/org-gnome-mailing-list-actions-errors.xml.h:18
-#, fuzzy
 msgid "Malformed header"
-msgstr "签名格式不对"
+msgstr "头格式不对"
 
 #. org.gnome.mailing-list-actions:malformed-header secondary
 #: plugins/mailing-list-actions/org-gnome-mailing-list-actions-errors.xml.h:20
@@ -15915,9 +15873,8 @@ msgstr ""
 
 #. org.gnome.mailing-list-actions:no-action primary
 #: plugins/mailing-list-actions/org-gnome-mailing-list-actions-errors.xml.h:24
-#, fuzzy
 msgid "No e-mail action"
-msgstr "记录过滤动作"
+msgstr "无电子邮件动作"
 
 #. org.gnome.mailing-list-actions:no-action secondary
 #: plugins/mailing-list-actions/org-gnome-mailing-list-actions-errors.xml.h:26
@@ -15929,9 +15886,8 @@ msgid ""
 msgstr ""
 
 #: plugins/mailing-list-actions/org-gnome-mailing-list-actions.xml.h:1
-#, fuzzy
 msgid "Contact list _owner"
-msgstr "联系人列表编辑器"
+msgstr "联系人列表所有者(_O)"
 
 #: plugins/mailing-list-actions/org-gnome-mailing-list-actions.xml.h:2
 #, fuzzy
@@ -15948,17 +15904,15 @@ msgstr ""
 
 #: plugins/mailing-list-actions/org-gnome-mailing-list-actions.xml.h:5
 msgid "Get list _archive"
-msgstr ""
+msgstr "获得列表存档(_A)"
 
 #: plugins/mailing-list-actions/org-gnome-mailing-list-actions.xml.h:6
-#, fuzzy
 msgid "Get list _usage information"
-msgstr "会议信息"
+msgstr "获得列表用途信息(_U)"
 
 #: plugins/mailing-list-actions/org-gnome-mailing-list-actions.xml.h:7
-#, fuzzy
 msgid "Mailing _List"
-msgstr "邮件列表"
+msgstr "邮件列表(_L)"
 
 #: plugins/mailing-list-actions/org-gnome-mailing-list-actions.xml.h:8
 #, fuzzy
@@ -15976,100 +15930,85 @@ msgid "Unsubscribe to the mailing list this message belongs to"
 msgstr "为选中邮件的邮件列表撰写回复"
 
 #: plugins/mailing-list-actions/org-gnome-mailing-list-actions.xml.h:11
-#, fuzzy
 msgid "_Post message to list"
-msgstr "把信件发送到列表(_M)..."
+msgstr "把信件投递到列表(_P)"
 
 #: plugins/mailing-list-actions/org-gnome-mailing-list-actions.xml.h:12
-#, fuzzy
 msgid "_Subscribe to list"
-msgstr "订阅(_S)"
+msgstr "订阅列表(_S)"
 
 #: plugins/mailing-list-actions/org-gnome-mailing-list-actions.xml.h:13
-#, fuzzy
 msgid "_Un-subscribe to list"
-msgstr "退订(_U)"
+msgstr "退订列表(_U)"
 
 #: plugins/plugin-manager/org-gnome-plugin-manager.xml.h:1
 msgid "Enable and disable plugins"
-msgstr ""
+msgstr "启用和禁用插件"
 
 #: plugins/plugin-manager/org-gnome-plugin-manager.xml.h:2
-#, fuzzy
 msgid "Manage Plugins..."
-msgstr "正在取消..."
+msgstr "管理插件..."
 
 #: plugins/plugin-manager/plugin-manager.c:45
-#, fuzzy
 msgid "Author(s)"
-msgstr "小时"
+msgstr "作者"
 
 #: plugins/plugin-manager/plugin-manager.c:46
-#, fuzzy
 msgid "Id"
-msgstr "I"
+msgstr "Id"
 
 #: plugins/plugin-manager/plugin-manager.c:47
-#, fuzzy
 msgid "Path"
-msgstr "路径(_P)："
+msgstr "路径"
 
 #: plugins/plugin-manager/plugin-manager.c:48
-#, fuzzy
 msgid "Description"
-msgstr "描述："
+msgstr "描述"
 
 #. Setup the ui
 #: plugins/plugin-manager/plugin-manager.c:188
-#, fuzzy
 msgid "Plugin Manager"
-msgstr "经理"
+msgstr "插件管理器"
 
 #: plugins/plugin-manager/plugin-manager.c:201
 msgid "Note: Some changes will not take effect until restart"
 msgstr ""
 
 #: plugins/plugin-manager/plugin-manager.c:210
-#, fuzzy
 msgid "Plugin"
-msgstr "销毁"
+msgstr "插件"
 
 #: plugins/prefer-plain/prefer-plain.c:105
 msgid "Show HTML if present"
-msgstr ""
+msgstr "首选 HTML"
 
 #: plugins/prefer-plain/prefer-plain.c:106
 msgid "Prefer PLAIN"
-msgstr ""
+msgstr "首选纯文本"
 
 #: plugins/prefer-plain/prefer-plain.c:107
 msgid "Only ever show PLAIN"
-msgstr ""
+msgstr "仅显示纯文本"
 
 #: plugins/prefer-plain/prefer-plain.c:150
-#, fuzzy
 msgid "HTML Mode"
-msgstr "HTML 邮件"
+msgstr "HTML 模式"
 
 #: plugins/save-attachments/org-gnome-save-attachments.xml.h:1
-#, fuzzy
 msgid "Save Attachments ..."
-msgstr "附件(_A)..."
+msgstr "保存附件..."
 
 #: plugins/save-attachments/org-gnome-save-attachments.xml.h:2
-#, fuzzy
 msgid "Save all attachments"
-msgstr "保存附件"
+msgstr "保存全部附件"
 
 #: plugins/save-attachments/save-attachments.c:319
-#, fuzzy
 msgid "Select save base name"
-msgstr "选择一个时区"
+msgstr "选择保存基础名称"
 
 #: plugins/save-attachments/save-attachments.c:339
-#, fuzzy
 msgid "MIME Type"
-msgstr "MIME 类型："
+msgstr "MIME 类型"
 
 #: plugins/save-attachments/save-attachments.c:347
 #: ui/evolution-message-composer.xml.h:16
@@ -16080,7 +16019,7 @@ msgstr "保存"
 #: plugins/save-calendar/save-calendar.c:167
 #, c-format
 msgid "%s%d/%s%d/%s%d %s%d:%s%d:%s%d"
-msgstr ""
+msgstr "%s%d/%s%d/%s%d %s%d:%s%d:%s%d"
 
 #: plugins/save-calendar/save-calendar.c:307
 #, c-format
@@ -16099,22 +16038,20 @@ msgid "Advanced options for the CSV format"
 msgstr ""
 
 #: plugins/save-calendar/save-calendar.c:594
-#, fuzzy
 msgid "iCalendar format (.ics)"
-msgstr "iCalendar 文件(.ics)"
+msgstr "iCalendar 格式(.ics)"
 
 #: plugins/save-calendar/save-calendar.c:599
 msgid "Comma separated value format (.csv)"
-msgstr ""
+msgstr "逗号分隔的值格式(.csv)"
 
 #: plugins/save-calendar/save-calendar.c:609
-#, fuzzy
 msgid "Value delimiter:"
-msgstr "本地发送"
+msgstr "值分隔符："
 
 #: plugins/save-calendar/save-calendar.c:615
 msgid "Record delimiter:"
-msgstr ""
+msgstr "记录分隔符："
 
 #: plugins/save-calendar/save-calendar.c:621
 msgid "Encapsulate values with:"
@@ -16123,85 +16060,75 @@ msgstr ""
 #. I haven't tested this yet
 #: plugins/save-calendar/save-calendar.c:636
 #: plugins/save-calendar/save-calendar.c:646
-#, fuzzy
 msgid "Select destination file"
-msgstr "选择目的"
+msgstr "选择目的文件"
 
 #: plugins/shared-folder/properties.glade.h:1
-#, fuzzy
 msgid ""
 "\n"
 "Share List"
-msgstr "电话列表(_P)"
+msgstr "\n共享列表"
 
 #: plugins/shared-folder/properties.glade.h:4
-#, fuzzy
 msgid "Ad_d"
-msgstr "添加(_A)"
+msgstr "添加(_D)"
 
 #: plugins/shared-folder/properties.glade.h:5
 msgid "Additional Access"
-msgstr ""
+msgstr "额外地址"
 
 #: plugins/shared-folder/properties.glade.h:7
-#, fuzzy
 msgid "Delet_e"
-msgstr "删除"
+msgstr "删除(_E)"
 
 #: plugins/shared-folder/properties.glade.h:8
-#, fuzzy
 msgid "Edi_t"
-msgstr "编辑"
+msgstr "编辑(_T)"
 
 #: plugins/shared-folder/properties.glade.h:10
-#, fuzzy
 msgid "Message"
-msgstr "消息(_S)："
+msgstr "消息"
 
 #: plugins/shared-folder/properties.glade.h:12
 msgid "Sen_d Custom Notification"
-msgstr ""
+msgstr "发送自定义通知(_D)"
 
 #: plugins/shared-folder/properties.glade.h:13
 msgid "Shared Folder Notification"
-msgstr ""
+msgstr "共享文件夹通知"
 
 #: plugins/shared-folder/properties.glade.h:15
 msgid "The participants will receive the following notification.\n"
 msgstr ""
 
 #: plugins/shared-folder/properties.glade.h:18
-#, fuzzy
 msgid "_Not Shared"
-msgstr "尚未开始"
+msgstr "未共享(_N)"
 
 #: plugins/shared-folder/properties.glade.h:20
 msgid "_Shared With ..."
-msgstr ""
+msgstr "共享对象(_S)..."
 
 #: plugins/shared-folder/properties.glade.h:21
-#, fuzzy
 msgid "_Sharing"
-msgstr "阴影"
+msgstr "共享(_S)"
 
 #: plugins/shared-folder/share-folder-common.c:282
-#, fuzzy
 msgid "Users"
-msgstr "用户名"
+msgstr "用户"
 
 #: plugins/shared-folder/share-folder-common.c:283
 msgid "Enter the users and set permissions"
-msgstr ""
+msgstr "输入用户及设定权限"
 
 #: plugins/shared-folder/share-folder-common.c:361
-#, fuzzy
 msgid "Sharing"
-msgstr "阴影"
+msgstr "共享"
 
 #. Create the checkbox we will display, complete with mnemonic that is unique in the dialog
 #: plugins/subject-thread/subject-thread.c:54
 msgid "Fall back to threading messages by sub_ject"
-msgstr ""
+msgstr "默认按照主体对线索中的信件排序(_J)"
 
 #: shell/apps_evolution_shell.schemas.in.in.h:1
 msgid "Default width of the folder bar pane"
@@ -18712,9 +18639,8 @@ msgid "Pi_lot Settings..."
 msgstr "Pilot 设置(_L)..."
 
 #: ui/evolution.xml.h:16
-#, fuzzy
 msgid "Prefere_nces"
-msgstr "邮件首选项"
+msgstr "首选项(_N)"
 
 #: ui/evolution.xml.h:17
 msgid "Send / Receive"
