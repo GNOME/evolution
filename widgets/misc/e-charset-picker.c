@@ -53,7 +53,8 @@ typedef enum {
 	E_CHARSET_KOREAN,
 	E_CHARSET_TURKISH,
 	E_CHARSET_UNICODE,
-	E_CHARSET_WESTERN_EUROPEAN
+	E_CHARSET_WESTERN_EUROPEAN,
+	E_CHARSET_WESTERN_EUROPEAN_NEW,
 } ECharsetClass;
 
 static const char *classnames[] = {
@@ -69,6 +70,7 @@ static const char *classnames[] = {
 	N_("Turkish"),
 	N_("Unicode"),
 	N_("Western European"),
+	N_("Western European, New"),
 };
 
 typedef struct {
@@ -106,7 +108,7 @@ static ECharset charsets[] = {
 	{ "UTF-8", E_CHARSET_UNICODE, NULL },
 	{ "UTF-7", E_CHARSET_UNICODE, NULL },
 	{ "ISO-8859-1", E_CHARSET_WESTERN_EUROPEAN, NULL },
-	{ "ISO-8859-15", E_CHARSET_WESTERN_EUROPEAN, N_("New") },
+	{ "ISO-8859-15", E_CHARSET_WESTERN_EUROPEAN_NEW, NULL },
 };
 static const int num_charsets = sizeof (charsets) / sizeof (charsets[0]);
 

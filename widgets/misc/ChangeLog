@@ -1,3 +1,8 @@
+2004-04-01  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* e-charset-picker.c (e_charset_picker_new): Create a new class
+	for "Western European, New" to fix a translation issue.
+
 2004-03-31  Not Zed  <NotZed@Ximian.com>
 
 	* e-filter-bar.c (menubar_activated): start the rule editor with
