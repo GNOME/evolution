@@ -92,7 +92,7 @@ do
 	  echo "Running gettextize...  Ignore non-fatal messages."
 	  echo "no" | gettextize --force --copy
 	  echo "Making $dr/aclocal.m4 writable ..."
-	  chmod u+w $dr/aclocal.m4
+	  test -e $dr/aclocal.m4 && chmod u+w $dr/aclocal.m4
         fi
       fi
       if grep "^AM_PROG_LIBTOOL" configure.in >/dev/null; then
