@@ -1502,10 +1502,15 @@ get_content (CamelImapFolder *imap_folder, const char *uid,
 		camel_multipart_set_boundary (body_mp, NULL);
 		
 		speclen = strlen (part_spec);
-		child_spec = g_malloc (speclen + 15);
+		child_spec = g_malloc (speclen + 18);
 		memcpy (child_spec, part_spec, speclen);
 		if (speclen > 0)
 			child_spec[speclen++] = '.';
+		
+		if (ci->parent && header_content_type_is (ci->parent->type, "message", "rfc822")) {
+			child_spec[speclen++] = '1';
+			child_spec[speclen++] = '.';
+		}
 		
 		ci = ci->childs;
 		num = 1;
@@ -1542,7 +1547,7 @@ get_content (CamelImapFolder *imap_folder, const char *uid,
 			ci = ci->next;
 		}
 		g_free (child_spec);
-
+		
 		return (CamelDataWrapper *)body_mp;
 	} else if (header_content_type_is (ci->type, "message", "rfc822")) {
 		return (CamelDataWrapper *)
@@ -1552,7 +1557,7 @@ get_content (CamelImapFolder *imap_folder, const char *uid,
 			child_spec = g_strdup_printf ("%s%s1", part_spec, *part_spec ? "." : "");
 		else
 			child_spec = g_strdup (part_spec);
-
+		
 		content = camel_imap_wrapper_new (imap_folder, ci->type, uid, child_spec, part);
 		g_free (child_spec);
 		return content;
@@ -1675,7 +1680,7 @@ imap_get_message (CamelFolder *folder, const char *uid, CamelException *ex)
 		}
 		
 		response = camel_imap_command (store, folder, ex,
-					       "UID FETCH %s BODYSTRUCTURE", uid);
+					       "UID FETCH %s BODY", uid);
 		if (!response) {
 			camel_folder_summary_info_free (folder->summary, mi);
 			return NULL;

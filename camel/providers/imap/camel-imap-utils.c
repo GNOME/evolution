@@ -521,7 +521,7 @@ parse_params (char **parms_p, CamelContentType *type)
  * @folder: an imap folder
  * @ci: a CamelMessageContentInfo to fill in
  *
- * This filles in @ci with data from *@body_p. On success *@body_p
+ * This fills in @ci with data from *@body_p. On success *@body_p
  * will point to the character after the body. On failure, it will be
  * set to %NULL and @ci will be unchanged.
  **/
@@ -547,7 +547,6 @@ imap_parse_body (char **body_p, CamelFolder *folder,
 		
 		/* Parse the child body parts */
 		children = g_ptr_array_new ();
-		i = 0;
 		while (body && *body == '(') {
 			child = camel_folder_summary_content_info_new (folder->summary);
 			g_ptr_array_add (children, child);

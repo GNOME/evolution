@@ -1,5 +1,12 @@
 2002-05-13  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* providers/imap/camel-imap-folder.c (imap_get_message): Previous
+	fix reverted.
+	(get_content): Handle the case where a multipart's parent is a
+	message/rfc822 part. Fixes bug #24136.
+
+2002-05-13  Jeffrey Stedfast  <fejj@ximian.com>
+
 	* providers/imap/camel-imap-store.c (camel_imap_store_class_init):
 	Overload the setv/getv CamelObject virtual methods.
 	(imap_setv): Implemented.
