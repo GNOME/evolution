@@ -1,3 +1,11 @@
+2000-08-02  Dan Winship  <danw@helixcode.com>
+
+	* mail-config.c (service_page_item_new): Make the "test settings"
+	button FILL rather than SHRINK so it doesn't end up oddly-placed.
+
+	* mail-config-druid.glade: Make the icon background dark blue
+	like the surrounding area.
+
 2000-08-02  Christopher James Lahey  <clahey@helixcode.com>
 
 	* mail-ops.c, message-list.c: Emit "model_pre_change" where

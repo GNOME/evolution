@@ -1222,7 +1222,7 @@ service_page_item_new (MailDialogServicePage *page, MailService *mcs)
 		btn = gtk_button_new_with_label (_("Test Settings"));
 
 		gtk_table_attach (GTK_TABLE (table), btn, 2, 3,
-				  row, row + 1, GTK_SHRINK, GTK_SHRINK, 0, 0);
+				  row, row + 1, GTK_FILL, GTK_FILL, 0, 0);
 
 		gtk_signal_connect (GTK_OBJECT (btn), "clicked",
 				    GTK_SIGNAL_FUNC (service_page_item_test), 
