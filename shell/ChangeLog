@@ -1,5 +1,9 @@
 2003-01-28  Ettore Perazzoli  <ettore@ximian.com>
 
+	* Makefile.am (Evolution-impl.o): Removed unused rule.
+
+2003-01-28  Ettore Perazzoli  <ettore@ximian.com>
+
 	* importer/Makefile.am: Make this work with parallel make as well.
 
 2003-01-28  Ettore Perazzoli  <ettore@ximian.com>

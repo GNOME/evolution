@@ -51,8 +51,6 @@ IDL_GENERATED_C = 		\
 
 IDL_GENERATED = $(IDL_GENERATED_H) $(IDL_GENERATED_C)
 
-Evolution-impl.o: Evolution.h
-
 $(IDL_GENERATED_H): $(IDLS)
 	$(ORBIT_IDL) -I $(srcdir) $(IDL_INCLUDES) $(srcdir)/Evolution.idl
 
