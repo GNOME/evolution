@@ -618,9 +618,9 @@ ensure_completion_uris_exist()
 		g_free (dirname);
 		g_free (uri);
 		e_config_listener_set_string (db, "/apps/evolution/addressbook/completion/uris", val);
-
-		g_free (val);
 	}
+
+	g_free (val);
 }
 
 
