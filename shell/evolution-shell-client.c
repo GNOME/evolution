@@ -483,8 +483,8 @@ evolution_shell_client_set_line_status (EvolutionShellClient *shell_client,
 	GNOME_Evolution_Shell corba_shell;
 	CORBA_Environment ev;
 
-	g_return_if_fail (shell_client != NULL, CORBA_OBJECT_NIL);
-	g_return_if_fail (EVOLUTION_IS_SHELL_CLIENT (shell_client), CORBA_OBJECT_NIL);
+	g_return_if_fail (shell_client != NULL);
+	g_return_if_fail (EVOLUTION_IS_SHELL_CLIENT (shell_client));
 
 	CORBA_exception_init (&ev);
 

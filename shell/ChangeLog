@@ -1,6 +1,12 @@
 2001-08-17  Ettore Perazzoli  <ettore@ximian.com>
 
 	* evolution-shell-client.c
+	(evolution_shell_client_set_line_status): g_return_if_fail(), not
+	g_return_val_if_fail().
+
+2001-08-17  Ettore Perazzoli  <ettore@ximian.com>
+
+	* evolution-shell-client.c
 	(evolution_shell_client_get_local_storage): Added some g_warnings
 	for when we return CORBA_OBJECT_NIL; this might help to figure out
 	what is wrong with bug #6625.  Also, added a missing
