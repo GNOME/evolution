@@ -28,6 +28,8 @@
 #include <ctype.h>
 #include <sys/stat.h>
 #include <string.h>
+#include <locale.h>
+#include <stdio.h>
 
 #include "e-util.h"
 #if 0
@@ -535,4 +537,134 @@ e_filename_make_safe (gchar *string)
 		if (!isprint ((unsigned char)*p) || strchr (" /'\"`&();|<>${}!", *p))
 			*p = '_';
 	}
+}
+
+static gint
+epow10 (gint number) {
+	gint value;
+
+	for (value = 1; number > 0; number --) {
+		value *= 10;
+	}
+	return value;
+}
+
+gchar *
+e_format_number (gint number)
+{
+	GList *iterator, *list = NULL;
+	struct lconv *locality;
+	gint char_length = 0;
+	gint group_count = 0;
+	guchar *grouping;
+	int last_count = 3;
+	int divider;
+	char *value;
+	char *value_iterator;
+
+	locality = localeconv();
+	grouping = locality->grouping;
+	while (number) {
+		char *group;
+		switch (*grouping) {
+		default:
+			last_count = *grouping;
+			grouping++;
+		case 0:
+			divider = epow10(last_count);
+			group = g_strdup_printf("%d", number % divider);
+			number /= divider;
+			break;
+		case CHAR_MAX:
+			group = g_strdup_printf("%d", number);
+			number = 0;
+			break;
+		}
+		char_length += strlen(group);
+		list = g_list_prepend(list, group);
+		group_count ++;
+	}
+
+	if (list) {
+		value = g_new(char, char_length + (group_count - 1) * strlen(locality->thousands_sep));
+
+		iterator = list;
+		value_iterator = value;
+
+		strcpy(value_iterator, iterator->data);
+		value_iterator += strlen(iterator->data);
+		for (iterator = iterator->next; iterator; iterator = iterator->next) {
+			strcpy(value_iterator, locality->thousands_sep);
+			value_iterator += strlen(locality->thousands_sep);
+
+			strcpy(value_iterator, iterator->data);
+			value_iterator += strlen(iterator->data);
+		}
+		e_free_string_list (list);
+		return value;
+	} else {
+		return g_strdup("0");
+	}
+}
+
+gboolean
+e_create_directory (gchar *directory)
+{
+	gchar *full_name;
+	gchar *position;
+	gchar *current_dir = g_get_current_dir();
+	struct stat info;
+	gboolean return_value = TRUE;
+
+	if (directory[0] == '/') {
+		full_name = g_malloc0 (strlen (directory) + 1);
+		strcpy (full_name, directory);
+	} else {
+		full_name = g_malloc0 (strlen (directory) + strlen (current_dir) + 2);
+		sprintf (full_name, "%s/%s", current_dir, directory);
+	}
+
+	if ((position = strrchr (full_name, '/')) == full_name) {
+		if (stat (full_name, &info)) {
+			switch (errno) {
+			case ENOENT:
+				if (mkdir (full_name, 0777)) {
+					switch (errno) {
+					default:
+						return_value = FALSE;
+						break;
+					}
+				}
+				break;
+			default:
+				return_value = FALSE;
+				break;
+			}
+		}
+	} else {
+		*position = 0;
+		e_create_directory (full_name);
+		*position = '/';
+		if (stat (full_name, &info)) {
+			switch (errno) {
+			case ENOENT:
+				if (mkdir (full_name, 0777)) {
+					switch (errno) {
+					default:
+						return_value = FALSE;
+						break;
+					}
+				}
+				break;
+			default:
+				return_value = FALSE;
+				break;
+			}
+		}
+	}
+
+	g_free (current_dir);
+	g_free (full_name);
+
+	return (return_value);
 }
