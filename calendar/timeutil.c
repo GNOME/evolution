@@ -15,9 +15,10 @@ time_t
 time_from_isodate (char *str)
 {
 	struct tm my_tm;
+	time_t t;
 
-	my_tm.tm_year = digit_at (str, 0) * 1000 + digit_at (str, 1) * 100 +
-		digit_at (str, 2) * 10 + digit_at (str, 3);
+	my_tm.tm_year = (digit_at (str, 0) * 1000 + digit_at (str, 1) * 100 +
+		digit_at (str, 2) * 10 + digit_at (str, 3)) - 1900;
 
 	my_tm.tm_mon  = digit_at (str, 4) * 10 + digit_at (str, 5);
 	my_tm.tm_mday = digit_at (str, 6) * 10 + digit_at (str, 7);
@@ -26,7 +27,15 @@ time_from_isodate (char *str)
 	my_tm.tm_sec  = digit_at (str, 13) * 10 + digit_at (str, 14);
 	my_tm.tm_isdst = -1;
 	
-	return mktime (&my_tm);
+	t = mktime (&my_tm);
+	{
+		struct tm *tm = localtime (&t);
+
+		printf ("TIEMPO: %d/%d/%d %d:%d:%d\n",
+			tm->tm_mday, tm->tm_mon, tm->tm_year,
+			tm->tm_hour, tm->tm_min, tm->tm_sec);
+	}
+	return t;
 }
 
 char *

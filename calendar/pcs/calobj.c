@@ -63,7 +63,7 @@ set_list (char *str, char *sc)
 }
 
 #define is_a_prop_of(obj,prop) isAPropertyOf (obj,prop)
-#define str_val(obj) (char *) vObjectUStringZValue (obj)
+#define str_val(obj) fakeCString (vObjectUStringZValue (obj))
 #define has(obj,prop) (vo = isAPropertyOf (obj, prop))
 
 /* FIXME: we need to load the recurrence properties */

@@ -113,6 +113,7 @@ gncal_day_view_new (GnomeCalendar *calendar, time_t lower, time_t upper)
 	dview->lower    = lower;
 	dview->upper    = upper;
 	dview->events   = 0;
+
 	gncal_day_view_update (dview);
 
 	return GTK_WIDGET (dview);
@@ -286,6 +287,9 @@ gncal_day_view_update (GncalDayView *dview)
 	g_return_if_fail (dview != NULL);
 	g_return_if_fail (GNCAL_IS_DAY_VIEW (dview));
 
+	if (!dview->calendar->cal)
+		return;
+	
 	if (dview->day_str)
 		g_free (dview->day_str);
 
