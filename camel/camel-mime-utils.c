@@ -3395,6 +3395,7 @@ static struct {
 	{ "X-Mailing-List", " *([^@]+)" },
 	{ "X-Loop", " *([^@]+)" },
 	{ "List-Id", " *([^<]+)" },
+	{ "Mailing-List", " *list ([^@]+)" },
 };
 
 char *

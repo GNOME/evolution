@@ -1,3 +1,8 @@
+2001-06-14  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* camel-mime-utils.c: Added Mailing-List header regex so that we
+	can do mlist magic on that header.
+
 2001-05-28  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* camel-mime-utils.c (header_decode_param): Properly handle
