@@ -839,14 +839,6 @@ itip_send_comp (CalComponentItipMethod method, CalComponent *send_comp,
 	
 	CORBA_exception_init (&ev);
 
-	/* Obtain an object reference for the Composer. */
-	composer_server = bonobo_activation_activate_from_id (GNOME_EVOLUTION_COMPOSER_OAFIID, 0, NULL, &ev);
-	if (BONOBO_EX (&ev)) {
-		g_warning ("Could not activate composer: %s", bonobo_exception_get_text (&ev));
-		CORBA_exception_free (&ev);
-		return FALSE;
-	}
-	
 	/* Give the server a chance to manipulate the comp */
 	if (method != CAL_COMPONENT_METHOD_PUBLISH) {
 		if (!comp_server_send (method, send_comp, client, zones, &users))
@@ -867,7 +859,7 @@ itip_send_comp (CalComponentItipMethod method, CalComponent *send_comp,
 			goto cleanup;
 		}
 	}
-	
+
 	cc_list = GNOME_Evolution_Composer_RecipientList__alloc ();
 	cc_list->_maximum = cc_list->_length = 0;
 	bcc_list = GNOME_Evolution_Composer_RecipientList__alloc ();
@@ -878,6 +870,14 @@ itip_send_comp (CalComponentItipMethod method, CalComponent *send_comp,
 	
 	/* From address */
 	from = comp_from (method, comp);
+
+	/* Obtain an object reference for the Composer. */
+	composer_server = bonobo_activation_activate_from_id (GNOME_EVOLUTION_COMPOSER_OAFIID, 0, NULL, &ev);
+	if (BONOBO_EX (&ev)) {
+		g_warning ("Could not activate composer: %s", bonobo_exception_get_text (&ev));
+		CORBA_exception_free (&ev);
+		return FALSE;
+	}
 
 	/* Set recipients, subject */
 	GNOME_Evolution_Composer_setHeaders (composer_server, from, to_list, cc_list, bcc_list, subject, &ev);

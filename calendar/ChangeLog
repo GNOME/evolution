@@ -1,3 +1,9 @@
+2003-04-17  JP Rosevear  <jpr@ximian.com>
+
+	Fixes #41459
+	
+	* gui/dialogs/meeting-page.c: comment out delegation stuff
+
 2003-04-17  Rodrigo Moya <rodrigo@ximian.com>
 
 	Fixes #34498

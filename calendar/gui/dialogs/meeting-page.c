@@ -598,6 +598,7 @@ init_widgets (MeetingPage *mpage)
 			    G_CALLBACK (invite_cb), mpage);
 }
 
+#if 0
 static void
 popup_delegate_cb (GtkWidget *widget, gpointer data) 
 {
@@ -656,6 +657,7 @@ popup_delegate_cb (GtkWidget *widget, gpointer data)
 	g_free (address);
 	g_object_unref((edd));
 }
+#endif
 
 static void
 popup_delete_cb (GtkWidget *widget, gpointer data) 
@@ -705,10 +707,11 @@ enum {
 };
 
 static EPopupMenu context_menu[] = {
+#if 0
 	E_POPUP_ITEM (N_("_Delegate To..."), G_CALLBACK (popup_delegate_cb),  CAN_DELEGATE),
 
 	E_POPUP_SEPARATOR,
-
+#endif
 	E_POPUP_ITEM (N_("_Delete"), G_CALLBACK (popup_delete_cb),   CAN_DELETE),
 	
 	E_POPUP_TERMINATOR
