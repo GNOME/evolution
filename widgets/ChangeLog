@@ -1,3 +1,10 @@
+2003-09-08  Dan Winship  <danw@ximian.com>
+
+	* e-timezone-dialog/Makefile.am: switch from noinst to privlib,
+	since this is used by multiple components
+
+	* menus/Makefile.am: Likewise
+
 2003-08-27  Hans Petter Jansson  <hpj@ximian.com>
 
 	Fixes #15638.
