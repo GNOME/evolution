@@ -213,7 +213,7 @@ show_development_warning (GtkWindow *parent)
 		  "but some features are either unfinished or don't work properly.\n"
 		  "\n"
 		  "If you want a stable version of Evolution, we urge you to uninstall,\n"
-		  "this version, and install a 1.0.x version instead (1.0.8)\n"
+		  "this version, and install a 1.2.x version instead (1.2.2)\n"
 		  "\n"
 		  "If you find bugs, please report them to us at bugzilla.ximian.com.\n"
                   "This product comes with no warranty and is not intended for\n"
