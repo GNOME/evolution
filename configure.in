@@ -3,9 +3,9 @@ AC_INIT(camel)
 AM_CONFIG_HEADER(config.h)
 
 EVOLUTION_MAJOR_VERSION=0
-EVOLUTION_MINOR_VERSION=15
-EVOLUTION_MICRO_VERSION=99
-VERSION=$EVOLUTION_MAJOR_VERSION.$EVOLUTION_MINOR_VERSION.$EVOLUTION_MICRO_VERSION
+EVOLUTION_MINOR_VERSION=16
+EVOLUTION_MICRO_VERSION=0
+VERSION=$EVOLUTION_MAJOR_VERSION.$EVOLUTION_MINOR_VERSION
 PACKAGE=evolution
 
 AM_INIT_AUTOMAKE($PACKAGE, $VERSION)
@@ -571,8 +571,8 @@ EVO_CHECK_LIB(Bonobo, bonobox, 1.0.3)
 EVO_CHECK_LIB(OAF, oaf, 0.6.2)
 EVO_CHECK_LIB(libglade, libglade, 0.14)
 EVO_CHECK_LIB(gdk-pixbuf with GNOME canvas support, gnomecanvaspixbuf, 0.9.0)
-EVO_CHECK_LIB(GAL, gal, 0.13.99.1)
-EVO_CHECK_LIB(GtkHTML, gtkhtml, 0.14.99.1)
+EVO_CHECK_LIB(GAL, gal, 0.14)
+EVO_CHECK_LIB(GtkHTML, gtkhtml, 0.15)
 EVO_CHECK_LIB(GNOME-VFS, vfs, 1.0)
 EVO_CHECK_LIB(libxml, xml, 1.8.10, 2.0)
 EVO_CHECK_LIB(bonobo-conf, bonobo_conf, 0.11)
@@ -773,7 +773,7 @@ dnl
 dnl The Evolution security extensions are only built if these libraries are found
 dnl ********************************************************************************
 AC_ARG_WITH(nspr-includes, [  --with-nspr-includes=PREFIX     Location of Mozilla nspr4 includes.],
-	with_nspr_includes="$withval", with_nspr_includes="/usr/include/mozilla")
+	with_nspr_includes="$withval", with_nspr_includes="/usr/include/nspr")
 have_nspr_includes="no"
 if test "x${with_nspr_includes}" != "xno"; then
 	CPPFLAGS_save="$CPPFLAGS"
@@ -828,7 +828,7 @@ else
 fi
 
 AC_ARG_WITH(nss-includes, [  --with-nss-includes=PREFIX     Location of Mozilla nss3 includes.],
-	with_nss_includes="$withval", with_nss_includes="/usr/include/mozilla")
+	with_nss_includes="$withval", with_nss_includes="/usr/include/moznss")
 if test "x${with_nss_includes}" != "xno" -a "x${have_nspr_libs}" != "xno"; then
 	CPPFLAGS_save="$CPPFLAGS"
 	

@@ -1,5 +1,13 @@
 2001-10-10  Ettore Perazzoli  <ettore@ximian.com>
 
+	* configure.in: 0.16.  Require GtkHTML 0.15 or later and GAL 0.14
+	or later.  Also, make $with_nspr_includes default to
+	`/usr/include/nspr' instead of `/usr/include/mozilla' and
+	$with_nss_includes to `/usr/include/moznss' instead of
+	`/usr/include/mozilla'.
+
+2001-10-10  Ettore Perazzoli  <ettore@ximian.com>
+
 	* NEWS: Added info about the shell, plus some minor fixes for
 	consistency.
 
