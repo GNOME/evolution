@@ -172,7 +172,7 @@ impl_Composer_attach_MIME (PortableServer_Servant servant,
 	attachment = camel_mime_part_new ();
 	status = camel_data_wrapper_construct_from_stream (
 		CAMEL_DATA_WRAPPER (attachment), mem_stream);
-	camel_object_unref (CAMEL_OBJECT (mem_stream));
+	camel_object_unref (mem_stream);
 
 	if (status == -1) {
 		CORBA_exception_set (ev, CORBA_USER_EXCEPTION,
@@ -213,7 +213,7 @@ impl_Composer_attach_data (PortableServer_Servant servant,
 					 "inline" : "attachment");
 
 	e_msg_composer_attach (composer->composer, attachment);
-	camel_object_unref (CAMEL_OBJECT (attachment));
+	camel_object_unref (attachment);
 }
 
 static void
@@ -267,38 +267,49 @@ destroy (GtkObject *object)
 {
 	EvolutionComposer *composer = EVOLUTION_COMPOSER (object);
 
-	if (composer->composer)
-		gtk_object_unref (GTK_OBJECT (composer->composer));
+	if (composer->composer) {
+		g_object_unref((composer->composer)); 
+		composer->composer = NULL;
+	}
 
 	GTK_OBJECT_CLASS (parent_class)->destroy (object);
 }
 
 static void
-class_init (EvolutionComposerClass *klass)
+evolution_composer_class_init (EvolutionComposerClass *klass)
 {
 	GtkObjectClass *object_class;
+	POA_GNOME_Evolution_Composer__epv *epv;
 
 	object_class = GTK_OBJECT_CLASS (klass);
 	object_class->destroy = destroy;
 
-	parent_class = gtk_type_class (bonobo_object_get_type ());
+	parent_class = g_type_class_ref(bonobo_object_get_type ());
 
-	Composer_vepv.Bonobo_Unknown_epv = bonobo_object_get_epv ();
-	Composer_vepv.GNOME_Evolution_Composer_epv = evolution_composer_get_epv ();
+	epv = &klass->epv;
+
+	epv->setHeaders       = impl_Composer_set_headers;
+	epv->setMultipartType = impl_Composer_set_multipart_type;
+	epv->setBody          = impl_Composer_set_body;
+	epv->attachMIME       = impl_Composer_attach_MIME;
+	epv->attachData       = impl_Composer_attach_data;
+	epv->show             = impl_Composer_show;
+	epv->send             = impl_Composer_send;
 }
 
 static void
-init (EvolutionComposer *composer)
+evolution_composer_init (EvolutionComposer *composer)
 {
 	const MailConfigAccount *account;
+	BonoboObject *item_handler;
 
 	account            = mail_config_get_default_account ();
 	composer->composer = e_msg_composer_new ();
 
-	gtk_signal_connect (GTK_OBJECT (composer->composer), "send",
-			    GTK_SIGNAL_FUNC (send_cb), NULL);
-	gtk_signal_connect (GTK_OBJECT (composer->composer), "save-draft",
-			    GTK_SIGNAL_FUNC (save_draft_cb), NULL);
+	g_signal_connect (composer->composer, "send",
+			  G_CALLBACK (send_cb), NULL);
+	g_signal_connect (composer->composer, "save-draft",
+			  G_CALLBACK (save_draft_cb), NULL);
 }
 
 #if 0
@@ -345,7 +356,7 @@ evolution_composer_construct (EvolutionComposer *composer,
 	g_return_if_fail (EVOLUTION_IS_COMPOSER (composer));
 	g_return_if_fail (corba_object != CORBA_OBJECT_NIL);
 
-	bonobo_object_construct (BONOBO_OBJECT (composer), corba_object);
+	/*bonobo_object_construct (BONOBO_OBJECT (composer), corba_object);*/
 
 	item_handler = BONOBO_OBJECT (
 		bonobo_item_handler_new (NULL, get_object, composer));
@@ -356,10 +367,11 @@ EvolutionComposer *
 evolution_composer_new (void)
 {
 	EvolutionComposer *new;
+#if 0
 	POA_GNOME_Evolution_Composer *servant;
 	CORBA_Environment ev;
 	GNOME_Evolution_Composer corba_object;
-	
+
 	servant = (POA_GNOME_Evolution_Composer *) g_new0 (BonoboObjectServant, 1);
 	servant->vepv = &Composer_vepv;
 
@@ -375,18 +387,20 @@ evolution_composer_new (void)
 	new = gtk_type_new (evolution_composer_get_type ());
 	corba_object = bonobo_object_activate_servant (BONOBO_OBJECT (new),
 						       servant);
-	evolution_composer_construct (new, corba_object);
+#endif
+	new = g_object_new(EVOLUTION_TYPE_COMPOSER, NULL);
+	evolution_composer_construct (new, NULL);
 
 	return new;
 }
 
-E_MAKE_TYPE (evolution_composer, "EvolutionComposer", EvolutionComposer, class_init, init, PARENT_TYPE)
+BONOBO_TYPE_FUNC_FULL(EvolutionComposer, GNOME_Evolution_Composer, BONOBO_TYPE_OBJECT, evolution_composer)
 
 
 #define GNOME_EVOLUTION_MAIL_COMPOSER_FACTORY_ID "OAFIID:GNOME_Evolution_Mail_ComposerFactory"
 
 static BonoboObject *
-factory_fn (BonoboGenericFactory *factory, void *closure)
+factory_fn (BonoboGenericFactory *factory, const char *id, void *closure)
 {
 	if (!mail_config_is_configured ()) {
 		e_notice (NULL, GNOME_MESSAGE_BOX_ERROR,

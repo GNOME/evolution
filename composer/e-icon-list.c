@@ -50,9 +50,11 @@
 #include <gtk/gtksignal.h>
 #include <gtk/gtkwidget.h>
 #include <libgnomeui/gnome-icon-item.h>
-#include <libgnomeui/gnome-canvas-rect-ellipse.h>
-#include <gdk-pixbuf/gnome-canvas-pixbuf.h>
+#include <libgnomecanvas/gnome-canvas-rect-ellipse.h>
+#include <libgnomecanvas/gnome-canvas-pixbuf.h>
 #include "e-icon-list.h"
+
+#include "composer-marshal.h"
 
 #include "bad-icon.xpm"
 
@@ -101,6 +103,7 @@ static GnomeCanvasClass *parent_class;
 /* Icon structure */
 typedef struct {
 	/* Icon image and text items */
+
 	GnomeCanvasPixbuf *image;
 	GnomeIconTextItem *text;
 
@@ -228,9 +231,10 @@ static void
 icon_get_height (Icon *icon, int *icon_height, int *text_height)
 {
 	double d_icon_height;
-	gtk_object_get(GTK_OBJECT(icon->image), "height", &d_icon_height, NULL);
+
+	g_object_get(icon->image, "height", &d_icon_height, NULL);
 	*icon_height = d_icon_height;
-	*text_height = icon->text->ti->height;
+	*text_height = ((GnomeCanvasItem *)(icon->text))->y2 - ((GnomeCanvasItem *)(icon->text))->y1;
 }
 
 static int
@@ -275,7 +279,7 @@ eil_place_icon (Eil *eil, Icon *icon, int x, int y, int icon_height)
 
 	priv = eil->_priv;
 
-	gtk_object_get(GTK_OBJECT(icon->image), "height", &d_icon_image_height, NULL);
+	g_object_get(icon->image, "height", &d_icon_image_height, NULL);
 	icon_image_height = d_icon_image_height;
 	g_assert(icon_image_height != 0);
 	if (icon_height > icon_image_height)
@@ -283,7 +287,7 @@ eil_place_icon (Eil *eil, Icon *icon, int x, int y, int icon_height)
 	else
 		y_offset = 0;
 
-	gtk_object_get(GTK_OBJECT(icon->image), "width", &d_icon_image_width, NULL);
+	g_object_get(icon->image, "width", &d_icon_image_width, NULL);
 	icon_image_width = d_icon_image_width;
 	g_assert(icon_image_width != 0);
 	if (priv->icon_width > icon_image_width)
@@ -524,10 +528,10 @@ eil_scrollbar_adjust (Eil *eil)
 static void
 emit_select (Eil *eil, int sel, int i, GdkEvent *event)
 {
-	gtk_signal_emit (GTK_OBJECT (eil),
-			 eil_signals[sel ? SELECT_ICON : UNSELECT_ICON],
-			 i,
-			 event);
+	g_signal_emit (eil,
+		       eil_signals[sel ? SELECT_ICON : UNSELECT_ICON],
+		       i,
+		       event);
 }
 
 static int
@@ -622,7 +626,7 @@ selection_one_icon_event (Eil *eil, Icon *icon, int idx, int on_text, GdkEvent *
 	 * destroyed by one of the signal handlers.
 	 */
 	text = icon->text;
-	gtk_object_ref (GTK_OBJECT (text));
+	g_object_ref(text);
 
 	switch (event->type) {
 	case GDK_BUTTON_PRESS:
@@ -676,9 +680,8 @@ selection_one_icon_event (Eil *eil, Icon *icon, int idx, int on_text, GdkEvent *
 	 * icon text item's own handler from executing.
 	 */
 	if (on_text && retval)
-		gtk_signal_emit_stop_by_name (GTK_OBJECT (text), "event");
-
-	gtk_object_unref (GTK_OBJECT (text));
+		g_signal_stop_emission_by_name(text, "event");
+	g_object_unref(text);
 
 	return retval;
 }
@@ -765,7 +768,7 @@ selection_many_icon_event (Eil *eil, Icon *icon, int idx, int on_text, GdkEvent 
 	 * destroyed by one of the signal handlers.
 	 */
 	text = icon->text;
-	gtk_object_ref (GTK_OBJECT (text));
+	g_object_ref(text);
 
 	range = (event->button.state & GDK_SHIFT_MASK) != 0;
 	additive = (event->button.state & GDK_CONTROL_MASK) != 0;
@@ -818,7 +821,7 @@ selection_many_icon_event (Eil *eil, Icon *icon, int idx, int on_text, GdkEvent 
 		retval = TRUE;
 		break;
 
-	case GDK_2BUTTON_PRESS:
+        case GDK_2BUTTON_PRESS:
 	case GDK_3BUTTON_PRESS:
 		/* Ignore wheel mouse clicks for now */
 		if (event->button.button > 3)
@@ -864,9 +867,9 @@ selection_many_icon_event (Eil *eil, Icon *icon, int idx, int on_text, GdkEvent 
 	 * icon text item's own handler from executing.
 	 */
 	if (on_text && retval)
-		gtk_signal_emit_stop_by_name (GTK_OBJECT (text), "event");
+		g_signal_stop_emission_by_name (text, "event");
 
-	gtk_object_unref (GTK_OBJECT (text));
+	g_object_unref(text);
 
 	return retval;
 }
@@ -893,7 +896,6 @@ icon_event (GnomeCanvasItem *item, GdkEvent *event, gpointer data)
 		return selection_one_icon_event (eil, icon, idx, on_text, event);
 
 	case GTK_SELECTION_MULTIPLE:
-	case GTK_SELECTION_EXTENDED:
 		return selection_many_icon_event (eil, icon, idx, on_text, event);
 
 	default:
@@ -911,7 +913,7 @@ editing_started (GnomeIconTextItem *iti, gpointer data)
 	Icon *icon;
 
 	icon = data;
-	gtk_signal_handler_block (GTK_OBJECT (iti), icon->text_event_id);
+	g_signal_handler_block(iti, icon->text_event_id);
 	eil_unselect_all (EIL (GNOME_CANVAS_ITEM (iti)->canvas), NULL, icon);
 }
 
@@ -924,7 +926,7 @@ editing_stopped (GnomeIconTextItem *iti, gpointer data)
 	Icon *icon;
 
 	icon = data;
-	gtk_signal_handler_unblock (GTK_OBJECT (iti), icon->text_event_id);
+	g_signal_handler_unblock(iti, icon->text_event_id);
 }
 
 static gboolean
@@ -938,10 +940,10 @@ text_changed (GnomeCanvasItem *item, Icon *icon)
 	accept = TRUE;
 
 	idx = eil_icon_to_index (eil, icon);
-	gtk_signal_emit (GTK_OBJECT (eil),
-			 eil_signals[TEXT_CHANGED],
-			 idx, gnome_icon_text_item_get_text (icon->text),
-			 &accept);
+	g_signal_emit (GTK_OBJECT (eil),
+		       eil_signals[TEXT_CHANGED],
+		       idx, gnome_icon_text_item_get_text (icon->text),
+		       &accept);
 
 	return accept;
 }
@@ -992,7 +994,7 @@ icon_new_from_pixbuf (EIconList *eil, GdkPixbuf *im,
 	if (im == NULL)
 		im = gdk_pixbuf_new_from_xpm_data ((const char**) bad_icon_xpm); 
 	else
-		gdk_pixbuf_ref (im);
+		g_object_ref (im);
 
 	icon->image = GNOME_CANVAS_PIXBUF (gnome_canvas_item_new (
 		group,
@@ -1003,7 +1005,7 @@ icon_new_from_pixbuf (EIconList *eil, GdkPixbuf *im,
 		"height", (double) gdk_pixbuf_get_height (im),
 		"pixbuf", im,
 		NULL));
-	gdk_pixbuf_unref (im);
+	g_object_unref (im);
 
 	icon->text = GNOME_ICON_TEXT_ITEM (gnome_canvas_item_new (
 		group,
@@ -1020,26 +1022,26 @@ icon_new_from_pixbuf (EIconList *eil, GdkPixbuf *im,
 					"-adobe-helvetica-medium-r-normal-*-*-120-*-*-p-*-iso8859-1",
 					text, priv->is_editable, priv->static_text);
 
-	gtk_signal_connect (GTK_OBJECT (icon->image), "event",
-			    GTK_SIGNAL_FUNC (icon_event),
-			    icon);
-	icon->text_event_id = gtk_signal_connect (GTK_OBJECT (icon->text), "event",
-						  GTK_SIGNAL_FUNC (icon_event),
-						  icon);
+	g_signal_connect (icon->image, "event",
+			  G_CALLBACK (icon_event),
+			  icon);
+	icon->text_event_id = g_signal_connect (icon->text, "event",
+						G_CALLBACK (icon_event),
+						icon);
 
-	gtk_signal_connect (GTK_OBJECT (icon->text), "editing_started",
-			    GTK_SIGNAL_FUNC (editing_started),
-			    icon);
-	gtk_signal_connect (GTK_OBJECT (icon->text), "editing_stopped",
-			    GTK_SIGNAL_FUNC (editing_stopped),
-			    icon);
+	g_signal_connect (icon->text, "editing_started",
+			  G_CALLBACK (editing_started),
+			  icon);
+	g_signal_connect (icon->text, "editing_stopped",
+			  G_CALLBACK (editing_stopped),
+			  icon);
 
-	gtk_signal_connect (GTK_OBJECT (icon->text), "text_changed",
-			    GTK_SIGNAL_FUNC (text_changed),
-			    icon);
-	gtk_signal_connect (GTK_OBJECT (icon->text), "height_changed",
-			    GTK_SIGNAL_FUNC (height_changed),
-			    icon);
+	g_signal_connect (icon->text, "text_changed",
+			  G_CALLBACK (text_changed),
+			  icon);
+	g_signal_connect (icon->text, "height_changed",
+			  G_CALLBACK (height_changed),
+			  icon);
 
 	return icon;
 }
@@ -1051,7 +1053,7 @@ icon_new (Eil *eil, const char *icon_filename, const char *text)
 	Icon *retval;
 
 	if (icon_filename) {
-		im = gdk_pixbuf_new_from_file (icon_filename);
+		im = gdk_pixbuf_new_from_file (icon_filename, NULL);
 
 		/* Bad icon image 
 		   Fixme. Need a better graphic. */
@@ -1063,7 +1065,7 @@ icon_new (Eil *eil, const char *icon_filename, const char *text)
 	retval = icon_new_from_pixbuf (eil, im, icon_filename, text);
 
 	if(im)
-		gdk_pixbuf_unref(im);
+		g_object_unref(im);
 
 	return retval;
 }
@@ -1272,7 +1274,6 @@ e_icon_list_remove (EIconList *eil, int pos)
 		case GTK_SELECTION_SINGLE:
 		case GTK_SELECTION_BROWSE:
 		case GTK_SELECTION_MULTIPLE:
-		case GTK_SELECTION_EXTENDED:
 			e_icon_list_unselect_icon (eil, pos);
 			break;
 
@@ -1385,7 +1386,7 @@ eil_destroy (GtkObject *object)
 }
 
 static void
-eil_finalize (GtkObject *object)
+eil_finalize (GObject *object)
 {
 	Eil *eil;
 
@@ -1394,8 +1395,8 @@ eil_finalize (GtkObject *object)
 	g_free (eil->_priv);
 	eil->_priv = NULL;
 
-	if (GTK_OBJECT_CLASS (parent_class)->finalize)
-		(*GTK_OBJECT_CLASS (parent_class)->finalize) (object);
+	if (G_OBJECT_CLASS (parent_class)->finalize)
+		(*G_OBJECT_CLASS (parent_class)->finalize) (object);
 }
 
 
@@ -1424,7 +1425,6 @@ select_icon (Eil *eil, int pos, GdkEvent *event)
 		break;
 
 	case GTK_SELECTION_MULTIPLE:
-	case GTK_SELECTION_EXTENDED:
 		emit_select (eil, TRUE, pos, event);
 		break;
 
@@ -1461,7 +1461,6 @@ unselect_icon (Eil *eil, int pos, GdkEvent *event)
 	case GTK_SELECTION_SINGLE:
 	case GTK_SELECTION_BROWSE:
 	case GTK_SELECTION_MULTIPLE:
-	case GTK_SELECTION_EXTENDED:
 		emit_select (eil, FALSE, pos, event);
 		break;
 
@@ -1666,7 +1665,7 @@ eil_button_press (GtkWidget *widget, GdkEventButton *event)
 						"width_pixels", 1,
 						"outline_stipple", stipple,
 						NULL);
-	gdk_bitmap_unref (stipple);
+	g_object_unref (stipple);
 
 	gnome_canvas_item_grab (priv->sel_rect, GDK_POINTER_MOTION_MASK | GDK_BUTTON_RELEASE_MASK,
 				NULL, event->time);
@@ -1881,52 +1880,26 @@ eil_motion_notify (GtkWidget *widget, GdkEventMotion *event)
 	return TRUE;
 }
 
-typedef gboolean (*xGtkSignal_BOOL__INT_POINTER) (GtkObject * object,
-						  gint     arg1,
-						  gpointer arg2,
-						  gpointer user_data);
+/* ??? i dont know if this is needed to override other properties, or it was
+   just here because it was taken from a template? */
 static void
-xgtk_marshal_BOOL__INT_POINTER (GtkObject *object, GtkSignalFunc func, gpointer func_data,
-				GtkArg *args)
-{
-  xGtkSignal_BOOL__INT_POINTER rfunc;
-  gboolean *return_val;
-
-  return_val = GTK_RETLOC_BOOL (args[2]);
-  rfunc = (xGtkSignal_BOOL__INT_POINTER) func;
-  *return_val = (*rfunc) (object,
-			  GTK_VALUE_INT (args[0]),
-			  GTK_VALUE_POINTER (args[1]),
-			  func_data);
-}
-
-static void
-eil_set_arg (GtkObject *object, GtkArg *arg, guint arg_id)
+eil_set_property (GObject *gobject, guint arg_id, const GValue *value, GParamSpec *pspec)
 {
 	EIconList *eil;
 
-	eil = E_ICON_LIST (object);
+	eil = E_ICON_LIST (gobject);
 
-	switch (arg_id) {
-	default:
-		break;
-	}
+	G_OBJECT_WARN_INVALID_PROPERTY_ID (gobject, arg_id, pspec);
 }
 
 static void
-eil_get_arg (GtkObject *object, GtkArg *arg, guint arg_id)
+eil_get_property (GObject *gobject, guint arg_id, GValue *value, GParamSpec *pspec)
 {
 	EIconList *eil;
-	EIconListPrivate *priv;
 
-	eil = E_ICON_LIST (object);
-	priv = eil->_priv;
+	eil = E_ICON_LIST (gobject);
 
-	switch (arg_id) {
-	default:
-		arg->type = GTK_TYPE_INVALID;
-		break;
-	}
+	G_OBJECT_WARN_INVALID_PROPERTY_ID (gobject, arg_id, pspec);
 }
 
 static void
@@ -1936,53 +1909,51 @@ eil_class_init (EilClass *eil_class)
 	GtkWidgetClass *widget_class;
 	GtkLayoutClass *layout_class;
 	GnomeCanvasClass *canvas_class;
+	GObjectClass *klass;
 
+	klass = (GObjectClass *)eil_class;
 	object_class = (GtkObjectClass *)   eil_class;
 	widget_class = (GtkWidgetClass *)   eil_class;
 	layout_class = (GtkLayoutClass *)   eil_class;
 	canvas_class = (GnomeCanvasClass *) eil_class;
 
-	parent_class = gtk_type_class (gnome_canvas_get_type ());
+	parent_class = g_type_class_ref(gnome_canvas_get_type());
 
 	eil_signals[SELECT_ICON] =
-		gtk_signal_new (
-			"select_icon",
-			GTK_RUN_FIRST,
-			object_class->type,
-			GTK_SIGNAL_OFFSET (EIconListClass, select_icon),
-			gtk_marshal_NONE__INT_POINTER,
-			GTK_TYPE_NONE, 2,
-			GTK_TYPE_INT,
-			GTK_TYPE_GDK_EVENT);
+		g_signal_new("select_icon", E_TYPE_ICON_LIST,
+			     G_SIGNAL_RUN_FIRST,
+			     G_STRUCT_OFFSET(EIconListClass, select_icon),
+			     NULL,
+			     NULL,
+			     e_msg_composer_marshal_VOID__INT_BOXED,
+			     G_TYPE_NONE,
+			     2, G_TYPE_INT, GDK_TYPE_EVENT | G_SIGNAL_TYPE_STATIC_SCOPE);
 
 	eil_signals[UNSELECT_ICON] =
-		gtk_signal_new (
-			"unselect_icon",
-			GTK_RUN_FIRST,
-			object_class->type,
-			GTK_SIGNAL_OFFSET (EIconListClass, unselect_icon),
-			gtk_marshal_NONE__INT_POINTER,
-			GTK_TYPE_NONE, 2,
-			GTK_TYPE_INT,
-			GTK_TYPE_GDK_EVENT);
+		g_signal_new("unselect_icon", E_TYPE_ICON_LIST,
+			     G_SIGNAL_RUN_FIRST,
+			     G_STRUCT_OFFSET(EIconListClass, unselect_icon),
+			     NULL,
+			     NULL,
+			     e_msg_composer_marshal_VOID__INT_BOXED,
+			     G_TYPE_NONE,
+			     2, G_TYPE_INT, GDK_TYPE_EVENT | G_SIGNAL_TYPE_STATIC_SCOPE);
 
 	eil_signals[TEXT_CHANGED] =
-		gtk_signal_new (
-			"text_changed",
-			GTK_RUN_LAST,
-			object_class->type,
-			GTK_SIGNAL_OFFSET (EIconListClass, text_changed),
-			xgtk_marshal_BOOL__INT_POINTER,
-			GTK_TYPE_BOOL, 2,
-			GTK_TYPE_INT,
-			GTK_TYPE_POINTER);
+		g_signal_new("text_changed", E_TYPE_ICON_LIST,
+			     G_SIGNAL_RUN_LAST,
+			     G_STRUCT_OFFSET (EIconListClass, text_changed),
+			     NULL,
+			     NULL,
+			     e_msg_composer_marshal_BOOLEAN__INT_POINTER,
+			     G_TYPE_BOOLEAN,
+			     2, G_TYPE_INT, G_TYPE_POINTER);
 
-	gtk_object_class_add_signals (object_class, eil_signals, LAST_SIGNAL);
+	klass->finalize = eil_finalize;
+	klass->set_property = eil_set_property;
+	klass->get_property = eil_get_property;
 
 	object_class->destroy = eil_destroy;
-	object_class->finalize = eil_finalize;
-	object_class->set_arg = eil_set_arg;
-	object_class->get_arg = eil_get_arg;
 
 	widget_class->size_request = eil_size_request;
 	widget_class->size_allocate = eil_size_allocate;
@@ -2022,25 +1993,25 @@ eil_init (Eil *eil)
  *
  * Returns: The type ID of the &EIconList class.
  */
-guint
+GType
 e_icon_list_get_type (void)
 {
-	static guint eil_type = 0;
+	static GType eil_type = 0;
 
 	if (!eil_type) {
-		GtkTypeInfo eil_info = {
-			"EIconList",
-			sizeof (EIconList),
+		GTypeInfo eil_info = {
 			sizeof (EIconListClass),
-			(GtkClassInitFunc) eil_class_init,
-			(GtkObjectInitFunc) eil_init,
 			NULL,
 			NULL,
-			NULL
+			(GClassInitFunc) eil_class_init,
+			NULL,
+			NULL,
+			sizeof (EIconList),
+			0,
+			(GInstanceInitFunc) eil_init,
 		};
 
-		eil_type = gtk_type_unique (gnome_canvas_get_type (),
-					    &eil_info);
+		eil_type = g_type_register_static(gnome_canvas_get_type (), "EIconList", &eil_info, 0);
 	}
 
 	return eil_type;
@@ -2126,9 +2097,7 @@ e_icon_list_new (guint icon_width, int flags)
 {
 	Eil *eil;
 
-	gtk_widget_push_colormap (gdk_rgb_get_cmap ());
-	eil = EIL (gtk_type_new (e_icon_list_get_type ()));
-	gtk_widget_pop_colormap ();
+	eil = EIL (g_type_new (e_icon_list_get_type (), NULL, NULL));
 
 	e_icon_list_construct (eil, icon_width, flags);
 
@@ -2562,7 +2531,7 @@ e_icon_list_get_icon_at (EIconList *eil, int x, int y)
 		GnomeCanvasItem *text = GNOME_CANVAS_ITEM (icon->text);
 
 		if (wx >= image->x1 && wx <= image->x2 && wy >= image->y1 && wy <= image->y2) {
-			dist = (* GNOME_CANVAS_ITEM_CLASS (GTK_OBJECT (image)->klass)->point) (
+			dist = (* GNOME_CANVAS_ITEM_GET_CLASS (image)->point) (
 				image,
 				wx, wy,
 				cx, cy,
@@ -2574,7 +2543,7 @@ e_icon_list_get_icon_at (EIconList *eil, int x, int y)
 		}
 
 		if (wx >= text->x1 && wx <= text->x2 && wy >= text->y1 && wy <= text->y2) {
-			dist = (* GNOME_CANVAS_ITEM_CLASS (GTK_OBJECT (text)->klass)->point) (
+			dist = (* GNOME_CANVAS_ITEM_GET_CLASS (text)->point) (
 				text,
 				wx, wy,
 				cx, cy,

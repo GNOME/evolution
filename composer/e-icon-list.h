@@ -36,7 +36,7 @@
 #define _E_ICON_LIST_H_
 
 #include <libgnome/gnome-defs.h>
-#include <libgnomeui/gnome-canvas.h>
+#include <libgnomecanvas/gnome-canvas.h>
 #include <gdk-pixbuf/gdk-pixbuf.h>
 
 BEGIN_GNOME_DECLS
@@ -83,7 +83,7 @@ enum {
 	E_ICON_LIST_STATIC_TEXT	= 1 << 1
 };
 
-guint          e_icon_list_get_type            (void) G_GNUC_CONST;
+GType          e_icon_list_get_type            (void) G_GNUC_CONST;
 
 GtkWidget     *e_icon_list_new                 (guint         icon_width,
 						int           flags);

@@ -42,13 +42,14 @@ typedef struct {
 
 typedef struct {
 	BonoboObjectClass parent_class;
+
+	POA_GNOME_GtkHTML_Editor_Listener__epv epv;
 } EditorListenerClass;
 
 GtkType                                 listener_get_type   (void);
 EditorListener                         *listener_construct  (EditorListener                *listener,
 									GNOME_GtkHTML_Editor_Listener  corba_listener);
 EditorListener                         *listener_new        (EMsgComposer                  *composer);
-POA_GNOME_GtkHTML_Editor_Listener__epv *listener_get_epv    (void);
 
 END_GNOME_DECLS
 

@@ -33,7 +33,7 @@
 #include <gtk/gtkoptionmenu.h>
 #include <gtk/gtktooltips.h>
 #include <libgnomeui/gnome-uidefs.h>
-#include <liboaf/liboaf.h>
+/*#include <liboaf/liboaf.h>*/
 
 #include "Composer.h"
 
@@ -111,7 +111,7 @@ setup_corba (EMsgComposerHdrs *hdrs)
 	
 	CORBA_exception_init (&ev);
 	
-	priv->corba_select_names = oaf_activate_from_id (SELECT_NAMES_OAFIID, 0, NULL, &ev);
+	priv->corba_select_names = bonobo_activation_activate_from_id (SELECT_NAMES_OAFIID, 0, NULL, &ev);
 	
 	/* OAF seems to be broken -- it can return a CORBA_OBJECT_NIL without
            raising an exception in `ev'.  */
@@ -134,7 +134,7 @@ static void
 e_msg_composer_hdrs_and_string_free (EMsgComposerHdrsAndString *emchas)
 {
 	if (emchas->hdrs)
-		gtk_object_unref (GTK_OBJECT (emchas->hdrs));
+		g_object_unref(emchas->hdrs);
 	g_free (emchas->string);
 }
 
@@ -147,7 +147,7 @@ e_msg_composer_hdrs_and_string_create (EMsgComposerHdrs *hdrs, const char *strin
 	emchas->hdrs = hdrs;
 	emchas->string = g_strdup (string);
 	if (emchas->hdrs)
-		gtk_object_ref (GTK_OBJECT (emchas->hdrs));
+		g_object_ref(emchas->hdrs);
 	
 	return emchas;
 }
@@ -178,14 +178,14 @@ from_changed (GtkWidget *item, gpointer data)
 	EMsgComposerHdrs *hdrs = E_MSG_COMPOSER_HDRS (data);
 	const char *reply_to;
 	
-	hdrs->account = gtk_object_get_data (GTK_OBJECT (item), "account");
+	hdrs->account = g_object_get_data(G_OBJECT(item), "account");
 	
 	/* we do this rather than calling e_msg_composer_hdrs_set_reply_to()
 	   because we don't want to change the visibility of the header */
 	reply_to = hdrs->account->id->reply_to;
 	e_entry_set_text (E_ENTRY (hdrs->priv->reply_to.entry), reply_to ? reply_to : "");
 	
-	gtk_signal_emit (GTK_OBJECT (hdrs), signals [FROM_CHANGED]);
+	g_signal_emit(hdrs, signals [FROM_CHANGED], 0);
 }
 
 static GtkWidget *
@@ -215,7 +215,6 @@ create_from_optionmenu (EMsgComposerHdrs *hdrs)
 
 	while (accounts) {
 		char *label;
-		char *native_label;
 		
 		account = accounts->data;
 		
@@ -240,14 +239,12 @@ create_from_optionmenu (EMsgComposerHdrs *hdrs)
 			else
 				label = g_strdup_printf ("%s <%s>", account->id->name, account->id->address);
 			
-			native_label = e_utf8_to_gtk_string (GTK_WIDGET (menu), label);
-			item = gtk_menu_item_new_with_label (native_label);
-			g_free (native_label);
+			item = gtk_menu_item_new_with_label (label);
 			g_free (label);
 			
-			gtk_object_set_data (GTK_OBJECT (item), "account", account_copy (account));
-			gtk_signal_connect (GTK_OBJECT (item), "activate",
-					    GTK_SIGNAL_FUNC (from_changed), hdrs);
+			g_object_set_data(G_OBJECT(item), "account", account_copy (account));
+			g_signal_connect(G_OBJECT (item), "activate",
+					    G_CALLBACK (from_changed), hdrs);
 			
 			if (i == default_account) {
 				first = item;
@@ -270,7 +267,7 @@ create_from_optionmenu (EMsgComposerHdrs *hdrs)
 	
 	if (first) {
 		gtk_option_menu_set_history (GTK_OPTION_MENU (omenu), history);
-		gtk_signal_emit_by_name (GTK_OBJECT (first), "activate", hdrs);
+		g_signal_emit_by_name(first, "activate", hdrs);
 	}
 	
 	hbox = gtk_hbox_new (FALSE, 3);
@@ -278,21 +275,21 @@ create_from_optionmenu (EMsgComposerHdrs *hdrs)
 	gtk_widget_show (omenu);
 	gtk_widget_show (hbox);
 	
-	gtk_object_set_data (GTK_OBJECT (hbox), "from_menu", omenu);
+	g_object_set_data(G_OBJECT(hbox), "from_menu", omenu);
 	
 	return hbox;
 }
 
 static void
 addressbook_entry_changed (BonoboListener    *listener,
-			   char              *event_name,
-			   CORBA_any         *arg,
+			   const char        *event_name,
+			   const CORBA_any   *arg,
 			   CORBA_Environment *ev,
 			   gpointer           user_data)
 {
 	EMsgComposerHdrs *hdrs = E_MSG_COMPOSER_HDRS (user_data);
 	
-	gtk_signal_emit (GTK_OBJECT (hdrs), signals[HDRS_CHANGED]);
+	g_signal_emit(hdrs, signals[HDRS_CHANGED], 0);
 }
 
 static GtkWidget *
@@ -355,7 +352,7 @@ header_new_recipient (EMsgComposerHdrs *hdrs, const char *name, const char *tip)
 	GTK_OBJECT_UNSET_FLAGS (ret.label, GTK_CAN_FOCUS);
 	gtk_signal_connect_full (
 		GTK_OBJECT (ret.label), "clicked",
-		GTK_SIGNAL_FUNC (address_button_clicked_cb), NULL,
+		G_CALLBACK (address_button_clicked_cb), NULL,
 		e_msg_composer_hdrs_and_string_create(hdrs, name),
 		(GtkDestroyNotify) e_msg_composer_hdrs_and_string_free,
 		FALSE, FALSE);
@@ -376,12 +373,9 @@ entry_changed (GtkWidget *entry, EMsgComposerHdrs *hdrs)
 	char *subject, *tmp;
 	
 	tmp = e_msg_composer_hdrs_get_subject (hdrs);
-	subject = e_utf8_to_gtk_string (GTK_WIDGET (entry), tmp);
-	
-	gtk_signal_emit (GTK_OBJECT (hdrs), signals[SUBJECT_CHANGED], subject);
+	g_signal_emit(hdrs, signals[SUBJECT_CHANGED], 0, subject);
 	g_free (tmp);
-	
-	gtk_signal_emit (GTK_OBJECT (hdrs), signals[HDRS_CHANGED]);
+	g_signal_emit(hdrs, signals[HDRS_CHANGED], 0);
 }
 
 static void
@@ -421,8 +415,8 @@ create_headers (EMsgComposerHdrs *hdrs)
 			"use_ellipsis", TRUE,
 			"allow_newlines", FALSE,
 			NULL);
-	gtk_signal_connect (GTK_OBJECT (priv->subject.entry), "changed",
-			    GTK_SIGNAL_FUNC (entry_changed), hdrs);
+	g_signal_connect(priv->subject.entry, "changed",
+			 G_CALLBACK (entry_changed), hdrs);
 	
 	/*
 	 * To, CC, and Bcc
@@ -578,29 +572,37 @@ destroy (GtkObject *object)
 	hdrs = E_MSG_COMPOSER_HDRS (object);
 	priv = hdrs->priv;
 	
-	if (priv->corba_select_names != CORBA_OBJECT_NIL) {
-		CORBA_Environment ev;
-		CORBA_exception_init (&ev);
-		bonobo_object_release_unref (priv->corba_select_names, &ev);
-		CORBA_exception_free (&ev);
-	}
-	
-	gtk_object_destroy (GTK_OBJECT (priv->tooltips));
-	gtk_object_unref (GTK_OBJECT (priv->tooltips));
-	
-	l = priv->from_options;
-	while (l) {
-		MailConfigAccount *account;
-		GtkWidget *item = l->data;
+	if (priv) {
+		if (priv->corba_select_names != CORBA_OBJECT_NIL) {
+			CORBA_Environment ev;
+			CORBA_exception_init (&ev);
+			bonobo_object_release_unref (priv->corba_select_names, &ev);
+			CORBA_exception_free (&ev);
+			priv->corba_select_names = CORBA_OBJECT_NIL;
+		}
+
+		if (priv->tooltips) {
+			gtk_object_destroy (GTK_OBJECT (priv->tooltips));
+			g_object_unref(priv->tooltips);
+			priv->tooltips = NULL;
+		}
+
+		l = priv->from_options;
+		while (l) {
+			MailConfigAccount *account;
+			GtkWidget *item = l->data;
+			
+			account = g_object_get_data(G_OBJECT(item), "account");
+			account_destroy (account);
+			
+			l = l->next;
+		}
+		g_slist_free (priv->from_options);
+		priv->from_options = NULL;
 		
-		account = gtk_object_get_data (GTK_OBJECT (item), "account");
-		account_destroy (account);
-		
-		l = l->next;
+		g_free (priv);
+		hdrs->priv = NULL;
 	}
-	g_slist_free (priv->from_options);
-	
-	g_free (priv);
 	
 	if (GTK_OBJECT_CLASS (parent_class)->destroy != NULL)
 		(* GTK_OBJECT_CLASS (parent_class)->destroy) (object);
@@ -615,46 +617,44 @@ class_init (EMsgComposerHdrsClass *class)
 	object_class = GTK_OBJECT_CLASS (class);
 	object_class->destroy = destroy;
 	
-	parent_class = gtk_type_class (gtk_table_get_type ());
+	parent_class = g_type_class_ref(gtk_table_get_type ());
 	
 	signals[SHOW_ADDRESS_DIALOG] =
-		gtk_signal_new ("show_address_dialog",
-				GTK_RUN_LAST,
-				object_class->type,
-				GTK_SIGNAL_OFFSET (EMsgComposerHdrsClass,
-						   show_address_dialog),
-				gtk_marshal_NONE__NONE,
-				GTK_TYPE_NONE, 0);
+		g_signal_new ("show_address_dialog",
+			      E_TYPE_MSG_COMPOSER_HDRS,
+			      G_SIGNAL_RUN_LAST,
+			      G_STRUCT_OFFSET(EMsgComposerHdrsClass, show_address_dialog),
+			      NULL, NULL,
+			      g_cclosure_marshal_VOID__VOID,
+			      G_TYPE_NONE, 0);
 	
 	signals[SUBJECT_CHANGED] =
-		gtk_signal_new ("subject_changed",
-				GTK_RUN_LAST,
-				object_class->type,
-				GTK_SIGNAL_OFFSET (EMsgComposerHdrsClass,
-						   subject_changed),
-				gtk_marshal_NONE__STRING,
-				GTK_TYPE_NONE,
-				1, GTK_TYPE_STRING);
+		g_signal_new ("subject_changed",
+			      E_TYPE_MSG_COMPOSER_HDRS,
+			      G_SIGNAL_RUN_LAST,
+			      G_STRUCT_OFFSET(EMsgComposerHdrsClass, subject_changed),
+			      NULL, NULL,
+			      g_cclosure_marshal_VOID__STRING,
+			      G_TYPE_NONE,
+			      1, G_TYPE_STRING);
 	
 	signals[HDRS_CHANGED] =
-		gtk_signal_new ("hdrs_changed",
-				GTK_RUN_LAST,
-				object_class->type,
-				GTK_SIGNAL_OFFSET (EMsgComposerHdrsClass,
-						   hdrs_changed),
-				gtk_marshal_NONE__NONE,
-				GTK_TYPE_NONE, 0);
+		g_signal_new ("hdrs_changed",
+			      E_TYPE_MSG_COMPOSER_HDRS,
+			      G_SIGNAL_RUN_LAST,
+			      G_STRUCT_OFFSET(EMsgComposerHdrsClass, hdrs_changed),
+			      NULL, NULL,
+			      g_cclosure_marshal_VOID__VOID,
+			      G_TYPE_NONE, 0);
 	
 	signals[FROM_CHANGED] =
-		gtk_signal_new ("from_changed",
-				GTK_RUN_LAST,
-				object_class->type,
-				GTK_SIGNAL_OFFSET (EMsgComposerHdrsClass,
-						   from_changed),
-				gtk_marshal_NONE__NONE,
-				GTK_TYPE_NONE, 0);
-	
-	gtk_object_class_add_signals (object_class, signals, LAST_SIGNAL);
+		g_signal_new ("from_changed",
+			      E_TYPE_MSG_COMPOSER_HDRS,
+			      G_SIGNAL_RUN_LAST,
+			      G_STRUCT_OFFSET(EMsgComposerHdrsClass, from_changed),
+			      NULL, NULL,
+			      g_cclosure_marshal_VOID__VOID,
+			      G_TYPE_NONE, 0);
 }
 
 static void
@@ -673,21 +673,22 @@ init (EMsgComposerHdrs *hdrs)
 GtkType
 e_msg_composer_hdrs_get_type (void)
 {
-	static GtkType type = 0;
+	static GType type = 0;
 	
 	if (type == 0) {
-		static const GtkTypeInfo info = {
-			"EMsgComposerHdrs",
-			sizeof (EMsgComposerHdrs),
+		static const GTypeInfo info = {
 			sizeof (EMsgComposerHdrsClass),
-			(GtkClassInitFunc) class_init,
-			(GtkObjectInitFunc) init,
-			/* reserved_1 */ NULL,
-			/* reserved_2 */ NULL,
-			(GtkClassInitFunc) NULL,
+			NULL,
+			NULL,
+			(GClassInitFunc) class_init,
+			NULL,
+			NULL,
+			sizeof (EMsgComposerHdrs),
+			0,
+			(GInstanceInitFunc) init,
 		};
 		
-		type = gtk_type_unique (gtk_table_get_type (), &info);
+		type = g_type_register_static(gtk_table_get_type(), "EMsgComposerHdrs", &info, 0);
 	}
 	
 	return type;
@@ -699,12 +700,12 @@ e_msg_composer_hdrs_new (BonoboUIComponent *uic, int visible_mask, int visible_f
 	EMsgComposerHdrs *new;
 	EMsgComposerHdrsPrivate *priv;
 	
-	new = gtk_type_new (e_msg_composer_hdrs_get_type ());
+	new = g_object_new (e_msg_composer_hdrs_get_type (), NULL);
 	priv = new->priv;
 	priv->uic = uic;
 	
 	if (!setup_corba (new)) {
-		gtk_widget_destroy (GTK_WIDGET (new));
+		g_object_unref(new);
 		return NULL;
 	}
 	
@@ -793,9 +794,9 @@ set_recipients_from_destv (CamelMimeMessage *msg,
 		camel_mime_message_set_recipients (msg, header, bcc_addr);
 	}
 	
-	camel_object_unref (CAMEL_OBJECT (to_addr));
-	camel_object_unref (CAMEL_OBJECT (cc_addr));
-	camel_object_unref (CAMEL_OBJECT (bcc_addr));
+	camel_object_unref(to_addr);
+	camel_object_unref(cc_addr);
+	camel_object_unref(bcc_addr);
 }
 
 static void
@@ -822,12 +823,12 @@ e_msg_composer_hdrs_to_message_internal (EMsgComposerHdrs *hdrs,
 	} else {
 		camel_mime_message_set_from (msg, addr);
 	}
-	camel_object_unref (CAMEL_OBJECT (addr));
+	camel_object_unref(addr);
 	
  	addr = e_msg_composer_hdrs_get_reply_to (hdrs);
 	if (addr) {
 		camel_mime_message_set_reply_to (msg, addr);
-		camel_object_unref (CAMEL_OBJECT (addr));
+		camel_object_unref(addr);
 	}
 	
 	if (hdrs->visible_mask & E_MSG_COMPOSER_VISIBLE_MASK_RECIPIENTS) {
@@ -894,19 +895,19 @@ e_msg_composer_hdrs_set_from_account (EMsgComposerHdrs *hdrs,
 		MailConfigAccount *account;
 		item = l->data;
 		
-		account = gtk_object_get_data (GTK_OBJECT (item), "account");
+		account = g_object_get_data(G_OBJECT(item), "account");
 		if (account_name) {
 			if (account->name && !strcmp (account_name, account->name)) {
 				/* set the correct optionlist item */
 				gtk_option_menu_set_history (omenu, i);
-				gtk_signal_emit_by_name (GTK_OBJECT (item), "activate", hdrs);
+				g_signal_emit_by_name (G_OBJECT (item), "activate", hdrs);
 				
 				return;
 			}
 		} else if (i == default_account) {
 			/* set the default optionlist item */
 			gtk_option_menu_set_history (omenu, i);
-			gtk_signal_emit_by_name (GTK_OBJECT (item), "activate", hdrs);
+			g_signal_emit_by_name (G_OBJECT (item), "activate", hdrs);
 			
 			return;
 		}
@@ -1221,5 +1222,5 @@ e_msg_composer_hdrs_get_from_omenu (EMsgComposerHdrs *hdrs)
 {
 	g_return_val_if_fail (E_IS_MSG_COMPOSER_HDRS (hdrs), NULL);
 	
-	return GTK_WIDGET (gtk_object_get_data (GTK_OBJECT (hdrs->priv->from.entry), "from_menu"));
+	return GTK_WIDGET (g_object_get_data(G_OBJECT(hdrs->priv->from.entry), "from_menu"));
 }

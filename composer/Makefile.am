@@ -19,13 +19,26 @@ HTML_EDITOR_GENERATED =		\
 selectnamesdir = $(top_srcdir)/addressbook/gui/component/select-names
 
 $(IDL_GENERATED): $(IDLS) $(selectnamesdir)/Evolution-Addressbook-SelectNames.idl
-	$(ORBIT_IDL) -I $(srcdir) -I $(datadir)/idl `$(GNOME_CONFIG) --cflags idl`	\
+	$(ORBIT_IDL) -I $(srcdir) -I $(datadir)/idl $(IDL_INCLUDES) \
 		-I $(selectnamesdir)  $(srcdir)/Composer.idl
 
 Editor-commmon.c: $(GTKHTML_DATADIR)/Editor.idl
 
 $(HTML_EDITOR_GENERATED): $(GTKHTML_DATADIR)/Editor.idl
-	$(ORBIT_IDL) -I $(srcdir) `$(GNOME_CONFIG) --cflags idl` -I $(GTKHTML_DATADIR)/gtkhtml $(GTKHTML_DATADIR)/Editor.idl
+	$(ORBIT_IDL) -I $(srcdir) $(IDL_INCLUDES) -I $(GTKHTML_DATADIR)/gtkhtml $(GTKHTML_DATADIR)/Editor.idl
+
+##
+
+composer-marshal.h: composer-marshal.list
+	( @GLIB_GENMARSHAL@ --prefix=e_msg_composer_marshal composer-marshal.list --header > composer-marshal.tmp \
+	&& mv composer-marshal.tmp composer-marshal.h ) \
+	|| ( rm -f composer-marshal.tmp && exit 1 )
+composer-marshal.c: composer-marshal.h
+	( @GLIB_GENMARSHAL@ --prefix=e_msg_composer_marshal composer-marshal.list --body > composer-marshal.tmp \
+	&& mv composer-marshal.tmp composer-marshal.c ) \
+	|| ( rm -f composer-marshal.tmp && exit 1 )
+
+$(libcomposer_la_OBJECTS): composer-marshal.h
 
 ##
 
@@ -63,6 +76,7 @@ INCLUDES =								\
 libcomposer_a_SOURCES = 			\
 	$(IDL_GENERATED)			\
 	$(HTML_EDITOR_GENERATED)		\
+	composer-marshal.c			\
 	e-msg-composer-attachment-bar.c		\
 	e-msg-composer-attachment-bar.h		\
 	e-msg-composer-attachment.c		\
@@ -83,6 +97,7 @@ libcomposer_a_SOURCES = 			\
 EXTRA_DIST =					\
 	$(glade_DATA)				\
 	$(IDLS)					\
+	composer-marshal.list			\
 	bad-icon.xpm
 
 BUILT_SOURCES = $(IDL_GENERATED) $(HTML_EDITOR_GENERATED)

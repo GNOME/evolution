@@ -51,6 +51,8 @@ struct _EvolutionComposer {
 
 struct _EvolutionComposerClass {
 	BonoboObjectClass parent_class;
+
+	POA_GNOME_Evolution_Composer__epv epv;
 };
 
 POA_GNOME_Evolution_Composer__epv *evolution_composer_get_epv            (void);

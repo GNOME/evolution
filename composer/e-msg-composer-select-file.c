@@ -150,15 +150,15 @@ create_file_selection (EMsgComposer *composer, gboolean multiple)
 	ok_button     = GTK_FILE_SELECTION (widget)->ok_button;
 	cancel_button = GTK_FILE_SELECTION (widget)->cancel_button;
 	
-	gtk_signal_connect (GTK_OBJECT (ok_button),
-			    "clicked", GTK_SIGNAL_FUNC (ok_clicked_cb), info);
-	gtk_signal_connect (GTK_OBJECT (cancel_button),
-			    "clicked", GTK_SIGNAL_FUNC (cancel_clicked_cb), info);
-	gtk_signal_connect (GTK_OBJECT (widget), "delete_event",
-			    GTK_SIGNAL_FUNC (delete_event_cb), info);
+	g_signal_connect((ok_button),
+			    "clicked", G_CALLBACK (ok_clicked_cb), info);
+	g_signal_connect((cancel_button),
+			    "clicked", G_CALLBACK (cancel_clicked_cb), info);
+	g_signal_connect((widget), "delete_event",
+			    G_CALLBACK (delete_event_cb), info);
 	
-	gtk_signal_connect (GTK_OBJECT (composer), "hide",
-			    GTK_SIGNAL_FUNC (composer_hide_cb), info);
+	g_signal_connect((composer), "hide",
+			    G_CALLBACK (composer_hide_cb), info);
 	
 	inline_checkbox = gtk_check_button_new_with_label (_("Suggest automatic display of attachment"));
 	box = gtk_widget_get_ancestor (GTK_FILE_SELECTION (widget)->selection_entry, GTK_TYPE_BOX);

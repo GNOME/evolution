@@ -44,7 +44,7 @@ typedef struct _EMsgComposerAttachment       EMsgComposerAttachment;
 typedef struct _EMsgComposerAttachmentClass  EMsgComposerAttachmentClass;
 
 struct _EMsgComposerAttachment {
-	GtkObject parent;
+	GObject parent;
 
 	GladeXML *editor_gui;
 
@@ -56,13 +56,13 @@ struct _EMsgComposerAttachment {
 };
 
 struct _EMsgComposerAttachmentClass {
-	GtkObjectClass parent_class;
+	GObjectClass parent_class;
 
 	void (*changed)	(EMsgComposerAttachment *msg_composer_attachment);
 };
 
 
-GtkType e_msg_composer_attachment_get_type (void);
+GType e_msg_composer_attachment_get_type (void);
 EMsgComposerAttachment *e_msg_composer_attachment_new (const char *file_name,
 						       const char *disposition,
 						       CamelException *ex);

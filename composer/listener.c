@@ -184,7 +184,7 @@ impl_event (PortableServer_Servant _servant,
 		gchar *url;
 
 		if ((url = resolve_image_url (l, BONOBO_ARG_GET_STRING (arg)))) {
-			rv = bonobo_arg_new (TC_string);
+			rv = bonobo_arg_new (BONOBO_ARG_STRING);
 			BONOBO_ARG_SET_STRING (rv, url);
 			/* printf ("new url: %s\n", url); */
 			g_free (url);
@@ -233,98 +233,29 @@ impl_event (PortableServer_Servant _servant,
 
 		bonobo_stream_client_write (e->stream, ba->data, ba->len, ev);
 
-		camel_object_unref (CAMEL_OBJECT (cstream));
+		camel_object_unref (cstream);
 	}
 
 	return rv ? rv : get_any_null ();
 }
 
-POA_GNOME_GtkHTML_Editor_Listener__epv *
-listener_get_epv (void)
-{
-	POA_GNOME_GtkHTML_Editor_Listener__epv *epv;
-
-	epv = g_new0 (POA_GNOME_GtkHTML_Editor_Listener__epv, 1);
-
-	epv->event = impl_event;
-
-	return epv;
-}
-
-static void
-init_listener_corba_class (void)
-{
-	listener_vepv.Bonobo_Unknown_epv            = bonobo_object_get_epv ();
-	listener_vepv.GNOME_GtkHTML_Editor_Listener_epv = listener_get_epv ();
-}
-
 static void
 listener_class_init (EditorListenerClass *klass)
 {
-	listener_parent_class = gtk_type_class (bonobo_object_get_type ());
+	POA_GNOME_GtkHTML_Editor_Listener__epv *epv;
 
-	init_listener_corba_class ();
+	listener_parent_class = g_type_class_ref(bonobo_object_get_type ());
+
+	epv = &klass->epv;
+	epv->event = impl_event;
 }
 
-GtkType
-listener_get_type (void)
+static void
+listener_init(EditorListener *object)
 {
-	static GtkType type = 0;
-
-	if (!type){
-		GtkTypeInfo info = {
-			"EditorListener",
-			sizeof (EditorListener),
-			sizeof (EditorListenerClass),
-			(GtkClassInitFunc) listener_class_init,
-			(GtkObjectInitFunc) NULL,
-			NULL, /* reserved 1 */
-			NULL, /* reserved 2 */
-			(GtkClassInitFunc) NULL
-		};
-
-		type = gtk_type_unique (bonobo_object_get_type (), &info);
-	}
-
-	return type;
 }
 
-EditorListener *
-listener_construct (EditorListener *listener, GNOME_GtkHTML_Editor_Listener corba_listener)
-{
-	g_return_val_if_fail (listener != NULL, NULL);
-	g_return_val_if_fail (IS_EDITOR_LISTENER (listener), NULL);
-	g_return_val_if_fail (corba_listener != CORBA_OBJECT_NIL, NULL);
-
-	if (!bonobo_object_construct (BONOBO_OBJECT (listener), (CORBA_Object) corba_listener))
-		return NULL;
-
-	return listener;
-}
-
-static GNOME_GtkHTML_Editor_Listener
-create_listener (BonoboObject *listener)
-{
-	POA_GNOME_GtkHTML_Editor_Listener *servant;
-	CORBA_Environment ev;
-
-	servant = (POA_GNOME_GtkHTML_Editor_Listener *) g_new0 (BonoboObjectServant, 1);
-	servant->vepv = &listener_vepv;
-
-	CORBA_exception_init (&ev);
-	POA_GNOME_GtkHTML_Editor_Listener__init ((PortableServer_Servant) servant, &ev);
-	ORBIT_OBJECT_KEY(servant->_private)->object = NULL;
-
-	if (ev._major != CORBA_NO_EXCEPTION){
-		g_free (servant);
-		CORBA_exception_free (&ev);
-		return CORBA_OBJECT_NIL;
-	}
-
-	CORBA_exception_free (&ev);
-
-	return (GNOME_GtkHTML_Editor_Listener) bonobo_object_activate_servant (listener, servant);
-}
+BONOBO_TYPE_FUNC_FULL(EditorListener, GNOME_GtkHTML_Editor_Listener, BONOBO_TYPE_OBJECT, listener);
 
 EditorListener *
 listener_new (EMsgComposer *composer)
@@ -332,15 +263,8 @@ listener_new (EMsgComposer *composer)
 	EditorListener *listener;
 	GNOME_GtkHTML_Editor_Listener corba_listener;
 
-	listener = gtk_type_new (EDITOR_LISTENER_TYPE);
+	listener = g_object_new (EDITOR_LISTENER_TYPE, NULL);
 	listener->composer = composer;
-
-	corba_listener = create_listener (BONOBO_OBJECT (listener));
-
-	if (corba_listener == CORBA_OBJECT_NIL) {
-		bonobo_object_unref (BONOBO_OBJECT (listener));
-		return NULL;
-	}
 	
-	return listener_construct (listener, corba_listener);
+	return listener;
 }
