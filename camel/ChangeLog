@@ -1,3 +1,9 @@
+2000-06-17  Dan Winship  <danw@helixcode.com>
+
+	* providers/mbox/camel-mbox-summary.c: Add some debugging printfs
+	when rebulding summary to help figure out why people's summaries
+	are always being rebuilt.
+
 2000-06-17  Jeffrey Stedfast  <fejj@helixcode.com>
 
 	* providers/imap/camel-imap-folder.c (imap_search_by_expression):

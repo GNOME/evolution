@@ -372,6 +372,8 @@ camel_mbox_summary_load(CamelMboxSummary *mbs, int forceindex)
 	}
 
 	if (forceindex || camel_folder_summary_load(s) == -1) {
+		printf ("REBUILDING SUMMARY: %s\n",
+			forceindex ? "Summary non-existent." : "Summary load failed.");
 		camel_folder_summary_clear(s);
 		ret = summary_rebuild(mbs, 0);
 	} else {
@@ -395,12 +397,13 @@ camel_mbox_summary_load(CamelMboxSummary *mbs, int forceindex)
 			printf("Summary time and date match mbox\n");
 			if (minstart < st.st_size) {
 				/* FIXME: Only clear the messages and reindex from this point forward */
+				printf ("REBUILDING SUMMARY: Index file is incomplete.\n");
 				camel_folder_summary_clear(s);
 				ret = summary_rebuild(mbs, 0);
 			}
 		} else {
 			if (mbs->folder_size < st.st_size) {
-				printf("Index is for a smaller mbox\n");
+				printf("REBUILDING SUMMARY: Summary is for a smaller mbox\n");
 				if (minstart < mbs->folder_size) {
 					/* FIXME: only make it rebuild as necessary */
 					camel_folder_summary_clear(s);
@@ -409,7 +412,10 @@ camel_mbox_summary_load(CamelMboxSummary *mbs, int forceindex)
 					ret = summary_rebuild(mbs, mbs->folder_size);
 				}
 			} else {
-				printf("index is for a bigger mbox\n");
+				if (mbs->folder_size > st.st_size)
+					printf("REBUILDING_SUMMARY: Summary is for a bigger mbox\n");
+				else
+					printf("REBUILDING SUMMARY: Summary is for an older mbox\n");
 				camel_folder_summary_clear(s);
 				ret = summary_rebuild(mbs, 0);
 			}
