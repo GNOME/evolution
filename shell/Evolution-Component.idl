@@ -29,6 +29,14 @@ module Evolution {
 		exception Failed {};
 		exception UnknownType {};
 
+
+		/*** Upgrade path.  ***/
+
+		boolean upgradeFromVersion (in short major, in short minor, in short revision);
+
+
+		/*** Basic functionality.  ***/
+
 		/* Create the controls for embedding in the shell.  */
 		void createControls (out Bonobo::Control sidebar_control,
 				     out Bonobo::Control view_control)

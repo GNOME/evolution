@@ -100,6 +100,9 @@ EShellConstructResult  e_shell_construct  (EShell                *shell,
 EShell                *e_shell_new        (EShellStartupLineMode  startup_line_mode,
 					   EShellConstructResult *construct_result_return);
 
+gboolean  e_shell_attempt_upgrade  (EShell     *shell,
+				    const char *from_version);
+
 EShellWindow *e_shell_create_window         (EShell       *shell,
 					     const char   *component_id,
 					     EShellWindow *template_window);

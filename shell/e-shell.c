@@ -1,7 +1,7 @@
 /* -*- Mode: C; indent-tabs-mode: t; c-basic-offset: 8; tab-width: 8 -*- */
 /* e-shell.c
  *
- * Copyright (C) 2000, 2001, 2002 Ximian, Inc.
+ * Copyright (C) 2000, 2001, 2002, 2003 Ximian, Inc.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2 of the GNU General Public
@@ -580,6 +580,79 @@ e_shell_new (EShellStartupLineMode startup_line_mode,
 
 	*construct_result_return = E_SHELL_CONSTRUCT_RESULT_OK;
 	return new;
+}
+
+
+/**
+ * e_shell_attempt_upgrade:
+ * @shell: 
+ * @from_version: 
+ * 
+ * Upgrade config and components from the specified version name.
+ * 
+ * Return value: %TRUE If it works, %FALSE if it fails (it should only fail if
+ * upgrade from @from_version is unsupported).
+ **/
+gboolean
+e_shell_attempt_upgrade (EShell *shell,
+			 const char *from_version)
+{
+	GSList *component_infos, *p;
+	int major, minor, revision;
+	int current_major, current_minor, current_revision;
+	gboolean success;
+
+	g_return_val_if_fail (E_IS_SHELL (shell), FALSE);
+	g_return_val_if_fail (from_version != NULL, FALSE);
+
+	sscanf (from_version, "%u.%u.%u", &major, &minor, &revision);
+	sscanf (VERSION, "%u.%u.%u", &current_major, &current_minor, &current_revision);
+
+	if (! (current_major > major
+	       || (current_major == major && current_minor > minor)
+	       || (current_minor == current_minor && current_revision > current_revision))) {
+		return TRUE;
+	}
+
+	success = TRUE;
+
+	component_infos = e_component_registry_peek_list (shell->priv->component_registry);
+	for (p = component_infos; p != NULL; p = p->next) {
+		const EComponentInfo *info = p->data;
+		CORBA_Environment ev;
+		gboolean component_upgraded;
+
+		CORBA_exception_init (&ev);
+
+		component_upgraded = GNOME_Evolution_Component_upgradeFromVersion (info->iface, major, minor, revision, &ev);
+		
+		if (BONOBO_EX (&ev)) {
+			char *exception_text;
+
+			// Ignore components that do not implement this version, it might just mean that they don't need an
+			// upgrade path.
+			if (strcmp (ev._id, ex_CORBA_NO_IMPLEMENT) == 0) {
+				CORBA_exception_free (&ev);
+				continue;
+			}
+
+			exception_text = bonobo_exception_get_text (&ev);
+			g_warning ("Upgrade of component \"%s\" from version %s failed with exception %s",
+				   info->alias, from_version, exception_text);
+			g_free (exception_text);
+			CORBA_exception_free (&ev);
+			success = FALSE;
+		} else {
+			CORBA_exception_free (&ev);
+			if (! component_upgraded) {
+				g_warning ("Component \"%s\" could not upgrade configuration from version \"%s\"",
+					   info->alias, from_version);
+				success = FALSE;
+			}
+		}
+	}
+
+	return success;
 }
 
 

@@ -340,6 +340,25 @@ new_window_created_callback (EShell *shell,
 #endif /* DEVELOPMENT_WARNING */
 
 
+static void
+attempt_upgrade (EShell *shell)
+{
+	GConfClient *gconf_client = gconf_client_get_default ();
+	char *previous_version = gconf_client_get_string (gconf_client, "/apps/evolution/version", NULL);
+
+	if (previous_version != NULL) {
+		if (! e_shell_attempt_upgrade (shell, previous_version))
+			e_notice (NULL, GTK_MESSAGE_ERROR,
+				  _("Warning: Evolution could not upgrade all your data from version %s.\n"
+				    "The data hasn't been deleted, but it will not be seen by this version of Evolution.\n"),
+				  previous_version);
+	}
+
+	gconf_client_set_string (gconf_client, "/apps/evolution/version", VERSION, NULL);
+	g_object_unref (gconf_client);
+}
+
+
 /* This is for doing stuff that requires the GTK+ loop to be running already.  */
 
 static gint
@@ -352,8 +371,6 @@ idle_cb (void *data)
 	EShellStartupLineMode startup_line_mode;
 	GSList *p;
 	gboolean have_evolution_uri;
-	gboolean display_default;
-	gboolean displayed_any;
 
 #ifdef KILL_PROCESS_CMD
 	kill_old_dataserver ();
@@ -407,6 +424,9 @@ idle_cb (void *data)
 		return FALSE;
 
 	}
+
+	if (shell != NULL)
+		attempt_upgrade (shell);
 
 	have_evolution_uri = FALSE;
 

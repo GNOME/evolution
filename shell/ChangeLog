@@ -1,5 +1,15 @@
 2003-11-17  Ettore Perazzoli  <ettore@ximian.com>
 
+	* main.c (attempt_upgrade): New helper function.
+	(idle_cb): Call it if we have a local shell.  Also, remove unused
+	variables.
+
+	* e-shell.c (e_shell_attempt_upgrade): New.
+
+	* Evolution-Component.idl (Component.upgradeFromeVersion): New.
+
+2003-11-17  Ettore Perazzoli  <ettore@ximian.com>
+
 	* e-shell-window-commands.c (command_open_new_window): New,
 	implement "OpenNewWindow" verb.
 
