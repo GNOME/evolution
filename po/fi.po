@@ -5,8 +5,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
-"POT-Creation-Date: 2001-11-05 19:49-0500\n"
-"PO-Revision-Date: 2001-05-08 15:00+0300\n"
+"POT-Creation-Date: 2001-11-08 13:19+0200\n"
+"PO-Revision-Date: 2001-11-06 15:00+0300\n"
 "Last-Translator: Jarkko Ranta <jjranta@cc.joensuu.fi>\n"
 "Language-Team: Finnish <fi@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -35,9 +35,8 @@ msgid "File As"
 msgstr ""
 
 #: addressbook/backend/ebook/e-card-simple.c:61
-#, fuzzy
 msgid "Name"
-msgstr "Nimi:"
+msgstr "Nimi"
 
 #: addressbook/backend/ebook/e-card-simple.c:62
 #: addressbook/gui/widgets/e-addressbook-view.c:851
@@ -50,9 +49,8 @@ msgid "Primary"
 msgstr "Ensisijainen"
 
 #: addressbook/backend/ebook/e-card-simple.c:63
-#, fuzzy
 msgid "Prim"
-msgstr "Ensisijainen"
+msgstr "Ensisij"
 
 #: addressbook/backend/ebook/e-card-simple.c:64
 #: addressbook/backend/ebook/e-card-simple.c:94
@@ -70,9 +68,8 @@ msgstr "Työ"
 
 #: addressbook/backend/ebook/e-card-simple.c:65
 #: addressbook/backend/ebook/e-card-simple.c:70
-#, fuzzy
 msgid "Bus"
-msgstr "vuotta"
+msgstr ""
 
 #: addressbook/backend/ebook/e-card-simple.c:66
 #: addressbook/gui/contact-editor/e-contact-editor.c:1640
@@ -85,9 +82,8 @@ msgid "Company"
 msgstr "Yritys"
 
 #: addressbook/backend/ebook/e-card-simple.c:67
-#, fuzzy
 msgid "Comp"
-msgstr "Kopioi"
+msgstr "Yrit"
 
 #: addressbook/backend/ebook/e-card-simple.c:68
 #: addressbook/backend/ebook/e-card-simple.c:71
@@ -122,9 +118,8 @@ msgid "Business Fax"
 msgstr "Työ/faksi"
 
 #: addressbook/backend/ebook/e-card-simple.c:74
-#, fuzzy
 msgid "Bus Fax"
-msgstr "Työ/faksi"
+msgstr ""
 
 #: addressbook/backend/ebook/e-card-simple.c:75
 #: addressbook/gui/contact-editor/e-contact-editor.c:1645
@@ -138,7 +133,6 @@ msgid "Business 2"
 msgstr "Työ 2"
 
 #: addressbook/backend/ebook/e-card-simple.c:76
-#, fuzzy
 msgid "Bus 2"
 msgstr "Työ 2"
 
@@ -228,9 +222,8 @@ msgid "Office"
 msgstr "Asema"
 
 #: addressbook/backend/ebook/e-card-simple.c:90
-#, fuzzy
 msgid "Off"
-msgstr "Asema"
+msgstr "Asm"
 
 #: addressbook/backend/ebook/e-card-simple.c:91
 #: addressbook/gui/widgets/e-addressbook-view.c:880
@@ -252,9 +245,8 @@ msgid "Manager"
 msgstr ""
 
 #: addressbook/backend/ebook/e-card-simple.c:93
-#, fuzzy
 msgid "Man"
-msgstr "Toukokuu"
+msgstr ""
 
 #: addressbook/backend/ebook/e-card-simple.c:94
 msgid "Ass"
@@ -266,9 +258,8 @@ msgid "Nickname"
 msgstr "Kutsumanimi"
 
 #: addressbook/backend/ebook/e-card-simple.c:95
-#, fuzzy
 msgid "Nick"
-msgstr "Kutsumanimi"
+msgstr ""
 
 #: addressbook/backend/ebook/e-card-simple.c:96
 #: addressbook/gui/widgets/e-addressbook-view.c:885
@@ -281,9 +272,8 @@ msgid "Note"
 msgstr ""
 
 #: addressbook/backend/ebook/e-card-simple.c:98
-#, fuzzy
 msgid "Calendar URI"
-msgstr "Kalenteri"
+msgstr ""
 
 #: addressbook/backend/ebook/e-card-simple.c:98
 msgid "CALUri"
@@ -307,11 +297,8 @@ msgid "Anniv"
 msgstr ""
 
 #: addressbook/backend/ebook/e-card-simple.c:101
-#, fuzzy
 msgid "Birth Date"
-msgstr ""
-"\n"
-"Syntymäpäivä: "
+msgstr "Syntymäpäivä"
 
 #: addressbook/backend/ebook/e-card-simple.c:104
 #: calendar/gui/e-calendar-table.etspec.h:4
@@ -319,14 +306,13 @@ msgid "Categories"
 msgstr "Ryhmät"
 
 #: addressbook/backend/ebook/e-card-simple.c:105
-#, fuzzy
 msgid "Family Name"
-msgstr "Koko nimi"
+msgstr "Sukunimi"
 
 #: addressbook/backend/ebook/e-card-simple.c:788
-#, fuzzy, c-format
+#, c-format
 msgid "%x"
-msgstr "x"
+msgstr ""
 
 #: addressbook/backend/ebook/e-card.c:3712
 msgid "Card: "
@@ -621,14 +607,12 @@ msgstr "Bonobon alustus ei onnistunut"
 
 #: addressbook/backend/pas/pas-backend-file.c:259
 #: addressbook/backend/pas/pas-backend-ldap.c:2212
-#, fuzzy
 msgid "Searching..."
-msgstr "Etsi"
+msgstr "Etsitään..."
 
 #: addressbook/backend/pas/pas-backend-file.c:261
-#, fuzzy
 msgid "Loading..."
-msgstr "Odotetaan..."
+msgstr "Ladataan..."
 
 #. need a different error message here.
 #: addressbook/backend/pas/pas-backend-file.c:270
@@ -637,25 +621,23 @@ msgstr ""
 
 #: addressbook/backend/pas/pas-backend-ldap.c:475
 msgid "Connecting to LDAP server..."
-msgstr ""
+msgstr "Yhdistetään LDAP-palvelimeen..."
 
 #: addressbook/backend/pas/pas-backend-ldap.c:485
-#, fuzzy
 msgid "Unable to connect to LDAP server."
-msgstr "Yhdistäminen palvelimeen epäonnistui: %s"
+msgstr "Yhdistäminen palvelimeen epäonnistui."
 
 #: addressbook/backend/pas/pas-backend-ldap.c:501
 msgid "Waiting for connection to LDAP server..."
-msgstr ""
+msgstr "Odotetaan yhteyttä LDAP-palvelimeen..."
 
 #: addressbook/backend/pas/pas-backend-ldap.c:870
 msgid "Adding card to LDAP server..."
 msgstr ""
 
 #: addressbook/backend/pas/pas-backend-ldap.c:971
-#, fuzzy
 msgid "Removing card from LDAP server..."
-msgstr "Ladataan kalenteria..."
+msgstr ""
 
 #: addressbook/backend/pas/pas-backend-ldap.c:1080
 msgid "Modifying card from LDAP server..."
@@ -736,8 +718,7 @@ msgstr ""
 
 #: addressbook/gui/component/addressbook-component.c:71
 #: calendar/gui/dialogs/comp-editor-util.c:310
-#: calendar/gui/dialogs/comp-editor-util.c:366 shell/e-local-storage.c:172
-#: shell/e-shortcuts.c:1061
+#: calendar/gui/dialogs/comp-editor-util.c:366 shell/e-shortcuts.c:1061
 msgid "Contacts"
 msgstr "Kontaktit"
 
@@ -746,9 +727,8 @@ msgid "Folder containing contact information"
 msgstr ""
 
 #: addressbook/gui/component/addressbook-component.c:73
-#, fuzzy
 msgid "LDAP Server"
-msgstr "NNTP-palvelin"
+msgstr "LDAP-palvelin"
 
 #: addressbook/gui/component/addressbook-component.c:73
 msgid "LDAP server containing contact information"
@@ -756,24 +736,20 @@ msgstr ""
 
 #: addressbook/gui/component/addressbook-component.c:526
 #: ui/evolution-addressbook.xml.h:11
-#, fuzzy
 msgid "New Contact"
 msgstr "Uusi kontakti"
 
 #: addressbook/gui/component/addressbook-component.c:526
-#, fuzzy
 msgid "New _Contact"
-msgstr "Uusi kontakti"
+msgstr "_Uusi kontakti"
 
 #: addressbook/gui/component/addressbook-component.c:527
-#, fuzzy
 msgid "New Contact List"
-msgstr "_Kontaktiluettelo"
+msgstr "Uusi kontaktiluettelo"
 
 #: addressbook/gui/component/addressbook-component.c:527
-#, fuzzy
 msgid "New Contact _List"
-msgstr "_Kontaktiluettelo"
+msgstr "Uusi kontakti_luettelo"
 
 #: addressbook/gui/component/addressbook-config.c:186
 msgid "Edit Addressbook"
@@ -781,7 +757,7 @@ msgstr "Muokkaa osoitekirjaa"
 
 #: addressbook/gui/component/addressbook-config.glade.h:1
 msgid "389"
-msgstr ""
+msgstr "389"
 
 #: addressbook/gui/component/addressbook-config.glade.h:2
 msgid "Account Name"
@@ -792,9 +768,8 @@ msgid "Add Addressbook"
 msgstr "Lisää osoitekirja"
 
 #: addressbook/gui/component/addressbook-config.glade.h:4
-#, fuzzy
 msgid "Addressbook Sources"
-msgstr "_Osoitekirjan lähteet..."
+msgstr "Osoitekirjalähteet"
 
 #: addressbook/gui/component/addressbook-config.glade.h:5
 msgid "Advanced"
@@ -913,13 +888,8 @@ msgstr "Palvelimen _nimi: "
 
 #: addressbook/gui/component/addressbook-factory.c:70
 #: calendar/gui/alarm-notify/notify-main.c:174 calendar/gui/main.c:134
-#, fuzzy
 msgid "Could not initialize gnome-vfs"
-msgstr "Bonobon alustus ei onnistunut"
-
-#: addressbook/gui/component/addressbook-storage.c:167
-msgid "Other Contacts"
-msgstr "Muut kontaktit"
+msgstr "gnome-vfs:n alustus ei onnistunut"
 
 #: addressbook/gui/component/addressbook.c:468
 msgid "Unable to open addressbook"
@@ -966,9 +936,8 @@ msgstr "Sähköposti sisältää"
 
 #: addressbook/gui/component/addressbook.c:763
 #: calendar/gui/cal-search-bar.c:59
-#, fuzzy
 msgid "Category is"
-msgstr "Ryhmät"
+msgstr ""
 
 #. We attach subitems below
 #: addressbook/gui/component/addressbook.c:764 widgets/misc/e-filter-bar.h:97
@@ -979,9 +948,8 @@ msgstr "Edistyneet..."
 #. All, unmatched, separator
 #: addressbook/gui/component/addressbook.c:1005
 #: calendar/gui/cal-search-bar.c:412
-#, fuzzy
 msgid "Any Category"
-msgstr "Ryhmät:"
+msgstr ""
 
 #: addressbook/gui/component/addressbook.c:1045
 msgid "The URI that the Folder Browser will display"
@@ -993,9 +961,8 @@ msgstr ""
 #. * card.
 #.
 #: addressbook/gui/component/e-address-popup.c:178
-#, fuzzy
 msgid "(none)"
-msgstr "(Ei nimeä)"
+msgstr ""
 
 #: addressbook/gui/component/e-address-popup.c:474
 #: addressbook/gui/contact-editor/contact-editor.glade.h:17
@@ -1069,14 +1036,12 @@ msgid "Send HTML Mail?"
 msgstr "Lähetä HTML-postia?"
 
 #: addressbook/gui/component/select-names/e-select-names-popup.c:405
-#, fuzzy
 msgid "Edit Contact List"
-msgstr "_Kontaktiluettelo"
+msgstr "Muokkaa kontaktiluetteloa"
 
 #: addressbook/gui/component/select-names/e-select-names-popup.c:423
-#, fuzzy
 msgid "Unnamed Contact List"
-msgstr "Nimetön kontakti"
+msgstr "Nimetön kontaktiluettelo"
 
 #: addressbook/gui/component/select-names/e-select-names-popup.c:440
 #, c-format
@@ -1114,9 +1079,8 @@ msgid "C_ontaining:"
 msgstr "S_isältää:"
 
 #: addressbook/gui/component/select-names/select-names.glade.h:2
-#, fuzzy
 msgid "Co_ntacts:"
-msgstr "Kontaktit"
+msgstr "Ko_ntaktit:"
 
 #: addressbook/gui/component/select-names/select-names.glade.h:3
 msgid "F_ind"
@@ -1139,9 +1103,8 @@ msgid "_Folder:"
 msgstr "_Kansio:"
 
 #: addressbook/gui/component/select-names/select-names.glade.h:8
-#, fuzzy
 msgid "_Message Recipients:"
-msgstr "Vastaanottajat"
+msgstr "_Vastaanottajat:"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:1
 msgid "Anni_versary:"
@@ -1181,9 +1144,8 @@ msgid "F_ree/Busy URL:"
 msgstr ""
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:9
-#, fuzzy
 msgid "File A_s:"
-msgstr "Tiedoston tyyppi:"
+msgstr ""
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:10
 msgid "General"
@@ -1284,9 +1246,8 @@ msgid "_Profession:"
 msgstr "_Ammatti:"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:35
-#, fuzzy
 msgid "_Public Calendar URL:"
-msgstr "Kalenteri"
+msgstr ""
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:36
 msgid "_Spouse:"
@@ -1297,18 +1258,10 @@ msgid "_This is the mailing address"
 msgstr "_Tämä on postitusosoite"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:38
-#, fuzzy
 msgid "_Web page address:"
-msgstr "Kotisivun osoite:"
+msgstr "_Kotisivun osoite:"
 
 #: addressbook/gui/contact-editor/e-contact-editor-confirm-delete.glade.h:1
-#, fuzzy
-msgid ""
-"Are you sure you want\n"
-"to delete this contact?"
-msgstr "Haluatko varmasti poistaa tämän tilin?"
-
-#: addressbook/gui/contact-editor/e-contact-editor-confirm-delete.glade.h:3
 msgid "Delete Contact?"
 msgstr "Poista kontakti?"
 
@@ -1321,9 +1274,9 @@ msgid "TTY/TDD"
 msgstr ""
 
 #: addressbook/gui/contact-editor/e-contact-editor.c:2276
-#, fuzzy, c-format
+#, c-format
 msgid "Could not find widget for a field: `%s'"
-msgstr "Kansion `%s' poistaminen epäonnistui: %s"
+msgstr ""
 
 #: addressbook/gui/contact-editor/e-contact-quick-add.c:298
 msgid "Contact Quick-Add"
@@ -1348,9 +1301,8 @@ msgid "card.vcf"
 msgstr ""
 
 #: addressbook/gui/contact-editor/e-contact-save-as.c:170
-#, fuzzy
 msgid "list"
-msgstr "on"
+msgstr ""
 
 #: addressbook/gui/contact-editor/e-contact-save-as.c:201
 #, c-format
@@ -1400,84 +1352,80 @@ msgid "Antigua And Barbuda"
 msgstr ""
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:11
-#, fuzzy
 msgid "Argentina"
-msgstr "Suunta"
+msgstr "Argentiina"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:12
 msgid "Armenia"
-msgstr ""
+msgstr "Armenia"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:13
 msgid "Aruba"
-msgstr ""
+msgstr "Aruba"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:14
 msgid "Australia"
-msgstr ""
+msgstr "Australia"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:15
-#, fuzzy
 msgid "Austria"
-msgstr "Elokuu"
+msgstr "Itävalta"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:16
 msgid "Azerbaijan"
-msgstr ""
+msgstr "Azerbaidzan"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:17
 msgid "Bahamas"
-msgstr ""
+msgstr "Bahamasaaret"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:18
 msgid "Bahrain"
-msgstr ""
+msgstr "Bahrain"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:19
 msgid "Bangladesh"
-msgstr ""
+msgstr "Bangladesh"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:20
 msgid "Barbados"
-msgstr ""
+msgstr "Barbados"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:21
-#, fuzzy
 msgid "Belarus"
-msgstr "vuotta"
+msgstr "Valko-Venäjä"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:22
 msgid "Belgium"
-msgstr ""
+msgstr "Belgia"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:23
-#, fuzzy
 msgid "Belize"
-msgstr "Koko"
+msgstr "Belize"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:24
 msgid "Benin"
-msgstr ""
+msgstr "Benin"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:25
 msgid "Bermuda"
-msgstr ""
+msgstr "Bermudasaaret"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:26
 msgid "Bhutan"
-msgstr ""
+msgstr "Bhutan"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:27
 msgid "Bolivia"
-msgstr ""
+msgstr "Bolivia"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:28
 msgid "Bosnia And Herzegowina"
-msgstr ""
+msgstr "Bosnia-Hertsegovina"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:29
 msgid "Botswana"
-msgstr ""
+msgstr "Botswana"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:30
 msgid "Bouvet Island"
@@ -1493,7 +1441,7 @@ msgstr ""
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:33
 msgid "British Virgin Islands"
-msgstr ""
+msgstr "Neitsytsaaret"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:34
 msgid "Brunei Darussalam"
@@ -1501,23 +1449,23 @@ msgstr ""
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:35
 msgid "Bulgaria"
-msgstr ""
+msgstr "Bulgaria"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:36
 msgid "Burkina Faso"
-msgstr ""
+msgstr "Burkina Faso"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:37
 msgid "Burundi"
-msgstr ""
+msgstr "Burundi"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:38
 msgid "Cambodia"
-msgstr ""
+msgstr "Kambodza"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:39
 msgid "Cameroon"
-msgstr ""
+msgstr "Kamerun"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:40
 msgid "Canada"
@@ -1525,38 +1473,35 @@ msgstr "Kanada"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:41
 msgid "Cape Verde"
-msgstr ""
+msgstr "Kap Verde"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:42
 msgid "Cayman Islands"
-msgstr ""
+msgstr "Caymansaaret"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:43
 msgid "Central African Republic"
-msgstr ""
+msgstr "Keski-Afrikan Tasavalta"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:44
-#, fuzzy
 msgid "Chad"
-msgstr "Kanada"
+msgstr "Tsad"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:45
 msgid "Check Address"
 msgstr "Tarkista osoite"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:46
-#, fuzzy
 msgid "Chile"
-msgstr "Kiinalainen"
+msgstr "Chile"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:47
-#, fuzzy
 msgid "China"
-msgstr "Kiinalainen"
+msgstr "Kiina"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:48
 msgid "Christmas Island"
-msgstr ""
+msgstr "Joulusaaret"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:49
 msgid "Cocos (Keeling) Islands"
@@ -1564,17 +1509,15 @@ msgstr ""
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:50
 msgid "Colombia"
-msgstr ""
+msgstr "Kolumbia"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:51
-#, fuzzy
 msgid "Comoros"
-msgstr "Kirjoita"
+msgstr ""
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:52
-#, fuzzy
 msgid "Congo"
-msgstr "Kopioidaan"
+msgstr "Kongo"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:53
 msgid "Cook Islands"
@@ -1582,7 +1525,7 @@ msgstr ""
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:54
 msgid "Costa Rica"
-msgstr ""
+msgstr "Costa Rica"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:55
 msgid "Cote d'Ivoire"
@@ -1594,35 +1537,35 @@ msgstr "M_aa:"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:57
 msgid "Croatia"
-msgstr ""
+msgstr "Kroatia"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:58
 msgid "Cuba"
-msgstr ""
+msgstr "Kuuba"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:59
 msgid "Cyprus"
-msgstr ""
+msgstr "Kypros"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:60
 msgid "Czech Republic"
-msgstr ""
+msgstr "Tsekinmaa"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:61
 msgid "Denmark"
-msgstr ""
+msgstr "Tanska"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:62
 msgid "Djibouti"
-msgstr ""
+msgstr "Djibouti"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:63
 msgid "Dominica"
-msgstr ""
+msgstr "Dominica"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:64
 msgid "Dominican Republic"
-msgstr ""
+msgstr "Dominikaaninen Tasavalta"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:65
 msgid "East Timor"
@@ -1630,60 +1573,59 @@ msgstr ""
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:66
 msgid "Ecuador"
-msgstr ""
+msgstr "Ecuador"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:67
 msgid "Egypt"
-msgstr ""
+msgstr "Egypti"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:68
 msgid "El Salvador"
-msgstr ""
+msgstr "El Salvador"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:69
 msgid "Equatorial Guinea"
-msgstr ""
+msgstr "Päiväntasaajan Guinea"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:70
 msgid "Eritrea"
-msgstr ""
+msgstr "Eritrea"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:71
 msgid "Estonia"
-msgstr ""
+msgstr "Viro"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:72
 msgid "Ethiopia"
-msgstr ""
+msgstr "Etiopia"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:73
 msgid "Falkland Islands"
-msgstr ""
+msgstr "Falklandsaaret"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:74
 msgid "Faroe Islands"
-msgstr ""
+msgstr "Färsaaret"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:75
 msgid "Fiji"
-msgstr ""
+msgstr "Fidzi"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:76
 msgid "Finland"
 msgstr "Suomi"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:77
-#, fuzzy
 msgid "France"
-msgstr "Peruuta"
+msgstr "Ranska"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:78
 msgid "French Guiana"
-msgstr ""
+msgstr "Ranskan Guiana"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:79
 msgid "French Polynesia"
-msgstr ""
+msgstr "Polynesia"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:80
 msgid "French Southern Territories"
@@ -1691,72 +1633,67 @@ msgstr ""
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:81
 msgid "Gabon"
-msgstr ""
+msgstr "Gabon"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:82
 msgid "Gambia"
-msgstr ""
+msgstr "Gambia"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:83
 msgid "Georgia"
-msgstr ""
+msgstr "Georgia"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:84
 msgid "Germany"
-msgstr ""
+msgstr "Saksa"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:85
 msgid "Ghana"
-msgstr ""
+msgstr "Ghana"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:86
 msgid "Gibraltar"
-msgstr ""
+msgstr "Gibraltar"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:87
-#, fuzzy
 msgid "Greece"
-msgstr "Kreikkalainen"
+msgstr "Kreikka"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:88
-#, fuzzy
 msgid "Greenland"
-msgstr "Suomi"
+msgstr "Grönlanti"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:89
-#, fuzzy
 msgid "Grenada"
-msgstr "Kanada"
+msgstr "Grenada"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:90
 msgid "Guadeloupe"
-msgstr ""
+msgstr "Guadeloupe"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:91
-#, fuzzy
 msgid "Guam"
-msgstr "am"
+msgstr "Guam"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:92
 msgid "Guatemala"
-msgstr ""
+msgstr "Guatemala"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:93
-#, fuzzy
 msgid "Guinea"
-msgstr "Yleiset"
+msgstr "Guinea"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:94
 msgid "Guinea-bissau"
-msgstr ""
+msgstr "Guinea Bissau"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:95
 msgid "Guyana"
-msgstr ""
+msgstr "Guyana"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:96
 msgid "Haiti"
-msgstr ""
+msgstr "Haiti"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:97
 msgid "Heard And McDonald Islands"
@@ -1767,58 +1704,52 @@ msgid "Holy See"
 msgstr ""
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:99
-#, fuzzy
 msgid "Honduras"
-msgstr "tuntia"
+msgstr "Honduras"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:100
 msgid "Hong Kong"
-msgstr ""
+msgstr "Hong Kong"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:101
-#, fuzzy
 msgid "Hungary"
-msgstr "Sunnuntai"
+msgstr "Unkari"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:102
 msgid "Iceland"
-msgstr ""
+msgstr "Islanti"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:103
-#, fuzzy
 msgid "India"
-msgstr "Ideat"
+msgstr "Intia"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:104
 msgid "Indonesia"
-msgstr ""
+msgstr "Indonesia"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:105
-#, fuzzy
 msgid "Ireland"
-msgstr "Korealainen"
+msgstr "Irlanti"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:106
 msgid "Israel"
-msgstr ""
+msgstr "Israel"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:107
 msgid "Italy"
-msgstr ""
+msgstr "Italia"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:108
 msgid "Jamaica"
-msgstr ""
+msgstr "Jamaika"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:109
-#, fuzzy
 msgid "Japan"
-msgstr "Japanilainen"
+msgstr "Japani"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:110
-#, fuzzy
 msgid "Jordan"
-msgstr "Korealainen"
+msgstr "Jordania"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:111
 msgid "Kazakhstan"
@@ -1826,7 +1757,7 @@ msgstr ""
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:112
 msgid "Kenya"
-msgstr ""
+msgstr "Kenia"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:113
 msgid "Kiribati"
@@ -1834,50 +1765,47 @@ msgstr ""
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:114
 msgid "Kuwait"
-msgstr ""
+msgstr "Kuwait"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:115
 msgid "Kyrgyzstan"
 msgstr ""
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:116
-#, fuzzy
 msgid "Laos"
-msgstr "Matalin"
+msgstr "Laos"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:117
 msgid "Latvia"
-msgstr ""
+msgstr "Latvia"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:118
 msgid "Lebanon"
-msgstr ""
+msgstr "Libanon"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:119
-#, fuzzy
 msgid "Lesotho"
-msgstr "Matalin"
+msgstr ""
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:120
 msgid "Liberia"
-msgstr ""
+msgstr "Liberia"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:121
 msgid "Liechtenstein"
-msgstr ""
+msgstr "Liechtenstein"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:122
 msgid "Lithuania"
-msgstr ""
+msgstr "Liettua"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:123
 msgid "Luxembourg"
-msgstr ""
+msgstr "Luxemburg"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:124
-#, fuzzy
 msgid "Macau"
-msgstr "Maaliskuu"
+msgstr ""
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:125
 msgid "Macedonia"
@@ -1889,25 +1817,23 @@ msgstr ""
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:127
 msgid "Malawi"
-msgstr ""
+msgstr "Malawi"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:128
 msgid "Malaysia"
-msgstr ""
+msgstr "Malesia"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:129
 msgid "Maldives"
 msgstr ""
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:130
-#, fuzzy
 msgid "Mali"
-msgstr "_Matkapuhelin"
+msgstr "Mali"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:131
-#, fuzzy
 msgid "Malta"
-msgstr "_Matkapuhelin"
+msgstr "Malta"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:132
 msgid "Marshall Islands"
@@ -1922,27 +1848,24 @@ msgid "Mauritania"
 msgstr ""
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:135
-#, fuzzy
 msgid "Mauritius"
-msgstr "Reunukset"
+msgstr "Mauritius"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:136
-#, fuzzy
 msgid "Mayotte"
-msgstr "Toukokuu"
+msgstr ""
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:137
 msgid "Mexico"
-msgstr ""
+msgstr "Meksiko"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:138
 msgid "Micronesia"
 msgstr ""
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:139
-#, fuzzy
 msgid "Monaco"
-msgstr "Maanantai"
+msgstr "Monaco"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:140
 msgid "Mongolia"
@@ -1957,9 +1880,8 @@ msgid "Morocco"
 msgstr ""
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:143
-#, fuzzy
 msgid "Mozambique"
-msgstr "Matkapuhelin"
+msgstr ""
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:144
 msgid "Myanmar"
@@ -1967,53 +1889,47 @@ msgstr ""
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:145
 msgid "Namibia"
-msgstr ""
+msgstr "Namibia"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:146
 msgid "Nauru"
 msgstr ""
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:147
-#, fuzzy
 msgid "Nepal"
-msgstr "Vastaa"
+msgstr "Nepali"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:148
-#, fuzzy
 msgid "Netherlands"
-msgstr "Seuraava säie"
+msgstr "Alankomaat"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:149
 msgid "Netherlands Antilles"
-msgstr ""
+msgstr "Alankomaiden Antillit"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:150
-#, fuzzy
 msgid "New Caledonia"
-msgstr "Uusi kontakti"
+msgstr "Uusi Kaledonia"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:151
 msgid "New Zealand"
-msgstr ""
+msgstr "Uusi-Seelanti"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:152
 msgid "Nicaragua"
-msgstr ""
+msgstr "Nicaragua"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:153
-#, fuzzy
 msgid "Niger"
-msgstr "Korkeampi"
+msgstr ""
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:154
-#, fuzzy
 msgid "Nigeria"
-msgstr "Korkeampi"
+msgstr "Nigeria"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:155
-#, fuzzy
 msgid "Niue"
-msgstr "minuutti"
+msgstr ""
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:156
 msgid "Norfolk Island"
@@ -2024,18 +1940,16 @@ msgid "Northern Mariana Islands"
 msgstr ""
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:158
-#, fuzzy
 msgid "Norway"
-msgstr "Nyt"
+msgstr "Norja"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:159
 msgid "Oman"
-msgstr ""
+msgstr "Oman"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:160
-#, fuzzy
 msgid "Pakistan"
-msgstr "Liitä"
+msgstr "Pakistan"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:161
 msgid "Palau"
@@ -2046,50 +1960,44 @@ msgid "Palestinian Territory"
 msgstr ""
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:163
-#, fuzzy
 msgid "Panama"
-msgstr "Kanada"
+msgstr "Panama"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:164
 msgid "Papua New Guinea"
-msgstr ""
+msgstr "Papua Uusi-Guinea"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:165
 msgid "Paraguay"
-msgstr ""
+msgstr "Paraguay"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:166
-#, fuzzy
 msgid "Peru"
-msgstr "Paperi"
+msgstr "Peru"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:167
 msgid "Philippines"
-msgstr ""
+msgstr "Filippiinit"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:168
-#, fuzzy
 msgid "Pitcairn"
-msgstr "Tulosta kalenteri"
+msgstr ""
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:169
-#, fuzzy
 msgid "Poland"
-msgstr "Suomi"
+msgstr "Puola"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:170
-#, fuzzy
 msgid "Portugal"
-msgstr "Pysty"
+msgstr "Portugal"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:171
 msgid "Puerto Rico"
 msgstr ""
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:172
-#, fuzzy
 msgid "Qatar"
-msgstr "jälkeen"
+msgstr "Qatar"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:173
 msgid "Republic Of Korea"
@@ -2100,22 +2008,20 @@ msgid "Republic Of Moldova"
 msgstr ""
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:175
-#, fuzzy
 msgid "Reunion"
-msgstr "Alueet"
+msgstr ""
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:176
 msgid "Romania"
-msgstr ""
+msgstr "Romania"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:177
 msgid "Russian Federation"
-msgstr ""
+msgstr "Venäjä"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:178
-#, fuzzy
 msgid "Rwanda"
-msgstr "Kanada"
+msgstr ""
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:179
 msgid "Saint Kitts And Nevis"
@@ -2135,7 +2041,7 @@ msgstr ""
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:183
 msgid "San Marino"
-msgstr ""
+msgstr "San Marino"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:184
 msgid "Sao Tome And Principe"
@@ -2143,12 +2049,11 @@ msgstr ""
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:185
 msgid "Saudi Arabia"
-msgstr ""
+msgstr "Saudi Arabia"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:186
-#, fuzzy
 msgid "Senegal"
-msgstr "Yleiset"
+msgstr "Senegal"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:187
 msgid "Seychelles"
@@ -2160,11 +2065,11 @@ msgstr ""
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:189
 msgid "Singapore"
-msgstr ""
+msgstr "Singapore"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:190
 msgid "Slovakia"
-msgstr ""
+msgstr "Slovakia"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:191
 msgid "Slovenia"
@@ -2175,26 +2080,24 @@ msgid "Solomon Islands"
 msgstr ""
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:193
-#, fuzzy
 msgid "Somalia"
-msgstr "Tavallinen"
+msgstr "Somalia"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:194
 msgid "South Africa"
-msgstr ""
+msgstr "Etelä-Afrikka"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:195
 msgid "South Georgia And The South Sandwich Islands"
 msgstr ""
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:196
-#, fuzzy
 msgid "Spain"
-msgstr "Varjostus"
+msgstr "Espanja"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:197
 msgid "Sri Lanka"
-msgstr ""
+msgstr "Sri Lanka"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:198
 msgid "St. Helena"
@@ -2205,78 +2108,68 @@ msgid "St. Pierre And Miquelon"
 msgstr ""
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:200
-#, fuzzy
 msgid "Sudan"
-msgstr "Su"
+msgstr "Sudan"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:201
-#, fuzzy
 msgid "Suriname"
-msgstr "Kutsumanimi"
+msgstr "Surinam"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:202
 msgid "Svalbard And Jan Mayen Islands"
 msgstr ""
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:203
-#, fuzzy
 msgid "Swaziland"
-msgstr "Suomi"
+msgstr ""
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:204
-#, fuzzy
 msgid "Sweden"
-msgstr "Näkemättä"
+msgstr "Ruotsi"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:205
 msgid "Switzerland"
-msgstr ""
+msgstr "Sveitsi"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:206
 msgid "Taiwan"
-msgstr ""
+msgstr "Taiwan"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:207
-#, fuzzy
 msgid "Tajikistan"
-msgstr "Tehtävät"
+msgstr ""
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:208
-#, fuzzy
 msgid "Thailand"
-msgstr "Suomi"
+msgstr "Thaimaa"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:209
-#, fuzzy
 msgid "Togo"
-msgstr "Vastaanottaja"
+msgstr "Togo"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:210
 msgid "Tokelau"
 msgstr ""
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:211
-#, fuzzy
 msgid "Tonga"
-msgstr "Tänään"
+msgstr "Tonga"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:212
 msgid "Trinidad And Tobago"
-msgstr ""
+msgstr "Trinidad ja Tobago"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:213
 msgid "Tunisia"
-msgstr ""
+msgstr "Tunisia"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:214
-#, fuzzy
 msgid "Turkey"
-msgstr "Ti"
+msgstr "Turkki"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:215
-#, fuzzy
 msgid "Turkmenistan"
-msgstr "Turkkilainen"
+msgstr ""
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:216
 msgid "Turks And Caicos Islands"
@@ -2291,31 +2184,28 @@ msgid "U.S. Virgin Islands"
 msgstr ""
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:219
-#, fuzzy
 msgid "Uganda"
-msgstr "Kanada"
+msgstr "Uganda"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:220
-#, fuzzy
 msgid "Ukraine"
-msgstr "Ukrainalainen"
+msgstr "Ukraina"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:221
 msgid "United Arab Emirates"
-msgstr ""
+msgstr "Yhdistyneet arabiemiirikunnat"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:222
 msgid "United Kingdom"
-msgstr ""
+msgstr "Iso-Britannia"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:223
 msgid "United Republic Of Tanzania"
 msgstr ""
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:224
-#, fuzzy
 msgid "United States"
-msgstr "Nimetön viesti"
+msgstr "Yhdysvallat"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:225
 msgid "United States Minor Outlying Islands"
@@ -2323,7 +2213,7 @@ msgstr ""
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:226
 msgid "Uruguay"
-msgstr ""
+msgstr "Uruguay"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:227
 msgid "Uzbekistan"
@@ -2335,30 +2225,27 @@ msgstr ""
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:229
 msgid "Venezuela"
-msgstr ""
+msgstr "Venezuela"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:230
-#, fuzzy
 msgid "Viet Nam"
-msgstr "Valitse nimet"
+msgstr "Vietnam"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:231
 msgid "Wallis And Futuna Islands"
 msgstr ""
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:232
-#, fuzzy
 msgid "Western Sahara"
-msgstr "Länsieurooppalainen"
+msgstr ""
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:233
-#, fuzzy
 msgid "Yemen"
-msgstr "Näkemättä"
+msgstr "Jemen"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:234
 msgid "Yugoslavia"
-msgstr ""
+msgstr "Jugoslavia"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:235
 msgid "Zambia"
@@ -2366,7 +2253,7 @@ msgstr ""
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:236
 msgid "Zimbabwe"
-msgstr ""
+msgstr "Zimbabwe"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:237
 msgid "_Address:"
@@ -2457,14 +2344,12 @@ msgid "_Title:"
 msgstr ""
 
 #: addressbook/gui/contact-list-editor/contact-list-editor.glade.h:1
-#, fuzzy
 msgid "List _name:"
-msgstr "Tiedostonimi:"
+msgstr ""
 
 #: addressbook/gui/contact-list-editor/contact-list-editor.glade.h:2
-#, fuzzy
 msgid "Members"
-msgstr "Joulukuu"
+msgstr "Jäsenet"
 
 #: addressbook/gui/contact-list-editor/contact-list-editor.glade.h:3
 msgid "Type an email address or drag a contact into the list below:"
@@ -2476,18 +2361,15 @@ msgstr ""
 
 #: addressbook/gui/contact-list-editor/contact-list-editor.glade.h:6
 #: calendar/gui/dialogs/recurrence-page.glade.h:12 filter/filter.glade.h:10
-#, fuzzy
 msgid "_Remove"
-msgstr "Poista"
+msgstr "_Poista"
 
 #: addressbook/gui/contact-list-editor/contact-list-editor.glade.h:7
-#, fuzzy
 msgid "contact-list-editor"
-msgstr "Kontaktinhallinta"
+msgstr "kontaktinhallinta"
 
 #. Construct the app
 #: addressbook/gui/contact-list-editor/e-contact-list-editor.c:231
-#, fuzzy
 msgid "Contact List Editor"
 msgstr "Kontaktinhallinta"
 
@@ -2501,14 +2383,12 @@ msgid "Duplicate Contact Detected"
 msgstr ""
 
 #: addressbook/gui/merging/e-card-duplicate-detected.glade.h:3
-#, fuzzy
 msgid "New Contact:"
-msgstr "Uusi kontakti"
+msgstr "Uusi kontakti:"
 
 #: addressbook/gui/merging/e-card-duplicate-detected.glade.h:4
-#, fuzzy
 msgid "Original Contact:"
-msgstr "Muut kontaktit"
+msgstr "Alkuperäinen kontakti:"
 
 #: addressbook/gui/merging/e-card-duplicate-detected.glade.h:5
 msgid ""
@@ -2517,14 +2397,12 @@ msgid ""
 msgstr ""
 
 #: addressbook/gui/merging/e-card-merging-book-commit-duplicate-detected.glade.h:1
-#, fuzzy
 msgid "Change Anyway"
-msgstr "Muut kontaktit"
+msgstr "Muuta silti"
 
 #: addressbook/gui/merging/e-card-merging-book-commit-duplicate-detected.glade.h:2
-#, fuzzy
 msgid "Changed Contact:"
-msgstr "Muut kontaktit"
+msgstr "Muutettu kontakti:"
 
 #: addressbook/gui/merging/e-card-merging-book-commit-duplicate-detected.glade.h:3
 msgid "Conflicting Contact:"
@@ -2547,19 +2425,17 @@ msgid "Search"
 msgstr "Etsi"
 
 #: addressbook/gui/widgets/e-addressbook-model.c:127
-#, fuzzy
 msgid "No cards"
-msgstr "Tulosta kalenteri"
+msgstr "Ei kortteja"
 
 #: addressbook/gui/widgets/e-addressbook-model.c:130
-#, fuzzy
 msgid "1 card"
-msgstr "Tulosta kalenteri"
+msgstr "1 kortti"
 
 #: addressbook/gui/widgets/e-addressbook-model.c:133
-#, fuzzy, c-format
+#, c-format
 msgid "%d cards"
-msgstr " %d sekuntia"
+msgstr "%d korttia"
 
 #: addressbook/gui/widgets/e-addressbook-reflow-adapter.c:139
 #: addressbook/gui/widgets/e-addressbook-reflow-adapter.c:268
@@ -2578,13 +2454,11 @@ msgstr "Avaa"
 #: addressbook/gui/widgets/e-addressbook-reflow-adapter.c:269
 #: addressbook/gui/widgets/e-addressbook-view.c:734
 #: ui/evolution-addressbook.xml.h:10
-#, fuzzy
 msgid "Forward Contact"
-msgstr "Uusi kontakti"
+msgstr ""
 
 #: addressbook/gui/widgets/e-addressbook-reflow-adapter.c:270
 #: addressbook/gui/widgets/e-addressbook-view.c:735
-#, fuzzy
 msgid "Send Message to Contact"
 msgstr "Lähetä viesti kontaktille"
 
@@ -2613,15 +2487,13 @@ msgstr "Poista"
 #: addressbook/gui/widgets/e-addressbook-table-adapter.c:140
 #: addressbook/gui/widgets/e-addressbook-util.c:85
 #: addressbook/gui/widgets/e-minicard.c:475
-#, fuzzy
 msgid "Error modifying card"
-msgstr "Virhe %s:n lataamisessa"
+msgstr "Virhe muutettaessa korttia"
 
 #: addressbook/gui/widgets/e-addressbook-util.c:33
 #: shell/evolution-shell-component.c:1007
-#, fuzzy
 msgid "Success"
-msgstr "Lähteet"
+msgstr ""
 
 #: addressbook/gui/widgets/e-addressbook-util.c:34
 #: camel/providers/imap/camel-imap-command.c:340 shell/e-shell.c:1894
@@ -2630,9 +2502,8 @@ msgid "Unknown error"
 msgstr "Tuntematon virhe"
 
 #: addressbook/gui/widgets/e-addressbook-util.c:35
-#, fuzzy
 msgid "Repository offline"
-msgstr "Työskentele poissa linjoilta"
+msgstr ""
 
 #: addressbook/gui/widgets/e-addressbook-util.c:36 shell/e-storage.c:516
 #: shell/evolution-shell-component.c:1035
@@ -2653,16 +2524,14 @@ msgstr ""
 
 #: addressbook/gui/widgets/e-addressbook-util.c:40
 #: calendar/gui/calendar-model.c:763 calendar/gui/calendar-model.c:1193
-#: calendar/gui/dialogs/task-details-page.glade.h:3
-#: calendar/gui/e-calendar-table.c:481 calendar/gui/print.c:2255
-#: camel/camel-service.c:607 camel/camel-service.c:643
+#: calendar/gui/dialogs/task-details-page.glade.h:3 camel/camel-service.c:607
+#: camel/camel-service.c:643
 msgid "Cancelled"
 msgstr "Peruutettu"
 
 #: addressbook/gui/widgets/e-addressbook-util.c:41
-#, fuzzy
 msgid "Other error"
-msgstr "I/O-virhe"
+msgstr "Muu virhe"
 
 #: addressbook/gui/widgets/e-addressbook-util.c:57
 #: calendar/gui/dialogs/save-comp.c:50
@@ -2670,30 +2539,25 @@ msgid "Do you want to save changes?"
 msgstr "Haluatko tallentaa muutokset?"
 
 #: addressbook/gui/widgets/e-addressbook-util.c:76
-#, fuzzy
 msgid "Error adding list"
-msgstr "Virhe %s:n lataamisessa"
+msgstr ""
 
 #: addressbook/gui/widgets/e-addressbook-util.c:76
-#, fuzzy
 msgid "Error adding card"
-msgstr "Virhe %s:n lataamisessa"
+msgstr "Virhe kortin lisäämisessä"
 
 #: addressbook/gui/widgets/e-addressbook-util.c:85
-#, fuzzy
 msgid "Error modifying list"
-msgstr "Virhe %s:n lataamisessa"
+msgstr ""
 
 #: addressbook/gui/widgets/e-addressbook-util.c:95
-#, fuzzy
 msgid "Error removing list"
-msgstr "Virhe %s:n lataamisessa"
+msgstr ""
 
 #: addressbook/gui/widgets/e-addressbook-util.c:95
 #: addressbook/gui/widgets/e-addressbook-view.c:1278
-#, fuzzy
 msgid "Error removing card"
-msgstr "Virhe %s:n lataamisessa"
+msgstr "Virhe kortin poistossa"
 
 #. Translators: put here a list of labels you want to see on buttons in
 #. addressbook. You may use any character to separate labels but it must
@@ -2821,9 +2685,8 @@ msgid "Dimensions:"
 msgstr "Mitat:"
 
 #: addressbook/printing/e-contact-print.glade.h:7
-#, fuzzy
 msgid "F_ont..."
-msgstr "Kirjasin..."
+msgstr "_Kirjasin..."
 
 #: addressbook/printing/e-contact-print.glade.h:8
 msgid "Fonts"
@@ -2962,55 +2825,46 @@ msgid "Width:"
 msgstr "Leveys:"
 
 #: addressbook/printing/e-contact-print.glade.h:42
-#, fuzzy
 msgid "_Font..."
-msgstr "Kirjasin..."
+msgstr "_Kirjasin..."
 
 #: addressbook/printing/e-contact-print.c:1111
-#, fuzzy
 msgid "Print cards"
-msgstr "Tulosta kalenteri"
+msgstr ""
 
 #: addressbook/printing/e-contact-print.c:1171
 #: addressbook/printing/e-contact-print.c:1193
-#, fuzzy
 msgid "Print card"
-msgstr "Tulosta kalenteri"
+msgstr "Tulosta kortti"
 
 #: addressbook/printing/e-contact-print-envelope.c:215
 #: addressbook/printing/e-contact-print-envelope.c:236
-#, fuzzy
 msgid "Print envelope"
-msgstr "Tulostuksen esikatselu"
+msgstr "Tulosta kirjekuori"
 
 #: calendar/cal-util/cal-component.c:1202
-#, fuzzy
 msgid "Untitled appointment"
-msgstr "Muokkaa tapaamista"
+msgstr ""
 
 #: calendar/cal-util/cal-util.c:498 calendar/cal-util/cal-util.c:520
-#: calendar/gui/dialogs/task-details-page.glade.h:6
-#: calendar/gui/e-calendar-table.c:405 mail/message-list.c:651
+#: calendar/gui/dialogs/task-details-page.glade.h:6 mail/message-list.c:651
 msgid "High"
 msgstr "Korkea"
 
 #: calendar/cal-util/cal-util.c:500 calendar/cal-util/cal-util.c:522
 #: calendar/gui/calendar-model.c:1703
-#: calendar/gui/dialogs/task-details-page.glade.h:9
-#: calendar/gui/e-calendar-table.c:406 mail/message-list.c:650
+#: calendar/gui/dialogs/task-details-page.glade.h:9 mail/message-list.c:650
 msgid "Normal"
 msgstr "Tavallinen"
 
 #: calendar/cal-util/cal-util.c:502 calendar/cal-util/cal-util.c:524
-#: calendar/gui/dialogs/task-details-page.glade.h:8
-#: calendar/gui/e-calendar-table.c:407 mail/message-list.c:649
+#: calendar/gui/dialogs/task-details-page.glade.h:8 mail/message-list.c:649
 msgid "Low"
 msgstr "Matala"
 
 #. An empty string is the same as 'None'.
 #: calendar/cal-util/cal-util.c:518
 #: calendar/gui/dialogs/task-details-page.glade.h:13
-#: calendar/gui/e-calendar-table.c:408
 msgid "Undefined"
 msgstr "Määrittelemätön"
 
@@ -3081,35 +2935,19 @@ msgstr ""
 msgid "Factory for the alarm notification service"
 msgstr ""
 
-#: calendar/gui/alarm-notify/alarm-notify-dialog.c:216
-#, fuzzy
-msgid "Starting:"
-msgstr "Asetukset"
-
-#: calendar/gui/alarm-notify/alarm-notify-dialog.c:218
-msgid "Ending:"
-msgstr ""
-
 #: calendar/gui/alarm-notify/alarm-notify-dialog.c:231
-#, fuzzy
 msgid "invalid time"
-msgstr "_Loppumisaika:"
-
-#: calendar/gui/alarm-notify/alarm-notify-dialog.c:276
-#, fuzzy
-msgid "Evolution Alarm"
-msgstr "Evolution"
+msgstr "epäkelpo aika"
 
 #: calendar/gui/alarm-notify/alarm-notify-dialog.c:371
-#, fuzzy, c-format
+#, c-format
 msgid "Alarm on %s"
-msgstr "Näytä asetukset"
+msgstr ""
 
 #: calendar/gui/alarm-notify/alarm-notify.glade.h:1
 #: ui/evolution-comp-editor.xml.h:1
-#, fuzzy
 msgid "C_lose"
-msgstr "Sulje"
+msgstr "_Sulje"
 
 #: calendar/gui/alarm-notify/alarm-notify.glade.h:2
 msgid "Snoo_ze"
@@ -3120,9 +2958,8 @@ msgid "Snooze time (minutes)"
 msgstr ""
 
 #: calendar/gui/alarm-notify/alarm-notify.glade.h:4
-#, fuzzy
 msgid "_Edit appointment"
-msgstr "Muokkaa tapaamista"
+msgstr "_Muokkaa tapaamista"
 
 #: calendar/gui/alarm-notify/alarm-queue.c:670
 msgid "No description available."
@@ -3152,9 +2989,8 @@ msgid "Could not initialize GNOME"
 msgstr "GNOMEn alustus ei onnistunut"
 
 #: calendar/gui/alarm-notify/notify-main.c:181
-#, fuzzy
 msgid "Could not create the alarm notify service"
-msgstr "Väliaikaishakemistoa ei voitu luoda: %s"
+msgstr ""
 
 #: calendar/gui/alarm-notify/notify-main.c:186
 msgid "Could not create the alarm notify service factory"
@@ -3198,16 +3034,14 @@ msgid ""
 msgstr ""
 
 #: calendar/gui/calendar-model.c:418 calendar/gui/calendar-model.c:984
-#: calendar/gui/e-calendar-table.c:384
 msgid "Private"
 msgstr "Henkilökohtainen"
 
 #: calendar/gui/calendar-model.c:421 calendar/gui/calendar-model.c:986
-#: calendar/gui/e-calendar-table.c:385
 msgid "Confidential"
 msgstr "Luottamuksellinen"
 
-#: calendar/gui/calendar-model.c:424 calendar/gui/e-calendar-table.c:383
+#: calendar/gui/calendar-model.c:424
 msgid "Public"
 msgstr "Julkinen"
 
@@ -3228,33 +3062,28 @@ msgid "W"
 msgstr "L"
 
 #: calendar/gui/calendar-model.c:603 calendar/gui/calendar-model.c:1143
-#: calendar/gui/e-calendar-table.c:457
 #, fuzzy
 msgid "Free"
 msgstr "Pe"
 
-#: calendar/gui/calendar-model.c:605 calendar/gui/e-calendar-table.c:458
-#: calendar/gui/e-meeting-time-sel.c:427
+#: calendar/gui/calendar-model.c:605 calendar/gui/e-meeting-time-sel.c:427
 #: shell/evolution-shell-component.c:1029
 msgid "Busy"
 msgstr ""
 
 #: calendar/gui/calendar-model.c:754 calendar/gui/calendar-model.c:1187
 #: calendar/gui/dialogs/task-details-page.glade.h:10
-#: calendar/gui/e-calendar-table.c:478 calendar/gui/print.c:2246
 msgid "Not Started"
 msgstr ""
 
 #: calendar/gui/calendar-model.c:757 calendar/gui/calendar-model.c:1189
 #: calendar/gui/dialogs/task-details-page.glade.h:7
-#: calendar/gui/e-calendar-table.c:479 calendar/gui/print.c:2249
 msgid "In Progress"
 msgstr ""
 
 #: calendar/gui/calendar-model.c:760 calendar/gui/calendar-model.c:1191
 #: calendar/gui/dialogs/task-details-page.glade.h:4
-#: calendar/gui/e-calendar-table.c:480 calendar/gui/e-meeting-model.c:328
-#: calendar/gui/e-meeting-model.c:351 calendar/gui/print.c:2252
+#: calendar/gui/e-meeting-model.c:328 calendar/gui/e-meeting-model.c:351
 msgid "Completed"
 msgstr ""
 
@@ -3286,12 +3115,10 @@ msgstr ""
 
 #: calendar/gui/calendar-model.c:1713 calendar/gui/e-meeting-model.c:300
 #: calendar/gui/e-meeting-model.c:310 calendar/gui/e-meeting-model.c:536
-#: calendar/gui/e-meeting-model.c:776
 msgid "Yes"
 msgstr "Kyllä"
 
 #: calendar/gui/calendar-model.c:1713 calendar/gui/e-meeting-model.c:312
-#: calendar/gui/e-meeting-model.c:777
 msgid "No"
 msgstr "Ei"
 
@@ -3300,7 +3127,7 @@ msgstr "Ei"
 #: calendar/gui/e-week-view.c:1182
 #, fuzzy
 msgid "Searching"
-msgstr "Etsi"
+msgstr "Etsitään..."
 
 #: calendar/gui/calendar-view-factory.c:148 views/calendar/galview.xml.h:1
 #, fuzzy
@@ -3335,12 +3162,12 @@ msgstr "Kuvaus:"
 msgid "Comment contains"
 msgstr "Kommentti sisältää"
 
-#: calendar/gui/cal-search-bar.c:416 mail/mail-ops.c:1075
+#: calendar/gui/cal-search-bar.c:416
 msgid "Unmatched"
 msgstr ""
 
 #: calendar/gui/component-factory.c:63 my-evolution/my-evolution.glade.h:7
-#: shell/e-local-storage.c:171 shell/e-shortcuts.c:1055
+#: shell/e-shortcuts.c:1055
 msgid "Calendar"
 msgstr "Kalenteri"
 
@@ -3348,9 +3175,8 @@ msgstr "Kalenteri"
 msgid "Folder containing appointments and events"
 msgstr ""
 
-#: calendar/gui/component-factory.c:68 calendar/gui/print.c:1733
-#: my-evolution/e-summary-tasks.c:247 my-evolution/e-summary-tasks.c:263
-#: shell/e-local-storage.c:177 shell/e-shortcuts.c:1058
+#: calendar/gui/component-factory.c:68 my-evolution/e-summary-tasks.c:247
+#: my-evolution/e-summary-tasks.c:263 shell/e-shortcuts.c:1058
 #: views/tasks/galview.xml.h:1
 msgid "Tasks"
 msgstr "Tehtävät"
@@ -3583,7 +3409,7 @@ msgstr "Muistutukset"
 
 #: calendar/gui/dialogs/alarm-page.glade.h:7
 #: calendar/gui/dialogs/recurrence-page.glade.h:8
-#: calendar/gui/e-itip-control.c:737 calendar/gui/e-itip-control.glade.h:11
+#: calendar/gui/e-itip-control.glade.h:11
 msgid "Summary:"
 msgstr "Kuvaus:"
 
@@ -3942,35 +3768,35 @@ msgstr ""
 msgid "Could not update object!"
 msgstr "Tiedostojen päivitys ei onnistunut"
 
-#: calendar/gui/dialogs/comp-editor.c:676
+#: calendar/gui/dialogs/comp-editor.c:678
 msgid "Edit Appointment"
 msgstr "Muokkaa tapaamista"
 
-#: calendar/gui/dialogs/comp-editor.c:681
+#: calendar/gui/dialogs/comp-editor.c:683
 #, c-format
 msgid "Appointment - %s"
 msgstr "Tapaaminen - %s"
 
-#: calendar/gui/dialogs/comp-editor.c:684
+#: calendar/gui/dialogs/comp-editor.c:686
 #, c-format
 msgid "Task - %s"
 msgstr "Tehtävä - %s"
 
-#: calendar/gui/dialogs/comp-editor.c:687
+#: calendar/gui/dialogs/comp-editor.c:689
 #, c-format
 msgid "Journal entry - %s"
 msgstr ""
 
-#: calendar/gui/dialogs/comp-editor.c:701
+#: calendar/gui/dialogs/comp-editor.c:703
 msgid "No summary"
 msgstr "Ei kuvausta"
 
-#: calendar/gui/dialogs/comp-editor.c:1059 mail/mail-callbacks.c:1891
+#: calendar/gui/dialogs/comp-editor.c:1061 mail/mail-callbacks.c:1891
 #: mail/mail-display.c:102
 msgid "Overwrite file?"
 msgstr "Kirjoita tiedoston yli?"
 
-#: calendar/gui/dialogs/comp-editor.c:1063 mail/mail-callbacks.c:1898
+#: calendar/gui/dialogs/comp-editor.c:1065 mail/mail-callbacks.c:1898
 #: mail/mail-display.c:106
 msgid ""
 "A file by that name already exists.\n"
@@ -3979,12 +3805,12 @@ msgstr ""
 "Saman niminen tiedosto on jo olemassa.\n"
 "Kirjoitetaanko sen yli?"
 
-#: calendar/gui/dialogs/comp-editor.c:1109 ui/evolution-comp-editor.xml.h:13
+#: calendar/gui/dialogs/comp-editor.c:1111 ui/evolution-comp-editor.xml.h:13
 #: widgets/misc/e-filter-bar.h:101
 msgid "Save As..."
 msgstr "Tallenna nimellä..."
 
-#: calendar/gui/dialogs/comp-editor.c:1270
+#: calendar/gui/dialogs/comp-editor.c:1272
 msgid "Unable to obtain current version!"
 msgstr ""
 
@@ -4045,7 +3871,7 @@ msgstr "Poistettu"
 msgid "Enter Delegate"
 msgstr "Poistettu"
 
-#: calendar/gui/dialogs/event-editor.c:185 calendar/gui/print.c:2203
+#: calendar/gui/dialogs/event-editor.c:185
 msgid "Appointment"
 msgstr "Tapaaminen"
 
@@ -4058,13 +3884,15 @@ msgid "Recurrence"
 msgstr ""
 
 #: calendar/gui/dialogs/event-editor.c:202
-#: calendar/gui/dialogs/event-editor.c:352
+#: calendar/gui/dialogs/event-editor.c:260
+#: calendar/gui/dialogs/event-editor.c:362
 #, fuzzy
 msgid "Scheduling"
 msgstr "Varjostus"
 
 #: calendar/gui/dialogs/event-editor.c:207
-#: calendar/gui/dialogs/event-editor.c:355
+#: calendar/gui/dialogs/event-editor.c:263
+#: calendar/gui/dialogs/event-editor.c:365
 #, fuzzy
 msgid "Meeting"
 msgstr "Peruuta tapaaminen"
@@ -4110,7 +3938,7 @@ msgid "Pu_blic"
 msgstr "Ju_lkinen"
 
 #: calendar/gui/dialogs/event-page.glade.h:10
-#: calendar/gui/e-calendar-table.etspec.h:13
+#: calendar/gui/e-calendar-table.etspec.h:12
 #, fuzzy
 msgid "Show Time As"
 msgstr "Näytä"
@@ -4152,58 +3980,52 @@ msgstr "Osanottaja"
 
 #: calendar/gui/dialogs/meeting-page.etspec.h:2
 #: calendar/gui/e-meeting-time-sel.etspec.h:2
-msgid "Click here to add an attendee"
+msgid "Common Name"
 msgstr ""
 
 #: calendar/gui/dialogs/meeting-page.etspec.h:3
 #: calendar/gui/e-meeting-time-sel.etspec.h:3
-msgid "Common Name"
-msgstr ""
-
-#: calendar/gui/dialogs/meeting-page.etspec.h:4
-#: calendar/gui/e-meeting-time-sel.etspec.h:4
 #, fuzzy
 msgid "Delegated From"
 msgstr "Poistettu"
 
-#: calendar/gui/dialogs/meeting-page.etspec.h:5
-#: calendar/gui/e-meeting-time-sel.etspec.h:5
+#: calendar/gui/dialogs/meeting-page.etspec.h:4
+#: calendar/gui/e-meeting-time-sel.etspec.h:4
 #, fuzzy
 msgid "Delegated To"
 msgstr "Poistettu"
 
-#: calendar/gui/dialogs/meeting-page.etspec.h:6
-#: calendar/gui/e-meeting-time-sel.etspec.h:6
+#: calendar/gui/dialogs/meeting-page.etspec.h:5
+#: calendar/gui/e-meeting-time-sel.etspec.h:5
 msgid "Language"
 msgstr ""
 
-#: calendar/gui/dialogs/meeting-page.etspec.h:7
-#: calendar/gui/e-meeting-time-sel.etspec.h:7
+#: calendar/gui/dialogs/meeting-page.etspec.h:6
+#: calendar/gui/e-meeting-time-sel.etspec.h:6
 #, fuzzy
 msgid "Member"
 msgstr "Joulukuu"
 
-#: calendar/gui/dialogs/meeting-page.etspec.h:8
-#: calendar/gui/e-itip-control.c:798
-#: calendar/gui/e-meeting-time-sel.etspec.h:8
+#: calendar/gui/dialogs/meeting-page.etspec.h:7
+#: calendar/gui/e-meeting-time-sel.etspec.h:7
 msgid "RSVP"
 msgstr ""
 
-#: calendar/gui/dialogs/meeting-page.etspec.h:9
-#: calendar/gui/e-meeting-time-sel.etspec.h:9
+#: calendar/gui/dialogs/meeting-page.etspec.h:8
+#: calendar/gui/e-meeting-time-sel.etspec.h:8
 msgid "Role"
 msgstr "Rooli"
 
-#: calendar/gui/dialogs/meeting-page.etspec.h:10
-#: calendar/gui/e-calendar-table.etspec.h:15
-#: calendar/gui/e-meeting-time-sel.etspec.h:10 filter/libfilter-i18n.h:49
+#: calendar/gui/dialogs/meeting-page.etspec.h:9
+#: calendar/gui/e-calendar-table.etspec.h:14
+#: calendar/gui/e-meeting-time-sel.etspec.h:9 filter/libfilter-i18n.h:49
 #: mail/message-list.etspec.h:8
 msgid "Status"
 msgstr "Tila"
 
-#: calendar/gui/dialogs/meeting-page.etspec.h:11
-#: calendar/gui/e-calendar-table.etspec.h:18
-#: calendar/gui/e-meeting-time-sel.etspec.h:11 mail/mail-config.glade.h:85
+#: calendar/gui/dialogs/meeting-page.etspec.h:10
+#: calendar/gui/e-calendar-table.etspec.h:17
+#: calendar/gui/e-meeting-time-sel.etspec.h:10 mail/mail-config.glade.h:85
 #: shell/glade/e-active-connection-dialog.glade.h:5
 msgid "Type"
 msgstr "Tyyppi"
@@ -4360,7 +4182,7 @@ msgstr "_Tila:"
 msgid "Assignment"
 msgstr "Tapaaminen"
 
-#: calendar/gui/dialogs/task-page.glade.h:5 calendar/gui/e-itip-control.c:746
+#: calendar/gui/dialogs/task-page.glade.h:5
 #: calendar/gui/e-itip-control.glade.h:6
 #: composer/e-msg-composer-attachment.glade.h:2 mail/mail-config.glade.h:26
 msgid "Description:"
@@ -4373,61 +4195,6 @@ msgstr "_Alkamispäivä:"
 #: calendar/gui/dialogs/task-page.glade.h:11
 msgid "_Due Date:"
 msgstr ""
-
-#: calendar/gui/e-calendar-table.c:427
-#, c-format
-msgid "0%"
-msgstr "0%"
-
-#: calendar/gui/e-calendar-table.c:428
-#, c-format
-msgid "10%"
-msgstr "10%"
-
-#: calendar/gui/e-calendar-table.c:429
-#, c-format
-msgid "20%"
-msgstr "20%"
-
-#: calendar/gui/e-calendar-table.c:430
-#, c-format
-msgid "30%"
-msgstr "30%"
-
-#: calendar/gui/e-calendar-table.c:431
-#, c-format
-msgid "40%"
-msgstr "40%"
-
-#: calendar/gui/e-calendar-table.c:432
-#, c-format
-msgid "50%"
-msgstr "50%"
-
-#: calendar/gui/e-calendar-table.c:433
-#, c-format
-msgid "60%"
-msgstr "60%"
-
-#: calendar/gui/e-calendar-table.c:434
-#, c-format
-msgid "70%"
-msgstr "70%"
-
-#: calendar/gui/e-calendar-table.c:435
-#, c-format
-msgid "80%"
-msgstr "80%"
-
-#: calendar/gui/e-calendar-table.c:436
-#, c-format
-msgid "90%"
-msgstr "90%"
-
-#: calendar/gui/e-calendar-table.c:437
-#, c-format
-msgid "100%"
-msgstr "100%"
 
 #: calendar/gui/e-calendar-table.c:721 calendar/gui/e-day-view.c:2724
 #: calendar/gui/e-week-view.c:1822
@@ -4487,7 +4254,6 @@ msgid "Updating objects"
 msgstr ""
 
 #: calendar/gui/e-calendar-table.c:1224
-#: calendar/gui/e-calendar-table.etspec.h:6
 msgid "Click to add a task"
 msgstr ""
 
@@ -4518,48 +4284,48 @@ msgstr ""
 msgid "Alarms"
 msgstr ""
 
-#: calendar/gui/e-calendar-table.etspec.h:7 camel/camel-filter-driver.c:723
+#: calendar/gui/e-calendar-table.etspec.h:6 camel/camel-filter-driver.c:723
 #: camel/camel-filter-driver.c:837
 msgid "Complete"
 msgstr "Valmis"
 
-#: calendar/gui/e-calendar-table.etspec.h:8
+#: calendar/gui/e-calendar-table.etspec.h:7
 msgid "Completion Date"
 msgstr ""
 
-#: calendar/gui/e-calendar-table.etspec.h:9
+#: calendar/gui/e-calendar-table.etspec.h:8
 msgid "Due Date"
 msgstr ""
 
-#: calendar/gui/e-calendar-table.etspec.h:10
+#: calendar/gui/e-calendar-table.etspec.h:9
 msgid "End Date"
 msgstr ""
 
-#: calendar/gui/e-calendar-table.etspec.h:11
+#: calendar/gui/e-calendar-table.etspec.h:10
 msgid "Geographical Position"
 msgstr ""
 
-#: calendar/gui/e-calendar-table.etspec.h:12
+#: calendar/gui/e-calendar-table.etspec.h:11
 msgid "Priority"
 msgstr "Prioriteetti"
 
-#: calendar/gui/e-calendar-table.etspec.h:14
+#: calendar/gui/e-calendar-table.etspec.h:13
 msgid "Start Date"
 msgstr ""
 
 #. FIXME: Inbox shortcut should point to something else for
 #. people who won't care about using /Local Folders/Inbox
-#: calendar/gui/e-calendar-table.etspec.h:16
+#: calendar/gui/e-calendar-table.etspec.h:15
 #: my-evolution/component-factory.c:44 shell/e-shortcuts.c:1049
-#: shell/e-storage-set-view.c:1483 shell/e-summary-storage.c:79
+#: shell/e-storage-set-view.c:1483
 msgid "Summary"
 msgstr "Kuvaus"
 
-#: calendar/gui/e-calendar-table.etspec.h:17
+#: calendar/gui/e-calendar-table.etspec.h:16
 msgid "Task sort"
 msgstr ""
 
-#: calendar/gui/e-calendar-table.etspec.h:19
+#: calendar/gui/e-calendar-table.etspec.h:18
 msgid "URL"
 msgstr "URL:"
 
@@ -4584,13 +4350,11 @@ msgstr "%d %b"
 
 #. String to use in 12-hour time format for times in the morning.
 #: calendar/gui/e-day-view.c:612 calendar/gui/e-week-view.c:348
-#: calendar/gui/print.c:768
 msgid "am"
 msgstr "am"
 
 #. String to use in 12-hour time format for times in the afternoon.
 #: calendar/gui/e-day-view.c:615 calendar/gui/e-week-view.c:351
-#: calendar/gui/print.c:770
 msgid "pm"
 msgstr "pm"
 
@@ -4621,306 +4385,6 @@ msgstr ""
 
 #: calendar/gui/e-day-view.c:3493 calendar/gui/e-week-view.c:3426
 msgid "Delete _All Occurrences"
-msgstr ""
-
-#: calendar/gui/e-itip-control.c:524
-msgid "Meeting begins: <b>"
-msgstr ""
-
-#: calendar/gui/e-itip-control.c:529
-msgid "Task begins: <b>"
-msgstr ""
-
-#: calendar/gui/e-itip-control.c:534
-#, fuzzy
-msgid "Free/Busy info begins: <b>"
-msgstr "Lähteen tiedot"
-
-#: calendar/gui/e-itip-control.c:538
-msgid "Begins: <b>"
-msgstr ""
-
-#: calendar/gui/e-itip-control.c:550
-#, fuzzy
-msgid "Meeting ends: <b>"
-msgstr "Lähteen tiedot"
-
-#: calendar/gui/e-itip-control.c:553
-#, fuzzy
-msgid "Free/Busy info ends: <b>"
-msgstr "Lähteen tiedot"
-
-#: calendar/gui/e-itip-control.c:557
-msgid "Ends: <b>"
-msgstr ""
-
-#: calendar/gui/e-itip-control.c:571
-#, fuzzy
-msgid "Task Completed: <b>"
-msgstr "Valmis"
-
-#: calendar/gui/e-itip-control.c:581
-msgid "Task Due: <b>"
-msgstr ""
-
-#: calendar/gui/e-itip-control.c:618 calendar/gui/e-itip-control.c:667
-#, fuzzy
-msgid "iCalendar Information"
-msgstr "Tiedoksi"
-
-#. Title
-#: calendar/gui/e-itip-control.c:633
-#, fuzzy
-msgid "iCalendar Error"
-msgstr "Kalenteri"
-
-#: calendar/gui/e-itip-control.c:698 calendar/gui/e-itip-control.c:714
-#, fuzzy
-msgid "An unknown person"
-msgstr "Tuntematon virhe"
-
-#. Describe what the user can do
-#: calendar/gui/e-itip-control.c:721
-msgid ""
-"<br> Please review the following information, and then select an action from "
-"the menu below."
-msgstr ""
-
-#: calendar/gui/e-itip-control.c:737
-msgid "<i>None</i>"
-msgstr ""
-
-#: calendar/gui/e-itip-control.c:778 calendar/gui/e-itip-control.c:794
-#: calendar/gui/e-itip-control.c:810 calendar/gui/e-itip-control.c:823
-#: calendar/gui/e-itip-control.c:837 calendar/gui/e-itip-control.c:851
-#, fuzzy
-msgid "Choose an action:"
-msgstr "Valitse toiminto"
-
-#: calendar/gui/e-itip-control.c:779
-#, fuzzy
-msgid "Update"
-msgstr "Tehtävät"
-
-#: calendar/gui/e-itip-control.c:780 calendar/gui/e-itip-control.c:799
-#: calendar/gui/e-itip-control.c:812 calendar/gui/e-itip-control.c:825
-#: calendar/gui/e-itip-control.c:839 calendar/gui/e-itip-control.c:853
-#: shell/e-shell.c:1884 widgets/misc/e-cell-date-edit.c:258
-msgid "OK"
-msgstr "OK"
-
-#: calendar/gui/e-itip-control.c:795
-#, fuzzy
-msgid "Accept"
-msgstr "Hyväksy "
-
-#: calendar/gui/e-itip-control.c:796
-msgid "Tentatively accept"
-msgstr ""
-
-#: calendar/gui/e-itip-control.c:797
-#, fuzzy
-msgid "Decline"
-msgstr "Poistettu"
-
-#: calendar/gui/e-itip-control.c:811
-#, fuzzy
-msgid "Send Free/Busy Information"
-msgstr "Lähteen tiedot"
-
-#: calendar/gui/e-itip-control.c:824
-msgid "Update respondent status"
-msgstr ""
-
-#: calendar/gui/e-itip-control.c:838
-#, fuzzy
-msgid "Send Latest Information"
-msgstr "Tiedoksi"
-
-#: calendar/gui/e-itip-control.c:852 ui/evolution-mail-global.xml.h:1
-msgid "Cancel"
-msgstr "Peruuta"
-
-#: calendar/gui/e-itip-control.c:867
-#, c-format
-msgid "<b>%s</b> has published meeting information."
-msgstr ""
-
-#: calendar/gui/e-itip-control.c:868
-#, fuzzy
-msgid "Meeting Information"
-msgstr "Valinnaiset tiedot"
-
-#: calendar/gui/e-itip-control.c:872
-#, c-format
-msgid "<b>%s</b> requests your presence at a meeting."
-msgstr ""
-
-#: calendar/gui/e-itip-control.c:873
-#, fuzzy
-msgid "Meeting Proposal"
-msgstr "Peruuta tapaaminen"
-
-#: calendar/gui/e-itip-control.c:877
-#, c-format
-msgid "<b>%s</b> wishes to add to an existing meeting."
-msgstr ""
-
-#: calendar/gui/e-itip-control.c:878
-#, fuzzy
-msgid "Meeting Update"
-msgstr "Peruuta tapaaminen"
-
-#: calendar/gui/e-itip-control.c:882
-#, c-format
-msgid "<b>%s</b> wishes to receive the latest meeting information."
-msgstr ""
-
-#: calendar/gui/e-itip-control.c:883
-msgid "Meeting Update Request"
-msgstr ""
-
-#: calendar/gui/e-itip-control.c:887
-#, c-format
-msgid "<b>%s</b> has replied to a meeting request."
-msgstr ""
-
-#: calendar/gui/e-itip-control.c:888
-#, fuzzy
-msgid "Meeting Reply"
-msgstr "Peruuta tapaaminen"
-
-#: calendar/gui/e-itip-control.c:892
-#, c-format
-msgid "<b>%s</b> has cancelled a meeting."
-msgstr ""
-
-#: calendar/gui/e-itip-control.c:893
-#, fuzzy
-msgid "Meeting Cancellation"
-msgstr "Valitse toiminto"
-
-#: calendar/gui/e-itip-control.c:897 calendar/gui/e-itip-control.c:947
-#: calendar/gui/e-itip-control.c:982
-#, c-format
-msgid "<b>%s</b> has sent an unintelligible message."
-msgstr ""
-
-#: calendar/gui/e-itip-control.c:898
-#, fuzzy
-msgid "Bad Meeting Message"
-msgstr "Hae viestistä"
-
-#: calendar/gui/e-itip-control.c:917
-#, c-format
-msgid "<b>%s</b> has published task information."
-msgstr ""
-
-#: calendar/gui/e-itip-control.c:918
-#, fuzzy
-msgid "Task Information"
-msgstr "Tiedoksi"
-
-#: calendar/gui/e-itip-control.c:922
-#, c-format
-msgid "<b>%s</b> requests you perform a task."
-msgstr ""
-
-#: calendar/gui/e-itip-control.c:923
-msgid "Task Proposal"
-msgstr ""
-
-#: calendar/gui/e-itip-control.c:927
-#, c-format
-msgid "<b>%s</b> wishes to add to an existing task."
-msgstr ""
-
-#: calendar/gui/e-itip-control.c:928
-#, fuzzy
-msgid "Task Update"
-msgstr "Tehtävät"
-
-#: calendar/gui/e-itip-control.c:932
-#, c-format
-msgid "<b>%s</b> wishes to receive the latest task information."
-msgstr ""
-
-#: calendar/gui/e-itip-control.c:933
-msgid "Task Update Request"
-msgstr ""
-
-#: calendar/gui/e-itip-control.c:937
-#, c-format
-msgid "<b>%s</b> has replied to a task assignment."
-msgstr ""
-
-#: calendar/gui/e-itip-control.c:938
-#, fuzzy
-msgid "Task Reply"
-msgstr "Vastaa"
-
-#: calendar/gui/e-itip-control.c:942
-#, c-format
-msgid "<b>%s</b> has cancelled a task."
-msgstr ""
-
-#: calendar/gui/e-itip-control.c:943
-#, fuzzy
-msgid "Task Cancellation"
-msgstr "Peruuta operaatio"
-
-#: calendar/gui/e-itip-control.c:948
-#, fuzzy
-msgid "Bad Task Message"
-msgstr "Hae viestistä"
-
-#: calendar/gui/e-itip-control.c:967
-#, c-format
-msgid "<b>%s</b> has published free/busy information."
-msgstr ""
-
-#: calendar/gui/e-itip-control.c:968
-#, fuzzy
-msgid "Free/Busy Information"
-msgstr "Lähteen tiedot"
-
-#: calendar/gui/e-itip-control.c:972
-#, c-format
-msgid "<b>%s</b> requests your free/busy information."
-msgstr ""
-
-#: calendar/gui/e-itip-control.c:973
-msgid "Free/Busy Request"
-msgstr ""
-
-#: calendar/gui/e-itip-control.c:977
-#, c-format
-msgid "<b>%s</b> has replied to a free/busy request."
-msgstr ""
-
-#: calendar/gui/e-itip-control.c:978
-msgid "Free/Busy Reply"
-msgstr ""
-
-#: calendar/gui/e-itip-control.c:983
-#, fuzzy
-msgid "Bad Free/Busy Message"
-msgstr "Edellinen viesti"
-
-#: calendar/gui/e-itip-control.c:1052
-msgid "The message does not appear to be properly formed"
-msgstr ""
-
-#: calendar/gui/e-itip-control.c:1071
-msgid "The message contains only unsupported requests."
-msgstr ""
-
-#: calendar/gui/e-itip-control.c:1099 calendar/gui/e-itip-control.c:1105
-msgid "The attachment does not contain a valid calendar message"
-msgstr ""
-
-#: calendar/gui/e-itip-control.c:1130
-msgid "The attachment has no viewable calendar items"
 msgstr ""
 
 #: calendar/gui/e-itip-control.c:1229
@@ -5028,80 +4492,70 @@ msgid "Non-Participants"
 msgstr ""
 
 #: calendar/gui/e-meeting-model.c:231 calendar/gui/e-meeting-model.c:248
-#: calendar/gui/e-meeting-model.c:532 calendar/gui/e-meeting-model.c:744
+#: calendar/gui/e-meeting-model.c:532
 msgid "Individual"
 msgstr ""
 
 #: calendar/gui/e-meeting-model.c:233 calendar/gui/e-meeting-model.c:250
-#: calendar/gui/e-meeting-model.c:745
 #, fuzzy
 msgid "Group"
 msgstr "Ryhmän nimi:"
 
 #: calendar/gui/e-meeting-model.c:235 calendar/gui/e-meeting-model.c:252
-#: calendar/gui/e-meeting-model.c:746
 #, fuzzy
 msgid "Resource"
 msgstr "Paperilähde:"
 
 #: calendar/gui/e-meeting-model.c:237 calendar/gui/e-meeting-model.c:254
-#: calendar/gui/e-meeting-model.c:747
 msgid "Room"
 msgstr ""
 
 #: calendar/gui/e-meeting-model.c:256 calendar/gui/e-meeting-model.c:291
-#: calendar/gui/e-meeting-model.c:356 calendar/gui/e-meeting-model.c:748
-#: calendar/gui/e-meeting-model.c:764
+#: calendar/gui/e-meeting-model.c:356
 #: camel/providers/smtp/camel-smtp-transport.c:222
 #: widgets/misc/e-charset-picker.c:57 widgets/misc/e-charset-picker.c:439
 msgid "Unknown"
 msgstr "Tuntematon"
 
 #: calendar/gui/e-meeting-model.c:266 calendar/gui/e-meeting-model.c:283
-#: calendar/gui/e-meeting-model.c:760
 msgid "Chair"
 msgstr ""
 
 #: calendar/gui/e-meeting-model.c:268 calendar/gui/e-meeting-model.c:285
-#: calendar/gui/e-meeting-model.c:534 calendar/gui/e-meeting-model.c:761
+#: calendar/gui/e-meeting-model.c:534
 msgid "Required Participant"
 msgstr ""
 
 #: calendar/gui/e-meeting-model.c:270 calendar/gui/e-meeting-model.c:287
-#: calendar/gui/e-meeting-model.c:762
 msgid "Optional Participant"
 msgstr ""
 
 #: calendar/gui/e-meeting-model.c:272 calendar/gui/e-meeting-model.c:289
-#: calendar/gui/e-meeting-model.c:763
 msgid "Non-Participant"
 msgstr ""
 
 #: calendar/gui/e-meeting-model.c:318 calendar/gui/e-meeting-model.c:341
-#: calendar/gui/e-meeting-model.c:542 calendar/gui/e-meeting-model.c:789
+#: calendar/gui/e-meeting-model.c:542
 #, fuzzy
 msgid "Needs Action"
 msgstr "Lisää toiminto"
 
 #: calendar/gui/e-meeting-model.c:320 calendar/gui/e-meeting-model.c:343
-#: calendar/gui/e-meeting-model.c:790
 #, fuzzy
 msgid "Accepted"
 msgstr "Hyväksy "
 
 #: calendar/gui/e-meeting-model.c:322 calendar/gui/e-meeting-model.c:345
-#: calendar/gui/e-meeting-model.c:791
 #, fuzzy
 msgid "Declined"
 msgstr "Poistettu"
 
 #: calendar/gui/e-meeting-model.c:324 calendar/gui/e-meeting-model.c:347
-#: calendar/gui/e-meeting-model.c:792 calendar/gui/e-meeting-time-sel.c:426
+#: calendar/gui/e-meeting-time-sel.c:426
 msgid "Tentative"
 msgstr ""
 
 #: calendar/gui/e-meeting-model.c:326 calendar/gui/e-meeting-model.c:349
-#: calendar/gui/e-meeting-model.c:793
 #, fuzzy
 msgid "Delegated"
 msgstr "Poistettu"
@@ -5223,9 +4677,9 @@ msgid "The method required to open `%s' is not supported"
 msgstr ""
 
 #: calendar/gui/gnome-cal.c:1865
-#, fuzzy, c-format
+#, c-format
 msgid "Opening calendar at %s"
-msgstr "Tulosta kalenteri"
+msgstr ""
 
 #: calendar/gui/goto-dialog.glade.h:1
 msgid "April"
@@ -5484,42 +4938,6 @@ msgstr ""
 #: calendar/gui/print.c:1871
 msgid "Selected year (%Y)"
 msgstr ""
-
-#: calendar/gui/print.c:2205
-msgid "Task"
-msgstr "Tehtävä"
-
-#: calendar/gui/print.c:2262
-#, fuzzy, c-format
-msgid "Status: %s"
-msgstr "_Tila:"
-
-#: calendar/gui/print.c:2280
-#, fuzzy, c-format
-msgid "Priority: %s"
-msgstr "_Prioriteetti:"
-
-#: calendar/gui/print.c:2294
-#, fuzzy, c-format
-msgid "Percent Complete: %i"
-msgstr "Valmis"
-
-#: calendar/gui/print.c:2306
-#, fuzzy, c-format
-msgid "URL: %s"
-msgstr "URL:"
-
-#: calendar/gui/print.c:2320
-#, fuzzy, c-format
-msgid "Categories: %s"
-msgstr ""
-"\n"
-"Ryhmät: "
-
-#: calendar/gui/print.c:2331
-#, fuzzy
-msgid "Contacts: "
-msgstr "Kontaktit"
 
 #: calendar/gui/print.c:2386
 msgid "Print Calendar"
@@ -6992,7 +6410,7 @@ msgstr "Keskusteluryhmät"
 
 #: camel/providers/nntp/camel-nntp-provider.c:43
 msgid "This is a provider for reading from and posting toUSENET newsgroups."
-msgstr ""
+msgstr "Tämä on USENET-keskusteluryhmien toimittaja."
 
 #: camel/providers/nntp/camel-nntp-store.c:230
 #, c-format
@@ -7030,9 +6448,8 @@ msgid "Could not open folder: message listing was incomplete."
 msgstr ""
 
 #: camel/providers/pop3/camel-pop3-folder.c:252
-#, fuzzy
 msgid "Expunging deleted messages"
-msgstr "Leikkaa valitut viestit"
+msgstr ""
 
 #: camel/providers/pop3/camel-pop3-folder.c:328
 #, c-format
@@ -7144,9 +6561,9 @@ msgid "No such folder `%s'."
 msgstr ""
 
 #: camel/providers/pop3/camel-pop3-store.c:566
-#, fuzzy, c-format
+#, c-format
 msgid "Unexpected response from POP server: %s"
-msgstr "Odottamaton vastaus IMAP-palvelimelta: %s"
+msgstr "Odottamaton vastaus POP-palvelimelta: %s"
 
 #: camel/providers/sendmail/camel-sendmail-provider.c:36
 #: mail/mail-config.glade.h:72
@@ -7498,14 +6915,14 @@ msgstr "Lisää viestiin liitetiedoston"
 
 #: composer/e-msg-composer-attachment.c:168
 #: composer/e-msg-composer-attachment.c:184
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot attach file %s: %s"
-msgstr "Kansion hakeminen ei onnistu: %s: %s"
+msgstr "Tiedoston %s liittäminen epäonnistui: %s"
 
 #: composer/e-msg-composer-attachment.c:176
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot attach file %s: not a regular file"
-msgstr "`%s' ei ole tavallinen tiedosto."
+msgstr "Tiedoston %s liittäminen epäonnistui: epätavallinen tiedosto"
 
 #: composer/e-msg-composer-attachment.glade.h:1
 msgid "Attachment properties"
@@ -7652,13 +7069,12 @@ msgstr ""
 " %s"
 
 #: composer/e-msg-composer.c:1187
-#, fuzzy
 msgid ""
 "Ximian Evolution has found unsaved files from a previous session.\n"
 "Would you like to try to recover them?"
 msgstr ""
-"Evolution on löytänyt tallentamattomia tiedostoja edelliseltä \n"
-"istunnolta. Haluatko koittaa palauttaa niitä?"
+"Ximian Evolution on löytänyt tallentamattomia tiedostoja edelliseltä \n"
+"istunnolta. Haluatko koettaa niiden palauttamista?"
 
 #: composer/e-msg-composer.c:1341
 msgid ""
@@ -7671,9 +7087,8 @@ msgstr ""
 "Haluatko tallentaa muutokset?"
 
 #: composer/e-msg-composer.c:1348
-#, fuzzy
 msgid "Warning: Modified Message"
-msgstr "Välitetty viesti"
+msgstr "Varoitus: Muutettu viesti"
 
 #: composer/e-msg-composer.c:1371
 msgid "Open file"
@@ -7694,11 +7109,12 @@ msgid ""
 msgstr ""
 
 #: composer/e-msg-composer.c:2376
-#, fuzzy
 msgid ""
 "Could not create composer window:\n"
 "Unable to activate HTML editor component."
-msgstr "Viestin kirjoitusikkunan luominen epäonnistui."
+msgstr ""
+"Viestimuokkain -ikkunan luominen epäonnistui:\n"
+"HTML-muokkainkomponentin käynnistys ei onnistunut."
 
 #: composer/evolution-composer.c:367
 msgid ""
@@ -7708,7 +7124,7 @@ msgstr ""
 
 #: composer/evolution-composer.c:382
 msgid "Cannot initialize Evolution's composer."
-msgstr ""
+msgstr "Evolutionin muokkaimen alustus ei onnistunut."
 
 #: data/evolution.desktop.in.h:1 shell/main.c:83
 msgid "Evolution"
@@ -7727,44 +7143,36 @@ msgid "calendar information"
 msgstr ""
 
 #: default_user/searches.xml.h:1
-#, fuzzy
 msgid "Body contains"
-msgstr "sisältää"
+msgstr "Runko sisältää"
 
 #: default_user/searches.xml.h:2
-#, fuzzy
 msgid "Body does not contain"
-msgstr "ei sisällä"
+msgstr "Runko ei sisällä"
 
 #: default_user/searches.xml.h:3
-#, fuzzy
 msgid "Body or subject contains"
-msgstr "ei sisällä"
+msgstr "Runko tai otsikko sisältää"
 
 #: default_user/searches.xml.h:4
-#, fuzzy
 msgid "Message contains"
-msgstr "Nimi sisältää"
+msgstr "Viesti sisältää"
 
 #: default_user/searches.xml.h:5
-#, fuzzy
 msgid "Recipients contain"
-msgstr "Kuvaus:"
+msgstr "Vastaanottajakenttä sisältää"
 
 #: default_user/searches.xml.h:6
-#, fuzzy
 msgid "Sender contains"
-msgstr "Nimi sisältää"
+msgstr "Lähettäjäkenttä sisältää"
 
 #: default_user/searches.xml.h:7
-#, fuzzy
 msgid "Subject contains"
-msgstr "Nimi sisältää"
+msgstr "Otsikko sisältää"
 
 #: default_user/searches.xml.h:8
-#, fuzzy
 msgid "Subject does not contain"
-msgstr "ei sisällä"
+msgstr "Otsikko ei sisällä"
 
 #. Remember the password?
 #: e-util/e-passwords.c:347 mail/mail-session.c:258
@@ -7790,56 +7198,48 @@ msgstr "%a %d/%m/%Y %H:%M"
 #. strptime format of a weekday, a date and a time,
 #. in 12-hour format, without minutes or seconds.
 #: e-util/e-time-utils.c:178
-#, fuzzy
 msgid "%a %m/%d/%Y %I %p"
-msgstr "%a %d/%m/%Y %I:%M %p"
+msgstr ""
 
 #. strptime format of a weekday, a date and a time,
 #. in 24-hour format, without minutes or seconds.
 #: e-util/e-time-utils.c:183
-#, fuzzy
 msgid "%a %m/%d/%Y %H"
-msgstr "%a %d/%m/%Y %H:%M"
+msgstr ""
 
 #. strptime format of a date and a time, in 12-hour format.
 #: e-util/e-time-utils.c:194
-#, fuzzy
 msgid "%m/%d/%Y %I:%M:%S %p"
-msgstr "%a %d/%m/%Y %I:%M:%S %p"
+msgstr ""
 
 #. strptime format of a date and a time, in 24-hour format.
 #: e-util/e-time-utils.c:198
-#, fuzzy
 msgid "%m/%d/%Y %H:%M:%S"
-msgstr "%a %d/%m/%Y %H:%M:%S"
+msgstr ""
 
 #. strptime format of a date and a time, in 12-hour format,
 #. without seconds.
 #: e-util/e-time-utils.c:203
-#, fuzzy
 msgid "%m/%d/%Y %I:%M %p"
-msgstr "%a %d/%m/%Y %I:%M %p"
+msgstr ""
 
 #. strptime format of a date and a time, in 24-hour format,
 #. without seconds.
 #: e-util/e-time-utils.c:208
-#, fuzzy
 msgid "%m/%d/%Y %H:%M"
-msgstr "%a %d/%m/%Y %H:%M"
+msgstr ""
 
 #. strptime format of a date and a time, in 12-hour format,
 #. without minutes or seconds.
 #: e-util/e-time-utils.c:213
-#, fuzzy
 msgid "%m/%d/%Y %I %p"
-msgstr "%a %d/%m/%Y %I:%M %p"
+msgstr ""
 
 #. strptime format of a date and a time, in 24-hour format,
 #. without minutes or seconds.
 #: e-util/e-time-utils.c:218
-#, fuzzy
 msgid "%m/%d/%Y %H"
-msgstr "%d/%m/%Y"
+msgstr ""
 
 #. strptime format for a time of day, in 12-hour format.
 #: e-util/e-time-utils.c:303 e-util/e-time-utils.c:402
@@ -7866,9 +7266,8 @@ msgstr "%H:%M"
 
 #. strptime format for hour and AM/PM, 12-hour format.
 #: e-util/e-time-utils.c:320
-#, fuzzy
 msgid "%I %p"
-msgstr "%I:%M %p"
+msgstr ""
 
 #: filter/filter-datespec.c:80
 msgid "year"
@@ -7911,14 +7310,12 @@ msgid "seconds"
 msgstr "sekuntia"
 
 #: filter/filter-datespec.c:194
-#, fuzzy
 msgid "You have forgotten to choose a date."
-msgstr "Hups. Olet unohtanut valita päivän."
+msgstr "Olet unohtanut valita päivän."
 
 #: filter/filter-datespec.c:196
-#, fuzzy
 msgid "You have chosen an invalid date."
-msgstr "Hups. Olet valinnut epäkelvon päivän."
+msgstr "Olet valinnut epäkelvon päivän."
 
 #: filter/filter-datespec.c:271
 msgid ""
@@ -7955,9 +7352,8 @@ msgstr ""
 
 #. The dialog
 #: filter/filter-datespec.c:394
-#, fuzzy
 msgid "Select a time to compare against"
-msgstr "Valitse tiedosto"
+msgstr "Valitse aika johon verrataan"
 
 #. The label
 #: filter/filter-datespec.c:428
@@ -8323,15 +7719,13 @@ msgstr ""
 
 #: importers/elm-importer.c:96 importers/netscape-importer.c:107
 #: importers/pine-importer.c:101
-#, fuzzy
 msgid "Importing..."
-msgstr "_Siirry kansioon..."
+msgstr "Tuodaan..."
 
 #: importers/elm-importer.c:98 importers/netscape-importer.c:109
 #: importers/pine-importer.c:103
-#, fuzzy
 msgid "Please wait"
-msgstr "loppuu merkkijonoon"
+msgstr "Odota, ole hyvä"
 
 #: importers/elm-importer.c:170 importers/netscape-importer.c:692
 #: importers/pine-importer.c:368
@@ -8341,9 +7735,9 @@ msgstr ""
 
 #: importers/elm-importer.c:376 importers/netscape-importer.c:785
 #: importers/pine-importer.c:474
-#, fuzzy, c-format
+#, c-format
 msgid "Scanning %s"
-msgstr "Lähetetään \"%s\""
+msgstr ""
 
 #: importers/elm-importer.c:527 importers/netscape-importer.c:958
 #: importers/pine-importer.c:637 mail/component-factory.c:100
@@ -8360,7 +7754,7 @@ msgstr ""
 
 #: importers/elm-importer.c:576
 msgid "Elm"
-msgstr ""
+msgstr "Elm"
 
 #: importers/evolution-gnomecard-importer.c:229 importers/pine-importer.c:642
 msgid "Addressbook"
@@ -8761,7 +8155,7 @@ msgstr "Et ole täyttänyt kaikkia tarvittavia kohtia."
 #. give our dialog an OK button and title
 #: mail/mail-account-editor-news.c:160
 msgid "Evolution News Editor"
-msgstr "Evolutionin uutismuokkain"
+msgstr "Evolutionin keskusteluryhmämuokkain"
 
 #. give our dialog an OK button and title
 #: mail/mail-account-editor.c:160
@@ -8769,9 +8163,8 @@ msgid "Evolution Account Editor"
 msgstr "Evolutionin tilimuokkain"
 
 #: mail/mail-account-gui.c:962
-#, fuzzy
 msgid "Could not save signature file."
-msgstr "Putken luonti epäonnistui: %s"
+msgstr "Allekirjoitustiedoston luonti epäonnistui."
 
 #: mail/mail-account-gui.c:1039
 msgid "Save signature"
@@ -9065,11 +8458,6 @@ msgstr ""
 msgid "Evolution Account Assistant"
 msgstr "Evolutionin tilimuokkain"
 
-#: mail/mail-config.c:316
-#, fuzzy, c-format
-msgid "Account %d"
-msgstr "Tili"
-
 #: mail/mail-config.c:1643
 #, c-format
 msgid ""
@@ -9077,14 +8465,6 @@ msgid ""
 "%s\n"
 "No shortcut will be created."
 msgstr ""
-
-#. Create the shortcut. FIXME: This only works if the
-#. * full name matches the path.
-#.
-#: mail/mail-config.c:1654
-#, fuzzy, c-format
-msgid "%s: Inbox"
-msgstr "Saapuneet"
 
 #: mail/mail-config.c:1896
 msgid "Checking Service"
@@ -9195,7 +8575,7 @@ msgstr ""
 msgid "Done"
 msgstr "Valmis"
 
-#: mail/mail-config.glade.h:30 shell/e-local-storage.c:173
+#: mail/mail-config.glade.h:30
 msgid "Drafts"
 msgstr "Luonnokset"
 
@@ -9258,7 +8638,7 @@ msgstr "NNTP-palvelin"
 
 #: mail/mail-config.glade.h:46
 msgid "News"
-msgstr "Uutiset"
+msgstr "Keskusteluryhmät"
 
 #: mail/mail-config.glade.h:48
 msgid "Optional Information"
@@ -9342,7 +8722,6 @@ msgid "Sending Mail"
 msgstr "Lähtevä posti"
 
 #: mail/mail-config.glade.h:73 mail/message-list.etspec.h:6
-#: shell/e-local-storage.c:176
 msgid "Sent"
 msgstr "Lähetetyt"
 
@@ -9655,49 +9034,32 @@ msgstr "Kopiot:"
 msgid "Bcc"
 msgstr "Piilokopiot:"
 
-#: mail/mail-format.c:1812
-msgid ""
-"This message is digitally signed. Click the lock icon for more information."
-msgstr ""
-
-#: mail/mail-format.c:1835
-msgid "Evolution does not recognize this type of signed message."
-msgstr ""
-
-#: mail/mail-format.c:1843
-msgid "This message is digitally signed and has been found to be authentic."
-msgstr ""
-
-#: mail/mail-format.c:1851
-msgid "This message is digitally signed but can not be proven to be authentic."
-msgstr ""
-
-#: mail/mail-format.c:2067
+#: mail/mail-format.c:2068
 #, c-format
 msgid "Pointer to FTP site (%s)"
 msgstr ""
 
-#: mail/mail-format.c:2081
+#: mail/mail-format.c:2082
 #, c-format
 msgid "Pointer to local file (%s) valid at site \"%s\""
 msgstr ""
 
-#: mail/mail-format.c:2086
+#: mail/mail-format.c:2087
 #, c-format
 msgid "Pointer to local file (%s)"
 msgstr ""
 
-#: mail/mail-format.c:2115
+#: mail/mail-format.c:2116
 #, c-format
 msgid "Pointer to remote data (%s)"
 msgstr ""
 
-#: mail/mail-format.c:2123
+#: mail/mail-format.c:2124
 #, c-format
 msgid "Pointer to unknown external data (\"%s\" type)"
 msgstr ""
 
-#: mail/mail-format.c:2128
+#: mail/mail-format.c:2129
 msgid "Malformed external-body part."
 msgstr ""
 
@@ -9823,11 +9185,6 @@ msgstr "Kopioidaan"
 #, c-format
 msgid "Scanning folders in \"%s\""
 msgstr ""
-
-#. Fill in the new fields
-#: mail/mail-ops.c:1061 shell/e-local-storage.c:178
-msgid "Trash"
-msgstr "Roskakori"
 
 #: mail/mail-ops.c:1194
 msgid "Forwarded messages"
@@ -10037,10 +9394,6 @@ msgid ""
 "%sUsed the removed folder:\n"
 "    '%s'\n"
 "And have been updated."
-msgstr ""
-
-#: mail/mail-vfolder.c:723
-msgid "VFolders"
 msgstr ""
 
 #: mail/mail-vfolder.c:816
@@ -10285,9 +9638,8 @@ msgid "Error downloading RDF"
 msgstr "<b>Virhe ladattaessa RDF:ää</b>"
 
 #: my-evolution/e-summary-rdf.c:528
-#, fuzzy
 msgid "News Feed"
-msgstr "_Uusi kansio"
+msgstr ""
 
 #: my-evolution/e-summary-tasks.c:248
 msgid "No tasks"
@@ -11525,9 +10877,8 @@ msgid " _Remove"
 msgstr "Poista"
 
 #: my-evolution/my-evolution.glade.h:2
-#, fuzzy
 msgid "Add n_ews feed"
-msgstr "_Uusi kansio"
+msgstr ""
 
 #: my-evolution/my-evolution.glade.h:3
 msgid "Al_l stations:"
@@ -11633,27 +10984,24 @@ msgid "_Mail"
 msgstr "_Matkapuhelin"
 
 #: my-evolution/my-evolution.glade.h:28
-#, fuzzy
 msgid "_News Feeds"
-msgstr "_Uusi kansio"
+msgstr ""
 
 #: my-evolution/my-evolution.glade.h:29
-#, fuzzy
 msgid "_One day"
-msgstr "Yksi päivä"
+msgstr "_Yksi päivä"
 
 #: my-evolution/my-evolution.glade.h:30
 msgid "_Schedule"
 msgstr ""
 
 #: my-evolution/my-evolution.glade.h:31
-#, fuzzy
 msgid "_Weather"
-msgstr "Säätiedot"
+msgstr "_Säätiedot"
 
 #: shell/GNOME_Evolution_Shell.oaf.in.h:1
 msgid "The Evolution shell."
-msgstr ""
+msgstr "Evolution-kuori."
 
 #: shell/e-activity-handler.c:200
 msgid "Show Details"
@@ -11662,18 +11010,6 @@ msgstr "Näytä yksityiskohdat"
 #: shell/e-activity-handler.c:202
 msgid "Cancel Operation"
 msgstr "Peruuta operaatio"
-
-#: shell/e-local-storage.c:174 shell/e-shortcuts.c:1052
-msgid "Inbox"
-msgstr "Saapuneet"
-
-#: shell/e-local-storage.c:175
-msgid "Outbox"
-msgstr ""
-
-#: shell/e-local-storage.c:636
-msgid "Local Folders"
-msgstr "Paikalliset kansiot"
 
 #: shell/e-setup.c:124
 msgid "Evolution installation"
@@ -12104,6 +11440,10 @@ msgid ""
 "in order to access that data again."
 msgstr ""
 
+#: shell/e-shell.c:1884 widgets/misc/e-cell-date-edit.c:258
+msgid "OK"
+msgstr "OK"
+
 #: shell/e-shell.c:1886
 msgid "Invalid arguments"
 msgstr ""
@@ -12241,6 +11581,10 @@ msgstr "Virhe tallennettaessa oikoteitä."
 msgid "Shortcuts"
 msgstr "Oikotiet"
 
+#: shell/e-shortcuts.c:1052
+msgid "Inbox"
+msgstr "Saapuneet"
+
 #: shell/e-storage-set-view.c:658
 #, fuzzy, c-format
 msgid ""
@@ -12338,9 +11682,8 @@ msgid "No owner"
 msgstr "Määrittelemätön"
 
 #: shell/evolution-shell-component.c:1019
-#, fuzzy
 msgid "Not found"
-msgstr "Määrittelemätön"
+msgstr ""
 
 #: shell/evolution-shell-component.c:1021
 #, fuzzy
@@ -12366,9 +11709,8 @@ msgid "Exists"
 msgstr "_Poistu"
 
 #: shell/evolution-shell-component.c:1033
-#, fuzzy
 msgid "Invalid URI"
-msgstr "Kalenteri"
+msgstr ""
 
 #: shell/evolution-shell-component.c:1037
 #, fuzzy
@@ -12446,7 +11788,7 @@ msgstr "Evolutionin asennus"
 #: shell/glade/evolution-startup-wizard.glade.h:5
 #, fuzzy
 msgid "Importing Files"
-msgstr "_Siirry kansioon..."
+msgstr "Tuo"
 
 #: shell/glade/evolution-startup-wizard.glade.h:8
 #, fuzzy
@@ -12980,6 +12322,10 @@ msgstr ""
 #: ui/evolution-executive-summary.xml.h:1
 msgid "Customise My Evolution"
 msgstr ""
+
+#: ui/evolution-mail-global.xml.h:1
+msgid "Cancel"
+msgstr "Peruuta"
 
 #: ui/evolution-mail-global.xml.h:2
 msgid "Cancel the current mail operation"
@@ -14254,9 +13600,15 @@ msgstr "init_corba(): GNOME:n alustus epäonnistui"
 msgid "init_bonobo(): could not initialize Bonobo"
 msgstr "init_bonobo(): Bonobon alustus epäonnistui"
 
-#, fuzzy
-#~ msgid "Importing Data"
-#~ msgstr "Tuo"
+#~ msgid "Other Contacts"
+#~ msgstr "Muut kontaktit"
+
+#~ msgid ""
+#~ "Are you sure you want\n"
+#~ "to delete this contact?"
+#~ msgstr ""
+#~ "Haluatko varmasti\n"
+#~ "poistaa tämän kontaktin?"
 
 #, fuzzy
 #~ msgid "%s at an unknown time"
@@ -14265,9 +13617,114 @@ msgstr "init_bonobo(): Bonobon alustus epäonnistui"
 #~ msgid "_Confidential"
 #~ msgstr "_Luottamuksellinen"
 
+#~ msgid "0%"
+#~ msgstr "0%"
+
+#~ msgid "10%"
+#~ msgstr "10%"
+
+#~ msgid "20%"
+#~ msgstr "20%"
+
+#~ msgid "30%"
+#~ msgstr "30%"
+
+#~ msgid "40%"
+#~ msgstr "40%"
+
+#~ msgid "50%"
+#~ msgstr "50%"
+
+#~ msgid "60%"
+#~ msgstr "60%"
+
+#~ msgid "70%"
+#~ msgstr "70%"
+
+#~ msgid "80%"
+#~ msgstr "80%"
+
+#~ msgid "90%"
+#~ msgstr "90%"
+
+#~ msgid "100%"
+#~ msgstr "100%"
+
 #, fuzzy
-#~ msgid "<b>Description:</b> %s"
-#~ msgstr "Kuvaus:"
+#~ msgid "Free/Busy info begins: <b>"
+#~ msgstr "Lähteen tiedot"
+
+#, fuzzy
+#~ msgid "Meeting ends: <b>"
+#~ msgstr "Lähteen tiedot"
+
+#, fuzzy
+#~ msgid "Free/Busy info ends: <b>"
+#~ msgstr "Lähteen tiedot"
+
+#, fuzzy
+#~ msgid "Task Completed: <b>"
+#~ msgstr "Valmis"
+
+#, fuzzy
+#~ msgid "iCalendar Error"
+#~ msgstr "Kalenteri"
+
+#, fuzzy
+#~ msgid "An unknown person"
+#~ msgstr "Tuntematon virhe"
+
+#, fuzzy
+#~ msgid "Meeting Information"
+#~ msgstr "Valinnaiset tiedot"
+
+#, fuzzy
+#~ msgid "Meeting Proposal"
+#~ msgstr "Peruuta tapaaminen"
+
+#, fuzzy
+#~ msgid "Meeting Update"
+#~ msgstr "Peruuta tapaaminen"
+
+#, fuzzy
+#~ msgid "Meeting Reply"
+#~ msgstr "Peruuta tapaaminen"
+
+#, fuzzy
+#~ msgid "Meeting Cancellation"
+#~ msgstr "Valitse toiminto"
+
+#, fuzzy
+#~ msgid "Bad Meeting Message"
+#~ msgstr "Hae viestistä"
+
+#, fuzzy
+#~ msgid "Task Information"
+#~ msgstr "Tiedoksi"
+
+#, fuzzy
+#~ msgid "Task Update"
+#~ msgstr "Tehtävät"
+
+#, fuzzy
+#~ msgid "Task Reply"
+#~ msgstr "Vastaa"
+
+#, fuzzy
+#~ msgid "Task Cancellation"
+#~ msgstr "Peruuta operaatio"
+
+#, fuzzy
+#~ msgid "Bad Task Message"
+#~ msgstr "Hae viestistä"
+
+#, fuzzy
+#~ msgid "Free/Busy Information"
+#~ msgstr "Lähteen tiedot"
+
+#, fuzzy
+#~ msgid "Bad Free/Busy Message"
+#~ msgstr "Edellinen viesti"
 
 #, fuzzy
 #~ msgid "Summarising folder"
@@ -14278,8 +13735,12 @@ msgstr "init_bonobo(): Bonobon alustus epäonnistui"
 #~ msgstr "Hakemistoa %s ei voitu uudelleennimetä seuraavaksi: %s: %s"
 
 #, fuzzy
-#~ msgid "GnomeCard:"
-#~ msgstr "Kortti: "
+#~ msgid "Account %d"
+#~ msgstr "Tili"
+
+#, fuzzy
+#~ msgid "%s: Inbox"
+#~ msgstr "Saapuneet"
 
 #~ msgid "Encrypted message not displayed"
 #~ msgstr "Salattua viestiä ei näytetä"
@@ -14293,6 +13754,15 @@ msgstr "init_bonobo(): Bonobon alustus epäonnistui"
 #, fuzzy
 #~ msgid "Cannot copy a folder `%s' to itself"
 #~ msgstr "Kansion hakeminen ei onnistu: %s: %s"
+
+#~ msgid "Trash"
+#~ msgstr "Roskakori"
+
+#~ msgid "Outbox"
+#~ msgstr "Lähtevät"
+
+#~ msgid "Local Folders"
+#~ msgstr "Paikalliset kansiot"
 
 #, fuzzy
 #~ msgid "Folder cannot contain the directory separator."
@@ -14317,304 +13787,3 @@ msgstr "init_bonobo(): Bonobon alustus epäonnistui"
 #~ msgstr ""
 #~ "Kiitos\n"
 #~ "The Evolution Team\n"
-
-#~ msgid "LDAP Authentication"
-#~ msgstr "LDAP-Todennus"
-
-#~ msgid "Password:"
-#~ msgstr "Salasana:"
-
-#, fuzzy
-#~ msgid "Sent By:"
-#~ msgstr "Lähetetyt"
-
-#~ msgid "The priority must be 'High', 'Normal', 'Low' or 'Undefined'."
-#~ msgstr ""
-#~ "Prioriteetin tulee olla 'Korkea', 'Tavallinen', 'Matala' tai "
-#~ "'Määrittelemätön'."
-
-#, fuzzy
-#~ msgid "before start of appointment"
-#~ msgstr "Luo uusi tapaaminen"
-
-#, fuzzy
-#~ msgid "after start of appointment"
-#~ msgstr "Luo uusi tapaaminen"
-
-#, fuzzy
-#~ msgid "before end of appointment"
-#~ msgstr "Muistuta minua kaikista tapaamisista"
-
-#, fuzzy
-#~ msgid "Evolution Shortcuts"
-#~ msgstr "Evolutionin aseukseni"
-
-#, fuzzy
-#~ msgid "Each account must have a different name."
-#~ msgstr "Tallenna tiedosto uudella nimellä"
-
-#~ msgid "Message _preview should be displayed by default"
-#~ msgstr "Viestin _esikatselu on käytössä oletuksena"
-
-#~ msgid "Delete folder '%s'"
-#~ msgstr "Poista kansio '%s'"
-
-#~ msgid "Rename"
-#~ msgstr "Nimeä uudelleen"
-
-#~ msgid "123"
-#~ msgstr "123"
-
-#~ msgid "a"
-#~ msgstr "a"
-
-#~ msgid "b"
-#~ msgstr "b"
-
-#~ msgid "c"
-#~ msgstr "c"
-
-#~ msgid "d"
-#~ msgstr "d"
-
-#~ msgid "e"
-#~ msgstr "e"
-
-#~ msgid "f"
-#~ msgstr "f"
-
-#~ msgid "g"
-#~ msgstr "g"
-
-#~ msgid "h"
-#~ msgstr "h"
-
-#~ msgid "i"
-#~ msgstr "i"
-
-#~ msgid "j"
-#~ msgstr "j"
-
-#~ msgid "k"
-#~ msgstr "k"
-
-#~ msgid "l"
-#~ msgstr "l"
-
-#~ msgid "m"
-#~ msgstr "m"
-
-#~ msgid "n"
-#~ msgstr "n"
-
-#~ msgid "o"
-#~ msgstr "o"
-
-#~ msgid "p"
-#~ msgstr "p"
-
-#~ msgid "q"
-#~ msgstr "q"
-
-#~ msgid "r"
-#~ msgstr "r"
-
-#~ msgid "s"
-#~ msgstr "s"
-
-#~ msgid "t"
-#~ msgstr "t"
-
-#~ msgid "u"
-#~ msgstr "u"
-
-#~ msgid "v"
-#~ msgstr "v"
-
-#~ msgid "w"
-#~ msgstr "w"
-
-#~ msgid "y"
-#~ msgstr "y"
-
-#~ msgid "z"
-#~ msgstr "z"
-
-#, fuzzy
-#~ msgid "Done."
-#~ msgstr "Valmis"
-
-#~ msgid "Ok"
-#~ msgstr "Ok"
-
-#, fuzzy
-#~ msgid "%d"
-#~ msgstr "d"
-
-#~ msgid "No password provided."
-#~ msgstr "Ei annettu salasanaa."
-
-#~ msgid "No plaintext to encrypt."
-#~ msgstr "Ei puhdasta tekstiä salattavaksi."
-
-#, fuzzy
-#~ msgid "Cannot summarize folder: %s: %s"
-#~ msgstr "Kansion hakeminen ei onnistu: %s: %s"
-
-#, fuzzy
-#~ msgid "Could not open folder to summarize: %s: %s"
-#~ msgstr "Hakemistoa %s ei voitu uudelleennimetä seuraavaksi: %s: %s"
-
-#~ msgid "Elm mail"
-#~ msgstr "Elm-sähköposti"
-
-#~ msgid "Pine mail"
-#~ msgstr "Pine-sähköposti"
-
-#~ msgid "Forwarded message:\n"
-#~ msgstr "Välitetty viesti:\n"
-
-#, fuzzy
-#~ msgid "No such folder /%s"
-#~ msgstr "Ei kyseistä viestiä: %s"
-
-#, fuzzy
-#~ msgid "Synchronizing '%s'"
-#~ msgstr "Synkronoidaan kansiota"
-
-#~ msgid "%a %l:%M%p"
-#~ msgstr "%a %l:%M%p"
-
-#, fuzzy
-#~ msgid "_Refresh time (seconds):"
-#~ msgstr "Virkistysaika (sekunneissa):"
-
-#~ msgid "This seems to be the first time you are running Evolution."
-#~ msgstr "Tämä näyttäisi olevan ensimmäinen kerta kun käytät Evolutionia."
-
-#~ msgid "Please click \"OK\" to install the Evolution user files under"
-#~ msgstr ""
-#~ "Paina \"OK\" asentaaksesi Evolutionin käyttäjäkohtaiset tiedostot "
-#~ "kohteeseen"
-
-#, fuzzy
-#~ msgid "RDF Summary"
-#~ msgstr "Kuvaus"
-
-#~ msgid "USA"
-#~ msgstr "Yhdysvallat"
-
-#, fuzzy
-#~ msgid "Canceled"
-#~ msgstr "Peruutettu"
-
-#, fuzzy
-#~ msgid "Unfiled"
-#~ msgstr "Nimetön"
-
-#~ msgid "Calendar Preferences"
-#~ msgstr "Kalenterin asetukset"
-
-#~ msgid "The message is not understandable."
-#~ msgstr "Viesti ei ole ymmärrettävissä."
-
-#~ msgid "Add"
-#~ msgstr "Lisää"
-
-#~ msgid "Edit"
-#~ msgstr "Muokkaa"
-
-#, fuzzy
-#~ msgid "R_esend..."
-#~ msgstr "Lähetä uudelleen"
-
-#~ msgid "Evolution Account Manager"
-#~ msgstr "Evolutionin tilienhallinta"
-
-#~ msgid "On %s, %s wrote:"
-#~ msgstr "%s %s kirjoitti:"
-
-#~ msgid "Updating message list"
-#~ msgstr "Päivitetään viestiluetteloa"
-
-#~ msgid "New contact"
-#~ msgstr "Uusi kontakti"
-
-#~ msgid "Send _message to contact"
-#~ msgstr "Lähetä _viesti kontaktille"
-
-#~ msgid "Go to present time"
-#~ msgstr "Siirry nykyiseen aikaan"
-
-#~ msgid "W_ork Week"
-#~ msgstr "Työviikk_o"
-
-#~ msgid "Close this appointment"
-#~ msgstr "Sulje tämä tapaaminen"
-
-#~ msgid "Print S_etup"
-#~ msgstr "Tulostusasetuks_et"
-
-#~ msgid "Save the appointment and close the dialog box"
-#~ msgstr "Tallenna tapaaminen ja sulje tapaamisikkuna"
-
-#~ msgid "Help"
-#~ msgstr "Ohje"
-
-#~ msgid "Print Preview..."
-#~ msgstr "Tulostuksen esikatselu..."
-
-#~ msgid "_Re-send Message"
-#~ msgstr "Lähetä viesti _uudelleen"
-
-#~ msgid "Delegate Task"
-#~ msgstr "Delegoi tehtävä"
-
-#~ msgid "Save task as something else"
-#~ msgstr "Tallenna tehtävä jossain muussa muodossa"
-
-#~ msgid "Using the _Calendar"
-#~ msgstr "_Kalenterin käyttö"
-
-#~ msgid "Category contains"
-#~ msgstr "Ryhmä sisältää"
-
-#~ msgid "Select name from _folder:"
-#~ msgstr "Valitse nimi _kansiosta:"
-
-#, fuzzy
-#~ msgid "Delegated From:"
-#~ msgstr "Poistettu"
-
-#~ msgid "Birthday"
-#~ msgstr "Syntymäpäivä"
-
-#~ msgid "Favorites"
-#~ msgstr "Suosikit"
-
-#~ msgid "Gifts"
-#~ msgstr "Lahjat"
-
-#~ msgid "Holiday"
-#~ msgstr "Lomapäivä"
-
-#~ msgid "Key Customer"
-#~ msgstr "Avainasiakas"
-
-#~ msgid "Phone Calls"
-#~ msgstr "Puhelut"
-
-#~ msgid "Strategies"
-#~ msgstr "Strategiat"
-
-#~ msgid "VIP"
-#~ msgstr "VIP"
-
-#~ msgid "_Appointment (FIXME)"
-#~ msgstr "_Tapaaminen"
-
-#~ msgid "_Contact (FIXME)"
-#~ msgstr "_Kontakti"
-
-#~ msgid "_Task (FIXME)"
-#~ msgstr "_Tehtävä"
