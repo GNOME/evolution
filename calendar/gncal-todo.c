@@ -410,6 +410,7 @@ gncal_todo_init (GncalTodo *todo)
 	gtk_signal_connect (GTK_OBJECT (todo->clist), "select_row",
 			    (GtkSignalFunc) clist_row_selected,
 			    todo);
+	gtk_clist_set_button_actions (todo->clist, 2, GTK_BUTTON_SELECTS);
 	gtk_signal_connect (GTK_OBJECT (todo->clist), "resize_column",
 			    (GtkSignalFunc) column_resized,
 			    todo);

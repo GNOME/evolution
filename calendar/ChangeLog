@@ -1,3 +1,9 @@
+1999-04-08  Miguel de Icaza  <miguel@nuclecu.unam.mx>
+
+	* gncal-todo.c (gncal_todo_init): Make sure we can get events for
+	button3.  The code for the nice popup menu was there but was not
+	getting invoked.
+
 1999-04-01 Steve Murphy <murf@e-tools.com>
 
 	* calobj.c (weekdaynum): Added this routine so Monthly recurrences
