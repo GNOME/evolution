@@ -295,6 +295,13 @@ etgl_compute_location (ETableGroup *etg, int *x, int *y, int *row, int *col)
 }
 
 static void
+etgl_get_cell_geometry (ETableGroup *etg, int *row, int *col, int *x, int *y, int *width, int *height)
+{
+	ETableGroupLeaf *etgl = E_TABLE_GROUP_LEAF (etg);
+	e_table_item_get_cell_geometry (etgl->item, row, col, x, y, width, height);
+}
+
+static void
 etgl_set_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 {
 	ETableGroup *etg = E_TABLE_GROUP (object);
@@ -427,7 +434,8 @@ etgl_class_init (GtkObjectClass *object_class)
 	e_group_class->get_focus_column = etgl_get_focus_column;
 	e_group_class->get_printable = etgl_get_printable;
 	e_group_class->compute_location = etgl_compute_location;
-
+	e_group_class->get_cell_geometry = etgl_get_cell_geometry;
+ 
 	gtk_object_add_arg_type ("ETableGroupLeaf::horizontal_draw_grid", GTK_TYPE_BOOL,
 				 GTK_ARG_WRITABLE, ARG_TABLE_HORIZONTAL_DRAW_GRID);
 	gtk_object_add_arg_type ("ETableGroupLeaf::vertical_draw_grid", GTK_TYPE_BOOL,

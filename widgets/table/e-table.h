@@ -230,6 +230,11 @@ void            e_table_get_cell_at               (ETable *table,
 						   int x, int y,
 						   int *row_return, int *col_return);
 
+void            e_table_get_cell_geometry         (ETable *table,
+						   int row, int col,
+						   int *x_return, int *y_return,
+						   int *width_return, int *height_return);
+
 /* Drag & drop stuff. */
 /* Target */
 void            e_table_drag_get_data             (ETable               *table,

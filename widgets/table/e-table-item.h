@@ -140,6 +140,13 @@ void        e_table_item_compute_location    (ETableItem        *eti,
 					      int               *y,
 					      int               *row,
 					      int               *col);
+void        e_table_item_get_cell_geometry   (ETableItem        *eti,
+					      int               *row,
+					      int               *col,
+					      int               *x,
+					      int               *y,
+					      int               *width,
+					      int               *height);
 
 int	    e_table_item_row_diff	     (ETableItem	*eti,
 					      int		 start_row,

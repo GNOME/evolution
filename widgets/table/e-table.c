@@ -1522,6 +1522,37 @@ e_table_get_cell_at (ETable *table,
 	e_table_group_compute_location(table->group, &x, &y, row_return, col_return);
 }
 
+/**
+ * e_table_get_cell_at:
+ * @table: An ETable widget
+ * @x: X coordinate for the pixel
+ * @y: Y coordinate for the pixel
+ * @row_return: Pointer to return the row value
+ * @col_return: Pointer to return the column value
+ * 
+ * Return the row and column for the cell in which the pixel at (@x, @y) is
+ * contained.
+ **/
+void
+e_table_get_cell_geometry (ETable *table,
+			   int row, int col,
+			   int *x_return, int *y_return,
+			   int *width_return, int *height_return)
+{
+	g_return_if_fail (table != NULL);
+	g_return_if_fail (E_IS_TABLE (table));
+
+	/* FIXME it would be nice if it could handle a NULL row_return or
+	 * col_return gracefully.  */
+
+	e_table_group_get_cell_geometry(table->group, &row, &col, x_return, y_return, width_return, height_return);
+
+	if (x_return)
+		(*x_return) -= GTK_LAYOUT(table->table_canvas)->hadjustment->value;
+	if (y_return)
+		(*y_return) -= GTK_LAYOUT(table->table_canvas)->vadjustment->value;
+}
+
 struct _ETableDragSourceSite
 {
 	GdkModifierType    start_button_mask;

@@ -665,6 +665,34 @@ etgc_compute_location (ETableGroup *etg, int *x, int *y, int *row, int *col)
 	}
 }
 
+static void
+etgc_get_cell_geometry (ETableGroup *etg, int *row, int *col, int *x, int *y, int *width, int *height)
+{
+	ETableGroupContainer *etgc = E_TABLE_GROUP_CONTAINER(etg);
+
+	int ypos;
+
+	ypos = 0;
+
+	if (etgc->children) {
+		GList *list;
+		for (list = etgc->children; list; list = list->next) {
+			ETableGroupContainerChildNode *child_node = (ETableGroupContainerChildNode *)list->data;
+			ETableGroup *child = child_node->child;
+			int thisy;
+
+			e_table_group_get_cell_geometry (child, row, col, x, &thisy, width, height);
+			ypos += thisy;
+			if ((*row == -1) || (*col == -1)) {
+				ypos += TITLE_HEIGHT;
+				*x += GROUP_INDENT;
+				*y = ypos;
+				return;
+			}
+		}
+	}
+}
+
 static void etgc_thaw (ETableGroup *etg)
 {
 	e_canvas_item_request_reflow (GNOME_CANVAS_ITEM(etg));
@@ -817,6 +845,7 @@ etgc_class_init (GtkObjectClass *object_class)
 	e_group_class->get_focus_column = etgc_get_focus_column;
 	e_group_class->get_printable = etgc_get_printable;
 	e_group_class->compute_location = etgc_compute_location;
+	e_group_class->get_cell_geometry = etgc_get_cell_geometry;
 
 	gtk_object_add_arg_type ("ETableGroupContainer::horizontal_draw_grid", GTK_TYPE_BOOL,
 				 GTK_ARG_WRITABLE, ARG_TABLE_HORIZONTAL_DRAW_GRID);

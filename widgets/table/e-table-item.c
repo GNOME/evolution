@@ -2415,6 +2415,31 @@ e_table_item_compute_location (ETableItem        *eti,
 	eti->grabbed_row = grabbed_row;
 }
 
+void
+e_table_item_get_cell_geometry   (ETableItem        *eti,
+				  int               *row,
+				  int               *col,
+				  int               *x,
+				  int               *y,
+				  int               *width,
+				  int               *height)
+{
+	if (eti->rows > *row) {
+		if (x)
+			*x = e_table_header_col_diff (eti->header, 0, *col);
+		if (y)
+			*y = e_table_item_row_diff (eti, 0, *row);
+		if (width)
+			*width = e_table_header_col_diff (eti->header, *col, *col + 1);
+		if (height)
+			*height = ETI_ROW_HEIGHT (eti, *row);
+		*row = -1;
+		*col = -1;
+	} else {
+		*row -= eti->rows;
+	}
+}
+
 typedef struct {
 	ETableItem *item;
 	int rows_printed;

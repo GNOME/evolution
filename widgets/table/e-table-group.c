@@ -381,13 +381,19 @@ e_table_group_compute_location (ETableGroup *etg, int *x, int *y, int *row, int 
  * removed from the value row points to.
  */
 void
-e_table_group_get_position (ETableGroup *etg, int *x, int *y, int *row, int *col)
+e_table_group_get_cell_geometry  (ETableGroup *etg,
+				  int         *row,
+				  int         *col,
+				  int         *x,
+				  int         *y,
+				  int         *width,
+				  int         *height)
 {
 	g_return_if_fail (etg != NULL);
 	g_return_if_fail (E_IS_TABLE_GROUP (etg));
 
-	if (ETG_CLASS (etg)->get_position)
-		ETG_CLASS (etg)->get_position (etg, x, y, row, col);
+	if (ETG_CLASS (etg)->get_cell_geometry)
+		ETG_CLASS (etg)->get_cell_geometry (etg, row, col, x, y, width, height);
 }
 
 /** 
@@ -592,7 +598,7 @@ etg_class_init (GtkObjectClass *object_class)
 	klass->get_focus = etg_get_focus;
 	klass->get_printable = NULL;
 	klass->compute_location = NULL;
-	klass->get_position = NULL;
+	klass->get_cell_geometry = NULL;
 
 	etg_parent_class = gtk_type_class (PARENT_TYPE);
 
