@@ -1,3 +1,18 @@
+2004-02-03  Hans Petter Jansson  <hpj@ximian.com>
+
+       * gui/component/addressbook-component.c (ensure_sources): Implement
+       based on the create_groups () function in addressbook-migrate.c.
+       (addressbook_component_init): Call ensure_sources (). This will create
+       the necessary addressbook source groups if they somehow disappeared
+       from GConf.
+
+       * gui/component/addressbook-config.c (addressbook_add_server_dialog):
+       If we can't get any source groups, just issue a console warning and
+       return NULL. Creating sources without groups is meaningless.
+       (addressbook_config_create_new_source): Return NULL if dialog
+       creation failed.
+	Work around for #67411
+
 2005-01-26  Sivaiah Nallagatla <snallagatla@novell.com>
 
 	* gui/component/addressbook.c (addressbook_authenticate) :

@@ -935,6 +935,19 @@ addressbook_add_server_dialog (void)
 	GConfClient *gconf_client;
 	GSList *source_groups;
 	
+	gconf_client = gconf_client_get_default ();
+	sdialog->source_list = e_source_list_new_for_gconf (gconf_client, "/apps/evolution/addressbook/sources");
+	g_object_unref (gconf_client);
+
+	source_groups = e_source_list_peek_groups (sdialog->source_list);
+	if (!source_groups) {
+		g_warning ("Addressbook source groups are missing! Check your GConf setup.");
+		g_free (sdialog);
+		return NULL;
+	}
+
+	sdialog->menu_source_groups = g_slist_copy (source_groups);
+
 	sdialog->gui = glade_xml_new (EVOLUTION_GLADEDIR "/" GLADE_FILE_NAME, "account-add-window", NULL);
 
 	sdialog->window = glade_xml_get_widget (sdialog->gui, "account-add-window");
@@ -947,10 +960,6 @@ addressbook_add_server_dialog (void)
 	g_signal_connect (sdialog->display_name, "changed",
 			  G_CALLBACK (add_folder_modify), sdialog);
 
-	gconf_client = gconf_client_get_default ();
-	sdialog->source_list = e_source_list_new_for_gconf (gconf_client, "/apps/evolution/addressbook/sources");
-	source_groups = e_source_list_peek_groups (sdialog->source_list);
-	sdialog->menu_source_groups = g_slist_copy (source_groups);
 #ifndef HAVE_LDAP
 	for ( ; source_groups != NULL; source_groups = g_slist_next (source_groups))
 		if (!strcmp ("ldap://", e_source_group_peek_base_uri (source_groups->data)))	
@@ -993,8 +1002,6 @@ addressbook_add_server_dialog (void)
 
 	g_object_weak_ref (G_OBJECT (sdialog->window),
 			   addressbook_source_dialog_destroy, sdialog);
-
-	g_object_unref (gconf_client);
 
 	/* make sure we fill in the default values */
 	source_to_dialog (sdialog);
@@ -1286,5 +1293,5 @@ addressbook_config_create_new_source (GtkWidget *parent)
 
 	dialog = addressbook_add_server_dialog ();
 
-	return dialog->window;
+	return dialog ? dialog->window : NULL;
 }
