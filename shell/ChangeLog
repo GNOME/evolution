@@ -1,3 +1,15 @@
+2000-10-02  Chris Toshok  <toshok@helixcode.com>
+
+	* e-storage-set-view.c (e_storage_set_view_construct): pass NULL
+	for the open/closed pixbuf of the tree renderer.  we'll let it
+	supply the default.
+	(destroy): remove the expanded/unexpanded pixbuf references.
+	(new_storage_cb): use e_tree_model_node_insert_id so we can (soon)
+	save expanded/collapsed state.
+	(new_folder_cb): same.
+	(insert_folders): same.
+	(e_storage_set_view_construct): same.
+
 2000-10-02  Ettore Perazzoli  <ettore@helixcode.com>
 
 	* e-shell.c (impl_Shell_create_storage_set_view): New,

@@ -39,9 +39,6 @@
 #include <gal/e-table/e-cell-tree.h>
 #include <gal/e-table/e-cell-text.h>
 
-#include "art/tree-expanded.xpm"
-#include "art/tree-unexpanded.xpm"
-
 #define ETABLE_SPEC "<ETableSpecification no-header=\"1\">             \
 	<columns-shown>                  			       \
 		<column> 0 </column>     			       \
@@ -58,8 +55,6 @@ struct _EStorageSetViewPrivate {
 
 	ETreeModel *etree_model;
 	ETreePath *root_node;
-	GdkPixbuf *tree_expanded_pixbuf;
-	GdkPixbuf *tree_unexpanded_pixbuf;
 
 	GHashTable *path_to_etree_node;
 
@@ -310,10 +305,6 @@ destroy (GtkObject *object)
 
 	gtk_object_unref (GTK_OBJECT (priv->storage_set));
 
-	/* free up our expanded/unexpanded pixmaps */
-	gdk_pixbuf_unref (priv->tree_expanded_pixbuf);
-	gdk_pixbuf_unref (priv->tree_unexpanded_pixbuf);
-
 	g_free (priv);
 
 	(* GTK_OBJECT_CLASS (parent_class)->destroy) (object);
@@ -560,9 +551,9 @@ new_storage_cb (EStorageSet *storage_set,
 
 	path = g_strconcat (G_DIR_SEPARATOR_S, e_storage_get_name (storage), NULL);
 
-	node = e_tree_model_node_insert (priv->etree_model,
-					 priv->root_node,
-					 -1, path);
+	node = e_tree_model_node_insert_id (priv->etree_model,
+					    priv->root_node,
+					    -1, path, path);
 
 	e_tree_model_node_set_expanded (priv->etree_model, node, TRUE);
 
@@ -636,7 +627,7 @@ new_folder_cb (EStorageSet *storage_set,
 	g_free (parent_path);
 
 	copy_of_path = g_strdup (path);
-	new_node = e_tree_model_node_insert (etree, parent_node, -1, copy_of_path);
+	new_node = e_tree_model_node_insert_id (etree, parent_node, -1, copy_of_path, copy_of_path);
 
 	if (! add_node_to_hash (storage_set_view, path, new_node)) {
 		e_tree_model_node_remove (etree, new_node);
@@ -788,7 +779,7 @@ insert_folders (EStorageSetView *storage_set_view,
 		folder_name = e_folder_get_name (folder);
 
 		full_path = g_strconcat ("/", storage_name, folder_path, NULL);
-		node = e_tree_model_node_insert (etree, parent, -1, (void *) full_path);
+		node = e_tree_model_node_insert_id (etree, parent, -1, (void *) full_path, full_path);
 		add_node_to_hash (storage_set_view, full_path, node);
 
 		insert_folders (storage_set_view, node, storage, folder_path);
@@ -864,9 +855,6 @@ e_storage_set_view_construct (EStorageSetView *storage_set_view,
 
 	priv = storage_set_view->priv;
 
-	priv->tree_expanded_pixbuf = gdk_pixbuf_new_from_xpm_data((const char**)tree_expanded_xpm);
-	priv->tree_unexpanded_pixbuf = gdk_pixbuf_new_from_xpm_data((const char**)tree_unexpanded_xpm);
-
 	priv->etree_model = e_tree_simple_new (etree_col_count,
 					       etree_duplicate_value,
 					       etree_free_value,
@@ -885,8 +873,8 @@ e_storage_set_view_construct (EStorageSetView *storage_set_view,
 	e_table_header = e_table_header_new ();
 	cell_left_just = e_cell_text_new (E_TABLE_MODEL (priv->etree_model), NULL, GTK_JUSTIFY_LEFT);
 	cell_tree = e_cell_tree_new (E_TABLE_MODEL (priv->etree_model),
-				     priv->tree_expanded_pixbuf,
-				     priv->tree_unexpanded_pixbuf, TRUE, cell_left_just);
+				     NULL, NULL, /* let the tree default its own +'s and -'s */
+				     TRUE, cell_left_just);
 
 	ecol = e_table_col_new (0, "Folder", 80, 20, cell_tree, g_str_compare, TRUE);
 	e_table_header_add_column (e_table_header, ecol, 0);
@@ -936,8 +924,8 @@ e_storage_set_view_construct (EStorageSetView *storage_set_view,
 		name = e_storage_get_name (storage);
 		path = g_strconcat ("/", name, NULL);
 
-		parent = e_tree_model_node_insert (priv->etree_model, priv->root_node,
-						   -1, path);
+		parent = e_tree_model_node_insert_id (priv->etree_model, priv->root_node,
+						   -1, path, path);
 		e_tree_model_node_set_expanded (priv->etree_model, parent, TRUE);
 
 		g_hash_table_insert (priv->path_to_etree_node, path, parent);
