@@ -1,3 +1,15 @@
+2000-10-17  Iain Holmes  <iain@helixcode.com>
+
+	* contact-editor/contact-editor.glade: Change the initial dialog 
+	visibility to FALSE
+	so the contact editor doesn't flash when it appears.
+
+2000-10-16  Iain Holmes  <iain@helixcode.com>
+
+	* gui/component/select-names/e-select-names-manager.c 
+	(e_select_names_manager_activate_dialog): Only allow one dialog
+	per manager.
+
 2000-10-16  Christopher James Lahey  <clahey@helixcode.com>
 
 	* contact-editor/fulladdr.glade: Fixed a typo.  Made this look a
