@@ -3584,11 +3584,11 @@ e_msg_composer_set_headers (EMsgComposer *composer,
 	g_return_if_fail (E_IS_MSG_COMPOSER (composer));
 	hdrs = E_MSG_COMPOSER_HDRS (composer->hdrs);
 	
-	e_msg_composer_hdrs_set_from_account (hdrs, from);
 	e_msg_composer_hdrs_set_to (hdrs, to);
 	e_msg_composer_hdrs_set_cc (hdrs, cc);
 	e_msg_composer_hdrs_set_bcc (hdrs, bcc);
 	e_msg_composer_hdrs_set_subject (hdrs, subject);
+	e_msg_composer_hdrs_set_from_account (hdrs, from);
 }
 
 

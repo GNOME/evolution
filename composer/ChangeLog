@@ -1,3 +1,9 @@
+2002-07-16  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* e-msg-composer.c (e_msg_composer_set_headers): Set the
+	from-account last so that auto-cc/bcc recipients don't get
+	overwritten when setting the cc/bcc recipient fields.
+
 2002-07-16  Peter Williams  <peterw@ximian.com>
 
 	* e-msg-composer.c (create_composer): Instead of doing this with a
