@@ -1,3 +1,7 @@
+2002-02-09  JP Rosevear  <jpr@ximian.com>
+
+	* e-pilot-settings.h: add row and column defines
+
 2002-01-27  Ettore Perazzoli  <ettore@ximian.com>
 
 	* ename/Makefile.am: Use E_NAME_CFLAGS and E_NAME_LIBS.

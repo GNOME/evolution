@@ -46,6 +46,9 @@ typedef struct _EPilotSettings        EPilotSettings;
 typedef struct _EPilotSettingsPrivate EPilotSettingsPrivate;
 typedef struct _EPilotSettingsClass   EPilotSettingsClass;
 
+#define E_PILOT_SETTINGS_TABLE_ROWS 2
+#define E_PILOT_SETTINGS_TABLE_COLS 2
+
 struct _EPilotSettings {
 	GtkTable parent;
 
