@@ -1,5 +1,11 @@
 2001-07-11  JP Rosevear  <jpr@ximian.com>
 
+	* gui/component-factory.c: fix the calendar not exiting with a
+	gross hack because i don't have time to fix the ref counting right
+	now
+	
+2001-07-11  JP Rosevear  <jpr@ximian.com>
+
 	* gui/dialogs/meeting-page.c: be careful about adding and
 	stripping MAILTO:'s properly
 

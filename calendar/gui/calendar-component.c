@@ -288,8 +288,21 @@ owner_set_cb (EvolutionShellComponent *shell_component,
 		tasks_migrate ();
 		migrated = TRUE;
 	}
+
+	shells = g_list_append (shells, shell_component);
 }
 
+static void
+owner_unset_cb (EvolutionShellComponent *shell_component,
+	      gpointer user_data)
+{
+	shells = g_list_remove (shells, shell_component);
+	
+	if (g_list_length (shells) == 0)
+		gtk_main_quit ();
+}
+
+#if 0
 static void
 destroy_cb (EvolutionShellComponent *shell_component,
 	    gpointer user_data)
@@ -299,6 +312,7 @@ destroy_cb (EvolutionShellComponent *shell_component,
 	if (g_list_length (shells) == 0)
 		gtk_main_quit ();
 }
+#endif
 
 
 /* The factory function.  */
@@ -321,10 +335,14 @@ factory_fn (BonoboGenericFactory *factory,
 
 	gtk_signal_connect (GTK_OBJECT (shell_component), "owner_set",
 			    GTK_SIGNAL_FUNC (owner_set_cb), NULL);
+	gtk_signal_connect (GTK_OBJECT (shell_component), "owner_unset",
+			    GTK_SIGNAL_FUNC (owner_unset_cb), NULL);
+#if 0
 	gtk_signal_connect (GTK_OBJECT (shell_component), "destroy",
 			    GTK_SIGNAL_FUNC (destroy_cb), NULL);
 
 	shells = g_list_append (shells, shell_component);
+#endif
 	
 	return BONOBO_OBJECT (shell_component);
 }
