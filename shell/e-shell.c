@@ -1641,7 +1641,7 @@ save_settings_for_component (EShell *shell,
 		return TRUE;
 	}
 
-	prefix = g_strconcat ("/apps/Evolution/Shell/Components/", id, NULL);
+	prefix = g_strconcat ("/apps/evolution/shell/components/", id, NULL);
 	GNOME_Evolution_Session_saveConfiguration (session_interface, prefix, &ev);
 
 	if (ev._major == CORBA_NO_EXCEPTION)

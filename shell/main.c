@@ -287,7 +287,7 @@ upgrade_from_1_0_if_needed (void)
 	config_listener = e_config_listener_new ();
 
 	if (! force_upgrade
-	    && e_config_listener_get_boolean_with_default (config_listener, "/Shell/upgrade_from_1_0_to_1_2_performed",
+	    && e_config_listener_get_boolean_with_default (config_listener, "/apps/evolution/shell/upgrade_from_1_0_to_1_2_performed",
 							   FALSE, NULL))
 		return;
 
@@ -300,7 +300,7 @@ upgrade_from_1_0_if_needed (void)
 	else
 		g_print ("\n*** Error upgrading configuration files -- status %d\n", result);
 
-	e_config_listener_set_boolean (config_listener, "/Shell/upgrade_from_1_0_to_1_2_performed", TRUE);
+	e_config_listener_set_boolean (config_listener, "/apps/evolution/shell/upgrade_from_1_0_to_1_2_performed", TRUE);
 
 	g_object_unref (config_listener);
 #endif /* FIXME */
