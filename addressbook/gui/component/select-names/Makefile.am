@@ -17,11 +17,9 @@ $(IDL_GENERATED_H): $(idl_DATA)
 $(IDL_GENERATED_C): $(IDL_GENERATED_H)
 
 server_in_files = GNOME_Evolution_Addressbook_SelectNames.server.in.in
-
-server_DATA = $(server_in_files:.server.in.in=.server)
-%.server.in: %.server.in.in
-	sed -e "s|\@COMPONENTDIR\@|$(componentdir)|" $< > $@
-
+server_DATA = $(server_in_files:.server.in.in=_$(BASE_VERSION).server)
+@EVO_SUBST_SERVER_RULE@
+@EVO_NAME_SERVER_RULE@
 @INTLTOOL_SERVER_RULE@
 
 INCLUDES =						\
@@ -90,7 +88,6 @@ etspec_DATA = e-select-names.etspec e-select-names-section.etspec
 EXTRA_DIST = 			\
 	$(glade_DATA)		\
 	$(server_in_files)	\
-	$(server_DATA)		\
 	$(idl_DATA)		\
 	$(etspec_DATA)		\
 	e-select-names-marshal.list

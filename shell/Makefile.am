@@ -252,15 +252,12 @@ install-test-component: evolution-test-component
 # Misc stuff
 
 server_in_files = GNOME_Evolution_Shell.server.in.in
-server_DATA = $(server_in_files:.server.in.in=.server)
-%.server.in: %.server.in.in
-	sed -e "s|\@BINDIR\@|$(bindir)|"				\
-	    -e "s|\@VERSION\@|$(BASE_VERSION)|"				\
-	    $< > $@
+server_DATA = $(server_in_files:.server.in.in=_$(BASE_VERSION).server)
+@EVO_SUBST_SERVER_RULE@
+@EVO_NAME_SERVER_RULE@
+@INTLTOOL_SERVER_RULE@
 
 etspec_DATA = e-storage-set-view.etspec
-
-@INTLTOOL_SERVER_RULE@
 
 icons = 			\
 	check-empty.xpm		\
@@ -308,7 +305,6 @@ MARSHAL_GENERATED = e-shell-marshal.c e-shell-marshal.h
 EXTRA_DIST = 					\
 	$(IDLS)					\
 	$(server_in_files)			\
-	$(server_DATA)				\
 	$(etspec_DATA)				\
 	$(schema_DATA)				\
 	$(icons)				\

@@ -55,17 +55,13 @@ evolution_alarm_notify_LDADD =						\
 	$(top_builddir)/calendar/cal-util/libcal-util.la		\
 	$(EVOLUTION_CALENDAR_LIBS)
 
-server_in_files = \
-	GNOME_Evolution_Calendar_AlarmNotify.server.in.in
-
-server_DATA = $(server_in_files:.server.in.in=.server)
-%.server.in: %.server.in.in
-	sed -e "s|\@LIBEXECDIR\@|$(privlibexecdir)|" $< > $@
-
+server_in_files = GNOME_Evolution_Calendar_AlarmNotify.server.in.in
+server_DATA = $(server_in_files:.server.in.in=_$(BASE_VERSION).server)
+@EVO_SUBST_SERVER_RULE@
+@EVO_NAME_SERVER_RULE@
 @INTLTOOL_SERVER_RULE@
 
-EXTRA_DIST =		\
-	$(server_DATA)	\
+EXTRA_DIST =			\
 	$(server_in_files)	\
 	$(glade_DATA)
 

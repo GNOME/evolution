@@ -47,11 +47,15 @@ libevolution_calendar_importers_la_LIBADD = \
 # 	$(EVOLUTION_CALENDAR_LIBS)
 
 server_in_files = GNOME_Evolution_Calendar_Importer.server.in.in
-
-server_DATA = $(server_in_files:.server.in.in=.server)
-%.server.in: %.server.in.in
-	sed -e "s|\@IMPORTERSDIR\@|$(importersdir)|" $< > $@
-
-EXTRA_DIST = $(server_in_files) $(server_DATA)
-
+server_DATA = $(server_in_files:.server.in.in=_$(BASE_VERSION).server)
+@EVO_SUBST_SERVER_RULE@
+@EVO_NAME_SERVER_RULE@
 @INTLTOOL_SERVER_RULE@
+
+BUILT_SOURCES = $(server_DATA)
+CLEANFILES = $(BUILT_SOURCES)
+
+EXTRA_DIST = $(server_in_files)
+
+dist-hook:
+	cd $(distdir); rm -f $(BUILT_SOURCES)

@@ -89,16 +89,15 @@ server_in_files = GNOME_Evolution_Mail_Mbox_Importer.server.in.in	\
 	GNOME_Evolution_Mail_Netscape_Intelligent_Importer.server.in.in	\
 	GNOME_Evolution_Mail_Elm_Intelligent_Importer.server.in.in	\
 	GNOME_Evolution_Mail_Pine_Intelligent_Importer.server.in.in
-server_DATA = $(server_in_files:.server.in.in=.server)
-%.server.in: %.server.in.in
-	sed -e "s|\@BINDIR\@|$(bindir)|"				\
-	    -e "s|\@VERSION\@|$(BASE_VERSION)|"				\
-	    $< > $@
-
-EXTRA_DIST = $(server_in_files) $(server_DATA)
+server_DATA = $(server_in_files:.server.in.in=_$(BASE_VERSION).server)
+@EVO_SUBST_SERVER_RULE@
+@EVO_NAME_SERVER_RULE@
+@INTLTOOL_SERVER_RULE@
 
 BUILT_SOURCES = $(MAIL_GENERATED) $(server_DATA)
 CLEANFILES = $(BUILT_SOURCES)
 
+EXTRA_DIST = $(server_in_files)
 
-@INTLTOOL_SERVER_RULE@
+dist-hook:
+	cd $(distdir); rm -f $(BUILT_SOURCES)

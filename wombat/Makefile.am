@@ -64,24 +64,25 @@ GNOME_Evolution_Wombat.server.in.in: $(SERVER_IN_FILE) Makefile
 	cp $< $@
 
 server_in_files = GNOME_Evolution_Wombat.server.in.in
-
-server_DATA = $(server_in_files:.server.in.in=.server)
-$(server_in_files:.server.in.in=.server.in): $(server_in_files)
-	sed -e "s|\@LIBEXECDIR\@|$(privlibexecdir)|" $< > $@
-
+server_DATA = $(server_in_files:.server.in.in=_$(BASE_VERSION).server)
+@EVO_SUBST_SERVER_RULE@
+@EVO_NAME_SERVER_RULE@
 @INTLTOOL_SERVER_RULE@
 
 idl_DATA = $(IDLS)
 
-EXTRA_DIST = $(server_DATA)				\
+EXTRA_DIST = 						\
 	$(server_in_files)				\
 	$(idl_DATA)					\
 	ChangeLog.pre-1-4				\
 	GNOME_Evolution_WombatLDAP.server.in.in		\
 	GNOME_Evolution_WombatNOLDAP.server.in.in
 
-BUILT_SOURCES = $(IDL_GENERATED)
+BUILT_SOURCES = $(IDL_GENERATED) $(server_DATA)
 CLEANFILES = $(BUILT_SOURCES)
+
+dist-hook:
+	cd $(distdir); rm -f $(BUILT_SOURCES)
 
 if ENABLE_PURIFY
 PLINK = $(LIBTOOL) --mode=link $(PURIFY) $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(LDFLAGS) -o $@

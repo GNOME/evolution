@@ -215,17 +215,15 @@ libevolution_calendar_la_LIBADD =					\
 libevolution_calendar_la_LDFLAGS = -avoid-version -module
 
 server_in_files = GNOME_Evolution_Calendar.server.in.in
-
-server_DATA = $(server_in_files:.server.in.in=.server)
-%.server.in: %.server.in.in
-	sed -e "s|\@COMPONENTDIR\@|$(componentdir)|" $< > $@
+server_DATA = $(server_in_files:.server.in.in=_$(BASE_VERSION).server)
+@EVO_SUBST_SERVER_RULE@
+@EVO_NAME_SERVER_RULE@
+@INTLTOOL_SERVER_RULE@
 
 # GConf schemas
 
 schemadir   = $(GCONF_SCHEMA_FILE_DIR)
 schema_DATA = apps_evolution_calendar.schemas
-
-@INTLTOOL_SERVER_RULE@
 
 EXTRA_DIST =	 			\
 	$(glade_DATA)			\

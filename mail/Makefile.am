@@ -191,12 +191,10 @@ evolution_mbox_upgrade_LDADD = 				\
 	$(EVOLUTION_MAIL_LIBS)
 
 server_in_files = GNOME_Evolution_Mail.server.in.in
-
-server_DATA = $(server_in_files:.server.in.in=.server)
-%.server.in: %.server.in.in
-	sed -e "s|\@COMPONENTDIR\@|$(componentdir)|" $< > $@
+server_DATA = $(server_in_files:.server.in.in=_$(BASE_VERSION).server)
+@EVO_SUBST_SERVER_RULE@
+@EVO_NAME_SERVER_RULE@
 @INTLTOOL_SERVER_RULE@
-
 
 # Misc data to install
 
@@ -213,7 +211,6 @@ EXTRA_DIST = 				\
 	$(glade_DATA)			\
 	$(schema_DATA)			\
 	$(server_in_files)		\
-	$(server_DATA)			\
 	$(etspec_DATA)
 
 

@@ -1,3 +1,11 @@
+2003-10-31  JP Rosevear <jpr@ximian.com>
+
+	* configure.in: set up vars and rules for versioning the .server
+	files
+
+	* Makefile.am's: use rules for versioning .server file, ensure
+	built files are removed before disting
+	
 2003-10-30  Chris Toshok  <toshok@ximian.com>
 
 	* configure.in: (AC_OUTPUT): remove smime/tests for now.

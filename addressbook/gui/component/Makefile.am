@@ -78,10 +78,9 @@ install-data-local:
 	fi
 
 server_in_files = GNOME_Evolution_Addressbook.server.in.in
-server_DATA = $(server_in_files:.server.in.in=.server)
-%.server.in: %.server.in.in
-	sed -e "s|\@COMPONENTDIR\@|$(componentdir)|" $< > $@
-
+server_DATA = $(server_in_files:.server.in.in=_$(BASE_VERSION).server)
+@EVO_SUBST_SERVER_RULE@
+@EVO_NAME_SERVER_RULE@
 @INTLTOOL_SERVER_RULE@
 
 glade_DATA = ldap-config.glade
@@ -92,8 +91,10 @@ CLEANFILES    = $(BUILT_SOURCES)
 EXTRA_DIST =			\
 	$(glade_DATA)		\
 	$(schema_DATA)		\
-	$(server_DATA)		\
 	$(server_in_files)
+
+dist-hook:
+	cd $(distdir); rm -f $(BUILT_SOURCES)
 
 if ENABLE_PURIFY
 PLINK = $(LIBTOOL) --mode=link $(PURIFY) $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(LDFLAGS) -o $@
