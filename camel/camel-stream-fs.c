@@ -232,7 +232,7 @@ stream_read (CamelStream *stream, char *buffer, size_t n)
 		} while (nread == -1 && errno == EINTR);
 	} else {
 		fd_set rdset;
-		int flags, fdmax;
+		int error, flags, fdmax;
 
 		flags = fcntl(stream_fs->fd, F_GETFL);
 		fcntl(stream_fs->fd, F_SETFL, flags | O_NONBLOCK);
@@ -247,7 +247,9 @@ stream_read (CamelStream *stream, char *buffer, size_t n)
 			return -1;
 		}
 		nread = read(stream_fs->fd, buffer, n);
+		error = errno;
 		fcntl(stream_fs->fd, F_SETFL, flags);
+		errno = error;
 	}
 
 	if (nread > 0)
@@ -283,7 +285,7 @@ stream_write (CamelStream *stream, const char *buffer, size_t n)
 		} while (v == -1 && errno == EINTR);
 	} else {
 		fd_set rdset, wrset;
-		int flags, fdmax;
+		int error, flags, fdmax;
 
 		flags = fcntl(stream_fs->fd, F_GETFL);
 		fcntl(stream_fs->fd, F_SETFL, flags | O_NONBLOCK);
@@ -303,7 +305,9 @@ stream_write (CamelStream *stream, const char *buffer, size_t n)
 			if (v>0)
 				written += v;
 		} while (v != -1 && written < n);
+		error = errno;
 		fcntl(stream_fs->fd, F_SETFL, flags);
+		errno = error;
 	}
 
 	if (written > 0)
