@@ -1,12 +1,28 @@
+2002-07-25  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* providers/smtp/camel-smtp-transport.c: Remove "possibly
+	non-fatal" exception strings, all exceptions are fatal unless
+	their caller decides otherwise.
+	(connect_to_server): If smtp_helo() fails due to us getting
+	disconnected, treat the exception as fatal.
+	(smtp_connect): Abort if smtp_helo() fails and we got
+	disconnected.
+	(smtp_send_to): If smtp_mail() fails, abort the send operation.
+	(smtp_set_exception): If respbuf was NULL, then we got
+	disconnected and so update our state accordingly.
+	(smtp_disconnect): Only send a QUIT if we are still in the
+	connected state (or, at least think we are).
+
 2002-07-24  Peter Williams  <peterw@ximian.com>
 
-	* providers/imap/camel-imap-folder.c (imap_expunge_uids_resyncing): It
-	would help to mark the UIDs as deleted before we try to expunge them
-	(in the case when no other UIDs were marked deleted this didn't happen.)
-	Also fix an FMR.
-	(imap_expunge_uids_offline): Trigger a folder_changed event with our
-	own changeinfo because camel_imap_response_free won't be able to do that
-	for us.
+	* providers/imap/camel-imap-folder.c
+	(imap_expunge_uids_resyncing): It would help to mark the UIDs as
+	deleted before we try to expunge them
+	(in the case when no other UIDs were marked deleted this didn't
+	happen.)  Also fix an FMR.
+	(imap_expunge_uids_offline): Trigger a folder_changed event with
+	our own changeinfo because camel_imap_response_free won't be able
+	to do that for us.
 
 2002-07-25  Jeffrey Stedfast  <fejj@ximian.com>
 

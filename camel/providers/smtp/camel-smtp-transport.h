@@ -62,6 +62,7 @@ typedef struct {
 	
 	guint32 flags;
 	
+	gboolean connected;
 	CamelTcpAddress *localaddr;
 	
 	GHashTable *authtypes;

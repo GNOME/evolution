@@ -118,6 +118,7 @@ camel_smtp_transport_init (gpointer object)
 	CamelSmtpTransport *smtp = CAMEL_SMTP_TRANSPORT (object);
 	
 	smtp->flags = 0;
+	smtp->connected = FALSE;
 }
 
 CamelType
@@ -126,15 +127,14 @@ camel_smtp_transport_get_type (void)
 	static CamelType type = CAMEL_INVALID_TYPE;
 	
 	if (type == CAMEL_INVALID_TYPE) {
-		type =
-			camel_type_register (CAMEL_TRANSPORT_TYPE,
-					     "CamelSmtpTransport",
-					     sizeof (CamelSmtpTransport),
-					     sizeof (CamelSmtpTransportClass),
-					     (CamelObjectClassInitFunc) camel_smtp_transport_class_init,
-					     NULL,
-					     (CamelObjectInitFunc) camel_smtp_transport_init,
-					     NULL);
+		type = camel_type_register (CAMEL_TRANSPORT_TYPE,
+					    "CamelSmtpTransport",
+					    sizeof (CamelSmtpTransport),
+					    sizeof (CamelSmtpTransportClass),
+					    (CamelObjectClassInitFunc) camel_smtp_transport_class_init,
+					    NULL,
+					    (CamelObjectInitFunc) camel_smtp_transport_init,
+					    NULL);
 	}
 	
 	return type;
@@ -282,6 +282,8 @@ connect_to_server (CamelService *service, int try_starttls, CamelException *ex)
 		return FALSE;
 	}
 	
+	transport->connected = TRUE;
+	
 	/* get the localaddr - needed later by smtp_helo */
 	transport->localaddr = camel_tcp_stream_get_local_address (CAMEL_TCP_STREAM (tcp_stream));
 	
@@ -294,13 +296,8 @@ connect_to_server (CamelService *service, int try_starttls, CamelException *ex)
 		g_free (respbuf);
 		respbuf = camel_stream_buffer_read_line (CAMEL_STREAM_BUFFER (transport->istream));
 		if (!respbuf || strncmp (respbuf, "220", 3)) {
-			int error;
-			
-			error = respbuf ? atoi (respbuf) : 0;
+			smtp_set_exception (transport, respbuf,  _("Welcome response error"), ex);
 			g_free (respbuf);
-			camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
-					      _("Welcome response error: %s: possibly non-fatal"),
-					      smtp_error_string (error));
 			return FALSE;
 		}
 		if (strstr (respbuf, "ESMTP"))
@@ -312,14 +309,20 @@ connect_to_server (CamelService *service, int try_starttls, CamelException *ex)
 	if (!(transport->flags & CAMEL_SMTP_TRANSPORT_IS_ESMTP)) {
 		/* If we did not auto-detect ESMTP, we should still send EHLO */
 		transport->flags |= CAMEL_SMTP_TRANSPORT_IS_ESMTP;
-		if (!smtp_helo (transport, NULL)) {
+		if (!smtp_helo (transport, ex)) {
+			if (!transport->connected)
+				return FALSE;
+			
 			/* Okay, apprently this server doesn't support ESMTP */
+			camel_exception_clear (ex);
 			transport->flags &= ~CAMEL_SMTP_TRANSPORT_IS_ESMTP;
-			smtp_helo (transport, ex);
+			if (!smtp_helo (transport, ex) && !transport->connected)
+				return FALSE;
 		}
 	} else {
 		/* send EHLO */
-		smtp_helo (transport, ex);
+		if (!smtp_helo (transport, ex) && !transport->connected)
+			return FALSE;
 	}
 	
 #ifdef HAVE_SSL
@@ -384,6 +387,8 @@ connect_to_server (CamelService *service, int try_starttls, CamelException *ex)
 	transport->istream = NULL;
 	camel_object_unref (CAMEL_OBJECT (transport->ostream));
 	transport->ostream = NULL;
+	
+	transport->connected = FALSE;
 	
 	return FALSE;
 #endif /* HAVE_SSL */
@@ -528,7 +533,10 @@ smtp_connect (CamelService *service, CamelException *ex)
 		 * we won't bother to name don't want you to... so ignore
 		 * errors.
 		 */
-		smtp_helo (transport, NULL);
+		if (!smtp_helo (transport, ex) && !transport->connected)
+			return FALSE;
+		
+		camel_exception_clear (ex);
 	}
 	
 	return TRUE;
@@ -549,7 +557,7 @@ smtp_disconnect (CamelService *service, gboolean clean, CamelException *ex)
 	 *	return TRUE;
 	 */
 	
-	if (clean) {
+	if (transport->connected && clean) {
 		/* send the QUIT command to the SMTP server */
 		smtp_quit (transport, ex);
 	}
@@ -563,13 +571,20 @@ smtp_disconnect (CamelService *service, gboolean clean, CamelException *ex)
 		transport->authtypes = NULL;
 	}
 	
-	camel_object_unref (CAMEL_OBJECT (transport->ostream));
-	camel_object_unref (CAMEL_OBJECT (transport->istream));
-	transport->ostream = NULL;
-	transport->istream = NULL;
+	if (transport->istream) {
+		camel_object_unref (CAMEL_OBJECT (transport->istream));
+		transport->istream = NULL;
+	}
+	
+	if (transport->ostream) {
+		camel_object_unref (CAMEL_OBJECT (transport->ostream));
+		transport->ostream = NULL;
+	}
 	
 	camel_tcp_address_free (transport->localaddr);
 	transport->localaddr = NULL;
+	
+	transport->connected = FALSE;
 	
 	return TRUE;
 }
@@ -672,7 +687,10 @@ smtp_send_to (CamelTransport *transport, CamelMimeMessage *message,
 	
 	/* rfc1652 (8BITMIME) requires that you notify the ESMTP daemon that
 	   you'll be sending an 8bit mime message at "MAIL FROM:" time. */
-	smtp_mail (smtp_transport, addr, has_8bit_parts, ex);
+	if (!smtp_mail (smtp_transport, addr, has_8bit_parts, ex)) {
+		camel_operation_end (NULL);
+		return FALSE;
+	}
 	
 	if (!recipients) {
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
@@ -790,8 +808,7 @@ smtp_set_exception (CamelSmtpTransport *transport, const char *respbuf, const ch
 	if (!respbuf || !(transport->flags & CAMEL_SMTP_TRANSPORT_ENHANCEDSTATUSCODES)) {
 	fake_status_code:
 		error = respbuf ? atoi (respbuf) : 0;
-		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
-				      "%s: %s", message,
+		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM, "%s: %s", message,
 				      smtp_error_string (error));
 	} else {
 		string = g_string_new ("");
@@ -824,6 +841,11 @@ smtp_set_exception (CamelSmtpTransport *transport, const char *respbuf, const ch
 				      "%s: %s", message, buffer);
 		
 		g_free (buffer);
+	}
+	
+	if (!respbuf) {
+		/* we got disconnected */
+		transport->connected = FALSE;
 	}
 }
 
@@ -867,9 +889,15 @@ smtp_helo (CamelSmtpTransport *transport, CamelException *ex)
 	if (camel_stream_write (transport->ostream, cmdbuf, strlen (cmdbuf)) == -1) {
 		g_free (cmdbuf);
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
-				      _("HELO request timed out: %s: non-fatal"),
+				      _("HELO request timed out: %s"),
 				      g_strerror (errno));
 		camel_operation_end (NULL);
+		
+		camel_object_unref (transport->istream);
+		transport->istream = NULL;
+		camel_object_unref (transport->ostream);
+		transport->ostream = NULL;
+		
 		return FALSE;
 	}
 	g_free (cmdbuf);
@@ -882,14 +910,10 @@ smtp_helo (CamelSmtpTransport *transport, CamelException *ex)
 		d(fprintf (stderr, "received: %s\n", respbuf ? respbuf : "(null)"));
 		
 		if (!respbuf || strncmp (respbuf, "250", 3)) {
-			int error;
-			
-			error = respbuf ? atoi (respbuf) : 0;
-			g_free (respbuf);
-			camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
-					      _("HELO response error: %s: non-fatal"),
-					      smtp_error_string (error));
+			smtp_set_exception (transport, respbuf, _("HELO response error"), ex);
 			camel_operation_end (NULL);
+			g_free (respbuf);
+			
 			return FALSE;
 		}
 		
@@ -1084,6 +1108,12 @@ smtp_mail (CamelSmtpTransport *transport, const char *sender, gboolean has_8bit_
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
 				      _("MAIL FROM request timed out: %s: mail not sent"),
 				      g_strerror (errno));
+		
+		camel_object_unref (transport->istream);
+		transport->istream = NULL;
+		camel_object_unref (transport->ostream);
+		transport->ostream = NULL;
+		
 		return FALSE;
 	}
 	g_free (cmdbuf);
@@ -1122,6 +1152,12 @@ smtp_rcpt (CamelSmtpTransport *transport, const char *recipient, CamelException 
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
 				      _("RCPT TO request timed out: %s: mail not sent"),
 				      g_strerror (errno));
+		
+		camel_object_unref (transport->istream);
+		transport->istream = NULL;
+		camel_object_unref (transport->ostream);
+		transport->ostream = NULL;
+		
 		return FALSE;
 	}
 	g_free (cmdbuf);
@@ -1180,6 +1216,12 @@ smtp_data (CamelSmtpTransport *transport, CamelMimeMessage *message, gboolean ha
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
 				      _("DATA request timed out: %s: mail not sent"),
 				      g_strerror (errno));
+		
+		camel_object_unref (transport->istream);
+		transport->istream = NULL;
+		camel_object_unref (transport->ostream);
+		transport->ostream = NULL;
+		
 		return FALSE;
 	}
 	g_free (cmdbuf);
@@ -1238,6 +1280,11 @@ smtp_data (CamelSmtpTransport *transport, CamelMimeMessage *message, gboolean ha
 		
 		camel_object_unref (CAMEL_OBJECT (filtered_stream));
 		
+		camel_object_unref (transport->istream);
+		transport->istream = NULL;
+		camel_object_unref (transport->ostream);
+		transport->ostream = NULL;
+		
 		return FALSE;
 	}
 	
@@ -1253,6 +1300,12 @@ smtp_data (CamelSmtpTransport *transport, CamelMimeMessage *message, gboolean ha
 				      _("DATA send timed out: message termination: "
 					"%s: mail not sent"),
 				      g_strerror (errno));
+		
+		camel_object_unref (transport->istream);
+		transport->istream = NULL;
+		camel_object_unref (transport->ostream);
+		transport->ostream = NULL;
+		
 		return FALSE;
 	}
 	
@@ -1289,6 +1342,12 @@ smtp_rset (CamelSmtpTransport *transport, CamelException *ex)
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
 				      _("RSET request timed out: %s"),
 				      g_strerror (errno));
+		
+		camel_object_unref (transport->istream);
+		transport->istream = NULL;
+		camel_object_unref (transport->ostream);
+		transport->ostream = NULL;
+		
 		return FALSE;
 	}
 	g_free (cmdbuf);
@@ -1324,8 +1383,14 @@ smtp_quit (CamelSmtpTransport *transport, CamelException *ex)
 	if (camel_stream_write (transport->ostream, cmdbuf, strlen (cmdbuf)) == -1) {
 		g_free (cmdbuf);
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
-				      _("QUIT request timed out: %s: non-fatal"),
+				      _("QUIT request timed out: %s"),
 				      g_strerror (errno));
+		
+		camel_object_unref (transport->istream);
+		transport->istream = NULL;
+		camel_object_unref (transport->ostream);
+		transport->ostream = NULL;
+		
 		return FALSE;
 	}
 	g_free (cmdbuf);
