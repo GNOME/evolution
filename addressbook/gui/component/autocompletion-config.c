@@ -31,8 +31,8 @@
 
 #include <bonobo/bonobo-exception.h>
 
-#include "e-source-selector.h"
 #include <libedataserver/e-source-list.h>
+#include <libedataserverui/e-source-selector.h>
 #include <libgnome/gnome-i18n.h>
 #include <gtk/gtkscrolledwindow.h>
 #include <gtk/gtktreeselection.h>

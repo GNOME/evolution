@@ -37,11 +37,12 @@
 #include <bonobo/bonobo-ui-util.h>
 #include <bonobo/bonobo-exception.h>
 #include <gal/util/e-util.h>
+#include <libedataserverui/e-source-selector.h>
 
 #include "widgets/misc/e-error.h"
 #include "widgets/misc/e-task-bar.h"
 #include "widgets/misc/e-info-label.h"
-#include "widgets/misc/e-source-selector.h"
+
 
 #include "e-util/e-passwords.h"
 #include "e-util/e-icon-factory.h"

@@ -45,6 +45,7 @@
 #include <gal/e-text/e-entry.h>
 
 #include <libebook/e-address-western.h>
+#include <libedataserverui/e-source-option-menu.h>
 
 #include <e-util/e-categories-master-list-wombat.h>
 
@@ -59,7 +60,6 @@
 #include "widgets/misc/e-dateedit.h"
 #include "widgets/misc/e-image-chooser.h"
 #include "widgets/misc/e-url-entry.h"
-#include "widgets/misc/e-source-option-menu.h"
 #include "shell/evolution-shell-component-utils.h"
 #include "e-util/e-icon-factory.h"
 

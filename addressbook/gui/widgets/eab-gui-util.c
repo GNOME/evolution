@@ -26,13 +26,13 @@
 #include <errno.h>
 #include <string.h>
 
+#include <libedataserverui/e-source-selector.h>
 #include <gal/util/e-util.h>
 #include "eab-gui-util.h"
 #include "util/eab-book-util.h"
 #include "util/e-destination.h"
 #include "widgets/misc/e-error.h"
 #include "widgets/misc/e-image-chooser.h"
-#include "widgets/misc/e-source-selector.h"
 #include <e-util/e-icon-factory.h>
 
 #include <gnome.h>

@@ -41,10 +41,10 @@
 #include <bonobo/bonobo-control.h>
 
 #include <libebook/e-book.h>
+#include <libedataserverui/e-source-selector.h>
 
 #include <importer/evolution-importer.h>
 #include <importer/GNOME_Evolution_Importer.h>
-#include <widgets/misc/e-source-selector.h>
 #include <util/eab-book-util.h>
 #include <util/e-destination.h>
 

@@ -27,7 +27,7 @@
 #include <gal/e-table/e-table.h>
 #include <gal/e-table/e-table-scrolled.h>
 #include <libedataserver/e-source-list.h>
-#include <widgets/misc/e-source-option-menu.h>
+#include <libedataserverui/e-source-option-menu.h>
 
 #include "e-addressbook-model.h"
 

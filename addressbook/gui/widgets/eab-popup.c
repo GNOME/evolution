@@ -29,7 +29,7 @@
 #include <glib.h>
 
 #include "eab-popup.h"
-#include "widgets/misc/e-source-selector.h"
+#include <libedataserverui/e-source-selector.h>
 #include <libebook/e-contact.h>
 
 static GObjectClass *eabp_parent;

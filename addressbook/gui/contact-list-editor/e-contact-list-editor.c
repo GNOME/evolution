@@ -31,6 +31,8 @@
 #include <gtk/gtktogglebutton.h>
 #include <gtk/gtkdialog.h>
 
+#include <libedataserverui/e-source-option-menu.h>
+
 #include <gal/e-table/e-table-scrolled.h>
 #include <libgnomevfs/gnome-vfs-ops.h>
 
@@ -41,7 +43,6 @@
 #include "shell/evolution-shell-component-utils.h"
 
 #include "widgets/misc/e-image-chooser.h"
-#include "widgets/misc/e-source-option-menu.h"
 
 #include "addressbook/gui/component/addressbook.h"
 #include "addressbook/gui/widgets/eab-gui-util.h"
