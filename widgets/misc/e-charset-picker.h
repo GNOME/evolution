@@ -38,7 +38,8 @@ char      *e_charset_picker_dialog (const char *title, const char *prompt,
 				    GtkWindow *parent);
 
 /* bonobo equivalents */
-void       e_charset_picker_bonobo_ui_populate (BonoboUIComponent *uic, const char *default_charset);
+void       e_charset_picker_bonobo_ui_populate (BonoboUIComponent *uic, const char *default_charset,
+						BonoboUIListenerFn cb, gpointer user_data);
 
 #ifdef __cplusplus
 }

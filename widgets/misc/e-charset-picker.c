@@ -356,9 +356,25 @@ e_charset_picker_dialog (const char *title, const char *prompt,
 	return charset;
 }
 
-
+/**
+ * e_charset_picker_bonobo_ui_populate:
+ * @uic: Bonobo UI Component
+ * @default_charset: the default character set, or %NULL to use the
+ * locale character set.
+ * @cb: Callback function
+ * @user_data: data to be passed to the callback.
+ *
+ * This creates a Bonobo UI menu and fills it in with a selection
+ * of available character sets. The @default_charset (or locale character
+ * set if @default_charset is %NULL) will be listed first, and selected
+ * by default (except that iso-8859-1 will always be used instead of
+ * US-ASCII). Any other character sets of the same language class as
+ * the default will be listed next, followed by the remaining character
+ * sets.
+ **/
 void
-e_charset_picker_bonobo_ui_populate (BonoboUIComponent *uic, const char *default_charset)
+e_charset_picker_bonobo_ui_populate (BonoboUIComponent *uic, const char *default_charset,
+				     BonoboUIListenerFn cb, gpointer user_data)
 {
 	char *locale_charset, *encoded_label, *label;
 	GString *menuitems;
@@ -410,6 +426,10 @@ e_charset_picker_bonobo_ui_populate (BonoboUIComponent *uic, const char *default
 				   charsets[i].name);
 		
 		g_free (encoded_label);
+		
+		label = g_strdup_printf ("Charset-%s", charsets[i].name);
+		bonobo_ui_component_add_listener (uic, label, cb, user_data);
+		g_free (label);
 	}
 	
 	if (def == num_charsets) {
@@ -431,6 +451,10 @@ e_charset_picker_bonobo_ui_populate (BonoboUIComponent *uic, const char *default
 				   default_charset);
 		
 		g_free (encoded_label);
+		
+		label = g_strdup_printf ("Charset-%s", default_charset);
+		bonobo_ui_component_add_listener (uic, label, cb, user_data);
+		g_free (label);
 	}
 	
 	g_string_append (menuitems, "</submenu>\n");

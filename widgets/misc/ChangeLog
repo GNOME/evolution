@@ -1,5 +1,11 @@
 2001-07-02  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* e-charset-picker.c (e_charset_picker_bonobo_ui_populate): Take a
+	callback function and user_data so that we can add listeners to
+	each of the menu items.
+
+2001-07-02  Jeffrey Stedfast  <fejj@ximian.com>
+
 	* Makefile.am: Updated to build e-charset-picker.c
 
 	* e-charset-picker.[c,h]: Moved here from gal.
