@@ -1,8 +1,9 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /* EText - Text item for evolution.
- * Copyright (C) 2000 Helix Code, Inc.
+ * Copyright (C) 2000, 2001 Ximian Inc.
  *
- * Author: Chris Lahey <clahey@umich.edu>
+ * Author: Chris Lahey <clahey@ximian.com>
+ * Further hacking by Jon Trowbridge <trow@ximian.com>
  *
  * A majority of code taken from:
  *
@@ -216,14 +217,14 @@ struct _EText {
 struct _ETextClass {
 	GnomeCanvasItemClass parent_class;
 
-	void (* changed) (EText *text);
+	void (* changed)  (EText *text);
 	void (* activate) (EText *text);
+	void (* popup)    (EText *text, GdkEventButton *ev, gint pos);
 };
 
 
 /* Standard Gtk function */
 GtkType e_text_get_type (void);
-
 
 END_GNOME_DECLS
 

@@ -142,6 +142,12 @@ end_dict_search (ECompletion *complete, gpointer user_data)
   }
 }
 
+static void
+popup_cb (EEntry *popup, GdkEventButton *ev, gint pos, gpointer user_data)
+{
+  g_print ("popup at pos %d\n", pos);
+}
+
 int
 main (int argc, gchar **argv)
 {
@@ -171,6 +177,11 @@ main (int argc, gchar **argv)
   entry = e_entry_new ();
   e_entry_enable_completion_full (E_ENTRY (entry), complete, -1, NULL);
   e_entry_set_editable (E_ENTRY (entry), TRUE);
+
+  gtk_signal_connect (GTK_OBJECT (entry),
+		      "popup",
+		      GTK_SIGNAL_FUNC (popup_cb),
+		      NULL);
 
   gtk_container_add (GTK_CONTAINER (win), entry);
   gtk_widget_show_all (win);

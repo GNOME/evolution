@@ -58,8 +58,9 @@ struct _EEntry {
 struct _EEntryClass {
 	GtkTableClass parent_class;
 
-	void (* changed) (EEntry *entry);
+	void (* changed)  (EEntry *entry);
 	void (* activate) (EEntry *entry);
+	void (* popup)    (EEntry *entry, GdkEventButton *ev, gint pos);
 };
 
 GtkType      e_entry_get_type          (void);

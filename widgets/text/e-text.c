@@ -1,8 +1,9 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /* EText - Text item for evolution.
- * Copyright (C) 2000 Helix Code, Inc.
+ * Copyright (C) 2000, 2001 Ximian Inc.
  *
- * Author: Chris Lahey <clahey@umich.edu>
+ * Author: Chris Lahey <clahey@ximian.com>
+ * Further hacking by Jon Trowbridge <trow@ximian.com>
  *
  * A majority of code taken from:
  *
@@ -37,6 +38,7 @@
 enum {
 	E_TEXT_CHANGED,
 	E_TEXT_ACTIVATE,
+	E_TEXT_POPUP,
 	E_TEXT_LAST_SIGNAL
 };
 
@@ -224,6 +226,14 @@ e_text_class_init (ETextClass *klass)
 				GTK_SIGNAL_OFFSET (ETextClass, activate),
 				gtk_marshal_NONE__NONE,
 				GTK_TYPE_NONE, 0);
+
+	e_text_signals[E_TEXT_POPUP] =
+		gtk_signal_new ("popup",
+				GTK_RUN_LAST,
+				object_class->type,
+				GTK_SIGNAL_OFFSET (ETextClass, popup),
+				gtk_marshal_NONE__POINTER_INT,
+				GTK_TYPE_NONE, 2, GTK_TYPE_POINTER, GTK_TYPE_INT);
 
 	gtk_object_class_add_signals (object_class, e_text_signals, E_TEXT_LAST_SIGNAL);
 
@@ -2993,6 +3003,17 @@ e_text_event (GnomeCanvasItem *item, GdkEvent *event)
 			e_canvas_item_grab_focus (item);
 		}
 #endif
+
+		/* We follow convention and emit popup events on right-clicks. */
+		if (event->type == GDK_BUTTON_PRESS && event->button.button == 3) {
+			gtk_signal_emit (GTK_OBJECT (text),
+					 e_text_signals[E_TEXT_POPUP],
+					 &(event->button),
+					 _get_position_from_xy (text, event->button.x, event->button.y));
+
+			break;
+		}
+
 		/* Create our own double and triple click events, 
 		   as gnome-canvas doesn't forward them to us */
 		if (event->type == GDK_BUTTON_PRESS) {
@@ -3507,13 +3528,15 @@ e_text_command(ETextEventProcessor *tep, ETextEventProcessorCommand *command, gp
 	gnome_canvas_item_request_update (GNOME_CANVAS_ITEM(text));
 }
 
-static void _invisible_destroy (GtkInvisible *invisible,
+static void 
+_invisible_destroy (GtkInvisible *invisible,
 				EText *text)
 {
 	text->invisible = NULL;
 }
 
-static GtkWidget *e_text_get_invisible(EText *text)
+static GtkWidget *
+e_text_get_invisible(EText *text)
 {	
 	GtkWidget *invisible;
 	if (text->invisible) {
@@ -3607,7 +3630,8 @@ _selection_received (GtkInvisible *invisible,
 	}
 }
 
-static void e_text_supply_selection (EText *text, guint time, GdkAtom selection, guchar *data, gint length)
+static void 
+e_text_supply_selection (EText *text, guint time, GdkAtom selection, guchar *data, gint length)
 {
 	gboolean successful;
 	GtkWidget *invisible;

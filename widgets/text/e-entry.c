@@ -58,6 +58,7 @@ static GtkObjectClass *parent_class;
 enum {
 	E_ENTRY_CHANGED,
 	E_ENTRY_ACTIVATE,
+	E_ENTRY_POPUP,
 	E_ENTRY_LAST_SIGNAL
 };
 
@@ -100,6 +101,7 @@ struct _EEntryPrivate {
 
 	guint changed_proxy_tag;
 	guint activate_proxy_tag;
+	guint popup_proxy_tag;
 
 	/* Data related to completions */
 	ECompletion *completion;
@@ -215,6 +217,12 @@ e_entry_proxy_activate (EText *text, EEntry *entry)
 }
 
 static void
+e_entry_proxy_popup (EText *text, GdkEventButton *ev, gint pos, EEntry *entry)
+{
+	gtk_signal_emit (GTK_OBJECT (entry), e_entry_signals [E_ENTRY_POPUP], ev, pos);
+}
+
+static void
 e_entry_init (GtkObject *object)
 {
 	EEntry *entry = E_ENTRY (object);
@@ -272,6 +280,10 @@ e_entry_init (GtkObject *object)
 							      "activate",
 							      GTK_SIGNAL_FUNC (e_entry_proxy_activate),
 							      entry);
+	entry->priv->popup_proxy_tag = gtk_signal_connect (GTK_OBJECT (entry->priv->item),
+							   "popup",
+							   GTK_SIGNAL_FUNC (e_entry_proxy_popup),
+							   entry);
 
 	entry->priv->completion_delay = 1;
 }
@@ -1024,6 +1036,13 @@ e_entry_class_init (GtkObjectClass *object_class)
 							    GTK_SIGNAL_OFFSET (EEntryClass, activate),
 							    gtk_marshal_NONE__NONE,
 							    GTK_TYPE_NONE, 0);
+
+	e_entry_signals[E_ENTRY_POPUP] = gtk_signal_new ("popup",
+							 GTK_RUN_LAST,
+							 object_class->type,
+							 GTK_SIGNAL_OFFSET (EEntryClass, popup),
+							 gtk_marshal_NONE__POINTER_INT,
+							 GTK_TYPE_NONE, 2, GTK_TYPE_POINTER, GTK_TYPE_INT);
 
 
 	gtk_object_class_add_signals (object_class, e_entry_signals, E_ENTRY_LAST_SIGNAL);
