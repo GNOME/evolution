@@ -331,11 +331,9 @@ do_flush (CamelStream *stream)
 	size_t presize;
 	size_t len;
 	
-	if (p->last_was_read) {
-		g_warning("Flushing a filter stream without writing to it");
+	if (p->last_was_read)
 		return 0;
-	}
-
+	
 	buffer = "";
 	len = 0;
 	presize = 0;

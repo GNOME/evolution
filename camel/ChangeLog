@@ -1,3 +1,10 @@
+2003-09-16  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* camel-stream-filter.c (do_flush): Don't warning about how we
+	haven't written anything to the stream, this is not an
+	error. fflush() doesn't care if you try to fflush() a stream
+	without writing to it, so we shouldn't care either.
+
 2003-09-15  Not Zed  <NotZed@Ximian.com>
 
 	* providers/imapp/camel-imapp-store.c (store_resp_list)
