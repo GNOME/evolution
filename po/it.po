@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Evolution\n"
 "POT-Creation-Date: 2002-10-28 16:49-0500\n"
-"PO-Revision-Date: 2003-01-16 18:43+0100\n"
+"PO-Revision-Date: 2003-01-17 13:03+0100\n"
 "Last-Translator: Marco Ciampa <ciampix@libero.it>\n"
 "Language-Team: Italian <it@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -10863,23 +10863,20 @@ msgstr ""
 "con le 12:00am di quella specificata qui."
 
 #: filter/filter.glade.h:9
-#, fuzzy
 msgid ""
 "The message's date will be compared against\n"
 "a time relative to when filtering occurs."
 msgstr ""
 "La data del messaggio verrà confrontata\n"
-"con una data relativa all'avvio del filtro;\n"
-"\"una settimana fa\", ad esempio."
+"con una data relativa all'utilizzo del filtro."
 
 #: filter/filter.glade.h:11
-#, fuzzy
 msgid ""
 "The message's date will be compared against\n"
 "the current time when filtering occurs."
 msgstr ""
 "La data del messaggio verrà confrontata\n"
-"con quella specificata qui."
+"con la data corrente all'utilizzo del filtro.."
 
 #: filter/filter.glade.h:13 filter/vfolder-editor.c:130
 msgid "Virtual Folders"
