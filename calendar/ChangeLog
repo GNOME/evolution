@@ -1,3 +1,8 @@
+2003-07-30  Rodrigo Moya <rodrigo@ximian.com>
+
+	* cal-client/cal-client-multi.[ch]:
+	* cal-client/Makefile.am: removed obsolete code.
+
 2003-07-29  Rodrigo Moya <rodrigo@ximian.com>
 
 	Fixes all "alarm daemon doesn't start with session"

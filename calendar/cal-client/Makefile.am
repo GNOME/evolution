@@ -38,7 +38,6 @@ libcal_clientincludedir = $(privincludedir)/cal-client
 
 libcal_client_la_SOURCES =	\
 	$(CORBA_GENERATED_C)	\
-	cal-client-multi.c	\
 	cal-client-types.c	\
 	cal-client.c		\
 	cal-listener.c		\
@@ -53,7 +52,6 @@ libcal_client_la_LIBADD =					\
 
 libcal_clientinclude_HEADERS =		\
 	$(CORBA_GENERATED_H)		\
-	cal-client-multi.h		\
 	cal-client-types.h 		\
 	cal-client.h			\
 	cal-query.h
