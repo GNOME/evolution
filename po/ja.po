@@ -9,13 +9,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution HEAD\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-05-23 10:55+0900\n"
-"PO-Revision-Date: 2004-05-23 10:54+0900\n"
+"POT-Creation-Date: 2004-05-23 14:31+0900\n"
+"PO-Revision-Date: 2004-05-23 14:26+0900\n"
 "Last-Translator: Takeshi AIHANA <aihana@gnome.gr.jp>\n"
 "Language-Team: Japanese <gnome-translation@gnome.gr.jp>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
 
 #: a11y/addressbook/ea-addressbook-view.c:94
 #: a11y/addressbook/ea-addressbook-view.c:103
@@ -10018,7 +10019,7 @@ msgstr "IMAP サーバ %s から予期しない応答がありました: %s"
 #: camel/providers/imap4/camel-imap4-engine.c:415
 #, c-format
 msgid "Cannot select folder `%s': Invalid mailbox name"
-msgstr "フォルダ '%s' を選択できません: %s: mailbox の名前が不正です"
+msgstr "フォルダ '%s' を選択できません: mailbox の名前が不正です"
 
 #: camel/providers/imap4/camel-imap4-engine.c:421
 #, c-format
@@ -10084,7 +10085,8 @@ msgstr "フォルダ '%s' へメッセージを追加できません: コマン�
 #: camel/providers/imap4/camel-imap4-folder.c:854
 #, c-format
 msgid "Cannot move messages from folder `%s' to folder `%s': Unknown"
-msgstr "フォルダ '%s' へメッセージを移動できません: 不明なエラー"
+msgstr ""
+"フォルダ '%s' からフォルダ '%s' へメッセージを移動できません: 不明なエラー"
 
 #: camel/providers/imap4/camel-imap4-folder.c:858
 #, c-format
@@ -11776,7 +11778,7 @@ msgstr "RSET コマンドが失敗しました"
 #: camel/providers/smtp/camel-smtp-transport.c:1407
 #, c-format
 msgid "QUIT command failed: %s"
-msgstr "QUIT コマンドが失敗しました"
+msgstr "QUIT コマンドが失敗しました: %s"
 
 #: camel/providers/smtp/camel-smtp-transport.c:1421
 msgid "QUIT command failed"
