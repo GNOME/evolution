@@ -120,7 +120,7 @@ folder_selection_dialog_folder_selected_cb (EShellFolderSelectionDialog *folder_
 	EStorageSet *storage_set;
 	EFolder *folder;
 	char *uri;
-	char *physical_uri;
+	const char *physical_uri;
 
 	shell = E_SHELL (data);
 	listener = gtk_object_get_data (GTK_OBJECT (folder_selection_dialog), "corba_listener");
@@ -629,7 +629,7 @@ e_shell_save_settings (EShell *shell)
 
 		view = E_SHELL_VIEW (p->data);
 
-		gconf_prefix = g_strdup_printf ("/app/Evolution/Shell/Views/%d", i);
+		gconf_prefix = g_strdup_printf ("/apps/Evolution/Shell/Views/%d", i);
 
 		if (! e_shell_view_save_settings (view, priv->gconf_client, gconf_prefix)) {
 			g_warning ("Cannot save settings for view -- %d", i);
@@ -639,8 +639,9 @@ e_shell_save_settings (EShell *shell)
 		g_free (gconf_prefix);
 	}
 
-	gconf_client_set_int (priv->gconf_client, "/app/Evolution/Shell/NumberOfViews",
+	gconf_client_set_int (priv->gconf_client, "/apps/Evolution/Shell/NumberOfViews",
 			      g_list_length (priv->views), &err);
+	gconf_client_suggest_sync (priv->gconf_client, NULL);
 
 	return retval;
 }
@@ -670,7 +671,7 @@ e_shell_restore_from_settings (EShell *shell)
 
 	priv = shell->priv;
 
-	num_views = gconf_client_get_int (priv->gconf_client, "/app/Evolution/Shell/NumberOfViews", &err);
+	num_views = gconf_client_get_int (priv->gconf_client, "/apps/Evolution/Shell/NumberOfViews", &err);
 	if (err != NULL) {
 		gconf_error_destroy (err);
 		return FALSE;
@@ -684,7 +685,7 @@ e_shell_restore_from_settings (EShell *shell)
 		GtkWidget *view_widget;
 		char *gconf_prefix;
 
-		gconf_prefix = g_strdup_printf ("/app/Evolution/Shell/Views/%d", i);
+		gconf_prefix = g_strdup_printf ("/apps/Evolution/Shell/Views/%d", i);
 
 		/* FIXME restore the URI here.  There should be an
                    e_shell_view_new_from_configuration() thingie.  */

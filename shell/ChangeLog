@@ -1,3 +1,9 @@
+2000-07-05  Dan Winship  <danw@helixcode.com>
+
+	* e-shell.c (e_shell_save_settings): Use the correct gconf path
+	(/apps, not /app), and call gconf_client_suggest_sync at the end.
+	(e_shell_restore_from_settings): Use the correct gconf path.
+
 2000-07-05  Ettore Perazzoli  <ettore@helixcode.com>
 
 	* e-shell-view-menu.c (command_goto_folder): Set the folder
