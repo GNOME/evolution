@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: Evolution\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2005-01-25 17:33+0800\n"
-"PO-Revision-Date: 2005-01-22 15:52+0800\n"
+"PO-Revision-Date: 2005-01-25 22:03+0800\n"
 "Last-Translator: Funda Wang <fundawang@linux.net.cn>\n"
 "Language-Team: zh_CN <i18n-translation@lists.linux.net.cn>\n"
 "MIME-Version: 1.0\n"
@@ -1191,7 +1191,7 @@ msgstr "公司(_C)："
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:32
 msgid "_Country:"
-msgstr "国家(_C)："
+msgstr "国家/地区(_C)："
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:33
 msgid "_Department:"
@@ -1427,7 +1427,7 @@ msgstr "英属印度洋地区"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:168
 msgid "Brunei Darussalam"
-msgstr "文莱 德鲁萨兰"
+msgstr "文莱德鲁萨兰"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:169
 msgid "Bulgaria"
@@ -2400,7 +2400,7 @@ msgstr "城市(_T)："
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:4
 msgid "Countr_y:"
-msgstr "国家(_Y)："
+msgstr "国家/地区(_Y)："
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:5
 msgid "Full Address"
@@ -2772,6 +2772,8 @@ msgid ""
 "marked for offline usage or not yet downloaded for offline usage. Please "
 "load the addressbook once in online mode to download its contents"
 msgstr ""
+"我们无法打开此地址簿。这可能意味着这本地址簿没有标为脱机使用，或者尚未下载完成"
+"以供脱机使用。请在联机模式中装入此地址簿以便下载其内容"
 
 #: addressbook/gui/widgets/eab-gui-util.c:98
 msgid ""
@@ -4250,7 +4252,7 @@ msgstr "在周视图和月视图中显示事件结束"
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:22
 msgid "The url template to use as a free/busy data fallback"
-msgstr ""
+msgstr "用作默认忙/闲数据的 URL 模板"
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:23
 msgid "Time last alarm ran"
@@ -4322,7 +4324,7 @@ msgstr "销毁较早的事件"
 #: plugins/calendar-weather/calendar-weather.c:566
 #: widgets/misc/e-send-options.glade.h:39
 msgid "days"
-msgstr "天数"
+msgstr "天"
 
 #: calendar/gui/calendar-component.c:384
 #: calendar/gui/dialogs/calendar-setup.c:442
@@ -4365,7 +4367,7 @@ msgstr "创建新约会"
 
 #: calendar/gui/calendar-component.c:1322
 msgid "New meeting"
-msgstr "新闻会议"
+msgstr "新建会议"
 
 #: calendar/gui/calendar-component.c:1323
 msgid "M_eeting"
@@ -5432,7 +5434,7 @@ msgstr "需要至少一个参加者。"
 
 #: calendar/gui/dialogs/meeting-page.c:778
 msgid "_Delegate To..."
-msgstr "授权于(_D)..."
+msgstr "授权给(_D)..."
 
 #: calendar/gui/dialogs/meeting-page.etspec.h:1
 #: calendar/gui/e-meeting-list-view.c:235
@@ -11079,6 +11081,7 @@ msgid ""
 "If a user tries to open 10 or more messages at one time, ask the user if "
 "they really want to do it."
 msgstr ""
+"如果用户试图一次打开的信件大于等于十封，将会询问用户是否真的要这么做。"
 
 #: mail/evolution-mail.schemas.in.in.h:28
 msgid ""
@@ -12264,12 +12267,11 @@ msgid "T_ype: "
 msgstr "类型(_Y)："
 
 #: mail/mail-config.glade.h:135
-#, fuzzy
 msgid ""
 "The list of languages here reflects only the languages for which you have a "
 "dictionary installed."
 msgstr ""
-"此页面允许您配置拼写检查行为和语言。在此列出的语言反映了您所安装的字典。"
+"在此列出的语言反映了您所安装的字典。"
 
 #: mail/mail-config.glade.h:136
 msgid ""
@@ -12513,37 +12515,34 @@ msgstr "以所有本地文件夹"
 
 #. mail:camel-service-auth-invalid primary
 #: mail/mail-errors.xml.h:2
-#, fuzzy
 msgid "Invalid authentication"
-msgstr "身份验证"
+msgstr "无效的身份验证"
 
 #. mail:camel-service-auth-invalid secondary
 #: mail/mail-errors.xml.h:4
 msgid ""
 "This server does not support this type of authentication and may not support "
 "authentication at all."
-msgstr ""
+msgstr "此服务器不支持此类型的身份验证，也可能根本不支持身份验证。"
 
 #. mail:camel-service-auth-failed primary
 #: mail/mail-errors.xml.h:6
 msgid "Your login to your server \"{0}\" as \"{0}\" failed."
-msgstr ""
+msgstr "您以“{1}”的身份登录到服务器“{0}”失败。"
 
 #. mail:camel-service-auth-failed secondary
 #: mail/mail-errors.xml.h:8
-#, fuzzy
 msgid ""
 "Check to make sure your password is spelled correctly.  Remember that many "
 "passwords are case sensitive; your caps lock might be on."
 msgstr ""
-"选中此处以确保您的密码拼写正确，并确保您使用了支持的登录方式。请记住，很多密"
+"选中此处以确保您的密码拼写正确。请记住，很多密"
 "码都是区分大小写的；您的 Caps Lock 灯可能为开。"
 
 #. mail:ask-send-html primary
 #: mail/mail-errors.xml.h:10
-#, fuzzy
 msgid "Are you sure you want to send a message in HTML format?"
-msgstr "您确定想要发送没有概览的任务吗？"
+msgstr "您确定想要以 HTML 格式发送信件吗？"
 
 #. mail:ask-send-html secondary
 #: mail/mail-errors.xml.h:12
@@ -12553,27 +12552,25 @@ msgid ""
 "{0}\n"
 "Send anyway?"
 msgstr ""
+"请确定下列收件人愿意并且能够接收 HTML 邮件：\n{0}\n仍然发送吗？"
 
 #. mail:ask-send-no-subject primary
 #: mail/mail-errors.xml.h:17
-#, fuzzy
 msgid "Are you sure you want to send a message without a subject?"
-msgstr "您确定想要发送没有概览的任务吗？"
+msgstr "您确定想要发送没有主题的信件吗？"
 
 #. mail:ask-send-no-subject secondary
 #: mail/mail-errors.xml.h:19
-#, fuzzy
 msgid ""
 "Adding a meaningful Subject line to your messages will give your recipients "
 "an idea of what your mail is about."
-msgstr "在您的任务中添加有意义的概览可以让您的收件人更容易明白您任务的内容。"
+msgstr "在您的信件中添加有意义的主题可以让您的收件人更容易明白您邮件的内容。"
 
 #. mail:ask-send-only-bcc-contact primary
 #. mail:ask-send-only-bcc primary
 #: mail/mail-errors.xml.h:22 mail/mail-errors.xml.h:29
-#, fuzzy
 msgid "Are you sure you want to send a message with only BCC recipients?"
-msgstr "您确信您要删除该日记项吗？"
+msgstr "您确信您要发送只有密件抄送收件人的信件吗？"
 
 #. mail:ask-send-only-bcc-contact secondary
 #: mail/mail-errors.xml.h:24
@@ -12585,6 +12582,10 @@ msgid ""
 "your message. To avoid this, you should add at least one To: or CC: "
 "recipient. "
 msgstr ""
+"您即将发送的联系人列表配置为隐藏列表收件人。\n\n"
+"许多邮件系统会在只有密件抄送收件人的信件中添加 Apparently-To 头。"
+"如果添加了这个邮件头，将在您的信件中列出您的全部收件人。"
+"为了避免这种情况，您应该至少填入一个 To: 或 CC: 收件人。"
 
 #. mail:ask-send-only-bcc secondary
 #: mail/mail-errors.xml.h:31
@@ -12594,12 +12595,15 @@ msgid ""
 "your message anyway. To avoid this, you should add at least one To: or CC: "
 "recipient."
 msgstr ""
+"许多邮件系统会在只有密件抄送收件人的信件中添加 Apparently-To 头。"
+"如果添加了这个邮件头，将在您的信件中列出您的全部收件人。"
+"为了避免这种情况，您应该至少填入一个 To: 或 CC: 收件人。"
 
 #. mail:send-no-recipients primary
 #: mail/mail-errors.xml.h:34
 msgid ""
 "This message cannot be sent because you have not specified any Recipients"
-msgstr ""
+msgstr "无法发送此信件，因为您没有指定任何收件人"
 
 #. mail:send-no-recipients secondary
 #: mail/mail-errors.xml.h:36
@@ -12607,12 +12611,13 @@ msgid ""
 "Please enter a valid email address in the To: field. You can search for "
 "email addresses by clicking on the To: button next to the entry box."
 msgstr ""
+"请在 To: 中输入有效的电子邮件地址。您可以单击输入框旁边的 To: 按钮来搜索"
+"电子邮件地址。"
 
 #. mail:ask-default-drafts primary
 #: mail/mail-errors.xml.h:38
-#, fuzzy
 msgid "Use default drafts folder?"
-msgstr "标为默认文件夹"
+msgstr "使用默认的草稿文件夹吗？"
 
 #. mail:ask-default-drafts secondary
 #: mail/mail-errors.xml.h:40
@@ -12620,77 +12625,70 @@ msgid ""
 "Unable to open the drafts folder for this account.  Use the system drafts "
 "folder instead?"
 msgstr ""
+"无法打开此账户的草稿文件夹。使用系统的草稿文件夹吗？"
 
 #: mail/mail-errors.xml.h:41
-#, fuzzy
 msgid "Use _Default"
-msgstr "默认"
+msgstr "使用默认值(_D)"
 
 #. mail:ask-expunge primary
 #: mail/mail-errors.xml.h:43
-#, fuzzy
 msgid ""
 "Are you sure you want to permanently remove all the deleted message in "
 "folder \"{0}\"?"
-msgstr "从该文件夹永久删除所有已删除的信件"
+msgstr "您确定想要永久删除文件夹“%s”中已删除的全部信件吗？"
 
 #. mail:ask-expunge secondary
 #. mail:ask-empty-trash secondary
 #: mail/mail-errors.xml.h:45 mail/mail-errors.xml.h:50
 msgid "If you continue, you will not be able to recover these messages."
-msgstr ""
+msgstr "如果您继续的话，您将无法恢复这些信件。"
 
 #: mail/mail-errors.xml.h:46
-#, fuzzy
 msgid "_Expunge"
-msgstr "销毁(_X)"
+msgstr "销毁(_E)"
 
 #. mail:ask-empty-trash primary
 #: mail/mail-errors.xml.h:48
-#, fuzzy
 msgid ""
 "Are you sure you want to permanently remove all the deleted messages in all "
 "folders?"
-msgstr "永久删除所有文件夹中的所有已删除的信件"
+msgstr "您确定想要永久删除全部文件夹中已删除的全部信件吗？"
 
 #: mail/mail-errors.xml.h:51
-#, fuzzy
 msgid "_Empty Trash"
-msgstr "清空回收站(_T)"
+msgstr "清空回收站(_E)"
 
 #. mail:ask-open-many primary
 #: mail/mail-errors.xml.h:53
-#, fuzzy
 msgid "Are you sure you want to open {0} messages at once?"
-msgstr "您确定要删除此联系人吗？"
+msgstr "您确定要一次打开{0}封信吗？"
 
 #. mail:ask-open-many secondary
 #: mail/mail-errors.xml.h:55
 msgid "Opening too many messages at once may take a long time."
-msgstr ""
+msgstr "一次打开太多封信可能要花一点时间。"
 
 #: mail/mail-errors.xml.h:56
-#, fuzzy
 msgid "_Open Messages"
 msgstr "打开信件(_O)"
 
 #. mail:exit-unsaved primary
 #: mail/mail-errors.xml.h:58
 msgid "You have unsent messages, do you wish to quit anyway?"
-msgstr ""
+msgstr "您有未发信件，您仍然想要退出吗？"
 
 #. mail:exit-unsaved secondary
 #: mail/mail-errors.xml.h:60
-#, fuzzy
 msgid ""
 "If you quit, these messages will not be sent until Evolution is started "
 "again."
-msgstr "除非您重新启动 Evolution，否则您的任务将无法使用。"
+msgstr "如果您退出，这些信件将会等到 Evolution 下次启动才会发出。"
 
 #. mail:camel-exception primary
 #: mail/mail-errors.xml.h:62
 msgid "Your message with the subject \"{0}\" was not delivered."
-msgstr ""
+msgstr "您的信件“{0}”没有递送成功。"
 
 #. mail:camel-exception secondary
 #: mail/mail-errors.xml.h:64
@@ -12700,93 +12698,81 @@ msgid ""
 "The message is stored in the Outbox folder.  Check the message for errors "
 "and resend."
 msgstr ""
+"此信件是通过“sendmail”外部应用程序发送的。而 Sendmail 报告了下列错误："
+"状态 67：邮件未发出。\n此信件仍然保存在发件夹中。请检查信件的错误，然后重新发送。"
 
 #. mail:async-error primary
 #: mail/mail-errors.xml.h:67
 msgid "Error while {0}."
-msgstr ""
+msgstr "{0} 时出错。"
 
 #. mail:async-error secondary
 #: mail/mail-errors.xml.h:69
-#, fuzzy
 msgid "{1}."
-msgstr "{1}"
+msgstr "{1}。"
 
 #. mail:async-error-nodescribe primary
 #: mail/mail-errors.xml.h:71
-#, fuzzy
 msgid "Error while performing operation."
-msgstr "打开日历时出错"
+msgstr "执行操作时出错。"
 
 #. mail:async-error-nodescribe secondary
 #: mail/mail-errors.xml.h:73
-#, fuzzy
 msgid "{0}."
-msgstr "{0}"
+msgstr "{0}。"
 
 #. mail:ask-session-password primary
 #: mail/mail-errors.xml.h:87
-#, fuzzy
 msgid "Enter password."
-msgstr "输入密码"
+msgstr "输入密码。"
 
 #. mail:filter-load-error primary
 #: mail/mail-errors.xml.h:91
-#, fuzzy
 msgid "Error loading filter definitions."
-msgstr "装入默认地址簿错误。"
+msgstr "装入过滤器定义错误。"
 
 #. mail:no-save-path primary
 #: mail/mail-errors.xml.h:95
-#, fuzzy
 msgid "Cannot save to directory \"{0}\"."
-msgstr "无法保存文件“{0}”。"
+msgstr "无法保存到目录“{0}”。"
 
 #. mail:no-create-path primary
 #. mail:no-write-path-exists primary
 #. mail:no-write-path-notfile primary
 #: mail/mail-errors.xml.h:99 mail/mail-errors.xml.h:107
 #: mail/mail-errors.xml.h:111
-#, fuzzy
 msgid "Cannot save to file \"{0}\"."
-msgstr "无法保存文件“{0}”。"
+msgstr "无法保存到文件“{0}”。"
 
 #. mail:no-create-path secondary
 #: mail/mail-errors.xml.h:101
 msgid "Cannot create the save directory, because \"{1}\""
-msgstr ""
+msgstr "无法创建保存目录，原因是“{1}”"
 
 #. mail:no-create-tmp-path primary
 #: mail/mail-errors.xml.h:103
-#, fuzzy
 msgid "Cannot create temporary save directory."
-msgstr "无法创建提醒服务车间"
+msgstr "无法创建临时保存目录。"
 
 #. mail:no-write-path-exists secondary
 #: mail/mail-errors.xml.h:109
-#, fuzzy
 msgid "File exists but cannot overwrite it."
-msgstr ""
-"%s 已经存在\n"
-"您打算覆盖它吗？"
+msgstr "文件存在但无法覆盖。"
 
 #. mail:no-write-path-notfile secondary
 #: mail/mail-errors.xml.h:113
-#, fuzzy
 msgid "File exists but is not a regular file."
-msgstr "文件“{0}”不存在或不是普通文件。"
+msgstr "文件存在但不是普通文件。"
 
 #. mail:no-delete-folder primary
 #: mail/mail-errors.xml.h:115
-#, fuzzy
 msgid "Cannot delete folder \"{0}\"."
-msgstr "无法保存文件“{0}”。"
+msgstr "无法删除文件夹“{0}”。"
 
 #. mail:no-delete-special-folder primary
 #: mail/mail-errors.xml.h:119
-#, fuzzy
 msgid "Cannot delete system folder \"{0}\"."
-msgstr "无法保存文件“{0}”。"
+msgstr "无法删除系统文件夹“{0}”。"
 
 #. mail:no-delete-special-folder secondary
 #. mail:no-rename-special-folder secondary
@@ -12795,178 +12781,159 @@ msgid ""
 "System folders are required for Ximian Evolution to function correctly and "
 "cannot be renamed, moved, or deleted."
 msgstr ""
+"要让 Ximian Evolution 正常运作所需的系统文件夹无法重命名、移动或删除。"
 
 #. mail:no-rename-special-folder primary
 #: mail/mail-errors.xml.h:123
-#, fuzzy
 msgid "Cannot rename or move system folder \"{0}\"."
-msgstr "无法保存文件“{0}”。"
+msgstr "无法重命名或移动系统文件夹“{0}”。"
 
 #. mail:ask-delete-folder title
 #: mail/mail-errors.xml.h:127
-#, fuzzy
 msgid "Delete \"{0}\"?"
-msgstr "删除"
+msgstr "删除“{0}吗？”"
 
 #. mail:ask-delete-folder primary
 #: mail/mail-errors.xml.h:129
 msgid "Really delete folder \"{0}\" and all of its subfolders?"
-msgstr ""
+msgstr "真的要删除文件夹“{0}”及其全部子文件夹吗？"
 
 #. mail:ask-delete-folder secondary
 #: mail/mail-errors.xml.h:131
 msgid ""
 "If you delete the folder, all of its contents and its subfolders contents "
 "will be deleted permanently."
-msgstr ""
+msgstr "如果您删除文件夹，其中的全部内容及其子文件夹内容将被永久删除。"
 
 #. mail:no-rename-folder-exists primary
 #. mail:no-rename-folder primary
 #: mail/mail-errors.xml.h:133 mail/mail-errors.xml.h:137
-#, fuzzy
 msgid "Cannot rename \"{0}\" to \"{1}\"."
-msgstr "无法打开文件“{0}”。"
+msgstr "无法将“{0}”重命名为“{1}”。"
 
 #. mail:no-rename-folder-exists secondary
 #. mail:vfolder-notunique secondary
 #: mail/mail-errors.xml.h:135 mail/mail-errors.xml.h:197
 msgid "A folder named \"{1}\" already exists. Please use a different name."
-msgstr ""
+msgstr "已经存在名为“{1}”的文件夹。请使用不同的名称。"
 
 #. mail:no-rename-folder secondary
 #: mail/mail-errors.xml.h:139
-#, fuzzy
 msgid "Because \"{2}\"."
-msgstr "原因是“{1}”。"
+msgstr "原因是“{2}”。"
 
 #. mail:no-move-folder-nostore primary
 #. mail:no-move-folder-to-nostore primary
 #: mail/mail-errors.xml.h:141 mail/mail-errors.xml.h:145
-#, fuzzy
 msgid "Cannot move folder \"{0}\" to \"{1}\"."
-msgstr "无法打开文件“{0}”。"
+msgstr "无法将文件夹“{0}”移至“{1}”。"
 
 #. mail:no-move-folder-nostore secondary
 #. mail:no-copy-folder-nostore secondary
 #: mail/mail-errors.xml.h:143 mail/mail-errors.xml.h:151
-#, fuzzy
 msgid "Cannot open source \"{2}\"."
-msgstr "无法打开文件“{0}”。"
+msgstr "无法打开源“{2}”。"
 
 #. mail:no-move-folder-to-nostore secondary
 #. mail:no-copy-folder-to-nostore secondary
 #: mail/mail-errors.xml.h:147 mail/mail-errors.xml.h:155
-#, fuzzy
 msgid "Cannot open target \"{2}\"."
-msgstr "无法打开文件“{0}”。"
+msgstr "无法打开目标“{2}”。"
 
 #. mail:no-copy-folder-nostore primary
 #. mail:no-copy-folder-to-nostore primary
 #: mail/mail-errors.xml.h:149 mail/mail-errors.xml.h:153
-#, fuzzy
 msgid "Cannot copy folder \"{0}\" to \"{1}\"."
-msgstr "无法打开文件“{0}”。"
+msgstr "无法将文件夹“{0}”复制到“{1}”。"
 
 #. mail:no-create-folder-nostore primary
 #: mail/mail-errors.xml.h:157
-#, fuzzy
 msgid "Cannot create folder \"{0}\"."
-msgstr "无法保存文件“{0}”。"
+msgstr "无法创建文件夹“{0}”。"
 
 #. mail:no-create-folder-nostore secondary
 #: mail/mail-errors.xml.h:159
-#, fuzzy
 msgid "Cannot open source \"{1}\""
-msgstr "无法打开文件“{0}”。"
+msgstr "无法打开源“{0}”"
 
 #. mail:account-incomplete primary
 #. mail:account-notunique primary
 #: mail/mail-errors.xml.h:161 mail/mail-errors.xml.h:165
-#, fuzzy
 msgid "Cannot save changes to account."
-msgstr "无法移动联系人。"
+msgstr "无法将更改保存到账户。"
 
 #. mail:account-incomplete secondary
 #: mail/mail-errors.xml.h:163
 msgid "You have not filled in all of the required information."
-msgstr ""
+msgstr "您没有填入所需的全部信息。"
 
 #. mail:account-notunique secondary
 #: mail/mail-errors.xml.h:167
 msgid "You may not create two accounts with the same name."
-msgstr ""
+msgstr "您不能创建两个同名账户。"
 
 #. mail:ask-delete-account title
 #: mail/mail-errors.xml.h:169
-#, fuzzy
 msgid "Delete account?"
-msgstr "删除选中的联系人"
+msgstr "删除账户吗？"
 
 #. mail:ask-delete-account primary
 #: mail/mail-errors.xml.h:171
-#, fuzzy
 msgid "Are you sure you want to delete this account?"
-msgstr "您确定要删除此联系人吗？"
+msgstr "您确定要删除此账户吗？"
 
 #. mail:ask-delete-account secondary
 #: mail/mail-errors.xml.h:173
 msgid "If you proceed, the account information will be deleted permanently."
-msgstr ""
+msgstr "如果您继续的话，账户信息将被永久删除。"
 
 #: mail/mail-errors.xml.h:174
-#, fuzzy
 msgid "Don't delete"
-msgstr "取消删除(_U)"
+msgstr "不删除"
 
 #. mail:no-save-signature primary
 #: mail/mail-errors.xml.h:176
-#, fuzzy
 msgid "Could not save signature file."
-msgstr "无法读取签名文件“{0}”。"
+msgstr "无法保存签名文件。"
 
 #. mail:no-save-signature secondary
 #: mail/mail-errors.xml.h:178
-#, fuzzy
 msgid "Because \"{0}\"."
-msgstr "原因是“{1}”。"
+msgstr "原因是“{0}”。"
 
 #. mail:signature-notscript primary
 #: mail/mail-errors.xml.h:180
-#, fuzzy
 msgid "Cannot set signature script \"{0}\"."
-msgstr "无法读取签名文件“{0}”。"
+msgstr "无法设定签名脚本“{0}”。"
 
 #. mail:signature-notscript secondary
 #: mail/mail-errors.xml.h:182
 msgid "The script file must exist and be executable."
-msgstr ""
+msgstr "脚本文件必须存在且可执行。"
 
 #. mail:ask-signature-changed title
 #: mail/mail-errors.xml.h:184
-#, fuzzy
 msgid "Discard changed?"
-msgstr "丢弃更改"
+msgstr "丢弃更改吗？"
 
 #. mail:ask-signature-changed primary
 #: mail/mail-errors.xml.h:186
-#, fuzzy
 msgid "Do you wish to save your changes?"
 msgstr "您希望保存更改吗？"
 
 #. mail:ask-signature-changed secondary
 #: mail/mail-errors.xml.h:188
 msgid "This signature has been changed, but has not been saved."
-msgstr ""
+msgstr "签名已经更改，但尚未保存。"
 
 #: mail/mail-errors.xml.h:189
-#, fuzzy
 msgid "_Discard changes"
 msgstr "丢弃更改(_D)"
 
 #. mail:vfolder-notexist primary
 #: mail/mail-errors.xml.h:191
 msgid "Cannot edit vFolder \"{0}\" as it does not exist."
-msgstr ""
+msgstr "无法编辑虚拟文件夹“{0}”，原因是该文件夹不存在。"
 
 #. mail:vfolder-notexist secondary
 #: mail/mail-errors.xml.h:193
@@ -12977,14 +12944,13 @@ msgstr ""
 
 #. mail:vfolder-notunique primary
 #: mail/mail-errors.xml.h:195
-#, fuzzy
 msgid "Cannot add vFolder \"{0}\"."
-msgstr "无法保存文件“{0}”。"
+msgstr "无法添加文件夹“{0}”。"
 
 #. mail:vfolder-updated primary
 #: mail/mail-errors.xml.h:199
 msgid "vFolders automatically updated."
-msgstr ""
+msgstr "虚拟文件夹已自动更新。"
 
 #. mail:vfolder-updated secondary
 #: mail/mail-errors.xml.h:201
@@ -12999,7 +12965,7 @@ msgstr ""
 #. mail:filter-updated primary
 #: mail/mail-errors.xml.h:207
 msgid "Mail filters automatically updated."
-msgstr ""
+msgstr "邮件过滤器已自动更新。"
 
 #. mail:filter-updated secondary
 #: mail/mail-errors.xml.h:209
@@ -13013,27 +12979,23 @@ msgstr ""
 
 #. mail:no-folder primary
 #: mail/mail-errors.xml.h:215
-#, fuzzy
 msgid "Missing folder."
-msgstr "缺少日期。"
+msgstr "缺少文件夹。"
 
 #. mail:no-folder secondary
 #: mail/mail-errors.xml.h:217
-#, fuzzy
 msgid "You must specify a folder."
-msgstr "您必须指定文件名。"
+msgstr "您必须指定文件夹。"
 
 #. mail:no-name-vfolder secondary
 #: mail/mail-errors.xml.h:221
-#, fuzzy
 msgid "You must name this vFolder."
-msgstr "您必须为该过滤规则命名。"
+msgstr "您必须为此虚拟文件夹命名。"
 
 #. mail:vfolder-no-source primary
 #: mail/mail-errors.xml.h:223
-#, fuzzy
 msgid "No sources selected."
-msgstr "没有选中服务器"
+msgstr "没有选中源。"
 
 #. mail:vfolder-no-source secondary
 #: mail/mail-errors.xml.h:225
@@ -13042,11 +13004,13 @@ msgid ""
 "Either by selecting the folders individually, and/or by selecting\n"
 "all local folders, all remote folders, or both."
 msgstr ""
+"您必须一次至少指定一个文件夹作为源。\n"
+"或者逐一选择文件夹，或者选中全部本地文件夹和/或全部远程文件夹。"
 
 #. mail:ask-migrate-existing primary
 #: mail/mail-errors.xml.h:229
 msgid "Problem migrating old mail folder \"{0}\"."
-msgstr ""
+msgstr "升迁旧的文件夹“{0}”出现问题。"
 
 #. mail:ask-migrate-existing secondary
 #: mail/mail-errors.xml.h:231
@@ -13056,25 +13020,25 @@ msgid ""
 "You can choose to ignore this folder, overwrite or append its contents, or "
 "quit.\n"
 msgstr ""
+"“{1}”已经存在非空文件夹。\n\n"
+"您可以选择忽略此文件夹，覆盖或追加其内容，或者退出。\n"
 
 #: mail/mail-errors.xml.h:235
 msgid "Ignore"
-msgstr ""
+msgstr "忽略"
 
 #: mail/mail-errors.xml.h:236 widgets/misc/e-system-errors.xml.h:7
 msgid "_Overwrite"
 msgstr "覆盖(_O)"
 
 #: mail/mail-errors.xml.h:237
-#, fuzzy
 msgid "_Append"
-msgstr "打开(_O)"
+msgstr "追加(_A)"
 
 #. mail:no-load-license primary
 #: mail/mail-errors.xml.h:239
-#, fuzzy
 msgid "Unable to read license file."
-msgstr "无法分析信件项目"
+msgstr "无法读取许可文件。"
 
 #. mail:no-load-license secondary
 #: mail/mail-errors.xml.h:241
@@ -13084,36 +13048,37 @@ msgid ""
 "until\n"
 "      you can accept its license."
 msgstr ""
+"无法读取许可文件“{0}”，原因是安装有问题。\n"
+"      您将无法使用此提供者，除非您接受其许可协议。"
 
 #. mail:checking-service title
 #: mail/mail-errors.xml.h:245
 msgid "Querying server"
-msgstr ""
+msgstr "查询服务器"
 
 #. mail:checking-service primary
 #: mail/mail-errors.xml.h:247
-#, fuzzy
 msgid "Please wait."
-msgstr "请稍候"
+msgstr "请稍候。"
 
 #. mail:checking-service secondary
 #: mail/mail-errors.xml.h:249
 msgid "Querying server for a list of supported authentication mechanisms."
-msgstr ""
+msgstr "查询服务器所支持的身份验证算法列表。"
 
 #. mail:gw-accountsetup-error primary
 #: mail/mail-errors.xml.h:251
 msgid ""
 "Unable to connect to the GroupWise\n"
 "server."
-msgstr ""
+msgstr "无法连接到 GroupWise 服务器。"
 
 #. mail:gw-accountsetup-error secondary
 #: mail/mail-errors.xml.h:254
 msgid ""
 "\n"
 "Please check your account settings and try again.\n"
-msgstr ""
+msgstr "\n请检查您的账户设置，然后再试一次。\n"
 
 #: mail/mail-folder-cache.c:813
 #, c-format
@@ -13563,9 +13528,8 @@ msgid "Subject contains"
 msgstr "主题含有"
 
 #: mail/searchtypes.xml.h:6
-#, fuzzy
 msgid "Subject or Sender contains"
-msgstr "主题含有"
+msgstr "主题或发送者含有"
 
 #: plugins/backup-restore/backup.c:109
 msgid "Backup Evolution directory"
@@ -13635,6 +13599,7 @@ msgid ""
 "Periodically synchronize contact information and images from my _instant "
 "messenger"
 msgstr ""
+"定时从我的即时通讯服务器上同步联系人信息和图像(_I)"
 
 #. Synchronize now button.
 #: plugins/bbdb/bbdb.c:448
@@ -13725,15 +13690,13 @@ msgstr "Exchange 设置"
 
 #: plugins/exchange-account-setup/exchange-account-setup.c:329
 #: plugins/exchange-account-setup/exchange-ask-password.c:193
-#, fuzzy
 msgid "A_uthenticate"
-msgstr "身份验证"
+msgstr "身份验证(_U)"
 
 #: plugins/exchange-account-setup/exchange-account-setup.c:336
 #: plugins/exchange-account-setup/exchange-ask-password.c:200
-#, fuzzy
 msgid "_OWA Url:"
-msgstr "_URL："
+msgstr "_OWA URL："
 
 #: plugins/folder-unsubscribe/folder-unsubscribe.c:57
 #, c-format
@@ -13765,7 +13728,7 @@ msgstr "无法将项目发送到日历“%s”。%s"
 #: plugins/itip-formatter/itip-formatter.c:761
 #, c-format
 msgid "Sent to calendar '%s' as accepted"
-msgstr ""
+msgstr "将日历“%s”发送为已接受"
 
 #: plugins/itip-formatter/itip-formatter.c:765
 #, c-format
@@ -13775,12 +13738,12 @@ msgstr ""
 #: plugins/itip-formatter/itip-formatter.c:770
 #, c-format
 msgid "Sent to calendar '%s' as declined"
-msgstr ""
+msgstr "将日历“%s”发送为已拒绝"
 
 #: plugins/itip-formatter/itip-formatter.c:775
 #, c-format
 msgid "Sent to calendar '%s' as cancelled"
-msgstr ""
+msgstr "将日历“%s”发送为已取消"
 
 #: plugins/itip-formatter/itip-formatter.c:825
 msgid "Attendee status could not be updated because the status is invalid"
@@ -13804,11 +13767,12 @@ msgid ""
 "The message claims to contain a calendar, but the calendar is not valid "
 "iCalendar."
 msgstr ""
+"信件声明其包含日历，但日历不是有效的 iCalendar。"
 
 #: plugins/itip-formatter/itip-formatter.c:1000
 #: plugins/itip-formatter/itip-formatter.c:1056
 msgid "The item in the calendar is not valid"
-msgstr ""
+msgstr "日历项无效"
 
 #: plugins/itip-formatter/itip-formatter.c:1001
 #: plugins/itip-formatter/itip-formatter.c:1057
@@ -13816,16 +13780,18 @@ msgid ""
 "The message does contain a calendar, but the calendar contains no events, "
 "tasks or free/busy information"
 msgstr ""
+"信件的确包含日历，但是日历不包含事件、任务或忙/闲信息"
 
 #: plugins/itip-formatter/itip-formatter.c:1012
 msgid "The calendar attached contains multiple items"
-msgstr ""
+msgstr "附加的日历包含多个项目"
 
 #: plugins/itip-formatter/itip-formatter.c:1013
 msgid ""
 "To process all of these items, the file should be saved and the calendar "
 "imported"
 msgstr ""
+"要处理这些全部项目，应该保存文件并导入日历"
 
 #: plugins/itip-formatter/itip-formatter.c:1632
 msgid "Meetings and Tasks"
@@ -13867,7 +13833,6 @@ msgstr "今天 %H:%M:%S"
 #. strftime format of a weekday, a date and a
 #. time, in 12-hour format.
 #: plugins/itip-formatter/itip-view.c:164
-#, fuzzy
 msgid "Today %l:%M:%S %p"
 msgstr "今天 %H:%M:%S"
 
@@ -13895,7 +13860,6 @@ msgstr "%-m月%-d日%A %H:%M:%S"
 #. time, in 12-hour format, without seconds.
 #: plugins/itip-formatter/itip-view.c:186
 #: plugins/itip-formatter/itip-view.c:238
-#, fuzzy
 msgid "%A, %B %e %l:%M %p"
 msgstr "%-m月%-d日%A %H:%M"
 
@@ -13903,7 +13867,6 @@ msgstr "%-m月%-d日%A %H:%M"
 #. time, in 12-hour format.
 #: plugins/itip-formatter/itip-view.c:190
 #: plugins/itip-formatter/itip-view.c:242
-#, fuzzy
 msgid "%A, %B %e %l:%M:%S %p"
 msgstr "%-m月%-d日%A %H:%M:%S"
 
@@ -13928,14 +13891,12 @@ msgstr "%A %H:%M:%S"
 #. strftime format of a weekday, a date and a
 #. time, in 12-hour format, without seconds.
 #: plugins/itip-formatter/itip-view.c:212
-#, fuzzy
 msgid "%A %l:%M %p"
 msgstr "%A %H:%M"
 
 #. strftime format of a weekday, a date and a
 #. time, in 12-hour format.
 #: plugins/itip-formatter/itip-view.c:216
-#, fuzzy
 msgid "%A %l:%M:%S %p"
 msgstr "%A %H:%M:%S"
 
@@ -13959,14 +13920,12 @@ msgstr "%Y年%-m月%-d日%A %H:%M:%S"
 #. strftime format of a weekday, a date and a
 #. time, in 12-hour format, without seconds.
 #: plugins/itip-formatter/itip-view.c:262
-#, fuzzy
 msgid "%A, %B %e, %Y %l:%M %p"
 msgstr "%Y年%-m月%-d日%A %H:%M"
 
 #. strftime format of a weekday, a date and a
 #. time, in 12-hour format.
 #: plugins/itip-formatter/itip-view.c:266
-#, fuzzy
 msgid "%A, %B %e, %Y %l:%M:%S %p"
 msgstr "%Y年%-m月%-d日%A %H:%M:%S"
 
@@ -14006,60 +13965,60 @@ msgid "<b>%s</b> wishes to add to an existing meeting:"
 msgstr "<b>%s</b> 希望加入到已有的会议："
 
 #: plugins/itip-formatter/itip-view.c:314
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "<b>%s</b> wishes to receive the latest information for the following meeting:"
-msgstr "<b>%s</b> 希望获取最新的任务信息。"
+msgstr "<b>%s</b> 希望接收到下列会议的最新信息："
 
 #: plugins/itip-formatter/itip-view.c:317
-#, fuzzy, c-format
+#, c-format
 msgid "<b>%s</b> has sent back the following meeting response:"
-msgstr "<b>%s</b> 取消了一个会议。"
+msgstr "<b>%s</b> 发回了下列会议请求的响应："
 
 #: plugins/itip-formatter/itip-view.c:321
-#, fuzzy, c-format
+#, c-format
 msgid "<b>%s</b> through %s has cancelled the following meeting:"
-msgstr "<b>%s</b> 通过 %s 取消了一个会议。"
+msgstr "<b>%s</b> 通过 %s 取消了下列会议："
 
 #: plugins/itip-formatter/itip-view.c:323
-#, fuzzy, c-format
+#, c-format
 msgid "<b>%s</b> has cancelled the following meeting."
-msgstr "<b>%s</b> 取消了一个会议。"
+msgstr "<b>%s</b> 取消了下列会议："
 
 #: plugins/itip-formatter/itip-view.c:326
-#, fuzzy, c-format
+#, c-format
 msgid "<b>%s</b> has proposed the following meeting changes."
-msgstr "<b>%s</b> 取消了一个会议。"
+msgstr "<b>%s</b> 提议了下列会议变更。"
 
 #: plugins/itip-formatter/itip-view.c:330
-#, fuzzy, c-format
+#, c-format
 msgid "<b>%s</b> through %s has declined the following meeting changes:"
-msgstr "<b>%s</b> 通过 %s 取消了一个会议。"
+msgstr "<b>%s</b> 通过 %s 拒绝了下列会议变更："
 
 #: plugins/itip-formatter/itip-view.c:332
-#, fuzzy, c-format
+#, c-format
 msgid "<b>%s</b> has declined the following meeting changes."
-msgstr "<b>%s</b> 取消了一个会议。"
+msgstr "<b>%s</b> 拒绝了下列会议变更。"
 
 #: plugins/itip-formatter/itip-view.c:359
-#, fuzzy, c-format
+#, c-format
 msgid "<b>%s</b> through %s has published the following task:"
-msgstr "<b>%s</b> 通过 %s 发布了会议信息。"
+msgstr "<b>%s</b> 通过 %s 发布了下列任务："
 
 #: plugins/itip-formatter/itip-view.c:361
-#, fuzzy, c-format
+#, c-format
 msgid "<b>%s</b> has published the following task:"
-msgstr "<b>%s</b> 发布了会议信息。"
+msgstr "<b>%s</b> 发布了下列任务："
 
 #: plugins/itip-formatter/itip-view.c:366
-#, fuzzy, c-format
+#, c-format
 msgid "<b>%s</b> requests the assignment of %s to the following task:"
-msgstr "<b>%s</b> 请求 %s 参加一个会议。"
+msgstr "<b>%s</b> 请求给 %s 指派下列任务："
 
 #: plugins/itip-formatter/itip-view.c:369
-#, fuzzy, c-format
+#, c-format
 msgid "<b>%s</b> through %s has assigned you a task:"
-msgstr "<b>%s</b> 通过 %s 取消了一个会议。"
+msgstr "<b>%s</b> 通过 %s 为您指派了下列任务："
 
 #: plugins/itip-formatter/itip-view.c:371
 #, c-format
@@ -14086,12 +14045,12 @@ msgstr "<b>%s</b> 想要收到所指派的下列任务的最新信息："
 #: plugins/itip-formatter/itip-view.c:385
 #, c-format
 msgid "<b>%s</b> has sent back the following assigned task response:"
-msgstr "<b>%s</b> 回送了下列指派任务的回应："
+msgstr "<b>%s</b> 发回了下列指派任务的回应："
 
 #: plugins/itip-formatter/itip-view.c:389
-#, fuzzy, c-format
+#, c-format
 msgid "<b>%s</b> through %s has cancelled the following assigned task:"
-msgstr "<b>%s</b> 通过 %s 取消了一个会议。"
+msgstr "<b>%s</b> 通过 %s 取消了下列任务指派："
 
 #: plugins/itip-formatter/itip-view.c:391
 #, c-format
@@ -14099,19 +14058,19 @@ msgid "<b>%s</b> has cancelled the following assigned task:"
 msgstr "<b>%s</b> 取消指派的下列任务："
 
 #: plugins/itip-formatter/itip-view.c:394
-#, fuzzy, c-format
+#, c-format
 msgid "<b>%s</b> has proposed the following task assignment changes:"
-msgstr "<b>%s</b> 取消了一个会议。"
+msgstr "<b>%s</b> 提议了下列任务指派变更："
 
 #: plugins/itip-formatter/itip-view.c:398
-#, fuzzy, c-format
+#, c-format
 msgid "<b>%s</b> through %s has declined the following assigned task:"
-msgstr "<b>%s</b> 通过 %s 取消了一个会议。"
+msgstr "<b>%s</b> 通过 %s 拒绝了下列任务指派："
 
 #: plugins/itip-formatter/itip-view.c:400
-#, fuzzy, c-format
+#, c-format
 msgid "<b>%s</b> has declined the following assigned task:"
-msgstr "<b>%s</b> 取消了一个会议。"
+msgstr "<b>%s</b> 拒绝了指派的下列任务："
 
 #. Comment
 #: plugins/itip-formatter/itip-view.c:846
@@ -14130,6 +14089,7 @@ msgid ""
 "This message does not contain the header information required for this "
 "action."
 msgstr ""
+"这封信不包含此动作所需的头信息。"
 
 #. org.gnome.mailing-list-actions:posting-not-allowed primary
 #: plugins/mailing-list-actions/org-gnome-mailing-list-actions-errors.xml.h:6
@@ -14142,6 +14102,7 @@ msgid ""
 "Posting to this mailing list is not allowed. Possibly, this is a read-only "
 "mailing list. Contact the list owner for details."
 msgstr ""
+"不允许投递到此邮件列表。可能这是一个只读的邮件列表。详情请联系列表所有人。"
 
 #. org.gnome.mailing-list-actions:ask-send-message primary
 #: plugins/mailing-list-actions/org-gnome-mailing-list-actions-errors.xml.h:10
@@ -14195,9 +14156,8 @@ msgstr ""
 
 #. Create the checkbox we will display, complete with mnemonic that is unique in the dialog
 #: plugins/new-mail-notify/new-mail-notify.c:66
-#, fuzzy
 msgid "_Generates a D-BUS message when new mail arrives"
-msgstr "新邮件到达时不要提醒我(_D)"
+msgstr "新邮件到达时生成 D-BUS 信件(_G)"
 
 #: plugins/plugin-manager/org-gnome-plugin-manager.xml.h:1
 msgid "Enable and disable plugins"
@@ -14286,6 +14246,9 @@ msgid ""
 "sCreated%sContact List%sStart%sEnd%sDue%sPercent Done%sPriority%sUrl%"
 "sAttendees List%sLocation%sModified%s"
 msgstr ""
+"Uid%s概要%s描述列表%s类别列表%s注释列表%s已完成%"
+"s创建时间%s联系人列表%s开始%s结束%s到期%s完成百分比%s优先级%sUrl%"
+"s参与者列表%s位置%s修改时间%s"
 
 #: plugins/save-calendar/csv-format.c:519
 msgid "Advanced options for the CSV format"
@@ -14330,11 +14293,11 @@ msgid ""
 "The suggested filename extension of this filetype (%s) is unused in the "
 "chosen filename. Do you want to continue?"
 msgstr ""
+"此文件类型(%s)所建议的文件扩展名未在所选的文件名中使用。您想要继续吗？"
 
 #: plugins/shared-folder/properties.glade.h:2
-#, fuzzy
 msgid "<b>Users :</b>"
-msgstr "<b>提醒</b>"
+msgstr "<b>用户：</b>"
 
 #: plugins/shared-folder/properties.glade.h:4
 msgid "Message"
@@ -14346,17 +14309,15 @@ msgstr "共享文件夹通知"
 
 #: plugins/shared-folder/properties.glade.h:8
 msgid "The participants will receive the following notification.\n"
-msgstr ""
+msgstr "收件人将接收到下列通知。\n"
 
 #: plugins/shared-folder/properties.glade.h:11
-#, fuzzy
 msgid "_Contacts..."
-msgstr "联系人..."
+msgstr "联系人(_C)..."
 
 #: plugins/shared-folder/properties.glade.h:12
-#, fuzzy
 msgid "_Cutomize notification message"
-msgstr "发送自定义通知(_D)"
+msgstr "自定义通知消息(_C)"
 
 #: plugins/shared-folder/properties.glade.h:13
 msgid "_Not Shared"
@@ -14450,6 +14411,8 @@ msgid ""
 "toolbar is set, the style of the toolbar is followed as determined by the "
 "GNOME setting."
 msgstr ""
+"所显示按钮的样式。可以是文字、图标、二者、工具栏。如果设置为工具栏，则工具"
+"栏的样式由 GNOME 设置决定。"
 
 #: shell/apps_evolution_shell.schemas.in.in.h:15
 msgid "Toolbar is visible"
@@ -17261,6 +17224,7 @@ msgid ""
 "Mouse-based interactive map widget for selecting timezone. Keyboard users "
 "should select the timezone from the below combo box instead."
 msgstr ""
+"基于鼠标交互的地图部件，可用来选择时区。键盘用户可以从下方的组合框中选择时区。"
 
 #: widgets/misc/e-pilot-settings.c:103
 msgid "Sync with:"
@@ -17293,9 +17257,8 @@ msgid "_Clear"
 msgstr "清除(_C)"
 
 #: widgets/misc/e-search-bar.c:645
-#, fuzzy
 msgid "Search Type"
-msgstr "搜索范围(_S)："
+msgstr "搜索类型"
 
 #: widgets/misc/e-search-bar.c:849
 msgid "Item ID"
@@ -17400,9 +17363,8 @@ msgstr ""
 "低"
 
 #: widgets/misc/e-send-options.glade.h:26
-#, fuzzy
 msgid "W_ithin"
-msgstr "宽度"
+msgstr "少于(_I)"
 
 #: widgets/misc/e-send-options.glade.h:27
 msgid "When acce_pted: "
@@ -17478,69 +17440,3 @@ msgstr "%s (...)"
 msgid "%s (%d%% complete)"
 msgstr "%s (%d%% 完成)"
 
-#~ msgid "Contact list _owner"
-#~ msgstr "联系人列表所有者(_O)"
-
-#~ msgid "Contact the owner of the mailing list this message belongs to"
-#~ msgstr "联系此信件所属邮件列表的所有者"
-
-#~ msgid "Get list _archive"
-#~ msgstr "获得列表存档(_A)"
-
-#~ msgid "Get list _usage information"
-#~ msgstr "获得列表用途信息(_U)"
-
-#~ msgid "Mailing _List"
-#~ msgstr "邮件列表(_L)"
-
-#~ msgid "Post a message to the mailing list this message belongs to"
-#~ msgstr "向此信件所述的邮件列表发布信件"
-
-#~ msgid "Subscribe to the mailing list this message belongs to"
-#~ msgstr "订阅此信件所属的邮件列表"
-
-#~ msgid "Unsubscribe to the mailing list this message belongs to"
-#~ msgstr "退订此信件所属的邮件列表"
-
-#~ msgid "_Post message to list"
-#~ msgstr "把信件投递到列表(_P)"
-
-#~ msgid "_Subscribe to list"
-#~ msgstr "订阅列表(_S)"
-
-#~ msgid "_Un-subscribe to list"
-#~ msgstr "退订列表(_U)"
-
-#~ msgid "This contact belongs to these categories:"
-#~ msgstr "此联系人属于这些类别："
-
-#~ msgid "_Enable"
-#~ msgstr "启用(_E)"
-
-#~ msgid ""
-#~ "\n"
-#~ "Share List"
-#~ msgstr ""
-#~ "\n"
-#~ "共享列表"
-
-#~ msgid "Ad_d"
-#~ msgstr "添加(_D)"
-
-#~ msgid "Additional Access"
-#~ msgstr "额外地址"
-
-#~ msgid "Delet_e"
-#~ msgstr "删除(_E)"
-
-#~ msgid "Edi_t"
-#~ msgstr "编辑(_T)"
-
-#~ msgid "Body does not contain"
-#~ msgstr "邮件体不含有"
-
-#~ msgid "Body or subject contains"
-#~ msgstr "邮件体或主题含有"
-
-#~ msgid "Subject does not contain"
-#~ msgstr "主题不含有"
