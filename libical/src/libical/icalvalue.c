@@ -608,7 +608,12 @@ char* icalvalue_utcoffset_as_ical_string(icalvalue* value)
     m = (data - (h*3600))/ 60;
     s = (data - (h*3600) - (m*60));
 
-    sprintf(str,"%c%02d%02d%02d",sign,abs(h),abs(m),abs(s));
+    /* FIXME: We may want to always round to the nearest minute, to avoid
+       interop problems with Outlook (2000). It doesn't like seconds here. */
+    if (s == 0)
+      sprintf(str,"%c%02d%02d",sign,abs(h),abs(m));
+    else
+      sprintf(str,"%c%02d%02d%02d",sign,abs(h),abs(m),abs(s));
 
     return str;
 }

@@ -1,3 +1,16 @@
+2001-08-31  Damon Chaplin  <damon@ximian.com>
+
+	* zoneinfo/*: updated all of the VTIMEZONE files to try to be more
+	compatable with Outlook. i.e. We don't use seconds in UTC offsets,
+	we don't use BYMONTHDAY if we can avoid it (there are still a few uses
+	of this we need to fix), and we don't use years < 1600.
+
+	* src/libical/icalvalue.c (icalvalue_utcoffset_as_ical_string): if
+	seconds is 0 then don't output it. None of the builtin VTIMEZONE data
+	uses the seconds value any more, since it messes up iTIP with Outlook.
+	We may want to make it always round to the nearest minute, to avoid
+	interop problems.
+
 2001-08-22  Ettore Perazzoli  <ettore@ximian.com>
 
 	* configure.in: Remove src/python/Makefile and src/test/Makefile.
