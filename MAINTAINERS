@@ -1,11 +1,20 @@
-Email: ettore@ximian.com
-Email: danw@ximian.com
-Email: toshok@ximian.com
-Email: rodrigo@ximian.com
-Email: hpj@ximian.com
-Email: fejj@ximian.com
-Email: notzed@ximian.com
-Email: jpr@ximian.com
-Email: lewing@ximian.com
-Email: rodo@ximian.com
+Overall Maintainers:
+Ettore Perazzoli <ettore@ximian.cmo>
+JP Rosevear <jpr@ximian.com>
+
+Mail:
+Jeff Steadfast <fejj@ximian.com>
+Michael Zucchi <notzed@ximian.com>
+
+Addressbook:
+Chris Toshok <toshok@ximian.com>
+Hans Petter Jansson <hpj@ximian.com>
+
+Calendar
+Rodrigo Moya <rodrigo@ximian.com>
+Hans Petter Jansson <hpj@ximian.com>
+
+Composer:
+Larry Ewing <lewing@ximian.com>
+Radek Doulik <rodo@ximian.com>
 
