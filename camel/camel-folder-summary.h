@@ -146,6 +146,9 @@ guint32 camel_folder_summary_next_uid(CamelFolderSummary *s);
 int camel_folder_summary_load(CamelFolderSummary *);
 int camel_folder_summary_save(CamelFolderSummary *);
 
+/* set the dirty bit on the summary */
+void camel_folder_summary_touch(CamelFolderSummary *s);
+
 /* add a new raw summary item */
 void camel_folder_summary_add(CamelFolderSummary *, CamelMessageInfo *info);
 

@@ -367,12 +367,14 @@ camel_folder_summary_save(CamelFolderSummary *s)
 
 	g_assert(s->summary_path);
 
-	printf("saving summary?\n");
+	printf("saving summary? '%s'\n", s->summary_path);
 
 	if ((s->flags & CAMEL_SUMMARY_DIRTY) == 0) {
 		printf("nup\n");
 		return 0;
 	}
+
+	printf("yep\n");
 
 	fd = open(s->summary_path, O_RDWR|O_CREAT, 0600);
 	if (fd == -1)
@@ -493,6 +495,12 @@ perform_content_info_free(CamelFolderSummary *s, CamelMessageContentInfo *ci)
 }
 
 void
+camel_folder_summary_touch(CamelFolderSummary *s)
+{
+	s->flags |= CAMEL_SUMMARY_DIRTY;
+}
+
+void
 camel_folder_summary_clear(CamelFolderSummary *s)
 {
 	int i;
@@ -526,6 +534,7 @@ void camel_folder_summary_remove(CamelFolderSummary *s, CamelMessageInfo *info)
 	if (s->build_content && ci) {
 		perform_content_info_free(s, ci);
 	}
+	s->flags |= CAMEL_SUMMARY_DIRTY;
 }
 
 void camel_folder_summary_remove_uid(CamelFolderSummary *s, const char *uid)

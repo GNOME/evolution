@@ -1,3 +1,8 @@
+2000-05-11  NotZed  <NotZed@HelixCode.com>
+
+	* providers/mbox/camel-mbox-folder.c (message_changed): Indicate
+	the summary changed also.
+
 2000-05-11  Jeffrey Stedfast  <fejj@stampede.org>
 
 	* providers/smtp/camel-smtp-transport.c: (smtp_helo): 
@@ -10,9 +15,16 @@
 
 	* providers/mbox/camel-mbox-summary.c
 	(camel_mbox_summary_finalise): Free the folder path.
+	(camel_mbox_summary_update): Also save summary when done.
+	(camel_mbox_summary_expunge): Unindex items when deleting them.
+	(camel_mbox_summary_expunge): Save the index as well as the
+	summary.
 
 	* camel-folder-summary.c (camel_folder_summary_finalise): Free the
 	summary path.
+	(camel_folder_summary_touch): New function, indicate the summary
+	info changed.
+	(camel_folder_summary_remove): Dirty here.
 
 	* camel-internet-address.c (internet_decode): Free multiple entry
 	addresses properly.

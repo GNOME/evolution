@@ -323,8 +323,23 @@ summary_rebuild(CamelMboxSummary *mbs, off_t offset)
 int
 camel_mbox_summary_update(CamelMboxSummary *mbs, off_t offset)
 {
+	int ret;
+
 	mbs->index_force = FALSE;
-	return summary_rebuild(mbs, offset);
+	ret = summary_rebuild(mbs, offset);
+
+#if 0
+#warning "Saving full summary and index after every summarisation is slow ..."
+	if (ret != -1) {
+		if (camel_folder_summary_save((CamelFolderSummary *)mbs) == -1)
+			g_warning("Could not save summary: %s", strerror(errno));
+		printf("summary saved\n");
+		if (mbs->index)
+			ibex_save(mbs->index);
+		printf("ibex saved\n");
+	}
+#endif
+	return ret;
 }
 
 int
@@ -581,6 +596,8 @@ camel_mbox_summary_expunge(CamelMboxSummary *mbs)
 
 			g_assert(!quick);
 			offset -= (info->info.content->endpos - info->frompos);
+			if (mbs->index)
+				ibex_unindex(mbs->index, info->info.uid);
 			camel_folder_summary_remove(s, (CamelMessageInfo *)info);
 			count--;
 			i--;
@@ -690,6 +707,8 @@ camel_mbox_summary_expunge(CamelMboxSummary *mbs)
 		s->time = st.st_mtime;
 		mbs->folder_size = st.st_size;
 		camel_folder_summary_save(s);
+		if (mbs->index)
+			ibex_save(mbs->index);
 	}
 
 	gtk_object_unref((GtkObject *)mp);

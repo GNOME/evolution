@@ -745,6 +745,7 @@ mbox_append_message (CamelFolder *folder, CamelMimeMessage *message, CamelExcept
 	filter_from = (CamelMimeFilter *)camel_mime_filter_from_new();
 	camel_stream_filter_add((CamelStreamFilter *)filter_stream, filter_from);
 	camel_data_wrapper_write_to_stream (CAMEL_DATA_WRAPPER (message), filter_stream, ex);
+#warning "we still need stream_close() for this"
 	if (!camel_exception_is_set (ex))
 		camel_stream_flush (filter_stream, ex);
 
@@ -833,9 +834,10 @@ message_changed(CamelMimeMessage *m, int type, CamelMboxFolder *mf)
 	switch (type) {
 	case MESSAGE_FLAGS_CHANGED:
 		info = camel_folder_summary_uid((CamelFolderSummary *)mf->summary, m->message_uid);
-		if (info)
+		if (info) {
 			info->flags = m->flags | CAMEL_MESSAGE_FOLDER_FLAGGED;
-		else
+			camel_folder_summary_touch((CamelFolderSummary *)mf->summary);
+		} else
 			g_warning("Message changed event on message not in summary: %s", m->message_uid);
 		break;
 	default:
