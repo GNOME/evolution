@@ -95,6 +95,7 @@ typedef struct {
 	ETableHeader    *full_header;
 	ETable          *table;
 	ETree           *tree;
+	GtkWidget       *etfcd;
 	void            *config;
 
 	/* For keyboard navigation*/
