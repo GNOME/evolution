@@ -360,16 +360,17 @@ em_filter_source_element_get_sources(EMFilterSourceElement *fs)
 	     e_iterator_next(it)) {
 		account = (const EAccount *)e_iterator_get(it);
 
-		if (account->source == NULL || account->source->url == NULL)
+		if (account->source == NULL || account->source->url == NULL || account->source->url[0] == 0)
 			continue;
 
-		/* hide secret stuff */
 		url = camel_url_new(account->source->url, NULL);
-		uri = camel_url_to_string(url, CAMEL_URL_HIDE_ALL);
-		camel_url_free(url);
-
-		em_filter_source_element_add_source(fs, account->name, account->id->name, account->id->address, uri);
-		g_free(uri);
+		if (url) {
+			/* hide secret stuff */
+			uri = camel_url_to_string(url, CAMEL_URL_HIDE_ALL);
+			camel_url_free(url);
+			em_filter_source_element_add_source(fs, account->name, account->id->name, account->id->address, uri);
+			g_free(uri);
+		}
 	}
 	g_object_unref(it);
 	g_object_unref(accounts);
