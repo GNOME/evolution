@@ -3919,7 +3919,7 @@ camel_header_address_new (void)
 {
 	struct _camel_header_address *h;
 	h = g_malloc0(sizeof(*h));
-	h->type = HEADER_ADDRESS_NONE;
+	h->type = CAMEL_HEADER_ADDRESS_NONE;
 	h->refcount = 1;
 	return h;
 }
@@ -3929,7 +3929,7 @@ camel_header_address_new_name(const char *name, const char *addr)
 {
 	struct _camel_header_address *h;
 	h = camel_header_address_new();
-	h->type = HEADER_ADDRESS_NAME;
+	h->type = CAMEL_HEADER_ADDRESS_NAME;
 	h->name = g_strdup(name);
 	h->v.addr = g_strdup(addr);
 	return h;
@@ -3941,7 +3941,7 @@ camel_header_address_new_group (const char *name)
 	struct _camel_header_address *h;
 
 	h = camel_header_address_new();
-	h->type = HEADER_ADDRESS_GROUP;
+	h->type = CAMEL_HEADER_ADDRESS_GROUP;
 	h->name = g_strdup(name);
 	return h;
 }
@@ -3958,9 +3958,9 @@ camel_header_address_unref(struct _camel_header_address *h)
 {
 	if (h) {
 		if (h->refcount <= 1) {
-			if (h->type == HEADER_ADDRESS_GROUP) {
+			if (h->type == CAMEL_HEADER_ADDRESS_GROUP) {
 				camel_header_address_list_clear(&h->v.members);
-			} else if (h->type == HEADER_ADDRESS_NAME) {
+			} else if (h->type == CAMEL_HEADER_ADDRESS_NAME) {
 				g_free(h->v.addr);
 			}
 			g_free(h->name);
@@ -3984,9 +3984,9 @@ void
 camel_header_address_set_addr(struct _camel_header_address *h, const char *addr)
 {
 	if (h) {
-		if (h->type == HEADER_ADDRESS_NAME
-		    || h->type == HEADER_ADDRESS_NONE) {
-			h->type = HEADER_ADDRESS_NAME;
+		if (h->type == CAMEL_HEADER_ADDRESS_NAME
+		    || h->type == CAMEL_HEADER_ADDRESS_NONE) {
+			h->type = CAMEL_HEADER_ADDRESS_NAME;
 			g_free(h->v.addr);
 			h->v.addr = g_strdup(addr);
 		} else {
@@ -3999,9 +3999,9 @@ void
 camel_header_address_set_members(struct _camel_header_address *h, struct _camel_header_address *group)
 {
 	if (h) {
-		if (h->type == HEADER_ADDRESS_GROUP
-		    || h->type == HEADER_ADDRESS_NONE) {
-			h->type = HEADER_ADDRESS_GROUP;
+		if (h->type == CAMEL_HEADER_ADDRESS_GROUP
+		    || h->type == CAMEL_HEADER_ADDRESS_NONE) {
+			h->type = CAMEL_HEADER_ADDRESS_GROUP;
 			camel_header_address_list_clear(&h->v.members);
 			/* should this ref them? */
 			h->v.members = group;
@@ -4015,9 +4015,9 @@ void
 camel_header_address_add_member(struct _camel_header_address *h, struct _camel_header_address *member)
 {
 	if (h) {
-		if (h->type == HEADER_ADDRESS_GROUP
-		    || h->type == HEADER_ADDRESS_NONE) {
-			h->type = HEADER_ADDRESS_GROUP;
+		if (h->type == CAMEL_HEADER_ADDRESS_GROUP
+		    || h->type == CAMEL_HEADER_ADDRESS_NONE) {
+			h->type = CAMEL_HEADER_ADDRESS_GROUP;
 			camel_header_address_list_append(&h->v.members, member);
 		}		    
 	}
@@ -4067,7 +4067,7 @@ header_address_list_encode_append (GString *out, int encode, struct _camel_heade
 	
 	while (a) {
 		switch (a->type) {
-		case HEADER_ADDRESS_NAME:
+		case CAMEL_HEADER_ADDRESS_NAME:
 			if (encode)
 				text = camel_header_encode_phrase (a->name);
 			else
@@ -4079,7 +4079,7 @@ header_address_list_encode_append (GString *out, int encode, struct _camel_heade
 			if (encode)
 				g_free (text);
 			break;
-		case HEADER_ADDRESS_GROUP:
+		case CAMEL_HEADER_ADDRESS_GROUP:
 			if (encode)
 				text = camel_header_encode_phrase (a->name);
 			else

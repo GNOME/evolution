@@ -90,9 +90,9 @@ typedef struct _CamelContentDisposition {
 } CamelContentDisposition;
 
 enum _camel_header_address_t {
-	HEADER_ADDRESS_NONE,	/* uninitialised */
-	HEADER_ADDRESS_NAME,
-	HEADER_ADDRESS_GROUP
+	CAMEL_HEADER_ADDRESS_NONE,	/* uninitialised */
+	CAMEL_HEADER_ADDRESS_NAME,
+	CAMEL_HEADER_ADDRESS_GROUP
 };
 
 struct _camel_header_address {

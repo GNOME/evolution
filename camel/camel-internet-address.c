@@ -92,12 +92,12 @@ internet_decode	(CamelAddress *a, const char *raw)
 	if (ha) {
 		n = ha;
 		while (n) {
-			if (n->type == HEADER_ADDRESS_NAME) {
+			if (n->type == CAMEL_HEADER_ADDRESS_NAME) {
 				camel_internet_address_add((CamelInternetAddress *)a, n->name, n->v.addr);
-			} else if (n->type == HEADER_ADDRESS_GROUP) {
+			} else if (n->type == CAMEL_HEADER_ADDRESS_GROUP) {
 				struct _camel_header_address *g = n->v.members;
 				while (g) {
-					if (g->type == HEADER_ADDRESS_NAME)
+					if (g->type == CAMEL_HEADER_ADDRESS_NAME)
 						camel_internet_address_add((CamelInternetAddress *)a, g->name, g->v.addr);
 					/* otherwise, it's an error, infact */
 					g = g->next;

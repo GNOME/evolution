@@ -925,7 +925,7 @@ camel_mime_message_build_mbox_from (CamelMimeMessage *message)
 		
 		tmp = NULL;
 		if (addr) {
-			if (addr->type == HEADER_ADDRESS_NAME) {
+			if (addr->type == CAMEL_HEADER_ADDRESS_NAME) {
 				g_string_append (out, addr->v.addr);
 				tmp = "";
 			}
