@@ -895,7 +895,7 @@ vee_folder_remove_folder(CamelVeeFolder *vf, CamelFolder *source, int killun)
 	char hash[8];
 	/*struct _CamelVeeFolderPrivate *p = _PRIVATE(vf);*/
 	CamelFolderChangeInfo *vf_changes = NULL, *unmatched_changes = NULL;
-	gpointer oldval;
+	void *oldval;
 	
 	if (vf == folder_unmatched)
 		return;
@@ -1046,8 +1046,8 @@ static void
 folder_added_uid(char *uidin, void *value, struct _update_data *u)
 {
 	CamelVeeMessageInfo *mi;
-	gpointer oldval;
 	char *oldkey;
+	void *oldval;
 	int n;
 
 	if ( (mi = vee_folder_add_uid(u->vf, u->source, uidin, u->hash)) ) {
@@ -1118,7 +1118,7 @@ vee_folder_build_folder(CamelVeeFolder *vf, CamelFolder *source, CamelException 
 		if (mi) {
 			if (mi->folder == source) {
 				char *uid = (char *)camel_message_info_uid(mi), *oldkey;
-				gpointer oldval;
+				void *oldval;
 				
 				if (g_hash_table_lookup(matchhash, uid+8) == NULL) {
 					if (last == -1) {
@@ -1229,8 +1229,8 @@ folder_changed_add_uid(CamelFolder *sub, const char *uid, const char hash[8], Ca
 {
 	CamelVeeMessageInfo *vinfo;
 	const char *vuid;
-	gpointer oldval;
 	char *oldkey;
+	void *oldval;
 	int n;
 
 	vinfo = vee_folder_add_uid(vf, sub, uid, hash);
@@ -1261,7 +1261,7 @@ folder_changed_remove_uid(CamelFolder *sub, const char *uid, const char hash[8],
 {
 	CamelFolder *folder = (CamelFolder *)vf;
 	char *vuid, *oldkey;
-	gpointer oldval;
+	void *oldval;
 	int n;
 	CamelVeeMessageInfo *vinfo;
 
