@@ -7,7 +7,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution CVS-20010612\n"
-"POT-Creation-Date: 2003-05-21 13:52-0400\n"
+"POT-Creation-Date: 2003-05-22 16:47-0400\n"
 "PO-Revision-Date: 2003-05-01 15:33+0900\n"
 "Last-Translator: Takuo KITAME <kitame@debian.org>\n"
 "Language-Team: Japanese <translation@gnome.gr.jp>\n"
@@ -6075,14 +6075,14 @@ msgstr "処理中"
 #. This is a strftime() format string %A = full weekday name,
 #. %B = full month name, %d = month day, %Y = full year.
 #: calendar/gui/e-meeting-time-sel-item.c:458
-#: calendar/gui/e-meeting-time-sel.c:2097
+#: calendar/gui/e-meeting-time-sel.c:2098
 msgid "%A, %B %d, %Y"
 msgstr "%Y年 %m月 %d日 %A"
 
 #. This is a strftime() format string %a = abbreviated weekday
 #. name, %m = month number, %d = month day, %Y = full year.
 #: calendar/gui/e-meeting-time-sel-item.c:462
-#: calendar/gui/e-meeting-time-sel.c:2130 e-util/e-time-utils.c:189
+#: calendar/gui/e-meeting-time-sel.c:2131 e-util/e-time-utils.c:189
 #: e-util/e-time-utils.c:282 e-util/e-time-utils.c:370
 msgid "%a %m/%d/%Y"
 msgstr "%Y/%m/%d (%a)"

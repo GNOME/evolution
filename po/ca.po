@@ -7,7 +7,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution 0.0.6\n"
-"POT-Creation-Date: 2003-05-21 13:52-0400\n"
+"POT-Creation-Date: 2003-05-22 16:47-0400\n"
 "PO-Revision-Date: 2000-11-01 00:40+0100\n"
 "Last-Translator: Quico Llach <tradgnome@softcatala.org>\n"
 "Language-Team: Catalan <linux@softcatala.org>\n"
@@ -6532,14 +6532,14 @@ msgstr "En procés"
 #. This is a strftime() format string %A = full weekday name,
 #. %B = full month name, %d = month day, %Y = full year.
 #: calendar/gui/e-meeting-time-sel-item.c:458
-#: calendar/gui/e-meeting-time-sel.c:2097
+#: calendar/gui/e-meeting-time-sel.c:2098
 msgid "%A, %B %d, %Y"
 msgstr "%A, %d de %B de %Y"
 
 #. This is a strftime() format string %a = abbreviated weekday
 #. name, %m = month number, %d = month day, %Y = full year.
 #: calendar/gui/e-meeting-time-sel-item.c:462
-#: calendar/gui/e-meeting-time-sel.c:2130 e-util/e-time-utils.c:189
+#: calendar/gui/e-meeting-time-sel.c:2131 e-util/e-time-utils.c:189
 #: e-util/e-time-utils.c:282 e-util/e-time-utils.c:370
 msgid "%a %m/%d/%Y"
 msgstr "%a %d/%m/%Y"

@@ -7,7 +7,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution.hu\n"
-"POT-Creation-Date: 2003-05-21 13:52-0400\n"
+"POT-Creation-Date: 2003-05-22 16:47-0400\n"
 "PO-Revision-Date: 2003-03-31 00:54+0200\n"
 "Last-Translator: Zsiráf <zsiraf@mylinux.hu>\n"
 "Language-Team: Hungarian <hu@gnome.hu>\n"
@@ -6098,14 +6098,14 @@ msgstr "Folyamatban"
 #. This is a strftime() format string %A = full weekday name,
 #. %B = full month name, %d = month day, %Y = full year.
 #: calendar/gui/e-meeting-time-sel-item.c:458
-#: calendar/gui/e-meeting-time-sel.c:2097
+#: calendar/gui/e-meeting-time-sel.c:2098
 msgid "%A, %B %d, %Y"
 msgstr "%Y %B %d, %A"
 
 #. This is a strftime() format string %a = abbreviated weekday
 #. name, %m = month number, %d = month day, %Y = full year.
 #: calendar/gui/e-meeting-time-sel-item.c:462
-#: calendar/gui/e-meeting-time-sel.c:2130 e-util/e-time-utils.c:189
+#: calendar/gui/e-meeting-time-sel.c:2131 e-util/e-time-utils.c:189
 #: e-util/e-time-utils.c:282 e-util/e-time-utils.c:370
 msgid "%a %m/%d/%Y"
 msgstr "%a %m/%d/%Y"
