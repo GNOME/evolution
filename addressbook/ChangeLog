@@ -1,3 +1,32 @@
+2004-06-21  Chris Toshok  <toshok@ximian.com>
+
+	* gui/component/ldap-config.glade: remove the auth-entry-notebook
+	in the edit dialog, and rename the auth entry to... auth-entry.
+
+	* gui/component/addressbook-config.c (source_to_dialog_new): nuke
+	- it's identical to source_to_dialog.
+	(dialog_to_source): we only have one auth entry now.  fill it in
+	properly.
+	(source_to_dialog): fill in the auth entry properly based on the
+	auth type, and remove auth_entry_notebook references.
+	(auth_optionmenu_activated): remove auth_entry_notebook
+	references.
+	(setup_general_tab): same, and use auth-entry instead of
+	email-entry/dn-entry.
+	(general_tab_check): use auth_principle instead of email/binddn.
+	(add_folder_modify): same.
+	(addressbook_add_server_dialog): put setup_connecting_tab inside
+	the ifdef HAVE_LDAP, and call source_to_dialog instead of
+	source_to_dialog_new.
+	(addressbook_config_edit_source): always call setup_general_tab.
+
+	* gui/component/addressbook-config.h (AddressbookLDAPScopeType):
+	reorder to match order in option menu (we should really remove
+	BASE altogether.. it's useless for searching.)
+
+	* gui/component/addressbook-view.c (update_command_state):
+	macroize this, annoying seeing the same 4 lines repeated 15 times.
+
 2004-06-21  Jeffrey Stedfast  <fejj@novell.com>
 
 	* conduit/address-conduit.c (local_record_from_uid): Make sure the

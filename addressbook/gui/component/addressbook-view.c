@@ -323,74 +323,31 @@ update_command_state (EABView *eav, AddressbookView *view)
 	uic = bonobo_control_get_ui_component (priv->folder_view_control);
 
 	if (bonobo_ui_component_get_container (uic) != CORBA_OBJECT_NIL) {
-		bonobo_ui_component_set_prop (uic,
-					      "/commands/ContactsSaveAsVCard",
-					      "sensitive",
-					      eab_view_can_save_as (eav) ? "1" : "0", NULL);
-		bonobo_ui_component_set_prop (uic,
-					      "/commands/ContactsView",
-					      "sensitive",
-					      eab_view_can_view (eav) ? "1" : "0", NULL);
+#define SET_SENSITIVE(verb,f) \
+	bonobo_ui_component_set_prop (uic, (verb), "sensitive", (f)(eav) ? "1" : "0", NULL)
+
+		SET_SENSITIVE ("/commands/ContactsSaveAsVCard", eab_view_can_save_as);
+		SET_SENSITIVE ("/commands/ContactsView", eab_view_can_view);
 
 		/* Print Contact */
-		bonobo_ui_component_set_prop (uic,
-					      "/commands/ContactsPrint",
-					      "sensitive",
-					      eab_view_can_print (eav) ? "1" : "0", NULL);
-
-		/* Print Contact */
-		bonobo_ui_component_set_prop (uic,
-					      "/commands/ContactsPrintPreview",
-					      "sensitive",
-					      eab_view_can_print (eav) ? "1" : "0", NULL);
+		SET_SENSITIVE ("/commands/ContactsPrint", eab_view_can_print);
+		SET_SENSITIVE ("/commands/ContactsPrintPreview", eab_view_can_print);
 
 		/* Delete Contact */
-		bonobo_ui_component_set_prop (uic,
-					      "/commands/ContactDelete",
-					      "sensitive",
-					      eab_view_can_delete (eav) ? "1" : "0", NULL);
+		SET_SENSITIVE ("/commands/ContactDelete", eab_view_can_delete);
+		SET_SENSITIVE ("/commands/ContactsCut", eab_view_can_cut);
 
-		bonobo_ui_component_set_prop (uic,
-					      "/commands/ContactsCut",
-					      "sensitive",
-					      eab_view_can_cut (eav) ? "1" : "0", NULL);
-		bonobo_ui_component_set_prop (uic,
-					      "/commands/ContactsCopy",
-					      "sensitive",
-					      eab_view_can_copy (eav) ? "1" : "0", NULL);
-		bonobo_ui_component_set_prop (uic,
-					      "/commands/ContactsPaste",
-					      "sensitive",
-					      eab_view_can_paste (eav) ? "1" : "0", NULL);
-		bonobo_ui_component_set_prop (uic,
-					      "/commands/ContactsSelectAll",
-					      "sensitive",
-					      eab_view_can_select_all (eav) ? "1" : "0", NULL);
-
-		bonobo_ui_component_set_prop (uic,
-					      "/commands/ContactsSendContactToOther",
-					      "sensitive",
-					      eab_view_can_send (eav) ? "1" : "0", NULL);
-
-		bonobo_ui_component_set_prop (uic,
-					      "/commands/ContactsSendMessageToContact",
-					      "sensitive",
-					      eab_view_can_send_to (eav) ? "1" : "0", NULL);
-
-		bonobo_ui_component_set_prop (uic,
-					      "/commands/ContactsMoveToFolder",
-					      "sensitive",
-					      eab_view_can_move_to_folder (eav) ? "1" : "0", NULL);
-		bonobo_ui_component_set_prop (uic,
-					      "/commands/ContactsCopyToFolder",
-					      "sensitive",
-					      eab_view_can_copy_to_folder (eav) ? "1" : "0", NULL);
+		SET_SENSITIVE ("/commands/ContactsCopy", eab_view_can_copy);
+		SET_SENSITIVE ("/commands/ContactsPaste", eab_view_can_paste);
+		SET_SENSITIVE ("/commands/ContactsSelectAll", eab_view_can_select_all);
+		SET_SENSITIVE ("/commands/ContactsSendContactToOther", eab_view_can_send);
+		SET_SENSITIVE ("/commands/ContactsSendMessageToContact", eab_view_can_send_to);
+		SET_SENSITIVE ("/commands/ContactsMoveToFolder", eab_view_can_move_to_folder);
+		SET_SENSITIVE ("/commands/ContactsCopyToFolder", eab_view_can_copy_to_folder);
 
 		/* Stop */
-		bonobo_ui_component_set_prop (uic,
-					      "/commands/ContactStop",
-					      "sensitive",
-					      eab_view_can_stop (eav) ? "1" : "0", NULL);
+		SET_SENSITIVE ("/commands/ContactStop", eab_view_can_stop);
+#undef SET_SENSITIVE
 	}
 
 	g_object_unref (view);
@@ -1149,6 +1106,7 @@ activate_source (AddressbookView *view,
 		/* we don't have a view for this uid already
 		   set up. */
 		GtkWidget *label = gtk_label_new (uid);
+		GError *error = NULL;
 
 		uid_view = eab_view_new ();
 
@@ -1175,13 +1133,19 @@ activate_source (AddressbookView *view,
 		g_signal_connect (uid_view, "command_state_change",
 				  G_CALLBACK(update_command_state), view);
 
-		book = e_book_new (source, NULL);
+		book = e_book_new (source, &error);
 
-		data = g_new (BookOpenData, 1);
-		data->view = g_object_ref (uid_view);
-		data->source = g_object_ref (source);
+		if (book) {
+			data = g_new (BookOpenData, 1);
+			data->view = g_object_ref (uid_view);
+			data->source = g_object_ref (source);
 
-		addressbook_load (book, book_open_cb, data);
+			addressbook_load (book, book_open_cb, data);
+		}
+		else {
+			g_warning ("error loading addressbook : %s", error->message);
+			g_error_free (error);
+		}
 	}
 
 	gtk_notebook_set_current_page (GTK_NOTEBOOK (priv->notebook),

@@ -91,10 +91,7 @@ struct _AddressbookSourceDialog {
 	GtkWidget *host;
 	GtkWidget *auth_optionmenu;
 	AddressbookLDAPAuthType auth; 
-	GtkWidget *auth_label_notebook;
-	GtkWidget *auth_entry_notebook;
-	GtkWidget *email;
-	GtkWidget *binddn;
+	GtkWidget *auth_principal;
 
 	/* connecting page fields */
 	ModifyFunc connecting_modify_func;
@@ -224,8 +221,10 @@ dialog_to_source (AddressbookSourceDialog *dialog, ESource *source, gboolean tem
 
 	if (!strcmp ("ldap://", e_source_group_peek_base_uri (dialog->source_group))) {
 #ifdef HAVE_LDAP
-		e_source_set_property (source, "email_addr", gtk_entry_get_text (GTK_ENTRY (dialog->email)));
-		e_source_set_property (source, "binddn", gtk_entry_get_text (GTK_ENTRY (dialog->binddn)));
+		if (dialog->auth != ADDRESSBOOK_LDAP_AUTH_NONE)
+			e_source_set_property (source,
+					       dialog->auth == ADDRESSBOOK_LDAP_AUTH_SIMPLE_EMAIL ? "email_addr" : "binddn",
+					       gtk_entry_get_text (GTK_ENTRY (dialog->auth_principal)));
 		str = g_strdup_printf ("%d", gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON (dialog->limit_spinbutton)));
 		e_source_set_property (source, "limit", str);
 		g_free (str);
@@ -331,59 +330,6 @@ source_to_uri_parts (ESource *source, gchar **host, gchar **rootdn,
 #define SOURCE_PROP_STRING(source, prop) \
         (source && e_source_get_property (source, prop) ? e_source_get_property (source, prop) : "")
 
-
-static void
-source_to_dialog_new (AddressbookSourceDialog *dialog)
-{
-	ESource *source = dialog->source;
-
-	gtk_entry_set_text (GTK_ENTRY (dialog->display_name), source ? e_source_peek_name (source) : "");
-
-#ifdef HAVE_LDAP
-	gtk_entry_set_text (GTK_ENTRY (dialog->email), SOURCE_PROP_STRING (source, "email_addr"));
-	if (dialog->binddn)
-		gtk_entry_set_text (GTK_ENTRY (dialog->binddn), SOURCE_PROP_STRING (source, "binddn"));
-	gtk_spin_button_set_value ( GTK_SPIN_BUTTON (dialog->limit_spinbutton),
-				    g_strtod ( source && e_source_get_property (source, "limit") ?
-					       e_source_get_property (source, "limit") : "100", NULL));
-	gtk_adjustment_set_value (GTK_RANGE(dialog->timeout_scale)->adjustment,
-				    g_strtod ( source && e_source_get_property (source, "timeout") ?
-					       e_source_get_property (source, "timeout") : "3", NULL));
-
-	dialog->auth = source && e_source_get_property (source, "auth") ?
-		ldap_parse_auth (e_source_get_property (source, "auth")) : ADDRESSBOOK_LDAP_AUTH_NONE;
-	dialog->ssl = source && e_source_get_property (source, "ssl") ?
-		ldap_parse_ssl (e_source_get_property (source, "ssl")) : ADDRESSBOOK_LDAP_SSL_WHENEVER_POSSIBLE;
-
-	if (source && !strcmp ("ldap://", e_source_group_peek_base_uri (dialog->source_group))) {
-		gchar                    *host;
-		gchar                    *rootdn;
-		AddressbookLDAPScopeType  scope;
-		gint                      port;
-
-		if (source_to_uri_parts (source, &host, &rootdn, &scope, &port)) {
-			gchar *port_str;
-
-			gtk_entry_set_text (GTK_ENTRY (dialog->host), host);
-			gtk_entry_set_text (GTK_ENTRY (dialog->rootdn), rootdn);
-
-			dialog->scope = scope;
-
-			port_str = g_strdup_printf ("%d", port);
-			gtk_entry_set_text (GTK_ENTRY (GTK_COMBO (dialog->port_combo)->entry), port_str);
-			g_free (port_str);
-
-			g_free (host);
-			g_free (rootdn);
-		}
-	}
-
-	gtk_option_menu_set_history (GTK_OPTION_MENU(dialog->auth_optionmenu), dialog->auth);
-	gtk_option_menu_set_history (GTK_OPTION_MENU(dialog->scope_optionmenu), dialog->scope);
-	gtk_option_menu_set_history (GTK_OPTION_MENU(dialog->ssl_optionmenu), dialog->ssl);
-#endif
-}
-
 static void
 source_to_dialog (AddressbookSourceDialog *dialog)
 {
@@ -392,8 +338,6 @@ source_to_dialog (AddressbookSourceDialog *dialog)
 	gtk_entry_set_text (GTK_ENTRY (dialog->display_name), source ? e_source_peek_name (source) : "");
 
 #ifdef HAVE_LDAP
-	gtk_entry_set_text (GTK_ENTRY (dialog->email), SOURCE_PROP_STRING (source, "email_addr"));
-	gtk_entry_set_text (GTK_ENTRY (dialog->binddn), SOURCE_PROP_STRING (source, "binddn"));
 	gtk_spin_button_set_value ( GTK_SPIN_BUTTON (dialog->limit_spinbutton),
 				    g_strtod ( source && e_source_get_property (source, "limit") ?
 					       e_source_get_property (source, "limit") : "100", NULL));
@@ -405,6 +349,11 @@ source_to_dialog (AddressbookSourceDialog *dialog)
 		ldap_parse_auth (e_source_get_property (source, "auth")) : ADDRESSBOOK_LDAP_AUTH_NONE;
 	dialog->ssl = source && e_source_get_property (source, "ssl") ?
 		ldap_parse_ssl (e_source_get_property (source, "ssl")) : ADDRESSBOOK_LDAP_SSL_WHENEVER_POSSIBLE;
+
+	if (dialog->auth != ADDRESSBOOK_LDAP_AUTH_NONE)
+		gtk_entry_set_text (GTK_ENTRY (dialog->auth_principal),
+				    SOURCE_PROP_STRING (source,
+							dialog->auth == ADDRESSBOOK_LDAP_AUTH_SIMPLE_EMAIL ? "email_addr" : "binddn"));
 
 	if (source && !strcmp ("ldap://", e_source_group_peek_base_uri (dialog->source_group))) {
 		gchar                    *host;
@@ -430,11 +379,6 @@ source_to_dialog (AddressbookSourceDialog *dialog)
 	}
 
 	gtk_option_menu_set_history (GTK_OPTION_MENU(dialog->auth_optionmenu), dialog->auth);
-	if (dialog->auth != ADDRESSBOOK_LDAP_AUTH_NONE) {
-		gtk_notebook_set_current_page (GTK_NOTEBOOK(dialog->auth_entry_notebook), dialog->auth - 1);
-	}
-	gtk_widget_set_sensitive (dialog->auth_entry_notebook, dialog->auth != ADDRESSBOOK_LDAP_AUTH_NONE);
-
 	gtk_option_menu_set_history (GTK_OPTION_MENU(dialog->scope_optionmenu), dialog->scope);
 	gtk_option_menu_set_history (GTK_OPTION_MENU(dialog->ssl_optionmenu), dialog->ssl);
 #endif
@@ -531,14 +475,6 @@ auth_optionmenu_activated (GtkWidget *item, AddressbookSourceDialog *dialog)
 				     item);
 
 	dialog->general_modify_func (item, dialog);
-
-	if (dialog->auth == 0) {
-		gtk_widget_set_sensitive (dialog->auth_entry_notebook, FALSE);
-	}
-	else {
-		gtk_widget_set_sensitive (dialog->auth_entry_notebook, TRUE);
-		gtk_notebook_set_current_page (GTK_NOTEBOOK(dialog->auth_entry_notebook), dialog->auth - 1);
-	}
 }
 
 static void
@@ -559,15 +495,9 @@ setup_general_tab (AddressbookSourceDialog *dialog, ModifyFunc modify_func)
 	g_signal_connect (dialog->host, "changed",
 			  G_CALLBACK (modify_func), dialog);
 	
-	dialog->auth_entry_notebook = glade_xml_get_widget (dialog->gui, "auth-entry-notebook");
-	dialog->email = glade_xml_get_widget (dialog->gui, "email-entry");
-	g_signal_connect (dialog->email, "changed",
+	dialog->auth_principal = glade_xml_get_widget (dialog->gui, "auth-entry");
+	g_signal_connect (dialog->auth_principal, "changed",
 			  G_CALLBACK (modify_func), dialog);
-
-	dialog->binddn = glade_xml_get_widget (dialog->gui, "dn-entry");
-	if (dialog->binddn)
-		g_signal_connect (dialog->binddn, "changed",
-				  G_CALLBACK (modify_func), dialog);
 
 	dialog->auth_optionmenu = glade_xml_get_widget (dialog->gui, "auth-optionmenu");
 	menu = gtk_option_menu_get_menu (GTK_OPTION_MENU(dialog->auth_optionmenu));
@@ -589,10 +519,7 @@ general_tab_check (AddressbookSourceDialog *dialog)
 
 	if (valid) {
 		if (dialog->auth != ADDRESSBOOK_LDAP_AUTH_NONE) {
-			if (dialog->auth == ADDRESSBOOK_LDAP_AUTH_SIMPLE_BINDDN)
-				string = gtk_entry_get_text (GTK_ENTRY (dialog->binddn));
-			else
-				string = gtk_entry_get_text (GTK_ENTRY (dialog->email));
+			string = gtk_entry_get_text (GTK_ENTRY (dialog->auth_principal));
 
 			if (!string || !string[0])
 				valid = FALSE;
@@ -927,7 +854,7 @@ add_folder_modify (GtkWidget *widget, AddressbookSourceDialog *sdialog)
 		gtk_widget_set_sensitive (sdialog->auth_frame, remote);
 
 #ifdef HAVE_LDAP
-	gtk_widget_set_sensitive (sdialog->email, sdialog->auth != ADDRESSBOOK_LDAP_AUTH_NONE);
+	gtk_widget_set_sensitive (sdialog->auth_principal, sdialog->auth != ADDRESSBOOK_LDAP_AUTH_NONE);
 
 	if (valid)
 		valid = general_tab_check (sdialog);
@@ -1022,9 +949,10 @@ addressbook_add_server_dialog (void)
 
 	setup_general_tab (sdialog, add_folder_modify);
 #ifdef HAVE_LDAP
+	setup_connecting_tab (sdialog, add_folder_modify);
+
 	setup_searching_tab (sdialog, add_folder_modify);
 #endif
-	setup_connecting_tab (sdialog, add_folder_modify);
 
 	sdialog->auth_frame = glade_xml_get_widget (sdialog->gui, "authentication-frame");
 	sdialog->server_frame = glade_xml_get_widget (sdialog->gui, "server-frame");
@@ -1043,7 +971,7 @@ addressbook_add_server_dialog (void)
 	g_object_unref (gconf_client);
 
 	/* make sure we fill in the default values */
-	source_to_dialog_new (sdialog);
+	source_to_dialog (sdialog);
 
 	gtk_window_set_type_hint (GTK_WINDOW (sdialog->window), GDK_WINDOW_TYPE_HINT_DIALOG);
 	gtk_window_set_modal (GTK_WINDOW (sdialog->window), TRUE);
@@ -1276,14 +1204,11 @@ addressbook_config_edit_source (GtkWidget *parent, ESource *source)
 	g_signal_connect (sdialog->display_name, "changed",
 			  G_CALLBACK (editor_modify_cb), sdialog);
 
-#ifdef HAVE_LDAP
-
 	setup_general_tab (sdialog, editor_modify_cb);
-
+#ifdef HAVE_LDAP
 	setup_connecting_tab (sdialog, editor_modify_cb);
 
 	setup_searching_tab (sdialog, editor_modify_cb);
-
 #endif
 
 	sdialog->notebook = glade_xml_get_widget (sdialog->gui, "account-editor-notebook");
