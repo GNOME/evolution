@@ -1,5 +1,11 @@
 2003-12-22  Rodrigo Moya <rodrigo@ximian.com>
 
+	* gui/alarm-notify/save.c (get_saved_notification_time): if the setting
+	is not in the config database, use the current time, to avoid getting
+	hundreds of alarms for past events.
+
+2003-12-22  Rodrigo Moya <rodrigo@ximian.com>
+
 	* common/authentication.[ch]: new files for managing interactive
 	authentication with backends.
 

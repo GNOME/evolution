@@ -78,14 +78,16 @@ time_t
 get_saved_notification_time (void)
 {
 	GConfClient *conf_client;
-	long t;
+	GConfValue *value;
 
 	if (!(conf_client = config_data_get_conf_client ()))
 		return -1;
 
-	t = gconf_client_get_int (conf_client, KEY_LAST_NOTIFICATION_TIME, NULL);
+	value = gconf_client_get_without_default (conf_client, KEY_LAST_NOTIFICATION_TIME, NULL);
+	if (value)
+		return (time_t) gconf_value_get_int (value);
 
-	return (time_t) t;
+	return time (NULL);
 }
 
 /**
