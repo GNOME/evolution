@@ -666,6 +666,8 @@ pas_backend_file_process_modify_card (PASBackend *backend,
 				 Evolution_BookListener_CardNotFound);
 	}
 
+	g_free(old_vcard_string);
+
 	gtk_object_unref(GTK_OBJECT(card));
 	g_free (req->vcard);
 }
@@ -800,6 +802,8 @@ pas_backend_file_process_get_book_view (PASBackend *backend,
 	bf->priv->book_views = g_list_prepend(bf->priv->book_views, view);
 
 	pas_backend_file_search (bf, book, view);
+
+	g_free(req->search);
 }
 
 static void

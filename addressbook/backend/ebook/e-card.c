@@ -699,16 +699,14 @@ parse_anniversary(ECard *card, VObject *vobj)
 static void
 parse_fburl(ECard *card, VObject *vobj)
 {
-	if (card->fburl)
-		g_free(card->fburl);
+	g_free(card->fburl);
 	assign_string(vobj, &(card->fburl));
 }
 
 static void
 parse_note(ECard *card, VObject *vobj)
 {
-	if (card->note)
-		g_free(card->note);
+	g_free(card->note);
 	assign_string(vobj, &(card->note));
 }
 
@@ -724,12 +722,13 @@ add_list_unique(ECard *card, ECardList *list, char *string)
 	}
 	for ( iterator = e_card_list_get_iterator(list); e_card_iterator_is_valid(iterator); e_card_iterator_next(iterator)) {
 		if (!strcmp(e_card_iterator_get(iterator), temp)) {
-			g_free(temp);
 			break;
 		}
 	}
 	if (!e_card_iterator_is_valid(iterator)) {
 		e_card_list_append(list, temp);
+	} else {
+		g_free(temp);
 	}
 	gtk_object_unref(GTK_OBJECT(iterator));
 }
@@ -1142,44 +1141,27 @@ static void
 e_card_destroy (GtkObject *object)
 {
 	ECard *card = E_CARD(object);
-	if ( card->id )
-		g_free(card->id);
-	if (card->file_as)
-		g_free(card->file_as);
-	if ( card->fname )
-		g_free(card->fname);
+	g_free(card->id);
+	g_free(card->file_as);
+	g_free(card->fname);
 	if ( card->name )
 		e_card_name_free(card->name);
-	if ( card->bday )
-		g_free(card->bday);
+	g_free(card->bday);
 
-	if (card->url)
-		g_free(card->url);
-	if (card->org)
-		g_free(card->org);
-	if (card->org_unit)
-		g_free(card->org_unit);
-	if (card->office)
-		g_free(card->office);
-	if (card->title)
-		g_free(card->title);
-	if (card->role)
-		g_free(card->role);
-	if (card->manager)
-		g_free(card->manager);
-	if (card->assistant)
-		g_free(card->assistant);
-	if (card->nickname)
-		g_free(card->nickname);
-	if (card->spouse)
-		g_free(card->spouse);
-	if (card->anniversary)
-		g_free(card->anniversary);
-	if (card->fburl)
-		g_free(card->fburl);
-	if (card->note)
-		g_free(card->note);
-
+	g_free(card->url);
+	g_free(card->org);
+	g_free(card->org_unit);
+	g_free(card->office);
+	g_free(card->title);
+	g_free(card->role);
+	g_free(card->manager);
+	g_free(card->assistant);
+	g_free(card->nickname);
+	g_free(card->spouse);
+	g_free(card->anniversary);
+	g_free(card->fburl);
+	g_free(card->note);
+		
 	if (card->categories)
 		gtk_object_unref(GTK_OBJECT(card->categories));
 	if (card->email)
@@ -1203,13 +1185,11 @@ e_card_set_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 
 	switch (arg_id) {
 	case ARG_FILE_AS:
-		if (card->file_as)
-			g_free(card->file_as);
+		g_free(card->file_as);
 		card->file_as = g_strdup(GTK_VALUE_STRING(*arg));
 		break;
 	case ARG_FULL_NAME:
-		if ( card->fname )
-			g_free(card->fname);
+		g_free(card->fname);
 		card->fname = g_strdup(GTK_VALUE_STRING(*arg));
 		break;
 	case ARG_NAME:
@@ -1232,78 +1212,63 @@ e_card_set_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 			gtk_object_ref(GTK_OBJECT(card->categories));
 		break;
 	case ARG_BIRTH_DATE:
-		if ( card->bday )
-			g_free(card->bday);
+		g_free(card->bday);
 		card->bday = GTK_VALUE_POINTER(*arg);
 		break;
 	case ARG_URL:
-		if ( card->url )
-			g_free(card->url);
+		g_free(card->url);
 		card->url = g_strdup(GTK_VALUE_STRING(*arg));
 		break;
 	case ARG_ORG:
-		if (card->org)
-			g_free(card->org);
+		g_free(card->org);
 		card->org = g_strdup(GTK_VALUE_STRING(*arg));
 		break;
 	case ARG_ORG_UNIT:
-		if (card->org_unit)
-			g_free(card->org_unit);
+		g_free(card->org_unit);
 		card->org_unit = g_strdup(GTK_VALUE_STRING(*arg));
 		break;
 	case ARG_OFFICE:
-		if (card->office)
-			g_free(card->office);
+		g_free(card->office);
 		card->office = g_strdup(GTK_VALUE_STRING(*arg));
 		break;
 	case ARG_TITLE:
-		if ( card->title )
-			g_free(card->title);
+		g_free(card->title);
 		card->title = g_strdup(GTK_VALUE_STRING(*arg));
 		break;
 	case ARG_ROLE:
-		if (card->role)
-			g_free(card->role);
+		g_free(card->role);
 		card->role = g_strdup(GTK_VALUE_STRING(*arg));
 		break;
 	case ARG_MANAGER:
-		if (card->manager)
-			g_free(card->manager);
+		g_free(card->manager);
 		card->manager = g_strdup(GTK_VALUE_STRING(*arg));
 		break;
 	case ARG_ASSISTANT:
-		if (card->assistant)
-			g_free(card->assistant);
+		g_free(card->assistant);
 		card->assistant = g_strdup(GTK_VALUE_STRING(*arg));
 		break;
 	case ARG_NICKNAME:
-		if (card->nickname)
-			g_free(card->nickname);
+		g_free(card->nickname);
 		card->nickname = g_strdup(GTK_VALUE_STRING(*arg));
 		break;
 	case ARG_SPOUSE:
-		if (card->spouse)
-			g_free(card->spouse);
+		g_free(card->spouse);
 		card->spouse = g_strdup(GTK_VALUE_STRING(*arg));
 		break;
 	case ARG_ANNIVERSARY:
-		if ( card->anniversary )
-			g_free(card->anniversary);
+		g_free(card->anniversary);
 		card->anniversary = GTK_VALUE_POINTER(*arg);
 		break;
 	case ARG_FBURL:
-		if (card->fburl)
-			g_free(card->fburl);
+		g_free(card->fburl);
 		card->fburl = g_strdup(GTK_VALUE_STRING(*arg));
 		break;
 	case ARG_NOTE:
-		if (card->note)
-			g_free (card->note);
+		g_free (card->note);
 		card->note = g_strdup(GTK_VALUE_STRING(*arg));
 		break;
 	case ARG_ID:
-		if (card->id)
-			g_free(card->id);
+		g_free(card->id);
 		card->id = g_strdup(GTK_VALUE_STRING(*arg));
 		break;
 	default:

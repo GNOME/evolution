@@ -861,6 +861,8 @@ e_name_western_free (ENameWestern *w)
 	g_free (w->nick);
 	g_free (w->last);
 	g_free (w->suffix);
+	
+	g_free (w->full);
 
 	g_free (w);
 }

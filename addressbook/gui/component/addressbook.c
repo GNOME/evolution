@@ -94,12 +94,16 @@ static void
 new_contact_cb (BonoboUIHandler *uih, void *user_data, const char *path)
 {
 	gint result;
-	GtkWidget* contact_editor =
-		e_contact_editor_new(e_card_new(""));
+	ECard *card;
+	GtkWidget* contact_editor;
 	EBook *book;
 	AddressbookView *view = (AddressbookView *) user_data;
 	GtkObject *object;
 	GtkWidget* dlg = gnome_dialog_new ("Contact Editor", "Save", "Cancel", NULL);
+
+	card = e_card_new("");
+	contact_editor = e_contact_editor_new(card);
+	gtk_object_sink(GTK_OBJECT(card));
 
 	gtk_window_set_policy(GTK_WINDOW(dlg), FALSE, TRUE, FALSE);
 

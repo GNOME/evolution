@@ -1175,6 +1175,7 @@ fill_in_info(EContactEditor *editor)
 		gtk_editable_delete_text(editable, 0, -1);
 		if (categories)
 			gtk_editable_insert_text(editable, categories, strlen(categories), &position);
+		g_free(categories);
 		
 		/* File as has to come after company and name or else it'll get messed up when setting them. */
 		position = 0;

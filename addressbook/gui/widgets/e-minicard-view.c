@@ -210,8 +210,7 @@ e_minicard_view_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 		}
 		break;
 	case ARG_QUERY:
-		if (view->query)
-			g_free(view->query);
+		g_free(view->query);
 		view->query = g_strdup(GTK_VALUE_STRING (*arg));
 		if (view->get_view_idle == 0)
 			view->get_view_idle = g_idle_add((GSourceFunc)get_view, view);
@@ -250,6 +249,7 @@ e_minicard_view_destroy (GtkObject *object)
 		gtk_signal_disconnect(GTK_OBJECT (GNOME_CANVAS_ITEM(view)->canvas),
 				      view->canvas_destroy_id);
 	disconnect_signals(view);
+	g_free(view->query);
 	if (view->book)
 		gtk_object_unref(GTK_OBJECT(view->book));
 	if (view->book_view)

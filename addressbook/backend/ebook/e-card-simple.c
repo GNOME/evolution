@@ -368,6 +368,7 @@ static void
 e_card_simple_destroy (GtkObject *object)
 {
 	ECardSimple *simple;
+	int i;
 	
 	simple = E_CARD_SIMPLE (object);
 
@@ -376,6 +377,13 @@ e_card_simple_destroy (GtkObject *object)
 	g_list_foreach(simple->temp_fields, (GFunc) g_free, NULL);
 	g_list_free(simple->temp_fields);
 	simple->temp_fields = NULL;
+
+	for(i = 0; i < E_CARD_SIMPLE_PHONE_ID_LAST; i++)
+		g_free(simple->phone[i]);
+	for(i = 0; i < E_CARD_SIMPLE_EMAIL_ID_LAST; i++)
+		g_free(simple->email[i]);
+	for(i = 0; i < E_CARD_SIMPLE_ADDRESS_ID_LAST; i++)
+		g_free(simple->address[i]);
 }
 
 
