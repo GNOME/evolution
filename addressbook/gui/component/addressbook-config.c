@@ -1677,7 +1677,7 @@ addressbook_config_control_new (void)
 {
 	GNOME_Evolution_Shell shell;
 
-	shell = BONOBO_OBJREF (addressbook_component_get_shell_client ());
+	shell = evolution_shell_client_corba_objref (addressbook_component_get_shell_client ());
 	if (! shell)
 		return NULL;
 

@@ -1,3 +1,10 @@
+2002-12-16  Ettore Perazzoli  <ettore@ximian.com>
+
+	* gui/component/addressbook-config.c
+	(addressbook_config_control_new): Use
+	evolution_shell_client_corba_objref() instead of BONOBO_OBJREF()
+	to get the Shell CORBA object.
+
 2002-12-16  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* gui/component/addressbook-config.c: Don't #include
