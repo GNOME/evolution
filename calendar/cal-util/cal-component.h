@@ -67,7 +67,7 @@ typedef struct {
 
 	/* Alternate representation URI */
 	const char *altrep;
-} CalComponentDescription;
+} CalComponentText;
 
 typedef struct {
 	/* Actual date/time value */
@@ -107,12 +107,17 @@ CalComponentVType cal_component_get_vtype (CalComponent *comp);
 const char *cal_component_get_uid (CalComponent *comp);
 void cal_component_set_uid (CalComponent *comp, const char *uid);
 
-void cal_component_get_summary (CalComponent *comp, CalComponentPropSummary *summary);
-void cal_component_set_summary (CalComponent *comp, const CalComponentPropSummary *summary);
+void cal_component_get_categories_list (CalComponent *comp, GSList **categ_list);
+void cal_component_set_categories_list (CalComponent *comp, GSList *categ_list);
+void cal_component_free_categories_list (GSList *categ_list);
 
-void cal_component_get_description_list (CalComponent *comp, GSList **desc_list);
-void cal_component_set_description_list (CalComponent *comp, GSList *desc_list);
-void cal_component_free_description_list (GSList *desc_list);
+void cal_component_free_text_list (GSList *text_list);
+
+void cal_component_get_comment_list (CalComponent *comp, GSList **text_list);
+void cal_component_set_comment_list (CalComponent *comp, GSList *text_list);
+
+void cal_component_get_description_list (CalComponent *comp, GSList **text_list);
+void cal_component_set_description_list (CalComponent *comp, GSList *text_list);
 
 void cal_component_free_datetime (CalComponentDateTime *dt);
 
@@ -125,9 +130,8 @@ void cal_component_set_dtend (CalComponent *comp, CalComponentDateTime *dt);
 void cal_component_get_due (CalComponent *comp, CalComponentDateTime *dt);
 void cal_component_set_due (CalComponent *comp, CalComponentDateTime *dt);
 
-void cal_component_get_categories_list (CalComponent *comp, GSList **categ_list);
-void cal_component_set_categories_list (CalComponent *comp, GSList *categ_list);
-void cal_component_free_categories_list (GSList *categ_list);
+void cal_component_get_summary (CalComponent *comp, CalComponentPropSummary *summary);
+void cal_component_set_summary (CalComponent *comp, const CalComponentPropSummary *summary);
 
 
 

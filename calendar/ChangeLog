@@ -1,3 +1,23 @@
+2000-07-03  Federico Mena Quintero  <federico@helixcode.com>
+
+	* cal-util/cal-component.c (cal_component_free_text_list): Renamed
+	from cal_component_free_description_list().  We can share this
+	function since both comments and descriptions have the same form.
+	(scan_text): Ditto.
+	(get_text_list): New function.
+	(set_text_list): New function.
+	(cal_component_get_description_list): Use get_text_list().
+	(cal_component_set_description_list): Use set_text_list().
+	(cal_component_set_uid): Add sanity check.
+	(cal_component_get_summary): Ditto.
+	(cal_component_get_description_list): Ditto.
+	(cal_component_get_dtstart): Ditto.
+	(cal_component_get_dtend): Ditto.
+	(cal_component_get_due): Ditto.
+	(scan_property): Handle the COMMENT property.
+	(cal_component_get_comment_list): Ditto.
+	(cal_component_set_comment_list): Ditto.
+
 2000-07-02  Federico Mena Quintero  <federico@helixcode.com>
 
 	* cal-util/cal-component.c (scan_categories): Handle CATEGORIES.

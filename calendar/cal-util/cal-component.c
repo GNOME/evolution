@@ -40,10 +40,13 @@ typedef struct {
 	};
 	GSList *categories_list;
 
-	struct description {
+	struct text {
 		icalproperty *prop;
 		icalparameter *altrep_param;
 	};
+
+	GSList *comment_list;
+
 	GSList *description_list;
 
 	struct datetime {
@@ -275,18 +278,18 @@ scan_categories (CalComponent *comp, icalproperty *prop)
 	priv->categories_list = g_slist_append (priv->categories_list, categ);
 }
 
-/* Scans the description property */
+/* Scans a text (i.e. text + altrep) property */
 static void
-scan_description (CalComponent *comp, icalproperty *prop)
+scan_text (CalComponent *comp, GSList **text_list, icalproperty *prop)
 {
 	CalComponentPrivate *priv;
-	struct description *desc;
+	struct text *text;
 	icalparameter *param;
 
 	priv = comp->priv;
 
-	desc = g_new (struct description, 1);
-	desc->prop = prop;
+	text = g_new (struct text, 1);
+	text->prop = prop;
 
 	for (param = icalproperty_get_first_parameter (prop, ICAL_ANY_PARAMETER);
 	     param;
@@ -297,7 +300,7 @@ scan_description (CalComponent *comp, icalproperty *prop)
 
 		switch (kind) {
 		case ICAL_ALTREP_PARAMETER:
-			desc->altrep_param = param;
+			text->altrep_param = param;
 			break;
 
 		default:
@@ -305,7 +308,7 @@ scan_description (CalComponent *comp, icalproperty *prop)
 		}
 	}
 
-	priv->description_list = g_slist_append (priv->description_list, desc);
+	*text_list = g_slist_append (*text_list, text);
 }
 
 /* Scans a date/time and timezone pair property */
@@ -382,8 +385,12 @@ scan_property (CalComponent *comp, icalproperty *prop)
 		scan_categories (comp, prop);
 		break;
 
+	case ICAL_COMMENT_PROPERTY:
+		scan_text (comp, &priv->comment_list, prop);
+		break;
+
 	case ICAL_DESCRIPTION_PROPERTY:
-		scan_description (comp, prop);
+		scan_text (comp, &priv->description_list, prop);
 		break;
 
 	case ICAL_DTEND_PROPERTY:
@@ -653,457 +660,12 @@ cal_component_set_uid (CalComponent *comp, const char *uid)
 	g_return_if_fail (uid != NULL);
 
 	priv = comp->priv;
+	g_return_if_fail (priv->icalcomp != NULL);
 
 	/* This MUST exist, since we ensured that it did */
 	g_assert (priv->uid_prop != NULL);
 
 	icalproperty_set_uid (priv->uid_prop, (char *) uid);
-}
-
-/**
- * cal_component_get_summary:
- * @comp: A calendar component object.
- * @summary: Return value for the summary property and its parameters.
- * 
- * Queries the summary of a calendar component object.
- **/
-void
-cal_component_get_summary (CalComponent *comp, CalComponentPropSummary *summary)
-{
-	CalComponentPrivate *priv;
-
-	g_return_if_fail (comp != NULL);
-	g_return_if_fail (IS_CAL_COMPONENT (comp));
-	g_return_if_fail (summary != NULL);
-
-	priv = comp->priv;
-
-	if (priv->summary.prop)
-		summary->value = icalproperty_get_summary (priv->summary.prop);
-	else
-		summary->value = NULL;
-
-	if (priv->summary.altrep_param)
-		summary->altrep = icalparameter_get_altrep (priv->summary.altrep_param);
-	else
-		summary->altrep = NULL;
-}
-
-/**
- * cal_component_set_summary:
- * @comp: A calendar component object.
- * @summary: Summary property and its parameters.
- * 
- * Sets the summary of a calendar component object.
- **/
-void
-cal_component_set_summary (CalComponent *comp, const CalComponentPropSummary *summary)
-{
-	CalComponentPrivate *priv;
-
-	g_return_if_fail (comp != NULL);
-	g_return_if_fail (IS_CAL_COMPONENT (comp));
-
-	priv = comp->priv;
-	g_return_if_fail (priv->icalcomp != NULL);
-
-	if (!summary) {
-		if (priv->summary.prop) {
-			icalcomponent_remove_property (priv->icalcomp, priv->summary.prop);
-			icalproperty_free (priv->summary.prop);
-
-			priv->summary.prop = NULL;
-			priv->summary.altrep_param = NULL;
-		}
-
-		return;
-	}
-
-	g_return_if_fail (summary->value != NULL);
-
-	if (priv->summary.prop)
-		icalproperty_set_summary (priv->summary.prop, (char *) summary->value);
-	else {
-		priv->summary.prop = icalproperty_new_summary ((char *) summary->value);
-		icalcomponent_add_property (priv->icalcomp, priv->summary.prop);
-	}
-
-	if (summary->altrep) {
-		g_assert (priv->summary.prop != NULL);
-
-		if (priv->summary.altrep_param)
-			icalparameter_set_altrep (priv->summary.altrep_param,
-						  (char *) summary->altrep);
-		else {
-			priv->summary.altrep_param = icalparameter_new_altrep (
-				(char *) summary->altrep);
-			icalproperty_add_parameter (priv->summary.prop,
-						    priv->summary.altrep_param);
-		}
-	} else if (priv->summary.altrep_param) {
-#if 0
-		/* FIXME: this fucking routine will assert(0) since it is not implemented */
-		icalproperty_remove_parameter (priv->summary.prop, ICAL_ALTREP_PARAMETER);
-		icalparameter_free (priv->summary.altrep_param);
-#endif
-		priv->summary.altrep_param = NULL;
-	}
-}
-
-/**
- * cal_component_get_description_list:
- * @comp: A calendar component object.
- * @desc_list: Return value for the description properties and their parameters,
- * as a list of #CalComponentDescription structures.  This should be freed using
- * the cal_component_free_description_list() function.
- * 
- * Queries the description of a calendar component object.  Journal components
- * may have more than one description, and as such this function returns a list
- * of #CalComponentDescription structures.  All other types of components can
- * have at most one description.
- **/
-void
-cal_component_get_description_list (CalComponent *comp, GSList **desc_list)
-{
-	CalComponentPrivate *priv;
-	GSList *list;
-	GSList *l;
-
-	g_return_if_fail (comp != NULL);
-	g_return_if_fail (IS_CAL_COMPONENT (comp));
-	g_return_if_fail (desc_list != NULL);
-
-	priv = comp->priv;
-
-	list = NULL;
-
-	for (l = priv->description_list; l; l = l->next) {
-		struct description *desc;
-		CalComponentDescription *d;
-
-		desc = l->data;
-		g_assert (desc->prop != NULL);
-
-		d = g_new (CalComponentDescription, 1);
-		d->value = icalproperty_get_description (desc->prop);
-
-		if (desc->altrep_param)
-			d->altrep = icalparameter_get_altrep (desc->altrep_param);
-		else
-			d->altrep = NULL;
-
-		list = g_slist_prepend (list, d);
-	}
-
-	*desc_list = g_slist_reverse (list);
-}
-
-/**
- * cal_component_set_description_list:
- * @comp: A calendar component object.
- * @desc_list: List of #CalComponentSummary structures.
- * 
- * Sets the description of a calendar component object.  Journal components may
- * have more than one description, and as such this function takes in a list of
- * #CalComponentDescription structures.  All other types of components can have
- * at most one description.
- **/
-void
-cal_component_set_description_list (CalComponent *comp, GSList *desc_list)
-{
-	CalComponentPrivate *priv;
-	GSList *l;
-
-	g_return_if_fail (comp != NULL);
-	g_return_if_fail (IS_CAL_COMPONENT (comp));
-
-	priv = comp->priv;
-	g_return_if_fail (priv->icalcomp != NULL);
-	
-	/* Remove old descriptions */
-
-	for (l = priv->description_list; l; l = l->next) {
-		struct description *desc;
-
-		desc = l->data;
-		g_assert (desc->prop != NULL);
-
-		icalcomponent_remove_property (priv->icalcomp, desc->prop);
-		g_free (desc);
-	}
-
-	g_slist_free (priv->description_list);
-	priv->description_list = NULL;
-
-	/* Add in new descriptions */
-
-	for (l = desc_list; l; l = l->next) {
-		CalComponentDescription *d;
-		struct description *desc;
-
-		d = l->data;
-		g_return_if_fail (d->value != NULL);
-
-		desc = g_new (struct description, 1);
-
-		desc->prop = icalproperty_new_description ((char *) d->value);
-		icalcomponent_add_property (priv->icalcomp, desc->prop);
-
-		if (d->altrep) {
-			desc->altrep_param = icalparameter_new_altrep ((char *) d->altrep);
-			icalproperty_add_parameter (desc->prop, desc->altrep_param);
-		} else
-			desc->altrep_param = NULL;
-
-		priv->description_list = g_slist_prepend (priv->description_list, desc);
-	}
-
-	priv->description_list = g_slist_reverse (priv->description_list);
-}
-
-/**
- * cal_component_free_description_list:
- * @desc_list: List of #CalComponentDescription structures.
- * 
- * Frees a list of #CalComponentDescription structures as was returned by the
- * cal_component_get_description_list() function.
- **/
-void
-cal_component_free_description_list (GSList *desc_list)
-{
-	GSList *l;
-
-	for (l = desc_list; l; l = l->next) {
-		CalComponentDescription *desc;
-
-		desc = l->data;
-		g_return_if_fail (desc != NULL);
-		g_free (desc);
-	}
-
-	g_slist_free (desc_list);
-}
-
-/**
- * cal_component_free_datetime:
- * @dt: A date/time structure.
- * 
- * Frees a date/time structure.
- **/
-void
-cal_component_free_datetime (CalComponentDateTime *dt)
-{
-	g_return_if_fail (dt != NULL);
-
-	if (dt->value)
-		g_free (dt->value);
-}
-
-/* Gets a date/time and timezone pair */
-static void
-get_datetime (struct datetime *datetime,
-	      struct icaltimetype (* get_prop_func) (icalproperty *prop),
-	      CalComponentDateTime *dt)
-{
-	if (datetime->prop) {
-		dt->value = g_new (struct icaltimetype, 1);
-		*dt->value = (* get_prop_func) (datetime->prop);
-	} else
-		dt->value = NULL;
-
-	if (datetime->tzid_param)
-		dt->tzid = icalparameter_get_tzid (datetime->tzid_param);
-	else
-		dt->tzid = NULL;
-}
-
-/**
- * cal_component_get_dtstart:
- * @comp: A calendar component object.
- * @dt: Return value for the date/time start.  This should be freed with the
- * cal_component_free_datetime() function.
- * 
- * Queries the date/time start of a calendar component object.
- **/
-void
-cal_component_get_dtstart (CalComponent *comp, CalComponentDateTime *dt)
-{
-	CalComponentPrivate *priv;
-
-	g_return_if_fail (comp != NULL);
-	g_return_if_fail (IS_CAL_COMPONENT (comp));
-	g_return_if_fail (dt != NULL);
-
-	priv = comp->priv;
-
-	get_datetime (&priv->dtstart, icalproperty_get_dtstart, dt);
-}
-
-/* Sets a date/time and timezone pair */
-static void
-set_datetime (CalComponent *comp, struct datetime *datetime,
-	      icalproperty *(* prop_new_func) (struct icaltimetype v),
-	      void (* prop_set_func) (icalproperty * prop, struct icaltimetype v),
-	      CalComponentDateTime *dt)
-{
-	CalComponentPrivate *priv;
-
-	priv = comp->priv;
-
-	if (!dt) {
-		if (datetime->prop) {
-			icalcomponent_remove_property (priv->icalcomp, datetime->prop);
-			icalproperty_free (datetime->prop);
-
-			datetime->prop = NULL;
-			datetime->tzid_param = NULL;
-		}
-
-		return;
-	}
-
-	g_return_if_fail (dt->value != NULL);
-
-	if (datetime->prop)
-		(* prop_set_func) (datetime->prop, *dt->value);
-	else {
-		datetime->prop = (* prop_new_func) (*dt->value);
-		icalcomponent_add_property (priv->icalcomp, datetime->prop);
-	}
-
-	if (dt->tzid) {
-		g_assert (datetime->prop != NULL);
-
-		if (datetime->tzid_param)
-			icalparameter_set_tzid (datetime->tzid_param, (char *) dt->tzid);
-		else {
-			datetime->tzid_param = icalparameter_new_tzid ((char *) dt->tzid);
-			icalproperty_add_parameter (datetime->prop, datetime->tzid_param);
-		}
-	} else if (datetime->tzid_param) {
-#if 0
-		/* FIXME: this fucking routine will assert(0) since it is not implemented */
-		icalproperty_remove_parameter (datetime->prop, ICAL_TZID_PARAMETER);
-		icalparameter_free (datetime->tzid_param);
-#endif
-		datetime->tzid_param = NULL;
-	}
-}
-
-/**
- * cal_component_set_dtstart:
- * @comp: A calendar component object.
- * @dt: Start date/time.
- * 
- * Sets the date/time start property of a calendar component object.
- **/
-void
-cal_component_set_dtstart (CalComponent *comp, CalComponentDateTime *dt)
-{
-	CalComponentPrivate *priv;
-
-	g_return_if_fail (comp != NULL);
-	g_return_if_fail (IS_CAL_COMPONENT (comp));
-
-	priv = comp->priv;
-	g_return_if_fail (priv->icalcomp != NULL);
-
-	set_datetime (comp, &priv->dtstart,
-		      icalproperty_new_dtstart,
-		      icalproperty_set_dtstart,
-		      dt);
-}
-
-/**
- * cal_component_get_dtend:
- * @comp: A calendar component object.
- * @dt: Return value for the date/time end.  This should be freed with the
- * cal_component_free_datetime() function.
- * 
- * Queries the date/time end of a calendar component object.
- **/
-void
-cal_component_get_dtend (CalComponent *comp, CalComponentDateTime *dt)
-{
-	CalComponentPrivate *priv;
-
-	g_return_if_fail (comp != NULL);
-	g_return_if_fail (IS_CAL_COMPONENT (comp));
-	g_return_if_fail (dt != NULL);
-
-	priv = comp->priv;
-
-	get_datetime (&priv->dtend, icalproperty_get_dtend, dt);
-}
-
-/**
- * cal_component_set_dtend:
- * @comp: A calendar component object.
- * @dt: End date/time.
- * 
- * Sets the date/time end property of a calendar component object.
- **/
-void
-cal_component_set_dtend (CalComponent *comp, CalComponentDateTime *dt)
-{
-	CalComponentPrivate *priv;
-
-	g_return_if_fail (comp != NULL);
-	g_return_if_fail (IS_CAL_COMPONENT (comp));
-
-	priv = comp->priv;
-	g_return_if_fail (priv->icalcomp != NULL);
-
-	set_datetime (comp, &priv->dtend,
-		      icalproperty_new_dtend,
-		      icalproperty_set_dtend,
-		      dt);
-}
-
-/**
- * cal_component_get_due:
- * @comp: A calendar component object.
- * @dt: Return value for the due date/time.  This should be freed with the
- * cal_component_free_datetime() function.
- * 
- * Queries the due date/time of a calendar component object.
- **/
-void
-cal_component_get_due (CalComponent *comp, CalComponentDateTime *dt)
-{
-	CalComponentPrivate *priv;
-
-	g_return_if_fail (comp != NULL);
-	g_return_if_fail (IS_CAL_COMPONENT (comp));
-	g_return_if_fail (dt != NULL);
-
-	priv = comp->priv;
-
-	get_datetime (&priv->due, icalproperty_get_due, dt);
-}
-
-/**
- * cal_component_set_due:
- * @comp: A calendar component object.
- * @dt: End date/time.
- * 
- * Sets the due date/time property of a calendar component object.
- **/
-void
-cal_component_set_due (CalComponent *comp, CalComponentDateTime *dt)
-{
-	CalComponentPrivate *priv;
-
-	g_return_if_fail (comp != NULL);
-	g_return_if_fail (IS_CAL_COMPONENT (comp));
-
-	priv = comp->priv;
-	g_return_if_fail (priv->icalcomp != NULL);
-
-	set_datetime (comp, &priv->due,
-		      icalproperty_new_due,
-		      icalproperty_set_due,
-		      dt);
 }
 
 /**
@@ -1126,10 +688,10 @@ cal_component_get_categories_list (CalComponent *comp, GSList **categ_list)
 
 	g_return_if_fail (comp != NULL);
 	g_return_if_fail (IS_CAL_COMPONENT (comp));
+	g_return_if_fail (categ_list != NULL);
 
 	priv = comp->priv;
 	g_return_if_fail (priv->icalcomp != NULL);
-	g_return_if_fail (categ_list != NULL);
 
 	if (!priv->categories_list) {
 		*categ_list = NULL;
@@ -1251,4 +813,533 @@ cal_component_free_categories_list (GSList *categ_list)
 		g_free (l->data);
 
 	g_slist_free (categ_list);
+}
+
+/**
+ * cal_component_free_text_list:
+ * @text_list: List of #CalComponentText structures.
+ * 
+ * Frees a list of #CalComponentText structures.  This function should only be
+ * used to free lists of text values as returned by the other getter functions
+ * of #CalComponent.
+ **/
+void
+cal_component_free_text_list (GSList *text_list)
+{
+	GSList *l;
+
+	for (l = text_list; l; l = l->next) {
+		CalComponentText *text;
+
+		text = l->data;
+		g_return_if_fail (text != NULL);
+		g_free (text);
+	}
+
+	g_slist_free (text_list);
+}
+
+/* Gets a text list value */
+static void
+get_text_list (GSList *text_list,
+	       char *(* get_prop_func) (icalproperty *prop),
+	       GSList **tl)
+{
+	GSList *l;
+
+	if (!text_list) {
+		*tl = NULL;
+		return;
+	}
+
+	*tl = NULL;
+
+	for (l = text_list; l; l = l->next) {
+		struct text *text;
+		CalComponentText *t;
+
+		text = l->data;
+		g_assert (text->prop != NULL);
+
+		t = g_new (CalComponentText, 1);
+		t->value = (* get_prop_func) (text->prop);
+
+		if (text->altrep_param)
+			t->altrep = icalparameter_get_altrep (text->altrep_param);
+		else
+			t->altrep = NULL;
+
+		*tl = g_slist_prepend (*tl, t);
+	}
+
+	*tl = g_slist_reverse (*tl);
+}
+
+/* Sets a text list value */
+static void
+set_text_list (CalComponent *comp,
+	       icalproperty *(* new_prop_func) (char *value),
+	       GSList **text_list,
+	       GSList *tl)
+{
+	CalComponentPrivate *priv;
+	GSList *l;
+
+	priv = comp->priv;
+
+	/* Remove old texts */
+
+	for (l = *text_list; l; l = l->next) {
+		struct text *text;
+
+		text = l->data;
+		g_assert (text->prop != NULL);
+
+		icalcomponent_remove_property (priv->icalcomp, text->prop);
+		g_free (text);
+	}
+
+	g_slist_free (*text_list);
+	*text_list = NULL;
+
+	/* Add in new texts */
+
+	for (l = tl; l; l = l->next) {
+		CalComponentText *t;
+		struct text *text;
+
+		t = l->data;
+		g_return_if_fail (t->value != NULL);
+
+		text = g_new (struct text, 1);
+
+		text->prop = (* new_prop_func) ((char *) t->value);
+		icalcomponent_add_property (priv->icalcomp, text->prop);
+
+		if (t->altrep) {
+			text->altrep_param = icalparameter_new_altrep ((char *) t->altrep);
+			icalproperty_add_parameter (text->prop, text->altrep_param);
+		} else
+			text->altrep_param = NULL;
+
+		*text_list = g_slist_prepend (*text_list, text);
+	}
+
+	*text_list = g_slist_reverse (*text_list);
+}
+
+/**
+ * cal_component_get_comment_list:
+ * @comp: A calendar component object.
+ * @text_list: Return value for the comment properties and their parameters, as
+ * a list of #CalComponentText structures.  This should be freed using the
+ * cal_component_free_text_list() function.
+ * 
+ * Queries the comment of a calendar component object.  The comment property can
+ * appear several times inside a calendar component, and so a list of
+ * #CalComponentText is returned.
+ **/
+void
+cal_component_get_comment_list (CalComponent *comp, GSList **text_list)
+{
+	CalComponentPrivate *priv;
+
+	g_return_if_fail (comp != NULL);
+	g_return_if_fail (IS_CAL_COMPONENT (comp));
+	g_return_if_fail (text_list != NULL);
+
+	priv = comp->priv;
+	g_return_if_fail (priv->icalcomp != NULL);
+
+	get_text_list (priv->comment_list, icalproperty_get_comment, text_list);
+}
+
+/**
+ * cal_component_set_comment_list:
+ * @comp: A calendar component object.
+ * @text_list: List of #CalComponentText structures.
+ * 
+ * Sets the comment of a calendar component object.  The comment property can
+ * appear several times inside a calendar component, and so a list of
+ * #CalComponentText structures is used.
+ **/
+void
+cal_component_set_comment_list (CalComponent *comp, GSList *text_list)
+{
+	CalComponentPrivate *priv;
+
+	g_return_if_fail (comp != NULL);
+	g_return_if_fail (IS_CAL_COMPONENT (comp));
+
+	priv = comp->priv;
+	g_return_if_fail (priv->icalcomp != NULL);
+
+	set_text_list (comp, icalproperty_new_comment, &priv->comment_list, text_list);
+}
+
+/**
+ * cal_component_get_description_list:
+ * @comp: A calendar component object.
+ * @text_list: Return value for the description properties and their parameters,
+ * as a list of #CalComponentText structures.  This should be freed using the
+ * cal_component_free_text_list() function.
+ * 
+ * Queries the description of a calendar component object.  Journal components
+ * may have more than one description, and as such this function returns a list
+ * of #CalComponentText structures.  All other types of components can have at
+ * most one description.
+ **/
+void
+cal_component_get_description_list (CalComponent *comp, GSList **text_list)
+{
+	CalComponentPrivate *priv;
+
+	g_return_if_fail (comp != NULL);
+	g_return_if_fail (IS_CAL_COMPONENT (comp));
+	g_return_if_fail (text_list != NULL);
+
+	priv = comp->priv;
+	g_return_if_fail (priv->icalcomp != NULL);
+
+	get_text_list (priv->description_list, icalproperty_get_description, text_list);
+}
+
+/**
+ * cal_component_set_description_list:
+ * @comp: A calendar component object.
+ * @text_list: List of #CalComponentSummary structures.
+ * 
+ * Sets the description of a calendar component object.  Journal components may
+ * have more than one description, and as such this function takes in a list of
+ * #CalComponentDescription structures.  All other types of components can have
+ * at most one description.
+ **/
+void
+cal_component_set_description_list (CalComponent *comp, GSList *text_list)
+{
+	CalComponentPrivate *priv;
+
+	g_return_if_fail (comp != NULL);
+	g_return_if_fail (IS_CAL_COMPONENT (comp));
+
+	priv = comp->priv;
+	g_return_if_fail (priv->icalcomp != NULL);
+
+	set_text_list (comp, icalproperty_new_description, &priv->description_list, text_list);
+}
+
+/**
+ * cal_component_free_datetime:
+ * @dt: A date/time structure.
+ * 
+ * Frees a date/time structure.
+ **/
+void
+cal_component_free_datetime (CalComponentDateTime *dt)
+{
+	g_return_if_fail (dt != NULL);
+
+	if (dt->value)
+		g_free (dt->value);
+}
+
+/* Gets a date/time and timezone pair */
+static void
+get_datetime (struct datetime *datetime,
+	      struct icaltimetype (* get_prop_func) (icalproperty *prop),
+	      CalComponentDateTime *dt)
+{
+	if (datetime->prop) {
+		dt->value = g_new (struct icaltimetype, 1);
+		*dt->value = (* get_prop_func) (datetime->prop);
+	} else
+		dt->value = NULL;
+
+	if (datetime->tzid_param)
+		dt->tzid = icalparameter_get_tzid (datetime->tzid_param);
+	else
+		dt->tzid = NULL;
+}
+
+/**
+ * cal_component_get_dtstart:
+ * @comp: A calendar component object.
+ * @dt: Return value for the date/time start.  This should be freed with the
+ * cal_component_free_datetime() function.
+ * 
+ * Queries the date/time start of a calendar component object.
+ **/
+void
+cal_component_get_dtstart (CalComponent *comp, CalComponentDateTime *dt)
+{
+	CalComponentPrivate *priv;
+
+	g_return_if_fail (comp != NULL);
+	g_return_if_fail (IS_CAL_COMPONENT (comp));
+	g_return_if_fail (dt != NULL);
+
+	priv = comp->priv;
+	g_return_if_fail (priv->icalcomp != NULL);
+
+	get_datetime (&priv->dtstart, icalproperty_get_dtstart, dt);
+}
+
+/* Sets a date/time and timezone pair */
+static void
+set_datetime (CalComponent *comp, struct datetime *datetime,
+	      icalproperty *(* prop_new_func) (struct icaltimetype v),
+	      void (* prop_set_func) (icalproperty * prop, struct icaltimetype v),
+	      CalComponentDateTime *dt)
+{
+	CalComponentPrivate *priv;
+
+	priv = comp->priv;
+
+	if (!dt) {
+		if (datetime->prop) {
+			icalcomponent_remove_property (priv->icalcomp, datetime->prop);
+			icalproperty_free (datetime->prop);
+
+			datetime->prop = NULL;
+			datetime->tzid_param = NULL;
+		}
+
+		return;
+	}
+
+	g_return_if_fail (dt->value != NULL);
+
+	if (datetime->prop)
+		(* prop_set_func) (datetime->prop, *dt->value);
+	else {
+		datetime->prop = (* prop_new_func) (*dt->value);
+		icalcomponent_add_property (priv->icalcomp, datetime->prop);
+	}
+
+	if (dt->tzid) {
+		g_assert (datetime->prop != NULL);
+
+		if (datetime->tzid_param)
+			icalparameter_set_tzid (datetime->tzid_param, (char *) dt->tzid);
+		else {
+			datetime->tzid_param = icalparameter_new_tzid ((char *) dt->tzid);
+			icalproperty_add_parameter (datetime->prop, datetime->tzid_param);
+		}
+	} else if (datetime->tzid_param) {
+#if 0
+		/* FIXME: this fucking routine will assert(0) since it is not implemented */
+		icalproperty_remove_parameter (datetime->prop, ICAL_TZID_PARAMETER);
+		icalparameter_free (datetime->tzid_param);
+#endif
+		datetime->tzid_param = NULL;
+	}
+}
+
+/**
+ * cal_component_set_dtstart:
+ * @comp: A calendar component object.
+ * @dt: Start date/time.
+ * 
+ * Sets the date/time start property of a calendar component object.
+ **/
+void
+cal_component_set_dtstart (CalComponent *comp, CalComponentDateTime *dt)
+{
+	CalComponentPrivate *priv;
+
+	g_return_if_fail (comp != NULL);
+	g_return_if_fail (IS_CAL_COMPONENT (comp));
+
+	priv = comp->priv;
+	g_return_if_fail (priv->icalcomp != NULL);
+
+	set_datetime (comp, &priv->dtstart,
+		      icalproperty_new_dtstart,
+		      icalproperty_set_dtstart,
+		      dt);
+}
+
+/**
+ * cal_component_get_dtend:
+ * @comp: A calendar component object.
+ * @dt: Return value for the date/time end.  This should be freed with the
+ * cal_component_free_datetime() function.
+ * 
+ * Queries the date/time end of a calendar component object.
+ **/
+void
+cal_component_get_dtend (CalComponent *comp, CalComponentDateTime *dt)
+{
+	CalComponentPrivate *priv;
+
+	g_return_if_fail (comp != NULL);
+	g_return_if_fail (IS_CAL_COMPONENT (comp));
+	g_return_if_fail (dt != NULL);
+
+	priv = comp->priv;
+	g_return_if_fail (priv->icalcomp != NULL);
+
+	get_datetime (&priv->dtend, icalproperty_get_dtend, dt);
+}
+
+/**
+ * cal_component_set_dtend:
+ * @comp: A calendar component object.
+ * @dt: End date/time.
+ * 
+ * Sets the date/time end property of a calendar component object.
+ **/
+void
+cal_component_set_dtend (CalComponent *comp, CalComponentDateTime *dt)
+{
+	CalComponentPrivate *priv;
+
+	g_return_if_fail (comp != NULL);
+	g_return_if_fail (IS_CAL_COMPONENT (comp));
+
+	priv = comp->priv;
+	g_return_if_fail (priv->icalcomp != NULL);
+
+	set_datetime (comp, &priv->dtend,
+		      icalproperty_new_dtend,
+		      icalproperty_set_dtend,
+		      dt);
+}
+
+/**
+ * cal_component_get_due:
+ * @comp: A calendar component object.
+ * @dt: Return value for the due date/time.  This should be freed with the
+ * cal_component_free_datetime() function.
+ * 
+ * Queries the due date/time of a calendar component object.
+ **/
+void
+cal_component_get_due (CalComponent *comp, CalComponentDateTime *dt)
+{
+	CalComponentPrivate *priv;
+
+	g_return_if_fail (comp != NULL);
+	g_return_if_fail (IS_CAL_COMPONENT (comp));
+	g_return_if_fail (dt != NULL);
+
+	priv = comp->priv;
+	g_return_if_fail (priv->icalcomp != NULL);
+
+	get_datetime (&priv->due, icalproperty_get_due, dt);
+}
+
+/**
+ * cal_component_set_due:
+ * @comp: A calendar component object.
+ * @dt: End date/time.
+ * 
+ * Sets the due date/time property of a calendar component object.
+ **/
+void
+cal_component_set_due (CalComponent *comp, CalComponentDateTime *dt)
+{
+	CalComponentPrivate *priv;
+
+	g_return_if_fail (comp != NULL);
+	g_return_if_fail (IS_CAL_COMPONENT (comp));
+
+	priv = comp->priv;
+	g_return_if_fail (priv->icalcomp != NULL);
+
+	set_datetime (comp, &priv->due,
+		      icalproperty_new_due,
+		      icalproperty_set_due,
+		      dt);
+}
+
+/**
+ * cal_component_get_summary:
+ * @comp: A calendar component object.
+ * @summary: Return value for the summary property and its parameters.
+ * 
+ * Queries the summary of a calendar component object.
+ **/
+void
+cal_component_get_summary (CalComponent *comp, CalComponentPropSummary *summary)
+{
+	CalComponentPrivate *priv;
+
+	g_return_if_fail (comp != NULL);
+	g_return_if_fail (IS_CAL_COMPONENT (comp));
+	g_return_if_fail (summary != NULL);
+
+	priv = comp->priv;
+	g_return_if_fail (priv->icalcomp != NULL);
+
+	if (priv->summary.prop)
+		summary->value = icalproperty_get_summary (priv->summary.prop);
+	else
+		summary->value = NULL;
+
+	if (priv->summary.altrep_param)
+		summary->altrep = icalparameter_get_altrep (priv->summary.altrep_param);
+	else
+		summary->altrep = NULL;
+}
+
+/**
+ * cal_component_set_summary:
+ * @comp: A calendar component object.
+ * @summary: Summary property and its parameters.
+ * 
+ * Sets the summary of a calendar component object.
+ **/
+void
+cal_component_set_summary (CalComponent *comp, const CalComponentPropSummary *summary)
+{
+	CalComponentPrivate *priv;
+
+	g_return_if_fail (comp != NULL);
+	g_return_if_fail (IS_CAL_COMPONENT (comp));
+
+	priv = comp->priv;
+	g_return_if_fail (priv->icalcomp != NULL);
+
+	if (!summary) {
+		if (priv->summary.prop) {
+			icalcomponent_remove_property (priv->icalcomp, priv->summary.prop);
+			icalproperty_free (priv->summary.prop);
+
+			priv->summary.prop = NULL;
+			priv->summary.altrep_param = NULL;
+		}
+
+		return;
+	}
+
+	g_return_if_fail (summary->value != NULL);
+
+	if (priv->summary.prop)
+		icalproperty_set_summary (priv->summary.prop, (char *) summary->value);
+	else {
+		priv->summary.prop = icalproperty_new_summary ((char *) summary->value);
+		icalcomponent_add_property (priv->icalcomp, priv->summary.prop);
+	}
+
+	if (summary->altrep) {
+		g_assert (priv->summary.prop != NULL);
+
+		if (priv->summary.altrep_param)
+			icalparameter_set_altrep (priv->summary.altrep_param,
+						  (char *) summary->altrep);
+		else {
+			priv->summary.altrep_param = icalparameter_new_altrep (
+				(char *) summary->altrep);
+			icalproperty_add_parameter (priv->summary.prop,
+						    priv->summary.altrep_param);
+		}
+	} else if (priv->summary.altrep_param) {
+#if 0
+		/* FIXME: this fucking routine will assert(0) since it is not implemented */
+		icalproperty_remove_parameter (priv->summary.prop, ICAL_ALTREP_PARAMETER);
+		icalparameter_free (priv->summary.altrep_param);
+#endif
+		priv->summary.altrep_param = NULL;
+	}
 }
