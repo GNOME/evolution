@@ -33,10 +33,10 @@ module ShellComponentDnd {
 
 	interface SourceFolder : Bonobo::Unknown {
 		struct Context {
-			string physical_uri;
-			string folder_type;
-			ActionSet possible_actions;
-			Action suggested_action;
+			string physicalUri;
+			string folderType;
+			ActionSet possibleActions;
+			Action suggestedAction;
 		};
 
 		/* The user started a drag from this object.  If the component
@@ -68,9 +68,9 @@ module ShellComponentDnd {
 
 	interface DestinationFolder : Bonobo::Unknown {
 		struct Context {
-			string dnd_type;
-			ActionSet possible_actions;
-			Action suggested_action;
+			string dndType;
+			ActionSet possibleActions;
+			Action suggestedAction;
 		};
 
 		/* The user is moving a dragged object over our folder.  This

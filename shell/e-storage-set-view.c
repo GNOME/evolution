@@ -860,10 +860,10 @@ tree_drag_begin (ETree *etree,
 		CORBA_free (priv->drag_corba_source_context);
 
 	priv->drag_corba_source_context = GNOME_Evolution_ShellComponentDnd_SourceFolder_Context__alloc ();
-	priv->drag_corba_source_context->physical_uri     = CORBA_string_dup (e_folder_get_physical_uri (folder));
-	priv->drag_corba_source_context->folder_type      = CORBA_string_dup (e_folder_get_type_string (folder));
-	priv->drag_corba_source_context->possible_actions = possible_actions;
-	priv->drag_corba_source_context->suggested_action = suggested_action;
+	priv->drag_corba_source_context->physicalUri     = CORBA_string_dup (e_folder_get_physical_uri (folder));
+	priv->drag_corba_source_context->folderType      = CORBA_string_dup (e_folder_get_type_string (folder));
+	priv->drag_corba_source_context->possibleActions = possible_actions;
+	priv->drag_corba_source_context->suggestedAction = suggested_action;
 }
 
 static void
@@ -1016,9 +1016,9 @@ tree_drag_motion (ETree *tree,
 
 	CORBA_exception_init (&ev);
 
-	corba_context.dnd_type = (char *) dnd_type; /* (Safe cast, as we don't actually free the corba_context.)  */
-	corba_context.possible_actions = convert_gdk_drag_action_to_corba (context->actions);
-	corba_context.suggested_action = convert_gdk_drag_action_to_corba (context->suggested_action);
+	corba_context.dndType = (char *) dnd_type; /* (Safe cast, as we don't actually free the corba_context.)  */
+	corba_context.possibleActions = convert_gdk_drag_action_to_corba (context->actions);
+	corba_context.suggestedAction = convert_gdk_drag_action_to_corba (context->suggested_action);
 
 	can_handle = GNOME_Evolution_ShellComponentDnd_DestinationFolder_handleMotion (destination_folder_interface,
 										       &corba_context,

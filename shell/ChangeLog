@@ -1,5 +1,11 @@
 2001-03-21  Ettore Perazzoli  <ettore@ximian.com>
 
+	* Evolution-ShellComponentDnd.idl: StudlyCapsify struct members to
+	match the new IDL naming standards.
+	* e-storage-set-view.c: Updated accordingly.
+
+2001-03-21  Ettore Perazzoli  <ettore@ximian.com>
+
 	* e-storage-set-view.c (tree_drag_data_get): Get the target type
 	from the atom, and pass it through the `SourceFolder::getData'
 	invocation.  Also, signal an error by passing `-1' as the length
