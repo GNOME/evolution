@@ -39,7 +39,6 @@
 #include "e-util/e-account-list.h"
 
 #include "em-account-prefs.h"
-#include <e-util/e-icon-factory.h>
 
 static void em_account_prefs_class_init (EMAccountPrefsClass *class);
 static void em_account_prefs_init       (EMAccountPrefs *prefs);
@@ -95,8 +94,6 @@ em_account_prefs_init (EMAccountPrefs *prefs)
 {
 	prefs->druid = NULL;
 	prefs->editor = NULL;
-	
-	prefs->mark_pixbuf = e_icon_factory_get_icon ("stock_mark", 16);
 }
 
 static void
@@ -115,7 +112,6 @@ em_account_prefs_finalise (GObject *obj)
 	EMAccountPrefs *prefs = (EMAccountPrefs *) obj;
 	
 	g_object_unref (prefs->gui);
-	g_object_unref (prefs->mark_pixbuf);
 	
         G_OBJECT_CLASS (parent_class)->finalize (obj);
 }
