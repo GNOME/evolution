@@ -1,3 +1,21 @@
+2001-07-16  Damon Chaplin  <damon@ximian.com>
+
+	* gui/dialogs/task-page.c (task_page_fill_widgets): 
+	* gui/dialogs/event-page.c (event_page_fill_widgets): try to use
+	builtin timezones before getting them from the server. When creating
+	new events/tasks the timezones may not be on the server.
+
+	* gui/dialogs/event-page.c (event_page_fill_widgets): for all-day
+	events we subtract a day from the end date rather than add it.
+
+	* gui/dialogs/e-timezone-dialog.c (on_map_leave): ignore the event
+	if it isn't a GDK_CROSSING_NORMAL event. For some reason we are getting
+	leave events when the button is pressed, which meant that selecting
+	timezones in the map didn't work.
+
+	* gui/dialogs/comp-editor-util.c (comp_editor_dates): 
+	* gui/print.c (print_date_label): only free icaltimetype if not NULL.
+
 2001-07-12  Taylor Hayward  <taylorhayward@yahoo.com>
 
 	* gui/goto-dialog.glade:

@@ -399,6 +399,12 @@ on_map_leave (GtkWidget *widget, GdkEventCrossing *event, gpointer data)
 	etd = E_TIMEZONE_DIALOG (data);
 	priv = etd->priv;
 
+	/* We only want to reset the hover point and the preview text if this
+	   is a normal leave event. For some reason we are getting leave events
+	   when the button is pressed in the map, which causes problems. */
+	if (event->mode != GDK_CROSSING_NORMAL)
+		return FALSE;
+
 	if (priv->point_hover && priv->point_hover != priv->point_selected)
 	        e_map_point_set_color_rgba (priv->map, priv->point_hover,
 					    E_TIMEZONE_DIALOG_MAP_POINT_NORMAL_RGBA);
@@ -447,6 +453,7 @@ on_map_button_pressed (GtkWidget *w, GdkEventButton *event, gpointer data)
 	ETimezoneDialog *etd;
 	ETimezoneDialogPrivate *priv;
 	double longitude, latitude;
+	char *location;
 	
 	etd = E_TIMEZONE_DIALOG (data);
 	priv = etd->priv;
@@ -467,8 +474,9 @@ on_map_button_pressed (GtkWidget *w, GdkEventButton *event, gpointer data)
 						    E_TIMEZONE_DIALOG_MAP_POINT_NORMAL_RGBA);
 		priv->point_selected = priv->point_hover;
 		
+		location = get_zone_from_point (etd, priv->point_selected);
 		gtk_entry_set_text (GTK_ENTRY (GTK_COMBO (priv->timezone_combo)->entry),
-				    get_zone_from_point (etd, priv->point_selected));
+				    location);
 
 		g_free (priv->tzid);
 		priv->tzid = NULL;

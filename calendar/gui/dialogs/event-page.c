@@ -350,19 +350,32 @@ event_page_fill_widgets (CompEditorPage *page, CalComponent *comp)
 	/* Start and end times */
 
 	cal_component_get_dtstart (comp, &start_date);
-	status = cal_client_get_timezone (page->client, start_date.tzid,
-					  &start_zone);
-	/* FIXME: Handle error better. */
-	if (status != CAL_CLIENT_GET_SUCCESS)
-		g_warning ("Couldn't get timezone from server: %s",
-			   start_date.tzid ? start_date.tzid : "");
+
+	/* Note that if we are creating a new event, the timezones may not be
+	   on the server, so we try to get the builtin timezone with the TZID
+	   first. */
+	start_zone = icaltimezone_get_builtin_timezone_from_tzid (start_date.tzid);
+	if (!start_zone) {
+		status = cal_client_get_timezone (page->client,
+						  start_date.tzid,
+						  &start_zone);
+		/* FIXME: Handle error better. */
+		if (status != CAL_CLIENT_GET_SUCCESS)
+			g_warning ("Couldn't get timezone from server: %s",
+				   start_date.tzid ? start_date.tzid : "");
+	}
 
 	cal_component_get_dtend (comp, &end_date);
-	status = cal_client_get_timezone (page->client, end_date.tzid, &end_zone);
-	/* FIXME: Handle error better. */
-	if (status != CAL_CLIENT_GET_SUCCESS)
-	  g_warning ("Couldn't get timezone from server: %s",
-		     end_date.tzid ? end_date.tzid : "");
+	end_zone = icaltimezone_get_builtin_timezone_from_tzid (end_date.tzid);
+	if (!end_zone) {
+		status = cal_client_get_timezone (page->client,
+						  end_date.tzid,
+						  &end_zone);
+		/* FIXME: Handle error better. */
+		if (status != CAL_CLIENT_GET_SUCCESS)
+		  g_warning ("Couldn't get timezone from server: %s",
+			     end_date.tzid ? end_date.tzid : "");
+	}
 
 	/* All-day events are inclusive, i.e. if the end date shown is 2nd Feb
 	   then the event includes all of the 2nd Feb. We would normally show
@@ -372,7 +385,7 @@ event_page_fill_widgets (CompEditorPage *page, CalComponent *comp)
 	end_tt = end_date.value;
 	if (start_tt->hour == 0 && start_tt->minute == 0 && start_tt->second == 0
 	    && end_tt->hour == 0 && end_tt->minute == 0 && end_tt->second == 0)
-		icaltime_adjust (end_tt, 1, 0, 0, 0);
+		icaltime_adjust (end_tt, -1, 0, 0, 0);
 
 	gtk_signal_handler_block_by_data (GTK_OBJECT (priv->start_time),
 					  epage);
