@@ -74,7 +74,6 @@ set_dialog_size (EShellSettingsDialog *dialog)
 
 	gtk_widget_set_size_request (GTK_WIDGET (dialog), width, height);
 
-	g_object_unref (context);
 	g_object_unref (layout);
 	pango_font_metrics_unref (metrics);
 }

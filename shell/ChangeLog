@@ -1,3 +1,8 @@
+2003-01-08  Not Zed  <NotZed@Ximian.com>
+
+	* e-shell-settings-dialog.c (set_dialog_size): dont unref the
+	pango context, get_context() doesn't create a ref.
+
 2003-01-08  Ettore Perazzoli  <ettore@ximian.com>
 
 	* Makefile.am: Images are now in $(datadir)/evolution/images
