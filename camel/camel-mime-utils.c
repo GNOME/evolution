@@ -1975,14 +1975,15 @@ header_decode_param (const char **in, char **paramp, char **valuep, int *is_rfc2
 		 * attempt to save it by assuming it's in the user's
 		 * locale and converting to utf8 */
 		char *outbase, *outbuf, *p;
-		const char *inbuf;
+		const char *charset, *inbuf;
 		int inlen, outlen;
 		iconv_t ic;
 		
 		inbuf = value;
 		inlen = strlen (inbuf);
 		
-		ic = iconv_open ("UTF-8", camel_charset_locale_name ());
+		charset = camel_charset_locale_name ();
+		ic = iconv_open ("UTF-8", charset ? charset : "ISO-8859-1");
 		if (ic != (iconv_t) -1) {
 			int ret;
 			

@@ -1,3 +1,10 @@
+2001-07-27  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* camel-mime-utils.c (header_decode_param): Fix the fix that fixes
+	broken mailer behavior. We want to make sure that the user's
+	locale charset is non-NULL before we pass it off to
+	iconv_open(). If it *is* NULL, we want to use iso-8859-1.
+
 2001-07-26  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* camel-url.c (camel_url_free): Allow the url to be NULL just like
