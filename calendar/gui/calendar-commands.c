@@ -484,7 +484,7 @@ properties_cmd (BonoboUIHandler *uih, void *user_data, const char *path)
 }
 
 
-BonoboUIVerb verbs [] = {
+static BonoboUIVerb verbs [] = {
 	BONOBO_UI_UNSAFE_VERB ("CalendarNew", new_calendar_cmd),
 	BONOBO_UI_UNSAFE_VERB ("CalendarOpen", open_calendar_cmd),
 	BONOBO_UI_UNSAFE_VERB ("CalendarSaveAs", save_as_calendar_cmd),
@@ -514,8 +514,6 @@ calendar_control_activate (BonoboControl *control,
 
 	uic = bonobo_control_get_ui_component (control);
 	g_assert (uic != NULL);
-
-	g_print ("In calendar_control_activate\n");
 
 	remote_uih = bonobo_control_get_remote_ui_container (control);
 	bonobo_ui_component_set_container (uic, remote_uih);
@@ -583,8 +581,6 @@ calendar_control_deactivate (BonoboControl *control)
 {
 	BonoboUIComponent *uic = bonobo_control_get_ui_component (control);
 	g_assert (uic != NULL);
-
-	g_print ("In calendar_control_deactivate\n");
 
 	bonobo_ui_component_rm (uic, "/", NULL);
  	bonobo_ui_component_unset_container (uic);
