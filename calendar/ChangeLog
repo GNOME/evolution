@@ -1,3 +1,10 @@
+2002-03-06  Rodrigo Moya <rodrigo@ximian.com>
+
+	Should fix #21240
+
+	* gui/alarm-notify/alarm-notify.c: replaced use of GnomeVFSURI
+	with EUri, to allow non-registered methods.
+
 2002-03-05  Rodrigo Moya <rodrigo@ximian.com>
 
 	* gui/e-itip-control.c (e_itip_control_set_data): reverted my last

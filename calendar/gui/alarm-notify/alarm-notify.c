@@ -22,11 +22,11 @@
 #include "config.h"
 #endif
 
-#include <libgnomevfs/gnome-vfs.h>
 #include <cal-client/cal-client.h>
 #include "alarm-notify.h"
 #include "alarm-queue.h"
 #include "save.h"
+#include "e-util/e-url.h"
 
 
 
@@ -38,7 +38,7 @@ typedef struct {
 	/* The URI of the client in gnome-vfs's format.  This *is* the key that
 	 * is stored in the uri_client_hash hash table below.
 	 */
-	GnomeVFSURI *uri;
+	EUri *uri;
 
 	/* Number of times clients have requested this URI to be added to the
 	 * alarm notification system.
@@ -48,7 +48,7 @@ typedef struct {
 
 /* Private part of the AlarmNotify structure */
 struct _AlarmNotifyPrivate {
-	/* Mapping from GnomeVFSURIs to LoadedClient structures */
+	/* Mapping from EUri's to LoadedClient structures */
 	GHashTable *uri_client_hash;
 };
 
@@ -100,7 +100,7 @@ alarm_notify_init (AlarmNotify *an)
 	priv = g_new0 (AlarmNotifyPrivate, 1);
 	an->priv = priv;
 
-	priv->uri_client_hash = g_hash_table_new (gnome_vfs_uri_hash, gnome_vfs_uri_hequal);
+	priv->uri_client_hash = g_hash_table_new (g_str_hash, g_str_equal);
 }
 
 /* Callback used from g_hash-table_forach(), used to destroy a loade client */
@@ -108,11 +108,14 @@ static void
 destroy_loaded_client_cb (gpointer key, gpointer value, gpointer data)
 {
 	LoadedClient *lc;
+	char *str_uri;
 
+	str_uri = key;
 	lc = value;
-
+	
+	g_free (str_uri);
 	gtk_object_unref (GTK_OBJECT (lc->client));
-	gnome_vfs_uri_unref (lc->uri);
+	e_uri_free (lc->uri);
 	g_free (lc);
 }
 
@@ -185,14 +188,14 @@ free_uris (GPtrArray *uris)
 
 /* Adds an URI to the list of calendars to load on startup */
 static void
-add_uri_to_load (GnomeVFSURI *uri)
+add_uri_to_load (EUri *uri)
 {
 	char *str_uri;
 	GPtrArray *loaded_uris;
 	int i;
 
 	/* Canonicalize the URI */
-	str_uri = gnome_vfs_uri_to_string (uri, GNOME_VFS_URI_HIDE_NONE);
+	str_uri = e_uri_to_string (uri, FALSE);
 	g_assert (str_uri != NULL);
 
 	loaded_uris = get_calendars_to_load ();
@@ -224,7 +227,7 @@ add_uri_to_load (GnomeVFSURI *uri)
 
 /* Removes an URI from the list of calendars to load on startup */
 static void
-remove_uri_to_load (GnomeVFSURI *uri)
+remove_uri_to_load (EUri *uri)
 {
 	char *str_uri;
 	GPtrArray *loaded_uris;
@@ -232,7 +235,7 @@ remove_uri_to_load (GnomeVFSURI *uri)
 	int i;
 
 	/* Canonicalize the URI */
-	str_uri = gnome_vfs_uri_to_string (uri, GNOME_VFS_URI_HIDE_NONE);
+	str_uri = e_uri_to_string (uri, FALSE);
 	g_assert (str_uri != NULL);
 
 	loaded_uris = get_calendars_to_load ();
@@ -284,12 +287,14 @@ AlarmNotify_removeCalendar (PortableServer_Servant servant,
 	AlarmNotify *an;
 	AlarmNotifyPrivate *priv;
 	LoadedClient *lc;
-	GnomeVFSURI *uri;
+	EUri *uri;
+	char *orig_str;
+	gboolean found;
 
 	an = ALARM_NOTIFY (bonobo_object_from_servant (servant));
 	priv = an->priv;
 
-	uri = gnome_vfs_uri_new (str_uri);
+	uri = e_uri_new (str_uri);
 	if (!uri) {
 		CORBA_exception_set (ev, CORBA_USER_EXCEPTION,
 				     ex_GNOME_Evolution_Calendar_AlarmNotify_InvalidURI,
@@ -299,8 +304,10 @@ AlarmNotify_removeCalendar (PortableServer_Servant servant,
 
 	remove_uri_to_load (uri);
 
-	lc = g_hash_table_lookup (priv->uri_client_hash, uri);
-	gnome_vfs_uri_unref (uri);
+	found = g_hash_table_lookup_extended (priv->uri_client_hash, str_uri,
+					      (gpointer *) &orig_str,
+					      (gpointer *) &lc);
+	e_uri_free (uri);
 
 	if (!lc) {
 		CORBA_exception_set (ev, CORBA_USER_EXCEPTION,
@@ -315,10 +322,11 @@ AlarmNotify_removeCalendar (PortableServer_Servant servant,
 	if (lc->refcount > 0)
 		return;
 
-	g_hash_table_remove (priv->uri_client_hash, lc->uri);
+	g_hash_table_remove (priv->uri_client_hash, str_uri);
 
+	g_free (orig_str);
 	gtk_object_unref (GTK_OBJECT (lc->client));
-	gnome_vfs_uri_unref (lc->uri);
+	e_uri_free (lc->uri);
 	g_free (lc);
 }
 
@@ -358,7 +366,7 @@ alarm_notify_add_calendar (AlarmNotify *an, const char *str_uri, gboolean load_a
 			   CORBA_Environment *ev)
 {
 	AlarmNotifyPrivate *priv;
-	GnomeVFSURI *uri;
+	EUri *uri;
 	CalClient *client;
 	LoadedClient *lc;
 
@@ -369,7 +377,7 @@ alarm_notify_add_calendar (AlarmNotify *an, const char *str_uri, gboolean load_a
 
 	priv = an->priv;
 
-	uri = gnome_vfs_uri_new (str_uri);
+	uri = e_uri_new (str_uri);
 	if (!uri) {
 		CORBA_exception_set (ev, CORBA_USER_EXCEPTION,
 				     ex_GNOME_Evolution_Calendar_AlarmNotify_InvalidURI,
@@ -380,10 +388,10 @@ alarm_notify_add_calendar (AlarmNotify *an, const char *str_uri, gboolean load_a
 	if (load_afterwards)
 		add_uri_to_load (uri);
 
-	lc = g_hash_table_lookup (priv->uri_client_hash, uri);
+	lc = g_hash_table_lookup (priv->uri_client_hash, str_uri);
 
 	if (lc) {
-		gnome_vfs_uri_unref (uri);
+		e_uri_free (uri);
 		g_assert (lc->refcount > 0);
 		lc->refcount++;
 		return;
@@ -397,7 +405,8 @@ alarm_notify_add_calendar (AlarmNotify *an, const char *str_uri, gboolean load_a
 			lc->client = client;
 			lc->uri = uri;
 			lc->refcount = 1;
-			g_hash_table_insert (priv->uri_client_hash, uri, lc);
+			g_hash_table_insert (priv->uri_client_hash,
+					     g_strdup (str_uri), lc);
 
 			alarm_queue_add_client (client);
 		} else {
@@ -407,7 +416,7 @@ alarm_notify_add_calendar (AlarmNotify *an, const char *str_uri, gboolean load_a
 	}
 
 	if (!client) {
-		gnome_vfs_uri_unref (uri);
+		e_uri_free (uri);
 
 		CORBA_exception_set (ev, CORBA_USER_EXCEPTION,
 				     ex_GNOME_Evolution_Calendar_AlarmNotify_BackendContactError,
