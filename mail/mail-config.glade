@@ -2042,7 +2042,7 @@ Kerberos
 	    <class>GtkCheckButton</class>
 	    <name>smime_encrypt_to_self</name>
 	    <can_focus>True</can_focus>
-	    <label>Always encrypt to myself when sending encrypyed mail</label>
+	    <label>Always encrypt to myself when sending encrypted mail</label>
 	    <active>True</active>
 	    <draw_indicator>True</draw_indicator>
 	    <child>
