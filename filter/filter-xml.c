@@ -125,10 +125,10 @@ load_desc(xmlNodePtr node, int type, int vartype, char *varname)
 	while (node) {
 		if (node->content) {
 			desc = g_malloc0(sizeof(*desc));
-			desc->data = node->content;
+			desc->data = g_strdup (node->content);
 			desc->type = type;
 			desc->vartype = vartype;
-			desc->varname = varname?g_strdup(varname):0;
+			desc->varname = g_strdup(varname);
 			d(printf(" **** node name = %s var name = %s  var type = %s\n", node->name, varname, detokenise(vartype)));
 			list = g_list_append(list, desc);
 			d(printf("appending '%s'\n", node->content));

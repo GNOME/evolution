@@ -1,5 +1,11 @@
 2000-06-27  Ettore Perazzoli  <ettore@helixcode.com>
 
+	* filter-xml.c (load_desc): Strdup content before assigning the
+	value.  Also, no need to check for NULL when g_strdup()ing as
+	g_strdup() returns NULL for a NULL arg.
+
+2000-06-27  Ettore Perazzoli  <ettore@helixcode.com>
+
 	* Makefile.am (INCLUDES): `-I$(top_builddir)/shell' so that it
 	works with builddir != srcdir.  [We need to #include
 	"Evolution.h".]
