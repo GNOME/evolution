@@ -28,6 +28,7 @@
 #include <config.h>
 #endif
 
+#include <ctype.h>
 #include <stdio.h>
 #include <string.h>
 
@@ -401,10 +402,23 @@ camel_mime_message_set_recipients(CamelMimeMessage *mime_message, const char *ty
 }
 
 void
-camel_mime_message_set_identity(CamelMimeMessage *mime_message, const char *identity)
+camel_mime_message_set_source(CamelMimeMessage *mime_message, const char *src)
 {
 	g_assert (mime_message);
-	camel_medium_add_header (CAMEL_MEDIUM (mime_message), "X-Evolution-Identity", identity);
+	camel_medium_add_header (CAMEL_MEDIUM (mime_message), "X-Evolution-Source", src);
+}
+
+const char *
+camel_mime_message_get_source(CamelMimeMessage *mime_message)
+{
+	const char *src;
+	g_assert(mime_message);
+	src = camel_medium_get_header (CAMEL_MEDIUM (mime_message), "X-Evolution-Source");
+	if (src) {
+		while (*src && isspace ((gint) *src))
+			++src;
+	}
+	return src;
 }
 
 const CamelInternetAddress *

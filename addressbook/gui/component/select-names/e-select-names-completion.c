@@ -139,7 +139,10 @@ match_email (ESelectNamesCompletion *comp, EDestination *dest, double *score)
 		gchar *name, *str;
 		*score = len * 2; /* 2 points for each matching character */
 		name = e_card_name_to_string (card->name);
-		str = g_strdup_printf ("<%s> %s", email, name);
+		if (name && *name)
+			str = g_strdup_printf ("<%s> %s", email, name);
+		else
+			str = g_strdup (email);
 		g_free (name);
 		return str;
 	}

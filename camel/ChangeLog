@@ -1,3 +1,14 @@
+2001-03-29  Jon Trowbridge  <trow@ximian.com>
+
+	* camel-filter-driver.c (camel_filter_driver_filter_message): Save
+	the source URL using camel_mime_message_set_source.
+
+	* camel-mime-message.c (camel_mime_message_set_source): Renamed
+	camel_mime_message_set_identity to this.  Sets the X-Evolution-Source
+	header.
+	(camel_mime_message_get_source): Returns the X-Evolution-Source
+	header.
+
 2001-03-29  Kjartan Maraas  <kmaraas@gnome.org>
 
 	* broken-date-parser.c: #include <stdio.h>, <stdlib.h> and <string.h>

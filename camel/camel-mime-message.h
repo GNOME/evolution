@@ -115,8 +115,9 @@ void                        camel_mime_message_set_recipients     (CamelMimeMess
 								   const char                 *type,
 								   const CamelInternetAddress *r);
 
-void                        camel_mime_message_set_identity       (CamelMimeMessage           *mime_message,
+void                        camel_mime_message_set_source         (CamelMimeMessage           *mime_message,
 								   const char                 *identity);
+const char                 *camel_mime_message_get_source         (CamelMimeMessage           *mime_message);
 								   
 
 /* utility functions */

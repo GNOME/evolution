@@ -495,8 +495,9 @@ mail_send_message(CamelMimeMessage *message, const char *destination, CamelFilte
 	camel_medium_add_header (CAMEL_MEDIUM (message), "X-Mailer", version);
 	camel_mime_message_set_date (message, CAMEL_MESSAGE_DATE_CURRENT, 0);
 	
-	/* Remove the X-Evolution header so we don't send our flags too ;-) */
+	/* Remove the X-Evolution and X-Evolution-Source headers so we don't send our flags & other info too ;-) */
 	camel_medium_remove_header (CAMEL_MEDIUM (message), "X-Evolution");
+	camel_medium_remove_header (CAMEL_MEDIUM (message), "X-Evolution-Source");
 	
 	/* Get information about the account this was composed by. */
 	header = camel_medium_get_header (CAMEL_MEDIUM (message), "X-Evolution-Account");

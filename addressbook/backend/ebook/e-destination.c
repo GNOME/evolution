@@ -206,7 +206,19 @@ e_destination_get_string (const EDestination *dest)
 		if (priv->card) {
 
 			priv->string = e_card_name_to_string (priv->card->name);
+			if (priv->string) {
+				g_strstrip (priv->string);
+				if (*(priv->string) == '\0') {
+					g_free (priv->string);
+					priv->string = NULL;
+				}
+			}
 
+			if (priv->string == NULL)
+				priv->string = g_strdup (e_destination_get_email (dest));
+
+			if (priv->string == NULL)
+				priv->string = g_strdup (_("???"));
 		}
 	}
 	
