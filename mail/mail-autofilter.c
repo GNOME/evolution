@@ -30,9 +30,15 @@
 
 #include <ctype.h>
 
+#include <glib.h>
+#include <libgnome/gnome-defs.h>
+#include <libgnome/gnome-i18n.h>
 #include <libgnomeui/gnome-app.h>
 #include <libgnomeui/gnome-app-helper.h>
 #include <libgnomeui/gnome-popup-menu.h>
+#include <libgnomeui/gnome-dialog.h>
+#include <libgnomeui/gnome-dialog-util.h>
+#include <libgnomeui/gnome-stock.h>
 #include <gal/util/e-unicode-i18n.h>
 
 #include "mail-vfolder.h"
@@ -366,16 +372,19 @@ mail_filter_rename_uri(CamelStore *store, const char *olduri, const char *newuri
 	GCompareFunc uri_cmp = CAMEL_STORE_CLASS(CAMEL_OBJECT_GET_CLASS(store))->compare_folder_name;
 	FilterContext *fc;
 	char *user, *system;
+	GList *changed;
 
 	fc = filter_context_new ();
 	user = g_strdup_printf ("%s/filters.xml", evolution_dir);
 	system = EVOLUTION_DATADIR "/evolution/filtertypes.xml";
 	rule_context_load ((RuleContext *)fc, system, user);
 
-	if (rule_context_rename_uri((RuleContext *)fc, olduri, newuri, uri_cmp) > 0) {
+	changed = rule_context_rename_uri((RuleContext *)fc, olduri, newuri, uri_cmp);
+	if (changed) {
 		printf("Folder rename '%s' -> '%s' changed filters, resaving\n", olduri, newuri);
 		if (rule_context_save((RuleContext *)fc, user) == -1)
 			g_warning("Could not write out changed filter rules\n");
+		rule_context_free_uri_list((RuleContext *)fc, changed);
 	}
 
 	g_free(user);
@@ -388,16 +397,36 @@ mail_filter_delete_uri(CamelStore *store, const char *uri)
 	GCompareFunc uri_cmp = CAMEL_STORE_CLASS(CAMEL_OBJECT_GET_CLASS(store))->compare_folder_name;
 	FilterContext *fc;
 	char *user, *system;
+	GList *deleted;
 
 	fc = filter_context_new ();
 	user = g_strdup_printf ("%s/filters.xml", evolution_dir);
 	system = EVOLUTION_DATADIR "/evolution/filtertypes.xml";
 	rule_context_load ((RuleContext *)fc, system, user);
 
-	if (rule_context_delete_uri((RuleContext *)fc, uri, uri_cmp) > 0) {
+	deleted = rule_context_delete_uri((RuleContext *)fc, uri, uri_cmp);
+	if (deleted) {
+		GnomeDialog *gd;
+		GString *s;
+		GList *l;
+
+		s = g_string_new(_("The following filter rule(s):\n"));
+		l = deleted;
+		while (l) {
+			g_string_sprintfa(s, "    %s\n", (char *)l->data);
+			l = l->next;
+		}
+		g_string_sprintfa(s, _("Used the removed folder:\n    '%s'\n"
+				       "And have been updated."), uri);
+		gd = (GnomeDialog *)gnome_warning_dialog(s->str);
+		g_string_free(s, TRUE);
+		gnome_dialog_set_close(gd, TRUE);
+		gtk_widget_show((GtkWidget *)gd);
+
 		printf("Folder deleterename '%s' changed filters, resaving\n", uri);
 		if (rule_context_save((RuleContext *)fc, user) == -1)
 			g_warning("Could not write out changed filter rules\n");
+		rule_context_free_uri_list((RuleContext *)fc, deleted);
 	}
 
 	g_free(user);

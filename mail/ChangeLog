@@ -1,3 +1,11 @@
+2002-05-08  Not Zed  <NotZed@Ximian.com>
+
+	* mail-autofilter.c (mail_filter_rename_uri): Changed for
+	rule_context_rename_uri api changes.
+	(mail_filter_delete_uri): Same.  Also, popup a dialogue similar to
+	vfolder deleted dialogue to notify the user something has
+	changed.  Partial fix for #18826.
+
 2002-05-06  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-ops.c (filter_folder_free): Flush the filter log to make
