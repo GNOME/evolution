@@ -20,6 +20,9 @@
 #include <e-sexp.h>
 #include <e-card.h>
 
+#define LDAP_MAX_SEARCH_RESPONSES 500
+#define CARDS_PER_VIEW_NOTIFICATION 10
+
 static PASBackendClass *pas_backend_ldap_parent_class;
 typedef struct _PASBackendLDAPCursorPrivate PASBackendLDAPCursorPrivate;
 typedef struct _PASBackendLDAPBookView PASBackendLDAPBookView;
@@ -180,17 +183,22 @@ pas_backend_ldap_build_all_cards_list(PASBackend *backend,
 				      PASBackendLDAPCursorPrivate *cursor_data)
 {
 	PASBackendLDAP *bl = PAS_BACKEND_LDAP (backend);
-	LDAP           *ldap = bl->priv->ldap;
+	LDAP           *ldap;
 	int            ldap_error;
 	LDAPMessage    *res, *e;
 
+	pas_backend_ldap_ensure_connected(bl);
+
+	ldap = bl->priv->ldap;
+
+	ldap->ld_sizelimit = LDAP_MAX_SEARCH_RESPONSES;
 
 	if (ldap_search_s (ldap,
 			   NULL,
 			   LDAP_SCOPE_ONELEVEL,
 			   "(objectclass=*)",
 			   NULL, 0, &res) == -1) {
-		ldap_perror (ldap, "ldap_search");
+		g_warning ("ldap error '%s' in pas_backend_ldap_build_all_cards_list\n", ldap_err2string(ldap_error));
 	}
 
 	cursor_data->elements = NULL;
@@ -563,18 +571,22 @@ pas_backend_ldap_search (PASBackendLDAP  	*bl,
 	GList   *cards = NULL;
 
 	if (ldap_query != NULL) {
-		LDAP           *ldap = bl->priv->ldap;
+		LDAP           *ldap;
 		int            ldap_error;
 		LDAPMessage    *res, *e;
 
 		pas_backend_ldap_ensure_connected(bl);
+
+		ldap = bl->priv->ldap;
+		
+		ldap->ld_sizelimit = LDAP_MAX_SEARCH_RESPONSES;
 
 		if ((ldap_error = ldap_search_s (ldap,
 						 NULL,
 						 LDAP_SCOPE_ONELEVEL,
 						 ldap_query,
 						 NULL, 0, &res)) != LDAP_SUCCESS) {
-			ldap_perror (ldap, "ldap_search");
+			g_warning ("ldap error '%s' in pas_backend_ldap_search\n", ldap_err2string(ldap_error));
 		}
 
 		e = ldap_first_entry(ldap, res);
@@ -584,7 +596,8 @@ pas_backend_ldap_search (PASBackendLDAP  	*bl,
 			char *dn = ldap_get_dn(ldap, e);
 			char *attr, *prop;
 			BerElement *ber = NULL;
-			
+			int card_count = 0;
+
 			e_card_set_id (card, dn);
 			
 			/* XXX needs a bit of work here */
@@ -602,28 +615,35 @@ pas_backend_ldap_search (PASBackendLDAP  	*bl,
 				}
 			}
 
-			if (ber)
+			if (ldap->ld_errno != LDAP_DECODING_ERROR && ber)
 				ber_free (ber, 0);
 
 			cards = g_list_append(cards, e_card_get_vcard(card));
 
+			card_count ++;
+			if (card_count == CARDS_PER_VIEW_NOTIFICATION) {
+				card_count = 0;
+				pas_book_view_notify_add (view->book_view, cards);
+
+				g_list_foreach (cards, (GFunc)g_free, NULL);
+				g_list_free (cards);
+				cards = NULL;
+			}
 			gtk_object_unref (GTK_OBJECT(card));
 
 			e = ldap_next_entry(ldap, e);
 		}
 
-		ldap_msgfree(res);
-
+		/* send any straglers */
 		if (cards) {
 			pas_book_view_notify_add (view->book_view, cards);
 			
-			/*
-			** It's fine to do this now since the data has been handed off.
-			*/
 			g_list_foreach (cards, (GFunc)g_free, NULL);
 			g_list_free (cards);
+			cards = NULL;
 		}
 
+		ldap_msgfree(res);
 	}
 }
 

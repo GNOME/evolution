@@ -1,3 +1,15 @@
+2000-04-12  Chris Toshok  <toshok@helixcode.com>
+
+	* addressbook/backend/pas/pas-backend-ldap.c
+	(pas_backend_ldap_build_all_cards_list): delay the setting of the
+	ldap variable until we've ensured we were connected.  Also, set
+	the search limit to LDAP_MAX_SEARCH_RESPONSES (we'll eventually
+	want a user setting here i assume.)
+	(pas_backend_ldap_search): same here, and also send back lists of
+	CARDS_PER_VIEW_NOTIFICATION length in each
+	pas_book_view_notify_add call.  also, don't call ber_free if there
+	was a decoding error, since the ldap library frees it for us.
+
 2000-04-11  Miguel de Icaza  <miguel@gnu.org>
 
 	* configure.in (have_pthread): Properly use AC_ARG_WITH
