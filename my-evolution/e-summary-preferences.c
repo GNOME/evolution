@@ -660,7 +660,7 @@ fill_mail_shown_clist (GtkCList *clist,
 		} else {
 			text[0] = (char *) name + 1; /* GtkCList sucks.  */
 		}
-		row = gtk_clist_append (clist, text);
+		row = gtk_clist_prepend (clist, text);
 		gtk_clist_set_row_data (clist, row, p);
 	}
 }
@@ -747,7 +747,7 @@ mail_add_clicked_cb (GtkButton *button,
 	text[0] = rd->name + 1;
 	row = gtk_clist_append (GTK_CLIST (pd->mail->shown), text);
 
-	pd->summary->preferences->display_folders = g_list_append (pd->summary->preferences->display_folders,
+	pd->summary->preferences->display_folders = g_list_prepend (pd->summary->preferences->display_folders,
 								   g_strdup (rd->uri + 7));
 	gtk_clist_set_row_data (GTK_CLIST (pd->mail->shown), row, pd->summary->preferences->display_folders);
 
@@ -859,6 +859,7 @@ rdf_add_clicked_cb (GtkButton *button,
 				return;
 			}
 		}
+
 		
 		pd->summary->preferences->rdf_urls = g_list_prepend (pd->summary->preferences->rdf_urls, g_strdup (info->url));
 		row = gtk_clist_prepend (GTK_CLIST (pd->rdf->shown), text);

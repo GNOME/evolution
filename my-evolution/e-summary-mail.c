@@ -434,7 +434,7 @@ e_summary_mail_reconfigure (ESummary *summary)
 	old = mail->shown;
 	mail->shown = NULL;
 
-	for (p = summary->preferences->display_folders; p; p = p->next) {
+	for (p = g_list_last (summary->preferences->display_folders); p; p = p->prev) {
 		ESummaryMailFolder *folder;
 		char *uri;
 
