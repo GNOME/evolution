@@ -1444,14 +1444,14 @@ static void
 autosave_manager_start (AutosaveManager *am)
 {
 	if (am->id == 0)
-		am->id = gtk_timeout_add (AUTOSAVE_INTERVAL, autosave_run, am);
+		am->id = g_timeout_add (AUTOSAVE_INTERVAL, autosave_run, am);
 }
 
 static void
 autosave_manager_stop (AutosaveManager *am)
 {
 	if (am->id) {
-		gtk_timeout_remove (am->id);
+		g_source_remove (am->id);
 		am->id = 0;
 	}
 }
@@ -3280,7 +3280,7 @@ create_composer (int visible_mask)
 	composer->attachment_expander_icon = gtk_image_new_from_pixbuf (attachment_pixbuf);
 	gtk_misc_set_alignment (GTK_MISC (composer->attachment_expander_icon), 1, 0.5);
 	gtk_widget_set_size_request (composer->attachment_expander_icon, 100, -1);
-	gdk_pixbuf_unref (attachment_pixbuf);	
+	g_object_unref (attachment_pixbuf);	
 
 	gtk_box_pack_start (GTK_BOX (expander_hbox), composer->attachment_expander_label,
 			    TRUE, TRUE, 0);
