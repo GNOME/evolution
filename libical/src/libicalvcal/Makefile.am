@@ -24,7 +24,7 @@ libicalvcal_evolution_la_SOURCES =	\
 	vcaltmp.c		\
 	$(libicalvcal_evolution_la_DEVSOURCES)
 
-libicalvcal_evolutionincludedir = $(includedir)/evolution-data-server-1.0/libical
+libicalvcal_evolutionincludedir = $(privincludedir)/libical
 
 libicalvcal_evolutioninclude_HEADERS =	\
 	icalvcal.h		\

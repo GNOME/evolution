@@ -2,7 +2,7 @@
 #  FILE: Makefile.am
 #  CREATOR: eric 
 #  
-#  $Id: Makefile.am,v 1.23 2003/11/05 19:26:41 jpr Exp $
+#  $Id: Makefile.am,v 1.24 2003/11/05 22:47:35 jpr Exp $
 #
 #
 # (C) COPYRIGHT 2000, Eric Busboom, http://www.softwarestudio.org
@@ -94,7 +94,7 @@ libicalss_evolution_la_SOURCES =		\
 	$(BDB_SOURCEFILES)	\
 	$(libicalss_evolution_la_DEVSOURCES)
 
-libicalssincludedir = $(includedir)/evolution-data-server-1.0/libical
+libicalssincludedir = $(privincludedir)/libical
 
 COMBINEDHEADERS = \
         $(srcdir)/icalgauge.h \

@@ -2,7 +2,7 @@
 #  FILE: Makefile.am
 #  CREATOR: eric 
 #  
-#  $Id: Makefile.am,v 1.43 2003/11/05 19:26:40 jpr Exp $
+#  $Id: Makefile.am,v 1.44 2003/11/05 22:47:34 jpr Exp $
 #
 #
 # (C) COPYRIGHT 2000, Eric Busboom, http://www.softwarestudio.org
@@ -113,7 +113,7 @@ libical_evolution_cxx_la_SOURCES =	\
 	icptrholder.h
 endif
 
-libical_evolutionincludedir = $(includedir)/evolution-data-server-1.0/libical
+libical_evolutionincludedir = $(privincludedir)/libical
 
 libical_evolutioninclude_HEADERS = \
 	ical.h			\
