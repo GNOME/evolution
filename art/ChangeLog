@@ -1,3 +1,9 @@
+2001-07-07    <tigert@ximian.com>
+
+	* 16_[cut,copy,paste].png: New icons for the Edit->[Cut,Copy,Paste]
+	entries, the current gnome-stock ones start to look bad when scaled 
+	down, so these are already 16x16 pixels.
+
 2001-07-05  Jakub Steiner <jimmac@ximian.com>
 
 	* myweather-*: weather status icons for My Evolution
