@@ -1,6 +1,9 @@
 1999-05-30  bertrand  <Bertrand.Guiheneuf@inria.fr>
 
-        * camel/camel-mime-message.c (_set_recipient_list_from_string): 
+ 	* camel/camel-stream.h: new class. Represents an 
+	abstract stream object.
+
+       * camel/camel-mime-message.c (_set_recipient_list_from_string): 
 	remove leading and trailing spaces in recipient addresses.
 
 	* camel/gmime-utils.c (_store_header_pair_from_gstring): 

@@ -5,6 +5,7 @@
 #include "camel-log.h"
 #include "camel-mime-message.h"
 #include "camel-mime-part.h"
+#include "camel-stream.h"
 
 void print_header_pair (gpointer key, gpointer value, gpointer user_data)
 {
@@ -32,16 +33,14 @@ main (int argc, char**argv)
 	FILE *output_file;
 	GHashTable *header_table;
 	CamelMimeMessage *message;
-	GnomeStream *stream;
-	
-
+	CamelStream *stream;
 	
 	gtk_init (&argc, &argv);
 	camel_debug_level = FULL_DEBUG;
 	message = camel_mime_message_new_with_session( (CamelSession *)NULL);
 
 	input_file = fopen ("mail.test", "r");
-	stream = gnome_stream_fs_open (NULL, "/tmp/a.png", GNOME_Storage_READ);
+	/*stream = gnome_stream_fs_open (NULL, "mail.test", GNOME_Storage_READ);*/
 	if (!input_file) {
 		perror("could not open input file");
 		exit(2);

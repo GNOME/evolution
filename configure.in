@@ -1,5 +1,6 @@
 # Process this file with autoconf to produce a configure script.
 AC_INIT(camel)
+AM_CONFIG_HEADER(config.h)
 
 cflags_set=${CFLAGS+set}
 
@@ -12,7 +13,6 @@ PACKAGE=gnome-mailer
 AM_INIT_AUTOMAKE($PACKAGE, $VERSION)
 AC_SUBST(VERSION)
 
-AM_CONFIG_HEADER(config.h)
 
 dnl Initialize libtool
 AM_PROG_LIBTOOL
@@ -51,7 +51,7 @@ dnl ******************************
 dnl Check for Bonobo
 dnl ******************************
 AM_PATH_BONOBO(0.1.0, [
-	AC_DEFINE(ENABLE_BONOBO)
+	AC_DEFINE(HAVE_BONOBO)
 	have_bonobo=true
 ],[
 	have_bonobo=false
