@@ -1,3 +1,33 @@
+Version 0.2
+-----------
+
+Calendar:
+
+* Printing support (Michael, Federico).
+
+* Many, many behavior fixes and polishing to the day/week/month view
+  widgets (Damon).
+
+* New glade-based event editor.  This is unfinished but usable (Seth,
+  Federico).
+
+* Mouse wheel scrolling support (Anders).
+
+* We have an awesome new engine for computing recurring events
+  (Damon).  This will be plugged in to the new iCalendar code.
+
+* Internal and public API fixes (Federico, Seth).
+
+* Shell-related changes (Ettore).
+
+* Data model for ETable; this is not used yet (Federico).
+
+* New iCalendar support; this is not used yet (Federico).
+
+* Pilot syncing updates; this is not used yet (Seth).
+
+* Many miscellaneous bugs fixed (everyone).
+
 01/Jun/1999
 -----------
 
