@@ -154,6 +154,24 @@ camel_gpg_context_new (CamelSession *session, const char *path)
 	return cipher;
 }
 
+
+/**
+ * camel_gpg_context_set_always_trust:
+ * @ctx: gpg context
+ * @always_trust always truct flag
+ *
+ * Sets the @always_trust flag on the gpg context which is used for
+ * encryption.
+ **/
+void
+camel_gpg_context_set_always_trust (CamelGpgContext *ctx, gboolean always_trust)
+{
+	g_return_if_fail (CAMEL_IS_GPG_CONTEXT (ctx));
+	
+	ctx->always_trust = always_trust;
+}
+
+
 static const char *
 gpg_hash_to_id (CamelCipherContext *context, CamelCipherHash hash)
 {

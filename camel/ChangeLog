@@ -6,6 +6,7 @@
 	before --status-fd will send a NEED_PASSPHRASE status message).
 	(gpg_ctx_parse_status): When we encounter a BAD_PASSPHRASE, tell
 	the session to uncache it.
+	(camel_gpg_context_set_always_trust): Implemented.
 
 2002-06-23  Jeffrey Stedfast  <fejj@ximian.com>
 
