@@ -1,3 +1,18 @@
+2002-03-04  Chris Toshok  <toshok@ximian.com>
+
+	[fixes bug #20871]
+	* gui/component/select-names/select-names.glade: add the
+	status-message label.
+
+	* gui/component/select-names/e-select-names.h (struct
+	_ESelectNames): add status_message field.
+
+	* gui/component/select-names/e-select-names.c (status_message):
+	new function, set the label's text from the message.
+	(e_select_names_init): get the status-message label, and if it's
+	valid, connect to the status_message signal of the
+	EAddressbookModel.
+
 2002-02-28  Chris Toshok  <toshok@ximian.com>
 
 	* backend/pas/pas-backend-ldap.c (pas_backend_ldap_search): don't
