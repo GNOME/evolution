@@ -273,7 +273,7 @@ do_import (SWData *data)
 	CORBA_Environment ev;
 	GList *l, *selected = NULL;
 
-	for (l = GTK_CLIST (data->import_page->importers); l; l = l->next) {
+	for (l = data->import_page->importers; l; l = l->next) {
 		IntelligentImporterData *importer_data;
 		SelectedImporterData *sid;
 		char *iid;
@@ -576,7 +576,7 @@ prepare_importer_page (GnomeDruidPage *page,
 	int running = 0;
 
 	if (data->import_page->prepared == TRUE) {
-		return;
+		return TRUE;
 	}
 
 	dialog = gnome_message_box_new (_("Please wait...\nScanning for existing setups"), GNOME_MESSAGE_BOX_INFO, NULL);

@@ -1,3 +1,15 @@
+2001-09-14  Iain Holmes  <iain@ximian.com>
+
+	* e-shell-importer.c (start_import): Only check for local path if the
+	folderpath != NULL.
+
+	* e-shell-startup-wizard.c (prepare_importer_page): Remove GTK_CLIST 
+	cast.
+
+2001-09-12  Iain Holmes  <iain@ximian.com>
+
+	* evolution-wizard.c: Remove spewage.
+
 2001-09-14  Ettore Perazzoli  <ettore@ximian.com>
 
 	* e-shell-importer.c (start_import): Removed unused variable.

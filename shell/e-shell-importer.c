@@ -357,9 +357,12 @@ start_import (const char *folderpath,
 
 	/* Only allow importing to /local */
 	localpath = "/" E_LOCAL_STORAGE_NAME "/";
-	if (strncmp (folderpath, localpath, strlen (localpath))) {
-		e_notice (NULL, GNOME_MESSAGE_BOX_ERROR, _("You may only import to local folders"));
-		return;
+	if (folderpath != NULL) {
+		if (strncmp (folderpath, localpath, strlen (localpath))) {
+			e_notice (NULL, GNOME_MESSAGE_BOX_ERROR,
+				  _("You may only import to local folders"));
+			return;
+		}
 	}
 
 	if (iid == NULL || strcmp (iid, "Automatic") == 0) {
@@ -637,13 +640,6 @@ import_druid_finish (GnomeDruidPage *page,
 		     ImportData *data)
 {
 	GtkWidget *folder;
-#if 0
-	char *filename;
-	char *iid;
-
-	filename = g_strdup (gtk_entry_get_text (GTK_ENTRY (gnome_file_entry_gtk_entry (GNOME_FILE_ENTRY (data->filepage->filename)))));
-	iid = g_strdup (data->choosen_iid);
-#endif
 
 	folder = e_shell_folder_selection_dialog_new (data->shell, 
 						      _("Select folder"),
@@ -658,24 +654,6 @@ import_druid_finish (GnomeDruidPage *page,
 
 	gtk_widget_hide (data->dialog);
 	gtk_widget_show (folder);
-#if 0
-	gnome_dialog_close_hides (GNOME_DIALOG (folder), TRUE);
-	switch (gnome_dialog_run (GNOME_DIALOG (folder))) {
-	case 0:
-	case 2:
-		foldername = e_shell_folder_selection_dialog_get_selected_path (E_SHELL_FOLDER_SELECTION_DIALOG (folder));
-		g_print ("Folder name: %s", foldername);
-		start_import (foldername, filename, iid);
-		/* Fall through */
-
-	default:
-		gtk_widget_destroy (folder);
-		break;
-	}
-
-	g_free (filename);
-	g_free (iid);
-#endif
 }
 
 static gboolean
