@@ -1350,107 +1350,14 @@ static char *
 try_inline_pgp (char *start, CamelMimePart *mime_part,
 		guint offset, MailDisplay *md, GtkHTML *html, GtkHTMLStream *stream)
 {
-	CamelMimePart *part;
-	CamelMultipart *multipart;
-	char *end;
-	
-	end = strstr (start, "\n-----END PGP MESSAGE-----\n");
-	if (!end)
-		return start;
-	
-	end += sizeof ("\n-----END PGP MESSAGE-----\n") - 1;
-	
-	multipart = camel_multipart_new ();
-	camel_data_wrapper_set_mime_type (CAMEL_DATA_WRAPPER (multipart),
-					  "multipart/encrypted; "
-					  "protocol=\"application/pgp-encrypted\"; "
-					  "x-inline-pgp-hack=true");
-	
-	part = fake_mime_part_from_data ("Version: 1\n",
-					 sizeof ("Version: 1\n") - 1,
-					 "application/pgp-encrypted",
-					 offset + 1, md);
-	camel_multipart_add_part (multipart, part);
-	camel_object_unref (CAMEL_OBJECT (part));
-	
-	part = fake_mime_part_from_data (start, end - start + 1,
-					 "application/octet-stream",
-					 offset, md);
-	camel_multipart_add_part (multipart, part);
-	camel_object_unref (CAMEL_OBJECT (part));
-	
-	part = camel_mime_part_new ();
-	camel_medium_set_content_object (CAMEL_MEDIUM (part),
-					 CAMEL_DATA_WRAPPER (multipart));
-	
-	camel_object_hook_event (CAMEL_OBJECT (md->current_message),
-				 "finalize", destroy_part, part);
-	
-	write_hr (html, stream);
-	format_mime_part (part, md, html, stream);
-	
-	return end;
+	return start;
 }
 
 static char *
 try_inline_pgp_sig (char *start, CamelMimePart *mime_part,
 		    guint offset, MailDisplay *md, GtkHTML *html, GtkHTMLStream *stream)
 {
-	CamelMimePart *part;
-	CamelMultipart *multipart;
-	char *msg_start, *msg_end, *sig_start, *sig_end;
-	CamelContentType *type;
-	char *type_str;
-	
-	/* We know start points to "-----BEGIN PGP SIGNED MESSAGE-----\n" */
-	msg_start = start + sizeof ("-----BEGIN PGP SIGNED MESSAGE-----\n") - 1;
-	/* Skip 'One or more "Hash" Armor Headers' followed by
-	 * 'Exactly one empty line'.
-	 */
-	msg_start = strstr (msg_start, "\n\n");
-	if (!msg_start)
-		return start;
-	msg_start += 2;
-	msg_end = strstr (msg_start, "\n-----BEGIN PGP SIGNATURE-----\n");
-	if (!msg_end)
-		return start;
-	
-	sig_start = msg_end;
-	sig_end = strstr (sig_start, "\n-----END PGP SIGNATURE-----\n");
-	if (!sig_end)
-		return start;
-	sig_end += sizeof ("\n-----END PGP SIGNATURE-----\n") - 1;
-	
-	multipart = camel_multipart_new ();
-	camel_data_wrapper_set_mime_type (CAMEL_DATA_WRAPPER (multipart),
-					  "multipart/signed; micalg=pgp-sha1;"
-					  "x-inline-pgp-hack=true");
-	
-	type = camel_mime_part_get_content_type (mime_part);
-	type_str = header_content_type_format (type);
-	part = fake_mime_part_from_data (msg_start, msg_end - msg_start,
-					 type_str, offset, md);
-	g_free (type_str);
-	camel_multipart_add_part (multipart, part);
-	camel_object_unref (CAMEL_OBJECT (part));
-	
-	part = fake_mime_part_from_data (sig_start, sig_end - sig_start,
-					 "application/pgp-signature",
-					 offset + 1, md);
-	camel_multipart_add_part (multipart, part);
-	camel_object_unref (CAMEL_OBJECT (part));
-	
-	part = camel_mime_part_new ();
-	camel_medium_set_content_object (CAMEL_MEDIUM (part),
-					 CAMEL_DATA_WRAPPER (multipart));
-	
-	camel_object_hook_event (CAMEL_OBJECT (md->current_message),
-				 "finalize", destroy_part, part);
-	
-	write_hr (html, stream);
-	format_mime_part (part, md, html, stream);
-	
-	return sig_end;
+	return start;
 }
 
 static char *

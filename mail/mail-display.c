@@ -71,7 +71,7 @@ struct _PixbufLoader {
 };
 static GHashTable *thumbnail_cache = NULL;
 
-static gchar *save_pathname = NULL;  /* preserves last directory in save dialog */
+static char *save_pathname = NULL;  /* preserves last directory in save dialog */
 
 /*----------------------------------------------------------------------*
  *                        Callbacks
@@ -126,7 +126,7 @@ make_safe_filename (const char *prefix,CamelMimePart *part)
 {
 	const char *name = NULL;
 	char *safe, *p;
-
+	
 	if (part) {
 		name = camel_mime_part_get_filename (part);
 	}
@@ -135,7 +135,7 @@ make_safe_filename (const char *prefix,CamelMimePart *part)
 		/* This is a filename. Translators take note. */
 		name = _("attachment");
 	}
-
+	
 	p = strrchr (name, '/');
 	if (p)
 		safe = g_strdup_printf ("%s%s", prefix, p);
@@ -154,24 +154,23 @@ save_data_cb (GtkWidget *widget, gpointer user_data)
 {
 	GtkFileSelection *file_select = (GtkFileSelection *)
 		gtk_widget_get_ancestor (widget, GTK_TYPE_FILE_SELECTION);
-	gchar *p;
-
+	char *p;
+	
 	/* uh, this doesn't really feel right, but i dont know what to do better */
 	gtk_widget_hide (GTK_WIDGET (file_select));
-	write_data_to_file (user_data,
-			    gtk_file_selection_get_filename (file_select),
+	write_data_to_file (user_data, gtk_file_selection_get_filename (file_select),
 			    FALSE);
-
+	
 	/* preserve the pathname */
-	g_free(save_pathname);
-	save_pathname = g_strdup(gtk_file_selection_get_filename(file_select));
-	if((p = strrchr(save_pathname, '/')) != NULL)
+	g_free (save_pathname);
+	save_pathname = g_strdup (gtk_file_selection_get_filename (file_select));
+	if((p = strrchr (save_pathname, '/')) != NULL)
 		p[0] = 0;
 	else {
-		g_free(save_pathname);
+		g_free (save_pathname);
 		save_pathname = NULL;
 	}
-
+	
 	gtk_widget_destroy (GTK_WIDGET (file_select));
 }
 
@@ -1124,8 +1123,8 @@ struct _load_content_msg {
 	GtkHTML *html;
 	
 	GtkHTMLStream *handle;
-	gint redisplay_counter;
-	gchar *url;
+	int redisplay_counter;
+	char *url;
 	CamelMimeMessage *message;
 	void (*callback)(MailDisplay *, gpointer);
 	gpointer data;
@@ -1285,7 +1284,7 @@ stream_write_or_redisplay_when_loaded (MailDisplay *md,
 void
 mail_display_stream_write_when_loaded (MailDisplay *md,
 				       gconstpointer key,
-				       const gchar *url,
+				       const char *url,
 				       void (*callback)(MailDisplay *, gpointer),
 				       GtkHTML *html,
 				       GtkHTMLStream *handle,
@@ -1309,12 +1308,12 @@ mail_text_write (GtkHTML *html, GtkHTMLStream *stream, gboolean printing, const 
 {
 	guint flags;
 	char *htmltext;
-
+	
 	flags = E_TEXT_TO_HTML_CONVERT_NL | E_TEXT_TO_HTML_CONVERT_SPACES;
-
-	if (! printing)
+	
+	if (!printing)
 		flags |= E_TEXT_TO_HTML_CONVERT_URLS | E_TEXT_TO_HTML_CONVERT_ADDRESSES;
-
+	
 	if (mail_config_get_citation_highlight () && ! printing)
 		flags |= E_TEXT_TO_HTML_MARK_CITATION;
 	
@@ -1351,7 +1350,7 @@ static void
 clear_data (CamelObject *object, gpointer event_data, gpointer user_data)
 {
 	GData *data = user_data;
-
+	
 	g_datalist_clear (&data);
 }
 
@@ -2065,10 +2064,10 @@ mail_display_new (void)
 	GtkWidget *scroll, *html;
 	GdkAtom clipboard_atom;
 	HTMLTokenizer *tok;
-
+	
 	gtk_box_set_homogeneous (GTK_BOX (mail_display), FALSE);
 	gtk_widget_show (GTK_WIDGET (mail_display));
-
+	
 	scroll = e_scroll_frame_new (NULL, NULL);
 	e_scroll_frame_set_policy (E_SCROLL_FRAME (scroll),
 				   GTK_POLICY_AUTOMATIC,
@@ -2076,36 +2075,36 @@ mail_display_new (void)
 	e_scroll_frame_set_shadow_type (E_SCROLL_FRAME (scroll), GTK_SHADOW_IN);
 	gtk_box_pack_start_defaults (GTK_BOX (mail_display), GTK_WIDGET (scroll));
 	gtk_widget_show (GTK_WIDGET (scroll));
-
+	
 	html = gtk_html_new ();
 	tok = e_searching_tokenizer_new ();
 	html_engine_set_tokenizer (GTK_HTML (html)->engine, tok);
 	gtk_object_unref (GTK_OBJECT (tok));
-
+	
 	mail_display_initialize_gtkhtml (mail_display, GTK_HTML (html));
-
+	
 	gtk_container_add (GTK_CONTAINER (scroll), html);
 	gtk_widget_show (GTK_WIDGET (html));
-
+	
 	gtk_signal_connect (GTK_OBJECT (mail_display->invisible), "selection_get",
 			    GTK_SIGNAL_FUNC (invisible_selection_get_callback), mail_display);
 	gtk_signal_connect (GTK_OBJECT (mail_display->invisible), "selection_clear_event",
 			    GTK_SIGNAL_FUNC (invisible_selection_clear_event_callback), mail_display);
-
+	
 	gtk_selection_add_target (mail_display->invisible,
 				  GDK_SELECTION_PRIMARY, GDK_SELECTION_TYPE_STRING, 1);
-
+	
 	clipboard_atom = gdk_atom_intern ("CLIPBOARD", FALSE);
 	if (clipboard_atom != GDK_NONE)
 		gtk_selection_add_target (mail_display->invisible,
 					  clipboard_atom, GDK_SELECTION_TYPE_STRING, 1);
-
+	
 	mail_display->scroll = E_SCROLL_FRAME (scroll);
 	mail_display->html = GTK_HTML (html);
 	mail_display->last_active = NULL;
 	mail_display->data = g_new0 (GData *, 1);
 	g_datalist_init (mail_display->data);
-
+	
 	return GTK_WIDGET (mail_display);
 }
 
@@ -2114,9 +2113,9 @@ mail_display_initialize_gtkhtml (MailDisplay *mail_display, GtkHTML *html)
 {
 	gtk_html_set_default_content_type (GTK_HTML (html),
 					   "text/html; charset=utf-8");
-
+	
 	gtk_html_set_editable (GTK_HTML (html), FALSE);
-
+	
 	gtk_signal_connect (GTK_OBJECT (html), "url_requested",
 			    GTK_SIGNAL_FUNC (on_url_requested),
 			    mail_display);
@@ -2136,7 +2135,6 @@ mail_display_initialize_gtkhtml (MailDisplay *mail_display, GtkHTML *html)
 			    GTK_SIGNAL_FUNC (html_iframe_created), mail_display);
 	gtk_signal_connect (GTK_OBJECT (html), "on_url",
 			    GTK_SIGNAL_FUNC (html_on_url), mail_display);
-
 }
 
 

@@ -1,3 +1,9 @@
+2001-12-14  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-format.c (try_inline_pgp):
+	(try_inline_pgp_sig): Start reiplementing The Right Way and not
+	danw's fucking half-assed kludge that doesn't work.
+
 2001-12-12  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-config.c (mail_config_set_new_mail_notification_command):
