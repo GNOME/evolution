@@ -1,9 +1,15 @@
+2000-03-14  Dan Winship  <danw@helixcode.com>
+
+	* mail-sources.c: First cut at a mail source selection wizard.
+	Basically a rigged demo at this point. Doesn't use camel to get
+	its information, and is not yet complete or integrated with the
+	mail component. Did I mention that the code is ugly?
+
 2000-03-13  bertrand  <bertrand@helixcode.com>
 
 	* folder-browser-factory.c (folder_browser_set_shell): 
 	for testing and demonstration purpose, immediately 
 	register a fake service.
-	
 
 2000-03-12  bertrand  <bertrand@helixcode.com>
 
