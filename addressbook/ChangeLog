@@ -1,20 +1,7 @@
-2001-03-29  Jon Trowbridge  <trow@ximian.com>
+2001-04-02  Iain Holmes  <iain@ximian.com>
 
-	* printing/e-contact-print.c: Added #include <libgnome/gnome-paper.h>
-	
-	* printing/e-contact-print-envelope.c: Added #include <time.h>
-	and #include <libgnome/gnome-paper.h>
-
-	* gui/component/select-names/e-select-names-completion.c
-	(match_email): Better handle matching of "nameless" contacts.
-
-	* backend/ebook/e-destination.c (e_destination_get_string): Better
-	handle the case of a "nameless" contact.
-
-2001-03-29  Kjartan Maraas  <kmaraas@gnome.org>
-
-	* *.*: Clean up #includes. Replace <gnome.h>, <bonobo.h> and
-	<gtk/gtk.h> with more finegrained headers where needed.
+	* backend/ebook/evolution-gnomecard-importer.c (importer_init): Shut
+	down and unregister the factory on exit.
 
 2001-03-28  Christopher James Lahey  <clahey@ximian.com>
 

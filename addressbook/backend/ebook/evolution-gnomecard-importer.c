@@ -1,10 +1,9 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 #include <config.h>
-#include <stdio.h>
-
+#include <bonobo.h>
+#include <gnome.h>
 #include <liboaf/liboaf.h>
-#include <bonobo/bonobo-generic-factory.h>
-#include <bonobo/bonobo-main.h>
+#include <stdio.h>
 
 #include <e-book.h>
 
@@ -186,6 +185,8 @@ importer_init (void)
 	if (factory == NULL) {
 		g_error ("Unable to create factory");
 	}
+
+	bonobo_running_context_auto_exit_unref (BONOBO_OBJECT (factory));
 }
 
 int
