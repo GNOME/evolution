@@ -673,8 +673,6 @@ shell_view_interface_set_message_cb (EvolutionShellView *shell_view,
 	GnomeApp *app;
 	GnomeAppBar *app_bar;
 
-	g_print ("%s\n", __FUNCTION__);
-
 	app = GNOME_APP (data);
 	app_bar = GNOME_APPBAR (app->statusbar);
 
@@ -697,8 +695,6 @@ shell_view_interface_unset_message_cb (EvolutionShellView *shell_view,
 {
 	GnomeApp *app;
 	GnomeAppBar *app_bar;
-
-	g_print ("%s\n", __FUNCTION__);
 
 	app = GNOME_APP (data);
 	app_bar = GNOME_APPBAR (app->statusbar);

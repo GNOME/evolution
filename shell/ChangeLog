@@ -1,5 +1,11 @@
 2000-08-13  Ettore Perazzoli  <ettore@helixcode.com>
 
+	* e-shell-view.c (shell_view_interface_set_message_cb): Removed
+	debugging message.
+	(shell_view_interface_unset_message_cb): Likewise.
+
+2000-08-13  Ettore Perazzoli  <ettore@helixcode.com>
+
 	* e-shell-view.c: New members `progress_bar_timeout_id',
 	`progress_bar_value' in `EShellViewPrivate'.
 	(init): Init them.
