@@ -1,3 +1,7 @@
+2002-04-28  Fatih Demir <kabalak@gtranslator.org>
+
+	* tr.po: Conversion to UTF-8 and some small hotkey corrections.
+
 2002-04-19  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* POTFILES.in: Removed
