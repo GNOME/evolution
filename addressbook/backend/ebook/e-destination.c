@@ -702,7 +702,10 @@ e_destination_get_name (const EDestination *dest)
 			
 			if (priv->name == NULL || *priv->name == '\0') {
 				g_free (priv->name);
-				priv->name = g_strdup (e_destination_get_email (dest));
+				if (e_card_evolution_list (priv->card))
+					priv->name = g_strdup (_("Unnamed List"));
+				else
+					priv->name = g_strdup (e_destination_get_email (dest));
 			}
 		} else if (priv->raw != NULL) {
 			CamelInternetAddress *addr = camel_internet_address_new ();

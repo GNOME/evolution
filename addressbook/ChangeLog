@@ -1,3 +1,22 @@
+2002-09-13  Chris Toshok  <toshok@ximian.com>
+
+	[ Fixes bug #30250 ]
+	* backend/ebook/e-destination.c (e_destination_get_name): handle
+	"Unnamed Lists" here by setting their name to _("Unnamed List').
+
+	* backend/ebook/e-card-simple.c (e_card_simple_get): same.
+
+	* gui/contact-list-editor/e-contact-list-editor.c (is_named): new
+	function, return TRUE if the name field is filled in.
+	(prompt_to_save_changes): return TRUE if the list isn't named
+	(meaning it's not saveable.)
+	(command_state_changed): saving requires a name.
+	(add_email_cb): always call command_state_changed.
+	(remove_entry_cb): same.
+	(list_name_changed_cb): same.
+	(visible_addrs_toggled_cb): same.
+	(table_drag_data_received_cb): same.
+
 2002-09-12  Dan Winship  <danw@ximian.com>
 
 	* backend/ebook/e-card-simple.c (e_card_simple_get): return

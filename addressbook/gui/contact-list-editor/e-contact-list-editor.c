@@ -391,9 +391,24 @@ save_card (EContactListEditor *cle, gboolean should_close)
 }
 
 static gboolean
+is_named (EContactListEditor *editor)
+{
+	char *string = e_utf8_gtk_editable_get_chars(GTK_EDITABLE (editor->list_name_entry), 0, -1);
+	gboolean named = FALSE;
+
+	if (string && *string) {
+		named = TRUE;
+	}
+
+	g_free (string);
+
+	return named;
+}
+
+static gboolean
 prompt_to_save_changes (EContactListEditor *editor)
 {
-	if (!editor->changed)
+	if (!editor->changed || !is_named (editor))
 		return TRUE;
 
 	switch (e_addressbook_prompt_save_dialog (GTK_WINDOW(editor->app))) {
@@ -718,10 +733,9 @@ add_email_cb (GtkWidget *w, EContactListEditor *editor)
 
 	gtk_entry_set_text (GTK_ENTRY(editor->email_entry), "");
 
-	if (!editor->changed) {
-		editor->changed = TRUE;
-		command_state_changed (editor);
-	}
+	editor->changed = TRUE;
+
+	command_state_changed (editor);
 }
 
 static void
@@ -735,28 +749,22 @@ remove_entry_cb (GtkWidget *w, EContactListEditor *editor)
 {
 	e_table_selected_row_foreach (e_table_scrolled_get_table(E_TABLE_SCROLLED(editor->table)),
 				      (EForeachFunc)remove_row, editor);
-	if (!editor->changed) {
-		editor->changed = TRUE;
-		command_state_changed (editor);
-	}
+	editor->changed = TRUE;
+	command_state_changed (editor);
 }
 
 static void
 list_name_changed_cb (GtkWidget *w, EContactListEditor *editor)
 {
-	if (!editor->changed) {
-		editor->changed = TRUE;
-		command_state_changed (editor);
-	}
+	editor->changed = TRUE;
+	command_state_changed (editor);
 }
 
 static void
 visible_addrs_toggled_cb (GtkWidget *w, EContactListEditor *editor)
 {
-	if (!editor->changed) {
-		editor->changed = TRUE;
-		command_state_changed (editor);
-	}
+	editor->changed = TRUE;
+	command_state_changed (editor);
 }
 
 static void
@@ -878,7 +886,7 @@ table_drag_data_received_cb (ETable *table, int row, int col,
 			gtk_adjustment_set_value (adj, adj->upper);
 	}
 
-	if (changed && !editor->changed) {
+	if (changed) {
 		editor->changed = TRUE;
 		command_state_changed (editor);
 	}
@@ -887,15 +895,17 @@ table_drag_data_received_cb (ETable *table, int row, int col,
 static void
 command_state_changed (EContactListEditor *editor)
 {
+	gboolean named = is_named (editor);
+
 	bonobo_ui_component_set_prop (editor->uic,
 				      "/commands/ContactListEditorSaveClose",
 				      "sensitive",
-				      editor->changed && editor->editable ? "1" : "0", NULL);
+				      editor->changed && named && editor->editable ? "1" : "0", NULL);
 
 	bonobo_ui_component_set_prop (editor->uic,
 				      "/commands/ContactListEditorSave",
 				      "sensitive",
-				      editor->changed && editor->editable ? "1" : "0", NULL);
+				      editor->changed && named && editor->editable ? "1" : "0", NULL);
 
 	bonobo_ui_component_set_prop (editor->uic,
 				      "/commands/ContactListEditorDelete",

@@ -831,6 +831,8 @@ char     *e_card_simple_get            (ECardSimple          *simple,
 		switch (field) {
 		case E_CARD_SIMPLE_FIELD_NAME_OR_ORG:
 			if (simple->card) {
+				gboolean is_list;
+
 				gtk_object_get(GTK_OBJECT(simple->card),
 					       "file_as", &string,
 					       NULL);
@@ -846,8 +848,12 @@ char     *e_card_simple_get            (ECardSimple          *simple,
 					       NULL);
 				if (string && *string)
 					return g_strdup(string);
-				string = e_card_simple_get_email(simple,
-								 E_CARD_SIMPLE_EMAIL_ID_EMAIL); 
+				is_list = e_card_evolution_list (simple->card);
+				if (is_list)
+					string = _("Unnamed List");
+				else
+					string = e_card_simple_get_email(simple,
+									 E_CARD_SIMPLE_EMAIL_ID_EMAIL); 
 				return g_strdup(string);
 			} else
 				return NULL;
