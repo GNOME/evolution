@@ -38,8 +38,6 @@ static guint termination_handler_id;
 static gboolean
 termination_handler (gpointer data)
 {
-	/* FIXME: add the test for the PAS as well */
-
 	if (cal_factory_get_n_backends (cal_factory) == 0
 	    && pas_book_factory_get_n_backends (pas_book_factory) == 0)
 		gtk_main_quit ();
