@@ -1,5 +1,10 @@
 2001-08-27  Jon Trowbridge  <trow@ximian.com>
 
+	* gui/component/select-names/e-select-names-completion.c
+	(sexp_file_as): Added.  Generated queries against file_as.
+	(match_file_as): Added.  Match results of queries against
+	file_as. (Bug #8152)
+
 	* backend/ebook/e-book-view-listener.c
 	(e_book_view_listener_check_queue): Added ref/unref pair to make
 	sure that our listener doesn't get finalized during the signal

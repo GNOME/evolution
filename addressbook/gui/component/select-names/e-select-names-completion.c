@@ -205,7 +205,7 @@ match_email (ESelectNamesCompletion *comp, EDestination *dest)
  */
 
 static gchar *
-sexp_name (ESelectNamesCompletion *comp)
+name_style_query (ESelectNamesCompletion *comp, const gchar *field)
 {
 	if (comp && comp->priv->query_text && *comp->priv->query_text) {
 		gchar *cpy = g_strdup (comp->priv->query_text);
@@ -217,7 +217,7 @@ sexp_name (ESelectNamesCompletion *comp)
 		for (i=0; strv[i]; ++i) {
 			++count;
 			g_strstrip (strv[i]);
-			strv[i] = g_strdup_printf ("(contains \"full_name\" \"%s\")", strv[i]);
+			strv[i] = g_strdup_printf ("(contains \"%s\" \"%s\")", field, strv[i]);
 		}
 
 		if (count == 1) {
@@ -239,6 +239,12 @@ sexp_name (ESelectNamesCompletion *comp)
 	}
 
 	return NULL;
+}
+
+static gchar *
+sexp_name (ESelectNamesCompletion *comp)
+{
+	return name_style_query (comp, "full_name");
 }
 
 enum {
@@ -334,6 +340,9 @@ match_name (ESelectNamesCompletion *comp, EDestination *dest)
 		}
 
 	}
+
+	g_free (cpy);
+	g_free (strv);
 	
 	score = match_len * 3; /* three points per match character */
 
@@ -406,6 +415,57 @@ match_name (ESelectNamesCompletion *comp, EDestination *dest)
 }
 
 /*
+ * File As Query
+ */
+
+static gchar *
+sexp_file_as (ESelectNamesCompletion *comp)
+{
+	return name_style_query (comp, "file_as");
+}
+
+static ECompletionMatch *
+match_file_as (ESelectNamesCompletion *comp, EDestination *dest)
+{
+	const gchar *name;
+	const gchar *email;
+	gchar *cpy, **strv, *menu_text;
+	gint i;
+	gboolean matched;
+	double score = 0;
+	ECompletionMatch *match;
+
+	name = e_destination_get_name (dest);
+	email = e_destination_get_email (dest);
+
+	if (!(name && *name))
+		return NULL;
+
+	cpy = g_strdup (comp->priv->query_text);
+	strv = g_strsplit (cpy, " ", 0);
+
+	matched = FALSE;
+	for (i=0; strv[i] && !matched; ++i) {
+		matched = match_name_fragment (name, strv[i]);
+		if (matched)
+			score = strlen (strv[i]); /* one point per character of the match */
+	}
+	
+	g_free (cpy);
+	g_free (strv);
+
+	if (!matched)
+		return NULL;
+	
+	menu_text = g_strdup_printf ("%s <%s>", name, email);
+	g_strstrip (menu_text);
+	match = make_match (dest, menu_text, score);
+	g_free (menu_text);
+
+	return match;
+}
+
+/*
  * Initials Query
  */
 
@@ -433,6 +493,7 @@ static BookQuery book_queries[] = {
 	{ TRUE,  sexp_nickname, match_nickname},
 	{ TRUE,  sexp_email,    match_email },
 	{ TRUE,  sexp_name,     match_name },
+	{ TRUE,  sexp_file_as,  match_file_as },
 	{ FALSE, sexp_initials, match_initials }
 };
 static gint book_query_count = sizeof (book_queries) / sizeof (BookQuery);
