@@ -837,7 +837,7 @@ etsm_selected_count_recurse (ETreeSelectionModel *etsm,
 	if (selection_node->children) {
 		ETreePath child = e_tree_model_node_get_first_child(E_TREE_MODEL(etsm->priv->model), path);
 		int i;
-		for (i = 0; i < selection_node->num_children; i++, child = e_tree_model_node_get_next(E_TREE_MODEL(etsm->priv->model), child))
+		for (i = 0; child && i < selection_node->num_children; i++, child = e_tree_model_node_get_next(E_TREE_MODEL(etsm->priv->model), child))
 			if (selection_node->children[i])
 				etsm_selected_count_recurse (etsm, selection_node->children[i], child, count);
 	}
