@@ -1,5 +1,11 @@
 2001-10-11  Ettore Perazzoli  <ettore@ximian.com>
 
+	* e-shell-view.c
+	(reparent_storage_set_view_box_and_destroy_popup): Don't die if
+	the folder_bar_popup is %NULL.  Fixes #10922.
+
+2001-10-11  Ettore Perazzoli  <ettore@ximian.com>
+
 	* main.c (idle_cb): Display the default view only if we are
 	starting our own shell, or if the command-line has no arguments
 	and we are talking to an already existing shell.

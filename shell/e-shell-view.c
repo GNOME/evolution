@@ -394,7 +394,8 @@ reparent_storage_set_view_box_and_destroy_popup (EShellView *shell_view)
 
 	priv = shell_view->priv;
 
-	g_assert (priv->folder_bar_popup != NULL);
+	if (priv->folder_bar_popup == NULL)
+		return;
 
 	gtk_widget_ref (priv->storage_set_view_box);
 	gtk_container_remove (GTK_CONTAINER (priv->folder_bar_popup), priv->storage_set_view_box);
