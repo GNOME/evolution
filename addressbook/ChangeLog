@@ -1,3 +1,10 @@
+2002-07-31  Ettore Perazzoli  <ettore@ximian.com>
+
+	[Patch by Jacob Berkman <jacob@ximian.com>, fixes #25968]
+
+	* backend/ebook/e-book.c (activate_factories_for_uri): Don't
+	double free protocol and query.
+
 2002-07-27  Chris Toshok  <toshok@ximian.com>
 
 	* backend/pas/pas-backend-summary.c (save_string): don't save

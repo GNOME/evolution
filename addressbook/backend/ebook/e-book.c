@@ -641,8 +641,6 @@ activate_factories_for_uri (EBook *book, const char *uri)
 
 	if (info_list->_length == 0) {
 		g_warning ("Can't find installed BookFactory that handles protocol '%s'.", protocol);
-		g_free (protocol);
-		g_free (query);
 		CORBA_exception_free (&ev);
 		goto shutdown;
 	}
