@@ -93,4 +93,6 @@ e_completion_callbacks_new (ECompletionCallbacksRequestCompletionFn request_comp
   cc->request_completion = request_completion;
   cc->end_completion = end_completion;
   cc->data = data;
+
+  return cc;
 }

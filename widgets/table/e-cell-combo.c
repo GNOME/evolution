@@ -92,6 +92,8 @@ static void e_cell_combo_get_popup_pos	(ECellCombo	*ecc,
 					 gint		*height,
 					 gint		*width);
 
+static void e_cell_combo_selection_changed(GtkWidget *popup_list, ECellCombo *ecc);
+
 static gint e_cell_combo_button_press	(GtkWidget	*popup_window,
 					 GdkEvent	*event,
 					 ECellCombo	*ecc);
@@ -163,16 +165,20 @@ e_cell_combo_init			(ECellCombo	*ecc)
 					     gtk_scrolled_window_get_hadjustment (GTK_SCROLLED_WINDOW (ecc->popup_scrolled_window)));
 	gtk_widget_show (ecc->popup_list);
 
+	g_signal_connect (ecc->popup_list,
+			  "selection_changed",
+			  G_CALLBACK (e_cell_combo_selection_changed),
+			  ecc);
 	g_signal_connect (ecc->popup_window,
 			  "button_press_event",
 			  G_CALLBACK (e_cell_combo_button_press),
 			  ecc);
 	/* We use connect_after here so the list updates the selection before
 	   we hide the popup and update the cell. */
-	g_signal_connect_after (ecc->popup_window,
-				"button_release_event",
-				G_CALLBACK (e_cell_combo_button_release),
-				ecc);
+	g_signal_connect (ecc->popup_window,
+			  "button_release_event",
+			  G_CALLBACK (e_cell_combo_button_release),
+			  ecc);
 	g_signal_connect (ecc->popup_window,
 			  "key_press_event",
 			  G_CALLBACK (e_cell_combo_key_press), ecc);
@@ -257,8 +263,10 @@ e_cell_combo_do_popup			(ECellPopup	*ecp,
 	guint32 time;
 	gint error_code;
 
+	g_signal_handlers_block_by_func(ecc->popup_list, e_cell_combo_selection_changed, ecc);
 	e_cell_combo_show_popup (ecc, row, view_col);
 	e_cell_combo_select_matching_item (ecc);
+	g_signal_handlers_unblock_by_func(ecc->popup_list, e_cell_combo_selection_changed, ecc);
 
 	if (event->type == GDK_BUTTON_PRESS) {
 		GTK_LIST (ecc->popup_list)->drag_selection = TRUE;
@@ -489,8 +497,21 @@ e_cell_combo_get_popup_pos		(ECellCombo	*ecc,
 		*height = work_height + list_requisition.height;
 }
 
+static void
+e_cell_combo_selection_changed(GtkWidget *popup_list, ECellCombo *ecc)
+{
+	if (!GTK_LIST(popup_list)->selection || !GTK_WIDGET_REALIZED(ecc->popup_window))
+		return;
 
+	gtk_grab_remove (ecc->popup_window);
+	gdk_pointer_ungrab (gtk_get_current_event_time());
+	gtk_widget_hide (ecc->popup_window);
 
+	e_cell_popup_set_shown (E_CELL_POPUP (ecc), FALSE);
+
+	e_cell_combo_update_cell (ecc);
+	e_cell_combo_restart_edit (ecc);
+}
 
 /* This handles button press events in the popup window.
    Note that since we have a pointer grab on this window, we also get button
