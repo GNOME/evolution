@@ -466,7 +466,7 @@ static void emfh_gethttp(struct _EMFormatHTMLJob *job, int cancelled)
 
 	do {
 		/* FIXME: progress reporting in percentage, can we get the length always?  do we care? */
-		n = camel_stream_read(instream, buffer, 1500);
+		n = camel_stream_read(instream, buffer, sizeof (buffer));
 		if (n > 0) {
 			camel_operation_progress_count(NULL, total);
 			total += n;
