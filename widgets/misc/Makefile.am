@@ -39,6 +39,8 @@ libemiscwidgets_a_SOURCES = 	\
 	e-map.h			\
 	e-messagebox.c		\
 	e-messagebox.h		\
+	e-multi-config-dialog.c \
+	e-multi-config-dialog.h \
 	e-search-bar.c		\
 	e-search-bar.h		\
 	e-title-bar.c		\
@@ -46,10 +48,11 @@ libemiscwidgets_a_SOURCES = 	\
 	e-url-entry.c		\
 	e-url-entry.h
 
-noinst_PROGRAMS = 		\
-	test-calendar		\
-	test-dateedit		\
-	test-dropdown-button	\
+noinst_PROGRAMS = 			\
+	test-calendar			\
+	test-dateedit			\
+	test-dropdown-button		\
+	test-multi-config-dialog 	\
 	test-title-bar
 
 # test-calendar
@@ -81,6 +84,15 @@ test_dropdown_button_LDADD =	\
 	./libemiscwidgets.a	\
 	$(GNOME_FULL_LIBS)
 
+# test-multi-config-dialog
+
+test_multi_config_dialog_SOURCES = 	\
+	test-multi-config-dialog.c
+
+test_multi_config_dialog_LDADD = 	\
+	./libemiscwidgets.a		\
+	$(GNOME_FULL_LIBS)
+
 # test-title-bar
 
 test_title_bar_SOURCES = 	\
@@ -89,4 +101,5 @@ test_title_bar_SOURCES = 	\
 test_title_bar_LDADD = 		\
 	./libemiscwidgets.a	\
 	$(GNOME_FULL_LIBS)
+
 

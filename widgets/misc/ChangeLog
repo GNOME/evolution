@@ -1,3 +1,11 @@
+2002-03-05  Ettore Perazzoli  <ettore@ximian.com>
+
+	* test-multi-config-dialog.c: New.
+	* test-multi-config-dialog.h: New.
+
+	* e-multi-config-dialog.c: New.
+	* e-multi-config-dialog.h: New.
+
 2002-02-24  Chris Toshok  <toshok@ximian.com>
 
 	* e-filter-bar.c (init): preserve behavior - hook search_activated
