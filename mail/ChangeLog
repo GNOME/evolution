@@ -1,4 +1,11 @@
+2001-08-01  Jason Leach  <jleach@ximian.com>
+
+	* mail-callbacks.c (delete_msg): Don't move cursors around when
+	deleting last message and Hide Deleted Messages isn't enabled.
+	Bug #5928.
+
 2001-07-31  Anna Marie Dirks <anna@ximian.com>
+	
 	* mail-mt.c (do_get_pass): Changed the title of this dialog
 	to "Enter Password". 
 	
