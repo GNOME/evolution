@@ -1,6 +1,11 @@
+2000-12-14  Michael Meeks  <michael@helixcode.com>
+
+	* gui/component/GNOME_Evolution_Addressbook.oafinfo: update cut
+	and paste description error.
+
 2000-12-13  Dan Winship  <danw@helixcode.com>
 
-	* gui/widgets/e-minicard-control.c (stream_read): NUL-terminate
+	* gui/widgets/e-minicard-control.c (stream_read): NULL-terminate
 	the returned vcard so we don't sometimes end up with trailing
 	junk that makes libversit unhappy.
 
