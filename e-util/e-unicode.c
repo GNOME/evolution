@@ -10,6 +10,48 @@
 #include <unicode.h>
 #include "e-unicode.h"
 
+const gchar *
+e_utf8_strstrcase (const gchar *haystack, const gchar *needle)
+{
+	gchar *p;
+	unicode_char_t *huni, *nuni;
+	unicode_char_t unival;
+	gint hlen, nlen, hp, np;
+
+	if (haystack == NULL) return NULL;
+	if (needle == NULL) return NULL;
+	if (strlen (needle) == 0) return haystack;
+
+	huni = alloca (sizeof (unicode_char_t) * strlen (haystack));
+
+	for (hlen = 0, p = unicode_get_utf8 (haystack, &unival); p && unival; hlen++, p = unicode_get_utf8 (p, &unival)) {
+		huni[hlen] = unicode_tolower (unival);
+	}
+
+	if (!p) return NULL;
+	if (hlen == 0) return NULL;
+
+	nuni = alloca (sizeof (unicode_char_t) * strlen (needle));
+
+	for (nlen = 0, p = unicode_get_utf8 (needle, &unival); p && unival; nlen++, p = unicode_get_utf8 (p, &unival)) {
+		nuni[nlen] = unicode_tolower (unival);
+	}
+
+	if (!p) return NULL;
+	if (nlen == 0) return NULL;
+
+	if (hlen < nlen) return NULL;
+
+	for (hp = 0; hp <= hlen - nlen; hp++) {
+		for (np = 0; np < nlen; np++) {
+			if (huni[hp + np] != nuni[np]) break;
+		}
+		if (np == nlen) return haystack + unicode_offset_to_index (haystack, hp);
+	}
+
+	return NULL;
+}
+
 gchar *
 e_utf8_from_gtk_event_key (GtkWidget *widget, guint keyval, const gchar *string)
 {

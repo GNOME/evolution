@@ -5,6 +5,12 @@
 #include <glib.h>
 #include <gtk/gtk.h>
 
+/*
+ * e_utf8_strstrcase
+ */
+
+const gchar *e_utf8_strstrcase (const gchar *haystack, const gchar *needle);
+
 gchar *e_utf8_from_gtk_event_key (GtkWidget *widget, guint keyval, const gchar *string);
 
 gchar *e_utf8_from_gtk_string (GtkWidget *widget, const gchar *string);

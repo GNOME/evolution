@@ -47,4 +47,7 @@ test_ename_western_LDADD = $(ename_libs)
 test_ename_western_gtk_SOURCES =				\
 	test-ename-western-gtk.c
 
-test_ename_western_gtk_LDADD = $(ename_libs) $(gnome_libs)
+test_ename_western_gtk_LDADD = 			\
+	$(ename_libs) 				\
+	$(top_builddir)/e-util/libeutil.la	\
+	$(gnome_libs)

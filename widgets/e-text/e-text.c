@@ -851,7 +851,7 @@ split_into_lines (EText *text)
 	laststart = text->text;
 
 	cp = text->text;
-	for (p = unicode_get_utf8 (cp, &unival); line_num < text->num_lines && unival; cp = p, p = unicode_get_utf8 (p, &unival)) {
+	for (p = unicode_get_utf8 (cp, &unival); p && unival && line_num < text->num_lines; cp = p, p = unicode_get_utf8 (p, &unival)) {
 		gboolean handled = FALSE;
 		if (len == 0)
 			lines->text = cp;

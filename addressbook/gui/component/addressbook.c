@@ -19,6 +19,7 @@
 #include <ebook/e-book.h>
 #include <e-util/e-util.h>
 #include <e-util/e-popup-menu.h>
+#include <e-util/e-unicode.h>
 #include "e-minicard-view-widget.h"
 #include "addressbook/gui/search/e-addressbook-search-dialog.h"
 
@@ -298,7 +299,7 @@ find_contact_cb (BonoboUIHandler *uih, void *user_data, const char *path)
 					   GNOME_STOCK_BUTTON_CANCEL, NULL);
 
 	search_text = get_query (view);
-	gtk_entry_set_text(GTK_ENTRY(search_entry), search_text);
+	e_utf8_gtk_entry_set_text(GTK_ENTRY(search_entry), search_text);
 	g_free (search_text);
 
 	gtk_box_pack_start (GTK_BOX (GNOME_DIALOG (dlg)->vbox),
@@ -311,8 +312,9 @@ find_contact_cb (BonoboUIHandler *uih, void *user_data, const char *path)
 
 	/* If the user clicks "okay"...*/
 	if (result == 0) {
-		search_text = gtk_entry_get_text(GTK_ENTRY(search_entry));
+		search_text = e_utf8_gtk_entry_get_text(GTK_ENTRY(search_entry));
 		set_query (view, search_text);
+		g_free (search_text);
 	}
 	
 }
@@ -450,7 +452,7 @@ static GnomeUIInfo gnome_toolbar [] = {
 static void
 search_entry_activated (GtkWidget* widget, gpointer user_data)
 {
-	char* search_word = gtk_entry_get_text(GTK_ENTRY(widget));
+	char* search_word = e_utf8_gtk_entry_get_text(GTK_ENTRY(widget));
 	char* search_query;
 	AddressbookView *view = (AddressbookView *) user_data;
 
@@ -465,6 +467,7 @@ search_entry_activated (GtkWidget* widget, gpointer user_data)
 	set_query(view, search_query);
 
 	g_free (search_query);
+	g_free (search_word);
 }
 
 static GtkWidget*

@@ -1,3 +1,19 @@
+2000-08-23  Lauris Kaplinski  <lauris@helixcode.com>
+
+	* backend/pas/pas-backend-file.c (func_contains): Use e_utf8_strstrcase
+
+	* contact-editor/e-contact-editor-fullname.c (fill_in_field): Use e_utf8 wrapper
+	(extract_field): Same
+
+	* contact-editor/e-contact-editor.c (full_name_clicked): Don't crash
+
+	* ename/Makefile.am: Link demo with libeutil.la
+
+	* ename/test-ename-western-gtk.c (full_changed_cb): Use e_utf8 wrapper
+
+	* gui/component/addressbook.c (find_contact_cb): Use e_utf8 wrapper
+	(search_entry_activated): Same
+
 2000-08-22  Christopher James Lahey  <clahey@helixcode.com>
 
 	* gui/search/e-addressbook-search-dialog.c: Fix an error in the

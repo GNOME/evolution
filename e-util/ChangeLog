@@ -1,3 +1,8 @@
+2000-08-23  Lauris Kaplinski  <lauris@helixcode.com>
+
+	* e-unicode.h:
+	* e-unicode.c (e_utf8_strstrcase): New function
+
 2000-08-23  Federico Mena Quintero  <federico@helixcode.com>
 
 	* e-dialog-widgets.c (e_dialog_editable_set): Constify.

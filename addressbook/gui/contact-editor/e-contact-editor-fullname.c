@@ -22,6 +22,7 @@
 
 #include <config.h>
 #include <gnome.h>
+#include <e-util/e-unicode.h>
 #include <e-contact-editor-fullname.h>
 
 static void e_contact_editor_fullname_init		(EContactEditorFullname		 *card);
@@ -171,7 +172,7 @@ fill_in_field(EContactEditorFullname *editor, char *field, char *string)
 	GtkEntry *entry = GTK_ENTRY(glade_xml_get_widget(editor->gui, field));
 	if (entry) {
 		if (string)
-			gtk_entry_set_text(entry, string);
+			e_utf8_gtk_entry_set_text(entry, string);
 		else
 			gtk_entry_set_text(entry, "");
 	}
@@ -195,7 +196,7 @@ extract_field(EContactEditorFullname *editor, char *field)
 {
 	GtkEntry *entry = GTK_ENTRY(glade_xml_get_widget(editor->gui, field));
 	if (entry)
-		return g_strdup(gtk_entry_get_text(entry));
+		return e_utf8_gtk_entry_get_text(entry);
 	else
 		return NULL;
 }

@@ -359,8 +359,8 @@ file_as_set_style(EContactEditor *editor, int style)
 		
 
 	if (style == -1) {
-		string = e_utf8_gtk_entry_get_text(file_as);
-		strings = g_list_append(strings, string);
+		string = gtk_entry_get_text(file_as);
+		strings = g_list_append(strings, g_strdup(string));
 	}
 
 	widget = glade_xml_get_widget(editor->gui, "combo-file-as");
@@ -479,7 +479,7 @@ full_name_clicked(GtkWidget *button, EContactEditor *editor)
 	GnomeDialog *dialog = GNOME_DIALOG(e_contact_editor_fullname_new(editor->name));
 	int result;
 	gtk_widget_show(GTK_WIDGET(dialog));
-	result = gnome_dialog_run_and_close (dialog);
+	result = gnome_dialog_run (dialog);
 	if (result == 0) {
 		ECardName *name;
 		GtkWidget *fname_widget;

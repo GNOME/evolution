@@ -1,4 +1,5 @@
 #include <gnome.h>
+#include <e-util/e-unicode.h>
 #include <ename/e-name-western.h>
 
 ENameWestern *name;
@@ -14,7 +15,7 @@ static void
 fill_entries (void)
 {
 
-#define SET(a,b) (gtk_entry_set_text (GTK_ENTRY (a), (b) == NULL ? "" : (b)))
+#define SET(a,b) (e_utf8_gtk_entry_set_text (GTK_ENTRY (a), (b) == NULL ? "" : (b)))
 	SET(prefix, name->prefix);
 	SET(first,  name->first);
 	SET(middle, name->middle);
@@ -26,9 +27,14 @@ fill_entries (void)
 static void
 full_changed_cb (GtkEntry *fulle)
 {
+	gchar *str;
+
 	e_name_western_free (name);
-	name = e_name_western_parse (gtk_entry_get_text (fulle));
+	str = e_utf8_gtk_entry_get_text (fulle);
+	name = e_name_western_parse (str);
 	fill_entries ();
+
+	g_free (str);
 }
 
 static void
