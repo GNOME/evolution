@@ -1,3 +1,10 @@
+2003-03-25  Not Zed  <NotZed@Ximian.com>
+
+	* Makefile.am: Added e-meta.[ch] to libeutil
+
+	* e-meta.[ch]: simple api to implement meta-data for keyed
+	objects.
+
 2003-03-20  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* e-trie.c (e_trie_search): If the gunichar is 0xfffe, just skip
