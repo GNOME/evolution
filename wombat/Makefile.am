@@ -23,13 +23,21 @@ wombat_SOURCES = 			\
 	wombat-private-moniker.h	\
 	wombat.c
 
+if ENABLE_LDAP
+LDAP_STUFF =								\
+	$(top_builddir)/addressbook/backend/pas/libpasldap.a		\
+	$(LDAP_LIBS)
+endif
+
 wombat_LDADD =								\
-	$(top_builddir)/addressbook/backend/pas/libpas.a		\
+	$(top_builddir)/addressbook/backend/pas/libpasfile.a		\
 	$(DB3_LDADD)							\
-	$(LDAP_LIBS)							\
+	$(LDAP_STUFF)							\
+	$(top_builddir)/addressbook/backend/pas/libpas.a		\
 	$(top_builddir)/addressbook/backend/ebook/libebook.la		\
 	$(top_builddir)/camel/libcamel.la				\
 	$(top_builddir)/e-util/ename/libename.la			\
+	$(top_builddir)/calendar/pcs/libpcsfile.a			\
 	$(top_builddir)/calendar/pcs/libpcs.a				\
 	$(top_builddir)/calendar/cal-util/libcal-util.la		\
 	$(top_builddir)/libical/src/libical/libical-evolution.la	\

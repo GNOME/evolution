@@ -1,3 +1,8 @@
+2002-07-22  Dan Winship  <danw@ximian.com>
+
+	* Makefile.am (wombat_LDADD): Include libpcsfile.a, libpasfile.a
+	and (if ENABLE_LDAP) libpasldap.a
+
 2002-07-15  Peter Williams  <peterw@ximian.com>
 
 	* Makefile.am (EXTRA_DIST): Apparently we can't remove
