@@ -1,4 +1,4 @@
-2003-07-01  Dan Winship  <danw@ximian.com>
+2003-07-17  Dan Winship  <danw@ximian.com>
 
 	* e-shell-user-creatable-items-handler.c (free_menu_items): free
 	the folder_type
