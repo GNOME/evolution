@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution 1.2.1\n"
 "POT-Creation-Date: 2002-12-05 17:57-0500\n"
-"PO-Revision-Date: 2003-01-10 12:55+0200\n"
+"PO-Revision-Date: 2003-01-20 12:35+0200\n"
 "Last-Translator: Andrew V. Samoilov <sav@bcs.zp.ua>\n"
 "Language-Team: Ukrainian <uk@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -676,7 +676,7 @@ msgid ""
 msgstr ""
 "Час виконання цього запиту перевищує межу сервера або межу,\n"
 "що встановлена вами для цієї адресної книги.  Будь-ласка, зробить\n"
-"ваш пошук більш ізбірковим або збільшите межу часу в налаштуваннях\n"
+"ваш пошук більш специфічним або збільшите межу часу в налаштуваннях\n"
 "сервера тек для цієї адресної книги."
 
 #: addressbook/gui/component/addressbook.c:968
@@ -1114,9 +1114,9 @@ msgid ""
 "setting this to \"Email Address\" requires anonymous access to your ldap "
 "server."
 msgstr ""
-"Це метод, яким evolution буде вас автентифікувати. Зверніть увагу, якщо ви "
+"Це метод, яким Evolution буде вас автентифікувати. Зверніть увагу, якщо ви "
 "оберете тут \"Ел.адреса\" ви мусите мати анонімний доступ до вашого серверу "
-"ldap"
+"LDAP"
 
 #: addressbook/gui/component/ldap-config.glade.h:95
 #, fuzzy
@@ -1384,9 +1384,8 @@ msgid "Selected Contacts:"
 msgstr "Стерти контакт?"
 
 #: addressbook/gui/component/select-names/select-names.glade.h:4
-#, fuzzy
 msgid "Show Contacts"
-msgstr "Контакти"
+msgstr "Показати Контакти"
 
 #: addressbook/gui/component/select-names/select-names.glade.h:5
 msgid ""
@@ -1795,7 +1794,7 @@ msgstr "Данія"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:189
 msgid "Djibouti"
-msgstr "Джібуті"
+msgstr "Джибуті"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:190
 msgid "Dominica"
@@ -1844,7 +1843,7 @@ msgstr "Ефіопія"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:200
 msgid "Falkland Islands"
-msgstr "Фалкландські острови"
+msgstr "Фолклендські острови"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:201
 msgid "Faroe Islands"
@@ -1935,7 +1934,7 @@ msgstr "Гвінея"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:221
 msgid "Guinea-bissau"
-msgstr "Гвінея-Біссау"
+msgstr "Гвінея-Бісау"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:222
 msgid "Guyana"
@@ -2022,7 +2021,7 @@ msgstr "Кенія"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:240
 msgid "Kiribati"
-msgstr "Кірібаті"
+msgstr "Кірибаті"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:241
 msgid "Korea, Republic Of"
@@ -2035,7 +2034,7 @@ msgstr "Кувейт"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:243
 msgid "Kyrgyzstan"
-msgstr "Киргистан"
+msgstr "Киргизстан"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:244
 msgid "Laos"
@@ -2091,7 +2090,7 @@ msgstr "Малаві"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:256
 msgid "Malaysia"
-msgstr "Малазія"
+msgstr "Малайзія"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:257
 msgid "Maldives"
@@ -2112,7 +2111,7 @@ msgstr "Маршалові острови"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:261
 msgid "Martinique"
-msgstr "Мартініка"
+msgstr "Мартиніка"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:262
 msgid "Mauritania"
@@ -2317,7 +2316,7 @@ msgstr "Санта Лючія"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:308
 msgid "Saint Vincent And The Grena-dines"
-msgstr "Сант Вінсент та Гренадіни"
+msgstr "Сант Вінсент та Гренадини"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:309
 msgid "Samoa"
@@ -2325,11 +2324,11 @@ msgstr "Самоа"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:310
 msgid "San Marino"
-msgstr "Сан Маріно"
+msgstr "Сан-Марино"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:311
 msgid "Sao Tome And Principe"
-msgstr "Сан Томе і Прінсіпі"
+msgstr "Сан Томе і Принсіпі"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:312
 #: my-evolution/Locations.h:2033
@@ -2356,7 +2355,7 @@ msgstr "Сінгапур"
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:317
 #: my-evolution/Locations.h:2101
 msgid "Slovakia"
-msgstr "Словакія"
+msgstr "Словаччина"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:318
 #: my-evolution/Locations.h:2102
@@ -2434,9 +2433,8 @@ msgid "Tajikistan"
 msgstr "Таджикистан"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:335
-#, fuzzy
 msgid "Tanzania, United Republic Of"
-msgstr "Танзанія"
+msgstr "Танзанія, Об'єднана Республіка"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:336
 msgid "Thailand"
@@ -2452,11 +2450,11 @@ msgstr "Токелау"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:339
 msgid "Tonga"
-msgstr "Тонґа"
+msgstr "Тонга"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:340
 msgid "Trinidad And Tobago"
-msgstr "Трінідад і Тобаго"
+msgstr "Тринідад і Тобаго"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:341
 msgid "Tunisia"
@@ -2469,7 +2467,7 @@ msgstr "Туреччина"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:343
 msgid "Turkmenistan"
-msgstr "Туркменистан"
+msgstr "Туркменістан"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:344
 msgid "Turks And Caicos Islands"
@@ -4795,9 +4793,8 @@ msgid "on"
 msgstr "у"
 
 #: calendar/gui/dialogs/recurrence-page.c:1072
-#, fuzzy
 msgid "first"
-msgstr "Мгла"
+msgstr "перший(а,і,у)"
 
 #: calendar/gui/dialogs/recurrence-page.c:1073 filter/filter-datespec.c:70
 msgid "second"
@@ -6745,7 +6742,7 @@ msgstr ""
 
 #: calendar/zones.h:46
 msgid "Africa/Mogadishu"
-msgstr "Африка/Могадішо"
+msgstr "Африка/Могадишо"
 
 #: calendar/zones.h:47
 msgid "Africa/Monrovia"
@@ -6809,7 +6806,7 @@ msgstr ""
 
 #: calendar/zones.h:62
 msgid "America/Antigua"
-msgstr "Америка/Антігуа"
+msgstr "Америка/Антигуа"
 
 #: calendar/zones.h:63
 msgid "America/Araguaina"
@@ -7045,7 +7042,7 @@ msgstr "Америка/Ліма"
 
 #: calendar/zones.h:121
 msgid "America/Los_Angeles"
-msgstr "Америка/Лос Анжелес"
+msgstr "Америка/Лос-Анджелес"
 
 #: calendar/zones.h:122
 msgid "America/Louisville"
@@ -7065,7 +7062,7 @@ msgstr ""
 
 #: calendar/zones.h:126
 msgid "America/Martinique"
-msgstr "Америка/Мартініка"
+msgstr "Америка/Мартиніка"
 
 #: calendar/zones.h:127
 msgid "America/Mazatlan"
@@ -7161,7 +7158,7 @@ msgstr ""
 
 #: calendar/zones.h:150
 msgid "America/Puerto_Rico"
-msgstr "Америка/Пуерто-Ріко"
+msgstr "Америка/Пуерто-Рико"
 
 #: calendar/zones.h:151
 msgid "America/Rainy_River"
@@ -7185,7 +7182,7 @@ msgstr ""
 
 #: calendar/zones.h:156
 msgid "America/Rosario"
-msgstr "Америка/Розаріо"
+msgstr "Америка/Росаріо"
 
 #: calendar/zones.h:157
 msgid "America/Santiago"
@@ -7261,7 +7258,7 @@ msgstr ""
 
 #: calendar/zones.h:175
 msgid "America/Winnipeg"
-msgstr "Америка/Вінніпеґ"
+msgstr "Америка/Вінніпег"
 
 #: calendar/zones.h:176
 msgid "America/Yakutat"
@@ -7600,7 +7597,7 @@ msgstr ""
 
 #: calendar/zones.h:259
 msgid "Asia/Ulaanbaatar"
-msgstr ""
+msgstr "Азія/Улан-Батор"
 
 #: calendar/zones.h:260
 msgid "Asia/Urumqi"
@@ -7612,7 +7609,7 @@ msgstr ""
 
 #: calendar/zones.h:262
 msgid "Asia/Vladivostok"
-msgstr ""
+msgstr "Азія/Владивосток"
 
 #: calendar/zones.h:263
 msgid "Asia/Yakutsk"
@@ -7620,11 +7617,11 @@ msgstr "Азія/Якутськ"
 
 #: calendar/zones.h:264
 msgid "Asia/Yekaterinburg"
-msgstr ""
+msgstr "Азія/Єкатеринбург"
 
 #: calendar/zones.h:265
 msgid "Asia/Yerevan"
-msgstr ""
+msgstr "Азія/Єреван"
 
 #: calendar/zones.h:266
 msgid "Atlantic/Azores"
@@ -7636,7 +7633,7 @@ msgstr "Атлантика/Бермудські остр."
 
 #: calendar/zones.h:268
 msgid "Atlantic/Canary"
-msgstr ""
+msgstr "Атлантика/Канари"
 
 #: calendar/zones.h:269
 msgid "Atlantic/Cape_Verde"
@@ -7676,7 +7673,7 @@ msgstr "Австралія/Аделаїда"
 
 #: calendar/zones.h:278
 msgid "Australia/Brisbane"
-msgstr "Австралія/Брісбен"
+msgstr "Австралія/Брисбен"
 
 #: calendar/zones.h:279
 msgid "Australia/Broken_Hill"
@@ -7688,7 +7685,7 @@ msgstr "Австралія/Дарвін"
 
 #: calendar/zones.h:281
 msgid "Australia/Hobart"
-msgstr "Австралія/Гобарт"
+msgstr "Австралія/Хобарт"
 
 #: calendar/zones.h:282
 msgid "Australia/Lindeman"
@@ -7916,7 +7913,7 @@ msgstr "Європа/Цюріх"
 
 #: calendar/zones.h:338
 msgid "Indian/Antananarivo"
-msgstr "Індія/Антананариву"
+msgstr "Індія/Антананаріву"
 
 #: calendar/zones.h:339
 msgid "Indian/Chagos"
@@ -8044,7 +8041,7 @@ msgstr ""
 
 #: calendar/zones.h:370
 msgid "Pacific/Nauru"
-msgstr ""
+msgstr "Тихий океан/Науру"
 
 #: calendar/zones.h:371
 msgid "Pacific/Niue"
@@ -8527,7 +8524,7 @@ msgstr "Під'єднуватись до сервера анонімно (anonym
 
 #: camel/camel-sasl-anonymous.c:110 camel/camel-sasl-plain.c:87
 msgid "Authentication failed."
-msgstr "Збій автентифiкацiї."
+msgstr "Збій автентифікації."
 
 #: camel/camel-sasl-anonymous.c:119
 #, c-format
@@ -9510,13 +9507,12 @@ msgid "Cannot open maildir directory path: %s: %s"
 msgstr "Неможливо відкрити шлях до теки поштового каталогу: %s: %s"
 
 #: camel/providers/local/camel-maildir-summary.c:539
-#, fuzzy
 msgid "Checking folder consistency"
-msgstr "Перевіряти нову пошту"
+msgstr "Перевірка несуперечливості папки"
 
 #: camel/providers/local/camel-maildir-summary.c:640
 msgid "Checking for new messages"
-msgstr "Перевірка наявністі нових повідомлень"
+msgstr "Перевірка наявності нових повідомлень"
 
 #: camel/providers/local/camel-maildir-summary.c:729
 #: camel/providers/local/camel-mbox-summary.c:345
@@ -9712,9 +9708,9 @@ msgid "Folder `%s/%s' does not exist."
 msgstr "Теки \"%s/%s\" не існує."
 
 #: camel/providers/local/camel-spool-store.c:176
-#, fuzzy, c-format
+#, c-format
 msgid "`%s' is not a mailbox file."
-msgstr "\"%s\" не є звичайним файлом."
+msgstr "\"%s\" не є поштовою скринькою."
 
 #: camel/providers/local/camel-spool-store.c:193
 msgid "Store does not support an INBOX"
@@ -9892,7 +9888,7 @@ msgstr "POP"
 
 #: camel/providers/pop3/camel-pop3-provider.c:54
 msgid "For connecting to and downloading mail from POP servers."
-msgstr "Для з'єднання та звантаження пошти з серверів POP."
+msgstr "Для з'єднання та завантаження пошти з серверів POP."
 
 #: camel/providers/pop3/camel-pop3-provider.c:71
 msgid ""
@@ -10441,9 +10437,8 @@ msgid "Attach a file"
 msgstr "Долучити файл"
 
 #: composer/e-msg-composer.c:514
-#, fuzzy
 msgid "Could not create a PGP signature context"
-msgstr "Неможливо створити контекст цифрового підпису PGP."
+msgstr "Неможливо створити контекст підпису PGP."
 
 #: composer/e-msg-composer.c:787
 #, c-format
@@ -10517,13 +10512,13 @@ msgstr ""
 "Бажаєте спробувати їх відновити?"
 
 #: composer/e-msg-composer.c:1525
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "The message \"%s\" has not been sent.\n"
 "\n"
 "Do you wish to save your changes?"
 msgstr ""
-"Повідомлення не було надіслано.\n"
+"Повідомлення \"%s\" не було надіслано.\n"
 "\n"
 "Бажаєте зберегти зміни?"
 
@@ -10536,9 +10531,8 @@ msgid "Open file"
 msgstr "Відкрити файл"
 
 #: composer/e-msg-composer.c:1927
-#, fuzzy
 msgid "Signature:"
-msgstr "Файл підпису:"
+msgstr "Підпис:"
 
 #: composer/e-msg-composer.c:1968 mail/mail-account-gui.c:1231
 msgid "Autogenerated"
@@ -10576,7 +10570,6 @@ msgstr ""
 "Неможливо активувати компонент HTML-редактора."
 
 #: composer/e-msg-composer.c:3860
-#, fuzzy
 msgid ""
 "<b>(The composer contains a non-text message body, which cannot be edited.)"
 "<b>"
@@ -10799,9 +10792,8 @@ msgid "years"
 msgstr "років"
 
 #: filter/filter-datespec.c:174
-#, fuzzy
 msgid "You must choose a date."
-msgstr "Ви забули вибрати дату."
+msgstr "Ви повинні вибрати дату."
 
 #: filter/filter-datespec.c:269
 msgid "<click here to select a date>"
@@ -10819,9 +10811,9 @@ msgstr "%a %d %b %Y"
 
 #. 1 (minute|day|...) ago (singular time ago)
 #: filter/filter-datespec.c:292 filter/filter-datespec.c:295
-#, fuzzy, c-format
+#, c-format
 msgid "%d %s ago"
-msgstr " тому"
+msgstr "%d %s тому"
 
 #: filter/filter-datespec.c:407
 msgid "Select a time to compare against"
@@ -10833,17 +10825,16 @@ msgstr "Правила фільтрування"
 
 #: filter/filter-file.c:178
 msgid "You must specify a file name"
-msgstr ""
+msgstr "Ви повинні вказати назву файла"
 
 #: filter/filter-file.c:190
-#, fuzzy, c-format
+#, c-format
 msgid "File '%s' does not exist or is not a regular file."
-msgstr "Cgek '%s' не існує або не є звичайним файлом."
+msgstr "Файл '%s' не існує або не є звичайним файлом."
 
 #: filter/filter-file.c:307
-#, fuzzy
 msgid "Choose a file"
-msgstr "Відкрити файл"
+msgstr "Вибрати файл"
 
 #. and now for the action area
 #: filter/filter-filter.c:513
@@ -10855,9 +10846,8 @@ msgid "Add action"
 msgstr "Додати дію"
 
 #: filter/filter-folder.c:149
-#, fuzzy
 msgid "You must specify a folder.\n"
-msgstr "Ви повинні дати назву цій вірт папці."
+msgstr "Ви повинні вказати папку.\n"
 
 #: filter/filter-folder.c:236 filter/vfolder-rule.c:391
 #: mail/mail-account-gui.c:1464 mail/mail-account-gui.c:1478
@@ -11187,14 +11177,12 @@ msgid "Move to Folder"
 msgstr "Перенести в теку"
 
 #: filter/libfilter-i18n.h:40
-#, fuzzy
 msgid "Pipe Message to Shell Command"
-msgstr "Відіслати повідомлення за контактом"
+msgstr "Відіслати повідомлення команді shell"
 
 #: filter/libfilter-i18n.h:41
-#, fuzzy
 msgid "Play Sound"
-msgstr "Відтворити звук:"
+msgstr "Відтворити звук"
 
 #: filter/libfilter-i18n.h:42 mail/message-tag-followup.c:60
 msgid "Read"
@@ -11240,9 +11228,8 @@ msgid "Set Status"
 msgstr "Встановити стан:"
 
 #: filter/libfilter-i18n.h:52
-#, fuzzy
 msgid "Shell Command"
-msgstr "Компанія"
+msgstr "Команда shell"
 
 #: filter/libfilter-i18n.h:53
 msgid "Size (kB)"
@@ -11305,7 +11292,7 @@ msgstr "Ви повинні дати назву цій вірт папці."
 
 #: filter/vfolder-rule.c:215
 msgid "You need to specify at least one folder as a source."
-msgstr "Ви повинні вказати хочаб одну теку у якості джерела"
+msgstr "Ви повинні вказати хоча б одну теку у якості джерела"
 
 #: importers/elm-importer.c:95
 msgid "Evolution is importing your old Elm mail"
@@ -11424,9 +11411,8 @@ msgid "Settings"
 msgstr "Параметри"
 
 #: importers/netscape-importer.c:2138
-#, fuzzy
 msgid "Mail Filters"
-msgstr "Редагування фільтрів"
+msgstr "Поштові фільтри"
 
 #: importers/netscape-importer.c:2161
 msgid ""
@@ -11528,9 +11514,8 @@ msgid "Font Preferences"
 msgstr "Без періодичності"
 
 #: mail/GNOME_Evolution_Mail.oaf.in.h:18
-#, fuzzy
 msgid "Mail Accounts"
-msgstr "Рахунки"
+msgstr "Поштові Рахунки"
 
 #: mail/GNOME_Evolution_Mail.oaf.in.h:19 mail/mail-config.glade.h:69
 msgid "Mail Preferences"
@@ -11603,9 +11588,8 @@ msgid "_Mail Message"
 msgstr "Відіслати повідомлення"
 
 #: mail/component-factory.c:1047
-#, fuzzy
 msgid "Compose a new mail message"
-msgstr "Підготувати повідомлення"
+msgstr "Підготувати нове повідомлення"
 
 #: mail/component-factory.c:1055
 #, fuzzy
@@ -11777,7 +11761,6 @@ msgid "Mar_k as Read"
 msgstr "Позначити прочитаним"
 
 #: mail/folder-browser.c:1750
-#, fuzzy
 msgid "Mark as _Unread"
 msgstr "Позначити непрочитаним"
 
@@ -11786,17 +11769,14 @@ msgid "Mark as _Important"
 msgstr "Позначити як важливе"
 
 #: mail/folder-browser.c:1752
-#, fuzzy
 msgid "_Mark as Unimportant"
 msgstr "Позначити як неважливі"
 
 #: mail/folder-browser.c:1757
-#, fuzzy
 msgid "U_ndelete"
 msgstr "Відновити"
 
 #: mail/folder-browser.c:1761
-#, fuzzy
 msgid "Mo_ve to Folder..."
 msgstr "Перенести в теку..."
 
@@ -11805,17 +11785,14 @@ msgid "_Copy to Folder..."
 msgstr "Скопіювати в теку..."
 
 #: mail/folder-browser.c:1770
-#, fuzzy
 msgid "Add Sender to Address_book"
 msgstr "Додати відправника в адресну книгу"
 
 #: mail/folder-browser.c:1774
-#, fuzzy
 msgid "Appl_y Filters"
 msgstr "Застосувати фільтри"
 
 #: mail/folder-browser.c:1778
-#, fuzzy
 msgid "Crea_te Rule From Message"
 msgstr "Створити правило з повідомлення"
 
@@ -11907,7 +11884,6 @@ msgid "_Host:"
 msgstr "Комп'ютер:"
 
 #: mail/mail-account-gui.c:747 mail/mail-config.glade.h:127
-#, fuzzy
 msgid "User_name:"
 msgstr "Назва користувача:"
 
@@ -11954,9 +11930,8 @@ msgid "Enabled"
 msgstr "Увімкнено"
 
 #: mail/mail-accounts.c:539 mail/mail-accounts.etspec.h:1
-#, fuzzy
 msgid "Account name"
-msgstr "Назва рахунку:"
+msgstr "Назва рахунку"
 
 #: mail/mail-accounts.c:540 mail/mail-accounts.etspec.h:3
 msgid "Protocol"
@@ -12182,9 +12157,9 @@ msgid "Filters"
 msgstr "Фільтри"
 
 #: mail/mail-callbacks.c:3100
-#, fuzzy, c-format
+#, c-format
 msgid "Page %d of %d"
-msgstr "Отримання повідомлення %d з %d"
+msgstr "Сторінка %d з %d"
 
 #: mail/mail-callbacks.c:3155
 msgid "Print Message"
@@ -16208,7 +16183,7 @@ msgstr ""
 
 #: my-evolution/Locations.h:623
 msgid "Dubrovnik"
-msgstr "Дубровнік"
+msgstr "Дубровник"
 
 #: my-evolution/Locations.h:624
 msgid "Dubuque"
@@ -16244,7 +16219,7 @@ msgstr ""
 
 #: my-evolution/Locations.h:632
 msgid "Dusseldorf"
-msgstr "Дюселбдорф"
+msgstr "Дюссельдорф"
 
 #: my-evolution/Locations.h:633
 msgid "Dutch Harbor"
@@ -17481,7 +17456,7 @@ msgstr ""
 
 #: my-evolution/Locations.h:948
 msgid "Honolulu"
-msgstr "Ганалулу"
+msgstr "Гонолулу"
 
 #: my-evolution/Locations.h:949
 msgid "Hoonah"
@@ -18641,7 +18616,7 @@ msgstr ""
 
 #: my-evolution/Locations.h:1250
 msgid "Long Beach"
-msgstr ""
+msgstr "Лонг-Бич"
 
 #: my-evolution/Locations.h:1251
 msgid "Longview"
@@ -18653,11 +18628,11 @@ msgstr ""
 
 #: my-evolution/Locations.h:1253
 msgid "Los Alamos"
-msgstr "Лос Аламос"
+msgstr "Лос-Аламос"
 
 #: my-evolution/Locations.h:1254
 msgid "Los Angeles"
-msgstr "Лос Анжелес"
+msgstr "Лос-Анджелес"
 
 #: my-evolution/Locations.h:1255
 msgid "Los Mochis"
@@ -19197,7 +19172,7 @@ msgstr ""
 
 #: my-evolution/Locations.h:1390
 msgid "Michigan"
-msgstr "Мічіган"
+msgstr "Мічиган"
 
 #: my-evolution/Locations.h:1391
 msgid "Middle East"
@@ -19289,7 +19264,7 @@ msgstr ""
 
 #: my-evolution/Locations.h:1413
 msgid "Minnesota"
-msgstr "Мінесота"
+msgstr "Міннесота"
 
 #: my-evolution/Locations.h:1414
 msgid "Minocqua"
@@ -19705,7 +19680,7 @@ msgstr ""
 
 #: my-evolution/Locations.h:1518
 msgid "Napoli"
-msgstr "Наполі"
+msgstr "Неаполь"
 
 #: my-evolution/Locations.h:1519
 msgid "Narvik"
@@ -19945,7 +19920,7 @@ msgstr "Північно-східна Філадельфія"
 
 #: my-evolution/Locations.h:1582
 msgid "North Kingstown"
-msgstr "Півн. Кінгстоун"
+msgstr "Півн. Кінгстаун"
 
 #: my-evolution/Locations.h:1583
 msgid "North Platte"
@@ -20014,7 +19989,7 @@ msgstr ""
 
 #: my-evolution/Locations.h:1600
 msgid "Oakland"
-msgstr "Окланд"
+msgstr "Окленд"
 
 #: my-evolution/Locations.h:1601
 msgid "Oaxaca"
@@ -22340,7 +22315,7 @@ msgstr "Ставрополь"
 
 #: my-evolution/Locations.h:2185
 msgid "Syracuse"
-msgstr "Сіракузи"
+msgstr "Сиракузи"
 
 #: my-evolution/Locations.h:2186
 msgid "Szczecin"
@@ -22370,7 +22345,7 @@ msgstr ""
 #: my-evolution/Locations.h:2192
 #, fuzzy
 msgid "Tacna"
-msgstr "Тонґа"
+msgstr "Тонга"
 
 #: my-evolution/Locations.h:2193
 msgid "Tacoma"
@@ -22828,7 +22803,7 @@ msgstr "Тест"
 
 #: my-evolution/Locations.h:2298
 msgid "Trinidad"
-msgstr "Трінідад"
+msgstr "Тринідад"
 
 #: my-evolution/Locations.h:2299
 msgid "Tripoli"
@@ -22976,7 +22951,7 @@ msgstr ""
 
 #: my-evolution/Locations.h:2335
 msgid "Ulyanovsk"
-msgstr "Ульянівськ"
+msgstr "Ульяновськ"
 
 #: my-evolution/Locations.h:2336
 msgid "Umea"
@@ -23574,7 +23549,7 @@ msgstr ""
 
 #: my-evolution/Locations.h:2482
 msgid "Wisconsin"
-msgstr "Вісконсін"
+msgstr "Вісконсин"
 
 #: my-evolution/Locations.h:2483
 msgid "Wisconsin Rapids"
@@ -25297,7 +25272,7 @@ msgid ""
 msgstr ""
 "Каталог %s\n"
 "не має потрібних прав доступу. Будь ласка дайте дозвіл на читання та "
-"виконання та перезапустіть Rvolution."
+"виконання та перезапустіть Evolution."
 
 #: shell/e-setup.c:306
 #, c-format
