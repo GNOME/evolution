@@ -30,7 +30,7 @@ static GObjectClass *ecp_parent_class;
 static GObjectClass *ecph_parent_class;
 
 struct _ECalConfigPrivate {
-	ulong source_changed_id;
+	guint source_changed_id;
 };
 
 #define _PRIVATE(o) (g_type_instance_get_private ((GTypeInstance *)o, e_cal_config_get_type ()))
