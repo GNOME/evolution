@@ -8,6 +8,8 @@
 #include <stdio.h>
 #include "mail-threads.h"
 
+#ifdef ENABLE_BROKEN_THREADS
+
 static void op_1( gpointer userdata );
 static void op_2( gpointer userdata );
 static void op_3( gpointer userdata );
@@ -139,3 +141,13 @@ int main( int argc, char **argv )
 	gtk_main();
 	return 0;
 }
+
+#else
+
+int main( int argc, char **argv )
+{
+	g_message( "Threads aren't enabled, so they cannot be tested." );
+	return 0;
+}
+
+#endif
