@@ -1,5 +1,11 @@
 2003-04-09  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* camel-gpg-context.c (gpg_ctx_get_utf8_diagnostics): New function
+	to get the UTF-8 version of the diagnostics (if the locale isn't
+	already UTF-8 safe).
+	(gpg_verify): Use the utf-8 diagnostics here. Also fixed a memleak
+	in the exception case.
+
 	* camel-mime-filter-charset.c
 	(camel_mime_filter_charset_new_convert): NULL-protect the to/from
 	charsets in the g_warning call.

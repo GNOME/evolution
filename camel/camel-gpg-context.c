@@ -41,6 +41,8 @@
 #include <errno.h>
 #include <ctype.h>
 
+#include "gal/util/e-iconv.h"
+
 #include "camel-gpg-context.h"
 #include "camel-stream-fs.h"
 #include "camel-operation.h"
@@ -402,6 +404,78 @@ static char *
 gpg_ctx_get_diagnostics (struct _GpgCtx *gpg)
 {
 	return g_strndup (gpg->diagnostics->data, gpg->diagnostics->len);
+}
+
+static char *
+gpg_ctx_get_utf8_diagnostics (struct _GpgCtx *gpg)
+{
+	size_t inleft, outleft, converted = 0;
+	const char *charset;
+	char *out, *outbuf;
+	const char *inbuf;
+	size_t outlen;
+	iconv_t cd;
+	
+	if (gpg->diagnostics->len == 0)
+		return NULL;
+	
+	/* if the locale is C/POSIX/ASCII/UTF-8 - then there's nothing to do here */
+	if (!(charset = e_iconv_locale_charset ()) || !strcasecmp (charset, "UTF-8"))
+		return gpg_ctx_get_diagnostics (gpg);
+	
+	cd = e_iconv_open ("UTF-8", charset);
+	
+	inbuf = gpg->diagnostics->data;
+	inleft = gpg->diagnostics->len;
+	
+	outlen = (inleft * 2) + 16;
+	out = g_malloc (outlen + 1);
+	
+	do {
+		outbuf = out + converted;
+		outleft = outlen - converted;
+		
+		converted = e_iconv (cd, &inbuf, &inleft, &outbuf, &outleft);
+		if (converted == (size_t) -1) {
+			if (errno != E2BIG && errno != EINVAL)
+				goto fail;
+		}
+		
+		/*
+		 * E2BIG   There is not sufficient room at *outbuf.
+		 *
+		 * We just need to grow our outbuffer and try again.
+		 */
+		
+		converted = outbuf - out;
+		if (errno == E2BIG) {
+			outlen += inleft * 2 + 16;
+			out = g_realloc (out, outlen + 1);
+			outbuf = out + converted;
+		}
+	} while (errno == E2BIG && inleft > 0);
+	
+	/*
+	 * EINVAL  An  incomplete  multibyte sequence has been encoun­
+	 *         tered in the input.
+	 *
+	 * We'll just have to ignore it...
+	 */
+	
+	/* flush the iconv conversion */
+	e_iconv (cd, NULL, NULL, &outbuf, &outleft);
+	e_iconv_close (cd);
+	
+	/* nul-terminate the string */
+	outbuf[0] = '\0';
+	
+	return out;
+	
+ fail:
+	
+	g_free (out);
+	
+	return gpg_ctx_get_diagnostics (gpg);
 }
 
 static void
@@ -1364,7 +1438,7 @@ gpg_verify (CamelCipherContext *context, CamelCipherHash hash,
 		}
 	}
 	
-	diagnostics = gpg_ctx_get_diagnostics (gpg);
+	diagnostics = gpg_ctx_get_utf8_diagnostics (gpg);
 	
 	valid = gpg_ctx_op_wait (gpg) == 0;
 	gpg_ctx_free (gpg);
@@ -1382,8 +1456,6 @@ gpg_verify (CamelCipherContext *context, CamelCipherHash hash,
 	return validity;
 	
  exception:
-	
-	diagnostics = gpg_ctx_get_diagnostics (gpg);
 	
 	gpg_ctx_free (gpg);
 		
