@@ -1,3 +1,7 @@
+2000-07-10  Ettore Perazzoli  <ettore@helixcode.com>
+
+	* e-table-scrolled.h: s/GtkTable/EScrollFrameClass/.
+
 2000-07-09  Christopher James Lahey  <clahey@helixcode.com>
 
 	* Makefile.am: Add e-table-scrolled.c and e-table-scrolled.h.

@@ -23,7 +23,7 @@ typedef struct {
 } ETableScrolled;
 
 typedef struct {
-	GtkTableClass parent_class;
+	EScrollFrameClass parent_class;
 
 	void        (*row_selection)      (ETableScrolled *est, int row, gboolean selected);
 	void        (*cursor_change)      (ETableScrolled *est, int row);
