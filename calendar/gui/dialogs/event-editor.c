@@ -217,7 +217,7 @@ event_editor_edit_comp (CompEditor *editor, ECalComponent *comp)
 	e_meeting_store_remove_all_attendees (priv->model);
 
 	/* Set up the attendees */
-	if (attendees == NULL && !priv->is_meeting) {
+	if (attendees == NULL) {
 		if (priv->meet_page)
 			comp_editor_remove_page (editor, COMP_EDITOR_PAGE (priv->meet_page));
 		if (priv->sched_page)

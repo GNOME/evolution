@@ -1,3 +1,10 @@
+2005-02-09  Harish Krishnaswamy  <kharish@novell.com>
+
+	* gui/dialogs/event-editor.c: (event_editor_edit_comp):
+	Always remove the meeting and scheduling pages when there are no
+	attendees. This allows the sender to be added to the attendees list 
+	by default while creating new meetings.
+
 2005-02-08  Rodrigo Moya <rodrigo@novell.com>
 
 	* gui/e-cal-model.c (set_instance_times): set instance times correctly.
