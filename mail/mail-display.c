@@ -1801,6 +1801,7 @@ mail_display_render (MailDisplay *md, GtkHTML *html, gboolean reset_scroll)
 	const char *flag, *completed;
 	GtkHTMLStream *html_stream;
 	MailDisplayStream *stream;
+	char *body;
 
 	g_return_if_fail (IS_MAIL_DISPLAY (md));
 	g_return_if_fail (GTK_IS_HTML (html));
@@ -1819,10 +1820,14 @@ mail_display_render (MailDisplay *md, GtkHTML *html, gboolean reset_scroll)
 	gtk_html_stream_write (html_stream, HTML_HEADER, sizeof (HTML_HEADER) - 1);
 	
 	if (md->current_message && md->display_style == MAIL_CONFIG_DISPLAY_SOURCE)
-		gtk_html_stream_write (html_stream, "<body>\n", 7);
+		body = g_strdup_printf("%s%s%s", "<body",
+                                                  md->printing ? " text=\"#000000\"" : "", ">\n");
 	else
-		gtk_html_stream_write (html_stream, "<body marginwidth=0 marginheight=0>\n", 36);
+		body = g_strdup_printf("%s%s%s", "<body marginwidth=0 marginheight=0",
+                                                  md->printing ? " text=\"#000000\"" : "", ">\n");
 	
+	gtk_html_stream_write (html_stream, body, strlen(body));
+	g_free(body);
 	flag = md->info ? camel_tag_get (&md->info->user_tags, "follow-up") : NULL;
 	completed = md->info ? camel_tag_get (&md->info->user_tags, "completed-on") : NULL;
 	if ((flag && *flag) && !(completed && *completed)) {

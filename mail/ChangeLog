@@ -1,3 +1,8 @@
+2003-09-18  Antonio Xu  <antonio.xu@sun.com>
+
+	* mail-display.c (mail_display_render): Set default text color as
+	black in body when doing printing preview. Fixs bug #48290.
+
 2003-09-11  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-format.c (handle_text_plain): Don't set inend until after
