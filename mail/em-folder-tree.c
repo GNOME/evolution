@@ -1814,6 +1814,8 @@ emft_tree_row_expanded (GtkTreeView *treeview, GtkTreeIter *root, GtkTreePath *t
 static void
 emft_tree_row_collapsed (GtkTreeView *treeview, GtkTreeIter *root, GtkTreePath *tree_path, EMFolderTree *emft)
 {
+	gtk_tree_view_set_cursor (treeview, tree_path, NULL, FALSE);
+	
 	emft_update_model_expanded_state (emft->priv, root, FALSE);
 	emft_queue_save_state (emft);
 }
