@@ -1,3 +1,9 @@
+2000-06-27  Peter Williams  <peterw@curious-george.helixcode.com>
+
+	* mail-threads.c: Don't compile this if we don't have
+	threads enabled. This should maybe be on the Makefile.am
+	level.
+
 2000-06-27  Michael Zucchi  <zucchi@zedzone.mmc.com.au>
 
 	* component-factory.c (owner_set_cb): Put in a gross hack to
