@@ -277,7 +277,7 @@ task_page_fill_widgets (CompEditorPage *page, ECalComponent *comp)
 	e_dialog_editable_set (priv->summary, text.value);
 
 	e_cal_component_get_description_list (comp, &l);
-	if (l) {
+	if (l && l->data) {
 		text = *(ECalComponentText *)l->data;
 		gtk_text_buffer_set_text (gtk_text_view_get_buffer (GTK_TEXT_VIEW (priv->description)),
 					  text.value, -1);

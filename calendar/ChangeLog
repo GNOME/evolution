@@ -1,3 +1,10 @@
+2004-06-02  Rodrigo Moya <rodrigo@novell.com>
+
+	Fixes #59333
+
+	* gui/dialogs/task-page.c (task_page_fill_widgets): guard against
+	list items being NULL.
+
 2004-06-02  Larry Ewing  <lewing@ximian.com>
 
 	* gui/e-tasks.c (table_drag_data_delete): add a drag delete handler.
