@@ -35,12 +35,13 @@
 /**
  * mail_identify_mime_part:
  * @part: a CamelMimePart
+ * @md: the MailDisplay @part is being shown in
  *
  * Try to identify the MIME type of the data in @part (which presumably
  * doesn't have a useful Content-Type).
  **/
 char *
-mail_identify_mime_part (CamelMimePart *part)
+mail_identify_mime_part (CamelMimePart *part, MailDisplay *md)
 {
 	const char *filename, *type;
 	GnomeVFSMimeSniffBuffer *sniffer;
@@ -62,17 +63,22 @@ mail_identify_mime_part (CamelMimePart *part)
 
 	/* Try file magic. */
 	data = camel_medium_get_content_object (CAMEL_MEDIUM (part));
-	ba = g_byte_array_new ();
-	memstream = camel_stream_mem_new_with_byte_array (ba);
-	camel_data_wrapper_write_to_stream (data, memstream);
-	if (ba->len) {
-		sniffer = gnome_vfs_mime_sniff_buffer_new_from_memory (
-			ba->data, ba->len);
-		type = gnome_vfs_get_mime_type_for_buffer (sniffer);
-		gnome_vfs_mime_sniff_buffer_free (sniffer);
-	} else
-		type = NULL;
-	camel_object_unref (CAMEL_OBJECT (memstream));
+	/* FIXME: In a perfect world, we would not load the content just
+	 * to identify the MIME type.
+	 */
+	if (mail_content_loaded (data, md)) {		
+		ba = g_byte_array_new ();
+		memstream = camel_stream_mem_new_with_byte_array (ba);
+		camel_data_wrapper_write_to_stream (data, memstream);
+		if (ba->len) {
+			sniffer = gnome_vfs_mime_sniff_buffer_new_from_memory (
+				ba->data, ba->len);
+			type = gnome_vfs_get_mime_type_for_buffer (sniffer);
+			gnome_vfs_mime_sniff_buffer_free (sniffer);
+		} else
+			type = NULL;
+		camel_object_unref (CAMEL_OBJECT (memstream));
+	}
 
 	if (type)
 		return g_strdup (type);

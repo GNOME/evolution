@@ -40,6 +40,7 @@ void mail_format_mime_message (CamelMimeMessage *mime_message,
 			       MailDisplay *md);
 void mail_format_raw_message (CamelMimeMessage *mime_message,
 			      MailDisplay *md);
+gboolean mail_content_loaded (CamelDataWrapper *wrapper, MailDisplay *display);
 
 typedef gboolean (*MailMimeHandlerFn) (CamelMimePart *part,
 				       const char *mime_type,
@@ -61,7 +62,7 @@ char *mail_get_message_body (CamelDataWrapper *data, gboolean want_plain,
 			     gboolean *is_html);
 
 /* mail-identify */
-char *mail_identify_mime_part (CamelMimePart *part);
+char *mail_identify_mime_part (CamelMimePart *part, MailDisplay *md);
 
 /* mail view */
 GtkWidget *mail_view_create (CamelFolder *source, const char *uid, CamelMimeMessage *msg);

@@ -32,12 +32,11 @@
 #include <gdk-pixbuf/gdk-pixbuf.h>
 #include <gdk-pixbuf/gdk-pixbuf-loader.h>
 #include <gtkhtml/gtkhtml-embedded.h>
+#include <gtkhtml/htmlengine.h>	/* XXX */
 
 #define PARENT_TYPE (gtk_vbox_get_type ())
 
 static GtkObjectClass *mail_display_parent_class;
-
-static void redisplay (MailDisplay *md, gboolean unscroll);
 
 struct _PixbufLoader {
 	MailDisplay *md;
@@ -186,12 +185,12 @@ idle_redisplay (gpointer data)
 	MailDisplay *md = data;
 
 	md->idle_id = 0;
-	redisplay (md, FALSE);
+	mail_display_redisplay (md, FALSE);
 	return FALSE;
 }
 
-static void
-queue_redisplay (MailDisplay *md)
+void
+mail_display_queue_redisplay (MailDisplay *md)
 {
 	if (!md->idle_id) {
 		md->idle_id = g_idle_add_full (G_PRIORITY_LOW, idle_redisplay,
@@ -212,7 +211,7 @@ on_link_clicked (GtkHTML *html, const char *url, gpointer user_data)
 	else if (!strcmp (url, "x-evolution-decode-pgp:")) {
 		g_datalist_set_data (md->data, "show_pgp",
 				     GINT_TO_POINTER (1));
-		queue_redisplay (md);
+		mail_display_queue_redisplay (md);
 	} else
 		gnome_url_show (url);
 }
@@ -301,7 +300,7 @@ inline_cb (GtkWidget *widget, gpointer user_data)
 	else
 		camel_mime_part_set_disposition (part, "inline");
 
-	queue_redisplay (md);
+	mail_display_queue_redisplay (md);
 }
 
 static gboolean
@@ -767,6 +766,8 @@ on_url_requested (GtkHTML *html, const char *url, GtkHTMLStream *handle,
 
 		g_return_if_fail (CAMEL_IS_MEDIUM (medium));
 		data = camel_medium_get_content_object (medium);
+		if (!mail_content_loaded (data, md))
+			return;
 
 		ba = g_byte_array_new ();
 		stream_mem = camel_stream_mem_new_with_byte_array (ba);
@@ -844,17 +845,24 @@ clear_data (CamelObject *object, gpointer event_data, gpointer user_data)
 	g_datalist_clear (&data);
 }
 
-static void
-redisplay (MailDisplay *md, gboolean unscroll)
+/**
+ * mail_display_redisplay:
+ * @mail_display: the mail display object
+ * @unscroll: specifies whether or not to lose current scroll
+ *
+ * Force a redraw of the message display.
+ **/
+void
+mail_display_redisplay (MailDisplay *md, gboolean unscroll)
 {
-	GtkAdjustment *adj;
-	gfloat oldv = 0;
+	printf("redisplaying\n");
 
+	md->stream = gtk_html_begin (GTK_HTML (md->html));
 	if (!unscroll) {
-		adj = e_scroll_frame_get_vadjustment (md->scroll);
-		oldv = adj->value;
+		/* This is a hack until there's a clean way to do this. */
+		GTK_HTML (md->html)->engine->newPage = FALSE;
 	}
-  	md->stream = gtk_html_begin (GTK_HTML (md->html));
+
 	mail_html_write (md->html, md->stream, "%s%s", HTML_HEADER, "<BODY>\n");
 
 	if (md->current_message) {
@@ -868,32 +876,6 @@ redisplay (MailDisplay *md, gboolean unscroll)
 	mail_html_write (md->html, md->stream, "</BODY></HTML>\n");
 	gtk_html_end (md->html, md->stream, GTK_HTML_STREAM_OK);
 	md->stream = NULL;
-
-	if (unscroll) {
-		adj = e_scroll_frame_get_hadjustment (md->scroll);
-		gtk_adjustment_set_value (adj, 0);
-		e_scroll_frame_set_hadjustment (md->scroll, adj);
-	} else {
-		adj = e_scroll_frame_get_vadjustment (md->scroll);
-		if (oldv < adj->upper) {
-			gtk_adjustment_set_value (adj, oldv);
-			e_scroll_frame_set_vadjustment (md->scroll, adj);
-		}
-	}
-}
-
-
-/**
- * mail_display_redisplay:
- * @mail_display: the mail display object
- * @unscroll: specifies whether or not to lose current scroll
- *
- * Force a redraw of the message display.
- **/
-void
-mail_display_redisplay (MailDisplay *mail_display, gboolean unscroll)
-{
-	redisplay (mail_display, unscroll);
 }
 
 /**
@@ -920,7 +902,7 @@ mail_display_set_message (MailDisplay *md, CamelMedium *medium)
 	md->current_message = (CamelMimeMessage*)medium;
 
 	g_datalist_init (md->data);
-	redisplay (md, TRUE);
+	mail_display_redisplay (md, TRUE);
 	if (medium) {
 		camel_object_hook_event (CAMEL_OBJECT (medium), "finalize",
 					 clear_data, *(md->data));

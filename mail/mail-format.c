@@ -28,6 +28,7 @@
 #include "mail-tools.h"
 #include "mail-display.h"
 #include "mail-crypto.h"
+#include "mail-mt.h"
 #include "shell/e-setup.h"
 #include "e-util/e-html-utils.h"
 #include <gal/widgets/e-unicode.h>
@@ -547,7 +548,7 @@ call_handler_function (CamelMimePart *part, MailDisplay *md)
 	if (!handler) {
 		char *id_type;
 
-		id_type = mail_identify_mime_part (part);
+		id_type = mail_identify_mime_part (part, md);
 		if (id_type) {
 			g_free (mime_type);
 			mime_type = id_type;
@@ -557,7 +558,8 @@ call_handler_function (CamelMimePart *part, MailDisplay *md)
 
 	is_inline = mail_part_is_inline (part);
 	attachment_header (part, mime_type, is_inline, md);
-	if (handler && handler->builtin && is_inline)
+	if (handler && handler->builtin && is_inline &&
+	    mail_content_loaded (wrapper, md))
 		output = (*handler->builtin) (part, mime_type, md);
 	else
 		output = TRUE;
@@ -637,35 +639,118 @@ write_headers (CamelMimeMessage *message, MailDisplay *md)
 			 "</table></td></tr></table></td></tr></table></font>");
 }
 
+struct _load_content_msg {
+	struct _mail_msg msg;
 
-/* Return the contents of a text-based data wrapper, or NULL if it
- * contains only whitespace.
+	MailDisplay *display;
+	CamelMimeMessage *message;
+	CamelDataWrapper *wrapper;
+};
+
+static char *
+load_content_desc (struct _mail_msg *mm, int done)
+{
+	return g_strdup (_("Loading message content"));
+}
+
+static void
+load_content_load (struct _mail_msg *mm)
+{
+	struct _load_content_msg *m = (struct _load_content_msg *)mm;
+	CamelStream *memstream;
+
+	memstream = camel_stream_mem_new ();
+	camel_data_wrapper_write_to_stream (m->wrapper, memstream);
+	camel_object_unref (CAMEL_OBJECT (memstream));
+}
+
+static void
+load_content_loaded (struct _mail_msg *mm)
+{
+	struct _load_content_msg *m = (struct _load_content_msg *)mm;
+
+	if (m->display->current_message == m->message)
+		mail_display_queue_redisplay (m->display);
+}
+
+static void
+load_content_free (struct _mail_msg *mm)
+{
+	struct _load_content_msg *m = (struct _load_content_msg *)mm;
+
+	gtk_object_unref (GTK_OBJECT (m->display));
+	camel_object_unref (CAMEL_OBJECT (m->wrapper));
+	camel_object_unref (CAMEL_OBJECT (m->message));
+}
+
+static struct _mail_msg_op load_content_op = {
+	load_content_desc,
+	load_content_load,
+	load_content_loaded,
+	load_content_free,
+};
+
+gboolean
+mail_content_loaded (CamelDataWrapper *wrapper, MailDisplay *md)
+{
+	struct _load_content_msg *m;
+	GHashTable *loading;
+
+	if (!camel_data_wrapper_is_offline (wrapper))
+		return TRUE;
+
+	loading = g_datalist_get_data (md->data, "loading");
+	if (loading) {
+		if (g_hash_table_lookup (loading, wrapper))
+			return FALSE;
+	} else {
+		loading = g_hash_table_new (NULL, NULL);
+		g_datalist_set_data_full (md->data, "loading", loading,
+					  (GDestroyNotify)g_hash_table_destroy);
+	}
+	g_hash_table_insert (loading, wrapper, GINT_TO_POINTER (1));	
+
+	m = mail_msg_new (&load_content_op, NULL, sizeof (*m));
+	m->display = md;
+	gtk_object_ref (GTK_OBJECT (m->display));
+	m->message = md->current_message;
+	camel_object_ref (CAMEL_OBJECT (m->message));
+	m->wrapper = wrapper;
+	camel_object_ref (CAMEL_OBJECT (m->wrapper));
+
+	e_thread_put (mail_thread_queued, (EMsg *)m);
+	return FALSE;
+}
+
+/* Return the contents of a data wrapper, or %NULL if it contains only
+ * whitespace.
  */
 static char *
-get_data_wrapper_text (CamelDataWrapper *data)
+get_data_wrapper_text (CamelDataWrapper *wrapper)
 {
 	CamelStream *memstream;
 	GByteArray *ba;
 	char *text, *end;
 
+	memstream = camel_stream_mem_new ();
 	ba = g_byte_array_new ();
-	memstream = camel_stream_mem_new_with_byte_array (ba);
+	camel_stream_mem_set_byte_array (CAMEL_STREAM_MEM (memstream), ba);
+	camel_data_wrapper_write_to_stream (wrapper, memstream);
+	camel_object_unref (CAMEL_OBJECT (memstream));
 
-	camel_data_wrapper_write_to_stream (data, memstream);
-
-	for (text = ba->data, end = ba->data + ba->len; text < end; text++) {
+	for (text = ba->data, end = text + ba->len; text < end; text++) {
 		if (!isspace ((unsigned char)*text))
 			break;
 	}
 
-	if (text < end) {
-		text = g_malloc (ba->len + 1);
-		memcpy (text, ba->data, ba->len);
-		text[ba->len] = '\0';
-	} else
-		text = NULL;
+	if (text >= end) {
+		g_byte_array_free (ba, TRUE);
+		return NULL;
+	}
 
-	camel_object_unref (CAMEL_OBJECT (memstream));
+	g_byte_array_append (ba, "", 1);
+	text = ba->data;
+	g_byte_array_free (ba, FALSE);
 	return text;
 }
 

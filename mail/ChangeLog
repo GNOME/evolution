@@ -1,3 +1,25 @@
+2001-01-25  Dan Winship  <danw@ximian.com>
+
+	* mail-format.c (mail_content_loaded): Check if a message part's
+	content is available, and if it's not, queue a thread that will
+	load it and then queue an idle-handler redisplay of the message.
+	(call_handler_function): Call mail_content_loaded() on the part
+	and don't try to display it if it's currently offline.
+	(get_data_wrapper_text): Simplify a bit
+
+	* mail-display.c (mail_display_queue_redisplay): rename and make
+	non-static.
+	(mail_display_redisplay): Use a "new and improved" way of
+	preserving the GtkHTML scroll location. ("new and improved" is
+	code for "gross and hackish", but there should be a real interface
+	for this eventually.)
+	(on_url_requested): Use mail_content_loaded() and don't write out
+	offline cid: URLs
+
+	* mail-identify.c (mail_identify_mime_part): Use
+	mail_content_loaded and don't try to identify the data if it's
+	offline.
+
 2001-01-25  Christopher James Lahey  <clahey@helixcode.com>
 
 	* message-list.c: Made the message list pay attention to the
