@@ -1,3 +1,12 @@
+2000-09-07  Jeffrey Stedfast  <fejj@helixcode.com>
+
+	* filter-driver.c (filter_driver_run): Rewrote - this shouldn't
+	need to be an async function
+
+	* filter-message-search.c (match_all): Modified to look at the
+	boolean value being fed to it and just to return that instead of
+	always returning TRUE
+
 2000-09-07  Lauris Kaplinski  <lauris@helixcode.com>
 
 	* filter-editor.c, filter-filter.c, filter-folder.c, filter-option.c:

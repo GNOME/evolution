@@ -52,11 +52,11 @@ static struct {
 	{ "match-all",         (ESExpFunc *) match_all,         0 },
 	{ "body-contains",     (ESExpFunc *) body_contains,     0 },
 	{ "header-contains",   (ESExpFunc *) header_contains,   0 },
-	{ "user-tag",          (ESExpFunc *) user_tag,          1 },
-	{ "user-flag",         (ESExpFunc *) user_flag,         1 },
-	{ "get-sent-date",     (ESExpFunc *) get_sent_date,     1 },
-	{ "get-received-date", (ESExpFunc *) get_received_date, 1 },
-	{ "get-current-date",  (ESExpFunc *) get_current_date,  1 }
+	{ "user-tag",          (ESExpFunc *) user_tag,          0 },
+	{ "user-flag",         (ESExpFunc *) user_flag,         0 },
+	{ "get-sent-date",     (ESExpFunc *) get_sent_date,     0 },
+	{ "get-received-date", (ESExpFunc *) get_received_date, 0 },
+	{ "get-current-date",  (ESExpFunc *) get_current_date,  0 }
 };
 
 static ESExpResult *
@@ -84,12 +84,15 @@ header_contains (struct _ESExp *f, int argc, struct _ESExpResult **argv, FilterM
 static ESExpResult *
 match_all (struct _ESExp *f, int argc, struct _ESExpTerm **argv, FilterMessageSearch *fms)
 {
+	/* FIXME: is this right? I dunno */
 	/* match-all: when dealing with single messages is a no-op */
 	ESExpResult *r;
 	
-	/* FIXME: is this right?? */
 	r = e_sexp_result_new (ESEXP_RES_BOOL);
-	r->value.bool = TRUE;
+	if (argv[0]->type == ESEXP_RES_BOOL)
+		r->value.bool = argv[0]->value.bool;
+	else
+		r->value.bool = FALSE;
 	
 	return r;
 }

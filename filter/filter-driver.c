@@ -40,24 +40,6 @@
 
 #define d(x) x
 
-/* mail-thread filter input data type */
-typedef struct {
-	FilterDriver *driver;
-	CamelMimeMessage *message;
-	CamelFolder *inbox;
-	enum _filter_source_t sourcetype;
-	gboolean self_destruct;
-	gpointer unhook_func;
-	gpointer unhook_data;
-} filter_mail_input_t;
-
-/* mail-thread filter functions */
-static gchar *describe_filter_mail (gpointer in_data, gboolean gerund);
-static void setup_filter_mail (gpointer in_data, gpointer op_data, CamelException *ex);
-static void do_filter_mail (gpointer in_data, gpointer op_data, CamelException *ex);
-static void cleanup_filter_mail (gpointer in_data, gpointer op_data, CamelException *ex);
-
-
 struct _FilterDriverPrivate {
 	GHashTable *globals;       /* global variables */
 	
@@ -391,85 +373,19 @@ free_key (gpointer key, gpointer value, gpointer user_data)
 }
 #endif
 
-static const mail_operation_spec op_filter_mail =
-{
-	describe_filter_mail,
-	0,
-	setup_filter_mail,
-	do_filter_mail,
-	cleanup_filter_mail
-};
-
 void
 filter_driver_run (FilterDriver *driver, CamelMimeMessage *message, CamelFolder *inbox,
 		   enum _filter_source_t sourcetype, gboolean self_destruct,
 		   gpointer unhook_func, gpointer unhook_data)
 {
-	filter_mail_input_t *input;
-	
-	input = g_new (filter_mail_input_t, 1);
-	input->driver = driver;
-	input->message = message;
-	input->inbox = inbox;
-	input->sourcetype = sourcetype;
-	input->self_destruct = self_destruct;
-	input->unhook_func = unhook_func;
-	input->unhook_data = unhook_data;
-	
-	mail_operation_queue (&op_filter_mail, input, TRUE);
-}
-
-static gchar *
-describe_filter_mail (gpointer in_data, gboolean gerund)
-{
-	filter_mail_input_t *input = (filter_mail_input_t *) in_data;
-
-	if (gerund)
-		return g_strdup_printf ("Filtering messages into \"%s\"",
-					mail_tool_get_folder_name (input->inbox));
-	else
-		return g_strdup_printf ("Filter messages into \"%s\"",
-					mail_tool_get_folder_name (input->inbox));
-}
-
-static void
-setup_filter_mail (gpointer in_data, gpointer op_data, CamelException *ex)
-{
-	filter_mail_input_t *input = (filter_mail_input_t *) in_data;
-	
-	if (!input->driver) {
-		camel_exception_set (ex, CAMEL_EXCEPTION_INVALID_PARAM,
-				     "Bad filter driver passed to filter_mail");
-		return;
-	}
-	
-	if (!CAMEL_IS_MIME_MESSAGE (input->message)) {
-		camel_exception_set (ex, CAMEL_EXCEPTION_INVALID_PARAM,
-				     "Bad mime message passed to filter_mail");
-		return;
-	}
-	
-	if (!CAMEL_IS_FOLDER (input->inbox)) {
-		camel_exception_set (ex, CAMEL_EXCEPTION_INVALID_PARAM,
-				     "Bad Inbox passed to filter_mail");
-		return;
-	}
-	
-	camel_object_ref (CAMEL_OBJECT (input->message));
-	camel_object_ref (CAMEL_OBJECT (input->inbox));
-}
-
-static void
-do_filter_mail (gpointer in_data, gpointer op_data, CamelException *ex)
-{
-	filter_mail_input_t *input = (filter_mail_input_t *) in_data;
-	FilterDriver *driver = input->driver;
-	CamelMimeMessage *message = input->message;
-	CamelFolder *inbox = input->inbox;
 	struct _FilterDriverPrivate *p = _PRIVATE (driver);
 	ESExpResult *r;
 	GString *fsearch, *faction;
 	FilterFilter *rule;
+	
+	gtk_object_ref (GTK_OBJECT (driver));
+	camel_object_ref (CAMEL_OBJECT (message));
+	camel_object_ref (CAMEL_OBJECT (inbox));
 	
 	p->ex = camel_exception_new ();
 	p->terminated = FALSE;
@@ -491,9 +407,9 @@ do_filter_mail (gpointer in_data, gpointer op_data, CamelException *ex)
 	while ((rule = (FilterFilter *)rule_context_next_rule ((RuleContext *)p->context, (FilterRule *)rule))) {
 		gboolean matched;
 		
-		if (((FilterRule *)rule)->source != input->sourcetype) {
+		if (((FilterRule *)rule)->source != sourcetype) {
 			d(fprintf (stderr, "skipping rule %s - wrong source type (%d %d)\n", ((FilterRule *)rule)->name,
-				   ((FilterRule *)rule)->source, input->sourcetype));
+				   ((FilterRule *)rule)->source, sourcetype));
 			continue;
 		}
 		
@@ -530,12 +446,12 @@ do_filter_mail (gpointer in_data, gpointer op_data, CamelException *ex)
 	if (!p->deleted && g_hash_table_size (p->folders) == 0) {
 		/* copy it to the default inbox */
 		mail_tool_camel_lock_up ();
-		camel_folder_append_message (input->inbox, p->message, p->info, p->ex);
+		camel_folder_append_message (inbox, p->message, p->info, p->ex);
 		
 		/* warn that inbox was changed */
-		if (input->unhook_func)
-			camel_object_unhook_event (CAMEL_OBJECT (input->inbox), "folder_changed", 
-						   input->unhook_func, input->unhook_data);
+		if (unhook_func)
+			camel_object_unhook_event (CAMEL_OBJECT (inbox), "folder_changed", 
+						   unhook_func, unhook_data);
 		mail_tool_camel_lock_down ();
 	}
 	
@@ -548,21 +464,10 @@ do_filter_mail (gpointer in_data, gpointer op_data, CamelException *ex)
 	camel_folder_thaw (inbox);
 	mail_tool_camel_lock_down ();
 	
-	/* transfer any exceptions over to our async exception */
-	if (camel_exception_is_set (p->ex))
-		camel_exception_xfer (ex, p->ex);
-	
 	camel_exception_free (p->ex);
-}
-
-static void
-cleanup_filter_mail (gpointer in_data, gpointer op_data, CamelException *ex)
-{
-	filter_mail_input_t *input = (filter_mail_input_t *) in_data;
-
-	camel_object_unref (CAMEL_OBJECT (input->message));
-	camel_object_unref (CAMEL_OBJECT (input->inbox));
 	
-	if (input->self_destruct)
-		gtk_object_unref (GTK_OBJECT (input->driver));
+	camel_object_unref (CAMEL_OBJECT (message));
+	camel_object_unref (CAMEL_OBJECT (inbox));
+	if (self_destruct)
+		gtk_object_unref (GTK_OBJECT (driver));
 }
