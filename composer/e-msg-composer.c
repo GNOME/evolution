@@ -41,6 +41,7 @@
 #endif
 
 #include <errno.h>
+#include <ctype.h>
 #include <libgnome/gnome-defs.h>
 #include <libgnome/gnome-config.h>
 #include <libgnomeui/gnome-app.h>
@@ -907,6 +908,10 @@ save_draft (EMsgComposer *composer, int quitok)
 	composer->send_html = TRUE;
 	msg = e_msg_composer_get_message (composer);
 	composer->send_html = old_send_html;
+
+	/* Attach account info to the draft. */
+	if (account && account->name)
+		camel_medium_set_header (CAMEL_MEDIUM (msg), "X-Evolution-Account", account->name);
 	
 	info = g_new0 (CamelMessageInfo, 1);
 	info->flags = CAMEL_MESSAGE_DRAFT | CAMEL_MESSAGE_SEEN;
@@ -2217,6 +2222,7 @@ e_msg_composer_new_with_message (CamelMimeMessage *msg)
 	const gchar *subject;
 	EMsgComposer *new;
 	guint len, i;
+	const gchar *account_name = NULL;
 	
 	g_return_val_if_fail (gtk_main_level () > 0, NULL);
 	
@@ -2225,7 +2231,7 @@ e_msg_composer_new_with_message (CamelMimeMessage *msg)
 		return NULL;
 	
 	subject = camel_mime_message_get_subject (msg);
-	
+
 	to = camel_mime_message_get_recipients (msg, CAMEL_RECIPIENT_TYPE_TO);
 	cc = camel_mime_message_get_recipients (msg, CAMEL_RECIPIENT_TYPE_CC);
 	bcc = camel_mime_message_get_recipients (msg, CAMEL_RECIPIENT_TYPE_BCC);
@@ -2272,7 +2278,14 @@ e_msg_composer_new_with_message (CamelMimeMessage *msg)
 		}
 	}
 	
-	e_msg_composer_set_headers (new, NULL, To, Cc, Bcc, subject);
+	account_name = camel_medium_get_header (CAMEL_MEDIUM (msg), "X-Evolution-Account");
+	if (account_name) {
+		while (*account_name && isspace (*account_name))
+			++account_name;
+		camel_medium_remove_header (CAMEL_MEDIUM (msg), "X-Evolution-Account");
+	}
+	
+	e_msg_composer_set_headers (new, account_name, To, Cc, Bcc, subject);
 	
 	free_recipients (To);
 	free_recipients (Cc);
