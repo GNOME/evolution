@@ -1,3 +1,7 @@
+2000-04-25  Ettore Perazzoli  <ettore@helixcode.com>
+
+	* Makefile.am (INCLUDES): Use `$(GTKHTML_CFLAGS)'.
+
 2000-04-20  NotZed  <NotZed@HelixCode.com>
 
 	* filter-driver.c: Removed a bunch of crappy unrequired headers.

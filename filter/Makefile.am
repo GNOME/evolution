@@ -5,7 +5,7 @@ INCLUDES = 					\
 	-I $(top_srcdir)/e-util			\
 	-I $(top_srcdir)/camel/providers/mbox	\
 	-I $(GNOME_INCLUDEDIR)			\
-	-I $(GTKHTML_CFLAGS)
+	$(GTKHTML_CFLAGS)
 
 ##
 
