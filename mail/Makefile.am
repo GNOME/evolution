@@ -16,6 +16,8 @@ INCLUDES = \
 	-I$(top_srcdir)/shell				\
 	-I$(top_builddir)/executive-summary		\
 	-I$(top_srcdir)/executive-summary		\
+	-I$(top_srcdir)/shell/importer			\
+	-I$(top_builddir)/shell/importer		\
 	$(EXTRA_GNOME_CFLAGS)				\
 	$(BONOBO_HTML_GNOME_CFLAGS)			\
 	$(GNOME_VFS_CFLAGS)				\
@@ -67,6 +69,8 @@ evolution_mail_SOURCES =		\
 	mail-display.h			\
 	mail-format.c			\
 	mail-identify.c			\
+	mail-importer.c			\
+	mail-importer.h			\
 	mail-local.c			\
 	mail-local.h			\
 	mail-mlist-magic.c		\
@@ -97,7 +101,11 @@ evolution_mail_SOURCES =		\
 	mail-session.h			\
 	subscribe-dialog.c		\
 	subscribe-dialog.h		\
-	mail.h
+	mail.h				\
+	evolution-outlook-importer.c	\
+	evolution-outlook-importer.h	\
+	evolution-mbox-importer.c	\
+	evolution-mbox-importer.h
 
 evolution_mail_LDADD = 					\
 	$(top_builddir)/shell/libeshell.a		\
@@ -110,6 +118,7 @@ evolution_mail_LDADD = 					\
 	$(top_builddir)/libibex/libibex.la		\
 	$(top_builddir)/filter/libfilter.la		\
 	$(top_builddir)/executive-summary/evolution-services/libevolution-services.la	\
+	$(top_builddir)/shell/importer/libevolution-importer.la	\
 	$(BONOBO_VFS_GNOME_LIBS)			\
 	$(EXTRA_GNOME_LIBS)				\
 	$(GTKHTML_LIBS)					\
@@ -118,6 +127,17 @@ evolution_mail_LDADD = 					\
 
 evolution_mail_LDFLAGS =				\
 	-export-dynamic
+
+#evolution_outlook_importer_SOURCES =			\
+#	evolution-outlook-importer.c
+
+#evolution_outlook_importer_LDADD =			\
+#	$(BONOBO_GNOME_LIBS)				\
+#	$(EXTRA_GNOME_LIBS)				\
+#	$(top_builddir)/e-util/libeutil.la		\
+#	$(top_builddir)/shell/importer/libevolution-importer.la	\
+#	$(CAMEL_OBJS_EXTRA)				\
+#	$(top_builddir)/camel/libcamel.la
 
 test_mail_SOURCES = \
 	test-mail.c
