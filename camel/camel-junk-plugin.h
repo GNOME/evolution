@@ -48,6 +48,9 @@ struct _CamelJunkPlugin
 
 	/* called after one or more junk/ham(s) reported */
 	void (*commit_reports) (void);
+
+	/* called before all other calls to junk plugin for initialization */
+	void (*init) (void);
 };
 
 const char * camel_junk_plugin_get_name (CamelJunkPlugin *csp);
@@ -55,5 +58,6 @@ int camel_junk_plugin_check_junk (CamelJunkPlugin *csp, struct _CamelMimeMessage
 void camel_junk_plugin_report_junk (CamelJunkPlugin *csp, struct _CamelMimeMessage *message);
 void camel_junk_plugin_report_notjunk (CamelJunkPlugin *csp, struct _CamelMimeMessage *message);
 void camel_junk_plugin_commit_reports (CamelJunkPlugin *csp);
+void camel_junk_plugin_init (CamelJunkPlugin *csp);
 
 #endif

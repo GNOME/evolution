@@ -1,3 +1,9 @@
+2004-10-12  Radek Doulik  <rodo@ximian.com>
+
+	* camel-junk-plugin.c: new init method implementation
+
+	* camel-junk-plugin.h: added junk plugin init declaration
+
 2004-11-10  Not Zed  <NotZed@Ximian.com>
 
 	** See bug #69109.

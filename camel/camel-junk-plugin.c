@@ -73,3 +73,12 @@ camel_junk_plugin_commit_reports (CamelJunkPlugin *csp)
 	if (csp->commit_reports)
 		(*csp->commit_reports) ();
 }
+
+void
+camel_junk_plugin_init (CamelJunkPlugin *csp)
+{
+	d(fprintf (stderr, "camel_junk_plugin_init\n");)
+
+	if (csp->init)
+		(*csp->init) ();
+}
