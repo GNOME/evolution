@@ -923,7 +923,7 @@ service_page_set_url (MailDialogServicePage *page, MailConfigService *service)
 							"authtype");
 			
 			if ((!url->authmech && !*authtype->authproto) ||
-			    (url->authmech && !strcmp (authtype->authproto, url->authmech))
+			    (url->authmech && !strcmp (authtype->authproto, url->authmech)))
 				service_page_item_auth_activate (item, spitem);
 				gtk_option_menu_set_history (GTK_OPTION_MENU (spitem->auth_optionmenu), i);
 		}
