@@ -17628,7 +17628,7 @@ msgstr "Nächste _ungelesene Nachricht"
 
 #: ui/evolution-mail-message.xml.h:67
 msgid "Not Junk"
-msgstr "Nicht unerwünscht"
+msgstr "Erwünscht"
 
 #: ui/evolution-mail-message.xml.h:68
 msgid "Open the selected message in a new window"
