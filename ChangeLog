@@ -1,4 +1,17 @@
-1999-06-24  root  <guiheneu@jean.joudboeuf.fr>
+1999-06-28  bertrand  <Bertrand.Guiheneuf@inria.fr>
+
+	* camel/camel-mime-part.c:
+	new field (content_type) and associated methods.
+	(camel_mime_part_init): initialize content_type field.
+	(_parse_header_pair): now set content_type MimePart field
+	instead of using DataWrapper Mime typing facility.
+
+1999-06-28  bertrand  <Bertrand.Guiheneuf@inria.fr>
+
+	* camel/camel-data-wrapper.h: 
+	s/content_type/mime_type/
+
+1999-06-24  bertrand  <Bertrand.Guiheneuf@inria.fr>
 
 	* camel/camel-simple-data-wrapper.[ch]:
 	new class. Simple implementation of a data wrapper:
