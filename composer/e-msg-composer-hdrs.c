@@ -705,6 +705,7 @@ destroy (GtkObject *object)
 		}
 		
 		if (priv->accounts) {
+			g_signal_handlers_disconnect_matched(priv->accounts, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, hdrs);
 			g_object_unref (priv->accounts);
 			priv->accounts = NULL;
 		}
