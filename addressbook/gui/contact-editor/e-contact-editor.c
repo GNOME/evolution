@@ -40,14 +40,12 @@
 #include <libgnome/gnome-help.h>
 
 #include <gdk-pixbuf/gdk-pixbuf.h>
-#include <gal/widgets/e-categories.h>
+#include <libedataserverui/e-categories-dialog.h>
 #include <gal/widgets/e-gui-utils.h>
 #include <gal/e-text/e-entry.h>
 
 #include <libebook/e-address-western.h>
 #include <libedataserverui/e-source-option-menu.h>
-
-#include <e-util/e-categories-master-list-wombat.h>
 
 #include <camel/camel.h>
 
@@ -2446,37 +2444,27 @@ categories_clicked (GtkWidget *button, EContactEditor *editor)
 	GtkDialog *dialog;
 	int result;
 	GtkWidget *entry = glade_xml_get_widget(editor->gui, "entry-categories");
-	ECategoriesMasterList *ecml;
+
 	if (entry && GTK_IS_ENTRY(entry))
 		categories = g_strdup (gtk_entry_get_text(GTK_ENTRY(entry)));
 	else if (editor->contact)
 		categories = e_contact_get (editor->contact, E_CONTACT_CATEGORIES);
 
-	if (!(dialog = GTK_DIALOG (e_categories_new (categories)))) {
+	if (!(dialog = GTK_DIALOG (e_categories_dialog_new (categories)))) {
 		e_error_run (NULL, "addressbook:edit-categories", NULL);
 		g_free (categories);
 		return;
 	}
 	
-	ecml = e_categories_master_list_wombat_new ();
-	g_object_set (dialog,
-		       "header", _("This contact belongs to these categories:"),
-		       "ecml", ecml,
-		       NULL);
-	g_object_unref (ecml);
 	gtk_widget_show(GTK_WIDGET(dialog));
 	result = gtk_dialog_run (dialog);
 	g_free (categories);
 	if (result == GTK_RESPONSE_OK) {
-		g_object_get (dialog,
-			      "categories", &categories,
-			      NULL);
+		categories = e_categories_dialog_get_categories (E_CATEGORIES_DIALOG (dialog));
 		if (entry && GTK_IS_ENTRY(entry))
 			gtk_entry_set_text (GTK_ENTRY (entry), categories);
 		else
 			e_contact_set (editor->contact, E_CONTACT_CATEGORIES, categories);
-
-		g_free(categories);
 	}
 	gtk_widget_destroy(GTK_WIDGET(dialog));
 }
