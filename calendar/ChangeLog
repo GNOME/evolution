@@ -1,5 +1,13 @@
 2003-11-07  JP Rosevear <jpr@ximian.com>
 
+	* gui/Makefile.am: remove includes for toplevel libical dir
+
+	* gui/dialogs/Makefile.am: ditto
+
+	* importers/Makefile.am: ditto
+
+2003-11-07  JP Rosevear <jpr@ximian.com>
+
 	* In the gui this is a search and replace commit for moving the
 	calendar to evolution-data-server; it also deletes the old backend
 	files; e-cal-view was rename to e-calendar-view to remove name

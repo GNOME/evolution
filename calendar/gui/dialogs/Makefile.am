@@ -17,7 +17,6 @@ INCLUDES = 								\
 	-I$(top_srcdir)/calendar					\
 	-I$(top_srcdir)/calendar/cal-client				\
 	-I$(top_builddir)/calendar/cal-client				\
-	-I$(top_srcdir)/libical/src					\
 	-I$(top_builddir)/shell						\
 	-I$(top_srcdir)/shell						\
 	-DEVOLUTION_DATADIR=\""$(datadir)"\"				\
