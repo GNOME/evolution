@@ -1,5 +1,9 @@
 2002-07-31  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* providers/imap/camel-imap-folder.c (parse_fetch_response):
+	Disable my fix to not cache headers as it means that each time we
+	load the message, we've got to re-fecth the headers.
+
 	* camel-mime-filter-tohtml.c (is_addr_char): Don't use
 	"isprint(c)" to mean "c >= 32 && c < 128" since it doesn't in most
 	locales.
@@ -23,7 +27,7 @@
 	* camel-tcp-stream-openssl.c (socket_connect): Same as above.
 	(stream_get_local_address): Fix to work with IPv6 addresses.
 	(stream_get_remote_address): Same.
-	
+
 	* camel-tcp-stream-ssl.c (stream_connect): If building with IPv6
 	support and the address is an IPv6 address, initialise the
 	PRNetAddr accordingly.

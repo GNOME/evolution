@@ -124,7 +124,7 @@ static void imap_thaw (CamelFolder *folder);
 
 static CamelObjectClass *parent_class;
 
-GData *parse_fetch_response (CamelImapFolder *imap_folder, char *msg_att);
+static GData *parse_fetch_response (CamelImapFolder *imap_folder, char *msg_att);
 
 static void
 camel_imap_folder_class_init (CamelImapFolderClass *camel_imap_folder_class)
@@ -2425,7 +2425,7 @@ camel_imap_folder_fetch_data (CamelImapFolder *imap_folder, const char *uid,
 	return stream;
 }
 
-GData *
+static GData *
 parse_fetch_response (CamelImapFolder *imap_folder, char *response)
 {
 	GData *data = NULL;
@@ -2527,17 +2527,19 @@ parse_fetch_response (CamelImapFolder *imap_folder, char *response)
 	if (uid && body) {
 		CamelStream *stream;
 		
-		if (!header) {
+		if (FALSE /*header*/) {
+			g_free (part_spec);
+			stream = camel_stream_mem_new_with_buffer (body, body_len);
+		} else {
 			CAMEL_IMAP_FOLDER_LOCK (imap_folder, cache_lock);
 			stream = camel_imap_message_cache_insert (imap_folder->cache,
 								  uid, part_spec,
 								  body, body_len, NULL);
 			CAMEL_IMAP_FOLDER_UNLOCK (imap_folder, cache_lock);
-		} else {
-			stream = camel_stream_mem_new_with_buffer (body, body_len);
 		}
+		
 		g_datalist_set_data_full (&data, "BODY_PART_STREAM", stream,
-					  (GDestroyNotify)camel_object_unref);
+					  (GDestroyNotify) camel_object_unref);
 	}
 	
 	return data;
