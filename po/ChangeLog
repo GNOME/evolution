@@ -1,3 +1,8 @@
+2002-12-21  Wang Jian  <lark@linux.net.cn>
+
+        * zh_CN.po: Updated Simplified Chinese translation by
+	Wang Li.
+
 2002-12-15  Christian Neumair  <chris@gnome-de.org>
 
 	* POTFILES.in: Added missing files.
