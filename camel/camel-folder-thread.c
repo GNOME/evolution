@@ -662,6 +662,11 @@ camel_folder_thread_messages_apply(CamelFolderThread *thread, GPtrArray *uids)
 			g_ptr_array_add(all, info);
 
 	g_hash_table_destroy(table);
+	
+	thread->tree = NULL;
+	e_memchunk_destroy(thread->node_chunks);
+	thread->node_chunks = e_memchunk_new(32, sizeof(CamelFolderThreadNode));
+	
 	thread_summary(thread, all);
 
 	g_ptr_array_free(thread->summary, TRUE);
