@@ -516,6 +516,7 @@ destroy (GtkObject *object)
 	}
 	
 	gtk_object_destroy (GTK_OBJECT (priv->tooltips));
+	gtk_object_unref (GTK_OBJECT (priv->tooltips));
 	
 	l = priv->from_options;
 	while (l) {

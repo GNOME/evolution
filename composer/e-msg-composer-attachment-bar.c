@@ -574,6 +574,8 @@ destroy (GtkObject *object)
 	
 	free_attachment_list (bar);
 	
+	g_free (bar->priv);
+	
 	if (GTK_OBJECT_CLASS (parent_class)->destroy != NULL)
 		(* GTK_OBJECT_CLASS (parent_class)->destroy) (object);
 }

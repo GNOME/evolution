@@ -881,6 +881,7 @@ set_editor_text (EMsgComposer *composer, const char *text)
 	BonoboStream *stream;
 	BonoboWidget *editor;
 	CORBA_Environment ev;
+	Bonobo_Unknown object;
 	
 	g_return_if_fail (composer->persist_stream_interface != CORBA_OBJECT_NIL);
 	
@@ -891,10 +892,12 @@ set_editor_text (EMsgComposer *composer, const char *text)
 	CORBA_exception_init (&ev);
 	
 	stream = bonobo_stream_mem_create (text, strlen (text), TRUE, FALSE);
-	Bonobo_PersistStream_load (persist, (Bonobo_Stream)bonobo_object_corba_objref (BONOBO_OBJECT (stream)),
-				   "text/html", &ev);
+	object = bonobo_object_corba_objref (BONOBO_OBJECT (stream));
+	Bonobo_PersistStream_load (persist, (Bonobo_Stream) object, "text/html", &ev);
 	if (ev._major != CORBA_NO_EXCEPTION) {
 		/* FIXME. Some error message. */
+		bonobo_object_unref (BONOBO_OBJECT (stream));
+		CORBA_exception_free (&ev);
 		return;
 	}
 	
@@ -2596,14 +2599,14 @@ map_default_cb (EMsgComposer *composer, gpointer user_data)
         pb = bonobo_control_frame_get_control_property_bag (cf, NULL);
 	text = bonobo_property_bag_client_get_value_string (pb, "text", NULL);
 	bonobo_object_release_unref (pb, NULL);
-
+	
 	if (!text || text[0] == '\0') {
 		bonobo_control_frame_focus_child (cf, GTK_DIR_TAB_FORWARD);
 		g_free (text);
 		return;
 	}
 	g_free (text);
-
+	
 	/* If not, check the subject field */
 
 	text = e_msg_composer_hdrs_get_subject (E_MSG_COMPOSER_HDRS (composer->hdrs));
@@ -2761,26 +2764,24 @@ set_editor_signature (EMsgComposer *composer)
 	printf ("set_editor_signature\n");
 	if (E_MSG_COMPOSER_HDRS (composer->hdrs)->account->id) {
 		MailConfigIdentity *id;
-		gchar *verb, *name;
+		char *verb;
 		
 		id = E_MSG_COMPOSER_HDRS (composer->hdrs)->account->id;
-
+		
 		composer->random_signature = composer->send_html ? id->html_random : id->text_random;
 		if (composer->random_signature)
 			composer->signature = NULL;
 		else
 			composer->signature = composer->send_html ? id->html_signature : id->text_signature;
-
+		
 		if (composer->random_signature) {
 			verb = g_strdup ("/commands/SignatureRandom");
-			name = g_strdup ("SignatureRandom");
 		} else if (composer->signature == NULL) {
 			verb = g_strdup ("/commands/SignatureNone");
-			name = g_strdup ("SignatureNone");
 		} else {
 			verb = g_strdup_printf ("/commands/Signature%d", composer->signature->id);
-			name = g_strdup_printf ("Signature%d", composer->signature->id);
 		}
+		
 		bonobo_ui_component_set_prop (composer->uic, verb, "state", "1", NULL);
 		g_free (verb);
 	}

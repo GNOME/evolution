@@ -1,3 +1,13 @@
+2002-04-16  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* e-msg-composer-hdrs.c (destroy): Unref the priv->tooltips object
+	here.
+
+	* e-msg-composer-attachment-bar.c (destroy): Free the priv struct.
+
+	* e-msg-composer.c (set_editor_signature): We don't need a 'name'?
+	So don't strdup it.
+
 2002-04-12  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* e-msg-composer-hdrs.c (from_changed): Change the Reply-To header
