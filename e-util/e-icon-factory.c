@@ -86,7 +86,7 @@ icon_free (Icon *icon)
 }
 
 static Icon *
-load_icon (const char *icon_name, int size, int scale)
+load_icon (const char *icon_key, const char *icon_name, int size, int scale)
 {
 	GdkPixbuf *pixbuf, *unscaled = NULL;
 	char *filename = NULL;
@@ -153,7 +153,7 @@ load_icon (const char *icon_name, int size, int scale)
 		pixbuf = NULL;
 	}
 	
-	return icon_new (icon_name, pixbuf);
+	return icon_new (icon_key, pixbuf);
 }
 
 
@@ -293,7 +293,7 @@ e_icon_factory_get_icon (const char *icon_name, int icon_size)
 	pthread_mutex_lock (&lock);
 	
 	if (!(icon = g_hash_table_lookup (name_to_icon, icon_key))) {
-		if (!(icon = load_icon (icon_name, size, TRUE))) {
+		if (!(icon = load_icon (icon_key, icon_name, size, TRUE))) {
 			g_warning ("Icon not found -- %s", icon_name);
 			
 			/* Create an empty icon so that we don't keep spitting
@@ -350,7 +350,7 @@ e_icon_factory_get_icon_list (const char *icon_name)
 		sprintf (icon_key, "%dx%d/%s", size, size, icon_name);
 		
 		if (!(icon = g_hash_table_lookup (name_to_icon, icon_key))) {
-			if ((icon = load_icon (icon_name, size, FALSE)))
+			if ((icon = load_icon (icon_key, icon_name, size, FALSE)))
 				g_hash_table_insert (name_to_icon, icon->name, icon);
 		}
 		
