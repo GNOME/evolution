@@ -36,6 +36,7 @@
 #include <gal/widgets/e-categories.h>
 #include <widgets/misc/e-dateedit.h>
 #include "e-util/e-dialog-widgets.h"
+#include "e-util/e-categories-config.h"
 #include "../e-timezone-entry.h"
 #include "comp-editor-util.h"
 #include "task-page.h"
@@ -722,30 +723,13 @@ categories_clicked_cb (GtkWidget *button, gpointer data)
 {
 	TaskPage *tpage;
 	TaskPagePrivate *priv;
-	char *categories;
-	GnomeDialog *dialog;
-	int result;
 	GtkWidget *entry;
 
 	tpage = TASK_PAGE (data);
 	priv = tpage->priv;
 
 	entry = priv->categories;
-	categories = e_utf8_gtk_entry_get_text (GTK_ENTRY (entry));
-
-	dialog = GNOME_DIALOG (e_categories_new (categories));
-	result = gnome_dialog_run (dialog);
-	g_free (categories);
-
-	if (result == 0) {
-		gtk_object_get (GTK_OBJECT (dialog),
-				"categories", &categories,
-				NULL);
-		e_utf8_gtk_entry_set_text (GTK_ENTRY (entry), categories);
-		g_free (categories);
-	}
-
-	gtk_object_destroy (GTK_OBJECT (dialog));
+	e_categories_config_open_dialog_for_entry (GTK_ENTRY (entry));
 }
 
 /* This is called when any field is changed; it notifies upstream. */

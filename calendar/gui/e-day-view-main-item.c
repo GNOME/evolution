@@ -29,6 +29,7 @@
  */
 
 #include <config.h>
+#include "e-util/e-categories-config.h"
 #include "e-day-view-layout.h"
 #include "e-day-view-main-item.h"
 
@@ -629,16 +630,16 @@ e_day_view_main_item_draw_day_event (EDayViewMainItem *dvmitem,
 			icon_y += icon_y_inc;
 		}
 
-		/* draw icons per category */
+		/* draw categories icons */
 		for (elem = categories_list; elem; elem = elem->next) {
 			char *category;
 			GdkPixmap *pixmap;
 			GdkBitmap *mask;
 
 			category = (char *) elem->data;
-			/* FIXME: get icon for this category */
-			pixmap = day_view->recurrence_icon;
-			mask = day_view->recurrence_mask;
+			e_categories_config_get_icon_for (category, &pixmap, &mask);
+			if (pixmap == NULL || mask == NULL)
+				continue;
 
 			max_icon_w = item_x + item_w - icon_x
 				- E_DAY_VIEW_EVENT_BORDER_WIDTH;

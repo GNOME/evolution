@@ -142,5 +142,4 @@ void calendar_config_set_tasks_due_today_color (const char *color);
 const char *calendar_config_get_tasks_overdue_color (void);
 void calendar_config_set_tasks_overdue_color (const char *color);
 
-
 #endif /* _CALENDAR_CONFIG_H_ */

@@ -31,6 +31,7 @@
 
 #include <config.h>
 
+#include "e-util/e-categories-config.h"
 #include "e-week-view-event-item.h"
 
 #include <gtk/gtksignal.h>
@@ -617,9 +618,9 @@ e_week_view_event_item_draw_icons (EWeekViewEventItem *wveitem,
 		GdkBitmap *mask;
 
 		category = (char *) elem->data;
-		/* FIXME: get icon for this category */
-		pixmap = week_view->recurrence_icon;
-		mask = week_view->recurrence_mask;
+		e_categories_config_get_icon_for (category, &pixmap, &mask);
+		if (pixmap == NULL || mask == NULL)
+			continue;
 
 		if (icon_x + E_WEEK_VIEW_ICON_WIDTH <= x2) {
 			gdk_gc_set_clip_origin (gc, icon_x, icon_y);

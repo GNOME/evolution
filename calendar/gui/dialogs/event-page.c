@@ -837,30 +837,13 @@ categories_clicked_cb (GtkWidget *button, gpointer data)
 {
 	EventPage *epage;
 	EventPagePrivate *priv;
-	char *categories;
-	GnomeDialog *dialog;
-	int result;
 	GtkWidget *entry;
 
 	epage = EVENT_PAGE (data);
 	priv = epage->priv;
 
 	entry = priv->categories;
-	categories = e_utf8_gtk_entry_get_text (GTK_ENTRY (entry));
-
-	dialog = GNOME_DIALOG (e_categories_new (categories));
-	result = gnome_dialog_run (dialog);
-	g_free (categories);
-
-	if (result == 0) {
-		gtk_object_get (GTK_OBJECT (dialog),
-				"categories", &categories,
-				NULL);
-		e_utf8_gtk_entry_set_text (GTK_ENTRY (entry), categories);
-		g_free (categories);
-	}
-
-	gtk_object_destroy (GTK_OBJECT (dialog));
+	e_categories_config_open_dialog_for_entry (GTK_ENTRY (entry));
 }
 
 /* This is called when any field is changed; it notifies upstream. */

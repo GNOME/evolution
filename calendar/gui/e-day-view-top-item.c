@@ -30,6 +30,7 @@
 #include <glib.h>
 #include <libgnome/gnome-defs.h>
 #include <libgnome/gnome-i18n.h>
+#include "e-util/e-categories-config.h"
 #include "e-day-view-top-item.h"
 
 static void e_day_view_top_item_class_init	(EDayViewTopItemClass *class);
@@ -577,9 +578,9 @@ e_day_view_top_item_draw_long_event (EDayViewTopItem *dvtitem,
 		GdkBitmap *mask;
 
 		category = (char *) elem->data;
-		/* FIXME: get icon for this category */
-		pixmap = day_view->recurrence_icon;
-		mask = day_view->recurrence_mask;
+		e_categories_config_get_icon_for (category, &pixmap, &mask);
+		if (pixmap == NULL || mask == NULL)
+			continue;
 
 		if (icon_x <= max_icon_x) {
 			gdk_gc_set_clip_origin (gc, icon_x, icon_y);
