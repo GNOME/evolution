@@ -84,7 +84,7 @@ static gboolean e_week_view_event_item_button_release (EWeekViewEventItem *wveit
 						       GdkEvent		  *event);
 static gboolean e_week_view_event_item_double_click (EWeekViewEventItem *wveitem,
 						     GdkEvent		*bevent);
-static EWeekViewPosition e_week_view_event_item_get_position (EWeekViewEventItem *wveitem,
+static ECalViewPosition e_week_view_event_item_get_position (EWeekViewEventItem *wveitem,
 							      gdouble x,
 							      gdouble y);
 
@@ -756,7 +756,7 @@ e_week_view_event_item_button_press (EWeekViewEventItem *wveitem,
 				     GdkEvent		*bevent)
 {
 	EWeekView *week_view;
-	EWeekViewPosition pos;
+	ECalViewPosition pos;
 	EWeekViewEvent *event;
 	EWeekViewEventSpan *span;
 	GnomeCanvasItem *item;
@@ -777,7 +777,7 @@ e_week_view_event_item_button_press (EWeekViewEventItem *wveitem,
 
 	pos = e_week_view_event_item_get_position (wveitem, bevent->button.x,
 						   bevent->button.y);
-	if (pos == E_WEEK_VIEW_POS_NONE)
+	if (pos == E_CAL_VIEW_POS_NONE)
 		return FALSE;
 
 	if (bevent->button.button == 1) {
@@ -878,7 +878,7 @@ e_week_view_event_item_double_click (EWeekViewEventItem *wveitem,
 }
 
 
-static EWeekViewPosition
+static ECalViewPosition
 e_week_view_event_item_get_position (EWeekViewEventItem *wveitem,
 				     gdouble x,
 				     gdouble y)
@@ -889,7 +889,7 @@ e_week_view_event_item_get_position (EWeekViewEventItem *wveitem,
 	item = GNOME_CANVAS_ITEM (wveitem);
 
 	week_view = E_WEEK_VIEW (GTK_WIDGET (item->canvas)->parent);
-	g_return_val_if_fail (E_IS_WEEK_VIEW (week_view), E_WEEK_VIEW_POS_NONE);
+	g_return_val_if_fail (E_IS_WEEK_VIEW (week_view), E_CAL_VIEW_POS_NONE);
 
 #if 0
 	g_print ("In e_week_view_event_item_get_position item: %g,%g %g,%g point: %g,%g\n", item->x1, item->y1, item->x2, item->y2, x, y);
@@ -897,20 +897,20 @@ e_week_view_event_item_get_position (EWeekViewEventItem *wveitem,
 
 	if (x < item->x1 + E_WEEK_VIEW_EVENT_L_PAD
 	    || x >= item->x2 - E_WEEK_VIEW_EVENT_R_PAD)
-		return E_WEEK_VIEW_POS_NONE;
+		return E_CAL_VIEW_POS_NONE;
 
 	/* Support left/right edge for long events only. */
 	if (!e_week_view_is_one_day_event (week_view, wveitem->event_num)) {
 		if (x < item->x1 + E_WEEK_VIEW_EVENT_L_PAD
 		    + E_WEEK_VIEW_EVENT_BORDER_WIDTH
 		    + E_WEEK_VIEW_EVENT_EDGE_X_PAD)
-			return E_WEEK_VIEW_POS_LEFT_EDGE;
+			return E_CAL_VIEW_POS_LEFT_EDGE;
 
 		if (x >= item->x2 + 1 - E_WEEK_VIEW_EVENT_R_PAD
 		    - E_WEEK_VIEW_EVENT_BORDER_WIDTH
 		    - E_WEEK_VIEW_EVENT_EDGE_X_PAD)
-			return E_WEEK_VIEW_POS_RIGHT_EDGE;
+			return E_CAL_VIEW_POS_RIGHT_EDGE;
 	}
 
-	return E_WEEK_VIEW_POS_EVENT;
+	return E_CAL_VIEW_POS_EVENT;
 }

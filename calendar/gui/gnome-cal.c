@@ -2919,10 +2919,7 @@ gnome_calendar_delete_selection		(GnomeCalendar  *gcal)
 	if (location == FOCUS_CALENDAR) {
 		view = gnome_calendar_get_current_view_widget (gcal);
 
-		if (E_IS_DAY_VIEW (view))
-			e_day_view_delete_event (E_DAY_VIEW (view));
-		else
-			e_week_view_delete_event (E_WEEK_VIEW (view));
+		e_cal_view_delete_selected_events (E_CAL_VIEW (view));
 	} else if (location == FOCUS_TASKPAD)
 		e_calendar_table_delete_selected (E_CALENDAR_TABLE (priv->todo));
 	else

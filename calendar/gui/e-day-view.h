@@ -167,18 +167,6 @@ typedef enum
 	E_DAY_VIEW_DRAG_END
 } EDayViewDragPosition;
 
-/* Specifies the position of the mouse. */
-typedef enum
-{
-	E_DAY_VIEW_POS_OUTSIDE,
-	E_DAY_VIEW_POS_NONE,
-	E_DAY_VIEW_POS_EVENT,
-	E_DAY_VIEW_POS_LEFT_EDGE,
-	E_DAY_VIEW_POS_RIGHT_EDGE,
-	E_DAY_VIEW_POS_TOP_EDGE,
-	E_DAY_VIEW_POS_BOTTOM_EDGE
-} EDayViewPosition;
-
 typedef struct _EDayViewEvent EDayViewEvent;
 struct _EDayViewEvent {
 	CalComponent *comp;
@@ -444,7 +432,7 @@ struct _EDayView
 	/* These are used when resizing events. */
 	gint resize_event_day;
 	gint resize_event_num;
-	EDayViewPosition resize_drag_pos;
+	ECalViewPosition resize_drag_pos;
 	gint resize_start_row;
 	gint resize_end_row;
 
@@ -566,7 +554,6 @@ void	      e_day_view_set_timezone		(EDayView	*day_view,
 						 icaltimezone	*zone);
 
 
-void       e_day_view_delete_event		(EDayView       *day_view);
 void       e_day_view_delete_occurrence         (EDayView       *day_view);
 
 

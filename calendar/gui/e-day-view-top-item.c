@@ -394,13 +394,13 @@ e_day_view_top_item_draw_long_event (EDayViewTopItem *dvtitem,
 	/* When resizing we don't draw the triangles.*/
 	draw_start_triangle = TRUE;
 	draw_end_triangle = TRUE;
-	if (day_view->resize_drag_pos != E_DAY_VIEW_POS_NONE
+	if (day_view->resize_drag_pos != E_CAL_VIEW_POS_NONE
 	    && day_view->resize_event_day == E_DAY_VIEW_LONG_EVENT
 	    && day_view->resize_event_num == event_num) {
-		if (day_view->resize_drag_pos == E_DAY_VIEW_POS_LEFT_EDGE)
+		if (day_view->resize_drag_pos == E_CAL_VIEW_POS_LEFT_EDGE)
 			draw_start_triangle = FALSE;
 
-		if  (day_view->resize_drag_pos == E_DAY_VIEW_POS_RIGHT_EDGE)
+		if  (day_view->resize_drag_pos == E_CAL_VIEW_POS_RIGHT_EDGE)
 			draw_end_triangle = FALSE;
 	}
 

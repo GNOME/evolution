@@ -132,17 +132,6 @@ typedef enum
 	E_WEEK_VIEW_TIME_BOTH_SMALL_MIN
 } EWeekViewTimeFormat;
 
-/* Specifies the position of the mouse. */
-typedef enum
-{
-	E_WEEK_VIEW_POS_OUTSIDE,
-	E_WEEK_VIEW_POS_NONE,
-	E_WEEK_VIEW_POS_EVENT,
-	E_WEEK_VIEW_POS_LEFT_EDGE,
-	E_WEEK_VIEW_POS_RIGHT_EDGE
-} EWeekViewPosition;
-
-
 typedef struct _EWeekViewEventSpan EWeekViewEventSpan;
 struct _EWeekViewEventSpan {
 	guint start_day : 6;
@@ -420,7 +409,6 @@ icaltimezone* e_week_view_get_timezone		(EWeekView	*week_view);
 void	      e_week_view_set_timezone		(EWeekView	*week_view,
 						 icaltimezone	*zone);
 
-void       e_week_view_delete_event		(EWeekView      *week_view);
 void       e_week_view_delete_occurrence        (EWeekView      *week_view);
 
 /* Returns the number of selected events (0 or 1 at present). */

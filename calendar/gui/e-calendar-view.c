@@ -576,6 +576,64 @@ e_cal_view_paste_clipboard (ECalView *cal_view)
 }
 
 static void
+delete_event (ECalView *cal_view, CalComponent *comp)
+{
+	CalComponentVType vtype;
+
+	vtype = cal_component_get_vtype (comp);
+
+	if (delete_component_dialog (comp, FALSE, 1, vtype, GTK_WIDGET (cal_view))) {
+		const char *uid;
+
+		if (itip_organizer_is_user (comp, cal_view->priv->client) 
+		    && cancel_component_dialog ((GtkWindow *) gtk_widget_get_toplevel (cal_view),
+						cal_view->priv->client,
+						comp, TRUE))
+			itip_send_comp (CAL_COMPONENT_METHOD_CANCEL, comp,
+					cal_view->priv->client, NULL);
+
+		cal_component_get_uid (comp, &uid);
+
+		delete_error_dialog (
+			cal_client_remove_object (cal_view->priv->client, uid), CAL_COMPONENT_EVENT);
+	}
+}
+
+void
+e_cal_view_delete_selected_event (ECalView *cal_view)
+{
+	GList *selected;
+	CalComponent *comp;
+
+	selected = e_cal_view_get_selected_events (cal_view);
+	if (!selected)
+		return;
+
+	comp = CAL_COMPONENT (selected->data);
+	delete_event (cal_view, comp);
+
+	g_list_free (selected);
+}
+
+void
+e_cal_view_delete_selected_events (ECalView *cal_view)
+{
+	GList *selected, *l;
+	CalComponent *comp;
+
+	selected = e_cal_view_get_selected_events (cal_view);
+	if (!selected)
+		return;
+
+	for (l = selected; l != NULL; l = l->next) {
+		comp = CAL_COMPONENT (l->data);
+		delete_event (cal_view, comp);
+	}
+
+	g_list_free (selected);
+}
+
+static void
 on_new_appointment (GtkWidget *widget, gpointer user_data)
 {
 	time_t dtstart, dtend;
@@ -797,44 +855,13 @@ on_settings (GtkWidget *widget, gpointer user_data)
 	control_util_show_settings (cal_view->priv->calendar);
 }
 
-void
-e_cal_view_delete_event_internal (ECalView *cal_view, CalComponent *comp)
-{
-	CalComponentVType vtype;
-
-	vtype = cal_component_get_vtype (comp);
-
-	if (delete_component_dialog (comp, FALSE, 1, vtype, GTK_WIDGET (cal_view))) {
-		const char *uid;
-
-		if (itip_organizer_is_user (comp, cal_view->priv->client) 
-		    && cancel_component_dialog ((GtkWindow *) gtk_widget_get_toplevel (cal_view),
-						cal_view->priv->client,
-						comp, TRUE))
-			itip_send_comp (CAL_COMPONENT_METHOD_CANCEL, comp,
-					cal_view->priv->client, NULL);
-
-		cal_component_get_uid (comp, &uid);
-
-		delete_error_dialog (
-			cal_client_remove_object (cal_view->priv->client, uid), CAL_COMPONENT_EVENT);
-	}
-}
-
-
 static void
 on_delete_appointment (GtkWidget *widget, gpointer user_data)
 {
 	ECalView *cal_view;
-	GList *selected;
 
 	cal_view = E_CAL_VIEW (user_data);
-
-	selected = e_cal_view_get_selected_events (cal_view);
-	if (selected) {
-		e_cal_view_delete_event_internal (cal_view, CAL_COMPONENT (selected->data));
-		g_list_free (selected);
-	}
+	e_cal_view_delete_selected_event (cal_view);
 }
 
 static void

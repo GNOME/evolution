@@ -231,27 +231,27 @@ static void e_day_view_abort_resize (EDayView *day_view,
 static gboolean e_day_view_on_long_event_button_press (EDayView		*day_view,
 						       gint		 event_num,
 						       GdkEventButton	*event,
-						       EDayViewPosition  pos,
+						       ECalViewPosition  pos,
 						       gint		 event_x,
 						       gint		 event_y);
 static gboolean e_day_view_on_event_button_press (EDayView	 *day_view,
 						  gint		  day,
 						  gint		  event_num,
 						  GdkEventButton *event,
-						  EDayViewPosition pos,
+						  ECalViewPosition pos,
 						  gint		  event_x,
 						  gint		  event_y);
 static void e_day_view_on_long_event_click (EDayView *day_view,
 					    gint event_num,
 					    GdkEventButton  *bevent,
-					    EDayViewPosition pos,
+					    ECalViewPosition pos,
 					    gint	     event_x,
 					    gint	     event_y);
 static void e_day_view_on_event_click (EDayView *day_view,
 				       gint day,
 				       gint event_num,
 				       GdkEventButton  *event,
-				       EDayViewPosition pos,
+				       ECalViewPosition pos,
 				       gint		event_x,
 				       gint		event_y);
 static void e_day_view_on_event_double_click (EDayView *day_view,
@@ -272,12 +272,12 @@ static void e_day_view_recalc_day_starts (EDayView *day_view,
 static void e_day_view_recalc_num_rows	(EDayView	*day_view);
 static void e_day_view_recalc_cell_sizes	(EDayView	*day_view);
 
-static EDayViewPosition e_day_view_convert_position_in_top_canvas (EDayView *day_view,
+static ECalViewPosition e_day_view_convert_position_in_top_canvas (EDayView *day_view,
 								   gint x,
 								   gint y,
 								   gint *day_return,
 								   gint *event_num_return);
-static EDayViewPosition e_day_view_convert_position_in_main_canvas (EDayView *day_view,
+static ECalViewPosition e_day_view_convert_position_in_main_canvas (EDayView *day_view,
 								    gint x,
 								    gint y,
 								    gint *day_return,
@@ -551,7 +551,7 @@ e_day_view_init (EDayView *day_view)
 	day_view->selection_drag_pos = E_DAY_VIEW_DRAG_END;
 	day_view->selection_in_top_canvas = FALSE;
 
-	day_view->resize_drag_pos = E_DAY_VIEW_POS_NONE;
+	day_view->resize_drag_pos = E_CAL_VIEW_POS_NONE;
 
 	day_view->pressed_event_day = -1;
 
@@ -2724,7 +2724,7 @@ e_day_view_on_top_canvas_button_press (GtkWidget *widget,
 				       EDayView *day_view)
 {
 	gint event_x, event_y, day, event_num;
-	EDayViewPosition pos;
+	ECalViewPosition pos;
 
 	/* Convert the coords to the main canvas window, or return if the
 	   window is not found. */
@@ -2737,10 +2737,10 @@ e_day_view_on_top_canvas_button_press (GtkWidget *widget,
 							 event_x, event_y,
 							 &day, &event_num);
 
-	if (pos == E_DAY_VIEW_POS_OUTSIDE)
+	if (pos == E_CAL_VIEW_POS_OUTSIDE)
 		return FALSE;
 
-	if (pos != E_DAY_VIEW_POS_NONE)
+	if (pos != E_CAL_VIEW_POS_NONE)
 		return e_day_view_on_long_event_button_press (day_view,
 							      event_num,
 							      event, pos,
@@ -2841,7 +2841,7 @@ e_day_view_on_main_canvas_button_press (GtkWidget *widget,
 					EDayView *day_view)
 {
 	gint event_x, event_y, row, day, event_num;
-	EDayViewPosition pos;
+	ECalViewPosition pos;
 
 #if 0
 	g_print ("In e_day_view_on_main_canvas_button_press\n");
@@ -2860,10 +2860,10 @@ e_day_view_on_main_canvas_button_press (GtkWidget *widget,
 							  &day, &row,
 							  &event_num);
 
-	if (pos == E_DAY_VIEW_POS_OUTSIDE)
+	if (pos == E_CAL_VIEW_POS_OUTSIDE)
 		return FALSE;
 
-	if (pos != E_DAY_VIEW_POS_NONE)
+	if (pos != E_CAL_VIEW_POS_NONE)
 		return e_day_view_on_event_button_press (day_view, day,
 							 event_num, event, pos,
 							 event_x, event_y);
@@ -2966,7 +2966,7 @@ static gboolean
 e_day_view_on_long_event_button_press (EDayView		*day_view,
 				       gint		 event_num,
 				       GdkEventButton	*event,
-				       EDayViewPosition  pos,
+				       ECalViewPosition  pos,
 				       gint		 event_x,
 				       gint		 event_y)
 {
@@ -3015,7 +3015,7 @@ e_day_view_on_event_button_press (EDayView	  *day_view,
 				  gint		   day,
 				  gint		   event_num,
 				  GdkEventButton  *event,
-				  EDayViewPosition pos,
+				  ECalViewPosition pos,
 				  gint		   event_x,
 				  gint		   event_y)
 {
@@ -3063,7 +3063,7 @@ static void
 e_day_view_on_long_event_click (EDayView *day_view,
 				gint event_num,
 				GdkEventButton  *bevent,
-				EDayViewPosition pos,
+				ECalViewPosition pos,
 				gint	     event_x,
 				gint	     event_y)
 {
@@ -3075,13 +3075,13 @@ e_day_view_on_long_event_click (EDayView *day_view,
 				event_num);
 
 	/* Ignore clicks on the EText while editing. */
-	if (pos == E_DAY_VIEW_POS_EVENT
+	if (pos == E_CAL_VIEW_POS_EVENT
 	    && E_TEXT (event->canvas_item)->editing)
 		return;
 
 	if ((cal_component_is_instance (event->comp) || !cal_component_has_recurrences (event->comp))
-	    && (pos == E_DAY_VIEW_POS_LEFT_EDGE
-		|| pos == E_DAY_VIEW_POS_RIGHT_EDGE)) {
+	    && (pos == E_CAL_VIEW_POS_LEFT_EDGE
+		|| pos == E_CAL_VIEW_POS_RIGHT_EDGE)) {
 		gboolean destroyed;
 
 		if (!e_day_view_find_long_event_days (event,
@@ -3148,7 +3148,7 @@ e_day_view_on_event_click (EDayView *day_view,
 			   gint day,
 			   gint event_num,
 			   GdkEventButton  *bevent,
-			   EDayViewPosition pos,
+			   ECalViewPosition pos,
 			   gint		  event_x,
 			   gint		  event_y)
 {
@@ -3159,13 +3159,13 @@ e_day_view_on_event_click (EDayView *day_view,
 				event_num);
 
 	/* Ignore clicks on the EText while editing. */
-	if (pos == E_DAY_VIEW_POS_EVENT
+	if (pos == E_CAL_VIEW_POS_EVENT
 	    && E_TEXT (event->canvas_item)->editing)
 		return;
 
 	if ((cal_component_is_instance (event->comp) || !cal_component_has_recurrences (event->comp))
-	    && (pos == E_DAY_VIEW_POS_TOP_EDGE
-		|| pos == E_DAY_VIEW_POS_BOTTOM_EDGE)) {
+	    && (pos == E_CAL_VIEW_POS_TOP_EDGE
+		|| pos == E_CAL_VIEW_POS_BOTTOM_EDGE)) {
 		gboolean destroyed;
 
 		destroyed = FALSE;
@@ -3241,7 +3241,7 @@ e_day_view_reshape_resize_long_event_rect_item (EDayView *day_view)
 
 	/* If we're not resizing an event, or the event is not shown,
 	   hide the resize bars. */
-	if (day_view->resize_drag_pos == E_DAY_VIEW_POS_NONE
+	if (day_view->resize_drag_pos == E_CAL_VIEW_POS_NONE
 	    || !e_day_view_get_long_event_position (day_view, event_num,
 						    &start_day, &end_day,
 						    &item_x, &item_y,
@@ -3277,7 +3277,7 @@ e_day_view_reshape_resize_rect_item (EDayView *day_view)
 
 	/* If we're not resizing an event, or the event is not shown,
 	   hide the resize bars. */
-	if (day_view->resize_drag_pos == E_DAY_VIEW_POS_NONE
+	if (day_view->resize_drag_pos == E_CAL_VIEW_POS_NONE
 	    || !e_day_view_get_event_position (day_view, day, event_num,
 					       &item_x, &item_y,
 					       &item_w, &item_h)) {
@@ -3459,28 +3459,6 @@ e_day_view_on_event_right_click (EDayView *day_view,
 				    day, event_num);
 }
 
-void
-e_day_view_delete_event		(EDayView       *day_view)
-{
-	EDayViewEvent *event;
-
-	g_return_if_fail (E_IS_DAY_VIEW (day_view));
-
-	if (day_view->editing_event_day == -1)
-		return;
-
-	if (day_view->editing_event_day == E_DAY_VIEW_LONG_EVENT)
-		event = &g_array_index (day_view->long_events,
-					EDayViewEvent,
-					day_view->editing_event_num);
-	else
-		event = &g_array_index (day_view->events[day_view->editing_event_day],
-					EDayViewEvent,
-					day_view->editing_event_num);
-
-	e_cal_view_delete_event_internal (day_view, event->comp);
-}
-
 static void
 e_day_view_delete_occurrence_internal (EDayView *day_view, EDayViewEvent *event)
 {
@@ -3616,7 +3594,7 @@ e_day_view_on_top_canvas_button_release (GtkWidget *widget,
 	if (day_view->selection_is_being_dragged) {
 		gdk_pointer_ungrab (event->time);
 		e_day_view_finish_selection (day_view);
-	} else if (day_view->resize_drag_pos != E_DAY_VIEW_POS_NONE) {
+	} else if (day_view->resize_drag_pos != E_CAL_VIEW_POS_NONE) {
 		gdk_pointer_ungrab (event->time);
 		e_day_view_finish_long_event_resize (day_view);
 	} else if (day_view->pressed_event_day != -1) {
@@ -3645,7 +3623,7 @@ e_day_view_on_main_canvas_button_release (GtkWidget *widget,
 		gdk_pointer_ungrab (event->time);
 		e_day_view_finish_selection (day_view);
 		e_day_view_stop_auto_scroll (day_view);
-	} else if (day_view->resize_drag_pos != E_DAY_VIEW_POS_NONE) {
+	} else if (day_view->resize_drag_pos != E_CAL_VIEW_POS_NONE) {
 		gdk_pointer_ungrab (event->time);
 		e_day_view_finish_resize (day_view);
 		e_day_view_stop_auto_scroll (day_view);
@@ -3688,7 +3666,7 @@ e_day_view_on_top_canvas_motion (GtkWidget *widget,
 				 EDayView *day_view)
 {
 	EDayViewEvent *event = NULL;
-	EDayViewPosition pos;
+	ECalViewPosition pos;
 	gint event_x, event_y, canvas_x, canvas_y;
 	gint day, event_num;
 	GdkCursor *cursor;
@@ -3717,8 +3695,8 @@ e_day_view_on_top_canvas_motion (GtkWidget *widget,
 	if (day_view->selection_is_being_dragged) {
 		e_day_view_update_selection (day_view, day, -1);
 		return TRUE;
-	} else if (day_view->resize_drag_pos != E_DAY_VIEW_POS_NONE) {
-		if (pos != E_DAY_VIEW_POS_OUTSIDE) {
+	} else if (day_view->resize_drag_pos != E_CAL_VIEW_POS_NONE) {
+		if (pos != E_CAL_VIEW_POS_OUTSIDE) {
 			e_day_view_update_long_event_resize (day_view, day);
 			return TRUE;
 		}
@@ -3758,8 +3736,8 @@ e_day_view_on_top_canvas_motion (GtkWidget *widget,
 		/* Recurring events can't be resized. */
 		if (event && (cal_component_is_instance (event->comp) || !cal_component_has_recurrences (event->comp))) {
 			switch (pos) {
-			case E_DAY_VIEW_POS_LEFT_EDGE:
-			case E_DAY_VIEW_POS_RIGHT_EDGE:
+			case E_CAL_VIEW_POS_LEFT_EDGE:
+			case E_CAL_VIEW_POS_RIGHT_EDGE:
 				cursor = day_view->resize_width_cursor;
 				break;
 			default:
@@ -3785,7 +3763,7 @@ e_day_view_on_main_canvas_motion (GtkWidget *widget,
 				  EDayView *day_view)
 {
 	EDayViewEvent *event = NULL;
-	EDayViewPosition pos;
+	ECalViewPosition pos;
 	gint event_x, event_y, canvas_x, canvas_y;
 	gint row, day, event_num;
 	GdkCursor *cursor;
@@ -3813,14 +3791,14 @@ e_day_view_on_main_canvas_motion (GtkWidget *widget,
 					event_num);
 
 	if (day_view->selection_is_being_dragged) {
-		if (pos != E_DAY_VIEW_POS_OUTSIDE) {
+		if (pos != E_CAL_VIEW_POS_OUTSIDE) {
 			e_day_view_update_selection (day_view, day, row);
 			e_day_view_check_auto_scroll (day_view,
 						      event_x, event_y);
 			return TRUE;
 		}
-	} else if (day_view->resize_drag_pos != E_DAY_VIEW_POS_NONE) {
-		if (pos != E_DAY_VIEW_POS_OUTSIDE) {
+	} else if (day_view->resize_drag_pos != E_CAL_VIEW_POS_NONE) {
+		if (pos != E_CAL_VIEW_POS_OUTSIDE) {
 			e_day_view_update_resize (day_view, row);
 			e_day_view_check_auto_scroll (day_view,
 						      event_x, event_y);
@@ -3862,11 +3840,11 @@ e_day_view_on_main_canvas_motion (GtkWidget *widget,
 		/* Recurring events can't be resized. */
 		if (event && (cal_component_is_instance (event->comp) || !cal_component_has_recurrences (event->comp))) {
 			switch (pos) {
-			case E_DAY_VIEW_POS_LEFT_EDGE:
+			case E_CAL_VIEW_POS_LEFT_EDGE:
 				cursor = day_view->move_cursor;
 				break;
-			case E_DAY_VIEW_POS_TOP_EDGE:
-			case E_DAY_VIEW_POS_BOTTOM_EDGE:
+			case E_CAL_VIEW_POS_TOP_EDGE:
+			case E_CAL_VIEW_POS_BOTTOM_EDGE:
 				cursor = day_view->resize_height_cursor;
 				break;
 			default:
@@ -4007,7 +3985,7 @@ e_day_view_update_long_event_resize (EDayView *day_view,
 	event = &g_array_index (day_view->long_events, EDayViewEvent,
 				event_num);
 
-	if (day_view->resize_drag_pos == E_DAY_VIEW_POS_LEFT_EDGE) {
+	if (day_view->resize_drag_pos == E_CAL_VIEW_POS_LEFT_EDGE) {
 		day = MIN (day, day_view->resize_end_row);
 		if (day != day_view->resize_start_row) {
 			need_reshape = TRUE;
@@ -4048,7 +4026,7 @@ e_day_view_update_resize (EDayView *day_view,
 	event = &g_array_index (day_view->events[day], EDayViewEvent,
 				event_num);
 
-	if (day_view->resize_drag_pos == E_DAY_VIEW_POS_TOP_EDGE) {
+	if (day_view->resize_drag_pos == E_CAL_VIEW_POS_TOP_EDGE) {
 		row = MIN (row, day_view->resize_end_row);
 		if (row != day_view->resize_start_row) {
 			need_reshape = TRUE;
@@ -4102,7 +4080,7 @@ e_day_view_finish_long_event_resize (EDayView *day_view)
 	   and end times. */
 	date.tzid = icaltimezone_get_tzid (day_view->zone);
 
-	if (day_view->resize_drag_pos == E_DAY_VIEW_POS_LEFT_EDGE) {
+	if (day_view->resize_drag_pos == E_CAL_VIEW_POS_LEFT_EDGE) {
 		dt = day_view->day_starts[day_view->resize_start_row];
 		*date.value = icaltime_from_timet_with_zone (dt, FALSE,
 							     day_view->zone);
@@ -4140,7 +4118,7 @@ e_day_view_finish_long_event_resize (EDayView *day_view)
   
  	gnome_canvas_item_hide (day_view->resize_long_event_rect_item);
  
- 	day_view->resize_drag_pos = E_DAY_VIEW_POS_NONE;
+ 	day_view->resize_drag_pos = E_CAL_VIEW_POS_NONE;
 
 	g_object_unref (comp);
 }
@@ -4176,7 +4154,7 @@ e_day_view_finish_resize (EDayView *day_view)
 	   and end times. */
 	date.tzid = icaltimezone_get_tzid (day_view->zone);
 
-	if (day_view->resize_drag_pos == E_DAY_VIEW_POS_TOP_EDGE) {
+	if (day_view->resize_drag_pos == E_CAL_VIEW_POS_TOP_EDGE) {
 		dt = e_day_view_convert_grid_position_to_time (day_view, day, day_view->resize_start_row);
 		*date.value = icaltime_from_timet_with_zone (dt, FALSE,
 							     day_view->zone);
@@ -4197,7 +4175,7 @@ e_day_view_finish_resize (EDayView *day_view)
 	gnome_canvas_item_hide (day_view->main_canvas_top_resize_bar_item);
 	gnome_canvas_item_hide (day_view->main_canvas_bottom_resize_bar_item);
 
-	day_view->resize_drag_pos = E_DAY_VIEW_POS_NONE;
+	day_view->resize_drag_pos = E_CAL_VIEW_POS_NONE;
 
 	if (cal_component_is_instance (comp)) {
 		CalObjModType mod;
@@ -4232,10 +4210,10 @@ e_day_view_abort_resize (EDayView *day_view,
 {
 	gint day, event_num;
 
-	if (day_view->resize_drag_pos == E_DAY_VIEW_POS_NONE)
+	if (day_view->resize_drag_pos == E_CAL_VIEW_POS_NONE)
 		return;
 
-	day_view->resize_drag_pos = E_DAY_VIEW_POS_NONE;
+	day_view->resize_drag_pos = E_CAL_VIEW_POS_NONE;
 	gdk_pointer_ungrab (time);
 
 	day = day_view->resize_event_day;
@@ -4518,7 +4496,7 @@ e_day_view_reshape_long_event (EDayView *day_view,
 	pango_context = gtk_widget_get_pango_context (GTK_WIDGET (day_view));
 	layout = pango_layout_new (pango_context);
 
-	if (day_view->resize_drag_pos != E_DAY_VIEW_POS_NONE
+	if (day_view->resize_drag_pos != E_CAL_VIEW_POS_NONE
 	    && day_view->resize_event_day == E_DAY_VIEW_LONG_EVENT
 	    && day_view->resize_event_num == event_num)
 		show_icons = FALSE;
@@ -4676,7 +4654,7 @@ e_day_view_reshape_day_event (EDayView *day_view,
 		/* We don't show the icons while resizing, since we'd have to
 		   draw them on top of the resize rect. */
 		num_icons = 0;
-		if (day_view->resize_drag_pos == E_DAY_VIEW_POS_NONE
+		if (day_view->resize_drag_pos == E_CAL_VIEW_POS_NONE
 		    || day_view->resize_event_day != day
 		    || day_view->resize_event_num != event_num) {
 			GSList *categories_list, *elem;
@@ -4874,7 +4852,7 @@ e_day_view_do_key_press (GtkWidget *widget, GdkEventKey *event)
 		return TRUE;
 	
 	/* The Escape key aborts a resize operation. */
-	if (day_view->resize_drag_pos != E_DAY_VIEW_POS_NONE) {
+	if (day_view->resize_drag_pos != E_CAL_VIEW_POS_NONE) {
 		if (keyval == GDK_Escape) {
 			e_day_view_abort_resize (day_view, event->time);
 		}
@@ -5991,7 +5969,7 @@ static gboolean
 e_day_view_auto_scroll_handler (gpointer data)
 {
 	EDayView *day_view;
-	EDayViewPosition pos;
+	ECalViewPosition pos;
 	gint scroll_x, scroll_y, new_scroll_y, canvas_x, canvas_y, row, day;
 	GtkAdjustment *adj;
 
@@ -6053,10 +6031,10 @@ e_day_view_auto_scroll_handler (gpointer data)
 	if (day_view->last_mouse_x == -1)
 		day = -1;
 
-	if (pos != E_DAY_VIEW_POS_OUTSIDE) {
+	if (pos != E_CAL_VIEW_POS_OUTSIDE) {
 		if (day_view->selection_is_being_dragged) {
 			e_day_view_update_selection (day_view, day, row);
-		} else if (day_view->resize_drag_pos != E_DAY_VIEW_POS_NONE) {
+		} else if (day_view->resize_drag_pos != E_CAL_VIEW_POS_NONE) {
 			e_day_view_update_resize (day_view, row);
 		} else if (day_view->drag_item->object.flags
 			   & GNOME_CANVAS_ITEM_VISIBLE) {
@@ -6124,12 +6102,12 @@ e_day_view_get_event_position (EDayView *day_view,
 		return FALSE;
 
 	/* If the event is being resize, use the resize position. */
-	if (day_view->resize_drag_pos != E_DAY_VIEW_POS_NONE
+	if (day_view->resize_drag_pos != E_CAL_VIEW_POS_NONE
 	    && day_view->resize_event_day == day
 	    && day_view->resize_event_num == event_num) {
-		if (day_view->resize_drag_pos == E_DAY_VIEW_POS_TOP_EDGE)
+		if (day_view->resize_drag_pos == E_CAL_VIEW_POS_TOP_EDGE)
 			start_row = day_view->resize_start_row;
-		else if (day_view->resize_drag_pos == E_DAY_VIEW_POS_BOTTOM_EDGE)
+		else if (day_view->resize_drag_pos == E_CAL_VIEW_POS_BOTTOM_EDGE)
 			end_row = day_view->resize_end_row;
 	}
 
@@ -6177,12 +6155,12 @@ e_day_view_get_long_event_position	(EDayView	*day_view,
 		return FALSE;
 
 	/* If the event is being resize, use the resize position. */
-	if (day_view->resize_drag_pos != E_DAY_VIEW_POS_NONE
+	if (day_view->resize_drag_pos != E_CAL_VIEW_POS_NONE
 	    && day_view->resize_event_day == E_DAY_VIEW_LONG_EVENT
 	    && day_view->resize_event_num == event_num) {
-		if (day_view->resize_drag_pos == E_DAY_VIEW_POS_LEFT_EDGE)
+		if (day_view->resize_drag_pos == E_CAL_VIEW_POS_LEFT_EDGE)
 			*start_day = day_view->resize_start_row;
-		else if (day_view->resize_drag_pos == E_DAY_VIEW_POS_RIGHT_EDGE)
+		else if (day_view->resize_drag_pos == E_CAL_VIEW_POS_RIGHT_EDGE)
 			*end_day = day_view->resize_end_row;
 	}
 
@@ -6199,7 +6177,7 @@ e_day_view_get_long_event_position	(EDayView	*day_view,
 /* Converts a position within the entire top canvas to a day & event and
    a place within the event if appropriate. If event_num_return is NULL, it
    simply returns the grid position without trying to find the event. */
-static EDayViewPosition
+static ECalViewPosition
 e_day_view_convert_position_in_top_canvas (EDayView *day_view,
 					   gint x,
 					   gint y,
@@ -6215,7 +6193,7 @@ e_day_view_convert_position_in_top_canvas (EDayView *day_view,
 		*event_num_return = -1;
 
 	if (x < 0 || y < 0)
-		return E_DAY_VIEW_POS_OUTSIDE;
+		return E_CAL_VIEW_POS_OUTSIDE;
 
 	row = y / day_view->top_row_height - 1;
 
@@ -6227,13 +6205,13 @@ e_day_view_convert_position_in_top_canvas (EDayView *day_view,
 		}
 	}
 	if (day == -1)
-		return E_DAY_VIEW_POS_OUTSIDE;
+		return E_CAL_VIEW_POS_OUTSIDE;
 
 	*day_return = day;
 
 	/* If only the grid position is wanted, return. */
 	if (event_num_return == NULL)
-		return E_DAY_VIEW_POS_NONE;
+		return E_CAL_VIEW_POS_NONE;
 
 	for (event_num = 0; event_num < day_view->long_events->len;
 	     event_num++) {
@@ -6259,23 +6237,23 @@ e_day_view_convert_position_in_top_canvas (EDayView *day_view,
 
 		if (x < item_x + E_DAY_VIEW_LONG_EVENT_BORDER_WIDTH
 		    + E_DAY_VIEW_LONG_EVENT_X_PAD)
-			return E_DAY_VIEW_POS_LEFT_EDGE;
+			return E_CAL_VIEW_POS_LEFT_EDGE;
 
 		if (x >= item_x + item_w - E_DAY_VIEW_LONG_EVENT_BORDER_WIDTH
 		    - E_DAY_VIEW_LONG_EVENT_X_PAD)
-			return E_DAY_VIEW_POS_RIGHT_EDGE;
+			return E_CAL_VIEW_POS_RIGHT_EDGE;
 
-		return E_DAY_VIEW_POS_EVENT;
+		return E_CAL_VIEW_POS_EVENT;
 	}
 
-	return E_DAY_VIEW_POS_NONE;
+	return E_CAL_VIEW_POS_NONE;
 }
 
 
 /* Converts a position within the entire main canvas to a day, row, event and
    a place within the event if appropriate. If event_num_return is NULL, it
    simply returns the grid position without trying to find the event. */
-static EDayViewPosition
+static ECalViewPosition
 e_day_view_convert_position_in_main_canvas (EDayView *day_view,
 					    gint x,
 					    gint y,
@@ -6298,11 +6276,11 @@ e_day_view_convert_position_in_main_canvas (EDayView *day_view,
 	/* Check the position is inside the canvas, and determine the day
 	   and row. */
 	if (x < 0 || y < 0)
-		return E_DAY_VIEW_POS_OUTSIDE;
+		return E_CAL_VIEW_POS_OUTSIDE;
 
 	row = y / day_view->row_height;
 	if (row >= day_view->rows)
-		return E_DAY_VIEW_POS_OUTSIDE;
+		return E_CAL_VIEW_POS_OUTSIDE;
 
 	day = -1;
 	for (col = 1; col <= day_view->days_shown; col++) {
@@ -6312,14 +6290,14 @@ e_day_view_convert_position_in_main_canvas (EDayView *day_view,
 		}
 	}
 	if (day == -1)
-		return E_DAY_VIEW_POS_OUTSIDE;
+		return E_CAL_VIEW_POS_OUTSIDE;
 
 	*day_return = day;
 	*row_return = row;
 
 	/* If only the grid position is wanted, return. */
 	if (event_num_return == NULL)
-		return E_DAY_VIEW_POS_NONE;
+		return E_CAL_VIEW_POS_NONE;
 
 	/* Check the selected item first, since the horizontal resizing bars
 	   may be above other events. */
@@ -6332,10 +6310,10 @@ e_day_view_convert_position_in_main_canvas (EDayView *day_view,
 				*event_num_return = day_view->resize_bars_event_num;
 				if (y >= item_y - E_DAY_VIEW_BAR_HEIGHT
 				    && y < item_y + E_DAY_VIEW_EVENT_BORDER_HEIGHT)
-					return E_DAY_VIEW_POS_TOP_EDGE;
+					return E_CAL_VIEW_POS_TOP_EDGE;
 				if (y >= item_y + item_h - E_DAY_VIEW_EVENT_BORDER_HEIGHT
 				    && y < item_y + item_h + E_DAY_VIEW_BAR_HEIGHT)
-					return E_DAY_VIEW_POS_BOTTOM_EDGE;
+					return E_CAL_VIEW_POS_BOTTOM_EDGE;
 			}
 		}
 	}
@@ -6356,20 +6334,20 @@ e_day_view_convert_position_in_main_canvas (EDayView *day_view,
 		*event_num_return = event_num;
 
 		if (x < item_x + E_DAY_VIEW_BAR_WIDTH)
-			return E_DAY_VIEW_POS_LEFT_EDGE;
+			return E_CAL_VIEW_POS_LEFT_EDGE;
 
 		if (y < item_y + E_DAY_VIEW_EVENT_BORDER_HEIGHT
 		    + E_DAY_VIEW_EVENT_Y_PAD)
-			return E_DAY_VIEW_POS_TOP_EDGE;
+			return E_CAL_VIEW_POS_TOP_EDGE;
 
 		if (y >= item_y + item_h - E_DAY_VIEW_EVENT_BORDER_HEIGHT
 		    - E_DAY_VIEW_EVENT_Y_PAD)
-			return E_DAY_VIEW_POS_BOTTOM_EDGE;
+			return E_CAL_VIEW_POS_BOTTOM_EDGE;
 
-		return E_DAY_VIEW_POS_EVENT;
+		return E_CAL_VIEW_POS_EVENT;
 	}
 
-	return E_DAY_VIEW_POS_NONE;
+	return E_CAL_VIEW_POS_NONE;
 }
 
 
@@ -6397,7 +6375,7 @@ e_day_view_on_top_canvas_drag_motion (GtkWidget      *widget,
 static void
 e_day_view_reshape_top_canvas_drag_item (EDayView *day_view)
 {
-	EDayViewPosition pos;
+	ECalViewPosition pos;
 	gint x, y, day;
 
 	/* Calculate the day & start row of the event being dragged, using
@@ -6407,7 +6385,7 @@ e_day_view_reshape_top_canvas_drag_item (EDayView *day_view)
 	pos = e_day_view_convert_position_in_top_canvas (day_view, x, y,
 							 &day, NULL);
 	/* This shouldn't really happen in a drag. */
-	if (pos == E_DAY_VIEW_POS_OUTSIDE)
+	if (pos == E_CAL_VIEW_POS_OUTSIDE)
 		return;
 
 	if (day_view->drag_event_day == E_DAY_VIEW_LONG_EVENT)
@@ -6544,7 +6522,7 @@ e_day_view_on_main_canvas_drag_motion (GtkWidget      *widget,
 static void
 e_day_view_reshape_main_canvas_drag_item (EDayView *day_view)
 {
-	EDayViewPosition pos;
+	ECalViewPosition pos;
 	gint x, y, day, row;
 
 	/* Calculate the day & start row of the event being dragged, using
@@ -6554,7 +6532,7 @@ e_day_view_reshape_main_canvas_drag_item (EDayView *day_view)
 	pos = e_day_view_convert_position_in_main_canvas (day_view, x, y,
 							  &day, &row, NULL);
 	/* This shouldn't really happen in a drag. */
-	if (pos == E_DAY_VIEW_POS_OUTSIDE)
+	if (pos == E_CAL_VIEW_POS_OUTSIDE)
 		return;
 
 	if (day_view->drag_event_day != -1
@@ -6841,7 +6819,7 @@ e_day_view_on_top_canvas_drag_data_received  (GtkWidget          *widget,
 					      EDayView	         *day_view)
 {
 	EDayViewEvent *event=NULL;
-	EDayViewPosition pos;
+	ECalViewPosition pos;
 	gint day, start_day, end_day, num_days;
 	gint start_offset, end_offset;
 	gchar *event_uid;
@@ -6860,7 +6838,7 @@ e_day_view_on_top_canvas_drag_data_received  (GtkWidget          *widget,
 		pos = e_day_view_convert_position_in_top_canvas (day_view,
 								 x, y, &day,
 								 NULL);
-		if (pos != E_DAY_VIEW_POS_OUTSIDE) {
+		if (pos != E_CAL_VIEW_POS_OUTSIDE) {
 			const char *uid;
 			num_days = 1;
 			start_offset = 0;
@@ -6997,7 +6975,7 @@ e_day_view_on_main_canvas_drag_data_received  (GtkWidget          *widget,
 					       EDayView		  *day_view)
 {
 	EDayViewEvent *event = NULL;
-	EDayViewPosition pos;
+	ECalViewPosition pos;
 	gint day, row, start_row, end_row, num_rows, scroll_x, scroll_y;
 	gint start_offset, end_offset;
 	gchar *event_uid;
@@ -7020,7 +6998,7 @@ e_day_view_on_main_canvas_drag_data_received  (GtkWidget          *widget,
 		pos = e_day_view_convert_position_in_main_canvas (day_view,
 								  x, y, &day,
 								  &row, NULL);
-		if (pos != E_DAY_VIEW_POS_OUTSIDE) {
+		if (pos != E_CAL_VIEW_POS_OUTSIDE) {
 			const char *uid;
 			num_rows = 1;
 			start_offset = 0;

@@ -1,5 +1,25 @@
 2003-07-24  Rodrigo Moya <rodrigo@ximian.com>
 
+	* gui/e-day-view.c (e_day_view_delete_event,
+	 e_day_view_delete_event_internal):
+	* gui/e-week-view.c (e_week_view_delete_event,
+	 e_week_view_delete_event_internal): removed.
+
+	* gui/e-cal-view.[ch] (e_cal_view_delete_selected_event): renamed
+	from e_cal_view_delete_event_internal.
+	(e_cal_view_delete_selected_events): new function.
+
+	* gui/gnome-cal.c (gnome_calendar_delete_selection): call
+	e_cal_view_delete_selected_events().
+
+	* gui/e-week-view-event-item.c (e_week_view_event_item_get_position,
+	 e_week_view_event_item_button_press):
+	* gui/e-day-view-top-item.c (e_day_view_top_item_draw_long_event):
+	* gui/e-day-view-main-item.c (e_day_view_main_item_draw_day_event):
+	adapted to changes in E*ViewPosition.
+
+2003-07-24  Rodrigo Moya <rodrigo@ximian.com>
+
 	* gui/e-cal-view.c (on_print): added missing cases.
 	(setup_popup_icons): new function to set up icons for the popup menu.
 	(e_cal_view_create_popup_menu): call setup_popup_icons.

@@ -3307,7 +3307,7 @@ e_week_view_do_key_press (GtkWidget *widget, GdkEventKey *event)
 
 	/* The Escape key aborts a resize operation. */
 #if 0
-	if (week_view->resize_drag_pos != E_WEEK_VIEW_POS_NONE) {
+	if (week_view->resize_drag_pos != E_CAL_VIEW_POS_NONE) {
 		if (event->keyval == GDK_Escape) {
 			e_week_view_abort_resize (week_view, event->time);
 		}
@@ -3408,23 +3408,6 @@ e_week_view_popup_menu (GtkWidget *widget)
 				     week_view->editing_event_num);
 	return TRUE;
 }
-
-void
-e_week_view_delete_event		(EWeekView       *week_view)
-{
-	EWeekViewEvent *event;
-
-	g_return_if_fail (E_IS_WEEK_VIEW (week_view));
-
-	if (week_view->editing_event_num == -1)
-		return;
-
-	event = &g_array_index (week_view->events, EWeekViewEvent, week_view->editing_event_num);
-	if (!event)
-		return;
-	e_cal_view_delete_event_internal (week_view, event->comp);
-}
-
 
 static void
 e_week_view_delete_occurrence_internal (EWeekView *week_view, gint event_num)

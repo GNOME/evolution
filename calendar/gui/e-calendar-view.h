@@ -37,6 +37,16 @@ G_BEGIN_DECLS
 #define E_CAL_VIEW_CLASS(klass)  GTK_CHECK_CLASS_CAST (klass, e_cal_view_get_type (), ECalViewClass)
 #define E_IS_CAL_VIEW(obj)       GTK_CHECK_TYPE (obj, e_cal_view_get_type ())
 
+typedef enum {
+	E_CAL_VIEW_POS_OUTSIDE,
+	E_CAL_VIEW_POS_NONE,
+	E_CAL_VIEW_POS_EVENT,
+	E_CAL_VIEW_POS_LEFT_EDGE,
+	E_CAL_VIEW_POS_RIGHT_EDGE,
+	E_CAL_VIEW_POS_TOP_EDGE,
+	E_CAL_VIEW_POS_BOTTOM_EDGE
+} ECalViewPosition;
+
 typedef struct _ECalView        ECalView;
 typedef struct _ECalViewClass   ECalViewClass;
 typedef struct _ECalViewPrivate ECalViewPrivate;
@@ -80,7 +90,8 @@ void           e_cal_view_update_query (ECalView *cal_view);
 void           e_cal_view_cut_clipboard (ECalView *cal_view);
 void           e_cal_view_copy_clipboard (ECalView *cal_view);
 void           e_cal_view_paste_clipboard (ECalView *cal_view);
-void           e_cal_view_delete_event_internal (ECalView *cal_view, CalComponent *comp);
+void           e_cal_view_delete_selected_event (ECalView *cal_view);
+void           e_cal_view_delete_selected_events (ECalView *cal_view);
 
 GtkMenu       *e_cal_view_create_popup_menu (ECalView *cal_view);
 

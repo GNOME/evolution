@@ -511,12 +511,12 @@ e_day_view_main_item_draw_day_event (EDayViewMainItem *dvmitem,
 	bar_y2 = event->end_minute * day_view->row_height / day_view->mins_per_row - y;
 
 	/* When an item is being resized, we fill the bar up to the new row. */
-	if (day_view->resize_drag_pos != E_DAY_VIEW_POS_NONE
+	if (day_view->resize_drag_pos != E_CAL_VIEW_POS_NONE
 	    && day_view->resize_event_day == day
 	    && day_view->resize_event_num == event_num) {
-		if (day_view->resize_drag_pos == E_DAY_VIEW_POS_TOP_EDGE)
+		if (day_view->resize_drag_pos == E_CAL_VIEW_POS_TOP_EDGE)
 			bar_y1 = item_y + 1;
-		else if (day_view->resize_drag_pos == E_DAY_VIEW_POS_BOTTOM_EDGE)
+		else if (day_view->resize_drag_pos == E_CAL_VIEW_POS_BOTTOM_EDGE)
 			bar_y2 = item_y + item_h - 1;
 	}
 
