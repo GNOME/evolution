@@ -23,8 +23,8 @@ INCLUDES = -I.. \
 
 libcamelgroupwise_la_SOURCES = 			\
 	camel-groupwise-provider.c		\
-	groupwise-config-listener.c 		\
-	groupwise-config-listener.h		
+	camel-gw-listener.c 		\
+	camel-gw-listener.h		
 
 libcamelgroupwise_la_LDFLAGS = -avoid-version -module
 

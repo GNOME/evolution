@@ -1,3 +1,11 @@
+2004-01-13 Sivaiah Nallagatla <snallagatla@novell.com>
+	
+	* providers/groupwise/camel-gw-listener.[ch] : renamed groupwise-config-listener.[ch] 
+	to these file names and also changed code to use CamelURL insted of EUri
+	* providers/groupwise/camel-groupwise-provider.c : use the renamed config listener apis
+	* providers/groupwise/Makefile.am : changed the source file names 
+
+
 2004-01-12  Meilof Veeningen  <meilof@wanadoo.nl>
 
 	* providers/nntp/camel-nntp-folder.[ch]: now based on discofolder,
