@@ -1,3 +1,9 @@
+2001-01-24  Not Zed  <NotZed@Ximian.com>
+
+	* mail-ops.c (fetch_mail_fetch): Set the default folder when
+	copying to mbox.  This is a quick fix, i might need to do a slight
+	redesign to clean it up.
+
 2001-01-23  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-send-recv.c (build_dialogue): Make sure the source->url is

@@ -2,12 +2,12 @@
 /* mail-ops.c: callbacks for the mail toolbar/menus */
 
 /* 
- * Author : 
- *  Dan Winship <danw@helixcode.com>
- *  Jeffrey Stedfast <fejj@helixcode.com>
- *  Peter Williams <peterw@helixcode.com>
+ * Authors: Dan Winship <danw@helixcode.com>
+ *  	    Jeffrey Stedfast <fejj@helixcode.com>
+ *          Peter Williams <peterw@helixcode.com>
+ *          Michael Zucchi <notzed@ximian.com>
  *
- * Copyright 2000 Helix Code, Inc. (http://www.helixcode.com)
+ * Copyright 2000,2001 Ximian, Inc. (http://www.ximian.com)
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -275,7 +275,10 @@ fetch_mail_fetch(struct _mail_msg *mm)
 		char *path = mail_tool_do_movemail (m->source_uri, &mm->ex);
 		
 		if (path && !camel_exception_is_set (&mm->ex)) {
+			camel_folder_freeze(fm->destination);
+			camel_filter_driver_set_default_folder(fm->driver, fm->destination);
 			camel_filter_driver_filter_mbox(fm->driver, path, &mm->ex);
+			camel_folder_thaw(fm->destination);
 			
 			if (!camel_exception_is_set (&mm->ex))
 				unlink (path);
