@@ -333,12 +333,13 @@ camel_store_delete_folder (CamelStore *store, const char *folder_name, CamelExce
 	}
 
 	CS_CLASS (store)->delete_folder (store, folder_name, ex);
-
-	if (store->folders)
-		camel_object_bag_remove(store->folders, folder);
-
-	if (folder)
-		camel_object_unref(folder);
+	
+	if (folder) {
+		if (store->folders)
+			camel_object_bag_remove (store->folders, folder);
+		
+		camel_object_unref (folder);
+	}
 	
 	CAMEL_STORE_UNLOCK(store, folder_lock);
 }
