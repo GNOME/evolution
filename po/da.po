@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution beta\n"
-"POT-Creation-Date: 2001-05-16 20:00+0200\n"
+"POT-Creation-Date: 2001-05-18 15:23+0200\n"
 "PO-Revision-Date: 2001-04-21 10:38+0100\n"
 "Last-Translator: Keld Simonsen <keld@dkuug.dk>\n"
 "Language-Team: Danish <dansk@klid.dk>\n"
@@ -1557,11 +1557,11 @@ msgstr "Udsæt"
 #: calendar/gui/alarm-notify/alarm-queue.c:890
 #: calendar/gui/alarm-notify/alarm-queue.c:945
 msgid "Ok"
-msgstr "Ok"
+msgstr "O.k."
 
 #: calendar/gui/alarm-notify/GNOME_Evolution_Calendar_AlarmNotify.oaf.in.h:1
 msgid "Alarm notification service"
-msgstr ""
+msgstr "Alarm-notificeringstjeneste"
 
 #: calendar/gui/alarm-notify/GNOME_Evolution_Calendar_AlarmNotify.oaf.in.h:2
 msgid "Factory for the alarm notification service"
@@ -2248,7 +2248,7 @@ msgstr "Geografisk position"
 
 #: calendar/gui/e-calendar-table.c:164
 msgid "Percent complete"
-msgstr ""
+msgstr "Procent færdig"
 
 #: calendar/gui/e-calendar-table.c:166
 msgid "Summary"
@@ -5411,7 +5411,7 @@ msgid ""
 "or vfolder is opened."
 msgstr ""
 "Beskedens dato vil blive sammenlignet med tiden\n"
-"når filteret køres eller tiden når VMappen\n"
+"når filteret køres eller tiden når vMappen\n"
 "åbnes."
 
 #: filter/filter-datespec.c:299
@@ -5498,7 +5498,7 @@ msgstr "Redigér filtre"
 
 #: filter/filter.glade.h:5
 msgid "Edit VFolders"
-msgstr "Redigér VMapper"
+msgstr "Redigér vMapper"
 
 #: filter/filter.glade.h:7
 msgid "Incoming"
@@ -5518,19 +5518,19 @@ msgstr ""
 
 #: filter/filter.glade.h:12
 msgid "vFolder Sources"
-msgstr "VMappe-kilder"
+msgstr "vMappe-kilder"
 
 #: filter/filter.glade.h:13
 msgid "with all active remote folders"
-msgstr ""
+msgstr "med alle aktive fjernmapper"
 
 #: filter/filter.glade.h:14
 msgid "with all local and active remote folders"
-msgstr ""
+msgstr "med alle lokale og aktive fjernmapper"
 
 #: filter/filter.glade.h:15
 msgid "with all local folders"
-msgstr ""
+msgstr "med alle lokale mapper"
 
 #: filter/filter-input.c:193
 #, c-format
@@ -5651,7 +5651,7 @@ msgstr "Findes"
 
 #: filter/libfilter-i18n.h:22
 msgid "exists"
-msgstr "eksisterer"
+msgstr "findes"
 
 #: filter/libfilter-i18n.h:23
 msgid "Expression"
@@ -5747,13 +5747,12 @@ msgid "sounds like"
 msgstr "lyder som"
 
 #: filter/libfilter-i18n.h:46
-#, fuzzy
 msgid "Source Account"
-msgstr "Konto"
+msgstr "Kildekonto"
 
 #: filter/libfilter-i18n.h:47
 msgid "Specific header"
-msgstr "Specifik header"
+msgstr "Specifik brevhoved"
 
 #: filter/libfilter-i18n.h:48
 msgid "starts with"
@@ -5878,35 +5877,31 @@ msgstr "VFolder på e_mne"
 
 #: mail/folder-browser.c:597
 msgid "VFolder on Se_nder"
-msgstr "VMappe for _afsender"
+msgstr "vMappe for _afsender"
 
 #: mail/folder-browser.c:600
 msgid "VFolder on _Recipients"
-msgstr "VMappe for _modtagere"
+msgstr "vMappe for _modtagere"
 
 #: mail/folder-browser.c:603
 msgid "VFolder on Mailing _List"
 msgstr "Vfolder efter diskussions_liste"
 
 #: mail/folder-browser.c:609
-#, fuzzy
 msgid "Filter on Sub_ject"
 msgstr "Filtrér efter emne"
 
 #: mail/folder-browser.c:612
-#, fuzzy
 msgid "Filter on Sen_der"
 msgstr "Filtrér efter afsender"
 
 #: mail/folder-browser.c:615
-#, fuzzy
 msgid "Filter on Re_cipients"
 msgstr "Filtrér efter modtager"
 
 #: mail/folder-browser.c:618
-#, fuzzy
 msgid "Filter on _Mailing List"
-msgstr "Filtrér efter epostliste"
+msgstr "Filtrér efter diskussionsliste"
 
 #: mail/folder-browser.c:627
 msgid "_Open"
@@ -5976,7 +5971,7 @@ msgstr "Filtrér efter epostliste"
 
 #: mail/folder-browser.c:812
 msgid "VFolder on Mailing List"
-msgstr ""
+msgstr "vMappe efter diskussionsliste"
 
 #: mail/folder-browser.c:814
 #, c-format
@@ -6000,7 +5995,7 @@ msgstr "Egenskaber"
 
 #: mail/GNOME_Evolution_Mail.oaf.in.h:1
 msgid "Evolution component for handling mail."
-msgstr ""
+msgstr "Evolution komponent til håndtering af post."
 
 #: mail/GNOME_Evolution_Mail.oaf.in.h:2
 msgid "Evolution mail composer."
@@ -6051,13 +6046,12 @@ msgid "Factory to import Outlook Express 4 mails into Evolution"
 msgstr "Fabrik vil importere GnomeCard-filer ind i Evolution."
 
 #: mail/importers/GNOME_Evolution_Mail_Outlook_Importer.oaf.in.h:2
-#, fuzzy
 msgid "Imports Outlook Express 4 files into Evolution"
-msgstr "Importerer GnomeCard-filer ind i Evolution."
+msgstr "Importerer Outlook Express 4-filer ind i Evolution."
 
 #: mail/local-config.glade.h:1
 msgid "Current store format:"
-msgstr "Nuværende gemningsformat:"
+msgstr "Nuværende lagringsformat:"
 
 #: mail/local-config.glade.h:2
 msgid "Mailbox Format"
@@ -6097,7 +6091,7 @@ msgstr "Evolution kontoredigering"
 
 #: mail/mail-accounts.c:121 mail/mail-accounts.c:165
 msgid " (default)"
-msgstr ""
+msgstr " (standard)"
 
 #: mail/mail-accounts.c:197
 msgid "Disable"
@@ -8231,9 +8225,8 @@ msgid "Apply filter rules to the selected messages"
 msgstr "Udskriv den valgte meddelelse"
 
 #: ui/evolution-mail.xml.h:2
-#, fuzzy
 msgid "Cancel"
-msgstr "Afbrudt"
+msgstr "Annullér"
 
 #: ui/evolution-mail.xml.h:3
 #, fuzzy
@@ -8543,7 +8536,7 @@ msgstr "Udskriv den valgte meddelelse"
 
 #: ui/evolution-mail.xml.h:81
 msgid "Send / Receive"
-msgstr "Send og modtag"
+msgstr "Send / modtag"
 
 #: ui/evolution-mail.xml.h:82
 msgid "Send queued mail and retrieve new mail"
@@ -8555,9 +8548,8 @@ msgid "Show Email _Source"
 msgstr "Kilder"
 
 #: ui/evolution-mail.xml.h:84
-#, fuzzy
 msgid "Show Full _Headers"
-msgstr "Fulde _headere"
+msgstr "Vis fulde brev_hoveder"
 
 #: ui/evolution-mail.xml.h:85
 msgid "Show _All"
@@ -8606,24 +8598,20 @@ msgid "Un-delete the selected messages"
 msgstr "Udskriv den valgte meddelelse"
 
 #: ui/evolution-mail.xml.h:95
-#, fuzzy
 msgid "VFolder on Mailing _List..."
-msgstr "Vfolder efter epostliste"
+msgstr "vMappe efter epostliste..."
 
 #: ui/evolution-mail.xml.h:96
-#, fuzzy
 msgid "VFolder on Se_nder..."
-msgstr "VMappe for _afsender"
+msgstr "vMappe for _afsender..."
 
 #: ui/evolution-mail.xml.h:97
-#, fuzzy
 msgid "VFolder on _Recipients..."
-msgstr "VMappe for _modtagere"
+msgstr "vMappe for _modtagere..."
 
 #: ui/evolution-mail.xml.h:98
-#, fuzzy
 msgid "VFolder on _Subject..."
-msgstr "VFolder på e_mne"
+msgstr "vMappe på e_mne..."
 
 #: ui/evolution-mail.xml.h:99
 msgid "Virtual Folder _Editor..."
@@ -8644,7 +8632,7 @@ msgstr "_Opret filter fra besked"
 
 #: ui/evolution-mail.xml.h:104
 msgid "_Expunge"
-msgstr ""
+msgstr "_Tøm"
 
 #: ui/evolution-mail.xml.h:105
 msgid "_Filters..."
@@ -8698,7 +8686,7 @@ msgstr "Send beskeder _igen"
 
 #: ui/evolution-mail.xml.h:119
 msgid "_Send / Receive"
-msgstr "_Send og modtag"
+msgstr "_Send / modtag"
 
 #: ui/evolution-mail.xml.h:120
 #, fuzzy
@@ -8724,7 +8712,7 @@ msgstr "F_ormat"
 
 #: ui/evolution-message-composer.xml.h:7
 msgid "HTML"
-msgstr ""
+msgstr "HTML"
 
 #: ui/evolution-message-composer.xml.h:8
 msgid "Insert a file as text into the message"
@@ -8732,7 +8720,7 @@ msgstr "Vedhæft bilag til meddelelsen"
 
 #: ui/evolution-message-composer.xml.h:9
 msgid "Insert text file..."
-msgstr ""
+msgstr "Indsæt tekstfil..."
 
 #: ui/evolution-message-composer.xml.h:11
 msgid "Open a file"
@@ -8740,11 +8728,11 @@ msgstr "Åbn fil"
 
 #: ui/evolution-message-composer.xml.h:12
 msgid "PGP Encrypt"
-msgstr ""
+msgstr "PGP-kryptér"
 
 #: ui/evolution-message-composer.xml.h:13
 msgid "PGP Sign"
-msgstr ""
+msgstr "PGP-signér"
 
 #: ui/evolution-message-composer.xml.h:17
 msgid "Save _Draft"
@@ -8784,11 +8772,11 @@ msgstr "Send brevet i HMTL-format"
 
 #: ui/evolution-message-composer.xml.h:27
 msgid "Send the message later"
-msgstr ""
+msgstr "Send beskeden senere"
 
 #: ui/evolution-message-composer.xml.h:28
 msgid "Send the message now"
-msgstr ""
+msgstr "Send beskeden nu"
 
 #: ui/evolution-message-composer.xml.h:29
 msgid "Send this message now"
@@ -8836,7 +8824,7 @@ msgstr "_Kopifelt"
 
 #: ui/evolution-message-composer.xml.h:44
 msgid "_From Field"
-msgstr ""
+msgstr "_Fra-felt"
 
 #: ui/evolution-message-composer.xml.h:46
 msgid "_Insert"
@@ -8852,7 +8840,7 @@ msgstr "_Åbn..."
 
 #: ui/evolution-message-composer.xml.h:49
 msgid "_Reply-To Field"
-msgstr "_Svar-til felt"
+msgstr "_Svar-til-felt"
 
 #: ui/evolution-message-composer.xml.h:51
 msgid "_Security"
@@ -8872,7 +8860,7 @@ msgstr "Opdatér liste"
 
 #: ui/evolution-subscribe.xml.h:5
 msgid "Refresh List of Folders"
-msgstr ""
+msgstr "Opdatér mappelisten"
 
 #: ui/evolution-subscribe.xml.h:6
 msgid "Remove folder from your list of subscribed folders"
@@ -8900,11 +8888,11 @@ msgstr ""
 
 #: ui/evolution-task-editor-dialog.xml.h:43
 msgid "Redo"
-msgstr ""
+msgstr "Gentag"
 
 #: ui/evolution-task-editor-dialog.xml.h:44
 msgid "Redo the undone action"
-msgstr ""
+msgstr "Gentag sidste fortrudte handling"
 
 #: ui/evolution-task-editor-dialog.xml.h:45
 msgid "Replace"
@@ -8920,7 +8908,7 @@ msgstr "Svar til _alle (RETMIG)"
 
 #: ui/evolution-task-editor-dialog.xml.h:48
 msgid "S_end Status Report (FIXME)"
-msgstr ""
+msgstr "S_end statusrapport (RETMIG)"
 
 #: ui/evolution-task-editor-dialog.xml.h:49
 msgid "S_kip Occurrence (FIXME)"
@@ -8992,11 +8980,11 @@ msgstr ""
 
 #: ui/evolution.xml.h:5
 msgid "Customize"
-msgstr ""
+msgstr "Personliggør"
 
 #: ui/evolution.xml.h:6
 msgid "Customize toolbars"
-msgstr ""
+msgstr "Ændr værktøjslinjerne"
 
 #: ui/evolution.xml.h:7
 msgid "Display a different folder"
@@ -9025,7 +9013,7 @@ msgstr "Afslut program"
 
 #: ui/evolution.xml.h:13
 msgid "Getting _Started"
-msgstr ""
+msgstr "Kom i gang"
 
 #: ui/evolution.xml.h:14
 msgid "Import an external file format"
@@ -9033,11 +9021,11 @@ msgstr ""
 
 #: ui/evolution.xml.h:15
 msgid "Main toolbar"
-msgstr ""
+msgstr "Den centrale værktøjslinje"
 
 #: ui/evolution.xml.h:16
 msgid "Show information about Evolution"
-msgstr ""
+msgstr "Vis information om Evolution"
 
 #: ui/evolution.xml.h:17
 msgid "Submit Bug Report"
@@ -9045,7 +9033,7 @@ msgstr "Indsend fejlrapport"
 
 #: ui/evolution.xml.h:18
 msgid "Submit _Bug Report"
-msgstr ""
+msgstr "Indsend fejlrapport"
 
 #: ui/evolution.xml.h:19
 msgid "Submit bug report using Bug Buddy."
@@ -9151,9 +9139,8 @@ msgid "By Subject"
 msgstr "Efter emne"
 
 #: views/mail/galview.xml.h:4
-#, fuzzy
 msgid "Messages"
-msgstr "Besked"
+msgstr "Beskeder"
 
 #: views/tasks/galview.xml.h:2
 msgid "With Category"
@@ -9169,7 +9156,7 @@ msgstr "Optaget"
 
 #: widgets/meeting-time-sel/e-meeting-time-sel.c:394
 msgid "Out of Office"
-msgstr ""
+msgstr "I marken"
 
 #: widgets/meeting-time-sel/e-meeting-time-sel.c:395
 msgid "No Information"
@@ -9177,7 +9164,7 @@ msgstr "Ingen information"
 
 #: widgets/meeting-time-sel/e-meeting-time-sel.c:411
 msgid "_Invite Others..."
-msgstr ""
+msgstr "_Indvitér andre..."
 
 #: widgets/meeting-time-sel/e-meeting-time-sel.c:431
 msgid "_Options"
@@ -9329,7 +9316,7 @@ msgstr "_Søg"
 
 #: wombat/GNOME_Evolution_Wombat.oaf.in.h:1
 msgid "The Personal Addressbook Server"
-msgstr ""
+msgstr "Den personlige adressebogsserver"
 
 #: wombat/GNOME_Evolution_Wombat.oaf.in.h:2
 msgid "The Personal Calendar Server; calendar factory"
@@ -9374,13 +9361,13 @@ msgstr "init_bonobo(): Kunne ikke initiere Bonobo"
 #~ msgstr "Vis alt"
 
 #~ msgid "VFolder on Subject"
-#~ msgstr "VMappe for emne"
+#~ msgstr "vMappe for emne"
 
 #~ msgid "VFolder on Sender"
-#~ msgstr "VMappe for afsender"
+#~ msgstr "vMappe for afsender"
 
 #~ msgid "VFolder on Recipients"
-#~ msgstr "VMappe for modtagere"
+#~ msgstr "vMappe for modtagere"
 
 #~ msgid "Mark as Read"
 #~ msgstr "Markér som _læst"
@@ -9691,7 +9678,7 @@ msgstr "init_bonobo(): Kunne ikke initiere Bonobo"
 
 #, fuzzy
 #~ msgid "Edit VFolder Rule"
-#~ msgstr "Redigér VMapper"
+#~ msgstr "Redigér vMapper"
 
 #, fuzzy
 #~ msgid "Disabled"
@@ -9908,7 +9895,7 @@ msgstr "init_bonobo(): Kunne ikke initiere Bonobo"
 
 #, fuzzy
 #~ msgid "_VFolder on Subject"
-#~ msgstr "VMappe for emne"
+#~ msgstr "vMappe for emne"
 
 #~ msgid "Customi_ze..."
 #~ msgstr "_Tilpass..."
