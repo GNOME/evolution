@@ -10,6 +10,8 @@ Bugzilla bugs fixed (see http://bugzilla.ximian.com/show_bug.cgi):
     #40715 - Merge email address dialog non functional when adding
              contact that already exists. (Toshok)
     #40403 - can't edit contact lists (Toshok)
+    #40046 - To: and Cc: fields not accepting accented letters
+             (Toshok)
     #40026 - Using pulldown to view multiple emails changes email to
              random characters (Toshok)
     #39788 - Can't add email address to contact (Toshok)
@@ -139,8 +141,7 @@ Other bugs:
 
   * Addressbook
 
-    - Add input method support to EMinicard, and to the To/Cc/Bcc
-      fields. (Toshok)
+    - Add input method support to the minicard view. (Toshok)
     - Make the minicard view listen for style changes. (Toshok)
     - Fix the select names component to be more friendly to non-shlib
       components. (Dan)
