@@ -1,3 +1,12 @@
+2000-09-17  Iain Holmes  <iain@helixcode.com>
+
+	* e-table-item.c: Better calculations for tooltip 
+	positionings.
+
+	* e-cell-text.c: Same.
+
+	* e-cell-tree.c: Same.
+
 2000-09-16  Christopher James Lahey  <clahey@helixcode.com>
 
 	* e-cell-text.c: Added some missing #includes.

@@ -421,10 +421,16 @@ ect_show_tooltip (ECellView *ecell_view, int model_col, int view_col, int row,
 	ETreeModel *tree_model = e_cell_tree_get_tree_model (ecell_view->e_table_model, row);
 	ETreePath *node = e_cell_tree_get_node (tree_model, row);
 	int offset = offset_of_node (tree_model, node);
-	
+	GdkPixbuf *node_image;
+
+	node_image = e_tree_model_icon_of_node (tree_model, node);
+	if (node_image)
+		offset += gdk_pixbuf_get_width (node_image);
+
 	/* if the tooltip happened in the subcell, then handle it */
 	
 	if (tooltip->cx > offset) {
+		tooltip->x += offset;
 		e_cell_show_tooltip (tree_view->subcell_view, model_col, view_col, row, tooltip);
 	}
 }

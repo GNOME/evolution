@@ -1451,14 +1451,15 @@ ect_show_tooltip (ECellView *ecell_view,
 		break;
 	}
 
+	gnome_canvas_item_move (tooltip_text, 3.0, 1.0);
 	gnome_canvas_item_set (rect,
-			       "x2", (double) tooltip_width,
-			       "y2", (double) tooltip->row_height,
+			       "x2", (double) tooltip_width + 6,
+			       "y2", (double) tooltip->row_height + 1,
 			       NULL);
-	gtk_widget_set_usize (tooltip->window, tooltip_width,
-			      tooltip->row_height);
+	gtk_widget_set_usize (tooltip->window, tooltip_width + 6,
+			      tooltip->row_height + 1);
 	gnome_canvas_set_scroll_region (GNOME_CANVAS (canvas), 0.0, 0.0,
-					(double) tooltip_width,
+					(double) tooltip_width + 6,
 					(double) tooltip_height);
 	gtk_widget_show (canvas);
 	gtk_widget_realize (tooltip->window);
@@ -1466,7 +1467,7 @@ ect_show_tooltip (ECellView *ecell_view,
 			    GTK_SIGNAL_FUNC (tooltip_event), tooltip);
 
 	gtk_widget_popup (tooltip->window, pixel_origin.x + tooltip->x,
-			  pixel_origin.y + tooltip->y);
+			  pixel_origin.y + tooltip->y + 1);
 
 	unref_lines (&cell);
 	unbuild_current_cell (&cell);

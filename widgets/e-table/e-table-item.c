@@ -1434,12 +1434,11 @@ _do_tooltip (ETableItem *eti)
 	eti->tooltip->x = x;
 
 	for (i = 0; i < eti->tooltip->row; i++)
-		y += ETI_ROW_HEIGHT (eti, i);
+		y += (ETI_ROW_HEIGHT (eti, i) + 1);
 	eti->tooltip->y = y;
-	eti->tooltip->eti = GNOME_CANVAS_ITEM(eti);
+	eti->tooltip->eti = GNOME_CANVAS_ITEM (eti);
 	eti->tooltip->row_height = ETI_ROW_HEIGHT (eti, i);
 	
-	g_print ("Tooltip at %d,%d\n", x, y);
 	e_cell_show_tooltip (ecell_view, 
 			     view_to_model_col (eti, eti->tooltip->col),
 			     eti->tooltip->col,
