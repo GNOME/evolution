@@ -71,14 +71,15 @@ config_changed (ETableConfig *config, GalViewEtable *view)
 }
 
 static void
-gal_view_etable_edit            (GalView *view)
+gal_view_etable_edit            (GalView *view, GtkWindow *parent)
 {
 	GalViewEtable *etable_view = GAL_VIEW_ETABLE(view);
 	ETableConfig *config;
 
 	config = e_table_config_new(etable_view->title,
 				    etable_view->spec,
-				    etable_view->state);
+				    etable_view->state,
+				    parent);
 
 	g_signal_connect(config, "changed",
 			 G_CALLBACK(config_changed), view);

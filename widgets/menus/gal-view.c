@@ -44,15 +44,18 @@ static guint gal_view_signals [LAST_SIGNAL] = { 0, };
 /**
  * gal_view_edit
  * @view: The view to edit
+ * @parent: the parent window.
  */
 void
-gal_view_edit            (GalView *view)
+gal_view_edit            (GalView *view,
+			  GtkWindow *parent)
 {
 	g_return_if_fail (view != NULL);
 	g_return_if_fail (GAL_IS_VIEW (view));
+	g_return_if_fail (GTK_IS_WINDOW (parent));
 
 	if (GAL_VIEW_GET_CLASS (view)->edit)
-		GAL_VIEW_GET_CLASS (view)->edit (view);
+		GAL_VIEW_GET_CLASS (view)->edit (view, parent);
 }
 
 /**

@@ -115,9 +115,10 @@ gdvd_button_new_dialog_callback(GtkWidget *widget, int id, GalDefineViewsDialog 
 			gchar *dup_of_name = g_strdup(name);
 			g_strchomp(dup_of_name);
 			if (*dup_of_name != '\0') {
+				GtkWidget *editor;
 				view = gal_view_factory_new_view(factory, dup_of_name);
 				gal_define_views_model_append(GAL_DEFINE_VIEWS_MODEL(dialog->model), view);
-				gal_view_edit(view);
+				gal_view_edit(view, GTK_WINDOW (dialog));
 				g_object_unref(view);
 			}
 			g_free(dup_of_name);
@@ -131,6 +132,7 @@ static void
 gdvd_button_new_callback(GtkWidget *widget, GalDefineViewsDialog *dialog)
 {
 	GtkWidget *view_new_dialog = gal_view_new_dialog_new(dialog->collection);
+	gtk_window_set_transient_for (GTK_WINDOW (view_new_dialog), GTK_WINDOW (dialog));
 	g_signal_connect(view_new_dialog, "response",
 			 G_CALLBACK(gdvd_button_new_dialog_callback), dialog);
 	gtk_widget_show(view_new_dialog);
@@ -151,7 +153,7 @@ gdvd_button_modify_callback(GtkWidget *widget, GalDefineViewsDialog *dialog)
 		GalView *view;
 		view = gal_define_views_model_get_view(GAL_DEFINE_VIEWS_MODEL(dialog->model),
 						       row);
-		gal_view_edit(view);
+		gal_view_edit(view, GTK_WINDOW (dialog));
 	}
 
 }

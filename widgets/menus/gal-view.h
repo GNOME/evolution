@@ -24,7 +24,7 @@
 #ifndef _GAL_VIEW_H_
 #define _GAL_VIEW_H_
 
-#include <gtk/gtkobject.h>
+#include <gtk/gtkwindow.h>
 #include <libxml/tree.h>
 
 #ifdef __cplusplus
@@ -48,7 +48,7 @@ typedef struct {
 	/*
 	 * Virtual methods
 	 */
-	void        (*edit)           (GalView    *view);
+	void        (*edit)           (GalView    *view, GtkWindow *parent_window);
 	void        (*load)           (GalView    *view,
 				       const char *filename);
 	void        (*save)           (GalView    *view,
@@ -66,8 +66,9 @@ typedef struct {
 /* Standard functions */
 GType       gal_view_get_type       (void);
 
-/* Open an editor dialog for this view. */
-void        gal_view_edit           (GalView    *view);
+/* Open an editor dialog for this view, modal/transient for the GtkWindow arg. */
+void        gal_view_edit           (GalView    *view,
+				     GtkWindow *parent);
 
 /* xml load and save functions */
 void        gal_view_load           (GalView    *view,

@@ -104,6 +104,7 @@ gal_view_new_dialog_init (GalViewNewDialog *dialog)
 				NULL);
 
 	gtk_window_set_policy(GTK_WINDOW(dialog), FALSE, TRUE, FALSE);
+	gtk_window_set_modal (GTK_WINDOW(dialog), TRUE);
 
 	dialog->collection = NULL;
 	dialog->selected_factory = NULL;
