@@ -1,5 +1,10 @@
 2001-09-06  Chris Toshok  <toshok@ximian.com>
 
+	* gui/contact-editor/e-contact-editor.c: (pixmaps): change
+	/Toolbar/ContactEditorSave to /Toolbar/ContactEditorSaveClose.
+
+2001-09-06  Chris Toshok  <toshok@ximian.com>
+
 	* gui/component/Makefile.am (INCLUDES): add -DEVOLUTION_IMAGESDIR.
 
 	* gui/widgets/e-addressbook-view.c (card_deleted_cb): remove

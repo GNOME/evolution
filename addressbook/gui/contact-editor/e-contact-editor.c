@@ -1063,7 +1063,7 @@ EPixmap pixmaps[] = {
 #if 0 /* Envelope printing is disabled for Evolution 1.0. */
 	E_PIXMAP ("/commands/ContactEditorPrintEnvelope", "print.xpm"),
 #endif
-	E_PIXMAP ("/Toolbar/ContactEditorSave", "buttons/save-24.png"),
+	E_PIXMAP ("/Toolbar/ContactEditorSaveClose", "buttons/save-24.png"),
 	E_PIXMAP ("/Toolbar/ContactEditorDelete", "buttons/delete-message.png"),
 	E_PIXMAP ("/Toolbar/ContactEditorPrint", "buttons/print.png"),
 
