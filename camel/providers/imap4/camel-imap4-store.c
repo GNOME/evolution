@@ -1301,10 +1301,19 @@ static void
 imap4_noop (CamelStore *store, CamelException *ex)
 {
 	CamelIMAP4Engine *engine = ((CamelIMAP4Store *) store)->engine;
+	CamelFolder *folder = (CamelFolder *) engine->folder;
 	CamelIMAP4Command *ic;
 	int id;
 	
 	CAMEL_SERVICE_LOCK (store, connect_lock);
+	
+	if (folder) {
+		camel_folder_sync (folder, FALSE, ex);
+		if (camel_exception_is_set (ex)) {
+			CAMEL_SERVICE_UNLOCK (store, connect_lock);
+			return;
+		}
+	}
 	
 	ic = camel_imap4_engine_queue (engine, NULL, "NOOP\r\n");
 	while ((id = camel_imap4_engine_iterate (engine)) < ic->id && id != -1)
@@ -1315,8 +1324,8 @@ imap4_noop (CamelStore *store, CamelException *ex)
 	
 	camel_imap4_command_unref (ic);
 	
-	if (engine->folder && !camel_exception_is_set (ex))
-		camel_imap4_summary_flush_updates (((CamelFolder *) engine->folder)->summary, ex);
+	if (folder && !camel_exception_is_set (ex))
+		camel_imap4_summary_flush_updates (folder->summary, ex);
 	
 	CAMEL_SERVICE_UNLOCK (store, connect_lock);
 }

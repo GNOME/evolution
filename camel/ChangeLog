@@ -2,6 +2,8 @@
 
 	* providers/imap4/camel-imap4-store.c (imap4_noop): Flush summary
 	updates for the currently selected folder.
+	(imap4_noop): Sync the currently selected folder before sending
+	NOOP.
 
 	* providers/imap4/camel-imap4-summary.c
 	(camel_imap4_summary_set_exists): Don't bother with
