@@ -12,6 +12,7 @@
 #include <string.h>
 #include <gtk/gtk.h>
 
+#include "e-util/e-util.h"
 #include "e-select-names-table-model.h"
 #include "addressbook/backend/ebook/e-card-simple.h"
 
@@ -122,14 +123,21 @@ fill_in_info (ESelectNamesTableModel *model)
 			case E_SELECT_NAMES_MODEL_DATA_TYPE_CARD: {
 				ECardSimple *simple = e_card_simple_new(data->card);
 				model->data[count].name =  e_card_simple_get(simple, E_CARD_SIMPLE_FIELD_FULL_NAME);
+				if ((model->data[count].name == 0) || *model->data[count].name == 0) {
+					model->data[count].name =  e_card_simple_get(simple, E_CARD_SIMPLE_FIELD_ORG);
+				}
+				if (model->data[count].name == 0)
+					model->data[count].name = g_strdup("");
 				model->data[count].email = e_card_simple_get(simple, E_CARD_SIMPLE_FIELD_EMAIL);
+				if (model->data[count].email == 0)
+					model->data[count].email = g_strdup("");
 				gtk_object_unref(GTK_OBJECT(simple));
 				count ++;
 				break;
 			}
 			case E_SELECT_NAMES_MODEL_DATA_TYPE_STRING_ADDRESS:
-				model->data[count].name =  g_strdup(data->string);
-				model->data[count].email = g_strdup(data->string);
+				model->data[count].name =  e_strdup_strip(data->string);
+				model->data[count].email = e_strdup_strip(data->string);
 				count ++;
 				break;
 			}

@@ -98,16 +98,16 @@ e_select_names_class_init (ESelectNamesClass *klass)
 
 #define SPEC "<ETableSpecification no-header=\"1\">    	       \
 	<columns-shown>                  			       \
-		<column> 0 </column>     			       \
-                <column> 2 </column>                                   \
+		<column> 2 </column>     			       \
+                <column> 1 </column>                                   \
 	</columns-shown>                 			       \
-	<grouping> <leaf column=\"0\" ascending=\"1\"/> </grouping>    \
+	<grouping> <leaf column=\"1\" ascending=\"1\"/> </grouping>    \
 </ETableSpecification>"
 
 #define SPEC2 "<ETableSpecification no-header=\"1\">    	       \
 	<columns-shown>                  			       \
 		<column> 0 </column>     			       \
-                <column> 2 </column>                                   \
+                <column> 1 </column>                                   \
 	</columns-shown>                 			       \
 	<grouping> </grouping>                                         \
 </ETableSpecification>"
@@ -142,7 +142,11 @@ e_addressbook_create_ebook_table(char *name, char *string1, char *string2, int n
 
 	header = e_table_header_new ();
 	e_table_header_add_column (header, e_table_col_new (0, "Full Name", 1.0, 20, cell_left_just,
-							    g_str_compare, TRUE), 0);
+							    g_str_compare, TRUE), -1);
+	e_table_header_add_column (header, e_table_col_new (1, "Email", 1.0, 20, cell_left_just,
+							    g_str_compare, TRUE), -1);
+	e_table_header_add_column (header, e_table_col_new (34, "Name", 1.0, 20, cell_left_just,
+							    g_str_compare, TRUE), -1);
 
 	book = e_book_new();
 	gtk_object_ref(GTK_OBJECT(model));
@@ -193,6 +197,8 @@ e_select_names_init (ESelectNames *e_select_names)
 				    GNOME_STOCK_BUTTON_OK,
 				    GNOME_STOCK_BUTTON_CANCEL,
 				    NULL);
+	
+	gtk_window_set_policy(GTK_WINDOW(e_select_names), FALSE, TRUE, FALSE);
 
 	e_select_names->table = E_TABLE(glade_xml_get_widget(gui, "table-source"));
 	e_select_names->model = gtk_object_get_data(GTK_OBJECT(e_select_names->table), "model");
@@ -348,8 +354,10 @@ e_select_names_add_section(ESelectNames *e_select_names, char *name, char *id, E
 	model = e_select_names_table_model_new(source);
 	header = e_table_header_new ();
 	cell_left_just = e_cell_text_new (model, NULL, GTK_JUSTIFY_LEFT);
-	e_table_header_add_column (header, e_table_col_new (0, "Full Name", 1.0, 20, cell_left_just,
-							    g_str_compare, TRUE), 0);
+	e_table_header_add_column (header, e_table_col_new (0, "Name", 1.0, 20, cell_left_just,
+							    g_str_compare, TRUE), -1);
+	e_table_header_add_column (header, e_table_col_new (1, "Email", 1.0, 20, cell_left_just,
+							    g_str_compare, TRUE), -1);
 	etable = e_table_new (header, model, SPEC2);
 	
 	gtk_signal_connect(GTK_OBJECT(etable), "double_click",

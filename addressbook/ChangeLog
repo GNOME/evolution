@@ -1,5 +1,20 @@
 2000-07-09  Christopher James Lahey  <clahey@helixcode.com>
 
+	* backend/ebook/e-card-simple.c, backend/ebook/e-card-simple.h:
+	Added a field that gives the name if it exists and the company
+	name otherwise.
+
+	* gui/component/e-addressbook-model.c: Formatting changes.
+
+	* gui/component/select-names/e-select-names-table-model.c: Added
+	stripping of names and display of company name if name doesn't
+	exist.
+
+	* gui/component/select-names/e-select-names.c: Fixed up the
+	display so that we display both name and email address.
+
+2000-07-09  Christopher James Lahey  <clahey@helixcode.com>
+
 	* gui/component/select-names/e-select-names-model.c: Fixed a small
 	off by one error that was causing an extra character to get
 	deleted sometimes.

@@ -81,8 +81,9 @@ addressbook_value_at (ETableModel *etc, int col, int row)
 {
 	EAddressbookModel *addressbook = E_ADDRESSBOOK_MODEL(etc);
 	const char *value;
-	if ( col >= E_CARD_SIMPLE_FIELD_LAST - 1|| row >= addressbook->data_count )
+	if ( col >= E_CARD_SIMPLE_FIELD_LAST - 1 || row >= addressbook->data_count )
 		return NULL;
+
 	value = e_card_simple_get_const(addressbook->data[row], 
 					col + 1);
 	return (void *)(value ? value : "");

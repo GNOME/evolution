@@ -58,6 +58,7 @@ enum _ECardSimpleInternalType {
 	E_CARD_SIMPLE_INTERNAL_TYPE_ADDRESS,
 	E_CARD_SIMPLE_INTERNAL_TYPE_PHONE,
 	E_CARD_SIMPLE_INTERNAL_TYPE_EMAIL,
+	E_CARD_SIMPLE_INTERNAL_TYPE_SPECIAL,
 };
 
 struct _ECardSimpleFieldData {
@@ -108,6 +109,7 @@ static ECardSimpleFieldData field_data[] =
 	{ E_CARD_SIMPLE_FIELD_ANNIVERSARY,        "anniversary", "Anniversary",   "Anniv",    0,                                   E_CARD_SIMPLE_INTERNAL_TYPE_DATE },
 	{ E_CARD_SIMPLE_FIELD_BIRTH_DATE,         "birth_date",  "Birth Date",    "",         0,                                   E_CARD_SIMPLE_INTERNAL_TYPE_DATE },
 	{ E_CARD_SIMPLE_FIELD_MAILER,             "mailer",      "",              "",         0,                                   E_CARD_SIMPLE_INTERNAL_TYPE_STRING },
+	{ E_CARD_SIMPLE_FIELD_NAME_OR_ORG,        "nameororg",   "",              "",         0,                                   E_CARD_SIMPLE_INTERNAL_TYPE_SPECIAL },
 };
 
 static void e_card_simple_init (ECardSimple *simple);
@@ -904,6 +906,19 @@ char     *e_card_simple_get            (ECardSimple          *simple,
 		string = e_card_simple_get_email(simple,
 						 field_data[field].list_type_index);
 		return g_strdup(string);
+	case E_CARD_SIMPLE_INTERNAL_TYPE_SPECIAL:
+		switch (field) {
+		case E_CARD_SIMPLE_FIELD_NAME_OR_ORG:
+			gtk_object_get(GTK_OBJECT(simple->card),
+				       "full_name", &string,
+				       NULL);
+			if (string && *string)
+				return g_strdup(string);
+			gtk_object_get(GTK_OBJECT(simple->card),
+				       "org", &string,
+				       NULL);
+			return g_strdup(string);
+		}
 	default:
 		return NULL;
 	}
@@ -1080,6 +1095,8 @@ void            e_card_simple_set            (ECardSimple          *simple,
 						field_data[field].list_type_index,
 						data);
 			break;
+		case E_CARD_SIMPLE_INTERNAL_TYPE_SPECIAL:
+			break;
 		}
 		break;
 	}
@@ -1096,8 +1113,12 @@ ECardSimpleType e_card_simple_type       (ECardSimple          *simple,
 	case E_CARD_SIMPLE_INTERNAL_TYPE_EMAIL:
 	default:
 		return E_CARD_SIMPLE_TYPE_STRING;
+
 	case E_CARD_SIMPLE_INTERNAL_TYPE_DATE:
 		return E_CARD_SIMPLE_TYPE_DATE;
+
+	case E_CARD_SIMPLE_INTERNAL_TYPE_SPECIAL:
+		return E_CARD_SIMPLE_TYPE_STRING;
 	}
 }
 
