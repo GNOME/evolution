@@ -1,17 +1,17 @@
 # Swedish translation of Evolution.
-# Copyright (C) 2000-2001 Free Software Foundation, Inc.
+# Copyright (C) 2000, 2001 Free Software Foundation, Inc.
 # Andreas Hyden <a.hyden@cyberpoint.se>, 2000.
 # Richard Hult <rhult@codefactory.se>, 2000-2001.
 # Christian Rose <menthos@menthos.com>, 2000-2001.
 # Martin Norbäck <d95mback@dtek.chalmers.se>, 2001.
 #
-# $Id: sv.po,v 1.71 2001/04/27 09:51:23 menthos Exp $
+# $Id: sv.po,v 1.72 2001/04/29 15:39:04 menthos Exp $
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
-"POT-Creation-Date: 2001-04-27 11:46+0200\n"
-"PO-Revision-Date: 2001-04-27 11:52+0200\n"
+"POT-Creation-Date: 2001-04-29 17:18+0200\n"
+"PO-Revision-Date: 2001-04-29 17:35+0200\n"
 "Last-Translator: Christian Rose <menthos@menthos.com>\n"
 "Language-Team: Swedish <sv@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -562,7 +562,7 @@ msgstr "Mobil"
 
 #: addressbook/contact-editor/e-contact-editor.c:1254
 #: addressbook/contact-editor/e-contact-editor.c:1312
-#: calendar/gui/e-meeting-dialog.glade.h:14 mail/mail-config.glade.h:40
+#: mail/mail-config.glade.h:40
 msgid "Other"
 msgstr "Annat"
 
@@ -2569,7 +2569,7 @@ msgstr "Valfri deltagare"
 msgid "Organizer: "
 msgstr "Organisatör:"
 
-#: calendar/gui/e-meeting-dialog.glade.h:15
+#: calendar/gui/e-meeting-dialog.glade.h:14
 msgid ""
 "Publish\n"
 "Event"
@@ -2577,11 +2577,11 @@ msgstr ""
 "Publicera\n"
 "tillställning"
 
-#: calendar/gui/e-meeting-dialog.glade.h:17
+#: calendar/gui/e-meeting-dialog.glade.h:16
 msgid "RSVP"
 msgstr "OSA"
 
-#: calendar/gui/e-meeting-dialog.glade.h:18
+#: calendar/gui/e-meeting-dialog.glade.h:17
 msgid ""
 "Request\n"
 "Meeting"
@@ -2589,15 +2589,15 @@ msgstr ""
 "Begär\n"
 "möte"
 
-#: calendar/gui/e-meeting-dialog.glade.h:20
+#: calendar/gui/e-meeting-dialog.glade.h:19
 msgid "Required Participant"
 msgstr "Nödvändig deltagare"
 
-#: calendar/gui/e-meeting-dialog.glade.h:21
+#: calendar/gui/e-meeting-dialog.glade.h:20
 msgid "Role"
 msgstr "Roll"
 
-#: calendar/gui/e-meeting-dialog.glade.h:22
+#: calendar/gui/e-meeting-dialog.glade.h:21
 msgid ""
 "Schedule\n"
 "Time"
@@ -2605,7 +2605,7 @@ msgstr ""
 "Boka\n"
 "tid"
 
-#: calendar/gui/e-meeting-dialog.glade.h:24 filter/libfilter-i18n.h:49
+#: calendar/gui/e-meeting-dialog.glade.h:23 filter/libfilter-i18n.h:49
 #: mail/message-list.c:1082
 msgid "Status"
 msgstr "Status"
@@ -3433,44 +3433,44 @@ msgstr "Ange din %s-lösenordsfras för %s"
 msgid "Please enter your %s passphrase"
 msgstr "Ange din %s-lösenordsfras"
 
-#: camel/camel-pgp-context.c:511
+#: camel/camel-pgp-context.c:509
 msgid "No plaintext to sign."
 msgstr "Ingen klartext att signera."
 
-#: camel/camel-pgp-context.c:518 camel/camel-pgp-context.c:690
-#: camel/camel-pgp-context.c:1057 camel/camel-pgp-context.c:1269
+#: camel/camel-pgp-context.c:516 camel/camel-pgp-context.c:688
+#: camel/camel-pgp-context.c:1055 camel/camel-pgp-context.c:1267
 msgid "No password provided."
 msgstr "Inget lösenord angavs."
 
-#: camel/camel-pgp-context.c:524 camel/camel-pgp-context.c:696
-#: camel/camel-pgp-context.c:879 camel/camel-pgp-context.c:1064
-#: camel/camel-pgp-context.c:1276
+#: camel/camel-pgp-context.c:522 camel/camel-pgp-context.c:694
+#: camel/camel-pgp-context.c:877 camel/camel-pgp-context.c:1062
+#: camel/camel-pgp-context.c:1274
 #, c-format
 msgid "Couldn't create pipe to GPG/PGP: %s"
 msgstr "Kunde inte skapa rör till GPG/PGP: %s"
 
-#: camel/camel-pgp-context.c:683
+#: camel/camel-pgp-context.c:681
 msgid "No plaintext to clearsign."
 msgstr "Ingen klartext att klarsignera."
 
-#: camel/camel-pgp-context.c:873
+#: camel/camel-pgp-context.c:871
 msgid "No plaintext to verify."
 msgstr "Ingen klartext att verifiera."
 
-#: camel/camel-pgp-context.c:890
+#: camel/camel-pgp-context.c:888
 #, c-format
 msgid "Couldn't create temp file: %s"
 msgstr "Kunde inte skapa temporär fil: %s"
 
-#: camel/camel-pgp-context.c:1047
+#: camel/camel-pgp-context.c:1045
 msgid "No plaintext to encrypt."
 msgstr "Ingen klartext att kryptera."
 
-#: camel/camel-pgp-context.c:1073
+#: camel/camel-pgp-context.c:1071
 msgid "No recipients specified"
 msgstr "Inga avsändare är angivna"
 
-#: camel/camel-pgp-context.c:1261
+#: camel/camel-pgp-context.c:1259
 msgid "No ciphertext to decrypt."
 msgstr "Ingen kryptotext att dekryptera."
 
@@ -3688,20 +3688,20 @@ msgstr "Uppslagning av värdnamn misslyckades: %s: värden kunde inte hittas"
 msgid "Host lookup failed: %s: unknown reason"
 msgstr "Uppslagning av värdnamn misslyckades: %s: okänd orsak"
 
-#: camel/camel-session.c:56
+#: camel/camel-session.c:68
 msgid "Virtual folder email provider"
 msgstr "E-postleverantör för virtuell mapp"
 
-#: camel/camel-session.c:58
+#: camel/camel-session.c:70
 msgid "For reading mail as a query of another set of folders"
 msgstr "För läsande av e-post som en fråga av en annan samling mappar"
 
-#: camel/camel-session.c:273 camel/camel-session.c:363
+#: camel/camel-session.c:294 camel/camel-session.c:363
 #, c-format
 msgid "No provider available for protocol `%s'"
 msgstr "Det finns ingen leverantör för protokollet \"%s\""
 
-#: camel/camel-session.c:462
+#: camel/camel-session.c:478
 #, c-format
 msgid ""
 "Could not create directory %s:\n"
@@ -3876,17 +3876,17 @@ msgstr "IMAP-servern %s stöder inte den begärda autentiseringstypen %s"
 msgid "No support for authentication type %s"
 msgstr "Inget stöd för autentiseringstypen %s"
 
-#: camel/providers/imap/camel-imap-store.c:479
+#: camel/providers/imap/camel-imap-store.c:478
 #, c-format
 msgid "%sPlease enter the IMAP password for %s@%s"
 msgstr "%sVar vänlig och ange IMAP-lösenordet för %s@%s"
 
-#: camel/providers/imap/camel-imap-store.c:494
-#: camel/providers/smtp/camel-smtp-transport.c:403
+#: camel/providers/imap/camel-imap-store.c:493
+#: camel/providers/smtp/camel-smtp-transport.c:402
 msgid "You didn't enter a password."
 msgstr "Du angav inte något lösenord."
 
-#: camel/providers/imap/camel-imap-store.c:522
+#: camel/providers/imap/camel-imap-store.c:521
 #, c-format
 msgid ""
 "Unable to authenticate to IMAP server.\n"
@@ -3897,17 +3897,17 @@ msgstr ""
 "%s\n"
 "\n"
 
-#: camel/providers/imap/camel-imap-store.c:869
+#: camel/providers/imap/camel-imap-store.c:868
 #, c-format
 msgid "%s is not a selectable folder"
 msgstr "%s är inte en mapp som kan väljas"
 
-#: camel/providers/imap/camel-imap-store.c:883
+#: camel/providers/imap/camel-imap-store.c:882
 #, c-format
 msgid "Could not create directory %s: %s"
 msgstr "Kunde inte skapa katalogen %s: %s"
 
-#: camel/providers/imap/camel-imap-store.c:1386
+#: camel/providers/imap/camel-imap-store.c:1385
 msgid "You must be working online to complete this operation"
 msgstr "Du måste vara ansluten för att kunna genomföra detta"
 
@@ -4400,7 +4400,7 @@ msgstr "Kunde inte ansluta till POP-servern på %s."
 msgid "%sPlease enter the POP3 password for %s@%s"
 msgstr "%sVar vänlig och ange ett POP3-lösenord för %s@%s"
 
-#: camel/providers/pop3/camel-pop3-store.c:387
+#: camel/providers/pop3/camel-pop3-store.c:386
 #, c-format
 msgid ""
 "Unable to connect to POP server.\n"
@@ -4409,12 +4409,12 @@ msgstr ""
 "Kunde inte ansluta till POP-servern,\n"
 "Fel vid skickande av filnamn: %s"
 
-#: camel/providers/pop3/camel-pop3-store.c:390
-#: camel/providers/pop3/camel-pop3-store.c:427
+#: camel/providers/pop3/camel-pop3-store.c:389
+#: camel/providers/pop3/camel-pop3-store.c:426
 msgid "(Unknown)"
 msgstr "(Okänd)"
 
-#: camel/providers/pop3/camel-pop3-store.c:417
+#: camel/providers/pop3/camel-pop3-store.c:416
 msgid ""
 "Unable to connect to POP server.\n"
 "No support for requested authentication mechanism."
@@ -4422,7 +4422,7 @@ msgstr ""
 "Kan inte ansluta till POP-servern.\n"
 "Inget stöd för begärd autentiseringsmekanism."
 
-#: camel/providers/pop3/camel-pop3-store.c:425
+#: camel/providers/pop3/camel-pop3-store.c:424
 #, c-format
 msgid ""
 "Unable to connect to POP server.\n"
@@ -4431,7 +4431,7 @@ msgstr ""
 "Kan inte ansluta till POP-server.\n"
 "Fel vid skickande av lösenord: %s"
 
-#: camel/providers/pop3/camel-pop3-store.c:493
+#: camel/providers/pop3/camel-pop3-store.c:491
 #, c-format
 msgid "No such folder `%s'."
 msgstr "Det finns ingen mapp \"%s\"."
@@ -4611,12 +4611,12 @@ msgstr "Fel på välkomstsvar: %s: möjligtvis inte ödesdigert"
 msgid "SMTP server %s does not support requested authentication type %s"
 msgstr "SMTP-servern %s stöder inte den begärda autentiseringstypen %s"
 
-#: camel/providers/smtp/camel-smtp-transport.c:388
+#: camel/providers/smtp/camel-smtp-transport.c:387
 #, c-format
 msgid "%sPlease enter the SMTP password for %s@%s"
 msgstr "%sVar vänlig och ange SMTP-lösenordet för %s@%s"
 
-#: camel/providers/smtp/camel-smtp-transport.c:411
+#: camel/providers/smtp/camel-smtp-transport.c:410
 #, c-format
 msgid ""
 "Unable to authenticate to SMTP server.\n"
@@ -4627,110 +4627,110 @@ msgstr ""
 "%s\n"
 "\n"
 
-#: camel/providers/smtp/camel-smtp-transport.c:527
+#: camel/providers/smtp/camel-smtp-transport.c:526
 #, c-format
 msgid "SMTP server %s"
 msgstr "SMTP-server %s"
 
-#: camel/providers/smtp/camel-smtp-transport.c:529
+#: camel/providers/smtp/camel-smtp-transport.c:528
 #, c-format
 msgid "SMTP mail delivery via %s"
 msgstr "SMTP-epostleverans via %s"
 
-#: camel/providers/smtp/camel-smtp-transport.c:554
+#: camel/providers/smtp/camel-smtp-transport.c:553
 msgid "Cannot send message: sender address not defined."
 msgstr "Kan inte skicka meddelande: avsändaradressen är inte angiven."
 
-#: camel/providers/smtp/camel-smtp-transport.c:561
+#: camel/providers/smtp/camel-smtp-transport.c:560
 msgid "Cannot send message: sender address not valid."
 msgstr "Kan inte skicka meddelande: avsändaradressen är inte giltig."
 
-#: camel/providers/smtp/camel-smtp-transport.c:575
+#: camel/providers/smtp/camel-smtp-transport.c:574
 msgid "Cannot send message: no recipients defined."
 msgstr "Kan inte skicka meddelande: inga mottagare är angivna."
 
-#: camel/providers/smtp/camel-smtp-transport.c:669
+#: camel/providers/smtp/camel-smtp-transport.c:668
 #, c-format
 msgid "HELO request timed out: %s: non-fatal"
 msgstr "HELO-begäran gjorde time-out: %s: inte ödesdigert"
 
-#: camel/providers/smtp/camel-smtp-transport.c:688
+#: camel/providers/smtp/camel-smtp-transport.c:687
 #, c-format
 msgid "HELO response error: %s: non-fatal"
 msgstr "Fel i HELO-svar: %s: inte ödesdigert"
 
-#: camel/providers/smtp/camel-smtp-transport.c:721
+#: camel/providers/smtp/camel-smtp-transport.c:720
 msgid "Error creating SASL authentication object."
 msgstr "Fel vid skapande av SASL-autentiseringsobjekt."
 
-#: camel/providers/smtp/camel-smtp-transport.c:736
-#: camel/providers/smtp/camel-smtp-transport.c:748
+#: camel/providers/smtp/camel-smtp-transport.c:735
+#: camel/providers/smtp/camel-smtp-transport.c:747
 #, c-format
 msgid "AUTH request timed out: %s"
 msgstr "AUTH-begäran gjorde time-out: %s"
 
-#: camel/providers/smtp/camel-smtp-transport.c:798
+#: camel/providers/smtp/camel-smtp-transport.c:797
 msgid "Bad authentication response from server.\n"
 msgstr "Felaktigt autentiseringssvar från servern.\n"
 
-#: camel/providers/smtp/camel-smtp-transport.c:824
+#: camel/providers/smtp/camel-smtp-transport.c:823
 #, c-format
 msgid "MAIL FROM request timed out: %s: mail not sent"
 msgstr "MAIL FROM-begäran gjorde time-out: %s: brevet skickades inte"
 
-#: camel/providers/smtp/camel-smtp-transport.c:843
+#: camel/providers/smtp/camel-smtp-transport.c:842
 #, c-format
 msgid "MAIL FROM response error: %s: mail not sent"
 msgstr "Fel i MAIL FROM-svar: %s: brevet skickades inte"
 
-#: camel/providers/smtp/camel-smtp-transport.c:868
+#: camel/providers/smtp/camel-smtp-transport.c:867
 #, c-format
 msgid "RCPT TO request timed out: %s: mail not sent"
 msgstr "RCPT TO-begäran gjorde time-out: %s: brevet skickades inte"
 
-#: camel/providers/smtp/camel-smtp-transport.c:887
+#: camel/providers/smtp/camel-smtp-transport.c:886
 #, c-format
 msgid "RCPT TO response error: %s: mail not sent"
 msgstr "Fel i RCPT TO-svar: %s: brevet skickades inte"
 
-#: camel/providers/smtp/camel-smtp-transport.c:918
+#: camel/providers/smtp/camel-smtp-transport.c:917
 #, c-format
 msgid "DATA request timed out: %s: mail not sent"
 msgstr "DATA-begäran gjorde time-out: %s: brevet skickades inte"
 
-#: camel/providers/smtp/camel-smtp-transport.c:937
+#: camel/providers/smtp/camel-smtp-transport.c:936
 #, c-format
 msgid "DATA response error: %s: mail not sent"
 msgstr "Fel i DATA-svar: %s: brevet skickades inte"
 
-#: camel/providers/smtp/camel-smtp-transport.c:952
-#: camel/providers/smtp/camel-smtp-transport.c:970
+#: camel/providers/smtp/camel-smtp-transport.c:951
+#: camel/providers/smtp/camel-smtp-transport.c:969
 #, c-format
 msgid "DATA send timed out: message termination: %s: mail not sent"
 msgstr ""
 "DATA-skickande gjorde time-out: meddelandeslut: %s: brevet skickades inte"
 
-#: camel/providers/smtp/camel-smtp-transport.c:989
+#: camel/providers/smtp/camel-smtp-transport.c:988
 #, c-format
 msgid "DATA response error: message termination: %s: mail not sent"
 msgstr "Fel i DATA-svar: meddelandeslut: %s: brevet skickades inte"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1013
+#: camel/providers/smtp/camel-smtp-transport.c:1012
 #, c-format
 msgid "RSET request timed out: %s"
 msgstr "RSET-begäran gjorde time-out: %s"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1032
+#: camel/providers/smtp/camel-smtp-transport.c:1031
 #, c-format
 msgid "RSET response error: %s"
 msgstr "Fel i RSET-svar: %s"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1055
+#: camel/providers/smtp/camel-smtp-transport.c:1054
 #, c-format
 msgid "QUIT request timed out: %s: non-fatal"
 msgstr "QUIT-begäran gjorde time-out: %s: inte ödesdigert"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1074
+#: camel/providers/smtp/camel-smtp-transport.c:1073
 #, c-format
 msgid "QUIT response error: %s: non-fatal"
 msgstr "Fel i QUIT-svar: %s: inte ödesdigert"
@@ -6554,15 +6554,11 @@ msgstr ""
 "Fel vid utförande av operation:\n"
 "%s"
 
-#: mail/mail-mt.c:516 mail/mail-mt.c:545 mail/mail-mt.c:892
+#: mail/mail-mt.c:516 mail/mail-mt.c:545 mail/mail-mt.c:880
 msgid "Working"
 msgstr "Jobbar"
 
-#: mail/mail-mt.c:680 mail/session.c:98
-msgid "Do you accept?"
-msgstr "Accepterar du?"
-
-#: mail/mail-mt.c:874
+#: mail/mail-mt.c:862
 msgid "Evolution progress"
 msgstr "Evolutionförlopp"
 
@@ -6868,19 +6864,19 @@ msgstr "?"
 
 #: mail/message-list.c:949
 msgid "Today %l:%M %p"
-msgstr "Idag %I.%M"
+msgstr "Idag %k.%M"
 
 #: mail/message-list.c:958
 msgid "Yesterday %l:%M %p"
-msgstr "Igår %I.%M"
+msgstr "Igår %k.%M"
 
 #: mail/message-list.c:970
 msgid "%a %l:%M %p"
-msgstr "%a %I.%M"
+msgstr "%a %k.%M"
 
 #: mail/message-list.c:978
 msgid "%b %d %l:%M %p"
-msgstr "%d %b %I:%M"
+msgstr "%d %b %k.%M"
 
 #: mail/message-list.c:980
 msgid "%b %d %Y"
@@ -6909,6 +6905,10 @@ msgstr "Till"
 #: mail/message-list.c:1084
 msgid "Size"
 msgstr "Storlek"
+
+#: mail/mail-session.c:161
+msgid "User canceled operation."
+msgstr "Användaren avbröt åtgärden."
 
 #: mail/subscribe-dialog.c:76 shell/e-storage-set-view.c:47
 msgid "Folder"
@@ -8922,6 +8922,9 @@ msgstr "init_corba(): kunde inte initiera GNOME"
 msgid "init_bonobo(): could not initialize Bonobo"
 msgstr "init_bonobo(): kunde inte initiera Bonobo"
 
+#~ msgid "Do you accept?"
+#~ msgstr "Accepterar du?"
+
 #~ msgid "VFolder on Subject"
 #~ msgstr "Virtuell mapp på ämnesrad"
 
@@ -9404,9 +9407,6 @@ msgstr "init_bonobo(): kunde inte initiera Bonobo"
 
 #~ msgid "Could not create dialog box."
 #~ msgstr "Kunde inte skapa dialogfönster."
-
-#~ msgid "User cancelled query."
-#~ msgstr "Användaren avbröt frågan."
 
 #~ msgid ""
 #~ "Cannot open location `%s':\n"
