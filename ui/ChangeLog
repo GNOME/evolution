@@ -1,3 +1,7 @@
+2001-08-13  Iain Holmes  <iain@ximian.com>
+
+	* my-evolution.xml: Set the label for Print to be shown on priority.
+
 2001-08-13  Ettore Perazzoli  <ettore@ximian.com>
 
 	* evolution-mail-global.xml: Remove a separator after the

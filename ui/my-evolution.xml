@@ -29,7 +29,7 @@
   <dockitem name="Toolbar">
 
     <toolitem name="PrintMyEvolution" verb="PrintMyEvolution"
-	_label="Print" pixtype="pixbuf"/>
+	_label="Print" pixtype="pixbuf"/ priority="1">
 
   </dockitem>
 </Root>
