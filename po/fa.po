@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: evolution 1.4\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2004-09-26 11:09+0200\n"
-"PO-Revision-Date: 2004-10-13 17:14+0330\n"
+"PO-Revision-Date: 2004-11-07 17:17+0330\n"
 "Last-Translator: Meelad Zakaria <meelad@bamdad.org>\n"
 "Language-Team: Persian <farsi@lists.sharif.edu>\n"
 "MIME-Version: 1.0\n"
@@ -436,7 +436,7 @@ msgstr "تأیید هویت شکست خورد.\n"
 #: camel/providers/groupwise/camel-gw-listener.c:409
 #, c-format
 msgid "%sEnter password for %s (user %s)"
-msgstr "%s کلمه‌ی عبور برای %s (کاربر %s) را وارد کنید"
+msgstr "%s گذرواژه‌ی برای %s (کاربر %s) را وارد کنید"
 
 #: addressbook/gui/component/apps_evolution_addressbook.schemas.in.in.h:1
 msgid "EFolderList xml for the list of completion uris"
@@ -2133,14 +2133,14 @@ msgstr "نام _کامل:"
 
 #: addressbook/gui/contact-editor/e-contact-quick-add.c:307
 msgid "E-_mail:"
-msgstr "پست الکترونیکی:"
+msgstr "_پست الکترونیکی:"
 
 #: addressbook/gui/contact-editor/eab-editor.c:319
 msgid ""
 "Are you sure you want\n"
 "to delete these contacts?"
 msgstr ""
-"آیا مطمئنید که میخواهید \n"
+"آیا مطمئنید که می‌خواهید \n"
 "این آشنا‌ها حذف کنید؟"
 
 #: addressbook/gui/contact-editor/eab-editor.c:322
@@ -2459,11 +2459,11 @@ msgstr "رفتن به پوشه..."
 
 #: addressbook/gui/widgets/e-addressbook-view.c:1104
 msgid "Import..."
-msgstr "وارد کردن"
+msgstr "وارد کردن..."
 
 #: addressbook/gui/widgets/e-addressbook-view.c:1106
 msgid "Search for Contacts..."
-msgstr "جست و جو به دنبال آشنا"
+msgstr "جست و جو به دنبال آشنا..."
 
 #: addressbook/gui/widgets/e-addressbook-view.c:1107
 msgid "Address Book Sources..."
@@ -2956,6 +2956,9 @@ msgid ""
 "Please make your search more specific or raise the result limit in\n"
 "the directory server preferences for this addressbook."
 msgstr ""
+"تعداد کارت‌هایی که با این پرس و جو مطابقت می‌کنند از تعدادی که کارگزار برای برگرداندن \n"
+" یا Evolution برای نمایش آن پیکربندی شده بیشتر است. لطفاْ جست و جویتان را  \n"
+"مشخص‌تر کنید یا تعداد نتایج را برای این دفترچه‌ی نشانی در ترجیحات کارگزار شاخه افزایش دهید."
 
 #: addressbook/gui/widgets/eab-gui-util.c:136
 msgid ""
@@ -3031,7 +3034,7 @@ msgstr "رونویسی"
 #. This is a filename. Translators take note.
 #: addressbook/gui/widgets/eab-gui-util.c:386
 msgid "card.vcf"
-msgstr ""
+msgstr "card.vcf"
 
 #: addressbook/gui/widgets/eab-gui-util.c:548
 msgid "list"
@@ -3094,9 +3097,8 @@ msgid "Add address to existing contact \"%s\""
 msgstr "افزودن نشانی به آشنای موجود \"%s\""
 
 #: addressbook/gui/widgets/eab-popup-control.c:870
-#, fuzzy
 msgid "Querying Address Book..."
-msgstr "نشانی"
+msgstr "در حال پرس و جو از دفترچه‌ی نشانی..."
 
 #: addressbook/gui/widgets/eab-popup-control.c:953
 msgid "Edit Contact Info"
@@ -3681,7 +3683,7 @@ msgstr "آیا می‌خواهید این تکلیف را برای شرکت‌ک
 msgid ""
 "Email invitations will be sent to all participants and allow them to accept "
 "this task."
-msgstr ""
+msgstr "دعوت‌نامه با پست الکترونیکی برای همه‌ی شرکت‌کنندگان ارسال خواهد شد و آنها را قادر خواهد ساخت که این تکلیف را بپذیرند."
 
 #. calendar:prompt-send-updated-task-info primary
 #: calendar/calendar-errors.xml.h:102
@@ -3724,7 +3726,7 @@ msgstr ""
 #: calendar/common/authentication.c:47 calendar/gui/e-pub-utils.c:301
 #: smime/gui/component.c:48
 msgid "Enter password"
-msgstr "کلمه‌ی عبور را وارد کنید"
+msgstr "گذرواژه را وارد کنید"
 
 #: calendar/conduits/calendar/calendar-conduit.c:246
 msgid "Split Multi-Day Events:"
@@ -3837,7 +3839,7 @@ msgstr "ویرایش قرار"
 
 #: calendar/gui/alarm-notify/alarm-notify.glade.h:3
 msgid "_Snooze"
-msgstr ""
+msgstr "_چرت"
 
 #: calendar/gui/alarm-notify/alarm-queue.c:893
 #: ui/evolution-message-composer.xml.h:10
@@ -3891,7 +3893,7 @@ msgstr ""
 
 #: calendar/gui/alarm-notify/alarm-queue.c:1125
 msgid "Do not ask me about this program again."
-msgstr ""
+msgstr "دیگر از من درباره‌ی این برنامه سؤال نشود."
 
 #: calendar/gui/alarm-notify/notify-main.c:139
 msgid "Could not initialize Bonobo"
@@ -4162,7 +4164,7 @@ msgstr "قرار جدید"
 
 #: calendar/gui/calendar-component.c:1252
 msgid "_Appointment"
-msgstr "قرار"
+msgstr "_قرار"
 
 #: calendar/gui/calendar-component.c:1253
 msgid "Create a new appointment"
@@ -4174,7 +4176,7 @@ msgstr "جلسه‌ی جدید"
 
 #: calendar/gui/calendar-component.c:1260
 msgid "M_eeting"
-msgstr "جلسه"
+msgstr "_جلسه"
 
 #: calendar/gui/calendar-component.c:1261
 msgid "Create a new meeting request"
@@ -4198,7 +4200,7 @@ msgstr "تقویم جدید"
 
 #: calendar/gui/calendar-component.c:1276
 msgid "Cale_ndar"
-msgstr "تقویم"
+msgstr "ت_قویم"
 
 #: calendar/gui/calendar-component.c:1277
 msgid "Create a new calendar"
@@ -4207,12 +4209,12 @@ msgstr "ایجاد یک تقویم جدید"
 #: calendar/gui/calendar-offline-handler.c:192
 #, c-format
 msgid "backend_go_offline(): %s"
-msgstr ""
+msgstr "backend_go_offline(): %s"
 
 #: calendar/gui/calendar-offline-handler.c:215
 #, c-format
 msgid "backend_go_online(): %s"
-msgstr ""
+msgstr "backend_go_online(): %s"
 
 #: calendar/gui/calendar-view-factory.c:118
 msgid "Day View"
@@ -4245,7 +4247,7 @@ msgstr "باز کردن تقویم مجاز نیست."
 #: calendar/gui/comp-editor-factory.c:474
 #, c-format
 msgid "open_client(): %s"
-msgstr ""
+msgstr "open_client(): %s"
 
 #: calendar/gui/dialogs/alarm-dialog.glade.h:2
 msgid "<b>Alarm</b>\t"
@@ -4273,7 +4275,7 @@ msgstr "صدای آژیر سفارشی"
 
 #: calendar/gui/dialogs/alarm-dialog.glade.h:8
 msgid "Mes_sage:"
-msgstr "پیغام‌ها:"
+msgstr "پی_غام‌ها:"
 
 #: calendar/gui/dialogs/alarm-dialog.glade.h:9 calendar/gui/e-alarm-list.c:444
 msgid "Play a sound"
@@ -4300,19 +4302,19 @@ msgstr "ارسال یک نامه‌ی الکترونیکی"
 
 #: calendar/gui/dialogs/alarm-dialog.glade.h:14
 msgid "_Arguments:"
-msgstr "آرگومان‌ها"
+msgstr "_آرگومان‌ها"
 
 #: calendar/gui/dialogs/alarm-dialog.glade.h:15
 msgid "_Program:"
-msgstr "برنامه:"
+msgstr "_برنامه:"
 
 #: calendar/gui/dialogs/alarm-dialog.glade.h:16
 msgid "_Repeat the alarm"
-msgstr "تکرار آژیر"
+msgstr "_تکرار آژیر"
 
 #: calendar/gui/dialogs/alarm-dialog.glade.h:17
 msgid "_Sound:"
-msgstr "صدا:"
+msgstr "_صدا:"
 
 #: calendar/gui/dialogs/alarm-dialog.glade.h:18
 msgid "after"
@@ -5485,7 +5487,7 @@ msgstr "کلمه‌ی _عبور:"
 
 #: calendar/gui/dialogs/url-editor-dialog.glade.h:10
 msgid "_Remember password"
-msgstr "به _خاطر سپردن کلمه‌ی عبور"
+msgstr "به _خاطر سپردن گذرواژه"
 
 #: calendar/gui/dialogs/url-editor-dialog.glade.h:11
 msgid "_Username:"
@@ -5882,7 +5884,7 @@ msgstr "در حال نسخه‌برداری از موارد"
 
 #: calendar/gui/e-calendar-view.c:1403 calendar/gui/e-calendar-view.c:1492
 msgid "New _Appointment..."
-msgstr "قرار جدید"
+msgstr "قرار جدید_"
 
 #: calendar/gui/e-calendar-view.c:1404 calendar/gui/e-calendar-view.c:1497
 msgid "New All Day _Event"
@@ -5898,11 +5900,11 @@ msgstr "تکلیف جدید"
 
 #: calendar/gui/e-calendar-view.c:1420 ui/evolution-calendar.xml.h:26
 msgid "Select _Today"
-msgstr "انتخاب امروز"
+msgstr "انتخاب ا_مروز"
 
 #: calendar/gui/e-calendar-view.c:1421
 msgid "_Select Date..."
-msgstr "انتخاب تاریخ..."
+msgstr "_انتخاب تاریخ..."
 
 #: calendar/gui/e-calendar-view.c:1425 ui/evolution-calendar.xml.h:45
 msgid "_Publish Free/Busy Information"
@@ -6039,7 +6041,7 @@ msgstr " و "
 #: calendar/gui/e-itip-control.c:801
 #, c-format
 msgid "The %s day of "
-msgstr ""
+msgstr "روز %s"
 
 #: calendar/gui/e-itip-control.c:814
 #, c-format
@@ -6582,7 +6584,7 @@ msgstr "آدم‌های مورد نیاز و یک منبع"
 #: calendar/gui/e-pub-utils.c:300
 #, c-format
 msgid "Enter the password for %s"
-msgstr "کلمه‌ی عبور برای %s را وارد کنید"
+msgstr "گذرواژه‌ی برای %s را وارد کنید"
 
 #: calendar/gui/e-tasks.c:744 calendar/gui/gnome-cal.c:2313
 #, c-format
@@ -9954,14 +9956,14 @@ msgstr ""
 #: camel/providers/nntp/camel-nntp-provider.c:71
 #: camel/providers/pop3/camel-pop3-provider.c:71 mail/mail-config.glade.h:108
 msgid "Password"
-msgstr "کلمه‌ی عبور"
+msgstr "گذرواژه"
 
 #: camel/providers/groupwise/camel-groupwise-provider.c:111
 #: camel/providers/imap/camel-imap-provider.c:95
 #: camel/providers/imapp/camel-imapp-provider.c:67
 msgid "This option will connect to the IMAP server using a plaintext password."
 msgstr ""
-"این گزینه با استفاده از کلمه‌ی عبور متن ساده به کارگزار IMAP متصل خواهد شد."
+"این گزینه با استفاده از گذرواژه‌ی متن ساده به کارگزار IMAP متصل خواهد شد."
 
 #: camel/providers/groupwise/camel-gw-listener.c:362
 #, fuzzy
@@ -10235,11 +10237,11 @@ msgstr "تأیید هویت از نوع %s پشتیبانی نمی‌شود"
 #: camel/providers/imapp/camel-imapp-store.c:352
 #, c-format
 msgid "%sPlease enter the IMAP password for %s@%s"
-msgstr "%sلطفاْ کلمه‌ی عبور IMAP برای %s@%s را وارد کنید"
+msgstr "%sلطفاْ گذرواژه‌ی IMAP برای %s@%s را وارد کنید"
 
 #: camel/providers/imap/camel-imap-store.c:1324
 msgid "You didn't enter a password."
-msgstr "کلمه‌ی عبوری وارد نکردید."
+msgstr "گذرواژه‌ای وارد نکردید."
 
 #: camel/providers/imap/camel-imap-store.c:1353
 #, c-format
@@ -11292,7 +11294,7 @@ msgid ""
 "This option will connect to the POP server using a plaintext password. This "
 "is the only option supported by many POP servers."
 msgstr ""
-"این گزینه با استفاده از یک کلمه‌ی عبور متن ساده به کارگزار POP متصل خواهد شد. "
+"این گزینه با استفاده از یک گذرواژه‌ی متن ساده به کارگزار POP متصل خواهد شد. "
 "این تنها گزینه‌ی پشتیبانی شده برای بسیاری از کارگزارهای POP است."
 
 #: camel/providers/pop3/camel-pop3-provider.c:83
@@ -11517,7 +11519,7 @@ msgstr ""
 
 #: camel/providers/smtp/camel-smtp-transport.c:216
 msgid "A password transition is needed"
-msgstr "انتقال کلمه‌ی عبور لازم است"
+msgstr "انتقال گذرواژه لازم است"
 
 #: camel/providers/smtp/camel-smtp-transport.c:218
 msgid "Authentication mechanism is too weak"
@@ -11566,7 +11568,7 @@ msgstr ""
 #: camel/providers/smtp/camel-smtp-transport.c:521
 #, c-format
 msgid "%sPlease enter the SMTP password for %s on host %s"
-msgstr "%sلطفاْ کلمه‌ی عبور SMTP برای %s در میزبان %s را وارد کنید"
+msgstr "%sلطفاْ گذرواژه‌ی SMTP برای %s در میزبان %s را وارد کنید"
 
 #: camel/providers/smtp/camel-smtp-transport.c:540
 #, c-format
@@ -12193,11 +12195,11 @@ msgstr "پرونده رونویسی شود؟"
 
 #: e-util/e-passwords.c:464
 msgid "_Remember this password"
-msgstr "به خاطر سپردن این کلمه‌ی عبور"
+msgstr "به _خاطر سپردن این گذرواژه"
 
 #: e-util/e-passwords.c:465
 msgid "_Remember this password for the remainder of this session"
-msgstr "به خاطر سپردن این کلمه‌ی عبور برای بقیه‌ی این نشست"
+msgstr "به _خاطر سپردن این گذرواژه برای بقیه‌ی این نشست"
 
 #. strptime format of a weekday, a date and a time,
 #. in 12-hour format, without seconds.
@@ -14837,7 +14839,7 @@ msgstr ""
 msgid ""
 "Note: you will not be prompted for a password until you connect for the "
 "first time"
-msgstr "توجه: تا وقتی که برای اولین بار متصل نشوید از شما کلمه‌ی عبوری خواسته نخواهد شد."
+msgstr "توجه: تا وقتی که برای اولین بار متصل نشوید از شما گذرواژه‌ای خواسته نخواهد شد."
 
 #: mail/mail-config.glade.h:105
 msgid "Or_ganization:"
@@ -14869,7 +14871,7 @@ msgstr ""
 
 #: mail/mail-config.glade.h:116
 msgid "Re_member password"
-msgstr "به خاطر سپردن کلمه‌ی عبور"
+msgstr "به خا_طر سپردن گذرواژه"
 
 #: mail/mail-config.glade.h:117
 msgid "Re_ply-To:"
@@ -14885,7 +14887,7 @@ msgstr "گزینه‌های دریافت"
 
 #: mail/mail-config.glade.h:121
 msgid "Remember _password"
-msgstr "به خاطر سپردن کلمه‌ی عبور"
+msgstr "به خاطر سپردن _گذرواژه"
 
 #: mail/mail-config.glade.h:123
 msgid "S_tandard Font:"
@@ -15218,7 +15220,7 @@ msgid ""
 "Check to make sure your password is spelled correctly.  Remember that many "
 "passwords are case sensitive; your caps lock might be on."
 msgstr ""
-"اطمینان حاصل کنید که کلمه‌ی عبورتان درست هجی شده باشد. به خاطر داشته باشید که "
+"اطمینان حاصل کنید که گذرواژه‌تان درست هجی شده باشد. به خاطر داشته باشید که "
 "بسیاری از کلمه‌های عبور به کوچکی و بزرگی حروف حساس هستند؛ ممکن است کلید caps "
 "lock روشن باشد."
 
@@ -15400,7 +15402,7 @@ msgstr ""
 #. mail:ask-session-password primary
 #: mail/mail-errors.xml.h:82
 msgid "Enter password."
-msgstr "کلمه‌ی عبور را وارد کنید."
+msgstr "گذرواژه را وارد کنید."
 
 #. mail:filter-load-error primary
 #: mail/mail-errors.xml.h:86
@@ -15930,11 +15932,11 @@ msgstr "در حال انتظار..."
 #: mail/mail-session.c:207
 #, c-format
 msgid "Enter Password for %s"
-msgstr "کلمه‌ی عبور برای %s را وارد کنید"
+msgstr "گذرواژه‌ی برای %s را وارد کنید"
 
 #: mail/mail-session.c:209
 msgid "Enter Password"
-msgstr "کلمه‌ی عبور را وارد کنید"
+msgstr "گذرواژه را وارد کنید"
 
 #: mail/mail-session.c:238
 msgid "User canceled operation."
@@ -16829,7 +16831,7 @@ msgstr ""
 #: smime/gui/component.c:45
 #, c-format
 msgid "Enter the password for `%s'"
-msgstr "کلمه‌ی عبور '%s' را وارد کنید"
+msgstr "گذرواژه‌ی '%s' را وارد کنید"
 
 #. we're setting the password initially
 #: smime/gui/component.c:68
@@ -16838,7 +16840,7 @@ msgstr ""
 
 #: smime/gui/component.c:70
 msgid "Enter new password"
-msgstr "کلمه‌ی عبور جدید را وارد کنید"
+msgstr "گذرواژه‌ی جدید را وارد کنید"
 
 #. FIXME: add serial no, validity date, uses
 #: smime/gui/e-cert-selector.c:121
@@ -19092,7 +19094,7 @@ msgstr ""
 #~ msgstr "استفاد از ssl"
 
 #~ msgid "Remember this password"
-#~ msgstr "به خاطر سپردن این کلمه‌ی عبور"
+#~ msgstr "به خاطر سپردن این گذرواژه"
 
 #~ msgid "*Control*F1"
 #~ msgstr "*مهار*F1"
