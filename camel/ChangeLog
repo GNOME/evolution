@@ -1,3 +1,9 @@
+2003-11-05  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* providers/smtp/camel-smtp-transport.c (connect_to_server): Don't
+	bother trying to see if the server advertises EHLO. Simply always
+	try EHLO and fall back to HELO if EHLO fails. Fixes bug #50535.
+
 2003-11-05  Not Zed  <NotZed@Ximian.com>
 
 	* camel-smime-context.c (camel_smime_context_describe_part): new
