@@ -634,6 +634,12 @@ e_tree_model_node_insert_before (ETreeModel *etree,
 					 node_data);
 }
 
+static void
+child_remove (GNode *node, gpointer etree)
+{
+	e_tree_model_node_remove (etree, node);
+}
+
 gpointer
 e_tree_model_node_remove (ETreeModel *etree, ETreePath *path)
 {
@@ -641,7 +647,8 @@ e_tree_model_node_remove (ETreeModel *etree, ETreePath *path)
 	ENode *enode = (ENode*)path->data;
 	gpointer ret = enode->node_data;
 
-	g_return_val_if_fail (!g_node_first_child(path), NULL);
+	/* remove children */
+	g_node_children_foreach (path, G_TRAVERSE_ALL, child_remove, etree);
 
 	/* clean up the display */
 	if (parent) {

@@ -1,3 +1,8 @@
+2000-07-06  Dan Winship  <danw@helixcode.com>
+
+	* e-tree-model.c (e_tree_model_node_remove): Make this work
+	recursively.
+
 2000-07-06  Chris Toshok  <toshok@helixcode.com>
 
 	* e-cell-tree.c (ect_draw): fix the conditions under which we draw
