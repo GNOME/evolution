@@ -1,3 +1,7 @@
+2001-09-18  Kevin Breit  <battery841@mediaone.net>
+
+	* C/usage-mail.sgml: Added a tip about the always encrypt button.
+
 2001-09-17  Aaron Weber  <aaron@ximian.com>
 
 	* C/usage-mail.sgml: threaded mailview figure and img. added.

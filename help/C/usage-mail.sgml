@@ -1667,6 +1667,29 @@ with quoted materials and the relevant replies interspersed-->
 	    read.
 	  </para>
 	</example>
+      <tip id="always-sign">
+	<title>Always Sign</title>
+	<para>
+	  You can set <application>Evolution</application> to always sign your email messages:
+	  <orderedlist numeration="arabic">
+	    <listitem>
+	      <para>
+		Open your account preferences.
+	      </para>
+	    </listitem>
+	    <listitem>
+	      <para>
+		Open the <guilabel>Security</guilabel> tab.
+	      </para>
+	    </listitem>
+	    <listitem>
+	      <para>
+		Click the <guibutton>Always sign outgoing messages when using this account</guibutton> button.
+	      </para>
+	    </listitem>
+	  </orderedlist>
+	</para>
+      </tip>
     </sect2>
 
     <sect2 id="encryption-keygen">
