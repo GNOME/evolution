@@ -1,3 +1,25 @@
+2000-09-21  Dan Winship  <danw@helixcode.com>
+
+	* providers/imap/camel-imap-store.c (get_folder_name): INBOX is
+	case-insensitive.
+	(get_root_folder_name): Make the root folder "" rather than "/".
+	(get_folder): Update for root folder name change.
+	(camel_imap_store_get_toplevel_dir): Removed. (Unused, unneeded.)
+	(camel_imap_store_folder_path): New function to turn a Camel
+	folder name into the corresponding namespaced IMAP path.
+	(imap_folder_exists): Make this take a store and a path rather
+	than a folder.
+	(imap_create): Likewise
+	(get_folder): Update for camel_imap_store_folder_path and other
+	changes.
+	(check_current_folder): Likewise.
+	
+	* providers/imap/camel-imap-folder.c: Change a bunch of CamelStore
+	variables to CamelImapStore (and add a few more) to prevent excess
+	gratuitous casting. Use camel_imap_store_folder_path where
+	appropriate.
+	(camel_imap_folder_new): Update for root folder name change.
+
 2000-09-19  Jeffrey Stedfast  <fejj@helixcode.com>
 
 	* providers/smtp/camel-smtp-transport.c (smtp_data): Use the

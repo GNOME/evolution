@@ -110,7 +110,7 @@ gint camel_imap_command_continuation_with_stream (CamelImapStore *store,
 /* Standard Camel function */
 CamelType camel_imap_store_get_type (void);
 
-const gchar *camel_imap_store_get_toplevel_dir (CamelImapStore *store);
+char *camel_imap_store_folder_path (CamelImapStore *store, const char *name);
 
 #ifdef __cplusplus
 }
