@@ -1,3 +1,13 @@
+2005-03-31  Vivek Jain <jvivek@novell.com>
+	
+	**Fixes #73787 (bugzilla innerweb.novell)
+	* share-folder.c : 
+	(add_right_clicked)
+	(edit_right_clicked)
+	(delete_right_clicked) : use path passed in the callback to get the
+	current iterator
+	also including some NULL checks
+
 2005-03-28  Vivek Jain <jvivek@novell.com>
 	
 	**Fixes #73198

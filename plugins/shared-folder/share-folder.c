@@ -565,14 +565,19 @@ add_right_clicked (GtkCellRenderer *renderer, gchar *arg1, ShareFolder *sf )
 	SharedUser *usr = NULL;
 	EShUsers *user = NULL;
 	char *email = NULL;
-	GtkTreeSelection *selection = NULL;
-	selection = gtk_tree_view_get_selection(GTK_TREE_VIEW (sf->user_list));
-	gtk_tree_selection_set_mode(selection, GTK_SELECTION_SINGLE);
-	if (! gtk_tree_selection_get_selected (selection, &(sf->model), &(sf->iter)));
+	GtkTreePath *path = NULL;
+
+	path = gtk_tree_path_new_from_string (arg1);
+	if (!gtk_tree_model_get_iter ((GtkTreeModel *) sf->model, &(sf->iter), path)){
+		 gtk_tree_path_free (path);
+		return ;
+	}
 	gtk_tree_model_get ((GtkTreeModel *) sf->model, &(sf->iter), 0, &email, 1, &right , -1);
 	usr = find_node(sf->users_list, email);
-	if (!usr)
-		return ;
+	if (!usr) {
+		gtk_tree_path_free (path);
+		return;
+	}
 	if(! usr->flag)  /* if user was already existing one change the flag to update*/
 		usr->flag = usr->flag | 0x2;	
 	user = usr->user_node;
@@ -583,7 +588,7 @@ add_right_clicked (GtkCellRenderer *renderer, gchar *arg1, ShareFolder *sf )
 		user->rights &= 0x6;	
 		gtk_list_store_set (GTK_LIST_STORE (sf->model), &(sf->iter), 1, FALSE, -1);
 	}
-
+	 gtk_tree_path_free (path);
 }
 
 	static void
@@ -593,8 +598,19 @@ edit_right_clicked(GtkCellRenderer *renderer, gchar *arg1, ShareFolder *sf )
 	SharedUser *usr = NULL;
 	EShUsers *user = NULL;
 	char *email = NULL;
+	GtkTreePath *path = NULL;
+
+	path = gtk_tree_path_new_from_string (arg1);
+	if (!gtk_tree_model_get_iter ((GtkTreeModel *) sf->model, &(sf->iter), path)) {
+		gtk_tree_path_free (path);
+		return;
+	}
 	gtk_tree_model_get ((GtkTreeModel *) sf->model, &(sf->iter), 0, &email, 2, &right , -1);
 	usr = find_node(sf->users_list, email);
+	if (!usr) {
+		gtk_tree_path_free (path);
+		return;
+	}
 	if(! usr->flag)  /* if user was already existing one change the flag to update*/
 		usr->flag = usr->flag | 0x2;	
 	user = usr->user_node;
@@ -606,7 +622,7 @@ edit_right_clicked(GtkCellRenderer *renderer, gchar *arg1, ShareFolder *sf )
 		user->rights &= 0x5;	
 		gtk_list_store_set (GTK_LIST_STORE (sf->model), &(sf->iter), 2, FALSE, -1);
 	}
-
+	gtk_tree_path_free (path);
 }
 
 	static void
@@ -616,8 +632,19 @@ delete_right_clicked(GtkCellRenderer *renderer, gchar *arg1, ShareFolder *sf )
 	SharedUser *usr = NULL;
 	EShUsers *user = NULL;
 	char *email = NULL;
+	GtkTreePath *path = NULL;
+
+	path = gtk_tree_path_new_from_string (arg1);
+	if (!gtk_tree_model_get_iter ((GtkTreeModel *) sf->model, &(sf->iter), path)) {
+		 gtk_tree_path_free (path);
+		return;
+	}
 	gtk_tree_model_get ((GtkTreeModel *) sf->model, &(sf->iter), 0, &email, 3, &right , -1);
 	usr = find_node(sf->users_list, email);
+	if (!usr) {
+		gtk_tree_path_free (path);
+		return;
+	}
 	if(! usr->flag)  /* if user was already existing one change the flag to update*/
 		usr->flag = usr->flag | 0x2;	
 	user = usr->user_node;
@@ -628,7 +655,7 @@ delete_right_clicked(GtkCellRenderer *renderer, gchar *arg1, ShareFolder *sf )
 		user->rights &= 0x3;	
 		gtk_list_store_set (GTK_LIST_STORE (sf->model), &(sf->iter), 3, FALSE, -1);
 	}
-
+	gtk_tree_path_free (path);
 }
 
 static void 
