@@ -345,25 +345,29 @@ mail_tool_set_uid_flags (CamelFolder *folder, const char *uid, guint32 mask, gui
 	mail_tool_camel_lock_down ();
 }
 
-gchar *
+char *
 mail_tool_generate_forward_subject (CamelMimeMessage *msg)
 {
-	const gchar *from;
-	const gchar *subject;
-	gchar *fwd_subj;
+	const char *subject;
+	char *fwd_subj, *fromstr;
+	const CamelInternetAddress *from;
 
+	/* we need to lock around the whole function, as we are
+	   only getting references to the message's data */
 	mail_tool_camel_lock_up();
-	from = camel_mime_message_get_from (msg);
-	subject = camel_mime_message_get_subject (msg);
-	mail_tool_camel_lock_down();
+
+	from = camel_mime_message_get_from(msg);
+	subject = camel_mime_message_get_subject(msg);
 
 	if (from) {
+		fromstr = camel_address_format((CamelAddress *)from);
 		if (subject && *subject) {
-			fwd_subj = g_strdup_printf ("[%s] %s", from, subject);
+			fwd_subj = g_strdup_printf ("[%s] %s", fromstr, subject);
 		} else {
 			fwd_subj = g_strdup_printf (_("[%s] (forwarded message)"),
-						    from);
+						    fromstr);
 		}
+		g_free(fromstr);
 	} else {
 		if (subject && *subject) {
 			if (strncmp (subject, "Fwd: ", 5) == 0)
@@ -372,6 +376,8 @@ mail_tool_generate_forward_subject (CamelMimeMessage *msg)
 		} else
 			fwd_subj = g_strdup (_("Fwd: (no subject)"));
 	}
+
+	mail_tool_camel_lock_down();
 
 	return fwd_subj;
 }

@@ -471,7 +471,6 @@ on_object_requested (GtkHTML *html, GtkHTMLEmbedded *eb, gpointer data)
 	BonoboStream *bstream;
 	BonoboControlFrame *control_frame;
 	Bonobo_PropertyBag prop_bag;
-	const char *from_address;
 	char *cid;
 
 	cid = eb->classid;
@@ -554,24 +553,16 @@ on_object_requested (GtkHTML *html, GtkHTMLEmbedded *eb, gpointer data)
 				   the iTip control, and it needs only the From email address,
 				   but perhaps in the future we can generalize this section of code
 				   to pass a bunch of useful things to all embedded controls. */
-				
-				CamelInternetAddress *ia;
-				const char *addr;
-				const char *name;
+				const CamelInternetAddress *from;
+				char *from_address;
 
 				CORBA_exception_init (&ev);
 
-				ia = camel_internet_address_new ();
-				addr = camel_mime_message_get_from (md->current_message);
-				camel_address_decode (CAMEL_ADDRESS (ia), (const char *) addr);
-
-				camel_internet_address_get (ia, 0, &name, &from_address);
-				
+				from = camel_mime_message_get_from (md->current_message);
+				from_address = camel_address_encode((CamelAddress *)from);
 				bonobo_property_bag_client_set_value_string (prop_bag, "from_address", 
 									     from_address, &ev);
-				
-				camel_object_unref (CAMEL_OBJECT (ia));
-
+				g_free(from_address);
 				CORBA_exception_free (&ev);
 			}
 		}

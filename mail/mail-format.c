@@ -540,80 +540,73 @@ call_handler_function (CamelMimePart *part, MailDisplay *md)
 	return output;
 }
 
+/* flags for write_field_to_stream */
+enum {
+	WRITE_BOLD=1,
+};
+
 static void
-write_field_to_stream (const char *description, const char *value,
-		       gboolean value_is_encoded, gboolean bold, GtkHTML *html,
-		       GtkHTMLStream *stream)
+write_field_to_stream(const char *description, const char *value, int flags, GtkHTML *html, GtkHTMLStream *stream)
 {
 	char *encoded_value;
+	int bold = (flags&WRITE_BOLD) == WRITE_BOLD;
 
 	if (value) {
-		char *raw, *p;
-		
-		if (value_is_encoded)
-			raw = header_decode_string (value);
-		else
-			raw = g_strdup (value);
-
-		encoded_value = e_text_to_html (raw,
-						E_TEXT_TO_HTML_CONVERT_NL |
-						E_TEXT_TO_HTML_CONVERT_URLS);
-		g_free (raw);
+		encoded_value = e_text_to_html (value, E_TEXT_TO_HTML_CONVERT_NL|E_TEXT_TO_HTML_CONVERT_URLS);
+#if 0				/* I dont think this needs to be here anymore ... e_text_to_html should handle that anyway */
+		char *p;
 		for (p = encoded_value; *p; p++) {
 			if (!isprint (*p))
 				*p = '?';
 		}
+#endif
 	} else
 		encoded_value = "";
 
-	mail_html_write (html, stream,
-			 "<tr valign=top><%s align=right>%s</%s>"
-			 "<td>%s</td></tr>", bold ? "th" : "td",
-			 description, bold ? "th" : "td", encoded_value);
+	mail_html_write(html, stream,
+			"<tr valign=top><%s align=right>%s</%s>"
+			"<td>%s</td></tr>", bold ? "th" : "td",
+			description, bold ? "th" : "td", encoded_value);
 	if (value)
-		g_free (encoded_value);
+		g_free(encoded_value);
 }
+
+static void
+write_address(MailDisplay *md, const CamelInternetAddress *addr, const char *name, int flags)
+{
+	char *string;
+
+	if (addr == NULL)
+		return;
+
+	string = camel_address_format((CamelAddress *)addr);
+	if (string && string[0]) {
+		write_field_to_stream(name, string, flags, md->html, md->stream);
+	}
+	g_free(string);
+}
+
 
 static void
 write_headers (CamelMimeMessage *message, MailDisplay *md)
 {
-	const CamelInternetAddress *recipients;
-	const char *reply_to;
-	char *string;
-
 	mail_html_write (md->html, md->stream,
 			 "<table bgcolor=\"#EEEEEE\" width=\"100%%\" "
 			 "cellspacing=0 border=1>"
 			 "<tr><td><table>\n");
 
-	write_field_to_stream (_("From:"),
-			       camel_mime_message_get_from (message),
-			       TRUE, TRUE, md->html, md->stream);
+	write_address(md, camel_mime_message_get_from(message),
+		      _("From:"), WRITE_BOLD);
+	write_address(md, camel_mime_message_get_reply_to(message),
+		      _("Reply-To:"), 0);
+	write_address(md, camel_mime_message_get_recipients(message, CAMEL_RECIPIENT_TYPE_TO),
+		      _("To:"), WRITE_BOLD);
+	write_address(md, camel_mime_message_get_recipients(message, CAMEL_RECIPIENT_TYPE_CC),
+		      _("Cc:"), WRITE_BOLD);
 
-	reply_to = camel_mime_message_get_reply_to (message);
-	if (reply_to) {
-		write_field_to_stream (_("Reply-To:"), reply_to, TRUE, FALSE,
-				       md->html, md->stream);
-	}
-
-	recipients = camel_mime_message_get_recipients (
-		message, CAMEL_RECIPIENT_TYPE_TO);
-	string = camel_address_encode (CAMEL_ADDRESS (recipients));
-	write_field_to_stream (_("To:"), string ? string : "", TRUE, TRUE,
-			       md->html, md->stream);
-	g_free (string);
-
-	recipients = camel_mime_message_get_recipients(message, CAMEL_RECIPIENT_TYPE_CC);
-	string = camel_address_encode(CAMEL_ADDRESS(recipients));
-	if (string) {
-		write_field_to_stream (_("Cc:"), string, TRUE, TRUE,
-				       md->html, md->stream);
-	}
-	g_free (string);
-	
 	write_field_to_stream (_("Subject:"),
 			       camel_mime_message_get_subject (message),
-			       FALSE, TRUE, md->html, md->stream);
+			       TRUE, md->html, md->stream);
 	
 	mail_html_write (md->html, md->stream,
 			 "</table></td></tr></table></center><p>");
@@ -671,7 +664,7 @@ handle_text_plain (CamelMimePart *part, const char *mime_type,
 {
 	CamelDataWrapper *wrapper =
 		camel_medium_get_content_object (CAMEL_MEDIUM (part));
-	char *text, *p, *start, *subtext;
+	char *text, *p, *start;
 	GMimeContentField *type;
 	const char *format;
 	int i;
@@ -701,10 +694,8 @@ handle_text_plain (CamelMimePart *part, const char *mime_type,
 
 		/* Deal with special case */
 		if (start != p) {
-			subtext = g_strndup (p, start - p);
-			mail_text_write (md->html, md->stream,
-					 "%s", subtext);
-			g_free (subtext);
+			/* the %.*s thing just grabs upto start-p chars; go read ANSI C */
+			mail_text_write (md->html, md->stream, "%.*s", start-p, p);
 		}
 		p = text_specials[i].handler (start, md);
 		if (p == start) {
@@ -714,10 +705,7 @@ handle_text_plain (CamelMimePart *part, const char *mime_type,
 			p = strchr (start, '\n');
 			if (!p++)
 				break;
-			subtext = g_strndup (start, p - start);
-			mail_text_write (md->html, md->stream,
-					 "%s", subtext);
-			g_free (subtext);
+			mail_text_write (md->html, md->stream, "%.*s", p-start, start);
 		} else if (p)
 			mail_html_write (md->html, md->stream, "<hr>");
 	}
@@ -1625,17 +1613,45 @@ free_recipients (GList *list)
 	g_list_free (list);
 }
 
+static GList *
+list_add_addresses(GList *list, const CamelInternetAddress *cia, const char *notme)
+{
+	int i;
+	const char *name, *addr;
+	char *full;
+
+	for (i=0;camel_internet_address_get(cia, i, &name, &addr);i++) {
+		/* now, we format this, as if for display, but does the composer
+		   then use it as a real address?  If so, very broken. */
+		/* we should probably pass around CamelAddresse's if thats what
+		   we mean */
+		full = camel_internet_address_format_address(name, addr);
+			
+		/* Here I'll check to see if the cc:'d address is the address
+		   of the sender, and if so, don't add it to the cc: list; this
+		   is to fix Bugzilla bug #455. */
+
+		if (notme && strcmp(addr, notme) == 0)
+			g_free(full);
+		else
+			list = g_list_append(list, full);
+	}
+
+	return list;
+}
+
 EMsgComposer *
 mail_generate_reply (CamelMimeMessage *message, gboolean to_all)
 {
 	CamelDataWrapper *contents;
-	char *text, *subject, *recipient;
+	char *text, *subject;
 	EMsgComposer *composer;
 	gboolean want_plain, is_html;
-	const char *repl_to, *message_id, *references;
-	GList *to, *cc;
+	const char *message_id, *references;
+	GList *to = NULL, *cc = NULL;
 	MailConfigIdentity *id;
 	gchar *sig_file = NULL;
+	const CamelInternetAddress *reply_to;
 	
 	id = mail_config_get_default_identity ();
 	if (id)
@@ -1699,64 +1715,20 @@ mail_generate_reply (CamelMimeMessage *message, gboolean to_all)
 	}
 	
 	/* Set the recipients */
-	repl_to = camel_mime_message_get_reply_to (message);
-	if (!repl_to)
-		repl_to = camel_mime_message_get_from (message);
-
-	recipient = header_decode_string (repl_to ? repl_to : "");
-	to = g_list_append (NULL, (gpointer)recipient);
+	reply_to = camel_mime_message_get_reply_to(message);
+	if (!reply_to)
+		reply_to = camel_mime_message_get_from(message);
+	if (reply_to)
+		to = g_list_append(to, camel_address_format((CamelAddress *)reply_to));
 	
 	if (to_all) {
-		const CamelInternetAddress *recip;
-		const char *name, *addr;
-		char *fulladdr;
-		int i;
-		
-		recip = camel_mime_message_get_recipients (message, 
-			CAMEL_RECIPIENT_TYPE_TO);
-		i = 0;
-		cc = NULL;
-		while (camel_internet_address_get (recip, i++, &name, &addr)) {
-			if (name && *name) {
-				char *dname = header_decode_string (name);
-				
-				if (dname && *dname)
-					fulladdr = g_strdup_printf ("\"%s\" <%s>", dname, addr);
-				else
-					fulladdr = g_strdup (addr);
-				
-				g_free (dname);
-			} else
-				fulladdr = g_strdup (addr);
-			
-			/* Here I'll check to see if the cc:'d address is the address
-			of the sender, and if so, don't add it to the cc: list; this
-			is to fix Bugzilla bug #455. */
-			
-			if (strcmp (addr, id->address) != 0)
-                                cc = g_list_append (cc, fulladdr);
-		}
-		
-		recip = camel_mime_message_get_recipients (message, CAMEL_RECIPIENT_TYPE_CC);
-		i = 0;
-		while (camel_internet_address_get (recip, i++, &name, &addr)) {
-			if (name && *name) {
-				char *dname = header_decode_string (name);
-				
-				if (dname && *dname)
-					fulladdr = g_strdup_printf ("\"%s\" <%s>", dname, addr);
-				else
-					fulladdr = g_strdup (addr);
-				
-				g_free (dname);
-			} else
-				fulladdr = g_strdup (addr);
-			
-			if (strcmp (addr, id->address) != 0)
-                                cc = g_list_append (cc, fulladdr);
-		}
-	} else
-		cc = NULL;
+		cc = list_add_addresses(cc,
+					camel_mime_message_get_recipients(message, CAMEL_RECIPIENT_TYPE_TO),
+					id->address);
+		cc = list_add_addresses(cc,
+					camel_mime_message_get_recipients(message, CAMEL_RECIPIENT_TYPE_CC),
+					id->address);
+	}
 	
 	/* Set the subject of the new message. */
 	subject = (char *)camel_mime_message_get_subject (message);

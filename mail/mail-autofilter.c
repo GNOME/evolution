@@ -217,25 +217,20 @@ rule_from_message (FilterRule *rule, RuleContext *context, CamelMimeMessage *msg
 	}
 	/* should parse the from address into an internet address? */
 	if (flags & AUTO_FROM) {
-		struct _header_address *haddr, *scan;
-		char *name, *namestr;
-		
-		haddr = header_address_decode (msg->from);
-		scan = haddr;
-		while (scan) {
-			if (scan->type == HEADER_ADDRESS_NAME) {
-				rule_add_sender (context, rule, scan->v.addr);
-				if (scan->name && scan->name[0])
-					name = scan->name;
-				else
-					name = scan->v.addr;
-				namestr = g_strdup_printf (_("Mail from %s"), name);
-				filter_rule_set_name (rule, namestr);
-				g_free (namestr);
-			}
-			scan = scan->next;
+		const CamelInternetAddress *from;
+		int i;
+		const char *name, *addr;
+		char *namestr;
+
+		from = camel_mime_message_get_from(msg);
+		for (i=0;camel_internet_address_get(from, i, &name, &addr); i++) {
+			rule_add_sender(context, rule, addr);
+			if (name==NULL || name[0]==0)
+				name = addr;
+			namestr = g_strdup_printf(_("Mail from %s"), name);
+			filter_rule_set_name(rule, namestr);
+			g_free(namestr);
 		}
-		header_address_unref (haddr);
 	}
 	if (flags & AUTO_TO) {
 		addr = (CamelInternetAddress *)camel_mime_message_get_recipients (msg, CAMEL_RECIPIENT_TYPE_TO);

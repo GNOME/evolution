@@ -1,3 +1,48 @@
+2000-11-07  Not Zed  <NotZed@HelixCode.com>
+
+	* mail-display.c (on_object_requested): God, I sure wish people
+	would listen when i'm saying i'm changing and API. I mean
+	I even mailed everyone and everything.  Can't see any changelog
+	either.
+	
+2000-11-06  Not Zed  <NotZed@HelixCode.com>
+
+	* mail-autofilter.c (rule_from_message): Updates for api changes.
+
+	* mail-tools.c (mail_tool_generate_forward_subject): Fixed for api
+	changes.  Sigh, whoever wrote the multithread code of the mailer,
+	had little idea.  You can't just lock for getting a const value,
+	until you are finished with it, cause the owner still owns it.
+	Fixed this too.  Yuck, what a horrid forwarding format, can we
+	change this, or make it configurable?  The mail headers show who
+	forwarded it, we dont need to duplicate it in that UGLY subject.
+
+	* mail-format.c (write_field_to_stream): Removed some jeffness.
+	dont g_strdup stuff we dont need to, and remove the
+	value_is_encoded thing since we can get the unencoded address
+	now.
+	(write_address): New function to write an address field.
+	(write_headers): Uses write_address to write addresses, cleaner,
+	fixed the god-awful unreadable indenting too.
+	(handle_text_plain): Use a 'smarter' printf format, so we dont
+	need to allocate and copy substrings unecessarily (esp since
+	they're about to be allocated any copied another few times
+	anyway *sigh*).
+	(write_field_to_stream): Commented out the isprint check, which
+	afaik serves no purpose.
+	(list_add_addresses): New function to build a list of
+	display-ready addresses.  Although I think the composer then uses
+	these as internet-ready addresses.  It should probably take a list
+	of CamelAddress's if thats what it wants.
+	(mail_generate_reply): Cleaned up the address list creation stuff
+	a heap, and fixes for camel api changes.  Also fixed a small
+	memory leak as a side effect (fulladdr wasn't freed if it was the
+	same as the sender).
+
+	* mail-display.c (on_object_requested): Changed for interface
+	changes to the from address.  I think passing the encoded
+	(internet version) of the address is right here.
+
 2000-11-06  Jeffrey Stedfast  <fejj@helixcode.com>
 
 	* folder-browser.c (on_right_click): Move filter stuff into a
