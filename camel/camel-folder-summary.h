@@ -68,6 +68,7 @@ enum _CamelMessageFlags {
 	CAMEL_MESSAGE_ATTACHMENTS = 1<<5,
 	CAMEL_MESSAGE_ANSWERED_ALL = 1<<6,
 	CAMEL_MESSAGE_JUNK = 1<<7,
+	CAMEL_MESSAGE_SECURE = 1<<8,
 
 	/* following flags are for the folder, and are not really permanent flags */
 	CAMEL_MESSAGE_FOLDER_FLAGGED = 1<<16, /* for use by the folder implementation */

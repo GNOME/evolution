@@ -2056,9 +2056,7 @@ summary_build_content_info(CamelFolderSummary *s, CamelMessageInfo *msginfo, Cam
 		    || camel_content_type_is(ct, "application", "pkcs7-signature")
 #endif
 			)
-			/* TODO: set secured bit */;
-		else if (!camel_content_type_is(ct, "text", "*"))
-			msginfo->flags |= CAMEL_MESSAGE_ATTACHMENTS;
+			msginfo->flags |= CAMEL_MESSAGE_SECURE;
 
 		if (p->index && camel_content_type_is(ct, "text", "*")) {
 			char *encoding;
@@ -2143,6 +2141,9 @@ summary_build_content_info(CamelFolderSummary *s, CamelMessageInfo *msginfo, Cam
 		ct = camel_mime_parser_content_type(mp);
 		if (camel_content_type_is(ct, "multipart", "mixed"))
 			msginfo->flags |= CAMEL_MESSAGE_ATTACHMENTS;
+		if (camel_content_type_is(ct, "multipart", "signed")
+		    || camel_content_type_is(ct, "multipart", "encrypted"))
+			msginfo->flags |= CAMEL_MESSAGE_SECURE;
 
 		while (camel_mime_parser_step(mp, &buffer, &len) != CAMEL_MIME_PARSER_STATE_MULTIPART_END) {
 			camel_mime_parser_unstep(mp);
@@ -2203,15 +2204,17 @@ summary_build_content_info_message(CamelFolderSummary *s, CamelMessageInfo *msgi
 	if (camel_content_type_is(ct, "multipart", "*")) {
 		if (camel_content_type_is(ct, "multipart", "mixed"))
 			msginfo->flags |= CAMEL_MESSAGE_ATTACHMENTS;
+		if (camel_content_type_is(ct, "multipart", "signed")
+		    || camel_content_type_is(ct, "multipart", "encrypted"))
+			msginfo->flags |= CAMEL_MESSAGE_SECURE;
 	} else if (camel_content_type_is(ct, "application", "pgp-signature")
 #ifdef ENABLE_SMIME
 		    || camel_content_type_is(ct, "application", "x-pkcs7-signature")
 		    || camel_content_type_is(ct, "application", "pkcs7-signature")
 #endif
 		) {
-		/* TODO: signed bit */;
-	} else if (!camel_content_type_is(ct, "text", "*"))
-		msginfo->flags |= CAMEL_MESSAGE_ATTACHMENTS;
+		msginfo->flags |= CAMEL_MESSAGE_SECURE;
+	}
 
 	/* using the object types is more accurate than using the mime/types */
 	if (CAMEL_IS_MULTIPART(containee)) {
@@ -2557,6 +2560,7 @@ struct flag_names_t {
 	{ "seen", CAMEL_MESSAGE_SEEN },
 	{ "attachments", CAMEL_MESSAGE_ATTACHMENTS },
 	{ "junk", CAMEL_MESSAGE_JUNK },
+	{ "secure", CAMEL_MESSAGE_SECURE },
 	{ NULL, 0 }
 };
 

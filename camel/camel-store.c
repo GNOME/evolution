@@ -316,6 +316,14 @@ camel_store_create_folder (CamelStore *store, const char *parent_name,
 {
 	CamelFolderInfo *fi;
 
+	if ((parent_name == NULL || parent_name[0] == 0)
+	    && (((store->flags & CAMEL_STORE_VTRASH) && strcmp(folder_name, CAMEL_VTRASH_NAME) == 0)
+		|| ((store->flags & CAMEL_STORE_VJUNK) && strcmp(folder_name, CAMEL_VJUNK_NAME) == 0))) {
+		camel_exception_setv(ex, CAMEL_EXCEPTION_STORE_INVALID,
+				     _("Cannot create folder: %s: folder exists"), folder_name);
+		return NULL;
+	}
+
 	CAMEL_STORE_LOCK(store, folder_lock);
 	fi = CS_CLASS (store)->create_folder (store, parent_name, folder_name, ex);
 	CAMEL_STORE_UNLOCK(store, folder_lock);
@@ -422,6 +430,13 @@ camel_store_rename_folder (CamelStore *store, const char *old_namein, const char
 
 	if (strcmp(old_namein, new_name) == 0)
 		return;
+
+	if (((store->flags & CAMEL_STORE_VTRASH) && strcmp(old_namein, CAMEL_VTRASH_NAME) == 0)
+	    || ((store->flags & CAMEL_STORE_VJUNK) && strcmp(old_namein, CAMEL_VJUNK_NAME) == 0)) {
+		camel_exception_setv(ex, CAMEL_EXCEPTION_STORE_NO_FOLDER,
+				     _("Cannot rename folder: %s: Invalid operation"), old_namein);
+		return;
+	}
 
 	/* need to save this, since old_namein might be folder->full_name, which could go away */
 	old_name = g_strdup(old_namein);
