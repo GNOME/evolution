@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 2.8\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-10-04 10:33+0100\n"
-"PO-Revision-Date: 2004-10-04 10:40+0000\n"
+"POT-Creation-Date: 2004-10-09 12:48+0100\n"
+"PO-Revision-Date: 2004-10-09 12:50+0000\n"
 "Last-Translator: Duarte Loreto <happyguy_pt@hotmail.com>\n"
 "Language-Team: Portuguese <gnome_pt@yahoogroups.com>\n"
 "MIME-Version: 1.0\n"
@@ -2894,8 +2894,8 @@ msgstr "Protocolo não é suportado"
 #: calendar/gui/e-cal-component-preview.c:233
 #: calendar/gui/e-cal-model-tasks.c:353 calendar/gui/e-cal-model-tasks.c:656
 #: calendar/gui/e-calendar-table.c:473 calendar/gui/print.c:2349
-#: camel/camel-service.c:723 camel/camel-service.c:887
-#: camel/camel-service.c:1015 camel/providers/pop3/camel-pop3-store.c:463
+#: camel/camel-service.c:724 camel/camel-service.c:886
+#: camel/camel-service.c:1017 camel/providers/pop3/camel-pop3-store.c:463
 #: camel/providers/pop3/camel-pop3-store.c:544
 msgid "Cancelled"
 msgstr "Cancelado"
@@ -2907,6 +2907,7 @@ msgstr "Incapaz de cancelar"
 
 #. E_BOOK_ERROR_AUTHENTICATION_FAILED
 #: addressbook/gui/widgets/eab-gui-util.c:63
+#: calendar/gui/comp-editor-factory.c:428
 msgid "Authentication Failed"
 msgstr "Autenticação Falhou"
 
@@ -3771,7 +3772,7 @@ msgstr ""
 "Os seus calendários não estarão disponíveis até que o Evolution seja "
 "reiniciado."
 
-#: calendar/common/authentication.c:47 calendar/gui/e-pub-utils.c:301
+#: calendar/common/authentication.c:49 calendar/gui/e-pub-utils.c:301
 #: smime/gui/component.c:48
 msgid "Enter password"
 msgstr "Introduza a senha"
@@ -4290,19 +4291,29 @@ msgstr "Vista de Semana"
 msgid "Month View"
 msgstr "Vista de Mês"
 
-#: calendar/gui/comp-editor-factory.c:409
+#: calendar/gui/comp-editor-factory.c:410
 msgid "Error while opening the calendar"
 msgstr "Erro ao abrir o calendário"
 
-#: calendar/gui/comp-editor-factory.c:420
+#: calendar/gui/comp-editor-factory.c:416
 msgid "Method not supported when opening the calendar"
 msgstr "Método não suportado ao abrir o calendário"
 
-#: calendar/gui/comp-editor-factory.c:426
+#: calendar/gui/comp-editor-factory.c:422
 msgid "Permission denied to open the calendar"
 msgstr "Autorização negada ao abrir o calendário"
 
-#: calendar/gui/comp-editor-factory.c:474
+#: calendar/gui/comp-editor-factory.c:434
+#: camel/providers/imap/camel-imap-command.c:303
+#: camel/providers/imap/camel-imap-command.c:400
+#: camel/providers/imap4/camel-imap4-store.c:260
+#: camel/providers/pop3/camel-pop3-store.c:550
+#: camel/providers/pop3/camel-pop3-store.c:557
+#: camel/providers/pop3/camel-pop3-store.c:563 shell/e-shell.c:1228
+msgid "Unknown error"
+msgstr "Erro desconhecido"
+
+#: calendar/gui/comp-editor-factory.c:478
 #, c-format
 msgid "open_client(): %s"
 msgstr "open_client(): %s"
@@ -5888,7 +5899,7 @@ msgstr "_Marcar as Tarefas Seleccionadas como Terminadas"
 #. FIXME: need to disable for undeletable folders
 #: calendar/gui/e-calendar-table.c:1063 calendar/gui/e-calendar-table.c:1081
 #: calendar/gui/e-calendar-view.c:1451 calendar/gui/e-calendar-view.c:1484
-#: mail/em-folder-tree.c:2722 mail/em-folder-view.c:924
+#: mail/em-folder-tree.c:2720 mail/em-folder-view.c:924
 #: ui/evolution-addressbook.xml.h:33 ui/evolution-calendar.xml.h:40
 #: ui/evolution-comp-editor.xml.h:17 ui/evolution-contact-editor.xml.h:14
 #: ui/evolution-mail-message.xml.h:112 ui/evolution-tasks.xml.h:21
@@ -9510,26 +9521,26 @@ msgstr "Autenticação POP Antes de SMTP a utilizar uma origem não-POP"
 msgid "Regular expression compilation failed: %s: %s"
 msgstr "Falha ao compilar a expressão regular: %s: %s"
 
-#: camel/camel-service.c:273
+#: camel/camel-service.c:274
 #, c-format
 msgid "URL '%s' needs a username component"
 msgstr "URL '%s' necessita de um componente utilizador"
 
-#: camel/camel-service.c:277
+#: camel/camel-service.c:278
 #, c-format
 msgid "URL '%s' needs a host component"
 msgstr "URL '%s' necessita de um componente máquina"
 
-#: camel/camel-service.c:281
+#: camel/camel-service.c:282
 #, c-format
 msgid "URL '%s' needs a path component"
 msgstr "URL '%s' necessita de um componente caminho"
 
-#: camel/camel-service.c:742
+#: camel/camel-service.c:743
 msgid "cannot create thread"
 msgstr "incapaz de criar uma thread"
 
-#: camel/camel-service.c:891
+#: camel/camel-service.c:890
 #, c-format
 msgid "Resolving: %s"
 msgstr "A resolver: %s"
@@ -9538,13 +9549,23 @@ msgstr "A resolver: %s"
 msgid "Host lookup failed"
 msgstr "Falha ao procurar uma máquina"
 
-#: camel/camel-service.c:1019
-msgid "Resolving address"
-msgstr "A resolver endereço"
+#: camel/camel-service.c:914
+#, c-format
+msgid "Host lookup failed: %s: %s"
+msgstr "Falha ao procurar uma máquina: %s: %s"
 
-#: camel/camel-service.c:1039
+#: camel/camel-service.c:1021
+msgid "Resolving address"
+msgstr "A resolver o endereço"
+
+#: camel/camel-service.c:1041
 msgid "Name lookup failed"
-msgstr "Falha ao resolver o nome"
+msgstr "Falha ao procurar o nome"
+
+#: camel/camel-service.c:1044
+#, c-format
+msgid "Name lookup failed: %s"
+msgstr "Falha ao procurar o nome: %s"
 
 #: camel/camel-session.c:282
 #, c-format
@@ -10139,15 +10160,6 @@ msgstr "Operação cancelada"
 #, c-format
 msgid "Server unexpectedly disconnected: %s"
 msgstr "Servidor desligou-se inesperadamente: %s"
-
-#: camel/providers/imap/camel-imap-command.c:303
-#: camel/providers/imap/camel-imap-command.c:400
-#: camel/providers/imap4/camel-imap4-store.c:260
-#: camel/providers/pop3/camel-pop3-store.c:550
-#: camel/providers/pop3/camel-pop3-store.c:557
-#: camel/providers/pop3/camel-pop3-store.c:563 shell/e-shell.c:1228
-msgid "Unknown error"
-msgstr "Erro desconhecido"
 
 #. for imap ALERT codes, account user@host
 #: camel/providers/imap/camel-imap-command.c:320
@@ -12891,14 +12903,14 @@ msgstr "Assinatura(s)"
 msgid "-------- Forwarded Message --------"
 msgstr "------ Mensagem Reencaminhada ------"
 
-#: mail/em-composer-utils.c:1502
+#: mail/em-composer-utils.c:1505
 msgid "an unknown sender"
 msgstr "um remetente desconhecido"
 
 #. Note to translators: this is the attribution string used when quoting messages.
 #. * each ${Variable} gets replaced with a value. To see a full list of available
 #. * variables, see em-composer-utils.c:1514
-#: mail/em-composer-utils.c:1549
+#: mail/em-composer-utils.c:1552
 msgid ""
 "On ${AbbrevWeekdayName}, ${Year}-${Month}-${Day} at ${24Hour}:${Minute} "
 "${TimeZone}, ${Sender} wrote:"
@@ -13194,7 +13206,7 @@ msgstr "<clique aqui para seleccionar uma pasta>"
 msgid "Create New Folder"
 msgstr "Criar uma Nova Pasta"
 
-#: mail/em-folder-selector.c:166 mail/em-folder-tree.c:2442
+#: mail/em-folder-selector.c:166 mail/em-folder-tree.c:2440
 #: mail/mail-component.c:712
 msgid "Specify where to create the folder:"
 msgstr "Especificar onde criar a pasta:"
@@ -13254,7 +13266,7 @@ msgstr "_Copiar para a Pasta"
 msgid "_Move to Folder"
 msgstr "_Mover para a Pasta"
 
-#: mail/em-folder-tree.c:1014 mail/em-folder-tree.c:2228
+#: mail/em-folder-tree.c:1014 mail/em-folder-tree.c:2226
 #: mail/em-folder-view.c:803 mail/message-list.c:1703
 msgid "_Move"
 msgstr "_Mover"
@@ -13268,63 +13280,63 @@ msgstr "Cancelar A_rrastar"
 msgid "Scanning folders in \"%s\""
 msgstr "A analisar as pastas em \"%s\""
 
-#: mail/em-folder-tree.c:2215 mail/em-folder-tree.c:2228
+#: mail/em-folder-tree.c:2213 mail/em-folder-tree.c:2226
 #: mail/em-folder-view.c:803 mail/em-folder-view.c:817
 #: mail/importers/evolution-mbox-importer.c:119
 #: mail/importers/evolution-outlook-importer.c:133
 msgid "Select folder"
 msgstr "Seleccionar a pasta"
 
-#: mail/em-folder-tree.c:2215 mail/em-folder-view.c:817
+#: mail/em-folder-tree.c:2213 mail/em-folder-view.c:817
 msgid "C_opy"
 msgstr "C_opiar"
 
-#: mail/em-folder-tree.c:2255
+#: mail/em-folder-tree.c:2253
 #, c-format
 msgid "Creating folder `%s'"
 msgstr "A criar a pasta `%s'"
 
-#: mail/em-folder-tree.c:2442 mail/mail-component.c:712
+#: mail/em-folder-tree.c:2440 mail/mail-component.c:712
 msgid "Create folder"
 msgstr "Criar uma pasta"
 
-#: mail/em-folder-tree.c:2633
+#: mail/em-folder-tree.c:2631
 #, c-format
 msgid "Rename the \"%s\" folder to:"
 msgstr "Renomear a pasta \"%s\" para:"
 
-#: mail/em-folder-tree.c:2635
+#: mail/em-folder-tree.c:2633
 msgid "Rename Folder"
 msgstr "Renomear a Pasta"
 
-#: mail/em-folder-tree.c:2710 ui/evolution-addressbook.xml.h:44
+#: mail/em-folder-tree.c:2708 ui/evolution-addressbook.xml.h:44
 #: ui/evolution-mail-global.xml.h:18 ui/evolution-mail-messagedisplay.xml.h:8
 #: ui/evolution-message-composer.xml.h:53 ui/evolution.xml.h:37
 msgid "_View"
 msgstr "_Ver"
 
-#: mail/em-folder-tree.c:2711
+#: mail/em-folder-tree.c:2709
 msgid "Open in _New Window"
 msgstr "Abrir numa _Nova Janela"
 
-#: mail/em-folder-tree.c:2715
+#: mail/em-folder-tree.c:2713
 msgid "_Copy..."
 msgstr "_Copiar..."
 
-#: mail/em-folder-tree.c:2716
+#: mail/em-folder-tree.c:2714
 msgid "_Move..."
 msgstr "_Mover..."
 
 #. FIXME: need to disable for nochildren folders
-#: mail/em-folder-tree.c:2720
+#: mail/em-folder-tree.c:2718
 msgid "_New Folder..."
 msgstr "_Nova Pasta..."
 
-#: mail/em-folder-tree.c:2723
+#: mail/em-folder-tree.c:2721
 msgid "_Rename..."
 msgstr "_Renomear..."
 
-#: mail/em-folder-tree.c:2726 ui/evolution-mail-list.xml.h:27
+#: mail/em-folder-tree.c:2724 ui/evolution-mail-list.xml.h:27
 msgid "_Properties"
 msgstr "_Propriedades"
 
@@ -14618,9 +14630,9 @@ msgstr "_Nome de utilizador:"
 msgid "_Path:"
 msgstr "_Caminho"
 
-#: mail/mail-account-gui.c:1782
-msgid "Select individual file"
-msgstr "Seleccione um único ficheiro"
+#: mail/mail-account-gui.c:1782 shell/e-shell-importer.c:643
+msgid "Select a file"
+msgstr "Seleccione um ficheiro"
 
 #: mail/mail-autofilter.c:74
 #, c-format
@@ -16700,10 +16712,6 @@ msgstr "Automático"
 #: shell/e-shell-importer.c:638
 msgid "F_ilename:"
 msgstr "Nome do f_icheiro:"
-
-#: shell/e-shell-importer.c:643
-msgid "Select a file"
-msgstr "Seleccione um ficheiro"
 
 #: shell/e-shell-importer.c:655
 msgid "File _type:"
@@ -19259,7 +19267,7 @@ msgstr "%B %Y"
 msgid "Now"
 msgstr "Agora"
 
-#: widgets/misc/e-cell-date-edit.c:805
+#: widgets/misc/e-cell-date-edit.c:810
 #, c-format
 msgid "The time must be in the format: %s"
 msgstr "A hora tem de ser no formato: %s"
@@ -19536,6 +19544,9 @@ msgstr "%s (...)"
 #, c-format
 msgid "%s (%d%% complete)"
 msgstr "%s (%d%% terminado)"
+
+#~ msgid "Select individual file"
+#~ msgstr "Seleccione um único ficheiro"
 
 #~ msgid "Failed to resolve host `%s': %s"
 #~ msgstr "Falha ao resolver o endereço da máquina `%s': %s"
