@@ -151,9 +151,9 @@ e_calendar_table_class_init (ECalendarTableClass *class)
         "<ETableColumn model_col=\"13\" pixbuf=\"icon\"                  expansion=\"1.0\" minimum_width=\"10\" resizable=\"true\" cell=\"icon\"     compare=\"integer\"/>" \
         "<ETableColumn model_col=\"14\" pixbuf=\"complete\"              expansion=\"1.0\" minimum_width=\"10\" resizable=\"true\" cell=\"checkbox\" compare=\"integer\"/>" \
 	"<ETableState>" 				\
-		"<column> 13 </column>"			\
-		"<column> 9 </column>"			\
-		"<column> 14 </column>"			\
+                "<column source=\"13\"/>"               \
+                "<column source= \"9\"/>"               \
+                "<column source=\"14\"/>"               \
         	"<grouping> </grouping>"		\
 	"</ETableState>"				\
 	"</ETableSpecification>"

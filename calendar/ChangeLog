@@ -1,5 +1,9 @@
 2000-10-11  Christopher James Lahey  <clahey@helixcode.com>
 
+	* gui/e-calendar-table.c: Fixed the column elements here.
+
+2000-10-11  Christopher James Lahey  <clahey@helixcode.com>
+
 	* gui/e-calendar-table.c: Updated to use the new ETable
 	specification stuff.
 
