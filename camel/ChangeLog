@@ -1,3 +1,13 @@
+2004-03-26  Not Zed  <NotZed@Ximian.com>
+
+	* providers/local/camel-maildir-summary.c (flagbits[]): Added new
+	maildir flags D for draft and commented P for forwarded.
+
+	* providers/imap/camel-imap-store.c (get_folder_counts): Instead
+	of looking up the folder in the object bag which will handle
+	reservations and perhaps deadlock, just get the list of opened
+	folders and use them if they're available.  Should fix #56045.
+
 2004-03-25  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* providers/imap4/camel-imap-engine.c
