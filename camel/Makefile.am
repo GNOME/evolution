@@ -11,13 +11,29 @@ INCLUDES = -I.. -I$(srcdir)/.. -I$(includedir)	\
 	-I$(top_srcdir)/intl			\
 	$(GTK_INCLUDEDIR)
 
+
+if HAVE_PTHREAD
+
+libcamel_pthread_SOURCES =	\
+	camel-folder-pt-proxy.c		
+
+libcamel_pthread_HEADERS =	\
+	camel-folder-pt-proxy.h		
+
+else
+
+libcamel_pthread_SOURCES =
+libcamel_pthread_HEADERS =
+
+endif
+
+
 libcamel_la_SOURCES = 				\
 	camel.c					\
 	camel-log.c				\
 	camel-data-wrapper.c			\
 	camel-simple-data-wrapper.c		\
 	camel-folder.c				\
-	camel-folder-pt-proxy.c			\
 	camel-folder-summary.c			\
 	camel-medium.c				\
 	camel-mime-body-part.c			\
@@ -42,7 +58,8 @@ libcamel_la_SOURCES = 				\
 	hash-table-utils.c			\
 	md5-utils.c				\
 	string-utils.c				\
-	url-util.c
+	url-util.c				\
+	$(libcamel_pthread_SOURCES)
 
 libcamelinclude_HEADERS =			\
 	camel.h					\
@@ -50,7 +67,6 @@ libcamelinclude_HEADERS =			\
 	camel-data-wrapper.h			\
 	camel-simple-data-wrapper.h		\
 	camel-folder.h				\
-	camel-folder-pt-proxy.h			\
 	camel-folder-summary.h			\
 	camel-mime-body-part.h			\
 	camel-medium.h				\
@@ -75,7 +91,8 @@ libcamelinclude_HEADERS =			\
 	hash-table-utils.h			\
 	md5-utils.h				\
 	string-utils.h				\
-	url-util.h
+	url-util.h				\
+	$(libcamel_pthread_HEADERS)
 
 
 libcamel_la_LDFLAGS = -version-info 0:0:0 -rpath $(libdir)

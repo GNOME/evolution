@@ -80,7 +80,7 @@ static gboolean _thread_notification_catch (GIOChannel *source,
 					    gpointer data);
 
 static void
-camel_folder_proxy_class_init (CamelFolderPtProxyClass *camel_folder_pt_proxy_class)
+camel_folder_pt_proxy_class_init (CamelFolderPtProxyClass *camel_folder_pt_proxy_class)
 {
 	GtkObjectClass *gtk_object_class = GTK_OBJECT_CLASS (camel_folder_pt_proxy_class);
 	CamelFolderClass *camel_folder_class = CAMEL_FOLDER_CLASS (camel_folder_pt_proxy_class);
@@ -123,7 +123,7 @@ camel_folder_proxy_class_init (CamelFolderPtProxyClass *camel_folder_pt_proxy_cl
 
 
 static void
-camel_folder_proxy_init (CamelFolderPtProxy *folder_pt_proxy)
+camel_folder_pt_proxy_init (CamelFolderPtProxy *folder_pt_proxy)
 {
 	folder_pt_proxy->op_queue = camel_op_queue_new ();
 	folder_pt_proxy->signal_data_cond = g_cond_new();
@@ -133,7 +133,7 @@ camel_folder_proxy_init (CamelFolderPtProxy *folder_pt_proxy)
 
 
 GtkType
-camel_folder_proxy_get_type (void)
+camel_folder_pt_proxy_get_type (void)
 {
 	static GtkType camel_folder_pt_proxy_type = 0;
 	
@@ -143,8 +143,8 @@ camel_folder_proxy_get_type (void)
 			"CamelFolderPtProxy",
 			sizeof (CamelFolderPtProxy),
 			sizeof (CamelFolderPtProxyClass),
-			(GtkClassInitFunc) camel_folder_proxy_class_init,
-			(GtkObjectInitFunc) camel_folder_proxy_init,
+			(GtkClassInitFunc) camel_folder_pt_proxy_class_init,
+			(GtkObjectInitFunc) camel_folder_pt_proxy_init,
 				/* reserved_1 */ NULL,
 				/* reserved_2 */ NULL,
 			(GtkClassInitFunc) NULL,

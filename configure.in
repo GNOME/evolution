@@ -41,6 +41,19 @@ AM_GNOME_GETTEXT
 GNOME_X_CHECKS
 
 dnl **************************************************
+dnl * Posix thread support
+dnl **************************************************
+GNOME_PTHREAD_CHECK
+if test "x$PTHREAD_LIB" = "x" ; then
+   have_pthread=false
+else
+   have_pthread=true
+fi
+
+AM_CONDITIONAL(HAVE_PTHREAD, $have_pthread)
+
+
+dnl **************************************************
 dnl * ORBit support
 dnl **************************************************
 dnl GNOMEGNORBA_LIBS="$GNOMEGNORBA_LIBS"

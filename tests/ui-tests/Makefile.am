@@ -7,7 +7,7 @@ INCLUDES = -I$(top_srcdir)/intl -I$(top_srcdir)/camel \
 LDADD = \
 	$(top_builddir)/camel/libcamel.la 	\
 	$(top_builddir)/camel/providers/MH/libcamelmh.la 	\
-	$(INTLLIBS) $(EXTRA_GNOME_LIBS)
+	$(INTLLIBS) $(EXTRA_GNOME_LIBS)  $(PTHREAD_LIB)
 
 
 

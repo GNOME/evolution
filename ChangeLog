@@ -1,5 +1,12 @@
 1999-09-21  bertrand  <Bertrand.Guiheneuf@aful.org>
 
+	* configure.in:
+	Check pthreads.
+
+	* camel/Makefile.am: 
+	camel-folder-pt-proxy.c is only compiled
+	when pthreads are available.
+	
 	* camel/camel-folder-pt-proxy.c:
 	Signal proxying implemenatation. 
 	(_signal_marshaller_server_side): 
