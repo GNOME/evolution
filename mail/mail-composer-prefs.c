@@ -401,6 +401,15 @@ sig_random_toggled (GtkWidget *widget, MailComposerPrefs *prefs)
 }
 
 static void
+sig_advanced_toggled (GtkWidget *widget, MailComposerPrefs *prefs)
+{
+	GtkWidget *advanced_frame;
+	
+	advanced_frame = glade_xml_get_widget (prefs->gui, "frameAdvancedOptions");
+	gtk_widget_set_sensitive (advanced_frame, gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (widget)));
+}
+
+static void
 sig_html_toggled (GtkWidget *widget, MailComposerPrefs *prefs)
 {
 	MailConfigSignature *sig = sig_current_sig (prefs);
@@ -573,6 +582,8 @@ mail_composer_prefs_construct (MailComposerPrefs *prefs)
 	prefs->sig_random = GTK_TOGGLE_BUTTON (glade_xml_get_widget (gui, "chkRandomSignature"));
 	gtk_signal_connect (GTK_OBJECT (prefs->sig_random), "toggled",
 			    GTK_SIGNAL_FUNC (sig_random_toggled), prefs);
+	gtk_signal_connect (GTK_OBJECT (prefs->sig_random), "toggled",
+			    toggle_button_toggled, prefs);
 	
 	prefs->sig_clist = GTK_CLIST (glade_xml_get_widget (gui, "clistSignatures"));
 	sig_fill_clist (prefs->sig_clist);
@@ -581,9 +592,19 @@ mail_composer_prefs_construct (MailComposerPrefs *prefs)
 	gtk_signal_connect (GTK_OBJECT (prefs->sig_clist), "unselect_row",
 			    GTK_SIGNAL_FUNC (sig_row_unselect), prefs);
 	
+	prefs->sig_advanced = GTK_TOGGLE_BUTTON (glade_xml_get_widget (gui, "chkAdvancedSignature"));
+	gtk_toggle_button_set_active (prefs->sig_advanced, FALSE);
+	gtk_signal_connect (GTK_OBJECT (prefs->sig_advanced), "toggled",
+			    GTK_SIGNAL_FUNC (sig_advanced_toggled), prefs);
+	
+	widget = glade_xml_get_widget (gui, "frameAdvancedOptions");
+	gtk_widget_set_sensitive (widget, FALSE);
+	
 	prefs->sig_html = GTK_TOGGLE_BUTTON (glade_xml_get_widget (gui, "chkHtmlSignature"));
 	gtk_signal_connect (GTK_OBJECT (prefs->sig_html), "toggled",
 			    GTK_SIGNAL_FUNC (sig_html_toggled), prefs);
+	gtk_signal_connect (GTK_OBJECT (prefs->sig_html), "toggled",
+			    toggle_button_toggled, prefs);
 	
 	prefs->sig_filename = GNOME_FILE_ENTRY (glade_xml_get_widget (gui, "fileSignatureFilename"));
 	gtk_signal_connect (GTK_OBJECT (gnome_file_entry_gtk_entry (prefs->sig_filename)),
@@ -642,7 +663,7 @@ mail_composer_prefs_apply (MailComposerPrefs *prefs)
 		g_free (string);
 	}
 	
-	/* Spell CHecking */
+	/* Spell Checking */
 	/* FIXME: implement me */
 	
 	/* Forwards and Replies */

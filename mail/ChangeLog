@@ -1,5 +1,9 @@
 2002-04-12  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* mail-composer-prefs.c (mail_composer_prefs_construct): Make it
+	so that unchecking the "Enable Advanced Options" in the signature
+	tab disables the advanced settings and vise versa.
+
 	* mail-accounts.c (mail_accounts_tab_construct): Setup News
 	preferences too if it is enabled.
 
