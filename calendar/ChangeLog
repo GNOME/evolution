@@ -1,5 +1,13 @@
 2004-06-02  Rodrigo Moya <rodrigo@novell.com>
 
+	* gui/e-meeting-list-view.c (start_addressbook_server): removed
+	pre-completion code, not needed anymore.
+	(emlv_finalize): no need to unref the book anymore.
+	(emlv_init): don't call start_addressbook_server.
+
+	* gui/e-meeting-store.c (start_addressbook_server): removed.
+	(ems_finalize): no need to unref the book anymore.
+
 	* gui/dialogs/copy-source-dialog.c (copy_source): fixed
 	leak and pass the correct icalcomponent to e_cal_modify_object.
 

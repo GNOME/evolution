@@ -48,11 +48,8 @@
 
 #define SELECT_NAMES_OAFID "OAFIID:GNOME_Evolution_Addressbook_SelectNames:" BASE_VERSION
 
-struct _EMeetingListViewPrivate 
-{
+struct _EMeetingListViewPrivate {
 	EMeetingStore *store;
-
-	EBook *ebook;
 
         GNOME_Evolution_Addressbook_SelectNames corba_select_names;
 };
@@ -73,28 +70,10 @@ static icalparameter_role roles[] = {ICAL_ROLE_CHAIR,
 static GtkTreeViewClass *parent_class = NULL;
 
 static void
-start_addressbook_server (EMeetingListView *view)
-{
-	GError *error = NULL;
-
-	view->priv->ebook = e_book_new_system_addressbook (&error);
-	if (!view->priv->ebook
-	    || !e_book_open (view->priv->ebook, FALSE, &error)) {
-		g_warning ("start_addressbook_server(): %s", error->message);
-		g_error_free (error);
-
-		return;
-	}
-}
-
-static void
 emlv_finalize (GObject *obj)
 {
 	EMeetingListView *view = E_MEETING_LIST_VIEW (obj);
 	EMeetingListViewPrivate *priv = view->priv;
-	
-	if (priv->ebook != NULL)
-		g_object_unref (priv->ebook);
 
 	if (priv->corba_select_names != CORBA_OBJECT_NIL) {
 		CORBA_Environment ev;
@@ -128,8 +107,6 @@ emlv_init (EMeetingListView *view)
 	view->priv = priv;
 
 	priv->corba_select_names = CORBA_OBJECT_NIL;
-	
-	start_addressbook_server (view);
 }
 
 E_MAKE_TYPE (e_meeting_list_view, "EMeetingListView", EMeetingListView, emlv_class_init, emlv_init, GTK_TYPE_TREE_VIEW);
