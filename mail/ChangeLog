@@ -1,3 +1,8 @@
+2001-06-20  Kjartan Maraas  <kmaraas@gnome.org>
+
+	* folder-browser.c: More than on accel key is a tad
+	confusing.
+	
 2001-06-19  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-display.c: #include "folder-browser-factory.h"
