@@ -39,6 +39,7 @@
 #include <bonobo-activation/bonobo-activation.h>
 #include <libedataserver/e-source.h>
 #include "e-util/e-passwords.h"
+#include "e-util/e-icon-factory.h"
 #include "alarm.h"
 #include "alarm-queue.h"
 #include "alarm-notify.h"
@@ -168,6 +169,8 @@ main (int argc, char **argv)
 	glade_init ();
 
 	gnome_sound_init ("localhost");
+
+	e_icon_factory_init ();
 
 	factory = bonobo_generic_factory_new ("OAFIID:GNOME_Evolution_Calendar_AlarmNotify_Factory:" BASE_VERSION,
 					      (BonoboFactoryCallback) alarm_notify_factory_fn, NULL);
