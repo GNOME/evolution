@@ -12,12 +12,14 @@
 
 BEGIN_GNOME_DECLS
 
+
 #define EVENT_EDITOR(obj)         GTK_CHECK_CAST(obj, event_editor_get_type(), EventEditor)
 #define EVENT_EDITOR_CLASS(class) GTK_CHECK_CAST_CLASS(class, event_editor_get_type(), EventEditorClass)
 #define IS_EVENT_EDITOR(obj)      GTK_CHECK_TYPE(obj, event_editor_get_type())
 
+
 typedef struct {
-	GtkWindow  gtk_window;
+	GtkWindow  window;
 	GtkWidget  *notebook;
 	GtkWidget  *hbox;
 	GtkWidget  *vbox;
@@ -41,10 +43,14 @@ typedef struct {
 } EventEditor;
 
 typedef struct {
-	GnomePropertyBoxClass parent_class;
+	GtkWindowClass parent_class;
 } EventEditorClass;
 
-GtkWidget *event_editor_new (GnomeCalendar *owner, iCalObject *);
+
+guint      event_editor_get_type (void);
+GtkWidget *event_editor_new      (GnomeCalendar *owner, iCalObject *);
+
 
 END_GNOME_DECLS
+
 #endif

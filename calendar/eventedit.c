@@ -13,7 +13,6 @@
 #include "timeutil.h"
 
 static void event_editor_init          (EventEditor *ee);
-GtkWindow *parent_class;
 
 /* Note: do not i18n these strings, they are part of the vCalendar protocol */
 char *class_names [] = { "PUBLIC", "PRIVATE", "CONFIDENTIAL" };
@@ -34,7 +33,6 @@ event_editor_get_type (void)
 			(GtkArgGetFunc) NULL,
 		};
 		event_editor_type = gtk_type_unique (gtk_window_get_type (), &event_editor_info);
-		parent_class = gtk_type_class (gtk_window_get_type ());
 	}
 	return event_editor_type;
 }
