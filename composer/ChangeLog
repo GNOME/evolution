@@ -1,3 +1,8 @@
+2001-01-05  Radek Doulik  <rodo@helixcode.com>
+
+	* listener.c (impl_event): disable indenting for now, it crashes
+	editor
+
 2001-01-03  Jeffrey Stedfast  <fejj@helixcode.com>
 
 	* e-msg-composer.c (do_exit): If the headers have changed, then
