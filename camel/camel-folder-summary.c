@@ -536,7 +536,10 @@ camel_folder_summary_load(CamelFolderSummary *s)
 	/* FIXME: check returns */
 	for (i=0;i<s->saved_count;i++) {
 		mi = ((CamelFolderSummaryClass *)(CAMEL_OBJECT_GET_CLASS(s)))->message_info_load(s, in);
-
+		
+		if (!mi)
+			continue;
+		
 		if (s->build_content) {
 			mi->content = perform_content_info_load(s, in);
 		}
