@@ -1025,7 +1025,6 @@ set_completed (CalendarModel *model, CalComponent *comp, const char *value)
 		itt.hour = tmp_tm.tm_hour;
 		itt.minute = tmp_tm.tm_min;
 		itt.second = tmp_tm.tm_sec;
-		itt.is_daylight = -1;
 
 		/* We assume that COMPLETED is entered in the current timezone,
 		   even though it gets stored in UTC. */

@@ -1,3 +1,44 @@
+2001-07-11  Federico Mena Quintero  <federico@ximian.com>
+
+	Fixes bug #4380 as well as some leftovers from the days of struct
+	tm and some uninitialized values.
+
+	* gui/gnome-cal.c
+	(gnome_calendar_on_date_navigator_selection_changed): Initialize
+	the icaltimetype structures completely.
+	(gnome_calendar_init): Do not reset priv->zone to NULL here, since
+	it was set by gnome_calendar_update_config_settings() from
+	setup_widgets().
+
+	* gui/calendar-model.c (set_completed): Do not set is_daylight.
+
+	* gui/e-day-view.c (e_day_view_convert_grid_position_to_time):
+	Likewise.
+
+	* gui/e-week-view.c (e_week_view_set_timezone): Likewise.
+
+	* cal-util/cal-recur.c (generate_instances_for_chunk): Likewise,
+	and initialize start_tt and end_tt completely.
+
+	* cal-util/timeutil.c (time_year_begin_with_zone): Likewise.
+	(time_month_begin_with_zone): Likewise.
+	(time_week_begin_with_zone): Likewise.
+	(time_day_begin_with_zone): Likewise.
+	(time_day_end_with_zone): Likewise.
+	(time_from_isodate): Likewise.
+
+	* gui/dialogs/task-page.c (task_page_fill_component): Initialize
+	icaltime before using it.
+
+	* gui/dialogs/event-page.c (event_page_fill_component): Likewise.
+
+	* gui/dialogs/recurrence-page.c (simple_recur_to_comp): Removed an
+	unused icaltimetype.
+
+	* gui/dialogs/task-details-page.c
+	(task_details_page_fill_component): Initialize icaltime before
+	using it.
+
 2001-07-11  JP Rosevear  <jpr@ximian.com>
 
 	* gui/component-factory.c: fix the calendar not exiting with a

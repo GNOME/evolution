@@ -614,7 +614,6 @@ simple_recur_to_comp (RecurrencePage *rpage, CalComponent *comp)
 	GSList l;
 	enum ending_type ending_type;
 	gboolean date_set;
-	struct icaltimetype icaltime = icaltime_null_time ();
 
 	priv = rpage->priv;
 
@@ -755,12 +754,6 @@ simple_recur_to_comp (RecurrencePage *rpage, CalComponent *comp)
 	case ENDING_UNTIL:
 		g_assert (priv->ending_date_edit != NULL);
 		g_assert (E_IS_DATE_EDIT (priv->ending_date_edit));
-
-		/* UNTIL must be in UTC, unless it is a date. So we probably
-		   want to convert it to local time when showing. */
-		icaltime.is_utc = 0;
-		icaltime.is_date = 1;
-		icaltime.is_daylight = 0;
 
 		date_set = e_date_edit_get_date (E_DATE_EDIT (priv->ending_date_edit),
 						 &r.until.year,

@@ -1691,7 +1691,6 @@ e_week_view_set_timezone		(EWeekView	*week_view,
 	tt.year = g_date_year (&week_view->first_day_shown);
 	tt.month = g_date_month (&week_view->first_day_shown);
 	tt.day = g_date_day (&week_view->first_day_shown);
-	tt.is_daylight = -1;
 
 	lower = icaltime_as_timet_with_zone (tt, zone);
 

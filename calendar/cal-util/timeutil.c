@@ -279,7 +279,6 @@ time_year_begin_with_zone (time_t time, icaltimezone *zone)
 	tt.hour   = 0;
 	tt.minute = 0;
 	tt.second = 0;
-	tt.is_daylight = -1;
 
 	/* Convert back to a time_t. */
 	return icaltime_as_timet_with_zone (tt, zone);
@@ -304,7 +303,6 @@ time_month_begin_with_zone (time_t time, icaltimezone *zone)
 	tt.hour   = 0;
 	tt.minute = 0;
 	tt.second = 0;
-	tt.is_daylight = -1;
 
 	/* Convert back to a time_t. */
 	return icaltime_as_timet_with_zone (tt, zone);
@@ -337,7 +335,6 @@ time_week_begin_with_zone (time_t time, int week_start_day, icaltimezone *zone)
 	tt.hour   = 0;
 	tt.minute = 0;
 	tt.second = 0;
-	tt.is_daylight = -1;
 
 	/* Normalize it, to fix any overflow. */
 	tt = icaltime_normalize (tt);
@@ -364,7 +361,6 @@ time_day_begin_with_zone (time_t time, icaltimezone *zone)
 	tt.hour   = 0;
 	tt.minute = 0;
 	tt.second = 0;
-	tt.is_daylight = -1;
 
 	/* Convert back to a time_t. */
 	return icaltime_as_timet_with_zone (tt, zone);
@@ -389,7 +385,6 @@ time_day_end_with_zone (time_t time, icaltimezone *zone)
 	tt.hour   = 0;
 	tt.minute = 0;
 	tt.second = 0;
-	tt.is_daylight = -1;
 
 	/* Normalize it, to fix any overflow. */
 	tt = icaltime_normalize (tt);
@@ -558,8 +553,6 @@ time_from_isodate (const char *str)
 		tt.second  = digit_at (str, 13) * 10
 			   + digit_at (str, 14);
 	}
-
-	tt.is_daylight = -1;
 
 	utc_zone = icaltimezone_get_utc_timezone ();
 

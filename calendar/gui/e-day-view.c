@@ -5492,7 +5492,6 @@ e_day_view_convert_grid_position_to_time (EDayView *day_view,
 	tt.hour = minutes / 60;
 	tt.minute = minutes % 60;
 	tt.second = 0;
-	tt.is_daylight = -1;
 
 	val = icaltime_as_timet_with_zone (tt, day_view->zone);
 	return val;
@@ -5527,8 +5526,7 @@ e_day_view_convert_time_to_grid_position (EDayView *day_view,
 	tt = icaltime_from_timet_with_zone (time, FALSE, day_view->zone);
 
 	minutes = tt.hour * 60 + tt.minute;
-	minutes -= day_view->first_hour_shown * 60
-		+ day_view->first_minute_shown;
+	minutes -= day_view->first_hour_shown * 60 + day_view->first_minute_shown;
 
 	*row = minutes / day_view->mins_per_row;
 

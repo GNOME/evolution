@@ -61,12 +61,10 @@ prepare_tag (ECalendar *ecal, struct calendar_tag_closure *c)
 	start_tt.year = start_year;
 	start_tt.month = start_month + 1;
 	start_tt.day = start_day;
-	start_tt.is_daylight = -1;
 
 	end_tt.year = end_year;
 	end_tt.month = end_month + 1;
 	end_tt.day = end_day;
-	end_tt.is_daylight = -1;
 
 	icaltime_adjust (&end_tt, 1, 0, 0, 0);
 

@@ -301,10 +301,10 @@ task_details_page_fill_component (CompEditorPage *page, CalComponent *comp)
 	tdpage = TASK_DETAILS_PAGE (page);
 	priv = tdpage->priv;
 
+	icaltime = icaltime_null_time ();
+
 	/* COMPLETED must be in UTC. */
 	icaltime.is_utc = 1;
-	icaltime.is_date = 0;
-	icaltime.is_daylight = 0;
 
 	/* Completed Date. */
 	date_set = e_date_edit_get_date (E_DATE_EDIT (priv->completed_date),

@@ -554,14 +554,12 @@ task_page_fill_component (CompEditorPage *page, CalComponent *comp)
 
 	/* Dates */
 
+	icaltime = icaltime_null_time ();
+
 	date.value = &icaltime;
 	date.tzid = NULL;
 
-	icaltime.is_utc = 0;
 	/* FIXME: We should use is_date at some point. */
-	icaltime.is_date = 0;
-	icaltime.is_daylight = 0;
-	icaltime.second = 0;
 
 	/* Due Date. */
 	date_set = e_date_edit_get_date (E_DATE_EDIT (priv->due_date),

@@ -1201,13 +1201,13 @@ generate_instances_for_chunk (CalComponent	*comp,
 		g_print ("Checking occurrence: %s\n",
 			 cal_obj_time_to_string (occ));
 #endif
+		start_tt = icaltime_null_time ();
 		start_tt.year   = occ->year;
 		start_tt.month  = occ->month + 1;
 		start_tt.day    = occ->day;
 		start_tt.hour   = occ->hour;
 		start_tt.minute = occ->minute;
 		start_tt.second = occ->second;
-		start_tt.is_daylight = -1;
 		start_time = icaltime_as_timet_with_zone (start_tt, zone);
 
 		if (start_time == -1) {
@@ -1244,13 +1244,13 @@ generate_instances_for_chunk (CalComponent	*comp,
 			cal_obj_time_add_seconds (occ, duration_seconds);
 		}
 
+		end_tt = icaltime_null_time ();
 		end_tt.year   = occ->year;
 		end_tt.month  = occ->month + 1;
 		end_tt.day    = occ->day;
 		end_tt.hour   = occ->hour;
 		end_tt.minute = occ->minute;
 		end_tt.second = occ->second;
-		end_tt.is_daylight = -1;
 		end_time = icaltime_as_timet_with_zone (end_tt, zone);
 
 		if (end_time == -1) {

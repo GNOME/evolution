@@ -506,8 +506,6 @@ gnome_calendar_init (GnomeCalendar *gcal)
 
 	priv->view_collection = NULL;
 	priv->view_menus = NULL;
-
-	priv->zone = NULL;
 }
 
 /* Used from g_hash_table_foreach(); frees an UID string */
@@ -1816,22 +1814,16 @@ gnome_calendar_on_date_navigator_selection_changed (ECalendarItem    *calitem,
 		end_month = g_date_month (&new_end_date);
 		end_day = g_date_day (&new_end_date);
 
+		tt = icaltime_null_time ();
 		tt.year = start_year;
 		tt.month  = start_month;
 		tt.day = start_day;
-		tt.hour = 0;
-		tt.minute  = 0;
-		tt.second  = 0;
-		tt.is_daylight = -1;
 		priv->selection_start_time = icaltime_as_timet_with_zone (tt, priv->zone);
 
+		tt = icaltime_null_time ();
 		tt.year = end_year;
 		tt.month  = end_month;
 		tt.day = end_day;
-		tt.hour = 0;
-		tt.minute  = 0;
-		tt.second  = 0;
-		tt.is_daylight = -1;
 		icaltime_adjust (&tt, 1, 0, 0, 0);
 		priv->selection_end_time = icaltime_as_timet_with_zone (tt, priv->zone);
 
