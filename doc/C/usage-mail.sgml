@@ -1,3 +1,4 @@
+<!DOCTYPE Chapter PUBLIC "-//GNOME//DTD DocBook PNG Variant V1.1//EN">
 <chapter id="usage-mail">
   <title>Using Evolution for Email</title>
   <abstract>
@@ -110,24 +111,28 @@
     
     <para>
       Most of the mail-related actions you'll want to perform are
-      listed in the <guimenu>Message</guimenu> menu in the menu
-      bar.  The most frequently used ones, like
+      listed in the <guimenu>Message</guimenu> menu in the menu bar.
+      The most frequently used ones, like
       <guimenuitem>Reply</guimenuitem> and
       <guimenuitem>Forward</guimenuitem>, also appear as buttons in
       the toolbar. Almost all of them are also located in the
       right-click menu and as keyboard shortcuts, which tend to be
-      faster once you get the hang of them.  You can choose
-      whichever way you like best; the idea is that the software
-      should work the way you want, rather than making you work the
-      way the it does.
+      faster once you get the hang of them.  You can choose whichever
+      way you like best; the idea is that the software should work the
+      way you want, rather than making you work the way the it does.
       
       <tip id="view-headers">
-	<title>Take a look at the headers</title>
+	<title>Email Headers</title>
 	<para>
-	  To look at the entire source of your email message, including
-	  all the header information, select
-	  <menuchoice><guimenu>View</guimenu><guimenuitem>Source</guimenuitem></menuchoice>
-	</para>
+	  To look at the complete headers for email messages, select
+	  <menuchoice><guimenu>View</guimenu><guisubmenu>Message
+	  Display</guisubmenu><guimenuitem>Show Full
+	  Headers</guimenuitem></menuchoice>. To see absolutely every
+	  bit, choose
+	  <menuchoice><guimenu>View</guimenu><guisubmenu>Message
+	  Display</guisubmenu><guimenuitem>Show Email Source
+	  </guimenuitem></menuchoice>.
+       </para>
       </tip>
 
     </para>
@@ -177,14 +182,16 @@
 	  </listitem>
 	  <listitem>
 	    <para>
-	      Press delete button or right click and click on 
-	      <guilabel>Delete</guilabel>.
+	      Press delete button or right click on the message and
+	      choose <guilabel>Delete</guilabel>.
 	    </para>
 	    <note>
 	      <title>Deleted but still here?</title>
 	      <para>
-		When you do this, your message is marked to be deleted.  Your
-		email is not gone until you have expunged it.
+		When you do this, your message is marked to be
+		deleted.  Your email is not gone until you have
+		expunged it. When you "Expunge" a folder, you remove
+		all the mail that you have marked for deletion.
 	      </para>
 	    </note>
 	  </listitem>
@@ -207,8 +214,13 @@
       <note>
 	<title>Trash is Actually a Virtual Folder?</title>
 	<para>
-	  Your trash bin is actually a Virtual Folder that searches for all mails that
-	  are queued to be deleted.
+	  Your trash bin is actually a Virtual Folder that displays
+          all messages you have marked for later deletion.  For more
+          information about Virtual Folders, see <xref
+          linkend="usage-mail-organize-vfolders">.  If you choose
+          <menuchoice> <guimenu>Actions</guimenu> <guimenuitem>Empty
+          Trash</guimenuitem> </menuchoice> you will expunge
+          <emphasis>all</emphasis> your folders.
 	</para>
       </note>
     </sect2>
@@ -219,22 +231,28 @@
 	<orderedlist numeration="arabic">
 	  <listitem>
 	    <para>
-	      Click a message marked for deletion to select it
+	      Select a message you have marked for deletion.
 	    </para>
 	  </listitem>
 	  <listitem>
 	    <para>
-	      Click
+	      Press <keycombo
+	      action="simul"><keycap>Ctrl</keycap><keycap>U</keycap>
+	      </keycombo>
+	      or choose
 	      <menuchoice>
 		<guimenu>Actions</guimenu>
 		<guimenuitem>Undelete</guimenuitem>
 	      </menuchoice>
+
 	    </para>
 	    <note>
 	      <title>What does Undelete actually do?</title>
 	      <para>
-		Undelete doesn't bring back messages that have been expunged.
-		Undelete simply unmarks messages for expunging.
+                If you have marked a message for deletion, undeleting
+		it will unmark it, and the message will be removed
+		from the Trash folder. However, it can't bring back
+		messages that have been expunged.
 	      </para>
 	    </note>
 	  </listitem>
@@ -246,10 +264,11 @@
   <sect1 id="usage-mail-getnsend-get">
     <title>Checking Mail</title>
     <para>
-      Now that you've had a look around the <interface>Inbox</interface>, it's
-      time to check for new mail.  Click <guibutton>Get Mail</guibutton> in the
-      toolbar to check your mail.  If it's the first time you've done so, the
-      <interface>mail setup assistance</interface> will ask you for the
+      Now that you've had a look around the
+      <interface>Inbox</interface>, it's time to check for new mail.
+      Click <guibutton>Get Mail</guibutton> in the toolbar to check
+      your mail.  If you haven't entered any mail settings yet, the
+      <interface>setup assistant</interface> will ask you for the
       information it needs to check your email.
     </para>
     <para>
@@ -273,11 +292,11 @@
       </itemizedlist>
     </para>
     <para>
-      To check your email, press the <guibutton>Check Mail</guibutton> button.
-      If this is your first time checking mail, or you don't have
-      <application>Evolution</application> setup to store your password, you'll
-      be prompted for the password.  Enter your password and your email will be
-      downloaded.
+      To check your email, press the <guibutton>Check Mail</guibutton>
+      button.  If this is your first time checking mail, or you
+      haven't asked <application>Evolution</application> to store your
+      password, you'll be prompted for the password.  Enter your
+      password and your email will be downloaded.
     </para>
     <note id="badmailsettings">
       <title>Can't Check Mail?</title>
@@ -306,14 +325,20 @@
        <sect2 id="usage-mail-getnsend-get-attach">
 	 <title>Attachments and HTML Mail</title>
 	 <para>
-	   If someone sends you an <glossterm>attachment</glossterm>, a
-	   file attached to an email,
+	   If someone sends you an <glossterm>attachment</glossterm>,
+	   a file attached to an email,
 	   <application>Evolution</application> will display the file
 	   at the bottom of the message to which it's attached.  Text,
-	   HTML, and most images will be displayed within the message
-	   itself.  For other files,
+	   including HTML formatting, will appear as part of the
+	   message.  To minimize download time, and to foil spammers
+	   who use server information to track their messages, images
+	   linked from an HTML message <emphasis>not</emphasis>
+	   display unless you select the
+	   <menuchoice><guimenu>View</guimenu><guisubmenu>Message
+	   Display</guisubmenu><guimenuitem>Load Images
+	   </guimenuitem></menuchoice> option.  For other files,
 	   <application>Evolution</application> will show an icon at
-	   the end of the message. 
+	   the end of the message.
      </para>
      <para>
        To Save an Attachment to Disk:
@@ -346,54 +371,37 @@
 	 </listitem>
        </orderedlist>
       </para>
-      <tip>
-	<para>
-	  To automatically view an attachment inline, press the arrow button next
-	  to the attachment.
-	</para>
-      </tip>
+
       <para>
 	To Open an Attachment in a Program:
 	<orderedlist numeration="arabic">
 	  <listitem>
 	    <para>
-	      Open up the desired email
+	      Open the mail message with the attachment you want to read.
 	    </para>
 	  </listitem>
 	  <listitem>
 	    <para>
-	      Click the down arrow at the bottom of the email for the desired
-	      attachment.
+	      Click the aarrow next the the attachment icon.
 	    </para>
 	  </listitem>
 	  <listitem>
 	    <para>
-	      Click <guibutton>Open in Program</guibutton> where program is the
-	      program that is assigned to open that file type.
+	      Select the program you'd like to use. It will start up
+	      and open the document.
 	    </para>
 	  </listitem>
 	</orderedlist>
       </para>
     
-      
-      <!-- Right-click on the icon to get a
-      list of options which will vary depending on the type of
-      attachment. You will have the option to display most files
-      as part of the message, export them to a different
-      application (images to Eye of GNOME, spreadsheets to
-      Gnumeric, and so forth), or save them to disk.
-    </para>
-      -->
         <para>
            <application>Evolution</application> can also display
-           HTML-formatted mail, complete with graphics.  Graphics don't load
-           automatically by default, becuase they can be large and take a long
-           time to download.  They can also be used by spammers to help track
-           who reads their email.  So having them not load automatically helps
-           protect your privacy.
-	<!-- I say the privacy thing because I saw an internal email which
-           stated that gallop polls show people are concerned about online
-           security and that we'd be best marketing Evolution as more secure -->
+           HTML-formatted mail, complete with graphics.  Graphics
+           don't load automatically by default, because they can be
+           large and take a long time to download.  They can also be
+           used by spammers to help track who reads their email.  So
+           having them not load automatically helps protect your
+           privacy.
       </para>
     </sect2>
   </sect1>
@@ -454,29 +462,42 @@
 
       <para>
 	You can also choose to save messages as drafts or as text
-	files.  Choose
-	<menuchoice>
-	  <guimenu>File</guimenu>
-	  <guimenuitem>Save</guimenuitem>
+	files. Your options are:
+       <itemizedlist>
+        <listitem><para>
+          Choose
+	  <menuchoice>
+	   <guimenu>File</guimenu>
+	    <guimenuitem>Save Draft</guimenuitem>
           </menuchoice>
-	or <guimenuitem>Save As</guimenuitem> to save your message
-	as a text file. If you prefer to keep your message in a
-	folder (the <guilabel>Drafts</guilabel> folder would be the
-	obvious place), you can select <menuchoice>
-          <guimenu>File</guimenu> <guimenuitem>Save In
-	    Folder</guimenuitem> </menuchoice>.
+          to store your messages in the drafts folder for later
+          revision.
+       </para></listitem>
+
+       <listitem><para>
+         If you'd like to have the message sent later, you
+         can choose <guimenuitem>Send Later</guimenuitem>. That way,
+         the message will be added to the queue, and you can send a 
+         batch of messages all at once.
+        </para></listitem>
+        
+        <listitem><para> 
+         If you prefer to save your message as a text file,
+         choose <guimenuitem>Save As</guimenuitem> and then choose a
+         file name.
+           </para>
+	  </listitem>
+	</itemizedlist>
       </para>
     </sect2>
 
     <sect2 id="usage-mail-getnsend-send-compose">
       <title>Advanced Mail Composition</title>
       <para>
-	<application>Evolution</application> is meant to not only handle large
-	amounts of incoming mail, but helps you manage all the tasks of having
-	an email account.
-	In the next few sections, you'll see how 
-	<application>Evolution</application> handles additional features, 
-	including large recipient lists, attachments, and forwarding.
+        In the next few sections, you'll see how
+	<application>Evolution</application> handles advanced email
+	features, including large recipient lists, attachments, and
+	forwarding.
       </para>
       <sect3 id="usage-mail-getnsend-send-attach">
         <title>Attachments</title>
@@ -529,9 +550,9 @@
 	<title>Types of Recipients</title>
         <para>
 	  <application>Evolution</application>, like most email
-	  programs recognizes three types of addressee: primary
-            recipients, secondary recipients, and hidden ("blind")
-            recipients.
+	   programs, recognizes three types of addressee: primary
+	   recipients, secondary recipients, and hidden ("blind")
+	   recipients.
          </para>
          <para>
             The simplest way to direct a message is to put the email
@@ -545,6 +566,16 @@
             typewriters and there were no copy machines, "Cc" stands
             for "Carbon Copy."  Use it whenever you want to share a
             message you've written to someone else.
+          </para>
+          <para>
+            <guilabel>Bcc:</guilabel> is a little more complex.  You
+            use it like <guilabel>Cc:</guilabel>, but people on the
+            <guilabel>Bcc:</guilabel> list are hidden from the other
+            recipients of the message. Use it to send mail to large
+            groups of people, especially if they don't know each other
+            or if privacy is a concern.
+          </para>
+
             <example id="ex-mail-cc">
               <title>Using the Cc: field</title>
               <para>
@@ -556,7 +587,7 @@
                  Tim about the message as well.
               </para>
             </example>
-          </para>
+
           <para>
 
             <example id="ex-mail-bcc">
@@ -585,16 +616,14 @@
         <para>
 	  If you have created address cards in the contact manager,
           you can also enter nicknames or other portions of address
-          data, and <application>Evolution</application> will transparently
-          complete
-          the address for you. <!-- (INSERT description of UI for this
-          feature, once it is decided upon). --> If you enter a name
-          or nickname that can go with more than one card, Evolution
-          will open a dialog box to ask you which person you meant.
-          <!-- (NOT YET) Also, <application>Evolution</application>
-          will add a domain to any unqualified addresses.  By default,
-          this is your domain, but you can choose which one mail
-          preferences dialog. -->
+          data, and <application>Evolution</application> will offer a
+          drop down list of possible address completions from your
+          address book.  If you enter a name or nickname that can go
+          with more than one card, Evolution will open a dialog box to
+          ask you which person you meant. Also,
+          <application>Evolution</application> will add a domain to
+          any unqualified addresses.  By default, this is your domain,
+          but you can choose which one mail preferences dialog.
           </para>
           <para>
             Alternately, you can click on the
@@ -669,29 +698,35 @@ with quoted materials and the relevant replies interspersed-->
           </example>
         </para>
         <para>
-          You may want to reply to a whole mailing list.  For this, you would
-          use the <guibutton>Reply to List</guibutton> instead of the standard
-          <guibutton>Reply</guibutton> or <guibutton>Reply to All</guibutton>.
+          If you're subscribed to a mailing list, and want your reply
+          to go just to the list, rather than to the sender, choose
+          <guibutton>Reply to List</guibutton> instead of
+          <guibutton>Reply</guibutton> or <guibutton>Reply to
+          All</guibutton>.
           <note>
             <title>What is a Mailing List?</title>
             <para>
-              Mailing Lists are one of the most popular ways in which group
-              collaboration on the Internet works.  They allow people to send one
-              message to one server.  The server then knows who is subscribed to the
-              mailing list, and sends a copy of your email to all the people on the
-              list.  
-              For example, evolution-hackers@ximian.com allows the
-              <application>Evolution</application> programmers to converse
-              publically about their latest developments so that everyone can
-              stay up to date.
+              Mailing Lists are one of the most popular tools for
+              group collaboration on the Internet. Here's how they work: 
+              <simplelist>
+                <member>
+                  Someone sends a message to a single address, like
+                  <email>evolution@ximian.com</email>.
+                </member>
+                <member>
+                  That address belongs to a program that distributes
+                  the message to a list of recipients.
+                </member>
+             </simplelist>
+               The mail management program lets individuals subscribe
+               to or unsubscribe from the list at will, without
+               requiring the message writers to remember the addresses
+               of every recipient.
             </para>
             <para>
-              There are two different types of mailing lists.  The first is a
-              general submission list.  That means that anyone can write to the
-              list.  The second is a managed list.  The managed lists have
-              someone running them.  They can do as little as limit who
-              subscribes to the list or as much as moderate which emails get on
-              the list.
+              Mailing list servers can also let network administrators
+              control mail flow, list membership, and even moderate
+              the content of mailing lists.
             </para>
           </note>
         </para>
@@ -700,12 +735,13 @@ with quoted materials and the relevant replies interspersed-->
       <sect2 id="usage-mail-getnsend-send-find">
         <title>Searching and Replacing with the Composer</title>
         <para>
-           You maybe familiar with search and replace features,
-           and if you come from a Linux or Unix background, you
-           probably know what <guimenuitem>Find Regex</guimenuitem>
-           does.  If you aren't among the lucky who already know,
-           here's a quick rundown of an important section of the
-           <guimenu>Edit</guimenu> menu.
+           You are probably familiar with search and replace features
+           in any sort of text-editing software, and if you come from
+           a Linux or Unix background, you may know what
+           <guimenuitem>Find Regex</guimenuitem> does.  If you aren't
+           among the lucky who already know, here's a quick rundown of
+           the automated text searching features that the message
+           composer makes available to you.
         </para>
         <para>
            <variablelist>
@@ -1049,8 +1085,9 @@ with quoted materials and the relevant replies interspersed-->
 
             <listitem>
               <para>
-                ALL CAPS MEANS YOU'RE SHOUTING! Don't write a whole
-                message in capital letters.  It hurts people's ears.
+                WRITING IN CAPITAL LETTERS MEANS YOU'RE SHOUTING!
+                Don't write a whole message in capital letters.  It
+                hurts people's ears.
               </para>
             </listitem>
 
@@ -1086,7 +1123,6 @@ with quoted materials and the relevant replies interspersed-->
     </sect2>
   </sect1>
 
-
     <sect1 id="usage-mail-subscriptions">
       <title>Subscription Management</title>
       <para>
@@ -1097,13 +1133,13 @@ with quoted materials and the relevant replies interspersed-->
       <orderedlist numeration="arabic">
 	<listitem>
 	  <para>
-	    Click on the folder you wish to subscribe to in the
-	    <guilabel>Store</guilabel> section.
+	    In the <guilabel>Store</guilabel> section, click on the
+	    folder to which you wish to subscribe.
 	  </para>
 	</listitem>
 	<listitem>
 	  <para>
-	    Click the <guibutton>Subscribe</guibutton> to add it to the
+	    Click <guibutton>Subscribe</guibutton> to add it to the
 	    subscribed list.
 	  </para>
 	</listitem>
@@ -1112,129 +1148,224 @@ with quoted materials and the relevant replies interspersed-->
 	    Close the window.
 	  </para>
 	</listitem>
-
       </orderedlist>
     </para>
-
   </sect1>
 
-  
-<sect1 id="encryption">
+  <sect1 id="encryption">
     <title>Encryption</title>
     <sect2 id="encryption-whatis">
       <title>What is Encryption?</title>
       <para>
-	Encryption is an ancient method of changing readable text to unreadable
-	text that dates back to Egyptian times.  Encryption takes the statement
-	"Evolution" and turns it into something which cannot be read without help
-	through decryption.
-	<example>
-	  <title>Encryption Example</title>
+	Encryption is an ancient method of keeping information safe
+	from prying eyes. <application>Evolution</application> can
+	help you keep your private messages secret.  To do that, it
+	makes use of the external application
+	<application>gpg</application>, an implementation of strong
+	<glossterm linkend="public-key-encryption">Public Key
+	Encryption</glossterm>.
+      </para>
+
+	<note id="pub-priv">
+	  <title>Public Key?  Private Key?  Whats the difference?</title>
 	  <para>
-	    Kevin sends his friend Rachel and email and chooses to encrypt it.
-	    The email has the following contents:
-	      Hi Rachel.
-	      Go banana!
-	      Kevin
-	    He tells <application>Evolution</application> to encrypt the
-	    message.  The computer encrypts the message which now looks like
-	    @#$23ui7yr87#@!48970fsd.  When the information gets to Rachel,
-	    she'll decrypt the message and it'll show up in plain text for her
-	    to read.
+	    GPG uses two keys: public and private.  You can give your
+	    public key to anyone from whom you want to recieve
+	    encrypted messages, or put it on a public key server so
+	    that people can look it up before contacting you.
+	    <emphasis>Never give your private key to anyone,
+	    ever</emphasis>.  Your private key lets you decrypt any
+	    message encrypted with your public key.
+	  </para>
+	</note>
+
+      <para>
+        Using encryption takes a bit of forethought.  When you send a
+        message that is encrypted, you must encrypt it using your
+        intended recipient's public key.  To <emphasis>get</emphasis>
+        an encrypted message, you must make sure that the sender has
+        your public key in advance.
+      </para>
+
+      <para>
+	You can use encryption in two different ways:
+        <simplelist>
+          <member>
+             Encrypt the entire message, so that nobody but the recipient can read it.
+          </member>
+          <member>
+            Attach an encrypted signature to a plain text message, so
+            that the recipient can read the message without decrypting it, and 
+            only needs decryption to verify the sender's identity.
+           </member>
+         </simplelist>
+      </para>
+
+	<example> 
+         <title>Sending an Encrypted Messagee</title>
+	  <para>
+	    Kevin wants to send an encrypted message to his friend
+	    Rachel.  He looks up her public key on a general key
+	    server, and then tells
+	    <application>Evolution</application> to encrypt the
+	    message.  The message now reads "@#$23ui7yr87#@!48970fsd."
+	    When the information gets to Rachel, she decrypts it using
+	    her private key, and it appears as plain text for her to
+	    read.
 	  </para>
 	</example>
-	Encryption can be used in email in two ways: to verify that the sender is
-	the real sender, and to hide the message while in transmission.
-	<application>Evolution</application> has the capability to do both.  
-      </para>
     </sect2>
+
     <sect2 id="encryption-keygen">
-      <title>Generating your PGP key</title>
+      <title>Making Encryption Keys</title>
       <para>
-	First, you need to create a PGP key.  To do this, you'll need GPG
-	installed.
+        Before you can get or send encrypted mail, you need to
+	generate your public and private keys with GPG. Here's how:
       </para>
       <tip>
 	<title>GPG Versions</title>
 	<para>
-	  This manual covers version 1.0.6 of GPG.  If your version is different,
-	  this may not be entirely accurate.  You may find out your version number
-	  by typing in: <command>gpg --version</command>.
+	  This manual covers version 1.0.6 of GPG.  If your version is
+	  different, this may not be entirely accurate.  You may find
+	  out your version number by typing in: <command>gpg
+	  --version</command>.
 	</para>
       </tip>
       <para>
-	You can start by typing in: <command>gpg --gen-key</command> at the
-	console.  When you are asked about the algorythm to use, select 1.  The next question asks you about key length.
-	The longer the key, more stronger it is.  However, the longer the key, the
-	longer it takes to generate.  This is your choice.  However, 1024 bits
-	(default) should be adequate.  The next question asks you if you want your
-	key to expire.  Expiring keys make your key invalid after a certain amount
-	of time, so old keys don't float around when they aren't used anymore.  This is the same concept
-	as a coupon at a supermarket.  Next, you'll type in your real name, your
-	email address, and a comment.  You should not forge this information, as
-	it is used later to verify who you are.  Assuming that all your
-	information is correct, press "O" to continue.  GPG now asks you for a
-	passphrase.  This is a password which you will need to decrypt and encrypt
-	messages.  This can be any length, with any characters in it.  It is case
-	sensitive, which means that it does know the difference between capital
-	letters and lower-case.  Now your key is generated.  It is recommend you
-	surf the Internet, read your email, or write a letter in a word
-	processor while your key is generated.
+        <orderedlist numeration="arabic">
+	  <listitem>
+      	   <para>
+            Open a terminal and type <command>gpg --gen-key</command>.
+	  </para>
+         </listitem>
+
+	  <listitem>
+      	   <para> 
+             Choose the default algorythm, "DSA and ElGamal."
+	  </para>
+         </listitem>
+
+	  <listitem>
+      	   <para>
+            Choose a key length. The default, 1024 bits, should be
+            long enough.
+	  </para>
+         </listitem>
+
+	  <listitem>
+      	   <para>
+             Decide if you want your key to expire automatically, and if so, when.
+	  </para>
+         </listitem>
+
+
+	  <listitem>
+      	   <para>
+            Enter your name, email address, and any additional
+            personal information you think is appropriate. Do not
+            falsify this information, because it will be needed to
+            verify your identity later on.
+	  </para>
+         </listitem>
+
+	  <listitem>
+      	   <para>
+             Next, enter your passphrase. It does not have to be the
+             same as your email password or your login password. In
+             fact, it probably shouldn't. Don't forget it. If you lose
+             it, your keys will be useless and you will be unable to
+             decrypt messages sent to you with those keys.
+	  </para>
+         </listitem>
+
+	  <listitem>
+      	   <para>
+             Now, GPG will generate your keys.  This may take awhile,
+             so feel free to do something else while it's
+             happening. In fact, using your computer for something
+             else actually helps to generate better keys, because it
+             increases the randomness in the key generation seeds.
+	  </para>
+         </listitem>
+	</orderedlist>
       </para>
       <para>
-	Once this is completed, you'll be dropped back to the command line.
-	Now you can view your key information by typing <command>gpg
-	  --list-keys</command>.  You should see something similar to this:
-	<example id="gpg-list-keys">
-	  <title>GPG Listing Keys</title>
-	  <para>
-	    /home/bob/.gnupg/pubring.gpg
+	Once the keys are generated, you can view your key information
+        by typing <command>gpg --list-keys</command>.  You should see
+        something similar to this:
+        <programlisting>
+	    /home/you/.gnupg/pubring.gpg
 	    ----------------------------
-	    pub 1024D/32j38dk2 2001-06-20 bob &lt;bob@bob.com&gt;
+	    pub 1024D/32j38dk2 2001-06-20 you &lt;you@your-address.com&gt;
 	    sub 1024g/289sklj3 2001-06-20 [expires: 2002-11-14]
-	  </para>
-	</example>
-	You'll now need to upload your public key to a keyserver, so that your
-	friends can use your key.  You'll need to know the ID of your key, which
-	is after the 1024D on the line beginning with pub.  For this example, it
-	is 32j38dk2.  You now type in <command>gpg --send-keys --keyserver
-	  wwwkeys.pgp.net 32j38dk2</command>.  Substitute your key ID for 32j38dk2.
-	You will be prompted to type in your password <!-- verify that you need to
-	enter your password here --> and your key will be uploaded for your
-	friends to download.
+	</programlisting>
+      </para>
+      <para>
+         GPG will create one list, or keyring, for your public keys
+         and one for your private keys. All the public keys you know
+         are stored in the file
+         <filename>~/.gnupg/pubring.gpg</filename>. If you want to
+         give other people your key, send them that file.
+      </para>
+      <para>
+          If you wish, you can upload your keys to a keyserver. Here's
+          how:
+        <orderedlist>
+	  <listitem>
+	    <para>
+              Check your public key ID with <command>gpg
+--list-keys</command>. It will be the string after 1024D on the line
+beginning with "pub." In this example, it's 32j38dk2.
+            </para>
+	  </listitem>
+	  <listitem>
+	    <para>
+	     Enter the command <command>gpg --send-keys --keyserver
+wwwkeys.pgp.net 32j38dk2</command>.  Substitute your key ID for
+32j38dk2. You will need your password to do this.
+             </para>
+           </listitem>
+    </orderedlist>
+
 	<note id="why-keyserver">
 	  <title>Why Use a Keyserver?</title>
 	  <para>
-	    Keyservers store your public keys for you so that your friends can
-	    decrypt your messages.  If you choose not to use a keyserver, you
-	    can manually send your friends your public key.  It is much easier
-	    though to upload to a keyserver and then let your friends download
-	    your public key on their own wish. <!-- Bad wording -->
+	    Keyservers store your public keys for you so that your
+	    friends can decrypt your messages.  If you choose not to
+	    use a keyserver, you can manually send your people public
+	    key, include it in your signature file, or put it on your
+	    own web page. However, it's easier to publish them once,
+	    and then let people download them from the keyserver when
+	    they want.
 	  </para>
 	</note>
-	<note id="pub-priv">
-	  <title>Public Key?  Private Key?  Whats the difference?</title>
-	  <para>
-	    GPG uses two types of keys: public and private.  The private should
-	    be given out to no one, ever.  Your private key allows your mail to
-	    be signed and encrypted and decrypted by anyone who has it.  The
-	    public key is what you give your friends so that they can decrypt
-	    your mails.
-	  </para>
-	</note>
+
       </para>
     </sect2>
+
     <sect2 id="encrypt-getting-key">
-      <title>Retrieving a Friends Key</title>
+      <title>Getting and Using Public Keys</title>
       <para>
-	To encrypt a message to your friends, you'll need to use their public
-	key in combination with your private key.
-	<application>Evolution</application> does that transparently, but you
-	still need to get their key off a keyserver.  To do that, type:
+	To encrypt a message to your someone else you'll need to use
+	their public key in combination with your private key.
+	<application>Evolution</application> does that for you, but
+	you still need to get their key and add it to your keyring.
+     </para>
+     <para>
+        To get public keys from a public key server, enter the
+        command:
 	<command>
 	  gpg --recv-keys --keyserver wwwkeys.pgp.net keyid
-	</command>.  You will need to type in your password, and then their ID
-	will automatically be added to your keyring.
+	</command>, substituting "keyid" for your recipient's ID.  You
+	will need to type in your password, and then their ID will
+	automatically be added to your keyring. When you send mail to
+	them, <application>Evolution</application> will allow you to
+	encrypt your messages.
+      </para>
+      <para>
+        If someone sends you their public key directly, save it as a
+        plain text file and enter the command <command>gpg
+        filename</command>. This will add it to your keyring.
       </para>
     </sect2>
 
@@ -1246,28 +1377,32 @@ with quoted materials and the relevant replies interspersed-->
 	  <guimenu>Tools</guimenu>
 	  <guimenuitem>Mail Settings</guimenuitem>
 	</menuchoice>
-	Once there, select the account you'd like to associate the key to and click
-	the <guibutton>Edit</guibutton> button.  In the
-	<guilabel>Security</guilabel> tab is a section labeled <guilabel>Pretty
-	  Good Privacy</guilabel>.  Enter your key ID and click
-	<guibutton>OK</guibutton>.  Your key is now integrated into your identity
-	in <application>Evolution</application>.
+	Once there, select the account with which you'd like to send
+	and recieve encrypted mail, and click the
+	<guibutton>Edit</guibutton> button.  In the
+	<guilabel>Security</guilabel> tab is a section labeled
+	<guilabel>Pretty Good Privacy</guilabel>.  Enter your key ID
+	and click <guibutton>OK</guibutton>.  Your key is now
+	integrated into your identity in
+	<application>Evolution</application>.
       </para>
     </sect2>
+
     <sect2 id="encrypt-sending">
       <title>Sending Encrypted Messages</title>
       <para>
-	You can either sign or encrypt a message.  When you sign a message, you verify
-	that you were the one who sent it, and that no one is forging your
-	identity.  Encrypting a message makes it impossible for someone with
-	prying eyes to view it while it's in transmission.
+	As you know, you can use encryption to hide the entire
+	message, or just to verify your signature. Once you've
+	generated your public and private keys, and have the public
+	keys of the people to whom you want to send mail, here's what
+	to do:
       </para>
     </sect2>
     
     <sect2 id="sign-msg">
       <title>Signing a Message</title>
       <para>
-	To sign a message, you simply click
+	To sign a message, choose:
 	<menuchoice>
 	  <guimenu>Security</guimenu>
 	  <guimenuitem>PGP Sign</guimenuitem>
@@ -1280,8 +1415,8 @@ with quoted materials and the relevant replies interspersed-->
       <sect2 id="encrypt-msg">
 	<title>Encrypting a Message</title>
 	<para>
-	  Encrypting a message is very similar to signing a message.  You simply
-	  click the menu item 
+	  Encrypting a message is very similar to signing a message.
+	  Just choose the menu item
 	  <menuchoice>
 	    <guimenu>Security</guimenu>
 	    <guimenuitem>PGP Encrypt</guimenuitem>
@@ -1291,14 +1426,16 @@ with quoted materials and the relevant replies interspersed-->
       <sect2 id="unencrypting">
 	<title>Unencrypting a Recieved Message</title>
 	<para>
-	  Sometimes, a friend will send you a message which is encrypted.  In order
-	  for you to read it, you need to unencrypt it.
+	  If you get an encrypted message, you will need to decrypt it
+	  before you read it. Remember, the sender has to have your
+	  public key before they can send you an encrypted message.
 	</para>
 	<para>
-	  When you view the encrypted message, <application>Evolution</application>
-	  will prompt you for your PGP password.  You type in your PGP password and
-	  the message is then decrypted.
-	</para>
-      </sect2>
-</sect1>
+	  When you view the message,
+	  <application>Evolution</application> will ask you for your
+	  PGP password.  Enter it, and the message will be displayed
+	  properly.  
+       </para>
+    </sect2>
+  </sect1>
 </chapter>

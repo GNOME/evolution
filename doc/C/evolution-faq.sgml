@@ -556,6 +556,22 @@
           </para>
         </answer>
       </qandaentry>
+
+      <qandaentry>
+        <question>
+          <para>
+            The address suggestion list steals focus from the "To:"
+            entry box when I'm typing. How can I make it keep focus?
+          </para>
+        </question>
+        <answer>
+          <para>
+           This is a bug in GTK version 1.2.10. To avoid it, downgrade
+           to GTK version 1.2.9, or install the Ximian version of GTK
+           1.2.10.
+          </para>
+        </answer>
+      </qandaentry>
       
       <qandaentry>
         <question>

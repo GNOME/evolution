@@ -23,7 +23,7 @@
       <orderedlist numeration="arabic">
 	<listitem>
 	  <para>
-	    Right click on the bar
+	    Right click on the column header
 	  </para>
 	</listitem>
 	<listitem>
@@ -33,8 +33,9 @@
 	</listitem>
 	<listitem>
 	  <para>
-	    Click and drag a column you want into the toolbar.  A red arrow will
-	    show you where the column will be placed.
+	    Click and drag a column you want into a space between
+	    existing column headers.  A red arrow will show you where
+	    the column will be placed.
 	  </para>
 	</listitem>
       </orderedlist>
@@ -82,7 +83,8 @@
 	      of column headers will appear; just drag and drop them into
 	      place between two existing headers. A red arrow will
 	      appear to show you where you're about to put the
-	      column.  </para></listitem>
+	      column.  
+          </para></listitem>
 	</varlistentry>
 	</variablelist>
       </para>
@@ -110,10 +112,10 @@
 	using the <guibutton>Move</guibutton> button in the
 	toolbar. If you want to move several messages at once, click
 	on the ones you want to move while holding down the
-	<keycap>CTRL</keycap> key, or use <keycap>Shift</keycap> to
+	<keycap>Ctrl</keycap> key, or use <keycap>Shift</keycap> to
 	select a range of messages.  If you create a filter with the
 	<interface>filter assistant</interface>, you can have mail
-	moved to your folder automatically.
+	filed automatically.
       </para>
   </sect1>    
 
@@ -224,14 +226,13 @@
       <para>
 	Filters work very much like the mail room in a large company.
 	Their purpose is to bundle, sort, and distribute mail to the
-	various folders.  
-        In addition, you can have multiple filters performing multiple
-        actions that may effect the same message in several ways.  For
-        example, your filters could put copies of one message into
-        multiple folders, or keep a copy and send one to another
-        person as well, and it can do that quickly. Which is
-        to say, it's faster and more flexible than an actual person
-        with a pile of envelopes.
+	various folders.  In addition, you can have multiple filters
+	performing multiple actions that may effect the same message
+	in several ways.  For example, your filters could put copies
+	of one message into multiple folders, or keep a copy and send
+	one to another person as well, and it can do that quickly. Of
+	course, it's also faster and more flexible than an actual
+	person with a pile of envelopes.
       </para>
 
     <sect2 id="usage-mail-org-filters-new">
@@ -514,7 +515,7 @@
     </sect2>
   </sect1>
     
-    <sect1 id="usage-mail-organize-vFolders">
+    <sect1 id="usage-mail-organize-vfolders">
       <title>Getting Really Organized with Virtual Folders</title>
       <para>
 	If filters aren't flexible enough for you, or you find
@@ -556,6 +557,18 @@
 	systems can't.
       </para>
 
+
+    <note id="unmatched-vfolder">
+      <title>The Unmatched Virtual Folder</title>
+      <para>
+	Obveously, not all messages will fit into all your Virtual
+	Folders.  That's why <application>Evolution</application>
+	includes an UNMATCHED Virtual Folder.  The UNMATCHED Virtual
+	Folder displays messages that are not matched by other rules.
+      </para>
+    </note>
+
+
     <example id="usage-mail-organize-vFolders-ex">
       <title>Using Folders, Searches, and Virtual Folders</title>
       <para>
@@ -595,9 +608,14 @@
 	  <listitem>
 	    <para>
 	      Name your virtual folder in the <guilabel>Rule name</guilabel> field.
-	      For each criterion, you must first select 
-	      which of the following parts of the message you want the search to 
-	      examine:
+
+	    </para>
+	  </listitem>
+	  <listitem>
+	    <para>
+	      Select your search criteria. For each criterion, you
+	      must first select which of the following parts of the
+	      message you want the search to examine:
 	      <itemizedlist>
 		<listitem><para>
 		    Sender - The sender's address.
@@ -700,12 +718,6 @@
 		  </para>
 		</listitem>
 	      </itemizedlist>
-
-	    </para>
-	  </listitem>
-	  <listitem>
-	    <para>
-	      Select criteria to search by.
 	    </para>
 	  </listitem>
 	  <listitem>
@@ -744,7 +756,7 @@
 	  </listitem>
 	  <listitem>
 	<para>
-	      If you want multiple criteria for this filter, press <guibutton>Add
+	        If you want multiple criteria for this filter, press <guibutton>Add
 		criterion</guibutton> and repeat the previous step.
 	    </para>
 	  </listitem>
@@ -758,14 +770,6 @@
 	  </graphic>
 	</screenshot>
       </figure>
-      </para>
-    </sect2>
-    <sect2 id="usage-mail-vfolder-unmatched">
-      <title>The Unmatched Virtual Folder</title>
-      <para>
-	Obveously, not all messages will fit into all your Virtual Folders.  That is
-	what the UNMATCHED Virtual Folder is for.  The UNMATCHED Virtual Folder is a folder
-	for any mail that doesn't get matched by other rules.
       </para>
     </sect2>
   </sect1>
