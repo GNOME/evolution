@@ -160,7 +160,7 @@ phones [] = {
 };
 
 /* Defaults from the table above */
-gint phones_default [] = { 1, 6, 2, 9 };
+gint phones_default [] = { 1, 6, 9, 2 };
 
 static EContactField addresses[] = {
 	E_CONTACT_ADDRESS_WORK,
@@ -188,16 +188,22 @@ im_service [] =
 	{ E_CONTACT_IM_GROUPWISE, N_ ("GroupWise") }
 };
 
+/* Defaults from the table above */
+gint im_service_default [] = { 0, 2, 3 };
+
 static struct {
 	gchar *name;
 	gchar *pretty_name;
 }
-im_location [] =
+common_location [] =
 {
 	{ "WORK",  N_ ("Work")  },
 	{ "HOME",  N_ ("Home")  },
 	{ "OTHER", N_ ("Other") }
 };
+
+/* Default from the table above */
+gint email_default [] = { 0, 1, 2, 2 };
 
 #define nonempty(x) ((x) && *(x))
 
@@ -318,10 +324,10 @@ init_email_record_location (EContactEditor *editor, gint record)
 
 	location_menu = gtk_menu_new ();
 
-	for (i = 0; i < G_N_ELEMENTS (im_location); i++) {
+	for (i = 0; i < G_N_ELEMENTS (common_location); i++) {
 		GtkWidget *item;
 
-		item = gtk_menu_item_new_with_label (im_location [i].pretty_name);
+		item = gtk_menu_item_new_with_label (common_location [i].pretty_name);
 		gtk_menu_shell_append (GTK_MENU_SHELL (location_menu), item);
 	}
 
@@ -354,7 +360,7 @@ fill_in_email_record (EContactEditor *editor, gint record, const gchar *address,
 	g_free (widget_name);
 
 	gtk_option_menu_set_history (GTK_OPTION_MENU (location_option_menu),
-				     location >= 0 ? location : 0);
+				     location >= 0 ? location : email_default [record - 1]);
 	set_entry_text (editor, GTK_ENTRY (email_entry), address ? address : "");
 }
 
@@ -380,13 +386,13 @@ extract_email_record (EContactEditor *editor, gint record, gchar **address, gint
 static const gchar *
 email_index_to_location (gint index)
 {
-	return im_location [index].name;
+	return common_location [index].name;
 }
 
 static const gchar *
 im_index_to_location (gint index)
 {
-	return im_location [index].name;
+	return common_location [index].name;
 }
 
 static void
@@ -401,8 +407,8 @@ get_email_location (EVCardAttribute *attr)
 {
 	gint i;
 
-	for (i = 0; i < G_N_ELEMENTS (im_location); i++) {
-		if (e_vcard_attribute_has_type (attr, im_location [i].name))
+	for (i = 0; i < G_N_ELEMENTS (common_location); i++) {
+		if (e_vcard_attribute_has_type (attr, common_location [i].name))
 			return i;
 	}
 
@@ -414,8 +420,8 @@ get_im_location (EVCardAttribute *attr)
 {
 	gint i;
 
-	for (i = 0; i < G_N_ELEMENTS (im_location); i++) {
-		if (e_vcard_attribute_has_type (attr, im_location [i].name))
+	for (i = 0; i < G_N_ELEMENTS (common_location); i++) {
+		if (e_vcard_attribute_has_type (attr, common_location [i].name))
 			return i;
 	}
 
@@ -869,10 +875,10 @@ init_im_record_location (EContactEditor *editor, gint record)
 
 	location_menu = gtk_menu_new ();
 
-	for (i = 0; i < G_N_ELEMENTS (im_location); i++) {
+	for (i = 0; i < G_N_ELEMENTS (common_location); i++) {
 		GtkWidget *item;
 
-		item = gtk_menu_item_new_with_label (im_location [i].pretty_name);
+		item = gtk_menu_item_new_with_label (common_location [i].pretty_name);
 		gtk_menu_shell_append (GTK_MENU_SHELL (location_menu), item);
 	}
 
@@ -941,7 +947,7 @@ fill_in_im_record (EContactEditor *editor, gint record, gint service, const gcha
 	gtk_option_menu_set_history (GTK_OPTION_MENU (location_option_menu),
 				     location >= 0 ? location : 0);
 	gtk_option_menu_set_history (GTK_OPTION_MENU (service_option_menu),
-				     service >= 0 ? service : 0);
+				     service >= 0 ? service : im_service_default [record - 1]);
 	set_entry_text (editor, GTK_ENTRY (name_entry), name ? name : "");
 }
 

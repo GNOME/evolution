@@ -1,5 +1,22 @@
 2004-05-04  Hans Petter Jansson  <hpj@ximian.com>
 
+	* gui/contact-editor/e-contact-editor.c (phones_default): Use defaults
+	from Anna.
+	(im_service_default): Ditto.
+	(email_default): Ditto.
+	(im_location): Renamed to common_location, as it's used by both IM
+	and e-mail.
+	(init_email_record_location): im_location -> common_location
+	(init_im_record_location): Ditto.
+	(email_index_to_location): Ditto.
+	(im_index_to_location): Ditto.
+	(get_email_location): Ditto.
+	(get_im_location): Ditto.
+	(fill_in_email_record): Consult defaults.
+	(fill_in_im_record): Ditto.
+
+2004-05-04  Hans Petter Jansson  <hpj@ximian.com>
+
 	* gui/contact-editor/e-contact-editor.c (set_entry_activate_signals):
 	Remove blog, add home page.
 	(set_entry_changed_signals): Ditto.
