@@ -1097,7 +1097,7 @@ e_tree_construct_from_spec_file (ETree *e_tree, ETreeModel *etm, ETableExtras *e
 GtkWidget *
 e_tree_new (ETreeModel *etm, ETableExtras *ete, const char *spec, const char *state)
 {
-	ETree *e_tree;
+	ETree *e_tree, *ret_val;
 
 	g_return_val_if_fail(etm != NULL, NULL);
 	g_return_val_if_fail(E_IS_TREE_MODEL(etm), NULL);
@@ -1106,15 +1106,19 @@ e_tree_new (ETreeModel *etm, ETableExtras *ete, const char *spec, const char *st
 
 	e_tree = gtk_type_new (e_tree_get_type ());
 
-	e_tree = e_tree_construct (e_tree, etm, ete, spec, state);
+	ret_val = e_tree_construct (e_tree, etm, ete, spec, state);
 
-	return GTK_WIDGET (e_tree);
+	if (ret_val == NULL) {
+		gtk_object_unref (GTK_OBJECT (e_tree));
+	}
+
+	return (GtkWidget *) ret_val;
 }
 
 GtkWidget *
 e_tree_new_from_spec_file (ETreeModel *etm, ETableExtras *ete, const char *spec_fn, const char *state_fn)
 {
-	ETree *e_tree;
+	ETree *e_tree, *ret_val;
 
 	g_return_val_if_fail(etm != NULL, NULL);
 	g_return_val_if_fail(E_IS_TREE_MODEL(etm), NULL);
@@ -1123,9 +1127,13 @@ e_tree_new_from_spec_file (ETreeModel *etm, ETableExtras *ete, const char *spec_
 
 	e_tree = gtk_type_new (e_tree_get_type ());
 
-	e_tree = e_tree_construct_from_spec_file (e_tree, etm, ete, spec_fn, state_fn);
+	ret_val = e_tree_construct_from_spec_file (e_tree, etm, ete, spec_fn, state_fn);
 
-	return GTK_WIDGET (e_tree);
+	if (ret_val == NULL) {
+		gtk_object_unref (GTK_OBJECT (e_tree));
+	}
+
+	return (GtkWidget *) ret_val;
 }
 
 void
@@ -1166,6 +1174,8 @@ e_tree_get_cursor (ETree *e_tree)
 	gtk_object_get(GTK_OBJECT(e_tree->priv->selection),
 		       "cursor_row", &row,
 		       NULL);
+	if (row == -1)
+		return NULL;
 	path = e_tree_table_adapter_node_at_row(E_TREE_TABLE_ADAPTER(e_tree->priv->etta), row);
 	path = e_tree_sorted_view_to_model_path(e_tree->priv->sorted, path);
 	return path;
