@@ -226,7 +226,7 @@ destroy (GtkObject *object)
 	shell_client = EVOLUTION_SHELL_CLIENT (object);
 	priv = shell_client->priv;
 
-	/* Nothing to do here.  */
+	g_free (priv);
 
 	(* GTK_OBJECT_CLASS (parent_class)->destroy) (object);
 }

@@ -1,3 +1,7 @@
+2001-04-25  JP Rosevear  <jpr@ximian.com>
+
+	* evolution-shell-client.c (destroy): free the private member
+
 2001-04-25  Kjartan Maraas  <kmaraas@gnome.org>
 
 	* e-component-register.c, e-corba-storage.c, e-folder-tree.c,
