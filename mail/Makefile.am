@@ -75,7 +75,6 @@ evolution_mail_LDADD = 					\
 	$(top_builddir)/filter/libfilter.la		\
 	$(BONOBO_VFS_GNOME_LIBS)			\
 	$(GTKHTML_LIBS)					\
-	$(GCONF_LIBS)					\
 	$(THREADS_LIBS)					\
 	$(UNICODE_LIBS)
 
@@ -109,9 +108,6 @@ endif
 
 gladedir   = $(datadir)/evolution/glade
 glade_DATA = mail-config.glade mail-config-druid.glade
-
-schemadir = $(sysconfdir)/gconf/schemas
-schema_DATA = evolution-mail.schemas
 
 iconsdir = $(datadir)/images/evolution
 

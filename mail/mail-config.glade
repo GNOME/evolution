@@ -21,7 +21,7 @@
   <class>GnomePropertyBox</class>
   <name>dialog</name>
   <width>460</width>
-  <height>340</height>
+  <height>360</height>
   <position>GTK_WIN_POS_NONE</position>
   <modal>False</modal>
   <allow_shrink>False</allow_shrink>
@@ -297,7 +297,7 @@
       <class>GtkLabel</class>
       <child_name>Notebook:tab</child_name>
       <name>label25</name>
-      <label>Transport</label>
+      <label>Mail Transport</label>
       <justify>GTK_JUSTIFY_CENTER</justify>
       <wrap>False</wrap>
       <xalign>0.5</xalign>

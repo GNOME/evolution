@@ -31,8 +31,6 @@
 #include <gnome.h>
 #include <gtkhtml/gtkhtml.h>
 #include <glade/glade.h>
-#include <gconf/gconf.h>
-#include <gconf/gconf-client.h>
 
 #include "e-util/e-html-utils.h"
 #include "e-util/e-setup.h"
@@ -164,7 +162,6 @@ typedef struct
 } MailDialog;
 
 static const char GCONFPATH[] = "/apps/Evolution/Mail";
-static GConfClient *client = NULL;
 static MailConfig *config;
 
 /* private prototypes - these are ugly, rename some of them? */
@@ -427,29 +424,16 @@ service_destroy_each (gpointer item, gpointer data)
 
 /* Config struct routines */
 static void
-init_config (const gchar *path)
+init_config ()
 {
 	if (config)
 		return;
 	
 	config = g_new0 (MailConfig, 1);
-	
-	if (client)
-		return;
-	
-#ifdef HAVE_GCONF_CLIENT_GET_DEFAULT
-	client = gconf_client_get_default ();
-#else
-	client = gconf_client_new ();
-#endif
-	
-	gconf_client_add_dir (client, path, 
-			      GCONF_CLIENT_PRELOAD_RECURSIVE, NULL);
 }
 
 static void
-clear_config
- ()
+clear_config ()
 {
 	if (!config)
 		return;
@@ -467,171 +451,198 @@ clear_config
 }
 
 static void
-read_config (const gchar *path)
+read_config ()
 {
-	GConfError *err = NULL;
-	GSList *names, *addr, *orgs, *sigs, *sources, *news;
 	gchar *str;
 	gint len, i;
 	
-	init_config (path);
+	init_config ();
 	clear_config ();
-	
+
 	/* Configured */
-	str = g_strdup_printf ("%s/configured", path);
-	config->configured = gconf_client_get_bool (client, str, &err);
+	str = g_strdup_printf ("=%s/config/General=/General/configured", 
+			       evolution_dir);
+	config->configured = gnome_config_get_bool (str);
 	g_free (str);
-
+	
 	/* Identities */
-	str = g_strdup_printf ("%s/Identities/names", path);
-	names = gconf_client_get_list (client, str, GCONF_VALUE_STRING, &err);
-	g_free (str);
-	str = g_strdup_printf ("%s/Identities/addresses", path);
-	addr = gconf_client_get_list (client, str, GCONF_VALUE_STRING, &err);
-	g_free (str);
-	str = g_strdup_printf ("%s/Identities/orgs", path);
-	orgs = gconf_client_get_list (client, str, GCONF_VALUE_STRING, &err);
-	g_free (str);
-	str = g_strdup_printf ("%s/Identities/sigs", path);
-	sigs = gconf_client_get_list (client, str, GCONF_VALUE_STRING, &err);
+	str = g_strdup_printf ("=%s/config/Mail=/Identities/", evolution_dir);
+	gnome_config_push_prefix (str);
 	g_free (str);
 
-	len = g_slist_length (names);
+	len = gnome_config_get_int ("num");
 	for (i=0; i<len; i++) {
 		MailConfigIdentity *id;
+		gchar *path;
 		
 		id = g_new0 (MailConfigIdentity, 1);
-		id->name = g_strdup ((gchar *)g_slist_nth_data (names, i));
-		id->address = g_strdup ((gchar *)g_slist_nth_data (addr, i));
-		id->org = g_strdup ((gchar *)g_slist_nth_data (orgs, i));
-		id->sig = g_strdup ((gchar *)g_slist_nth_data (sigs, i));
+
+		path = g_strdup_printf ("name_%d", i);
+		id->name = gnome_config_get_string (path);
+		g_free (path);
+		path = g_strdup_printf ("address_%d", i);
+		id->address = gnome_config_get_string (path);
+		g_free (path);
+		path = g_strdup_printf ("org_%d", i);
+		id->org = gnome_config_get_string (path);
+		g_free (path);
+		path = g_strdup_printf ("sig_%d", i);
+		id->sig = gnome_config_get_string (path);
+		g_free (path);
 
 		config->ids = g_slist_append (config->ids, id);
 	}
-	
+	gnome_config_pop_prefix ();
+
 	/* Sources */
-	str = g_strdup_printf ("%s/Sources/urls", path);
-	sources = gconf_client_get_list (client, str, 
-					 GCONF_VALUE_STRING, &err);
+	str = g_strdup_printf ("=%s/config/Mail=/Sources/",evolution_dir);
+	gnome_config_push_prefix (str);
 	g_free (str);
-	len = g_slist_length (sources);
+
+	len = gnome_config_get_int ("num");
 	for (i=0; i<len; i++) {
 		MailConfigService *s;
+		gchar *path;
 		
 		s = g_new0 (MailConfigService, 1);
-		s->url = g_strdup ((gchar *)g_slist_nth_data (sources, i));
+
+		path = g_strdup_printf ("url_%d", i);
+		s->url = gnome_config_get_string (path);
+		g_free (path);
 
 		config->sources = g_slist_append (config->sources, s);
 	}
-
+	gnome_config_pop_prefix ();
+	
 	/* News */
-	str = g_strdup_printf ("%s/News/urls", path);
-	news = gconf_client_get_list (client, str, 
-				      GCONF_VALUE_STRING, &err);
+	str = g_strdup_printf ("=%s/config/News=/Sources/", evolution_dir);
+	gnome_config_push_prefix (str);
 	g_free (str);
-	len = g_slist_length (news);
+
+	len = gnome_config_get_int ("num");
 	for (i=0; i<len; i++) {
 		MailConfigService *n;
+		gchar *path;
 		
 		n = g_new0 (MailConfigService, 1);
-		n->url = g_strdup ((gchar *)g_slist_nth_data (news, i));
+
+		path = g_strdup_printf ("url_%d", i);
+		n->url = gnome_config_get_string (path);
+		g_free (path);
 
 		config->news = g_slist_append (config->news, n);
 	}
-
+	gnome_config_pop_prefix ();
+	
 	/* Transport */
-	str = g_strdup_printf ("%s/transport", path);
 	config->transport = g_new0 (MailConfigService, 1);
-	config->transport->url = gconf_client_get_string (client, str, &err);
+	str = g_strdup_printf ("=%s/config/Mail=/Transport/url", 
+			       evolution_dir);
+	config->transport->url = gnome_config_get_string (str);
 	g_free (str);
-
+	
 	/* Format */
-	str = g_strdup_printf ("%s/send_html", path);
-	config->send_html = gconf_client_get_bool (client, str, &err);
+	str = g_strdup_printf ("=%s/config/Mail=/Format/send_html", 
+			       evolution_dir);
+	config->send_html = gnome_config_get_bool (str);
 	g_free (str);
+	
+	gnome_config_sync ();
 }
 
 static void
-write_config (const gchar *path)
+write_config ()
 {
-	GConfError *err = NULL;
-	GSList *names = NULL, *addr = NULL, *orgs = NULL, *sigs = NULL;
-	GSList *sources = NULL, *news = NULL;
 	gchar *str;
 	gint len, i;
 	
-	init_config (path);
+	init_config ();
 
-	/* Format */
-	str = g_strdup_printf ("%s/configured", path);
-	gconf_client_set_bool (client, str, TRUE, &err);
+	/* Configured switch */
+	str = g_strdup_printf ("=%s/config/General=/General/configured", 
+			       evolution_dir);
+	gnome_config_set_bool (str, TRUE);
+	g_free (str);
+	
+	/* Identities */
+	str = g_strdup_printf ("=%s/config/Mail=/Identities/", evolution_dir);
+	gnome_config_push_prefix (str);
 	g_free (str);
 
-	/* Identities */
 	len = g_slist_length (config->ids);
+	gnome_config_set_int ("num", len);
 	for (i=0; i<len; i++) {
 		MailConfigIdentity *id;
+		gchar *path;
 		
 		id = (MailConfigIdentity *)g_slist_nth_data (config->ids, i);
 		
-		names = g_slist_append (names, g_strdup (id->name));
-		addr = g_slist_append (addr, g_strdup (id->address));
-		orgs = g_slist_append (orgs, g_strdup (id->org));
-		sigs = g_slist_append (sigs, g_strdup (id->sig));
+		path = g_strdup_printf ("name_%d", i);
+		gnome_config_set_string (path, id->name);
+		g_free (path);
+		path = g_strdup_printf ("address_%d", i);
+		gnome_config_set_string (path, id->address);
+		g_free (path);
+		path = g_strdup_printf ("org_%d", i);
+		gnome_config_set_string (path, id->org);
+		g_free (path);
+		path = g_strdup_printf ("sig_%d", i);
+		gnome_config_set_string (path, id->sig);
+		g_free (path);
 	}
-	
-	str = g_strdup_printf ("%s/Identities/names", path);
-	gconf_client_set_list (client, str, GCONF_VALUE_STRING, names, &err);
-	g_free (str);
-	str = g_strdup_printf ("%s/Identities/addresses", path);
-	gconf_client_set_list (client, str, GCONF_VALUE_STRING, addr, &err);
-	g_free (str);
-	str = g_strdup_printf ("%s/Identities/orgs", path);
-	gconf_client_set_list (client, str, GCONF_VALUE_STRING, orgs, &err);
-	g_free (str);
-	str = g_strdup_printf ("%s/Identities/sigs", path);
-	gconf_client_set_list (client, str, GCONF_VALUE_STRING, sigs, &err);
-	g_free (str);
+	gnome_config_pop_prefix ();
 	
 	/* Sources */
+	str = g_strdup_printf ("=%s/config/Mail=/Sources/", evolution_dir);
+	gnome_config_push_prefix (str);
+	g_free (str);
+
 	len = g_slist_length (config->sources);
+	gnome_config_set_int ("num", len);
 	for (i=0; i<len; i++) {
 		MailConfigService *s;
+		gchar *path;
 		
 		s = (MailConfigService *)g_slist_nth_data (config->sources, i);
 		
-		sources = g_slist_append (sources, g_strdup (s->url));
+		path = g_strdup_printf ("url_%d", i);
+		gnome_config_set_string (path, s->url);
+		g_free (path);
 	}
-	
-	str = g_strdup_printf ("%s/Sources/urls", path);
-	gconf_client_set_list (client, str, GCONF_VALUE_STRING, sources, &err);
-	g_free (str);
+	gnome_config_pop_prefix ();
 
 	/* News */
-	len = g_slist_length (config->news);
+	str = g_strdup_printf ("=%s/config/News=/Sources/", evolution_dir);
+	gnome_config_push_prefix (str);
+	g_free (str);
+
+  	len = g_slist_length (config->news);
+	gnome_config_set_int ("num", len);
 	for (i=0; i<len; i++) {
 		MailConfigService *n;
+		gchar *path;
 		
 		n = (MailConfigService *)g_slist_nth_data (config->news, i);
 		
-		news = g_slist_append (news, g_strdup (n->url));
+		path = g_strdup_printf ("url_%d", i);
+		gnome_config_set_string (path, n->url);
+		g_free (path);
 	}
-	
-	str = g_strdup_printf ("%s/News/urls", path);
-	gconf_client_set_list (client, str, GCONF_VALUE_STRING, news, &err);
-	g_free (str);
+	gnome_config_pop_prefix ();
 
 	/* Transport */
-	str = g_strdup_printf ("%s/transport", path);
-	gconf_client_set_string (client, str, config->transport->url, &err);
-	g_free (str);
-	 
-	/* Format */
-	str = g_strdup_printf ("%s/send_html", path);
-	gconf_client_set_bool (client, str, config->send_html, &err);
+	str = g_strdup_printf ("=%s/config/Mail=/Transport/url", 
+			       evolution_dir);
+	gnome_config_set_string (str, config->transport->url);
 	g_free (str);
 	
-	gconf_client_suggest_sync (client, &err);
+	/* Format */
+	str = g_strdup_printf ("=%s/config/Mail=/Format/send_html", 
+			       evolution_dir);
+	gnome_config_set_bool (str, config->send_html);
+	g_free (str);
+	
+	gnome_config_sync ();
 }
 
 /* Identity Page */
@@ -681,7 +692,7 @@ identity_page_new (const MailConfigIdentity *id)
 	gchar *user = NULL;
 	gboolean new = !id;
 	
-	page->vbox = gtk_vbox_new (0, FALSE);
+	page->vbox = gtk_vbox_new (FALSE, 5);
 	
 	html = html_new (FALSE);
 	put_html (GTK_HTML (html),
@@ -1278,7 +1289,7 @@ service_page_new (const char *label_text, GSList *services)
 
 	page = g_new0 (MailDialogServicePage, 1);
 	
-	page->vbox = gtk_vbox_new (FALSE, 0);
+	page->vbox = gtk_vbox_new (FALSE, 5);
 	
 	hbox = gtk_hbox_new (FALSE, 8);
 	gtk_box_pack_start (GTK_BOX (page->vbox), hbox, FALSE, TRUE, 0);
@@ -1726,7 +1737,7 @@ mail_druid_finish (GnomeDruidPage *page, GnomeDruid *druid,
 	/* Transport */
 	config->transport = service_page_extract (dialog->tpage->page);
 
-	write_config (GCONFPATH);
+	write_config ();
 	
 	mail_druid_cancel (druid, GTK_WINDOW (dialog->dialog));
 }
@@ -1738,11 +1749,11 @@ mail_config_druid (void)
 	GnomeDruidPageStart *spage;
 	GnomeDruidPageFinish *fpage;
 	GnomeDruidPageStandard *dpage;
-	GSList *sources, *news, *transports;
+	GSList *sources=NULL, *news=NULL, *transports=NULL;
 	GdkImlibImage *mail_logo, *identity_logo;
 	GdkImlibImage *source_logo, *transport_logo;
 
-	read_config (GCONFPATH);
+	read_config ();
 	provider_list (&sources, &news, &transports);
 
 	mail_logo = load_image ("evolution-inbox.png");
@@ -2103,7 +2114,7 @@ mail_config_apply_clicked (GnomePropertyBox *property_box, gint page_num,
 	/* Format */
 	config->send_html = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (dialog->chkFormat));
 
-	write_config (GCONFPATH);
+	write_config ();
 }
 
 void
@@ -2113,10 +2124,10 @@ mail_config (void)
 	GladeXML *gui;
 	GtkCList *clist;
 	GtkWidget *button, *tvbox;
-	GSList *sources, *news, *transports;
+	GSList *sources=NULL, *news=NULL, *transports=NULL;
 	gint len, row;
 
-	read_config (GCONFPATH);
+	read_config ();
 	provider_list (&sources, &news, &transports);
 
 	dialog = g_new0 (MailDialog, 1);	
@@ -2277,7 +2288,7 @@ mail_config (void)
 const MailConfig *
 mail_config_fetch (void)
 {
-	read_config (GCONFPATH);
+	read_config ();
 	
 	return config;
 }
