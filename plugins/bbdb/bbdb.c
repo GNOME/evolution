@@ -113,6 +113,8 @@ bbdb_handle_reply (EPlugin *ep, EMEventTargetMessage *target)
 
 	/* Open the addressbook */
 	book = bbdb_open_addressbook ();
+	if (book == NULL)
+		return;
 
 	cia = camel_mime_message_get_from (target->message);
 	for (i = 0; i < camel_address_length CAMEL_ADDRESS (cia); i ++) {
