@@ -1,5 +1,8 @@
 2001-02-05  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* camel-remote-store.c (remote_query_auth_types): Oops. Change
+	this too.
+
 	* providers/smtp/camel-smtp-transport.c (query_auth_types): Updated.
 
 	* providers/nntp/camel-nntp-store.c (nntp_store_query_auth_types):
