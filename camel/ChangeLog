@@ -1,5 +1,8 @@
 2001-03-02  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* providers/smtp/camel-smtp-provider.c: Doh! Set the
+	CAMEL_URL_ALLOW_AUTH flag.
+
 	* providers/smtp/camel-smtp-transport.c (get_smtp_error_string):
 	Updated with the extended AUTH return codes.
 
