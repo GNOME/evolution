@@ -1,3 +1,7 @@
+2001-05-24  Federico Mena Quintero  <federico@ximian.com>
+
+	* evolution-devel-guide.sgml: s/Helix Code/Ximian
+
 2001-05-15  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* Removed some evolution-*-decl.txt files since these are
