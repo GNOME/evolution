@@ -134,7 +134,7 @@ filter_int_new_type (const char *type, int min, int max)
 	fi->min = min;
 	fi->max = max;
 	
-	return o;
+	return fi;
 }
 
 void
@@ -234,7 +234,7 @@ get_widget (FilterElement *fe)
 	if (fs->val)
 		gtk_spin_button_set_value (GTK_SPIN_BUTTON (spin), (gfloat) fs->val);
 	
-	g_signal_connect (spin, "changed", spin_changed, fe);
+	g_signal_connect (spin, "changed", GTK_SIGNAL_FUNC (spin_changed), fe);
 	
 	return spin;
 }

@@ -238,7 +238,7 @@ get_widget (FilterElement *fe)
 						       allowed_types);
 	
 	gtk_widget_show (button);
-	g_signal_connect (button, "selected", folder_selected, ff);
+	g_signal_connect (button, "selected", GTK_SIGNAL_FUNC (folder_selected), ff);
 	
 	return button;
 }

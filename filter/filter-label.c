@@ -27,9 +27,8 @@
 #endif
 
 #include <string.h>
-#include <gtk/gtkwidget.h>
 
-#include <libgnome/gnome-defs.h>
+#include <gtk/gtk.h>
 #include <libgnome/gnome-i18n.h>
 #include <libgnomeui/gnome-dialog.h>
 #include <libgnomeui/gnome-dialog-util.h>

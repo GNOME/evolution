@@ -29,8 +29,7 @@
 #include <sys/types.h>
 #include <regex.h>
 
-#include <gtk/gtkwidget.h>
-#include <libgnome/gnome-defs.h>
+#include <gtk/gtk.h>
 #include <libgnome/gnome-i18n.h>
 #include <libgnomeui/gnome-dialog.h>
 #include <libgnomeui/gnome-dialog-util.h>
@@ -54,7 +53,7 @@ static void filter_input_init (FilterInput *fi);
 static void filter_input_finalise (GObject *obj);
 
 
-static FilterElementClass *parent_class;
+static FilterElementClass *parent_class = NULL;
 
 
 GType
@@ -109,15 +108,13 @@ filter_input_init (FilterInput *fi)
 }
 
 static void
-filter_input_finalise (GtkObject *obj)
+filter_input_finalise (GObject *obj)
 {
 	FilterInput *fi = (FilterInput *) obj;
 	
 	xmlFree (fi->type);
 	g_list_foreach (fi->values, (GFunc)g_free, NULL);
 	g_list_free (fi->values);
-	
-	g_free (fi->priv);
 	
         G_OBJECT_CLASS (parent_class)->finalize (obj);
 }
@@ -330,7 +327,7 @@ get_widget (FilterElement *fe)
 	if (fi->values && fi->values->data)
 		gtk_entry_set_text (GTK_ENTRY (entry), (const char *) fi->values->data);
 	
-	g_signal_connect (entry, "changed", entry_changed, fe);
+	g_signal_connect (entry, "changed", GTK_SIGNAL_FUNC (entry_changed), fe);
 	
 	return entry;
 }
