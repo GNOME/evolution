@@ -268,6 +268,9 @@ ETimeParseStatus
 e_time_parse_date (const char *value, struct tm *result)
 {
 	const char *format[2];
+	struct tm *today_tm;
+	time_t t;
+	ETimeParseStatus status;
 
 	g_return_val_if_fail (value != NULL, E_TIME_PARSE_INVALID);
 	g_return_val_if_fail (result != NULL, E_TIME_PARSE_INVALID);
@@ -278,7 +281,23 @@ e_time_parse_date (const char *value, struct tm *result)
 	/* This is the preferred date format for the locale. */
 	format[1] = _("%m/%d/%Y");
 
-	return parse_with_strptime (value, result, format, sizeof (format) / sizeof (format[0]));
+	status = parse_with_strptime (value, result, format, sizeof (format) / sizeof (format[0]));
+	if (status == E_TIME_PARSE_OK) {
+		/* If a 2-digit year was used we use the current century. */
+		if (result->tm_year < 0) {
+			t = time (NULL);
+			today_tm = localtime (&t);
+			
+			/* This should convert it into a value from 0 to 99. */
+			result->tm_year += 1900;
+			
+			/* Now add on the century. */
+			result->tm_year += today_tm->tm_year
+				- (today_tm->tm_year % 100);
+		}
+	}
+	
+	return status;
 }
 
 
