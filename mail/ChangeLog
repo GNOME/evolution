@@ -1,3 +1,20 @@
+2001-09-24    <NotZed@Ximian.com>
+
+	* mail-local.c (mls_get_folder): Removed unused variables.
+
+	* component-factory.c (storage_create_folder): Remove unused
+	variable.
+
+	* mail-format.c (write_default_header): Used to write a header
+	that we know about/normally print.  Use a static header table to
+	index these.
+	(write_header): removed.
+	(default_header_index): Return the index of the default header.
+	(write_headers): Changed the way it writes headers a bit.  Use
+	write_default_header or write_text_header directly.  Also try and
+	use the header charset as a fallback if the header can't be
+	decoded using the locale charset.
+
 2001-09-23  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-mt.c (pass_got): Always cache POP and IMAP passwords, even

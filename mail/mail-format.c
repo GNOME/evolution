@@ -872,30 +872,53 @@ write_address (MailDisplay *md, const CamelInternetAddress *addr, const char *fi
 	mail_html_write (md->html, md->stream, "</td></tr>");
 }
 
+/* order of these must match write_header code */
+static char *default_headers[] = {
+	"From", "Reply-To", "To", "Cc", "Subject", "Date",
+};
 
-static void
-write_header (CamelMimeMessage *message, MailDisplay *md,
-	      const char *name, const char *value, int flags)
+/* return index of header in default_headers array */
+static int
+default_header_index(const char *name)
 {
-	if (!g_strcasecmp (name, "From")) {
-		write_address (md, camel_mime_message_get_from (message),
-			       _("From"), flags | WRITE_BOLD);
-	} else if (!g_strcasecmp (name, "Reply-To")) {
-		write_address (md, camel_mime_message_get_reply_to (message),
-			       _("Reply-To"), flags);
-	} else if (!g_strcasecmp (name, "To")) {
-		write_address (md, camel_mime_message_get_recipients (message, CAMEL_RECIPIENT_TYPE_TO),
-			       _("To"), flags | WRITE_BOLD);
-	} else if (!g_strcasecmp (name, "Cc")) {
+	int i;
+
+	for (i=0;i<sizeof(default_headers)/sizeof(default_headers[0]);i++)
+		if (!g_strcasecmp(name, default_headers[i]))
+			return i;
+	
+	return -1;
+}
+
+/* index is index of header in default_headers array */
+static void
+write_default_header(CamelMimeMessage *message, MailDisplay *md, int index, int flags)
+{
+	switch(index) {
+	case 0:
+		write_address (md, camel_mime_message_get_from (message), _("From"), flags | WRITE_BOLD);
+		break;
+	case 1:
+		write_address (md, camel_mime_message_get_reply_to (message), _("Reply-To"), flags);
+		break;
+	case 2:
+		write_address(md, camel_mime_message_get_recipients(message, CAMEL_RECIPIENT_TYPE_TO),
+			      _("To"), flags | WRITE_BOLD);
+		break;
+	case 3:
 		write_address (md, camel_mime_message_get_recipients (message, CAMEL_RECIPIENT_TYPE_CC),
 			       _("Cc"), flags | WRITE_BOLD);
-	} else if (!g_strcasecmp (name, "Subject")) {	
+		break;
+	case 4:
 		write_text_header (_("Subject"), camel_mime_message_get_subject (message),
 				   flags | WRITE_BOLD, md->html, md->stream);
-	} else if (!g_strcasecmp (name, "Date")) {	
+		break;
+	case 5:
 		write_date (message, flags | WRITE_BOLD, md->html, md->stream);
-	} else
-		write_text_header (name, value, flags, md->html, md->stream);
+		break;
+	default:
+		g_assert_not_reached();
+	}
 }
 
 #define COLOR_IS_LIGHT(r, g, b)  ((r + g + b) > (128 * 3))
@@ -904,16 +927,10 @@ static void
 write_headers (CamelMimeMessage *message, MailDisplay *md)
 {
 	gboolean full = (md->display_style == MAIL_CONFIG_DISPLAY_FULL_HEADERS);
-	CamelMediumHeader *headers, default_headers[] = {
-		{ "From", NULL }, { "Reply-To", NULL },
-		{ "To", NULL }, { "Cc" , NULL }, { "Subject", NULL },
-		{ "Date", NULL }
-	};
 	char bgcolor[7], fontcolor[7];
 	GtkStyle *style = NULL;
-	int i, len, flags;
-	GArray *gheaders;
-	
+	int i;
+
 	/* My favorite thing to do...much around with colors so we respect people's stupid themes */
 	style = gtk_widget_get_style (GTK_WIDGET (md->html));
 	if (style) {
@@ -958,22 +975,30 @@ write_headers (CamelMimeMessage *message, MailDisplay *md)
 			 "<tr><td><table>\n", fontcolor, bgcolor);
 	
 	if (full) {
-		gheaders = camel_medium_get_headers (CAMEL_MEDIUM (message));
-		headers = (CamelMediumHeader *)gheaders->data;
-		len = gheaders->len;
-		flags = WRITE_NOCOLUMNS;
+		struct _header_raw *header;
+		const char *charset;
+		CamelContentType *ct;
+		char *value;
+
+		ct = camel_mime_part_get_content_type(CAMEL_MIME_PART(message));
+		charset = header_content_type_param(ct, "charset");
+		charset = camel_charset_to_iconv(charset);
+
+		header = CAMEL_MIME_PART(message)->headers;
+		while (header) {
+			i = default_header_index(header->name);
+			if (i == -1) {
+				value = header_decode_string(header->value, charset);
+				write_text_header(header->name, value, WRITE_NOCOLUMNS, md->html, md->stream);
+				g_free(value);
+			} else
+				write_default_header(message, md, i, WRITE_NOCOLUMNS);
+			header = header->next;
+		}
 	} else {
-		gheaders = NULL;
-		headers = default_headers;
-		len = sizeof (default_headers) / sizeof (default_headers[0]);
-		flags = 0;
+		for (i=0;i<sizeof(default_headers)/sizeof(default_headers[0]);i++)
+			write_default_header(message, md, i, 0);
 	}
-	
-	for (i = 0; i < len; i++)
-		write_header (message, md, headers[i].name, headers[i].value, flags);
-	
-	if (gheaders)
-		camel_medium_free_headers (CAMEL_MEDIUM (message), gheaders);
 	
 	mail_html_write (md->html, md->stream,
 			 "</table></td></tr></table></td></tr></table></font></td>"

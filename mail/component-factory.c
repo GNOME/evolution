@@ -856,7 +856,7 @@ storage_create_folder (EvolutionStorage *storage,
 {
 	CamelStore *store = user_data;
 	CamelFolderInfo *root, *fi;
-	char *prefix, *name;
+	char *name;
 	CamelURL *url;
 	CamelException ex;
 	

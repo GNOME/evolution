@@ -654,9 +654,6 @@ mls_get_folder(CamelStore *store, const char *folder_name, guint32 flags, CamelE
 {
 	MailLocalStore *local_store = MAIL_LOCAL_STORE (store);
 	MailLocalFolder *folder;
-	char *physical_uri;
-	CamelFolderInfo *info;
-	char *path = NULL;
 
 	d(printf("--LOCAL-- get_folder: %s\n", folder_name));
 
