@@ -131,11 +131,12 @@ camel/camel-filter-driver.c
 camel/camel-filter-search.c
 camel/camel-folder-search.c
 camel/camel-folder.c
+camel/camel-gpg-context.c
 camel/camel-lock-client.c
 camel/camel-lock.c
 camel/camel-movemail.c
+camel/camel-multipart-encrypted.c
 camel/camel-multipart-signed.c
-camel/camel-pgp-context.c
 camel/camel-pgp-mime.c
 camel/camel-provider.c
 camel/camel-sasl-anonymous.c
