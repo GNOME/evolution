@@ -167,7 +167,7 @@ menubar_activated (ESearchBar *esb, int id, void *data)
 			GtkWidget *gd;
 			FilterRule *rule;
 			
-			rule = filter_rule_clone (efb->current_query, efb->context);
+			rule = filter_rule_clone (efb->current_query);
 			
 			w = filter_rule_get_widget (rule, efb->context);
 			filter_rule_set_source (rule, FILTER_SOURCE_INCOMING);
@@ -234,7 +234,7 @@ option_changed (ESearchBar *esb, void *data)
 			FilterRule *rule;
 			
 			if (efb->current_query)
-				rule = filter_rule_clone (efb->current_query, efb->context);
+				rule = filter_rule_clone (efb->current_query);
 			else
 				rule = filter_rule_new ();
 			
