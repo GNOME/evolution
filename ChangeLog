@@ -1,5 +1,10 @@
 2003-02-03  Chris Toshok  <toshok@ximian.com>
 
+	* configure.in (EVOLUTION_MAIL): add gnome-vfs-module-2.0 to the
+	deps so we pick up the right include path.
+
+2003-02-03  Chris Toshok  <toshok@ximian.com>
+
 	* configure.in: remove the --enable-shlib-components stuff.
 
 2003-01-28  Jeffrey Stedfast  <fejj@ximian.com>
