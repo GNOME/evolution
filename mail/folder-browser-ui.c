@@ -42,6 +42,8 @@
 #include <gal/menus/gal-view-factory-etable.h>
 #include <gal/menus/gal-view-etable.h>
 
+#include "e-util/e-meta.h"
+
 #include "mail-callbacks.h" /* almost all the verbs */
 #include "mail-session.h" /* mail_session_forget_passwords */
 

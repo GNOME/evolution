@@ -1,3 +1,15 @@
+2003-03-31  Not Zed  <NotZed@Ximian.com>
+
+	* mail-session.c (pass_response): need to check for config_service
+	!= NULL, not service != NULL before calling set_save_password.
+	Fix for #40472.
+
+2003-03-28  Not Zed  <NotZed@Ximian.com>
+
+	* folder-browser-ui.c: include e-meta.h
+
+	* folder-browser.c (on_right_click): remove unused var.
+
 2003-03-28  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* subscribe-dialog.c (fe_check_for_children): Declare a prototype

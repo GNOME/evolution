@@ -1884,7 +1884,7 @@ on_right_click (ETree *tree, gint row, ETreePath path, gint col, GdkEvent *event
 	struct _filter_data *fdata = NULL;
 	GPtrArray *uids, *closures;
 	CamelMessageInfo *info;
-	GSList *labels, *next;
+	GSList *labels;
 	int enable_mask = 0;
 	int hide_mask = 0;
 	char *mlist = NULL;

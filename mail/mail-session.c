@@ -198,7 +198,7 @@ pass_response (GtkDialog *dialog, int button, void *data)
 		remember = cache = m->check ? gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (m->check)) : FALSE;
 		
 		if (m->service_url) {
-			if (m->service) {
+			if (m->config_service) {
 				mail_config_service_set_save_passwd (m->config_service, cache);
 				
 				/* set `cache' to TRUE because people don't want to have to
