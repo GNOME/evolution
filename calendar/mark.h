@@ -14,15 +14,15 @@
 
 /* These are the fonts used for the montly calendars */
 
-#define HEADING_FONTSET         "-adobe-helvetica-medium-r-*-*-14-*-*-*-p-*-*-*,-cronyx-helvetica-medium-r-normal-*-17-*-*-*-p-*-koi8-r"
-#define TITLE_FONTSET           "-adobe-helvetica-bold-r-normal--12-*-*-*-p-*-*-*,-cronyx-helvetica-medium-r-normal-*-14-*-*-*-p-*-koi8-r"
-#define DAY_HEADING_FONTSET     "-adobe-helvetica-medium-r-normal--10-*-*-*-p-*-*-*,-cronyx-helvetica-medium-r-normal-*-11-*-*-*-p-*-koi8-r"
-#define NORMAL_DAY_FONTSET      "-adobe-helvetica-medium-r-normal--10-*-*-*-p-*-*-*,-cronyx-helvetica-medium-r-normal-*-11-*-*-*-p-*-koi8-r"
-#define CURRENT_DAY_FONTSET     "-adobe-helvetica-bold-r-normal--12-*-*-*-p-*-*-*,-cronyx-helvetica-medium-r-normal-*-14-*-*-*-p-*-koi8-r"
-#define BIG_DAY_HEADING_FONTSET "-adobe-helvetica-bold-r-normal--14-*-*-*-p-*-*-*,-cronyx-helvetica-bold-r-normal-*-17-*-*-*-p-*-koi8-r"
-#define BIG_NORMAL_DAY_FONTSET  "-adobe-helvetica-medium-r-normal--14-*-*-*-p-*-*-*,-cronyx-helvetica-medium-r-normal-*-17-*-*-*-p-*-koi8-r"
-#define BIG_CURRENT_DAY_FONTSET "-adobe-helvetica-bold-r-normal--14-*-*-*-p-*-*-*,-cronyx-helvetica-bold-r-normal-*-17-*-*-*-p-*-koi8-r"
-#define EVENT_FONTSET           "-adobe-helvetica-medium-r-*-*-10-*-*-*-p-*-*-*,-cronyx-helvetica-medium-r-normal-*-11-*-*-*-p-*-koi8-r"
+#define HEADING_FONTSET         "-adobe-helvetica-medium-r-*-*-14-*-*-*-p-*-*-*,-cronyx-helvetica-medium-r-normal-*-17-*-*-*-p-*-koi8-r,-*-*-medium-r-*-*-14-*-*-*-*-*-ksc5601.1987-0,*"
+#define TITLE_FONTSET           "-adobe-helvetica-bold-r-normal--12-*-*-*-p-*-*-*,-cronyx-helvetica-medium-r-normal-*-14-*-*-*-p-*-koi8-r,-*-*-bold-r-normal--12-*-*-*-*-*-ksc5601.1987-0,*"
+#define DAY_HEADING_FONTSET     "-adobe-helvetica-medium-r-normal--10-*-*-*-p-*-*-*,-cronyx-helvetica-medium-r-normal-*-11-*-*-*-p-*-koi8-r,-*-*-medium-r-normal--10-*-*-*-*-*-ksc5601.1987-0,*"
+#define NORMAL_DAY_FONTSET      "-adobe-helvetica-medium-r-normal--10-*-*-*-p-*-*-*,-cronyx-helvetica-medium-r-normal-*-11-*-*-*-p-*-koi8-r,-*-*-medium-r-normal--10-*-*-*-*-*-ksc5601.1987-0,*"
+#define CURRENT_DAY_FONTSET     "-adobe-helvetica-bold-r-normal--12-*-*-*-p-*-*-*,-cronyx-helvetica-medium-r-normal-*-14-*-*-*-p-*-koi8-r,-*-*-bold-r-normal--12-*-*-*-*-*-ksc5601.1987-0,*"
+#define BIG_DAY_HEADING_FONTSET "-adobe-helvetica-bold-r-normal--14-*-*-*-p-*-*-*,-cronyx-helvetica-bold-r-normal-*-17-*-*-*-p-*-koi8-r,-*-*-bold-r-normal--14-*-*-*-*-*-ksc5601.1987-0,*"
+#define BIG_NORMAL_DAY_FONTSET  "-adobe-helvetica-medium-r-normal--14-*-*-*-p-*-*-*,-cronyx-helvetica-medium-r-normal-*-17-*-*-*-p-*-koi8-r,-*-*-medium-r-normal--14-*-*-*-*-*-ksc5601.1987-0,*"
+#define BIG_CURRENT_DAY_FONTSET "-adobe-helvetica-bold-r-normal--14-*-*-*-p-*-*-*,-cronyx-helvetica-bold-r-normal-*-17-*-*-*-p-*-koi8-r,-*-*-bold-r-normal--14-*-*-*-*-*-ksc5601.1987-0,*"
+#define EVENT_FONTSET           "-adobe-helvetica-medium-r-*-*-10-*-*-*-p-*-*-*,-cronyx-helvetica-medium-r-normal-*-11-*-*-*-p-*-koi8-r,-*-*-medium-r-normal--10-*-*-*-*-*-ksc5601.1987-0,*"
 
 
 /* Functions of this type are used by the marking functions to fetch color specifications.  Such

@@ -10,7 +10,7 @@
 #include "main.h"
 
 
-#define QUICK_VIEW_FONTSET "-adobe-helvetica-medium-r-normal--10-*-*-*-p-*-*-*,-cronyx-helvetica-medium-r-normal-*-11-*-*-*-p-*-koi8-r"
+#define QUICK_VIEW_FONTSET "-adobe-helvetica-medium-r-normal--10-*-*-*-p-*-*-*,-cronyx-helvetica-medium-r-normal-*-11-*-*-*-p-*-koi8-r,-*-*-medium-r-normal--10-*-*-*-*-*-ksc5601.1987-0,*"
 
 
 static void quick_view_class_init (QuickViewClass *class);
