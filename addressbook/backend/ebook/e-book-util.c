@@ -208,7 +208,7 @@ set_default_book_uri_from_config_db (void)
 	EConfigListener* config_db;
 
 	config_db = e_book_get_config_database ();
-	val = e_config_listener_get_string_with_default (config_db, "/DefaultFolders/contacts_uri", NULL, NULL);
+	val = e_config_listener_get_string_with_default (config_db, "/apps/Evolution/DefaultFolders/contacts_uri", NULL, NULL);
 
 	if (val) {
 		default_book_uri = e_book_expand_uri (val);

@@ -1,5 +1,14 @@
 2002-11-08  Chris Toshok  <toshok@ximian.com>
 
+	* backend/ebook/e-book-util.c
+	(set_default_book_uri_from_config_db): prepend /apps/Evolution to
+	config db paths.
+	
+	* gui/component/select-names/e-select-names-manager.c (read_completion_books_from_db): same.
+	(uris_listener): same.
+
+2002-11-08  Chris Toshok  <toshok@ximian.com>
+
 	* gui/contact-editor/e-contact-editor.c: more porting work.
 
 	* e-contact-editor-fullname.[ch]: more porting work.

@@ -410,7 +410,7 @@ read_completion_books_from_db (ESelectNamesManager *manager, EConfigListener *db
 {
 	char *val;
 
-	val = e_config_listener_get_string (db, "/Addressbook/Completion/uris");
+	val = e_config_listener_get_string (db, "/apps/Evolution/Addressbook/Completion/uris");
 
 	if (val) {
 		g_free (manager->cached_folder_list);
@@ -427,10 +427,10 @@ uris_listener (EConfigListener *db, const char *key,
 	char *val;
 
 	/* return if it's not the key we're interested in */
-	if (!strcmp (key, "/Addressbook/Completion/uris"))
+	if (!strcmp (key, "/apps/Evolution/Addressbook/Completion/uris"))
 		return;
 
-	val = e_config_listener_get_string (db, "/Addressbook/Completion/uris");
+	val = e_config_listener_get_string (db, "/apps/Evolution/Addressbook/Completion/uris");
 
 	if (val) {
 		if (!manager->cached_folder_list || strcmp (val, manager->cached_folder_list)) {
