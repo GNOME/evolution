@@ -52,7 +52,7 @@ static const char *text[] = {
 	"Anna Dirks",
 	"Bob Doan",
 	"Miguel de Icaza",
-	"Radek Doulik",
+	"Radek Doul\xC3\xADk",
 	"Arturo Espinoza",
 	"Larry Ewing",
 	"Nat Friedman",
