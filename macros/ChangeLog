@@ -1,5 +1,10 @@
 2001-02-19  JP Rosevear  <jpr@ximian.com>
 
+	* gnome-pilot.m4: Revert my previous patch now that gnome-pim and
+	evolution are fixed to accomodate the change
+	
+2001-02-19  JP Rosevear  <jpr@ximian.com>
+
 	* gnome-pilot.m4: AC_SUBST the PISOCK_LIBDIR var
 
 2001-02-17  Lauris Kaplinski  <lauris@ximian.com>
