@@ -85,6 +85,8 @@ addressbook_destroy(GtkObject *object)
 	EAddressbookTableAdapter *adapter = E_ADDRESSBOOK_TABLE_ADAPTER(object);
 
 	unlink_model(adapter);
+
+	g_free (adapter->priv);
 }
 
 /* This function returns the number of columns in our ETableModel. */

@@ -23,6 +23,7 @@
 #include "e-select-names-completion.h"
 #include "e-select-names-popup.h"
 #include "e-folder-list.h"
+#include <addressbook/backend/ebook/e-book-util.h>
 #include <addressbook/backend/ebook/e-destination.h>
 #include <addressbook/gui/component/addressbook.h>
 #include <bonobo-conf/bonobo-config-database.h>
@@ -396,11 +397,11 @@ load_completion_books (ESelectNamesManager *manager)
 		EBook *book = e_book_new ();
 		gtk_object_ref (GTK_OBJECT (manager)); /* ref ourself before our async call */
 
-		if (!strncmp (f->physical_uri, "file:", 5))
-			uri = g_strdup_printf ("%s/addressbook.db", f->physical_uri);
-		else
-			uri = g_strdup (f->physical_uri);
+		uri = e_book_expand_uri (f->physical_uri);
+
 		addressbook_load_uri (book, uri, (EBookCallback)open_book_cb, manager);
+
+		g_free (uri);
 	}
 	e_folder_list_free_items (folders);
 }

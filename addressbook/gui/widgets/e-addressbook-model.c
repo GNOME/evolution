@@ -125,6 +125,8 @@ addressbook_destroy(GtkObject *object)
 		gtk_object_unref(GTK_OBJECT(model->book));
 		model->book = NULL;
 	}
+
+	g_free (model->query);
 }
 
 static void
