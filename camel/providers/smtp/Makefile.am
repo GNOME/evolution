@@ -13,8 +13,9 @@ INCLUDES =					\
 	-I$(srcdir)/../../..			\
 	-I$(includedir)				\
 	-I$(top_srcdir)/intl			\
-	$(GTK_INCLUDEDIR)			\
 	-I$(top_srcdir)/camel			\
+	-I$(top_srcdir)/e-util			\
+	$(GTK_INCLUDEDIR)			\
         -DG_LOG_DOMAIN=\"camel-smtp-provider\"
 
 libcamelsmtp_la_SOURCES = 			\
@@ -26,5 +27,7 @@ libcamelsmtpinclude_HEADERS =			\
 
 
 libcamelsmtp_la_LDFLAGS = -version-info 0:0:0
+
+libcamelsmtp_la_LIBADD = $(top_builddir)/e-util/libeutil.la $(UNICODE_LIBS)
 
 EXTRA_DIST = libcamelsmtp.urls

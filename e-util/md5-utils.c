@@ -25,6 +25,7 @@
 
 #include "md5-utils.h"
 #include <stdio.h>
+#include <string.h>
 
 static void md5_transform (guint32 buf[4], const guint32 in[16]);
 
@@ -316,36 +317,6 @@ md5_get_digest (const gchar *buffer, gint buffer_size, guchar digest[16])
 	md5_final (&ctx, digest);
 	
 }
-
-
-/**
- * md5_get_digest_from_stream: get the md5 hash of a stream
- * @stream: stream
- * @digest: 16 bytes buffer receiving the hash code.
- * 
- * Get the md5 hash of a stream. The result is put in 
- * the 16 bytes buffer @digest .
- **/
-void
-md5_get_digest_from_stream (CamelStream *stream, guchar digest[16])
-{	
-	MD5Context ctx;
-	guchar tmp_buf[1024];
-	gint nb_bytes_read;
-
-	md5_init (&ctx);
-	
-	nb_bytes_read = camel_stream_read (stream, tmp_buf, 1024);
-	while (nb_bytes_read) {
-		md5_update (&ctx, tmp_buf, nb_bytes_read);
-		nb_bytes_read = camel_stream_read (stream, tmp_buf, 1024);
-	}
-	
-	md5_final (&ctx, digest);
-	
-}
-
-
 
 
 /**

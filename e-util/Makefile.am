@@ -30,7 +30,9 @@ libeutil_la_SOURCES =			\
 	e-list.c			\
 	e-list.h			\
 	e-sexp.c			\
-	e-sexp.h
+	e-sexp.h			\
+	md5-utils.c			\
+	md5-utils.h
 
 libeutil_la_LIBADD = $(UNICODE_LIBS)
 

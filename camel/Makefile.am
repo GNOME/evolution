@@ -9,6 +9,7 @@ lib_LTLIBRARIES = libcamel.la
 
 INCLUDES = -I.. -I$(srcdir)/.. -I$(includedir)	 \
 	-I$(top_srcdir)/intl			 \
+	-I$(top_srcdir)/e-util			 \
 	$(GLIB_CFLAGS)				 \
 	$(UNICODE_CFLAGS)			 \
 	-DCAMEL_PROVIDERDIR=\""$(providerdir)"\" \
@@ -60,7 +61,6 @@ libcamel_la_SOURCES = 				\
 	gmime-content-field.c			\
 	gstring-util.c				\
 	hash-table-utils.c			\
-	md5-utils.c				\
 	string-utils.c
 
 libcamelinclude_HEADERS =			\
@@ -112,10 +112,11 @@ libcamelinclude_HEADERS =			\
 	gmime-content-field.h			\
 	gstring-util.h				\
 	hash-table-utils.h			\
-	md5-utils.h				\
 	string-utils.h
 
 libcamel_la_LDFLAGS = -version-info 0:0:0 -rpath $(libdir)
+
+libcamel_la_LIBADD = $(top_builddir)/e-util/libeutil.la $(UNICODE_LIBS)
 
 EXTRA_DIST =					\
 	README 

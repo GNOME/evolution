@@ -1,3 +1,14 @@
+2000-10-27    <jpr@helixcode.com>
+
+	* providers/pop3/Makefile.am: Tidy up build
+
+	* providers/smtp/Makefile.am: ditto	
+	
+	* Makefile.am:  Move md5-utils.[hc] to e-util because the 
+	addressbook is going to use md5 hashes for pilot syncing.
+	Maybe the calendar conduits as well because this is a good idea
+	Chris had.
+
 2000-10-26  Kjartan Maraas  <kmaraas@gnome.org>
 
 	* camel-exceptions-list.def: Add newline to kill warnings.
