@@ -363,7 +363,9 @@ e_dialog_editable_set (GtkWidget *widget, const char *value)
  * 
  * Queries the string value inside a #GtkEditable-derived widget.
  * 
- * Return value: String value.
+ * Return value: String value.  You should free it when you are done with it.
+ * This function can return NULL if the string could not be converted from
+ * GTK+'s encoding into UTF8.
  **/
 char *
 e_dialog_editable_get (GtkWidget *widget)
