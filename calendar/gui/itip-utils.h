@@ -2,7 +2,6 @@
 #ifndef ITIP_UTILS_HEADER
 #define ITIP_UTILS_HEADER
 
-#include <config.h>
 #include <ical.h>
 #include <string.h>
 #include <glib.h>

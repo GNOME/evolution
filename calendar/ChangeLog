@@ -1,3 +1,8 @@
+2001-08-12  Kjartan Maraas  <kmaraas@gnome.org>
+
+	* gui/e-itip-control.h: Remove #include <config.h> from here.
+	* gui/itip-utilss.h: Same here.
+	
 2001-08-11  Ettore Perazzoli  <ettore@ximian.com>
 
 	* gui/tasks-control.c: Update the paths of the Tools menu
