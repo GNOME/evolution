@@ -2619,6 +2619,98 @@ print_comp (ECalComponent *comp, ECal *client, gboolean preview)
 	g_object_unref (gpm);
 }
 
+static void
+print_title (GnomePrintContext *pc, const char *title,
+	     double page_width, double page_height)
+{
+	GnomeFont *font;
+	double w, x, y;
+
+	font = gnome_font_find_closest ("Sans Bold", 18);
+
+	w = gnome_font_get_width_utf8 (font, title);
+
+	x = (page_width - w) / 2;
+	y = page_height - gnome_font_get_ascender (font);
+
+	gnome_print_moveto (pc, x, y);
+	gnome_print_setfont (pc, font);
+	gnome_print_setrgbcolor (pc, 0, 0, 0);
+	gnome_print_show (pc, title);
+
+	g_object_unref (font);
+}
+
+void
+print_table (ETable *etable, const char *title, gboolean preview)
+{
+	EPrintable *printable;
+	GnomePrintContext *pc;
+	GnomePrintJob *gpm;
+	double l, r, t, b, page_width, page_height, left_margin, bottom_margin;
+
+	if (!print_config)
+		print_config = gnome_print_config_default ();
+
+	printable = e_table_get_printable (etable);
+	g_object_ref (printable);
+	gtk_object_sink (GTK_OBJECT (printable));
+	e_printable_reset (printable);
+
+	gpm = gnome_print_job_new (print_config);
+	pc = gnome_print_job_get_context (gpm);
+
+	gnome_print_config_get_page_size (print_config, &r, &t);
+
+#if 0
+	gnome_print_config_get_double (print_config, GNOME_PRINT_KEY_PAGE_MARGIN_TOP, &temp_d);
+	t -= temp_d;
+	gnome_print_config_get_double (print_config, GNOME_PRINT_KEY_PAGE_MARGIN_RIGHT, &temp_d);
+	r -= temp_d;
+	gnome_print_config_get_double (print_config, GNOME_PRINT_KEY_PAGE_MARGIN_BOTTOM, &b);
+	gnome_print_config_get_double (print_config, GNOME_PRINT_KEY_PAGE_MARGIN_LEFT, &l);
+#endif
+
+	b = t * TEMP_MARGIN;
+	l = r * TEMP_MARGIN;
+	t *= (1.0 - TEMP_MARGIN);
+	r *= (1.0 - TEMP_MARGIN);
+
+	page_width = r - l;
+	page_height = t - b;
+	left_margin = l;
+	bottom_margin = b;
+
+	do {
+		gnome_print_beginpage (pc, "Tasks");
+		gnome_print_gsave (pc);
+
+		gnome_print_translate (pc, left_margin, bottom_margin);
+
+		print_title (pc, title, page_width, page_height);
+
+		if (e_printable_data_left (printable))
+			e_printable_print_page (printable, pc,
+						page_width, page_height - 24, TRUE);
+
+		gnome_print_grestore (pc);
+		gnome_print_showpage (pc);
+	} while (e_printable_data_left (printable));
+
+	gnome_print_job_close (gpm);
+
+	if (preview) {
+		GtkWidget *gpmp;
+		gpmp = gnome_print_job_preview_new (gpm, _("Print Preview"));
+		gtk_widget_show (gpmp);
+	} else {
+		gnome_print_job_print (gpm);
+	}
+
+	g_object_unref (gpm);
+	g_object_unref (printable);
+}
+
 void
 print_setup (void)
 {

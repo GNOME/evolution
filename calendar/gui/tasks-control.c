@@ -48,6 +48,7 @@
 #include "calendar-commands.h"
 #include "e-tasks.h"
 #include "e-calendar-table.h"
+#include "print.h"
 #include "tasks-control.h"
 #include "evolution-shell-component-utils.h"
 
@@ -493,102 +494,16 @@ tasks_control_purge_cmd	(BonoboUIComponent	*uic,
 
 
 static void
-print_title (GnomePrintContext *pc,
-	     double page_width, double page_height)
-{
-	GnomeFont *font;
-	char *text;
-	double w, x, y;
-
-	font = gnome_font_find_closest ("Sans Bold", 18);
-
-	text = _("Tasks");
-	w = gnome_font_get_width_utf8 (font, text);
-
-	x = (page_width - w) / 2;
-	y = page_height - gnome_font_get_ascender (font);
-
-	gnome_print_moveto (pc, x, y);
-	gnome_print_setfont (pc, font);
-	gnome_print_setrgbcolor (pc, 0, 0, 0);
-	gnome_print_show (pc, text);
-
-	g_object_unref (font);
-}
-
-static void
 print_tasks (ETasks *tasks, gboolean preview)
 {
 	ECalendarTable *cal_table;
-	EPrintable *printable;
 	ETable *etable;
-	GnomePrintContext *pc;
-	GnomePrintJob *gpm;
-	double l, r, t, b, page_width, page_height, left_margin, bottom_margin;
-
-	if (!print_config)
-		print_config = gnome_print_config_default ();
 
 	cal_table = e_tasks_get_calendar_table (tasks);
 	etable = e_calendar_table_get_table (E_CALENDAR_TABLE (cal_table));
-	printable = e_table_get_printable (etable);
-	g_object_ref (printable);
-	gtk_object_sink (GTK_OBJECT (printable));
-	e_printable_reset (printable);
 
-	gpm = gnome_print_job_new (print_config);
-	pc = gnome_print_job_get_context (gpm);
-
-	gnome_print_config_get_page_size (print_config, &r, &t);
-
-#if 0
-	gnome_print_config_get_double (print_config, GNOME_PRINT_KEY_PAGE_MARGIN_TOP, &temp_d);
-	t -= temp_d;
-	gnome_print_config_get_double (print_config, GNOME_PRINT_KEY_PAGE_MARGIN_RIGHT, &temp_d);
-	r -= temp_d;
-	gnome_print_config_get_double (print_config, GNOME_PRINT_KEY_PAGE_MARGIN_BOTTOM, &b);
-	gnome_print_config_get_double (print_config, GNOME_PRINT_KEY_PAGE_MARGIN_LEFT, &l);
-#endif
-
-	b = t * FIXED_MARGIN;
-	l = r * FIXED_MARGIN;
-	t *= (1.0 - FIXED_MARGIN);
-	r *= (1.0 - FIXED_MARGIN);
-
-	page_width = r - l;
-	page_height = t - b;
-	left_margin = l;
-	bottom_margin = b;
-
-	while (e_printable_data_left (printable)) {
-		gnome_print_beginpage (pc, "Tasks");
-		gnome_print_gsave (pc);
-
-		gnome_print_translate (pc, left_margin, bottom_margin);
-
-		print_title (pc, page_width, page_height);
-
-		e_printable_print_page (printable, pc,
-					page_width, page_height - 24, TRUE);
-
-		gnome_print_grestore (pc);
-		gnome_print_showpage (pc);
-	}
-
-	gnome_print_job_close (gpm);
-
-	if (preview) {
-		GtkWidget *gpmp;
-		gpmp = gnome_print_job_preview_new (gpm, _("Print Preview"));
-		gtk_widget_show (gpmp);
-	} else {
-		gnome_print_job_print (gpm);
-	}
-
-	g_object_unref (gpm);
-	g_object_unref (printable);
+	print_table (etable, _("Tasks"), preview);
 }
-
 
 /* File/Print callback */
 static void
@@ -600,6 +515,8 @@ tasks_control_print_cmd (BonoboUIComponent *uic,
 	GtkWidget *gpd;
 	gboolean preview = FALSE;
 	GnomePrintJob *gpm;
+	ECalendarTable *cal_table;
+	ETable *etable;
 
 	tasks = E_TASKS (data);
 
@@ -628,7 +545,11 @@ tasks_control_print_cmd (BonoboUIComponent *uic,
 		return;
 	}
 
+	cal_table = e_tasks_get_calendar_table (tasks);
+	etable = e_calendar_table_get_table (E_CALENDAR_TABLE (cal_table));
+
 	gtk_widget_destroy (gpd);
+
 	print_tasks (tasks, preview);
 }
 

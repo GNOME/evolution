@@ -30,11 +30,14 @@ typedef enum {
 	PRINT_VIEW_DAY,
 	PRINT_VIEW_WEEK,
 	PRINT_VIEW_MONTH,
-	PRINT_VIEW_YEAR
+	PRINT_VIEW_YEAR,
+	PRINT_VIEW_LIST
 } PrintView;
 
 void print_calendar (GnomeCalendar *gcal, gboolean preview, time_t at, PrintView default_view);
 void print_comp (ECalComponent *comp, ECal *client, gboolean preview);
+void print_table (ETable *etable, const char *title, gboolean preview);
+
 
 void print_setup (void);
 

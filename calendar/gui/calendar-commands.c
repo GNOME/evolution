@@ -61,6 +61,7 @@
 #include "dialogs/cal-prefs-dialog.h"
 #include "itip-utils.h"
 #include "e-pub-utils.h"
+#include "e-cal-list-view.h"
 #include "evolution-shell-component-utils.h"
 
 /* Focusing information for the calendar view.  We have to keep track of this
@@ -89,7 +90,9 @@ print (GnomeCalendar *gcal, gboolean preview)
 	time_t start;
 	GnomeCalendarViewType view_type;
 	PrintView print_view;
-
+	ECalListView *list_view;
+	ETable *etable;
+	
 	gnome_calendar_get_current_time_range (gcal, &start, NULL);
 	view_type = gnome_calendar_get_view (gcal);
 
@@ -106,6 +109,12 @@ print (GnomeCalendar *gcal, gboolean preview)
 	case GNOME_CAL_MONTH_VIEW:
 		print_view = PRINT_VIEW_MONTH;
 		break;
+
+	case GNOME_CAL_LIST_VIEW:
+		list_view = E_CAL_LIST_VIEW (gnome_calendar_get_current_view_widget (gcal));
+		etable = e_table_scrolled_get_table (list_view->table_scrolled);
+		print_table (etable, _("Calendar"), preview);
+		return;
 
 	default:
 		g_assert_not_reached ();
