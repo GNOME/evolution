@@ -4,15 +4,15 @@
 
     <cmd name="EditCut"
      _tip="Cut selected messages"
-     accel="*Control*x"/>
+     accel="*Control*x" pixtype="pixbuf"/>
 
     <cmd name="EditCopy"
      _tip="Copy selected messages"
-     accel="*Control*c"/>
+     accel="*Control*c" pixtype="pixbuf"/>
 
     <cmd name="EditPaste"
      _tip="Paste message in the clipboard"
-     accel="*Control*v"/>
+     accel="*Control*v" pixtype="pixbuf"/>
 
     <cmd name="EditInvertSelection"
      _tip="Select all and only the messages that are not currently selected"
