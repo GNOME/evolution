@@ -508,8 +508,8 @@ e_summary_calendar_protocol (ESummary *summary,
 	CORBA_exception_init (&ev);
 	factory = bonobo_activation_activate_from_id ("OAFIID:GNOME_Evolution_Calendar_CompEditorFactory", 0, NULL, &ev);
 	if (BONOBO_EX (&ev)) {
-		g_message ("%s: Could not activate the component editor factory (%s)", __FUNCTION__,
-			   CORBA_exception_id (&ev));
+		g_message ("%s: Could not activate the component editor factory (%s)",
+			   G_GNUC_FUNCTION, CORBA_exception_id (&ev));
 		CORBA_exception_free (&ev);
 		return;
 	}
@@ -517,7 +517,7 @@ e_summary_calendar_protocol (ESummary *summary,
 	GNOME_Evolution_Calendar_CompEditorFactory_editExisting (factory, comp_uri, (char *)uri + 10, &ev);
 
 	if (BONOBO_EX (&ev)) {
-		g_message ("%s: Execption while editing the component (%s)", __FUNCTION__, 
+		g_message ("%s: Execption while editing the component (%s)", G_GNUC_FUNCTION, 
 			   CORBA_exception_id (&ev));
 	}
 

@@ -306,7 +306,7 @@ e_summary_weather_update (ESummary *summary)
 	GList *w;
 
 	if (summary->weather->online == FALSE) {
-		g_warning ("%s: Repolling but offline", __FUNCTION__);
+		g_warning ("%s: Repolling but offline", G_GNUC_FUNCTION);
 		return TRUE;
 	}
 

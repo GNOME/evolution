@@ -357,7 +357,7 @@ e_summary_rdf_update (ESummary *summary)
 	GList *r;
 
 	if (summary->rdf->online == FALSE) {
-		g_warning ("%s: Repolling but offline", __FUNCTION__);
+		g_warning ("%s: Repolling but offline", G_GNUC_FUNCTION);
 		return TRUE;
 	}
 
