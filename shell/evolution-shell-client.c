@@ -366,7 +366,8 @@ evolution_shell_client_construct (EvolutionShellClient *shell_client,
  * evolution_shell_client_new:
  * @corba_shell: A pointer to the CORBA Evolution::Shell interface.
  * 
- * Create a new client object for @corba_shell.
+ * Create a new client object for @corba_shell. The shell client will
+ * free @corba_shell when it is destroyed.
  * 
  * Return value: A pointer to the Evolution::Shell client BonoboObject.
  **/

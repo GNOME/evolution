@@ -1,7 +1,7 @@
 /* -*- Mode: C; indent-tabs-mode: t; c-basic-offset: 8; tab-width: 8 -*- */
-/* e-setup.h
+/* e-shell-config.h
  *
- * Copyright (C) 2000  Ximian, Inc.
+ * Copyright (C) 2002 Ximian, Inc.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2 of the GNU General Public
@@ -16,19 +16,13 @@
  * License along with this program; if not, write to the
  * Free Software Foundation, Inc., 59 Temple Place - Suite 330,
  * Boston, MA 02111-1307, USA.
- *
- * Author: Ettore Perazzoli
  */
 
-#ifndef _E_SETUP_H
-#define _E_SETUP_H
+#ifndef E_SHELL_CONFIG_H
+#define E_SHELL_CONFIG_H
 
-#include <glib.h>
-#include <bonobo-conf/bonobo-config-database.h>
+#include "e-shell.h"
 
-gboolean  e_setup          (const char            *evolution_directory);
+gboolean e_shell_config_factory_register (EShell *shell);
 
-void      e_setup_check_db (Bonobo_ConfigDatabase  db,
-			    const char            *evolution_directory);
-
-#endif /* _E_SETUP_H */
+#endif

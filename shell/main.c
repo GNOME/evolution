@@ -54,6 +54,7 @@
 #include "e-util/e-gtk-utils.h"
 
 #include "e-shell-constants.h"
+#include "e-shell-config.h"
 #include "e-setup.h"
 
 #include "e-shell.h"
@@ -209,6 +210,8 @@ idle_cb (void *data)
 
 	switch (result) {
 	case E_SHELL_CONSTRUCT_RESULT_OK:
+		e_shell_config_factory_register (shell);
+
 		gtk_signal_connect (GTK_OBJECT (shell), "no_views_left",
 				    GTK_SIGNAL_FUNC (no_views_left_cb), NULL);
 		gtk_signal_connect (GTK_OBJECT (shell), "destroy",

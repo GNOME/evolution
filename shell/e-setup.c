@@ -41,6 +41,7 @@
 #include <gal/widgets/e-gui-utils.h>
 
 #include "e-local-folder.h"
+#include "e-shell-config.h"
 #include "e-shell-constants.h"
 
 #include "e-setup.h"
@@ -417,26 +418,41 @@ e_setup (const char *evolution_directory)
 
 
 void
-e_setup_check_db (Bonobo_ConfigDatabase db)
+e_setup_check_db (Bonobo_ConfigDatabase db, const char *evolution_directory)
 {
-	gboolean def;
+	char *uri;
 
-	if (bonobo_config_get_string_with_default (db, "/DefaultFolder/mail_path", NULL, &def) == NULL) {
-		bonobo_config_set_string (db, "/DefaultFolder/mail_path",
+	if (bonobo_config_get_string_with_default (db, "/DefaultFolders/mail_path", NULL, NULL) == NULL) {
+		bonobo_config_set_string (db, "/DefaultFolders/mail_path",
 					  E_LOCAL_INBOX_URI, NULL);
-		bonobo_config_set_string (db, "/DefaultFolder/mail_uri",
-					  E_LOCAL_INBOX_URI, NULL);
-		bonobo_config_set_string (db, "/DefaultFolder/contacts_path",
+		uri = g_strconcat ("file://", evolution_directory, "/local",
+				   strrchr (E_LOCAL_INBOX_URI, '/'), NULL);
+		bonobo_config_set_string (db, "/DefaultFolders/mail_uri",
+					  uri, NULL);
+		g_free (uri);
+
+		bonobo_config_set_string (db, "/DefaultFolders/contacts_path",
 					  E_LOCAL_CONTACTS_URI, NULL);
-		bonobo_config_set_string (db, "/DefaultFolder/contacts_uri",
-					  E_LOCAL_CONTACTS_URI, NULL);
-		bonobo_config_set_string (db, "/DefaultFolder/calendar_path",
+		uri = g_strconcat ("file://", evolution_directory, "/local",
+				   strrchr (E_LOCAL_CONTACTS_URI, '/'), NULL);
+		bonobo_config_set_string (db, "/DefaultFolders/contacts_uri",
+					  uri, NULL);
+		g_free (uri);
+
+		bonobo_config_set_string (db, "/DefaultFolders/calendar_path",
 					  E_LOCAL_CALENDAR_URI, NULL);
-		bonobo_config_set_string (db, "/DefaultFolder/calendar_uri",
-					  E_LOCAL_CALENDAR_URI, NULL);
-		bonobo_config_set_string (db, "/DefaultFolder/tasks_path",
+		uri = g_strconcat ("file://", evolution_directory, "/local",
+				   strrchr (E_LOCAL_CALENDAR_URI, '/'), NULL);
+		bonobo_config_set_string (db, "/DefaultFolders/calendar_uri",
+					  uri, NULL);
+		g_free (uri);
+
+		bonobo_config_set_string (db, "/DefaultFolders/tasks_path",
 					  E_LOCAL_TASKS_URI, NULL);
-		bonobo_config_set_string (db, "/DefaultFolder/tasks_uri",
-					  E_LOCAL_TASKS_URI, NULL);
+		uri = g_strconcat ("file://", evolution_directory, "/local",
+				   strrchr (E_LOCAL_TASKS_URI, '/'), NULL);
+		bonobo_config_set_string (db, "/DefaultFolders/tasks_uri",
+					  uri, NULL);
+		g_free (uri);
 	}
 }

@@ -165,7 +165,7 @@ destroy (GtkObject *object)
 	folder_selector_button = EVOLUTION_FOLDER_SELECTOR_BUTTON (object);
 	priv = folder_selector_button->priv;
 
-	gtk_object_unref (GTK_OBJECT (priv->shell_client));
+	bonobo_object_unref (BONOBO_OBJECT (priv->shell_client));
 	g_free (priv->title);
 	for (i = 0; priv->possible_types[i]; i++)
 		g_free (priv->possible_types[i]);
@@ -253,7 +253,7 @@ evolution_folder_selector_button_construct (EvolutionFolderSelectorButton *folde
 	priv = folder_selector_button->priv;
 
 	priv->shell_client = shell_client;
-	gtk_object_ref (GTK_OBJECT (shell_client));
+	bonobo_object_ref (BONOBO_OBJECT (shell_client));
 	priv->corba_storage_registry = evolution_shell_client_get_storage_registry_interface (shell_client);
 
 	priv->title = g_strdup (title);

@@ -1,3 +1,32 @@
+2002-04-10  Dan Winship  <danw@ximian.com>
+
+	* e-shell-config.c: Shell config page routines. Right now
+	handles the default folders page.
+
+	* glade/e-shell-config-default-folders.glade: New.
+
+	* GNOME_Evolution_Shell.oaf.in: Add info for the default folders
+	config page.
+
+	* main.c (idle_cb): If we successfully registered the shell,
+	register the config factory.
+
+	* evolution-shell-client.c (evolution_shell_client_new): Note the
+	fact that it frees the corba_shell when it is destroyed.
+
+	* evolution-folder-selector-button.c
+	(evolution_folder_selector_button_construct, destroy): Use
+	bonobo_object_ref/unref on the shell client, not gtk.
+
+	* e-shell.c (e_shell_construct): Pass local_directory to
+	e_setup_check_db.
+	(handle_default_uri): Fix the config db paths here to match the
+	other routines.
+
+	* e-setup.c (e_setup_check_db): Make this take the evolution
+	directory path as well so we can properly set up file: URIs for
+	the default folders.
+
 2002-04-09  Ettore Perazzoli  <ettore@ximian.com>
 
 	* main.c (idle_cb): Change the logic for displaying a default

@@ -432,7 +432,7 @@ handle_default_uri (EShell *shell, const char *uri, CORBA_Environment *ev)
 	if (extra_info)
 		*extra_info++ = '\0';
 
-	dbpath = g_strdup_printf ("/DefaultFolder/%s_path", component);
+	dbpath = g_strdup_printf ("/DefaultFolders/%s_path", component);
 	new_uri = bonobo_config_get_string_with_default (shell->priv->db,
 							 dbpath, NULL, &def);
 	g_free (dbpath);
@@ -1245,7 +1245,7 @@ e_shell_construct (EShell *shell,
 		CORBA_exception_free (&ev);
 		return E_SHELL_CONSTRUCT_RESULT_NOCONFIGDB;
  	}
-	e_setup_check_db (priv->db);
+	e_setup_check_db (priv->db, local_directory);
 	
 	CORBA_exception_free (&ev);
 

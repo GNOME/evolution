@@ -128,8 +128,10 @@ evolution_SOURCES =				\
 	e-local-storage.h			\
 	e-setup.c				\
 	e-setup.h				\
-	e-shell-about-box.h			\
 	e-shell-about-box.c			\
+	e-shell-about-box.h			\
+	e-shell-config.c			\
+	e-shell-config.h			\
 	e-shell-constants.h			\
 	e-shell-folder-commands.c		\
 	e-shell-folder-commands.h		\
