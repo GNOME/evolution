@@ -1,3 +1,8 @@
+2000-03-05  Christopher James Lahey  <clahey@helixcode.com>
+
+	* white-papers/widgets/e-table.sgml: Added Miguel to the author
+	list for ETable.
+
 2000-03-03  Christopher James Lahey  <clahey@helixcode.com>
 
 	* white-papers/widgets/, white-papers/widgets/e-table.sgml: New
