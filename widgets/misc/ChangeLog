@@ -1,3 +1,12 @@
+2004-01-30  Chris Toshok  <toshok@ximian.com>
+
+	* e-image-chooser.[ch]: abstract out the drag and droppable image
+	widget from the contact list editor and stick it here.  There's
+	some code for a "Browse..." button here but it's not enabled.
+
+	* Makefile.am (widgetsinclude_HEADERS): add e-image-chooser.h.
+	(libemiscwidgets_la_SOURCES): add e-image-chooser.c
+	
 2004-01-30  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* e-filter-bar.c (get_property): Only save the search-bar state OR
