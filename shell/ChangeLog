@@ -1,3 +1,8 @@
+2001-10-29    <NotZed@Ximian.com>
+
+	* evolution-storage.c (class_init): Set the return type of the
+	signal handlers to GTK_TYPE_NONE.
+
 2001-10-28  Ettore Perazzoli  <ettore@ximian.com>
 
 	[The following should fix #13802, crash on exit.]
