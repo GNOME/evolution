@@ -982,6 +982,11 @@ icon_new_from_pixbuf (EIconList *eil, GdkPixbuf *im,
 	else
 		icon->icon_filename = NULL;
 
+	if (im == NULL)
+		im = gdk_pixbuf_new_from_xpm_data ((const char**) bad_icon_xpm); 
+	else
+		gdk_pixbuf_ref (im);
+
 	icon->image = GNOME_CANVAS_PIXBUF (gnome_canvas_item_new (
 		group,
 		gnome_canvas_pixbuf_get_type (),
@@ -991,6 +996,7 @@ icon_new_from_pixbuf (EIconList *eil, GdkPixbuf *im,
 		"height", (double) gdk_pixbuf_get_height (im),
 		"pixbuf", im,
 		NULL));
+	gdk_pixbuf_unref (im);
 
 	icon->text = GNOME_ICON_TEXT_ITEM (gnome_canvas_item_new (
 		group,
@@ -1139,7 +1145,6 @@ e_icon_list_insert_pixbuf (EIconList *eil, int pos, GdkPixbuf *im,
 
 	g_return_if_fail (eil != NULL);
 	g_return_if_fail (IS_EIL (eil));
-	g_return_if_fail (im != NULL);
 
 	icon = icon_new_from_pixbuf (eil, im, icon_filename, text);
 	icon_list_insert (eil, pos, icon);
@@ -1187,7 +1192,6 @@ e_icon_list_append_pixbuf (EIconList *eil, GdkPixbuf *im,
 
 	g_return_val_if_fail (eil != NULL, -1);
 	g_return_val_if_fail (IS_EIL (eil), -1);
-	g_return_val_if_fail (im != NULL, -1);
 
 	icon = icon_new_from_pixbuf (eil, im, icon_filename, text);
 	return icon_list_append (eil, icon);

@@ -305,7 +305,22 @@ update (EMsgComposerAttachmentBar *bar)
 		if (image) {
 			e_icon_list_append_pixbuf (icon_list, attachment->pixbuf_cache, icon_name, label);
 		} else {
-			e_icon_list_append (icon_list, icon_name, label);
+			if (icon_name)
+				pixbuf = gdk_pixbuf_new_from_file (icon_name);
+			else
+				pixbuf = NULL;
+
+			/* Get the default */
+			if (pixbuf == NULL) {
+				icon_name = gnome_vfs_mime_get_value ("text/plain",
+								      "icon-filename");
+				if (icon_name != NULL)
+					pixbuf = gdk_pixbuf_new_from_file (icon_name);
+			}
+			e_icon_list_append_pixbuf (icon_list, pixbuf, 
+						   icon_name, label);
+			if (pixbuf)
+				gdk_pixbuf_unref (pixbuf);
 		}
 
 		g_free (label);

@@ -1,3 +1,10 @@
+2000-10-10  Iain Holmes  <iain@helixcode.com>
+
+	* e-icon-list.c: Allow NULL pixbufs, and load the "broken" image
+
+	* e-msg-composer-attachment-bar.c (update): If the image isn't 
+	found load the default text/plain icon.
+
 2000-10-02  Jeffrey Stedfast  <fejj@helixcode.com>
 
 	* e-msg-composer.c (build_message): If the body of the message has
