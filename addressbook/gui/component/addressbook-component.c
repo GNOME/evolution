@@ -48,14 +48,14 @@ addressbook_component_get_shell_client  (void)
 
 static BonoboGenericFactory *factory = NULL;
 
-static const char *accepted_dnd_types[] = {
+static char *accepted_dnd_types[] = {
 	"text/x-vcard",
 	NULL
 };
 
 static const EvolutionShellComponentFolderType folder_types[] = {
 	{ "contacts", "evolution-contacts.png", accepted_dnd_types },
-	{ NULL, NULL }
+	{ NULL, NULL, NULL, NULL }
 };
 
 

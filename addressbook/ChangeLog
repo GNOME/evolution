@@ -1,3 +1,18 @@
+2001-04-11  Christopher James Lahey  <clahey@ximian.com>
+
+	* backend/ebook/e-card-simple.h: Added
+	E_CARD_SIMPLE_FIELD_LAST_SIMPLE_STRING.
+
+	* gui/component/addressbook-component.c (accepted_dnd_types):
+	Fixed a warning here.
+
+	* gui/widgets/e-addressbook-model.c: Modified this to have more
+	columns, but not let them be edited if they're not a simple
+	string.
+
+	* gui/widgets/e-minicard-view.c (e_minicard_view_init): Fixed a
+	warning and a memory leak here.
+
 2001-04-10  Gediminas Paulauskas <menesis@delfi.lt>
 
 	* backend/ebook/evolution-gnomecard-importer.c: added missing #include.
