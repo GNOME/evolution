@@ -83,6 +83,9 @@ CamelStore *camel_session_get_store_for_protocol (CamelSession *session,
 CamelStore *camel_session_get_store (CamelSession *session,
 				     const char *url_string,
 				     CamelException *ex);
+CamelTransport *camel_session_get_transport_for_protocol (CamelSession *session,
+							  const char *protocol,
+							  CamelException *ex);
 char *camel_session_query_authenticator (CamelSession *session, char *prompt,
 					 gboolean secret,
 					 CamelService *service, char *item,

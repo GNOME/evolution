@@ -26,6 +26,7 @@
 #include <config.h>
 #include "camel-session.h"
 #include "camel-store.h"
+#include "camel-transport.h"
 #include "camel-exception.h"
 #include "string-utils.h"
 #include "url-util.h"
@@ -276,4 +277,46 @@ camel_session_query_authenticator (CamelSession *session, char *prompt,
 				   CamelException *ex)
 {
 	return session->authenticator (prompt, secret, service, item, ex);
+}
+
+
+
+/**
+ * camel_session_get_transport_for_protocol: get the transport for a protocol
+ * @session: the session
+ * @protocol: protocol name
+ * @ex: a CamelException
+ *
+ * Return a CamelTransport object associated with a given transport
+ * protocol. If a provider has been set for this protocol in the
+ * session @session using camel_session_set_provider (), then a transport
+ * obtained from this provider is returned. Otherwise, if one or more
+ * providers corresponding to this protocol have been registered (See
+ * camel_provider_register_as_module), the last registered one is
+ * used.
+ * 
+ * Return value: transport associated with this protocol, or NULL if no provider was found. 
+ **/
+CamelTransport *
+camel_session_get_transport_for_protocol (CamelSession *session,
+					  const char *protocol,
+					  CamelException *ex)
+{
+	const CamelProvider *provider = NULL;
+
+	/* See if there is a provider assiciated with this
+	 * protocol in this session.
+	 */
+	provider = CAMEL_PROVIDER (g_hash_table_lookup (session->transport_provider_list, protocol));
+	if (!provider) {
+		/* No provider was found in this session. See
+		 * if there is a registered provider for this 
+		 * protocol.
+		 */
+		provider = camel_provider_get_for_protocol (protocol, PROVIDER_TRANSPORT);
+	}
+	if (!provider)
+		return NULL;
+
+	return CAMEL_TRANSPORT (gtk_object_new (provider->object_type, NULL));
 }
