@@ -6,13 +6,13 @@
 # Martin Norbäck <d95mback@dtek.chalmers.se>, 2001.
 # Johan Dahlin <zilch.am@home.se>, 2001.
 #
-# $Id: sv.po,v 1.156.2.4 2003/01/10 14:13:37 menthos Exp $
+# $Id: sv.po,v 1.156.2.5 2003/01/21 01:11:19 menthos Exp $
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
-"POT-Creation-Date: 2003-01-10 15:11+0100\n"
-"PO-Revision-Date: 2003-01-10 15:12+0100\n"
+"POT-Creation-Date: 2003-01-21 02:09+0100\n"
+"PO-Revision-Date: 2003-01-21 02:10+0100\n"
 "Last-Translator: Christian Rose <menthos@menthos.com>\n"
 "Language-Team: Swedish <sv@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -23679,19 +23679,19 @@ msgstr "Klar himmel"
 
 #: my-evolution/metar.c:45
 msgid "Broken clouds"
-msgstr "Växlande molnighet"
+msgstr "Brutet molntäcke"
 
 #: my-evolution/metar.c:46
 msgid "Scattered clouds"
-msgstr "Lätt molnighet"
+msgstr "Spridda moln"
 
 #: my-evolution/metar.c:47
 msgid "Few clouds"
-msgstr "Halvklart"
+msgstr "Få moln"
 
 #: my-evolution/metar.c:48
 msgid "Overcast"
-msgstr "Mulet"
+msgstr "Heltäckande moln"
 
 #: my-evolution/metar.c:56 my-evolution/metar.c:74 my-evolution/metar.c:485
 msgid "Invalid"
@@ -23707,31 +23707,31 @@ msgstr "Nord"
 
 #: my-evolution/metar.c:64
 msgid "North - NorthEast"
-msgstr "Nord - nordöst"
+msgstr "Nord-nordost"
 
 #: my-evolution/metar.c:64
 msgid "Northeast"
-msgstr "Nordöst"
+msgstr "Nordost"
 
 #: my-evolution/metar.c:64
 msgid "East - NorthEast"
-msgstr "Öst - nordöst"
+msgstr "Ost-nordost"
 
 #: my-evolution/metar.c:65
 msgid "East"
-msgstr "Öst"
+msgstr "Ost"
 
 #: my-evolution/metar.c:65
 msgid "East - Southeast"
-msgstr "East - sydväst"
+msgstr "Ost-sydost"
 
 #: my-evolution/metar.c:65
 msgid "Southeast"
-msgstr "Sydöst"
+msgstr "Sydost"
 
 #: my-evolution/metar.c:65
 msgid "South - Southeast"
-msgstr "Syd - sydöst"
+msgstr "Syd-sydost"
 
 #: my-evolution/metar.c:66
 msgid "South"
@@ -23739,7 +23739,7 @@ msgstr "Syd"
 
 #: my-evolution/metar.c:66
 msgid "South - Southwest"
-msgstr "Syd - sydväst"
+msgstr "Syd-sydväst"
 
 #: my-evolution/metar.c:66
 msgid "Southwest"
@@ -23747,7 +23747,7 @@ msgstr "Sydväst"
 
 #: my-evolution/metar.c:66
 msgid "West - Southwest"
-msgstr "Väst - sydväst"
+msgstr "Väst-sydväst"
 
 #: my-evolution/metar.c:67
 msgid "West"
@@ -23755,7 +23755,7 @@ msgstr "Väst"
 
 #: my-evolution/metar.c:67
 msgid "West - Northwest"
-msgstr "Väst - nordväst"
+msgstr "Väst-nordväst"
 
 #: my-evolution/metar.c:67
 msgid "Northwest"
@@ -23763,7 +23763,7 @@ msgstr "Nordväst"
 
 #: my-evolution/metar.c:67
 msgid "North - Northwest"
-msgstr "Nord - nordväst"
+msgstr "Nord-nordväst"
 
 #. DRIZZLE
 #: my-evolution/metar.c:127
@@ -23788,15 +23788,15 @@ msgstr "Kraftigt duggregn"
 
 #: my-evolution/metar.c:132
 msgid "Shallow drizzle"
-msgstr "Tunt duggregn"
+msgstr "Låga bankar med duggregn"
 
 #: my-evolution/metar.c:133
 msgid "Patches of drizzle"
-msgstr "Områden med duggregn"
+msgstr "Höga bankar med duggregn"
 
 #: my-evolution/metar.c:134
 msgid "Partial drizzle"
-msgstr "Delvis duggregn"
+msgstr "Partiella bankar med duggregn"
 
 #: my-evolution/metar.c:135 my-evolution/metar.c:150
 msgid "Thunderstorm"
@@ -23808,15 +23808,15 @@ msgstr "Blåsigt duggregn"
 
 #: my-evolution/metar.c:137
 msgid "Showers"
-msgstr "Regnskurar"
+msgstr "Skurar"
 
 #: my-evolution/metar.c:138
 msgid "Drifting drizzle"
-msgstr "Drivande duggregn"
+msgstr "Lågt duggregnsdrev"
 
 #: my-evolution/metar.c:139
 msgid "Freezing drizzle"
-msgstr "Bitande duggregn"
+msgstr "Underkylt duggregn"
 
 #. RAIN
 #: my-evolution/metar.c:142
@@ -23829,7 +23829,7 @@ msgstr "Regn i närheten"
 
 #: my-evolution/metar.c:144
 msgid "Light rain"
-msgstr "Något regn"
+msgstr "Lätt regn"
 
 #: my-evolution/metar.c:145
 msgid "Moderate rain"
@@ -23841,19 +23841,19 @@ msgstr "Kraftigt regn"
 
 #: my-evolution/metar.c:147
 msgid "Shallow rain"
-msgstr "Stänkregn"
+msgstr "Låga bankar med regn"
 
 #: my-evolution/metar.c:148
 msgid "Patches of rain"
-msgstr "Områden med regn"
+msgstr "Höga bankar med regn"
 
 #: my-evolution/metar.c:149
 msgid "Partial rainfall"
-msgstr "Delvis regn"
+msgstr "Partiella bankar med regn"
 
 #: my-evolution/metar.c:151
 msgid "Blowing rainfall"
-msgstr "Blåst med regn"
+msgstr "Högt regndrev"
 
 #: my-evolution/metar.c:152
 msgid "Rain showers"
@@ -23861,20 +23861,20 @@ msgstr "Regnskurar"
 
 #: my-evolution/metar.c:153
 msgid "Drifting rain"
-msgstr "Drivande regn"
+msgstr "Lågt regndrev"
 
 #: my-evolution/metar.c:154
 msgid "Freezing rain"
-msgstr "Bitande regn"
+msgstr "Underkylt regn"
 
 #. SNOW
 #: my-evolution/metar.c:157
 msgid "Snow"
-msgstr "Snö"
+msgstr "Snöfall"
 
 #: my-evolution/metar.c:158
 msgid "Snow in the vicinity"
-msgstr "Snö i närheten"
+msgstr "Snöfall i närheten"
 
 #: my-evolution/metar.c:159
 msgid "Light snow"
@@ -23882,23 +23882,23 @@ msgstr "Lätt snöfall"
 
 #: my-evolution/metar.c:160
 msgid "Moderate snow"
-msgstr "Måttligt med snö"
+msgstr "Måttligt snöfall"
 
 #: my-evolution/metar.c:161
 msgid "Heavy snow"
-msgstr "Kraftigt med snö"
+msgstr "Kraftigt snöfall"
 
 #: my-evolution/metar.c:162
 msgid "Shallow snow"
-msgstr "Tunt med snö"
+msgstr "Låga bankar med snöfall"
 
 #: my-evolution/metar.c:163
 msgid "Patches of snow"
-msgstr "Områden med snö"
+msgstr "Höga bankar med snöfall"
 
 #: my-evolution/metar.c:164
 msgid "Partial snowfall"
-msgstr "Delvis snöfall"
+msgstr "Partiella bankar med snöfall"
 
 #: my-evolution/metar.c:165 my-evolution/metar.c:180
 msgid "Snowstorm"
@@ -23906,7 +23906,7 @@ msgstr "Snöstorm"
 
 #: my-evolution/metar.c:166
 msgid "Blowing snowfall"
-msgstr "Blåsigt snöfall"
+msgstr "Högt snödrev"
 
 #: my-evolution/metar.c:167
 msgid "Snow showers"
@@ -23914,89 +23914,89 @@ msgstr "Snöskurar"
 
 #: my-evolution/metar.c:168
 msgid "Drifting snow"
-msgstr "Drivande snö"
+msgstr "Lågt snödrev"
 
 #: my-evolution/metar.c:169
 msgid "Freezing snow"
-msgstr "Bitande snö"
+msgstr "Underkyld snö"
 
 #. SNOW_GRAINS
 #: my-evolution/metar.c:172
 msgid "Snow grains"
-msgstr "Snökorn"
+msgstr "Kornsnö"
 
 #: my-evolution/metar.c:173
 msgid "Snow grains in the vicinity"
-msgstr "Snökorn i närheten"
+msgstr "Kornsnö i närheten"
 
 #: my-evolution/metar.c:174
 msgid "Light snow grains"
-msgstr "Lätta snökorn"
+msgstr "Lätt kornsnö"
 
 #: my-evolution/metar.c:175
 msgid "Moderate snow grains"
-msgstr "Måttliga snökorn"
+msgstr "Måttlig kornsnö"
 
 #: my-evolution/metar.c:176
 msgid "Heavy snow grains"
-msgstr "Kraftiga snökorn"
+msgstr "Kraftig kornsnö"
 
 #: my-evolution/metar.c:177
 msgid "Shallow snow grains"
-msgstr "Tunna snökorn"
+msgstr "Låga bankar med kornsnö"
 
 #: my-evolution/metar.c:178
 msgid "Patches of snow grains"
-msgstr "Områden med snökorn"
+msgstr "Höga bankar med kornsnö"
 
 #: my-evolution/metar.c:179
 msgid "Partial snow grains"
-msgstr "Delvis snökorn"
+msgstr "Partiella bankar med kornsnö"
 
 #: my-evolution/metar.c:181
 msgid "Blowing snow grains"
-msgstr "Blåsande snökorn"
+msgstr "Högt kornsnödrev"
 
 #: my-evolution/metar.c:182
 msgid "Snow grain showers"
-msgstr "Snökornsskurar"
+msgstr "Kornsnöskurar"
 
 #: my-evolution/metar.c:183
 msgid "Drifting snow grains"
-msgstr "Drivande snökorn"
+msgstr "Lågt kornsnödrev"
 
 #: my-evolution/metar.c:184
 msgid "Freezing snow grains"
-msgstr "Bitande snökorn"
+msgstr "Underkyld kornsnö"
 
 #. ICE_CRYSTALS
 #: my-evolution/metar.c:187
 msgid "Ice crystals"
-msgstr "Iskristaller"
+msgstr "Isnålar"
 
 #: my-evolution/metar.c:188
 msgid "Ice crystals in the vicinity"
-msgstr "Iskristaller i närheten"
+msgstr "Isnålar i närheten"
 
 #: my-evolution/metar.c:189
 msgid "Few ice crystals"
-msgstr "Få iskristaller"
+msgstr "Få isnålar"
 
 #: my-evolution/metar.c:190
 msgid "Moderate ice crystals"
-msgstr "Måttliga iskristaller"
+msgstr "Måttliga isnålar"
 
 #: my-evolution/metar.c:191
 msgid "Heavy ice crystals"
-msgstr "Kraftiga iskristaller"
+msgstr "Kraftiga isnålar"
 
 #: my-evolution/metar.c:193
 msgid "Patches of ice crystals"
-msgstr "Områden med iskristaller"
+msgstr "Höga bankar med isnålar"
 
 #: my-evolution/metar.c:194
 msgid "Partial ice crystals"
-msgstr "Delvis iskristaller"
+msgstr "Partiella bankar med isnålar"
 
 #: my-evolution/metar.c:195
 msgid "Ice crystal storm"
@@ -24004,72 +24004,72 @@ msgstr "Iskristallby"
 
 #: my-evolution/metar.c:196
 msgid "Blowing ice crystals"
-msgstr "Blåsande iskristaller"
+msgstr "Högt isnåldrev"
 
 #: my-evolution/metar.c:197
 msgid "Showers of ice crystals"
-msgstr "Skurar av iskristaller"
+msgstr "Skurar med isnålar"
 
 #: my-evolution/metar.c:198
 msgid "Drifting ice crystals"
-msgstr "Drivande iskristaller"
+msgstr "Lågt isnåldrev"
 
 #: my-evolution/metar.c:199
 msgid "Freezing ice crystals"
-msgstr "Bitande iskristaller"
+msgstr "Underkylda isnålar"
 
 #. ICE_PELLETS
 #: my-evolution/metar.c:202
 msgid "Ice pellets"
-msgstr "Ispellets"
+msgstr "Iskorn"
 
 #: my-evolution/metar.c:203
 msgid "Ice pellets in the vicinity"
-msgstr "Ispellets i närheten"
+msgstr "Iskorn i närheten"
 
 #: my-evolution/metar.c:204
 msgid "Few ice pellets"
-msgstr "Få ispellets"
+msgstr "Få iskorn"
 
 #: my-evolution/metar.c:205
 msgid "Moderate ice pellets"
-msgstr "Måttliga ispellets"
+msgstr "Måttliga iskorn"
 
 #: my-evolution/metar.c:206
 msgid "Heavy ice pellets"
-msgstr "Krafiga ispellets"
+msgstr "Kraftiga iskorn"
 
 #: my-evolution/metar.c:207
 msgid "Shallow ice pellets"
-msgstr "Tunna ispellets"
+msgstr "Låga bankar med iskorn"
 
 #: my-evolution/metar.c:208
 msgid "Patches of ice pellets"
-msgstr "Områden med ispellets"
+msgstr "Höga bankar med iskorn"
 
 #: my-evolution/metar.c:209
 msgid "Partial ice pellets"
-msgstr "Delvis ispellets"
+msgstr "Partiella bankar med iskorn"
 
 #: my-evolution/metar.c:210
 msgid "Ice pellet storm"
-msgstr "Ispelletby"
+msgstr "Iskornby"
 
 #: my-evolution/metar.c:211
 msgid "Blowing ice pellets"
-msgstr "Blåsande ispellets"
+msgstr "Högt iskorndrev"
 
 #: my-evolution/metar.c:212
 msgid "Showers of ice pellets"
-msgstr "Skurar av ispellets"
+msgstr "Skurar med iskorn"
 
 #: my-evolution/metar.c:213
 msgid "Drifting ice pellets"
-msgstr "Drivande ispellets"
+msgstr "Lågt iskorndrev"
 
 #: my-evolution/metar.c:214
 msgid "Freezing ice pellets"
-msgstr "Bitande ispellets"
+msgstr "Underkylda iskorn"
 
 #: my-evolution/metar.c:218
 msgid "Hail in the vicinity"
@@ -24085,19 +24085,19 @@ msgstr "Måttligt hagel"
 
 #: my-evolution/metar.c:221
 msgid "Heavy hail"
-msgstr "Tungt hagel"
+msgstr "Kraftigt hagel"
 
 #: my-evolution/metar.c:222
 msgid "Shallow hail"
-msgstr "Tunt hagel"
+msgstr "Låga bankar med hagel"
 
 #: my-evolution/metar.c:223
 msgid "Patches of hail"
-msgstr "Områden med hagel"
+msgstr "Höga bankar med hagel"
 
 #: my-evolution/metar.c:224
 msgid "Partial hail"
-msgstr "Delvis hagel"
+msgstr "Partiella bankar med hagel"
 
 #: my-evolution/metar.c:225
 msgid "Hailstorm"
@@ -24105,7 +24105,7 @@ msgstr "Hagelby"
 
 #: my-evolution/metar.c:226
 msgid "Blowing hail"
-msgstr "Blåsande hagel"
+msgstr "Högt hageldrev"
 
 #: my-evolution/metar.c:227
 msgid "Hail showers"
@@ -24113,11 +24113,11 @@ msgstr "Hagelskurar"
 
 #: my-evolution/metar.c:228
 msgid "Drifting hail"
-msgstr "Drivande hagel"
+msgstr "Lågt hageldrev"
 
 #: my-evolution/metar.c:229
 msgid "Freezing hail"
-msgstr "Bitande hagel"
+msgstr "Underkylt hagel"
 
 #. SMALL_HAIL
 #: my-evolution/metar.c:232
@@ -24138,15 +24138,15 @@ msgstr "Kraftigt småhagel"
 
 #: my-evolution/metar.c:237
 msgid "Shallow small hail"
-msgstr "Tunt småhagel"
+msgstr "Låga bankar med småhagel"
 
 #: my-evolution/metar.c:238
 msgid "Patches of small hail"
-msgstr "Delar med småhagel"
+msgstr "Höga bankar med småhagel"
 
 #: my-evolution/metar.c:239
 msgid "Partial small hail"
-msgstr "Smått småhagel"
+msgstr "Partiella bankar med småhagel"
 
 #: my-evolution/metar.c:240
 msgid "Small hailstorm"
@@ -24154,19 +24154,19 @@ msgstr "Lätt småhagelby"
 
 #: my-evolution/metar.c:241
 msgid "Blowing small hail"
-msgstr "Blåsande småhagel"
+msgstr "Högt småhageldrev"
 
 #: my-evolution/metar.c:242
 msgid "Showers of small hail"
-msgstr "Skurar av småhagel"
+msgstr "Skurar med småhagel"
 
 #: my-evolution/metar.c:243
 msgid "Drifting small hail"
-msgstr "Drivande småhagel"
+msgstr "Lågt småhageldrev"
 
 #: my-evolution/metar.c:244
 msgid "Freezing small hail"
-msgstr "Bitande småhagel"
+msgstr "Underkylt småhagel"
 
 #. PRECIPITATION
 #: my-evolution/metar.c:247
@@ -24191,15 +24191,15 @@ msgstr "Kraftig nederbörd"
 
 #: my-evolution/metar.c:252
 msgid "Shallow precipitation"
-msgstr "Tunn nederbörd"
+msgstr "Låga bankar med nederbörd"
 
 #: my-evolution/metar.c:253
 msgid "Patches of precipitation"
-msgstr "Områden med nederbörd"
+msgstr "Höga bankar med nederbörd"
 
 #: my-evolution/metar.c:254
 msgid "Partial precipitation"
-msgstr "Delvis nederbörd"
+msgstr "Partiella bankar med nederbörd"
 
 #: my-evolution/metar.c:255
 msgid "Unknown thunderstorm"
@@ -24207,7 +24207,7 @@ msgstr "Okänd åskstorm"
 
 #: my-evolution/metar.c:256
 msgid "Blowing precipitation"
-msgstr "Blåsande nederbörd"
+msgstr "Högt nederbördsdrev"
 
 #: my-evolution/metar.c:257
 msgid "Showers, type unknown"
@@ -24215,56 +24215,56 @@ msgstr "Skurar, okänd typ"
 
 #: my-evolution/metar.c:258
 msgid "Drifting precipitation"
-msgstr "Drivande nederbörd"
+msgstr "Lågt nederbördsdrev"
 
 #: my-evolution/metar.c:259
 msgid "Freezing precipitation"
-msgstr "Bitande nederbörd"
+msgstr "Underkyld nederbörd"
 
 #. MIST
 #: my-evolution/metar.c:262
 msgid "Mist"
-msgstr "Dis"
+msgstr "Fuktdis"
 
 #: my-evolution/metar.c:263
 msgid "Mist in the vicinity"
-msgstr "Dis i närheten"
+msgstr "Fuktdis i närheten"
 
 #: my-evolution/metar.c:264
 msgid "Light mist"
-msgstr "Lätt dis"
+msgstr "Lätt fuktdis"
 
 #: my-evolution/metar.c:265
 msgid "Moderate mist"
-msgstr "Måttligt dis"
+msgstr "Måttligt fuktdis"
 
 #: my-evolution/metar.c:266
 msgid "Thick mist"
-msgstr "Tjock dis"
+msgstr "Kraftigt fuktdis"
 
 #: my-evolution/metar.c:267
 msgid "Shallow mist"
-msgstr "Tunn dis"
+msgstr "Låga bankar med fuktdis"
 
 #: my-evolution/metar.c:268
 msgid "Patches of mist"
-msgstr "Områden med dis"
+msgstr "Höga bankar med fuktdis"
 
 #: my-evolution/metar.c:269
 msgid "Partial mist"
-msgstr "Delvis dis"
+msgstr "Partiella bankar med fuktdis"
 
 #: my-evolution/metar.c:271
 msgid "Mist with wind"
-msgstr "Dis med vind"
+msgstr "Fuktdis med vind"
 
 #: my-evolution/metar.c:273
 msgid "Drifting mist"
-msgstr "Drivande dis"
+msgstr "Lågt fuktdisdrev"
 
 #: my-evolution/metar.c:274
 msgid "Freezing mist"
-msgstr "Bitande dis"
+msgstr "Underkylt fuktdis"
 
 #. FOG
 #: my-evolution/metar.c:277
@@ -24289,27 +24289,27 @@ msgstr "Tjock dimma"
 
 #: my-evolution/metar.c:282
 msgid "Shallow fog"
-msgstr "Tunn dimma"
+msgstr "Låga bankar med dimma"
 
 #: my-evolution/metar.c:283
 msgid "Patches of fog"
-msgstr "Områden med dimma"
+msgstr "Höga bankar med dimma"
 
 #: my-evolution/metar.c:284
 msgid "Partial fog"
-msgstr "Delvis dimma"
+msgstr "Partiella bankar med dimma"
 
 #: my-evolution/metar.c:286
 msgid "Fog with wind"
-msgstr "Dimma med vinden"
+msgstr "Dimma med vind"
 
 #: my-evolution/metar.c:288
 msgid "Drifting fog"
-msgstr "Drivande dimma"
+msgstr "Lågt dimdrev"
 
 #: my-evolution/metar.c:289
 msgid "Freezing fog"
-msgstr "Bitande dimma"
+msgstr "Underkyld dimma"
 
 #. SMOKE
 #: my-evolution/metar.c:292
@@ -24334,15 +24334,15 @@ msgstr "Tjock rök"
 
 #: my-evolution/metar.c:297
 msgid "Shallow smoke"
-msgstr "Tunn rök"
+msgstr "Låga bankar med rök"
 
 #: my-evolution/metar.c:298
 msgid "Patches of smoke"
-msgstr "Områden med rök"
+msgstr "Höga bankar med rök"
 
 #: my-evolution/metar.c:299
 msgid "Partial smoke"
-msgstr "Delvis rök"
+msgstr "Partiella bankar med rök"
 
 #: my-evolution/metar.c:300
 msgid "Thunderous smoke"
@@ -24350,11 +24350,11 @@ msgstr "Åskande rök"
 
 #: my-evolution/metar.c:301
 msgid "Smoke with wind"
-msgstr "Rök med vinden"
+msgstr "Rök med vind"
 
 #: my-evolution/metar.c:303
 msgid "Drifting smoke"
-msgstr "Drivande rök"
+msgstr "Lågt rökdrev"
 
 #. VOLCANIC_ASH
 #: my-evolution/metar.c:307
@@ -24375,15 +24375,15 @@ msgstr "Tjock vulkanisk aska"
 
 #: my-evolution/metar.c:312
 msgid "Shallow volcanic ash"
-msgstr "Tunn vulkanisk aska"
+msgstr "Låga bankar med vulkanisk aska"
 
 #: my-evolution/metar.c:313
 msgid "Patches of volcanic ash"
-msgstr "Områden med vulkanisk aska"
+msgstr "Höga bankar med vulkanisk aska"
 
 #: my-evolution/metar.c:314
 msgid "Partial volcanic ash"
-msgstr "Delvis vulkanisk aska"
+msgstr "Partiella bankar med vulkanisk aska"
 
 #: my-evolution/metar.c:315
 msgid "Thunderous volcanic ash"
@@ -24391,7 +24391,7 @@ msgstr "Åskande vulkanisk aska"
 
 #: my-evolution/metar.c:316
 msgid "Blowing volcanic ash"
-msgstr "Blåsande vulkanisk aska"
+msgstr "Högt drev med vulkanisk aska"
 
 #: my-evolution/metar.c:317
 msgid "Showers of volcanic ash"
@@ -24399,11 +24399,11 @@ msgstr "Skurar med vulkanisk aska"
 
 #: my-evolution/metar.c:318
 msgid "Drifting volcanic ash"
-msgstr "Drivande vulkanisk aska"
+msgstr "Lågt drev med vulkanisk aska"
 
 #: my-evolution/metar.c:319
 msgid "Freezing volcanic ash"
-msgstr "Bitande vulkanisk aska"
+msgstr "Underkyld vulkanisk aska"
 
 #. SAND
 #: my-evolution/metar.c:322
@@ -24428,187 +24428,187 @@ msgstr "Kraftig sand"
 
 #: my-evolution/metar.c:328
 msgid "Patches of sand"
-msgstr "Områden med sand"
+msgstr "Höga bankar med sand"
 
 #: my-evolution/metar.c:329
 msgid "Partial sand"
-msgstr "Delvis sand"
+msgstr "Partiella bankar med sand"
 
 #: my-evolution/metar.c:331
 msgid "Blowing sand"
-msgstr "Blåsande sand"
+msgstr "Högt sanddrev"
 
 #: my-evolution/metar.c:333
 msgid "Drifting sand"
-msgstr "Drivande sand"
+msgstr "Lågt sanddrev"
 
 #. HAZE
 #: my-evolution/metar.c:337
 msgid "Haze"
-msgstr "Lätt dimma"
+msgstr "Torrdis"
 
 #: my-evolution/metar.c:338
 msgid "Haze in the vicinity"
-msgstr "Lätt dimma i närheten"
+msgstr "Torrdis i närheten"
 
 #: my-evolution/metar.c:339
 msgid "Light haze"
-msgstr "Mycket lätt dimma i närheten"
+msgstr "Lätt torrdis"
 
 #: my-evolution/metar.c:340
 msgid "Moderate haze"
-msgstr "Måttlig lätt dimma"
+msgstr "Måttligt torrdis"
 
 #: my-evolution/metar.c:341
 msgid "Thick haze"
-msgstr "Tjock lätt dimma"
+msgstr "Tjockt torrdis"
 
 #: my-evolution/metar.c:342
 msgid "Shallow haze"
-msgstr "Tunn lätt dimma"
+msgstr "Låga bankar med torrdis"
 
 #: my-evolution/metar.c:343
 msgid "Patches of haze"
-msgstr "Delar med lätt dimma"
+msgstr "Höga bankar med torrdis"
 
 #: my-evolution/metar.c:344
 msgid "Partial haze"
-msgstr "Delvis lätt dimma"
+msgstr "Partiella bankar med torrdis"
 
 #: my-evolution/metar.c:346
 msgid "Haze with wind"
-msgstr "Lätt dimma med vinden"
+msgstr "Torrdis med vind"
 
 #: my-evolution/metar.c:348
 msgid "Drifting haze"
-msgstr "Drivande lätt dimma"
+msgstr "Lågt torrdisdrev"
 
 #: my-evolution/metar.c:349
 msgid "Freezing haze"
-msgstr "Bitande lätt dimma"
+msgstr "Underkylt torrdis"
 
 #. SPRAY
 #: my-evolution/metar.c:352
 msgid "Spray"
-msgstr "Stänk"
+msgstr "Små vattendroppar i luften"
 
 #: my-evolution/metar.c:353
 msgid "Spray in the vicinity"
-msgstr "Stänk i närheten"
+msgstr "Små vattendroppar i luften i närheten"
 
 #: my-evolution/metar.c:354
 msgid "Light spray"
-msgstr "Lätt stänk"
+msgstr "Lätta vattendroppar i luften"
 
 #: my-evolution/metar.c:355
 msgid "Moderate spray"
-msgstr "Måttligt stänk"
+msgstr "Måttliga vattendroppar i luften"
 
 #: my-evolution/metar.c:356
 msgid "Heavy spray"
-msgstr "Kraftigt stänk"
+msgstr "Kraftiga vattendroppar i luften"
 
 #: my-evolution/metar.c:357
 msgid "Shallow spray"
-msgstr "Tunt stänk"
+msgstr "Låga bankar med vattendroppar i luften"
 
 #: my-evolution/metar.c:358
 msgid "Patches of spray"
-msgstr "Områden med stänk"
+msgstr "Höga bankar med vattendroppar i luften"
 
 #: my-evolution/metar.c:359
 msgid "Partial spray"
-msgstr "Delvis stänk"
+msgstr "Partiella bankar med vattendroppar i luften"
 
 #: my-evolution/metar.c:361
 msgid "Blowing spray"
-msgstr "Blåsande stänk"
+msgstr "Högt drev med vattendroppar i luften"
 
 #: my-evolution/metar.c:363
 msgid "Drifting spray"
-msgstr "Drivande stänk"
+msgstr "Lågt drev med vattendroppar i luften"
 
 #: my-evolution/metar.c:364
 msgid "Freezing spray"
-msgstr "Bitande stänk"
+msgstr "Underkylda vattendroppar i luften"
 
 #. DUST
 #: my-evolution/metar.c:367
 msgid "Dust"
-msgstr "Damm"
+msgstr "Stoft"
 
 #: my-evolution/metar.c:368
 msgid "Dust in the vicinity"
-msgstr "Damm i närheten"
+msgstr "Stoft i närheten"
 
 #: my-evolution/metar.c:369
 msgid "Light dust"
-msgstr "Lätt damm"
+msgstr "Lätt stoft"
 
 #: my-evolution/metar.c:370
 msgid "Moderate dust"
-msgstr "Måttligt damm"
+msgstr "Måttligt stoft"
 
 #: my-evolution/metar.c:371
 msgid "Heavy dust"
-msgstr "Kraftigt damm"
+msgstr "Kraftigt stoft"
 
 #: my-evolution/metar.c:373
 msgid "Patches of dust"
-msgstr "Områden med damm"
+msgstr "Höga bankar med stoft"
 
 #: my-evolution/metar.c:374
 msgid "Partial dust"
-msgstr "Delvis damm"
+msgstr "Partiella bankar med stoft"
 
 #: my-evolution/metar.c:376
 msgid "Blowing dust"
-msgstr "Blåsande damm"
+msgstr "Högt stoftdrev"
 
 #: my-evolution/metar.c:378
 msgid "Drifting dust"
-msgstr "Drivande damm"
+msgstr "Lågt stoftdrev"
 
 #. SQUALL
 #: my-evolution/metar.c:382
 msgid "Squall"
-msgstr "Kastby"
+msgstr "Linjeby"
 
 #: my-evolution/metar.c:383
 msgid "Squall in the vicinity"
-msgstr "Kastby i närheten"
+msgstr "Linjeby i närheten"
 
 #: my-evolution/metar.c:384
 msgid "Light squall"
-msgstr "Lätt kastby"
+msgstr "Lätt linjeby"
 
 #: my-evolution/metar.c:385
 msgid "Moderate squall"
-msgstr "Måttlig kastby"
+msgstr "Måttlig linjeby"
 
 #: my-evolution/metar.c:386
 msgid "Heavy squall"
-msgstr "Kraftig kastby"
+msgstr "Kraftig linjeby"
 
 #: my-evolution/metar.c:389
 msgid "Partial squall"
-msgstr "Områden med kastbyar"
+msgstr "Partiella bankar med linjebyar"
 
 #: my-evolution/metar.c:390
 msgid "Thunderous squall"
-msgstr "Åskande kastby"
+msgstr "Åskande linjeby"
 
 #: my-evolution/metar.c:391
 msgid "Blowing squall"
-msgstr "Blåsande kastby"
+msgstr "Högt linjebydrev"
 
 #: my-evolution/metar.c:393
 msgid "Drifting squall"
-msgstr "Drivande kastby"
+msgstr "Lågt linjebydrev"
 
 #: my-evolution/metar.c:394
 msgid "Freezing squall"
-msgstr "Bitande kastby"
+msgstr "Underkyld linjeby"
 
 #. SANDSTORM
 #: my-evolution/metar.c:397
@@ -24633,11 +24633,11 @@ msgstr "Kraftig sandstorm"
 
 #: my-evolution/metar.c:402
 msgid "Shallow sandstorm"
-msgstr "Tunn sandstorm"
+msgstr "Låga bankar med sandstorm"
 
 #: my-evolution/metar.c:404
 msgid "Partial sandstorm"
-msgstr "Liten sandstorm"
+msgstr "Partiella bankar med sandstorm"
 
 #: my-evolution/metar.c:405
 msgid "Thunderous sandstorm"
@@ -24645,15 +24645,15 @@ msgstr "Åska och sandstorm"
 
 #: my-evolution/metar.c:406
 msgid "Blowing sandstorm"
-msgstr "Blåsande sandstorm"
+msgstr "Högt sandstormdrev"
 
 #: my-evolution/metar.c:408
 msgid "Drifting sandstorm"
-msgstr "Drivande sandstorm"
+msgstr "Lågt sandstormdrev"
 
 #: my-evolution/metar.c:409
 msgid "Freezing sandstorm"
-msgstr "Bitande sandstorm"
+msgstr "Underkyld sandstorm"
 
 #. DUSTSTORM
 #: my-evolution/metar.c:412
@@ -24678,11 +24678,11 @@ msgstr "Kraftig dammstorm"
 
 #: my-evolution/metar.c:417
 msgid "Shallow duststorm"
-msgstr "Tunn dammstorm"
+msgstr "Låga bankar med dammstorm"
 
 #: my-evolution/metar.c:419
 msgid "Partial duststorm"
-msgstr "Områden med dammstorm"
+msgstr "Partiella bankar med dammstorm"
 
 #: my-evolution/metar.c:420
 msgid "Thunderous duststorm"
@@ -24690,56 +24690,56 @@ msgstr "Åska och dammstorm"
 
 #: my-evolution/metar.c:421
 msgid "Blowing duststorm"
-msgstr "Blåsande dammstorm"
+msgstr "Högt dammstormdrev"
 
 #: my-evolution/metar.c:423
 msgid "Drifting duststorm"
-msgstr "Drivande dammstorm"
+msgstr "Lågt dammstormdrev"
 
 #: my-evolution/metar.c:424
 msgid "Freezing duststorm"
-msgstr "Bitande dammstorm"
+msgstr "Underkyld dammstorm"
 
 #. FUNNEL_CLOUD
 #: my-evolution/metar.c:427
 msgid "Funnel cloud"
-msgstr "Rökmoln"
+msgstr "Skydrag"
 
 #: my-evolution/metar.c:428
 msgid "Funnel cloud in the vicinity"
-msgstr "Rökmoln i närheten"
+msgstr "Skydrag i närheten"
 
 #: my-evolution/metar.c:429
 msgid "Light funnel cloud"
-msgstr "Lätta rökmoln"
+msgstr "Lätt skydrag"
 
 #: my-evolution/metar.c:430
 msgid "Moderate funnel cloud"
-msgstr "Måttliga rökmoln"
+msgstr "Måttligt skydrag"
 
 #: my-evolution/metar.c:431
 msgid "Thick funnel cloud"
-msgstr "Tjocka rökmoln"
+msgstr "Tjockt skydrag"
 
 #: my-evolution/metar.c:432
 msgid "Shallow funnel cloud"
-msgstr "Tunna rökmoln"
+msgstr "Låga bankar med skydrag"
 
 #: my-evolution/metar.c:433
 msgid "Patches of funnel clouds"
-msgstr "Områden med rökmoln"
+msgstr "Höga bankar med skydrag"
 
 #: my-evolution/metar.c:434
 msgid "Partial funnel clouds"
-msgstr "Delvis rökmoln"
+msgstr "Partiella bankar med skydrag"
 
 #: my-evolution/metar.c:436
 msgid "Funnel cloud w/ wind"
-msgstr "Rökmoln med vind"
+msgstr "Skydrag med vind"
 
 #: my-evolution/metar.c:438
 msgid "Drifting funnel cloud"
-msgstr "Drivande rökmoln"
+msgstr "Lågt skydragsdrev"
 
 #. TORNADO
 #: my-evolution/metar.c:442 my-evolution/metar.c:451
@@ -24760,7 +24760,7 @@ msgstr "Våldsam tornado"
 
 #: my-evolution/metar.c:449
 msgid "Partial tornado"
-msgstr "Områden med tornado"
+msgstr "Partiella bankar med tornado"
 
 #: my-evolution/metar.c:450
 msgid "Thunderous tornado"
@@ -24768,11 +24768,11 @@ msgstr "Åska och tornado"
 
 #: my-evolution/metar.c:453
 msgid "Drifting tornado"
-msgstr "Drivande tornado"
+msgstr "Lågt tornadodrev"
 
 #: my-evolution/metar.c:454
 msgid "Freezing tornado"
-msgstr "Bitande tornado"
+msgstr "Underkyld tornado"
 
 #. DUST_WHIRLS
 #: my-evolution/metar.c:457
@@ -24785,7 +24785,7 @@ msgstr "Dammvirvlar i närheten"
 
 #: my-evolution/metar.c:459
 msgid "Light dust whirls"
-msgstr "Tunna dammvirvlar"
+msgstr "Lätta dammvirvlar"
 
 #: my-evolution/metar.c:460
 msgid "Moderate dust whirls"
@@ -24797,23 +24797,23 @@ msgstr "Kraftiga dammvirvlar"
 
 #: my-evolution/metar.c:462
 msgid "Shallow dust whirls"
-msgstr "Tunna dammvirvlar"
+msgstr "Låga bankar med dammvirvlar"
 
 #: my-evolution/metar.c:463
 msgid "Patches of dust whirls"
-msgstr "Områden med dammvirvlar"
+msgstr "Höga bankar med dammvirvlar"
 
 #: my-evolution/metar.c:464
 msgid "Partial dust whirls"
-msgstr "Delvis dammvirvlar"
+msgstr "Partiella bankar med dammvirvlar"
 
 #: my-evolution/metar.c:466
 msgid "Blowing dust whirls"
-msgstr "Blåsande dammvirvlar"
+msgstr "Högt dammvirveldrev"
 
 #: my-evolution/metar.c:468
 msgid "Drifting dust whirls"
-msgstr "Drivande dammvirvlar"
+msgstr "Lågt dammvirveldrev"
 
 #: my-evolution/my-evolution.glade.h:1
 msgid "Add n_ews feed"
@@ -27912,6 +27912,12 @@ msgstr "init_corba(): kunde inte initiera GNOME"
 msgid "init_bonobo(): could not initialize Bonobo"
 msgstr "init_bonobo(): kunde inte initiera Bonobo"
 
+#~ msgid "Smoke w/ thunders"
+#~ msgstr "Rök med åska"
+
+#~ msgid "Volcanic ash w/ thunders"
+#~ msgstr "Vulkanisk aska med storm"
+
 # Osäker
 #~ msgid "Apri file"
 #~ msgstr "Apri-fil"
@@ -29730,12 +29736,6 @@ msgstr "init_bonobo(): kunde inte initiera Bonobo"
 
 #~ msgid "Always encrypt to myself when sending encrypyed mail"
 #~ msgstr "Kryptera alltid till mig själv när krypterad post skickas"
-
-#~ msgid "Smoke w/ thunders"
-#~ msgstr "Rök med storm"
-
-#~ msgid "Volcanic ash w/ thunders"
-#~ msgstr "Vulkanisk aska med storm"
 
 #~ msgid "Units: "
 #~ msgstr "Enheter: "
