@@ -62,12 +62,12 @@ int camel_imap4_untagged_list (struct _CamelIMAP4Engine *engine, struct _CamelIM
 
 
 enum {
+	CAMEL_IMAP4_STATUS_UNKNOWN,
 	CAMEL_IMAP4_STATUS_MESSAGES,
 	CAMEL_IMAP4_STATUS_RECENT,
 	CAMEL_IMAP4_STATUS_UIDNEXT,
 	CAMEL_IMAP4_STATUS_UIDVALIDITY,
 	CAMEL_IMAP4_STATUS_UNSEEN,
-	CAMEL_IMAP4_STATUS_UNKNOWN,
 };
 
 typedef struct _camel_imap4_status_attr {

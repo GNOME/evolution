@@ -325,7 +325,6 @@ static struct {
 	{ "UIDNEXT",     CAMEL_IMAP4_STATUS_UIDNEXT     },
 	{ "UIDVALIDITY", CAMEL_IMAP4_STATUS_UIDVALIDITY },
 	{ "UNSEEN",      CAMEL_IMAP4_STATUS_UNSEEN      },
-	{ NULL,          CAMEL_IMAP4_STATUS_UNKNOWN     },
 };
 
 
@@ -355,6 +354,7 @@ camel_imap4_untagged_status (CamelIMAP4Engine *engine, CamelIMAP4Command *ic, gu
 	char *mailbox;
 	size_t len;
 	int type;
+	int i;
 	
 	if (camel_imap4_engine_next_token (engine, token, ex) == -1)
 		return -1;
@@ -399,9 +399,12 @@ camel_imap4_untagged_status (CamelIMAP4Engine *engine, CamelIMAP4Command *ic, gu
 	
 	while (token->token == CAMEL_IMAP4_TOKEN_ATOM) {
 		/* parse the status messages list */
-		for (type = 0; type < G_N_ELEMENTS (imap4_status); type++) {
-			if (!g_ascii_strcasecmp (imap4_status[type].name, token->v.atom))
+		type = CAMEL_IMAP4_STATUS_UNKNOWN;
+		for (i = 0; i < G_N_ELEMENTS (imap4_status); i++) {
+			if (!g_ascii_strcasecmp (imap4_status[i].name, token->v.atom)) {
+				type = imap4_status[i].type;
 				break;
+			}
 		}
 		
 		if (type == CAMEL_IMAP4_STATUS_UNKNOWN)
