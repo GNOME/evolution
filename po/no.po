@@ -5,8 +5,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution 0.8\n"
-"POT-Creation-Date: 2001-05-21 14:21+0200\n"
-"PO-Revision-Date: 2001-05-21 14:25+02:00\n"
+"POT-Creation-Date: 2001-05-21 14:50+0200\n"
+"PO-Revision-Date: 2001-05-21 14:51+02:00\n"
 "Last-Translator: Kjartan Maraas <kmaraas@gnome.org>\n"
 "Language-Team: Norwegian <no@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -5912,9 +5912,9 @@ msgstr "Rediger regel"
 msgid "Score Rules"
 msgstr "Poengregler"
 
-#: importers/elm-importer.c:512 importers/netscape-importer.c:780
-#: importers/pine-importer.c:646 shell/e-shell-importer.c:653
-#: shell/importer/import.glade.h:4
+#: importers/elm-importer.c:512 importers/evolution-gnomecard-importer.c:238
+#: importers/netscape-importer.c:780 importers/pine-importer.c:646
+#: shell/e-shell-importer.c:653 shell/importer/import.glade.h:4
 msgid "Import"
 msgstr "Importer"
 
@@ -5927,8 +5927,8 @@ msgstr "E-post"
 msgid "Elm Aliases"
 msgstr "Elm alias"
 
-#: importers/elm-importer.c:528 importers/netscape-importer.c:807
-#: importers/pine-importer.c:668
+#: importers/elm-importer.c:528 importers/evolution-gnomecard-importer.c:250
+#: importers/netscape-importer.c:807 importers/pine-importer.c:668
 msgid "Don't ask me again"
 msgstr "Ikke spør meg igjen"
 
@@ -5943,6 +5943,18 @@ msgstr ""
 #: importers/elm-importer.c:579
 msgid "Elm mail"
 msgstr "Elm e-post"
+
+#: importers/evolution-gnomecard-importer.c:243 importers/pine-importer.c:661
+msgid "Addressbook"
+msgstr "Adressebok"
+
+#: importers/evolution-gnomecard-importer.c:275
+msgid ""
+"Evolution has found GnomeCard files.\n"
+"Would you like them to be imported into Evolution?"
+msgstr ""
+"Evolution har funnet GnomeCard filer.\n"
+"Vil du importere dem til Evolution?"
 
 #: importers/netscape-importer.c:790 importers/pine-importer.c:656
 msgid "Settings"
@@ -5963,10 +5975,6 @@ msgid ""
 msgstr ""
 "Evolution har funnet Netscape e-post filer.\n"
 "Vil du importere dem til Evolution?"
-
-#: importers/pine-importer.c:661
-msgid "Addressbook"
-msgstr "Adressebok"
 
 #: importers/pine-importer.c:705
 msgid ""
@@ -6610,15 +6618,15 @@ msgstr "Sitert"
 
 #: mail/mail-config.glade.h:57
 msgid "Receiving Email"
-msgstr "Mottar e-post"
+msgstr "Innkommende e-post"
 
 #: mail/mail-config.glade.h:58
 msgid "Receiving Mail"
-msgstr "Mottar e-post"
+msgstr "Innkommende e-post"
 
 #: mail/mail-config.glade.h:59
 msgid "Receiving Options"
-msgstr "Mottar alternativer"
+msgstr "Alternativer innkommende"
 
 #: mail/mail-config.glade.h:61
 msgid "Required Information"
@@ -6634,11 +6642,11 @@ msgstr "Send meldinger i HTML-format som standard"
 
 #: mail/mail-config.glade.h:65
 msgid "Sending Email"
-msgstr "Sender e-post"
+msgstr "Utgående e-post"
 
 #: mail/mail-config.glade.h:66
 msgid "Sending Mail"
-msgstr "Sender e-post"
+msgstr "Utgående e-post"
 
 #: mail/mail-config.glade.h:68
 msgid "Sent"
@@ -7439,6 +7447,24 @@ msgstr ""
 "Ops! Visningen for `%s' døde uventet. :-(\n"
 "Dette betyr sannsynligvis at komponenten %s har krasjet."
 
+#: shell/e-shell-folder-commands.c:238
+#, c-format
+msgid "Specify a folder to copy folder \"%s\" into:"
+msgstr "Spesifiser en mappe som mappen \"%s\" skal kopieres til:"
+
+#: shell/e-shell-folder-commands.c:243
+msgid "Copy folder"
+msgstr "Kopier mappe"
+
+#: shell/e-shell-folder-commands.c:280
+#, c-format
+msgid "Specify a folder to move folder \"%s\" into:"
+msgstr "Spesifiser en mappe å flytte mappen \"%s\" til:"
+
+#: shell/e-shell-folder-commands.c:285
+msgid "Move folder"
+msgstr "Flytt mappe"
+
 #: shell/e-shell-folder-creation-dialog.c:99
 #, c-format
 msgid ""
@@ -7593,7 +7619,8 @@ msgstr "%s - Evolution - %s [%s]"
 
 #: shell/e-shell-view.c:1357
 msgid "Evolution is currently online.  Click on this button to work offline."
-msgstr "Evolution er koblet til. Klikk på denne knappen for å arbeide frakoblet."
+msgstr ""
+"Evolution er koblet til. Klikk på denne knappen for å arbeide frakoblet."
 
 #: shell/e-shell-view.c:1364
 msgid "Evolution is in the process of going offline."
@@ -7601,7 +7628,8 @@ msgstr "Evolution er i ferd med å koble fra."
 
 #: shell/e-shell-view.c:1370
 msgid "Evolution is currently offline.  Click on this button to work online."
-msgstr "Evolution er frakoblet. Klikk på denne knappen for å arbeide tilkoblet."
+msgstr ""
+"Evolution er frakoblet. Klikk på denne knappen for å arbeide tilkoblet."
 
 #: shell/e-shell-view-menu.c:179
 msgid "Bug buddy was not found in your $PATH."
@@ -9556,13 +9584,6 @@ msgstr "init_bonobo(): kunne ikke initialisere Bonobo"
 
 #~ msgid "Could not clearsign: certificate not found for \"%s\"."
 #~ msgstr "Kunne ikke klarsignere: sertifikat ikke funnet for \"%s\"."
-
-#~ msgid ""
-#~ "Evolution has found GnomeCard files.\n"
-#~ "Would you like them to be imported into Evolution?"
-#~ msgstr ""
-#~ "Evolution har funnet GnomeCard filer.\n"
-#~ "Vil du importere dem til Evolution?"
 
 #~ msgid "Send the message now"
 #~ msgstr "Send meldingen nå"

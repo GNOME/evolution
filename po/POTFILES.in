@@ -169,6 +169,7 @@ importers/GNOME_Evolution_Elm_Intelligent_Importer.oaf.in
 importers/GNOME_Evolution_Netscape_Intelligent_Importer.oaf.in
 importers/GNOME_Evolution_Pine_Intelligent_Importer.oaf.in
 importers/elm-importer.c
+importers/evolution-gnomecard-importer.c
 importers/netscape-importer.c
 importers/pine-importer.c
 mail/component-factory.c
@@ -205,6 +206,7 @@ mail/mail-session.c
 mail/subscribe-dialog.c
 shell/e-setup.c
 shell/e-shell.c
+shell/e-shell-folder-commands.c
 shell/e-shell-folder-creation-dialog.c
 shell/e-shell-folder-selection-dialog.c
 shell/e-shell-folder-title-bar.c
