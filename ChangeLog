@@ -1,3 +1,7 @@
+2000-10-15  Kjartan Maraas  <kmaraas@gnome.org>
+
+	* configure.in: Added "nn" to ALL_LINGUAS.
+	
 2000-10-14  Ettore Perazzoli  <ettore@helixcode.com>
 
 	* art/Makefile.am (images_DATA): Add `splash.png'.
