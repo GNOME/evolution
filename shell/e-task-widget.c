@@ -31,6 +31,7 @@
 #include <gtk/gtkhbox.h>
 #include <gtk/gtklabel.h>
 #include <gtk/gtkpixmap.h>
+#include <gtk/gtktooltips.h>
 
 #include <libgnome/gnome-defs.h>
 #include <libgnome/gnome-i18n.h>
@@ -45,6 +46,8 @@ static GtkEventBoxClass *parent_class = NULL;
 
 struct _ETaskWidgetPrivate {
 	char *component_id;
+
+	GtkTooltips *tooltips;
 
 	GdkPixbuf *icon_pixbuf;
 	GtkWidget *label;
@@ -64,6 +67,8 @@ impl_destroy (GtkObject *object)
 	priv = task_widget->priv;
 
 	g_free (priv->component_id);
+
+	gtk_object_unref (GTK_OBJECT (priv->tooltips));
 
 	gdk_pixbuf_unref (priv->icon_pixbuf);
 
@@ -89,6 +94,7 @@ init (ETaskWidget *task_widget)
 	priv = g_new (ETaskWidgetPrivate, 1);
 
 	priv->component_id = NULL;
+	priv->tooltips     = NULL;
 	priv->icon_pixbuf  = NULL;
 	priv->label        = NULL;
 	priv->pixmap       = NULL;
@@ -146,6 +152,8 @@ e_task_widget_construct (ETaskWidget *task_widget,
 	gdk_pixmap_unref (pixmap);
 	gdk_bitmap_unref (mask);
 
+	priv->tooltips = gtk_tooltips_new ();
+
 	e_task_widget_update (task_widget, information, -1.0);
 }
 
@@ -190,6 +198,8 @@ e_task_widget_update (ETaskWidget *task_widget,
 	}
 
 	gtk_label_set_text (GTK_LABEL (priv->label), text);
+
+	gtk_tooltips_set_tip (priv->tooltips, GTK_WIDGET (task_widget), text, NULL);
 
 	g_free (text);
 }

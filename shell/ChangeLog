@@ -1,5 +1,13 @@
 2001-09-19  Ettore Perazzoli  <ettore@ximian.com>
 
+	* e-task-widget.c: New member `tooltips' in `ETaskWidgetPrivate'.
+	(init): Init to NULL.
+	(e_task_widget_construct): Create a GtkTooltips and make
+	`tooltips' point to it.
+	(e_task_widget_update): Set the tooltip for the label too.
+
+2001-09-19  Ettore Perazzoli  <ettore@ximian.com>
+
 	* evolution-test-component.c: Removed globals `activity_client',
 	`progress'.
 	(timeout_callback_3): Get the activity client from @data.
