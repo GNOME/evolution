@@ -1,3 +1,23 @@
+2001-01-22  Dan Winship  <danw@ximian.com>
+
+	* mail-tools.h: s/filter-driver.h/camel-filter-driver.h/ and
+	update first arg of mail_too_filter_get_folder_func
+
+	* mail-tools.c (mail_tool_filter_get_folder_func): Update first
+	arg to CamelFilterDriver *
+
+	* mail-send-recv.c (receive_status): 
+	* mail-ops.c (send_queue_send): s/FILTER/CAMEL_FILTER/
+
+	* mail-callbacks.c: Remove filter-driver.h include
+
+	* mail-accounts.c: Put the news functions inside #ifdef
+	ENABLE_NNTP to prevent warnings about unused statis functions.
+
+	* subscribe-dialog.c (subscribe_folders, unsubscribe_folders,
+	subscribe_refresh_list): Update prototype to match BONOBO_UI_VERB. 
+	(populate_store_list): add a de-constifying cast
+
 2001-01-22  Not Zed  <NotZed@Ximian.com>
 
 	* .cvsignore: Added temp profiling files.
