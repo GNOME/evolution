@@ -1101,7 +1101,7 @@ comp_editor_merge_ui (CompEditor *editor,
 
 	priv = editor->priv;
 
-	path = g_strconcat (EVOLUTION_UIDIR "/", filename);
+	path = g_strconcat (EVOLUTION_UIDIR "/", filename, NULL);
 
 	bonobo_ui_util_set_ui (priv->uic, EVOLUTION_DATADIR, path, "evolution-calendar", NULL);
 	bonobo_ui_component_add_verb_list_with_data (priv->uic, verbs, editor);

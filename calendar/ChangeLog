@@ -17,6 +17,9 @@
 	* gui/e-meeting-time-sel.c (e_meeting_time_selector_construct): Add a
 	FIXME comment to think about.
 
+	* gui/dialogs/comp-editor.c (comp_editor_merge_ui): Add a terminating
+	NULL to the concatenation.
+
 2003-01-23  Hans Petter Jansson  <hpj@ximian.com>
 
 	Fixes some trivial, but distracting, warnings.
