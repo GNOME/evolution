@@ -77,7 +77,8 @@ glade_DATA = select-names.glade
 EXTRA_DIST = 			\
 	$(glade_DATA)		\
 	$(oaf_in_files)		\
-	$(oaf_DATA)
+	$(oaf_DATA)		\
+	$(idl_DATA)
 
 BUILT_SOURCES = $(IDL_GENERATED)
 CLEANFILES = $(BUILT_SOURCES)
