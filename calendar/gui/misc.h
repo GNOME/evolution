@@ -25,5 +25,6 @@
 #include <glib.h>
 
 gboolean string_is_empty (const char *value);
+char    *get_uri_without_password (const char *uri);
 
 #endif

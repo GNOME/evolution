@@ -35,6 +35,7 @@
 #include "cal-search-bar.h"
 #include "calendar-config.h"
 #include "component-factory.h"
+#include "misc.h"
 
 #include "e-tasks.h"
 
@@ -339,6 +340,7 @@ e_tasks_open			(ETasks		*tasks,
 	char *message;
 	EUri *uri;
 	char *real_uri;
+	char *urinopwd;
 
 	g_return_val_if_fail (tasks != NULL, FALSE);
 	g_return_val_if_fail (E_IS_TASKS (tasks), FALSE);
@@ -352,9 +354,11 @@ e_tasks_open			(ETasks		*tasks,
 	else
 		real_uri = g_strdup (file);
 
-	message = g_strdup_printf (_("Opening tasks at %s"), real_uri);
+	urinopwd = get_uri_without_password (real_uri);
+	message = g_strdup_printf (_("Opening tasks at %s"), urinopwd);
 	set_status_message (tasks, message);
 	g_free (message);
+	g_free (urinopwd);
 
 	if (!cal_client_open_calendar (priv->client, real_uri, FALSE)) {
 		g_message ("e_tasks_open(): Could not issue the request");
@@ -377,10 +381,13 @@ load_error				(ETasks		*tasks,
 					 const char	*uri)
 {
 	char *msg;
+	char *urinopwd;
 
-	msg = g_strdup_printf (_("Could not load the tasks in `%s'"), uri);
+	urinopwd = get_uri_without_password (uri);
+	msg = g_strdup_printf (_("Could not load the tasks in `%s'"), urinopwd);
 	gnome_error_dialog_parented (msg, GTK_WINDOW (gtk_widget_get_toplevel (GTK_WIDGET (tasks))));
 	g_free (msg);
+	g_free (urinopwd);
 }
 
 /* Displays an error to indicate that the specified URI method is not supported */
@@ -389,10 +396,13 @@ method_error				(ETasks		*tasks,
 					 const char	*uri)
 {
 	char *msg;
+	char *urinopwd;
 
-	msg = g_strdup_printf (_("The method required to load `%s' is not supported"), uri);
+	urinopwd = get_uri_without_password (uri);
+	msg = g_strdup_printf (_("The method required to load `%s' is not supported"), urinopwd);
 	gnome_error_dialog_parented (msg, GTK_WINDOW (gtk_widget_get_toplevel (GTK_WIDGET (tasks))));
 	g_free (msg);
+	g_free (urinopwd);
 }
 
 /* Displays an error to indicate permission problems */
@@ -400,10 +410,13 @@ static void
 permission_error (ETasks *tasks, const char *uri)
 {
 	char *msg;
+	char *urinopwd;
 
-	msg = g_strdup_printf (_("You don't have permission to open the folder in `%s'"), uri);
+	urinopwd = get_uri_without_password (uri);
+	msg = g_strdup_printf (_("You don't have permission to open the folder in `%s'"), urinopwd);
 	gnome_error_dialog_parented (msg, GTK_WINDOW (gtk_widget_get_toplevel (GTK_WIDGET (tasks))));
 	g_free (msg);
+	g_free (urinopwd);
 }
 
 /* Callback from the calendar client when a calendar is opened */
@@ -462,13 +475,16 @@ backend_error_cb (CalClient *client, const char *message, gpointer data)
 	ETasks *tasks;
 	ETasksPrivate *priv;
 	char *errmsg;
+	char *urinopwd;
 
 	tasks = E_TASKS (data);
 	priv = tasks->priv;
 
-	errmsg = g_strdup_printf (_("Error on %s:\n %s"), cal_client_get_uri (client), message);
+	urinopwd = get_uri_without_password (cal_client_get_uri (client));
+	errmsg = g_strdup_printf (_("Error on %s:\n %s"), urinopwd, message);
 	gnome_error_dialog_parented (errmsg, GTK_WINDOW (gtk_widget_get_toplevel (GTK_WIDGET (tasks))));
 	g_free (errmsg);
+	g_free (urinopwd);
 }
 
 /**
