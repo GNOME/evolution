@@ -1,3 +1,10 @@
+2001-07-24  Not Zed  <NotZed@Ximian.com>
+
+	* component-factory.c (create_folder): Dont call notifyResult here
+	if we've just launched a thread to do the work, it calls it
+	itself.  This apparently breaks the importers, but thats a
+	different issue.
+
 2001-07-23  Not Zed  <NotZed@Ximian.com>
 
 	* mail-mt.c (mail_msgport_replied): Go back to calling
