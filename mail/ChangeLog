@@ -4,6 +4,11 @@
 	quick-search entry.
 	(search_activate): Perform a quick-search on the folder subject
 	only.
+	(folder_browser_gui_init): Add an option meny to the search line.	
+	(create_option_menu): Build the option menu from a table.
+	(search_set): Build a search from another string whent he option
+	menu or text item is changed.  5 search options are defined so
+	far.
 
 	* message-list.c (get_message_info): If there is an active search,
 	then get the data from that ... use this instead of

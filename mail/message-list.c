@@ -63,8 +63,11 @@ CamelMessageInfo *get_message_info(MessageList *message_list, gint row)
 		char *uid;
 
 		uid = g_list_nth_data(message_list->matches, row);
-		if (uid)
+		if (uid) {
 			info = camel_folder_summary_get_by_uid(message_list->folder, uid);
+		} else {
+			g_warning("trying to get data for nonexistant row %d", row);
+		}
 	} else {
 		GPtrArray *msg_info_array;
 		msg_info_array = camel_folder_summary_get_message_info 
@@ -677,7 +680,6 @@ message_list_set_search (MessageList *message_list, const char *search)
 	if (search) {
 		CamelException ex;
 
-		printf("Searching for: %s\n", search);
 		camel_exception_init (&ex);
 		message_list->matches = camel_folder_search_by_expression(message_list->folder, search, &ex);
 	}

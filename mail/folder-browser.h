@@ -37,6 +37,9 @@ struct  _FolderBrowser {
 	GtkWidget   *message_list_w;
 	MailDisplay *mail_display;
 	GtkWidget   *vpaned;
+	GtkWidget   *search_menu;
+	GtkWidget   *search_entry;
+
 	gboolean     preview_shown;
 
 };

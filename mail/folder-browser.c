@@ -192,25 +192,107 @@ folder_browser_properties_init (FolderBrowser *fb)
 		BONOBO_ARG_BOOLEAN, NULL, _("Whether a message preview should be shown"), 0);
 }
 
+static char * search_options[] = {
+	"Body or subject contains",
+	"Body contains",
+	"Subject contains",
+	"Body does not contain",
+	"Subject does not contain",
+	NULL
+};
+
+/* %s is replaced by the whole search string in quotes ...
+   possibly could split the search string into words as well ? */
+static char * search_string[] = {
+	"(or (body-contains %s) (match-all (header-contains \"Subject\" %s)))",
+	"(body-contains %s)",
+	"(match-all (header-contains \"Subject\" %s)",
+	"(match-all (not (body-contains %s)))",
+	"(match-all (not (header-contains \"Subject\" %s)))"
+};
+
+static void
+search_set(FolderBrowser *fb)
+{
+	GtkWidget *widget;
+	GString *out;
+	char *str;
+	int index;
+	char *text;
+
+	text = gtk_entry_get_text((GtkEntry *)fb->search_entry);
+
+	if (text == NULL || text[0] == 0) {
+		message_list_set_search (fb->message_list, NULL);
+		return;
+	}
+
+	widget = gtk_menu_get_active (GTK_MENU(GTK_OPTION_MENU(fb->search_menu)->menu));
+	index = (int)gtk_object_get_data((GtkObject *)widget, "search_option");
+	if (index > sizeof(search_string)/sizeof(search_string[0]))
+		index = 0;
+	str = search_string[index];
+
+	out = g_string_new("");
+	while (*str) {
+		if (str[0] == '%' && str[1]=='s') {
+			str+=2;
+			g_string_sprintfa(out, "\"%s\"", text);
+		} else {
+			g_string_append_c(out, *str);
+			str++;
+		}
+	}
+	message_list_set_search (fb->message_list, out->str);
+	g_string_free(out, TRUE);
+}
+
+static void
+search_menu_deactivate(GtkWidget *menu, FolderBrowser *fb)
+{
+	search_set(fb);
+}
+
+static GtkWidget *
+create_option_menu (char **menu_list, int item, void *data)
+{
+	GtkWidget *omenu;
+	GtkWidget *menu;
+	int i = 0;
+       
+	omenu = gtk_option_menu_new ();
+	menu = gtk_menu_new ();
+	while (*menu_list){
+		GtkWidget *entry;
+
+		entry = gtk_menu_item_new_with_label (*menu_list);
+		gtk_widget_show (entry);
+		gtk_object_set_data((GtkObject *)entry, "search_option", (void *)i);
+		gtk_menu_append (GTK_MENU (menu), entry);
+		menu_list++;
+		i++;
+	}
+	gtk_option_menu_set_menu (GTK_OPTION_MENU (omenu), menu);
+	gtk_option_menu_set_history (GTK_OPTION_MENU (omenu), item);
+	gtk_widget_show (omenu);
+
+	gtk_signal_connect (GTK_OBJECT (menu), 
+			    "deactivate",
+			    GTK_SIGNAL_FUNC (search_menu_deactivate), data);
+
+	return omenu;
+}
+
 static void
 search_activate(GtkEntry *entry, FolderBrowser *fb)
 {
-	char *text;
-
-	text = gtk_entry_get_text(entry);
-	if (text == NULL || text[0] == 0) {
-		message_list_set_search (fb->message_list, NULL);
-	} else {
-		char *search = g_strdup_printf("(match-all (header-contains \"Subject\" \"%s\"))", text);
-		message_list_set_search (fb->message_list, search);
-		g_free(search);
-	}
+	search_set(fb);
 }
 
 static void
 folder_browser_gui_init (FolderBrowser *fb)
 {
-	GtkWidget *entry, *hbox, *label;
+	GtkWidget *hbox, *label;
 
 	/*
 	 * The panned container
@@ -228,12 +310,14 @@ folder_browser_gui_init (FolderBrowser *fb)
 	/* quick-search entry */
 	hbox = gtk_hbox_new(FALSE, 3);
 	gtk_widget_show(hbox);
-	entry = gtk_entry_new();
-	gtk_widget_show(entry);
-	gtk_signal_connect(entry, "activate", search_activate, fb);
-	label = gtk_label_new("Search (subject contains)");
+	fb->search_entry = gtk_entry_new();
+	gtk_widget_show(fb->search_entry);
+	gtk_signal_connect(fb->search_entry, "activate", search_activate, fb);
+	label = gtk_label_new("Search");
 	gtk_widget_show(label);
-	gtk_box_pack_end((GtkBox *)hbox, entry, FALSE, FALSE, 3);
+	fb->search_menu = create_option_menu(search_options, 0, fb);
+	gtk_box_pack_end((GtkBox *)hbox, fb->search_entry, FALSE, FALSE, 3);
+	gtk_box_pack_end((GtkBox *)hbox, fb->search_menu, FALSE, FALSE, 3);
 	gtk_box_pack_end((GtkBox *)hbox, label, FALSE, FALSE, 3);
 	gtk_table_attach (
 		GTK_TABLE (fb), hbox,
