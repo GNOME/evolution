@@ -1,3 +1,7 @@
+2002-11-26  Not Zed  <NotZed@Ximian.com>
+
+	* e-msg-composer.c (composer_finalise): properly chain finalise.
+
 2002-11-25  Not Zed  <NotZed@Ximian.com>
 
 	* e-msg-composer-attachment-bar.c (init): Remove the window size
