@@ -656,15 +656,13 @@ edit_msg (GtkWidget *widget, gpointer user_data)
 	if (!check_send_configuration (fb))
 		return;
 	
-	uids = g_ptr_array_new();
+	uids = g_ptr_array_new ();
 	message_list_foreach (fb->message_list, enumerate_msg, uids);
 	
 	/* FIXME: do we need to pass the postpone callback too? */
 	mail_do_edit_messages (fb->folder, uids, (GtkSignalFunc) composer_send_cb);
 }
 
-/* FIXME: now that we have an undelete_msg, we should make this only
-   set the deleted flag? */
 void
 delete_msg (GtkWidget *button, gpointer user_data)
 {
@@ -683,17 +681,15 @@ delete_msg (GtkWidget *button, gpointer user_data)
 	 * - Dan
 	 */
 	if (uids->len == 1) {
-		guint32 flags;
 		char *uid = uids->pdata[0];
 		
 		mail_tool_camel_lock_up ();
-		flags = camel_folder_get_message_flags (ml->folder, uid);
 		camel_folder_set_message_flags (ml->folder, uid,
 						CAMEL_MESSAGE_DELETED,
-						~flags);
+						CAMEL_MESSAGE_DELETED);
 		mail_tool_camel_lock_down ();
 	} else {
-		mail_do_flag_messages (ml->folder, uids, TRUE,
+		mail_do_flag_messages (ml->folder, uids, FALSE,
 				       CAMEL_MESSAGE_DELETED,
 				       CAMEL_MESSAGE_DELETED);
 	}
@@ -725,7 +721,7 @@ undelete_msg (GtkWidget *button, gpointer user_data)
 						0);
 		mail_tool_camel_lock_down ();
 	} else {
-		mail_do_flag_messages (ml->folder, uids, TRUE,
+		mail_do_flag_messages (ml->folder, uids, FALSE,
 				       CAMEL_MESSAGE_DELETED,
 				       0);
 	}

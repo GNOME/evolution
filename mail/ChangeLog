@@ -1,5 +1,10 @@
 2000-11-06  Jeffrey Stedfast  <fejj@helixcode.com>
 
+	* mail-callbacks.c (delete_msg): Don't invert the flag.
+	(undelete_msg): Same (when multiple messages are selected).
+
+2000-11-06  Jeffrey Stedfast  <fejj@helixcode.com>
+
 	* folder-browser-factory.c: Updated to have the same menu items as
 	the new right-click menu - eventually these 2 menus should be the
 	same.
