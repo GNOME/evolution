@@ -2392,10 +2392,17 @@ e_week_view_reshape_event_span (EWeekView *week_view,
 	/* Calculate how many icons we need to show. */
 	num_icons = 0;
 	if (show_icons) {
+		GSList *categories_list;
+
 		if (cal_component_has_alarms (comp))
 			num_icons++;
 		if (cal_component_has_recurrences (comp))
 			num_icons++;
+
+		cal_component_get_categories_list (comp, &categories_list);
+		num_icons += g_slist_length (categories_list);
+
+		cal_component_free_categories_list (categories_list);
 	}
 
 	/* Create the background canvas item if necessary. */

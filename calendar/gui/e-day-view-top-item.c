@@ -359,6 +359,7 @@ e_day_view_top_item_draw_long_event (EDayViewTopItem *dvtitem,
 	gchar *suffix;
 	gboolean draw_start_triangle, draw_end_triangle;
 	GdkRectangle clip_rect;
+	GSList *categories_list, *elem;
 
 	day_view = dvtitem->day_view;
 
@@ -567,6 +568,33 @@ e_day_view_top_item_draw_long_event (EDayViewTopItem *dvtitem,
 				 E_DAY_VIEW_ICON_HEIGHT);
 		icon_x -= icon_x_inc;
 	}
+
+	/* draw categories icons */
+	cal_component_get_categories_list (comp, &categories_list);
+	for (elem = categories_list; elem; elem = elem->next) {
+		char *category;
+		GdkPixmap *pixmap;
+		GdkBitmap *mask;
+
+		category = (char *) elem->data;
+		/* FIXME: get icon for this category */
+		pixmap = day_view->recurrence_icon;
+		mask = day_view->recurrence_mask;
+
+		if (icon_x <= max_icon_x) {
+			gdk_gc_set_clip_origin (gc, icon_x, icon_y);
+			gdk_gc_set_clip_mask (gc, mask);
+			gdk_draw_pixmap (drawable, gc,
+					 pixmap,
+					 0, 0, icon_x, icon_y,
+					 E_DAY_VIEW_ICON_WIDTH,
+					 E_DAY_VIEW_ICON_HEIGHT);
+			icon_x -= icon_x_inc;
+		}
+	}
+
+	cal_component_free_categories_list (categories_list);
+
 	gdk_gc_set_clip_mask (gc, NULL);
 }
 

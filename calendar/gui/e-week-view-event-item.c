@@ -558,6 +558,7 @@ e_week_view_event_item_draw_icons (EWeekViewEventItem *wveitem,
 	GdkGC *gc;
 	gint num_icons = 0, icon_x_inc;
 	gboolean draw_reminder_icon = FALSE, draw_recurrence_icon = FALSE;
+	GSList *categories_list, *elem;
 
 	week_view = E_WEEK_VIEW (GTK_WIDGET (GNOME_CANVAS_ITEM (wveitem)->canvas)->parent);
 
@@ -578,6 +579,9 @@ e_week_view_event_item_draw_icons (EWeekViewEventItem *wveitem,
 		draw_recurrence_icon = TRUE;
 		num_icons++;
 	}
+
+	cal_component_get_categories_list (comp, &categories_list);
+	num_icons += g_slist_length (categories_list);
 
 	icon_x_inc = E_WEEK_VIEW_ICON_WIDTH + E_WEEK_VIEW_ICON_X_PAD;
 
@@ -605,6 +609,31 @@ e_week_view_event_item_draw_icons (EWeekViewEventItem *wveitem,
 				 E_WEEK_VIEW_ICON_HEIGHT);
 		icon_x += icon_x_inc;
 	}
+
+	/* draw categories icons */
+	for (elem = categories_list; elem; elem = elem->next) {
+		char *category;
+		GdkPixmap *pixmap;
+		GdkBitmap *mask;
+
+		category = (char *) elem->data;
+		/* FIXME: get icon for this category */
+		pixmap = week_view->recurrence_icon;
+		mask = week_view->recurrence_mask;
+
+		if (icon_x + E_WEEK_VIEW_ICON_WIDTH <= x2) {
+			gdk_gc_set_clip_origin (gc, icon_x, icon_y);
+			gdk_gc_set_clip_mask (gc, mask);
+			gdk_draw_pixmap (drawable, gc,
+					 pixmap,
+					 0, 0, icon_x, icon_y,
+					 E_WEEK_VIEW_ICON_WIDTH,
+					 E_WEEK_VIEW_ICON_HEIGHT);
+			icon_x += icon_x_inc;
+		}
+	}
+
+	cal_component_free_categories_list (categories_list);
 
 	gdk_gc_set_clip_mask (gc, NULL);
 }

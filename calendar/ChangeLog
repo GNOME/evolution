@@ -1,5 +1,23 @@
 2001-07-01  Rodrigo Moya <rodrigo@ximian.com>
 
+	* gui/e-day-view-main-item.c
+	(e_day_view_main_item_draw_day_event): draw icons per category
+
+	* gui/e-day-view-top-item.c
+	(e_day_view_top_item_draw_long_event): draw icons per category
+
+	* gui/e-day-view.c
+	(e_day_view_reshape_long_event):
+	(e_day_view_reshape_day_event): calculate space for category icons
+
+	* gui/e-week-view-event-item.c
+	(e_week_view_event_item_draw_icons): draw icons per category
+
+	* gui/e-week-view.c
+	(e_week_view_reshape_event_span): calculate space for category icons
+	
+2001-07-01  Rodrigo Moya <rodrigo@ximian.com>
+
 	* gui/e-day-view.c (e_day_view_*_clipboard): fixed clibpoard
 	command activation from the menu entries. CTRL-C and CTRL-X don't
 	work though, since it seems the key presses are being captured by

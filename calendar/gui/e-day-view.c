@@ -4431,10 +4431,16 @@ e_day_view_reshape_long_event (EDayView *day_view,
 	}
 
 	if (show_icons) {
+		GSList *categories_list, *elem;
+
 		if (cal_component_has_alarms (comp))
 			num_icons++;
 		if (cal_component_has_recurrences (comp))
 			num_icons++;
+
+		cal_component_get_categories_list (comp, &categories_list);
+		num_icons += g_slist_length (categories_list);
+		cal_component_free_categories_list (categories_list);
 	}
 
 	if (!event->canvas_item) {
@@ -4562,10 +4568,16 @@ e_day_view_reshape_day_event (EDayView *day_view,
 		if (day_view->resize_drag_pos == E_DAY_VIEW_POS_NONE
 		    || day_view->resize_event_day != day
 		    || day_view->resize_event_num != event_num) {
+			GSList *categories_list;
+
 			if (cal_component_has_alarms (comp))
 				num_icons++;
 			if (cal_component_has_recurrences (comp))
 				num_icons++;
+
+			cal_component_get_categories_list (comp, &categories_list);
+			num_icons += g_slist_length (categories_list);
+			cal_component_free_categories_list (categories_list);
 		}
 
 		if (num_icons > 0) {
