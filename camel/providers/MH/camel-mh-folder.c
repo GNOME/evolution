@@ -309,6 +309,7 @@ _list_subfolders(CamelFolder *folder)
 	gint stat_error = 0;
 	GList *file_list;
 	gchar *entry_name;
+	gchar *full_entry_name;
 	struct dirent *dir_entry;
 	DIR *dir_handle;
 
@@ -330,7 +331,9 @@ _list_subfolders(CamelFolder *folder)
 
 		/* get the name of the next entry in the dir */
 		entry_name = dir_entry->d_name;
-		stat_error = stat (mh_folder->directory_path, &stat_buf);
+		full_entry_name = g_strdup_printf ("%s/%s", mh_folder->directory_path, entry_name);
+		stat_error = stat (full_entry_name, &stat_buf);
+		g_free (full_entry_name);
 
 		/* is it a directory ? */
 		if ((stat_error != -1) && S_ISDIR (stat_buf.st_mode)) {

@@ -1,1 +1,10 @@
 Bertrand Guiheneuf <Bertrand.Guiheneuf@aful.org>
+	Main author of Camel.
+
+Miguel de Icaza <miguel@gnu.org>
+	Base64 encoding in Camel. 
+	
+Robert Brady  <rwb197@ecs.soton.ac.uk>
+	Unicode and RFC2047 support for Camel.
+
+

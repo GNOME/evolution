@@ -1,5 +1,8 @@
 1999-08-06  bertrand  <Bertrand.Guiheneuf@aful.org>
 
+	* camel/providers/MH/camel-mh-folder.c (_list_subfolders): 
+	stat was not testing the good file. Fixed.
+	
 	* tests/test4.c (main): added real test for MH folder 
 	provider. All tested things seem to work OK :)
 
