@@ -1,8 +1,12 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /* 
  * e-search-bar.c
- * Copyright (C) 2000  Helix Code, Inc.
- * Author: Chris Lahey <clahey@helixcode.com>
+ *
+ * Copyright (C) 2000, 2001 Ximian, Inc.
+ *
+ * Authors:
+ *  Chris Lahey <clahey@ximian.com>
+ *  Ettore Perazzoli <ettore@ximian.com>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
