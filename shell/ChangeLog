@@ -1,5 +1,18 @@
 2001-05-04  Ettore Perazzoli  <ettore@ximian.com>
 
+	* evolution-storage.c (evolution_storage_new_folder): Free the
+	`corba_folder' when not needed anymore.
+
+	* e-local-storage.c (create_folder_directory): Free the parent
+	path, and don't allocate it when we don't need it.
+
+	* evolution-shell-component-client.c (dispatch_callback): Free the
+	listener servant too.
+	(impl_destroy): Release the listener object and free the servant
+	if it exists.
+
+2001-05-04  Ettore Perazzoli  <ettore@ximian.com>
+
 	* e-shell-folder-creation-dialog.c (dialog_clicked_cb): Don't
 	strdup `path' before copying it into the `dialog_data'.
 

@@ -731,6 +731,8 @@ evolution_storage_new_folder (EvolutionStorage *evolution_storage,
 		break;
 	}
 
+	CORBA_free (corba_folder);
+
 	CORBA_exception_free (&ev);
 
 	return result;

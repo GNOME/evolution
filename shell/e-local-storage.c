@@ -426,7 +426,6 @@ create_folder_directory (ELocalStorage *local_storage,
 	ELocalStoragePrivate *priv;
 	const char *folder_name;
 	char *physical_path;
-	char *parent_path;
 	
 	storage = E_STORAGE (local_storage);
 	priv = local_storage->priv;
@@ -440,15 +439,17 @@ create_folder_directory (ELocalStorage *local_storage,
 		/* We want a direct child of the root, so we don't need to create a
 		   `subfolders' directory.  */
 		physical_path = get_physical_path (local_storage, path);
-		parent_path = g_strdup (G_DIR_SEPARATOR_S);
 	} else {
 		char *parent_physical_path;
 		char *subfolders_directory_physical_path;
+		char *parent_path;
 		
 		/* Create the `subfolders' subdirectory under the parent.  */
 		
 		parent_path = g_strndup (path, folder_name - path - 1);
 		parent_physical_path = get_physical_path (local_storage, parent_path);
+		g_free (parent_path);
+
 		subfolders_directory_physical_path = g_concat_dir_and_file (parent_physical_path,
 									    SUBFOLDER_DIR_NAME);
 

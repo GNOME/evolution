@@ -116,6 +116,7 @@ dispatch_callback (EvolutionShellComponentClient *shell_component_client,
 	CORBA_free (oid);
 
 	CORBA_Object_release (priv->listener_interface, &ev);
+	free_ShellComponentListener_servant (priv->listener_servant);
 
 	CORBA_exception_free (&ev);
 
@@ -299,6 +300,11 @@ impl_destroy (GtkObject *object)
 	if (priv->offline_interface != CORBA_OBJECT_NIL) {
 		Bonobo_Unknown_unref (priv->offline_interface, &ev);
 		CORBA_Object_release (priv->offline_interface, &ev);
+	}
+
+	if (priv->listener_interface != CORBA_OBJECT_NIL) {
+		CORBA_Object_release (priv->listener_interface, &ev);
+		free_ShellComponentListener_servant (priv->listener_servant);
 	}
 
 	CORBA_exception_free (&ev);
